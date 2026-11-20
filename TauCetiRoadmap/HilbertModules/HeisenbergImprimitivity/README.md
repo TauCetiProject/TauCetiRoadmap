@@ -1,82 +1,76 @@
 # Roadmap: Heisenberg imprimitivity for phase-space lattices
 
-**Summary.** For a finite-type locally compact abelian group `M=ℝ^k×ℤ^p×𝕋^q×F` (k,p,q≥0, F
-finite abelian) and a lattice D in its phase space `G=M×M̂`, this roadmap builds the
-Schwartz–Bruhat space S(M), Poisson summation for D and its symplectic annihilator `E=D^⊥`, and
-the two pairings on S(M) with values in the twisted group C*-algebras `B=C*(D,β)` and
-`A=C*(E,conj β)` of the Heisenberg cocycle β, lattice instances of OperatorAlgebraDynamics'
-`C*(G,ω)`. Its end theorems are Rieffel's imprimitivity theorem for
-lattices — the completion 𝓔 of S(M) is a B–A imprimitivity bimodule, so `B≅K_A(𝓔)` and A and B
-are strongly Morita equivalent — together with the existence of finite Parseval frames with
-Schwartz windows and the trace formula `dim_A 𝓔=Σ_j‖ξ_j‖₂²=c_E=1/c_D`. On the Euclidean phase
-space `ℝ^k×ℝ^k` the operator fundamental identity, frame existence and the frame trace formula
-are stated on Mathlib's `SchwartzMap` and `IsZLattice` carriers, and the Euclidean lattice Poisson
-formula behind them is Tau Ceti's `SchwartzMap.tsum_eq_tsum_dual_fourier`, the theorem
-ThetaSeries 1A specifies, in symplectic coordinates. The last layer computes the Euclidean,
-discrete, toral and finite families and the dictionary with the smooth noncommutative two-torus
-module of NoncommutativeGeometry N7.
+**Summary.** On L²(M), for a locally compact abelian group M, a translation and a multiplication
+by a character commute only up to a scalar. Combining them gives, for each point x=(m,χ) of the
+phase space `G=M×M̂`, a unitary π_x with `(π_x ξ)(t)=χ(t)ξ(t+m)`. These satisfy
+`π_xπ_y=β(x,y)π_(x+y)` for the Heisenberg cocycle `β((m,χ),(n,ψ))=ψ(m)`, and π_d commutes with π_e
+exactly when the commutator character `σ(d,e)=β(d,e)conj(β(e,d))` equals 1. This roadmap proves
+Rieffel's imprimitivity theorem for lattices in phase space, which turns this relation into a
+Morita equivalence between two twisted group C*-algebras.
 
-## Scope and ownership
+Throughout, M is a locally compact abelian group of finite type, `M=ℝ^k×ℤ^p×𝕋^q×F` with k,p,q≥0
+and F finite abelian. A lattice D in G is a discrete subgroup with compact quotient, and its
+covolume c_D is the volume of a fundamental domain. Its symplectic annihilator `E=D^⊥`, the points
+e with σ(d,e)=1 for every d in D, is again a lattice, and `c_D c_E=1`. The algebra `B=C*(D,β)` is
+the universal C*-algebra of unitaries V_x, x∈D, with `V_xV_y=β(x,y)V_(x+y)`; `A=C*(E,conj β)` is
+built in the same way from E and the conjugate cocycle. Between them sits the Schwartz–Bruhat
+space S(M): the smooth functions which, with all their derivatives in the real and torus
+variables, decay faster than every polynomial in the real and integer coordinates. B acts on it
+on the left through the π_d, A on the right through the adjoints `π_e^*`, e∈E, and there
+are two inner products, `⟨ξ,η⟩_A(e)=⟨ξ,π_eη⟩` with values in A and `_B⟨ξ,η⟩(d)=c_D⟨π_dη,ξ⟩`
+with values in B. Inner products on L²(M) are linear in the second variable, unlike Rieffel's.
 
-This roadmap is a child of HilbertModules and owns, for finite-type M:
+The analytic input is Poisson summation for a lattice: for F in S(G), both sums converge
+absolutely and `Σ_(d∈D) F(d) = c_D⁻¹ Σ_(e∈D^⊥) (F_s F)(e)`, where `(F_s F)(e)=∫_G F(x)σ(x,e)dx`.
+Applied to matrix coefficients, it gives the fundamental identity: for ξ, η, ζ in S(M),
+`Σ_(d∈D) ⟨π_dη,ξ⟩ π_dζ = c_D⁻¹ Σ_(e∈D^⊥) ⟨η,π_eζ⟩ π_e^*ξ`, absolutely convergent in S(M).
+Multiplied by c_D, it says the two inner products are compatible: `_B⟨ξ,η⟩ζ=ξ⟨η,ζ⟩_A`.
 
-- the Heisenberg cocycle calculus and its commutator character (Layer 1): the Schrödinger family
-  `π_x`, its strong continuity, projective relation and adjoint phase are OperatorAlgebraDynamics
-  D1.CentralTwists', consumed at every locally compact Hausdorff abelian M; the bicharacter and
-  cocycle properties of β, the commutator character σ with its nondegeneracy and the commutation
-  criterion are stated here for every such M, since it costs nothing more;
-- symplectic annihilators, lattices, covolumes and the identity `c_D c_(D^⊥)=1` in phase space
-  (Layer 1);
-- the Schwartz–Bruhat space S(M), its Fourier theory, Poisson summation for a lattice in the
-  phase space of a finite-type M, the symplectic transport of Tau Ceti's Euclidean lattice Poisson
-  formula (`F_sF(e)=𝓕F(−Je)`, `L^⊥=J⁻¹L^∨`, `c_L c_(L^⊥)=1`), and the fundamental identity
-  (Layer 2);
-- the twisted group C*-algebras of phase-space lattices: for a lattice L in G, the algebras
-  `C*(L,β)` and `C*(L,conj β)` of the restricted Heisenberg cocycle, the triviality of their
-  gauge-invariant ideals and the explicit cochains relating the cocycles met here (Layer 3); and,
-  for a finitely generated abelian group L with a normalised 2-cocycle c, the rapid-decay
-  subalgebra S(L,c) of `C*(L,c)` as the smooth vectors of the gauge action (Layer 5). The
-  inverse-closedness of S(L,c) is Mathlib's smoothness of inversion at units,
-  `contDiffAt_ringInverse`, along the gauge orbit; no general theory of smooth elements of
-  Banach-algebra actions is built here;
-- the pairings, positivity, completion, fullness and imprimitivity theorem (Layers 3–4), smooth
-  frames, the trace formula and transport (Layer 5), and the worked families (Layer 6).
+The main theorem is the imprimitivity theorem. Both inner products are positive and full: the
+closed span of the values of each is the whole algebra. Completing S(M) gives a Hilbert module 𝓔,
+which is a B–A imprimitivity bimodule: it carries compatible full inner products valued in B and
+in A. Its left action is a *-isomorphism `B≅K_A(𝓔)` onto the compact operators of the A-module 𝓔,
+so A and B are strongly Morita equivalent. An arbitrary closed subgroup D in place of a lattice is
+left to a second part of the roadmap.
 
-Left to other owners:
+Because D and E are lattices, 𝓔 has finite frames with smooth windows: there are ξ_1,…,ξ_n in
+S(M) with `ξ=Σ_j ξ_j⟨ξ_j,ξ⟩_A` for every ξ in 𝓔. A single window is not asserted. The proof rests on spectral invariance: a rapidly decreasing
+element of the twisted group C*-algebra of a lattice that is invertible there has a rapidly
+decreasing inverse. On M=ℝ^k, every lattice L in `ℝ^k×ℝ^k` carries finitely many Schwartz windows
+g_1,…,g_n with `Σ_j Σ_(x∈L) |⟨π_x g_j, f⟩|² = ‖f‖₂²` for every Schwartz function f.
 
-- HilbertModules H1 owns completions of pre-Hilbert modules, H2 adjointable and module-compact
-  operators and the finite Parseval frame criterion for unital coefficients, H3 interior tensor
-  products, state localisation, imprimitivity bimodules, linking algebras and induction. They are
-  consumed, not restated.
-- NoncommutativeGeometry N6–N7 own the smooth two-torus 𝒜_θ, its spectral invariance, cyclic
-  cohomology, connections, curvature, index and the 0<θ<1 Schwartz module; Layer 6 compares with
-  that module and does not rebuild it.
-- OperatorAlgebraDynamics D1.CentralTwists owns the Schrödinger family of `M×M̂` on `L²(M)` for
-  every locally compact abelian M, with its strong continuity, projective relation and adjoint
-  phase; §1.1 consumes it. D1.CentralTwists and D2.CentralTwists own the scalar twisted group
-  C*-algebra `C*(G,ω)` of a locally compact group G with a 2-cocycle ω, as the central twisted
-  crossed product at A=ℂ: its L¹ algebra, universal and reduced completions, universal property,
-  twisted regular representation, comparison with `TauCeti.twistedMonoidAlgebra` for discrete G,
-  canonical trace, gauge action of the dual of a discrete abelian G, full = reduced theorem for
-  amenable G and cochain transport. §3.1 consumes them at a discrete abelian group; the algebras
-  `C*(ℤ^d,c)`, the quantum tori `C*(ℤ^d,σ_Θ)` among them, are that roadmap's (Downstream
-  consumers).
-- AmenableGroups Layer 6 owns amenability of every abelian discrete group.
-- Tau Ceti owns Poisson summation for a full-rank ℤ-lattice in a finite-dimensional real inner
-  product space, for Schwartz functions (`SchwartzMap.tsum_eq_tsum_dual_fourier`), with both
-  summability halves, the Fourier change of variables under a linear automorphism, the Euclidean
-  dual lattice `L^∨` with `L^∨∨=L` and its transport, and the identity `covol(L^∨)=covol(L)⁻¹`:
-  the declarations named in the supplier contract, which are the theorems ThetaSeries Layer 1, 2A
-  and 2C specify. The lattice Poisson formula on `ℝ^k×ℝ^k` is that theorem in symplectic
-  coordinates (§2.3) and is consumed, not restated.
-- Mathlib owns `SchwartzMap`, its Fourier transform, one-dimensional Poisson summation, Fourier
-  series on `AddCircle`, `PontryaginDual`, `ZLattice.covolume` and the `CStarModule` classes.
+The trace formula measures the size of 𝓔. A frame identifies 𝓔 with pAⁿ for a projection p in
+the n×n matrices over A, and the dimension of 𝓔 over A is the trace of p. It equals
+`Σ_j‖ξ_j‖₂²`, whatever the frame, and this number is c_E=1/c_D. For example, at k=1 and
+L=(1/2)ℤ×ℤ, a smooth g supported in [0,1] with `Σ_n|g(t+n/2)|²=1` is a frame on its own, and
+‖g‖₂²=1/2 is the covolume of L. The Euclidean fundamental identity, frame existence and trace
+formula are also stated in Lean, on Mathlib's `SchwartzMap` and `IsZLattice`.
 
-The imprimitivity theorem is stated for lattices D, where both D and `E=D^⊥` are discrete, both
-algebras are unital and carry finite traces, and the frame and dimension theory of Layer 5 applies.
-Rieffel's theorem for an arbitrary closed subgroup D (rieffel88 line 639, Theorem 2.15, p. 273),
-whose algebras are twisted group C*-algebras of non-discrete groups, is outside this roadmap and
-belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of Layer 2.
+The roadmap is a child of HilbertModules, whose completion, frame criterion and imprimitivity
+bimodules it applies. OperatorAlgebraDynamics provides the Schrödinger family and the twisted
+group C*-algebras `C*(G,ω)`, of which A and B are instances at lattices. The Euclidean Poisson
+formula is Tau Ceti's `SchwartzMap.tsum_eq_tsum_dual_fourier`, specified by the ThetaSeries
+roadmap, in symplectic coordinates. The last layer compares the case M=ℝ with the Schwartz
+module over the smooth noncommutative two-torus of NoncommutativeGeometry.
+
+The six layers follow this account, from phase space and Poisson summation through the
+imprimitivity theorem to frames and traces, and end with explicit families; the next section
+describes each.
+
+## How to read the build
+
+Layer 1 fixes phase space, takes the Schrödinger family from OperatorAlgebraDynamics and works
+out its cocycle calculus, annihilators and the lattice geometry with covolumes. Layer 2 builds
+S(M), proves Poisson summation for finite-type M (the Euclidean lattice formula being Tau Ceti's
+`SchwartzMap.tsum_eq_tsum_dual_fourier` in symplectic coordinates) and the fundamental
+identity, with the Euclidean fundamental identity on native carriers. Layer 3 takes the twisted
+group C*-algebras of OperatorAlgebraDynamics at the lattices of phase space, constructs the two
+actions and pairings on S(M), and proves positivity.
+Layer 4 completes S(M), proves fullness and Rieffel's imprimitivity theorem for lattices. Layer 5
+proves spectral invariance of the rapid twisted algebras, smooth finite frames, the trace formula
+and transport under changes of coordinates. Layer 6 computes the standard families and the two-torus
+dictionary. HilbertModules H5 cites the θ≠0 Schwartz imprimitivity model of that dictionary as
+HeisenbergImprimitivity H6; under this roadmap's numbering it is §6.3.
 
 ## Conventions
 
@@ -114,129 +108,6 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
 - Right Hilbert modules over A are Mathlib `CStarModule Aᵐᵒᵖ` instances with the
   opposite-valued inner product, as in HilbertModules H1; the left B-valued pairing is linear in
   its first variable.
-
-## Exact supplier contracts
-
-**From Mathlib.**
-
-- `SchwartzMap` and `SchwartzMap.seminorm` (seminorm index (k,n): polynomial weight, derivative
-  order); `SchwartzMap.fourierTransformCLM` on a finite-dimensional real inner product space and
-  the Parseval identity `SchwartzMap.integral_sesq_fourier_eq`
-  (`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean`).
-- One-dimensional Poisson summation `Real.tsum_eq_tsum_fourier` and
-  `SchwartzMap.tsum_eq_tsum_fourier` (`Mathlib/Analysis/Fourier/PoissonSummation.lean`); the
-  lattice version is Tau Ceti's (below).
-- `SchwartzMap.dense_hasCompactSupport` (compactly supported Schwartz functions are dense in
-  `𝓢(E,F)` for a finite-dimensional real normed space E, `[FiniteDimensional ℝ E]`;
-  `Mathlib/Analysis/Distribution/SchwartzSpace/CompactSupport.lean`).
-- `fourier`, `fourierCoeff`, `hasSum_fourier_series_L2` on `AddCircle`; `mFourier` on
-  `UnitAddTorus` (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`); `Real.fourierChar`.
-- `PontryaginDual` with its compact-open topology; Haar measure.
-- Joint continuity of evaluation: `ContinuousMonoidHom.instContinuousEval` makes `(χ,m)↦χ(m)`
-  continuous on `(A →ₜ* B)×A` under `[LocallyCompactPair A B]`
-  (`Mathlib/Topology/Algebra/Group/CompactOpen.lean`), and `LocallyCompactPair A B` holds for every
-  locally compact A (`Mathlib/Topology/Compactness/LocallyCompact.lean`); at `B=Circle` this is
-  evaluation `M̂×M→𝕋` for a locally compact M, the continuity input of β and σ in §1.1.
-- `IsZLattice`, `ZLattice.covolume` (the volume of a fundamental domain),
-  `ZLattice.covolume_eq_det`, `ZSpan.fundamentalDomain` and `ZSpan.isAddFundamentalDomain`.
-- `CStarModule` and `WithCStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/`).
-- `contDiffAt_ringInverse` (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean`): `Ring.inverse`
-  is `C^n` for every n at each unit of a normed algebra with `HasSummableGeomSeries`, which every
-  complete normed ring has (`Mathlib/Analysis/SpecificLimits/Normed.lean`); in §5.1 it is applied
-  to C*(L,c) and to `M_n(C*(L,c))`.
-
-**From Tau Ceti.**
-
-- The lattice Poisson formula with its lattice calculus, for a finite-dimensional real inner
-  product space E with its Borel σ-algebra and a full lattice L (`[DiscreteTopology L]`,
-  `[IsZLattice ℝ L]`): `SchwartzMap.tsum_eq_tsum_dual_fourier` (for `f : 𝓢(E,ℂ)` and v∈E,
-  `Σ_(l∈L) f(v+l) = covol(L)⁻¹ Σ_(m∈L^∨) 𝓕f(m) e(⟨v,m⟩)` with Mathlib's
-  `𝓕f(w)=∫f(x)e(−⟨x,w⟩)dx`; `TauCeti/Analysis/Fourier/PoissonSummation.lean`);
-  `ZLattice.summable_poisson_left` (absolute summability of the translates `l↦f(v+l)` over any
-  discrete subgroup of a finite-dimensional real normed space) and
-  `ZLattice.summable_poisson_right` (of the dual side `m↦𝓕f(m)e(⟨v,m⟩)` over `L^∨`;
-  `TauCeti/Analysis/Distribution/SchwartzSpace/ZLattice.lean`);
-  `ContinuousLinearEquiv.fourier_comp` (`𝓕(f∘A)=|det A|⁻¹ (𝓕f)∘(A⁻¹)ᵀ` for a linear
-  automorphism A of E, `(A⁻¹)ᵀ` the adjoint of `A⁻¹`;
-  `TauCeti/Analysis/Fourier/ChangeOfVariables.lean`); the dual lattice `ZLattice.dual`
-  (`L^∨=(innerₗ E).dualSubmodule L`, again a full lattice) with `ZLattice.dual_dual`
-  (`L^∨∨=L`) and `ZLattice.dual_comap_continuousLinearEquiv` (the dual of the pullback of L along
-  A is the pullback of `L^∨` along the adjoint of `A⁻¹`, so `(AL)^∨=(A⁻¹)ᵀL^∨`;
-  `TauCeti/Algebra/Module/ZLattice/Dual.lean`); and `ZLattice.covolume_dual`
-  (`covol(L^∨)=covol(L)⁻¹`) with `ZLattice.covolume_comap_continuousLinearEquiv`
-  (`covol(A⁻¹L)=|det A|⁻¹ covol(L)` for every Haar measure, so `covol(AL)=|det A| covol(L)`;
-  `TauCeti/Algebra/Module/ZLattice/Covolume.lean`). These are ThetaSeries 1A, 1E, 1C, 2A, 1D
-  and 2C; the sup-norm product `(Fin k → ℝ)×(Fin k → ℝ)` is not an inner product space and is
-  reached through the coordinate equivalence of §2.3.
-- `TauCeti.IsFactorSet` (a normalised multiplicative 2-cocycle `α : G → G → kˣ` on a monoid G:
-  `α (g*h) j * α g h = α h j * α g (h*j)`, `α 1 g = α g 1 = 1`, with
-  `TauCeti.IsFactorSet.apply_inv_eq_inv_apply` giving `α g g⁻¹ = α g⁻¹ g` on a group) and the
-  twisted monoid algebra
-  `TauCeti.twistedMonoidAlgebra k G α`, the free k-module on `TauCeti.TwistedMonoidAlgebra.of g`
-  (`TauCeti.TwistedMonoidAlgebra.basis`) with the multiplication table
-  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g*h)`), its dimension
-  `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` (`Nat.card G`), and
-  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
-  `β g h * c (g*h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from the
-  β-algebra to the α-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). It is used
-  with `k=ℂ` and `G=Multiplicative L` for a discrete abelian group L, the circle-valued cocycle c
-  read in `ℂˣ`; its involution, ℓ¹ norm, C*-completions and universal property are
-  OperatorAlgebraDynamics' (§3.1).
-
-**From TauCetiRoadmap.HilbertModules.** H1 (completion of a pre-Hilbert module and extension of
-bounded actions), H2 (adjointable and module-compact operators; for unital A, `id_E∈K_A(E)` iff E
-is finitely generated projective iff a finite Parseval frame exists, with the frame-to-projection
-formulas), H3 (two-pairing definition of an imprimitivity bimodule and its compatibility identity,
-conjugate module, evaluation unitaries `E⊗_B E*≅A` and `E*⊗_A E≅B`, state localisation
-`E⊗_A H_ω`, induction). It is assumed that these hold for arbitrary C*-algebras with no
-separability hypothesis.
-
-**From TauCetiRoadmap.OperatorAlgebraDynamics.** D1.CentralTwists, for every locally compact
-Hausdorff abelian group M with Haar measure: the strongly continuous Schrödinger family of
-`G=M×M̂` on `L²(M)`, `(Π_(m,χ)ξ)(t)=χ(t)ξ(t+m)`, written `π_x` here, with its bicharacter
-`ω((m,χ),(n,ψ))=ψ(m)` (β here), the projective relation `π_xπ_y=β(x,y)π_(x+y)`, `π_0=1` and the
-adjoint phase `π_x^*=conj(β(x,−x))π_(−x)`; used in §1.1. D1.CentralTwists and D2.CentralTwists, at
-a discrete abelian group L with counting Haar measure, A=ℂ, trivial action and scalar cocycle ω=c:
-the scalar twisted group C*-algebras `C*(L,c)` and `C*_r(L,c)` with their ℓ¹ algebra, the
-comparison of the finitely supported algebra with `TauCeti.twistedMonoidAlgebra` and its star,
-the universal property for c-projective unitary families, the twisted regular representation,
-the canonical faithful trace (the expectation E) with coefficient recovery, the gauge action of
-L̂ with its Haar average onto ℂ1, full = reduced for amenable L, and the cochain transport `T_b`
-from the algebra of `ω^b` to that of ω. Used in §3.1 and, through it, in Layers 3–6.
-
-**From TauCetiRoadmap.AmenableGroups.** Layer 6: every abelian discrete group is amenable.
-
-**From TauCetiRoadmap.ThetaSeries.** Layer 1 and 2A, 2C specify, for a full-rank ℤ-lattice L in
-a finite-dimensional real inner product space E, the lattice Poisson formula 1A, the Fourier
-change of variables 1C, the dual-lattice transport 1D (the image AL of a lattice is a lattice with
-dual `(A⁻¹)ᵀL^∨` and `covol(AL)=|det A| covol(L)`), the two summability halves 1E, the dual
-lattice `L^∨` with `L^∨∨=L` (2A) and `covol(L^∨)=covol(L)⁻¹` (2C). At the pin these are the Tau
-Ceti declarations of the contract above and are consumed by their library names; ThetaSeries is
-cited for the specification and for the sign discussion of 1A (with Mathlib's `𝓕` the dual-side
-phase is `e(+⟨v,m⟩)`, and reindexing by `m↦−m` reflects the transform as well as the phase). The
-product `(Fin k → ℝ)×(Fin k → ℝ)` carries the sup norm and is not an inner product space; the
-transport of 1A to it in symplectic coordinates is this roadmap's target §2.3, as 1A assigns it
-to its consumers.
-
-**From TauCetiRoadmap.NoncommutativeGeometry.** N6 (the rotation algebra `A_θ` with
-`U₂U₁=e(θ)U₁U₂`, the smooth subalgebra 𝒜_θ and its trace) and N7 (the 0<θ<1 Schwartz module with
-`(ξU₁)(s)=ξ(s+θ)`, `(ξU₂)(s)=e(s)ξ(s)`, its frames and Powers–Rieffel projection), for the
-comparison in §6.3 only.
-
-## How to read the build
-
-Layer 1 fixes phase space, takes the Schrödinger family from OperatorAlgebraDynamics and works
-out its cocycle calculus, annihilators and the lattice geometry with covolumes. Layer 2 builds
-S(M), proves Poisson summation for finite-type M (the Euclidean lattice formula being Tau Ceti's
-`SchwartzMap.tsum_eq_tsum_dual_fourier` in symplectic coordinates) and the fundamental
-identity, with the Euclidean fundamental identity on native carriers. Layer 3 takes the twisted
-group C*-algebras of OperatorAlgebraDynamics at the lattices of phase space, constructs the two
-actions and pairings on S(M), and proves positivity.
-Layer 4 completes S(M), proves fullness and Rieffel's imprimitivity theorem for lattices. Layer 5
-proves spectral invariance of the rapid twisted algebras, smooth finite frames, the trace formula
-and transport under changes of coordinates. Layer 6 computes the standard families and the two-torus
-dictionary. HilbertModules H5 cites the θ≠0 Schwartz imprimitivity model of that dictionary as
-HeisenbergImprimitivity H6; under this roadmap's numbering it is §6.3.
 
 ## Layer 1: Phase space, the Schrödinger family and lattice geometry
 
@@ -875,6 +746,176 @@ OperatorKTheory §7.5 takes it from there, and CompactQuantumMetricSpaces §6.0 
 the explicit coboundary of its Checks from σ_Θ on ℤ² to the rotation cocycle. The
 commutator bicharacter of c, the centre, the simplicity criterion and the identification of the
 rotation algebra `C(𝕋)⋊ℤ` with `C*(ℤ²,c)` for `c((m,n),(m',n'))=e(θnm')` are OperatorKTheory's.
+
+## Scope and ownership
+
+This roadmap is a child of HilbertModules and owns, for finite-type M:
+
+- the Heisenberg cocycle calculus and its commutator character (Layer 1): the Schrödinger family
+  `π_x`, its strong continuity, projective relation and adjoint phase are OperatorAlgebraDynamics
+  D1.CentralTwists', consumed at every locally compact Hausdorff abelian M; the bicharacter and
+  cocycle properties of β, the commutator character σ with its nondegeneracy and the commutation
+  criterion are stated here for every such M, since it costs nothing more;
+- symplectic annihilators, lattices, covolumes and the identity `c_D c_(D^⊥)=1` in phase space
+  (Layer 1);
+- the Schwartz–Bruhat space S(M), its Fourier theory, Poisson summation for a lattice in the
+  phase space of a finite-type M, the symplectic transport of Tau Ceti's Euclidean lattice Poisson
+  formula (`F_sF(e)=𝓕F(−Je)`, `L^⊥=J⁻¹L^∨`, `c_L c_(L^⊥)=1`), and the fundamental identity
+  (Layer 2);
+- the twisted group C*-algebras of phase-space lattices: for a lattice L in G, the algebras
+  `C*(L,β)` and `C*(L,conj β)` of the restricted Heisenberg cocycle, the triviality of their
+  gauge-invariant ideals and the explicit cochains relating the cocycles met here (Layer 3); and,
+  for a finitely generated abelian group L with a normalised 2-cocycle c, the rapid-decay
+  subalgebra S(L,c) of `C*(L,c)` as the smooth vectors of the gauge action (Layer 5). The
+  inverse-closedness of S(L,c) is Mathlib's smoothness of inversion at units,
+  `contDiffAt_ringInverse`, along the gauge orbit; no general theory of smooth elements of
+  Banach-algebra actions is built here;
+- the pairings, positivity, completion, fullness and imprimitivity theorem (Layers 3–4), smooth
+  frames, the trace formula and transport (Layer 5), and the worked families (Layer 6).
+
+Left to other owners:
+
+- HilbertModules H1 owns completions of pre-Hilbert modules, H2 adjointable and module-compact
+  operators and the finite Parseval frame criterion for unital coefficients, H3 interior tensor
+  products, state localisation, imprimitivity bimodules, linking algebras and induction. They are
+  consumed, not restated.
+- NoncommutativeGeometry N6–N7 own the smooth two-torus 𝒜_θ, its spectral invariance, cyclic
+  cohomology, connections, curvature, index and the 0<θ<1 Schwartz module; Layer 6 compares with
+  that module and does not rebuild it.
+- OperatorAlgebraDynamics D1.CentralTwists owns the Schrödinger family of `M×M̂` on `L²(M)` for
+  every locally compact abelian M, with its strong continuity, projective relation and adjoint
+  phase; §1.1 consumes it. D1.CentralTwists and D2.CentralTwists own the scalar twisted group
+  C*-algebra `C*(G,ω)` of a locally compact group G with a 2-cocycle ω, as the central twisted
+  crossed product at A=ℂ: its L¹ algebra, universal and reduced completions, universal property,
+  twisted regular representation, comparison with `TauCeti.twistedMonoidAlgebra` for discrete G,
+  canonical trace, gauge action of the dual of a discrete abelian G, full = reduced theorem for
+  amenable G and cochain transport. §3.1 consumes them at a discrete abelian group; the algebras
+  `C*(ℤ^d,c)`, the quantum tori `C*(ℤ^d,σ_Θ)` among them, are that roadmap's (Downstream
+  consumers).
+- AmenableGroups Layer 6 owns amenability of every abelian discrete group.
+- Tau Ceti owns Poisson summation for a full-rank ℤ-lattice in a finite-dimensional real inner
+  product space, for Schwartz functions (`SchwartzMap.tsum_eq_tsum_dual_fourier`), with both
+  summability halves, the Fourier change of variables under a linear automorphism, the Euclidean
+  dual lattice `L^∨` with `L^∨∨=L` and its transport, and the identity `covol(L^∨)=covol(L)⁻¹`:
+  the declarations named in the supplier contract, which are the theorems ThetaSeries Layer 1, 2A
+  and 2C specify. The lattice Poisson formula on `ℝ^k×ℝ^k` is that theorem in symplectic
+  coordinates (§2.3) and is consumed, not restated.
+- Mathlib owns `SchwartzMap`, its Fourier transform, one-dimensional Poisson summation, Fourier
+  series on `AddCircle`, `PontryaginDual`, `ZLattice.covolume` and the `CStarModule` classes.
+
+The imprimitivity theorem is stated for lattices D, where both D and `E=D^⊥` are discrete, both
+algebras are unital and carry finite traces, and the frame and dimension theory of Layer 5 applies.
+Rieffel's theorem for an arbitrary closed subgroup D (rieffel88 line 639, Theorem 2.15, p. 273),
+whose algebras are twisted group C*-algebras of non-discrete groups, is outside this roadmap and
+belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of Layer 2.
+
+## Exact supplier contracts
+
+**From Mathlib.**
+
+- `SchwartzMap` and `SchwartzMap.seminorm` (seminorm index (k,n): polynomial weight, derivative
+  order); `SchwartzMap.fourierTransformCLM` on a finite-dimensional real inner product space and
+  the Parseval identity `SchwartzMap.integral_sesq_fourier_eq`
+  (`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean`).
+- One-dimensional Poisson summation `Real.tsum_eq_tsum_fourier` and
+  `SchwartzMap.tsum_eq_tsum_fourier` (`Mathlib/Analysis/Fourier/PoissonSummation.lean`); the
+  lattice version is Tau Ceti's (below).
+- `SchwartzMap.dense_hasCompactSupport` (compactly supported Schwartz functions are dense in
+  `𝓢(E,F)` for a finite-dimensional real normed space E, `[FiniteDimensional ℝ E]`;
+  `Mathlib/Analysis/Distribution/SchwartzSpace/CompactSupport.lean`).
+- `fourier`, `fourierCoeff`, `hasSum_fourier_series_L2` on `AddCircle`; `mFourier` on
+  `UnitAddTorus` (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`); `Real.fourierChar`.
+- `PontryaginDual` with its compact-open topology; Haar measure.
+- Joint continuity of evaluation: `ContinuousMonoidHom.instContinuousEval` makes `(χ,m)↦χ(m)`
+  continuous on `(A →ₜ* B)×A` under `[LocallyCompactPair A B]`
+  (`Mathlib/Topology/Algebra/Group/CompactOpen.lean`), and `LocallyCompactPair A B` holds for every
+  locally compact A (`Mathlib/Topology/Compactness/LocallyCompact.lean`); at `B=Circle` this is
+  evaluation `M̂×M→𝕋` for a locally compact M, the continuity input of β and σ in §1.1.
+- `IsZLattice`, `ZLattice.covolume` (the volume of a fundamental domain),
+  `ZLattice.covolume_eq_det`, `ZSpan.fundamentalDomain` and `ZSpan.isAddFundamentalDomain`.
+- `CStarModule` and `WithCStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/`).
+- `contDiffAt_ringInverse` (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean`): `Ring.inverse`
+  is `C^n` for every n at each unit of a normed algebra with `HasSummableGeomSeries`, which every
+  complete normed ring has (`Mathlib/Analysis/SpecificLimits/Normed.lean`); in §5.1 it is applied
+  to C*(L,c) and to `M_n(C*(L,c))`.
+
+**From Tau Ceti.**
+
+- The lattice Poisson formula with its lattice calculus, for a finite-dimensional real inner
+  product space E with its Borel σ-algebra and a full lattice L (`[DiscreteTopology L]`,
+  `[IsZLattice ℝ L]`): `SchwartzMap.tsum_eq_tsum_dual_fourier` (for `f : 𝓢(E,ℂ)` and v∈E,
+  `Σ_(l∈L) f(v+l) = covol(L)⁻¹ Σ_(m∈L^∨) 𝓕f(m) e(⟨v,m⟩)` with Mathlib's
+  `𝓕f(w)=∫f(x)e(−⟨x,w⟩)dx`; `TauCeti/Analysis/Fourier/PoissonSummation.lean`);
+  `ZLattice.summable_poisson_left` (absolute summability of the translates `l↦f(v+l)` over any
+  discrete subgroup of a finite-dimensional real normed space) and
+  `ZLattice.summable_poisson_right` (of the dual side `m↦𝓕f(m)e(⟨v,m⟩)` over `L^∨`;
+  `TauCeti/Analysis/Distribution/SchwartzSpace/ZLattice.lean`);
+  `ContinuousLinearEquiv.fourier_comp` (`𝓕(f∘A)=|det A|⁻¹ (𝓕f)∘(A⁻¹)ᵀ` for a linear
+  automorphism A of E, `(A⁻¹)ᵀ` the adjoint of `A⁻¹`;
+  `TauCeti/Analysis/Fourier/ChangeOfVariables.lean`); the dual lattice `ZLattice.dual`
+  (`L^∨=(innerₗ E).dualSubmodule L`, again a full lattice) with `ZLattice.dual_dual`
+  (`L^∨∨=L`) and `ZLattice.dual_comap_continuousLinearEquiv` (the dual of the pullback of L along
+  A is the pullback of `L^∨` along the adjoint of `A⁻¹`, so `(AL)^∨=(A⁻¹)ᵀL^∨`;
+  `TauCeti/Algebra/Module/ZLattice/Dual.lean`); and `ZLattice.covolume_dual`
+  (`covol(L^∨)=covol(L)⁻¹`) with `ZLattice.covolume_comap_continuousLinearEquiv`
+  (`covol(A⁻¹L)=|det A|⁻¹ covol(L)` for every Haar measure, so `covol(AL)=|det A| covol(L)`;
+  `TauCeti/Algebra/Module/ZLattice/Covolume.lean`). These are ThetaSeries 1A, 1E, 1C, 2A, 1D
+  and 2C; the sup-norm product `(Fin k → ℝ)×(Fin k → ℝ)` is not an inner product space and is
+  reached through the coordinate equivalence of §2.3.
+- `TauCeti.IsFactorSet` (a normalised multiplicative 2-cocycle `α : G → G → kˣ` on a monoid G:
+  `α (g*h) j * α g h = α h j * α g (h*j)`, `α 1 g = α g 1 = 1`, with
+  `TauCeti.IsFactorSet.apply_inv_eq_inv_apply` giving `α g g⁻¹ = α g⁻¹ g` on a group) and the
+  twisted monoid algebra
+  `TauCeti.twistedMonoidAlgebra k G α`, the free k-module on `TauCeti.TwistedMonoidAlgebra.of g`
+  (`TauCeti.TwistedMonoidAlgebra.basis`) with the multiplication table
+  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g*h)`), its dimension
+  `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` (`Nat.card G`), and
+  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
+  `β g h * c (g*h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from the
+  β-algebra to the α-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). It is used
+  with `k=ℂ` and `G=Multiplicative L` for a discrete abelian group L, the circle-valued cocycle c
+  read in `ℂˣ`; its involution, ℓ¹ norm, C*-completions and universal property are
+  OperatorAlgebraDynamics' (§3.1).
+
+**From TauCetiRoadmap.HilbertModules.** H1 (completion of a pre-Hilbert module and extension of
+bounded actions), H2 (adjointable and module-compact operators; for unital A, `id_E∈K_A(E)` iff E
+is finitely generated projective iff a finite Parseval frame exists, with the frame-to-projection
+formulas), H3 (two-pairing definition of an imprimitivity bimodule and its compatibility identity,
+conjugate module, evaluation unitaries `E⊗_B E*≅A` and `E*⊗_A E≅B`, state localisation
+`E⊗_A H_ω`, induction). It is assumed that these hold for arbitrary C*-algebras with no
+separability hypothesis.
+
+**From TauCetiRoadmap.OperatorAlgebraDynamics.** D1.CentralTwists, for every locally compact
+Hausdorff abelian group M with Haar measure: the strongly continuous Schrödinger family of
+`G=M×M̂` on `L²(M)`, `(Π_(m,χ)ξ)(t)=χ(t)ξ(t+m)`, written `π_x` here, with its bicharacter
+`ω((m,χ),(n,ψ))=ψ(m)` (β here), the projective relation `π_xπ_y=β(x,y)π_(x+y)`, `π_0=1` and the
+adjoint phase `π_x^*=conj(β(x,−x))π_(−x)`; used in §1.1. D1.CentralTwists and D2.CentralTwists, at
+a discrete abelian group L with counting Haar measure, A=ℂ, trivial action and scalar cocycle ω=c:
+the scalar twisted group C*-algebras `C*(L,c)` and `C*_r(L,c)` with their ℓ¹ algebra, the
+comparison of the finitely supported algebra with `TauCeti.twistedMonoidAlgebra` and its star,
+the universal property for c-projective unitary families, the twisted regular representation,
+the canonical faithful trace (the expectation E) with coefficient recovery, the gauge action of
+L̂ with its Haar average onto ℂ1, full = reduced for amenable L, and the cochain transport `T_b`
+from the algebra of `ω^b` to that of ω. Used in §3.1 and, through it, in Layers 3–6.
+
+**From TauCetiRoadmap.AmenableGroups.** Layer 6: every abelian discrete group is amenable.
+
+**From TauCetiRoadmap.ThetaSeries.** Layer 1 and 2A, 2C specify, for a full-rank ℤ-lattice L in
+a finite-dimensional real inner product space E, the lattice Poisson formula 1A, the Fourier
+change of variables 1C, the dual-lattice transport 1D (the image AL of a lattice is a lattice with
+dual `(A⁻¹)ᵀL^∨` and `covol(AL)=|det A| covol(L)`), the two summability halves 1E, the dual
+lattice `L^∨` with `L^∨∨=L` (2A) and `covol(L^∨)=covol(L)⁻¹` (2C). At the pin these are the Tau
+Ceti declarations of the contract above and are consumed by their library names; ThetaSeries is
+cited for the specification and for the sign discussion of 1A (with Mathlib's `𝓕` the dual-side
+phase is `e(+⟨v,m⟩)`, and reindexing by `m↦−m` reflects the transform as well as the phase). The
+product `(Fin k → ℝ)×(Fin k → ℝ)` carries the sup norm and is not an inner product space; the
+transport of 1A to it in symplectic coordinates is this roadmap's target §2.3, as 1A assigns it
+to its consumers.
+
+**From TauCetiRoadmap.NoncommutativeGeometry.** N6 (the rotation algebra `A_θ` with
+`U₂U₁=e(θ)U₁U₂`, the smooth subalgebra 𝒜_θ and its trace) and N7 (the 0<θ<1 Schwartz module with
+`(ξU₁)(s)=ξ(s+θ)`, `(ξU₂)(s)=e(s)ξ(s)`, its frames and Powers–Rieffel projection), for the
+comparison in §6.3 only.
 
 ## References
 

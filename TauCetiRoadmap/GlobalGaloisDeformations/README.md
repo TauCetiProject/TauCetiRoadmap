@@ -1,190 +1,93 @@
 # Roadmap: global Galois deformation rings
 
-**Summary.** This roadmap builds the global functors and complete local rings that classify continuous
-lifts of a residual Galois representation `ρ̄ : G → GLₙ(k)`, and the maps between them that
-modularity lifting and potential automorphy consume. It uses the generic lifting functors, strict
-equivalence, determinant laws and representability of LocalGaloisDeformationRings Layer F; assembles local
-deformation problems into global framed rings with a presentation over their local rings and a
-lower bound on their dimension; constructs restriction, twisting and change-of-problem maps,
-including the formal-torus actions and determinant torsors of the dyadic Khare–Wintenberger method;
-turns Taylor–Wiles data into deformation rings with diamond actions and uniform generator counts;
-and packages the finite-level ring systems of rank-two patching. Two arbitrary-rank branches close
-it: global problems with variable determinant over local coefficient rings `Λ_v` (the setting of
-Allen–Calegari–Caraiani–Gee–Helm–Le Hung–Newton–Scholze–Taylor–Thorne) and polarized problems for
-the group `𝒢ₙ` of Clozel–Harris–Taylor, with the enormous-image Taylor–Wiles presentation. Its end
-theorems are the presentation and dimension bound of Layer R04.3, the Taylor–Wiles systems of
-Layer R04.6 (odd and dyadic), and the presentations of Layers G8 and G7. We want it because every
-`R = T` argument in the programme, from Khare–Wintenberger to the potential automorphy theorems
-over CM fields, needs exactly these rings with their maps, counts and hypotheses; the arithmetic
-modules and the patching itself belong to the roadmaps that use them.
+**Summary.** Galois deformation theory studies how a representation over a finite field lifts to
+complete local rings. Fix a complete discrete valuation ring `𝒪` with finite residue field `k` of
+characteristic `p`, a number field `F`, a finite set `S` of places containing those above `p`, and a
+continuous absolutely irreducible `ρ̄ : G_{F,S} → GLₙ(k)` of the Galois group of the maximal
+extension unramified outside `S`. The lifts of `ρ̄` to complete Noetherian local `𝒪`-algebras with
+residue field `k`, up to conjugation by matrices reducing to the identity, are classified by a
+complete local ring, the universal deformation ring.
 
-Three distinctions run through the document. A representation, its strict equivalence class and its
-polynomial-law determinant are different objects, compared by explicit maps that are isomorphisms
-only under residual absolute irreducibility. A framed ring, its trace subring, its torsion-free
-quotient and its reduced generic fibre are different rings. And the fixed-determinant, the
-variable-determinant and the polarized problems have different adjoint modules, different
-centralizers and therefore different frame and generator counts; no formula is transported from
-one to another by notation.
+This roadmap builds these global rings with the maps, counts and hypotheses needed by every `R = T`
+argument in Tau Ceti, which identifies a deformation ring with a Hecke algebra. They are assembled
+from local conditions at the places of `S`, with frames (bases lifting the standard one) at a subset
+`T` of `S`.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| R04.3 | Local conditions and global presentations | `TFramedDef`, `R^{□T}_𝒮`, `Rloc`/`locToGlobal`, the relative tangent space, the presentation, the dimension bound |
-| R04.4 | Restriction, twists and changes of problem | `resRing`, finiteness of restriction, enlarging `S`, twisting isomorphisms, `DiagGroup`, free quotients, truncated actions, `RdetOnS`/`detMap`, `twistAction`, freeness, the determinant torsor |
-| R04.5 | Taylor–Wiles data at auxiliary primes | `TaylorWilesDatum`, image hypotheses, dyadic Kummer disjointness, dyadic generator counts, the `Δ_Q`-structure, the shared selection theorem, auxiliary primes in Gee's setting, generator counts |
-| R04.6 | Finite-level deformation data for patching | `KWDeformationData`, the trace subring, factorization through local conditions, `TWSystem`, the numerical coincidence, `DyadicPatchingDatum`, `HeckeGaloisDatum` |
-| G8 | Variable-determinant global problems | `GlobalDeformationProblem`, representability and framing, the presentation, fixed against variable determinant |
-| G7 | Polarized problems and arbitrary-rank Taylor–Wiles data | `PolarizedDeformationProblem`, representability, tangent and obstruction spaces, the presentation, rank-`n` Taylor–Wiles places, enormous-image primes, the ACC presentation |
+The first main result presents a global ring over local rings. With fixed determinant and local
+conditions, the framed ring is a quotient of a power series ring over the completed tensor product
+of the local rings at the places of `T`. The number of variables is the dimension of a relative
+tangent space, identified with the first cohomology of an adjoint Selmer complex. If `T = S`, or
+every local condition outside `T` is liftable, the kernel needs no more generators than the
+dimension of the second cohomology of that complex. When also `p > 2`, `p ∤ n`, `S` consists of
+finite places and `T` contains the places above `p`, this is the dimension of a dual Selmer group.
+With `T = S` these counts then bound the Krull dimension of the unframed ring from below. Finiteness
+over `𝒪` is not part of the bound.
 
-The build uses LocalGaloisDeformationRings Layer F, proceeds through R04.3–R04.6, then G8 and G7:
-the fixed-determinant rank-two constructions precede the variable-determinant and polarized branches.
+The second result is needed at `p = 2`. Let `A` be a local ring with finite residue field of
+characteristic two, and `ρ` a representation of a group `G` in `GL₂(A)` whose reduction has
+nonsolvable image. If a character `χ` of `G`, trivial modulo the maximal ideal, makes `χ ⊗ ρ`
+conjugate to `ρ` by a matrix reducing to the identity, then `χ` is trivial. Hence twisting acts
+freely on the dyadic deformation problems. Induced representations show the image hypothesis is
+needed.
 
-## Scope and ownership
+The third result chooses Taylor–Wiles auxiliary primes. Let `H` be a finite-dimensional `k`-space of
+global cohomology classes, with linear localization maps at admissible primes. Suppose each nonzero
+class is detected by a conjugacy class in a finite Galois extension: all but finitely many primes
+with Frobenius in that class are admissible and localize the class nontrivially. Suppose also that
+some conjugacy class has all but finitely many primes admissible. Then for every finite set `B` and
+every `q ≥ dim H` there are exactly `q` admissible primes outside `B`, of residue degree one over
+`ℚ`, whose joint localization on `H` is injective.
 
-The roadmap owns global deformation types, `T`-framed global rings, the local-to-global map,
-the relative tangent identification, presentations and dimension bounds; restriction, enlargement
-of the ramification set, twisting, formal diagonalizable groups, free quotients and the dyadic
-twisting torsor; Taylor–Wiles data as deformation data with their diamond structures, the shared
-Chebotarev selection theorem for Selmer detection and the generator counts at auxiliary levels;
-the finite-level ring systems of rank-two patching and the abstract Hecke–Galois classifying maps;
-and the variable-determinant and polarized global problems with their arbitrary-rank Taylor–Wiles
-presentations.
+The fourth result is the Taylor–Wiles presentation of Allen–Calegari–Caraiani–Gee–Helm–Le
+Hung–Newton–Scholze–Taylor–Thorne (ACC), in rank `n` with variable determinant. In the ACC setting,
+let `F = F⁺F₀` with `F⁺` totally real and `F₀` imaginary quadratic, `ζ_p ∉ F`, `p ∤ 2n`, and `ρ̄`
+absolutely irreducible with enormous image (a largeness condition) on the Galois group of `F(ζ_p)`,
+all its eigenvalues in `k`. For every `N ≥ 1` and every `q` at least the dual Selmer dimension,
+there are `q` primes of norm `≡ 1 mod pᴺ`, over rational primes split in `F₀`. The ring framed at
+all of `S`, with ramification allowed at these primes, is a quotient of a power series ring over the
+local rings in `qn − n²[F⁺ : ℚ]` variables.
 
-It does not own, and cites instead:
+The roadmap builds on [LocalGaloisDeformationRings](../LocalGaloisDeformationRings/README.md) for
+the lifting functors, their representability and local rings. SelmerIwasawaCohomology gives the
+Selmer complexes, and ArithmeticGaloisDuality the duality theorems and the Khare–Wintenberger
+auxiliary primes. GL2ModularityLifting uses the finite-level rings for rank-two patching, and
+PotentialAutomorphyInfrastructure the ACC presentation.
 
-- **Continuous cohomology** (Tau Ceti library at the pins): continuous cocycles, coboundaries and
-  first cohomology `TauCeti.ContCohomology.Z1`, `B1`, `H1` in
-  `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree`. `B1` is the algebraic range
-  of the differential; its inclusion in continuous cocycles uses continuity of the action.
-- **Profinite generation** (Tau Ceti library). At the pins: `TauCeti.IsTopologicallyFinitelyGenerated`,
-  `TauCeti.IsTopologicallyFinitelyGenerated.finite_monoidHom_isOpen_ker` (finitely many
-  homomorphisms with open kernel to a fixed finite group) and `TauCeti.maximalProPQuotient`; also
-  `TauCeti.continuousZModDual`, `TauCeti.finite_continuousZModDual`,
-  `TauCeti.topologicalGeneratorRankNat_le_of_openSubgroup` (open subgroups of a topologically
-  finitely generated profinite group are topologically finitely generated) and
-  `TauCeti.IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`. These are the ingredients of
-  the characterisation of `Φ_p` in LocalGaloisDeformationRings §F.2.1.
-- **Completed group algebras** (Tau Ceti library at the pins):
-  `TauCeti.completedGroupAlgebra 𝒪 Γ` and its inverse-limit projections and tautological group map,
-  from `TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic`. The rank-one
-  universal-ring comparisons use this carrier and do not define another completed group algebra.
-- **Ordinary diagonalizable groups** (Tau Ceti library at the pins):
-  `TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Basic`,
-  `TauCeti.DiagonalizableGroup.pointEquiv` and `pointsMulEquiv` identify the points of
-  `Spec 𝒪[a]` with all unit-valued characters of `a`. Target 4.5 keeps the formal completion
-  at the identity, whose characters take values in `1 + 𝔪_A`, and its truncation comparison.
-- **Tau Ceti roadmaps.** `ClassFieldTheory`, Layer 5 (local Tate duality and the local Euler
-  characteristic) and Layer 12 (the global correspondence, used to make the auxiliary twisting group
-  finite); `Chebotarev`, Layer 10 (Dirichlet density of a Frobenius class) and 11.3(2) (the
-  negligible contribution of primes of residue degree greater than one); `LocalGaloisGroups`, Layer 3
-  (topological finite generation of `G_K(p)` for every finite extension `K/ℚ_p`); `ModularCurves`,
-  Layer 0C (affine quotients by finite groups and finite locally free group schemes, and their
-  torsors); `IntegralHeckeAndGaloisDeterminants`, Layers 0–1 (Chenevier determinants, characteristic
-  polynomials, Cayley–Hamilton quotients, henselian reconstruction
-  `Determinant.exists_realization_of_henselian`, and absolutely irreducible coefficient descent
-  `coefficient_descent`, CHT Lemma 2.1.10), and §4.1 (compact coefficient-ring gluing
-  `Determinant.existsUnique_isCoefficientChange_of_compact`).
-- **AutomorphicFormsOnReductiveGroups**, §5.8 (*Residual and torsion Hecke eigenclasses*)
-  and §7.3 (*Hecke and diamond normalization for GL₂*),
-  owns the Hecke eigensystem interface and the arithmetic normalization used in 6.7, including
-  its two-coordinate arithmetic generators `T_v`, `S_v`. Each consumer supplies its faithful Hecke
-  image and the realization of these operators.
-- **ArithmeticGaloisRepresentations.** Layer 1 (continuous representations and their integral
-  theory); Layer 4 (residual images: `GaloisRep.IsBadDihedral` and the cyclotomic criterion of §4.6,
-  the restriction lemmas of §4.7 and its target *Characteristic two* for nonsolvable dyadic
-  images); Layer 5, §5.10 (Carayol's lemma `GaloisRep.carayol_conj_of_trace_eq`: lifts over a
-  complete Noetherian local ring with finite residue field and the same absolutely irreducible
-  reduction, whose traces agree on a dense subset, are strictly conjugate); Layer 7, §7.2 (the adjoint
-  `ContinuousRep.ad`, `adZero`, the trace pairing and the splitting when `n` is invertible, and its target
-  *Schur's lemma over a local ring*), §7.4 (the
-  group `CHTGroup` `= 𝒢ₙ`, its multiplier and the correspondence between `𝒢ₙ`-valued lifts and CHT
-  triples, and polarized representations) and §7.10 (`ResidualImage.IsEnormous`).
-- **ArithmeticGaloisDuality.** Layers R02.3–R02.5 and D7 (restricted ramification, Poitou–Tate,
-  finiteness of `H¹(G_{F,S}, M)`, the Greenberg–Wiles formula and derived duality); §D8.1
-  (*First-order Galois cocycle comparison*, *Trace-zero adjoint duality without division by n*);
-  Layer R02.6 (*Local cohomology at a Taylor–Wiles prime*, *The group-theoretic
-  input to Taylor–Wiles primes*, *The conditional dual-Selmer killing calculation*,
-  *Khare–Wintenberger tangent and relation bounds*, *Odd-prime Taylor–Wiles auxiliary sets*,
-  *Dyadic auxiliary primes and the cyclotomic residual*, *Finite-order determinant twists*,
-  *Archimedean adjoint dimensions*).
-- **SelmerIwasawaCohomology**, Layer 2 (Selmer structures and the Selmer complex as a mapping fibre),
-  §2A.3 (*Selmer and deformation tangent comparison*) and §2A.4 (*Determinant tangent fibres*).
-- **SchemeAndStackFoundations**, §§4.2–4.4 (Artinian and complete Noetherian coefficient categories,
-  small extensions, fibre products, Schlessinger's criteria and hulls), §§0.16, 0.20–0.21
-  (catenarity, Nagata rings, excellence and regular completion maps). The completed local products,
-  coefficient-extension and dimension adapters and obstruction-compatible minimal presentations are
-  supplied by LocalGaloisDeformationRings §§F.0.1–F.0.2.
-- **[LocalGaloisDeformationRings](../LocalGaloisDeformationRings/README.md)**:
-  Layer F supplies completed coefficient products and minimal relative presentations (§§F.0.1–F.0.2),
-  the lifting, module, strict-class and fixed-determinant functors and their comparisons and
-  coefficient change (§§F.1.1–F.1.10), Mazur's finiteness condition, continuous universal framed and
-  unframed rings, trace generation, determinant comparisons and pseudodeformation rings
-  (§§F.2.1–F.2.11), local deformation problems and their invariant ideals (§§F.3.1–F.3.2), and
-  inertia-rigid rings (§F.4.12). It also supplies unrestricted local framed rings and the
-  condition-specific local quotients. In particular
-  Layer 1 (local framed rings, 1.1; archimedean rings, 1.11 and 1.14; fixed-determinant and
-  coefficient-change versions, 1.10 and 1.12), Layer 2 (Steinberg lifts, 2.5; fixed inertial types,
-  2.9; odd-prime fixed-determinant Taylor–Wiles rings, 2.10; rank-`n` block conditions, 2.16 and 2.23).
-  The all-prime rank-two diagonalization and the unrestricted ACC diamond ring are constructed
-  here in the rank-two local diagonalization of Layer R04.5 and §8.5.
-  The supplier also owns
-  layers 3 and 6 (`p`-adic Hodge-type and ordinary conditions in rank `n`, with their dimensions and
-  liftability) and Layer 8 (the local conditions of Khare–Wintenberger, 8.2–8.15, and the completed
-  tensor product of their rings, 8.17, with nonemptiness, 8.18).
+The first layer builds the global rings and presentations, the second the maps between them, the
+third Taylor–Wiles data. The fourth builds rank-two ring systems for patching. The last two treat
+arbitrary rank: variable determinant, then polarized problems for the group `𝒢ₙ` of
+Clozel–Harris–Taylor and the ACC presentation.
 
-The following statements are used here and owned by the roadmaps named; each is recorded under
-the anchor by which other roadmaps cite it.
+## How to read the build
 
-- **Tangent spaces of the lifting and deformation functors.** For
-  `k[ε] = k[X]/(X²)`, `f ↦ (1 + εf)ρ̄` identifies `Z¹(G, ad ρ̄)` with `Lift_ρ̄(k[ε])`, strict
-  equivalence changes cocycles by coboundaries so that `Def_ρ̄(k[ε]) ≅ H¹(G, ad ρ̄)`, the stabiliser of
-  a framed lift is `1 + ε H⁰(G, ad ρ̄)`, and fixed determinant corresponds to trace-zero cocycles
-  modulo the boundary of the trace sequence: ArithmeticGaloisDuality §D8.1, *First-order Galois cocycle
-  comparison* and *Trace-zero adjoint duality without division by n*, and
-  SelmerIwasawaCohomology §2A.4, *Determinant tangent fibres* (Kisin, Lecture 1,
-  Lemma (1.3.1), p. 3; Gee, Exercise 3.11 and Corollary 3.12, p. 13). Applied to `Lift` and `Def`
-  of LocalGaloisDeformationRings §§F.1.1, F.1.3, it gives the framed tangent dimension
-  `h¹(G, ad ρ̄) + n² − h⁰(G, ad ρ̄)` whenever
-  the cohomology is finite-dimensional; that count is used in LocalGaloisDeformationRings
-  §§F.2.3, F.2.6 and Layer R04.3 here.
-- **Local cohomology at Taylor–Wiles places.** At a
-  rank-two Taylor–Wiles place `v ∤ p` with `Nv ≡ 1 (mod p)`, `p` odd and distinct residual Frobenius
-  eigenvalues, `h⁰(G_v, ad⁰) = h⁰(G_v, ad⁰(1)) = 1` and `h¹(G_v, ad⁰) = 2`, while the unramified `H¹`
-  is one-dimensional, spanned by the class in the diagonal direction. ArithmeticGaloisDuality R02.6,
-  *Local cohomology at a Taylor–Wiles prime* and *Odd-prime Taylor–Wiles auxiliary sets*, supply the
-  full and unramified dimensions under their stated global hypotheses. The individual-place
-  calculation uses KW final, Lemma 5.4 and its proof, p. 48: after splitting Frobenius, its action on
-  `ad⁰` has eigenvalues `α/β, 1, β/α`, with the `1`-eigenspace spanned by `diag(1, −1)`.
-  This diagonal class generates the unramified `H¹`; since `Nv ≡ 1 (mod p)`, the cyclotomic twist is
-  trivial and the same line gives `h⁰(G_v, ad⁰(1)) = 1`. Characteristic two uses 5.3–5.4 below.
-- **Existence of odd-prime Taylor–Wiles sets in the Khare–Wintenberger setting.** For `p` odd, `F`
-  totally real and unramified above `p`, `ρ̄` totally odd and absolutely irreducible on
-  `G_{F(ζ_p)}`, sets `Q_n` of size `h¹_{L^⊥}(S, (ad⁰)ˇ(1))` with `Nq ≡ 1 (mod pⁿ)`, distinct
-  eigenvalues and vanishing new dual Selmer group, with generator count `|Q_n| + |S| − 1`:
-  ArithmeticGaloisDuality R02.6, *Odd-prime Taylor–Wiles auxiliary sets* (KW final, Lemmas 5.2(1),
-  5.3 and Proposition 5.5, pp. 47–48). Target 5.7 applies it and adds Gee's convention.
-- **Existence of dyadic Taylor–Wiles sets.** For `p = 2`, `F` totally real and nonsolvable residual
-  image, sets `Q_n` with `|Q_n| = h¹(S, Ad) − 2`, the norm, eigenvalue and splitting conditions, the
-  `S`-split dimension formula and `G_n/2^{n−2}G_n ≅ (ℤ/2^{n−2})^t` with `t = 2 − |S| + |Q_n|`:
-  ArithmeticGaloisDuality R02.6, *Dyadic auxiliary primes and the cyclotomic residual* (KW final,
-  Lemma 5.10, pp. 50–53). Its Kummer-disjointness hypothesis is target 5.3; its ring-theoretic
-  counts are target 5.4.
-- **Strict conjugacy from traces, scalar centralizers and descent of coefficients.** For lifts with
-  absolutely irreducible reduction over a local ring, the image spans `Mₙ(A)` and the centralizer is
-  `A`; over a complete Noetherian local ring with finite residue field equal traces on a dense set
-  give strict conjugacy; and if all traces lie in a complete Noetherian local subring with the same
-  residue field, the lift is strictly conjugate into it: ArithmeticGaloisRepresentations §7.2 and
-  §5.10, and `IntegralHeckeAndGaloisDeterminants.coefficient_descent` (Kisin, Lecture 1,
-  Theorem (1.4.1), pp. 3–4; Gee, Lemma 3.7, pp. 12–13; CHT, Lemma 2.1.10, pp. 13–15).
-  LocalGaloisDeformationRings §F.2.7 supplies the consequence for universal rings.
-- **The correspondence between `𝒢ₙ`-valued lifts and CHT triples** (CHT, Lemma 2.1.1, p. 7):
-  ArithmeticGaloisRepresentations §7.4. Target 8.1 uses it for polarized deformation problems.
+LocalGaloisDeformationRings Layer F supplies the coefficient algebra, deformation functors,
+representability under `Φ_p`, ring comparisons and local-condition interface. Layer R04.3 builds
+the global `T`-framed rings with their map from the local rings, identifies the relative tangent
+space with the framed Selmer group and deduces the presentation and dimension bound. Layer R04.4
+builds the maps between such rings: restriction, enlargement of `S`, twisting, and the formal-group
+machinery of the dyadic method. Layer R04.5 turns Taylor–Wiles data into augmented deformation
+problems with diamond actions and counts; the cohomological existence of auxiliary primes is
+supplied by ArithmeticGaloisDuality R02.6, and the selection theorem used in arbitrary rank is
+proved here. Layer R04.6 assembles the finite-level ring systems of Khare–Wintenberger patching
+for odd `p` and for `p = 2`. Layer G8 gives the variable-determinant rings of ACC, which Layer G7
+uses for its Taylor–Wiles presentation alongside the polarized branch. The unrestricted
+simultaneous framed quotient is supplied by LocalGaloisDeformationRings §F.2.6.
+Define the finite group `G_V` before 4.8. In R04.5 build the preliminary rank-two local
+construction, then 5.2, 5.3, 5.1 and 5.4; the remaining targets follow in order. In R04.6 build 6.1–6.4, then 6.6, then 6.5, so the dyadic source
+exists before its dimension is computed. Targets 6.7–6.8 use the unframed
+representability and local-condition quotients of R04.3 and LocalGaloisDeformationRings Layer F.
 
-Constructing automorphic forms, Hecke modules and patched complexes, and comparing them with the
-rings built here, belongs to GL2ModularityLifting, OrdinaryAutomorphicFormsAndModularityLifting and
-PotentialAutomorphyInfrastructure. Those consumers apply abstract patching to the finite-level inputs.
-The abstract classifying maps `R → T` are constructed in 6.7–6.8 from a supplied Hecke–Galois
-datum. Arithmetic realizations of that datum belong to those consumers; automorphy lifting and
-finiteness of deformation rings over `𝒪` belong there as well.
+`README.md` is normative. `Suggested.lean`, in the namespace
+`TauCetiRoadmap.GlobalGaloisDeformations`, states the dyadic twisting freeness theorem
+`character_eq_one_of_dyadic_self_twist` of 4.10, using the matrix representation `twist`,
+and the shared Chebotarev selection theorem `exists_primes_jointly_injective` of 5.6.
+The global presentations and dimension bounds, formal torsors, Selmer-theoretic auxiliary-prime
+applications, finite-level Taylor–Wiles systems and Hecke–Galois comparisons require deformation
+rings, coefficient categories and arithmetic objects absent at the pins; their statements are
+specified below. The API lists name mathematical targets, and the Checks specify their tests.
+Generic lifts, strict conjugation and strict classes, coefficient pushforward, restriction,
+the Schur predicate, `Φ_p`, framed lifts and their unrestricted quotient are supplied by
+LocalGaloisDeformationRings Layer F.
 
 ## Conventions
 
@@ -233,176 +136,6 @@ never encodes a dimension formula.
 
 Reciprocity follows the Tau Ceti `ClassFieldTheory` normalisation; where a source uses the opposite
 direction the statement says so. Page references are to the editions listed under *References*.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The library pin is `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
-
-`Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map` and `Matrix.GeneralLinearGroup.det`;
-continuity of matrix multiplication and of entrywise maps (`Continuous.matrix_mul`,
-`Continuous.matrix_map`); `MulAction.orbitRel` and its quotient; `IsLocalRing`,
-`IsLocalRing.maximalIdeal` and `IsLocalRing.ResidueField`; `IsArtinianRing`, `IsNoetherianRing`;
-`IsAdicComplete`; `MvPowerSeries` and `PowerSeries`; `Algebra.FormallySmooth`; `DualNumber`;
-`OpenSubgroup`, `ProfiniteGrp`, `ContinuousMonoidHom`; module bases, quotients and finite-rank
-formulas. A Mathlib carrier is only a carrier: none of the deformation theorems follows from a
-carrier's name.
-
-### From Tau Ceti
-
-The library pin is `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. These are library
-contracts; the subsequent roadmap contracts specify the mathematical interfaces consumed from their
-named sections.
-
-- `TauCeti.RepresentationTheory.CharacterTwist` supplies `Representation.charTwist` for a monoid
-  acting on a module over a commutative semiring: `g` acts by `χ(g) • ρ(g)`. Its API includes
-  `Representation.charTwist_one`, `Representation.charTwist_charTwist`,
-  `Representation.tprodEquivCharTwist` and, over a field,
-  `Representation.isIrreducible_charTwist_iff`. ArithmeticGaloisRepresentations §1.2 supplies
-  the continuous-representation packaging. Target 4.4 supplies the comparison with the matrix
-  adapter and its compatibility with deformation problems, determinants and representing rings.
-- `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree` supplies
-  `TauCeti.ContCohomology.Z1`, `B1` and `H1`. For a topological monoid acting continuously on a
-  topological additive group, `Z1` consists of continuous cocycles, `B1` is the range of the degree-zero
-  differential, and `B1_le_Z1` supplies the inclusion required for `H1 = Z1/B1`. Use the quotient
-  as an additive group; its pointwise quotient topology is not the intended topology of continuous
-  cohomology.
-- `TauCeti.Topology.Algebra.Group.Generation` supplies
-  `TauCeti.IsTopologicallyFinitelyGenerated`,
-  `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` and
-  `TauCeti.IsTopologicallyFinitelyGenerated.finite_monoidHom_isOpen_ker`. The open-subgroup statement
-  assumes a compact topological group; the finite-homomorphism statement assumes a topological group
-  with a finite topological generating set and a finite target group, and counts precisely the
-  homomorphisms whose kernels are open.
-- `TauCeti.Topology.Algebra.Group.Profinite.MaximalProP` supplies
-  `TauCeti.maximalProPQuotient`, its continuous surjective quotient map and its universal property
-  for continuous maps to pro-`p` groups. `TauCeti.Topology.Algebra.ContinuousZModDual` supplies
-  `TauCeti.continuousZModDual p G`, the additive form of continuous characters
-  `G → Multiplicative (ZMod p)`, with its `ZMod p`-module structure.
-- `TauCeti.Topology.Algebra.Group.Profinite.DualRank` supplies
-  `TauCeti.finite_continuousZModDual`: for prime `p`, the continuous dual of a topologically finitely
-  generated topological group is finite-dimensional. `TauCeti.Topology.Algebra.Group.Profinite.Rank`
-  supplies `TauCeti.topologicalGeneratorRankNat_le_of_openSubgroup`, the Schreier bound for an open
-  subgroup of a compact topologically finitely generated group.
-  `TauCeti.Topology.Algebra.Group.Profinite.ProP.DualRank` supplies
-  `TauCeti.IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`: for a compact totally
-  disconnected pro-`p` topological group and prime `p`, generator rank equals continuous dual rank
-  as a cardinal, without a finite-generation hypothesis.
-- `TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Basic` supplies
-  `TauCeti.DiagonalizableGroup.pointEquiv` and `TauCeti.DiagonalizableGroup.pointsMulEquiv`.
-  For a commutative base ring and an abelian character group `a`, they identify algebra maps
-  `𝒪[a] → A` with all characters `a → Aˣ`, and identify convolution with pointwise multiplication.
-  The identity-completed character functor of §4.5 is a further target.
-- `TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic` supplies
-  `TauCeti.completedGroupAlgebra 𝒪 Γ`, the inverse limit of `𝒪[Γ/U]` over open normal subgroups,
-  with its projections `proj`, their determining property `ext`, and the tautological group map
-  `of`. For profinite `Γ` and compact adic `𝒪`, use its inverse-limit topology. This is the carrier
-  denoted `𝒪⟦Γ⟧`; the universal character property is the deformation-theoretic target of
-  LocalGaloisDeformationRings §F.2.4.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-Layer 0: degree-`n` multiplicative polynomial laws on `A[G]`, Chenevier determinants and their
-characteristic coefficients. Layer 1: the Cayley–Hamilton ideal and quotient,
-`Determinant.exists_realization_of_henselian` (over a henselian local ring, a determinant whose
-reduction is that of an absolutely irreducible representation is the determinant of a representation
-`A[G] → M_d(A)`, unique up to conjugation; its proof passes through the Cayley–Hamilton quotient) and
-`coefficient_descent`. Continuous determinant deformation functors and their comparison
-with representation deformations are supplied by LocalGaloisDeformationRings
-§§F.1.9–F.1.10, F.2.8.
-
-### From TauCetiRoadmap.ClassFieldTheory, Chebotarev, LocalGaloisGroups and ModularCurves
-
-ClassFieldTheory Layer 5 also supplies `finite_H`: for a characteristic-zero nonarchimedean local
-field and any finite smooth discrete Galois module, cohomology in degrees zero through two is finite. In particular it
-applies to the trivial module `𝔽_p`, including residue characteristic different from `p`, and to
-every finite extension of the local field. The selection theorem 5.7 uses Chebotarev's density theorem
-and its discard of primes of higher residue degree; it does not develop a second density theory.
-Target 4.6 completes the affine quotients of `ModularCurves` 0C at the given local points; the
-quotient construction itself is not rebuilt.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations, ArithmeticGaloisDuality and SelmerIwasawaCohomology
-
-The declarations and targets listed under *Scope and ownership*, with these contracts:
-continuous representations of profinite groups on finite free modules over topological coefficient
-rings with their adjoints; the finite residual-image classification and the detecting elements used
-in prime selection, in the source-specific forms stated in 5.2; arithmetic finiteness, local and
-global duality, the Greenberg–Wiles formula, the framed and modified Selmer complexes of
-SelmerIwasawaCohomology §§2A.3–2A.4 with their exact differential and sign conventions,
-Euler characteristics, and the residual-image
-cohomology vanishing used in prime selection. The framed complexes are mapping fibres in the sense
-of SelmerIwasawaCohomology §2.21, *Selmer complex as a mapping fibre*; the kernel Selmer group
-is its §2.2, *Compact and rational Selmer kernel*.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-[SchemeAndStackFoundations §4.2](../SchemeAndStackFoundations/README.md#42-the-artinian-coefficient-category)
-constructs `ArtinLocalAlg 𝒪 k` and `CompleteLocalAlg 𝒪 k`, used here as `Art_𝒪` and `C_𝒪`, with
-local residue preserving morphisms, small extensions and fibre products.
-Its [§§4.3–4.4](../SchemeAndStackFoundations/README.md#44-versality-hulls-and-schlessingers-theorem)
-supply the set-valued Schlessinger criteria, hulls and pro-representability in the classical
-coefficient case (`𝒪` complete Noetherian local with residue `k`). Its §§0.16, 0.20 and
-[0.21](../SchemeAndStackFoundations/README.md#021-regular-maps-g-rings-j-2-rings-excellent-rings-and-schemes)
-supply catenarity, Nagata rings, excellence of complete Noetherian local rings and regularity of their completion maps,
-with preservation of reducedness and normality. LocalGaloisDeformationRings §§F.0.1–F.0.2
-supply the coefficient-product adapters and obstruction-compatible minimal presentations.
-
-The material of §§4.3–4.4 also has an independent formalization following the Stacks Project, in
-*AxiomMath Stacks* (see *References*): Schlessinger's conditions, hulls and the prorepresentability
-criterion (Stacks, Tag 06JM) in its
-[Schlessinger](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/Deformation/Schlessinger)
-folder, and the set-valued Rim–Schlessinger condition and deformation functors in its
-[RimSchlessinger](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/Deformation/RimSchlessinger)
-folder. It is prior art for those supplier sections, not an input here: this roadmap states no
-target at that level and applies the criteria only through §§4.3–4.4, in 3.4, 3.7, 4.6 and 8.4.
-
-### From TauCetiRoadmap.LocalGaloisDeformationRings
-
-Layer F supplies the generic deformation foundations at §§F.0.1–F.0.2, F.1.1–F.1.10,
-F.2.1–F.2.11, F.3.1–F.3.2 and F.4.12. For the common complete-local coproduct, relative presentation
-algebra and continuous framed matrix ring, Layer F in turn uses
-[DeformationAndDerivedPatchingAlgebra](../DeformationAndDerivedPatchingAlgebra/README.md),
-§1.12 and §§2.1–2.7. The coefficient products use the local topology and residue
-identifications of §F.0.1; §F.0.2 gives the conditional obstruction-compatible minimal
-presentation; §§F.2.3–F.2.4 give continuous framed representability; and §F.4.12 gives the
-finite-inertia model used in R04.6. Layers 1–3 and 6 and §§8.2–8.15, 8.17–8.18 supply the local
-rings named under *Scope and ownership*, with their tangent spaces, dimensions, nonemptiness and
-liftability. Both roadmaps use the same local-condition and framing conventions; this roadmap
-supplies their global assembly and restriction maps. General fixed-type quotients are
-LocalGaloisDeformationRings §2.9. The arithmetic hypotheses and local choices of each cited local
-target remain part of its input.
-
-## How to read the build
-
-LocalGaloisDeformationRings Layer F supplies the coefficient algebra, deformation functors,
-representability under `Φ_p`, ring comparisons and local-condition interface. Layer R04.3 builds
-the global `T`-framed rings with their map from the local rings, identifies the relative tangent
-space with the framed Selmer group and deduces the presentation and dimension bound. Layer R04.4
-builds the maps between such rings: restriction, enlargement of `S`, twisting, and the formal-group
-machinery of the dyadic method. Layer R04.5 turns Taylor–Wiles data into augmented deformation
-problems with diamond actions and counts; the cohomological existence of auxiliary primes is
-supplied by ArithmeticGaloisDuality R02.6, and the selection theorem used in arbitrary rank is
-proved here. Layer R04.6 assembles the finite-level ring systems of Khare–Wintenberger patching
-for odd `p` and for `p = 2`. Layer G8 gives the variable-determinant rings of ACC, which Layer G7
-uses for its Taylor–Wiles presentation alongside the polarized branch. The unrestricted
-simultaneous framed quotient is supplied by LocalGaloisDeformationRings §F.2.6.
-Define the finite group `G_V` before 4.8. In R04.5 build the preliminary rank-two local
-construction, then 5.2, 5.3, 5.1 and 5.4; the remaining targets follow in order. In R04.6 build 6.1–6.4, then 6.6, then 6.5, so the dyadic source
-exists before its dimension is computed. Targets 6.7–6.8 use the unframed
-representability and local-condition quotients of R04.3 and LocalGaloisDeformationRings Layer F.
-
-`README.md` is normative. `Suggested.lean`, in the namespace
-`TauCetiRoadmap.GlobalGaloisDeformations`, states the dyadic twisting freeness theorem
-`character_eq_one_of_dyadic_self_twist` of 4.10, using the matrix representation `twist`,
-and the shared Chebotarev selection theorem `exists_primes_jointly_injective` of 5.6.
-The global presentations and dimension bounds, formal torsors, Selmer-theoretic auxiliary-prime
-applications, finite-level Taylor–Wiles systems and Hecke–Galois comparisons require deformation
-rings, coefficient categories and arithmetic objects absent at the pins; their statements are
-specified below. The API lists name mathematical targets, and the Checks specify their tests.
-Generic lifts, strict conjugation and strict classes, coefficient pushforward, restriction,
-the Schur predicate, `Φ_p`, framed lifts and their unrestricted quotient are supplied by
-LocalGaloisDeformationRings Layer F.
 
 ## Layer R04.3: Local conditions and global presentations
 
@@ -2181,6 +1914,293 @@ R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings 
   **GL2ModularityLifting** receive `HeckeGaloisDatum`, its classifying surjection and uniqueness
   from 6.7, and its point construction and local-condition detection from 6.8. Each consumer
   supplies its arithmetic Hecke realization and the point representations.
+
+## Scope and ownership
+
+The roadmap owns global deformation types, `T`-framed global rings, the local-to-global map,
+the relative tangent identification, presentations and dimension bounds; restriction, enlargement
+of the ramification set, twisting, formal diagonalizable groups, free quotients and the dyadic
+twisting torsor; Taylor–Wiles data as deformation data with their diamond structures, the shared
+Chebotarev selection theorem for Selmer detection and the generator counts at auxiliary levels;
+the finite-level ring systems of rank-two patching and the abstract Hecke–Galois classifying maps;
+and the variable-determinant and polarized global problems with their arbitrary-rank Taylor–Wiles
+presentations.
+
+It does not own, and cites instead:
+
+- **Continuous cohomology** (Tau Ceti library at the pins): continuous cocycles, coboundaries and
+  first cohomology `TauCeti.ContCohomology.Z1`, `B1`, `H1` in
+  `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree`. `B1` is the algebraic range
+  of the differential; its inclusion in continuous cocycles uses continuity of the action.
+- **Profinite generation** (Tau Ceti library). At the pins: `TauCeti.IsTopologicallyFinitelyGenerated`,
+  `TauCeti.IsTopologicallyFinitelyGenerated.finite_monoidHom_isOpen_ker` (finitely many
+  homomorphisms with open kernel to a fixed finite group) and `TauCeti.maximalProPQuotient`; also
+  `TauCeti.continuousZModDual`, `TauCeti.finite_continuousZModDual`,
+  `TauCeti.topologicalGeneratorRankNat_le_of_openSubgroup` (open subgroups of a topologically
+  finitely generated profinite group are topologically finitely generated) and
+  `TauCeti.IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`. These are the ingredients of
+  the characterisation of `Φ_p` in LocalGaloisDeformationRings §F.2.1.
+- **Completed group algebras** (Tau Ceti library at the pins):
+  `TauCeti.completedGroupAlgebra 𝒪 Γ` and its inverse-limit projections and tautological group map,
+  from `TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic`. The rank-one
+  universal-ring comparisons use this carrier and do not define another completed group algebra.
+- **Ordinary diagonalizable groups** (Tau Ceti library at the pins):
+  `TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Basic`,
+  `TauCeti.DiagonalizableGroup.pointEquiv` and `pointsMulEquiv` identify the points of
+  `Spec 𝒪[a]` with all unit-valued characters of `a`. Target 4.5 keeps the formal completion
+  at the identity, whose characters take values in `1 + 𝔪_A`, and its truncation comparison.
+- **Tau Ceti roadmaps.** `ClassFieldTheory`, Layer 5 (local Tate duality and the local Euler
+  characteristic) and Layer 12 (the global correspondence, used to make the auxiliary twisting group
+  finite); `Chebotarev`, Layer 10 (Dirichlet density of a Frobenius class) and 11.3(2) (the
+  negligible contribution of primes of residue degree greater than one); `LocalGaloisGroups`, Layer 3
+  (topological finite generation of `G_K(p)` for every finite extension `K/ℚ_p`); `ModularCurves`,
+  Layer 0C (affine quotients by finite groups and finite locally free group schemes, and their
+  torsors); `IntegralHeckeAndGaloisDeterminants`, Layers 0–1 (Chenevier determinants, characteristic
+  polynomials, Cayley–Hamilton quotients, henselian reconstruction
+  `Determinant.exists_realization_of_henselian`, and absolutely irreducible coefficient descent
+  `coefficient_descent`, CHT Lemma 2.1.10), and §4.1 (compact coefficient-ring gluing
+  `Determinant.existsUnique_isCoefficientChange_of_compact`).
+- **AutomorphicFormsOnReductiveGroups**, §5.8 (*Residual and torsion Hecke eigenclasses*)
+  and §7.3 (*Hecke and diamond normalization for GL₂*),
+  owns the Hecke eigensystem interface and the arithmetic normalization used in 6.7, including
+  its two-coordinate arithmetic generators `T_v`, `S_v`. Each consumer supplies its faithful Hecke
+  image and the realization of these operators.
+- **ArithmeticGaloisRepresentations.** Layer 1 (continuous representations and their integral
+  theory); Layer 4 (residual images: `GaloisRep.IsBadDihedral` and the cyclotomic criterion of §4.6,
+  the restriction lemmas of §4.7 and its target *Characteristic two* for nonsolvable dyadic
+  images); Layer 5, §5.10 (Carayol's lemma `GaloisRep.carayol_conj_of_trace_eq`: lifts over a
+  complete Noetherian local ring with finite residue field and the same absolutely irreducible
+  reduction, whose traces agree on a dense subset, are strictly conjugate); Layer 7, §7.2 (the adjoint
+  `ContinuousRep.ad`, `adZero`, the trace pairing and the splitting when `n` is invertible, and its target
+  *Schur's lemma over a local ring*), §7.4 (the
+  group `CHTGroup` `= 𝒢ₙ`, its multiplier and the correspondence between `𝒢ₙ`-valued lifts and CHT
+  triples, and polarized representations) and §7.10 (`ResidualImage.IsEnormous`).
+- **ArithmeticGaloisDuality.** Layers R02.3–R02.5 and D7 (restricted ramification, Poitou–Tate,
+  finiteness of `H¹(G_{F,S}, M)`, the Greenberg–Wiles formula and derived duality); §D8.1
+  (*First-order Galois cocycle comparison*, *Trace-zero adjoint duality without division by n*);
+  Layer R02.6 (*Local cohomology at a Taylor–Wiles prime*, *The group-theoretic
+  input to Taylor–Wiles primes*, *The conditional dual-Selmer killing calculation*,
+  *Khare–Wintenberger tangent and relation bounds*, *Odd-prime Taylor–Wiles auxiliary sets*,
+  *Dyadic auxiliary primes and the cyclotomic residual*, *Finite-order determinant twists*,
+  *Archimedean adjoint dimensions*).
+- **SelmerIwasawaCohomology**, Layer 2 (Selmer structures and the Selmer complex as a mapping fibre),
+  §2A.3 (*Selmer and deformation tangent comparison*) and §2A.4 (*Determinant tangent fibres*).
+- **SchemeAndStackFoundations**, §§4.2–4.4 (Artinian and complete Noetherian coefficient categories,
+  small extensions, fibre products, Schlessinger's criteria and hulls), §§0.16, 0.20–0.21
+  (catenarity, Nagata rings, excellence and regular completion maps). The completed local products,
+  coefficient-extension and dimension adapters and obstruction-compatible minimal presentations are
+  supplied by LocalGaloisDeformationRings §§F.0.1–F.0.2.
+- **[LocalGaloisDeformationRings](../LocalGaloisDeformationRings/README.md)**:
+  Layer F supplies completed coefficient products and minimal relative presentations (§§F.0.1–F.0.2),
+  the lifting, module, strict-class and fixed-determinant functors and their comparisons and
+  coefficient change (§§F.1.1–F.1.10), Mazur's finiteness condition, continuous universal framed and
+  unframed rings, trace generation, determinant comparisons and pseudodeformation rings
+  (§§F.2.1–F.2.11), local deformation problems and their invariant ideals (§§F.3.1–F.3.2), and
+  inertia-rigid rings (§F.4.12). It also supplies unrestricted local framed rings and the
+  condition-specific local quotients. In particular
+  Layer 1 (local framed rings, 1.1; archimedean rings, 1.11 and 1.14; fixed-determinant and
+  coefficient-change versions, 1.10 and 1.12), Layer 2 (Steinberg lifts, 2.5; fixed inertial types,
+  2.9; odd-prime fixed-determinant Taylor–Wiles rings, 2.10; rank-`n` block conditions, 2.16 and 2.23).
+  The all-prime rank-two diagonalization and the unrestricted ACC diamond ring are constructed
+  here in the rank-two local diagonalization of Layer R04.5 and §8.5.
+  The supplier also owns
+  layers 3 and 6 (`p`-adic Hodge-type and ordinary conditions in rank `n`, with their dimensions and
+  liftability) and Layer 8 (the local conditions of Khare–Wintenberger, 8.2–8.15, and the completed
+  tensor product of their rings, 8.17, with nonemptiness, 8.18).
+
+The following statements are used here and owned by the roadmaps named; each is recorded under
+the anchor by which other roadmaps cite it.
+
+- **Tangent spaces of the lifting and deformation functors.** For
+  `k[ε] = k[X]/(X²)`, `f ↦ (1 + εf)ρ̄` identifies `Z¹(G, ad ρ̄)` with `Lift_ρ̄(k[ε])`, strict
+  equivalence changes cocycles by coboundaries so that `Def_ρ̄(k[ε]) ≅ H¹(G, ad ρ̄)`, the stabiliser of
+  a framed lift is `1 + ε H⁰(G, ad ρ̄)`, and fixed determinant corresponds to trace-zero cocycles
+  modulo the boundary of the trace sequence: ArithmeticGaloisDuality §D8.1, *First-order Galois cocycle
+  comparison* and *Trace-zero adjoint duality without division by n*, and
+  SelmerIwasawaCohomology §2A.4, *Determinant tangent fibres* (Kisin, Lecture 1,
+  Lemma (1.3.1), p. 3; Gee, Exercise 3.11 and Corollary 3.12, p. 13). Applied to `Lift` and `Def`
+  of LocalGaloisDeformationRings §§F.1.1, F.1.3, it gives the framed tangent dimension
+  `h¹(G, ad ρ̄) + n² − h⁰(G, ad ρ̄)` whenever
+  the cohomology is finite-dimensional; that count is used in LocalGaloisDeformationRings
+  §§F.2.3, F.2.6 and Layer R04.3 here.
+- **Local cohomology at Taylor–Wiles places.** At a
+  rank-two Taylor–Wiles place `v ∤ p` with `Nv ≡ 1 (mod p)`, `p` odd and distinct residual Frobenius
+  eigenvalues, `h⁰(G_v, ad⁰) = h⁰(G_v, ad⁰(1)) = 1` and `h¹(G_v, ad⁰) = 2`, while the unramified `H¹`
+  is one-dimensional, spanned by the class in the diagonal direction. ArithmeticGaloisDuality R02.6,
+  *Local cohomology at a Taylor–Wiles prime* and *Odd-prime Taylor–Wiles auxiliary sets*, supply the
+  full and unramified dimensions under their stated global hypotheses. The individual-place
+  calculation uses KW final, Lemma 5.4 and its proof, p. 48: after splitting Frobenius, its action on
+  `ad⁰` has eigenvalues `α/β, 1, β/α`, with the `1`-eigenspace spanned by `diag(1, −1)`.
+  This diagonal class generates the unramified `H¹`; since `Nv ≡ 1 (mod p)`, the cyclotomic twist is
+  trivial and the same line gives `h⁰(G_v, ad⁰(1)) = 1`. Characteristic two uses 5.3–5.4 above.
+- **Existence of odd-prime Taylor–Wiles sets in the Khare–Wintenberger setting.** For `p` odd, `F`
+  totally real and unramified above `p`, `ρ̄` totally odd and absolutely irreducible on
+  `G_{F(ζ_p)}`, sets `Q_n` of size `h¹_{L^⊥}(S, (ad⁰)ˇ(1))` with `Nq ≡ 1 (mod pⁿ)`, distinct
+  eigenvalues and vanishing new dual Selmer group, with generator count `|Q_n| + |S| − 1`:
+  ArithmeticGaloisDuality R02.6, *Odd-prime Taylor–Wiles auxiliary sets* (KW final, Lemmas 5.2(1),
+  5.3 and Proposition 5.5, pp. 47–48). Target 5.7 applies it and adds Gee's convention.
+- **Existence of dyadic Taylor–Wiles sets.** For `p = 2`, `F` totally real and nonsolvable residual
+  image, sets `Q_n` with `|Q_n| = h¹(S, Ad) − 2`, the norm, eigenvalue and splitting conditions, the
+  `S`-split dimension formula and `G_n/2^{n−2}G_n ≅ (ℤ/2^{n−2})^t` with `t = 2 − |S| + |Q_n|`:
+  ArithmeticGaloisDuality R02.6, *Dyadic auxiliary primes and the cyclotomic residual* (KW final,
+  Lemma 5.10, pp. 50–53). Its Kummer-disjointness hypothesis is target 5.3; its ring-theoretic
+  counts are target 5.4.
+- **Strict conjugacy from traces, scalar centralizers and descent of coefficients.** For lifts with
+  absolutely irreducible reduction over a local ring, the image spans `Mₙ(A)` and the centralizer is
+  `A`; over a complete Noetherian local ring with finite residue field equal traces on a dense set
+  give strict conjugacy; and if all traces lie in a complete Noetherian local subring with the same
+  residue field, the lift is strictly conjugate into it: ArithmeticGaloisRepresentations §7.2 and
+  §5.10, and `IntegralHeckeAndGaloisDeterminants.coefficient_descent` (Kisin, Lecture 1,
+  Theorem (1.4.1), pp. 3–4; Gee, Lemma 3.7, pp. 12–13; CHT, Lemma 2.1.10, pp. 13–15).
+  LocalGaloisDeformationRings §F.2.7 supplies the consequence for universal rings.
+- **The correspondence between `𝒢ₙ`-valued lifts and CHT triples** (CHT, Lemma 2.1.1, p. 7):
+  ArithmeticGaloisRepresentations §7.4. Target 8.1 uses it for polarized deformation problems.
+
+Constructing automorphic forms, Hecke modules and patched complexes, and comparing them with the
+rings built here, belongs to GL2ModularityLifting, OrdinaryAutomorphicFormsAndModularityLifting and
+PotentialAutomorphyInfrastructure. Those consumers apply abstract patching to the finite-level inputs.
+The abstract classifying maps `R → T` are constructed in 6.7–6.8 from a supplied Hecke–Galois
+datum. Arithmetic realizations of that datum belong to those consumers; automorphy lifting and
+finiteness of deformation rings over `𝒪` belong there as well.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The library pin is `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
+
+`Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map` and `Matrix.GeneralLinearGroup.det`;
+continuity of matrix multiplication and of entrywise maps (`Continuous.matrix_mul`,
+`Continuous.matrix_map`); `MulAction.orbitRel` and its quotient; `IsLocalRing`,
+`IsLocalRing.maximalIdeal` and `IsLocalRing.ResidueField`; `IsArtinianRing`, `IsNoetherianRing`;
+`IsAdicComplete`; `MvPowerSeries` and `PowerSeries`; `Algebra.FormallySmooth`; `DualNumber`;
+`OpenSubgroup`, `ProfiniteGrp`, `ContinuousMonoidHom`; module bases, quotients and finite-rank
+formulas. A Mathlib carrier is only a carrier: none of the deformation theorems follows from a
+carrier's name.
+
+### From Tau Ceti
+
+The library pin is `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. These are library
+contracts; the subsequent roadmap contracts specify the mathematical interfaces consumed from their
+named sections.
+
+- `TauCeti.RepresentationTheory.CharacterTwist` supplies `Representation.charTwist` for a monoid
+  acting on a module over a commutative semiring: `g` acts by `χ(g) • ρ(g)`. Its API includes
+  `Representation.charTwist_one`, `Representation.charTwist_charTwist`,
+  `Representation.tprodEquivCharTwist` and, over a field,
+  `Representation.isIrreducible_charTwist_iff`. ArithmeticGaloisRepresentations §1.2 supplies
+  the continuous-representation packaging. Target 4.4 supplies the comparison with the matrix
+  adapter and its compatibility with deformation problems, determinants and representing rings.
+- `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree` supplies
+  `TauCeti.ContCohomology.Z1`, `B1` and `H1`. For a topological monoid acting continuously on a
+  topological additive group, `Z1` consists of continuous cocycles, `B1` is the range of the degree-zero
+  differential, and `B1_le_Z1` supplies the inclusion required for `H1 = Z1/B1`. Use the quotient
+  as an additive group; its pointwise quotient topology is not the intended topology of continuous
+  cohomology.
+- `TauCeti.Topology.Algebra.Group.Generation` supplies
+  `TauCeti.IsTopologicallyFinitelyGenerated`,
+  `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` and
+  `TauCeti.IsTopologicallyFinitelyGenerated.finite_monoidHom_isOpen_ker`. The open-subgroup statement
+  assumes a compact topological group; the finite-homomorphism statement assumes a topological group
+  with a finite topological generating set and a finite target group, and counts precisely the
+  homomorphisms whose kernels are open.
+- `TauCeti.Topology.Algebra.Group.Profinite.MaximalProP` supplies
+  `TauCeti.maximalProPQuotient`, its continuous surjective quotient map and its universal property
+  for continuous maps to pro-`p` groups. `TauCeti.Topology.Algebra.ContinuousZModDual` supplies
+  `TauCeti.continuousZModDual p G`, the additive form of continuous characters
+  `G → Multiplicative (ZMod p)`, with its `ZMod p`-module structure.
+- `TauCeti.Topology.Algebra.Group.Profinite.DualRank` supplies
+  `TauCeti.finite_continuousZModDual`: for prime `p`, the continuous dual of a topologically finitely
+  generated topological group is finite-dimensional. `TauCeti.Topology.Algebra.Group.Profinite.Rank`
+  supplies `TauCeti.topologicalGeneratorRankNat_le_of_openSubgroup`, the Schreier bound for an open
+  subgroup of a compact topologically finitely generated group.
+  `TauCeti.Topology.Algebra.Group.Profinite.ProP.DualRank` supplies
+  `TauCeti.IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`: for a compact totally
+  disconnected pro-`p` topological group and prime `p`, generator rank equals continuous dual rank
+  as a cardinal, without a finite-generation hypothesis.
+- `TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Basic` supplies
+  `TauCeti.DiagonalizableGroup.pointEquiv` and `TauCeti.DiagonalizableGroup.pointsMulEquiv`.
+  For a commutative base ring and an abelian character group `a`, they identify algebra maps
+  `𝒪[a] → A` with all characters `a → Aˣ`, and identify convolution with pointwise multiplication.
+  The identity-completed character functor of §4.5 is a further target.
+- `TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic` supplies
+  `TauCeti.completedGroupAlgebra 𝒪 Γ`, the inverse limit of `𝒪[Γ/U]` over open normal subgroups,
+  with its projections `proj`, their determining property `ext`, and the tautological group map
+  `of`. For profinite `Γ` and compact adic `𝒪`, use its inverse-limit topology. This is the carrier
+  denoted `𝒪⟦Γ⟧`; the universal character property is the deformation-theoretic target of
+  LocalGaloisDeformationRings §F.2.4.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+Layer 0: degree-`n` multiplicative polynomial laws on `A[G]`, Chenevier determinants and their
+characteristic coefficients. Layer 1: the Cayley–Hamilton ideal and quotient,
+`Determinant.exists_realization_of_henselian` (over a henselian local ring, a determinant whose
+reduction is that of an absolutely irreducible representation is the determinant of a representation
+`A[G] → M_d(A)`, unique up to conjugation; its proof passes through the Cayley–Hamilton quotient) and
+`coefficient_descent`. Continuous determinant deformation functors and their comparison
+with representation deformations are supplied by LocalGaloisDeformationRings
+§§F.1.9–F.1.10, F.2.8.
+
+### From TauCetiRoadmap.ClassFieldTheory, Chebotarev, LocalGaloisGroups and ModularCurves
+
+ClassFieldTheory Layer 5 also supplies `finite_H`: for a characteristic-zero nonarchimedean local
+field and any finite smooth discrete Galois module, cohomology in degrees zero through two is finite. In particular it
+applies to the trivial module `𝔽_p`, including residue characteristic different from `p`, and to
+every finite extension of the local field. The selection theorem 5.7 uses Chebotarev's density theorem
+and its discard of primes of higher residue degree; it does not develop a second density theory.
+Target 4.6 completes the affine quotients of `ModularCurves` 0C at the given local points; the
+quotient construction itself is not rebuilt.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations, ArithmeticGaloisDuality and SelmerIwasawaCohomology
+
+The declarations and targets listed under *Scope and ownership*, with these contracts:
+continuous representations of profinite groups on finite free modules over topological coefficient
+rings with their adjoints; the finite residual-image classification and the detecting elements used
+in prime selection, in the source-specific forms stated in 5.2; arithmetic finiteness, local and
+global duality, the Greenberg–Wiles formula, the framed and modified Selmer complexes of
+SelmerIwasawaCohomology §§2A.3–2A.4 with their exact differential and sign conventions,
+Euler characteristics, and the residual-image
+cohomology vanishing used in prime selection. The framed complexes are mapping fibres in the sense
+of SelmerIwasawaCohomology §2.21, *Selmer complex as a mapping fibre*; the kernel Selmer group
+is its §2.2, *Compact and rational Selmer kernel*.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+[SchemeAndStackFoundations §4.2](../SchemeAndStackFoundations/README.md#42-the-artinian-coefficient-category)
+constructs `ArtinLocalAlg 𝒪 k` and `CompleteLocalAlg 𝒪 k`, used here as `Art_𝒪` and `C_𝒪`, with
+local residue preserving morphisms, small extensions and fibre products.
+Its [§§4.3–4.4](../SchemeAndStackFoundations/README.md#44-versality-hulls-and-schlessingers-theorem)
+supply the set-valued Schlessinger criteria, hulls and pro-representability in the classical
+coefficient case (`𝒪` complete Noetherian local with residue `k`). Its §§0.16, 0.20 and
+[0.21](../SchemeAndStackFoundations/README.md#021-regular-maps-g-rings-j-2-rings-excellent-rings-and-schemes)
+supply catenarity, Nagata rings, excellence of complete Noetherian local rings and regularity of their completion maps,
+with preservation of reducedness and normality. LocalGaloisDeformationRings §§F.0.1–F.0.2
+supply the coefficient-product adapters and obstruction-compatible minimal presentations.
+
+The material of §§4.3–4.4 also has an independent formalization following the Stacks Project, in
+*AxiomMath Stacks* (see *References*): Schlessinger's conditions, hulls and the prorepresentability
+criterion (Stacks, Tag 06JM) in its
+[Schlessinger](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/Deformation/Schlessinger)
+folder, and the set-valued Rim–Schlessinger condition and deformation functors in its
+[RimSchlessinger](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/Deformation/RimSchlessinger)
+folder. It is prior art for those supplier sections, not an input here: this roadmap states no
+target at that level and applies the criteria only through §§4.3–4.4, in 3.4, 3.7, 4.6 and 8.4.
+
+### From TauCetiRoadmap.LocalGaloisDeformationRings
+
+Layer F supplies the generic deformation foundations at §§F.0.1–F.0.2, F.1.1–F.1.10,
+F.2.1–F.2.11, F.3.1–F.3.2 and F.4.12. For the common complete-local coproduct, relative presentation
+algebra and continuous framed matrix ring, Layer F in turn uses
+[DeformationAndDerivedPatchingAlgebra](../DeformationAndDerivedPatchingAlgebra/README.md),
+§1.12 and §§2.1–2.7. The coefficient products use the local topology and residue
+identifications of §F.0.1; §F.0.2 gives the conditional obstruction-compatible minimal
+presentation; §§F.2.3–F.2.4 give continuous framed representability; and §F.4.12 gives the
+finite-inertia model used in R04.6. Layers 1–3 and 6 and §§8.2–8.15, 8.17–8.18 supply the local
+rings named under *Scope and ownership*, with their tangent spaces, dimensions, nonemptiness and
+liftability. Both roadmaps use the same local-condition and framing conventions; this roadmap
+supplies their global assembly and restriction maps. General fixed-type quotients are
+LocalGaloisDeformationRings §2.9. The arithmetic hypotheses and local choices of each cited local
+target remain part of its input.
 
 ## References
 

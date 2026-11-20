@@ -1,188 +1,79 @@
 # Roadmap: p-adic differential equations, rigid cohomology and p-adic weights
 
 **Summary.** This roadmap builds the theory that leads from a linear differential equation near the
-boundary of a p-adic disc to finite-dimensional cohomology with Frobenius, traces and weights.
-Its local half starts from Laurent series converging on annuli: the Robba ring, its bounded and
-integral subrings, the Amice ring and the extended Robba ring, with their topologies, Frobenius
-lifts, Bézout property and closed ideals, and Monsky–Washnitzer dagger algebras with their
-Frobenius lifts. On these rings it develops differential modules (cyclic vectors, generic and
-subsidiary radii, Christol–Dwork, Dwork transfer, the variation of radii, the decomposition by
-radii and the differential Swan conductor), Frobenius modules (degree, slope, standard modules,
-Dieudonné–Manin over the extended Robba ring, Harder–Narasimhan filtrations, generic and special
-slopes), Kedlaya's slope filtration theorem and the p-adic local monodromy theorem with its
-logarithmic and finite-étale forms, Tsuzuki's finite monodromy theorem for unit-root modules,
-Matsuda's decomposition, the equality of irregularity and Swan conductor, and André's local
-monodromy group. Its global half builds frames, tubes, strict neighbourhoods and Berthelot's `j†`
-functor; convergent and overconvergent (F-)isocrystals with their independence of choices, the
-Dwork–Berthelot convergence theorem, the Katz–Crew unit-root correspondence and Étesse's descent;
-rigid cohomology with compact and closed supports, Frobenius, the Monsky–Washnitzer comparison,
-Gysin isomorphisms, dagger and logarithmic comparisons; Kedlaya's finiteness theorem, cohomological
-descent along alterations and proper hypercoverings, the trace map, Poincaré duality and the
-Künneth formula, the full faithfulness of restriction to convergent isocrystals, and semistable
-reduction. It ends with the Lefschetz trace formula and the rationality of `L`-functions of
-overconvergent F-isocrystals, the Christol–Mebkhout and Grothendieck–Ogg–Shafarevich formulas, the
-p-adic Fourier transform, Kedlaya's p-adic Weil II with its weight theory, the Dwork, Kummer and
-Kloosterman isocrystals, the rigid–crystalline comparison with coefficients, and the rationality,
-integrality and `ℓ`-independence of the Weil factors of smooth proper varieties over finite fields,
-with the denominator, crystalline-lattice and coefficient-congruence bounds underlying
-Kedlaya's and Tuitman's point-counting formulas. The end theorems are Kedlaya's
-slope filtration and p-adic local monodromy theorems, the finiteness and Poincaré duality of rigid
-cohomology with coefficients, p-adic Weil II, and the equality of crystalline, rigid and `ℓ`-adic
-Weil factors.
+boundary of a p-adic disc to finite-dimensional cohomology with Frobenius, traces and weights. Its
+local objects are modules with connection and Frobenius over the Robba ring. Its global objects are
+overconvergent F-isocrystals on varieties in characteristic `p` and their rigid cohomology. Unless a
+target says otherwise, `K` is a complete discretely valued field of characteristic 0 with
+uniformiser `π` and residue field `k` of characteristic `p`.
 
-The layers are:
+The Robba ring `R_K` consists of the Laurent series over `K` that converge on some open annulus
+`r < |t| < 1`. Given a Frobenius lift on `R_K`, a Frobenius module is a finite free module with a
+semilinear Frobenius whose linearisation is invertible; the rank-one module on which Frobenius
+multiplies a basis vector by `π^c` has slope `c`. Kedlaya's slope filtration theorem says every
+Frobenius module over `R_K` has a unique filtration by saturated Frobenius-stable submodules whose
+successive quotients are each pure of a single slope, the slopes strictly increasing. Each quotient
+descends, with the same slope, to the bounded Robba ring of series with bounded coefficients.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| RD.0 | Coefficient rings and analytic foundations | Laurent and Robba carriers, Frobenius lifts on the Robba ring and on dagger algebras, Kedlaya's analytic rings, the extended Robba ring, Bézout property and closed ideals, Arabia's controlled lifting |
-| RD.1 | Differential modules, radii and Frobenius slopes | cyclic vectors, generic radius, Christol–Dwork, Dwork transfer, variation of subsidiary radii, differential Swan conductor, Frobenius modules, Dieudonné–Manin over the extended Robba ring, Harder–Narasimhan slopes, `(φ,∇)`-modules, Robba residue duality |
-| RD.2 | Local monodromy and ramification | isoclinic descent, Kedlaya's slope filtration theorem, Tsuzuki's theorem, the p-adic local monodromy theorem and its logarithmic form, Matsuda's decomposition, `irregularity = Swan`, André's local monodromy group |
-| RD.3 | Frames, convergent and overconvergent coefficients | frames, tubes, strict neighbourhoods, `j†`, overconvergent isocrystals and F-isocrystals, independence of the frame, Dwork–Berthelot convergence, convergent F-isocrystals, Katz–Crew, the rigid-analytic Quillen–Suslin theorem |
-| RD.4 | Rigid cohomology, supports and comparison maps | rigid cohomology with compact and closed supports, Frobenius, the Monsky–Washnitzer comparison, Gysin isomorphisms, log rigid cohomology with proper support, dagger comparisons, the rigid–crystalline comparison map |
-| RD.5 | Finiteness, descent, duality and semistable reduction | finiteness on curves and in general, cohomological descent, the trace map, Poincaré duality, Künneth, full faithfulness, Étesse's descent, extension across the boundary, semistable reduction, relative convergent cohomology |
-| RD.6 | Traces, conductors, Fourier transform and weights | closed-point Frobenius, `L`-functions, Dwork operators, the Lefschetz trace formula, Euler–Poincaré and Grothendieck–Ogg–Shafarevich formulas, the Fourier transform, `ι`-weights and p-adic Weil II, Kloosterman isocrystals |
-| RD.7 | Coefficient comparisons and Weil factors | Frobenius on the rigid–crystalline comparison, Ogus's comparison with coefficients, weight separation, Weil factors and their `ℓ`-adic comparison, abelian varieties, denominator and coefficient-congruence bounds, Kloosterman Hodge–Newton bounds |
+A `(φ,∇)`-module is a Frobenius module with a compatible connection. The p-adic local monodromy
+theorem holds for any residue field `k` and any Frobenius lift. After base change to a finite cover
+of the annulus, given by a finite separable extension of `k((t))` (nearly finite separable when `k`
+is imperfect), every `(φ,∇)`-module over `R_K` acquires a filtration by `(φ,∇)`-submodules whose
+successive quotients are spanned by horizontal sections. The Frobenius structure cannot be dropped:
+the module `R_K·e` with `∇e = e dt` admits no such cover.
 
-The layer labels RD.0–RD.7 are the labels other roadmaps cite. Target `RD.k.n` belongs to layer
-RD.`k`, and its label orders it within the layer.
-Target RD.6.64 is now §RD.2.52.
+On a smooth affine variety, overconvergent F-isocrystals amount to `(φ,∇)`-modules over its dagger
+algebra, a ring of overconvergent functions. For `X` separated of finite type over `k` and `E` an
+overconvergent F-isocrystal on `X`, Kedlaya proved the rigid cohomology of `E`, with or without
+compact supports, is finite-dimensional over `K`. When `X` is smooth of pure dimension `d`, Poincaré
+duality pairs `Hⁱ_rig(X/K, E)` perfectly with `H^{2d−i}_{c,rig}(X/K, E^∨)`, with values in `K(−d)`
+and compatibly with Frobenius.
 
-## Scope and ownership
+Over a finite field `𝔽_q`, with `F` the linear `q`-power Frobenius, the rigid Lefschetz trace
+formula writes the `L`-function of `E` as an alternating product of the polynomials `det(1 − tF)` on
+compactly supported cohomology, so it is rational. Fix an embedding `ι : K^alg → ℂ`; a Frobenius
+eigenvalue `α` at a closed point of degree `d` has weight `w` when `|ι(α)| = q^(wd/2)`. Kedlaya's
+p-adic Weil II says that if the weights of `E` are at most `w`, differing from `w` by integers, then
+those on `Hⁱ_{c,rig}` are at most `w + i`; for `X` smooth and weights of `E` at least `w`, those on
+`Hⁱ_rig` are at least `w + i`. Both parts assume a reality condition on `E` that constant
+coefficients satisfy.
 
-**Scope.** The Robba-ring coefficient theory for general complete discretely
-valued coefficient fields `K` and general Frobenius lifts `σ` (any `q = p^a`, ramified `K`, residue
-fields that need not be perfect where a target allows it); the analytic theory of p-adic
-differential equations on discs and annuli; the slope and monodromy theory of `(φ,∇)`-modules;
-Berthelot's convergent and overconvergent coefficient categories; rigid cohomology with all its
-support variants and comparison maps; finiteness, duality, descent and semistable reduction for
-overconvergent F-isocrystals; the trace formula, `L`-functions and p-adic Weil II; and the
-comparisons that identify rigid, crystalline and `ℓ`-adic Weil factors over finite fields.
+For `X` smooth and proper over `𝔽_q`, the Weil factor `P_i(X, t) = det(1 − tF | Hⁱ_rig(X/K))` has
+integer coefficients and constant term 1. Its reciprocal roots are algebraic integers all of whose
+complex conjugates have absolute value `q^(i/2)`. It equals the crystalline factor and, for every
+prime `ℓ ≠ p`, the `ℓ`-adic one: for the curve `y² = x³ + x` over `𝔽_7`, all three give `1 + 7t²`.
 
-**What it takes from the libraries.** Mathlib supplies Laurent and Hahn series
-(`LaurentSeries`, `HahnSeries`, `LaurentSeries.hasseDeriv`), power series with their derivative
-and restricted-series predicates and Gauss norms (`PowerSeries.derivative`,
-`PowerSeries.IsRestricted`, `PowerSeries.gaussNorm`), derivations, Kähler
-differentials, smooth and étale algebras, Witt vectors with their Frobenius, the rank-one
-classification of isocrystals over an algebraically closed field (`WittVector.Isocrystal`,
-`isocrystal_classification`: only rank one, not Dieudonné–Manin), the reversed characteristic
-polynomial `Matrix.charpolyRev`, additive characters (`AddChar`), `WithSeminorms` and
-`IsUltrametricDist`, and stably free modules and unimodular vectors (`Module.IsStablyFree`,
-`Module.IsUnimodular`). Tau Ceti supplies restricted power series, Tate algebras in one and
-several variables with Weierstrass division and preparation, the Monsky–Washnitzer algebra
-(`TauCeti.Dagger.washnitzerAlgebra`), dagger algebras (`TauCeti.Dagger.IsDaggerAlgebra`), weak
-completions (`TauCeti.Dagger.weakCompletion`) and universally finite differentials
-(`TauCeti.Dagger.Omega`), comodule categories with their rigid and symmetric structures and
-Tannakian reconstruction from a Hopf algebra (`TauCeti.FGComoduleCat`,
-`TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`), Galois descent for semilinear
-representations, the genus, Riemann–Roch spaces and Weil differentials of function fields, the
-trace on short exact sequences (`LinearMap.trace_eq_add_of_exact`) and point counts and Frobenius
-traces of elliptic curves over finite fields (`WeierstrassCurve.frobeniusTrace`).
-Recognition of an abstract neutral Tannakian category is supplied by
-MotivesAndAlgebraicCycles §§6.1–6.3. Its application adapter here identifies the reconstructed
-category with Tau Ceti's finite comodules and preserves the specified fibre functor (§RD.2.52).
+A companion Lean file states results whose objects Mathlib and Tau Ceti already have. In one, a
+Frobenius lift on `K` extends to one on the weak completion of any smooth finitely generated
+`O_K`-algebra. Another is the rigid-analytic Quillen–Suslin theorem: over a complete field with a
+nontrivial nonarchimedean absolute value, every finite projective module over the Monsky–Washnitzer
+algebra `K⟨t₁, …, tₙ⟩†` is free.
 
-**What it takes from TauCetiRoadmap.** AdicSpaces for the analytic vocabulary; AlgebraicCurves
-Layer 9 for the comparison of Kähler and Weil differentials with residues; EllipticCurves Layer 3
-for the criterion "supersingular if and only if `p` divides the trace"; JacobianChallenge Layer F
-for Jacobians and the Abel–Jacobi map; NewtonPolygons §§2.1, 3.2–3.3 for coefficient polygons,
-polynomial products and root multisets; ReductiveGroups Layers 1–3 for Lie algebras of algebraic
-groups; LocalFieldsRamification Layers 3–4 for finite and absolute ramification over every
-perfect residue field, Herbrand functions, subgroup and quotient compatibility and Hasse–Arf,
-using the pinned Tau Ceti Herbrand and upper-numbering API on the finite-residue-field domain; EtaleCohomologyFoundations §F.0.2 for étale fundamental groups; PurityOfBranchLocus §§2.1–2.2
-for purity of the branch locus (§RD.3.43a); and
-InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 for the constant-sheaf point-count
-trace formula for all finite extensions, with the determinant expression supplied by
-DeligneWeightsAndPurity §0.10. The
-last is the only `ℓ`-adic geometric input, and it enters only the comparison of rigid and `ℓ`-adic Weil factors
-(§RD.7.7 and §RD.7.8).
+NoncommutativeAndEquivariantIwasawa provides the Robba ring, its slope theory, and the local
+monodromy theorem for `K` finite over `ℚ_p` and an overconvergent lift; this roadmap extends that
+theorem to general `K` and imperfect residue fields. CrystallineCohomology provides
+constant-coefficient rigid cohomology of smooth schemes, which this roadmap extends to
+overconvergent coefficients. DeligneWeightsAndPurity provides `ι`-weights and the `ℓ`-adic purity
+used to compare Weil factors. ColemanIntegration builds on the Frobenius lifts on dagger algebras
+and on finiteness for curves.
 
-**What it takes from other roadmaps.** All of the following are roadmaps built before this one.
-- MotivesAndAlgebraicCycles §§6.1–6.3: neutral Tannaka reconstruction over any field,
- the marked symmetric monoidal fibre comparison and the tensor-generator finite-type criterion.
- §RD.2.52 applies these results on Tau Ceti's finite-comodule carrier; the isocrystal
- categories and their monodromy groups are the applications here.
-- AdicSpacesPartIV: dagger algebras, weak completions, Monsky–Washnitzer algebras, dagger spaces
- and their de Rham complexes (Layer F1); the algebras and the differentials have the Tau Ceti
- carriers named above; AdicSpacesPartII R0 supplies affinoid geometry;
- AdicSpacesPartIII R2.3–R2.4 supplies Raynaud generic fibres, tubes and specialisation, and
- R3.2, R3.4 and R3.7 supply Kiehl's theorems, quasi-Stein spaces and proper GAGA. This roadmap
- builds Robba coefficients and Berthelot's coefficient and cohomology theory on these objects. A
- comparison between a partially proper generic-fibre dagger space and its rigid space (AdicSpacesPartIV F1.9) is
- not the comparison with Berthelot's rigid cohomology of the special fibre, which is §RD.4.55.
-- NoncommutativeAndEquivariantIwasawa §F.6 stages 1–2 owns the shared carriers over complete
- discretely valued fields of characteristic 0 with arbitrary residue field: the Robba ring, its
- bounded and integral subrings and the completed Amice field, the analytic Frobenius extension, the
- Cohen-ring étale equivalence, slope theory with the adapter `deg_w = e_C·deg`, and, for finite
- coefficient fields, Frobenius-fixed bases, finite-level descent and quasi-unipotent, finite-étale
- and logarithmic local monodromy. Layers RD.0–RD.2 consume these on that domain and add carriers
- over arbitrary complete nonarchimedean fields, the Fontaine–Katz equivalence, and the monodromy
- theorems over general coefficient fields and imperfect residue fields with nearly finite separable
- covers; every target that restricts to the supplier says so. FiniteFlatGroupsAndIntegralPadicHodgeTheory
- §§R07.4.7–R07.4.8 is a sibling consumer of the same objects in the perfect-residue case
- `W(k)[1/p], q = p`, `t ↦ t^p`; its §§R07.3.2–R07.3.3 (weak admissibility, Newton above Hodge) are
- used in RD.7.22.
-- RestrictedPowerSeries §§1.1–1.2, 5.1 and 7.1 supplies closed/open disc coefficients and simultaneous classical distinguished coordinates, and its §1.1, §§4.2–4.4 and §5.4 supply the multiplicative Gauss norm, Weierstrass division and preparation at every positive radius, and noetherianity at polyradii in `√|K^×|` used by RD.3.27; RigidAnalyticGeometry §1.2 supplies classical affinoid normalization. RD.0.2 identifies its disc subcases with the supplied carriers and topologies; RD.3.26 supplies the additional compatible dagger-coordinate adapter.
-- DerivedDeRhamCohomology §PD.6: divided powers, relative PD envelopes and completed envelopes.
-- CongruenceSpectralGap §§4.2a–4.2b: the coefficient-generic scalar hyper-Kloosterman sum, its
- eliminated-variable comparison and its numerical Deligne bound in every rank over every finite
- field. The all-prime, all-positive-rank rigid Kloosterman construction, its relative and fibre comparisons, connection, Frobenius, trace and purity (§RD.6.94–§RD.6.97) are owned here. KloostermanMomentsAndPotentialAutomorphy extends this coefficient to moment motives and potential automorphy; KloostermanSheavesAndBesselIsocrystals extends it to reductive-group-valued coefficients. Those extensions consume this rigid construction.
-- CrystallineCohomology: crystals, isocrystals and F-crystals,
- crystalline cohomology and its Frobenius, perfectness, Künneth, duality and the trace, logarithmic
- structures, log crystalline cohomology, Hyodo–Kato cohomology and log rigid Hyodo–Kato cohomology
- (§CR.6.5). It also owns constant-coefficient rigid cohomology of smooth finite-type `k`-schemes
- (§CR.6.4 *Rigid cohomology of smooth strata*: dagger frames, frame independence, finiteness,
- Frobenius bijectivity over perfect `k` and the proper smooth comparison with rational crystalline
- cohomology). Berthelot's construction here (§§RD.4.8–RD.4.10) extends it to separated
- finite-type schemes and overconvergent coefficients, and §RD.4.24 identifies the two on smooth
- schemes with constant coefficients; §RD.4.38 is its proper smooth comparison on that
- identification, and §§RD.5.66, RD.5.77 and RD.6.14 extend its finiteness and Frobenius
- bijectivity to coefficients and supports. The analytic convergent coefficient category and its convergence condition are §RD.3.34:
- a topologically quasi-nilpotent connection is not automatically a convergent isocrystal. CR.1.2 supplies the general quasi-coherent crystal carrier and pullback; its named `FCrystal` contract is finite locally free with p-Frobenius. The coherent finite-type, ramified-base `F^a` adapter and two-sided isogeny condition used here are §RD.3.34a, as full subcategories and additional structure on that same crystal carrier.
-- LocallyAnalyticDistributions: nonarchimedean locally convex spaces, inductive and projective
- limits (Layer 0) and the Hahn–Banach theorem (§0.2). CompactOperators §§1.2–1.5
- supplies Fredholm determinants on Banach and (Pr) spaces. The duality theory used for strict maps (Banach–Steinhaus, the bipolar theorem, Mackey,
- compact-type duality) and the trace theory on LF spaces are targets here (§RD.5.40, §RD.6.5).
-- SchemeAndStackFoundations: henselian pairs and smooth lifting (§0.14), coherent
- duality (§§2.19–2.20), Chow's lemma, modifications, flattening, Grothendieck algebraisation and de Jong's
- alteration theorem (§§4.10–4.19).
-- EnhancedDerivedSheaves: derived pushforward and adjunctions (E1), hypercover descent (E2.6),
- derived inverse limits and homological algebra of diagrams (E1–E3).
-- ArithmeticGaloisRepresentations: representation break decompositions, Swan and Artin conductors and their consequences over complete discretely valued fields with perfect, possibly infinite, residue fields (Layer 3), monodromy filtrations of tensor products (§2.6), and Tate
- modules of abelian varieties (Layer 6). §RD.2.45 extends the coefficient interface to characteristic-zero p-adic coefficients under an explicit finite-wild-image hypothesis.
-- DeligneWeightsAndPurity: Weil numbers, `ι`-weights of endomorphisms, characteristic power series,
- purity under extensions and twists (Layer 0), point counts of abelian varieties (Layer 1), the canonical integral finite-field zeta series and its elementary identities (§1.10),
- positive power series (§2.7), the abstract rational-series/Fatou and weight-separated degree-factor extraction API (§4.4), and Weil purity of smooth projective varieties (§§4.3, 7.15). The extraction interface of §4.4 uses finite-dimensional ℚ_ℓ-Frobenius modules. RD.7.4 proves the local Fatou theorem at every prime, and RD.7.5 provides the coefficient descent and companion-matrix adapter for rigid factor families over other characteristic-zero fields; the global integral numerator/denominator theorem and degree extraction remain with that supplier.
-- InverseGaloisAndArithmeticFundamentalGroups (local systems §IG.0.3, tame fundamental groups of curves
- §IG.1.2, with EtaleCohomologyFoundations §§F.0.2, F.0.A2 for the general fundamental group and arithmetic sequence), LefschetzPencilsAndVanishingCycles (monodromy filtration, §1.3),
- AbelianSchemesAndArithmeticModuli (Tate modules and characteristic polynomials, §§A5.7, A6.11),
- PadicPeriodRings (period rings and the functors `D_cris, D_st, D_dR`,
- §§4.1–4.3), ModularCurvesPartII (integral curves, Hodge line and cusp charts, Layers 2–5 and 7; Igusa components, §11.1), ClassicalArithmeticCompletion (Kronecker's
- Hankel criterion, §6.44), AdicCoefficientsAndComparisons (Nagata compactification, §L2),
- ClassicalAdicEtaleCohomology (quasi-étale specialisation, §§4.1–4.2), AdicEtaleGeometry (Elkik's
- approximation theorem, §A1.0.4) and ReductiveGroupsPartII (Lang's theorem, §RG2.3.7).
+The eight layers, described in the next section, run from coefficient rings to Weil factors.
 
-The shared fixed-integral-weight overconvergent form spaces and their full-level Pan adapter are §RD.4.60(a). Their downstream weight-family refinements use the same section spaces; compact operators and classicality remain with the family development.
+## How to read the build
 
-**Shared formal differential theory.** FormalConnectionsOpers §6.2 owns the cyclic-vector theorem over differential fields of characteristic zero with nonzero derivation (`exists_cyclicVector`); this roadmap applies it in §§RD.1.7, RD.1.10, RD.1.52 and RD.6.52a. This roadmap owns Katz's explicit candidates over differential rings, with their local cyclicity (§§RD.1.3–RD.1.5; FormalConnectionsOpers §6.2 states the explicit form over fields only), and the finite-ramification formal normal forms, slopes and descent over `F((t))` (§RD.6.52a). FormalLaurentPuiseux owns the scalar Laurent/Puiseux fields and formal calculus. The flag/oper equivalence and the oper lattice estimates belong to FormalConnectionsOpers; nothing else of the oper development is used here.
-
-**Projective modules over polynomial rings.** This roadmap owns the algebra to which the
-rigid-analytic Quillen–Suslin theorem §RD.3.27 reduces: finite free resolutions with two out of
-three, stable freeness of projectives, base change and Serre's theorem over `R[t]` (§RD.0.55), and
-unimodular vectors over polynomial rings with the unimodular extension property (§RD.0.56). Both
-are stated over arbitrary commutative rings, with the noetherian and integral-domain hypotheses of
-Lang's Theorems XXI.2.8 and XXI.3.4, on Mathlib's `Module.IsStablyFree`, `Module.IsUnimodular`
-and `Polynomial`.
-
-**What builds on it.** Coleman integration uses the dagger Frobenius, the Monsky–Washnitzer
-comparison for affine curves, finiteness and the weights of `H¹` (Layers RD.0, RD.4–RD.6). The
-p-adic Hodge theory roadmaps use the topologies on the Robba ring and the logarithmic form of the
-local monodromy theorem; their identification of Berger's rings through the field of norms, and
-the passage from de Rham to potentially semistable representations, belong to them. Ordinary-locus
-and Igusa cohomology in automorphic Galois representations use the coefficient-specific dagger and
-log comparisons of Layer RD.4 and the finiteness and weights of Layers RD.5–RD.6. The comparison
-roadmaps (`C_st` and the semistable comparison) use the Kloosterman realisation §RD.7.21, which is
-stated here with those comparison isomorphisms as hypotheses. The Weil conjectures and point-counting
-roadmaps use the Weil factors of Layer RD.7.
+Layer RD.0 is analytic commutative algebra: coefficient rings, their topologies and Frobenius
+lifts, and dagger algebras with controlled lifting and Frobenius homotopies. Layer RD.1 develops
+differential modules and Frobenius modules separately over these rings, and Layer RD.2 combines
+them into the slope filtration and local monodromy theorems, ending with the comparison of
+differential and ramification breaks. Layer RD.3 globalises: frames, tubes and the coefficient
+categories; it also contains the global slope results, which need its convergent category. Layer
+RD.4 defines rigid cohomology with supports and its comparison maps, including the constant
+rigid–crystalline comparison map needed by the trace in Layer RD.5. Layer RD.5 proves finiteness,
+descent, duality, full faithfulness and semistable reduction, Layer RD.6 the trace formula and
+p-adic Weil II, and Layer RD.7 the comparisons of Weil factors and their applications. The *Needs* clauses determine the construction order. Each target states its hypotheses, gives a proof
+sketch with source locators, lists what it *Needs* (earlier targets, library declarations and
+sections of other roadmaps), and closes with **Checks**: computations, degenerate cases,
+comparisons with library notions and non-examples that a wrong formalisation would fail.
 
 ## Conventions
 
@@ -256,451 +147,6 @@ geometric Frobenius on étale `H¹` is the transpose of arithmetic Frobenius on 
 Frobenius matrix records the image of each basis vector in its row, so its a-fold twisted product
 is `F^(σ^(a−1)) ⋯ F^σ F`; the column convention reverses the order, which changes characteristic
 polynomials for `a ≥ 3`.
-
-## How to read the build
-
-Layer RD.0 is analytic commutative algebra: coefficient rings, their topologies and Frobenius
-lifts, and dagger algebras with controlled lifting and Frobenius homotopies. Layer RD.1 develops
-differential modules and Frobenius modules separately over these rings, and Layer RD.2 combines
-them into the slope filtration and local monodromy theorems, ending with the comparison of
-differential and ramification breaks. Layer RD.3 globalises: frames, tubes and the coefficient
-categories; it also contains the global slope results, which need its convergent category. Layer
-RD.4 defines rigid cohomology with supports and its comparison maps, including the constant
-rigid–crystalline comparison map needed by the trace in Layer RD.5. Layer RD.5 proves finiteness,
-descent, duality, full faithfulness and semistable reduction, Layer RD.6 the trace formula and
-p-adic Weil II, and Layer RD.7 the comparisons of Weil factors and their applications. The *Needs* clauses determine the construction order. Each target states its hypotheses, gives a proof
-sketch with source locators, lists what it *Needs* (earlier targets, library declarations and
-sections of other roadmaps), and closes with **Checks**: computations, degenerate cases,
-comparisons with library notions and non-examples that a wrong formalisation would fail.
-
-## Exact supplier contracts
-
-Each item below is used as stated; the targets that use it are listed after it.
-
-### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
-
-- `PowerSeries.IsRestricted` and `PowerSeries.isRestricted_iff'`: radius-weighted coefficient decay, used in RD.3.8 through `PowerSeries.mk`; radius 1 gives closed-disc coefficients.
-- `StrongDual` and `Mathlib.Topology.Algebra.Module.Spaces.ContinuousLinearMap`: continuous linear functionals with uniform convergence on von Neumann bounded sets, used in RD.5.41.
-- `AddChar`: Additive characters `A → M^×` as a structure, with the group structure used for `ψ_π`. Used in RD.6.46.
-- `AddChar.sum_eq_zero_of_ne_one`: The sum of a nontrivial additive character over a finite group vanishes. Used in RD.6.46.
-- `AddChar.zmodChar`: The additive character of ZMod `n` attached to an element `ζ` with `ζ^n = 1`. Used in RD.6.42, RD.6.46.
-- `AddValuation`: Additive valuations `R → Γ₀` (used for `v_ℓ` and for `w`). Used in RD.0.6.
-- `AlgHom.IsArithFrobAt`: For `φ : S →ₐ[R] S` and prime ideal `Q`, the congruence `φ x − x^(Nat.card (R / comap Q)) ∈ Q`. Interpret this exponent as `q` only after identifying the quotient with a finite field of cardinality `q`; it is not a general Frobenius-lift carrier. Used in RD.0.42.
-- `Algebra.Etale`: Étale algebras (formally étale and of finite presentation). Used in RD.0.39, RD.2.11, RD.2.18, RD.3.39.
-- `Algebra.FormallyEtale`: Formally étale algebras, defined by the vanishing of `Ω[A⁄R]` and `H¹` of the naive cotangent complex; `Algebra.FormallyEtale.iff_comp_bijective` gives the unique lifting along square-zero (hence nilpotent) thickenings, from which an étale map that is an isomorphism modulo a nilpotent ideal is an isomorphism. Used in RD.3.9.
-- `Algebra.FormallySmooth.exists_lift`: An algebra map into `B/I` lifts when `I` is nilpotent; this does not lift modulo an arbitrary ideal. Used in RD.0.39, RD.0.41.
-- `Algebra.IsSeparable`: Separable algebraic extensions. Used in RD.2.11.
-- `Algebra.Smooth`: Formally smooth, finitely presented algebras. Used in RD.0.39, RD.0.41, RD.0.42.
-- `Algebra.trace`: The trace of a finite free algebra, used for `Tr_{𝔽_{q'}/𝔽_p}`. Used in RD.0.51, RD.4.2, RD.6.46.
-- `AlgebraicGeometry.Etale`: Étale morphisms of schemes (the class AlgebraicGeometry.Etale) and the category X.Etale of schemes étale over `X`; descent statements are not part of this file. Used in RD.3.48, RD.5.8c.
-- `AlgebraicGeometry.IsClosedImmersion`: Closed immersions of schemes. Used in RD.3.1, RD.5.5.
-- `AlgebraicGeometry.IsOpenImmersion`: Open immersions of schemes. Used in RD.3.1.
-- `AlgebraicGeometry.IsProper`: Proper morphisms of schemes (separated, universally closed, locally of finite type). Used in RD.3.1, RD.3.11, RD.3.23, RD.3.24.
-- `AlgebraicGeometry.IsSeparated`: Separated morphisms of schemes. Used in RD.3.1, RD.3.24, RD.4.10, RD.5.6, RD.5.7.
-- `AlgebraicGeometry.LocallyOfFiniteType`: Morphisms locally of finite type. Used in RD.3.24, RD.4.10, RD.5.7.
-- `AlgebraicGeometry.Scheme`: Schemes, the carriers of the varieties in Kedlaya's projection theorem. Used in RD.3.1, RD.3.2, RD.5.6, RD.5.7.
-- `AlgebraicGeometry.Smooth`: Smooth morphisms of schemes. Used in RD.3.1, RD.5.7.
-- `ArithmeticFunction.moebius` and `ArithmeticFunction.sum_eq_iff_sum_mul_moebius_eq`: the Möbius function and Möbius inversion of a divisor sum, for the Euler product of the Artin–Hasse series. Used in RD.1.63.
-- `CategoryTheory.Abelian.isIso_of_epi_of_isIso_of_isIso_of_mono`: The five lemma in an abelian category. Used in RD.5.54.
-- `CategoryTheory.Abelian.mono_of_epi_of_mono_of_mono`: The mono half of the four lemma. Used in RD.5.54.
-- `CategoryTheory.Equivalence`: Equivalences of categories. Used in RD.2.16.
-- `CategoryTheory.Functor.Faithful`: Faithful functors. Used in RD.5.8.
-- `CategoryTheory.Functor.Full`: Full functors. Used in RD.5.8.
-- `CategoryTheory.MonoidalCategory`: Monoidal categories, the tensor structure of the coefficient categories. Used in RD.2.52.
-- `CategoryTheory.Pretriangulated`: Pretriangulated categories: distinguished triangles for the excision and localisation triangles. Used in RD.4.19.
-- `CategoryTheory.RightRigidCategory`: Right rigid monoidal categories (duals), part of the Tannakian hypotheses. Used in RD.2.52.
-- `CategoryTheory.Sheaf`: Sheaves on a site with values in a category; the overconvergent site is a site and its modules are sheaves on it. Used in RD.4.5, RD.5.68.
-- `CategoryTheory.ShortComplex.SnakeInput`: The snake lemma, for the six-term sequence of generic pushforwards. Used in RD.5.50.
-- `CochainComplex`: Cochain complexes (de Rham complexes). Used in RD.4.1.
-- `Derivation`: Constant-linear derivation with Leibniz rule; a connection is linear over constants, not over its differential field. Used in RD.0.36, RD.1.1, RD.1.2, RD.1.3, RD.3.28.
-- `DerivedCategory`: The derived category of an abelian category, assuming HasDerivedCategory; the homotopy localization and triangle machinery are imported, not new rigid-cohomology carriers. Used in RD.4.5, RD.4.10, RD.4.12, RD.4.39, RD.4.46.
-- `Differential`: A commutative ring with a chosen derivation Derivation `ℤ R R`. Used in RD.1.1.
-- `DiscreteConvolution.ringConvolution`: A total tsum convolution operation on coefficient functions, and addRingConvolution via `to_additive`. Summability hypotheses are required for associativity and analytic closure; this definition alone supplies no ring structure on arbitrary Laurent families or Robba germs. Used in RD.0.1.
-- `ExteriorAlgebra.exteriorPower`: The `n`-th exterior power ⋀`[R]^n M` (used for `deg M = deg ∧^n M`). Used in RD.1.25.
-- `FDRep`: Finitely generated representations of a monoid over a ring, hence finite-dimensional representations over a field `K` (`Mathlib/RepresentationTheory/FDRep.lean`, definition of `FDRep`). Over `K` the category is rigid when the acting monoid is a group `G`; no finiteness of `G` is required (`Mathlib/CategoryTheory/Action/Monoidal.lean`, rigid instances with `[Group H]` and `Action.rightDual_ρ`). Used in RD.2.52. A one-dimensional group character has dual action `χ(g)⁻¹`, so evaluation has multiplier `χ(g)χ(g)⁻¹ = 1`; a free-monoid generator acting by zero instead forces equivariant evaluation to be zero and violates the triangle identity `0 ≠ id_K`.
-- `Field.absoluteGaloisGroup`: The absolute Galois group `Aut(AlgebraicClosure K / K)` with its profinite topology; restriction identifies it with `Gal(F^sep/F)`, the form used here. Used in RD.2.18, RD.2.24.
-- `FiniteDimensional`: Finite-dimensional vector spaces (the finiteness conclusions and near-isomorphisms). Used in RD.5.23, RD.5.51.
-- `HahnSeries`: Hahn (generalised power) series with well-founded support. Used in RD.5.2.
-- `HenselianLocalRing`: Henselian local rings: simple roots of monic polynomials over the residue field lift. Used in RD.0.8, RD.0.26, RD.2.11, RD.2.18.
-- `HenselianRing`: Henselian pairs `(R, I): I` in the Jacobson radical and simple roots modulo `I` lift. Used in RD.0.26.
-- `HomologicalComplex.homology`: Homology of a complex: the cohomology of de Rham complexes. Used in RD.4.1, RD.5.53.
-- `IsAlgClosed`: Algebraically closed fields. Used in RD.0.51, RD.1.32, RD.1.60.
-- `IsAlgClosed.exists_pow_nat_eq`: In an algebraically closed field every element has an `n`-th root for `n > 0`. Used in RD.0.33.
-- `IsAlgClosed.of_denseRange`: A complete nonarchimedean normed field of characteristic zero with a dense algebraically closed subfield is algebraically closed (CharZero hypothesis; proof via Krasner's lemma). Used in RD.0.33.
-- `IsAlgClosed.of_exists_root`: A field in which every monic irreducible polynomial has a root is algebraically closed. Used in RD.0.33.
-- `IsBezout`: The existing class saying every finitely generated ideal is principal. Used in RD.0.18, RD.0.24, RD.0.29, RD.0.30.
-- `IsDiscreteValuationRing`: Discrete valuation rings: local PIDs that are not fields. Used in RD.0.8, RD.0.26.
-- `Function.Exact`: Exactness `range f = ker g` of a pair of maps; with `f` injective and `g` surjective, a short exact sequence. Used in RD.0.55.
-- `IsGalois`: Galois field extensions (separable and normal). Used in RD.2.11, RD.2.18.
-- `IsGalois.mem_range_algebraMap_iff_fixed`: For a finite Galois extension `E/F`, an element of `E` lies in `F` exactly when every automorphism in `Gal(E/F)` fixes it. Used in RD.7.5.
-- `IsIntegrallyClosed.eq_map_mul_C_of_dvd`: Gauss's lemma: over an integrally closed domain `R` with fraction field `K`, a divisor in `K[X]` of a monic polynomial over `R` is, after normalising its leading coefficient, the image of a polynomial over `R`. Used in RD.7.5.
-- `IsNilpotent`: Nilpotent elements (the residue of a unipotent `∇`-module). Used in RD.2.16.
-- `IsNoetherianRing`: Noetherian rings (dagger algebras, Lemma 7.3.4). Used in RD.0.55, RD.5.51.
-- `IsPrimitiveRoot`: Primitive roots of unity, for `ζ_π = θ(1)`. Used in RD.6.46.
-- `IsSMulRegular`: Elements acting injectively on a module (nonzerodivisors). Used in RD.0.55.
-- `IsPrincipalIdealRing`: Rings all of whose ideals are principal. Used in RD.0.14, RD.3.27.
-- `LieModule.isNilpotent_derivedSeries_of_traceForm_eq_zero`: Cartan's criterion: if the trace form of a finite free representation `M` vanishes, then ⁅`L, L`⁆ acts nilpotently on `M` (characteristic zero domain). Used in RD.6.72.
-- `LieModule.isNilpotent_iff_forall`: Engel's theorem: a Lie module is nilpotent iff every element acts nilpotently (`L` noetherian). Used in RD.6.72.
-- `LieModule.traceForm`: The trace form `(x, y) ↦ Tr(ρ(x)ρ(y))` of a finite free representation. Used in RD.6.72.
-- `LinearMap`: Bundled linear and semilinear maps, without an analytic convergence or connection structure. Used in RD.1.3.
-- `LinearMap.IsPerfPair`: Perfect pairings (bijective in both arguments): the form of Poincaré duality. Used in RD.5.89.
-- `LinearMap.index`: The `index dim ker f − dim coker f` of a linear map (a junk value unless kernel and cokernel are finite dimensional). Used in RD.5.23, RD.5.32.
-- `LinearMap.index_comp`: Additivity of the index under composition of maps with finite-dimensional kernels and cokernels over a division ring. Used in RD.5.23, RD.5.32.
-- `LinearMap.charpoly`: Characteristic polynomial of an endomorphism of a finite free module (Frobenius on cohomology). Used in RD.4.17, RD.6.2, RD.6.4.
-- `LinearMap.ker`: The kernel submodule of a (semi)linear map; the light support-section illustration uses this existing carrier. Used in RD.4.42, RD.5.23.
-- `LinearMap.range`: The image submodule of a linear map, used for the theta quotient. Used in RD.4.60.
-- `LinearMap.trace`: The trace of an endomorphism of a finite free module, used on finite-dimensional cohomology. Used in RD.6.5, RD.6.15, RD.6.16.
-- `Matrix.charpolyRev`: The reverse characteristic polynomial `det(1 − X·M)` of a square matrix; the convention of the Weil factors and of Tuitman's `χ(T)`. Used in RD.6.2, RD.7.18.
-- `Matrix.GeneralLinearGroup`: Invertible square matrices `GL_n(R)`, acting on vectors by `Matrix.mulVec`. Used in RD.0.56.
-- `Matrix.det`: Determinant of a finite square matrix over a commutative ring. Used in RD.1.4, RD.1.25.
-- `Matrix.reverse_charpoly`: The reverse of the characteristic polynomial equals charpolyRev. Used in RD.7.18.
-- `Module.Basis`: A basis Module.Basis `ι R M`, indexed by an arbitrary type `ι` and represented by a linear equivalence `M ≃ₗ[R] (ι →₀ R)`; used here with `ι = Fin n`. Used in RD.0.47, RD.0.48, RD.1.3.
-- `Module.Basis.equivFunL`: A finite basis gives a continuous linear equivalence with its coordinate space, over a complete nontrivially normed field and a Hausdorff topological vector space. Used in RD.0.17.
-- `Module.Dual`: The algebraic dual `V →ₗ[K] K`. Supplies finite-dimensional coefficient duals only; continuous strong duals and their topology in §RD.5.41 are separate targets, not this abbreviation. Used in RD.4.17, RD.5.41.
-- `Module.FaithfullyFlat`: Faithfully flat modules. Used in RD.0.32.
-- `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`: Over a Bézout domain a module is flat iff it is torsion-free. Used in RD.0.30; this criterion is consumed without a new flatness target.
-- `Module.Finite`: Finitely generated modules. Used in RD.0.55, RD.0.56.
-- `Module.Flat`: Flat modules, for base change of finite free resolutions. Used in RD.0.55.
-- `Module.Free`: Free modules (existence of a basis). Used in RD.0.30, RD.0.55, RD.0.56, RD.3.27.
-- `Module.IsStablyFree`: `M × N` is free for some finite free `N`; with `Module.Finite` these are the stably free modules of Lang, Chapter XXI. Used in RD.0.55, RD.0.56.
-- `Module.IsUnimodular`: Some linear functional takes the value 1 at `v`; on `Fin n → R` this says the entries generate the unit ideal. Used in RD.0.56.
-- `Module.Projective`: Projective modules. Used in RD.0.30, RD.0.55, RD.3.27.
-- `Nat.choose`: Binomial coefficients. Used in RD.6.36.
-- `Padic`: The p-adic numbers `ℚ_[p]` with their norm (coefficient growth of the Liouville sequence). Used in RD.3.52.
-- `PadicInt`: The p-adic integers `ℤ_[p]` as the elements of `ℚ_[p]` of norm at most 1 (exponents of Kummer isocrystals). Used in RD.3.51, RD.3.52.
-- `PadicInt.instBinomialRing`: `ℤ_[p]` is a binomial ring, so `Ring.choose a n` lies in `ℤ_[p]` for `a ∈ ℤ_[p]`; Mathlib proves it by density of `ℕ` (`PadicInt.denseRange_natCast`). Used in RD.1.63.
-- `PerfectClosure`. Used in RD.0.51.
-- `PerfectField`: Perfect fields (every irreducible polynomial is separable). Algebraically closed fields are perfect by the instance IsAlgClosed.perfectField, which lives in Mathlib/FieldTheory/IsAlgClosed/Basic.lean. Used in RD.0.33.
-- `Polynomial`: Polynomials (Lemma 5.2.7; finite free resolutions and unimodular vectors over `R[t]`). Used in RD.0.55, RD.0.56, RD.5.17, RD.7.13.
-- `GaloisField`, `FractionRing`, `WittVector.constantCoeff`, `Polynomial.derivative` and `Nat.log`: the field `𝔽_{p^n}`, the fraction field `Q_q` of `Z_q = W(𝔽_q)`, the reduction `W(𝔽_q) → 𝔽_q` (zeroth Witt coordinate), the formal derivative and the floor logarithm `⌊log_p N⌋`, in the polynomial form of the hyperelliptic denominator bound. Used in RD.7.13.
-- `Polynomial.Monic`: Polynomials with leading coefficient 1. Used in RD.0.56.
-- `Polynomial.Splits`. Used in RD.1.60.
-- `Polynomial.dvd_iff_isRoot`: `X−C(a)` divides a polynomial iff evaluation at a is zero, over a commutative ring. Used in RD.0.43.
-- `Polynomial.evalRingHom`: Evaluation at a ring element is a ring homomorphism over a commutative semiring. Used in RD.0.43.
-- `Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt`: Continuity of roots: if monic `f, g` of equal degree have close coefficients and `g` splits in an extension, every root of `f` is close to a root of `g`; no separability or characteristic hypothesis. Used in RD.0.33.
-- `Polynomial.exists_monic_and_natDegree_eq_and_norm_map_algebraMap_coeff_sub_lt`: For a dense subfield `K` of a normed field `L`, every monic polynomial over `L` is approximated coefficientwise by a monic polynomial over `K` of the same degree. Used in RD.0.33.
-- `Polynomial.reverse`: Reversed polynomials, for `det(1 − tF)` as the reverse of the characteristic polynomial. Used in RD.6.89.
-- `Polynomial.roots`: Multiset of roots of a polynomial with multiplicities. Used in RD.6.28.
-- `PowerSeries`: Formal power series `R[[X]]`. Used in RD.6.4.
-- `PowerSeries.binomialSeries`: the series `(1 + X)^r` with coefficients `Ring.choose r n` over a binomial ring. Used in RD.1.63.
-- `PowerSeries.derivative`: The formal derivative of power series as a derivation `R⟦X⟧ → R⟦X⟧`. Used in RD.0.36.
-- `PowerSeries.exp`: The exponential power series over a `Q`-algebra, for `exp(π(x^σ − x))` and zeta functions. Used in RD.1.63, RD.6.22, RD.6.42, RD.6.46.
-- `PowerSeries.ext`: Two formal power series with the same coefficients are equal; the identities of §RD.7.4 are coefficientwise. Used in RD.7.4.
-- `PowerSeries.mk`: Power series from coefficient sequences, for zeta functions and Hankel determinants. Used in RD.6.22, RD.6.24.
-- `RatFunc`: Rational functions over a field, the target of rationality statements. Used in RD.6.24.
-- `Representation`: Linear representations of a monoid on a module: a monoid hom to the endomorphisms. Used in RD.2.24, RD.2.35.
-- `Ring.choose`: binomial coefficients `choose r n` in a binomial ring. Used in RD.1.63.
-- `SkewPolynomial`: Polynomial carrier with multiplication twisted by a MulSemiringAction: `X·a = φ(a)·X`. Supplies a multiplicative Frobenius-twist analogue after the action instance is provided; it does not supply differential Ore multiplication `X·a = a·X + δ(a)`. Used in RD.1.2, RD.1.21.
-- `Submodule.FG`: Finitely generated submodules (Lemma 7.3.4, finiteness of local cohomology). Used in RD.5.51.
-- `Submodule.mkQ`: The quotient projection `M→M/S` with its existing module structure. Used in RD.4.60, RD.5.23.
-- `TensorProduct`: Tensor products of modules, for the Künneth maps of complexes of K-vector spaces and for base change of resolutions. Used in RD.0.55, RD.3.28, RD.4.17, RD.5.92, RD.5.93.
-- `UniformSpace.Completion`: The Hausdorff completion of a uniform space. Used in RD.0.33.
-- `WithSeminorms`: A topology induced by an indexed family of seminorms over a normed field; no real or complex scalar assumption. Used in RD.0.2, RD.5.40.
-- `WithSeminorms.continuous_of_isBounded`: Continuity of an isometrically semilinear map bounded by finite families of source seminorms. Used in RD.0.2.
-- `WittVector`: p-typical Witt vectors `W(R)` with coefficients x.coeff `n`. Used in RD.0.6, RD.0.54, RD.7.13.
-- `WittVector.Isocrystal`: Isocrystals over a perfect field `k`: vector spaces over `K(p,k) = FractionRing (WittVector p k)` with a Frobenius-semilinear automorphism; the fibres of F-isocrystals at perfect points. Used in RD.1.21, RD.3.34, RD.3.36, RD.3.47, RD.3.48, RD.6.2.
-- `WittVector.StandardOneDimIsocrystal`: The one-dimensional isocrystal of slope `m ∈ ℤ`, with Frobenius `x ↦ p^m φ(x)`. Used in RD.3.34.
-- `WittVector.ext`: Equality of all Witt coordinates implies equality of Witt vectors. Used in RD.0.52.
-- `WittVector.frobenius`: The p-typical Witt Frobenius ring endomorphism for any commutative coefficient ring; in characteristic `p` its coefficients are p-th powers. Used in RD.0.5, RD.0.6, RD.6.1.
-- `WittVector.isocrystal_classification`: Over an algebraically closed `k` every one-dimensional isocrystal is isomorphic to StandardOneDimIsocrystal `p k m` for some `m ∈ ℤ`. Used in RD.1.23, RD.1.32, RD.3.47.
-- `WittVector.map`: Functorial ring homomorphism on Witt vectors induced by a coefficient ring homomorphism. Used in RD.0.52.
-- `WittVector.map_coeff`: WittVector.map acts on every Witt coordinate by the input ring homomorphism. Used in RD.0.52.
-- `WittVector.teichmuller`: The Teichmüller lift `R →* W(R)` (multiplicative, 0-th coefficient `r`, others 0). Used in RD.0.6.
-- `padicValNat_factorial`: Legendre: `v_p(n!) = Σ_{1 ≤ i < b} ⌊n/p^i⌋` for `b > log_p n`. Used in RD.6.35.
-- `padicValRat`: p-adic valuation on `ℚ` (denominator bound of Lemma 5.2.7). Used in RD.5.17, RD.6.58.
-- `spectralNorm.normedField`: An algebraic extension `L` of a complete nonarchimedean normed field `K` is a normed field under the spectral norm. Used in RD.0.33, RD.7.4.
-- `spectralNorm_extends`: The spectral norm restricts to the given norm on `K`. Used in RD.0.33, RD.7.4.
-- `sub_one_mul_padicValNat_factorial`: Legendre: `(p − 1)·v_p(n!) = n −` (sum of base-`p` digits of `n`). Used in RD.6.30, RD.6.35.
-
-- `AddChar.compAddMonoidHom`: pullback of a character through the additive field trace; RD.6.46 uses this with `AddChar.zmodChar`, without a second character carrier.
-- `Topology.IsStrictMap`, `LinearMap.isStrictMap_iff_isHomeomorph_quotKerEquivRange` and `LinearMap.isStrictMap_iff_isOpenQuotientMap_rangeRestrict`: Bourbaki strictness and its quotient/range and open-range descriptions. Used in RD.5.41–RD.5.44.
-- `LinearMap.mem_ker`, `LinearMap.ker_zero` and `LinearMap.ker_id`: section-level support kernels and their empty/full-complement cases. Used in RD.4.42.
-- `CategoryTheory.EssentiallySmall`: a small skeleton in the specified universe; used in RD.2.52 so that the representing Hopf algebra belongs to that universe.
-- `LinearMap.isStrictMap_prodMap_iff`: strictness of a finite product is componentwise; used with closedness of product ranges in RD.5.41.
-- `Submodule.liftQ` and `Submodule.Quotient.subsingleton_iff`: the universal map out of a range quotient, and its vanishing when the range is the full module. Used for the module-level theta presentation in RD.4.60.
-
-### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
-
-- `TauCeti.LocalFieldsRamification.herbrand`, `TauCeti.LocalFieldsRamification.inverseHerbrand` and `TauCeti.LocalFieldsRamification.upperRamificationGroup`: the Herbrand order isomorphism on `[-1, ∞)`, its inverse and upper ramification groups for finite Galois extensions of nonarchimedean local fields. Their finite-residue-field domain is used in RD.2.44–RD.2.47 and RD.6.51; LocalFieldsRamification Layers 3–4 supply the general perfect-residue-field ramification package, agreeing with these declarations on the common domain.
-- `LinearMap.trace_eq_add_of_exact`: For an endomorphism of a short exact sequence `0 → N → M → Q → 0` of vector spaces with `M` finite-dimensional, trace `f =` trace `f_N +` trace `f_Q`. Used in RD.6.20.
-- `TauCeti.FGComoduleCat`: Finitely generated right comodules over a coalgebra, as a full subcategory of all comodules (finite-dimensional comodules over a field); the category `Rep_K(G)` of the recognition theorem. Used in RD.2.52.
-- `TauCeti.FGComoduleCat.instRigidCategory`: Finite-dimensional comodules over a commutative Hopf algebra over a field form a rigid monoidal category. Used in RD.2.52.
-- `TauCeti.FGComoduleCat.instSymmetricCategory`: The symmetric monoidal structure (tensor-product swap) on finite comodules over a commutative bialgebra. Used in RD.2.52.
-- `TauCeti.Dagger.washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`): the Monsky–Washnitzer algebra `R⟨X⟩†` over an ultrametric normed commutative ring `R`, the subalgebra of power series restricted at some constant radius `ρ > 1`; the coordinate algebra of AdicSpacesPartIV §§F1.1–F1.2. Used in RD.3.26 and RD.3.27, whose `rigid_quillen_suslin` is stated on it.
-- `TauCeti.Dagger.IsDaggerAlgebra` (`TauCeti/RingTheory/Dagger/DaggerAlgebra.lean`): a commutative `K`-algebra that is a quotient of some `washnitzerAlgebra (Fin n) K`, with no norm or topology fixed; the carrier of AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*. Used in RD.3.26 and RD.3.28.
-- `TauCeti.Dagger.weakCompletion` (`TauCeti/RingTheory/Dagger/WeakCompletion/Basic.lean`): for `π ∈ O` and a finitely generated `O`-algebra `S`, the weak completion `S†` as an `O`-subalgebra of the `π`-adic completion, independent of the generators; the carrier of AdicSpacesPartIV §F1.5 *The Monsky–Washnitzer weak completion*. Used in RD.0.40–RD.0.42, whose `exists_frobenius_lift_weakCompletion` is stated on it.
-- `TauCeti.Dagger.Omega` (`TauCeti/RingTheory/Dagger/Omega/Basic.lean`): the universally finite module of differentials, the quotient of the Kähler differentials by the intersection of all submodules with finite quotient, free on the `dX_i` over `washnitzerAlgebra` in finitely many variables over a complete field; the carrier of AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials*. Used in RD.3.28.
-- `TauCeti.Dagger.primitive_mem_washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`): over an ultrametric normed field of characteristic zero, the termwise primitive in one variable of an overconvergent series is overconvergent. Used in RD.4.34.
-- `TauCeti.Dagger.washnitzerAlgebra.exists_pderiv_eq_iff` and `TauCeti.Dagger.washnitzerAlgebra.existsUnique_pderiv_eq` (`TauCeti/RingTheory/Dagger/Poincare.lean`): over an ultrametric normed field of characteristic zero, a finite family of overconvergent series is the gradient of an overconvergent series exactly when its mixed partial derivatives agree, and the potential is unique once its constant coefficient is prescribed. Used in RD.4.34.
-- `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`: Over a finite Galois `L/k`, an injective `k`-linear map into invariant vectors stays injective after scalar extension to `L` (Hilbert-Noether descent, injectivity half). Used in RD.2.24, RD.2.35.
-- `TauCeti.GaloisDescent.span_invariants_eq_top`: For a field `L` with finite automorphism group over `k`, the invariant vectors of a semilinear representation span it over `L` (Hilbert-Noether descent, surjectivity half). Used in RD.2.24, RD.2.35.
-- `TauCeti.Tannaka.fgPointTensorIsoEquiv`: For a commutative Hopf algebra `H` over a field `k` and a commutative `k`-algebra `A`, A-valued points of `H` are equivalent (as groups) to tensor automorphisms of scalar extension to A on finite-dimensional `H`-comodules. Used in RD.2.51.
-- `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`: Tannakian reconstruction for a commutative Hopf algebra `H` over a field: the functor of points of `H` is isomorphic, naturally in the commutative algebra `A`, to the group functor of tensor automorphisms of scalar extension to A on finite `H`-comodules (pointwise form TauCeti.Tannaka.fgPointTensorIsoEquiv). Used in RD.2.51, RD.2.52.
-- `TauCeti.finiteDimensional_quotient_repartitionSpace`: For an algebraic function field `F/k` with exact constants and a divisor `D`, `A_F/(A_F(D) + F)` is finite dimensional over `k` (Stichtenoth 1.5.4). Used in RD.5.25.
-- `TauCeti.finiteDimensional_riemannRochSpace`: Riemann–Roch spaces `L(D)` of a function field are finite dimensional over `k` (Stichtenoth 1.4.9). Used in RD.5.25.
-- `TauCeti.finrank_quotient_repartitionSpace_zero`: `g = dim_k A_F/(A_F(0) + F)` (Stichtenoth 1.5.5): the cokernel of principal parts has dimension the genus. Used in RD.5.25.
-- `TauCeti.finrank_weilDifferentialFiltration_zero`: The regular Weil differentials form a `k`-space of dimension the genus (Stichtenoth 1.5.12). Used in RD.5.25.
-- `TauCeti.genus`: The genus of an algebraic function field. Used in RD.5.25, RD.6.53.
-- `WeierstrassCurve.frobeniusTrace`: For a Weierstrass model over a finite field with `q` elements, the integer `q + 1 − #W(F)` (projective count); on an elliptic model it is the classical trace `a_q (frobeniusTrace_eq_card_point)`. Used in RD.7.11, RD.7.17.
-
-### From TauCetiRoadmap
-
-- AlgebraicKTheory §0.5: over `C(S², ℝ)` the module of continuous tangent fields is stably free (`P ⊕ R ≅ R³`) and not free (`tangentSections_stablyFree_not_free`). Used in a Check of RD.0.56.
-- AdicSpaces: adic spectra, rational subsets and the analytic vocabulary on which AdicSpacesPartII builds; used throughout Layers RD.3–RD.5 through AdicSpacesPartII.
-- LocalFieldsRamification, Layers 3–4: finite and absolute lower/upper ramification, Herbrand functions, subgroup and quotient compatibility, upper numbering on open subgroups, invariance under completed maximal unramified base change and the full Hasse–Arf theorem over complete discretely valued fields with any perfect residue field. The finite lower groups use `Ideal.ramificationGroup` and the real-indexed `TauCeti.IsLocalRing.ramificationGroupReal`; on finite residue fields this package agrees with the pinned Tau Ceti declarations listed above. ArithmeticGaloisRepresentations Layer 3 supplies representation breaks and conductors on this filtration, and §RD.2.45 extends their coefficient domain.
-- AlgebraicCurves, Layer 9: Kähler differentials of a function field are identified with Weil differentials compatibly with residues; regular differentials have dimension `g` and principal parts at the missing points of an affine curve have one-dimensional cokernel (residue theorem). Used in the index computation for affine curves (§RD.5.25).
-- EllipticCurves, Layer 3: an elliptic curve over `𝔽_q` is supersingular if and only if `p` divides its Frobenius trace. Used in §RD.7.11.
-- JacobianChallenge, Layer F: the Jacobian of a smooth proper geometrically connected curve with a rational point after a finite extension, the Abel–Jacobi map and its universal property for maps to abelian varieties. Used in §RD.6.62.
-- FormalLaurentPuiseux §L3: formal Laurent residues, their coordinate formula and coefficient duality; the Robba LF duality of RD.5.45 has two-sided analytic tails and a different topology.
-- CompactOperators §§1.2–1.5 and §3.2: principal-minor Fredholm coefficients, cyclicity, (Pr)-module determinants and nonzero generalized eigenspaces. Used in RD.6.5, RD.6.7 and RD.6.16–RD.6.17.
-- PadicFunctionalAnalysis §§1.2, 1.3, 2.2: Banach-source mapping theorems, orthogonal families and topological bases; RD.5.40 extends the Banach-source uniform-boundedness theorem to barrelled locally convex spaces, and RD.0.47 asks for the algebraic-basis comparison with finite coordinate support, without assuming a complete ambient module.
-- ReductiveGroups, Layers 1–3: affine algebraic groups, their Lie algebras and the adjoint representation, components and quotients. Used in §RD.6.71.
-- EtaleCohomologyFoundations §§F.0.2, F.0.A2 (étale fundamental groups, fibre-functor equivalence and the arithmetic fundamental-group sequence) and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (for `X` separated of finite type over `𝔽_q` and `ℓ ≠ p`, the identity `#X(𝔽_{q^r}) = Σ_i (−1)^i Tr(Frob_q^r | Hⁱ_c(X_𝔽̄_q, ℚ_ℓ))` for every `r ≥ 1`); DeligneWeightsAndPurity §0.10 supplies the determinant expression of the zeta function. Used in §RD.3.43a and §RD.3.48 and in the `ℓ`-adic comparisons §RD.7.7 and §RD.7.8.
-
-### From other roadmaps
-
-Section numbers are those of the roadmaps named; each is built before this one.
-
-**AbelianSchemesAndArithmeticModuli.**
-
-- §§A1.1, A2.2 (*Products, relative dimension, duals*): used in RD.5.116.
-- §§A3.3, A3.6, A3.11 (*Finite-flat quotients, theta descent, principal quotients*): used in RD.5.116; the specified graph descent over the base is proved there.
-- §A6.11 (*The characteristic polynomial on the Tate module*): used in RD.7.17.
-
-**AdicCoefficientsAndComparisons.**
-
-- §L2: used in RD.3.1, RD.3.24, RD.4.10, RD.4.12.
-
-**AdicSpacesPartII.**
-
-- §R0.16 (*Jacobian criterion for closed subspaces of smooth spaces (Huber 1.6.9(ii))*): used in RD.3.11, RD.3.16.
-- §R0.9 (*Maximum modulus principle for K-affinoid algebras*): used in RD.3.5, RD.3.6, RD.3.11, RD.3.16, RD.3.30.
-- §R0.14 (*Quasi-finite and proper equals finite (Huber 1.5.5)*): used in RD.3.11.
-
-**AdicSpacesPartIII.**
-
-- §R2.9 (*The étale site of a formal scheme is the étale site of its special fibre; the generic-fibre functor on étale objects*): used in RD.4.41.
-- §R2.3 (*For formal `O_K`-schemes locally of tf presentation, `d(X)` is the adic space of Raynaud's rigid generic fibre*): used in RD.3.1, RD.3.2, RD.3.3, RD.3.4, RD.3.8, RD.3.9, RD.3.10, RD.3.12, RD.3.13, RD.3.32, RD.3.46, RD.4.5, RD.4.41.
-- §R2.3 (*The generic fibre commutes with fibre products and with completed extension of the base field*): used in RD.3.1, RD.3.2, RD.3.3, RD.3.4, RD.3.8, RD.3.10, RD.3.12, RD.3.13, RD.3.32, RD.4.5.
-- §R2.4 (*Tubes `]T[` of locally closed subsets of the special fibre, adic and rigid*): used in RD.3.1, RD.3.2, RD.3.3, RD.3.4, RD.3.5, RD.3.8, RD.3.9, RD.3.10, RD.3.12, RD.3.13, RD.3.32, RD.3.33, RD.3.40, RD.4.5, RD.4.41.
-- §R2.6 (*Separatedness, properness and partial properness of a formal model versus its generic fibre (Huber 1996 Remark 1.3.18)*): used in RD.3.11.
-- §R2.7, smooth-lifting-from-level-zero (*Smooth morphisms of the reduction lift to smooth formal morphisms (Bosch–Lütkebohmert II Lemma 1.4(a))*): used in RD.3.46.
-- §R3.2 (*Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*): used in RD.3.3, RD.3.4, RD.3.7, RD.3.10, RD.3.13, RD.3.14, RD.3.17, RD.3.29, RD.3.32, RD.3.41, RD.4.8, RD.4.12, RD.4.13, RD.4.24, RD.4.25, RD.5.31, RD.5.72.
-- §R3.4 (*Dense restriction of coherent sections on a quasi-Stein space*): used in RD.5.30, RD.5.31.
-- §R3.4 (*Kiehl's Theorem B on quasi-Stein spaces*): used in RD.3.3, RD.3.4, RD.3.7, RD.3.10, RD.3.13, RD.3.32, RD.3.41, RD.4.8, RD.4.12, RD.4.13, RD.4.24, RD.4.25.
-- §R3.4 (*Coherent cohomology of the open polydisc vanishes*): used in RD.4.6.
-- §R3.4 (*Acyclicity of direct images along quasi-Stein inclusions*): used in RD.3.7, RD.4.24.
-- §R3.6 (*Kiehl's proper mapping theorem*): used in RD.5.115.
-- §R3.7 (*Proper GAGA: comparison of coherent cohomology (Köpf)*): used in RD.5.29, RD.5.31, RD.5.79, RD.5.81, RD.5.115.
-- §R3.7 (*Proper GAGA: analytification is an equivalence on coherent sheaves*): used in RD.6.54.
-- §§R3.7–R3.7: used in RD.4.58.
-
-**AdicSpacesPartIV.**
-
-- §F1.2 (*Finite algebras over a dagger algebra are dagger algebras*): used in RD.3.39.
-- §F1.3 (*Fringe (radius-indexed) presentations of a dagger algebra*): used in RD.0.38, RD.0.42, RD.0.45, RD.3.8, RD.3.27, RD.3.28, RD.3.32, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.25, RD.5.11, RD.5.12, RD.5.22, RD.5.24, RD.5.26, RD.5.47, RD.5.56, RD.5.65, RD.6.6, RD.6.7, RD.6.8, RD.6.12.
-- §F1.3 (*The fringe (direct limit) topology on dagger algebras and their finite modules*): used in RD.0.38, RD.0.42, RD.0.45, RD.3.8, RD.3.27, RD.3.28, RD.3.32, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.25, RD.5.11, RD.5.12, RD.5.22, RD.5.24, RD.5.26, RD.5.47, RD.5.56, RD.5.65, RD.6.6, RD.6.7, RD.6.8, RD.6.12.
-- §F1.4 (*The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*): used in RD.0.42, RD.0.45, RD.4.4, RD.5.65.
-- §F1.4 (*Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*): used in RD.4.4, RD.5.22, RD.5.24, RD.5.56.
-- §F1.5 (*The integral Monsky–Washnitzer algebra `O_K⟨X_1`, …, `X_n⟩† = W_n ∩ O_K[[X]]`*): used in RD.0.43, RD.0.44.
-- §F1.5 (*The Monsky–Washnitzer weak completion `S†` of a finitely generated `O_K`-algebra*): used in RD.0.40, RD.0.41, RD.0.42, RD.0.45, RD.3.29, RD.3.31, RD.3.38, RD.4.43, RD.5.29.
-- §F1.5 (*Presentation, noetherianity and reduction of a weak completion*): used in RD.0.40, RD.0.41, RD.0.44.
-- §F1.5 (*Weak completeness and the universal property of the weak completion*): used in RD.0.40, RD.0.41, RD.0.42, RD.0.43, RD.0.45, RD.3.38.
-- §F1.5 (*The generic fibre `S† ⊗ K` of a weak completion is a dagger algebra with completion `Ŝ ⊗ K`*): used in RD.3.29.
-- §F1.5 (*Dagger algebras of Monsky–Washnitzer type*): used in RD.3.29, RD.5.79, RD.5.81.
-- §F1.5 (*Lifting morphisms of smooth reductions to weak completions (van der Put 2.4.4 (ii))*): used in RD.3.30, RD.3.39.
-- §F1.5 (*Existence and uniqueness of dagger algebras of MW-type with a given smooth reduction*): used in RD.3.29, RD.3.39.
-- §F1.7 (*Dagger spaces (rigid spaces with overconvergent structure sheaf)*): used in RD.4.44, RD.4.55.
-- §F1.9 (*The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*): used in RD.0.38, RD.0.44, RD.0.45, RD.3.28, RD.3.29, RD.3.32, RD.3.39, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.44, RD.4.55, RD.5.24, RD.5.65.
-- §F1.9 (*The overconvergent de Rham complex of a smooth dagger space, with coefficients in a module with integrable connection*): used in RD.0.44, RD.4.1.
-- §F1.9 (*De Rham cohomology of a smooth partially proper dagger space equals that of its rigid space (and fails to for affinoids)*): used in RD.4.55.
-- §F1.10 (*Compactly supported coherent and de Rham cohomology of affinoid and Stein dagger spaces*): used in RD.4.56.
-- §F1.11 (*Trace on de Rham complexes for finite étale morphisms of smooth dagger spaces*): used in RD.3.39.
-- §F1.2 (*Dagger algebras over a complete nonarchimedean field*): used in RD.0.38, RD.0.42, RD.0.45, RD.3.8, RD.3.26, RD.3.27, RD.3.28, RD.3.32, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.25, RD.5.11, RD.5.12, RD.5.22, RD.5.24, RD.5.26, RD.5.47, RD.5.56, RD.5.65, RD.5.68, RD.5.106, RD.6.6, RD.6.7, RD.6.8, RD.6.12.
-- §F1.12 (*Strict normal crossings divisors on smooth dagger spaces (smooth dagger pairs)*): used in RD.5.100, RD.5.101.
-- §F1.12 (*The logarithmic de Rham complex `Ω^•_X(log D)` along a strict normal crossings divisor*): used in RD.5.101, RD.5.104.
-- §F1.12 (*The boundary-vanishing (compact-support) logarithmic de Rham complex `Ω^•_X(log D)(−D)`*): used in RD.5.106.
-- §F1.5 (*The integral subring of a dagger algebra of MW-type is a Monsky–Washnitzer lift*): used in RD.5.29.
-- §F1.2 (*A dagger algebra and its completion: faithful flatness, points, completed local rings, reducedness and regularity, supremum norm*): used in RD.3.38, RD.3.39, RD.5.8b, RD.5.8c.
-
-**ArithmeticGaloisRepresentations.**
-
-- §3.1 (*Finite wild image, breaks and the Swan conductor*): used in RD.2.45, RD.2.46, RD.2.47, RD.6.51, RD.6.52, RD.6.56.
-- §3.2 (*The Artin conductor and its integrality*, including the conductor of a ramified character): used in RD.2.45, RD.2.46, RD.2.47, RD.6.52.
-- §3.4 (*Functoriality*: tame and unramified base change of conductors, additivity of Swan conductors in exact sequences): used in RD.2.46, RD.2.47, RD.6.52.
-- §3.5 (*Induction and the conductor–discriminant formula*): used in RD.6.54.
-- §3.7 (*Computations and Artin–Schreier characters*): used in RD.2.44, RD.2.46, RD.6.52.
-- §2.6 (*Monodromy filtration and purity*): used in RD.6.80.
-- §6.3 (*Reduction and Euler factors*) and AbelianSchemesAndArithmeticModuli §A5.7 (*Degree-one realization conventions*): used in RD.7.17.
-
-**ClassicalAdicEtaleCohomology.**
-
-- §§4.1–4.2: used in RD.4.41.
-
-**ClassicalArithmeticCompletion.**
-
-- §6.44 (*Kronecker’s eventual Hankel vanishing criterion*): used in RD.6.24.
-
-**CrystallineCohomology.**
-
-- §CR.1.2 (*Rational crystals and nondegenerate F-crystals*): used in RD.3.35, RD.3.36, RD.3.37, RD.3.48, RD.4.36, RD.5.110 and RD.7.14.
-- §CR.1.2 (*Quasi-coherent and finite locally free crystals*): used in RD.3.35, RD.3.36, RD.4.36, RD.5.111, RD.7.14.
-- §CR.1.3 (*Modules with integrable connection and their de Rham complexes*): used in RD.3.16.
-- §CR.1.3 (*Crystals, stratifications and quasi-nilpotent connections*): used in RD.3.35, RD.3.36, RD.4.36.
-- §CR.2.1 (*Enhanced crystalline direct image and global sections*): used in RD.5.109.
-- §CR.2.2 (*De Rham computation in a smooth ambient embedding*): used in RD.4.36, RD.4.37, RD.7.14.
-- §CR.2.2 (*Independence of the presentation and of the embedding*): used in RD.4.37.
-- §CR.2.2 (*Crystalline cohomology from an embedding*): used in RD.7.10.
-- §CR.2.2 (*The relative PD Poincaré lemma*): used in RD.5.98, RD.7.10.
-- §CR.2.3 (*Formal comparison with trace-free endomorphism coefficients*): used in RD.7.15, RD.7.20.
-- §CR.3.1 (*Crystalline cohomology from a finite affine cover: the alternating Čech complex*): used in RD.4.37, RD.5.98.
-- §CR.3.2 (*Proper smooth crystalline perfectness and reductions*): used in RD.4.38, RD.5.99, RD.5.108, RD.5.109, RD.5.110, RD.5.111.
-- §CR.3.2 (*Derived crystalline base change*): used in RD.5.98, RD.5.99.
-- §CR.3.4 (*Semilinear crystalline Frobenius and linearization*): used in RD.4.38, RD.7.14.
-- §CR.3.4 (*Proper smooth crystalline Künneth formula*): used in RD.5.92.
-- §CR.3.5 (*Smooth proper lifts of curves over Witt vectors*): used in RD.7.15.
-- §CR.3:duality.1 (*Proper smooth crystalline trace*): used in RD.5.81.
-- §CR.3:duality.1 (*Derived crystalline Poincaré duality*): used in RD.5.86.
-- §CR.4.7 (*Slope decomposition on the existing isocrystal carrier*): used in RD.1.27, RD.1.32, RD.3.34, RD.3.47, RD.3.48; the all-rank ordinary Witt adapter identifies the blocks and slope normalization.
-- §CR.5.1 (*Absolute semistable residue maps*): used in RD.4.43, RD.4.47.
-- §CR.5.1 (*Logarithmic differentials*): used in RD.4.43, RD.4.45, RD.4.57.
-- §CR.5.1 (*Log de Rham complexes*): used in RD.4.44.
-- §CR.5.2 (*Exactification of log immersions*): used in RD.4.43, RD.4.44.
-- §CR.5.3 (*Logarithmic crystals*): used in RD.5.101, RD.5.107, RD.5.109.
-- §CR.5.4 (*Log PD Poincaré lemma*): used in RD.5.107, RD.7.19.
-- §CR.5.4 (*Derived p-adic log crystalline cohomology*): used in RD.5.108, RD.7.19.
-- §CR.6.1 (*Log de Rham–Witt model*): used in RD.7.20.
-- §CR.6.2 (*Hyodo–Kato comparison theorem*): used in RD.7.20.
-- §CR.6.4 (*Convergent complexes on tubes and Witt models*: the canonical relative and absolute convergent complexes, the tube support kernel, the signed monodromy triangle and the site comparison of the convergent logarithmic embedding complexes): transported in RD.4.42, RD.4.44–RD.4.45 and RD.4.48, including specialization, refinement and cocycle agreement.
-- §CR.6.4 (*Rigid cohomology of smooth strata*: constant-coefficient rigid cohomology of smooth finite-type `k`-schemes from dagger frames, its frame independence and finite-dimensionality, bijectivity of Frobenius for perfect `k` over `W(k)`, and for proper smooth schemes its identification with rational crystalline and convergent cohomology): used in RD.4.24 and RD.4.38; RD.4.10, RD.5.66, RD.5.77 and RD.6.14 extend its construction, finiteness and Frobenius bijectivity to overconvergent coefficients.
-- §CR.6.5 (*Proper log rigid and crystalline Hyodo–Kato cohomology*): used in RD.4.44, RD.4.48 and RD.7.20; its log rigid Hyodo–Kato complex and its proper completion map are canonical on the strictly semistable locally constant-coefficient overlap.
-- §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1: used in RD.3.37, RD.4.38, RD.7.1, RD.7.10.
-- §§CR.5.1–CR.5.4 and CR.6.4: used in RD.4.44, RD.4.45, RD.4.47, RD.4.49, RD.5.109, RD.5.111.
-
-**CongruenceSpectralGap.**
-
-- §4.2a (*Raw hyper-Kloosterman sums over every finite field*): `hyperKloosterman F k ψ r` for a finite field `F`, a commutative coefficient ring `K`, `ψ : AddChar F K` and `r ∈ Fˣ`, the sum of `ψ(x_1 + ⋯ + x_k)` over unit `k`-tuples with product `r`; its transport along ring homomorphisms `K → K′`, its scaling rule and its eliminated-variable comparison with the sum over `(Fˣ)^n` of `ψ(Σ x_i + r(∏ x_i)^{−1})` at `k = n + 1`. Used in RD.6.95–RD.6.97.
-- §4.2b (*Kloosterman sheaves and the general Deligne estimate*): `hyperKloosterman_bound`, `‖hyperKloosterman F k ψ r‖ ≤ k·|F|^((k−1)/2)` for `ψ : AddChar F ℂ` nontrivial, `k ≥ 1` and `r ∈ Fˣ`. Used in RD.6.97, which gives a rigid proof in every characteristic and positive rank.
-
-**DerivedDeRhamCohomology.**
-
-- §PD.6 (*Divided power envelopes*): universal base-compatible envelopes, completed envelopes and their completion comparison; used in RD.3.35, RD.4.36 and RD.4.37.
-
-**DeligneWeightsAndPurity.**
-
-- §1.10 (*Canonical integral finite-field zeta series, Euler product and point-count logarithm*): used in RD.6.22; RD.6.23 supplies the independent rigid trace proof.
-
-- §4.4 (*Extracting integral degree factors from distinct weights*): for invertible finite-dimensional `ℚ_ℓ`-Frobenius modules of distinct degree weights, supplies common rational factors and their integrality under integral-root or integral-series hypotheses, including the global normalized numerator/denominator theorem. RD.7.5 constructs the coefficient-field adapter; RD.7.4(b) owns the local Fatou theorem (Milne, Lemma 27.10).
-- §0.1 (*Weil `q`-numbers of integer weight*): used in RD.6.97, RD.7.5.
-- §0.10 (*The characteristic power series `det(1 − tF)` and traces of powers*): used in RD.6.4, RD.6.23, RD.6.25, RD.6.89, RD.6.97, RD.7.3, RD.7.7, RD.7.8.
-- §0.15 (*Twists `V^{(b)}` and Tate twists `V(r)`*): used in RD.6.82.
-- §0.2 (*Products, inverses, conjugation and integrality of Weil `q`-numbers*): used in RD.7.5, RD.7.17.
-- §0.4 (*`ι`-weights of nonzero elements of a coefficient field*): used in RD.6.28, RD.6.67, RD.6.82, RD.6.86, RD.6.92, RD.6.93, RD.7.6.
-- §0.5 (*Embeddings into `ℂ` extending a given embedding, and isomorphisms `ℚ̄_ℓ ≅ ℂ`*): used in RD.6.82.
-- §0.6 (*Algebraicity and Weil purity from `ι`-purity at every `ι`*): used in RD.6.86, RD.7.6.
-- §0.7 (*Eigenvalues, Weil purity and `ι`-weights of an invertible endomorphism*): used in RD.6.28, RD.6.86, RD.6.92, RD.7.6.
-- §0.9 (*Purity and weights under subobjects, quotients, extensions and direct sums*): used in RD.6.80, RD.6.93.
-- §1.1 (*The abelian-variety Frobenius adapter*): used in RD.7.17.
-- §1.4 (*The Weil estimate for abelian varieties over `𝔽_q`*): used in RD.7.17.
-- §1.5 (*Point counts of abelian varieties over `𝔽_{q^m}`, and their bounds*): used in RD.7.17.
-- §2.7 (*Lemma 3.5: factors of a product of positive power series converge at least as far*): used in RD.6.76.
-- §4.3 (*The Weil theorem for smooth projective varieties*): used in RD.7.7.
-- §7.15 (*Purity for proper smooth varieties and rational homology manifolds over a finite field*): used in RD.7.8.
-
-**EnhancedDerivedSheaves.**
-
-- §E1.4: used in RD.4.41, RD.4.42, RD.4.58.
-- §E2.6: used in RD.5.70, RD.5.71.
-- §E2.6 (*Bounded-below hypercover descent*): used in RD.5.70, RD.5.71, RD.5.72, RD.5.73, RD.5.74.
-- §E2.6 (*Cartesian derived systems on a hypercover*): used in RD.5.74.
-- §§E1.2, E1.3 and E3.4: used in RD.4.6, RD.4.7, RD.4.47, RD.4.60.
-- §§E2.6 and E2:towers.1: used in RD.4.7, RD.4.44, RD.4.45, RD.4.58.
-
-**FiniteFlatGroupsAndIntegralPadicHodgeTheory.**
-
-- §§R07.3.2–R07.3.3: used in RD.7.22.
-
-**FormalConnectionsOpers.**
-
-- §6.2 (*Cyclic vectors and the `GL_n` flag/oper equivalence*): the cyclic-vector theorem `exists_cyclicVector`: over a field of characteristic zero with a nonzero derivation, every finite-dimensional differential module has a vector whose first `dim V` iterates are linearly independent. Used in RD.1.7, RD.1.10, RD.1.52 and RD.6.52a.
-
-**InverseGaloisAndArithmeticFundamentalGroups.**
-
-- §IG.0.3 (*Integral, isogeny and rational `ℤ_p`-local systems*): used in RD.3.48.
-- §IG.0.T4 (*Constant-sheaf point count for every finite extension*): used in RD.7.7, RD.7.8.
-- §IG.1.2: tame quotients and tangential fibres; used in RD.6.61–RD.6.63 together with EtaleCohomologyFoundations §§F.0.2, F.0.A2.
-
-**LefschetzPencilsAndVanishingCycles.**
-
-- §1.3 (*The monodromy filtration in an abelian category*): used in RD.6.80.
-
-**PurityOfBranchLocus.**
-
-- §§2.1–2.2 (*Purity of the branch locus*; *The global corollary*): a finite dominant, generically étale morphism from a normal integral scheme to a regular integral scheme, formally unramified at codimension-one points, is étale; used in RD.3.43a, with EtaleCohomologyFoundations §F.0.2 for finite étale covers and finite local systems.
-
-**ReductiveGroupsPartII.**
-
-- §RG2.3.7 (*Lang’s theorem and lifting*): Lang’s surjection for smooth connected algebraic groups over finite fields; used for the generalized Jacobian in RD.6.62.
-
-**LocallyAnalyticDistributions.**
-
-- Layer 0: used in RD.5.31, RD.5.42, RD.5.44.
-- §0.0 (*Locally convex spaces and separation*): used in RD.0.2, RD.5.40, RD.5.44.
-- §0.0 (*Locally convex limits*): used in RD.0.2, RD.5.30, RD.5.40, RD.5.42, RD.5.45, RD.6.5.
-- §0.2 (*The nonarchimedean Hahn–Banach theorem*): used in RD.5.40, RD.5.42, RD.5.43, RD.5.62.
-
-**ModularCurvesPartII.**
-
-- §11.1 (*Igusa components of modular fibres*): used in RD.5.105.
-
-**NoncommutativeAndEquivariantIwasawa.**
-
-- §F.6 stage 1 (*Field Robba and étale prefix*: Robba, bounded, integral and Amice carriers over complete discretely valued fields of characteristic 0, analytic Frobenius extension, Cohen-ring étale equivalence, Frobenius-fixed bases and finite-level descent): used in RD.0.1, RD.2.20, RD.2.25.
-- §F.6 stage 2 (*Slope and local-monodromy prefix*: slope theory with the adapter `deg_w = e_C·deg`; horizontality, quasi-unipotence, finite-étale unipotence and the logarithmic horizontal basis for finite coefficient fields): used in RD.2.7, RD.2.31–RD.2.33.
-
-**NewtonPolygons.**
-
-- §§0.6–0.7 (finite slope data, singleton convention, reconstruction and pointwise order): used by RD.1.26's Frobenius slope and dominance adapters.
-- §§2.1, 3.2–3.3 (coefficient polygons, polynomial products and nonzero root multisets): used in RD.1.60 through the reflection adapter.
-
-**RestrictedPowerSeries (main).**
-
-- §§1.1–1.2 and §7.1: closed- and open-disc coefficient carriers and Gauss topologies, identified coefficientwise in RD.0.2.
-- §5.1: simultaneous distinguished coordinates for `n>0`, consumed in RD.3.26.
-- §1.1 (multiplicative Gauss norms), §§4.2–4.4 (Weierstrass division and preparation at every positive radius, in several variables) and §5.4 (noetherianity at polyradii in `√|K^×|`): used in RD.3.27.
-
-**RigidAnalyticGeometry (main).**
-
-- §1.2: finite injective normalization of a nonzero affinoid, consumed in RD.3.26.
-
-**PadicPeriodRings.**
-
-- §§4.1–4.3: topological period carriers, invariant functors and their structure maps; used in RD.7.21. The geometric de Rham and semistable comparison isomorphisms in that target are explicit hypotheses.
-
-**AdicEtaleGeometry.**
-
-- §A1.0.4 (*Elkik's approximation theorem for noetherian henselian pairs (Théorème 2 bis)*): used in RD.3.38.
-
-**Pinned closed-point inputs.** Mathlib `isJacobsonRing_of_finiteType`, `finite_of_finite_type_of_isJacobsonRing`, `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`; Tau Ceti `AlgebraicGeometry.Scheme.finite_Γevaluation_of_isClosed` supply the Jacobson and residue-field facts used in RD.6.22.
-
-**SchemeAndStackFoundations.**
-
-- §§2.19–2.20 (*Proper coherent Serre duality*): used in RD.5.29.
-- §§2.19–2.20 (*Proper coherent trace*): used in RD.5.79, RD.5.81.
-- §0.20 (*Japanese and Nagata rings, finite normalization in finite function-field extensions*): used in RD.5.71–RD.5.72.
-- §0.29 (*Scheme Frobenius*): absolute and relative Frobenius, their iterates and base-change compatibility; used in RD.3.34a.
-- §0.14 (*Finite etale algebras over a henselian pair*): used in RD.3.39.
-- §0.14 (*Equivalent characterisations of henselian pairs*): used in RD.3.38.
-- §0.14 (*Lifting along smooth algebras over a henselian pair*): used in RD.0.39, RD.3.38.
-- §4.6 (*Deformations of smooth schemes and of line bundles*): used in RD.4.37, RD.5.29.
-- §4.10 (*Algebraization of compatible morphisms on given proper schemes*): used in RD.5.29.
-- §4.12 (Chow's lemma) and AdicSpacesPartIV §F1.5: used in RD.4.6, RD.4.7, RD.4.40, RD.4.44.
-- §4.11 (*Modifications*): used in RD.5.71, RD.5.102.
-- §4.12 (*Flattening by blowing up (Raynaud–Gruson)*): used in RD.5.72, RD.5.73.
-- §4.12 (*Modifications are dominated by admissible blowups*): used in RD.3.23, RD.5.71.
-- §4.12 (*Chow's lemma*): used in RD.5.71, RD.5.73.
-- §4.16 (*Alterations*): used in RD.5.113.
-- §4.19 (*de Jong's alteration theorem*): used in RD.5.67, RD.5.99, RD.5.112, RD.5.113.
 
 ## Layer RD.0: Coefficient rings and analytic foundations
 
@@ -14462,8 +13908,6 @@ Earlier layers: RD.0, RD.1, RD.3, RD.4, RD.5, RD.6. Other roadmaps: AbelianSchem
 - **The comparison roadmaps** (the semistable comparison `C_st`) use the Kloosterman realisation §RD.7.21 and §RD.7.22, which are stated here with the comparison isomorphisms as hypotheses, and Mieda's map §RD.7.20.
 - **The Weil conjectures and point counting** use the Weil factors §RD.7.9, their `ℓ`-adic comparison, and the hyperelliptic and finite-cover denominator and coefficient-congruence bounds (§RD.7.16, §RD.7.18); the Chabauty methods use Tuitman's Frobenius structure for the Frobenius matrix on `H¹_rig`.
 
-
-
 ## Corrections to the sources
 
 - **Kedlaya–Xiao, *Differential modules on p-adic polyannuli*, Remark 1.4.2, p. 10 (arXiv v4).** The printed factor `|u|` must be `|u|⁻¹`. *Why:* Definition 1.2.8 and rational type give `IR=|∂|_sp,K/|∂|_sp,V=R/|u|`. The trivial line over the `η`-Gauss completion has `R=η` and `IR=1`, also when `η≠1`.
@@ -14628,6 +14072,574 @@ The following corrections to statements or proofs in the sources are used above.
 - **Zureick-Brown, Lemma 5.14 and Remark 5.3.** Scheme surjectivity does not imply equality of tubes. RD.5.71 uses Le Stum's constructible-crystal dimension induction (§7.2), keeping the strict transform distinct from the full inverse image. The principal ideal `(t,t²)` already excludes the projective-product tube assertion.
 - **Kedlaya, Semistable reduction IV, Lemma 5.6.2.** Terminal presentation need not survive tame alteration. Use the type-4 zero-exponent result and the correction in *Local and global structure*, Remark 4.6.7, with its 2017 corrigendum, as in RD.5.112a–RD.5.113.
 - **Fresán–Sabbah–Yu, proof of Corollary 5.27.** At small odd primes retain the additional slope-`k/2` terms of (5.3); the central-pair comparison in RD.7.22 gives the polygon bound. For `k=6,p=3`, the boundary has slopes `0,3` despite `4∤k`.
+
+## Scope and ownership
+
+**Scope.** The Robba-ring coefficient theory for general complete discretely
+valued coefficient fields `K` and general Frobenius lifts `σ` (any `q = p^a`, ramified `K`, residue
+fields that need not be perfect where a target allows it); the analytic theory of p-adic
+differential equations on discs and annuli; the slope and monodromy theory of `(φ,∇)`-modules;
+Berthelot's convergent and overconvergent coefficient categories; rigid cohomology with all its
+support variants and comparison maps; finiteness, duality, descent and semistable reduction for
+overconvergent F-isocrystals; the trace formula, `L`-functions and p-adic Weil II; and the
+comparisons that identify rigid, crystalline and `ℓ`-adic Weil factors over finite fields.
+
+**What it takes from the libraries.** Mathlib supplies Laurent and Hahn series
+(`LaurentSeries`, `HahnSeries`, `LaurentSeries.hasseDeriv`), power series with their derivative
+and restricted-series predicates and Gauss norms (`PowerSeries.derivative`,
+`PowerSeries.IsRestricted`, `PowerSeries.gaussNorm`), derivations, Kähler
+differentials, smooth and étale algebras, Witt vectors with their Frobenius, the rank-one
+classification of isocrystals over an algebraically closed field (`WittVector.Isocrystal`,
+`isocrystal_classification`: only rank one, not Dieudonné–Manin), the reversed characteristic
+polynomial `Matrix.charpolyRev`, additive characters (`AddChar`), `WithSeminorms` and
+`IsUltrametricDist`, and stably free modules and unimodular vectors (`Module.IsStablyFree`,
+`Module.IsUnimodular`). Tau Ceti supplies restricted power series, Tate algebras in one and
+several variables with Weierstrass division and preparation, the Monsky–Washnitzer algebra
+(`TauCeti.Dagger.washnitzerAlgebra`), dagger algebras (`TauCeti.Dagger.IsDaggerAlgebra`), weak
+completions (`TauCeti.Dagger.weakCompletion`) and universally finite differentials
+(`TauCeti.Dagger.Omega`), comodule categories with their rigid and symmetric structures and
+Tannakian reconstruction from a Hopf algebra (`TauCeti.FGComoduleCat`,
+`TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`), Galois descent for semilinear
+representations, the genus, Riemann–Roch spaces and Weil differentials of function fields, the
+trace on short exact sequences (`LinearMap.trace_eq_add_of_exact`) and point counts and Frobenius
+traces of elliptic curves over finite fields (`WeierstrassCurve.frobeniusTrace`).
+Recognition of an abstract neutral Tannakian category is supplied by
+MotivesAndAlgebraicCycles §§6.1–6.3. Its application adapter here identifies the reconstructed
+category with Tau Ceti's finite comodules and preserves the specified fibre functor (§RD.2.52).
+
+**What it takes from TauCetiRoadmap.** AdicSpaces for the analytic vocabulary; AlgebraicCurves
+Layer 9 for the comparison of Kähler and Weil differentials with residues; EllipticCurves Layer 3
+for the criterion "supersingular if and only if `p` divides the trace"; JacobianChallenge Layer F
+for Jacobians and the Abel–Jacobi map; NewtonPolygons §§2.1, 3.2–3.3 for coefficient polygons,
+polynomial products and root multisets; ReductiveGroups Layers 1–3 for Lie algebras of algebraic
+groups; LocalFieldsRamification Layers 3–4 for finite and absolute ramification over every
+perfect residue field, Herbrand functions, subgroup and quotient compatibility and Hasse–Arf,
+using the pinned Tau Ceti Herbrand and upper-numbering API on the finite-residue-field domain; EtaleCohomologyFoundations §F.0.2 for étale fundamental groups; PurityOfBranchLocus §§2.1–2.2
+for purity of the branch locus (§RD.3.43a); and
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 for the constant-sheaf point-count
+trace formula for all finite extensions, with the determinant expression supplied by
+DeligneWeightsAndPurity §0.10. The
+last is the only `ℓ`-adic geometric input, and it enters only the comparison of rigid and `ℓ`-adic Weil factors
+(§RD.7.7 and §RD.7.8).
+
+**What it takes from other roadmaps.** All of the following are roadmaps built before this one.
+- MotivesAndAlgebraicCycles §§6.1–6.3: neutral Tannaka reconstruction over any field,
+ the marked symmetric monoidal fibre comparison and the tensor-generator finite-type criterion.
+ §RD.2.52 applies these results on Tau Ceti's finite-comodule carrier; the isocrystal
+ categories and their monodromy groups are the applications here.
+- AdicSpacesPartIV: dagger algebras, weak completions, Monsky–Washnitzer algebras, dagger spaces
+ and their de Rham complexes (Layer F1); the algebras and the differentials have the Tau Ceti
+ carriers named above; AdicSpacesPartII R0 supplies affinoid geometry;
+ AdicSpacesPartIII R2.3–R2.4 supplies Raynaud generic fibres, tubes and specialisation, and
+ R3.2, R3.4 and R3.7 supply Kiehl's theorems, quasi-Stein spaces and proper GAGA. This roadmap
+ builds Robba coefficients and Berthelot's coefficient and cohomology theory on these objects. A
+ comparison between a partially proper generic-fibre dagger space and its rigid space (AdicSpacesPartIV F1.9) is
+ not the comparison with Berthelot's rigid cohomology of the special fibre, which is §RD.4.55.
+- NoncommutativeAndEquivariantIwasawa §F.6 stages 1–2 owns the shared carriers over complete
+ discretely valued fields of characteristic 0 with arbitrary residue field: the Robba ring, its
+ bounded and integral subrings and the completed Amice field, the analytic Frobenius extension, the
+ Cohen-ring étale equivalence, slope theory with the adapter `deg_w = e_C·deg`, and, for finite
+ coefficient fields, Frobenius-fixed bases, finite-level descent and quasi-unipotent, finite-étale
+ and logarithmic local monodromy. Layers RD.0–RD.2 consume these on that domain and add carriers
+ over arbitrary complete nonarchimedean fields, the Fontaine–Katz equivalence, and the monodromy
+ theorems over general coefficient fields and imperfect residue fields with nearly finite separable
+ covers; every target that restricts to the supplier says so. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+ §§R07.4.7–R07.4.8 is a sibling consumer of the same objects in the perfect-residue case
+ `W(k)[1/p], q = p`, `t ↦ t^p`; its §§R07.3.2–R07.3.3 (weak admissibility, Newton above Hodge) are
+ used in RD.7.22.
+- RestrictedPowerSeries §§1.1–1.2, 5.1 and 7.1 supplies closed/open disc coefficients and simultaneous classical distinguished coordinates, and its §1.1, §§4.2–4.4 and §5.4 supply the multiplicative Gauss norm, Weierstrass division and preparation at every positive radius, and noetherianity at polyradii in `√|K^×|` used by RD.3.27; RigidAnalyticGeometry §1.2 supplies classical affinoid normalization. RD.0.2 identifies its disc subcases with the supplied carriers and topologies; RD.3.26 supplies the additional compatible dagger-coordinate adapter.
+- DerivedDeRhamCohomology §PD.6: divided powers, relative PD envelopes and completed envelopes.
+- CongruenceSpectralGap §§4.2a–4.2b: the coefficient-generic scalar hyper-Kloosterman sum, its
+ eliminated-variable comparison and its numerical Deligne bound in every rank over every finite
+ field. The all-prime, all-positive-rank rigid Kloosterman construction, its relative and fibre comparisons, connection, Frobenius, trace and purity (§RD.6.94–§RD.6.97) are owned here. KloostermanMomentsAndPotentialAutomorphy extends this coefficient to moment motives and potential automorphy; KloostermanSheavesAndBesselIsocrystals extends it to reductive-group-valued coefficients. Those extensions consume this rigid construction.
+- CrystallineCohomology: crystals, isocrystals and F-crystals,
+ crystalline cohomology and its Frobenius, perfectness, Künneth, duality and the trace, logarithmic
+ structures, log crystalline cohomology, Hyodo–Kato cohomology and log rigid Hyodo–Kato cohomology
+ (§CR.6.5). It also owns constant-coefficient rigid cohomology of smooth finite-type `k`-schemes
+ (§CR.6.4 *Rigid cohomology of smooth strata*: dagger frames, frame independence, finiteness,
+ Frobenius bijectivity over perfect `k` and the proper smooth comparison with rational crystalline
+ cohomology). Berthelot's construction here (§§RD.4.8–RD.4.10) extends it to separated
+ finite-type schemes and overconvergent coefficients, and §RD.4.24 identifies the two on smooth
+ schemes with constant coefficients; §RD.4.38 is its proper smooth comparison on that
+ identification, and §§RD.5.66, RD.5.77 and RD.6.14 extend its finiteness and Frobenius
+ bijectivity to coefficients and supports. The analytic convergent coefficient category and its convergence condition are §RD.3.34:
+ a topologically quasi-nilpotent connection is not automatically a convergent isocrystal. CR.1.2 supplies the general quasi-coherent crystal carrier and pullback; its named `FCrystal` contract is finite locally free with p-Frobenius. The coherent finite-type, ramified-base `F^a` adapter and two-sided isogeny condition used here are §RD.3.34a, as full subcategories and additional structure on that same crystal carrier.
+- LocallyAnalyticDistributions: nonarchimedean locally convex spaces, inductive and projective
+ limits (Layer 0) and the Hahn–Banach theorem (§0.2). CompactOperators §§1.2–1.5
+ supplies Fredholm determinants on Banach and (Pr) spaces. The duality theory used for strict maps (Banach–Steinhaus, the bipolar theorem, Mackey,
+ compact-type duality) and the trace theory on LF spaces are targets here (§RD.5.40, §RD.6.5).
+- SchemeAndStackFoundations: henselian pairs and smooth lifting (§0.14), coherent
+ duality (§§2.19–2.20), Chow's lemma, modifications, flattening, Grothendieck algebraisation and de Jong's
+ alteration theorem (§§4.10–4.19).
+- EnhancedDerivedSheaves: derived pushforward and adjunctions (E1), hypercover descent (E2.6),
+ derived inverse limits and homological algebra of diagrams (E1–E3).
+- ArithmeticGaloisRepresentations: representation break decompositions, Swan and Artin conductors and their consequences over complete discretely valued fields with perfect, possibly infinite, residue fields (Layer 3), monodromy filtrations of tensor products (§2.6), and Tate
+ modules of abelian varieties (Layer 6). §RD.2.45 extends the coefficient interface to characteristic-zero p-adic coefficients under an explicit finite-wild-image hypothesis.
+- DeligneWeightsAndPurity: Weil numbers, `ι`-weights of endomorphisms, characteristic power series,
+ purity under extensions and twists (Layer 0), point counts of abelian varieties (Layer 1), the canonical integral finite-field zeta series and its elementary identities (§1.10),
+ positive power series (§2.7), the abstract rational-series/Fatou and weight-separated degree-factor extraction API (§4.4), and Weil purity of smooth projective varieties (§§4.3, 7.15). The extraction interface of §4.4 uses finite-dimensional ℚ_ℓ-Frobenius modules. RD.7.4 proves the local Fatou theorem at every prime, and RD.7.5 provides the coefficient descent and companion-matrix adapter for rigid factor families over other characteristic-zero fields; the global integral numerator/denominator theorem and degree extraction remain with that supplier.
+- InverseGaloisAndArithmeticFundamentalGroups (local systems §IG.0.3, tame fundamental groups of curves
+ §IG.1.2, with EtaleCohomologyFoundations §§F.0.2, F.0.A2 for the general fundamental group and arithmetic sequence), LefschetzPencilsAndVanishingCycles (monodromy filtration, §1.3),
+ AbelianSchemesAndArithmeticModuli (Tate modules and characteristic polynomials, §§A5.7, A6.11),
+ PadicPeriodRings (period rings and the functors `D_cris, D_st, D_dR`,
+ §§4.1–4.3), ModularCurvesPartII (integral curves, Hodge line and cusp charts, Layers 2–5 and 7; Igusa components, §11.1), ClassicalArithmeticCompletion (Kronecker's
+ Hankel criterion, §6.44), AdicCoefficientsAndComparisons (Nagata compactification, §L2),
+ ClassicalAdicEtaleCohomology (quasi-étale specialisation, §§4.1–4.2), AdicEtaleGeometry (Elkik's
+ approximation theorem, §A1.0.4) and ReductiveGroupsPartII (Lang's theorem, §RG2.3.7).
+
+The shared fixed-integral-weight overconvergent form spaces and their full-level Pan adapter are §RD.4.60(a). Their downstream weight-family refinements use the same section spaces; compact operators and classicality remain with the family development.
+
+**Shared formal differential theory.** FormalConnectionsOpers §6.2 owns the cyclic-vector theorem over differential fields of characteristic zero with nonzero derivation (`exists_cyclicVector`); this roadmap applies it in §§RD.1.7, RD.1.10, RD.1.52 and RD.6.52a. This roadmap owns Katz's explicit candidates over differential rings, with their local cyclicity (§§RD.1.3–RD.1.5; FormalConnectionsOpers §6.2 states the explicit form over fields only), and the finite-ramification formal normal forms, slopes and descent over `F((t))` (§RD.6.52a). FormalLaurentPuiseux owns the scalar Laurent/Puiseux fields and formal calculus. The flag/oper equivalence and the oper lattice estimates belong to FormalConnectionsOpers; nothing else of the oper development is used here.
+
+**Projective modules over polynomial rings.** This roadmap owns the algebra to which the
+rigid-analytic Quillen–Suslin theorem §RD.3.27 reduces: finite free resolutions with two out of
+three, stable freeness of projectives, base change and Serre's theorem over `R[t]` (§RD.0.55), and
+unimodular vectors over polynomial rings with the unimodular extension property (§RD.0.56). Both
+are stated over arbitrary commutative rings, with the noetherian and integral-domain hypotheses of
+Lang's Theorems XXI.2.8 and XXI.3.4, on Mathlib's `Module.IsStablyFree`, `Module.IsUnimodular`
+and `Polynomial`.
+
+**What builds on it.** Coleman integration uses the dagger Frobenius, the Monsky–Washnitzer
+comparison for affine curves, finiteness and the weights of `H¹` (Layers RD.0, RD.4–RD.6). The
+p-adic Hodge theory roadmaps use the topologies on the Robba ring and the logarithmic form of the
+local monodromy theorem; their identification of Berger's rings through the field of norms, and
+the passage from de Rham to potentially semistable representations, belong to them. Ordinary-locus
+and Igusa cohomology in automorphic Galois representations use the coefficient-specific dagger and
+log comparisons of Layer RD.4 and the finiteness and weights of Layers RD.5–RD.6. The comparison
+roadmaps (`C_st` and the semistable comparison) use the Kloosterman realisation §RD.7.21, which is
+stated here with those comparison isomorphisms as hypotheses. The Weil conjectures and point-counting
+roadmaps use the Weil factors of Layer RD.7.
+
+
+
+## Exact supplier contracts
+
+Each item below is used as stated; the targets that use it are listed after it.
+
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
+
+- `PowerSeries.IsRestricted` and `PowerSeries.isRestricted_iff'`: radius-weighted coefficient decay, used in RD.3.8 through `PowerSeries.mk`; radius 1 gives closed-disc coefficients.
+- `StrongDual` and `Mathlib.Topology.Algebra.Module.Spaces.ContinuousLinearMap`: continuous linear functionals with uniform convergence on von Neumann bounded sets, used in RD.5.41.
+- `AddChar`: Additive characters `A → M^×` as a structure, with the group structure used for `ψ_π`. Used in RD.6.46.
+- `AddChar.sum_eq_zero_of_ne_one`: The sum of a nontrivial additive character over a finite group vanishes. Used in RD.6.46.
+- `AddChar.zmodChar`: The additive character of ZMod `n` attached to an element `ζ` with `ζ^n = 1`. Used in RD.6.42, RD.6.46.
+- `AddValuation`: Additive valuations `R → Γ₀` (used for `v_ℓ` and for `w`). Used in RD.0.6.
+- `AlgHom.IsArithFrobAt`: For `φ : S →ₐ[R] S` and prime ideal `Q`, the congruence `φ x − x^(Nat.card (R / comap Q)) ∈ Q`. Interpret this exponent as `q` only after identifying the quotient with a finite field of cardinality `q`; it is not a general Frobenius-lift carrier. Used in RD.0.42.
+- `Algebra.Etale`: Étale algebras (formally étale and of finite presentation). Used in RD.0.39, RD.2.11, RD.2.18, RD.3.39.
+- `Algebra.FormallyEtale`: Formally étale algebras, defined by the vanishing of `Ω[A⁄R]` and `H¹` of the naive cotangent complex; `Algebra.FormallyEtale.iff_comp_bijective` gives the unique lifting along square-zero (hence nilpotent) thickenings, from which an étale map that is an isomorphism modulo a nilpotent ideal is an isomorphism. Used in RD.3.9.
+- `Algebra.FormallySmooth.exists_lift`: An algebra map into `B/I` lifts when `I` is nilpotent; this does not lift modulo an arbitrary ideal. Used in RD.0.39, RD.0.41.
+- `Algebra.IsSeparable`: Separable algebraic extensions. Used in RD.2.11.
+- `Algebra.Smooth`: Formally smooth, finitely presented algebras. Used in RD.0.39, RD.0.41, RD.0.42.
+- `Algebra.trace`: The trace of a finite free algebra, used for `Tr_{𝔽_{q'}/𝔽_p}`. Used in RD.0.51, RD.4.2, RD.6.46.
+- `AlgebraicGeometry.Etale`: Étale morphisms of schemes (the class AlgebraicGeometry.Etale) and the category X.Etale of schemes étale over `X`; descent statements are not part of this file. Used in RD.3.48, RD.5.8c.
+- `AlgebraicGeometry.IsClosedImmersion`: Closed immersions of schemes. Used in RD.3.1, RD.5.5.
+- `AlgebraicGeometry.IsOpenImmersion`: Open immersions of schemes. Used in RD.3.1.
+- `AlgebraicGeometry.IsProper`: Proper morphisms of schemes (separated, universally closed, locally of finite type). Used in RD.3.1, RD.3.11, RD.3.23, RD.3.24.
+- `AlgebraicGeometry.IsSeparated`: Separated morphisms of schemes. Used in RD.3.1, RD.3.24, RD.4.10, RD.5.6, RD.5.7.
+- `AlgebraicGeometry.LocallyOfFiniteType`: Morphisms locally of finite type. Used in RD.3.24, RD.4.10, RD.5.7.
+- `AlgebraicGeometry.Scheme`: Schemes, the carriers of the varieties in Kedlaya's projection theorem. Used in RD.3.1, RD.3.2, RD.5.6, RD.5.7.
+- `AlgebraicGeometry.Smooth`: Smooth morphisms of schemes. Used in RD.3.1, RD.5.7.
+- `ArithmeticFunction.moebius` and `ArithmeticFunction.sum_eq_iff_sum_mul_moebius_eq`: the Möbius function and Möbius inversion of a divisor sum, for the Euler product of the Artin–Hasse series. Used in RD.1.63.
+- `CategoryTheory.Abelian.isIso_of_epi_of_isIso_of_isIso_of_mono`: The five lemma in an abelian category. Used in RD.5.54.
+- `CategoryTheory.Abelian.mono_of_epi_of_mono_of_mono`: The mono half of the four lemma. Used in RD.5.54.
+- `CategoryTheory.Equivalence`: Equivalences of categories. Used in RD.2.16.
+- `CategoryTheory.Functor.Faithful`: Faithful functors. Used in RD.5.8.
+- `CategoryTheory.Functor.Full`: Full functors. Used in RD.5.8.
+- `CategoryTheory.MonoidalCategory`: Monoidal categories, the tensor structure of the coefficient categories. Used in RD.2.52.
+- `CategoryTheory.Pretriangulated`: Pretriangulated categories: distinguished triangles for the excision and localisation triangles. Used in RD.4.19.
+- `CategoryTheory.RightRigidCategory`: Right rigid monoidal categories (duals), part of the Tannakian hypotheses. Used in RD.2.52.
+- `CategoryTheory.Sheaf`: Sheaves on a site with values in a category; the overconvergent site is a site and its modules are sheaves on it. Used in RD.4.5, RD.5.68.
+- `CategoryTheory.ShortComplex.SnakeInput`: The snake lemma, for the six-term sequence of generic pushforwards. Used in RD.5.50.
+- `CochainComplex`: Cochain complexes (de Rham complexes). Used in RD.4.1.
+- `Derivation`: Constant-linear derivation with Leibniz rule; a connection is linear over constants, not over its differential field. Used in RD.0.36, RD.1.1, RD.1.2, RD.1.3, RD.3.28.
+- `DerivedCategory`: The derived category of an abelian category, assuming HasDerivedCategory; the homotopy localization and triangle machinery are imported, not new rigid-cohomology carriers. Used in RD.4.5, RD.4.10, RD.4.12, RD.4.39, RD.4.46.
+- `Differential`: A commutative ring with a chosen derivation Derivation `ℤ R R`. Used in RD.1.1.
+- `DiscreteConvolution.ringConvolution`: A total tsum convolution operation on coefficient functions, and addRingConvolution via `to_additive`. Summability hypotheses are required for associativity and analytic closure; this definition alone supplies no ring structure on arbitrary Laurent families or Robba germs. Used in RD.0.1.
+- `ExteriorAlgebra.exteriorPower`: The `n`-th exterior power ⋀`[R]^n M` (used for `deg M = deg ∧^n M`). Used in RD.1.25.
+- `FDRep`: Finitely generated representations of a monoid over a ring, hence finite-dimensional representations over a field `K` (`Mathlib/RepresentationTheory/FDRep.lean`, definition of `FDRep`). Over `K` the category is rigid when the acting monoid is a group `G`; no finiteness of `G` is required (`Mathlib/CategoryTheory/Action/Monoidal.lean`, rigid instances with `[Group H]` and `Action.rightDual_ρ`). Used in RD.2.52. A one-dimensional group character has dual action `χ(g)⁻¹`, so evaluation has multiplier `χ(g)χ(g)⁻¹ = 1`; a free-monoid generator acting by zero instead forces equivariant evaluation to be zero and violates the triangle identity `0 ≠ id_K`.
+- `Field.absoluteGaloisGroup`: The absolute Galois group `Aut(AlgebraicClosure K / K)` with its profinite topology; restriction identifies it with `Gal(F^sep/F)`, the form used here. Used in RD.2.18, RD.2.24.
+- `FiniteDimensional`: Finite-dimensional vector spaces (the finiteness conclusions and near-isomorphisms). Used in RD.5.23, RD.5.51.
+- `HahnSeries`: Hahn (generalised power) series with well-founded support. Used in RD.5.2.
+- `HenselianLocalRing`: Henselian local rings: simple roots of monic polynomials over the residue field lift. Used in RD.0.8, RD.0.26, RD.2.11, RD.2.18.
+- `HenselianRing`: Henselian pairs `(R, I): I` in the Jacobson radical and simple roots modulo `I` lift. Used in RD.0.26.
+- `HomologicalComplex.homology`: Homology of a complex: the cohomology of de Rham complexes. Used in RD.4.1, RD.5.53.
+- `IsAlgClosed`: Algebraically closed fields. Used in RD.0.51, RD.1.32, RD.1.60.
+- `IsAlgClosed.exists_pow_nat_eq`: In an algebraically closed field every element has an `n`-th root for `n > 0`. Used in RD.0.33.
+- `IsAlgClosed.of_denseRange`: A complete nonarchimedean normed field of characteristic zero with a dense algebraically closed subfield is algebraically closed (CharZero hypothesis; proof via Krasner's lemma). Used in RD.0.33.
+- `IsAlgClosed.of_exists_root`: A field in which every monic irreducible polynomial has a root is algebraically closed. Used in RD.0.33.
+- `IsBezout`: The existing class saying every finitely generated ideal is principal. Used in RD.0.18, RD.0.24, RD.0.29, RD.0.30.
+- `IsDiscreteValuationRing`: Discrete valuation rings: local PIDs that are not fields. Used in RD.0.8, RD.0.26.
+- `Function.Exact`: Exactness `range f = ker g` of a pair of maps; with `f` injective and `g` surjective, a short exact sequence. Used in RD.0.55.
+- `IsGalois`: Galois field extensions (separable and normal). Used in RD.2.11, RD.2.18.
+- `IsGalois.mem_range_algebraMap_iff_fixed`: For a finite Galois extension `E/F`, an element of `E` lies in `F` exactly when every automorphism in `Gal(E/F)` fixes it. Used in RD.7.5.
+- `IsIntegrallyClosed.eq_map_mul_C_of_dvd`: Gauss's lemma: over an integrally closed domain `R` with fraction field `K`, a divisor in `K[X]` of a monic polynomial over `R` is, after normalising its leading coefficient, the image of a polynomial over `R`. Used in RD.7.5.
+- `IsNilpotent`: Nilpotent elements (the residue of a unipotent `∇`-module). Used in RD.2.16.
+- `IsNoetherianRing`: Noetherian rings (dagger algebras, Lemma 7.3.4). Used in RD.0.55, RD.5.51.
+- `IsPrimitiveRoot`: Primitive roots of unity, for `ζ_π = θ(1)`. Used in RD.6.46.
+- `IsSMulRegular`: Elements acting injectively on a module (nonzerodivisors). Used in RD.0.55.
+- `IsPrincipalIdealRing`: Rings all of whose ideals are principal. Used in RD.0.14, RD.3.27.
+- `LieModule.isNilpotent_derivedSeries_of_traceForm_eq_zero`: Cartan's criterion: if the trace form of a finite free representation `M` vanishes, then ⁅`L, L`⁆ acts nilpotently on `M` (characteristic zero domain). Used in RD.6.72.
+- `LieModule.isNilpotent_iff_forall`: Engel's theorem: a Lie module is nilpotent iff every element acts nilpotently (`L` noetherian). Used in RD.6.72.
+- `LieModule.traceForm`: The trace form `(x, y) ↦ Tr(ρ(x)ρ(y))` of a finite free representation. Used in RD.6.72.
+- `LinearMap`: Bundled linear and semilinear maps, without an analytic convergence or connection structure. Used in RD.1.3.
+- `LinearMap.IsPerfPair`: Perfect pairings (bijective in both arguments): the form of Poincaré duality. Used in RD.5.89.
+- `LinearMap.index`: The `index dim ker f − dim coker f` of a linear map (a junk value unless kernel and cokernel are finite dimensional). Used in RD.5.23, RD.5.32.
+- `LinearMap.index_comp`: Additivity of the index under composition of maps with finite-dimensional kernels and cokernels over a division ring. Used in RD.5.23, RD.5.32.
+- `LinearMap.charpoly`: Characteristic polynomial of an endomorphism of a finite free module (Frobenius on cohomology). Used in RD.4.17, RD.6.2, RD.6.4.
+- `LinearMap.ker`: The kernel submodule of a (semi)linear map; the light support-section illustration uses this existing carrier. Used in RD.4.42, RD.5.23.
+- `LinearMap.range`: The image submodule of a linear map, used for the theta quotient. Used in RD.4.60.
+- `LinearMap.trace`: The trace of an endomorphism of a finite free module, used on finite-dimensional cohomology. Used in RD.6.5, RD.6.15, RD.6.16.
+- `Matrix.charpolyRev`: The reverse characteristic polynomial `det(1 − X·M)` of a square matrix; the convention of the Weil factors and of Tuitman's `χ(T)`. Used in RD.6.2, RD.7.18.
+- `Matrix.GeneralLinearGroup`: Invertible square matrices `GL_n(R)`, acting on vectors by `Matrix.mulVec`. Used in RD.0.56.
+- `Matrix.det`: Determinant of a finite square matrix over a commutative ring. Used in RD.1.4, RD.1.25.
+- `Matrix.reverse_charpoly`: The reverse of the characteristic polynomial equals charpolyRev. Used in RD.7.18.
+- `Module.Basis`: A basis Module.Basis `ι R M`, indexed by an arbitrary type `ι` and represented by a linear equivalence `M ≃ₗ[R] (ι →₀ R)`; used here with `ι = Fin n`. Used in RD.0.47, RD.0.48, RD.1.3.
+- `Module.Basis.equivFunL`: A finite basis gives a continuous linear equivalence with its coordinate space, over a complete nontrivially normed field and a Hausdorff topological vector space. Used in RD.0.17.
+- `Module.Dual`: The algebraic dual `V →ₗ[K] K`. Supplies finite-dimensional coefficient duals only; continuous strong duals and their topology in §RD.5.41 are separate targets, not this abbreviation. Used in RD.4.17, RD.5.41.
+- `Module.FaithfullyFlat`: Faithfully flat modules. Used in RD.0.32.
+- `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`: Over a Bézout domain a module is flat iff it is torsion-free. Used in RD.0.30; this criterion is consumed without a new flatness target.
+- `Module.Finite`: Finitely generated modules. Used in RD.0.55, RD.0.56.
+- `Module.Flat`: Flat modules, for base change of finite free resolutions. Used in RD.0.55.
+- `Module.Free`: Free modules (existence of a basis). Used in RD.0.30, RD.0.55, RD.0.56, RD.3.27.
+- `Module.IsStablyFree`: `M × N` is free for some finite free `N`; with `Module.Finite` these are the stably free modules of Lang, Chapter XXI. Used in RD.0.55, RD.0.56.
+- `Module.IsUnimodular`: Some linear functional takes the value 1 at `v`; on `Fin n → R` this says the entries generate the unit ideal. Used in RD.0.56.
+- `Module.Projective`: Projective modules. Used in RD.0.30, RD.0.55, RD.3.27.
+- `Nat.choose`: Binomial coefficients. Used in RD.6.36.
+- `Padic`: The p-adic numbers `ℚ_[p]` with their norm (coefficient growth of the Liouville sequence). Used in RD.3.52.
+- `PadicInt`: The p-adic integers `ℤ_[p]` as the elements of `ℚ_[p]` of norm at most 1 (exponents of Kummer isocrystals). Used in RD.3.51, RD.3.52.
+- `PadicInt.instBinomialRing`: `ℤ_[p]` is a binomial ring, so `Ring.choose a n` lies in `ℤ_[p]` for `a ∈ ℤ_[p]`; Mathlib proves it by density of `ℕ` (`PadicInt.denseRange_natCast`). Used in RD.1.63.
+- `PerfectClosure`. Used in RD.0.51.
+- `PerfectField`: Perfect fields (every irreducible polynomial is separable). Algebraically closed fields are perfect by the instance IsAlgClosed.perfectField, which lives in Mathlib/FieldTheory/IsAlgClosed/Basic.lean. Used in RD.0.33.
+- `Polynomial`: Polynomials (Lemma 5.2.7; finite free resolutions and unimodular vectors over `R[t]`). Used in RD.0.55, RD.0.56, RD.5.17, RD.7.13.
+- `GaloisField`, `FractionRing`, `WittVector.constantCoeff`, `Polynomial.derivative` and `Nat.log`: the field `𝔽_{p^n}`, the fraction field `Q_q` of `Z_q = W(𝔽_q)`, the reduction `W(𝔽_q) → 𝔽_q` (zeroth Witt coordinate), the formal derivative and the floor logarithm `⌊log_p N⌋`, in the polynomial form of the hyperelliptic denominator bound. Used in RD.7.13.
+- `Polynomial.Monic`: Polynomials with leading coefficient 1. Used in RD.0.56.
+- `Polynomial.Splits`. Used in RD.1.60.
+- `Polynomial.dvd_iff_isRoot`: `X−C(a)` divides a polynomial iff evaluation at a is zero, over a commutative ring. Used in RD.0.43.
+- `Polynomial.evalRingHom`: Evaluation at a ring element is a ring homomorphism over a commutative semiring. Used in RD.0.43.
+- `Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt`: Continuity of roots: if monic `f, g` of equal degree have close coefficients and `g` splits in an extension, every root of `f` is close to a root of `g`; no separability or characteristic hypothesis. Used in RD.0.33.
+- `Polynomial.exists_monic_and_natDegree_eq_and_norm_map_algebraMap_coeff_sub_lt`: For a dense subfield `K` of a normed field `L`, every monic polynomial over `L` is approximated coefficientwise by a monic polynomial over `K` of the same degree. Used in RD.0.33.
+- `Polynomial.reverse`: Reversed polynomials, for `det(1 − tF)` as the reverse of the characteristic polynomial. Used in RD.6.89.
+- `Polynomial.roots`: Multiset of roots of a polynomial with multiplicities. Used in RD.6.28.
+- `PowerSeries`: Formal power series `R[[X]]`. Used in RD.6.4.
+- `PowerSeries.binomialSeries`: the series `(1 + X)^r` with coefficients `Ring.choose r n` over a binomial ring. Used in RD.1.63.
+- `PowerSeries.derivative`: The formal derivative of power series as a derivation `R⟦X⟧ → R⟦X⟧`. Used in RD.0.36.
+- `PowerSeries.exp`: The exponential power series over a `Q`-algebra, for `exp(π(x^σ − x))` and zeta functions. Used in RD.1.63, RD.6.22, RD.6.42, RD.6.46.
+- `PowerSeries.ext`: Two formal power series with the same coefficients are equal; the identities of §RD.7.4 are coefficientwise. Used in RD.7.4.
+- `PowerSeries.mk`: Power series from coefficient sequences, for zeta functions and Hankel determinants. Used in RD.6.22, RD.6.24.
+- `RatFunc`: Rational functions over a field, the target of rationality statements. Used in RD.6.24.
+- `Representation`: Linear representations of a monoid on a module: a monoid hom to the endomorphisms. Used in RD.2.24, RD.2.35.
+- `Ring.choose`: binomial coefficients `choose r n` in a binomial ring. Used in RD.1.63.
+- `SkewPolynomial`: Polynomial carrier with multiplication twisted by a MulSemiringAction: `X·a = φ(a)·X`. Supplies a multiplicative Frobenius-twist analogue after the action instance is provided; it does not supply differential Ore multiplication `X·a = a·X + δ(a)`. Used in RD.1.2, RD.1.21.
+- `Submodule.FG`: Finitely generated submodules (Lemma 7.3.4, finiteness of local cohomology). Used in RD.5.51.
+- `Submodule.mkQ`: The quotient projection `M→M/S` with its existing module structure. Used in RD.4.60, RD.5.23.
+- `TensorProduct`: Tensor products of modules, for the Künneth maps of complexes of K-vector spaces and for base change of resolutions. Used in RD.0.55, RD.3.28, RD.4.17, RD.5.92, RD.5.93.
+- `UniformSpace.Completion`: The Hausdorff completion of a uniform space. Used in RD.0.33.
+- `WithSeminorms`: A topology induced by an indexed family of seminorms over a normed field; no real or complex scalar assumption. Used in RD.0.2, RD.5.40.
+- `WithSeminorms.continuous_of_isBounded`: Continuity of an isometrically semilinear map bounded by finite families of source seminorms. Used in RD.0.2.
+- `WittVector`: p-typical Witt vectors `W(R)` with coefficients x.coeff `n`. Used in RD.0.6, RD.0.54, RD.7.13.
+- `WittVector.Isocrystal`: Isocrystals over a perfect field `k`: vector spaces over `K(p,k) = FractionRing (WittVector p k)` with a Frobenius-semilinear automorphism; the fibres of F-isocrystals at perfect points. Used in RD.1.21, RD.3.34, RD.3.36, RD.3.47, RD.3.48, RD.6.2.
+- `WittVector.StandardOneDimIsocrystal`: The one-dimensional isocrystal of slope `m ∈ ℤ`, with Frobenius `x ↦ p^m φ(x)`. Used in RD.3.34.
+- `WittVector.ext`: Equality of all Witt coordinates implies equality of Witt vectors. Used in RD.0.52.
+- `WittVector.frobenius`: The p-typical Witt Frobenius ring endomorphism for any commutative coefficient ring; in characteristic `p` its coefficients are p-th powers. Used in RD.0.5, RD.0.6, RD.6.1.
+- `WittVector.isocrystal_classification`: Over an algebraically closed `k` every one-dimensional isocrystal is isomorphic to StandardOneDimIsocrystal `p k m` for some `m ∈ ℤ`. Used in RD.1.23, RD.1.32, RD.3.47.
+- `WittVector.map`: Functorial ring homomorphism on Witt vectors induced by a coefficient ring homomorphism. Used in RD.0.52.
+- `WittVector.map_coeff`: WittVector.map acts on every Witt coordinate by the input ring homomorphism. Used in RD.0.52.
+- `WittVector.teichmuller`: The Teichmüller lift `R →* W(R)` (multiplicative, 0-th coefficient `r`, others 0). Used in RD.0.6.
+- `padicValNat_factorial`: Legendre: `v_p(n!) = Σ_{1 ≤ i < b} ⌊n/p^i⌋` for `b > log_p n`. Used in RD.6.35.
+- `padicValRat`: p-adic valuation on `ℚ` (denominator bound of Lemma 5.2.7). Used in RD.5.17, RD.6.58.
+- `spectralNorm.normedField`: An algebraic extension `L` of a complete nonarchimedean normed field `K` is a normed field under the spectral norm. Used in RD.0.33, RD.7.4.
+- `spectralNorm_extends`: The spectral norm restricts to the given norm on `K`. Used in RD.0.33, RD.7.4.
+- `sub_one_mul_padicValNat_factorial`: Legendre: `(p − 1)·v_p(n!) = n −` (sum of base-`p` digits of `n`). Used in RD.6.30, RD.6.35.
+
+- `AddChar.compAddMonoidHom`: pullback of a character through the additive field trace; RD.6.46 uses this with `AddChar.zmodChar`, without a second character carrier.
+- `Topology.IsStrictMap`, `LinearMap.isStrictMap_iff_isHomeomorph_quotKerEquivRange` and `LinearMap.isStrictMap_iff_isOpenQuotientMap_rangeRestrict`: Bourbaki strictness and its quotient/range and open-range descriptions. Used in RD.5.41–RD.5.44.
+- `LinearMap.mem_ker`, `LinearMap.ker_zero` and `LinearMap.ker_id`: section-level support kernels and their empty/full-complement cases. Used in RD.4.42.
+- `CategoryTheory.EssentiallySmall`: a small skeleton in the specified universe; used in RD.2.52 so that the representing Hopf algebra belongs to that universe.
+- `LinearMap.isStrictMap_prodMap_iff`: strictness of a finite product is componentwise; used with closedness of product ranges in RD.5.41.
+- `Submodule.liftQ` and `Submodule.Quotient.subsingleton_iff`: the universal map out of a range quotient, and its vanishing when the range is the full module. Used for the module-level theta presentation in RD.4.60.
+
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
+
+- `TauCeti.LocalFieldsRamification.herbrand`, `TauCeti.LocalFieldsRamification.inverseHerbrand` and `TauCeti.LocalFieldsRamification.upperRamificationGroup`: the Herbrand order isomorphism on `[-1, ∞)`, its inverse and upper ramification groups for finite Galois extensions of nonarchimedean local fields. Their finite-residue-field domain is used in RD.2.44–RD.2.47 and RD.6.51; LocalFieldsRamification Layers 3–4 supply the general perfect-residue-field ramification package, agreeing with these declarations on the common domain.
+- `LinearMap.trace_eq_add_of_exact`: For an endomorphism of a short exact sequence `0 → N → M → Q → 0` of vector spaces with `M` finite-dimensional, trace `f =` trace `f_N +` trace `f_Q`. Used in RD.6.20.
+- `TauCeti.FGComoduleCat`: Finitely generated right comodules over a coalgebra, as a full subcategory of all comodules (finite-dimensional comodules over a field); the category `Rep_K(G)` of the recognition theorem. Used in RD.2.52.
+- `TauCeti.FGComoduleCat.instRigidCategory`: Finite-dimensional comodules over a commutative Hopf algebra over a field form a rigid monoidal category. Used in RD.2.52.
+- `TauCeti.FGComoduleCat.instSymmetricCategory`: The symmetric monoidal structure (tensor-product swap) on finite comodules over a commutative bialgebra. Used in RD.2.52.
+- `TauCeti.Dagger.washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`): the Monsky–Washnitzer algebra `R⟨X⟩†` over an ultrametric normed commutative ring `R`, the subalgebra of power series restricted at some constant radius `ρ > 1`; the coordinate algebra of AdicSpacesPartIV §§F1.1–F1.2. Used in RD.3.26 and RD.3.27, whose `rigid_quillen_suslin` is stated on it.
+- `TauCeti.Dagger.IsDaggerAlgebra` (`TauCeti/RingTheory/Dagger/DaggerAlgebra.lean`): a commutative `K`-algebra that is a quotient of some `washnitzerAlgebra (Fin n) K`, with no norm or topology fixed; the carrier of AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*. Used in RD.3.26 and RD.3.28.
+- `TauCeti.Dagger.weakCompletion` (`TauCeti/RingTheory/Dagger/WeakCompletion/Basic.lean`): for `π ∈ O` and a finitely generated `O`-algebra `S`, the weak completion `S†` as an `O`-subalgebra of the `π`-adic completion, independent of the generators; the carrier of AdicSpacesPartIV §F1.5 *The Monsky–Washnitzer weak completion*. Used in RD.0.40–RD.0.42, whose `exists_frobenius_lift_weakCompletion` is stated on it.
+- `TauCeti.Dagger.Omega` (`TauCeti/RingTheory/Dagger/Omega/Basic.lean`): the universally finite module of differentials, the quotient of the Kähler differentials by the intersection of all submodules with finite quotient, free on the `dX_i` over `washnitzerAlgebra` in finitely many variables over a complete field; the carrier of AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials*. Used in RD.3.28.
+- `TauCeti.Dagger.primitive_mem_washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`): over an ultrametric normed field of characteristic zero, the termwise primitive in one variable of an overconvergent series is overconvergent. Used in RD.4.34.
+- `TauCeti.Dagger.washnitzerAlgebra.exists_pderiv_eq_iff` and `TauCeti.Dagger.washnitzerAlgebra.existsUnique_pderiv_eq` (`TauCeti/RingTheory/Dagger/Poincare.lean`): over an ultrametric normed field of characteristic zero, a finite family of overconvergent series is the gradient of an overconvergent series exactly when its mixed partial derivatives agree, and the potential is unique once its constant coefficient is prescribed. Used in RD.4.34.
+- `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`: Over a finite Galois `L/k`, an injective `k`-linear map into invariant vectors stays injective after scalar extension to `L` (Hilbert-Noether descent, injectivity half). Used in RD.2.24, RD.2.35.
+- `TauCeti.GaloisDescent.span_invariants_eq_top`: For a field `L` with finite automorphism group over `k`, the invariant vectors of a semilinear representation span it over `L` (Hilbert-Noether descent, surjectivity half). Used in RD.2.24, RD.2.35.
+- `TauCeti.Tannaka.fgPointTensorIsoEquiv`: For a commutative Hopf algebra `H` over a field `k` and a commutative `k`-algebra `A`, A-valued points of `H` are equivalent (as groups) to tensor automorphisms of scalar extension to A on finite-dimensional `H`-comodules. Used in RD.2.51.
+- `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`: Tannakian reconstruction for a commutative Hopf algebra `H` over a field: the functor of points of `H` is isomorphic, naturally in the commutative algebra `A`, to the group functor of tensor automorphisms of scalar extension to A on finite `H`-comodules (pointwise form TauCeti.Tannaka.fgPointTensorIsoEquiv). Used in RD.2.51, RD.2.52.
+- `TauCeti.finiteDimensional_quotient_repartitionSpace`: For an algebraic function field `F/k` with exact constants and a divisor `D`, `A_F/(A_F(D) + F)` is finite dimensional over `k` (Stichtenoth 1.5.4). Used in RD.5.25.
+- `TauCeti.finiteDimensional_riemannRochSpace`: Riemann–Roch spaces `L(D)` of a function field are finite dimensional over `k` (Stichtenoth 1.4.9). Used in RD.5.25.
+- `TauCeti.finrank_quotient_repartitionSpace_zero`: `g = dim_k A_F/(A_F(0) + F)` (Stichtenoth 1.5.5): the cokernel of principal parts has dimension the genus. Used in RD.5.25.
+- `TauCeti.finrank_weilDifferentialFiltration_zero`: The regular Weil differentials form a `k`-space of dimension the genus (Stichtenoth 1.5.12). Used in RD.5.25.
+- `TauCeti.genus`: The genus of an algebraic function field. Used in RD.5.25, RD.6.53.
+- `WeierstrassCurve.frobeniusTrace`: For a Weierstrass model over a finite field with `q` elements, the integer `q + 1 − #W(F)` (projective count); on an elliptic model it is the classical trace `a_q (frobeniusTrace_eq_card_point)`. Used in RD.7.11, RD.7.17.
+
+### From TauCetiRoadmap
+
+- AlgebraicKTheory §0.5: over `C(S², ℝ)` the module of continuous tangent fields is stably free (`P ⊕ R ≅ R³`) and not free (`tangentSections_stablyFree_not_free`). Used in a Check of RD.0.56.
+- AdicSpaces: adic spectra, rational subsets and the analytic vocabulary on which AdicSpacesPartII builds; used throughout Layers RD.3–RD.5 through AdicSpacesPartII.
+- LocalFieldsRamification, Layers 3–4: finite and absolute lower/upper ramification, Herbrand functions, subgroup and quotient compatibility, upper numbering on open subgroups, invariance under completed maximal unramified base change and the full Hasse–Arf theorem over complete discretely valued fields with any perfect residue field. The finite lower groups use `Ideal.ramificationGroup` and the real-indexed `TauCeti.IsLocalRing.ramificationGroupReal`; on finite residue fields this package agrees with the pinned Tau Ceti declarations listed above. ArithmeticGaloisRepresentations Layer 3 supplies representation breaks and conductors on this filtration, and §RD.2.45 extends their coefficient domain.
+- AlgebraicCurves, Layer 9: Kähler differentials of a function field are identified with Weil differentials compatibly with residues; regular differentials have dimension `g` and principal parts at the missing points of an affine curve have one-dimensional cokernel (residue theorem). Used in the index computation for affine curves (§RD.5.25).
+- EllipticCurves, Layer 3: an elliptic curve over `𝔽_q` is supersingular if and only if `p` divides its Frobenius trace. Used in §RD.7.11.
+- JacobianChallenge, Layer F: the Jacobian of a smooth proper geometrically connected curve with a rational point after a finite extension, the Abel–Jacobi map and its universal property for maps to abelian varieties. Used in §RD.6.62.
+- FormalLaurentPuiseux §L3: formal Laurent residues, their coordinate formula and coefficient duality; the Robba LF duality of RD.5.45 has two-sided analytic tails and a different topology.
+- CompactOperators §§1.2–1.5 and §3.2: principal-minor Fredholm coefficients, cyclicity, (Pr)-module determinants and nonzero generalized eigenspaces. Used in RD.6.5, RD.6.7 and RD.6.16–RD.6.17.
+- PadicFunctionalAnalysis §§1.2, 1.3, 2.2: Banach-source mapping theorems, orthogonal families and topological bases; RD.5.40 extends the Banach-source uniform-boundedness theorem to barrelled locally convex spaces, and RD.0.47 asks for the algebraic-basis comparison with finite coordinate support, without assuming a complete ambient module.
+- ReductiveGroups, Layers 1–3: affine algebraic groups, their Lie algebras and the adjoint representation, components and quotients. Used in §RD.6.71.
+- EtaleCohomologyFoundations §§F.0.2, F.0.A2 (étale fundamental groups, fibre-functor equivalence and the arithmetic fundamental-group sequence) and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (for `X` separated of finite type over `𝔽_q` and `ℓ ≠ p`, the identity `#X(𝔽_{q^r}) = Σ_i (−1)^i Tr(Frob_q^r | Hⁱ_c(X_𝔽̄_q, ℚ_ℓ))` for every `r ≥ 1`); DeligneWeightsAndPurity §0.10 supplies the determinant expression of the zeta function. Used in §RD.3.43a and §RD.3.48 and in the `ℓ`-adic comparisons §RD.7.7 and §RD.7.8.
+
+### From other roadmaps
+
+Section numbers are those of the roadmaps named; each is built before this one.
+
+**AbelianSchemesAndArithmeticModuli.**
+
+- §§A1.1, A2.2 (*Products, relative dimension, duals*): used in RD.5.116.
+- §§A3.3, A3.6, A3.11 (*Finite-flat quotients, theta descent, principal quotients*): used in RD.5.116; the specified graph descent over the base is proved there.
+- §A6.11 (*The characteristic polynomial on the Tate module*): used in RD.7.17.
+
+**AdicCoefficientsAndComparisons.**
+
+- §L2: used in RD.3.1, RD.3.24, RD.4.10, RD.4.12.
+
+**AdicSpacesPartII.**
+
+- §R0.16 (*Jacobian criterion for closed subspaces of smooth spaces (Huber 1.6.9(ii))*): used in RD.3.11, RD.3.16.
+- §R0.9 (*Maximum modulus principle for K-affinoid algebras*): used in RD.3.5, RD.3.6, RD.3.11, RD.3.16, RD.3.30.
+- §R0.14 (*Quasi-finite and proper equals finite (Huber 1.5.5)*): used in RD.3.11.
+
+**AdicSpacesPartIII.**
+
+- §R2.9 (*The étale site of a formal scheme is the étale site of its special fibre; the generic-fibre functor on étale objects*): used in RD.4.41.
+- §R2.3 (*For formal `O_K`-schemes locally of tf presentation, `d(X)` is the adic space of Raynaud's rigid generic fibre*): used in RD.3.1, RD.3.2, RD.3.3, RD.3.4, RD.3.8, RD.3.9, RD.3.10, RD.3.12, RD.3.13, RD.3.32, RD.3.46, RD.4.5, RD.4.41.
+- §R2.3 (*The generic fibre commutes with fibre products and with completed extension of the base field*): used in RD.3.1, RD.3.2, RD.3.3, RD.3.4, RD.3.8, RD.3.10, RD.3.12, RD.3.13, RD.3.32, RD.4.5.
+- §R2.4 (*Tubes `]T[` of locally closed subsets of the special fibre, adic and rigid*): used in RD.3.1, RD.3.2, RD.3.3, RD.3.4, RD.3.5, RD.3.8, RD.3.9, RD.3.10, RD.3.12, RD.3.13, RD.3.32, RD.3.33, RD.3.40, RD.4.5, RD.4.41.
+- §R2.6 (*Separatedness, properness and partial properness of a formal model versus its generic fibre (Huber 1996 Remark 1.3.18)*): used in RD.3.11.
+- §R2.7, smooth-lifting-from-level-zero (*Smooth morphisms of the reduction lift to smooth formal morphisms (Bosch–Lütkebohmert II Lemma 1.4(a))*): used in RD.3.46.
+- §R3.2 (*Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*): used in RD.3.3, RD.3.4, RD.3.7, RD.3.10, RD.3.13, RD.3.14, RD.3.17, RD.3.29, RD.3.32, RD.3.41, RD.4.8, RD.4.12, RD.4.13, RD.4.24, RD.4.25, RD.5.31, RD.5.72.
+- §R3.4 (*Dense restriction of coherent sections on a quasi-Stein space*): used in RD.5.30, RD.5.31.
+- §R3.4 (*Kiehl's Theorem B on quasi-Stein spaces*): used in RD.3.3, RD.3.4, RD.3.7, RD.3.10, RD.3.13, RD.3.32, RD.3.41, RD.4.8, RD.4.12, RD.4.13, RD.4.24, RD.4.25.
+- §R3.4 (*Coherent cohomology of the open polydisc vanishes*): used in RD.4.6.
+- §R3.4 (*Acyclicity of direct images along quasi-Stein inclusions*): used in RD.3.7, RD.4.24.
+- §R3.6 (*Kiehl's proper mapping theorem*): used in RD.5.115.
+- §R3.7 (*Proper GAGA: comparison of coherent cohomology (Köpf)*): used in RD.5.29, RD.5.31, RD.5.79, RD.5.81, RD.5.115.
+- §R3.7 (*Proper GAGA: analytification is an equivalence on coherent sheaves*): used in RD.6.54.
+- §§R3.7–R3.7: used in RD.4.58.
+
+**AdicSpacesPartIV.**
+
+- §F1.2 (*Finite algebras over a dagger algebra are dagger algebras*): used in RD.3.39.
+- §F1.3 (*Fringe (radius-indexed) presentations of a dagger algebra*): used in RD.0.38, RD.0.42, RD.0.45, RD.3.8, RD.3.27, RD.3.28, RD.3.32, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.25, RD.5.11, RD.5.12, RD.5.22, RD.5.24, RD.5.26, RD.5.47, RD.5.56, RD.5.65, RD.6.6, RD.6.7, RD.6.8, RD.6.12.
+- §F1.3 (*The fringe (direct limit) topology on dagger algebras and their finite modules*): used in RD.0.38, RD.0.42, RD.0.45, RD.3.8, RD.3.27, RD.3.28, RD.3.32, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.25, RD.5.11, RD.5.12, RD.5.22, RD.5.24, RD.5.26, RD.5.47, RD.5.56, RD.5.65, RD.6.6, RD.6.7, RD.6.8, RD.6.12.
+- §F1.4 (*The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*): used in RD.0.42, RD.0.45, RD.4.4, RD.5.65.
+- §F1.4 (*Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*): used in RD.4.4, RD.5.22, RD.5.24, RD.5.56.
+- §F1.5 (*The integral Monsky–Washnitzer algebra `O_K⟨X_1`, …, `X_n⟩† = W_n ∩ O_K[[X]]`*): used in RD.0.43, RD.0.44.
+- §F1.5 (*The Monsky–Washnitzer weak completion `S†` of a finitely generated `O_K`-algebra*): used in RD.0.40, RD.0.41, RD.0.42, RD.0.45, RD.3.29, RD.3.31, RD.3.38, RD.4.43, RD.5.29.
+- §F1.5 (*Presentation, noetherianity and reduction of a weak completion*): used in RD.0.40, RD.0.41, RD.0.44.
+- §F1.5 (*Weak completeness and the universal property of the weak completion*): used in RD.0.40, RD.0.41, RD.0.42, RD.0.43, RD.0.45, RD.3.38.
+- §F1.5 (*The generic fibre `S† ⊗ K` of a weak completion is a dagger algebra with completion `Ŝ ⊗ K`*): used in RD.3.29.
+- §F1.5 (*Dagger algebras of Monsky–Washnitzer type*): used in RD.3.29, RD.5.79, RD.5.81.
+- §F1.5 (*Lifting morphisms of smooth reductions to weak completions (van der Put 2.4.4 (ii))*): used in RD.3.30, RD.3.39.
+- §F1.5 (*Existence and uniqueness of dagger algebras of MW-type with a given smooth reduction*): used in RD.3.29, RD.3.39.
+- §F1.7 (*Dagger spaces (rigid spaces with overconvergent structure sheaf)*): used in RD.4.44, RD.4.55.
+- §F1.9 (*The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*): used in RD.0.38, RD.0.44, RD.0.45, RD.3.28, RD.3.29, RD.3.32, RD.3.39, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.44, RD.4.55, RD.5.24, RD.5.65.
+- §F1.9 (*The overconvergent de Rham complex of a smooth dagger space, with coefficients in a module with integrable connection*): used in RD.0.44, RD.4.1.
+- §F1.9 (*De Rham cohomology of a smooth partially proper dagger space equals that of its rigid space (and fails to for affinoids)*): used in RD.4.55.
+- §F1.10 (*Compactly supported coherent and de Rham cohomology of affinoid and Stein dagger spaces*): used in RD.4.56.
+- §F1.11 (*Trace on de Rham complexes for finite étale morphisms of smooth dagger spaces*): used in RD.3.39.
+- §F1.2 (*Dagger algebras over a complete nonarchimedean field*): used in RD.0.38, RD.0.42, RD.0.45, RD.3.8, RD.3.26, RD.3.27, RD.3.28, RD.3.32, RD.4.1, RD.4.2, RD.4.4, RD.4.5, RD.4.25, RD.5.11, RD.5.12, RD.5.22, RD.5.24, RD.5.26, RD.5.47, RD.5.56, RD.5.65, RD.5.68, RD.5.106, RD.6.6, RD.6.7, RD.6.8, RD.6.12.
+- §F1.12 (*Strict normal crossings divisors on smooth dagger spaces (smooth dagger pairs)*): used in RD.5.100, RD.5.101.
+- §F1.12 (*The logarithmic de Rham complex `Ω^•_X(log D)` along a strict normal crossings divisor*): used in RD.5.101, RD.5.104.
+- §F1.12 (*The boundary-vanishing (compact-support) logarithmic de Rham complex `Ω^•_X(log D)(−D)`*): used in RD.5.106.
+- §F1.5 (*The integral subring of a dagger algebra of MW-type is a Monsky–Washnitzer lift*): used in RD.5.29.
+- §F1.2 (*A dagger algebra and its completion: faithful flatness, points, completed local rings, reducedness and regularity, supremum norm*): used in RD.3.38, RD.3.39, RD.5.8b, RD.5.8c.
+
+**ArithmeticGaloisRepresentations.**
+
+- §3.1 (*Finite wild image, breaks and the Swan conductor*): used in RD.2.45, RD.2.46, RD.2.47, RD.6.51, RD.6.52, RD.6.56.
+- §3.2 (*The Artin conductor and its integrality*, including the conductor of a ramified character): used in RD.2.45, RD.2.46, RD.2.47, RD.6.52.
+- §3.4 (*Functoriality*: tame and unramified base change of conductors, additivity of Swan conductors in exact sequences): used in RD.2.46, RD.2.47, RD.6.52.
+- §3.5 (*Induction and the conductor–discriminant formula*): used in RD.6.54.
+- §3.7 (*Computations and Artin–Schreier characters*): used in RD.2.44, RD.2.46, RD.6.52.
+- §2.6 (*Monodromy filtration and purity*): used in RD.6.80.
+- §6.3 (*Reduction and Euler factors*) and AbelianSchemesAndArithmeticModuli §A5.7 (*Degree-one realization conventions*): used in RD.7.17.
+
+**ClassicalAdicEtaleCohomology.**
+
+- §§4.1–4.2: used in RD.4.41.
+
+**ClassicalArithmeticCompletion.**
+
+- §6.44 (*Kronecker’s eventual Hankel vanishing criterion*): used in RD.6.24.
+
+**CrystallineCohomology.**
+
+- §CR.1.2 (*Rational crystals and nondegenerate F-crystals*): used in RD.3.35, RD.3.36, RD.3.37, RD.3.48, RD.4.36, RD.5.110 and RD.7.14.
+- §CR.1.2 (*Quasi-coherent and finite locally free crystals*): used in RD.3.35, RD.3.36, RD.4.36, RD.5.111, RD.7.14.
+- §CR.1.3 (*Modules with integrable connection and their de Rham complexes*): used in RD.3.16.
+- §CR.1.3 (*Crystals, stratifications and quasi-nilpotent connections*): used in RD.3.35, RD.3.36, RD.4.36.
+- §CR.2.1 (*Enhanced crystalline direct image and global sections*): used in RD.5.109.
+- §CR.2.2 (*De Rham computation in a smooth ambient embedding*): used in RD.4.36, RD.4.37, RD.7.14.
+- §CR.2.2 (*Independence of the presentation and of the embedding*): used in RD.4.37.
+- §CR.2.2 (*Crystalline cohomology from an embedding*): used in RD.7.10.
+- §CR.2.2 (*The relative PD Poincaré lemma*): used in RD.5.98, RD.7.10.
+- §CR.2.3 (*Formal comparison with trace-free endomorphism coefficients*): used in RD.7.15, RD.7.20.
+- §CR.3.1 (*Crystalline cohomology from a finite affine cover: the alternating Čech complex*): used in RD.4.37, RD.5.98.
+- §CR.3.2 (*Proper smooth crystalline perfectness and reductions*): used in RD.4.38, RD.5.99, RD.5.108, RD.5.109, RD.5.110, RD.5.111.
+- §CR.3.2 (*Derived crystalline base change*): used in RD.5.98, RD.5.99.
+- §CR.3.4 (*Semilinear crystalline Frobenius and linearization*): used in RD.4.38, RD.7.14.
+- §CR.3.4 (*Proper smooth crystalline Künneth formula*): used in RD.5.92.
+- §CR.3.5 (*Smooth proper lifts of curves over Witt vectors*): used in RD.7.15.
+- §CR.3:duality.1 (*Proper smooth crystalline trace*): used in RD.5.81.
+- §CR.3:duality.1 (*Derived crystalline Poincaré duality*): used in RD.5.86.
+- §CR.4.7 (*Slope decomposition on the existing isocrystal carrier*): used in RD.1.27, RD.1.32, RD.3.34, RD.3.47, RD.3.48; the all-rank ordinary Witt adapter identifies the blocks and slope normalization.
+- §CR.5.1 (*Absolute semistable residue maps*): used in RD.4.43, RD.4.47.
+- §CR.5.1 (*Logarithmic differentials*): used in RD.4.43, RD.4.45, RD.4.57.
+- §CR.5.1 (*Log de Rham complexes*): used in RD.4.44.
+- §CR.5.2 (*Exactification of log immersions*): used in RD.4.43, RD.4.44.
+- §CR.5.3 (*Logarithmic crystals*): used in RD.5.101, RD.5.107, RD.5.109.
+- §CR.5.4 (*Log PD Poincaré lemma*): used in RD.5.107, RD.7.19.
+- §CR.5.4 (*Derived p-adic log crystalline cohomology*): used in RD.5.108, RD.7.19.
+- §CR.6.1 (*Log de Rham–Witt model*): used in RD.7.20.
+- §CR.6.2 (*Hyodo–Kato comparison theorem*): used in RD.7.20.
+- §CR.6.4 (*Convergent complexes on tubes and Witt models*: the canonical relative and absolute convergent complexes, the tube support kernel, the signed monodromy triangle and the site comparison of the convergent logarithmic embedding complexes): transported in RD.4.42, RD.4.44–RD.4.45 and RD.4.48, including specialization, refinement and cocycle agreement.
+- §CR.6.4 (*Rigid cohomology of smooth strata*: constant-coefficient rigid cohomology of smooth finite-type `k`-schemes from dagger frames, its frame independence and finite-dimensionality, bijectivity of Frobenius for perfect `k` over `W(k)`, and for proper smooth schemes its identification with rational crystalline and convergent cohomology): used in RD.4.24 and RD.4.38; RD.4.10, RD.5.66, RD.5.77 and RD.6.14 extend its construction, finiteness and Frobenius bijectivity to overconvergent coefficients.
+- §CR.6.5 (*Proper log rigid and crystalline Hyodo–Kato cohomology*): used in RD.4.44, RD.4.48 and RD.7.20; its log rigid Hyodo–Kato complex and its proper completion map are canonical on the strictly semistable locally constant-coefficient overlap.
+- §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1: used in RD.3.37, RD.4.38, RD.7.1, RD.7.10.
+- §§CR.5.1–CR.5.4 and CR.6.4: used in RD.4.44, RD.4.45, RD.4.47, RD.4.49, RD.5.109, RD.5.111.
+
+**CongruenceSpectralGap.**
+
+- §4.2a (*Raw hyper-Kloosterman sums over every finite field*): `hyperKloosterman F k ψ r` for a finite field `F`, a commutative coefficient ring `K`, `ψ : AddChar F K` and `r ∈ Fˣ`, the sum of `ψ(x_1 + ⋯ + x_k)` over unit `k`-tuples with product `r`; its transport along ring homomorphisms `K → K′`, its scaling rule and its eliminated-variable comparison with the sum over `(Fˣ)^n` of `ψ(Σ x_i + r(∏ x_i)^{−1})` at `k = n + 1`. Used in RD.6.95–RD.6.97.
+- §4.2b (*Kloosterman sheaves and the general Deligne estimate*): `hyperKloosterman_bound`, `‖hyperKloosterman F k ψ r‖ ≤ k·|F|^((k−1)/2)` for `ψ : AddChar F ℂ` nontrivial, `k ≥ 1` and `r ∈ Fˣ`. Used in RD.6.97, which gives a rigid proof in every characteristic and positive rank.
+
+**DerivedDeRhamCohomology.**
+
+- §PD.6 (*Divided power envelopes*): universal base-compatible envelopes, completed envelopes and their completion comparison; used in RD.3.35, RD.4.36 and RD.4.37.
+
+**DeligneWeightsAndPurity.**
+
+- §1.10 (*Canonical integral finite-field zeta series, Euler product and point-count logarithm*): used in RD.6.22; RD.6.23 supplies the independent rigid trace proof.
+
+- §4.4 (*Extracting integral degree factors from distinct weights*): for invertible finite-dimensional `ℚ_ℓ`-Frobenius modules of distinct degree weights, supplies common rational factors and their integrality under integral-root or integral-series hypotheses, including the global normalized numerator/denominator theorem. RD.7.5 constructs the coefficient-field adapter; RD.7.4(b) owns the local Fatou theorem (Milne, Lemma 27.10).
+- §0.1 (*Weil `q`-numbers of integer weight*): used in RD.6.97, RD.7.5.
+- §0.10 (*The characteristic power series `det(1 − tF)` and traces of powers*): used in RD.6.4, RD.6.23, RD.6.25, RD.6.89, RD.6.97, RD.7.3, RD.7.7, RD.7.8.
+- §0.15 (*Twists `V^{(b)}` and Tate twists `V(r)`*): used in RD.6.82.
+- §0.2 (*Products, inverses, conjugation and integrality of Weil `q`-numbers*): used in RD.7.5, RD.7.17.
+- §0.4 (*`ι`-weights of nonzero elements of a coefficient field*): used in RD.6.28, RD.6.67, RD.6.82, RD.6.86, RD.6.92, RD.6.93, RD.7.6.
+- §0.5 (*Embeddings into `ℂ` extending a given embedding, and isomorphisms `ℚ̄_ℓ ≅ ℂ`*): used in RD.6.82.
+- §0.6 (*Algebraicity and Weil purity from `ι`-purity at every `ι`*): used in RD.6.86, RD.7.6.
+- §0.7 (*Eigenvalues, Weil purity and `ι`-weights of an invertible endomorphism*): used in RD.6.28, RD.6.86, RD.6.92, RD.7.6.
+- §0.9 (*Purity and weights under subobjects, quotients, extensions and direct sums*): used in RD.6.80, RD.6.93.
+- §1.1 (*The abelian-variety Frobenius adapter*): used in RD.7.17.
+- §1.4 (*The Weil estimate for abelian varieties over `𝔽_q`*): used in RD.7.17.
+- §1.5 (*Point counts of abelian varieties over `𝔽_{q^m}`, and their bounds*): used in RD.7.17.
+- §2.7 (*Lemma 3.5: factors of a product of positive power series converge at least as far*): used in RD.6.76.
+- §4.3 (*The Weil theorem for smooth projective varieties*): used in RD.7.7.
+- §7.15 (*Purity for proper smooth varieties and rational homology manifolds over a finite field*): used in RD.7.8.
+
+**EnhancedDerivedSheaves.**
+
+- §E1.4: used in RD.4.41, RD.4.42, RD.4.58.
+- §E2.6: used in RD.5.70, RD.5.71.
+- §E2.6 (*Bounded-below hypercover descent*): used in RD.5.70, RD.5.71, RD.5.72, RD.5.73, RD.5.74.
+- §E2.6 (*Cartesian derived systems on a hypercover*): used in RD.5.74.
+- §§E1.2, E1.3 and E3.4: used in RD.4.6, RD.4.7, RD.4.47, RD.4.60.
+- §§E2.6 and E2:towers.1: used in RD.4.7, RD.4.44, RD.4.45, RD.4.58.
+
+**FiniteFlatGroupsAndIntegralPadicHodgeTheory.**
+
+- §§R07.3.2–R07.3.3: used in RD.7.22.
+
+**FormalConnectionsOpers.**
+
+- §6.2 (*Cyclic vectors and the `GL_n` flag/oper equivalence*): the cyclic-vector theorem `exists_cyclicVector`: over a field of characteristic zero with a nonzero derivation, every finite-dimensional differential module has a vector whose first `dim V` iterates are linearly independent. Used in RD.1.7, RD.1.10, RD.1.52 and RD.6.52a.
+
+**InverseGaloisAndArithmeticFundamentalGroups.**
+
+- §IG.0.3 (*Integral, isogeny and rational `ℤ_p`-local systems*): used in RD.3.48.
+- §IG.0.T4 (*Constant-sheaf point count for every finite extension*): used in RD.7.7, RD.7.8.
+- §IG.1.2: tame quotients and tangential fibres; used in RD.6.61–RD.6.63 together with EtaleCohomologyFoundations §§F.0.2, F.0.A2.
+
+**LefschetzPencilsAndVanishingCycles.**
+
+- §1.3 (*The monodromy filtration in an abelian category*): used in RD.6.80.
+
+**PurityOfBranchLocus.**
+
+- §§2.1–2.2 (*Purity of the branch locus*; *The global corollary*): a finite dominant, generically étale morphism from a normal integral scheme to a regular integral scheme, formally unramified at codimension-one points, is étale; used in RD.3.43a, with EtaleCohomologyFoundations §F.0.2 for finite étale covers and finite local systems.
+
+**ReductiveGroupsPartII.**
+
+- §RG2.3.7 (*Lang’s theorem and lifting*): Lang’s surjection for smooth connected algebraic groups over finite fields; used for the generalized Jacobian in RD.6.62.
+
+**LocallyAnalyticDistributions.**
+
+- Layer 0: used in RD.5.31, RD.5.42, RD.5.44.
+- §0.0 (*Locally convex spaces and separation*): used in RD.0.2, RD.5.40, RD.5.44.
+- §0.0 (*Locally convex limits*): used in RD.0.2, RD.5.30, RD.5.40, RD.5.42, RD.5.45, RD.6.5.
+- §0.2 (*The nonarchimedean Hahn–Banach theorem*): used in RD.5.40, RD.5.42, RD.5.43, RD.5.62.
+
+**ModularCurvesPartII.**
+
+- §11.1 (*Igusa components of modular fibres*): used in RD.5.105.
+
+**NoncommutativeAndEquivariantIwasawa.**
+
+- §F.6 stage 1 (*Field Robba and étale prefix*: Robba, bounded, integral and Amice carriers over complete discretely valued fields of characteristic 0, analytic Frobenius extension, Cohen-ring étale equivalence, Frobenius-fixed bases and finite-level descent): used in RD.0.1, RD.2.20, RD.2.25.
+- §F.6 stage 2 (*Slope and local-monodromy prefix*: slope theory with the adapter `deg_w = e_C·deg`; horizontality, quasi-unipotence, finite-étale unipotence and the logarithmic horizontal basis for finite coefficient fields): used in RD.2.7, RD.2.31–RD.2.33.
+
+**NewtonPolygons.**
+
+- §§0.6–0.7 (finite slope data, singleton convention, reconstruction and pointwise order): used by RD.1.26's Frobenius slope and dominance adapters.
+- §§2.1, 3.2–3.3 (coefficient polygons, polynomial products and nonzero root multisets): used in RD.1.60 through the reflection adapter.
+
+**RestrictedPowerSeries (main).**
+
+- §§1.1–1.2 and §7.1: closed- and open-disc coefficient carriers and Gauss topologies, identified coefficientwise in RD.0.2.
+- §5.1: simultaneous distinguished coordinates for `n>0`, consumed in RD.3.26.
+- §1.1 (multiplicative Gauss norms), §§4.2–4.4 (Weierstrass division and preparation at every positive radius, in several variables) and §5.4 (noetherianity at polyradii in `√|K^×|`): used in RD.3.27.
+
+**RigidAnalyticGeometry (main).**
+
+- §1.2: finite injective normalization of a nonzero affinoid, consumed in RD.3.26.
+
+**PadicPeriodRings.**
+
+- §§4.1–4.3: topological period carriers, invariant functors and their structure maps; used in RD.7.21. The geometric de Rham and semistable comparison isomorphisms in that target are explicit hypotheses.
+
+**AdicEtaleGeometry.**
+
+- §A1.0.4 (*Elkik's approximation theorem for noetherian henselian pairs (Théorème 2 bis)*): used in RD.3.38.
+
+**Pinned closed-point inputs.** Mathlib `isJacobsonRing_of_finiteType`, `finite_of_finite_type_of_isJacobsonRing`, `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`; Tau Ceti `AlgebraicGeometry.Scheme.finite_Γevaluation_of_isClosed` supply the Jacobson and residue-field facts used in RD.6.22.
+
+**SchemeAndStackFoundations.**
+
+- §§2.19–2.20 (*Proper coherent Serre duality*): used in RD.5.29.
+- §§2.19–2.20 (*Proper coherent trace*): used in RD.5.79, RD.5.81.
+- §0.20 (*Japanese and Nagata rings, finite normalization in finite function-field extensions*): used in RD.5.71–RD.5.72.
+- §0.29 (*Scheme Frobenius*): absolute and relative Frobenius, their iterates and base-change compatibility; used in RD.3.34a.
+- §0.14 (*Finite etale algebras over a henselian pair*): used in RD.3.39.
+- §0.14 (*Equivalent characterisations of henselian pairs*): used in RD.3.38.
+- §0.14 (*Lifting along smooth algebras over a henselian pair*): used in RD.0.39, RD.3.38.
+- §4.6 (*Deformations of smooth schemes and of line bundles*): used in RD.4.37, RD.5.29.
+- §4.10 (*Algebraization of compatible morphisms on given proper schemes*): used in RD.5.29.
+- §4.12 (Chow's lemma) and AdicSpacesPartIV §F1.5: used in RD.4.6, RD.4.7, RD.4.40, RD.4.44.
+- §4.11 (*Modifications*): used in RD.5.71, RD.5.102.
+- §4.12 (*Flattening by blowing up (Raynaud–Gruson)*): used in RD.5.72, RD.5.73.
+- §4.12 (*Modifications are dominated by admissible blowups*): used in RD.3.23, RD.5.71.
+- §4.12 (*Chow's lemma*): used in RD.5.71, RD.5.73.
+- §4.16 (*Alterations*): used in RD.5.113.
+- §4.19 (*de Jong's alteration theorem*): used in RD.5.67, RD.5.99, RD.5.112, RD.5.113.
 
 ## References
 

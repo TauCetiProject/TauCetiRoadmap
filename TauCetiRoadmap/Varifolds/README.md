@@ -1,120 +1,79 @@
 # Roadmap: varifolds
 
-**Summary.** This roadmap builds the general theory of k-dimensional varifolds on an open subset W
-of a smooth Riemannian manifold (M, g), in the generality of Allard's theory: a varifold is an
-arbitrary Radon measure on the Grassmann bundle of unoriented k-planes, and the analysis is carried
-out for varifolds of locally bounded first variation. It starts from Mathlib's Radon measures,
-Riesz–Markov–Kakutani theorem, Hausdorff measure, norm determinants, smooth embeddings and
-Levi-Civita connection, Tau Ceti's finite Grassmannians, flows of compactly supported vector fields,
-signed Riesz representation, mass measures of functionals on test functions, Prokhorov theorem,
-Riemannian volume, divergence theorem, normal domains of the exponential map, sectional curvature,
-second fundamental forms of parametrised submanifolds of Euclidean space and countably rectifiable
-sets, and the approximate tangent plane, area formula and Grassmann-bundle material of
-GeometricMeasureTheory and GeometricCurrents. Its end theorems are: the Riesz decomposition of the
-first variation into generalised mean curvature, generalised boundary measure and outward co-normal;
-the monotonicity formula, Euclidean and intrinsically Riemannian, with the existence and
-semicontinuity of densities; Allard's rectifiability theorem; the compactness theorems for
-rectifiable and for integral varifolds; varifold tangents and rectifiable and integral tangent
-cones; the constancy theorem; the comparison between the intrinsic theory on an embedded submanifold
-M ⊆ ℝ^L and the ambient theory in ℝ^L; and the identification of GeometricCurrents' auxiliary
-varifold of an integral current with the rectifiable varifold of its carrier. Every notion is
-defined intrinsically on (M, g); the Euclidean space E is the case of the flat metric, and no
-isometric embedding theorem is used. The Euclidean theorems of the literature (Allard1972;
-Simon1983, §§38–42) are the case W ⊆ E with the flat metric, and the roadmap states them there as
-well wherever its Riemannian statement needs a construction of its own (the normal-coordinate
-blow-up of 3.2, or a sequence of metrics).
+**Summary.** A varifold is a measure-theoretic version of a k-dimensional surface that may have
+singularities. It records where the surface's area lies and, at each such point, which tangent
+k-planes the surface has. A C¹ embedded k-submanifold Σ of an open set W, of locally finite
+area, gives the varifold [Σ]; so do two crossing lines, which are not a submanifold near the
+crossing. The first variation δV(X) is the derivative of the mass of V, over a compact set
+containing the support of X, as V is moved by the flow of a compactly supported C¹ vector field X.
+V is stationary when δV vanishes. When Σ is of class C² and closed in W, [Σ] is stationary exactly
+when Σ is minimal.
 
-## Scope and ownership
+This roadmap builds the theory of k-dimensional varifolds on an open subset W of a smooth
+Riemannian manifold (M, g). M is Hausdorff, second countable and without boundary, of dimension
+N ≥ 1, and 0 ≤ k ≤ N, with k ≥ 1 from the monotonicity formula on. A varifold is an arbitrary
+Radon measure on the bundle of unoriented k-planes tangent to M over W. Every notion is intrinsic
+to (M, g); Euclidean space, the setting of Allard and Simon, is the case of the flat metric.
 
-Owned here:
+The results below concern varifolds of locally bounded first variation:
+|δV(X)| ≤ C_K sup|X| for all X supported in a compact set K. For these the roadmap proves the Riesz
+decomposition `δV(X) = −∫ ⟨H_V, X⟩ d‖V‖ + ∫ ⟨η_V, X⟩ dσ_V`, where the weight ‖V‖ is the projection of V
+to W. The generalised mean curvature H_V is locally ‖V‖-integrable. The generalised
+boundary measure σ_V is a Radon measure singular to ‖V‖, and the co-normal η_V has length one
+σ_V-almost everywhere. For the half hyperplane `{x_N = 0, x_1 > 0}` of ℝ^N, H = 0, σ is the
+(N − 2)-dimensional Hausdorff measure on its edge, and η = −e_1.
 
-- the projection presentation of the Grassmann bundle G_k(W) (each k-plane recorded by its
-  g-orthogonal projection; it is kept beside Tau Ceti's `TauCeti.finiteGrassmannian` because the
-  tangential trace tr(P ∘ A) and the operator-norm distance are stated on P, and its fibre is
-  homeomorphic to `TauCeti.finiteGrassmannian ℝ k N` by 1.1), its comparison with
-  GeometricCurrents G6's unoriented Grassmann bundle, the varifold carrier, weight, mass, support,
-  restriction, varifold convergence;
-- approximate tangent spaces of Radon measures on a manifold and the rectifiability criterion for
-  measures; rectifiable and integral varifolds v(Γ, θ); the multiplicity-one varifold [Σ] of a C¹
-  embedded submanifold and the identification of its weight with the Riemannian volume of Σ
-  (GeometricCurrents G2 identifies the mass of the current of a compact oriented smooth source
-  only);
-- push-forward of varifolds under C¹ maps proper on the support, Euclidean dilations and
-  normal-coordinate blow-ups, tangent spaces with multiplicity, fibre measures and the first
-  rectifiability theorem;
-- the first variation δV, its characterisation as the derivative of mass along flows, stationarity,
-  locally bounded first variation, the Riesz representation theorem for vector fields on W, the
-  Riesz decomposition of δV, and the comparison of first variations for two metrics;
-- the second fundamental form and mean curvature of a C² embedded submanifold of a Riemannian
-  manifold by the formula of the Conventions (RiemannianGeometry R5a and R5a.2 define them for
-  smooth immersions, and the two agree on smooth submanifolds; for a submanifold of a Euclidean
-  space the form is Tau Ceti's `TauCeti.secondFundamentalForm` read in a C² parametrisation), the
-  first variation of a C² submanifold and its agreement with RiemannianGeometry R5a.2 for smooth
-  ones; the intrinsic versus ambient comparison for an embedded submanifold M ⊆ ℝ^L;
-- monotonicity (Euclidean and Riemannian), densities, their measurability and upper
-  semicontinuity, the constancy theorem and the convex hull property of varifolds stationary off
-  a compact set (6.5);
-- the semicontinuity of lower density bounds, Allard's rectifiability theorem, the compactness
-  theorems for rectifiable and integral varifolds and Allard's multiplicity lemma, all for
-  sequences of metrics converging in C² on compact sets;
-- varifold tangents, rectifiable tangent cones and integral tangent cones, Euclidean and in
-  normal coordinates;
-- regular and singular sets, locality of every notion and its invariance under smooth isometries,
-  and the comparison theorem with GeometricCurrents G6.
+For monotonicity, let B_ρ₀(x) be a normal ball about x contained in W on which the sectional
+curvature is at most κ ≥ 0, with √κ ρ₀ ≤ π/2. If ‖δV‖(B_t(x)) ≤ Λ ‖V‖(B_t(x)) for 0 < t < ρ₀,
+‖δV‖ being the total variation of δV, then `e^{(Λ + k√κ)ρ} ρ^{−k} ‖V‖(B_ρ(x))` is non-decreasing
+on (0, ρ₀). With it one shows that the density Θ^k(‖V‖, x), the limit of
+‖V‖(B_ρ(x))/(ω_k ρ^k) as ρ ↓ 0, exists and is finite at ‖V‖-almost every point; ω_k ρ^k is
+the volume of a Euclidean k-ball of radius ρ. At the crossing of two lines the density is 2.
 
-Owned elsewhere and cited:
+By Allard's rectifiability theorem, if V has locally bounded first variation and
+Θ^k(‖V‖, x) > 0 at ‖V‖-almost every x, then V is rectifiable. It is then θ times k-dimensional
+Hausdorff measure on a countably k-rectifiable set Γ, carried by the approximate tangent planes of
+Γ, with θ = Θ^k(‖V‖, ·). Lebesgue measure on ℝ² with one fixed line at every point is stationary,
+has density zero and is not rectifiable.
 
-- The k-dimensional subspaces of ℝ^N with the quotient topology of the span map on frames, their
-  compactness and Hausdorff property, and the continuity of the orthogonal projection onto them
-  are already in Tau Ceti (`TauCeti.finiteGrassmannian`); 1.1 compares them with G(E, k).
-- Approximate tangent planes of rectifiable sets, tangential differentiation and the area formula:
-  GeometricMeasureTheory G2. Countable k-rectifiability and its closure API, on any extended metric
-  space and so on (M, d_g), are already in Tau Ceti (`TauCeti.CountablyRectifiable`), and the
-  normalised Hausdorff measure is Mathlib's.
-- Rectifiable sets and Hᵏ on manifolds with their chart comparison, integer-rectifiable and
-  integral currents, their mass measures: GeometricCurrents G1–G2. The distributional constancy
-  criterion (a distribution on a connected open set whose coordinate derivatives vanish is a
-  constant multiple of Lebesgue measure): GeometricCurrents G1. Local area minimization of
-  integral currents: GeometricCurrents G5.
-- The unoriented Grassmann bundle (constructed from the oriented carrier by orientation quotient),
-  its compactness over compact base regions and Radon compactness on it; the auxiliary rectifiable
-  varifold of an integral current, its first variation under ambient flows, its monotonicity and
-  tangent cones: GeometricCurrents G6. This roadmap proves the general theorems for arbitrary
-  varifolds and one comparison theorem (9.3) identifying G6's object; nothing G6 states is planned
-  again, and GeometricCurrents does not consume this roadmap. RiemannianGeometry/MinimalSurfaces
-  (Scope and ownership, and 3.1) refers to G6 for monotonicity of stationary varifolds; G6 states it for the
-  auxiliary varifold of an integral current, and the statement for every varifold of locally
-  bounded first variation is 6.1–6.2 here, of which G6's is the case of 9.3.
-- The convex hull property of a compact smooth minimal submanifold of ℝ^m with boundary, proved
-  from the harmonicity of the coordinate functions without varifolds:
-  RiemannianGeometry/MinimalSurfaces 3.3. 6.5 here is the statement for every varifold on E with
-  compact support that is stationary off a compact set K, with no rectifiability or smoothness;
-  for an embedded Σ it gives 3.3 with V = [Σ ∖ ∂Σ] and K = ∂Σ, the varifold being stationary in
-  E ∖ ∂Σ by 5.1 applied on W = E ∖ ∂Σ, in which Σ ∖ ∂Σ is closed.
-- Immersion geometry, the second fundamental form B, the averaged mean curvature and the first
-  volume variation of smooth immersions: RiemannianGeometry R5a and R5a.2. The Hessian comparison
-  for the distance function: RiemannianGeometry R4, item 1. Smooth second variation and stability:
-  RiemannianGeometry R5b (not used here).
-- The Riemannian distance, the exponential map, normal balls and the Gauss lemma: HopfRinow
-  (Completed), Layers 0–2, formalised in Tau Ceti as the exponential map and logarithm
-  (`TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`), normal domains
-  (`TauCeti.Manifold.IsNormalDomain`) and the identification of geodesic balls with metric balls
-  (`TauCeti.Manifold.IsNormalDomain.image_riemannianExp_ball`). The divergence of a vector field
-  on a Riemannian manifold and the divergence theorem on boundaryless manifolds are already in Tau
-  Ceti (`TauCeti.Manifold.divergence`, `TauCeti.Manifold.integral_divergence_eq_zero`), as are the
-  sectional curvature of a metric connection (`CovariantDerivative.sectionalCurvature`), the
-  metric induced by an immersion into an inner product space (`TauCeti.inducedRiemannianMetric`)
-  and the second fundamental form of a map into an inner product space
-  (`TauCeti.secondFundamentalForm`). The support of a measure is Mathlib's
-  (`MeasureTheory.Measure.support`), and so are C^n embeddings of manifolds
-  (`Manifold.IsSmoothEmbedding`).
+Two compactness theorems follow. Let V_i be rectifiable, of locally bounded first variation, with
+‖V_i‖(U) + ‖δV_i‖(U) bounded in i for every open U with compact closure, and with density at least
+1 almost everywhere outside sets whose mass in each compact set tends to 0. Then a subsequence
+converges, and every limit of a subsequence is rectifiable with locally bounded first variation. If
+the V_i are integral, that is with integer-valued θ, every such limit is integral. The metric may
+vary along the sequence, converging in C² on compact sets.
 
-Outside this roadmap: Allard's regularity theorem and every regularity statement beyond the
-definition of the regular set (the subject of Varifolds, Part II); Wickramasekera's stable
-regularity; Almgren–Pitts min-max theory; Brakke flows; curvature varifolds; varifolds with
-respect to anisotropic integrands; varifolds in metric spaces; currents and their homology
-(GeometricCurrents). The two Annals statements of 9.4 are consumers' theorems; they are stated
-here only as tests of the definitions.
+The roadmap builds on HopfRinow, completed in Tau Ceti, for the Riemannian distance, the
+exponential map and normal balls. GeometricMeasureTheory provides approximate tangent planes of
+rectifiable sets in Euclidean space and the area formula. RiemannianGeometry provides the Hessian
+comparison for the distance function, used for monotonicity. GeometricCurrents provides rectifiable
+sets on manifolds and the compactness of Radon measures on the Grassmann bundle; it does not use
+this roadmap, which identifies its auxiliary varifold of an integral current as an integral
+varifold. Allard's regularity theorem is the subject of Varifolds, Part II, which starts from
+Layers 1–8.
+
+The next section is a guide to the nine layers.
+
+## How to read the build
+
+Layer 1 builds the Grassmann bundle in projection form, the varifold carrier and varifold
+convergence. Layer 2 builds approximate tangent spaces of measures, rectifiable and integral
+varifolds and the varifold of a submanifold. Layer 3 builds push-forward, dilations and
+normal-coordinate blow-ups, tangent spaces with multiplicity, fibre measures and the first
+rectifiability theorem. Layer 4 defines the first variation, proves that it is the derivative of
+mass along flows, builds the Riesz representation for vector fields and the Riesz decomposition,
+and proves the pointwise comparison of first variations for two metrics, which is the device by
+which every Riemannian blow-up argument below reduces to a Euclidean one. Layer 5 computes the
+first variation of submanifolds and compares the intrinsic theory on an embedded M ⊆ ℝ^L with the
+ambient one. Layer 6 proves monotonicity, the density theorems, the constancy theorem and the
+convex hull property. Layer 7 builds varifold tangents and proves the semicontinuity of lower
+density bounds, Allard's
+rectifiability theorem and the two compactness theorems, for metrics varying in C². Layer 8 shows
+that varifold tangents are rectifiable or integral cones. Layer 9 defines regular and singular
+sets, records locality and invariance under smooth isometries, identifies GeometricCurrents'
+auxiliary varifold, and states two theorems of the literature in the language of the roadmap.
+Proof sketches name a route and its inputs; an implementer who proves a target another way is not
+bound to the route.
 
 ## Conventions
 
@@ -187,234 +146,6 @@ here only as tests of the definitions.
   M about x agree below the radius of a normal ball of x contained in W. Vector fields are sections
   `Π x, TangentSpace I x`, of class C¹ in the sense of `ContMDiff` of the section into the tangent
   bundle, and test functions are `C_c(·, ℝ)`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Projections: `IsStarProjection` (`Mathlib/Algebra/Star/StarProjection.lean`),
-  `Submodule.starProjection` (`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`),
-  `isStarProjection_starProjection` and `isStarProjection_iff_eq_starProjection_range`
-  (`Mathlib/Analysis/InnerProductSpace/Adjoint.lean`); the adjoint as star on `E →L[ℝ] E`;
-  `Continuous.homeoOfEquivCompactToT2` (`Mathlib/Topology/Homeomorph/Lemmas.lean`: a continuous
-  bijection from a compact space onto a Hausdorff space is a homeomorphism).
-- Measures: `IsFiniteMeasureOnCompacts`, `Measure.map`, `Measure.restrict`,
-  `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` (`Mathlib/MeasureTheory/Measure/Regular.lean`),
-  `RealRMK.rieszMeasure` and `RealRMK.integral_rieszMeasure`
-  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`, positive functionals on
-  `C_c(X, ℝ)` of a locally compact Hausdorff X), `MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`
-  (same file, for two regular measures), `Measure.rnDeriv` and `Measure.singularPart`
-  (`Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`),
-  `MeasureTheory.Measure.setLIntegral_rnDeriv_le`
-  (`Mathlib/MeasureTheory/Measure/Decomposition/RadonNikodym.lean`: for any two measures μ, ν and
-  any set s, the lower integral over s of the Radon–Nikodym derivative of μ with respect to ν,
-  against ν, is at most μ(s); no σ-finiteness is assumed), `MeasureTheory.Measure.condKernel`
-  (`Mathlib/Probability/Kernel/Disintegration/StandardBorel.lean`, finite measures on a product with
-  standard Borel second factor).
-- Differentiation of measures: `HasBesicovitchCovering` (`Mathlib/MeasureTheory/Covering/Besicovitch.lean`)
-  and its finite-dimensional instance
-  (`Mathlib/MeasureTheory/Covering/BesicovitchVectorSpace.lean`), `Besicovitch.vitaliFamily`,
-  `Besicovitch.ae_tendsto_rnDeriv` and `Besicovitch.ae_tendsto_measure_inter_div_of_measurableSet`
-  (`Mathlib/MeasureTheory/Covering/Besicovitch.lean`; the last says that for a locally finite
-  measure and a measurable set s, the proportion of s in the closed ball B̄_r(x) tends to the
-  indicator of s at x as r ↓ 0, for a.e. x),
-  `Vitali.vitaliFamily` (`Mathlib/MeasureTheory/Covering/Vitali.lean`, which needs a uniform
-  constant C with `μ(closedBall x (3r)) ≤ C μ(closedBall x r)` frequently as r ↓ 0 at every
-  point), `VitaliFamily.ae_tendsto_average` (`Mathlib/MeasureTheory/Covering/Differentiation.lean`),
-  `Vitali.exists_disjoint_subfamily_covering_enlargement` (`Mathlib/MeasureTheory/Covering/Vitali.lean`:
-  a family of nonempty sets with bounded sizes δ has a disjoint subfamily such that every member
-  meets a chosen one whose size is at least 1/τ times its own, for any τ > 1; on any type).
-- Hausdorff measure and Jacobians: `MeasureTheory.Measure.euclideanHausdorffMeasure` and
-  `InnerProductSpace.euclideanHausdorffMeasure_eq_volume`
-  (`Mathlib/Geometry/Euclidean/Volume/Measure.lean`: the measure is defined on any extended metric
-  space, a constant multiple of `μH[d]`, and on a d-dimensional real inner product space it equals
-  Lebesgue measure), `LipschitzWith.hausdorffMeasure_image_le`
-  (`Mathlib/MeasureTheory/Measure/Hausdorff.lean`: a K-Lipschitz map multiplies the
-  d-dimensional Hausdorff measure of every set by at most K^d), `LinearMap.normDet`,
-  `LinearMap.normDet_comp` and `LinearMap.euclideanHausdorffMeasure_image_eq_normDet_mul_volume`
-  (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`; `normDet` is zero on non-injective maps, and
-  `normDet_comp` says normDet(g ∘ f) = normDet(g restricted to range f) · normDet(f)).
-- Riemannian structure: `IsRiemannianManifold` (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`),
-  `CovariantDerivative.leviCivitaConnection`
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, for a C² manifold
-  with a C¹ metric), `ContMDiff.mpullback_vectorField`
-  (`Mathlib/Geometry/Manifold/VectorField/Pullback.lean`: the pull-back x ↦ (df_x)⁻¹ Y(f(x)) of a
-  C^m vector field Y by a C^n map f with invertible differentials is C^m when m + 1 ≤ n),
-  `CovariantDerivative.isMetricCompatible_leviCivitaConnection` (same file as the connection: it
-  is compatible with the metric), `Manifold.IsSmoothEmbedding`
-  (`Mathlib/Geometry/Manifold/SmoothEmbedding.lean`: a C^n immersion that is a topological
-  embedding; with n = 2 and a k-dimensional source this is a C² embedded k-submanifold of the
-  target, 6.4), and the extended-metric balls `Metric.eball` (`Mathlib/Topology/EMetricSpace/Defs.lean`).
-  `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`) is the algebraic quotient functor
-  and is not a supplier.
-- Supports: `MeasureTheory.Measure.support` (`Mathlib/MeasureTheory/Measure/Support.lean`: the
-  points every neighbourhood of which has positive measure), used for spt‖V‖.
-
-### From Tau Ceti
-
-- `TauCeti.finiteGrassmannian` (`TauCeti/Topology/Grassmannian/Basic.lean`: the r-dimensional
-  subspaces of the coordinate space `Fin N → 𝕜`, with the quotient topology of the span map on
-  linearly independent r-frames), its `CompactSpace` instance for `RCLike 𝕜`
-  (`TauCeti/Topology/Grassmannian/Orthonormal.lean`) and its `T2Space` instance
-  (`TauCeti/Topology/Grassmannian/Plucker.lean`), and `TauCeti.finiteGrassmannian.toEuclidean`,
-  `TauCeti.finiteGrassmannian.toEuclidean_injective` and
-  `TauCeti.finiteGrassmannian.continuous_starProjection_toEuclidean`
-  (`TauCeti/Topology/Grassmannian/Tautological.lean`: a point S read as a subspace of
-  `EuclideanSpace 𝕜 (Fin N)`, injectively, and the continuity of S ↦ the orthogonal projection
-  onto it). The carrier has no metric; the operator-norm distance of 1.1 is this roadmap's.
-- `TauCeti.globalFlow`, `TauCeti.contMDiff_globalFlow_uncurry`, `TauCeti.globalFlowDiffeomorph`
-  (`TauCeti/Geometry/Manifold/IntegralCurve/GlobalFlow.lean`: the flow of a complete C¹ vector
-  field on a Hausdorff boundaryless manifold, jointly C^n for a C^n field) and
-  `TauCeti.isCompleteVectorField_of_isCompact_of_eq_zero_off`
-  (`TauCeti/Geometry/Manifold/Flow/Complete.lean`: on a Hausdorff boundaryless C¹ manifold
-  modelled on a complete space, a C¹ field vanishing off a compact set is complete).
-- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.negPart`,
-  `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`
-  (`TauCeti/MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean`: an order-bounded functional on
-  `C_c(X, ℝ)` is the difference of two Riesz measures).
-- `Distribution.HasLocallyFiniteMass` (`TauCeti/Analysis/Distribution/Mass/Basic.lean`),
-  `Distribution.massMeasure`, `Distribution.massMeasure_preimage_coe` and
-  `Distribution.enorm_apply_le_lintegral_massMeasure`
-  (`TauCeti/Analysis/Distribution/Mass/Measure.lean`): for a real-linear functional T of locally
-  finite mass on F-valued test functions of class C^n (n ∈ ℕ∞; n = 0 gives the compactly supported
-  continuous functions) on an open set Ω of a finite-dimensional normed space, a regular Borel
-  measure ‖T‖ on Ω, finite on compact subsets of Ω, whose value on Ω ∩ U for open U is the supremum
-  of |T φ| over the tests supported in U with ‖φ‖ ≤ 1, and with |T φ| ≤ ∫ ‖φ‖ d‖T‖; it provides no
-  polar density, and the norm is that of F.
-- `TauCeti.isCompact_closure_of_isTightMeasureSet_of_mass_le`
-  (`TauCeti/MeasureTheory/Measure/Prokhorov.lean`: a tight set of finite measures of bounded mass
-  has compact closure).
-- `MeasureTheory.integral_divergence_eq_zero` (`TauCeti/MeasureTheory/Integral/DivergenceTheorem/CompactSupport.lean`:
-  a compactly supported C¹ vector field on a coordinate space of positive dimension has integrable
-  divergence with integral 0).
-- `TauCeti.riemannianVolume` (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`),
-  the orientation-free Riemannian measure of a C¹ manifold with a continuous metric (Lindelöf, Borel),
-  and `TauCeti.eq_riemannianVolume_iff` (same file: a measure equals it if and only if its
-  restriction to the source of every preferred chart is the chart volume).
-- `TauCeti.Manifold.divergence` (`TauCeti/Geometry/Manifold/Riemannian/Laplacian.lean`: the trace
-  of `CovariantDerivative.leviCivitaConnection` applied to the field, on a C² manifold with a C¹
-  metric) and `TauCeti.Manifold.integral_divergence_eq_zero`
-  (`TauCeti/Geometry/Manifold/Riemannian/DivergenceTheorem.lean`: on a smooth, Hausdorff,
-  σ-compact manifold with boundaryless model and a C¹ metric, the divergence of a compactly
-  supported C¹ field has integral 0 against `TauCeti.riemannianVolume`).
-- `TauCeti.IsLocalRiemannianIsometry` (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Local.lean`:
-  a smooth map between Riemannian manifolds whose differential at every point is invertible and
-  preserves the inner products) and
-  `TauCeti.IsLocalRiemannianIsometry.mfderiv_leviCivitaConnection_mpullback`
-  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/LeviCivita.lean`: on C² manifolds with
-  finite-dimensional models and C¹ metrics, `df_x(∇_v f^*Y) = ∇'_{df_x v} Y` for every vector field Y
-  differentiable at f(x), f^*Y the pull-back), applied to open subsets with the restricted metrics
-  (`Bundle.ContMDiffRiemannianMetric.restrictOpenTangentSpace`,
-  `TauCeti/Geometry/Manifold/Riemannian/Restriction.lean`). `TauCeti.RiemannianIsometry`
-  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Basic.lean`: a smooth diffeomorphism whose
-  differentials preserve the inner products) and `TauCeti.RiemannianIsometry.riemannianExp_mfderiv`
-  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Exponential.lean`: on finite-dimensional smooth,
-  Hausdorff, boundaryless manifolds with smooth metrics, `Φ(exp_p v) = exp_{Φ(p)}(dΦ_p v)` for every
-  tangent vector v; HopfRinow Layer 4's transport across smooth Riemannian isometries). Only smooth
-  maps are covered: neither the transport of the connection by a C¹ isometry nor the smoothness
-  of such an isometry is supplied, and this roadmap uses neither.
-- `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog` and
-  `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/Exponential.lean`
-  and `…/Geodesic/Normal/Basic.lean`: the exponential map on its natural domain, the logarithm
-  inverting it on a normal domain, and normal domains, that is open star-shaped neighbourhoods of 0
-  in T_xM inside the domain of exp_x on which exp_x is a diffeomorphism onto its image), with
-  `TauCeti.Manifold.exists_isNormalDomain_ball` (`…/Geodesic/Normal/Basic.lean`: some tangent
-  ball of positive radius about 0 is a normal domain) and
-  `TauCeti.Manifold.IsNormalDomain.image_riemannianExp_ball`
-  (`…/Geodesic/Gauss/Distance.lean`: on a boundaryless manifold whose extended distance is the
-  Riemannian one, exp_x maps the tangent ball of radius r inside a normal domain onto the metric ball
-  B_r(x)). These are HopfRinow Layers 1–2 in Tau Ceti; 6.2's normal ball B_ρ₀(x) is the image of
-  a tangent ball that is a normal domain.
-- `CovariantDerivative.sectionalCurvature`
-  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Sectional.lean`: for a
-  metric connection, ⟨R(u, v)v, u⟩ divided by the Gram determinant of u, v, which is 0 when u, v are
-  dependent) and the smoothness instance of the Levi-Civita connection
-  (`…/CovariantDerivative/LeviCivita/Regularity.lean`); "sectional curvature at most κ" is this
-  quotient at most κ for all pairs, which for κ ≥ 0 is the condition on independent pairs.
-- `TauCeti.secondFundamentalForm` (`TauCeti/Analysis/InnerProductSpace/SecondFundamentalForm.lean`:
-  for a map i from a finite-dimensional normed space into an inner product space, the normal
-  component P_N(D²i(x)(v, w)) of its second derivative, symmetric and invariant under
-  reparametrisation of the source) and `TauCeti.inducedRiemannianMetric`
-  (`TauCeti/Geometry/Manifold/Riemannian/Induced.lean`: the metric g_x(v, w) = ⟨df_x v, df_x w⟩
-  pulled back by an immersion f into an inner product space). In 5.1 for W ⊆ E and in 5.2 the
-  second fundamental form is the former read in a C² parametrisation, and 5.2's induced metric is
-  the latter.
-- `TauCeti.CountablyRectifiable` (`TauCeti/Geometry/MeasureTheory/Rectifiable/Basic.lean`: a subset
-  of an extended metric space is countably k-rectifiable when countably many Lipschitz maps from
-  subsets of ℝ^k cover it up to a set that is null for the k-dimensional
-  `MeasureTheory.Measure.euclideanHausdorffMeasure`; no measurability is part of the notion), with `TauCeti.CountablyRectifiable.mono`, `TauCeti.CountablyRectifiable.congr`
-  (null modifications), `TauCeti.CountablyRectifiable.iUnion` and
-  `TauCeti.CountablyRectifiable.image` (images under maps Lipschitz on the set). On (M, d_g) this
-  is the countable k-rectifiability used throughout.
-
-### From TauCetiRoadmap.GeometricMeasureTheory
-
-G2: existence and a.e. uniqueness of approximate tangent planes for countably rectifiable sets of
-locally finite Hᵏ measure in Euclidean space and measurability of the tangent-plane field,
-tangential differentiation, the area formula with extended multiplicities and its tangential
-version on rectifiable sets, agreement with classical tangent spaces and Jacobians on C¹ graphs.
-
-### From TauCetiRoadmap.GeometricCurrents
-
-- G1: the distributional constancy criterion on connected Euclidean open sets; mass measures of
-  locally finite-mass currents.
-- G2: the manifold/chart comparison for countable k-rectifiability (`TauCeti.CountablyRectifiable`
-  for d_g) and approximate tangent planes on a Riemannian manifold, with the comparison of Hᵏ (for
-  d_g) and the chart Hausdorff measures, representation independence under null changes; the
-  integration current of a compact oriented smooth source under an isometric embedding, whose mass
-  measure is its Riemannian volume (cited in 2.3 only as the case in which 2.3's weight identity
-  agrees with it); integer-rectifiable and locally integral currents, represented by a countably
-  k-rectifiable carrier, an orienting simple k-vector and an integer multiplicity.
-- G5: local area minimization of integral currents (comparison with T + ∂Q on relatively compact
-  variation domains), used only in 9.3.
-- G6: the Grassmann bundle of unoriented k-planes of TM (orientation quotient of the oriented
-  carrier, isometry independence), its compactness over compact base regions and the Radon
-  compactness on it, consumed as: every sequence of Radon measures on the Grassmann bundle over W
-  whose masses over each compact subset of W are bounded has a subsequence converging against every
-  compactly supported continuous function; the auxiliary rectifiable varifold of an integral
-  current with its weight, multiplicity, weak first variation under compactly supported ambient
-  flows, monotonicity and tangent cones (used only in 9.3).
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-- R4, item 1: on a smooth normal-distance domain, the Hessian of the distance function r from a
-  point is zero radially and bounded below by `(s_κ'/s_κ)(g − dr ⊗ dr)` where the sectional
-  curvature is at most κ (before the first positive zero of s_κ).
-- R5a: the second fundamental form B, the normal connection, S_η, with the pinned signs, for smooth
-  isometric immersions (5.1 uses the same formula for C² submanifolds as its own convention).
-- R5a.2: the averaged mean curvature, minimality, the first volume variation
-  `δVol = ∫ div_M X^⊤ − m⟨H, X^⊥⟩` for compactly supported variations of boundaryless immersions,
-  and the sphere/Euclidean mean-curvature dictionary.
-
-### From HopfRinow (Completed)
-
-Layer 0 (the reconciled Riemannian distance and native `IsRiemannianManifold`), Layer 1 (local
-existence and uniqueness of geodesics with given initial data, and the exponential map on its
-natural domain) and Layer 2 (normal balls and the local logarithm, the
-Gauss lemma, and the local distance identity d_g(x, exp_x v) = |v| on a normal ball).
-
-No supplier contract is missing: every input above is stated by its owner.
-
-## How to read the build
-
-Layer 1 builds the Grassmann bundle in projection form, the varifold carrier and varifold
-convergence. Layer 2 builds approximate tangent spaces of measures, rectifiable and integral
-varifolds and the varifold of a submanifold. Layer 3 builds push-forward, dilations and
-normal-coordinate blow-ups, tangent spaces with multiplicity, fibre measures and the first
-rectifiability theorem. Layer 4 defines the first variation, proves that it is the derivative of
-mass along flows, builds the Riesz representation for vector fields and the Riesz decomposition,
-and proves the pointwise comparison of first variations for two metrics, which is the device by
-which every Riemannian blow-up argument below reduces to a Euclidean one. Layer 5 computes the
-first variation of submanifolds and compares the intrinsic theory on an embedded M ⊆ ℝ^L with the
-ambient one. Layer 6 proves monotonicity, the density theorems, the constancy theorem and the
-convex hull property. Layer 7 builds varifold tangents and proves the semicontinuity of lower
-density bounds, Allard's
-rectifiability theorem and the two compactness theorems, for metrics varying in C². Layer 8 shows
-that varifold tangents are rectifiable or integral cones. Layer 9 defines regular and singular
-sets, records locality and invariance under smooth isometries, identifies GeometricCurrents'
-auxiliary varifold, and states two theorems of the literature in the language of the roadmap.
-Proof sketches name a route and its inputs; an implementer who proves a target another way is not
-bound to the route.
 
 ## Layer 1: the Grassmann bundle and the varifold carrier
 
@@ -2162,6 +1893,305 @@ Layers 1–4 and 6–8; GeometricCurrents G1, G2, G5, G6; HopfRinow Layer 1; Tau
   codimension-one regularity and interface regularity for isoperimetric clusters are formulated in
   the literature with this notion of varifold, and roadmaps on them consume Layers 1–8; the two
   statements of 9.4 are formulated in it.
+
+## Scope and ownership
+
+Owned here:
+
+- the projection presentation of the Grassmann bundle G_k(W) (each k-plane recorded by its
+  g-orthogonal projection; it is kept beside Tau Ceti's `TauCeti.finiteGrassmannian` because the
+  tangential trace tr(P ∘ A) and the operator-norm distance are stated on P, and its fibre is
+  homeomorphic to `TauCeti.finiteGrassmannian ℝ k N` by 1.1), its comparison with
+  GeometricCurrents G6's unoriented Grassmann bundle, the varifold carrier, weight, mass, support,
+  restriction, varifold convergence;
+- approximate tangent spaces of Radon measures on a manifold and the rectifiability criterion for
+  measures; rectifiable and integral varifolds v(Γ, θ); the multiplicity-one varifold [Σ] of a C¹
+  embedded submanifold and the identification of its weight with the Riemannian volume of Σ
+  (GeometricCurrents G2 identifies the mass of the current of a compact oriented smooth source
+  only);
+- push-forward of varifolds under C¹ maps proper on the support, Euclidean dilations and
+  normal-coordinate blow-ups, tangent spaces with multiplicity, fibre measures and the first
+  rectifiability theorem;
+- the first variation δV, its characterisation as the derivative of mass along flows, stationarity,
+  locally bounded first variation, the Riesz representation theorem for vector fields on W, the
+  Riesz decomposition of δV, and the comparison of first variations for two metrics;
+- the second fundamental form and mean curvature of a C² embedded submanifold of a Riemannian
+  manifold by the formula of the Conventions (RiemannianGeometry R5a and R5a.2 define them for
+  smooth immersions, and the two agree on smooth submanifolds; for a submanifold of a Euclidean
+  space the form is Tau Ceti's `TauCeti.secondFundamentalForm` read in a C² parametrisation), the
+  first variation of a C² submanifold and its agreement with RiemannianGeometry R5a.2 for smooth
+  ones; the intrinsic versus ambient comparison for an embedded submanifold M ⊆ ℝ^L;
+- monotonicity (Euclidean and Riemannian), densities, their measurability and upper
+  semicontinuity, the constancy theorem and the convex hull property of varifolds stationary off
+  a compact set (6.5);
+- the semicontinuity of lower density bounds, Allard's rectifiability theorem, the compactness
+  theorems for rectifiable and integral varifolds and Allard's multiplicity lemma, all for
+  sequences of metrics converging in C² on compact sets;
+- varifold tangents, rectifiable tangent cones and integral tangent cones, Euclidean and in
+  normal coordinates;
+- regular and singular sets, locality of every notion and its invariance under smooth isometries,
+  and the comparison theorem with GeometricCurrents G6.
+
+Owned elsewhere and cited:
+
+- The k-dimensional subspaces of ℝ^N with the quotient topology of the span map on frames, their
+  compactness and Hausdorff property, and the continuity of the orthogonal projection onto them
+  are already in Tau Ceti (`TauCeti.finiteGrassmannian`); 1.1 compares them with G(E, k).
+- Approximate tangent planes of rectifiable sets, tangential differentiation and the area formula:
+  GeometricMeasureTheory G2. Countable k-rectifiability and its closure API, on any extended metric
+  space and so on (M, d_g), are already in Tau Ceti (`TauCeti.CountablyRectifiable`), and the
+  normalised Hausdorff measure is Mathlib's.
+- Rectifiable sets and Hᵏ on manifolds with their chart comparison, integer-rectifiable and
+  integral currents, their mass measures: GeometricCurrents G1–G2. The distributional constancy
+  criterion (a distribution on a connected open set whose coordinate derivatives vanish is a
+  constant multiple of Lebesgue measure): GeometricCurrents G1. Local area minimization of
+  integral currents: GeometricCurrents G5.
+- The unoriented Grassmann bundle (constructed from the oriented carrier by orientation quotient),
+  its compactness over compact base regions and Radon compactness on it; the auxiliary rectifiable
+  varifold of an integral current, its first variation under ambient flows, its monotonicity and
+  tangent cones: GeometricCurrents G6. This roadmap proves the general theorems for arbitrary
+  varifolds and one comparison theorem (9.3) identifying G6's object; nothing G6 states is planned
+  again, and GeometricCurrents does not consume this roadmap. RiemannianGeometry/MinimalSurfaces
+  (Scope and ownership, and 3.1) refers to G6 for monotonicity of stationary varifolds; G6 states it for the
+  auxiliary varifold of an integral current, and the statement for every varifold of locally
+  bounded first variation is 6.1–6.2 here, of which G6's is the case of 9.3.
+- The convex hull property of a compact smooth minimal submanifold of ℝ^m with boundary, proved
+  from the harmonicity of the coordinate functions without varifolds:
+  RiemannianGeometry/MinimalSurfaces 3.3. 6.5 here is the statement for every varifold on E with
+  compact support that is stationary off a compact set K, with no rectifiability or smoothness;
+  for an embedded Σ it gives 3.3 with V = [Σ ∖ ∂Σ] and K = ∂Σ, the varifold being stationary in
+  E ∖ ∂Σ by 5.1 applied on W = E ∖ ∂Σ, in which Σ ∖ ∂Σ is closed.
+- Immersion geometry, the second fundamental form B, the averaged mean curvature and the first
+  volume variation of smooth immersions: RiemannianGeometry R5a and R5a.2. The Hessian comparison
+  for the distance function: RiemannianGeometry R4, item 1. Smooth second variation and stability:
+  RiemannianGeometry R5b (not used here).
+- The Riemannian distance, the exponential map, normal balls and the Gauss lemma: HopfRinow
+  (Completed), Layers 0–2, formalised in Tau Ceti as the exponential map and logarithm
+  (`TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`), normal domains
+  (`TauCeti.Manifold.IsNormalDomain`) and the identification of geodesic balls with metric balls
+  (`TauCeti.Manifold.IsNormalDomain.image_riemannianExp_ball`). The divergence of a vector field
+  on a Riemannian manifold and the divergence theorem on boundaryless manifolds are already in Tau
+  Ceti (`TauCeti.Manifold.divergence`, `TauCeti.Manifold.integral_divergence_eq_zero`), as are the
+  sectional curvature of a metric connection (`CovariantDerivative.sectionalCurvature`), the
+  metric induced by an immersion into an inner product space (`TauCeti.inducedRiemannianMetric`)
+  and the second fundamental form of a map into an inner product space
+  (`TauCeti.secondFundamentalForm`). The support of a measure is Mathlib's
+  (`MeasureTheory.Measure.support`), and so are C^n embeddings of manifolds
+  (`Manifold.IsSmoothEmbedding`).
+
+Outside this roadmap: Allard's regularity theorem and every regularity statement beyond the
+definition of the regular set (the subject of Varifolds, Part II); Wickramasekera's stable
+regularity; Almgren–Pitts min-max theory; Brakke flows; curvature varifolds; varifolds with
+respect to anisotropic integrands; varifolds in metric spaces; currents and their homology
+(GeometricCurrents). The two Annals statements of 9.4 are consumers' theorems; they are stated
+here only as tests of the definitions.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Projections: `IsStarProjection` (`Mathlib/Algebra/Star/StarProjection.lean`),
+  `Submodule.starProjection` (`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`),
+  `isStarProjection_starProjection` and `isStarProjection_iff_eq_starProjection_range`
+  (`Mathlib/Analysis/InnerProductSpace/Adjoint.lean`); the adjoint as star on `E →L[ℝ] E`;
+  `Continuous.homeoOfEquivCompactToT2` (`Mathlib/Topology/Homeomorph/Lemmas.lean`: a continuous
+  bijection from a compact space onto a Hausdorff space is a homeomorphism).
+- Measures: `IsFiniteMeasureOnCompacts`, `Measure.map`, `Measure.restrict`,
+  `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` (`Mathlib/MeasureTheory/Measure/Regular.lean`),
+  `RealRMK.rieszMeasure` and `RealRMK.integral_rieszMeasure`
+  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`, positive functionals on
+  `C_c(X, ℝ)` of a locally compact Hausdorff X), `MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`
+  (same file, for two regular measures), `Measure.rnDeriv` and `Measure.singularPart`
+  (`Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`),
+  `MeasureTheory.Measure.setLIntegral_rnDeriv_le`
+  (`Mathlib/MeasureTheory/Measure/Decomposition/RadonNikodym.lean`: for any two measures μ, ν and
+  any set s, the lower integral over s of the Radon–Nikodym derivative of μ with respect to ν,
+  against ν, is at most μ(s); no σ-finiteness is assumed), `MeasureTheory.Measure.condKernel`
+  (`Mathlib/Probability/Kernel/Disintegration/StandardBorel.lean`, finite measures on a product with
+  standard Borel second factor).
+- Differentiation of measures: `HasBesicovitchCovering` (`Mathlib/MeasureTheory/Covering/Besicovitch.lean`)
+  and its finite-dimensional instance
+  (`Mathlib/MeasureTheory/Covering/BesicovitchVectorSpace.lean`), `Besicovitch.vitaliFamily`,
+  `Besicovitch.ae_tendsto_rnDeriv` and `Besicovitch.ae_tendsto_measure_inter_div_of_measurableSet`
+  (`Mathlib/MeasureTheory/Covering/Besicovitch.lean`; the last says that for a locally finite
+  measure and a measurable set s, the proportion of s in the closed ball B̄_r(x) tends to the
+  indicator of s at x as r ↓ 0, for a.e. x),
+  `Vitali.vitaliFamily` (`Mathlib/MeasureTheory/Covering/Vitali.lean`, which needs a uniform
+  constant C with `μ(closedBall x (3r)) ≤ C μ(closedBall x r)` frequently as r ↓ 0 at every
+  point), `VitaliFamily.ae_tendsto_average` (`Mathlib/MeasureTheory/Covering/Differentiation.lean`),
+  `Vitali.exists_disjoint_subfamily_covering_enlargement` (`Mathlib/MeasureTheory/Covering/Vitali.lean`:
+  a family of nonempty sets with bounded sizes δ has a disjoint subfamily such that every member
+  meets a chosen one whose size is at least 1/τ times its own, for any τ > 1; on any type).
+- Hausdorff measure and Jacobians: `MeasureTheory.Measure.euclideanHausdorffMeasure` and
+  `InnerProductSpace.euclideanHausdorffMeasure_eq_volume`
+  (`Mathlib/Geometry/Euclidean/Volume/Measure.lean`: the measure is defined on any extended metric
+  space, a constant multiple of `μH[d]`, and on a d-dimensional real inner product space it equals
+  Lebesgue measure), `LipschitzWith.hausdorffMeasure_image_le`
+  (`Mathlib/MeasureTheory/Measure/Hausdorff.lean`: a K-Lipschitz map multiplies the
+  d-dimensional Hausdorff measure of every set by at most K^d), `LinearMap.normDet`,
+  `LinearMap.normDet_comp` and `LinearMap.euclideanHausdorffMeasure_image_eq_normDet_mul_volume`
+  (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`; `normDet` is zero on non-injective maps, and
+  `normDet_comp` says normDet(g ∘ f) = normDet(g restricted to range f) · normDet(f)).
+- Riemannian structure: `IsRiemannianManifold` (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`),
+  `CovariantDerivative.leviCivitaConnection`
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, for a C² manifold
+  with a C¹ metric), `ContMDiff.mpullback_vectorField`
+  (`Mathlib/Geometry/Manifold/VectorField/Pullback.lean`: the pull-back x ↦ (df_x)⁻¹ Y(f(x)) of a
+  C^m vector field Y by a C^n map f with invertible differentials is C^m when m + 1 ≤ n),
+  `CovariantDerivative.isMetricCompatible_leviCivitaConnection` (same file as the connection: it
+  is compatible with the metric), `Manifold.IsSmoothEmbedding`
+  (`Mathlib/Geometry/Manifold/SmoothEmbedding.lean`: a C^n immersion that is a topological
+  embedding; with n = 2 and a k-dimensional source this is a C² embedded k-submanifold of the
+  target, 6.4), and the extended-metric balls `Metric.eball` (`Mathlib/Topology/EMetricSpace/Defs.lean`).
+  `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`) is the algebraic quotient functor
+  and is not a supplier.
+- Supports: `MeasureTheory.Measure.support` (`Mathlib/MeasureTheory/Measure/Support.lean`: the
+  points every neighbourhood of which has positive measure), used for spt‖V‖.
+
+### From Tau Ceti
+
+- `TauCeti.finiteGrassmannian` (`TauCeti/Topology/Grassmannian/Basic.lean`: the r-dimensional
+  subspaces of the coordinate space `Fin N → 𝕜`, with the quotient topology of the span map on
+  linearly independent r-frames), its `CompactSpace` instance for `RCLike 𝕜`
+  (`TauCeti/Topology/Grassmannian/Orthonormal.lean`) and its `T2Space` instance
+  (`TauCeti/Topology/Grassmannian/Plucker.lean`), and `TauCeti.finiteGrassmannian.toEuclidean`,
+  `TauCeti.finiteGrassmannian.toEuclidean_injective` and
+  `TauCeti.finiteGrassmannian.continuous_starProjection_toEuclidean`
+  (`TauCeti/Topology/Grassmannian/Tautological.lean`: a point S read as a subspace of
+  `EuclideanSpace 𝕜 (Fin N)`, injectively, and the continuity of S ↦ the orthogonal projection
+  onto it). The carrier has no metric; the operator-norm distance of 1.1 is this roadmap's.
+- `TauCeti.globalFlow`, `TauCeti.contMDiff_globalFlow_uncurry`, `TauCeti.globalFlowDiffeomorph`
+  (`TauCeti/Geometry/Manifold/IntegralCurve/GlobalFlow.lean`: the flow of a complete C¹ vector
+  field on a Hausdorff boundaryless manifold, jointly C^n for a C^n field) and
+  `TauCeti.isCompleteVectorField_of_isCompact_of_eq_zero_off`
+  (`TauCeti/Geometry/Manifold/Flow/Complete.lean`: on a Hausdorff boundaryless C¹ manifold
+  modelled on a complete space, a C¹ field vanishing off a compact set is complete).
+- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.negPart`,
+  `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`
+  (`TauCeti/MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean`: an order-bounded functional on
+  `C_c(X, ℝ)` is the difference of two Riesz measures).
+- `Distribution.HasLocallyFiniteMass` (`TauCeti/Analysis/Distribution/Mass/Basic.lean`),
+  `Distribution.massMeasure`, `Distribution.massMeasure_preimage_coe` and
+  `Distribution.enorm_apply_le_lintegral_massMeasure`
+  (`TauCeti/Analysis/Distribution/Mass/Measure.lean`): for a real-linear functional T of locally
+  finite mass on F-valued test functions of class C^n (n ∈ ℕ∞; n = 0 gives the compactly supported
+  continuous functions) on an open set Ω of a finite-dimensional normed space, a regular Borel
+  measure ‖T‖ on Ω, finite on compact subsets of Ω, whose value on Ω ∩ U for open U is the supremum
+  of |T φ| over the tests supported in U with ‖φ‖ ≤ 1, and with |T φ| ≤ ∫ ‖φ‖ d‖T‖; it provides no
+  polar density, and the norm is that of F.
+- `TauCeti.isCompact_closure_of_isTightMeasureSet_of_mass_le`
+  (`TauCeti/MeasureTheory/Measure/Prokhorov.lean`: a tight set of finite measures of bounded mass
+  has compact closure).
+- `MeasureTheory.integral_divergence_eq_zero` (`TauCeti/MeasureTheory/Integral/DivergenceTheorem/CompactSupport.lean`:
+  a compactly supported C¹ vector field on a coordinate space of positive dimension has integrable
+  divergence with integral 0).
+- `TauCeti.riemannianVolume` (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`),
+  the orientation-free Riemannian measure of a C¹ manifold with a continuous metric (Lindelöf, Borel),
+  and `TauCeti.eq_riemannianVolume_iff` (same file: a measure equals it if and only if its
+  restriction to the source of every preferred chart is the chart volume).
+- `TauCeti.Manifold.divergence` (`TauCeti/Geometry/Manifold/Riemannian/Laplacian.lean`: the trace
+  of `CovariantDerivative.leviCivitaConnection` applied to the field, on a C² manifold with a C¹
+  metric) and `TauCeti.Manifold.integral_divergence_eq_zero`
+  (`TauCeti/Geometry/Manifold/Riemannian/DivergenceTheorem.lean`: on a smooth, Hausdorff,
+  σ-compact manifold with boundaryless model and a C¹ metric, the divergence of a compactly
+  supported C¹ field has integral 0 against `TauCeti.riemannianVolume`).
+- `TauCeti.IsLocalRiemannianIsometry` (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Local.lean`:
+  a smooth map between Riemannian manifolds whose differential at every point is invertible and
+  preserves the inner products) and
+  `TauCeti.IsLocalRiemannianIsometry.mfderiv_leviCivitaConnection_mpullback`
+  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/LeviCivita.lean`: on C² manifolds with
+  finite-dimensional models and C¹ metrics, `df_x(∇_v f^*Y) = ∇'_{df_x v} Y` for every vector field Y
+  differentiable at f(x), f^*Y the pull-back), applied to open subsets with the restricted metrics
+  (`Bundle.ContMDiffRiemannianMetric.restrictOpenTangentSpace`,
+  `TauCeti/Geometry/Manifold/Riemannian/Restriction.lean`). `TauCeti.RiemannianIsometry`
+  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Basic.lean`: a smooth diffeomorphism whose
+  differentials preserve the inner products) and `TauCeti.RiemannianIsometry.riemannianExp_mfderiv`
+  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Exponential.lean`: on finite-dimensional smooth,
+  Hausdorff, boundaryless manifolds with smooth metrics, `Φ(exp_p v) = exp_{Φ(p)}(dΦ_p v)` for every
+  tangent vector v; HopfRinow Layer 4's transport across smooth Riemannian isometries). Only smooth
+  maps are covered: neither the transport of the connection by a C¹ isometry nor the smoothness
+  of such an isometry is supplied, and this roadmap uses neither.
+- `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog` and
+  `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/Exponential.lean`
+  and `…/Geodesic/Normal/Basic.lean`: the exponential map on its natural domain, the logarithm
+  inverting it on a normal domain, and normal domains, that is open star-shaped neighbourhoods of 0
+  in T_xM inside the domain of exp_x on which exp_x is a diffeomorphism onto its image), with
+  `TauCeti.Manifold.exists_isNormalDomain_ball` (`…/Geodesic/Normal/Basic.lean`: some tangent
+  ball of positive radius about 0 is a normal domain) and
+  `TauCeti.Manifold.IsNormalDomain.image_riemannianExp_ball`
+  (`…/Geodesic/Gauss/Distance.lean`: on a boundaryless manifold whose extended distance is the
+  Riemannian one, exp_x maps the tangent ball of radius r inside a normal domain onto the metric ball
+  B_r(x)). These are HopfRinow Layers 1–2 in Tau Ceti; 6.2's normal ball B_ρ₀(x) is the image of
+  a tangent ball that is a normal domain.
+- `CovariantDerivative.sectionalCurvature`
+  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Sectional.lean`: for a
+  metric connection, ⟨R(u, v)v, u⟩ divided by the Gram determinant of u, v, which is 0 when u, v are
+  dependent) and the smoothness instance of the Levi-Civita connection
+  (`…/CovariantDerivative/LeviCivita/Regularity.lean`); "sectional curvature at most κ" is this
+  quotient at most κ for all pairs, which for κ ≥ 0 is the condition on independent pairs.
+- `TauCeti.secondFundamentalForm` (`TauCeti/Analysis/InnerProductSpace/SecondFundamentalForm.lean`:
+  for a map i from a finite-dimensional normed space into an inner product space, the normal
+  component P_N(D²i(x)(v, w)) of its second derivative, symmetric and invariant under
+  reparametrisation of the source) and `TauCeti.inducedRiemannianMetric`
+  (`TauCeti/Geometry/Manifold/Riemannian/Induced.lean`: the metric g_x(v, w) = ⟨df_x v, df_x w⟩
+  pulled back by an immersion f into an inner product space). In 5.1 for W ⊆ E and in 5.2 the
+  second fundamental form is the former read in a C² parametrisation, and 5.2's induced metric is
+  the latter.
+- `TauCeti.CountablyRectifiable` (`TauCeti/Geometry/MeasureTheory/Rectifiable/Basic.lean`: a subset
+  of an extended metric space is countably k-rectifiable when countably many Lipschitz maps from
+  subsets of ℝ^k cover it up to a set that is null for the k-dimensional
+  `MeasureTheory.Measure.euclideanHausdorffMeasure`; no measurability is part of the notion), with `TauCeti.CountablyRectifiable.mono`, `TauCeti.CountablyRectifiable.congr`
+  (null modifications), `TauCeti.CountablyRectifiable.iUnion` and
+  `TauCeti.CountablyRectifiable.image` (images under maps Lipschitz on the set). On (M, d_g) this
+  is the countable k-rectifiability used throughout.
+
+### From TauCetiRoadmap.GeometricMeasureTheory
+
+G2: existence and a.e. uniqueness of approximate tangent planes for countably rectifiable sets of
+locally finite Hᵏ measure in Euclidean space and measurability of the tangent-plane field,
+tangential differentiation, the area formula with extended multiplicities and its tangential
+version on rectifiable sets, agreement with classical tangent spaces and Jacobians on C¹ graphs.
+
+### From TauCetiRoadmap.GeometricCurrents
+
+- G1: the distributional constancy criterion on connected Euclidean open sets; mass measures of
+  locally finite-mass currents.
+- G2: the manifold/chart comparison for countable k-rectifiability (`TauCeti.CountablyRectifiable`
+  for d_g) and approximate tangent planes on a Riemannian manifold, with the comparison of Hᵏ (for
+  d_g) and the chart Hausdorff measures, representation independence under null changes; the
+  integration current of a compact oriented smooth source under an isometric embedding, whose mass
+  measure is its Riemannian volume (cited in 2.3 only as the case in which 2.3's weight identity
+  agrees with it); integer-rectifiable and locally integral currents, represented by a countably
+  k-rectifiable carrier, an orienting simple k-vector and an integer multiplicity.
+- G5: local area minimization of integral currents (comparison with T + ∂Q on relatively compact
+  variation domains), used only in 9.3.
+- G6: the Grassmann bundle of unoriented k-planes of TM (orientation quotient of the oriented
+  carrier, isometry independence), its compactness over compact base regions and the Radon
+  compactness on it, consumed as: every sequence of Radon measures on the Grassmann bundle over W
+  whose masses over each compact subset of W are bounded has a subsequence converging against every
+  compactly supported continuous function; the auxiliary rectifiable varifold of an integral
+  current with its weight, multiplicity, weak first variation under compactly supported ambient
+  flows, monotonicity and tangent cones (used only in 9.3).
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+- R4, item 1: on a smooth normal-distance domain, the Hessian of the distance function r from a
+  point is zero radially and bounded below by `(s_κ'/s_κ)(g − dr ⊗ dr)` where the sectional
+  curvature is at most κ (before the first positive zero of s_κ).
+- R5a: the second fundamental form B, the normal connection, S_η, with the pinned signs, for smooth
+  isometric immersions (5.1 uses the same formula for C² submanifolds as its own convention).
+- R5a.2: the averaged mean curvature, minimality, the first volume variation
+  `δVol = ∫ div_M X^⊤ − m⟨H, X^⊥⟩` for compactly supported variations of boundaryless immersions,
+  and the sphere/Euclidean mean-curvature dictionary.
+
+### From HopfRinow (Completed)
+
+Layer 0 (the reconciled Riemannian distance and native `IsRiemannianManifold`), Layer 1 (local
+existence and uniqueness of geodesics with given initial data, and the exponential map on its
+natural domain) and Layer 2 (normal balls and the local logarithm, the
+Gauss lemma, and the local distance identity d_g(x, exp_x v) = |v| on a normal ball).
+
+No supplier contract is missing: every input above is stated by its owner.
 
 ## References
 

@@ -1,104 +1,82 @@
 # Roadmap: positive scalar curvature, surgery and bordism
 
-**Summary.** Build the theory of smooth Riemannian metrics of positive scalar
-curvature (PSC) on the native smooth-manifold carriers: the space R⁺(M) of such
-metrics with its C² and C∞ topologies, metric families, isotopies and
-concordances (Layer 1); PSC metrics on fibre bundles with PSC fibres and compact
-isometric structure groups, including the Myers–Steenrod theorem that the
-isometry group of a closed Riemannian manifold is a compact Lie group acting
-smoothly (Layer 2); the Gromov–Lawson surgery theorem with its curvature
-estimates and its relative, choice-independence and family versions (Layer 3);
-bordism invariance of PSC in the simply connected range through handle
-decompositions and the normal-structure hypotheses of Gromov–Lawson and Stolz
-(Layer 4); the real Clifford-linear Dirac obstruction α and the classification
-of closed simply connected manifolds of dimension at least five that admit PSC
-(Layer 5); and the examples: low dimensions, Hitchin's exotic spheres in
-dimensions 8j+1 and 8j+2 without PSC, Dold manifolds, tori and the continuity
-of the Dirac index bundle in a PSC family (Layer 6). Scalar curvature, Ricci
+**Summary.** A Riemannian metric has positive scalar curvature (PSC) when the
+metric trace of its Ricci tensor is positive at every point. Round spheres of
+dimension at least two have PSC, and so does the product of any compact
+manifold with a compact PSC manifold, once the PSC factor is scaled down
+enough. The question is which closed manifolds admit such a metric at all.
+This roadmap builds the surgery construction that produces PSC metrics and the
+index obstruction that rules them out. Together they settle the question for
+simply connected manifolds of dimension at least five. Scalar curvature, Ricci
 positivity and sectional positivity are distinct conditions; only scalar
 positivity is studied here.
 
-## Scope and ownership
+Every manifold is finite-dimensional and Hausdorff, and a closed manifold is
+compact and without boundary. The central object is the space R⁺(M) of PSC
+metrics on M, with its C² and C∞ topologies when M is closed. Two PSC metrics
+g₀ and g₁ are compared by isotopies, which are continuous paths in R⁺(M), and
+by concordances, which are PSC metrics on M×ℝ equal to g₀+dt² for t ≤ 0 and
+to g₁+dt² for t ≥ 1.
 
-This roadmap owns:
+The first main theorem is the surgery theorem of Gromov and Lawson. Let M be a
+closed n-manifold with a PSC metric g, and S^k ⊂ M a framed embedded sphere of
+codimension q = n − k ≥ 3. Replacing S^k × D^q by D^(k+1) × S^(q−1) gives a
+closed manifold M′ with a PSC metric equal to g outside a tubular neighbourhood
+of the sphere. For instance, surgery on two points of the round S⁸ gives
+S¹×S⁷ with a PSC metric. The method needs q ≥ 3: the model tube
+S^(q−1)(r)×ℝ^k has scalar curvature (q−1)(q−2)/r², which vanishes at q = 2.
 
-- the symmetric-bilinear metric bundle Sym²(T*M), the identification of the
-  native smooth metrics with its positive-definite sections, the C² and C∞
-  topologies on metrics of a Hausdorff second-countable boundaryless manifold
-  as subspace topologies of a supplied Fréchet section space, and the C^k
-  topology on metrics of a compact manifold with boundary (1.1);
-- the scalar curvature `metricScalarCurvature` of a smooth metric in that
-  metric's own instances, the subtype `PositiveScalarMetrics` of PSC metrics,
-  its smoothness `contMDiff_metricScalarCurvature`, the uniform gap
-  `exists_uniform_scalar_gap`, openness of positivity and the family versions
-  (1.2);
-- scaling, product, disjoint-union and restriction laws of PSC and the scalar
-  curvature of the round, complex projective and quaternionic projective models
-  in the normalizations of the Conventions (1.3);
-- collars, metric gluing, isotopies and concordances of PSC metrics (1.4);
-- the Myers–Steenrod theorem for closed Riemannian manifolds, stated on the
-  native isometry group of the Riemannian distance (2.1): HopfRinow Layer 4
-  states its smooth Riemannian isometries and leaves the smoothness of a metric
-  isometry as a separate milestone, which is this one;
-- associated manifold-fibre bundles with boundary collars, the connection
-  metric of a bundle with PSC fibre and compact isometric structure group and
-  the O'Neill scalar formula (2.2), and the Fubini–Study invariance and metric
-  comparisons for the projective-plane bundles of the transfer theorems (2.3);
-- the Gromov–Lawson tube estimates, bending curve and surgery theorem, with
-  its relative concordances, naturality, family and connected-sum versions
-  (Layer 3);
-- the interior surgeries making a bordism two-connected under the Spin and
-  oriented nonspin normal-structure hypotheses, the handle-index bound for a
-  bordism whose outgoing inclusion is two-connected, the transfer of PSC along
-  such a bordism and the geometric PSC bordism groups (Layer 4);
-- the vanishing of α on PSC manifolds and the classification (Layer 5);
-- the Hitchin-sphere chain (coherent Moore-space coextensions, Toda's
-  unstable classes, the μ classes and their α), the Dold-manifold and HP^k
-  examples, the torus counterexample and the continuity of the index bundle
-  in a PSC family (Layer 6).
+Combined with handle theory, surgery makes PSC a bordism invariant in the
+simply connected range. A closed simply connected Spin manifold of dimension
+n ≥ 5 that is Spin bordant to a PSC manifold carries a PSC metric. The same
+holds for a closed simply connected oriented manifold of dimension n ≥ 5 with
+w₂ ≠ 0 that is oriented bordant to a PSC manifold.
 
-This roadmap leaves to named suppliers, and never restates:
+The obstruction comes from the Dirac operator. If a closed Spin manifold
+carries a PSC metric, the Lichnerowicz formula `D² = ∇*∇ + Scal/4` forces the
+index α(M) of its real Clifford-linear Dirac operator to vanish. This index
+lies in KO_n, which is ℤ for n ≡ 0, 4 mod 8, ℤ/2 for n ≡ 1, 2 mod 8 and zero
+otherwise; for n ≡ 0 mod 8 it equals the Â-genus.
 
-- the α-invariant, the ABS comparison and the complexification genus
-  (TangentialBordism §7.1, labelled B3.0), structured oriented and Spin
-  bordisms (TangentialBordism Layers 2–3, B1–B2), the associated-family
-  transfers and the integral orientation-kernel and Spin-to-KO kernel
-  theorems with their PSp3-equivariant HP² bundles (TangentialBordism
-  §§10.2–10.4, B6.4–B6.6), the compact Lie group PU3⋊C₂ with its smooth
-  orientation-preserving action on CP² (TangentialBordism §10.3), and the
-  Dold-manifold conventions (TangentialBordism §6.6 and §10.3);
-- Spin structures, spinor bundles, Clifford-linear Dirac operators, the
-  Lichnerowicz formula and kernel vanishing (SpinGeometry G4–G6), the KO
-  coefficient ring (TopologicalKTheory T7), the graded Fredholm and ABS
-  construction (GeneralizedCohomology G5.5);
-- smooth principal bundles (SmoothBundlesConnections B1), principal
-  connections and their existence by partitions of unity and gluing of local
-  potentials (SmoothBundlesConnections B3.1), finite faithful unitary
-  representations of compact Lie groups, Stiefel universal-bundle
-  approximations and the smoothing of continuous principal bundles and
-  reductions over smooth bases, including relative homotopy versions
-  (CharacteristicClasses C1, items 3–4);
-- the Fréchet topology of smooth sections of a finite-rank real bundle over a
-  Hausdorff second-countable boundaryless manifold, with its completeness,
-  atlas independence and continuous restriction (ComplexKahlerGeometry K5a);
-- manifolds with boundary, boundary gluing, handle attachment, tubular
-  neighbourhoods and the framed-surgery interface (GeometricTopology Layer 1),
-  ordered handle decompositions, cancellation, slides and the Whitney moves
-  (HomotopySpheres §§1.2–1.6), homotopy spheres and Θ_n (HomotopySpheres
-  Layer 2), the EHP sequence, Hopf invariants and unstable Toda brackets
-  (HomotopySpheres §3C), the almost-framed exact sequence and the
-  Kervaire–Milnor comparison (HomotopySpheres Layers 6–8), and the complex
-  e-invariant of a torsion stable odd-sphere class with its additivity,
-  naturality and the seventh-stem value (HomotopySpheres §9A.1);
-- the closed-surface Gauss–Bonnet theorem (PositiveMass §3.1);
-- the positive-Ricci Witten-genus and TMF questions (StringOrientation, a
-  consumer).
+The classification theorem of Gromov–Lawson and Stolz says that a closed
+simply connected manifold of dimension n ≥ 5 admits a PSC metric if and only if
+it is nonspin, or Spin with α(M) = 0. So in dimensions 5, 6 and 7, where
+KO_n = 0, every closed simply connected manifold has PSC. Outside this range
+the criterion fails: the two-torus with one antiperiodic Spin direction has
+α = 0 but, by Gauss–Bonnet, no PSC metric.
 
-The round-sphere, projective and curvature-formula inputs are
-RiemannianGeometry's (R1, R2, R4, R4.7, R5a); the closed-subgroup theorem is
-LieGroups', Peter–Weyl separation is CompactGroups', the stable comparison of
-Toda brackets is BordismFormalGroups F4's, and the uniform elliptic estimates
-of Layer 6 are PseudodifferentialOperators Layer 5's.
+The obstruction also applies to exotic spheres. For every j ≥ 1 and d = 8j+1
+or 8j+2, the topological d-sphere carries a smooth structure for which no
+smooth metric has PSC (Hitchin); the first cases are dimensions 9 and 10. The
+structure is exotic, since the standard sphere carries the round metric. The
+roadmap builds these spheres from Toda's unstable homotopy classes and shows
+that α of each is the nonzero element of KO_d.
+
+The roadmap starts from Mathlib's smooth Riemannian metrics and from Tau
+Ceti's Levi-Civita connection and scalar curvature. TangentialBordism provides
+the α-invariant and Spin and oriented bordism. It also represents the bordism
+classes the classification needs by total spaces of bundles with fibre HP²,
+CP² or RP², which this roadmap equips with PSC metrics by shrinking the fibres
+of a connection metric. SpinGeometry provides Spin structures, Dirac operators
+and the Lichnerowicz formula. HomotopySpheres provides handle cancellation and
+the homotopy theory behind the Hitchin spheres. StringOrientation uses this
+theory, where its hypotheses apply, for its questions on positive Ricci
+curvature, the Witten genus and TMF.
+
+## How to read the build
+
+Layer 1 builds the carriers: the metric bundle and its section topologies,
+scalar curvature, R⁺(M), the uniform gap, the model computations, collars,
+isotopies and concordances. Layer 2 builds PSC metrics on bundles: the
+isometry group of a closed Riemannian manifold is a compact Lie group, the
+connection metric of a bundle with PSC fibre has PSC for small fibre scale,
+and the projective-plane bundles of the transfer theorems carry such metrics.
+Layer 3 proves the Gromov–Lawson surgery theorem and its relative versions.
+Layer 4 turns bordisms with the right normal structure into sequences of
+surgeries in codimension at least three and transfers PSC along them. Layer 5
+proves that PSC forces α=0 and, with TangentialBordism's kernel theorems and
+Layers 2–4, the classification. Layer 6 applies the theory: low dimensions,
+the Hitchin spheres, Dold manifolds, tori and the index bundle of a family.
 
 ## Conventions
 
@@ -147,113 +125,6 @@ of Layer 6 are PseudodifferentialOperators Layer 5's.
   generator of π₇ˢ≃ℤ/240; σ=±J₇(b) for the generator J₇(b) fixed by
   HomotopySpheres §9A.1, and no statement here depends on the sign. Toda's
   cone orientation and Adams's bracket sign are fixed in 6.2.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Bundle.ContMDiffRiemannianMetric`, `RiemannianBundle`,
-  `IsContMDiffRiemannianBundle` and `IsRiemannianManifold` (the Riemannian
-  extended distance of a manifold equals its `PseudoEMetricSpace` distance);
-  `EMetricSpace.ofRiemannianMetric` on a T3 manifold.
-- `modelWithCornersEuclideanHalfSpace` and `IsManifold` on every model with
-  corners; `LieGroup`, `ChartedSpace`, `ContMDiff`.
-- `IsometryEquiv` with its group structure on `M ≃ᵢ M`, and the compact-open
-  topology of `C(M, M)`, from which 2.1 induces the topology of the isometry
-  group.
-- `Ideal.primaryComponent`, `Ideal.iSup_primaryComponent_eq_top` and
-  `Ideal.iSupIndep_primaryComponent` (a torsion module over a Dedekind domain
-  is the internal direct sum of its primary components over the height-one
-  primes), and `AddCommGroup.primaryComponent`.
-- `Metric.sphere` in `EuclideanSpace ℝ (Fin (d+1))` as the topological
-  d-sphere.
-
-### From Tau Ceti
-
-- `CovariantDerivative.leviCivitaConnection I M` and
-  `CovariantDerivative.scalarCurvature`, on a finite-dimensional model with
-  corners, in the metric's own instances.
-- `TauCeti.MetricSpace.ofRiemannianMetric` on a T3 preconnected Riemannian
-  manifold.
-
-### From roadmaps on main
-
-- RiemannianGeometry: R1 for scaling, product, conformal and submersion
-  formulas for curvature, normal-coordinate jets and the projective metrics
-  of CP^d and HP^d; R2 and R4 for Jacobi fields, exponential maps and convex
-  normal balls; R4.7 for the normalized round models; R5a for the Gauss
-  equation and second fundamental forms.
-- SmoothBundlesConnections: B1 for smooth principal bundles, B1.4 for
-  quotients, B3.1 for principal connections (existence by locally finite
-  partitions of unity, gluing from local potentials), B6.0 for smooth good
-  covers and convex normal balls.
-- ComplexKahlerGeometry K5a: the complete Fréchet topology on smooth sections
-  of a finite-rank real bundle over a Hausdorff second-countable boundaryless
-  manifold, its atlas independence and continuous restriction.
-- SpinGeometry G4–G6: Spin bundles, G5.0's `realCliffordSpinorBundle`,
-  G6.0's `realSpinDiracClosedRealization` on the real H¹/L² carriers and
-  `realSpinDiracIndexClass` in degree KO_n with its Clifford-sign,
-  bounded-transform and finite-kernel comparisons, G6's Lichnerowicz formula
-  `realSpinLichnerowiczFormula` and kernel vanishing.
-- GeneralizedCohomology G5.5: the graded Fredholm and ABS construction.
-- TopologicalKTheory T7: the real KO coefficient ring and the Clifford-module
-  quotient.
-- CharacteristicClasses C1, items 3–4: finite faithful unitary representation
-  of a compact Lie group, Stiefel approximations `E_m=V_N(ℂ^m)` with their
-  connectivity, and the smoothing of continuous principal bundles and
-  reductions over smooth bases with relative homotopy versions; Stiefel–Whitney
-  classes for 6.3.
-- GeometricTopology Layer 1: manifolds with boundary, boundary gluing, handle
-  attachment on a collared bordism, tubular neighbourhoods and the
-  framed-surgery interface.
-- HopfRinow Layer 4 (completed): smooth Riemannian isometries and the
-  transport of the Levi-Civita connection and exponential map along them.
-- LieGroups: the closed-subgroup theorem and the continuous-homomorphism
-  theorem. CompactGroups: Peter–Weyl point separation.
-- BordismFormalGroups F4: the stable comparison of Toda brackets.
-- PseudodifferentialOperators Layer 5: uniform elliptic estimates on the
-  Hilbert scale.
-
-### From roadmaps earlier in the merge order
-
-Consume TangentialBordism §7.1 (B3.0) for `spinABSDiracIndexComparison` and
-`spinABSComplexificationGenus`, built on the real Clifford-linear Spin
-operator and GeneralizedCohomology G5.5; this real index, with its mod-two
-branches, is the one used, since the complex index does not detect them.
-Consume TangentialBordism Layers 2–3 (B1–B2) for structured geometric
-bordisms with product collars and their Pontryagin–Thom classes, §10.2 (B6.4)
-for the associated-family transfers, §10.3 (B6.5) for the integral oriented
-point-kernel theorem through CP² and RP² bundles and for the group PU3⋊C₂ with
-its smooth action on CP², §10.4 (B6.6) for the Spin-to-KO kernel theorem
-through PSp3-equivariant HP² bundles with the descended vertical Spin lift,
-§6.6 for the Wall generators, and the HP^k Pontryagin classes it states for
-every k. Consume HomotopySpheres §1.2 for ordered handle decompositions,
-cancellation and slides, §1.4 for the local Whitney move, §1.5 for Whitney
-discs in codimension at least three, §1.6 for the five-dimensional level,
-Layer 2 for Θ_n and homotopy-sphere recognition, §3C.1 for the Hopf class η
-and the EHP maps, §3C.3 for unstable Toda brackets with their
-adjacent-nullhomotopy data and composition-subgroup indeterminacy, Layers 6–8
-for the almost-framed exact sequence, framed kernel surgery and the
-Kervaire–Milnor comparison (§8.2 and §8.3), and §9A.1 for the complex
-e-invariant of a torsion stable odd-sphere class, its additivity and
-naturality, and `e_C(J_7(b))=±1/240`. Consume PositiveMass §3.1 for the
-closed-surface Gauss–Bonnet theorem. All three roadmaps precede this one in
-the merge order and none consumes it.
-
-## How to read the build
-
-Layer 1 builds the carriers: the metric bundle and its section topologies,
-scalar curvature, R⁺(M), the uniform gap, the model computations, collars,
-isotopies and concordances. Layer 2 builds PSC metrics on bundles: the
-isometry group of a closed Riemannian manifold is a compact Lie group, the
-connection metric of a bundle with PSC fibre has PSC for small fibre scale,
-and the projective-plane bundles of the transfer theorems carry such metrics.
-Layer 3 proves the Gromov–Lawson surgery theorem and its relative versions.
-Layer 4 turns bordisms with the right normal structure into sequences of
-surgeries in codimension at least three and transfers PSC along them. Layer 5
-proves that PSC forces α=0 and, with TangentialBordism's kernel theorems and
-Layers 2–4, the classification. Layer 6 applies the theory: low dimensions,
-the Hitchin spheres, Dold manifolds, tori and the index bundle of a family.
 
 ## Layer 1: Smooth metrics, positivity and families (P1)
 
@@ -1267,6 +1138,180 @@ TangentialBordism's homogeneous HP² index-zero construction uses its own
 invariant metric and SpinGeometry's Lichnerowicz theorem, not Layer 5's
 classification, and records that this roadmap owns the connection-metric
 estimates, surgery and the PSC classification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the symmetric-bilinear metric bundle Sym²(T*M), the identification of the
+  native smooth metrics with its positive-definite sections, the C² and C∞
+  topologies on metrics of a Hausdorff second-countable boundaryless manifold
+  as subspace topologies of a supplied Fréchet section space, and the C^k
+  topology on metrics of a compact manifold with boundary (1.1);
+- the scalar curvature `metricScalarCurvature` of a smooth metric in that
+  metric's own instances, the subtype `PositiveScalarMetrics` of PSC metrics,
+  its smoothness `contMDiff_metricScalarCurvature`, the uniform gap
+  `exists_uniform_scalar_gap`, openness of positivity and the family versions
+  (1.2);
+- scaling, product, disjoint-union and restriction laws of PSC and the scalar
+  curvature of the round, complex projective and quaternionic projective models
+  in the normalizations of the Conventions (1.3);
+- collars, metric gluing, isotopies and concordances of PSC metrics (1.4);
+- the Myers–Steenrod theorem for closed Riemannian manifolds, stated on the
+  native isometry group of the Riemannian distance (2.1): HopfRinow Layer 4
+  states its smooth Riemannian isometries and leaves the smoothness of a metric
+  isometry as a separate milestone, which is this one;
+- associated manifold-fibre bundles with boundary collars, the connection
+  metric of a bundle with PSC fibre and compact isometric structure group and
+  the O'Neill scalar formula (2.2), and the Fubini–Study invariance and metric
+  comparisons for the projective-plane bundles of the transfer theorems (2.3);
+- the Gromov–Lawson tube estimates, bending curve and surgery theorem, with
+  its relative concordances, naturality, family and connected-sum versions
+  (Layer 3);
+- the interior surgeries making a bordism two-connected under the Spin and
+  oriented nonspin normal-structure hypotheses, the handle-index bound for a
+  bordism whose outgoing inclusion is two-connected, the transfer of PSC along
+  such a bordism and the geometric PSC bordism groups (Layer 4);
+- the vanishing of α on PSC manifolds and the classification (Layer 5);
+- the Hitchin-sphere chain (coherent Moore-space coextensions, Toda's
+  unstable classes, the μ classes and their α), the Dold-manifold and HP^k
+  examples, the torus counterexample and the continuity of the index bundle
+  in a PSC family (Layer 6).
+
+This roadmap leaves to named suppliers, and never restates:
+
+- the α-invariant, the ABS comparison and the complexification genus
+  (TangentialBordism §7.1, labelled B3.0), structured oriented and Spin
+  bordisms (TangentialBordism Layers 2–3, B1–B2), the associated-family
+  transfers and the integral orientation-kernel and Spin-to-KO kernel
+  theorems with their PSp3-equivariant HP² bundles (TangentialBordism
+  §§10.2–10.4, B6.4–B6.6), the compact Lie group PU3⋊C₂ with its smooth
+  orientation-preserving action on CP² (TangentialBordism §10.3), and the
+  Dold-manifold conventions (TangentialBordism §6.6 and §10.3);
+- Spin structures, spinor bundles, Clifford-linear Dirac operators, the
+  Lichnerowicz formula and kernel vanishing (SpinGeometry G4–G6), the KO
+  coefficient ring (TopologicalKTheory T7), the graded Fredholm and ABS
+  construction (GeneralizedCohomology G5.5);
+- smooth principal bundles (SmoothBundlesConnections B1), principal
+  connections and their existence by partitions of unity and gluing of local
+  potentials (SmoothBundlesConnections B3.1), finite faithful unitary
+  representations of compact Lie groups, Stiefel universal-bundle
+  approximations and the smoothing of continuous principal bundles and
+  reductions over smooth bases, including relative homotopy versions
+  (CharacteristicClasses C1, items 3–4);
+- the Fréchet topology of smooth sections of a finite-rank real bundle over a
+  Hausdorff second-countable boundaryless manifold, with its completeness,
+  atlas independence and continuous restriction (ComplexKahlerGeometry K5a);
+- manifolds with boundary, boundary gluing, handle attachment, tubular
+  neighbourhoods and the framed-surgery interface (GeometricTopology Layer 1),
+  ordered handle decompositions, cancellation, slides and the Whitney moves
+  (HomotopySpheres §§1.2–1.6), homotopy spheres and Θ_n (HomotopySpheres
+  Layer 2), the EHP sequence, Hopf invariants and unstable Toda brackets
+  (HomotopySpheres §3C), the almost-framed exact sequence and the
+  Kervaire–Milnor comparison (HomotopySpheres Layers 6–8), and the complex
+  e-invariant of a torsion stable odd-sphere class with its additivity,
+  naturality and the seventh-stem value (HomotopySpheres §9A.1);
+- the closed-surface Gauss–Bonnet theorem (PositiveMass §3.1);
+- the positive-Ricci Witten-genus and TMF questions (StringOrientation, a
+  consumer).
+
+The round-sphere, projective and curvature-formula inputs are
+RiemannianGeometry's (R1, R2, R4, R4.7, R5a); the closed-subgroup theorem is
+LieGroups', Peter–Weyl separation is CompactGroups', the stable comparison of
+Toda brackets is BordismFormalGroups F4's, and the uniform elliptic estimates
+of Layer 6 are PseudodifferentialOperators Layer 5's.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Bundle.ContMDiffRiemannianMetric`, `RiemannianBundle`,
+  `IsContMDiffRiemannianBundle` and `IsRiemannianManifold` (the Riemannian
+  extended distance of a manifold equals its `PseudoEMetricSpace` distance);
+  `EMetricSpace.ofRiemannianMetric` on a T3 manifold.
+- `modelWithCornersEuclideanHalfSpace` and `IsManifold` on every model with
+  corners; `LieGroup`, `ChartedSpace`, `ContMDiff`.
+- `IsometryEquiv` with its group structure on `M ≃ᵢ M`, and the compact-open
+  topology of `C(M, M)`, from which 2.1 induces the topology of the isometry
+  group.
+- `Ideal.primaryComponent`, `Ideal.iSup_primaryComponent_eq_top` and
+  `Ideal.iSupIndep_primaryComponent` (a torsion module over a Dedekind domain
+  is the internal direct sum of its primary components over the height-one
+  primes), and `AddCommGroup.primaryComponent`.
+- `Metric.sphere` in `EuclideanSpace ℝ (Fin (d+1))` as the topological
+  d-sphere.
+
+### From Tau Ceti
+
+- `CovariantDerivative.leviCivitaConnection I M` and
+  `CovariantDerivative.scalarCurvature`, on a finite-dimensional model with
+  corners, in the metric's own instances.
+- `TauCeti.MetricSpace.ofRiemannianMetric` on a T3 preconnected Riemannian
+  manifold.
+
+### From roadmaps on main
+
+- RiemannianGeometry: R1 for scaling, product, conformal and submersion
+  formulas for curvature, normal-coordinate jets and the projective metrics
+  of CP^d and HP^d; R2 and R4 for Jacobi fields, exponential maps and convex
+  normal balls; R4.7 for the normalized round models; R5a for the Gauss
+  equation and second fundamental forms.
+- SmoothBundlesConnections: B1 for smooth principal bundles, B1.4 for
+  quotients, B3.1 for principal connections (existence by locally finite
+  partitions of unity, gluing from local potentials), B6.0 for smooth good
+  covers and convex normal balls.
+- ComplexKahlerGeometry K5a: the complete Fréchet topology on smooth sections
+  of a finite-rank real bundle over a Hausdorff second-countable boundaryless
+  manifold, its atlas independence and continuous restriction.
+- SpinGeometry G4–G6: Spin bundles, G5.0's `realCliffordSpinorBundle`,
+  G6.0's `realSpinDiracClosedRealization` on the real H¹/L² carriers and
+  `realSpinDiracIndexClass` in degree KO_n with its Clifford-sign,
+  bounded-transform and finite-kernel comparisons, G6's Lichnerowicz formula
+  `realSpinLichnerowiczFormula` and kernel vanishing.
+- GeneralizedCohomology G5.5: the graded Fredholm and ABS construction.
+- TopologicalKTheory T7: the real KO coefficient ring and the Clifford-module
+  quotient.
+- CharacteristicClasses C1, items 3–4: finite faithful unitary representation
+  of a compact Lie group, Stiefel approximations `E_m=V_N(ℂ^m)` with their
+  connectivity, and the smoothing of continuous principal bundles and
+  reductions over smooth bases with relative homotopy versions; Stiefel–Whitney
+  classes for 6.3.
+- GeometricTopology Layer 1: manifolds with boundary, boundary gluing, handle
+  attachment on a collared bordism, tubular neighbourhoods and the
+  framed-surgery interface.
+- HopfRinow Layer 4 (completed): smooth Riemannian isometries and the
+  transport of the Levi-Civita connection and exponential map along them.
+- LieGroups: the closed-subgroup theorem and the continuous-homomorphism
+  theorem. CompactGroups: Peter–Weyl point separation.
+- BordismFormalGroups F4: the stable comparison of Toda brackets.
+- PseudodifferentialOperators Layer 5: uniform elliptic estimates on the
+  Hilbert scale.
+
+### From roadmaps earlier in the merge order
+
+Consume TangentialBordism §7.1 (B3.0) for `spinABSDiracIndexComparison` and
+`spinABSComplexificationGenus`, built on the real Clifford-linear Spin
+operator and GeneralizedCohomology G5.5; this real index, with its mod-two
+branches, is the one used, since the complex index does not detect them.
+Consume TangentialBordism Layers 2–3 (B1–B2) for structured geometric
+bordisms with product collars and their Pontryagin–Thom classes, §10.2 (B6.4)
+for the associated-family transfers, §10.3 (B6.5) for the integral oriented
+point-kernel theorem through CP² and RP² bundles and for the group PU3⋊C₂ with
+its smooth action on CP², §10.4 (B6.6) for the Spin-to-KO kernel theorem
+through PSp3-equivariant HP² bundles with the descended vertical Spin lift,
+§6.6 for the Wall generators, and the HP^k Pontryagin classes it states for
+every k. Consume HomotopySpheres §1.2 for ordered handle decompositions,
+cancellation and slides, §1.4 for the local Whitney move, §1.5 for Whitney
+discs in codimension at least three, §1.6 for the five-dimensional level,
+Layer 2 for Θ_n and homotopy-sphere recognition, §3C.1 for the Hopf class η
+and the EHP maps, §3C.3 for unstable Toda brackets with their
+adjacent-nullhomotopy data and composition-subgroup indeterminacy, Layers 6–8
+for the almost-framed exact sequence, framed kernel surgery and the
+Kervaire–Milnor comparison (§8.2 and §8.3), and §9A.1 for the complex
+e-invariant of a torsion stable odd-sphere class, its additivity and
+naturality, and `e_C(J_7(b))=±1/240`. Consume PositiveMass §3.1 for the
+closed-surface Gauss–Bonnet theorem. All three roadmaps precede this one in
+the merge order and none consumes it.
 
 ## References
 

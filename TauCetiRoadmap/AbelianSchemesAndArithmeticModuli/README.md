@@ -1,266 +1,82 @@
 # Roadmap: abelian schemes and arithmetic moduli (the Jacobian challenge, part II)
 
-**Summary.** This roadmap develops abelian schemes over arbitrary bases and the arithmetic of
-abelian varieties over arbitrary fields, starting where the Jacobian challenge stops. That roadmap
-builds abelian varieties over a field, the Jacobian of a pointed curve and its universal property.
-This one defines abelian schemes over any base scheme, nonreduced bases included. It proves
-rigidity, the cube theorem and the seesaw principle in families. It constructs the dual abelian
-scheme, polarizations and the canonical doubled graph bundle, and quotients by finite locally free
-subgroups, with Cartier-dual kernels and Weil pairings. It builds the degree-one realizations: the
-prime-to-characteristic Tate module, the universal vector extension and first de Rham cohomology,
-Barsotti–Tate groups, their contravariant crystalline Dieudonné crystals and Tate twists,
-and the degree-one divided-power realization. It proves the deformation theorems of Serre–Tate and
-Grothendieck–Messing, with ordinary Serre–Tate coordinates and the
-finite-level lifting statements used for abelian surfaces. Over `ℂ` it supplies the lattice
-uniformization, the Hermitian and homological structure of Riemann forms, the Appell–Humbert theorem, the polarized Hodge equivalence and the
-Siegel universal family. Over a field it proves the arithmetic of Hom: degrees,
-characteristic polynomials, ℓ-independence, finiteness of Hom, Poincaré complete reducibility,
-semisimplicity of the endomorphism algebra, positivity of the Rosati involution, finiteness and
-level rigidity of polarized automorphisms, and Néron–Severi finiteness. Its exports are coefficient
-Hom spaces, localized isogeny categories, torsor twists, Weil restriction, quadratic twists and the
-Hodge line bundle; the polarized moduli stacks that consume them are built elsewhere.
+**Summary.** An abelian scheme over a scheme `S` is a family of abelian varieties parametrized by
+`S`: a group object over `S` whose structure morphism is proper and smooth with geometrically
+connected fibres. This roadmap, the second part of the Jacobian challenge, develops abelian schemes
+over an arbitrary base, nonreduced bases included, and the arithmetic of abelian varieties over an
+arbitrary field.
 
-Every object keeps its scheme structure. Degrees of isogenies and torsion subgroups are
-finite-flat ranks, never counts of geometric points. Every comparison carries its sign and
-normalization: the Mumford map, the Poincaré bundle rigidified on both zero sections, the factor 2
-in the graph bundle, the cyclotomic twist in Weil pairings, and the weight and sign of the complex
-Hodge structure.
+Commutativity is a theorem, not an axiom, and a polarization is extra data, not a chosen ample line
+bundle. The degree of an isogeny is the rank of a finite locally free morphism, so it counts
+inseparable degree. The Frobenius of an elliptic curve over `𝔽_p` has degree `p`, although it is
+injective on geometric points.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| A0 | The carrier and its boundaries | `AbelianScheme`, fieldAndEllipticBoundary, abelianPicardInputs |
-| A1 | Rigidity, Serre tensor, normalized line bundles and relative extension | relativeProductsAndDimension, relativeRigidity, relativeInvariantForms, relativeSerreTensor, `relativeSeesaw`, `relativeCube`, relativeEllipticEquivalence, `torsionRestriction`, `weilExtension` |
-| A2 | Duality, polarizations and ample classes | raynaudRepresentability, AbelianScheme.dual, mumfordMap, Polarization, Polarization.graphBundle, ampleCohomologyAndDegree, projectivePresentation, nefNormalizedLines, AbelianNS |
-| A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, multiplicationAndDensity, AbelianQuotient, `torsionDivisibility`, dualIsogenyCartierKernel, ThetaGroup, polarizedWeilPairing, FullLevel, Polarization.rosati, principalQuotient, symmetricHomRealization |
-| A4 | Realizations and deformations | AbelianTate, AbelianVectorExtension, AbelianH1dR, exteriorCohomology, BarsottiTate, AbelianPD, DieudonneCrystal.evaluate, grothendieckMessing, serreTate, SerreTate.q, oddPrimeLifting, dyadicOrdinaryLifting |
-| A5 | Complex uniformization and families | AbelianLattice, RiemannForm.homological, polarizationType, appellHumbert, polarizedHodgeEquivalence, analyticFamilies, SiegelFamily |
-| A6 | Arithmetic Hom and exports | `Hom.deg`, `exists_charpoly`, `homFreeFinite`, `poincareReducibility`, `endQ_isSemisimple`, `charpolyTate`, rosatiPositivity, `rosatiPositiveSquareRoot`, polarizedAutomorphisms, CoefficientHom, LocalizedHom, AbelianTwist, weilRestriction, QuadraticAbelianTwist, Morikawa, AbelianHodgeLine |
+The first theorems hold over every base. A morphism from an abelian scheme to a separated group
+scheme over `S` that preserves the zero sections is a homomorphism, and the group law is
+commutative. For `n ≠ 0`, multiplication by `n` on an abelian scheme of relative dimension `g` is
+finite locally free of rank `|n|^{2g}`, hence an isogeny. The quotient by a finite locally free
+closed subgroup `H` is again an abelian scheme. The quotient map is an isogeny with scheme-theoretic
+kernel `H`, and every homomorphism killing `H` factors through it uniquely.
 
-## Scope and ownership
+Let `A` and `B` be abelian varieties over a field `K`, and `ℓ` a prime different from the
+characteristic. The Tate module `T_ℓ A`, the inverse limit of the `ℓ`-power torsion of `A` over a
+separable closure of `K`, is free of rank `2 dim A` over the `ℓ`-adic integers. The group
+`Hom(A, B)` is free abelian of rank at most `4 · dim A · dim B`. After tensoring with the `ℓ`-adic
+integers it embeds into the linear maps from `T_ℓ A` to `T_ℓ B`, with torsion-free cokernel; Tate's
+surjectivity theorem is not claimed. By Poincaré's complete reducibility theorem, every abelian
+subvariety `C` of `A` has a complement `C′` such that addition `C × C′ → A` is an isogeny, over `K`
+itself, imperfect fields included. The algebra `ℚ ⊗ End A` is finite-dimensional and semisimple.
 
-**Owned here.** The relative carrier `AbelianScheme S` and its comparison with Tau Ceti's field
-carrier and with the elliptic curves of ModularCurves. Products, base change and relative
-dimension; rigidity over nonreduced bases and automatic commutativity; invariant differentials;
-Serre tensor for arbitrary ring actions and finite projective right modules, with functoriality,
-independence of projective splittings, arbitrary base change and realization comparisons;
-the relative seesaw, cube and multiplication-pullback formulas for rigidified line bundles; the
-relative elliptic equivalence; torsion restrictions of rigidified line bundles; extension from
-the generic fibre of every smooth test scheme over connected Dedekind and regular bases, with
-Weil's criterion for rational maps over normal bases. Raynaud's theorem
-that abelian algebraic spaces are schemes; the dual abelian scheme with its Poincaré bundle;
-the Mumford map and its biextension identities; polarizations, their local ample
-representatives and the canonical graph bundle with its cubic embedding; ample cohomology,
-Riemann–Roch and the degree of `φ_L`; projective presentations over normal bases; nefness of
-normalized lines over curves; the Néron–Severi group of an abelian variety. Isogenies over a base;
-multiplication maps and prime-to-characteristic torsion density; quotients by finite locally free
-subgroups; dual isogenies with Cartier-dual kernels and Weil pairings; theta groups and polarized
-descent; polarized Weil pairings; full level structures; the Rosati involution; the effective
-divisor criterion; principal quotients; the genus-two 2-torsion model. The integral
-prime-to-characteristic Tate module; the universal vector extension; relative `H¹_dR` with its Hodge
-sequence and Gauss–Manin connection; the exterior structure of all cohomology; full and truncated
-Barsotti–Tate groups of arbitrary height over arbitrary bases, with truncation, restriction and
-Cartier duality; their contravariant crystalline Dieudonné crystals for full groups,
-Frobenius and Verschiebung, Cartier duality with Tate twist −1, and Grothendieck–Messing deformation
-theory over locally PD-nilpotent thickenings; the degree-one divided-power realization;
-Grothendieck–Messing and Serre–Tate for abelian schemes with structures; ordinary Serre–Tate
-coordinates and the
-weighted polarization equations; polarized effectivity; the odd-prime and dyadic finite-level lifting
-theorems and the genus-two Jacobian comparison. Over `ℂ`: lattice uniformization, the Hermitian, principal and homological structure of Riemann forms,
-polarization types, Appell–Humbert and algebraicity, the polarized Hodge equivalence, analytic
-families and the Siegel universal family. Over a field: degree, characteristic polynomial and
-trace of endomorphisms with their ℓ-adic comparison, finiteness and saturation of Hom, complete
-reducibility, semisimplicity, Rosati positivity, rational Néron–Severi and the ample cone,
-polarized automorphisms, polarization orbits, full-level descent of homomorphisms, Frobenius
-semisimplicity, coefficient Hom spaces and isogeny torsors, real isometries, localized isogeny
-categories, weak polarizations, torsor twists and their realizations, Weil restriction of abelian
-schemes and its Tate module, quadratic twists, curve-generated subvarieties, the
-Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge line bundle.
+Every endomorphism `α` of `A` has a characteristic polynomial: the unique monic polynomial `P` with
+integer coefficients and degree `2 dim A` such that `P(r)` is the degree of `α − r` for every
+integer `r`, a non-isogeny having degree zero. For each such prime `ℓ`, `P` is also the
+characteristic polynomial of `α` acting on `T_ℓ A`, so the latter has integer coefficients
+independent of `ℓ`. For the Frobenius `π` of an elliptic curve `E` over `𝔽_q` it is `X² − aX + q`
+with `a = q + 1 − #E(𝔽_q)`.
 
-The abelian-specific prime-to-characteristic torsion (A3.2), integral Tate module (A4.1),
-algebraic characteristic polynomial and trace, and their Tate-module and finite-level comparisons
-(A6.10–A6.11) are constructed here on the shared carriers. Their proof order is multiplication and
-finite-flat torsion, then the Tate module, then degree polynomials, finite-rank Hom and linear
-algebra. These targets use no cohomological trace formula. The abelian cohomology computation
-(A4.4) is a separate specialization of the generic cohomological supplier contracts below.
+The roadmap also builds the degree-one realizations, among them first de Rham cohomology and the
+Barsotti–Tate group `A[p^∞]` of `p`-power torsion. It proves the deformation theorems of
+Grothendieck–Messing and Serre–Tate. By the latter, if `p` is nilpotent in a ring `R` and `I ⊆ R` is
+a nilpotent ideal, abelian schemes over `R` are equivalent to abelian schemes `A₀` over `R/I`
+together with a lift of `A₀[p^∞]` to a Barsotti–Tate group over `R`. Over `ℂ`, an abelian variety of
+dimension `g` is analytically the quotient of its tangent space by a lattice of rank `2g`. A complex
+torus is algebraizable exactly when it admits a positive Riemann form, an integral alternating form
+on the lattice whose real extension is invariant under multiplication by `i`.
 
-**Built in Tau Ceti and cited.**
+Over a field, abelian schemes are equivalent to the abelian varieties in the Tau Ceti library.
+JacobianChallenge, the first part, supplies over a field the Jacobian of a pointed curve, the dual
+abelian variety and polarizations, and the statements here extend them. Abelian schemes of relative
+dimension one are equivalent to the elliptic curves of ModularCurves; both comparisons are proved
+here. PELModuli and ShimuraVarieties build the moduli of polarized abelian varieties, using the
+polarizations, level structures and Hodge line bundle constructed here.
 
-- *The Tau Ceti library.* `TauCeti.AlgebraicGeometry.AbelianVariety K` (a proper geometrically
-  integral group scheme over `Spec K`, with smoothness, geometric connectedness, integrality and
-  commutativity derived), its category with commutative Hom groups, `End A` as a ring,
-  `mulBy A n`, products `prod`, `fst`, `snd`, `lift`, base change along field extensions,
-  `IsIsogeny` (finite and surjective), `TangentSpace` with
-  `finrank_tangentSpace_eq_finrank_cotangentSpace`; isogenies of group schemes over an affine base,
-  `TauCeti.GroupScheme.IsIsogeny` (finite, flat and surjective); closed subgroup
-  schemes `ClosedSubgroupScheme`; the Hodge structures `TauCeti.Hodge.HodgeStructureOn`,
-  `HodgeStructure`, `HodgeStructureOn.dual`, `IsPolarization`, `Polarization`, the weight-one
-  criterion `isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`, and
-  `TauCeti.AlmostComplexStructure`; the Lie exponential `lieExp` with
-  `isLocalDiffeomorphAt_lieExp_zero`; the Cartier duality base-change equivalence
-  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`. The library also
-  supplies: `finrank_tangentSpace_eq_dim`; the rigidified Picard functor
-  `rigidifiedPicardFunctor` and `RigidifiedLineBundle`; the Tate module of an abelian group
-  `TauCeti.TateModule p A`
-  with its `ℤ_p`-module structure and `TateModule.free_of_natCard`; kernels of homomorphisms of
-  group schemes over a base with their base change (`TauCeti/AlgebraicGeometry/GroupScheme/Kernel`);
-  over a field, `isMonHom_of_one_hom` (a pointed morphism of abelian varieties is a homomorphism)
-  and `AbelianVariety.Hom.equivPointed`; the Albanese predicate `AbelianVariety.IsAlbanese`; Riemann
-  forms `TauCeti.AlmostComplexStructure.IsRiemannForm`, with the weight-one Hodge structure
-  `latticeHodgeStructure` of a complex structure on a lattice, `latticeHodgeStructureEquiv`,
-  `IsRiemannForm.polarization` and `isRiemannForm_iff_isPolarization`; symplectic bases of
-  nondegenerate alternating forms over a field, `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`;
-  and Frobenius' theorem for central real division algebras,
-  `TauCeti.nonempty_algEquiv_real_or_quaternion` (a finite-dimensional real division algebra with
-  centre `ℝ` is `ℝ` or `ℍ[ℝ]`), in `TauCeti/Algebra/CentralSimple/Real`; and the Skolem–Noether
-  theorem `TauCeti.skolemNoether` (algebra maps from a central simple algebra to a
-  finite-dimensional simple algebra are conjugate by a unit) with its automorphism case
-  `TauCeti.exists_unit_conj_of_algEquiv`, in `TauCeti/Algebra/CentralSimple/SkolemNoether`.
-  realCentralDivisionAlgebra in A6.15 is only the reduction of the general real
-  division-algebra classification to the central case and to the algebraically closed case over
-  `ℂ`; the positive-involution normal form and its Rosati adapter are also A6.15 here.
-- *JacobianChallenge, Layers D, E and F.* Over a field: the relative Picard functor of a pointed
-  curve, its rigidification by the Poincaré bundle and the Jacobian `Pic⁰` (Layer D); the dual
-  abelian variety, the theorem of the cube and the square, polarizations (with the principal
-  polarization of a Jacobian) and `[n]` as an isogeny (Layer E); the Abel–Jacobi morphism and its
-  Albanese universal property (Layer F). Everything here over a general base, or beyond those
-  field statements, extends them; over a field the targets below are stated against their carriers.
-- *ModularCurves.* Finite locally free commutative group schemes and Cartier duality (0B);
-  effective descent of finite locally free schemes and groups (0E);
-  relative Weierstrass models and pole sheaves (1C); the scheme-theoretic group law (1D);
-  multiplication, isogenies, quotients, the Picard dual, Cartier–Nishi duality and the Weil pairing
-  of elliptic curves (2A–2F); the elliptic `p`-divisible tower and the connected–étale sequence of a
-  finite locally free commutative group scheme over a henselian local ring (7E, PD-1 and PD-2); the
-  elliptic Serre–Tate equivalence (7F, ST-1). The abelian-scheme statements below specialize to
-  these in relative dimension one, and the comparison is a target (A0, A1).
-- *EllipticCurves, Layer 2.* The equation-level Weil pairing and Tate module of an elliptic curve.
-- *AlgebraicVectorBundles, L0B, L0C, L2A, L2B.* Finite locally free sheaves, duals, exterior powers,
-  determinants, arbitrary pullback and the vector group `V(F) = Spec Sym(F^∨)` of a finite locally
-  free sheaf.
-- *StableReduction, Layer 2.* Relative Gorenstein-curve duality and dualizing bundles
-  of smooth proper curves and effective étale descent of schemes with a compatible relatively ample
-  invertible sheaf, including morphisms, sections and group operations (Layer 2).
+The first layer fixes the definition. The second proves the theorems valid over every base, and the
+third builds duality and polarizations. The fourth treats isogenies and torsion, and the fifth
+realizations and deformations. The sixth is the complex theory and the seventh the arithmetic of Hom
+over a field.
 
-**Built in other roadmaps and cited.**
+## How to read the build
 
-- *ComplexTori.* Milestone 1 owns the compact complex Lie-group structure on the standard
-  additive orbit quotient, descended lattice-preserving maps, and natural covering and homology
-  identifications. Milestones 2–3 own holomorphic period families over complex manifolds and
-  equivariant maps and descent. Milestone 4, Integral connecting class, step 6 supplies the
-  lattice-torsion equivalence for the trivial action. A5.1 transports these to algebraic abelian
-  varieties; A5.6 supplies the polarized Hodge interpretation and extensions to singular or
-  nonreduced analytic bases; A5.8 supplies the Siegel period and symplectic formulas.
-- *AlgebraicModuliForArithmeticGeometry.* Layer 1: relative Serre generation and vanishing
-  (`relativeSerre`, `serreGeneration`) and relative very ampleness (`amplePowersAndFixedTwists`).
-  Layer 2, §2.1: Hom and Isom schemes of projective flat families (`homAndIsomSchemes`) through the
-  Hilbert functor. Layer 3: fppf descent, relative Hom and Weil restriction along finite locally free
-  maps (`ModuliDescent.weilRestriction`, `ModuliDescent.weilRestriction_baseChange`, `ModuliDescent.weilRestriction_algebraicity`,
-  `ModuliDescent.relativeHom_algebraicity`).
-  Layer 5, §5.2: level functors and their rigidity (`rigidLevelStructure`). Layer 7: the relative
-  fppf Picard sheaf and section rigidification (§7.6.1, `relativePicardSheaf`,
-  `sectionRigidifiedPicard`), its section splitting (§7.6.1a, `sectionPicardSplit`),
-  universal functions (§7.2, `universal_functions`) and proper-space formal existence
-  (§7.8, `properSpaceCompletionEquivalence`).
-- *SchemeAndStackFoundations.* Layer 1: descent of modules (§1.1), algebraic spaces
-  (§§1.3–1.4), quotient sheaves (§§1.5–1.6), fibre products (§1.8,
-  `isAlgebraicSpace_pullback`), torsors (§1.15) and Artin's bootstrap (§1.17,
-  `artinBootstrap`). Layer 2: higher direct images on sites (§2.1) and quasi-coherent
-  cohomology (§2.6, `qcoh_higherDirectImages`). Layer 3, §3.8: invariant differentials
-  (`invariant_differentials`). Layer 4: thickenings and formal smoothness (§4.1), formal
-  completion (§4.8), coherent Grothendieck existence and algebraization of compatible
-  morphisms on given proper schemes (§4.10, `grothendieck_existence`, `algebraize_hom`).
-  Layer 5: proper pushforward, flat pullback and degrees of zero-cycles (§5.2), the first
-  Chern class (§5.3, `Chow.c1`), Chern classes (§5.4, `Chow.chernClass`), intersection
-  products on smooth varieties (§5.6), and Grothendieck–Riemann–Roch including
-  Hirzebruch–Riemann–Roch (§5.8, `grothendieck_riemann_roch`). The effectivity of polarized
-  formal abelian schemes and genus-two curves is A4.8 and A4.14 here; quadratic projective
-  descent uses StableReduction Layer 2's étale polarized-scheme descent contract.
-- *EquivariantIntersectionTheory.* §1.1: the groupoid of `G`-linearized invertible sheaves on an
-  `S`-scheme with an action of a flat finitely presented group scheme `G`, with tensor, dual,
-  pullback and base change. §1.4: invertible sheaves on the quotient stack `[X/G]` are the
-  `G`-linearized invertible sheaves on `X`, by descent along the torsor `X → [X/G]`. A3.6 (5)
-  applies both to a finite locally free subgroup `H ⊆ K(L)` acting on `A` by translation.
-- *CrystallineCohomology.* Layer CR.1 supplies the base-compatible big fppf crystalline site,
-  its module-sheaf category and quasi-coherent and finite locally free crystals. CR.7.1 supplies coefficient
-  evaluation, pullback, tensor and dual, and the twist convention `φ_{D(r)} = p^{−r}φ_D`,
-  `Fil^i(D(r)) = Fil^{i+r}D`. The Barsotti–Tate Dieudonné crystal and its deformation theory
-  are A4.CR.7.2 here.
-- *EnhancedDerivedSheaves.* E1.9 supplies perfect proper pushforward and base change
-  (`perfect_proper_pushforward`) for the relative coherent-cohomology arguments.
-- *ComplexComparisonPartII.* C−1.1 the category `ComplexAnalyticSpace` and
-  `complexSchemeAnalytification` for locally finite-type complex schemes, retaining nilpotents
-  and arbitrary open gluing; C−1.2–C−1.3 `complexSpaceAnalytification`,
-  `completedAnalyticStalkComparison` and `analyticRelationLocalChart` for locally separated
-  spaces, with étale relation charts and Hausdorffness when separated;
-  C1.9 proper coherent GAGA (`properSchemeGagaPushforward`, `properSchemeGagaEquivalence`);
-  C3.2d.2 algebraicity of the relative fppf Picard sheaf (`relative_picard_algebraicSpace`)
-  for proper flat finitely presented families with universal functions;
-  C3.2f.1–C3.2f.2 the full identity component, including nilpotents (`picardZeroSheaf`),
-  and its representability criterion (`picardZeroCriterion`), with the hypotheses below;
-  C3.3 derived GAGA for proper algebraic spaces
-  (`derivedGagaProperSpace`); C4.2 Chow's theorem with nilpotents (`projectiveChowNonreduced`);
-  C4.4 algebraicity of holomorphic maps from proper schemes (`properSourceMorphismAlgebraicity`)
-  and the family and abelian-variety morphism interface (`familyMorphismInterface`); C5.1 the
-  sheaf–singular comparison and the proper de Rham–Betti comparison (`sheafSingularComparison`,
-  `properDeRhamBetti`); C5.2 Betti local systems and the Gauss–Manin comparison
-  (`relativeBettiLocalSystem`, `GaussManin`, `relativeDeRhamBetti`); C5.4 the Chern normalization
-  `c₁ = [(i/2π)Θ]` with the complex orientation (`chernFubiniStudyIntersection`).
-- *EtaleCohomologyFoundations.* Supplied by EtaleCohomologyFoundations §F.0.2 /
-  `VanishingCycles.finiteEtaleGaloisCategory` (finite étale covers and `π₁`, used in A6.25).
-  Supplied by EtaleCohomologyFoundations §F.3 /
-  `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
-  A4.4 uses the geometric bound `q > 2g` and proper finiteness for an abelian variety of
-  dimension `g` over algebraically closed `k`, with finite coefficients `ℤ/ℓ^r` and `ℓ`
-  invertible in `k`. Supplied by EtaleCohomologyFoundations §F.2 /
-  `VanishingCycles.etaleKunneth`.
-  The ordinary derived Künneth map for finite-type schemes over separably closed `k` and
-  bounded constructible finite-Tor coefficient complexes retains cup products, pullbacks,
-  base change and reductions. Supplied by EtaleCohomologyFoundations §F.4 /
-  `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
-  The constant coefficient tower has coherent derived reductions and uniform cohomological
-  and Tor bounds, giving the derived finite-level limit, finite generation and integral reductions.
-
-**Not built here.** Moduli stacks of polarized abelian varieties `A_{g,d}`, PEL, Siegel and Hilbert
-modular moduli, their level covers and compactifications (PELModuli, ShimuraVarieties,
-ShimuraCompactifications): the Hodge line bundle and the twisting operation are exported to them
-by descent, and no moduli stack is constructed here. The characteristic-zero Siegel moduli problem
-is specified in ShimuraVarieties §5.0, and its arithmetic minimal compactification in
-ShimuraVarieties §§8.17–8.19;
-arithmetic toroidal compactifications belong to ShimuraCompactifications. The general
-classification of finite flat group schemes and `p`-divisible groups belongs to
-FiniteFlatGroupsAndIntegralPadicHodgeTheory;
-the crystalline site and general crystalline coefficient calculus belong to CrystallineCohomology.
-The full and truncated Barsotti–Tate interfaces, contravariant Dieudonné crystal, its variance and twists, and
-Grothendieck–Messing deformation theory are A4.5–A4.7 and A4.CR.7.2 here.
-General Galois representations and their local properties (ArithmeticGaloisRepresentations):
-only the Tate local system of an abelian scheme and the finite-index induction comparison for Weil
-restriction live here. Néron models and semistable reduction (NeronModelsAndSemistableAbelianVarieties).
-ComplexTori owns generic lattice quotients, manifold period families and equivariant lattice maps.
-A5 specializes these to abelian varieties, with Riemann forms, Appell–Humbert, polarizations and
-the Siegel family. This supplier is used only in A5 and its consumers; A0–A4 are independent of it.
-Generic finite-coefficient étale cohomology of schemes and integral adic realization:
-Supplied by EtaleCohomologyFoundations §F.3 /
-`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
-`VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
-`VanishingCycles.adicFiniteness`.
-A4.4 specializes these geometric statements to proper abelian varieties over algebraically
-closed `k`, with `ℓ` invertible and the whole normalized tower `ℤ/ℓ^r`.
-Weil's trace theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity,
-and the Grothendieck–Lefschetz formula use the abelian inputs consumed downstream by
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T3 /
-`VanishingCycles.curveEndomorphismTrace`, `VanishingCycles.etaleTraceFormulaFinite`,
-`VanishingCycles.etaleTraceFormula`.
-The curve theorem uses smooth proper geometrically connected curves and invertible `ℓ`;
-the finite-field formulas apply to separated finite-type schemes with descended bounded constructible finite-Tor finite
-coefficients of order prime to the characteristic or rational `ℓ`-adic coefficients with invertible `ℓ`; they use compact
-support and geometric Frobenius at every positive power, with perfect finite-level traces and rational cohomology traces.
-Their abelian torsion, Tate-module and algebraic-trace inputs are owned here in A3.2, A4.1
-and A6.10–A6.11.
-Poincaré bundles completed along the boundary, Betti maps and integral realizations over finite
-fields form the scope outline for a separate Part II roadmap; that outline supplies no inputs to
-this roadmap. Faltings's finiteness and isogeny theorems
-(FaltingsFinitenessAndIsogenyTheorems). The Weil estimate for Frobenius (DeligneWeightsAndPurity).
-The Tate conjecture for homomorphisms over finite or number fields is not claimed anywhere below:
-the Hom statements here are faithfulness and saturation.
+A0 fixes the relative carrier and its two boundaries: Tau Ceti's field abelian varieties and the
+elliptic curves of ModularCurves, and records exactly how the algebraic-space Picard machinery
+applies to abelian schemes. A1 proves the structural theorems that hold over every base:
+products and dimension, rigidity, invariant differentials, seesaw, cube, the elliptic equivalence
+and torsion restrictions. A2 constructs the dual abelian scheme through Raynaud's theorem, the
+Mumford map, polarizations and the canonical graph bundle, and proves the cohomological and
+positivity statements about ample line bundles. A3 builds isogenies and finite-flat quotients and,
+with them, the torsion structure: multiplication maps, divisibility, Cartier-dual kernels, Weil
+pairings, theta groups, level structures and the Rosati involution. A4 constructs the degree-one
+realizations (étale, de Rham, Barsotti–Tate and divided-power) and proves the deformation theorems.
+A5 treats complex abelian varieties and their analytic families. A6 develops the arithmetic of Hom
+over a field and exports the coefficient, twisting, restriction and Hodge-line constructions. Each
+layer ends with its examples and its dependencies. Within A6 the subsections are in dependency
+order: faithfulness and complete reducibility come before finiteness of Hom, which comes before the
+characteristic polynomial, which comes before positivity.
+Within A4, the full tower (A4.5) precedes the truncated-group interface (A4.5a).
+Crystalline Dieudonné and Grothendieck–Messing theory (A4.CR.7.2), Serre–Tate (A4.9) and
+polarized effectivity (A4.8) precede the compatible polarized tower lifting and abelian-surface
+application (A4.12). Generic truncated-group stack and truncation smoothness are downstream
+targets of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.23.
 
 ## Conventions
 
@@ -316,278 +132,6 @@ the Hom statements here are faithfulness and saturation.
   are pinned Mathlib or Tau Ceti declarations or labels of supplier roadmaps. Targets without a
   Lean statement carry a plain-text label for citation, with their mathematical statement,
   locators and Checks in the README. Checks carry no names.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned)
-
-The pins are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`. Library declarations below are
-consumed at those revisions. A supplier named as a roadmap specifies mathematical targets;
-its additional carriers are used in the README statements.
-
-- Schemes and morphism properties: `AlgebraicGeometry.Scheme`, `Over`, `IsProper`, `Smooth`,
-  `SmoothOfRelativeDimension`, `GeometricallyConnected`, `GeometricallyIntegral`, `IsFinite`, `Flat`,
-  `LocallyOfFinitePresentation`, `Surjective`, `IsClosedImmersion`, `Scheme.Hom.finrank` (the rank of
-  a finite morphism at a point, locally constant for finite flat morphisms of finite presentation,
-  `Scheme.Hom.isLocallyConstant_finrank`, and equal to `1` exactly for isomorphisms,
-  `Scheme.Hom.isIso_iff_finrank_eq`, under the finite, flat and locally finitely presented hypotheses), `Scheme.functionField`, `Over.pullback`.
-- Group objects: `CategoryTheory.GrpObj`, `IsCommMonObj`, `IsMonHom`, `Functor.grpObjObj`, the group
-  structure on morphisms into a group object (`CategoryTheory.Hom.group`),
-  `yonedaGrpObj`, `GrpObj.ofRepresentableBy`, `yonedaGrpObjIsoOfRepresentableBy`,
-  `yonedaGrpFullyFaithful`, `CategoryTheory.isCommMonObj_iff_isMulCommutative`, `Over.mapPullbackAdj`,
-  `AlgebraicGeometry.isCommMonObj_of_isProper_of_geometricallyIntegral`,
-  `smooth_of_grpObj`.
-- Algebra: `TensorProduct`, `Algebra.TensorProduct`, `IsSemisimpleRing`,
-  `isSemisimpleRing_iff_pi_matrix_divisionRing`, `Module.Free`, `Module.Finite`,
-  `instModuleFinite_of_discrete_submodule`, `Polynomial.funext`, `Matrix.charpoly`, `Matrix.det`,
-  `Matrix.symplecticGroup`, `Matrix.PosDef`, `MvPolynomial.IsHomogeneous`, `Padic`, `PadicAlgCl`,
-  `DividedPowers`, `IsZLattice`. Principality of an integral Riemann form uses
-  `LinearMap.IsPerfPair E` from `Mathlib.LinearAlgebra.PerfectPairing.Basic`: both maps to
-  the integral dual are bijective. This retains unimodularity rather than only
-  nondegeneracy after extending scalars to a field.
-- Analysis: complex numbers, finite-dimensional real vector spaces with `IsZLattice` lattices.
-  The spectral theorem for a symmetric operator on a finite-dimensional real inner product space,
-  `LinearMap.IsSymmetric.eigenvectorBasis` with `LinearMap.IsSymmetric.apply_eigenvectorBasis`
-  (an orthonormal eigenbasis with real eigenvalues), and `eigenvalue_pos_of_pos`
-  (eigenvalues of a positive definite operator are positive), in
-  `Mathlib.Analysis.InnerProductSpace.Spectrum`; A6.15 builds its square roots from these.
-
-### From Tau Ceti (pinned)
-
-The field carrier, additive endomorphism ring, multiplication and products are in
-`TauCeti.AlgebraicGeometry.AbelianVariety.Basic`, `.End.Basic`, `.Isogeny`,
-`.MorphismGroup` and `.Product`; the pointed-morphism comparison is in `.Hom.Rigidity`
-and the tangent-dimension comparison in `.TangentSpace`. Relative kernels use
-`TauCeti.GroupScheme.kernelBaseChangeSchemeIso` and
-`TauCeti.GroupScheme.isPullback_kernel_scheme` from
-`TauCeti.AlgebraicGeometry.GroupScheme.Kernel`, on `Grp (Over S)` over any scheme `S`. The affine-base
-isogeny predicate is in `TauCeti.AlgebraicGeometry.GroupScheme.CentralIsogeny.Basic`.
-Rigidified line bundles and their classes are in
-`TauCeti.AlgebraicGeometry.LineBundle.Rigidified.Basic`, and their presheaf is
-`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor` from
-`TauCeti.AlgebraicGeometry.PicardFunctor.Rigidified`.
-The algebraic-space sheaf and the represented dual add geometry to that presheaf in A0.3
-and A2.1–A2.2.
-
-`TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso` in
-`TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.BaseChange` compares Cartier
-dualization and base change for a finite locally free commutative affine group scheme
-along any homomorphism of commutative rings. Cartier duality over an arbitrary scheme
-and its gluing are consumed from ModularCurves 0B.
-
-`TauCeti.Geometry.Hodge.WeightOne.RiemannForm` supplies `IsRiemannForm` and its
-polarization comparison with a flat integral module, an actual complexification map
-`ιℂ : Λ →ₗ[ℤ] Vℂ`, and `IsBaseChange ℂ ιℂ`; freeness of the lattice ensures flatness.
-`TauCeti.Geometry.Hodge.WeightOne.Lattice` supplies `latticeHodgeStructure` and
-`latticeHodgeStructureEquiv`. The comparison fixes weight one and Weil operator `J`;
-A5.2 adds the geometric homological convention of weight `−1`. The field symplectic
-basis theorem is in `TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis` and assumes
-finite dimension and a nondegenerate alternating form. Integral elementary divisors
-are A5.4 here.
-
-The declarations listed under *Built in Tau Ceti and cited* above, with these contracts:
-`AbelianVariety K` is consumed with its derived instances (`smooth`, `geometricallyConnected`,
-`isCommMonObj`, `isIntegral`), `zeroSection`, `zeroPoint` and `baseChange`; `IsIsogeny f` means
-`IsFinite` and `Surjective` of the scheme morphism; `mulBy A n = 𝟙 A ^ n`; `prod` is the monoidal
-product of the underlying group objects. `TateModule p A` is the inverse limit of
-the `p^n`-torsion subgroups of an abelian group with its `ℤ_p`-module structure and inverse-limit
-topology. For a prime `p`, an additive commutative group and every `n ≥ 0`, the hypothesis
-`Nat.card (TateModuleLevel p A n) = (p^n)^r` gives freeness through
-`TateModule.free_of_natCard`, finite generation through `TateModule.finite_of_natCard`,
-and rank `r` through `TateModule.finrank_eq_of_natCard`, in
-`TauCeti.Algebra.Module.Torsion.TateModule`. Geometric torsion counts and the Galois or
-étale-local-system action are the new assertions of A3.2 and A4.1. The
-kernel of a group-scheme homomorphism over `S` is a closed subgroup scheme whose formation
-commutes with base change. The Hodge library is consumed as stated: weight `n`
-Hodge structures on a lattice with complexification, their duals, and polarizations as integral
-forms satisfying the Hodge–Riemann relations.
-
-### From TauCetiRoadmap roadmaps
-
-Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeometry.
-
-- *JacobianChallenge, Layer E*: `[n]` as an isogeny, the cube and square, the dual abelian variety
-  and polarizations over a field; the field carrier with its Hom, End and products is the Tau Ceti
-  library's. This contract supplies no
-  relative geometry, and no theorem that the image of a homomorphism of abelian varieties over an
-  imperfect field is an abelian subvariety; that theorem is A6.3 here.
-- *JacobianChallenge, Layers D and F*: the rigidified relative Picard functor of a pointed smooth
-  proper curve and its Jacobian (Layer D), and the Abel–Jacobi morphism with the Albanese universal
-  property (Layer F). For a singular curve one first normalizes
-  and chooses a point of the normalization.
-- *ModularCurves 0B, 0E, 1C, 1D, 2A–2F, 7E, 7F*: as listed above; the elliptic Picard dual is compared
-  through the inversion adapter `ι_E = λ_E ∘ [−1]` of the Conventions.
-- *AlgebraicVectorBundles L0B, L0C, L2A, L2B*: finite locally free sheaves with their operations and
-  the vector group `V(F)`.
-- *StableReduction, Layer 2*: relative Gorenstein-curve duality supplies the relatively ample
-  dualizing bundle of a smooth genus-two curve used by A4.14. A6.34 uses effective descent along the finite étale
-  cover `Spec L → Spec K`, with an ample invertible sheaf and its specified cocycle.
-  Layer 2 supplies descent of the scheme, morphisms, sections and group operations
-  by relative Proj; the exchange linearization on `N ⊗ [−1]^*N` supplies the line-bundle
-  cocycle. No descent of an unpolarized scheme is inferred from this contract.
-
-### From EtaleCohomologyFoundations
-
-Supplied by EtaleCohomologyFoundations §F.3 /
-`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
-For finite-type `X` over separably closed `k`, torsion invertible in `k` gives
-`H^q_et(X, F) = 0` for `q > 2 dim X`, and proper `X` with finite constructible coefficients
-has finite cohomology; A4.4 uses `X = A` over algebraically closed `k`, `dim A = g` and
-`Λ = ℤ/ℓ^r` with `ℓ` invertible in `k`.
-
-Supplied by EtaleCohomologyFoundations §F.0.2 / `VanishingCycles.finiteEtaleGaloisCategory`.
-The Galois category of finite étale covers of a connected scheme, its fibre functors and `π₁`, with
-finite covers corresponding to finite continuous `π₁`-sets; A6.25 combines it with surjectivity of
-`π₁(U) → π₁(S)` for dense open `U` in a normal integral `S` to prove finiteEtaleHomExtension.
-
-Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`.
-The finite-type, separably closed-field theorem applies to bounded constructible finite-Tor
-`Λ`-complexes with invertible annihilator, including the constant `ℤ/ℓ^r`-sheaves on `A`;
-A4.4 applies its ordinary external product to `A × A` and pulls back along addition.
-
-Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`,
-`VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
-On the normalized constant tower over proper `A/k`, uniform cohomological and Tor bounds
-and finite-level finiteness give `RΓ(A, ℤ_ℓ) ≅ Rlim_r RΓ(A, ℤ/ℓ^r)`, finite generation and
-`RΓ(A, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(A, ℤ/ℓ^r)` for every `r ≥ 1`, with the Milnor sequence
-retained until the Mittag–Leffler condition is verified.
-Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.adicFunctoriality`.
-The cup, pullback and Künneth comparisons pass through the normalized systems with
-their uniform bounds, and a Galois action requires coefficient descent data.
-Supplied by EtaleCohomologyFoundations §F.4 /
-`VanishingCycles.etaleProetaleAdicComparison`.
-For locally Noetherian `A` the constant classical realization compares by derived pushforward
-with Mathlib's pro-étale coefficient sheaf and cohomology, compatibly with every reduction.
-Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization`.
-On separated finite-type schemes over separably closed `k` with invertible `ℓ`, the same normalized
-realization rationalizes by derived tensor with `ℚ_ℓ`, with finite-dimensional cohomology.
-The exterior structure and freeness of abelian cohomology are A4.4 here.
-
-| Supplier | Provides / consumer | Convention or hypothesis gap |
-|---|---|---|
-| Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth` | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 exteriorCohomology | A4.4 uses constant bounded constructible finite-Tor `ℤ/ℓ^r`-coefficients on proper `A` over algebraically closed `k`, with `ℓ` invertible, and passes to `ℤ_ℓ` by EtaleCohomologyFoundations §F.4 / `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness` through all compatible finite levels; a compact-support formula alone does not supply this input. |
-
-### From CrystallineCohomology and EnhancedDerivedSheaves
-
-| Supplier | Provides / consumer | Convention or hypothesis |
-|---|---|---|
-| CrystallineCohomology Layer CR.1 | Base-compatible big fppf crystalline site and quasi-coherent and finite locally free crystals, used by A4.CR.7.2 | `p` is prime and locally nilpotent on the source; evaluations are module sheaves on the PD ambient scheme. |
-| CrystallineCohomology §CR.7.1 | Finite projective coefficient evaluation, pullback, tensor and dual; filtered Frobenius coefficient and twist calculus, used by A4.CR.7.2 | Twist `r` scales Frobenius by `p^(−r)` and shifts `Fil^i` to `Fil^(i+r)`; completed Witt evaluation retains every finite-level reduction. |
-| EnhancedDerivedSheaves E1.9 / `perfect_proper_pushforward` | Perfect proper pushforward and base change, used by A1.4, A2.4, A4.2 and A4.4 | For finitely presented `f`, `E` is perfect and `G•` is bounded, termwise finitely presented and target-flat, with each support proper over the target; `Rf_*E` is perfect when `f` is proper, flat and finitely presented. No Noetherian base hypothesis is added. |
-
-### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
-
-Each statement listed above is consumed with its own hypotheses. In particular:
-ComplexComparisonPartII C3.2d.2 `relative_picard_algebraicSpace` represents the relative fppf
-Picard sheaf of AlgebraicModuli §7.6.1 and needs a proper flat finitely presented morphism with
-universal functions, which AlgebraicModuli §7.2 `universal_functions` supplies for proper flat
-finitely presented morphisms with geometrically reduced and geometrically connected fibres.
-ComplexComparisonPartII C3.2f.1 `picardZeroSheaf` retains the full geometric identity components,
-including nilpotents. Its C3.2f.2 `picardZeroCriterion` needs a locally
-Noetherian base and identity components of the geometric fibres that are smooth of locally constant
-dimension (for an algebraic-space Picard sheaf through the neutral-component construction
-`spaceSectionComponentCriterion` of AlgebraicModuli §7.9), and over a nonreduced base formal smoothness along the neutral component.
-Its properness conclusion additionally requires separatedness of the Picard space and proper
-geometric identity components. The relative Picard sheaf remains an fppf sheafification;
-AlgebraicModuli §7.6.1a `sectionPicardSplit` supplies rigidified representatives when a section
-and universal functions are given.
-`grothendieck_existence` supplies coherent sheaves on a given proper scheme, and
-`algebraize_hom` supplies compatible morphisms between given schemes, rather than existence
-of the polarized scheme itself; A4.8 constructs that scheme with its compatible ample system;
-`homAndIsomSchemes` needs a projective flat source and a quasi-projective target over a locally
-Noetherian base; `ModuliDescent.weilRestriction_algebraicity` needs a finite locally free map;
-`grothendieck_existence` needs a complete Noetherian adic base, and
-`properSpaceCompletionEquivalence` additionally concerns a separated finite-type space
-and coherent sheaves with proper support; the
-Layer 5 intersection theory is over a field, with intersection products on smooth schemes and
-Grothendieck–Riemann–Roch for projective morphisms of smooth quasi-projective schemes with rational
-coefficients. Where a target below needs more than a supplier states, the additional statement is
-itself a target here.
-
-SchemeAndStackFoundations §1.5 supplies the fppf quotient sheaf of any pre-relation
-and its universal property. Its §1.6 algebraic-space quotient theorem requires an
-étale equivalence relation. For non-étale finite flat kernels, A3.3 instead uses
-§1.17 `artinBootstrap`: an fppf sheaf with a cover by an algebraic space is algebraic
-when that cover is representable by algebraic spaces, flat, locally of finite
-presentation and fppf locally surjective. The kernel pair `A ×_S H` proves these
-cover properties for `A → A/H`, using ModularCurves 0E's effective descent of finite
-locally free schemes. AlgebraicModuli §3.5 `ModuliDescent.finiteQuotientComparison`
-identifies this quotient with ModularCurves 0C's quotient on its affine or
-invariant-affine-cover domain; that comparison is not a construction of the general
-non-affine quotient.
-
-For the complex comparisons, ComplexComparisonPartII C−1.1 supplies `ComplexAnalyticSpace` and
-`complexSchemeAnalytification` for schemes locally of finite type over `ℂ`, retaining nilpotents
-and arbitrary open gluing. Its C−1.2–C−1.3 supplies `complexSpaceAnalytification`,
-`completedAnalyticStalkComparison` and `analyticRelationLocalChart` for locally separated
-complex algebraic spaces, with the locally finite-type extension in C−1.3; the relation charts
-are étale and Hausdorffness additionally requires separatedness. Its C1.9
-`properSchemeGagaEquivalence` applies to proper finite-type complex schemes and coherent sheaves,
-and `properSchemeGagaPushforward` to proper morphisms of finite-type complex schemes and coherent
-sheaves; the base need not be proper. ComplexComparisonPartII
-C3.3 `derivedGagaProperSpace` applies to proper finite-type complex algebraic spaces
-and bounded coherent complexes. Its C4.2 `projectiveChowNonreduced` algebraizes closed
-analytic subspaces of projective space defined by coherent ideals. Its C4.4
-`properSourceMorphismAlgebraicity` needs a proper complex source and a separated
-finite-type complex target; `familyMorphismInterface` part (3) includes abelian varieties
-and their analytic isogenies. Its C5.1 `properDeRhamBetti` is for smooth proper complex
-schemes; C5.2 `relativeBettiLocalSystem`, `GaussManin` and `relativeDeRhamBetti` are
-used for smooth proper families over smooth finite-type complex bases, including the
-horizontal comparison. Its C5.4 `chernFubiniStudyIntersection` is for Hermitian holomorphic line
-bundles on complex manifolds and projective cycles. The extensions over other analytic bases stated in A5.6 are
-part of that target.
-
-### From ComplexTori
-
-Milestone 1 uses a finite-dimensional complex normed vector space `V` and
-`Λ : Submodule ℤ V` with its subtype topology, `DiscreteTopology Λ` and `IsZLattice ℝ Λ`.
-The canonical carrier is `AddAction.orbitRel.Quotient Λ V` for translation. ComplexTori owns
-its complex-manifold and Lie-group structures, quotient map, descended complex-linear maps
-preserving the lattices, and natural lattice/covering/homology identifications. Milestone 4's
-trivial-action formula identifies its killed-by-`n` subgroup with `Λ/nΛ` for `n > 0`.
-A5.1 proves that the exponential lattice of an algebraic abelian variety satisfies these
-hypotheses and transports the supplied maps and identifications through its analytification.
-
-Milestone 2 uses Hausdorff second-countable complex manifold bases, holomorphic periods on a
-fixed finite free integral lattice, and injective full discrete period ranges on every fibre.
-A5.6 applies it on simultaneous lattice and Lie-bundle trivializations and derives relative
-properness locally from bounded fundamental representatives. Milestone 3 consumes holomorphic
-linear equivalences with the cocycle and period-equivariance laws. A5.8 supplies these laws for
-the symplectic formulas. The linear action exists also at stabilizers; a manifold quotient by
-that action requires a free base action and the supplier's proper-discontinuity hypotheses.
-Polarized Hodge structures, Appell–Humbert and algebraicity remain A5 targets; the generic
-cyclic-affine and logarithmic-transform constructions remain in ComplexTori.
-
-### From TauCetiRoadmap.EquivariantIntersectionTheory
-
-| Supplier | Provides / consumer | Convention or hypothesis |
-|---|---|---|
-| EquivariantIntersectionTheory §1.1 | `G`-linearized invertible sheaves and their groupoid, with tensor, dual, pullback and base change, used by A3.6 (5) | `G` is flat of finite presentation over `S` and acts through SchemeAndStackFoundations §1.13; a finite locally free `H ⊆ K(L)` acting on `A` by translation qualifies. |
-| EquivariantIntersectionTheory §1.4 | Invertible sheaves on `[X/G]` are the `G`-linearized invertible sheaves on `X`, by descent along the torsor `X → [X/G]`, used by A3.6 (5) | Stated for the quotient stack of SchemeAndStackFoundations §1.21; A3.6 identifies `[A/H]` with `A/H` because `q : A → A/H` of A3.3 is an `H`-torsor, and carries the rigidification along zero on both sides. |
-
-## How to read the build
-
-A0 fixes the relative carrier and its two boundaries: Tau Ceti's field abelian varieties and the
-elliptic curves of ModularCurves, and records exactly how the algebraic-space Picard machinery
-applies to abelian schemes. A1 proves the structural theorems that hold over every base:
-products and dimension, rigidity, invariant differentials, seesaw, cube, the elliptic equivalence
-and torsion restrictions. A2 constructs the dual abelian scheme through Raynaud's theorem, the
-Mumford map, polarizations and the canonical graph bundle, and proves the cohomological and
-positivity statements about ample line bundles. A3 builds isogenies and finite-flat quotients and,
-with them, the torsion structure: multiplication maps, divisibility, Cartier-dual kernels, Weil
-pairings, theta groups, level structures and the Rosati involution. A4 constructs the degree-one
-realizations (étale, de Rham, Barsotti–Tate and divided-power) and proves the deformation theorems.
-A5 treats complex abelian varieties and their analytic families. A6 develops the arithmetic of Hom
-over a field and exports the coefficient, twisting, restriction and Hodge-line constructions. Each
-layer ends with its examples and its dependencies. Within A6 the subsections are in dependency
-order: faithfulness and complete reducibility come before finiteness of Hom, which comes before the
-characteristic polynomial, which comes before positivity.
-Within A4, the full tower (A4.5) precedes the truncated-group interface (A4.5a).
-Crystalline Dieudonné and Grothendieck–Messing theory (A4.CR.7.2), Serre–Tate (A4.9) and
-polarized effectivity (A4.8) precede the compatible polarized tower lifting and abelian-surface
-application (A4.12). Generic truncated-group stack and truncation smoothness are downstream
-targets of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.23.
-
 
 ## Layer A0: The carrier and its boundaries
 
@@ -740,7 +284,6 @@ points are not visible on the reduced fibre (see A1.4).
 Mathlib; Tau Ceti `AbelianVariety`; JacobianChallenge Layer E; ModularCurves 0B, 1D, 2D;
 AlgebraicModuliForArithmeticGeometry §§2.1, 7.2, 7.6.1–7.6.1a;
 ComplexComparisonPartII C3.2d.2, C3.2f.1–C3.2f.2.
-
 
 ## Layer A1: Rigidity and normalized line bundles
 
@@ -3903,6 +3446,7 @@ A0–A5; Tau Ceti `AbelianVariety`, `End`, `IsIsogeny`, `prod`, `ClosedSubgroupS
 SchemeAndStackFoundations Layer 1, Layer 5; StableReduction Layer 2; AlgebraicVectorBundles L0C; Mathlib polynomial, matrix,
 semisimplicity and `p`-adic libraries.
 
+
 ## Worked examples
 
 - **An elliptic curve over a finite field.** For `E/𝔽_q` with trace `a`: A6.1 gives `deg π = q` and
@@ -3920,6 +3464,7 @@ semisimplicity and `p`-adic libraries.
   the principal polarization has graph bundle of degree `2²·2! = 8` on the surface, so `h⁰(M³) = 36`
   (A2.6: `d(6r)^g` with `d = 1`, `r = 1`, `g = 2`); and over a `p`-adic ring with `p > 2` a principally
   polarized lift of `J` with prescribed `p`-torsion comes from a lift of `C` (A4.12, A4.14).
+
 
 ## Downstream consumers
 
@@ -3968,6 +3513,480 @@ semisimplicity and `p`-adic libraries.
   decomposition (A6.37); **NeronModelsAndSemistableAbelianVarieties** §1.8 uses the relative Weil
   extension theorem (A1.8), over a connected Dedekind base, to identify an abelian scheme with its
   marked Néron model. Its further relative Hom applications use A6.25.
+
+## Scope and ownership
+
+**Owned here.** The relative carrier `AbelianScheme S` and its comparison with Tau Ceti's field
+carrier and with the elliptic curves of ModularCurves. Products, base change and relative
+dimension; rigidity over nonreduced bases and automatic commutativity; invariant differentials;
+Serre tensor for arbitrary ring actions and finite projective right modules, with functoriality,
+independence of projective splittings, arbitrary base change and realization comparisons;
+the relative seesaw, cube and multiplication-pullback formulas for rigidified line bundles; the
+relative elliptic equivalence; torsion restrictions of rigidified line bundles; extension from
+the generic fibre of every smooth test scheme over connected Dedekind and regular bases, with
+Weil's criterion for rational maps over normal bases. Raynaud's theorem
+that abelian algebraic spaces are schemes; the dual abelian scheme with its Poincaré bundle;
+the Mumford map and its biextension identities; polarizations, their local ample
+representatives and the canonical graph bundle with its cubic embedding; ample cohomology,
+Riemann–Roch and the degree of `φ_L`; projective presentations over normal bases; nefness of
+normalized lines over curves; the Néron–Severi group of an abelian variety. Isogenies over a base;
+multiplication maps and prime-to-characteristic torsion density; quotients by finite locally free
+subgroups; dual isogenies with Cartier-dual kernels and Weil pairings; theta groups and polarized
+descent; polarized Weil pairings; full level structures; the Rosati involution; the effective
+divisor criterion; principal quotients; the genus-two 2-torsion model. The integral
+prime-to-characteristic Tate module; the universal vector extension; relative `H¹_dR` with its Hodge
+sequence and Gauss–Manin connection; the exterior structure of all cohomology; full and truncated
+Barsotti–Tate groups of arbitrary height over arbitrary bases, with truncation, restriction and
+Cartier duality; their contravariant crystalline Dieudonné crystals for full groups,
+Frobenius and Verschiebung, Cartier duality with Tate twist −1, and Grothendieck–Messing deformation
+theory over locally PD-nilpotent thickenings; the degree-one divided-power realization;
+Grothendieck–Messing and Serre–Tate for abelian schemes with structures; ordinary Serre–Tate
+coordinates and the
+weighted polarization equations; polarized effectivity; the odd-prime and dyadic finite-level lifting
+theorems and the genus-two Jacobian comparison. Over `ℂ`: lattice uniformization, the Hermitian, principal and homological structure of Riemann forms,
+polarization types, Appell–Humbert and algebraicity, the polarized Hodge equivalence, analytic
+families and the Siegel universal family. Over a field: degree, characteristic polynomial and
+trace of endomorphisms with their ℓ-adic comparison, finiteness and saturation of Hom, complete
+reducibility, semisimplicity, Rosati positivity, rational Néron–Severi and the ample cone,
+polarized automorphisms, polarization orbits, full-level descent of homomorphisms, Frobenius
+semisimplicity, coefficient Hom spaces and isogeny torsors, real isometries, localized isogeny
+categories, weak polarizations, torsor twists and their realizations, Weil restriction of abelian
+schemes and its Tate module, quadratic twists, curve-generated subvarieties, the
+Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge line bundle.
+
+The abelian-specific prime-to-characteristic torsion (A3.2), integral Tate module (A4.1),
+algebraic characteristic polynomial and trace, and their Tate-module and finite-level comparisons
+(A6.10–A6.11) are constructed here on the shared carriers. Their proof order is multiplication and
+finite-flat torsion, then the Tate module, then degree polynomials, finite-rank Hom and linear
+algebra. These targets use no cohomological trace formula. The abelian cohomology computation
+(A4.4) is a separate specialization of the generic cohomological supplier contracts below.
+
+**Built in Tau Ceti and cited.**
+
+- *The Tau Ceti library.* `TauCeti.AlgebraicGeometry.AbelianVariety K` (a proper geometrically
+  integral group scheme over `Spec K`, with smoothness, geometric connectedness, integrality and
+  commutativity derived), its category with commutative Hom groups, `End A` as a ring,
+  `mulBy A n`, products `prod`, `fst`, `snd`, `lift`, base change along field extensions,
+  `IsIsogeny` (finite and surjective), `TangentSpace` with
+  `finrank_tangentSpace_eq_finrank_cotangentSpace`; isogenies of group schemes over an affine base,
+  `TauCeti.GroupScheme.IsIsogeny` (finite, flat and surjective); closed subgroup
+  schemes `ClosedSubgroupScheme`; the Hodge structures `TauCeti.Hodge.HodgeStructureOn`,
+  `HodgeStructure`, `HodgeStructureOn.dual`, `IsPolarization`, `Polarization`, the weight-one
+  criterion `isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`, and
+  `TauCeti.AlmostComplexStructure`; the Lie exponential `lieExp` with
+  `isLocalDiffeomorphAt_lieExp_zero`; the Cartier duality base-change equivalence
+  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`. The library also
+  supplies: `finrank_tangentSpace_eq_dim`; the rigidified Picard functor
+  `rigidifiedPicardFunctor` and `RigidifiedLineBundle`; the Tate module of an abelian group
+  `TauCeti.TateModule p A`
+  with its `ℤ_p`-module structure and `TateModule.free_of_natCard`; kernels of homomorphisms of
+  group schemes over a base with their base change (`TauCeti/AlgebraicGeometry/GroupScheme/Kernel`);
+  over a field, `isMonHom_of_one_hom` (a pointed morphism of abelian varieties is a homomorphism)
+  and `AbelianVariety.Hom.equivPointed`; the Albanese predicate `AbelianVariety.IsAlbanese`; Riemann
+  forms `TauCeti.AlmostComplexStructure.IsRiemannForm`, with the weight-one Hodge structure
+  `latticeHodgeStructure` of a complex structure on a lattice, `latticeHodgeStructureEquiv`,
+  `IsRiemannForm.polarization` and `isRiemannForm_iff_isPolarization`; symplectic bases of
+  nondegenerate alternating forms over a field, `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`;
+  and Frobenius' theorem for central real division algebras,
+  `TauCeti.nonempty_algEquiv_real_or_quaternion` (a finite-dimensional real division algebra with
+  centre `ℝ` is `ℝ` or `ℍ[ℝ]`), in `TauCeti/Algebra/CentralSimple/Real`; and the Skolem–Noether
+  theorem `TauCeti.skolemNoether` (algebra maps from a central simple algebra to a
+  finite-dimensional simple algebra are conjugate by a unit) with its automorphism case
+  `TauCeti.exists_unit_conj_of_algEquiv`, in `TauCeti/Algebra/CentralSimple/SkolemNoether`.
+  realCentralDivisionAlgebra in A6.15 is only the reduction of the general real
+  division-algebra classification to the central case and to the algebraically closed case over
+  `ℂ`; the positive-involution normal form and its Rosati adapter are also A6.15 here.
+- *JacobianChallenge, Layers D, E and F.* Over a field: the relative Picard functor of a pointed
+  curve, its rigidification by the Poincaré bundle and the Jacobian `Pic⁰` (Layer D); the dual
+  abelian variety, the theorem of the cube and the square, polarizations (with the principal
+  polarization of a Jacobian) and `[n]` as an isogeny (Layer E); the Abel–Jacobi morphism and its
+  Albanese universal property (Layer F). Everything here over a general base, or beyond those
+  field statements, extends them; over a field the targets above are stated against their carriers.
+- *ModularCurves.* Finite locally free commutative group schemes and Cartier duality (0B);
+  effective descent of finite locally free schemes and groups (0E);
+  relative Weierstrass models and pole sheaves (1C); the scheme-theoretic group law (1D);
+  multiplication, isogenies, quotients, the Picard dual, Cartier–Nishi duality and the Weil pairing
+  of elliptic curves (2A–2F); the elliptic `p`-divisible tower and the connected–étale sequence of a
+  finite locally free commutative group scheme over a henselian local ring (7E, PD-1 and PD-2); the
+  elliptic Serre–Tate equivalence (7F, ST-1). The abelian-scheme statements above specialize to
+  these in relative dimension one, and the comparison is a target (A0, A1).
+- *EllipticCurves, Layer 2.* The equation-level Weil pairing and Tate module of an elliptic curve.
+- *AlgebraicVectorBundles, L0B, L0C, L2A, L2B.* Finite locally free sheaves, duals, exterior powers,
+  determinants, arbitrary pullback and the vector group `V(F) = Spec Sym(F^∨)` of a finite locally
+  free sheaf.
+- *StableReduction, Layer 2.* Relative Gorenstein-curve duality and dualizing bundles
+  of smooth proper curves and effective étale descent of schemes with a compatible relatively ample
+  invertible sheaf, including morphisms, sections and group operations (Layer 2).
+
+**Built in other roadmaps and cited.**
+
+- *ComplexTori.* Milestone 1 owns the compact complex Lie-group structure on the standard
+  additive orbit quotient, descended lattice-preserving maps, and natural covering and homology
+  identifications. Milestones 2–3 own holomorphic period families over complex manifolds and
+  equivariant maps and descent. Milestone 4, Integral connecting class, step 6 supplies the
+  lattice-torsion equivalence for the trivial action. A5.1 transports these to algebraic abelian
+  varieties; A5.6 supplies the polarized Hodge interpretation and extensions to singular or
+  nonreduced analytic bases; A5.8 supplies the Siegel period and symplectic formulas.
+- *AlgebraicModuliForArithmeticGeometry.* Layer 1: relative Serre generation and vanishing
+  (`relativeSerre`, `serreGeneration`) and relative very ampleness (`amplePowersAndFixedTwists`).
+  Layer 2, §2.1: Hom and Isom schemes of projective flat families (`homAndIsomSchemes`) through the
+  Hilbert functor. Layer 3: fppf descent, relative Hom and Weil restriction along finite locally free
+  maps (`ModuliDescent.weilRestriction`, `ModuliDescent.weilRestriction_baseChange`, `ModuliDescent.weilRestriction_algebraicity`,
+  `ModuliDescent.relativeHom_algebraicity`).
+  Layer 5, §5.2: level functors and their rigidity (`rigidLevelStructure`). Layer 7: the relative
+  fppf Picard sheaf and section rigidification (§7.6.1, `relativePicardSheaf`,
+  `sectionRigidifiedPicard`), its section splitting (§7.6.1a, `sectionPicardSplit`),
+  universal functions (§7.2, `universal_functions`) and proper-space formal existence
+  (§7.8, `properSpaceCompletionEquivalence`).
+- *SchemeAndStackFoundations.* Layer 1: descent of modules (§1.1), algebraic spaces
+  (§§1.3–1.4), quotient sheaves (§§1.5–1.6), fibre products (§1.8,
+  `isAlgebraicSpace_pullback`), torsors (§1.15) and Artin's bootstrap (§1.17,
+  `artinBootstrap`). Layer 2: higher direct images on sites (§2.1) and quasi-coherent
+  cohomology (§2.6, `qcoh_higherDirectImages`). Layer 3, §3.8: invariant differentials
+  (`invariant_differentials`). Layer 4: thickenings and formal smoothness (§4.1), formal
+  completion (§4.8), coherent Grothendieck existence and algebraization of compatible
+  morphisms on given proper schemes (§4.10, `grothendieck_existence`, `algebraize_hom`).
+  Layer 5: proper pushforward, flat pullback and degrees of zero-cycles (§5.2), the first
+  Chern class (§5.3, `Chow.c1`), Chern classes (§5.4, `Chow.chernClass`), intersection
+  products on smooth varieties (§5.6), and Grothendieck–Riemann–Roch including
+  Hirzebruch–Riemann–Roch (§5.8, `grothendieck_riemann_roch`). The effectivity of polarized
+  formal abelian schemes and genus-two curves is A4.8 and A4.14 here; quadratic projective
+  descent uses StableReduction Layer 2's étale polarized-scheme descent contract.
+- *EquivariantIntersectionTheory.* §1.1: the groupoid of `G`-linearized invertible sheaves on an
+  `S`-scheme with an action of a flat finitely presented group scheme `G`, with tensor, dual,
+  pullback and base change. §1.4: invertible sheaves on the quotient stack `[X/G]` are the
+  `G`-linearized invertible sheaves on `X`, by descent along the torsor `X → [X/G]`. A3.6 (5)
+  applies both to a finite locally free subgroup `H ⊆ K(L)` acting on `A` by translation.
+- *CrystallineCohomology.* Layer CR.1 supplies the base-compatible big fppf crystalline site,
+  its module-sheaf category and quasi-coherent and finite locally free crystals. CR.7.1 supplies coefficient
+  evaluation, pullback, tensor and dual, and the twist convention `φ_{D(r)} = p^{−r}φ_D`,
+  `Fil^i(D(r)) = Fil^{i+r}D`. The Barsotti–Tate Dieudonné crystal and its deformation theory
+  are A4.CR.7.2 here.
+- *EnhancedDerivedSheaves.* E1.9 supplies perfect proper pushforward and base change
+  (`perfect_proper_pushforward`) for the relative coherent-cohomology arguments.
+- *ComplexComparisonPartII.* C−1.1 the category `ComplexAnalyticSpace` and
+  `complexSchemeAnalytification` for locally finite-type complex schemes, retaining nilpotents
+  and arbitrary open gluing; C−1.2–C−1.3 `complexSpaceAnalytification`,
+  `completedAnalyticStalkComparison` and `analyticRelationLocalChart` for locally separated
+  spaces, with étale relation charts and Hausdorffness when separated;
+  C1.9 proper coherent GAGA (`properSchemeGagaPushforward`, `properSchemeGagaEquivalence`);
+  C3.2d.2 algebraicity of the relative fppf Picard sheaf (`relative_picard_algebraicSpace`)
+  for proper flat finitely presented families with universal functions;
+  C3.2f.1–C3.2f.2 the full identity component, including nilpotents (`picardZeroSheaf`),
+  and its representability criterion (`picardZeroCriterion`), with the hypotheses below;
+  C3.3 derived GAGA for proper algebraic spaces
+  (`derivedGagaProperSpace`); C4.2 Chow's theorem with nilpotents (`projectiveChowNonreduced`);
+  C4.4 algebraicity of holomorphic maps from proper schemes (`properSourceMorphismAlgebraicity`)
+  and the family and abelian-variety morphism interface (`familyMorphismInterface`); C5.1 the
+  sheaf–singular comparison and the proper de Rham–Betti comparison (`sheafSingularComparison`,
+  `properDeRhamBetti`); C5.2 Betti local systems and the Gauss–Manin comparison
+  (`relativeBettiLocalSystem`, `GaussManin`, `relativeDeRhamBetti`); C5.4 the Chern normalization
+  `c₁ = [(i/2π)Θ]` with the complex orientation (`chernFubiniStudyIntersection`).
+- *EtaleCohomologyFoundations.* Supplied by EtaleCohomologyFoundations §F.0.2 /
+  `VanishingCycles.finiteEtaleGaloisCategory` (finite étale covers and `π₁`, used in A6.25).
+  Supplied by EtaleCohomologyFoundations §F.3 /
+  `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
+  A4.4 uses the geometric bound `q > 2g` and proper finiteness for an abelian variety of
+  dimension `g` over algebraically closed `k`, with finite coefficients `ℤ/ℓ^r` and `ℓ`
+  invertible in `k`. Supplied by EtaleCohomologyFoundations §F.2 /
+  `VanishingCycles.etaleKunneth`.
+  The ordinary derived Künneth map for finite-type schemes over separably closed `k` and
+  bounded constructible finite-Tor coefficient complexes retains cup products, pullbacks,
+  base change and reductions. Supplied by EtaleCohomologyFoundations §F.4 /
+  `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
+  The constant coefficient tower has coherent derived reductions and uniform cohomological
+  and Tor bounds, giving the derived finite-level limit, finite generation and integral reductions.
+
+**Not built here.** Moduli stacks of polarized abelian varieties `A_{g,d}`, PEL, Siegel and Hilbert
+modular moduli, their level covers and compactifications (PELModuli, ShimuraVarieties,
+ShimuraCompactifications): the Hodge line bundle and the twisting operation are exported to them
+by descent, and no moduli stack is constructed here. The characteristic-zero Siegel moduli problem
+is specified in ShimuraVarieties §5.0, and its arithmetic minimal compactification in
+ShimuraVarieties §§8.17–8.19;
+arithmetic toroidal compactifications belong to ShimuraCompactifications. The general
+classification of finite flat group schemes and `p`-divisible groups belongs to
+FiniteFlatGroupsAndIntegralPadicHodgeTheory;
+the crystalline site and general crystalline coefficient calculus belong to CrystallineCohomology.
+The full and truncated Barsotti–Tate interfaces, contravariant Dieudonné crystal, its variance and twists, and
+Grothendieck–Messing deformation theory are A4.5–A4.7 and A4.CR.7.2 here.
+General Galois representations and their local properties (ArithmeticGaloisRepresentations):
+only the Tate local system of an abelian scheme and the finite-index induction comparison for Weil
+restriction live here. Néron models and semistable reduction (NeronModelsAndSemistableAbelianVarieties).
+ComplexTori owns generic lattice quotients, manifold period families and equivariant lattice maps.
+A5 specializes these to abelian varieties, with Riemann forms, Appell–Humbert, polarizations and
+the Siegel family. This supplier is used only in A5 and its consumers; A0–A4 are independent of it.
+Generic finite-coefficient étale cohomology of schemes and integral adic realization:
+Supplied by EtaleCohomologyFoundations §F.3 /
+`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
+`VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
+`VanishingCycles.adicFiniteness`.
+A4.4 specializes these geometric statements to proper abelian varieties over algebraically
+closed `k`, with `ℓ` invertible and the whole normalized tower `ℤ/ℓ^r`.
+Weil's trace theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity,
+and the Grothendieck–Lefschetz formula use the abelian inputs consumed downstream by
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T3 /
+`VanishingCycles.curveEndomorphismTrace`, `VanishingCycles.etaleTraceFormulaFinite`,
+`VanishingCycles.etaleTraceFormula`.
+The curve theorem uses smooth proper geometrically connected curves and invertible `ℓ`;
+the finite-field formulas apply to separated finite-type schemes with descended bounded constructible finite-Tor finite
+coefficients of order prime to the characteristic or rational `ℓ`-adic coefficients with invertible `ℓ`; they use compact
+support and geometric Frobenius at every positive power, with perfect finite-level traces and rational cohomology traces.
+Their abelian torsion, Tate-module and algebraic-trace inputs are owned here in A3.2, A4.1
+and A6.10–A6.11.
+Poincaré bundles completed along the boundary, Betti maps and integral realizations over finite
+fields form the scope outline for a separate Part II roadmap; that outline supplies no inputs to
+this roadmap. Faltings's finiteness and isogeny theorems
+(FaltingsFinitenessAndIsogenyTheorems). The Weil estimate for Frobenius (DeligneWeightsAndPurity).
+The Tate conjecture for homomorphisms over finite or number fields is not claimed anywhere above:
+the Hom statements here are faithfulness and saturation.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned)
+
+The pins are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`. Library declarations below are
+consumed at those revisions. A supplier named as a roadmap specifies mathematical targets;
+its additional carriers are used in the README statements.
+
+- Schemes and morphism properties: `AlgebraicGeometry.Scheme`, `Over`, `IsProper`, `Smooth`,
+  `SmoothOfRelativeDimension`, `GeometricallyConnected`, `GeometricallyIntegral`, `IsFinite`, `Flat`,
+  `LocallyOfFinitePresentation`, `Surjective`, `IsClosedImmersion`, `Scheme.Hom.finrank` (the rank of
+  a finite morphism at a point, locally constant for finite flat morphisms of finite presentation,
+  `Scheme.Hom.isLocallyConstant_finrank`, and equal to `1` exactly for isomorphisms,
+  `Scheme.Hom.isIso_iff_finrank_eq`, under the finite, flat and locally finitely presented hypotheses), `Scheme.functionField`, `Over.pullback`.
+- Group objects: `CategoryTheory.GrpObj`, `IsCommMonObj`, `IsMonHom`, `Functor.grpObjObj`, the group
+  structure on morphisms into a group object (`CategoryTheory.Hom.group`),
+  `yonedaGrpObj`, `GrpObj.ofRepresentableBy`, `yonedaGrpObjIsoOfRepresentableBy`,
+  `yonedaGrpFullyFaithful`, `CategoryTheory.isCommMonObj_iff_isMulCommutative`, `Over.mapPullbackAdj`,
+  `AlgebraicGeometry.isCommMonObj_of_isProper_of_geometricallyIntegral`,
+  `smooth_of_grpObj`.
+- Algebra: `TensorProduct`, `Algebra.TensorProduct`, `IsSemisimpleRing`,
+  `isSemisimpleRing_iff_pi_matrix_divisionRing`, `Module.Free`, `Module.Finite`,
+  `instModuleFinite_of_discrete_submodule`, `Polynomial.funext`, `Matrix.charpoly`, `Matrix.det`,
+  `Matrix.symplecticGroup`, `Matrix.PosDef`, `MvPolynomial.IsHomogeneous`, `Padic`, `PadicAlgCl`,
+  `DividedPowers`, `IsZLattice`. Principality of an integral Riemann form uses
+  `LinearMap.IsPerfPair E` from `Mathlib.LinearAlgebra.PerfectPairing.Basic`: both maps to
+  the integral dual are bijective. This retains unimodularity rather than only
+  nondegeneracy after extending scalars to a field.
+- Analysis: complex numbers, finite-dimensional real vector spaces with `IsZLattice` lattices.
+  The spectral theorem for a symmetric operator on a finite-dimensional real inner product space,
+  `LinearMap.IsSymmetric.eigenvectorBasis` with `LinearMap.IsSymmetric.apply_eigenvectorBasis`
+  (an orthonormal eigenbasis with real eigenvalues), and `eigenvalue_pos_of_pos`
+  (eigenvalues of a positive definite operator are positive), in
+  `Mathlib.Analysis.InnerProductSpace.Spectrum`; A6.15 builds its square roots from these.
+
+### From Tau Ceti (pinned)
+
+The field carrier, additive endomorphism ring, multiplication and products are in
+`TauCeti.AlgebraicGeometry.AbelianVariety.Basic`, `.End.Basic`, `.Isogeny`,
+`.MorphismGroup` and `.Product`; the pointed-morphism comparison is in `.Hom.Rigidity`
+and the tangent-dimension comparison in `.TangentSpace`. Relative kernels use
+`TauCeti.GroupScheme.kernelBaseChangeSchemeIso` and
+`TauCeti.GroupScheme.isPullback_kernel_scheme` from
+`TauCeti.AlgebraicGeometry.GroupScheme.Kernel`, on `Grp (Over S)` over any scheme `S`. The affine-base
+isogeny predicate is in `TauCeti.AlgebraicGeometry.GroupScheme.CentralIsogeny.Basic`.
+Rigidified line bundles and their classes are in
+`TauCeti.AlgebraicGeometry.LineBundle.Rigidified.Basic`, and their presheaf is
+`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor` from
+`TauCeti.AlgebraicGeometry.PicardFunctor.Rigidified`.
+The algebraic-space sheaf and the represented dual add geometry to that presheaf in A0.3
+and A2.1–A2.2.
+
+`TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso` in
+`TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.BaseChange` compares Cartier
+dualization and base change for a finite locally free commutative affine group scheme
+along any homomorphism of commutative rings. Cartier duality over an arbitrary scheme
+and its gluing are consumed from ModularCurves 0B.
+
+`TauCeti.Geometry.Hodge.WeightOne.RiemannForm` supplies `IsRiemannForm` and its
+polarization comparison with a flat integral module, an actual complexification map
+`ιℂ : Λ →ₗ[ℤ] Vℂ`, and `IsBaseChange ℂ ιℂ`; freeness of the lattice ensures flatness.
+`TauCeti.Geometry.Hodge.WeightOne.Lattice` supplies `latticeHodgeStructure` and
+`latticeHodgeStructureEquiv`. The comparison fixes weight one and Weil operator `J`;
+A5.2 adds the geometric homological convention of weight `−1`. The field symplectic
+basis theorem is in `TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis` and assumes
+finite dimension and a nondegenerate alternating form. Integral elementary divisors
+are A5.4 here.
+
+The declarations listed under *Built in Tau Ceti and cited* above, with these contracts:
+`AbelianVariety K` is consumed with its derived instances (`smooth`, `geometricallyConnected`,
+`isCommMonObj`, `isIntegral`), `zeroSection`, `zeroPoint` and `baseChange`; `IsIsogeny f` means
+`IsFinite` and `Surjective` of the scheme morphism; `mulBy A n = 𝟙 A ^ n`; `prod` is the monoidal
+product of the underlying group objects. `TateModule p A` is the inverse limit of
+the `p^n`-torsion subgroups of an abelian group with its `ℤ_p`-module structure and inverse-limit
+topology. For a prime `p`, an additive commutative group and every `n ≥ 0`, the hypothesis
+`Nat.card (TateModuleLevel p A n) = (p^n)^r` gives freeness through
+`TateModule.free_of_natCard`, finite generation through `TateModule.finite_of_natCard`,
+and rank `r` through `TateModule.finrank_eq_of_natCard`, in
+`TauCeti.Algebra.Module.Torsion.TateModule`. Geometric torsion counts and the Galois or
+étale-local-system action are the new assertions of A3.2 and A4.1. The
+kernel of a group-scheme homomorphism over `S` is a closed subgroup scheme whose formation
+commutes with base change. The Hodge library is consumed as stated: weight `n`
+Hodge structures on a lattice with complexification, their duals, and polarizations as integral
+forms satisfying the Hodge–Riemann relations.
+
+### From TauCetiRoadmap roadmaps
+
+Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeometry.
+
+- *JacobianChallenge, Layer E*: `[n]` as an isogeny, the cube and square, the dual abelian variety
+  and polarizations over a field; the field carrier with its Hom, End and products is the Tau Ceti
+  library's. This contract supplies no
+  relative geometry, and no theorem that the image of a homomorphism of abelian varieties over an
+  imperfect field is an abelian subvariety; that theorem is A6.3 here.
+- *JacobianChallenge, Layers D and F*: the rigidified relative Picard functor of a pointed smooth
+  proper curve and its Jacobian (Layer D), and the Abel–Jacobi morphism with the Albanese universal
+  property (Layer F). For a singular curve one first normalizes
+  and chooses a point of the normalization.
+- *ModularCurves 0B, 0E, 1C, 1D, 2A–2F, 7E, 7F*: as listed above; the elliptic Picard dual is compared
+  through the inversion adapter `ι_E = λ_E ∘ [−1]` of the Conventions.
+- *AlgebraicVectorBundles L0B, L0C, L2A, L2B*: finite locally free sheaves with their operations and
+  the vector group `V(F)`.
+- *StableReduction, Layer 2*: relative Gorenstein-curve duality supplies the relatively ample
+  dualizing bundle of a smooth genus-two curve used by A4.14. A6.34 uses effective descent along the finite étale
+  cover `Spec L → Spec K`, with an ample invertible sheaf and its specified cocycle.
+  Layer 2 supplies descent of the scheme, morphisms, sections and group operations
+  by relative Proj; the exchange linearization on `N ⊗ [−1]^*N` supplies the line-bundle
+  cocycle. No descent of an unpolarized scheme is inferred from this contract.
+
+### From EtaleCohomologyFoundations
+
+Supplied by EtaleCohomologyFoundations §F.3 /
+`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
+For finite-type `X` over separably closed `k`, torsion invertible in `k` gives
+`H^q_et(X, F) = 0` for `q > 2 dim X`, and proper `X` with finite constructible coefficients
+has finite cohomology; A4.4 uses `X = A` over algebraically closed `k`, `dim A = g` and
+`Λ = ℤ/ℓ^r` with `ℓ` invertible in `k`.
+
+Supplied by EtaleCohomologyFoundations §F.0.2 / `VanishingCycles.finiteEtaleGaloisCategory`.
+The Galois category of finite étale covers of a connected scheme, its fibre functors and `π₁`, with
+finite covers corresponding to finite continuous `π₁`-sets; A6.25 combines it with surjectivity of
+`π₁(U) → π₁(S)` for dense open `U` in a normal integral `S` to prove finiteEtaleHomExtension.
+
+Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`.
+The finite-type, separably closed-field theorem applies to bounded constructible finite-Tor
+`Λ`-complexes with invertible annihilator, including the constant `ℤ/ℓ^r`-sheaves on `A`;
+A4.4 applies its ordinary external product to `A × A` and pulls back along addition.
+
+Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`,
+`VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
+On the normalized constant tower over proper `A/k`, uniform cohomological and Tor bounds
+and finite-level finiteness give `RΓ(A, ℤ_ℓ) ≅ Rlim_r RΓ(A, ℤ/ℓ^r)`, finite generation and
+`RΓ(A, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(A, ℤ/ℓ^r)` for every `r ≥ 1`, with the Milnor sequence
+retained until the Mittag–Leffler condition is verified.
+Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.adicFunctoriality`.
+The cup, pullback and Künneth comparisons pass through the normalized systems with
+their uniform bounds, and a Galois action requires coefficient descent data.
+Supplied by EtaleCohomologyFoundations §F.4 /
+`VanishingCycles.etaleProetaleAdicComparison`.
+For locally Noetherian `A` the constant classical realization compares by derived pushforward
+with Mathlib's pro-étale coefficient sheaf and cohomology, compatibly with every reduction.
+Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization`.
+On separated finite-type schemes over separably closed `k` with invertible `ℓ`, the same normalized
+realization rationalizes by derived tensor with `ℚ_ℓ`, with finite-dimensional cohomology.
+The exterior structure and freeness of abelian cohomology are A4.4 here.
+
+| Supplier | Provides / consumer | Convention or hypothesis gap |
+|---|---|---|
+| Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth` | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 exteriorCohomology | A4.4 uses constant bounded constructible finite-Tor `ℤ/ℓ^r`-coefficients on proper `A` over algebraically closed `k`, with `ℓ` invertible, and passes to `ℤ_ℓ` by EtaleCohomologyFoundations §F.4 / `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness` through all compatible finite levels; a compact-support formula alone does not supply this input. |
+
+### From CrystallineCohomology and EnhancedDerivedSheaves
+
+| Supplier | Provides / consumer | Convention or hypothesis |
+|---|---|---|
+| CrystallineCohomology Layer CR.1 | Base-compatible big fppf crystalline site and quasi-coherent and finite locally free crystals, used by A4.CR.7.2 | `p` is prime and locally nilpotent on the source; evaluations are module sheaves on the PD ambient scheme. |
+| CrystallineCohomology §CR.7.1 | Finite projective coefficient evaluation, pullback, tensor and dual; filtered Frobenius coefficient and twist calculus, used by A4.CR.7.2 | Twist `r` scales Frobenius by `p^(−r)` and shifts `Fil^i` to `Fil^(i+r)`; completed Witt evaluation retains every finite-level reduction. |
+| EnhancedDerivedSheaves E1.9 / `perfect_proper_pushforward` | Perfect proper pushforward and base change, used by A1.4, A2.4, A4.2 and A4.4 | For finitely presented `f`, `E` is perfect and `G•` is bounded, termwise finitely presented and target-flat, with each support proper over the target; `Rf_*E` is perfect when `f` is proper, flat and finitely presented. No Noetherian base hypothesis is added. |
+
+### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
+
+Each statement listed above is consumed with its own hypotheses. In particular:
+ComplexComparisonPartII C3.2d.2 `relative_picard_algebraicSpace` represents the relative fppf
+Picard sheaf of AlgebraicModuli §7.6.1 and needs a proper flat finitely presented morphism with
+universal functions, which AlgebraicModuli §7.2 `universal_functions` supplies for proper flat
+finitely presented morphisms with geometrically reduced and geometrically connected fibres.
+ComplexComparisonPartII C3.2f.1 `picardZeroSheaf` retains the full geometric identity components,
+including nilpotents. Its C3.2f.2 `picardZeroCriterion` needs a locally
+Noetherian base and identity components of the geometric fibres that are smooth of locally constant
+dimension (for an algebraic-space Picard sheaf through the neutral-component construction
+`spaceSectionComponentCriterion` of AlgebraicModuli §7.9), and over a nonreduced base formal smoothness along the neutral component.
+Its properness conclusion additionally requires separatedness of the Picard space and proper
+geometric identity components. The relative Picard sheaf remains an fppf sheafification;
+AlgebraicModuli §7.6.1a `sectionPicardSplit` supplies rigidified representatives when a section
+and universal functions are given.
+`grothendieck_existence` supplies coherent sheaves on a given proper scheme, and
+`algebraize_hom` supplies compatible morphisms between given schemes, rather than existence
+of the polarized scheme itself; A4.8 constructs that scheme with its compatible ample system;
+`homAndIsomSchemes` needs a projective flat source and a quasi-projective target over a locally
+Noetherian base; `ModuliDescent.weilRestriction_algebraicity` needs a finite locally free map;
+`grothendieck_existence` needs a complete Noetherian adic base, and
+`properSpaceCompletionEquivalence` additionally concerns a separated finite-type space
+and coherent sheaves with proper support; the
+Layer 5 intersection theory is over a field, with intersection products on smooth schemes and
+Grothendieck–Riemann–Roch for projective morphisms of smooth quasi-projective schemes with rational
+coefficients. Where a target above needs more than a supplier states, the additional statement is
+itself a target here.
+
+SchemeAndStackFoundations §1.5 supplies the fppf quotient sheaf of any pre-relation
+and its universal property. Its §1.6 algebraic-space quotient theorem requires an
+étale equivalence relation. For non-étale finite flat kernels, A3.3 instead uses
+§1.17 `artinBootstrap`: an fppf sheaf with a cover by an algebraic space is algebraic
+when that cover is representable by algebraic spaces, flat, locally of finite
+presentation and fppf locally surjective. The kernel pair `A ×_S H` proves these
+cover properties for `A → A/H`, using ModularCurves 0E's effective descent of finite
+locally free schemes. AlgebraicModuli §3.5 `ModuliDescent.finiteQuotientComparison`
+identifies this quotient with ModularCurves 0C's quotient on its affine or
+invariant-affine-cover domain; that comparison is not a construction of the general
+non-affine quotient.
+
+For the complex comparisons, ComplexComparisonPartII C−1.1 supplies `ComplexAnalyticSpace` and
+`complexSchemeAnalytification` for schemes locally of finite type over `ℂ`, retaining nilpotents
+and arbitrary open gluing. Its C−1.2–C−1.3 supplies `complexSpaceAnalytification`,
+`completedAnalyticStalkComparison` and `analyticRelationLocalChart` for locally separated
+complex algebraic spaces, with the locally finite-type extension in C−1.3; the relation charts
+are étale and Hausdorffness additionally requires separatedness. Its C1.9
+`properSchemeGagaEquivalence` applies to proper finite-type complex schemes and coherent sheaves,
+and `properSchemeGagaPushforward` to proper morphisms of finite-type complex schemes and coherent
+sheaves; the base need not be proper. ComplexComparisonPartII
+C3.3 `derivedGagaProperSpace` applies to proper finite-type complex algebraic spaces
+and bounded coherent complexes. Its C4.2 `projectiveChowNonreduced` algebraizes closed
+analytic subspaces of projective space defined by coherent ideals. Its C4.4
+`properSourceMorphismAlgebraicity` needs a proper complex source and a separated
+finite-type complex target; `familyMorphismInterface` part (3) includes abelian varieties
+and their analytic isogenies. Its C5.1 `properDeRhamBetti` is for smooth proper complex
+schemes; C5.2 `relativeBettiLocalSystem`, `GaussManin` and `relativeDeRhamBetti` are
+used for smooth proper families over smooth finite-type complex bases, including the
+horizontal comparison. Its C5.4 `chernFubiniStudyIntersection` is for Hermitian holomorphic line
+bundles on complex manifolds and projective cycles. The extensions over other analytic bases stated in A5.6 are
+part of that target.
+
+### From ComplexTori
+
+Milestone 1 uses a finite-dimensional complex normed vector space `V` and
+`Λ : Submodule ℤ V` with its subtype topology, `DiscreteTopology Λ` and `IsZLattice ℝ Λ`.
+The canonical carrier is `AddAction.orbitRel.Quotient Λ V` for translation. ComplexTori owns
+its complex-manifold and Lie-group structures, quotient map, descended complex-linear maps
+preserving the lattices, and natural lattice/covering/homology identifications. Milestone 4's
+trivial-action formula identifies its killed-by-`n` subgroup with `Λ/nΛ` for `n > 0`.
+A5.1 proves that the exponential lattice of an algebraic abelian variety satisfies these
+hypotheses and transports the supplied maps and identifications through its analytification.
+
+Milestone 2 uses Hausdorff second-countable complex manifold bases, holomorphic periods on a
+fixed finite free integral lattice, and injective full discrete period ranges on every fibre.
+A5.6 applies it on simultaneous lattice and Lie-bundle trivializations and derives relative
+properness locally from bounded fundamental representatives. Milestone 3 consumes holomorphic
+linear equivalences with the cocycle and period-equivariance laws. A5.8 supplies these laws for
+the symplectic formulas. The linear action exists also at stabilizers; a manifold quotient by
+that action requires a free base action and the supplier's proper-discontinuity hypotheses.
+Polarized Hodge structures, Appell–Humbert and algebraicity remain A5 targets; the generic
+cyclic-affine and logarithmic-transform constructions remain in ComplexTori.
+
+### From TauCetiRoadmap.EquivariantIntersectionTheory
+
+| Supplier | Provides / consumer | Convention or hypothesis |
+|---|---|---|
+| EquivariantIntersectionTheory §1.1 | `G`-linearized invertible sheaves and their groupoid, with tensor, dual, pullback and base change, used by A3.6 (5) | `G` is flat of finite presentation over `S` and acts through SchemeAndStackFoundations §1.13; a finite locally free `H ⊆ K(L)` acting on `A` by translation qualifies. |
+| EquivariantIntersectionTheory §1.4 | Invertible sheaves on `[X/G]` are the `G`-linearized invertible sheaves on `X`, by descent along the torsor `X → [X/G]`, used by A3.6 (5) | Stated for the quotient stack of SchemeAndStackFoundations §1.21; A3.6 identifies `[A/H]` with `A/H` because `q : A → A/H` of A3.3 is an `H`-torsor, and carries the rigidification along zero on both sides. |
 
 ## References
 

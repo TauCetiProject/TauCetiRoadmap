@@ -1,63 +1,73 @@
 # Roadmap: ocneanu rigidity
 
-**Summary.** A fusion category of nonzero global dimension over an algebraically closed field cannot be
-deformed. Its Davydov–Yetter cohomology vanishes in positive degrees, with coefficients in the
-centre of any tensor functor out of it ([ENO] Theorem 2.27, p. 9, and §9.1, p. 43; [GHS] Corollary 3.18 and Remark 3.19, pp. 25–26). Consequently:
+**Summary.** After a choice of bases, a fusion category is described by finitely many numbers. Its
+fusion rules say how tensor products of simple objects decompose, and its F-symbols are the matrix
+entries of the associativity isomorphisms. Ocneanu rigidity says that when the global dimension is
+nonzero, every deformation of these numbers is undone by a change of bases. The roadmap proves it in
+cohomological form, extends it to braidings and module categories, and deduces finiteness theorems.
 
-- its F-symbols, its R-symbols and the associators of its module categories have no deformations
-  over Artinian local rings or `k⟦t⟧`;
-- there are finitely many such fusion categories with given fusion rules ([ENO] Theorem 2.28, p. 9, and §9.1, p. 43);
-- each has finitely many braidings ([ENO] Remark 2.33, p. 10, and §9.1, p. 43);
-- each has finitely many module categories of each rank, and finitely many indecomposable ones
-  ([ENO] Corollary 2.35, p. 10, and §9.1, p. 43, for fixed rank; [EGNO] Corollary
-  9.1.6(ii), p. 277, in characteristic zero, extended by the rank bound in 6.8);
-- each is defined over the algebraic closure of the prime field.
+Throughout, `k` is an algebraically closed field of any characteristic. A fusion category over `k`
+is a rigid monoidal category that is `k`-linear, abelian and finite semisimple. Its unit object is
+simple, its morphism spaces are finite-dimensional, and its tensor product is bilinear. Its global
+dimension is the sum of the squared norms of its simple objects up to isomorphism, defined without a
+pivotal structure. The category is separable when this sum is nonzero.
 
-In characteristic zero the global dimension is never zero ([PivotalSpherical](../PivotalSpherical/README.md)
-target 6.9), so these statements hold for every fusion category there. This roadmap builds:
+Let `F` be an additive `k`-linear monoidal functor from a fusion category `C` to a `k`-linear
+monoidal category `D` with finite direct sums and bilinear tensor product, not necessarily rigid or
+abelian. The relative centre Z(F) consists of objects `X` of `D` with natural isomorphisms
+`X ⊗ F(W) ≅ F(W) ⊗ X` compatible with the monoidal structure of `F`; for `F` the identity it is
+equivalent to the centre of `C`. The Davydov–Yetter cohomology `H_DYⁿ(F; X, Y)`, with coefficients
+`X`, `Y` in Z(F), is built from natural transformations between tensor products of values of `F`.
 
-- the centre of a tensor functor, its induction and coinduction, and the averaging identity
-  (Layer 1);
-- comonad cohomology, from the augmented comonad resolution (Layer 2);
-- Davydov–Yetter cohomology with coefficients and its comparison with comonad cohomology
-  (Layer 3), and the vanishing theorem (Layer 4);
-- formal rigidity of F-symbols and R-symbols (Layer 5), and presentations and formal rigidity of
-  module categories (Layer 6);
-- representability of the symbol functors and an orbit-counting lemma (Layer 7);
-- the finiteness theorems and fields of definition (Layer 8), and their characteristic-zero forms
-  (Layer 9).
+The first main theorem is the vanishing theorem: if `C` is separable, then `H_DYⁿ(F; X, Y) = 0`
+for all `X`, `Y` in Z(F) and `n ≥ 1`. Separability is needed: for ℤ/p-graded vector spaces in
+characteristic `p`, the global dimension is zero and the first cohomology of the identity functor,
+with trivial coefficients, is `Hom(ℤ/p, k) ≠ 0`. Following Gainutdinov, Haferkamp and Schweigert,
+the proof identifies this cohomology with that of a comonad on Z(F). Dividing an averaging identity
+by the global dimension makes every object projective relative to the comonad, which forces
+vanishing.
 
-Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to 4,
-`TauCeti/CategoryTheory/Monoidal/Ocneanu/` for Layers 5, 6, 8 and 9,
-`TauCeti/AlgebraicGeometry/GroupAction/FiniteOrbits.lean` for Layer 7.
+The second main theorem is formal rigidity. Let `C` be separable and `A` a local Artinian
+`k`-algebra with residue map to `k`. Every lift of the F-symbols of `C` to `A` comes from the
+constant lift by a change of bases reducing to the identity. Two lifts agreeing modulo an ideal `I`
+killed by the maximal ideal differ by a factor `1 + θ`, with `θ` a Davydov–Yetter 3-cocycle with
+values in `I`. It is a coboundary exactly when the lifts differ by a change of bases congruent to
+the identity modulo `I`. Over the constant F-symbols, every lift of the R-symbols of a braiding is
+constant, and the symbols of a module category lift only by module changes of bases reducing to
+the identity. The same conclusions hold over `k⟦t⟧`.
 
-## Scope and ownership
+Formal rigidity yields finiteness through a lemma on orbits. Let a group scheme whose coordinate
+ring is a finitely generated domain act on an affine scheme of finite type over an algebraically
+closed field. If every lift of a point to a local Artinian algebra is a translate of it, there are
+finitely many orbits.
 
-- **Generality.** Fusion categories (simple unit), braided fusion categories, and semisimple
-  module categories with split simples over fusion categories, over an algebraically closed field
-  `k` of any characteristic. The core hypothesis is that the global dimension is nonzero; Layer 9
-  removes it in characteristic zero. Symbol and module presentations use commutative rings;
-  deformations use the Artinian coefficient category `C_k` and `k⟦t⟧`.
-- **Owned here.** Everything in the Summary. In particular: the centre Z(F) of a
-  non-unitary tensor functor and its induction functors; comonad cohomology; Davydov–Yetter
-  cohomology; presentations of module categories by symbols; the orbit-counting lemma.
-- **Not owned here.**
-  - [PivotalSpherical](../PivotalSpherical/README.md) owns the fusion infrastructure: finite
-    semisimple categories, simple classes, fusion coefficients, Perron–Frobenius, the squared norm
-    and the global dimension without a pivotal structure (6.1, 6.2), the Radford isomorphism and
-    the pivotalization (6.4 to 6.8), nonvanishing of the global dimension in characteristic zero
-    (6.9), and the induction functor of the absolute centre with its averaging identity (11.1,
-    11.2).
-  - [PresentationsOfMonoidalCategories](../PresentationsOfMonoidalCategories/README.md) owns
-    `FSymbols`, `RSymbols`, `Model P`, gauge, extraction and classification.
-  - [CategoricalOperatorAlgebras](../CategoricalOperatorAlgebras/README.md) CA6 owns the unitary
-    relative centre. Target 1.3 here compares the two.
-  - [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.2 owns the Artinian
-    coefficient category and small extensions.
-- **Excluded.** Multifusion categories; non-semisimple finite tensor categories, where
-  Davydov–Yetter cohomology can be nonzero ([GHS] Remark 5.2, p. 35); counting tensor functors
-  between two fixed fusion categories ([ENO] Theorem 2.31, p. 9); bimodule categories and Morita
-  theory; weak Hopf algebras; unitary structures.
+For fusion rules with a duality involution, there are finitely many separable fusion categories
+with these rules up to linear monoidal equivalence; for the rules of ℤ/2 in characteristic other
+than 2 there are exactly two. Each has finitely many braidings and, for each rank, finitely many
+semisimple left module categories with split simples, up to equivalence. The rank of an
+indecomposable one is bounded in terms of the fusion rules, so there are finitely many
+indecomposable ones. All these categories are defined over the algebraic closure of the prime
+field.
+
+In characteristic zero every fusion category is separable, by a theorem of PivotalSpherical. The
+last layer removes the hypothesis from the vanishing theorem, from formal rigidity over
+Artinian algebras, and from the finiteness theorems and fields of definition.
+
+The roadmap builds on [PivotalSpherical](../PivotalSpherical/README.md), which supplies the
+global dimension and the averaging identity for the centre of `C`, extended here to Z(F).
+[PresentationsOfMonoidalCategories](../PresentationsOfMonoidalCategories/README.md) supplies
+F-symbols, R-symbols and their classification, extended here to module categories.
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) supplies the Artinian
+coefficient algebras for deformations.
+
+## How to read the build
+
+Each layer lists numbered targets. A target's *Needs:* clause names what it uses beyond the
+supplier contracts; targets of the same layer are listed in dependency order. Checks belong to
+their targets; each layer ends with examples and its dependencies. Layers 0–3 construct the
+relative centre and the two cochain complexes; Layer 4 proves vanishing; Layers 5–7 build the
+deformation and parameter-space theory needed for finiteness in Layer 8 and its characteristic-zero
+form in Layer 9.
 
 ## Conventions
 
@@ -109,64 +119,6 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   intertwiner.
 - For the identity comonad on `Vec`, `X = Y = k`: every cochain space is `k`, and the
   differentials alternate `0, id, 0, …`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Monoidal: `MonoidalCategory`, `MonoidalPreadditive`, `MonoidalLinear`, `RigidCategory`,
-  `ExactPairing`, `Functor.Monoidal`, `NatTrans.IsMonoidal`, `BraidedCategory`,
-  `MonoidalOpposite` (`Cᴹᵒᵖ`), `Center`, `HalfBraiding`, `Center.forget`, `Center.ofBraided`,
-  `MonoidalLeftAction`, `curriedActionMop`, `Functor.LeftLinear`, `Functor.pi`.
-- Homological: `Comonad`, `Adjunction.toComonad`, `SimplicialObject.Augmented.ExtraDegeneracy`
-  and `ExtraDegeneracy.homotopyEquiv` (`Mathlib/AlgebraicTopology/ExtraDegeneracy.lean`),
-  `SimplexCategory.rev`, `SimplexCategory.rev_map_δ`, `SimplexCategory.rev_map_σ`
-  (`Mathlib/AlgebraicTopology/SimplexCategory/Rev.lean`),
-  `alternatingCofaceMapComplex`, `HomologicalComplex.homology`.
-- Commutative algebra: `Ideal.iInf_pow_eq_bot_of_isLocalRing` (Krull intersection),
-  `PrimeSpectrum.isConstructible_comap_image` (Chevalley),
-  `NoetherianSpace.finite_irreducibleComponents`, `isJacobsonRing_of_finiteType`,
-  `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical` (Nullstellensatz), `PowerSeries`.
-
-### From Tau Ceti
-
-Each item is implemented at the pin.
-
-- Fusion: `TauCeti.IsFiniteSemisimpleCategory`, `TauCeti.natTrans_ext_of_simple`
-  (`CategoryTheory/Semisimple/Basic.lean`), `TauCeti.SimpleClasses`, `TauCeti.fusionCoeff`,
-  `TauCeti.endAlgEquivOfSimple` (`CategoryTheory/Preadditive/Schur.lean`),
-  `TauCeti.nonempty_iso_rightDual_rightDual` (`CategoryTheory/Semisimple/Rigid.lean`),
-  `TauCeti.doubleRightDualFunctor`, `TauCeti.globalDim`, `TauCeti.globalDim_ne_zero`.
-- Duals along functors: `CategoryTheory.Functor.mapExactPairing`
-  (`CategoryTheory/Monoidal/Rigid/Functor.lean`).
-- The centre: `CategoryTheory.Center.instAbelian`, `Center.rigidCategory`, `Center.pivotalCategory`.
-- Module objects: `Monoidal/Mod/InternalHom.lean`, `Monoidal/Mod/Closed.lean`.
-- Group schemes and orbits: `GeneralLinear.coordinateHopfAlgebra`, `GeneralLinear.groupScheme`;
-  `TauCeti.SchemeAction.isConstructible_orbit` and `TauCeti.SchemeAction.isLocallyClosed_orbit`
-  (`AlgebraicGeometry/GroupAction/LocallyClosed.lean`), for a group object `G` in `Over S` acting
-  by `ModObj G X`; `Topology.IsConstructible.dense_interior` (`Topology/Constructible/Basic.lean`).
-
-### From other roadmaps, as targets
-
-- PivotalSpherical: 3.3 `IsSplitSimpleFamily` and its dual-basis API; 6.1 `doubleDualTrace` and
-  `squaredNorm`, 6.2 `normGlobalDim` and `normGlobalDim_eq_globalDim`, 6.9
-  `normGlobalDim_ne_zero` in characteristic zero, 11.1 the induction functor `I` of the absolute
-  centre, 11.2 its averaging identity.
-- PresentationsOfMonoidalCategories: Layers 0 to 5 (`FSymbols`, `RSymbols`, `map`, `reindex`,
-  `Model`, extraction and reconstruction, the gauge group and the
-  classification, the rigidity criterion), and Layer 6 (`(simple a)ᘁᘁ = simple a`).
-- SchemeAndStackFoundations §4.2: the Artinian coefficient category `C_Λ`, dual numbers, small
-  extensions.
-- CategoricalOperatorAlgebras CA6: the unitary relative centre.
-
-## How to read the build
-
-Each layer lists numbered targets. A target's *Needs:* clause names what it uses beyond the
-supplier contracts; targets of the same layer are listed in dependency order. Checks belong to
-their targets; each layer ends with examples and its dependencies. Layers 0–3 construct the
-relative centre and the two cochain complexes; Layer 4 proves vanishing; Layers 5–7 build the
-deformation and parameter-space theory needed for finiteness in Layer 8 and its characteristic-zero
-form in Layer 9.
 
 ## Layer 0: preliminaries
 
@@ -1132,6 +1084,83 @@ Layers 4–8; PivotalSpherical §6.9.
 
 The finiteness and deformation theorems apply to fusion categories with fixed fusion rules
 and their semisimple module categories.
+
+## Scope and ownership
+
+- **Generality.** Fusion categories (simple unit), braided fusion categories, and semisimple
+  module categories with split simples over fusion categories, over an algebraically closed field
+  `k` of any characteristic. The core hypothesis is that the global dimension is nonzero; Layer 9
+  removes it in characteristic zero. Symbol and module presentations use commutative rings;
+  deformations use the Artinian coefficient category `C_k` and `k⟦t⟧`.
+- **Owned here.** Everything in the Summary. In particular: the centre Z(F) of a
+  non-unitary tensor functor and its induction functors; comonad cohomology; Davydov–Yetter
+  cohomology; presentations of module categories by symbols; the orbit-counting lemma.
+- **Not owned here.**
+  - [PivotalSpherical](../PivotalSpherical/README.md) owns the fusion infrastructure: finite
+    semisimple categories, simple classes, fusion coefficients, Perron–Frobenius, the squared norm
+    and the global dimension without a pivotal structure (6.1, 6.2), the Radford isomorphism and
+    the pivotalization (6.4 to 6.8), nonvanishing of the global dimension in characteristic zero
+    (6.9), and the induction functor of the absolute centre with its averaging identity (11.1,
+    11.2).
+  - [PresentationsOfMonoidalCategories](../PresentationsOfMonoidalCategories/README.md) owns
+    `FSymbols`, `RSymbols`, `Model P`, gauge, extraction and classification.
+  - [CategoricalOperatorAlgebras](../CategoricalOperatorAlgebras/README.md) CA6 owns the unitary
+    relative centre. Target 1.3 here compares the two.
+  - [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.2 owns the Artinian
+    coefficient category and small extensions.
+- **Excluded.** Multifusion categories; non-semisimple finite tensor categories, where
+  Davydov–Yetter cohomology can be nonzero ([GHS] Remark 5.2, p. 35); counting tensor functors
+  between two fixed fusion categories ([ENO] Theorem 2.31, p. 9); bimodule categories and Morita
+  theory; weak Hopf algebras; unitary structures.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Monoidal: `MonoidalCategory`, `MonoidalPreadditive`, `MonoidalLinear`, `RigidCategory`,
+  `ExactPairing`, `Functor.Monoidal`, `NatTrans.IsMonoidal`, `BraidedCategory`,
+  `MonoidalOpposite` (`Cᴹᵒᵖ`), `Center`, `HalfBraiding`, `Center.forget`, `Center.ofBraided`,
+  `MonoidalLeftAction`, `curriedActionMop`, `Functor.LeftLinear`, `Functor.pi`.
+- Homological: `Comonad`, `Adjunction.toComonad`, `SimplicialObject.Augmented.ExtraDegeneracy`
+  and `ExtraDegeneracy.homotopyEquiv` (`Mathlib/AlgebraicTopology/ExtraDegeneracy.lean`),
+  `SimplexCategory.rev`, `SimplexCategory.rev_map_δ`, `SimplexCategory.rev_map_σ`
+  (`Mathlib/AlgebraicTopology/SimplexCategory/Rev.lean`),
+  `alternatingCofaceMapComplex`, `HomologicalComplex.homology`.
+- Commutative algebra: `Ideal.iInf_pow_eq_bot_of_isLocalRing` (Krull intersection),
+  `PrimeSpectrum.isConstructible_comap_image` (Chevalley),
+  `NoetherianSpace.finite_irreducibleComponents`, `isJacobsonRing_of_finiteType`,
+  `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical` (Nullstellensatz), `PowerSeries`.
+
+### From Tau Ceti
+
+Each item is implemented at the pin.
+
+- Fusion: `TauCeti.IsFiniteSemisimpleCategory`, `TauCeti.natTrans_ext_of_simple`
+  (`CategoryTheory/Semisimple/Basic.lean`), `TauCeti.SimpleClasses`, `TauCeti.fusionCoeff`,
+  `TauCeti.endAlgEquivOfSimple` (`CategoryTheory/Preadditive/Schur.lean`),
+  `TauCeti.nonempty_iso_rightDual_rightDual` (`CategoryTheory/Semisimple/Rigid.lean`),
+  `TauCeti.doubleRightDualFunctor`, `TauCeti.globalDim`, `TauCeti.globalDim_ne_zero`.
+- Duals along functors: `CategoryTheory.Functor.mapExactPairing`
+  (`CategoryTheory/Monoidal/Rigid/Functor.lean`).
+- The centre: `CategoryTheory.Center.instAbelian`, `Center.rigidCategory`, `Center.pivotalCategory`.
+- Module objects: `Monoidal/Mod/InternalHom.lean`, `Monoidal/Mod/Closed.lean`.
+- Group schemes and orbits: `GeneralLinear.coordinateHopfAlgebra`, `GeneralLinear.groupScheme`;
+  `TauCeti.SchemeAction.isConstructible_orbit` and `TauCeti.SchemeAction.isLocallyClosed_orbit`
+  (`AlgebraicGeometry/GroupAction/LocallyClosed.lean`), for a group object `G` in `Over S` acting
+  by `ModObj G X`; `Topology.IsConstructible.dense_interior` (`Topology/Constructible/Basic.lean`).
+
+### From other roadmaps, as targets
+
+- PivotalSpherical: 3.3 `IsSplitSimpleFamily` and its dual-basis API; 6.1 `doubleDualTrace` and
+  `squaredNorm`, 6.2 `normGlobalDim` and `normGlobalDim_eq_globalDim`, 6.9
+  `normGlobalDim_ne_zero` in characteristic zero, 11.1 the induction functor `I` of the absolute
+  centre, 11.2 its averaging identity.
+- PresentationsOfMonoidalCategories: Layers 0 to 5 (`FSymbols`, `RSymbols`, `map`, `reindex`,
+  `Model`, extraction and reconstruction, the gauge group and the
+  classification, the rigidity criterion), and Layer 6 (`(simple a)ᘁᘁ = simple a`).
+- SchemeAndStackFoundations §4.2: the Artinian coefficient category `C_Λ`, dual numbers, small
+  extensions.
+- CategoricalOperatorAlgebras CA6: the unitary relative centre.
 
 ## References
 

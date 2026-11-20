@@ -1,99 +1,74 @@
 # Roadmap: global holomorphic functions of one complex variable
 
-**Summary.** Build global one-variable approximation, prescribed isolated singularities and
-divisors, and weighted genus-one products from the local complex-analysis and contour
-libraries and AnalyticNumberTheoryPartI's primary products and factorization. Develop the
-comparison metric on Tau Ceti's compact-open holomorphic function algebra, Cauchy–Green, the
-local Laurent decomposition on annuli, global smooth ∂̄ solvability, Cousin I, exactness of
-planar two-forms and the vanishing of the real degree-two de Rham cohomology of arbitrary open
-subsets of ℂ.
+**Summary.** On a general open subset of the plane, the basic questions about holomorphic
+functions are global. Which functions are limits of functions holomorphic on the whole set?
+Where can zeros and singularities be placed? Can the inhomogeneous Cauchy–Riemann equation be
+solved everywhere at once? This roadmap answers them in one complex variable, on an arbitrary
+open set Ω ⊆ ℂ, possibly empty or disconnected. Throughout, ∂̄ = (∂x + i∂y)/2, and smooth means
+infinitely differentiable in the real sense.
 
-## Scope and ownership
+The first main theorem is Runge's. Let K be a compact subset of an open set Ω. Every function
+holomorphic on a neighbourhood of K is a uniform limit on K of functions holomorphic on Ω if and
+only if no connected component of Ω∖K is relatively compact in Ω. The holomorphic hull of K in Ω
+consists of the points of Ω where every function holomorphic on Ω obeys each bound it satisfies
+on K. It is compact, and is K together with exactly those components of Ω∖K whose closure
+is compact and contained in Ω. For K the annulus 2 ≤ |z| ≤ 3, the hull is the disc
+|z| ≤ 3 when Ω is |z| < 4, but K itself when Ω is 1 < |z| < 4.
 
-This roadmap owns the global plane-domain results and their analytic comparison interfaces.
-The local holomorphic, analytic-order, meromorphic and compact-convergence carriers are in
-Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti, and so is
-the compact-open algebra `holomorphicFunctions U` of holomorphic functions on an open set,
-with its closedness in `C(U,ℂ)`, its completeness, its continuous restrictions and its finite
-jets, and so is the algebra `holomorphicGerms s` of germs near a set `s` of functions
-holomorphic on a neighborhood of `s`, with its evaluations, restrictions and the germ map from
-`holomorphicFunctions U`. Tau Ceti owns the Wirtinger operators, the compact-support
-Cauchy transform with its ∂̄ identity and reconstruction, the filled-in predicate, the
-filledness of a closed ball minus a thickening of the complement and the existence of a filled
-compact exhaustion of an open set, generic manifold forms with their exterior derivative,
-paired wedge and Leibniz rule, the coordinate forms dz and dz̄ on the plane, the de Rham
-complex of real smooth forms with its cohomology `deRhamCohomology`, and the
-winding-weighted Green theorem for contour cycles; none of these is a target here, and
-DifferentialGeometry is not a supplier.
-Layer 7.2 proves the vanishing `H²_dR(U;ℝ)=0` of a plane domain on Tau Ceti's
-`deRhamCohomology`, from its real two-form exactness.
-ConformalMapping owns Jordan separation and filled-hull topology (§5.3, proved in Tau Ceti) and
-the Jordan index theorem for closed piecewise-`C¹` Jordan loops (§5.6); Layer 6.4 here owns only
-the assembly of finitely many hole indices and the identification of the boundary cycle's trace
-with the region boundary. Layer 7.2 here owns
-only the planar coordinate forms on an open subset of ℂ: the coordinate differentials
-dx, dy as exterior derivatives of coordinate functions, dz, dz̄ as pullbacks of the native
-plane forms along the inclusion, products of smooth coefficients with forms through the
-native paired wedge, coefficient extraction for two-forms, real and complex two-form
-exactness, and the real degree-two vanishing. No operation on forms over a general manifold
-is constructed here.
+The second group of theorems places zeros and singularities. Let E ⊆ Ω be closed and discrete in
+Ω, with a multiplicity in ℕ at each point. Then some function holomorphic on Ω vanishes to
+exactly the prescribed order at each point of E and nowhere else. For integer multiplicities
+there is a meromorphic function with these orders on E and order zero elsewhere, not identically
+zero on any component of Ω. Hence every meromorphic function on Ω is a quotient of two
+holomorphic functions off a set closed and discrete in Ω. Singularities can be prescribed too,
+essential ones included: if for each a ∈ E a function φₐ holomorphic on a punctured
+neighbourhood of a is given, then some f holomorphic on Ω∖E has f − φₐ extending holomorphically
+across every a. Prescribing finite principal parts gives the Mittag–Leffler theorem. Finally,
+every open Ω carries a holomorphic f with no meromorphic extension across its boundary: for
+every boundary point ξ and every disc D centred at ξ, no meromorphic function on D agrees with f
+on a component of D ∩ Ω having ξ in its closure.
 
-ZerosOfLFunctions, Layer 5.1–5.4, owns the zero-support API, the genus-one factor and its
-basic API, its canonical product under order-one growth, and the entire logarithm.
-AnalyticNumberTheoryPartI §§0.15–0.15a owns the primary factors of every genus, the
-compact-summability product theorem, locally uniform primary products with variable genera and
-exact orders, equal-divisor factorization of entire functions, and the full Weierstrass
-factorization of every nonzero entire function without a growth hypothesis.
-Layer 1 here extends that mathematics to weighted divisors given directly with inverse-square
-summability, without an entire function or growth bound as input, and adds the derivative
-identities of the primary factors of every genus. These are extensions of the stated contracts,
-not a reassignment of their genus-one special case; ZerosOfLFunctions and
-AnalyticNumberTheoryPartI are suppliers, not consumers.
+The third main theorem solves ∂̄ globally. On every open Ω ⊆ ℂ, simply connected or not, every
+smooth f has a smooth u with ∂̄u = f. This yields the additive Cousin theorem: for an arbitrary
+open cover (Uᵢ) of Ω, not necessarily locally finite, holomorphic cᵢⱼ on Uᵢ ∩ Uⱼ with
+cᵢⱼ + cⱼₖ + cₖᵢ = 0 on triple overlaps are of the form bᵢ − bⱼ, with bᵢ holomorphic on Uᵢ. It
+also shows that every smooth two-form, real or complex valued, on an open U ⊆ ℂ is the exterior
+derivative of a smooth one-form, so that `H²_dR(U; ℝ)` vanishes.
 
-Tau Ceti proves that `closedBall a r \ thickening δ Ωᶜ` is filled in an open Ω
-(`IsOpen.isFilledIn_closedBall_sdiff_thickening`) and that every open subset of a proper real
-normed space has some filled compact exhaustion (`IsOpen.exists_isFilledIn_compact_exhaustion`,
-whose statement does not name its stages). Layer 2.1 proves the nesting and the union of the
-explicit stages `closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ`, the Runge exhaustion that the
-comparison metric and the boundary-zero construction use. Layer 2 owns the holomorphic hull
-of a compact subset of a plane domain, its equality with the filled set, and the Runge
-equivalences on it. Hyperfunctions consumes
-this roadmap's one-variable results and is downstream, so nothing of it is an input here.
-Hyperfunctions HF2's MalgrangeTopVanishing also covers n = 1: for n ≥ 1 it makes the
-top-degree smooth Dolbeault operator onto on every open subset of ℂⁿ, which for n = 1 is the
-global ∂̄ solver of Layer 7.1, and its vanishing of `H¹(Ω,𝒪)` is the Cousin I theorem of
-Layer 7.4. The one-variable case is owned here, not taken from HF2: HF2's harmonic Runge step
-uses ComplexKahlerGeometry K5a's compact-distribution dual, K5a consumes the complex two-form
-exactness of Layer 7.2, and Layer 7.2 is proved from Layer 7.1, so supplying Layer 7.1 from
-HF2 would be circular.
-RealAnalyticGeometry R3.2 (item 1) owns scalar Cousin I and the vanishing of `H^k(X,𝒪)`, k>0,
-on every Stein manifold X, which for X an open subset of ℂ is Layer 7.4. Its route consumes
-ComplexKahlerGeometry K2's sheaf, Čech and Dolbeault comparison, which K2 builds on its
-parameter solver, and that solver consumes Layers 0.3, 2.1 and 2.5 here, so taking Layer 7.4
-from RealAnalyticGeometry would be circular; the one-variable case is owned here.
-ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
-de Rham comparison; they consume this roadmap's scalar results (the compact-support formula of
-Layer 0.3, the exhaustion of Layer 2.1 and the finite-rank Runge operator of Layer 2.5) and the
-complex two-form exactness of Layer 7.2.
-K3 owns the comparison of meromorphic germs with the fraction field of the holomorphic stalk,
-including the identification of the negative Laurent coefficients of a finite-pole germ, and so
-of the coefficients of its finite principal part, with the circle coefficients of Layer 0.4; it
-consumes the local Laurent decomposition of Layer 0.4, and nothing here consumes that comparison.
+The roadmap builds on Tau Ceti's local complex analysis, notably the Cauchy transform of
+compactly supported functions, which inverts ∂̄, and on its smooth differential forms and de Rham
+cohomology. AnalyticNumberTheoryPartI provides the Weierstrass primary factors and the
+factorization of entire functions. ConformalMapping provides the Jordan curve and Jordan index
+theorems, used only for the Cauchy–Pompeiu formula. ComplexKahlerGeometry uses a finite-rank
+operator version of Runge's theorem from Layer 2 and the complex two-form exactness, and
+Hyperfunctions uses the one-variable Cauchy–Green formula of Layer 0.
 
-Tau Ceti owns the circle Laurent coefficients `TauCeti.circleLaurentCoeff` with their radius
-independence on an annulus, monomial values and Cauchy estimate, the two-circle Cauchy formula
-on an annulus, and the finite principal part `TauCeti.meromorphicGerms.principalPart` of a
-meromorphic germ with its circle-integral coefficients. Layer 0.4 owns the Laurent expansion of
-a function holomorphic on an annulus, whose negative part may be an infinite series: the
-convergence of its positive part on the outer disc and of its negative part off the inner disc,
-the splitting of the function as their sum, and the uniqueness of the coefficients and of the
-splitting. Layers 2.5 and 4.1 consume it.
+Layer 0 proves the Looman–Menchoff theorem: a continuous function whose two partial derivatives
+exist throughout an open set and satisfy the Cauchy–Riemann equations is holomorphic there, with
+no continuity of the partials assumed. It also proves that a function holomorphic on an
+annulus has a Laurent decomposition, and that it is unique. Layer 1 builds locally uniform
+products, extending AnalyticNumberTheoryPartI's genus-one products to zeros ρ with
+multiplicities m(ρ) and Σ m(ρ)/|ρ|² finite. Layers 2, 3 and 4 prove the approximation, zero and
+singularity theorems.
+Layer 6 gives applications: classical products, approximation examples and the Cauchy–Pompeiu
+formula. Layer 7 proves the ∂̄, Cousin and two-form theorems.
 
-The native sine product, the paired cotangent series, Tau Ceti's odd-pole part of that series,
-Tau Ceti's residue of a logarithmic derivative (the order of the function, of either sign) and
-of a quotient at a simple zero of its denominator, and the exponential finite-product majorant
-are supplied results; Layers 1 and 6 consume them and do not prove them again. The
-sharp finite-product inequality of Layer 1.4 is a distinct target.
+## How to read the build
+
+Layer 0 develops real-plane calculus, compact-support Cauchy–Green and the local Laurent
+decomposition on annuli, all from native inputs; the Laurent decomposition precedes both the
+pole pushing of Layer 2.5 and the singular representatives of Layer 4.1. Layer 1 develops
+summable products, building on AnalyticNumberTheoryPartI's primary products. Layer 2 (GH0)
+supplies hulls, the comparison metric on Tau Ceti's compact-open holomorphic algebra, and
+Runge; Layer 3 (GH1) realizes divisors and boundary noncontinuation; Layer 4 (GH2) realizes
+isolated singularities. Layer 6 (GH4) applies these results, and AnalyticNumberTheoryPartI's
+factorization, to products, approximation and contours. Layer 7 (GH5) solves global ∂̄ and
+Cousin I and proves planar two-form exactness and the real degree-two de Rham vanishing.
+Layer k is cited by consumers as GH(k−2); the full factorization labelled GH3 is
+AnalyticNumberTheoryPartI's, so there is no Layer 5. Each route
+lists its own inputs; Layer 7's scalar solver does not use Layer 6's Green theorem.
+Suggested.lean states the headline theorems on pinned carriers; the form-level statements of
+Layer 7.2 are on Tau Ceti's smooth-form carrier and its de Rham cohomology.
 
 ## Conventions
 
@@ -119,338 +94,6 @@ An outer boundary is counterclockwise and holes are clockwise. For the unit disk
 0 is 1−1=0 and its oriented area is 4π−π=3π. These normalizations are used in every layer.
 Rainer's domain means a nonempty open set, not necessarily connected (§Notation, p. v);
 the empty cases here follow directly from the definitions.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Function.locallyFinsuppWithin` in `Mathlib/Topology/LocallyFinsupp.lean` is a function
-  supported inside the specified set with support locally finite there. Openness is a
-  separate hypothesis. `MeromorphicOn.divisor` in `Mathlib/Analysis/Meromorphic/Divisor.lean`
-  uses that carrier and sends infinite order to zero. Use
-  `MeromorphicOn.AnalyticOnNhd.divisor_apply` (for `f` analytic at every point of `U` and
-  `z ∈ U`, the divisor of `f` on `U` at `z` is the analytic order of `f` at `z` cast to ℤ, with
-  ∞ sent to zero),
-  `AnalyticAt.analyticOrderAt_eq_natCast` and `meromorphicOrderAt_eq_int_iff` with their
-  analytic-unit and neighborhood hypotheses.
-- `ContinuousMap.compactConvergenceUniformSpace`,
-  `ContinuousMap.tendsto_iff_tendstoLocallyUniformly`,
-  `CompactExhaustion.hasAntitoneBasis_compactConvergenceUniformity` and the complete-space
-  instance in `Mathlib/Topology/UniformSpace/CompactConvergence.lean` apply to the locally
-  compact open subtype and complete codomain ℂ. `CompactExhaustion` supplies ordinary compact
-  exhaustions, without a Runge condition. `TendstoLocallyUniformlyOn.deriv` in
-  `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` passes locally uniform convergence of
-  holomorphic functions on an open set to their derivatives.
-- `Complex.logDeriv_tendsto` in
-  `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` requires local uniform convergence,
-  eventual holomorphy and a nonzero limit at the point, and concludes convergence of the
-  logarithmic derivatives at that point only. `logDeriv_prod` in
-  `Mathlib/Analysis/Calculus/LogDeriv.lean` is the finite-product rule at a point where every
-  factor is nonzero and differentiable. `logDeriv_tprod_eq_tsum` in
-  `Mathlib/Analysis/Calculus/LogDerivUniformlyOn.lean` also requires summable logarithmic
-  derivatives and factor nonvanishing.
-- `Real.prod_one_add_le_exp_sum` in `Mathlib/Analysis/Complex/Exponential.lean` gives
-  `∏ (1 + tᵢ) ≤ exp (Σ tᵢ)` for a finite family of nonnegative reals.
-  `Finset.norm_prod_one_add_sub_one_le` in
-  `Mathlib/Analysis/SpecialFunctions/Log/Summable.lean` gives
-  `‖∏ (1 + uᵢ) − 1‖ ≤ exp (Σ ‖uᵢ‖) − 1` for every finite family in a normed commutative ring
-  whose unit has norm one, with no nonvanishing hypothesis; `multipliable_one_add_of_summable`
-  and `tprod_one_add_ne_zero_of_summable` in the same file supply the pointwise product
-  consequences.
-- `Complex.integerComplement`, `summable_cotTerm`, `cotTerm_identity`, `cot_series_rep`,
-  `HasProdLocallyUniformlyOn_euler_sin_prod` and
-  `multipliableUniformlyOn_euler_sin_prod_on_compact` supply integer exclusions, the paired
-  cotangent series and sine products. Their files are `Mathlib/Analysis/Complex/IntegerCompl.lean`
-  and `Mathlib/Analysis/SpecialFunctions/Trigonometric/Cotangent.lean`. `cot_series_rep` states
-  `π cot(πx) = 1/x + Σ' n:ℕ+, (1/(x−n) + 1/(x+n))` for every `x` in the integer complement
-  `ℂ_ℤ`, the series indexed by positive integers with `n` and `−n` paired; `cotTerm x n` is the
-  paired term `1/(x−(n+1)) + 1/(x+(n+1))` for `n : ℕ`, and `cotTerm_identity` rewrites it on
-  `ℂ_ℤ` as `2x/((x+(n+1))(x−(n+1)))`.
-  The quotient sin(πz)/(πz) has totalized value zero at z=0, whereas the product there is one.
-- `Complex.GammaSeq_tendsto_Gamma` in `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean`
-  and `Real.tendsto_harmonic_sub_log` in `Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`
-  supply the reciprocal-Gamma normalization; pole exclusions remain explicit for logarithmic derivatives.
-- `SmoothPartitionOfUnity.exists_isSubordinate` in
-  `Mathlib/Geometry/Manifold/PartitionOfUnity.lean` applies on a finite-dimensional,
-  Hausdorff, σ-compact smooth manifold to an open cover of a closed set.
-  `contMDiff_inclusion` handles open-subtype inclusions; `contMDiffAt_subtype_iff` in
-  `Mathlib/Geometry/Manifold/ContMDiff/Basic.lean` reads smoothness of a restriction to an open
-  subtype at a point as smoothness of the ambient map there, and `contMDiffOn_iff_contDiffOn`
-  in `Mathlib/Geometry/Manifold/ContMDiff/NormedSpace.lean` compares manifold and normed-space
-  smoothness on a subset of a normed space.
-- `polynomialFunctions.starClosure_topologicalClosure` in
-  `Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean`: for compact `s ⊆ ℂ`, the polynomial
-  functions in `z` and `z̄` are dense in `C(s, ℂ)` (Stone–Weierstrass).
-- `HasCompactSupport.contDiff_convolution_right` in
-  `Mathlib/Analysis/Calculus/ContDiff/Convolution.lean`: the convolution of a locally integrable
-  function with a compactly supported `Cⁿ` function is `Cⁿ`, for every `n : ℕ∞`, smoothness
-  included. `intervalIntegral.norm_integral_le_of_norm_le` in
-  `Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean`: for `a ≤ b` and an
-  interval-integrable real `g` bounding `‖f‖` almost everywhere on `(a, b]`,
-  `‖∫_a^b f‖ ≤ ∫_a^b g`.
-- `IsOpen.isConnected_iff_isPathConnected` in
-  `Mathlib/Topology/Connected/LocallyPathConnected.lean`: an open subset of a locally
-  path-connected space is connected exactly when it is path-connected. The principal
-  `Complex.log` is complex-differentiable at every point of `Complex.slitPlane`
-  (`Complex.differentiableAt_log` in `Mathlib/Analysis/SpecialFunctions/Complex/LogDeriv.lean`),
-  and `Complex.exp_log` inverts it at every nonzero argument.
-- `cauchyPowerSeries` and `hasFPowerSeriesOn_cauchy_integral` in
-  `Mathlib/MeasureTheory/Integral/CircleIntegral.lean`: for `f` circle-integrable on the circle
-  of radius `R > 0` about `c`, the outer Cauchy integral
-  `w ↦ (2πi)⁻¹ ∮_{|z−c|=R} (z − w)⁻¹ f(z) dz` has the power series `cauchyPowerSeries f c R`
-  on the open disc of radius `R`. `Complex.differentiableOn_tsum_of_summable_norm` and
-  `Complex.hasSum_deriv_of_summable_norm` in `Mathlib/Analysis/Complex/LocallyUniformLimit.lean`:
-  a series of functions holomorphic on an open set, dominated there by a summable family of
-  constants, has a holomorphic sum, differentiable term by term. Liouville's theorem in the form
-  `Differentiable.apply_eq_of_tendsto_cocompact` (`Mathlib/Analysis/Complex/Liouville.lean`): an
-  entire function with a limit along the cocompact filter is equal to that limit.
-- `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
-  The low-regularity route uses locally compact Baire, product Fubini,
-  `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
-  `VectorMeasure.exists_extension_of_isSetSemiring_of_le_measure`,
-  `MeasureTheory.VectorMeasure.variation_le_of_forall_enorm_le`, the signed/complex
-  Radon–Nikodym declarations and
-  `VitaliFamily.ae_tendsto_average_norm_sub` under the explicit hypotheses in Layer 0.2.
-
-### From Tau Ceti
-
-Use `TauCeti.Contour.Cycle` and its trace, integral and winding number from
-`TauCeti/Analysis/Contour/Cycle/Basic.lean`, and its homology-Cauchy and integer-index API.
-The cycle integral extends the raw contour integral `∫ t in γ.a..γ.b, deriv γ t • f (γ t)` of
-each closed piecewise-`C¹` generator additively. From the same file use
-`TauCeti.Contour.Cycle.integral_add` (additivity in integrands continuous on the trace),
-`TauCeti.Contour.Cycle.integral_smul` (scalars come out of the integral) and
-`TauCeti.Contour.Cycle.norm_integral_le_of_norm_le_const`: if `‖f‖ ≤ M` on the trace, the
-norm of the cycle integral is at most `M` times the length of the cycle, the sum over its
-generators of the absolute value of the coefficient times `∫ t in Ι γ.a γ.b, ‖deriv γ t‖`.
-Use `TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero`,
-`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn`, and
-`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_filledHull_subset`
-from `TauCeti/Analysis/Contour/Primitive.lean`: retain openness, continuity or holomorphy,
-all closed-path periods, and nowhere-zero hypotheses. From
-`TauCeti/Analysis/Contour/Winding/` use
-`TauCeti.IsPiecewiseC1On.windingNumber_eq_of_mem_connectedComponentIn` (`LocallyConstant.lean`:
-for a closed piecewise-`C¹` curve, two points of one connected component of the complement of
-its image have the same winding number) and
-`TauCeti.Contour.windingNumber_eq_integral_of_avoidance` (`Number/Basic.lean`: for a curve
-continuous on its parameter interval and avoiding `z₀` there, with interval-integrable
-`(γ t − z₀)⁻¹ γ′(t)`, the winding number about `z₀` is `(2πi)⁻¹` times the integral of that
-function). `TauCeti.morera` supplies the rectangle-conservative criterion. No alias of these
-statements is an acceptance target here.
-
-Use `TauCeti.wirtingerDeriv` and `TauCeti.conjWirtingerDeriv` from
-`TauCeti/Analysis/Complex/Wirtinger/Basic.lean`, with `wirtingerDeriv_apply`,
-`conjWirtingerDeriv_apply`, `wirtingerDeriv_add_conjWirtingerDeriv` and
-`fderiv_apply_eq_smul_wirtingerDeriv_add_smul_conjWirtingerDeriv`, and
-`TauCeti.differentiableAt_iff_conjWirtingerDeriv_apply_one_eq_zero` from
-`TauCeti/Analysis/Complex/Wirtinger/Holomorphic.lean`, which assumes `DifferentiableAt ℝ`.
-Use the compact-support Cauchy transform `w ↦ ∫ z, (w − z)⁻¹ • f z` of
-`TauCeti/Analysis/Complex/Pompeiu/Basic.lean`:
-`HasCompactSupport.two_pi_inv_smul_integral_sub_inv_smul_fderiv_apply_one_add_I_smul_apply_I`
-reconstructs a compactly supported `C¹` map `u` as `(2π)⁻¹ ∫ (w − z)⁻¹ • (u_x + i u_y)`,
-`HasCompactSupport.conjWirtingerDeriv_integral_sub_inv_smul_apply_one` gives `∂̄` of the
-transform of a compactly supported `C¹` map as `π` times the map, and
-`TauCeti.differentiableOn_integral_sub_inv_smul_compl` gives holomorphy off a compact set
-outside which the datum vanishes; all three assume `C¹`, not smoothness. From the same file,
-`HasCompactSupport.hasFDerivAt_integral_sub_inv_smul` differentiates the transform of a
-compactly supported `C¹` map `f` into a complex normed space: its real derivative at `w` is
-`∫ z, (w − z)⁻¹ • fderiv ℝ f z`, the transform of the derivative of `f`. From
-`TauCeti/Analysis/Complex/Pompeiu/Parameter.lean` use
-`TauCeti.contDiffOn_integral_sub_inv_smul_with_param`: for a family `g p` vanishing outside a
-fixed compact set for `p` in an open parameter set `s` and jointly `Cⁿ` on `s ×ˢ univ`
-(`n : ℕ∞`), the transform is jointly `Cⁿ` on `s ×ˢ univ`. Use
-`TauCeti.exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport` from
-`TauCeti/Analysis/Complex/Wirtinger/Potential.lean`, a `Cⁿ` `∂̄`-primitive of a compactly
-supported `Cⁿ` datum for `n ≥ 1`, and `Complex.locallyIntegrable_inv` from
-`TauCeti/Analysis/Complex/CauchyKernel.lean`.
-Use the circle Laurent coefficients of `TauCeti/Analysis/Complex/Laurent/Basic.lean`, for
-`f : ℂ → E` into a complex normed space: `TauCeti.circleLaurentCoeff f c R n`, the vector
-`(2πi)⁻¹ ∮_{|z−c|=R} (z − c)^(−n−1) f(z) dz` for `n ∈ ℤ`;
-`TauCeti.circleLaurentCoeff_natCast` (for `n ≥ 0` it is the `n`-th coefficient of Mathlib's
-`cauchyPowerSeries f c R`, for every `R`); `TauCeti.circleLaurentCoeff_add` (additive in
-circle-integrable functions) and `TauCeti.circleLaurentCoeff_smul`;
-`TauCeti.norm_circleLaurentCoeff_le` (for `0 ≤ R` and `‖f‖ ≤ M` on the circle, the coefficient
-of degree `n` has norm at most `M R^(−n)`, negative degrees included);
-`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable` (for `0 < r ≤ R`, a
-countable set `s`, `f` continuous on `closedBall c R \ ball c r` and complex-differentiable at
-every point of `(ball c R \ closedBall c r) \ s`, the coefficients at radii `R` and `r` agree in
-every degree); and, for complete `E`, `TauCeti.circleLaurentCoeff_sub_zpow_smul` (for `0 < R`,
-the coefficient of degree `n` of `z ↦ (z − c)^m • a` is `a` if `n = m` and `0` otherwise) and
-the two-circle Cauchy formula
-`TauCeti.two_pi_I_inv_smul_circleIntegral_sub_inv_smul_sub_of_differentiable_on_annulus_off_countable`
-(for `0 < r`, a countable `s`, `w` with `r < |w − c| < R`, and `f` continuous on the closed
-annulus and complex-differentiable off `s` in the open one, `f(w)` is `(2πi)⁻¹` times the
-integral of `(z − w)⁻¹ f(z)` over the circle of radius `R` minus that over the circle of
-radius `r`, even for `w ∈ s`).
-Use the residue of `TauCeti/Analysis/Contour/Residue/Basic.lean`: `TauCeti.Contour.residue f a`
-is the coefficient of degree `−1` of `f` at `a` when `f` is meromorphic at `a` with negative
-order, and `0` otherwise. From `TauCeti/Analysis/Contour/Residue/LogDeriv.lean` use
-`TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt` (for `f` meromorphic at `a` with
-`meromorphicOrderAt f a = k`, `k ∈ ℤ`, the residue of `logDeriv f` at `a` is `k`: positive at a
-zero, negative at a pole, `0` at a regular nonzero point), and from
-`TauCeti/Analysis/Contour/Argument/Principle.lean` the splitting behind it,
-`TauCeti.Contour.logDeriv_eventuallyEq_principalPart` (under the same hypotheses there is `g`
-analytic and nonzero at `a` with `logDeriv f = k (z − a)⁻¹ + logDeriv g` on a punctured
-neighbourhood of `a`). Neither covers a function that vanishes near `a`, whose order is `⊤`.
-From the residue files use also `TauCeti.Contour.residue_congr_nhdsNE` (`Residue/Basic.lean`:
-two functions equal on a punctured neighbourhood of `a` have the same residue at `a`) and
-`TauCeti.Contour.residue_div_of_zero_deriv_ne_zero` (`Residue/Quotient.lean`: for `g` and `h`
-analytic at `a` with `h a = 0` and `deriv h a ≠ 0`, the residue of `z ↦ g z / h z` at `a` is
-`g a / deriv h a`); a zero of `h` of order at least two is outside it.
-Use `TauCeti.hasSum_cotTerm_two_mul` from
-`TauCeti/Analysis/SpecialFunctions/Trigonometric/TanhSeries.lean`: for `z` in the integer
-complement `ℂ_ℤ`, the odd-pole terms `cotTerm z (2n) = 1/(z−(2n+1)) + 1/(z+(2n+1))`, `n : ℕ`, have
-sum `π cot(πz) − (π/2) cot(πz/2)`; the poles `±(2n+1)` are paired.
-Use `TauCeti.IsFilledIn` from `TauCeti/Topology/FilledIn.lean`, no connected component of
-`Ω \ K` relatively compact in `Ω`, and `IsOpen.exists_isFilledIn_compact_exhaustion` from
-`TauCeti/Analysis/Normed/Module/Exhaustion.lean`: for an open subset `Ω` of a proper real
-normed space, there exist compact stages `K n ⊆ interior (K (n + 1))` with union `Ω`, each
-filled in `Ω`. The statement is existential: the stages its proof builds are not exported, so it
-is cited only where an unspecified exhaustion suffices. From the same file use
-`IsOpen.isFilledIn_closedBall_sdiff_thickening`: for open `Ω`, a centre `a`, `0 ≤ r` and
-`0 < δ`, the set `closedBall a r \ thickening δ Ωᶜ` is filled in `Ω`.
-Use the polynomial hull of `TauCeti/Analysis/Complex/PolynomialHull/Basic.lean`, for
-`K ⊆ ι → ℂ`: `TauCeti.polynomialHull K`, the points `z` with `‖p(z)‖ ≤ c` for every
-`p : MvPolynomial ι ℂ` and every real `c` bounding `‖p‖` on `K`; `TauCeti.IsPolynomiallyConvex K`,
-the inclusion of that hull in `K`; `TauCeti.polynomialHull_empty`,
-`TauCeti.polynomialHull_polynomialHull` (idempotence) and `TauCeti.isPolynomiallyConvex_closedBall`
-(closed sup-norm polydiscs, so closed discs when `ι = Fin 1`, are polynomially convex). For
-`ι = Fin 1` and unbounded `K` only constant polynomials are bounded on `K`, so the hull is the
-whole space.
-Use the smooth-form carrier of `TauCeti/Geometry/Manifold/DifferentialForm/`: `RoughForm` and
-`RoughForm.ofFunction` (`Basic.lean`), `IsSmoothForm` and `SmoothForm` (`Smooth.lean`),
-`mextDeriv` and `mextDeriv_ofFunction` (`ExtDeriv.lean`), `isSmoothForm_ofFunction_iff` (the
-degree-zero form of a function is a `Cⁿ` form exactly when the function is `Cⁿ`, for
-`[IsManifold I 1 M]`) and `isSmoothForm_mextDeriv` (the exterior derivative of a `Cᵖ` form is
-`Cⁿ` when `n + 1 ≤ p`, for `[IsManifold I 2 M]`) (`Regularity.lean`), `mextDeriv_mextDeriv`
-for a `C²` bundle form (`Squared.lean`), the paired wedge `RoughForm.wedgeWith` with
-`wedgeWith_apply_one_one` and `wedgeWith_flip` (`Wedge/Basic.lean`), the Leibniz rule
-`mextDeriv_wedgeWith` at a point where both forms are differentiable (`Wedge/Leibniz.lean`),
-`mpullback` along a smooth map with `mpullback_apply` (`Pullback/Basic.lean`,
-`Pullback/Smooth.lean`), `mpullback_mextDeriv_ofFunction_apply` (at a point where `f` is
-differentiable and `g` is differentiable at `f x`, the pullback by `f` of `d g` is `d (g ∘ f)`)
-and its global form `mpullback_mextDeriv_ofFunction` (`Naturality.lean`),
-`mpullback_inclusion_apply`, `RoughForm.extendByZero` and `IsSmoothForm.extendByZero` for open
-subsets (`Opens.lean`), and the plane forms `SmoothForm.complexDz` and
-`SmoothForm.complexDzBar`, both of type `SmoothForm 𝓘(ℝ, ℂ) ℂ ℂ 1`, with their evaluations
-`SmoothForm.complexDz_apply` and `SmoothForm.complexDzBar_apply` and the Wirtinger pullback
-formula `mpullback_complexDz` (`Plane/Complex.lean`): for every `f : ℂ → ℂ` and `z`, with no
-regularity hypothesis, the pullback of `dz` by `f` at `z` is
-`wirtingerDeriv f z 1 • dz + conjWirtingerDeriv f z 1 • dz̄`, evaluated on a tangent vector by
-`mpullback_complexDz_apply`.
-Use the real de Rham complex of `TauCeti/Geometry/Manifold/DeRham/Basic.lean`, for a manifold
-`M` modelled on `I` with `[IsManifold I 2 M]`: `closedForms I M k` and `exactForms I M k`, the
-submodules of `SmoothForm I M ℝ k` of forms with vanishing `mextDeriv` and of exterior
-derivatives of smooth `(k−1)`-forms, `exactForms_le_closedForms`,
-`mem_closedForms_of_finrank_le` (every smooth `k`-form is closed once `k` is at least the
-dimension of the model space), the quotient `deRhamCohomology I M k`, the homology of that
-complex in degree `k`, with `deRhamCohomology.mk` surjective from `closedForms I M k` and
-`deRhamCohomology.mk_eq_zero_iff` characterizing the kernel as `exactForms I M k`.
-Use the compact-open holomorphic algebra of `TauCeti/Analysis/Complex/HolomorphicFunctions/`:
-`holomorphicFunctions U : Subalgebra ℂ C(U, ℂ)` for `U : Opens ℂ`, whose carrier is the
-continuous maps agreeing on `U` with a function `DifferentiableOn ℂ` on `U`, with the
-topology inherited from compact convergence (`Basic.lean`); `mem_holomorphicFunctions_iff_extend`
-(membership is holomorphy of the zero extension), `HolomorphicFunctions.of` and
-`HolomorphicFunctions.extend` with `of_extend`, `isClosed_holomorphicFunctions`, the
-`CompleteSpace` instance, `HolomorphicFunctions.tendsto_iff_tendstoLocallyUniformlyOn`
-(convergence is `TendstoLocallyUniformlyOn` of the zero extensions on `U`),
-`HolomorphicFunctions.restrict` along `V ≤ U` with `restrict_comp` and `continuous_restrict`;
-`HolomorphicFunctions.jet` (the first `n` derivatives at a point of `U`, linear, with
-`jet_eq_zero_iff` reading its vanishing as analytic order at least `n`) and
-`finrank_quotient_ker_jet_le` (`Jet.lean`); and `norm_le_mul_pow_of_mem_ker_jet` with
-`exists_finiteDimensional_quotient_norm_le` (`RestrictionEstimate.lean`): on the kernel of the
-`(n+1)`-jet at the centre of a disc of radius `R` inside `U`, a bound `M` on that disc gives the
-bound `M (r/R)^(n+1)` on the closed disc of radius `r < R`.
-Use the holomorphic germ algebra of `TauCeti/Analysis/Complex/Germ/Algebra.lean`:
-`holomorphicGerms s : Subalgebra ℂ (Germ (𝓝ˢ s) ℂ)` for any `s : Set ℂ`, the germs near `s`
-of functions analytic at every point of `s`, equivalently holomorphic on an open neighborhood
-of `s` (`mem_holomorphicGerms_iff_exists_open`), with no compactness or nonemptiness assumed
-(at `s = ∅` it is the zero algebra); the algebra homomorphisms `holomorphicGerms.eval x hx`
-to ℂ at points `x ∈ s` and `holomorphicGerms.restrict` along `t ⊆ s`, with
-`holomorphicGerms.eval_restrict`; and `HolomorphicFunctions.toGerm`, the algebra homomorphism
-from `holomorphicFunctions U` to `holomorphicGerms s` for `s ⊆ U` (`HolomorphicFunctions/Germ.lean`).
-Use `TauCeti.Contour.Cycle.green_winding` from `TauCeti/Analysis/Green/Cycle.lean`: for a
-cycle with trace in an open `U`, null-homologous in `U`, and real `C¹` fields `P, Q` on `U`,
-the integer-weighted circulation equals the integral over `U` of the winding-weighted curl.
-From the same cycle file use `TauCeti.Contour.Cycle.windingNumber`, additive on cycles, with
-`TauCeti.Contour.Cycle.windingNumber_of_raw` (a one-generator cycle has the raw winding number
-`TauCeti.Contour.windingNumber γ a b` of its curve) and `TauCeti.Contour.Cycle.trace`, the union
-of the images of the generators with nonzero coefficient.
-Use the Jordan curve theorem of `TauCeti/Analysis/Complex/PlaneSeparation/Inside.lean`, the
-pinned form of ConformalMapping §5.3: for a Jordan curve `C ⊆ ℂ`, the bounded complementary
-component is `filledHull C \ C`, connected, with frontier `C`
-(`TauCeti.IsJordanCurve.filledHull_sdiff_eq_connectedComponentIn`,
-`TauCeti.IsJordanCurve.isConnected_filledHull_sdiff`,
-`TauCeti.IsJordanCurve.frontier_filledHull_sdiff`); `C` is also the frontier of
-`filledHull C` (`TauCeti.IsJordanCurve.frontier_filledHull`); the closure of `filledHull C \ C`
-is `filledHull C` (`TauCeti.IsJordanCurve.closure_filledHull_sdiff`); and every component of
-`ℂ \ C` is
-`filledHull C \ C` or the complement of `filledHull C`
-(`TauCeti.IsJordanCurve.connectedComponentIn_eq_filledHull_sdiff_or_compl`).
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-Consume Layer 5.1's countable locally finite zero support, Layer 5.2's genus-one factor
-`E₁` and basic API (its value one at zero, its single simple zero at one,
-`deriv E₁ z = −z exp z`, its logarithmic derivative and its small-disk estimate), Layer
-5.3's growth-to-summability canonical product, and Layer 5.4's entire logarithm. The
-inverse-square-input extension is stated in Layer 1.2.
-Use the native contour logarithm implementation for the logarithm contract.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-Consume §0.15's primary factor `elementaryFactor` with its normalization, simple zero at one,
-sharp estimate `|1−E_p(w)|≤|w|^(p+1)` on the closed unit disk and identification of `E₁` with
-ZerosOfLFunctions' genus-one factor; its compact-summability product theorem with additive
-orders and unit tail; its countable variable-genus product with exact orders,
-`exists_entire_primary_product_exact`; and its reindexing and fibre-grouping law: reindexing
-a product by an equivalence, or grouping its index into finite multiplicity fibres, gives a
-family whose product converges locally uniformly to the same limit. Consume §0.15a's equal-divisor factorization
-`exists_entire_exp_mul_of_divisor_eq` for two entire functions, neither identically zero, and
-its full Weierstrass factorization: every nonzero entire `f` with zero order `m` at the origin
-is `z^m exp(g(z)) ∏ E_(p_a)(z/a)^(m_a)` over its nonzero zeros `a` with multiplicities `m_a`,
-for admissible genera `p_a` and an entire `g`, without a growth hypothesis; `z^m` times the
-§0.15 product over the nonzero zeros has the native divisor of `f`, and `g` is the
-equal-divisor factor.
-For a fixed choice of genera, `g` is unique up to an additive constant in `2πiℤ`; the genera
-are not unique.
-
-**Checks** of the consumed factorization.
-
-- For f=z, m=1, the nonzero-zero index is empty, the product is 1 and g=0 give z=z·1·1.
-- For f=(z−1)², with genus 0 at the zero 1, the product is (1−z)² and g=0; the exponent is the
-  multiplicity 2, not 1.
-- For f=exp(z), m=0, the product is 1 and g=z; the empty zero set does not force f to be
-  constant.
-
-### From TauCetiRoadmap.ConformalMapping
-
-Consume §5.3, the Jordan curve theorem, in the pinned Tau Ceti form listed above, and §5.6's
-`jordan_index_of_isPiecewiseC1On`: a curve `γ` that is piecewise `C¹` on `[a, b]`, `a < b`,
-closed and injective on `[a, b)` has a Jordan curve `C = γ '' [a, b]` as trace, and
-`TauCeti.Contour.windingNumber γ a b` equals one sign `σ ∈ {1, −1}` at every point of
-`filledHull C \ C` and `0` at every point off `filledHull C`. The sign `σ = +1` is the positive
-orientation, and reversing `γ` negates `σ`. Both are inputs only to Layer 6.4's boundary adapter;
-the assembly of finitely many hole indices and the identification of the boundary cycle's trace
-with the region boundary are targets of Layer 6.4. No geometric mapping theorem enters the scalar
-Cauchy–Green or global ∂̄ solver.
-
-## How to read the build
-
-Layer 0 develops real-plane calculus, compact-support Cauchy–Green and the local Laurent
-decomposition on annuli, all from native inputs; the Laurent decomposition precedes both the
-pole pushing of Layer 2.5 and the singular representatives of Layer 4.1. Layer 1 develops
-summable products, building on AnalyticNumberTheoryPartI's primary products. Layer 2 (GH0)
-supplies hulls, the comparison metric on Tau Ceti's compact-open holomorphic algebra, and
-Runge; Layer 3 (GH1) realizes divisors and boundary noncontinuation; Layer 4 (GH2) realizes
-isolated singularities. Layer 6 (GH4) applies these results, and AnalyticNumberTheoryPartI's
-factorization, to products, approximation and contours. Layer 7 (GH5) solves global ∂̄ and
-Cousin I and proves planar two-form exactness and the real degree-two de Rham vanishing.
-Layer k is cited by consumers as GH(k−2); the full factorization labelled GH3 is
-AnalyticNumberTheoryPartI's, so there is no Layer 5. Each route
-lists its own inputs; Layer 7's scalar solver does not use Layer 6's Green theorem.
-Suggested.lean states the headline theorems on pinned carriers; the form-level statements of
-Layer 7.2 are on Tau Ceti's smooth-form carrier and its de Rham cohomology.
 
 ## Layer 0: real-plane calculus, compact-support Cauchy–Green and local Laurent decomposition
 
@@ -2563,6 +2206,408 @@ ConformalMapping's compactness criterion is stated on ambient families and consu
 here; its Jordan curve and Jordan index theorems (§§5.3, 5.6) are inputs only to Layer 6.4's
 boundary adapter. ZerosOfLFunctions
 remains an earlier supplier.
+
+## Scope and ownership
+
+This roadmap owns the global plane-domain results and their analytic comparison interfaces.
+The local holomorphic, analytic-order, meromorphic and compact-convergence carriers are in
+Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti, and so is
+the compact-open algebra `holomorphicFunctions U` of holomorphic functions on an open set,
+with its closedness in `C(U,ℂ)`, its completeness, its continuous restrictions and its finite
+jets, and so is the algebra `holomorphicGerms s` of germs near a set `s` of functions
+holomorphic on a neighborhood of `s`, with its evaluations, restrictions and the germ map from
+`holomorphicFunctions U`. Tau Ceti owns the Wirtinger operators, the compact-support
+Cauchy transform with its ∂̄ identity and reconstruction, the filled-in predicate, the
+filledness of a closed ball minus a thickening of the complement and the existence of a filled
+compact exhaustion of an open set, generic manifold forms with their exterior derivative,
+paired wedge and Leibniz rule, the coordinate forms dz and dz̄ on the plane, the de Rham
+complex of real smooth forms with its cohomology `deRhamCohomology`, and the
+winding-weighted Green theorem for contour cycles; none of these is a target here, and
+DifferentialGeometry is not a supplier.
+Layer 7.2 proves the vanishing `H²_dR(U;ℝ)=0` of a plane domain on Tau Ceti's
+`deRhamCohomology`, from its real two-form exactness.
+ConformalMapping owns Jordan separation and filled-hull topology (§5.3, proved in Tau Ceti) and
+the Jordan index theorem for closed piecewise-`C¹` Jordan loops (§5.6); Layer 6.4 here owns only
+the assembly of finitely many hole indices and the identification of the boundary cycle's trace
+with the region boundary. Layer 7.2 here owns
+only the planar coordinate forms on an open subset of ℂ: the coordinate differentials
+dx, dy as exterior derivatives of coordinate functions, dz, dz̄ as pullbacks of the native
+plane forms along the inclusion, products of smooth coefficients with forms through the
+native paired wedge, coefficient extraction for two-forms, real and complex two-form
+exactness, and the real degree-two vanishing. No operation on forms over a general manifold
+is constructed here.
+
+ZerosOfLFunctions, Layer 5.1–5.4, owns the zero-support API, the genus-one factor and its
+basic API, its canonical product under order-one growth, and the entire logarithm.
+AnalyticNumberTheoryPartI §§0.15–0.15a owns the primary factors of every genus, the
+compact-summability product theorem, locally uniform primary products with variable genera and
+exact orders, equal-divisor factorization of entire functions, and the full Weierstrass
+factorization of every nonzero entire function without a growth hypothesis.
+Layer 1 here extends that mathematics to weighted divisors given directly with inverse-square
+summability, without an entire function or growth bound as input, and adds the derivative
+identities of the primary factors of every genus. These are extensions of the stated contracts,
+not a reassignment of their genus-one special case; ZerosOfLFunctions and
+AnalyticNumberTheoryPartI are suppliers, not consumers.
+
+Tau Ceti proves that `closedBall a r \ thickening δ Ωᶜ` is filled in an open Ω
+(`IsOpen.isFilledIn_closedBall_sdiff_thickening`) and that every open subset of a proper real
+normed space has some filled compact exhaustion (`IsOpen.exists_isFilledIn_compact_exhaustion`,
+whose statement does not name its stages). Layer 2.1 proves the nesting and the union of the
+explicit stages `closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ`, the Runge exhaustion that the
+comparison metric and the boundary-zero construction use. Layer 2 owns the holomorphic hull
+of a compact subset of a plane domain, its equality with the filled set, and the Runge
+equivalences on it. Hyperfunctions consumes
+this roadmap's one-variable results and is downstream, so nothing of it is an input here.
+Hyperfunctions HF2's MalgrangeTopVanishing also covers n = 1: for n ≥ 1 it makes the
+top-degree smooth Dolbeault operator onto on every open subset of ℂⁿ, which for n = 1 is the
+global ∂̄ solver of Layer 7.1, and its vanishing of `H¹(Ω,𝒪)` is the Cousin I theorem of
+Layer 7.4. The one-variable case is owned here, not taken from HF2: HF2's harmonic Runge step
+uses ComplexKahlerGeometry K5a's compact-distribution dual, K5a consumes the complex two-form
+exactness of Layer 7.2, and Layer 7.2 is proved from Layer 7.1, so supplying Layer 7.1 from
+HF2 would be circular.
+RealAnalyticGeometry R3.2 (item 1) owns scalar Cousin I and the vanishing of `H^k(X,𝒪)`, k>0,
+on every Stein manifold X, which for X an open subset of ℂ is Layer 7.4. Its route consumes
+ComplexKahlerGeometry K2's sheaf, Čech and Dolbeault comparison, which K2 builds on its
+parameter solver, and that solver consumes Layers 0.3, 2.1 and 2.5 here, so taking Layer 7.4
+from RealAnalyticGeometry would be circular; the one-variable case is owned here.
+ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
+de Rham comparison; they consume this roadmap's scalar results (the compact-support formula of
+Layer 0.3, the exhaustion of Layer 2.1 and the finite-rank Runge operator of Layer 2.5) and the
+complex two-form exactness of Layer 7.2.
+K3 owns the comparison of meromorphic germs with the fraction field of the holomorphic stalk,
+including the identification of the negative Laurent coefficients of a finite-pole germ, and so
+of the coefficients of its finite principal part, with the circle coefficients of Layer 0.4; it
+consumes the local Laurent decomposition of Layer 0.4, and nothing here consumes that comparison.
+
+Tau Ceti owns the circle Laurent coefficients `TauCeti.circleLaurentCoeff` with their radius
+independence on an annulus, monomial values and Cauchy estimate, the two-circle Cauchy formula
+on an annulus, and the finite principal part `TauCeti.meromorphicGerms.principalPart` of a
+meromorphic germ with its circle-integral coefficients. Layer 0.4 owns the Laurent expansion of
+a function holomorphic on an annulus, whose negative part may be an infinite series: the
+convergence of its positive part on the outer disc and of its negative part off the inner disc,
+the splitting of the function as their sum, and the uniqueness of the coefficients and of the
+splitting. Layers 2.5 and 4.1 consume it.
+
+The native sine product, the paired cotangent series, Tau Ceti's odd-pole part of that series,
+Tau Ceti's residue of a logarithmic derivative (the order of the function, of either sign) and
+of a quotient at a simple zero of its denominator, and the exponential finite-product majorant
+are supplied results; Layers 1 and 6 consume them and do not prove them again. The
+sharp finite-product inequality of Layer 1.4 is a distinct target.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Function.locallyFinsuppWithin` in `Mathlib/Topology/LocallyFinsupp.lean` is a function
+  supported inside the specified set with support locally finite there. Openness is a
+  separate hypothesis. `MeromorphicOn.divisor` in `Mathlib/Analysis/Meromorphic/Divisor.lean`
+  uses that carrier and sends infinite order to zero. Use
+  `MeromorphicOn.AnalyticOnNhd.divisor_apply` (for `f` analytic at every point of `U` and
+  `z ∈ U`, the divisor of `f` on `U` at `z` is the analytic order of `f` at `z` cast to ℤ, with
+  ∞ sent to zero),
+  `AnalyticAt.analyticOrderAt_eq_natCast` and `meromorphicOrderAt_eq_int_iff` with their
+  analytic-unit and neighborhood hypotheses.
+- `ContinuousMap.compactConvergenceUniformSpace`,
+  `ContinuousMap.tendsto_iff_tendstoLocallyUniformly`,
+  `CompactExhaustion.hasAntitoneBasis_compactConvergenceUniformity` and the complete-space
+  instance in `Mathlib/Topology/UniformSpace/CompactConvergence.lean` apply to the locally
+  compact open subtype and complete codomain ℂ. `CompactExhaustion` supplies ordinary compact
+  exhaustions, without a Runge condition. `TendstoLocallyUniformlyOn.deriv` in
+  `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` passes locally uniform convergence of
+  holomorphic functions on an open set to their derivatives.
+- `Complex.logDeriv_tendsto` in
+  `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` requires local uniform convergence,
+  eventual holomorphy and a nonzero limit at the point, and concludes convergence of the
+  logarithmic derivatives at that point only. `logDeriv_prod` in
+  `Mathlib/Analysis/Calculus/LogDeriv.lean` is the finite-product rule at a point where every
+  factor is nonzero and differentiable. `logDeriv_tprod_eq_tsum` in
+  `Mathlib/Analysis/Calculus/LogDerivUniformlyOn.lean` also requires summable logarithmic
+  derivatives and factor nonvanishing.
+- `Real.prod_one_add_le_exp_sum` in `Mathlib/Analysis/Complex/Exponential.lean` gives
+  `∏ (1 + tᵢ) ≤ exp (Σ tᵢ)` for a finite family of nonnegative reals.
+  `Finset.norm_prod_one_add_sub_one_le` in
+  `Mathlib/Analysis/SpecialFunctions/Log/Summable.lean` gives
+  `‖∏ (1 + uᵢ) − 1‖ ≤ exp (Σ ‖uᵢ‖) − 1` for every finite family in a normed commutative ring
+  whose unit has norm one, with no nonvanishing hypothesis; `multipliable_one_add_of_summable`
+  and `tprod_one_add_ne_zero_of_summable` in the same file supply the pointwise product
+  consequences.
+- `Complex.integerComplement`, `summable_cotTerm`, `cotTerm_identity`, `cot_series_rep`,
+  `HasProdLocallyUniformlyOn_euler_sin_prod` and
+  `multipliableUniformlyOn_euler_sin_prod_on_compact` supply integer exclusions, the paired
+  cotangent series and sine products. Their files are `Mathlib/Analysis/Complex/IntegerCompl.lean`
+  and `Mathlib/Analysis/SpecialFunctions/Trigonometric/Cotangent.lean`. `cot_series_rep` states
+  `π cot(πx) = 1/x + Σ' n:ℕ+, (1/(x−n) + 1/(x+n))` for every `x` in the integer complement
+  `ℂ_ℤ`, the series indexed by positive integers with `n` and `−n` paired; `cotTerm x n` is the
+  paired term `1/(x−(n+1)) + 1/(x+(n+1))` for `n : ℕ`, and `cotTerm_identity` rewrites it on
+  `ℂ_ℤ` as `2x/((x+(n+1))(x−(n+1)))`.
+  The quotient sin(πz)/(πz) has totalized value zero at z=0, whereas the product there is one.
+- `Complex.GammaSeq_tendsto_Gamma` in `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean`
+  and `Real.tendsto_harmonic_sub_log` in `Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`
+  supply the reciprocal-Gamma normalization; pole exclusions remain explicit for logarithmic derivatives.
+- `SmoothPartitionOfUnity.exists_isSubordinate` in
+  `Mathlib/Geometry/Manifold/PartitionOfUnity.lean` applies on a finite-dimensional,
+  Hausdorff, σ-compact smooth manifold to an open cover of a closed set.
+  `contMDiff_inclusion` handles open-subtype inclusions; `contMDiffAt_subtype_iff` in
+  `Mathlib/Geometry/Manifold/ContMDiff/Basic.lean` reads smoothness of a restriction to an open
+  subtype at a point as smoothness of the ambient map there, and `contMDiffOn_iff_contDiffOn`
+  in `Mathlib/Geometry/Manifold/ContMDiff/NormedSpace.lean` compares manifold and normed-space
+  smoothness on a subset of a normed space.
+- `polynomialFunctions.starClosure_topologicalClosure` in
+  `Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean`: for compact `s ⊆ ℂ`, the polynomial
+  functions in `z` and `z̄` are dense in `C(s, ℂ)` (Stone–Weierstrass).
+- `HasCompactSupport.contDiff_convolution_right` in
+  `Mathlib/Analysis/Calculus/ContDiff/Convolution.lean`: the convolution of a locally integrable
+  function with a compactly supported `Cⁿ` function is `Cⁿ`, for every `n : ℕ∞`, smoothness
+  included. `intervalIntegral.norm_integral_le_of_norm_le` in
+  `Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean`: for `a ≤ b` and an
+  interval-integrable real `g` bounding `‖f‖` almost everywhere on `(a, b]`,
+  `‖∫_a^b f‖ ≤ ∫_a^b g`.
+- `IsOpen.isConnected_iff_isPathConnected` in
+  `Mathlib/Topology/Connected/LocallyPathConnected.lean`: an open subset of a locally
+  path-connected space is connected exactly when it is path-connected. The principal
+  `Complex.log` is complex-differentiable at every point of `Complex.slitPlane`
+  (`Complex.differentiableAt_log` in `Mathlib/Analysis/SpecialFunctions/Complex/LogDeriv.lean`),
+  and `Complex.exp_log` inverts it at every nonzero argument.
+- `cauchyPowerSeries` and `hasFPowerSeriesOn_cauchy_integral` in
+  `Mathlib/MeasureTheory/Integral/CircleIntegral.lean`: for `f` circle-integrable on the circle
+  of radius `R > 0` about `c`, the outer Cauchy integral
+  `w ↦ (2πi)⁻¹ ∮_{|z−c|=R} (z − w)⁻¹ f(z) dz` has the power series `cauchyPowerSeries f c R`
+  on the open disc of radius `R`. `Complex.differentiableOn_tsum_of_summable_norm` and
+  `Complex.hasSum_deriv_of_summable_norm` in `Mathlib/Analysis/Complex/LocallyUniformLimit.lean`:
+  a series of functions holomorphic on an open set, dominated there by a summable family of
+  constants, has a holomorphic sum, differentiable term by term. Liouville's theorem in the form
+  `Differentiable.apply_eq_of_tendsto_cocompact` (`Mathlib/Analysis/Complex/Liouville.lean`): an
+  entire function with a limit along the cocompact filter is equal to that limit.
+- `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
+  The low-regularity route uses locally compact Baire, product Fubini,
+  `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
+  `VectorMeasure.exists_extension_of_isSetSemiring_of_le_measure`,
+  `MeasureTheory.VectorMeasure.variation_le_of_forall_enorm_le`, the signed/complex
+  Radon–Nikodym declarations and
+  `VitaliFamily.ae_tendsto_average_norm_sub` under the explicit hypotheses in Layer 0.2.
+
+### From Tau Ceti
+
+Use `TauCeti.Contour.Cycle` and its trace, integral and winding number from
+`TauCeti/Analysis/Contour/Cycle/Basic.lean`, and its homology-Cauchy and integer-index API.
+The cycle integral extends the raw contour integral `∫ t in γ.a..γ.b, deriv γ t • f (γ t)` of
+each closed piecewise-`C¹` generator additively. From the same file use
+`TauCeti.Contour.Cycle.integral_add` (additivity in integrands continuous on the trace),
+`TauCeti.Contour.Cycle.integral_smul` (scalars come out of the integral) and
+`TauCeti.Contour.Cycle.norm_integral_le_of_norm_le_const`: if `‖f‖ ≤ M` on the trace, the
+norm of the cycle integral is at most `M` times the length of the cycle, the sum over its
+generators of the absolute value of the coefficient times `∫ t in Ι γ.a γ.b, ‖deriv γ t‖`.
+Use `TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero`,
+`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn`, and
+`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_filledHull_subset`
+from `TauCeti/Analysis/Contour/Primitive.lean`: retain openness, continuity or holomorphy,
+all closed-path periods, and nowhere-zero hypotheses. From
+`TauCeti/Analysis/Contour/Winding/` use
+`TauCeti.IsPiecewiseC1On.windingNumber_eq_of_mem_connectedComponentIn` (`LocallyConstant.lean`:
+for a closed piecewise-`C¹` curve, two points of one connected component of the complement of
+its image have the same winding number) and
+`TauCeti.Contour.windingNumber_eq_integral_of_avoidance` (`Number/Basic.lean`: for a curve
+continuous on its parameter interval and avoiding `z₀` there, with interval-integrable
+`(γ t − z₀)⁻¹ γ′(t)`, the winding number about `z₀` is `(2πi)⁻¹` times the integral of that
+function). `TauCeti.morera` supplies the rectangle-conservative criterion. No alias of these
+statements is an acceptance target here.
+
+Use `TauCeti.wirtingerDeriv` and `TauCeti.conjWirtingerDeriv` from
+`TauCeti/Analysis/Complex/Wirtinger/Basic.lean`, with `wirtingerDeriv_apply`,
+`conjWirtingerDeriv_apply`, `wirtingerDeriv_add_conjWirtingerDeriv` and
+`fderiv_apply_eq_smul_wirtingerDeriv_add_smul_conjWirtingerDeriv`, and
+`TauCeti.differentiableAt_iff_conjWirtingerDeriv_apply_one_eq_zero` from
+`TauCeti/Analysis/Complex/Wirtinger/Holomorphic.lean`, which assumes `DifferentiableAt ℝ`.
+Use the compact-support Cauchy transform `w ↦ ∫ z, (w − z)⁻¹ • f z` of
+`TauCeti/Analysis/Complex/Pompeiu/Basic.lean`:
+`HasCompactSupport.two_pi_inv_smul_integral_sub_inv_smul_fderiv_apply_one_add_I_smul_apply_I`
+reconstructs a compactly supported `C¹` map `u` as `(2π)⁻¹ ∫ (w − z)⁻¹ • (u_x + i u_y)`,
+`HasCompactSupport.conjWirtingerDeriv_integral_sub_inv_smul_apply_one` gives `∂̄` of the
+transform of a compactly supported `C¹` map as `π` times the map, and
+`TauCeti.differentiableOn_integral_sub_inv_smul_compl` gives holomorphy off a compact set
+outside which the datum vanishes; all three assume `C¹`, not smoothness. From the same file,
+`HasCompactSupport.hasFDerivAt_integral_sub_inv_smul` differentiates the transform of a
+compactly supported `C¹` map `f` into a complex normed space: its real derivative at `w` is
+`∫ z, (w − z)⁻¹ • fderiv ℝ f z`, the transform of the derivative of `f`. From
+`TauCeti/Analysis/Complex/Pompeiu/Parameter.lean` use
+`TauCeti.contDiffOn_integral_sub_inv_smul_with_param`: for a family `g p` vanishing outside a
+fixed compact set for `p` in an open parameter set `s` and jointly `Cⁿ` on `s ×ˢ univ`
+(`n : ℕ∞`), the transform is jointly `Cⁿ` on `s ×ˢ univ`. Use
+`TauCeti.exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport` from
+`TauCeti/Analysis/Complex/Wirtinger/Potential.lean`, a `Cⁿ` `∂̄`-primitive of a compactly
+supported `Cⁿ` datum for `n ≥ 1`, and `Complex.locallyIntegrable_inv` from
+`TauCeti/Analysis/Complex/CauchyKernel.lean`.
+Use the circle Laurent coefficients of `TauCeti/Analysis/Complex/Laurent/Basic.lean`, for
+`f : ℂ → E` into a complex normed space: `TauCeti.circleLaurentCoeff f c R n`, the vector
+`(2πi)⁻¹ ∮_{|z−c|=R} (z − c)^(−n−1) f(z) dz` for `n ∈ ℤ`;
+`TauCeti.circleLaurentCoeff_natCast` (for `n ≥ 0` it is the `n`-th coefficient of Mathlib's
+`cauchyPowerSeries f c R`, for every `R`); `TauCeti.circleLaurentCoeff_add` (additive in
+circle-integrable functions) and `TauCeti.circleLaurentCoeff_smul`;
+`TauCeti.norm_circleLaurentCoeff_le` (for `0 ≤ R` and `‖f‖ ≤ M` on the circle, the coefficient
+of degree `n` has norm at most `M R^(−n)`, negative degrees included);
+`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable` (for `0 < r ≤ R`, a
+countable set `s`, `f` continuous on `closedBall c R \ ball c r` and complex-differentiable at
+every point of `(ball c R \ closedBall c r) \ s`, the coefficients at radii `R` and `r` agree in
+every degree); and, for complete `E`, `TauCeti.circleLaurentCoeff_sub_zpow_smul` (for `0 < R`,
+the coefficient of degree `n` of `z ↦ (z − c)^m • a` is `a` if `n = m` and `0` otherwise) and
+the two-circle Cauchy formula
+`TauCeti.two_pi_I_inv_smul_circleIntegral_sub_inv_smul_sub_of_differentiable_on_annulus_off_countable`
+(for `0 < r`, a countable `s`, `w` with `r < |w − c| < R`, and `f` continuous on the closed
+annulus and complex-differentiable off `s` in the open one, `f(w)` is `(2πi)⁻¹` times the
+integral of `(z − w)⁻¹ f(z)` over the circle of radius `R` minus that over the circle of
+radius `r`, even for `w ∈ s`).
+Use the residue of `TauCeti/Analysis/Contour/Residue/Basic.lean`: `TauCeti.Contour.residue f a`
+is the coefficient of degree `−1` of `f` at `a` when `f` is meromorphic at `a` with negative
+order, and `0` otherwise. From `TauCeti/Analysis/Contour/Residue/LogDeriv.lean` use
+`TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt` (for `f` meromorphic at `a` with
+`meromorphicOrderAt f a = k`, `k ∈ ℤ`, the residue of `logDeriv f` at `a` is `k`: positive at a
+zero, negative at a pole, `0` at a regular nonzero point), and from
+`TauCeti/Analysis/Contour/Argument/Principle.lean` the splitting behind it,
+`TauCeti.Contour.logDeriv_eventuallyEq_principalPart` (under the same hypotheses there is `g`
+analytic and nonzero at `a` with `logDeriv f = k (z − a)⁻¹ + logDeriv g` on a punctured
+neighbourhood of `a`). Neither covers a function that vanishes near `a`, whose order is `⊤`.
+From the residue files use also `TauCeti.Contour.residue_congr_nhdsNE` (`Residue/Basic.lean`:
+two functions equal on a punctured neighbourhood of `a` have the same residue at `a`) and
+`TauCeti.Contour.residue_div_of_zero_deriv_ne_zero` (`Residue/Quotient.lean`: for `g` and `h`
+analytic at `a` with `h a = 0` and `deriv h a ≠ 0`, the residue of `z ↦ g z / h z` at `a` is
+`g a / deriv h a`); a zero of `h` of order at least two is outside it.
+Use `TauCeti.hasSum_cotTerm_two_mul` from
+`TauCeti/Analysis/SpecialFunctions/Trigonometric/TanhSeries.lean`: for `z` in the integer
+complement `ℂ_ℤ`, the odd-pole terms `cotTerm z (2n) = 1/(z−(2n+1)) + 1/(z+(2n+1))`, `n : ℕ`, have
+sum `π cot(πz) − (π/2) cot(πz/2)`; the poles `±(2n+1)` are paired.
+Use `TauCeti.IsFilledIn` from `TauCeti/Topology/FilledIn.lean`, no connected component of
+`Ω \ K` relatively compact in `Ω`, and `IsOpen.exists_isFilledIn_compact_exhaustion` from
+`TauCeti/Analysis/Normed/Module/Exhaustion.lean`: for an open subset `Ω` of a proper real
+normed space, there exist compact stages `K n ⊆ interior (K (n + 1))` with union `Ω`, each
+filled in `Ω`. The statement is existential: the stages its proof builds are not exported, so it
+is cited only where an unspecified exhaustion suffices. From the same file use
+`IsOpen.isFilledIn_closedBall_sdiff_thickening`: for open `Ω`, a centre `a`, `0 ≤ r` and
+`0 < δ`, the set `closedBall a r \ thickening δ Ωᶜ` is filled in `Ω`.
+Use the polynomial hull of `TauCeti/Analysis/Complex/PolynomialHull/Basic.lean`, for
+`K ⊆ ι → ℂ`: `TauCeti.polynomialHull K`, the points `z` with `‖p(z)‖ ≤ c` for every
+`p : MvPolynomial ι ℂ` and every real `c` bounding `‖p‖` on `K`; `TauCeti.IsPolynomiallyConvex K`,
+the inclusion of that hull in `K`; `TauCeti.polynomialHull_empty`,
+`TauCeti.polynomialHull_polynomialHull` (idempotence) and `TauCeti.isPolynomiallyConvex_closedBall`
+(closed sup-norm polydiscs, so closed discs when `ι = Fin 1`, are polynomially convex). For
+`ι = Fin 1` and unbounded `K` only constant polynomials are bounded on `K`, so the hull is the
+whole space.
+Use the smooth-form carrier of `TauCeti/Geometry/Manifold/DifferentialForm/`: `RoughForm` and
+`RoughForm.ofFunction` (`Basic.lean`), `IsSmoothForm` and `SmoothForm` (`Smooth.lean`),
+`mextDeriv` and `mextDeriv_ofFunction` (`ExtDeriv.lean`), `isSmoothForm_ofFunction_iff` (the
+degree-zero form of a function is a `Cⁿ` form exactly when the function is `Cⁿ`, for
+`[IsManifold I 1 M]`) and `isSmoothForm_mextDeriv` (the exterior derivative of a `Cᵖ` form is
+`Cⁿ` when `n + 1 ≤ p`, for `[IsManifold I 2 M]`) (`Regularity.lean`), `mextDeriv_mextDeriv`
+for a `C²` bundle form (`Squared.lean`), the paired wedge `RoughForm.wedgeWith` with
+`wedgeWith_apply_one_one` and `wedgeWith_flip` (`Wedge/Basic.lean`), the Leibniz rule
+`mextDeriv_wedgeWith` at a point where both forms are differentiable (`Wedge/Leibniz.lean`),
+`mpullback` along a smooth map with `mpullback_apply` (`Pullback/Basic.lean`,
+`Pullback/Smooth.lean`), `mpullback_mextDeriv_ofFunction_apply` (at a point where `f` is
+differentiable and `g` is differentiable at `f x`, the pullback by `f` of `d g` is `d (g ∘ f)`)
+and its global form `mpullback_mextDeriv_ofFunction` (`Naturality.lean`),
+`mpullback_inclusion_apply`, `RoughForm.extendByZero` and `IsSmoothForm.extendByZero` for open
+subsets (`Opens.lean`), and the plane forms `SmoothForm.complexDz` and
+`SmoothForm.complexDzBar`, both of type `SmoothForm 𝓘(ℝ, ℂ) ℂ ℂ 1`, with their evaluations
+`SmoothForm.complexDz_apply` and `SmoothForm.complexDzBar_apply` and the Wirtinger pullback
+formula `mpullback_complexDz` (`Plane/Complex.lean`): for every `f : ℂ → ℂ` and `z`, with no
+regularity hypothesis, the pullback of `dz` by `f` at `z` is
+`wirtingerDeriv f z 1 • dz + conjWirtingerDeriv f z 1 • dz̄`, evaluated on a tangent vector by
+`mpullback_complexDz_apply`.
+Use the real de Rham complex of `TauCeti/Geometry/Manifold/DeRham/Basic.lean`, for a manifold
+`M` modelled on `I` with `[IsManifold I 2 M]`: `closedForms I M k` and `exactForms I M k`, the
+submodules of `SmoothForm I M ℝ k` of forms with vanishing `mextDeriv` and of exterior
+derivatives of smooth `(k−1)`-forms, `exactForms_le_closedForms`,
+`mem_closedForms_of_finrank_le` (every smooth `k`-form is closed once `k` is at least the
+dimension of the model space), the quotient `deRhamCohomology I M k`, the homology of that
+complex in degree `k`, with `deRhamCohomology.mk` surjective from `closedForms I M k` and
+`deRhamCohomology.mk_eq_zero_iff` characterizing the kernel as `exactForms I M k`.
+Use the compact-open holomorphic algebra of `TauCeti/Analysis/Complex/HolomorphicFunctions/`:
+`holomorphicFunctions U : Subalgebra ℂ C(U, ℂ)` for `U : Opens ℂ`, whose carrier is the
+continuous maps agreeing on `U` with a function `DifferentiableOn ℂ` on `U`, with the
+topology inherited from compact convergence (`Basic.lean`); `mem_holomorphicFunctions_iff_extend`
+(membership is holomorphy of the zero extension), `HolomorphicFunctions.of` and
+`HolomorphicFunctions.extend` with `of_extend`, `isClosed_holomorphicFunctions`, the
+`CompleteSpace` instance, `HolomorphicFunctions.tendsto_iff_tendstoLocallyUniformlyOn`
+(convergence is `TendstoLocallyUniformlyOn` of the zero extensions on `U`),
+`HolomorphicFunctions.restrict` along `V ≤ U` with `restrict_comp` and `continuous_restrict`;
+`HolomorphicFunctions.jet` (the first `n` derivatives at a point of `U`, linear, with
+`jet_eq_zero_iff` reading its vanishing as analytic order at least `n`) and
+`finrank_quotient_ker_jet_le` (`Jet.lean`); and `norm_le_mul_pow_of_mem_ker_jet` with
+`exists_finiteDimensional_quotient_norm_le` (`RestrictionEstimate.lean`): on the kernel of the
+`(n+1)`-jet at the centre of a disc of radius `R` inside `U`, a bound `M` on that disc gives the
+bound `M (r/R)^(n+1)` on the closed disc of radius `r < R`.
+Use the holomorphic germ algebra of `TauCeti/Analysis/Complex/Germ/Algebra.lean`:
+`holomorphicGerms s : Subalgebra ℂ (Germ (𝓝ˢ s) ℂ)` for any `s : Set ℂ`, the germs near `s`
+of functions analytic at every point of `s`, equivalently holomorphic on an open neighborhood
+of `s` (`mem_holomorphicGerms_iff_exists_open`), with no compactness or nonemptiness assumed
+(at `s = ∅` it is the zero algebra); the algebra homomorphisms `holomorphicGerms.eval x hx`
+to ℂ at points `x ∈ s` and `holomorphicGerms.restrict` along `t ⊆ s`, with
+`holomorphicGerms.eval_restrict`; and `HolomorphicFunctions.toGerm`, the algebra homomorphism
+from `holomorphicFunctions U` to `holomorphicGerms s` for `s ⊆ U` (`HolomorphicFunctions/Germ.lean`).
+Use `TauCeti.Contour.Cycle.green_winding` from `TauCeti/Analysis/Green/Cycle.lean`: for a
+cycle with trace in an open `U`, null-homologous in `U`, and real `C¹` fields `P, Q` on `U`,
+the integer-weighted circulation equals the integral over `U` of the winding-weighted curl.
+From the same cycle file use `TauCeti.Contour.Cycle.windingNumber`, additive on cycles, with
+`TauCeti.Contour.Cycle.windingNumber_of_raw` (a one-generator cycle has the raw winding number
+`TauCeti.Contour.windingNumber γ a b` of its curve) and `TauCeti.Contour.Cycle.trace`, the union
+of the images of the generators with nonzero coefficient.
+Use the Jordan curve theorem of `TauCeti/Analysis/Complex/PlaneSeparation/Inside.lean`, the
+pinned form of ConformalMapping §5.3: for a Jordan curve `C ⊆ ℂ`, the bounded complementary
+component is `filledHull C \ C`, connected, with frontier `C`
+(`TauCeti.IsJordanCurve.filledHull_sdiff_eq_connectedComponentIn`,
+`TauCeti.IsJordanCurve.isConnected_filledHull_sdiff`,
+`TauCeti.IsJordanCurve.frontier_filledHull_sdiff`); `C` is also the frontier of
+`filledHull C` (`TauCeti.IsJordanCurve.frontier_filledHull`); the closure of `filledHull C \ C`
+is `filledHull C` (`TauCeti.IsJordanCurve.closure_filledHull_sdiff`); and every component of
+`ℂ \ C` is
+`filledHull C \ C` or the complement of `filledHull C`
+(`TauCeti.IsJordanCurve.connectedComponentIn_eq_filledHull_sdiff_or_compl`).
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+Consume Layer 5.1's countable locally finite zero support, Layer 5.2's genus-one factor
+`E₁` and basic API (its value one at zero, its single simple zero at one,
+`deriv E₁ z = −z exp z`, its logarithmic derivative and its small-disk estimate), Layer
+5.3's growth-to-summability canonical product, and Layer 5.4's entire logarithm. The
+inverse-square-input extension is stated in Layer 1.2.
+Use the native contour logarithm implementation for the logarithm contract.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+Consume §0.15's primary factor `elementaryFactor` with its normalization, simple zero at one,
+sharp estimate `|1−E_p(w)|≤|w|^(p+1)` on the closed unit disk and identification of `E₁` with
+ZerosOfLFunctions' genus-one factor; its compact-summability product theorem with additive
+orders and unit tail; its countable variable-genus product with exact orders,
+`exists_entire_primary_product_exact`; and its reindexing and fibre-grouping law: reindexing
+a product by an equivalence, or grouping its index into finite multiplicity fibres, gives a
+family whose product converges locally uniformly to the same limit. Consume §0.15a's equal-divisor factorization
+`exists_entire_exp_mul_of_divisor_eq` for two entire functions, neither identically zero, and
+its full Weierstrass factorization: every nonzero entire `f` with zero order `m` at the origin
+is `z^m exp(g(z)) ∏ E_(p_a)(z/a)^(m_a)` over its nonzero zeros `a` with multiplicities `m_a`,
+for admissible genera `p_a` and an entire `g`, without a growth hypothesis; `z^m` times the
+§0.15 product over the nonzero zeros has the native divisor of `f`, and `g` is the
+equal-divisor factor.
+For a fixed choice of genera, `g` is unique up to an additive constant in `2πiℤ`; the genera
+are not unique.
+
+**Checks** of the consumed factorization.
+
+- For f=z, m=1, the nonzero-zero index is empty, the product is 1 and g=0 give z=z·1·1.
+- For f=(z−1)², with genus 0 at the zero 1, the product is (1−z)² and g=0; the exponent is the
+  multiplicity 2, not 1.
+- For f=exp(z), m=0, the product is 1 and g=z; the empty zero set does not force f to be
+  constant.
+
+### From TauCetiRoadmap.ConformalMapping
+
+Consume §5.3, the Jordan curve theorem, in the pinned Tau Ceti form listed above, and §5.6's
+`jordan_index_of_isPiecewiseC1On`: a curve `γ` that is piecewise `C¹` on `[a, b]`, `a < b`,
+closed and injective on `[a, b)` has a Jordan curve `C = γ '' [a, b]` as trace, and
+`TauCeti.Contour.windingNumber γ a b` equals one sign `σ ∈ {1, −1}` at every point of
+`filledHull C \ C` and `0` at every point off `filledHull C`. The sign `σ = +1` is the positive
+orientation, and reversing `γ` negates `σ`. Both are inputs only to Layer 6.4's boundary adapter;
+the assembly of finitely many hole indices and the identification of the boundary cycle's trace
+with the region boundary are targets of Layer 6.4. No geometric mapping theorem enters the scalar
+Cauchy–Green or global ∂̄ solver.
 
 ## References
 

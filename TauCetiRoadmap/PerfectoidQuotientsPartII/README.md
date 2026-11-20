@@ -1,119 +1,88 @@
 # Roadmap: perfectoid quotients, part II — structure of integral perfectoid rings and the ind-syntomic André lemma
 
-**Summary.** This roadmap extends PerfectoidQuotients from its integral perfectoid algebra
-(Layer 0: Fontaine generators, Witt torsion, torsion removal, `p`-integral closure and completed
-ring operations) and its almost and modulo-`p` root covers (Layers 1–2) to the structure theory of
-integral perfectoid rings with torsion and to André's lemma without completions. It answers three
-questions. What does the tilt remember about an integral perfectoid ring? The ring modulo `ϖ^p`,
-its `ϖ`-torsion as an `A_inf`-module, its adic completeness, whether it is a valuation ring and its
-value group, and whether its fraction field is algebraically closed; and the class of integral
-perfectoid rings is closed under fibre products along surjections and is generated, under
-quotients, by torsion-free members (Layers Q5–Q6; Česnavičius–Scholze Propositions 2.1.4, 2.1.9
-and 2.1.12). How far can André's lemma be pushed? To a faithfully flat, ind-syntomic,
-`ϖ`-Henselian extension in which every monic polynomial of positive degree acquires a root with
-compatible `p`-power roots modulo a `ϖ`-divisible ideal, and from there to faithfully flat
-semiperfectoid covers of all `p`-Zariski rings (Layers Q7–Q9; Česnavičius–Scholze Theorem 2.3.4
-and Corollary 2.3.7). What does this give for regular local rings? Faithfully flat perfectoid
-covers, by perfecting a prism, and the almost vanishing of `Tor` along finite subextensions of the
-absolute integral closure that Bhatt and Scholze derive from almost purity along an arbitrary
-ideal, which for `F`-finite residue fields is Heitmann–Ma's theorem (Layer Q10). The end theorems
-are the ind-syntomic André lemma (Q9.3), semiperfectoid covers of `p`-Zariski rings (Q9.6), fibre products
-of perfectoid rings (Q5.6), tilting of perfectoid valuation rings (Q6.4, Q6.7), torsion-free
-presentations (Q6.8), perfectoid covers of regular local rings (Q10.2), such a cover inside the
-completed absolute integral closure for an `F`-finite residue field (Q10.4), and the almost
-vanishing of `Tor` (Q10.5–Q10.6).
+**Summary.** An integral perfectoid ring (BMS1 Definition 3.5) is a ring `A`, `ϖ`-adically complete
+for some `ϖ` with `ϖ^p | p`, on which Frobenius of `A/p` is surjective and the kernel of Fontaine's
+map `θ : W(A♭) → A` is principal; here the tilt `A♭` is the inverse limit of `A/p` along Frobenius.
+Such rings may have `p`-torsion and need not be domains. This roadmap, the second part of
+[PerfectoidQuotients](../PerfectoidQuotients/README.md), develops their structure theory, following
+Česnavičius–Scholze, and applies it to André's lemma and to regular local rings. Throughout, `p` is
+a fixed prime, rings are commutative and unital, and the zero ring is allowed unless excluded.
 
-## Scope and ownership
+The first theme is what the tilt remembers. Let `A` be integral perfectoid and complete for such a
+`ϖ`, and let `ϖ♭ ∈ A♭` have sharp a unit multiple of `ϖ`. Then `x ↦ x♯` gives `A♭/(ϖ♭)^p ≅ A/ϖ^p`,
+and the `ϖ`-torsion of `A` is isomorphic to the `ϖ♭`-torsion of `A♭`. From these identities the
+roadmap proves that a nonzero integral perfectoid ring is a valuation ring if and only if its tilt
+is, whatever the rank. In that case `x ↦ x♯` induces an order-preserving isomorphism of value
+groups, and the fraction field of `A` is algebraically closed if and only if that of `A♭` is.
 
-**Where PerfectoidQuotients stops.** PerfectoidQuotients owns: Tor-independence and complete étale
-δ-extension (§0.0); the characteristic-`p` unit and projection lemmas (§0.1); naturality of `♯` and
-`θ`, finite Fontaine maps, the Frobenius-surjectivity equivalences and the Fontaine-generator
-criteria, including the normal form `p + [π♭]^p x` of a generator (§0.2); the bound-one theorem for
-`p`-power torsion and the cotangent consequences (§0.3); the annihilator identities for compatible
-root towers and the decomposition `A ≅ A_tf ×_{(A_tf/ϖ)_red} (A/ϖ)_red` (§0.4); `p`-integral
-closure, its injectivity criterion and the perfectoid completion of `p`-integral closures (§0.5);
-completed root-polynomial algebras, completed tensor products, root-stable quotients, products,
-sharp-ideal completions and completed ind-étale and henselian extensions (§0.6); the fixed-field
-integral model (§0.7); the relative smooth-site cover, the modulo-`p` ind-syntomic refinement of
-André's cover and Bhatt's almost faithfully flat root extensions (§§1.1–1.4); and
-characteristic-`p` radical quotients (§2.1). This Part II starts there. It owns the tilting
-identities for integral perfectoid rings with torsion that are not stated above, fibre products of
-perfectoid rings and their glueing with perfect algebras, the relative tilting equivalence with the
-transfer of completeness, of the valuation-ring property, of value groups and of algebraically
-closed fraction fields, and torsion-free presentations (Česnavičius–Scholze (2.1.1.3), (2.1.2.2),
-(2.1.2.5), Propositions 2.1.4, 2.1.9 and 2.1.12, Example 2.1.5 and Remark 2.1.10, pp. 10–17);
-ind-fppf and ind-syntomic ring maps, the integral approximation lemma, the valuative criterion for
-topological nilpotence, the ind-syntomic André lemma and semiperfectoid covers of `p`-Zariski rings
-(Česnavičius–Scholze §2.3.3, Lemmas 2.3.1 and 2.3.2, Theorem 2.3.4 and Corollary 2.3.7,
-pp. 22–28); the unramified refinement of the residue tower (Česnavičius–Scholze Lemma 3.1.1 (a));
-the prismatic perfectoid cover of a regular local ring (Bhatt–Scholze Remark 3.11); and the almost
-vanishing of `Tor` that Bhatt–Scholze Remark 10.13 derives from almost purity.
+Two results concern the class as a whole. If `A → A'` is a surjection of integral perfectoid rings
+and `B → A'` any map from an integral perfectoid ring, the fibre product `A ×_{A'} B` is integral
+perfectoid. And every integral perfectoid ring is a quotient of a `p`-torsion-free one.
 
-**Imported, not planned again.**
+The second theme is André's lemma. Let `ϖ ∈ A` satisfy `ϖ^p | p` and have a compatible system of
+`p`-power roots. Suppose that `A` is integral perfectoid and `ϖ`-adically complete, or that `A` is
+henselian along `ϖ`, `ϖ` is a nonzerodivisor and the `ϖ`-adic completion of `A` is integral
+perfectoid. Then there is a faithfully flat `A`-algebra `A'`, henselian along `ϖ` with integral
+perfectoid `ϖ`-adic completion, which is ind-syntomic: a filtered colimit of flat finitely presented
+algebras with local complete intersection fibres. It has a `ϖ`-divisible ideal `I'` with `A'/I'`
+faithfully flat over `A`, such that every monic polynomial of positive degree over `A'` has a root
+in `A'/I'` with compatible `p`-power roots. For `p` odd, `A` the completion of `ℤ_p[p^{1/p^∞}]`,
+`ϖ = p^{1/p}` and `u ∈ ℤ_p^×` a non-square, `T² − u` has no root in `A` but acquires one in `A'/I'`.
+Consequently, every ring `A` in which `1 + pA` consists of units has a faithfully flat `A`-algebra
+whose reduction has integral perfectoid `p`-adic completion.
 
-- From PerfectoidSpaces: the Frobenius-bijectivity and compatible-root criteria for integral
-  perfectoid rings (P1.24); the comparison of integral perfectoid rings with perfectoid Tate rings
-  (P1.25); finite
-  extensions of perfectoid fields and the equivalence `K` algebraically closed iff `K♭` is (P3.7);
-  δ-rings, prisms, perfection of prisms and the equivalence between perfect prisms and integral
-  perfectoid rings (P4.15.2); André's `p`-completely faithfully flat root cover (P4.15.4); the
-  residue tower of a complete regular local ring (P7.16a) and the `p`-power root tower with
-  perfectoid completion for a perfect residue field (P7.17), which is Česnavičius–Scholze
-  Lemma 3.1.1 (b).
-- From PrismaticCohomology: distinguished elements, their factors and the radical criterion
-  (§§0.61–0.63), rigidity of prism maps (§0.79), the perfect-site description of perfectoidization
-  and its universal property among perfectoid targets (§2.30), and integral perfectoidization with
-  almost purity along an arbitrary finitely generated ideal (§2.31; Bhatt–Scholze Theorems 10.9
-  and 10.11).
-- From DerivedDeRhamCohomology: Bhatt's ordinary flatness criterion over a noetherian base (§1.10).
-- From DeformationAndDerivedPatchingAlgebra: Cohen rings, their truncated formal smoothness and the
-  lifting of a residue map from a Cohen ring to a complete local ring (§1.10), which gives the
-  Frobenius lifts of the Cohen rings used in Q10.2 and Q10.4.
-- From StableReduction: syntomic morphisms (Layer 1), whose affine local model is Tau Ceti's
-  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`. Those of a fixed relative dimension `n`
-  are already Tau Ceti's `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension n`; `IsSyntomic`
-  (Q7.2) lets the relative dimension vary with the chart.
-- From PerfectoidSpaces, the Tate-ring forms of Q5.1 (1) and Q5.3 (P1.4–P1.6); Q5.1 and Q5.3 state
-  them for arbitrary complete rings, respectively integral perfectoid rings with torsion.
-- From Mathlib: the multiplicative identification of the tilt of a `p`-adically complete ring with
-  the `p`-power compatible sequences in the ring is `Perfection.quotientMulEquiv` at the ideal `(p)`,
-  with the sharp map `PreTilt.untilt` as its zeroth coordinate
-  (`Perfection.coeff_zero_symm_quotientMulEquiv`); it is not restated here.
-- From Tau Ceti: the integral perfectoid predicate `TauCeti.Perfectoid.IsIntegralPerfectoid` (BMS1
-  Definition 3.5), with its `p`-adic completeness, perfect rings and the zero ring as examples, and
-  surjectivity of Frobenius `A/π → A/π^p`; the henselization of a pair, its ind-étaleness, its
-  quotients by powers of the ideal and its faithful flatness along an ideal in the Jacobson radical
-  (`TauCeti.Henselization.algebra`, `TauCeti.Henselization.faithfullyFlat_of_le_jacobson`), and the
-  permanence of henselian pairs under surjections and radicals; continuity of valuations
-  (`Valuation.IsContinuous`), the bound `v(a) < 1` at a
-  topologically nilpotent `a` for continuous `v`
-  (`Valuation.IsContinuous.lt_one_of_isTopologicallyNilpotent`) and the cofinality of the powers of
-  a topologically nilpotent element in the value group
-  (`Valuation.IsContinuous.cofinalValue_of_isTopologicallyNilpotent`), Wedhorn's description of
-  continuous valuations through an ideal of definition
-  (`TauCeti.ValuationSpectrum.cont_eq_spvOfIdeal_inter_setOfPred_forall_vlt_one`) and his valuative
-  criterion for integrality (`TauCeti.Huber.isIntegral_of_forall_continuous_valuation_le_one`),
-  the affine blowup algebra with its universal property (`Ideal.affineBlowup`), and Kunz's theorem
-  that Frobenius of a regular local ring of characteristic `p` is flat
-  (`TauCeti.IsRegularLocalRing.flat_frobenius`).
+The third theme is regular local rings. Every regular local ring `R` with `p` in its maximal ideal
+has a faithfully flat map to an integral perfectoid ring: in characteristic `p` its perfection, and
+for complete `R` of mixed characteristic one obtained by perfecting a prism. Now let `R` be complete
+of mixed characteristic `(0, p)`, `R⁺` the integral closure of `R` in an algebraic closure of its
+fraction field, `S ⊆ R⁺` a finite `R`-subalgebra and `c ∈ pR` with `R[1/c] → S[1/c]` finite étale.
+If the residue field is `F`-finite (finite over its subfield of `p`-th powers), then for `n > 0`,
+`i > 0` and every `R/pⁿ`-module `N`, the image of `Tor_i^{R/pⁿ}(S/pⁿ, N)` in
+`Tor_i^{R/pⁿ}(R⁺/pⁿ, N)` is killed by every member of any compatible system of `p`-power roots of
+`c` in `R⁺`. This is Bhatt–Scholze's almost vanishing of `Tor`, from which Heitmann–Ma's theorem
+follows in its own generality. For other residue fields it is proved given a faithfully flat
+perfectoid cover mapping to the `p`-adic completion of `R⁺`, which is not constructed here.
 
-**Residue fields.** The perfectoid cover inside `(R⁺)^∧` of a complete regular local ring `R` of
-mixed characteristic (Q10.4) is constructed when the residue field is `F`-finite, the hypothesis of
-Heitmann–Ma Theorem 1.3, by finite free stages that are base changes of `R` along powers of a
-Frobenius lift. For a residue field that is not `F`-finite no cover inside `(R⁺)^∧` is constructed
-here or by a supplier: Q10.2 gives a faithfully flat perfectoid cover of `R` with no map to
-`(R⁺)^∧`, and Q10.5 takes a cover together with such a map as hypotheses.
+PerfectoidQuotients supplies the basic algebra of these rings.
+[PerfectoidSpaces](../PerfectoidSpaces/README.md) supplies the equivalence between perfect prisms
+and integral perfectoid rings, and [PrismaticCohomology](../PrismaticCohomology/README.md) the
+almost purity from which the vanishing of `Tor` is derived. PurityForFlatCohomology and
+[EtaleDualityAndPerverseSheavesPartII](../EtaleDualityAndPerverseSheavesPartII/README.md) use the
+tilting results.
 
-**Not owned here.** Purity for flat cohomology (Česnavičius–Scholze §§3–6), the pro-fppf site
-(§4.1.1) and the algebraic tilting of étale cohomology (Theorem 2.2.7, EtaleDualityAndPerverseSheavesPartII
-§8.5) are consumers of this roadmap and are listed under "Downstream consumers". Arc covers and
-the tilting of complete arc covers (Česnavičius–Scholze Lemma 2.2.2) belong to
-ArcTopologyAndDescent §12.6, which does not use this roadmap. Bhatt's cover of a `p`-torsion-free
-regular local ring by an integral perfectoid `K°`-algebra, `K = ℚ_p(p^{1/p^∞})^∧`, almost faithfully
-flat and faithfully flat when `p ∉ 𝔪²` (Bhatt Proposition 5.2), belongs to
-DirectSummandsAndBigCohenMacaulay §§3.2–3.3. Q10.2 differs in asking only for an integral perfectoid
-ring, in being faithfully flat in every case and in allowing equal characteristic `p`; in mixed
-characteristic its cover is built by perfecting a prism. Neither uses the other.
+The first two layers are the commutative algebra of integral perfectoid rings. The third treats
+ind-syntomic ring maps and the fourth continuous valuations; they are independent of each other and
+of the second. The fifth combines the first four into the André lemma, and the sixth treats regular
+local rings.
+
+## How to read the build
+
+Q5 and Q6 are the commutative algebra of integral perfectoid rings: Q5 proves the tilting
+identities (tilt modulo `ϖ^p`, torsion transfer, `A_inf` of a surjection) and fibre products; Q6
+proves the relative tilting equivalence, the transfer of completeness and of the valuation-ring
+property, and the torsion-free presentations that feed the reduction step of the André lemma. Q7
+and Q8 are independent of each other and of Q6: Q7 is general commutative algebra (ind-fppf and
+ind-syntomic maps, glueing of flatness, blowup algebras of regular pairs, syntomic hypersurfaces);
+Q8 is about continuous valuations (their tilt, the integral approximation lemma, the valuative
+nilpotence criterion). Q9 combines Q5–Q8 with PerfectoidQuotients Layer 0 into the ind-syntomic
+André lemma and semiperfectoid covers of `p`-Zariski rings. Q10 uses PerfectoidSpaces P4.15.2 and
+P7, PrismaticCohomology §§2.30–2.31 and Q5.4 for regular local rings.
+
+[Suggested.lean](Suggested.lean) states the headline theorems: fibre products
+(`isIntegralPerfectoid_fibreProduct`), the transfer statements of Česnavičius–Scholze
+Proposition 2.1.9 (`isAdicComplete_preTilt_iff`, `valuationRing_iff_preTilt`,
+`untilt_dvd_iff_and_exists_isUnit_mul_untilt`, `isAlgClosed_fractionRing_iff`), torsion-free
+presentations (`exists_surjective_of_isSMulRegular`, `exists_surjective_of_isSMulRegular_of_roots`,
+`exists_surjective_of_isSMulRegular_p`), the approximation lemma (`exists_approximation`), the
+nilpotence criterion (`isTopologicallyNilpotent_iff_forall_lt_one`), the ind-syntomic André lemma
+(`exists_indSyntomic_andre`), semiperfectoid covers (`exists_semiperfectoid_cover`), perfectoid
+covers of regular local rings (`exists_faithfullyFlat_isIntegralPerfectoid`) and, for `F`-finite
+residue fields, inside the completed absolute integral closure
+(`exists_faithfullyFlat_isIntegralPerfectoid_injective_completion`), and the almost vanishing
+of `Tor`, given a cover (`tor_map_mul_root_eq_zero_of_cover`) and for `F`-finite residue fields
+(`tor_map_mul_root_eq_zero`), with the definitions `IsSyntomic`, `IsIndSyntomic` and `IsPZariski`;
+integral perfectoidness is Tau Ceti's `TauCeti.Perfectoid.IsIntegralPerfectoid`. Its module docstring names the relative tilting equivalence (Q6.1)
+as not statable at the pins: the tilt is not a functor there.
 
 ## Conventions
 
@@ -174,253 +143,6 @@ ring, and is not repeated as a hypothesis.
 
 Theorem, section and page numbers refer to the arXiv versions listed under References, which are the
 versions read.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the Mathlib revision pinned by the repository's `lake-manifest.json`.
-
-- `PreTilt A p` (`Mathlib/RingTheory/Perfection.lean`): the inverse-limit perfection of `A/p`, a
-  perfect ring of characteristic `p` when `p` is a nonunit of `A` (`Fact ¬IsUnit (p : A)`).
-  `PreTilt.isDomain` is the valued-field case of Q6.3.
-- `PreTilt.untilt`, `PreTilt.mk_untilt_eq_coeff_zero`, `PreTilt.untilt_iterate_frobeniusEquiv_symm_pow`
-  (`Mathlib/RingTheory/Perfectoid/Untilt.lean`): the multiplicative sharp map of a `p`-adically
-  complete ring with nonunit `p`, its reduction modulo `p`, and `((x^{1/p^n})♯)^{p^n} = x♯`.
-- `Perfection.quotientMulEquiv` and `Perfection.coeff_zero_symm_quotientMulEquiv`
-  (`Mathlib/RingTheory/Teichmuller.lean`): for `A` complete for an ideal `I` with `A/I` of
-  characteristic `p`, the monoid isomorphism between the `p`-power compatible sequences in `A` and
-  `Perfection (A/I) p`, whose inverse has zeroth coordinate the Teichmüller limit. At `I = (p)` this
-  is the multiplicative description of the tilt (Česnavičius–Scholze (2.1.1.2), p. 10; BMS1
-  Lemma 3.2 (i), p. 19).
-- `WittVector.fontaineTheta`, `WittVector.mk_fontaineTheta`, `WittVector.fontaineTheta_teichmuller`
-  and `WittVector.surjective_fontaineTheta` (`Mathlib/RingTheory/Perfectoid/FontaineTheta.lean`): Fontaine's
-  map, its reduction modulo `p`, its value on Teichmüller representatives, and its surjectivity when
-  Frobenius on `A/p` is surjective.
-- `WittVector.eq_of_apply_teichmuller_eq` (`Mathlib/RingTheory/WittVector/TeichmullerSeries.lean`):
-  two ring maps out of `W(R)` into a ring in which `p` is nilpotent agree if they agree on
-  Teichmüller representatives.
-- `WittVector.map`, `WittVector.verschiebung`, `WittVector.teichmuller`; `PerfectRing`,
-  `PerfectClosure`, `frobenius`; `MvPolynomial`, `Polynomial.Monic`, `PowerSeries`.
-- `IsAdicComplete`, `IsAdic`, `AdicCompletion` (with its ring structure), `IsAdicComplete.le_jacobson_bot`.
-- `ValuationRing` (stated for domains), `ValuationRing.ValueGroup`, `IsAlgClosed`, `FractionRing`,
-  `Localization.Away`, `Localization.AtPrime`, `integralClosure`, `AlgebraicClosure`,
-  `IsIntegrallyClosed`, `nilradical`, `Ideal.jacobson`, `RingHom.eqLocus`.
-- `Ring.jacobson` (`Mathlib/RingTheory/Jacobson/Radical.lean`), `Ring.mem_jacobson_iff` and
-  `Ideal.jacobson_bot` (`Mathlib/RingTheory/Jacobson/Ideal.lean`): `x` lies in the Jacobson radical
-  of `R` iff `xy + 1` is a unit for every `y`, and the Jacobson radical is `Ideal.jacobson ⊥`. At `x = p` this is the
-  Jacobson-radical form of the `p`-Zariski condition (Q9.5).
-- `Module.Flat`, `Module.FaithfullyFlat`, `Algebra.FinitePresentation`, `Algebra.Etale`,
-  `IsSMulRegular`, `RingTheory.Sequence.IsRegular`, `HenselianRing`, `IsRegularLocalRing`,
-  `IsLocalRing.ResidueField`, `IsTopologicallyNilpotent`, `Valuation`.
-- `CategoryTheory.Tor` (`Mathlib/CategoryTheory/Monoidal/Tor.lean`): `Tor_n` as a bifunctor on a
-  monoidal preadditive category with projective resolutions, here `ModuleCat (R/pⁿ)`.
-
-### From Tau Ceti
-
-At the Tau Ceti revision pinned by the repository's `lake-manifest.json`.
-
-- `TauCeti.Perfectoid.IsIntegralPerfectoid p A` (`TauCeti/RingTheory/Perfectoid/Integral.lean`):
-  some `π` with `π^p | p` makes `A` `π`-adically complete and separated, Frobenius on `A/p` is
-  surjective, and the kernel of `WittVector.fontaineTheta` is principal for every proof that `p` is
-  a nonunit and `A` is `p`-adically complete. Its API: the instance `isAdicComplete_span_natCast`
-  (an integral perfectoid ring is `p`-adically complete and separated), `not_isUnit_natCast` (`p`
-  is a nonunit in a nonzero one), `isPrincipal_ker_fontaineTheta`, `exists_natCast_dvd_sub_pow`
-  (every element is a `p`-th power modulo `p`), `frobeniusModPow_surjective` (Frobenius
-  `A/π → A/π^p` is surjective for every `π` with `π^p | p`, the surjectivity half of BMS1
-  Lemma 3.10 (i)), `of_perfectRing` (a perfect ring of characteristic `p`, with `π = 0`) and
-  `of_subsingleton` (the zero ring), all in the namespace `TauCeti.Perfectoid.IsIntegralPerfectoid`.
-  The predicate does not depend on a choice of `π` and allows `p`-torsion and zero divisors.
-- `TauCeti.Henselization.algebra I` (`TauCeti/RingTheory/Henselization/Algebra.lean`), the
-  henselization of a pair `(R, I)`, with extended ideal `TauCeti.Henselization.extended I`, the
-  instance `TauCeti.Henselization.henselian` (the pair is henselian), the instance
-  `TauCeti.Henselization.indEtale` (it is ind-étale over `R`, `IndEtale.lean`), flatness through
-  `TauCeti.Algebra.IndEtale.flat` (`TauCeti/RingTheory/Etale/IndEtale.lean`),
-  `TauCeti.Henselization.quotientPowEquiv` (`R/Iⁿ ≅ R^h/(I^h)ⁿ` for every `n`, `Quotient.lean`) and
-  `TauCeti.Henselization.faithfullyFlat_of_le_jacobson` (faithful flatness of `R → R^h` when `I`
-  lies in the Jacobson radical of `R`).
-- `RingHom.henselianRing_of_surjective` (`TauCeti/RingTheory/Henselian/Quotient.lean`: a
-  surjection `R → S` carries a henselian pair `(R, I)` to the henselian pair `(S, IS)`) and
-  `Ideal.henselianRing_radical_iff` (`TauCeti/RingTheory/Henselian/Ideal.lean`: `(R, √I)` is
-  henselian iff `(R, I)` is).
-
-- `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension n R S`
-  (`TauCeti/RingTheory/Syntomic/StandardSyntomic.lean`): `S` is flat over `R` and has a finite
-  presentation with `n + c` generators and `c` relations whose nontrivial fibres have Krull
-  dimension `n`, that is, `S` is a flat relative global complete intersection. Supplied there:
-  invariance under isomorphism (`of_algEquiv`), base change (`baseChange`) and polynomial rings in
-  finitely many variables (`mvPolynomial`, `mvPolynomial_fin`); composition, with addition of
-  relative dimensions (`trans`, `TauCeti/RingTheory/Syntomic/Composition.lean`); and localization
-  away from one element, of relative dimension `0`, also composed on either side with a standard
-  syntomic algebra (`localization_away`, `trans_localization_away`, `localization_away_trans`,
-  `TauCeti/RingTheory/Syntomic/Localization.lean`), all in the namespace
-  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`. Flatness is part of the definition: for
-  one equation, that a fibrewise nonzero hypersurface is automatically flat (Stacks
-  Lemma 10.136.13, the case of one relation) is Q7.6 here.
-- `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension n`
-  (`TauCeti/AlgebraicGeometry/Morphisms/Syntomic/Basic.lean`): a morphism of schemes that is
-  standard syntomic of relative dimension `n` on affine charts around every source point, with
-  flatness, local finite presentation, base change
-  (`syntomicOfRelativeDimension_isStableUnderBaseChange`), composition adding relative dimensions
-  (`syntomicOfRelativeDimension_comp`) and the affine criterion
-  `syntomicOfRelativeDimension_SpecMap_iff`: `Spec S → Spec R` is syntomic of relative dimension `n`
-  iff `R → S` is `RingHom.Locally (TauCeti.IsStandardSyntomicOfRelativeDimension n)`, the ring-map
-  form of `TauCeti/RingTheory/RingHom/StandardSyntomic.lean`. `IsSyntomic` (Q7.2) differs in letting
-  `n` depend on the chart: `ℤ → ℤ × ℤ[x]` is syntomic, with charts `ℤ` and `ℤ[x]` of relative
-  dimensions `0` and `1`, and is syntomic of no single relative dimension, as its fibres have
-  components of dimensions `0` and `1`.
-- `Valuation.IsContinuous` (`TauCeti/RingTheory/Valuation/Continuous/Basic.lean`): every set
-  `{a : v(a) < v(b)}` is open. `Valuation.IsContinuous.lt_one_of_isTopologicallyNilpotent` and
-  `Valuation.IsContinuous.cofinalValue_of_isTopologicallyNilpotent`
-  (`TauCeti/RingTheory/Valuation/Continuous/TopologicallyNilpotent.lean`) are the easy directions of
-  Q8.1 and Q8.4.
-- `TauCeti.Huber.IsTateRing`, `TauCeti.Huber.PairOfDefinition`
-  (`TauCeti/RingTheory/Huber/Basic.lean`): Tate rings and pairs of definition `(A₀, I)` with `A₀`
-  open and `I` finitely generated defining the subspace topology.
-- `TauCeti.ValuationSpectrum.cont_eq_spvOfIdeal_inter_setOfPred_forall_vlt_one`
-  (`TauCeti/AlgebraicGeometry/AdicSpace/Cont/OfIdeal.lean`, Wedhorn Theorem 7.10) and
-  `TauCeti.Huber.isIntegral_of_forall_continuous_valuation_le_one` (Wedhorn Proposition 7.18 (1)).
-- `Ideal.affineBlowup`, `Ideal.mem_affineBlowup_iff`, `Ideal.isRegular_algebraMap_affineBlowup`,
-  `Ideal.affineBlowupLift` (`TauCeti/RingTheory/Ideal/AffineBlowup.lean`): the subalgebra
-  `A[I/a] ⊆ A[1/a]`, its elements `y/a^k` with `y ∈ I^k`, regularity of `a` on it and its universal
-  property. The presentation by a regular sequence is Q7.5 here.
-- `TauCeti.IsRegularLocalRing.flat_frobenius` and `TauCeti.IsRegularRing.flat_frobenius`
-  (`TauCeti/RingTheory/RegularLocalRing/Frobenius.lean`): Kunz's theorem that the absolute Frobenius
-  `frobenius R p` of a regular local, respectively regular, ring of exponential characteristic `p`
-  is flat. Used in Q10.2.
-
-### From TauCetiRoadmap.PerfectoidQuotients
-
-- §0.2: `untilt_natural` and `theta_natural` (naturality of `♯` and `θ`);
-  `theta_generator_iff_unit_coeff_one` (an element of `ker θ` generates it iff its first Witt
-  coordinate is a unit), `theta_generator_nonzerodivisor`, `theta_generator_normal_form` (a
-  generator `p + [π♭]^p x` with `x` a unit), `theta_map_preserves_generator` (a map of integral
-  perfectoid rings carries generators to generators), and `frobenius_surjectivity_equivalences`.
-- §0.3: `perfectoid_p_torsion_killed_by_p` (`A[p^∞] = A[p]` for integral perfectoid `A`).
-- §0.4: `compatible_root_annihilator` and `compatible_root_power_torsion` (in a reduced ring,
-  `A[a^{1/p^n}] = A[a] = A[a^∞]` for an element with a compatible root tower), reducedness of
-  integral perfectoid rings (imported there from PerfectoidSpaces P4.15.5), and
-  `perfectoid_torsion_free_quotient` (the quotient `A/A[ϖ^∞]` is integral perfectoid, with tilt
-  `A♭/A♭[(ϖ♭)^∞]`, and the fibre-product decomposition along `(A/ϖ)_red`).
-- §0.5: `pIntegralClosure` (the `p`-integral closure inside a fixed ambient ring) with minimality and
-  containment in the integral closure; `perfectoid_p_integral_closedness` (for a nonzerodivisor
-  `ϖ` with `ϖ^p | p`, injectivity of `A/ϖ → A/ϖ^p`, `x ↦ x^p`, is equivalent to `p`-integral
-  closedness in `A[1/ϖ]`); `completion_pIntegralClosure_perfectoid` (Česnavičius–Scholze
-  Proposition 2.1.8); `completion_integrally_closed_perfectoid` (Česnavičius Lemma 4.7).
-- §0.6: `perfectoid_completed_root_polynomial`, `perfectoid_completed_tensor`,
-  `perfectoid_completed_root_quotient` (Česnavičius–Scholze Proposition 2.1.11 (a)–(c)),
-  `integralPerfectoid_pi_iff` (products, (d)), `perfectoid_sharp_ideal_completion` ((e): the
-  completion along the ideal generated by the sharps of finitely many elements of the tilt is
-  integral perfectoid, with tilt the corresponding completion of the tilt) and
-  `perfectoid_completely_etale_henselization` (the `p`-adic completions of étale, ind-étale and
-  henselian extensions are integral perfectoid; Q6.8 obtains from it, with (e), the `ϖ`-adic
-  completion of Česnavičius–Scholze Corollary 2.1.6).
-- §1.2 and §1.4: the modulo-`p` ind-syntomic refinement `andre_ind_syntomic_mod_p` and Bhatt's almost
-  faithfully flat root extension `bhatt_root_extension_almost_faithfully_flat`, against which Q9.4
-  compares.
-
-### From TauCetiRoadmap.PerfectoidSpaces
-
-- P1.24, beyond the predicate itself, which is consumed from Tau Ceti
-  (`TauCeti.Perfectoid.IsIntegralPerfectoid`): bijectivity of Frobenius `A/π → A/π^p` for `π^p | p`
-  and `A` `π`-adically complete without a nonzerodivisor hypothesis (BMS1 Lemma 3.10 (i), whose
-  surjectivity half is Tau Ceti's `frobeniusModPow_surjective`), compatible `p`-power roots of unit multiples of `π` and `p` (BMS1
-  Lemma 3.9), and the converse criterion for a nonzerodivisor `π`. Supplier checks: `ℤ_p` is not
-  integral perfectoid (no admissible `π`); the `p`-adic completion of `ℤ_p[p^{1/p^∞}]` is, with
-  `π = p^{1/p}`; a perfect `𝔽_p`-algebra is, with `π = 0`.
-- P1.25: `isPerfectoidTateRing_iff_integral` (a complete Tate ring is perfectoid iff its ring of
-  integral elements is bounded and integral perfectoid); used for rank-one valuation rings in Q6.6.
-- P3.7: `isAlgClosed_tilt` and `isAlgClosed_of_tilt` (a perfectoid field is algebraically closed iff
-  its tilt is; Scholze Theorem 3.7 (ii) and Proposition 3.8).
-- P4.15.2: δ-rings, distinguished elements, prisms, perfection of a prism by Frobenius colimit and
-  completion, the equivalence between perfect prisms and integral perfectoid rings, and
-  initiality of `(A_inf(A), ker θ)`.
-- P4.15.4: André's `p`-completely faithfully flat integral perfectoid cover on which every monic
-  polynomial of positive degree has a root (Bhatt–Scholze Theorem 7.14).
-- P4.15.5: `semiperfectoidPerfectoidization_surjective` (for a derived `p`-complete quotient `S` of
-  an integral perfectoid ring `A`, the map `A → S_perfd` is surjective; Bhatt–Scholze Theorem 7.4,
-  p. 56), used in Q10.5.
-- P7.16a: `exists_residueTower` and the Cohen presentations `cohen_unramified`, `cohen_ramified`,
-  `cohen_equalCharacteristic` of a complete regular local ring.
-- P7.17: `RegularTower.exists_perfectoidTower`: for a complete regular local ring of mixed
-  characteristic with perfect residue field `k`, the tower `R_m` (`W(k)[p^{1/p^m}]⟦x^{1/p^m}⟧` if
-  `p ∉ 𝔪²`, `W(k)⟦x^{1/p^m}⟧/(p − g)` with `g ∈ (p, x)²` otherwise) of finite flat regular local
-  `R`-algebras of `p`-power rank whose colimit has integral perfectoid `p`-adic completion.
-- P0.1–P0.2 and P0.11: the basic setup, the root setup of compatible `p`-power roots and almost
-  flatness, used to phrase the almost conclusions of Q10.5.
-
-### From TauCetiRoadmap.PrismaticCohomology
-
-- §0.61 (δ-functoriality: a map of δ-rings carries distinguished elements to distinguished
-  elements, the first assertion of that section), §0.62 (factors
-  of distinguished elements) and §0.63 (for `d, p` in the Jacobson radical, `d` is distinguished
-  iff `p ∈ (d, φ(d))`).
-- §0.79: rigidity of maps of prisms and its converse (a derived `(p, I)`-complete δ-`A`-algebra `B`
-  gives a prism `(B, IB)` iff `B` is `I`-torsion-free).
-- §0.83–§0.84: perfection of a prism and perfect prisms versus perfectoid rings, imported there from
-  PerfectoidSpaces P4.15.2 and cited here through that owner.
-- §2.30: the perfect-site description of perfectoidization, `S_perfd = lim_{S → T} T` over maps
-  to perfectoid rings, giving the universal property of `S → S_perfd` among maps to integral
-  perfectoid rings.
-- §2.31: integral perfectoidization (for `S` the `p`-completion of an integral algebra over a
-  perfectoid ring, `S_perfd` is a discrete perfectoid ring) and almost purity along an arbitrary
-  finitely generated ideal `J` (for a finitely presented finite algebra finite étale away from
-  `V(J)`, `R/pⁿ → S_perfd/pⁿ` is almost finite projective for `J_perfd = ker(R → (R/J)_perfd)`).
-
-### From TauCetiRoadmap.DerivedDeRhamCohomology
-
-- §1.10: `DerivedDeRham.ordinaryFlatnessFromCompleteFlatness` and
-  `DerivedDeRham.ordinaryFaithfulFlatnessFromCompleteFaithfulFlatness`: for `A` noetherian and
-  `A`, `B` both `π`-torsion-free and `π`-adically complete, (faithful) flatness of `A/π → B/π`
-  gives (faithful) flatness of `A → B` (Bhatt, Proposition 5.1).
-
-### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
-
-- §1.10: Cohen rings (characteristic-zero complete discrete valuation rings with maximal ideal
-  `(p)` and a labelled residue field), the formal smoothness of `ℤ/pⁿ → C/pⁿ` for every `n ≥ 1`,
-  and compatible coefficient lifting: for a Cohen ring `C` and a complete local ring `R` with
-  residue field of characteristic `p`, every unital ring map `C/p → R/𝔪_R` lifts to a ring map
-  `C → R`, by lifting along the square-zero surjections `R/𝔪_R^{n+1} → R/𝔪_R^n` (Stacks
-  Lemmas 10.160.6–10.160.7). Taking `R = C` and the map `x ↦ x^p` of the residue field gives a
-  *Frobenius lift* of `C`: a ring endomorphism `φ_C` with `φ_C(c) ≡ c^p mod p` for every `c ∈ C`.
-  No perfectness of the residue field is assumed. Supplier checks: for `C = ℤ_p` the only
-  Frobenius lift is the identity; for `C = W(k)` with `k` perfect it is the Witt vector Frobenius.
-
-### From TauCetiRoadmap.StableReduction
-
-- Layer 1: syntomic morphisms (flat, locally finitely presented, with local complete intersection
-  fibres). On affines a ring map is syntomic iff it is Zariski locally on the source standard
-  syntomic (Stacks Lemmas 10.136.4 and 10.136.15); `Suggested.lean` uses this description as
-  `IsSyntomic`.
-
-## How to read the build
-
-Q5 and Q6 are the commutative algebra of integral perfectoid rings: Q5 proves the tilting
-identities (tilt modulo `ϖ^p`, torsion transfer, `A_inf` of a surjection) and fibre products; Q6
-proves the relative tilting equivalence, the transfer of completeness and of the valuation-ring
-property, and the torsion-free presentations that feed the reduction step of the André lemma. Q7
-and Q8 are independent of each other and of Q6: Q7 is general commutative algebra (ind-fppf and
-ind-syntomic maps, glueing of flatness, blowup algebras of regular pairs, syntomic hypersurfaces);
-Q8 is about continuous valuations (their tilt, the integral approximation lemma, the valuative
-nilpotence criterion). Q9 combines Q5–Q8 with PerfectoidQuotients Layer 0 into the ind-syntomic
-André lemma and semiperfectoid covers of `p`-Zariski rings. Q10 uses PerfectoidSpaces P4.15.2 and
-P7, PrismaticCohomology §§2.30–2.31 and Q5.4 for regular local rings.
-
-[Suggested.lean](Suggested.lean) states the headline theorems: fibre products
-(`isIntegralPerfectoid_fibreProduct`), the transfer statements of Česnavičius–Scholze
-Proposition 2.1.9 (`isAdicComplete_preTilt_iff`, `valuationRing_iff_preTilt`,
-`untilt_dvd_iff_and_exists_isUnit_mul_untilt`, `isAlgClosed_fractionRing_iff`), torsion-free
-presentations (`exists_surjective_of_isSMulRegular`, `exists_surjective_of_isSMulRegular_of_roots`,
-`exists_surjective_of_isSMulRegular_p`), the approximation lemma (`exists_approximation`), the
-nilpotence criterion (`isTopologicallyNilpotent_iff_forall_lt_one`), the ind-syntomic André lemma
-(`exists_indSyntomic_andre`), semiperfectoid covers (`exists_semiperfectoid_cover`), perfectoid
-covers of regular local rings (`exists_faithfullyFlat_isIntegralPerfectoid`) and, for `F`-finite
-residue fields, inside the completed absolute integral closure
-(`exists_faithfullyFlat_isIntegralPerfectoid_injective_completion`), and the almost vanishing
-of `Tor`, given a cover (`tor_map_mul_root_eq_zero_of_cover`) and for `F`-finite residue fields
-(`tor_map_mul_root_eq_zero`), with the definitions `IsSyntomic`, `IsIndSyntomic` and `IsPZariski`;
-integral perfectoidness is Tau Ceti's `TauCeti.Perfectoid.IsIntegralPerfectoid`. Its module docstring names the relative tilting equivalence (Q6.1)
-as not statable at the pins: the tilt is not a functor there.
 
 ## Layer Q5: Tilting identities, torsion transfer and fibre products
 
@@ -1933,6 +1655,316 @@ DeformationAndDerivedPatchingAlgebra §1.10; DerivedDeRhamCohomology §1.10; Tau
   completeness (Q6.2) and the tilting of valuation rings (Q6.3–Q6.7) for its algebraic tilting of
   étale cohomology of henselian perfectoid pairs (its §§8.1–8.5; Česnavičius–Scholze
   Theorem 2.2.7).
+
+## Scope and ownership
+
+**Where PerfectoidQuotients stops.** PerfectoidQuotients owns: Tor-independence and complete étale
+δ-extension (§0.0); the characteristic-`p` unit and projection lemmas (§0.1); naturality of `♯` and
+`θ`, finite Fontaine maps, the Frobenius-surjectivity equivalences and the Fontaine-generator
+criteria, including the normal form `p + [π♭]^p x` of a generator (§0.2); the bound-one theorem for
+`p`-power torsion and the cotangent consequences (§0.3); the annihilator identities for compatible
+root towers and the decomposition `A ≅ A_tf ×_{(A_tf/ϖ)_red} (A/ϖ)_red` (§0.4); `p`-integral
+closure, its injectivity criterion and the perfectoid completion of `p`-integral closures (§0.5);
+completed root-polynomial algebras, completed tensor products, root-stable quotients, products,
+sharp-ideal completions and completed ind-étale and henselian extensions (§0.6); the fixed-field
+integral model (§0.7); the relative smooth-site cover, the modulo-`p` ind-syntomic refinement of
+André's cover and Bhatt's almost faithfully flat root extensions (§§1.1–1.4); and
+characteristic-`p` radical quotients (§2.1). This Part II starts there. It owns the tilting
+identities for integral perfectoid rings with torsion that are not stated above, fibre products of
+perfectoid rings and their glueing with perfect algebras, the relative tilting equivalence with the
+transfer of completeness, of the valuation-ring property, of value groups and of algebraically
+closed fraction fields, and torsion-free presentations (Česnavičius–Scholze (2.1.1.3), (2.1.2.2),
+(2.1.2.5), Propositions 2.1.4, 2.1.9 and 2.1.12, Example 2.1.5 and Remark 2.1.10, pp. 10–17);
+ind-fppf and ind-syntomic ring maps, the integral approximation lemma, the valuative criterion for
+topological nilpotence, the ind-syntomic André lemma and semiperfectoid covers of `p`-Zariski rings
+(Česnavičius–Scholze §2.3.3, Lemmas 2.3.1 and 2.3.2, Theorem 2.3.4 and Corollary 2.3.7,
+pp. 22–28); the unramified refinement of the residue tower (Česnavičius–Scholze Lemma 3.1.1 (a));
+the prismatic perfectoid cover of a regular local ring (Bhatt–Scholze Remark 3.11); and the almost
+vanishing of `Tor` that Bhatt–Scholze Remark 10.13 derives from almost purity.
+
+**Imported, not planned again.**
+
+- From PerfectoidSpaces: the Frobenius-bijectivity and compatible-root criteria for integral
+  perfectoid rings (P1.24); the comparison of integral perfectoid rings with perfectoid Tate rings
+  (P1.25); finite
+  extensions of perfectoid fields and the equivalence `K` algebraically closed iff `K♭` is (P3.7);
+  δ-rings, prisms, perfection of prisms and the equivalence between perfect prisms and integral
+  perfectoid rings (P4.15.2); André's `p`-completely faithfully flat root cover (P4.15.4); the
+  residue tower of a complete regular local ring (P7.16a) and the `p`-power root tower with
+  perfectoid completion for a perfect residue field (P7.17), which is Česnavičius–Scholze
+  Lemma 3.1.1 (b).
+- From PrismaticCohomology: distinguished elements, their factors and the radical criterion
+  (§§0.61–0.63), rigidity of prism maps (§0.79), the perfect-site description of perfectoidization
+  and its universal property among perfectoid targets (§2.30), and integral perfectoidization with
+  almost purity along an arbitrary finitely generated ideal (§2.31; Bhatt–Scholze Theorems 10.9
+  and 10.11).
+- From DerivedDeRhamCohomology: Bhatt's ordinary flatness criterion over a noetherian base (§1.10).
+- From DeformationAndDerivedPatchingAlgebra: Cohen rings, their truncated formal smoothness and the
+  lifting of a residue map from a Cohen ring to a complete local ring (§1.10), which gives the
+  Frobenius lifts of the Cohen rings used in Q10.2 and Q10.4.
+- From StableReduction: syntomic morphisms (Layer 1), whose affine local model is Tau Ceti's
+  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`. Those of a fixed relative dimension `n`
+  are already Tau Ceti's `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension n`; `IsSyntomic`
+  (Q7.2) lets the relative dimension vary with the chart.
+- From PerfectoidSpaces, the Tate-ring forms of Q5.1 (1) and Q5.3 (P1.4–P1.6); Q5.1 and Q5.3 state
+  them for arbitrary complete rings, respectively integral perfectoid rings with torsion.
+- From Mathlib: the multiplicative identification of the tilt of a `p`-adically complete ring with
+  the `p`-power compatible sequences in the ring is `Perfection.quotientMulEquiv` at the ideal `(p)`,
+  with the sharp map `PreTilt.untilt` as its zeroth coordinate
+  (`Perfection.coeff_zero_symm_quotientMulEquiv`); it is not restated here.
+- From Tau Ceti: the integral perfectoid predicate `TauCeti.Perfectoid.IsIntegralPerfectoid` (BMS1
+  Definition 3.5), with its `p`-adic completeness, perfect rings and the zero ring as examples, and
+  surjectivity of Frobenius `A/π → A/π^p`; the henselization of a pair, its ind-étaleness, its
+  quotients by powers of the ideal and its faithful flatness along an ideal in the Jacobson radical
+  (`TauCeti.Henselization.algebra`, `TauCeti.Henselization.faithfullyFlat_of_le_jacobson`), and the
+  permanence of henselian pairs under surjections and radicals; continuity of valuations
+  (`Valuation.IsContinuous`), the bound `v(a) < 1` at a
+  topologically nilpotent `a` for continuous `v`
+  (`Valuation.IsContinuous.lt_one_of_isTopologicallyNilpotent`) and the cofinality of the powers of
+  a topologically nilpotent element in the value group
+  (`Valuation.IsContinuous.cofinalValue_of_isTopologicallyNilpotent`), Wedhorn's description of
+  continuous valuations through an ideal of definition
+  (`TauCeti.ValuationSpectrum.cont_eq_spvOfIdeal_inter_setOfPred_forall_vlt_one`) and his valuative
+  criterion for integrality (`TauCeti.Huber.isIntegral_of_forall_continuous_valuation_le_one`),
+  the affine blowup algebra with its universal property (`Ideal.affineBlowup`), and Kunz's theorem
+  that Frobenius of a regular local ring of characteristic `p` is flat
+  (`TauCeti.IsRegularLocalRing.flat_frobenius`).
+
+**Residue fields.** The perfectoid cover inside `(R⁺)^∧` of a complete regular local ring `R` of
+mixed characteristic (Q10.4) is constructed when the residue field is `F`-finite, the hypothesis of
+Heitmann–Ma Theorem 1.3, by finite free stages that are base changes of `R` along powers of a
+Frobenius lift. For a residue field that is not `F`-finite no cover inside `(R⁺)^∧` is constructed
+here or by a supplier: Q10.2 gives a faithfully flat perfectoid cover of `R` with no map to
+`(R⁺)^∧`, and Q10.5 takes a cover together with such a map as hypotheses.
+
+**Not owned here.** Purity for flat cohomology (Česnavičius–Scholze §§3–6), the pro-fppf site
+(§4.1.1) and the algebraic tilting of étale cohomology (Theorem 2.2.7, EtaleDualityAndPerverseSheavesPartII
+§8.5) are consumers of this roadmap and are listed under "Downstream consumers". Arc covers and
+the tilting of complete arc covers (Česnavičius–Scholze Lemma 2.2.2) belong to
+ArcTopologyAndDescent §12.6, which does not use this roadmap. Bhatt's cover of a `p`-torsion-free
+regular local ring by an integral perfectoid `K°`-algebra, `K = ℚ_p(p^{1/p^∞})^∧`, almost faithfully
+flat and faithfully flat when `p ∉ 𝔪²` (Bhatt Proposition 5.2), belongs to
+DirectSummandsAndBigCohenMacaulay §§3.2–3.3. Q10.2 differs in asking only for an integral perfectoid
+ring, in being faithfully flat in every case and in allowing equal characteristic `p`; in mixed
+characteristic its cover is built by perfecting a prism. Neither uses the other.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the Mathlib revision pinned by the repository's `lake-manifest.json`.
+
+- `PreTilt A p` (`Mathlib/RingTheory/Perfection.lean`): the inverse-limit perfection of `A/p`, a
+  perfect ring of characteristic `p` when `p` is a nonunit of `A` (`Fact ¬IsUnit (p : A)`).
+  `PreTilt.isDomain` is the valued-field case of Q6.3.
+- `PreTilt.untilt`, `PreTilt.mk_untilt_eq_coeff_zero`, `PreTilt.untilt_iterate_frobeniusEquiv_symm_pow`
+  (`Mathlib/RingTheory/Perfectoid/Untilt.lean`): the multiplicative sharp map of a `p`-adically
+  complete ring with nonunit `p`, its reduction modulo `p`, and `((x^{1/p^n})♯)^{p^n} = x♯`.
+- `Perfection.quotientMulEquiv` and `Perfection.coeff_zero_symm_quotientMulEquiv`
+  (`Mathlib/RingTheory/Teichmuller.lean`): for `A` complete for an ideal `I` with `A/I` of
+  characteristic `p`, the monoid isomorphism between the `p`-power compatible sequences in `A` and
+  `Perfection (A/I) p`, whose inverse has zeroth coordinate the Teichmüller limit. At `I = (p)` this
+  is the multiplicative description of the tilt (Česnavičius–Scholze (2.1.1.2), p. 10; BMS1
+  Lemma 3.2 (i), p. 19).
+- `WittVector.fontaineTheta`, `WittVector.mk_fontaineTheta`, `WittVector.fontaineTheta_teichmuller`
+  and `WittVector.surjective_fontaineTheta` (`Mathlib/RingTheory/Perfectoid/FontaineTheta.lean`): Fontaine's
+  map, its reduction modulo `p`, its value on Teichmüller representatives, and its surjectivity when
+  Frobenius on `A/p` is surjective.
+- `WittVector.eq_of_apply_teichmuller_eq` (`Mathlib/RingTheory/WittVector/TeichmullerSeries.lean`):
+  two ring maps out of `W(R)` into a ring in which `p` is nilpotent agree if they agree on
+  Teichmüller representatives.
+- `WittVector.map`, `WittVector.verschiebung`, `WittVector.teichmuller`; `PerfectRing`,
+  `PerfectClosure`, `frobenius`; `MvPolynomial`, `Polynomial.Monic`, `PowerSeries`.
+- `IsAdicComplete`, `IsAdic`, `AdicCompletion` (with its ring structure), `IsAdicComplete.le_jacobson_bot`.
+- `ValuationRing` (stated for domains), `ValuationRing.ValueGroup`, `IsAlgClosed`, `FractionRing`,
+  `Localization.Away`, `Localization.AtPrime`, `integralClosure`, `AlgebraicClosure`,
+  `IsIntegrallyClosed`, `nilradical`, `Ideal.jacobson`, `RingHom.eqLocus`.
+- `Ring.jacobson` (`Mathlib/RingTheory/Jacobson/Radical.lean`), `Ring.mem_jacobson_iff` and
+  `Ideal.jacobson_bot` (`Mathlib/RingTheory/Jacobson/Ideal.lean`): `x` lies in the Jacobson radical
+  of `R` iff `xy + 1` is a unit for every `y`, and the Jacobson radical is `Ideal.jacobson ⊥`. At `x = p` this is the
+  Jacobson-radical form of the `p`-Zariski condition (Q9.5).
+- `Module.Flat`, `Module.FaithfullyFlat`, `Algebra.FinitePresentation`, `Algebra.Etale`,
+  `IsSMulRegular`, `RingTheory.Sequence.IsRegular`, `HenselianRing`, `IsRegularLocalRing`,
+  `IsLocalRing.ResidueField`, `IsTopologicallyNilpotent`, `Valuation`.
+- `CategoryTheory.Tor` (`Mathlib/CategoryTheory/Monoidal/Tor.lean`): `Tor_n` as a bifunctor on a
+  monoidal preadditive category with projective resolutions, here `ModuleCat (R/pⁿ)`.
+
+### From Tau Ceti
+
+At the Tau Ceti revision pinned by the repository's `lake-manifest.json`.
+
+- `TauCeti.Perfectoid.IsIntegralPerfectoid p A` (`TauCeti/RingTheory/Perfectoid/Integral.lean`):
+  some `π` with `π^p | p` makes `A` `π`-adically complete and separated, Frobenius on `A/p` is
+  surjective, and the kernel of `WittVector.fontaineTheta` is principal for every proof that `p` is
+  a nonunit and `A` is `p`-adically complete. Its API: the instance `isAdicComplete_span_natCast`
+  (an integral perfectoid ring is `p`-adically complete and separated), `not_isUnit_natCast` (`p`
+  is a nonunit in a nonzero one), `isPrincipal_ker_fontaineTheta`, `exists_natCast_dvd_sub_pow`
+  (every element is a `p`-th power modulo `p`), `frobeniusModPow_surjective` (Frobenius
+  `A/π → A/π^p` is surjective for every `π` with `π^p | p`, the surjectivity half of BMS1
+  Lemma 3.10 (i)), `of_perfectRing` (a perfect ring of characteristic `p`, with `π = 0`) and
+  `of_subsingleton` (the zero ring), all in the namespace `TauCeti.Perfectoid.IsIntegralPerfectoid`.
+  The predicate does not depend on a choice of `π` and allows `p`-torsion and zero divisors.
+- `TauCeti.Henselization.algebra I` (`TauCeti/RingTheory/Henselization/Algebra.lean`), the
+  henselization of a pair `(R, I)`, with extended ideal `TauCeti.Henselization.extended I`, the
+  instance `TauCeti.Henselization.henselian` (the pair is henselian), the instance
+  `TauCeti.Henselization.indEtale` (it is ind-étale over `R`, `IndEtale.lean`), flatness through
+  `TauCeti.Algebra.IndEtale.flat` (`TauCeti/RingTheory/Etale/IndEtale.lean`),
+  `TauCeti.Henselization.quotientPowEquiv` (`R/Iⁿ ≅ R^h/(I^h)ⁿ` for every `n`, `Quotient.lean`) and
+  `TauCeti.Henselization.faithfullyFlat_of_le_jacobson` (faithful flatness of `R → R^h` when `I`
+  lies in the Jacobson radical of `R`).
+- `RingHom.henselianRing_of_surjective` (`TauCeti/RingTheory/Henselian/Quotient.lean`: a
+  surjection `R → S` carries a henselian pair `(R, I)` to the henselian pair `(S, IS)`) and
+  `Ideal.henselianRing_radical_iff` (`TauCeti/RingTheory/Henselian/Ideal.lean`: `(R, √I)` is
+  henselian iff `(R, I)` is).
+
+- `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension n R S`
+  (`TauCeti/RingTheory/Syntomic/StandardSyntomic.lean`): `S` is flat over `R` and has a finite
+  presentation with `n + c` generators and `c` relations whose nontrivial fibres have Krull
+  dimension `n`, that is, `S` is a flat relative global complete intersection. Supplied there:
+  invariance under isomorphism (`of_algEquiv`), base change (`baseChange`) and polynomial rings in
+  finitely many variables (`mvPolynomial`, `mvPolynomial_fin`); composition, with addition of
+  relative dimensions (`trans`, `TauCeti/RingTheory/Syntomic/Composition.lean`); and localization
+  away from one element, of relative dimension `0`, also composed on either side with a standard
+  syntomic algebra (`localization_away`, `trans_localization_away`, `localization_away_trans`,
+  `TauCeti/RingTheory/Syntomic/Localization.lean`), all in the namespace
+  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`. Flatness is part of the definition: for
+  one equation, that a fibrewise nonzero hypersurface is automatically flat (Stacks
+  Lemma 10.136.13, the case of one relation) is Q7.6 here.
+- `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension n`
+  (`TauCeti/AlgebraicGeometry/Morphisms/Syntomic/Basic.lean`): a morphism of schemes that is
+  standard syntomic of relative dimension `n` on affine charts around every source point, with
+  flatness, local finite presentation, base change
+  (`syntomicOfRelativeDimension_isStableUnderBaseChange`), composition adding relative dimensions
+  (`syntomicOfRelativeDimension_comp`) and the affine criterion
+  `syntomicOfRelativeDimension_SpecMap_iff`: `Spec S → Spec R` is syntomic of relative dimension `n`
+  iff `R → S` is `RingHom.Locally (TauCeti.IsStandardSyntomicOfRelativeDimension n)`, the ring-map
+  form of `TauCeti/RingTheory/RingHom/StandardSyntomic.lean`. `IsSyntomic` (Q7.2) differs in letting
+  `n` depend on the chart: `ℤ → ℤ × ℤ[x]` is syntomic, with charts `ℤ` and `ℤ[x]` of relative
+  dimensions `0` and `1`, and is syntomic of no single relative dimension, as its fibres have
+  components of dimensions `0` and `1`.
+- `Valuation.IsContinuous` (`TauCeti/RingTheory/Valuation/Continuous/Basic.lean`): every set
+  `{a : v(a) < v(b)}` is open. `Valuation.IsContinuous.lt_one_of_isTopologicallyNilpotent` and
+  `Valuation.IsContinuous.cofinalValue_of_isTopologicallyNilpotent`
+  (`TauCeti/RingTheory/Valuation/Continuous/TopologicallyNilpotent.lean`) are the easy directions of
+  Q8.1 and Q8.4.
+- `TauCeti.Huber.IsTateRing`, `TauCeti.Huber.PairOfDefinition`
+  (`TauCeti/RingTheory/Huber/Basic.lean`): Tate rings and pairs of definition `(A₀, I)` with `A₀`
+  open and `I` finitely generated defining the subspace topology.
+- `TauCeti.ValuationSpectrum.cont_eq_spvOfIdeal_inter_setOfPred_forall_vlt_one`
+  (`TauCeti/AlgebraicGeometry/AdicSpace/Cont/OfIdeal.lean`, Wedhorn Theorem 7.10) and
+  `TauCeti.Huber.isIntegral_of_forall_continuous_valuation_le_one` (Wedhorn Proposition 7.18 (1)).
+- `Ideal.affineBlowup`, `Ideal.mem_affineBlowup_iff`, `Ideal.isRegular_algebraMap_affineBlowup`,
+  `Ideal.affineBlowupLift` (`TauCeti/RingTheory/Ideal/AffineBlowup.lean`): the subalgebra
+  `A[I/a] ⊆ A[1/a]`, its elements `y/a^k` with `y ∈ I^k`, regularity of `a` on it and its universal
+  property. The presentation by a regular sequence is Q7.5 here.
+- `TauCeti.IsRegularLocalRing.flat_frobenius` and `TauCeti.IsRegularRing.flat_frobenius`
+  (`TauCeti/RingTheory/RegularLocalRing/Frobenius.lean`): Kunz's theorem that the absolute Frobenius
+  `frobenius R p` of a regular local, respectively regular, ring of exponential characteristic `p`
+  is flat. Used in Q10.2.
+
+### From TauCetiRoadmap.PerfectoidQuotients
+
+- §0.2: `untilt_natural` and `theta_natural` (naturality of `♯` and `θ`);
+  `theta_generator_iff_unit_coeff_one` (an element of `ker θ` generates it iff its first Witt
+  coordinate is a unit), `theta_generator_nonzerodivisor`, `theta_generator_normal_form` (a
+  generator `p + [π♭]^p x` with `x` a unit), `theta_map_preserves_generator` (a map of integral
+  perfectoid rings carries generators to generators), and `frobenius_surjectivity_equivalences`.
+- §0.3: `perfectoid_p_torsion_killed_by_p` (`A[p^∞] = A[p]` for integral perfectoid `A`).
+- §0.4: `compatible_root_annihilator` and `compatible_root_power_torsion` (in a reduced ring,
+  `A[a^{1/p^n}] = A[a] = A[a^∞]` for an element with a compatible root tower), reducedness of
+  integral perfectoid rings (imported there from PerfectoidSpaces P4.15.5), and
+  `perfectoid_torsion_free_quotient` (the quotient `A/A[ϖ^∞]` is integral perfectoid, with tilt
+  `A♭/A♭[(ϖ♭)^∞]`, and the fibre-product decomposition along `(A/ϖ)_red`).
+- §0.5: `pIntegralClosure` (the `p`-integral closure inside a fixed ambient ring) with minimality and
+  containment in the integral closure; `perfectoid_p_integral_closedness` (for a nonzerodivisor
+  `ϖ` with `ϖ^p | p`, injectivity of `A/ϖ → A/ϖ^p`, `x ↦ x^p`, is equivalent to `p`-integral
+  closedness in `A[1/ϖ]`); `completion_pIntegralClosure_perfectoid` (Česnavičius–Scholze
+  Proposition 2.1.8); `completion_integrally_closed_perfectoid` (Česnavičius Lemma 4.7).
+- §0.6: `perfectoid_completed_root_polynomial`, `perfectoid_completed_tensor`,
+  `perfectoid_completed_root_quotient` (Česnavičius–Scholze Proposition 2.1.11 (a)–(c)),
+  `integralPerfectoid_pi_iff` (products, (d)), `perfectoid_sharp_ideal_completion` ((e): the
+  completion along the ideal generated by the sharps of finitely many elements of the tilt is
+  integral perfectoid, with tilt the corresponding completion of the tilt) and
+  `perfectoid_completely_etale_henselization` (the `p`-adic completions of étale, ind-étale and
+  henselian extensions are integral perfectoid; Q6.8 obtains from it, with (e), the `ϖ`-adic
+  completion of Česnavičius–Scholze Corollary 2.1.6).
+- §1.2 and §1.4: the modulo-`p` ind-syntomic refinement `andre_ind_syntomic_mod_p` and Bhatt's almost
+  faithfully flat root extension `bhatt_root_extension_almost_faithfully_flat`, against which Q9.4
+  compares.
+
+### From TauCetiRoadmap.PerfectoidSpaces
+
+- P1.24, beyond the predicate itself, which is consumed from Tau Ceti
+  (`TauCeti.Perfectoid.IsIntegralPerfectoid`): bijectivity of Frobenius `A/π → A/π^p` for `π^p | p`
+  and `A` `π`-adically complete without a nonzerodivisor hypothesis (BMS1 Lemma 3.10 (i), whose
+  surjectivity half is Tau Ceti's `frobeniusModPow_surjective`), compatible `p`-power roots of unit multiples of `π` and `p` (BMS1
+  Lemma 3.9), and the converse criterion for a nonzerodivisor `π`. Supplier checks: `ℤ_p` is not
+  integral perfectoid (no admissible `π`); the `p`-adic completion of `ℤ_p[p^{1/p^∞}]` is, with
+  `π = p^{1/p}`; a perfect `𝔽_p`-algebra is, with `π = 0`.
+- P1.25: `isPerfectoidTateRing_iff_integral` (a complete Tate ring is perfectoid iff its ring of
+  integral elements is bounded and integral perfectoid); used for rank-one valuation rings in Q6.6.
+- P3.7: `isAlgClosed_tilt` and `isAlgClosed_of_tilt` (a perfectoid field is algebraically closed iff
+  its tilt is; Scholze Theorem 3.7 (ii) and Proposition 3.8).
+- P4.15.2: δ-rings, distinguished elements, prisms, perfection of a prism by Frobenius colimit and
+  completion, the equivalence between perfect prisms and integral perfectoid rings, and
+  initiality of `(A_inf(A), ker θ)`.
+- P4.15.4: André's `p`-completely faithfully flat integral perfectoid cover on which every monic
+  polynomial of positive degree has a root (Bhatt–Scholze Theorem 7.14).
+- P4.15.5: `semiperfectoidPerfectoidization_surjective` (for a derived `p`-complete quotient `S` of
+  an integral perfectoid ring `A`, the map `A → S_perfd` is surjective; Bhatt–Scholze Theorem 7.4,
+  p. 56), used in Q10.5.
+- P7.16a: `exists_residueTower` and the Cohen presentations `cohen_unramified`, `cohen_ramified`,
+  `cohen_equalCharacteristic` of a complete regular local ring.
+- P7.17: `RegularTower.exists_perfectoidTower`: for a complete regular local ring of mixed
+  characteristic with perfect residue field `k`, the tower `R_m` (`W(k)[p^{1/p^m}]⟦x^{1/p^m}⟧` if
+  `p ∉ 𝔪²`, `W(k)⟦x^{1/p^m}⟧/(p − g)` with `g ∈ (p, x)²` otherwise) of finite flat regular local
+  `R`-algebras of `p`-power rank whose colimit has integral perfectoid `p`-adic completion.
+- P0.1–P0.2 and P0.11: the basic setup, the root setup of compatible `p`-power roots and almost
+  flatness, used to phrase the almost conclusions of Q10.5.
+
+### From TauCetiRoadmap.PrismaticCohomology
+
+- §0.61 (δ-functoriality: a map of δ-rings carries distinguished elements to distinguished
+  elements, the first assertion of that section), §0.62 (factors
+  of distinguished elements) and §0.63 (for `d, p` in the Jacobson radical, `d` is distinguished
+  iff `p ∈ (d, φ(d))`).
+- §0.79: rigidity of maps of prisms and its converse (a derived `(p, I)`-complete δ-`A`-algebra `B`
+  gives a prism `(B, IB)` iff `B` is `I`-torsion-free).
+- §0.83–§0.84: perfection of a prism and perfect prisms versus perfectoid rings, imported there from
+  PerfectoidSpaces P4.15.2 and cited here through that owner.
+- §2.30: the perfect-site description of perfectoidization, `S_perfd = lim_{S → T} T` over maps
+  to perfectoid rings, giving the universal property of `S → S_perfd` among maps to integral
+  perfectoid rings.
+- §2.31: integral perfectoidization (for `S` the `p`-completion of an integral algebra over a
+  perfectoid ring, `S_perfd` is a discrete perfectoid ring) and almost purity along an arbitrary
+  finitely generated ideal `J` (for a finitely presented finite algebra finite étale away from
+  `V(J)`, `R/pⁿ → S_perfd/pⁿ` is almost finite projective for `J_perfd = ker(R → (R/J)_perfd)`).
+
+### From TauCetiRoadmap.DerivedDeRhamCohomology
+
+- §1.10: `DerivedDeRham.ordinaryFlatnessFromCompleteFlatness` and
+  `DerivedDeRham.ordinaryFaithfulFlatnessFromCompleteFaithfulFlatness`: for `A` noetherian and
+  `A`, `B` both `π`-torsion-free and `π`-adically complete, (faithful) flatness of `A/π → B/π`
+  gives (faithful) flatness of `A → B` (Bhatt, Proposition 5.1).
+
+### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
+
+- §1.10: Cohen rings (characteristic-zero complete discrete valuation rings with maximal ideal
+  `(p)` and a labelled residue field), the formal smoothness of `ℤ/pⁿ → C/pⁿ` for every `n ≥ 1`,
+  and compatible coefficient lifting: for a Cohen ring `C` and a complete local ring `R` with
+  residue field of characteristic `p`, every unital ring map `C/p → R/𝔪_R` lifts to a ring map
+  `C → R`, by lifting along the square-zero surjections `R/𝔪_R^{n+1} → R/𝔪_R^n` (Stacks
+  Lemmas 10.160.6–10.160.7). Taking `R = C` and the map `x ↦ x^p` of the residue field gives a
+  *Frobenius lift* of `C`: a ring endomorphism `φ_C` with `φ_C(c) ≡ c^p mod p` for every `c ∈ C`.
+  No perfectness of the residue field is assumed. Supplier checks: for `C = ℤ_p` the only
+  Frobenius lift is the identity; for `C = W(k)` with `k` perfect it is the Witt vector Frobenius.
+
+### From TauCetiRoadmap.StableReduction
+
+- Layer 1: syntomic morphisms (flat, locally finitely presented, with local complete intersection
+  fibres). On affines a ring map is syntomic iff it is Zariski locally on the source standard
+  syntomic (Stacks Lemmas 10.136.4 and 10.136.15); `Suggested.lean` uses this description as
+  `IsSyntomic`.
 
 ## References
 

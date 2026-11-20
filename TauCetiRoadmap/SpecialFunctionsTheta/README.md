@@ -1,28 +1,12 @@
 # Roadmap: Theta functions
 
-**Summary.** This roadmap builds the classical theory of theta functions as a library: Jacobi's
-four functions `θ₁, …, θ₄` of one complex variable, their relations, transformations, products
-and expansions, the modular function `λ` and the complete elliptic integral `K`, and the Riemann
-theta function of `g` variables with characteristics. Its organization follows the structure of
-the subject rather than any one text. Riemann's theta formula comes first and yields the algebraic
-identities, as in Mumford's *Tata Lectures*. The inversion `τ ↦ −1/τ` and its consequences
-(Gauss sums, the Mellin transform and `ζ`, the Laplace transforms) form one layer, and the
-product formula, the expansions and `λ` follow. The content is drawn from
-Whittaker–Watson (Ch. XXI), Mumford (*Tata Lectures on Theta I*, Chs. I–II), Igusa (*Theta
-Functions*), Chandrasekharan (*Elliptic Functions*, Chs. V, VII–IX), Lawden (*Elliptic Functions
-and Applications*, Chs. 1–2), Armitage–Eberlein (*Elliptic Functions*, Chs. 4–6),
-Stein–Shakarchi (*Complex Analysis*, Ch. 10), Freitag (*Complex Analysis 2*, Chs. VI–VII),
-Andrews–Berndt (*Ramanujan's Lost Notebook I*) and the NIST *Digital Library of Mathematical
-Functions* (DLMF), and each headline cites its sources; see [References](#references).
-
-Mathlib has the two-variable theta function
-[`jacobiTheta₂`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.html),
-`jacobiTheta₂ z τ = ∑_{n∈ℤ} e^{2πinz + πin²τ}`, with its periodicity, its derivative in `z` and
-its transformation under `τ ↦ −1/τ`, and Dedekind's `η` as
-[`ModularForm.eta`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/ModularForms/DedekindEta.html).
-It has none of the four functions `θ₁, …, θ₄`, their products, zeros and identities, the modular
-function `λ`, their relations to the elliptic integrals, or the theta functions of several
-variables. This roadmap defines
+**Summary.** Jacobi's theta functions are Fourier series in a complex variable `z` whose
+coefficients are built from powers of the nome `q = e^{iπτ}`, with `τ` in the upper
+half-plane. Each is periodic up to sign under `z ↦ z + π`, and is multiplied by
+`±q^{−1}e^{−2iz}` under `z ↦ z + πτ`. This roadmap builds their classical theory in seven layers.
+Its objects are Jacobi's four functions `θ₁, …, θ₄`, the modular function `λ` with its link to
+elliptic integrals, and the Riemann theta function of `g` variables with characteristics. It
+defines
 
 ```text
 θ₁(z|τ) = 2 ∑_{n≥0} (−1)ⁿ q^{(n+½)²} sin((2n + 1)z)
@@ -31,115 +15,75 @@ variables. This roadmap defines
 θ₄(z|τ) = 1 + 2 ∑_{n≥1} (−1)ⁿ q^{n²} cos(2nz)
 ```
 
-for complex `z` and `Im τ > 0`, with the nome `q = e^{iπτ}` and `q^α = e^{iαπτ}`, through
-Mathlib's `jacobiTheta₂`; this is the normalization of Whittaker–Watson §21.11, p. 464, Lawden
-§1.2, pp. 3–5, and DLMF 20.2.1–20.2.4. Mumford, Stein–Shakarchi and Koecher–Krieg write
-`ϑ(z, τ) = θ₃(πz|τ)`, and Chandrasekharan numbers the functions differently; Conventions gives the
-translations.
+for complex `z` and `Im τ > 0`, with `q^α = e^{iαπτ}`, through Mathlib's `jacobiTheta₂`; this is
+the normalization of Whittaker–Watson and of the NIST *Digital Library of Mathematical Functions*
+(DLMF). Mumford's `ϑ₀₀(z, τ)` and Stein–Shakarchi's `Θ(z|τ)` are `θ₃(πz|τ)`, and
+Chandrasekharan numbers the functions differently; Conventions gives the translations.
 
-The roadmap covers:
-- the four functions, their Fourier series, holomorphy, parity, conjugation, quasi-periodicity,
-  the half-period translations, `τ ↦ τ + 1`, the heat equation, and the spaces of theta functions
-  of order `N` with characteristics (Layer 1);
-- Riemann's theta formula in Jacobi's four-variable form, and the identities it implies: the
-  quadratic relations, Jacobi's quartic identity, the addition and duplication formulas, and
-  Watson's identities between `τ` and `2τ` (Layer 2);
-- the inversion `τ ↦ −1/τ`, Landsberg–Schaar reciprocity of Gauss sums, the Mellin transforms
-  and `ζ`, and the Laplace transforms (Layer 3);
-- Jacobi's triple product in theta form, the infinite products, the zeros, the theta constants,
-  Jacobi's derivative formula, `θ₁′(0|τ) = 2η(τ)³`, Landen's transformations, and Ramanujan's
-  `f(a, b)` (Layer 4);
-- the logarithmic derivatives, the double products, the power series in `z`, the derivatives at
-  `0` and Watson's expansion (Layer 5);
-- the modulus `k`, the modular function `λ = k²`, Jacobi's inversion, the mapping theorem for `λ`
-  on the fundamental region of `Γ(2)`, `K = (π/2)θ₃²` with its hypergeometric and Carlson forms,
-  the nome `q = e^{−πK′/K}`, and Carlson's combined theta functions (Layer 6);
-- the Riemann theta function on `ℂ^g × 𝔥_g`, its quasi-periodicity, the half-integer
-  characteristics and their parity, the spaces of order `N` and their dimension `N^g`,
-  Riemann's theta formula in genus `g`, and the modular transformation under the theta group
-  (Layer 7).
+The second layer starts from Riemann's theta formula in Jacobi's form. For all complex
+`w, x, y, z` and `τ`, `2θ₃(w)θ₃(x)θ₃(y)θ₃(z) = ∑_{j=1}^{4} θⱼ(w′)θⱼ(x′)θⱼ(y′)θⱼ(z′)`, where
+`(w′, x′, y′, z′)` is the image of `(w, x, y, z)` under the orthogonal matrix
+`½[[1,1,1,1],[1,1,−1,−1],[1,−1,1,−1],[1,−1,−1,1]]`. At `w = x = y = z = 0`, where `θ₁` vanishes,
+it reads `2θ₃(0)⁴ = θ₂(0)⁴ + θ₃(0)⁴ + θ₄(0)⁴`, which is Jacobi's quartic identity.
 
-The roadmap rests on Mathlib, Tau Ceti and three roadmaps: it consumes the principal branch of
-the Gauss function `F` of
-[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) for the complex-`τ`
-form of `K` in 6.4, Jacobi's triple product of
-[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) 4.40 in 4.1, and
-Poisson summation for a lattice of [ThetaSeries](../ThetaSeries/README.md) Layer 1 in 7.6.
+In the fourth, Jacobi's triple product writes each `θⱼ` as an elementary factor times an infinite
+product. For `Im τ > 0` it follows that `θ₁(z|τ)` vanishes exactly at the points `(m + nτ)π` with
+integers `m` and `n`, and all zeros of the `θⱼ` are simple. The products also give Jacobi's
+derivative formula `θ₁′(0|τ) = θ₂(0|τ)θ₃(0|τ)θ₄(0|τ)`, and `θ₁′(0|τ) = 2η(τ)³` with Dedekind's
+`η`.
+
+The sixth layer studies the modular function `λ = k²`, where `k = θ₂²(0|τ)/θ₃²(0|τ)` is the
+modulus. It is holomorphic on the upper half-plane, never takes the values `0` or `1` there, and
+satisfies `λ(−1/τ) = 1 − λ(τ)`. It maps the fundamental region
+`F = {τ | 0 < Im τ, |Re τ| < 1, |τ − ½| > ½, |τ + ½| > ½}` of `Γ(2)` bijectively onto
+`ℂ ∖ ((−∞, 0] ∪ [1, ∞))`. On the imaginary axis `τ = it`, `t > 0`, the modulus is real, lies in
+`(0, 1)` and takes each value there exactly once. There Legendre's complete elliptic integral
+satisfies `K(k) = (π/2)θ₃²(0|it)` and `K(k′) = tK(k)`, with `k′ = θ₄²(0|it)/θ₃²(0|it)`.
+
+The seventh passes to `g` variables. The series `θ(z|Ω) = ∑_{n∈ℤ^g} exp(πi n·Ωn + 2πi n·z)`
+converges absolutely for `z ∈ ℂ^g` and `Ω` in the Siegel upper half-space `𝔥_g` of complex
+symmetric `g × g` matrices with positive definite imaginary part. In genus one it is `θ₃(πz|τ)`.
+Let `M = [[A, B], [C, D]]` be an integral symplectic matrix such that the diagonals of `ᵗA C` and
+`ᵗB D` are even. Then
+`θ((CΩ + D)^{−ᵗ} z | (AΩ + B)(CΩ + D)^{−1}) = ζ_M det(CΩ + D)^{1/2} exp(πi z·(CΩ + D)^{−1}C z) θ(z|Ω)`
+for an eighth root of unity `ζ_M` and a continuous branch of the square root on `𝔥_g`.
+
+Mathlib has Dedekind's `η` and the two-variable function `jacobiTheta₂`, which is `θ₃` up to
+scaling, with its transformation under `τ ↦ −1/τ`. It has none of the four functions, nothing on
+`λ`, and nothing in several variables. The roadmap builds on three others.
+[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) proves Jacobi's triple
+product. [ThetaSeries](../ThetaSeries/README.md) proves Poisson summation for a lattice, which the
+genus-`g` theory uses. [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+defines the principal branch of Gauss's hypergeometric function, needed for the hypergeometric
+form of `K` at complex `τ`. Conversely, a roadmap for the Jacobi elliptic functions of a complex
+variable takes `sn`, `cn`, `dn` to be theta quotients built here.
+
+Of the remaining layers, the first develops the four functions from their series. The third treats
+the inversion `τ ↦ −1/τ` and its applications, among them the Landsberg–Schaar reciprocity of
+Gauss sums and the Mellin transforms that give `ζ`; the fifth derives expansions from the
+products.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/JacobiTheta/`, beside the elliptic integrals
 in `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **The four theta functions and their characteristics** (1.1–1.5).
-2. **Riemann's theta formula and the identities it implies** (2.1–2.4).
-3. **The inversion `τ ↦ −1/τ` and its applications** (3.1–3.4).
-4. **The product formula, zeros, theta constants and Landen's transformations** (4.1–4.5).
-5. **Logarithmic derivatives, double products and expansions** (5.1–5.5).
-6. **The modular function `λ` and the elliptic integrals** (6.1–6.6).
-7. **The Riemann theta function in genus `g`** (7.1–7.6).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose. One headline is not statable at the pins: the
-hypergeometric form `F(½, ½; 1; λ(τ)) = θ₃²(0|τ)` of 6.4, which needs the principal Gauss
-function of SpecialFunctionsHypergeometric; the pinned Tau Ceti does not have it.
-
-**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
-- quasi-periodicity of `θ₃` under `z ↦ z + π`, `z ↦ z + πτ` and `τ ↦ τ + 2`: Mathlib's
-  `jacobiTheta₂_add_left`, `jacobiTheta₂_add_left'` and `jacobiTheta₂_add_right`;
-- the inversion of `θ₃`: Mathlib's `jacobiTheta₂_functional_equation`, after the change of
-  variables `z ↦ z/π` of Conventions;
-- Euler's identity `∏_{n≥1}(1 + qⁿ) ∏_{n≥0}(1 − q^{2n+1}) = 1`: Tau Ceti's
-  `TauCeti.tprod_one_add_pow_mul_tprod_one_sub_pow_odd`, consumed in 4.3;
-- the derivative of `θ₃` in `z`: Mathlib's `hasDerivAt_jacobiTheta₂_fst` and `jacobiTheta₂'`;
-- Weierstrass's `M`-test for products and series: Mathlib's
-  `Summable.hasProdLocallyUniformlyOn_one_add` and `tendstoUniformlyOn_tsum`, whose instances for
-  the products and series of Layers 4–5 are targets (4.2, 5.1).
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-provides:
-- the spaces of theta functions of order `N` with characteristic (1.5 and 7.4);
-- on the imaginary axis, `λ(it)` is real, in `(0, 1)`, continuous in `t > 0`, with `λ(it) → 0` as
-  `t → ∞` and `λ(it) → 1` as `t → 0+` (6.1);
-- `λ` maps the fundamental region of `Γ(2)` bijectively onto `ℂ ∖ ((−∞, 0] ∪ [1, ∞))` (6.2).
-
-**What it does not own:**
-- The principal branch of `F` (SpecialFunctionsHypergeometric).
-- Jacobi's triple product, formal and analytic: ClassicalArithmeticCompletion 4.40, whose
-  analytic specialization is `(w; q)_∞ (q/w; q)_∞ (q; q)_∞ = ∑_{k∈ℤ} (−1)^k q^{k(k−1)/2} w^k` for
-  `0 < |q| < 1`, `w ≠ 0`. 4.1 reads it in theta form.
-- The real complete elliptic integrals, the AGM and Carlson's integrals: Tau Ceti
-  (`TauCeti.Real.legendreK`, `Complex.carlsonRF`); the real-variable theory of
-  [EllipticIntegrals](../EllipticIntegrals/README.md).
-- The transformation of `η` under `SL₂(ℤ)` ([ModularForms](../ModularForms/README.md)); this
-  roadmap uses `η` only through its product, which Mathlib defines.
-- Theta series of lattices of higher rank and their modularity
-  ([ThetaSeries](../ThetaSeries/README.md)). The rank-one Landsberg–Schaar identity, which
-  ThetaSeries does not target, is 3.2 here.
-- The Jacobi elliptic functions of a complex variable and the Weierstrass functions `℘`, `ζ`, `σ`;
-  see the last section.
-
-**Neighbouring statements.** QSeriesPartitionsAndMockModularForms §5.1 states the zeros of `θ₁`,
-`θ₁′(0) = 2η³` and the laws under `τ ↦ τ + 1`, `τ ↦ −1/τ` for `ϑ(z; τ) = −θ₁(πz|τ)`, which are
-1.3, 3.1, 4.2 and 4.3 here; ThetaInvariantsOfEuclideanLattices 1.7–1.8 states
-`K(k) = (π/2)θ₃²(0|it)` and the value of `θ₃(0|i)`, which are 6.3 here. SiegelModularForms 0.3
-builds the subtype `ℍ[g]` over `Fin g` with its manifold structure, and
-MetaplecticAutomorphicForms 8.10 the degree-two subtype; `siegelUpperHalfSpace ι` is the
-underlying set of matrices, kept as a `Set` over a finite type `ι` because Layer 7 needs no
-manifold structure. SiegelModularForms 5.4 states the count of even characteristics, the vanishing
-of the odd theta constants and the law of `{θ_ε²}` for `θ_ε(τ) = θ[ε′/2, ε″/2](0|τ)`; these are
-7.3 and 7.6 at `z = 0`. This roadmap consumes none of the four.
-
-**The boundary in one sentence:** this roadmap owns `θ₁, …, θ₄`, the theta functions of order `N`
-with characteristics, the modulus `k`, the modular function `λ`, Carlson's combined theta
-functions, the Riemann theta function of genus `g` with half-integer characteristics, and the
-results stated through them, `η`, `K`, `R_F`, `F`, `ζ`, `Γ` and elementary functions, as listed in
-the layers; it consumes `F` from SpecialFunctionsHypergeometric and the triple product from
-ClassicalArithmeticCompletion.
+Layer 1 transports Mathlib's `jacobiTheta₂` to the four functions and proves everything that
+follows from the series alone: parity, quasi-periodicity, `τ ↦ τ + 1`, the heat equation, and
+the finite-dimensional spaces of theta functions of order `N`. Layer 2 starts from Riemann's
+theta formula, proved by an orthogonal change of the summation variables, and reads off the
+quadratic relations, the quartic identity and the addition formulas by specialization, as Mumford
+does in Ch. I §5; Watson's identities at `2τ` are the same reindexing in two variables. Layer 3
+collects the consequences of Poisson summation: the inversion `τ ↦ −1/τ`, the reciprocity of
+Gauss sums obtained by approaching a rational point, the Mellin transforms, which give `ζ`, and
+the Laplace transforms. Layer 4 is the product formula: the triple product turns each `θⱼ` into a
+product, which locates the zeros and gives the theta constants, Jacobi's derivative formula and
+Landen's transformations. Layer 5 differentiates the products logarithmically. Layer 6 turns the
+identities into the theory of `λ` and, through Gauss's AGM, into `K = (π/2)θ₃²`. Layer 7 is the
+theory in `g` variables, where the genus-one case is `θ₃`; it uses Layer 1 as its model, 3.1
+for the genus-one case of the modular transformation, and Poisson summation for a lattice from
+ThetaSeries. The `**Checks.**` and `### Examples` of each layer are statements to prove; they
+test the conventions on explicit values.
 
 ## Conventions
 
@@ -199,96 +143,6 @@ jacobiThetaOne z τ   = −i M(z|τ) · jacobiTheta₂ (z/π + 1/2 + τ/2) τ
   cutoffs are part of the statement, because the symmetric cutoff changes the limit (5.2).
 - **Integrals.** The integrals of Layer 3 are Lebesgue integrals over `Set.Ioi 0`, with
   integrability part of the conclusion; the Mellin transforms are Mathlib's `mellin`.
-
-## Exact supplier contracts
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
-  the principal branch of `F(a, b; c; z)` on `1 − z ∈ slitPlane`.
-- 1.3: agreement with Mathlib's `ordinaryHypergeometric` on `‖z‖ < 1`; 1.4: holomorphy in `z`
-  on the cut plane and the identity principle there. For 6.4.
-
-### From [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
-
-- 4.40: Jacobi's triple product, in its analytic specialization
-  `(w; q)_∞ (q/w; q)_∞ (q; q)_∞ = ∑_{k∈ℤ} (−1)^k q^{k(k−1)/2} w^k` for complex `q`, `w` with
-  `0 < |q| < 1`, `w ≠ 0`, both sides converging absolutely. For 4.1.
-
-### From [ThetaSeries](../ThetaSeries/README.md)
-
-- Layer 1, 1A–1B: Poisson summation `∑_{ℓ∈L} f(v + ℓ) = covol(L)⁻¹ ∑_{m∈L^∨} 𝓕f(m) e(⟨v, m⟩)`
-  for a full-rank lattice `L`, a Schwartz function `f` and `v ∈ E`, both sums summable, with the
-  standard lattice `ℤ^n` as 1B; 1C, the Fourier transform under a linear change of variables; 1F,
-  the Gaussian `x ↦ exp(πiτ‖x‖²)` is Schwartz with its Fourier transform. For 7.6, at the
-  Gaussian `x ↦ exp(πi x·Ωx + 2πi x·z)` with `Ω = iY`, reduced to 1F by `x ↦ Y^{1/2}x`.
-
-### From Tau Ceti
-
-- **Products.** `TauCeti.qTheta`, `TauCeti.multipliable_one_sub_pow_mul`,
-  `TauCeti.tprod_one_sub_pow_mul_ne_zero`, `TauCeti.tprod_one_sub_pow_ne_zero`,
-  `TauCeti.tprod_one_add_pow_mul_tprod_one_sub_pow_odd` and
-  `TauCeti.hasProdLocallyUniformlyOn_one_sub_pow_mul`
-  (`TauCeti/Analysis/SpecialFunctions/QPochhammer.lean`), for Layer 4.
-- **Elliptic integrals.** `TauCeti.Real.legendreK`, `TauCeti.Real.legendreK_pos`,
-  `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm` (`K(k) = π/(2M(1, k′))`),
-  `TauCeti.Real.legendreK_eq_ordinaryHypergeometric` and
-  `TauCeti.Real.ofReal_legendreK_eq_carlsonRF` (`K(k) = R_F(0, 1 − k², 1)`)
-  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for 6.3–6.5; and
-  `TauCeti.Real.legendreK_one_div_sqrt_two` (`K(2^{−1/2}) = Γ(¼)²/(4√π)`, `Lemniscate.lean`), for
-  the exact values at `τ = i` in 6.3.
-- **One-variable theta.** `TauCeti.tendsto_jacobiTheta_comap_im_atTop` (`θ(τ) → 1` as
-  `Im τ → ∞`, `TauCeti/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`), for 6.3.
-- **Carlson's integral.** `Complex.carlsonRF`, its symmetry lemmas and `Complex.carlsonRF_self`
-  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Carlson/Basic.lean`), for 6.4–6.5.
-- **Gauss sums.** `TauCeti.sum_range_cexp_two_pi_I_sq_div`, Gauss's evaluation of
-  `∑_{r<N} e^{2πir²/N}` (`TauCeti/NumberTheory/ModularForms/JacobiTheta/GaussSum.lean`), and the
-  method of its proof (the transformation of `jacobiTheta₂` at a rational point approached
-  vertically), for 3.2.
-- **Argument principle.** `TauCeti.argumentPrinciple_windingNumber_of_analyticOnNhd`
-  (`TauCeti/Analysis/Complex/Conformal/ArgumentPrinciple.lean`), for 6.2.
-
-### From Mathlib
-
-- **The two-variable theta function.** `jacobiTheta₂`, `jacobiTheta₂_term`,
-  `hasSum_jacobiTheta₂_term`, `jacobiTheta₂_undef`, `jacobiTheta₂_add_left`,
-  `jacobiTheta₂_add_left'`, `jacobiTheta₂_add_right`, `jacobiTheta₂_neg_left`,
-  `jacobiTheta₂_conj`, `jacobiTheta₂_functional_equation`, `jacobiTheta₂'`,
-  `hasDerivAt_jacobiTheta₂_fst`, `hasFDerivAt_jacobiTheta₂`, `jacobiTheta₂_fderiv`,
-  `differentiableAt_jacobiTheta₂_snd`, and the one-variable `jacobiTheta`.
-- **Derivative in `τ`.** 1.4 derives the derivative of `jacobiTheta₂` in `τ` from
-  `hasFDerivAt_jacobiTheta₂` and `jacobiTheta₂_fderiv`.
-- **Dedekind's `η`.** `ModularForm.eta` (`η(τ) = e^{iπτ/12} ∏_{n≥1}(1 − e^{2πinτ})`) and
-  `ModularForm.eta_ne_zero`, for 4.3 and 4.4.
-- **Zeta and Gamma.** `riemannZeta`, `Complex.Gamma`, `mellin`, and the Mellin-transform
-  construction of `completedRiemannZeta`, for 3.3.
-- **AGM.** `NNReal.agm` and `NNReal.agm_mul_distrib`, for 6.3.
-- **Uniform convergence.** `Summable.hasProdLocallyUniformlyOn_one_add` and
-  `tendstoUniformlyOn_tsum`, for 4.2 and 5.1.
-- **Matrices.** `Matrix.PosDef`, `Matrix.mulVec`, `dotProduct`, for Layer 7.
-- **Complex analysis.** `Differentiable.apply_eq_apply_of_bounded` (Liouville),
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `HasProd`, `Multipliable`,
-  `HasProdLocallyUniformlyOn`, `TendstoLocallyUniformlyOn`, `logDeriv`, `Complex.slitPlane`,
-  `Complex.cpow`.
-
-## How to read the build
-
-Layer 1 transports Mathlib's `jacobiTheta₂` to the four functions and proves everything that
-follows from the series alone: parity, quasi-periodicity, `τ ↦ τ + 1`, the heat equation, and
-the finite-dimensional spaces of theta functions of order `N`. Layer 2 starts from Riemann's
-theta formula, proved by an orthogonal change of the summation variables, and reads off the
-quadratic relations, the quartic identity and the addition formulas by specialization, as Mumford
-does in Ch. I §5; Watson's identities at `2τ` are the same reindexing in two variables. Layer 3
-collects the consequences of Poisson summation: the inversion `τ ↦ −1/τ`, the reciprocity of
-Gauss sums obtained by approaching a rational point, the Mellin transforms, which give `ζ`, and
-the Laplace transforms. Layer 4 is the product formula: the triple product turns each `θⱼ` into a
-product, which locates the zeros and gives the theta constants, Jacobi's derivative formula and
-Landen's transformations. Layer 5 differentiates the products logarithmically. Layer 6 turns the
-identities into the theory of `λ` and, through Gauss's AGM, into `K = (π/2)θ₃²`. Layer 7 is the
-theory in `g` variables, where the genus-one case is `θ₃`; it uses Layer 1 as its model, 3.1
-for the genus-one case of the modular transformation, and Poisson summation for a lattice from
-ThetaSeries. The `**Checks.**` and `### Examples` of each layer are statements to prove; they
-test the conventions on explicit values.
 
 ## Layer 1: the four theta functions and their characteristics
 
@@ -1213,6 +1067,149 @@ Other formalizations of this material: the Lean development of Jacobi's triple p
 Rogers–Ramanujan identities in arXiv:2607.01544 ("Formalized q-series: The Rogers-Ramanujan
 Identities and Beyond"), and the Isabelle/HOL library of Jacobi theta functions of Eberl, Li and
 Paulson (ITP 2026, LIPIcs vol. 382, paper 23).
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The four theta functions and their characteristics** (1.1–1.5).
+2. **Riemann's theta formula and the identities it implies** (2.1–2.4).
+3. **The inversion `τ ↦ −1/τ` and its applications** (3.1–3.4).
+4. **The product formula, zeros, theta constants and Landen's transformations** (4.1–4.5).
+5. **Logarithmic derivatives, double products and expansions** (5.1–5.5).
+6. **The modular function `λ` and the elliptic integrals** (6.1–6.6).
+7. **The Riemann theta function in genus `g`** (7.1–7.6).
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
+targets of the same standing, stated in prose. One headline is not statable at the pins: the
+hypergeometric form `F(½, ½; 1; λ(τ)) = θ₃²(0|τ)` of 6.4, which needs the principal Gauss
+function of SpecialFunctionsHypergeometric; the pinned Tau Ceti does not have it.
+
+**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
+- quasi-periodicity of `θ₃` under `z ↦ z + π`, `z ↦ z + πτ` and `τ ↦ τ + 2`: Mathlib's
+  `jacobiTheta₂_add_left`, `jacobiTheta₂_add_left'` and `jacobiTheta₂_add_right`;
+- the inversion of `θ₃`: Mathlib's `jacobiTheta₂_functional_equation`, after the change of
+  variables `z ↦ z/π` of Conventions;
+- Euler's identity `∏_{n≥1}(1 + qⁿ) ∏_{n≥0}(1 − q^{2n+1}) = 1`: Tau Ceti's
+  `TauCeti.tprod_one_add_pow_mul_tprod_one_sub_pow_odd`, consumed in 4.3;
+- the derivative of `θ₃` in `z`: Mathlib's `hasDerivAt_jacobiTheta₂_fst` and `jacobiTheta₂'`;
+- Weierstrass's `M`-test for products and series: Mathlib's
+  `Summable.hasProdLocallyUniformlyOn_one_add` and `tendstoUniformlyOn_tsum`, whose instances for
+  the products and series of Layers 4–5 are targets (4.2, 5.1).
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+provides:
+- the spaces of theta functions of order `N` with characteristic (1.5 and 7.4);
+- on the imaginary axis, `λ(it)` is real, in `(0, 1)`, continuous in `t > 0`, with `λ(it) → 0` as
+  `t → ∞` and `λ(it) → 1` as `t → 0+` (6.1);
+- `λ` maps the fundamental region of `Γ(2)` bijectively onto `ℂ ∖ ((−∞, 0] ∪ [1, ∞))` (6.2).
+
+**What it does not own:**
+- The principal branch of `F` (SpecialFunctionsHypergeometric).
+- Jacobi's triple product, formal and analytic: ClassicalArithmeticCompletion 4.40, whose
+  analytic specialization is `(w; q)_∞ (q/w; q)_∞ (q; q)_∞ = ∑_{k∈ℤ} (−1)^k q^{k(k−1)/2} w^k` for
+  `0 < |q| < 1`, `w ≠ 0`. 4.1 reads it in theta form.
+- The real complete elliptic integrals, the AGM and Carlson's integrals: Tau Ceti
+  (`TauCeti.Real.legendreK`, `Complex.carlsonRF`); the real-variable theory of
+  [EllipticIntegrals](../EllipticIntegrals/README.md).
+- The transformation of `η` under `SL₂(ℤ)` ([ModularForms](../ModularForms/README.md)); this
+  roadmap uses `η` only through its product, which Mathlib defines.
+- Theta series of lattices of higher rank and their modularity
+  ([ThetaSeries](../ThetaSeries/README.md)). The rank-one Landsberg–Schaar identity, which
+  ThetaSeries does not target, is 3.2 here.
+- The Jacobi elliptic functions of a complex variable and the Weierstrass functions `℘`, `ζ`, `σ`;
+  see the last section.
+
+**Neighbouring statements.** QSeriesPartitionsAndMockModularForms §5.1 states the zeros of `θ₁`,
+`θ₁′(0) = 2η³` and the laws under `τ ↦ τ + 1`, `τ ↦ −1/τ` for `ϑ(z; τ) = −θ₁(πz|τ)`, which are
+1.3, 3.1, 4.2 and 4.3 here; ThetaInvariantsOfEuclideanLattices 1.7–1.8 states
+`K(k) = (π/2)θ₃²(0|it)` and the value of `θ₃(0|i)`, which are 6.3 here. SiegelModularForms 0.3
+builds the subtype `ℍ[g]` over `Fin g` with its manifold structure, and
+MetaplecticAutomorphicForms 8.10 the degree-two subtype; `siegelUpperHalfSpace ι` is the
+underlying set of matrices, kept as a `Set` over a finite type `ι` because Layer 7 needs no
+manifold structure. SiegelModularForms 5.4 states the count of even characteristics, the vanishing
+of the odd theta constants and the law of `{θ_ε²}` for `θ_ε(τ) = θ[ε′/2, ε″/2](0|τ)`; these are
+7.3 and 7.6 at `z = 0`. This roadmap consumes none of the four.
+
+**The boundary in one sentence:** this roadmap owns `θ₁, …, θ₄`, the theta functions of order `N`
+with characteristics, the modulus `k`, the modular function `λ`, Carlson's combined theta
+functions, the Riemann theta function of genus `g` with half-integer characteristics, and the
+results stated through them, `η`, `K`, `R_F`, `F`, `ζ`, `Γ` and elementary functions, as listed in
+the layers; it consumes `F` from SpecialFunctionsHypergeometric and the triple product from
+ClassicalArithmeticCompletion.
+
+## Exact supplier contracts
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
+  the principal branch of `F(a, b; c; z)` on `1 − z ∈ slitPlane`.
+- 1.3: agreement with Mathlib's `ordinaryHypergeometric` on `‖z‖ < 1`; 1.4: holomorphy in `z`
+  on the cut plane and the identity principle there. For 6.4.
+
+### From [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
+
+- 4.40: Jacobi's triple product, in its analytic specialization
+  `(w; q)_∞ (q/w; q)_∞ (q; q)_∞ = ∑_{k∈ℤ} (−1)^k q^{k(k−1)/2} w^k` for complex `q`, `w` with
+  `0 < |q| < 1`, `w ≠ 0`, both sides converging absolutely. For 4.1.
+
+### From [ThetaSeries](../ThetaSeries/README.md)
+
+- Layer 1, 1A–1B: Poisson summation `∑_{ℓ∈L} f(v + ℓ) = covol(L)⁻¹ ∑_{m∈L^∨} 𝓕f(m) e(⟨v, m⟩)`
+  for a full-rank lattice `L`, a Schwartz function `f` and `v ∈ E`, both sums summable, with the
+  standard lattice `ℤ^n` as 1B; 1C, the Fourier transform under a linear change of variables; 1F,
+  the Gaussian `x ↦ exp(πiτ‖x‖²)` is Schwartz with its Fourier transform. For 7.6, at the
+  Gaussian `x ↦ exp(πi x·Ωx + 2πi x·z)` with `Ω = iY`, reduced to 1F by `x ↦ Y^{1/2}x`.
+
+### From Tau Ceti
+
+- **Products.** `TauCeti.qTheta`, `TauCeti.multipliable_one_sub_pow_mul`,
+  `TauCeti.tprod_one_sub_pow_mul_ne_zero`, `TauCeti.tprod_one_sub_pow_ne_zero`,
+  `TauCeti.tprod_one_add_pow_mul_tprod_one_sub_pow_odd` and
+  `TauCeti.hasProdLocallyUniformlyOn_one_sub_pow_mul`
+  (`TauCeti/Analysis/SpecialFunctions/QPochhammer.lean`), for Layer 4.
+- **Elliptic integrals.** `TauCeti.Real.legendreK`, `TauCeti.Real.legendreK_pos`,
+  `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm` (`K(k) = π/(2M(1, k′))`),
+  `TauCeti.Real.legendreK_eq_ordinaryHypergeometric` and
+  `TauCeti.Real.ofReal_legendreK_eq_carlsonRF` (`K(k) = R_F(0, 1 − k², 1)`)
+  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for 6.3–6.5; and
+  `TauCeti.Real.legendreK_one_div_sqrt_two` (`K(2^{−1/2}) = Γ(¼)²/(4√π)`, `Lemniscate.lean`), for
+  the exact values at `τ = i` in 6.3.
+- **One-variable theta.** `TauCeti.tendsto_jacobiTheta_comap_im_atTop` (`θ(τ) → 1` as
+  `Im τ → ∞`, `TauCeti/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`), for 6.3.
+- **Carlson's integral.** `Complex.carlsonRF`, its symmetry lemmas and `Complex.carlsonRF_self`
+  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Carlson/Basic.lean`), for 6.4–6.5.
+- **Gauss sums.** `TauCeti.sum_range_cexp_two_pi_I_sq_div`, Gauss's evaluation of
+  `∑_{r<N} e^{2πir²/N}` (`TauCeti/NumberTheory/ModularForms/JacobiTheta/GaussSum.lean`), and the
+  method of its proof (the transformation of `jacobiTheta₂` at a rational point approached
+  vertically), for 3.2.
+- **Argument principle.** `TauCeti.argumentPrinciple_windingNumber_of_analyticOnNhd`
+  (`TauCeti/Analysis/Complex/Conformal/ArgumentPrinciple.lean`), for 6.2.
+
+### From Mathlib
+
+- **The two-variable theta function.** `jacobiTheta₂`, `jacobiTheta₂_term`,
+  `hasSum_jacobiTheta₂_term`, `jacobiTheta₂_undef`, `jacobiTheta₂_add_left`,
+  `jacobiTheta₂_add_left'`, `jacobiTheta₂_add_right`, `jacobiTheta₂_neg_left`,
+  `jacobiTheta₂_conj`, `jacobiTheta₂_functional_equation`, `jacobiTheta₂'`,
+  `hasDerivAt_jacobiTheta₂_fst`, `hasFDerivAt_jacobiTheta₂`, `jacobiTheta₂_fderiv`,
+  `differentiableAt_jacobiTheta₂_snd`, and the one-variable `jacobiTheta`.
+- **Derivative in `τ`.** 1.4 derives the derivative of `jacobiTheta₂` in `τ` from
+  `hasFDerivAt_jacobiTheta₂` and `jacobiTheta₂_fderiv`.
+- **Dedekind's `η`.** `ModularForm.eta` (`η(τ) = e^{iπτ/12} ∏_{n≥1}(1 − e^{2πinτ})`) and
+  `ModularForm.eta_ne_zero`, for 4.3 and 4.4.
+- **Zeta and Gamma.** `riemannZeta`, `Complex.Gamma`, `mellin`, and the Mellin-transform
+  construction of `completedRiemannZeta`, for 3.3.
+- **AGM.** `NNReal.agm` and `NNReal.agm_mul_distrib`, for 6.3.
+- **Uniform convergence.** `Summable.hasProdLocallyUniformlyOn_one_add` and
+  `tendstoUniformlyOn_tsum`, for 4.2 and 5.1.
+- **Matrices.** `Matrix.PosDef`, `Matrix.mulVec`, `dotProduct`, for Layer 7.
+- **Complex analysis.** `Differentiable.apply_eq_apply_of_bounded` (Liouville),
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `HasProd`, `Multipliable`,
+  `HasProdLocallyUniformlyOn`, `TendstoLocallyUniformlyOn`, `logDeriv`, `Complex.slitPlane`,
+  `Complex.cpow`.
 
 ## References
 

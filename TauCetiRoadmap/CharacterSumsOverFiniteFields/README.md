@@ -1,272 +1,62 @@
 # Roadmap: character sums over finite fields
 
-**Summary.** Gauss sums, Jacobi sums, Kloosterman sums and the complete character sums
-`∑_x χ(f(x))`, `∑_x ψ(f(x))` of a polynomial over a finite field `𝔽_q`, with the theorems that
-make them usable: their absolute values, their behaviour under field extension (the
-Hasse–Davenport relations), their prime factorization in cyclotomic fields (Stickelberger), their
-`p`-adic evaluation by the Gross–Koblitz formula (consumed from `DirichletPadicLFunctions` and
-transported to the Gauss sums of this roadmap), and Weil's square-root bounds, proved by the
-elementary Stepanov method. The second half of the roadmap carries the same sums to an arbitrary
-modulus `ℤ/cℤ`, which is where the LMFDB displays them: the Dirichlet character pages show
-`τ_a(χ)`, `J(χ, ψ)` and `K(a, b, χ)` for every modulus, together with the bounds Weil's theorem
-gives for them.
+**Summary.** A character sum over a finite field `𝔽_q` adds up the values of a character, often
+composed with a polynomial: `∑_x χ(f(x))` for a multiplicative character `χ`, `∑_x ψ(f(x))` for an
+additive one. The basic examples are the Gauss sum `g(χ,ψ) = ∑_x χ(x)ψ(x)`, the Jacobi sum
+`J(χ₁,χ₂) = ∑_x χ₁(x)χ₂(1−x)` and the Kloosterman sum `K(χ;a,b) = ∑_{x≠0} χ(x)ψ(ax+b/x)`. A Gauss
+sum of two nontrivial characters has `q` terms but absolute value exactly `√q`. This roadmap
+develops these sums and their square-root bounds over finite fields, then modulo any integer `c`.
 
-The primary carrier is a finite field `F` (`[Field F] [Finite F]`, `q = Nat.card F`,
-`p = ringChar F`), a multiplicative character `χ : MulChar F ℂ` and an additive character
-`ψ : AddChar F ℂ`, exactly Mathlib's vocabulary, so that Mathlib's `gaussSum χ ψ` and
-`jacobiSum χ ψ` are the Gauss and Jacobi sums of record and nothing is redefined. Where a theorem
-holds for an arbitrary finite commutative ring `R` (the definitions of all three sums, the
-elementary identities), it is stated for `R`; the finite-field hypothesis enters with the first
-nontrivial estimate. The complex numbers are the value ring throughout, except in Layer 6, where
-the Gauss sums are taken with values in the ring of integers of a cyclotomic field so that their
-prime factorization is a statement about ideals.
+The characters and the Gauss and Jacobi sums are Mathlib's, with complex values except in Layer 6.
+Unless another is named, the additive character is `ψ(x) = e(Tr(x)/p)`, with `p` the characteristic.
+Every multiplicative character, even the trivial one, vanishes at `0`, so the trivial one has Gauss
+sum `−1`.
 
-Suggested home: `TauCeti/NumberTheory/CharacterSums/`, with files for the canonical additive
-character, Gauss sums, Jacobi and Jacobsthal sums, the polynomial `L`-series and Hasse–Davenport,
-Stepanov's method, Kloosterman and Salié sums, the Teichmüller character with the Stickelberger and
-Gross–Koblitz corollaries, and the integer-modulus sums.
+Weil's bounds come first. Let `χ ≠ 1` have order `d`, and let `f` be a nonzero polynomial with `m`
+distinct roots in an algebraic closure, not a constant times a `d`-th power in `𝔽_q[x]`. Then
+`|∑_x χ(f(x))| ≤ (m−1)√q`. If `ψ ≠ 1` and `f` has degree `n ≥ 1` prime to `p`, then
+`|∑_x ψ(f(x))| ≤ (n−1)√q`. For nonzero `a, b` and every `χ`, `|K(χ;a,b)| ≤ 2√q`. The proofs use
+Stepanov's elementary method, never a sheaf.
 
-## Scope and ownership
+The Hasse–Davenport relation compares Gauss sums over `F` and over an extension `E` of degree `n`:
+for `χ, ψ` not both trivial, `−g(χ∘N_{E/F},ψ∘Tr_{E/F}) = (−g(χ,ψ))^n`. The signs matter: the
+quadratic Gauss sum is `i√3` over `𝔽_3` and `3` over `𝔽_9`, not `(i√3)² = −3`. From Gauss's sign
+over the prime field, which Tau Ceti has, the relation gives the quadratic Gauss sum over every
+`𝔽_q` of odd characteristic.
 
-Several roadmaps border this one. The
-[classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md) owns the cubic and
-quartic Gauss and Jacobi sums of primary primes, power residue symbols, the Stickelberger
-congruence and Stickelberger's relation for `Φ(P) = g(P)^m`, the Hasse–Davenport product
-relation (§7.29), and the reciprocity laws; this roadmap
-consumes those milestones by number (Layer 1, 1.55 and 7.12 there) and proves nothing about primary
-elements or reciprocity. The [theta-series roadmap](../ThetaSeries/README.md) owns the Gauss sums
-of a lattice and their reciprocity law, which are sums of `e(a‖y‖²/2c)` over `L/cL` and not
-character sums; it states in its scope that Gauss's sign determination is never needed there and is
-not its target. Gauss's evaluation `∑_{r<N} e(r²/N) = (1 + i)/2 · (1 + (−i)^N) · √N` for every
-`N` is Tau Ceti's `TauCeti.sum_range_cexp_two_pi_I_sq_div`; 1.4 reads it at an odd prime and this
-roadmap proves no sign over the prime field. `AnalyticNumberTheoryPartI` §2.30 owns the sign of
-the Gauss sum of the primitive quadratic character of a fundamental discriminant, deduced from the
-Dedekind functional equation; nothing here consumes it. The
-[multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns the Kronecker symbol and
-genus theory; [Chebotarev](../../Completed/Chebotarev/README.md) and
-[arithmetic Dirichlet series](../../Completed/ArithmeticDirichletSeries/README.md) are the analytic
-consumers of character sums over `ℤ`, none of which states a complete character sum over a finite
-field. `AutomorphicSpectralTheory` §1.16 defines the integer-modulus Kloosterman sum `S(m, n; c)`
-in prose, with its frequency symmetry, its reality and the Ramanujan-sum value `S(m, 0; c)`; this
-roadmap's integer-modulus sum specializes to it and the comparison is a milestone (7.3).
-`CongruenceSpectralGap` §§4.2a–4.2b owns the untwisted all-rank hyper-Kloosterman sum
-`hyperKloosterman F k ψ r` over every finite field, its Kloosterman-sheaf realization and its
-Deligne bound `k q^{(k−1)/2}`; 5.1 identifies the untwisted rank-two case of this roadmap's
-`kloostermanSum` with it, and 5.5's inequality at `χ = 1` is that bound at `k = 2`, proved a second
-time here by Stepanov's method because 5.5 needs it for every `χ`.
+The last results concern prime factorization. Let `𝔓` be a prime above `p` of `K = ℚ(ζ_{q−1})`; its
+residue field has `q` elements. Its Teichmüller character `ω` sends each nonzero residue to the
+unique `(q−1)`-th root of unity reducing to it. For `0 ≤ a < q−1`, the Gauss sum `g(ω^{−a})` is an
+integer of `L = ℚ(ζ_{q−1},ζ_p)`, and Stickelberger's theorem gives its valuation at every prime of
+`L`. At a prime `𝔓̃` above `𝔓` it is `s(a)`, the sum of the base-`p` digits of `a`; Tau Ceti already
+has this case. Every prime above `p` is `τ_t⁻¹(𝔓̃)` for a unit `t` modulo `q−1`, where `τ_t` raises
+`ζ_{q−1}` to the power `t` and fixes `ζ_p`; the valuation there is `s(ta mod (q−1))`. Away from `p`
+it is zero. For `0 < a, b < q−1` with `a+b ≢ 0 (mod q−1)`, the Jacobi sum `J(ω^{−a},ω^{−b})` is an
+integer of `K` with `𝔓`-adic valuation `(s(a)+s(b)−s(a+b mod (q−1)))/(p−1)`.
 
-`DirichletPadicLFunctions` owns Morita's `p`-adic Gamma function and the Gross–Koblitz formula:
-its §4.1 constructs the signed Gamma function `Γ_p : ℤ_p → ℤ_p^×` with its functional equations
-for every prime, its §4.4 the reflection formula and the digit identities, and its §4.5 the
-Gross–Koblitz formula `g_q(a) = π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for the negative Gauss sum
-`g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` of the Teichmüller lift of a local field's residue field.
-Nothing about `Γ_p` is defined or proved here. Layer 6 owns what that roadmap leaves to its
-consumers: the reading of Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1` as the Teichmüller
-character, with the residue cardinality (6.1), the Stickelberger corollaries stated against it
-(6.2–6.3), the identification of `ω_𝔓` with the local Teichmüller lift under completion and the
-transport of the Gauss sums of Layer 1 into the completed field (6.4), and the resulting evaluation
-of `g(ω_𝔓^{−a})` and of the Jacobi sums `J(ω_𝔓^{−a}, ω_𝔓^{−b})` in this roadmap's normalization
-(6.5).
+Within Tau Ceti, the [classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md)
+provides Stickelberger's congruence and relation and the Hasse–Davenport product relation.
+[DirichletPadicLFunctions](../DirichletPadicLFunctions/README.md) provides Morita's `p`-adic Gamma
+function and the Gross–Koblitz formula. The rank-two hyper-Kloosterman sums of
+[CongruenceSpectralGap](../CongruenceSpectralGap/README.md) are the untwisted Kloosterman sums here,
+and its Deligne bound in rank two is `2√q`. Modulo `c`, they are the sums `S(m,n;c)` of
+[AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md).
 
-The half-integral-weight Kloosterman sums with the theta multiplier and the Jacobi symbol
-`(c/d)`, for `4 ∣ c`, together with their Chinese-remainder factorization and Salié evaluation, are
-`GeometryOfNumbersAndQuadraticArithmetic` §4.3's (`halfIntegralKloosterman`); the Salié sums of this
-roadmap are the finite-field sums `K(η; a, b)` of 5.3 and the integer-modulus sums `S(m, n; p^k)` of
-7.5 for odd prime powers, with a Dirichlet character and no multiplier, and neither roadmap
-restates the other's. `DeligneWeightsAndPurity` reaches Weil bounds through étale cohomology and
-weights; nothing here depends on it. The trace-function reading of this roadmap's `L`-series, in
-which, under the hypotheses of 3.3, 4.5, 4.6 and 5.4, the Gauss sums, the polynomial sums of
-Layer 4 and the Kloosterman sums are minus the geometric-Frobenius traces on `H¹_c` of rank-one
-sheaves on `𝔾_m` and `𝔸¹`, is background recorded in 3.6 to fix the normalization that relates
-the two sides. It is not a target of this roadmap, and no target or route here uses a sheaf.
+Layer 0 sets up the characters: additive characters are shifts `x ↦ ψ(ux)` of the canonical one,
+multiplicative ones form a cyclic group, and both lift to extensions. Layer 1 adds to Mathlib's
+Gauss sums their absolute value, field of definition and Galois action. Layer 2 treats Jacobi sums,
+including multiple ones, and Jacobsthal sums; it also counts solutions of diagonal equations. Layer
+3 builds the `L`-series of a multiplicative function on monic polynomials and derives the
+Hasse–Davenport relation from it. Layer 4 proves Stepanov's point-count bounds, uniform over all
+finite extensions, and turns them into Weil's bounds through that `L`-series. Layer 5 does the same
+for Kloosterman sums and proves Salié's evaluation. Layer 6 reads Tau Ceti's power residue symbol as
+the Teichmüller character, deduces the factorization results above, and transfers the Gross–Koblitz
+formula to these sums.
 
-`HypergeometricMotives` borders this roadmap and consumes nothing from it: its finite
-hypergeometric sums of Katz and Beukers–Cohen–Mellit are quotients of products of Mathlib's
-`gaussSum` at the powers `ω^m` of a generator `ω` of the character group, and their reduction uses
-the Hasse–Davenport product relation, which it takes from `ClassicalArithmeticCompletion` §7.29
-directly; 3.4 records that relation's consequences for the Gauss sums of Layer 1, and 6.5 the
-`p`-adic evaluation of the Jacobi sums of 6.3. `CurvesOverFiniteFields` borders it: this roadmap bounds *finite sums* by Stepanov's
-auxiliary-polynomial method applied to three explicit plane curves (Layer 4) and never forms a zeta
-function, a divisor, or a function field. The zeta functions of the corresponding Kummer and
-Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5); the comparison of the
-`L`-polynomials of Layers 3–5 with their numerators is not a target here and is not needed. It is
-not a divisibility: for `y² = x² + 1` over `𝔽_3` the `L`-polynomial of 4.5 is `1 − T`, while the
-smooth conic has zeta numerator `1` and two rational points at infinity.
-
-### Owned here
-
-- The **canonical additive character** `ψ_F(x) = e(Tr_{F/𝔽_p}(x)/p)` of a finite field, its
-  primitivity, and the parametrization of all additive characters as its multiplicative shifts
-  (Layer 0).
-- The **multiplicative character group** of `F` as a cyclic group of order `q − 1`: generators,
-  characters of a given order, both orthogonality relations, the Fourier expansion of a function on
-  `F^×`, the Galois action on character values, and the lifting of characters to a finite extension
-  through the norm and the trace (Layer 0).
-- **Gauss sums** `g(χ) = gaussSum χ ψ_F`: the trivial cases, shifts, absolute value, conjugation,
-  the field of definition `ℚ(ζ_m, ζ_p)` and the Galois action on it (Layer 1); the sign over the
-  prime field is consumed (1.4) and the sign over every `𝔽_q` is derived from it (3.3).
-- **Jacobi sums**, **multiple Jacobi sums**, the counts of points on diagonal equations they give,
-  and **Jacobsthal sums** with Jacobsthal's two-squares identity
-  `q = (φ_2(1)/2)² + (φ_2(r)/2)²` over every `𝔽_q` with `q ≡ 1 (mod 4)` and his sign of `a` in
-  `p = a² + b²` (Layer 2).
-- The **`L`-series of a completely multiplicative function on monic polynomials**, its Euler
-  product, the identity between its logarithmic derivative and the lifted sums over `𝔽_{q^n}`, and
-  the root-power identity `S_n = −∑ ω_i^n` for an `L`-polynomial; the **Hasse–Davenport lifting
-  relation** for Gauss and Jacobi sums, and the sign of
-  the quadratic Gauss sum over every `𝔽_q` (Layer 3).
-- **Stepanov's method**: the uniform point-count bounds for `y^d = f(x)`, `y^q − y = f(x)` and
-  `y^q − y = a x^d + b x^{−d}`; the power-sum lemma; the polynomiality and degree of the
-  `L`-series of a multiplicative or additive character sum of a polynomial; and **Weil's bounds**
-  `|∑_x χ(f(x))| ≤ (m − 1)√q` and `|∑_x ψ(f(x))| ≤ (n − 1)√q` with their point-count
-  corollaries (Layer 4).
-- **Kloosterman sums** `K(χ; a, b)` on a finite commutative ring, their expansion in Gauss sums,
-  **Salié's evaluation** for the quadratic character, the degree-two `L`-polynomial and the lifting
-  relation, **Weil's bound** `|K(χ; a, b)| ≤ 2√q`, and the Kloosterman angle (Layer 5).
-- The **Teichmüller character** `ω_𝔓` as Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1`
-  (the residue character of `ClassicalArithmeticCompletion` §1.23), with the residue cardinality,
-  the prime factorization of `g(ω^{−a})` in `ℚ(ζ_{q−1}, ζ_p)` for every `a` as a corollary of the
-  consumed Stickelberger congruence, the **digit-sum formula for Jacobi sums**, the identification of the
-  Teichmüller character with the local Teichmüller lift of `DirichletPadicLFunctions` §4.5, and
-  the **Gross–Koblitz evaluation** `g(ω^{−a}) = −π^{s(a)} ∏_i Γ_p(⟨p^i a/(q−1)⟩)` of this roadmap's
-  Gauss sums with its Jacobi-sum corollary (Layer 6).
-- The sums **modulo an integer**: `τ_a(χ)` for every Dirichlet character (the imprimitive and the
-  Chinese-remainder formulas), `J(χ, ψ)` modulo `N`, `S_χ(m, n; c)` with twisted multiplicativity,
-  Salié's prime-power evaluation, Weil's bound `|S(m, n; c)| ≤ τ(c)(m, n, c)^{1/2} c^{1/2}` for every
-  modulus, and its twisted form with the conductor factor `𝔠_χ^{1/2}`, which can be dropped for
-  cube-free `c` (Layer 7).
-
-### Consumed, not redefined
-
-- From Mathlib: `MulChar`, `AddChar`, `gaussSum`, `jacobiSum`, `quadraticChar`,
-  `DirichletCharacter` (which is `MulChar (ZMod N) R` by definition), `ZMod.stdAddChar`,
-  `AddChar.IsPrimitive`, `AddChar.mulShift`, `MulChar.ringHomComp`, `MulChar.equiv_rootsOfUnity`,
-  `MulChar.exists_mulChar_orderOf`, `DirichletCharacter.changeLevel`, `conductor`, `IsPrimitive`,
-  `primitiveCharacter`, `ZMod.chineseRemainder`, and every lemma named in the supplier contracts.
-  Nothing in this list is restated behind a private name.
-- From the [classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md): 1.19 (the
-  cube of a cubic Gauss sum), 1.53 (`J(χ_π, χ_π) = π` for the cubic character of a primary prime
-  `π`) and 1.36 (`−χ(−1) J(χ, χ) = π`, that is `J(χ, χ) = −(−1)^{(p−1)/4} π`, for the quartic
-  character of a primary Gaussian prime), 1.46 and 1.60 (the fourth and third powers of the quartic
-  and cubic Gauss sums), 1.47 (`Φ(P) = g(P)^m ∈ ℤ[ζ_m]`), 1.55 (Stickelberger's relation
-  `(Φ(P)) = P^γ`), 7.12 (the Stickelberger congruence
-  `∏ a_i! · (−g(ω^{−a})) ≡ (ζ_p − 1)^{s(a)} (mod 𝔓̃^{s(a)+1})`, whose exported consequence is the
-  valuation `v_𝔓̃(g(ω^{−a})) = s(a)`; 1.55 uses that valuation inside its proof and does not export
-  it; the congruence and the valuation are also Tau Ceti's `stickelberger_congruence` and
-  `intValuation_gaussSum_inv_pow`, which 6.2 cites), and 4.19 (the quadratic exponential sum `S_p(a)` and `S_p(1) = gaussSum χ ψ`). Layer 6
-  states 1.55 and 7.12 against the Teichmüller character 6.1 and derives from them the
-  factorization of `(g(ω^{−a}))` for every `a` and the Jacobi digit-sum formula; it re-derives
-  neither. Of these milestones, 1.19, 1.36, 1.46, 1.47, 1.53 and 1.60, and the residue
-  character of its §1.23, are compiled at the pinned Tau Ceti and are cited by their Lean names
-  where used (*From Tau Ceti*: `Ideal.powerResidueSymbol`, `Ideal.stickelbergerPhi` with
-  `stickelbergerPhi_prime`, and the cubic and quartic Gauss- and Jacobi-sum identities); 1.55, the
-  relation `(Φ(P)) = P^γ`, has no carrier at the pin and is consumed as that roadmap's statement.
-  Its §1.23 is the roadmap statement of the residue character, its unique-root congruence and its
-  exact order, which Tau Ceti's `Ideal.powerResidueSymbol` with `powerResidueSymbol_eq_iff` and
-  `orderOf_powerResidueSymbol` instantiates; 6.1 reads that carrier at `n = q − 1`. Its §7.29 supplies the full Hasse–Davenport product
-  formula for every multiplicative character and every nontrivial additive character; 3.4
-  records its duplication consequence and normalization Checks.
-- From `DirichletPadicLFunctions`: §4.1 (the signed Morita Gamma function `Γ_p : ℤ_p → ℤ_p^×`,
-  `existsUnique_moritaGamma`, with `Γ_p(0) = 1`, `Γ_p(x + 1) = −x Γ_p(x)` for units `x` and
-  `Γ_p(x + 1) = −Γ_p(x)` for `x ∈ pℤ_p`, `moritaGamma_unit_step` and `moritaGamma_nonunit_step`),
-  §4.4 (the reflection formula `Γ_p(x) Γ_p(1 − x) = (−1)^{R(x)}` with `R(x) ∈ {1, …, p}` the
-  residue of `x` for odd `p`, and the digit identity `∑_{j<f} a_j/(q − 1) = S_p(a)/(p − 1)` for the
-  rotated digits `a_j = p^j a mod (q − 1)`), and §4.5 (`grossKoblitz_formula`: for the Teichmüller
-  lift `ω` of the residue field of a local field with `q` residue elements and the root `π` of
-  `π^{p−1} = −p` with `π ≡ ζ_p − 1 (mod (ζ_p − 1)²)`, the negative Gauss sum
-  `g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` equals `π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for
-  `0 ≤ a < q − 1`). Layer 6 consumes these three sections and defines no Gamma function.
-- From Tau Ceti: Gauss's evaluation `TauCeti.sum_range_cexp_two_pi_I_sq_div`
-  (`TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum`), which is the sign of 1.4; the
-  primitive Dirichlet Gauss-sum identities `gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive`,
-  `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`, `IsPrimitive.norm_gaussSum` and
-  `gaussSum_ne_zero_of_isPrimitive`, with `gaussSumOfPrimitiveRoot`
-  (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), used in 7.1, 7.2 and 7.7; the conductor
-  of a product of characters with coprime conductors, `DirichletCharacter.conductor_mul_of_coprime`
-  (`TauCeti.NumberTheory.DirichletCharacter.Conductor`), which with Mathlib's
-  `conductor_changeLevel` gives the conductor and primitivity of the Chinese-remainder factors in
-  0.7; the local Teichmüller lifts `TauCeti.teichmuller` (`TauCeti.RingTheory.Henselian.Teichmuller`)
-  and `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`), which 6.1 and 6.4
-  compare with the global character `ω_𝔓`.
-- From `AutomorphicSpectralTheory` §1.16: the integer-modulus sum
-  `S(m, n; c) = ∑_{d ∈ (ℤ/cℤ)^×} e((m d + n d̄)/c)` with its frequency symmetry
-  `S(m, n; c) = S(n, m; c)`, its reality (`kloosterman_real`) and the Ramanujan-sum values
-  `S(m, 0; c) = ∑_{d ∣ (m, c)} μ(c/d) d`. Milestone 7.3 identifies it with the trivial-character
-  specialization of this roadmap's `kloostermanSum` over `ZMod c`; its three facts are then
-  inherited and not reproved.
-- From `CongruenceSpectralGap` §4.2a: the raw hyper-Kloosterman sum
-  `hyperKloosterman F k ψ r = ∑_{x : Fin k → Fˣ, ∏ x_i = r} ψ(∑ x_i)`, which 5.1 identifies with
-  `kloostermanSum 1 ψ a b` at `k = 2`, `r = a b`; and §4.2b `hyperKloosterman_bound`,
-  `‖hyperKloosterman F k ψ r‖ ≤ k q^{(k−1)/2}` for `ψ ≠ 1`, `k ≥ 1`, which 5.5 records at `χ = 1`.
-  Neither is redeclared here.
-- From `EllipticLegendreCharacterInterfaces` 5.1: the character-sum point count of a normal-form
-  Weierstrass equation over an odd finite field and `symmetric_cubic_trace_zero`, which 2.5 reads
-  as the elliptic form of its Jacobsthal sums.
-
-### Not owned here
-
-- **Reciprocity laws and primary elements**: the classical arithmetic roadmap, Layer 1; the
-  power residue symbol itself is Tau Ceti's `Ideal.powerResidueSymbol` (*From Tau Ceti*), which
-  6.1 reads at `n = q − 1`. The Gauss and Jacobi sums here are indexed by abstract characters;
-  which character is "the" cubic residue character of a primary prime is that roadmap's business.
-- **The Kronecker symbol `(D/·)`** and the identification of real Dirichlet characters with it:
-  the multiquadratic roadmap and the theta-series roadmap (2H there).
-- **Gauss sums of a lattice** `G_L(a, c)`, their reciprocity and Milgram's formula: the
-  theta-series roadmap, Layer 6. The one-dimensional quadratic exponential sum
-  `∑_{y mod c} e(a y²/c)` for a composite modulus `c`, and the Landsberg–Schaar identity, are not
-  targets of this roadmap; the prime case `c = p` is the classical arithmetic roadmap's 4.19
-  (as a Gauss sum), and Gauss's evaluation of `∑_{y mod c} e(y²/c)` for every `c` is Tau Ceti's
-  `TauCeti.sum_range_cexp_two_pi_I_sq_div`, consumed in 1.4.
-- **Morita's `p`-adic Gamma function and the Gross–Koblitz formula**: `DirichletPadicLFunctions`
-  §§4.1, 4.4 and 4.5. Layer 6 consumes them; what it owns is the comparison of carriers and the
-  evaluation of this roadmap's Gauss and Jacobi sums.
-- **Zeta functions of curves and function fields** and the Riemann hypothesis for curves:
-  `FunctionFieldArithmetic`, Layer 5 (the root bound `|α_i| = √q` in §5.4). Weil polynomials:
-  `CurvesOverFiniteFields`. The comparison of the `L`-polynomials of Layers 3–5 with numerators
-  of zeta functions is not a statement of this roadmap. The cohomological theory of weights and
-  Deligne's theorem: `DeligneWeightsAndPurity`. The Kloosterman sheaf, the all-rank
-  hyper-Kloosterman sums and their Deligne bound: `CongruenceSpectralGap` §§4.2a–4.2b.
-- **Kummer and Artin–Schreier sheaves** `ℒ_χ`, `ℒ_ψ` and every sheaf-theoretic identification of
-  the sums of this roadmap: Gauss and Jacobi sums as Frobenius traces on the compactly supported
-  cohomology of rank-one sheaves on `𝔾_m` and `𝔸¹ ∖ {0, 1}`, Kloosterman sums as Frobenius traces
-  of a Kloosterman sheaf, and the trace-function reading 3.6 of the `L`-series. None is a target of
-  this roadmap, which defines no sheaf and proves each of its bounds without one. Where they are
-  named (3.6), `ℒ_ψ` and `ℒ_χ` are the rank-one lisse sheaves on `𝔾_a` and `𝔾_m` obtained from the
-  Lang torsors by the characters `ψ` and `χ`, normalized as in SGA 4½, *Sommes trig.*, 1.4,
-  Définition 1.7 and (1.7.6)–(1.7.7): geometric Frobenius at a point `x` over `𝔽_{q^n}` has trace
-  `ψ(Tr x)` on `ℒ_ψ` and `χ(N x)` on `ℒ_χ`. This is the normalization of the Artin–Schreier sheaf
-  that `CongruenceSpectralGap` §4.2b consumes, and its Kloosterman sheaf is built from that sheaf by
-  multiplicative convolution, `R^{k−1}mult_!(ℒ_ψ ⊠ ⋯ ⊠ ℒ_ψ)` on `𝔾_m`, with geometric-Frobenius
-  trace `(−1)^{k−1}` times the raw hyper-Kloosterman sum. At `k = 2`, replacing the first factor by
-  `ℒ_χ ⊗ ℒ_ψ` gives a sheaf whose geometric-Frobenius trace at `r ∈ Fˣ` is `−K(χ; 1, r)`, and 5.1's
-  scaling `K(χ; a, b) = χ(a)⁻¹ K(χ; 1, a b)` reaches every `K(χ; a, b)` with `a b ≠ 0`.
-- **Half-integral-weight Kloosterman sums** with the theta multiplier:
-  `GeometryOfNumbersAndQuadraticArithmetic` §4.3.
-- **Finite hypergeometric sums**, Greene's and Katz's functions: `HypergeometricMotives`, whose
-  `p`-adic evaluation takes the Gross–Koblitz formula from `DirichletPadicLFunctions` §4.5
-  directly; 6.5 is the same evaluation for the Jacobi sums of 6.3 and is not consumed there.
-- **Selberg's `λ₁ ≥ 3/16`**, Kuznetsov's formula, and any use of Kloosterman sums in spectral
-  theory: `AutomorphicSpectralTheory` and `CongruenceSpectralGap` (whose `λ₁ ≥ 21/100` contains
-  `3/16`).
-- **The general mixed Weil bound** `|∑_x χ(f(x)) ψ(g(x))| ≤ (deg f + deg g − 1)√q` for arbitrary
-  `f, g`, and Weil bounds for rational functions beyond `a x^d + b x^{−d}`: not targets of this
-  roadmap; the twisted Kloosterman case is 5.5.
-- **Equidistribution of Kloosterman angles** (Katz's vertical Sato–Tate law): not a target of
-  this roadmap. The angle `θ_F(a, b)` is defined in 5.5; nothing about its distribution is.
-  Deligne's equidistribution theorem is `DeligneWeightsAndPurity` §10.5 and the Kloosterman sheaf
-  is `CongruenceSpectralGap` §4.2b; the geometric monodromy group of that sheaf, which the law
-  also needs, is not a target here.
-- **`p`-adic `L`-functions** and the Dwork exponential as objects of their own:
-  `DirichletPadicLFunctions`; Layer 6 contains the transport of the Gross–Koblitz formula and
-  nothing further `p`-adic.
-- **Exponential sums over `ℤ/cℤ` of general polynomials** (Hua's bound) and **incomplete sums**
-  (Pólya–Vinogradov, Burgess, Weyl differencing): the analytic number theory roadmaps; only the
-  Kloosterman case 7.5–7.6 and complete sums over a finite ring are here.
-- **Conrey labels** and the ordering of characters: the Conrey isomorphism is Tau Ceti's
-  `conreyCharacter q : (ZMod q)ˣ ≃* DirichletCharacter ℂ q` and the orbit letter its
-  `DirichletCharacter.galoisOrbitIndex`, consumed by name and not targets. The worked examples name
-  a character by its Conrey index, spelled out in prose for prime `q` (the character is determined
-  by its value on the Conrey generator, the least primitive root modulo `q²`), and nothing depends
-  on the name.
+Layer 7 passes to the integers modulo `c`, where the LMFDB displays these sums. It proves
+`|S(m,n;c)| ≤ τ(c)(m,n,c)^{1/2}c^{1/2}` for every `c ≥ 1` and all integers `m, n`, with `τ(c)` the
+number of divisors and `(m,n,c)` the greatest common divisor. Layer 6 is independent of Layers 3 to
+5; Layer 7 draws on Layers 0, 1, 2 and 5.
 
 ## Conventions
 
@@ -290,262 +80,6 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
 | Twisted multiplicativity | For coprime `c₁, c₂` and `c = c₁ c₂`: `S_χ(m, n; c) = S_{χ₁}(m c̄₂, n c̄₂; c₁) · S_{χ₂}(m c̄₁, n c̄₁; c₂)`, where `c̄₂ c₂ ≡ 1 (mod c₁)`, `c̄₁ c₁ ≡ 1 (mod c₂)` and `χ = χ₁ χ₂` is the Chinese-remainder factorization. |
 | Valuations of ideals | `v_𝔓(I) = multiplicity 𝔓 I` in the monoid of ideals of the Dedekind domain `𝓞_K` (Mathlib's `multiplicity`), and `v_𝔓(x) := v_𝔓(Ideal.span {x})`. |
 | Conditional statements | None. Every bound here is a theorem. |
-
-## Exact supplier contracts
-
-Every declaration named below exists at the pinned Mathlib and Tau Ceti in the file given; nothing
-is cited from a later revision of either library. The Mathlib areas drawn on are its finite fields
-(`FieldTheory/Finite/*`), multiplicative characters (`NumberTheory/MulChar/*`), additive characters
-(`Algebra/Group/AddChar`, `NumberTheory/LegendreSymbol/AddCharacter`), Gauss sums
-(`NumberTheory/GaussSum`), Jacobi sums (`NumberTheory/JacobiSum/Basic`), the quadratic character
-(`NumberTheory/LegendreSymbol/QuadraticChar/*`), Dirichlet characters
-(`NumberTheory/DirichletCharacter/*`), cyclotomic fields (`NumberTheory/Cyclotomic/*`,
-`NumberTheory/NumberField/Cyclotomic/*`), Hasse derivatives, Dedekind-domain completions
-(`RingTheory/DedekindDomain/AdicValuation`) and the Fourier analysis of finite abelian groups
-(`Analysis/Fourier/FiniteAbelian/*`).
-
-### From Mathlib
-
-Additive characters: `AddChar`, `AddChar.mulShift`, `mulShift_mul`, `inv_mulShift`
-(`ψ⁻¹ = ψ.mulShift (−1)`), `AddChar.IsPrimitive`, `to_mulShift_inj_of_isPrimitive`,
-`IsPrimitive.of_ne_one` (on a field every nontrivial additive character is primitive),
-`AddChar.sum_eq_zero_of_ne_one`, `sum_mulShift`, `AddChar.card_eq` (`#AddChar α ℂ = #α`),
-`sum_apply_eq_ite` (dual orthogonality), `ZMod.stdAddChar`, `ZMod.stdAddChar_apply`, `ZMod.stdAddChar_coe`,
-`ZMod.isPrimitive_stdAddChar`, `AddChar.zmodChar`, `FiniteField.primitiveChar`,
-`FiniteField.primitiveChar_to_Complex` and its primitivity.
-
-Multiplicative characters: `MulChar`, `map_nonunit`, `MulChar.inv_apply'`, `star_eq_inv`,
-`apply_mem_rootsOfUnity`, `ringHomComp` and its injectivity lemmas, `IsQuadratic`,
-`sum_eq_zero_of_ne_one`, `sum_one_eq_card_units`, `orderOf_dvd_card_sub_one`,
-`exists_mulChar_orderOf`, `exists_mulChar_orderOf_eq_card_units`, `equiv_rootsOfUnity`
-(`MulChar M R ≃* rootsOfUnity (#Mˣ) R` for cyclic `Mˣ`), `ofRootOfUnity`,
-`card_eq_card_units_of_hasEnoughRootsOfUnity`, `exists_apply_ne_one_of_hasEnoughRootsOfUnity`,
-`exists_apply_eq_pow` (every value of `χ` is a power of a primitive root of unity of order
-`orderOf χ`), `apply_mem_algebraAdjoin` (values in `ℤ[ζ_m]`), `val_neg_one_eq_one_of_odd_order`.
-
-Gauss sums (`Mathlib/NumberTheory/GaussSum.lean`): `gaussSum`, `gaussSum_mulShift_eq`
-(`gaussSum χ (mulShift ψ a) = χ a⁻¹ * gaussSum χ ψ`), `star_gaussSum_eq`
-(`star (gaussSum χ ψ) = gaussSum χ⁻¹ ψ⁻¹`), `gaussSum_one_one`, `gaussSum_one_right`
-(`gaussSum χ 1 = 0` for `χ ≠ 1`), `gaussSum_one_left` (`gaussSum 1 ψ = −1` for `ψ ≠ 1`),
-`mul_gaussSum_inv_eq_gaussSum` (`χ(−1) gaussSum χ ψ⁻¹ = gaussSum χ ψ`),
-`gaussSum_mul_gaussSum_eq_card` (`gaussSum χ ψ * gaussSum χ⁻¹ ψ⁻¹ = q` for `χ ≠ 1`, `ψ`
-primitive), `gaussSum_ne_zero_of_nontrivial`, `gaussSum_sq` (`g(χ)² = χ(−1) q` for `χ` quadratic
-nontrivial, `ψ` primitive), `gaussSum_frob`, `Char.card_pow_card`, `FiniteField.two_pow_card`.
-
-Jacobi sums (`Mathlib/NumberTheory/JacobiSum/Basic.lean`): `jacobiSum`, `jacobiSum_comm`,
-`jacobiSum_ringHomComp`, `jacobiSum_one_one` (`= q − 2`), `jacobiSum_one_nontrivial` (`= −1`),
-`jacobiSum_nontrivial_inv` (`J(χ, χ⁻¹) = −χ(−1)`), `jacobiSum_mul_nontrivial`
-(`J(χ, φ) g(χφ) = g(χ) g(φ)` for `χφ ≠ 1`), `jacobiSum_eq_gaussSum_mul_gaussSum_div_gaussSum`,
-`jacobiSum_mul_jacobiSum_inv` (`J(χ, φ) J(χ⁻¹, φ⁻¹) = q` for `χ, φ, χφ ≠ 1`),
-`jacobiSum_mem_algebraAdjoin_of_pow_eq_one`, `gaussSum_pow_eq_prod_jacobiSum`
-(`g(χ)^n = χ(−1) q ∏_{i ∈ [1, n−2]} J(χ, χ^i)` for `2 ≤ n = orderOf χ`).
-
-Quadratic characters: `quadraticChar`, `quadraticChar_isQuadratic`, `quadraticChar_sum_zero`,
-`quadraticChar_card_sqrts`, `quadraticChar_neg_one`, `quadraticChar_two`, `quadraticChar_card_card`,
-`quadraticChar_odd_prime`, `legendreSym` (which is `quadraticChar (ZMod p)` by definition),
-`jacobiSym`, `ZMod.χ₄`, `ZMod.χ₈`.
-
-Dirichlet characters: `DirichletCharacter R n := MulChar (ZMod n) R`, `changeLevel`,
-`FactorsThrough`, `conductor`, `IsPrimitive`, `primitiveCharacter`, `sum_characters_eq`,
-`sum_char_inv_mul_char_eq` (orthogonality over `ZMod n`), `gaussSum_mulShift_of_isPrimitive`
-(`gaussSum χ (e.mulShift a) = χ⁻¹ a * gaussSum χ e` for primitive `χ`, every `a : ZMod N`),
-`gaussSum_eq_zero_of_isPrimitive_of_not_isPrimitive`, `factorsThrough_of_gaussSum_ne_zero`,
-`DirichletCharacter.rootNumber`, `DirichletCharacter.conductor_ne_zero` (`conductor χ ≠ 0` at
-nonzero level), `conductor_dvd_level`, `conductor_changeLevel` (`changeLevel` to a nonzero
-multiple of the level preserves the conductor; 0.7).
-
-Finite fields and polynomials: `Fintype.ofFinite`, `Fintype.subsingleton`, `Nat.card`,
-`Algebra.trace`, `Algebra.norm`, `Algebra.norm_zero`,
-`FiniteField.trace_to_zmod_nondegenerate`, `FiniteField.roots_X_pow_card_sub_X`,
-`FiniteField.splits_X_pow_card_sub_X`, `GaloisField p n`, `FiniteField.algEquivOfCardEq`,
-`Polynomial.hasseDeriv` with `hasseDeriv_mul`, `hasseDeriv_apply`, `Polynomial.rootMultiplicity`,
-`Polynomial.card_roots'`, `Polynomial.roots`, `minpoly`, `AdjoinRoot`, `PowerSeries`,
-`PowerSeries.C`, `PowerSeries.X`.
-
-Cyclotomic fields and completions: `IsCyclotomicExtension`, `CyclotomicField`, `IsPrimitiveRoot`,
-`IsCyclotomicExtension.zeta`, `IsCyclotomicExtension.Rat.zeta_sub_one_prime'`
-(`ζ_p − 1` generates a prime), `IsCyclotomicExtension.Rat.torsionOrder_eq`,
-`NumberField.Embeddings.pow_eq_one_of_norm_eq_one`, `Ideal.IsPrime`, `Ideal.LiesOver`,
-`multiplicity`, `Ideal.Quotient.field`, `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and
-`adicCompletionIntegers` (the completion `L_𝔓̃` and its valuation ring in 6.4).
-
-Arithmetic functions: `ArithmeticFunction.sigma 0` (`τ(c)`), `ArithmeticFunction.moebius`,
-`Nat.totient`, `Nat.digits`.
-
-### From Tau Ceti
-
-Gauss's evaluation of the quadratic exponential sum, `TauCeti.sum_range_cexp_two_pi_I_sq_div`
-(`∑_{r < N} cexp(2πi r²/N) = (1 + i)/2 · (1 + (−i)^N) · √N` for every `N : ℕ`, proved through the
-functional equation of the Jacobi theta function;
-`TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum`); at an odd prime `N = p` the right side
-is `ε_p √p`, the sign of 1.4.
-
-Primitive Dirichlet Gauss sums (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), for a
-primitive `χ` modulo `N ≠ 0` and a primitive additive character `e` of `ZMod N`:
-`gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` (`gaussSum χ e * gaussSum χ⁻¹ e⁻¹ = N`, values
-in a domain), `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`
-(`gaussSum χ e * gaussSum χ⁻¹ e = χ(−1) N`, values in a domain),
-`DirichletCharacter.IsPrimitive.norm_gaussSum` (`‖gaussSum χ e‖ = √N`, complex values),
-`gaussSum_ne_zero_of_isPrimitive` (`gaussSum χ e ≠ 0` when `(N : R) ≠ 0`) and
-`gaussSum_sq_of_isPrimitive_of_isQuadratic`, consumed in 7.1, 7.2 and 7.7;
-`gaussSumOfPrimitiveRoot` with `map_gaussSumOfPrimitiveRoot`, `gaussSumOfPrimitiveRoot_ne_zero`
-and `stabilizer_gaussSumOfPrimitiveRoot` (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`);
-conductors of products, `DirichletCharacter.conductor_mul_of_coprime` (for `χ, ψ` modulo the same
-`N` with coprime conductors, `conductor (χ ψ) = conductor χ · conductor ψ`, any coefficient
-monoid with zero) and `conductor_prod_of_pairwise_coprime` (its finite-product form, for a
-nonempty index set or nonzero level) (`TauCeti.NumberTheory.DirichletCharacter.Conductor`),
-consumed in 0.7; `FiniteField.primitiveChar_to_Complex_ne_one` (`TauCeti.NumberTheory.LegendreSymbol.Complex`);
-`MulChar.ofUnitHom_inv_eq_star` (`TauCeti.NumberTheory.MulChar.Lemmas`); the Teichmüller lift of a
-Henselian local ring `TauCeti.teichmuller : (ResidueField R)ˣ →* Rˣ`
-(`TauCeti.RingTheory.Henselian.Teichmuller`) and the zero-preserving lift of a nonarchimedean local
-field `TauCeti.teichmullerLift K : 𝓀[K] →*₀ 𝒪[K]` with `residue_teichmullerLift` and
-`teichmullerLift_unique` (`TauCeti.NumberTheory.LocalField.Teichmuller`).
-
-Galois orbits of characters: `MulChar.galoisOrbit` (the characters generating the same cyclic
-group as `χ`) with `mem_galoisOrbit_iff_exists_pow` (the orbit is `{χ^a : gcd(a, orderOf χ) = 1}`),
-`exists_isPrimitiveRoot_apply` (some value `χ(u)` at a unit is a primitive `orderOf χ`-th root of
-unity, for a monoid with finitely many units and values in a domain), `ringHomComp_mem_galoisOrbit`
-(`χ.ringHomComp σ` lies in the orbit for an injective endomorphism `σ` of the value domain) and
-`mem_galoisOrbit_iff_exists_algHom` (over a field of characteristic zero the orbit is the set of
-conjugates `σ ∘ χ` under the `ℚ`-embeddings of the field generated by the values)
-(`TauCeti.NumberTheory.MulChar.GaloisOrbit`); consumed in 0.5 and 1.3.
-
-Gauss sums: `TauCeti.norm_gaussSum` (`‖g(χ, ψ)‖ = √q` for `χ ≠ 1` and primitive `ψ`),
-`TauCeti.apply_pow_char_of_trace` (`ψ(x^p) = ψ(x)` for `ψ` factoring through the trace to `𝔽_p`)
-and `MulChar.gaussSum_pow_char_left` (`g(χ^p, ψ) = g(χ, ψ)` for such `ψ`)
-(`TauCeti.NumberTheory.GaussSum.Basic`); `TauCeti.gaussSum_pow_three_eq_card_mul_jacobiSum`
-(`g(χ)³ = q J(χ, χ)` for `orderOf χ = 3`, `TauCeti.NumberTheory.JacobiSum.Cubic`) and
-`TauCeti.gaussSum_pow_four_eq_card_mul_jacobiSum_sq` (`g(χ)⁴ = q J(χ, χ)²` for `orderOf χ = 4`,
-`TauCeti.NumberTheory.JacobiSum.Quartic`), both for primitive `ψ` and values in a domain;
-consumed in 1.2, 1.3 and 1.5.
-
-Stickelberger's congruence (`TauCeti.NumberTheory.GaussSum.Stickelberger`): for a prime `p`, a
-finite field `F` over `ZMod p`, a maximal ideal `P` of a domain `R`, a character `ω : MulChar F R`
-lifting a ring map `f : F →+* R ⧸ P`, and `ψ(x) = ζ^{Tr(x)}` for an element `ζ` of `R`,
-`TauCeti.stickelberger_congruence` gives
-`(∏_i a_i!) · (−g(ω⁻ᵃ, ψ)) ≡ (ζ − 1)^{s(a)} (mod P^{s(a)+1})` for `0 ≤ a < q − 1` with base-`p`
-digits `a_i` and `s(a) = ∑ a_i`; `gaussSum_inv_pow_mem_pow` gives `g(ω⁻ᵃ, ψ) ∈ P^{s(a)}`; and in
-a Dedekind domain with `v(ζ − 1) = 1` at the height-one prime `v`, `intValuation_gaussSum_inv_pow`
-gives `v(g(ω⁻ᵃ, ψ)) = s(a)` and `intValuation_gaussSum_inv_pow_pow_sub_one` gives
-`(p − 1) v(g(ω⁻ᵃ, ψ)) = s(a) v(p)`; consumed in 6.2.
-
-Power residue symbols (`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.Basic`): for a number
-field `K` with `[HasEnoughRootsOfUnity (𝓞 K) n]` and a maximal ideal `P` of `𝓞 K`,
-`Ideal.powerResidueSymbol P n : MulChar (𝓞 K ⧸ P) (𝓞 K)` is the `n`-th power residue symbol
-`(·/P)_n`, with `mk_powerResidueSymbol` (`(x/P)_n ≡ x^{(N P − 1)/n} (mod P)` for `x ≠ 0` and `N P`
-prime to `n`), `powerResidueSymbol_eq_iff` (it is the only `n`-th root of unity of `𝓞 K` with that
-congruence), `powerResidueSymbol_pow_div` (`((x/P)_n)^{n/d} = (x/P)_d` for `d ∣ n`),
-`orderOf_powerResidueSymbol` (order exactly `n`) and `map_powerResidueSymbol` (`σ((α/P)_n) =
-(σα/σP)_n` for a ring isomorphism `σ`); at a prime whose norm is not prime to `n` the symbol is
-the trivial character by convention. Jacobi sums of its powers
-(`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.JacobiSum`):
-`jacobiSum_powerResidueSymbol_pow_mem` (`J((·/P)_n^a, (·/P)_n^b) ∈ P` for `a, b ≠ 0`, `a + b < n`)
-and `jacobiSum_powerResidueSymbol_mul_jacobiSum_inv` (`J(χ, χ) J(χ⁻¹, χ⁻¹) = N P` for `n ≥ 3`).
-The Gauss-sum power `Ideal.stickelbergerPhi A m ∈ 𝓞 K` of an ideal `A` with `stickelbergerPhi_prime`
-(`f(Φ(P)) = g((·/P)_m⁻¹ ∘ f, ψ)^m` for `m ≥ 2`, `N P` prime to `m`, every injective ring map `f`
-from `𝓞 K` to a domain and every primitive `ψ`;
-`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.StickelbergerPhi`). The cubic identities for
-`K = ℚ(ζ_3)`, `P = (π)` with `π` a primary Eisenstein prime (`TauCeti.IsPrimaryEisenstein`) and
-`χ = (·/P)_3`: `span_singleton_jacobiSum_powerResidueSymbol_three` (`(J(χ, χ)) = P` for `N P`
-prime to `3`) and `jacobiSum_powerResidueSymbol_three_eq` (`J(χ, χ) = π`)
-(`TauCeti.NumberTheory.NumberField.Cyclotomic.Three.JacobiSum`), and
-`gaussSum_powerResidueSymbol_three_pow_three_eq` (`g(χ ∘ f, ψ)³ = N P · f(π)` for injective `f`
-into a domain and primitive `ψ`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Three.CubicReciprocity`);
-the quartic identities for `K = ℚ(i)`, `P = (π)` with `π` a primary Gaussian prime
-(`TauCeti.IsPrimaryGaussian`) and `χ = (·/P)_4`: `jacobiSum_powerResidueSymbol_four_eq`
-(`J(χ, χ) = −χ(−1) π`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`) and
-`gaussSum_powerResidueSymbol_four_pow_four_eq` (`g(χ ∘ f, ψ)⁴ = N P · f(π)²`,
-`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.GaussSum`). For an arbitrary character of order
-`3` or `4` on a finite field: `TauCeti.isPrimaryEisenstein_jacobiSum` (`J(χ, χ) ≡ 2 (mod 3)` for
-`orderOf χ = 3`, values in a domain; `TauCeti.NumberTheory.NumberField.Cyclotomic.Three.JacobiSum`),
-`TauCeti.norm_jacobiSum_eq_card_of_orderOf_eq_four` (`Algebra.norm ℤ (J(χ, χ)) = q` for
-`orderOf χ = 4`, values in `𝓞 K`, `K = ℚ(i)`) and
-`TauCeti.isPrimaryGaussian_neg_apply_neg_one_mul_jacobiSum` (`−χ(−1) J(χ, χ)` is primary for
-`χ^4 = 1` and `4 ∣ q − 1`, values in the same `𝓞 K`) (`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`); consumed
-in 2.3. The cyclotomic splitting law
-`IsPrimitiveRoot.inertiaDeg_eq_orderOf_of_val_eq_absNorm`
-(`TauCeti.NumberTheory.NumberField.Cyclotomic.ResidueDegree`): for a cyclotomic extension `F/K` of
-order `m`, a prime `𝔭` of `K` not containing `m`, a nonzero prime `Q` of `F` above it at which
-`𝓞 F` is unramified, and an arithmetic Frobenius `σ` at `Q` (one exists, Mathlib's
-`IsArithFrobAt.exists_of_isInvariant`), the residue degree of `Q` is the order in `(ZMod m)ˣ` of a
-unit reducing to `N 𝔭`. Consumed in 1.3, 1.5, 2.3, 6.1–6.3 and the worked examples; the milestone
-numbers of `ClassicalArithmeticCompletion` cited beside them are the statements these declarations
-instantiate.
-
-Diagonal quadrics: `TauCeti.card_sum_mul_sq_eq_of_card_eq_two_mul_add_one` and
-`card_sum_mul_sq_eq_of_card_eq_two_mul_add_two` (the number of solutions of `∑ w_i x_i² = c` with
-all `w_i ≠ 0` over `F` with `ringChar F ≠ 2`, in rank `2m + 1` and `2m + 2`,
-`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Quadric`); the case `d_i = 2` of 2.4. The
-quadratic Jacobi sum `TauCeti.sum_quadraticChar_mul_sub` (`∑_u η(u (c − u)) = η(−1)(q − 1)` for
-`c = 0` and `−η(−1)` otherwise, `ringChar F ≠ 2`;
-`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Basic`); consumed in 2.5.
-
-Conrey labels: `TauCeti.conreyCharacter N : (ZMod N)ˣ ≃* DirichletCharacter ℂ N` with
-`conreyPairing`, `conreyGenerator` and `conreyCharacter_apply`
-(`TauCeti.NumberTheory.DirichletCharacter.Conrey`) and the orbit index
-`DirichletCharacter.galoisOrbitIndex` (`TauCeti.NumberTheory.DirichletCharacter.GaloisOrbitLabel`);
-7.7 and the worked examples name characters by them.
-
-### From ClassicalArithmeticCompletion
-
-1.19, 1.23 (`powerResidueSymbol`, `powerResidueSymbol_spec`), 1.36, 1.46, 1.47, 1.53, 1.55, 1.60,
-4.19 (`quadraticExpSum`, `quadraticExpSum_one_eq_gaussSum`), 7.12 and 7.29, with the statements listed
-under *Consumed, not redefined*. 1.47's `χ_P = (·/P)_m⁻¹` is `ω_𝔓^{−(q−1)/m}` (6.1); 7.12's
-congruence is stated with the uniformizer `ζ_p − 1` and the sign `−g(ω^{−a})`, and is Tau Ceti's
-`stickelberger_congruence`, which 6.2 cites for the congruence and the valuation.
-Section 1.23 is the statement of the residue character, its uniqueness and its order, whose
-compiled carrier is Tau Ceti's `Ideal.powerResidueSymbol` with `powerResidueSymbol_eq_iff` and
-`orderOf_powerResidueSymbol`; 6.1 reads it at `n = q − 1`. Likewise 1.47 is `Ideal.stickelbergerPhi`
-with `stickelbergerPhi_prime`, 1.19 and 1.60 are `gaussSum_powerResidueSymbol_three_pow_three_eq`,
-1.53 is `jacobiSum_powerResidueSymbol_three_eq`, 1.36 is `jacobiSum_powerResidueSymbol_four_eq` and
-1.46 is `gaussSum_powerResidueSymbol_four_pow_four_eq` (*From Tau Ceti*); 1.55 has no carrier at
-the pin and is consumed as that roadmap's statement.
-§7.29 supplies `g(χ^m) ∏_{1≤j<m} g(λ^j) = χ(m)^m ∏_{0≤j<m} g(χλ^j)`
-for exact-order `λ`, `m ∣ q − 1`, and nontrivial additive character, including `χ = 1`.
-
-### From DirichletPadicLFunctions
-
-§4.1 (`existsUnique_moritaGamma`, `moritaGamma_unit_step`, `moritaGamma_nonunit_step`), §4.4 (the
-reflection formula, including `Γ_2(x) Γ_2(1 − x) = (−1)^{1+x₁}` for the second binary digit `x₁`, and the digit identity `∑_{j<f} a_j/(q − 1) = S_p(a)/(p − 1)`) and
-§4.5 (`grossKoblitz_formula` for the negative Gauss sum of the local Teichmüller lift, with
-`π^{p−1} = −p`, `π ≡ ζ_p − 1 (mod (ζ_p − 1)²)`, and its corollaries `grossKoblitz_formula_valuation`
-`‖g_q(a)‖ = ‖p‖^{S_p(a)/(p−1)}` and the leading residue `g_q(a)/π^{S_p(a)} ≡ (∏ a_i!)⁻¹`), with
-the statements listed under *Consumed, not redefined*. Consumed in 6.4–6.5.
-
-### From AutomorphicSpectralTheory
-
-§1.16: `S(m, n; c)` in prose, its frequency symmetry, `kloosterman_real`, and
-`S(m, 0; c) = ∑_{d ∣ (m, c)} μ(c/d) d`. Consumed in 7.3.
-
-### From CongruenceSpectralGap
-
-§4.2a `hyperKloosterman F k ψ r` and §4.2b `hyperKloosterman_bound`. Consumed in 5.1 and 5.5.
-
-### From EllipticLegendreCharacterInterfaces
-
-5.1, the character-sum point count `q + 1 + ∑_x η(f(x))` of a Weierstrass equation
-`y² = f(x) = x³ + a₂x² + a₄x + a₆` over an odd finite field and `symmetric_cubic_trace_zero`.
-Consumed in 2.5.
-
-## How to read the build
-
-Layer 0 fixes the carriers: the canonical additive character and the shift parametrization of all
-additive characters, the cyclic character group with its orthogonality relations and Galois action,
-the lifts of characters to a finite extension, and the characters of a product ring with the
-Chinese-remainder factors of a Dirichlet character. Layer 1 records Mathlib's Gauss-sum identities
-against the canonical character and adds the norm, the field of definition and the Galois action;
-Layer 2 does the same for Jacobi sums and adds the multiple Jacobi sums, diagonal equations and
-Jacobsthal sums. Layer 3 builds the `L`-series of a monic multiplicative function once and uses it
-for the Hasse–Davenport lifting relation, with the supplied product formula giving duplication; Layer 4 proves Stepanov's uniform
-point-count bounds and converts them through the `L`-series and the power-sum lemma into Weil's
-bounds for polynomial sums; Layer 5 defines Kloosterman sums on a finite ring and proves Salié's
-evaluation, the degree-two `L`-polynomial and Weil's bound by the same route. Layer 6 reads Tau Ceti's power residue symbol at `n = q − 1` as the
-Teichmüller character of a prime of `ℚ(ζ_{q−1})`, states the consumed Stickelberger congruence and
-relation against it, and transports the consumed Gross–Koblitz formula to this roadmap's Gauss and
-Jacobi sums. Layer 7 reads the Kloosterman sum of Layer 5 on `ZMod c` and proves the
-integer-modulus formulas and Weil's bound for every modulus. Three streams are independent after
-Layer 0: Layers 1–2 then 6; Layers 3–4 then 5; and 0.7 with 7.1–7.2. Layer 7's 7.3–7.7 close the
-roadmap and need the first two streams.
 
 ## Layer 0: characters of a finite field
 
@@ -2388,6 +1922,484 @@ sums over a finite field are for parameters in `𝔽_p`, and its Stepanov estima
 
 A proof adapted from any of these repositories keeps its Apache-2.0 attribution. The statements
 of this roadmap are specified independently of all of them.
+
+## Scope and ownership
+
+Several roadmaps border this one. The
+[classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md) owns the cubic and
+quartic Gauss and Jacobi sums of primary primes, power residue symbols, the Stickelberger
+congruence and Stickelberger's relation for `Φ(P) = g(P)^m`, the Hasse–Davenport product
+relation (§7.29), and the reciprocity laws; this roadmap
+consumes those milestones by number (Layer 1, 1.55 and 7.12 there) and proves nothing about primary
+elements or reciprocity. The [theta-series roadmap](../ThetaSeries/README.md) owns the Gauss sums
+of a lattice and their reciprocity law, which are sums of `e(a‖y‖²/2c)` over `L/cL` and not
+character sums; it states in its scope that Gauss's sign determination is never needed there and is
+not its target. Gauss's evaluation `∑_{r<N} e(r²/N) = (1 + i)/2 · (1 + (−i)^N) · √N` for every
+`N` is Tau Ceti's `TauCeti.sum_range_cexp_two_pi_I_sq_div`; 1.4 reads it at an odd prime and this
+roadmap proves no sign over the prime field. `AnalyticNumberTheoryPartI` §2.30 owns the sign of
+the Gauss sum of the primitive quadratic character of a fundamental discriminant, deduced from the
+Dedekind functional equation; nothing here consumes it. The
+[multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns the Kronecker symbol and
+genus theory; [Chebotarev](../../Completed/Chebotarev/README.md) and
+[arithmetic Dirichlet series](../../Completed/ArithmeticDirichletSeries/README.md) are the analytic
+consumers of character sums over `ℤ`, none of which states a complete character sum over a finite
+field. `AutomorphicSpectralTheory` §1.16 defines the integer-modulus Kloosterman sum `S(m, n; c)`
+in prose, with its frequency symmetry, its reality and the Ramanujan-sum value `S(m, 0; c)`; this
+roadmap's integer-modulus sum specializes to it and the comparison is a milestone (7.3).
+`CongruenceSpectralGap` §§4.2a–4.2b owns the untwisted all-rank hyper-Kloosterman sum
+`hyperKloosterman F k ψ r` over every finite field, its Kloosterman-sheaf realization and its
+Deligne bound `k q^{(k−1)/2}`; 5.1 identifies the untwisted rank-two case of this roadmap's
+`kloostermanSum` with it, and 5.5's inequality at `χ = 1` is that bound at `k = 2`, proved a second
+time here by Stepanov's method because 5.5 needs it for every `χ`.
+
+`DirichletPadicLFunctions` owns Morita's `p`-adic Gamma function and the Gross–Koblitz formula:
+its §4.1 constructs the signed Gamma function `Γ_p : ℤ_p → ℤ_p^×` with its functional equations
+for every prime, its §4.4 the reflection formula and the digit identities, and its §4.5 the
+Gross–Koblitz formula `g_q(a) = π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for the negative Gauss sum
+`g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` of the Teichmüller lift of a local field's residue field.
+Nothing about `Γ_p` is defined or proved here. Layer 6 owns what that roadmap leaves to its
+consumers: the reading of Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1` as the Teichmüller
+character, with the residue cardinality (6.1), the Stickelberger corollaries stated against it
+(6.2–6.3), the identification of `ω_𝔓` with the local Teichmüller lift under completion and the
+transport of the Gauss sums of Layer 1 into the completed field (6.4), and the resulting evaluation
+of `g(ω_𝔓^{−a})` and of the Jacobi sums `J(ω_𝔓^{−a}, ω_𝔓^{−b})` in this roadmap's normalization
+(6.5).
+
+The half-integral-weight Kloosterman sums with the theta multiplier and the Jacobi symbol
+`(c/d)`, for `4 ∣ c`, together with their Chinese-remainder factorization and Salié evaluation, are
+`GeometryOfNumbersAndQuadraticArithmetic` §4.3's (`halfIntegralKloosterman`); the Salié sums of this
+roadmap are the finite-field sums `K(η; a, b)` of 5.3 and the integer-modulus sums `S(m, n; p^k)` of
+7.5 for odd prime powers, with a Dirichlet character and no multiplier, and neither roadmap
+restates the other's. `DeligneWeightsAndPurity` reaches Weil bounds through étale cohomology and
+weights; nothing here depends on it. The trace-function reading of this roadmap's `L`-series, in
+which, under the hypotheses of 3.3, 4.5, 4.6 and 5.4, the Gauss sums, the polynomial sums of
+Layer 4 and the Kloosterman sums are minus the geometric-Frobenius traces on `H¹_c` of rank-one
+sheaves on `𝔾_m` and `𝔸¹`, is background recorded in 3.6 to fix the normalization that relates
+the two sides. It is not a target of this roadmap, and no target or route here uses a sheaf.
+
+`HypergeometricMotives` borders this roadmap and consumes nothing from it: its finite
+hypergeometric sums of Katz and Beukers–Cohen–Mellit are quotients of products of Mathlib's
+`gaussSum` at the powers `ω^m` of a generator `ω` of the character group, and their reduction uses
+the Hasse–Davenport product relation, which it takes from `ClassicalArithmeticCompletion` §7.29
+directly; 3.4 records that relation's consequences for the Gauss sums of Layer 1, and 6.5 the
+`p`-adic evaluation of the Jacobi sums of 6.3. `CurvesOverFiniteFields` borders it: this roadmap bounds *finite sums* by Stepanov's
+auxiliary-polynomial method applied to three explicit plane curves (Layer 4) and never forms a zeta
+function, a divisor, or a function field. The zeta functions of the corresponding Kummer and
+Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5); the comparison of the
+`L`-polynomials of Layers 3–5 with their numerators is not a target here and is not needed. It is
+not a divisibility: for `y² = x² + 1` over `𝔽_3` the `L`-polynomial of 4.5 is `1 − T`, while the
+smooth conic has zeta numerator `1` and two rational points at infinity.
+
+### Owned here
+
+- The **canonical additive character** `ψ_F(x) = e(Tr_{F/𝔽_p}(x)/p)` of a finite field, its
+  primitivity, and the parametrization of all additive characters as its multiplicative shifts
+  (Layer 0).
+- The **multiplicative character group** of `F` as a cyclic group of order `q − 1`: generators,
+  characters of a given order, both orthogonality relations, the Fourier expansion of a function on
+  `F^×`, the Galois action on character values, and the lifting of characters to a finite extension
+  through the norm and the trace (Layer 0).
+- **Gauss sums** `g(χ) = gaussSum χ ψ_F`: the trivial cases, shifts, absolute value, conjugation,
+  the field of definition `ℚ(ζ_m, ζ_p)` and the Galois action on it (Layer 1); the sign over the
+  prime field is consumed (1.4) and the sign over every `𝔽_q` is derived from it (3.3).
+- **Jacobi sums**, **multiple Jacobi sums**, the counts of points on diagonal equations they give,
+  and **Jacobsthal sums** with Jacobsthal's two-squares identity
+  `q = (φ_2(1)/2)² + (φ_2(r)/2)²` over every `𝔽_q` with `q ≡ 1 (mod 4)` and his sign of `a` in
+  `p = a² + b²` (Layer 2).
+- The **`L`-series of a completely multiplicative function on monic polynomials**, its Euler
+  product, the identity between its logarithmic derivative and the lifted sums over `𝔽_{q^n}`, and
+  the root-power identity `S_n = −∑ ω_i^n` for an `L`-polynomial; the **Hasse–Davenport lifting
+  relation** for Gauss and Jacobi sums, and the sign of
+  the quadratic Gauss sum over every `𝔽_q` (Layer 3).
+- **Stepanov's method**: the uniform point-count bounds for `y^d = f(x)`, `y^q − y = f(x)` and
+  `y^q − y = a x^d + b x^{−d}`; the power-sum lemma; the polynomiality and degree of the
+  `L`-series of a multiplicative or additive character sum of a polynomial; and **Weil's bounds**
+  `|∑_x χ(f(x))| ≤ (m − 1)√q` and `|∑_x ψ(f(x))| ≤ (n − 1)√q` with their point-count
+  corollaries (Layer 4).
+- **Kloosterman sums** `K(χ; a, b)` on a finite commutative ring, their expansion in Gauss sums,
+  **Salié's evaluation** for the quadratic character, the degree-two `L`-polynomial and the lifting
+  relation, **Weil's bound** `|K(χ; a, b)| ≤ 2√q`, and the Kloosterman angle (Layer 5).
+- The **Teichmüller character** `ω_𝔓` as Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1`
+  (the residue character of `ClassicalArithmeticCompletion` §1.23), with the residue cardinality,
+  the prime factorization of `g(ω^{−a})` in `ℚ(ζ_{q−1}, ζ_p)` for every `a` as a corollary of the
+  consumed Stickelberger congruence, the **digit-sum formula for Jacobi sums**, the identification of the
+  Teichmüller character with the local Teichmüller lift of `DirichletPadicLFunctions` §4.5, and
+  the **Gross–Koblitz evaluation** `g(ω^{−a}) = −π^{s(a)} ∏_i Γ_p(⟨p^i a/(q−1)⟩)` of this roadmap's
+  Gauss sums with its Jacobi-sum corollary (Layer 6).
+- The sums **modulo an integer**: `τ_a(χ)` for every Dirichlet character (the imprimitive and the
+  Chinese-remainder formulas), `J(χ, ψ)` modulo `N`, `S_χ(m, n; c)` with twisted multiplicativity,
+  Salié's prime-power evaluation, Weil's bound `|S(m, n; c)| ≤ τ(c)(m, n, c)^{1/2} c^{1/2}` for every
+  modulus, and its twisted form with the conductor factor `𝔠_χ^{1/2}`, which can be dropped for
+  cube-free `c` (Layer 7).
+
+### Consumed, not redefined
+
+- From Mathlib: `MulChar`, `AddChar`, `gaussSum`, `jacobiSum`, `quadraticChar`,
+  `DirichletCharacter` (which is `MulChar (ZMod N) R` by definition), `ZMod.stdAddChar`,
+  `AddChar.IsPrimitive`, `AddChar.mulShift`, `MulChar.ringHomComp`, `MulChar.equiv_rootsOfUnity`,
+  `MulChar.exists_mulChar_orderOf`, `DirichletCharacter.changeLevel`, `conductor`, `IsPrimitive`,
+  `primitiveCharacter`, `ZMod.chineseRemainder`, and every lemma named in the supplier contracts.
+  Nothing in this list is restated behind a private name.
+- From the [classical arithmetic roadmap](../ClassicalArithmeticCompletion/README.md): 1.19 (the
+  cube of a cubic Gauss sum), 1.53 (`J(χ_π, χ_π) = π` for the cubic character of a primary prime
+  `π`) and 1.36 (`−χ(−1) J(χ, χ) = π`, that is `J(χ, χ) = −(−1)^{(p−1)/4} π`, for the quartic
+  character of a primary Gaussian prime), 1.46 and 1.60 (the fourth and third powers of the quartic
+  and cubic Gauss sums), 1.47 (`Φ(P) = g(P)^m ∈ ℤ[ζ_m]`), 1.55 (Stickelberger's relation
+  `(Φ(P)) = P^γ`), 7.12 (the Stickelberger congruence
+  `∏ a_i! · (−g(ω^{−a})) ≡ (ζ_p − 1)^{s(a)} (mod 𝔓̃^{s(a)+1})`, whose exported consequence is the
+  valuation `v_𝔓̃(g(ω^{−a})) = s(a)`; 1.55 uses that valuation inside its proof and does not export
+  it; the congruence and the valuation are also Tau Ceti's `stickelberger_congruence` and
+  `intValuation_gaussSum_inv_pow`, which 6.2 cites), and 4.19 (the quadratic exponential sum `S_p(a)` and `S_p(1) = gaussSum χ ψ`). Layer 6
+  states 1.55 and 7.12 against the Teichmüller character 6.1 and derives from them the
+  factorization of `(g(ω^{−a}))` for every `a` and the Jacobi digit-sum formula; it re-derives
+  neither. Of these milestones, 1.19, 1.36, 1.46, 1.47, 1.53 and 1.60, and the residue
+  character of its §1.23, are compiled at the pinned Tau Ceti and are cited by their Lean names
+  where used (*From Tau Ceti*: `Ideal.powerResidueSymbol`, `Ideal.stickelbergerPhi` with
+  `stickelbergerPhi_prime`, and the cubic and quartic Gauss- and Jacobi-sum identities); 1.55, the
+  relation `(Φ(P)) = P^γ`, has no carrier at the pin and is consumed as that roadmap's statement.
+  Its §1.23 is the roadmap statement of the residue character, its unique-root congruence and its
+  exact order, which Tau Ceti's `Ideal.powerResidueSymbol` with `powerResidueSymbol_eq_iff` and
+  `orderOf_powerResidueSymbol` instantiates; 6.1 reads that carrier at `n = q − 1`. Its §7.29 supplies the full Hasse–Davenport product
+  formula for every multiplicative character and every nontrivial additive character; 3.4
+  records its duplication consequence and normalization Checks.
+- From `DirichletPadicLFunctions`: §4.1 (the signed Morita Gamma function `Γ_p : ℤ_p → ℤ_p^×`,
+  `existsUnique_moritaGamma`, with `Γ_p(0) = 1`, `Γ_p(x + 1) = −x Γ_p(x)` for units `x` and
+  `Γ_p(x + 1) = −Γ_p(x)` for `x ∈ pℤ_p`, `moritaGamma_unit_step` and `moritaGamma_nonunit_step`),
+  §4.4 (the reflection formula `Γ_p(x) Γ_p(1 − x) = (−1)^{R(x)}` with `R(x) ∈ {1, …, p}` the
+  residue of `x` for odd `p`, and the digit identity `∑_{j<f} a_j/(q − 1) = S_p(a)/(p − 1)` for the
+  rotated digits `a_j = p^j a mod (q − 1)`), and §4.5 (`grossKoblitz_formula`: for the Teichmüller
+  lift `ω` of the residue field of a local field with `q` residue elements and the root `π` of
+  `π^{p−1} = −p` with `π ≡ ζ_p − 1 (mod (ζ_p − 1)²)`, the negative Gauss sum
+  `g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` equals `π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for
+  `0 ≤ a < q − 1`). Layer 6 consumes these three sections and defines no Gamma function.
+- From Tau Ceti: Gauss's evaluation `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+  (`TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum`), which is the sign of 1.4; the
+  primitive Dirichlet Gauss-sum identities `gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive`,
+  `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`, `IsPrimitive.norm_gaussSum` and
+  `gaussSum_ne_zero_of_isPrimitive`, with `gaussSumOfPrimitiveRoot`
+  (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), used in 7.1, 7.2 and 7.7; the conductor
+  of a product of characters with coprime conductors, `DirichletCharacter.conductor_mul_of_coprime`
+  (`TauCeti.NumberTheory.DirichletCharacter.Conductor`), which with Mathlib's
+  `conductor_changeLevel` gives the conductor and primitivity of the Chinese-remainder factors in
+  0.7; the local Teichmüller lifts `TauCeti.teichmuller` (`TauCeti.RingTheory.Henselian.Teichmuller`)
+  and `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`), which 6.1 and 6.4
+  compare with the global character `ω_𝔓`.
+- From `AutomorphicSpectralTheory` §1.16: the integer-modulus sum
+  `S(m, n; c) = ∑_{d ∈ (ℤ/cℤ)^×} e((m d + n d̄)/c)` with its frequency symmetry
+  `S(m, n; c) = S(n, m; c)`, its reality (`kloosterman_real`) and the Ramanujan-sum values
+  `S(m, 0; c) = ∑_{d ∣ (m, c)} μ(c/d) d`. Milestone 7.3 identifies it with the trivial-character
+  specialization of this roadmap's `kloostermanSum` over `ZMod c`; its three facts are then
+  inherited and not reproved.
+- From `CongruenceSpectralGap` §4.2a: the raw hyper-Kloosterman sum
+  `hyperKloosterman F k ψ r = ∑_{x : Fin k → Fˣ, ∏ x_i = r} ψ(∑ x_i)`, which 5.1 identifies with
+  `kloostermanSum 1 ψ a b` at `k = 2`, `r = a b`; and §4.2b `hyperKloosterman_bound`,
+  `‖hyperKloosterman F k ψ r‖ ≤ k q^{(k−1)/2}` for `ψ ≠ 1`, `k ≥ 1`, which 5.5 records at `χ = 1`.
+  Neither is redeclared here.
+- From `EllipticLegendreCharacterInterfaces` 5.1: the character-sum point count of a normal-form
+  Weierstrass equation over an odd finite field and `symmetric_cubic_trace_zero`, which 2.5 reads
+  as the elliptic form of its Jacobsthal sums.
+
+### Not owned here
+
+- **Reciprocity laws and primary elements**: the classical arithmetic roadmap, Layer 1; the
+  power residue symbol itself is Tau Ceti's `Ideal.powerResidueSymbol` (*From Tau Ceti*), which
+  6.1 reads at `n = q − 1`. The Gauss and Jacobi sums here are indexed by abstract characters;
+  which character is "the" cubic residue character of a primary prime is that roadmap's business.
+- **The Kronecker symbol `(D/·)`** and the identification of real Dirichlet characters with it:
+  the multiquadratic roadmap and the theta-series roadmap (2H there).
+- **Gauss sums of a lattice** `G_L(a, c)`, their reciprocity and Milgram's formula: the
+  theta-series roadmap, Layer 6. The one-dimensional quadratic exponential sum
+  `∑_{y mod c} e(a y²/c)` for a composite modulus `c`, and the Landsberg–Schaar identity, are not
+  targets of this roadmap; the prime case `c = p` is the classical arithmetic roadmap's 4.19
+  (as a Gauss sum), and Gauss's evaluation of `∑_{y mod c} e(y²/c)` for every `c` is Tau Ceti's
+  `TauCeti.sum_range_cexp_two_pi_I_sq_div`, consumed in 1.4.
+- **Morita's `p`-adic Gamma function and the Gross–Koblitz formula**: `DirichletPadicLFunctions`
+  §§4.1, 4.4 and 4.5. Layer 6 consumes them; what it owns is the comparison of carriers and the
+  evaluation of this roadmap's Gauss and Jacobi sums.
+- **Zeta functions of curves and function fields** and the Riemann hypothesis for curves:
+  `FunctionFieldArithmetic`, Layer 5 (the root bound `|α_i| = √q` in §5.4). Weil polynomials:
+  `CurvesOverFiniteFields`. The comparison of the `L`-polynomials of Layers 3–5 with numerators
+  of zeta functions is not a statement of this roadmap. The cohomological theory of weights and
+  Deligne's theorem: `DeligneWeightsAndPurity`. The Kloosterman sheaf, the all-rank
+  hyper-Kloosterman sums and their Deligne bound: `CongruenceSpectralGap` §§4.2a–4.2b.
+- **Kummer and Artin–Schreier sheaves** `ℒ_χ`, `ℒ_ψ` and every sheaf-theoretic identification of
+  the sums of this roadmap: Gauss and Jacobi sums as Frobenius traces on the compactly supported
+  cohomology of rank-one sheaves on `𝔾_m` and `𝔸¹ ∖ {0, 1}`, Kloosterman sums as Frobenius traces
+  of a Kloosterman sheaf, and the trace-function reading 3.6 of the `L`-series. None is a target of
+  this roadmap, which defines no sheaf and proves each of its bounds without one. Where they are
+  named (3.6), `ℒ_ψ` and `ℒ_χ` are the rank-one lisse sheaves on `𝔾_a` and `𝔾_m` obtained from the
+  Lang torsors by the characters `ψ` and `χ`, normalized as in SGA 4½, *Sommes trig.*, 1.4,
+  Définition 1.7 and (1.7.6)–(1.7.7): geometric Frobenius at a point `x` over `𝔽_{q^n}` has trace
+  `ψ(Tr x)` on `ℒ_ψ` and `χ(N x)` on `ℒ_χ`. This is the normalization of the Artin–Schreier sheaf
+  that `CongruenceSpectralGap` §4.2b consumes, and its Kloosterman sheaf is built from that sheaf by
+  multiplicative convolution, `R^{k−1}mult_!(ℒ_ψ ⊠ ⋯ ⊠ ℒ_ψ)` on `𝔾_m`, with geometric-Frobenius
+  trace `(−1)^{k−1}` times the raw hyper-Kloosterman sum. At `k = 2`, replacing the first factor by
+  `ℒ_χ ⊗ ℒ_ψ` gives a sheaf whose geometric-Frobenius trace at `r ∈ Fˣ` is `−K(χ; 1, r)`, and 5.1's
+  scaling `K(χ; a, b) = χ(a)⁻¹ K(χ; 1, a b)` reaches every `K(χ; a, b)` with `a b ≠ 0`.
+- **Half-integral-weight Kloosterman sums** with the theta multiplier:
+  `GeometryOfNumbersAndQuadraticArithmetic` §4.3.
+- **Finite hypergeometric sums**, Greene's and Katz's functions: `HypergeometricMotives`, whose
+  `p`-adic evaluation takes the Gross–Koblitz formula from `DirichletPadicLFunctions` §4.5
+  directly; 6.5 is the same evaluation for the Jacobi sums of 6.3 and is not consumed there.
+- **Selberg's `λ₁ ≥ 3/16`**, Kuznetsov's formula, and any use of Kloosterman sums in spectral
+  theory: `AutomorphicSpectralTheory` and `CongruenceSpectralGap` (whose `λ₁ ≥ 21/100` contains
+  `3/16`).
+- **The general mixed Weil bound** `|∑_x χ(f(x)) ψ(g(x))| ≤ (deg f + deg g − 1)√q` for arbitrary
+  `f, g`, and Weil bounds for rational functions beyond `a x^d + b x^{−d}`: not targets of this
+  roadmap; the twisted Kloosterman case is 5.5.
+- **Equidistribution of Kloosterman angles** (Katz's vertical Sato–Tate law): not a target of
+  this roadmap. The angle `θ_F(a, b)` is defined in 5.5; nothing about its distribution is.
+  Deligne's equidistribution theorem is `DeligneWeightsAndPurity` §10.5 and the Kloosterman sheaf
+  is `CongruenceSpectralGap` §4.2b; the geometric monodromy group of that sheaf, which the law
+  also needs, is not a target here.
+- **`p`-adic `L`-functions** and the Dwork exponential as objects of their own:
+  `DirichletPadicLFunctions`; Layer 6 contains the transport of the Gross–Koblitz formula and
+  nothing further `p`-adic.
+- **Exponential sums over `ℤ/cℤ` of general polynomials** (Hua's bound) and **incomplete sums**
+  (Pólya–Vinogradov, Burgess, Weyl differencing): the analytic number theory roadmaps; only the
+  Kloosterman case 7.5–7.6 and complete sums over a finite ring are here.
+- **Conrey labels** and the ordering of characters: the Conrey isomorphism is Tau Ceti's
+  `conreyCharacter q : (ZMod q)ˣ ≃* DirichletCharacter ℂ q` and the orbit letter its
+  `DirichletCharacter.galoisOrbitIndex`, consumed by name and not targets. The worked examples name
+  a character by its Conrey index, spelled out in prose for prime `q` (the character is determined
+  by its value on the Conrey generator, the least primitive root modulo `q²`), and nothing depends
+  on the name.
+
+## Exact supplier contracts
+
+Every declaration named below exists at the pinned Mathlib and Tau Ceti in the file given; nothing
+is cited from a later revision of either library. The Mathlib areas drawn on are its finite fields
+(`FieldTheory/Finite/*`), multiplicative characters (`NumberTheory/MulChar/*`), additive characters
+(`Algebra/Group/AddChar`, `NumberTheory/LegendreSymbol/AddCharacter`), Gauss sums
+(`NumberTheory/GaussSum`), Jacobi sums (`NumberTheory/JacobiSum/Basic`), the quadratic character
+(`NumberTheory/LegendreSymbol/QuadraticChar/*`), Dirichlet characters
+(`NumberTheory/DirichletCharacter/*`), cyclotomic fields (`NumberTheory/Cyclotomic/*`,
+`NumberTheory/NumberField/Cyclotomic/*`), Hasse derivatives, Dedekind-domain completions
+(`RingTheory/DedekindDomain/AdicValuation`) and the Fourier analysis of finite abelian groups
+(`Analysis/Fourier/FiniteAbelian/*`).
+
+### From Mathlib
+
+Additive characters: `AddChar`, `AddChar.mulShift`, `mulShift_mul`, `inv_mulShift`
+(`ψ⁻¹ = ψ.mulShift (−1)`), `AddChar.IsPrimitive`, `to_mulShift_inj_of_isPrimitive`,
+`IsPrimitive.of_ne_one` (on a field every nontrivial additive character is primitive),
+`AddChar.sum_eq_zero_of_ne_one`, `sum_mulShift`, `AddChar.card_eq` (`#AddChar α ℂ = #α`),
+`sum_apply_eq_ite` (dual orthogonality), `ZMod.stdAddChar`, `ZMod.stdAddChar_apply`, `ZMod.stdAddChar_coe`,
+`ZMod.isPrimitive_stdAddChar`, `AddChar.zmodChar`, `FiniteField.primitiveChar`,
+`FiniteField.primitiveChar_to_Complex` and its primitivity.
+
+Multiplicative characters: `MulChar`, `map_nonunit`, `MulChar.inv_apply'`, `star_eq_inv`,
+`apply_mem_rootsOfUnity`, `ringHomComp` and its injectivity lemmas, `IsQuadratic`,
+`sum_eq_zero_of_ne_one`, `sum_one_eq_card_units`, `orderOf_dvd_card_sub_one`,
+`exists_mulChar_orderOf`, `exists_mulChar_orderOf_eq_card_units`, `equiv_rootsOfUnity`
+(`MulChar M R ≃* rootsOfUnity (#Mˣ) R` for cyclic `Mˣ`), `ofRootOfUnity`,
+`card_eq_card_units_of_hasEnoughRootsOfUnity`, `exists_apply_ne_one_of_hasEnoughRootsOfUnity`,
+`exists_apply_eq_pow` (every value of `χ` is a power of a primitive root of unity of order
+`orderOf χ`), `apply_mem_algebraAdjoin` (values in `ℤ[ζ_m]`), `val_neg_one_eq_one_of_odd_order`.
+
+Gauss sums (`Mathlib/NumberTheory/GaussSum.lean`): `gaussSum`, `gaussSum_mulShift_eq`
+(`gaussSum χ (mulShift ψ a) = χ a⁻¹ * gaussSum χ ψ`), `star_gaussSum_eq`
+(`star (gaussSum χ ψ) = gaussSum χ⁻¹ ψ⁻¹`), `gaussSum_one_one`, `gaussSum_one_right`
+(`gaussSum χ 1 = 0` for `χ ≠ 1`), `gaussSum_one_left` (`gaussSum 1 ψ = −1` for `ψ ≠ 1`),
+`mul_gaussSum_inv_eq_gaussSum` (`χ(−1) gaussSum χ ψ⁻¹ = gaussSum χ ψ`),
+`gaussSum_mul_gaussSum_eq_card` (`gaussSum χ ψ * gaussSum χ⁻¹ ψ⁻¹ = q` for `χ ≠ 1`, `ψ`
+primitive), `gaussSum_ne_zero_of_nontrivial`, `gaussSum_sq` (`g(χ)² = χ(−1) q` for `χ` quadratic
+nontrivial, `ψ` primitive), `gaussSum_frob`, `Char.card_pow_card`, `FiniteField.two_pow_card`.
+
+Jacobi sums (`Mathlib/NumberTheory/JacobiSum/Basic.lean`): `jacobiSum`, `jacobiSum_comm`,
+`jacobiSum_ringHomComp`, `jacobiSum_one_one` (`= q − 2`), `jacobiSum_one_nontrivial` (`= −1`),
+`jacobiSum_nontrivial_inv` (`J(χ, χ⁻¹) = −χ(−1)`), `jacobiSum_mul_nontrivial`
+(`J(χ, φ) g(χφ) = g(χ) g(φ)` for `χφ ≠ 1`), `jacobiSum_eq_gaussSum_mul_gaussSum_div_gaussSum`,
+`jacobiSum_mul_jacobiSum_inv` (`J(χ, φ) J(χ⁻¹, φ⁻¹) = q` for `χ, φ, χφ ≠ 1`),
+`jacobiSum_mem_algebraAdjoin_of_pow_eq_one`, `gaussSum_pow_eq_prod_jacobiSum`
+(`g(χ)^n = χ(−1) q ∏_{i ∈ [1, n−2]} J(χ, χ^i)` for `2 ≤ n = orderOf χ`).
+
+Quadratic characters: `quadraticChar`, `quadraticChar_isQuadratic`, `quadraticChar_sum_zero`,
+`quadraticChar_card_sqrts`, `quadraticChar_neg_one`, `quadraticChar_two`, `quadraticChar_card_card`,
+`quadraticChar_odd_prime`, `legendreSym` (which is `quadraticChar (ZMod p)` by definition),
+`jacobiSym`, `ZMod.χ₄`, `ZMod.χ₈`.
+
+Dirichlet characters: `DirichletCharacter R n := MulChar (ZMod n) R`, `changeLevel`,
+`FactorsThrough`, `conductor`, `IsPrimitive`, `primitiveCharacter`, `sum_characters_eq`,
+`sum_char_inv_mul_char_eq` (orthogonality over `ZMod n`), `gaussSum_mulShift_of_isPrimitive`
+(`gaussSum χ (e.mulShift a) = χ⁻¹ a * gaussSum χ e` for primitive `χ`, every `a : ZMod N`),
+`gaussSum_eq_zero_of_isPrimitive_of_not_isPrimitive`, `factorsThrough_of_gaussSum_ne_zero`,
+`DirichletCharacter.rootNumber`, `DirichletCharacter.conductor_ne_zero` (`conductor χ ≠ 0` at
+nonzero level), `conductor_dvd_level`, `conductor_changeLevel` (`changeLevel` to a nonzero
+multiple of the level preserves the conductor; 0.7).
+
+Finite fields and polynomials: `Fintype.ofFinite`, `Fintype.subsingleton`, `Nat.card`,
+`Algebra.trace`, `Algebra.norm`, `Algebra.norm_zero`,
+`FiniteField.trace_to_zmod_nondegenerate`, `FiniteField.roots_X_pow_card_sub_X`,
+`FiniteField.splits_X_pow_card_sub_X`, `GaloisField p n`, `FiniteField.algEquivOfCardEq`,
+`Polynomial.hasseDeriv` with `hasseDeriv_mul`, `hasseDeriv_apply`, `Polynomial.rootMultiplicity`,
+`Polynomial.card_roots'`, `Polynomial.roots`, `minpoly`, `AdjoinRoot`, `PowerSeries`,
+`PowerSeries.C`, `PowerSeries.X`.
+
+Cyclotomic fields and completions: `IsCyclotomicExtension`, `CyclotomicField`, `IsPrimitiveRoot`,
+`IsCyclotomicExtension.zeta`, `IsCyclotomicExtension.Rat.zeta_sub_one_prime'`
+(`ζ_p − 1` generates a prime), `IsCyclotomicExtension.Rat.torsionOrder_eq`,
+`NumberField.Embeddings.pow_eq_one_of_norm_eq_one`, `Ideal.IsPrime`, `Ideal.LiesOver`,
+`multiplicity`, `Ideal.Quotient.field`, `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and
+`adicCompletionIntegers` (the completion `L_𝔓̃` and its valuation ring in 6.4).
+
+Arithmetic functions: `ArithmeticFunction.sigma 0` (`τ(c)`), `ArithmeticFunction.moebius`,
+`Nat.totient`, `Nat.digits`.
+
+### From Tau Ceti
+
+Gauss's evaluation of the quadratic exponential sum, `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+(`∑_{r < N} cexp(2πi r²/N) = (1 + i)/2 · (1 + (−i)^N) · √N` for every `N : ℕ`, proved through the
+functional equation of the Jacobi theta function;
+`TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum`); at an odd prime `N = p` the right side
+is `ε_p √p`, the sign of 1.4.
+
+Primitive Dirichlet Gauss sums (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), for a
+primitive `χ` modulo `N ≠ 0` and a primitive additive character `e` of `ZMod N`:
+`gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` (`gaussSum χ e * gaussSum χ⁻¹ e⁻¹ = N`, values
+in a domain), `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`
+(`gaussSum χ e * gaussSum χ⁻¹ e = χ(−1) N`, values in a domain),
+`DirichletCharacter.IsPrimitive.norm_gaussSum` (`‖gaussSum χ e‖ = √N`, complex values),
+`gaussSum_ne_zero_of_isPrimitive` (`gaussSum χ e ≠ 0` when `(N : R) ≠ 0`) and
+`gaussSum_sq_of_isPrimitive_of_isQuadratic`, consumed in 7.1, 7.2 and 7.7;
+`gaussSumOfPrimitiveRoot` with `map_gaussSumOfPrimitiveRoot`, `gaussSumOfPrimitiveRoot_ne_zero`
+and `stabilizer_gaussSumOfPrimitiveRoot` (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`);
+conductors of products, `DirichletCharacter.conductor_mul_of_coprime` (for `χ, ψ` modulo the same
+`N` with coprime conductors, `conductor (χ ψ) = conductor χ · conductor ψ`, any coefficient
+monoid with zero) and `conductor_prod_of_pairwise_coprime` (its finite-product form, for a
+nonempty index set or nonzero level) (`TauCeti.NumberTheory.DirichletCharacter.Conductor`),
+consumed in 0.7; `FiniteField.primitiveChar_to_Complex_ne_one` (`TauCeti.NumberTheory.LegendreSymbol.Complex`);
+`MulChar.ofUnitHom_inv_eq_star` (`TauCeti.NumberTheory.MulChar.Lemmas`); the Teichmüller lift of a
+Henselian local ring `TauCeti.teichmuller : (ResidueField R)ˣ →* Rˣ`
+(`TauCeti.RingTheory.Henselian.Teichmuller`) and the zero-preserving lift of a nonarchimedean local
+field `TauCeti.teichmullerLift K : 𝓀[K] →*₀ 𝒪[K]` with `residue_teichmullerLift` and
+`teichmullerLift_unique` (`TauCeti.NumberTheory.LocalField.Teichmuller`).
+
+Galois orbits of characters: `MulChar.galoisOrbit` (the characters generating the same cyclic
+group as `χ`) with `mem_galoisOrbit_iff_exists_pow` (the orbit is `{χ^a : gcd(a, orderOf χ) = 1}`),
+`exists_isPrimitiveRoot_apply` (some value `χ(u)` at a unit is a primitive `orderOf χ`-th root of
+unity, for a monoid with finitely many units and values in a domain), `ringHomComp_mem_galoisOrbit`
+(`χ.ringHomComp σ` lies in the orbit for an injective endomorphism `σ` of the value domain) and
+`mem_galoisOrbit_iff_exists_algHom` (over a field of characteristic zero the orbit is the set of
+conjugates `σ ∘ χ` under the `ℚ`-embeddings of the field generated by the values)
+(`TauCeti.NumberTheory.MulChar.GaloisOrbit`); consumed in 0.5 and 1.3.
+
+Gauss sums: `TauCeti.norm_gaussSum` (`‖g(χ, ψ)‖ = √q` for `χ ≠ 1` and primitive `ψ`),
+`TauCeti.apply_pow_char_of_trace` (`ψ(x^p) = ψ(x)` for `ψ` factoring through the trace to `𝔽_p`)
+and `MulChar.gaussSum_pow_char_left` (`g(χ^p, ψ) = g(χ, ψ)` for such `ψ`)
+(`TauCeti.NumberTheory.GaussSum.Basic`); `TauCeti.gaussSum_pow_three_eq_card_mul_jacobiSum`
+(`g(χ)³ = q J(χ, χ)` for `orderOf χ = 3`, `TauCeti.NumberTheory.JacobiSum.Cubic`) and
+`TauCeti.gaussSum_pow_four_eq_card_mul_jacobiSum_sq` (`g(χ)⁴ = q J(χ, χ)²` for `orderOf χ = 4`,
+`TauCeti.NumberTheory.JacobiSum.Quartic`), both for primitive `ψ` and values in a domain;
+consumed in 1.2, 1.3 and 1.5.
+
+Stickelberger's congruence (`TauCeti.NumberTheory.GaussSum.Stickelberger`): for a prime `p`, a
+finite field `F` over `ZMod p`, a maximal ideal `P` of a domain `R`, a character `ω : MulChar F R`
+lifting a ring map `f : F →+* R ⧸ P`, and `ψ(x) = ζ^{Tr(x)}` for an element `ζ` of `R`,
+`TauCeti.stickelberger_congruence` gives
+`(∏_i a_i!) · (−g(ω⁻ᵃ, ψ)) ≡ (ζ − 1)^{s(a)} (mod P^{s(a)+1})` for `0 ≤ a < q − 1` with base-`p`
+digits `a_i` and `s(a) = ∑ a_i`; `gaussSum_inv_pow_mem_pow` gives `g(ω⁻ᵃ, ψ) ∈ P^{s(a)}`; and in
+a Dedekind domain with `v(ζ − 1) = 1` at the height-one prime `v`, `intValuation_gaussSum_inv_pow`
+gives `v(g(ω⁻ᵃ, ψ)) = s(a)` and `intValuation_gaussSum_inv_pow_pow_sub_one` gives
+`(p − 1) v(g(ω⁻ᵃ, ψ)) = s(a) v(p)`; consumed in 6.2.
+
+Power residue symbols (`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.Basic`): for a number
+field `K` with `[HasEnoughRootsOfUnity (𝓞 K) n]` and a maximal ideal `P` of `𝓞 K`,
+`Ideal.powerResidueSymbol P n : MulChar (𝓞 K ⧸ P) (𝓞 K)` is the `n`-th power residue symbol
+`(·/P)_n`, with `mk_powerResidueSymbol` (`(x/P)_n ≡ x^{(N P − 1)/n} (mod P)` for `x ≠ 0` and `N P`
+prime to `n`), `powerResidueSymbol_eq_iff` (it is the only `n`-th root of unity of `𝓞 K` with that
+congruence), `powerResidueSymbol_pow_div` (`((x/P)_n)^{n/d} = (x/P)_d` for `d ∣ n`),
+`orderOf_powerResidueSymbol` (order exactly `n`) and `map_powerResidueSymbol` (`σ((α/P)_n) =
+(σα/σP)_n` for a ring isomorphism `σ`); at a prime whose norm is not prime to `n` the symbol is
+the trivial character by convention. Jacobi sums of its powers
+(`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.JacobiSum`):
+`jacobiSum_powerResidueSymbol_pow_mem` (`J((·/P)_n^a, (·/P)_n^b) ∈ P` for `a, b ≠ 0`, `a + b < n`)
+and `jacobiSum_powerResidueSymbol_mul_jacobiSum_inv` (`J(χ, χ) J(χ⁻¹, χ⁻¹) = N P` for `n ≥ 3`).
+The Gauss-sum power `Ideal.stickelbergerPhi A m ∈ 𝓞 K` of an ideal `A` with `stickelbergerPhi_prime`
+(`f(Φ(P)) = g((·/P)_m⁻¹ ∘ f, ψ)^m` for `m ≥ 2`, `N P` prime to `m`, every injective ring map `f`
+from `𝓞 K` to a domain and every primitive `ψ`;
+`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.StickelbergerPhi`). The cubic identities for
+`K = ℚ(ζ_3)`, `P = (π)` with `π` a primary Eisenstein prime (`TauCeti.IsPrimaryEisenstein`) and
+`χ = (·/P)_3`: `span_singleton_jacobiSum_powerResidueSymbol_three` (`(J(χ, χ)) = P` for `N P`
+prime to `3`) and `jacobiSum_powerResidueSymbol_three_eq` (`J(χ, χ) = π`)
+(`TauCeti.NumberTheory.NumberField.Cyclotomic.Three.JacobiSum`), and
+`gaussSum_powerResidueSymbol_three_pow_three_eq` (`g(χ ∘ f, ψ)³ = N P · f(π)` for injective `f`
+into a domain and primitive `ψ`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Three.CubicReciprocity`);
+the quartic identities for `K = ℚ(i)`, `P = (π)` with `π` a primary Gaussian prime
+(`TauCeti.IsPrimaryGaussian`) and `χ = (·/P)_4`: `jacobiSum_powerResidueSymbol_four_eq`
+(`J(χ, χ) = −χ(−1) π`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`) and
+`gaussSum_powerResidueSymbol_four_pow_four_eq` (`g(χ ∘ f, ψ)⁴ = N P · f(π)²`,
+`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.GaussSum`). For an arbitrary character of order
+`3` or `4` on a finite field: `TauCeti.isPrimaryEisenstein_jacobiSum` (`J(χ, χ) ≡ 2 (mod 3)` for
+`orderOf χ = 3`, values in a domain; `TauCeti.NumberTheory.NumberField.Cyclotomic.Three.JacobiSum`),
+`TauCeti.norm_jacobiSum_eq_card_of_orderOf_eq_four` (`Algebra.norm ℤ (J(χ, χ)) = q` for
+`orderOf χ = 4`, values in `𝓞 K`, `K = ℚ(i)`) and
+`TauCeti.isPrimaryGaussian_neg_apply_neg_one_mul_jacobiSum` (`−χ(−1) J(χ, χ)` is primary for
+`χ^4 = 1` and `4 ∣ q − 1`, values in the same `𝓞 K`) (`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`); consumed
+in 2.3. The cyclotomic splitting law
+`IsPrimitiveRoot.inertiaDeg_eq_orderOf_of_val_eq_absNorm`
+(`TauCeti.NumberTheory.NumberField.Cyclotomic.ResidueDegree`): for a cyclotomic extension `F/K` of
+order `m`, a prime `𝔭` of `K` not containing `m`, a nonzero prime `Q` of `F` above it at which
+`𝓞 F` is unramified, and an arithmetic Frobenius `σ` at `Q` (one exists, Mathlib's
+`IsArithFrobAt.exists_of_isInvariant`), the residue degree of `Q` is the order in `(ZMod m)ˣ` of a
+unit reducing to `N 𝔭`. Consumed in 1.3, 1.5, 2.3, 6.1–6.3 and the worked examples; the milestone
+numbers of `ClassicalArithmeticCompletion` cited beside them are the statements these declarations
+instantiate.
+
+Diagonal quadrics: `TauCeti.card_sum_mul_sq_eq_of_card_eq_two_mul_add_one` and
+`card_sum_mul_sq_eq_of_card_eq_two_mul_add_two` (the number of solutions of `∑ w_i x_i² = c` with
+all `w_i ≠ 0` over `F` with `ringChar F ≠ 2`, in rank `2m + 1` and `2m + 2`,
+`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Quadric`); the case `d_i = 2` of 2.4. The
+quadratic Jacobi sum `TauCeti.sum_quadraticChar_mul_sub` (`∑_u η(u (c − u)) = η(−1)(q − 1)` for
+`c = 0` and `−η(−1)` otherwise, `ringChar F ≠ 2`;
+`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Basic`); consumed in 2.5.
+
+Conrey labels: `TauCeti.conreyCharacter N : (ZMod N)ˣ ≃* DirichletCharacter ℂ N` with
+`conreyPairing`, `conreyGenerator` and `conreyCharacter_apply`
+(`TauCeti.NumberTheory.DirichletCharacter.Conrey`) and the orbit index
+`DirichletCharacter.galoisOrbitIndex` (`TauCeti.NumberTheory.DirichletCharacter.GaloisOrbitLabel`);
+7.7 and the worked examples name characters by them.
+
+### From ClassicalArithmeticCompletion
+
+1.19, 1.23 (`powerResidueSymbol`, `powerResidueSymbol_spec`), 1.36, 1.46, 1.47, 1.53, 1.55, 1.60,
+4.19 (`quadraticExpSum`, `quadraticExpSum_one_eq_gaussSum`), 7.12 and 7.29, with the statements listed
+under *Consumed, not redefined*. 1.47's `χ_P = (·/P)_m⁻¹` is `ω_𝔓^{−(q−1)/m}` (6.1); 7.12's
+congruence is stated with the uniformizer `ζ_p − 1` and the sign `−g(ω^{−a})`, and is Tau Ceti's
+`stickelberger_congruence`, which 6.2 cites for the congruence and the valuation.
+Section 1.23 is the statement of the residue character, its uniqueness and its order, whose
+compiled carrier is Tau Ceti's `Ideal.powerResidueSymbol` with `powerResidueSymbol_eq_iff` and
+`orderOf_powerResidueSymbol`; 6.1 reads it at `n = q − 1`. Likewise 1.47 is `Ideal.stickelbergerPhi`
+with `stickelbergerPhi_prime`, 1.19 and 1.60 are `gaussSum_powerResidueSymbol_three_pow_three_eq`,
+1.53 is `jacobiSum_powerResidueSymbol_three_eq`, 1.36 is `jacobiSum_powerResidueSymbol_four_eq` and
+1.46 is `gaussSum_powerResidueSymbol_four_pow_four_eq` (*From Tau Ceti*); 1.55 has no carrier at
+the pin and is consumed as that roadmap's statement.
+§7.29 supplies `g(χ^m) ∏_{1≤j<m} g(λ^j) = χ(m)^m ∏_{0≤j<m} g(χλ^j)`
+for exact-order `λ`, `m ∣ q − 1`, and nontrivial additive character, including `χ = 1`.
+
+### From DirichletPadicLFunctions
+
+§4.1 (`existsUnique_moritaGamma`, `moritaGamma_unit_step`, `moritaGamma_nonunit_step`), §4.4 (the
+reflection formula, including `Γ_2(x) Γ_2(1 − x) = (−1)^{1+x₁}` for the second binary digit `x₁`, and the digit identity `∑_{j<f} a_j/(q − 1) = S_p(a)/(p − 1)`) and
+§4.5 (`grossKoblitz_formula` for the negative Gauss sum of the local Teichmüller lift, with
+`π^{p−1} = −p`, `π ≡ ζ_p − 1 (mod (ζ_p − 1)²)`, and its corollaries `grossKoblitz_formula_valuation`
+`‖g_q(a)‖ = ‖p‖^{S_p(a)/(p−1)}` and the leading residue `g_q(a)/π^{S_p(a)} ≡ (∏ a_i!)⁻¹`), with
+the statements listed under *Consumed, not redefined*. Consumed in 6.4–6.5.
+
+### From AutomorphicSpectralTheory
+
+§1.16: `S(m, n; c)` in prose, its frequency symmetry, `kloosterman_real`, and
+`S(m, 0; c) = ∑_{d ∣ (m, c)} μ(c/d) d`. Consumed in 7.3.
+
+### From CongruenceSpectralGap
+
+§4.2a `hyperKloosterman F k ψ r` and §4.2b `hyperKloosterman_bound`. Consumed in 5.1 and 5.5.
+
+### From EllipticLegendreCharacterInterfaces
+
+5.1, the character-sum point count `q + 1 + ∑_x η(f(x))` of a Weierstrass equation
+`y² = f(x) = x³ + a₂x² + a₄x + a₆` over an odd finite field and `symmetric_cubic_trace_zero`.
+Consumed in 2.5.
 
 ## References
 

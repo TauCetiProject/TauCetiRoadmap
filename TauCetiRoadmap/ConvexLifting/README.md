@@ -1,12 +1,18 @@
 # Roadmap: exact lifting and matched finite outer approximations
 
-**Summary.** Build a reusable library for exact monotone-composition lifts, their finite mixed-integer formulations, and finite outer approximations that use the same anchors. Auxiliary heights preserve feasible points and feasible attained minima under explicit domain hypotheses, while a shared height vector can strengthen finite linear approximations. Applications include separable convex constraints and disciplined convex modeling.
+**Summary.** Many optimization constraints have the form h(g(x)) ≤ b, a real outer function h applied to an inner map g. One can add auxiliary variables, called heights, and impose g(x) ≤ y and h(y) ≤ b instead. This roadmap proves when this lift is exact, uses it to reformulate finite mixed-integer models, and compares two linear outer approximations built at the same points.
 
-## Scope and ownership
+The first theorem says when the lift loses nothing. Let D be a subset of any type, and E one of a preordered type. Suppose g maps D into E and h is monotone on E. Then the projection of the lift L, the set of pairs with x ∈ D, y ∈ E, g(x) ≤ y and h(y) ≤ b, is exactly the set S of x ∈ D with h(g(x)) ≤ b. No convexity, differentiability or compactness is needed, but monotonicity is: for g(x) = x², h(y) = 1 − y and budget zero, (0, 1) lies in L although 0 is not in S. A pair in L minimizes an objective depending on x alone exactly when its first coordinate minimizes it on S, so attainment transfers both ways.
 
-This roadmap owns the order, finite-formulation and finite-support interfaces below. It consumes Mathlib and has no supplier roadmap. The finite nonlinear-row model is built here; no general solver or optimization-problem framework is assumed.
+The second part treats finite models with real and bounded integer coordinates, finitely many nonlinear and linear inequalities, and a linear objective. Suppose each nonlinear residual is a combination of component functions with nonnegative weights. Add a continuous height above each component and require the same combination of heights to be at most zero. The new model projects exactly onto the original feasible set, and likewise for the continuous relaxations; feasible minima correspond. It generalizes the unweighted separable formulation of Hijazi, Bonami and Ouorou. A second reformulation replaces affine arguments of univariate functions by new continuous variables. It is exact for arbitrary weights and needs no convexity or smoothness.
 
-Algorithm iteration policies, convergence rates, conic duality and solver oracles, universal strict improvement, cut-count asymptotics and runtime gains are outside this roadmap. General multiplier and optimality-condition theories and the separate strictness qualifications for separable functions are also outside it.
+In the third part X is a real normed space and g takes values in ℝᵖ, ordered coordinatewise. Linearizations use the Fréchet derivatives of g at finitely many anchors in D and of h at their images. The direct approximation keeps the points of D where the linearization of h ∘ g at every anchor is at most b. The shared approximation asks for one height vector y in E above every linearization of g, at which every linearization of h is at most b. The comparison theorem, adapted from Tawarmalani and Sahinidis, says that S lies in the projection of the shared set, which lies in the direct set. It assumes that g maps D into E, that its components are convex on D and h on E, and that each derivative of h is monotone. For g(x) = (x₁², x₂²), h the sum, D = [−1,1]², E = ℝ², anchors ±(1,1) and budget 1/2, the direct set is cut out of D by |x₁+x₂| ≤ 5/4, the projected shared set by |x₁|+|x₂| ≤ 5/4. A variant requires heights to equal the linearization on coordinates where it is exact on D, and there allows the derivative of h either sign.
+
+The fourth part eliminates free heights. Give each component a finite nonempty family of real functions, its rows, and ask for heights above their component's rows, summing to at most b. At a point of D, such heights exist exactly when the row maxima sum to at most b, that is, when every choice of one row per component does. Separate heights per anchor keep only same-anchor sums; in the example they give the direct set.
+
+The roadmap rests on Mathlib alone, for order theory, convex calculus and finite maxima. It proves the tangent bound for convex functions on convex subsets of real normed spaces; Mathlib has a one-variable secant lemma. Its results serve separable convex formulations and disciplined convex modelling. It shares words such as projection with [OptimalTransport](../OptimalTransport/README.md), [VariationalMethods](../VariationalMethods/README.md) and [GeometricTopology](../GeometricTopology/README.md), but neither uses nor supplies them.
+
+The first layer proves exact lifting. The second builds the finite data and coordinates before the two reformulations. The third uses the first layer's sets and convex calculus. The fourth uses finite maxima and sums, then, when h is a sum, identifies its rows with the third layer's. No layer assumes a later construction.
 
 ## Conventions
 
@@ -24,20 +30,6 @@ Finite models have an original continuous block and an original integer block. A
 The analytic layer uses real normed spaces and `Fin p → ℝ` with coordinatewise order. Derivatives are continuous linear maps witnessed by `HasFDerivAt`. A comparison uses the same finite anchors and the corresponding inner and outer derivatives throughout, with one common vector of heights. Finite nonempty maxima use `Finset.sup'`; empty supports have a separate statement.
 
 Layer 3 includes inequality heights with monotone outer linear derivatives, and exact height rows on a selected set `J` of coordinates. In the latter comparison, outer derivatives may have either sign on `J`; they must be nonnegative on nonnegative directions vanishing on `J`. TS05 §2, pp. 226–228, retains affine inner coordinates by equalities and needs coordinate monotonicity only in the other coordinates. §3.2 gives the precise finite, scalar-budget adaptation. Layer 2 retains its normalization equalities by exact substitution.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Use `Set.MapsTo`, `MonotoneOn`, images and preimages for graph and projection maps.
-- Use `IsMinOn`, `isMinOn_iff` and `IsMinOn.comp_of_mapsTo` from `Mathlib/Order/Filter/Extr.lean`. Retain feasibility separately, without a replacement minimizer predicate or generic transport wrapper.
-- Use `ConvexOn`, `ConvexOn.convex_epigraph`, `convexOn_iff_convex_epigraph` and affine pullbacks from `Mathlib/Analysis/Convex/Function.lean`.
-- Use `HasFDerivAt`, continuous-linear-map composition and `HasFDerivAt.comp` from `Mathlib/Analysis/Calculus/FDeriv/Comp.lean`. `ConvexOn.le_slope_of_hasDerivAt` from `Mathlib/Analysis/Convex/Deriv.lean` is a scalar-variable secant lemma. Build the general normed-space tangent-support bridge specified in §3.1 by restriction to an affine line; the scalar lemma alone is not that bridge.
-- Use `Finset.sup'`, `Finset.sup'_le_iff`, `Finset.le_sup'` and `Finset.exists_mem_eq_sup'` from `Mathlib/Data/Finset/Lattice/Fold.lean`, together with finite sums. Finite maximum attainment is existing infrastructure.
-
-## How to read the build
-
-Layer 1 establishes exact order lifting. Layer 2 builds its finite data and coordinate API before the concrete adapters. Layer 3 uses Layer 1's set conventions and convex calculus. Layer 4 uses finite maxima and sums, then identifies its rows with the sum-outer-function instance of Layer 3. No earlier layer assumes a later construction.
 
 ## Layer 1: exact composition lifts
 
@@ -295,6 +287,22 @@ Finite maximum attainment is supplied by Mathlib. The sum-outer-function corresp
 ## Downstream consumers
 
 Separable convex formulations and disciplined convex models consume the exact projection, feasible-minimum and matched-support interfaces above. The measure/coupling and transport-cost structures of [OptimalTransport](../OptimalTransport/README.md), the weak-compactness and spectral-energy program of [VariationalMethods](../VariationalMethods/README.md), and the PL chart and finite-cell structures of [GeometricTopology](../GeometricTopology/README.md) have different contracts. This roadmap neither requires those programs nor supplies their targets through a shared word such as projection or minimization.
+
+## Scope and ownership
+
+This roadmap owns the order, finite-formulation and finite-support interfaces above. It consumes Mathlib and has no supplier roadmap. The finite nonlinear-row model is built here; no general solver or optimization-problem framework is assumed.
+
+Algorithm iteration policies, convergence rates, conic duality and solver oracles, universal strict improvement, cut-count asymptotics and runtime gains are outside this roadmap. General multiplier and optimality-condition theories and the separate strictness qualifications for separable functions are also outside it.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Use `Set.MapsTo`, `MonotoneOn`, images and preimages for graph and projection maps.
+- Use `IsMinOn`, `isMinOn_iff` and `IsMinOn.comp_of_mapsTo` from `Mathlib/Order/Filter/Extr.lean`. Retain feasibility separately, without a replacement minimizer predicate or generic transport wrapper.
+- Use `ConvexOn`, `ConvexOn.convex_epigraph`, `convexOn_iff_convex_epigraph` and affine pullbacks from `Mathlib/Analysis/Convex/Function.lean`.
+- Use `HasFDerivAt`, continuous-linear-map composition and `HasFDerivAt.comp` from `Mathlib/Analysis/Calculus/FDeriv/Comp.lean`. `ConvexOn.le_slope_of_hasDerivAt` from `Mathlib/Analysis/Convex/Deriv.lean` is a scalar-variable secant lemma. Build the general normed-space tangent-support bridge specified in §3.1 by restriction to an affine line; the scalar lemma alone is not that bridge.
+- Use `Finset.sup'`, `Finset.sup'_le_iff`, `Finset.le_sup'` and `Finset.exists_mem_eq_sup'` from `Mathlib/Data/Finset/Lattice/Fold.lean`, together with finite sums. Finite maximum attainment is existing infrastructure.
 
 ## References
 

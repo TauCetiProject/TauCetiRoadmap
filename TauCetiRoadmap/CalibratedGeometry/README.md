@@ -1,152 +1,60 @@
 # Roadmap: calibrations, volume minimization and special Lagrangian geometry
 
-**Summary.** This roadmap develops smooth calibrated geometry, from its finite-dimensional linear
-algebra through volume minimization, the Kähler and special Lagrangian calibrations, and the
-deformation theory of compact special Lagrangian submanifolds. A calibration is a closed real
-differential form whose value on every oriented orthonormal frame is at most one. Its equality
-planes define geometric first-order equations, and closedness converts their pointwise volume
-identity into a comparison with competitors. The objects and their pullback, orientation, product,
-integration and variation APIs are built independently of the special Lagrangian application.
+**Summary.** A calibration on a Riemannian manifold is a smooth closed real differential form whose
+values on orthonormal frames of each tangent space have absolute value at most one; the supremum
+of these absolute values at a point is its comass there. An oriented submanifold is calibrated when
+the form restricts on it to its volume form. This roadmap develops calibrated geometry from its
+linear algebra to the deformations of compact special Lagrangians. Unless a statement says
+otherwise, manifolds are finite-dimensional, Hausdorff, second countable smooth real manifolds
+without boundary, with a Riemannian metric g.
 
-The roadmap builds on Mathlib's continuous alternating maps, exterior powers with their Gram inner
-product, orthonormal families and `LinearMap.normDet`; on Tau Ceti's comass and mass of
-k-vectors, Stiefel manifolds and finite oriented Grassmannians, linear symplectic and almost
-complex structures, differential forms with their exterior derivative, pullback, integration and
-Hodge star, smooth singular simplices, pullback metrics, Riemannian volume forms, normal
-exponential maps, complex manifolds, Sobolev spaces and Campanato estimates; and on the
-second-variation, Kähler and elliptic carriers of the roadmaps named in the supplier contracts.
-Its end theorems are:
+The basic result is the fundamental theorem of calibrations. Let φ be a calibration, N a compact
+oriented submanifold calibrated by φ, and N′ an embedded compact oriented competitor with the same
+boundary, differing from N by the boundary of a finite integral smooth chain. Then the volume of N
+is at most that of N′, with equality exactly when N′ is calibrated too. Indeed, by Stokes' theorem
+φ has the same integral over both, which is the volume of N and at most that of N′. For immersed
+closed manifolds, equal integrals of every smooth closed form of their dimension already give the
+inequality. Calibrated immersions are also stable and minimal; for m ≥ 1 the round equator
+`Sᵐ ⊂ S^(m+1)` is minimal but unstable, so no closed form calibrates it.
 
-- comass as a supremum over orthonormal frames equals the native operator norm, Tau Ceti's
-  simple-vector comass (`norm_eq_sSup_abs_orthonormal`, Layer 1);
-- the fundamental theorem of calibrations for compact oriented submanifolds and finite integral
-  smooth chains, with its real-homology form on closed sources
-  (`immersionVolume_le_of_isCalibratedImmersion`, Layer 3);
-- the Wirtinger inequality for `ωʳ/r!` in every degree with its equality classification, and the
-  volume-minimizing property of compact complex submanifolds of Kähler manifolds
-  (`norm_kahlerPowerForm`, `isCalibratedFrame_kahlerPowerForm_iff`,
-  `immersionVolume_le_of_isKahlerMetric`, Layer 4);
-- the special Lagrangian comass and equality-plane classification, the calibration property of
-  `Re(e^(−iθ)Ω)` on Kähler manifolds with a normalized holomorphic volume form, and the minimality
-  of special Lagrangian submanifolds (`norm_standardSpecialLagrangianForm`,
-  `specialLagrangianFrame_iff`, `isCalibration_specialLagrangianForm`, Layer 5);
-- McLean's theorem: near a compact special Lagrangian N, the special Lagrangian deformations form a
-  smooth manifold of dimension `b₁(N)`, with tangent space the harmonic one-forms, and the second
-  variation of volume is the Hodge energy `∫_N(|dβ|²+|δβ|²)`
-  (`secondVariation_volume_eq_hodgeEnergy`, Layer 6).
+For the standard Kähler form ω on ℂⁿ and r ≤ n, the Wirtinger inequality says that `ωʳ/r!` has
+comass one. A real orthonormal frame of 2r vectors is calibrated by it exactly when it is a
+positively oriented frame of a complex r-plane with its complex orientation. On a Kähler manifold,
+where multiplication by i is orthogonal and the fundamental form `ω(v,w) = g(iv,w)` is closed,
+`ωʳ/r!` is a calibration, and compact complex submanifolds minimize volume in their homology class.
 
-[Suggested.lean](Suggested.lean) states the headline theorems of Layers 1, 3, 4, 5 and 6 that are
-statable against the pinned libraries; its docstring names those that are not: the chain form of
-the fundamental theorem (Layer 3), McLean's theorem and the identification of the Jacobi operator
-with the Hodge Laplacian (Layer 6).
+For n ≥ 1 and every phase θ, the form `Re(e^(−iθ)Ω)` with `Ω = dz₁∧⋯∧dzₙ` has comass one on ℂⁿ. A
+real orthonormal n-frame is calibrated by it exactly when it spans a Lagrangian plane (one on which
+ω vanishes) and `e^(−iθ)Ω` takes a positive real value on the frame. Let M be a Kähler manifold with
+a normalized holomorphic volume form Ω: a smooth closed form of degree the complex dimension,
+complex-linear in each argument, of modulus one on unitary frames. Every `Re(e^(−iθ)Ω)` is then a
+calibration on M, whose calibrated submanifolds are the special Lagrangians of phase θ.
 
-## Scope and ownership
+McLean's theorem concerns a compact embedded special Lagrangian N in M without boundary. Modulo
+parametrization and with the C¹ topology, its special Lagrangian deformations form near N a smooth
+manifold of dimension `b₁(N)`, with tangent space the harmonic one-forms; a normal field V
+corresponds to the one-form `β = ι_V ω|_N`. For the flat torus `ℝⁿ/ℤⁿ ⊂ ℂⁿ/(ℤⁿ + iℤⁿ)` the
+deformations are its vertical translates. For a special Lagrangian immersion of a closed oriented
+manifold, and a smooth family of immersions starting at it with normal velocity V, the second
+derivative of volume at time zero is `∫_N (|dβ|² + |δβ|²)` in the induced metric. Hence the normal
+Jacobi operator corresponds to the Hodge Laplacian on one-forms.
 
-### Owned here
+The roadmap builds on Tau Ceti's linear calibration inequality, integration of forms and Stokes'
+theorem. RiemannianGeometry provides the variations of volume, stability and the Jacobi operator of
+minimal immersions, and ComplexKahlerGeometry the Kähler metrics. GeometricCurrents uses the
+integral smooth chains and the volume-minimizing theorem.
 
-- The orthonormal-frame form of comass on finite-dimensional real inner-product spaces and its
-  identification with the native operator norm, the norm-determinant form of the frame volume,
-  the upper bound in the comparison of comass with the exterior-power Hilbert norm, the oriented
-  Grassmannian of a general finite-dimensional inner-product space as the SO(k) quotient of Tau
-  Ceti's Stiefel manifold, with its comparisons to the coordinate carriers, equality planes, and
-  external products (Layer 1).
-- Smooth calibrations, calibrated immersions and their volume; Stokes' theorem for smooth simplices
-  and chains, the relative smoothing of singular simplices and the integral and real
-  smooth-to-singular quasi-isomorphisms on Tau Ceti's smooth singular subcomplex; chain integration
-  and the mass of smooth chains; the vertex orders and ordered simplex parametrizations of relative
-  smooth triangulations of compact manifolds with boundary, and their integral fundamental chains
-  (Layer 2).
-- The fundamental theorem of calibrations, its equality case, calibration stability, and the round
-  equator non-example (Layer 3).
-- The Wirtinger inequality in every degree with its equality case, the Kähler-manifold form of the
-  Wirtinger calibration and the volume minimization of compact complex submanifolds (Layer 4).
-  Kähler metrics themselves are ComplexKahlerGeometry K6.0's.
-- Special Lagrangian linear algebra, the oriented Lagrangian Grassmannian and its phase map, the
-  identification of the standard Kähler form with Tau Ceti's standard symplectic form, normalized
-  holomorphic volume forms and their special Lagrangian calibrations, special Lagrangian
-  submanifolds of Kähler manifolds with a normalized parallel holomorphic volume form, the phase
-  class, the mean-curvature/phase identity in a Kähler ambient, and gradient graphs (Layer 5).
-- McLean's deformation theorem, the Hölder Hodge-projection bounds it needs, the C¹-to-Hölder
-  regularity of nearby minimal graphs with its Legendre-system comparison, full-tensor energy and
-  excess decay and system Caccioppoli inequality, the special Lagrangian second-variation identity
-  for immersions, and the identification of RiemannianGeometry R5b's normal Jacobi operator of a
-  special Lagrangian with the Hodge Laplacian on one-forms (Layer 6).
+Layer 1 is finite-dimensional linear algebra and precedes everything; it proves that comass equals
+the operator norm, and builds the oriented Grassmannian. Layer 2 defines calibrated immersions and
+builds integral smooth chains with Stokes' theorem. Layer 3 proves the fundamental theorem and
+stability. Layers 4 and 5 need Layer 1 for their linear algebra and Layers 2–3 on manifolds; Layer
+5 adds the phase and the mean curvature. Layer 6 builds on Layer 5; McLean's theorem also uses
+compact Hodge theory from ComplexKahlerGeometry and analytic estimates from
+PseudodifferentialOperators, PDE and Tau Ceti.
 
-### Owned elsewhere
-
-- Differential forms, wedge, the exterior derivative and its naturality, pullback, oriented
-  integration of top forms, Stokes' theorem, the homotopy operator, de Rham cohomology with its
-  degree-one periods, smooth singular simplices with their simplicial chain complexes and simplex
-  integrals, pullback metrics of immersions, Riemannian volume forms, the Hodge star and the
-  codifferential: Tau Ceti, by the names listed in the supplier contracts. Cartan calculus, the
-  homotopy formula for C¹ forms and the divergence theorem with boundary: DifferentialGeometry 1.4,
-  5.4 and 12.5.
-- Integral singular chains, subdivision and prism operators, orientation and fundamental classes:
-  AlgebraicTopology Stages 2, 3.1 and 6.3.
-- Hadamard's inequality for Gram determinants, `Re det Gram(v) ≤ Π‖v_i‖²` for every finite family
-  (dependent and empty families included), and for coordinate determinants in an orthonormal
-  basis: Tau Ceti `Matrix.re_det_gram_le_prod_norm_sq` and `OrthonormalBasis.norm_det_le_prod_norm`.
-  Layer 1 consumes the real case and 5.1 the complex coordinate form.
-- The simple-vector characterization of the native norm of a continuous alternating form as its
-  comass, the linear calibration inequality `|φ(v)| ≤ ‖φ‖·|v₁∧⋯∧v_k|`, the top-degree comass, the
-  Riesz identification of k-forms with k-vectors with the pointwise inner product of forms, the
-  lower bound `comass(φ) ≤ |φ|_H` and the comparison of the mass of a k-vector with its norm: Tau
-  Ceti, by the names listed in the supplier contracts. 1.1 owns the orthonormal-frame supremum
-  and 1.3 the upper bound of the Hilbert-norm comparison.
-- Existence of smooth triangulations of smooth manifolds without boundary (Cairns–Whitehead):
-  GeometricTopology 11.3 (smooth triangulations and combinatorial manifolds). Its relative
-  refinement, in which the collared boundary of a compact manifold is a subcomplex:
-  TangentialBordism B1.5 (quotient and bundle adapters). Neither fixes a vertex order; 2.4 adds
-  the global vertex order, the ordered parametrizations and the integral fundamental chains.
-- The Levi-Civita connection of a Riemannian manifold: Mathlib `leviCivitaConnection`. Curvature
-  calculus and induced tensor connections: RiemannianGeometry R1. The normal bundle of an
-  immersion, the second fundamental form, the normal connection, the C² relative-volume functional
-  and first variation: RiemannianGeometry R5a, R5a.1 and R5a.2. The polarized normal second
-  variation Q of a minimal immersion with its acceleration independence, stability (`Q(V,V) ≥ 0`
-  for every compactly supported normal field V), and the normal Jacobi operator with its
-  ellipticity and formal self-adjointness: RiemannianGeometry R5b. 3.2 consumes R5b's stability,
-  and 6.5 identifies R5b's Jacobi operator of a special Lagrangian with the Hodge Laplacian.
-- The normal exponential of a smooth embedding into a Riemannian manifold and the tubular
-  neighbourhood theorem, as a smooth inverse of the normal exponential on a neighbourhood of the
-  zero section inside any prescribed neighbourhood of the image, and as a diffeomorphism of the
-  whole normal bundle onto an ambient neighbourhood: Tau Ceti `TauCeti.SmoothEmbedding.normalExp`,
-  `TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset` and
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`. Collars of compact
-  manifolds with boundary: GeometricTopology Layer 1.
-- Complex manifolds with their almost complex structure and canonical orientation: Tau Ceti.
-  Complex tangent and type calculus, Hermitian and canonical bundles, Hodge theory, Kähler metrics
-  and analytic-cycle carriers: ComplexKahlerGeometry K1, K2, K4, K5a, K5b.0, K6.0 and K6.1. The
-  integration of analytic cycles across their singular sets belongs to K6.1.
-- Bundle Hölder norms, elliptic Schauder estimates and Sobolev Fredholm theory:
-  PseudodifferentialOperators P1.0, P5 and P6.
-- First-order Sobolev spaces on open subsets of ℝⁿ and their zero-boundary subspaces,
-  zero-boundary Poincaré, the scalar energy form with its weak Dirichlet existence theorem, the
-  local Campanato estimate, Morrey's Dirichlet growth theorem and the iteration lemma for decay
-  estimates: Tau Ceti, by the names listed in the supplier contracts. Sobolev embeddings and
-  interior non-divergence Schauder estimates: PDE 1.4 (A4) and 5.6 (E25).
-- The smooth Stiefel manifold of orthonormal k-frames of a finite-dimensional real inner-product
-  space E, a compact regular level set of the Gram map of dimension `k·dim E − (k+1)k/2`: Tau Ceti
-  `TauCeti.stiefel`. The finite coordinate Grassmannians with their frame-quotient topology, the
-  coordinate orthonormal frames and, in positive rank, the finite oriented Grassmannians with their
-  proper two-sheeted orientation-forgetting cover: Tau Ceti `TauCeti.finiteGrassmannian`,
-  `TauCeti.finiteOrthonormalFrame` and `TauCeti.finiteOrientedGrassmannian`, the carriers of
-  TopologicalKTheory T1.5 and CharacteristicClasses C1.1a. C1.1a's comparison of the oriented
-  cover with the SO(k) quotient of orthonormal frames and its rank-zero sign datum,
-  GeneralizedCohomology G4.0b's graph-chart smooth structure, and TopologicalKTheory T1.6a's
-  stable classifier comparisons belong to those roadmaps. 1.4 keeps the coordinate-free oriented
-  Grassmannian of a general E, its smooth quotient structure and its comparisons with these
-  carriers.
-- The Robbin–Salamon Maslov index of Lagrangian paths, and its comparison with the native loop
-  invariant `TauCeti.TotallyRealLoop.maslovIndex` (the degree of the `det²` phase loop):
-  HeegaardFloer F1.4. The phase class here is a different invariant (the cohomology class of the
-  phase map); 5.3 compares it with the native loop invariant on Lagrangian loops in ℂⁿ.
-- The pointwise degree-two Wirtinger inequality `ω(v,w) ≤ |v∧w|_g` for an ω-compatible J on Tau
-  Ceti's symplectic carriers, with its equality case: HeegaardFloer F2.6c. 4.1 keeps the
-  comass-carrier form on ℂⁿ, the r = 1 instance of 4.2, and 4.2's transport to Hermitian vector
-  spaces is the all-degree statement.
-- Associative, coassociative and Cayley calibrations and exceptional holonomy, rectifiable currents
-  and their regularity theory: outside this roadmap. No compactness theorem for currents and no
-  singular regularity theorem is used.
+[Suggested.lean](Suggested.lean) states in Lean the headline theorems expressible with Mathlib's
+and Tau Ceti's definitions. Its docstring names the others: the chain form of the fundamental
+theorem, McLean's theorem and the Jacobi operator's identification with the Hodge Laplacian.
 
 ## Conventions
 
@@ -177,249 +85,6 @@ with the Hodge Laplacian (Layer 6).
   orthonormal coframe are orthonormal.
 - Product orientations put the first factor's frame first.
 - Layer k is also cited as Ck (for example "CalibratedGeometry C2").
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ContinuousAlternatingMap` with its operator norm (`ContinuousAlternatingMap.norm_def`,
-  `ContinuousAlternatingMap.norm_constOfIsEmpty`,
-  `ContinuousAlternatingMap.norm_compContinuousLinearMap_le`), and
-  `ContinuousMultilinearMap.norm_compContinuous_linearIsometryEquiv` for pullback along a
-  surjective linear isometry. The native norm is an infimum of product-norm bounds; Tau Ceti
-  identifies it with the simple-vector comass (below), and its orthonormal-frame form is target
-  1.1.
-- `LinearMap.normDet` (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`) with
-  `LinearMap.normDet_sq_eq_det_gram`, its range-restriction identity and the rank-defect criterion:
-  a genuine rectangular volume, `1` on a zero-dimensional domain and `0` on a non-injective map.
-- `Matrix.gram` and `Matrix.det_gram_ne_zero_iff_linearIndependent`; `Orthonormal`,
-  `OrthonormalBasis`, `EuclideanSpace`, `WithLp`, `PiLp` and `Orientation`.
-- Exterior powers `⋀[ℝ]^k E` as submodules of `ExteriorAlgebra`, `exteriorPower.ιMulti`,
-  `exteriorPower.alternatingMapLinearEquiv` (the linear dual of an exterior power; the Riesz
-  identification is Tau Ceti's, below), and the Gram inner product of
-  `Mathlib/Analysis/InnerProductSpace/ExteriorPower.lean`, `exteriorPower.inner_ιMulti_ιMulti`.
-  That instance requires `FiniteDimensional ℝ E`.
-- `Submodule.pow_mem_pow` (powers of a 2-vector lie in the even exterior powers) and
-  `LinearMap.continuous_of_finiteDimensional`.
-- `ImplicitFunctionData.contDiffAt_implicitFunction`, `HasStrictFDerivAt`, `ContDiffOn`,
-  `ContDiffAt`; it applies after the derivative and its complement are supplied and does not
-  construct them.
-- `Matrix.detRowAlternating`, `ContinuousAlternatingMap.restrictScalars`, Lax–Milgram
-  (`IsCoercive.continuousLinearEquivOfBilin`), and the finite-dimensional adjoint, spectral and
-  determinant APIs.
-- `Bundle.ContMDiffRiemannianMetric` (a smooth Riemannian metric as a family of inner products on
-  the tangent spaces) and `leviCivitaConnection`
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`), unique up to its
-  values on non-differentiable vector fields.
-- `SSet.chainComplex` and `SSet.chainComplexMap`
-  (`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean`): the simplicial chain complex of
-  a simplicial set with coefficients in any object, and the chain map of a morphism.
-
-### From Tau Ceti
-
-- `TauCeti.stdSymplecticForm` (`TauCeti/Geometry/Symplectic/StandardCompatible.lean`), with
-  evaluation `⟪x₁,y₂⟫ − ⟪y₁,x₂⟫` on `(x₁,y₁),(x₂,y₂)`.
-- `SymplecticForm.transport` (`TauCeti/Geometry/Symplectic/SymplecticTransport.lean`) and
-  `AlmostComplexStructure.transport` (`TauCeti/Geometry/Symplectic/Transport.lean`), both through
-  the inverse of the given equivalence, and `Compatible.transport`.
-- `SymplecticForm.IsLagrangian` (`TauCeti/Geometry/Symplectic/Lagrangian/Basic.lean`): equality
-  with the symplectic orthogonal, not isotropy alone.
-- `SymplecticForm.complexAssociatedForm`, `Compatible.hermitianCore`
-  (`TauCeti/Geometry/Symplectic/Hermitian.lean`) and `AlmostComplexStructure.complexModule`.
-- `TauCeti.TotallyRealLoop.maslovIndex` (`TauCeti/LinearAlgebra/TotallyReal/Maslov/Index.lean`):
-  the degree of the loop of Maslov phases `ρ(Λ 0, Λ t)` of a loop Λ of maximal totally real
-  subspaces, where `ρ(L₀, A L₀) = det A / conj(det A)`, so that the rotated line `e^(iθ)L₀` in
-  ℂⁿ has phase `e^(2inθ)` relative to `L₀`.
-- `Matrix.re_det_gram_le_prod_norm_sq` and `OrthonormalBasis.norm_det_le_prod_norm`
-  (`TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`): Hadamard's inequality
-  `Re det Gram(v) ≤ Π‖v_i‖²` for any finite family over an `RCLike` field (dependent and empty
-  families allowed), and `‖det_b v‖ ≤ Π‖v_i‖` for the coordinate determinant in an orthonormal
-  basis b.
-- Comass and mass (`TauCeti/Analysis/InnerProductSpace/Comass.lean`, `AlternatingForm.lean`,
-  `ExteriorPower/Basic.lean` and `TauCeti/Analysis/Normed/Module/Alternating/Dual.lean`), all on
-  a finite-dimensional real inner-product space E: `exteriorPower.norm_ιMulti_sq`, the squared
-  Gram norm of the wedge `v₁∧⋯∧v_k` is `det Gram(v)`, with Hadamard's
-  `exteriorPower.norm_ιMulti_le_prod_norm`; `ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`,
-  `‖φ v‖ ≤ ‖φ‖·‖v₁∧⋯∧v_k‖` for every family v, dependent families included, into any normed
-  target; `ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`, for `0 ≤ C`, `‖φ‖ ≤ C`
-  exactly when `‖φ v‖ ≤ C·‖v₁∧⋯∧v_k‖` for every v, so that the native norm is Federer's comass in
-  its simple-vector form; `ContinuousAlternatingMap.norm_eq_norm_apply_orthonormalBasis`, the
-  comass of a top-degree form is the norm of its value on an orthonormal basis;
-  `TauCeti.alternatingFormEquiv`, the Riesz identification `⋀[ℝ]^k E ≃ₗ[ℝ] E [⋀^Fin k]→L[ℝ] ℝ`,
-  `x ↦ (v ↦ ⟪x, v₁∧⋯∧v_k⟫)`, and `TauCeti.alternatingFormInner`, the pointwise inner product of
-  forms transported along it, computed in an orthonormal basis by
-  `TauCeti.alternatingFormInner_eq_sum`; `TauCeti.norm_alternatingFormEquiv_le`, the comass of
-  the form of a k-vector η is at most `‖η‖`; `exteriorPower.formDualEquiv`, a k-vector as a
-  functional on forms, whose norm is the mass, with `exteriorPower.formDualEquiv_alternatingFormEquiv`
-  (`ξ` pairs with the form of `η` to `⟪η, ξ⟫`), `exteriorPower.norm_formDualEquiv_ιMulti` (the
-  mass of a wedge is its Gram norm), `exteriorPower.norm_le_norm_formDualEquiv` and
-  `exteriorPower.norm_formDualEquiv_le` (`‖ξ‖ ≤ mass(ξ) ≤ sqrt(binomial(dim E, k))·‖ξ‖`).
-- Stiefel manifolds and finite Grassmannians: for a finite-dimensional real inner-product space
-  E, `TauCeti.stiefel E k` (`TauCeti/Geometry/Manifold/Instances/Stiefel.lean`), the level set of
-  the Gram map whose points are the orthonormal k-frames (`TauCeti.mem_stiefel_iff`), regular by
-  `TauCeti.gramSym2Deriv_surjective` (at an orthonormal frame v the derivative of the Gram map
-  sends the variation `vA/2` to the symmetric matrix A), of dimension `k·dim E − (k+1)k/2`
-  (`TauCeti.index_gramSym2Deriv`), compact (`TauCeti.isCompact_stiefel`), nonempty exactly when
-  `k ≤ dim E` (`TauCeti.nonempty_stiefel`), with the smooth manifold instance
-  `TauCeti.stiefel.instIsManifold`; `TauCeti.finiteGrassmannian ℝ k N`
-  (`TauCeti/Topology/Grassmannian/Basic.lean`), the k-dimensional subspaces of `Fin N → ℝ` with
-  the quotient topology of the frame-span map; `TauCeti.finiteOrthonormalFrame`
-  (`…/Grassmannian/Orthonormal.lean`), with the orthogonal-orbit description
-  `TauCeti.finiteGrassmannian.unitaryOrbitHomeomorph`; and, for positive rank only,
-  `TauCeti.finiteOrientedGrassmannian` (`…/Grassmannian/Oriented.lean`), the orientation double
-  cover of the tautological bundle, compact, whose orientation-forgetting map
-  `TauCeti.finiteOrientedGrassmannian.forget` is a covering
-  (`TauCeti.VectorBundleOrientationCover.isCoveringMap_proj`) and proper
-  (`TauCeti.VectorBundleOrientationCover.isProperMap_proj`), with deck involution
-  `TauCeti.VectorBundleOrientationCover.deck`. No smooth structure on the finite Grassmannians is
-  pinned.
-- Differential forms (`TauCeti/Geometry/Manifold/DifferentialForm/`): `TauCeti.RoughForm` (a
-  pointwise continuous alternating map on each tangent space, no regularity assumed),
-  `TauCeti.IsSmoothForm`, `TauCeti.mextDeriv` (computed in charts), `TauCeti.mpullback`,
-  `TauCeti.mpullback_mextDeriv` (naturality of d for a C² map and a C¹ form),
-  `TauCeti.RoughForm.wedge` and `TauCeti.homotopyOperator`.
-- Integration: `TauCeti.integralTopForm` (the integral of a top form against a manifold
-  orientation, zero unless the form is compactly supported and integrable) and Stokes' theorem
-  `TauCeti.integralTopForm_mextDeriv` on manifolds modelled on the half-space, with the
-  outward-first boundary orientation.
-- De Rham cohomology `TauCeti.deRhamCohomology` and the period map
-  `TauCeti.deRhamCohomology.period` from `H¹_dR(M)` to homomorphisms `π₁(M, x) → ℝ`, injective
-  on a connected M (`TauCeti.deRhamCohomology.period_injective`, under `PreconnectedSpace M`);
-  on a disconnected M the periods at one base point see only its component.
-- Smooth singular simplices (`TauCeti/Geometry/Manifold/SmoothSingular/`): the subcomplex
-  `TauCeti.smoothSingularSubcomplex` of the singular simplicial set of M, its simplices
-  `TauCeti.SmoothSimplex I M p`, the pushforward `TauCeti.smoothSingularSubcomplexMap` along a
-  smooth map, and `TauCeti.SmoothSimplex.integral`, additive and homogeneous in the form and natural
-  under pushforward. No Stokes formula for simplices and no smoothing theorem is pinned; both are
-  2.3's.
-- Triangulations: `TauCeti.IsSmoothTriangulation`, a homeomorphism from the realization of a
-  simplicial complex that is an immersion on every closed simplex (Whitehead's notion).
-- Riemannian carriers: `Bundle.ContMDiffRiemannianMetric.pullback` (the metric pulled back along
-  an immersion, for a target metric of one order more regularity), `TauCeti.riemannianVolumeForm`
-  of an orientation, the rough Hodge star `TauCeti.RoughForm.hodgeStar` of an orientation of a
-  Riemannian manifold of dimension `k + l` (rough k-forms to rough l-forms, pointwise
-  `Orientation.formHodgeStar`, with `α ∧ ⋆β = ⟨α, β⟩ dvol` for the inner product
-  `TauCeti.alternatingFormInner` and `⋆⋆ = (−1)^(kl)`; a `C¹` manifold with a Riemannian bundle
-  suffices), its smooth restriction `TauCeti.SmoothForm.hodgeStar`, and
-  `TauCeti.SmoothForm.codifferential`, the formal adjoint of d with sign `(−1)^(m(k+2)+1) ⋆d⋆` on
-  `(k+1)`-forms in dimension m.
-- Normal exponential and tubular neighbourhoods
-  (`TauCeti/Geometry/Manifold/TubularNeighborhood/Riemannian/`): for a smooth embedding
-  `TauCeti.SmoothEmbedding` of a manifold into a boundaryless Hausdorff manifold with a smooth
-  Riemannian metric, `TauCeti.SmoothEmbedding.normalExp`, the ambient Riemannian exponential of
-  the orthogonal representative of an intrinsic normal class, with the base point as junk value
-  outside its natural domain; `TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset`,
-  a `C^m` partial diffeomorphism equal to the normal exponential on an open set containing the
-  whole zero section, with target inside any prescribed open neighbourhood of the image (second
-  countable ambient, nonempty source, no compactness); and
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`, a diffeomorphism of
-  the whole normal bundle onto an open ambient neighbourhood inside a prescribed one, sending the
-  zero section to the embedding. The Euclidean normal bundle of a `C^(n+1)` immersion into an
-  inner-product space is `TauCeti/Geometry/Manifold/TubularNeighborhood/VectorBundle.lean`'s.
-- Complex manifolds: `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold`, multiplication by
-  i on every tangent space of a manifold modelled on `𝓘(ℂ, E)`; the scoped instance
-  `TauCeti.ComplexManifold.isManifold_real` for the underlying real manifold; and
-  `TauCeti.complexManifoldOrientation`, carried by holomorphic charts to
-  `TauCeti.complexOrientation`, the orientation of the real basis `(b₀, i b₀, b₁, i b₁, …)` of a
-  complex basis b.
-- Sobolev spaces and regularity estimates: `TauCeti.W1p` and `TauCeti.W1p0` (real-valued
-  first-order Sobolev spaces on an open set and the closure of test functions), zero-boundary
-  Poincaré `TauCeti.W1p.norm_value_le_mul_norm_gradient_of_subset_slab` (no connectedness), the
-  local Campanato estimate `TauCeti.MeasureTheory.dist_preciseRepresentative_le_of_setAverage_norm_sub_le`
-  (any normed target), Morrey's Dirichlet growth theorem
-  `TauCeti.W1p.holderOnWith_preciseRepresentative_of_setIntegral_norm_gradient_le`, and the
-  iteration lemma `TauCeti.exists_le_mul_div_rpow_mul_add_mul_rpow_of_le_mul_add`, whose
-  inhomogeneous exponent must lie strictly below the decay exponent. The scalar divergence-form
-  energy form `TauCeti.PDE.energyFormH1` and the existence and uniqueness of weak Dirichlet
-  solutions for a bounded coercive form, `TauCeti.PDE.existsUnique_isWeakSolutionDirichlet`.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-1.4 (Cartan calculus), 5.4 (the homotopy formula `ι₁*ω − ι₀*ω = d(hω) + h(dω)` for C¹ forms on
-`N × [0,1]`, proved without Stokes so that N may have boundary) and 12.5 (the divergence theorem
-with boundary).
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 2 (integral singular chains, face maps, relative chains), Stage 3.1 (subdivision and prism
-homotopies), Stage 6.3 (orientations and fundamental classes, with the outward-first boundary
-comparison).
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-R1 (curvature calculus and the induced connections on tensor bundles), R5a (the normal bundle of
-an immersion, the second fundamental form B and the normal connection), R5a.1 (C² dependence of
-the relative volume of a variation, on orientation-free densities, with one fixed compact
-variation support on noncompact sources), R5a.2 (first variation and averaged mean curvature),
-and R5b (for a minimal immersion and compactly supported normal fields V and W, fixed near the
-boundary when there is one: the normal variation of V through the ambient exponential,
-acceleration independence at minimality, the polarized second-volume-variation formula Q, the
-normal Jacobi operator L with `Q(V,W) = ∫⟨LV, W⟩`, its ellipticity and formal self-adjointness,
-and stability, `Q(V,V) ≥ 0` for every such V).
-
-### From TauCetiRoadmap.GeometricTopology
-
-Layer 1 (collars of compact manifolds with boundary; its tubular neighbourhoods are not consumed,
-Tau Ceti's normal exponential being used instead) and 11.3 (the Cairns–Whitehead theorem: every
-smooth manifold has a smooth triangulation in the sense of the pinned
-`TauCeti.IsSmoothTriangulation`, used directly for closed sources).
-
-### From TauCetiRoadmap.TangentialBordism
-
-B1.5 (quotient and bundle adapters), its relative refinement of Whitehead's smooth triangulation:
-for a compact smooth manifold N with collared boundary, a finite simplicial complex K and a
-homeomorphism `h : |K| → N` restricting to a smooth embedding on each closed simplex, in which `∂N`
-is the image of a subcomplex. B1.5 builds it by triangulating the double compatibly with its
-reflection, or the boundary first and then the collar by product subdivision; both refine a
-Whitehead smooth triangulation, so each closed simplex stays smoothly embedded. No vertex order and
-no simplex parametrization are assumed of it.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-K1 and K2 (complex tangent and type calculus), K4 (Hermitian bundles and canonical bundles), K5a
-(the Gram form metric, real star and density line, the real and complex distributional Sobolev
-scales, and compact real de Rham Hodge theory on a real manifold of any dimension, with L² pairing,
-harmonic projection and Green inverse), K5b.0 (local Hermitian identities, including the Hermitian
-volume of complex planes), K6.0 (Kähler metrics as Hermitian metrics with closed fundamental form,
-and their comparisons), K6.1 (the analytic-cycle normalization on the regular locus).
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-P1.0 (differential operators and formal adjoints), P5 (bundle Hölder carriers and mapping
-estimates) and P6 (elliptic Schauder estimates, Sobolev Fredholm realizations and regularity).
-
-### From TauCetiRoadmap.PDE
-
-1.4 (A4, Sobolev embeddings) and 5.6 (E25, the interior `C^(2,α)` Schauder estimate for `C²`
-solutions of scalar non-divergence equations with Hölder coefficients). Both are scalar; Layer 6
-applies them componentwise to `ℝᵐ`-valued maps whose systems have diagonal principal part. The
-Sobolev carriers, zero-boundary Poincaré, the scalar energy form with its Lax–Milgram existence
-theorem, and the Campanato, Dirichlet-growth and iteration estimates are Tau Ceti's (above).
-
-### From TauCetiRoadmap.SmoothBundlesConnections and RepresentationTheory/LieGroups
-
-SmoothBundlesConnections B1.4 (smooth quotients by free proper actions), B2 (structure-group
-reductions) and B5 (holonomy); LieGroups Layer 2 (the closed-subgroup theorem).
-
-### From TauCetiRoadmap.CharacteristicClasses, TopologicalKTheory and GeneralizedCohomology
-
-CharacteristicClasses C1.1a (the finite oriented cover of the coordinate Grassmannian, which is
-Tau Ceti's `TauCeti.finiteOrientedGrassmannian`, and its comparison with the SO(k) quotient of
-orthonormal frames, with the rank-zero sign datum kept separate), TopologicalKTheory T1.5 (finite
-real Grassmannians, on Tau Ceti's `TauCeti.finiteGrassmannian`, and Stiefel quotients),
-GeneralizedCohomology G4.0b (the graph-chart smooth structure on those Grassmannians).
-
-## How to read the build
-
-Layer 1 is pure finite-dimensional linear algebra and precedes everything. Layer 2 builds smooth
-calibrations, calibrated immersions and the integral smooth-chain machinery; Layer 3 combines them
-with Stokes into the fundamental theorem and stability. Layer 4 needs only Layer 1 for its linear
-core (the Wirtinger inequality) and Layers 2–3 for its manifold consequences. Layer 5 does the same
-for the special Lagrangian calibration and adds the phase and mean-curvature theory. Layer 6 uses
-Layer 5, ComplexKahlerGeometry K5a's compact Hodge theory, PseudodifferentialOperators' Hölder
-estimates, Tau Ceti's Sobolev and Campanato estimates and PDE's scalar Schauder estimates to prove
-McLean's theorem and the second-variation identity, and RiemannianGeometry R5b's normal Jacobi
-operator for its identification with the Hodge Laplacian.
 
 ## Layer 1: Comass and equality planes (C1)
 
@@ -1543,6 +1208,345 @@ Jacobi operator.
   comparison).
 - RiemannianGeometry R5a.1's relative-volume functional and R5b's stability are consumed by C3, and
   R5b's normal Jacobi operator by C6; RiemannianGeometry consumes nothing from this roadmap.
+
+## Scope and ownership
+
+### Owned here
+
+- The orthonormal-frame form of comass on finite-dimensional real inner-product spaces and its
+  identification with the native operator norm, the norm-determinant form of the frame volume,
+  the upper bound in the comparison of comass with the exterior-power Hilbert norm, the oriented
+  Grassmannian of a general finite-dimensional inner-product space as the SO(k) quotient of Tau
+  Ceti's Stiefel manifold, with its comparisons to the coordinate carriers, equality planes, and
+  external products (Layer 1).
+- Smooth calibrations, calibrated immersions and their volume; Stokes' theorem for smooth simplices
+  and chains, the relative smoothing of singular simplices and the integral and real
+  smooth-to-singular quasi-isomorphisms on Tau Ceti's smooth singular subcomplex; chain integration
+  and the mass of smooth chains; the vertex orders and ordered simplex parametrizations of relative
+  smooth triangulations of compact manifolds with boundary, and their integral fundamental chains
+  (Layer 2).
+- The fundamental theorem of calibrations, its equality case, calibration stability, and the round
+  equator non-example (Layer 3).
+- The Wirtinger inequality in every degree with its equality case, the Kähler-manifold form of the
+  Wirtinger calibration and the volume minimization of compact complex submanifolds (Layer 4).
+  Kähler metrics themselves are ComplexKahlerGeometry K6.0's.
+- Special Lagrangian linear algebra, the oriented Lagrangian Grassmannian and its phase map, the
+  identification of the standard Kähler form with Tau Ceti's standard symplectic form, normalized
+  holomorphic volume forms and their special Lagrangian calibrations, special Lagrangian
+  submanifolds of Kähler manifolds with a normalized parallel holomorphic volume form, the phase
+  class, the mean-curvature/phase identity in a Kähler ambient, and gradient graphs (Layer 5).
+- McLean's deformation theorem, the Hölder Hodge-projection bounds it needs, the C¹-to-Hölder
+  regularity of nearby minimal graphs with its Legendre-system comparison, full-tensor energy and
+  excess decay and system Caccioppoli inequality, the special Lagrangian second-variation identity
+  for immersions, and the identification of RiemannianGeometry R5b's normal Jacobi operator of a
+  special Lagrangian with the Hodge Laplacian on one-forms (Layer 6).
+
+### Owned elsewhere
+
+- Differential forms, wedge, the exterior derivative and its naturality, pullback, oriented
+  integration of top forms, Stokes' theorem, the homotopy operator, de Rham cohomology with its
+  degree-one periods, smooth singular simplices with their simplicial chain complexes and simplex
+  integrals, pullback metrics of immersions, Riemannian volume forms, the Hodge star and the
+  codifferential: Tau Ceti, by the names listed in the supplier contracts. Cartan calculus, the
+  homotopy formula for C¹ forms and the divergence theorem with boundary: DifferentialGeometry 1.4,
+  5.4 and 12.5.
+- Integral singular chains, subdivision and prism operators, orientation and fundamental classes:
+  AlgebraicTopology Stages 2, 3.1 and 6.3.
+- Hadamard's inequality for Gram determinants, `Re det Gram(v) ≤ Π‖v_i‖²` for every finite family
+  (dependent and empty families included), and for coordinate determinants in an orthonormal
+  basis: Tau Ceti `Matrix.re_det_gram_le_prod_norm_sq` and `OrthonormalBasis.norm_det_le_prod_norm`.
+  Layer 1 consumes the real case and 5.1 the complex coordinate form.
+- The simple-vector characterization of the native norm of a continuous alternating form as its
+  comass, the linear calibration inequality `|φ(v)| ≤ ‖φ‖·|v₁∧⋯∧v_k|`, the top-degree comass, the
+  Riesz identification of k-forms with k-vectors with the pointwise inner product of forms, the
+  lower bound `comass(φ) ≤ |φ|_H` and the comparison of the mass of a k-vector with its norm: Tau
+  Ceti, by the names listed in the supplier contracts. 1.1 owns the orthonormal-frame supremum
+  and 1.3 the upper bound of the Hilbert-norm comparison.
+- Existence of smooth triangulations of smooth manifolds without boundary (Cairns–Whitehead):
+  GeometricTopology 11.3 (smooth triangulations and combinatorial manifolds). Its relative
+  refinement, in which the collared boundary of a compact manifold is a subcomplex:
+  TangentialBordism B1.5 (quotient and bundle adapters). Neither fixes a vertex order; 2.4 adds
+  the global vertex order, the ordered parametrizations and the integral fundamental chains.
+- The Levi-Civita connection of a Riemannian manifold: Mathlib `leviCivitaConnection`. Curvature
+  calculus and induced tensor connections: RiemannianGeometry R1. The normal bundle of an
+  immersion, the second fundamental form, the normal connection, the C² relative-volume functional
+  and first variation: RiemannianGeometry R5a, R5a.1 and R5a.2. The polarized normal second
+  variation Q of a minimal immersion with its acceleration independence, stability (`Q(V,V) ≥ 0`
+  for every compactly supported normal field V), and the normal Jacobi operator with its
+  ellipticity and formal self-adjointness: RiemannianGeometry R5b. 3.2 consumes R5b's stability,
+  and 6.5 identifies R5b's Jacobi operator of a special Lagrangian with the Hodge Laplacian.
+- The normal exponential of a smooth embedding into a Riemannian manifold and the tubular
+  neighbourhood theorem, as a smooth inverse of the normal exponential on a neighbourhood of the
+  zero section inside any prescribed neighbourhood of the image, and as a diffeomorphism of the
+  whole normal bundle onto an ambient neighbourhood: Tau Ceti `TauCeti.SmoothEmbedding.normalExp`,
+  `TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset` and
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`. Collars of compact
+  manifolds with boundary: GeometricTopology Layer 1.
+- Complex manifolds with their almost complex structure and canonical orientation: Tau Ceti.
+  Complex tangent and type calculus, Hermitian and canonical bundles, Hodge theory, Kähler metrics
+  and analytic-cycle carriers: ComplexKahlerGeometry K1, K2, K4, K5a, K5b.0, K6.0 and K6.1. The
+  integration of analytic cycles across their singular sets belongs to K6.1.
+- Bundle Hölder norms, elliptic Schauder estimates and Sobolev Fredholm theory:
+  PseudodifferentialOperators P1.0, P5 and P6.
+- First-order Sobolev spaces on open subsets of ℝⁿ and their zero-boundary subspaces,
+  zero-boundary Poincaré, the scalar energy form with its weak Dirichlet existence theorem, the
+  local Campanato estimate, Morrey's Dirichlet growth theorem and the iteration lemma for decay
+  estimates: Tau Ceti, by the names listed in the supplier contracts. Sobolev embeddings and
+  interior non-divergence Schauder estimates: PDE 1.4 (A4) and 5.6 (E25).
+- The smooth Stiefel manifold of orthonormal k-frames of a finite-dimensional real inner-product
+  space E, a compact regular level set of the Gram map of dimension `k·dim E − (k+1)k/2`: Tau Ceti
+  `TauCeti.stiefel`. The finite coordinate Grassmannians with their frame-quotient topology, the
+  coordinate orthonormal frames and, in positive rank, the finite oriented Grassmannians with their
+  proper two-sheeted orientation-forgetting cover: Tau Ceti `TauCeti.finiteGrassmannian`,
+  `TauCeti.finiteOrthonormalFrame` and `TauCeti.finiteOrientedGrassmannian`, the carriers of
+  TopologicalKTheory T1.5 and CharacteristicClasses C1.1a. C1.1a's comparison of the oriented
+  cover with the SO(k) quotient of orthonormal frames and its rank-zero sign datum,
+  GeneralizedCohomology G4.0b's graph-chart smooth structure, and TopologicalKTheory T1.6a's
+  stable classifier comparisons belong to those roadmaps. 1.4 keeps the coordinate-free oriented
+  Grassmannian of a general E, its smooth quotient structure and its comparisons with these
+  carriers.
+- The Robbin–Salamon Maslov index of Lagrangian paths, and its comparison with the native loop
+  invariant `TauCeti.TotallyRealLoop.maslovIndex` (the degree of the `det²` phase loop):
+  HeegaardFloer F1.4. The phase class here is a different invariant (the cohomology class of the
+  phase map); 5.3 compares it with the native loop invariant on Lagrangian loops in ℂⁿ.
+- The pointwise degree-two Wirtinger inequality `ω(v,w) ≤ |v∧w|_g` for an ω-compatible J on Tau
+  Ceti's symplectic carriers, with its equality case: HeegaardFloer F2.6c. 4.1 keeps the
+  comass-carrier form on ℂⁿ, the r = 1 instance of 4.2, and 4.2's transport to Hermitian vector
+  spaces is the all-degree statement.
+- Associative, coassociative and Cayley calibrations and exceptional holonomy, rectifiable currents
+  and their regularity theory: outside this roadmap. No compactness theorem for currents and no
+  singular regularity theorem is used.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ContinuousAlternatingMap` with its operator norm (`ContinuousAlternatingMap.norm_def`,
+  `ContinuousAlternatingMap.norm_constOfIsEmpty`,
+  `ContinuousAlternatingMap.norm_compContinuousLinearMap_le`), and
+  `ContinuousMultilinearMap.norm_compContinuous_linearIsometryEquiv` for pullback along a
+  surjective linear isometry. The native norm is an infimum of product-norm bounds; Tau Ceti
+  identifies it with the simple-vector comass (below), and its orthonormal-frame form is target
+  1.1.
+- `LinearMap.normDet` (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`) with
+  `LinearMap.normDet_sq_eq_det_gram`, its range-restriction identity and the rank-defect criterion:
+  a genuine rectangular volume, `1` on a zero-dimensional domain and `0` on a non-injective map.
+- `Matrix.gram` and `Matrix.det_gram_ne_zero_iff_linearIndependent`; `Orthonormal`,
+  `OrthonormalBasis`, `EuclideanSpace`, `WithLp`, `PiLp` and `Orientation`.
+- Exterior powers `⋀[ℝ]^k E` as submodules of `ExteriorAlgebra`, `exteriorPower.ιMulti`,
+  `exteriorPower.alternatingMapLinearEquiv` (the linear dual of an exterior power; the Riesz
+  identification is Tau Ceti's, below), and the Gram inner product of
+  `Mathlib/Analysis/InnerProductSpace/ExteriorPower.lean`, `exteriorPower.inner_ιMulti_ιMulti`.
+  That instance requires `FiniteDimensional ℝ E`.
+- `Submodule.pow_mem_pow` (powers of a 2-vector lie in the even exterior powers) and
+  `LinearMap.continuous_of_finiteDimensional`.
+- `ImplicitFunctionData.contDiffAt_implicitFunction`, `HasStrictFDerivAt`, `ContDiffOn`,
+  `ContDiffAt`; it applies after the derivative and its complement are supplied and does not
+  construct them.
+- `Matrix.detRowAlternating`, `ContinuousAlternatingMap.restrictScalars`, Lax–Milgram
+  (`IsCoercive.continuousLinearEquivOfBilin`), and the finite-dimensional adjoint, spectral and
+  determinant APIs.
+- `Bundle.ContMDiffRiemannianMetric` (a smooth Riemannian metric as a family of inner products on
+  the tangent spaces) and `leviCivitaConnection`
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`), unique up to its
+  values on non-differentiable vector fields.
+- `SSet.chainComplex` and `SSet.chainComplexMap`
+  (`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean`): the simplicial chain complex of
+  a simplicial set with coefficients in any object, and the chain map of a morphism.
+
+### From Tau Ceti
+
+- `TauCeti.stdSymplecticForm` (`TauCeti/Geometry/Symplectic/StandardCompatible.lean`), with
+  evaluation `⟪x₁,y₂⟫ − ⟪y₁,x₂⟫` on `(x₁,y₁),(x₂,y₂)`.
+- `SymplecticForm.transport` (`TauCeti/Geometry/Symplectic/SymplecticTransport.lean`) and
+  `AlmostComplexStructure.transport` (`TauCeti/Geometry/Symplectic/Transport.lean`), both through
+  the inverse of the given equivalence, and `Compatible.transport`.
+- `SymplecticForm.IsLagrangian` (`TauCeti/Geometry/Symplectic/Lagrangian/Basic.lean`): equality
+  with the symplectic orthogonal, not isotropy alone.
+- `SymplecticForm.complexAssociatedForm`, `Compatible.hermitianCore`
+  (`TauCeti/Geometry/Symplectic/Hermitian.lean`) and `AlmostComplexStructure.complexModule`.
+- `TauCeti.TotallyRealLoop.maslovIndex` (`TauCeti/LinearAlgebra/TotallyReal/Maslov/Index.lean`):
+  the degree of the loop of Maslov phases `ρ(Λ 0, Λ t)` of a loop Λ of maximal totally real
+  subspaces, where `ρ(L₀, A L₀) = det A / conj(det A)`, so that the rotated line `e^(iθ)L₀` in
+  ℂⁿ has phase `e^(2inθ)` relative to `L₀`.
+- `Matrix.re_det_gram_le_prod_norm_sq` and `OrthonormalBasis.norm_det_le_prod_norm`
+  (`TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`): Hadamard's inequality
+  `Re det Gram(v) ≤ Π‖v_i‖²` for any finite family over an `RCLike` field (dependent and empty
+  families allowed), and `‖det_b v‖ ≤ Π‖v_i‖` for the coordinate determinant in an orthonormal
+  basis b.
+- Comass and mass (`TauCeti/Analysis/InnerProductSpace/Comass.lean`, `AlternatingForm.lean`,
+  `ExteriorPower/Basic.lean` and `TauCeti/Analysis/Normed/Module/Alternating/Dual.lean`), all on
+  a finite-dimensional real inner-product space E: `exteriorPower.norm_ιMulti_sq`, the squared
+  Gram norm of the wedge `v₁∧⋯∧v_k` is `det Gram(v)`, with Hadamard's
+  `exteriorPower.norm_ιMulti_le_prod_norm`; `ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`,
+  `‖φ v‖ ≤ ‖φ‖·‖v₁∧⋯∧v_k‖` for every family v, dependent families included, into any normed
+  target; `ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`, for `0 ≤ C`, `‖φ‖ ≤ C`
+  exactly when `‖φ v‖ ≤ C·‖v₁∧⋯∧v_k‖` for every v, so that the native norm is Federer's comass in
+  its simple-vector form; `ContinuousAlternatingMap.norm_eq_norm_apply_orthonormalBasis`, the
+  comass of a top-degree form is the norm of its value on an orthonormal basis;
+  `TauCeti.alternatingFormEquiv`, the Riesz identification `⋀[ℝ]^k E ≃ₗ[ℝ] E [⋀^Fin k]→L[ℝ] ℝ`,
+  `x ↦ (v ↦ ⟪x, v₁∧⋯∧v_k⟫)`, and `TauCeti.alternatingFormInner`, the pointwise inner product of
+  forms transported along it, computed in an orthonormal basis by
+  `TauCeti.alternatingFormInner_eq_sum`; `TauCeti.norm_alternatingFormEquiv_le`, the comass of
+  the form of a k-vector η is at most `‖η‖`; `exteriorPower.formDualEquiv`, a k-vector as a
+  functional on forms, whose norm is the mass, with `exteriorPower.formDualEquiv_alternatingFormEquiv`
+  (`ξ` pairs with the form of `η` to `⟪η, ξ⟫`), `exteriorPower.norm_formDualEquiv_ιMulti` (the
+  mass of a wedge is its Gram norm), `exteriorPower.norm_le_norm_formDualEquiv` and
+  `exteriorPower.norm_formDualEquiv_le` (`‖ξ‖ ≤ mass(ξ) ≤ sqrt(binomial(dim E, k))·‖ξ‖`).
+- Stiefel manifolds and finite Grassmannians: for a finite-dimensional real inner-product space
+  E, `TauCeti.stiefel E k` (`TauCeti/Geometry/Manifold/Instances/Stiefel.lean`), the level set of
+  the Gram map whose points are the orthonormal k-frames (`TauCeti.mem_stiefel_iff`), regular by
+  `TauCeti.gramSym2Deriv_surjective` (at an orthonormal frame v the derivative of the Gram map
+  sends the variation `vA/2` to the symmetric matrix A), of dimension `k·dim E − (k+1)k/2`
+  (`TauCeti.index_gramSym2Deriv`), compact (`TauCeti.isCompact_stiefel`), nonempty exactly when
+  `k ≤ dim E` (`TauCeti.nonempty_stiefel`), with the smooth manifold instance
+  `TauCeti.stiefel.instIsManifold`; `TauCeti.finiteGrassmannian ℝ k N`
+  (`TauCeti/Topology/Grassmannian/Basic.lean`), the k-dimensional subspaces of `Fin N → ℝ` with
+  the quotient topology of the frame-span map; `TauCeti.finiteOrthonormalFrame`
+  (`…/Grassmannian/Orthonormal.lean`), with the orthogonal-orbit description
+  `TauCeti.finiteGrassmannian.unitaryOrbitHomeomorph`; and, for positive rank only,
+  `TauCeti.finiteOrientedGrassmannian` (`…/Grassmannian/Oriented.lean`), the orientation double
+  cover of the tautological bundle, compact, whose orientation-forgetting map
+  `TauCeti.finiteOrientedGrassmannian.forget` is a covering
+  (`TauCeti.VectorBundleOrientationCover.isCoveringMap_proj`) and proper
+  (`TauCeti.VectorBundleOrientationCover.isProperMap_proj`), with deck involution
+  `TauCeti.VectorBundleOrientationCover.deck`. No smooth structure on the finite Grassmannians is
+  pinned.
+- Differential forms (`TauCeti/Geometry/Manifold/DifferentialForm/`): `TauCeti.RoughForm` (a
+  pointwise continuous alternating map on each tangent space, no regularity assumed),
+  `TauCeti.IsSmoothForm`, `TauCeti.mextDeriv` (computed in charts), `TauCeti.mpullback`,
+  `TauCeti.mpullback_mextDeriv` (naturality of d for a C² map and a C¹ form),
+  `TauCeti.RoughForm.wedge` and `TauCeti.homotopyOperator`.
+- Integration: `TauCeti.integralTopForm` (the integral of a top form against a manifold
+  orientation, zero unless the form is compactly supported and integrable) and Stokes' theorem
+  `TauCeti.integralTopForm_mextDeriv` on manifolds modelled on the half-space, with the
+  outward-first boundary orientation.
+- De Rham cohomology `TauCeti.deRhamCohomology` and the period map
+  `TauCeti.deRhamCohomology.period` from `H¹_dR(M)` to homomorphisms `π₁(M, x) → ℝ`, injective
+  on a connected M (`TauCeti.deRhamCohomology.period_injective`, under `PreconnectedSpace M`);
+  on a disconnected M the periods at one base point see only its component.
+- Smooth singular simplices (`TauCeti/Geometry/Manifold/SmoothSingular/`): the subcomplex
+  `TauCeti.smoothSingularSubcomplex` of the singular simplicial set of M, its simplices
+  `TauCeti.SmoothSimplex I M p`, the pushforward `TauCeti.smoothSingularSubcomplexMap` along a
+  smooth map, and `TauCeti.SmoothSimplex.integral`, additive and homogeneous in the form and natural
+  under pushforward. No Stokes formula for simplices and no smoothing theorem is pinned; both are
+  2.3's.
+- Triangulations: `TauCeti.IsSmoothTriangulation`, a homeomorphism from the realization of a
+  simplicial complex that is an immersion on every closed simplex (Whitehead's notion).
+- Riemannian carriers: `Bundle.ContMDiffRiemannianMetric.pullback` (the metric pulled back along
+  an immersion, for a target metric of one order more regularity), `TauCeti.riemannianVolumeForm`
+  of an orientation, the rough Hodge star `TauCeti.RoughForm.hodgeStar` of an orientation of a
+  Riemannian manifold of dimension `k + l` (rough k-forms to rough l-forms, pointwise
+  `Orientation.formHodgeStar`, with `α ∧ ⋆β = ⟨α, β⟩ dvol` for the inner product
+  `TauCeti.alternatingFormInner` and `⋆⋆ = (−1)^(kl)`; a `C¹` manifold with a Riemannian bundle
+  suffices), its smooth restriction `TauCeti.SmoothForm.hodgeStar`, and
+  `TauCeti.SmoothForm.codifferential`, the formal adjoint of d with sign `(−1)^(m(k+2)+1) ⋆d⋆` on
+  `(k+1)`-forms in dimension m.
+- Normal exponential and tubular neighbourhoods
+  (`TauCeti/Geometry/Manifold/TubularNeighborhood/Riemannian/`): for a smooth embedding
+  `TauCeti.SmoothEmbedding` of a manifold into a boundaryless Hausdorff manifold with a smooth
+  Riemannian metric, `TauCeti.SmoothEmbedding.normalExp`, the ambient Riemannian exponential of
+  the orthogonal representative of an intrinsic normal class, with the base point as junk value
+  outside its natural domain; `TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset`,
+  a `C^m` partial diffeomorphism equal to the normal exponential on an open set containing the
+  whole zero section, with target inside any prescribed open neighbourhood of the image (second
+  countable ambient, nonempty source, no compactness); and
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`, a diffeomorphism of
+  the whole normal bundle onto an open ambient neighbourhood inside a prescribed one, sending the
+  zero section to the embedding. The Euclidean normal bundle of a `C^(n+1)` immersion into an
+  inner-product space is `TauCeti/Geometry/Manifold/TubularNeighborhood/VectorBundle.lean`'s.
+- Complex manifolds: `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold`, multiplication by
+  i on every tangent space of a manifold modelled on `𝓘(ℂ, E)`; the scoped instance
+  `TauCeti.ComplexManifold.isManifold_real` for the underlying real manifold; and
+  `TauCeti.complexManifoldOrientation`, carried by holomorphic charts to
+  `TauCeti.complexOrientation`, the orientation of the real basis `(b₀, i b₀, b₁, i b₁, …)` of a
+  complex basis b.
+- Sobolev spaces and regularity estimates: `TauCeti.W1p` and `TauCeti.W1p0` (real-valued
+  first-order Sobolev spaces on an open set and the closure of test functions), zero-boundary
+  Poincaré `TauCeti.W1p.norm_value_le_mul_norm_gradient_of_subset_slab` (no connectedness), the
+  local Campanato estimate `TauCeti.MeasureTheory.dist_preciseRepresentative_le_of_setAverage_norm_sub_le`
+  (any normed target), Morrey's Dirichlet growth theorem
+  `TauCeti.W1p.holderOnWith_preciseRepresentative_of_setIntegral_norm_gradient_le`, and the
+  iteration lemma `TauCeti.exists_le_mul_div_rpow_mul_add_mul_rpow_of_le_mul_add`, whose
+  inhomogeneous exponent must lie strictly below the decay exponent. The scalar divergence-form
+  energy form `TauCeti.PDE.energyFormH1` and the existence and uniqueness of weak Dirichlet
+  solutions for a bounded coercive form, `TauCeti.PDE.existsUnique_isWeakSolutionDirichlet`.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+1.4 (Cartan calculus), 5.4 (the homotopy formula `ι₁*ω − ι₀*ω = d(hω) + h(dω)` for C¹ forms on
+`N × [0,1]`, proved without Stokes so that N may have boundary) and 12.5 (the divergence theorem
+with boundary).
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 2 (integral singular chains, face maps, relative chains), Stage 3.1 (subdivision and prism
+homotopies), Stage 6.3 (orientations and fundamental classes, with the outward-first boundary
+comparison).
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+R1 (curvature calculus and the induced connections on tensor bundles), R5a (the normal bundle of
+an immersion, the second fundamental form B and the normal connection), R5a.1 (C² dependence of
+the relative volume of a variation, on orientation-free densities, with one fixed compact
+variation support on noncompact sources), R5a.2 (first variation and averaged mean curvature),
+and R5b (for a minimal immersion and compactly supported normal fields V and W, fixed near the
+boundary when there is one: the normal variation of V through the ambient exponential,
+acceleration independence at minimality, the polarized second-volume-variation formula Q, the
+normal Jacobi operator L with `Q(V,W) = ∫⟨LV, W⟩`, its ellipticity and formal self-adjointness,
+and stability, `Q(V,V) ≥ 0` for every such V).
+
+### From TauCetiRoadmap.GeometricTopology
+
+Layer 1 (collars of compact manifolds with boundary; its tubular neighbourhoods are not consumed,
+Tau Ceti's normal exponential being used instead) and 11.3 (the Cairns–Whitehead theorem: every
+smooth manifold has a smooth triangulation in the sense of the pinned
+`TauCeti.IsSmoothTriangulation`, used directly for closed sources).
+
+### From TauCetiRoadmap.TangentialBordism
+
+B1.5 (quotient and bundle adapters), its relative refinement of Whitehead's smooth triangulation:
+for a compact smooth manifold N with collared boundary, a finite simplicial complex K and a
+homeomorphism `h : |K| → N` restricting to a smooth embedding on each closed simplex, in which `∂N`
+is the image of a subcomplex. B1.5 builds it by triangulating the double compatibly with its
+reflection, or the boundary first and then the collar by product subdivision; both refine a
+Whitehead smooth triangulation, so each closed simplex stays smoothly embedded. No vertex order and
+no simplex parametrization are assumed of it.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+K1 and K2 (complex tangent and type calculus), K4 (Hermitian bundles and canonical bundles), K5a
+(the Gram form metric, real star and density line, the real and complex distributional Sobolev
+scales, and compact real de Rham Hodge theory on a real manifold of any dimension, with L² pairing,
+harmonic projection and Green inverse), K5b.0 (local Hermitian identities, including the Hermitian
+volume of complex planes), K6.0 (Kähler metrics as Hermitian metrics with closed fundamental form,
+and their comparisons), K6.1 (the analytic-cycle normalization on the regular locus).
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+P1.0 (differential operators and formal adjoints), P5 (bundle Hölder carriers and mapping
+estimates) and P6 (elliptic Schauder estimates, Sobolev Fredholm realizations and regularity).
+
+### From TauCetiRoadmap.PDE
+
+1.4 (A4, Sobolev embeddings) and 5.6 (E25, the interior `C^(2,α)` Schauder estimate for `C²`
+solutions of scalar non-divergence equations with Hölder coefficients). Both are scalar; Layer 6
+applies them componentwise to `ℝᵐ`-valued maps whose systems have diagonal principal part. The
+Sobolev carriers, zero-boundary Poincaré, the scalar energy form with its Lax–Milgram existence
+theorem, and the Campanato, Dirichlet-growth and iteration estimates are Tau Ceti's (above).
+
+### From TauCetiRoadmap.SmoothBundlesConnections and RepresentationTheory/LieGroups
+
+SmoothBundlesConnections B1.4 (smooth quotients by free proper actions), B2 (structure-group
+reductions) and B5 (holonomy); LieGroups Layer 2 (the closed-subgroup theorem).
+
+### From TauCetiRoadmap.CharacteristicClasses, TopologicalKTheory and GeneralizedCohomology
+
+CharacteristicClasses C1.1a (the finite oriented cover of the coordinate Grassmannian, which is
+Tau Ceti's `TauCeti.finiteOrientedGrassmannian`, and its comparison with the SO(k) quotient of
+orthonormal frames, with the rank-zero sign datum kept separate), TopologicalKTheory T1.5 (finite
+real Grassmannians, on Tau Ceti's `TauCeti.finiteGrassmannian`, and Stiefel quotients),
+GeneralizedCohomology G4.0b (the graph-chart smooth structure on those Grassmannians).
 
 ## References
 

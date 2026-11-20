@@ -1,155 +1,96 @@
 # Roadmap: integral Hecke actions, determinants and interpolation
 
-**Summary.** This roadmap builds the integral algebra that attaches Galois data to Hecke eigensystems: Chenevier's determinants (polynomial laws whose characteristic coefficients survive torsion and nonreduced coefficient rings), reconstruction of representations over henselian and complete local rings, integral and derived Hecke actions on cohomology, the normalisation of Hecke polynomials for GL_n and GSp₄, interpolation of determinants through finite quotients with quantified nilpotent errors, and integral Ribet modules with their Fitting ideals. We want it because the modern route to Galois representations for torsion classes, and to modularity lifting over CM fields, works with Hecke algebras that are not reduced and coefficient rings that are not fields; determinants, derived Hecke actions and the quantified interpolation are exactly the tools those arguments use, and the Ribet modules are what the Euler-system and main-conjecture roadmaps consume.
+**Summary.** Hecke operators on the cohomology of locally symmetric spaces with torsion coefficients
+generate commutative Hecke algebras that may be nonreduced, over coefficient rings that need not be
+fields. This roadmap builds the integral algebra that attaches Galois data to them. Its central
+object is Chenevier's determinant. For a commutative ring `A` and an associative unital `A`-algebra
+`R`, a `d`-dimensional determinant is a polynomial law `D : R → A` (a natural family of maps
+`S ⊗_A R → S` over all commutative `A`-algebras `S`), homogeneous of degree `d`, that preserves `1`
+and multiplication after every extension of scalars. Its characteristic polynomial is `D(X − x)`.
 
-This roadmap builds the integral algebra that connects a Hecke action on cohomology to Galois data
-over its coefficient ring. The central object is a multiplicative polynomial law of specified degree,
-Chenevier's determinant: its characteristic coefficients remain meaningful in torsion and over
-nonreduced rings, where trace data or characteristic-zero points lose information. From that object
-the roadmap builds reconstruction of representations over henselian and complete local rings, the
-derived Hecke images of a complex with their ghost comparison, the normalisation of unramified Hecke
-polynomials for `GLₙ` and `GSp₄`, interpolation of determinants through finite quotients, quantified
-nilpotent errors, and integral Ribet extension modules. Its end theorems are the interpolation
-theorem of Layer IHG.4 (a continuous determinant over a nonreduced coefficient ring with prescribed
-Frobenius polynomials, unique and unramified outside a fixed set), the quantified descent of
-Layer IHG.5 (the same over a quotient by a nilpotent error ideal with a uniform exponent), and the
-integral Ribet theorem of Layer IHG.6 (a finite module carrying a cocycle class whose zeroth Fitting
-ideal lies in the congruence ideal, including coincident residual characters and residue
-characteristic two).
+Simpler invariants lose information over such rings. The trace of a determinant determines it when
+`d!` is invertible, but not in general. Over `k[ε]/ε²`, the characters `n ↦ 1` and `n ↦ (1+ε)^n` of
+`ℤ` are different determinants that agree after every ring map to a field.
 
-Every interface retains the coefficient ring: reconstruction carries stated residual hypotheses,
-Hecke images retain the abstract action, and interpolation carries a specified nilpotent error. The
-mathematical assertions below are targets for formalisation; the existing library inputs are
-distinguished in the `*Needs:*` annotations. Each construction states its usable API and its checks.
-The companion [Suggested.lean](Suggested.lean), in the namespace
-`TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants`, states headline theorems against the pinned
-libraries, using concrete definitions where needed to express them. A target that ends with a
-`*Lean:*` line has the indicated acceptance statement; the other targets and all Checks are specified in this README. This document fixes
-the mathematical scope, including hypotheses whose carriers come from another roadmap.
+The first main results recover representations from determinants. Over an algebraically closed field
+`k`, every `d`-dimensional determinant with `d ≥ 1` is `det ∘ ρ` for a semisimple representation
+`ρ : R → M_d(k)`, unique up to conjugacy among semisimple ones; no factorial needs to be invertible.
+Over a henselian local ring `A`, a determinant on `A[G]` whose reduction to the residue field is the
+determinant of an absolutely irreducible representation is `det ∘ ρ` for some `ρ : A[G] → M_d(A)`,
+unique up to conjugation.
 
-## Scope and ownership
+Interpolation builds determinants over complete rings from their reductions. Let `G` be a group with
+a topology and `Frob_v` elements of `G` whose conjugates are dense. Two continuous determinants over
+a Hausdorff ring with the same characteristic polynomials at every `Frob_v` are equal. Let `A` be
+separated and complete for a descending chain of ideals `J_r` forming a basis of neighbourhoods of
+`0`, and fix `P_v ∈ A[X]`. If for each `r` some determinant over `A/J_r` has locally constant
+coefficients and characteristic polynomial `P_v mod J_r` at every `Frob_v`, then exactly one
+continuous determinant over `A` has characteristic polynomial `P_v` at every `Frob_v`.
 
-The roadmap owns determinant polynomial laws and their reconstruction and interpolation theory:
-Chenevier determinants with their characteristic polynomials, kernels and Cayley–Hamilton ideals,
-the determinant coordinate ring, the Amitsur formula and the comparison with pseudocharacters,
-continuous determinants, contragredients, finite projective and Azumaya determinants, connected
-reductive pseudocharacters with their invariant-coordinate evaluations, the general untwisted
-invariant-word colimit and its representing-ring comparison, the invariant product on rational
-cohomology, henselian reconstruction, generalized matrix algebras with their
-reducibility ideals and extension modules, coefficient descent, the compatible local compressions
-of Caraiani–Newton, and GL pseudocharacter reconstruction. It also owns
-the four Hecke images of a complex (chain, homotopy, derived, cohomology), their ghost comparison,
-local factors and operator localisation, the explicit `GLₙ` and `GSp₄` polynomial conversions
-between Hecke and Galois conventions, maximal ideals of Galois type, interpolation through finite
-quotients and inverse limits, the arithmetic of nilpotent error ideals, and the algebraic Ribet
-construction with its Fitting-ideal bound, underlying Buchsbaum–Rim relation complexes,
-and the integral GL₂ induction and countable good-filtration interfaces. The latter include
-acyclicity and tensor closure, the twisted lower-Borel calculations and the compatibility of
-connecting maps with invariant products needed in §§6.4–6.7. The equivariant relation-complex
-comparison is an owned target of §6.6 and supplies a prerequisite for the Fitting-ideal bound.
+The Hecke side enters through nilpotence. If a complex `C` has cohomology only in degrees `a`
+through `b`, every product of `b − a + 1` endomorphisms of `C` in the derived category that act by
+zero on cohomology vanishes. For a ring map `φ : T → B` with kernel `J`, a continuous determinant
+over `B` whose coefficients on a dense subset of `G` come from `T/J` descends to a unique continuous
+determinant over `T/J`, when `T/J` is compact Hausdorff, `B` Hausdorff and `T/J → B` continuous. In
+the application `φ` is a Hecke comparison and `J^N = 0`; explicit bounds track `N`.
 
-Interpolation here is on ordinary group algebras through supplied coefficient quotients.
-Completed coefficient-tensor evaluation, completed Cayley–Hamilton topology and continuous
-pseudodeformation representability remain outside this scope.
+The last main theorem is an integral form of Ribet's construction of extensions. Let `T` be a
+complete reduced noetherian local ring, `I ⊆ T` an ideal, `G` compact, and `ρ : G → GL₂(Frac(T))`
+continuous, under a stated compatibility of topologies. Assume every characteristic polynomial of
+`ρ` lies in `T[X]` and reduces modulo `I` to `(X − χ(g))(X − ψ(g))` for continuous characters
+`χ, ψ : G → T^×`, and that `ρ` is irreducible over each field factor of `Frac(T)`. Then some finite
+`T`-module `M` carries a continuous class in `H¹(G, M(χψ⁻¹))`, each representing cocycle of which
+generates `M`, and the zeroth Fitting ideal of `M` (built from the minors of a presentation) lies in
+`I`. Residually equal characters and residue characteristic two are allowed.
 
-It consumes the following developments by name and does not rebuild their general theories; the
-exact declarations are listed under *Exact supplier contracts*.
+The roadmap builds on Tau Ceti's homogeneous and multiplicative polynomial laws and Roby algebras,
+which formalise part of DerivedModuleAlgebra. SmoothRepresentationsOfLocalGroups provides normalised
+Satake and the `GSp₄` spin polynomial, ReductiveGroups rational cohomology, and Chebotarev the
+density of Frobenius conjugacy classes in `G_{F,S}`. In turn, the interpolation and nilpotent
+comparison are the algebraic form of Scholze's Corollary 5.1.11 and Theorem 5.4.1, and the Ribet
+modules serve Iwasawa theory.
 
-- Mathlib supplies polynomial laws, tensor products, matrices, group algebras, divided powers, the
-  exterior algebra, module and derived categories, quotient, local and topological algebra, and the
-  Azumaya predicate.
-- Tau Ceti supplies the homogeneous and multiplicative law predicates on Mathlib's polynomial
-  laws, the unique linear-map description of degree-one laws on arbitrary modules, the
-  identification of multiplicative degree-one laws with algebra maps, the homogeneous
-  divided-power pieces and the Roby algebra with its representability of multiplicative laws,
-  all without flatness or finiteness assumptions; these formalise DerivedModuleAlgebra
-  §§0.DP.1–0.DP.2, and the determinant structure here is built on them. Tau Ceti also supplies
-  the linear-functional Koszul complexes of DerivedModuleAlgebra §0.K.1 with their cohomology and
-  its annihilation by the defining ideal, right comodules over a coalgebra with cotensor induction
-  and Frobenius reciprocity, the completed group algebra, Fitting ideals with the bound
-  `Fitt₀ ⊆ Ann` for finite modules, the explicit continuous low-degree cohomology that
-  ProfiniteCohomology layer 2 specifies, the Japanese and Nagata predicates, determinants of
-  endomorphisms of finite projective modules, the classical rank-two Satake parameters, conjugacy
-  of algebra isomorphisms over a field and the arithmetic-Frobenius value of the cyclotomic
-  character.
-- The roadmap **SemisimpleAlgebras** (layers 0, 2, 3, 4 and 5) supplies the Jacobson-radical unit
-  criteria, Artin–Wedderburn at its artinian hypotheses, density and double centralisers after the
-  appropriate dimension bound, finite-dimensional central-simple splitting over the centre, and
-  conjugacy of algebra isomorphisms; the determinant-specific boundedness and inseparable norm
-  factors are developed here.
-- **ReductiveGroups** (§1.1, *Rational cohomology and algebraic induction*) supplies rational
-  cohomology over a flat commutative Hopf algebra: enough injectives in the native comodule
-  category, the cofree resolution and its complex `M ⊗ H^⊗n`, `H⁰` as the invariant submodule,
-  cofree acyclicity, functoriality in the coefficients, connecting maps with their long exact
-  sequence, and the coefficient-last comparison. On the cotensor induction pinned in Tau Ceti it
-  supplies left exactness, transitivity, the description by functions on points and the antipode
-  comparison with Jantzen's convention `f(gh) = h⁻¹f(g)`. This roadmap consumes them and proves
-  only the invariant product on that cohomology and its compatibility with connecting maps (§0.7),
-  with the integral `GL₂` applications of §6.4. Root-datum construction and its comparisons
-  also belong to ReductiveGroups (layers 1 and 9). Tau Ceti's native comodule and tensor APIs, its
-  `GeneralLinear.coordinateHopfAlgebra` and generic matrix supply the explicit `GLₙ` instance.
-  The invariant coordinate algebras of Layer IHG.0 take a commutative Hopf algebra as data.
-  The `GSp₄` statements of Layers IHG.3a and IHG.3b use the matrix identity
-  `ρ(g)ᵀ J ρ(g) = μ(g) J` for a fixed invertible alternating `J`.
-- **SmoothRepresentationsOfLocalGroups** (SR.4, SR.6) supplies the integral spherical double-coset
-  generators, normalised Satake, the `GSp₄` spin polynomial, the integral finite-wild cocycle scheme
-  (SR.6.1) and the finite-wild excursion algebra with its twisted applications (SR.6.3).
-  This roadmap owns the arbitrary-base, arbitrary-group untwisted construction in §0.7,
-  *General invariant-word colimit*. Its comparison with SR.6.3 at trivial Weil action identifies
-  their colimit cocones, so this specialization uses one carrier. SR.6 retains the finite-wild
-  finiteness and cocycle-quotient comparison theorems at their stated hypotheses, and the finite
-  Weil action in the twisted theory. The pseudocharacter representing-ring comparison, its
-  evaluations, and the GL determinant comparison are proved here.
-- **ClassFieldTheory** (layer 7) supplies local Artin reciprocity with an explicit Frobenius
-  normalisation and its inverse conversion; **Chebotarev** (layer 10) supplies the density of
-  conjugacy classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
-- **ProfiniteCohomology** (layer 2) specifies the explicit continuous cochains, 1-cocycles,
-  coboundaries and `H¹` that Tau Ceti formalises as `TauCeti.ContCohomology`; **ModularForms**
-  (layer 9) supplies the classical Hecke polynomial `X²−a_ℓX+ω(ℓ)ℓ^{k−1}`; **PadicMeasuresIwasawaAlgebras** (§5.1) supplies the ring-level
-  finite-projective determinant-line API, including invertibility of the top exterior power
-  at constant rank, its scalar endomorphisms and arbitrary base change;
-  AlgebraicVectorBundles L0C sheafifies it.
-- **SchemeAndStackFoundations** (§0.20) owns `Ring.IsJapanese.of_complete_local` and
-  `Ring.IsNagata.of_complete_local`, stated on Tau Ceti's predicates `TauCeti.Ring.IsJapanese` and
-  `TauCeti.Ring.IsNagata`, including finite normalization in inseparable extensions;
-  §2.22 owns affine Azumaya étale splitting and the
-  finite-cover-to-one-faithfully-flat-étale-algebra adapter in the neutral `IsAzumaya` API.
-  The reduced-norm polynomial law is owned here.
+Layer 0 develops determinants and their comparison with traces. Layer 3a fixes the Hecke polynomials
+of `GLₙ` and `GSp₄`; Layer 1, which proves reconstruction, uses its multiplier identity for
+symplectic descent. Layer 2 builds Hecke actions on complexes and Layer 3b maximal ideals of Galois
+type. Layers 4, 5 and 6 prove interpolation, the nilpotent comparison and the Ribet theorems.
 
-Tau Ceti's `HeckeRing.GL2.Newform.satakeParameters` carries the classical rank-two polynomial
-`X²−a_pX+χ(p)p^(k−1)` over `ℂ`; the rank-two normalisation in Layer IHG.3a only matches coefficient
-conventions against it. The applications to locally symmetric spaces, higher coherent cohomology,
-automorphic congruences, Iwasawa theory and Galois deformation spaces supply their own geometric
-Hecke comparisons and classical congruence witnesses. This roadmap specifies the exact algebraic
-inputs those applications must provide; it does not infer them from the existence of
-characteristic-zero eigenforms.
+## How to read the build
 
-The following are the library or roadmap halves of statements kept here, each of
-which adds the polynomial-law, local-ring or integral clause: the `GSp₄` spin polynomial and its
-Calegari–Geraghty normalisation (SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*)
-and its similitude, of SmoothRepresentationsOfLocalGroups,
-SR.4, whose *gln-generators* supplies the Satake values `S(T_r) = q^{r(n−r)/2} e_r` substituted
-in *Normalized Satake coefficients for GLn*; the trivial-action finite-wild excursion specialization of SR.6,
-identified with *General invariant-word colimit*; the henselian and artinian interfaces
-`IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
-constant rank (PadicMeasuresIwasawaAlgebras, §5.1); conjugacy
-of algebra isomorphisms over a field (Tau Ceti `exists_unit_conj_of_algEquiv`; SemisimpleAlgebras,
-layer 5); arithmetic and geometric Frobenius and the Artin map (ClassFieldTheory, layer 7,
-`geometricArtinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`); the Hecke polynomial
-`X²−a_ℓX+ω(ℓ)ℓ^{k−1}` (ModularForms, layer 9); the carrier `A[[G]]` (Tau Ceti
-`completedGroupAlgebra`); coboundaries under restriction (Tau Ceti `TauCeti.ContCohomology.B1`,
-`TauCeti.ContCohomology.explicitRes1`); Mathlib `Ideal.sup_pow_add_le_pow_sup_pow` (the exponent
-`a+b`, sharpened to `a+b−1` here), `LinearMap.eventually_isCompl_ker_pow_range_pow` (the finite-length case of the
-ghost decomposition), `Matrix.det_fromBlocks_zero₂₁`, `MvPolynomial.mul_esymm_eq_sum`,
-`Matrix.charpoly_inv`, `Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm` and the
-group-algebra antipode, the `HopfAlgebra (MonoidAlgebra A G)` instance of
-`Mathlib/RingTheory/HopfAlgebra/MonoidAlgebra.lean`, with `MonoidAlgebra.antipode_single`, each the
-matrix or universal case of a determinant statement here. The Fitting ideal is
-`TauCeti.fittingIdeal`, its base change `TauCeti.fittingIdeal_baseChange`, its annihilator bound
-`TauCeti.fittingIdeal_zero_le_annihilator` (for every finite module), the character map of a
-group algebra `MonoidAlgebra.lift`, and the spin polynomials are those of
-SmoothRepresentationsOfLocalGroups. The integral Ribet statements in `Suggested.lean` use
-`TauCeti.fittingIdeal` and `MonoidAlgebra.lift` directly.
+`README.md` is normative; `Suggested.lean` states the headline results whose objects can be
+expressed at the library pins. Its module documentation identifies the signatures that need
+additional objects. The targets that end with a `*Lean:*` line have the indicated acceptance
+statements; the others are specified in this README. Each
+`*Needs:*` annotation names its mathematical prerequisites. The build order is
+IHG.0 → IHG.3a → IHG.1 → IHG.2 → IHG.3b → IHG.4 → IHG.5 → IHG.6.
+
+- **Layer 0** delivers polynomial laws, determinants, their characteristic coefficients, kernels,
+  the determinant coordinate ring on Tau Ceti's Roby algebra with Vaccarino's theorem, the Amitsur
+  formula and the trace
+  comparisons, continuity, duals, finite projective and Azumaya determinants, and connected
+  invariant-coordinate pseudocharacters and their algebraic representing rings, with the
+  invariant product on the rational cohomology of ReductiveGroups §1.1.
+- **Layer 3a** delivers the `GLₙ` Hecke polynomial, its Satake normalisation, the character twist,
+  reciprocal and Frobenius conversions, the `GSp₄` dual-spin polynomial and the full similitude
+  identity used by symplectic coefficient descent.
+- **Layer 1** delivers Cayley–Hamilton algebras, semisimple reconstruction over fields, henselian
+  lifting and generalized matrix algebras, reducibility ideals and extension modules, universal Cayley–Hamilton algebras, coefficient descent, compatible local
+  compressions, GL pseudocharacter reconstruction and generic representation algebras.
+- **Layer 2** delivers the four Hecke images of a complex, the ghost ideal with its amplitude
+  bound, local factors and localized summands over a complete coefficient ring, and operator
+  localisation with ordinary parts.
+- **Layer 3b** delivers maximal ideals of Galois type and non-Eisenstein ideals, with their dual and
+  twist compatibility.
+- **Layer 4** delivers uniqueness from Frobenius density, gluing over compact coefficient rings,
+  compatible finite-quotient data, the inverse-limit determinant, uniform congruence witnesses, and
+  the integral interpolation theorem from prescribed Frobenius polynomials.
+- **Layer 5** delivers descent of a determinant through a quantified nilpotent error ideal, the
+  arithmetic of nilpotence exponents through extensions, sums, products, filtrations and limits,
+  and residual specialisation.
+- **Layer 6** delivers the Ribet cocycle and its module with local conditions, relation minors,
+  the formal matrix algebra and its invariant error, integral induction and good filtrations, Buchsbaum–Rim
+  complexes with generic regularity, the two relation complexes, and the weighted Fitting
+  containment with the local and global Ribet extension theorems.
 
 ## Conventions
 
@@ -211,477 +152,6 @@ SmoothRepresentationsOfLocalGroups. The integral Ribet statements in `Suggested.
   `2fd255d997f47c0b5d834ee416c7015d55444ce5`. A prerequisite to a Tau Ceti roadmap layer refers to
   that layer's stated development, not to an implemented theory; a Mathlib prerequisite refers only
   to the named declaration.
-
-## Exact supplier contracts
-
-- `Submodule.minorsIdeal` in `TauCeti/RingTheory/FittingIdeal/Basic.lean` supplies
-  the ideal of minors of a submodule. The maximal-minor ideal of a map `f` in §6.5 is only
-  `(LinearMap.range f).minorsIdeal m`, with no separate ideal construction.
-- `exteriorPower.zeroEquiv`, `exteriorPower.oneEquiv`, and `exteriorPower.map`
-  in `Mathlib/LinearAlgebra/ExteriorPower/Basic.lean` supply the low-degree identifications
-  and functorial exterior maps used by the Koszul and determinant complexes.
-- `CliffordAlgebra.contractLeft` and `CliffordAlgebra.contractLeft_ι_mul` in
-  `Mathlib/LinearAlgebra/CliffordAlgebra/Contraction.lean` supply contraction on the
-  exterior algebra by taking the zero quadratic form. The graded one-form contraction of §6.5
-  asks additionally for its restriction from exterior degree `n+1` to degree `n`.
-
-All names in this section are part of the dependency contract.
-
-- Layer 5 uses `RingHom.kerLift`, `RingHom.kerLift_mk`, and
-  `RingHom.kerLift_injective` in `Mathlib/RingTheory/Ideal/Quotient/Operations.lean`;
-  `Ideal.Quotient.factor` and `Ideal.Quotient.factor_mk` in
-  `Mathlib/RingTheory/Ideal/Quotient/Defs.lean`; `Ideal.map_pow` in
-  `Mathlib/RingTheory/Ideal/Maps.lean`; and `Ideal.IsPrime.pow_le_iff`,
-  `Ideal.span_singleton_pow`, `Ideal.sup_pow_add_le_pow_sup_pow` in
-  `Mathlib/RingTheory/Ideal/Operations.lean`. The sum target improves the last
-  declaration's exponent from `a+b` to `a+b−1` for positive `a,b`.
-  `Ideal.span_singleton_eq_bot` in `Mathlib/RingTheory/Ideal/Span.lean` reduces
-  the finite-ring Checks to element computations; `Matrix.mul_apply` in
-  `Mathlib/Data/Matrix/Mul.lean` supplies the matrix-coordinate calculations.
-- `groupCohomology.IsCoboundary₁` in
-  `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean` and
-  `groupCohomology.map`, `groupCohomology.mapShortComplexH1` in
-  `Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.lean`
-  supply class transport and restriction. Layer 5's scalar-action formula additionally
-  tracks the chosen local witness and the diagonal change of coordinates.
-
-- `PadicInt.ker_toZModPow`, `PadicInt.lift`, `PadicInt.lift_spec` and
-  `PadicInt.lift_unique` in `Mathlib/NumberTheory/Padics/RingHoms.lean`, together with
-  `PadicInt.inverseLimitRingEquiv` and `PadicInt.inverseLimitContinuousMulEquiv` in
-  `TauCeti/NumberTheory/Padics/InverseLimit.lean`, supply the prime-`p` coefficient-limit
-  example in Layer 4. The kernel formula identifies the residue quotients with the ideal quotients.
-
-- `QuotientGroup.map`, `QuotientGroup.map_mk` in
-  `Mathlib/GroupTheory/QuotientGroup/Defs.lean` and `MonoidAlgebra.mapDomainAlgHom` in
-  `Mathlib/Algebra/MonoidAlgebra/Basic.lean` supply the actual quotient and group-algebra
-  maps used by Layer 4's determinant pullbacks.
-- `RingCat.sectionsSubring` in `Mathlib/Algebra/Category/Ring/Limits.lean` supplies the
-  ring of compatible sections of a diagram; the ring of compatible residue classes of Layer 4
-  specializes it to an explicit descending ideal sequence, rather than constructing generic limits.
-  `IsAdicComplete.liftRingHom` in `Mathlib/RingTheory/AdicCompletion/RingHom.lean`
-  handles powers of one ideal; the Layer 4 presentation also allows arbitrary descending ideals.
-
-- `TwoSidedIdeal.ker`, `TwoSidedIdeal.mem_ker` in
-  `Mathlib/RingTheory/TwoSidedIdeal/Kernel.lean` supply the kernel ideal; the ghost ideal of
-  Layer 2 specializes this carrier to the assembled homology action, and membership in it is the
-  predicate `HeckeImage.IsGhost`, vanishing on every cohomology module.
-- `Module.DirectLimit`, `Module.DirectLimit.of`, `Module.DirectLimit.of_f`,
-  `Module.DirectLimit.lift` and `Module.DirectLimit.hom_ext` in
-  `Mathlib/Algebra/Colimit/Module.lean` supply the module colimit and its universal property.
-  The module telescope of Layer 2 is its `ModuleCat` packaging for the transition
-  `t^(j-i)`, with insertion maps `Module.DirectLimit.of`; its presentation identifies the
-  adjacent-relations quotient with that colimit.
-- `AlgHom.subalgebraMap`, `AlgHom.subalgebraMap_surjective` and
-  `Subalgebra.range_comp_val` in `Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`
-  supply the induced surjections between image algebras.
-- `CochainComplex.IsKProjective.Qh_map_bijective` in
-  `Mathlib/Algebra/Homology/DerivedCategory/KProjective.lean` supplies the
-  homotopy-to-derived full-faithfulness comparison for a K-projective source.
-- `DerivedCategory.singleFunctorCompHomologyFunctorIso` in
-  `Mathlib/Algebra/Homology/DerivedCategory/FullyFaithful.lean` supplies the coordinates
-  used in the single-degree examples.
-- `PrimeSpectrum.comap_quotientMk_bijective_of_le_nilradical` in
-  `Mathlib/RingTheory/Spectrum/Prime/Topology.lean` and
-  `Ideal.relIsoOfSurjective` in `Mathlib/RingTheory/Ideal/Maps.lean`
-  supply the spectrum and ideal correspondences for the nilpotent cohomology quotient.
-- `IsIdempotentElem.one_sub` in `Mathlib/Algebra/Ring/Idempotent.lean` supplies the
-  complementary idempotent; its scalar and matrix specializations need no new theorem.
-
-- `DividedPowerAlgebra.map`, `DividedPowerAlgebra.map_apply_dp`, `DividedPowerAlgebra.dp_sum_smul`,
-  `DividedPowerAlgebra.dp_mul` in `Mathlib/RingTheory/DividedPowerAlgebra/Init.lean` supply
-  the raw divided-power algebra operations. Tau Ceti's `DividedPowerAlgebra.mapHomogeneousSubmodule`
-  (`TauCeti/RingTheory/DividedPowerAlgebra/Homogeneous.lean`) is the restriction `Γ^d(f)` to the
-  degree-`d` pieces, and `DividedPowerAlgebra.homogeneousMul`
-  (`TauCeti/RingTheory/DividedPowerAlgebra/RobyAlgebra.lean`) is their separate internal
-  multiplication.
-- `PolynomialLaw.toFun` and its comparison lemma `toFun'_eq_toFun` in
-  `Mathlib/RingTheory/PolynomialLaw/Basic.lean` supply evaluation in arbitrary universes.
-- `PiTensorProduct.reindex`, `PiTensorProduct.tprod` in
-  `Mathlib/LinearAlgebra/PiTensorProduct/Basic.lean` supply the permutation action and pure
-  tensors used for the symmetric-tensor comparison. `DirectSum.lof` in
-  `Mathlib/Algebra/DirectSum/Module.lean` supplies the homogeneous-piece inclusions.
-- `Algebra.TensorProduct.lift` in `Mathlib/RingTheory/TensorProduct/Maps.lean` contracts
-  coefficient tensors along the supplied algebra maps.
-
-The following APIs are used directly, with no additional image or Fitting aliases:
-
-- `AlgHom.range`, `AlgHom.mem_range`, `AlgHom.rangeRestrict`,
-  `AlgHom.rangeRestrict_surjective` in `Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`;
-  inclusion injectivity is `Subtype.val_injective`.
-- `Ideal.Quotient.factorₐ`, `Ideal.Quotient.factorₐ_apply_mk` in
-  `Mathlib/RingTheory/Ideal/Quotient/Operations.lean` supply `A/J →ₐ[A] A/m`
-  for `J ≤ m`, including its value on each quotient class.
-- `Ideal.quotientKerEquivRange` in `Mathlib/RingTheory/Ideal/Quotient/Operations.lean`: for an
-  algebra map `f` out of a ring, `A ⧸ ker f ≃ₐ f.range`.
-- `IsIdempotentElem.Corner.instAlgebra`, `TauCeti.cornerSubmodule`,
-  `TauCeti.mem_cornerSubmodule_iff` and `IsIdempotentElem.cornerLinearEquivCornerSubmodule`
-  in `TauCeti/RingTheory/Idempotents/Corner/Basic.lean` supply corners and their scalar structure.
-  The `Corner` abbreviation uses Mathlib's carrier and the imported Tau Ceti instance directly,
-  with `a • x = ax` and `algebraMap a = ae` (`IsIdempotentElem.Corner.val_algebraMap`).
-  The GMA block modules `e_i R e_j` and entry modules `A_ij` of Layer 1 are this carrier, taken at
-  the block idempotents and at the primitive idempotents; membership in each is given by the two
-  fixed-point equations `e x = x = x f`, and the primitive idempotents are idempotent. The
-  compression `e x f` lies in the corner by `TauCeti.mul_mul_mem_cornerSubmodule`. Corner
-  determinants, Peirce decomposition, pairings,
-  reducibility ideals and extension modules all use this carrier.
-- `Module.Projective.of_split` in `Mathlib/Algebra/Module/Projective.lean` and
-  `Module.Finite.of_surjective` in `Mathlib/RingTheory/Finiteness/Basic.lean` apply to the
-  split projection `x ↦ xe` for an idempotent `e`; no separate GMA projectivity theorem is needed.
-- `MonoidAlgebra.lift` in `Mathlib/Algebra/MonoidAlgebra/Basic.lean`, for the character map
-  `A[G] → A`.
-- `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_eq_minorsIdeal_ker` and
-  `Submodule.det_mem_minorsIdeal` in `TauCeti/RingTheory/FittingIdeal/Basic.lean`;
-  `TauCeti.fittingIdeal_baseChange` in `TauCeti/RingTheory/FittingIdeal/BaseChange.lean`.
-- `Matrix.reverse_charpoly`, `Matrix.charpolyRev`, `Matrix.charpoly_inv` and
-  `Matrix.charpoly_diagonal` in `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`
-  (the last declaration is in `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`).
-  These supply matrix reversal, inversion and diagonal computations. Layer 3a's
-  reciprocal characteristic-polynomial identity is the polynomial-law determinant analogue over
-  arbitrary commutative coefficient rings; it does not assume a matrix realization.
-- `Ideal.Quotient.field` in `Mathlib/RingTheory/Ideal/Quotient/Basic.lean` supplies
-  the residue-field structure used by Layer 3b.
-- `Polynomial.scaleRoots`, `Polynomial.coeff_scaleRoots` and
-  `Polynomial.mul_scaleRoots_of_noZeroDivisors` in `Mathlib/RingTheory/Polynomial/ScaleRoots.lean`,
-  and `Polynomial.reflect` in `Mathlib/Algebra/Polynomial/Reverse.lean`, supply Layer 3b's
-  transformed polynomials. Its targets concern existence, continuity, semisimplicity and
-  absolute irreducibility of realizing representations, beyond these polynomial operations.
-- `Matrix.charpoly_one`, `Matrix.charpoly_isEmpty` and `Matrix.charpoly_transpose` in
-  `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`, and `Matrix.charpoly_monic`,
-  `Matrix.charpoly_natDegree_eq_dim`, `Matrix.det_eq_sign_charpoly_coeff` in
-  `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`, supply Layer 3b's rank and unit tests.
-- The `GSp₄` spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4.5
-  (*gsp4-spin-polynomial*, a README-only target, with its monic comparison
-  *gsp4-galois-comparison*). Its `T1,T2` correspond to `T₂,T₁` here. The monic variant `Q`
-  reflects the degree-four polynomial and swaps those indices; the dual-spin variant
-  `P` additionally inverts the central unit.
-
-
-
-### From Mathlib
-
-Polynomial laws, tensor products, matrices and group algebras: `PolynomialLaw`,
-`PolynomialLaw.ground`, `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`,
-`Algebra.TensorProduct.rid`, `MonoidAlgebra`, `MonoidAlgebra.of`, `MonoidAlgebra.mapDomainAlgHom`,
-`Matrix.det`, `Matrix.charpoly`, `Matrix.trace`. Tau Ceti supplies homogeneity and
-multiplicativity on this existing law carrier (*From Tau Ceti*); the determinant structure here
-uses them.
-
-Divided powers and the exterior algebra: `DividedPowerAlgebra` and `DividedPowerAlgebra.dp` supply
-the entire divided-power algebra and its generators; Tau Ceti supplies its homogeneous pieces and
-their internal algebra multiplication (*From Tau Ceti*). `exteriorPower.map`, the existing tensor
-powers and `SymmetricAlgebra` are used for the subsequent constructions. The abelianization of a
-semiring `S` is Mathlib's `RingQuot` by the relation `commRel S` (`ab ~ ba`) defined here, with
-quotient map `RingQuot.mkAlgHom` and universal property `RingQuot.liftAlgHom`; the free
-associative ring on a set `X` is `FreeAlgebra ℤ X`, with `FreeAlgebra.lift`.
-
-Module and derived categories: `ModuleCat`, `DerivedCategory`, `DerivedCategory.Q`,
-`DerivedCategory.Qh` and `ModuleCat.finite_ext`. Finite derived morphism modules are built here by
-truncation induction. `ModuleCat.restrictScalars`, `Module.compHom` and
-`CategoryTheory.Functor.mapExtLinearMap` are reused for generalized-matrix-algebra extensions with
-their actual module actions. `ModuleCat.finite_ext` needs a noetherian base and two finite modules
-and does not assert finite projective dimension.
-
-Quotient, local and topological algebra: `TwoSidedIdeal`, `TwoSidedIdeal.span`, `Submodule.mkQ`,
-`IsIdempotentElem.Corner`, `HenselianLocalRing`, `IsDiscreteValuationRing`, `IsFractionRing`,
-`IsAdicComplete`, `IsAdic`, `Continuous.ext_on`, and `RingTheory.Sequence.IsWeaklyRegular`. A
-corner has identity `e`; it is not a unital subalgebra with identity `1`.
-`Module.free_of_flat_of_isLocalRing` requires finite generation.
-
-The Azumaya predicate `IsAzumaya`: finite projective, faithful, with `R ⊗ Rᵒᵖ → End(R)` bijective.
-It bundles finite projectivity, faithfulness and the two-sided endomorphism isomorphism without a
-chosen matrix splitting. The reduced-norm construction in Layer 0 requires a proof of faithfully
-flat matrix splitting; this is stronger than the supplied predicate.
-
-Exterior-algebra contraction: `CliffordAlgebra.contractLeft` (`Mathlib/LinearAlgebra/CliffordAlgebra/Contraction.lean`)
-for one-forms, extended to all forms through `ExteriorAlgebra.lift`; `ExteriorAlgebra.map`,
-`LinearMap.dualMap`, `TensorPower` (`⨂[A]^k`), `PiTensorProduct.tprod` and `finProdFinEquiv` build
-Buchsbaum's exterior-bar modules. Nothing here redefines the one-form contraction: the graded
-one-form contraction of §6.5 is its restriction.
-
-Constant rank is Mathlib's `Module.rankAtStalk` (`Mathlib/RingTheory/Spectrum/Prime/FreeLocus.lean`),
-written `Module.rankAtStalk (R := A) V = d` as in `Mathlib/RingTheory/TotallySplit.lean`; for a finite
-projective module this is the dimension of every field fibre, so no private constant-rank predicate
-is introduced.
-
-The cocycle identity is Mathlib's `groupCohomology.IsCocycle₁`, `f(gh) = g • f(h) + f(g)`. The
-matrix and universal cases already in Mathlib, listed under *Scope and ownership* as the library
-halves of statements kept here, are `Ideal.sup_pow_add_le_pow_sup_pow`, `LinearMap.eventually_isCompl_ker_pow_range_pow`,
-`Matrix.det_fromBlocks_zero₂₁`, `MvPolynomial.mul_esymm_eq_sum`, `Matrix.charpoly_inv`,
-`Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm`, `IsAdicComplete.henselianRing`,
-`IsArtinianRing.equivPi` and the `HopfAlgebra (MonoidAlgebra A G)` instance of
-`Mathlib/RingTheory/HopfAlgebra/MonoidAlgebra.lean`, with `MonoidAlgebra.antipode_single`; the
-character map of a group algebra is `MonoidAlgebra.lift`.
-
-### From Tau Ceti
-
-Polynomial laws, formalising DerivedModuleAlgebra §0.DP.1: `LinearMap.toPolynomialLaw`
-(`TauCeti/RingTheory/PolynomialLaw/Basic.lean`), the scalar-extension law of a linear map;
-`PolynomialLaw.IsHomogeneousOfDegree` (`TauCeti/RingTheory/PolynomialLaw/Homogeneous.lean`),
-`f(s·x) = sⁿ·f(x)` after every commutative scalar extension, with
-`PolynomialLaw.IsHomogeneousOfDegree.ground_smul` and `PolynomialLaw.IsHomogeneousOfDegree.comp`;
-on arbitrary modules a law has degree one exactly when it is the law of a linear map, namely of
-its ground map `PolynomialLaw.IsHomogeneousOfDegree.toLinearMap`
-(`PolynomialLaw.IsHomogeneousOfDegree.toPolynomialLaw_toLinearMap` and
-`LinearMap.isHomogeneousOfDegree_toPolynomialLaw`); `PolynomialLaw.IsMultiplicative`
-(`TauCeti/RingTheory/PolynomialLaw/Multiplicative.lean`), preservation of `1` and of products
-after every commutative scalar extension, with `PolynomialLaw.IsMultiplicative.ground_one`,
-`PolynomialLaw.IsMultiplicative.ground_mul`, `PolynomialLaw.IsMultiplicative.comp` and `PolynomialLaw.algHomEquiv` (the multiplicative laws of
-degree one are exactly the algebra maps). Both predicates test commutative semiring algebras;
-over a commutative ring `A` every commutative `A`-algebra is a ring (`−s = (−1)·s`), so they are
-Chenevier's conditions, and they are the two fields of `Determinant`.
-
-Divided powers and Roby algebras, formalising DerivedModuleAlgebra §0.DP.2, in
-`TauCeti/RingTheory/DividedPowerAlgebra/`: the degree-`d` pieces
-`DividedPowerAlgebra.homogeneousSubmodule` and their functoriality
-`DividedPowerAlgebra.mapHomogeneousSubmodule` (`Homogeneous.lean`), the grading
-`DividedPowerAlgebra.isInternal_homogeneousSubmodule` (`Grading.lean`), the universal homogeneous
-law `DividedPowerAlgebra.gamma` (`UniversalLaw.lean`) and its representability
-`DividedPowerAlgebra.homogeneousLawEquiv` (`Representability.lean`), base change
-`DividedPowerAlgebra.baseChangeHomogeneousEquiv` (`BaseChange.lean`), the tensor map
-`DividedPowerAlgebra.homogeneousTensorMap` (`TensorMap.lean`) and, for free modules, the
-comparison with symmetric tensors `DividedPowerAlgebra.symmetricTensorEquiv`
-(`SymmetricTensor.lean`). The Roby algebra `DividedPowerAlgebra.RobyAlgebra A R d`
-(`RobyAlgebra.lean`) is the degree-`d` piece `Γ^d_A(R)` of an `A`-algebra `R` with its internal
-product `DividedPowerAlgebra.homogeneousMul`, `γ_d(x)γ_d(y) = γ_d(xy)` with unit `γ_d(1)`; the
-universal multiplicative law is `DividedPowerAlgebra.RobyAlgebra.gamma`, and
-`DividedPowerAlgebra.RobyAlgebra.algHomEquiv` identifies the `A`-algebra maps `Γ^d_A(R) → B`, for
-any `A`-algebra `B`, with the multiplicative laws `R → B` homogeneous of degree `d`. This is
-Chenevier's representability before abelianization (Proposition 1.6).
-
-Linear-functional Koszul complexes, formalising the parts of DerivedModuleAlgebra §0.K.1 used in
-Layer 6: `TauCeti.koszulComplex φ` of a linear functional `φ : M → A`, with its chain maps
-`TauCeti.koszulComplex.map`, the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of
-multiplication by `φ(m)` and `H₀(K(x)) ≅ A/(x₁, …, xₙ)` by
-`TauCeti.koszulComplex.homologyZeroEquivSpan` (`TauCeti/RingTheory/KoszulComplex/Basic.lean`), the
-tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`
-(`Tensor.lean`), and acyclicity in positive degrees for weakly regular sequences,
-`TauCeti.koszulComplex.exactAt_of_isWeaklyRegular` (`Regular.lean`). The Koszul complex `K(x)` of
-a finite sequence `x : Fin n → A` is `TauCeti.koszulComplex (Fintype.linearCombination A x)`.
-Koszul cohomology with coefficients in an `A`-module `N` is the cohomology of
-`(TauCeti.koszulComplex φ).linearYonedaObj A N`, the complex `Hom_A(K(φ), N)`; no separate
-carrier is introduced. `TauCeti.koszulComplex.smul_cohomology_eq_zero` (through the null-homotopy
-`TauCeti.koszulComplex.smulHomotopy`) and `TauCeti.koszulComplex.range_le_annihilator_cohomology`
-show that every value of `φ` annihilates it in every degree, and
-`TauCeti.koszulComplex.span_le_annihilator_cohomology` that the ideal `(x₁, …, xₙ)` annihilates the
-Koszul cohomology of a finite sequence in every degree (`Cohomology.lean`).
-
-`LinearMap.projectiveDet` (`TauCeti/LinearAlgebra/Determinant/Projective.lean`): the determinant
-of an endomorphism of a finite projective module, multiplicative, equal to `LinearMap.det` on a
-free module of finite rank (`LinearMap.projectiveDet_eq_det`) and compatible with every base
-change (`LinearMap.projectiveDet_baseChange`). It is the value of the determinant law of a finite
-projective representation in Layer 0.
-
-`TauCeti.Comodule` (`TauCeti/Algebra/Coalgebra/Comodule/Basic.lean`): right comodules over a coalgebra, the fixed
-subcomodule `Comodule.fixedSubcomodule`, the abelian category of comodules over a flat coalgebra,
-`Comodule.tensor`, `Comodule.cofree`, the coaction embedding `Comodule.Hom.cofreeUnit` and
-the cofree adjunction `Comodule.Hom.cofreeEquiv`. `Comodule.Corestrict` corestricts a right
-coaction along a coalgebra morphism. These inputs are in
-`TauCeti/Algebra/Coalgebra/Comodule/Abelian.lean`, `TensorProduct.lean`, `Cofree.lean`
-and `Corestrict.lean`, respectively. `TauCeti.Comodule.dual` (`Dual.lean`) is the dual of a finite
-projective comodule over a Hopf algebra, and `TauCeti.Comodule.exteriorPower`
-(`ExteriorAlgebra/Power.lean`) the exterior powers of a comodule over a commutative bialgebra.
-`TauCeti.Comodule.induced`
-(`TauCeti/Algebra/Coalgebra/Comodule/Induced.lean`) is the cotensor induction `M □_D C` along a
-coalgebra map `f : C → D` with `C` flat, the equalizer in `M ⊗ C` of `ρ_M ⊗ id` and
-`m ⊗ c ↦ Σ (m ⊗ f(c₁)) ⊗ c₂`, a subcomodule of the cofree comodule; `TauCeti.Comodule.inducedEquiv`
-is Frobenius reciprocity `Hom_C(N, Ind_f M) ≃ Hom_D(N, M)`, with `N` corestricted, by evaluation
-through the counit, and `TauCeti.Comodule.inducedMap` is its functoriality in `M`. In the function
-reading its convention is `F(hg) = hF(g)` with right translation.
-`GeneralLinear.coordinateHopfAlgebra` and `GeneralLinear.genericMatrix` in
-`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Coordinate/HopfAlgebra.lean` provide the
-explicit general-linear coordinate Hopf algebra and its universal matrix.
-Conjugation invariants and good filtrations are built on these in Layers IHG.0 and IHG.6; rational
-cohomology is that of ReductiveGroups §1.1 (*From TauCetiRoadmap.ReductiveGroups*).
-
-`TauCeti.completedGroupAlgebra`, `TauCeti.completedGroupAlgebra.proj` and
-`TauCeti.completedGroupAlgebra.isEmbedding_coeffFamily` in
-`TauCeti/Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/Basic.lean`:
-the inverse limit over finite group quotients for a commutative coefficient ring.
-Layer 4 interpolates coefficients on ordinary group algebras; this supplier does not identify
-simultaneous coefficient and group limits.
-
-`TauCeti.fittingIdeal` (`RingTheory/FittingIdeal/Basic.lean`, `BaseChange.lean`,
-`Generators.lean`): Fitting ideals of a finite module, independence of the presentation
-(`fittingIdeal_eq_minorsIdeal_ker`), the minors of relation vectors (`Submodule.det_mem_minorsIdeal`,
-`fittingIdeal_eq_minorsIdealOfSet`) and base change (`fittingIdeal_baseChange`). `Fitt₀` below is
-`fittingIdeal A M 0`, and its base change is `TauCeti.fittingIdeal_baseChange`.
-`TauCeti.fittingIdeal_zero_le_annihilator` (`TauCeti/RingTheory/FittingIdeal/Determinant.lean`):
-`Fitt₀_A(M) ⊆ Ann_A(M)` for every finite module `M` over a commutative ring `A`, with no finite
-presentation hypothesis.
-
-The explicit continuous low-degree cohomology `TauCeti.ContCohomology`, which ProfiniteCohomology
-layer 2 specifies, in `TauCeti/RepresentationTheory/Homological/ContCohomology/`: continuous
-1-cocycles `TauCeti.ContCohomology.Z1`, with membership `TauCeti.ContCohomology.mem_Z1_iff`
-(continuity and Mathlib's `groupCohomology.IsCocycle₁`), coboundaries
-`TauCeti.ContCohomology.B1`, the range of `d⁰(m)(g) = g•m − m`, with
-`TauCeti.ContCohomology.mem_B1_iff`, and `TauCeti.ContCohomology.H1` (`LowDegree.lean`); restriction
-to a subgroup `TauCeti.ContCohomology.explicitRes1` (`ExplicitFunctoriality.lean`). The Ribet
-cocycles of Layer 6 are cocycles for the action `g·m = α(g)m`.
-
-`TauCeti.Ring.IsJapanese` (`TauCeti/RingTheory/Japanese.lean`): a domain whose integral closure
-in every finite extension of its fraction field, inseparable ones included, is finite;
-`TauCeti.Ring.IsNagata` (`TauCeti/RingTheory/Nagata.lean`): a noetherian ring whose quotient by
-every prime ideal is Japanese. SchemeAndStackFoundations §0.20 states its complete-local theorems
-on these predicates.
-
-`HeckeRing.GL2.Newform.satakeParameters`, the classical rank-two polynomial over `ℂ`, matched
-against in Layer IHG.3a only; `IsArithFrobeniusLift.coe_localCyclotomicCharacter`, the value
-`ε = q` at arithmetic Frobenius; `exists_unit_conj_of_algEquiv`, conjugacy of algebra isomorphisms
-over a field, the field case of the inner-conjugacy statement of Layer IHG.1.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-DerivedModuleAlgebra §§0.DP.1–0.DP.2 (homogeneous and multiplicative polynomial laws, homogeneous
-divided powers and Roby algebras) and §0.K.1 (linear-functional Koszul complexes) specify the
-inputs that Tau Ceti formalises with the declarations listed under *From Tau Ceti*. This roadmap
-consumes those declarations and nothing else from DerivedModuleAlgebra.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-SR.4: the spherical double cosets `T_r = [K diag(ϖ, …, ϖ, 1, …, 1) K]` and their normalised
-Satake images `q^{r(n−r)/2} e_r` in the symmetric Laurent ring over `ℤ[q^{±1/2}]`, for
-`vol(K) = 1` and after adjoining an invertible square root of `q`. SR.4 does not assert that the
-`T_r` generate the spherical Hecke algebra over `ℤ`, and nothing here uses such generation: the
-`GLₙ` Hecke polynomial of Layer IHG.3a is a formal expression in `q` and the `T_r`; the `GSp₄` spin polynomial with constant term `1`
-and its reciprocal monic form (SR.4.5, *gsp4-spin-polynomial*), its similitude
-(a README-only target of SR.4), the comparison with the Calegari–Geraghty normalisation
-(*gsp4-galois-comparison*) and the Satake values `S(T_r) = q^{r(n−r)/2} e_r` (SR.4's *gln-generators*),
-which are the substitution `T_i = s^{i(n−i)} e_i` read in *Normalized Satake coefficients for GLn*. Its general
-construction is applied here to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and
-SR.6.3: the integral finite-wild cocycle scheme (*One integral finite-wild cocycle scheme*) and the
-finite-wild excursion algebra (*Finite-wild excursion algebra*), with the coefficient ring, dual
-group, finite Weil action and wild quotient specified there. The arbitrary commutative-base,
-arbitrary-group untwisted colimit is owned here by §0.7, *General invariant-word colimit*.
-*Untwisted excursion comparison* identifies its cocone with SR.6.3's cocone when those finite-wild
-hypotheses hold and the Weil action is trivial; SR.6.3's twisted construction and arithmetic
-comparison theorems retain their own hypotheses.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-Layer 2 specifies the explicit continuous cochains, 1-cocycles, coboundaries and `H¹` for a
-topological group acting continuously on a topological module, with restriction and coefficient
-maps. Tau Ceti formalises them as `TauCeti.ContCohomology` with the declarations listed under
-*From Tau Ceti*, in particular `TauCeti.ContCohomology.B1` and
-`TauCeti.ContCohomology.explicitRes1` for coboundaries under restriction; this roadmap consumes
-those declarations. The cocycle identity is Mathlib's `groupCohomology.IsCocycle₁`. A finite
-module means finitely generated over its coefficient ring, and can be infinite as a set.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-ReductiveGroups §1.1, *Rational cohomology and algebraic induction*, for a commutative ring and a
-flat commutative Hopf algebra `H`: enough injectives in the native comodule category; rational
-cohomology `Hⁿ(H, M)` of every comodule `M`, with no finiteness or flatness hypothesis on `M`, as
-the right derived functors of the invariants `Mᴴ = ker(ρ_M − (m ↦ m ⊗ 1))`
-(`TauCeti.Comodule.fixedSubcomodule`), computed by the complex `Cⁿ(H, M) = M ⊗ H^⊗n` whose cofaces
-apply `ρ_M` first, `Δ` in each Hopf position and append `1` last; `H⁰ = Mᴴ`; cofree acyclicity of
-`N ⊗ H` for every module `N`; functoriality in the coefficient comodule, acting on the first
-tensor factor; the connecting maps and long exact sequence of every short exact sequence of
-comodules; and the chain isomorphism to the coefficient-last convention, with no sign. On the
-induction `TauCeti.Comodule.induced` it supplies left exactness, the identity and transitivity
-isomorphisms, the description on points by functions with `F(hg) = hF(g)`, and the antipode
-involution to Jantzen's convention `f(gh) = h⁻¹f(g)` with left translation, which intertwines the
-actions and the reciprocity bijections. This roadmap uses these as they stand; the invariant
-product of §0.7 is built on this complex.
-
-### From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
-
-Layers 0, 2, 3 and 4: Jacobson radical unit criteria; Artin–Wedderburn at its artinian
-hypotheses; density and double centralisers after the appropriate dimension bound;
-finite-dimensional central-simple splitting over the centre. Layer 5: conjugacy of algebra
-isomorphisms over a field. The determinant-specific boundedness and inseparable norm factors are
-developed here (Layer IHG.1).
-
-### From TauCetiRoadmap.ClassFieldTheory and TauCetiRoadmap.Chebotarev
-
-ClassFieldTheory layer 7: local Artin reciprocity with an explicit Frobenius normalisation and its
-inverse conversion (`geometricArtinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`);
-reciprocity is consumed from here, not from SR.4. Chebotarev layer 10: density of conjugacy
-classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
-
-### From TauCetiRoadmap.ModularForms and TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-ModularForms layer 9: the Hecke polynomial `X²−a_ℓX+ω(ℓ)ℓ^{k−1}` of a normalised eigenform, the
-classical half of the rank-two normalisation of Layer IHG.3a.
-PadicMeasuresIwasawaAlgebras §5.1
-supplies `projectiveDeterminant`, `projectiveDeterminant_constantRank`,
-`projectiveDeterminant_baseChange` and the exterior-map formula on finite projective modules, including invertibility of the
-top exterior power at constant rank and its identification of scalar endomorphisms.
-The degree-`d` multiplicative polynomial law on endomorphisms is the additional construction here.
-AlgebraicVectorBundles L0C consumes that ring-level foundation for sheaf determinants.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-SchemeAndStackFoundations §0.20
-supplies `Ring.IsJapanese.of_complete_local` and `Ring.IsNagata.of_complete_local`, stated on Tau
-Ceti's predicates `TauCeti.Ring.IsJapanese` and `TauCeti.Ring.IsNagata` (*From Tau Ceti*). For a
-complete noetherian local domain `A`, the Japanese condition gives
-`Module.Finite A (integralClosure A E)` for every finite extension `E` of its fraction field, including inseparable extensions
-([Stacks Lemma 10.162.8, tag 032W](https://stacks.math.columbia.edu/tag/032W)).
-The finiteness of integral closures used in §6.1 only specializes
-`Ring.IsJapanese.of_complete_local` to the supplied fraction field and scalar tower. The
-additional result here is the global difference lattice of §6.1; together with the
-fraction-lattice topology of §6.1 it supplies the finite-lattice and topology inputs to
-`IntegralRibet.local_ribet`.
-
-SchemeAndStackFoundations §2.22
-owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
-Its ring-level supplier is `IsAzumaya.exists_etale_matrix_splitting`: for `IsAzumaya A R`,
-`d>0` and `rankAtStalk R=d²`, it returns an étale faithfully flat commutative `A`-algebra `B`
-and `B⊗_A R ≃ₐ[B] M_d(B)`. Its finite-cover adapter takes affine étale splitting charts
-`Spec Bᵢ → Spec A` with jointly surjective images and uses their finite product `B = ∏ᵢ Bᵢ`.
-It proves `Algebra.Etale A B`, `Module.FaithfullyFlat A B`, and the matrix-splitting
-equivalence over that same `B`. Both the sheaf equivalence and the reduced-norm construction consume
-this neutral ring-theory result; neither needs an import of the other's whole development.
-
-The matrix action uses `Matrix.toLinAlgEquiv'` in
-`Mathlib/LinearAlgebra/Matrix/ToLin.lean`, followed by `Module.compHom` restriction of
-scalars. `matrixModule ρ` packages that vector module in `ModuleCat R`.
-`IsSimpleModule` and `IsSemisimpleModule` are the predicates from
-`Mathlib/RingTheory/SimpleModule/Basic.lean`, shared with SemisimpleAlgebras.
-The action of `r` is multiplication by the matrix `ρ(r)`. The submodules of `matrixModule ρ` are
-the `ρ`-stable subspaces of `Kᵈ`, with the same underlying subsets, and this gives the
-invariant-subspace characterizations of simplicity and semisimplicity of `matrixModule ρ`.
-Simplicity includes nontriviality; the dimension-zero example is rejected. Reconstruction,
-residual specialization and the determinant-specific multiplicity-free predicate use this same
-module action; absolute irreducibility is `IsAbsolutelyIrreducible`, stated on the matrix family of
-a realising representation.
-
-## How to read the build
-
-`README.md` is normative; `Suggested.lean` states the headline results whose objects can be
-expressed at the library pins. Its module documentation identifies the signatures that need
-additional objects. The targets that end with a `*Lean:*` line have the indicated acceptance
-statements; the others are specified in this README. Each
-`*Needs:*` annotation names its mathematical prerequisites. The build order is
-IHG.0 → IHG.3a → IHG.1 → IHG.2 → IHG.3b → IHG.4 → IHG.5 → IHG.6.
-
-- **Layer 0** delivers polynomial laws, determinants, their characteristic coefficients, kernels,
-  the determinant coordinate ring on Tau Ceti's Roby algebra with Vaccarino's theorem, the Amitsur
-  formula and the trace
-  comparisons, continuity, duals, finite projective and Azumaya determinants, and connected
-  invariant-coordinate pseudocharacters and their algebraic representing rings, with the
-  invariant product on the rational cohomology of ReductiveGroups §1.1.
-- **Layer 3a** delivers the `GLₙ` Hecke polynomial, its Satake normalisation, the character twist,
-  reciprocal and Frobenius conversions, the `GSp₄` dual-spin polynomial and the full similitude
-  identity used by symplectic coefficient descent.
-- **Layer 1** delivers Cayley–Hamilton algebras, semisimple reconstruction over fields, henselian
-  lifting and generalized matrix algebras, reducibility ideals and extension modules, universal Cayley–Hamilton algebras, coefficient descent, compatible local
-  compressions, GL pseudocharacter reconstruction and generic representation algebras.
-- **Layer 2** delivers the four Hecke images of a complex, the ghost ideal with its amplitude
-  bound, local factors and localized summands over a complete coefficient ring, and operator
-  localisation with ordinary parts.
-- **Layer 3b** delivers maximal ideals of Galois type and non-Eisenstein ideals, with their dual and
-  twist compatibility.
-- **Layer 4** delivers uniqueness from Frobenius density, gluing over compact coefficient rings,
-  compatible finite-quotient data, the inverse-limit determinant, uniform congruence witnesses, and
-  the integral interpolation theorem from prescribed Frobenius polynomials.
-- **Layer 5** delivers descent of a determinant through a quantified nilpotent error ideal, the
-  arithmetic of nilpotence exponents through extensions, sums, products, filtrations and limits,
-  and residual specialisation.
-- **Layer 6** delivers the Ribet cocycle and its module with local conditions, relation minors,
-  the formal matrix algebra and its invariant error, integral induction and good filtrations, Buchsbaum–Rim
-  complexes with generic regularity, the two relation complexes, and the weighted Fitting
-  containment with the local and global Ribet extension theorems.
 
 ## Layer 0: polynomial laws, determinants and invariant evaluations
 
@@ -5336,6 +4806,564 @@ IHG.1.
 | Consumer | Supplied interface | Conventions and consumer work |
 |---|---|---|
 | FreeProbability §F8 / Gaussian and Haar random-matrix asymptotic freeness | §0.2 / Pseudocharacters supplies `cycleProduct` and `cycleTerm`; F8 identifies its permutation-trace functional with `cycleTerm tr_N σ D` for `R = M_N(ℂ)`, `A = ℂ`, `T = tr_N`, `N > 0` and a matrix word `D`. | Here `tr_N(M) = N⁻¹ tr(M)`: one factor per cycle, fixed points included, with word order `i, σi, σ²i, …` starting at the least cycle representative. Cyclicity of `tr_N` handles changing starting points; F8 supplies the explicit permutation inversion/orientation comparison needed by its Wick and Kreweras formulas. Since `tr_N(1) = 1` while ordinary matrix trace has `T(1) = N`, this contract consumes the cycle construction without asserting that normalized trace is a dimension-`N` pseudocharacter. |
+
+## Scope and ownership
+
+The roadmap owns determinant polynomial laws and their reconstruction and interpolation theory:
+Chenevier determinants with their characteristic polynomials, kernels and Cayley–Hamilton ideals,
+the determinant coordinate ring, the Amitsur formula and the comparison with pseudocharacters,
+continuous determinants, contragredients, finite projective and Azumaya determinants, connected
+reductive pseudocharacters with their invariant-coordinate evaluations, the general untwisted
+invariant-word colimit and its representing-ring comparison, the invariant product on rational
+cohomology, henselian reconstruction, generalized matrix algebras with their
+reducibility ideals and extension modules, coefficient descent, the compatible local compressions
+of Caraiani–Newton, and GL pseudocharacter reconstruction. It also owns
+the four Hecke images of a complex (chain, homotopy, derived, cohomology), their ghost comparison,
+local factors and operator localisation, the explicit `GLₙ` and `GSp₄` polynomial conversions
+between Hecke and Galois conventions, maximal ideals of Galois type, interpolation through finite
+quotients and inverse limits, the arithmetic of nilpotent error ideals, and the algebraic Ribet
+construction with its Fitting-ideal bound, underlying Buchsbaum–Rim relation complexes,
+and the integral GL₂ induction and countable good-filtration interfaces. The latter include
+acyclicity and tensor closure, the twisted lower-Borel calculations and the compatibility of
+connecting maps with invariant products needed in §§6.4–6.7. The equivariant relation-complex
+comparison is an owned target of §6.6 and supplies a prerequisite for the Fitting-ideal bound.
+
+Interpolation here is on ordinary group algebras through supplied coefficient quotients.
+Completed coefficient-tensor evaluation, completed Cayley–Hamilton topology and continuous
+pseudodeformation representability remain outside this scope.
+
+It consumes the following developments by name and does not rebuild their general theories; the
+exact declarations are listed under *Exact supplier contracts*.
+
+- Mathlib supplies polynomial laws, tensor products, matrices, group algebras, divided powers, the
+  exterior algebra, module and derived categories, quotient, local and topological algebra, and the
+  Azumaya predicate.
+- Tau Ceti supplies the homogeneous and multiplicative law predicates on Mathlib's polynomial
+  laws, the unique linear-map description of degree-one laws on arbitrary modules, the
+  identification of multiplicative degree-one laws with algebra maps, the homogeneous
+  divided-power pieces and the Roby algebra with its representability of multiplicative laws,
+  all without flatness or finiteness assumptions; these formalise DerivedModuleAlgebra
+  §§0.DP.1–0.DP.2, and the determinant structure here is built on them. Tau Ceti also supplies
+  the linear-functional Koszul complexes of DerivedModuleAlgebra §0.K.1 with their cohomology and
+  its annihilation by the defining ideal, right comodules over a coalgebra with cotensor induction
+  and Frobenius reciprocity, the completed group algebra, Fitting ideals with the bound
+  `Fitt₀ ⊆ Ann` for finite modules, the explicit continuous low-degree cohomology that
+  ProfiniteCohomology layer 2 specifies, the Japanese and Nagata predicates, determinants of
+  endomorphisms of finite projective modules, the classical rank-two Satake parameters, conjugacy
+  of algebra isomorphisms over a field and the arithmetic-Frobenius value of the cyclotomic
+  character.
+- The roadmap **SemisimpleAlgebras** (layers 0, 2, 3, 4 and 5) supplies the Jacobson-radical unit
+  criteria, Artin–Wedderburn at its artinian hypotheses, density and double centralisers after the
+  appropriate dimension bound, finite-dimensional central-simple splitting over the centre, and
+  conjugacy of algebra isomorphisms; the determinant-specific boundedness and inseparable norm
+  factors are developed here.
+- **ReductiveGroups** (§1.1, *Rational cohomology and algebraic induction*) supplies rational
+  cohomology over a flat commutative Hopf algebra: enough injectives in the native comodule
+  category, the cofree resolution and its complex `M ⊗ H^⊗n`, `H⁰` as the invariant submodule,
+  cofree acyclicity, functoriality in the coefficients, connecting maps with their long exact
+  sequence, and the coefficient-last comparison. On the cotensor induction pinned in Tau Ceti it
+  supplies left exactness, transitivity, the description by functions on points and the antipode
+  comparison with Jantzen's convention `f(gh) = h⁻¹f(g)`. This roadmap consumes them and proves
+  only the invariant product on that cohomology and its compatibility with connecting maps (§0.7),
+  with the integral `GL₂` applications of §6.4. Root-datum construction and its comparisons
+  also belong to ReductiveGroups (layers 1 and 9). Tau Ceti's native comodule and tensor APIs, its
+  `GeneralLinear.coordinateHopfAlgebra` and generic matrix supply the explicit `GLₙ` instance.
+  The invariant coordinate algebras of Layer IHG.0 take a commutative Hopf algebra as data.
+  The `GSp₄` statements of Layers IHG.3a and IHG.3b use the matrix identity
+  `ρ(g)ᵀ J ρ(g) = μ(g) J` for a fixed invertible alternating `J`.
+- **SmoothRepresentationsOfLocalGroups** (SR.4, SR.6) supplies the integral spherical double-coset
+  generators, normalised Satake, the `GSp₄` spin polynomial, the integral finite-wild cocycle scheme
+  (SR.6.1) and the finite-wild excursion algebra with its twisted applications (SR.6.3).
+  This roadmap owns the arbitrary-base, arbitrary-group untwisted construction in §0.7,
+  *General invariant-word colimit*. Its comparison with SR.6.3 at trivial Weil action identifies
+  their colimit cocones, so this specialization uses one carrier. SR.6 retains the finite-wild
+  finiteness and cocycle-quotient comparison theorems at their stated hypotheses, and the finite
+  Weil action in the twisted theory. The pseudocharacter representing-ring comparison, its
+  evaluations, and the GL determinant comparison are proved here.
+- **ClassFieldTheory** (layer 7) supplies local Artin reciprocity with an explicit Frobenius
+  normalisation and its inverse conversion; **Chebotarev** (layer 10) supplies the density of
+  conjugacy classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
+- **ProfiniteCohomology** (layer 2) specifies the explicit continuous cochains, 1-cocycles,
+  coboundaries and `H¹` that Tau Ceti formalises as `TauCeti.ContCohomology`; **ModularForms**
+  (layer 9) supplies the classical Hecke polynomial `X²−a_ℓX+ω(ℓ)ℓ^{k−1}`; **PadicMeasuresIwasawaAlgebras** (§5.1) supplies the ring-level
+  finite-projective determinant-line API, including invertibility of the top exterior power
+  at constant rank, its scalar endomorphisms and arbitrary base change;
+  AlgebraicVectorBundles L0C sheafifies it.
+- **SchemeAndStackFoundations** (§0.20) owns `Ring.IsJapanese.of_complete_local` and
+  `Ring.IsNagata.of_complete_local`, stated on Tau Ceti's predicates `TauCeti.Ring.IsJapanese` and
+  `TauCeti.Ring.IsNagata`, including finite normalization in inseparable extensions;
+  §2.22 owns affine Azumaya étale splitting and the
+  finite-cover-to-one-faithfully-flat-étale-algebra adapter in the neutral `IsAzumaya` API.
+  The reduced-norm polynomial law is owned here.
+
+Tau Ceti's `HeckeRing.GL2.Newform.satakeParameters` carries the classical rank-two polynomial
+`X²−a_pX+χ(p)p^(k−1)` over `ℂ`; the rank-two normalisation in Layer IHG.3a only matches coefficient
+conventions against it. The applications to locally symmetric spaces, higher coherent cohomology,
+automorphic congruences, Iwasawa theory and Galois deformation spaces supply their own geometric
+Hecke comparisons and classical congruence witnesses. This roadmap specifies the exact algebraic
+inputs those applications must provide; it does not infer them from the existence of
+characteristic-zero eigenforms.
+
+The following are the library or roadmap halves of statements kept here, each of
+which adds the polynomial-law, local-ring or integral clause: the `GSp₄` spin polynomial and its
+Calegari–Geraghty normalisation (SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*)
+and its similitude, of SmoothRepresentationsOfLocalGroups,
+SR.4, whose *gln-generators* supplies the Satake values `S(T_r) = q^{r(n−r)/2} e_r` substituted
+in *Normalized Satake coefficients for GLn*; the trivial-action finite-wild excursion specialization of SR.6,
+identified with *General invariant-word colimit*; the henselian and artinian interfaces
+`IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
+constant rank (PadicMeasuresIwasawaAlgebras, §5.1); conjugacy
+of algebra isomorphisms over a field (Tau Ceti `exists_unit_conj_of_algEquiv`; SemisimpleAlgebras,
+layer 5); arithmetic and geometric Frobenius and the Artin map (ClassFieldTheory, layer 7,
+`geometricArtinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`); the Hecke polynomial
+`X²−a_ℓX+ω(ℓ)ℓ^{k−1}` (ModularForms, layer 9); the carrier `A[[G]]` (Tau Ceti
+`completedGroupAlgebra`); coboundaries under restriction (Tau Ceti `TauCeti.ContCohomology.B1`,
+`TauCeti.ContCohomology.explicitRes1`); Mathlib `Ideal.sup_pow_add_le_pow_sup_pow` (the exponent
+`a+b`, sharpened to `a+b−1` here), `LinearMap.eventually_isCompl_ker_pow_range_pow` (the finite-length case of the
+ghost decomposition), `Matrix.det_fromBlocks_zero₂₁`, `MvPolynomial.mul_esymm_eq_sum`,
+`Matrix.charpoly_inv`, `Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm` and the
+group-algebra antipode, the `HopfAlgebra (MonoidAlgebra A G)` instance of
+`Mathlib/RingTheory/HopfAlgebra/MonoidAlgebra.lean`, with `MonoidAlgebra.antipode_single`, each the
+matrix or universal case of a determinant statement here. The Fitting ideal is
+`TauCeti.fittingIdeal`, its base change `TauCeti.fittingIdeal_baseChange`, its annihilator bound
+`TauCeti.fittingIdeal_zero_le_annihilator` (for every finite module), the character map of a
+group algebra `MonoidAlgebra.lift`, and the spin polynomials are those of
+SmoothRepresentationsOfLocalGroups. The integral Ribet statements in `Suggested.lean` use
+`TauCeti.fittingIdeal` and `MonoidAlgebra.lift` directly.
+
+## Exact supplier contracts
+
+- `Submodule.minorsIdeal` in `TauCeti/RingTheory/FittingIdeal/Basic.lean` supplies
+  the ideal of minors of a submodule. The maximal-minor ideal of a map `f` in §6.5 is only
+  `(LinearMap.range f).minorsIdeal m`, with no separate ideal construction.
+- `exteriorPower.zeroEquiv`, `exteriorPower.oneEquiv`, and `exteriorPower.map`
+  in `Mathlib/LinearAlgebra/ExteriorPower/Basic.lean` supply the low-degree identifications
+  and functorial exterior maps used by the Koszul and determinant complexes.
+- `CliffordAlgebra.contractLeft` and `CliffordAlgebra.contractLeft_ι_mul` in
+  `Mathlib/LinearAlgebra/CliffordAlgebra/Contraction.lean` supply contraction on the
+  exterior algebra by taking the zero quadratic form. The graded one-form contraction of §6.5
+  asks additionally for its restriction from exterior degree `n+1` to degree `n`.
+
+All names in this section are part of the dependency contract.
+
+- Layer 5 uses `RingHom.kerLift`, `RingHom.kerLift_mk`, and
+  `RingHom.kerLift_injective` in `Mathlib/RingTheory/Ideal/Quotient/Operations.lean`;
+  `Ideal.Quotient.factor` and `Ideal.Quotient.factor_mk` in
+  `Mathlib/RingTheory/Ideal/Quotient/Defs.lean`; `Ideal.map_pow` in
+  `Mathlib/RingTheory/Ideal/Maps.lean`; and `Ideal.IsPrime.pow_le_iff`,
+  `Ideal.span_singleton_pow`, `Ideal.sup_pow_add_le_pow_sup_pow` in
+  `Mathlib/RingTheory/Ideal/Operations.lean`. The sum target improves the last
+  declaration's exponent from `a+b` to `a+b−1` for positive `a,b`.
+  `Ideal.span_singleton_eq_bot` in `Mathlib/RingTheory/Ideal/Span.lean` reduces
+  the finite-ring Checks to element computations; `Matrix.mul_apply` in
+  `Mathlib/Data/Matrix/Mul.lean` supplies the matrix-coordinate calculations.
+- `groupCohomology.IsCoboundary₁` in
+  `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean` and
+  `groupCohomology.map`, `groupCohomology.mapShortComplexH1` in
+  `Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.lean`
+  supply class transport and restriction. Layer 5's scalar-action formula additionally
+  tracks the chosen local witness and the diagonal change of coordinates.
+
+- `PadicInt.ker_toZModPow`, `PadicInt.lift`, `PadicInt.lift_spec` and
+  `PadicInt.lift_unique` in `Mathlib/NumberTheory/Padics/RingHoms.lean`, together with
+  `PadicInt.inverseLimitRingEquiv` and `PadicInt.inverseLimitContinuousMulEquiv` in
+  `TauCeti/NumberTheory/Padics/InverseLimit.lean`, supply the prime-`p` coefficient-limit
+  example in Layer 4. The kernel formula identifies the residue quotients with the ideal quotients.
+
+- `QuotientGroup.map`, `QuotientGroup.map_mk` in
+  `Mathlib/GroupTheory/QuotientGroup/Defs.lean` and `MonoidAlgebra.mapDomainAlgHom` in
+  `Mathlib/Algebra/MonoidAlgebra/Basic.lean` supply the actual quotient and group-algebra
+  maps used by Layer 4's determinant pullbacks.
+- `RingCat.sectionsSubring` in `Mathlib/Algebra/Category/Ring/Limits.lean` supplies the
+  ring of compatible sections of a diagram; the ring of compatible residue classes of Layer 4
+  specializes it to an explicit descending ideal sequence, rather than constructing generic limits.
+  `IsAdicComplete.liftRingHom` in `Mathlib/RingTheory/AdicCompletion/RingHom.lean`
+  handles powers of one ideal; the Layer 4 presentation also allows arbitrary descending ideals.
+
+- `TwoSidedIdeal.ker`, `TwoSidedIdeal.mem_ker` in
+  `Mathlib/RingTheory/TwoSidedIdeal/Kernel.lean` supply the kernel ideal; the ghost ideal of
+  Layer 2 specializes this carrier to the assembled homology action, and membership in it is the
+  predicate `HeckeImage.IsGhost`, vanishing on every cohomology module.
+- `Module.DirectLimit`, `Module.DirectLimit.of`, `Module.DirectLimit.of_f`,
+  `Module.DirectLimit.lift` and `Module.DirectLimit.hom_ext` in
+  `Mathlib/Algebra/Colimit/Module.lean` supply the module colimit and its universal property.
+  The module telescope of Layer 2 is its `ModuleCat` packaging for the transition
+  `t^(j-i)`, with insertion maps `Module.DirectLimit.of`; its presentation identifies the
+  adjacent-relations quotient with that colimit.
+- `AlgHom.subalgebraMap`, `AlgHom.subalgebraMap_surjective` and
+  `Subalgebra.range_comp_val` in `Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`
+  supply the induced surjections between image algebras.
+- `CochainComplex.IsKProjective.Qh_map_bijective` in
+  `Mathlib/Algebra/Homology/DerivedCategory/KProjective.lean` supplies the
+  homotopy-to-derived full-faithfulness comparison for a K-projective source.
+- `DerivedCategory.singleFunctorCompHomologyFunctorIso` in
+  `Mathlib/Algebra/Homology/DerivedCategory/FullyFaithful.lean` supplies the coordinates
+  used in the single-degree examples.
+- `PrimeSpectrum.comap_quotientMk_bijective_of_le_nilradical` in
+  `Mathlib/RingTheory/Spectrum/Prime/Topology.lean` and
+  `Ideal.relIsoOfSurjective` in `Mathlib/RingTheory/Ideal/Maps.lean`
+  supply the spectrum and ideal correspondences for the nilpotent cohomology quotient.
+- `IsIdempotentElem.one_sub` in `Mathlib/Algebra/Ring/Idempotent.lean` supplies the
+  complementary idempotent; its scalar and matrix specializations need no new theorem.
+
+- `DividedPowerAlgebra.map`, `DividedPowerAlgebra.map_apply_dp`, `DividedPowerAlgebra.dp_sum_smul`,
+  `DividedPowerAlgebra.dp_mul` in `Mathlib/RingTheory/DividedPowerAlgebra/Init.lean` supply
+  the raw divided-power algebra operations. Tau Ceti's `DividedPowerAlgebra.mapHomogeneousSubmodule`
+  (`TauCeti/RingTheory/DividedPowerAlgebra/Homogeneous.lean`) is the restriction `Γ^d(f)` to the
+  degree-`d` pieces, and `DividedPowerAlgebra.homogeneousMul`
+  (`TauCeti/RingTheory/DividedPowerAlgebra/RobyAlgebra.lean`) is their separate internal
+  multiplication.
+- `PolynomialLaw.toFun` and its comparison lemma `toFun'_eq_toFun` in
+  `Mathlib/RingTheory/PolynomialLaw/Basic.lean` supply evaluation in arbitrary universes.
+- `PiTensorProduct.reindex`, `PiTensorProduct.tprod` in
+  `Mathlib/LinearAlgebra/PiTensorProduct/Basic.lean` supply the permutation action and pure
+  tensors used for the symmetric-tensor comparison. `DirectSum.lof` in
+  `Mathlib/Algebra/DirectSum/Module.lean` supplies the homogeneous-piece inclusions.
+- `Algebra.TensorProduct.lift` in `Mathlib/RingTheory/TensorProduct/Maps.lean` contracts
+  coefficient tensors along the supplied algebra maps.
+
+The following APIs are used directly, with no additional image or Fitting aliases:
+
+- `AlgHom.range`, `AlgHom.mem_range`, `AlgHom.rangeRestrict`,
+  `AlgHom.rangeRestrict_surjective` in `Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`;
+  inclusion injectivity is `Subtype.val_injective`.
+- `Ideal.Quotient.factorₐ`, `Ideal.Quotient.factorₐ_apply_mk` in
+  `Mathlib/RingTheory/Ideal/Quotient/Operations.lean` supply `A/J →ₐ[A] A/m`
+  for `J ≤ m`, including its value on each quotient class.
+- `Ideal.quotientKerEquivRange` in `Mathlib/RingTheory/Ideal/Quotient/Operations.lean`: for an
+  algebra map `f` out of a ring, `A ⧸ ker f ≃ₐ f.range`.
+- `IsIdempotentElem.Corner.instAlgebra`, `TauCeti.cornerSubmodule`,
+  `TauCeti.mem_cornerSubmodule_iff` and `IsIdempotentElem.cornerLinearEquivCornerSubmodule`
+  in `TauCeti/RingTheory/Idempotents/Corner/Basic.lean` supply corners and their scalar structure.
+  The `Corner` abbreviation uses Mathlib's carrier and the imported Tau Ceti instance directly,
+  with `a • x = ax` and `algebraMap a = ae` (`IsIdempotentElem.Corner.val_algebraMap`).
+  The GMA block modules `e_i R e_j` and entry modules `A_ij` of Layer 1 are this carrier, taken at
+  the block idempotents and at the primitive idempotents; membership in each is given by the two
+  fixed-point equations `e x = x = x f`, and the primitive idempotents are idempotent. The
+  compression `e x f` lies in the corner by `TauCeti.mul_mul_mem_cornerSubmodule`. Corner
+  determinants, Peirce decomposition, pairings,
+  reducibility ideals and extension modules all use this carrier.
+- `Module.Projective.of_split` in `Mathlib/Algebra/Module/Projective.lean` and
+  `Module.Finite.of_surjective` in `Mathlib/RingTheory/Finiteness/Basic.lean` apply to the
+  split projection `x ↦ xe` for an idempotent `e`; no separate GMA projectivity theorem is needed.
+- `MonoidAlgebra.lift` in `Mathlib/Algebra/MonoidAlgebra/Basic.lean`, for the character map
+  `A[G] → A`.
+- `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_eq_minorsIdeal_ker` and
+  `Submodule.det_mem_minorsIdeal` in `TauCeti/RingTheory/FittingIdeal/Basic.lean`;
+  `TauCeti.fittingIdeal_baseChange` in `TauCeti/RingTheory/FittingIdeal/BaseChange.lean`.
+- `Matrix.reverse_charpoly`, `Matrix.charpolyRev`, `Matrix.charpoly_inv` and
+  `Matrix.charpoly_diagonal` in `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`
+  (the last declaration is in `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`).
+  These supply matrix reversal, inversion and diagonal computations. Layer 3a's
+  reciprocal characteristic-polynomial identity is the polynomial-law determinant analogue over
+  arbitrary commutative coefficient rings; it does not assume a matrix realization.
+- `Ideal.Quotient.field` in `Mathlib/RingTheory/Ideal/Quotient/Basic.lean` supplies
+  the residue-field structure used by Layer 3b.
+- `Polynomial.scaleRoots`, `Polynomial.coeff_scaleRoots` and
+  `Polynomial.mul_scaleRoots_of_noZeroDivisors` in `Mathlib/RingTheory/Polynomial/ScaleRoots.lean`,
+  and `Polynomial.reflect` in `Mathlib/Algebra/Polynomial/Reverse.lean`, supply Layer 3b's
+  transformed polynomials. Its targets concern existence, continuity, semisimplicity and
+  absolute irreducibility of realizing representations, beyond these polynomial operations.
+- `Matrix.charpoly_one`, `Matrix.charpoly_isEmpty` and `Matrix.charpoly_transpose` in
+  `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`, and `Matrix.charpoly_monic`,
+  `Matrix.charpoly_natDegree_eq_dim`, `Matrix.det_eq_sign_charpoly_coeff` in
+  `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`, supply Layer 3b's rank and unit tests.
+- The `GSp₄` spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4.5
+  (*gsp4-spin-polynomial*, a README-only target, with its monic comparison
+  *gsp4-galois-comparison*). Its `T1,T2` correspond to `T₂,T₁` here. The monic variant `Q`
+  reflects the degree-four polynomial and swaps those indices; the dual-spin variant
+  `P` additionally inverts the central unit.
+
+
+
+### From Mathlib
+
+Polynomial laws, tensor products, matrices and group algebras: `PolynomialLaw`,
+`PolynomialLaw.ground`, `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`,
+`Algebra.TensorProduct.rid`, `MonoidAlgebra`, `MonoidAlgebra.of`, `MonoidAlgebra.mapDomainAlgHom`,
+`Matrix.det`, `Matrix.charpoly`, `Matrix.trace`. Tau Ceti supplies homogeneity and
+multiplicativity on this existing law carrier (*From Tau Ceti*); the determinant structure here
+uses them.
+
+Divided powers and the exterior algebra: `DividedPowerAlgebra` and `DividedPowerAlgebra.dp` supply
+the entire divided-power algebra and its generators; Tau Ceti supplies its homogeneous pieces and
+their internal algebra multiplication (*From Tau Ceti*). `exteriorPower.map`, the existing tensor
+powers and `SymmetricAlgebra` are used for the subsequent constructions. The abelianization of a
+semiring `S` is Mathlib's `RingQuot` by the relation `commRel S` (`ab ~ ba`) defined here, with
+quotient map `RingQuot.mkAlgHom` and universal property `RingQuot.liftAlgHom`; the free
+associative ring on a set `X` is `FreeAlgebra ℤ X`, with `FreeAlgebra.lift`.
+
+Module and derived categories: `ModuleCat`, `DerivedCategory`, `DerivedCategory.Q`,
+`DerivedCategory.Qh` and `ModuleCat.finite_ext`. Finite derived morphism modules are built here by
+truncation induction. `ModuleCat.restrictScalars`, `Module.compHom` and
+`CategoryTheory.Functor.mapExtLinearMap` are reused for generalized-matrix-algebra extensions with
+their actual module actions. `ModuleCat.finite_ext` needs a noetherian base and two finite modules
+and does not assert finite projective dimension.
+
+Quotient, local and topological algebra: `TwoSidedIdeal`, `TwoSidedIdeal.span`, `Submodule.mkQ`,
+`IsIdempotentElem.Corner`, `HenselianLocalRing`, `IsDiscreteValuationRing`, `IsFractionRing`,
+`IsAdicComplete`, `IsAdic`, `Continuous.ext_on`, and `RingTheory.Sequence.IsWeaklyRegular`. A
+corner has identity `e`; it is not a unital subalgebra with identity `1`.
+`Module.free_of_flat_of_isLocalRing` requires finite generation.
+
+The Azumaya predicate `IsAzumaya`: finite projective, faithful, with `R ⊗ Rᵒᵖ → End(R)` bijective.
+It bundles finite projectivity, faithfulness and the two-sided endomorphism isomorphism without a
+chosen matrix splitting. The reduced-norm construction in Layer 0 requires a proof of faithfully
+flat matrix splitting; this is stronger than the supplied predicate.
+
+Exterior-algebra contraction: `CliffordAlgebra.contractLeft` (`Mathlib/LinearAlgebra/CliffordAlgebra/Contraction.lean`)
+for one-forms, extended to all forms through `ExteriorAlgebra.lift`; `ExteriorAlgebra.map`,
+`LinearMap.dualMap`, `TensorPower` (`⨂[A]^k`), `PiTensorProduct.tprod` and `finProdFinEquiv` build
+Buchsbaum's exterior-bar modules. Nothing here redefines the one-form contraction: the graded
+one-form contraction of §6.5 is its restriction.
+
+Constant rank is Mathlib's `Module.rankAtStalk` (`Mathlib/RingTheory/Spectrum/Prime/FreeLocus.lean`),
+written `Module.rankAtStalk (R := A) V = d` as in `Mathlib/RingTheory/TotallySplit.lean`; for a finite
+projective module this is the dimension of every field fibre, so no private constant-rank predicate
+is introduced.
+
+The cocycle identity is Mathlib's `groupCohomology.IsCocycle₁`, `f(gh) = g • f(h) + f(g)`. The
+matrix and universal cases already in Mathlib, listed under *Scope and ownership* as the library
+halves of statements kept here, are `Ideal.sup_pow_add_le_pow_sup_pow`, `LinearMap.eventually_isCompl_ker_pow_range_pow`,
+`Matrix.det_fromBlocks_zero₂₁`, `MvPolynomial.mul_esymm_eq_sum`, `Matrix.charpoly_inv`,
+`Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm`, `IsAdicComplete.henselianRing`,
+`IsArtinianRing.equivPi` and the `HopfAlgebra (MonoidAlgebra A G)` instance of
+`Mathlib/RingTheory/HopfAlgebra/MonoidAlgebra.lean`, with `MonoidAlgebra.antipode_single`; the
+character map of a group algebra is `MonoidAlgebra.lift`.
+
+### From Tau Ceti
+
+Polynomial laws, formalising DerivedModuleAlgebra §0.DP.1: `LinearMap.toPolynomialLaw`
+(`TauCeti/RingTheory/PolynomialLaw/Basic.lean`), the scalar-extension law of a linear map;
+`PolynomialLaw.IsHomogeneousOfDegree` (`TauCeti/RingTheory/PolynomialLaw/Homogeneous.lean`),
+`f(s·x) = sⁿ·f(x)` after every commutative scalar extension, with
+`PolynomialLaw.IsHomogeneousOfDegree.ground_smul` and `PolynomialLaw.IsHomogeneousOfDegree.comp`;
+on arbitrary modules a law has degree one exactly when it is the law of a linear map, namely of
+its ground map `PolynomialLaw.IsHomogeneousOfDegree.toLinearMap`
+(`PolynomialLaw.IsHomogeneousOfDegree.toPolynomialLaw_toLinearMap` and
+`LinearMap.isHomogeneousOfDegree_toPolynomialLaw`); `PolynomialLaw.IsMultiplicative`
+(`TauCeti/RingTheory/PolynomialLaw/Multiplicative.lean`), preservation of `1` and of products
+after every commutative scalar extension, with `PolynomialLaw.IsMultiplicative.ground_one`,
+`PolynomialLaw.IsMultiplicative.ground_mul`, `PolynomialLaw.IsMultiplicative.comp` and `PolynomialLaw.algHomEquiv` (the multiplicative laws of
+degree one are exactly the algebra maps). Both predicates test commutative semiring algebras;
+over a commutative ring `A` every commutative `A`-algebra is a ring (`−s = (−1)·s`), so they are
+Chenevier's conditions, and they are the two fields of `Determinant`.
+
+Divided powers and Roby algebras, formalising DerivedModuleAlgebra §0.DP.2, in
+`TauCeti/RingTheory/DividedPowerAlgebra/`: the degree-`d` pieces
+`DividedPowerAlgebra.homogeneousSubmodule` and their functoriality
+`DividedPowerAlgebra.mapHomogeneousSubmodule` (`Homogeneous.lean`), the grading
+`DividedPowerAlgebra.isInternal_homogeneousSubmodule` (`Grading.lean`), the universal homogeneous
+law `DividedPowerAlgebra.gamma` (`UniversalLaw.lean`) and its representability
+`DividedPowerAlgebra.homogeneousLawEquiv` (`Representability.lean`), base change
+`DividedPowerAlgebra.baseChangeHomogeneousEquiv` (`BaseChange.lean`), the tensor map
+`DividedPowerAlgebra.homogeneousTensorMap` (`TensorMap.lean`) and, for free modules, the
+comparison with symmetric tensors `DividedPowerAlgebra.symmetricTensorEquiv`
+(`SymmetricTensor.lean`). The Roby algebra `DividedPowerAlgebra.RobyAlgebra A R d`
+(`RobyAlgebra.lean`) is the degree-`d` piece `Γ^d_A(R)` of an `A`-algebra `R` with its internal
+product `DividedPowerAlgebra.homogeneousMul`, `γ_d(x)γ_d(y) = γ_d(xy)` with unit `γ_d(1)`; the
+universal multiplicative law is `DividedPowerAlgebra.RobyAlgebra.gamma`, and
+`DividedPowerAlgebra.RobyAlgebra.algHomEquiv` identifies the `A`-algebra maps `Γ^d_A(R) → B`, for
+any `A`-algebra `B`, with the multiplicative laws `R → B` homogeneous of degree `d`. This is
+Chenevier's representability before abelianization (Proposition 1.6).
+
+Linear-functional Koszul complexes, formalising the parts of DerivedModuleAlgebra §0.K.1 used in
+Layer 6: `TauCeti.koszulComplex φ` of a linear functional `φ : M → A`, with its chain maps
+`TauCeti.koszulComplex.map`, the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of
+multiplication by `φ(m)` and `H₀(K(x)) ≅ A/(x₁, …, xₙ)` by
+`TauCeti.koszulComplex.homologyZeroEquivSpan` (`TauCeti/RingTheory/KoszulComplex/Basic.lean`), the
+tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`
+(`Tensor.lean`), and acyclicity in positive degrees for weakly regular sequences,
+`TauCeti.koszulComplex.exactAt_of_isWeaklyRegular` (`Regular.lean`). The Koszul complex `K(x)` of
+a finite sequence `x : Fin n → A` is `TauCeti.koszulComplex (Fintype.linearCombination A x)`.
+Koszul cohomology with coefficients in an `A`-module `N` is the cohomology of
+`(TauCeti.koszulComplex φ).linearYonedaObj A N`, the complex `Hom_A(K(φ), N)`; no separate
+carrier is introduced. `TauCeti.koszulComplex.smul_cohomology_eq_zero` (through the null-homotopy
+`TauCeti.koszulComplex.smulHomotopy`) and `TauCeti.koszulComplex.range_le_annihilator_cohomology`
+show that every value of `φ` annihilates it in every degree, and
+`TauCeti.koszulComplex.span_le_annihilator_cohomology` that the ideal `(x₁, …, xₙ)` annihilates the
+Koszul cohomology of a finite sequence in every degree (`Cohomology.lean`).
+
+`LinearMap.projectiveDet` (`TauCeti/LinearAlgebra/Determinant/Projective.lean`): the determinant
+of an endomorphism of a finite projective module, multiplicative, equal to `LinearMap.det` on a
+free module of finite rank (`LinearMap.projectiveDet_eq_det`) and compatible with every base
+change (`LinearMap.projectiveDet_baseChange`). It is the value of the determinant law of a finite
+projective representation in Layer 0.
+
+`TauCeti.Comodule` (`TauCeti/Algebra/Coalgebra/Comodule/Basic.lean`): right comodules over a coalgebra, the fixed
+subcomodule `Comodule.fixedSubcomodule`, the abelian category of comodules over a flat coalgebra,
+`Comodule.tensor`, `Comodule.cofree`, the coaction embedding `Comodule.Hom.cofreeUnit` and
+the cofree adjunction `Comodule.Hom.cofreeEquiv`. `Comodule.Corestrict` corestricts a right
+coaction along a coalgebra morphism. These inputs are in
+`TauCeti/Algebra/Coalgebra/Comodule/Abelian.lean`, `TensorProduct.lean`, `Cofree.lean`
+and `Corestrict.lean`, respectively. `TauCeti.Comodule.dual` (`Dual.lean`) is the dual of a finite
+projective comodule over a Hopf algebra, and `TauCeti.Comodule.exteriorPower`
+(`ExteriorAlgebra/Power.lean`) the exterior powers of a comodule over a commutative bialgebra.
+`TauCeti.Comodule.induced`
+(`TauCeti/Algebra/Coalgebra/Comodule/Induced.lean`) is the cotensor induction `M □_D C` along a
+coalgebra map `f : C → D` with `C` flat, the equalizer in `M ⊗ C` of `ρ_M ⊗ id` and
+`m ⊗ c ↦ Σ (m ⊗ f(c₁)) ⊗ c₂`, a subcomodule of the cofree comodule; `TauCeti.Comodule.inducedEquiv`
+is Frobenius reciprocity `Hom_C(N, Ind_f M) ≃ Hom_D(N, M)`, with `N` corestricted, by evaluation
+through the counit, and `TauCeti.Comodule.inducedMap` is its functoriality in `M`. In the function
+reading its convention is `F(hg) = hF(g)` with right translation.
+`GeneralLinear.coordinateHopfAlgebra` and `GeneralLinear.genericMatrix` in
+`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Coordinate/HopfAlgebra.lean` provide the
+explicit general-linear coordinate Hopf algebra and its universal matrix.
+Conjugation invariants and good filtrations are built on these in Layers IHG.0 and IHG.6; rational
+cohomology is that of ReductiveGroups §1.1 (*From TauCetiRoadmap.ReductiveGroups*).
+
+`TauCeti.completedGroupAlgebra`, `TauCeti.completedGroupAlgebra.proj` and
+`TauCeti.completedGroupAlgebra.isEmbedding_coeffFamily` in
+`TauCeti/Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/Basic.lean`:
+the inverse limit over finite group quotients for a commutative coefficient ring.
+Layer 4 interpolates coefficients on ordinary group algebras; this supplier does not identify
+simultaneous coefficient and group limits.
+
+`TauCeti.fittingIdeal` (`RingTheory/FittingIdeal/Basic.lean`, `BaseChange.lean`,
+`Generators.lean`): Fitting ideals of a finite module, independence of the presentation
+(`fittingIdeal_eq_minorsIdeal_ker`), the minors of relation vectors (`Submodule.det_mem_minorsIdeal`,
+`fittingIdeal_eq_minorsIdealOfSet`) and base change (`fittingIdeal_baseChange`). `Fitt₀` above is
+`fittingIdeal A M 0`, and its base change is `TauCeti.fittingIdeal_baseChange`.
+`TauCeti.fittingIdeal_zero_le_annihilator` (`TauCeti/RingTheory/FittingIdeal/Determinant.lean`):
+`Fitt₀_A(M) ⊆ Ann_A(M)` for every finite module `M` over a commutative ring `A`, with no finite
+presentation hypothesis.
+
+The explicit continuous low-degree cohomology `TauCeti.ContCohomology`, which ProfiniteCohomology
+layer 2 specifies, in `TauCeti/RepresentationTheory/Homological/ContCohomology/`: continuous
+1-cocycles `TauCeti.ContCohomology.Z1`, with membership `TauCeti.ContCohomology.mem_Z1_iff`
+(continuity and Mathlib's `groupCohomology.IsCocycle₁`), coboundaries
+`TauCeti.ContCohomology.B1`, the range of `d⁰(m)(g) = g•m − m`, with
+`TauCeti.ContCohomology.mem_B1_iff`, and `TauCeti.ContCohomology.H1` (`LowDegree.lean`); restriction
+to a subgroup `TauCeti.ContCohomology.explicitRes1` (`ExplicitFunctoriality.lean`). The Ribet
+cocycles of Layer 6 are cocycles for the action `g·m = α(g)m`.
+
+`TauCeti.Ring.IsJapanese` (`TauCeti/RingTheory/Japanese.lean`): a domain whose integral closure
+in every finite extension of its fraction field, inseparable ones included, is finite;
+`TauCeti.Ring.IsNagata` (`TauCeti/RingTheory/Nagata.lean`): a noetherian ring whose quotient by
+every prime ideal is Japanese. SchemeAndStackFoundations §0.20 states its complete-local theorems
+on these predicates.
+
+`HeckeRing.GL2.Newform.satakeParameters`, the classical rank-two polynomial over `ℂ`, matched
+against in Layer IHG.3a only; `IsArithFrobeniusLift.coe_localCyclotomicCharacter`, the value
+`ε = q` at arithmetic Frobenius; `exists_unit_conj_of_algEquiv`, conjugacy of algebra isomorphisms
+over a field, the field case of the inner-conjugacy statement of Layer IHG.1.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+DerivedModuleAlgebra §§0.DP.1–0.DP.2 (homogeneous and multiplicative polynomial laws, homogeneous
+divided powers and Roby algebras) and §0.K.1 (linear-functional Koszul complexes) specify the
+inputs that Tau Ceti formalises with the declarations listed under *From Tau Ceti*. This roadmap
+consumes those declarations and nothing else from DerivedModuleAlgebra.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+SR.4: the spherical double cosets `T_r = [K diag(ϖ, …, ϖ, 1, …, 1) K]` and their normalised
+Satake images `q^{r(n−r)/2} e_r` in the symmetric Laurent ring over `ℤ[q^{±1/2}]`, for
+`vol(K) = 1` and after adjoining an invertible square root of `q`. SR.4 does not assert that the
+`T_r` generate the spherical Hecke algebra over `ℤ`, and nothing here uses such generation: the
+`GLₙ` Hecke polynomial of Layer IHG.3a is a formal expression in `q` and the `T_r`; the `GSp₄` spin polynomial with constant term `1`
+and its reciprocal monic form (SR.4.5, *gsp4-spin-polynomial*), its similitude
+(a README-only target of SR.4), the comparison with the Calegari–Geraghty normalisation
+(*gsp4-galois-comparison*) and the Satake values `S(T_r) = q^{r(n−r)/2} e_r` (SR.4's *gln-generators*),
+which are the substitution `T_i = s^{i(n−i)} e_i` read in *Normalized Satake coefficients for GLn*. Its general
+construction is applied here to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and
+SR.6.3: the integral finite-wild cocycle scheme (*One integral finite-wild cocycle scheme*) and the
+finite-wild excursion algebra (*Finite-wild excursion algebra*), with the coefficient ring, dual
+group, finite Weil action and wild quotient specified there. The arbitrary commutative-base,
+arbitrary-group untwisted colimit is owned here by §0.7, *General invariant-word colimit*.
+*Untwisted excursion comparison* identifies its cocone with SR.6.3's cocone when those finite-wild
+hypotheses hold and the Weil action is trivial; SR.6.3's twisted construction and arithmetic
+comparison theorems retain their own hypotheses.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+Layer 2 specifies the explicit continuous cochains, 1-cocycles, coboundaries and `H¹` for a
+topological group acting continuously on a topological module, with restriction and coefficient
+maps. Tau Ceti formalises them as `TauCeti.ContCohomology` with the declarations listed under
+*From Tau Ceti*, in particular `TauCeti.ContCohomology.B1` and
+`TauCeti.ContCohomology.explicitRes1` for coboundaries under restriction; this roadmap consumes
+those declarations. The cocycle identity is Mathlib's `groupCohomology.IsCocycle₁`. A finite
+module means finitely generated over its coefficient ring, and can be infinite as a set.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+ReductiveGroups §1.1, *Rational cohomology and algebraic induction*, for a commutative ring and a
+flat commutative Hopf algebra `H`: enough injectives in the native comodule category; rational
+cohomology `Hⁿ(H, M)` of every comodule `M`, with no finiteness or flatness hypothesis on `M`, as
+the right derived functors of the invariants `Mᴴ = ker(ρ_M − (m ↦ m ⊗ 1))`
+(`TauCeti.Comodule.fixedSubcomodule`), computed by the complex `Cⁿ(H, M) = M ⊗ H^⊗n` whose cofaces
+apply `ρ_M` first, `Δ` in each Hopf position and append `1` last; `H⁰ = Mᴴ`; cofree acyclicity of
+`N ⊗ H` for every module `N`; functoriality in the coefficient comodule, acting on the first
+tensor factor; the connecting maps and long exact sequence of every short exact sequence of
+comodules; and the chain isomorphism to the coefficient-last convention, with no sign. On the
+induction `TauCeti.Comodule.induced` it supplies left exactness, the identity and transitivity
+isomorphisms, the description on points by functions with `F(hg) = hF(g)`, and the antipode
+involution to Jantzen's convention `f(gh) = h⁻¹f(g)` with left translation, which intertwines the
+actions and the reciprocity bijections. This roadmap uses these as they stand; the invariant
+product of §0.7 is built on this complex.
+
+### From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
+
+Layers 0, 2, 3 and 4: Jacobson radical unit criteria; Artin–Wedderburn at its artinian
+hypotheses; density and double centralisers after the appropriate dimension bound;
+finite-dimensional central-simple splitting over the centre. Layer 5: conjugacy of algebra
+isomorphisms over a field. The determinant-specific boundedness and inseparable norm factors are
+developed here (Layer IHG.1).
+
+### From TauCetiRoadmap.ClassFieldTheory and TauCetiRoadmap.Chebotarev
+
+ClassFieldTheory layer 7: local Artin reciprocity with an explicit Frobenius normalisation and its
+inverse conversion (`geometricArtinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`);
+reciprocity is consumed from here, not from SR.4. Chebotarev layer 10: density of conjugacy
+classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
+
+### From TauCetiRoadmap.ModularForms and TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+ModularForms layer 9: the Hecke polynomial `X²−a_ℓX+ω(ℓ)ℓ^{k−1}` of a normalised eigenform, the
+classical half of the rank-two normalisation of Layer IHG.3a.
+PadicMeasuresIwasawaAlgebras §5.1
+supplies `projectiveDeterminant`, `projectiveDeterminant_constantRank`,
+`projectiveDeterminant_baseChange` and the exterior-map formula on finite projective modules, including invertibility of the
+top exterior power at constant rank and its identification of scalar endomorphisms.
+The degree-`d` multiplicative polynomial law on endomorphisms is the additional construction here.
+AlgebraicVectorBundles L0C consumes that ring-level foundation for sheaf determinants.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+SchemeAndStackFoundations §0.20
+supplies `Ring.IsJapanese.of_complete_local` and `Ring.IsNagata.of_complete_local`, stated on Tau
+Ceti's predicates `TauCeti.Ring.IsJapanese` and `TauCeti.Ring.IsNagata` (*From Tau Ceti*). For a
+complete noetherian local domain `A`, the Japanese condition gives
+`Module.Finite A (integralClosure A E)` for every finite extension `E` of its fraction field, including inseparable extensions
+([Stacks Lemma 10.162.8, tag 032W](https://stacks.math.columbia.edu/tag/032W)).
+The finiteness of integral closures used in §6.1 only specializes
+`Ring.IsJapanese.of_complete_local` to the supplied fraction field and scalar tower. The
+additional result here is the global difference lattice of §6.1; together with the
+fraction-lattice topology of §6.1 it supplies the finite-lattice and topology inputs to
+`IntegralRibet.local_ribet`.
+
+SchemeAndStackFoundations §2.22
+owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
+Its ring-level supplier is `IsAzumaya.exists_etale_matrix_splitting`: for `IsAzumaya A R`,
+`d>0` and `rankAtStalk R=d²`, it returns an étale faithfully flat commutative `A`-algebra `B`
+and `B⊗_A R ≃ₐ[B] M_d(B)`. Its finite-cover adapter takes affine étale splitting charts
+`Spec Bᵢ → Spec A` with jointly surjective images and uses their finite product `B = ∏ᵢ Bᵢ`.
+It proves `Algebra.Etale A B`, `Module.FaithfullyFlat A B`, and the matrix-splitting
+equivalence over that same `B`. Both the sheaf equivalence and the reduced-norm construction consume
+this neutral ring-theory result; neither needs an import of the other's whole development.
+
+The matrix action uses `Matrix.toLinAlgEquiv'` in
+`Mathlib/LinearAlgebra/Matrix/ToLin.lean`, followed by `Module.compHom` restriction of
+scalars. `matrixModule ρ` packages that vector module in `ModuleCat R`.
+`IsSimpleModule` and `IsSemisimpleModule` are the predicates from
+`Mathlib/RingTheory/SimpleModule/Basic.lean`, shared with SemisimpleAlgebras.
+The action of `r` is multiplication by the matrix `ρ(r)`. The submodules of `matrixModule ρ` are
+the `ρ`-stable subspaces of `Kᵈ`, with the same underlying subsets, and this gives the
+invariant-subspace characterizations of simplicity and semisimplicity of `matrixModule ρ`.
+Simplicity includes nontriviality; the dimension-zero example is rejected. Reconstruction,
+residual specialization and the determinant-specific multiplicity-free predicate use this same
+module action; absolute irreducibility is `IsAbsolutelyIrreducible`, stated on the matrix family of
+a realising representation.
 
 ## References
 

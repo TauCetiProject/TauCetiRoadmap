@@ -1,208 +1,92 @@
 # Roadmap: arithmetic locally symmetric spaces and their cohomology
 
-**Summary.** This roadmap builds the arithmetic locally symmetric spaces
-`X_K = G(F)∖(X^G × G(𝔸_F^∞)/K)` of a connected reductive group `G` over a number field `F`, and the
-integral cohomology
-theory that the modularity and torsion-Galois papers use on them. It starts from the adelic level
-quotients of the Tau Ceti roadmap AdelicAlgebraicGroups, the Cartan theory of
-RepresentationTheory/LieGroups and the singular and sheaf cohomology of AlgebraicTopology. It
-first builds real points of linear algebraic groups as Lie groups, equivariant sheaves for
-topological groups, Lie algebra cochains, automorphic
-forms and cusp forms, and cohomological representations at infinity, together with the handedness
-and restriction-of-scalars extensions of shared perfectness and arithmetic adapters for supplied
-sheaf functors
-(Layer ALS.F). Ordinary-module perfectness is supplied by DerivedModuleAlgebra §1.E.0;
-enhanced comparisons and traces are supplied by EtaleCohomologyFoundations §F.10.3; the topological
-coefficient comparisons are supplied by ComplexComparisonPartII on its stated coefficient domain.
-It then constructs in turn: the symmetric space with its
-split-centre correction and the finite
-decomposition of `X_K` into arithmetic quotients `Γ_i\X^G`, with neatness, stabilizers and the
-orientation local system (Layer ALS.0); arithmetic local systems from coefficient modules and the
-Betti complexes `RΓ(X_K, V)`, `RΓ_c(X_K, V)` and `RΓ(∂X̄_K, V)` at every level, with their
-comparison to singular and group cohomology, finite models and derived coefficient change (ALS.1);
-the Borel–Serre compactification, its compactness, its finite triangulations and its boundary strata
-with their nilmanifold fibrations (ALS.2); Hecke actions in the derived category, as endomorphisms
-and as strict objects over the Hecke algebra, with traces, the Mackey formula, twisting and
-degeneracy maps (ALS.3); the boundary triangle, the cohomology of boundary strata through parabolic
-restriction, van Est and Kostant, and boundary vanishing at non-Eisenstein maximal ideals, ending
-with Newton–Thorne's theorem that the boundary cohomology of `GL_n` is Eisenstein (ALS.4);
-Poincaré–Verdier duality with orientation coefficients and its Hecke adjoints (ALS.5a); the de Rham
-and moderate-growth comparisons in characteristic zero, cuspidal cohomology, and the cohomological
-consequences of Franke's theorem for `GL_n` and `U(n,n)` over CM fields, stated with their analytic
-and Galois-theoretic inputs as explicit hypotheses (ALS.5b); and descent along finite covers with
-the Hochschild–Serre spectral sequence (ALS.6).
+**Summary.** Let `G` be a connected reductive group over a number field `F`. Its arithmetic
+locally symmetric spaces are the double quotients `X_K = G(F)∖(X^G × G(𝔸_F^∞)/K)`, for compact
+open subgroups `K` of the finite adelic points. Here `X^G` is the symmetric space of `G(F_∞)`: its
+quotient by a maximal compact subgroup and by the connected real points of the ℚ-split centre (for
+`GL_n`, the positive scalars). Each `X_K` is a finite disjoint union of quotients `Γ_i∖X^G` by
+arithmetic groups `Γ_i = G(F) ∩ g_iKg_i⁻¹`; for `GL_2` over ℚ at level `GL_2(Ẑ)` it is
+`GL_2(ℤ)∖ℍ`. This roadmap builds these spaces and the integral cohomology theory that the papers
+on torsion Galois representations and modularity use on them: complexes over any commutative ring,
+with and without compact supports, with Hecke operators.
 
-The roadmap is wanted because every theorem of the form "torsion classes in the cohomology of a
-locally symmetric space carry Galois representations" (Scholze; Newton–Thorne; Allen, Calegari,
-Caraiani, Gee, Helm, Le Hung, Newton, Scholze, Taylor and Thorne; Calegari–Geraghty;
-Caraiani–Newton) is a statement about these complexes, their Hecke actions and their boundaries. The
-basic examples are modular curves and compact quaternionic quotients; higher-rank boundary strata
-explain why the compactification and the supported complexes have to be developed together. Integral
-coefficients keep torsion, derived coefficient change and stabilizer cohomology; characteristic-zero
-comparisons use algebraic coefficient representations.
+The geometry starts from Cartan involutions, which `Suggested.lean` states in Lean. An involution
+`θ` of a real algebraic group `H` is a Cartan involution when the twisted real form
+`{g ∈ H(ℂ) : g = θ(ḡ)}` is compact; for `GL_n`, `g ↦ (gᵗ)⁻¹` is one. Every connected reductive
+real algebraic group has a Cartan involution, and any two are conjugate by a real point.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| ALS.F | Foundations and arithmetic adapters | realPoints_lieGroup, PerfectComplex.IsPerfect.restrictScalars, SheafDerived.pushforward, EquivariantSheaf, lieCochains, AutomorphicForm, cohomologicalRepresentation |
-| ALS.0 | Symmetric spaces, arithmetic quotients and local geometry | `IsCartanInvolution`, realPoints_cartanDatum, symmetricSpace, X, X.componentDecomposition, X.manifold_of_neat, iwahori, taylorWilesLevel, orientationSystem |
-| ALS.1 | Arithmetic coefficients and Betti complexes | localSystem, RΓ, RΓc, RΓrel, RΓ.refinementIndependence, RΓ.isoSingular, RΓ.isoGroupCohomology, RΓ.baseChange, RΓ.pullback |
-| ALS.2 | Borel–Serre corners and boundary strata | BorelSerre.face, BorelSerre.bordification, BorelSerre.compact_quotient, BorelSerre.stratum, BorelSerre.unipotentLattice_cocompact, BorelSerre.stratum_fibration, BorelSerre.stratSpectralSequence, BorelSerre.stratumCompactification |
-| ALS.3 | Finite-level Hecke actions and correspondences | Hecke.invariantsFunctor, Hecke.heckeRing_normal, heckeAction, heckeComplex, RΓ.trace, RΓ.mackey, derivedHeckeAlgebra, twistHecke, oldformSplitting |
-| ALS.4 | Boundary complexes and Eisenstein localization | boundaryTriangle, Hecke.satakeUnnormalized, nomizu, kostant_splittingField, BorelSerre.stratum_kostant, heckeLocalize, IsEisenstein, boundary_isEisenstein_GL |
-| ALS.5a | Finite-level duality with orientation coefficients | BorelSerre.manifoldWithBoundary, verdierDuality, dualityPairing, verdierDuality_hecke, verdierDuality_triangle |
-| ALS.5b | Characteristic-zero and automorphic comparisons | deRhamIso, moderateGrowthIso, automorphicComparison, cuspidalCohomology, GaloisInput, nonEisenstein_cuspidal_range, unitary_middleDegree_cuspidal |
-| ALS.6 | Finite covers and descent | RΓrel.descent, hochschildSerre, lowestDegree_descent, towerChecks |
+A level `K` is neat when every arithmetic group `G(F) ∩ xKx⁻¹` is neat, a condition on eigenvalues
+that forces torsion-freeness. For neat `K`, `X_K` is a smooth manifold of dimension `d_G = dim X^G`,
+and each component is an Eilenberg–MacLane space `K(Γ_i, 1)`. Its Borel–Serre compactification is
+then a compact manifold with corners, and the inclusion of its interior `X_K` is a homotopy
+equivalence. For coefficients `V` finite projective over a commutative ring `R`, the complexes
+`RΓ(X_K, V)` and `RΓ_c(X_K, V)` are perfect. Poincaré–Verdier duality identifies the `R`-dual of
+`RΓ_c(X_K, V)` with `RΓ(X_K, V^∨ ⊗ o_K)` shifted by `d_G`, where `o_K` is the orientation local
+system. Neatness does not imply orientability: the roadmap gives a neat level of `PGL_2` over ℚ
+whose quotient is not orientable.
 
-`Suggested.lean` states the Cartan-involution predicate, existence and conjugacy of ALS.0.1
-(`IsCartanInvolution`, `IsCartanInvolution.exists`, `IsCartanInvolution.conj`). Planned names of
-the other targets and Checks are written as plain text: they label mathematical targets and are
-not declarations of that file.
+For `GL_n`, a maximal ideal `𝔪` of the Hecke algebra is Eisenstein when its residual Galois
+representation `ρ̄_𝔪` is absolutely reducible. Newton–Thorne's theorem, proved here, takes a neat
+level `U = ∏_v U_v` of `GL_n` over a number field, with every `U_v ⊂ GL_n(O_{F_v})` and equality
+outside a finite set `S` of places containing those above `p`. It says that boundary cohomology
+with coefficients finite over a `p`-adic ring of integers is Eisenstein. Hence compactly supported
+and ordinary cohomology agree after localization at any non-Eisenstein `𝔪`. For modular curves,
+boundary cohomology vanishes at every `𝔪` with `ρ̄_𝔪` irreducible. The theorem assumes that
+residual Galois representations are attached to the Hecke eigensystems of `GL_m` for all `m ≤ n`,
+together with an orientation-twisted form of this. A companion theorem treats the quasi-split
+unitary group `U(n, n)` attached to a CM field, under similar hypotheses and one on smaller unitary
+groups. After localizing at the pullback of a non-Eisenstein ideal of its Siegel Levi, only the
+Siegel stratum of the boundary contributes.
 
-## Scope and ownership
+In characteristic zero the roadmap builds the de Rham and moderate-growth comparisons. Franke's
+theorem and the Galois representations of cuspidal automorphic representations enter as
+hypotheses. With them it treats `GL_n` over an imaginary CM field `F` with maximal totally real
+subfield `F⁺`, at a neat level that is a product over places. If `ρ̄_𝔪` is absolutely
+irreducible, rational cohomology localized at `𝔪` lives in degrees `q₀` to `q₀ + ℓ₀`, where
+`q₀ = [F⁺ : ℚ] n(n − 1)/2` and `ℓ₀ = [F⁺ : ℚ] n − 1`. For `n = 2` over an imaginary quadratic
+field this range is `[1, 2]`.
 
-**Owned here.** The foundations of Layer ALS.F: the real points of a linear algebraic group as a
-Lie group with its maximal compact subgroups, the noncommutative group-ring applications and
-handedness extensions of the shared perfectness interface, arithmetic adapters for supplied derived sheaf functors, equivariant
-sheaves for topological groups, absolute and relative Lie
-algebra cochains with the invariant-forms comparison, automorphic forms, constant terms and cusp
-forms with the discreteness of the cuspidal spectrum, and algebraic weights, coefficient lattices
-and the cohomological representations at infinity. Cartan involutions of real reductive groups as an
-algebraic-group predicate, existence over arbitrary real groups, the comparison with
-AdelicAlgebraicGroups’ inverse-adjoint datum on rational groups and restrictions of scalars, and the
-comparison of the real points with the Lie-theoretic Cartan datum, the symmetric space `X^G` with
-the split centre removed, the adelic quotient `X_K` as a topological space with its translations,
-level maps, finite component decomposition, proper discontinuity, neat-level manifold structure and
-orientation local system; standard Iwahori, `Γ_0`, `Γ_1`, `Γ_p` and Taylor–Wiles levels. Arithmetic
-local systems with their monodromy convention; the equivariant compactified models and the Betti
-complexes at arbitrary level with their independence of the neat refinement; the arithmetic
-specializations and naturality of the supplied comparisons with singular cochains with local coefficients and with group cohomology; finite projective models;
-derived coefficient change; pullback, translation, trace, the Mackey formula. The Borel–Serre
-bordification, its compact quotients, finite triangulations, boundary strata, the cocompact
-unipotent lattices and the nilmanifold fibrations of the strata, the compactifications and finite
-models of the transported parabolic spaces, and the two boundary spectral sequences. The Hecke
-action on invariants and on derived invariants for Hecke pairs, the Hecke
-action on Betti complexes as endomorphisms and as a strict object, its correspondence description,
-composition, compatibility with supports, boundary, coefficients and cup products, the
-topological–discrete comparison, the derived Hecke algebra of an arithmetic complex, twisting by
-characters, degeneracy maps. The boundary triangle, restriction to parabolics and the unnormalized
-Satake map, the Hecke action on strata, the Nomizu–van Est comparison, Kostant's theorem over a
-splitting field, the Kostant–van Est computation of strata, the Leray–Hochschild–Serre
-sequence of a stratum, boundary gluing, Eisenstein and non-Eisenstein maximal ideals of arithmetic
-complexes, the eigenvalue criterion for boundary vanishing, the `GL_n` and `U(n,n)` boundary
-theorems. The manifold-with-boundary structure of `X̄_K`, Poincaré–Verdier duality with orientation
-coefficients, the pairings, the Hecke adjoints, the dual boundary triangle and duality at non-neat
-level. The de Rham comparison with flat bundles and relative Lie algebra cochains, Borel's
-moderate-growth comparison, the automorphic comparison map, cuspidal cohomology, and the
-characteristic-zero applications. Finite-level descent, the Hochschild–Serre sequence with Hecke
-action, descent of the lowest localized degree, and the modular and quaternionic examples.
+The roadmap builds on [AdelicAlgebraicGroups](../AdelicAlgebraicGroups/README.md), whose level
+quotients `X_K` specializes and which provides neat levels and reduction theory. AlgebraicTopology
+provides Poincaré–Lefschetz duality, and IntegralHeckeAndGaloisDeterminants the Galois-type and
+non-Eisenstein predicates. Galois representations attached to torsion classes are not constructed
+here: that uses Shimura varieties and completed cohomology built on this roadmap.
 
-**Used from Tau Ceti roadmaps.** AdelicAlgebraicGroups supplies the adelic points, the split
-component `A_G` (§2.1), rational parabolics and real Siegel coordinates (§§3.1–3.2), the algebraic
-inverse-adjoint Cartan datum and its existence for connected reductive rational groups (§3.7),
-finiteness of class numbers, level arithmetic groups, component decompositions, compactness criteria and unipotent
-class number one (§3.4), finiteness of cusps and Siegel sets (§3.6), neat elements and levels
-(§4.3), level quotients, level maps, finiteness of rational stabilizers, the proper arithmetic
-action on level spaces, the covering property and fibre masses (§4.4) and Hecke
-correspondences with their degrees (§4.5), and its worked examples for `GL_1`, `GL_2` over `ℚ` and
-definite quaternion groups (§§5.1–5.3), which the checks below reuse; its level quotient
-`LevelMaps.LevelQuotient` is the carrier that `X_K` specializes, never reconstructed here.
-For rational groups, including `Res_{F/ℚ} G`, Cartan existence is supplied by AA.3.7; ALS.0.1
-compares its datum with the compact-twist predicate and ALS.0.2 adapts it to LieGroups. Adelic
-reduction theory uses its own datum without a dependency on arithmetic cohomology. Its Siegel
-coordinates and the symmetric space use the same involution and fixed compact subgroup.
-RepresentationTheory/LieGroups supplies the closed-subgroup theorem (Layer 2) and, in Layer 9 (the
-Cartan, Iwasawa, and KAK decompositions), the Cartan, Iwasawa and `KAK` decompositions of a real
-reductive group, with its notions of a Cartan involution and of a real reductive structure on an abstract Lie group.
-RepresentationTheory/LieHighestWeight supplies the classification of finite-dimensional irreducible
-modules of split semisimple and reductive Lie algebras in characteristic zero by dominant integral
-highest weights, complete reducibility, and the centre of the enveloping algebra with the
-Harish-Chandra isomorphism (Layers 4, 5, 7 and 9). ClassFieldTheory supplies the local and global
-Artin maps, arithmetically normalized, with local–global compatibility and reciprocity (Layers 7,
-10 and 11). AlgebraicTopology supplies local coefficient systems and
-twisted and relative singular chains (Stage 2, item 6), cellular chains of CW pairs (Stage 4),
-products, finite covers and transfer, including the permutation local system of a nonregular cover
-(Stage 5, item 3), and twisted singular cochains, cup and cap products, the orientation local system
-and Poincaré–Lefschetz duality for compact manifolds with boundary (Stage 6, items 1–4).
-Ordinary-module perfectness for every unital ring, its elementary finite-model API and closure
-laws are supplied by DerivedModuleAlgebra §1.E.0 / `DerivedDeRham.IsPerfect`, with
-`PerfectComplex.IsPerfect` as its shared alias. The DG/module comparison, commutative
-compact/dualizable characterization, traces and filtered trace additivity are supplied by
-EtaleCohomologyFoundations §F.10.3 /
-`PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`; bounded
-constructible/ctf categories are supplied by EtaleCohomologyFoundations §F.1 /
-`VanishingCycles.constructibleDerivedCategory` on the étale domain. The topological
-local-coefficient comparison for finite commutative coefficients, and, over every commutative
-coefficient ring on locally compact Hausdorff spaces, extension by zero, c-soft resolutions,
-derived compact supports, supported pushforward and the open–closed localization triangle, are
-supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; compact-support
-Artin comparison is supplied by its §C6.4 / `artinComparisonCompactSupport` on separated
-finite-type complex schemes. The `R`-linear derived categories of module sheaves on a
-topological space, their K-injective replacements and the adjunction `f^* ⊣ Rf_*` are supplied
-by EnhancedDerivedSheaves §§0.1–0.2 and 0.4; the abelian derived pushforward, cohomology
-pullback and flasque computation of `Sheaf.H` by SchemeAndStackFoundations §§2.1 and 2.5. ALS.F.2 supplies opposite-ring duality,
-noncommutative scalar-extension handedness, restriction of scalars and right-module Tor tests
-on the shared predicate; ALS.F.3 adapts the supplied topological functors and owns the
-comparison of `R`-linear derived sections with Mathlib's abelian sheaf cohomology, the stalk
-formula and exactness of pushforward along proper finite-fibre maps, and the sheaf/singular
-comparison for local systems with arbitrary stalk modules and its relative form.
-DifferentialGeometry supplies differential forms (Layer 0), orientations (Layer 2), de Rham
-cohomology (Layer 6) and the de Rham theorem with real constant coefficients (Layer 8); this roadmap
-constructs the flat-bundle version and its compatibilities with arithmetic correspondences.
-GeometricTopology supplies triangulations (Layer 11, `IsTriangulable`). Whitehead's smooth
-triangulation theorem appears there only as item 1 ("Smooth implies PL") of the section *The
-smoothing-and-triangulation comparison*, which is not a layer and does not treat manifolds with
-boundary, so the boundary-compatible smooth triangulation of compact manifolds with boundary used
-by ALS.2.4 and ALS.2.10 is a target of ALS.2.4. IntegralHeckeAndGaloisDeterminants supplies
-derived Hecke
-images, ghosts, finite local factors and idempotent splitting of a perfect complex with a
-commutative action (Layer 2), the spherical Hecke polynomials (Layer 3a)
-and the residual Galois-type and non-Eisenstein predicates (Layer 3b);
-this roadmap applies them to arithmetic complexes. SmoothRepresentationsOfLocalGroups supplies
-smooth representations (SR.0), derived invariants on the smooth derived category (SR.0d.2),
-ring-valued Haar measures and convolution Hecke algebras (SR.1.1), the Hecke algebra of a level in
-its permutation form over every coefficient ring, acting on invariants, with traces and its
-comparison with Mathlib's `HeckeRing` (SR.1.2), Iwahori
-decompositions and the positive Hecke monoid homomorphism (SR.1.4), the modulus character, Jacquet
-functors and parabolic induction (SR.2.2) and the integral and normalized Satake transforms
-(SR.4.1). ReductiveGroupsPartII supplies parahoric and Iwahori subgroups (RG2.3.3,
-`parahoric-subgroup`), lattice-chain stabilizer group schemes (RG2.3.5), the Iwahori and pro-`p`
-Iwahori subgroups of `GL_n` (`LevelSubgroups.iwahori`, `LevelSubgroups.proPIwahori`, in the examples
-of Layer RG2.3, `classical-level-subgroups`), the Iwahori factorization (RG2.4.2,
-`iwahori-factorization`) and the local Iwasawa decomposition with its integration formula (RG2.4.4,
-`iwasawa-decomposition`, `iwasawa-integration-and-unimodularity`). ProfiniteCohomology supplies
-restriction, corestriction and the Mackey double-coset formula in all degrees for open subgroups of
-a profinite group (Layer 10), which this roadmap applies to finite discrete groups.
+A first layer lays foundations. The next three build the quotients `X_K`, the Betti complexes and
+the Borel–Serre compactification. Layers on Hecke operators and on the boundary follow. Duality,
+the characteristic-zero comparisons and descent along finite covers come last. The section that
+follows gives the build order.
 
-**Discrete equivariant cohomology.** ALS.F.4 supplies the category of equivariant module sheaves
-on the topological spaces used here, enough injectives, invariant sections and their derived
-functor (written `H^n(X, Γ; F)` below), including closed supports and localization. Its discrete
-specialization applies without compactness. SchemeAndStackFoundations §2.23 supplies the
-scheme-domain equivariant theory; no scheme structure on these arithmetic spaces is assumed.
-This roadmap applies the equivariant derived functor to the open–closed short exact sequence
-of equivariant sheaves to obtain its localization triangles. ALS.F.2 consumes the shared
-general-ring perfectness predicate and supplies handedness, restriction of scalars and the
-pseudo-coherence criterion with right-module Tor tests. ALS.F.3 adapts supplied topological functors; ALS.F.4
-owns equivariant sheaves for topological (in particular locally profinite) groups.
+## How to read the build
 
-**Not in this roadmap.** The arithmetic nilmanifolds of boundary strata are built here (ALS.2.6–2.8)
-from the unipotent class-number and compactness theorems; filtered nilmanifolds and their
-equidistribution are a separate subject. Franke's theorem that automorphic forms compute the
-cohomology of `X_K`, and the Franke–Schwermer description of its summands, rest on Langlands' theory
-of Eisenstein series and are not proved here; they enter, through the hypothesis `FrankeInput` of
-ALS.5b.4, only the characteristic-zero applications that need them. The existence of
-characteristic-zero Galois representations attached to cuspidal
-automorphic representations of `GL_m` and `U(m,m)` over CM fields, and of residual representations
-attached to torsion classes, uses Shimura varieties and the completed cohomology built on this
-roadmap; such representations enter only as explicit hypotheses (`GaloisInput` in ALS.5b.7, the
-general linear Galois-type conditions in ALS.4.12–4.13 and ALS.5b.8–5b.9, and
-`ResidualUnitaryGaloisInput` for the smaller unitary factors in ALS.4.13). The latter is a
-residual-cohomology contract, separate from the characteristic-zero cuspidal `GaloisInput`;
-IntegralHeckeAndGaloisDeterminants supplies its predicate, not the arithmetic existence theorem.
-Level systems, completed cohomology,
-derived limits over levels and continuous profinite cohomology are not treated; the coefficient
-limit in ALS.3.10 is at one fixed good level. ALS.6 exports
-finite-level descent and refinement maps only. Shimura varieties, their
-canonical models and their compactifications are not treated.
+Layer ALS.F comes first: it builds foundations and adapters to the supplied generic interfaces. The
+arithmetic layers are grouped by subject: ALS.0 builds the symmetric space and the quotients, ALS.1
+the coefficient systems and the Betti complexes at every level, ALS.2 the Borel–Serre
+compactification and its boundary strata, ALS.3 the Hecke action on all of these, ALS.4 the boundary
+analysis and the Eisenstein theorems for the boundary, ALS.5a duality, ALS.5b the comparisons with
+forms and automorphic forms in characteristic zero, and ALS.6 descent along finite covers. The order
+in which the targets are built is not the order of the text. It is the following order, in which
+every target's *Needs* precede it:
+
+```text
+ALS.F.1–F.7; ALS.0.1–0.13; ALS.2.1–2.3; ALS.5a.1; ALS.2.4 (geometric clause);
+ALS.1.1–1.6; ALS.2.4 (cohomological clause); ALS.1.7–1.8; ALS.2.5–2.10;
+ALS.3.1–3.8; ALS.3.11–3.12; ALS.3.9–3.10; ALS.3.13–3.14;
+ALS.5a.2–5a.4; ALS.4.1–4.7; ALS.4.9; ALS.4.10; ALS.4.8;
+ALS.4.11–4.13; ALS.5a.5–5a.6; ALS.5b.1–5b.9; ALS.6.1–6.4.
+```
+
+Thus the Borel–Serre bordification, its compact quotients and the manifold-with-boundary bridge
+(ALS.2.1–2.3 and ALS.5a.1) come before the Betti complexes built on them; the finite triangulation
+of ALS.2.4 comes next, before the compact-support comparison ALS.1.4 and the finite-cell
+criterion ALS.1.6. Its cohomological consequences then precede coefficient change ALS.1.7.
+The character twist ALS.3.12 precedes its cup-product use in ALS.3.9. Verdier
+duality, the pairings and the Hecke adjoints (ALS.5a.2–5a.4), which use only geometry, Betti
+complexes and Hecke operators, come before the boundary statements ALS.4.8 and ALS.4.11–4.13 that
+use them; localization ALS.4.9 comes before boundary gluing ALS.4.8; and the last two duality
+targets use the boundary triangle ALS.4.1 and localization ALS.4.9. The two boundary spectral
+sequences of ALS.2.9 have different support conventions and are never interchanged. Each layer ends
+with its examples and its dependencies.
 
 ## Conventions
 
@@ -317,256 +201,6 @@ Boundary duality uses `d − 1`. Dualizing the triangle reverses its arrows; its
 inverse rotation of the shifted dual-coefficient triangle, including the negative rotated connecting
 arrow. Hecke adjunction inverts double cosets and exchanges `𝔪` with `𝔪^∨`. These conventions also
 apply on each transported open boundary stratum, with its own dimension and orientation.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Quotients and actions: quotient groups `G ⧸ H` (`QuotientGroup`), `MulAction.stabilizer`,
-  `ProperlyDiscontinuousSMul`, `IsCoveringMap`, `CategoryTheory.ActionCategory`.
-  `ProperlyDiscontinuousSMul` quantifies over compact sets: for compact `K`, `{γ : γK ∩ K ≠ ∅}` is
-  finite. `MulEquiv.inv' G : G ≃* Gᵐᵒᵖ`, `g ↦ op g⁻¹`; its inverse `Gᵐᵒᵖ → G`, `x ↦ (unop x)⁻¹`, is
-  the inversion of the monodromy convention (ALS.1.1, `endpointMonodromy`).
-- Topology and geometry: `ContractibleSpace`, `ModelWithCorners`, `UpperHalfPlane` with
-  `UpperHalfPlane.glAction` (the action of all of `GL(2,ℝ)`, antiholomorphic for negative
-  determinant through `UpperHalfPlane.σ`), the fixed-point criteria
-  `UpperHalfPlane.gl_smul_I_eq_I_iff_of_pos` (for `det g > 0`, `g • I = I ↔ g₀₀ = g₁₁ ∧ g₀₁ = −g₁₀`)
-  and `UpperHalfPlane.gl_smul_I_eq_I_iff_of_neg` (for `det g < 0`,
-  `g • I = I ↔ g₀₀ = −g₁₁ ∧ g₀₁ = g₁₀`), from which ALS.0.4's
-  stabilizer_I_eq_orthogonalTimesScalars follows, the instance
-  `ContractibleSpace ℍ`, and `UpperHalfPlane.instProperlyDiscontinuousSL2RSubgroup` (discrete
-  subgroups of `SL(2,ℝ)` act properly discontinuously on `ℍ`).
-- Matrix groups: `Matrix.GeneralLinearGroup` with `Matrix.GeneralLinearGroup.map` (reduction along
-  a ring map, used for reduction modulo an ideal in ALS.0.10), `Matrix.SpecialLinearGroup`,
-  `Matrix.orthogonalGroup`, `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`.
-- Lie algebras: `LieAlgebra`, `LieModule`, and the low-degree cochains of `LieModule.Cohomology`
-  (`oneCochain`, `twoCochain`, `d₁₂`), which the Chevalley–Eilenberg complex of ALS.F.5 extends to
-  all degrees.
-- Homological algebra: `Rep`, `Representation.invariants`, `groupCohomology`, `CochainComplex`,
-  `DerivedCategory`, `CategoryTheory.IsIdempotentComplete`, `Module.Projective`, `Module.Flat`,
-  `CategoryTheory.Sheaf.H`, `AlgebraicTopology.singularChainComplexFunctor`.
-- Hecke rings: `IsHeckeTriple`, `HeckeCoset`, `HeckeCosetModule`, `HeckeRing` (notation `𝕋`),
-  `DoubleCoset.doubleCoset`, `Subgroup.relIndex`.
-
-### From Tau Ceti
-
-- `TauCeti.LocalCoefficientSystem` (a functor from the fundamental groupoid to `ModuleCat`), with
-  `pullback`, `constantFunctor` and `monodromyRepresentation`; the last goes from a given local
-  system to a representation and does not construct arithmetic descent.
-- `TauCeti.CoveringSpace.monodromyEquivalence`, classifying Type-valued covers of a path-connected,
-  locally path-connected, semilocally simply connected space; it does not identify sheaf descent
-  with linear local coefficients.
-- `TopPair.singularChainComplexFunctor` (relative singular chains), and the twisted singular cochain
-  complex `TauCeti.LocalCoefficientSystem.twistedCochainComplex` with the relative connecting map
-  `TopPair.twistedCohomologyδ`. The cochain complex applies `Hom(−, M)` to chains twisted by a system
-  `L`, so a cochain is a family of maps `L(σ(0)) → M`; it is contravariant in `L`. Cochains with
-  values in the arithmetic system `V` are obtained with `L = V^∨` and `M = R`, since
-  `Hom_R(V^∨, R) = V` for `V` finite projective; ALS.1.4 compares sheaf cohomology with these
-  cochains, with that
-  variance.
-- Hecke rings: `HeckeCosetModule.instRingHeckeRing` (the convolution ring on `𝕋 Δ H R` for
-  `IsHeckeTriple Δ H H`), `HeckeCosetModule.single` (the basis elements `r·[D]`),
-  `HeckeCoset.degree_eq_relIndex` (`D.degree = (ConjAct.toConjAct D.rep • H₂).relIndex H₁`), and
-  `HeckeCoset.heckeSum` with `HeckeCoset.heckeSum_eq_sum_of_rightCosets` and
-  `HeckeCoset.heckeSum_comp_of_mem`: for `Γ₁δΓ₂ = ⊔ Γ₁a_v` and a `Γ₁`-invariant linear map `q`, the
-  sum `Σ_v q ∘ ρ(a_v)` is independent of the representatives and `Γ₂`-invariant (Shimura §3.4). It
-  is the coinvariant form of the operator of ALS.3.1, which an implementation of ALS.3.1 transposes
-  rather than reproves. `TauCeti.card_fiber_orbitOfCosetTranslate_mul_cardStabilizerOnOrbit` gives
-  the fibre counts with stabilizers used in ALS.3.6.
-- `HeckeCosetModule.single_mul_single_of_mem_normalizer` proves the basis multiplication used
-  in heckeRing_normal; ALS.3.2 assembles the quotient basis into a ring equivalence.
-  `LeftCosetModule.deg` and `LeftCosetModule.degree_smul_eq_deg` give the degree homomorphism
-  and its action on coefficient sums; hecke_degree_eq_index is the trivial-module form with
-  explicit representatives, using `HeckeCoset.degree_eq_relIndex`.
-  `HeckeRing.GL2.heckeT_prime_mul_heckeTDiag_one_prime_pow` at `k = 1` proves the same square
-  relation as heckeBasis_GL2_square in `IntegralHeckeRing 2`, for the integral pair
-  `(SL₂(ℤ), GL₂(ℚ)⁺ ∩ M₂(ℤ))`; ALS.3.8 uses the local pair `(GL₂(ℚ_p), GL₂(ℤ_p))`.
-  `HeckeRing.GL2.heckeT_prime_pow_recurrence` uses the sum of all determinant-`p^k` double cosets,
-  explaining the coefficient `p` in that convention.
-- Group cohomology: `TauCeti.groupCohomology.corestriction` (`Hⁿ(S, Res_S A) ⟶ Hⁿ(G, A)` for a
-  finite-index subgroup `S`), with `TauCeti.groupCohomology.map_subtype_id_comp_corestriction`
-  (restriction followed by corestriction is multiplication by `[G : S]`) and
-  `TauCeti.groupCohomology.corestriction_trans`; this is the trace at non-neat level (ALS.3.6).
-- Representations: `Representation.charTwist` (for `χ : G →* kˣ`, the representation `g ↦ χ(g)·ρ(g)`
-  on the same module), which at the character `g ↦ ψ(det g)⁻¹` is the coefficient twist
-  `V(ψ^{−1,S})` of ALS.3.12; and `Representation.invariants_ne_bot_of_forall_pow_eq_one` (over a
-  commutative ring of characteristic `p`, a nonzero representation of a finite group in which every
-  element acts with `p`-power order has a nonzero invariant vector), the key step of ALS.6.3.
-- Matrix groups: `TauCeti.upperTriangularGroup` and `TauCeti.upperUnitriangularGroup`, the
-  upper-triangular and upper-unitriangular subgroups of `GL_m(R)` for a finite linearly ordered
-  `m`, whose preimages under reduction modulo an ideal are the level subgroups `upperTriangularMod`
-  and `unipotentMod` of ALS.0.10; `Matrix.SpecialLinearGroup.dilation` (`diag(e^{s/2}, e^{−s/2})`,
-  acting on `ℍ` by `z ↦ e^s z`), the left action against which ALS.2.1 tests the geodesic action;
-  and `TauCeti.ModularGroup.card_stabilizer_I` (the stabilizer of `i` in `SL(2, ℤ)` has order `4`),
-  used in the checks of ALS.0.5 and ALS.0.8.
-- `TauCeti.Cocharacter.parabolic` and `TauCeti.Cocharacter.leviDecompositionMulEquiv` (dynamic
-  parabolic subgroups and their Levi decomposition).
-- `IsQuotientCoveringMap.isEilenbergMacLaneSpaceOne_realTopologicalVectorSpace`: the orbit space of
-  a free properly discontinuous action on a real topological vector space is a `K(G, 1)`; it gives
-  the `K(Γ_i, 1)` clause of ALS.0.9.
-
-### From other roadmaps
-
-- **AdelicAlgebraicGroups**: §1.3 (discreteness of the rational points in the adelic points), §1.4
-  (restriction of scalars), §2.1 (the split component `A_G`), §3.1 (algebraic Levi decompositions,
-  minimal and standard rational parabolics), §3.2 (horospherical decomposition for a fixed maximal
-  compact; simple roots and truncated tori; stated there for connected semisimple groups over `ℚ`,
-  while ALS.2.1 states the reductive form it needs for spaces of type `S−Q`, after [BS73, §§3.2–3.9]),
-  §3.7 (inverse-adjoint algebraic Cartan data and rational existence; ALS.0.1 owns the
-  compact-twist comparison, preserving the datum used by the Siegel coordinates), §3.4
-  (`Reduction.finite_classes`, `Reduction.levelArithmetic`, `Reduction.exists_compact_normOne_iff`
-  for `G(F)\G(𝔸_F)^1`, "Arithmetic quotients of anisotropic groups are compact" for
-  `Γ∖(G(F_∞)/A_G(ℝ)^0)`, the component decomposition of a level quotient, unipotent groups have
-  class number one), §3.6 (finitely many cusps; finitely many fixed-`K` Siegel sets cover, stated
-  there for connected semisimple groups over `ℚ`; finite overlaps of Siegel sets), §4.3
-  (`Neat.IsNeatAut`, `Neat.IsNeatLevel`, `Neat.IsFaithfulAlgebraicPointHom`, neat groups are torsion
-  free), §4.4 (`LevelMaps.LevelQuotient`, `LevelMaps.levelMap`, *rational-stabilizer-finite*, "Proper arithmetic action on the level space", both for
-  `K∞` closed, containing `A_G(ℝ)^0` and compact modulo it, free action and covering maps at neat
-  level, fibre masses, quotient groupoids at non-neat level), §4.5 (Hecke correspondences, degrees,
-  cartesian squares of level maps), §§5.1–5.3 (worked examples: `GL_1` level quotients, the
-  `GL_2/ℚ` component decomposition `AdelicExamples.GL2.exists_componentHomeomorph`, stated for
-  `K_∞ = ℝ^×SO(2)` and the model `GL_2(ℚ)^+∖(ℍ × GL_2(𝔸_f)/U)`, with its principal levels, "`GL₂`
-  components for `O(2)` and `SO(2)`" for the folded quotient with `K_∞ = ℝ^×O(2)`, definite quaternion
-  groups).
-- **RepresentationTheory/LieGroups**, Layer 2 (the closed-subgroup theorem) and Layer 9 (the
-  Cartan, Iwasawa, and KAK decompositions): for a
-  real reductive `G` with Cartan involution `θ` and maximal compact `K = G^θ`, `K × 𝔭 → G`,
-  `(k, X) ↦ k·lieExp X` is a diffeomorphism; Iwasawa and `KAK`. Its Cartan involutions and real
-  reductive structures are defined on an abstract Lie group; ALS.0.2 shows that the algebraic
-  Cartan involutions of ALS.0.1 give such structures on `G(F_∞)`. The right quotient `G/K` used
-  here is reached from the left form by `g ↦ g⁻¹`.
-- **RepresentationTheory/LieHighestWeight**: Layer 4 (finite-dimensional irreducibles are the
-  `L(λ)` with `λ` dominant integral), Layer 5 (Weyl's complete reducibility), Layer 7 (the centre of
-  `U(L)` and the Harish-Chandra isomorphism, giving infinitesimal characters), Layer 9 (reductive
-  Lie
-  algebras and `gl_n`).
-- **ClassFieldTheory**: Layer 7 (`artinMap`, its unramified normalization and
-  `geometricArtinMap`), Layer 10 (global carriers and `infiniteArtinAt`), Layer 11
-  (`globalArtinMap`, `globalArtinMap_local`, `globalArtinMap_principal`,
-  `globalArtinMap_isArithFrobAt`, compatibility in towers), all arithmetically normalized; this
-  roadmap uses their inverses, as fixed in *Conventions*.
-- **AlgebraicTopology**: Stage 2, item 6 (local coefficient systems, twisted and relative singular
-  chains); Stage 4 (CW pairs and cellular chains); Stage 5, item 3 (transfer along finite covers,
-  with the permutation local system of a nonregular cover); Stage 6, items 1–4 (cochains with local
-  coefficients, cup and cap products, the orientation local system, Poincaré–Lefschetz duality for
-  compact manifolds with boundary).
-- **DifferentialGeometry**: Layer 0 (differential forms and the wedge), Layer 2 (orientations),
-  Layer 6 (the de Rham complex and cohomology), Layer 8 (the de Rham theorem with real
-  coefficients).
-- **GeometricTopology**: Layer 11 (`IsTriangulable`). The smooth triangulation theorem is item 1
-  ("Smooth implies PL") of its section *The smoothing-and-triangulation comparison*, outside its
-  layers and without boundary; ALS.2.4 states the form with boundary as its own target.
-- **EnhancedDerivedSheaves**: §0.1 (`ClassicalDerived.enhancedCategory`, the derived category of
-  module sheaves over a commutative ring on an essentially small site, here the site of opens of
-  a topological space, with its `D⁺` and the identification of its homotopy category with
-  Mathlib's `DerivedCategory`), §0.2 (`ClassicalDerived.replacements`, K-injective replacements;
-  a bounded-below complex of injectives is K-injective), §0.4 (`ClassicalDerived.functorCoherence`,
-  the adjunction `f^* ⊣ Rf_*` for an exact inverse image, with composition and agreement with
-  Mathlib's bounded-below right derived functor).
-- **SchemeAndStackFoundations**: §2.1 (`Sheaf.derivedPushforward` with `derivedPushforward_comp`,
-  `Sheaf.H.pullback` and the identification `RΓ(D, Rf_*F) = RΓ(C, F)` for a morphism of sites with
-  exact inverse image, applied to the site morphism `Opens.map f` of a continuous map), §2.5
-  (`flasque_cech_vanishing`, `sheafH_iso_godement`: a flasque resolution of an abelian sheaf on
-  a topological space computes `Sheaf.H`), §2.23 (scheme-domain equivariant sheaf cohomology,
-  which ALS.F.4 parallels on topological spaces).
-- **IntegralHeckeAndGaloisDeterminants**: Layers 0–1 (determinants, and semisimple reconstruction
-  in §1.2), Layer 2 (§2.1 `HeckeImage.Supported`, `HeckeImage.derived_hom_finite`,
-  `HeckeImage.IsGhost`; §2.2 `HeckeImage.ghost_nilpotence`, finite local factors and idempotent summands), Layer 3a
-  (the spherical Hecke polynomial, with the coefficients `(−1)^i q^{i(i−1)/2} T_i`), Layer 3b (the
-  residual Galois-type and non-Eisenstein predicates).
-- **SmoothRepresentationsOfLocalGroups**: SR.0, SR.0d.2 (`derived-invariants`), SR.1.1, SR.1.2
-  (`permutation-hecke-algebra`: `H(G, U; A) = Fun_G(G/U × G/U, A)` over every commutative `A`,
-  with no measure; `hecke-ring-comparison`, whose convolution form assumes `μ(U) = 1`, that is `U`
-  of invertible pro-order in `A`,
-  for `HeckeAlgebraLevel`; there `V^U` is a right module, `[UgU]` acting as
-  `[Ug⁻¹U]` does on the left here), SR.1.4 (`iwahori-decomposition`, `positive-hecke-homomorphism`
-  item (3)), SR.2.2 (the modulus character through
-  `LocalIntegration.modularCharacter_eq_adjointModulus`, the unnormalised `SmoothRep.jacquetFunctor`
-  and unnormalised parabolic induction), SR.4.1 (`satake-transform`: the raw and
-  normalized Satake transforms `S*` and `S = δ_P^{1/2} S*`).
-- **ReductiveGroupsPartII**: RG2.3.3 (`parahoric-subgroup`: `IsParahoric`, `IsIwahori`), RG2.3.5
-  (`lattice-chain-stabilizer-schemes`), the examples of Layer RG2.3 (`classical-level-subgroups`:
-  `LevelSubgroups.iwahori`, `LevelSubgroups.proPIwahori`, `LevelSubgroups.iwahori_isParahoric`, the
-  check `iwahori_relIndex_two`), RG2.4.2 (`iwahori-factorization`: `iwahoriFactorization`), RG2.4.4
-  (`iwasawa-decomposition`, `iwasawa-parabolic-integral`, `iwasawa-integration-and-unimodularity`).
-- **ProfiniteCohomology**, Layer 10 (continuous cohomology in all degrees): `corestriction`,
-  `corestrictionLe`, `corestriction_comp_res` (`res ≫ corestriction = [G : U] • 𝟙`), `mackeyTerm`
-  and `corestriction_mackey`, for open subgroups of a profinite group acting on discrete modules;
-  applied here to finite discrete groups.
-
-### Shared suppliers
-
-Direct hard suppliers for the shared foundations and arithmetic interfaces include
-AdelicAlgebraicGroups, SmoothRepresentationsOfLocalGroups,
-ReductiveGroupsPartII and IntegralHeckeAndGaloisDeterminants at the
-sections listed above, and DerivedModuleAlgebra, EtaleCohomologyFoundations,
-ComplexComparisonPartII, EnhancedDerivedSheaves, SchemeAndStackFoundations and ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
-specification; `Suggested.lean` imports only the pinned Mathlib and Tau Ceti modules.
-The inputs in the following subsection are hypotheses of the targets that use them, rather than
-existence theorems assigned to a supplier. KleinianGroups is an outbound scope boundary: its
-hyperbolic-space specialization does not supply a prerequisite here.
-
-| Contract | Supplier and exact section / label | Convention or hypothesis gap and arithmetic consumer |
-| --- | --- | --- |
-| Generic perfect complexes and traces | Supplied by DerivedModuleAlgebra §1.E.0 / `DerivedDeRham.IsPerfect`, `isPerfect_triangle`, `isPerfect_retract`, `isPerfect_baseChange`; EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | DerivedModuleAlgebra owns the ordinary-module predicate for every unital ring and its elementary finite-model and closure API; `PerfectComplex.IsPerfect` is its alias. EtaleCohomologyFoundations owns the enhanced DG/module and commutative compact/dualizable comparisons and traces. ALS.F.2 consumes the perfect full subcategory of `DerivedCategory (ModuleCat A)` through the realization equivalence `PerfectComplexInput(A)` constructed in §F.10.3, with its shift, scalar-extension, tensor, dual and trace compatibilities. ALS.F.2 retains opposite-ring duals, noncommutative scalar-extension handedness, restriction of scalars and right-module Tor tests. |
-| Bounded constructible/ctf categories | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
-| Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The finite-coefficient local-system comparison and the topological compact-support theory have this owner. ALS.F.3 consumes its native local-system carrier and stalk/transport-preserving comparison (finite `Λ`; locally contractible paracompact spaces; finite compatible triangulations for compact-support cochains) and, over every commutative ring on locally compact Hausdorff spaces, its `j_!` with stalks and exactness, c-soft resolutions, `RΓ_c`, the identifications `RΓ_c(X, F) ≅ RΓ(X⁺, j_!F)` and `RΓ_c(U, F|_U) ≅ RΓ_c(X, j_!F)`, the open–closed localization triangle, and `Rf_!` for locally proper separated maps between locally compact Hausdorff spaces that are paracompact and locally contractible (the arithmetic spaces and their compactifications are). §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS.F.3 proves the arbitrary-stalk local-system comparison and its relative form; ALS retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
-| Derived module-sheaf categories over arbitrary rings | Supplied by EnhancedDerivedSheaves §0.1 / `ClassicalDerived.enhancedCategory`, §0.2 / `ClassicalDerived.replacements`, §0.4 / `ClassicalDerived.functorCoherence`; SchemeAndStackFoundations §2.1 / `Sheaf.derivedPushforward`, `Sheaf.H.pullback`, §2.5 / `flasque_cech_vanishing`, `sheafH_iso_godement` | Arbitrary commutative `R` on the site of opens of any topological space, which includes `X̄_K`, `X_K`, `∂X̄_K` and `X̄^G × G(A^∞)^δ`: `D⁺` of module sheaves, K-injective replacements, `f^* ⊣ Rf_*` with composition, the abelian `Rf_*`, the cohomology pullback, and flasque resolutions computing `Sheaf.H`. ALS.F.3 adds the comparison of `R`-linear derived sections with Mathlib's `Sheaf.H` (its `R`-linear injective objects are flasque), the proper finite-fibre stalk formula with `Rf_* = f_*`, the arbitrary-stalk local-system comparison and its relative form; ALS.F.4 adds the equivariant categories. |
-| Cellular freeness | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group `G(F) × K`, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
-| Neat-component group cohomology | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause | The contract requires cohomology with arbitrary `R[Γ]`-modules over every commutative `R` and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
-| Proper action (outbound) | This roadmap ALS.0.5 / proper-action and discrete-image/finite-kernel clause of LocallySymmetric.symmetricSpace.contractible | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` is the `PSL₂(ℂ)` special case after an equivariant identification of its `H³` model with `PSL₂(ℂ)/PSU(2)` and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
-
-The ordinary-module perfect core used by ALS.F.2 is supplied by DerivedModuleAlgebra §1.E.0.
-EtaleCohomologyFoundations §F.10.3 supplies the enhanced comparisons and coherent filtered trace
-maps on the full subcategory defined by that same predicate.
-
-The arithmetic consumers use ComplexComparisonPartII §C6.1's finite-coefficient carrier and
-comparison maps through ALS.F.3 and ALS.1.4.
-
-### Inputs taken as hypotheses
-
-- `FrankeInput` (ALS.5b.4): Franke's comparison and the Franke–Schwermer description of the
-  associate-class summands, for the group, level and coefficient at hand.
-- `GaloisInput` (ALS.5b.7): characteristic-zero Galois representations attached to the cuspidal
-  automorphic representations of the Levi factors, with unramified local–global compatibility.
-- Residual Galois type (IntegralHeckeAndGaloisDeterminants, Layer 3b) of the relevant Hecke complexes, in ALS.4.12,
-  ALS.4.13 and ALS.5b.8–5b.9, as in the sources. ALS.4.13 also assumes
-  `ResidualUnitaryGaloisInput`: rank-`2a` residual representations
-  for the cohomological eigensystems of every smaller `U(a,a)`, `0 < a < n`, at good levels with
-  all finite smooth coefficients, including dual orientation twists and finite residue-field
-  extensions. Its existence is an arithmetic input from [ACC+23, Theorem 2.3.8, pp. 939–940,
-  and proof of Theorem 2.4.2, pp. 942–945], not a consequence of determinant reconstruction.
-
-## How to read the build
-
-Layer ALS.F comes first: it builds foundations and adapters to the supplied generic interfaces. The
-arithmetic layers are grouped by subject: ALS.0 builds the symmetric space and the quotients, ALS.1
-the coefficient systems and the Betti complexes at every level, ALS.2 the Borel–Serre
-compactification and its boundary strata, ALS.3 the Hecke action on all of these, ALS.4 the boundary
-analysis and the Eisenstein theorems for the boundary, ALS.5a duality, ALS.5b the comparisons with
-forms and automorphic forms in characteristic zero, and ALS.6 descent along finite covers. The order
-in which the targets are built is not the order of the text. It is the following order, in which
-every target's *Needs* precede it:
-
-```text
-ALS.F.1–F.7; ALS.0.1–0.13; ALS.2.1–2.3; ALS.5a.1; ALS.2.4 (geometric clause);
-ALS.1.1–1.6; ALS.2.4 (cohomological clause); ALS.1.7–1.8; ALS.2.5–2.10;
-ALS.3.1–3.8; ALS.3.11–3.12; ALS.3.9–3.10; ALS.3.13–3.14;
-ALS.5a.2–5a.4; ALS.4.1–4.7; ALS.4.9; ALS.4.10; ALS.4.8;
-ALS.4.11–4.13; ALS.5a.5–5a.6; ALS.5b.1–5b.9; ALS.6.1–6.4.
-```
-
-Thus the Borel–Serre bordification, its compact quotients and the manifold-with-boundary bridge
-(ALS.2.1–2.3 and ALS.5a.1) come before the Betti complexes built on them; the finite triangulation
-of ALS.2.4 comes next, before the compact-support comparison ALS.1.4 and the finite-cell
-criterion ALS.1.6. Its cohomological consequences then precede coefficient change ALS.1.7.
-The character twist ALS.3.12 precedes its cup-product use in ALS.3.9. Verdier
-duality, the pairings and the Hecke adjoints (ALS.5a.2–5a.4), which use only geometry, Betti
-complexes and Hecke operators, come before the boundary statements ALS.4.8 and ALS.4.11–4.13 that
-use them; localization ALS.4.9 comes before boundary gluing ALS.4.8; and the last two duality
-targets use the boundary triangle ALS.4.1 and localization ALS.4.9. The two boundary spectral
-sequences of ALS.2.9 have different support conventions and are never interchanged. Each layer ends
-with its examples and its dependencies.
 
 ## Layer ALS.F: Foundations and arithmetic adapters
 
@@ -4901,6 +4535,371 @@ ALS.1.5 (rational coarse comparison).
 Layers ALS.1–ALS.4; AlgebraicTopology, Stage 5; Mathlib (`groupCohomology`,
 `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`, `UpperHalfPlane`); AdelicAlgebraicGroups
 §3.4.
+
+## Scope and ownership
+
+**Owned here.** The foundations of Layer ALS.F: the real points of a linear algebraic group as a
+Lie group with its maximal compact subgroups, the noncommutative group-ring applications and
+handedness extensions of the shared perfectness interface, arithmetic adapters for supplied derived sheaf functors, equivariant
+sheaves for topological groups, absolute and relative Lie
+algebra cochains with the invariant-forms comparison, automorphic forms, constant terms and cusp
+forms with the discreteness of the cuspidal spectrum, and algebraic weights, coefficient lattices
+and the cohomological representations at infinity. Cartan involutions of real reductive groups as an
+algebraic-group predicate, existence over arbitrary real groups, the comparison with
+AdelicAlgebraicGroups’ inverse-adjoint datum on rational groups and restrictions of scalars, and the
+comparison of the real points with the Lie-theoretic Cartan datum, the symmetric space `X^G` with
+the split centre removed, the adelic quotient `X_K` as a topological space with its translations,
+level maps, finite component decomposition, proper discontinuity, neat-level manifold structure and
+orientation local system; standard Iwahori, `Γ_0`, `Γ_1`, `Γ_p` and Taylor–Wiles levels. Arithmetic
+local systems with their monodromy convention; the equivariant compactified models and the Betti
+complexes at arbitrary level with their independence of the neat refinement; the arithmetic
+specializations and naturality of the supplied comparisons with singular cochains with local coefficients and with group cohomology; finite projective models;
+derived coefficient change; pullback, translation, trace, the Mackey formula. The Borel–Serre
+bordification, its compact quotients, finite triangulations, boundary strata, the cocompact
+unipotent lattices and the nilmanifold fibrations of the strata, the compactifications and finite
+models of the transported parabolic spaces, and the two boundary spectral sequences. The Hecke
+action on invariants and on derived invariants for Hecke pairs, the Hecke
+action on Betti complexes as endomorphisms and as a strict object, its correspondence description,
+composition, compatibility with supports, boundary, coefficients and cup products, the
+topological–discrete comparison, the derived Hecke algebra of an arithmetic complex, twisting by
+characters, degeneracy maps. The boundary triangle, restriction to parabolics and the unnormalized
+Satake map, the Hecke action on strata, the Nomizu–van Est comparison, Kostant's theorem over a
+splitting field, the Kostant–van Est computation of strata, the Leray–Hochschild–Serre
+sequence of a stratum, boundary gluing, Eisenstein and non-Eisenstein maximal ideals of arithmetic
+complexes, the eigenvalue criterion for boundary vanishing, the `GL_n` and `U(n,n)` boundary
+theorems. The manifold-with-boundary structure of `X̄_K`, Poincaré–Verdier duality with orientation
+coefficients, the pairings, the Hecke adjoints, the dual boundary triangle and duality at non-neat
+level. The de Rham comparison with flat bundles and relative Lie algebra cochains, Borel's
+moderate-growth comparison, the automorphic comparison map, cuspidal cohomology, and the
+characteristic-zero applications. Finite-level descent, the Hochschild–Serre sequence with Hecke
+action, descent of the lowest localized degree, and the modular and quaternionic examples.
+
+**Used from Tau Ceti roadmaps.** AdelicAlgebraicGroups supplies the adelic points, the split
+component `A_G` (§2.1), rational parabolics and real Siegel coordinates (§§3.1–3.2), the algebraic
+inverse-adjoint Cartan datum and its existence for connected reductive rational groups (§3.7),
+finiteness of class numbers, level arithmetic groups, component decompositions, compactness criteria and unipotent
+class number one (§3.4), finiteness of cusps and Siegel sets (§3.6), neat elements and levels
+(§4.3), level quotients, level maps, finiteness of rational stabilizers, the proper arithmetic
+action on level spaces, the covering property and fibre masses (§4.4) and Hecke
+correspondences with their degrees (§4.5), and its worked examples for `GL_1`, `GL_2` over `ℚ` and
+definite quaternion groups (§§5.1–5.3), which the checks above reuse; its level quotient
+`LevelMaps.LevelQuotient` is the carrier that `X_K` specializes, never reconstructed here.
+For rational groups, including `Res_{F/ℚ} G`, Cartan existence is supplied by AA.3.7; ALS.0.1
+compares its datum with the compact-twist predicate and ALS.0.2 adapts it to LieGroups. Adelic
+reduction theory uses its own datum without a dependency on arithmetic cohomology. Its Siegel
+coordinates and the symmetric space use the same involution and fixed compact subgroup.
+RepresentationTheory/LieGroups supplies the closed-subgroup theorem (Layer 2) and, in Layer 9 (the
+Cartan, Iwasawa, and KAK decompositions), the Cartan, Iwasawa and `KAK` decompositions of a real
+reductive group, with its notions of a Cartan involution and of a real reductive structure on an abstract Lie group.
+RepresentationTheory/LieHighestWeight supplies the classification of finite-dimensional irreducible
+modules of split semisimple and reductive Lie algebras in characteristic zero by dominant integral
+highest weights, complete reducibility, and the centre of the enveloping algebra with the
+Harish-Chandra isomorphism (Layers 4, 5, 7 and 9). ClassFieldTheory supplies the local and global
+Artin maps, arithmetically normalized, with local–global compatibility and reciprocity (Layers 7,
+10 and 11). AlgebraicTopology supplies local coefficient systems and
+twisted and relative singular chains (Stage 2, item 6), cellular chains of CW pairs (Stage 4),
+products, finite covers and transfer, including the permutation local system of a nonregular cover
+(Stage 5, item 3), and twisted singular cochains, cup and cap products, the orientation local system
+and Poincaré–Lefschetz duality for compact manifolds with boundary (Stage 6, items 1–4).
+Ordinary-module perfectness for every unital ring, its elementary finite-model API and closure
+laws are supplied by DerivedModuleAlgebra §1.E.0 / `DerivedDeRham.IsPerfect`, with
+`PerfectComplex.IsPerfect` as its shared alias. The DG/module comparison, commutative
+compact/dualizable characterization, traces and filtered trace additivity are supplied by
+EtaleCohomologyFoundations §F.10.3 /
+`PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`; bounded
+constructible/ctf categories are supplied by EtaleCohomologyFoundations §F.1 /
+`VanishingCycles.constructibleDerivedCategory` on the étale domain. The topological
+local-coefficient comparison for finite commutative coefficients, and, over every commutative
+coefficient ring on locally compact Hausdorff spaces, extension by zero, c-soft resolutions,
+derived compact supports, supported pushforward and the open–closed localization triangle, are
+supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; compact-support
+Artin comparison is supplied by its §C6.4 / `artinComparisonCompactSupport` on separated
+finite-type complex schemes. The `R`-linear derived categories of module sheaves on a
+topological space, their K-injective replacements and the adjunction `f^* ⊣ Rf_*` are supplied
+by EnhancedDerivedSheaves §§0.1–0.2 and 0.4; the abelian derived pushforward, cohomology
+pullback and flasque computation of `Sheaf.H` by SchemeAndStackFoundations §§2.1 and 2.5. ALS.F.2 supplies opposite-ring duality,
+noncommutative scalar-extension handedness, restriction of scalars and right-module Tor tests
+on the shared predicate; ALS.F.3 adapts the supplied topological functors and owns the
+comparison of `R`-linear derived sections with Mathlib's abelian sheaf cohomology, the stalk
+formula and exactness of pushforward along proper finite-fibre maps, and the sheaf/singular
+comparison for local systems with arbitrary stalk modules and its relative form.
+DifferentialGeometry supplies differential forms (Layer 0), orientations (Layer 2), de Rham
+cohomology (Layer 6) and the de Rham theorem with real constant coefficients (Layer 8); this roadmap
+constructs the flat-bundle version and its compatibilities with arithmetic correspondences.
+GeometricTopology supplies triangulations (Layer 11, `IsTriangulable`). Whitehead's smooth
+triangulation theorem appears there only as item 1 ("Smooth implies PL") of the section *The
+smoothing-and-triangulation comparison*, which is not a layer and does not treat manifolds with
+boundary, so the boundary-compatible smooth triangulation of compact manifolds with boundary used
+by ALS.2.4 and ALS.2.10 is a target of ALS.2.4. IntegralHeckeAndGaloisDeterminants supplies
+derived Hecke
+images, ghosts, finite local factors and idempotent splitting of a perfect complex with a
+commutative action (Layer 2), the spherical Hecke polynomials (Layer 3a)
+and the residual Galois-type and non-Eisenstein predicates (Layer 3b);
+this roadmap applies them to arithmetic complexes. SmoothRepresentationsOfLocalGroups supplies
+smooth representations (SR.0), derived invariants on the smooth derived category (SR.0d.2),
+ring-valued Haar measures and convolution Hecke algebras (SR.1.1), the Hecke algebra of a level in
+its permutation form over every coefficient ring, acting on invariants, with traces and its
+comparison with Mathlib's `HeckeRing` (SR.1.2), Iwahori
+decompositions and the positive Hecke monoid homomorphism (SR.1.4), the modulus character, Jacquet
+functors and parabolic induction (SR.2.2) and the integral and normalized Satake transforms
+(SR.4.1). ReductiveGroupsPartII supplies parahoric and Iwahori subgroups (RG2.3.3,
+`parahoric-subgroup`), lattice-chain stabilizer group schemes (RG2.3.5), the Iwahori and pro-`p`
+Iwahori subgroups of `GL_n` (`LevelSubgroups.iwahori`, `LevelSubgroups.proPIwahori`, in the examples
+of Layer RG2.3, `classical-level-subgroups`), the Iwahori factorization (RG2.4.2,
+`iwahori-factorization`) and the local Iwasawa decomposition with its integration formula (RG2.4.4,
+`iwasawa-decomposition`, `iwasawa-integration-and-unimodularity`). ProfiniteCohomology supplies
+restriction, corestriction and the Mackey double-coset formula in all degrees for open subgroups of
+a profinite group (Layer 10), which this roadmap applies to finite discrete groups.
+
+**Discrete equivariant cohomology.** ALS.F.4 supplies the category of equivariant module sheaves
+on the topological spaces used here, enough injectives, invariant sections and their derived
+functor (written `H^n(X, Γ; F)` above), including closed supports and localization. Its discrete
+specialization applies without compactness. SchemeAndStackFoundations §2.23 supplies the
+scheme-domain equivariant theory; no scheme structure on these arithmetic spaces is assumed.
+This roadmap applies the equivariant derived functor to the open–closed short exact sequence
+of equivariant sheaves to obtain its localization triangles. ALS.F.2 consumes the shared
+general-ring perfectness predicate and supplies handedness, restriction of scalars and the
+pseudo-coherence criterion with right-module Tor tests. ALS.F.3 adapts supplied topological functors; ALS.F.4
+owns equivariant sheaves for topological (in particular locally profinite) groups.
+
+**Not in this roadmap.** The arithmetic nilmanifolds of boundary strata are built here (ALS.2.6–2.8)
+from the unipotent class-number and compactness theorems; filtered nilmanifolds and their
+equidistribution are a separate subject. Franke's theorem that automorphic forms compute the
+cohomology of `X_K`, and the Franke–Schwermer description of its summands, rest on Langlands' theory
+of Eisenstein series and are not proved here; they enter, through the hypothesis `FrankeInput` of
+ALS.5b.4, only the characteristic-zero applications that need them. The existence of
+characteristic-zero Galois representations attached to cuspidal
+automorphic representations of `GL_m` and `U(m,m)` over CM fields, and of residual representations
+attached to torsion classes, uses Shimura varieties and the completed cohomology built on this
+roadmap; such representations enter only as explicit hypotheses (`GaloisInput` in ALS.5b.7, the
+general linear Galois-type conditions in ALS.4.12–4.13 and ALS.5b.8–5b.9, and
+`ResidualUnitaryGaloisInput` for the smaller unitary factors in ALS.4.13). The latter is a
+residual-cohomology contract, separate from the characteristic-zero cuspidal `GaloisInput`;
+IntegralHeckeAndGaloisDeterminants supplies its predicate, not the arithmetic existence theorem.
+Level systems, completed cohomology,
+derived limits over levels and continuous profinite cohomology are not treated; the coefficient
+limit in ALS.3.10 is at one fixed good level. ALS.6 exports
+finite-level descent and refinement maps only. Shimura varieties, their
+canonical models and their compactifications are not treated.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Quotients and actions: quotient groups `G ⧸ H` (`QuotientGroup`), `MulAction.stabilizer`,
+  `ProperlyDiscontinuousSMul`, `IsCoveringMap`, `CategoryTheory.ActionCategory`.
+  `ProperlyDiscontinuousSMul` quantifies over compact sets: for compact `K`, `{γ : γK ∩ K ≠ ∅}` is
+  finite. `MulEquiv.inv' G : G ≃* Gᵐᵒᵖ`, `g ↦ op g⁻¹`; its inverse `Gᵐᵒᵖ → G`, `x ↦ (unop x)⁻¹`, is
+  the inversion of the monodromy convention (ALS.1.1, `endpointMonodromy`).
+- Topology and geometry: `ContractibleSpace`, `ModelWithCorners`, `UpperHalfPlane` with
+  `UpperHalfPlane.glAction` (the action of all of `GL(2,ℝ)`, antiholomorphic for negative
+  determinant through `UpperHalfPlane.σ`), the fixed-point criteria
+  `UpperHalfPlane.gl_smul_I_eq_I_iff_of_pos` (for `det g > 0`, `g • I = I ↔ g₀₀ = g₁₁ ∧ g₀₁ = −g₁₀`)
+  and `UpperHalfPlane.gl_smul_I_eq_I_iff_of_neg` (for `det g < 0`,
+  `g • I = I ↔ g₀₀ = −g₁₁ ∧ g₀₁ = g₁₀`), from which ALS.0.4's
+  stabilizer_I_eq_orthogonalTimesScalars follows, the instance
+  `ContractibleSpace ℍ`, and `UpperHalfPlane.instProperlyDiscontinuousSL2RSubgroup` (discrete
+  subgroups of `SL(2,ℝ)` act properly discontinuously on `ℍ`).
+- Matrix groups: `Matrix.GeneralLinearGroup` with `Matrix.GeneralLinearGroup.map` (reduction along
+  a ring map, used for reduction modulo an ideal in ALS.0.10), `Matrix.SpecialLinearGroup`,
+  `Matrix.orthogonalGroup`, `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`.
+- Lie algebras: `LieAlgebra`, `LieModule`, and the low-degree cochains of `LieModule.Cohomology`
+  (`oneCochain`, `twoCochain`, `d₁₂`), which the Chevalley–Eilenberg complex of ALS.F.5 extends to
+  all degrees.
+- Homological algebra: `Rep`, `Representation.invariants`, `groupCohomology`, `CochainComplex`,
+  `DerivedCategory`, `CategoryTheory.IsIdempotentComplete`, `Module.Projective`, `Module.Flat`,
+  `CategoryTheory.Sheaf.H`, `AlgebraicTopology.singularChainComplexFunctor`.
+- Hecke rings: `IsHeckeTriple`, `HeckeCoset`, `HeckeCosetModule`, `HeckeRing` (notation `𝕋`),
+  `DoubleCoset.doubleCoset`, `Subgroup.relIndex`.
+
+### From Tau Ceti
+
+- `TauCeti.LocalCoefficientSystem` (a functor from the fundamental groupoid to `ModuleCat`), with
+  `pullback`, `constantFunctor` and `monodromyRepresentation`; the last goes from a given local
+  system to a representation and does not construct arithmetic descent.
+- `TauCeti.CoveringSpace.monodromyEquivalence`, classifying Type-valued covers of a path-connected,
+  locally path-connected, semilocally simply connected space; it does not identify sheaf descent
+  with linear local coefficients.
+- `TopPair.singularChainComplexFunctor` (relative singular chains), and the twisted singular cochain
+  complex `TauCeti.LocalCoefficientSystem.twistedCochainComplex` with the relative connecting map
+  `TopPair.twistedCohomologyδ`. The cochain complex applies `Hom(−, M)` to chains twisted by a system
+  `L`, so a cochain is a family of maps `L(σ(0)) → M`; it is contravariant in `L`. Cochains with
+  values in the arithmetic system `V` are obtained with `L = V^∨` and `M = R`, since
+  `Hom_R(V^∨, R) = V` for `V` finite projective; ALS.1.4 compares sheaf cohomology with these
+  cochains, with that
+  variance.
+- Hecke rings: `HeckeCosetModule.instRingHeckeRing` (the convolution ring on `𝕋 Δ H R` for
+  `IsHeckeTriple Δ H H`), `HeckeCosetModule.single` (the basis elements `r·[D]`),
+  `HeckeCoset.degree_eq_relIndex` (`D.degree = (ConjAct.toConjAct D.rep • H₂).relIndex H₁`), and
+  `HeckeCoset.heckeSum` with `HeckeCoset.heckeSum_eq_sum_of_rightCosets` and
+  `HeckeCoset.heckeSum_comp_of_mem`: for `Γ₁δΓ₂ = ⊔ Γ₁a_v` and a `Γ₁`-invariant linear map `q`, the
+  sum `Σ_v q ∘ ρ(a_v)` is independent of the representatives and `Γ₂`-invariant (Shimura §3.4). It
+  is the coinvariant form of the operator of ALS.3.1, which an implementation of ALS.3.1 transposes
+  rather than reproves. `TauCeti.card_fiber_orbitOfCosetTranslate_mul_cardStabilizerOnOrbit` gives
+  the fibre counts with stabilizers used in ALS.3.6.
+- `HeckeCosetModule.single_mul_single_of_mem_normalizer` proves the basis multiplication used
+  in heckeRing_normal; ALS.3.2 assembles the quotient basis into a ring equivalence.
+  `LeftCosetModule.deg` and `LeftCosetModule.degree_smul_eq_deg` give the degree homomorphism
+  and its action on coefficient sums; hecke_degree_eq_index is the trivial-module form with
+  explicit representatives, using `HeckeCoset.degree_eq_relIndex`.
+  `HeckeRing.GL2.heckeT_prime_mul_heckeTDiag_one_prime_pow` at `k = 1` proves the same square
+  relation as heckeBasis_GL2_square in `IntegralHeckeRing 2`, for the integral pair
+  `(SL₂(ℤ), GL₂(ℚ)⁺ ∩ M₂(ℤ))`; ALS.3.8 uses the local pair `(GL₂(ℚ_p), GL₂(ℤ_p))`.
+  `HeckeRing.GL2.heckeT_prime_pow_recurrence` uses the sum of all determinant-`p^k` double cosets,
+  explaining the coefficient `p` in that convention.
+- Group cohomology: `TauCeti.groupCohomology.corestriction` (`Hⁿ(S, Res_S A) ⟶ Hⁿ(G, A)` for a
+  finite-index subgroup `S`), with `TauCeti.groupCohomology.map_subtype_id_comp_corestriction`
+  (restriction followed by corestriction is multiplication by `[G : S]`) and
+  `TauCeti.groupCohomology.corestriction_trans`; this is the trace at non-neat level (ALS.3.6).
+- Representations: `Representation.charTwist` (for `χ : G →* kˣ`, the representation `g ↦ χ(g)·ρ(g)`
+  on the same module), which at the character `g ↦ ψ(det g)⁻¹` is the coefficient twist
+  `V(ψ^{−1,S})` of ALS.3.12; and `Representation.invariants_ne_bot_of_forall_pow_eq_one` (over a
+  commutative ring of characteristic `p`, a nonzero representation of a finite group in which every
+  element acts with `p`-power order has a nonzero invariant vector), the key step of ALS.6.3.
+- Matrix groups: `TauCeti.upperTriangularGroup` and `TauCeti.upperUnitriangularGroup`, the
+  upper-triangular and upper-unitriangular subgroups of `GL_m(R)` for a finite linearly ordered
+  `m`, whose preimages under reduction modulo an ideal are the level subgroups `upperTriangularMod`
+  and `unipotentMod` of ALS.0.10; `Matrix.SpecialLinearGroup.dilation` (`diag(e^{s/2}, e^{−s/2})`,
+  acting on `ℍ` by `z ↦ e^s z`), the left action against which ALS.2.1 tests the geodesic action;
+  and `TauCeti.ModularGroup.card_stabilizer_I` (the stabilizer of `i` in `SL(2, ℤ)` has order `4`),
+  used in the checks of ALS.0.5 and ALS.0.8.
+- `TauCeti.Cocharacter.parabolic` and `TauCeti.Cocharacter.leviDecompositionMulEquiv` (dynamic
+  parabolic subgroups and their Levi decomposition).
+- `IsQuotientCoveringMap.isEilenbergMacLaneSpaceOne_realTopologicalVectorSpace`: the orbit space of
+  a free properly discontinuous action on a real topological vector space is a `K(G, 1)`; it gives
+  the `K(Γ_i, 1)` clause of ALS.0.9.
+
+### From other roadmaps
+
+- **AdelicAlgebraicGroups**: §1.3 (discreteness of the rational points in the adelic points), §1.4
+  (restriction of scalars), §2.1 (the split component `A_G`), §3.1 (algebraic Levi decompositions,
+  minimal and standard rational parabolics), §3.2 (horospherical decomposition for a fixed maximal
+  compact; simple roots and truncated tori; stated there for connected semisimple groups over `ℚ`,
+  while ALS.2.1 states the reductive form it needs for spaces of type `S−Q`, after [BS73, §§3.2–3.9]),
+  §3.7 (inverse-adjoint algebraic Cartan data and rational existence; ALS.0.1 owns the
+  compact-twist comparison, preserving the datum used by the Siegel coordinates), §3.4
+  (`Reduction.finite_classes`, `Reduction.levelArithmetic`, `Reduction.exists_compact_normOne_iff`
+  for `G(F)\G(𝔸_F)^1`, "Arithmetic quotients of anisotropic groups are compact" for
+  `Γ∖(G(F_∞)/A_G(ℝ)^0)`, the component decomposition of a level quotient, unipotent groups have
+  class number one), §3.6 (finitely many cusps; finitely many fixed-`K` Siegel sets cover, stated
+  there for connected semisimple groups over `ℚ`; finite overlaps of Siegel sets), §4.3
+  (`Neat.IsNeatAut`, `Neat.IsNeatLevel`, `Neat.IsFaithfulAlgebraicPointHom`, neat groups are torsion
+  free), §4.4 (`LevelMaps.LevelQuotient`, `LevelMaps.levelMap`, *rational-stabilizer-finite*, "Proper arithmetic action on the level space", both for
+  `K∞` closed, containing `A_G(ℝ)^0` and compact modulo it, free action and covering maps at neat
+  level, fibre masses, quotient groupoids at non-neat level), §4.5 (Hecke correspondences, degrees,
+  cartesian squares of level maps), §§5.1–5.3 (worked examples: `GL_1` level quotients, the
+  `GL_2/ℚ` component decomposition `AdelicExamples.GL2.exists_componentHomeomorph`, stated for
+  `K_∞ = ℝ^×SO(2)` and the model `GL_2(ℚ)^+∖(ℍ × GL_2(𝔸_f)/U)`, with its principal levels, "`GL₂`
+  components for `O(2)` and `SO(2)`" for the folded quotient with `K_∞ = ℝ^×O(2)`, definite quaternion
+  groups).
+- **RepresentationTheory/LieGroups**, Layer 2 (the closed-subgroup theorem) and Layer 9 (the
+  Cartan, Iwasawa, and KAK decompositions): for a
+  real reductive `G` with Cartan involution `θ` and maximal compact `K = G^θ`, `K × 𝔭 → G`,
+  `(k, X) ↦ k·lieExp X` is a diffeomorphism; Iwasawa and `KAK`. Its Cartan involutions and real
+  reductive structures are defined on an abstract Lie group; ALS.0.2 shows that the algebraic
+  Cartan involutions of ALS.0.1 give such structures on `G(F_∞)`. The right quotient `G/K` used
+  here is reached from the left form by `g ↦ g⁻¹`.
+- **RepresentationTheory/LieHighestWeight**: Layer 4 (finite-dimensional irreducibles are the
+  `L(λ)` with `λ` dominant integral), Layer 5 (Weyl's complete reducibility), Layer 7 (the centre of
+  `U(L)` and the Harish-Chandra isomorphism, giving infinitesimal characters), Layer 9 (reductive
+  Lie
+  algebras and `gl_n`).
+- **ClassFieldTheory**: Layer 7 (`artinMap`, its unramified normalization and
+  `geometricArtinMap`), Layer 10 (global carriers and `infiniteArtinAt`), Layer 11
+  (`globalArtinMap`, `globalArtinMap_local`, `globalArtinMap_principal`,
+  `globalArtinMap_isArithFrobAt`, compatibility in towers), all arithmetically normalized; this
+  roadmap uses their inverses, as fixed in *Conventions*.
+- **AlgebraicTopology**: Stage 2, item 6 (local coefficient systems, twisted and relative singular
+  chains); Stage 4 (CW pairs and cellular chains); Stage 5, item 3 (transfer along finite covers,
+  with the permutation local system of a nonregular cover); Stage 6, items 1–4 (cochains with local
+  coefficients, cup and cap products, the orientation local system, Poincaré–Lefschetz duality for
+  compact manifolds with boundary).
+- **DifferentialGeometry**: Layer 0 (differential forms and the wedge), Layer 2 (orientations),
+  Layer 6 (the de Rham complex and cohomology), Layer 8 (the de Rham theorem with real
+  coefficients).
+- **GeometricTopology**: Layer 11 (`IsTriangulable`). The smooth triangulation theorem is item 1
+  ("Smooth implies PL") of its section *The smoothing-and-triangulation comparison*, outside its
+  layers and without boundary; ALS.2.4 states the form with boundary as its own target.
+- **EnhancedDerivedSheaves**: §0.1 (`ClassicalDerived.enhancedCategory`, the derived category of
+  module sheaves over a commutative ring on an essentially small site, here the site of opens of
+  a topological space, with its `D⁺` and the identification of its homotopy category with
+  Mathlib's `DerivedCategory`), §0.2 (`ClassicalDerived.replacements`, K-injective replacements;
+  a bounded-below complex of injectives is K-injective), §0.4 (`ClassicalDerived.functorCoherence`,
+  the adjunction `f^* ⊣ Rf_*` for an exact inverse image, with composition and agreement with
+  Mathlib's bounded-below right derived functor).
+- **SchemeAndStackFoundations**: §2.1 (`Sheaf.derivedPushforward` with `derivedPushforward_comp`,
+  `Sheaf.H.pullback` and the identification `RΓ(D, Rf_*F) = RΓ(C, F)` for a morphism of sites with
+  exact inverse image, applied to the site morphism `Opens.map f` of a continuous map), §2.5
+  (`flasque_cech_vanishing`, `sheafH_iso_godement`: a flasque resolution of an abelian sheaf on
+  a topological space computes `Sheaf.H`), §2.23 (scheme-domain equivariant sheaf cohomology,
+  which ALS.F.4 parallels on topological spaces).
+- **IntegralHeckeAndGaloisDeterminants**: Layers 0–1 (determinants, and semisimple reconstruction
+  in §1.2), Layer 2 (§2.1 `HeckeImage.Supported`, `HeckeImage.derived_hom_finite`,
+  `HeckeImage.IsGhost`; §2.2 `HeckeImage.ghost_nilpotence`, finite local factors and idempotent summands), Layer 3a
+  (the spherical Hecke polynomial, with the coefficients `(−1)^i q^{i(i−1)/2} T_i`), Layer 3b (the
+  residual Galois-type and non-Eisenstein predicates).
+- **SmoothRepresentationsOfLocalGroups**: SR.0, SR.0d.2 (`derived-invariants`), SR.1.1, SR.1.2
+  (`permutation-hecke-algebra`: `H(G, U; A) = Fun_G(G/U × G/U, A)` over every commutative `A`,
+  with no measure; `hecke-ring-comparison`, whose convolution form assumes `μ(U) = 1`, that is `U`
+  of invertible pro-order in `A`,
+  for `HeckeAlgebraLevel`; there `V^U` is a right module, `[UgU]` acting as
+  `[Ug⁻¹U]` does on the left here), SR.1.4 (`iwahori-decomposition`, `positive-hecke-homomorphism`
+  item (3)), SR.2.2 (the modulus character through
+  `LocalIntegration.modularCharacter_eq_adjointModulus`, the unnormalised `SmoothRep.jacquetFunctor`
+  and unnormalised parabolic induction), SR.4.1 (`satake-transform`: the raw and
+  normalized Satake transforms `S*` and `S = δ_P^{1/2} S*`).
+- **ReductiveGroupsPartII**: RG2.3.3 (`parahoric-subgroup`: `IsParahoric`, `IsIwahori`), RG2.3.5
+  (`lattice-chain-stabilizer-schemes`), the examples of Layer RG2.3 (`classical-level-subgroups`:
+  `LevelSubgroups.iwahori`, `LevelSubgroups.proPIwahori`, `LevelSubgroups.iwahori_isParahoric`, the
+  check `iwahori_relIndex_two`), RG2.4.2 (`iwahori-factorization`: `iwahoriFactorization`), RG2.4.4
+  (`iwasawa-decomposition`, `iwasawa-parabolic-integral`, `iwasawa-integration-and-unimodularity`).
+- **ProfiniteCohomology**, Layer 10 (continuous cohomology in all degrees): `corestriction`,
+  `corestrictionLe`, `corestriction_comp_res` (`res ≫ corestriction = [G : U] • 𝟙`), `mackeyTerm`
+  and `corestriction_mackey`, for open subgroups of a profinite group acting on discrete modules;
+  applied here to finite discrete groups.
+
+### Shared suppliers
+
+Direct hard suppliers for the shared foundations and arithmetic interfaces include
+AdelicAlgebraicGroups, SmoothRepresentationsOfLocalGroups,
+ReductiveGroupsPartII and IntegralHeckeAndGaloisDeterminants at the
+sections listed above, and DerivedModuleAlgebra, EtaleCohomologyFoundations,
+ComplexComparisonPartII, EnhancedDerivedSheaves, SchemeAndStackFoundations and ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
+specification; `Suggested.lean` imports only the pinned Mathlib and Tau Ceti modules.
+The inputs in the following subsection are hypotheses of the targets that use them, rather than
+existence theorems assigned to a supplier. KleinianGroups is an outbound scope boundary: its
+hyperbolic-space specialization does not supply a prerequisite here.
+
+| Contract | Supplier and exact section / label | Convention or hypothesis gap and arithmetic consumer |
+| --- | --- | --- |
+| Generic perfect complexes and traces | Supplied by DerivedModuleAlgebra §1.E.0 / `DerivedDeRham.IsPerfect`, `isPerfect_triangle`, `isPerfect_retract`, `isPerfect_baseChange`; EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | DerivedModuleAlgebra owns the ordinary-module predicate for every unital ring and its elementary finite-model and closure API; `PerfectComplex.IsPerfect` is its alias. EtaleCohomologyFoundations owns the enhanced DG/module and commutative compact/dualizable comparisons and traces. ALS.F.2 consumes the perfect full subcategory of `DerivedCategory (ModuleCat A)` through the realization equivalence `PerfectComplexInput(A)` constructed in §F.10.3, with its shift, scalar-extension, tensor, dual and trace compatibilities. ALS.F.2 retains opposite-ring duals, noncommutative scalar-extension handedness, restriction of scalars and right-module Tor tests. |
+| Bounded constructible/ctf categories | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
+| Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The finite-coefficient local-system comparison and the topological compact-support theory have this owner. ALS.F.3 consumes its native local-system carrier and stalk/transport-preserving comparison (finite `Λ`; locally contractible paracompact spaces; finite compatible triangulations for compact-support cochains) and, over every commutative ring on locally compact Hausdorff spaces, its `j_!` with stalks and exactness, c-soft resolutions, `RΓ_c`, the identifications `RΓ_c(X, F) ≅ RΓ(X⁺, j_!F)` and `RΓ_c(U, F|_U) ≅ RΓ_c(X, j_!F)`, the open–closed localization triangle, and `Rf_!` for locally proper separated maps between locally compact Hausdorff spaces that are paracompact and locally contractible (the arithmetic spaces and their compactifications are). §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS.F.3 proves the arbitrary-stalk local-system comparison and its relative form; ALS retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
+| Derived module-sheaf categories over arbitrary rings | Supplied by EnhancedDerivedSheaves §0.1 / `ClassicalDerived.enhancedCategory`, §0.2 / `ClassicalDerived.replacements`, §0.4 / `ClassicalDerived.functorCoherence`; SchemeAndStackFoundations §2.1 / `Sheaf.derivedPushforward`, `Sheaf.H.pullback`, §2.5 / `flasque_cech_vanishing`, `sheafH_iso_godement` | Arbitrary commutative `R` on the site of opens of any topological space, which includes `X̄_K`, `X_K`, `∂X̄_K` and `X̄^G × G(A^∞)^δ`: `D⁺` of module sheaves, K-injective replacements, `f^* ⊣ Rf_*` with composition, the abelian `Rf_*`, the cohomology pullback, and flasque resolutions computing `Sheaf.H`. ALS.F.3 adds the comparison of `R`-linear derived sections with Mathlib's `Sheaf.H` (its `R`-linear injective objects are flasque), the proper finite-fibre stalk formula with `Rf_* = f_*`, the arbitrary-stalk local-system comparison and its relative form; ALS.F.4 adds the equivariant categories. |
+| Cellular freeness | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group `G(F) × K`, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
+| Neat-component group cohomology | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause | The contract requires cohomology with arbitrary `R[Γ]`-modules over every commutative `R` and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
+| Proper action (outbound) | This roadmap ALS.0.5 / proper-action and discrete-image/finite-kernel clause of LocallySymmetric.symmetricSpace.contractible | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` is the `PSL₂(ℂ)` special case after an equivariant identification of its `H³` model with `PSL₂(ℂ)/PSU(2)` and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
+
+The ordinary-module perfect core used by ALS.F.2 is supplied by DerivedModuleAlgebra §1.E.0.
+EtaleCohomologyFoundations §F.10.3 supplies the enhanced comparisons and coherent filtered trace
+maps on the full subcategory defined by that same predicate.
+
+The arithmetic consumers use ComplexComparisonPartII §C6.1's finite-coefficient carrier and
+comparison maps through ALS.F.3 and ALS.1.4.
+
+### Inputs taken as hypotheses
+
+- `FrankeInput` (ALS.5b.4): Franke's comparison and the Franke–Schwermer description of the
+  associate-class summands, for the group, level and coefficient at hand.
+- `GaloisInput` (ALS.5b.7): characteristic-zero Galois representations attached to the cuspidal
+  automorphic representations of the Levi factors, with unramified local–global compatibility.
+- Residual Galois type (IntegralHeckeAndGaloisDeterminants, Layer 3b) of the relevant Hecke complexes, in ALS.4.12,
+  ALS.4.13 and ALS.5b.8–5b.9, as in the sources. ALS.4.13 also assumes
+  `ResidualUnitaryGaloisInput`: rank-`2a` residual representations
+  for the cohomological eigensystems of every smaller `U(a,a)`, `0 < a < n`, at good levels with
+  all finite smooth coefficients, including dual orientation twists and finite residue-field
+  extensions. Its existence is an arithmetic input from [ACC+23, Theorem 2.3.8, pp. 939–940,
+  and proof of Theorem 2.4.2, pp. 942–945], not a consequence of determinant reconstruction.
 
 ## References
 

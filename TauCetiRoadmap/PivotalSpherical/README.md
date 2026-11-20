@@ -1,56 +1,69 @@
 # Roadmap: pivotal and spherical categories
 
-**Summary.** This roadmap owns the theory of pivotal and spherical categories and the fusion-category
-infrastructure under it. That covers the double dual and its trivializations, the left and right
-traces and dimensions, finite semisimple categories, the Grothendieck based ring, Frobenius–Perron
-dimensions, global dimension and pseudo-unitarity, the standard example `FDRep k G`, the pointed
-categories `Vec^ω_G`, gradings and the universal grading group, balanced and ribbon categories, and
-the Drinfeld centre of a fusion category. Most of it is implemented in Tau Ceti and is listed under
-[Exact supplier contracts](#exact-supplier-contracts). The targets that remain are:
+**Summary.** In a rigid monoidal category every object has a dual, and a pivotal structure is a
+monoidal natural isomorphism from each object to its double dual. It gives every endomorphism a
+left and a right trace, endomorphisms of the unit object; the traces of the identity are the left
+and right dimensions. The structure is spherical when the two traces of every endomorphism agree. A
+fusion category is a rigid monoidal category, abelian and linear over an algebraically closed field,
+in which every object is a finite direct sum of simple objects. Its Hom spaces are
+finite-dimensional, it has finitely many simple objects, and its unit is simple.
 
-- traces and dual bases for objects whose endomorphisms are the scalars of a commutative ring
-  (Layers 2 and 3);
-- strict dominance of the Perron root for primitive matrices (Layer 5);
-- squared norms, global dimension and pseudo-unitarity without a chosen pivotal structure, the
-  Radford isomorphism `𝟭 ≅ (-)ᘁᘁᘁᘁ`, the pivotalization, and nonvanishing of the global dimension
-  of every fusion category in characteristic zero (Layer 6);
-- the comparison of Frobenius–Schur indicators on `FDRep` (Layer 7);
-- `Vec^ω_G` over a commutative ring, with its pivotal structures and indicators (Layers 8 and 9);
-- the spherical-to-ribbon converse (Layer 10);
-- the induction functor of the centre, its semisimplicity and dimension, and the ribbon centre
-  (Layer 11).
+This roadmap develops pivotal and spherical categories and the fusion-category theory beneath them.
+Definitions are for arbitrary rigid monoidal categories. Results that need only certain objects to
+have scalar endomorphisms, an endomorphism ring equal to the scalars, are proved over a commutative
+ring.
 
-Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/`, `TauCeti/CategoryTheory/Semisimple/`,
-`TauCeti/CategoryTheory/Monoidal/Center/`, as for the implemented material.
+The first main theorem frees the global dimension from the pivotal structure. For an isomorphism a
+from X to its double dual, the squared norm of X is the trace of a times the trace of the dual of
+its inverse; when X has scalar endomorphisms it does not depend on a. The global dimension of a
+fusion category is the sum of the squared norms of its simple objects, and it agrees with the one
+computed from any pivotal structure. In characteristic zero it is nonzero, with no pivotal
+structure assumed (Etingof–Nikshych–Ostrik). The proof uses the Radford theorem, that in a fusion
+category the fourth dual functor is monoidally isomorphic to the identity, and the pivotalization
+built from it.
 
-## Scope and ownership
+The second theorem: over ℂ, a fusion category is pseudo-unitary when its global dimension equals
+its Frobenius–Perron dimension, extracted by Perron–Frobenius theory from the multiplicities of
+tensor products. Such a category has a unique pivotal structure in which every object's left
+dimension is its Frobenius–Perron dimension, and that structure is spherical. The Yang–Lee category
+is not pseudo-unitary: its global dimension is `1 + φ⁻²`, its Frobenius–Perron dimension `1 + φ²`.
 
-- **Generality.** The definitions (double dual, pivotal structure, traces, dimensions, spherical,
-  balanced, ribbon) are for a general rigid monoidal category, with no finiteness or
-  semisimplicity. Results that need only the endomorphisms of particular objects to be scalars
-  (traces on such objects, dual bases, `Vec^ω_G` and its pivotal structures) are over a
-  **commutative ring** `R`, with the hypothesis `Function.Bijective (algebraMap R (End X))` on each
-  such object (Mathlib's `Algebra R (End X)` for `[Linear R C]`). Over an algebraically closed field
-  a simple object with finite-dimensional endomorphisms satisfies it by Schur's lemma, so the field
-  statements are corollaries. Fusion-level results (based ring, Frobenius–Perron, global
-  dimension, universal grading, the centre) are over a field, with the hypotheses carried as
-  instance arguments on each statement. There is no bundled fusion-category class.
-- **Owned here.** Everything in the Summary, including the dual-basis API for split simple
-  families over a commutative ring and the pivot-free fusion foundations of Layer 6 (bidual traces,
-  squared norms, `normGlobalDim`, the Radford isomorphism, the pivotalization and nonvanishing).
-  OcneanuRigidity cites 6.1, 6.2, 6.9, 11.1 and 11.2, and keeps only its
-  relative-centre and deformation extensions.
-- **Not owned here.** Presentations of monoidal categories by F- and R-matrices
-  (PresentationsOfMonoidalCategories, a consumer of Layers 2, 3 and 8). The character-theoretic Frobenius–Schur indicator of a finite group
-  ([RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md); Layer 7
-  here proves agreement). Unitary and C*-categorical refinements
-  ([CategoricalOperatorAlgebras](../CategoricalOperatorAlgebras/README.md),
-  [Subfactors](../Subfactors/README.md)). Quantum-group examples
-  ([QuantumGroups](../QuantumGroups/README.md)). Diagram categories
-  ([TemperleyLieb](../TemperleyLieb/README.md)).
-- **Excluded.** Non-split simple objects in the fusion-level results (fusion coefficients over `ℝ`
-  with complex simples are a negative control, not a target); multifusion categories (`𝟙_ C` not
-  simple); unitary structures.
+The third concerns the Drinfeld centre of a fusion category C, the braided category of objects of C
+with a natural way of moving past every other object. In characteristic zero, with no pivotal
+structure assumed, the centre is again finite semisimple with finitely many simple objects. Its
+global dimension is the square of that of C: for `Vec(C₂)` over ℂ, the centre has four simple
+objects and dimension `4 = 2²`. If C is spherical, the centre with its canonical braiding and
+inherited pivotal structure is ribbon: the twist of a dual object is the dual of the twist.
+
+The fourth goes from spherical to ribbon. Let C be a braided spherical category, abelian and linear
+over a field. Suppose every object is a finite direct sum of simple objects, every simple object has
+scalar endomorphisms, and Hom spaces are finite-dimensional. Then the twist defined by the braiding
+and the pivotal structure is ribbon (Henriques–Penneys–Tener). Infinitely many simple objects are
+allowed, but semisimplicity is needed: in characteristic three, the representations of the cyclic
+group of order three with a suitable pivotal structure are spherical but not ribbon.
+
+The roadmap builds on the general theory already in Tau Ceti, from double duals to the centre.
+OcneanuRigidity uses the squared norms, the nonvanishing theorem and the induction functor to the
+centre. The roadmap on presentations of monoidal categories by F- and R-matrices uses the traces,
+the dual bases and the categories `Vec^ω_G`. Layer 7 shows that, for a finite group over an
+algebraically closed field of characteristic zero, the categorical second Frobenius–Schur indicator
+is the character-theoretic one of
+[RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md).
+
+Layers 0, 1 and 4 are already in the library. Layers 2 and 3 work over a commutative ring, with
+traces on objects with scalar endomorphisms and dual bases of morphism spaces. Layer 5 shows that
+the Perron root of a primitive real matrix of positive size strictly dominates every other
+eigenvalue in modulus. Layer 6 holds the first two main theorems, Layer 11 the third and Layer 10
+the fourth. Layers 8 and 9 treat `Vec^ω_G`, graded modules over a commutative ring with associator
+twisted by a 3-cocycle ω.
+
+## How to read the build
+
+The layer numbers are those cited by other roadmaps. Layers 0, 1 and 4 are entirely supplied, and
+their contracts are listed below under those numbers. Each remaining layer has numbered `### k.n`
+subsections, one per target group, each with its *Needs:* clause beyond the supplier contracts and
+the Lean names of its headlines in `Suggested.lean`, followed by the layer's Examples and
+Dependencies. The comparison of indicators on `FDRep`, formerly in Layer 8, is 7.1.
 
 ## Conventions
 
@@ -85,85 +98,6 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/`, `TauCeti/CategoryThe
 - In the pivotal category of `2 × 2` matrices of `ℚ`-vector spaces, `f = 𝟙 E₁₂` and
   `g = 𝟙 E₂₁` have `leftTrace (f ⊗ₘ g) = (1, 0)` while `leftTrace f ≫ leftTrace g = (0, 0)`: traces
   are multiplicative only under the hypothesis of `TauCeti.leftTrace_tensorHom_eq_comp`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Rigid categories: `ExactPairing`, `HasRightDual`, `rightAdjointMate`, `RigidCategory`,
-  `rightDualFunctor`, `ExactPairing.tensor`.
-- Braided and symmetric categories: `BraidedCategory`, `SymmetricCategory`; the centre `Center C`
-  with `braidedCategoryCenter` and `Center.forget`.
-- Linear structure: `Preadditive`, `Linear`, `MonoidalPreadditive`, `MonoidalLinear`,
-  `HomOrthogonal`, `HasFiniteBiproducts`; `Simple`, `Matrix.IsIrreducible`, `Matrix.IsPrimitive`,
-  `spectralRadius`; `FDRep k G` with its symmetric structure.
-
-### From Tau Ceti
-
-Each item is implemented at the pin and is consumed, not rebuilt.
-
-- **Duals and double duals** (Layer 0): `TauCeti.rightDualFunctorMonoidal`,
-  `TauCeti.doubleRightDualFunctor` with `TauCeti.doubleRightDualFunctor_ε` and
-  `TauCeti.doubleRightDualFunctor_μ`, `TauCeti.doubleLeftDualFunctor`,
-  `TauCeti.rightDualEquivalence`, `TauCeti.doubleRightDualEquivalence`, the monoidal mixed
-  trivializations `TauCeti.leftDualRightDualIso` and `TauCeti.rightDualLeftDualIso`;
-  `TauCeti.ExactPairing.biproduct`.
-- **Pivotal structures** (Layer 1): `TauCeti.PivotalCategory`, `TauCeti.pivotalIsoApp`,
-  `TauCeti.rightAdjointMate_rightAdjointMate`, the Freyd–Yetter identity
-  `TauCeti.pivotalIsoApp_rightDual`, `TauCeti.pivotalExactPairing`,
-  `TauCeti.pivotalCategoryOfRightRigid`, `TauCeti.leftDualIsoRightDual`, `TauCeti.dualFunctorIso`;
-  pivotal functors `CategoryTheory.Functor.IsPivotal`; the torsor
-  `TauCeti.PivotalCategory.instTorsor` over `Aut (LaxMonoidalFunctor.of (𝟭 C))`.
-- **Traces and spherical structures** (Layer 2): `TauCeti.leftTrace`, `TauCeti.rightTrace`,
-  `TauCeti.leftDim`, `TauCeti.rightDim`, cyclicity, `TauCeti.leftTrace_rightAdjointMate`,
-  `TauCeti.leftTrace_unit`, the nested-loop formulas `TauCeti.leftTrace_tensorHom` and
-  `TauCeti.rightTrace_tensorHom` with multiplicativity `TauCeti.leftTrace_tensorHom_eq_comp`
-  (and its braided form), additivity `TauCeti.leftTrace_biproduct`; `TauCeti.SphericalCategory`,
-  `TauCeti.trace`, `TauCeti.quantumDim`; the field forms on simple objects
-  `TauCeti.leftTrace_eq_smul_leftDim`, `TauCeti.leftDim_comp_rightDim_eq`; nondegeneracy
-  `TauCeti.leftDim_ne_zero_of_simple`.
-- **Finite semisimple categories** (Layer 3): `TauCeti.IsFiniteSemisimpleCategory`,
-  `TauCeti.SimpleClasses` with `classOf`, `repr`, `homOrthogonal_repr`;
-  `TauCeti.simpleMultiplicities` and `TauCeti.finrank_hom_simple_eq_simpleMultiplicities`;
-  `TauCeti.endAlgEquivOfSimple`.
-- **The Grothendieck based ring** (Layer 4): `TauCeti.SplitK0` with `simpleBasis`,
-  `TauCeti.fusionCoeff`, `TauCeti.fusionMatrix`, `TauCeti.fusionMatrix_dual`, transitivity
-  `TauCeti.exists_fusionCoeff_pos_right`, and the ⋆-character identity
-  `TauCeti.SplitK0.ringHom_apply_dual`, which needs rigidity but no pivotal structure.
-- **Perron–Frobenius** (Layer 5): `Matrix.exists_mulVec_eq_smul_of_nonneg` (nonempty index type,
-  nonzero eigenvector), the theorem exists_mulVec_eq_smul_of_pos of
-  `TauCeti/LinearAlgebra/Matrix/PerronFrobenius/Positive.lean` (strictly positive matrices),
-  `Matrix.IsIrreducible.exists_mulVec_eq_smul`,
-  `Matrix.IsIrreducible.rootMultiplicity_charpoly_eq_one`, `Module.Basis.existsUnique_ringHom_nonneg`.
-- **Dimensions** (Layer 6): `TauCeti.frobeniusPerronDim` with its API,
-  `TauCeti.SplitK0.spectralRadius_fusionMatrix`, `TauCeti.globalDim`,
-  `TauCeti.globalDim_pivotalCategory_eq`, `TauCeti.globalDim_ne_zero`,
-  `TauCeti.norm_leftDim_le_frobeniusPerronDim`, `TauCeti.IsPseudoUnitary`,
-  `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`.
-- **`FDRep k G`** (Layer 7): `TauCeti.symmetricPivotalCategory`, `TauCeti.symmetricSphericalCategory`,
-  `FDRep.drinfeldIso_hom_hom_hom_hom`, `FDRep.trace_eq_smul`
-  (`trace f = LinearMap.trace k V f.hom.hom.hom • 𝟙 _`), `FDRep.quantumDim_eq_smul`; the general
-  indicators `TauCeti.frobeniusSchurIndicator`.
-- **Gradings** (Layer 9): `TauCeti.universalGradingGroup`, `TauCeti.universalGradingGroup.degree`,
-  `TauCeti.SimpleClasses.IsAdjoint`, `TauCeti.monoidalAutCharacterEquiv`
-  (`Aut_⊗(𝟭) ≃* (U(C) →* kˣ)`), `TauCeti.PivotalCategory.characterEquiv`.
-- **Balanced, ribbon and the centre** (Layer 10): `TauCeti.BalancedCategory`,
-  `TauCeti.RibbonCategory`, `TauCeti.balancedOfBraidedPivotal`, `TauCeti.pivotalOfBalanced`,
-  `TauCeti.pivotalBalancedEquiv`, `TauCeti.sphericalCategory_of_ribbonCategory`;
-  `CategoryTheory.Center.instPreadditive`, `Center.instLinear`, `Center.instAbelian`,
-  `Center.rigidCategory`, `Center.pivotalCategory`, `Center.isPivotal_forget`,
-  `Center.sphericalCategory`; Hom-finiteness `CategoryTheory.Center.instFiniteDimensionalHom`
-  (`Monoidal/Center/Preadditive.lean`, for Hom-finite `C` over a division ring) and the simple unit
-  `CategoryTheory.Center.instSimpleUnit` (`Monoidal/Center/Simple.lean`, when `𝟙_ C` is simple and
-  the forgetful functor preserves monomorphisms).
-
-## How to read the build
-
-The layer numbers are those cited by other roadmaps. Layers 0, 1 and 4 are entirely supplied, and
-their contracts are listed above under those numbers. Each remaining layer has numbered `### k.n`
-subsections, one per target group, each with its *Needs:* clause beyond the supplier contracts and
-the Lean names of its headlines in `Suggested.lean`, followed by the layer's Examples and
-Dependencies. The comparison of indicators on `FDRep`, formerly in Layer 8, is 7.1.
 
 ## Layer 2: traces on objects with scalar endomorphisms
 
@@ -615,6 +549,106 @@ Layers 3, 6 and 10; supplier contracts of Layer 10.
   and 8.
 - Ocneanu rigidity: 6.1, 6.2, 6.9, 11.1, 11.2.
 - [RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md): Layer 7.
+
+## Scope and ownership
+
+- **Generality.** The definitions (double dual, pivotal structure, traces, dimensions, spherical,
+  balanced, ribbon) are for a general rigid monoidal category, with no finiteness or
+  semisimplicity. Results that need only the endomorphisms of particular objects to be scalars
+  (traces on such objects, dual bases, `Vec^ω_G` and its pivotal structures) are over a
+  **commutative ring** `R`, with the hypothesis `Function.Bijective (algebraMap R (End X))` on each
+  such object (Mathlib's `Algebra R (End X)` for `[Linear R C]`). Over an algebraically closed field
+  a simple object with finite-dimensional endomorphisms satisfies it by Schur's lemma, so the field
+  statements are corollaries. Fusion-level results (based ring, Frobenius–Perron, global
+  dimension, universal grading, the centre) are over a field, with the hypotheses carried as
+  instance arguments on each statement. There is no bundled fusion-category class.
+- **Owned here.** Everything in the Summary, including the dual-basis API for split simple
+  families over a commutative ring and the pivot-free fusion foundations of Layer 6 (bidual traces,
+  squared norms, `normGlobalDim`, the Radford isomorphism, the pivotalization and nonvanishing).
+  OcneanuRigidity cites 6.1, 6.2, 6.9, 11.1 and 11.2, and keeps only its
+  relative-centre and deformation extensions.
+- **Not owned here.** Presentations of monoidal categories by F- and R-matrices
+  (PresentationsOfMonoidalCategories, a consumer of Layers 2, 3 and 8). The character-theoretic Frobenius–Schur indicator of a finite group
+  ([RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md); Layer 7
+  here proves agreement). Unitary and C*-categorical refinements
+  ([CategoricalOperatorAlgebras](../CategoricalOperatorAlgebras/README.md),
+  [Subfactors](../Subfactors/README.md)). Quantum-group examples
+  ([QuantumGroups](../QuantumGroups/README.md)). Diagram categories
+  ([TemperleyLieb](../TemperleyLieb/README.md)).
+- **Excluded.** Non-split simple objects in the fusion-level results (fusion coefficients over `ℝ`
+  with complex simples are a negative control, not a target); multifusion categories (`𝟙_ C` not
+  simple); unitary structures.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Rigid categories: `ExactPairing`, `HasRightDual`, `rightAdjointMate`, `RigidCategory`,
+  `rightDualFunctor`, `ExactPairing.tensor`.
+- Braided and symmetric categories: `BraidedCategory`, `SymmetricCategory`; the centre `Center C`
+  with `braidedCategoryCenter` and `Center.forget`.
+- Linear structure: `Preadditive`, `Linear`, `MonoidalPreadditive`, `MonoidalLinear`,
+  `HomOrthogonal`, `HasFiniteBiproducts`; `Simple`, `Matrix.IsIrreducible`, `Matrix.IsPrimitive`,
+  `spectralRadius`; `FDRep k G` with its symmetric structure.
+
+### From Tau Ceti
+
+Each item is implemented at the pin and is consumed, not rebuilt.
+
+- **Duals and double duals** (Layer 0): `TauCeti.rightDualFunctorMonoidal`,
+  `TauCeti.doubleRightDualFunctor` with `TauCeti.doubleRightDualFunctor_ε` and
+  `TauCeti.doubleRightDualFunctor_μ`, `TauCeti.doubleLeftDualFunctor`,
+  `TauCeti.rightDualEquivalence`, `TauCeti.doubleRightDualEquivalence`, the monoidal mixed
+  trivializations `TauCeti.leftDualRightDualIso` and `TauCeti.rightDualLeftDualIso`;
+  `TauCeti.ExactPairing.biproduct`.
+- **Pivotal structures** (Layer 1): `TauCeti.PivotalCategory`, `TauCeti.pivotalIsoApp`,
+  `TauCeti.rightAdjointMate_rightAdjointMate`, the Freyd–Yetter identity
+  `TauCeti.pivotalIsoApp_rightDual`, `TauCeti.pivotalExactPairing`,
+  `TauCeti.pivotalCategoryOfRightRigid`, `TauCeti.leftDualIsoRightDual`, `TauCeti.dualFunctorIso`;
+  pivotal functors `CategoryTheory.Functor.IsPivotal`; the torsor
+  `TauCeti.PivotalCategory.instTorsor` over `Aut (LaxMonoidalFunctor.of (𝟭 C))`.
+- **Traces and spherical structures** (Layer 2): `TauCeti.leftTrace`, `TauCeti.rightTrace`,
+  `TauCeti.leftDim`, `TauCeti.rightDim`, cyclicity, `TauCeti.leftTrace_rightAdjointMate`,
+  `TauCeti.leftTrace_unit`, the nested-loop formulas `TauCeti.leftTrace_tensorHom` and
+  `TauCeti.rightTrace_tensorHom` with multiplicativity `TauCeti.leftTrace_tensorHom_eq_comp`
+  (and its braided form), additivity `TauCeti.leftTrace_biproduct`; `TauCeti.SphericalCategory`,
+  `TauCeti.trace`, `TauCeti.quantumDim`; the field forms on simple objects
+  `TauCeti.leftTrace_eq_smul_leftDim`, `TauCeti.leftDim_comp_rightDim_eq`; nondegeneracy
+  `TauCeti.leftDim_ne_zero_of_simple`.
+- **Finite semisimple categories** (Layer 3): `TauCeti.IsFiniteSemisimpleCategory`,
+  `TauCeti.SimpleClasses` with `classOf`, `repr`, `homOrthogonal_repr`;
+  `TauCeti.simpleMultiplicities` and `TauCeti.finrank_hom_simple_eq_simpleMultiplicities`;
+  `TauCeti.endAlgEquivOfSimple`.
+- **The Grothendieck based ring** (Layer 4): `TauCeti.SplitK0` with `simpleBasis`,
+  `TauCeti.fusionCoeff`, `TauCeti.fusionMatrix`, `TauCeti.fusionMatrix_dual`, transitivity
+  `TauCeti.exists_fusionCoeff_pos_right`, and the ⋆-character identity
+  `TauCeti.SplitK0.ringHom_apply_dual`, which needs rigidity but no pivotal structure.
+- **Perron–Frobenius** (Layer 5): `Matrix.exists_mulVec_eq_smul_of_nonneg` (nonempty index type,
+  nonzero eigenvector), the theorem exists_mulVec_eq_smul_of_pos of
+  `TauCeti/LinearAlgebra/Matrix/PerronFrobenius/Positive.lean` (strictly positive matrices),
+  `Matrix.IsIrreducible.exists_mulVec_eq_smul`,
+  `Matrix.IsIrreducible.rootMultiplicity_charpoly_eq_one`, `Module.Basis.existsUnique_ringHom_nonneg`.
+- **Dimensions** (Layer 6): `TauCeti.frobeniusPerronDim` with its API,
+  `TauCeti.SplitK0.spectralRadius_fusionMatrix`, `TauCeti.globalDim`,
+  `TauCeti.globalDim_pivotalCategory_eq`, `TauCeti.globalDim_ne_zero`,
+  `TauCeti.norm_leftDim_le_frobeniusPerronDim`, `TauCeti.IsPseudoUnitary`,
+  `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`.
+- **`FDRep k G`** (Layer 7): `TauCeti.symmetricPivotalCategory`, `TauCeti.symmetricSphericalCategory`,
+  `FDRep.drinfeldIso_hom_hom_hom_hom`, `FDRep.trace_eq_smul`
+  (`trace f = LinearMap.trace k V f.hom.hom.hom • 𝟙 _`), `FDRep.quantumDim_eq_smul`; the general
+  indicators `TauCeti.frobeniusSchurIndicator`.
+- **Gradings** (Layer 9): `TauCeti.universalGradingGroup`, `TauCeti.universalGradingGroup.degree`,
+  `TauCeti.SimpleClasses.IsAdjoint`, `TauCeti.monoidalAutCharacterEquiv`
+  (`Aut_⊗(𝟭) ≃* (U(C) →* kˣ)`), `TauCeti.PivotalCategory.characterEquiv`.
+- **Balanced, ribbon and the centre** (Layer 10): `TauCeti.BalancedCategory`,
+  `TauCeti.RibbonCategory`, `TauCeti.balancedOfBraidedPivotal`, `TauCeti.pivotalOfBalanced`,
+  `TauCeti.pivotalBalancedEquiv`, `TauCeti.sphericalCategory_of_ribbonCategory`;
+  `CategoryTheory.Center.instPreadditive`, `Center.instLinear`, `Center.instAbelian`,
+  `Center.rigidCategory`, `Center.pivotalCategory`, `Center.isPivotal_forget`,
+  `Center.sphericalCategory`; Hom-finiteness `CategoryTheory.Center.instFiniteDimensionalHom`
+  (`Monoidal/Center/Preadditive.lean`, for Hom-finite `C` over a division ring) and the simple unit
+  `CategoryTheory.Center.instSimpleUnit` (`Monoidal/Center/Simple.lean`, when `𝟙_ C` is simple and
+  the forgetful functor preserves monomorphisms).
 
 ## References
 

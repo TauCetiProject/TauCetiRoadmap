@@ -1,78 +1,58 @@
 # Roadmap: (φ,Γ)-modules, Herr complexes and local Iwasawa cohomology
 
-**Summary.** This roadmap builds the integral, relative and analytic interfaces that turn cyclotomic Frobenius
-modules into usable cohomology. Starting from period rings and the field-valued realization theorems, it
-constructs `ψ` on modules, compares the signed `φ`-Herr and `ψ`-Herr complexes, proves integral and affinoid
-comparison theorems, and identifies local Iwasawa cohomology with a two-term `ψ` complex. Its second end
-theorem is the construction, after a proper modification, of a coherent triangulation of a densely strictly
-trianguline family. Specialized Wach-module coordinates and the de Rham exponential-image criterion connect
-these constructions to explicit arithmetic applications.
+**Summary.** Let `K/ℚ_p` be a finite extension and `Γ_K=Gal(K(μ_{p^∞})/K)`. A continuous p-adic
+representation of the absolute Galois group of K can be traded for a (φ,Γ_K)-module: a module over a ring
+of Laurent series with a Frobenius φ and a commuting action of Γ_K. Galois cohomology then becomes the
+cohomology of small complexes. This roadmap makes that dictionary work integrally and in families,
+over the Robba ring of K and its relative version over A, where A is a possibly nonreduced
+`ℚ_p`-affinoid algebra. The Herr complex `M→M⊕M→M` has differentials built from `φ−1` and `γ−1`, where γ
+topologically generates Γ_K modulo its p-primary torsion. Its ψ version replaces φ by a left inverse ψ.
 
-The roadmap is this README. `Suggested.lean` states the Witt-module projectivity theorem of §0.4 on
-Mathlib's truncated Witt vectors and explains which headline results require missing arithmetic and analytic
-carriers. The mathematical APIs and Checks below specify the library to be built; the Lean file contains
-only the headline theorem and the definition needed to state it at the pins.
+The first main theorem is pure algebra, and it is the one `Suggested.lean` states. Let R be a perfect ring
+of characteristic p and n ≥ 1. A finitely presented module over the truncated Witt vectors `W_n(R)` that is
+flat over `ℤ/p^n` and has an invertible Frobenius linearization is projective, with no constant-rank
+hypothesis. Beside it the roadmap proves the Artin–Schreier–Witt equivalence between finite projective
+`W_n(R)`-modules with invertible Frobenius linearization and finite locally free `ℤ/p^n`-sheaves on the
+étale site of Spec R.
 
-## Scope and ownership
+The second theorem says that Herr complexes compute Galois cohomology. The coefficients may be a
+finite Galois module of p-power order, a lattice over the valuation ring of a finite extension E of `ℚ_p`,
+or a finite projective representation over A. The roadmap then treats every finite projective
+(φ,Γ_K)-module M over the relative Robba ring, étale or not. Its Herr complex is perfect over A of
+amplitude [0,2], with Euler characteristic `−[K:ℚ_p]·rank(M)` on each connected component; for the
+trivial line over K, `h¹=[K:ℚ_p]+1`. Cup product gives a duality `Cφ,γ(M^∨(1)) ≃ RHom_A(Cφ,γ(M),A)[−2]`,
+and the complex commutes with derived base change along every map of affinoid algebras.
 
-This roadmap owns Frobenius-module algebra needed for descent, finite Witt-vector descent, integral
-overconvergent lattices, arbitrary-module radius models and cyclotomic equivariant decompletion. It owns
-module `ψ`, the explicit signed comparison and its homotopy, integral and affinoid Herr comparison, analytic
-`Γ` coefficient rings, relative finiteness and derived base change, the comparison with independently defined
-Iwasawa cohomology, specialized Wach coordinates, and relative character classification and triangulation.
+The third theorem concerns local Iwasawa cohomology. For T a finite Galois module of p-power order or a
+Galois-stable finite free lattice over the valuation ring of E, it is defined without period rings or ψ, as
+the derived inverse limit of the Galois cochains of T over `K(μ_{p^n})` along corestriction. It is
+computed by the two-term complex `ψ−1: D(T)→D(T)` in degrees 1 and 2, where D(T) is the étale
+(φ,Γ_K)-module of T. In particular `H¹_Iw(K,T) ≅ D(T)^{ψ=1}`. For M as in the second theorem, the ψ
+complex is perfect over the analytic functions on the characters of Γ_K with coefficients in A. Its
+amplitude is [0,2], not [1,2], since its `H¹` may have torsion.
 
-The underlying completed fields, Fontaine period carriers, their natural topologies and fundamental period
-identity come from PadicPeriodRings §§1–4. NoncommutativeAndEquivariantIwasawa §F.6 stages 1–3 supply the
-cyclotomic norm field, field period and Robba rings, integral étale equivalence, field overconvergence and
-radius models, saturated slope filtration and embedded de Rham differential lattice. These are used directly
-on their common finite-K/E domain. Section 1.0 adds finite coefficient-algebra actions; §1.0b adds perfect
-uniform Banach bases and the pure local-system dictionary, using the supplied field filtration with negated
-KPX slope labels. Sections 1.1–1.6 add relative coefficients, integral intersections, arbitrary-module radius
-models and equivariant sheaf comparisons. Field Herr comparison and Wach modules are §§3.4a and 6.0.
-The nonequivariant period-sheaf and curve comparison is §1.0c. These interfaces serve PadicHodgeTheory
-§§4–5 and 7, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4 and VectorBundlesAndIsocrystals VB4.
+The last theorem concerns families over a reduced rigid analytic space X over E with irreducible connected
+components. A triangulation of a (φ,Γ_K)-module over X is a filtration stable under φ and Γ_K, with
+finite projective quotients and graded pieces `R(δ_i)⊗L_i`, for continuous characters δ_i of `K^×`
+with values in the invertible functions on X and line bundles L_i. Let M of rank d be strictly trianguline, with ordered
+parameters `δ₁,…,δ_d`, at a set of closed points dense on some admissible affinoid cover. After a proper
+birational map `X′→X` with X′ reduced, M acquires a unique coherent stable flag whose graded pieces embed
+in `R(δ_i)⊗L_i` with cokernels locally killed by a power of t. Off a closed bad locus disjoint from the
+preimage of the dense set, the flag is a saturated strict triangulation with exactly these parameters. For
+a smooth curve no modification is needed.
 
-The field-core prerequisite direction is NoncommutativeAndEquivariantIwasawa → this roadmap, as is the
-compact-cochain direction from its §F.3. PadicHodgeTheory §§4.1 and 5.1 use those same supplied objects.
-Section 5.6a specializes the supplied embedded differential lattice and its cyclotomic localization to the
-all-level image criterion; it does not construct a second lattice or a comparison between two realizations.
+The roadmap builds on NoncommutativeAndEquivariantIwasawa for the field theory: the Robba rings, the
+equivalence with Galois representations and the slope filtration. PadicPeriodRings provides Fontaine's
+period rings, and ColemanPowerSeries provides ψ on `ℤ_p[[π]]`. SelmerIwasawaCohomology builds its global
+theory on the local Iwasawa results, and LocalGaloisDeformationRings uses Herr cohomology with finite
+Artinian coefficients.
 
-The ordinary finite local Artinian coefficient category is the finite-dimensional coefficient specialization
-of §1.2; its Herr/Ext comparison is in §3.6. The localized Artinian construction of §3.9 additionally allows
-inversion of t and requires an underlying stable lattice. It does not identify those two categories.
-The finite-local-E-algebra exports are the finite-Artinian Robba category,
-the finite-Artinian étale equivalence, Herr cohomology and derived Herr coefficient change, for
-LocalGaloisDeformationRings §0.4 and its deformation consumers.
-
-The annular/disc coherent-system criterion is §1.1a; quasi-Stein density, inverse-limit exactness
-and Theorems A–B belong to AdicSpacesPartIII §R3.4.
-
-The bounded measure algebra, its Iwasawa coordinates and characteristic-ideal theory belong to
-PadicMeasuresIwasawaAlgebras. The compact abelian character spaces and scalar Mellin comparison needed for
-`Γ` and `K^×` are constructed in §2.7; the relative affinoid and Robba-type `Γ` extensions are §2.8. The wider
-locally analytic manifold and distribution theory belongs to LocallyAnalyticDistributions Layers 0–3. The
-local derived inverse-limit tower and its Shapiro comparison are constructed independently of `ψ` in §5.0.
-SelmerIwasawaCohomology Layer 3 uses this local interface in its global theory. Finite discrete cochains come
-from ProfiniteCohomology; NoncommutativeAndEquivariantIwasawa §F.3 supplies compact and rational cochains,
-lattice independence, local duality and the general derived Hochschild–Serre comparison with its compact
-coefficient limit. Section 0.6 specializes those objects to finite-`O_E`/E coefficients and constructs the
-finite-quotient descent application required here. ArithmeticGaloisDuality D7 consumes
-that shared arithmetic API.
-Period-ring acyclicity with Banach coefficients is proved in §3.6.
-
-The finite-separable coefficient trace-dual equivalence and its evaluation formula belong to Tau Ceti.
-Section 3.4a extends them to finite-projective Robba modules and proves compatibility with φ, Γ, Tate
-twists, signed cups and the normalized arithmetic invariant.
-
-Section 5.7 reexports NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundaries,
-local exponential and de Rham image theorem for finite-dimensional representations. These use the same
-§F.3 cochains as §0.6, so their identification is definitional. Section 5.7 owns the all-level
-exponential-image criterion and its injectivity, cokernel-vanishing and annular-generation consequences,
-using the Robba realization and differential lattice of §§1.0 and 5.6a. General regulators, Perrin–Riou maps, Coleman
-maps, Selmer structures and main conjectures belong to their respective roadmaps. No GL₂ representation,
-involution or sheaf on the projective
-line is constructed here. The geometric modification below constructs the particular Fitting-ideal flattening
-required by triangulations.
+Layer 0 treats Frobenius descent and compact cochains. Layer 1 extends the field theory to integral,
+relative and equivariant modules. Layer 2 constructs ψ on modules and analytic coefficient rings for Γ_K.
+Layer 3 forms the Herr comparisons. Layer 4 proves finiteness, first over fields, then perfectness and
+derived base change in families. Layer 5 builds the Iwasawa tower and its comparisons, and an all-level
+exponential-image criterion. Layers 6 and 7 give Wach coordinates and global triangulations. Each result's
+Needs clause separates its inputs from later consequences.
 
 ## Conventions
 
@@ -115,166 +95,6 @@ over `ℚ_p`, and reversing the two degree-one classes changes the sign. The Tat
 the character `x|x|` from the character `x` of `ℚ_p^×`. Hodge–Tate weights use the convention in which
 `ℚ_p(1)` has weight `−1`; algebraic character exponents below have the opposite Sen-label convention when
 appropriate.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-At the pinned Mathlib, use `TensorProduct.lift` and `TensorProduct.ext'` in
-`LinearAlgebra.TensorProduct.Basic`, including their semilinear variants. `ModuleCat.ofHom` wraps actual
-linear maps, and `CochainComplex.of` and `CochainComplex.ofHom` construct native complexes and maps.
-`Homotopy` has the equation `f=dH+Hd+g`; `HomotopyEquiv.toHomologyIso` gives the induced isomorphism.
-`CategoryTheory.ShortComplex.moduleCatCyclesIso` and `moduleCatHomologyIso` identify cycles and homology with
-the actual kernel and kernel/image quotient, including their inclusion and quotient maps. For faithfully flat
-module descent use `comonadicExtendScalars` in `Algebra.Category.ModuleCat.Descent`, with its faithfully-flat
-hypothesis; the fixed-basis cocycle is transported to that comonad. The restriction to finite projectives
-needed for the basis-torsor descent is proved in §0.4. Use native modules, tensor products, Witt vectors,
-submodules, quotients, derived categories and finite projectivity throughout.
-
-Mathlib's `cyclotomicCharacter` and `cyclotomicCharacter.continuous` in
-`NumberTheory.Cyclotomic.CyclotomicCharacter` already provide the character and continuity on the absolute
-Galois group; no new character or continuity theorem is required. At the pinned Tau Ceti, `TauCeti.ContCohomology.explicitCup11` in
-`RepresentationTheory.Homological.ContCohomology.Cup.Product` works with continuous topological coefficients
-and a continuous additive equivariant pairing. `TauCeti.ContCohomology.explicitCor1` in
-`RepresentationTheory.Homological.ContCohomology.Corestriction.Basic` supplies the open finite-index
-degree-one transfer, independent of its transversal. Those are not restricted to discrete coefficients. The
-period acyclicity theorem of §3.6 is needed to identify their values with Herr classes.
-
-At the same pin Tau Ceti provides `TauCeti.completedGroupAlgebra`, `completedGroupAlgebra.proj`, `of`, `ext`,
-`proj_surjective` and `continuous_of` in `Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic`,
-together with product, power-series and character-division modules in that directory. Use that inverse-limit
-carrier for Λ, including the dyadic finite factor. The modules `TauCeti.RingTheory.FittingIdeal.Basic` and
-`.BaseChange` supply `TauCeti.fittingIdeal`, `fittingIdeal_eq_minorsIdeal_ker`, `fittingIdeal_baseChange`,
-`fittingIdeal_prod_add_finrank`, `fittingIdeal_eq_top_iff_finrank_le`,
-`fittingIdeal_map_eq_bot_iff_lt_finrank` and `fittingIdeal_le_iff_lt_finrank`. They give
-presentation-independent minors, arbitrary commutative scalar change for finite modules, free-summand shifts
-and the residue-field fiber-rank criterion. The fiber-rank theorem is not a flatness assertion about the
-original module. These are the native Λ and Fitting-ideal carriers used here; `Suggested.lean` uses only
-Mathlib interfaces available at these pins.
-
-Use Tau Ceti `Module.Dual.traceCompEquiv` and `Module.Dual.traceCompEquiv_apply` in
-`TauCeti/RingTheory/Trace/Dual.lean` for the F-linear equivalence
-`Hom_E(V,E) ≃ Hom_F(V,F)`, sending f to `Tr_(E/F)∘f`. Its hypotheses are a finite separable field
-extension E/F, an E-vector space V and compatible F-scalars (`IsScalarTower F E V`); V need not be
-finite-dimensional. The evaluation formula is `f,v ↦ Tr_(E/F)(f(v))`. Section 3.4a uses this coefficient
-identification in its finite-projective Robba trace/cup comparison.
-
-The semilinear scalar formula is Mathlib `LinearMap.map_smulₛₗ` in `Algebra.Module.LinearMap.Defs`: `F(a • x)
-= σ(a) • F(x)`. Substituting `σ(a)=a` supplies the fixed-scalar restriction in §0.2; it is not a separate
-target here. Use Mathlib `SkewPolynomial` in `Algebra.SkewPolynomial.Basic` for S{F},
-with `MulSemiringAction (Multiplicative ℕ) S` induced by the iterates of σ; its defining relation is
-`Fa=σ(a)F`, without invertibility of σ.
-
-### From the period, cohomology and geometric roadmaps
-
-PadicPeriodRings §§1.1–1.5 supply the completed algebraic closure, its continuous Galois action, fixed
-fields, normalized cyclotomic traces, Tate–Sen estimates and naturally topologized de Rham periods. Its
-§§3–4.3 supply `B_cris`, `B_st` and `B_dR`, their structure maps, invariant functors, regularity and the
-underlying fundamental period sequence. NoncommutativeAndEquivariantIwasawa §F.6 supplies its continuous
-nonequivariant sections, tensor-cochain long exact sequences and boundary on invariant quotient periods
-for every finite-dimensional continuous representation. Its restriction to de Rham periods is the supplied
-exponential; its image is `H¹_e` under a de Rham hypothesis. Section 5.7 reexports these constructions,
-including their naturality in representations and coefficient, twist and field-map compatibility.
-
-DerivedModuleAlgebra §1.T.1, “The Milnor sequence for towers of complexes”, and §1.1,
-“Derived limits of towers”, supply the native module `Rlim`, shifted-cone model, Milnor sequence,
-projections, connecting maps, cofinal comparisons and maps preserving specified square homotopies.
-Section 0.6 applies these constructions to the supplied finite continuous-cochain tower.
-
-PerfectoidSpaces §§P1.6, P1.10–P1.11 and P1.16–P1.18 supply tilting and `Witt/θ`
-comparisons; §§P3.7–P3.13 supply finite étale tilting and almost purity. Section P1.31 supplies the
-completed cyclotomic field. PerfectoidTowers P9.0 supplies lifting continuous
-cochains along finite surjections, continuous cochains into an inverse limit, and comparison with the
-canonical carrier for compact coefficients. Use its jointly continuous actions and quotient topologies.
-ProfiniteCohomology Layers 0–12 supply the finite discrete cochains, their functorial maps, cup products,
-Shapiro, the five-term inflation–restriction sequence and cohomological dimension.
-NoncommutativeAndEquivariantIwasawa §F.3 supplies the finite-coefficient Hochschild–Serre bar roof and its
-compact limit; §0.6 specializes them. ClassFieldTheory Layer 5 supplies finite local
-Tate duality, the invariant and local Euler characteristic; NoncommutativeAndEquivariantIwasawa §F.3 supplies
-their compact and rational extensions used in §§0.6 and 3.6. ClassFieldTheory Layers 6–7 supply the continuous
-local Artin map and geometric normalization by inversion,
-and Layer 9 the topological Weil group and reciprocity. LocalFieldsRamification Layer 2 supplies finite
-unramified extensions and their Frobenius maps.
-
-AdicSpaces Layer 6 supplies the underlying adic Fargues–Fontaine curve with coefficient field `ℚ_p`,
-corresponding to `d=1`. Section 1.0c constructs the `φ^d` curves and their d-dependent patching rings for
-all `d>0`, together with the finite étale maps relating different exponents.
-AdicSpacesPartII §§R0.3 and R0.5 supply completed tensor products of Huber pairs and Banach modules with
-their universal properties; its analytic/schematic chart comparisons are used with AlgebraicVectorBundles
-§§L0A–L2B for bundles and finite-projective modules. Section 1.0c here constructs the
-period-module/bundle/B-pair equivalence and Frobenius roofs on these carriers, with its global-lattice
-hypotheses. CrystallineCohomology §CR.4.7 supplies higher-rank Dieudonné–Manin classification on
-perfect-field isocrystals; §1.0b uses the supplied field filtration and adds the pure local-system comparison on perfect
-uniform Banach bases, without assuming a slope filtration for affinoid families.
-
-NoncommutativeAndEquivariantIwasawa §F.3 supplies continuous cochains for profinite groups with compact
-coefficients that are inverse limits of finite modules, discrete torsion coefficients and finite-dimensional
-E-representations. Its arithmeticContinuousCochains, arithmeticHochschildSerre and arithmeticLocalDuality
-contracts include lattice independence, coefficient maps, evaluation cups, restriction/corestriction and the
-normalized local invariant, and arithmeticHochschildSerre includes the derived comparison for every closed
-normal subgroup with its coherent quotient action and compact coefficient limit. Section 0.6 uses their
-finite-`O_E`/E specializations directly and constructs the finite-quotient descent compact finite descent. The period-coefficient acyclicity and Herr
-comparisons remain the targets of §3.6.
-
-NoncommutativeAndEquivariantIwasawa §F.6 stage 1 supplies the cyclotomic norm field, its Galois and finite
-extension equivalences, Cohen and field Robba rings, their annular restrictions and commuting Frobenius and
-cyclotomic actions, integral étale unit/counit and reduction, exact tensor realization, overconvergence and
-compatible radius models for every finite K and E. Stage 2 supplies the saturated field slope filtration and
-bounded descent of pure modules. Use its valuation-positive degree normalized by v_p(p)=1; the KPX degree
-and slope here are their negatives, on the same submodules. Stage 3 supplies the embedded differential
-lattice inside the localized realization, its unfiltered cyclotomic localizations, connection, φ, Γ,
-arbitrary twists, tensor and dual. Section 5.6a uses that inclusion directly. Its specialization maps are
-restrictions of the identity on the ambient realization, not comparisons between newly constructed objects.
-Section F.6 also supplies the general period-boundary prefix reexported in §5.7: the continuous sections
-and tensor-cochain sequences, quotient-period injection and boundary, `blochKatoHe`, `blochKatoExp`,
-their image theorems and functorial laws. These are the same objects on §F.3's cochains. This prefix uses
-only PadicPeriodRings and continuous cochains; neither Robba realization nor the differential lattice is
-a prerequisite for it.
-
-### From analytic roadmaps
-
-ColemanPowerSeries §§1.45–1.49, “Trace and Frobenius scalars” through “The zeroth Frobenius coordinate is
-psi”, is a direct prerequisite of §2.5. It supplies the integral zeroth Frobenius coordinate `ψ` on
-`ℤ_p[[π]]`, its trace identity `pψ=φ⁻¹Tr` and
-trace divisibility before reduction, with §1.49's comparison `c₀(F)=AbstractMeasure.psiSeries(F)`.
-Its integral trace comparison in §1.48 consumes IntegralIwasawaTheory §7.1: the supplier chain is
-IntegralIwasawaTheory →
-ColemanPowerSeries → this roadmap. PadicMeasuresIwasawaAlgebras §2.2 identifies this `ψ` with the
-measure operator and `ψ`-zero with support on units. Its §3a.1 supplies the universal character and
-weight-space components for `ℤ_p^×`, including `{±1}×(1+4ℤ₂)`, through PadicFunctionalAnalysis §§5.1–5.3.
-PadicFunctionalAnalysis §§4.3–4.4 and 4.7 supply the one-variable analytic stages, algebraic
-distribution carrier and quantitative Amice bijection, including the stage norm comparisons. Its
-§1.2 supplies quantitative open mapping for Banach modules; §§1.3–1.4 and 2.2–2.4 supply
-finite-dimensional/finite Banach-module topologies, potentially
-orthonormalizable models and countable-type strict splittings. The compact-unit character space for general
-`K`, its scalar distribution/Mellin comparison and the exact tensor comparisons used in this roadmap are the
-targets of §§2.7–2.8, rather than consequences of finite field coefficient extension alone.
-PadicMeasuresIwasawaAlgebras §5.2 supplies exactness for compact Hausdorff inverse systems, with its
-compactness hypotheses and without requiring every transition to be surjective.
-
-RigidAnalyticGeometry §§1.1–1.4 supply affinoid algebras, finite modules, completed tensors and rational
-charts; §§6.1–6.3 and 7.3 supply the admissible site, properness tests, coherent sheaves and their affinoid
-equivalence. §8.1 supplies relative analytification of schemes locally of finite type over an affinoid base,
-and §8.4 proper GAGA. Analytic blowups and flattening are not assumed from these contracts. The needed
-finite-type Rees charts and their analytic gluing are specified in Layer 7.
-
-AdicSpacesPartIII §R3.4 supplies quasi-Stein exhaustions, dense restriction of coherent sections,
-exactness of countable dense Banach inverse systems, and Theorems A–B. Use these on the relative
-one-variable annular and disc exhaustions of §1.1a. The additional global finite-generation and
-finite-presentation criterion there requires uniform bounds on an admissible cover.
-
-## How to read the build
-
-Layer 0 isolates Frobenius descent and compact cochains. Layer 1 extends the supplied field core to
-integral, relative and equivariant realizations, with the annular/disc uniform-presentation criterion
-in §1.1a before its finite-radius applications. Layer 2 constructs module ψ, its complex, scalar Mellin
-coordinates and the analytic Γ-ring carriers. Layer 3 then forms signed Herr comparisons and arithmetic
-descent on these carriers, including the field duality and ψ-zero analytic action. Layer 4 proves
-ψ cokernel finiteness, preliminary finite-coefficient and
-character-fiber comparison, field-first finiteness and finally relative perfectness and arbitrary derived
-base change. Layer 5 constructs the independent Iwasawa tower and its comparisons and applies the supplied
-differential lattice to the all-level image criterion. Layers 6 and 7 give Wach coordinates and global
-triangulation respectively. Each target’s Needs clause distinguishes its inputs from later consequences.
 
 ## Layer 0: Frobenius algebra and finite descent
 
@@ -3244,6 +3064,214 @@ eigenvariety arguments use character lines, nilpotent-sensitive weights, coeffic
 modification and the distinction between a coherent global flag and saturated special fibers. Analytic GL₂
 applications may consume the all-level exponential criterion and annular generation, but must construct their
 own involution and prove its semilinearity and radius control.
+
+## Scope and ownership
+
+This roadmap owns Frobenius-module algebra needed for descent, finite Witt-vector descent, integral
+overconvergent lattices, arbitrary-module radius models and cyclotomic equivariant decompletion. It owns
+module `ψ`, the explicit signed comparison and its homotopy, integral and affinoid Herr comparison, analytic
+`Γ` coefficient rings, relative finiteness and derived base change, the comparison with independently defined
+Iwasawa cohomology, specialized Wach coordinates, and relative character classification and triangulation.
+
+The underlying completed fields, Fontaine period carriers, their natural topologies and fundamental period
+identity come from PadicPeriodRings §§1–4. NoncommutativeAndEquivariantIwasawa §F.6 stages 1–3 supply the
+cyclotomic norm field, field period and Robba rings, integral étale equivalence, field overconvergence and
+radius models, saturated slope filtration and embedded de Rham differential lattice. These are used directly
+on their common finite-K/E domain. Section 1.0 adds finite coefficient-algebra actions; §1.0b adds perfect
+uniform Banach bases and the pure local-system dictionary, using the supplied field filtration with negated
+KPX slope labels. Sections 1.1–1.6 add relative coefficients, integral intersections, arbitrary-module radius
+models and equivariant sheaf comparisons. Field Herr comparison and Wach modules are §§3.4a and 6.0.
+The nonequivariant period-sheaf and curve comparison is §1.0c. These interfaces serve PadicHodgeTheory
+§§4–5 and 7, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4 and VectorBundlesAndIsocrystals VB4.
+
+The field-core prerequisite direction is NoncommutativeAndEquivariantIwasawa → this roadmap, as is the
+compact-cochain direction from its §F.3. PadicHodgeTheory §§4.1 and 5.1 use those same supplied objects.
+Section 5.6a specializes the supplied embedded differential lattice and its cyclotomic localization to the
+all-level image criterion; it does not construct a second lattice or a comparison between two realizations.
+
+The ordinary finite local Artinian coefficient category is the finite-dimensional coefficient specialization
+of §1.2; its Herr/Ext comparison is in §3.6. The localized Artinian construction of §3.9 additionally allows
+inversion of t and requires an underlying stable lattice. It does not identify those two categories.
+The finite-local-E-algebra exports are the finite-Artinian Robba category,
+the finite-Artinian étale equivalence, Herr cohomology and derived Herr coefficient change, for
+LocalGaloisDeformationRings §0.4 and its deformation consumers.
+
+The annular/disc coherent-system criterion is §1.1a; quasi-Stein density, inverse-limit exactness
+and Theorems A–B belong to AdicSpacesPartIII §R3.4.
+
+The bounded measure algebra, its Iwasawa coordinates and characteristic-ideal theory belong to
+PadicMeasuresIwasawaAlgebras. The compact abelian character spaces and scalar Mellin comparison needed for
+`Γ` and `K^×` are constructed in §2.7; the relative affinoid and Robba-type `Γ` extensions are §2.8. The wider
+locally analytic manifold and distribution theory belongs to LocallyAnalyticDistributions Layers 0–3. The
+local derived inverse-limit tower and its Shapiro comparison are constructed independently of `ψ` in §5.0.
+SelmerIwasawaCohomology Layer 3 uses this local interface in its global theory. Finite discrete cochains come
+from ProfiniteCohomology; NoncommutativeAndEquivariantIwasawa §F.3 supplies compact and rational cochains,
+lattice independence, local duality and the general derived Hochschild–Serre comparison with its compact
+coefficient limit. Section 0.6 specializes those objects to finite-`O_E`/E coefficients and constructs the
+finite-quotient descent application required here. ArithmeticGaloisDuality D7 consumes
+that shared arithmetic API.
+Period-ring acyclicity with Banach coefficients is proved in §3.6.
+
+The finite-separable coefficient trace-dual equivalence and its evaluation formula belong to Tau Ceti.
+Section 3.4a extends them to finite-projective Robba modules and proves compatibility with φ, Γ, Tate
+twists, signed cups and the normalized arithmetic invariant.
+
+Section 5.7 reexports NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundaries,
+local exponential and de Rham image theorem for finite-dimensional representations. These use the same
+§F.3 cochains as §0.6, so their identification is definitional. Section 5.7 owns the all-level
+exponential-image criterion and its injectivity, cokernel-vanishing and annular-generation consequences,
+using the Robba realization and differential lattice of §§1.0 and 5.6a. General regulators, Perrin–Riou maps, Coleman
+maps, Selmer structures and main conjectures belong to their respective roadmaps. No GL₂ representation,
+involution or sheaf on the projective
+line is constructed here. The geometric modification above constructs the particular Fitting-ideal flattening
+required by triangulations.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+At the pinned Mathlib, use `TensorProduct.lift` and `TensorProduct.ext'` in
+`LinearAlgebra.TensorProduct.Basic`, including their semilinear variants. `ModuleCat.ofHom` wraps actual
+linear maps, and `CochainComplex.of` and `CochainComplex.ofHom` construct native complexes and maps.
+`Homotopy` has the equation `f=dH+Hd+g`; `HomotopyEquiv.toHomologyIso` gives the induced isomorphism.
+`CategoryTheory.ShortComplex.moduleCatCyclesIso` and `moduleCatHomologyIso` identify cycles and homology with
+the actual kernel and kernel/image quotient, including their inclusion and quotient maps. For faithfully flat
+module descent use `comonadicExtendScalars` in `Algebra.Category.ModuleCat.Descent`, with its faithfully-flat
+hypothesis; the fixed-basis cocycle is transported to that comonad. The restriction to finite projectives
+needed for the basis-torsor descent is proved in §0.4. Use native modules, tensor products, Witt vectors,
+submodules, quotients, derived categories and finite projectivity throughout.
+
+Mathlib's `cyclotomicCharacter` and `cyclotomicCharacter.continuous` in
+`NumberTheory.Cyclotomic.CyclotomicCharacter` already provide the character and continuity on the absolute
+Galois group; no new character or continuity theorem is required. At the pinned Tau Ceti, `TauCeti.ContCohomology.explicitCup11` in
+`RepresentationTheory.Homological.ContCohomology.Cup.Product` works with continuous topological coefficients
+and a continuous additive equivariant pairing. `TauCeti.ContCohomology.explicitCor1` in
+`RepresentationTheory.Homological.ContCohomology.Corestriction.Basic` supplies the open finite-index
+degree-one transfer, independent of its transversal. Those are not restricted to discrete coefficients. The
+period acyclicity theorem of §3.6 is needed to identify their values with Herr classes.
+
+At the same pin Tau Ceti provides `TauCeti.completedGroupAlgebra`, `completedGroupAlgebra.proj`, `of`, `ext`,
+`proj_surjective` and `continuous_of` in `Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic`,
+together with product, power-series and character-division modules in that directory. Use that inverse-limit
+carrier for Λ, including the dyadic finite factor. The modules `TauCeti.RingTheory.FittingIdeal.Basic` and
+`.BaseChange` supply `TauCeti.fittingIdeal`, `fittingIdeal_eq_minorsIdeal_ker`, `fittingIdeal_baseChange`,
+`fittingIdeal_prod_add_finrank`, `fittingIdeal_eq_top_iff_finrank_le`,
+`fittingIdeal_map_eq_bot_iff_lt_finrank` and `fittingIdeal_le_iff_lt_finrank`. They give
+presentation-independent minors, arbitrary commutative scalar change for finite modules, free-summand shifts
+and the residue-field fiber-rank criterion. The fiber-rank theorem is not a flatness assertion about the
+original module. These are the native Λ and Fitting-ideal carriers used here; `Suggested.lean` uses only
+Mathlib interfaces available at these pins.
+
+Use Tau Ceti `Module.Dual.traceCompEquiv` and `Module.Dual.traceCompEquiv_apply` in
+`TauCeti/RingTheory/Trace/Dual.lean` for the F-linear equivalence
+`Hom_E(V,E) ≃ Hom_F(V,F)`, sending f to `Tr_(E/F)∘f`. Its hypotheses are a finite separable field
+extension E/F, an E-vector space V and compatible F-scalars (`IsScalarTower F E V`); V need not be
+finite-dimensional. The evaluation formula is `f,v ↦ Tr_(E/F)(f(v))`. Section 3.4a uses this coefficient
+identification in its finite-projective Robba trace/cup comparison.
+
+The semilinear scalar formula is Mathlib `LinearMap.map_smulₛₗ` in `Algebra.Module.LinearMap.Defs`: `F(a • x)
+= σ(a) • F(x)`. Substituting `σ(a)=a` supplies the fixed-scalar restriction in §0.2; it is not a separate
+target here. Use Mathlib `SkewPolynomial` in `Algebra.SkewPolynomial.Basic` for S{F},
+with `MulSemiringAction (Multiplicative ℕ) S` induced by the iterates of σ; its defining relation is
+`Fa=σ(a)F`, without invertibility of σ.
+
+### From the period, cohomology and geometric roadmaps
+
+PadicPeriodRings §§1.1–1.5 supply the completed algebraic closure, its continuous Galois action, fixed
+fields, normalized cyclotomic traces, Tate–Sen estimates and naturally topologized de Rham periods. Its
+§§3–4.3 supply `B_cris`, `B_st` and `B_dR`, their structure maps, invariant functors, regularity and the
+underlying fundamental period sequence. NoncommutativeAndEquivariantIwasawa §F.6 supplies its continuous
+nonequivariant sections, tensor-cochain long exact sequences and boundary on invariant quotient periods
+for every finite-dimensional continuous representation. Its restriction to de Rham periods is the supplied
+exponential; its image is `H¹_e` under a de Rham hypothesis. Section 5.7 reexports these constructions,
+including their naturality in representations and coefficient, twist and field-map compatibility.
+
+DerivedModuleAlgebra §1.T.1, “The Milnor sequence for towers of complexes”, and §1.1,
+“Derived limits of towers”, supply the native module `Rlim`, shifted-cone model, Milnor sequence,
+projections, connecting maps, cofinal comparisons and maps preserving specified square homotopies.
+Section 0.6 applies these constructions to the supplied finite continuous-cochain tower.
+
+PerfectoidSpaces §§P1.6, P1.10–P1.11 and P1.16–P1.18 supply tilting and `Witt/θ`
+comparisons; §§P3.7–P3.13 supply finite étale tilting and almost purity. Section P1.31 supplies the
+completed cyclotomic field. PerfectoidTowers P9.0 supplies lifting continuous
+cochains along finite surjections, continuous cochains into an inverse limit, and comparison with the
+canonical carrier for compact coefficients. Use its jointly continuous actions and quotient topologies.
+ProfiniteCohomology Layers 0–12 supply the finite discrete cochains, their functorial maps, cup products,
+Shapiro, the five-term inflation–restriction sequence and cohomological dimension.
+NoncommutativeAndEquivariantIwasawa §F.3 supplies the finite-coefficient Hochschild–Serre bar roof and its
+compact limit; §0.6 specializes them. ClassFieldTheory Layer 5 supplies finite local
+Tate duality, the invariant and local Euler characteristic; NoncommutativeAndEquivariantIwasawa §F.3 supplies
+their compact and rational extensions used in §§0.6 and 3.6. ClassFieldTheory Layers 6–7 supply the continuous
+local Artin map and geometric normalization by inversion,
+and Layer 9 the topological Weil group and reciprocity. LocalFieldsRamification Layer 2 supplies finite
+unramified extensions and their Frobenius maps.
+
+AdicSpaces Layer 6 supplies the underlying adic Fargues–Fontaine curve with coefficient field `ℚ_p`,
+corresponding to `d=1`. Section 1.0c constructs the `φ^d` curves and their d-dependent patching rings for
+all `d>0`, together with the finite étale maps relating different exponents.
+AdicSpacesPartII §§R0.3 and R0.5 supply completed tensor products of Huber pairs and Banach modules with
+their universal properties; its analytic/schematic chart comparisons are used with AlgebraicVectorBundles
+§§L0A–L2B for bundles and finite-projective modules. Section 1.0c here constructs the
+period-module/bundle/B-pair equivalence and Frobenius roofs on these carriers, with its global-lattice
+hypotheses. CrystallineCohomology §CR.4.7 supplies higher-rank Dieudonné–Manin classification on
+perfect-field isocrystals; §1.0b uses the supplied field filtration and adds the pure local-system comparison on perfect
+uniform Banach bases, without assuming a slope filtration for affinoid families.
+
+NoncommutativeAndEquivariantIwasawa §F.3 supplies continuous cochains for profinite groups with compact
+coefficients that are inverse limits of finite modules, discrete torsion coefficients and finite-dimensional
+E-representations. Its arithmeticContinuousCochains, arithmeticHochschildSerre and arithmeticLocalDuality
+contracts include lattice independence, coefficient maps, evaluation cups, restriction/corestriction and the
+normalized local invariant, and arithmeticHochschildSerre includes the derived comparison for every closed
+normal subgroup with its coherent quotient action and compact coefficient limit. Section 0.6 uses their
+finite-`O_E`/E specializations directly and constructs the finite-quotient descent compact finite descent. The period-coefficient acyclicity and Herr
+comparisons remain the targets of §3.6.
+
+NoncommutativeAndEquivariantIwasawa §F.6 stage 1 supplies the cyclotomic norm field, its Galois and finite
+extension equivalences, Cohen and field Robba rings, their annular restrictions and commuting Frobenius and
+cyclotomic actions, integral étale unit/counit and reduction, exact tensor realization, overconvergence and
+compatible radius models for every finite K and E. Stage 2 supplies the saturated field slope filtration and
+bounded descent of pure modules. Use its valuation-positive degree normalized by v_p(p)=1; the KPX degree
+and slope here are their negatives, on the same submodules. Stage 3 supplies the embedded differential
+lattice inside the localized realization, its unfiltered cyclotomic localizations, connection, φ, Γ,
+arbitrary twists, tensor and dual. Section 5.6a uses that inclusion directly. Its specialization maps are
+restrictions of the identity on the ambient realization, not comparisons between newly constructed objects.
+Section F.6 also supplies the general period-boundary prefix reexported in §5.7: the continuous sections
+and tensor-cochain sequences, quotient-period injection and boundary, `blochKatoHe`, `blochKatoExp`,
+their image theorems and functorial laws. These are the same objects on §F.3's cochains. This prefix uses
+only PadicPeriodRings and continuous cochains; neither Robba realization nor the differential lattice is
+a prerequisite for it.
+
+### From analytic roadmaps
+
+ColemanPowerSeries §§1.45–1.49, “Trace and Frobenius scalars” through “The zeroth Frobenius coordinate is
+psi”, is a direct prerequisite of §2.5. It supplies the integral zeroth Frobenius coordinate `ψ` on
+`ℤ_p[[π]]`, its trace identity `pψ=φ⁻¹Tr` and
+trace divisibility before reduction, with §1.49's comparison `c₀(F)=AbstractMeasure.psiSeries(F)`.
+Its integral trace comparison in §1.48 consumes IntegralIwasawaTheory §7.1: the supplier chain is
+IntegralIwasawaTheory →
+ColemanPowerSeries → this roadmap. PadicMeasuresIwasawaAlgebras §2.2 identifies this `ψ` with the
+measure operator and `ψ`-zero with support on units. Its §3a.1 supplies the universal character and
+weight-space components for `ℤ_p^×`, including `{±1}×(1+4ℤ₂)`, through PadicFunctionalAnalysis §§5.1–5.3.
+PadicFunctionalAnalysis §§4.3–4.4 and 4.7 supply the one-variable analytic stages, algebraic
+distribution carrier and quantitative Amice bijection, including the stage norm comparisons. Its
+§1.2 supplies quantitative open mapping for Banach modules; §§1.3–1.4 and 2.2–2.4 supply
+finite-dimensional/finite Banach-module topologies, potentially
+orthonormalizable models and countable-type strict splittings. The compact-unit character space for general
+`K`, its scalar distribution/Mellin comparison and the exact tensor comparisons used in this roadmap are the
+targets of §§2.7–2.8, rather than consequences of finite field coefficient extension alone.
+PadicMeasuresIwasawaAlgebras §5.2 supplies exactness for compact Hausdorff inverse systems, with its
+compactness hypotheses and without requiring every transition to be surjective.
+
+RigidAnalyticGeometry §§1.1–1.4 supply affinoid algebras, finite modules, completed tensors and rational
+charts; §§6.1–6.3 and 7.3 supply the admissible site, properness tests, coherent sheaves and their affinoid
+equivalence. §8.1 supplies relative analytification of schemes locally of finite type over an affinoid base,
+and §8.4 proper GAGA. Analytic blowups and flattening are not assumed from these contracts. The needed
+finite-type Rees charts and their analytic gluing are specified in Layer 7.
+
+AdicSpacesPartIII §R3.4 supplies quasi-Stein exhaustions, dense restriction of coherent sections,
+exactness of countable dense Banach inverse systems, and Theorems A–B. Use these on the relative
+one-variable annular and disc exhaustions of §1.1a. The additional global finite-generation and
+finite-presentation criterion there requires uniform bounds on an admissible cover.
 
 ## References
 

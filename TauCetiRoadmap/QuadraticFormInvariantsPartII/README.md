@@ -1,128 +1,83 @@
 # Roadmap: quadratic forms and cohomological invariants, Part II
 
-**Summary.** This roadmap continues `QuadraticFormInvariants` past the point where it stops: the
-characteristic-two theory of nonsingular quadratic forms, the deep theory of Pfister forms, and the
-cohomological invariants of quadratic forms in every degree. Starting from Tau Ceti's Witt ring and
-Pfister classes (for `2` invertible) and Mathlib's quadratic maps, it builds, in every
-characteristic, the module structure of the quadratic Witt group over the bilinear Witt ring and its
-filtration
-`I_qⁿ = I_bⁿ⁻¹ · I_q`, the quadratic Pfister forms `quadraticPfister`, their roundness in every fold
-and, for nonsingular ones, the equivalence of isotropy with hyperbolicity, polynomial
-representation (Cassels–Pfister), Springer's
-odd-degree theorem, transfer and the similarity theorems, the function field of a quadric and the
-subform theorem, and the Arason–Pfister Hauptsatz. It then builds the graded invariants: the Milnor
-conjecture for the Witt ring in characteristic different from two (Morel), Kato's comparison with
-the groups of logarithmic differential forms in characteristic two, the invariant `eₙ` of a
-nonsingular Pfister form and the criterion that `eₙ(ρ) = 0` exactly when `ρ` is isotropic. The last part applies this to
-henselian valued fields of finite Kronecker dimension: unit reduction and the independent-value
-criterion, `C_i` fields and the Tsen–Lang theorem, Jannsen's Hasse principle in the degree needed,
-and Dittmann–Pop's theorem that a unit Pfister form of fold `dim(K) + 1` over a henselian field is
-isotropic as soon as it is isotropic at the real closures of the constant field; it ends with the
-patch openness of henselian isotropy loci in the valuation spectrum. The end theorems are the
-Hauptsatz, the invariant-zero criterion, the three parts of Dittmann–Pop's Proposition 3.2 (the
-principal-unit criterion, the independent-value criterion with unit reduction as its case without
-values, and the dimension theorem) and the openness theorem.
+**Summary.** The basic question about a quadratic form over a field is whether it is isotropic,
+that is, whether it has a nonzero zero. For nonsingular Pfister forms, built as tensor products of
+binary forms, the answer is governed by a cohomological invariant. This roadmap continues
+`QuadraticFormInvariants`, which works throughout with `2` invertible, past the point where it
+stops. It treats nonsingular quadratic forms in characteristic two, the deep theory of Pfister
+forms, and cohomological invariants in every degree. It then applies them to Pfister forms over
+henselian valued fields, following Dittmann and Pop.
 
-## Scope and ownership
+Quadratic spaces are finite dimensional. A form `q` is nonsingular when its polar form
+`q(v + w) − q(v) − q(w)` has zero kernel. The quadratic Pfister form of fold `m + 1` is
+`⟨⟨a₁, …, aₘ⟩⟩_b ⊗ [1, a₀]`: the bilinear form `⟨1, −a₁⟩_b ⊗ ⋯ ⊗ ⟨1, −aₘ⟩_b` tensored with
+`[1, a₀] = x² + xy + a₀y²`. It is nonsingular exactly when `1 − 4a₀ ≠ 0`. If it is nonsingular and
+`2` is invertible, completing the square turns it into the usual Pfister form
+`⟨⟨a₁, …, aₘ, 1 − 4a₀⟩⟩`. The quadratic Witt group `I_q(F)` is the
+Grothendieck group of even-dimensional nonsingular forms modulo the hyperbolic plane. It is a module
+over the Witt ring `W_b(F)` of symmetric bilinear forms, filtered by `I_qⁿ = I_bⁿ⁻¹ · I_q` for
+`n ≥ 1`. When `2` is invertible, the `n`-th term is the `n`-th power of the fundamental ideal `I(F)`.
 
-`QuadraticFormInvariants` works throughout with `2` invertible and excludes three things that this
-roadmap owns: the characteristic-two theory of quadratic and bilinear forms; the deep theory of
-Pfister forms (roundness in every fold, function-field methods, the Arason–Pfister Hauptsatz, the
-Milnor conjecture and the classification statements resting on them); and graded mod-two Galois
-cohomology in every degree (its Layers 7–9 work in degrees `1` and `2`). Its Layer 4 is where it
-stops: the Witt ring, the fundamental ideal, Pfister forms in every fold with additive generation of
-`Iⁿ` for `n ≥ 1`, roundness for `n ≤ 2` and the two-fold isotropy criterion, all from Tau Ceti.
+The first main theorem is the Arason–Pfister Hauptsatz, proved in every characteristic: for `n ≥ 1`,
+a nonzero anisotropic form whose class lies in the `n`-th term of the filtration has
+dimension at least `2ⁿ`.
 
-This roadmap owns:
+The second concerns the quotients of the filtration. For `F` of characteristic not two
+and every `n ≥ 0`, the Milnor conjecture for the Witt ring, proved here following Morel, says that
+sending a symbol `{a₁, …, aₙ}` of Milnor K-theory modulo two to the class of `⟨⟨a₁, …, aₙ⟩⟩` is an
+isomorphism `Kₙᴹ(F)/2 ≅ I(F)ⁿ/I(F)ⁿ⁺¹`. With the norm-residue isomorphism it gives
+`I(F)ⁿ/I(F)ⁿ⁺¹ ≅ Hⁿ(G_F, 𝔽₂)` for `n ≥ 1`, Pfister classes going to cup products of Kummer classes.
+In characteristic two, Kato's theorem plays the same role: for `n ≥ 1`, the `n`-th quotient of the
+quadratic filtration is isomorphic to Kato's group `H₂ⁿ(F)`, built from differential forms of
+degree `n − 1`.
 
-- in characteristic two: binary nonsingular blocks, the coordinate scalar extension of quadratic
-  forms, Witt decomposition and cancellation for nonsingular forms, the product on the bilinear Witt
-  ring `W_b(F)`, the `W_b(F)`-module structure on the quadratic Witt group `I_q(F)` and the
-  filtration `I_qⁿ(F)` (Layer 0);
-- quadratic Pfister forms in every characteristic, their roundness in every fold and, for
-  nonsingular ones, the equivalence of isotropy, hyperbolicity and vanishing of the Witt class
-  (Layer 1);
-- pure-transcendental anisotropy, the Cassels–Pfister and representation theorems, the
-  characteristic-two extension of Scharlau transfer to Witt groups, Springer's theorem, the
-  similarity norm principle, odd-divisor specialization, the quadratic similarity theorem, the
-  function field of a quadric, the subform theorem and the Arason–Pfister Hauptsatz, in every
-  characteristic (Layer 2);
-- the coefficient groups `H_qⁿ(F)` of the quadratic invariants, including Kato's group in
-  characteristic two; the Milnor homomorphism, its bijectivity in degrees at most two and over the
-  prime fields, and Morel's proof that it is injective in every degree; Kato's bilinear and
-  quadratic comparisons in characteristic two; the invariant `eₙ` of nonsingular Pfister forms, its
-  naturality and the invariant-zero criterion (Layer 3);
-- unit reduction, the principal-unit criterion and the independent-value criterion over henselian
-  valued fields of arbitrary rank (Layer 4);
-- `C_i` fields, the projective dimension theorem in the form used for systems of forms, finite
-  fields as `C₁` fields, the Lang–Nagata theorem on systems, algebraic extensions, the Tsen–Lang
-  theorem, the Kronecker dimension with its strict drop under nontrivial valuations, and
-  isotropy of long unit Pfister forms in positive residue characteristic (Layer 5);
-- the extension of order-preserving embeddings to a real closure and the uniqueness of real closures,
-  coefficient fields of equicharacteristic-zero henselian fields, the cohomological-dimension bound
-  after a nonreal local base change, Jannsen's Hasse principle for `ℤ/2` coefficients, the finite
-  descent of the real-place condition and Dittmann–Pop's dimension theorem (Layer 6);
-- patch openness of henselian embedding and isotropy loci in the valuation spectrum (Layer 7).
+Either way, a nonsingular quadratic `n`-fold Pfister form `ρ` with `n ≥ 1` receives an invariant
+`eₙ(ρ)`. The third main theorem, the invariant-zero criterion, holds over any field: `eₙ(ρ) = 0`
+exactly when `ρ` is isotropic, and exactly when `ρ` is hyperbolic. Over `ℚ`,
+`8⟨1⟩ = ⟨⟨−1, −1, −1⟩⟩` is anisotropic with nonzero invariant; over `ℚ₂` it is isotropic with
+zero invariant.
 
-It leaves to named owners, and imports:
+The fourth is Dittmann and Pop's dimension theorem. The Kronecker dimension of a field is its
+transcendence degree over the prime field, plus one in characteristic zero; its constant field is
+the algebraic closure of the prime field inside it. Let `K` have finite Kronecker dimension `r` and a
+nontrivial henselian valuation ring `O`; `K` need not be finitely generated. Take units
+`ε₁, …, ε_r` of `O` and `a₀ ∈ O` with `1 − 4a₀` a unit. If `⟨⟨ε₁, …, ε_r⟩⟩_b ⊗ [1, a₀]` is isotropic
+over the compositum of `K` with every real closure of the constant field, then it is isotropic over
+`K`.
 
-- `QuadraticFormInvariants` Layer 1 (hyperbolic planes, Witt decomposition, cancellation and
-  extension with `2` invertible), Layer 4 (the Witt ring, the fundamental ideal, Pfister forms,
-  the generation of `Iⁿ` and the signature `W(ℝ) ≅ ℤ`), Layer 7A (the `μ₂` adapters and Kummer
-  classes), Layer 7B (the comparison of quaternion classes with `H²`) and Layer 9 (Scharlau transfer);
-- `ProfiniteCohomology` Layer 10 (continuous cohomology in all degrees, with restriction and
-  conjugation), Layer 11 (cohomological dimension) and Layer 12 (the graded cup product);
-- `ClassFieldTheory` Layer 6 (`cd_ℓ G_K = 2` for a finite extension `K` of `ℚ_p`);
-- `AdicSpaces` Layer 1 (the valuation spectrum and its patch topology);
-- `RealAlgebraicGeometry` Layer 1 (existence of a real closure of an ordered field, realized by Tau
-  Ceti's `TauCeti.RealClosure.exists_realClosure`); the uniqueness of real closures, which that
-  roadmap does not state, is 6.0 here;
-- `SchemeAndStackFoundations` §§0.12–0.14 (henselization of pairs, henselian pairs and Elkik's
-  smooth lifting), §2.11 (the Artin–Schreier sequence), §2.15 (étale and Galois cohomology of a
-  field, limits, Hochschild–Serre) and §2.16 (Tsen's theorem in transcendence degree one over an
-  algebraically closed field, with `Br = 0`; Layer 5 here proves the general Tsen–Lang bound
-  `C_i ⇒ C_{i+t}` by another route, and agrees with it at `i = 0, t = 1`);
-- `LocalFieldsRamificationPartII` §GF.1 (the henselization of a valued field), §GF.4 (rank-one
-  Krasner approximation and decompletion) and §GF.5 (the Abhyankar inequality);
-- `GeometryOfNumbersAndQuadraticArithmetic` §6.4 (the Witt group `ExactW0` of symmetric spaces in an
-  exact category with duality, which over a field of characteristic two is the additive group of
-  `W_b(F)`; Layer 0 adds the product and the fundamental ideal);
-- `HermitianKTheoryOfPoincareCategories` §3.4 (the Witt group of projectives `W(Proj(R); Q)`,
-  nonsingular forms modulo strictly metabolic ones), §4.5 (for the quadratic Poincaré structure it is
-  the classical Witt group of quadratic forms) and §7.9 (over a field of characteristic two this is
-  the Witt group `W^q(F)` of nonsingular quadratic forms): Layer 0 takes `I_q(F)` to be this group in
-  characteristic two and adds the module structure and the filtration. The comparison of `Wq(R)`
-  and `Ws(R)` over commutative and Dedekind rings, through the full polar form, belongs to
-  `GeometryOfNumbersAndQuadraticArithmeticPartII` §0.1 (Integral Witt comparison); it does not enter
-  the diagonal comparison of 0.5;
-- `K2SymbolsBrauer` §§5.4–5.8 (Milnor K-theory of a field and its functoriality), §5.12 (Milnor
-  K-theory of finite fields), Layer 9 (residues) and Layer 10 (the Bass–Tate sequence, Milnor norms
-  and, §10.32, Milnor K-theory of number fields in degrees at least three);
-- `KTheoryFiniteLocalFields` §3.0 (the inverse Cartier operator on the Kähler forms of a field of
-  characteristic `p`, the logarithmic forms `ν_F(n)` and the Bloch–Gabber–Kato isomorphism
-  `blochGabberKato`) and §3.0a (the norm-residue isomorphism and the motivic–étale comparison
-  `ℤ/m(i) ≃ τ_{≤i} Rε_* μ_m^{⊗i}`);
-- `MotivesAndAlgebraicCycles` §0.5b (Gersten residues and the coniveau spectral sequence), §§4.1–4.6
-  (presheaves with transfers, Nisnevich descent, the Suslin–Voevodsky motivic complexes, strict
-  homotopy invariance and the effective derived category) and §4.14 (equidimensional cycles);
-- `ClassicalAdicEtaleCohomology` §11.2 (`field_cohomological_dimension_transcendence`:
-  `cd_ℓ(L) ≤ cd_ℓ(K) + trdeg_K L`);
-- `AdicCoefficientsAndComparisonsPartII` §PA.6.9 (Gabber's prime-to-`ℓ` alterations with
-  strict normal crossings boundary), `DeligneWeightsAndPurity` §§7.12 and 7.15 (weights over finite
-  fields and purity), `ClassFieldTheory` Layer 10 (the Brauer group of a global field and the sum of
-  local invariants) and `ArithmeticGaloisDuality` §§R02.4.2, R02.4.3, R02.4.5 and R02.4.6 (local Tate
-  duality, Poitou–Tate duality for number fields and function fields, and all-place kernels), inputs to Jannsen's theorem.
+The characteristic-two Witt group comes from `HermitianKTheoryOfPoincareCategories`, and
+`KTheoryFiniteLocalFields` supplies the norm-residue isomorphism and the inverse Cartier operator
+behind Kato's group. `LogicAndDefinabilityInNumberTheoryPartII` uses the invariant-zero criterion
+and the henselian results for the definability of prime divisors, and `RealSurfacePeriodIndex` uses
+the Tsen–Lang theorem.
 
-The applications to function fields of real varieties (the Elman–Lam invariant, Pfister's
-index-two criterion, Benoist's period-index theorems for real surfaces, the level and the
-quadric-level computations of Benoist–Wittenberg) belong to `RealSurfacePeriodIndex` Layer PI.0, which takes the Tsen–Lang theorem of 5.6 from this roadmap.
+Layers 0 to 2 lead from the characteristic-two Witt groups and the roundness of quadratic Pfister
+forms (every nonzero value is a similarity factor) to the Hauptsatz. Layer 3 builds the invariants.
+Layer 4 reduces the isotropy of Pfister forms with unit entries as above to the residue field.
+Layer 5 proves the Tsen–Lang theorem for `C_i` fields, and Layer 6 combines Layers 3 to 5 with
+Jannsen's Hasse principle into the dimension theorem. Layer 7 shows that the valuations at whose
+henselization a given form becomes isotropic form a patch-open subset of the valuation
+spectrum.
 
-Quadratic forms on `Fin n → R` over an arbitrary commutative ring belong to `QuadraticFormsOverABase`:
-its §0.2 extends a form by coefficients along any ring map (`mapCoeffs`) and proves, from 0.2 here,
-that for a field `K`, a commutative `K`-algebra `L` and a form `Q` on `Fin n → K`,
-`mapCoeffs (algebraMap K L) Q` is `extendScalars Q L`; its §§2.1–2.2 define smoothness over a base
-and prove the unit criteria. 0.1 and 0.2 stay over a field, on arbitrary finite-dimensional spaces,
-which is the generality Layers 0–2 use.
+## How to read the build
+
+Layer 0 builds the characteristic-two carriers that Tau Ceti's Witt ring does not cover: binary
+nonsingular blocks, coordinate scalar extension, Witt decomposition, the bilinear Witt ring, and the
+module structure and filtration of the imported quadratic Witt group; in characteristic different from two each object is
+identified with the parent's. Layer 1 defines quadratic Pfister forms uniformly and proves
+roundness in every fold and characteristic, and the isotropy criterion for nonsingular ones. Layer 2
+develops polynomial
+representation, transfer and the similarity theorems, the function field of a quadric and the
+subform theorem, and proves the Arason–Pfister Hauptsatz. Layer 3 builds the coefficient groups,
+the odd-characteristic Milnor map, its bijectivity in low degrees and over the prime fields, Morel's
+injectivity proof, Kato's characteristic-two comparison, the Pfister invariant and the
+invariant-zero criterion. Layer 4 turns to henselian
+valued fields; Layer 5 to `C_i` fields and the Kronecker dimension; Layer 6 proves the uniqueness of real closures
+and combines Layers 3–5 with Jannsen's Hasse principle into Dittmann–Pop's dimension theorem; Layer 7 proves the openness of
+henselian loci and uses only Layer 0 and the valuation suppliers. The chain is
+Layer 0 → 1 → 2 → 3, with Layer 4 depending on Layers 0–1, Layer 5 on Layers 1 and 4, Layer 6 on
+Layers 3–5, and Layer 7 on Layer 0. Each *Needs:* line lists what the statement and its route use, item by item, so that a
+different proof is not blocked by an unrelated layer.
 
 ## Conventions
 
@@ -183,266 +138,6 @@ which is the generality Layers 0–2 use.
 - **Universes.** Fields and spaces are in arbitrary universes; statements quantifying over
   auxiliary fields (real closures, composita) quantify over the universe of the base field, which is
   enough because every field needed is algebraic over a subfield of the base.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the pinned commit. Quadratic forms: `QuadraticMap`, `QuadraticForm`, `QuadraticMap.polar`,
-`QuadraticMap.polarBilin`, `QuadraticMap.proj` (the monomial `x_i x_j`,
-`Mathlib/LinearAlgebra/QuadraticForm/Basic.lean`), `QuadraticMap.Anisotropic`,
-`QuadraticMap.Nondegenerate` (`Radical.lean`, the EKM-style predicate recalled above),
-`QuadraticMap.Equivalent` and `QuadraticMap.IsometryEquiv`, `QuadraticMap.prod`,
-`QuadraticForm.dualProd` (`Dual.lean`, the form `(f, x) ↦ f x` on `V* × V`, hyperbolic in every
-characteristic) and `QuadraticForm.baseChange` (`TensorProduct.lean`, which assumes `Invertible 2`;
-Layer 0 compares the coordinate extension with it where that hypothesis holds). Bilinear forms:
-`LinearMap.BilinForm`. Polynomials and fields: `Polynomial`, `RatFunc`, `MvPolynomial`,
-`MvPolynomial.IsHomogeneous`, `MvPolynomial.eval`, `HomogeneousLocalization`, `KaehlerDifferential`,
-`Algebra.trdeg` (`RingTheory/AlgebraicIndependent/Basic.lean`), `algebraicClosure`
-(`FieldTheory/AlgebraicClosure.lean`, the relative algebraic closure), `IsRealClosed`
-(`FieldTheory/IsRealClosed/Basic.lean`). Chevalley–Warning: `char_dvd_card_solutions`
-(`FieldTheory/ChevalleyWarning.lean`: over a finite field the characteristic divides the number of
-zeros of a polynomial of total degree less than the number of variables). Dimension theory:
-`Ideal.height_le_spanRank_toENat` (Krull's height theorem, `RingTheory/Ideal/KrullsHeightTheorem.lean`)
-and the Nullstellensatz `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical` (`RingTheory/Nullstellensatz.lean`,
-for finitely many variables over a field, with zeros in an algebraically closed extension).
-Separable closures: `IsSepClosed.lift` (an embedding over `K` of a separable algebraic extension of
-`K` into a separably closed field). Valuations: `ValuationSubring`,
-`ValuationSubring.valuation`, `ValuationSubring.ValueGroup`, `ValuationSubring.subtype`,
-`HenselianLocalRing` and `HenselianLocalRing.TFAE` (monic simple-root lifting,
-`RingTheory/Henselian.lean`), `IsLocalRing.ResidueField`, and `ValuativeRel.ofValuation` (the
-valuative relation `x ≤ y ↔ v(x) ≤ v(y)` of a valuation, `RingTheory/Valuation/ValuativeRel/Basic.lean`).
-Étale algebras: `Algebra.IsEtaleAt.exists_isStandardEtale` (a finitely presented algebra étale at a
-prime is standard étale on a neighbourhood of it, `RingTheory/Unramified/LocalStructure.lean`) and
-`StandardEtalePair` (a monic `f` and a `g` with `f′` invertible in `R[X][1/g]/(f)`,
-`RingTheory/Etale/StandardEtale.lean`). Cohomology: `continuousCohomology`.
-Inverse limits: `nonempty_sections_of_finite_inverse_system` (`CategoryTheory/CofilteredSystem.lean`:
-an inverse system of nonempty finite sets over a directed preorder has a compatible section; the
-transition maps need not be surjective).
-
-### From Tau Ceti
-
-At the pinned commit; these are the declarations the parent's Layers 1, 4 and 7 use, consumed here
-with the same scope. All Witt-ring declarations assume `Invertible (2 : K)`.
-
-- `TauCeti/LinearAlgebra/QuadraticForm/Witt/Pfister/Basic.lean`: `TauCeti.pfisterForm` (the
-  diagonal weights, defined over every field, with `TauCeti.pfisterForm_two`), `TauCeti.pfisterFormClass`,
-  `TauCeti.pfisterClass`,
-  `TauCeti.pfisterClass_mem_fundamentalIdeal_pow` and `TauCeti.fundamentalIdeal_pow_eq_addClosure`
-  (additive generation of `Iⁿ` by `n`-fold Pfister classes for `n ≥ 1`).
-- `Witt/Ring.lean`, `Witt/FundamentalIdeal.lean`, `Witt/Discriminant.lean`: `TauCeti.WittRing`,
-  `TauCeti.wittClass`, `TauCeti.WittRing.dimMod2`, `TauCeti.fundamentalIdeal`,
-  `TauCeti.oneFoldPfisterClass`, `TauCeti.fundamentalIdeal_toAddSubgroup_eq_closure_oneFoldPfisterClass`
-  (additive generation of `I` by one-fold Pfister classes) and `TauCeti.signedDiscrHom` (the signed
-  discriminant on `I`, with kernel `I²`).
-- `RegularFormClass/Basic.lean`: `TauCeti.RegularFormClass`, `TauCeti.presentedForm` (the diagonal
-  form of a tuple of units), `TauCeti.formClass` (the class of a regular form on a finite-dimensional
-  space).
-- `Witt/BaseChange.lean`: `TauCeti.WittRing.baseChange` (the ring map `W(K) → W(L)` of a field extension)
-  and `TauCeti.WittRing.baseChange_mem_fundamentalIdeal_pow` (it maps `I(K)ⁿ` into `I(L)ⁿ`).
-- `Witt/Round.lean`, `Witt/Pfister/Hyperbolic.lean`, `Witt/Pfister/BaseChange.lean`:
-  `TauCeti.oneFoldPfister_smul_equivalent_iff` and `TauCeti.twoFoldPfister_smul_equivalent_iff`
-  (over any commutative ring `R`, a unit `c` is a similarity factor of the diagonal form `⟨1, −a⟩`,
-  respectively `⟨1, −a, −b, ab⟩`, exactly when it lies in `QuadraticMap.unitValueSet` of that form;
-  roundness is the implication from membership to similarity), `TauCeti.pfisterFormClass_two_tfae`,
-  `TauCeti.pfisterClass_two_eq_zero_iff`, `TauCeti.WittRing.baseChange_pfisterClass`.
-- `Witt/Decomposition.lean`, `Witt/Cancellation.lean`, `Witt/Extension.lean`: the anisotropic part,
-  `TauCeti.equivalent_of_equivalent_prod` and `QuadraticMap.IsometryEquiv.exists_extension`, all with
-  `2` invertible.
-- `TauCeti/LinearAlgebra/QuadraticForm/Representation.lean`: `QuadraticMap.Represents`,
-  `QuadraticMap.unitValueSet`, `QuadraticMap.IsRepresentedBy` (an injective isometry into another
-  form).
-- `TauCeti/LinearAlgebra/QuadraticForm/Transfer/Basic.lean` and `Transfer/Witt.lean`:
-  `QuadraticMap.scharlauTransfer` (the form `s ∘ q` over the smaller ring, defined in every
-  characteristic and for every functional), `QuadraticMap.polar_scharlauTransfer`, and, with `2`
-  invertible and `s ≠ 0`, `TauCeti.WittRing.scharlauTransfer` and the projection formula
-  `TauCeti.WittRing.scharlauTransfer_baseChange_mul`.
-- Galois cohomology: `TauCeti.AbsoluteGaloisGroup`, `TauCeti.trivialF2` (trivial `𝔽₂` coefficients),
-  `TauCeti.kummerClass` (`FieldTheory/GaloisCohomology/MuTwo/Basic.lean`, with `2` invertible),
-  `TauCeti.trivialF2TopPairing` (multiplication on `𝔽₂`) and its all-degree cup product
-  `TauCeti.TopPairing.cup` (`RepresentationTheory/Homological/ContCohomology/Cup/`),
-  `TauCeti.trivialF2Map` and `TauCeti.trivialF2Map_cup` (pullback along a continuous homomorphism of
-  topological groups, and its compatibility with cups), `TauCeti.ContinuousCohomology.map_eq_id_of_inner`
-  (an inner automorphism with the matching action on smooth discrete coefficients induces the
-  identity in every degree, `ContCohomology/InnerConjugation.lean`), `TauCeti.galoisRes`,
-  `TauCeti.galoisRes_cup` and `TauCeti.galoisRes_kummerClass` (restriction along a finite extension
-  `L/K` with a chosen `K`-embedding `L → Kˢ`, and its compatibility with cups and with Kummer
-  classes, `FieldTheory/GaloisCohomology/Restriction.lean` and `MuTwo/Transfer.lean`; infinite
-  extensions are not covered), `TauCeti.cohomologicalDimensionAt`.
-- Real closures: `TauCeti.RealClosure.exists_realClosure` (`FieldTheory/RealClosure/Basic.lean`: an
-  ordered field `K` has a real closed field `R` in the universe of `K`, algebraic over `K`, with an
-  order-preserving embedding `K → R`) and Sturm's theorem `TauCeti.Sturm.card_roots_toFinset_univ`
-  (`Algebra/Polynomial/Sturm/Infinity.lean`: over a real closed ordered field the number of distinct
-  roots of a polynomial is the difference of the sign variations of its Sturm sequence at `−∞` and
-  at `+∞`).
-- Valuation spectrum: `TauCeti.ValuationSpectrum` (`Spv A`, the valuative relations on `A`; for a field
-  these are the valuations up to equivalence, the trivial one included), `TauCeti.ValuationSpectrum.comap`
-  (pullback of a valuative relation along a ring map) and
-  `TauCeti.ValuationSpectrum.patchTopology` with `TauCeti.ValuationSpectrum.isClopen_patchTopology_basicOpen`
-  (`AlgebraicGeometry/AdicSpace/PatchPresentation.lean`); for a field the patch topology is the
-  coarsest in which every `{v : v(a) ≤ 1}` is clopen.
-
-### From TauCetiRoadmap.QuadraticFormInvariants
-
-Layer 1, Layer 4, Layer 7A, Layer 7B and Layer 9, through the Tau Ceti declarations listed above, and Layer
-4's signature isomorphism `W(ℝ) ≅ ℤ` (sending `⟨1⟩` to `1`), which 3.2a uses. Assumed: everything
-there holds with `2` invertible and the minus-sign Pfister convention; nothing is assumed in
-characteristic two. Layer 7B supplies the identification of the quaternion class `[(a, b)]`
-with `(a) ∪ (b)` used to pin `e₂`.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-Layer 10 (continuous cohomology `Hⁿ(G, M)` in all degrees on the canonical carrier, restriction,
-inflation, corestriction, conjugation, long exact sequences and the finite-quotient colimit), Layer 11
-(`cd_p`, `scd_p`, closed-subgroup monotonicity and the finite-module criterion) and Layer 12 (the
-graded cup product with its unit, associativity, graded commutativity and restriction
-compatibility). Assumed: these are realized by Mathlib's `continuousCohomology` and Tau Ceti's
-`TauCeti.cohomologicalDimensionAt`, `TauCeti.trivialF2Map`,
-`TauCeti.ContinuousCohomology.map_eq_id_of_inner` and `TauCeti.TopPairing.cup` named above.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 6, `cd_p_absoluteGaloisGroup_eq_two`: `cd_ℓ G_K = 2` for every finite extension `K` of `ℚ_p`
-and every prime `ℓ`, including `ℓ = p = 2`. Layer 10, `eq_zero_of_localInv_eq_zero`: a Brauer class
-of a global field whose local invariants all vanish is zero, which is the case `d = 0` of 6.3.
-
-### From TauCetiRoadmap.AdicSpaces
-
-Layer 1 (§§1.1–1.3): the valuation spectrum `Spv(A)` with its basic opens, spectrality and
-pro-constructible subsets, realized by Tau Ceti's `TauCeti.ValuationSpectrum`; Layer 7 here uses
-`A = F` and the patch topology, and builds no second valuation space.
-
-### From TauCetiRoadmap.RealAlgebraicGeometry
-
-Layer 1, *ordered real-closure existence* (`exists_realClosure`), realized at the pinned commit by
-Tau Ceti's `TauCeti.RealClosure.exists_realClosure`: every ordered field `K` has a real closed field
-`R` algebraic over `K` with an order-preserving embedding `K → R`, in the universe of `K`. 6.0 and
-6.4 use it to attach a real closure of the constant field to each of its orderings. Nothing else is
-assumed: the uniqueness of real closures and the extension of order-preserving embeddings to them
-are 6.0.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§0.12 (the henselization of a pair as a filtered colimit of étale neighbourhoods, with
-`Henselization.henselian` and the universal property), §0.13 (the henselization is ind-étale and
-commutes with filtered colimits), §0.14 (characterizations of henselian pairs and Elkik's
-`henselian_smooth_lifting`), §2.11 (Artin–Schreier sequence), §2.15 (`etale_galois_comparison`,
-`etale_cohomology_limits` along cofiltered limits, `hochschildSerre_galois_covering`) and §2.16
-(`tsen_theorem`). Assumed as stated there.
-
-### From TauCetiRoadmap.LocalFieldsRamificationPartII
-
-§GF.5, `abhyankar-and-rank`: for a valued field extension `L/K` of finite transcendence degree,
-`rr(Γ_L/Γ_K) + trdeg(κ_L/κ_K) ≤ trdeg(L/K)`, with no finite-generation hypothesis; 5.7 uses it.
-
-§GF.1, *henselization as a valued field*: for a valuation ring `V` of `K`, `K^h = Frac(V^h)` is a
-separable algebraic immediate extension (same residue field and value group) with the universal
-property for embeddings into henselian valued fields, and `K` is henselian exactly when `K → K^h` is
-an isomorphism. §GF.4, *rank-one Krasner approximation* and *rank-one decompletion*: for a
-height-one valued field, `K^h` is dense in the completion, and finite separable extensions of the
-henselization descend to finite separable extensions of `K`. Layer 6 deduces from these that the
-completion and the henselization of a number field at a finite place have the same absolute Galois
-group.
-
-### From TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
-
-§3.4, the Witt group `W(Proj(R); Q)` of a Poincaré structure, the quotient of the isometry classes of
-nonsingular forms on finitely generated projective modules by the strictly metabolic ones (a direct
-summand `L` with `q|_L = 0` and `0 → L → P → DL → 0` exact); §4.5 (iii), for the quadratic Poincaré
-structure this is the classical Witt group of quadratic forms; §7.9 (c), over a field `F` of
-characteristic two it is the Witt group `W^q(F)` of nonsingular quadratic forms; §3.5, a strictly
-metabolic `1`-quadratic form on a finitely generated projective module with strict Lagrangian `L` is
-the hyperbolic form on `L`, in particular every strictly metabolic quadratic form over a field is
-hyperbolic. Assumed: nothing beyond these; 0.5 identifies the hyperbolic form on `L` with a sum of
-coordinate hyperbolic planes and, with cancellation, the monoid quotient with the Grothendieck group
-of nonsingular quadratic forms modulo the hyperbolic plane; no product structure is supplied.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-§6.4, `ExactW0` and `ExactGW0`: the Witt and Grothendieck–Witt groups of nondegenerate symmetric
-spaces in a small exact category with strong duality, metabolic spaces with an admissible Lagrangian
-having zero Witt class. Specialized to finite-dimensional vector spaces over `F` with the ordinary
-duality, these are the additive Witt and Grothendieck–Witt groups of nondegenerate symmetric bilinear
-forms, in every characteristic. Assumed: no product structure; Layer 0 adds the tensor product.
-
-### From TauCetiRoadmap.K2SymbolsBrauer
-
-§5.4 (Milnor K-theory `K_*ᴹ(F)` as the tensor algebra on `Fˣ` modulo the Steinberg relations), §§5.6–5.8
-(grading, symbol API and maps induced by field homomorphisms), §5.12 (`Kₙᴹ(𝔽_q) = 0` for `n ≥ 2`),
-Layer 9 (tame symbols and last-slot Milnor residues) and Layer 10 (§10.5 the Bass–Tate sequence for
-`F(t)`, §§10.6–10.9 Milnor transfers and the projection formula, and §10.32: for a number field with
-`r₁` real places and `n ≥ 3`, `Kₙᴹ ≅ (ℤ/2)^{r₁}` through the signs at the real places). Assumed as
-stated there; §§5.4–5.8 and Layers 9–10 for every field, inseparable extensions included.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-§3.0, *differential norm residue* (`blochGabberKato`): for a field `F` of characteristic `p` and
-`n ≥ 0`, the inverse Cartier operator `C⁻¹ : Ωⁿ_F → Ωⁿ_F / dΩⁿ⁻¹_F`, the subgroup `ν_F(n)` of
-logarithmic forms (the kernel of `1 − C⁻¹`, generated by `dlog` symbols), and
-`dlog : Kₙᴹ(F)/p ≃ ν_F(n)`, natural in field maps. §3.0a, *motivic comparison foundations*
-(`motivicToK` and the norm-residue comparison): for `m` invertible in `F`, the comparison
-`ℤ/m(i) ≃ τ_{≤i} Rε_* μ_m^{⊗i}`, whose field diagonal is the norm-residue isomorphism
-`Kₙᴹ(F)/m ≃ Hⁿ(F, μ_m^{⊗n})`, sending `{a₁, …, aₙ}` to the cup product of Kummer classes. Layer 3 uses
-`m = 2`, all `n`, and the surjectivity of cup product with `τ = −1` that the comparison gives.
-
-### From TauCetiRoadmap.MotivesAndAlgebraicCycles
-
-§0.5b (Gersten residues and the coniveau spectral sequence for cohomology theories with supports on
-smooth schemes over a perfect field), §§4.1–4.6 (finite correspondences, presheaves with transfers,
-Nisnevich descent, the Suslin complexes and effective Tate complexes `ℤ(n)`, excision, contraction
-`F₋₁` and strict homotopy invariance, the effective derived category) and §4.14 (equidimensional
-cycles and transfers). Layer 3 uses them in characteristic different from two over a perfect base.
-
-What MotivesAndAlgebraicCycles must provide (gap:rost-cycle-modules): Rost's cycle modules over a
-perfect field: the cycle complexes with coefficients and their Zariski sheaves on smooth schemes, with
-Rost's Gersten resolution, homotopy invariance and contraction `M ↦ M₋₁`, and the identification of the
-unramified mod-two Milnor K-theory sheaf as the sheaf of the cycle module `K_*ᴹ/2`.
-
-### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
-
-§11.2, `field_cohomological_dimension_transcendence`: for a field extension `L/K` and a prime `ℓ`,
-`cd_ℓ(L) ≤ cd_ℓ(K) + trdeg_K L`, infinite values allowed.
-
-### From TauCetiRoadmap.DeligneWeightsAndPurity
-
-§7.12 (weight bounds for `H^i_c` and `H^i` of varieties over a finite field, and purity of the image
-of `H^i_c → H^i`) and §7.15 (purity for proper smooth varieties over a finite field): the weight
-inputs of Jannsen's argument in 6.3.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-§R02.4.2 (local Tate duality for finite modules), §R02.4.3 (Poitou–Tate duality for a number field:
-the nine-term sequence and, for `r ≥ 3`, `H^r(G_S, M) ≅ ⊕_{v real} H^r(K_v, M)`), §R02.4.5 (the
-function-field form) and §R02.4.6 (perfect pairing of the all-place kernels `Ш¹(F, M^D)` and
-`Ш²(F, M)` for a global field and a finite module of order prime to the characteristic). 6.3 uses them,
-passing to the limit over `A[ℓⁿ]`, for Jannsen's Hasse principle in degree two.
-
-### From TauCetiRoadmap.AdicCoefficientsAndComparisonsPartII
-
-§PA.6.9, prime-to-`ℓ` alterations of varieties with snc boundary: for `X` separated, integral, of
-finite type over a field `L`, `ℓ` invertible in `L` and `Y ⊊ X` closed, there are a finite extension
-`L′/L` and a smooth connected quasi-projective `X′/L′` with a proper surjective `π : X′ → X`, both of
-degree prime to `ℓ`, and `π⁻¹(Y)_red` a strict normal crossings divisor.
-
-## How to read the build
-
-Layer 0 builds the characteristic-two carriers that Tau Ceti's Witt ring does not cover: binary
-nonsingular blocks, coordinate scalar extension, Witt decomposition, the bilinear Witt ring, and the
-module structure and filtration of the imported quadratic Witt group; in characteristic different from two each object is
-identified with the parent's. Layer 1 defines quadratic Pfister forms uniformly and proves
-roundness in every fold and characteristic, and the isotropy criterion for nonsingular ones. Layer 2
-develops polynomial
-representation, transfer and the similarity theorems, the function field of a quadric and the
-subform theorem, and proves the Arason–Pfister Hauptsatz. Layer 3 builds the coefficient groups,
-the odd-characteristic Milnor map, its bijectivity in low degrees and over the prime fields, Morel's
-injectivity proof, Kato's characteristic-two comparison, the Pfister invariant and the
-invariant-zero criterion. Layer 4 turns to henselian
-valued fields; Layer 5 to `C_i` fields and the Kronecker dimension; Layer 6 proves the uniqueness of real closures
-and combines Layers 3–5 with Jannsen's Hasse principle into Dittmann–Pop's dimension theorem; Layer 7 proves the openness of
-henselian loci and uses only Layer 0 and the valuation suppliers. The chain is
-Layer 0 → 1 → 2 → 3, with Layer 4 depending on Layers 0–1, Layer 5 on Layers 1 and 4, Layer 6 on
-Layers 3–5, and Layer 7 on Layer 0. Each *Needs:* line lists what the statement and its route use, item by item, so that a
-different proof is not blocked by an unrelated layer.
 
 ## Layer 0: nonsingular forms and quadratic Witt modules in characteristic two
 
@@ -2059,6 +1754,347 @@ of `ℚ` remains, which is exactly the hypothesis of 6.5.
 set containing the `7`-adic valuation, on which `T² − 2` has the simple residual root `3`, so `ℚ(√2)` embeds
 in every henselization; the trivial valuation lies outside, and so does every `p`-adic valuation with
 `p ≠ 7`.
+
+## Scope and ownership
+
+`QuadraticFormInvariants` works throughout with `2` invertible and excludes three things that this
+roadmap owns: the characteristic-two theory of quadratic and bilinear forms; the deep theory of
+Pfister forms (roundness in every fold, function-field methods, the Arason–Pfister Hauptsatz, the
+Milnor conjecture and the classification statements resting on them); and graded mod-two Galois
+cohomology in every degree (its Layers 7–9 work in degrees `1` and `2`). Its Layer 4 is where it
+stops: the Witt ring, the fundamental ideal, Pfister forms in every fold with additive generation of
+`Iⁿ` for `n ≥ 1`, roundness for `n ≤ 2` and the two-fold isotropy criterion, all from Tau Ceti.
+
+This roadmap owns:
+
+- in characteristic two: binary nonsingular blocks, the coordinate scalar extension of quadratic
+  forms, Witt decomposition and cancellation for nonsingular forms, the product on the bilinear Witt
+  ring `W_b(F)`, the `W_b(F)`-module structure on the quadratic Witt group `I_q(F)` and the
+  filtration `I_qⁿ(F)` (Layer 0);
+- quadratic Pfister forms in every characteristic, their roundness in every fold and, for
+  nonsingular ones, the equivalence of isotropy, hyperbolicity and vanishing of the Witt class
+  (Layer 1);
+- pure-transcendental anisotropy, the Cassels–Pfister and representation theorems, the
+  characteristic-two extension of Scharlau transfer to Witt groups, Springer's theorem, the
+  similarity norm principle, odd-divisor specialization, the quadratic similarity theorem, the
+  function field of a quadric, the subform theorem and the Arason–Pfister Hauptsatz, in every
+  characteristic (Layer 2);
+- the coefficient groups `H_qⁿ(F)` of the quadratic invariants, including Kato's group in
+  characteristic two; the Milnor homomorphism, its bijectivity in degrees at most two and over the
+  prime fields, and Morel's proof that it is injective in every degree; Kato's bilinear and
+  quadratic comparisons in characteristic two; the invariant `eₙ` of nonsingular Pfister forms, its
+  naturality and the invariant-zero criterion (Layer 3);
+- unit reduction, the principal-unit criterion and the independent-value criterion over henselian
+  valued fields of arbitrary rank (Layer 4);
+- `C_i` fields, the projective dimension theorem in the form used for systems of forms, finite
+  fields as `C₁` fields, the Lang–Nagata theorem on systems, algebraic extensions, the Tsen–Lang
+  theorem, the Kronecker dimension with its strict drop under nontrivial valuations, and
+  isotropy of long unit Pfister forms in positive residue characteristic (Layer 5);
+- the extension of order-preserving embeddings to a real closure and the uniqueness of real closures,
+  coefficient fields of equicharacteristic-zero henselian fields, the cohomological-dimension bound
+  after a nonreal local base change, Jannsen's Hasse principle for `ℤ/2` coefficients, the finite
+  descent of the real-place condition and Dittmann–Pop's dimension theorem (Layer 6);
+- patch openness of henselian embedding and isotropy loci in the valuation spectrum (Layer 7).
+
+It leaves to named owners, and imports:
+
+- `QuadraticFormInvariants` Layer 1 (hyperbolic planes, Witt decomposition, cancellation and
+  extension with `2` invertible), Layer 4 (the Witt ring, the fundamental ideal, Pfister forms,
+  the generation of `Iⁿ` and the signature `W(ℝ) ≅ ℤ`), Layer 7A (the `μ₂` adapters and Kummer
+  classes), Layer 7B (the comparison of quaternion classes with `H²`) and Layer 9 (Scharlau transfer);
+- `ProfiniteCohomology` Layer 10 (continuous cohomology in all degrees, with restriction and
+  conjugation), Layer 11 (cohomological dimension) and Layer 12 (the graded cup product);
+- `ClassFieldTheory` Layer 6 (`cd_ℓ G_K = 2` for a finite extension `K` of `ℚ_p`);
+- `AdicSpaces` Layer 1 (the valuation spectrum and its patch topology);
+- `RealAlgebraicGeometry` Layer 1 (existence of a real closure of an ordered field, realized by Tau
+  Ceti's `TauCeti.RealClosure.exists_realClosure`); the uniqueness of real closures, which that
+  roadmap does not state, is 6.0 here;
+- `SchemeAndStackFoundations` §§0.12–0.14 (henselization of pairs, henselian pairs and Elkik's
+  smooth lifting), §2.11 (the Artin–Schreier sequence), §2.15 (étale and Galois cohomology of a
+  field, limits, Hochschild–Serre) and §2.16 (Tsen's theorem in transcendence degree one over an
+  algebraically closed field, with `Br = 0`; Layer 5 here proves the general Tsen–Lang bound
+  `C_i ⇒ C_{i+t}` by another route, and agrees with it at `i = 0, t = 1`);
+- `LocalFieldsRamificationPartII` §GF.1 (the henselization of a valued field), §GF.4 (rank-one
+  Krasner approximation and decompletion) and §GF.5 (the Abhyankar inequality);
+- `GeometryOfNumbersAndQuadraticArithmetic` §6.4 (the Witt group `ExactW0` of symmetric spaces in an
+  exact category with duality, which over a field of characteristic two is the additive group of
+  `W_b(F)`; Layer 0 adds the product and the fundamental ideal);
+- `HermitianKTheoryOfPoincareCategories` §3.4 (the Witt group of projectives `W(Proj(R); Q)`,
+  nonsingular forms modulo strictly metabolic ones), §4.5 (for the quadratic Poincaré structure it is
+  the classical Witt group of quadratic forms) and §7.9 (over a field of characteristic two this is
+  the Witt group `W^q(F)` of nonsingular quadratic forms): Layer 0 takes `I_q(F)` to be this group in
+  characteristic two and adds the module structure and the filtration. The comparison of `Wq(R)`
+  and `Ws(R)` over commutative and Dedekind rings, through the full polar form, belongs to
+  `GeometryOfNumbersAndQuadraticArithmeticPartII` §0.1 (Integral Witt comparison); it does not enter
+  the diagonal comparison of 0.5;
+- `K2SymbolsBrauer` §§5.4–5.8 (Milnor K-theory of a field and its functoriality), §5.12 (Milnor
+  K-theory of finite fields), Layer 9 (residues) and Layer 10 (the Bass–Tate sequence, Milnor norms
+  and, §10.32, Milnor K-theory of number fields in degrees at least three);
+- `KTheoryFiniteLocalFields` §3.0 (the inverse Cartier operator on the Kähler forms of a field of
+  characteristic `p`, the logarithmic forms `ν_F(n)` and the Bloch–Gabber–Kato isomorphism
+  `blochGabberKato`) and §3.0a (the norm-residue isomorphism and the motivic–étale comparison
+  `ℤ/m(i) ≃ τ_{≤i} Rε_* μ_m^{⊗i}`);
+- `MotivesAndAlgebraicCycles` §0.5b (Gersten residues and the coniveau spectral sequence), §§4.1–4.6
+  (presheaves with transfers, Nisnevich descent, the Suslin–Voevodsky motivic complexes, strict
+  homotopy invariance and the effective derived category) and §4.14 (equidimensional cycles);
+- `ClassicalAdicEtaleCohomology` §11.2 (`field_cohomological_dimension_transcendence`:
+  `cd_ℓ(L) ≤ cd_ℓ(K) + trdeg_K L`);
+- `AdicCoefficientsAndComparisonsPartII` §PA.6.9 (Gabber's prime-to-`ℓ` alterations with
+  strict normal crossings boundary), `DeligneWeightsAndPurity` §§7.12 and 7.15 (weights over finite
+  fields and purity), `ClassFieldTheory` Layer 10 (the Brauer group of a global field and the sum of
+  local invariants) and `ArithmeticGaloisDuality` §§R02.4.2, R02.4.3, R02.4.5 and R02.4.6 (local Tate
+  duality, Poitou–Tate duality for number fields and function fields, and all-place kernels), inputs to Jannsen's theorem.
+
+The applications to function fields of real varieties (the Elman–Lam invariant, Pfister's
+index-two criterion, Benoist's period-index theorems for real surfaces, the level and the
+quadric-level computations of Benoist–Wittenberg) belong to `RealSurfacePeriodIndex` Layer PI.0, which takes the Tsen–Lang theorem of 5.6 from this roadmap.
+
+Quadratic forms on `Fin n → R` over an arbitrary commutative ring belong to `QuadraticFormsOverABase`:
+its §0.2 extends a form by coefficients along any ring map (`mapCoeffs`) and proves, from 0.2 here,
+that for a field `K`, a commutative `K`-algebra `L` and a form `Q` on `Fin n → K`,
+`mapCoeffs (algebraMap K L) Q` is `extendScalars Q L`; its §§2.1–2.2 define smoothness over a base
+and prove the unit criteria. 0.1 and 0.2 stay over a field, on arbitrary finite-dimensional spaces,
+which is the generality Layers 0–2 use.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the pinned commit. Quadratic forms: `QuadraticMap`, `QuadraticForm`, `QuadraticMap.polar`,
+`QuadraticMap.polarBilin`, `QuadraticMap.proj` (the monomial `x_i x_j`,
+`Mathlib/LinearAlgebra/QuadraticForm/Basic.lean`), `QuadraticMap.Anisotropic`,
+`QuadraticMap.Nondegenerate` (`Radical.lean`, the EKM-style predicate recalled above),
+`QuadraticMap.Equivalent` and `QuadraticMap.IsometryEquiv`, `QuadraticMap.prod`,
+`QuadraticForm.dualProd` (`Dual.lean`, the form `(f, x) ↦ f x` on `V* × V`, hyperbolic in every
+characteristic) and `QuadraticForm.baseChange` (`TensorProduct.lean`, which assumes `Invertible 2`;
+Layer 0 compares the coordinate extension with it where that hypothesis holds). Bilinear forms:
+`LinearMap.BilinForm`. Polynomials and fields: `Polynomial`, `RatFunc`, `MvPolynomial`,
+`MvPolynomial.IsHomogeneous`, `MvPolynomial.eval`, `HomogeneousLocalization`, `KaehlerDifferential`,
+`Algebra.trdeg` (`RingTheory/AlgebraicIndependent/Basic.lean`), `algebraicClosure`
+(`FieldTheory/AlgebraicClosure.lean`, the relative algebraic closure), `IsRealClosed`
+(`FieldTheory/IsRealClosed/Basic.lean`). Chevalley–Warning: `char_dvd_card_solutions`
+(`FieldTheory/ChevalleyWarning.lean`: over a finite field the characteristic divides the number of
+zeros of a polynomial of total degree less than the number of variables). Dimension theory:
+`Ideal.height_le_spanRank_toENat` (Krull's height theorem, `RingTheory/Ideal/KrullsHeightTheorem.lean`)
+and the Nullstellensatz `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical` (`RingTheory/Nullstellensatz.lean`,
+for finitely many variables over a field, with zeros in an algebraically closed extension).
+Separable closures: `IsSepClosed.lift` (an embedding over `K` of a separable algebraic extension of
+`K` into a separably closed field). Valuations: `ValuationSubring`,
+`ValuationSubring.valuation`, `ValuationSubring.ValueGroup`, `ValuationSubring.subtype`,
+`HenselianLocalRing` and `HenselianLocalRing.TFAE` (monic simple-root lifting,
+`RingTheory/Henselian.lean`), `IsLocalRing.ResidueField`, and `ValuativeRel.ofValuation` (the
+valuative relation `x ≤ y ↔ v(x) ≤ v(y)` of a valuation, `RingTheory/Valuation/ValuativeRel/Basic.lean`).
+Étale algebras: `Algebra.IsEtaleAt.exists_isStandardEtale` (a finitely presented algebra étale at a
+prime is standard étale on a neighbourhood of it, `RingTheory/Unramified/LocalStructure.lean`) and
+`StandardEtalePair` (a monic `f` and a `g` with `f′` invertible in `R[X][1/g]/(f)`,
+`RingTheory/Etale/StandardEtale.lean`). Cohomology: `continuousCohomology`.
+Inverse limits: `nonempty_sections_of_finite_inverse_system` (`CategoryTheory/CofilteredSystem.lean`:
+an inverse system of nonempty finite sets over a directed preorder has a compatible section; the
+transition maps need not be surjective).
+
+### From Tau Ceti
+
+At the pinned commit; these are the declarations the parent's Layers 1, 4 and 7 use, consumed here
+with the same scope. All Witt-ring declarations assume `Invertible (2 : K)`.
+
+- `TauCeti/LinearAlgebra/QuadraticForm/Witt/Pfister/Basic.lean`: `TauCeti.pfisterForm` (the
+  diagonal weights, defined over every field, with `TauCeti.pfisterForm_two`), `TauCeti.pfisterFormClass`,
+  `TauCeti.pfisterClass`,
+  `TauCeti.pfisterClass_mem_fundamentalIdeal_pow` and `TauCeti.fundamentalIdeal_pow_eq_addClosure`
+  (additive generation of `Iⁿ` by `n`-fold Pfister classes for `n ≥ 1`).
+- `Witt/Ring.lean`, `Witt/FundamentalIdeal.lean`, `Witt/Discriminant.lean`: `TauCeti.WittRing`,
+  `TauCeti.wittClass`, `TauCeti.WittRing.dimMod2`, `TauCeti.fundamentalIdeal`,
+  `TauCeti.oneFoldPfisterClass`, `TauCeti.fundamentalIdeal_toAddSubgroup_eq_closure_oneFoldPfisterClass`
+  (additive generation of `I` by one-fold Pfister classes) and `TauCeti.signedDiscrHom` (the signed
+  discriminant on `I`, with kernel `I²`).
+- `RegularFormClass/Basic.lean`: `TauCeti.RegularFormClass`, `TauCeti.presentedForm` (the diagonal
+  form of a tuple of units), `TauCeti.formClass` (the class of a regular form on a finite-dimensional
+  space).
+- `Witt/BaseChange.lean`: `TauCeti.WittRing.baseChange` (the ring map `W(K) → W(L)` of a field extension)
+  and `TauCeti.WittRing.baseChange_mem_fundamentalIdeal_pow` (it maps `I(K)ⁿ` into `I(L)ⁿ`).
+- `Witt/Round.lean`, `Witt/Pfister/Hyperbolic.lean`, `Witt/Pfister/BaseChange.lean`:
+  `TauCeti.oneFoldPfister_smul_equivalent_iff` and `TauCeti.twoFoldPfister_smul_equivalent_iff`
+  (over any commutative ring `R`, a unit `c` is a similarity factor of the diagonal form `⟨1, −a⟩`,
+  respectively `⟨1, −a, −b, ab⟩`, exactly when it lies in `QuadraticMap.unitValueSet` of that form;
+  roundness is the implication from membership to similarity), `TauCeti.pfisterFormClass_two_tfae`,
+  `TauCeti.pfisterClass_two_eq_zero_iff`, `TauCeti.WittRing.baseChange_pfisterClass`.
+- `Witt/Decomposition.lean`, `Witt/Cancellation.lean`, `Witt/Extension.lean`: the anisotropic part,
+  `TauCeti.equivalent_of_equivalent_prod` and `QuadraticMap.IsometryEquiv.exists_extension`, all with
+  `2` invertible.
+- `TauCeti/LinearAlgebra/QuadraticForm/Representation.lean`: `QuadraticMap.Represents`,
+  `QuadraticMap.unitValueSet`, `QuadraticMap.IsRepresentedBy` (an injective isometry into another
+  form).
+- `TauCeti/LinearAlgebra/QuadraticForm/Transfer/Basic.lean` and `Transfer/Witt.lean`:
+  `QuadraticMap.scharlauTransfer` (the form `s ∘ q` over the smaller ring, defined in every
+  characteristic and for every functional), `QuadraticMap.polar_scharlauTransfer`, and, with `2`
+  invertible and `s ≠ 0`, `TauCeti.WittRing.scharlauTransfer` and the projection formula
+  `TauCeti.WittRing.scharlauTransfer_baseChange_mul`.
+- Galois cohomology: `TauCeti.AbsoluteGaloisGroup`, `TauCeti.trivialF2` (trivial `𝔽₂` coefficients),
+  `TauCeti.kummerClass` (`FieldTheory/GaloisCohomology/MuTwo/Basic.lean`, with `2` invertible),
+  `TauCeti.trivialF2TopPairing` (multiplication on `𝔽₂`) and its all-degree cup product
+  `TauCeti.TopPairing.cup` (`RepresentationTheory/Homological/ContCohomology/Cup/`),
+  `TauCeti.trivialF2Map` and `TauCeti.trivialF2Map_cup` (pullback along a continuous homomorphism of
+  topological groups, and its compatibility with cups), `TauCeti.ContinuousCohomology.map_eq_id_of_inner`
+  (an inner automorphism with the matching action on smooth discrete coefficients induces the
+  identity in every degree, `ContCohomology/InnerConjugation.lean`), `TauCeti.galoisRes`,
+  `TauCeti.galoisRes_cup` and `TauCeti.galoisRes_kummerClass` (restriction along a finite extension
+  `L/K` with a chosen `K`-embedding `L → Kˢ`, and its compatibility with cups and with Kummer
+  classes, `FieldTheory/GaloisCohomology/Restriction.lean` and `MuTwo/Transfer.lean`; infinite
+  extensions are not covered), `TauCeti.cohomologicalDimensionAt`.
+- Real closures: `TauCeti.RealClosure.exists_realClosure` (`FieldTheory/RealClosure/Basic.lean`: an
+  ordered field `K` has a real closed field `R` in the universe of `K`, algebraic over `K`, with an
+  order-preserving embedding `K → R`) and Sturm's theorem `TauCeti.Sturm.card_roots_toFinset_univ`
+  (`Algebra/Polynomial/Sturm/Infinity.lean`: over a real closed ordered field the number of distinct
+  roots of a polynomial is the difference of the sign variations of its Sturm sequence at `−∞` and
+  at `+∞`).
+- Valuation spectrum: `TauCeti.ValuationSpectrum` (`Spv A`, the valuative relations on `A`; for a field
+  these are the valuations up to equivalence, the trivial one included), `TauCeti.ValuationSpectrum.comap`
+  (pullback of a valuative relation along a ring map) and
+  `TauCeti.ValuationSpectrum.patchTopology` with `TauCeti.ValuationSpectrum.isClopen_patchTopology_basicOpen`
+  (`AlgebraicGeometry/AdicSpace/PatchPresentation.lean`); for a field the patch topology is the
+  coarsest in which every `{v : v(a) ≤ 1}` is clopen.
+
+### From TauCetiRoadmap.QuadraticFormInvariants
+
+Layer 1, Layer 4, Layer 7A, Layer 7B and Layer 9, through the Tau Ceti declarations listed above, and Layer
+4's signature isomorphism `W(ℝ) ≅ ℤ` (sending `⟨1⟩` to `1`), which 3.2a uses. Assumed: everything
+there holds with `2` invertible and the minus-sign Pfister convention; nothing is assumed in
+characteristic two. Layer 7B supplies the identification of the quaternion class `[(a, b)]`
+with `(a) ∪ (b)` used to pin `e₂`.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+Layer 10 (continuous cohomology `Hⁿ(G, M)` in all degrees on the canonical carrier, restriction,
+inflation, corestriction, conjugation, long exact sequences and the finite-quotient colimit), Layer 11
+(`cd_p`, `scd_p`, closed-subgroup monotonicity and the finite-module criterion) and Layer 12 (the
+graded cup product with its unit, associativity, graded commutativity and restriction
+compatibility). Assumed: these are realized by Mathlib's `continuousCohomology` and Tau Ceti's
+`TauCeti.cohomologicalDimensionAt`, `TauCeti.trivialF2Map`,
+`TauCeti.ContinuousCohomology.map_eq_id_of_inner` and `TauCeti.TopPairing.cup` named above.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 6, `cd_p_absoluteGaloisGroup_eq_two`: `cd_ℓ G_K = 2` for every finite extension `K` of `ℚ_p`
+and every prime `ℓ`, including `ℓ = p = 2`. Layer 10, `eq_zero_of_localInv_eq_zero`: a Brauer class
+of a global field whose local invariants all vanish is zero, which is the case `d = 0` of 6.3.
+
+### From TauCetiRoadmap.AdicSpaces
+
+Layer 1 (§§1.1–1.3): the valuation spectrum `Spv(A)` with its basic opens, spectrality and
+pro-constructible subsets, realized by Tau Ceti's `TauCeti.ValuationSpectrum`; Layer 7 here uses
+`A = F` and the patch topology, and builds no second valuation space.
+
+### From TauCetiRoadmap.RealAlgebraicGeometry
+
+Layer 1, *ordered real-closure existence* (`exists_realClosure`), realized at the pinned commit by
+Tau Ceti's `TauCeti.RealClosure.exists_realClosure`: every ordered field `K` has a real closed field
+`R` algebraic over `K` with an order-preserving embedding `K → R`, in the universe of `K`. 6.0 and
+6.4 use it to attach a real closure of the constant field to each of its orderings. Nothing else is
+assumed: the uniqueness of real closures and the extension of order-preserving embeddings to them
+are 6.0.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§0.12 (the henselization of a pair as a filtered colimit of étale neighbourhoods, with
+`Henselization.henselian` and the universal property), §0.13 (the henselization is ind-étale and
+commutes with filtered colimits), §0.14 (characterizations of henselian pairs and Elkik's
+`henselian_smooth_lifting`), §2.11 (Artin–Schreier sequence), §2.15 (`etale_galois_comparison`,
+`etale_cohomology_limits` along cofiltered limits, `hochschildSerre_galois_covering`) and §2.16
+(`tsen_theorem`). Assumed as stated there.
+
+### From TauCetiRoadmap.LocalFieldsRamificationPartII
+
+§GF.5, `abhyankar-and-rank`: for a valued field extension `L/K` of finite transcendence degree,
+`rr(Γ_L/Γ_K) + trdeg(κ_L/κ_K) ≤ trdeg(L/K)`, with no finite-generation hypothesis; 5.7 uses it.
+
+§GF.1, *henselization as a valued field*: for a valuation ring `V` of `K`, `K^h = Frac(V^h)` is a
+separable algebraic immediate extension (same residue field and value group) with the universal
+property for embeddings into henselian valued fields, and `K` is henselian exactly when `K → K^h` is
+an isomorphism. §GF.4, *rank-one Krasner approximation* and *rank-one decompletion*: for a
+height-one valued field, `K^h` is dense in the completion, and finite separable extensions of the
+henselization descend to finite separable extensions of `K`. Layer 6 deduces from these that the
+completion and the henselization of a number field at a finite place have the same absolute Galois
+group.
+
+### From TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
+
+§3.4, the Witt group `W(Proj(R); Q)` of a Poincaré structure, the quotient of the isometry classes of
+nonsingular forms on finitely generated projective modules by the strictly metabolic ones (a direct
+summand `L` with `q|_L = 0` and `0 → L → P → DL → 0` exact); §4.5 (iii), for the quadratic Poincaré
+structure this is the classical Witt group of quadratic forms; §7.9 (c), over a field `F` of
+characteristic two it is the Witt group `W^q(F)` of nonsingular quadratic forms; §3.5, a strictly
+metabolic `1`-quadratic form on a finitely generated projective module with strict Lagrangian `L` is
+the hyperbolic form on `L`, in particular every strictly metabolic quadratic form over a field is
+hyperbolic. Assumed: nothing beyond these; 0.5 identifies the hyperbolic form on `L` with a sum of
+coordinate hyperbolic planes and, with cancellation, the monoid quotient with the Grothendieck group
+of nonsingular quadratic forms modulo the hyperbolic plane; no product structure is supplied.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+§6.4, `ExactW0` and `ExactGW0`: the Witt and Grothendieck–Witt groups of nondegenerate symmetric
+spaces in a small exact category with strong duality, metabolic spaces with an admissible Lagrangian
+having zero Witt class. Specialized to finite-dimensional vector spaces over `F` with the ordinary
+duality, these are the additive Witt and Grothendieck–Witt groups of nondegenerate symmetric bilinear
+forms, in every characteristic. Assumed: no product structure; Layer 0 adds the tensor product.
+
+### From TauCetiRoadmap.K2SymbolsBrauer
+
+§5.4 (Milnor K-theory `K_*ᴹ(F)` as the tensor algebra on `Fˣ` modulo the Steinberg relations), §§5.6–5.8
+(grading, symbol API and maps induced by field homomorphisms), §5.12 (`Kₙᴹ(𝔽_q) = 0` for `n ≥ 2`),
+Layer 9 (tame symbols and last-slot Milnor residues) and Layer 10 (§10.5 the Bass–Tate sequence for
+`F(t)`, §§10.6–10.9 Milnor transfers and the projection formula, and §10.32: for a number field with
+`r₁` real places and `n ≥ 3`, `Kₙᴹ ≅ (ℤ/2)^{r₁}` through the signs at the real places). Assumed as
+stated there; §§5.4–5.8 and Layers 9–10 for every field, inseparable extensions included.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+§3.0, *differential norm residue* (`blochGabberKato`): for a field `F` of characteristic `p` and
+`n ≥ 0`, the inverse Cartier operator `C⁻¹ : Ωⁿ_F → Ωⁿ_F / dΩⁿ⁻¹_F`, the subgroup `ν_F(n)` of
+logarithmic forms (the kernel of `1 − C⁻¹`, generated by `dlog` symbols), and
+`dlog : Kₙᴹ(F)/p ≃ ν_F(n)`, natural in field maps. §3.0a, *motivic comparison foundations*
+(`motivicToK` and the norm-residue comparison): for `m` invertible in `F`, the comparison
+`ℤ/m(i) ≃ τ_{≤i} Rε_* μ_m^{⊗i}`, whose field diagonal is the norm-residue isomorphism
+`Kₙᴹ(F)/m ≃ Hⁿ(F, μ_m^{⊗n})`, sending `{a₁, …, aₙ}` to the cup product of Kummer classes. Layer 3 uses
+`m = 2`, all `n`, and the surjectivity of cup product with `τ = −1` that the comparison gives.
+
+### From TauCetiRoadmap.MotivesAndAlgebraicCycles
+
+§0.5b (Gersten residues and the coniveau spectral sequence for cohomology theories with supports on
+smooth schemes over a perfect field), §§4.1–4.6 (finite correspondences, presheaves with transfers,
+Nisnevich descent, the Suslin complexes and effective Tate complexes `ℤ(n)`, excision, contraction
+`F₋₁` and strict homotopy invariance, the effective derived category) and §4.14 (equidimensional
+cycles and transfers). Layer 3 uses them in characteristic different from two over a perfect base.
+
+What MotivesAndAlgebraicCycles must provide (gap:rost-cycle-modules): Rost's cycle modules over a
+perfect field: the cycle complexes with coefficients and their Zariski sheaves on smooth schemes, with
+Rost's Gersten resolution, homotopy invariance and contraction `M ↦ M₋₁`, and the identification of the
+unramified mod-two Milnor K-theory sheaf as the sheaf of the cycle module `K_*ᴹ/2`.
+
+### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
+
+§11.2, `field_cohomological_dimension_transcendence`: for a field extension `L/K` and a prime `ℓ`,
+`cd_ℓ(L) ≤ cd_ℓ(K) + trdeg_K L`, infinite values allowed.
+
+### From TauCetiRoadmap.DeligneWeightsAndPurity
+
+§7.12 (weight bounds for `H^i_c` and `H^i` of varieties over a finite field, and purity of the image
+of `H^i_c → H^i`) and §7.15 (purity for proper smooth varieties over a finite field): the weight
+inputs of Jannsen's argument in 6.3.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+§R02.4.2 (local Tate duality for finite modules), §R02.4.3 (Poitou–Tate duality for a number field:
+the nine-term sequence and, for `r ≥ 3`, `H^r(G_S, M) ≅ ⊕_{v real} H^r(K_v, M)`), §R02.4.5 (the
+function-field form) and §R02.4.6 (perfect pairing of the all-place kernels `Ш¹(F, M^D)` and
+`Ш²(F, M)` for a global field and a finite module of order prime to the characteristic). 6.3 uses them,
+passing to the limit over `A[ℓⁿ]`, for Jannsen's Hasse principle in degree two.
+
+### From TauCetiRoadmap.AdicCoefficientsAndComparisonsPartII
+
+§PA.6.9, prime-to-`ℓ` alterations of varieties with snc boundary: for `X` separated, integral, of
+finite type over a field `L`, `ℓ` invertible in `L` and `Y ⊊ X` closed, there are a finite extension
+`L′/L` and a smooth connected quasi-projective `X′/L′` with a proper surjective `π : X′ → X`, both of
+degree prime to `ℓ`, and `π⁻¹(Y)_red` a strict normal crossings divisor.
 
 ## References
 

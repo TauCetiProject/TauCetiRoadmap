@@ -1,137 +1,61 @@
 # Roadmap: amenable traces on C*-algebras
 
-**Summary.** Build the trace-level finite-dimensional approximation theory of C*-algebras on
-Mathlib's `CStarAlgebra`, `CompletelyPositiveMap` and `CStarMatrix`, on Tau Ceti's tracial
-(`0`-KMS) state space, GNS vector and generated von Neumann algebras, on the completely positive,
-tensor-product, nuclearity, exactness and quasidiagonality layers of CStarAlgebras and on the
-state, standard-form and injectivity layers of VonNeumannAlgebras. The roadmap develops tracial
-states of an arbitrary (unital or nonunital, separable or not) C*-algebra with their GNS
-representations, the toolkit of completely positive contractions into full matrix algebras with
-the normalized trace and its 2-norm, and the three approximation classes of traces (amenable,
-quasidiagonal and uniform amenable) with their convexity and closure. The end theorems are the
-Connes–Kirchberg characterization of amenable traces by hypertraces, by the minimal tensor norm
-on `A ⊙ Aᵒᵖ` and by completely positive extensions into the GNS von Neumann algebra, together
-with Connes's Følner condition and the tracial von Neumann algebra form; the characterization of
-uniform amenable traces by injectivity of `π_τ(A)''`; the theorems that every tracial state of a
-nuclear C*-algebra is uniform amenable and that on an exact C*-algebra a tracial state is
-amenable exactly when `π_τ(A)''` is injective; the face property of the amenable and of the
-uniform amenable traces and the permanence of the classes under subalgebras, quotients, ideals,
-unitization and minimal tensor products; the examples (finite-dimensional, commutative, AF and
-UHF algebras, and the theorem that a discrete group is amenable exactly when its reduced
-C*-algebra has an amenable trace); the passage between quasidiagonal traces and quasidiagonal
-algebras with Rosenberg's theorem; and the necessity half of the AF-embedding theorem: every
-nonzero C*-subalgebra of a simple unital AF algebra is separable, exact and admits a faithful
-amenable trace. [Suggested.lean](Suggested.lean) states these end theorems at the pinned
-libraries, except the bimodule form of the Connes–Kirchberg theorem and permanence under minimal
-tensor products, whose carriers (the right GNS representation and the minimal C*-tensor product)
-the pins lack, as its docstring records.
+**Summary.** A tracial state on a C*-algebra `A` is a state `τ` with `τ(ab) = τ(ba)`. The model
+example is the normalized trace on matrices, the usual trace divided by the size. This roadmap asks
+which tracial states are approximated by matrix traces, and how the answer shows in the von Neumann
+algebra the trace generates. It treats all C*-algebras, unital or not, separable or not.
 
-## Scope and ownership
+The approximations are completely positive contractions `φ` from `A` into matrix algebras. A tracial
+state `τ` is *amenable* if, for every finite `F ⊆ A` and `ε > 0`, some such `φ` is multiplicative on
+`F` up to `ε` in the normalized 2-norm, and its normalized trace recovers `τ` on `F` up to `ε`. It
+is *quasidiagonal* if multiplicativity holds in the operator norm instead. It is *uniform amenable*
+if the maps can be chosen with recovery error at most `ε‖a‖` at every `a` in `A`, not only on `F`.
 
-This roadmap owns, in eight layers: tracial states of C*-algebras as positive functionals, the
-trace kernel, the tracial extension to the unitization and from closed ideals, the GNS data of a
-tracial state (vector trace, conjugation, right representation and the tensor functional
-`μ_τ`), the normalized matrix 2-norm and its trace comparisons, and finite-dimensional
-approximation of traces (Layer 1); the completely positive contractions into matrix algebras with their 2-norm and norm
-multiplicativity defects, asymptotic multiplicative domains, compressions, Ozawa's
-prescribed-trace matrix maps and the normal extension to the bidual (Layer 2); the definitions of
-amenable, quasidiagonal and uniform amenable traces and of a faithful amenable trace, their net,
-sequence, unital and unitization reformulations, convexity, closure, pullback and tensor
-permanence (Layer 3); hypertraces of a faithful representation of a C*-algebra and the
-Connes–Kirchberg theorem with Connes's Følner condition for a C*-algebra in general position and
-its tracial von Neumann algebra form (Layer 4); weakly nuclear representations, the injectivity
-characterization of uniform amenable traces, and the nuclear and exact cases (Layer 5); faces,
-normalized restrictions, passage to the image of the GNS representation and extension from
-ideals (Layer 6); the examples (Layer 7); and quasidiagonal traces on quasidiagonal algebras,
-faithful quasidiagonal traces, Rosenberg's theorem and the subalgebras of simple unital AF
-algebras (Layer 8).
+The first main result is the Connes–Kirchberg theorem. For unital `A` with a faithful representation
+`π` on a Hilbert space `H`, a tracial state `τ` is amenable exactly when it has a hypertrace: a
+state `ψ` of `B(H)` with `ψ ∘ π = τ` and `ψ(π(a)T) = ψ(Tπ(a))` for all `a` and every operator `T`.
+Equivalently, the GNS representation `π_τ` extends along `π` to a unital completely positive map
+from `B(H)` into the von Neumann algebra `π_τ(A)''`. Equivalently again, the functional
+`a ⊗ bᵒᵖ ↦ τ(ab)` on the algebraic tensor product `A ⊙ Aᵒᵖ` of `A` and its opposite is bounded by
+the minimal C*-norm. Connes's Følner condition, by finite-rank projections almost commuting with
+`π(A)`, is a further characterization when `A` and `H` are separable and `π(A)` contains no nonzero
+compact operator. For a von Neumann algebra `M ⊆ B(H)` with a faithful normal tracial state, that
+trace is amenable exactly when `M` is injective, the range of a projection on `B(H)` of norm at most
+one.
 
-Tracial states on C*-algebras appear as hypotheses in OperatorAlgebraDynamics D7 (the β = 0
-case of the KMS condition), in FreeProbability (tracial C*-probability spaces) and in
-TypeAHeckeAlgebras. The pinned Tau Ceti already identifies the tracial states of an arbitrary,
-possibly nonunital, C*-algebra with the `0`-KMS states of the trivial action, and proves that
-their set is convex, that a weak-star limit of tracial states is tracial when it has norm one,
-and that the set is weak-star compact for unital algebras; for unital algebras it also proves
-that the GNS vector of a tracial state is a cyclic unit vector recovering the state and is
-separating for the GNS von Neumann algebra (Exact supplier contracts, From Tau Ceti). These are
-consumed: the tracial state predicate `IsTracialState` of this roadmap is the `0`-KMS predicate
-of the trivial action. Tau Ceti's algebraic trace radical and complex Frobenius inner product are
-consumed in §1.2 and §1.5. Tau Ceti also owns amenability of topological groups
-(`TauCeti.Amenable`, applied to discrete groups), the passage from an invariant mean on `L∞` to
-amenability and the non-amenability of free groups; §7.3 and §8.4 consume them. This roadmap owns
-the rest of the theory of tracial states: the polarization and unitary criteria, the trace kernel
-on nonunital algebras, the unitization and ideal extensions, the vector trace, right
-representation, conjugation and tensor functional of the tracial GNS data, and the approximation
-classes with their permanence. VonNeumannAlgebras V5 defines tracial states of von Neumann
-algebras on Mathlib's concrete `VonNeumannAlgebra` carrier and proves their uniqueness on
-factors; the C*-algebraic notion here agrees with it on a von Neumann algebra viewed as a
-C*-algebra. The normalized matrix-trace state and its uniqueness are consumed from
-VonNeumannAlgebras V0 and V3 through the identification of `CStarMatrix (Fin k) (Fin k) ℂ`
-with the operators on `ℂ^k`; §1.5 owns the normalized 2-norm comparisons and bimodule
-identification.
+The second main result: a tracial state `τ` of a unital or nonunital C*-algebra `A` is uniform
+amenable exactly when `π_τ(A)''` is injective. Hence every tracial state of a nuclear C*-algebra is
+uniform amenable. On an exact C*-algebra, one with a faithful representation that factors
+approximately through matrix algebras by completely positive contractions, a tracial state is
+amenable exactly when `π_τ(A)''` is injective. Exactness cannot be dropped: the regular trace of the
+full group C*-algebra `C*(F₂)` is amenable, but its von Neumann algebra `L(F₂)` is not injective.
 
-Left to named roadmaps and consumed from them by section:
+Third, a discrete group `Γ`, not necessarily countable, is amenable exactly when the C*-algebra
+`C*_r(Γ)` generated by its left-regular unitaries on `ℓ²(Γ)` has an amenable tracial state.
+Equivalently, the canonical trace `τ_Γ(x) = ⟪δ_e, xδ_e⟫` is amenable. So `C*_r(F₂)` has no amenable
+trace, although its canonical trace is faithful.
 
-- **CStarAlgebras** owns completely positive maps and their Kadison–Schwarz inequality,
-  multiplicative domains, the unitization of completely positive contractions, Stinespring's
-  dilation and Arveson's Radon–Nikodym theorem (C4.1–C4.2), the maximal and minimal C*-tensor
-  products and the tensoring of completely positive maps and functionals (C5.1–C5.2), nuclear
-  maps and nuclear algebras with the bidual characterization of nuclearity (C6.1, C6.2, C6.5),
-  exactness with nuclear embeddability (C7.1), quasidiagonal algebras with Voiculescu's
-  matrix-map criterion and his absorption theorem (C8.1–C8.3), state extension (C2.1) and the
-  bidual (C2.8). Nothing here re-proves a general completely positive or tensor-product theorem;
-  the toolkit of Layer 2 is about maps into matrix algebras measured by the normalized trace. The
-  predicates `IsNuclearMap` and `IsQuasidiagonal` of this roadmap's `Suggested.lean` restate the
-  finite-set nuclearity of C6.1 and the quasidiagonality of C8.1 on native carriers.
-- **VonNeumannAlgebras** owns states, GNS and the faithful Gelfand–Naimark representation (V0),
-  operator topologies, the bicommutant theorem and Kaplansky density (V1), corners and central
-  supports (V2), finite-dimensional algebras and traces on finite-dimensional `B(H)` (V3),
-  preduals and normality (V4), tracial states on von Neumann algebras (V5), the tracial standard
-  form `L²(M,τ)` with its conjugation (V6), Arveson's extension theorem, Tomiyama's theorem and
-  injectivity (V13a), the left-regular representation of a discrete group on `ℓ²(Γ)` and the
-  group von Neumann algebra `L(Γ) = λ(Γ)''` with its faithful normal canonical trace (V8), the
-  reduced group C*-algebra `C*_r(G)` of a locally compact group `G`, the norm closure of
-  `λ(L¹(G))` in `B(L²(G, μ))`, with its discrete case (V8.RegularL2), the spatial C*-norm
-  (V13b.SpatialNorm), and semidiscreteness, the commutant theorem for injectivity, the
-  Powers–Størmer inequality for a von Neumann algebra with a faithful normal tracial state, the
-  equivalence of injectivity with hyperfiniteness for separable predual and the injectivity of
-  the group von Neumann algebras of amenable groups (V13b). Connes's hypertraces on `B(L²M)` for
-  finite von Neumann algebras, and Connes's Følner criterion in its operator form for injective
-  finite von Neumann algebras and its projection form for injective II₁ factors, belong to V13b; the
-  C*-algebraic hypertraces of Layer 4 live on `B(H)` for an arbitrary faithful representation of
-  a C*-algebra, and the Følner condition of §4.5 is the projection form with a trace clause for a
-  C*-algebra in general position. They are different objects, compared with V13b's in §4.5 and
-  §4.6. The predicates `IsInjective` and `IsNormalState` of this roadmap's `Suggested.lean` restate
-  V13a's injectivity and V4's normality.
-- **CStarClassification** owns AF and UHF algebras: the definition `IsAF`, its unitization
-  criterion and unital presentations (CL2, §2.1), the identification of the tracial state space
-  of a unital AF algebra with the state space of its scaled dimension group (CL3, §3.4), and
-  simplicity and uniqueness of the trace of UHF algebras (CL3, §3.5). §7.2 here proves only that
-  a nonzero unital AF algebra has a tracial state and that all tracial states of an AF algebra
-  are quasidiagonal and uniform amenable.
-- **OperatorAlgebraDynamics** owns the reduced crossed product `ℂ ⋊_r Γ` of the trivial action
-  of a discrete group, its dense group ring and faithful canonical expectation, the nuclearity of
-  reduced crossed products by amenable groups with nuclear coefficients (D2), and the canonical
-  trace `τ(x) = ⟪δ₁, xδ₁⟫` of the reduced group C*-algebra as a faithful tracial state
-  (D2.FreeGroups). The definition `generatedCStarAlgebra` of this roadmap's `Suggested.lean`
-  restates the definition of the same name of D2.FreeGroups, which carries its free-group
-  theorems. Neither D2 nor VonNeumannAlgebras V8.RegularL2 identifies, for an arbitrary discrete
-  group `Γ`, the C*-algebra generated by the left-regular unitaries of `lp (fun _ : Γ => ℂ) 2`
-  with D2's `ℂ ⋊_r Γ`; §7.3 proves this comparison and the agreement with V8.RegularL2's
-  `C*_r(Γ)`, consumes the D2 results through it, and proves the trace-theoretic
-  characterization of amenability.
-- **FactorRigidity** owns relative amenability of von Neumann subalgebras; its §2.2, at the trivial
-  subgroup, is the equivalence between amenability of a discrete group `Γ` and injectivity of
-  `L(Γ)`. §7.3 meets this equivalence through §5.2 and does not re-prove it.
-- **BanachSpaceTheory** owns the agreement of weak and norm closures of convex sets and Mazur's
-  lemma (B1).
+The fourth result is the necessity half of Schafhauser's AF-embedding theorem. Let `B` be a simple
+unital AF algebra: the closure of an increasing sequence of finite-dimensional C*-subalgebras, with
+no closed two-sided ideals but `0` and `B`. Every nonzero C*-algebra embedded in `B` is separable
+and exact and admits a faithful amenable trace. Hence `C*_r(F₂)` embeds in no simple unital AF
+algebra.
 
-The AF-embedding theorem of Schafhauser (schafhauser2020, Theorem A, line 75) and the
-quasidiagonality theorem of Tikuisis, White and Winter (tikuisis-white-winter2017, Theorem A,
-line 53) are statements of consumers: this roadmap supplies the notions in their statements and
-the necessity half of Schafhauser's theorem (§8.5), not their proofs. Connes's embedding problem,
-Kirchberg's factorization property of groups and the locally finite-dimensional traces of
-brown2006 §3.4 are outside this roadmap.
+The roadmap builds on the Tau Ceti library, which identifies tracial states with the `0`-KMS states
+of the trivial action and proves that free groups are not amenable. CStarAlgebras provides
+completely positive maps, tensor products, and nuclear and exact algebras. VonNeumannAlgebras
+provides the GNS construction, normality and injectivity. CStarClassification provides AF algebras,
+and its second part states Schafhauser's embedding theorem with the faithful amenable traces defined
+here.
+
+Layer 1 fixes the objects: tracial states, their GNS data, and the matrix trace and 2-norm. Layer 2
+is a toolkit for completely positive contractions into matrices. Layer 3 defines the three classes
+and proves what follows from the definitions alone. Layer 4 proves the Connes–Kirchberg theorem and
+the Følner condition, and Layer 5 the injectivity characterization with the nuclear and exact cases.
+Layer 6 proves that amenable and uniform amenable traces form faces, and the permanence results
+needing these characterizations. Layer 7 computes the examples, and Layer 8 relates quasidiagonal
+traces to quasidiagonal algebras, with Rosenberg's theorem and the AF embeddings.
+[Suggested.lean](Suggested.lean) states the four main results in Lean.
 
 ## Conventions
 
@@ -192,311 +116,6 @@ brown2006 §3.4 are outside this roadmap.
 - **Approximation properties.** Definitions are stated in finite-set form (for every finite
   `F ⊆ A` and `ε > 0` there is an approximant); the net form and, for separable algebras, the
   sequence form are theorems (§3.2).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
-
-- `CompletelyPositiveMap` with notation `A →CP B` and `CompletelyPositiveMap.map_cstarMatrix_nonneg`
-  (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`): a complex linear map whose
-  `CStarMatrix` amplifications are positive at every size, between non-unital C*-algebras with
-  `StarOrderedRing` orders. The pin has no composition, norm or unitality API for it; those come
-  from CStarAlgebras C4.1. `NonUnitalStarAlgHomClass.instCompletelyPositiveMapClass` makes star
-  homomorphisms completely positive.
-- `CStarMatrix`, `CStarMatrix.ofMatrix`, the `CStarAlgebra` instance and the `PartialOrder` and
-  `StarOrderedRing` instances (the spectral order) on square `CStarMatrix`
-  (`Mathlib/Analysis/CStarAlgebra/CStarMatrix.lean`); `Matrix.trace` and `Matrix.trace_mul_comm`
-  (`Mathlib/LinearAlgebra/Matrix/Trace.lean`); `Matrix.frobenius_norm_def`
-  (`Mathlib/Analysis/Matrix/Normed.lean`), the unnormalized Frobenius norm, of which `‖·‖₂` is
-  `k^{-1/2}` times.
-- `PositiveLinearMap.GNS`, `PositiveLinearMap.gnsStarAlgHom` and
-  `PositiveLinearMap.gnsNonUnitalStarAlgHom` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`):
-  the completed GNS space of a positive functional and its representation; Mathlib has no
-  cyclic-vector theorem, which comes from Tau Ceti's GNS module, and no unitary uniqueness of
-  cyclic representations, which comes from VonNeumannAlgebras V0.
-- `PositiveContinuousLinearMap` (`A →P[ℂ] ℂ`, `Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Positive.lean`)
-  with its coercions to `A →L[ℂ] ℂ` and `A →ₚ[ℂ] ℂ`;
-  `PositiveContinuousLinearMap.tendsto_nhds_opNorm` and
-  `PositiveContinuousLinearMap.ofReal_opNorm_eq_map_one`
-  (`Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`): along an increasing approximate
-  unit a positive functional tends to its norm, and on a unital algebra the norm is the value at
-  `1`; `PositiveLinearMap.exists_norm_apply_le`
-  (`Mathlib/Analysis/CStarAlgebra/PositiveLinearMap.lean`) for automatic continuity.
-- The `CStarAlgebra` and `NonUnitalCStarAlgebra` instances on `Aᵐᵒᵖ`
-  (`Mathlib/Analysis/CStarAlgebra/Classes.lean`, namespace `MulOpposite`) and the `CStarRing`
-  instance on `Eᵐᵒᵖ` (`Mathlib/Analysis/CStarAlgebra/Basic.lean`).
-- `StarSubalgebra.cstarAlgebra` and `NonUnitalStarSubalgebra.nonUnitalCStarAlgebra`
-  (`Mathlib/Analysis/CStarAlgebra/Classes.lean`) for closed subalgebras, `Subtype.starOrderedRing`
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Range.lean`) for their inherited
-  order, `StarSubalgebra.isClosed_topologicalClosure`
-  (`Mathlib/Topology/Algebra/StarSubalgebra.lean`), `Set.isClosed_centralizer`
-  (`Mathlib/Topology/Algebra/Group/Basic.lean`) and `VonNeumannAlgebra.centralizer_centralizer`
-  (`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`); `ContinuousLinearMap.instStarOrderedRing`
-  (`Mathlib/Analysis/InnerProductSpace/StarOrder.lean`), the operator order on `H →L[ℂ] H`.
-- `Unitization.instCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/Unitization.lean`),
-  `Unitization.inl`, `Unitization.instPartialOrder` and `Unitization.instStarOrderedRing`
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Order.lean`), the spectral order on
-  `Unitization ℂ A`, which restricts to the order of `A` (`Unitization.inr_le_inr_iff`), and
-  `Unitization.starLift` (`Mathlib/Algebra/Algebra/Unitization.lean`), the unital extension of a
-  nonunital star homomorphism into a unital algebra.
-- `CStarAlgebra.approximateUnit`, `CStarAlgebra.increasingApproximateUnit` and
-  `Filter.IsIncreasingApproximateUnit` (`Mathlib/Analysis/CStarAlgebra/ApproximateUnit.lean`).
-- `CStarAlgebra.exists_sum_four_unitary` (`Mathlib/Analysis/CStarAlgebra/Unitary/Span.lean`):
-  every element of a unital C*-algebra is a combination of four unitaries with coefficients of
-  norm at most `‖x‖/2`.
-- `gelfandStarTransform` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) for commutative
-  unital C*-algebras, and `RealRMK.rieszMeasure`
-  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`) for positive functionals on
-  continuous functions.
-- `TensorProduct.mapL` and the inner product space structure on `E ⊗[ℂ] F`
-  (`Mathlib/Analysis/InnerProductSpace/TensorProduct.lean`); `lp` with `lp.single`
-  (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`); `MeasureTheory.Measure.count`
-  (`Mathlib/MeasureTheory/Measure/Count.lean`) with its left-invariance instance
-  (`Mathlib/MeasureTheory/Group/Measure.lean`), used in §7.3 as the Haar measure of a discrete
-  group (the pin has no Haar-measure instance for it, and none is needed: §7.3 checks the
-  hypotheses of Tau Ceti's regular representation directly); `IsCompactOperator`, `Orthonormal`,
-  `TwoSidedIdeal`, `ContinuousLinearMap.toPointwiseConvergenceCLM` (the strong operator
-  topology).
-- `geometric_hahn_banach_closed_point` (`Mathlib/Analysis/LocallyConvex/Separation.lean`) in the
-  weak-star topology of the dual, `IsStarProjection`, `TopologicalSpace.SeparableSpace`,
-  `PartitionOfUnity` and `FreeGroup`.
-
-### From Tau Ceti
-
-At Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
-
-- `TauCeti.CStarAction.trivial` (`TauCeti/Analysis/CStarAlgebra/Action/Basic.lean`), the trivial
-  real action, defined on every C*-algebra including the zero algebra; a star homomorphism
-  between algebras carrying trivial actions is an equivariant homomorphism
-  `TauCeti.CStarAction.Hom` (`TauCeti/Analysis/CStarAlgebra/Action/Hom.lean`).
-- `TauCeti.CStarAction.IsKMSState` and `TauCeti.CStarAction.isKMSState_zero_iff`
-  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`): for a possibly nonunital `A` with its
-  `StarOrderedRing` order, any real action `α` and `τ : A →P[ℂ] ℂ`, `τ` is a `0`-KMS state of `α`
-  iff `‖τ‖ = 1` and `τ(ab) = τ(ba)` for all `a, b`; `TauCeti.CStarAction.isKMSState_trivial_iff`
-  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Dense.lean`) gives the same for the trivial action at
-  every inverse temperature. From the first file also `TauCeti.CStarAction.IsKMSState.comp`
-  (pullback along an equivariant homomorphism when the pullback has norm one),
-  `TauCeti.CStarAction.IsKMSState.comp_of_surjective` and
-  `TauCeti.CStarAction.isKMSState_comp_iff_of_surjective` (no norm hypothesis along surjections),
-  and `TauCeti.CStarAction.IsKMSState.restrict` (restriction to a closed invariant star
-  subalgebra when the restriction has norm one). The positivity and norm-one conditions are part
-  of the predicate; nothing about faithfulness or invariance is included at `β = 0`.
-- `TauCeti.CStarAction.kmsStates`, `TauCeti.CStarAction.convex_kmsStates`,
-  `TauCeti.CStarAction.closure_kmsStates_inter_subset` and
-  `TauCeti.CStarAction.IsKMSState.of_tendsto`, and for unital `A`
-  `TauCeti.CStarAction.isClosed_kmsStates` and `TauCeti.CStarAction.isCompact_kmsStates`
-  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/StateSpace.lean`): the set of `0`-KMS states in
-  `WeakDual ℂ A` is convex for every `A`; a weak-star limit point of it that has norm one lies in
-  it; for unital `A` it is weak-star closed and compact. No unconditional closedness is asserted
-  for nonunital `A`.
-- `PositiveLinearMap.toGNS`, `PositiveLinearMap.denseRange_toGNS`, `PositiveLinearMap.gnsVector`,
-  `PositiveLinearMap.inner_gnsVector_coe`, `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
-  `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `PositiveLinearMap.norm_gnsVector`
-  (`TauCeti/Analysis/CStarAlgebra/GNS.lean`): for every positive functional on a possibly
-  nonunital `A`, the continuous class map `a ↦ â` into the GNS space, with dense range; for
-  unital `A`, the vector `Ω = 1̂`, the density of `π(A)Ω`, `⟪Ω, â⟫ = τ(a)`,
-  `⟪π(a)Ω, π(b)Ω⟫ = τ(a*b)`, and `‖Ω‖ = 1` when `τ(1) = 1`.
-- `VonNeumannAlgebra.adjoin` and `VonNeumannAlgebra.subset_adjoin`
-  (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`), the von Neumann algebra generated by a set
-  of operators (the double commutant of `s ∪ star s`), so that
-  `M_τ = VonNeumannAlgebra.adjoin (Set.range π_τ)`, and the von Neumann density theorem
-  `VonNeumannAlgebra.exists_forall_norm_sub_apply_lt_of_mem_adjoin`
-  (`TauCeti/Analysis/VonNeumannAlgebra/Density.lean`): an element of `adjoin s` is approximated,
-  simultaneously on finitely many vectors, by elements of the star algebra generated by `s`.
-- `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`
-  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Separating.lean`): for unital `A`, a β-KMS state
-  `τ` and `x ∈ VonNeumannAlgebra.adjoin (Set.range π_τ)` with `xΩ = 0`, `x = 0`; at `β = 0` this
-  is the separating property of `Ω` for the GNS von Neumann algebra of a tracial state.
-- `LinearMap.traceRadical`, its `IsTwoSided` instance and `LinearMap.traceRadical_ne_top`
-  (`TauCeti/RingTheory/TraceFunctional/Radical.lean`): for a tracial linear functional on a
-  unital algebra, the two-sided ideal `{x : τ(xy) = 0 for all y}`, proper when `τ(1) ≠ 0`. It is
-  algebraic: it says nothing about closedness, nonunital algebras or positivity, which §1.2
-  supplies.
-- `Matrix.frobeniusInnerProductSpace` (a scoped instance) and
-  `Matrix.frobenius_inner_eq_trace_conjTranspose_mul` (`TauCeti/Analysis/Matrix/Frobenius.lean`),
-  over any `RCLike` field: the Frobenius inner product `⟪x, y⟫_F = Tr(xᴴy)`, conjugate linear in
-  the first variable. It is unnormalized and lives on `Matrix` with the Frobenius norm, not on
-  `CStarMatrix` with the operator norm.
-- `LinearMap.existsUnique_trace_mul_eq` and `Matrix.mem_range_scalar_iff_trace_mul_mul_comm`
-  (`TauCeti/LinearAlgebra/Matrix/Trace/Duality.lean`): every linear functional on square matrices
-  over a commutative semiring is `x ↦ Tr(ρx)` for a unique matrix `ρ`, and `ρ` is scalar iff
-  `Tr(ρab) = Tr(ρba)` for all `a, b`.
-- `TauCeti.Amenable` (`TauCeti/GroupTheory/Amenable/Basic.lean`): a topological group is amenable
-  when its uniformly continuous bounded functions carry a left-invariant mean, for the left
-  translation `(L_g f)(x) = f(g⁻¹x)`; for the discrete topology these are all bounded functions.
-  `TauCeti.Amenable.of_lpTop` (`TauCeti/GroupTheory/Amenable/Linfty.lean`): a left-invariant
-  positive normalized functional on `L∞` of a left-invariant measure makes the group amenable;
-  with the counting measure on a discrete group this is an invariant mean on `ℓ∞(Γ)`.
-  `TauCeti.not_amenable_freeGroup` (`TauCeti/GroupTheory/Amenable/FreeGroup.lean`): a free group
-  on a nontrivial basis, with the discrete topology, is not amenable.
-- `TauCeti.CStarAction.CovariantRepresentation.regular`
-  (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/Regular.lean`): for an action `α` of `G` on
-  `A`, a representation `ρ` of `A` on `H` and a left-invariant, locally finite measure `μ` that is
-  inner regular by compact sets on sets of finite measure, the covariant pair on `L²(G, μ; H)`
-  with `π(a)ξ(r) = ρ(α_{r⁻¹}(a))(ξ(r))` and `u_sξ(r) = ξ(s⁻¹r)`, the pair whose integrated form
-  defines OperatorAlgebraDynamics D2's reduced norm; §7.3 uses it for the trivial action on `ℂ`,
-  `ρ = id_ℂ` and the counting measure of a discrete group.
-- `LinearMap.exists_isFiniteMeasure_integral_characterSpace_eq`
-  (`TauCeti/Analysis/CStarAlgebra/CharacterSpaceMeasure.lean`): on a unital commutative
-  C*-algebra `A` (`CommCStarAlgebra`) with the Borel structure on its character space `Ω`, a
-  linear functional `τ` that is nonnegative on every `a*a` is `a ↦ ∫ ω(a) dμ(ω)` for a finite
-  inner regular measure `μ` on `Ω`; evaluating at `1` gives total mass `τ(1)`, so `μ` is a
-  probability measure when `τ` is a state. Nothing is asserted for nonunital algebras or about
-  the uniqueness of `μ`.
-
-Neither Tau Ceti nor Mathlib supplies the normalized trace `tr_k` or the 2-norm on `CStarMatrix`,
-the closed trace kernel of a nonunital algebra, the vector trace on `M_τ`, the right
-representation, the conjugation, the tensor functional, or the extensions of §1.3.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-- C2.1: state extension from a unital C*-subalgebra.
-- C2.8: the bidual `A**` as a W*-algebra with predual `A*`, and the unique normal surjective
-  extension `A** → π(A)''` of a nondegenerate representation `π`, whose kernel is a central
-  summand `(1 − z_π)A**`.
-- C4.1: identity, composition and restriction of completely positive maps; `‖φ‖ = ‖φ(1)‖` for
-  unital domains; the Kadison–Schwarz inequality `φ(a)*φ(a) ≤ φ(a*a)` for u.c.p. maps; the
-  multiplicative domain and bimodularity of a u.c.p. map over a C*-subalgebra on which it is a
-  star homomorphism; the unital extension `a + λ ↦ φ(a) + λ1` of a c.p.c. map to the
-  unitization, which is u.c.p. (the c.p.c. form of Kadison–Schwarz used in §2.2 is derived from
-  these two in §2.1).
-- C4.2: Stinespring's dilation `φ = V*π(·)V` with `‖V‖² = ‖φ‖`, including nonunital domains, and
-  Arveson's Radon–Nikodym theorem, whose `H = ℂ` case is the GNS Radon–Nikodym theorem for
-  positive functionals.
-- C5.1–C5.2: the minimal and maximal norms, the uniqueness of the C*-norm on `M_n ⊙ A` and
-  `M_n ⊗ A ≅ M_n(A)`, tensor products of completely positive maps on minimal tensor products,
-  and product functionals `φ ⊗ ψ` with `‖φ ⊗ ψ‖ = ‖φ‖‖ψ‖`.
-- C5.4: the bounded product `∏_n M_{k_n}`, its `c₀` ideal `⊕_n M_{k_n}` and the quotient norm
-  `limsup_n ‖a_n‖`.
-- C6.1, C6.2 and C6.5: nuclear completely positive contractions in the finite-set form and
-  general nuclear completely positive maps as their positive scalar multiples, independently
-  of the choice of scaling; nuclear C*-algebras (the identity is nuclear), the equivalence of
-  nuclearity with injectivity of the bidual, nuclearity of the unitization, of `C₀(X)` and of AF algebras (inductive limits of
-  finite-dimensional algebras).
-- C7.1: exact C*-algebras; nuclear algebras are exact; exactness passes to C*-subalgebras and to
-  the unitization; a C*-algebra is exact iff a (equivalently every) faithful representation
-  `A → B(H)` is a nuclear map. No separability is part of these statements.
-- C8.1–C8.3: quasidiagonal sets of operators and quasidiagonal C*-algebras (a faithful
-  representation with quasidiagonal image), Voiculescu's matrix-map criterion with its nonunital
-  c.p.c. form for separable algebras, and from C8.2 the absorption of a unital representation:
-  for a separable unital `A`, a faithful unital representation `π` on a separable `H` with
-  `π(A) ∩ K(H) = 0` and a unital representation `ρ` on a separable `K`, there are unitaries
-  `U_m : H → H ⊕ K` with `‖U_mπ(a)U_m* − (π(a) ⊕ ρ(a))‖ → 0` for all `a`, from which §4.5 derives
-  the compression step for u.c.p. maps into `M_n`; from C8.3 also the quasidiagonality of
-  finite-dimensional, separable commutative and separable AF algebras, its permanence under
-  C*-subalgebras, and the stable finiteness of quasidiagonal algebras (a Check of §8.4).
-- C8.4 and C9.1: the Toeplitz extension, and the quasidiagonality of cones over separable
-  algebras, used in Checks.
-- C9.7: the positive unital extension operator `C(K) → C(X)` for a closed subset `K` of a
-  compact metrizable `X` (its Check on `C(X)`), used only in a Check of §6.4.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-- V0: the state space with its weak-star topology, convex and compact for nonzero unital
-  algebras; positivity of the unital extension of a positive functional to the unitization and
-  the Cauchy–Schwarz inequality for positive functionals; unitary uniqueness of cyclic
-  representations; the faithful Gelfand–Naimark representation; the normalized matrix-trace
-  state for `k ≥ 1`, transported to `CStarMatrix` through its identification with operators on
-  `ℂ^k`. The GNS cyclic vector and the recovery of the functional are consumed from Tau Ceti's
-  GNS module.
-- V1: the bicommutant theorem and Kaplansky density in bounded strong-star form.
-- V2: corners `pMp` on `pH` for `p ∈ M` or `p ∈ M'`, `(pMp)' = pM'p`, central supports.
-- V3: finite-dimensional C*-algebras as finite direct sums of matrix algebras with matrix units,
-  and the uniqueness of algebraic traces on finite-dimensional `B(H)` up to scalars, hence
-  uniqueness of the normalized matrix-trace state on `M_k` for `k ≥ 1` under the same
-  matrix/operator identification.
-- V4: preduals, normal states (the monotone-net form on the strong operator topology) and normal
-  representations; the GNS representation of a normal state is normal with von Neumann image;
-  separability of the predual of a von Neumann algebra on a separable Hilbert space.
-- V5: tracial states of von Neumann algebras.
-- V6: for a von Neumann algebra `M` with faithful normal tracial state `τ`, the standard form
-  `L²(M,τ)`, the conjugation `J(xΩ) = x*Ω` and `JMJ = M'`.
-- V8: for an arbitrary discrete group `Γ`, the left-regular representation `λ` on `ℓ²(Γ)`, the
-  group von Neumann algebra `L(Γ) = λ(Γ)''` and its faithful normal canonical trace
-  `x ↦ ⟪δ_e, xδ_e⟫`.
-- V8.RegularL2: for a locally compact Hausdorff group `G` with a regular left Haar measure `μ`,
-  `(λ_s f)(r) = f(s⁻¹r)` on `L²(G, μ)`, the integrated operators `λ(f)`, `f ∈ L¹(G, μ)`, with
-  `‖λ(f)‖ ≤ ‖f‖₁`, and the reduced group C*-algebra `C*_r(G)`, the norm closure of `λ(L¹(G))` in
-  `B(L²(G, μ))`, unital exactly when `G` is discrete; in the discrete case with counting measure
-  `L¹(G) = ℓ¹(G)`, `λ_s` is the permutation unitary of `ℓ²(G)` and `λ(G)''` is V8's `L(G)`. §7.3
-  identifies its discrete case with `generatedCStarAlgebra`.
-- V13a: Arveson's extension theorem for completely positive maps from concrete operator systems
-  into `B(K)`; Tomiyama's theorem (for a projection of norm exactly one); injectivity by
-  completely positive extension, equivalent, for `M ⊆ B(H)` in a faithful normal representation,
-  to a contractive projection `B(H) → M` (a bounded linear `P` with range in `M`, fixing `M`
-  pointwise, with `‖P‖ ≤ 1`), of norm one when `M ≠ 0` and then a conditional expectation by
-  Tomiyama's theorem; injectivity passes to expected subalgebras and corners. On `H = 0`,
-  `M = B(H) = 0` and the only projection is the zero map, of norm `0`: it is contractive, so the
-  zero algebra is injective, but it has no norm-one projection. Where this roadmap applies
-  Tomiyama's theorem (§1.6, §4.6) the range contains the unit of a nonzero algebra carrying a
-  state, so a contractive projection onto it has norm one; the u.c.p. projections built in §4.6
-  and §5.1 are contractive, which is all that injectivity asks.
-- V13b.SpatialNorm: the spatial norm on `A ⊙ B`, its representation independence and isometric
-  functoriality for inclusions; in its proof route, the weak-star closed convex hull of the vector
-  states of a faithful representation is the state space.
-- V13b: injectivity iff semidiscreteness for arbitrary von Neumann algebras; `M` is injective
-  iff `M'` is; the Powers–Størmer inequality `‖a^{1/2} − b^{1/2}‖₂² ≤ ‖a − b‖₁` for positive `L¹`
-  elements `a, b` of a von Neumann algebra with a faithful normal tracial state (V6's `L²`). §2.4
-  applies it only to `(B(E), tr_E)`, `tr_E = (dim E)⁻¹Tr`, for a nonzero finite-dimensional
-  subspace `E ⊆ H` containing the ranges of finite-rank positive `h, k`, where both sides are
-  `(dim E)⁻¹` times `‖h^{1/2} − k^{1/2}‖_HS²` and `‖h − k‖₁`; no semifinite form on `B(H)` with
-  `dim H = ∞` is assumed. Also: injectivity iff hyperfiniteness for separable predual; the
-  hypertraces of finite von Neumann algebras on `B(L²M)` and Connes's Følner criterion for
-  injective finite von Neumann algebras (compared in §4.5–§4.6); `L(F₂)` is not hyperfinite (its
-  Checks, through property Γ), hence not injective, and has no hypertrace.
-
-### From TauCetiRoadmap.CStarClassification
-
-- CL2 (§2.1): `IsAF` (a sequential increasing union of finite-dimensional C*-subalgebras with
-  dense union, nonunital algebras and the zero algebra included); `A` is AF iff `Ã` is AF; unital
-  AF algebras have presentations by unital finite-dimensional subalgebras.
-- CL3 (§3.4): for a unital AF algebra, the trace pairing `T(A) ≅ S(K₀(A), [1])`, used in the
-  Checks of §7.2.
-- CL3 (§3.5): UHF algebras are simple with a unique tracial state.
-
-### From TauCetiRoadmap.OperatorAlgebraDynamics
-
-- D2: for a discrete group `Γ`, the reduced crossed product `ℂ ⋊_r Γ` of the trivial action, the
-  completion of `C_c(Γ, ℂ)` for the norm of the integrated regular representation on
-  `L²(Γ, count)` (Tau Ceti's `TauCeti.CStarAction.CovariantRepresentation.regular` for any
-  faithful `ρ`, independent of `ρ`), the dense group ring of finite sums `Σ c_g u_g`, the faithful
-  conditional expectation `E` onto the coefficient algebra, and the theorem that an amenable group
-  with nuclear coefficients has nuclear reduced crossed product. §7.3 identifies `ℂ ⋊_r Γ` with
-  `generatedCStarAlgebra` of the left-regular unitaries of `ℓ²(Γ)`.
-- D2.FreeGroups: for a discrete group `Γ`, D2's coefficient expectation of `ℂ ⋊_r Γ`, realized
-  on `ℓ²(Γ)` with `λ_gδ_h = δ_{gh}` for the counting Haar measure, is the faithful tracial state
-  `τ(x) = ⟪δ₁, xδ₁⟫` with `τ(Σ c_g λ_g) = c_1`; its free-group theorems are stated on
-  `generatedCStarAlgebra` of the left-regular unitaries of `lp (fun _ : Γ => ℂ) 2`, pinned by
-  `(λ_g ξ)(h) = ξ(g⁻¹h)`. §7.3 transports the trace to that algebra for every discrete `Γ`.
-
-### From TauCetiRoadmap.FactorRigidity
-
-- §2.2: relative amenability; at the trivial subgroup, a discrete group `Γ` is amenable iff `L(Γ)`
-  is injective. §7.3 cites it for the equivalence of its condition (v) with amenability; no
-  statement here depends on it.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-- B1: the weak and norm closures of a convex subset of a Banach space agree, with the
-  finite-convex-combination form of Mazur's lemma.
-
-## How to read the build
-
-Layer 1 fixes the objects: tracial states, their kernel, their unitization and ideal extensions,
-the GNS data `(L²(A,τ), Ω, π_τ, τ'', J, π_τᵒᵖ, μ_τ)`, the matrix trace and 2-norm, and
-finite-dimensional trace approximation. Layer 2 is the analytic toolkit about completely positive
-contractions into matrices: the multiplicativity defects and the asymptotic multiplicative
-domains that turn estimates on a generating set into estimates on the whole algebra, compression
-identities, Ozawa's matrix maps with prescribed trace and the normal extension to the bidual.
-Layer 3 defines the three approximation classes and proves everything that follows from the
-definitions alone. Layer 4 proves the Connes–Kirchberg theorem, Connes's Følner condition and its
-von Neumann algebra corollary. Layer 5 characterizes uniform amenable traces by injectivity and
-proves the nuclear and exact theorems. Layer 6 proves the face property and the permanence
-results that need the characterizations. Layer 7 computes the examples and Layer 8 connects
-quasidiagonal traces with quasidiagonal algebras and AF embeddings. Every layer ends with its
-examples and dependencies.
 
 ## Layer 1: Tracial states, their GNS data and the matrix trace
 
@@ -2332,6 +1951,402 @@ VonNeumannAlgebras V0; Mathlib `TwoSidedIdeal`. Within this roadmap: Layers 1–
   β = 0 KMS states, tracial C*-probability spaces), whose convexity and compactness are the pinned
   Tau Ceti theorems, and §7.3 for group algebras; the base roadmaps are suppliers or independent
   of this one and do not consume it.
+
+## Scope and ownership
+
+This roadmap owns, in eight layers: tracial states of C*-algebras as positive functionals, the
+trace kernel, the tracial extension to the unitization and from closed ideals, the GNS data of a
+tracial state (vector trace, conjugation, right representation and the tensor functional
+`μ_τ`), the normalized matrix 2-norm and its trace comparisons, and finite-dimensional
+approximation of traces (Layer 1); the completely positive contractions into matrix algebras with their 2-norm and norm
+multiplicativity defects, asymptotic multiplicative domains, compressions, Ozawa's
+prescribed-trace matrix maps and the normal extension to the bidual (Layer 2); the definitions of
+amenable, quasidiagonal and uniform amenable traces and of a faithful amenable trace, their net,
+sequence, unital and unitization reformulations, convexity, closure, pullback and tensor
+permanence (Layer 3); hypertraces of a faithful representation of a C*-algebra and the
+Connes–Kirchberg theorem with Connes's Følner condition for a C*-algebra in general position and
+its tracial von Neumann algebra form (Layer 4); weakly nuclear representations, the injectivity
+characterization of uniform amenable traces, and the nuclear and exact cases (Layer 5); faces,
+normalized restrictions, passage to the image of the GNS representation and extension from
+ideals (Layer 6); the examples (Layer 7); and quasidiagonal traces on quasidiagonal algebras,
+faithful quasidiagonal traces, Rosenberg's theorem and the subalgebras of simple unital AF
+algebras (Layer 8).
+
+Tracial states on C*-algebras appear as hypotheses in OperatorAlgebraDynamics D7 (the β = 0
+case of the KMS condition), in FreeProbability (tracial C*-probability spaces) and in
+TypeAHeckeAlgebras. The pinned Tau Ceti already identifies the tracial states of an arbitrary,
+possibly nonunital, C*-algebra with the `0`-KMS states of the trivial action, and proves that
+their set is convex, that a weak-star limit of tracial states is tracial when it has norm one,
+and that the set is weak-star compact for unital algebras; for unital algebras it also proves
+that the GNS vector of a tracial state is a cyclic unit vector recovering the state and is
+separating for the GNS von Neumann algebra (Exact supplier contracts, From Tau Ceti). These are
+consumed: the tracial state predicate `IsTracialState` of this roadmap is the `0`-KMS predicate
+of the trivial action. Tau Ceti's algebraic trace radical and complex Frobenius inner product are
+consumed in §1.2 and §1.5. Tau Ceti also owns amenability of topological groups
+(`TauCeti.Amenable`, applied to discrete groups), the passage from an invariant mean on `L∞` to
+amenability and the non-amenability of free groups; §7.3 and §8.4 consume them. This roadmap owns
+the rest of the theory of tracial states: the polarization and unitary criteria, the trace kernel
+on nonunital algebras, the unitization and ideal extensions, the vector trace, right
+representation, conjugation and tensor functional of the tracial GNS data, and the approximation
+classes with their permanence. VonNeumannAlgebras V5 defines tracial states of von Neumann
+algebras on Mathlib's concrete `VonNeumannAlgebra` carrier and proves their uniqueness on
+factors; the C*-algebraic notion here agrees with it on a von Neumann algebra viewed as a
+C*-algebra. The normalized matrix-trace state and its uniqueness are consumed from
+VonNeumannAlgebras V0 and V3 through the identification of `CStarMatrix (Fin k) (Fin k) ℂ`
+with the operators on `ℂ^k`; §1.5 owns the normalized 2-norm comparisons and bimodule
+identification.
+
+Left to named roadmaps and consumed from them by section:
+
+- **CStarAlgebras** owns completely positive maps and their Kadison–Schwarz inequality,
+  multiplicative domains, the unitization of completely positive contractions, Stinespring's
+  dilation and Arveson's Radon–Nikodym theorem (C4.1–C4.2), the maximal and minimal C*-tensor
+  products and the tensoring of completely positive maps and functionals (C5.1–C5.2), nuclear
+  maps and nuclear algebras with the bidual characterization of nuclearity (C6.1, C6.2, C6.5),
+  exactness with nuclear embeddability (C7.1), quasidiagonal algebras with Voiculescu's
+  matrix-map criterion and his absorption theorem (C8.1–C8.3), state extension (C2.1) and the
+  bidual (C2.8). Nothing here re-proves a general completely positive or tensor-product theorem;
+  the toolkit of Layer 2 is about maps into matrix algebras measured by the normalized trace. The
+  predicates `IsNuclearMap` and `IsQuasidiagonal` of this roadmap's `Suggested.lean` restate the
+  finite-set nuclearity of C6.1 and the quasidiagonality of C8.1 on native carriers.
+- **VonNeumannAlgebras** owns states, GNS and the faithful Gelfand–Naimark representation (V0),
+  operator topologies, the bicommutant theorem and Kaplansky density (V1), corners and central
+  supports (V2), finite-dimensional algebras and traces on finite-dimensional `B(H)` (V3),
+  preduals and normality (V4), tracial states on von Neumann algebras (V5), the tracial standard
+  form `L²(M,τ)` with its conjugation (V6), Arveson's extension theorem, Tomiyama's theorem and
+  injectivity (V13a), the left-regular representation of a discrete group on `ℓ²(Γ)` and the
+  group von Neumann algebra `L(Γ) = λ(Γ)''` with its faithful normal canonical trace (V8), the
+  reduced group C*-algebra `C*_r(G)` of a locally compact group `G`, the norm closure of
+  `λ(L¹(G))` in `B(L²(G, μ))`, with its discrete case (V8.RegularL2), the spatial C*-norm
+  (V13b.SpatialNorm), and semidiscreteness, the commutant theorem for injectivity, the
+  Powers–Størmer inequality for a von Neumann algebra with a faithful normal tracial state, the
+  equivalence of injectivity with hyperfiniteness for separable predual and the injectivity of
+  the group von Neumann algebras of amenable groups (V13b). Connes's hypertraces on `B(L²M)` for
+  finite von Neumann algebras, and Connes's Følner criterion in its operator form for injective
+  finite von Neumann algebras and its projection form for injective II₁ factors, belong to V13b; the
+  C*-algebraic hypertraces of Layer 4 live on `B(H)` for an arbitrary faithful representation of
+  a C*-algebra, and the Følner condition of §4.5 is the projection form with a trace clause for a
+  C*-algebra in general position. They are different objects, compared with V13b's in §4.5 and
+  §4.6. The predicates `IsInjective` and `IsNormalState` of this roadmap's `Suggested.lean` restate
+  V13a's injectivity and V4's normality.
+- **CStarClassification** owns AF and UHF algebras: the definition `IsAF`, its unitization
+  criterion and unital presentations (CL2, §2.1), the identification of the tracial state space
+  of a unital AF algebra with the state space of its scaled dimension group (CL3, §3.4), and
+  simplicity and uniqueness of the trace of UHF algebras (CL3, §3.5). §7.2 here proves only that
+  a nonzero unital AF algebra has a tracial state and that all tracial states of an AF algebra
+  are quasidiagonal and uniform amenable.
+- **OperatorAlgebraDynamics** owns the reduced crossed product `ℂ ⋊_r Γ` of the trivial action
+  of a discrete group, its dense group ring and faithful canonical expectation, the nuclearity of
+  reduced crossed products by amenable groups with nuclear coefficients (D2), and the canonical
+  trace `τ(x) = ⟪δ₁, xδ₁⟫` of the reduced group C*-algebra as a faithful tracial state
+  (D2.FreeGroups). The definition `generatedCStarAlgebra` of this roadmap's `Suggested.lean`
+  restates the definition of the same name of D2.FreeGroups, which carries its free-group
+  theorems. Neither D2 nor VonNeumannAlgebras V8.RegularL2 identifies, for an arbitrary discrete
+  group `Γ`, the C*-algebra generated by the left-regular unitaries of `lp (fun _ : Γ => ℂ) 2`
+  with D2's `ℂ ⋊_r Γ`; §7.3 proves this comparison and the agreement with V8.RegularL2's
+  `C*_r(Γ)`, consumes the D2 results through it, and proves the trace-theoretic
+  characterization of amenability.
+- **FactorRigidity** owns relative amenability of von Neumann subalgebras; its §2.2, at the trivial
+  subgroup, is the equivalence between amenability of a discrete group `Γ` and injectivity of
+  `L(Γ)`. §7.3 meets this equivalence through §5.2 and does not re-prove it.
+- **BanachSpaceTheory** owns the agreement of weak and norm closures of convex sets and Mazur's
+  lemma (B1).
+
+The AF-embedding theorem of Schafhauser (schafhauser2020, Theorem A, line 75) and the
+quasidiagonality theorem of Tikuisis, White and Winter (tikuisis-white-winter2017, Theorem A,
+line 53) are statements of consumers: this roadmap supplies the notions in their statements and
+the necessity half of Schafhauser's theorem (§8.5), not their proofs. Connes's embedding problem,
+Kirchberg's factorization property of groups and the locally finite-dimensional traces of
+brown2006 §3.4 are outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
+
+- `CompletelyPositiveMap` with notation `A →CP B` and `CompletelyPositiveMap.map_cstarMatrix_nonneg`
+  (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`): a complex linear map whose
+  `CStarMatrix` amplifications are positive at every size, between non-unital C*-algebras with
+  `StarOrderedRing` orders. The pin has no composition, norm or unitality API for it; those come
+  from CStarAlgebras C4.1. `NonUnitalStarAlgHomClass.instCompletelyPositiveMapClass` makes star
+  homomorphisms completely positive.
+- `CStarMatrix`, `CStarMatrix.ofMatrix`, the `CStarAlgebra` instance and the `PartialOrder` and
+  `StarOrderedRing` instances (the spectral order) on square `CStarMatrix`
+  (`Mathlib/Analysis/CStarAlgebra/CStarMatrix.lean`); `Matrix.trace` and `Matrix.trace_mul_comm`
+  (`Mathlib/LinearAlgebra/Matrix/Trace.lean`); `Matrix.frobenius_norm_def`
+  (`Mathlib/Analysis/Matrix/Normed.lean`), the unnormalized Frobenius norm, of which `‖·‖₂` is
+  `k^{-1/2}` times.
+- `PositiveLinearMap.GNS`, `PositiveLinearMap.gnsStarAlgHom` and
+  `PositiveLinearMap.gnsNonUnitalStarAlgHom` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`):
+  the completed GNS space of a positive functional and its representation; Mathlib has no
+  cyclic-vector theorem, which comes from Tau Ceti's GNS module, and no unitary uniqueness of
+  cyclic representations, which comes from VonNeumannAlgebras V0.
+- `PositiveContinuousLinearMap` (`A →P[ℂ] ℂ`, `Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Positive.lean`)
+  with its coercions to `A →L[ℂ] ℂ` and `A →ₚ[ℂ] ℂ`;
+  `PositiveContinuousLinearMap.tendsto_nhds_opNorm` and
+  `PositiveContinuousLinearMap.ofReal_opNorm_eq_map_one`
+  (`Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`): along an increasing approximate
+  unit a positive functional tends to its norm, and on a unital algebra the norm is the value at
+  `1`; `PositiveLinearMap.exists_norm_apply_le`
+  (`Mathlib/Analysis/CStarAlgebra/PositiveLinearMap.lean`) for automatic continuity.
+- The `CStarAlgebra` and `NonUnitalCStarAlgebra` instances on `Aᵐᵒᵖ`
+  (`Mathlib/Analysis/CStarAlgebra/Classes.lean`, namespace `MulOpposite`) and the `CStarRing`
+  instance on `Eᵐᵒᵖ` (`Mathlib/Analysis/CStarAlgebra/Basic.lean`).
+- `StarSubalgebra.cstarAlgebra` and `NonUnitalStarSubalgebra.nonUnitalCStarAlgebra`
+  (`Mathlib/Analysis/CStarAlgebra/Classes.lean`) for closed subalgebras, `Subtype.starOrderedRing`
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Range.lean`) for their inherited
+  order, `StarSubalgebra.isClosed_topologicalClosure`
+  (`Mathlib/Topology/Algebra/StarSubalgebra.lean`), `Set.isClosed_centralizer`
+  (`Mathlib/Topology/Algebra/Group/Basic.lean`) and `VonNeumannAlgebra.centralizer_centralizer`
+  (`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`); `ContinuousLinearMap.instStarOrderedRing`
+  (`Mathlib/Analysis/InnerProductSpace/StarOrder.lean`), the operator order on `H →L[ℂ] H`.
+- `Unitization.instCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/Unitization.lean`),
+  `Unitization.inl`, `Unitization.instPartialOrder` and `Unitization.instStarOrderedRing`
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Order.lean`), the spectral order on
+  `Unitization ℂ A`, which restricts to the order of `A` (`Unitization.inr_le_inr_iff`), and
+  `Unitization.starLift` (`Mathlib/Algebra/Algebra/Unitization.lean`), the unital extension of a
+  nonunital star homomorphism into a unital algebra.
+- `CStarAlgebra.approximateUnit`, `CStarAlgebra.increasingApproximateUnit` and
+  `Filter.IsIncreasingApproximateUnit` (`Mathlib/Analysis/CStarAlgebra/ApproximateUnit.lean`).
+- `CStarAlgebra.exists_sum_four_unitary` (`Mathlib/Analysis/CStarAlgebra/Unitary/Span.lean`):
+  every element of a unital C*-algebra is a combination of four unitaries with coefficients of
+  norm at most `‖x‖/2`.
+- `gelfandStarTransform` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) for commutative
+  unital C*-algebras, and `RealRMK.rieszMeasure`
+  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`) for positive functionals on
+  continuous functions.
+- `TensorProduct.mapL` and the inner product space structure on `E ⊗[ℂ] F`
+  (`Mathlib/Analysis/InnerProductSpace/TensorProduct.lean`); `lp` with `lp.single`
+  (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`); `MeasureTheory.Measure.count`
+  (`Mathlib/MeasureTheory/Measure/Count.lean`) with its left-invariance instance
+  (`Mathlib/MeasureTheory/Group/Measure.lean`), used in §7.3 as the Haar measure of a discrete
+  group (the pin has no Haar-measure instance for it, and none is needed: §7.3 checks the
+  hypotheses of Tau Ceti's regular representation directly); `IsCompactOperator`, `Orthonormal`,
+  `TwoSidedIdeal`, `ContinuousLinearMap.toPointwiseConvergenceCLM` (the strong operator
+  topology).
+- `geometric_hahn_banach_closed_point` (`Mathlib/Analysis/LocallyConvex/Separation.lean`) in the
+  weak-star topology of the dual, `IsStarProjection`, `TopologicalSpace.SeparableSpace`,
+  `PartitionOfUnity` and `FreeGroup`.
+
+### From Tau Ceti
+
+At Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
+
+- `TauCeti.CStarAction.trivial` (`TauCeti/Analysis/CStarAlgebra/Action/Basic.lean`), the trivial
+  real action, defined on every C*-algebra including the zero algebra; a star homomorphism
+  between algebras carrying trivial actions is an equivariant homomorphism
+  `TauCeti.CStarAction.Hom` (`TauCeti/Analysis/CStarAlgebra/Action/Hom.lean`).
+- `TauCeti.CStarAction.IsKMSState` and `TauCeti.CStarAction.isKMSState_zero_iff`
+  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`): for a possibly nonunital `A` with its
+  `StarOrderedRing` order, any real action `α` and `τ : A →P[ℂ] ℂ`, `τ` is a `0`-KMS state of `α`
+  iff `‖τ‖ = 1` and `τ(ab) = τ(ba)` for all `a, b`; `TauCeti.CStarAction.isKMSState_trivial_iff`
+  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Dense.lean`) gives the same for the trivial action at
+  every inverse temperature. From the first file also `TauCeti.CStarAction.IsKMSState.comp`
+  (pullback along an equivariant homomorphism when the pullback has norm one),
+  `TauCeti.CStarAction.IsKMSState.comp_of_surjective` and
+  `TauCeti.CStarAction.isKMSState_comp_iff_of_surjective` (no norm hypothesis along surjections),
+  and `TauCeti.CStarAction.IsKMSState.restrict` (restriction to a closed invariant star
+  subalgebra when the restriction has norm one). The positivity and norm-one conditions are part
+  of the predicate; nothing about faithfulness or invariance is included at `β = 0`.
+- `TauCeti.CStarAction.kmsStates`, `TauCeti.CStarAction.convex_kmsStates`,
+  `TauCeti.CStarAction.closure_kmsStates_inter_subset` and
+  `TauCeti.CStarAction.IsKMSState.of_tendsto`, and for unital `A`
+  `TauCeti.CStarAction.isClosed_kmsStates` and `TauCeti.CStarAction.isCompact_kmsStates`
+  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/StateSpace.lean`): the set of `0`-KMS states in
+  `WeakDual ℂ A` is convex for every `A`; a weak-star limit point of it that has norm one lies in
+  it; for unital `A` it is weak-star closed and compact. No unconditional closedness is asserted
+  for nonunital `A`.
+- `PositiveLinearMap.toGNS`, `PositiveLinearMap.denseRange_toGNS`, `PositiveLinearMap.gnsVector`,
+  `PositiveLinearMap.inner_gnsVector_coe`, `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
+  `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `PositiveLinearMap.norm_gnsVector`
+  (`TauCeti/Analysis/CStarAlgebra/GNS.lean`): for every positive functional on a possibly
+  nonunital `A`, the continuous class map `a ↦ â` into the GNS space, with dense range; for
+  unital `A`, the vector `Ω = 1̂`, the density of `π(A)Ω`, `⟪Ω, â⟫ = τ(a)`,
+  `⟪π(a)Ω, π(b)Ω⟫ = τ(a*b)`, and `‖Ω‖ = 1` when `τ(1) = 1`.
+- `VonNeumannAlgebra.adjoin` and `VonNeumannAlgebra.subset_adjoin`
+  (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`), the von Neumann algebra generated by a set
+  of operators (the double commutant of `s ∪ star s`), so that
+  `M_τ = VonNeumannAlgebra.adjoin (Set.range π_τ)`, and the von Neumann density theorem
+  `VonNeumannAlgebra.exists_forall_norm_sub_apply_lt_of_mem_adjoin`
+  (`TauCeti/Analysis/VonNeumannAlgebra/Density.lean`): an element of `adjoin s` is approximated,
+  simultaneously on finitely many vectors, by elements of the star algebra generated by `s`.
+- `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`
+  (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Separating.lean`): for unital `A`, a β-KMS state
+  `τ` and `x ∈ VonNeumannAlgebra.adjoin (Set.range π_τ)` with `xΩ = 0`, `x = 0`; at `β = 0` this
+  is the separating property of `Ω` for the GNS von Neumann algebra of a tracial state.
+- `LinearMap.traceRadical`, its `IsTwoSided` instance and `LinearMap.traceRadical_ne_top`
+  (`TauCeti/RingTheory/TraceFunctional/Radical.lean`): for a tracial linear functional on a
+  unital algebra, the two-sided ideal `{x : τ(xy) = 0 for all y}`, proper when `τ(1) ≠ 0`. It is
+  algebraic: it says nothing about closedness, nonunital algebras or positivity, which §1.2
+  supplies.
+- `Matrix.frobeniusInnerProductSpace` (a scoped instance) and
+  `Matrix.frobenius_inner_eq_trace_conjTranspose_mul` (`TauCeti/Analysis/Matrix/Frobenius.lean`),
+  over any `RCLike` field: the Frobenius inner product `⟪x, y⟫_F = Tr(xᴴy)`, conjugate linear in
+  the first variable. It is unnormalized and lives on `Matrix` with the Frobenius norm, not on
+  `CStarMatrix` with the operator norm.
+- `LinearMap.existsUnique_trace_mul_eq` and `Matrix.mem_range_scalar_iff_trace_mul_mul_comm`
+  (`TauCeti/LinearAlgebra/Matrix/Trace/Duality.lean`): every linear functional on square matrices
+  over a commutative semiring is `x ↦ Tr(ρx)` for a unique matrix `ρ`, and `ρ` is scalar iff
+  `Tr(ρab) = Tr(ρba)` for all `a, b`.
+- `TauCeti.Amenable` (`TauCeti/GroupTheory/Amenable/Basic.lean`): a topological group is amenable
+  when its uniformly continuous bounded functions carry a left-invariant mean, for the left
+  translation `(L_g f)(x) = f(g⁻¹x)`; for the discrete topology these are all bounded functions.
+  `TauCeti.Amenable.of_lpTop` (`TauCeti/GroupTheory/Amenable/Linfty.lean`): a left-invariant
+  positive normalized functional on `L∞` of a left-invariant measure makes the group amenable;
+  with the counting measure on a discrete group this is an invariant mean on `ℓ∞(Γ)`.
+  `TauCeti.not_amenable_freeGroup` (`TauCeti/GroupTheory/Amenable/FreeGroup.lean`): a free group
+  on a nontrivial basis, with the discrete topology, is not amenable.
+- `TauCeti.CStarAction.CovariantRepresentation.regular`
+  (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/Regular.lean`): for an action `α` of `G` on
+  `A`, a representation `ρ` of `A` on `H` and a left-invariant, locally finite measure `μ` that is
+  inner regular by compact sets on sets of finite measure, the covariant pair on `L²(G, μ; H)`
+  with `π(a)ξ(r) = ρ(α_{r⁻¹}(a))(ξ(r))` and `u_sξ(r) = ξ(s⁻¹r)`, the pair whose integrated form
+  defines OperatorAlgebraDynamics D2's reduced norm; §7.3 uses it for the trivial action on `ℂ`,
+  `ρ = id_ℂ` and the counting measure of a discrete group.
+- `LinearMap.exists_isFiniteMeasure_integral_characterSpace_eq`
+  (`TauCeti/Analysis/CStarAlgebra/CharacterSpaceMeasure.lean`): on a unital commutative
+  C*-algebra `A` (`CommCStarAlgebra`) with the Borel structure on its character space `Ω`, a
+  linear functional `τ` that is nonnegative on every `a*a` is `a ↦ ∫ ω(a) dμ(ω)` for a finite
+  inner regular measure `μ` on `Ω`; evaluating at `1` gives total mass `τ(1)`, so `μ` is a
+  probability measure when `τ` is a state. Nothing is asserted for nonunital algebras or about
+  the uniqueness of `μ`.
+
+Neither Tau Ceti nor Mathlib supplies the normalized trace `tr_k` or the 2-norm on `CStarMatrix`,
+the closed trace kernel of a nonunital algebra, the vector trace on `M_τ`, the right
+representation, the conjugation, the tensor functional, or the extensions of §1.3.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+- C2.1: state extension from a unital C*-subalgebra.
+- C2.8: the bidual `A**` as a W*-algebra with predual `A*`, and the unique normal surjective
+  extension `A** → π(A)''` of a nondegenerate representation `π`, whose kernel is a central
+  summand `(1 − z_π)A**`.
+- C4.1: identity, composition and restriction of completely positive maps; `‖φ‖ = ‖φ(1)‖` for
+  unital domains; the Kadison–Schwarz inequality `φ(a)*φ(a) ≤ φ(a*a)` for u.c.p. maps; the
+  multiplicative domain and bimodularity of a u.c.p. map over a C*-subalgebra on which it is a
+  star homomorphism; the unital extension `a + λ ↦ φ(a) + λ1` of a c.p.c. map to the
+  unitization, which is u.c.p. (the c.p.c. form of Kadison–Schwarz used in §2.2 is derived from
+  these two in §2.1).
+- C4.2: Stinespring's dilation `φ = V*π(·)V` with `‖V‖² = ‖φ‖`, including nonunital domains, and
+  Arveson's Radon–Nikodym theorem, whose `H = ℂ` case is the GNS Radon–Nikodym theorem for
+  positive functionals.
+- C5.1–C5.2: the minimal and maximal norms, the uniqueness of the C*-norm on `M_n ⊙ A` and
+  `M_n ⊗ A ≅ M_n(A)`, tensor products of completely positive maps on minimal tensor products,
+  and product functionals `φ ⊗ ψ` with `‖φ ⊗ ψ‖ = ‖φ‖‖ψ‖`.
+- C5.4: the bounded product `∏_n M_{k_n}`, its `c₀` ideal `⊕_n M_{k_n}` and the quotient norm
+  `limsup_n ‖a_n‖`.
+- C6.1, C6.2 and C6.5: nuclear completely positive contractions in the finite-set form and
+  general nuclear completely positive maps as their positive scalar multiples, independently
+  of the choice of scaling; nuclear C*-algebras (the identity is nuclear), the equivalence of
+  nuclearity with injectivity of the bidual, nuclearity of the unitization, of `C₀(X)` and of AF algebras (inductive limits of
+  finite-dimensional algebras).
+- C7.1: exact C*-algebras; nuclear algebras are exact; exactness passes to C*-subalgebras and to
+  the unitization; a C*-algebra is exact iff a (equivalently every) faithful representation
+  `A → B(H)` is a nuclear map. No separability is part of these statements.
+- C8.1–C8.3: quasidiagonal sets of operators and quasidiagonal C*-algebras (a faithful
+  representation with quasidiagonal image), Voiculescu's matrix-map criterion with its nonunital
+  c.p.c. form for separable algebras, and from C8.2 the absorption of a unital representation:
+  for a separable unital `A`, a faithful unital representation `π` on a separable `H` with
+  `π(A) ∩ K(H) = 0` and a unital representation `ρ` on a separable `K`, there are unitaries
+  `U_m : H → H ⊕ K` with `‖U_mπ(a)U_m* − (π(a) ⊕ ρ(a))‖ → 0` for all `a`, from which §4.5 derives
+  the compression step for u.c.p. maps into `M_n`; from C8.3 also the quasidiagonality of
+  finite-dimensional, separable commutative and separable AF algebras, its permanence under
+  C*-subalgebras, and the stable finiteness of quasidiagonal algebras (a Check of §8.4).
+- C8.4 and C9.1: the Toeplitz extension, and the quasidiagonality of cones over separable
+  algebras, used in Checks.
+- C9.7: the positive unital extension operator `C(K) → C(X)` for a closed subset `K` of a
+  compact metrizable `X` (its Check on `C(X)`), used only in a Check of §6.4.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+- V0: the state space with its weak-star topology, convex and compact for nonzero unital
+  algebras; positivity of the unital extension of a positive functional to the unitization and
+  the Cauchy–Schwarz inequality for positive functionals; unitary uniqueness of cyclic
+  representations; the faithful Gelfand–Naimark representation; the normalized matrix-trace
+  state for `k ≥ 1`, transported to `CStarMatrix` through its identification with operators on
+  `ℂ^k`. The GNS cyclic vector and the recovery of the functional are consumed from Tau Ceti's
+  GNS module.
+- V1: the bicommutant theorem and Kaplansky density in bounded strong-star form.
+- V2: corners `pMp` on `pH` for `p ∈ M` or `p ∈ M'`, `(pMp)' = pM'p`, central supports.
+- V3: finite-dimensional C*-algebras as finite direct sums of matrix algebras with matrix units,
+  and the uniqueness of algebraic traces on finite-dimensional `B(H)` up to scalars, hence
+  uniqueness of the normalized matrix-trace state on `M_k` for `k ≥ 1` under the same
+  matrix/operator identification.
+- V4: preduals, normal states (the monotone-net form on the strong operator topology) and normal
+  representations; the GNS representation of a normal state is normal with von Neumann image;
+  separability of the predual of a von Neumann algebra on a separable Hilbert space.
+- V5: tracial states of von Neumann algebras.
+- V6: for a von Neumann algebra `M` with faithful normal tracial state `τ`, the standard form
+  `L²(M,τ)`, the conjugation `J(xΩ) = x*Ω` and `JMJ = M'`.
+- V8: for an arbitrary discrete group `Γ`, the left-regular representation `λ` on `ℓ²(Γ)`, the
+  group von Neumann algebra `L(Γ) = λ(Γ)''` and its faithful normal canonical trace
+  `x ↦ ⟪δ_e, xδ_e⟫`.
+- V8.RegularL2: for a locally compact Hausdorff group `G` with a regular left Haar measure `μ`,
+  `(λ_s f)(r) = f(s⁻¹r)` on `L²(G, μ)`, the integrated operators `λ(f)`, `f ∈ L¹(G, μ)`, with
+  `‖λ(f)‖ ≤ ‖f‖₁`, and the reduced group C*-algebra `C*_r(G)`, the norm closure of `λ(L¹(G))` in
+  `B(L²(G, μ))`, unital exactly when `G` is discrete; in the discrete case with counting measure
+  `L¹(G) = ℓ¹(G)`, `λ_s` is the permutation unitary of `ℓ²(G)` and `λ(G)''` is V8's `L(G)`. §7.3
+  identifies its discrete case with `generatedCStarAlgebra`.
+- V13a: Arveson's extension theorem for completely positive maps from concrete operator systems
+  into `B(K)`; Tomiyama's theorem (for a projection of norm exactly one); injectivity by
+  completely positive extension, equivalent, for `M ⊆ B(H)` in a faithful normal representation,
+  to a contractive projection `B(H) → M` (a bounded linear `P` with range in `M`, fixing `M`
+  pointwise, with `‖P‖ ≤ 1`), of norm one when `M ≠ 0` and then a conditional expectation by
+  Tomiyama's theorem; injectivity passes to expected subalgebras and corners. On `H = 0`,
+  `M = B(H) = 0` and the only projection is the zero map, of norm `0`: it is contractive, so the
+  zero algebra is injective, but it has no norm-one projection. Where this roadmap applies
+  Tomiyama's theorem (§1.6, §4.6) the range contains the unit of a nonzero algebra carrying a
+  state, so a contractive projection onto it has norm one; the u.c.p. projections built in §4.6
+  and §5.1 are contractive, which is all that injectivity asks.
+- V13b.SpatialNorm: the spatial norm on `A ⊙ B`, its representation independence and isometric
+  functoriality for inclusions; in its proof route, the weak-star closed convex hull of the vector
+  states of a faithful representation is the state space.
+- V13b: injectivity iff semidiscreteness for arbitrary von Neumann algebras; `M` is injective
+  iff `M'` is; the Powers–Størmer inequality `‖a^{1/2} − b^{1/2}‖₂² ≤ ‖a − b‖₁` for positive `L¹`
+  elements `a, b` of a von Neumann algebra with a faithful normal tracial state (V6's `L²`). §2.4
+  applies it only to `(B(E), tr_E)`, `tr_E = (dim E)⁻¹Tr`, for a nonzero finite-dimensional
+  subspace `E ⊆ H` containing the ranges of finite-rank positive `h, k`, where both sides are
+  `(dim E)⁻¹` times `‖h^{1/2} − k^{1/2}‖_HS²` and `‖h − k‖₁`; no semifinite form on `B(H)` with
+  `dim H = ∞` is assumed. Also: injectivity iff hyperfiniteness for separable predual; the
+  hypertraces of finite von Neumann algebras on `B(L²M)` and Connes's Følner criterion for
+  injective finite von Neumann algebras (compared in §4.5–§4.6); `L(F₂)` is not hyperfinite (its
+  Checks, through property Γ), hence not injective, and has no hypertrace.
+
+### From TauCetiRoadmap.CStarClassification
+
+- CL2 (§2.1): `IsAF` (a sequential increasing union of finite-dimensional C*-subalgebras with
+  dense union, nonunital algebras and the zero algebra included); `A` is AF iff `Ã` is AF; unital
+  AF algebras have presentations by unital finite-dimensional subalgebras.
+- CL3 (§3.4): for a unital AF algebra, the trace pairing `T(A) ≅ S(K₀(A), [1])`, used in the
+  Checks of §7.2.
+- CL3 (§3.5): UHF algebras are simple with a unique tracial state.
+
+### From TauCetiRoadmap.OperatorAlgebraDynamics
+
+- D2: for a discrete group `Γ`, the reduced crossed product `ℂ ⋊_r Γ` of the trivial action, the
+  completion of `C_c(Γ, ℂ)` for the norm of the integrated regular representation on
+  `L²(Γ, count)` (Tau Ceti's `TauCeti.CStarAction.CovariantRepresentation.regular` for any
+  faithful `ρ`, independent of `ρ`), the dense group ring of finite sums `Σ c_g u_g`, the faithful
+  conditional expectation `E` onto the coefficient algebra, and the theorem that an amenable group
+  with nuclear coefficients has nuclear reduced crossed product. §7.3 identifies `ℂ ⋊_r Γ` with
+  `generatedCStarAlgebra` of the left-regular unitaries of `ℓ²(Γ)`.
+- D2.FreeGroups: for a discrete group `Γ`, D2's coefficient expectation of `ℂ ⋊_r Γ`, realized
+  on `ℓ²(Γ)` with `λ_gδ_h = δ_{gh}` for the counting Haar measure, is the faithful tracial state
+  `τ(x) = ⟪δ₁, xδ₁⟫` with `τ(Σ c_g λ_g) = c_1`; its free-group theorems are stated on
+  `generatedCStarAlgebra` of the left-regular unitaries of `lp (fun _ : Γ => ℂ) 2`, pinned by
+  `(λ_g ξ)(h) = ξ(g⁻¹h)`. §7.3 transports the trace to that algebra for every discrete `Γ`.
+
+### From TauCetiRoadmap.FactorRigidity
+
+- §2.2: relative amenability; at the trivial subgroup, a discrete group `Γ` is amenable iff `L(Γ)`
+  is injective. §7.3 cites it for the equivalence of its condition (v) with amenability; no
+  statement here depends on it.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+- B1: the weak and norm closures of a convex subset of a Banach space agree, with the
+  finite-convex-combination form of Mazur's lemma.
 
 ## References
 

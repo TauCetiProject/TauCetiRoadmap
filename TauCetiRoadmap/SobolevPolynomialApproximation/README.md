@@ -1,40 +1,58 @@
 # Roadmap: polynomial approximation in Sobolev spaces
 
-**Summary.** Build the higher-order theory of `W^{k,p}(Ω)` on top of Tau Ceti's weak-derivative
-Sobolev spaces: how well polynomials of degree `≤ m` approximate a `W^{m+1,p}` function on a domain,
-with constants that depend explicitly and only on the geometry of the domain. From the seminorms,
-all-order directional derivatives and the polynomial kernel of the top seminorm, through
-higher-order
-change of variables and affine scaling, it reaches the **averaged Taylor polynomial**, the **Sobolev
-representation formula**, the **Bramble–Hilbert lemma** and its functional forms, the **Deny–Lions
-lemma**, and the embedding `W^{k,p} ⊆ C⁰` for `kp > n` with continuity up to the boundary. An
-analyst who needs a polynomial approximation estimate in `W^{k,p}` on a convex or Lipschitz domain,
-with its constant, finds it here and can use it without re-proving the classical lemmas of
-Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3.
+**Summary.** How well can polynomials of total degree at most m approximate a function in the
+Sobolev space `W^{m+1,p}(Ω)`, and how does the error depend on the shape of Ω? This roadmap answers
+the question for Tau Ceti's weak-derivative Sobolev spaces `W^{k,p}(Ω)` and builds their
+higher-order theory on the way. Functions are real-valued on an open set Ω ⊆ ℝⁿ, and 1 ≤ p ≤ ∞;
+every statement covers p = ∞ unless it says p < ∞. The seminorm `|u|_{j,p}` is the Lᵖ norm of the
+j-th weak derivative of u.
 
-## Scope and ownership
+The explicit estimates hold on bounded domains star-shaped with respect to a ball: for every y in a
+ball of radius ρ > 0 and every x in Ω, the segment from y to x lies in Ω. A convex Ω containing the
+ball is an example. The shape enters only through the chunkiness γ = diam Ω / ρ, which is 2 for the
+interval (−R, R) with ρ = R, whatever R is.
 
-This roadmap owns, for scalar real-valued functions on open subsets of `EuclideanSpace ℝ (Fin n)`:
+The main tool is the averaged Taylor polynomial `Q^m u`. For smooth u it averages the Taylor
+polynomials of u of degree m, centred at the points of the ball, against a smooth bump of integral
+one supported there. With the derivatives moved onto the bump, it is a continuous linear map on all
+integrable functions on the ball that fixes the polynomials of degree at most m. For n ≥ 1, the
+representation formula writes `u − Q^m u`, for u in `W^{m+1,p}(Ω)` and almost every x, as the
+integral of `D^{m+1}u` against a kernel `K(x,z)` of size at most `C(n,m,γ) ‖x − z‖^{m+1−n}`.
 
-- Layer 1: contractions, polynomials of bounded degree and their Sobolev classes, order truncation
-  and seminorms, change of exponent in every order, the bundled directional derivative of all orders,
-  the polynomial Poincaré lemma, the kernel of the top seminorm, and the quotient by polynomials;
-- Layer 2: composition with `C^k` diffeomorphisms, affine scaling and its geometric bounds;
-- Layer 3: Taylor polynomials, the averaged Taylor polynomial on `L¹`, and the representation
-  formula;
-- Layer 4: Bramble–Hilbert, its functional forms, Rellich–Kondrachov in `W^{k,p}`, and Deny–Lions;
-- Layer 5: `W^{k,p} ⊆ C⁰` with explicit constants, density of functions smooth up to the boundary,
-  and uniform continuity.
+The first main theorem is the Bramble–Hilbert lemma. For Ω as above, u in `W^{m+1,p}(Ω)` and j ≤ m,
+`|u − Q^m u|_{j,p} ≤ C (diam Ω)^{m+1−j} |u|_{m+1,p}`, where C depends only on n, m, p and an upper
+bound for the chunkiness. The proof follows Brenner and Scott, uses neither compactness nor a
+Lipschitz hypothesis, and covers p = ∞. Consequently, a bounded linear functional on `W^{m+1,p}(Ω)`
+that vanishes on the polynomials of degree at most m is bounded at u by its norm times an explicit
+multiple of `|u|_{m+1,p}`.
 
-It leaves to named owners:
+The second embeds `W^{k,p}(Ω)` into continuous functions, with an explicit constant. If kp > n, or
+p = 1 and k ≥ n, every u has a continuous representative bounded on Ω, with
+`sup_Ω |u| ≤ C Σ_{j≤k} (diam Ω)^{j−n/p} |u|_{j,p}`; C depends only on n, k, p and the chunkiness
+bound, and n/p is 0 at p = ∞. Evaluation at a point is therefore a bounded linear functional. For
+p < ∞ the representative is uniformly continuous, so it extends continuously to the closure of Ω.
 
-- `W^{k,p}` and its first-order theory, Meyers–Serrin density, Poincaré inequalities, Lipschitz
-  domains, first-order Rellich and extension to PDE Lane A, implemented in Tau Ceti and consumed as
-  listed in the supplier contracts; nothing there is redefined here;
-- the Sobolev theory of differential forms to SobolevDifferentialForms.
+The third, the Deny–Lions lemma, holds on Lipschitz domains instead, with a constant that is not
+explicit. On a bounded connected Lipschitz domain and for p < ∞, the norm of `W^{m+1,p}(Ω)` modulo
+the polynomials of degree at most m is equivalent to `|u|_{m+1,p}`. The proof is by compactness: on
+such domains and for p < ∞, forgetting the top derivative is a compact map from `W^{k+1,p}(Ω)` to
+`W^{k,p}(Ω)`.
 
-It does not contain fractional Sobolev spaces, approximation by piecewise polynomials on partitions
-of a domain, finite elements or their interpolation operators, or vector-valued Sobolev spaces.
+The roadmap builds on what Tau Ceti already has from the PDE roadmap, without redefining it:
+`W^{k,p}` with its first-order theory, Meyers–Serrin density, and Lipschitz domains with the
+first-order Rellich–Kondrachov theorem. From Mathlib it uses multivariate polynomials and Taylor's
+formula with integral remainder. The Sobolev theory of differential forms is left to
+[SobolevDifferentialForms](../SobolevDifferentialForms/README.md). No roadmap builds on this one;
+its natural user would be finite-element interpolation, whose error estimates combine
+Bramble–Hilbert with affine scaling.
+
+Layer 1 sets up the seminorms, polynomials and directional derivatives of every order. Using a
+polynomial Poincaré lemma, it proves that on a connected Ω, `|u|_{m+1,p} = 0` exactly when u is
+almost everywhere a polynomial of degree at most m. Layer 2 treats change of variables and
+affine scaling. Layer 3 constructs the averaged Taylor polynomial and proves the representation
+formula. Layer 4 draws Bramble–Hilbert from that formula, and Deny–Lions by compactness. Layer 5
+proves the embedding and the behaviour at the boundary from the same formula. Each layer uses only
+earlier layers and what it takes from Mathlib and Tau Ceti.
 
 ## Conventions
 
@@ -56,82 +74,6 @@ of a domain, finite elements or their interpolation operators, or vector-valued 
   is `γ := diam Ω / ρ` for this explicit `ρ`. The empty set satisfies the hypothesis
   (`starConvex_empty`); statements that need a point say `Ω` is nonempty.
 - **Constants.** `C(a, b, …)` depends on the listed parameters and nothing else.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-All at the pinned Mathlib.
-
-- `MvPolynomial.restrictTotalDegree`, `MvPolynomial.mem_restrictTotalDegree`
-  (`RingTheory/MvPolynomial/Basic.lean`), `MvPolynomial.funext`
-  (`Algebra/MvPolynomial/Funext.lean`),
-  `MvPolynomial.pderiv`, `MvPolynomial.IsHomogeneous.sum_X_mul_pderiv`
-  (`RingTheory/MvPolynomial/EulerIdentity.lean`), `MvPolynomial.sum_homogeneousComponent`
-  (`RingTheory/MvPolynomial/Homogeneous.lean`).
-- `StarConvex`, `starConvex_empty` (`Analysis/Convex/Star.lean`), `Convex.starConvex`.
-- `taylor_integral_remainder` (`Analysis/Calculus/Taylor.lean`), which requires `ContDiffOn` of
-  order
-  `n + 1` on the whole interval.
-- `HasFTaylorSeriesUpToOn.comp`, `FormalMultilinearSeries.taylorComp`
-  (`Analysis/Calculus/ContDiff/FaaDiBruno.lean`): classical composition only.
-- `Lp.antitone` (`MeasureTheory/Function/LpSpace/Basic.lean`), `ContDiffBump`, Hölder's inequality,
-  Fubini's theorem, and the Lebesgue change of variables under linear maps.
-
-### From Tau Ceti
-
-All as Tau Ceti implements them on its main branch, some later than the pinned revision;
-`Suggested.lean` uses only those at the pin. File paths under `TauCeti/Analysis/`.
-
-- `TauCeti.Wkp`, `Wkp.lowerOrderL`, `Wkp.iteratedGradient`, `Wkp.value`, `Wkp.ext`, `Wkp.mk`,
-  `Wkp.hasWeakFDerivOn_iteratedGradient`, and the recursive norm
-  `Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ` (`Sobolev/Wkp/Basic.lean`);
-  `Wkp.restrictL` (`Sobolev/Wkp/Restriction.lean`); `Wkp.iteratedGradient_ae_eq_of_contDiffOn`
-  (`Sobolev/Wkp/Classical.lean`); `Wkp.tendsto_mollified_iteratedGradient`
-  (`Sobolev/Wkp/Approximation.lean`), for `p ≠ ∞`.
-- Directional derivatives: `Wkp.exists_hasWeakLineDerivOn_value`,
-  `Wkp.exists_value_eq_iff_forall_exists_hasWeakLineDerivOn`,
-  `Wkp.inner_iteratedGradient_one_apply_ae_eq` (`Sobolev/Wkp/LineDeriv.lean`);
-  `HasWeakLineDerivOn.comm` (`Sobolev/WeakDeriv/Symmetry.lean`).
-- Meyers–Serrin in every order: `Wkp.dense_contDiffOn_representatives`
-  (`Sobolev/Wkp/MeyersSerrin.lean`), for `p ≠ ∞` and arbitrary open `Ω`.
-- `TauCeti.IteratedGradient`, `TauCeti.iteratedGradientChain` (`Calculus/IteratedGradient.lean`).
-- `TauCeti.W1p`, `W1p.norm_value_le`, `W1p.norm_gradient_le`, `W1p.norm_le_norm_value_add_norm_gradient`,
-  `W1p.ofExponentLE` (`Sobolev/W1p/Basic.lean`).
-- `W1p.compL`, `W1p.value_compL_ae`, `W1p.gradient_compL_ae` (`Sobolev/W1p/ChangeOfVariables.lean`):
-  first-order change of variables for `p ≠ ∞`, with `‖DΦ‖ ≤ L` and `c ≤ |det DΦ|`.
-- `W1p.exists_value_ae_eq_const_of_gradient_eq_zero` (`Sobolev/Poincare/Wirtinger/W1p.lean`).
-- `Set.IsLipschitzDomainWith`, on open subsets of `WithLp 2 (ℝ × E')` (`Sobolev/LipschitzDomain/Basic.lean`);
-  `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
-  (`Sobolev/LipschitzDomain/RellichKondrachov.lean`).
-- `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` (Peetre's estimate,
-  `Normed/Operator/Compact/Estimate.lean`) and its use in
-  `W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`
-  (`Sobolev/Poincare/Wirtinger/Compactness.lean`).
-- `TauCeti.enorm_sub_setAverage_le_of_starConvex` (`Sobolev/Poincare/Potential.lean`): star-convexity
-  with respect to the evaluation point and an arbitrary set average, so a related estimate, not the
-  case `m = 0` of §3.5.
-
-### From TauCetiRoadmap.PDE
-
-Lane A owns the Tau Ceti declarations above: A.1 the weak derivatives, the line-derivative bridge
-and symmetry; A.2 Meyers–Serrin in every order; A.5 the constant-on-connected lemma and the Wirtinger
-estimate by compactness; A.6 the Lipschitz predicate and Rellich. Tau Ceti provides `W1p.compL` and
-Peetre's estimate, which no roadmap plans. This roadmap adds no target to Lane A. On `E`, a **bounded
-Lipschitz domain** for `n ≥ 1` means the image of an open `Ω' ⊆ WithLp 2 (ℝ × E')` satisfying
-`Set.IsLipschitzDomainWith`, bounded, under a linear isometry onto `E`, with `finrank ℝ E' = n − 1`.
-
-## How to read the build
-
-Layer 1 sets up the objects: contractions, polynomials, seminorms, change of exponent and all-order
-directional derivatives, and proves the kernel of the top seminorm from the polynomial Poincaré
-lemma.
-Layer 2 proves the change-of-variables theory and scaling. Layer 3 constructs the averaged Taylor
-polynomial on `L¹` and proves the representation formula. Layer 4 draws Bramble–Hilbert from that
-formula with explicit constants, and Deny–Lions by compactness. Layer 5 proves the embedding and the
-behaviour at the boundary from the same formula. Each layer uses only earlier layers and the
-suppliers
-above; Layer 4's Bramble–Hilbert uses no compactness and no Lipschitz predicate.
 
 ## Layer 1: seminorms, derivatives and the polynomial kernel
 
@@ -737,6 +679,94 @@ and
 approximation by finite elements, whose error estimates are Bramble–Hilbert (§4.1) composed with
 affine
 scaling (§2.2) and whose element-wise point evaluations are §5.1.
+
+## Scope and ownership
+
+This roadmap owns, for scalar real-valued functions on open subsets of `EuclideanSpace ℝ (Fin n)`:
+
+- Layer 1: contractions, polynomials of bounded degree and their Sobolev classes, order truncation
+  and seminorms, change of exponent in every order, the bundled directional derivative of all orders,
+  the polynomial Poincaré lemma, the kernel of the top seminorm, and the quotient by polynomials;
+- Layer 2: composition with `C^k` diffeomorphisms, affine scaling and its geometric bounds;
+- Layer 3: Taylor polynomials, the averaged Taylor polynomial on `L¹`, and the representation
+  formula;
+- Layer 4: Bramble–Hilbert, its functional forms, Rellich–Kondrachov in `W^{k,p}`, and Deny–Lions;
+- Layer 5: `W^{k,p} ⊆ C⁰` with explicit constants, density of functions smooth up to the boundary,
+  and uniform continuity.
+
+It leaves to named owners:
+
+- `W^{k,p}` and its first-order theory, Meyers–Serrin density, Poincaré inequalities, Lipschitz
+  domains, first-order Rellich and extension to PDE Lane A, implemented in Tau Ceti and consumed as
+  listed in the supplier contracts; nothing there is redefined here;
+- the Sobolev theory of differential forms to SobolevDifferentialForms.
+
+It does not contain fractional Sobolev spaces, approximation by piecewise polynomials on partitions
+of a domain, finite elements or their interpolation operators, or vector-valued Sobolev spaces.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+All at the pinned Mathlib.
+
+- `MvPolynomial.restrictTotalDegree`, `MvPolynomial.mem_restrictTotalDegree`
+  (`RingTheory/MvPolynomial/Basic.lean`), `MvPolynomial.funext`
+  (`Algebra/MvPolynomial/Funext.lean`),
+  `MvPolynomial.pderiv`, `MvPolynomial.IsHomogeneous.sum_X_mul_pderiv`
+  (`RingTheory/MvPolynomial/EulerIdentity.lean`), `MvPolynomial.sum_homogeneousComponent`
+  (`RingTheory/MvPolynomial/Homogeneous.lean`).
+- `StarConvex`, `starConvex_empty` (`Analysis/Convex/Star.lean`), `Convex.starConvex`.
+- `taylor_integral_remainder` (`Analysis/Calculus/Taylor.lean`), which requires `ContDiffOn` of
+  order
+  `n + 1` on the whole interval.
+- `HasFTaylorSeriesUpToOn.comp`, `FormalMultilinearSeries.taylorComp`
+  (`Analysis/Calculus/ContDiff/FaaDiBruno.lean`): classical composition only.
+- `Lp.antitone` (`MeasureTheory/Function/LpSpace/Basic.lean`), `ContDiffBump`, Hölder's inequality,
+  Fubini's theorem, and the Lebesgue change of variables under linear maps.
+
+### From Tau Ceti
+
+All as Tau Ceti implements them on its main branch, some later than the pinned revision;
+`Suggested.lean` uses only those at the pin. File paths under `TauCeti/Analysis/`.
+
+- `TauCeti.Wkp`, `Wkp.lowerOrderL`, `Wkp.iteratedGradient`, `Wkp.value`, `Wkp.ext`, `Wkp.mk`,
+  `Wkp.hasWeakFDerivOn_iteratedGradient`, and the recursive norm
+  `Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ` (`Sobolev/Wkp/Basic.lean`);
+  `Wkp.restrictL` (`Sobolev/Wkp/Restriction.lean`); `Wkp.iteratedGradient_ae_eq_of_contDiffOn`
+  (`Sobolev/Wkp/Classical.lean`); `Wkp.tendsto_mollified_iteratedGradient`
+  (`Sobolev/Wkp/Approximation.lean`), for `p ≠ ∞`.
+- Directional derivatives: `Wkp.exists_hasWeakLineDerivOn_value`,
+  `Wkp.exists_value_eq_iff_forall_exists_hasWeakLineDerivOn`,
+  `Wkp.inner_iteratedGradient_one_apply_ae_eq` (`Sobolev/Wkp/LineDeriv.lean`);
+  `HasWeakLineDerivOn.comm` (`Sobolev/WeakDeriv/Symmetry.lean`).
+- Meyers–Serrin in every order: `Wkp.dense_contDiffOn_representatives`
+  (`Sobolev/Wkp/MeyersSerrin.lean`), for `p ≠ ∞` and arbitrary open `Ω`.
+- `TauCeti.IteratedGradient`, `TauCeti.iteratedGradientChain` (`Calculus/IteratedGradient.lean`).
+- `TauCeti.W1p`, `W1p.norm_value_le`, `W1p.norm_gradient_le`, `W1p.norm_le_norm_value_add_norm_gradient`,
+  `W1p.ofExponentLE` (`Sobolev/W1p/Basic.lean`).
+- `W1p.compL`, `W1p.value_compL_ae`, `W1p.gradient_compL_ae` (`Sobolev/W1p/ChangeOfVariables.lean`):
+  first-order change of variables for `p ≠ ∞`, with `‖DΦ‖ ≤ L` and `c ≤ |det DΦ|`.
+- `W1p.exists_value_ae_eq_const_of_gradient_eq_zero` (`Sobolev/Poincare/Wirtinger/W1p.lean`).
+- `Set.IsLipschitzDomainWith`, on open subsets of `WithLp 2 (ℝ × E')` (`Sobolev/LipschitzDomain/Basic.lean`);
+  `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
+  (`Sobolev/LipschitzDomain/RellichKondrachov.lean`).
+- `ContinuousLinearMap.exists_pos_mul_norm_le_of_compact_estimate` (Peetre's estimate,
+  `Normed/Operator/Compact/Estimate.lean`) and its use in
+  `W1p.exists_eLpNorm_value_sub_setAverage_le_of_isCompactOperator`
+  (`Sobolev/Poincare/Wirtinger/Compactness.lean`).
+- `TauCeti.enorm_sub_setAverage_le_of_starConvex` (`Sobolev/Poincare/Potential.lean`): star-convexity
+  with respect to the evaluation point and an arbitrary set average, so a related estimate, not the
+  case `m = 0` of §3.5.
+
+### From TauCetiRoadmap.PDE
+
+Lane A owns the Tau Ceti declarations above: A.1 the weak derivatives, the line-derivative bridge
+and symmetry; A.2 Meyers–Serrin in every order; A.5 the constant-on-connected lemma and the Wirtinger
+estimate by compactness; A.6 the Lipschitz predicate and Rellich. Tau Ceti provides `W1p.compL` and
+Peetre's estimate, which no roadmap plans. This roadmap adds no target to Lane A. On `E`, a **bounded
+Lipschitz domain** for `n ≥ 1` means the image of an open `Ω' ⊆ WithLp 2 (ℝ × E')` satisfying
+`Set.IsLipschitzDomainWith`, bounded, under a linear isometry onto `E`, with `finrank ℝ E' = n − 1`.
 
 ## References
 

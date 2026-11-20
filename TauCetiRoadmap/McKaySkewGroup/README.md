@@ -1,106 +1,56 @@
 # Roadmap: McKay correspondence, skew-group algebras and algebraic Weyl functors
 
-**Summary.** The finite subgroups of `SU(2)` are a meeting point of finite-group representations,
-affine ADE diagrams, quadratic algebras and curved homological algebra. Starting from Mathlib's
-matrix groups, representations, symmetric, exterior and tensor algebras and skew monoid algebras,
-and from Tau Ceti's affine Dynkin data, representation ring, path algebras, preprojective and
-zigzag algebras and idempotent corners, this roadmap builds: the classification and conjugacy of
-the finite subgroups of `SU(2)` and `SL₂(ℂ)` with concrete models (Layer 0); the McKay matrix of a
-faithful two-dimensional determinant-one representation and its identification with a marked
-affine simply-laced Cartan matrix, with the converse (Layer 1); the integral comparison of the
-representation ring with the affine root lattice and of its quotient by the regular class with the
-finite root lattice (Layer 2); the skew-group algebras `Sym(V) ⋊ Γ`, `Λ(V) ⋊ Γ`, `T(V) ⋊ Γ` with
-their equivariant-module description and relative quadratic Koszul duality (Layer 3); the
-identification of their basic corners with preprojective and zigzag algebras of the McKay quiver
-(Layer 4); the Crawley-Boevey–Holland theorem for the deformed algebras with the trace
-normalization of the parameter (Layer 5); the curved complexes, duplexes, stable categories and
-reflection functors of Frenkel–Khovanov–Schiffmann (FKS) and their transport to the skew-group side
-(Layer 6); and the finite geometric McKay correspondence: invariant presentations, the minimal
-resolution, the `Γ`-Hilbert scheme, the tautological bundles and the comparison of the exceptional
-lattice with the root lattice (Layer 7). The end theorems are Klein's classification, the McKay
-correspondence and its converse, the representation-ring/root-lattice comparison, the
-preprojective and zigzag corner theorems, the Crawley-Boevey–Holland theorem, the FKS Weyl-group
-action on the skew-group side, and the geometric McKay correspondence.
+**Summary.** A nontrivial finite subgroup Γ of SL₂(ℂ) has an affine Dynkin diagram of type Ã, D̃ or
+Ẽ, which records how its irreducible representations multiply with ℂ². Its preprojective algebra is
+Morita equivalent to the skew-group algebra of Γ over a polynomial ring in two variables. With one
+node deleted, it describes how the exceptional curves of the minimal resolution of ℂ²/Γ meet. This
+roadmap builds these descriptions and the comparisons between them. The primary field is ℂ.
 
-`Suggested.lean` states the headline theorems against the pinned Mathlib and Tau Ceti: Klein's
-classification and conjugacy (`finite_subgroup_SL2_classification`,
-`finite_subgroup_SL2_conjugate_of_mulEquiv`, `card_eq_48_conjugate`), the McKay correspondence and
-its converse (`exists_isMcKayLabelling`, `exists_isMcKayLabelling_of_valid`), the representation
-ring comparison (`exists_repRing_addEquiv_of_isMcKayLabelling`), the preprojective and zigzag
-corners (`exists_full_corner_equiv_preprojectiveAlgebra`, `exists_full_corner_equiv_zigzag`) and
-the Crawley-Boevey–Holland theorem (`exists_full_corner_equiv_deformedPreprojectiveAlgebra`). Its
-module docstring names the headline theorems that are not statable at the pins (the relative Koszul
-duality of Layer 3, the FKS theorems of Layer 6 and the geometric correspondence of Layer 7) and the
-carrier each lacks.
+The first theorems classify the groups. Every finite subgroup of SL₂(ℂ) is conjugate into SU(2), and
+up to conjugacy it is cyclic, binary dihedral of order `4n` for some `n ≥ 2`, or binary tetrahedral,
+octahedral or icosahedral, of order 24, 48 or 120. Isomorphic finite subgroups are conjugate.
 
-## Scope and ownership
+Let Γ be a finite group with a faithful two-dimensional complex representation V of determinant one.
+Its McKay graph has a vertex for each irreducible representation ρᵢ, joined to ρⱼ by as many edges
+as ρⱼ occurs in `V ⊗ ρᵢ`. The McKay correspondence says that for nontrivial Γ this graph is an
+affine diagram of type Ã, D̃ or Ẽ: the multiplicity matrix is `2I − C` for its Cartan matrix C. The
+dimensions of the irreducibles are the marks of the diagram, the positive vector in the kernel of C
+with entry 1 at the affine node, where the trivial representation sits. Conversely, every such
+diagram arises. For Q₈ the graph is the star D̃₄, with V at its centre and the four characters at
+its leaves.
 
-This roadmap owns: the concrete finite subgroups of `SU(2)` and `SL₂(ℂ)`, their classification and
-conjugacy, and the pole-set argument for finite rotation groups; the McKay matrix of a finite group
-with a faithful two-dimensional determinant-one representation, its marked affine identification
-and converse; the specialization of the representation ring to McKay multiplication and its
-comparison with the affine and finite root lattices; the actions of `Γ` on `Sym(V)`, `Λ(V)`,
-`T(V)`, the equivariant-module description of the skew-group algebras and the instantiation of
-relative quadratic duality at the base `k[Γ]`; the corner presentations by preprojective, zigzag
-and skew-zigzag algebras; the deformed preprojective algebra `Π^λ(Q)`, the CBH algebra and the
-trace normalization; the FKS curved categories in their left, parity-graded, algebra-valued form,
-the reflection kernels on bipartite zigzag algebras and their transport to `Λ(V) ⋊ Γ`; and the
-geometric McKay comparison maps of Layer 7 (invariant presentations of `ℂ²/Γ`, the transported
-resolution, the `Γ`-cluster scheme on the resolution, tautological bundles, the
-exceptional-lattice comparison and the fundamental cycle), including the sheaf-level Reynolds
-image and its base-change comparison in §7.5.
+When Γ acts on an algebra A, the skew-group algebra A ⋊ Γ is `A ⊗ ℂ[Γ]` with the product twisted by
+the action. For the polynomial ring A = Sym(V), `Sym(V) ⋊ Γ` has a full idempotent whose corner is
+the preprojective algebra of any McKay quiver, a quiver whose double has, from ρᵢ to ρⱼ, as many
+arrows as ρⱼ occurs in `V ⊗ ρᵢ`. Fullness makes the corner Morita equivalent to the whole algebra.
+If moreover −1 ∈ Γ and the McKay diagram is a simple graph (not the double edge of Ã₁), the corner
+of `Λ(V) ⋊ Γ` is the zigzag algebra of the McKay graph.
 
-Already in the libraries at the pins, and consumed rather than rebuilt: Mathlib's skew monoid
-algebra `SkewMonoidAlgebra` with its multiplication, ring and algebra structure and universal
-properties, and its character scalar product as a Hom dimension; Tau Ceti's representation ring
-`TauCeti.repRing`, the character-recognition theorem (equal characters give isomorphic objects of
-`FDRep` for a finite group in characteristic zero), affine Dynkin data `TauCeti.AffineDynkinType`,
-path, preprojective and zigzag algebras, idempotent corners and their Morita equivalence, and the
-curved DG algebras, curved DG left modules and curved duplexes of scalar curvature with their
-homotopy categories. The exact declarations are listed under the supplier contracts.
+The Crawley-Boevey–Holland theorem deforms the polynomial case. For a basis x, y of V and a central
+z in ℂ[Γ], the quotient of `T(V) ⋊ Γ` by `xy − yx = z` again has a full idempotent. Its corner is
+the deformed preprojective algebra of any McKay quiver, whose relation at vertex i is shifted by the
+trace of z on ρᵢ, not by the scalar by which z acts on it: the two differ by the factor `dim ρᵢ`,
+and for Q₈ they can give non-isomorphic algebras.
 
-Left to other roadmaps, by section:
+Mathlib provides the skew-group algebras, and Tau Ceti the affine Dynkin diagrams, the
+representation ring, and the preprojective and zigzag algebras. CharacterTheory gives the Wedderburn
+decomposition of ℂ[Γ] and the splitting of its centre. ZigzagPreprojective shows that the
+preprojective algebra does not depend on the orientation. NilpotentOrbits resolves the ADE surface
+singularities explicitly.
 
-- character completeness, primitive central idempotents, the Wedderburn decomposition with the
-  sum-of-squares formula, the indexing of irreducibles and the splitting of the centre of the group
-  algebra by central characters: [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md),
-  Layers 2–3;
-- compact, unitary and `SL₂` representation infrastructure: [`CompactGroups`](../RepresentationTheory/CompactGroups/README.md)
-  and [`ClassicalGroups`](../RepresentationTheory/ClassicalGroups/README.md); the double cover
-  `SU(2) → SO(3)` with kernel `{±I}`: [LieGroups' `SU(2)`, `SO(3)` example](../RepresentationTheory/LieGroups/README.md);
-- finite ADE Cartan, Weyl and chamber theory: [`RootSystems`](../RepresentationTheory/RootSystems/README.md);
-  the integral ADE norm-shell/root-coordinate comparison: [`ReductiveGroups` 9A.1a](../ReductiveGroups/README.md);
-- doubled simple graphs, ordinary zigzag algebras, affine `E₈`, graded pieces, projectives,
-  Frobenius maps, additive preprojective algebras and parameterized skew-zigzag relations:
-  [`ZigzagPreprojective`](../ZigzagPreprojective/README.md);
-- quiver representations, bound path algebras, primitive idempotents, projectives and Morita
-  theory: [`QuiverRepresentations`](../RepresentationTheory/QuiverRepresentations/README.md);
-- internal gradings, DG and `A∞` modules, bar/cobar transport and homotopy transfer, and the
-  generic relative quadratic theory over a separable semisimple base: [`DGAInfinity`](../DGAInfinity/README.md),
-  Layer 11; linear graded projective resolutions: [`GrothendieckEulerForms`](../GrothendieckEulerForms/README.md),
-  Layer 3;
-- morphism ideals, their quotients, the factor-through-projectives ideal and right curved DG
-  modules with their triangulated homotopy category: [`StablePeriodicCurved`](../StablePeriodicCurved/README.md);
-- the ADE hypersurfaces, their explicit resolutions, the completed subregular-slice comparison,
-  exceptional curves and their normal-bundle and intersection data: [`NilpotentOrbits`](../NilpotentOrbits/README.md),
-  N6–N8;
-- the invariant algebra of a finite group (finite generation, Reynolds operator, Molien series,
-  Noether bound): [`ReflectionInvariantTheory`](../ReflectionInvariantTheory/README.md), §1;
-  ideals, normal forms and elimination: [`GroebnerGeometry`](../GroebnerGeometry/README.md), G1;
-- quotients, projective Hilbert and Quot representability, cycles, degrees of line bundles on
-  proper curves, Chern and coherent classes: [`SchemeAndStackFoundations`](../SchemeAndStackFoundations/README.md),
-  §§1.17, 4.14, 5.1–5.3, 5.7; finite locally free sheaves, tensor, Hom, determinants and pullback:
-  [`AlgebraicVectorBundles`](../AlgebraicVectorBundles/README.md), L0;
-- the full affine realization of a singular Cartan matrix with its central and degree directions
-  and loop comparison: `KacMoody`, KM0–KM1.
+Layer 0 classifies the groups and Layer 1 proves the McKay correspondence. Layer 2 identifies the
+representation ring with the lattice on the nodes, and its quotient by the regular representation
+with the finite root lattice. Layer 3 shows that `Sym(V) ⋊ Γ` is Koszul relative to the group
+algebra, with quadratic dual `Λ(V*) ⋊ Γ`. Layers 4 and 5 prove the corner theorems. Layer 6 builds
+the curved complexes of Frenkel, Khovanov and Schiffmann over the zigzag algebra of a connected
+bipartite graph; under a genericity condition their reflection functors give a Weyl group action,
+which the corner carries to `Λ(V) ⋊ Γ`. Layer 7 presents ℂ²/Γ as a hypersurface such as `XY = Zⁿ`,
+identifies its minimal resolution with the scheme of Γ-clusters, and matches the exceptional curves
+with the nontrivial irreducibles, turning the intersection form into minus the McKay form. Layer 7
+uses only Layers 0 to 2, and Layers 3 to 6 do not use it.
 
-Not in this roadmap: arbitrary GIT quotients, Nakajima quiver varieties, moduli of preprojective
-representations beyond the `Γ`-cluster scheme of Layer 7, a derived McKay equivalence, the
-geometric (variety and sheaf) realizations in FKS, homological finiteness or higher-gluing
-assertions for exceptional categorifications, and any categorical quotient by `δ`. The regular
-dimension vector `δ` is constructed and the ordinary affine root lattice is quotiented by `ℤδ`; no
-category is quotiented by `δ`. No Fourier–Mukai equivalence is inferred from the classical
-component bijection of Layer 7.
+`Suggested.lean` states in Lean the theorems of Layers 0, 1, 2, 4 and 5; its docstring says what the
+library lacks to state those of Layers 3, 6 and 7.
 
 ## Conventions
 
@@ -143,174 +93,6 @@ These choices are part of the statements, not implementation details.
   for duplexes, with signs `(-1)^p` read through the parity.  A duplex is one `ℤ/2`-graded module
   on which odd elements of `A` exchange the two components, not a pair of `A`-modules.  Shifting
   twists the left action by the parity involution, `a ∘ m = (-1)^|a| a m` [FKS05, §2.1].
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Matrix groups: `Matrix.specialUnitaryGroup`, `Matrix.SpecialLinearGroup`,
-  `Matrix.specialOrthogonalGroup`, `Quaternion`. Assumed: the unitary and special linear groups as
-  submonoids and groups of matrices, with determinant and conjugate transpose.
-- Representations: `Representation`, `FDRep`, `FDRep.of`, `Representation.leftRegular`,
-  `FDRep.char_orthonormal`, `FDRep.char_tensor`, `FDRep.scalar_product_char_eq_finrank_equivariant`,
-  `Representation.asAlgebraHom` (`Mathlib/RepresentationTheory/Character.lean`). Assumed:
-  orthonormality of irreducible characters of a finite group over an algebraically closed field
-  with `|G|` invertible, multiplicativity of characters under tensor products, and the Hom-dimension
-  formula `dim Hom(V, W) = |G|⁻¹ Σ_g χ_W(g) χ_V(g⁻¹)` for a finite group with `|G|` invertible in
-  `k`.
-- Algebras: `SymmetricAlgebra` (with `SymmetricAlgebra.lift`, `SymmetricAlgebra.ι`),
-  `ExteriorAlgebra` (with `ExteriorAlgebra.map`), `TensorAlgebra` (with `TensorAlgebra.lift`,
-  `TensorAlgebra.ι`), `MonoidAlgebra`, `Subalgebra.center`, `TwoSidedIdeal.span`,
-  `IsIdempotentElem.Corner`.
-- Skew monoid algebras (`Mathlib/Algebra/SkewMonoidAlgebra/Basic.lean`,
-  `Mathlib/Algebra/SkewMonoidAlgebra/Lift.lean`): the carrier `SkewMonoidAlgebra`, its ring
-  structure `SkewMonoidAlgebra.instRing`, the multiplication rule `SkewMonoidAlgebra.single_mul_single`
-  (`single g a * single h b = single (g * h) (a * (g • b))`, the left skew product of the
-  Conventions), the universal properties `SkewMonoidAlgebra.liftNCRingHom` and
-  `SkewMonoidAlgebra.liftNCAlgHom`, and its `k`-algebra structure for an action commuting with
-  scalars. These replace any construction of the skew product here.
-- Cyclicity of finite subgroups of the units of a domain: `isCyclic_of_injective_ringHom`.
-- Invariants and polynomial rings: `FixedPoints.subalgebra`, `FixedPoints.subring`, `MvPolynomial`.
-- Lie algebras of root systems: `RootPairing.GeckConstruction.lieAlgebra`,
-  `RootPairing.GeckConstruction.equivRootSystem`, `RootPairing.GeckConstruction.equivLieAlgebra`,
-  with their hypotheses (a crystallographic reduced irreducible root pairing with a base, over a
-  field of characteristic zero).
-
-- `Representation.invariants`, `Representation.averageMap` and
-  `Representation.isProj_averageMap` in `Mathlib/RepresentationTheory/Invariants.lean`: the
-  invariant submodule and its averaging projection for a representation over a commutative ring
-  with finite Γ and invertible group order. `Module.Projective.of_split` in
-  `Mathlib/Algebra/Module/Projective.lean` supplies projectivity of a split summand; §7.5 glues
-  these module-level constructions on schemes.
-
-### From Tau Ceti
-
-- `TauCeti.SimpleFDRepClasses` and `TauCeti.SimpleFDRepClasses.mk`, the isomorphism classes of
-  simple objects of `FDRep k G` (`TauCeti/RepresentationTheory/Simple/Basic.lean`).
-- `TauCeti.repRing k G`, an abbreviation of `TauCeti.SplitK0 (FDRep k G)`, with class map
-  `TauCeti.SplitK0.of`, product rule `TauCeti.SplitK0.of_mul_of` and character homomorphism
-  `TauCeti.repRingCharacter` (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`,
-  `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`,
-  `TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean`).
-- `TauCeti.irreducibleRepresentation`, the complete family of irreducibles indexed by
-  `Fin (Nat.card (ConjClasses G))`, stated under `[Finite G] [IsAlgClosed k]
-  [Invertible (Nat.card G : k)]` (`TauCeti/RepresentationTheory/CharacterTable/Table.lean`), and
-  `TauCeti.Representation.finrank_dvd_card` (`TauCeti/RepresentationTheory/CharacterTable/Degree.lean`).
-- Character recognition and multiplicities, for a finite group over a field of characteristic
-  zero: `FDRep.nonempty_iso_of_character_eq` (two objects of `FDRep k G` with equal characters are
-  isomorphic) and `FDRep.finrank_hom_eq_sum_of_character_eq` (a character identity
-  `χ_X = Σ_i a_i χ_{Y_i}` with natural coefficients gives `dim Hom(V, X) = Σ_i a_i dim Hom(V, Y_i)`
-  for every `V`), both in `TauCeti/RepresentationTheory/CharacterTable/Determined.lean`;
-  `FDRep.char_biprod`, additivity of the character on biproducts
-  (`TauCeti/RepresentationTheory/FDRep/Basic.lean`); `TauCeti.repRingCharacter_injective`
-  (`TauCeti/RepresentationTheory/RepresentationRing/Injective.lean`). These supply the regrouping
-  of finite direct sums and the Hom dimensions used in Layers 0–2; no character-recognition theorem
-  is built here.
-- `TauCeti.stdRep` and `TauCeti.SU2.toGL` for the defining representation.
-- `TauCeti.AffineDynkinType` with `Valid`, `IsGraphical`, `graph`, `cartanMatrix`, `marks`,
-  `affineNode`, `finiteType`, `bourbakiNode`, `TauCeti.AffineDynkinType.cartanMatrix_mulVec_marks_eq_zero`
-  and `TauCeti.AffineDynkinType.cartanMatrix_submatrix_bourbakiNode`
-  (`TauCeti/LinearAlgebra/RootSystem/AffineDynkinType/Basic.lean`, `Deletion.lean`). Assumed: the
-  marks are positive with mark `1` at the affine node, they span the kernel of the real Cartan
-  matrix of a valid type, and the principal submatrix away from the affine node, in the Bourbaki
-  numbering, is the finite Cartan matrix.
-- Corners and Morita theory: the corner algebra instance `IsIdempotentElem.Corner.instAlgebra`
-  (`TauCeti/RingTheory/Idempotents/Corner/Basic.lean`, re-exported by
-  `TauCeti/RingTheory/Morita/Corner.lean`, the module `Suggested.lean` imports for it),
-  `IsIdempotentElem.cornerEquivalence` (`TauCeti/RingTheory/Morita/Corner.lean`), `TauCeti.IsBasic`
-  (`TauCeti/RingTheory/Semisimple/BasicAlgebra.lean`).
-- Quivers: `TauCeti.pathAlgebra`, `TauCeti.preprojectiveRelator`, `TauCeti.doubledVertexIdempotent`,
-  `TauCeti.preprojectiveAlgebra` (`TauCeti/RepresentationTheory/Quiver/Preprojective/Basic.lean`);
-  `TauCeti.DoubledQuiver.Orientation`, `TauCeti.DoubledQuiver.OrientedQuiver`
-  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Orientation.lean`); `TauCeti.nonisolatedZigzagQuotient`,
-  the zigzag algebra of a graph without isolated vertices
-  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Relations.lean`), which is the zigzag algebra of
-  every valid graphical affine type since those graphs are connected with at least three nodes.
-  Path multiplication is later factor first.
-- `TauCeti.AffineInvariantQuotient` (`TauCeti/AlgebraicGeometry/Quotient/Affine.lean`) for the
-  affine quotient `ℂ²/Γ`.
-- Curved homological algebra (`TauCeti/Algebra/Homology/Curved/`): `TauCeti.IsCurvedDGAlgebra`
-  (`Algebra/Defs.lean`), a curved DG algebra `(A, d, w)` with `d(da) = aw − wa`;
-  `TauCeti.IsCurvedDGLeftModule` (`Module/Defs.lean`), a `ℤ`-graded left module with
-  `d(a x) = (da) x + (−1)^|a| a (dx)` and `d² x = −(w x)`; the curved homotopy category of right
-  modules `TauCeti.DGHomotopyCategory R (TauCeti.CurvedDGRightModuleCat h)` with the left/right
-  comparison `TauCeti.isCurvedDGLeftModule_iff_gradedOppositeRight` (`Module/Right/DGCategory.lean`,
-  `Module/Opposite.lean`); `TauCeti.CurvedDuplex C w`, the duplexes `X₀ ⇄ X₁` of scalar curvature `w`
-  in an `R`-linear category, with the parity shift, the null-homotopic ideal, the homotopy category
-  `TauCeti.CurvedDuplex.HomotopyCategory C w` and the disks `TauCeti.CurvedDuplex.disk`
-  (`Duplex.lean`, `DiskFactorization.lean`); the Frobenius exact structure whose stable category is
-  that homotopy category, `TauCeti.ExactStructure.curvedDuplex_split_isFrobenius` and
-  `TauCeti.ExactStructure.curvedDuplexSplitStableHomotopyEquivalence` (`Frobenius.lean`); and its
-  triangulation (`Triangulated.lean`). Assumed: the left-module square is `−(w x)`, so FKS's
-  `d² = c` is the curved DG left modules over `(A, 0, −c)`; the pin's duplexes have a scalar
-  curvature and no odd algebra elements exchanging the components.
-
-### From TauCetiRoadmap.CharacterTheory, CompactGroups, ClassicalGroups, LieGroups
-
-- CharacterTheory, Layer 2: the Wedderburn decomposition `k[G] ≅ ⊕_i Mat_{n_i}(k)` with
-  `Σ n_i² = |G|`, the indexing `Irreps k G` of the irreducibles by the Wedderburn blocks, and the
-  splitting of the centre `Z(k[G]) ≃ₐ[k] (Irreps k G → k)` by evaluation of central characters.
-- CharacterTheory, Layer 3: completeness of the irreducible characters and the primitive central
-  idempotents `(χ(1)/|G|) Σ_g χ(g⁻¹) g` as the Wedderburn projectors. Hom dimensions and character
-  recognition are not taken from CharacterTheory: they are Mathlib's
-  `FDRep.scalar_product_char_eq_finrank_equivariant` and Tau Ceti's
-  `FDRep.nonempty_iso_of_character_eq` above.
-- LieGroups, the `SU(2)`, `SO(3)` example: a surjective homomorphism `SU(2) → SO(3)` with kernel
-  `{I, −I}`.
-
-### From TauCetiRoadmap.RootSystems, ReductiveGroups, ZigzagPreprojective, QuiverRepresentations
-
-- RootSystems, Layer 4: the dominant chamber as a strict fundamental domain for the Weyl group
-  (every Weyl orbit meets the closed dominant chamber in exactly one point); Layer 5: the finite
-  ADE classification of positive definite simply-laced generalized Cartan matrices.
-- ReductiveGroups 9A.1a: for a finite, possibly disconnected, simply-laced diagram, the norm-two
-  shell `Φ = {a : B(a,a) = 2}` of the root lattice is the root set, a positive root that is not
-  simple has a simple reflection lowering its height, and `a + b ∈ Φ` exactly when `B(a,b) = −1`.
-  Neither RootSystems nor ReductiveGroups states that the dominant root of a connected
-  simply-laced diagram is unique; that lemma is a target of 1.1.
-- ZigzagPreprojective: the ordinary zigzag algebra of a graph, its grading, projectives and
-  Frobenius form; orientation independence of the preprojective algebra; the parameterized
-  skew-zigzag algebra with a backtrack ratio at each vertex.
-- QuiverRepresentations: primitive idempotents and Morita invariance of module categories.
-
-### From TauCetiRoadmap.DGAInfinity, GrothendieckEulerForms, StablePeriodicCurved
-
-- DGAInfinity, Layer 11: relative tensor algebra `T_S(W)`, quadratic algebras `T_S(W)/(R)`, the
-  right dual `Wᵛ = Hom_{Sᵐᵒᵖ}(W, S)` and its evaluation, `R⊥`, the quadratic dual and Koszulity, over
-  a finite-dimensional separable semisimple base, for right modules; internal gradings and graded
-  opposites.
-- GrothendieckEulerForms, Layer 3: linear graded projective resolutions.
-- StablePeriodicCurved: `MorphismIdeal` with quotients and universal lifts, the
-  factor-through-projectives ideal, balanced tensor products, and the triangulated homotopy
-  category of right curved DG modules.
-
-### From TauCetiRoadmap.NilpotentOrbits, ReflectionInvariantTheory, GroebnerGeometry, SchemeAndStackFoundations, AlgebraicVectorBundles, KacMoody
-
-- NilpotentOrbits N6–N8: for each ADE hypersurface its explicit resolution (smooth source, proper
-  birational, exceptional `P¹`s with normal-bundle degree `−2`, intersection matrix the negative
-  finite Cartan matrix) and the completed comparison with a subregular slice.
-- ReflectionInvariantTheory §1: finite generation of invariants, the Reynolds operator, Molien's
-  formula and Noether's bound, in the nonmodular case.
-- GroebnerGeometry G1: ideals, standard monomials and normal forms in polynomial rings.
-- SchemeAndStackFoundations §§1.17, 4.14, 5.1–5.3, 5.7: finite quotients, representability of
-  projective Hilbert and Quot functors, cycles and degrees on proper curves, coherent classes.
-- AlgebraicVectorBundles L0: finite locally free sheaves with rank, tensor, Hom, determinant,
-  pullback and the affine equivalence with finite projective modules (L0B); the sheaf-level
-  Reynolds image is constructed in §7.5 here.
-- KacMoody KM0–KM1: the full affine realization of a singular Cartan matrix.
-
-## How to read the build
-
-Layer 0 constructs the finite subgroups and classifies them; Layer 1 attaches to each the McKay
-matrix and proves it is a marked affine Cartan matrix; Layer 2 passes to the representation ring
-and the root lattices. Layer 3 builds the three skew-group algebras and their quadratic duality,
-Layer 4 identifies their basic corners with preprojective and zigzag algebras of the McKay quiver,
-and Layer 5 deforms the polynomial case to the Crawley-Boevey–Holland algebras. Layer 6 builds the
-FKS curved categories over a zigzag algebra and transports them to the exterior skew-group algebra
-through the corner of Layer 4. Layer 7 returns to geometry: it presents `ℂ²/Γ`, transports the ADE
-resolution, identifies it with the `Γ`-cluster scheme and compares the exceptional lattice with
-the root lattice of Layer 2. Layers 3–6 do not depend on Layer 7, and Layer 7 depends only on
-Layers 0–2 and its geometric suppliers.
 
 ## Layer 0: finite subgroups of `SU(2)` and `SL₂(ℂ)`
 
@@ -785,7 +567,6 @@ the two shifts, and the composite with `rootLatticeQuotientMap` is the classical
 Layers 1–2 of this roadmap; Tau Ceti `TauCeti.repRing`, `TauCeti.SplitK0.of`,
 `TauCeti.AffineDynkinType` (`marks`, `affineNode`, `finiteType`, `bourbakiNode`); CharacterTheory.
 
-
 ## Layer 3: skew-group algebras and quadratic Koszul duality
 
 ### 3.1 Skew-group algebras and equivariant modules
@@ -1081,6 +862,7 @@ Layers 1, 3; ZigzagPreprojective; QuiverRepresentations; Tau Ceti `TauCeti.prepr
 `TauCeti.DoubledQuiver.OrientedQuiver`, `TauCeti.nonisolatedZigzagQuotient`, `TauCeti.IsBasic`,
 `IsIdempotentElem.cornerEquivalence`; [HK01]; [CBH98].
 
+
 ## Layer 5: deformed preprojective algebras
 
 ### 5.1 The deformed preprojective algebra and the trace normalization
@@ -1230,7 +1012,6 @@ cyclic groups the trace and scalar weights agree because every simple is one-dim
 Layers 1, 3, 4; Tau Ceti `TauCeti.pathAlgebra`, `TauCeti.preprojectiveRelator`,
 `TauCeti.doubledVertexIdempotent`, `TauCeti.preprojectiveAlgebra`; Mathlib `TensorAlgebra`,
 `MonoidAlgebra`, `Subalgebra.center`; [CBH98]; [CBK22].
-
 
 ## Layer 6: FKS curved complexes, duplexes, stable categories and Weyl functors
 
@@ -1854,7 +1635,6 @@ Layers 3–4; DGAInfinity; StablePeriodicCurved; ZigzagPreprojective; CharacterT
 `IsIdempotentElem.cornerEquivalence`, `TauCeti.IsCurvedDGAlgebra`, `TauCeti.IsCurvedDGLeftModule`,
 `TauCeti.CurvedDuplex`, `TauCeti.CurvedDuplex.HomotopyCategory`; [FKS05, §§2–4, 6, 8.1–8.3, 9.3].
 
-
 ## Layer 7: finite geometric McKay correspondence
 
 This layer treats every finite subgroup `Γ` of `SU(2)` and, through the conjugacy of Layer 0, every
@@ -2118,12 +1898,14 @@ SchemeAndStackFoundations §§1.17, 4.14, 5.1–5.3, 5.7; AlgebraicVectorBundles
 Tau Ceti `TauCeti.AffineInvariantQuotient`; Mathlib `RootPairing.GeckConstruction.lieAlgebra`;
 [BKR01]; [KV00]; [GSV83]; [Rei97].
 
+
 ## Downstream consumers
 
 The McKay labelling, the representation-ring comparison and the corner theorems are inputs for
 roadmaps on Kleinian singularities and their deformations, quiver varieties of affine type, and
 categorical actions of affine Weyl groups; Layer 6 supplies the algebraic Weyl functors on the
 skew-group side, and Layer 7 the comparison of the exceptional lattice with the root lattice.
+
 
 ## Worked examples
 
@@ -2156,6 +1938,230 @@ Give all nine irreducibles and tensor decompositions, the explicit isomorphism w
 zigzag target, the polynomial/preprojective target, and, for a two-colouring of the tree, a
 vertex FKS reflection functor with its curvature equation.  This is prerequisite validation only; do not attach the downstream
 finiteness, higher-gluing, or categorified-`δ` claims to it.
+
+## Scope and ownership
+
+This roadmap owns: the concrete finite subgroups of `SU(2)` and `SL₂(ℂ)`, their classification and
+conjugacy, and the pole-set argument for finite rotation groups; the McKay matrix of a finite group
+with a faithful two-dimensional determinant-one representation, its marked affine identification
+and converse; the specialization of the representation ring to McKay multiplication and its
+comparison with the affine and finite root lattices; the actions of `Γ` on `Sym(V)`, `Λ(V)`,
+`T(V)`, the equivariant-module description of the skew-group algebras and the instantiation of
+relative quadratic duality at the base `k[Γ]`; the corner presentations by preprojective, zigzag
+and skew-zigzag algebras; the deformed preprojective algebra `Π^λ(Q)`, the CBH algebra and the
+trace normalization; the FKS curved categories in their left, parity-graded, algebra-valued form,
+the reflection kernels on bipartite zigzag algebras and their transport to `Λ(V) ⋊ Γ`; and the
+geometric McKay comparison maps of Layer 7 (invariant presentations of `ℂ²/Γ`, the transported
+resolution, the `Γ`-cluster scheme on the resolution, tautological bundles, the
+exceptional-lattice comparison and the fundamental cycle), including the sheaf-level Reynolds
+image and its base-change comparison in §7.5.
+
+Already in the libraries at the pins, and consumed rather than rebuilt: Mathlib's skew monoid
+algebra `SkewMonoidAlgebra` with its multiplication, ring and algebra structure and universal
+properties, and its character scalar product as a Hom dimension; Tau Ceti's representation ring
+`TauCeti.repRing`, the character-recognition theorem (equal characters give isomorphic objects of
+`FDRep` for a finite group in characteristic zero), affine Dynkin data `TauCeti.AffineDynkinType`,
+path, preprojective and zigzag algebras, idempotent corners and their Morita equivalence, and the
+curved DG algebras, curved DG left modules and curved duplexes of scalar curvature with their
+homotopy categories. The exact declarations are listed under the supplier contracts.
+
+Left to other roadmaps, by section:
+
+- character completeness, primitive central idempotents, the Wedderburn decomposition with the
+  sum-of-squares formula, the indexing of irreducibles and the splitting of the centre of the group
+  algebra by central characters: [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md),
+  Layers 2–3;
+- compact, unitary and `SL₂` representation infrastructure: [`CompactGroups`](../RepresentationTheory/CompactGroups/README.md)
+  and [`ClassicalGroups`](../RepresentationTheory/ClassicalGroups/README.md); the double cover
+  `SU(2) → SO(3)` with kernel `{±I}`: [LieGroups' `SU(2)`, `SO(3)` example](../RepresentationTheory/LieGroups/README.md);
+- finite ADE Cartan, Weyl and chamber theory: [`RootSystems`](../RepresentationTheory/RootSystems/README.md);
+  the integral ADE norm-shell/root-coordinate comparison: [`ReductiveGroups` 9A.1a](../ReductiveGroups/README.md);
+- doubled simple graphs, ordinary zigzag algebras, affine `E₈`, graded pieces, projectives,
+  Frobenius maps, additive preprojective algebras and parameterized skew-zigzag relations:
+  [`ZigzagPreprojective`](../ZigzagPreprojective/README.md);
+- quiver representations, bound path algebras, primitive idempotents, projectives and Morita
+  theory: [`QuiverRepresentations`](../RepresentationTheory/QuiverRepresentations/README.md);
+- internal gradings, DG and `A∞` modules, bar/cobar transport and homotopy transfer, and the
+  generic relative quadratic theory over a separable semisimple base: [`DGAInfinity`](../DGAInfinity/README.md),
+  Layer 11; linear graded projective resolutions: [`GrothendieckEulerForms`](../GrothendieckEulerForms/README.md),
+  Layer 3;
+- morphism ideals, their quotients, the factor-through-projectives ideal and right curved DG
+  modules with their triangulated homotopy category: [`StablePeriodicCurved`](../StablePeriodicCurved/README.md);
+- the ADE hypersurfaces, their explicit resolutions, the completed subregular-slice comparison,
+  exceptional curves and their normal-bundle and intersection data: [`NilpotentOrbits`](../NilpotentOrbits/README.md),
+  N6–N8;
+- the invariant algebra of a finite group (finite generation, Reynolds operator, Molien series,
+  Noether bound): [`ReflectionInvariantTheory`](../ReflectionInvariantTheory/README.md), §1;
+  ideals, normal forms and elimination: [`GroebnerGeometry`](../GroebnerGeometry/README.md), G1;
+- quotients, projective Hilbert and Quot representability, cycles, degrees of line bundles on
+  proper curves, Chern and coherent classes: [`SchemeAndStackFoundations`](../SchemeAndStackFoundations/README.md),
+  §§1.17, 4.14, 5.1–5.3, 5.7; finite locally free sheaves, tensor, Hom, determinants and pullback:
+  [`AlgebraicVectorBundles`](../AlgebraicVectorBundles/README.md), L0;
+- the full affine realization of a singular Cartan matrix with its central and degree directions
+  and loop comparison: `KacMoody`, KM0–KM1.
+
+Not in this roadmap: arbitrary GIT quotients, Nakajima quiver varieties, moduli of preprojective
+representations beyond the `Γ`-cluster scheme of Layer 7, a derived McKay equivalence, the
+geometric (variety and sheaf) realizations in FKS, homological finiteness or higher-gluing
+assertions for exceptional categorifications, and any categorical quotient by `δ`. The regular
+dimension vector `δ` is constructed and the ordinary affine root lattice is quotiented by `ℤδ`; no
+category is quotiented by `δ`. No Fourier–Mukai equivalence is inferred from the classical
+component bijection of Layer 7.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Matrix groups: `Matrix.specialUnitaryGroup`, `Matrix.SpecialLinearGroup`,
+  `Matrix.specialOrthogonalGroup`, `Quaternion`. Assumed: the unitary and special linear groups as
+  submonoids and groups of matrices, with determinant and conjugate transpose.
+- Representations: `Representation`, `FDRep`, `FDRep.of`, `Representation.leftRegular`,
+  `FDRep.char_orthonormal`, `FDRep.char_tensor`, `FDRep.scalar_product_char_eq_finrank_equivariant`,
+  `Representation.asAlgebraHom` (`Mathlib/RepresentationTheory/Character.lean`). Assumed:
+  orthonormality of irreducible characters of a finite group over an algebraically closed field
+  with `|G|` invertible, multiplicativity of characters under tensor products, and the Hom-dimension
+  formula `dim Hom(V, W) = |G|⁻¹ Σ_g χ_W(g) χ_V(g⁻¹)` for a finite group with `|G|` invertible in
+  `k`.
+- Algebras: `SymmetricAlgebra` (with `SymmetricAlgebra.lift`, `SymmetricAlgebra.ι`),
+  `ExteriorAlgebra` (with `ExteriorAlgebra.map`), `TensorAlgebra` (with `TensorAlgebra.lift`,
+  `TensorAlgebra.ι`), `MonoidAlgebra`, `Subalgebra.center`, `TwoSidedIdeal.span`,
+  `IsIdempotentElem.Corner`.
+- Skew monoid algebras (`Mathlib/Algebra/SkewMonoidAlgebra/Basic.lean`,
+  `Mathlib/Algebra/SkewMonoidAlgebra/Lift.lean`): the carrier `SkewMonoidAlgebra`, its ring
+  structure `SkewMonoidAlgebra.instRing`, the multiplication rule `SkewMonoidAlgebra.single_mul_single`
+  (`single g a * single h b = single (g * h) (a * (g • b))`, the left skew product of the
+  Conventions), the universal properties `SkewMonoidAlgebra.liftNCRingHom` and
+  `SkewMonoidAlgebra.liftNCAlgHom`, and its `k`-algebra structure for an action commuting with
+  scalars. These replace any construction of the skew product here.
+- Cyclicity of finite subgroups of the units of a domain: `isCyclic_of_injective_ringHom`.
+- Invariants and polynomial rings: `FixedPoints.subalgebra`, `FixedPoints.subring`, `MvPolynomial`.
+- Lie algebras of root systems: `RootPairing.GeckConstruction.lieAlgebra`,
+  `RootPairing.GeckConstruction.equivRootSystem`, `RootPairing.GeckConstruction.equivLieAlgebra`,
+  with their hypotheses (a crystallographic reduced irreducible root pairing with a base, over a
+  field of characteristic zero).
+
+- `Representation.invariants`, `Representation.averageMap` and
+  `Representation.isProj_averageMap` in `Mathlib/RepresentationTheory/Invariants.lean`: the
+  invariant submodule and its averaging projection for a representation over a commutative ring
+  with finite Γ and invertible group order. `Module.Projective.of_split` in
+  `Mathlib/Algebra/Module/Projective.lean` supplies projectivity of a split summand; §7.5 glues
+  these module-level constructions on schemes.
+
+### From Tau Ceti
+
+- `TauCeti.SimpleFDRepClasses` and `TauCeti.SimpleFDRepClasses.mk`, the isomorphism classes of
+  simple objects of `FDRep k G` (`TauCeti/RepresentationTheory/Simple/Basic.lean`).
+- `TauCeti.repRing k G`, an abbreviation of `TauCeti.SplitK0 (FDRep k G)`, with class map
+  `TauCeti.SplitK0.of`, product rule `TauCeti.SplitK0.of_mul_of` and character homomorphism
+  `TauCeti.repRingCharacter` (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`,
+  `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`,
+  `TauCeti/CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean`).
+- `TauCeti.irreducibleRepresentation`, the complete family of irreducibles indexed by
+  `Fin (Nat.card (ConjClasses G))`, stated under `[Finite G] [IsAlgClosed k]
+  [Invertible (Nat.card G : k)]` (`TauCeti/RepresentationTheory/CharacterTable/Table.lean`), and
+  `TauCeti.Representation.finrank_dvd_card` (`TauCeti/RepresentationTheory/CharacterTable/Degree.lean`).
+- Character recognition and multiplicities, for a finite group over a field of characteristic
+  zero: `FDRep.nonempty_iso_of_character_eq` (two objects of `FDRep k G` with equal characters are
+  isomorphic) and `FDRep.finrank_hom_eq_sum_of_character_eq` (a character identity
+  `χ_X = Σ_i a_i χ_{Y_i}` with natural coefficients gives `dim Hom(V, X) = Σ_i a_i dim Hom(V, Y_i)`
+  for every `V`), both in `TauCeti/RepresentationTheory/CharacterTable/Determined.lean`;
+  `FDRep.char_biprod`, additivity of the character on biproducts
+  (`TauCeti/RepresentationTheory/FDRep/Basic.lean`); `TauCeti.repRingCharacter_injective`
+  (`TauCeti/RepresentationTheory/RepresentationRing/Injective.lean`). These supply the regrouping
+  of finite direct sums and the Hom dimensions used in Layers 0–2; no character-recognition theorem
+  is built here.
+- `TauCeti.stdRep` and `TauCeti.SU2.toGL` for the defining representation.
+- `TauCeti.AffineDynkinType` with `Valid`, `IsGraphical`, `graph`, `cartanMatrix`, `marks`,
+  `affineNode`, `finiteType`, `bourbakiNode`, `TauCeti.AffineDynkinType.cartanMatrix_mulVec_marks_eq_zero`
+  and `TauCeti.AffineDynkinType.cartanMatrix_submatrix_bourbakiNode`
+  (`TauCeti/LinearAlgebra/RootSystem/AffineDynkinType/Basic.lean`, `Deletion.lean`). Assumed: the
+  marks are positive with mark `1` at the affine node, they span the kernel of the real Cartan
+  matrix of a valid type, and the principal submatrix away from the affine node, in the Bourbaki
+  numbering, is the finite Cartan matrix.
+- Corners and Morita theory: the corner algebra instance `IsIdempotentElem.Corner.instAlgebra`
+  (`TauCeti/RingTheory/Idempotents/Corner/Basic.lean`, re-exported by
+  `TauCeti/RingTheory/Morita/Corner.lean`, the module `Suggested.lean` imports for it),
+  `IsIdempotentElem.cornerEquivalence` (`TauCeti/RingTheory/Morita/Corner.lean`), `TauCeti.IsBasic`
+  (`TauCeti/RingTheory/Semisimple/BasicAlgebra.lean`).
+- Quivers: `TauCeti.pathAlgebra`, `TauCeti.preprojectiveRelator`, `TauCeti.doubledVertexIdempotent`,
+  `TauCeti.preprojectiveAlgebra` (`TauCeti/RepresentationTheory/Quiver/Preprojective/Basic.lean`);
+  `TauCeti.DoubledQuiver.Orientation`, `TauCeti.DoubledQuiver.OrientedQuiver`
+  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Orientation.lean`); `TauCeti.nonisolatedZigzagQuotient`,
+  the zigzag algebra of a graph without isolated vertices
+  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Relations.lean`), which is the zigzag algebra of
+  every valid graphical affine type since those graphs are connected with at least three nodes.
+  Path multiplication is later factor first.
+- `TauCeti.AffineInvariantQuotient` (`TauCeti/AlgebraicGeometry/Quotient/Affine.lean`) for the
+  affine quotient `ℂ²/Γ`.
+- Curved homological algebra (`TauCeti/Algebra/Homology/Curved/`): `TauCeti.IsCurvedDGAlgebra`
+  (`Algebra/Defs.lean`), a curved DG algebra `(A, d, w)` with `d(da) = aw − wa`;
+  `TauCeti.IsCurvedDGLeftModule` (`Module/Defs.lean`), a `ℤ`-graded left module with
+  `d(a x) = (da) x + (−1)^|a| a (dx)` and `d² x = −(w x)`; the curved homotopy category of right
+  modules `TauCeti.DGHomotopyCategory R (TauCeti.CurvedDGRightModuleCat h)` with the left/right
+  comparison `TauCeti.isCurvedDGLeftModule_iff_gradedOppositeRight` (`Module/Right/DGCategory.lean`,
+  `Module/Opposite.lean`); `TauCeti.CurvedDuplex C w`, the duplexes `X₀ ⇄ X₁` of scalar curvature `w`
+  in an `R`-linear category, with the parity shift, the null-homotopic ideal, the homotopy category
+  `TauCeti.CurvedDuplex.HomotopyCategory C w` and the disks `TauCeti.CurvedDuplex.disk`
+  (`Duplex.lean`, `DiskFactorization.lean`); the Frobenius exact structure whose stable category is
+  that homotopy category, `TauCeti.ExactStructure.curvedDuplex_split_isFrobenius` and
+  `TauCeti.ExactStructure.curvedDuplexSplitStableHomotopyEquivalence` (`Frobenius.lean`); and its
+  triangulation (`Triangulated.lean`). Assumed: the left-module square is `−(w x)`, so FKS's
+  `d² = c` is the curved DG left modules over `(A, 0, −c)`; the pin's duplexes have a scalar
+  curvature and no odd algebra elements exchanging the components.
+
+### From TauCetiRoadmap.CharacterTheory, CompactGroups, ClassicalGroups, LieGroups
+
+- CharacterTheory, Layer 2: the Wedderburn decomposition `k[G] ≅ ⊕_i Mat_{n_i}(k)` with
+  `Σ n_i² = |G|`, the indexing `Irreps k G` of the irreducibles by the Wedderburn blocks, and the
+  splitting of the centre `Z(k[G]) ≃ₐ[k] (Irreps k G → k)` by evaluation of central characters.
+- CharacterTheory, Layer 3: completeness of the irreducible characters and the primitive central
+  idempotents `(χ(1)/|G|) Σ_g χ(g⁻¹) g` as the Wedderburn projectors. Hom dimensions and character
+  recognition are not taken from CharacterTheory: they are Mathlib's
+  `FDRep.scalar_product_char_eq_finrank_equivariant` and Tau Ceti's
+  `FDRep.nonempty_iso_of_character_eq` above.
+- LieGroups, the `SU(2)`, `SO(3)` example: a surjective homomorphism `SU(2) → SO(3)` with kernel
+  `{I, −I}`.
+
+### From TauCetiRoadmap.RootSystems, ReductiveGroups, ZigzagPreprojective, QuiverRepresentations
+
+- RootSystems, Layer 4: the dominant chamber as a strict fundamental domain for the Weyl group
+  (every Weyl orbit meets the closed dominant chamber in exactly one point); Layer 5: the finite
+  ADE classification of positive definite simply-laced generalized Cartan matrices.
+- ReductiveGroups 9A.1a: for a finite, possibly disconnected, simply-laced diagram, the norm-two
+  shell `Φ = {a : B(a,a) = 2}` of the root lattice is the root set, a positive root that is not
+  simple has a simple reflection lowering its height, and `a + b ∈ Φ` exactly when `B(a,b) = −1`.
+  Neither RootSystems nor ReductiveGroups states that the dominant root of a connected
+  simply-laced diagram is unique; that lemma is a target of 1.1.
+- ZigzagPreprojective: the ordinary zigzag algebra of a graph, its grading, projectives and
+  Frobenius form; orientation independence of the preprojective algebra; the parameterized
+  skew-zigzag algebra with a backtrack ratio at each vertex.
+- QuiverRepresentations: primitive idempotents and Morita invariance of module categories.
+
+### From TauCetiRoadmap.DGAInfinity, GrothendieckEulerForms, StablePeriodicCurved
+
+- DGAInfinity, Layer 11: relative tensor algebra `T_S(W)`, quadratic algebras `T_S(W)/(R)`, the
+  right dual `Wᵛ = Hom_{Sᵐᵒᵖ}(W, S)` and its evaluation, `R⊥`, the quadratic dual and Koszulity, over
+  a finite-dimensional separable semisimple base, for right modules; internal gradings and graded
+  opposites.
+- GrothendieckEulerForms, Layer 3: linear graded projective resolutions.
+- StablePeriodicCurved: `MorphismIdeal` with quotients and universal lifts, the
+  factor-through-projectives ideal, balanced tensor products, and the triangulated homotopy
+  category of right curved DG modules.
+
+### From TauCetiRoadmap.NilpotentOrbits, ReflectionInvariantTheory, GroebnerGeometry, SchemeAndStackFoundations, AlgebraicVectorBundles, KacMoody
+
+- NilpotentOrbits N6–N8: for each ADE hypersurface its explicit resolution (smooth source, proper
+  birational, exceptional `P¹`s with normal-bundle degree `−2`, intersection matrix the negative
+  finite Cartan matrix) and the completed comparison with a subregular slice.
+- ReflectionInvariantTheory §1: finite generation of invariants, the Reynolds operator, Molien's
+  formula and Noether's bound, in the nonmodular case.
+- GroebnerGeometry G1: ideals, standard monomials and normal forms in polynomial rings.
+- SchemeAndStackFoundations §§1.17, 4.14, 5.1–5.3, 5.7: finite quotients, representability of
+  projective Hilbert and Quot functors, cycles and degrees on proper curves, coherent classes.
+- AlgebraicVectorBundles L0: finite locally free sheaves with rank, tensor, Hom, determinant,
+  pullback and the affine equivalence with finite projective modules (L0B); the sheaf-level
+  Reynolds image is constructed in §7.5 here.
+- KacMoody KM0–KM1: the full affine realization of a singular Cartan matrix.
 
 
 ## References

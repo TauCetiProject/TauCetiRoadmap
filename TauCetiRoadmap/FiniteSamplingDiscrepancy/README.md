@@ -1,37 +1,65 @@
 # Roadmap: sampling with and without replacement, exact discrepancy for finite populations
 
-**Summary.** Draw `m` values from a finite population of size `n`, once without replacement and
-once with replacement. This roadmap computes how far apart the two laws are. The difference on
-every event is at most the collision probability `1 - (n)_m / n^m`, and populations of distinct
-values attain it; Layer 1 proves both, for deterministic and random populations and for the
-prefix laws of finitely exchangeable processes. For `2 ≤ m ≤ n`, distinct values are the only
-populations that attain it (Layer 3). A population identifying
-one pair of indices has an exact discrepancy `1 - p - t * min p (1 - p)` (Layer 2), every
-population with a repeated value satisfies that smaller sharp bound (Layer 3), and integrating it
-gives a finite de Finetti bound that improves with the probability of ties (Layer 4). The roadmap
-is this README; `Suggested.lean` states the headline theorems against the pinned APIs.
+**Summary.** Draw `m` values from a finite population of `n` values, once without replacement
+and once with replacement. Only the second can draw a member twice, which happens with the
+collision probability `1 - p`, where `p = (n)_m/n^m` and `(n)_m = n(n-1)⋯(n-m+1)`. This roadmap
+computes exactly how far apart the two laws of the sampled word are, also when values repeat.
+This is the question behind finite de Finetti theorems: for a process exchangeable at `n` and
+`m ≤ n`, the first `m` terms have the law of `m` draws without replacement from the first `n`.
 
-## Scope and ownership
+A population is a map from `n` indices to a measurable space of values; a random population is
+a probability law on such maps. The discrepancy is the excess of a law `μ` over a law `ν`, the
+supremum of `μ(A) - ν(A)` over measurable events `A`. For probability measures, the total
+variation of the signed measure `μ - ν` is twice the excess, so each bound below also bounds it by
+twice the error.
 
-This roadmap owns the exact collision masses of uniform index maps, the exact-collision
-eventwise bounds between the pinned sampling laws (Section 1.2) and between a finitely
-exchangeable prefix law and the with-replacement sample of a longer prefix (Section 1.3), their
-attainment, the exact one-pair formula and the repeated-value bound with its characterization,
-and the tie-weighted mixture and finite de Finetti bounds. It also owns the three excess tools of
-Sections 0.3 to 0.5, stated for finite measures in this roadmap's carriers.
+The first main theorem is the exact collision bound: for every random population, the
+probabilities of a measurable event without and with replacement differ, in either direction, by
+at most `1 - p`. If a process is exchangeable at `n`, `m ≤ n` and its first `n` terms are almost
+everywhere measurable, then on every measurable event the law of the first `m` terms is within
+`1 - p` of the law of `m` draws with replacement from the first `n`. This is Theorem 13 of
+Diaconis and Freedman [DF80]. It sharpens the error `m(m-1)/(2n)` of the de Finetti bound already
+in the library, from `3/4` to `5/8` when `n = 4` and `m = 3`.
 
-- **Exchangeability (completed), Layer 8**, owns the sampling constructions `samplePopulation`,
-  `sampleWithoutReplacement`, `sampleWithReplacement`, their probability instances, the
-  representation of an exchangeable prefix law by sampling without replacement, and the
-  finite de Finetti bound with error `choose m 2 / n`. This roadmap consumes all of them and
-  sharpens the error to `1 - (n)_m / n^m`.
-- **MarkovChainsAndRenewal, Layer 3**, owns total variation of measures on countable spaces in
-  its own carrier. Section 0.4 is the finite-type excess identity in this roadmap's carriers,
-  which Layer 2 uses.
-- **StandardDistributions §9.3** owns the multivariate hypergeometric and multinomial count
-  laws. The laws here are laws of sampled words, not of counts.
-- Approximation of a sampling law by an arbitrary i.i.d. mixture, and optimality among such
-  mixtures, are outside this roadmap.
+The bound is attained by distinct values. Suppose the `n` values are distinct, `m ≤ n`, and the
+event that the sampled values are distinct is measurable. That event has probability `1` without
+replacement and `p` with replacement, so the excess is exactly `1 - p`. A uniformly random
+ordering of `n` distinct values in a nonempty space attains the de Finetti bound in the same way.
+Conversely, for `2 ≤ m ≤ n` and under the same measurability hypothesis, only populations of
+distinct values have excess `1 - p`.
+
+The extreme case of a repeated value is the population whose values are its own indices, except
+that one index `b` takes the value `a` of another. Let `t = m(m-1)/(n(n-1))`; for `m ≤ n` it is
+the probability that a sample without replacement contains both `a` and `b`. For `m ≤ n`, the
+excess for this one-pair population is exactly `1 - p - t·min(p, 1-p)`, which is `2/9` for
+`n = 3` and `m = 2`, against `1/3` for distinct values. Every population with a repeated value,
+for all `m` and `n`, satisfies both inequalities with this error. For `m ≤ n` the reason is that
+it factors through a one-pair population, and pushforward never increases the excess. For
+`2 ≤ m ≤ n` the correction `t·min(p, 1-p)` is positive.
+
+Averaging gives a de Finetti bound that improves with the probability of ties. If `m ≤ n` and `S`
+is a measurable set of populations with a repeated value, the two sampling laws of a random
+population with law `ρ` differ on every measurable event by at most
+`1 - p - t·min(p, 1-p)·ρ(S)`. The same holds for an exchangeable process as above, with `ρ` the
+law of its first `n` terms; a uniformly random ordering of `(a, a, c)`, with `m = 2`, gets `2/9`
+instead of `1/3`.
+
+The roadmap builds on the Exchangeability roadmap, which provides the sampling constructions, the
+description of exchangeable prefix laws used above, and the weaker de Finetti bound. Developments
+using that bound can use the exact error instead. The multivariate hypergeometric and
+multinomial laws of StandardDistributions are laws of counts, not of sampled words.
+
+Layer 0 collects tools on sampling and on the excess. Layer 1 proves the
+collision bound and its attainment, and Layer 2 the one-pair formula. Layer 3 proves the bound for
+repeated values and the characterization of distinct values, and Layer 4 the bounds with ties.
+
+## How to read the build
+
+Layers are in dependency order and each section ends with a *Needs:* line. Hypotheses are stated
+in the sentence that states the target. **Checks** give values that a correct statement must
+produce and, where a hypothesis is essential, an instance showing that the statement fails
+without it. `Suggested.lean` states the headline theorems; the remaining targets here are equally
+part of the roadmap.
 
 ## Conventions
 
@@ -54,68 +82,6 @@ Sections 0.3 to 0.5, stated for finite measures in this roadmap's carriers.
   `b` to `a` and fixes every other index. It is not a new definition.
 - "`m ≤ n`" is written as an embedding `e : ι ↪ κ` where a probability law is needed, and as
   `Fintype.card ι ≤ Fintype.card κ` where only a count is.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ProbabilityTheory.uniformOn` in `Mathlib/Probability/UniformOn.lean`: the uniform law on a
-  finite set; on an empty set it is the zero measure.
-- `MeasureTheory.Measure.toSignedMeasure` in `Mathlib/MeasureTheory/VectorMeasure/Operations.lean`
-  and `MeasureTheory.SignedMeasure.totalVariation` in
-  `Mathlib/MeasureTheory/VectorMeasure/Decomposition/Jordan.lean`: the norm carrier.
-- `Nat.descFactorial` and `Nat.descFactorial_eq_zero_iff_lt` in
-  `Mathlib/Data/Nat/Factorial/Basic.lean`, and `Fintype.card_embedding_eq` in
-  `Mathlib/Data/Fintype/CardEmbedding.lean`: the injective index maps `ι → κ` number
-  `n.descFactorial m`, which is `0` exactly when `n < m`.
-- `MeasureTheory.Measure.map_apply`, `MeasureTheory.Measure.dirac`, `MeasureTheory.Measure.pi`,
-  `Function.update`.
-
-### From Tau Ceti
-
-- `TauCeti.Probability.samplePopulation`, `samplePopulation_def`, `samplePopulation_apply`,
-  `samplePopulation_apply_population` and `samplePopulation_eq_bind_population` in
-  `TauCeti/Probability/PopulationSampling.lean`: sampling a random population `ρ` along an
-  independent selection law `σ`, for countable `κ` with measurable singletons.
-  `samplePopulation_apply` evaluates a measurable event as an integral over `σ` and needs
-  `[SFinite ρ]`; `samplePopulation_apply_population` (a measurable event, as an integral over
-  `ρ`) and `samplePopulation_eq_bind_population` need `[SFinite σ]` and `[SFinite ρ]`. The
-  instance `isFiniteMeasure_samplePopulation` needs both measures finite.
-- `TauCeti.Probability.sampleWithoutReplacement` and
-  `isProbabilityMeasure_sampleWithoutReplacement` in
-  `TauCeti/Probability/Exchangeability/SamplingWithoutReplacement.lean`: sampling along
-  `uniformOn {k : ι → κ | Function.Injective k}`, a probability measure for
-  `[IsProbabilityMeasure ρ]` and `e : ι ↪ κ`, and the zero measure when no injection exists. `IsFiniteMeasure (sampleWithoutReplacement ρ)` for
-  finite `ρ` follows from `isFiniteMeasure_samplePopulation`.
-- `TauCeti.Probability.sampleWithReplacement`, `sampleWithReplacement_eq_samplePopulation_uniformOn`
-  and `isProbabilityMeasure_sampleWithReplacement` (for `[IsProbabilityMeasure ρ]` and
-  `[Nonempty κ]`) in
-  `TauCeti/Probability/Exchangeability/FiniteDeFinetti.lean`: sampling along
-  `uniformOn (Set.univ : Set (ι → κ))`.
-- `TauCeti.Probability.uniformOn_injective_le_add` and `uniformOn_univ_le_injective_add` in
-  `TauCeti/Probability/UniformSampling.lean`: for every set `A` of index maps, the two uniform laws
-  differ on `A` by at most `uniformOn Set.univ {x | ¬ Function.Injective x}`, in both directions.
-- `TauCeti.Probability.ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw` in
-  `TauCeti/Probability/Exchangeability/SamplingWithoutReplacement.lean`: for
-  `[IsFiniteMeasure μ]`, `h : ExchangeableAt μ X n`, `m ≤ n` and
-  `hX : ∀ i : Fin n, AEMeasurable (X i.val) μ`,
-  `sampleWithoutReplacement (ι := Fin m) (prefixLaw μ X n) = prefixLaw μ X m`.
-- `TauCeti.Probability.ExchangeableAt.finiteDeFinetti` in the same `FiniteDeFinetti.lean`: the
-  bound with error `m.choose 2 / n`, which Section 1.3 sharpens under the same hypotheses.
-- `MeasureTheory.Measure.toJordanDecomposition_toSignedMeasure_sub_posPart_univ_eq_iSup`,
-  `toJordanDecomposition_toSignedMeasure_sub_posPart_univ_eq_negPart_univ` and
-  `totalVariation_toSignedMeasure_sub_univ_le_two_mul_iff` in
-  `TauCeti/MeasureTheory/VectorMeasure/Decomposition/Jordan.lean`: for finite measures, the
-  positive part of `μ - ν` on `univ` is the excess; for equal total mass the two parts agree and
-  the norm is at most `2 * c` iff every measurable event has `μ A ≤ ν A + c`.
-
-## How to read the build
-
-Layers are in dependency order and each section ends with a *Needs:* line. Hypotheses are stated
-in the sentence that states the target. **Checks** give values that a correct statement must
-produce and, where a hypothesis is essential, an instance showing that the statement fails
-without it. `Suggested.lean` states the headline theorems; the remaining targets here are equally
-part of the roadmap.
 
 ## Layer 0: Deterministic populations and excess tools
 
@@ -423,6 +389,82 @@ Any development that uses Exchangeability Layer 8's finite de Finetti bound can 
 error of Section 1.3 in its place, and the tie-dependent error of Section 4.2 when populations
 repeat values. The exact formulas of Layers 1 and 2 are the error terms a finite-population
 sampling development needs when it compares with-replacement and without-replacement designs.
+
+## Scope and ownership
+
+This roadmap owns the exact collision masses of uniform index maps, the exact-collision
+eventwise bounds between the pinned sampling laws (Section 1.2) and between a finitely
+exchangeable prefix law and the with-replacement sample of a longer prefix (Section 1.3), their
+attainment, the exact one-pair formula and the repeated-value bound with its characterization,
+and the tie-weighted mixture and finite de Finetti bounds. It also owns the three excess tools of
+Sections 0.3 to 0.5, stated for finite measures in this roadmap's carriers.
+
+- **Exchangeability (completed), Layer 8**, owns the sampling constructions `samplePopulation`,
+  `sampleWithoutReplacement`, `sampleWithReplacement`, their probability instances, the
+  representation of an exchangeable prefix law by sampling without replacement, and the
+  finite de Finetti bound with error `choose m 2 / n`. This roadmap consumes all of them and
+  sharpens the error to `1 - (n)_m / n^m`.
+- **MarkovChainsAndRenewal, Layer 3**, owns total variation of measures on countable spaces in
+  its own carrier. Section 0.4 is the finite-type excess identity in this roadmap's carriers,
+  which Layer 2 uses.
+- **StandardDistributions §9.3** owns the multivariate hypergeometric and multinomial count
+  laws. The laws here are laws of sampled words, not of counts.
+- Approximation of a sampling law by an arbitrary i.i.d. mixture, and optimality among such
+  mixtures, are outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ProbabilityTheory.uniformOn` in `Mathlib/Probability/UniformOn.lean`: the uniform law on a
+  finite set; on an empty set it is the zero measure.
+- `MeasureTheory.Measure.toSignedMeasure` in `Mathlib/MeasureTheory/VectorMeasure/Operations.lean`
+  and `MeasureTheory.SignedMeasure.totalVariation` in
+  `Mathlib/MeasureTheory/VectorMeasure/Decomposition/Jordan.lean`: the norm carrier.
+- `Nat.descFactorial` and `Nat.descFactorial_eq_zero_iff_lt` in
+  `Mathlib/Data/Nat/Factorial/Basic.lean`, and `Fintype.card_embedding_eq` in
+  `Mathlib/Data/Fintype/CardEmbedding.lean`: the injective index maps `ι → κ` number
+  `n.descFactorial m`, which is `0` exactly when `n < m`.
+- `MeasureTheory.Measure.map_apply`, `MeasureTheory.Measure.dirac`, `MeasureTheory.Measure.pi`,
+  `Function.update`.
+
+### From Tau Ceti
+
+- `TauCeti.Probability.samplePopulation`, `samplePopulation_def`, `samplePopulation_apply`,
+  `samplePopulation_apply_population` and `samplePopulation_eq_bind_population` in
+  `TauCeti/Probability/PopulationSampling.lean`: sampling a random population `ρ` along an
+  independent selection law `σ`, for countable `κ` with measurable singletons.
+  `samplePopulation_apply` evaluates a measurable event as an integral over `σ` and needs
+  `[SFinite ρ]`; `samplePopulation_apply_population` (a measurable event, as an integral over
+  `ρ`) and `samplePopulation_eq_bind_population` need `[SFinite σ]` and `[SFinite ρ]`. The
+  instance `isFiniteMeasure_samplePopulation` needs both measures finite.
+- `TauCeti.Probability.sampleWithoutReplacement` and
+  `isProbabilityMeasure_sampleWithoutReplacement` in
+  `TauCeti/Probability/Exchangeability/SamplingWithoutReplacement.lean`: sampling along
+  `uniformOn {k : ι → κ | Function.Injective k}`, a probability measure for
+  `[IsProbabilityMeasure ρ]` and `e : ι ↪ κ`, and the zero measure when no injection exists. `IsFiniteMeasure (sampleWithoutReplacement ρ)` for
+  finite `ρ` follows from `isFiniteMeasure_samplePopulation`.
+- `TauCeti.Probability.sampleWithReplacement`, `sampleWithReplacement_eq_samplePopulation_uniformOn`
+  and `isProbabilityMeasure_sampleWithReplacement` (for `[IsProbabilityMeasure ρ]` and
+  `[Nonempty κ]`) in
+  `TauCeti/Probability/Exchangeability/FiniteDeFinetti.lean`: sampling along
+  `uniformOn (Set.univ : Set (ι → κ))`.
+- `TauCeti.Probability.uniformOn_injective_le_add` and `uniformOn_univ_le_injective_add` in
+  `TauCeti/Probability/UniformSampling.lean`: for every set `A` of index maps, the two uniform laws
+  differ on `A` by at most `uniformOn Set.univ {x | ¬ Function.Injective x}`, in both directions.
+- `TauCeti.Probability.ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw` in
+  `TauCeti/Probability/Exchangeability/SamplingWithoutReplacement.lean`: for
+  `[IsFiniteMeasure μ]`, `h : ExchangeableAt μ X n`, `m ≤ n` and
+  `hX : ∀ i : Fin n, AEMeasurable (X i.val) μ`,
+  `sampleWithoutReplacement (ι := Fin m) (prefixLaw μ X n) = prefixLaw μ X m`.
+- `TauCeti.Probability.ExchangeableAt.finiteDeFinetti` in the same `FiniteDeFinetti.lean`: the
+  bound with error `m.choose 2 / n`, which Section 1.3 sharpens under the same hypotheses.
+- `MeasureTheory.Measure.toJordanDecomposition_toSignedMeasure_sub_posPart_univ_eq_iSup`,
+  `toJordanDecomposition_toSignedMeasure_sub_posPart_univ_eq_negPart_univ` and
+  `totalVariation_toSignedMeasure_sub_univ_le_two_mul_iff` in
+  `TauCeti/MeasureTheory/VectorMeasure/Decomposition/Jordan.lean`: for finite measures, the
+  positive part of `μ - ν` on `univ` is the excess; for equal total mass the two parts agree and
+  the norm is at most `2 * c` iff every measurable event has `μ A ≤ ν A + c`.
 
 ## References
 

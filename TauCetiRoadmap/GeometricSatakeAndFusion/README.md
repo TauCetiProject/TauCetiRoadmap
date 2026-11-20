@@ -1,73 +1,24 @@
 # Roadmap: geometric Satake and fusion over the Fargues–Fontaine curve
 
-**Summary.** Construct the integral geometric Satake equivalence for connected reductive groups `G/E` from bounded bundle
-modifications, with its tensor structure, coefficient changes and Weil action. The geometric input is the
-Beilinson–Drinfeld Grassmannian over the divisor space of the relative
-Fargues–Fontaine curve. Its special fibre supplies projective lattice models
-and dimension calculations, using Witt coefficients in mixed characteristic and
-power-series coefficients in equal characteristic. Universally locally acyclic, flat perverse sheaves
-form the Satake category; convolution gives rigidity, fusion gives its symmetric
-tensor structure, and relative Tannaka reconstruction from MotivesAndAlgebraicCycles
-§6.4 recovers the pinned dual group after the Satake hypotheses are verified here.
-A final comparison identifies normalized Frobenius traces with the
-classical spherical Satake transform.
+**Summary.** Geometric Satake identifies representations of the Langlands dual group Ĝ of a reductive group G with equivariant perverse sheaves on an affine Grassmannian of G, tensor product corresponding to convolution. This roadmap builds the version of Fargues and Scholze over the Fargues–Fontaine curve, with integral coefficients, a symmetric tensor structure and a Weil group action. Throughout, E is a nonarchimedean local field whose residue field has q elements and characteristic p, and G is a connected reductive group over E. The coefficients are torsion rings killed by an integer prime to p, or derived-complete ℓ-adic rings with ℓ ≠ p.
 
-The development has five layers. GS0 constructs loop spaces, Schubert geometry,
-Witt bounds and determinant lines. GS1 develops semi-infinite constant terms,
-ULA recognition and relative perversity. GS2 constructs the Satake fibre functor,
-convolution and duals. GS3 extends exterior products across collision diagonals
-and fixes the symmetry sign. GS4 reconstructs and identifies the dual group,
-normalizes the Weil action and extends the representation functor to perfect
-complexes. Its classical comparison comes after both Satake theorems. The
-rational Witt equivalence has its own route through generic reductivity; it does
-not depend on the characteristic-two integral rank-one argument.
+The geometry is the Beilinson–Drinfeld Grassmannian over the divisors of the relative Fargues–Fontaine curve, and its quotient, the local Hecke stack. The Satake category consists of the complexes on this stack with bounded support that are universally locally acyclic over the space of legs, a relative finiteness condition under which stalks are perfect complexes. They are also flat perverse: perverse relative to that space, and still perverse after tensoring with any coefficient module. The category is additive but need not be abelian.
 
-## Scope and ownership
+Convolution of two Satake objects is again Satake, and every Satake object has a left and a right dual. Fusion, which is the exterior product over distinct points of the curve, makes convolution symmetric. Its geometric commutativity constraint must be corrected by the sign (−1)^(ε(A)ε(B)), where ε is the parity of ⟨2ρ, μ⟩ on the support. Total cohomology then becomes a symmetric monoidal functor to finite projective Weil group representations with the ordinary symmetry.
 
-This roadmap supplies the common construction of local modification spaces,
-their flat-perverse ULA Satake categories, weight and fibre functors,
-convolution, coherent fusion, the Satake verification and application of relative
-reconstruction, and the pinned dual equivalence. General neutral and relative
-reconstruction and finiteness and connectedness recognition are supplied by
-MotivesAndAlgebraicCycles §§6.1–6.4. GS0–GS4 own the Satake foundations together
-with their coefficient,
-finite-set, Weil and Cartan-duality comparisons. Applications use these same
-carriers and tensor comparisons. Geometric Hecke actions on bundle-stack
-cohomology and Igusa-variety torsion-concentration results belong to their
-respective application roadmaps.
+The main theorem is the normalized integral Satake equivalence. Working over an algebraic closure of the residue field, choose a unit r of the coefficient ring Λ with r² = q, fixing a half Tate twist. Then the Satake category with legs I is equivalent, as a symmetric monoidal category, to the continuous representations of (Ĝ ⋊ W)^I on finite projective Λ-modules, where Ĝ is the pinned dual group and W the Weil group of E. For instance, the standard representation of SL₂ goes to the shifted, half-twisted constant sheaf on the minuscule Schubert variety of PGL₂, a projective line. The identification of the reconstructed group with Ĝ is canonical, independent of a pinning of G, and needs no condition on the order of π₁(Ĝ).
 
-The following layers specify the general theories used in these constructions;
-the table also identifies the additional general targets owned here. A reference to one of these
-layers includes the precise contract stated here and in the relevant result
-below; merely having its abstract carrier is insufficient.
+With coefficients in an algebraic closure of the ℓ-adic numbers, the roadmap also proves Zhu's Witt vector version. Let E be finite over ℚₚ and G split connected reductive over the ring of integers of E. Then the equivariant perverse sheaves with bounded support on the Witt vector affine Grassmannian of G over an algebraic closure of the residue field form, under convolution, a symmetric monoidal category equivalent to finite-dimensional algebraic representations of Ĝ. The intersection complex of the Schubert variety of μ goes to the irreducible representation of highest weight μ. The symmetry is the one transported from fusion, and the proof uses only the generic fibre.
 
-| Dependency | Required mathematical interface |
-| --- | --- |
-| VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” | Ramified Witt coefficients and coefficient changes, including the equal-characteristic power-series convention. |
-| RelativeFarguesFontaine §§3.1–3.9, 4.7–4.13 | Integral untilt Cartier divisors, ordered divisor moduli and collision products, completed divisor rings, finite-thickening descent and completed-system algebraization, geometric DVR factors, closed support maps and completion base change. |
-| RelativeFarguesFontaine §§6.5–6.10, 6.16, 7.0–7.6 | Beauville–Laszlo gluing, exact tensor comparison and change of legs/groups, punctured Witt-spectrum bundle algebraicity, and effective v-descent and étale-local triviality of reductive torsors on completed divisor rings. Use §3.8 for completed finite projectives. The rank-one constant-position fibre-detection argument is part of GS1 here. |
-| ReductiveGroupsPartII §§RG2.0, RG2.0a, RG2.1, RG2.3–RG2.5 | Integral-point topology and lattice preservation over the completed maximal unramified coefficient DVR; Weil restriction; relative Lie weights; integral and parahoric models, Greenberg jets and smooth lifting; affine Weyl, Cartan, Iwasawa and rank-one convolution data; pinned integral dual groups, central maps and finite pinned Weil action. The closed-immersion theorem of Prasad–Yu belongs to RG2.3 with its exact characteristic-two exception. |
-| ReductiveGroups, layers 3, 6, 7 and 9 | Components; finite-type characteristic-zero reductivity; integral pinned Chevalley–Demazure groups and classification by based root datum. High-Frobenius reduced images and the subgroup/normalizer calculations in `SL₂` are owned by [rank-one subgroup geometry](#49-frobenius-images-and-rank-one-subgroups). Import the existing absolute theory before its relative extensions. |
-| AlgebraicVectorBundles, L0A–L0C | Tensor and pullback for module sheaves, finite locally free sheaves and their rank-one identification with `InvertibleSheaf`, and exterior-power determinants. Import these operations; the Witt-resolution descent and positivity arguments are the applications constructed here. |
-| SchemeAndStackFoundations §§0.9, 0.24–0.26; §§1.5–1.6, 1.13–1.17; §§4.9, 4.14 | Finite models and direct-colimit perfection; perfectly finitely presented/smooth schemes and Witt schemes; effective quotient presentations, torsors and contracted products; Stein factorization and Hilbert/Quot schemes. General Witt-bundle descent, connected-fibre descent, finite boundary pushouts and Keel positivity used below are targets here, rather than consequences of these scheme carriers. |
-| VStackSheavesAndLisseCategories §§VS0–VS1, VS3; DiamondSixOperations §§S2–S6 | Enhanced Artin quotient descent and bounded proper correspondences; ULA and hyperbolic localization with monodromicity and coefficient hypotheses; complete congruence filtrations and ordinary-cohomology continuity; VS1.5 perfect locally constant Drinfeld realization over `Perf_k`, `k=overline(𝔽_q)`, with its Tate character; relative duality and enhanced coefficient comparison. Representable diamond operations alone do not cover quotient-stack maps. |
-| EnhancedDerivedSheaves §§E3.1–E3.4, E5:presentability.1–E5:presentability.2 | Coherent composition of pull–push kernels and filtered support extension; the generated Ind t-structure with accessibility and small generators. Pairwise associators in a homotopy category do not give this coherence. |
-| EtaleDualityAndPerverseSheaves §§2.1–2.4, 2.7, 2.10, 2.12; §§3.1–3.3; §§5.3, 5.5–5.6 | Perverse hearts, recollement, affine Artin vanishing, intersection complexes and semismall pushforward; ramified adic coefficient reduction; rational purity, geometric semisimplicity and proper decomposition on the stated finite models. The last three results enter only the rational and torsion-bound arguments. |
-| MotivesAndAlgebraicCycles §§6.1–6.4 | General relative finite-piece reconstruction, dual coalgebra assembly, tensor multiplication, rigidity antipodes, neutral reconstruction, and finite-type and characteristic-zero connectedness recognition. GS4 constructs the Satake bounded representers, verifies the hypotheses and applies these results, preserving the marked fibre and coactions. The pinned known-Hopf comparison is used only after reconstruction. |
-| ReductiveGroups §10B and LanglandsParameterStacks §4.1 | Induced and Weyl modules, good filtrations and their tensor theorem over fields. The Steinberg-kernel and tilting calculations needed in characteristic two are targets of [integral rank-one identification](#410-integral-rank-one-identification). The all-prime relative classifying-stack base change and exact-representation completion used by perfect Satake are targets of [the representation-complex interface](#424-all-prime-representation-complex-interface). |
-| SmoothRepresentationsOfLocalGroups §SR.4 | The spherical Hecke algebra and normalized classical Satake transform, including the unramified nonsplit version. The geometric comparison does not construct this transform. |
-| ClassFieldTheory, layer 9 | The local Weil group, its topology, inertia, arithmetic-Frobenius degree and continuous representation conventions. LanglandsParameterStacks §0.4 supplies the conversion d_geo = −d_arith and its Tate-character comparison; VS1.5 retains d_arith in its residue-field-corrected action. |
-| AdicCoefficientsAndComparisons §§L0–L1, L3; DiamondsAndVStacks §§D3, D6 | Coefficient limits and constructible comparisons, characteristic-p scheme diamonds, étale v-descent and topological comparison. |
-| CrystallineCohomology §§CR.1.2, CR.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2, R07.6; AlgebraicVectorBundles §L0C; PadicHodgeTheory §7.1 | Crystal evaluation, Dieudonné modules and deformation theory, finite-projective determinants, and filtered structural-period connections. The comparison of the canonical Demazure tower with chains of p-divisible groups and its Hodge determinant is proved in [canonical determinant models](#033-canonical-determinant-models); it is not supplied by these abstract theories alone. The Witt projectivity proof uses geometric determinant descent. |
+Finally, let G be unramified with hyperspecial subgroup K, and take coefficients in a field containing the ℓ-adic numbers and r. A Satake object with a specified Frobenius descent has a trace function: the alternating Frobenius trace on its stalks, with the sign changed on odd components. Trace functions turn convolution of sheaves into convolution in the spherical Hecke algebra. Their classical Satake transforms are the Frobenius characters of the corresponding representations.
 
-The early Grassmannian and finite-loop results are inputs to
-`HeckeStacksAndLocalShtukas` and `BunGAndNewtonStrata`. The normalized multileg
-and perfect-complex functors feed the geometric Hecke action and the spectral
-action, which lie outside this roadmap and are owned downstream. Equal-characteristic global shtukas are a separate construction.
-Metaplectic Satake, Zhu's own Gelfand commutativity constraint and the rational
-equivalence over arbitrary larger algebraically closed residue fields belong to
-`GeometricSatakeAndFusionPartII`. Here the rational Witt comparison uses an
-algebraic closure of a finite field and the symmetry transported from fusion.
+The roadmap builds on RelativeFarguesFontaine for divisors, completed rings and the descent of torsors. MotivesAndAlgebraicCycles provides general Tannakian reconstruction, whose hypotheses are verified here, and SmoothRepresentationsOfLocalGroups the classical Satake transform. IgusaVarietiesAndTorsionConcentration uses the Satake category, fusion and the normalized equivalence for its geometric Hecke action. Zhu's equivalence over larger algebraically closed residue fields, and his own commutativity constraint, are left to GeometricSatakeAndFusionPartII.
+
+Of the five layers, the first builds loop groups, Grassmannians and Schubert bounds, and shows after Bhatt and Scholze that bounded pieces of the Witt vector Grassmannian of GLₙ are perfections of projective varieties. The second develops constant terms, local acyclicity and relative perversity. The third treats the Satake category, convolution and duals, and the fourth fusion. The fifth identifies the dual group, proves both equivalences and compares Frobenius traces with the classical transform.
+
+## How to read the build
+
+GS0 constructs loop/modification moduli and finite Schubert bounds, then Witt resolutions, determinant descent and projectivity. Complete the Witt flag construction before comparing affine flags over the integral untilt base. Build [Witt Demazure filtration space](#020-witt-demazure-filtration-space) before [Original perfect algebraic-space construction](#019-original-perfect-algebraic-space-construction). Build [Rational special-fibre weights](#117-rational-special-fibre-weights) before [Mirković–Vilonen intersections](#15-mirkovićvilonen-intersections) and the equidimensionality assertions for semi-infinite intersections; the affine-intersection construction precedes concentration. Construct finite admissible unions in GS0, and complete their local-model special-fibre identification and functoriality after GS4 generic Satake, using the nearby-cycle construction specified with that target. GS1 uses these spaces for semicontinuity, hyperbolic localization, ULA recognition and relative perversity. GS2 proves convolution closure and rigidity before GS3 constructs corrected symmetric fusion. GS4 applies MotivesAndAlgebraicCycles §6.4 to Satake, identifies the generic and integral dual groups, normalizes the Weil action and extends to perfect representation complexes. Classical trace comparison follows both Satake equivalences and the independent spherical transform.
 
 ## Conventions
 
@@ -149,80 +100,6 @@ against the pinned APIs. None of the geometric headlines is statable there:
 they require the Grassmannians, Hecke v-stacks, geometric sheaf categories or
 local-model nearby cycles specified here. Its module docstring records those
 missing carriers. The constructions and their APIs below are mathematical targets.
-
-## Exact supplier contracts
-
-Use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The following declarations are prerequisites, with their actual scope. Their existence does not assert geometric representability, a Satake equivalence or enhanced coherence.
-
-| Declaration | Supplied scope |
-| --- | --- |
-| `WittVector` | The type of p-typical Witt vectors, indexed by a natural p. Its ring laws and perfect-ring properties are reused; ramified Witt coefficient comparison is VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”, not a new definition here. |
-| `PerfectRing` | PerfectRing `R p` asserts bijectivity of the p-th power map on a type with powers; it does not itself assert that `p` is prime or that `R` has characteristic p. The Witt geometric applications separately require a commutative ring, Fact p.Prime and CharP `R p`, giving a perfect `F_p`-algebra. This is the algebraic hypothesis carrier, not a representability result. |
-| `AlgebraicGeometry.Scheme` | The ordinary scheme carrier and category. The projective perfection models are constructed in GS0; the scheme carrier alone supplies no representability theorem. |
-| `AlgebraicGeometry.IsProper` | Properness of a morphism of schemes. The representing object is a proper perfectly finitely presented scheme, and the fibral descent criterion is for proper maps. |
-| `ValuationRing` | Valuation rings. The proof of the fibral descent criterion reduces to a base whose connected components are spectra of valuation rings. |
-| `TauCeti.AlgebraicGeometry.InvertibleSheaf` | Invertible sheaves on an ordinary scheme, including the Witt-bound and Demazure determinant lines after those schemes are constructed. This carrier supplies neither ampleness nor the adic Cartier-divisor line `I_S^m/I_S^{m+1}`; the latter belongs to RelativeFarguesFontaine §§4.11, 6.5–6.10. |
-| `CoxeterSystem` | Abstract Coxeter-system combinatorics only. Affine root data, `Cartan/Iwasawa` decomposition and parahoric geometry require RG2.4. |
-| `TauCeti.TitsSystem.bruhatCell` | Bruhat cells of a Tits system. Tau Ceti already has the Bruhat decomposition, which is the combinatorial shadow of the Schubert stratification this layer builds geometrically. |
-| `RootPairing` | The abstract paired roots/coroots and their module dualities, not a built split reductive group, Lie-weight decomposition or affine Cartan theorem. |
-| `TauCeti.ReductiveAffineGroupSchemeCat` | Reductive affine group schemes over a field `k`. This does not provide an integral `O_E`-model or parahoric group scheme; RG2.3 supplies those integral models. |
-| `CategoryTheory.Triangulated.TStructure` | t-structures on a triangulated category, already in the pinned library with IsLE and IsGE. The relative perverse t-structure of GS1 is one of these, so the abstract notion is cited and only its normalisation is specified. |
-| `CategoryTheory.Triangulated.TStructure.Heart` | The Heart typeclass identifies a heart with a full subcategory of a pretriangulated category; TStructure.heart is the underlying object property. No generic abelian-heart theorem is claimed. |
-| `CategoryTheory.Pretriangulated` | Pretriangulated categories, the level at which the t-structure and the recollement of the Schubert stratification are stated. |
-| `DerivedCategory` | The Verdier-localization carrier for the derived category of an abelian category, not the stable enhanced sheaf categories or six-operation coherence; EDS owns those extensions. |
-| `CategoryTheory.Sheaf` | Sheaves valued in a category on a Grothendieck site; the diamond/v-site topology and geometric representability are not provided by this carrier. |
-| `CategoryTheory.GrothendieckTopology` | Abstract Grothendieck topologies; actual v/h/étale topologies and their descent properties are supplier work. |
-| `CategoryTheory.MonoidalCategory` | Monoidal categories, the structure convolution puts on the bounded sheaf category and on the Satake category. |
-| `CategoryTheory.LeftRigidCategory` | Left duals only. The conclusion that all Satake objects have both duals uses the separate RigidCategory carrier. |
-| `CategoryTheory.Equivalence` | Equivalences of categories, the form of the special-fibre comparison of the ULA categories over Spd `O_C`, Spd `C` and Spd `k`. |
-| `CategoryTheory.Comma` | Comma categories, the pinned form of the slice and correspondence categories over which the convolution 2-category is indexed. |
-| `Module.Flat` | Flatness. Flat perversity is half the definition of the Satake category, and it is what excludes the Tor obstruction to t-exactness of convolution. |
-| `Module.Projective` | Projective modules: finite projective terms of a strict perfect complex, flat-perverse torus fibres in degree zero, total Satake cohomology and lattice graded pieces. ULA alone requires perfect stalk complexes and does not make each cohomology module projective. |
-| `Module.Free` | Free modules. The lattice computation in the `GL_n` case of the open-cell stabilizer chooses a compatible basis, which is a freeness statement after localisation. |
-| `CategoryTheory.RigidCategory` | Both left and right rigid structures. LeftRigidCategory alone cannot state VI.8.2. |
-| `CategoryTheory.ActionCategory` | The category of elements of a monoid action, with Groupoid for group actions. This is the local quotient presentation, not stackification. |
-| `Action` | Objects with a monoid homomorphism into their endomorphisms; morphisms intertwine the action. Only the discrete equivariant-object core. |
-| `CategoryTheory.ObjectProperty.FullSubcategory` | Full subcategories with the existing fully faithful inclusion; their object property must be stated mathematically. |
-| `Module.Finite` | Finitely generated modules; paired with Module.Projective for lattice and fibre-functor finiteness. |
-| `Module.Flat.iff_lTensor_preserves_injective_linearMapₛ` | Flatness characterized by injectivity preservation of linear maps after tensor; the smallness universe condition is part of the source statement. |
-| `PadicInt` | The subtype of p-adic numbers with norm `≤1`, with the existing commutative ring structure for prime p. Its `ℤ_p`-algebra structure explicitly states the coefficient hypothesis of the uniform `ℓ`-power torsion bound. |
-| `TauCeti.Tannaka.tensorAutFunctor` | For a given bialgebra `H` (a semiring) over a commutative ring `R`, tensor automorphisms of scalar extension on finitely generated `H-comodules`. Commutativity of `H` is not required here. Does not construct `H` from an arbitrary tensor category. |
-| `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor` | Over a field `k` and a given commutative Hopf algebra `H`, identifies its points functor with the tensor automorphisms of scalar extension. This is a comparison after reconstruction, not the relative integral existence theorem. |
-| `TauCeti.Tannaka.reconstructedPoint` | Over a field `k`, for a given commutative Hopf algebra `H` and commutative k-algebra A, maps a tensor automorphism of scalar extension on finitely generated `H-comodules` to WithConv (H `→ₐ[k]` A). This assumes `H` rather than reconstructing it. |
-| `HopfAlgebra` | An antipode on a bialgebra satisfying the two convolution inverse identities; commutativity is an additional algebra hypothesis. |
-| `Bialgebra` | Compatible algebra and coalgebra structures on a semiring/module; the underlying coordinate algebra, not the representing object `F(L1)` before dualization. |
-| `TauCeti.AffineGroupSchemeCat` | Affine group objects over Spec of a commutative ring; usable for the integral reconstructed group. |
-| `CategoryTheory.BraidedCategory` | Natural braiding isomorphisms satisfying both hexagon identities. |
-| `CategoryTheory.SymmetricCategory` | A braided category with double braiding equal to the identity. |
-| `CategoryTheory.Functor.Braided` | A monoidal functor compatible with the specified braidings; applies to the modified fusion symmetry. |
-| `CategoryTheory.Functor.Monoidal` | Compatible lax and oplax monoidal structures with inverse tensor and unit constraints. |
-| `CategoryTheory.Adjunction` | Unit and counit with triangle identities; used for bounded left adjoints of the fibre functor. |
-| `Representation` | A monoid homomorphism to linear endomorphisms. Continuity of the Weil action and finite projectivity are extra conditions, not supplied by this abbreviation. |
-| `CategoryTheory.Monad.HasCoequalizerOfIsSplitPair` | For every `F`-split parallel pair, its coequalizer exists in the source category. |
-| `CategoryTheory.Monad.PreservesColimitOfIsSplitPair` | `F` preserves coequalizers of every `F`-split parallel pair. |
-| `CategoryTheory.Monad.ReflectsColimitOfIsSplitPair` | `F` reflects coequalizers of every `F`-split parallel pair. |
-| `CategoryTheory.Limits.HasColimit` | Existence of a colimit cocone; colimit chooses its object. Gives the underlying module only, not a Hopf structure. |
-| `TauCeti.reductiveAffineGroupSchemeProperty` | Object property on finite-type affine group schemes over a field, transported from the reductive coordinate Hopf-algebra property. |
-
-The following elementary presentations are supplied by the libraries and are used without new aliases: affine evaluation and transport are `CategoryTheory.Functor.obj` and `CategoryTheory.Functor.map` and `CategoryTheory.Functor.map_comp`; right cosets and their equality criterion are `QuotientGroup.leftRel` and `QuotientGroup.eq`; finite unions use `Set.union` and the existing indexed-union notation; filtration pieces and lattice inclusions use `Submodule` and `Subtype.val`; discrete equivariant objects are `Action`, with `Action.forget` and `Action.trivial`. Their use on a divisor site, smooth quotient or geometric sheaf category requires the separately stated geometric targets below.
-
-For coefficient flatness, use `Module.Flat.iff_lTensor_preserves_injective_linearMapₛ` with its smallness hypotheses. For perverse hearts use `CategoryTheory.Triangulated.TStructure.heart`. Neither is restated as a new abstract theorem. The point-torus and geometric relative-perverse comparisons below identify their actual applications.
-
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 supplies the finite/rational constructible Grothendieck–Lefschetz trace formula on separated finite-type finite-field schemes, with specified Frobenius descent, compact support and geometric Frobenius. Combine it with EtaleCohomologyFoundations §F.10.3 (`PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`) for perfect-complex traces, shift signs and additivity, and §F.10.2b (`VanishingCycles.frobeniusCohomology`) for scheme/descent Frobenius comparison through adic realization. SchemeAndStackFoundations §§0.24–0.26 supplies fixed finite models of perfections. Apply these results on bounded special-fibre models; no trace formula for an arbitrary diamond is assumed.
-
-### Supplier calculus
-
-The following abbreviations denote the full lists of supplier results:
-
-| Calculus | Prerequisites |
-| --- | --- |
-| smooth diamond calculus | DiamondSixOperations §S4.2; DiamondSixOperations §S4.4; DiamondSixOperations §S4.4; DiamondSixOperations §S4.4; DiamondSixOperations §S5.2 |
-| dual six-operation calculus | DiamondSixOperations §S3.1; DiamondSixOperations §S3.4; DiamondSixOperations §S3.2 |
-| proper pushforward calculus | DiamondSixOperations §§S2.2–S2.3; DiamondSixOperations §S2.4 |
-
-## How to read the build
-
-GS0 constructs loop/modification moduli and finite Schubert bounds, then Witt resolutions, determinant descent and projectivity. Complete the Witt flag construction before comparing affine flags over the integral untilt base. Build [Witt Demazure filtration space](#020-witt-demazure-filtration-space) before [Original perfect algebraic-space construction](#019-original-perfect-algebraic-space-construction). Build [Rational special-fibre weights](#117-rational-special-fibre-weights) before [Mirković–Vilonen intersections](#15-mirkovićvilonen-intersections) and the equidimensionality assertions for semi-infinite intersections; the affine-intersection construction precedes concentration. Construct finite admissible unions in GS0, and complete their local-model special-fibre identification and functoriality after GS4 generic Satake, using the nearby-cycle construction specified with that target. GS1 uses these spaces for semicontinuity, hyperbolic localization, ULA recognition and relative perversity. GS2 proves convolution closure and rigidity before GS3 constructs corrected symmetric fusion. GS4 applies MotivesAndAlgebraicCycles §6.4 to Satake, identifies the generic and integral dual groups, normalizes the Weil action and extends to perfect representation complexes. Classical trace comparison follows both Satake equivalences and the independent spherical transform.
 
 ## Layer GS0: modification spaces and Schubert geometry
 
@@ -2381,6 +2258,123 @@ the same constructions, with the coefficient, collision, Weil and inner
 Cartan comparisons transported together. The Witt determinant and
 projectivity arguments and integral rank-one calculations here supply the
 geometric proofs used by this common package.
+
+## Scope and ownership
+
+This roadmap supplies the common construction of local modification spaces,
+their flat-perverse ULA Satake categories, weight and fibre functors,
+convolution, coherent fusion, the Satake verification and application of relative
+reconstruction, and the pinned dual equivalence. General neutral and relative
+reconstruction and finiteness and connectedness recognition are supplied by
+MotivesAndAlgebraicCycles §§6.1–6.4. GS0–GS4 own the Satake foundations together
+with their coefficient,
+finite-set, Weil and Cartan-duality comparisons. Applications use these same
+carriers and tensor comparisons. Geometric Hecke actions on bundle-stack
+cohomology and Igusa-variety torsion-concentration results belong to their
+respective application roadmaps.
+
+The following layers specify the general theories used in these constructions;
+the table also identifies the additional general targets owned here. A reference to one of these
+layers includes the precise contract stated here and in the relevant result
+above; merely having its abstract carrier is insufficient.
+
+| Dependency | Required mathematical interface |
+| --- | --- |
+| VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes” | Ramified Witt coefficients and coefficient changes, including the equal-characteristic power-series convention. |
+| RelativeFarguesFontaine §§3.1–3.9, 4.7–4.13 | Integral untilt Cartier divisors, ordered divisor moduli and collision products, completed divisor rings, finite-thickening descent and completed-system algebraization, geometric DVR factors, closed support maps and completion base change. |
+| RelativeFarguesFontaine §§6.5–6.10, 6.16, 7.0–7.6 | Beauville–Laszlo gluing, exact tensor comparison and change of legs/groups, punctured Witt-spectrum bundle algebraicity, and effective v-descent and étale-local triviality of reductive torsors on completed divisor rings. Use §3.8 for completed finite projectives. The rank-one constant-position fibre-detection argument is part of GS1 here. |
+| ReductiveGroupsPartII §§RG2.0, RG2.0a, RG2.1, RG2.3–RG2.5 | Integral-point topology and lattice preservation over the completed maximal unramified coefficient DVR; Weil restriction; relative Lie weights; integral and parahoric models, Greenberg jets and smooth lifting; affine Weyl, Cartan, Iwasawa and rank-one convolution data; pinned integral dual groups, central maps and finite pinned Weil action. The closed-immersion theorem of Prasad–Yu belongs to RG2.3 with its exact characteristic-two exception. |
+| ReductiveGroups, layers 3, 6, 7 and 9 | Components; finite-type characteristic-zero reductivity; integral pinned Chevalley–Demazure groups and classification by based root datum. High-Frobenius reduced images and the subgroup/normalizer calculations in `SL₂` are owned by [rank-one subgroup geometry](#49-frobenius-images-and-rank-one-subgroups). Import the existing absolute theory before its relative extensions. |
+| AlgebraicVectorBundles, L0A–L0C | Tensor and pullback for module sheaves, finite locally free sheaves and their rank-one identification with `InvertibleSheaf`, and exterior-power determinants. Import these operations; the Witt-resolution descent and positivity arguments are the applications constructed here. |
+| SchemeAndStackFoundations §§0.9, 0.24–0.26; §§1.5–1.6, 1.13–1.17; §§4.9, 4.14 | Finite models and direct-colimit perfection; perfectly finitely presented/smooth schemes and Witt schemes; effective quotient presentations, torsors and contracted products; Stein factorization and Hilbert/Quot schemes. General Witt-bundle descent, connected-fibre descent, finite boundary pushouts and Keel positivity used above are targets here, rather than consequences of these scheme carriers. |
+| VStackSheavesAndLisseCategories §§VS0–VS1, VS3; DiamondSixOperations §§S2–S6 | Enhanced Artin quotient descent and bounded proper correspondences; ULA and hyperbolic localization with monodromicity and coefficient hypotheses; complete congruence filtrations and ordinary-cohomology continuity; VS1.5 perfect locally constant Drinfeld realization over `Perf_k`, `k=overline(𝔽_q)`, with its Tate character; relative duality and enhanced coefficient comparison. Representable diamond operations alone do not cover quotient-stack maps. |
+| EnhancedDerivedSheaves §§E3.1–E3.4, E5:presentability.1–E5:presentability.2 | Coherent composition of pull–push kernels and filtered support extension; the generated Ind t-structure with accessibility and small generators. Pairwise associators in a homotopy category do not give this coherence. |
+| EtaleDualityAndPerverseSheaves §§2.1–2.4, 2.7, 2.10, 2.12; §§3.1–3.3; §§5.3, 5.5–5.6 | Perverse hearts, recollement, affine Artin vanishing, intersection complexes and semismall pushforward; ramified adic coefficient reduction; rational purity, geometric semisimplicity and proper decomposition on the stated finite models. The last three results enter only the rational and torsion-bound arguments. |
+| MotivesAndAlgebraicCycles §§6.1–6.4 | General relative finite-piece reconstruction, dual coalgebra assembly, tensor multiplication, rigidity antipodes, neutral reconstruction, and finite-type and characteristic-zero connectedness recognition. GS4 constructs the Satake bounded representers, verifies the hypotheses and applies these results, preserving the marked fibre and coactions. The pinned known-Hopf comparison is used only after reconstruction. |
+| ReductiveGroups §10B and LanglandsParameterStacks §4.1 | Induced and Weyl modules, good filtrations and their tensor theorem over fields. The Steinberg-kernel and tilting calculations needed in characteristic two are targets of [integral rank-one identification](#410-integral-rank-one-identification). The all-prime relative classifying-stack base change and exact-representation completion used by perfect Satake are targets of [the representation-complex interface](#424-all-prime-representation-complex-interface). |
+| SmoothRepresentationsOfLocalGroups §SR.4 | The spherical Hecke algebra and normalized classical Satake transform, including the unramified nonsplit version. The geometric comparison does not construct this transform. |
+| ClassFieldTheory, layer 9 | The local Weil group, its topology, inertia, arithmetic-Frobenius degree and continuous representation conventions. LanglandsParameterStacks §0.4 supplies the conversion d_geo = −d_arith and its Tate-character comparison; VS1.5 retains d_arith in its residue-field-corrected action. |
+| AdicCoefficientsAndComparisons §§L0–L1, L3; DiamondsAndVStacks §§D3, D6 | Coefficient limits and constructible comparisons, characteristic-p scheme diamonds, étale v-descent and topological comparison. |
+| CrystallineCohomology §§CR.1.2, CR.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2, R07.6; AlgebraicVectorBundles §L0C; PadicHodgeTheory §7.1 | Crystal evaluation, Dieudonné modules and deformation theory, finite-projective determinants, and filtered structural-period connections. The comparison of the canonical Demazure tower with chains of p-divisible groups and its Hodge determinant is proved in [canonical determinant models](#033-canonical-determinant-models); it is not supplied by these abstract theories alone. The Witt projectivity proof uses geometric determinant descent. |
+
+The early Grassmannian and finite-loop results are inputs to
+`HeckeStacksAndLocalShtukas` and `BunGAndNewtonStrata`. The normalized multileg
+and perfect-complex functors feed the geometric Hecke action and the spectral
+action, which lie outside this roadmap and are owned downstream. Equal-characteristic global shtukas are a separate construction.
+Metaplectic Satake, Zhu's own Gelfand commutativity constraint and the rational
+equivalence over arbitrary larger algebraically closed residue fields belong to
+`GeometricSatakeAndFusionPartII`. Here the rational Witt comparison uses an
+algebraic closure of a finite field and the symmetry transported from fusion.
+
+## Exact supplier contracts
+
+Use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The following declarations are prerequisites, with their actual scope. Their existence does not assert geometric representability, a Satake equivalence or enhanced coherence.
+
+| Declaration | Supplied scope |
+| --- | --- |
+| `WittVector` | The type of p-typical Witt vectors, indexed by a natural p. Its ring laws and perfect-ring properties are reused; ramified Witt coefficient comparison is VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”, not a new definition here. |
+| `PerfectRing` | PerfectRing `R p` asserts bijectivity of the p-th power map on a type with powers; it does not itself assert that `p` is prime or that `R` has characteristic p. The Witt geometric applications separately require a commutative ring, Fact p.Prime and CharP `R p`, giving a perfect `F_p`-algebra. This is the algebraic hypothesis carrier, not a representability result. |
+| `AlgebraicGeometry.Scheme` | The ordinary scheme carrier and category. The projective perfection models are constructed in GS0; the scheme carrier alone supplies no representability theorem. |
+| `AlgebraicGeometry.IsProper` | Properness of a morphism of schemes. The representing object is a proper perfectly finitely presented scheme, and the fibral descent criterion is for proper maps. |
+| `ValuationRing` | Valuation rings. The proof of the fibral descent criterion reduces to a base whose connected components are spectra of valuation rings. |
+| `TauCeti.AlgebraicGeometry.InvertibleSheaf` | Invertible sheaves on an ordinary scheme, including the Witt-bound and Demazure determinant lines after those schemes are constructed. This carrier supplies neither ampleness nor the adic Cartier-divisor line `I_S^m/I_S^{m+1}`; the latter belongs to RelativeFarguesFontaine §§4.11, 6.5–6.10. |
+| `CoxeterSystem` | Abstract Coxeter-system combinatorics only. Affine root data, `Cartan/Iwasawa` decomposition and parahoric geometry require RG2.4. |
+| `TauCeti.TitsSystem.bruhatCell` | Bruhat cells of a Tits system. Tau Ceti already has the Bruhat decomposition, which is the combinatorial shadow of the Schubert stratification this layer builds geometrically. |
+| `RootPairing` | The abstract paired roots/coroots and their module dualities, not a built split reductive group, Lie-weight decomposition or affine Cartan theorem. |
+| `TauCeti.ReductiveAffineGroupSchemeCat` | Reductive affine group schemes over a field `k`. This does not provide an integral `O_E`-model or parahoric group scheme; RG2.3 supplies those integral models. |
+| `CategoryTheory.Triangulated.TStructure` | t-structures on a triangulated category, already in the pinned library with IsLE and IsGE. The relative perverse t-structure of GS1 is one of these, so the abstract notion is cited and only its normalisation is specified. |
+| `CategoryTheory.Triangulated.TStructure.Heart` | The Heart typeclass identifies a heart with a full subcategory of a pretriangulated category; TStructure.heart is the underlying object property. No generic abelian-heart theorem is claimed. |
+| `CategoryTheory.Pretriangulated` | Pretriangulated categories, the level at which the t-structure and the recollement of the Schubert stratification are stated. |
+| `DerivedCategory` | The Verdier-localization carrier for the derived category of an abelian category, not the stable enhanced sheaf categories or six-operation coherence; EDS owns those extensions. |
+| `CategoryTheory.Sheaf` | Sheaves valued in a category on a Grothendieck site; the diamond/v-site topology and geometric representability are not provided by this carrier. |
+| `CategoryTheory.GrothendieckTopology` | Abstract Grothendieck topologies; actual v/h/étale topologies and their descent properties are supplier work. |
+| `CategoryTheory.MonoidalCategory` | Monoidal categories, the structure convolution puts on the bounded sheaf category and on the Satake category. |
+| `CategoryTheory.LeftRigidCategory` | Left duals only. The conclusion that all Satake objects have both duals uses the separate RigidCategory carrier. |
+| `CategoryTheory.Equivalence` | Equivalences of categories, the form of the special-fibre comparison of the ULA categories over Spd `O_C`, Spd `C` and Spd `k`. |
+| `CategoryTheory.Comma` | Comma categories, the pinned form of the slice and correspondence categories over which the convolution 2-category is indexed. |
+| `Module.Flat` | Flatness. Flat perversity is half the definition of the Satake category, and it is what excludes the Tor obstruction to t-exactness of convolution. |
+| `Module.Projective` | Projective modules: finite projective terms of a strict perfect complex, flat-perverse torus fibres in degree zero, total Satake cohomology and lattice graded pieces. ULA alone requires perfect stalk complexes and does not make each cohomology module projective. |
+| `Module.Free` | Free modules. The lattice computation in the `GL_n` case of the open-cell stabilizer chooses a compatible basis, which is a freeness statement after localisation. |
+| `CategoryTheory.RigidCategory` | Both left and right rigid structures. LeftRigidCategory alone cannot state VI.8.2. |
+| `CategoryTheory.ActionCategory` | The category of elements of a monoid action, with Groupoid for group actions. This is the local quotient presentation, not stackification. |
+| `Action` | Objects with a monoid homomorphism into their endomorphisms; morphisms intertwine the action. Only the discrete equivariant-object core. |
+| `CategoryTheory.ObjectProperty.FullSubcategory` | Full subcategories with the existing fully faithful inclusion; their object property must be stated mathematically. |
+| `Module.Finite` | Finitely generated modules; paired with Module.Projective for lattice and fibre-functor finiteness. |
+| `Module.Flat.iff_lTensor_preserves_injective_linearMapₛ` | Flatness characterized by injectivity preservation of linear maps after tensor; the smallness universe condition is part of the source statement. |
+| `PadicInt` | The subtype of p-adic numbers with norm `≤1`, with the existing commutative ring structure for prime p. Its `ℤ_p`-algebra structure explicitly states the coefficient hypothesis of the uniform `ℓ`-power torsion bound. |
+| `TauCeti.Tannaka.tensorAutFunctor` | For a given bialgebra `H` (a semiring) over a commutative ring `R`, tensor automorphisms of scalar extension on finitely generated `H-comodules`. Commutativity of `H` is not required here. Does not construct `H` from an arbitrary tensor category. |
+| `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor` | Over a field `k` and a given commutative Hopf algebra `H`, identifies its points functor with the tensor automorphisms of scalar extension. This is a comparison after reconstruction, not the relative integral existence theorem. |
+| `TauCeti.Tannaka.reconstructedPoint` | Over a field `k`, for a given commutative Hopf algebra `H` and commutative k-algebra A, maps a tensor automorphism of scalar extension on finitely generated `H-comodules` to WithConv (H `→ₐ[k]` A). This assumes `H` rather than reconstructing it. |
+| `HopfAlgebra` | An antipode on a bialgebra satisfying the two convolution inverse identities; commutativity is an additional algebra hypothesis. |
+| `Bialgebra` | Compatible algebra and coalgebra structures on a semiring/module; the underlying coordinate algebra, not the representing object `F(L1)` before dualization. |
+| `TauCeti.AffineGroupSchemeCat` | Affine group objects over Spec of a commutative ring; usable for the integral reconstructed group. |
+| `CategoryTheory.BraidedCategory` | Natural braiding isomorphisms satisfying both hexagon identities. |
+| `CategoryTheory.SymmetricCategory` | A braided category with double braiding equal to the identity. |
+| `CategoryTheory.Functor.Braided` | A monoidal functor compatible with the specified braidings; applies to the modified fusion symmetry. |
+| `CategoryTheory.Functor.Monoidal` | Compatible lax and oplax monoidal structures with inverse tensor and unit constraints. |
+| `CategoryTheory.Adjunction` | Unit and counit with triangle identities; used for bounded left adjoints of the fibre functor. |
+| `Representation` | A monoid homomorphism to linear endomorphisms. Continuity of the Weil action and finite projectivity are extra conditions, not supplied by this abbreviation. |
+| `CategoryTheory.Monad.HasCoequalizerOfIsSplitPair` | For every `F`-split parallel pair, its coequalizer exists in the source category. |
+| `CategoryTheory.Monad.PreservesColimitOfIsSplitPair` | `F` preserves coequalizers of every `F`-split parallel pair. |
+| `CategoryTheory.Monad.ReflectsColimitOfIsSplitPair` | `F` reflects coequalizers of every `F`-split parallel pair. |
+| `CategoryTheory.Limits.HasColimit` | Existence of a colimit cocone; colimit chooses its object. Gives the underlying module only, not a Hopf structure. |
+| `TauCeti.reductiveAffineGroupSchemeProperty` | Object property on finite-type affine group schemes over a field, transported from the reductive coordinate Hopf-algebra property. |
+
+The following elementary presentations are supplied by the libraries and are used without new aliases: affine evaluation and transport are `CategoryTheory.Functor.obj` and `CategoryTheory.Functor.map` and `CategoryTheory.Functor.map_comp`; right cosets and their equality criterion are `QuotientGroup.leftRel` and `QuotientGroup.eq`; finite unions use `Set.union` and the existing indexed-union notation; filtration pieces and lattice inclusions use `Submodule` and `Subtype.val`; discrete equivariant objects are `Action`, with `Action.forget` and `Action.trivial`. Their use on a divisor site, smooth quotient or geometric sheaf category requires the separately stated geometric targets above.
+
+For coefficient flatness, use `Module.Flat.iff_lTensor_preserves_injective_linearMapₛ` with its smallness hypotheses. For perverse hearts use `CategoryTheory.Triangulated.TStructure.heart`. Neither is restated as a new abstract theorem. The point-torus and geometric relative-perverse comparisons above identify their actual applications.
+
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 supplies the finite/rational constructible Grothendieck–Lefschetz trace formula on separated finite-type finite-field schemes, with specified Frobenius descent, compact support and geometric Frobenius. Combine it with EtaleCohomologyFoundations §F.10.3 (`PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`) for perfect-complex traces, shift signs and additivity, and §F.10.2b (`VanishingCycles.frobeniusCohomology`) for scheme/descent Frobenius comparison through adic realization. SchemeAndStackFoundations §§0.24–0.26 supplies fixed finite models of perfections. Apply these results on bounded special-fibre models; no trace formula for an arbitrary diamond is assumed.
+
+### Supplier calculus
+
+The following abbreviations denote the full lists of supplier results:
+
+| Calculus | Prerequisites |
+| --- | --- |
+| smooth diamond calculus | DiamondSixOperations §S4.2; DiamondSixOperations §S4.4; DiamondSixOperations §S4.4; DiamondSixOperations §S4.4; DiamondSixOperations §S5.2 |
+| dual six-operation calculus | DiamondSixOperations §S3.1; DiamondSixOperations §S3.4; DiamondSixOperations §S3.2 |
+| proper pushforward calculus | DiamondSixOperations §§S2.2–S2.3; DiamondSixOperations §S2.4 |
 
 ## References
 

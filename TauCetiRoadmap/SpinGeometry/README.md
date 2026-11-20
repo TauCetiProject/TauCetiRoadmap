@@ -1,67 +1,81 @@
 # Roadmap: clifford bundles, spin structures, and Dirac geometry
 
-**Summary.** Develop the geometric theory of real and complex Clifford modules, spin lifts,
-spinor bundles and their compatible connections. The resulting library must
-support the de Rham, signature and twisted spin Dirac operators, with their
-metrics, gradings and curvature formulas pinned. This README is definitive.
-`Suggested.lean` states the one geometric headline statable against the pinned
-APIs, the rank-two Spin criterion of G4.4a, with G4.2's Spin structure as its
-only definition. The finite Clifford-module algebra of Layers 1 and 2 is
-consumed from Tau Ceti, and the module docstring of `Suggested.lean` lists the
-other geometric headlines and the carrier each one lacks.
+**Summary.** On a Riemannian manifold, tangent vectors act by Clifford multiplication on forms and on spinors. A spinor bundle is built from a spin structure, a lift of the oriented orthonormal frame bundle from SO(n) to its double cover Spin(n). Such a lift need not exist, and need not be unique. Clifford multiplication and a connection combine into the Dirac operator, a first-order elliptic operator whose square is a Laplacian plus curvature.
 
-## Scope and ownership
+This roadmap builds that theory: bundles of Clifford modules with compatible connections, spin structures on real vector bundles, and spinor bundles. Its operators are the spin Dirac operator, its twists, and d + d* on forms. Smooth bases are Hausdorff, second-countable manifolds without boundary. Spin structures on general bundles live over paracompact Hausdorff bases, and statements in singular cohomology also need the base to be of CW type.
 
-The algebraic Clifford algebra, its real periodicity and the abstract spin
-representations are supplied by SpinRepresentations and OrthogonalSpinGroups
-(sections under Exact supplier contracts). Mathlib already has the Clifford and
-exterior algebras with their module equivalence, scalar extension,
-functoriality along isometries, product decomposition, grading and
-involutions, and the increasing wedge basis that Tau Ceti's
-`CliffordAlgebra.basis` transports to the Clifford monomial basis. Tau Ceti
-already has `TauCeti.spinAction`, `SpinPolarizationData.cliffordEquivEnd`, its
-even/odd matrix classification, half-spin actions, raw orthogonal-product
-volume identities and real algebraic eight-periodicity. In particular
-`CliffordAlgebra.prod_map_ι_sq_scalar` gives the square of the ordered product
-ω=e₁⋯e_n of any orthogonal list as `(−1)^(n(n−1)/2)·Π_i Q(e_i)` for every Q,
-so the positive-form pseudoscalar squares to `(−1)^(n(n−1)/2)` and the
-negative-form one to `(−1)^(n(n+1)/2)`. This roadmap constructs no other
-abstract Fock action, classification table or Bott-periodicity proof. Real
-algebraic periodicity is distinct from the topological Bott theorem.
+The first theorems concern existence and uniqueness. Over a paracompact Hausdorff base X, an oriented real vector bundle with a fibre metric has a spin structure exactly when an obstruction class in the Čech cohomology H²(X; ℤ/2) vanishes. On bases of CW type this class is the second Stiefel–Whitney class w₂. A spin structure is data, not a property. Twisting by principal ℤ/2-bundles gives a free and transitive action of H¹(X; ℤ/2) on the classes of spin structures with a fixed orientation. For a fixed orientation, the circle thus has two, the two-torus four, and Sⁿ for n ≥ 2 one.
 
-Tau Ceti also proves the finite Clifford-module algebra of G1–G2: the
-positive/negative sign comparisons, the Fock model with its metric, the
-conjugate-linear Clifford involution, compatible spinor metrics,
-multiplicity spaces, the scalar trace, the normalized volume element and its
-chirality splitting, the Clifford action on forms and graded products. G1–G2
-cite these declarations and state as targets only the comparisons the library
-lacks, each with one clause on how it differs: the Pauli models of the real
-planes (G1.1), the geometric convention for real algebra maps and the
-Gram-determinant formula for the Fock metric (G1.2), the two-factor evaluation
-and restriction intertwiners in odd dimension (G1.4), the chirality of a real
-algebra map (G2.1), the agreement of the wedge-basis form on complexified forms
-with the complexified Gram metric and the forms-to-endomorphisms module
-equivalence (G2.2), and the structural laws of the graded product (G2.3).
+In rank two the criterion becomes integral. Let E be a real rank-two bundle with a continuous fibre metric over a Hausdorff CW complex X, and u an integral Thom class of E. Then E has a spin structure exactly when the Euler class e(u) in H²(X; ℤ) is twice an integral class, torsion classes included. The sign of u does not matter. Thus TS², of Euler class 2, is spin, and the plane bundle of Euler class 1 over S² is not.
 
-The pointwise exterior metric and Hodge stars are in the library as well:
-Mathlib's Gram-determinant inner product and Hodge star on exterior powers, and
-Tau Ceti's oriented Hodge star with its complex-linear extension, the conjugate
-star and the Gram metric on complexified forms; so are the smooth real Hodge
-star and codifferential of an oriented Riemannian manifold, and the Levi-Civita
-connection with its smoothness, curvature operator and tensor, first Bianchi
-identity, curvature symmetries and scalar curvature. They are consumed, not
-planned; ComplexKahlerGeometry K5 is cited only for complex- and bundle-valued
-forms and for the analysis.
+Let D be the Dirac operator of the spinor bundle of a Riemannian spin manifold, with the spin connection lifted from the Levi-Civita connection. The Lichnerowicz formula says `D² = ∇*∇ + Scal/4`, where ∇*∇ is the nonnegative rough Laplacian and Scal the scalar curvature. Twisting by a Hermitian bundle with a connection adds the Clifford contraction of its curvature. On a closed manifold, positive scalar curvature therefore leaves no nonzero harmonic spinors (solutions of Ds = 0), and nonnegative scalar curvature makes every harmonic spinor parallel. The round Sⁿ, n ≥ 2, has no harmonic spinors.
 
-G3 owns smooth Clifford module and connection comparisons, G4 the geometric
-lift data, G5 associated spinors and G6 the geometric Dirac and real analytic
-index comparisons. G4's lift data and rank-two criterion are stated on Tau
-Ceti's principal bundles, with their pullback and cocycle gluing, its
-orthonormal frame bundle and orientation double cover, and its integral Thom
-and Euler classes. Numerable and associated bundles, generic bundle descent,
-characteristic classes, elliptic analysis and KO models remain with the named
-suppliers. Numerical topological index formulas, the Hirzebruch signature
-theorem and the Â-genus formula are outside this roadmap.
+In dimension four there is an extra symmetry: on a closed oriented Riemannian spin four-manifold, the half-spin bundles carry quaternionic structures, conjugate-linear maps J with J² = −1, intertwining the chiral halves D⁺ and D⁻ of the untwisted operator. Hence the complex index of D⁺ is 2α, with `α = dim_ℍ ker D⁺ − dim_ℍ ker D⁻`; on a K3 surface it is 2.
+
+Tau Ceti already has much of the linear algebra of Clifford modules, such as the Fock model. The roadmap builds on SpinRepresentations for the spin representations and the simple connectivity of Spin(n) for n ≥ 3. It builds on CharacteristicClasses for w₂, which in rank two is the Euler class modulo two. Downstream, TangentialBordism compares the KO-valued index class built here with the Atiyah–Bott–Shapiro genus, and IndexTheory uses the quaternionic kernels. Numerical index theorems, such as the Â-genus formula, lie outside this roadmap.
+
+Layers 1 and 2 fix conventions for Clifford modules of the negative-definite form, for chirality and for forms. Layer 3 makes these constructions smooth over a manifold. Layer 4 proves the results on spin structures, ending with frames on CW skeleta and the rank-two criterion. Layer 5 builds the spinor bundles, their products and the square roots of plane bundles. Layer 6 constructs the Dirac operators, with their self-adjoint realizations on closed manifolds and the square formulas. It also identifies the operator on forms with d + d*, works out circles, tori and spheres, and defines the real index in KO. `Suggested.lean` states the rank-two criterion in Lean; its docstring lists the other main theorems and what the library lacks to state them.
+
+## How to read the build
+
+G1 fixes the metric Clifford dictionary, the Fock model, Morita evaluation and
+the scalar trace on their Tau Ceti declarations, and adds the Pauli models of
+the real planes, the geometric convention for real algebra maps, the
+Gram-metric formula and the odd-factor comparisons; G2 does the same for
+chirality and adds the chirality of a real algebra map and the exterior and
+graded-product comparisons. G3 constructs bundles and connections, G4
+principal lifts, and G5 associated spinors. G6.1–G6.3 construct the complex
+operator before G6.0's real analytic index; G6.7 then identifies its
+quaternionic normalization. G5.3 compares its square roots with G4.4a's
+rank-two criterion. Each target lists its statement and proof-route inputs; G
+labels remain the cross-roadmap locators.
+
+| Former heading | Now |
+| --- | --- |
+| G1. Negative-metric Clifford modules and their positive metrics | Layer 1 |
+| G2. Volume, chirality and exterior-form comparisons | Layer 2 |
+| G3. Smooth Clifford bundles and compatible connections | Layer 3 |
+| G4. Spin lifts, obstruction and classification | Layer 4 |
+| G5. Spinor bundles, chiral products and rank-two roots | Layer 5 |
+| G6. Dirac operators and curvature formulas | Layer 6 |
+
+G1–G2 cite Tau Ceti's finite Clifford-module algebra and add its geometric comparisons, before
+bundle analysis. G3 uses SBC and the Levi-Civita carrier. Native compact-real
+covering/connectivity supply G4.1a's topological frame/rank0 adapters and
+SpinRepresentations L7's remaining universal-cover comparison. The item order
+is G4.1a → CharacteristicClasses C3.5 → G4.3. G4.1b's smooth refinement
+uses G4.1a and native Lie differential APIs, independently of C3.5.
+The same interleaving holds with the three other suppliers that consume
+this roadmap's early sections: SpinRepresentations L7 consumes G1.1's
+negative-form comparison and G4.1's frame refinement and supplies G6 its
+real Clifford classification; RiemannianGeometry R7 consumes G1.2, G2.2 and
+G3.4 and supplies G6.4 its real Weitzenböck term; GeneralizedCohomology
+G4.0a, G5.0 and G5.4 consume G4.1, G5.5 consumes G1.3, and G5.5 supplies
+G5.0 and G6.0. The order
+between this roadmap and each of those four is an order of sections, and no
+section here uses a result of a section that consumes it.
+G4.4's torsor uses a given lift and central-bundle descent, through Tau
+Ceti's cocycle gluing, independently of
+that obstruction equality. G4.4a additionally consumes AlgebraicTopology
+§8.9's CW obstruction API and SpinRepresentations Layer 2's compact-real
+simple-connectivity foundation, which is independent of this roadmap. G5 follows G1–G4, including G4.4a; G5.3
+compares its square roots with G4.4a's rank-two criterion. G6 follows G3/G5 and uses
+K5/PDO analysis; the exterior instance only needs G2/G3. For each object supply constructors/characterization,
+extensionality, regularity, naturality, local-frame/gluing comparison and edge
+cases, not only the headline theorem.
+
+For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7
+supply the functional-calculus, Clifford and KO interfaces consumed by
+SpinGeometry G5.0/G6.0. The algebraic real regular bundle/action SpinGeometry
+G5.0 consumes G1.1/G1.3/G3.1/G3.3/G4.1–G4.4 and any supplied principal Spin
+connection. G5.1 separately supplies the Levi-Civita principal Spin connection
+and associated connection, which specialize this general G5.0 construction for
+TM. G6.1–G6.3 are prerequisites and do not consume G6.0. Spin G6.0 consumes
+G5.0, the G5.1 Levi-Civita specialization and G6.1–G6.3; its
+arbitrary-boundaryless local operator/elliptic branch precedes the
+closed-manifold functional-calculus and index branch. Spin G6.7 consumes G5.1,
+G6.0 and G6.1's domain/chiral-adjoint results. This names SpinGeometry G5.0
+explicitly to distinguish it from GeneralizedCohomology G5.0.
 
 ## Conventions
 
@@ -131,437 +145,6 @@ from the native complex-linear Clifford `star` and the conjugate-linear
   Γ=i c(e₁)c(e₂) squares to Id.
 - For the scalar i and a real generator e, the Hermitian Clifford adjoint
   gives i*=−i and e*=−e; the complex-linear native Clifford star fixes i.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Paths are under `Mathlib/`.
-
-- Clifford and exterior algebras (G1–G2): `CliffordAlgebra`, `ExteriorAlgebra`,
-  `CliffordAlgebra.equivExterior`, `equivBaseChange`, `equivOfIsometry`,
-  `prodEquiv`, `evenOdd`, `involute` and `reverse`; the Clifford relations
-  `CliffordAlgebra.comp_ι_sq_scalar` and `CliffordAlgebra.ι_mul_ι_add_swap`
-  (`LinearAlgebra/CliffordAlgebra/Basic.lean`); the increasing wedge basis
-  `Module.Basis.ExteriorAlgebra`. G2.3 compares Tau Ceti's graded product
-  action with `CliffordAlgebra.prodEquiv` (`LinearAlgebra/CliffordAlgebra/Prod.lean`).
-- Exterior metrics (G1.2, G2.2): the Gram-determinant inner product on real
-  exterior powers `exteriorPower.inner_ιMulti_ιMulti`, with the orthonormal
-  wedge basis `OrthonormalBasis.exteriorPower`
-  (`Analysis/InnerProductSpace/ExteriorPower.lean`, finite-dimensional real
-  spaces); the Hodge star `exteriorPower.hodgeStar` of a nondegenerate
-  bilinear form and a volume (`LinearAlgebra/ExteriorPower/HodgeStar.lean`);
-  the scalar-extension equivalence `ExteriorAlgebra.baseChangeEquiv`
-  (`LinearAlgebra/ExteriorAlgebra/BaseChange.lean`).
-- Topological carriers (G4.2, G4.4a): CW complexes `Topology.CWComplex`, with
-  weak topology, closed cells and closure finiteness
-  (`Topology/CWComplex/Classical/Basic.lean`), and continuous Riemannian
-  bundles `IsContinuousRiemannianBundle` (`Topology/VectorBundle/Riemannian.lean`).
-- Connections (G3–G6): metric compatibility
-  `CovariantDerivative.IsMetricCompatible`, `X⟨σ,τ⟩=⟨∇_Xσ,τ⟩+⟨σ,∇_Xτ⟩`, and
-  the Levi-Civita connection `CovariantDerivative.leviCivitaConnection` of a C¹
-  Riemannian metric on the tangent bundle of a C² manifold with
-  finite-dimensional model, metric-compatible and torsion-free
-  (`CovariantDerivative.isLeviCivitaConnection_leviCivitaConnection`) and
-  unique on differentiable vector fields
-  (`CovariantDerivative.IsLeviCivitaConnection.uniqueness`), in
-  `Geometry/Manifold/VectorBundle/CovariantDerivative/`.
-
-### From Tau Ceti
-
-Use the spin representation, classification and periodicity declarations
-named in Scope and ownership, and the compact-real covering, Lie projection and
-special-orthogonal declarations named in G4.1a–G4.1b, which use the native
-units-range topologies. The finite Clifford-module algebra of G1–G2 is
-consumed from the declarations below, grouped by the subsection that cites
-them. The cited declarations assume `Q(v)=−|v|²` where a metric enters, and
-none assumes a module finite-dimensional or irreducible unless its statement
-says so. Paths are under `TauCeti/LinearAlgebra/CliffordAlgebra/` unless
-another directory is named.
-
-- Sign comparisons (G1.1): `CliffordAlgebra.equivNeg`, `equivNeg_coe`,
-  `equivNeg_ι_mul_ι` and `equivNeg_ofBaseChangeAux` (`Neg.lean`);
-  `CliffordAlgebra.spinGroupEquivNeg`, `equivNeg_spinGroupBaseChange` and
-  `CliffordAlgebra.coe_spinGroupEquivNeg_apply_of_coe_eq_ι_mul_ι`
-  (`Spin/Neg.lean`); `CliffordAlgebra.realCliffordSpinGroupEquivNeg`,
-  `spinVectorAction_realCliffordSpinGroupEquivNeg`,
-  `realCliffordSpinGroupEquivNeg_negOne`,
-  `OrthonormalBasis.realSpinGroupEquiv` and
-  `OrthonormalBasis.spinVectorAction_realSpinGroupEquiv` (`Spin/Real/Neg.lean`);
-  for scalar extension `CliffordAlgebra.ofBaseChangeAux_involute`,
-  `ofBaseChangeAux_reverse`, `ofBaseChangeAux_star`, `ofBaseChangeAux_mem_even`,
-  `ofBaseChangeAux_injective`, `toBaseChange_mem_baseChange_evenOdd_iff` and
-  `QuadraticMap.Isometry.ofBaseChangeAux_map` (`BaseChange.lean`);
-  `CliffordAlgebra.range_spinGroup_toUnits` (`Spin/EvenUnitary.lean`);
-  `OrthonormalBasis.negRealCliffordFormIsometryEquiv` and
-  `OrthonormalBasis.realEvenCliffordEquiv` (`RealForm/OrthonormalBasis.lean`);
-  `OrthonormalBasis.isometryEquivRealCliffordForm` and
-  `TauCeti.nonempty_algEquiv_cliffordAlgebra_realCliffordForm`
-  (`RealForm/Orthonormal.lean`);
-  in rank zero `CliffordAlgebra.evenUnitaryGroupEquivRootsOfUnityOfSubsingleton`,
-  `CliffordAlgebra.card_evenUnitaryGroup_of_subsingleton`,
-  `CliffordAlgebra.range_spinGroup_toUnits_eq_bot_of_subsingleton` and
-  `CliffordAlgebra.range_spinGroup_toUnits_ne_evenUnitaryGroup_of_subsingleton`
-  (`Spin/LowRank/Zero.lean`).
-- Polarization and Fock model (G1.2), under
-  `TauCeti/RepresentationTheory/Spin/Polarization/`:
-  `TauCeti.AlmostComplexStructure.spinPolarizationData`
-  (`ComplexStructure.lean`), with the parts
-  `TauCeti.AlmostComplexStructure.holomorphicPart` and
-  `TauCeti.AlmostComplexStructure.antiholomorphicPart`
-  (`TauCeti/Geometry/Symplectic/Complex/Complexification.lean`);
-  `TauCeti.AlmostComplexStructure.spinAction_ι_one_tmul`,
-  `TauCeti.AlmostComplexStructure.fockAction`,
-  `degreeScaling_comp_spinAction_eq_fockAction_comp`, `fockAction_bijective`,
-  `fockAction_ι_one_tmul` and `fockAction_ι_one_tmul_mul_self`
-  (`Fock/Basic.lean`); `toLinearMapₛₗ₂_wedge_left`,
-  `toLinearMapₛₗ₂_contract_left`, `toLinearMapₛₗ₂_fockAction_left`,
-  `toLinearMapₛₗ₂_fockAction_ι_one_tmul_left`,
-  `toLinearMapₛₗ₂_degreeScaling_of_mem_exteriorPower` and
-  `TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_exteriorAlgebra_eq`
-  (`Fock/Metric.lean`);
-  `TauCeti.AlmostComplexStructure.sesqComplexification_holomorphicPart_holomorphicPart`
-  (`TauCeti/Geometry/Symplectic/Complex/HermitianForm.lean`).
-  For a real algebra map into complex endomorphisms:
-  `CliffordAlgebra.map_ι_mul_map_ι`, `CliffordAlgebra.adjoint_map_eq_map_star`
-  and `CliffordAlgebra.norm_map_ι_apply` (`Hermitian/Basic.lean`).
-- Involutions, spinor metrics, multiplicity spaces and the scalar trace
-  (G1.3): `CliffordAlgebra.complexConj`, `complexConj_unique`,
-  `CliffordAlgebra.conjStar` and `toBaseChange_conjStar`
-  (`Complexification.lean`); `CliffordAlgebra.involute_eq_self_iff` and
-  `involute_eq_neg_iff` (`Grading.lean`);
-  `CliffordAlgebra.exists_sesqForm_map_eq_map_conjStar`
-  (`Hermitian/Spinor.lean`); `CliffordAlgebra.existsUnique_pos_mul_of_surjective`
-  and `CliffordAlgebra.adjoint_map_eq_map_conjStar_iff`
-  (`Hermitian/Complex.lean`); `TauCeti.isotypicTensorEquivOfBijective` and
-  `TauCeti.finrank_eq_finrank_mul_finrank_linearMap_of_bijective_lsmul`
-  (`TauCeti/RingTheory/Morita/ModuleEnd.lean`); `TauCeti.isotypicEval_tmul`
-  and `TauCeti.isotypicEval_map_apply`
-  (`TauCeti/RingTheory/Semisimple/Multiplicity.lean`); `TauCeti.multiplicityMetric`,
-  `TauCeti.inner_map_map_eq_multiplicityMetric`
-  and `TauCeti.inner_isotypicTensorEquivOfBijective_eq`
-  (`Hermitian/Multiplicity.lean`); `AlgHom.cliffordReverseDual` (`Dual.lean`);
-  `CliffordAlgebra.scalarTrace`, `scalarTrace_mul_comm`,
-  `trace_mulLeft_eq_two_pow_mul_scalarTrace`,
-  `CliffordAlgebra.scalarTrace_eq_inv_two_pow_mul_trace_mulLeft` and
-  `scalarTrace_eq_of_algEquiv`
-  (`ScalarTrace/Basic.lean`); `CliffordAlgebra.basis_eq_prod_map_sort`,
-  `scalarTrace_reverse_basis_mul_basis`,
-  `CliffordAlgebra.scalarTrace_reverse_mul_self_nonneg` and
-  `CliffordAlgebra.scalarTrace_reverse_mul_self_eq_zero_iff`
-  (`OrthogonalBasis.lean`); `CliffordAlgebra.scalarTrace_ofBaseChange`,
-  `CliffordAlgebra.scalarTrace_ofBaseChangeAux` and
-  `trace_mulLeft_eq_two_pow_mul_baseChange_scalarTrace`
-  (`ScalarTrace/BaseChange.lean`);
-  `CliffordAlgebra.scalarTrace_conjStar_mul_self_nonneg`,
-  `scalarTrace_conjStar_mul_self_eq_zero_iff` and
-  `posDef_iff_forall_scalarTrace_reverse_mul_self_eq_zero`
-  (`ScalarTrace/Positivity.lean`);
-  `CliffordAlgebra.scalarTrace_reverse_mul_self_eq_zero_iff_mem_span_radical`
-  (`ScalarTrace/Radical.lean`).
-- Odd volume element and the dimension-raising map (G1.4):
-  `CliffordAlgebra.complexVolume_mem_center` (`VolumeElement/Complex.lean`);
-  `TauCeti.halfOneAdd` (`TauCeti/RingTheory/Idempotents/SquareRootOne.lean`);
-  `CliffordAlgebra.equivEvenProd` (`OddSplitting.lean`);
-  `CliffordAlgebra.EquivEven.complexProdIsometryEquiv` (`Even/EquivEven.lean`);
-  `TauCeti.SpinPolarizationData.spinAction_complexVolume`
-  (`TauCeti/RepresentationTheory/Spin/Polarization/OddVolume.lean`);
-  `TauCeti.SpinPolarizationData.cliffordEquivEndProd`
-  (`TauCeti/RepresentationTheory/Spin/LineSign.lean`);
-  `CliffordAlgebra.coe_toEven_of_mem_odd` and
-  `CliffordAlgebra.EquivEven.equivOfIsometry_toEven_ι`
-  (`Even/EquivEven.lean`).
-- Chirality (G2.1): `CliffordAlgebra.volumeElement`, `volumeElement_eq`,
-  `volumeElement_mul_ι_of_even` and `volumeElement_mul_self`
-  (`VolumeElement/Oriented.lean`); `CliffordAlgebra.complexVolume`,
-  `complexVolume_eq`, `complexVolume_neg_orientation`,
-  `conjStar_complexVolume`, `complexVolume_mul_eq_involute_mul`,
-  `complexVolume_mul_self` and `CliffordAlgebra.map_complexVolume`
-  (`VolumeElement/Complex.lean`);
-  `CliffordAlgebra.isCompl_eigenspace_complexVolume`,
-  `projection_eigenspace_complexVolume_apply`,
-  `projection_eigenspace_complexVolume_neg_one_apply` and
-  `CliffordAlgebra.finrank_eigenspace_complexVolume_eq_mul_finrank_linearMap`
-  (`VolumeElement/Eigenspace.lean`); `TauCeti.eigenspaceTensorEquivOfBijective`
-  (`TauCeti/RingTheory/Morita/Eigenspace.lean`);
-  `TauCeti.AlmostComplexStructure.fockAction_complexVolume`
-  (`TauCeti/RepresentationTheory/Spin/Polarization/Chirality.lean`);
-  `CliffordAlgebra.EquivEven.equivOfIsometry_toEven_complexVolume`
-  (`VolumeElement/EquivEven.lean`); `TauCeti.isCompl_eigenspace_one_neg_one`
-  (`TauCeti/LinearAlgebra/Eigenspace/Separation.lean`).
-- Forms and duals (G2.2): `CliffordAlgebra.exteriorAction` and
-  `CliffordAlgebra.baseChangeExteriorAction`
-  (`TauCeti/LinearAlgebra/ExteriorAlgebra/CliffordAction.lean`);
-  `CliffordAlgebra.exteriorAction_volumeElement` and
-  `CliffordAlgebra.baseChangeExteriorAction_complexVolume_of_eq_two_mul`
-  (`VolumeElement/HodgeStar.lean`);
-  `CliffordAlgebra.complexVolume_mul_mul_complexVolume`
-  (`VolumeElement/Complex.lean`); the pointwise Hodge package under
-  `TauCeti/Analysis/InnerProductSpace/HodgeStar/`: `Orientation.hodgeStar`
-  with `Orientation.inner_hodgeStar_apply` (`Basic.lean`),
-  `Orientation.wedgePairing_hodgeStar` (`α∧⋆β=⟨α,β⟩vol`) and
-  `Orientation.hodgeStarIsometry` (`Isometry.lean`), and
-  `Orientation.complexHodgeStar`, the scalar extension of the real star
-  (`Orientation.complexHodgeStar_tmul`), with
-  `Orientation.sesqComplexification_complexHodgeStar` for the Gram metric
-  `LinearMap.BilinForm.sesqComplexification` of complexified forms
-  (`TauCeti/LinearAlgebra/BilinearForm/Complexification.lean`) and the
-  conjugate star `Orientation.barHodgeStar` (`Complex.lean`);
-  `CliffordAlgebra.inv_two_pow_mul_trace_adjoint_map_equivExterior_symm_mul`
-  (`ScalarTrace/Representation.lean`);
-  `AlgHom.cliffordReverseDual_complexVolume` (`VolumeElement/Dual.lean`).
-- Graded products and twists (G2.3): `AlgHom.cliffordProdTensor` and
-  `AlgHom.map_mul_cliffordProdTensor_ι` (`Prod.lean`);
-  `CliffordAlgebra.complexProdTensor`,
-  `CliffordAlgebra.complexProdTensor_ι_one_tmul_toLp` and
-  `CliffordAlgebra.complexProdTensor_complexVolume` (`VolumeElement/Prod.lean`);
-  `CliffordAlgebra.twistingGrading` and
-  `CliffordAlgebra.eigenspaceTwistingGradingEquiv`
-  (`VolumeElement/GradedModule.lean`); `Module.End.eigenspaceTensorMapEquiv`
-  (`TauCeti/LinearAlgebra/Eigenspace/TensorProduct/Involution.lean`).
-
-The geometric carriers of G3–G6 are consumed, not planned; paths below are
-under `TauCeti/`.
-
-- Connections and curvature (G3–G6), under
-  `Geometry/Manifold/VectorBundle/CovariantDerivative/`: the Levi-Civita
-  connection of a C^∞ metric on a C^∞ manifold is C^∞
-  (`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`,
-  `LeviCivita/Regularity.lean`); `CovariantDerivative.curvatureOperator`, the
-  curvature `R(X,Y)σ=∇_X∇_Yσ−∇_Y∇_Xσ−∇_[X,Y]σ` of a covariant derivative on any
-  vector bundle (`Curvature/Basic.lean`), which is the R^E of G3.3 and G6.2, a
-  complex bundle entering through its underlying real bundle;
-  `CovariantDerivative.curvatureTensor`, its pointwise tensor for a C^∞
-  connection on a finite-rank C^∞ bundle over a finite-dimensional Hausdorff
-  manifold (`Curvature/Tensor.lean`); skew-adjointness of the curvature of a
-  metric-compatible connection,
-  `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_eq_neg`
-  (`Curvature/Metric.lean`); the first Bianchi identity
-  `CovariantDerivative.curvatureTensor_cyclic_eq_zero` for a torsion-free
-  connection and pair interchange
-  `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_swap_pairs`
-  (`Curvature/Bianchi.lean`); `CovariantDerivative.riemannCurvatureTensor`,
-  `Rm(u,v,w,z)=⟨R(u,v)w,z⟩`, and
-  `CovariantDerivative.scalarCurvature_eq_sum_riemannCurvatureTensor`, the
-  scalar curvature `Σ_(j,k) Rm(e_k,e_j,e_j,e_k)` in an orthonormal basis
-  (`Curvature/Riemann.lean`); `CovariantDerivative.scalarCurvature` and
-  `Bundle.ContMDiffRiemannianMetric.scalarCurvature`, that of the Levi-Civita
-  connection of a smooth metric (`Curvature/Scalar.lean`).
-- Forms (G3.4, G6.4): the smooth forms `TauCeti.SmoothForm`, the exterior
-  derivative `TauCeti.mextDerivₗ` and boundaryless Stokes
-  `TauCeti.integralTopForm_mextDeriv_eq_zero` in
-  `Geometry/Manifold/DifferentialForm/`; manifold orientations
-  `TauCeti.Manifold.Orientation`; for a smooth Riemannian metric and an
-  orientation, the smooth real Hodge star `TauCeti.SmoothForm.hodgeStar`, with
-  `α∧⋆β=⟨α,β⟩vol` and `TauCeti.SmoothForm.hodgeStar_hodgeStar`
-  (`Geometry/Manifold/Riemannian/HodgeStar.lean`), and the codifferential
-  `TauCeti.SmoothForm.codifferential`, d*=(−1)^(m(j+1)+1)⋆d⋆ on j-forms in
-  dimension m, unchanged when the orientation is reversed
-  (`TauCeti.SmoothForm.codifferential_neg_orientation`) and the formal adjoint
-  of d on a boundaryless, Hausdorff, σ-compact base when one of the two forms
-  has compact support
-  (`TauCeti.SmoothForm.integralTopForm_inner_mextDeriv_eq_inner_codifferential`,
-  `Geometry/Manifold/Riemannian/Codifferential.lean`).
-- Lift carriers (G4.2–G4.4a): `TauCeti.PrincipalBundle`, a fibre bundle with
-  model fibre a group, a right action on the fibres and equivariant atlas
-  trivializations, whose fibres are torsors, with its pullback
-  `TauCeti.PrincipalBundle.pullback` along a continuous map and the equivariant
-  trivialization `TauCeti.PrincipalBundle.trivializationOfSection` of a
-  continuous local section (`Topology/FiberBundle/Principal.lean`); the bundle
-  `TauCeti.fiberBundleCoreOfGroupCocycle` glued from a continuous group-valued
-  cocycle on an open cover, principal when the fibre is the group acting on
-  itself (`TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`), and the
-  equivariant homeomorphism `TauCeti.homeomorphOfCohomologous` between the
-  bundles of cohomologous cocycles (`Topology/FiberBundle/GroupCocycle.lean`);
-  `TauCeti.OrthonormalFrameBundle`, pairs of a base point and a linear
-  isometric equivalence from the model space to the fibre, with the topology
-  of pointwise convergence, Gram–Schmidt local frames, a free and transitive
-  right action and the reconstruction
-  `TauCeti.OrthonormalFrameBundle.associatedHomeomorph`
-  (`Topology/VectorBundle/OrthonormalFrame/Basic.lean`), and
-  `TauCeti.OrthonormalFrameBundle.pullbackHomeomorph` (`Pullback.lean` there);
-  orientations `TauCeti.VectorBundleOrientation`, the orientation double cover
-  `TauCeti.VectorBundleOrientationCover` and orientability as the existence of
-  a continuous section of it,
-  `TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`
-  (`Topology/VectorBundle/Orientation/Basic.lean` and `Cover.lean`); the
-  orientation `TauCeti.OrthonormalFrameBundle.toOrientationCover` carried by a
-  frame, with two frames carrying the same orientation exactly when they differ
-  by an orthogonal map of positive determinant
-  (`TauCeti.OrthonormalFrameBundle.toOrientationCover_eq_toOrientationCover_iff`)
-  and, in positive rank, the quotient by that relation,
-  `TauCeti.OrthonormalFrameBundle.orientedRel`, being the double cover
-  (`TauCeti.OrthonormalFrameBundle.orientationCoverHomeomorph`,
-  `Topology/VectorBundle/Orientation/OrthonormalFrame.lean`); for smooth lifts
-  the C^n fibre bundles `TauCeti.ContMDiffFiberBundle`, charted through
-  `TauCeti.ManifoldTotalSpace`, with a principal bundle C^n exactly when its
-  transition functions are (`TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`,
-  `Geometry/Manifold/FiberBundle/Basic.lean` and `Principal.lean`); the compact
-  Spin group `CliffordAlgebra.realCliffordSpinGroupZero` of the positive form
-  `realCliffordForm n 0` (`LinearAlgebra/CliffordAlgebra/Spin/Real/Basic.lean`)
-  with its subspace topology (`Topology/Algebra/CliffordAlgebra/Spin/Compact.lean`)
-  and the conjugation action `CliffordAlgebra.spinVectorAction`, `v↦g v g⁻¹`
-  (`LinearAlgebra/CliffordAlgebra/Spin/Action.lean`); and the integral Thom and
-  Euler classes in `Topology/VectorBundle/EulerClass.lean`: `TauCeti.thomPair`,
-  the pair (E,E₀), `TauCeti.IsThomClass`, a class generating the cohomology of
-  every fibre pair, and `TauCeti.eulerClass`, its pullback along the zero
-  section.
-- Regular module (G5.0): the parity-twisted right action
-  `CliffordAlgebra.parityTwistedRightAction`
-  (`LinearAlgebra/CliffordAlgebra/Regular.lean`), with its positive relation,
-  even-element equivariance and trace-pairing symmetry.
-
-G4's lift data and rank-two criterion are stated on these principal bundles,
-frame bundles, orientation covers and Thom and Euler classes.
-
-### From the named roadmaps
-
-- [SpinRepresentations L0–L4,L7,L9](../RepresentationTheory/SpinRepresentations/README.md)
-  and [OrthogonalSpinGroups L0–L2](../../Completed/OrthogonalSpinGroups/README.md)
-  supply the algebraic Clifford algebra, its real periodicity and the abstract
-  spin representations. SpinRepresentations Layer 2's
-  SpinCompactTopologyFoundation supplies the simple connectivity of Spin(n) for
-  n≥3 used by G4.4a, and its Layer 7 the real Clifford classification used by
-  G6.7.
-- [SmoothBundlesConnections B1–B5,B6.0](../SmoothBundlesConnections/README.md)
-  owns smooth principal/associated bundles, descent, frames, sums/tensors/duals,
-  scalar extension, metrics, connections, curvature and parallel transport; the
-  smooth principal-bundle atlas, with the smoothness of transitions, action and
-  division, is Tau Ceti's (From Tau Ceti above).
-  Use its actual Mathlib `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`
-  carriers, and its metric-parametrized L² sections. G3 adds Clifford algebra
-  multiplication and module data to those bundles; G4 adds a spin lift of the
-  oriented frame bundle. B3 supplies the invariant-vector parallel-section
-  theorem used in G3.
-- The Levi-Civita connection, its smoothness, the curvature operator and
-  tensor, the first Bianchi identity, the curvature symmetries and the scalar
-  curvature are the pinned declarations under From Mathlib and From Tau Ceti
-  above. [RiemannianGeometry R1,R7](../RiemannianGeometry/README.md) supplies
-  what lies beyond the pins: R1's orthonormal geodesic frames at a point
-  (item 4: radially parallel, so `∇E_i(p)=0`; Tau Ceti's normal coordinate
-  fields have vanishing covariant derivative at p but are not orthonormal away
-  from it) for the normal-frame calculation of G6.2, and R7's real Weitzenböck
-  comparison for G6.4. The metric uses Mathlib's `RiemannianBundle` and
-  `IsContMDiffRiemannianBundle`.
-- [DifferentialGeometry L0–L2,L5–L9](../DifferentialGeometry/README.md)
-  supplies forms, exterior calculus, orientation, densities, integration,
-  Stokes and de Rham comparison; the smooth forms, exterior derivative,
-  manifold orientations and boundaryless Stokes theorem listed under From Tau
-  Ceti are consumed from the pins, and DifferentialGeometry supplies the rest.
-  [ComplexKahlerGeometry K5](../ComplexKahlerGeometry/README.md) supplies,
-  beyond Tau Ceti's smooth real Hodge star and codifferential and the pointwise
-  Gram metrics under From Mathlib and From Tau Ceti, the complex- and bundle-valued exterior-form
-  bundles with the Gram metric tensored with a Hermitian metric,
-  complex-type stars, their formal adjoints, p=2 bundle Sobolev/distribution theory,
-  Laplace-type regularity, Hodge theorem and compact resolvent. Its K1/K4
-  complex/type and Hermitian bundle interfaces supply the almost-complex
-  bundle comparisons below. The pointwise real Hodge star and its
-  complex-linear extension are Tau Ceti's `Orientation.hodgeStar` and
-  `Orientation.complexHodgeStar` (G2). The pointwise exterior metric/star API
-  precedes the analytic Hodge theorem.
-- [CharacteristicClasses C1,C3.2,C3.5,C7.3](../CharacteristicClasses/README.md) owns
-  mod2 cohomology, universal w₂ and its equality with the real spin-cover
-  transition obstruction. G4.3 consumes that universal equality for lift
-  existence; G4.4 constructs the H¹ torsor once a lift is given. Its C1.0
-  supplies, beyond Tau Ceti's orthonormal frame bundle and orientation double
-  cover, the positively oriented SO(n) principal subbundle of a given
-  orientation, the metric-change transport of orthonormal frames and the
-  rank-zero frame conventions; C1.6 classifies complex lines by H²(X;ℤ); C3.2
-  identifies w₁ with the class of the orientation double cover and proves
-  w₂=ρe in rank two; C7.3 supplies the radial stable framing `TSⁿ⊕ε¹≃εⁿ⁺¹`.
-  [AlgebraicTopology Stages 2–6 and §8.9](../AlgebraicTopology/README.md)
-  supplies cochains, cup/cross products and CW comparisons, and its §8.9
-  primary relative obstructions supply G4.4a's cellular obstruction cochains;
-  SBC B6.0 supplies
-  smooth good covers. On general paracompact bases keep Čech cohomology;
-  identify it with singular cohomology on CW-type bases using C1's comparison.
-- [TopologicalKTheory T1–T3,T6.4](../TopologicalKTheory/README.md) supplies the
-  vector-bundle K-ring and products for G5's virtual spinor formula. Beyond
-  Tau Ceti's principal-bundle mixin, pullback and cocycle gluing (From Tau
-  Ceti above), its T6.4 supplies numerability, homotopy invariance of numerable
-  principal bundles, bundle morphisms, associated bundles and extension of the
-  structure group along continuous homomorphisms; the continuous
-  orthonormal/oriented frames beyond Tau Ceti's are CharacteristicClasses
-  C1.0's.
-- [GeneralizedCohomology G5.5](../GeneralizedCohomology/README.md#g5-finite-duality-thom-spectra-and-rational-hurewicz)
-  specifies the real Hilbert and finite-Clifford functional-calculus,
-  regularity, stabilization and negative-Clifford family-index suppliers
-  consumed by G5.0/G6.0. [TopologicalKTheory T7](../TopologicalKTheory/README.md#t7-real-k-theory-and-concrete-acceptance-calculations)
-  specifies the real KO coefficients, graded Clifford-module quotient and
-  ABS calibration used by G6.0. These constructions precede their Spin consumers.
-- [PseudodifferentialOperators P1.0/P4–P6](../PseudodifferentialOperators/README.md)
-  owns the differential-operator/formal-adjoint core, differential-operator/ΨDO
-  identification, Sobolev mapping and elliptic estimates; K5a extends the
-  fixed operators to bundle distributions.
-  The cited contracts are PseudodifferentialOperators P1.0 (differential-operator
-  core), P4 (differential-operator/ΨDO identification), P5 (Sobolev mapping)
-  and P6 (ellipticity and parametrices) of
-  [PseudodifferentialOperators](../PseudodifferentialOperators/README.md),
-  together with [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md#k5-compact-hermitian-elliptic-theory-and-serre-duality)
-  for general finite-rank Hermitian-bundle Sobolev/H¹/L² carriers, compactness,
-  distributional pairings, Riesz transport and bundle-system regularity. G6 must prove
-  the Dirac-specific domain/adjoint bridge stated below from these contracts.
-
-## How to read the build
-
-G1 fixes the metric Clifford dictionary, the Fock model, Morita evaluation and
-the scalar trace on their Tau Ceti declarations, and adds the Pauli models of
-the real planes, the geometric convention for real algebra maps, the
-Gram-metric formula and the odd-factor comparisons; G2 does the same for
-chirality and adds the chirality of a real algebra map and the exterior and
-graded-product comparisons. G3 constructs bundles and connections, G4
-principal lifts, and G5 associated spinors. G6.1–G6.3 construct the complex
-operator before G6.0's real analytic index; G6.7 then identifies its
-quaternionic normalization. G5.3 compares its square roots with G4.4a's
-rank-two criterion. Each target lists its statement and proof-route inputs; G
-labels remain the cross-roadmap locators.
-
-| Former heading | Now |
-| --- | --- |
-| G1. Negative-metric Clifford modules and their positive metrics | Layer 1 |
-| G2. Volume, chirality and exterior-form comparisons | Layer 2 |
-| G3. Smooth Clifford bundles and compatible connections | Layer 3 |
-| G4. Spin lifts, obstruction and classification | Layer 4 |
-| G5. Spinor bundles, chiral products and rank-two roots | Layer 5 |
-| G6. Dirac operators and curvature formulas | Layer 6 |
-
-G1–G2 cite Tau Ceti's finite Clifford-module algebra and add its geometric comparisons, before
-bundle analysis. G3 uses SBC and the Levi-Civita carrier. Native compact-real
-covering/connectivity supply G4.1a's topological frame/rank0 adapters and
-SpinRepresentations L7's remaining universal-cover comparison. The item order
-is G4.1a → CharacteristicClasses C3.5 → G4.3. G4.1b's smooth refinement
-uses G4.1a and native Lie differential APIs, independently of C3.5.
-The same interleaving holds with the three other suppliers that consume
-this roadmap's early sections: SpinRepresentations L7 consumes G1.1's
-negative-form comparison and G4.1's frame refinement and supplies G6 its
-real Clifford classification; RiemannianGeometry R7 consumes G1.2, G2.2 and
-G3.4 and supplies G6.4 its real Weitzenböck term; GeneralizedCohomology
-G4.0a, G5.0 and G5.4 consume G4.1, G5.5 consumes G1.3, and G5.5 supplies
-G5.0 and G6.0. The order
-between this roadmap and each of those four is an order of sections, and no
-section here uses a result of a section that consumes it.
-G4.4's torsor uses a given lift and central-bundle descent, through Tau
-Ceti's cocycle gluing, independently of
-that obstruction equality. G4.4a additionally consumes AlgebraicTopology
-§8.9's CW obstruction API and SpinRepresentations Layer 2's compact-real
-simple-connectivity foundation, which is independent of this roadmap. G5 follows G1–G4, including G4.4a; G5.3
-compares its square roots with G4.4a's rank-two criterion. G6 follows G3/G5 and uses
-K5/PDO analysis; the exterior instance only needs G2/G3. For each object supply constructors/characterization,
-extensionality, regularity, naturality, local-frame/gluing comparison and edge
-cases, not only the headline theorem.
-
-For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7
-supply the functional-calculus, Clifford and KO interfaces consumed by
-SpinGeometry G5.0/G6.0. The algebraic real regular bundle/action SpinGeometry
-G5.0 consumes G1.1/G1.3/G3.1/G3.3/G4.1–G4.4 and any supplied principal Spin
-connection. G5.1 separately supplies the Levi-Civita principal Spin connection
-and associated connection, which specialize this general G5.0 construction for
-TM. G6.1–G6.3 are prerequisites and do not consume G6.0. Spin G6.0 consumes
-G5.0, the G5.1 Levi-Civita specialization and G6.1–G6.3; its
-arbitrary-boundaryless local operator/elliptic branch precedes the
-closed-manifold functional-calculus and index branch. Spin G6.7 consumes G5.1,
-G6.0 and G6.1's domain/chiral-adjoint results. This names SpinGeometry G5.0
-explicitly to distinguish it from GeneralizedCohomology G5.0.
 
 ## Layer 1: Negative-metric Clifford modules and their positive metrics
 
@@ -2717,6 +2300,429 @@ IndexTheory I7.5 is another downstream consumer, of G6.7's quaternionic
 four-dimensional kernels for the numerical Â/signature comparison, not an
 input. Numerical topological index theorems are separate consumers of this
 development.
+
+## Scope and ownership
+
+The algebraic Clifford algebra, its real periodicity and the abstract spin
+representations are supplied by SpinRepresentations and OrthogonalSpinGroups
+(sections under Exact supplier contracts). Mathlib already has the Clifford and
+exterior algebras with their module equivalence, scalar extension,
+functoriality along isometries, product decomposition, grading and
+involutions, and the increasing wedge basis that Tau Ceti's
+`CliffordAlgebra.basis` transports to the Clifford monomial basis. Tau Ceti
+already has `TauCeti.spinAction`, `SpinPolarizationData.cliffordEquivEnd`, its
+even/odd matrix classification, half-spin actions, raw orthogonal-product
+volume identities and real algebraic eight-periodicity. In particular
+`CliffordAlgebra.prod_map_ι_sq_scalar` gives the square of the ordered product
+ω=e₁⋯e_n of any orthogonal list as `(−1)^(n(n−1)/2)·Π_i Q(e_i)` for every Q,
+so the positive-form pseudoscalar squares to `(−1)^(n(n−1)/2)` and the
+negative-form one to `(−1)^(n(n+1)/2)`. This roadmap constructs no other
+abstract Fock action, classification table or Bott-periodicity proof. Real
+algebraic periodicity is distinct from the topological Bott theorem.
+
+Tau Ceti also proves the finite Clifford-module algebra of G1–G2: the
+positive/negative sign comparisons, the Fock model with its metric, the
+conjugate-linear Clifford involution, compatible spinor metrics,
+multiplicity spaces, the scalar trace, the normalized volume element and its
+chirality splitting, the Clifford action on forms and graded products. G1–G2
+cite these declarations and state as targets only the comparisons the library
+lacks, each with one clause on how it differs: the Pauli models of the real
+planes (G1.1), the geometric convention for real algebra maps and the
+Gram-determinant formula for the Fock metric (G1.2), the two-factor evaluation
+and restriction intertwiners in odd dimension (G1.4), the chirality of a real
+algebra map (G2.1), the agreement of the wedge-basis form on complexified forms
+with the complexified Gram metric and the forms-to-endomorphisms module
+equivalence (G2.2), and the structural laws of the graded product (G2.3).
+
+The pointwise exterior metric and Hodge stars are in the library as well:
+Mathlib's Gram-determinant inner product and Hodge star on exterior powers, and
+Tau Ceti's oriented Hodge star with its complex-linear extension, the conjugate
+star and the Gram metric on complexified forms; so are the smooth real Hodge
+star and codifferential of an oriented Riemannian manifold, and the Levi-Civita
+connection with its smoothness, curvature operator and tensor, first Bianchi
+identity, curvature symmetries and scalar curvature. They are consumed, not
+planned; ComplexKahlerGeometry K5 is cited only for complex- and bundle-valued
+forms and for the analysis.
+
+G3 owns smooth Clifford module and connection comparisons, G4 the geometric
+lift data, G5 associated spinors and G6 the geometric Dirac and real analytic
+index comparisons. G4's lift data and rank-two criterion are stated on Tau
+Ceti's principal bundles, with their pullback and cocycle gluing, its
+orthonormal frame bundle and orientation double cover, and its integral Thom
+and Euler classes. Numerable and associated bundles, generic bundle descent,
+characteristic classes, elliptic analysis and KO models remain with the named
+suppliers. Numerical topological index formulas, the Hirzebruch signature
+theorem and the Â-genus formula are outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Paths are under `Mathlib/`.
+
+- Clifford and exterior algebras (G1–G2): `CliffordAlgebra`, `ExteriorAlgebra`,
+  `CliffordAlgebra.equivExterior`, `equivBaseChange`, `equivOfIsometry`,
+  `prodEquiv`, `evenOdd`, `involute` and `reverse`; the Clifford relations
+  `CliffordAlgebra.comp_ι_sq_scalar` and `CliffordAlgebra.ι_mul_ι_add_swap`
+  (`LinearAlgebra/CliffordAlgebra/Basic.lean`); the increasing wedge basis
+  `Module.Basis.ExteriorAlgebra`. G2.3 compares Tau Ceti's graded product
+  action with `CliffordAlgebra.prodEquiv` (`LinearAlgebra/CliffordAlgebra/Prod.lean`).
+- Exterior metrics (G1.2, G2.2): the Gram-determinant inner product on real
+  exterior powers `exteriorPower.inner_ιMulti_ιMulti`, with the orthonormal
+  wedge basis `OrthonormalBasis.exteriorPower`
+  (`Analysis/InnerProductSpace/ExteriorPower.lean`, finite-dimensional real
+  spaces); the Hodge star `exteriorPower.hodgeStar` of a nondegenerate
+  bilinear form and a volume (`LinearAlgebra/ExteriorPower/HodgeStar.lean`);
+  the scalar-extension equivalence `ExteriorAlgebra.baseChangeEquiv`
+  (`LinearAlgebra/ExteriorAlgebra/BaseChange.lean`).
+- Topological carriers (G4.2, G4.4a): CW complexes `Topology.CWComplex`, with
+  weak topology, closed cells and closure finiteness
+  (`Topology/CWComplex/Classical/Basic.lean`), and continuous Riemannian
+  bundles `IsContinuousRiemannianBundle` (`Topology/VectorBundle/Riemannian.lean`).
+- Connections (G3–G6): metric compatibility
+  `CovariantDerivative.IsMetricCompatible`, `X⟨σ,τ⟩=⟨∇_Xσ,τ⟩+⟨σ,∇_Xτ⟩`, and
+  the Levi-Civita connection `CovariantDerivative.leviCivitaConnection` of a C¹
+  Riemannian metric on the tangent bundle of a C² manifold with
+  finite-dimensional model, metric-compatible and torsion-free
+  (`CovariantDerivative.isLeviCivitaConnection_leviCivitaConnection`) and
+  unique on differentiable vector fields
+  (`CovariantDerivative.IsLeviCivitaConnection.uniqueness`), in
+  `Geometry/Manifold/VectorBundle/CovariantDerivative/`.
+
+### From Tau Ceti
+
+Use the spin representation, classification and periodicity declarations
+named in Scope and ownership, and the compact-real covering, Lie projection and
+special-orthogonal declarations named in G4.1a–G4.1b, which use the native
+units-range topologies. The finite Clifford-module algebra of G1–G2 is
+consumed from the declarations below, grouped by the subsection that cites
+them. The cited declarations assume `Q(v)=−|v|²` where a metric enters, and
+none assumes a module finite-dimensional or irreducible unless its statement
+says so. Paths are under `TauCeti/LinearAlgebra/CliffordAlgebra/` unless
+another directory is named.
+
+- Sign comparisons (G1.1): `CliffordAlgebra.equivNeg`, `equivNeg_coe`,
+  `equivNeg_ι_mul_ι` and `equivNeg_ofBaseChangeAux` (`Neg.lean`);
+  `CliffordAlgebra.spinGroupEquivNeg`, `equivNeg_spinGroupBaseChange` and
+  `CliffordAlgebra.coe_spinGroupEquivNeg_apply_of_coe_eq_ι_mul_ι`
+  (`Spin/Neg.lean`); `CliffordAlgebra.realCliffordSpinGroupEquivNeg`,
+  `spinVectorAction_realCliffordSpinGroupEquivNeg`,
+  `realCliffordSpinGroupEquivNeg_negOne`,
+  `OrthonormalBasis.realSpinGroupEquiv` and
+  `OrthonormalBasis.spinVectorAction_realSpinGroupEquiv` (`Spin/Real/Neg.lean`);
+  for scalar extension `CliffordAlgebra.ofBaseChangeAux_involute`,
+  `ofBaseChangeAux_reverse`, `ofBaseChangeAux_star`, `ofBaseChangeAux_mem_even`,
+  `ofBaseChangeAux_injective`, `toBaseChange_mem_baseChange_evenOdd_iff` and
+  `QuadraticMap.Isometry.ofBaseChangeAux_map` (`BaseChange.lean`);
+  `CliffordAlgebra.range_spinGroup_toUnits` (`Spin/EvenUnitary.lean`);
+  `OrthonormalBasis.negRealCliffordFormIsometryEquiv` and
+  `OrthonormalBasis.realEvenCliffordEquiv` (`RealForm/OrthonormalBasis.lean`);
+  `OrthonormalBasis.isometryEquivRealCliffordForm` and
+  `TauCeti.nonempty_algEquiv_cliffordAlgebra_realCliffordForm`
+  (`RealForm/Orthonormal.lean`);
+  in rank zero `CliffordAlgebra.evenUnitaryGroupEquivRootsOfUnityOfSubsingleton`,
+  `CliffordAlgebra.card_evenUnitaryGroup_of_subsingleton`,
+  `CliffordAlgebra.range_spinGroup_toUnits_eq_bot_of_subsingleton` and
+  `CliffordAlgebra.range_spinGroup_toUnits_ne_evenUnitaryGroup_of_subsingleton`
+  (`Spin/LowRank/Zero.lean`).
+- Polarization and Fock model (G1.2), under
+  `TauCeti/RepresentationTheory/Spin/Polarization/`:
+  `TauCeti.AlmostComplexStructure.spinPolarizationData`
+  (`ComplexStructure.lean`), with the parts
+  `TauCeti.AlmostComplexStructure.holomorphicPart` and
+  `TauCeti.AlmostComplexStructure.antiholomorphicPart`
+  (`TauCeti/Geometry/Symplectic/Complex/Complexification.lean`);
+  `TauCeti.AlmostComplexStructure.spinAction_ι_one_tmul`,
+  `TauCeti.AlmostComplexStructure.fockAction`,
+  `degreeScaling_comp_spinAction_eq_fockAction_comp`, `fockAction_bijective`,
+  `fockAction_ι_one_tmul` and `fockAction_ι_one_tmul_mul_self`
+  (`Fock/Basic.lean`); `toLinearMapₛₗ₂_wedge_left`,
+  `toLinearMapₛₗ₂_contract_left`, `toLinearMapₛₗ₂_fockAction_left`,
+  `toLinearMapₛₗ₂_fockAction_ι_one_tmul_left`,
+  `toLinearMapₛₗ₂_degreeScaling_of_mem_exteriorPower` and
+  `TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_exteriorAlgebra_eq`
+  (`Fock/Metric.lean`);
+  `TauCeti.AlmostComplexStructure.sesqComplexification_holomorphicPart_holomorphicPart`
+  (`TauCeti/Geometry/Symplectic/Complex/HermitianForm.lean`).
+  For a real algebra map into complex endomorphisms:
+  `CliffordAlgebra.map_ι_mul_map_ι`, `CliffordAlgebra.adjoint_map_eq_map_star`
+  and `CliffordAlgebra.norm_map_ι_apply` (`Hermitian/Basic.lean`).
+- Involutions, spinor metrics, multiplicity spaces and the scalar trace
+  (G1.3): `CliffordAlgebra.complexConj`, `complexConj_unique`,
+  `CliffordAlgebra.conjStar` and `toBaseChange_conjStar`
+  (`Complexification.lean`); `CliffordAlgebra.involute_eq_self_iff` and
+  `involute_eq_neg_iff` (`Grading.lean`);
+  `CliffordAlgebra.exists_sesqForm_map_eq_map_conjStar`
+  (`Hermitian/Spinor.lean`); `CliffordAlgebra.existsUnique_pos_mul_of_surjective`
+  and `CliffordAlgebra.adjoint_map_eq_map_conjStar_iff`
+  (`Hermitian/Complex.lean`); `TauCeti.isotypicTensorEquivOfBijective` and
+  `TauCeti.finrank_eq_finrank_mul_finrank_linearMap_of_bijective_lsmul`
+  (`TauCeti/RingTheory/Morita/ModuleEnd.lean`); `TauCeti.isotypicEval_tmul`
+  and `TauCeti.isotypicEval_map_apply`
+  (`TauCeti/RingTheory/Semisimple/Multiplicity.lean`); `TauCeti.multiplicityMetric`,
+  `TauCeti.inner_map_map_eq_multiplicityMetric`
+  and `TauCeti.inner_isotypicTensorEquivOfBijective_eq`
+  (`Hermitian/Multiplicity.lean`); `AlgHom.cliffordReverseDual` (`Dual.lean`);
+  `CliffordAlgebra.scalarTrace`, `scalarTrace_mul_comm`,
+  `trace_mulLeft_eq_two_pow_mul_scalarTrace`,
+  `CliffordAlgebra.scalarTrace_eq_inv_two_pow_mul_trace_mulLeft` and
+  `scalarTrace_eq_of_algEquiv`
+  (`ScalarTrace/Basic.lean`); `CliffordAlgebra.basis_eq_prod_map_sort`,
+  `scalarTrace_reverse_basis_mul_basis`,
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_nonneg` and
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_eq_zero_iff`
+  (`OrthogonalBasis.lean`); `CliffordAlgebra.scalarTrace_ofBaseChange`,
+  `CliffordAlgebra.scalarTrace_ofBaseChangeAux` and
+  `trace_mulLeft_eq_two_pow_mul_baseChange_scalarTrace`
+  (`ScalarTrace/BaseChange.lean`);
+  `CliffordAlgebra.scalarTrace_conjStar_mul_self_nonneg`,
+  `scalarTrace_conjStar_mul_self_eq_zero_iff` and
+  `posDef_iff_forall_scalarTrace_reverse_mul_self_eq_zero`
+  (`ScalarTrace/Positivity.lean`);
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_eq_zero_iff_mem_span_radical`
+  (`ScalarTrace/Radical.lean`).
+- Odd volume element and the dimension-raising map (G1.4):
+  `CliffordAlgebra.complexVolume_mem_center` (`VolumeElement/Complex.lean`);
+  `TauCeti.halfOneAdd` (`TauCeti/RingTheory/Idempotents/SquareRootOne.lean`);
+  `CliffordAlgebra.equivEvenProd` (`OddSplitting.lean`);
+  `CliffordAlgebra.EquivEven.complexProdIsometryEquiv` (`Even/EquivEven.lean`);
+  `TauCeti.SpinPolarizationData.spinAction_complexVolume`
+  (`TauCeti/RepresentationTheory/Spin/Polarization/OddVolume.lean`);
+  `TauCeti.SpinPolarizationData.cliffordEquivEndProd`
+  (`TauCeti/RepresentationTheory/Spin/LineSign.lean`);
+  `CliffordAlgebra.coe_toEven_of_mem_odd` and
+  `CliffordAlgebra.EquivEven.equivOfIsometry_toEven_ι`
+  (`Even/EquivEven.lean`).
+- Chirality (G2.1): `CliffordAlgebra.volumeElement`, `volumeElement_eq`,
+  `volumeElement_mul_ι_of_even` and `volumeElement_mul_self`
+  (`VolumeElement/Oriented.lean`); `CliffordAlgebra.complexVolume`,
+  `complexVolume_eq`, `complexVolume_neg_orientation`,
+  `conjStar_complexVolume`, `complexVolume_mul_eq_involute_mul`,
+  `complexVolume_mul_self` and `CliffordAlgebra.map_complexVolume`
+  (`VolumeElement/Complex.lean`);
+  `CliffordAlgebra.isCompl_eigenspace_complexVolume`,
+  `projection_eigenspace_complexVolume_apply`,
+  `projection_eigenspace_complexVolume_neg_one_apply` and
+  `CliffordAlgebra.finrank_eigenspace_complexVolume_eq_mul_finrank_linearMap`
+  (`VolumeElement/Eigenspace.lean`); `TauCeti.eigenspaceTensorEquivOfBijective`
+  (`TauCeti/RingTheory/Morita/Eigenspace.lean`);
+  `TauCeti.AlmostComplexStructure.fockAction_complexVolume`
+  (`TauCeti/RepresentationTheory/Spin/Polarization/Chirality.lean`);
+  `CliffordAlgebra.EquivEven.equivOfIsometry_toEven_complexVolume`
+  (`VolumeElement/EquivEven.lean`); `TauCeti.isCompl_eigenspace_one_neg_one`
+  (`TauCeti/LinearAlgebra/Eigenspace/Separation.lean`).
+- Forms and duals (G2.2): `CliffordAlgebra.exteriorAction` and
+  `CliffordAlgebra.baseChangeExteriorAction`
+  (`TauCeti/LinearAlgebra/ExteriorAlgebra/CliffordAction.lean`);
+  `CliffordAlgebra.exteriorAction_volumeElement` and
+  `CliffordAlgebra.baseChangeExteriorAction_complexVolume_of_eq_two_mul`
+  (`VolumeElement/HodgeStar.lean`);
+  `CliffordAlgebra.complexVolume_mul_mul_complexVolume`
+  (`VolumeElement/Complex.lean`); the pointwise Hodge package under
+  `TauCeti/Analysis/InnerProductSpace/HodgeStar/`: `Orientation.hodgeStar`
+  with `Orientation.inner_hodgeStar_apply` (`Basic.lean`),
+  `Orientation.wedgePairing_hodgeStar` (`α∧⋆β=⟨α,β⟩vol`) and
+  `Orientation.hodgeStarIsometry` (`Isometry.lean`), and
+  `Orientation.complexHodgeStar`, the scalar extension of the real star
+  (`Orientation.complexHodgeStar_tmul`), with
+  `Orientation.sesqComplexification_complexHodgeStar` for the Gram metric
+  `LinearMap.BilinForm.sesqComplexification` of complexified forms
+  (`TauCeti/LinearAlgebra/BilinearForm/Complexification.lean`) and the
+  conjugate star `Orientation.barHodgeStar` (`Complex.lean`);
+  `CliffordAlgebra.inv_two_pow_mul_trace_adjoint_map_equivExterior_symm_mul`
+  (`ScalarTrace/Representation.lean`);
+  `AlgHom.cliffordReverseDual_complexVolume` (`VolumeElement/Dual.lean`).
+- Graded products and twists (G2.3): `AlgHom.cliffordProdTensor` and
+  `AlgHom.map_mul_cliffordProdTensor_ι` (`Prod.lean`);
+  `CliffordAlgebra.complexProdTensor`,
+  `CliffordAlgebra.complexProdTensor_ι_one_tmul_toLp` and
+  `CliffordAlgebra.complexProdTensor_complexVolume` (`VolumeElement/Prod.lean`);
+  `CliffordAlgebra.twistingGrading` and
+  `CliffordAlgebra.eigenspaceTwistingGradingEquiv`
+  (`VolumeElement/GradedModule.lean`); `Module.End.eigenspaceTensorMapEquiv`
+  (`TauCeti/LinearAlgebra/Eigenspace/TensorProduct/Involution.lean`).
+
+The geometric carriers of G3–G6 are consumed, not planned; paths below are
+under `TauCeti/`.
+
+- Connections and curvature (G3–G6), under
+  `Geometry/Manifold/VectorBundle/CovariantDerivative/`: the Levi-Civita
+  connection of a C^∞ metric on a C^∞ manifold is C^∞
+  (`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`,
+  `LeviCivita/Regularity.lean`); `CovariantDerivative.curvatureOperator`, the
+  curvature `R(X,Y)σ=∇_X∇_Yσ−∇_Y∇_Xσ−∇_[X,Y]σ` of a covariant derivative on any
+  vector bundle (`Curvature/Basic.lean`), which is the R^E of G3.3 and G6.2, a
+  complex bundle entering through its underlying real bundle;
+  `CovariantDerivative.curvatureTensor`, its pointwise tensor for a C^∞
+  connection on a finite-rank C^∞ bundle over a finite-dimensional Hausdorff
+  manifold (`Curvature/Tensor.lean`); skew-adjointness of the curvature of a
+  metric-compatible connection,
+  `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_eq_neg`
+  (`Curvature/Metric.lean`); the first Bianchi identity
+  `CovariantDerivative.curvatureTensor_cyclic_eq_zero` for a torsion-free
+  connection and pair interchange
+  `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_swap_pairs`
+  (`Curvature/Bianchi.lean`); `CovariantDerivative.riemannCurvatureTensor`,
+  `Rm(u,v,w,z)=⟨R(u,v)w,z⟩`, and
+  `CovariantDerivative.scalarCurvature_eq_sum_riemannCurvatureTensor`, the
+  scalar curvature `Σ_(j,k) Rm(e_k,e_j,e_j,e_k)` in an orthonormal basis
+  (`Curvature/Riemann.lean`); `CovariantDerivative.scalarCurvature` and
+  `Bundle.ContMDiffRiemannianMetric.scalarCurvature`, that of the Levi-Civita
+  connection of a smooth metric (`Curvature/Scalar.lean`).
+- Forms (G3.4, G6.4): the smooth forms `TauCeti.SmoothForm`, the exterior
+  derivative `TauCeti.mextDerivₗ` and boundaryless Stokes
+  `TauCeti.integralTopForm_mextDeriv_eq_zero` in
+  `Geometry/Manifold/DifferentialForm/`; manifold orientations
+  `TauCeti.Manifold.Orientation`; for a smooth Riemannian metric and an
+  orientation, the smooth real Hodge star `TauCeti.SmoothForm.hodgeStar`, with
+  `α∧⋆β=⟨α,β⟩vol` and `TauCeti.SmoothForm.hodgeStar_hodgeStar`
+  (`Geometry/Manifold/Riemannian/HodgeStar.lean`), and the codifferential
+  `TauCeti.SmoothForm.codifferential`, d*=(−1)^(m(j+1)+1)⋆d⋆ on j-forms in
+  dimension m, unchanged when the orientation is reversed
+  (`TauCeti.SmoothForm.codifferential_neg_orientation`) and the formal adjoint
+  of d on a boundaryless, Hausdorff, σ-compact base when one of the two forms
+  has compact support
+  (`TauCeti.SmoothForm.integralTopForm_inner_mextDeriv_eq_inner_codifferential`,
+  `Geometry/Manifold/Riemannian/Codifferential.lean`).
+- Lift carriers (G4.2–G4.4a): `TauCeti.PrincipalBundle`, a fibre bundle with
+  model fibre a group, a right action on the fibres and equivariant atlas
+  trivializations, whose fibres are torsors, with its pullback
+  `TauCeti.PrincipalBundle.pullback` along a continuous map and the equivariant
+  trivialization `TauCeti.PrincipalBundle.trivializationOfSection` of a
+  continuous local section (`Topology/FiberBundle/Principal.lean`); the bundle
+  `TauCeti.fiberBundleCoreOfGroupCocycle` glued from a continuous group-valued
+  cocycle on an open cover, principal when the fibre is the group acting on
+  itself (`TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`), and the
+  equivariant homeomorphism `TauCeti.homeomorphOfCohomologous` between the
+  bundles of cohomologous cocycles (`Topology/FiberBundle/GroupCocycle.lean`);
+  `TauCeti.OrthonormalFrameBundle`, pairs of a base point and a linear
+  isometric equivalence from the model space to the fibre, with the topology
+  of pointwise convergence, Gram–Schmidt local frames, a free and transitive
+  right action and the reconstruction
+  `TauCeti.OrthonormalFrameBundle.associatedHomeomorph`
+  (`Topology/VectorBundle/OrthonormalFrame/Basic.lean`), and
+  `TauCeti.OrthonormalFrameBundle.pullbackHomeomorph` (`Pullback.lean` there);
+  orientations `TauCeti.VectorBundleOrientation`, the orientation double cover
+  `TauCeti.VectorBundleOrientationCover` and orientability as the existence of
+  a continuous section of it,
+  `TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`
+  (`Topology/VectorBundle/Orientation/Basic.lean` and `Cover.lean`); the
+  orientation `TauCeti.OrthonormalFrameBundle.toOrientationCover` carried by a
+  frame, with two frames carrying the same orientation exactly when they differ
+  by an orthogonal map of positive determinant
+  (`TauCeti.OrthonormalFrameBundle.toOrientationCover_eq_toOrientationCover_iff`)
+  and, in positive rank, the quotient by that relation,
+  `TauCeti.OrthonormalFrameBundle.orientedRel`, being the double cover
+  (`TauCeti.OrthonormalFrameBundle.orientationCoverHomeomorph`,
+  `Topology/VectorBundle/Orientation/OrthonormalFrame.lean`); for smooth lifts
+  the C^n fibre bundles `TauCeti.ContMDiffFiberBundle`, charted through
+  `TauCeti.ManifoldTotalSpace`, with a principal bundle C^n exactly when its
+  transition functions are (`TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`,
+  `Geometry/Manifold/FiberBundle/Basic.lean` and `Principal.lean`); the compact
+  Spin group `CliffordAlgebra.realCliffordSpinGroupZero` of the positive form
+  `realCliffordForm n 0` (`LinearAlgebra/CliffordAlgebra/Spin/Real/Basic.lean`)
+  with its subspace topology (`Topology/Algebra/CliffordAlgebra/Spin/Compact.lean`)
+  and the conjugation action `CliffordAlgebra.spinVectorAction`, `v↦g v g⁻¹`
+  (`LinearAlgebra/CliffordAlgebra/Spin/Action.lean`); and the integral Thom and
+  Euler classes in `Topology/VectorBundle/EulerClass.lean`: `TauCeti.thomPair`,
+  the pair (E,E₀), `TauCeti.IsThomClass`, a class generating the cohomology of
+  every fibre pair, and `TauCeti.eulerClass`, its pullback along the zero
+  section.
+- Regular module (G5.0): the parity-twisted right action
+  `CliffordAlgebra.parityTwistedRightAction`
+  (`LinearAlgebra/CliffordAlgebra/Regular.lean`), with its positive relation,
+  even-element equivariance and trace-pairing symmetry.
+
+G4's lift data and rank-two criterion are stated on these principal bundles,
+frame bundles, orientation covers and Thom and Euler classes.
+
+### From the named roadmaps
+
+- [SpinRepresentations L0–L4,L7,L9](../RepresentationTheory/SpinRepresentations/README.md)
+  and [OrthogonalSpinGroups L0–L2](../../Completed/OrthogonalSpinGroups/README.md)
+  supply the algebraic Clifford algebra, its real periodicity and the abstract
+  spin representations. SpinRepresentations Layer 2's
+  SpinCompactTopologyFoundation supplies the simple connectivity of Spin(n) for
+  n≥3 used by G4.4a, and its Layer 7 the real Clifford classification used by
+  G6.7.
+- [SmoothBundlesConnections B1–B5,B6.0](../SmoothBundlesConnections/README.md)
+  owns smooth principal/associated bundles, descent, frames, sums/tensors/duals,
+  scalar extension, metrics, connections, curvature and parallel transport; the
+  smooth principal-bundle atlas, with the smoothness of transitions, action and
+  division, is Tau Ceti's (From Tau Ceti above).
+  Use its actual Mathlib `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`
+  carriers, and its metric-parametrized L² sections. G3 adds Clifford algebra
+  multiplication and module data to those bundles; G4 adds a spin lift of the
+  oriented frame bundle. B3 supplies the invariant-vector parallel-section
+  theorem used in G3.
+- The Levi-Civita connection, its smoothness, the curvature operator and
+  tensor, the first Bianchi identity, the curvature symmetries and the scalar
+  curvature are the pinned declarations under From Mathlib and From Tau Ceti
+  above. [RiemannianGeometry R1,R7](../RiemannianGeometry/README.md) supplies
+  what lies beyond the pins: R1's orthonormal geodesic frames at a point
+  (item 4: radially parallel, so `∇E_i(p)=0`; Tau Ceti's normal coordinate
+  fields have vanishing covariant derivative at p but are not orthonormal away
+  from it) for the normal-frame calculation of G6.2, and R7's real Weitzenböck
+  comparison for G6.4. The metric uses Mathlib's `RiemannianBundle` and
+  `IsContMDiffRiemannianBundle`.
+- [DifferentialGeometry L0–L2,L5–L9](../DifferentialGeometry/README.md)
+  supplies forms, exterior calculus, orientation, densities, integration,
+  Stokes and de Rham comparison; the smooth forms, exterior derivative,
+  manifold orientations and boundaryless Stokes theorem listed under From Tau
+  Ceti are consumed from the pins, and DifferentialGeometry supplies the rest.
+  [ComplexKahlerGeometry K5](../ComplexKahlerGeometry/README.md) supplies,
+  beyond Tau Ceti's smooth real Hodge star and codifferential and the pointwise
+  Gram metrics under From Mathlib and From Tau Ceti, the complex- and bundle-valued exterior-form
+  bundles with the Gram metric tensored with a Hermitian metric,
+  complex-type stars, their formal adjoints, p=2 bundle Sobolev/distribution theory,
+  Laplace-type regularity, Hodge theorem and compact resolvent. Its K1/K4
+  complex/type and Hermitian bundle interfaces supply the almost-complex
+  bundle comparisons above. The pointwise real Hodge star and its
+  complex-linear extension are Tau Ceti's `Orientation.hodgeStar` and
+  `Orientation.complexHodgeStar` (G2). The pointwise exterior metric/star API
+  precedes the analytic Hodge theorem.
+- [CharacteristicClasses C1,C3.2,C3.5,C7.3](../CharacteristicClasses/README.md) owns
+  mod2 cohomology, universal w₂ and its equality with the real spin-cover
+  transition obstruction. G4.3 consumes that universal equality for lift
+  existence; G4.4 constructs the H¹ torsor once a lift is given. Its C1.0
+  supplies, beyond Tau Ceti's orthonormal frame bundle and orientation double
+  cover, the positively oriented SO(n) principal subbundle of a given
+  orientation, the metric-change transport of orthonormal frames and the
+  rank-zero frame conventions; C1.6 classifies complex lines by H²(X;ℤ); C3.2
+  identifies w₁ with the class of the orientation double cover and proves
+  w₂=ρe in rank two; C7.3 supplies the radial stable framing `TSⁿ⊕ε¹≃εⁿ⁺¹`.
+  [AlgebraicTopology Stages 2–6 and §8.9](../AlgebraicTopology/README.md)
+  supplies cochains, cup/cross products and CW comparisons, and its §8.9
+  primary relative obstructions supply G4.4a's cellular obstruction cochains;
+  SBC B6.0 supplies
+  smooth good covers. On general paracompact bases keep Čech cohomology;
+  identify it with singular cohomology on CW-type bases using C1's comparison.
+- [TopologicalKTheory T1–T3,T6.4](../TopologicalKTheory/README.md) supplies the
+  vector-bundle K-ring and products for G5's virtual spinor formula. Beyond
+  Tau Ceti's principal-bundle mixin, pullback and cocycle gluing (From Tau
+  Ceti above), its T6.4 supplies numerability, homotopy invariance of numerable
+  principal bundles, bundle morphisms, associated bundles and extension of the
+  structure group along continuous homomorphisms; the continuous
+  orthonormal/oriented frames beyond Tau Ceti's are CharacteristicClasses
+  C1.0's.
+- [GeneralizedCohomology G5.5](../GeneralizedCohomology/README.md#g5-finite-duality-thom-spectra-and-rational-hurewicz)
+  specifies the real Hilbert and finite-Clifford functional-calculus,
+  regularity, stabilization and negative-Clifford family-index suppliers
+  consumed by G5.0/G6.0. [TopologicalKTheory T7](../TopologicalKTheory/README.md#t7-real-k-theory-and-concrete-acceptance-calculations)
+  specifies the real KO coefficients, graded Clifford-module quotient and
+  ABS calibration used by G6.0. These constructions precede their Spin consumers.
+- [PseudodifferentialOperators P1.0/P4–P6](../PseudodifferentialOperators/README.md)
+  owns the differential-operator/formal-adjoint core, differential-operator/ΨDO
+  identification, Sobolev mapping and elliptic estimates; K5a extends the
+  fixed operators to bundle distributions.
+  The cited contracts are PseudodifferentialOperators P1.0 (differential-operator
+  core), P4 (differential-operator/ΨDO identification), P5 (Sobolev mapping)
+  and P6 (ellipticity and parametrices) of
+  [PseudodifferentialOperators](../PseudodifferentialOperators/README.md),
+  together with [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md#k5-compact-hermitian-elliptic-theory-and-serre-duality)
+  for general finite-rank Hermitian-bundle Sobolev/H¹/L² carriers, compactness,
+  distributional pairings, Riesz transport and bundle-system regularity. G6 must prove
+  the Dirac-specific domain/adjoint bridge stated above from these contracts.
 
 ## References
 

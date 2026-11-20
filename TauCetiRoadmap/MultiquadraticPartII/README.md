@@ -1,86 +1,87 @@
 # Roadmap: multiquadratic fields and genus theory, part ii: real quadratic signs and form characters
 
-**Summary.** This roadmap builds the sign-sensitive interfaces between narrow
-ideal classes, genera and integral binary quadratic forms in a real quadratic
-field. Its targets are the exact narrow-to-wide kernel, unique descent of real
-class characters, the number of narrow classes in each genus, arithmetic
-criteria for the distinguished principal class to lie in the principal genus,
-the common extension of the supplied nonsquare and Biró form characters to all
-integral binary quadratic forms, and its agreement
-with the narrow ideal genus character at a positive fundamental discriminant.
-These interfaces connect the existing normalizations of real quadratic
-period and trace formulas to the pinned arithmetic carriers.
+**Summary.** In a real quadratic field, two ideals can differ by a principal
+ideal without differing by one with a totally positive generator. Classes for
+this finer relation form the narrow class group, which maps onto the ordinary,
+or wide, class group. Genus theory sorts the narrow classes into genera, the
+cosets of the subgroup of squares, and characters attached to the
+prime-discriminant factors of the discriminant tell the genera apart.
+Following Duke, Imamoḡlu and Tóth, this second part of the Multiquadratic
+roadmap shows how narrow classes, genera and binary quadratic forms fit
+together.
 
-## Scope and ownership
+Throughout, `K` is a number field generated over ℚ by an algebraic integer `θ`
+with minimal polynomial `X²−d` over ℤ. In the main applications `d>0` is
+squarefree, and the fundamental discriminant is `D=d` if `d≡1 (mod 4)` and
+`D=4d` otherwise. Write `C` and `W` for the narrow and wide class groups, and
+`J` for the narrow class of the principal ideal `(θ)`, which is then also that
+of the different `(√D)`.
 
-The starting point is the completed [Multiquadratic roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/Multiquadratic/README.md).
-Its narrow class group, prime-discriminant factorization, genus characters,
-principal genus theorem and narrow two-rank formula are inputs here. In
-particular, the singleton character value on the distinguished class and the
-criterion that this class be a square are already Tau Ceti theorems. This
-roadmap adds arithmetic consequences and the form-character extension,
-building on those objects.
+Layer 0 shows that, for either signature, the forgetful map from `C` onto `W`
+has kernel exactly `{1,J}`, where the two entries may coincide. Hence a
+homomorphism `χ:C→{±1}` factors through `W` exactly when `χ(J)=1`, and the
+factorization is then unique. In the real case `J=1` exactly when some integral
+unit has norm `−1`, as `1+√2` does in `ℚ(√2)`.
 
-The precise ownership boundaries are as follows.
+Layer 1 counts the classes in a genus. Suppose `d` is squarefree and `D` is the
+product of `r` distinct prime discriminants, at most one of them even. (These
+are `−4`, `8`, `−8` and, for odd primes `p`, whichever of `±p` is `1` mod `4`.)
+Then every genus contains exactly `h⁺(D)/2^(r−1)` narrow classes, where `h⁺(D)`
+is the narrow class number.
 
-- **Multiquadratic, Part II** owns the two narrow-defect interfaces, the
-  genus-fibre cardinality, the arithmetic interfaces of Layer 2, and Layer 3's
-  common total extension `binaryFormGenusChar` of the supplied nonsquare and
-  Biró form characters. It proves restriction agreement with both supplied
-  characters and comparison with the pinned narrow ideal character.
-- **[IntegralLattices, Layer B](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders)**
-  (B1–B3) owns integral binary forms and their content, proper equivalence,
-  the oriented form–ideal bijection into GlobalNumberFields' `NarrowPic` for
-  positive nonsquare discriminants, and its composition, inverse and
-  genus-coset compatibilities. This roadmap does not use that bijection.
-  Layer 3 compares characters on one form at a time, using the explicit
-  coefficient ideal of that form and the library's
-  `NumberField.NarrowClassGroup`. The ideal it uses is the one B2 attaches to
-  the form, including the B2 sign clause for a negative leading coefficient.
-- **[GlobalNumberFields, Layer 11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/GlobalNumberFields/README.md#layer-11-orders-and-picard-groups)** owns number-field orders, invertible proper
-  fractional ideals, `Pic`, `NarrowPic`, the forgetful homomorphism and its
-  maximal-order specialization. No second narrow quotient is constructed here.
-  Nothing here needs `NarrowPic` of the maximal order to be identified with the
-  library's narrow class group.
-- **GeometryOfNumbersAndQuadraticArithmetic §4.3** consumes the proper classes of
-  positive definite binary forms of negative discriminant and their ideal
-  correspondence from IntegralLattices Layer B (B2, B4, B5); neither roadmap
-  plans a genus character on forms.
-- **AnalyticNumberTheoryPartI §2.1c** owns the real composite identity
-  χ(J)=sign δ=sign δ′ for the genus character it builds from the pinned
-  `genusCharFunNarrowClassGroupHom`, and its §2.25 consumes that value.
-  Section 2.1 here uses the identity for every t⊆s and derives it from the
-  pinned `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` and
-  `genusCharFunNarrowClassGroupHom_eq_prod_singleton` alone.
-- **MetaplecticAutomorphicForms §§7.20a, 7.32-trace** owns both supplied
-  form characters. Section 7.20a, `quadraticTraceData`, owns the
-  imprimitive nonsquare form character, its represented-value existence and
-  independence, and its proper invariance. Its domain has Δ=δδ′ nonsquare,
-  δ fundamental and δ′ a nonzero discriminant; forms are positive definite
-  when Δ<0. Section 7.32-trace, `biroArithmeticTraceData`, owns Biró's
-  character ω_δ on positive-discriminant forms, including square
-  discriminants, with δ>0 fundamental and Δ/δ a positive discriminant;
-  its level-N forms satisfy N∣a. Layer 3 owns the total extension and its
-  agreement with each interface on its domain, including Biró's square
-  discriminants. Negative definite forms and zero discriminants also belong to
-  the extension domain.
-- **ClassicalArithmeticCompletion §§5.21, 5.23–5.24** owns the all-radicand
-  negative-Pell/norm-unit equivalence, the negative-Pell criterion for J=1
-  and the two-primary comparison. Here the kernel and descent statements
-  concern the full narrow group; the radicand-34 calculation is a Check,
-  not another negative-Pell target.
-- Form reduction, composition algorithms and general representation theory
-  stay with their lattice and quadratic-arithmetic owners. Hecke periods,
-  gamma factors, spectral formulas, Weyl sums, subconvexity and asymptotic
-  errors stay with the analytic and modular roadmaps.
+Layer 2 decides, for `d>0` squarefree, when `J` lies in the principal genus,
+that is, when `J` is a square. Each genus character `χ_t`, for a subset `t` of
+the factors, takes on `J` the sign of their product `δ`, and `J` is a square
+exactly when every factor is positive. The roadmap turns this into arithmetic:
+`J` is a square if and only if no prime `p≡3 (mod 4)` divides `D`, and if and
+only if `D` is a sum of two integer squares. In `ℚ(√34)`, `D=136=6²+10²`, so
+`J` is a square, yet `J≠1` and no integral unit has norm `−1`. If instead a
+prime `p≡3 (mod 4)` divides `D`, then `J≠1`, no integral unit has norm `−1`,
+and the narrow class number is twice the wide one.
 
-The one new definition is the total extension in Layer 3, a light definition
-on `TauCeti.BinaryQuadraticForm ℤ`. The notation below names existing
-objects and ordinary fibres. The distinction between narrow and wide
-classes is retained throughout. Multiquadratic Layer 3 supplies the
-all-place genus field as the maximal totally real subfield of the narrow
-prime-discriminant compositum; if all factors are positive, the compositum
-itself is totally real and is that genus field.
+Layer 3 passes from ideals to forms `Q=ax²+bxy+cy²`. For a set `t` of prime
+discriminants with product `δ`, let the character of `t` be the product of
+their Kronecker characters. The roadmap defines `χ_δ(Q)` as `1` if `Q`
+represents an integer coprime to `δ` at which the character of `t` is `1`; as
+`−1` if `Q` represents integers coprime to `δ`, but none of that kind; and as
+`0` if it represents none. The definition applies to every integral form. If at
+most one member of `t` is even and the discriminant of `Q` is `δδ′` with
+`δ′≡0,1 (mod 4)`, then, even for square or zero discriminant, `χ_δ(Q)` is the
+character of `t` at every represented integer coprime to `δ`, of either sign.
+Moreover `χ_δ(Q)=0` exactly when the content `gcd(a,b,c)` is not coprime to `δ`.
+
+At a positive fundamental discriminant this form character is an ideal
+character. Let `d>0` be squarefree, `t` a subset of the factors of `D`, `ω∈K` a
+square root of `D`, and `Q` of discriminant `D`. Then `χ_δ(Q)` is the value of
+`χ_t` on the narrow class of the ideal `aℤ+((−b+ω)/2)ℤ` when `a>0`, and on `J`
+times that class when `a<0`. For `D=12`, the forms `x²−3y²` and `−x²+3y²` have
+the same coefficient ideal but characters `1` and `−1` at `δ=−4`; the factor
+`J` accounts for this.
+
+The roadmap builds on Multiquadratic, which provides the narrow class group,
+its genus characters and the principal genus theorem. The nonsquare and Biró
+form characters that `χ_δ` extends come from MetaplecticAutomorphicForms, which
+uses them as weights in its traces, and the roadmap proves that `χ_δ` agrees
+with each on its domain. AnalyticNumberTheoryPartI states the same sign
+identity for its real genus character.
+
+## How to read the build
+
+Layer 0 identifies the narrow defect and makes character descent unique.
+Layer 1 counts the elements in an arbitrary genus using the existing quotient.
+Layer 2 uses the pinned value on the distinguished class to obtain signed
+prime-discriminant and two-square criteria. Layer 3 extends the supplied
+nonsquare and Biró form characters and shows that at a positive fundamental
+discriminant it is the narrow ideal genus character of the oriented
+coefficient ideal. Layers 0–2 use the pinned narrow-class theory; the sign
+identity in 2.1 is derived from the pinned singleton J-value and product
+law; it is the identity AnalyticNumberTheoryPartI §2.1c states.
+Layer 3 also uses MetaplecticAutomorphicForms §§7.20a, 7.32-trace and the pinned form
+carrier. `Suggested.lean` states the headline endpoints and the simple
+definition they need.
+Both restriction agreements are README targets: the supplied form-character
+functions are absent from the pinned libraries, so those headlines cannot
+be stated against those pinned APIs.
 
 ## Conventions
 
@@ -160,167 +161,6 @@ A fundamental discriminant `δ` (possibly `1`) is a *fundamental divisor*
 of a discriminant `Δ` when `Δ=δδ'` with
 `δ'≡0,1 (mod 4)`; for `t⊆ s` as above, `δ` is a
 fundamental divisor of `D` with `δ'=∏_(P∈ s∖ t)P`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
-`QuotientGroup.lift` in `Mathlib/GroupTheory/QuotientGroup/Defs.lean`
-supplies quotient descent, and `QuotientGroup.quotientKerEquivOfSurjective`
-in `Mathlib/GroupTheory/QuotientGroup/Basic.lean` supplies the first
-isomorphism theorem for a surjective group homomorphism.
-`MonoidHom.fiberEquivKerOfSurjective` in
-`Mathlib/GroupTheory/Coset/Basic.lean` identifies every fibre of a
-surjective homomorphism with its kernel.
-`Subgroup.card_eq_card_quotient_mul_card_subgroup` in
-`Mathlib/GroupTheory/Coset/Card.lean` gives the natural-cardinality identity
-for a subgroup, used here on finite groups. The additive elementary-two
-presentation is transported to a multiplicative quotient when applying
-these group-theoretic interfaces.
-
-`Nat.eq_sq_add_sq_iff`, in `Mathlib/NumberTheory/SumTwoSquares.lean`, is the full
-two-square theorem: primes congruent to three modulo four must have even
-valuation. Layer 2 specializes this to positive fundamental discriminants.
-`FractionalIdeal`, its membership predicate, `Ideal.absNorm`, `Int.gcd` and
-`IsCoprime` are the carriers of Layer 3. Binary forms enter only through
-the Tau Ceti carrier specified below.
-
-`Ideal.natAbs_det_basis_change` and `Ideal.absNorm_span_singleton`, in
-`Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean`, give respectively the absolute
-norm from integral bases and the absolute norm of a principal integral ideal.
-The first requires bases of the ambient ring and ideal of the same finite
-rank over ℤ; the latter takes an element of that ring.
-
-### From Tau Ceti
-
-Use Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The declarations
-below are the starting interfaces, not targets of the build.
-
-- `NumberField.NarrowClassGroup`, its `mk` (the narrow class of an invertible
-  fractional ideal), `mkPrincipal`, `mk0`, `mk_mk0`, `toClassGroup`,
-  `toClassGroup_ker` and `toClassGroup_surjective` supply the existing carrier,
-  representatives, kernel-as-principal-range and surjective forgetful map.
-  `NumberField.coe_gen_ne_zero` supplies the field unit used in `J`, and
-  `NumberField.NarrowClassGroup.mkPrincipal_neg` and
-  `mkPrincipal_eq_one_of_isTotallyPositive` give the triviality of a principal
-  class with a generator of positive norm in the real quadratic case.
-- `NumberField.NarrowClassGroup.mkPrincipal_sq` proves principal classes have
-  square one. `NumberField.mkPrincipal_eq_one_or_eq_mkPrincipal_gen` supplies
-  the quadratic principal-class dichotomy, and
-  `NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg` identifies the
-  negative-norm case. The imported
-  `NumberField.NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`
-  tests injectivity by an integral unit of norm `(-1)`. The narrow finite
-  instance and `card_eq_card_classGroup_mul_card_ker` give the class-number
-  relation.
-- `NumberField.NarrowClassGroup.ElementaryTwoQuotient` and
-  `TauCeti.elementaryTwoQuotientMk`, its surjectivity and
-  `elementaryTwoQuotientMk_eq_zero_iff` give the genus map and its
-  square criterion. `TauCeti.elementaryTwoQuotientEquivSquareQuotient` relates
-  it to the direct quotient by squares.
-  `NumberField.NarrowClassGroup.card_elementaryTwoQuotient_eq_two_pow_twoRank`,
-  `TauCeti.Multiquadratic.narrowTwoRank_eq_ncard_ramifiedPrimes_sub_one` and
-  `TauCeti.Multiquadratic.ncard_ramifiedPrimes_eq_card` provide its cardinality.
-- In namespace `TauCeti.Multiquadratic`, use `IsPrimeDiscriminant`,
-  `oddPrimeDiscriminant_def`, `natCast_dvd_primeDiscriminant_iff`,
-  `fundamentalDiscriminant`, `isFundamentalDiscr_prod` and
-  `prod_primeDiscriminant_mod_four_eq_one` for the signed factorization and
-  its subproducts. Fundamental discriminants are Mathlib's
-  `Int.IsFundamentalDiscr`.
-- In the same namespace, `genusCharFunNarrowClassGroupHom` is the character,
-  and `genusCharFunNarrowClassGroupHom_eq_prod_singleton` its product law.
-  `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` is the **singleton** sign
-  theorem. `isSquare_mkPrincipal_gen_iff` is the positivity-of-all-factors
-  square criterion. The principal genus test is
-  `isSquare_iff_forall_genusCharFunNarrowClassGroupHom_eq_one`.
-- `genusCharFun`, `genusCharFunCoprimeIdealSubmonoid`,
-  `mem_genusCharFunCoprimeIdealSubmonoid_iff`,
-  `genusCharFunCoprimeIdealHom_apply` and
-  `genusCharFunNarrowClassGroupHom_mk0` identify the class character with the
-  arithmetic character on a nonzero integral ideal of coprime absolute norm.
-  Nonzeroness and coprimality are required before using that evaluation law.
-  The membership condition is coprimality of the absolute norm with the
-  product `δ` of the indexing subset, not with all of `D`.
-- `genusCharFun` is the product over `t` of `primeDiscriminantCharFun`, a
-  total function on all integers. `genusCharFun_mul_right`,
-  `genusCharFun_eq_zero_iff`, `genusCharFun_eq_one_or_eq_neg_one`,
-  `genusCharFun_neg_one_eq_sign_prod` and
-  `primeDiscriminantCharFun_neg_one` (the value at `-1` is the sign of the
-  prime discriminant) are the arithmetic laws Layer 3 uses, including at
-  negative arguments.
-
-- `TauCeti.BinaryQuadraticForm ℤ`, `TauCeti.BinaryQuadraticForm.eval`,
-  `TauCeti.BinaryQuadraticForm.discrim`, `TauCeti.BinaryQuadraticForm.eval_smul`
-  and `TauCeti.BinaryQuadraticForm.discrim_smul`, in
-  `TauCeti/NumberTheory/BinaryQuadraticForm/Basic.lean`, supply the integral
-  carrier and the left `SL(2, ℤ)` action by substitution with the inverse matrix.
-- `NumberField.adjoin_halfGen_eq_top_of_mod_four_eq_one` and
-  `NumberField.adjoin_gen_eq_top_of_mod_four_ne_one`, in
-  `TauCeti/NumberTheory/NumberField/Quadratic/RingOfIntegers.lean`, supply the
-  maximal-order generators `(1+θ)/2` and `θ`. Both require `hmin`, `hgen`
-  and squarefree d; their respective congruence hypotheses are `d % 4 = 1`
-  and `d % 4 ≠ 1`. Layer 3 transports these generators to either square
-  root ω of D and then to β = (−b+ω)/2.
-
-The narrow-class carrier, quotient and cardinality interfaces are in
-`TauCeti/NumberTheory/NumberField/NarrowClassGroup/{Basic,ElementaryTwoQuotient,Finite}.lean`;
-the quadratic principal-class and norm-unit results are in
-`TauCeti/NumberTheory/NumberField/Quadratic/Conjugation/NarrowClassGroup.lean`,
-and the nonzero generator proof is in
-`TauCeti/NumberTheory/NumberField/Quadratic/Basic.lean`. The generic
-elementary-two quotient and square-quotient equivalence are in
-`TauCeti/Algebra/Group/ElementaryTwoQuotient/Basic.lean`. The two-rank
-and ramified-prime-count results are in
-`TauCeti/NumberTheory/Multiquadratic/Quadratic/{TwoRank,Ramification}.lean`.
-The character interfaces are in
-`TauCeti/NumberTheory/Multiquadratic/Quadratic/GenusCharacter/{Basic,CoprimeIdeal,NarrowClassGroup,PrincipalGenus,OrdinaryTwoRank}.lean`
-and `TauCeti/NumberTheory/Multiquadratic/Legendre/PrimeDiscriminant/Character.lean`.
-The signed discriminant interfaces are in
-`TauCeti/NumberTheory/Multiquadratic/Prime/Discriminant/Basic.lean`,
-`TauCeti/NumberTheory/Multiquadratic/Prime/Discriminants.lean` and
-`TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/{Basic,OfSquarefree,Subfactorization}.lean`.
-
-### From TauCetiRoadmap.MetaplecticAutomorphicForms
-
-Section 7.20a, `quadraticTraceData`, supplies the form character for
-nonsquare Δ=δδ′, δ fundamental and δ′≠0 with δ′≡0,1 (mod 4), on all
-indefinite forms and on positive definite forms when Δ<0, including
-imprimitive forms. It is zero when the content meets δ; otherwise a
-represented integer coprime to δ exists and its Kronecker value is
-independent of the choice and of the proper representative. Layer 3 uses
-this character and proves that the total extension restricts to it
-(Duke–Imamoḡlu–Tóth, §9, p.978, before Proposition 5).
-
-Section 7.32-trace, `biroArithmeticTraceData`, supplies Biró's character
-ω_δ for δ>0 fundamental and Δ=δδ′>0 with δ′>0 and
-δ′≡0,1 (mod 4), including square Δ. At level one it is defined on
-all integral forms of discriminant Δ; at every positive level N it is
-the same weight restricted to forms with N∣a. It is zero when the content
-is not coprime to δ, and otherwise is (δ/m) at any represented integer m
-coprime to δ. Use this arithmetic interface independently of its geodesics
-and trace identity. Layer 3 proves agreement on raw level-one forms,
-which also gives agreement at every level by restriction
-(Gross–Kohnen–Zagier, Ch. I §2, pp.508–509, the classical character and
-its imprimitive extension).
-
-## How to read the build
-
-Layer 0 identifies the narrow defect and makes character descent unique.
-Layer 1 counts the elements in an arbitrary genus using the existing quotient.
-Layer 2 uses the pinned value on the distinguished class to obtain signed
-prime-discriminant and two-square criteria. Layer 3 extends the supplied
-nonsquare and Biró form characters and shows that at a positive fundamental
-discriminant it is the narrow ideal genus character of the oriented
-coefficient ideal. Layers 0–2 use the pinned narrow-class theory; the sign
-identity in 2.1 is derived from the pinned singleton J-value and product
-law; it is the identity AnalyticNumberTheoryPartI §2.1c states.
-Layer 3 also uses MetaplecticAutomorphicForms §§7.20a, 7.32-trace and the pinned form
-carrier. `Suggested.lean` states the headline endpoints and the simple
-definition they need.
-Both restriction agreements are README targets: the supplied form-character
-functions are absent from the pinned libraries, so those headlines cannot
-be stated against those pinned APIs.
 
 ## Layer 0: the quadratic narrow defect
 
@@ -1045,6 +885,220 @@ use the narrow-genus size h⁺/2^(r−1) of Layer 1, and their twisted traces
 forms and nonfundamental discriminants. Layer 3 extends those weights and
 compares their positive fundamental specialization with the pinned narrow
 ideal character.
+
+## Scope and ownership
+
+The starting point is the completed [Multiquadratic roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/Multiquadratic/README.md).
+Its narrow class group, prime-discriminant factorization, genus characters,
+principal genus theorem and narrow two-rank formula are inputs here. In
+particular, the singleton character value on the distinguished class and the
+criterion that this class be a square are already Tau Ceti theorems. This
+roadmap adds arithmetic consequences and the form-character extension,
+building on those objects.
+
+The precise ownership boundaries are as follows.
+
+- **Multiquadratic, Part II** owns the two narrow-defect interfaces, the
+  genus-fibre cardinality, the arithmetic interfaces of Layer 2, and Layer 3's
+  common total extension `binaryFormGenusChar` of the supplied nonsquare and
+  Biró form characters. It proves restriction agreement with both supplied
+  characters and comparison with the pinned narrow ideal character.
+- **[IntegralLattices, Layer B](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders)**
+  (B1–B3) owns integral binary forms and their content, proper equivalence,
+  the oriented form–ideal bijection into GlobalNumberFields' `NarrowPic` for
+  positive nonsquare discriminants, and its composition, inverse and
+  genus-coset compatibilities. This roadmap does not use that bijection.
+  Layer 3 compares characters on one form at a time, using the explicit
+  coefficient ideal of that form and the library's
+  `NumberField.NarrowClassGroup`. The ideal it uses is the one B2 attaches to
+  the form, including the B2 sign clause for a negative leading coefficient.
+- **[GlobalNumberFields, Layer 11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/GlobalNumberFields/README.md#layer-11-orders-and-picard-groups)** owns number-field orders, invertible proper
+  fractional ideals, `Pic`, `NarrowPic`, the forgetful homomorphism and its
+  maximal-order specialization. No second narrow quotient is constructed here.
+  Nothing here needs `NarrowPic` of the maximal order to be identified with the
+  library's narrow class group.
+- **GeometryOfNumbersAndQuadraticArithmetic §4.3** consumes the proper classes of
+  positive definite binary forms of negative discriminant and their ideal
+  correspondence from IntegralLattices Layer B (B2, B4, B5); neither roadmap
+  plans a genus character on forms.
+- **AnalyticNumberTheoryPartI §2.1c** owns the real composite identity
+  χ(J)=sign δ=sign δ′ for the genus character it builds from the pinned
+  `genusCharFunNarrowClassGroupHom`, and its §2.25 consumes that value.
+  Section 2.1 here uses the identity for every t⊆s and derives it from the
+  pinned `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` and
+  `genusCharFunNarrowClassGroupHom_eq_prod_singleton` alone.
+- **MetaplecticAutomorphicForms §§7.20a, 7.32-trace** owns both supplied
+  form characters. Section 7.20a, `quadraticTraceData`, owns the
+  imprimitive nonsquare form character, its represented-value existence and
+  independence, and its proper invariance. Its domain has Δ=δδ′ nonsquare,
+  δ fundamental and δ′ a nonzero discriminant; forms are positive definite
+  when Δ<0. Section 7.32-trace, `biroArithmeticTraceData`, owns Biró's
+  character ω_δ on positive-discriminant forms, including square
+  discriminants, with δ>0 fundamental and Δ/δ a positive discriminant;
+  its level-N forms satisfy N∣a. Layer 3 owns the total extension and its
+  agreement with each interface on its domain, including Biró's square
+  discriminants. Negative definite forms and zero discriminants also belong to
+  the extension domain.
+- **ClassicalArithmeticCompletion §§5.21, 5.23–5.24** owns the all-radicand
+  negative-Pell/norm-unit equivalence, the negative-Pell criterion for J=1
+  and the two-primary comparison. Here the kernel and descent statements
+  concern the full narrow group; the radicand-34 calculation is a Check,
+  not another negative-Pell target.
+- Form reduction, composition algorithms and general representation theory
+  stay with their lattice and quadratic-arithmetic owners. Hecke periods,
+  gamma factors, spectral formulas, Weyl sums, subconvexity and asymptotic
+  errors stay with the analytic and modular roadmaps.
+
+The one new definition is the total extension in Layer 3, a light definition
+on `TauCeti.BinaryQuadraticForm ℤ`. The notation above names existing
+objects and ordinary fibres. The distinction between narrow and wide
+classes is retained throughout. Multiquadratic Layer 3 supplies the
+all-place genus field as the maximal totally real subfield of the narrow
+prime-discriminant compositum; if all factors are positive, the compositum
+itself is totally real and is that genus field.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
+`QuotientGroup.lift` in `Mathlib/GroupTheory/QuotientGroup/Defs.lean`
+supplies quotient descent, and `QuotientGroup.quotientKerEquivOfSurjective`
+in `Mathlib/GroupTheory/QuotientGroup/Basic.lean` supplies the first
+isomorphism theorem for a surjective group homomorphism.
+`MonoidHom.fiberEquivKerOfSurjective` in
+`Mathlib/GroupTheory/Coset/Basic.lean` identifies every fibre of a
+surjective homomorphism with its kernel.
+`Subgroup.card_eq_card_quotient_mul_card_subgroup` in
+`Mathlib/GroupTheory/Coset/Card.lean` gives the natural-cardinality identity
+for a subgroup, used here on finite groups. The additive elementary-two
+presentation is transported to a multiplicative quotient when applying
+these group-theoretic interfaces.
+
+`Nat.eq_sq_add_sq_iff`, in `Mathlib/NumberTheory/SumTwoSquares.lean`, is the full
+two-square theorem: primes congruent to three modulo four must have even
+valuation. Layer 2 specializes this to positive fundamental discriminants.
+`FractionalIdeal`, its membership predicate, `Ideal.absNorm`, `Int.gcd` and
+`IsCoprime` are the carriers of Layer 3. Binary forms enter only through
+the Tau Ceti carrier specified below.
+
+`Ideal.natAbs_det_basis_change` and `Ideal.absNorm_span_singleton`, in
+`Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean`, give respectively the absolute
+norm from integral bases and the absolute norm of a principal integral ideal.
+The first requires bases of the ambient ring and ideal of the same finite
+rank over ℤ; the latter takes an element of that ring.
+
+### From Tau Ceti
+
+Use Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The declarations
+below are the starting interfaces, not targets of the build.
+
+- `NumberField.NarrowClassGroup`, its `mk` (the narrow class of an invertible
+  fractional ideal), `mkPrincipal`, `mk0`, `mk_mk0`, `toClassGroup`,
+  `toClassGroup_ker` and `toClassGroup_surjective` supply the existing carrier,
+  representatives, kernel-as-principal-range and surjective forgetful map.
+  `NumberField.coe_gen_ne_zero` supplies the field unit used in `J`, and
+  `NumberField.NarrowClassGroup.mkPrincipal_neg` and
+  `mkPrincipal_eq_one_of_isTotallyPositive` give the triviality of a principal
+  class with a generator of positive norm in the real quadratic case.
+- `NumberField.NarrowClassGroup.mkPrincipal_sq` proves principal classes have
+  square one. `NumberField.mkPrincipal_eq_one_or_eq_mkPrincipal_gen` supplies
+  the quadratic principal-class dichotomy, and
+  `NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg` identifies the
+  negative-norm case. The imported
+  `NumberField.NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`
+  tests injectivity by an integral unit of norm `(-1)`. The narrow finite
+  instance and `card_eq_card_classGroup_mul_card_ker` give the class-number
+  relation.
+- `NumberField.NarrowClassGroup.ElementaryTwoQuotient` and
+  `TauCeti.elementaryTwoQuotientMk`, its surjectivity and
+  `elementaryTwoQuotientMk_eq_zero_iff` give the genus map and its
+  square criterion. `TauCeti.elementaryTwoQuotientEquivSquareQuotient` relates
+  it to the direct quotient by squares.
+  `NumberField.NarrowClassGroup.card_elementaryTwoQuotient_eq_two_pow_twoRank`,
+  `TauCeti.Multiquadratic.narrowTwoRank_eq_ncard_ramifiedPrimes_sub_one` and
+  `TauCeti.Multiquadratic.ncard_ramifiedPrimes_eq_card` provide its cardinality.
+- In namespace `TauCeti.Multiquadratic`, use `IsPrimeDiscriminant`,
+  `oddPrimeDiscriminant_def`, `natCast_dvd_primeDiscriminant_iff`,
+  `fundamentalDiscriminant`, `isFundamentalDiscr_prod` and
+  `prod_primeDiscriminant_mod_four_eq_one` for the signed factorization and
+  its subproducts. Fundamental discriminants are Mathlib's
+  `Int.IsFundamentalDiscr`.
+- In the same namespace, `genusCharFunNarrowClassGroupHom` is the character,
+  and `genusCharFunNarrowClassGroupHom_eq_prod_singleton` its product law.
+  `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` is the **singleton** sign
+  theorem. `isSquare_mkPrincipal_gen_iff` is the positivity-of-all-factors
+  square criterion. The principal genus test is
+  `isSquare_iff_forall_genusCharFunNarrowClassGroupHom_eq_one`.
+- `genusCharFun`, `genusCharFunCoprimeIdealSubmonoid`,
+  `mem_genusCharFunCoprimeIdealSubmonoid_iff`,
+  `genusCharFunCoprimeIdealHom_apply` and
+  `genusCharFunNarrowClassGroupHom_mk0` identify the class character with the
+  arithmetic character on a nonzero integral ideal of coprime absolute norm.
+  Nonzeroness and coprimality are required before using that evaluation law.
+  The membership condition is coprimality of the absolute norm with the
+  product `δ` of the indexing subset, not with all of `D`.
+- `genusCharFun` is the product over `t` of `primeDiscriminantCharFun`, a
+  total function on all integers. `genusCharFun_mul_right`,
+  `genusCharFun_eq_zero_iff`, `genusCharFun_eq_one_or_eq_neg_one`,
+  `genusCharFun_neg_one_eq_sign_prod` and
+  `primeDiscriminantCharFun_neg_one` (the value at `-1` is the sign of the
+  prime discriminant) are the arithmetic laws Layer 3 uses, including at
+  negative arguments.
+
+- `TauCeti.BinaryQuadraticForm ℤ`, `TauCeti.BinaryQuadraticForm.eval`,
+  `TauCeti.BinaryQuadraticForm.discrim`, `TauCeti.BinaryQuadraticForm.eval_smul`
+  and `TauCeti.BinaryQuadraticForm.discrim_smul`, in
+  `TauCeti/NumberTheory/BinaryQuadraticForm/Basic.lean`, supply the integral
+  carrier and the left `SL(2, ℤ)` action by substitution with the inverse matrix.
+- `NumberField.adjoin_halfGen_eq_top_of_mod_four_eq_one` and
+  `NumberField.adjoin_gen_eq_top_of_mod_four_ne_one`, in
+  `TauCeti/NumberTheory/NumberField/Quadratic/RingOfIntegers.lean`, supply the
+  maximal-order generators `(1+θ)/2` and `θ`. Both require `hmin`, `hgen`
+  and squarefree d; their respective congruence hypotheses are `d % 4 = 1`
+  and `d % 4 ≠ 1`. Layer 3 transports these generators to either square
+  root ω of D and then to β = (−b+ω)/2.
+
+The narrow-class carrier, quotient and cardinality interfaces are in
+`TauCeti/NumberTheory/NumberField/NarrowClassGroup/{Basic,ElementaryTwoQuotient,Finite}.lean`;
+the quadratic principal-class and norm-unit results are in
+`TauCeti/NumberTheory/NumberField/Quadratic/Conjugation/NarrowClassGroup.lean`,
+and the nonzero generator proof is in
+`TauCeti/NumberTheory/NumberField/Quadratic/Basic.lean`. The generic
+elementary-two quotient and square-quotient equivalence are in
+`TauCeti/Algebra/Group/ElementaryTwoQuotient/Basic.lean`. The two-rank
+and ramified-prime-count results are in
+`TauCeti/NumberTheory/Multiquadratic/Quadratic/{TwoRank,Ramification}.lean`.
+The character interfaces are in
+`TauCeti/NumberTheory/Multiquadratic/Quadratic/GenusCharacter/{Basic,CoprimeIdeal,NarrowClassGroup,PrincipalGenus,OrdinaryTwoRank}.lean`
+and `TauCeti/NumberTheory/Multiquadratic/Legendre/PrimeDiscriminant/Character.lean`.
+The signed discriminant interfaces are in
+`TauCeti/NumberTheory/Multiquadratic/Prime/Discriminant/Basic.lean`,
+`TauCeti/NumberTheory/Multiquadratic/Prime/Discriminants.lean` and
+`TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/{Basic,OfSquarefree,Subfactorization}.lean`.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+Section 7.20a, `quadraticTraceData`, supplies the form character for
+nonsquare Δ=δδ′, δ fundamental and δ′≠0 with δ′≡0,1 (mod 4), on all
+indefinite forms and on positive definite forms when Δ<0, including
+imprimitive forms. It is zero when the content meets δ; otherwise a
+represented integer coprime to δ exists and its Kronecker value is
+independent of the choice and of the proper representative. Layer 3 uses
+this character and proves that the total extension restricts to it
+(Duke–Imamoḡlu–Tóth, §9, p.978, before Proposition 5).
+
+Section 7.32-trace, `biroArithmeticTraceData`, supplies Biró's character
+ω_δ for δ>0 fundamental and Δ=δδ′>0 with δ′>0 and
+δ′≡0,1 (mod 4), including square Δ. At level one it is defined on
+all integral forms of discriminant Δ; at every positive level N it is
+the same weight restricted to forms with N∣a. It is zero when the content
+is not coprime to δ, and otherwise is (δ/m) at any represented integer m
+coprime to δ. Use this arithmetic interface independently of its geodesics
+and trace identity. Layer 3 proves agreement on raw level-one forms,
+which also gives agreement at every level by restriction
+(Gross–Kohnen–Zagier, Ch. I §2, pp.508–509, the classical character and
+its imprimitive extension).
 
 ## References
 

@@ -1,59 +1,64 @@
 # Roadmap: representations of compact groups and the Peter-Weyl theorem
 
-**Summary.** This roadmap develops the representation theory of a compact topological group `G`
-from Haar averaging. It fixes the Haar probability measure, proves that finite-dimensional
-continuous representations are unitarizable and completely reducible, and studies their matrix
-coefficients in `C(G)` and `L²(G)`: the Schur orthogonality relations, the Peter-Weyl theorem
-(uniform density of the representative functions, the Hilbert basis of normalized matrix
-coefficients, and the decomposition of `L²(G)` into blocks `End(V_π)`), and the character theory
-(orthonormality, the character basis of the class functions, isotypic projectors and the
-Frobenius-Schur indicator). The group `SU(2)` with its maximal torus is the worked engine: its
-irreducibles are the symmetric powers `Symⁿ(ℂ²)`, their characters are given by the Weyl character
-formula, and integration of class functions reduces to the torus by the Weyl integration formula.
-The end theorems are the Peter-Weyl basis (Layer 5), the character basis of the class functions
-(Layer 6), and the classification and integration formula for `SU(2)` (engine case).
+**Summary.** A compact group `G` carries exactly one Haar measure of total mass one; on a finite
+discrete group it is the uniform measure. Averaging against it, this roadmap develops the
+representation theory of compact topological groups: their continuous representations, matrix
+coefficients and characters. Its main example, treated in detail, is `SU(2)`.
 
-## Scope and ownership
+No separation axiom is assumed on `G`, except T1 in one statement. Representations are complex
+and, apart from a few stated exceptions, finite-dimensional. Mathlib's continuous representations
+record no continuity in the group variable, so every statement that needs it assumes that
+`g ↦ π(g)` is continuous. Without this hypothesis, unitarizability and semisimplicity can fail.
 
-This roadmap owns Layers 0-6 and the engine case below: the Haar probability measure of a compact
-group and averaging against it, unitarizability, complete reducibility, matrix coefficients and
-the representative ring, Schur orthogonality, convolution operators on `L²(G)`, the Peter-Weyl
-theorem with the isotypic decomposition of `L²(G)`, characters, class functions, isotypic
-projectors, the Frobenius-Schur indicator, and the representation theory of `SU(2)` (torus
-conjugacy, classification, Weyl character and integration formulas). Representations are
-finite-dimensional, except in §1.2 and §4.2, which hold for representations on complete inner
-product spaces, and the regular representations of `G` and `G × G` on `L²(G)` in Layer 5.
+Averaging first gives Weyl's unitarian trick. For a continuous representation `π` on a complete
+inner product space, the average of `⟪π(g)v, π(g)w⟫` over `G` is a `G`-invariant inner product. In
+finite dimension, `π` is therefore equivalent to a unitary representation. A finite-dimensional
+unitary representation is an orthogonal direct sum of irreducible subrepresentations. Together,
+these show that every finite-dimensional representation of `G` with continuous matrix coefficients
+is semisimple; for a finite group this is Maschke's theorem.
 
-Already in the library: Tau Ceti at the pin proves every target of Layers 0-6 and of the engine
-case. The section "From Tau Ceti" below names the declaration that realizes each one, and
-`Suggested.lean` pins the headline theorems. The layers state the mathematics those declarations
-meet; other roadmaps cite them by layer.
+The representative functions are the finite linear combinations of matrix coefficients
+`g ↦ ⟪π(g)v, w⟫` of finite-dimensional continuous representations. Here the Peter-Weyl theorem
+has three parts. First, these functions are uniformly dense in the continuous functions on `G`,
+hence dense in `L²(G)`; they separate points when `G` is T1. Second, fix a family of pairwise
+inequivalent continuous irreducible unitary representations on spaces `ℂ^d` that contains every
+such representation up to unitary equivalence; such a family exists. By the Schur orthogonality
+relations, the matrix entries `π_ij` of a member of dimension `d` satisfy
+`⟪π_ij, π_kl⟫ = d⁻¹ δ_ik δ_jl` in `L²(G)`, and entries of different members are orthogonal. With
+density, the normalized entries `√d · π_ij` of all members form a Hilbert basis of `L²(G)`; for
+the circle it is the Fourier basis, up to the index change `n ↦ −n`. Third, an isometry from
+`L²(G)` onto the Hilbert sum of the spaces `End(V_π)` carries translation on both sides to
+`T ↦ π(g) T π(h)⁻¹`.
 
-Left to other roadmaps:
+The character of `π` is `χ_π(g) = trace π(g)`. Characters of irreducible unitary representations
+have norm one in `L²(G)`, and those of inequivalent ones are orthogonal. The characters of the
+family above form a Hilbert basis of the class functions, the elements of `L²(G)` invariant under
+conjugation. The Frobenius-Schur indicator `∫ χ_π(g²) dg` of an irreducible unitary `π` is `1`,
+`0` or `−1`. It is `1` exactly when `π` has a nondegenerate invariant symmetric bilinear form, and
+`−1` exactly when it has a nondegenerate invariant alternating one.
 
-- **Finite groups.** The character theory of finite groups is
-  [RepresentationTheory/CharacterTheory](../CharacterTheory/README.md)'s. Specializing the theory
-  here to a finite discrete group is a worked example below, not a second development.
-- **Hilbert-basis assembly.** The passage from an orthonormal system with dense span to a
-  `HilbertBasis` is [Completed/OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md)
-  §B2 ("Orthogonality relation → `HilbertBasis`"); here it is Mathlib's
-  `HilbertBasis.mkOfOrthogonalEqBot`.
-- **Hilbert-Schmidt operators.** The Hilbert-Schmidt operator API and "Hilbert-Schmidt implies
-  compact" are [OperatorTheory/OperatorIdeals](../../OperatorTheory/OperatorIdeals/README.md)
-  Part C's; they give one of the two routes to compactness of convolution operators in §5.1.
-- **Compact Lie groups.** Maximal tori, the Weyl group and the Weyl integration formula of a general
-  compact connected Lie group are [LieGroups](../LieGroups/README.md) Layer 6's ("maximal tori, the
-  Weyl group, and Weyl integration"); its `SU(2)` case is this roadmap's engine.
-- **Lie-algebra reality types.** The description of the Frobenius-Schur type through opposition
-  and invariant forms on the Lie-algebra side is [LieHighestWeight](../LieHighestWeight/README.md)
-  Layer 5's ("opposition and invariant forms").
-- **G-finite vectors in Banach representations.** The vectors whose orbit spans a
-  finite-dimensional subspace, the submodule they form, and its density for a strongly continuous
-  representation of a compact Hausdorff group on a complex Banach space are CompactGroupsPartII
-  §2.1's, which derives the density from §§5.1-5.2 here. Every representation in Layers 0-6 is
-  finite-dimensional, on a complete inner product space, or a regular representation on `L²(G)`.
-  Roadmaps that cite Layer 5 for these objects, under `gap:banach-gfinite-density`, find them
-  there.
+On `SU(2)` the diagonal matrices `t_θ = diag(e^{iθ}, e^{−iθ})` form a maximal torus, and every
+element is conjugate to one of them. The symmetric powers `Symⁿ(ℂ²)` are irreducible, and every
+finite-dimensional irreducible continuous representation is equivalent to exactly one of them. The
+Weyl character formula gives the character of `Symⁿ(ℂ²)` at `t_θ` as `sin((n+1)θ)/sin θ` when
+`sin θ ≠ 0`. For a continuous class function `f`, the Weyl integration formula reads
+`∫ f = (2π)⁻¹ ∫₀^π f(t_θ) · 4 sin²θ dθ`.
+
+Tau Ceti proves every result of this roadmap, building on Mathlib's Haar measure and Hilbert
+bases. The character theory of finite groups belongs to
+[CharacterTheory](../CharacterTheory/README.md); here finite groups are a worked example. Maximal
+tori and Weyl integration for general compact connected Lie groups belong to
+[LieGroups](../LieGroups/README.md), which uses the Peter-Weyl theorem, character orthonormality
+and the `SU(2)` integration formula from here.
+
+The layers come in dependency order. Layer 0 fixes the Haar probability measure and averaging, and
+Layer 1 averages an inner product into an invariant one. Layer 2 proves complete reducibility and
+Schur's lemma, and compares continuous representations with Mathlib's algebraic ones. Layers 0 to
+2 form a self-contained first part. Layer 3 defines matrix coefficients, using Layer 0's measure
+for `L²(G)`. Layer 4 builds Schur orthogonality on Layers 0 to 3. Layer 5 builds compact
+convolution operators, proves density, and assembles the Peter-Weyl basis. Layer 6 restricts
+Layer 5 to characters and class functions. The `SU(2)` part uses Layers 0, 2 and 6, and no
+earlier layer uses it. The worked examples on finite groups and the circle fix the normalizations.
 
 ## Conventions
 
@@ -85,100 +90,6 @@ Left to other roadmaps:
   topological-group and compactness instances (`TauCeti/Topology/Algebra/UnitaryGroup.lean`) and
   its Borel structure (`TauCeti/RepresentationTheory/SU2/Borel.lean`). The torus element is
   `TauCeti.SU2.torusExp θ = diag(e^{iθ}, e^{-iθ})`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Haar measure.** `MeasureTheory.Measure.haar` (`MeasureTheory/Measure/Haar/Basic.lean`); its
-  uniqueness among probability measures `MeasureTheory.Measure.isHaarMeasure_eq_of_isProbabilityMeasure`
-  (`MeasureTheory/Measure/Haar/Unique.lean`); finiteness on a compact space
-  `MeasureTheory.CompactSpace.isFiniteMeasure` (`MeasureTheory/Measure/Typeclasses/Finite.lean`);
-  the translation and inversion identities `MeasureTheory.integral_mul_left_eq_self`,
-  `MeasureTheory.integral_mul_right_eq_self` and `MeasureTheory.integral_inv_eq_self`
-  (`MeasureTheory/Group/Integral.lean`).
-- **Representations.** `ContRepresentation`, `ContIntertwiningMap` and `ContRepresentation.Equiv`
-  (`RepresentationTheory/Continuous/Basic.lean`); `FDRep` and `FDRep.finrank_hom_simple_simple`
-  (`RepresentationTheory/FDRep.lean`); `Representation.IsIrreducible`
-  (`RepresentationTheory/Irreducible.lean`); `Representation.character`, `Representation.char_conj`
-  and `Representation.char_orthonormal` (`RepresentationTheory/Character.lean`), the last the
-  finite-group character relation.
-- **Hilbert spaces.** `HilbertBasis`, `HilbertBasis.mkOfOrthogonalEqBot`,
-  `HilbertBasis.tsum_inner_mul_inner` and `IsHilbertSum` (`Analysis/InnerProductSpace/l2Space.lean`);
-  `ContinuousLinearMap.adjoint` (`Analysis/InnerProductSpace/Adjoint.lean`); `MeasureTheory.Lp`
-  (`MeasureTheory/Function/LpSpace/Basic.lean`); `ContinuousMap.toLp`
-  (`MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`); `ContinuousMap.toLp_denseRange`
-  (`MeasureTheory/Function/ContinuousMapDense.lean`).
-- **Compact operators.** `IsCompactOperator` (`Analysis/Normed/Operator/Compact/Basic.lean`) and
-  `ContinuousLinearMap.finite_dimensional_eigenspace`
-  (`Analysis/InnerProductSpace/Spectrum.lean`): on a complete space, a compact operator has
-  finite-dimensional eigenspaces at every nonzero eigenvalue.
-- **The circle.** `fourierBasis`, `orthonormal_fourier` and `span_fourier_closure_eq_top`
-  (`Analysis/Fourier/AddCircle.lean`).
-- **`SU(2)`.** `Matrix.specialUnitaryGroup` (`LinearAlgebra/UnitaryGroup.lean`); Weierstrass
-  approximation on an interval, `polynomialFunctions_closure_eq_top`
-  (`Topology/ContinuousMap/Weierstrass.lean`), for the character route of §E.2.
-
-### From Tau Ceti
-
-Paths are under `TauCeti/RepresentationTheory/` unless stated otherwise.
-
-| Section | Declarations |
-| --- | --- |
-| §0.1 | `TauCeti.haarProb`, `TauCeti.haarProb_def`, `TauCeti.isMulRightInvariant_haarProb`, `TauCeti.isInvInvariant_haarProb`, `TauCeti.eq_haarProb_of_isHaarMeasure_of_isProbabilityMeasure` (`Compact/Haar.lean`) |
-| §1.1 | `ContRepresentation.IsUnitary`, `ContRepresentation.isUnitary_iff_norm_map` (`Continuous/Unitary/Basic.lean`) |
-| §1.2 | `ContRepresentation.gramOperator`, `ContRepresentation.isUnitarizable`, `ContRepresentation.gramOperator_eq_one` (`Compact/Unitarizable.lean`) |
-| §2.1 | `ContRepresentation.IsUnitary.orthogonal_mem_invtSubmodule` (`Continuous/InvariantComplement.lean`) |
-| §2.2 | `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition` (`Continuous/OrthogonalDecomposition.lean`), `Representation.isSemisimpleRepresentation_of_continuous` (`Compact/Semisimple.lean`) |
-| §2.3 | `ContRepresentation.eq_zero_of_isEmpty_equiv`, `ContRepresentation.exists_eq_smul_one_of_isIrreducible` (`Continuous/Schur.lean`) |
-| §2.4 | `ContRepresentation.intertwiningMapEquiv`, `ContRepresentation.nonempty_equiv_iff` (`Continuous/Intertwining.lean`); `FDRep.ofShrink`, `FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink` (`FDRep/Basic.lean`) |
-| §3.1 | `ContRepresentation.matrixCoeff` (`Continuous/MatrixCoefficient.lean`), `ContRepresentation.matrixCoeffLp` (`Compact/MatrixCoefficient.lean`), `ContRepresentation.matrixCoeff_tprod` (`Continuous/TensorProduct.lean`) |
-| §3.2 | `TauCeti.representativeSubmodule`, `TauCeti.representativeStarSubalgebra` (`Continuous/Representative.lean`) |
-| §4.1-4.3 | `ContRepresentation.schur_orthogonality_self`, `ContRepresentation.schur_orthogonality_basis`, `ContRepresentation.schur_orthogonality` (`Compact/SchurOrthogonality.lean`), `ContRepresentation.schur_orthogonality_distinct` (`Compact/Intertwiner/Basic.lean`) |
-| §5.1 | `TauCeti.convolutionOperator`, `TauCeti.isCompactOperator_convolutionOperator`, `TauCeti.isSelfAdjoint_convolutionOperator`, `TauCeti.finiteDimensional_eigenspace_convolutionOperator` (`Compact/Convolution.lean`); `TauCeti.convolutionEigenspaceRepresentation` (`Compact/EigenspaceRepresentation.lean`); `TauCeti.exists_isMollifier` (`Compact/ApproximateIdentity.lean`) |
-| §5.2 | `TauCeti.representativeStarSubalgebra_dense`, `TauCeti.representativeStarSubalgebra_separatesPoints`, `TauCeti.dense_image_toLp_representativeSubmodule` (`Compact/RepresentativeDensity.lean`) |
-| §5.3-5.4 | `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`, `TauCeti.IrrepClass.model`, `TauCeti.peterWeylBasis`, `TauCeti.coe_peterWeylBasis`, `TauCeti.stdPeterWeylBasis`, `TauCeti.coe_stdPeterWeylBasis` (`Compact/PeterWeyl.lean`) |
-| §5.5 | `TauCeti.peterWeylBlock`, `TauCeti.finrank_peterWeylBlock`, `TauCeti.isHilbertSum_peterWeylBlock`, `TauCeti.peterWeylBlockAveraging_eq_starProjection` (`Compact/IsotypicBlock/Basic.lean`); `TauCeti.peterWeylTraceEquiv`, `TauCeti.peterWeylTraceEquiv_biRegularLp` (`Compact/TraceCoefficient/HilbertSum.lean`) |
-| §6.1 | `ContRepresentation.character`, `ContRepresentation.character_conj`, `ContRepresentation.character_one`, `ContRepresentation.character_apply_eq_sum_inner`, `ContRepresentation.star_character` (`Continuous/Character.lean`), `ContRepresentation.characterLp` (`Compact/Character/Basic.lean`) |
-| §6.2 | `ContRepresentation.character_orthonormal_self`, `ContRepresentation.character_orthonormal_distinct` (`Compact/Character/Basic.lean`) |
-| §6.3 | `TauCeti.classFunctionLp` (`TauCeti/MeasureTheory/Group/Conjugation.lean`), `ContRepresentation.characterLp_mem_classFunctionLp` (`Compact/ClassFunctionLp.lean`), `TauCeti.characterBasis`, `TauCeti.stdCharacterBasis`, `TauCeti.coe_stdCharacterBasis` (`Compact/Character/Basis.lean`) |
-| §6.4 | `ContRepresentation.isotypicProjector`, `ContRepresentation.isotypicProjector_apply`, `ContRepresentation.range_isotypicProjector`, `ContRepresentation.isotypicProjector_idempotent` (`Compact/Character/IsotypicProjection.lean`) |
-| §6.5 | `ContRepresentation.frobeniusSchurIndicator` (`Compact/FrobeniusSchur/Basic.lean`), `ContRepresentation.frobeniusSchurIndicator_trichotomy` (`Compact/FrobeniusSchur/Trichotomy.lean`), `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`, `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` (`Compact/FrobeniusSchur/InvariantForm.lean`) |
-| §E.1 | `TauCeti.SU2.torusExp`, `TauCeti.SU2.mem_torus_iff_exists_torusExp`, `TauCeti.SU2.torusExp_add` (`SU2/Basic.lean`), `TauCeti.SU2.exists_isConj_torusExp` (`SU2/TorusConjugacy.lean`) |
-| §E.2 | `TauCeti.SU2.symPowerModel`, `TauCeti.SU2.isIrreducible_symPowerModel`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower` (`SU2/Exhaustion.lean`) |
-| §E.3 | `TauCeti.SU2.character_symPower_torusExp` (`SU2/SymmetricPower.lean`), `TauCeti.SU2.character_symPower_torusExp_eq_sin_div_sin`, `TauCeti.SU2.character_symPower_torusExp_of_sin_eq_zero` (`SU2/Weyl/Character.lean`) |
-| §E.4 | `TauCeti.SU2.weyl_integration_formula`, `TauCeti.SU2.integral_character_symPower_mul_conj` (`SU2/Weyl/Integration.lean`), `TauCeti.SU2.weyl_integration_formula_normalized` (`SU2/Weyl/Orthogonality.lean`) |
-
-Other roadmaps cite some of these objects by short names, which correspond as follows:
-
-| Short name cited elsewhere | Tau Ceti declaration |
-| --- | --- |
-| `haarProb` | `TauCeti.haarProb` |
-| `schur_orthogonality` | `ContRepresentation.schur_orthogonality` |
-| `character_orthonormal` | `ContRepresentation.character_orthonormal_self` and `ContRepresentation.character_orthonormal_distinct` |
-| `su2Irrep n` | `TauCeti.SU2.symPowerModel n` |
-| `weyl_integration_formula` | `TauCeti.SU2.weyl_integration_formula` |
-
-### From TauCetiRoadmap.OperatorIdeals
-
-Part C, the Hilbert-Schmidt operator API and the theorem that a Hilbert-Schmidt operator is
-compact, for the Hilbert-Schmidt route in §5.1. The Arzelà-Ascoli route of §5.1 does not use it.
-
-## How to read the build
-
-The order is the dependency order. Layer 0 fixes the Haar probability measure and the averaging
-identities; Layer 1 averages an inner product into an invariant one; Layer 2 uses unitarity for
-invariant complements and Schur's lemma; Layer 3 defines matrix coefficients (it needs Layer 0 for
-`L²`); Layer 4 averages rank-one operators into intertwiners (Layers 0-3). Layer 5 builds the
-convolution operators, proves uniform density of the representative ring, and assembles the
-Peter-Weyl basis from Layer 4's orthonormal system and that density; Layer 6 restricts Layer 5 to
-characters and class functions. The `SU(2)` engine consumes Layer 0's measure, Layer 2's Schur
-lemma and Layer 6's characters with their orthonormality; no layer of 0-6 consumes it. Layers 0-2
-form a self-contained first unit (unitarizability and complete reducibility), and each of Layers
-3-6 consumes the layers before it. The finite-group and circle specializations of the worked
-examples fix the normalizations.
-
----
 
 ## Layer 0: normalized Haar measure and averaging
 
@@ -866,6 +777,126 @@ case); [CharacteristicClasses](../../CharacteristicClasses/README.md) and
 [BordismFormalGroups](../../BordismFormalGroups/README.md) (Layers 1-2);
 [QuantumGroups](../../QuantumGroups/README.md) (Peter-Weyl and the engine case);
 [CompactQuantumMetricSpaces](../../CompactQuantumMetricSpaces/README.md) (Layers 0-5).
+
+## Scope and ownership
+
+This roadmap owns Layers 0-6 and the engine case above: the Haar probability measure of a compact
+group and averaging against it, unitarizability, complete reducibility, matrix coefficients and
+the representative ring, Schur orthogonality, convolution operators on `L²(G)`, the Peter-Weyl
+theorem with the isotypic decomposition of `L²(G)`, characters, class functions, isotypic
+projectors, the Frobenius-Schur indicator, and the representation theory of `SU(2)` (torus
+conjugacy, classification, Weyl character and integration formulas). Representations are
+finite-dimensional, except in §1.2 and §4.2, which hold for representations on complete inner
+product spaces, and the regular representations of `G` and `G × G` on `L²(G)` in Layer 5.
+
+Already in the library: Tau Ceti at the pin proves every target of Layers 0-6 and of the engine
+case. The section "From Tau Ceti" below names the declaration that realizes each one, and
+`Suggested.lean` pins the headline theorems. The layers state the mathematics those declarations
+meet; other roadmaps cite them by layer.
+
+Left to other roadmaps:
+
+- **Finite groups.** The character theory of finite groups is
+  [RepresentationTheory/CharacterTheory](../CharacterTheory/README.md)'s. Specializing the theory
+  here to a finite discrete group is a worked example above, not a second development.
+- **Hilbert-basis assembly.** The passage from an orthonormal system with dense span to a
+  `HilbertBasis` is [Completed/OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md)
+  §B2 ("Orthogonality relation → `HilbertBasis`"); here it is Mathlib's
+  `HilbertBasis.mkOfOrthogonalEqBot`.
+- **Hilbert-Schmidt operators.** The Hilbert-Schmidt operator API and "Hilbert-Schmidt implies
+  compact" are [OperatorTheory/OperatorIdeals](../../OperatorTheory/OperatorIdeals/README.md)
+  Part C's; they give one of the two routes to compactness of convolution operators in §5.1.
+- **Compact Lie groups.** Maximal tori, the Weyl group and the Weyl integration formula of a general
+  compact connected Lie group are [LieGroups](../LieGroups/README.md) Layer 6's ("maximal tori, the
+  Weyl group, and Weyl integration"); its `SU(2)` case is this roadmap's engine.
+- **Lie-algebra reality types.** The description of the Frobenius-Schur type through opposition
+  and invariant forms on the Lie-algebra side is [LieHighestWeight](../LieHighestWeight/README.md)
+  Layer 5's ("opposition and invariant forms").
+- **G-finite vectors in Banach representations.** The vectors whose orbit spans a
+  finite-dimensional subspace, the submodule they form, and its density for a strongly continuous
+  representation of a compact Hausdorff group on a complex Banach space are CompactGroupsPartII
+  §2.1's, which derives the density from §§5.1-5.2 here. Every representation in Layers 0-6 is
+  finite-dimensional, on a complete inner product space, or a regular representation on `L²(G)`.
+  Roadmaps that cite Layer 5 for these objects, under `gap:banach-gfinite-density`, find them
+  there.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Haar measure.** `MeasureTheory.Measure.haar` (`MeasureTheory/Measure/Haar/Basic.lean`); its
+  uniqueness among probability measures `MeasureTheory.Measure.isHaarMeasure_eq_of_isProbabilityMeasure`
+  (`MeasureTheory/Measure/Haar/Unique.lean`); finiteness on a compact space
+  `MeasureTheory.CompactSpace.isFiniteMeasure` (`MeasureTheory/Measure/Typeclasses/Finite.lean`);
+  the translation and inversion identities `MeasureTheory.integral_mul_left_eq_self`,
+  `MeasureTheory.integral_mul_right_eq_self` and `MeasureTheory.integral_inv_eq_self`
+  (`MeasureTheory/Group/Integral.lean`).
+- **Representations.** `ContRepresentation`, `ContIntertwiningMap` and `ContRepresentation.Equiv`
+  (`RepresentationTheory/Continuous/Basic.lean`); `FDRep` and `FDRep.finrank_hom_simple_simple`
+  (`RepresentationTheory/FDRep.lean`); `Representation.IsIrreducible`
+  (`RepresentationTheory/Irreducible.lean`); `Representation.character`, `Representation.char_conj`
+  and `Representation.char_orthonormal` (`RepresentationTheory/Character.lean`), the last the
+  finite-group character relation.
+- **Hilbert spaces.** `HilbertBasis`, `HilbertBasis.mkOfOrthogonalEqBot`,
+  `HilbertBasis.tsum_inner_mul_inner` and `IsHilbertSum` (`Analysis/InnerProductSpace/l2Space.lean`);
+  `ContinuousLinearMap.adjoint` (`Analysis/InnerProductSpace/Adjoint.lean`); `MeasureTheory.Lp`
+  (`MeasureTheory/Function/LpSpace/Basic.lean`); `ContinuousMap.toLp`
+  (`MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`); `ContinuousMap.toLp_denseRange`
+  (`MeasureTheory/Function/ContinuousMapDense.lean`).
+- **Compact operators.** `IsCompactOperator` (`Analysis/Normed/Operator/Compact/Basic.lean`) and
+  `ContinuousLinearMap.finite_dimensional_eigenspace`
+  (`Analysis/InnerProductSpace/Spectrum.lean`): on a complete space, a compact operator has
+  finite-dimensional eigenspaces at every nonzero eigenvalue.
+- **The circle.** `fourierBasis`, `orthonormal_fourier` and `span_fourier_closure_eq_top`
+  (`Analysis/Fourier/AddCircle.lean`).
+- **`SU(2)`.** `Matrix.specialUnitaryGroup` (`LinearAlgebra/UnitaryGroup.lean`); Weierstrass
+  approximation on an interval, `polynomialFunctions_closure_eq_top`
+  (`Topology/ContinuousMap/Weierstrass.lean`), for the character route of §E.2.
+
+### From Tau Ceti
+
+Paths are under `TauCeti/RepresentationTheory/` unless stated otherwise.
+
+| Section | Declarations |
+| --- | --- |
+| §0.1 | `TauCeti.haarProb`, `TauCeti.haarProb_def`, `TauCeti.isMulRightInvariant_haarProb`, `TauCeti.isInvInvariant_haarProb`, `TauCeti.eq_haarProb_of_isHaarMeasure_of_isProbabilityMeasure` (`Compact/Haar.lean`) |
+| §1.1 | `ContRepresentation.IsUnitary`, `ContRepresentation.isUnitary_iff_norm_map` (`Continuous/Unitary/Basic.lean`) |
+| §1.2 | `ContRepresentation.gramOperator`, `ContRepresentation.isUnitarizable`, `ContRepresentation.gramOperator_eq_one` (`Compact/Unitarizable.lean`) |
+| §2.1 | `ContRepresentation.IsUnitary.orthogonal_mem_invtSubmodule` (`Continuous/InvariantComplement.lean`) |
+| §2.2 | `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition` (`Continuous/OrthogonalDecomposition.lean`), `Representation.isSemisimpleRepresentation_of_continuous` (`Compact/Semisimple.lean`) |
+| §2.3 | `ContRepresentation.eq_zero_of_isEmpty_equiv`, `ContRepresentation.exists_eq_smul_one_of_isIrreducible` (`Continuous/Schur.lean`) |
+| §2.4 | `ContRepresentation.intertwiningMapEquiv`, `ContRepresentation.nonempty_equiv_iff` (`Continuous/Intertwining.lean`); `FDRep.ofShrink`, `FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink` (`FDRep/Basic.lean`) |
+| §3.1 | `ContRepresentation.matrixCoeff` (`Continuous/MatrixCoefficient.lean`), `ContRepresentation.matrixCoeffLp` (`Compact/MatrixCoefficient.lean`), `ContRepresentation.matrixCoeff_tprod` (`Continuous/TensorProduct.lean`) |
+| §3.2 | `TauCeti.representativeSubmodule`, `TauCeti.representativeStarSubalgebra` (`Continuous/Representative.lean`) |
+| §4.1-4.3 | `ContRepresentation.schur_orthogonality_self`, `ContRepresentation.schur_orthogonality_basis`, `ContRepresentation.schur_orthogonality` (`Compact/SchurOrthogonality.lean`), `ContRepresentation.schur_orthogonality_distinct` (`Compact/Intertwiner/Basic.lean`) |
+| §5.1 | `TauCeti.convolutionOperator`, `TauCeti.isCompactOperator_convolutionOperator`, `TauCeti.isSelfAdjoint_convolutionOperator`, `TauCeti.finiteDimensional_eigenspace_convolutionOperator` (`Compact/Convolution.lean`); `TauCeti.convolutionEigenspaceRepresentation` (`Compact/EigenspaceRepresentation.lean`); `TauCeti.exists_isMollifier` (`Compact/ApproximateIdentity.lean`) |
+| §5.2 | `TauCeti.representativeStarSubalgebra_dense`, `TauCeti.representativeStarSubalgebra_separatesPoints`, `TauCeti.dense_image_toLp_representativeSubmodule` (`Compact/RepresentativeDensity.lean`) |
+| §5.3-5.4 | `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`, `TauCeti.IrrepClass.model`, `TauCeti.peterWeylBasis`, `TauCeti.coe_peterWeylBasis`, `TauCeti.stdPeterWeylBasis`, `TauCeti.coe_stdPeterWeylBasis` (`Compact/PeterWeyl.lean`) |
+| §5.5 | `TauCeti.peterWeylBlock`, `TauCeti.finrank_peterWeylBlock`, `TauCeti.isHilbertSum_peterWeylBlock`, `TauCeti.peterWeylBlockAveraging_eq_starProjection` (`Compact/IsotypicBlock/Basic.lean`); `TauCeti.peterWeylTraceEquiv`, `TauCeti.peterWeylTraceEquiv_biRegularLp` (`Compact/TraceCoefficient/HilbertSum.lean`) |
+| §6.1 | `ContRepresentation.character`, `ContRepresentation.character_conj`, `ContRepresentation.character_one`, `ContRepresentation.character_apply_eq_sum_inner`, `ContRepresentation.star_character` (`Continuous/Character.lean`), `ContRepresentation.characterLp` (`Compact/Character/Basic.lean`) |
+| §6.2 | `ContRepresentation.character_orthonormal_self`, `ContRepresentation.character_orthonormal_distinct` (`Compact/Character/Basic.lean`) |
+| §6.3 | `TauCeti.classFunctionLp` (`TauCeti/MeasureTheory/Group/Conjugation.lean`), `ContRepresentation.characterLp_mem_classFunctionLp` (`Compact/ClassFunctionLp.lean`), `TauCeti.characterBasis`, `TauCeti.stdCharacterBasis`, `TauCeti.coe_stdCharacterBasis` (`Compact/Character/Basis.lean`) |
+| §6.4 | `ContRepresentation.isotypicProjector`, `ContRepresentation.isotypicProjector_apply`, `ContRepresentation.range_isotypicProjector`, `ContRepresentation.isotypicProjector_idempotent` (`Compact/Character/IsotypicProjection.lean`) |
+| §6.5 | `ContRepresentation.frobeniusSchurIndicator` (`Compact/FrobeniusSchur/Basic.lean`), `ContRepresentation.frobeniusSchurIndicator_trichotomy` (`Compact/FrobeniusSchur/Trichotomy.lean`), `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`, `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` (`Compact/FrobeniusSchur/InvariantForm.lean`) |
+| §E.1 | `TauCeti.SU2.torusExp`, `TauCeti.SU2.mem_torus_iff_exists_torusExp`, `TauCeti.SU2.torusExp_add` (`SU2/Basic.lean`), `TauCeti.SU2.exists_isConj_torusExp` (`SU2/TorusConjugacy.lean`) |
+| §E.2 | `TauCeti.SU2.symPowerModel`, `TauCeti.SU2.isIrreducible_symPowerModel`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower` (`SU2/Exhaustion.lean`) |
+| §E.3 | `TauCeti.SU2.character_symPower_torusExp` (`SU2/SymmetricPower.lean`), `TauCeti.SU2.character_symPower_torusExp_eq_sin_div_sin`, `TauCeti.SU2.character_symPower_torusExp_of_sin_eq_zero` (`SU2/Weyl/Character.lean`) |
+| §E.4 | `TauCeti.SU2.weyl_integration_formula`, `TauCeti.SU2.integral_character_symPower_mul_conj` (`SU2/Weyl/Integration.lean`), `TauCeti.SU2.weyl_integration_formula_normalized` (`SU2/Weyl/Orthogonality.lean`) |
+
+Other roadmaps cite some of these objects by short names, which correspond as follows:
+
+| Short name cited elsewhere | Tau Ceti declaration |
+| --- | --- |
+| `haarProb` | `TauCeti.haarProb` |
+| `schur_orthogonality` | `ContRepresentation.schur_orthogonality` |
+| `character_orthonormal` | `ContRepresentation.character_orthonormal_self` and `ContRepresentation.character_orthonormal_distinct` |
+| `su2Irrep n` | `TauCeti.SU2.symPowerModel n` |
+| `weyl_integration_formula` | `TauCeti.SU2.weyl_integration_formula` |
+
+### From TauCetiRoadmap.OperatorIdeals
+
+Part C, the Hilbert-Schmidt operator API and the theorem that a Hilbert-Schmidt operator is
+compact, for the Hilbert-Schmidt route in §5.1. The Arzelà-Ascoli route of §5.1 does not use it.
 
 ## References
 

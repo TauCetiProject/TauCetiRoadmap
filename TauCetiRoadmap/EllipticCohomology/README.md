@@ -1,50 +1,91 @@
 # Roadmap: elliptic cohomology and topological modular forms
 
-**Summary.** Construct elliptic cohomology theories and the topological modular-form
-spectra tmf, Tmf and TMF, with their sheaves, coefficients, orientations and
-q-expansion comparisons. Include the algebraic and obstruction-theoretic
-foundations of the realization theorem. A ring of modular forms is not a
-spectrum, and a Landweber-exact theory does not automatically have an E∞
-structure.
+**Summary.** An elliptic curve over a ring R has a formal group. When the
+curve's classifying map to the moduli stack is flat, Landweber's exact functor
+theorem turns that formal group into a cohomology theory, with coefficients
+R[u,u⁻¹], |u|=2, once the Hodge line ω is trivialized. Such a theory need not
+have an E∞, that is coherently commutative, multiplication. This roadmap
+supplies one locally by obstruction theory, at heights one and two and
+rationally, and glues the pieces into a sheaf O^top of E∞ ring spectra on the
+étale site of Mbar_ell, the stack of stable one-pointed genus-one curves over
+ℤ. Its homotopy sheaves are π_(2k)O^top≃ω^k, and the odd ones vanish. Global
+sections give TMF over the smooth locus M_ell and Tmf over all of Mbar_ell, and
+tmf is the connective cover of Tmf; the three spectra are distinct. All rings
+are commutative.
 
-## Scope and ownership
+The first main theorem is algebraic and due to Deligne: the ring of integral
+modular forms H⁰(Mbar_ell,ω^*) is ℤ[c₄,c₆,Δ]/(c₄³−c₆²−1728Δ), with c₄, c₆ and Δ
+of weights 4, 6 and 12. Concretely, call a polynomial f with integer
+coefficients in a₁, a₂, a₃, a₄, a₆ an integral modular form of weight k if
+f(C•W)=u⁻ᵏf(W) for every Weierstrass curve W and coordinate change C=(u,r,s,t)
+over every commutative ring. These are exactly the polynomials in the subring
+ℤ[c₄,c₆,Δ] that are weighted homogeneous of weight k, the coefficients having
+weights 1, 2, 3, 4, 6. The statement is weight by weight: c₄+Δ lies in that
+subring but is a modular form of no weight. Every polynomial relation among c₄,
+c₆ and Δ is a multiple of c₄³−c₆²−1728Δ.
 
-BordismFormalGroups F4 supplies every Toda operation used here: three-fold
-brackets of spectra and of right modules over a ring spectrum, the
-higher-arity coherent systems and their reversal and juggling comparisons.
-No other Toda-bracket supplier is used.
+For homotopy, descent along O^top gives spectral sequences from H^s(M,ω^k) to
+π_(2k−s) of the global sections over M. Following Carrick, Davies and van
+Nigtevecht, the roadmap runs this computation through synthetic spectra,
+without assuming the homotopy of tmf. It proves the Gap Theorem: π_n Tmf=0 for
+−21<n<0. After inverting 6, π_(−21)Tmf and π₀Tmf are each ℤ[1/6], so both
+endpoints must be excluded. It then computes the integral coefficient rings of
+tmf and Tmf, with products and extensions, and shows
+π_*tmf[1/6]≅ℤ[1/6][c₄,c₆], with c₄ and c₆ in degrees 8 and 12. A class in degree
+576 lifts Δ²⁴, and inverting it in tmf or Tmf gives TMF. The image
+of π_*tmf in modular forms has an explicit Hopkins–Mahowald basis; for Δ itself
+the basis element is 24Δ.
 
-Use GeneralizedCohomology's chosen spectral models, commutative spectral rings,
-derived limits and Postnikov/connective-cover machinery. BordismFormalGroups
-owns the native formal-group, MU/BP, exact-functor and algebraic Lubin–Tate
-deformation theory and F6's Bousfield/chromatic localization. ModularCurves
-owns elliptic schemes over arbitrary bases, their Weierstrass presentation,
-effective descent, complete-local formal completions, p-divisible groups and
-its specified Serre–Tate comparison. EllipticCurves Layer 1(i) supplies the
-formal group law over the coefficient ring; this roadmap owns its descent
-under coordinate changes and the residue-field descent required below.
-Consume SchemeAndStackFoundations §§1.18–1.22 for stacks, presentations,
-quasi-coherent modules and descent, and §4.15's `StableCurves.Mbar 1 1`,
-smooth locus, proper DM structure, node-smoothing coordinates and level
-normalizations. Reuse Mathlib's schemes, étale
-sites, `Pseudofunctor.IsStack`, `DescentData`,
-`SheafOfModules.IsQuasicoherent`, `WeierstrassCurve` and `FormalGroup`.
-Tau Ceti owns the universal Weierstrass curve and coefficient specialization.
-PadicMeasuresIwasawaAlgebras §§1.6 and 2.1 own character integration and
-moments on Mathlib's measure carrier; E5 owns the elliptic orientation's
-Kummer-congruence and Eisenstein integrality conditions.
+The third main result is the String orientation. The roadmap constructs MString,
+the E∞ Thom spectrum over BString=BO⟨8⟩, the 7-connected cover of BO, and the
+Ando–Hopkins–Rezk orientation σ:MString→tmf as an E∞ map. It proves their
+criterion: a sequence of rational modular forms g_k of weight k≥4 is the
+characteristic sequence of an E∞ orientation MString→tmf exactly when it
+satisfies an integrality condition on q-expansions, Kummer congruences at every
+prime, and g_k|T(p)=(1+p^(k−1))g_k for every prime p. The Eisenstein series
+satisfy these, and σ is the orientation they select. On homotopy, σ followed by
+q-expansion is the Witten genus in spectral form, with KO-characteristic series
+`(L^(1/2)−L^(−1/2))∏_(n≥1)(1−qⁿL)(1−qⁿL⁻¹)/(1−qⁿ)²`. Followed by tmf→KO[[q]]
+and q↦0, σ agrees with the Atiyah–Bott–Shapiro orientation on MString. Finally σ
+is surjective on homotopy, which alone does not make every integral modular
+form a Witten genus.
 
-ModularForms owns the analytic modular forms and q-expansions; this roadmap
-owns their algebraic stack sections and the comparison with that analytic
-theory. This roadmap owns the E∞ String bordism spectrum MString, the Thom
-spectrum of the 7-connected cover BString=BO⟨8⟩→BO, the Ando–Hopkins–Rezk
-E∞ orientation σ:MString→tmf, and the characteristic series and q-expansion
-of σ on π_*MString, which is the Witten genus in spectral form. Geometric
-String structures, geometric String bordism, the index-theoretic Witten
-genus of String manifolds and the Cayley-plane kernel questions are not
-constructed here; a geometric consumer compares its genus with E5's
-spectral one. Neither the orientation nor the genus constructs the elliptic
-sheaf or proves its existence.
+The roadmap builds on GeneralizedCohomology for spectra, commutative ring
+spectra and real K-theory. BordismFormalGroups supplies formal groups, Landweber
+exactness and chromatic localization, and every Toda bracket used.
+ModularCurves supplies elliptic schemes, their Weierstrass presentations and
+level structures. ModularForms supplies the analytic level-one forms, compared
+over ℂ with the algebraic ones through q-expansions. Downstream, StringOrientation,
+the roadmap on geometric String bordism, uses the periodicity classes, the
+orientation with its genus, and the detection maps. Geometric String structures
+and the index-theoretic Witten genus are not constructed here.
+
+Layer 1 is the algebraic geometry: the stacks and their cohomology, Deligne's
+theorem and the deformation theory of elliptic curves. Layer 2 realizes
+elliptic theories locally as E∞ ring spectra, and Layer 3 assembles O^top and
+the three spectra. Layer 4 computes their homotopy and Layer 5 builds the
+orientation. Layer 6 treats level structures; at the prime 2 it proves
+tmf_(2)∧DA(1)≃tmf₁(3)_(2) for an explicit eight-cell complex DA(1), and
+π_*tmf₁(3)_(2)≅ℤ_(2)[a₁,a₃]. Layer 4 already uses the early part of Layer 6;
+the next section gives the exact order.
+
+## How to read the build
+
+E1 and F5's deformation and F6's localization lanes precede E2. E2 plus E1 descent supplies E3;
+E6’s early log-level construction then supplies E4’s synthetic transfers;
+E4.S independently constructs the needed sphere classes, relations,
+nullhomotopies and 3-primary differential using F4. E4.A constructs the
+full/even category adapters and synthetic sphere, then Smf and E4.U's
+unit/normalization/atomic comparisons. These and the early E6 lane
+supply E4's independent DSS/Gap computation; completed tmf coefficients
+are not inputs. After the Gap Theorem E6 proves the connective DA(1)
+comparison. E5 uses E3/E4 and E6’s independently constructed Γ₁(3)/DA(1)
+sublane; its MString, units and J-homomorphism targets use only G2–G5,
+and its orientation, genus and surjectivity targets use those together
+with E2's K(1)-local realization. E6’s early lane uses E1–E3 and the
+specified ModularCurves level problems; its connective coefficient lane
+additionally uses E4. All obstruction, convergence and descent inputs are
+targets in these layers.
 
 ## Conventions
 
@@ -68,116 +109,6 @@ level extensions and their comparison with this sheaf.
 Weight k corresponds to spectral degree 2k. These spectra are distinct;
 negative homotopy, torsion and periodic localization must be compared through
 their actual maps.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Consume `WeierstrassCurve` and its coefficient invariants from
-Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean; this five-coefficient
-carrier allows singular cubics, while `WeierstrassCurve.IsElliptic`
-requires an invertible discriminant. Consume `WeierstrassCurve.VariableChange`,
-`WeierstrassCurve.variableChange_def`, `variableChange_c₄`,
-`variableChange_c₆`, `variableChange_Δ`, `VariableChange.mapHom` and
-`map_variableChange` from Mathlib/AlgebraicGeometry/EllipticCurve/VariableChange.lean,
-with their commutative-ring hypotheses and inverse powers of the unit.
-Polynomial evaluation, subalgebras and weight grading use `MvPolynomial.aeval`,
-`Algebra.adjoin` and `MvPolynomial.IsWeightedHomogeneous`.
-Consume `FormalGroup` and the separate `FormalGroup.IsComm` condition from
-Mathlib/RingTheory/FormalGroup/Basic.lean, the stack predicate
-`Pseudofunctor.IsStack`, `DescentData`, and `SheafOfModules.IsQuasicoherent`;
-these are carrier/descent interfaces, not a constructed elliptic stack.
-For continuous functions use `mahler`, `PadicInt.hasSum_mahler` and
-`PadicInt.mahlerEquiv` from Mathlib/NumberTheory/Padics/MahlerBasis.lean,
-retaining completeness, the ultrametric norm and bounded ℤ_p action.
-For p-adic measures consume `AbstractMeasure`, `AbstractMeasure.dirac` and
-`AbstractMeasure.dirac_apply` from Mathlib/NumberTheory/Padics/Measure/Basic.lean.
-The carrier is the continuous R-linear maps from `C(X, R)` to the value
-module E, with the native topological ring/module hypotheses; it does not
-impose positivity or total mass one. Dirac evaluation sends f to f(x).
-Use `Matrix.orthogonalGroup` from Mathlib/LinearAlgebra/UnitaryGroup.lean
-for E5's finite orthogonal groups.
-
-### From Tau Ceti
-
-Consume `WeierstrassCurve.Coeff`, `WeierstrassCurve.Universal.curve`,
-`WeierstrassCurve.specialize`, `WeierstrassCurve.specialize_X` and
-`WeierstrassCurve.map_specialize` from
-TauCeti/AlgebraicGeometry/EllipticCurve/Universal.lean. The coefficient type
-has constructors A₁, A₂, A₃, A₄, A₆. For every commutative ring R and
-Weierstrass curve W over R, specialization is a ring homomorphism from
-`MvPolynomial WeierstrassCurve.Coeff ℤ` to R, taking Aᵢ to W.aᵢ and
-recovering W from the universal curve, including singular W and the zero ring.
-
-### From TauCetiRoadmap.GeneralizedCohomology
-
-G2 supplies the chosen enriched spectral and commutative-ring models;
-G2.5 supplies Freudenthal and spectral/topological comparisons, and G2.8
-supplies multiplicative construction and localization. G3.8 supplies
-derived tower limits, their Milnor sequence and connective/Postnikov
-covers. G5.3 supplies Thom diagrams and G5.4 supplies ko, KO and MSpin;
-G5.5-ABS supplies the E∞ Atiyah–Bott–Shapiro orientation and its normalization.
-
-### From TauCetiRoadmap.BordismFormalGroups
-
-F1–F3 supply formal groups, MU/BP and the Steenrod comparisons; F4 supplies
-graded comodules, resolutions, the Adams–Novikov spectral sequence and
-coherent Toda systems with their chosen nullhomotopies. F5 supplies
-Landweber exactness and marked Lubin–Tate deformations over perfect fields;
-F6 supplies chromatic localization, fracture and the local norm/completion
-comparisons. Spectral realization of the elliptic inputs is E2's target.
-
-### From TauCetiRoadmap.ModularCurves
-
-Layers 0–2 supply elliptic schemes, their Weierstrass presentations and
-effective descent; §5B supplies ordered full level with its determinant
-character, without fixing a Weil pairing. §§7C–7F supply complete-local
-formal groups, p-divisible groups and the marked Serre–Tate comparison
-in their stated residue-field setting. Layer 10 supplies its coarse
-compactification; E6 compares the generalized-elliptic boundary stacks.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§§1.18–1.22 supply stackification, 2-fibre products, presentations and
-quasi-coherent modules. §4.15 supplies the stable pointed-curve stack,
-its smooth locus and nodal charts; (g,n)=(1,1) satisfies 2g−2+n=1>0.
-
-### From TauCetiRoadmap.EllipticCurves and TauCetiRoadmap.ModularForms
-
-EllipticCurves Layer 1(i) supplies the curve's formal group law.
-ModularForms' standing conventions, library comparison and Layer 1
-supply the analytic level-one forms and their q-expansions and valence
-principle; E1 constructs the integral algebraic comparison. Layer 2(b)
-supplies the normalized Hecke action and its q-expansion formula used in
-E5's orientation criterion.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-§1.6 supplies continuous-character integration on unit measures, including
-Dirac evaluation and the total-mass character. §2.1 supplies weighted
-measures, ordinary moments and their Amice comparison, retaining its
-coefficient-algebra hypotheses. E5 uses moments μ(x↦xᵏ) on ℤ_pˣ and the
-corresponding even characters on ℤ_pˣ/{±1}, for every prime p, on
-`AbstractMeasure` with the scalar and value-module topologies specified
-by the p-adic coefficient objects.
-
-## How to read the build
-
-E1 and F5's deformation and F6's localization lanes precede E2. E2 plus E1 descent supplies E3;
-E6’s early log-level construction then supplies E4’s synthetic transfers;
-E4.S independently constructs the needed sphere classes, relations,
-nullhomotopies and 3-primary differential using F4. E4.A constructs the
-full/even category adapters and synthetic sphere, then Smf and E4.U's
-unit/normalization/atomic comparisons. These and the early E6 lane
-supply E4's independent DSS/Gap computation; completed tmf coefficients
-are not inputs. After the Gap Theorem E6 proves the connective DA(1)
-comparison. E5 uses E3/E4 and E6’s independently constructed Γ₁(3)/DA(1)
-sublane; its MString, units and J-homomorphism targets use only G2–G5,
-and its orientation, genus and surjectivity targets use those together
-with E2's K(1)-local realization. E6’s early lane uses E1–E3 and the
-specified ModularCurves level problems; its connective coefficient lane
-additionally uses E4. All obstruction, convergence and descent inputs are
-targets in these layers.
 
 ## Layer 1: E1. Algebraic moduli and its formal neighbourhoods
 
@@ -1946,6 +1877,137 @@ consumes E4's permanent classes Δ⁸, Δ³ and Δ²⁴ with the localization
 tmf[D⁻¹]≃TMF, E5's orientation and genus comparison, and E6's detection
 maps and localization criterion; nothing in this roadmap is consumed from
 it.
+
+## Scope and ownership
+
+BordismFormalGroups F4 supplies every Toda operation used here: three-fold
+brackets of spectra and of right modules over a ring spectrum, the
+higher-arity coherent systems and their reversal and juggling comparisons.
+No other Toda-bracket supplier is used.
+
+Use GeneralizedCohomology's chosen spectral models, commutative spectral rings,
+derived limits and Postnikov/connective-cover machinery. BordismFormalGroups
+owns the native formal-group, MU/BP, exact-functor and algebraic Lubin–Tate
+deformation theory and F6's Bousfield/chromatic localization. ModularCurves
+owns elliptic schemes over arbitrary bases, their Weierstrass presentation,
+effective descent, complete-local formal completions, p-divisible groups and
+its specified Serre–Tate comparison. EllipticCurves Layer 1(i) supplies the
+formal group law over the coefficient ring; this roadmap owns its descent
+under coordinate changes and the residue-field descent required above.
+Consume SchemeAndStackFoundations §§1.18–1.22 for stacks, presentations,
+quasi-coherent modules and descent, and §4.15's `StableCurves.Mbar 1 1`,
+smooth locus, proper DM structure, node-smoothing coordinates and level
+normalizations. Reuse Mathlib's schemes, étale
+sites, `Pseudofunctor.IsStack`, `DescentData`,
+`SheafOfModules.IsQuasicoherent`, `WeierstrassCurve` and `FormalGroup`.
+Tau Ceti owns the universal Weierstrass curve and coefficient specialization.
+PadicMeasuresIwasawaAlgebras §§1.6 and 2.1 own character integration and
+moments on Mathlib's measure carrier; E5 owns the elliptic orientation's
+Kummer-congruence and Eisenstein integrality conditions.
+
+ModularForms owns the analytic modular forms and q-expansions; this roadmap
+owns their algebraic stack sections and the comparison with that analytic
+theory. This roadmap owns the E∞ String bordism spectrum MString, the Thom
+spectrum of the 7-connected cover BString=BO⟨8⟩→BO, the Ando–Hopkins–Rezk
+E∞ orientation σ:MString→tmf, and the characteristic series and q-expansion
+of σ on π_*MString, which is the Witten genus in spectral form. Geometric
+String structures, geometric String bordism, the index-theoretic Witten
+genus of String manifolds and the Cayley-plane kernel questions are not
+constructed here; a geometric consumer compares its genus with E5's
+spectral one. Neither the orientation nor the genus constructs the elliptic
+sheaf or proves its existence.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Consume `WeierstrassCurve` and its coefficient invariants from
+Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean; this five-coefficient
+carrier allows singular cubics, while `WeierstrassCurve.IsElliptic`
+requires an invertible discriminant. Consume `WeierstrassCurve.VariableChange`,
+`WeierstrassCurve.variableChange_def`, `variableChange_c₄`,
+`variableChange_c₆`, `variableChange_Δ`, `VariableChange.mapHom` and
+`map_variableChange` from Mathlib/AlgebraicGeometry/EllipticCurve/VariableChange.lean,
+with their commutative-ring hypotheses and inverse powers of the unit.
+Polynomial evaluation, subalgebras and weight grading use `MvPolynomial.aeval`,
+`Algebra.adjoin` and `MvPolynomial.IsWeightedHomogeneous`.
+Consume `FormalGroup` and the separate `FormalGroup.IsComm` condition from
+Mathlib/RingTheory/FormalGroup/Basic.lean, the stack predicate
+`Pseudofunctor.IsStack`, `DescentData`, and `SheafOfModules.IsQuasicoherent`;
+these are carrier/descent interfaces, not a constructed elliptic stack.
+For continuous functions use `mahler`, `PadicInt.hasSum_mahler` and
+`PadicInt.mahlerEquiv` from Mathlib/NumberTheory/Padics/MahlerBasis.lean,
+retaining completeness, the ultrametric norm and bounded ℤ_p action.
+For p-adic measures consume `AbstractMeasure`, `AbstractMeasure.dirac` and
+`AbstractMeasure.dirac_apply` from Mathlib/NumberTheory/Padics/Measure/Basic.lean.
+The carrier is the continuous R-linear maps from `C(X, R)` to the value
+module E, with the native topological ring/module hypotheses; it does not
+impose positivity or total mass one. Dirac evaluation sends f to f(x).
+Use `Matrix.orthogonalGroup` from Mathlib/LinearAlgebra/UnitaryGroup.lean
+for E5's finite orthogonal groups.
+
+### From Tau Ceti
+
+Consume `WeierstrassCurve.Coeff`, `WeierstrassCurve.Universal.curve`,
+`WeierstrassCurve.specialize`, `WeierstrassCurve.specialize_X` and
+`WeierstrassCurve.map_specialize` from
+TauCeti/AlgebraicGeometry/EllipticCurve/Universal.lean. The coefficient type
+has constructors A₁, A₂, A₃, A₄, A₆. For every commutative ring R and
+Weierstrass curve W over R, specialization is a ring homomorphism from
+`MvPolynomial WeierstrassCurve.Coeff ℤ` to R, taking Aᵢ to W.aᵢ and
+recovering W from the universal curve, including singular W and the zero ring.
+
+### From TauCetiRoadmap.GeneralizedCohomology
+
+G2 supplies the chosen enriched spectral and commutative-ring models;
+G2.5 supplies Freudenthal and spectral/topological comparisons, and G2.8
+supplies multiplicative construction and localization. G3.8 supplies
+derived tower limits, their Milnor sequence and connective/Postnikov
+covers. G5.3 supplies Thom diagrams and G5.4 supplies ko, KO and MSpin;
+G5.5-ABS supplies the E∞ Atiyah–Bott–Shapiro orientation and its normalization.
+
+### From TauCetiRoadmap.BordismFormalGroups
+
+F1–F3 supply formal groups, MU/BP and the Steenrod comparisons; F4 supplies
+graded comodules, resolutions, the Adams–Novikov spectral sequence and
+coherent Toda systems with their chosen nullhomotopies. F5 supplies
+Landweber exactness and marked Lubin–Tate deformations over perfect fields;
+F6 supplies chromatic localization, fracture and the local norm/completion
+comparisons. Spectral realization of the elliptic inputs is E2's target.
+
+### From TauCetiRoadmap.ModularCurves
+
+Layers 0–2 supply elliptic schemes, their Weierstrass presentations and
+effective descent; §5B supplies ordered full level with its determinant
+character, without fixing a Weil pairing. §§7C–7F supply complete-local
+formal groups, p-divisible groups and the marked Serre–Tate comparison
+in their stated residue-field setting. Layer 10 supplies its coarse
+compactification; E6 compares the generalized-elliptic boundary stacks.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§§1.18–1.22 supply stackification, 2-fibre products, presentations and
+quasi-coherent modules. §4.15 supplies the stable pointed-curve stack,
+its smooth locus and nodal charts; (g,n)=(1,1) satisfies 2g−2+n=1>0.
+
+### From TauCetiRoadmap.EllipticCurves and TauCetiRoadmap.ModularForms
+
+EllipticCurves Layer 1(i) supplies the curve's formal group law.
+ModularForms' standing conventions, library comparison and Layer 1
+supply the analytic level-one forms and their q-expansions and valence
+principle; E1 constructs the integral algebraic comparison. Layer 2(b)
+supplies the normalized Hecke action and its q-expansion formula used in
+E5's orientation criterion.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+§1.6 supplies continuous-character integration on unit measures, including
+Dirac evaluation and the total-mass character. §2.1 supplies weighted
+measures, ordinary moments and their Amice comparison, retaining its
+coefficient-algebra hypotheses. E5 uses moments μ(x↦xᵏ) on ℤ_pˣ and the
+corresponding even characters on ℤ_pˣ/{±1}, for every prime p, on
+`AbstractMeasure` with the scalar and value-module topologies specified
+by the p-adic coefficient objects.
 
 ## References
 

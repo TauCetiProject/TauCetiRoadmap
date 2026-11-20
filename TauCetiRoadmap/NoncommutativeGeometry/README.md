@@ -1,118 +1,20 @@
 # Roadmap: cyclic cohomology, spectral triples and noncommutative tori
 
-**Summary.** Build the differential and cyclic theory of smooth operator algebras, its
-Fredholm-module Chern characters and index pairings, and the spectral-triple
-Hochschild-class theorem. Develop the logarithmic trace ideal and Dixmier
-traces with their actual generalized-limit hypotheses. The smooth two-torus
-is a complete example: its differential calculus, periodic cyclic cohomology,
-Fourier spectral triple and Heisenberg-module index connect these constructions. Its end theorems are
-matrix Morita invariance of cyclic cohomology in N1, the character index
-theorem of N3, the Hochschild-class theorem of N5, the torus differential
-calculus and periodic cyclic cohomology of N6 and the Heisenberg-module
-index and trace/Chern values of N7.
+**Summary.** A cyclic cocycle on an algebra is a multilinear functional, unchanged up to sign by cyclic permutation of its arguments, that the Hochschild coboundary kills. Such cocycles pair with idempotent and invertible matrices, hence with algebraic K-theory, but an arbitrary one need not pair integrally. A Fredholm module is a representation π on Hilbert space with a self-adjoint operator F such that [F,π(a)] and (F²−1)π(a) are compact. Under a summability condition it has a Chern character in cyclic cohomology whose pairings are Fredholm indices.
 
-## Scope and ownership
+This roadmap builds that theory, with Dixmier traces and spectral triples, and works out the smooth noncommutative two-torus as a complete example. Except for tensor products, which work over ℝ and ℂ, all algebras, cochains and Hilbert spaces are complex unless a statement names its ground ring.
 
-The independent N1.Tensor prefix concerns Hausdorff locally convex
-vector spaces over 𝕜=ℝ or ℂ (`RCLike 𝕜`), with the same targets for both
-fields; from N1.Cyclic on the scalars of every algebra, cochain and
-spectral triple are complex. The two scalar-comparison maps between real
-and complex tensors, the complexification isomorphism
-`(E⊗̂_(π,ℝ) F)_ℂ ≃ E_ℂ⊗̂_(π,ℂ) F_ℂ` and the balancing quotient
-`E_ℝ⊗̂_(π,ℝ) F_ℝ → (E⊗̂_(π,ℂ) F)_ℝ`, are stated by
-SmoothBanachRepresentations §7.2a and are not planned here. Completed
-projective tensors over complete nonarchimedean fields belong to
-PadicLocalLanglandsForGL2Qp §0.1 for discretely valued fields and to
-LocallyAnalyticDistributions §0.0 in general.
-N1.Tensor is the generic locally convex tensor supplier of the library and
-uses nothing from the cyclic theory; N1.Cyclic owns the universal forms,
-the cyclic and mixed complexes, the SBI sequence and periodic cyclic
-cohomology; ordinary derived categories belong to the existing
-homological-algebra developments.
+Matrix Morita invariance is one such statement. For a unital algebra A over a commutative ℚ-algebra R, coefficients in an R-module M and a nonempty finite index set ι, extending cochains by the matrix trace, φ↦φ#Tr, induces a bijection from `HCⁿ(A;M)` to `HCⁿ(M_ι(A);M)` in every degree n.
 
-The selected character theory is finite summability and the Dixmier-trace
-Hochschild class. Entire cyclic cohomology and fixed-temperature θ-summable
-characters are outside scope, as are foliations, the full local index formula,
-geometric elliptic-symbol calculus and Standard Model constructions.
-[IndexTheory](../IndexTheory/README.md) owns closed-manifold elliptic index
-and the Atiyah–Singer theorem; no such theorem is a prerequisite for the
-abstract or torus index computations here.
+The index theorem concerns a module with F²=1 whose commutators [F,π(a)], for a in a dense subalgebra, lie continuously in the Schatten class S_p of compact operators with p-th-power summable singular values, for some p>0. For n+1≥p of the module's parity, a conditional trace of π(a₀)[F,π(a₁)]⋯[F,π(aₙ)], graded in the even case, is a cyclic cocycle; normalized, it is the Chern character. In the even case it pairs with an idempotent matrix e, not necessarily self-adjoint, to the index of the compression of F from π(e)H⁺ to π(e)H⁻. In the odd case it pairs with an invertible u to the index of Pπ(u)P, where P=(1+F)/2.
 
-C*-algebraic K-theory is not an input here. The K-groups K₀(A) and K₁(A)
-of a C*-algebra, Bott periodicity, the comparison of the K-theory of a
-dense inverse-closed Fréchet subalgebra with that of its completion, the
-replacement of idempotents by projections and of invertibles by
-unitaries in a C*-algebra, Kasparov cycles and products, and the
-Pimsner–Voiculescu computation of `K_*(A_θ)` with its trace range
-`ℤ+θℤ` belong to OperatorKTheory. N2 states its pairings on idempotents and invertibles of the
-smooth algebra and on the pinned algebraic K-groups; N3 defines its
-Hilbert-space Fredholm modules directly and takes the index of a
-compression from Mathlib's Fredholm theory. N6 alone owns the rotation
-C*-algebra `A_θ=C(𝕋)⋊_αℤ` for every real θ, built on Tau Ceti's full
-crossed product and rotation action, with OperatorAlgebraDynamics D1's
-universal property and D2's expectation: its universal presentation by
-two unitaries with `uv=exp(2πiθ)vu`, the injectivity of its coordinate
-copy of C(𝕋) and its faithful tracial state `τ=∫_𝕋∘E`, which
-OperatorKTheory's Pimsner–Voiculescu computation consumes. N6 builds
-no twisted group C*-algebra: the identification of A_θ with the twisted
-group C*-algebra of ℤ² for the factor set
-`c((m,n),(m′,n′))=exp(2πiθnm′)`, the phase
-`TauCeti.SmoothNoncommutativeTorus.twist θ` of the pinned smooth torus,
-sending `U₁^mU₂^n` to the canonical unitary `W_(m,n)`, is
-OperatorKTheory 7.5's. N6 replaces
-each idempotent matrix over the smooth torus 𝒜_θ by a similar projection
-inside `M_n(𝒜_θ)` itself, by its spectral invariance, and N7 computes the
-trace and the Chern pairing of the two K₀ classes it constructs.
-Matrices over a C*-algebra, the continuous functional calculus and
-representations are Mathlib's `CStarMatrix`, `cfc` and star
-homomorphisms; the structure theory of C*-algebras (ideals, approximate
-units, the Calkin algebra, multipliers) belongs to CStarAlgebras and is
-not an input here.
+A spectral triple is a self-adjoint operator D with compact resolvent whose domain the algebra preserves, with bounded commutators [D,π(a)]. Dixmier traces live on the ideal L^(1,∞) of compact operators whose first N singular values sum to O(log N). Tr_ω applies a generalized limit ω to the means `(log(1+N))⁻¹ Σ_{j<N} μ_j`; for dilation-invariant ω it extends to a linear functional on the ideal. The Hochschild-class theorem assumes D invertible, |D|⁻ⁿ in L^(1,∞) for an integer n≥1 of the triple's parity, and a regularity condition on iterated commutators with |D|. Then for every dilation-invariant ω the cochain λₙTr_ω(π(a₀)[D,π(a₁)]⋯[D,π(aₙ)]|D|⁻ⁿ), with λₙ the character's constant and graded likewise, is a Hochschild cocycle that agrees on every Hochschild n-cycle with the Chern character of the module with F = sign D. For n≥2 the summability hypothesis is strictly weaker than Connes' D⁻¹∈L^(n,∞).
 
-N7 consumes HilbertModules H1–H3 for the generic Hilbert-module
-constructions on its Heisenberg module: the completion of a pre-Hilbert
-module over a dense *-subalgebra (H1), finite Parseval frames with their
-Gram-matrix projection (H2), and the induced Hilbert space of a module
-tensored with a representation, which at the GNS representation of a
-state is the localization of the module at that state (H3). N7 owns the
-Heisenberg module itself: its inner product with its positivity, its
-smooth frames and Powers–Rieffel projection of trace θ, its connections
-and the identification of its localization at τ with the scalar L²(ℝ)
-model. The regular unbounded module operators of HilbertModules H6 and
-their bounded transform are not an input here: N5's bounded transform of
-a self-adjoint operator with compact resolvent is an instance of N5's own
-Borel calculus. The canonical trace Tr on the trace-class operators of B(H),
-with its basis independence, `Tr|T|=‖T‖₁`, its cyclicity against
-bounded operators and the trace-class duality of B(H), is
-VonNeumannAlgebras V4.Core's and is consumed in N3–N4. Tracial Lp
-spaces over a semifinite trace belong to NoncommutativeIntegration, and
-N3–N4 consume them at M=B(H) with its usual trace Tr: the Schatten
-quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with their p-triangle
-inequality, ideal and adjoint bounds and complete p-metric (§1.3, §1.5);
-Hölder's inequality with constant one for all positive exponents and the
-log-submajorization of the singular values of a product (§1.4); the weak
-Schatten classes and the weak trace class `S_(1,∞)` as weak Lp(B(H),Tr),
-with their quasi-norm, adjoint and ideal bounds (§1.6); and the trace
-cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1 (§2.1).
-N3 adds the inclusions S_p⊆S_q for p≤q, which are particular to
-B(H), and N4 the partial-sum norms of the weak classes and their
-comparison with the logarithmic ideal.
-Von Neumann algebras, preduals and normal functionals belong to
-VonNeumannAlgebras, of which N3–N4 consume only V4.Core on B(H). N6 owns the identification of
-the smooth two-torus with the smooth vectors of its gauge action, the
-comparison of its rapid-decay and derivative seminorms and the spectral
-invariance of `M_n(𝒜_θ)`; SmoothBanachRepresentations Layer 8 states the
-generic smooth-algebra theorems for Banach-algebra actions and no torus
-estimate, and its generic inverse closure is not an input here. The
-algebraic K₀ of finitely generated projective modules, the group
-K₁=`GL_∞(A)/E_∞(A)` and Whitehead's lemma are Tau Ceti's `ExactK0` of
-the exact category of finitely generated projective modules and its
-`AlgebraicK1`, the abelianization of `StableGeneralLinearGroup`, and
-AlgebraicKTheory owns their further theory; N2 states its pairings on
-idempotents and invertibles and consumes their descent to these groups
-from the pin. What the pinned Tau Ceti already proves of N1, N2, N4, N5
-and N6 is consumed by name in the Tau Ceti contract below and is not
-planned again.
+For real θ the smooth torus 𝒜_θ consists of the rapidly decreasing series `Σ a_mn U₁^m U₂^n` in two unitaries with U₂U₁=exp(2πiθ)U₁U₂, a dense subalgebra of the rotation C*-algebra A_θ. For every θ its continuous periodic cyclic cohomology is ℂ² in each parity. The even part is spanned by the class Sτ of its trace τ and the class of a two-cocycle φ built from τ and two commuting derivations. The map [e]↦(τ(Tr e),⟨[e],[φ]⟩) on the K₀ of finitely generated projective 𝒜_θ-modules is a homomorphism to ℝ×ℤ, integral in the second coordinate because [φ] is the character of a Fourier spectral triple. For 0<θ<1 the map sends the Heisenberg module, built on 𝒮(ℝ), to (θ,1), and with [1]↦(1,0) its image contains the lattice `{(m+nθ,n) : m,n∈ℤ}`.
+
+The roadmap builds on the library's algebraic cyclic theory with its pairings, its Dixmier trace on positive operators, and its smooth torus, an algebra without topology or derivations. NoncommutativeIntegration, read at B(H), supplies the Schatten quasi-ideals for 0<p<1, Hölder's inequality and the weak Schatten classes. C*-algebraic K-theory is not an input: it belongs to OperatorKTheory, which uses the rotation algebra and trace built here. SpectralManifolds and CompactQuantumMetricSpaces use the spectral triples.
+
+The first layer extends the library's projective tensors and cyclic complexes, and the second calibrates the pairings. The third builds Fredholm modules, and the fourth the linear Dixmier trace with a Tauberian theorem. The fifth builds spectral triples. The sixth builds the rotation algebra on the library's full crossed product, then the calculus on the smooth torus. The seventh builds the Fourier triple and the Heisenberg module, and computes the indices. Each layer ends with its examples and dependencies.
 
 ## Conventions
 
@@ -157,324 +59,6 @@ of A⁺ to those of ℂ along its scalar-unit inclusion; the algebra
 augmentation supplies a splitting in the contravariant direction.
 The SBI assertion concerns this relative Hochschild theory. No
 H-unitality or comparison with the naive nonunital bar complex is assumed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Hilbert C*-modules are Mathlib's `CStarModule`, and `L²(A,τ)` with its
-left regular representation is Mathlib's `PositiveLinearMap.GNS` with
-`gnsStarAlgHom`. Cochains are native `MultilinearMap` and continuous
-multilinear maps; Mathlib `Derivation` serves the commutative
-specialization; complexes use `ChainComplex`/`CochainComplex` with their
-kernels, quotients and cohomology APIs. Fredholm theory is
-`ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`
-and `IsFredholm.index_comp`, with the native integer index
-`LinearMap.index`, the kernel dimension minus the cokernel dimension of
-the underlying linear map; closed operator domains are never replaced by total
-linear maps, nor Fredholmness by an opaque extra predicate. Matrices over
-a C*-algebra are `CStarMatrix`, the continuous functional calculus of a
-normal element is `cfc`, and representations are star homomorphisms
-`StarAlgHom` into bounded operators. N1.Tensor
-consumes `TensorProduct`, `Seminorm`, `WithSeminorms`,
-`UniformSpace.Completion`, `PiTensorProduct` and the Hahn–Banach
-theorem `exists_dual_vector''` over `RCLike` fields; N2 `Matrix.GeneralLinearGroup`
-and `Matrix.transvection`; N5 `LinearPMap` closed operators and the compact
-self-adjoint spectral theorem.
-
-### From Tau Ceti
-
-Every declaration named here is at the pinned Tau Ceti, in the module
-named with it under `TauCeti/`; the layers consume these and do not
-rebuild them.
-
-- Noncommutative derivations: `derivationLieAlgebra ℂ A`
-  (`Algebra/Lie/Derivation/Basic`), the Lie subalgebra of native
-  `Module.End` with the associative Leibniz rule; the A-bimodule-valued
-  universal-derivation comparison is constructed in N1.Cyclic using
-  commuting left/right actions.
-- Completed projective tensors (N1.Tensor), over every normed field 𝕜:
-  `CompletedProjectiveTensorProduct`,
-  the separated `UniformSpace.Completion` of the projective topology of a
-  finite family of spaces with given seminorm families, with its continuous
-  pure-tensor map, the extension `lift` of seminorm-bounded multilinear
-  maps, the completed tensor `map` of bounded linear maps with its
-  identity and composition laws `CompletedProjectiveTensorProduct.map_id`
-  and `CompletedProjectiveTensorProduct.map_comp`
-  (`Analysis/Normed/Module/PiTensorProduct/Projective/Completion`), first
-  countability of the algebraic projective topology for countable seminorm
-  families over a nontrivially normed field (`…/Projective/Topology`), the
-  relabelling `reindex`, which for two factors is the completed tensor flip,
-  with `CompletedProjectiveTensorProduct.reindex_refl`,
-  `CompletedProjectiveTensorProduct.reindex_trans` and its naturality
-  `CompletedProjectiveTensorProduct.map_comp_reindex`
-  (`…/PiTensorProduct/Reindex/Completion`), and, over a nontrivially
-  normed field, the universal properties
-  `liftEquiv` of the algebraic projective tensor and
-  `CompletedProjectiveTensorProduct.liftEquiv` of its completion for
-  continuous multilinear maps into complete Hausdorff targets
-  (`…/PiTensorProduct/UniversalProperty`). For the family seminorms
-  the pin bounds a pure tensor only from above,
-  `PiTensorProduct.projectiveSeminormOf_tprod_le`
-  (`…/PiTensorProduct/Projective/Seminorm`).
-- Banach projective tensors (N1.Tensor), for seminormed spaces over a
-  normed field: the binary projective seminorm
-  `TensorProduct.projectiveSeminorm`, the infimum of `Σ‖x_i‖‖y_i‖` over
-  finite decompositions, on the copy `TauCeti.ProjectiveTensor 𝕜 E F` of
-  `E⊗F`, with its universal bound
-  `TensorProduct.apply_le_mul_projectiveSeminorm`
-  (`Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm`), and over
-  `RCLike` fields its cross property `TensorProduct.projectiveSeminorm_tmul`,
-  `π(x⊗y)=‖x‖‖y‖` for seminormed factors (`…/TensorProduct/InjectiveSeminorm`);
-  over a nontrivially normed field its completion
-  `TauCeti.CompletedProjectiveTensor 𝕜 E F`, a Banach space, with the
-  operators `TauCeti.CompletedProjectiveTensor.mapL` of norm at most
-  `‖f‖‖g‖` and the isometric universal property
-  `TauCeti.CompletedProjectiveTensor.liftIsometry`,
-  `(E→L F→L G)≃ₗᵢ(E⊗̂_π F→L G)` for every Banach space G, which at G=𝕜
-  identifies the dual with the bounded bilinear forms
-  (`…/TensorProduct/Completion`); and the symmetry, scalar-unit and
-  associativity isometries `TauCeti.ProjectiveTensor.comm`,
-  `TauCeti.ProjectiveTensor.lid` and `TauCeti.ProjectiveTensor.assoc` of
-  algebraic tensors with their pure-tensor equations, and the completed
-  symmetry and scalar unit `TauCeti.CompletedProjectiveTensor.comm` and
-  `TauCeti.CompletedProjectiveTensor.lid` (`…/TensorProduct/Associator`).
-  The pin has no comparison of the binary projective norm with the
-  finite-family `PiTensorProduct` projective norm; BanachSpaceTheory B4
-  supplies it.
-- Universal forms (N1.Cyclic): `UniversalForms k A n`, the words
-  `x da₁⋯da_n` of `A⁺⊗A^⊗n` with their differential and cochain complex
-  (`NoncommutativeGeometry/UniversalDifferential/Complex`), Connes' product
-  with the graded Leibniz rule (`…/Product`), the differential graded
-  algebra `⨁ n, Ωⁿ` with the inclusion `UniversalForms.ι` of A as
-  zero-forms (`…/DGAlgebra`), the universal one-forms as the kernel of
-  multiplication with their derivation universal property and
-  functoriality (`…/OneForms`, `…/TensorCoordinates`, `…/Map`), cycles
-  with closed graded traces `IsClosedGradedTrace` and their characters
-  `cycleCocycle` (`RingTheory/CyclicCohomology/Cycle`), the realization of
-  every cyclic cocycle by the universal-form cycle it defines
-  (`…/UniversalDifferential/Cycle`), and the exterior product
-  `exteriorProductCocycle` of cyclic cocycles as the character of the
-  Koszul-signed tensor product of their cycles
-  (`…/UniversalDifferential/ExteriorProduct`, `RingTheory/CyclicCohomology/TensorCycle`).
-- Cyclic cohomology (N1.Cyclic): the Hochschild coboundary with the sign
-  pinned in N1.Cyclic and the cyclic cochains
-  (`RingTheory/CyclicCohomology/Cochain`); the cyclic operator, cyclic
-  norm, bar coboundary, unit contraction and Connes' `B` with `B²=0` and
-  `bB+Bb=0` (`…/ConnesOperator`); `cyclicCocycles`, `cyclicCohomology` with
-  its class map and pullback along nonunital homomorphisms
-  (`…/Cohomology`); the Hochschild complex and `hochschildCohomology`
-  (`RingTheory/HochschildCohomology/Complex`) with `I` and `B` on
-  cohomology (`…/CyclicCohomology/Hochschild`); the cyclic bicomplex, its
-  total complex and the quasi-isomorphism from the cyclic-cochain complex
-  over a ℚ-algebra (`…/Bicomplex`, `…/RowExactness`); the periodicity
-  map `S` of the bicomplex as the column shift and the SBI sequence exact
-  at every term (`…/Periodicity`, `…/ExactSequence`);
-  `periodicCyclicCohomology`, the same-parity direct limit under `S`, with
-  its 2-periodicity (`…/PeriodicCohomology`); for the ground ring,
-  `HC^(2k+1)(R;M)=0`, `HC^0(R;M)≅M`, and `HC^(2k)(R;M)≅M` for `k≥1` when
-  multiplication by 2 is injective on `M` (in general `HC^(2k)(R;M)≅M⧸M[2]`
-  for `k≥1`, with `M[2]` the 2-torsion) (`…/GroundRing`); reduced and
-  relative cyclic cohomology (`…/Reduced`, `…/Relative`); normalized
-  cochains and chains with `b`, `B` and the even Chern chains with
-  `(b+B)ch=0` (`…/Normalized/Basic`, `…/Normalized/Chains`,
-  `…/Normalized/Chern/Even`); the trace–derivation cocycles
-  `traceDerivationCocycle` and `traceDerivationPairCocycle`
-  (`…/Derivation`); and continuous cyclic cochains with their operators,
-  `continuousCyclicCohomology` with its quotient topology, the relative
-  continuous complex and the continuous matrix extension
-  (`…/Continuous/Basic`, `…/OperatorTopology`, `…/Continuous/Cohomology`,
-  `…/Continuous/Relative`, `…/Continuous/Matrix`).
-- Hochschild cochains (N1.Cyclic): for a possibly nonunital normed
-  algebra A over a nontrivially normed field and a bounded bimodule E
-  with bounded bilinear left and right actions, the bounded Hochschild
-  coboundary `ContinuousLinearMap.hochschildBimoduleCoboundary` on the
-  cochains `ContinuousMultilinearMap 𝕜 (fun _ : Fin n ↦ A) E`,
-  `(δT)(a₀,…,a_n)=a₀·T(a₁,…,a_n)+Σ_(j<n)(−1)^(j+1)T(a₀,…,a_ja_(j+1),…,a_n)+(−1)^(n+1)T(a₀,…,a_(n−1))·a_n`,
-  with `‖δ‖≤‖L‖+n+‖R‖` for the action maps L and R
-  (`ContinuousLinearMap.norm_hochschildBimoduleCoboundary_le`), δ²=0
-  for associative commuting actions
-  (`ContinuousLinearMap.hochschildBimoduleCoboundary_hochschildBimoduleCoboundary`),
-  the central elements as degree-zero cocycles and the bounded
-  derivations as degree-one cocycles
-  (`ContinuousLinearMap.hochschildBimoduleCoboundary_constOfIsEmpty_eq_zero_iff`,
-  `ContinuousLinearMap.hochschildBimoduleCoboundary_ofSubsingleton_eq_zero_iff`)
-  (`Analysis/Normed/Algebra/HochschildCohomology/Coboundary`), and
-  naturality in bounded bimodule maps of the coefficients,
-  `ContinuousLinearMap.hochschildBimoduleCoboundary_compContinuousMultilinearMap`
-  (`…/HochschildCohomology/Coefficients`); for a bounded bimodule E with
-  left action L and right action R, the dual actions
-  `ContinuousLinearMap.dualAction` on `StrongDual 𝕜 E`, the left action
-  `(a·φ)(x)=φ(x·a)` being `dualAction R` and the right action
-  `(φ·a)(x)=φ(a·x)` being `dualAction L`, with their bimodule laws for
-  associative commuting L and R,
-  `ContinuousLinearMap.dualAction_mul_apply_of_right`,
-  `ContinuousLinearMap.dualAction_mul_apply_of_left` and
-  `ContinuousLinearMap.dualAction_apply_dualAction_apply_comm` and their
-  weak-star continuity in the dual variable
-  `ContinuousLinearMap.continuous_toWeakDual_dualAction`
-  (`Analysis/Normed/Module/Dual/Bimodule`); for an algebra A over a
-  commutative semiring R and an R-module N, the dual bimodule
-  `A →ₗ[R] N` with `(x·f)(y)=f(yx)` and `(f·x)(y)=f(xy)`, which for N=R
-  is `(aφb)(y)=φ(bya)`, and `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary`:
-  currying the first argument, `TauCeti.multilinearCurryFirstEquiv`,
-  carries the coboundary b of N-valued cochains in n+1 arguments to the
-  Hochschild coboundary of the `A →ₗ[R] N`-valued cochains in n
-  arguments (`RingTheory/HochschildCohomology/Dual`). The pin has no
-  cohomology groups of bounded cochains and no bounded form of the
-  currying comparison; BanachAlgebras A6 supplies both.
-- Pairings (N2): the matrix extension `φ#Tr` and
-  `cyclicCohomology.matrixExtension` (`…/Matrix`);
-  `cyclicCohomology.evenPairing` with Connes' formula, additivity on direct
-  sums, conjugation, polynomial-homotopy and Murray–von Neumann invariance
-  and its descent `evenPairingK0` to `ExactK0` of finitely generated
-  projective modules (`…/EvenPairing/Basic`, `…/EvenPairing/Invariance`,
-  `…/EvenPairing/AlgebraicK0`); `cyclicCohomology.oddPairing` with Connes'
-  formula, direct sums, stabilization, the product law, conjugation,
-  polynomial homotopy, vanishing on elementary matrices and commutators
-  and its descent `AlgebraicK1.oddPairing` (`…/OddPairing/Basic`,
-  `…/OddPairing/Invariance`, `…/OddPairing/AlgebraicK1`).
-- Operator ideals and Dixmier traces (N3–N4): the Schatten families
-  `OperatorIdealFamily.schatten` for 1≤p<∞ and
-  `OperatorIdealFamily.traceClass`, on the zero-indexed approximation
-  numbers, with completeness and the inclusions S_p⊆S_q for 1≤p≤q
-  (`Analysis/OperatorIdeal/Family/Schatten`, `…/TraceClass`); the
-  logarithmic ideal `OperatorIdealFamily.logarithmic` with its gauge,
-  ideal laws, completeness, adjoint invariance, compactness of its members,
-  the trace-class inclusion and the approximation-number bound
-  `(N+1)a_N(T)≤‖T‖_(1,∞)log(N+2)`, with ‖T‖_(1,∞) that gauge, for every
-  N and every bounded T
-  (`TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`,
-  `…/Logarithmic`); `GeneralizedLimit` with
-  `IsDilationInvariant`, its unfolding
-  `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`,
-  `ω(n↦f(⌊n/k⌋))=ω(f)` for dilation-invariant ω, every bounded f and
-  k≥1, and the existence of dilation-invariant generalized limits
-  (`Analysis/Normed/Order/GeneralizedLimit`); `dixmierTrace` with its
-  positivity, positive homogeneity, subadditivity
-  `Tr_ω(S+T)≤Tr_ω(S)+Tr_ω(T)` on `L^(1,∞)`, ideal bound, invariance under
-  adjoints and unitaries, vanishing on trace class and the value 1 on
-  `diag(1/(j+1))` (`…/DixmierTrace`); and the Ky Fan superadditivity
-  `ContinuousLinearMap.IsPositive.kyFanGauge_add_kyFanGauge_le`,
-  `K_k(S)+K_l(T)≤K_(k+l)(S+T)` for positive S, T on a Hilbert space, with
-  `K_k` the sum of the first k approximation numbers
-  (`Analysis/OperatorIdeal/ApproximationNumber/Positive`). The pin has no
-  additivity of `dixmierTrace` on positive operators; N4 proves it from
-  these two inputs. The pins have the
-  trace only in finite dimension (Mathlib's `LinearMap.trace`, Tau Ceti's
-  `TauCeti.traceCLM`) and no trace functional on trace-class operators,
-  which VonNeumannAlgebras V4.Core supplies; N4 builds the linear Dixmier
-  trace on `L^(1,∞)`.
-- Fredholm perturbation (N3, N5, N7), for bounded operators between
-  Banach spaces over ℂ: Riesz–Schauder, `TauCeti.isFredholm_one_add`,
-  that 1+K is Fredholm for compact K; Atkinson's compact perturbation,
-  `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
-  `ContinuousLinearMap.index_add_of_isCompactOperator`, that T+C is
-  Fredholm with the index of T when T is Fredholm and C compact
-  (`Analysis/Fredholm/CompactPerturbation`); stability of Fredholmness and
-  the index near a Fredholm operator,
-  `ContinuousLinearMap.IsFredholm.eventually_isFredholm_and_index_eq`
-  (`…/SmallPerturbation`); and constancy of the index along a continuous
-  family of Fredholm operators over a preconnected parameter space,
-  `Continuous.index_eq_of_preconnectedSpace` and `Path.index_eq`
-  (`…/ContinuousFamily`). The index in these statements is Mathlib's
-  `LinearMap.index` of the underlying linear map.
-- Compact resolvent (N5): for a self-adjoint `LinearPMap`, compactness of
-  the resolvent at one nonreal point and at every nonreal point are
-  equivalent, `K=(1+D²)⁻¹=R(i)*R(i)` is positive and injective, its
-  eigenspaces for nonzero eigenvalues are finite-dimensional, D-invariant
-  and densely spanning, and `D` has a complete orthonormal eigenbasis with
-  real eigenvalues (`Analysis/InnerProductSpace/LinearPMap/CompactResolvent`,
-  `…/Eigenbasis`).
-- The smooth torus (N6): `SmoothNoncommutativeTorus θ` for every real θ,
-  modelled by rapidly decreasing coefficient functions on ℤ², with the
-  twisted convolution product, the star, the unitaries `U₁`, `U₂`, the
-  relation `U₂U₁=exp(2πiθ)U₁U₂`, the ordered multiplier `exp(2πiθnm′)`
-  and the faithful trace `trace` (`NoncommutativeGeometry/SmoothTorus/Basic`);
-  it carries no topology and no derivations at the pin.
-- Resolvent integrals (N6): for an element a of a complex Banach algebra,
-  f holomorphic on an open U and cycles Γ₁, Γ₂ in U∖σ(a), null-homologous
-  in U, with the same winding number about every point of σ(a), the
-  integrals `∫_Γ f(z)(z1−a)⁻¹dz` over Γ₁ and Γ₂ agree,
-  `TauCeti.Contour.Cycle.integral_smul_resolvent_eq_of_windingNumber_eq`
-  (`Analysis/Normed/Algebra/HolomorphicFunctionalCalculus/Cycle`). The
-  pin has no theorem producing such a cycle around a compact set, and no
-  holomorphic calculus as an algebra homomorphism; BanachAlgebras A2
-  supplies both.
-- Crossed products (N6): the pullback `TauCeti.CStarAction.comp` of an
-  action along a continuous homomorphism (`Analysis/CStarAlgebra/Action/Basic`);
-  the rotation action `TauCeti.CStarAction.rotation` of the real line
-  on `C(Circle, ℂ)`, with `TauCeti.CStarAction.rotation_apply_apply`,
-  `rotation t f z = f(exp(it)⁻¹z)` (`…/Action/ContinuousMap`), and the
-  coordinate unitary `Circle.coordinate` with
-  `Circle.coordinate_mem_unitary` (`Analysis/Complex/Circle`); for a
-  point-norm continuous action α of a locally compact group with a left
-  Haar measure μ, the full crossed product
-  `TauCeti.CStarAction.FullCrossedProduct α μ`, the completion of the
-  twisted convolution algebra `(f⋆g)(s)=∫f(r)α_r(g(r⁻¹s))dμ(r)` on
-  compactly supported continuous functions in the supremum of the norms
-  of the integrated forms of covariant Hilbert-space representations, a
-  nonunital C*-algebra, with the dense map
-  `TauCeti.CStarAction.FullCrossedProduct.of`, its injectivity
-  `TauCeti.CStarAction.FullCrossedProduct.of_injective` when the
-  coefficients have a faithful representation and μ is inner regular,
-  uniqueness `TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`,
-  the extension `TauCeti.CStarAction.FullCrossedProduct.lift` of
-  *-homomorphisms bounded by that supremum, and the integrated forms
-  `TauCeti.CStarAction.CovariantRepresentation.integratedFull` of
-  covariant pairs on Hilbert spaces (`…/Action/CrossedProduct/Full`);
-  the coefficient map i_A,
-  `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, and the
-  unitary group map i_G,
-  `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, into the
-  multiplier algebra, acting on the left by `(i_A(a)f)(s)=a·f(s)` and
-  `(i_G(r)f)(s)=α_r(f(r⁻¹s))`, with the covariance
-  `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier_mul_coefficientMultiplier`,
-  `i_G(r)i_A(a)=i_A(α_r a)i_G(r)` (`…/CrossedProduct/Multiplier`). The
-  pin has no unit for a discrete group, no universal property for
-  covariant pairs in an arbitrary C*-algebra, no reduced crossed product
-  or conditional expectation and no dual action.
-
-### From TauCetiRoadmap roadmaps
-
-| Supplier | Interface consumed here |
-| --- | --- |
-| [BanachAlgebras A2, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's cohomology groups `Hⁿ=Zⁿ/Bⁿ` of bounded Hochschild cochains and the compatibility of the bounded coboundary with currying into the Banach dual, consumed by N1.Cyclic. The bounded coboundary and the dual actions `ContinuousLinearMap.dualAction`, `(a·φ)(x)=φ(xa)` and `(φ·a)(x)=φ(ax)`, are Tau Ceti's. N1 owns its resolution comparisons. |
-| [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
-| [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the B(H) inclusions of the quasi-ideals into the Schatten scale; N4 the singular traces. |
-| [NoncommutativeIntegration §1.3–§1.6, §2.1](../NoncommutativeIntegration/README.md) | At M=B(H) with its usual trace Tr, where `μ_t(T)=a_⌊t⌋(T)` with the zero-indexed approximation numbers (§1.5): the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal bound `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of the p-metric (§1.3, §1.5); Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for p,q,r>0 and 1/r=1/p+1/q, and the log-submajorization of the singular values of a product (§1.4); the weak Schatten classes `sup_j(j+1)^(1/p)μ_j(T)<∞`, with the weak trace class `S_(1,∞)` at p=1, and their quasi-norm, adjoint and ideal bounds (§1.6); the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p<∞ (§2.1). N3 consumes the quasi-ideals, Hölder and the cyclicity for its characters, N4 Hölder and the weak classes. |
-| [VonNeumannAlgebras V4.Core](../VonNeumannAlgebras/README.md) | The canonical trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on the trace class S₁(H) of OI-B29–B30, its independence of the orthonormal basis, `Tr|T|=‖T‖₁`, the cyclicity of trace-class products against bounded operators and of Hilbert–Schmidt pairings, and the isometric identification of B(H) with the dual of S₁(H) under `(x,h)↦Tr(xh)`, so that the ultraweakly continuous functionals on B(H) are the `T↦Tr(ρT)` with ρ trace class. N3 consumes the trace for its characters, N4 for the Tauberian bridge and the singularity of Dixmier traces. |
-| [HilbertModules H1–H3](../HilbertModules/README.md) | In Mathlib's right-module convention `CStarModule Aᵐᵒᵖ E`: H1's completion of a pre-Hilbert module, including a module over a dense *-subalgebra whose positivity and norm are measured in its C*-completion, with the extension of the action to that completion; H2's rank-one operators `z↦x⟨y,z⟩`, finite Parseval frames `Σ_i x_i⟨x_i,z⟩=z` with their analysis and synthesis maps and Gram-matrix projection `(⟨x_i,x_j⟩)_(i,j)` in `M_n(A)`, and, for unital A, the existence of a finite Parseval frame on a complete module exactly when it is finitely generated projective; H3's induced Hilbert space `E⊗_A H_π` of a nondegenerate representation π, and for a state ω its identification with the completion of E modulo `{x:ω(⟨x,x⟩)=0}` and with `E⊗_A H_ω`. N7 consumes them at A=A_θ and ω=τ for the Heisenberg module. |
-| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The norm-preserving comparison, by the identity on pure tensors, of the binary projective norm on `E⊗F` with the finite-family `PiTensorProduct` projective norm of the pair (E,F), for normed spaces over ℝ and ℂ, consumed by N1.Tensor for its comparison with the pinned Banach projective tensor. That tensor, its cross property, universal property and symmetry, unit and associativity isometries are Tau Ceti's. |
-| [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | D1's universal property of the full crossed product for nondegenerate covariant pairs in multiplier algebras, hence in any unital C*-algebra; D2's generator formulas for G=ℤ, the equality of full and reduced crossed products for amenable groups and the faithful conditional expectation of a discrete crossed product with its Fourier coefficient maps; D4's dual action of the circle. The full crossed product, its canonical multipliers and the rotation action are Tau Ceti's; N6 constructs the two-torus gauge action. |
-
-## How to read the build
-
-N1 consumes Tau Ceti's completed locally convex and Banach projective
-tensors and adds the coherence laws and Fréchet comparison of the former
-and its comparison with the latter (N1.Tensor), and consumes its
-universal forms, cyclic complexes, bounded Hochschild coboundary, SBI sequence and
-periodic cyclic cohomology, adding the normalizations and comparisons,
-homotopy and Morita invariance and the continuous theory on completed
-tensors (N1.Cyclic). N2 consumes the pinned pairings of cyclic cocycles
-with idempotents and invertibles and calibrates the pairing constants,
-Chern chains and smooth-homotopy transport. N3 builds bounded
-Fredholm modules and, on NoncommutativeIntegration's Schatten
-quasi-ideals and Hölder inequality and VonNeumannAlgebras' trace on
-B(H), the finitely summable character with its index theorem. N4
-compares NoncommutativeIntegration's weak Schatten classes with the
-pinned logarithmic ideal and builds the linear Dixmier trace on that
-ideal and the Tauberian bridge. N5
-builds spectral triples, their Borel calculus and bounded transform on the
-pinned eigenbasis, and the Hochschild-class theorem. N6 builds the
-rotation C*-algebra on Tau Ceti's full crossed product, the Fréchet topology,
-derivations and differential calculus of the pinned smooth two-torus
-and its cyclic cohomology, and N7 its
-Fourier spectral triple, the product of two circle Hardy classes at θ=0,
-its Heisenberg module on HilbertModules' completions and the index
-computations. Each
-section ends with its examples and with the sections and suppliers it
-needs; the sections are cited as N1–N7.
 
 ## N1. Universal differential forms and cyclic complexes
 
@@ -1871,6 +1455,399 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   functions and the trace range `ℤ+θℤ` (7.4), and the identification of
   A_θ with the twisted group C*-algebra of ℤ² for the factor set
   `exp(2πiθnm′)` (7.5), are its own.
+
+## Scope and ownership
+
+The independent N1.Tensor prefix concerns Hausdorff locally convex
+vector spaces over 𝕜=ℝ or ℂ (`RCLike 𝕜`), with the same targets for both
+fields; from N1.Cyclic on the scalars of every algebra, cochain and
+spectral triple are complex. The two scalar-comparison maps between real
+and complex tensors, the complexification isomorphism
+`(E⊗̂_(π,ℝ) F)_ℂ ≃ E_ℂ⊗̂_(π,ℂ) F_ℂ` and the balancing quotient
+`E_ℝ⊗̂_(π,ℝ) F_ℝ → (E⊗̂_(π,ℂ) F)_ℝ`, are stated by
+SmoothBanachRepresentations §7.2a and are not planned here. Completed
+projective tensors over complete nonarchimedean fields belong to
+PadicLocalLanglandsForGL2Qp §0.1 for discretely valued fields and to
+LocallyAnalyticDistributions §0.0 in general.
+N1.Tensor is the generic locally convex tensor supplier of the library and
+uses nothing from the cyclic theory; N1.Cyclic owns the universal forms,
+the cyclic and mixed complexes, the SBI sequence and periodic cyclic
+cohomology; ordinary derived categories belong to the existing
+homological-algebra developments.
+
+The selected character theory is finite summability and the Dixmier-trace
+Hochschild class. Entire cyclic cohomology and fixed-temperature θ-summable
+characters are outside scope, as are foliations, the full local index formula,
+geometric elliptic-symbol calculus and Standard Model constructions.
+[IndexTheory](../IndexTheory/README.md) owns closed-manifold elliptic index
+and the Atiyah–Singer theorem; no such theorem is a prerequisite for the
+abstract or torus index computations here.
+
+C*-algebraic K-theory is not an input here. The K-groups K₀(A) and K₁(A)
+of a C*-algebra, Bott periodicity, the comparison of the K-theory of a
+dense inverse-closed Fréchet subalgebra with that of its completion, the
+replacement of idempotents by projections and of invertibles by
+unitaries in a C*-algebra, Kasparov cycles and products, and the
+Pimsner–Voiculescu computation of `K_*(A_θ)` with its trace range
+`ℤ+θℤ` belong to OperatorKTheory. N2 states its pairings on idempotents and invertibles of the
+smooth algebra and on the pinned algebraic K-groups; N3 defines its
+Hilbert-space Fredholm modules directly and takes the index of a
+compression from Mathlib's Fredholm theory. N6 alone owns the rotation
+C*-algebra `A_θ=C(𝕋)⋊_αℤ` for every real θ, built on Tau Ceti's full
+crossed product and rotation action, with OperatorAlgebraDynamics D1's
+universal property and D2's expectation: its universal presentation by
+two unitaries with `uv=exp(2πiθ)vu`, the injectivity of its coordinate
+copy of C(𝕋) and its faithful tracial state `τ=∫_𝕋∘E`, which
+OperatorKTheory's Pimsner–Voiculescu computation consumes. N6 builds
+no twisted group C*-algebra: the identification of A_θ with the twisted
+group C*-algebra of ℤ² for the factor set
+`c((m,n),(m′,n′))=exp(2πiθnm′)`, the phase
+`TauCeti.SmoothNoncommutativeTorus.twist θ` of the pinned smooth torus,
+sending `U₁^mU₂^n` to the canonical unitary `W_(m,n)`, is
+OperatorKTheory 7.5's. N6 replaces
+each idempotent matrix over the smooth torus 𝒜_θ by a similar projection
+inside `M_n(𝒜_θ)` itself, by its spectral invariance, and N7 computes the
+trace and the Chern pairing of the two K₀ classes it constructs.
+Matrices over a C*-algebra, the continuous functional calculus and
+representations are Mathlib's `CStarMatrix`, `cfc` and star
+homomorphisms; the structure theory of C*-algebras (ideals, approximate
+units, the Calkin algebra, multipliers) belongs to CStarAlgebras and is
+not an input here.
+
+N7 consumes HilbertModules H1–H3 for the generic Hilbert-module
+constructions on its Heisenberg module: the completion of a pre-Hilbert
+module over a dense *-subalgebra (H1), finite Parseval frames with their
+Gram-matrix projection (H2), and the induced Hilbert space of a module
+tensored with a representation, which at the GNS representation of a
+state is the localization of the module at that state (H3). N7 owns the
+Heisenberg module itself: its inner product with its positivity, its
+smooth frames and Powers–Rieffel projection of trace θ, its connections
+and the identification of its localization at τ with the scalar L²(ℝ)
+model. The regular unbounded module operators of HilbertModules H6 and
+their bounded transform are not an input here: N5's bounded transform of
+a self-adjoint operator with compact resolvent is an instance of N5's own
+Borel calculus. The canonical trace Tr on the trace-class operators of B(H),
+with its basis independence, `Tr|T|=‖T‖₁`, its cyclicity against
+bounded operators and the trace-class duality of B(H), is
+VonNeumannAlgebras V4.Core's and is consumed in N3–N4. Tracial Lp
+spaces over a semifinite trace belong to NoncommutativeIntegration, and
+N3–N4 consume them at M=B(H) with its usual trace Tr: the Schatten
+quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with their p-triangle
+inequality, ideal and adjoint bounds and complete p-metric (§1.3, §1.5);
+Hölder's inequality with constant one for all positive exponents and the
+log-submajorization of the singular values of a product (§1.4); the weak
+Schatten classes and the weak trace class `S_(1,∞)` as weak Lp(B(H),Tr),
+with their quasi-norm, adjoint and ideal bounds (§1.6); and the trace
+cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1 (§2.1).
+N3 adds the inclusions S_p⊆S_q for p≤q, which are particular to
+B(H), and N4 the partial-sum norms of the weak classes and their
+comparison with the logarithmic ideal.
+Von Neumann algebras, preduals and normal functionals belong to
+VonNeumannAlgebras, of which N3–N4 consume only V4.Core on B(H). N6 owns the identification of
+the smooth two-torus with the smooth vectors of its gauge action, the
+comparison of its rapid-decay and derivative seminorms and the spectral
+invariance of `M_n(𝒜_θ)`; SmoothBanachRepresentations Layer 8 states the
+generic smooth-algebra theorems for Banach-algebra actions and no torus
+estimate, and its generic inverse closure is not an input here. The
+algebraic K₀ of finitely generated projective modules, the group
+K₁=`GL_∞(A)/E_∞(A)` and Whitehead's lemma are Tau Ceti's `ExactK0` of
+the exact category of finitely generated projective modules and its
+`AlgebraicK1`, the abelianization of `StableGeneralLinearGroup`, and
+AlgebraicKTheory owns their further theory; N2 states its pairings on
+idempotents and invertibles and consumes their descent to these groups
+from the pin. What the pinned Tau Ceti already proves of N1, N2, N4, N5
+and N6 is consumed by name in the Tau Ceti contract below and is not
+planned again.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Hilbert C*-modules are Mathlib's `CStarModule`, and `L²(A,τ)` with its
+left regular representation is Mathlib's `PositiveLinearMap.GNS` with
+`gnsStarAlgHom`. Cochains are native `MultilinearMap` and continuous
+multilinear maps; Mathlib `Derivation` serves the commutative
+specialization; complexes use `ChainComplex`/`CochainComplex` with their
+kernels, quotients and cohomology APIs. Fredholm theory is
+`ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`
+and `IsFredholm.index_comp`, with the native integer index
+`LinearMap.index`, the kernel dimension minus the cokernel dimension of
+the underlying linear map; closed operator domains are never replaced by total
+linear maps, nor Fredholmness by an opaque extra predicate. Matrices over
+a C*-algebra are `CStarMatrix`, the continuous functional calculus of a
+normal element is `cfc`, and representations are star homomorphisms
+`StarAlgHom` into bounded operators. N1.Tensor
+consumes `TensorProduct`, `Seminorm`, `WithSeminorms`,
+`UniformSpace.Completion`, `PiTensorProduct` and the Hahn–Banach
+theorem `exists_dual_vector''` over `RCLike` fields; N2 `Matrix.GeneralLinearGroup`
+and `Matrix.transvection`; N5 `LinearPMap` closed operators and the compact
+self-adjoint spectral theorem.
+
+### From Tau Ceti
+
+Every declaration named here is at the pinned Tau Ceti, in the module
+named with it under `TauCeti/`; the layers consume these and do not
+rebuild them.
+
+- Noncommutative derivations: `derivationLieAlgebra ℂ A`
+  (`Algebra/Lie/Derivation/Basic`), the Lie subalgebra of native
+  `Module.End` with the associative Leibniz rule; the A-bimodule-valued
+  universal-derivation comparison is constructed in N1.Cyclic using
+  commuting left/right actions.
+- Completed projective tensors (N1.Tensor), over every normed field 𝕜:
+  `CompletedProjectiveTensorProduct`,
+  the separated `UniformSpace.Completion` of the projective topology of a
+  finite family of spaces with given seminorm families, with its continuous
+  pure-tensor map, the extension `lift` of seminorm-bounded multilinear
+  maps, the completed tensor `map` of bounded linear maps with its
+  identity and composition laws `CompletedProjectiveTensorProduct.map_id`
+  and `CompletedProjectiveTensorProduct.map_comp`
+  (`Analysis/Normed/Module/PiTensorProduct/Projective/Completion`), first
+  countability of the algebraic projective topology for countable seminorm
+  families over a nontrivially normed field (`…/Projective/Topology`), the
+  relabelling `reindex`, which for two factors is the completed tensor flip,
+  with `CompletedProjectiveTensorProduct.reindex_refl`,
+  `CompletedProjectiveTensorProduct.reindex_trans` and its naturality
+  `CompletedProjectiveTensorProduct.map_comp_reindex`
+  (`…/PiTensorProduct/Reindex/Completion`), and, over a nontrivially
+  normed field, the universal properties
+  `liftEquiv` of the algebraic projective tensor and
+  `CompletedProjectiveTensorProduct.liftEquiv` of its completion for
+  continuous multilinear maps into complete Hausdorff targets
+  (`…/PiTensorProduct/UniversalProperty`). For the family seminorms
+  the pin bounds a pure tensor only from above,
+  `PiTensorProduct.projectiveSeminormOf_tprod_le`
+  (`…/PiTensorProduct/Projective/Seminorm`).
+- Banach projective tensors (N1.Tensor), for seminormed spaces over a
+  normed field: the binary projective seminorm
+  `TensorProduct.projectiveSeminorm`, the infimum of `Σ‖x_i‖‖y_i‖` over
+  finite decompositions, on the copy `TauCeti.ProjectiveTensor 𝕜 E F` of
+  `E⊗F`, with its universal bound
+  `TensorProduct.apply_le_mul_projectiveSeminorm`
+  (`Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm`), and over
+  `RCLike` fields its cross property `TensorProduct.projectiveSeminorm_tmul`,
+  `π(x⊗y)=‖x‖‖y‖` for seminormed factors (`…/TensorProduct/InjectiveSeminorm`);
+  over a nontrivially normed field its completion
+  `TauCeti.CompletedProjectiveTensor 𝕜 E F`, a Banach space, with the
+  operators `TauCeti.CompletedProjectiveTensor.mapL` of norm at most
+  `‖f‖‖g‖` and the isometric universal property
+  `TauCeti.CompletedProjectiveTensor.liftIsometry`,
+  `(E→L F→L G)≃ₗᵢ(E⊗̂_π F→L G)` for every Banach space G, which at G=𝕜
+  identifies the dual with the bounded bilinear forms
+  (`…/TensorProduct/Completion`); and the symmetry, scalar-unit and
+  associativity isometries `TauCeti.ProjectiveTensor.comm`,
+  `TauCeti.ProjectiveTensor.lid` and `TauCeti.ProjectiveTensor.assoc` of
+  algebraic tensors with their pure-tensor equations, and the completed
+  symmetry and scalar unit `TauCeti.CompletedProjectiveTensor.comm` and
+  `TauCeti.CompletedProjectiveTensor.lid` (`…/TensorProduct/Associator`).
+  The pin has no comparison of the binary projective norm with the
+  finite-family `PiTensorProduct` projective norm; BanachSpaceTheory B4
+  supplies it.
+- Universal forms (N1.Cyclic): `UniversalForms k A n`, the words
+  `x da₁⋯da_n` of `A⁺⊗A^⊗n` with their differential and cochain complex
+  (`NoncommutativeGeometry/UniversalDifferential/Complex`), Connes' product
+  with the graded Leibniz rule (`…/Product`), the differential graded
+  algebra `⨁ n, Ωⁿ` with the inclusion `UniversalForms.ι` of A as
+  zero-forms (`…/DGAlgebra`), the universal one-forms as the kernel of
+  multiplication with their derivation universal property and
+  functoriality (`…/OneForms`, `…/TensorCoordinates`, `…/Map`), cycles
+  with closed graded traces `IsClosedGradedTrace` and their characters
+  `cycleCocycle` (`RingTheory/CyclicCohomology/Cycle`), the realization of
+  every cyclic cocycle by the universal-form cycle it defines
+  (`…/UniversalDifferential/Cycle`), and the exterior product
+  `exteriorProductCocycle` of cyclic cocycles as the character of the
+  Koszul-signed tensor product of their cycles
+  (`…/UniversalDifferential/ExteriorProduct`, `RingTheory/CyclicCohomology/TensorCycle`).
+- Cyclic cohomology (N1.Cyclic): the Hochschild coboundary with the sign
+  pinned in N1.Cyclic and the cyclic cochains
+  (`RingTheory/CyclicCohomology/Cochain`); the cyclic operator, cyclic
+  norm, bar coboundary, unit contraction and Connes' `B` with `B²=0` and
+  `bB+Bb=0` (`…/ConnesOperator`); `cyclicCocycles`, `cyclicCohomology` with
+  its class map and pullback along nonunital homomorphisms
+  (`…/Cohomology`); the Hochschild complex and `hochschildCohomology`
+  (`RingTheory/HochschildCohomology/Complex`) with `I` and `B` on
+  cohomology (`…/CyclicCohomology/Hochschild`); the cyclic bicomplex, its
+  total complex and the quasi-isomorphism from the cyclic-cochain complex
+  over a ℚ-algebra (`…/Bicomplex`, `…/RowExactness`); the periodicity
+  map `S` of the bicomplex as the column shift and the SBI sequence exact
+  at every term (`…/Periodicity`, `…/ExactSequence`);
+  `periodicCyclicCohomology`, the same-parity direct limit under `S`, with
+  its 2-periodicity (`…/PeriodicCohomology`); for the ground ring,
+  `HC^(2k+1)(R;M)=0`, `HC^0(R;M)≅M`, and `HC^(2k)(R;M)≅M` for `k≥1` when
+  multiplication by 2 is injective on `M` (in general `HC^(2k)(R;M)≅M⧸M[2]`
+  for `k≥1`, with `M[2]` the 2-torsion) (`…/GroundRing`); reduced and
+  relative cyclic cohomology (`…/Reduced`, `…/Relative`); normalized
+  cochains and chains with `b`, `B` and the even Chern chains with
+  `(b+B)ch=0` (`…/Normalized/Basic`, `…/Normalized/Chains`,
+  `…/Normalized/Chern/Even`); the trace–derivation cocycles
+  `traceDerivationCocycle` and `traceDerivationPairCocycle`
+  (`…/Derivation`); and continuous cyclic cochains with their operators,
+  `continuousCyclicCohomology` with its quotient topology, the relative
+  continuous complex and the continuous matrix extension
+  (`…/Continuous/Basic`, `…/OperatorTopology`, `…/Continuous/Cohomology`,
+  `…/Continuous/Relative`, `…/Continuous/Matrix`).
+- Hochschild cochains (N1.Cyclic): for a possibly nonunital normed
+  algebra A over a nontrivially normed field and a bounded bimodule E
+  with bounded bilinear left and right actions, the bounded Hochschild
+  coboundary `ContinuousLinearMap.hochschildBimoduleCoboundary` on the
+  cochains `ContinuousMultilinearMap 𝕜 (fun _ : Fin n ↦ A) E`,
+  `(δT)(a₀,…,a_n)=a₀·T(a₁,…,a_n)+Σ_(j<n)(−1)^(j+1)T(a₀,…,a_ja_(j+1),…,a_n)+(−1)^(n+1)T(a₀,…,a_(n−1))·a_n`,
+  with `‖δ‖≤‖L‖+n+‖R‖` for the action maps L and R
+  (`ContinuousLinearMap.norm_hochschildBimoduleCoboundary_le`), δ²=0
+  for associative commuting actions
+  (`ContinuousLinearMap.hochschildBimoduleCoboundary_hochschildBimoduleCoboundary`),
+  the central elements as degree-zero cocycles and the bounded
+  derivations as degree-one cocycles
+  (`ContinuousLinearMap.hochschildBimoduleCoboundary_constOfIsEmpty_eq_zero_iff`,
+  `ContinuousLinearMap.hochschildBimoduleCoboundary_ofSubsingleton_eq_zero_iff`)
+  (`Analysis/Normed/Algebra/HochschildCohomology/Coboundary`), and
+  naturality in bounded bimodule maps of the coefficients,
+  `ContinuousLinearMap.hochschildBimoduleCoboundary_compContinuousMultilinearMap`
+  (`…/HochschildCohomology/Coefficients`); for a bounded bimodule E with
+  left action L and right action R, the dual actions
+  `ContinuousLinearMap.dualAction` on `StrongDual 𝕜 E`, the left action
+  `(a·φ)(x)=φ(x·a)` being `dualAction R` and the right action
+  `(φ·a)(x)=φ(a·x)` being `dualAction L`, with their bimodule laws for
+  associative commuting L and R,
+  `ContinuousLinearMap.dualAction_mul_apply_of_right`,
+  `ContinuousLinearMap.dualAction_mul_apply_of_left` and
+  `ContinuousLinearMap.dualAction_apply_dualAction_apply_comm` and their
+  weak-star continuity in the dual variable
+  `ContinuousLinearMap.continuous_toWeakDual_dualAction`
+  (`Analysis/Normed/Module/Dual/Bimodule`); for an algebra A over a
+  commutative semiring R and an R-module N, the dual bimodule
+  `A →ₗ[R] N` with `(x·f)(y)=f(yx)` and `(f·x)(y)=f(xy)`, which for N=R
+  is `(aφb)(y)=φ(bya)`, and `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary`:
+  currying the first argument, `TauCeti.multilinearCurryFirstEquiv`,
+  carries the coboundary b of N-valued cochains in n+1 arguments to the
+  Hochschild coboundary of the `A →ₗ[R] N`-valued cochains in n
+  arguments (`RingTheory/HochschildCohomology/Dual`). The pin has no
+  cohomology groups of bounded cochains and no bounded form of the
+  currying comparison; BanachAlgebras A6 supplies both.
+- Pairings (N2): the matrix extension `φ#Tr` and
+  `cyclicCohomology.matrixExtension` (`…/Matrix`);
+  `cyclicCohomology.evenPairing` with Connes' formula, additivity on direct
+  sums, conjugation, polynomial-homotopy and Murray–von Neumann invariance
+  and its descent `evenPairingK0` to `ExactK0` of finitely generated
+  projective modules (`…/EvenPairing/Basic`, `…/EvenPairing/Invariance`,
+  `…/EvenPairing/AlgebraicK0`); `cyclicCohomology.oddPairing` with Connes'
+  formula, direct sums, stabilization, the product law, conjugation,
+  polynomial homotopy, vanishing on elementary matrices and commutators
+  and its descent `AlgebraicK1.oddPairing` (`…/OddPairing/Basic`,
+  `…/OddPairing/Invariance`, `…/OddPairing/AlgebraicK1`).
+- Operator ideals and Dixmier traces (N3–N4): the Schatten families
+  `OperatorIdealFamily.schatten` for 1≤p<∞ and
+  `OperatorIdealFamily.traceClass`, on the zero-indexed approximation
+  numbers, with completeness and the inclusions S_p⊆S_q for 1≤p≤q
+  (`Analysis/OperatorIdeal/Family/Schatten`, `…/TraceClass`); the
+  logarithmic ideal `OperatorIdealFamily.logarithmic` with its gauge,
+  ideal laws, completeness, adjoint invariance, compactness of its members,
+  the trace-class inclusion and the approximation-number bound
+  `(N+1)a_N(T)≤‖T‖_(1,∞)log(N+2)`, with ‖T‖_(1,∞) that gauge, for every
+  N and every bounded T
+  (`TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`,
+  `…/Logarithmic`); `GeneralizedLimit` with
+  `IsDilationInvariant`, its unfolding
+  `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`,
+  `ω(n↦f(⌊n/k⌋))=ω(f)` for dilation-invariant ω, every bounded f and
+  k≥1, and the existence of dilation-invariant generalized limits
+  (`Analysis/Normed/Order/GeneralizedLimit`); `dixmierTrace` with its
+  positivity, positive homogeneity, subadditivity
+  `Tr_ω(S+T)≤Tr_ω(S)+Tr_ω(T)` on `L^(1,∞)`, ideal bound, invariance under
+  adjoints and unitaries, vanishing on trace class and the value 1 on
+  `diag(1/(j+1))` (`…/DixmierTrace`); and the Ky Fan superadditivity
+  `ContinuousLinearMap.IsPositive.kyFanGauge_add_kyFanGauge_le`,
+  `K_k(S)+K_l(T)≤K_(k+l)(S+T)` for positive S, T on a Hilbert space, with
+  `K_k` the sum of the first k approximation numbers
+  (`Analysis/OperatorIdeal/ApproximationNumber/Positive`). The pin has no
+  additivity of `dixmierTrace` on positive operators; N4 proves it from
+  these two inputs. The pins have the
+  trace only in finite dimension (Mathlib's `LinearMap.trace`, Tau Ceti's
+  `TauCeti.traceCLM`) and no trace functional on trace-class operators,
+  which VonNeumannAlgebras V4.Core supplies; N4 builds the linear Dixmier
+  trace on `L^(1,∞)`.
+- Fredholm perturbation (N3, N5, N7), for bounded operators between
+  Banach spaces over ℂ: Riesz–Schauder, `TauCeti.isFredholm_one_add`,
+  that 1+K is Fredholm for compact K; Atkinson's compact perturbation,
+  `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
+  `ContinuousLinearMap.index_add_of_isCompactOperator`, that T+C is
+  Fredholm with the index of T when T is Fredholm and C compact
+  (`Analysis/Fredholm/CompactPerturbation`); stability of Fredholmness and
+  the index near a Fredholm operator,
+  `ContinuousLinearMap.IsFredholm.eventually_isFredholm_and_index_eq`
+  (`…/SmallPerturbation`); and constancy of the index along a continuous
+  family of Fredholm operators over a preconnected parameter space,
+  `Continuous.index_eq_of_preconnectedSpace` and `Path.index_eq`
+  (`…/ContinuousFamily`). The index in these statements is Mathlib's
+  `LinearMap.index` of the underlying linear map.
+- Compact resolvent (N5): for a self-adjoint `LinearPMap`, compactness of
+  the resolvent at one nonreal point and at every nonreal point are
+  equivalent, `K=(1+D²)⁻¹=R(i)*R(i)` is positive and injective, its
+  eigenspaces for nonzero eigenvalues are finite-dimensional, D-invariant
+  and densely spanning, and `D` has a complete orthonormal eigenbasis with
+  real eigenvalues (`Analysis/InnerProductSpace/LinearPMap/CompactResolvent`,
+  `…/Eigenbasis`).
+- The smooth torus (N6): `SmoothNoncommutativeTorus θ` for every real θ,
+  modelled by rapidly decreasing coefficient functions on ℤ², with the
+  twisted convolution product, the star, the unitaries `U₁`, `U₂`, the
+  relation `U₂U₁=exp(2πiθ)U₁U₂`, the ordered multiplier `exp(2πiθnm′)`
+  and the faithful trace `trace` (`NoncommutativeGeometry/SmoothTorus/Basic`);
+  it carries no topology and no derivations at the pin.
+- Resolvent integrals (N6): for an element a of a complex Banach algebra,
+  f holomorphic on an open U and cycles Γ₁, Γ₂ in U∖σ(a), null-homologous
+  in U, with the same winding number about every point of σ(a), the
+  integrals `∫_Γ f(z)(z1−a)⁻¹dz` over Γ₁ and Γ₂ agree,
+  `TauCeti.Contour.Cycle.integral_smul_resolvent_eq_of_windingNumber_eq`
+  (`Analysis/Normed/Algebra/HolomorphicFunctionalCalculus/Cycle`). The
+  pin has no theorem producing such a cycle around a compact set, and no
+  holomorphic calculus as an algebra homomorphism; BanachAlgebras A2
+  supplies both.
+- Crossed products (N6): the pullback `TauCeti.CStarAction.comp` of an
+  action along a continuous homomorphism (`Analysis/CStarAlgebra/Action/Basic`);
+  the rotation action `TauCeti.CStarAction.rotation` of the real line
+  on `C(Circle, ℂ)`, with `TauCeti.CStarAction.rotation_apply_apply`,
+  `rotation t f z = f(exp(it)⁻¹z)` (`…/Action/ContinuousMap`), and the
+  coordinate unitary `Circle.coordinate` with
+  `Circle.coordinate_mem_unitary` (`Analysis/Complex/Circle`); for a
+  point-norm continuous action α of a locally compact group with a left
+  Haar measure μ, the full crossed product
+  `TauCeti.CStarAction.FullCrossedProduct α μ`, the completion of the
+  twisted convolution algebra `(f⋆g)(s)=∫f(r)α_r(g(r⁻¹s))dμ(r)` on
+  compactly supported continuous functions in the supremum of the norms
+  of the integrated forms of covariant Hilbert-space representations, a
+  nonunital C*-algebra, with the dense map
+  `TauCeti.CStarAction.FullCrossedProduct.of`, its injectivity
+  `TauCeti.CStarAction.FullCrossedProduct.of_injective` when the
+  coefficients have a faithful representation and μ is inner regular,
+  uniqueness `TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`,
+  the extension `TauCeti.CStarAction.FullCrossedProduct.lift` of
+  *-homomorphisms bounded by that supremum, and the integrated forms
+  `TauCeti.CStarAction.CovariantRepresentation.integratedFull` of
+  covariant pairs on Hilbert spaces (`…/Action/CrossedProduct/Full`);
+  the coefficient map i_A,
+  `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, and the
+  unitary group map i_G,
+  `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, into the
+  multiplier algebra, acting on the left by `(i_A(a)f)(s)=a·f(s)` and
+  `(i_G(r)f)(s)=α_r(f(r⁻¹s))`, with the covariance
+  `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier_mul_coefficientMultiplier`,
+  `i_G(r)i_A(a)=i_A(α_r a)i_G(r)` (`…/CrossedProduct/Multiplier`). The
+  pin has no unit for a discrete group, no universal property for
+  covariant pairs in an arbitrary C*-algebra, no reduced crossed product
+  or conditional expectation and no dual action.
+
+### From TauCetiRoadmap roadmaps
+
+| Supplier | Interface consumed here |
+| --- | --- |
+| [BanachAlgebras A2, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's cohomology groups `Hⁿ=Zⁿ/Bⁿ` of bounded Hochschild cochains and the compatibility of the bounded coboundary with currying into the Banach dual, consumed by N1.Cyclic. The bounded coboundary and the dual actions `ContinuousLinearMap.dualAction`, `(a·φ)(x)=φ(xa)` and `(φ·a)(x)=φ(ax)`, are Tau Ceti's. N1 owns its resolution comparisons. |
+| [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
+| [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the B(H) inclusions of the quasi-ideals into the Schatten scale; N4 the singular traces. |
+| [NoncommutativeIntegration §1.3–§1.6, §2.1](../NoncommutativeIntegration/README.md) | At M=B(H) with its usual trace Tr, where `μ_t(T)=a_⌊t⌋(T)` with the zero-indexed approximation numbers (§1.5): the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal bound `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of the p-metric (§1.3, §1.5); Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for p,q,r>0 and 1/r=1/p+1/q, and the log-submajorization of the singular values of a product (§1.4); the weak Schatten classes `sup_j(j+1)^(1/p)μ_j(T)<∞`, with the weak trace class `S_(1,∞)` at p=1, and their quasi-norm, adjoint and ideal bounds (§1.6); the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p<∞ (§2.1). N3 consumes the quasi-ideals, Hölder and the cyclicity for its characters, N4 Hölder and the weak classes. |
+| [VonNeumannAlgebras V4.Core](../VonNeumannAlgebras/README.md) | The canonical trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on the trace class S₁(H) of OI-B29–B30, its independence of the orthonormal basis, `Tr|T|=‖T‖₁`, the cyclicity of trace-class products against bounded operators and of Hilbert–Schmidt pairings, and the isometric identification of B(H) with the dual of S₁(H) under `(x,h)↦Tr(xh)`, so that the ultraweakly continuous functionals on B(H) are the `T↦Tr(ρT)` with ρ trace class. N3 consumes the trace for its characters, N4 for the Tauberian bridge and the singularity of Dixmier traces. |
+| [HilbertModules H1–H3](../HilbertModules/README.md) | In Mathlib's right-module convention `CStarModule Aᵐᵒᵖ E`: H1's completion of a pre-Hilbert module, including a module over a dense *-subalgebra whose positivity and norm are measured in its C*-completion, with the extension of the action to that completion; H2's rank-one operators `z↦x⟨y,z⟩`, finite Parseval frames `Σ_i x_i⟨x_i,z⟩=z` with their analysis and synthesis maps and Gram-matrix projection `(⟨x_i,x_j⟩)_(i,j)` in `M_n(A)`, and, for unital A, the existence of a finite Parseval frame on a complete module exactly when it is finitely generated projective; H3's induced Hilbert space `E⊗_A H_π` of a nondegenerate representation π, and for a state ω its identification with the completion of E modulo `{x:ω(⟨x,x⟩)=0}` and with `E⊗_A H_ω`. N7 consumes them at A=A_θ and ω=τ for the Heisenberg module. |
+| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The norm-preserving comparison, by the identity on pure tensors, of the binary projective norm on `E⊗F` with the finite-family `PiTensorProduct` projective norm of the pair (E,F), for normed spaces over ℝ and ℂ, consumed by N1.Tensor for its comparison with the pinned Banach projective tensor. That tensor, its cross property, universal property and symmetry, unit and associativity isometries are Tau Ceti's. |
+| [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | D1's universal property of the full crossed product for nondegenerate covariant pairs in multiplier algebras, hence in any unital C*-algebra; D2's generator formulas for G=ℤ, the equality of full and reduced crossed products for amenable groups and the faithful conditional expectation of a discrete crossed product with its Fourier coefficient maps; D4's dual action of the circle. The full crossed product, its canonical multipliers and the rotation action are Tau Ceti's; N6 constructs the two-torus gauge action. |
 
 ## References
 

@@ -1,127 +1,97 @@
 # Roadmap: hives, honeycombs, puzzles and type-A tensor products
 
-**Summary.** This roadmap builds the integral and real combinatorial models of
-rational GLₙ tensor products: hives on the triangular lattice, their
-piecewise-linear associator and commutor, honeycombs and the saturation
-theorem, puzzles and the Horn inequalities, and the ordinary Grassmannian
-puzzle rule. It starts from the native dominant weights, Gelfand–Tsetlin
-patterns, bounded tableaux and Schur polynomials of Tau Ceti, consumes the
-skew-tableau and Littlewood–Richardson layer of SchurWeyl, and proves explicit
-comparisons with Gelfand–Tsetlin patterns, Littlewood–Richardson
-tableaux, rational representations, Grassmannian cohomology, Hermitian spectra
-and type-A path crystals. Two generic lanes are built on the way: pointed
-unimodular vector-partition counting with its chamber polynomials, and the
-rational cone series with their Fourier boundary values and lattice endpoints.
-The end theorems are the hive model of the Littlewood–Richardson rule
-(`schur_mul_eq_finsum_hiveCount`), its representation-theoretic form on the
-pinned rational Weyl modules (`finrank_hom_eq_hiveCount`,
-`finrank_invariants_eq_hiveCount`), the associativity and commutativity of the
-hive ring (`card_leftPair_eq_card_rightPair`, `hiveCount_comm`), saturation
-(`integral_witness_iff_real_witness`), the type-A PRV theorem
-(`hiveCount_pos_prv`), multiplicity-one stretching (`hiveCount_smul_eq_one`),
-the Hermitian characterization of hive feasibility (`hermitian_iff_hive`) and
-the chamber polynomiality of the type-A Kostant partition function
-(`typeA_exists_chamberPolynomial`). Suggested homes are
-`TauCeti/Combinatorics/Hive/`, `TauCeti/Combinatorics/Puzzle/` and
-`TauCeti/RepresentationTheory/TypeAPath/`.
+**Summary.** When two irreducible rational representations of GLₙ(ℂ) are
+tensored together, the product splits into irreducible pieces, and the
+multiplicity of each piece is a Littlewood–Richardson coefficient. This
+roadmap builds combinatorial models that compute these numbers, and proves
+with them theorems about tensor products, Grassmannians and Hermitian
+matrices. Weights are dominant weights of GLₙ: nonincreasing integer vectors
+of length n, with negative entries allowed.
 
-## Scope and ownership
+The central object is the hive. A hive of size n is a function on the
+triangular lattice `Δₙ = {(x,y,z) ∈ ℕ³ : x+y+z = n}`, vanishing at the corner
+(n,0,0), such that on every unit rhombus the sum of the values at the two
+obtuse corners is at least the sum at the two acute corners. The successive
+differences along its three sides form its boundary; for an integer hive they
+are three dominant weights. Beside hives the roadmap builds honeycombs, plane
+configurations of a graph in linear correspondence with hives, and puzzles,
+tilings of a triangle by unit triangles and rhombi with edges labelled 0 and 1.
 
-This roadmap owns: the triangular lattice,
-rhombus inequalities, integral and real hives, their fixed-boundary polytopes
-and the finite rational polyhedron, Farkas and largest-lift adapters (Layer 1,
-§§1.1–1.4); pointed unimodular vector-partition counting with its chamber
-polynomials and cone valuations (§1.5); rational cone series, their Fourier and
-Abel boundary values, box and cone distributions, wall crossing and the
-directional Todd and toric reconstruction of lattice counts (§1.6); the
-comparisons of hives with native Gelfand–Tsetlin patterns and with
-Littlewood–Richardson tableaux, the tensor-multiplicity and invariant formulas,
-the type-A Steinberg extraction adapter, direct hive Pieri, the rational
-representation ring R(GLₙ) with its hive multiplication, the type-A Kostant
-partition function as an interval-matrix count and the comparison of hive
-counts with the restrictions of external tensor products to the diagonal
-overgroups (Layer 2); the bounded octahedron recurrence and the excavation
-associator (Layer 3); honeycombs, overlay, the type-A PRV theorem and
-saturation (Layer 4); puzzles, their boundary functionals, facets and
-gentle-loop rigidity (Layer 5); the finite complex Grassmannian's integral
-Schubert cohomology, Pieri, Giambelli, the quotient of the stable ring, the
-puzzle–honeycomb equivalence, the puzzle ring and multiplicity-one stretching
-(Layer 6); Hermitian spectra, the projective invariant-to-moment-zero bridge,
-the Schubert compression inequality and the Horn recursion (Layer 7); the
-type-A path, tableau and Gelfand–Tsetlin crystals as specializations of the
-generic path engine, with the comparison maps between the type-A coordinate
-paths and the generic path carrier (Layer 8); and the quarter-octahedron
-commutor with its slide, Schützenberger and cactus comparisons (Layer 9).
+The first main theorem is the hive model of the Littlewood–Richardson rule.
+For a dominant weight λ, let V_λ be the rational Weyl module of Tau Ceti: the
+Weyl module of the polynomial part of λ, twisted by a power of the
+determinant. Then for all λ, μ, γ, the dimension of the space of GLₙ(ℂ)-maps
+from V_γ to V_λ ⊗ V_μ is the number `c^γ_(λ,μ)` of integer hives with boundary
+(λ, μ, γ*), where γ* = (−γₙ, …, −γ₁). In rank 2, for instance,
+V_(1,0) ⊗ V_(1,0) = V_(2,0) ⊕ V_(1,1), and each summand comes from exactly one
+hive. When λ and μ have nonnegative entries, the same counts are the
+coefficients of s_λ s_μ in the basis of Schur polynomials in n variables; in
+more variables this fails. The counts are symmetric in λ and μ, and the ring
+they define is associative.
 
-It does not own, and does not restate:
+The second is saturation: an integral boundary that bounds a real hive also
+bounds an integer hive. Consequently, for every N ≥ 1, `c^(Nγ)_(Nλ,Nμ)` is
+positive exactly when `c^γ_(λ,μ)` is.
 
-- partitions, dominance, standard tableaux, finite-alphabet Schur polynomials,
-  Jacobi–Trudi, the finite Frobenius characteristic and RSK, which
-  SchurWeyl Layers 0 and 7 own; skew semistandard tableaux, jeu de taquin,
-  Knuth equivalence, Littlewood–Richardson tableaux, the tableau-product
-  bijection, vertical Pieri, standard-tableau evacuation and the stable graded
-  ring of symmetric functions with its Schur basis, which SchurWeyl must
-  provide (three declared gaps under supplier contracts); nothing of that
-  tableau layer is built here;
-- native dominant weights, signed Gelfand–Tsetlin patterns,
-  `TauCeti.gtPatternEquivSSYT`, the rational Weyl modules
-  `TauCeti.rationalWeylFDRep` and their characters, which are Tau Ceti
-  declarations; the identification of those modules with the irreducible
-  rational representations of highest weight, of Littlewood–Richardson
-  structure constants with tensor multiplicities, and the weight/branching
-  basis, which ClassicalGroups Layers 3–6 own;
-- the Weyl character formula, the Weyl denominator and the Kostant
-  multiplicity formula for Lie algebras and root pairings, which are native
-  Tau Ceti declarations (exact names under supplier contracts); nothing of
-  LieHighestWeight is consumed, and its Layer 6F is a consumer of §1.6 and
-  §2.6 (see Downstream consumers);
-- the generic finite-root-data path-crystal engine of SchubertGeometry
-  S4.1–5; Layer 8 specializes it to type A and owns the comparison maps with
-  its own coordinate and tableau carriers, which SchubertGeometry S9.5
-  restates (see Downstream consumers); no return edge into S4.1–5 is added;
-- the classification of the closed connected complex Lie subgroups of
-  GLₙ(ℂ)×GLₙ(ℂ) containing the diagonal and the restriction of external
-  tensor products to them, which ClassicalGroups must provide (two declared
-  gaps under supplier contracts); §2.7 keeps only the comparison of those
-  restrictions with hive counts;
-- full flags, full-flag Bruhat cells and Borel–Weil (LieGroups Layer 8), the
-  finite rank-k subspace Grassmannian with its topology, charts, tautological
-  bundle, CW characteristic maps and partial-flag incidence
-  (TopologicalKTheory T1 and T1.5) and the algebraic quotient-rank
-  Grassmannian (Mathlib `Module.Grassmannian`) together with the comparison
-  of the latter's complex points with the topological carrier, which
-  TopologicalKTheory T1 supplies with the submodule retained; the scheme
-  structure of the Grassmannian functor (charts, gluing, structure morphism)
-  is not consumed anywhere: Layer 6 works with the topological carrier and
-  reaches the complex points of the quotient-rank functor only through that
-  supplied comparison;
-- singular and cellular cohomology, cup products, Künneth, orientations and
-  duality (AlgebraicTopology Stages 2–6), Thom, Gysin, Leray–Hirsch and
-  integral Chern classes (CharacteristicClasses C2–C3), Kähler structures of
-  projective embeddings (ComplexKahlerGeometry K7), manifold Sard
-  (DifferentialGeometry 10.2), finite min–max and Weyl perturbation
-  (PolarDecomposition PD-A50–A53), moment maps, coadjoint orbits and KKS
-  (HamiltonianReduction R1–R2), the compact chamber/quotient dictionary
-  (ConvexityToric T3), normalized torus Haar measure (CompactGroups Layer 0),
-  smooth periodic Fourier expansions with rapid seminorm decay
-  (PseudodifferentialOperators Layer 3), the generic test-function and
-  distribution carriers (ComplexKahlerGeometry K5a), semigroup/lattice
-  comparisons (GroebnerGeometry G2) and the generic Grothendieck groups
-  (GrothendieckEulerForms Layers 1–2, Tau Ceti `TauCeti.SplitK0`);
-- the Coxeter combinatorics of the symmetric group and the type-A root
-  realization (RootSystems Layers 3 and 5).
+The third is the Hermitian form of the Horn problem. Real vectors α, β, γ are
+the spectra, sorted in nonincreasing order, of Hermitian n×n matrices A, B, C
+with A + B + C = 0 exactly when (α, β, γ) is the boundary of a real hive.
 
-Out of scope altogether: the general semisimple PRV theorem, equivariant,
-quantum and K-theoretic puzzle rules, quantum-group crystal bases and
-Kac–Moody path models, Bott–Samelson resolutions and generic Demazure
-restriction, Hilbert–Mumford criteria and symplectic-volume formulas, and
-every executable certificate search. The mathematical background of the
-algorithms (finite enumeration of hives, chamber certificates, puzzle
-enumeration) appears as targets and Checks; no implementation is specified.
+The fourth is multiplicity-one stretching, conjectured by Fulton: a boundary
+with exactly one integer hive still has exactly one after dilation by any
+d ≥ 1.
 
-`Suggested.lean` states the headline theorems of this roadmap against the
-pinned Mathlib and Tau Ceti, with the few definitions those statements need;
-the README carries every target, API and Check.
+Tau Ceti already has dominant weights, signed Gelfand–Tsetlin patterns and
+Schur polynomials. It also has the rational Weyl modules and the Kostant
+partition function. SchurWeyl is asked for skew and Littlewood–Richardson
+tableaux and the Littlewood–Richardson rule; none is built here. The
+identification of the rational Weyl modules with the irreducible
+representations of highest weight belongs to ClassicalGroups, which also
+identifies Littlewood–Richardson coefficients with tensor multiplicities; the
+hive model uses the latter. TopologicalKTheory provides the complex
+Grassmannian and its cell structure. SchubertGeometry provides the generic
+path crystals that Layer 8 specializes, and uses the puzzle rule of Layer 6.
+LieHighestWeight composes the cone series and the type-A Kostant count of
+this roadmap with the Weyl character formula.
+
+Layer 1 builds hives and their polytopes, and two generic tools that make no
+use of hives. The first counts the ways to write a lattice vector as a
+nonnegative integer combination of the columns of an integer matrix. For full
+row rank, maximal minors all 0 or ±1 and a linear functional positive on
+every column, this count is a polynomial on each closed chamber. The second
+is the theory of rational cone series and their Fourier boundary values.
+Layer 2 proves the hive model and specializes the count to the type-A Kostant
+partition function. Layer 3 proves associativity by the octahedron
+recurrence. Layer 4 proves saturation and the type-A PRV theorem with
+honeycombs, Layer 5 builds puzzles, and Layer 6 proves the puzzle rule for
+the cohomology of the Grassmannian. Layer 7 proves the Hermitian theorem and
+the Horn recursion. Layers 8 and 9 compare hives and the hive commutor with
+type-A crystals.
+
+## How to read the build
+
+Layer 1
+builds the lattice, hives, their polytopes and the finite rational polyhedron
+adapters (§§1.1–1.4), then two independent generic lanes: pointed unimodular
+counting (§1.5) and the rational cone series with Fourier boundary values and
+lattice endpoints (§1.6); neither has a hive, character or Schubert premise.
+Layer 2 compares hives with Gelfand–Tsetlin patterns and Littlewood–Richardson
+tableaux, proves the tensor-multiplicity formulas, hive Pieri, the
+representation ring and its hive multiplication, specializes §1.5 to the
+type-A Kostant partition function (§2.6) and compares hive counts with the
+diagonal overgroup restrictions (§2.7). Layer 3 builds the bounded octahedron
+recurrence and the excavation associator, which gives hive-ring associativity
+independently of Littlewood–Richardson counting; §2.5 uses it. Layer 4 builds
+honeycombs, overlay, PRV and saturation. Layer 5 builds puzzles and the facet
+theory of the boundary cone. Layer 6 builds the Grassmannian's Schubert
+cohomology, the puzzle rule and multiplicity-one stretching, after §§6.1–6.7.
+Layer 7 builds Hermitian spectra, the invariant-to-moment-zero bridge, the
+real converse and the Horn recursion. Layer 8 specializes the generic path
+engine to type-A coordinate paths and tableau crystals; its component and
+tensor comparison precedes Layer 9's coherence comparison, while the
+excavation and ring associativity of Layer 3 are independent of both. The
+order of construction is Layer 1, §§2.1–2.4, Layer 3, §2.5, §§2.6–2.7,
+Layers 4, 5, §§6.1–6.7, §6.8, Layer 7, Layer 8, Layer 9.
 
 ## Conventions
 
@@ -187,278 +157,6 @@ the README carries every target, API and Check.
    operators. The tensor convention is Henriques–Kamnitzer's (§8.1).
 8. Section references `§k.n` name the targets of Layer k below; "Layer k"
    names a whole layer.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Matrix.IsTotallyUnimodular` and its submatrix API
-  (`Mathlib/LinearAlgebra/Matrix/Determinant/TotallyUnimodular.lean`): every
-  square submatrix has determinant 0 or ±1.
-- `Matrix.IsHermitian.eigenvalues₀` (sorted), `eigenvalues₀_antitone`,
-  `charpoly_eq` (`Mathlib/Analysis/Matrix/Spectrum.lean`) and
-  `isSymmetric_toEuclideanLin_iff` (`Mathlib/Analysis/Matrix/Hermitian.lean`):
-  the finite-dimensional spectral theorem for Hermitian matrices on the
-  Euclidean coordinate space.
-- `UnitAddTorus`, `UnitAddTorus.mFourier`, `mFourierCoeff`, `mFourierBasis`
-  (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`): the torus `(ℝ/ℤ)^r`, its
-  characters `θ ↦ exp(2πi⟨a,θ⟩)` and Fourier coefficients.
-- `TemperedDistribution` and its Fourier equivalence
-  (`Mathlib/Analysis/Distribution/TemperedDistribution.lean`), `SchwartzMap`;
-  the topology of `TemperedDistribution` is pointwise on Schwartz tests.
-- `MeasureTheory.Measure.map`, `Measure.restrict` and `Measure.sum`
-  (`Mathlib/MeasureTheory/Measure/Sum.lean`): pushforward, restriction and
-  countable sums of measures.
-- `ProperCone.hyperplane_separation'`
-  (`Mathlib/Analysis/Convex/Cone/InnerDual.lean`) and finite-dimensional
-  linear algebra: separation of a closed convex cone from a point.
-- `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`): the
-  quotient-rank Grassmannian functor `G(k, M; R)`, named in Conventions
-  item 5 and in a Check of §6.1; its complex points are reached only
-  through the comparison TopologicalKTheory T1 supplies.
-- `CoxeterSystem` (`Mathlib/GroupTheory/Coxeter/Basic.lean`) and `Equiv.Perm`:
-  the symmetric group as a Coxeter group.
-- `Finset`, `Fintype`, `Nat.card`, `MvPolynomial` and `finsum` (`∑ᶠ`) for the
-  finite counts, chamber polynomials and finitely supported sums.
-
-### From Tau Ceti
-
-- `TauCeti.DominantWeight` with `shift`, `detShift`, `detShiftShape`, `shape`,
-  `IsPolynomial`, `weightOfShape`, `shapeEquivPolynomialWeight` and
-  `dominantWeightOf`
-  (`TauCeti/RepresentationTheory/ClassicalGroups/DominantWeight.lean`):
-  antitone integer weights, determinant shifts, the Young diagram of a
-  polynomial weight (negative entries truncated to 0) and the dominant
-  rearrangement of a weight.
-- `TauCeti.rationalWeylRep`, `TauCeti.rationalWeylFDRep`,
-  `TauCeti.isIrreducible_rationalWeylRep`, `TauCeti.simple_rationalWeylFDRep`
-  and `TauCeti.char_rationalWeylRep`
-  (`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Rational.lean`):
-  for a dominant weight λ of GLₙ over a field of characteristic zero, the
-  determinant twist `det^λₙ ⊗ 𝕊^μ(kⁿ)` of the Weyl module of the polynomial
-  part μ = λ.detShiftShape, irreducible for every λ, bundled in
-  `FDRep k (GL (Fin n) k)`, with its character. The pin does not identify
-  `rationalWeylRep k n λ` with the irreducible representation of highest
-  weight λ, nor prove that distinct weights give non-isomorphic
-  representations; both belong to ClassicalGroups Layer 3, and §2.3's
-  Hom-space headlines are stated on the native objects as they are.
-- `TauCeti.GTPattern` with `entry`, `topRow`, `topWeight`
-  (`TauCeti/RepresentationTheory/ClassicalGroups/GelfandTsetlin/Basic.lean`)
-  and `TauCeti.gtPatternEquivSSYT` (`GelfandTsetlin/Tableau.lean`): signed
-  Gelfand–Tsetlin patterns with zero-indexed columns and row length `j`, and
-  their equivalence with bounded semistandard tableaux.
-- `TauCeti.BoundedSSYT` (`TauCeti/Combinatorics/Young/Kostka.lean`),
-  `TauCeti.rowInsert`, `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv`
-  (`Young/Schensted.lean`), `SemistandardYoungTableau.benderKnuth`,
-  `benderKnuth_involutive`, `content_benderKnuth` (`Young/BenderKnuth.lean`):
-  bounded tableaux, row insertion and the Bender–Knuth involutions.
-- `TauCeti.diagramSchurPoly` (the tableau sum, `RingTheory/MvPolynomial/Symmetric/Schur/Basic.lean`),
-  `TauCeti.hsymm_mul_diagramSchurPoly` (horizontal Pieri, `Schur/Pieri.lean`),
-  `TauCeti.schurPolyBasis` (`Schur/Basis.lean`) and
-  `TauCeti.symmetricHomogeneousSubmodule` (`Symmetric/Homogeneous.lean`):
-  finite-alphabet Schur polynomials and homogeneous symmetric polynomials.
-- `TauCeti.IsConvexPolyhedron` (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`:
-  finitely many continuous affine inequalities, no boundedness) and
-  `IsPiecewiseAffineOn` (`TauCeti/Topology/PL/Map.lean`).
-- `TauCeti.kostantPartition`, `TauCeti.IsKostantPartition`
-  (`TauCeti/LinearAlgebra/RootSystem/KostantPartition/Basic.lean`),
-  `TauCeti.kostantMultiplicity` (`KostantPartition/Multiplicity.lean`) and
-  `TauCeti.posRoots` (`RootSystem/Positive.lean`): the generic Kostant
-  partition function of a `RootPairing` with a base.
-- `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`
-  (`TauCeti/Algebra/Lie/HighestWeight/Weyl/Character.lean`),
-  `TauCeti.weylNumerator` (`LinearAlgebra/RootSystem/Weyl/Numerator.lean`) and
-  `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`
-  (`Algebra/Lie/HighestWeight/KostantMultiplicity.lean`): the Weyl character
-  formula and Kostant's multiplicity formula for Killing-semisimple Lie
-  algebras; §2.3 specializes them to slₙ through the Cartan bridge of
-  ClassicalGroups Layer 3.
-- The Gordan, Stiemke and Tucker alternatives
-  (`TauCeti/Geometry/Convex/Cone/Alternative.lean`).
-- `TauCeti.SplitK0` (`TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`).
-
-### From TauCetiRoadmap.SchurWeyl
-
-Layer 0 (partitions, dominance, standard tableaux) and Layer 7
-(finite-alphabet Schur polynomials, Jacobi–Trudi, the finite Frobenius
-characteristic and RSK). Its Layer 7 stops at finitely many variables and its
-Layer 0 has no evacuation; the skew, Littlewood–Richardson, evacuation and
-stable-ring layer that §§2.2–2.4, §6.5, §8.2 and §9.2 consume is asked of it
-as the three gaps below, and no part of it is built here.
-
-What SchurWeyl must provide (gap:skew-lr-tableaux): for diagrams
-inner ≤ outer, semistandard skew tableaux of shape outer/inner with weakly
-increasing rows and strictly increasing columns, their bounded versions with
-entries below d, standard skew tableaux, and content counted as native
-`SemistandardYoungTableau.content` counts it, with inverse conversions between
-straight skew tableaux and `TauCeti.BoundedSSYT`; inward and reverse
-jeu-de-taquin slides (into a hole, the smaller of the entries to the right and
-below moves, the one below when equal) preserving semistandardness and
-content, rectification and its independence of the order of slides, and Knuth
-equivalence characterized by equality of insertion tableaux under
-`TauCeti.rowInsert`; the skew Schur polynomial as the tableau sum, equal to
-`TauCeti.diagramSchurPoly` on straight shapes; Littlewood–Richardson tableaux
-of shape outer/inner and content ν, defined by the zero-indexed ballot
-condition on the reading word (rows top to bottom, each right to left: every
-prefix has at least as many letters k as letters k+1), their finiteness and
-count `c^κ_(μ,ν)`, the tableau-product bijection between pairs of straight
-bounded tableaux of shapes μ, ν and pairs (straight bounded tableau of shape
-κ, Littlewood–Richardson tableau of shape κ/μ and content ν) with weights
-adding, and the rule `s_μ s_ν = Σ_κ c^κ_(μ,ν) s_κ` in every finite alphabet
-over every commutative semiring, with `c^κ_(μ,ν) = 0` unless μ ≤ κ and
-|κ| = |μ|+|ν|, the symmetry `c^κ_(μ,ν) = c^κ_(ν,μ)` and the vertical Pieri
-specialization for ν = (1^r), r = 0 included (the horizontal one, ν = (r), is
-the native `TauCeti.hsymm_mul_diagramSchurPoly` read through the Schur basis
-`TauCeti.schurPolyBasis`, and is not asked for).
-
-What SchurWeyl must provide (gap:standard-evacuation): Schützenberger
-evacuation on standard tableaux of a straight shape (remove the entry 0,
-rectify, record the vacated cell with the largest remaining label), an
-involution preserving shape, corresponding under RSK to reversing and
-complementing the word.
-
-What SchurWeyl must provide (gap:stable-symmetric-ring): for a commutative
-ring R, the graded ring Λ_R whose degree-n part is the R-module of compatible
-families `(f_d)_(d∈ℕ)`, `f_d ∈ TauCeti.symmetricHomogeneousSubmodule (Fin d) R n`
-with `f_d = aeval (Fin.snoc X 0) f_(d+1)`, with its R-algebra specialization
-maps to every finite alphabet, the isomorphism of its degree-n part with the
-degree-n symmetric polynomials in d ≥ n variables, the Schur basis `s_λ`
-(λ ⊢ n) of each degree-n part built from `TauCeti.schurPolyBasis`, the stable
-elementary and complete families, and the Littlewood–Richardson rule in Λ_R
-with the coefficients `c^κ_(μ,ν)` above.
-
-### From TauCetiRoadmap.ClassicalGroups
-
-Layers 3–6: the highest-weight classification of rational GLₙ
-representations on the native FDRep carrier, the Weyl character formula
-specialized to GLₙ (characters are Schur polynomials, Layer 4), the
-identification of Littlewood–Richardson structure constants with tensor
-multiplicities (Layer 4), the slₙ Cartan bridge of Layer 3, and the
-Gelfand–Tsetlin branching basis (Layer 6).
-
-What ClassicalGroups must provide (gap:diagonal-overgroups): for n ≥ 2 the
-closed connected complex Lie subgroups of GLₙ(ℂ)×GLₙ(ℂ) containing the
-diagonal Δ are exactly Δ, the scalar-diagonal subgroup H_sc, the
-determinant-equality subgroup H_det and the whole group, with H ↦ goursatFst H
-an order isomorphism onto the normal subgroups of GLₙ(ℂ).
-
-What ClassicalGroups must provide (gap:diagonal-overgroup-restrictions): the
-external tensor product `V_λ⊠V_μ` restricted to Δ is `V_λ⊗V_μ`, restricted to
-H_sc ≅ GLₙ(ℂ)×ℂˣ is `V_λ⊗V_μ` twisted by the character c ↦ c^|λ| of the second
-factor, and restricted to H_det is irreducible, with the Hom-space
-multiplicities transported along these isomorphisms.
-
-### From TauCetiRoadmap.RootSystems
-
-Layer 3 (Coxeter order and exchange for the symmetric group) and Layer 5 (the
-`A r` realization in the sum-zero hyperplane of ℚ^(r+1)).
-
-### From TauCetiRoadmap.SchubertGeometry
-
-S4.1–5: the generic finite-root-data path-crystal category, rational PL
-paths with their reparametrization equivalence, running-extremum root
-operators, the LS-chain encoding of the straight-path component, central
-transport, the dominant-path deformation theorem and the path tensor rule.
-No tableau, hive, recurrence or Schubert-section statement is assumed of it.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-T1 (the finite rank-k complex subspace Grassmannian, its topology, charts and
-tautological bundle, and its comparison with Mathlib's quotient-rank
-Grassmannian: for k ≤ N a bijection from the rank-k subspace Grassmannian
-onto the points of `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` that keeps the
-underlying submodule) and T1.5 (its finite CW characteristic maps and the
-rank-one partial-flag incidence construction).
-
-### From TauCetiRoadmap.LieGroups
-
-Layer 8: full flags, full-flag Bruhat cells and Borel–Weil with
-`L_λ = G×_B ℂ_(−λ)`.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 1 (rational representations as comodules and their subobjects and
-quotients) and Layer 6 (characteristic-zero linear reductivity: complete
-reducibility of finite-dimensional rational representations).
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stages 2–6: relative singular and cellular homology, cup and Künneth
-products, orientations and manifold duality.
-
-### From TauCetiRoadmap.CharacteristicClasses
-
-C2 (Thom, Euler and Gysin theory, Leray–Hirsch) and C3 (projective splitting
-and integral Chern classes).
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-K5a (the generic smooth test-function and distribution carriers, density
-duality and localization) and K7 (projective embeddings and their Kähler
-structures, the Fubini–Study normalization).
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-10.2: Sard's theorem through charts.
-
-### From TauCetiRoadmap.PolarDecomposition
-
-PD-A50–A53: eigenbasis quadratic form, Courant–Fischer, eigenvalue
-monotonicity and the Weyl perturbation bound for finite symmetric
-endomorphisms.
-
-### From TauCetiRoadmap.HamiltonianReduction
-
-R1 (smooth actions, moment maps, equivariance and products) and R2
-(coadjoint orbits and KKS).
-
-### From TauCetiRoadmap.ConvexityToric
-
-T3: the compact chamber/quotient dictionary.
-
-### From TauCetiRoadmap.GroebnerGeometry
-
-G2: the exponent monoid, generated lattice and cone/saturation/Gordan
-comparisons; its normalization, Proj and leading-volume theory stay there.
-
-### From TauCetiRoadmap.CompactGroups
-
-Layer 0: normalized torus Haar measure and averaging.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-Layer 3, §3.1: smooth periodic Fourier expansions and their rapid
-derivative-seminorm decay on coordinate boxes.
-
-### From TauCetiRoadmap.GrothendieckEulerForms
-
-Layers 1–2: the generic split and exact Grothendieck groups and their
-comparison.
-
-## How to read the build
-
-Layer 1
-builds the lattice, hives, their polytopes and the finite rational polyhedron
-adapters (§§1.1–1.4), then two independent generic lanes: pointed unimodular
-counting (§1.5) and the rational cone series with Fourier boundary values and
-lattice endpoints (§1.6); neither has a hive, character or Schubert premise.
-Layer 2 compares hives with Gelfand–Tsetlin patterns and Littlewood–Richardson
-tableaux, proves the tensor-multiplicity formulas, hive Pieri, the
-representation ring and its hive multiplication, specializes §1.5 to the
-type-A Kostant partition function (§2.6) and compares hive counts with the
-diagonal overgroup restrictions (§2.7). Layer 3 builds the bounded octahedron
-recurrence and the excavation associator, which gives hive-ring associativity
-independently of Littlewood–Richardson counting; §2.5 uses it. Layer 4 builds
-honeycombs, overlay, PRV and saturation. Layer 5 builds puzzles and the facet
-theory of the boundary cone. Layer 6 builds the Grassmannian's Schubert
-cohomology, the puzzle rule and multiplicity-one stretching, after §§6.1–6.7.
-Layer 7 builds Hermitian spectra, the invariant-to-moment-zero bridge, the
-real converse and the Horn recursion. Layer 8 specializes the generic path
-engine to type-A coordinate paths and tableau crystals; its component and
-tensor comparison precedes Layer 9's coherence comparison, while the
-excavation and ring associativity of Layer 3 are independent of both. The
-order of construction is Layer 1, §§2.1–2.4, Layer 3, §2.5, §§2.6–2.7,
-Layers 4, 5, §§6.1–6.7, §6.8, Layer 7, Layer 8, Layer 9.
 
 ## Layer 1: lattices, rhombi, boundaries and finite polytope operations
 
@@ -2650,6 +2348,351 @@ against which it is checked.
   §8.5's Checks. The general-field path motivation of S2 p. 5 and the generic
   Demazure path theorem of S2 p. 90 are not reported as proved by the type-A
   tensor connector.
+
+## Scope and ownership
+
+This roadmap owns: the triangular lattice,
+rhombus inequalities, integral and real hives, their fixed-boundary polytopes
+and the finite rational polyhedron, Farkas and largest-lift adapters (Layer 1,
+§§1.1–1.4); pointed unimodular vector-partition counting with its chamber
+polynomials and cone valuations (§1.5); rational cone series, their Fourier and
+Abel boundary values, box and cone distributions, wall crossing and the
+directional Todd and toric reconstruction of lattice counts (§1.6); the
+comparisons of hives with native Gelfand–Tsetlin patterns and with
+Littlewood–Richardson tableaux, the tensor-multiplicity and invariant formulas,
+the type-A Steinberg extraction adapter, direct hive Pieri, the rational
+representation ring R(GLₙ) with its hive multiplication, the type-A Kostant
+partition function as an interval-matrix count and the comparison of hive
+counts with the restrictions of external tensor products to the diagonal
+overgroups (Layer 2); the bounded octahedron recurrence and the excavation
+associator (Layer 3); honeycombs, overlay, the type-A PRV theorem and
+saturation (Layer 4); puzzles, their boundary functionals, facets and
+gentle-loop rigidity (Layer 5); the finite complex Grassmannian's integral
+Schubert cohomology, Pieri, Giambelli, the quotient of the stable ring, the
+puzzle–honeycomb equivalence, the puzzle ring and multiplicity-one stretching
+(Layer 6); Hermitian spectra, the projective invariant-to-moment-zero bridge,
+the Schubert compression inequality and the Horn recursion (Layer 7); the
+type-A path, tableau and Gelfand–Tsetlin crystals as specializations of the
+generic path engine, with the comparison maps between the type-A coordinate
+paths and the generic path carrier (Layer 8); and the quarter-octahedron
+commutor with its slide, Schützenberger and cactus comparisons (Layer 9).
+
+It does not own, and does not restate:
+
+- partitions, dominance, standard tableaux, finite-alphabet Schur polynomials,
+  Jacobi–Trudi, the finite Frobenius characteristic and RSK, which
+  SchurWeyl Layers 0 and 7 own; skew semistandard tableaux, jeu de taquin,
+  Knuth equivalence, Littlewood–Richardson tableaux, the tableau-product
+  bijection, vertical Pieri, standard-tableau evacuation and the stable graded
+  ring of symmetric functions with its Schur basis, which SchurWeyl must
+  provide (three declared gaps under supplier contracts); nothing of that
+  tableau layer is built here;
+- native dominant weights, signed Gelfand–Tsetlin patterns,
+  `TauCeti.gtPatternEquivSSYT`, the rational Weyl modules
+  `TauCeti.rationalWeylFDRep` and their characters, which are Tau Ceti
+  declarations; the identification of those modules with the irreducible
+  rational representations of highest weight, of Littlewood–Richardson
+  structure constants with tensor multiplicities, and the weight/branching
+  basis, which ClassicalGroups Layers 3–6 own;
+- the Weyl character formula, the Weyl denominator and the Kostant
+  multiplicity formula for Lie algebras and root pairings, which are native
+  Tau Ceti declarations (exact names under supplier contracts); nothing of
+  LieHighestWeight is consumed, and its Layer 6F is a consumer of §1.6 and
+  §2.6 (see Downstream consumers);
+- the generic finite-root-data path-crystal engine of SchubertGeometry
+  S4.1–5; Layer 8 specializes it to type A and owns the comparison maps with
+  its own coordinate and tableau carriers, which SchubertGeometry S9.5
+  restates (see Downstream consumers); no return edge into S4.1–5 is added;
+- the classification of the closed connected complex Lie subgroups of
+  GLₙ(ℂ)×GLₙ(ℂ) containing the diagonal and the restriction of external
+  tensor products to them, which ClassicalGroups must provide (two declared
+  gaps under supplier contracts); §2.7 keeps only the comparison of those
+  restrictions with hive counts;
+- full flags, full-flag Bruhat cells and Borel–Weil (LieGroups Layer 8), the
+  finite rank-k subspace Grassmannian with its topology, charts, tautological
+  bundle, CW characteristic maps and partial-flag incidence
+  (TopologicalKTheory T1 and T1.5) and the algebraic quotient-rank
+  Grassmannian (Mathlib `Module.Grassmannian`) together with the comparison
+  of the latter's complex points with the topological carrier, which
+  TopologicalKTheory T1 supplies with the submodule retained; the scheme
+  structure of the Grassmannian functor (charts, gluing, structure morphism)
+  is not consumed anywhere: Layer 6 works with the topological carrier and
+  reaches the complex points of the quotient-rank functor only through that
+  supplied comparison;
+- singular and cellular cohomology, cup products, Künneth, orientations and
+  duality (AlgebraicTopology Stages 2–6), Thom, Gysin, Leray–Hirsch and
+  integral Chern classes (CharacteristicClasses C2–C3), Kähler structures of
+  projective embeddings (ComplexKahlerGeometry K7), manifold Sard
+  (DifferentialGeometry 10.2), finite min–max and Weyl perturbation
+  (PolarDecomposition PD-A50–A53), moment maps, coadjoint orbits and KKS
+  (HamiltonianReduction R1–R2), the compact chamber/quotient dictionary
+  (ConvexityToric T3), normalized torus Haar measure (CompactGroups Layer 0),
+  smooth periodic Fourier expansions with rapid seminorm decay
+  (PseudodifferentialOperators Layer 3), the generic test-function and
+  distribution carriers (ComplexKahlerGeometry K5a), semigroup/lattice
+  comparisons (GroebnerGeometry G2) and the generic Grothendieck groups
+  (GrothendieckEulerForms Layers 1–2, Tau Ceti `TauCeti.SplitK0`);
+- the Coxeter combinatorics of the symmetric group and the type-A root
+  realization (RootSystems Layers 3 and 5).
+
+Out of scope altogether: the general semisimple PRV theorem, equivariant,
+quantum and K-theoretic puzzle rules, quantum-group crystal bases and
+Kac–Moody path models, Bott–Samelson resolutions and generic Demazure
+restriction, Hilbert–Mumford criteria and symplectic-volume formulas, and
+every executable certificate search. The mathematical background of the
+algorithms (finite enumeration of hives, chamber certificates, puzzle
+enumeration) appears as targets and Checks; no implementation is specified.
+
+`Suggested.lean` states the headline theorems of this roadmap against the
+pinned Mathlib and Tau Ceti, with the few definitions those statements need;
+the README carries every target, API and Check.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Matrix.IsTotallyUnimodular` and its submatrix API
+  (`Mathlib/LinearAlgebra/Matrix/Determinant/TotallyUnimodular.lean`): every
+  square submatrix has determinant 0 or ±1.
+- `Matrix.IsHermitian.eigenvalues₀` (sorted), `eigenvalues₀_antitone`,
+  `charpoly_eq` (`Mathlib/Analysis/Matrix/Spectrum.lean`) and
+  `isSymmetric_toEuclideanLin_iff` (`Mathlib/Analysis/Matrix/Hermitian.lean`):
+  the finite-dimensional spectral theorem for Hermitian matrices on the
+  Euclidean coordinate space.
+- `UnitAddTorus`, `UnitAddTorus.mFourier`, `mFourierCoeff`, `mFourierBasis`
+  (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`): the torus `(ℝ/ℤ)^r`, its
+  characters `θ ↦ exp(2πi⟨a,θ⟩)` and Fourier coefficients.
+- `TemperedDistribution` and its Fourier equivalence
+  (`Mathlib/Analysis/Distribution/TemperedDistribution.lean`), `SchwartzMap`;
+  the topology of `TemperedDistribution` is pointwise on Schwartz tests.
+- `MeasureTheory.Measure.map`, `Measure.restrict` and `Measure.sum`
+  (`Mathlib/MeasureTheory/Measure/Sum.lean`): pushforward, restriction and
+  countable sums of measures.
+- `ProperCone.hyperplane_separation'`
+  (`Mathlib/Analysis/Convex/Cone/InnerDual.lean`) and finite-dimensional
+  linear algebra: separation of a closed convex cone from a point.
+- `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`): the
+  quotient-rank Grassmannian functor `G(k, M; R)`, named in Conventions
+  item 5 and in a Check of §6.1; its complex points are reached only
+  through the comparison TopologicalKTheory T1 supplies.
+- `CoxeterSystem` (`Mathlib/GroupTheory/Coxeter/Basic.lean`) and `Equiv.Perm`:
+  the symmetric group as a Coxeter group.
+- `Finset`, `Fintype`, `Nat.card`, `MvPolynomial` and `finsum` (`∑ᶠ`) for the
+  finite counts, chamber polynomials and finitely supported sums.
+
+### From Tau Ceti
+
+- `TauCeti.DominantWeight` with `shift`, `detShift`, `detShiftShape`, `shape`,
+  `IsPolynomial`, `weightOfShape`, `shapeEquivPolynomialWeight` and
+  `dominantWeightOf`
+  (`TauCeti/RepresentationTheory/ClassicalGroups/DominantWeight.lean`):
+  antitone integer weights, determinant shifts, the Young diagram of a
+  polynomial weight (negative entries truncated to 0) and the dominant
+  rearrangement of a weight.
+- `TauCeti.rationalWeylRep`, `TauCeti.rationalWeylFDRep`,
+  `TauCeti.isIrreducible_rationalWeylRep`, `TauCeti.simple_rationalWeylFDRep`
+  and `TauCeti.char_rationalWeylRep`
+  (`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Rational.lean`):
+  for a dominant weight λ of GLₙ over a field of characteristic zero, the
+  determinant twist `det^λₙ ⊗ 𝕊^μ(kⁿ)` of the Weyl module of the polynomial
+  part μ = λ.detShiftShape, irreducible for every λ, bundled in
+  `FDRep k (GL (Fin n) k)`, with its character. The pin does not identify
+  `rationalWeylRep k n λ` with the irreducible representation of highest
+  weight λ, nor prove that distinct weights give non-isomorphic
+  representations; both belong to ClassicalGroups Layer 3, and §2.3's
+  Hom-space headlines are stated on the native objects as they are.
+- `TauCeti.GTPattern` with `entry`, `topRow`, `topWeight`
+  (`TauCeti/RepresentationTheory/ClassicalGroups/GelfandTsetlin/Basic.lean`)
+  and `TauCeti.gtPatternEquivSSYT` (`GelfandTsetlin/Tableau.lean`): signed
+  Gelfand–Tsetlin patterns with zero-indexed columns and row length `j`, and
+  their equivalence with bounded semistandard tableaux.
+- `TauCeti.BoundedSSYT` (`TauCeti/Combinatorics/Young/Kostka.lean`),
+  `TauCeti.rowInsert`, `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv`
+  (`Young/Schensted.lean`), `SemistandardYoungTableau.benderKnuth`,
+  `benderKnuth_involutive`, `content_benderKnuth` (`Young/BenderKnuth.lean`):
+  bounded tableaux, row insertion and the Bender–Knuth involutions.
+- `TauCeti.diagramSchurPoly` (the tableau sum, `RingTheory/MvPolynomial/Symmetric/Schur/Basic.lean`),
+  `TauCeti.hsymm_mul_diagramSchurPoly` (horizontal Pieri, `Schur/Pieri.lean`),
+  `TauCeti.schurPolyBasis` (`Schur/Basis.lean`) and
+  `TauCeti.symmetricHomogeneousSubmodule` (`Symmetric/Homogeneous.lean`):
+  finite-alphabet Schur polynomials and homogeneous symmetric polynomials.
+- `TauCeti.IsConvexPolyhedron` (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`:
+  finitely many continuous affine inequalities, no boundedness) and
+  `IsPiecewiseAffineOn` (`TauCeti/Topology/PL/Map.lean`).
+- `TauCeti.kostantPartition`, `TauCeti.IsKostantPartition`
+  (`TauCeti/LinearAlgebra/RootSystem/KostantPartition/Basic.lean`),
+  `TauCeti.kostantMultiplicity` (`KostantPartition/Multiplicity.lean`) and
+  `TauCeti.posRoots` (`RootSystem/Positive.lean`): the generic Kostant
+  partition function of a `RootPairing` with a base.
+- `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`
+  (`TauCeti/Algebra/Lie/HighestWeight/Weyl/Character.lean`),
+  `TauCeti.weylNumerator` (`LinearAlgebra/RootSystem/Weyl/Numerator.lean`) and
+  `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`
+  (`Algebra/Lie/HighestWeight/KostantMultiplicity.lean`): the Weyl character
+  formula and Kostant's multiplicity formula for Killing-semisimple Lie
+  algebras; §2.3 specializes them to slₙ through the Cartan bridge of
+  ClassicalGroups Layer 3.
+- The Gordan, Stiemke and Tucker alternatives
+  (`TauCeti/Geometry/Convex/Cone/Alternative.lean`).
+- `TauCeti.SplitK0` (`TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`).
+
+### From TauCetiRoadmap.SchurWeyl
+
+Layer 0 (partitions, dominance, standard tableaux) and Layer 7
+(finite-alphabet Schur polynomials, Jacobi–Trudi, the finite Frobenius
+characteristic and RSK). Its Layer 7 stops at finitely many variables and its
+Layer 0 has no evacuation; the skew, Littlewood–Richardson, evacuation and
+stable-ring layer that §§2.2–2.4, §6.5, §8.2 and §9.2 consume is asked of it
+as the three gaps below, and no part of it is built here.
+
+What SchurWeyl must provide (gap:skew-lr-tableaux): for diagrams
+inner ≤ outer, semistandard skew tableaux of shape outer/inner with weakly
+increasing rows and strictly increasing columns, their bounded versions with
+entries below d, standard skew tableaux, and content counted as native
+`SemistandardYoungTableau.content` counts it, with inverse conversions between
+straight skew tableaux and `TauCeti.BoundedSSYT`; inward and reverse
+jeu-de-taquin slides (into a hole, the smaller of the entries to the right and
+below moves, the one below when equal) preserving semistandardness and
+content, rectification and its independence of the order of slides, and Knuth
+equivalence characterized by equality of insertion tableaux under
+`TauCeti.rowInsert`; the skew Schur polynomial as the tableau sum, equal to
+`TauCeti.diagramSchurPoly` on straight shapes; Littlewood–Richardson tableaux
+of shape outer/inner and content ν, defined by the zero-indexed ballot
+condition on the reading word (rows top to bottom, each right to left: every
+prefix has at least as many letters k as letters k+1), their finiteness and
+count `c^κ_(μ,ν)`, the tableau-product bijection between pairs of straight
+bounded tableaux of shapes μ, ν and pairs (straight bounded tableau of shape
+κ, Littlewood–Richardson tableau of shape κ/μ and content ν) with weights
+adding, and the rule `s_μ s_ν = Σ_κ c^κ_(μ,ν) s_κ` in every finite alphabet
+over every commutative semiring, with `c^κ_(μ,ν) = 0` unless μ ≤ κ and
+|κ| = |μ|+|ν|, the symmetry `c^κ_(μ,ν) = c^κ_(ν,μ)` and the vertical Pieri
+specialization for ν = (1^r), r = 0 included (the horizontal one, ν = (r), is
+the native `TauCeti.hsymm_mul_diagramSchurPoly` read through the Schur basis
+`TauCeti.schurPolyBasis`, and is not asked for).
+
+What SchurWeyl must provide (gap:standard-evacuation): Schützenberger
+evacuation on standard tableaux of a straight shape (remove the entry 0,
+rectify, record the vacated cell with the largest remaining label), an
+involution preserving shape, corresponding under RSK to reversing and
+complementing the word.
+
+What SchurWeyl must provide (gap:stable-symmetric-ring): for a commutative
+ring R, the graded ring Λ_R whose degree-n part is the R-module of compatible
+families `(f_d)_(d∈ℕ)`, `f_d ∈ TauCeti.symmetricHomogeneousSubmodule (Fin d) R n`
+with `f_d = aeval (Fin.snoc X 0) f_(d+1)`, with its R-algebra specialization
+maps to every finite alphabet, the isomorphism of its degree-n part with the
+degree-n symmetric polynomials in d ≥ n variables, the Schur basis `s_λ`
+(λ ⊢ n) of each degree-n part built from `TauCeti.schurPolyBasis`, the stable
+elementary and complete families, and the Littlewood–Richardson rule in Λ_R
+with the coefficients `c^κ_(μ,ν)` above.
+
+### From TauCetiRoadmap.ClassicalGroups
+
+Layers 3–6: the highest-weight classification of rational GLₙ
+representations on the native FDRep carrier, the Weyl character formula
+specialized to GLₙ (characters are Schur polynomials, Layer 4), the
+identification of Littlewood–Richardson structure constants with tensor
+multiplicities (Layer 4), the slₙ Cartan bridge of Layer 3, and the
+Gelfand–Tsetlin branching basis (Layer 6).
+
+What ClassicalGroups must provide (gap:diagonal-overgroups): for n ≥ 2 the
+closed connected complex Lie subgroups of GLₙ(ℂ)×GLₙ(ℂ) containing the
+diagonal Δ are exactly Δ, the scalar-diagonal subgroup H_sc, the
+determinant-equality subgroup H_det and the whole group, with H ↦ goursatFst H
+an order isomorphism onto the normal subgroups of GLₙ(ℂ).
+
+What ClassicalGroups must provide (gap:diagonal-overgroup-restrictions): the
+external tensor product `V_λ⊠V_μ` restricted to Δ is `V_λ⊗V_μ`, restricted to
+H_sc ≅ GLₙ(ℂ)×ℂˣ is `V_λ⊗V_μ` twisted by the character c ↦ c^|λ| of the second
+factor, and restricted to H_det is irreducible, with the Hom-space
+multiplicities transported along these isomorphisms.
+
+### From TauCetiRoadmap.RootSystems
+
+Layer 3 (Coxeter order and exchange for the symmetric group) and Layer 5 (the
+`A r` realization in the sum-zero hyperplane of ℚ^(r+1)).
+
+### From TauCetiRoadmap.SchubertGeometry
+
+S4.1–5: the generic finite-root-data path-crystal category, rational PL
+paths with their reparametrization equivalence, running-extremum root
+operators, the LS-chain encoding of the straight-path component, central
+transport, the dominant-path deformation theorem and the path tensor rule.
+No tableau, hive, recurrence or Schubert-section statement is assumed of it.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+T1 (the finite rank-k complex subspace Grassmannian, its topology, charts and
+tautological bundle, and its comparison with Mathlib's quotient-rank
+Grassmannian: for k ≤ N a bijection from the rank-k subspace Grassmannian
+onto the points of `Module.Grassmannian ℂ (Fin N → ℂ) (N−k)` that keeps the
+underlying submodule) and T1.5 (its finite CW characteristic maps and the
+rank-one partial-flag incidence construction).
+
+### From TauCetiRoadmap.LieGroups
+
+Layer 8: full flags, full-flag Bruhat cells and Borel–Weil with
+`L_λ = G×_B ℂ_(−λ)`.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 1 (rational representations as comodules and their subobjects and
+quotients) and Layer 6 (characteristic-zero linear reductivity: complete
+reducibility of finite-dimensional rational representations).
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stages 2–6: relative singular and cellular homology, cup and Künneth
+products, orientations and manifold duality.
+
+### From TauCetiRoadmap.CharacteristicClasses
+
+C2 (Thom, Euler and Gysin theory, Leray–Hirsch) and C3 (projective splitting
+and integral Chern classes).
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+K5a (the generic smooth test-function and distribution carriers, density
+duality and localization) and K7 (projective embeddings and their Kähler
+structures, the Fubini–Study normalization).
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+10.2: Sard's theorem through charts.
+
+### From TauCetiRoadmap.PolarDecomposition
+
+PD-A50–A53: eigenbasis quadratic form, Courant–Fischer, eigenvalue
+monotonicity and the Weyl perturbation bound for finite symmetric
+endomorphisms.
+
+### From TauCetiRoadmap.HamiltonianReduction
+
+R1 (smooth actions, moment maps, equivariance and products) and R2
+(coadjoint orbits and KKS).
+
+### From TauCetiRoadmap.ConvexityToric
+
+T3: the compact chamber/quotient dictionary.
+
+### From TauCetiRoadmap.GroebnerGeometry
+
+G2: the exponent monoid, generated lattice and cone/saturation/Gordan
+comparisons; its normalization, Proj and leading-volume theory stay there.
+
+### From TauCetiRoadmap.CompactGroups
+
+Layer 0: normalized torus Haar measure and averaging.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+Layer 3, §3.1: smooth periodic Fourier expansions and their rapid
+derivative-seminorm decay on coordinate boxes.
+
+### From TauCetiRoadmap.GrothendieckEulerForms
+
+Layers 1–2: the generic split and exact Grothendieck groups and their
+comparison.
 
 ## References
 

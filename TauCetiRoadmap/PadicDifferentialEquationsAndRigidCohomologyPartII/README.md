@@ -1,113 +1,77 @@
 # Roadmap: p-adic differential equations, rigid cohomology and p-adic weights, part II — pure bounded quotients and minimal slopes
 
-**Summary.** A slope filtration can throw away most of a convergent F-isocrystal: its maximal-slope
-quotient, or dually its minimal-slope subobject, may have far smaller rank than the object itself. This
-roadmap proves that irreducibility and overconvergence nevertheless make that extremal piece rigid
-enough to recover the whole overconvergent object. It starts from
+**Summary.** Over a smooth affine variety in characteristic `p`, an overconvergent F-isocrystal is a
+finite projective module over the ring of overconvergent functions, with an integrable connection and
+a Frobenius structure. Its convergent realisation imposes no condition at the boundary; on a proper
+variety the two notions coincide. On a dense open the convergent realisation has a slope
+filtration, whose successive quotients are isoclinic, that is, of a single Frobenius slope. Its first
+step is the minimal-slope subobject and its last quotient the maximal-slope quotient. Either piece
+can have far smaller rank and need not be overconvergent. This roadmap proves that irreducibility
+and overconvergence nevertheless make that extremal piece rigid enough to recover the
+whole overconvergent object. Coefficients lie in a complete discretely valued field `K` of
+characteristic zero, with perfect residue field `k` of characteristic `p` and a `q`-Frobenius `σ`.
+
+Locally, the roadmap studies `(φ,∇)`-modules, with a connection and a Frobenius structure, over the
+Amice field and the completed generic field of a curve. Such a module is bounded when its generic
+solutions have bounded coefficients. A nonzero module is PBQ, pure of bounded quotient, when its
+maximally bounded quotient is isoclinic. Every module has a unique filtration whose successive
+quotients are PBQ with strictly decreasing maximal slopes. An overconvergent object is saturated when
+its sections over a dense affine open inject into those of its maximal-slope quotient. On a curve,
+irreducible objects are PBQ and saturated.
+
+Let `C` be a smooth connected curve over a perfect field. Tsuzuki's rank theorem takes an
+overconvergent F-isocrystal `N†` on `C` whose convergent realisation `N` has a slope filtration, and
+a surjection `N → P` onto a nonzero isoclinic convergent F-isocrystal. If the map on sections is
+injective over one dense affine open, then the slope of `P` is the maximal slope of `N`, and `P` has
+the rank of the maximal-slope quotient of `N`.
+
+From it Tsuzuki deduces the specified-map theorem. Let `M†` and `N†` be irreducible overconvergent
+F-isocrystals on `C` whose convergent realisations have slope filtrations. Every nonzero convergent
+morphism from the maximal-slope quotient of `N` to that of `M` is induced by a unique isomorphism
+`N† → M†`. The same holds when both objects are PBQ and saturated and the morphism is an isomorphism.
+There saturation cannot be dropped: the logarithmic object on `𝔾_m` and the unit object are PBQ with
+isomorphic maximal-slope quotients, but are not isomorphic. Dually, for irreducible `M†` and `N†`,
+every nonzero convergent morphism between the minimal-slope subobjects is induced by a unique
+overconvergent isomorphism. This is Kedlaya's minimal slope conjecture, in its strong form, on curves.
+
+Following D'Addezio, a convergent `F^n`-isocrystal, with Frobenius structure for `σ^n`, is
+dagger-extendable if it is the convergent realisation of an overconvergent one. The dagger hull of a
+convergent subobject `N` of a dagger-extendable `M` is the smallest dagger-extendable subobject of
+`M` containing `N`. The roadmap proves that on every smooth curve over a perfect field, for every
+`n > 0`, every dagger-extendable `M` with constant Newton polygon and every convergent subobject `N`,
+the minimal-slope subobjects of `N` and of its hull coincide. The hull can be strictly larger: for a
+generically ordinary irreducible rank-two object on its ordinary locus, the hull of the unit-root line
+is the whole object.
+
+Over `𝔽_q`, the roadmap treats overconvergent F-isocrystals with `Q̄_p`-coefficients on a smooth
+connected variety. Two irreducible such objects whose convergent realisations have slope filtrations
+are isomorphic if there is a nonzero convergent morphism between their maximal-slope quotients.
+The theorem does not say that the isomorphism induces that morphism; under an extra condition along
+a curve, a unique one does. The proof passes through Lefschetz curves, curves
+through a given point on which an irreducible object stays irreducible. Their existence and the
+purity of weights of irreducible objects are statements the parent roadmap must provide.
+
+The parent roadmap,
 [PadicDifferentialEquationsAndRigidCohomology](../PadicDifferentialEquationsAndRigidCohomology/README.md),
-whose Robba, Amice and bounded-disc carriers, `(φ,∇)`-modules, slope filtrations, de Jong's reverse
-filtration, Kedlaya's full faithfulness theorem, rigid cohomology, trace formula and weights it uses
-throughout. That roadmap stops at the slope filtrations, full faithfulness, the trace formula and
-`p`-adic Weil II; it never compares an overconvergent F-isocrystal with its maximal-slope quotient or
-its minimal-slope subobject, and that comparison is the subject of this one. Locally (Layers MS.0–MS.1, MS.3) it builds bounded generic solutions, the maximally bounded
-quotient, Chiarellotto–Tsuzuki's pure bounded quotients (PBQ) and their canonical filtration over the
-Amice field, the bounded Robba field and the bounded disc, Ohkubo's comparison of logarithmic growth
-with Frobenius slopes, and Tsuzuki's saturation. On a smooth curve (Layers MS.2, MS.4) it globalises
-PBQ filtrations of overconvergent and of convergent F-isocrystals through the completed generic field,
-proves Tsuzuki's rank theorem for dagger sections inside an isoclinic convergent quotient, and deduces
-the curve form of Kedlaya's minimal slope conjecture. Layer MS.5 develops D'Addezio's dagger hulls and
-proves the minimal slope property on curves. Layer MS.6 passes to smooth varieties over finite fields
-through Lefschetz curves and `Q̄_p`-coefficient objects. The end theorems are: on a smooth connected
-curve over a perfect field, every nonzero map between the maximal-slope quotients of two irreducible
-overconvergent F-isocrystals is induced by a unique overconvergent isomorphism (Tsuzuki, Corollary
-6.5), with its dual minimal-slope form and D'Addezio's equality `S_1(N) = S_1(Hull†(N))` for every
-convergent subobject; and on a smooth connected variety over `𝔽_q`, a nonzero map between the
-maximal-slope quotients of two irreducible overconvergent `Q̄_p`-F-isocrystals forces them to be
-isomorphic, the given map being induced by a unique isomorphism under an endomorphism condition along a
-Lefschetz curve (Tsuzuki, Theorem 7.20).
+provides `(φ,∇)`-modules and their slopes, and F-isocrystals with Kedlaya's full faithfulness
+theorem and their weights. RigidAnalyticGeometry contributes Tate acyclicity, used to glue
+overconvergence conditions at the points at infinity of an affine curve. AlgebraicCurves contributes
+the regular projective models of function fields. KloostermanSheavesAndBesselIsocrystals uses the
+specified-map theorem for Bessel F-isocrystals. The guide that follows describes the layers in turn.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| MS.0 | Generic bounded quotients | completed generic field of a curve, bounded generic solutions, the opposite slope rank bound, the maximally bounded quotient, the bounded splitting theorem, PBQ modules |
-| MS.1 | Local PBQ filtrations | the PBQ filtration, the bounded graded formula, descent to the bounded Robba field and to the bounded disc, logarithmic growth versus Frobenius slopes |
-| MS.2 | PBQ objects on curves | dagger sections as intersections, interior and boundary gluing, the curve PBQ filtration, finite étale transport, the curve bounded quotient, a two-step example, the convergent PBQ filtration |
-| MS.3 | Saturation | local and global saturation, quasi-saturation, the saturated quotient, local graded recovery and local reconstruction |
-| MS.4 | Curve reconstruction | the curve rank theorem, the curve irreducibility criterion, curve graded recovery, the specified-map theorem and its minimal-slope dual |
-| MS.5 | Dagger hulls and minimal slopes | dagger hulls, the minimal slope property and its reductions, the generic minimal slope property, the étale affine-line reduction, minimal slopes on curves, docile Lefschetz full faithfulness |
-| MS.6 | Lefschetz curves and finite fields | the Lefschetz condition, fibre reconstruction, `Q̄_p`-coefficient objects and their trace formula, the projected trace average, the fibrewise isomorphism criterion, the finite-field theorems |
+## How to read the build
 
-The layer labels MS.0–MS.6 are the labels other roadmaps cite, and target `MS.k.n` is the `n`-th
-subsection of layer MS.`k`.
-
-## Scope and ownership
-
-**Owned here.** Bounded generic solutions and the maximally bounded quotient of `(φ,∇)`-modules over
-the Amice field `E`, over the completed generic field `E_η` of a smooth affine curve and over the local
-fields `E_α`; the construction of `E_η` with its embeddings into the local fields; the normalisation of
-the Frobenius-fixed coefficient field (Tsuzuki, Lemma A.1(1)–(2)); the opposite slope rank bound for
-`φ`-modules over the bounded Robba field and over D'Addezio's generic field of the affine line; the
-bounded splitting theorem; PBQ modules and the PBQ filtration over `E`, `E†`, `K[[t]]₀` and `E_η`, with
-base change, descent and the bounded graded formula; the logarithmic growth filtration of solutions and
-Ohkubo's comparison with Frobenius slopes for PBQ modules; local and global saturation,
-quasi-saturation and saturated quotients; the intersection description of dagger sections of a curve
-(Tsuzuki, Lemmas 3.1–3.2) and the gluing of generic submodules; PBQ objects on curves, their
-filtration, finite étale transport, the curve bounded quotient and the Legendre–Kummer two-step
-example; PBQ convergent F-isocrystals on curves and their convergent PBQ filtration, with the interior
-gluing of convergent subobjects; the curve rank theorem, the curve irreducibility criterion, curve
-graded recovery, the specified-map theorem and its dual; dagger hulls, the minimal slope property, its
-reductions, the generic minimal slope property over D'Addezio's generic field, the étale affine-line
-reduction and the curve proof; the docile Lefschetz full-faithfulness theorem; the Lefschetz condition
-and its rank consequences; overconvergent `L`-`F_q`-isocrystals and the `Q̄_p`-coefficient category
-(Tsuzuki §§7.1–7.3 and Appendix B), their coefficient-linear trace formula, the projected trace
-average, the fibrewise isomorphism criterion and the finite-field theorems.
-
-**Imported from PadicDifferentialEquationsAndRigidCohomology, by section.** The Laurent, Robba, Amice
-and bounded-Robba carriers, their derivation and their finite coefficient extensions (§§RD.0.1,
-RD.0.17, RD.0.26, RD.0.36); Kedlaya's analytic rings `Γ^ℓ`, including the trivially valued case
-`Γ^ℓ[π⁻¹]` that realises `E_η` (§RD.0.9); the Frobenius-equivariant embeddings into Witt-vector rings
-and the injectivity of overconvergent base change over the complete residue field `k((t))` (§§RD.0.35,
-RD.0.48, RD.0.53, RD.5.2), whose extension to D'Addezio's generic pair with residue field `k(t)` is
-`gap:dejong-generic-affine-line-comparison`; Taylor change of Frobenius lift and of coordinate (§§RD.0.37, RD.1.44); smooth
-lifts, controlled lifting, Frobenius lifts on weak completions and étale lifting (§§RD.0.39, RD.0.41,
-RD.0.42, RD.3.38, RD.3.39); Dwork transfer (§§RD.1.13, RD.2.22); `(φ,∇)`-modules and the logarithmic
-Robba ring (§§RD.1.43, RD.2.28); Frobenius slopes, purity, the calculus of slopes, Dieudonné–Manin,
-stable lattices, the generic Harder–Narasimhan filtration and de Jong's reverse filtration (§§RD.1.32,
-RD.1.35–RD.1.37, RD.1.39–RD.1.41, RD.1.72); overconvergent and convergent F-isocrystals, their
-restriction functor, Dwork–Berthelot overconvergence, the affine dagger-algebra realisation, finite
-étale pushforward, unit-root objects, Newton-polygon semicontinuity, common-vertex subisocrystals and
-the dense-open slope filtration (§§RD.3.16, RD.3.22, RD.3.25, RD.3.29, RD.3.31, RD.3.32, RD.3.33,
-RD.3.34, RD.3.37, RD.3.40, RD.3.41, RD.3.43, RD.3.44, RD.3.45, RD.3.47); local and global full
-faithfulness, étale descent for overconvergent F-isocrystals on smooth `X`, and dense-open restriction
-(§§RD.5.4, RD.5.8, RD.5.8c, RD.5.112); Kedlaya's finite étale maps to affine space (§RD.5.7); docile
-objects and logarithmic extension (§§RD.5.100, RD.5.103); Poincaré duality (§RD.5.89); closed-point
-Frobenius, `L`-functions, the trace formula, `ι`-weights and constant twists (§§RD.6.2, RD.6.4,
-RD.6.23, RD.6.28, RD.6.57, RD.6.59, RD.6.82). The nine further statements this roadmap needs from
-that roadmap are stated in full as supplier contracts in its supplier subsection below and cited by
-their names, such as `gap:extended-log-robba-growth`; none of them is rebuilt here.
-
-**Imported from other roadmaps.** RigidAnalyticGeometry Layer 5 (Tate acyclicity) for boundary
-gluing of overconvergent functions, and AlgebraicCurves Layer 12 (regular projective models of
-function fields, their closed points and the anti-equivalence with function fields) for the curve
-carriers; the open embedding of a smooth affine curve into the projective model of its function
-field is owned here (MS.0.1).
-
-**Already in the library.** Mathlib's quotient-by-kernel equivalence, finite-group averaging,
-linear traces, `p`-adic norms of powers of `p` and fixed subfields; Tau Ceti's rings of power series
-with bounded coefficients and of power series on the open unit disc, which underlie `K[[t]]₀` and the
-solution carriers of MS.0.2 as rings, and its `π`-adic and Monsky–Washnitzer weak completions of a
-finitely generated algebra, which are the rings `Â_C` and `A†_C` of MS.0.1, and its
-Monsky–Washnitzer algebra `K⟨x_1, …, x_n⟩†` with its partial derivations, the dagger algebra of
-affine space in the Checks of MS.3.8 (Frobenius lifts on all of these rings, `(φ,∇)`-modules over
-them and their slopes are not in the library); see the supplier contracts.
-
-**Not in this roadmap.** D'Addezio's minimal slope theorem for smooth varieties of dimension at least
-two, his parabolicity theorem for monodromy groups, his integral models of the affine line and his
-affine–generic hull comparison (Proposition 4.2.12, whose published proof has a gap in its
-compactness step; the curve theorem MS.5.7 does not use it), the arithmetic `𝒟`-module formalism,
-the existence of companions and the Langlands correspondence for overconvergent F-isocrystals on
-curves:
-this roadmap proves the curve and finite-field theorems and consumes only the specific finite-field
-weight and Lefschetz statements listed as supplier contracts below.
+MS.0 works over a complete discretely valued differential field `B` (the Amice field, a local field
+`E_α` or the completed generic field `E_η` of a curve) and produces the universal bounded quotient, its
+splitting by slopes and the PBQ condition. MS.1 builds the PBQ filtration over `B`, descends it to the
+bounded Robba field and the bounded disc, and compares logarithmic growth with Frobenius slopes. MS.2
+globalises PBQ to overconvergent and to convergent objects on curves by gluing generic and local data.
+MS.3 introduces saturation, locally and on smooth varieties, and proves the local reconstruction
+theorem. MS.4 proves the curve rank theorem and deduces the specified-map theorem on curves. MS.5
+introduces dagger hulls, proves the minimal slope property over D'Addezio's generic field of the affine
+line, and proves it on curves from the curve rank theorem. MS.6 passes to finite fields through
+Lefschetz curves and `Q̄_p`-coefficients. A target's `*Needs:*` line lists the inputs of its statement
+and of the proof route named in it; another route is free to use other inputs.
 
 ## Conventions
 
@@ -190,209 +154,6 @@ weight and Lefschetz statements listed as supplier contracts below.
 11. **Categories.** All categories here are `K^σ`-linear abelian categories with tensor products and
     duals; isomorphisms are isomorphisms in the stated category (overconvergent, convergent or
     local).
-
-## Exact supplier contracts
-
-### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
-
-- `LinearMap.quotKerEquivRange` (`Mathlib/LinearAlgebra/Isomorphisms.lean`): for a linear map of
-  modules over a ring, the quotient by the kernel is linearly equivalent to the range. Used for the
-  image constructions of MS.3.4 and MS.5.4 after the analytic statements have produced the relevant
-  submodules; it supplies no analytic or Frobenius descent.
-- `Representation.averageMap`, `Representation.averageMap_invariant`,
-  `Representation.averageMap_id` (`Mathlib/RepresentationTheory/Invariants.lean`): for a finite group
-  whose cardinality is invertible in the coefficient field (`[Fintype G]`,
-  `[Invertible (Fintype.card G : k)]`), the normalised group-algebra average lands in the invariants
-  and fixes invariant vectors. Used in MS.6.7 for the cyclic group of order `m`; characteristic zero
-  makes `m` invertible.
-- `LinearMap.trace` and `LinearMap.trace_one` (`Mathlib/LinearAlgebra/Trace.lean`): the trace of an
-  endomorphism, and the trace of the identity of a finite free module is its rank. Used for the
-  primitive-projector normalisation of MS.6.7.
-- `Padic.norm_p_pow` (`Mathlib/NumberTheory/Padics/PadicNumbers.lean`): `‖p^n‖ = p^(−n)` in `ℚ_p`.
-  Used in the logarithm Checks of MS.0.2 and MS.1.6.
-- `FixedPoints.subfield` (`Mathlib/FieldTheory/Fixed.lean`): the subfield fixed by a monoid acting
-  on a field by ring endomorphisms (`[Monoid M] [MulSemiringAction M F]`). The fixed field `K^σ` of
-  MS.0.3 is the fixed subfield of the monoid `Multiplicative ℕ` acting on `K` through the powers of
-  `σ`, which need not be automorphisms (for imperfect `k`, allowed in MS.0.3(1), `σ` need not be
-  surjective).
-- `MaximalSpectrum.iInf_localization_eq_bot` (`Mathlib/RingTheory/Spectrum/Maximal/Localization.lean`):
-  an integral domain is the intersection, inside its fraction field, of its localisations at all
-  maximal ideals. Used in MS.2.2 for the coordinate ring `k[C]` of a smooth affine curve, whose
-  maximal ideals are its closed points; it says nothing about completions.
-
-Mathlib's `WittVector.Isocrystal` and `WittVector.isocrystal_classification`
-(`Mathlib/RingTheory/WittVector/Isocrystal.lean`), a module over the Witt fraction field with a
-Frobenius-semilinear equivalence and its classification in rank one over an algebraically closed
-field, carry no connection and no finiteness condition and are not consumed: the Dieudonné–Manin
-inputs here are the parent's §RD.1.32.
-
-### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
-
-- `PowerSeries.HasGaussNorm.subring` and `PowerSeries.HasGaussNorm.mem_subring_one_iff`
-  (`TauCeti/RingTheory/PowerSeries/Bounded.lean`): for an ultrametric normed ring `R` and a radius
-  `R₀ > 0`, the subring of `R⟦X⟧` of series with bounded weighted coefficient norms, and at radius 1
-  membership is boundedness of the coefficient norms. For the discretely valued `K` of Convention 1,
-  `PowerSeries.HasGaussNorm.subring K 1` is the ring `K[[t]]₀ = O_K[[t]] ⊗ K` of Convention 2 (a bound
-  `|a_n| ≤ |π|^(−m)` puts the series in `π^(−m)O_K[[t]]`), and with `R = B^τ` it is the bounded carrier
-  `B^τ[[u]]₀` of MS.0.2.
-- `PowerSeries.OnOpenDisc.subring` (`TauCeti/RingTheory/PowerSeries/OpenDisc/Basic.lean`): the subring
-  of series restricted at every radius below `R₀`; with `R = B^τ` and `R₀ = 1` it is the carrier
-  `B^τ{u}` of analytic functions on the open unit disc in MS.0.2.
-- `TauCeti.Dagger.piAdicCompletion`, `TauCeti.Dagger.weakCompletion` and
-  `TauCeti.Dagger.weakCompletion.of` (`TauCeti/RingTheory/Dagger/WeakCompletion/Basic.lean`): for a
-  commutative ring `O`, an element `π ∈ O` and an `O`-algebra `S`, the `π`-adic completion `S^∧`
-  (Mathlib's `AdicCompletion` along `πS`); for `S` of finite type over `O` (`[Algebra.FiniteType O S]`), the
-  Monsky–Washnitzer weak completion `S† ⊆ S^∧`, the `O`-subalgebra of the `π`-adic sums
-  `Σ_j π^j P_j(x)` whose polynomials in a finite generating family `x` have degrees bounded by a
-  linear function of `j`, independent of that family, with its structure map `S → S†`. For
-  `O = O_K`, `π` the uniformiser and `S = A_C` these are the rings `Â_C` and `A†_C` of MS.0.1; as
-  `(p) = (π^e)` in `O_K`, the `π`-adic and `p`-adic completions agree.
-- `TauCeti.Dagger.washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`) and
-  `TauCeti.Dagger.washnitzerAlgebra.pderiv` (`TauCeti/RingTheory/Dagger/Derivative.lean`): for an
-  ultrametric normed commutative ring `R` and a type `σ` of variables, the `R`-subalgebra of
-  `MvPowerSeries σ R` of series restricted at some constant radius `ρ > 1`, and its partial
-  derivative in the variable `i` as an `R`-derivation. With `R = K` and `σ = Fin n` it is the
-  Monsky–Washnitzer algebra `K⟨x_1, …, x_n⟩† = A†_(A^n,K)` of the Checks of MS.3.8, with `d/dx_i`.
-
-These are rings only. Mathlib's formal derivative `PowerSeries.derivative` acts on all of `R⟦X⟧`,
-but neither library equips these rings with a compatible Frobenius lift over `σ` making them
-coefficient rings of `(φ,∇)`-modules (a Frobenius lift on `A†_C` is the parent's §RD.0.42), and
-Tau Ceti at the pin has no Amice or bounded Robba field, no differential or Frobenius modules over
-them, no slopes and no isocrystals; all of these are consumed from the parent below.
-
-### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
-
-The sections are consumed with their stated hypotheses:
-
-- §RD.0.1, §RD.0.26, §RD.0.36: the carriers `E`, `E†`, `K[[t]]₀`, `R^int`, their Gauss norms and the
-  derivation `d/dt`; `E† = R ∩ E` is a henselian discretely valued field with residue field `k((t))`
-  and completion `E`.
-- §RD.0.9: Kedlaya's `Γ^ℓ`, `Γ^ℓ_con` and, for trivially valued `ℓ`, the complete discretely valued
-  field `Γ^ℓ[π⁻¹]`; with `ℓ = k(C)` this is the completed generic field `E_η` of MS.0.1.
-- §RD.0.17: finite isometric coefficient extension `E_K ⊗_K L ≅ E_L` and its analogues.
-- §RD.0.35, §RD.0.53, §RD.5.2: the `σ`-equivariant embedding into `Γ^alg` and the injectivity of
-  `Γ ⊗_(Γ_con) Γ^alg_con → Γ^alg` (after inverting `π`), for the complete residue field `k((t))`,
-  which has the valuation `p`-basis `{t}` of §RD.0.48. These are the inputs of the local case of
-  MS.0.4. They do not cover D'Addezio's generic pair: its residue field `k(t)` is not complete
-  (its `t`-adic completion is `k((t))`), and §§RD.0.35, RD.0.53 and RD.5.2 assume a complete residue
-  field; the generic case is `gap:dejong-generic-affine-line-comparison` below.
-- §RD.0.37, §RD.1.44: two Frobenius lifts, or two coordinates, differ by a convergent Taylor series;
-  the categories of `(φ,∇)`-modules for different lifts are canonically equivalent.
-- §RD.0.38: the series converging only on the closed disc, separating completion from
-  overconvergence.
-- §RD.0.39, §RD.0.41, §RD.0.42, §RD.3.38, §RD.3.39: smooth lifts and controlled lifting from a smooth
-  weak completion (used in MS.0.1 for an affine neighbourhood of a boundary point), Frobenius lifts on
-  the weak completions of Tau Ceti above, and étale lifts with unique extension of Frobenius.
-- §RD.1.13, §RD.2.22: Dwork transfer; for a solvable module the solutions at the centre of the disc
-  span a space of dimension equal to the rank.
-- §RD.1.43, §RD.1.45: `(φ,∇)`-modules; a Frobenius structure forces generic radius one, so every
-  `(φ,∇)`-module is solvable.
-- §RD.1.32, §RD.1.35, §RD.1.36, §RD.1.37: Dieudonné–Manin over an algebraically closed residue
-  field, generic slopes, purity, and the calculus of slopes, including `Hom(P, Q) = 0` for isoclinic
-  `P`, `Q` of different slopes.
-- §RD.1.39: Frobenius-stable lattices; a unit-root module has a lattice on which Frobenius is an
-  isomorphism.
-- §RD.1.40: a saturated Frobenius submodule over `S` descends along `R → S` exactly when its
-  determinant line does.
-- §RD.1.41: the generic Harder–Narasimhan filtration over `Γ[π⁻¹]` (in particular over `E` and `E_η`)
-  and, over `Γ_con[π⁻¹] = E†`, the reverse filtration after base change to `Γ^alg_con[π⁻¹]`.
-- §RD.1.72: de Jong's reverse filtration over D'Addezio's `E†_alg` with corrected grades
-  `S_(m+1−i)/S_(m−i)`, and Frobenius eigenbases of isoclinic grades after adjoining `p^(1/r)`.
-- §RD.3.16, §RD.3.22, §RD.3.25, §RD.3.29, §RD.3.31, §RD.3.32, §RD.3.34, §RD.3.37: overconvergence
-  as a property, gluing, overconvergent and convergent F-isocrystals, the Monsky–Washnitzer frame,
-  Dwork–Berthelot overconvergence of Frobenius modules over dagger algebras, and restriction to
-  convergent objects as an exact faithful `K^σ`-linear tensor functor.
-- §RD.3.33, §RD.3.34: convergent isocrystals and F-isocrystals form abelian categories of locally free
-  objects with no condition at the boundary, coinciding with the overconvergent ones on proper `X`; on
-  a smooth affine with a formal lift and Frobenius lift they are the vector bundles with connection
-  and Frobenius on its affinoid generic fibre, that is, finite projective `(φ,∇)`-modules over the
-  completed algebra (`Â_(C,K)` for an affine curve `C` as in MS.0.1). Used for the convergent PBQ
-  filtration of MS.2.9 and for the convergent image in the curve rank theorem MS.4.2.
-- §RD.3.41: finite étale pushforward, exact, adjoint to pullback up to the trace and multiplying
-  ranks by the degree.
-- §RD.3.43, §RD.3.44: semicontinuity of Newton polygons, and, for a convergent `F^n`-isocrystal on
-  smooth `X` over perfect `k` with a common Newton-polygon vertex at every point, the unique
-  subisocrystal of the smallest slopes up to that vertex; applied at every break of a constant Newton
-  polygon this is the slope filtration on all of `X` (MS.5.2).
-- §RD.3.45, §RD.3.47: the slope filtration on a dense open; unit-root objects.
-- §RD.5.4, §RD.5.8, §RD.5.112: full faithfulness of `F-Isoc†(k((t))) → F-Isoc(k((t)))`; Kedlaya's
-  full faithfulness for smooth `X` over any field `k` of characteristic `p`; restriction to a dense
-  open is fully faithful and, in the overconvergent case, closed under subquotients.
-- §RD.5.8c: étale descent for overconvergent F-isocrystals with Frobenius structures on a smooth
-  separated `k`-scheme `X` of finite type: pullback along an étale surjective `Y → X` is an
-  equivalence onto objects on `Y` with descent data, and for `Y → X` étale, dominant and separated a
-  convergent object on `X` whose pullback to `Y` is overconvergent is overconvergent, uniquely (the
-  2-fibre-product description). Every use here (MS.2.3, MS.5.3, MS.6.5, MS.6.7) is on a smooth `X`.
-- §RD.5.7: a separated geometrically reduced `k`-scheme of pure dimension `n` contains a dense open
-  affine finite étale over `A^n_k`.
-- §RD.5.89: Poincaré duality `Hⁱ_rig(X, E) ≅ H^(2d−i)_(c,rig)(X, E^∨)^∨(−d)`, Frobenius-equivariant.
-- §RD.5.100, §RD.5.103: unipotent monodromy along a strict normal crossings divisor (docile objects)
-  and the unique logarithmic extension with nilpotent residues.
-- §RD.6.2, §RD.6.4, §RD.6.23: linear Frobenius at a closed point, `L`-functions, and the trace formula
-  `L(X, E, t) = ∏_i det(1 − tF | Hⁱ_(c,rig)(X, E))^((−1)^(i+1))`.
-- §RD.6.28, §RD.6.57, §RD.6.59, §RD.6.82: pointwise `ι`-weights with real weights, `ι`-realizable
-  objects (an object pure of weight 0 is realizable), constant rank-one twists and normalisation to
-  weight zero (MS.6.9, MS.6.10, MS.6.13).
-- §RD.2.28: the logarithmic Robba ring `R_log` with Frobenius, derivation and monodromy operator,
-  the target of the logarithmic solution spaces of MS.1.6–MS.1.8.
-- §RD.3.15, §RD.3.19, §RD.3.40: Zariski gluing of coherent `j†O`-modules, pullback of overconvergent
-  isocrystals along morphisms (for the witness curves of MS.6.1), and Zariski gluing of Frobenius
-  structures, for overconvergent and for convergent objects (MS.2.9).
-- §RD.4.19: the excision sequence for compact-support rigid cohomology, used in MS.6.6.
-- §RD.6.42, §RD.6.47: the Dwork and Kummer F-isocrystals, used in the Checks of MS.5.8 and in MS.2.8.
-- §RD.0.34, §RD.2.25, §RD.2.26, §RD.3.48, §RD.6.61, §RD.6.77, §RD.6.85: the extended Robba ring,
-  the Fontaine–Katz equivalence over the residue field `k((t))` and its finite-local-monodromy form
-  over `E†`, the Katz–Crew correspondence with
-  `ℚ_q`-coefficients, its finite-field form, purity of constituents of `ι`-real objects on curves, and
-  Weil II with `K`-linear Frobenius. They are the statements that the supplier contracts below extend;
-  this roadmap uses only the extensions.
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:extended-log-robba-growth): the logarithmic extension `R̃_log = R̃[log u]` of the extended Robba ring of §RD.0.34 with a Frobenius-equivariant injective extension of the embedding `R_log → R̃_log` of §RD.2.28, injectivity of `R̃^bd ⊗_(R^bd) R_log → R̃_log`, log-growth filtrations on `R`, `R_log`, `R̃` and `R̃_log` compatible with this embedding, and the theorem that a nonzero Frobenius eigenvector of slope `λ` in `R̃_log` has slope `λ ≥ 0` and is exactly of log-growth `λ` (Ohkubo, Lemmas 1.12–1.15, 2.10–2.14).
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:dejong-disc-robba-submodules): for a `(φ,∇)`-module `M` over `K[[t]]₀` with `k` perfect, every saturated `(φ,∇)`-submodule of `E† ⊗ M` is `E† ⊗ N` for a unique saturated `(φ,∇)`-submodule `N ⊆ M` with finite free quotient (de Jong 1998, Proposition 6.4, as used in Chiarellotto–Tsuzuki, proof of Lemma 5.7, and Ohkubo, Theorem 12.7).
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:unit-root-correspondence-perfect-base): for a perfect field `k` containing `𝔽_q`, `K` with `K^σ ⊗_(W(𝔽_q)) W(k) ≅ K` and `σ = id ⊗ Frob_q`, and a smooth connected curve `C` over `k` with smooth completion `C̄`: (a) an equivalence between unit-root convergent F-isocrystals on `C/K` and continuous `K^σ`-representations of `π_1(C)`, under which overconvergence corresponds to finite local monodromy at the points of `C̄ ∖ C` (Tsuzuki 1998, Theorems 4.2.6 and 7.2.3), extending §RD.3.48 beyond `ℚ_q`-coefficients and §RD.6.61 beyond finite fields; (b) for affine `C` with a smooth lift `A_C` over `O_K`, a `q`-Frobenius lift on its weak completion and `E_η` the `p`-adic completion of the localisation of `A_C` at `πA_C` with `π` inverted (residue field `k(C)`), an equivalence between unit-root `(φ,∇)`-modules over `E_η` and continuous `K^σ`-representations of `Gal(k(C)^sep/k(C))` (Katz's correspondence at the generic point, as used in Tsuzuki 2019, proof of Lemma 3.32, p. 19), compatible at every closed point `α` of `C̄` with restriction to a decomposition group and with the equivalence of §RD.2.25 over the Amice field `E_α` in a local coordinate `x_α`; under it, for `α ∈ C` the module over `E_α` is realised by a `(φ,∇)`-module over `K_α[[x_α]]₀` exactly when the representation is unramified at `α`, for `α ∈ C̄ ∖ C` it descends to `E†_α` exactly when inertia at `α` acts through a finite quotient (§RD.2.26), and the generic module of a unit-root convergent F-isocrystal on `C` corresponds to the restriction to `Gal(k(C)^sep/k(C))` of its representation in (a); this extends §RD.2.25 from the residue field `k((t))` to the function field `k(C)`.
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:legendre-kummer-extension): for `p ≡ 1 mod 4`, `K = ℚ_p`, `σ = id`, `q = p`, `C = P¹_(𝔽_p) ∖ {0, 1, ∞}`, `L†` the rank-two `H¹` of the Legendre family and `χ` the quadratic character of `w² = z(z − 1)`, the space `H¹_rig(C, L†(χ))` is two-dimensional with Frobenius slopes 0 and 2, its unit-root eigenvalue is `π_p²` for the unit root `π_p` of `y² = x³ − x`, and extensions of the constant line `O(π_p²)` by `L†(χ)` in F-`Isoc†(C)` are classified by the `π_p²`-eigenspace of Frobenius on `H¹_rig(C, L†(χ))`, equivalently by `H¹_rig(C, L†(χ) ⊗ O(π_p²)^∨)^(F=1)` (the `H⁰` of this twist vanishes, `L†(χ)` being irreducible of rank two), which is one-dimensional (Tsuzuki §3.9, pp. 21–22).
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:irreducible-iota-purity): for every smooth connected `X` over `𝔽_q`, `K` with residue field `𝔽_q` and `σ_K = id`, every finite extension `L ⊂ K^alg` of `K`, every overconvergent F-isocrystal `M` on `X/K` with a `K`-algebra map `L → End(M)` whose scalar extension `M ⊗_L L′` is irreducible among objects with `L′`-structure for every finite extension `L′ ⊂ K^alg` of `L`, and every field embedding `ι : K^alg → ℂ`, there is a real `w` such that at every closed point `x` of `X`, of degree `d`, every eigenvalue in `K^alg` of the Frobenius `F_x` of §RD.6.2, taken as an `L`-linear endomorphism of the fibre `M_x`, has `|ι(·)| = q^(wd/2)` (Abe–Esnault, Theorem 2.7 and its proof, p. 13, in their `Q̄_p`-coefficient category of §1.1, p. 4: the theorem states that every object is `ι`-mixed, its proof shows that each irreducible object is `ι`-pure, and the proof of their Theorem 3.10, p. 17, uses it in that form; Tsuzuki, Definition 7.14, p. 34, and Theorem 7.18, p. 37, which states the purity); this is the purity predicate of §RD.6.28 for the `L`-linear Frobenius, the counterpart of §RD.6.77 on smooth `X` of any dimension for objects that stay irreducible after every coefficient extension, and it asserts nothing of the `K`-object obtained by forgetting `L`, which need not be `ι`-pure.
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:lefschetz-curves-irreducibility): for smooth connected `X` over `𝔽_q`, a finite extension `L ⊂ K^alg` of `K`, an overconvergent F-isocrystal `M` on `X/K` with a `K`-algebra map `L → End(M)` whose scalar extension `M ⊗_L L′` is irreducible among objects with `L′`-structure for every finite extension `L′ ⊂ K^alg` of `L`, and a finite set `S` of closed points of `X`, there is a smooth irreducible curve `C` over `𝔽_q` with a morphism `C → X` and a `k(α)`-rational point of `C` over each `α ∈ S` such that `M|_C ⊗_L L′` is irreducible among objects with `L′`-structure for every such `L′` (Abe–Esnault, Theorem 3.10, p. 17, in their `Q̄_p`-coefficient category of §1.1, p. 4).
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:docile-curve-restriction): for a smooth connected projective `X̄` of dimension at least 2 over a perfect field `k`, a strict normal crossings divisor `Z`, `X = X̄ ∖ Z` and a smooth curve `C̄` that is a complete intersection of ample divisors in good position with respect to `Z`, restriction `H⁰(X, E) → H⁰(C̄ ∩ X, E|)` is an isomorphism for every overconvergent isocrystal `E` on `X` with unipotent monodromy along `Z` (Abe–Esnault, Corollary 2.4 with Remark 2.5).
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:coefficient-linear-weil-ii): for a separated scheme `X` of finite type over `𝔽_q`, `K` with residue field `𝔽_q` and `σ_K = id`, a finite extension `L ⊂ K^alg` of `K`, a field isomorphism `ι : K^alg → ℂ`, a real `w`, and an overconvergent F-isocrystal `E` on `X/K` with a `K`-algebra map `L → End(E)` that is `ι`-realizable for the `L`-linear Frobenius (a direct summand, among objects with `L`-structure, of one whose `L`-linear Frobenius at every closed point has a characteristic polynomial with coefficients sent into `ℝ` by `ι`) and `ι`-mixed of weight `≤ w` for the `L`-linear Frobenius (at a closed point of degree `d` every eigenvalue has `|ι(·)| ≤ q^(wd/2)`), each `Hⁱ_(c,rig)(X, E)` with its `L`-linear Frobenius is `ι`-mixed of weight `≤ w + i` (the coefficient-linear form of §RD.6.85(a), with the realizability hypothesis of §RD.6.57 taken for the `L`-linear Frobenius); an `E` that is `ι`-pure of weight `w` for the `L`-linear Frobenius is so realizable when `L` contains a `c` with `ι(c) = q^w`, through `E ⊕ (E^∨ ⊗_L L_c)` with `E^∨` the `L`-dual and `L_c` the constant `L`-line with Frobenius `c`.
-
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:dejong-generic-affine-line-comparison): for a perfect field `k`, `K = W(k)[1/p]` and D'Addezio's generic pair of the affine line (`O_E` the `p`-adic completion of `W(k)[t]_(p)`, of residue field `k(t)`, with the Frobenius lift `t ↦ t^p` over the Witt-vector Frobenius; `E = O_E[1/p]`; `E† ⊆ E` the fraction field of the subring of elements converging on some annulus `ρ ≤ |t| < 1`) and the fields `E†_alg ⊆ E_alg` of §RD.1.72, Frobenius-equivariant injective field embeddings `E → E_alg` and `E† → E†_alg`, compatible with the inclusions `E† ⊆ E` and `E†_alg ⊆ E_alg` and inducing `k(t) ⊆ k(t)^alg` on residue fields, and injectivity of the multiplication map `E ⊗_(E†) E†_alg → E_alg` (D'Addezio, proof of Lemma 4.2.7, p. 15, citing Kedlaya, Full faithfulness, Proposition 4.1, which is stated for the complete residue field `k^alg((t))`); this extends §§RD.0.35 and RD.0.53 from a complete residue field to the residue field `k(t)`.
-
-### From TauCetiRoadmap.RigidAnalyticGeometry
-
-Layer 5 (*Čech comparison and acyclicity*): classical Tate acyclicity for finite affinoid covers.
-MS.2.2 uses it to glue overconvergence conditions at the finitely many points at infinity of an
-affine curve.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-Layer 12 (*the dictionary — function fields ↔ curves*), sublayers 12A–12C with 12B.0b: for a function
-field `F/k` the regular projective model `X_F` (the normalisation of `P¹_k` in `F`), its
-closed-point/place, local-ring and residue-field dictionary, the anti-equivalence with function
-fields, and, for `k` perfect, smoothness of `X_F`. Layer 12 treats projective models only; that a
-smooth affine curve `C` is an open subscheme of `X_(k(C))` with finite complement is a target of
-MS.0.1 here.
-
-## How to read the build
-
-MS.0 works over a complete discretely valued differential field `B` (the Amice field, a local field
-`E_α` or the completed generic field `E_η` of a curve) and produces the universal bounded quotient, its
-splitting by slopes and the PBQ condition. MS.1 builds the PBQ filtration over `B`, descends it to the
-bounded Robba field and the bounded disc, and compares logarithmic growth with Frobenius slopes. MS.2
-globalises PBQ to overconvergent and to convergent objects on curves by gluing generic and local data.
-MS.3 introduces saturation, locally and on smooth varieties, and proves the local reconstruction
-theorem. MS.4 proves the curve rank theorem and deduces the specified-map theorem on curves. MS.5
-introduces dagger hulls, proves the minimal slope property over D'Addezio's generic field of the affine
-line, and proves it on curves from the curve rank theorem. MS.6 passes to finite fields through
-Lefschetz curves and `Q̄_p`-coefficients. A target's `*Needs:*` line lists the inputs of its statement
-and of the proof route named in it; another route is free to use other inputs.
 
 ## Layer MS.0: Generic bounded quotients
 
@@ -2844,6 +2605,265 @@ the correction.
   The proposition is not used: MS.5.7 proves the curve theorem through the curve rank theorem.
 - **Ohkubo, arXiv v1, Proposition 5.9, p. 26.** For a bounded module the log-growth kernel is zero, so
   the bounded quotient is the module itself.
+
+## Scope and ownership
+
+**Owned here.** Bounded generic solutions and the maximally bounded quotient of `(φ,∇)`-modules over
+the Amice field `E`, over the completed generic field `E_η` of a smooth affine curve and over the local
+fields `E_α`; the construction of `E_η` with its embeddings into the local fields; the normalisation of
+the Frobenius-fixed coefficient field (Tsuzuki, Lemma A.1(1)–(2)); the opposite slope rank bound for
+`φ`-modules over the bounded Robba field and over D'Addezio's generic field of the affine line; the
+bounded splitting theorem; PBQ modules and the PBQ filtration over `E`, `E†`, `K[[t]]₀` and `E_η`, with
+base change, descent and the bounded graded formula; the logarithmic growth filtration of solutions and
+Ohkubo's comparison with Frobenius slopes for PBQ modules; local and global saturation,
+quasi-saturation and saturated quotients; the intersection description of dagger sections of a curve
+(Tsuzuki, Lemmas 3.1–3.2) and the gluing of generic submodules; PBQ objects on curves, their
+filtration, finite étale transport, the curve bounded quotient and the Legendre–Kummer two-step
+example; PBQ convergent F-isocrystals on curves and their convergent PBQ filtration, with the interior
+gluing of convergent subobjects; the curve rank theorem, the curve irreducibility criterion, curve
+graded recovery, the specified-map theorem and its dual; dagger hulls, the minimal slope property, its
+reductions, the generic minimal slope property over D'Addezio's generic field, the étale affine-line
+reduction and the curve proof; the docile Lefschetz full-faithfulness theorem; the Lefschetz condition
+and its rank consequences; overconvergent `L`-`F_q`-isocrystals and the `Q̄_p`-coefficient category
+(Tsuzuki §§7.1–7.3 and Appendix B), their coefficient-linear trace formula, the projected trace
+average, the fibrewise isomorphism criterion and the finite-field theorems.
+
+**Imported from PadicDifferentialEquationsAndRigidCohomology, by section.** The Laurent, Robba, Amice
+and bounded-Robba carriers, their derivation and their finite coefficient extensions (§§RD.0.1,
+RD.0.17, RD.0.26, RD.0.36); Kedlaya's analytic rings `Γ^ℓ`, including the trivially valued case
+`Γ^ℓ[π⁻¹]` that realises `E_η` (§RD.0.9); the Frobenius-equivariant embeddings into Witt-vector rings
+and the injectivity of overconvergent base change over the complete residue field `k((t))` (§§RD.0.35,
+RD.0.48, RD.0.53, RD.5.2), whose extension to D'Addezio's generic pair with residue field `k(t)` is
+`gap:dejong-generic-affine-line-comparison`; Taylor change of Frobenius lift and of coordinate (§§RD.0.37, RD.1.44); smooth
+lifts, controlled lifting, Frobenius lifts on weak completions and étale lifting (§§RD.0.39, RD.0.41,
+RD.0.42, RD.3.38, RD.3.39); Dwork transfer (§§RD.1.13, RD.2.22); `(φ,∇)`-modules and the logarithmic
+Robba ring (§§RD.1.43, RD.2.28); Frobenius slopes, purity, the calculus of slopes, Dieudonné–Manin,
+stable lattices, the generic Harder–Narasimhan filtration and de Jong's reverse filtration (§§RD.1.32,
+RD.1.35–RD.1.37, RD.1.39–RD.1.41, RD.1.72); overconvergent and convergent F-isocrystals, their
+restriction functor, Dwork–Berthelot overconvergence, the affine dagger-algebra realisation, finite
+étale pushforward, unit-root objects, Newton-polygon semicontinuity, common-vertex subisocrystals and
+the dense-open slope filtration (§§RD.3.16, RD.3.22, RD.3.25, RD.3.29, RD.3.31, RD.3.32, RD.3.33,
+RD.3.34, RD.3.37, RD.3.40, RD.3.41, RD.3.43, RD.3.44, RD.3.45, RD.3.47); local and global full
+faithfulness, étale descent for overconvergent F-isocrystals on smooth `X`, and dense-open restriction
+(§§RD.5.4, RD.5.8, RD.5.8c, RD.5.112); Kedlaya's finite étale maps to affine space (§RD.5.7); docile
+objects and logarithmic extension (§§RD.5.100, RD.5.103); Poincaré duality (§RD.5.89); closed-point
+Frobenius, `L`-functions, the trace formula, `ι`-weights and constant twists (§§RD.6.2, RD.6.4,
+RD.6.23, RD.6.28, RD.6.57, RD.6.59, RD.6.82). The nine further statements this roadmap needs from
+that roadmap are stated in full as supplier contracts in its supplier subsection below and cited by
+their names, such as `gap:extended-log-robba-growth`; none of them is rebuilt here.
+
+**Imported from other roadmaps.** RigidAnalyticGeometry Layer 5 (Tate acyclicity) for boundary
+gluing of overconvergent functions, and AlgebraicCurves Layer 12 (regular projective models of
+function fields, their closed points and the anti-equivalence with function fields) for the curve
+carriers; the open embedding of a smooth affine curve into the projective model of its function
+field is owned here (MS.0.1).
+
+**Already in the library.** Mathlib's quotient-by-kernel equivalence, finite-group averaging,
+linear traces, `p`-adic norms of powers of `p` and fixed subfields; Tau Ceti's rings of power series
+with bounded coefficients and of power series on the open unit disc, which underlie `K[[t]]₀` and the
+solution carriers of MS.0.2 as rings, and its `π`-adic and Monsky–Washnitzer weak completions of a
+finitely generated algebra, which are the rings `Â_C` and `A†_C` of MS.0.1, and its
+Monsky–Washnitzer algebra `K⟨x_1, …, x_n⟩†` with its partial derivations, the dagger algebra of
+affine space in the Checks of MS.3.8 (Frobenius lifts on all of these rings, `(φ,∇)`-modules over
+them and their slopes are not in the library); see the supplier contracts.
+
+**Not in this roadmap.** D'Addezio's minimal slope theorem for smooth varieties of dimension at least
+two, his parabolicity theorem for monodromy groups, his integral models of the affine line and his
+affine–generic hull comparison (Proposition 4.2.12, whose published proof has a gap in its
+compactness step; the curve theorem MS.5.7 does not use it), the arithmetic `𝒟`-module formalism,
+the existence of companions and the Langlands correspondence for overconvergent F-isocrystals on
+curves:
+this roadmap proves the curve and finite-field theorems and consumes only the specific finite-field
+weight and Lefschetz statements listed as supplier contracts below.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
+
+- `LinearMap.quotKerEquivRange` (`Mathlib/LinearAlgebra/Isomorphisms.lean`): for a linear map of
+  modules over a ring, the quotient by the kernel is linearly equivalent to the range. Used for the
+  image constructions of MS.3.4 and MS.5.4 after the analytic statements have produced the relevant
+  submodules; it supplies no analytic or Frobenius descent.
+- `Representation.averageMap`, `Representation.averageMap_invariant`,
+  `Representation.averageMap_id` (`Mathlib/RepresentationTheory/Invariants.lean`): for a finite group
+  whose cardinality is invertible in the coefficient field (`[Fintype G]`,
+  `[Invertible (Fintype.card G : k)]`), the normalised group-algebra average lands in the invariants
+  and fixes invariant vectors. Used in MS.6.7 for the cyclic group of order `m`; characteristic zero
+  makes `m` invertible.
+- `LinearMap.trace` and `LinearMap.trace_one` (`Mathlib/LinearAlgebra/Trace.lean`): the trace of an
+  endomorphism, and the trace of the identity of a finite free module is its rank. Used for the
+  primitive-projector normalisation of MS.6.7.
+- `Padic.norm_p_pow` (`Mathlib/NumberTheory/Padics/PadicNumbers.lean`): `‖p^n‖ = p^(−n)` in `ℚ_p`.
+  Used in the logarithm Checks of MS.0.2 and MS.1.6.
+- `FixedPoints.subfield` (`Mathlib/FieldTheory/Fixed.lean`): the subfield fixed by a monoid acting
+  on a field by ring endomorphisms (`[Monoid M] [MulSemiringAction M F]`). The fixed field `K^σ` of
+  MS.0.3 is the fixed subfield of the monoid `Multiplicative ℕ` acting on `K` through the powers of
+  `σ`, which need not be automorphisms (for imperfect `k`, allowed in MS.0.3(1), `σ` need not be
+  surjective).
+- `MaximalSpectrum.iInf_localization_eq_bot` (`Mathlib/RingTheory/Spectrum/Maximal/Localization.lean`):
+  an integral domain is the intersection, inside its fraction field, of its localisations at all
+  maximal ideals. Used in MS.2.2 for the coordinate ring `k[C]` of a smooth affine curve, whose
+  maximal ideals are its closed points; it says nothing about completions.
+
+Mathlib's `WittVector.Isocrystal` and `WittVector.isocrystal_classification`
+(`Mathlib/RingTheory/WittVector/Isocrystal.lean`), a module over the Witt fraction field with a
+Frobenius-semilinear equivalence and its classification in rank one over an algebraically closed
+field, carry no connection and no finiteness condition and are not consumed: the Dieudonné–Manin
+inputs here are the parent's §RD.1.32.
+
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
+
+- `PowerSeries.HasGaussNorm.subring` and `PowerSeries.HasGaussNorm.mem_subring_one_iff`
+  (`TauCeti/RingTheory/PowerSeries/Bounded.lean`): for an ultrametric normed ring `R` and a radius
+  `R₀ > 0`, the subring of `R⟦X⟧` of series with bounded weighted coefficient norms, and at radius 1
+  membership is boundedness of the coefficient norms. For the discretely valued `K` of Convention 1,
+  `PowerSeries.HasGaussNorm.subring K 1` is the ring `K[[t]]₀ = O_K[[t]] ⊗ K` of Convention 2 (a bound
+  `|a_n| ≤ |π|^(−m)` puts the series in `π^(−m)O_K[[t]]`), and with `R = B^τ` it is the bounded carrier
+  `B^τ[[u]]₀` of MS.0.2.
+- `PowerSeries.OnOpenDisc.subring` (`TauCeti/RingTheory/PowerSeries/OpenDisc/Basic.lean`): the subring
+  of series restricted at every radius below `R₀`; with `R = B^τ` and `R₀ = 1` it is the carrier
+  `B^τ{u}` of analytic functions on the open unit disc in MS.0.2.
+- `TauCeti.Dagger.piAdicCompletion`, `TauCeti.Dagger.weakCompletion` and
+  `TauCeti.Dagger.weakCompletion.of` (`TauCeti/RingTheory/Dagger/WeakCompletion/Basic.lean`): for a
+  commutative ring `O`, an element `π ∈ O` and an `O`-algebra `S`, the `π`-adic completion `S^∧`
+  (Mathlib's `AdicCompletion` along `πS`); for `S` of finite type over `O` (`[Algebra.FiniteType O S]`), the
+  Monsky–Washnitzer weak completion `S† ⊆ S^∧`, the `O`-subalgebra of the `π`-adic sums
+  `Σ_j π^j P_j(x)` whose polynomials in a finite generating family `x` have degrees bounded by a
+  linear function of `j`, independent of that family, with its structure map `S → S†`. For
+  `O = O_K`, `π` the uniformiser and `S = A_C` these are the rings `Â_C` and `A†_C` of MS.0.1; as
+  `(p) = (π^e)` in `O_K`, the `π`-adic and `p`-adic completions agree.
+- `TauCeti.Dagger.washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`) and
+  `TauCeti.Dagger.washnitzerAlgebra.pderiv` (`TauCeti/RingTheory/Dagger/Derivative.lean`): for an
+  ultrametric normed commutative ring `R` and a type `σ` of variables, the `R`-subalgebra of
+  `MvPowerSeries σ R` of series restricted at some constant radius `ρ > 1`, and its partial
+  derivative in the variable `i` as an `R`-derivation. With `R = K` and `σ = Fin n` it is the
+  Monsky–Washnitzer algebra `K⟨x_1, …, x_n⟩† = A†_(A^n,K)` of the Checks of MS.3.8, with `d/dx_i`.
+
+These are rings only. Mathlib's formal derivative `PowerSeries.derivative` acts on all of `R⟦X⟧`,
+but neither library equips these rings with a compatible Frobenius lift over `σ` making them
+coefficient rings of `(φ,∇)`-modules (a Frobenius lift on `A†_C` is the parent's §RD.0.42), and
+Tau Ceti at the pin has no Amice or bounded Robba field, no differential or Frobenius modules over
+them, no slopes and no isocrystals; all of these are consumed from the parent below.
+
+### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
+
+The sections are consumed with their stated hypotheses:
+
+- §RD.0.1, §RD.0.26, §RD.0.36: the carriers `E`, `E†`, `K[[t]]₀`, `R^int`, their Gauss norms and the
+  derivation `d/dt`; `E† = R ∩ E` is a henselian discretely valued field with residue field `k((t))`
+  and completion `E`.
+- §RD.0.9: Kedlaya's `Γ^ℓ`, `Γ^ℓ_con` and, for trivially valued `ℓ`, the complete discretely valued
+  field `Γ^ℓ[π⁻¹]`; with `ℓ = k(C)` this is the completed generic field `E_η` of MS.0.1.
+- §RD.0.17: finite isometric coefficient extension `E_K ⊗_K L ≅ E_L` and its analogues.
+- §RD.0.35, §RD.0.53, §RD.5.2: the `σ`-equivariant embedding into `Γ^alg` and the injectivity of
+  `Γ ⊗_(Γ_con) Γ^alg_con → Γ^alg` (after inverting `π`), for the complete residue field `k((t))`,
+  which has the valuation `p`-basis `{t}` of §RD.0.48. These are the inputs of the local case of
+  MS.0.4. They do not cover D'Addezio's generic pair: its residue field `k(t)` is not complete
+  (its `t`-adic completion is `k((t))`), and §§RD.0.35, RD.0.53 and RD.5.2 assume a complete residue
+  field; the generic case is `gap:dejong-generic-affine-line-comparison` below.
+- §RD.0.37, §RD.1.44: two Frobenius lifts, or two coordinates, differ by a convergent Taylor series;
+  the categories of `(φ,∇)`-modules for different lifts are canonically equivalent.
+- §RD.0.38: the series converging only on the closed disc, separating completion from
+  overconvergence.
+- §RD.0.39, §RD.0.41, §RD.0.42, §RD.3.38, §RD.3.39: smooth lifts and controlled lifting from a smooth
+  weak completion (used in MS.0.1 for an affine neighbourhood of a boundary point), Frobenius lifts on
+  the weak completions of Tau Ceti above, and étale lifts with unique extension of Frobenius.
+- §RD.1.13, §RD.2.22: Dwork transfer; for a solvable module the solutions at the centre of the disc
+  span a space of dimension equal to the rank.
+- §RD.1.43, §RD.1.45: `(φ,∇)`-modules; a Frobenius structure forces generic radius one, so every
+  `(φ,∇)`-module is solvable.
+- §RD.1.32, §RD.1.35, §RD.1.36, §RD.1.37: Dieudonné–Manin over an algebraically closed residue
+  field, generic slopes, purity, and the calculus of slopes, including `Hom(P, Q) = 0` for isoclinic
+  `P`, `Q` of different slopes.
+- §RD.1.39: Frobenius-stable lattices; a unit-root module has a lattice on which Frobenius is an
+  isomorphism.
+- §RD.1.40: a saturated Frobenius submodule over `S` descends along `R → S` exactly when its
+  determinant line does.
+- §RD.1.41: the generic Harder–Narasimhan filtration over `Γ[π⁻¹]` (in particular over `E` and `E_η`)
+  and, over `Γ_con[π⁻¹] = E†`, the reverse filtration after base change to `Γ^alg_con[π⁻¹]`.
+- §RD.1.72: de Jong's reverse filtration over D'Addezio's `E†_alg` with corrected grades
+  `S_(m+1−i)/S_(m−i)`, and Frobenius eigenbases of isoclinic grades after adjoining `p^(1/r)`.
+- §RD.3.16, §RD.3.22, §RD.3.25, §RD.3.29, §RD.3.31, §RD.3.32, §RD.3.34, §RD.3.37: overconvergence
+  as a property, gluing, overconvergent and convergent F-isocrystals, the Monsky–Washnitzer frame,
+  Dwork–Berthelot overconvergence of Frobenius modules over dagger algebras, and restriction to
+  convergent objects as an exact faithful `K^σ`-linear tensor functor.
+- §RD.3.33, §RD.3.34: convergent isocrystals and F-isocrystals form abelian categories of locally free
+  objects with no condition at the boundary, coinciding with the overconvergent ones on proper `X`; on
+  a smooth affine with a formal lift and Frobenius lift they are the vector bundles with connection
+  and Frobenius on its affinoid generic fibre, that is, finite projective `(φ,∇)`-modules over the
+  completed algebra (`Â_(C,K)` for an affine curve `C` as in MS.0.1). Used for the convergent PBQ
+  filtration of MS.2.9 and for the convergent image in the curve rank theorem MS.4.2.
+- §RD.3.41: finite étale pushforward, exact, adjoint to pullback up to the trace and multiplying
+  ranks by the degree.
+- §RD.3.43, §RD.3.44: semicontinuity of Newton polygons, and, for a convergent `F^n`-isocrystal on
+  smooth `X` over perfect `k` with a common Newton-polygon vertex at every point, the unique
+  subisocrystal of the smallest slopes up to that vertex; applied at every break of a constant Newton
+  polygon this is the slope filtration on all of `X` (MS.5.2).
+- §RD.3.45, §RD.3.47: the slope filtration on a dense open; unit-root objects.
+- §RD.5.4, §RD.5.8, §RD.5.112: full faithfulness of `F-Isoc†(k((t))) → F-Isoc(k((t)))`; Kedlaya's
+  full faithfulness for smooth `X` over any field `k` of characteristic `p`; restriction to a dense
+  open is fully faithful and, in the overconvergent case, closed under subquotients.
+- §RD.5.8c: étale descent for overconvergent F-isocrystals with Frobenius structures on a smooth
+  separated `k`-scheme `X` of finite type: pullback along an étale surjective `Y → X` is an
+  equivalence onto objects on `Y` with descent data, and for `Y → X` étale, dominant and separated a
+  convergent object on `X` whose pullback to `Y` is overconvergent is overconvergent, uniquely (the
+  2-fibre-product description). Every use here (MS.2.3, MS.5.3, MS.6.5, MS.6.7) is on a smooth `X`.
+- §RD.5.7: a separated geometrically reduced `k`-scheme of pure dimension `n` contains a dense open
+  affine finite étale over `A^n_k`.
+- §RD.5.89: Poincaré duality `Hⁱ_rig(X, E) ≅ H^(2d−i)_(c,rig)(X, E^∨)^∨(−d)`, Frobenius-equivariant.
+- §RD.5.100, §RD.5.103: unipotent monodromy along a strict normal crossings divisor (docile objects)
+  and the unique logarithmic extension with nilpotent residues.
+- §RD.6.2, §RD.6.4, §RD.6.23: linear Frobenius at a closed point, `L`-functions, and the trace formula
+  `L(X, E, t) = ∏_i det(1 − tF | Hⁱ_(c,rig)(X, E))^((−1)^(i+1))`.
+- §RD.6.28, §RD.6.57, §RD.6.59, §RD.6.82: pointwise `ι`-weights with real weights, `ι`-realizable
+  objects (an object pure of weight 0 is realizable), constant rank-one twists and normalisation to
+  weight zero (MS.6.9, MS.6.10, MS.6.13).
+- §RD.2.28: the logarithmic Robba ring `R_log` with Frobenius, derivation and monodromy operator,
+  the target of the logarithmic solution spaces of MS.1.6–MS.1.8.
+- §RD.3.15, §RD.3.19, §RD.3.40: Zariski gluing of coherent `j†O`-modules, pullback of overconvergent
+  isocrystals along morphisms (for the witness curves of MS.6.1), and Zariski gluing of Frobenius
+  structures, for overconvergent and for convergent objects (MS.2.9).
+- §RD.4.19: the excision sequence for compact-support rigid cohomology, used in MS.6.6.
+- §RD.6.42, §RD.6.47: the Dwork and Kummer F-isocrystals, used in the Checks of MS.5.8 and in MS.2.8.
+- §RD.0.34, §RD.2.25, §RD.2.26, §RD.3.48, §RD.6.61, §RD.6.77, §RD.6.85: the extended Robba ring,
+  the Fontaine–Katz equivalence over the residue field `k((t))` and its finite-local-monodromy form
+  over `E†`, the Katz–Crew correspondence with
+  `ℚ_q`-coefficients, its finite-field form, purity of constituents of `ι`-real objects on curves, and
+  Weil II with `K`-linear Frobenius. They are the statements that the supplier contracts below extend;
+  this roadmap uses only the extensions.
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:extended-log-robba-growth): the logarithmic extension `R̃_log = R̃[log u]` of the extended Robba ring of §RD.0.34 with a Frobenius-equivariant injective extension of the embedding `R_log → R̃_log` of §RD.2.28, injectivity of `R̃^bd ⊗_(R^bd) R_log → R̃_log`, log-growth filtrations on `R`, `R_log`, `R̃` and `R̃_log` compatible with this embedding, and the theorem that a nonzero Frobenius eigenvector of slope `λ` in `R̃_log` has slope `λ ≥ 0` and is exactly of log-growth `λ` (Ohkubo, Lemmas 1.12–1.15, 2.10–2.14).
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:dejong-disc-robba-submodules): for a `(φ,∇)`-module `M` over `K[[t]]₀` with `k` perfect, every saturated `(φ,∇)`-submodule of `E† ⊗ M` is `E† ⊗ N` for a unique saturated `(φ,∇)`-submodule `N ⊆ M` with finite free quotient (de Jong 1998, Proposition 6.4, as used in Chiarellotto–Tsuzuki, proof of Lemma 5.7, and Ohkubo, Theorem 12.7).
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:unit-root-correspondence-perfect-base): for a perfect field `k` containing `𝔽_q`, `K` with `K^σ ⊗_(W(𝔽_q)) W(k) ≅ K` and `σ = id ⊗ Frob_q`, and a smooth connected curve `C` over `k` with smooth completion `C̄`: (a) an equivalence between unit-root convergent F-isocrystals on `C/K` and continuous `K^σ`-representations of `π_1(C)`, under which overconvergence corresponds to finite local monodromy at the points of `C̄ ∖ C` (Tsuzuki 1998, Theorems 4.2.6 and 7.2.3), extending §RD.3.48 beyond `ℚ_q`-coefficients and §RD.6.61 beyond finite fields; (b) for affine `C` with a smooth lift `A_C` over `O_K`, a `q`-Frobenius lift on its weak completion and `E_η` the `p`-adic completion of the localisation of `A_C` at `πA_C` with `π` inverted (residue field `k(C)`), an equivalence between unit-root `(φ,∇)`-modules over `E_η` and continuous `K^σ`-representations of `Gal(k(C)^sep/k(C))` (Katz's correspondence at the generic point, as used in Tsuzuki 2019, proof of Lemma 3.32, p. 19), compatible at every closed point `α` of `C̄` with restriction to a decomposition group and with the equivalence of §RD.2.25 over the Amice field `E_α` in a local coordinate `x_α`; under it, for `α ∈ C` the module over `E_α` is realised by a `(φ,∇)`-module over `K_α[[x_α]]₀` exactly when the representation is unramified at `α`, for `α ∈ C̄ ∖ C` it descends to `E†_α` exactly when inertia at `α` acts through a finite quotient (§RD.2.26), and the generic module of a unit-root convergent F-isocrystal on `C` corresponds to the restriction to `Gal(k(C)^sep/k(C))` of its representation in (a); this extends §RD.2.25 from the residue field `k((t))` to the function field `k(C)`.
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:legendre-kummer-extension): for `p ≡ 1 mod 4`, `K = ℚ_p`, `σ = id`, `q = p`, `C = P¹_(𝔽_p) ∖ {0, 1, ∞}`, `L†` the rank-two `H¹` of the Legendre family and `χ` the quadratic character of `w² = z(z − 1)`, the space `H¹_rig(C, L†(χ))` is two-dimensional with Frobenius slopes 0 and 2, its unit-root eigenvalue is `π_p²` for the unit root `π_p` of `y² = x³ − x`, and extensions of the constant line `O(π_p²)` by `L†(χ)` in F-`Isoc†(C)` are classified by the `π_p²`-eigenspace of Frobenius on `H¹_rig(C, L†(χ))`, equivalently by `H¹_rig(C, L†(χ) ⊗ O(π_p²)^∨)^(F=1)` (the `H⁰` of this twist vanishes, `L†(χ)` being irreducible of rank two), which is one-dimensional (Tsuzuki §3.9, pp. 21–22).
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:irreducible-iota-purity): for every smooth connected `X` over `𝔽_q`, `K` with residue field `𝔽_q` and `σ_K = id`, every finite extension `L ⊂ K^alg` of `K`, every overconvergent F-isocrystal `M` on `X/K` with a `K`-algebra map `L → End(M)` whose scalar extension `M ⊗_L L′` is irreducible among objects with `L′`-structure for every finite extension `L′ ⊂ K^alg` of `L`, and every field embedding `ι : K^alg → ℂ`, there is a real `w` such that at every closed point `x` of `X`, of degree `d`, every eigenvalue in `K^alg` of the Frobenius `F_x` of §RD.6.2, taken as an `L`-linear endomorphism of the fibre `M_x`, has `|ι(·)| = q^(wd/2)` (Abe–Esnault, Theorem 2.7 and its proof, p. 13, in their `Q̄_p`-coefficient category of §1.1, p. 4: the theorem states that every object is `ι`-mixed, its proof shows that each irreducible object is `ι`-pure, and the proof of their Theorem 3.10, p. 17, uses it in that form; Tsuzuki, Definition 7.14, p. 34, and Theorem 7.18, p. 37, which states the purity); this is the purity predicate of §RD.6.28 for the `L`-linear Frobenius, the counterpart of §RD.6.77 on smooth `X` of any dimension for objects that stay irreducible after every coefficient extension, and it asserts nothing of the `K`-object obtained by forgetting `L`, which need not be `ι`-pure.
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:lefschetz-curves-irreducibility): for smooth connected `X` over `𝔽_q`, a finite extension `L ⊂ K^alg` of `K`, an overconvergent F-isocrystal `M` on `X/K` with a `K`-algebra map `L → End(M)` whose scalar extension `M ⊗_L L′` is irreducible among objects with `L′`-structure for every finite extension `L′ ⊂ K^alg` of `L`, and a finite set `S` of closed points of `X`, there is a smooth irreducible curve `C` over `𝔽_q` with a morphism `C → X` and a `k(α)`-rational point of `C` over each `α ∈ S` such that `M|_C ⊗_L L′` is irreducible among objects with `L′`-structure for every such `L′` (Abe–Esnault, Theorem 3.10, p. 17, in their `Q̄_p`-coefficient category of §1.1, p. 4).
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:docile-curve-restriction): for a smooth connected projective `X̄` of dimension at least 2 over a perfect field `k`, a strict normal crossings divisor `Z`, `X = X̄ ∖ Z` and a smooth curve `C̄` that is a complete intersection of ample divisors in good position with respect to `Z`, restriction `H⁰(X, E) → H⁰(C̄ ∩ X, E|)` is an isomorphism for every overconvergent isocrystal `E` on `X` with unipotent monodromy along `Z` (Abe–Esnault, Corollary 2.4 with Remark 2.5).
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:coefficient-linear-weil-ii): for a separated scheme `X` of finite type over `𝔽_q`, `K` with residue field `𝔽_q` and `σ_K = id`, a finite extension `L ⊂ K^alg` of `K`, a field isomorphism `ι : K^alg → ℂ`, a real `w`, and an overconvergent F-isocrystal `E` on `X/K` with a `K`-algebra map `L → End(E)` that is `ι`-realizable for the `L`-linear Frobenius (a direct summand, among objects with `L`-structure, of one whose `L`-linear Frobenius at every closed point has a characteristic polynomial with coefficients sent into `ℝ` by `ι`) and `ι`-mixed of weight `≤ w` for the `L`-linear Frobenius (at a closed point of degree `d` every eigenvalue has `|ι(·)| ≤ q^(wd/2)`), each `Hⁱ_(c,rig)(X, E)` with its `L`-linear Frobenius is `ι`-mixed of weight `≤ w + i` (the coefficient-linear form of §RD.6.85(a), with the realizability hypothesis of §RD.6.57 taken for the `L`-linear Frobenius); an `E` that is `ι`-pure of weight `w` for the `L`-linear Frobenius is so realizable when `L` contains a `c` with `ι(c) = q^w`, through `E ⊕ (E^∨ ⊗_L L_c)` with `E^∨` the `L`-dual and `L_c` the constant `L`-line with Frobenius `c`.
+
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:dejong-generic-affine-line-comparison): for a perfect field `k`, `K = W(k)[1/p]` and D'Addezio's generic pair of the affine line (`O_E` the `p`-adic completion of `W(k)[t]_(p)`, of residue field `k(t)`, with the Frobenius lift `t ↦ t^p` over the Witt-vector Frobenius; `E = O_E[1/p]`; `E† ⊆ E` the fraction field of the subring of elements converging on some annulus `ρ ≤ |t| < 1`) and the fields `E†_alg ⊆ E_alg` of §RD.1.72, Frobenius-equivariant injective field embeddings `E → E_alg` and `E† → E†_alg`, compatible with the inclusions `E† ⊆ E` and `E†_alg ⊆ E_alg` and inducing `k(t) ⊆ k(t)^alg` on residue fields, and injectivity of the multiplication map `E ⊗_(E†) E†_alg → E_alg` (D'Addezio, proof of Lemma 4.2.7, p. 15, citing Kedlaya, Full faithfulness, Proposition 4.1, which is stated for the complete residue field `k^alg((t))`); this extends §§RD.0.35 and RD.0.53 from a complete residue field to the residue field `k(t)`.
+
+### From TauCetiRoadmap.RigidAnalyticGeometry
+
+Layer 5 (*Čech comparison and acyclicity*): classical Tate acyclicity for finite affinoid covers.
+MS.2.2 uses it to glue overconvergence conditions at the finitely many points at infinity of an
+affine curve.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+Layer 12 (*the dictionary — function fields ↔ curves*), sublayers 12A–12C with 12B.0b: for a function
+field `F/k` the regular projective model `X_F` (the normalisation of `P¹_k` in `F`), its
+closed-point/place, local-ring and residue-field dictionary, the anti-equivalence with function
+fields, and, for `k` perfect, smoothness of `X_F`. Layer 12 treats projective models only; that a
+smooth affine curve `C` is an open subscheme of `X_(k(C))` with finite complement is a target of
+MS.0.1 here.
 
 ## References
 

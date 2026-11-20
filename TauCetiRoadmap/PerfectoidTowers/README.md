@@ -1,394 +1,60 @@
 # Roadmap: perfectoid towers: finite quotients, closed perfectoid loci and continuous torsor descent
 
-**Summary.** Perfectoid Shimura varieties are limits of towers of rigid spaces; this roadmap builds,
-on top of [PerfectoidSpaces](../PerfectoidSpaces/README.md), the three tools their study needs.
-Finite quotients: the invariant Huber pair and `|Spa(A, A⁺)|/G ≅ |Spa(A^G, A^{+G})|`, perfectoid
-invariants for any `|G|`, and categorical quotients of affinoid perfectoid spaces, of adic, rigid
-and perfectoid spaces with an invariant affinoid cover, and of analytically separated perfectoid
-spaces. Closed perfectoid loci: Zariski-closed embeddings, good towers of projective varieties, and
-perfectoidisation of integral extensions and closed subvarieties. Descent along pro-étale Galois
-towers with perfectoid limit: of functions, finite locally free modules and twisted character sheaves
-with weight-space coefficients, local freeness of character sheaves trivialised at finite level, and
-coefficient change. The cochain foundations include lifting through discrete surjections,
-cochains into inverse limits and the all-degree homogeneous comparison for jointly continuous
-actions. The end results are the finite-quotient theorems for analytically separated
-perfectoid spaces and good towers ([HJ] Theorem 5.8, Proposition 5.13), the closed-locus tilde-limit
-comparison ([HJ] Lemma 5.7), and descent along towers ([CHJ] §2, [BHW] §3–4).
+**Summary.** Perfectoid Shimura varieties are limits of towers of rigid spaces. Their study needs
+three tools acting on the whole tower: quotients by finite groups, closed subspaces of the
+perfectoid limit, and descent from the limit to the base. This roadmap builds them on top of
+[PerfectoidSpaces](../PerfectoidSpaces/README.md), which supplies perfectoid spaces and
+tilde-limits. A prime p is fixed throughout, but no perfectoid base field is.
 
-This roadmap constructs finite quotients of perfectoid spaces, closed perfectoid loci in towers,
-and continuous torsor descent of functions, modules and character sheaves with rigid coefficients.
-It uses perfectoid carriers, tilting, almost purity and tilde-limits from
-[PerfectoidSpaces](../PerfectoidSpaces/README.md), v-topology and diamond geometry from
-[DiamondsAndVStacks](../DiamondsAndVStacks/README.md), and sousperfectoid coefficients from
-PerfectoidSpaces P3.17a and AdicSpacesPartIV R5.5–R5.11.
+Quotients start from one affinoid. Let (A, A⁺) be a Huber pair whose ring A is a Tate ring,
+and let a finite group G act on A by continuous ring automorphisms preserving A⁺. Then the
+invariants form again such a pair `(A^G, A^{+G})`, with `A^{+G} = A⁺ ∩ A^G`. Restricting
+valuations is surjective with the G-orbits as fibres and induces a homeomorphism
+`|Spa(A, A⁺)|/G ≅ |Spa(A^G, A^{+G})|`. Nothing is assumed about |G|, which p may divide.
+When A is moreover perfectoid, so is Aᴳ, and `Spa(A^G, A^{+G})` is the categorical quotient of
+`Spa(A, A⁺)` by G: its points are the orbits, and every G-invariant morphism factors uniquely
+through it.
 
-| Layer | Construction |
-| --- | --- |
-| P8 | Finite quotients and closed perfectoid loci in towers |
-| P9 | Continuous torsor descent with coefficients |
+Global quotients follow Hansen and Johansson. Let K be a complete nontrivially normed
+nonarchimedean field. A perfectoid space over `Spa(K, K⁺)` is analytically separated when its
+diagonal is a Zariski-closed embedding, cut out by an ideal over every open affinoid perfectoid.
+Let X be an analytically separated perfectoid space, with a finite group G acting over
+`Spa(K, K⁺)`. Suppose the closure of every rank-one point lies in an open affinoid perfectoid
+subspace. Then the categorical quotient X/G is perfectoid, and its diamond is the quotient of the
+diamond of X by G, again for any |G|. A good tower is a cofiltered system of analytified
+projective varieties with finite transition maps, a perfectoid limit X of their diamonds, and a
+covering condition at finite level. If p is topologically nilpotent in K and G acts compatibly
+over K, then X/G is perfectoid and, as a diamond, is the limit of the rigid quotients Xᵢ/G.
 
-Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0, R1; AdicSpacesPartIII R3;
-AdicEtaleGeometry A1, A2, A4.2–A4.5, A4.2a, A4.7; PerfectoidSpaces P0–P7,
-including P3.17a–P3.17b, P5.13, P6.15–P6.17, P7.11, P7.16;
-AdicSpacesPartIV R4, R5.5–R5.11; DiamondsAndVStacks D2–D6; ProfiniteCohomology Layer 3;
-PadicFunctionalAnalysis §§2.2–2.4 (Banach bases and model comparisons).
+Closed loci are the second theme. Let (Yᵢ) be a cofiltered system of analytified quasi-projective
+varieties over a nonarchimedean field, with finite transition maps and a perfectoid limit Y that
+is a tilde-limit of the Yᵢ. For compatible closed subvarieties Xᵢ ⊆ Yᵢ, their limit X is
+perfectoid, X → Y is a Zariski-closed embedding, and X is a tilde-limit of the Xᵢ. Its affinoid
+rings are perfectoidisations of the closed loci rather than algebraic quotients.
 
-## Scope and ownership
+Descent is the third theme. A pro-étale Galois tower over X consists of finite étale Galois covers
+of X with groups G/Gⱼ, for G profinite, and a perfectoid tilde-limit of them. Let X be a smooth
+rigid space over a complete discretely valued field `k ⊇ ℚ_p` with perfect residue field. Then on
+every open of X, the functions are exactly the G-invariant functions on its preimage in the tower,
+both for O and for O⁺. These are actual, not almost, equalities. The same holds on analytic
+opens of a seminormal rigid space over any complete nonarchimedean field of mixed characteristic.
 
-PerfectoidSpaces owns P0–P7, and this roadmap owns the tower-quotient and torsor-descent layers P8–P9.
+For finite locally free modules, pullback to the tower is fully faithful but not essentially
+surjective. A twisted character sheaf is defined by a continuous cocycle c of G with values in the
+units of functions on the tower with coefficients in a small or affinoid algebra A. On an affinoid
+U, its sections are finite projective of rank one over `O(U) ⊗̂ A` once c comes from a finite
+level up to the coboundary of a unit. Integrally, a locally free O⁺-module on the tower with a
+continuous semilinear G-action descends exactly when its cocycle is locally the coboundary of an
+invertible integral matrix; a rational coboundary is not enough.
 
-- P8: invariant Huber pairs and invariants of a perfectoid ring, quotients of affinoid perfectoid
-  spaces and finite quotients of perfectoid spaces, good towers, and Zariski-closed loci in perfectoid
-  towers.
-- P9: continuous cochains, inverse-limit and homogeneous comparisons, pro-étale Galois towers,
-  descent of functions along a perfectoid tower, descent with
-  weight-space coefficients, twisted character sheaves and their local freeness.
+[DiamondsAndVStacks](../DiamondsAndVStacks/README.md) provides diamonds, and the vector-bundle and
+seminormal comparisons that the second layer applies to towers. AdicEtaleGeometry provides the
+pro-étale site and finite étale torsor towers, and AdicSpacesPartIV the coefficient sheaves.
+Applications to perfectoid Shimura varieties and period spaces belong to other roadmaps.
 
-PadicFunctionalAnalysis §§2.2–2.4 owns the Banach-basis and model-space inputs to P8.7 and
-P9.7; the invariant-tensor comparisons and their geometric applications belong here.
-DiamondsAndVStacks owns the v-topology, diamondification, diamond presentations and spatiality,
-together with the foundational comparisons that P9 applies to towers: the vector-bundle
-comparison across the analytic, étale, pro-étale and v-sites (D2.9, [KL16] Theorem 3.5.8, p. 76)
-and the analytic/diamond étale-site equivalence (D6.5), specialised to smoothoid spaces in P9.11,
-and the seminormal comparison `O_X ≅ ν_*Ô_X` and the full faithfulness of diamondification on
-seminormal rigid spaces (D6.9, [KL16] Theorem 8.2.3, pp. 162–163). The applications to a prescribed pro-étale Galois tower
-belong here: P9.8 owns descent of module sections and morphisms along the tower, and P9.12 owns
-function descent over a seminormal base. They apply the D2.9 and D6.9 inputs to a specified tower
-and do not supply those foundations. These tower applications are downstream
-of the site and diamond constructions.
-PerfectoidSpaces supplies the perfectoid rings, spaces, almost algebra and pro-étale calculus,
-including sousperfectoid spaces (P3.17a) and the rigid pro-étale affinoid perfectoid basis (P7.16).
-AdicEtaleGeometry owns analytic étale geometry, the pro-étale site with the finite-level
-pro-object, covering and torsor Čech nerve of a profinite Galois cover (A1, A1.12) and finite étale
-torsor towers (A4); AdicSpacesPartII owns completed tensor products, separatedness and
-analytification (R0, R1); AdicSpacesPartIII owns sheafy affinoid acyclicity and Kiehl's theorem
-(R3); AdicSpacesPartIV owns smooth products with perfectoid spaces and coefficient
-localization theory, including the coefficient Kiehl comparisons (R4, R5.5–R5.11).
-AdicEtaleGeometry A4.2a supplies finite Galois module descent, including projectivity and rank reflection.
-Lifting continuous cochains through surjections onto discrete spaces is Tau Ceti's
-`TauCeti.exists_continuous_lift` and is not restated. P9.0 owns continuous
-cochains into inverse limits, and the general continuous inhomogeneous cochain model with its all-degree
-homogeneous comparison for jointly continuous actions on topological modules. Its coefficient
-module need not be compact. P9.5 uses P9.0 for the geometric Čech-nerve, completed-section
-and integral/rational tower comparisons.
-The locally analytic distribution theory and Shimura-variety applications belong to downstream
-roadmaps. P8 specifies the integral-extension perfectoidization needed for its closed loci.
-
-Already stated or built elsewhere, cited by the layers and not restated:
-
-- integrality of `A` over `A^G` — Mathlib `Algebra.IsInvariant.isIntegral` (P8.1); the
-  `Spec`-level orbit space and the torsor case `|Spa(B)|/G ≅ |Spa(A)|` — Mathlib
-  `Algebra.IsInvariant.exists_smul_of_under_eq`, Tau Ceti
-  `AffineInvariantQuotient.isQuotientMap_projection`, AdicEtaleGeometry layer A4
-  (*torsor-spa-orbits*, *spa-of-completed-tower*) (P8.2); `G`-clean neighbourhoods in locally
-  compact Hausdorff spaces — Mathlib `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`
-  (P8.13);
-- the pro-étale site of a locally noetherian adic space — AdicEtaleGeometry layer A1
-  (*pro-etale-site-corrected*, A1.12); the affinoid perfectoid basis over a rigid base —
-  PerfectoidSpaces P7.16 (*proetale-site*); the pro-étale
-  structure sheaves over a perfectoid base — DiamondsAndVStacks layer D2 (D2.5) (P9.2); finite
-  étale torsor towers with their completed pairs and self-products — AdicEtaleGeometry layer A4
-  (*finite-etale-torsor-tower*, *completed-tower-pair*, *completed-tower-self-product*), and the
-  torsor property of a profinite tower over a perfectoid base — DiamondsAndVStacks layer D3
-  (D3.10) (P9.4, P9.5); the finite-level pro-object of a profinite Galois cover, with its
-  covering and torsor Čech nerve — AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering`
-  (P9.4, P9.5).
-
-## Conventions
-
-Fix a prime `p`. A perfectoid Tate ring is complete and Hausdorff, uniform, and has a
-pseudouniformiser `ϖ` with `ϖ^p | p` in `R°` such that Frobenius `R°/ϖ → R°/ϖ^p` is an isomorphism;
-injectivity of Frobenius is automatic and the condition does not depend on `ϖ`. No perfectoid base
-field is fixed; statements that hold only over a perfectoid field say so. A perfectoid Tate pair
-`(R, R⁺)` is a Tau Ceti Huber pair with `R` perfectoid; `R°` is its maximal ring of integral elements
-and `R°°` the topologically nilpotent elements. `Perfd` denotes perfectoid spaces of all
-characteristics and `Perf` its characteristic-`p` subcategory; `X♭` is the tilt, `♯` the sharp map,
-which is multiplicative and continuous but not additive. Almost mathematics is always with respect
-to a stated basic setup `(V, m)`: `m` idempotent with `m ⊗_V m` flat; for a perfectoid Tate ring the
-setup is `(R°, R°°)`, equivalently the root ideal `(ϖ^{1/p^∞})` of a pseudouniformiser with compatible
-`p`-power roots, and the two setups on `R⁺ ⊆ R°` are compared explicitly. "Almost zero", "almost
-isomorphism", "almost finite étale" and "almost acyclic" are relative to that setup; an almost
-statement is never silently upgraded to an actual one.
-
-Rings of integral elements are open, integrally closed and contained in `R°`; completed colimits of
-Tate pairs complete the colimit of the plus rings `ϖ`-adically and invert `ϖ`. "qcqs" means
-quasicompact and quasiseparated; morphisms of perfectoid spaces are morphisms of adic spaces.
-Tilde-limits carry both the topological condition and the affinoid density condition. Finite group quotients
-are categorical quotients in adic spaces, not finite étale torsors unless the action is free.
-Pro-étale Galois towers have profinite group `G` with the tower's finite levels indexed by open
-normal subgroups. A left action `ρ : G →* Aut X` on a space has `ρ(gh) = ρ(g) ∘ ρ(h)`. Towers
-carry right actions, with `(γδ)^* = γ^*δ^*` on functions and Čech increments
-`(x, g₁, …, gₙ) ↦ (x, xg₁, …, xg₁⋯gₙ)`. Twisted invariants use the inverse cocycle,
-`γ·f = c(γ)⁻¹f` with `c(γδ) = c(γ)·γ(c(δ))`.
-
-Each target below is written with its hypotheses in the sentence, its source locator in parentheses
-(short keys are resolved in the References), its API as named lemmas and its unit tests as `Checks`;
-`Suggested.lean` gives typed forms for a subset of these targets and Checks. Existing definitions
-keep their library namespaces. Each subsection of P8 and P9 ends with a `Lean:` line. It names the
-declarations of `TauCetiRoadmap/PerfectoidTowers/Suggested.lean` that carry the subsection's
-targets and says which Checks its `example`s state. Where the line says *README only*, the target,
-its API and its Checks are specified in this README alone and have no declaration in this
-roadmap's `Suggested.lean`; they are described in prose and carry italic labels, which are
-descriptive and not Lean declarations. Backticked names are reserved for declarations of this
-roadmap's `Suggested.lean` and for names of the pinned libraries and of supplier roadmaps. The
-declarations of `Suggested.lean` lie in the namespace `TauCetiRoadmap.PerfectoidTowers`, with
-`MulAction.IsGClean` and `MulAction.exists_isGClean` in its sub-namespace `MulAction`.
-
-## Exact supplier contracts
-
-### From TauCetiRoadmap.PerfectoidSpaces
-
-The names in this table are those PerfectoidSpaces fixes for its targets. Its `Suggested.lean`
-gives Lean signatures for the subset it prototypes, among them `Perfectoid.IsPerfectoidTateRing`,
-`Perfectoid.IsIntegralPerfectoid`, `PerfectoidSpace.isAffinoidPerfectoid` and
-`PerfectoidSpace.Perfd`. This roadmap's `Suggested.lean` imports none of them: it states only
-what the pinned Mathlib and Tau Ceti carry, so the headlines whose statements need these four
-carriers (P8.4, P8.7–P8.8 and P8.18) are README only. The PerfectoidSpaces README specifies the
-rest at the cited layers.
-Names beginning with `Almost`, `Perfectoid`, `PerfectoidSpace` or `AdicSpace` in this
-table have the prefix `TauCetiRoadmap.PerfectoidSpaces`. The table includes the
-carriers and maps used by the Checks; typeclass instances, generated constructors
-and structure projections are supplied with their parent declarations.
-
-| Application | Exact supplier | Use |
-| --- | --- | --- |
-| Almost coefficients | `TauCetiRoadmap.PerfectoidSpaces.Almost.BasicSetup`, `Almost.Module`, `Almost.Algebra` | P9's almost vanishing and coefficient sheaves use the specified basic setup. |
-| Perfectoid rings and pairs | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing`, `Perfectoid.IsIntegralPerfectoid`, `Perfectoid.PairCat`, `Perfectoid.PseudoUniformizerRoots` | P8 invariants and integral extensions retain the given topologies and plus rings. |
-| Tilting and affinoid charts | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.tilt`, `Perfectoid.rationalPair`, `PerfectoidSpace.ofPair`, `PerfectoidSpace.spaFunctor`, `PerfectoidSpace.Chart` | Quotient charts, componentwise perfectoidness and closed loci use P1–P2. |
-| Adic spaces and adic representatives (P2.10, P3.17) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.toAdicSpace` (the inclusion `Perfd p ⥤ PreAdicSpace`, landing in adic spaces) with *PerfectoidSpace.locallyStronglySheafy* for an adic representative | *toVRingedSpace* and *finite-tower-over-perfectoid-tower* read perfectoid spaces and their morphisms in `TauCeti.AdicSpace` through the inclusion, which lands there by `PerfectoidSpace.isPerfectoidSpace_le_isAdic`. |
-| Residue characteristic (P7.11) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.TowerGeometry.IsOverZp` | Topological nilpotence of `p` on every affinoid chart is the finite-level hypothesis in P8. |
-| Spaces and functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.Perfd`, `PerfectoidSpace.globalSections`, *PerfectoidSpace.globalPlus*, *PerfectoidSpace.globalPullback*, *PerfectoidSpace.pullbackOverAnalytic* | P8 analytic separatedness and P9 descent use the supplied perfectoid geometry. |
-| Closed loci and pro-étale maps | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.zeroLocus`, `PerfectoidSpace.zeroLocus_sup`, *PerfectoidSpace.IsProEtale*, `PerfectoidSpace.prodProfinite` with its point sections (P6.8, Checks `pointSection_singleton`, `pointSection_two_points`, `pointSection_empty_base`) | P8 global closed embeddings, the P8.12 torsor sections and P9 profinite torsors. |
-| Tilde-limits and tower geometry | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsTildeLimit`, *PerfectoidSpace.IsPreperfectoid*, `PerfectoidSpace.TowerGeometry.IsFinite`, *PerfectoidSpace.VQuotient.tildeLimit_represented_comparison* | P8 good towers and P9 Galois towers use P7's limit conditions and projection comparisons. |
-| Represented-limit topology and density | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.VQuotient.represented_limit_homeomorph`, `TauCetiRoadmap.PerfectoidSpaces.AdicSpace.HasDenseCharts` | *GoodTower.homeomorph* specializes the supplied homeomorphism to the represented cone of a good tower; *GoodTower.isTildeLimit* requires the separate, supplied density predicate. |
-| Finite-level affinoid basis (P7.11) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.VQuotient.represented_limit_affinoid_basis` | P8.19's *finite_level_affinoid_basis* adapts the represented-functor basis to the diamond-limit cone through DiamondsAndVStacks D6.4, with locally noetherian analytic levels, finite transitions and `TowerGeometry.IsOverZp`. |
-| Rigid pro-étale affinoid perfectoid basis (P7.16) | `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite.IsAffinoidPerfectoid`, `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite.AffinoidPresentation`, `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite.affinoidPerfectoid_basis` | P9 uses the supplied completed pairs, base maps and point comparison on the corrected AdicEtaleGeometry A1.12 site. |
-| Sousperfectoid geometry (P3.17a–P3.17b) | PerfectoidSpaces P3.17a.1–P3.17a.4, *sousperfectoid-etale-base-change*; P3.17b, *perfectoid-times-polydisc* | P9 coefficient products use the supplied sousperfectoid charts and étale base-change formula; smooth products use AdicSpacesPartIV R5.5. |
-| Almost-zero modules and basic setups | `Almost.BasicSetup.IsAlmostZero`, `Almost.BasicSetup.almostZero`, `Almost.BasicSetup.ofCompatibleRoots`, `Almost.BasicSetup.ofValuationRing`, `Almost.BasicSetup.padicComplex_maximalIdeal_not_fg` | P9 specifies annihilation by the root ideal or valuation maximal ideal, including the setup on `PadicComplexInt p`. |
-| Almostification and ordinary Tor | `Almost.toAlmost`, `Almost.Module.ordinaryTor` | P9 almostifies module sections and uses ordinary derived tensor groups in coefficient-change statements. |
-| Tilting maps and completed pair products | *Perfectoid.Pair.tiltHom*, *Perfectoid.PairCat.tiltFunctor*, `Perfectoid.PairCat.tensorPair`, `Perfectoid.tilt.coeff`, `Perfectoid.tilt.sharp` | P8 tilting of quotients uses the supplied maps; the affinoid self-product Check uses the supplied tensor pair. |
-| Rational localization carriers and maps | *Perfectoid.RationalLoc*, `Perfectoid.RationalLoc.pair`, `Perfectoid.RationalLoc.structureMap`, `Perfectoid.RationalOpen`, *Perfectoid.rationalMap* | P8 compares invariant rational localizations with the completed localization and its canonical map. |
-| Root polynomials and exponent groups | *Perfectoid.PseudoUniformizerRoots.rootPB*, *Perfectoid.pPowerExponents*, *Perfectoid.pPowerIntegers* | P8–P9's root coordinates use these exponent groups. |
-| Perfected discs and their coordinates | `Perfectoid.perfectedTateAlgebra`, `Perfectoid.perfectedTateAlgebra.rootX`, `PerfectoidSpace.discPair`, `PerfectoidSpace.gaussPoint`, *PerfectoidSpace.spaSpaceEquiv* | P8's closed-point, punctured-disc and Gauss-point Checks use the actual root coordinate and valuation spectrum. |
-| Cyclotomic field | `Perfectoid.padicCyclotomic` | P8 tilting examples and P9 cyclotomic towers use the completed cyclotomic subfield of `ℂ_p`. |
-| Perfectoid field test objects | *PerfectoidSpace.AffinoidField*, `PerfectoidSpace.AffinoidField.toPair` | P8 closed loci and P9 torsor fibers use perfectoid fields with their specified valuation subrings. |
-| Characteristic-p test spaces | `PerfectoidSpace.InCharP`, `PerfectoidSpace.Perf` | P8 diamond comparisons use the characteristic-p subcategory of `Perfd`. |
-| Points and open restrictions | `PerfectoidSpace.isPerfectoidSpace_restrict` | `Perfd p` is a full subcategory of Tau Ceti's `PreAdicSpace`, so points, maps on points and open restrictions are those of `TauCeti.PreAdicSpace.forgetToTop`, `TauCeti.PreAdicSpace.restrict` and `TauCeti.PreAdicSpace.ofRestrict`; the supplied lemma keeps an open restriction in `Perfd p`. P8 tests images, closed loci and open covers on these valuation points, including the empty-open Checks. |
-| Universal closed subspaces | *PerfectoidSpace.zariskiClosedSubspace*, `PerfectoidSpace.zariskiClosedSubspace.ι`, *PerfectoidSpace.IsStronglyZariskiClosed* | P8's *IsZariskiClosedEmbedding* tests the supplied affinoid predicate on every chart; closed-point Checks use the supplied closed subspace and inclusion. |
-| Closed immersions and separatedness | `PerfectoidSpace.IsClosedImmersion`, `PerfectoidSpace.IsSeparated` | P8 compares global Zariski embeddings and analytic separation with P4's predicates on perfectoid spaces. |
-| Nonseparated gluing | *PerfectoidSpace.glueSelf*, `PerfectoidSpace.glueSelf.fold`, *PerfectoidSpace.discAnnulusOpen* | P8's nonseparated Check glues two discs along the supplied annulus and maps the glued space to the base field by the fold followed by the structure map of the disc. |
-| Affinoid functions | `PerfectoidSpace.globalSectionsAffinoidEquiv_spec` | P8–P9 identify global functions of a perfectoid affinoid with its complete ring, retaining the canonical pullbacks. |
-| Finite étale perfectoid maps | `PerfectoidSpace.IsFiniteEtale` | P9 tests the finite levels of a perfectoid torsor tower using the imported geometric predicate. |
-| Locally profinite products and their maps | *PerfectoidSpace.prodLocallyProfinite*, `PerfectoidSpace.prodLocallyProfinite.homEquiv`, `PerfectoidSpace.prodProfinite.fst`, `PerfectoidSpace.prodProfinite.map` | P9 constructs torsor self-products and equivariant maps with the supplied product universal property; `prodProfinite` and its point sections are listed above. |
-
-In P9, `AffinoidPresentation` and its `points` comparison, and
-`ProEtaleSite.IsAffinoidPerfectoid`, denote the PerfectoidSpaces P7.16 interfaces
-in `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite`. P9 defines its completed sheaves
-and tower comparisons on these supplied objects.
-
-### From TauCetiRoadmap.PadicFunctionalAnalysis
-
-[PadicFunctionalAnalysis §§2.2–2.4](../PadicFunctionalAnalysis/README.md#layer-2-model-spaces-and-bases)
-supplies the basis and model interfaces used in P8.7 and P9.7.
-Here `c₀(I,K)` is its native `C₀(I,K)` for a discrete index type `I`.
-
-| Application | Supplier section and interface | Use |
-| --- | --- | --- |
-| Specified basis and model | §2.2: coefficient expansion and conversion between an orthonormal basis and a chosen linear model isometry | P8.7 transports its specified bounded model through completed tensors; P9.7 uses an isometry when the given norm admits one. |
-| Countable-type Banach space | §2.4: a `t`-orthogonal basis for `0 < t < 1` and a continuous linear equivalence with a `C₀` model over any complete nontrivially valued ultrametric field | P9.7 uses this bounded model equivalence for the whole chart algebra, including over nondiscretely valued perfectoid fields. |
-| Discretely valued field | §2.3: potential orthonormalisability of every Banach space by an equivalent norm, with §2.2's model comparison | P9.7 uses the resulting bounded linear equivalence for arbitrary index sets; isometry for the original norm requires an orthonormal basis for that norm. |
-
-### From TauCetiRoadmap.DiamondsAndVStacks
-
-The names in this table are those DiamondsAndVStacks fixes for its targets; its `Suggested.lean`
-prototypes a subset and its README specifies the rest at the cited sections. This roadmap's
-`Suggested.lean` uses none of them.
-Names beginning with `Geometry`, `Perf`, `PreAdic` or `Rigid` here have the
-prefix `TauCetiRoadmap.DiamondsAndVStacks`.
-
-| Application | Exact supplier | Use |
-| --- | --- | --- |
-| v-topology and test category | `TauCetiRoadmap.DiamondsAndVStacks.Geometry.vTopology`, `Geometry.Perf`, `Geometry.space`, `Geometry.proet` | D2.1–D2.2 supply the characteristic-p perfectoid v-site for P8 quotients. |
-| v-sheaf and point-space carriers | `Geometry.Spaces`, `Geometry.VSheaf`, `Perf.Diamond.space` | P8 quotient and spatial-presentation statements use the supplied sheaf category and its topological realization. |
-| Diamond functor | `TauCetiRoadmap.DiamondsAndVStacks.PreAdic.geometricDiamond`, `PreAdic.diamond_perfectoid`, `PreAdic.diamond_fibreProduct` | D6.4 supplies diamondification and these comparisons. Compose with `CategoryTheory.ULiftHom.up` on the analytic Yoneda carrier; quotient and tower comparisons retain their canonical maps. |
-| Analytic/diamond étale sites | `TauCetiRoadmap.DiamondsAndVStacks.PreAdic.diamond_etale_equivalence` | D6.5 supplies the equivalence from diamond étale objects to analytic étale objects for an analytic carrier over `Spa(ℤ_p,ℤ_p)`. P9.11 transports it to the smoothoid carrier and takes its inverse for the analytic-to-diamond direction, preserving and reflecting coverings. |
-| Topology of diamond limits | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.cofilteredLimit` | D5.3 (ECD 11.22) supplies the homeomorphism for locally spatial levels with qcqs transitions; it imposes no density condition on analytic functions. |
-| Spatial presentations | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.Presentation`, `Perf.Diamond.IsSpatial`, `Geometry.realized`, `Perf.Diamond.spaceι` | D4–D5 supply presentations, spatiality and their point spaces. *SpatialPresentation* abbreviates the supplied presentation with its spatiality proof; component loci use the supplied realization and evaluation maps. |
-| Presentation comparisons | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.Presentation.atlas`, `.atlas_isColimit`, `Perf.Diamond.relation_eq`, `Perf.Diamond.presentationSpace`, `Perf.Diamond.space_eq_quotient` | The supplied presentation determines its epimorphic atlas, effective relation and topological quotient. |
-| Realization and spectrality | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.spaceι_restrict`, `.spaceMap_ι`, `.space_of_perfectoid_ι`, `Perf.Diamond.IsSpatial.spectralSpace` | Component evaluations use the canonical natural maps, and spatiality supplies the spectral point space. |
-| Perfectoid structure sheaves | `TauCetiRoadmap.DiamondsAndVStacks.Geometry.O_isSheaf_v`, `Geometry.Oplus_isSheaf_v` | D2.7 supplies v-descent on perfectoid charts for P9's rational and integral coefficients. |
-| Seminormal rings and rigid spaces | `TauCetiRoadmap.DiamondsAndVStacks.IsSeminormalRing`; `TauCetiRoadmap.DiamondsAndVStacks.Rigid.IsSeminormal` | D6.9 defines seminormality of an arbitrary commutative ring (reduced, with unique square–cube lifting) and tests it on every affine open of a fixed-field `Rigid.Space`. P9.12 applies the ring predicate to the chart rings of Part II's `AdicSpace.Chart.affinoid.ring`; it defines no predicate of its own. |
-
-The tower statements `finite_projective_sections_descent`,
-*ProEtaleSite.finite_locally_free_hom_descent* and *function_descent_seminormal*
-are P9 targets on this roadmap's carriers. The first two express degree-zero
-module descent from a specified fixed-ring comparison; the third uses
-*ProetaleGaloisTower* and DiamondsAndVStacks' `IsSeminormalRing`. Only the affine lemma
-`finite_projective_sections_descent` is in `Suggested.lean`; the other two are specified in
-this README only. Their proofs use the direct completed-sheaf comparisons cited in P9.8 and
-P9.12, which DiamondsAndVStacks owns: D2.9 for vector bundles and D6.9 for the seminormal
-comparison. DiamondsAndVStacks D2.9 and D6.9 prove their site equivalences and geometric full
-faithfulness without these tower statements as inputs.
-
-The foundational comparisons and their tower specialisations have distinct suppliers:
-
-| Declaration or target | Supplier | Use here |
-| --- | --- | --- |
-| Vector bundles across the analytic, étale, pro-étale and v-sites; [KL16] Theorem 3.5.8 | DiamondsAndVStacks D2.9; PerfectoidSpaces P3.19 and P6 supply the étale and pro-étale inputs | P9.8 specialises pullback to a chosen tower |
-| Seminormal `O_X ≅ ν_*Ô_X`, [KL16] Theorem 8.2.3 | DiamondsAndVStacks D6.9 | P9.12 supplies tower fixed sections |
-| Full faithfulness of diamondification on seminormal rigid spaces | DiamondsAndVStacks D6.9 | An upstream comparison, not a consequence assigned to P9 |
-| Finite-level pro-object, covering and torsor Čech nerve | AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering` | P9.4–P9.5 add perfectoid completion and continuous completed sections |
-| Tower function and module corollaries | PerfectoidTowers P9.6, P9.8, P9.12; `finite_projective_sections_descent` is the affine lemma | Functions fixed by the specified tower action and full faithfulness of its pullback |
-| Affinoid reconstruction with coefficients | AdicSpacesPartIV R5, `coefficient-sheaf-kiehl` and `affinoid-weight-coefficient-sheaf` | P9.10 uses only the branches specified there |
-
-### From TauCetiRoadmap.AdicEtaleGeometry
-
-The names in this table are those AdicEtaleGeometry fixes for its targets; its `Suggested.lean`
-prototypes a subset and its README specifies the rest at the cited layers. This roadmap's
-`Suggested.lean` uses none of them.
-Names beginning with `AdicSpace`, `CAff` or `YonedaAdicSpace` here have the prefix
-`TauCetiRoadmap.AdicEtaleGeometry`.
-
-| Application | Exact supplier | Use |
-| --- | --- | --- |
-| Affinoid morphisms and the rational site | the `Pair.Hom` projection `toRingHom` of `CAff` morphisms, `CAff.toRingHom_eval`, `CAff.ratTopology` | P8–P9 use the underlying ring maps and the rational site defining Yoneda-adic spaces. |
-| Sheafy affinoid adic realizations | `CAff.adicSpa`, `CAff.spaHom` | P8 invariant affinoid covers and P9 constant étale objects use the adic spectrum and its induced morphisms. |
-| Yoneda-adic objects and open immersions | *YonedaAdicSpace.IsYonedaAdic*, `YonedaAdicSpace.ofSpaY`, `YonedaAdicSpace.spaYFunctor`; Tau Ceti's `TauCeti.PreAdicSpace.IsOpenImmersion` (the open-immersion predicate AdicEtaleGeometry uses) | P8 quotient charts and invariant opens use the supplied rational-site sheaves, their morphisms and the open-immersion predicate. |
-| Yoneda points and functions | `YonedaAdicSpace.space`, *YonedaAdicSpace.globalFunctions*, `YonedaAdicSpace.globalFunctions.map`, *YonedaAdicSpace.toGlobalFunctions* | P8 pointwise quotient conditions and P9 fixed-function descent retain the canonical pullback and affinoid coefficient maps. |
-| Realization comparisons | `YonedaAdicSpace.ofAdicSpace_spa`, `YonedaAdicSpace.ofAdicSpace_globalFunctions` | P8 analytification and P9 torus Checks compare adic spectra and functions with their Yoneda realizations. |
-| Analytic and sheafiness hypotheses | `AdicSpace.IsAnalytic`, `AdicSpace.IsLocallyStronglySheafy`, `AdicSpace.IsLocallyStablySheafy`, `AdicSpace.IsLocallyNoetherianAnalytic`, `AdicSpace.IsLocallyNoetherianAnalytic.isLocallyStronglySheafy` | P9 specifies the hypotheses for the small étale and pro-étale sites, coefficient sheaves and relative polydiscs. |
-| Étale objects and topology | `AdicSpace.IsEtaleLocalDescription`, `AdicSpace.smallEtale`, `AdicSpace.smallEtale.mk`, `AdicSpace.smallEtaleTopology` | P9 uses actual étale maps as objects, then embeds them as constant pro-objects. |
-| Pro-objects and presentations | `AdicSpace.ProEtale.ProEt`, `AdicSpace.ProEtale.ProEt.final`, *AdicSpace.ProEtale.ProEt.toFinal*, `AdicSpace.ProEtale.ProEt.Presentation`, *AdicSpace.ProEtale.IsProEtale* | P9's affinoid presentations use the supplied cofiltered étale diagram and limit over the base. |
-| Pro-étale site and constant embedding | `AdicSpace.ProEtaleSite`, `AdicSpace.ProEtaleSite.topology`, `AdicSpace.ProEtaleSite.const`, `AdicSpace.ProEtaleSite.space` | P9 defines its sheaves, inverse images and section cohomology on A1's corrected site, with its supplied point functor. |
-| Profinite objects and Galois actions | *AdicSpace.ProEtaleSite.profiniteObj*, *AdicSpace.ProEtaleSite.GaloisPresentation*, `AdicSpace.ProEtaleSite.GaloisPresentation.limitAction` | P9's Cartan–Leray and local-system comparisons use the specified finite Galois stages and their induced limit action. |
-| Integral and rational étale structure sheaves | `AdicSpace.structureSheafPlusEtale`, `AdicSpace.structureSheafEtale` | P9 pulls these ring sheaves to the pro-étale site before completion and coefficient extension. |
-| Integral sections and continuous differentials | `AdicSpace.Oplus`, *AdicSpace.structureRingSheaf*, `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.relativeDifferentials` (R3.6, *sheaf-of-continuous-differentials*), re-exported in AdicEtaleGeometry A2.4 through `AdicSpace.relativeDifferentials.continuousIso` | P9's differential sheaf on the small étale site evaluates the supplied continuous differential module on each source space. |
-| Relative polydiscs and underlying maps | *AdicSpace.relativePolydisc*, `AdicSpace.base` | P9 torus Checks use the supplied polydisc coordinates and the continuous maps on underlying adic spaces. |
-
-### Continuous cochain contracts (P9.0 and P9.5)
-
-[P9.0, *Comparison with the canonical carrier for compact coefficients*](#p90-continuous-cochains-and-inverse-limits)
-supplies the general comparison for jointly continuous actions, using Mathlib and
-[ProfiniteCohomology Layer 3](../ProfiniteCohomology/README.md#layer-3-the-comparison-isomorphisms).
-P9.5 names the local cochain, differential and homogeneous-comparison adapters and
-supplies the naturality and discrete-compatibility APIs in the following table.
-
-| Application | Local P9.5 adapter or API | Contract |
-| --- | --- | --- |
-| Continuous cochain model | *continuousInhomogeneousCochains*, *continuousInhomogeneousCochains_d* | For profinite `G`, a commutative ring `V` with a topology, and `ρ : TopRep V G`, require `Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)`. The underlying `V`-module complex has terms `C(G^n, ρ.V)` and the unnormalized differential specified in P9.5; every construction and differential carries this joint-continuity premise. No compactness or discreteness of `ρ.V` is required. |
-| Homogeneous comparison | *continuousInhomogeneousCochains_homogeneous* | Under the same hypotheses, an all-degree `V`-linear isomorphism with Mathlib's `TopRep.homogeneousCochains` after forgetting topology, compatible with the whole differential and hence with the underlying modules of `continuousCohomology`. Local compactness of `G` supplies compact-open currying and uncurrying. |
-| Naturality and discrete compatibility | *continuousInhomogeneousCochains_map*, *continuousInhomogeneousCochains_homogeneous_natural*, *continuousInhomogeneousCochains_discrete* | Continuous equivariant `V`-linear coefficient maps between jointly continuous actions induce cochain maps by postcomposition, and the homogeneous comparison is natural in these maps. For discrete coefficients, over `ℤ` after scalar restriction, degrees 0–2 and their differentials agree with Tau Ceti's `cochainEquiv0`, `cochainEquiv1`, `cochainEquiv2`, `d_cochainEquiv0` and `d_cochainEquiv1_apply`. |
-
-P9.5's unqualified *continuousInhomogeneousCochains*,
-*continuousInhomogeneousCochains_d* and *continuousInhomogeneousCochains_homogeneous*
-are local adapters to that prose comparison, with the hypotheses and maps specified here.
-*continuousInhomogeneousCochains_map*, *continuousInhomogeneousCochains_homogeneous_natural*
-and *continuousInhomogeneousCochains_discrete* are local compatibility targets.
-
-### From Mathlib, Tau Ceti and analytic adic geometry
-
-In the file column of the following tables, a Mathlib or Tau Ceti path is the file of the
-declaration at the pinned versions. A sibling `Suggested.lean` path stands for that sibling
-roadmap: the name is one of its targets, prototyped in that file or specified in its README.
-This roadmap's own targets are cited by subsection.
-
-| Application | Exact supplier and file | Use |
-| --- | --- | --- |
-| Analyticity and affinoid sheafiness | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsAnalytic`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `R.Sheafy`, AdicEtaleGeometry's notation (section "Geometric signatures and Checks") for Tau Ceti's `TauCeti.Huber.IsSheafyForEveryPresentation R.P.plus` | P8 uses the supplied Tate-chart analyticity and sheafiness predicates for quotient charts and finite-level analytic spaces. |
-| Adic charts and morphism properties | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `.Smooth`, `.LocallyOfFiniteType`, `.IsFinite`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 invariant affinoid covers and finite rigid quotients use the chart ring and open immersion; P9 uses smoothness, finite type and seminormal chart rings in descent and coefficient comparisons. |
-| Adic ring homomorphisms | `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom`, `Huber.IsAdicHom.of_isTateRing`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 completed pair tensors require adic scalar maps; continuity from a Tate ring supplies the adicness and the target Tate structure. |
-| Completed tensor ring structures | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor.isTopologicalRing`, `Huber.CompletedTensor.isHuberRing`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 installs the supplied topological ring and Huber ring structures when forming completed tensor pairs. |
-| Affinoid spectra and spaces over a field | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.spa`, `AdicSpace.fieldAffinoid`, `AdicSpace.AdicOver`, `RigidSpace`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 analytification and finite rigid quotients use these spectra, rigid spaces and locally finite type adic spaces over the complete nonarchimedean field. |
-| Profinite flat coefficient modules | `TauCetiRoadmap.AdicSpacesPartIV.Huber.IsProfiniteFlat`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean` | P9's mixed completed tensors retain flatness and the compact Hausdorff linear module topology supplied by R5. |
-| Affinoid restriction and represented towers | *PerfectoidSpace.IsZariskiClosedEmbedding*, *PerfectoidSpace.GoodTower.represents*, this roadmap's P8.14 and P8.19 (README only) | Checks *IsZariskiClosedEmbedding.base_change_affinoid* and *GoodTower.universal* evaluate the predicate and the structure field. |
-| Integral fixed elements and characteristic-p localization | `invariantPair`, `TauCetiRoadmap/PerfectoidTowers/Suggested.lean`; *Perfectoid.PairCat.invariants*, *Perfectoid.rational_invariants_perfectoid*, this roadmap's P8.4–P8.5 (README only) | Checks *invariants_pair_plus* and *rational_invariants_characteristic_p* use the comap plus ring and the general localization comparison; the first is specified by the comap defining `invariantPair`. |
-| Affinoid sheaf equalizers | *Perfectoid.TorsorDescent.WeightExtension.structureSheafEqualizer*, *.integralStructureSheafEqualizer*, this roadmap's P9.11 (README only) | Check *WeightExtension.rationalSectionsEqualizer* combines their conclusions on an affinoid open. |
-| Regular-element coefficient sequence | `Module.Flat.isSMulRegular_of_isRegular`, `Mathlib/RingTheory/Flat/TorsionFree.lean`; `LinearMap.exact_iff`, `Mathlib/Algebra/Exact/Basic.lean`; `Submodule.ideal_span_singleton_smul`, `Mathlib/RingTheory/Ideal/Operations.lean` | Check *coefficient_change_regular* applies flatness for injectivity and the supplied kernel equality for exactness. The sheaf and derived comparisons remain P9 targets. |
-| Sectionwise inverse limits | `CategoryTheory.Sheaf.createsLimits`, `Mathlib/CategoryTheory/Sites/Limits.lean`; `CategoryTheory.Limits.evaluationPreservesLimits`, `Mathlib/CategoryTheory/Limits/FunctorCategory/Basic.lean`; `CategoryTheory.preservesLimitIso`, `Mathlib/CategoryTheory/Limits/Preserves/Limits.lean:54` | Check *higher_inverse_limits_sections* gives the section comparison for any inverse system of module sheaves. P9 supplies almost vanishing of positive derived limits and higher cohomology. |
-
-| P9 object | Exact supplier and file | New P9 content |
-| --- | --- | --- |
-| Fixed rings and coefficient scalars | `FixedPoints.subring`, `FixedPoints.subalgebra`, `Mathlib/Algebra/Algebra/Subalgebra/Operations.lean`; `Algebra.IsInvariant`, `Mathlib/RingTheory/Invariant/Defs.lean` | Twisted submodules and continuous descent along a specified torsor; no new fixed-ring definition. |
-| Multiplicative cocycle and units action | `groupCohomology.IsMulCocycle₁`, `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`; `Units.mulDistribMulActionRight`, `Mathlib/Algebra/Group/Action/Units.lean` | The twisted submodule uses the inverse cocycle; the supplier's multiplication order agrees because the unit group of a commutative ring is commutative. |
-| Module invariants and averaging | `Representation.invariants`, `Representation.averageMap`, `Representation.isProj_averageMap`, `Mathlib/RepresentationTheory/Invariants.lean` | Effective descent over commutative rings; averaging is used only with invertible group order. |
-| Field-valued Galois descent | `TauCeti.GaloisDescent.span_invariants_eq_top`, `TauCeti/RepresentationTheory/GaloisDescent/Span.lean`; `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`, `TauCeti/RepresentationTheory/GaloisDescent/Injective.lean`; `TauCeti.GaloisDescent.range_eq_invariants_of_liftBaseChange_surjective`, `TauCeti/RepresentationTheory/GaloisDescent/Range.lean` | Finite étale torsors over arbitrary commutative rings, including disconnected rings and characteristic dividing the group order. |
-| Finiteness and rank under base change | `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Finiteness/Descent.lean`; `Module.rankAtStalk_baseChange`, `Mathlib/RingTheory/Spectrum/Prime/FreeLocus.lean` | Establish faithful flatness from finite étaleness and injectivity, then reflect rank using surjectivity on spectra. |
-| Continuous degree-zero cohomology | `ContinuousCohomology.zeroIso`, `Mathlib/RepresentationTheory/Homological/ContCohomology/LowDegree.lean`; `TauCeti.ContinuousCohomology.zeroIsoNatIso`, `TauCeti/RepresentationTheory/Homological/ContCohomology/DegreeZero.lean` | Identify the tower's Čech complex with continuous cochains; use these degree-zero comparisons directly. |
-| Continuous lifts along discrete surjections | `TauCeti.exists_continuous_lift`, `TauCeti/Topology/Discrete.lean` | For any topological source and any surjection onto a discrete space, a continuous map lifts continuously; P9.0 applies it with source `Gⁱ` in each cochain degree. |
-| Continuous inhomogeneous cochains in degrees 0, 1 and 2 | `TauCeti.ContCohomology.cochainEquiv0`, `TauCeti.ContCohomology.cochainEquiv1`, `TauCeti.ContCohomology.cochainEquiv2`, `TauCeti.ContCohomology.d_cochainEquiv0`, `TauCeti.ContCohomology.d_cochainEquiv1_apply`, `TauCeti/RepresentationTheory/Homological/ContCohomology/CochainComparison.lean` | These additive comparisons use discrete modules with jointly continuous action; degree 2 also assumes local compactness of the group, automatic for profinite groups. P9.5 uses the all-degree and non-discrete extension of P9.0 with its explicit joint-continuity premise. |
-| Finite torsor Galois map, fixed ring and module descent | `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor.isInvariant` (A4.2); `TauCetiRoadmap.AdicEtaleGeometry.IsGaloisExtension`, *finite-galois-descent-of-modules* (A4.2a, README only) | A4.2a supplies faithful flatness, the torsor and fixed-ring conclusions, effective module descent, and finite-projectivity and rank reflection for P9.10. |
-| Faithful flatness of an injective finite étale algebra | `Algebra.IsIntegral.comap_surjective`, `Mathlib/RingTheory/Spectrum/Prime/Topology.lean`; `Module.FaithfullyFlat.of_comap_surjective`, `Mathlib/RingTheory/Flat/FaithfullyFlat/Algebra.lean` | Finiteness gives integrality, injectivity gives lying over every prime, and étaleness gives flatness. These construct the faithful-flatness field of the torsor. |
-| Integral tensor exactness | `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, `Mathlib/RingTheory/Flat/TorsionFree.lean`; `AdicCompletion.map_surjective`, `Mathlib/RingTheory/AdicCompletion/Exactness.lean` | Fixed points of completed lattice tensors with a specified completed free coefficient lattice. |
-| Module sheaves, local bases and pullback | `SheafOfModules.Submodule.toSheafOfModules`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/Submodule.lean`; `SheafOfModules.IsLocallyFree`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/LocallyFree.lean`; `SheafOfModules.pullbackPushforwardAdjunction`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean` | P9 identifies the invariant subsheaf, proves the integral local-basis criterion and identifies the canonical pullback map on equivariant Hom sets. |
-| Coefficient localization and Kiehl | `TauCetiRoadmap.AdicSpacesPartIV.RigidSpace.Coefficients` and its `Loc` (R5.7: *coefficient-sheaf-loc*, *coefficient-sheaf-kiehl* branches (a)–(b), *affinoid-weight-coefficient-sheaf*), `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean` | P9 proves that the character module on an affinoid is finite projective of rank one and glues to a coefficient line sheaf; R5 supplies localization and acyclicity for finite projective modules. Reconstruction `ω_c ≅ Loc(ω_c(X))` on an affinoid base uses only R5's `coefficient-sheaf-kiehl` branches (a) and (b) and `affinoid-weight-coefficient-sheaf`, as specified in P9.10; the finite-free small-coefficient global-section comparison over a discretely valued base is the case of branches (a) and (b). |
-| Derived coefficient change | `CategoryTheory.InjectiveResolution.cochainComplex`, `Mathlib/CategoryTheory/Abelian/Injective/Extend.lean`; `CategoryTheory.Functor.totalLeftDerived`, `Mathlib/CategoryTheory/Functor/Derived/LeftDerived.lean`; `CategoryTheory.SpectralSequence`, `Mathlib/Algebra/Homology/SpectralSequence/Basic.lean` | P9 applies these carriers to twisted sheaves and finite acyclic covers, including the filtration of the abutment. |
-| Ring-sheaf completion | `CategoryTheory.Sheaf`, `Mathlib/CategoryTheory/Sites/Sheaf.lean`; `CategoryTheory.presheafToSheaf`, `CategoryTheory.toSheafify`, `Mathlib/CategoryTheory/Sites/Sheafification.lean`; `Localization.Away`, `Mathlib/GroupTheory/MonoidLocalization/Away.lean` | Complete the integral coefficient sheaf by a limit of sheaf quotients, then sheafify its localization; twisted sheaves are subpresheaves of the actual coefficient sheaf. |
-| Abelian sheaves and direct images | `CategoryTheory.sheafIsAbelian`, `Mathlib/CategoryTheory/Sites/Abelian.lean`; `CategoryTheory.Sheaf.Hom.add_app`, `Mathlib/CategoryTheory/Sites/Sheaf.lean`; `CategoryTheory.Functor.rightDerived`, `Mathlib/CategoryTheory/Abelian/RightDerived.lean` | P9.3 computes direct images using Mathlib's abelian and additive structures on sheaves, with proposition-valued `HasSheafify`; finite limits of these sheaves are supplied by `Mathlib/CategoryTheory/Sites/Limits.lean`. |
-| Completed coefficient maps | `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.map`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap.AdicSpacesPartIV.Huber.mixedTensorInt`, `TauCetiRoadmap.AdicSpacesPartIV.Huber.mixedTensorInt.map`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`; `AdicCompletion.map`, `Mathlib/RingTheory/AdicCompletion/Functoriality.lean` | Identify the image of the canonical fixed-submodule inclusion with the fixed completed tensors, retaining the three distinct completions. |
-| Cohomology of a quotient complex | `HomologicalComplex.homologyMap`, `Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean`; `CategoryTheory.ShortComplex.ShortExact.δ`, `Mathlib/Algebra/Homology/HomologySequence.lean` | Apply the connecting-map sequence to a degreewise flat Čech complex modulo a regular element, locating the torsion obstruction in degree `q+1`. |
-
-| P8 object | Exact supplier and file | New P8 content |
-| --- | --- | --- |
-| Normal fixed field | `Normal`, `Mathlib/FieldTheory/Normal/Defs.lean`; `IntermediateField.fixedField`, `Mathlib/FieldTheory/Galois/Basic.lean` | Restriction of arbitrary-rank valuation classes from a normal extension and its automorphism fixed field. |
-| Fixed subring | `FixedPoints.subring`, `Mathlib/Algebra/Algebra/Subalgebra/Operations.lean` | Equip the fixed subring with its Tate structure and invariant plus ring. |
-| Invariant orbit product | `Finset.smul_prod_perm`, `Mathlib/Algebra/BigOperators/GroupWithZero/Action.lean` | Bundle this product in the fixed subring and prove that a pseudouniformizer stays one. |
-| Integrality and prime orbits | `Algebra.IsInvariant.isIntegral`, `Algebra.IsInvariant.exists_smul_of_under_eq`, `Algebra.IsInvariant.orbit_eq_primesOver`, `MulSemiringAction.charpoly`, `MulSemiringAction.charpoly_eq`, `MulSemiringAction.eval_charpoly`, `MulSemiringAction.monic_charpoly`, `Mathlib/RingTheory/Invariant/Basic.lean` | Continuous valuations and complete Tate pairs, rather than new algebraic integrality statements. |
-| Affine scheme quotient | `TauCeti.AffineInvariantQuotient.isQuotientMap_projection`, `TauCeti.AffineInvariantQuotient.projection_eq_iff_exists_smul`, `TauCeti.AffineInvariantQuotient.isFinite_projection`, `TauCeti/AlgebraicGeometry/Quotient/FiniteGroup/Affine.lean` | Orbit spaces of adic spectra; the cited finiteness theorem requires `Algebra.FiniteType (FixedPoints.subring A G) A`. |
-| Rational pullback | `TauCeti.ValuationSpectrum.spaComap_preimage_rationalSubset`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Comap.lean` | Open generation in the fixed Tate ring and stability under a plus-preserving action. |
-| Disjoint translates | `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`, `Mathlib/Topology/Algebra/ConstMulAction.lean` | A clean open-neighbourhood basis for finite actions with only Hausdorffness; also impose stabilizer invariance. |
-| V-valued sheaves | `AlgebraicGeometry.SheafedSpace`, `AlgebraicGeometry.PresheafedSpace.Hom`, `Mathlib/Geometry/RingedSpace/SheafedSpace.lean`, `Mathlib/Geometry/RingedSpace/PresheafedSpace.lean`; `TauCeti.CompleteSeparatedTopCommRingCat`, `TauCeti/Topology/Category/TopCommRingCat/CompleteSeparated/Basic.lean` | Add stalk valuations and valuation-compatible maps; no local-stalk axiom is imposed in Huber's category V. |
-| Perfectoid adic realization | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.ofAdicSpace` with the full faithfulness of *adic-spaces-in-yoneda-adic-spaces* (A1.16), `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCeti.AdicSpace.toSheafyPreAdicSpace`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean`; `TauCeti.PreAdicSpace.stalkValuation_def`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Basic.lean` | PerfectoidSpaces P2.10’s *PerfectoidSpace.toAdicSpace* is the inclusion of `Perfd p` into pre-adic spaces, landing in adic spaces; P3.17’s *PerfectoidSpace.locallyStronglySheafy* identifies a perfectoid space with the A1 realization of a locally strongly sheafy adic representative. *toVRingedSpace* composes the inclusion with the forgetful functor, retaining the complete topological sheaf and the supplied residue-induced stalk valuation. |
-| Direct perfection and completions | `PerfectClosure`, `PerfectClosure.of`, `Mathlib/FieldTheory/PerfectClosure.lean`; `AdicCompletion`, `Mathlib/RingTheory/AdicCompletion/Basic.lean`; `Localization.Away`, `Mathlib/GroupTheory/MonoidLocalization/Away.lean` | The universal integral-perfectoid algebra and its parameter-adic generic pair. |
-| Integral closure in the generic ring | `integralClosure`, `mem_integralClosure_iff`, `Mathlib/RingTheory/IntegralClosure/Algebra/Basic.lean`; `IsLocalization.Away.invSelf`, `Mathlib/RingTheory/Localization/Away/Basic.lean` | *genericPlus* uses the integral closure of the completed ring's image; its Checks distinguish integral roots from the inverse of a nonzero nonunit parameter. |
-| Projective levels | `AlgebraicGeometry.Proj`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean`; `AlgebraicGeometry.Proj.toSpecZero`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`; `MvPolynomial.homogeneousSubmodule`, `MvPolynomial.gradedAlgebra`, `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` | Projective scheme presentations and their natural affinoid-test analytifications. |
-| Analytification comparison | `RigidSpace.analytification` with its natural bijection *analytification-universal-property* (AdicSpacesPartII R1.3) and `AdicSpace.rigidToAdic` (R1.7); `R.Sheafy` (AdicEtaleGeometry's notation for `TauCeti.Huber.IsSheafyForEveryPresentation R.P.plus`), `YonedaAdicSpace.ofAdicSpace`, `YonedaAdicSpace.ofAdicSpace_spa`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | R1 owns analytification. *TowerGeometry.Analytification* specifies its sheafy-test interface on the Yoneda carrier; *Analytification.rigid_comparison* identifies its space with R1's image. |
-| Unit torus and coordinates | *AdicSpace.relativeTorus*, `relativeTorus.ι`, `relativeTorus.proj`, `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.Polydisc.coord`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | P9 root-torus Checks use this unit annulus, its base map, and its coordinate p-power endomorphism. The coordinate is the `Polydisc.coord` field of *AdicSpace.relativePolydisc*, pulled back along `relativeTorus.ι`. |
-| Global functions on adic spaces | `YonedaAdicSpace.ofAdicSpace_globalFunctions`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | Identifies the torus coordinate with the function pulled back along the Galois-tower levels. |
-| Projective-line chart | `AlgebraicGeometry.Proj.fromOfGlobalSections`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`; `AlgebraicGeometry.Scheme.ΓSpecIso`, `Mathlib/AlgebraicGeometry/Scheme.lean` | *projectiveLineChart* specializes the supplier map to the homogeneous coordinates `(1,T)`; it fixes the coordinate in *goodTower_frobenius_P1*. |
-| Finite maps of pairs | `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.Hom.IsFinite`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Test this pair predicate on every target affinoid and require the square to be a pullback. |
-
-| Analytic and coefficient object | Exact supplier and file | Use in P8–P9 |
-| --- | --- | --- |
-| Analytic bases and perfectoid spaces | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsLocallyNoetherianAnalytic`, `YonedaAdicSpace.ofSpaY`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.isPerfectoidSpace`, `PerfectoidSpace.isAffinoidPerfectoid`, `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | Use the supplied analytic predicates on the adic and Yoneda carriers. PerfectoidSpaces P7.16's *ProEtaleSite.AffinoidPresentation* adds a map to `Spa(ℚ_p, ℤ_p)`; its `ProEtaleSite.IsAffinoidPerfectoid` concerns pro-objects with completed section pairs, whereas PerfectoidSpaces P2.9’s `isAffinoidPerfectoid` is a property of pre-adic spaces. *ProetaleGaloisTower.base* requires the same base map in its locally noetherian branch. |
-| Quasi-compact étale slices and finite towers; separated rigid quotients | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.QuasiCompact`, `.IsSeparated`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0; `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsEtaleLocalDescription`, `.IsFiniteEtale`, `.smallEtale`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1 | *finite-tower-over-perfectoid-tower* uses R0 on the limit map; *rigid_invariant_cover_of_separated* assumes R0 separatedness. *ProetaleGaloisTower.finiteEtale* uses A1’s finite étale predicate. |
-| Completed pair tensors | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor`, `Huber.Pair.completedTensor`, `Huber.Pair.completedTensor.tmul`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0 | The carriers, plus rings and tensor maps used by *quotient_scalar_extension_pair* and its Checks. |
-| Banach tensors over an analytic field | `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor`, `.injective_tensorProduct_of_field`, `.ker_map_of_field`, `.injective_kerMap_of_field`, `.isStrictMap_map_of_field`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0; `BanachModule.productSeminorm` in the same file | Use the completed tensor for the nonarchimedean maximum-cost seminorm and the full kernel theorem without a strictness hypothesis. These are admitted sibling-roadmap suppliers. |
-
-| Completed tower object | Exact supplier and file | Use in P9 |
-| --- | --- | --- |
-| Completed tower self-product | `TauCetiRoadmap.AdicEtaleGeometry.FiniteEtaleTorsorTower.uniformCompletedTensor_completion_equiv`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A4 | Supplies the uniform completed tensor-square comparison; P9.4's *Perfectoid.TorsorDescent.ProetaleGaloisTower.torsorIso* (README only) expresses the self-product of the tower's pro-object on this roadmap's tower carrier; completing the nerve gives the perfectoid self-product. |
-
-| Perfectoid carrier | Exact supplier and file | Use in P8–P9 |
-| --- | --- | --- |
-| Complete pair and space carriers | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, `CAff.IsRationalLocalization`, `YonedaAdicSpace`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The imported carriers underlying the global perfectoid objects and the affinoid tower comparison. |
-| Root-torus coordinates and limits | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.perfectedTateAlgebra.laurent`, `Perfectoid.perfectedTateAlgebra.X`, `PerfectoidSpace.IsTildeLimit`, `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean`; `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.relativeTorus`, `.relativeTorus.ι`, `.relativeTorus.proj`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The torus Checks use the imported Laurent ring, the monomials `X s a` and their inverses in it, the tilde-limit predicate and the relative torus. PerfectoidSpaces P7.16 supplies their site presentation; P9 supplies their tower Galois action and section calculations. |
-| Nonarchimedean base pair | `TauCeti.Huber.Pair.powerBounded`, `TauCeti/RingTheory/Huber/Pair.lean`; `CAff.of`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | *TowerGeometry.basePair* (for the base field `K`) packages the complete nontrivially normed ultrametric field with `K°`; an explicit `Huber.Pair K` retains an arbitrary ring of integral elements `K⁺`. |
-
-The multiplicative cocycle predicate is `groupCohomology.IsMulCocycle₁` in
-`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`, with the action on
-units supplied by `Units.mulDistribMulActionRight` in `Mathlib/Algebra/Group/Action/Units.lean`.
-For commutative units its law is `c(γδ) = c(γ) · γ • c(δ)`. P9 uses this predicate directly.
-
-### Declarations at the pins
-
-Every name in the following table exists at the pinned Mathlib and Tau Ceti versions or in
-PerfectoidSpaces' `Suggested.lean`. The signatures of this roadmap's `Suggested.lean` and its
-affine targets rest on them.
-
-| Object | Declaration at the pins | Layer |
-| --- | --- | --- |
-| Fixed rings, integrality, prime orbits | Mathlib `FixedPoints.subring`, `Algebra.IsInvariant`, `Algebra.IsInvariant.isIntegral`, `Algebra.IsInvariant.exists_smul_of_under_eq`, `MulSemiringAction.charpoly` | P8.1–P8.2 |
-| Affine invariant quotients | Tau Ceti `AffineInvariantQuotient.isQuotientMap_projection`, `AffineInvariantQuotient.isFinite_projection` | P8.2, P8.10 |
-| Huber pairs and Tate rings | Tau Ceti `Pair`, `Pair.Hom`, `IsTateRing`, `IsPseudoUniformizer`, `PairOfDefinition`, `powerBoundedSubring` | P8 |
-| Adic spectra | Tau Ceti `ValuationSpectrum.spa`, `ValuationSpectrum.spaComap`, `ValuationSpectrum.spaComap_preimage_rationalSubset` | P8.2, P8.5 |
-| Pre-adic spaces | Tau Ceti `PreAdicSpace`, `PreAdicSpace.Hom`, `PreAdicSpace.restrict`, `PreAdicSpace.isAdic`, `PreAdicSpace.isAffinoid`, `ValuationSpectrum.presentationLimitPreAdicSpace` | P8.6–P8.9 |
-| Perfectoid rings and spaces | PerfectoidSpaces `IsPerfectoidTateRing`, `IsIntegralPerfectoid`, `PseudoUniformizerRoots`, `isAffinoidPerfectoid`, `isPerfectoidSpace`, `Perfd`, `Perf`, `padicCyclotomic` | P8–P9 |
-| Disjoint translates, Hausdorff quotient | Mathlib `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`, `T2Quotient` | P8.13, P8.16 |
-| Perfection and adic completion | Mathlib `PerfectClosure`, `AdicCompletion`, `AdicCompletion.map` | P8.18, P9.13 |
-| Cocycles, invariants, averaging | Mathlib `groupCohomology.IsMulCocycle₁`, `Representation.invariants`, `Representation.averageMap`, `Representation.isProj_averageMap` | P9.9–P9.10 |
-| Continuous cohomology in low degrees | Mathlib `ContinuousCohomology.zeroIso`; Tau Ceti `ContinuousCohomology.zeroIsoNatIso`, `ContCohomology.cochainEquiv0`, `ContCohomology.cochainEquiv1`, `ContCohomology.cochainEquiv2` | P9.5 |
-| Galois descent and faithful flatness | Tau Ceti `GaloisDescent.span_invariants_eq_top`; Mathlib `Module.FaithfullyFlat.of_comap_surjective`, `Module.rankAtStalk` | P9.10 |
-| Module sheaves and derived functors | Mathlib `SheafOfModules.IsLocallyFree`, `Functor.rightDerived`, `Functor.totalLeftDerived` | P9.2–P9.13 |
+The first layer goes from invariant pairs to affinoid and global quotients, then to good towers
+and closed loci. The second builds continuous cochains and Galois towers, then proves the descent
+theorems, also after product with a weight space.
 
 ## How to read the build
 
@@ -452,6 +118,46 @@ and consequences. None counts toward a definition's three discriminating Checks.
 | *nonfaithful_base_change*, *cech_trivial_two_terms*, *pullback_two_terms*, *twisted_inverse_two_terms*, *matrix_rank_two*, *averaging_two_terms*, *derived_two_term_tor*, *mixed_completion_diagonal*, *integral_matrix_nonunit*, *matrix_rank_zero* | Algebraic or coefficient-array computations; they do not instantiate the descent, cochain, twisted-sheaf, or completed-tensor constructions. |
 | *coefficient_change_regular*, *coefficient_change_unit*, *coefficient_change_zero_not_regular*, *coefficient_change_two* | Library regularity and exactness calculations, without the derived comparison. |
 | *completedScalar_one*, *completedScalar_uniformizer*, *integralToRational_one*, *scalarModuleSheaf_one*, *scalarModuleSheaf_two* | Laws valid for every ring homomorphism or module action; they do not determine the completion coordinates or the specified scalar map. |
+
+## Conventions
+
+Fix a prime `p`. A perfectoid Tate ring is complete and Hausdorff, uniform, and has a
+pseudouniformiser `ϖ` with `ϖ^p | p` in `R°` such that Frobenius `R°/ϖ → R°/ϖ^p` is an isomorphism;
+injectivity of Frobenius is automatic and the condition does not depend on `ϖ`. No perfectoid base
+field is fixed; statements that hold only over a perfectoid field say so. A perfectoid Tate pair
+`(R, R⁺)` is a Tau Ceti Huber pair with `R` perfectoid; `R°` is its maximal ring of integral elements
+and `R°°` the topologically nilpotent elements. `Perfd` denotes perfectoid spaces of all
+characteristics and `Perf` its characteristic-`p` subcategory; `X♭` is the tilt, `♯` the sharp map,
+which is multiplicative and continuous but not additive. Almost mathematics is always with respect
+to a stated basic setup `(V, m)`: `m` idempotent with `m ⊗_V m` flat; for a perfectoid Tate ring the
+setup is `(R°, R°°)`, equivalently the root ideal `(ϖ^{1/p^∞})` of a pseudouniformiser with compatible
+`p`-power roots, and the two setups on `R⁺ ⊆ R°` are compared explicitly. "Almost zero", "almost
+isomorphism", "almost finite étale" and "almost acyclic" are relative to that setup; an almost
+statement is never silently upgraded to an actual one.
+
+Rings of integral elements are open, integrally closed and contained in `R°`; completed colimits of
+Tate pairs complete the colimit of the plus rings `ϖ`-adically and invert `ϖ`. "qcqs" means
+quasicompact and quasiseparated; morphisms of perfectoid spaces are morphisms of adic spaces.
+Tilde-limits carry both the topological condition and the affinoid density condition. Finite group quotients
+are categorical quotients in adic spaces, not finite étale torsors unless the action is free.
+Pro-étale Galois towers have profinite group `G` with the tower's finite levels indexed by open
+normal subgroups. A left action `ρ : G →* Aut X` on a space has `ρ(gh) = ρ(g) ∘ ρ(h)`. Towers
+carry right actions, with `(γδ)^* = γ^*δ^*` on functions and Čech increments
+`(x, g₁, …, gₙ) ↦ (x, xg₁, …, xg₁⋯gₙ)`. Twisted invariants use the inverse cocycle,
+`γ·f = c(γ)⁻¹f` with `c(γδ) = c(γ)·γ(c(δ))`.
+
+Each target below is written with its hypotheses in the sentence, its source locator in parentheses
+(short keys are resolved in the References), its API as named lemmas and its unit tests as `Checks`;
+`Suggested.lean` gives typed forms for a subset of these targets and Checks. Existing definitions
+keep their library namespaces. Each subsection of P8 and P9 ends with a `Lean:` line. It names the
+declarations of `TauCetiRoadmap/PerfectoidTowers/Suggested.lean` that carry the subsection's
+targets and says which Checks its `example`s state. Where the line says *README only*, the target,
+its API and its Checks are specified in this README alone and have no declaration in this
+roadmap's `Suggested.lean`; they are described in prose and carry italic labels, which are
+descriptive and not Lean declarations. Backticked names are reserved for declarations of this
+roadmap's `Suggested.lean` and for names of the pinned libraries and of supplier roadmaps. The
+declarations of `Suggested.lean` lie in the namespace `TauCetiRoadmap.PerfectoidTowers`, with
+`MulAction.IsGClean` and `MulAction.exists_isGClean` in its sub-namespace `MulAction`.
 
 ## Layer P8: finite quotients and closed perfectoid loci in towers
 
@@ -3497,6 +3203,323 @@ These consumers also use the finite quotients of good towers,
 closed perfectoid loci, and descent of functions, modules and character sheaves with weight-space
 coefficients in P8–P9. Their diamond interpretations use DiamondsAndVStacks' sites,
 presentations, spatiality, limits and D6.4 diamondification together with these tower results.
+
+## Scope and ownership
+
+PerfectoidSpaces owns P0–P7, and this roadmap owns the tower-quotient and torsor-descent layers P8–P9.
+
+- P8: invariant Huber pairs and invariants of a perfectoid ring, quotients of affinoid perfectoid
+  spaces and finite quotients of perfectoid spaces, good towers, and Zariski-closed loci in perfectoid
+  towers.
+- P9: continuous cochains, inverse-limit and homogeneous comparisons, pro-étale Galois towers,
+  descent of functions along a perfectoid tower, descent with
+  weight-space coefficients, twisted character sheaves and their local freeness.
+
+PadicFunctionalAnalysis §§2.2–2.4 owns the Banach-basis and model-space inputs to P8.7 and
+P9.7; the invariant-tensor comparisons and their geometric applications belong here.
+DiamondsAndVStacks owns the v-topology, diamondification, diamond presentations and spatiality,
+together with the foundational comparisons that P9 applies to towers: the vector-bundle
+comparison across the analytic, étale, pro-étale and v-sites (D2.9, [KL16] Theorem 3.5.8, p. 76)
+and the analytic/diamond étale-site equivalence (D6.5), specialised to smoothoid spaces in P9.11,
+and the seminormal comparison `O_X ≅ ν_*Ô_X` and the full faithfulness of diamondification on
+seminormal rigid spaces (D6.9, [KL16] Theorem 8.2.3, pp. 162–163). The applications to a prescribed pro-étale Galois tower
+belong here: P9.8 owns descent of module sections and morphisms along the tower, and P9.12 owns
+function descent over a seminormal base. They apply the D2.9 and D6.9 inputs to a specified tower
+and do not supply those foundations. These tower applications are downstream
+of the site and diamond constructions.
+PerfectoidSpaces supplies the perfectoid rings, spaces, almost algebra and pro-étale calculus,
+including sousperfectoid spaces (P3.17a) and the rigid pro-étale affinoid perfectoid basis (P7.16).
+AdicEtaleGeometry owns analytic étale geometry, the pro-étale site with the finite-level
+pro-object, covering and torsor Čech nerve of a profinite Galois cover (A1, A1.12) and finite étale
+torsor towers (A4); AdicSpacesPartII owns completed tensor products, separatedness and
+analytification (R0, R1); AdicSpacesPartIII owns sheafy affinoid acyclicity and Kiehl's theorem
+(R3); AdicSpacesPartIV owns smooth products with perfectoid spaces and coefficient
+localization theory, including the coefficient Kiehl comparisons (R4, R5.5–R5.11).
+AdicEtaleGeometry A4.2a supplies finite Galois module descent, including projectivity and rank reflection.
+Lifting continuous cochains through surjections onto discrete spaces is Tau Ceti's
+`TauCeti.exists_continuous_lift` and is not restated. P9.0 owns continuous
+cochains into inverse limits, and the general continuous inhomogeneous cochain model with its all-degree
+homogeneous comparison for jointly continuous actions on topological modules. Its coefficient
+module need not be compact. P9.5 uses P9.0 for the geometric Čech-nerve, completed-section
+and integral/rational tower comparisons.
+The locally analytic distribution theory and Shimura-variety applications belong to downstream
+roadmaps. P8 specifies the integral-extension perfectoidization needed for its closed loci.
+
+Already stated or built elsewhere, cited by the layers and not restated:
+
+- integrality of `A` over `A^G` — Mathlib `Algebra.IsInvariant.isIntegral` (P8.1); the
+  `Spec`-level orbit space and the torsor case `|Spa(B)|/G ≅ |Spa(A)|` — Mathlib
+  `Algebra.IsInvariant.exists_smul_of_under_eq`, Tau Ceti
+  `AffineInvariantQuotient.isQuotientMap_projection`, AdicEtaleGeometry layer A4
+  (*torsor-spa-orbits*, *spa-of-completed-tower*) (P8.2); `G`-clean neighbourhoods in locally
+  compact Hausdorff spaces — Mathlib `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`
+  (P8.13);
+- the pro-étale site of a locally noetherian adic space — AdicEtaleGeometry layer A1
+  (*pro-etale-site-corrected*, A1.12); the affinoid perfectoid basis over a rigid base —
+  PerfectoidSpaces P7.16 (*proetale-site*); the pro-étale
+  structure sheaves over a perfectoid base — DiamondsAndVStacks layer D2 (D2.5) (P9.2); finite
+  étale torsor towers with their completed pairs and self-products — AdicEtaleGeometry layer A4
+  (*finite-etale-torsor-tower*, *completed-tower-pair*, *completed-tower-self-product*), and the
+  torsor property of a profinite tower over a perfectoid base — DiamondsAndVStacks layer D3
+  (D3.10) (P9.4, P9.5); the finite-level pro-object of a profinite Galois cover, with its
+  covering and torsor Čech nerve — AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering`
+  (P9.4, P9.5).
+
+## Exact supplier contracts
+
+### From TauCetiRoadmap.PerfectoidSpaces
+
+The names in this table are those PerfectoidSpaces fixes for its targets. Its `Suggested.lean`
+gives Lean signatures for the subset it prototypes, among them `Perfectoid.IsPerfectoidTateRing`,
+`Perfectoid.IsIntegralPerfectoid`, `PerfectoidSpace.isAffinoidPerfectoid` and
+`PerfectoidSpace.Perfd`. This roadmap's `Suggested.lean` imports none of them: it states only
+what the pinned Mathlib and Tau Ceti carry, so the headlines whose statements need these four
+carriers (P8.4, P8.7–P8.8 and P8.18) are README only. The PerfectoidSpaces README specifies the
+rest at the cited layers.
+Names beginning with `Almost`, `Perfectoid`, `PerfectoidSpace` or `AdicSpace` in this
+table have the prefix `TauCetiRoadmap.PerfectoidSpaces`. The table includes the
+carriers and maps used by the Checks; typeclass instances, generated constructors
+and structure projections are supplied with their parent declarations.
+
+| Application | Exact supplier | Use |
+| --- | --- | --- |
+| Almost coefficients | `TauCetiRoadmap.PerfectoidSpaces.Almost.BasicSetup`, `Almost.Module`, `Almost.Algebra` | P9's almost vanishing and coefficient sheaves use the specified basic setup. |
+| Perfectoid rings and pairs | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing`, `Perfectoid.IsIntegralPerfectoid`, `Perfectoid.PairCat`, `Perfectoid.PseudoUniformizerRoots` | P8 invariants and integral extensions retain the given topologies and plus rings. |
+| Tilting and affinoid charts | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.tilt`, `Perfectoid.rationalPair`, `PerfectoidSpace.ofPair`, `PerfectoidSpace.spaFunctor`, `PerfectoidSpace.Chart` | Quotient charts, componentwise perfectoidness and closed loci use P1–P2. |
+| Adic spaces and adic representatives (P2.10, P3.17) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.toAdicSpace` (the inclusion `Perfd p ⥤ PreAdicSpace`, landing in adic spaces) with *PerfectoidSpace.locallyStronglySheafy* for an adic representative | *toVRingedSpace* and *finite-tower-over-perfectoid-tower* read perfectoid spaces and their morphisms in `TauCeti.AdicSpace` through the inclusion, which lands there by `PerfectoidSpace.isPerfectoidSpace_le_isAdic`. |
+| Residue characteristic (P7.11) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.TowerGeometry.IsOverZp` | Topological nilpotence of `p` on every affinoid chart is the finite-level hypothesis in P8. |
+| Spaces and functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.Perfd`, `PerfectoidSpace.globalSections`, *PerfectoidSpace.globalPlus*, *PerfectoidSpace.globalPullback*, *PerfectoidSpace.pullbackOverAnalytic* | P8 analytic separatedness and P9 descent use the supplied perfectoid geometry. |
+| Closed loci and pro-étale maps | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.zeroLocus`, `PerfectoidSpace.zeroLocus_sup`, *PerfectoidSpace.IsProEtale*, `PerfectoidSpace.prodProfinite` with its point sections (P6.8, Checks `pointSection_singleton`, `pointSection_two_points`, `pointSection_empty_base`) | P8 global closed embeddings, the P8.12 torsor sections and P9 profinite torsors. |
+| Tilde-limits and tower geometry | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsTildeLimit`, *PerfectoidSpace.IsPreperfectoid*, `PerfectoidSpace.TowerGeometry.IsFinite`, *PerfectoidSpace.VQuotient.tildeLimit_represented_comparison* | P8 good towers and P9 Galois towers use P7's limit conditions and projection comparisons. |
+| Represented-limit topology and density | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.VQuotient.represented_limit_homeomorph`, `TauCetiRoadmap.PerfectoidSpaces.AdicSpace.HasDenseCharts` | *GoodTower.homeomorph* specializes the supplied homeomorphism to the represented cone of a good tower; *GoodTower.isTildeLimit* requires the separate, supplied density predicate. |
+| Finite-level affinoid basis (P7.11) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.VQuotient.represented_limit_affinoid_basis` | P8.19's *finite_level_affinoid_basis* adapts the represented-functor basis to the diamond-limit cone through DiamondsAndVStacks D6.4, with locally noetherian analytic levels, finite transitions and `TowerGeometry.IsOverZp`. |
+| Rigid pro-étale affinoid perfectoid basis (P7.16) | `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite.IsAffinoidPerfectoid`, `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite.AffinoidPresentation`, `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite.affinoidPerfectoid_basis` | P9 uses the supplied completed pairs, base maps and point comparison on the corrected AdicEtaleGeometry A1.12 site. |
+| Sousperfectoid geometry (P3.17a–P3.17b) | PerfectoidSpaces P3.17a.1–P3.17a.4, *sousperfectoid-etale-base-change*; P3.17b, *perfectoid-times-polydisc* | P9 coefficient products use the supplied sousperfectoid charts and étale base-change formula; smooth products use AdicSpacesPartIV R5.5. |
+| Almost-zero modules and basic setups | `Almost.BasicSetup.IsAlmostZero`, `Almost.BasicSetup.almostZero`, `Almost.BasicSetup.ofCompatibleRoots`, `Almost.BasicSetup.ofValuationRing`, `Almost.BasicSetup.padicComplex_maximalIdeal_not_fg` | P9 specifies annihilation by the root ideal or valuation maximal ideal, including the setup on `PadicComplexInt p`. |
+| Almostification and ordinary Tor | `Almost.toAlmost`, `Almost.Module.ordinaryTor` | P9 almostifies module sections and uses ordinary derived tensor groups in coefficient-change statements. |
+| Tilting maps and completed pair products | *Perfectoid.Pair.tiltHom*, *Perfectoid.PairCat.tiltFunctor*, `Perfectoid.PairCat.tensorPair`, `Perfectoid.tilt.coeff`, `Perfectoid.tilt.sharp` | P8 tilting of quotients uses the supplied maps; the affinoid self-product Check uses the supplied tensor pair. |
+| Rational localization carriers and maps | *Perfectoid.RationalLoc*, `Perfectoid.RationalLoc.pair`, `Perfectoid.RationalLoc.structureMap`, `Perfectoid.RationalOpen`, *Perfectoid.rationalMap* | P8 compares invariant rational localizations with the completed localization and its canonical map. |
+| Root polynomials and exponent groups | *Perfectoid.PseudoUniformizerRoots.rootPB*, *Perfectoid.pPowerExponents*, *Perfectoid.pPowerIntegers* | P8–P9's root coordinates use these exponent groups. |
+| Perfected discs and their coordinates | `Perfectoid.perfectedTateAlgebra`, `Perfectoid.perfectedTateAlgebra.rootX`, `PerfectoidSpace.discPair`, `PerfectoidSpace.gaussPoint`, *PerfectoidSpace.spaSpaceEquiv* | P8's closed-point, punctured-disc and Gauss-point Checks use the actual root coordinate and valuation spectrum. |
+| Cyclotomic field | `Perfectoid.padicCyclotomic` | P8 tilting examples and P9 cyclotomic towers use the completed cyclotomic subfield of `ℂ_p`. |
+| Perfectoid field test objects | *PerfectoidSpace.AffinoidField*, `PerfectoidSpace.AffinoidField.toPair` | P8 closed loci and P9 torsor fibers use perfectoid fields with their specified valuation subrings. |
+| Characteristic-p test spaces | `PerfectoidSpace.InCharP`, `PerfectoidSpace.Perf` | P8 diamond comparisons use the characteristic-p subcategory of `Perfd`. |
+| Points and open restrictions | `PerfectoidSpace.isPerfectoidSpace_restrict` | `Perfd p` is a full subcategory of Tau Ceti's `PreAdicSpace`, so points, maps on points and open restrictions are those of `TauCeti.PreAdicSpace.forgetToTop`, `TauCeti.PreAdicSpace.restrict` and `TauCeti.PreAdicSpace.ofRestrict`; the supplied lemma keeps an open restriction in `Perfd p`. P8 tests images, closed loci and open covers on these valuation points, including the empty-open Checks. |
+| Universal closed subspaces | *PerfectoidSpace.zariskiClosedSubspace*, `PerfectoidSpace.zariskiClosedSubspace.ι`, *PerfectoidSpace.IsStronglyZariskiClosed* | P8's *IsZariskiClosedEmbedding* tests the supplied affinoid predicate on every chart; closed-point Checks use the supplied closed subspace and inclusion. |
+| Closed immersions and separatedness | `PerfectoidSpace.IsClosedImmersion`, `PerfectoidSpace.IsSeparated` | P8 compares global Zariski embeddings and analytic separation with P4's predicates on perfectoid spaces. |
+| Nonseparated gluing | *PerfectoidSpace.glueSelf*, `PerfectoidSpace.glueSelf.fold`, *PerfectoidSpace.discAnnulusOpen* | P8's nonseparated Check glues two discs along the supplied annulus and maps the glued space to the base field by the fold followed by the structure map of the disc. |
+| Affinoid functions | `PerfectoidSpace.globalSectionsAffinoidEquiv_spec` | P8–P9 identify global functions of a perfectoid affinoid with its complete ring, retaining the canonical pullbacks. |
+| Finite étale perfectoid maps | `PerfectoidSpace.IsFiniteEtale` | P9 tests the finite levels of a perfectoid torsor tower using the imported geometric predicate. |
+| Locally profinite products and their maps | *PerfectoidSpace.prodLocallyProfinite*, `PerfectoidSpace.prodLocallyProfinite.homEquiv`, `PerfectoidSpace.prodProfinite.fst`, `PerfectoidSpace.prodProfinite.map` | P9 constructs torsor self-products and equivariant maps with the supplied product universal property; `prodProfinite` and its point sections are listed above. |
+
+In P9, `AffinoidPresentation` and its `points` comparison, and
+`ProEtaleSite.IsAffinoidPerfectoid`, denote the PerfectoidSpaces P7.16 interfaces
+in `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite`. P9 defines its completed sheaves
+and tower comparisons on these supplied objects.
+
+### From TauCetiRoadmap.PadicFunctionalAnalysis
+
+[PadicFunctionalAnalysis §§2.2–2.4](../PadicFunctionalAnalysis/README.md#layer-2-model-spaces-and-bases)
+supplies the basis and model interfaces used in P8.7 and P9.7.
+Here `c₀(I,K)` is its native `C₀(I,K)` for a discrete index type `I`.
+
+| Application | Supplier section and interface | Use |
+| --- | --- | --- |
+| Specified basis and model | §2.2: coefficient expansion and conversion between an orthonormal basis and a chosen linear model isometry | P8.7 transports its specified bounded model through completed tensors; P9.7 uses an isometry when the given norm admits one. |
+| Countable-type Banach space | §2.4: a `t`-orthogonal basis for `0 < t < 1` and a continuous linear equivalence with a `C₀` model over any complete nontrivially valued ultrametric field | P9.7 uses this bounded model equivalence for the whole chart algebra, including over nondiscretely valued perfectoid fields. |
+| Discretely valued field | §2.3: potential orthonormalisability of every Banach space by an equivalent norm, with §2.2's model comparison | P9.7 uses the resulting bounded linear equivalence for arbitrary index sets; isometry for the original norm requires an orthonormal basis for that norm. |
+
+### From TauCetiRoadmap.DiamondsAndVStacks
+
+The names in this table are those DiamondsAndVStacks fixes for its targets; its `Suggested.lean`
+prototypes a subset and its README specifies the rest at the cited sections. This roadmap's
+`Suggested.lean` uses none of them.
+Names beginning with `Geometry`, `Perf`, `PreAdic` or `Rigid` here have the
+prefix `TauCetiRoadmap.DiamondsAndVStacks`.
+
+| Application | Exact supplier | Use |
+| --- | --- | --- |
+| v-topology and test category | `TauCetiRoadmap.DiamondsAndVStacks.Geometry.vTopology`, `Geometry.Perf`, `Geometry.space`, `Geometry.proet` | D2.1–D2.2 supply the characteristic-p perfectoid v-site for P8 quotients. |
+| v-sheaf and point-space carriers | `Geometry.Spaces`, `Geometry.VSheaf`, `Perf.Diamond.space` | P8 quotient and spatial-presentation statements use the supplied sheaf category and its topological realization. |
+| Diamond functor | `TauCetiRoadmap.DiamondsAndVStacks.PreAdic.geometricDiamond`, `PreAdic.diamond_perfectoid`, `PreAdic.diamond_fibreProduct` | D6.4 supplies diamondification and these comparisons. Compose with `CategoryTheory.ULiftHom.up` on the analytic Yoneda carrier; quotient and tower comparisons retain their canonical maps. |
+| Analytic/diamond étale sites | `TauCetiRoadmap.DiamondsAndVStacks.PreAdic.diamond_etale_equivalence` | D6.5 supplies the equivalence from diamond étale objects to analytic étale objects for an analytic carrier over `Spa(ℤ_p,ℤ_p)`. P9.11 transports it to the smoothoid carrier and takes its inverse for the analytic-to-diamond direction, preserving and reflecting coverings. |
+| Topology of diamond limits | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.cofilteredLimit` | D5.3 (ECD 11.22) supplies the homeomorphism for locally spatial levels with qcqs transitions; it imposes no density condition on analytic functions. |
+| Spatial presentations | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.Presentation`, `Perf.Diamond.IsSpatial`, `Geometry.realized`, `Perf.Diamond.spaceι` | D4–D5 supply presentations, spatiality and their point spaces. *SpatialPresentation* abbreviates the supplied presentation with its spatiality proof; component loci use the supplied realization and evaluation maps. |
+| Presentation comparisons | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.Presentation.atlas`, `.atlas_isColimit`, `Perf.Diamond.relation_eq`, `Perf.Diamond.presentationSpace`, `Perf.Diamond.space_eq_quotient` | The supplied presentation determines its epimorphic atlas, effective relation and topological quotient. |
+| Realization and spectrality | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.spaceι_restrict`, `.spaceMap_ι`, `.space_of_perfectoid_ι`, `Perf.Diamond.IsSpatial.spectralSpace` | Component evaluations use the canonical natural maps, and spatiality supplies the spectral point space. |
+| Perfectoid structure sheaves | `TauCetiRoadmap.DiamondsAndVStacks.Geometry.O_isSheaf_v`, `Geometry.Oplus_isSheaf_v` | D2.7 supplies v-descent on perfectoid charts for P9's rational and integral coefficients. |
+| Seminormal rings and rigid spaces | `TauCetiRoadmap.DiamondsAndVStacks.IsSeminormalRing`; `TauCetiRoadmap.DiamondsAndVStacks.Rigid.IsSeminormal` | D6.9 defines seminormality of an arbitrary commutative ring (reduced, with unique square–cube lifting) and tests it on every affine open of a fixed-field `Rigid.Space`. P9.12 applies the ring predicate to the chart rings of Part II's `AdicSpace.Chart.affinoid.ring`; it defines no predicate of its own. |
+
+The tower statements `finite_projective_sections_descent`,
+*ProEtaleSite.finite_locally_free_hom_descent* and *function_descent_seminormal*
+are P9 targets on this roadmap's carriers. The first two express degree-zero
+module descent from a specified fixed-ring comparison; the third uses
+*ProetaleGaloisTower* and DiamondsAndVStacks' `IsSeminormalRing`. Only the affine lemma
+`finite_projective_sections_descent` is in `Suggested.lean`; the other two are specified in
+this README only. Their proofs use the direct completed-sheaf comparisons cited in P9.8 and
+P9.12, which DiamondsAndVStacks owns: D2.9 for vector bundles and D6.9 for the seminormal
+comparison. DiamondsAndVStacks D2.9 and D6.9 prove their site equivalences and geometric full
+faithfulness without these tower statements as inputs.
+
+The foundational comparisons and their tower specialisations have distinct suppliers:
+
+| Declaration or target | Supplier | Use here |
+| --- | --- | --- |
+| Vector bundles across the analytic, étale, pro-étale and v-sites; [KL16] Theorem 3.5.8 | DiamondsAndVStacks D2.9; PerfectoidSpaces P3.19 and P6 supply the étale and pro-étale inputs | P9.8 specialises pullback to a chosen tower |
+| Seminormal `O_X ≅ ν_*Ô_X`, [KL16] Theorem 8.2.3 | DiamondsAndVStacks D6.9 | P9.12 supplies tower fixed sections |
+| Full faithfulness of diamondification on seminormal rigid spaces | DiamondsAndVStacks D6.9 | An upstream comparison, not a consequence assigned to P9 |
+| Finite-level pro-object, covering and torsor Čech nerve | AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering` | P9.4–P9.5 add perfectoid completion and continuous completed sections |
+| Tower function and module corollaries | PerfectoidTowers P9.6, P9.8, P9.12; `finite_projective_sections_descent` is the affine lemma | Functions fixed by the specified tower action and full faithfulness of its pullback |
+| Affinoid reconstruction with coefficients | AdicSpacesPartIV R5, `coefficient-sheaf-kiehl` and `affinoid-weight-coefficient-sheaf` | P9.10 uses only the branches specified there |
+
+### From TauCetiRoadmap.AdicEtaleGeometry
+
+The names in this table are those AdicEtaleGeometry fixes for its targets; its `Suggested.lean`
+prototypes a subset and its README specifies the rest at the cited layers. This roadmap's
+`Suggested.lean` uses none of them.
+Names beginning with `AdicSpace`, `CAff` or `YonedaAdicSpace` here have the prefix
+`TauCetiRoadmap.AdicEtaleGeometry`.
+
+| Application | Exact supplier | Use |
+| --- | --- | --- |
+| Affinoid morphisms and the rational site | the `Pair.Hom` projection `toRingHom` of `CAff` morphisms, `CAff.toRingHom_eval`, `CAff.ratTopology` | P8–P9 use the underlying ring maps and the rational site defining Yoneda-adic spaces. |
+| Sheafy affinoid adic realizations | `CAff.adicSpa`, `CAff.spaHom` | P8 invariant affinoid covers and P9 constant étale objects use the adic spectrum and its induced morphisms. |
+| Yoneda-adic objects and open immersions | *YonedaAdicSpace.IsYonedaAdic*, `YonedaAdicSpace.ofSpaY`, `YonedaAdicSpace.spaYFunctor`; Tau Ceti's `TauCeti.PreAdicSpace.IsOpenImmersion` (the open-immersion predicate AdicEtaleGeometry uses) | P8 quotient charts and invariant opens use the supplied rational-site sheaves, their morphisms and the open-immersion predicate. |
+| Yoneda points and functions | `YonedaAdicSpace.space`, *YonedaAdicSpace.globalFunctions*, `YonedaAdicSpace.globalFunctions.map`, *YonedaAdicSpace.toGlobalFunctions* | P8 pointwise quotient conditions and P9 fixed-function descent retain the canonical pullback and affinoid coefficient maps. |
+| Realization comparisons | `YonedaAdicSpace.ofAdicSpace_spa`, `YonedaAdicSpace.ofAdicSpace_globalFunctions` | P8 analytification and P9 torus Checks compare adic spectra and functions with their Yoneda realizations. |
+| Analytic and sheafiness hypotheses | `AdicSpace.IsAnalytic`, `AdicSpace.IsLocallyStronglySheafy`, `AdicSpace.IsLocallyStablySheafy`, `AdicSpace.IsLocallyNoetherianAnalytic`, `AdicSpace.IsLocallyNoetherianAnalytic.isLocallyStronglySheafy` | P9 specifies the hypotheses for the small étale and pro-étale sites, coefficient sheaves and relative polydiscs. |
+| Étale objects and topology | `AdicSpace.IsEtaleLocalDescription`, `AdicSpace.smallEtale`, `AdicSpace.smallEtale.mk`, `AdicSpace.smallEtaleTopology` | P9 uses actual étale maps as objects, then embeds them as constant pro-objects. |
+| Pro-objects and presentations | `AdicSpace.ProEtale.ProEt`, `AdicSpace.ProEtale.ProEt.final`, *AdicSpace.ProEtale.ProEt.toFinal*, `AdicSpace.ProEtale.ProEt.Presentation`, *AdicSpace.ProEtale.IsProEtale* | P9's affinoid presentations use the supplied cofiltered étale diagram and limit over the base. |
+| Pro-étale site and constant embedding | `AdicSpace.ProEtaleSite`, `AdicSpace.ProEtaleSite.topology`, `AdicSpace.ProEtaleSite.const`, `AdicSpace.ProEtaleSite.space` | P9 defines its sheaves, inverse images and section cohomology on A1's corrected site, with its supplied point functor. |
+| Profinite objects and Galois actions | *AdicSpace.ProEtaleSite.profiniteObj*, *AdicSpace.ProEtaleSite.GaloisPresentation*, `AdicSpace.ProEtaleSite.GaloisPresentation.limitAction` | P9's Cartan–Leray and local-system comparisons use the specified finite Galois stages and their induced limit action. |
+| Integral and rational étale structure sheaves | `AdicSpace.structureSheafPlusEtale`, `AdicSpace.structureSheafEtale` | P9 pulls these ring sheaves to the pro-étale site before completion and coefficient extension. |
+| Integral sections and continuous differentials | `AdicSpace.Oplus`, *AdicSpace.structureRingSheaf*, `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.relativeDifferentials` (R3.6, *sheaf-of-continuous-differentials*), re-exported in AdicEtaleGeometry A2.4 through `AdicSpace.relativeDifferentials.continuousIso` | P9's differential sheaf on the small étale site evaluates the supplied continuous differential module on each source space. |
+| Relative polydiscs and underlying maps | *AdicSpace.relativePolydisc*, `AdicSpace.base` | P9 torus Checks use the supplied polydisc coordinates and the continuous maps on underlying adic spaces. |
+
+### Continuous cochain contracts (P9.0 and P9.5)
+
+[P9.0, *Comparison with the canonical carrier for compact coefficients*](#p90-continuous-cochains-and-inverse-limits)
+supplies the general comparison for jointly continuous actions, using Mathlib and
+[ProfiniteCohomology Layer 3](../ProfiniteCohomology/README.md#layer-3-the-comparison-isomorphisms).
+P9.5 names the local cochain, differential and homogeneous-comparison adapters and
+supplies the naturality and discrete-compatibility APIs in the following table.
+
+| Application | Local P9.5 adapter or API | Contract |
+| --- | --- | --- |
+| Continuous cochain model | *continuousInhomogeneousCochains*, *continuousInhomogeneousCochains_d* | For profinite `G`, a commutative ring `V` with a topology, and `ρ : TopRep V G`, require `Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)`. The underlying `V`-module complex has terms `C(G^n, ρ.V)` and the unnormalized differential specified in P9.5; every construction and differential carries this joint-continuity premise. No compactness or discreteness of `ρ.V` is required. |
+| Homogeneous comparison | *continuousInhomogeneousCochains_homogeneous* | Under the same hypotheses, an all-degree `V`-linear isomorphism with Mathlib's `TopRep.homogeneousCochains` after forgetting topology, compatible with the whole differential and hence with the underlying modules of `continuousCohomology`. Local compactness of `G` supplies compact-open currying and uncurrying. |
+| Naturality and discrete compatibility | *continuousInhomogeneousCochains_map*, *continuousInhomogeneousCochains_homogeneous_natural*, *continuousInhomogeneousCochains_discrete* | Continuous equivariant `V`-linear coefficient maps between jointly continuous actions induce cochain maps by postcomposition, and the homogeneous comparison is natural in these maps. For discrete coefficients, over `ℤ` after scalar restriction, degrees 0–2 and their differentials agree with Tau Ceti's `cochainEquiv0`, `cochainEquiv1`, `cochainEquiv2`, `d_cochainEquiv0` and `d_cochainEquiv1_apply`. |
+
+P9.5's unqualified *continuousInhomogeneousCochains*,
+*continuousInhomogeneousCochains_d* and *continuousInhomogeneousCochains_homogeneous*
+are local adapters to that prose comparison, with the hypotheses and maps specified here.
+*continuousInhomogeneousCochains_map*, *continuousInhomogeneousCochains_homogeneous_natural*
+and *continuousInhomogeneousCochains_discrete* are local compatibility targets.
+
+### From Mathlib, Tau Ceti and analytic adic geometry
+
+In the file column of the following tables, a Mathlib or Tau Ceti path is the file of the
+declaration at the pinned versions. A sibling `Suggested.lean` path stands for that sibling
+roadmap: the name is one of its targets, prototyped in that file or specified in its README.
+This roadmap's own targets are cited by subsection.
+
+| Application | Exact supplier and file | Use |
+| --- | --- | --- |
+| Analyticity and affinoid sheafiness | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsAnalytic`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `R.Sheafy`, AdicEtaleGeometry's notation (section "Geometric signatures and Checks") for Tau Ceti's `TauCeti.Huber.IsSheafyForEveryPresentation R.P.plus` | P8 uses the supplied Tate-chart analyticity and sheafiness predicates for quotient charts and finite-level analytic spaces. |
+| Adic charts and morphism properties | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `.Smooth`, `.LocallyOfFiniteType`, `.IsFinite`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 invariant affinoid covers and finite rigid quotients use the chart ring and open immersion; P9 uses smoothness, finite type and seminormal chart rings in descent and coefficient comparisons. |
+| Adic ring homomorphisms | `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom`, `Huber.IsAdicHom.of_isTateRing`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 completed pair tensors require adic scalar maps; continuity from a Tate ring supplies the adicness and the target Tate structure. |
+| Completed tensor ring structures | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor.isTopologicalRing`, `Huber.CompletedTensor.isHuberRing`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 installs the supplied topological ring and Huber ring structures when forming completed tensor pairs. |
+| Affinoid spectra and spaces over a field | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.spa`, `AdicSpace.fieldAffinoid`, `AdicSpace.AdicOver`, `RigidSpace`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 analytification and finite rigid quotients use these spectra, rigid spaces and locally finite type adic spaces over the complete nonarchimedean field. |
+| Profinite flat coefficient modules | `TauCetiRoadmap.AdicSpacesPartIV.Huber.IsProfiniteFlat`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean` | P9's mixed completed tensors retain flatness and the compact Hausdorff linear module topology supplied by R5. |
+| Affinoid restriction and represented towers | *PerfectoidSpace.IsZariskiClosedEmbedding*, *PerfectoidSpace.GoodTower.represents*, this roadmap's P8.14 and P8.19 (README only) | Checks *IsZariskiClosedEmbedding.base_change_affinoid* and *GoodTower.universal* evaluate the predicate and the structure field. |
+| Integral fixed elements and characteristic-p localization | `invariantPair`, `TauCetiRoadmap/PerfectoidTowers/Suggested.lean`; *Perfectoid.PairCat.invariants*, *Perfectoid.rational_invariants_perfectoid*, this roadmap's P8.4–P8.5 (README only) | Checks *invariants_pair_plus* and *rational_invariants_characteristic_p* use the comap plus ring and the general localization comparison; the first is specified by the comap defining `invariantPair`. |
+| Affinoid sheaf equalizers | *Perfectoid.TorsorDescent.WeightExtension.structureSheafEqualizer*, *.integralStructureSheafEqualizer*, this roadmap's P9.11 (README only) | Check *WeightExtension.rationalSectionsEqualizer* combines their conclusions on an affinoid open. |
+| Regular-element coefficient sequence | `Module.Flat.isSMulRegular_of_isRegular`, `Mathlib/RingTheory/Flat/TorsionFree.lean`; `LinearMap.exact_iff`, `Mathlib/Algebra/Exact/Basic.lean`; `Submodule.ideal_span_singleton_smul`, `Mathlib/RingTheory/Ideal/Operations.lean` | Check *coefficient_change_regular* applies flatness for injectivity and the supplied kernel equality for exactness. The sheaf and derived comparisons remain P9 targets. |
+| Sectionwise inverse limits | `CategoryTheory.Sheaf.createsLimits`, `Mathlib/CategoryTheory/Sites/Limits.lean`; `CategoryTheory.Limits.evaluationPreservesLimits`, `Mathlib/CategoryTheory/Limits/FunctorCategory/Basic.lean`; `CategoryTheory.preservesLimitIso`, `Mathlib/CategoryTheory/Limits/Preserves/Limits.lean:54` | Check *higher_inverse_limits_sections* gives the section comparison for any inverse system of module sheaves. P9 supplies almost vanishing of positive derived limits and higher cohomology. |
+
+| P9 object | Exact supplier and file | New P9 content |
+| --- | --- | --- |
+| Fixed rings and coefficient scalars | `FixedPoints.subring`, `FixedPoints.subalgebra`, `Mathlib/Algebra/Algebra/Subalgebra/Operations.lean`; `Algebra.IsInvariant`, `Mathlib/RingTheory/Invariant/Defs.lean` | Twisted submodules and continuous descent along a specified torsor; no new fixed-ring definition. |
+| Multiplicative cocycle and units action | `groupCohomology.IsMulCocycle₁`, `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`; `Units.mulDistribMulActionRight`, `Mathlib/Algebra/Group/Action/Units.lean` | The twisted submodule uses the inverse cocycle; the supplier's multiplication order agrees because the unit group of a commutative ring is commutative. |
+| Module invariants and averaging | `Representation.invariants`, `Representation.averageMap`, `Representation.isProj_averageMap`, `Mathlib/RepresentationTheory/Invariants.lean` | Effective descent over commutative rings; averaging is used only with invertible group order. |
+| Field-valued Galois descent | `TauCeti.GaloisDescent.span_invariants_eq_top`, `TauCeti/RepresentationTheory/GaloisDescent/Span.lean`; `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`, `TauCeti/RepresentationTheory/GaloisDescent/Injective.lean`; `TauCeti.GaloisDescent.range_eq_invariants_of_liftBaseChange_surjective`, `TauCeti/RepresentationTheory/GaloisDescent/Range.lean` | Finite étale torsors over arbitrary commutative rings, including disconnected rings and characteristic dividing the group order. |
+| Finiteness and rank under base change | `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Finiteness/Descent.lean`; `Module.rankAtStalk_baseChange`, `Mathlib/RingTheory/Spectrum/Prime/FreeLocus.lean` | Establish faithful flatness from finite étaleness and injectivity, then reflect rank using surjectivity on spectra. |
+| Continuous degree-zero cohomology | `ContinuousCohomology.zeroIso`, `Mathlib/RepresentationTheory/Homological/ContCohomology/LowDegree.lean`; `TauCeti.ContinuousCohomology.zeroIsoNatIso`, `TauCeti/RepresentationTheory/Homological/ContCohomology/DegreeZero.lean` | Identify the tower's Čech complex with continuous cochains; use these degree-zero comparisons directly. |
+| Continuous lifts along discrete surjections | `TauCeti.exists_continuous_lift`, `TauCeti/Topology/Discrete.lean` | For any topological source and any surjection onto a discrete space, a continuous map lifts continuously; P9.0 applies it with source `Gⁱ` in each cochain degree. |
+| Continuous inhomogeneous cochains in degrees 0, 1 and 2 | `TauCeti.ContCohomology.cochainEquiv0`, `TauCeti.ContCohomology.cochainEquiv1`, `TauCeti.ContCohomology.cochainEquiv2`, `TauCeti.ContCohomology.d_cochainEquiv0`, `TauCeti.ContCohomology.d_cochainEquiv1_apply`, `TauCeti/RepresentationTheory/Homological/ContCohomology/CochainComparison.lean` | These additive comparisons use discrete modules with jointly continuous action; degree 2 also assumes local compactness of the group, automatic for profinite groups. P9.5 uses the all-degree and non-discrete extension of P9.0 with its explicit joint-continuity premise. |
+| Finite torsor Galois map, fixed ring and module descent | `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor.isInvariant` (A4.2); `TauCetiRoadmap.AdicEtaleGeometry.IsGaloisExtension`, *finite-galois-descent-of-modules* (A4.2a, README only) | A4.2a supplies faithful flatness, the torsor and fixed-ring conclusions, effective module descent, and finite-projectivity and rank reflection for P9.10. |
+| Faithful flatness of an injective finite étale algebra | `Algebra.IsIntegral.comap_surjective`, `Mathlib/RingTheory/Spectrum/Prime/Topology.lean`; `Module.FaithfullyFlat.of_comap_surjective`, `Mathlib/RingTheory/Flat/FaithfullyFlat/Algebra.lean` | Finiteness gives integrality, injectivity gives lying over every prime, and étaleness gives flatness. These construct the faithful-flatness field of the torsor. |
+| Integral tensor exactness | `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, `Mathlib/RingTheory/Flat/TorsionFree.lean`; `AdicCompletion.map_surjective`, `Mathlib/RingTheory/AdicCompletion/Exactness.lean` | Fixed points of completed lattice tensors with a specified completed free coefficient lattice. |
+| Module sheaves, local bases and pullback | `SheafOfModules.Submodule.toSheafOfModules`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/Submodule.lean`; `SheafOfModules.IsLocallyFree`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/LocallyFree.lean`; `SheafOfModules.pullbackPushforwardAdjunction`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean` | P9 identifies the invariant subsheaf, proves the integral local-basis criterion and identifies the canonical pullback map on equivariant Hom sets. |
+| Coefficient localization and Kiehl | `TauCetiRoadmap.AdicSpacesPartIV.RigidSpace.Coefficients` and its `Loc` (R5.7: *coefficient-sheaf-loc*, *coefficient-sheaf-kiehl* branches (a)–(b), *affinoid-weight-coefficient-sheaf*), `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean` | P9 proves that the character module on an affinoid is finite projective of rank one and glues to a coefficient line sheaf; R5 supplies localization and acyclicity for finite projective modules. Reconstruction `ω_c ≅ Loc(ω_c(X))` on an affinoid base uses only R5's `coefficient-sheaf-kiehl` branches (a) and (b) and `affinoid-weight-coefficient-sheaf`, as specified in P9.10; the finite-free small-coefficient global-section comparison over a discretely valued base is the case of branches (a) and (b). |
+| Derived coefficient change | `CategoryTheory.InjectiveResolution.cochainComplex`, `Mathlib/CategoryTheory/Abelian/Injective/Extend.lean`; `CategoryTheory.Functor.totalLeftDerived`, `Mathlib/CategoryTheory/Functor/Derived/LeftDerived.lean`; `CategoryTheory.SpectralSequence`, `Mathlib/Algebra/Homology/SpectralSequence/Basic.lean` | P9 applies these carriers to twisted sheaves and finite acyclic covers, including the filtration of the abutment. |
+| Ring-sheaf completion | `CategoryTheory.Sheaf`, `Mathlib/CategoryTheory/Sites/Sheaf.lean`; `CategoryTheory.presheafToSheaf`, `CategoryTheory.toSheafify`, `Mathlib/CategoryTheory/Sites/Sheafification.lean`; `Localization.Away`, `Mathlib/GroupTheory/MonoidLocalization/Away.lean` | Complete the integral coefficient sheaf by a limit of sheaf quotients, then sheafify its localization; twisted sheaves are subpresheaves of the actual coefficient sheaf. |
+| Abelian sheaves and direct images | `CategoryTheory.sheafIsAbelian`, `Mathlib/CategoryTheory/Sites/Abelian.lean`; `CategoryTheory.Sheaf.Hom.add_app`, `Mathlib/CategoryTheory/Sites/Sheaf.lean`; `CategoryTheory.Functor.rightDerived`, `Mathlib/CategoryTheory/Abelian/RightDerived.lean` | P9.3 computes direct images using Mathlib's abelian and additive structures on sheaves, with proposition-valued `HasSheafify`; finite limits of these sheaves are supplied by `Mathlib/CategoryTheory/Sites/Limits.lean`. |
+| Completed coefficient maps | `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.map`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap.AdicSpacesPartIV.Huber.mixedTensorInt`, `TauCetiRoadmap.AdicSpacesPartIV.Huber.mixedTensorInt.map`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`; `AdicCompletion.map`, `Mathlib/RingTheory/AdicCompletion/Functoriality.lean` | Identify the image of the canonical fixed-submodule inclusion with the fixed completed tensors, retaining the three distinct completions. |
+| Cohomology of a quotient complex | `HomologicalComplex.homologyMap`, `Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean`; `CategoryTheory.ShortComplex.ShortExact.δ`, `Mathlib/Algebra/Homology/HomologySequence.lean` | Apply the connecting-map sequence to a degreewise flat Čech complex modulo a regular element, locating the torsion obstruction in degree `q+1`. |
+
+| P8 object | Exact supplier and file | New P8 content |
+| --- | --- | --- |
+| Normal fixed field | `Normal`, `Mathlib/FieldTheory/Normal/Defs.lean`; `IntermediateField.fixedField`, `Mathlib/FieldTheory/Galois/Basic.lean` | Restriction of arbitrary-rank valuation classes from a normal extension and its automorphism fixed field. |
+| Fixed subring | `FixedPoints.subring`, `Mathlib/Algebra/Algebra/Subalgebra/Operations.lean` | Equip the fixed subring with its Tate structure and invariant plus ring. |
+| Invariant orbit product | `Finset.smul_prod_perm`, `Mathlib/Algebra/BigOperators/GroupWithZero/Action.lean` | Bundle this product in the fixed subring and prove that a pseudouniformizer stays one. |
+| Integrality and prime orbits | `Algebra.IsInvariant.isIntegral`, `Algebra.IsInvariant.exists_smul_of_under_eq`, `Algebra.IsInvariant.orbit_eq_primesOver`, `MulSemiringAction.charpoly`, `MulSemiringAction.charpoly_eq`, `MulSemiringAction.eval_charpoly`, `MulSemiringAction.monic_charpoly`, `Mathlib/RingTheory/Invariant/Basic.lean` | Continuous valuations and complete Tate pairs, rather than new algebraic integrality statements. |
+| Affine scheme quotient | `TauCeti.AffineInvariantQuotient.isQuotientMap_projection`, `TauCeti.AffineInvariantQuotient.projection_eq_iff_exists_smul`, `TauCeti.AffineInvariantQuotient.isFinite_projection`, `TauCeti/AlgebraicGeometry/Quotient/FiniteGroup/Affine.lean` | Orbit spaces of adic spectra; the cited finiteness theorem requires `Algebra.FiniteType (FixedPoints.subring A G) A`. |
+| Rational pullback | `TauCeti.ValuationSpectrum.spaComap_preimage_rationalSubset`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Comap.lean` | Open generation in the fixed Tate ring and stability under a plus-preserving action. |
+| Disjoint translates | `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`, `Mathlib/Topology/Algebra/ConstMulAction.lean` | A clean open-neighbourhood basis for finite actions with only Hausdorffness; also impose stabilizer invariance. |
+| V-valued sheaves | `AlgebraicGeometry.SheafedSpace`, `AlgebraicGeometry.PresheafedSpace.Hom`, `Mathlib/Geometry/RingedSpace/SheafedSpace.lean`, `Mathlib/Geometry/RingedSpace/PresheafedSpace.lean`; `TauCeti.CompleteSeparatedTopCommRingCat`, `TauCeti/Topology/Category/TopCommRingCat/CompleteSeparated/Basic.lean` | Add stalk valuations and valuation-compatible maps; no local-stalk axiom is imposed in Huber's category V. |
+| Perfectoid adic realization | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.ofAdicSpace` with the full faithfulness of *adic-spaces-in-yoneda-adic-spaces* (A1.16), `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCeti.AdicSpace.toSheafyPreAdicSpace`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean`; `TauCeti.PreAdicSpace.stalkValuation_def`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Basic.lean` | PerfectoidSpaces P2.10’s *PerfectoidSpace.toAdicSpace* is the inclusion of `Perfd p` into pre-adic spaces, landing in adic spaces; P3.17’s *PerfectoidSpace.locallyStronglySheafy* identifies a perfectoid space with the A1 realization of a locally strongly sheafy adic representative. *toVRingedSpace* composes the inclusion with the forgetful functor, retaining the complete topological sheaf and the supplied residue-induced stalk valuation. |
+| Direct perfection and completions | `PerfectClosure`, `PerfectClosure.of`, `Mathlib/FieldTheory/PerfectClosure.lean`; `AdicCompletion`, `Mathlib/RingTheory/AdicCompletion/Basic.lean`; `Localization.Away`, `Mathlib/GroupTheory/MonoidLocalization/Away.lean` | The universal integral-perfectoid algebra and its parameter-adic generic pair. |
+| Integral closure in the generic ring | `integralClosure`, `mem_integralClosure_iff`, `Mathlib/RingTheory/IntegralClosure/Algebra/Basic.lean`; `IsLocalization.Away.invSelf`, `Mathlib/RingTheory/Localization/Away/Basic.lean` | *genericPlus* uses the integral closure of the completed ring's image; its Checks distinguish integral roots from the inverse of a nonzero nonunit parameter. |
+| Projective levels | `AlgebraicGeometry.Proj`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean`; `AlgebraicGeometry.Proj.toSpecZero`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`; `MvPolynomial.homogeneousSubmodule`, `MvPolynomial.gradedAlgebra`, `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` | Projective scheme presentations and their natural affinoid-test analytifications. |
+| Analytification comparison | `RigidSpace.analytification` with its natural bijection *analytification-universal-property* (AdicSpacesPartII R1.3) and `AdicSpace.rigidToAdic` (R1.7); `R.Sheafy` (AdicEtaleGeometry's notation for `TauCeti.Huber.IsSheafyForEveryPresentation R.P.plus`), `YonedaAdicSpace.ofAdicSpace`, `YonedaAdicSpace.ofAdicSpace_spa`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | R1 owns analytification. *TowerGeometry.Analytification* specifies its sheafy-test interface on the Yoneda carrier; *Analytification.rigid_comparison* identifies its space with R1's image. |
+| Unit torus and coordinates | *AdicSpace.relativeTorus*, `relativeTorus.ι`, `relativeTorus.proj`, `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.Polydisc.coord`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | P9 root-torus Checks use this unit annulus, its base map, and its coordinate p-power endomorphism. The coordinate is the `Polydisc.coord` field of *AdicSpace.relativePolydisc*, pulled back along `relativeTorus.ι`. |
+| Global functions on adic spaces | `YonedaAdicSpace.ofAdicSpace_globalFunctions`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | Identifies the torus coordinate with the function pulled back along the Galois-tower levels. |
+| Projective-line chart | `AlgebraicGeometry.Proj.fromOfGlobalSections`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`; `AlgebraicGeometry.Scheme.ΓSpecIso`, `Mathlib/AlgebraicGeometry/Scheme.lean` | *projectiveLineChart* specializes the supplier map to the homogeneous coordinates `(1,T)`; it fixes the coordinate in *goodTower_frobenius_P1*. |
+| Finite maps of pairs | `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.Hom.IsFinite`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Test this pair predicate on every target affinoid and require the square to be a pullback. |
+
+| Analytic and coefficient object | Exact supplier and file | Use in P8–P9 |
+| --- | --- | --- |
+| Analytic bases and perfectoid spaces | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsLocallyNoetherianAnalytic`, `YonedaAdicSpace.ofSpaY`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.isPerfectoidSpace`, `PerfectoidSpace.isAffinoidPerfectoid`, `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | Use the supplied analytic predicates on the adic and Yoneda carriers. PerfectoidSpaces P7.16's *ProEtaleSite.AffinoidPresentation* adds a map to `Spa(ℚ_p, ℤ_p)`; its `ProEtaleSite.IsAffinoidPerfectoid` concerns pro-objects with completed section pairs, whereas PerfectoidSpaces P2.9’s `isAffinoidPerfectoid` is a property of pre-adic spaces. *ProetaleGaloisTower.base* requires the same base map in its locally noetherian branch. |
+| Quasi-compact étale slices and finite towers; separated rigid quotients | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.QuasiCompact`, `.IsSeparated`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0; `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsEtaleLocalDescription`, `.IsFiniteEtale`, `.smallEtale`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1 | *finite-tower-over-perfectoid-tower* uses R0 on the limit map; *rigid_invariant_cover_of_separated* assumes R0 separatedness. *ProetaleGaloisTower.finiteEtale* uses A1’s finite étale predicate. |
+| Completed pair tensors | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor`, `Huber.Pair.completedTensor`, `Huber.Pair.completedTensor.tmul`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0 | The carriers, plus rings and tensor maps used by *quotient_scalar_extension_pair* and its Checks. |
+| Banach tensors over an analytic field | `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor`, `.injective_tensorProduct_of_field`, `.ker_map_of_field`, `.injective_kerMap_of_field`, `.isStrictMap_map_of_field`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0; `BanachModule.productSeminorm` in the same file | Use the completed tensor for the nonarchimedean maximum-cost seminorm and the full kernel theorem without a strictness hypothesis. These are admitted sibling-roadmap suppliers. |
+
+| Completed tower object | Exact supplier and file | Use in P9 |
+| --- | --- | --- |
+| Completed tower self-product | `TauCetiRoadmap.AdicEtaleGeometry.FiniteEtaleTorsorTower.uniformCompletedTensor_completion_equiv`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A4 | Supplies the uniform completed tensor-square comparison; P9.4's *Perfectoid.TorsorDescent.ProetaleGaloisTower.torsorIso* (README only) expresses the self-product of the tower's pro-object on this roadmap's tower carrier; completing the nerve gives the perfectoid self-product. |
+
+| Perfectoid carrier | Exact supplier and file | Use in P8–P9 |
+| --- | --- | --- |
+| Complete pair and space carriers | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, `CAff.IsRationalLocalization`, `YonedaAdicSpace`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The imported carriers underlying the global perfectoid objects and the affinoid tower comparison. |
+| Root-torus coordinates and limits | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.perfectedTateAlgebra.laurent`, `Perfectoid.perfectedTateAlgebra.X`, `PerfectoidSpace.IsTildeLimit`, `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean`; `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.relativeTorus`, `.relativeTorus.ι`, `.relativeTorus.proj`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The torus Checks use the imported Laurent ring, the monomials `X s a` and their inverses in it, the tilde-limit predicate and the relative torus. PerfectoidSpaces P7.16 supplies their site presentation; P9 supplies their tower Galois action and section calculations. |
+| Nonarchimedean base pair | `TauCeti.Huber.Pair.powerBounded`, `TauCeti/RingTheory/Huber/Pair.lean`; `CAff.of`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | *TowerGeometry.basePair* (for the base field `K`) packages the complete nontrivially normed ultrametric field with `K°`; an explicit `Huber.Pair K` retains an arbitrary ring of integral elements `K⁺`. |
+
+The multiplicative cocycle predicate is `groupCohomology.IsMulCocycle₁` in
+`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`, with the action on
+units supplied by `Units.mulDistribMulActionRight` in `Mathlib/Algebra/Group/Action/Units.lean`.
+For commutative units its law is `c(γδ) = c(γ) · γ • c(δ)`. P9 uses this predicate directly.
+
+### Declarations at the pins
+
+Every name in the following table exists at the pinned Mathlib and Tau Ceti versions or in
+PerfectoidSpaces' `Suggested.lean`. The signatures of this roadmap's `Suggested.lean` and its
+affine targets rest on them.
+
+| Object | Declaration at the pins | Layer |
+| --- | --- | --- |
+| Fixed rings, integrality, prime orbits | Mathlib `FixedPoints.subring`, `Algebra.IsInvariant`, `Algebra.IsInvariant.isIntegral`, `Algebra.IsInvariant.exists_smul_of_under_eq`, `MulSemiringAction.charpoly` | P8.1–P8.2 |
+| Affine invariant quotients | Tau Ceti `AffineInvariantQuotient.isQuotientMap_projection`, `AffineInvariantQuotient.isFinite_projection` | P8.2, P8.10 |
+| Huber pairs and Tate rings | Tau Ceti `Pair`, `Pair.Hom`, `IsTateRing`, `IsPseudoUniformizer`, `PairOfDefinition`, `powerBoundedSubring` | P8 |
+| Adic spectra | Tau Ceti `ValuationSpectrum.spa`, `ValuationSpectrum.spaComap`, `ValuationSpectrum.spaComap_preimage_rationalSubset` | P8.2, P8.5 |
+| Pre-adic spaces | Tau Ceti `PreAdicSpace`, `PreAdicSpace.Hom`, `PreAdicSpace.restrict`, `PreAdicSpace.isAdic`, `PreAdicSpace.isAffinoid`, `ValuationSpectrum.presentationLimitPreAdicSpace` | P8.6–P8.9 |
+| Perfectoid rings and spaces | PerfectoidSpaces `IsPerfectoidTateRing`, `IsIntegralPerfectoid`, `PseudoUniformizerRoots`, `isAffinoidPerfectoid`, `isPerfectoidSpace`, `Perfd`, `Perf`, `padicCyclotomic` | P8–P9 |
+| Disjoint translates, Hausdorff quotient | Mathlib `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`, `T2Quotient` | P8.13, P8.16 |
+| Perfection and adic completion | Mathlib `PerfectClosure`, `AdicCompletion`, `AdicCompletion.map` | P8.18, P9.13 |
+| Cocycles, invariants, averaging | Mathlib `groupCohomology.IsMulCocycle₁`, `Representation.invariants`, `Representation.averageMap`, `Representation.isProj_averageMap` | P9.9–P9.10 |
+| Continuous cohomology in low degrees | Mathlib `ContinuousCohomology.zeroIso`; Tau Ceti `ContinuousCohomology.zeroIsoNatIso`, `ContCohomology.cochainEquiv0`, `ContCohomology.cochainEquiv1`, `ContCohomology.cochainEquiv2` | P9.5 |
+| Galois descent and faithful flatness | Tau Ceti `GaloisDescent.span_invariants_eq_top`; Mathlib `Module.FaithfullyFlat.of_comap_surjective`, `Module.rankAtStalk` | P9.10 |
+| Module sheaves and derived functors | Mathlib `SheafOfModules.IsLocallyFree`, `Functor.rightDerived`, `Functor.totalLeftDerived` | P9.2–P9.13 |
 
 ## References
 

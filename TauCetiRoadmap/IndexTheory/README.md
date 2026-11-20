@@ -1,82 +1,77 @@
 # Roadmap: elliptic index theory and the Atiyah–Singer theorem
 
-**Summary.** Build the analytic and topological index maps for elliptic operators on closed
-smooth manifolds, their compact-Lie equivariant versions and the embedding proof that they agree
-(Atiyah–Singer I, Theorem 6.7; Freed, Theorem 4.18). The analytic side starts from Mathlib's
-Fredholm maps and Tau Ceti's Fredholm index calculus, adds the Hilbert-space connectors that index
-theory needs (normal forms, snake sequences, compatibility conditions and the classification of
-Fredholm maps up to norm paths) and realizes symbol classes in `K_c(T*M)` by pseudodifferential
-operators. The topological side pushes symbol classes forward along cotangent embeddings and
-inverts Bott periodicity on a Euclidean space. The end theorems are `ind_a = ind_t`, its
-cohomological form, the de Rham, signature, Dolbeault and twisted spin Dirac index formulas with
-Rokhlin's theorem, Riemann–Roch on compact Riemann surfaces, the vanishing of the index of
-differential operators in odd dimensions, and the holomorphic Lefschetz fixed-map formula.
+**Summary.** An elliptic operator on a closed manifold M is a differential or pseudodifferential
+operator whose principal symbol is invertible off the zero section of the cotangent bundle. It is
+Fredholm, and its index, the dimension of its kernel minus that of its cokernel, depends only on
+the class of the symbol in `K_c(T*M)`, the compactly supported K-theory of the cotangent bundle.
+The Atiyah–Singer theorem says that this index equals a topological index of the same class.
+This roadmap proves the theorem and derives the classical index formulas. Manifolds are smooth,
+finite-dimensional, Hausdorff, second countable and without boundary. The general theorem assumes
+no orientation or spin structure.
 
-## Scope and ownership
+Layer 1 starts from Mathlib's Fredholm maps and Tau Ceti's Fredholm index. It ends with two
+theorems on complex Hilbert spaces E and F, neither assumed separable. Two Fredholm maps E → F are
+joined by a norm-continuous path of Fredholm maps if and only if they have the same index. If E
+and F are unitarily equivalent and infinite-dimensional, every integer is the index of a Fredholm
+map E → F, so the index is a bijection from these path components onto ℤ.
 
-This roadmap owns, by layer:
+Layer 2 shows that every class in `K_c(T*M)` comes from an elliptic symbol of order zero. It
+quantizes the symbol to a pseudodifferential operator and defines the analytic index `ind_a` as
+the Fredholm index of that operator on L² sections. Layer 3 defines the topological index
+`ind_t`: embed M in a Euclidean space V, push the class forward to `K_c(T*V)` and invert Bott
+periodicity. The main theorem is `ind_a = ind_t` for every closed M. When a compact Lie group G
+acts smoothly on M, the two equivariant indices on `K_(G,c)(T*M)`, with values in the
+representation ring R(G), agree as well.
 
-- **Layer 1.** Hilbert-space Fredholm connectors on top of the native Fredholm API: the
-  orthogonal Fredholm package, the norm-continuous triangular normal form near a Fredholm map
-  and the transverse-subspace lemma, the six-term snake sequence for Fredholm maps of split
-  exact Hilbert sequences, minimal compatibility conditions and the index-zero alternative, the
-  unitary logarithm and norm-path connectedness of `GL(H)`, and the classification of Fredholm
-  maps between complex Hilbert spaces up to norm paths by their index.
-- **Layer 2.** Compactly supported symbol classes on cotangent bundles, their representation by
-  homogeneous elliptic symbols, the analytic index `ind_a : K_c(T*M) → ℤ`, analytic excision,
-  local difference classes, the operator cut-and-paste index theorem, and the norm closure of the
-  order-zero classical algebra with its symbol exact sequence.
-- **Layer 3.** The normal complex structure on the tangent map of an embedding, the cotangent
-  pushforward `f_!^T`, the topological index `ind_t`, equivariant embeddings in representations,
-  the equivariant topological index and the uniqueness of normalized index assignments.
-- **Layer 4.** The equivariant analytic index of Fredholm intertwiners and of invariant symbols,
-  equivariant excision, external products, and the fixed associated-fibre product theorem with
-  its explicitly built operator realization.
-- **Layer 5.** The representation-valued de Rham index of a sphere, the O(1), SO(2) and O(n)
-  Bott index computations, embedding invariance of the analytic index and the Atiyah–Singer
-  equality `ind_a = ind_t`, ordinary and equivariant.
-- **Layer 6.** The cohomological index formula on the canonically oriented cotangent bundle and
-  the universal symbol calculations that turn it into characteristic-class formulas.
-- **Layer 7.** The index-theoretic applications: the de Rham operator, the signature operator
-  and Hirzebruch's theorem, Hirzebruch–Riemann–Roch for the Dolbeault operator, Riemann–Roch on
-  compact Riemann surfaces, the twisted spin Dirac formula with `8 · ind D⁺ = −σ(M)`,
-  `σ(M) = −16α` and Rokhlin's theorem, and vanishing in odd dimensions.
-- **Layer 8.** The holomorphic Lefschetz fixed-map formula for a holomorphic self-map with
-  nondegenerate fixed points and a holomorphic bundle lift.
+The proof is Atiyah and Singer's embedding argument. Layer 3 shows that an integer-valued index
+on the K-groups `K_c(T*M)` of closed manifolds is determined by three properties: additivity,
+compatibility with pushforward along closed embeddings, and the value 1 on a point. For the
+analytic index, Layer 5 proves compatibility with pushforward. With Layer 4's product theorem and
+excision, this comes down to one computation: the Bott class of ℝⁿ has analytic index 1, even
+O(n)-equivariantly.
 
-It leaves to other roadmaps, by section:
+Layer 6 turns the theorem into a cohomological formula. For an elliptic operator P on a closed
+n-manifold M, `ind(P) = (−1)^n ∫_(T*M) ch_c([σ_P]) · π*Td(TM ⊗ ℂ)`, with T*M canonically oriented
+even when M is not orientable. Layer 7 evaluates this formula on the classical operators. The de
+Rham operator has index the Euler characteristic χ(M). On a closed oriented 4k-manifold the
+signature operator gives Hirzebruch's theorem `sign(M) = ⟨L(TM), [M]⟩`. For a holomorphic vector
+bundle E on a compact complex manifold M, the Dolbeault operator gives Hirzebruch–Riemann–Roch,
+`Σ_q (−1)^q dim H^q(M; E) = ⟨ch(E) Td(T^(1,0)M), [M]⟩`, with no Kähler condition.
 
-- Atkinson's theorem, in rectangular form between two Hilbert spaces, and the Calkin-algebra
-  reading of the index: **OperatorKTheory** K4.1 (`isFredholm_iff_exists_isCompactOperator_comp_sub_one`).
-  The KK product, the universal coefficient theorem and general variable-fibre families index
-  theory are OperatorKTheory's in its own scope; the symbol-index API here uses none of them.
-- The compact ideal and the Calkin algebra of a Hilbert space, closed star ideals, C*-quotients
-  and spectral permanence: **CStarAlgebras** C1.3 and C1.6. The ℂ specialization of module
-  compact operators and the continuous-section C*-algebra of a Hermitian endomorphism bundle:
-  **HilbertModules** H2 and H5.
-- Hilbert dimension, its basis independence and the unitary classification of Hilbert spaces by
-  it: **BanachSpaceTheory** B5.
-- The index `−1` of the forward shift on the Hardy space and the winding-number index formula
-  for continuous Toeplitz symbols: **OperatorTheory/ToeplitzOperators** T3.
-- The identity `⟨e(TM),[M]⟩ = χ(M)` on closed oriented manifolds: **CharacteristicClasses** C2
-  item 3. Layer 7.1 proves only the index statements and the symbol evaluation.
-- The smooth classification of compact surfaces: **GeometricTopology**, under the contract
-  `gap:smooth-surface-classification` of the supplier contracts. Layer 7.4 consumes it for the
-  diffeomorphism between a model surface and a Riemann surface of the same genus.
-- Equivariant Thom isomorphisms in K-theory, proved by projective-family stabilization
-  independently of index theory, and the sphere Koszul reflection homotopy: **TopologicalKTheory**
-  T6 and T7.5.
-- The pseudodifferential calculus, Sobolev mapping estimates, elliptic parametrices, positive
-  powers, product indices and common-order elliptic-complex Hodge theory:
-  **PseudodifferentialOperators** P1–P7. No second calculus is built here.
-- Static Laplace-type Hodge theory, Serre duality and the projective examples:
-  **ComplexKahlerGeometry** K5, K5a and K7.
-- Spin structures, spinor bundles, chiral Dirac operators, Lichnerowicz and the untwisted
-  four-dimensional quaternionic kernel symmetry: **SpinGeometry** G1–G6 and G6.7.
-- The flag-variety and word-space specializations of the holomorphic Lefschetz formula:
-  **SchubertGeometry**.
-- The KO-genus and Atiyah–Bott–Shapiro orientation comparison: **TangentialBordism**, which
-  consumes Layers 7.2 and 7.5.
+On a closed even-dimensional spin manifold, the chiral Dirac operator twisted by a Hermitian
+bundle W has index `⟨Â(TM) ch(W), [M]⟩`. In dimension four the untwisted operator gives Rokhlin's
+theorem: the signature of every closed oriented smooth spin four-manifold is divisible by 16. On a
+closed odd-dimensional manifold every elliptic differential operator has index 0. A
+pseudodifferential one need not: on the circle, `e^(ix) P_≥0 + (1 − P_≥0)` has index −1, where
+`P_≥0` projects onto the nonnegative Fourier modes.
+
+Layer 8 proves the holomorphic Lefschetz formula. Let f be a holomorphic self-map of a compact
+complex manifold M, lifted by a holomorphic bundle map `φ : f*E → E` to a holomorphic vector
+bundle E. If every fixed point x is isolated with `det_ℂ(1 − df_x) ≠ 0`, there are finitely many,
+and the alternating sum of the traces of `φ ∘ f*` on Dolbeault cohomology `H^q(M, E)` is the sum
+of `tr(φ_x) / det_ℂ(1 − df_x)` over them.
+
+The roadmap builds on [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) for
+the pseudodifferential calculus. [TopologicalKTheory](../TopologicalKTheory/README.md) provides
+Bott periodicity and Thom classes, and proves its equivariant Thom isomorphisms independently of
+index theory. [CharacteristicClasses](../CharacteristicClasses/README.md) provides the Chern
+character and the Todd, L and Â classes. SeibergWittenTheory uses Layers 1–7 for its Spinᶜ symbol
+index, and SchubertGeometry specializes the Lefschetz formula to flag varieties and word spaces.
+The next section is a guide to the eight layers.
+
+## How to read the build
+
+Layer 1 adds the Hilbert-space connectors to the native Fredholm API. Layer 2 turns elliptic
+symbols into classes in `K_c(T*M)` and defines the analytic index with excision and
+cut-and-paste. Layer 3 defines the cotangent pushforward and the topological index and proves
+that additivity, embedding compatibility and the point normalization determine an index.
+Layer 4 builds equivariant indices, products and the associated-fibre theorem. Layer 5 computes
+the Bott index, proves that the analytic index is embedding invariant and concludes
+`ind_a = ind_t`. Layer 6 converts it into the cohomological formula and Layer 7 evaluates that
+formula on the classical operators. Layer 8 builds the holomorphic Lefschetz formula from the
+elliptic calculus of Layer 2. Other roadmaps cite Layer k as `Ik` and section k.n as `Ik.n`; the
+labels in parentheses keep that correspondence. `Suggested.lean` states the headline theorems
+that the pinned carriers can express.
 
 ## Conventions
 
@@ -118,175 +113,6 @@ orientation. Its periodic coefficient is written `u_per = β`, of degree −2, w
 `ch(u_per) = −v_per`; this is distinct from the dual Thom class. In ordinary compactly supported
 cohomology `ch_c(β) = −U_ℂ`, where `U_ℂ` is the positive complex Thom class. Degree-zero formulae
 use CharacteristicClasses C6's periodic-degree fold.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`,
-  `IsFredholm.fredholmPackage`, `isFredholm_iff_exists_isQuasiInverse` and
-  `LinearMap.IsQuasiInverse` (`Analysis/Normed/Operator/Fredholm/Basic.lean`); a quasi-inverse is
-  an inverse modulo maps of finite rank, not modulo compact maps. `IsFredholm.index_comp`,
-  `IsFredholm.add_hasFiniteRange` (same file).
-- `FredholmPackage.eventually_nhds_isInvertible`, `isOpen_setOfPred_isFredholm`,
-  `IsFredholm.eventually_nhds_index_eq` and `index_continuousOn_isFredholm`
-  (`Analysis/Normed/Operator/Fredholm/Open.lean`): openness of the Fredholm locus and local
-  constancy of the index between Banach spaces.
-- `LinearMap.index`, `LinearMap.index_eq_finrank_sub`, `LinearMap.index_smul`
-  (`Algebra/Module/LinearMap/Index.lean`).
-- `Ring.inverse`, `NormedRing.inverse_continuousAt`; `CStarRing.norm_one`
-  (`Analysis/CStarAlgebra/Basic.lean`): the unit of a nontrivial C*-ring has norm one.
-- `selfAdjoint.expUnitary` (`Analysis/CStarAlgebra/Exponential.lean`): `exp(iA)` as a unitary of
-  a unital C*-algebra for self-adjoint A, through `NormedSpace.exp` and
-  `NormedSpace.exp_mem_unitary_of_mem_skewAdjoint` (`Analysis/Normed/Algebra/Exponential.lean`).
-  `Unitary.argSelfAdjoint`, `selfAdjoint.expUnitaryPathToOne`, `selfAdjoint.joined_one_expUnitary`,
-  `Unitary.joined` and `Unitary.mem_pathComponentOne_iff`
-  (`Analysis/CStarAlgebra/Unitary/Connected.lean`): the
-  principal argument of a unitary through the continuous functional calculus (it is `0` when the
-  principal argument is not continuous on the spectrum, as for the bilateral shift, and `π` on
-  `U = −1`), the path `t ↦ expUnitary (t • A)` from `1` to `expUnitary A`, a path between
-  unitaries at distance less than 2, and the path component of `1` as the finite products of
-  exponentials of self-adjoint elements.
-- `CategoryTheory.ShortComplex.SnakeInput` and `SnakeInput.snake_lemma`, on `ModuleCat ℂ`.
-- `HilbertBasis`, `Path`, `IsCompactOperator`, `FiberBundle`, `VectorBundle`,
-  `ContMDiffVectorBundle`, `TangentSpace`.
-
-### From Tau Ceti
-
-- `ContinuousLinearMap.index`, `ContinuousLinearMap.index_def`, `index_prodMap`, `index_smul`,
-  `index_of_injective`, `index_eq_of_finiteDimensional`,
-  `bijective_of_surjective_of_index_eq_zero`, `index_restrictScalars_real`
-  (`TauCeti/Topology/Algebra/Module/ContinuousLinearMap/Index.lean`), and `index_equiv_comp`,
-  `index_comp_equiv` (`TauCeti/Algebra/Module/LinearMap/Index.lean`).
-- `ContinuousLinearMap.IsFredholm.restrictScalars`
-  (`TauCeti/Analysis/Fredholm/Basic.lean`): the realification of a complex Fredholm map is
-  Fredholm, and its index is twice the complex index.
-- `ContinuousLinearMap.range_adjoint_eq_orthogonal_ker_of_isClosed_range`,
-  `isClosed_range_adjoint_of_isClosed_range`, `cokerEquivKerAdjoint`, `index_adjoint`
-  (`TauCeti/Analysis/Fredholm/Adjoint.lean`).
-- `ContinuousLinearMap.isClosed_range_of_finite_coker`, `IsFredholm.of_finite_ker_coker`
-  (`TauCeti/Analysis/Fredholm/ClosedRange.lean`): between Banach spaces, finite-dimensional
-  kernel and cokernel give a Fredholm map.
-- `ContinuousLinearMap.index_add_of_isCompactOperator`, `TauCeti.isFredholm_one_sub`
-  (`TauCeti/Analysis/Fredholm/CompactPerturbation.lean`);
-  `ContinuousLinearMap.index_add_of_hasFiniteRange` (`TauCeti/Analysis/Fredholm/FiniteRank.lean`);
-  `ContinuousLinearMap.index_eq_zero_of_isSelfAdjoint` (`TauCeti/Analysis/Fredholm/SelfAdjoint.lean`);
-  `Path.index_eq` (`TauCeti/Analysis/Fredholm/ContinuousFamily.lean`): the endpoints of a
-  continuous Fredholm path have equal index.
-
-### From TauCetiRoadmap.OperatorTheory
-
-OperatorIdeals OI-A25–A30 (compact approximation and adjoints); PolarDecomposition (Hilbert polar
-decomposition); SelfAdjointSpectralTheory Part B (bounded Borel calculus with its
-partial-operator and adjoint conventions); ToeplitzOperators T3 (`index(T_a) = −wind(a,0)` for
-continuous nonvanishing symbols, so the forward Hardy shift has index −1; its circle is
-`UnitAddCircle` with `e_n = exp(2πint)`, matched here by `x = 2πt`).
-
-### From TauCetiRoadmap.CStarAlgebras, HilbertModules and OperatorKTheory
-
-CStarAlgebras C1.3 (closed star ideals, C*-quotients and spectral permanence for C*-subalgebras)
-and C1.6 (the compact ideal and the Calkin algebra `B(H)/K(H)`). HilbertModules H2 (the ℂ
-specialization and the rank-one/compact comparison) and H5 (the continuous-section C*-algebra of
-a finite-rank Hermitian endomorphism bundle). OperatorKTheory K4.1: a bounded map `T : H₀ → H₁`
-of complex Hilbert spaces is Fredholm exactly when some bounded `S : H₁ → H₀` makes `ST − 1` and
-`TS − 1` compact, and for `H₀ = H₁` this is invertibility in the Calkin algebra.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-B5: the Hilbert dimension of a complete inner-product space, the cardinality of any Hilbert basis
-(`hilbertBasis_lift_mk_eq`), and the unitary classification
-`nonempty_linearIsometryEquiv_iff_lift_mk_eq`. It is not the Hamel rank.
-
-### From TauCetiRoadmap.SmoothBundlesConnections
-
-[B1–B4 and B6](../SmoothBundlesConnections/README.md): smooth bundle morphisms, metrics, L²
-sections, frame, principal and associated bundles, compatible connections and B6's line cocycle
-and curvature normalization.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-[K1–K2 and K4–K7](../ComplexKahlerGeometry/README.md): complex, type and Dolbeault calculus and
-the sheaf comparison; K5a's shared all-real compact-bundle `H^s` Hilbert and distribution scale
-with Rellich compactness; real de Rham and complex Dolbeault Hodge theory and Serre duality (K5);
-the projective, torus and closed-surface examples, the closed-surface CW model and the
-genus/Betti/Dolbeault dictionary (K7). K5's static Laplace theory is independent of the index
-theorem.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-[P1–P7](../PseudodifferentialOperators/README.md): differential and jet symbols, the classical
-calculus and continuous quantization (P1–P4, including P4.2's square partition), all-order and
-Fourier–Schur estimates and the seminorm/Bochner topology comparison (P5), parametrices and
-Fredholmness (P6), and P7's elliptic powers and change of order, graded external products with
-their Hilbert-tensor and kernel comparison, the equivariant virtual kernel class with its local
-constancy and homotopy theorem, and common-order elliptic-complex Hodge theory.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-[T1–T6 and T7.5](../TopologicalKTheory/README.md): the finite-rank bundle category and its
-homotopy classification (T1), relative triples retaining σ, compact supports, exact and
-Mayer–Vietoris sequences (T3), smoothing, complex Bott periodicity and Thom classes (T4–T5, with
-T5.4–T5.5's complex-normal pushforward), the compact-Lie representation ring and its
-continuous-representation SplitK0 ring, equivariant descent, the strongly continuous
-continuous-section and L²-section actions and the finite equivariant embedding of a G-bundle
-over a compact base, associated products and associated Koszul/folding naturality (T6, including
-T6.1, T6.2, T6.8 and T6.9), and the sphere Koszul reflection homotopy (T7.5). The G-finite density
-theorem that T6.1 applies is consumed here from CompactGroups under the same contract,
-`gap:banach-gfinite-density`.
-
-### From TauCetiRoadmap.CharacteristicClasses, AlgebraicTopology and DifferentialGeometry
-
-[CharacteristicClasses C1–C7](../CharacteristicClasses/README.md): local-coefficient
-orientations, compactly supported Thom and Gysin maps, finite-dimensional evaluation, the
-Chern character and its Thom correction (C6), Chern, Pontryagin, Euler and Stiefel–Whitney
-classes with C1.4–C1.6's line-bundle classification and smoothing, C2 item 3's Euler identity,
-C2.5's compact-stage general position, universal rings and Todd, L and Â classes. Ordinary
-cohomology, cup products and excision come from [AlgebraicTopology Stages 6 and
-8](../AlgebraicTopology/README.md); de Rham cohomology, Poincaré duality and integration from
-[DifferentialGeometry](../DifferentialGeometry/README.md).
-
-### From TauCetiRoadmap.GeometricTopology and HopfRinow
-
-[GeometricTopology](../GeometricTopology/README.md) Layer 1 (smooth collars, gluing along the
-boundary, tubular neighbourhoods and the normal bundle) and Layer 3 (diffeomorphism groups and
-isotopy extension). What GeometricTopology must provide (gap:smooth-surface-classification): the
-smooth classification of compact surfaces, that every compact connected smooth surface is
-diffeomorphic to exactly one standard model (the orientable surface of genus g with b boundary
-components, or the non-orientable one with k ≥ 1 crosscaps and b boundary components), with
-`rank H₁(F; ℚ) = 2g` for a closed orientable surface F of genus g.
-[HopfRinow Layer 1](../../Completed/HopfRinow/README.md): the Levi-Civita connection.
-
-### From TauCetiRoadmap.RepresentationTheory
-
-[CompactGroups](../RepresentationTheory/CompactGroups/README.md), [LieGroups
-Layer 6](../RepresentationTheory/LieGroups/README.md) and
-[ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): Haar averaging, continuous
-finite-dimensional representations, Peter–Weyl and character detection, and connected compact
-torus theory. What CompactGroups must provide (gap:banach-gfinite-density): for a compact
-Hausdorff group acting on a complex Banach space by continuous linear automorphisms whose orbit
-maps are continuous, the G-finite vectors (those with finite-dimensional orbit span) are dense;
-this is the contract that TopologicalKTheory T6.1 consumes for its section actions.
-
-### From TauCetiRoadmap.SpinGeometry
-
-[G1–G6](../SpinGeometry/README.md): negative-metric Clifford modules, the Γ/Hodge-star dictionary
-(G2), spin structures, spinors and half-spin roots (G5), chiral Dirac operators, Lichnerowicz and
-the exported compact-support symbol class (G6); G6.7's untwisted four-dimensional quaternionic
-kernels with complex index `2α`. The numerical index formulae are proved here.
-
-## How to read the build
-
-Layer 1 adds the Hilbert-space connectors to the native Fredholm API. Layer 2 turns elliptic
-symbols into classes in `K_c(T*M)` and defines the analytic index with excision and
-cut-and-paste. Layer 3 defines the cotangent pushforward and the topological index and proves
-that additivity, embedding compatibility and the point normalization determine an index.
-Layer 4 builds equivariant indices, products and the associated-fibre theorem. Layer 5 computes
-the Bott index, proves that the analytic index is embedding invariant and concludes
-`ind_a = ind_t`. Layer 6 converts it into the cohomological formula and Layer 7 evaluates that
-formula on the classical operators. Layer 8 builds the holomorphic Lefschetz formula from the
-elliptic calculus of Layer 2. Other roadmaps cite Layer k as `Ik` and section k.n as `Ik.n`; the
-labels in parentheses keep that correspondence. `Suggested.lean` states the headline theorems
-that the pinned carriers can express.
 
 ## Layer 1: Hilbert Fredholm connectors (I1)
 
@@ -1671,6 +1497,227 @@ for its Spinᶜ symbol index. SchubertGeometry consumes Layer 8's map-level Lefs
 its flag and word-space specializations. K3Surfaces consumes Layer 6, 7.1–7.3 and Layer 8;
 GeometricQuantization consumes Layer 6 and 7.3; InstantonFloerTheory consumes Layers 1–2 and 7;
 SpectralManifolds consumes Layer 2; StringOrientation consumes the Layer 7 formulas.
+
+## Scope and ownership
+
+This roadmap owns, by layer:
+
+- **Layer 1.** Hilbert-space Fredholm connectors on top of the native Fredholm API: the
+  orthogonal Fredholm package, the norm-continuous triangular normal form near a Fredholm map
+  and the transverse-subspace lemma, the six-term snake sequence for Fredholm maps of split
+  exact Hilbert sequences, minimal compatibility conditions and the index-zero alternative, the
+  unitary logarithm and norm-path connectedness of `GL(H)`, and the classification of Fredholm
+  maps between complex Hilbert spaces up to norm paths by their index.
+- **Layer 2.** Compactly supported symbol classes on cotangent bundles, their representation by
+  homogeneous elliptic symbols, the analytic index `ind_a : K_c(T*M) → ℤ`, analytic excision,
+  local difference classes, the operator cut-and-paste index theorem, and the norm closure of the
+  order-zero classical algebra with its symbol exact sequence.
+- **Layer 3.** The normal complex structure on the tangent map of an embedding, the cotangent
+  pushforward `f_!^T`, the topological index `ind_t`, equivariant embeddings in representations,
+  the equivariant topological index and the uniqueness of normalized index assignments.
+- **Layer 4.** The equivariant analytic index of Fredholm intertwiners and of invariant symbols,
+  equivariant excision, external products, and the fixed associated-fibre product theorem with
+  its explicitly built operator realization.
+- **Layer 5.** The representation-valued de Rham index of a sphere, the O(1), SO(2) and O(n)
+  Bott index computations, embedding invariance of the analytic index and the Atiyah–Singer
+  equality `ind_a = ind_t`, ordinary and equivariant.
+- **Layer 6.** The cohomological index formula on the canonically oriented cotangent bundle and
+  the universal symbol calculations that turn it into characteristic-class formulas.
+- **Layer 7.** The index-theoretic applications: the de Rham operator, the signature operator
+  and Hirzebruch's theorem, Hirzebruch–Riemann–Roch for the Dolbeault operator, Riemann–Roch on
+  compact Riemann surfaces, the twisted spin Dirac formula with `8 · ind D⁺ = −σ(M)`,
+  `σ(M) = −16α` and Rokhlin's theorem, and vanishing in odd dimensions.
+- **Layer 8.** The holomorphic Lefschetz fixed-map formula for a holomorphic self-map with
+  nondegenerate fixed points and a holomorphic bundle lift.
+
+It leaves to other roadmaps, by section:
+
+- Atkinson's theorem, in rectangular form between two Hilbert spaces, and the Calkin-algebra
+  reading of the index: **OperatorKTheory** K4.1 (`isFredholm_iff_exists_isCompactOperator_comp_sub_one`).
+  The KK product, the universal coefficient theorem and general variable-fibre families index
+  theory are OperatorKTheory's in its own scope; the symbol-index API here uses none of them.
+- The compact ideal and the Calkin algebra of a Hilbert space, closed star ideals, C*-quotients
+  and spectral permanence: **CStarAlgebras** C1.3 and C1.6. The ℂ specialization of module
+  compact operators and the continuous-section C*-algebra of a Hermitian endomorphism bundle:
+  **HilbertModules** H2 and H5.
+- Hilbert dimension, its basis independence and the unitary classification of Hilbert spaces by
+  it: **BanachSpaceTheory** B5.
+- The index `−1` of the forward shift on the Hardy space and the winding-number index formula
+  for continuous Toeplitz symbols: **OperatorTheory/ToeplitzOperators** T3.
+- The identity `⟨e(TM),[M]⟩ = χ(M)` on closed oriented manifolds: **CharacteristicClasses** C2
+  item 3. Layer 7.1 proves only the index statements and the symbol evaluation.
+- The smooth classification of compact surfaces: **GeometricTopology**, under the contract
+  `gap:smooth-surface-classification` of the supplier contracts. Layer 7.4 consumes it for the
+  diffeomorphism between a model surface and a Riemann surface of the same genus.
+- Equivariant Thom isomorphisms in K-theory, proved by projective-family stabilization
+  independently of index theory, and the sphere Koszul reflection homotopy: **TopologicalKTheory**
+  T6 and T7.5.
+- The pseudodifferential calculus, Sobolev mapping estimates, elliptic parametrices, positive
+  powers, product indices and common-order elliptic-complex Hodge theory:
+  **PseudodifferentialOperators** P1–P7. No second calculus is built here.
+- Static Laplace-type Hodge theory, Serre duality and the projective examples:
+  **ComplexKahlerGeometry** K5, K5a and K7.
+- Spin structures, spinor bundles, chiral Dirac operators, Lichnerowicz and the untwisted
+  four-dimensional quaternionic kernel symmetry: **SpinGeometry** G1–G6 and G6.7.
+- The flag-variety and word-space specializations of the holomorphic Lefschetz formula:
+  **SchubertGeometry**.
+- The KO-genus and Atiyah–Bott–Shapiro orientation comparison: **TangentialBordism**, which
+  consumes Layers 7.2 and 7.5.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`,
+  `IsFredholm.fredholmPackage`, `isFredholm_iff_exists_isQuasiInverse` and
+  `LinearMap.IsQuasiInverse` (`Analysis/Normed/Operator/Fredholm/Basic.lean`); a quasi-inverse is
+  an inverse modulo maps of finite rank, not modulo compact maps. `IsFredholm.index_comp`,
+  `IsFredholm.add_hasFiniteRange` (same file).
+- `FredholmPackage.eventually_nhds_isInvertible`, `isOpen_setOfPred_isFredholm`,
+  `IsFredholm.eventually_nhds_index_eq` and `index_continuousOn_isFredholm`
+  (`Analysis/Normed/Operator/Fredholm/Open.lean`): openness of the Fredholm locus and local
+  constancy of the index between Banach spaces.
+- `LinearMap.index`, `LinearMap.index_eq_finrank_sub`, `LinearMap.index_smul`
+  (`Algebra/Module/LinearMap/Index.lean`).
+- `Ring.inverse`, `NormedRing.inverse_continuousAt`; `CStarRing.norm_one`
+  (`Analysis/CStarAlgebra/Basic.lean`): the unit of a nontrivial C*-ring has norm one.
+- `selfAdjoint.expUnitary` (`Analysis/CStarAlgebra/Exponential.lean`): `exp(iA)` as a unitary of
+  a unital C*-algebra for self-adjoint A, through `NormedSpace.exp` and
+  `NormedSpace.exp_mem_unitary_of_mem_skewAdjoint` (`Analysis/Normed/Algebra/Exponential.lean`).
+  `Unitary.argSelfAdjoint`, `selfAdjoint.expUnitaryPathToOne`, `selfAdjoint.joined_one_expUnitary`,
+  `Unitary.joined` and `Unitary.mem_pathComponentOne_iff`
+  (`Analysis/CStarAlgebra/Unitary/Connected.lean`): the
+  principal argument of a unitary through the continuous functional calculus (it is `0` when the
+  principal argument is not continuous on the spectrum, as for the bilateral shift, and `π` on
+  `U = −1`), the path `t ↦ expUnitary (t • A)` from `1` to `expUnitary A`, a path between
+  unitaries at distance less than 2, and the path component of `1` as the finite products of
+  exponentials of self-adjoint elements.
+- `CategoryTheory.ShortComplex.SnakeInput` and `SnakeInput.snake_lemma`, on `ModuleCat ℂ`.
+- `HilbertBasis`, `Path`, `IsCompactOperator`, `FiberBundle`, `VectorBundle`,
+  `ContMDiffVectorBundle`, `TangentSpace`.
+
+### From Tau Ceti
+
+- `ContinuousLinearMap.index`, `ContinuousLinearMap.index_def`, `index_prodMap`, `index_smul`,
+  `index_of_injective`, `index_eq_of_finiteDimensional`,
+  `bijective_of_surjective_of_index_eq_zero`, `index_restrictScalars_real`
+  (`TauCeti/Topology/Algebra/Module/ContinuousLinearMap/Index.lean`), and `index_equiv_comp`,
+  `index_comp_equiv` (`TauCeti/Algebra/Module/LinearMap/Index.lean`).
+- `ContinuousLinearMap.IsFredholm.restrictScalars`
+  (`TauCeti/Analysis/Fredholm/Basic.lean`): the realification of a complex Fredholm map is
+  Fredholm, and its index is twice the complex index.
+- `ContinuousLinearMap.range_adjoint_eq_orthogonal_ker_of_isClosed_range`,
+  `isClosed_range_adjoint_of_isClosed_range`, `cokerEquivKerAdjoint`, `index_adjoint`
+  (`TauCeti/Analysis/Fredholm/Adjoint.lean`).
+- `ContinuousLinearMap.isClosed_range_of_finite_coker`, `IsFredholm.of_finite_ker_coker`
+  (`TauCeti/Analysis/Fredholm/ClosedRange.lean`): between Banach spaces, finite-dimensional
+  kernel and cokernel give a Fredholm map.
+- `ContinuousLinearMap.index_add_of_isCompactOperator`, `TauCeti.isFredholm_one_sub`
+  (`TauCeti/Analysis/Fredholm/CompactPerturbation.lean`);
+  `ContinuousLinearMap.index_add_of_hasFiniteRange` (`TauCeti/Analysis/Fredholm/FiniteRank.lean`);
+  `ContinuousLinearMap.index_eq_zero_of_isSelfAdjoint` (`TauCeti/Analysis/Fredholm/SelfAdjoint.lean`);
+  `Path.index_eq` (`TauCeti/Analysis/Fredholm/ContinuousFamily.lean`): the endpoints of a
+  continuous Fredholm path have equal index.
+
+### From TauCetiRoadmap.OperatorTheory
+
+OperatorIdeals OI-A25–A30 (compact approximation and adjoints); PolarDecomposition (Hilbert polar
+decomposition); SelfAdjointSpectralTheory Part B (bounded Borel calculus with its
+partial-operator and adjoint conventions); ToeplitzOperators T3 (`index(T_a) = −wind(a,0)` for
+continuous nonvanishing symbols, so the forward Hardy shift has index −1; its circle is
+`UnitAddCircle` with `e_n = exp(2πint)`, matched here by `x = 2πt`).
+
+### From TauCetiRoadmap.CStarAlgebras, HilbertModules and OperatorKTheory
+
+CStarAlgebras C1.3 (closed star ideals, C*-quotients and spectral permanence for C*-subalgebras)
+and C1.6 (the compact ideal and the Calkin algebra `B(H)/K(H)`). HilbertModules H2 (the ℂ
+specialization and the rank-one/compact comparison) and H5 (the continuous-section C*-algebra of
+a finite-rank Hermitian endomorphism bundle). OperatorKTheory K4.1: a bounded map `T : H₀ → H₁`
+of complex Hilbert spaces is Fredholm exactly when some bounded `S : H₁ → H₀` makes `ST − 1` and
+`TS − 1` compact, and for `H₀ = H₁` this is invertibility in the Calkin algebra.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+B5: the Hilbert dimension of a complete inner-product space, the cardinality of any Hilbert basis
+(`hilbertBasis_lift_mk_eq`), and the unitary classification
+`nonempty_linearIsometryEquiv_iff_lift_mk_eq`. It is not the Hamel rank.
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+[B1–B4 and B6](../SmoothBundlesConnections/README.md): smooth bundle morphisms, metrics, L²
+sections, frame, principal and associated bundles, compatible connections and B6's line cocycle
+and curvature normalization.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+[K1–K2 and K4–K7](../ComplexKahlerGeometry/README.md): complex, type and Dolbeault calculus and
+the sheaf comparison; K5a's shared all-real compact-bundle `H^s` Hilbert and distribution scale
+with Rellich compactness; real de Rham and complex Dolbeault Hodge theory and Serre duality (K5);
+the projective, torus and closed-surface examples, the closed-surface CW model and the
+genus/Betti/Dolbeault dictionary (K7). K5's static Laplace theory is independent of the index
+theorem.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+[P1–P7](../PseudodifferentialOperators/README.md): differential and jet symbols, the classical
+calculus and continuous quantization (P1–P4, including P4.2's square partition), all-order and
+Fourier–Schur estimates and the seminorm/Bochner topology comparison (P5), parametrices and
+Fredholmness (P6), and P7's elliptic powers and change of order, graded external products with
+their Hilbert-tensor and kernel comparison, the equivariant virtual kernel class with its local
+constancy and homotopy theorem, and common-order elliptic-complex Hodge theory.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+[T1–T6 and T7.5](../TopologicalKTheory/README.md): the finite-rank bundle category and its
+homotopy classification (T1), relative triples retaining σ, compact supports, exact and
+Mayer–Vietoris sequences (T3), smoothing, complex Bott periodicity and Thom classes (T4–T5, with
+T5.4–T5.5's complex-normal pushforward), the compact-Lie representation ring and its
+continuous-representation SplitK0 ring, equivariant descent, the strongly continuous
+continuous-section and L²-section actions and the finite equivariant embedding of a G-bundle
+over a compact base, associated products and associated Koszul/folding naturality (T6, including
+T6.1, T6.2, T6.8 and T6.9), and the sphere Koszul reflection homotopy (T7.5). The G-finite density
+theorem that T6.1 applies is consumed here from CompactGroups under the same contract,
+`gap:banach-gfinite-density`.
+
+### From TauCetiRoadmap.CharacteristicClasses, AlgebraicTopology and DifferentialGeometry
+
+[CharacteristicClasses C1–C7](../CharacteristicClasses/README.md): local-coefficient
+orientations, compactly supported Thom and Gysin maps, finite-dimensional evaluation, the
+Chern character and its Thom correction (C6), Chern, Pontryagin, Euler and Stiefel–Whitney
+classes with C1.4–C1.6's line-bundle classification and smoothing, C2 item 3's Euler identity,
+C2.5's compact-stage general position, universal rings and Todd, L and Â classes. Ordinary
+cohomology, cup products and excision come from [AlgebraicTopology Stages 6 and
+8](../AlgebraicTopology/README.md); de Rham cohomology, Poincaré duality and integration from
+[DifferentialGeometry](../DifferentialGeometry/README.md).
+
+### From TauCetiRoadmap.GeometricTopology and HopfRinow
+
+[GeometricTopology](../GeometricTopology/README.md) Layer 1 (smooth collars, gluing along the
+boundary, tubular neighbourhoods and the normal bundle) and Layer 3 (diffeomorphism groups and
+isotopy extension). What GeometricTopology must provide (gap:smooth-surface-classification): the
+smooth classification of compact surfaces, that every compact connected smooth surface is
+diffeomorphic to exactly one standard model (the orientable surface of genus g with b boundary
+components, or the non-orientable one with k ≥ 1 crosscaps and b boundary components), with
+`rank H₁(F; ℚ) = 2g` for a closed orientable surface F of genus g.
+[HopfRinow Layer 1](../../Completed/HopfRinow/README.md): the Levi-Civita connection.
+
+### From TauCetiRoadmap.RepresentationTheory
+
+[CompactGroups](../RepresentationTheory/CompactGroups/README.md), [LieGroups
+Layer 6](../RepresentationTheory/LieGroups/README.md) and
+[ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): Haar averaging, continuous
+finite-dimensional representations, Peter–Weyl and character detection, and connected compact
+torus theory. What CompactGroups must provide (gap:banach-gfinite-density): for a compact
+Hausdorff group acting on a complex Banach space by continuous linear automorphisms whose orbit
+maps are continuous, the G-finite vectors (those with finite-dimensional orbit span) are dense;
+this is the contract that TopologicalKTheory T6.1 consumes for its section actions.
+
+### From TauCetiRoadmap.SpinGeometry
+
+[G1–G6](../SpinGeometry/README.md): negative-metric Clifford modules, the Γ/Hodge-star dictionary
+(G2), spin structures, spinors and half-spin roots (G5), chiral Dirac operators, Lichnerowicz and
+the exported compact-support symbol class (G6); G6.7's untwisted four-dimensional quaternionic
+kernels with complex index `2α`. The numerical index formulae are proved here.
 
 ## References
 

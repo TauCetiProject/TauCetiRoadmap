@@ -1,161 +1,100 @@
 # Roadmap: algebraic vector bundles
 
-**Summary.** This roadmap builds the pullback theory of module sheaves along morphisms of ringed
-spaces, and the determinant of extensions of vector bundles on schemes, on top of Tau Ceti's oplax
-monoidal module pullback, its power and internal-Hom comparisons and its determinant at locally
-constant rank. It computes the stalks of a pulled-back module and of symmetric and exterior powers;
-it makes pullback strong symmetric monoidal on all module sheaves, proves that flat pullback is
-exact and that flat pullback commutes with internal Hom from a finitely presented source into an
-arbitrary target, and proves that symmetric and exterior powers commute with pullback for every
-module sheaf; it constructs the determinant of a short exact sequence of finite locally free
-sheaves, with the direct sum and its Koszul sign as the split case; it compares the sheaf
-determinant on affine opens with the graded-line determinant of PadicMeasuresIwasawaAlgebras §5.1;
-and it recognises linear schemes among module schemes over `𝔸¹_X`. Its end theorems are
+**Summary.** A morphism of ringed spaces `f : Y → X` pulls an `𝒪_X`-module `G` back to an
+`𝒪_Y`-module `f^* G`, and on stalks this is extension of scalars along the maps of local rings
+`𝒪_{X,f(y)} → 𝒪_{Y,y}`. From this computation, the roadmap shows that pullback commutes with
+tensor products, with symmetric and exterior powers and, along flat morphisms, with internal Hom
+out of a finitely presented module. On schemes it then constructs the determinant of a short exact
+sequence of vector bundles, and it recognises linear schemes among module schemes over the affine
+line. No separatedness, Noetherian or finiteness hypothesis is standing on the schemes.
 
-```text
-f^*(E ⊗ F) ≅ f^* E ⊗ f^* F            every morphism of ringed spaces f : Y → X, all 𝒪_X-modules E, F,
-f^* Hom(M, N) ≅ Hom(f^* M, f^* N)     f flat, M finitely presented, N arbitrary,
-f^* Symⁿ M ≅ Symⁿ f^* M,  f^* ∧ⁿ M ≅ ∧ⁿ f^* M     every f and every module sheaf M,
-det E′ ⊗ det E″ ≅ det E                every short exact sequence 0 → E′ → E → E″ → 0 of vector bundles,
-det(E ⊕ F) ≅ det E ⊗ det F             the swap of summands acting by (−1)^(rank E · rank F),
-```
+The first main theorem says that pullback preserves tensor products. For every morphism of ringed
+spaces `f : Y → X` and all `𝒪_X`-modules `E` and `F`, the natural map `f^*(E ⊗ F) → f^*E ⊗ f^*F`
+is an isomorphism, with no flatness or quasi-coherence assumed. So pullback is strong symmetric
+monoidal on all module sheaves. In the same generality, pullback commutes with the symmetric
+powers `Symⁿ` and the exterior powers `∧ⁿ` of every module sheaf.
 
-together with the identification, on an affine open, of the determinant with the graded-line
-determinant of PadicMeasuresIwasawaAlgebras §5.1, and the recognition of linear schemes as the
-module schemes over `𝔸¹_X` whose coordinate algebra is free in degree one.
+The second concerns flat morphisms, those whose maps of local rings are all flat. Pullback along a
+flat morphism is exact on all module sheaves. If moreover `M` is finitely presented, the natural map
+`f^* Hom(M, N) → Hom(f^*M, f^*N)` is an isomorphism for every `𝒪_X`-module `N`, quasi-coherent or
+not. Examples in the layer show that neither hypothesis can be dropped.
 
-## Scope and ownership
+The third is about determinants. A finite locally free sheaf `E` on a scheme has a locally constant
+rank, and its determinant `det E` is the invertible sheaf equal to `∧ⁿ E` where the rank is `n`.
+For a short exact sequence `0 → E′ → E → E″ → 0` with `E′` and `E″` finite locally free, the
+roadmap constructs an isomorphism `det E′ ⊗ det E″ ≅ det E`. Locally it wedges a basis of `E′` with
+lifts to `E` of a basis of `E″`, the subsheaf first. In particular, the class of `det E` in the
+Picard group is the product of the classes of `det E′` and `det E″`. For the non-split Euler
+sequence on `ℙ¹_k`, it identifies `𝒪(−1) ⊗ 𝒪(1)` with `det 𝒪² = 𝒪`. For a direct sum, the
+isomorphism `det(E ⊕ F) ≅ det E ⊗ det F` commutes with exchanging the summands only up to the
+locally constant sign `(−1)^(rank E · rank F)`.
 
-The roadmap owns:
+The fourth recognises linear schemes. A module scheme over `𝔸¹_X` is a commutative group scheme
+over `X` with an action of the multiplicative monoid `𝔸¹_X` distributing over both additions. When
+the scheme is affine, the action grades its algebra of functions `A` by weight. A linear scheme,
+such as `Spec_X Sym F` for quasi-coherent `F`, is an affine scheme over `X` with a grading of its
+algebra of functions freely generated in degree one. The theorem says that an affine module scheme
+for which the natural map `Sym(A₁) → A` is an isomorphism is a linear scheme, and that this gives
+an equivalence between such module schemes and linear schemes. The module scheme `α_p` over `𝔽_p`
+is not linear, so the condition is needed.
 
-- the stalk `(f^* G)_y = 𝒪_{Y,y} ⊗ G_{f(y)}` of a pulled-back module and the strong symmetric
-  monoidal structure on module pullback over all module sheaves, with its identity and composition
-  coherences, for every morphism of ringed spaces (Layer 1);
-- exactness of pullback along a flat morphism of ringed spaces on all module sheaves, finite
-  presentation of the pullback of a finitely presented module along every morphism of ringed
-  spaces, the internal-Hom base-change comparison for every morphism of ringed spaces, and its
-  invertibility along flat morphisms from a finitely presented source into an arbitrary target
-  (Layer 2);
-- the stalks of sheaf symmetric and exterior powers, and the invertibility of the pullback
-  comparisons of these powers at every module sheaf, for every morphism of ringed spaces, with their
-  degree-zero and multiplicative compatibilities, and the exterior multiplication
-  `∧ᵃ M ⊗ ∧ᵇ M → ∧ᵃ⁺ᵇ M` on `X.Modules` (Layer 3);
-- the determinant of a short exact sequence of finite locally free sheaves on a scheme, with its
-  naturality, associativity and pullback compatibility, the direct sum with its Koszul sign as the
-  split case, and the comparison on affine opens of the sheaf determinant with the ring-level
-  determinant of PadicMeasuresIwasawaAlgebras §5.1 as graded lines (Layer 3);
-- the weight grading of an affine scheme with an action of the multiplicative monoid `𝔸¹_X`, and
-  the recognition of linear schemes among module schemes over `𝔸¹_X` (Layer 4).
+The roadmap builds on Tau Ceti's results on schemes, which prove these comparisons invertible under
+quasi-coherence hypotheses that the theorems above drop. PadicMeasuresIwasawaAlgebras provides the
+determinant of a finite projective module as a graded line, an invertible module with a locally
+constant parity in `ℤ/2`; on affine opens the roadmap identifies the sheaf determinant with it.
+SchemeAndStackFoundations builds its Grothendieck group of finite locally free sheaves, and its
+determinant there, on this roadmap. KTheoryLowDegrees takes the determinant of a short exact
+sequence from here. AdicSpacesPartIII uses the first two layers on formal schemes and adic spaces.
 
-Already at the pins, and consumed rather than restated (Tau Ceti at `2fd255d9`; paths relative
-to `TauCeti/AlgebraicGeometry/`):
+Layer 1 computes the stalks of a pulled-back module and proves the tensor theorem. Layer 2 proves
+exactness of flat pullback and the base change of internal Hom. Layer 3 treats powers and the
+determinant of an extension, and Layer 4 proves the recognition theorem. Layers 2 and 3 build on
+Layer 1; Layer 4 is independent of the others. The section that follows lists the labels under
+which other roadmaps cite this one.
 
-- for module sheaves on a topological space, in `TauCeti/Algebra/Category/ModuleCat/Sheaf/`: the
-  oplax monoidal structure `TauCeti.SheafOfModules.pullbackOplaxMonoidal` of module pullback along
-  any continuous functor of sites, with its unit, symmetry and composition laws
-  (TensorProduct/Pushforward.lean); stalks of tensor products `TauCeti.SheafOfModules.tensorStalkEquiv`
-  (TensorProduct/Stalk.lean); stalks of internal Hom from a finitely presented source
-  `SheafOfModules.ihomStalkEquiv` (InternalHom/FinitePresentation.lean); and the pullback
-  comparisons of powers for any adjunction with pushforward,
-  `TauCeti.SheafOfModules.pullbackSymmetricPowerComparison` and
-  `TauCeti.SheafOfModules.pullbackExteriorPowerComparison` (SymmetricPower/Pullback.lean,
-  ExteriorPower/Pullback.lean);
-- the monoidal, symmetric and closed structures on `X.Modules` (Modules/TensorProduct.lean); the
-  oplax monoidal pullback with invertible tensor comparison when one factor is quasi-coherent,
-  `Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and
-  `Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right` (Modules/Pullback/Quasicoherent.lean),
-  and the strong symmetric monoidal pullback of quasi-coherent sheaves
-  `QuasicoherentSheaf.pullbackBraided` (Modules/Pullback/Monoidal/Basic.lean);
-- the dualizability criterion on every scheme,
-  `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree` and
-  `QuasicoherentSheaf.nonempty_hasRightDual_iff_isFiniteLocallyFree`
-  (VectorBundle/Dual/Dualizable.lean);
-- quasi-coherence of internal Hom from a finitely presented source,
-  `isQuasicoherent_ihom_of_isFinitePresentation` (Modules/InternalHom/Quasicoherent.lean); the
-  base-change comparison `pullbackIhomComparison` for a quasi-coherent source
-  (Modules/Pullback/InternalHom/Basic.lean); its invertibility for a finite locally free source
-  and any target and morphism, `FiniteLocallyFreeSheaf.isIso_pullbackIhomComparison`
-  (VectorBundle/InternalHom/Pullback.lean), and for a flat morphism, a finitely presented source
-  and a quasi-coherent target, `Scheme.Hom.isIso_pullbackIhomComparison_app`
-  (Modules/Pullback/InternalHom/Flat.lean); `Hom(E, 𝒪_X) ⊗ N ≅ Hom(E, N)` for locally free `E` of
-  finite type, `Scheme.Modules.isIso_dualTensorIhom_of_isLocallyFree` (Modules/Dual.lean);
-- the ranks of powers of a finite locally free `E` at a point `x`, the simp lemmas
-  `rank_symmetricPower_apply`, rank `(E.rank x).multichoose n` for `Symⁿ E`, and
-  `rank_exteriorPower_apply`, rank `(E.rank x).choose n` for `∧ⁿ E`, both in Tau Ceti's namespace
-  `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf` (VectorBundle/SymmetricPower/Basic.lean,
-  VectorBundle/ExteriorPower/Basic.lean); the canonical comparisons
-  `Scheme.Modules.pullbackSymmetricPowerComparison` and
-  `Scheme.Modules.pullbackExteriorPowerComparison` on all modules
-  (Modules/SymmetricPower/Pullback/Basic.lean, Modules/ExteriorPower/Pullback/Basic.lean), their
-  identity and composition coherences `pullbackSymmetricPowerComparison_comp` and
-  `pullbackExteriorPowerComparison_comp` (…/Pullback/Coherence.lean), and their invertibility at
-  quasi-coherent modules, `isIso_pullbackSymmetricPowerComparison_app` and
-  `isIso_pullbackExteriorPowerComparison_app` (…/Pullback/Quasicoherent.lean);
-- the determinant `FiniteLocallyFreeSheaf.det` at locally constant rank, its functoriality on the
-  core `FiniteLocallyFreeSheaf.determinantCore` and its agreement
-  `FiniteLocallyFreeSheaf.detIsoDeterminant` with the fixed-rank functor
-  (VectorBundle/Determinant/LocallyConstantRank.lean), the fixed-rank functor
-  `FiniteLocallyFreeSheaf.determinant` (VectorBundle/Determinant/Basic.lean), the pullback
-  comparison `FiniteLocallyFreeSheaf.pullbackDetIso` of `det` at locally constant rank and the
-  fixed-rank comparison `FiniteLocallyFreeSheaf.pullbackDeterminantIso`
-  (VectorBundle/Determinant/Pullback.lean); the Picard group `LineBundleClass` with
-  `LineBundleClass.mk` (LineBundle/Class.lean); and, over a ring, the wedge product
-  `TauCeti.exteriorPower.wedgeTensor : ⋀ᵖ M ⊗ ⋀^q N → ⋀ⁿ (M × N)` and, over a field, the
-  isomorphism `TauCeti.exteriorPower.shortExactEquiv` of a short exact sequence
-  (TauCeti/LinearAlgebra/ExteriorPower/Prod.lean, ShortExact.lean);
-- relative Spec: the coordinate-algebra functor `affineFunctions` (RelativeSpec/AffineFunctions.lean),
-  pullback of quasi-coherent algebras `QuasicoherentAlgebra.pullback` with its adjunction
-  `QuasicoherentAlgebra.pullbackHomEquiv` (RelativeSpec/PullbackAlgebra.lean), the functor of
-  points `relativeSpecHomIso` and `relativeSpecPullbackHomEquiv` (RelativeSpec/UniversalProperty.lean),
-  the anti-equivalence `relativeSpecEquiv` (RelativeSpec/Equivalence.lean), and base change
-  `relativeSpecBaseChangeIso` with its composition law `relativeSpecPullbackIso_comp`
-  (RelativeSpec/BaseChange.lean);
-- graded quasi-coherent algebras `GradedQuasicoherentAlgebra`
-  (Modules/Quasicoherent/GradedAlgebra/Basic.lean), the graded symmetric algebra
-  `gradedSymmetricAlgebra` and its adjunction `gradedSymmetricAlgebraAdjunction` with the degree-one
-  functor (…/GradedAlgebra/SymmetricAlgebra/), the algebras free in degree one
-  `FreeGradedQuasicoherentAlgebra` and `gradedSymmetricAlgebraEquiv` (…/GradedAlgebra/Free.lean),
-  and the affine graded-ring charts `CommMon.isLocalization_gradedSections_basicOpen` and
-  `CommMon.isBaseChange_restrictGradedSections` (Modules/GradedAlgebra/Localization.lean, with the
-  affine-restriction case in Modules/GradedAlgebra/AffineRestriction.lean);
-- graded relative Spec `gradedRelativeSpecEquiv` on `GradedAffineSchemeOver X`
-  (RelativeSpec/Graded.lean); linear schemes `QuasicoherentLinearScheme`, `linearSpec` and the
-  equivalence `linearSpecEquiv` (VectorBundle/LinearScheme.lean) with base change
-  `QuasicoherentLinearScheme.pullback` (VectorBundle/LinearScheme/BaseChange.lean); the zero,
-  addition and scalar multiplication of `Spec_X Sym F`, `addGrpObjRelativeSpecSymmetricAlgebra`
-  and `modObjRelativeSpecSymmetricAlgebra` (RelativeSpec/SymmetricAlgebra/Group.lean,
-  RelativeSpec/SymmetricAlgebra/Module.lean);
-- geometric vector bundles `GeometricVectorBundle`, the total space `totalSpace` and the
-  equivalence `totalSpaceEquiv` (VectorBundle/Geometric.lean); `totalSpaceScheme`, the
-  section-valued universal property `totalSpaceHomEquiv` and base change
-  `totalSpaceSchemeBaseChangeIso` (VectorBundle/TotalSpace.lean), naturality in the test scheme
-  `totalSpaceHomIso` (VectorBundle/TotalSpace/FunctorOfPoints.lean), global sections
-  `totalSpaceSectionEquiv` (VectorBundle/Sections.lean), and the dictionary in
-  VectorBundle/TotalSpace/: direct sums `totalSpaceSchemeBiprodIso`, zero and addition
-  `totalSpaceHomAddEquiv`, fibres `totalSpaceBaseChangeSpecIso` and `totalSpaceFiberIso`, tensor
-  products `totalSpaceTensorHomEquiv`, internal Hom and duals `totalSpaceIhomHomEquiv` and
-  `totalSpaceDualHomEquiv`, powers `totalSpaceSymmetricPowerHomEquiv` and
-  `totalSpaceExteriorPowerHomEquiv`, the determinant `totalSpaceDeterminantHomEquiv`, and the
-  trivial line bundle `totalSpaceTrivialIso`;
-- closure of quasi-coherent sheaves under kernels, `Scheme.Modules.isQuasicoherent_kernel`
-  (Modules/Quasicoherent/Kernels.lean), and under pushforward along quasi-compact quasi-separated
-  morphisms, `Scheme.Modules.isQuasicoherent_pushforward`
-  (Modules/Quasicoherent/Pushforward/QuasiSeparated.lean).
+## How to read the build
 
-Four names are declared under this roadmap's namespace for its consumers: `isFiniteLocallyFree`
-and `FiniteLocallyFreeSheaf` are the Tau Ceti notions under this roadmap's name,
-`isFiniteLocallyFreeOfRank X r` is Tau Ceti's `FiniteLocallyFreeSheaf.isConstantRank X r`
-(VectorBundle/FixedRank.lean) read on `X.Modules`, so that `E` satisfies it exactly when `E` is
-finite locally free and the bundled sheaf has rank `r` at every point, and `determinantObj` is
-Tau Ceti's `FiniteLocallyFreeSheaf.det`; SchemeAndStackFoundations builds its Grothendieck group
-of finite locally free sheaves and its determinant on them.
+Other roadmaps cite this roadmap by the labels L0A–L2B; each resolves as follows, one line per
+label, with Tau Ceti paths relative to `TauCeti/AlgebraicGeometry/`:
 
-The ring-level determinant of a finite projective module (invertible modules, the determinant by
-the clopen rank decomposition, equal-rank determinant maps, base change, graded lines) is
-PadicMeasuresIwasawaAlgebras §5.1; Layer 3 compares the sheaf determinant with it on affine
-opens. The rank-one theory, Picard group and Jacobian are JacobianChallenge's. Curve-specific
-degree theory is AlgebraicCurves'. Relative Proj is StableReduction's and
-SchemeAndStackFoundations', consuming Tau Ceti's graded quasi-coherent algebras.
+- L0A (sheaves of modules) is Layer 1 for stalks of pullback and strong monoidal pullback; the
+  symmetric monoidal closed structure on `X.Modules` is Tau Ceti's Modules/TensorProduct.lean.
+- L0B (quasi-coherent and finite locally free sheaves) is Layer 2 for exactness of flat pullback,
+  finite presentation of pullback along morphisms of ringed spaces and flat base change of
+  internal Hom into an arbitrary target; the rest is Tau Ceti's
+  VectorBundle/ and Modules/InternalHom/, Modules/Pullback/InternalHom/, as listed under Scope and
+  ownership.
+- L0C (polynomial operations) is Layer 3; ranks, the determinant and its functoriality and pullback
+  are Tau Ceti's VectorBundle/SymmetricPower/, VectorBundle/ExteriorPower/ and
+  VectorBundle/Determinant/.
+- L1A (relative Spec) is Tau Ceti's RelativeSpec/AffineFunctions.lean, RelativeSpec/PullbackAlgebra.lean
+  and RelativeSpec/UniversalProperty.lean; its `pullbackQuasicoherentAlgebra` is Tau Ceti's
+  `QuasicoherentAlgebra.pullback`.
+- L1B (the relative-Spec anti-equivalence) is Tau Ceti's RelativeSpec/Equivalence.lean and
+  RelativeSpec/BaseChange.lean.
+- L2A (structured linear schemes) is Layer 4 for the module-scheme recognition; graded algebras,
+  graded relative Spec and `QCoh(X)ᵒᵖ ≌ LinearSch(X)` are Tau Ceti's
+  Modules/Quasicoherent/GradedAlgebra/, Modules/GradedAlgebra/, RelativeSpec/Graded.lean and
+  VectorBundle/LinearScheme.lean; its `linearSpecScheme X` is Tau Ceti's `linearSpec X` followed by
+  `QuasicoherentLinearScheme.forget X`.
+- L2B (geometric vector bundles) is Tau Ceti's VectorBundle/Geometric.lean,
+  VectorBundle/TotalSpace.lean, VectorBundle/TotalSpace/ and VectorBundle/Sections.lean; its
+  `totalSpaceBaseChangeIso` is Tau Ceti's `totalSpaceSchemeBaseChangeIso`, on affine schemes over
+  the base.
+- L0, the union of L0A–L0C, is Layers 1–3.
+
+Layers 1–3 work along an arbitrary morphism of ringed spaces, with schemes as the instance the
+pinned comparisons are stated for. Layer 1 computes the stalks of a pulled-back module and makes
+pullback strong symmetric monoidal on all module sheaves. Layer 2 proves exactness of flat pullback
+on all module sheaves and finite presentation of pullback, constructs the internal-Hom base-change
+comparison and proves flat base change of internal Hom into an arbitrary target. Layer 3 computes
+the stalks of symmetric and exterior powers, proves that these powers commute with pullback on all
+module sheaves, constructs the exterior multiplication of sheaf exterior powers and, on schemes,
+the determinant of a short exact sequence of vector bundles, with the direct sum and its sign as the
+split case, and compares the sheaf determinant with the graded-line determinant on affine opens.
+Layer 4 constructs the weight grading of an affine scheme with an action of `𝔸¹_X` and recognises
+linear schemes among module schemes. The layers are independent of one another except where a
+`*Needs:*` line says otherwise.
 
 ## Conventions
 
@@ -218,172 +157,6 @@ SchemeAndStackFoundations', consuming Tau Ceti's graded quasi-coherent algebras.
   an affine `V` with such an action puts a function `a` in degree `n` when the coaction sends it to
   `a tⁿ`. Witness: for `𝔸¹_X = Spec_X 𝒪_X[t]` with `λ · v = λ v`, the coordinate `t` has weight
   `1`; for the action `λ · v = λ² v` it has weight `2`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At Mathlib `1b1ccf4b`:
-`Scheme.Modules`, `Scheme.Modules.pullback`, `Scheme.Modules.pushforward`,
-`Scheme.Modules.pullbackPushforwardAdjunction`, `Scheme.Modules.pullbackId` and
-`Scheme.Modules.pullbackComp` (Mathlib/AlgebraicGeometry/Modules/Sheaf.lean);
-`Scheme.Hom.toRingCatSheafHom` (Mathlib/AlgebraicGeometry/Modules/Presheaf.lean);
-`SheafOfModules.pullback`, `SheafOfModules.pushforward`,
-`SheafOfModules.pullbackPushforwardAdjunction`, `SheafOfModules.pullbackId`,
-`SheafOfModules.pullbackComp` and the description `SheafOfModules.pullbackIso` of pullback as the
-sheafified presheaf pullback (Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean);
-`SheafOfModules.Presentation.map`, a presentation carried along a colimit-preserving functor that
-preserves the unit, and `SheafOfModules.Presentation.ofIsIso`, one carried along an isomorphism
-(Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean); restriction to a slice site
-`SheafOfModules.overFunctor`, written `M.over V`, and its adjunction
-`SheafOfModules.overPushforwardOverAdj` with pushforward along `Over.star V`
-(Mathlib/Algebra/Category/ModuleCat/Sheaf/PushforwardContinuous.lean);
-`TopologicalSpace.Opens.overEquivalence : Over V ≌ Opens V` (Mathlib/Topology/Sheaves/Over.lean)
-and the induced equivalence `TopologicalSpace.Opens.sheafOfModulesEquivOver` of module sheaves
-over the slice with module sheaves on the open subspace, with
-`TopologicalSpace.Opens.sheafOfModulesEquivOverUnit` and
-`TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit` (Mathlib/Topology/Sheaves/Module.lean);
-uniqueness of adjoints `CategoryTheory.Adjunction.leftAdjointUniq`;
-`SheafOfModules.toSheaf`, faithful and preserving finite limits, and
-`CategoryTheory.ShortComplex.exact_map_iff_of_faithful`;
-`TopCat.Sheaf.exact_iff_stalkFunctor_map_exact` (Mathlib/Topology/Sheaves/Abelian.lean),
-exactness of a complex of sheaves on a space checked on stalks;
-`Functor.sheafPushforwardContinuous`, `TopologicalSpace.Opens.map`;
-`TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso` (Mathlib/Topology/Sheaves/Stalks.lean),
-invertibility of a morphism of sheaves on a space checked on stalks; `Module.FinitePresentation.isBaseChange_map`
-(Mathlib/Algebra/Module/FinitePresentation.lean), flat base change of linear maps out of a finitely
-presented module; `CategoryTheory.ShortComplex.ShortExact`; `SheafOfModules.IsQuasicoherent`,
-`SheafOfModules.IsFinitePresentation`, `SheafOfModules.IsLocallyFree`,
-`SheafOfModules.pullbackObjUnitToUnit`;
-`AlgebraicGeometry.Flat`, flatness of a morphism of schemes as flatness of its stalk maps;
-`AlgebraicGeometry.tilde` and `AlgebraicGeometry.tildeEquiv`; `IsAffineHom`, `AffineSpace`,
-`AffineSpace.homOverEquiv`; `Functor.OplaxMonoidal.δ`, `CommMon`, `MonObj`, `ModObj`, `AddGrpObj`,
-`GradedObject`, `HasLeftDual`, `ExactPairing`; `SymmetricAlgebra`, `Module.Basis.exteriorPower`,
-`LinearMap.det`, `Nat.multichoose`, and the wedge product of exterior powers
-`exteriorPower.wedge` (Mathlib/LinearAlgebra/ExteriorPower/WedgePairing.lean).
-`SheafOfModules.IsLocallyFree` alone allows infinite and chart-dependent index types; finite
-presentation is what makes it finite.
-
-### From Tau Ceti
-
-At Tau Ceti `2fd255d9`, besides the declarations listed under Scope and ownership:
-
-- monoidal structure: `Scheme.Modules.instMonoidalCategory`,
-  `Scheme.Modules.instSymmetricCategory`, `Scheme.Modules.instMonoidalClosed` and
-  `Scheme.Modules.isMonoidal_isQuasicoherent` (TauCeti/AlgebraicGeometry/Modules/TensorProduct.lean);
-- pullback: `Scheme.Modules.pullbackOplaxMonoidal`, its comparison `Functor.OplaxMonoidal.δ`, the
-  unit identification `Scheme.Modules.pullback_η` with `Scheme.Modules.pullbackObjUnitIso`, the
-  symmetry law `Scheme.Modules.pullback_map_braiding_hom_comp_δ`, the composition law
-  `Scheme.Modules.pullback_comp_δ` and `Scheme.Modules.pullbackObjUnitIso_comp`, and locality of
-  invertibility `Scheme.Modules.isIso_iff_of_isOpenCover`
-  (TauCeti/AlgebraicGeometry/Modules/Pullback/Basic.lean); exactness of flat pullback between
-  quasi-coherent sheaves `Scheme.Hom.exact_map_pullback_of_flat` and
-  `Scheme.Hom.preservesKernel_pullback_of_flat` (TauCeti/AlgebraicGeometry/Modules/Pullback/Flat.lean);
-- module sheaves on a space: `TauCeti.SheafOfModules.ringCatSheaf`; the unit, tensor, symmetry and
-  composition laws of the oplax monoidal pullback, `TauCeti.SheafOfModules.pullback_η`,
-  `TauCeti.SheafOfModules.pullback_δ`, `TauCeti.SheafOfModules.pullback_map_braiding_hom_comp_δ`,
-  `TauCeti.SheafOfModules.pullback_comp_η` and `TauCeti.SheafOfModules.pullback_comp_δ`
-  (TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Pushforward.lean); the stalk module
-  `SheafOfModules.stalkModule` and the invariance of stalks under sheafification
-  `PresheafOfModules.sheafificationStalkEquiv` (…/Sheaf/Stalk.lean); exactness of forgetting the
-  module structure, `TauCeti.SheafOfModules.preservesFiniteColimits_toSheaf` (…/Sheaf/Exactness.lean);
-  sheafification as a braided monoidal functor, `TauCeti.SheafOfModules.sheafificationMonoidal`
-  and `TauCeti.SheafOfModules.sheafificationBraided` (…/Sheaf/TensorProduct/Monoidal.lean); scalar
-  extension of powers `IsBaseChange.symmetricPowerEquiv` and `IsBaseChange.exteriorPowerEquiv`
-  (TauCeti/LinearAlgebra/SymmetricAlgebra/Localization.lean,
-  TauCeti/LinearAlgebra/ExteriorPower/Localization.lean);
-- internal Hom: `pullbackIhomComparison`, its description `pullbackIhomComparison_app_eq_curry` as
-  the curry of the pulled-back evaluation after the inverse tensor comparison, its invertibility for
-  a source with a quasi-coherent dual `isIso_pullbackIhomComparison_of_exactPairing`
-  (TauCeti/AlgebraicGeometry/Modules/Pullback/InternalHom/Basic.lean),
-  `Scheme.Hom.isIso_pullbackIhomComparison_app` (…/InternalHom/Flat.lean), its restriction to opens
-  `Scheme.Opens.isIso_pullbackIhomComparison_app` (…/InternalHom/Restriction.lean) and its
-  composition criterion `Scheme.Hom.isIso_pullbackIhomComparison_app_comp_iff`
-  (…/InternalHom/Coherence.lean); finite presentation of a pullback
-  `Scheme.Modules.isFinitePresentation_pullback`, through pullback read on slice sites
-  `Scheme.Modules.pullbackOver` and its value `Scheme.Modules.pullbackOverObjIso` on `M.over V`
-  (Modules/Pullback/Basic.lean);
-- powers: `SheafOfModules.symmetricPower` and `SheafOfModules.exteriorPower`, the sheafifications of
-  the sectionwise powers, with `SheafOfModules.symmetricPowerZeroIso`,
-  `SheafOfModules.symmetricPowerOneIso`, `SheafOfModules.exteriorPowerZeroIso`,
-  `SheafOfModules.exteriorPowerOneIso`, the defining identification `SheafOfModules.exteriorPowerIso`,
-  the extensionality principle `TauCeti.SheafOfModules.exteriorPower_hom_ext` and the
-  multiplication `SheafOfModules.symmetricPowerMul`
-  (TauCeti/Algebra/Category/ModuleCat/Sheaf/SymmetricPower/, ExteriorPower/); the comparisons and
-  their degree-one laws `Scheme.Modules.pullbackSymmetricPowerComparison_app_comp_symmetricPowerOneIso`
-  and `Scheme.Modules.pullbackExteriorPowerComparison_app_comp_exteriorPowerOneIso`;
-- finite locally free sheaves and determinants: `Scheme.Modules.isFiniteLocallyFree`,
-  `FiniteLocallyFreeSheaf` with its finite biproducts, `FiniteLocallyFreeSheaf.free`,
-  `FiniteLocallyFreeSheaf.pullback`, `FiniteLocallyFreeSheaf.rank`,
-  `FiniteLocallyFreeSheaf.rankLocus`, `FiniteLocallyFreeSheaf.isConstantRank`,
-  `FiniteLocallyFreeSheaf.FixedRank`, `FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one`
-  (TauCeti/AlgebraicGeometry/VectorBundle/); `FiniteLocallyFreeSheaf.finiteProjectiveEquiv`, the
-  affine comparison with finite projective modules (VectorBundle/Affine/Basic.lean);
-  `SheafOfModules.isInvertible`, `InvertibleSheaf`, `InvertibleSheaf.tensorProduct`,
-  `InvertibleSheaf.tensorProductComm`, `InvertibleSheaf.fixedRankOneEquiv`,
-  `LineBundleClass.mk_eq_mk_iff` and `LineBundleClass.mk_tensorProduct`
-  (TauCeti/AlgebraicGeometry/LineBundle/);
-- linear schemes: `QuasicoherentLinearScheme`, `QuasicoherentLinearScheme.degreeOne`, `linearSpec`,
-  `linearSpecEquiv`, `GradedAffineSchemeOver`, `gradedSymmetricAlgebraAdjunction`,
-  `addGrpObjRelativeSpecSymmetricAlgebra` and `modObjRelativeSpecSymmetricAlgebra`, as listed under
-  Scope and ownership.
-
-Assumed: these carry the canonical instances above, so that the comparisons of Layers 1–3 are the
-pinned ones and not re-derived; on schemes, Tau Ceti's oplax structure and power comparisons are
-those of the ringed-space instance `f.base`, `f.toRingCatSheafHom`, definitionally.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-§5.1: the determinant of a finite projective module by its clopen rank decomposition, the
-determinant maps between finite projectives of equal rank function, their base change, and graded
-lines with the Koszul symmetry. On `Spec A` the determinant sheaf is the associated sheaf of the
-ring-level determinant, as graded lines: the comparison retains the rank function and its parity
-and is compatible with the equal-rank determinant maps, with affine pullback and with the Koszul
-symmetry of graded lines, and only then is the grading forgotten.
-
-## How to read the build
-
-Other roadmaps cite this roadmap by the labels L0A–L2B; each resolves as follows, one line per
-label, with Tau Ceti paths relative to `TauCeti/AlgebraicGeometry/`:
-
-- L0A (sheaves of modules) is Layer 1 for stalks of pullback and strong monoidal pullback; the
-  symmetric monoidal closed structure on `X.Modules` is Tau Ceti's Modules/TensorProduct.lean.
-- L0B (quasi-coherent and finite locally free sheaves) is Layer 2 for exactness of flat pullback,
-  finite presentation of pullback along morphisms of ringed spaces and flat base change of
-  internal Hom into an arbitrary target; the rest is Tau Ceti's
-  VectorBundle/ and Modules/InternalHom/, Modules/Pullback/InternalHom/, as listed under Scope and
-  ownership.
-- L0C (polynomial operations) is Layer 3; ranks, the determinant and its functoriality and pullback
-  are Tau Ceti's VectorBundle/SymmetricPower/, VectorBundle/ExteriorPower/ and
-  VectorBundle/Determinant/.
-- L1A (relative Spec) is Tau Ceti's RelativeSpec/AffineFunctions.lean, RelativeSpec/PullbackAlgebra.lean
-  and RelativeSpec/UniversalProperty.lean; its `pullbackQuasicoherentAlgebra` is Tau Ceti's
-  `QuasicoherentAlgebra.pullback`.
-- L1B (the relative-Spec anti-equivalence) is Tau Ceti's RelativeSpec/Equivalence.lean and
-  RelativeSpec/BaseChange.lean.
-- L2A (structured linear schemes) is Layer 4 for the module-scheme recognition; graded algebras,
-  graded relative Spec and `QCoh(X)ᵒᵖ ≌ LinearSch(X)` are Tau Ceti's
-  Modules/Quasicoherent/GradedAlgebra/, Modules/GradedAlgebra/, RelativeSpec/Graded.lean and
-  VectorBundle/LinearScheme.lean; its `linearSpecScheme X` is Tau Ceti's `linearSpec X` followed by
-  `QuasicoherentLinearScheme.forget X`.
-- L2B (geometric vector bundles) is Tau Ceti's VectorBundle/Geometric.lean,
-  VectorBundle/TotalSpace.lean, VectorBundle/TotalSpace/ and VectorBundle/Sections.lean; its
-  `totalSpaceBaseChangeIso` is Tau Ceti's `totalSpaceSchemeBaseChangeIso`, on affine schemes over
-  the base.
-- L0, the union of L0A–L0C, is Layers 1–3.
-
-Layers 1–3 work along an arbitrary morphism of ringed spaces, with schemes as the instance the
-pinned comparisons are stated for. Layer 1 computes the stalks of a pulled-back module and makes
-pullback strong symmetric monoidal on all module sheaves. Layer 2 proves exactness of flat pullback
-on all module sheaves and finite presentation of pullback, constructs the internal-Hom base-change
-comparison and proves flat base change of internal Hom into an arbitrary target. Layer 3 computes
-the stalks of symmetric and exterior powers, proves that these powers commute with pullback on all
-module sheaves, constructs the exterior multiplication of sheaf exterior powers and, on schemes,
-the determinant of a short exact sequence of vector bundles, with the direct sum and its sign as the
-split case, and compares the sheaf determinant with the graded-line determinant on affine opens.
-Layer 4 constructs the weight grading of an affine scheme with an action of `𝔸¹_X` and recognises
-linear schemes among module schemes. The layers are independent of one another except where a
-`*Needs:*` line says otherwise.
 
 ## Layer 1: pullback along morphisms of ringed spaces
 
@@ -867,6 +640,261 @@ and direct-sum compatibilities. GroebnerGeometry, StableReduction, NilpotentOrbi
 and SchubertGeometry cite this roadmap for finite locally free sheaves, graded algebras, relative
 Spec and total spaces, which are the Tau Ceti declarations listed under Scope and ownership; the
 label lines of How to read the build say where each label resolves.
+
+## Scope and ownership
+
+The roadmap owns:
+
+- the stalk `(f^* G)_y = 𝒪_{Y,y} ⊗ G_{f(y)}` of a pulled-back module and the strong symmetric
+  monoidal structure on module pullback over all module sheaves, with its identity and composition
+  coherences, for every morphism of ringed spaces (Layer 1);
+- exactness of pullback along a flat morphism of ringed spaces on all module sheaves, finite
+  presentation of the pullback of a finitely presented module along every morphism of ringed
+  spaces, the internal-Hom base-change comparison for every morphism of ringed spaces, and its
+  invertibility along flat morphisms from a finitely presented source into an arbitrary target
+  (Layer 2);
+- the stalks of sheaf symmetric and exterior powers, and the invertibility of the pullback
+  comparisons of these powers at every module sheaf, for every morphism of ringed spaces, with their
+  degree-zero and multiplicative compatibilities, and the exterior multiplication
+  `∧ᵃ M ⊗ ∧ᵇ M → ∧ᵃ⁺ᵇ M` on `X.Modules` (Layer 3);
+- the determinant of a short exact sequence of finite locally free sheaves on a scheme, with its
+  naturality, associativity and pullback compatibility, the direct sum with its Koszul sign as the
+  split case, and the comparison on affine opens of the sheaf determinant with the ring-level
+  determinant of PadicMeasuresIwasawaAlgebras §5.1 as graded lines (Layer 3);
+- the weight grading of an affine scheme with an action of the multiplicative monoid `𝔸¹_X`, and
+  the recognition of linear schemes among module schemes over `𝔸¹_X` (Layer 4).
+
+Already at the pins, and consumed rather than restated (Tau Ceti at `2fd255d9`; paths relative
+to `TauCeti/AlgebraicGeometry/`):
+
+- for module sheaves on a topological space, in `TauCeti/Algebra/Category/ModuleCat/Sheaf/`: the
+  oplax monoidal structure `TauCeti.SheafOfModules.pullbackOplaxMonoidal` of module pullback along
+  any continuous functor of sites, with its unit, symmetry and composition laws
+  (TensorProduct/Pushforward.lean); stalks of tensor products `TauCeti.SheafOfModules.tensorStalkEquiv`
+  (TensorProduct/Stalk.lean); stalks of internal Hom from a finitely presented source
+  `SheafOfModules.ihomStalkEquiv` (InternalHom/FinitePresentation.lean); and the pullback
+  comparisons of powers for any adjunction with pushforward,
+  `TauCeti.SheafOfModules.pullbackSymmetricPowerComparison` and
+  `TauCeti.SheafOfModules.pullbackExteriorPowerComparison` (SymmetricPower/Pullback.lean,
+  ExteriorPower/Pullback.lean);
+- the monoidal, symmetric and closed structures on `X.Modules` (Modules/TensorProduct.lean); the
+  oplax monoidal pullback with invertible tensor comparison when one factor is quasi-coherent,
+  `Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and
+  `Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right` (Modules/Pullback/Quasicoherent.lean),
+  and the strong symmetric monoidal pullback of quasi-coherent sheaves
+  `QuasicoherentSheaf.pullbackBraided` (Modules/Pullback/Monoidal/Basic.lean);
+- the dualizability criterion on every scheme,
+  `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree` and
+  `QuasicoherentSheaf.nonempty_hasRightDual_iff_isFiniteLocallyFree`
+  (VectorBundle/Dual/Dualizable.lean);
+- quasi-coherence of internal Hom from a finitely presented source,
+  `isQuasicoherent_ihom_of_isFinitePresentation` (Modules/InternalHom/Quasicoherent.lean); the
+  base-change comparison `pullbackIhomComparison` for a quasi-coherent source
+  (Modules/Pullback/InternalHom/Basic.lean); its invertibility for a finite locally free source
+  and any target and morphism, `FiniteLocallyFreeSheaf.isIso_pullbackIhomComparison`
+  (VectorBundle/InternalHom/Pullback.lean), and for a flat morphism, a finitely presented source
+  and a quasi-coherent target, `Scheme.Hom.isIso_pullbackIhomComparison_app`
+  (Modules/Pullback/InternalHom/Flat.lean); `Hom(E, 𝒪_X) ⊗ N ≅ Hom(E, N)` for locally free `E` of
+  finite type, `Scheme.Modules.isIso_dualTensorIhom_of_isLocallyFree` (Modules/Dual.lean);
+- the ranks of powers of a finite locally free `E` at a point `x`, the simp lemmas
+  `rank_symmetricPower_apply`, rank `(E.rank x).multichoose n` for `Symⁿ E`, and
+  `rank_exteriorPower_apply`, rank `(E.rank x).choose n` for `∧ⁿ E`, both in Tau Ceti's namespace
+  `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf` (VectorBundle/SymmetricPower/Basic.lean,
+  VectorBundle/ExteriorPower/Basic.lean); the canonical comparisons
+  `Scheme.Modules.pullbackSymmetricPowerComparison` and
+  `Scheme.Modules.pullbackExteriorPowerComparison` on all modules
+  (Modules/SymmetricPower/Pullback/Basic.lean, Modules/ExteriorPower/Pullback/Basic.lean), their
+  identity and composition coherences `pullbackSymmetricPowerComparison_comp` and
+  `pullbackExteriorPowerComparison_comp` (…/Pullback/Coherence.lean), and their invertibility at
+  quasi-coherent modules, `isIso_pullbackSymmetricPowerComparison_app` and
+  `isIso_pullbackExteriorPowerComparison_app` (…/Pullback/Quasicoherent.lean);
+- the determinant `FiniteLocallyFreeSheaf.det` at locally constant rank, its functoriality on the
+  core `FiniteLocallyFreeSheaf.determinantCore` and its agreement
+  `FiniteLocallyFreeSheaf.detIsoDeterminant` with the fixed-rank functor
+  (VectorBundle/Determinant/LocallyConstantRank.lean), the fixed-rank functor
+  `FiniteLocallyFreeSheaf.determinant` (VectorBundle/Determinant/Basic.lean), the pullback
+  comparison `FiniteLocallyFreeSheaf.pullbackDetIso` of `det` at locally constant rank and the
+  fixed-rank comparison `FiniteLocallyFreeSheaf.pullbackDeterminantIso`
+  (VectorBundle/Determinant/Pullback.lean); the Picard group `LineBundleClass` with
+  `LineBundleClass.mk` (LineBundle/Class.lean); and, over a ring, the wedge product
+  `TauCeti.exteriorPower.wedgeTensor : ⋀ᵖ M ⊗ ⋀^q N → ⋀ⁿ (M × N)` and, over a field, the
+  isomorphism `TauCeti.exteriorPower.shortExactEquiv` of a short exact sequence
+  (TauCeti/LinearAlgebra/ExteriorPower/Prod.lean, ShortExact.lean);
+- relative Spec: the coordinate-algebra functor `affineFunctions` (RelativeSpec/AffineFunctions.lean),
+  pullback of quasi-coherent algebras `QuasicoherentAlgebra.pullback` with its adjunction
+  `QuasicoherentAlgebra.pullbackHomEquiv` (RelativeSpec/PullbackAlgebra.lean), the functor of
+  points `relativeSpecHomIso` and `relativeSpecPullbackHomEquiv` (RelativeSpec/UniversalProperty.lean),
+  the anti-equivalence `relativeSpecEquiv` (RelativeSpec/Equivalence.lean), and base change
+  `relativeSpecBaseChangeIso` with its composition law `relativeSpecPullbackIso_comp`
+  (RelativeSpec/BaseChange.lean);
+- graded quasi-coherent algebras `GradedQuasicoherentAlgebra`
+  (Modules/Quasicoherent/GradedAlgebra/Basic.lean), the graded symmetric algebra
+  `gradedSymmetricAlgebra` and its adjunction `gradedSymmetricAlgebraAdjunction` with the degree-one
+  functor (…/GradedAlgebra/SymmetricAlgebra/), the algebras free in degree one
+  `FreeGradedQuasicoherentAlgebra` and `gradedSymmetricAlgebraEquiv` (…/GradedAlgebra/Free.lean),
+  and the affine graded-ring charts `CommMon.isLocalization_gradedSections_basicOpen` and
+  `CommMon.isBaseChange_restrictGradedSections` (Modules/GradedAlgebra/Localization.lean, with the
+  affine-restriction case in Modules/GradedAlgebra/AffineRestriction.lean);
+- graded relative Spec `gradedRelativeSpecEquiv` on `GradedAffineSchemeOver X`
+  (RelativeSpec/Graded.lean); linear schemes `QuasicoherentLinearScheme`, `linearSpec` and the
+  equivalence `linearSpecEquiv` (VectorBundle/LinearScheme.lean) with base change
+  `QuasicoherentLinearScheme.pullback` (VectorBundle/LinearScheme/BaseChange.lean); the zero,
+  addition and scalar multiplication of `Spec_X Sym F`, `addGrpObjRelativeSpecSymmetricAlgebra`
+  and `modObjRelativeSpecSymmetricAlgebra` (RelativeSpec/SymmetricAlgebra/Group.lean,
+  RelativeSpec/SymmetricAlgebra/Module.lean);
+- geometric vector bundles `GeometricVectorBundle`, the total space `totalSpace` and the
+  equivalence `totalSpaceEquiv` (VectorBundle/Geometric.lean); `totalSpaceScheme`, the
+  section-valued universal property `totalSpaceHomEquiv` and base change
+  `totalSpaceSchemeBaseChangeIso` (VectorBundle/TotalSpace.lean), naturality in the test scheme
+  `totalSpaceHomIso` (VectorBundle/TotalSpace/FunctorOfPoints.lean), global sections
+  `totalSpaceSectionEquiv` (VectorBundle/Sections.lean), and the dictionary in
+  VectorBundle/TotalSpace/: direct sums `totalSpaceSchemeBiprodIso`, zero and addition
+  `totalSpaceHomAddEquiv`, fibres `totalSpaceBaseChangeSpecIso` and `totalSpaceFiberIso`, tensor
+  products `totalSpaceTensorHomEquiv`, internal Hom and duals `totalSpaceIhomHomEquiv` and
+  `totalSpaceDualHomEquiv`, powers `totalSpaceSymmetricPowerHomEquiv` and
+  `totalSpaceExteriorPowerHomEquiv`, the determinant `totalSpaceDeterminantHomEquiv`, and the
+  trivial line bundle `totalSpaceTrivialIso`;
+- closure of quasi-coherent sheaves under kernels, `Scheme.Modules.isQuasicoherent_kernel`
+  (Modules/Quasicoherent/Kernels.lean), and under pushforward along quasi-compact quasi-separated
+  morphisms, `Scheme.Modules.isQuasicoherent_pushforward`
+  (Modules/Quasicoherent/Pushforward/QuasiSeparated.lean).
+
+Four names are declared under this roadmap's namespace for its consumers: `isFiniteLocallyFree`
+and `FiniteLocallyFreeSheaf` are the Tau Ceti notions under this roadmap's name,
+`isFiniteLocallyFreeOfRank X r` is Tau Ceti's `FiniteLocallyFreeSheaf.isConstantRank X r`
+(VectorBundle/FixedRank.lean) read on `X.Modules`, so that `E` satisfies it exactly when `E` is
+finite locally free and the bundled sheaf has rank `r` at every point, and `determinantObj` is
+Tau Ceti's `FiniteLocallyFreeSheaf.det`; SchemeAndStackFoundations builds its Grothendieck group
+of finite locally free sheaves and its determinant on them.
+
+The ring-level determinant of a finite projective module (invertible modules, the determinant by
+the clopen rank decomposition, equal-rank determinant maps, base change, graded lines) is
+PadicMeasuresIwasawaAlgebras §5.1; Layer 3 compares the sheaf determinant with it on affine
+opens. The rank-one theory, Picard group and Jacobian are JacobianChallenge's. Curve-specific
+degree theory is AlgebraicCurves'. Relative Proj is StableReduction's and
+SchemeAndStackFoundations', consuming Tau Ceti's graded quasi-coherent algebras.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At Mathlib `1b1ccf4b`:
+`Scheme.Modules`, `Scheme.Modules.pullback`, `Scheme.Modules.pushforward`,
+`Scheme.Modules.pullbackPushforwardAdjunction`, `Scheme.Modules.pullbackId` and
+`Scheme.Modules.pullbackComp` (Mathlib/AlgebraicGeometry/Modules/Sheaf.lean);
+`Scheme.Hom.toRingCatSheafHom` (Mathlib/AlgebraicGeometry/Modules/Presheaf.lean);
+`SheafOfModules.pullback`, `SheafOfModules.pushforward`,
+`SheafOfModules.pullbackPushforwardAdjunction`, `SheafOfModules.pullbackId`,
+`SheafOfModules.pullbackComp` and the description `SheafOfModules.pullbackIso` of pullback as the
+sheafified presheaf pullback (Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean);
+`SheafOfModules.Presentation.map`, a presentation carried along a colimit-preserving functor that
+preserves the unit, and `SheafOfModules.Presentation.ofIsIso`, one carried along an isomorphism
+(Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean); restriction to a slice site
+`SheafOfModules.overFunctor`, written `M.over V`, and its adjunction
+`SheafOfModules.overPushforwardOverAdj` with pushforward along `Over.star V`
+(Mathlib/Algebra/Category/ModuleCat/Sheaf/PushforwardContinuous.lean);
+`TopologicalSpace.Opens.overEquivalence : Over V ≌ Opens V` (Mathlib/Topology/Sheaves/Over.lean)
+and the induced equivalence `TopologicalSpace.Opens.sheafOfModulesEquivOver` of module sheaves
+over the slice with module sheaves on the open subspace, with
+`TopologicalSpace.Opens.sheafOfModulesEquivOverUnit` and
+`TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit` (Mathlib/Topology/Sheaves/Module.lean);
+uniqueness of adjoints `CategoryTheory.Adjunction.leftAdjointUniq`;
+`SheafOfModules.toSheaf`, faithful and preserving finite limits, and
+`CategoryTheory.ShortComplex.exact_map_iff_of_faithful`;
+`TopCat.Sheaf.exact_iff_stalkFunctor_map_exact` (Mathlib/Topology/Sheaves/Abelian.lean),
+exactness of a complex of sheaves on a space checked on stalks;
+`Functor.sheafPushforwardContinuous`, `TopologicalSpace.Opens.map`;
+`TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso` (Mathlib/Topology/Sheaves/Stalks.lean),
+invertibility of a morphism of sheaves on a space checked on stalks; `Module.FinitePresentation.isBaseChange_map`
+(Mathlib/Algebra/Module/FinitePresentation.lean), flat base change of linear maps out of a finitely
+presented module; `CategoryTheory.ShortComplex.ShortExact`; `SheafOfModules.IsQuasicoherent`,
+`SheafOfModules.IsFinitePresentation`, `SheafOfModules.IsLocallyFree`,
+`SheafOfModules.pullbackObjUnitToUnit`;
+`AlgebraicGeometry.Flat`, flatness of a morphism of schemes as flatness of its stalk maps;
+`AlgebraicGeometry.tilde` and `AlgebraicGeometry.tildeEquiv`; `IsAffineHom`, `AffineSpace`,
+`AffineSpace.homOverEquiv`; `Functor.OplaxMonoidal.δ`, `CommMon`, `MonObj`, `ModObj`, `AddGrpObj`,
+`GradedObject`, `HasLeftDual`, `ExactPairing`; `SymmetricAlgebra`, `Module.Basis.exteriorPower`,
+`LinearMap.det`, `Nat.multichoose`, and the wedge product of exterior powers
+`exteriorPower.wedge` (Mathlib/LinearAlgebra/ExteriorPower/WedgePairing.lean).
+`SheafOfModules.IsLocallyFree` alone allows infinite and chart-dependent index types; finite
+presentation is what makes it finite.
+
+### From Tau Ceti
+
+At Tau Ceti `2fd255d9`, besides the declarations listed under Scope and ownership:
+
+- monoidal structure: `Scheme.Modules.instMonoidalCategory`,
+  `Scheme.Modules.instSymmetricCategory`, `Scheme.Modules.instMonoidalClosed` and
+  `Scheme.Modules.isMonoidal_isQuasicoherent` (TauCeti/AlgebraicGeometry/Modules/TensorProduct.lean);
+- pullback: `Scheme.Modules.pullbackOplaxMonoidal`, its comparison `Functor.OplaxMonoidal.δ`, the
+  unit identification `Scheme.Modules.pullback_η` with `Scheme.Modules.pullbackObjUnitIso`, the
+  symmetry law `Scheme.Modules.pullback_map_braiding_hom_comp_δ`, the composition law
+  `Scheme.Modules.pullback_comp_δ` and `Scheme.Modules.pullbackObjUnitIso_comp`, and locality of
+  invertibility `Scheme.Modules.isIso_iff_of_isOpenCover`
+  (TauCeti/AlgebraicGeometry/Modules/Pullback/Basic.lean); exactness of flat pullback between
+  quasi-coherent sheaves `Scheme.Hom.exact_map_pullback_of_flat` and
+  `Scheme.Hom.preservesKernel_pullback_of_flat` (TauCeti/AlgebraicGeometry/Modules/Pullback/Flat.lean);
+- module sheaves on a space: `TauCeti.SheafOfModules.ringCatSheaf`; the unit, tensor, symmetry and
+  composition laws of the oplax monoidal pullback, `TauCeti.SheafOfModules.pullback_η`,
+  `TauCeti.SheafOfModules.pullback_δ`, `TauCeti.SheafOfModules.pullback_map_braiding_hom_comp_δ`,
+  `TauCeti.SheafOfModules.pullback_comp_η` and `TauCeti.SheafOfModules.pullback_comp_δ`
+  (TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Pushforward.lean); the stalk module
+  `SheafOfModules.stalkModule` and the invariance of stalks under sheafification
+  `PresheafOfModules.sheafificationStalkEquiv` (…/Sheaf/Stalk.lean); exactness of forgetting the
+  module structure, `TauCeti.SheafOfModules.preservesFiniteColimits_toSheaf` (…/Sheaf/Exactness.lean);
+  sheafification as a braided monoidal functor, `TauCeti.SheafOfModules.sheafificationMonoidal`
+  and `TauCeti.SheafOfModules.sheafificationBraided` (…/Sheaf/TensorProduct/Monoidal.lean); scalar
+  extension of powers `IsBaseChange.symmetricPowerEquiv` and `IsBaseChange.exteriorPowerEquiv`
+  (TauCeti/LinearAlgebra/SymmetricAlgebra/Localization.lean,
+  TauCeti/LinearAlgebra/ExteriorPower/Localization.lean);
+- internal Hom: `pullbackIhomComparison`, its description `pullbackIhomComparison_app_eq_curry` as
+  the curry of the pulled-back evaluation after the inverse tensor comparison, its invertibility for
+  a source with a quasi-coherent dual `isIso_pullbackIhomComparison_of_exactPairing`
+  (TauCeti/AlgebraicGeometry/Modules/Pullback/InternalHom/Basic.lean),
+  `Scheme.Hom.isIso_pullbackIhomComparison_app` (…/InternalHom/Flat.lean), its restriction to opens
+  `Scheme.Opens.isIso_pullbackIhomComparison_app` (…/InternalHom/Restriction.lean) and its
+  composition criterion `Scheme.Hom.isIso_pullbackIhomComparison_app_comp_iff`
+  (…/InternalHom/Coherence.lean); finite presentation of a pullback
+  `Scheme.Modules.isFinitePresentation_pullback`, through pullback read on slice sites
+  `Scheme.Modules.pullbackOver` and its value `Scheme.Modules.pullbackOverObjIso` on `M.over V`
+  (Modules/Pullback/Basic.lean);
+- powers: `SheafOfModules.symmetricPower` and `SheafOfModules.exteriorPower`, the sheafifications of
+  the sectionwise powers, with `SheafOfModules.symmetricPowerZeroIso`,
+  `SheafOfModules.symmetricPowerOneIso`, `SheafOfModules.exteriorPowerZeroIso`,
+  `SheafOfModules.exteriorPowerOneIso`, the defining identification `SheafOfModules.exteriorPowerIso`,
+  the extensionality principle `TauCeti.SheafOfModules.exteriorPower_hom_ext` and the
+  multiplication `SheafOfModules.symmetricPowerMul`
+  (TauCeti/Algebra/Category/ModuleCat/Sheaf/SymmetricPower/, ExteriorPower/); the comparisons and
+  their degree-one laws `Scheme.Modules.pullbackSymmetricPowerComparison_app_comp_symmetricPowerOneIso`
+  and `Scheme.Modules.pullbackExteriorPowerComparison_app_comp_exteriorPowerOneIso`;
+- finite locally free sheaves and determinants: `Scheme.Modules.isFiniteLocallyFree`,
+  `FiniteLocallyFreeSheaf` with its finite biproducts, `FiniteLocallyFreeSheaf.free`,
+  `FiniteLocallyFreeSheaf.pullback`, `FiniteLocallyFreeSheaf.rank`,
+  `FiniteLocallyFreeSheaf.rankLocus`, `FiniteLocallyFreeSheaf.isConstantRank`,
+  `FiniteLocallyFreeSheaf.FixedRank`, `FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one`
+  (TauCeti/AlgebraicGeometry/VectorBundle/); `FiniteLocallyFreeSheaf.finiteProjectiveEquiv`, the
+  affine comparison with finite projective modules (VectorBundle/Affine/Basic.lean);
+  `SheafOfModules.isInvertible`, `InvertibleSheaf`, `InvertibleSheaf.tensorProduct`,
+  `InvertibleSheaf.tensorProductComm`, `InvertibleSheaf.fixedRankOneEquiv`,
+  `LineBundleClass.mk_eq_mk_iff` and `LineBundleClass.mk_tensorProduct`
+  (TauCeti/AlgebraicGeometry/LineBundle/);
+- linear schemes: `QuasicoherentLinearScheme`, `QuasicoherentLinearScheme.degreeOne`, `linearSpec`,
+  `linearSpecEquiv`, `GradedAffineSchemeOver`, `gradedSymmetricAlgebraAdjunction`,
+  `addGrpObjRelativeSpecSymmetricAlgebra` and `modObjRelativeSpecSymmetricAlgebra`, as listed under
+  Scope and ownership.
+
+Assumed: these carry the canonical instances above, so that the comparisons of Layers 1–3 are the
+pinned ones and not re-derived; on schemes, Tau Ceti's oplax structure and power comparisons are
+those of the ringed-space instance `f.base`, `f.toRingCatSheafHom`, definitionally.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+§5.1: the determinant of a finite projective module by its clopen rank decomposition, the
+determinant maps between finite projectives of equal rank function, their base change, and graded
+lines with the Koszul symmetry. On `Spec A` the determinant sheaf is the associated sheaf of the
+ring-level determinant, as graded lines: the comparison retains the rank function and its parity
+and is compatible with the equal-rank determinant maps, with affine pullback and with the Koszul
+symmetry of graded lines, and only then is the grading forgotten.
 
 ## References
 

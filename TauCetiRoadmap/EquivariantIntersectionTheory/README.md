@@ -1,49 +1,55 @@
 # Roadmap: equivariant intersection theory and Picard groups of quotient stacks
 
-**Summary.** Build the Chow groups of quotient stacks `[X/G]` in the sense of Edidin and Graham,
-and with them the Picard groups of quotient stacks, starting from graded rings. Layer 0 is
-commutative algebra in Mathlib's vocabulary: a `𝔾_m`-action on `Spec A` is a `ℤ`-grading of `A`,
-the shifts `A(d)` are classified up to graded isomorphism by the degrees of the homogeneous units,
-and when `Spec A` is connected every grading of the free module `A` is a shift. Layer 1 constructs
-`G`-linearised invertible sheaves on a scheme with an action of a flat group scheme of finite
-presentation, as the general producer for every action, and proves `Pic [X/G] ≅ Pic^G(X)` on the
-quotient stacks of SchemeAndStackFoundations. Layer 2 constructs equivariant Chow groups by
-Totaro's approximation, for `G` smooth affine over a field and `X` quasi-projective with a
-`G`-linearised ample invertible sheaf, with their operations and the localisation sequence, and
-proves `Pic [X/G] ≅ A¹_G(X)` for `X` smooth. Layer 3 computes the classical examples over a
-field: weighted affine spaces minus an integral invariant divisor (`ℤ/e`), `M_{1,1}` in
-characteristic not `2` or `3` (`ℤ/12`), the stacks of smooth hyperelliptic curves of Arsie–Vistoli
-in characteristic not dividing `4(g + 1)`, and `Pic [M_{0,n}/𝔖ₙ₋₁] ≅ ℤ/(n − 1)(n − 2)` for every
-`n ≥ 3` in characteristic `0`, which for `n = 2g + 2` is the Picard group of the stack of
-hyperelliptic Weierstrass points.
+**Summary.** When a group scheme G acts on a scheme X, a line bundle on X can carry a
+G-linearisation: an isomorphism between its two pullbacks to G × X, along the action and the
+projection, subject to cocycle and unit conditions. Isomorphism classes of such bundles form the
+equivariant Picard group `Pic^G(X)`. The Chow groups of the quotient stack [X/G] in the sense of
+Edidin and Graham are built by Totaro's approximation, which replaces X by a mixed space `X ×^G U`,
+with U open in a representation on which G acts freely. This roadmap builds both theories, starting
+from graded rings, and computes Picard groups of quotient stacks, among them stacks of curves.
 
-## Scope and ownership
+The first part is commutative algebra. An action of `𝔾_m` on Spec A is the same as a ℤ-grading of A,
+and a linearisation of the trivial line bundle is a grading of the A-module A compatible with it.
+The shifts A(d), with `A(d)_n = A_{n+d}`, are examples. The first theorem says that A(d) and A(e)
+are isomorphic as graded modules exactly when d − e is the degree of a homogeneous unit of A. For
+k[t, t⁻¹] with t of degree 2, these degrees are the even integers, so A(0) and A(1) are not
+isomorphic. The second theorem says that when Spec A is connected, every such grading of A is
+isomorphic to a shift.
 
-This roadmap owns: the degree group of homogeneous units of a `ℤ`-graded ring, the shift classes,
-and the `ℤ`-grading of a localisation at a homogeneous element; the groupoid of `G`-linearised
-invertible sheaves on a scheme with an action of a flat group scheme, the equivariant Picard group
-and its comparison with the Picard group of the quotient stack; equivariant Chow groups of schemes
-with an action of a smooth affine group over a field, their operations, and the comparison with the
-equivariant Picard group; and the computations of Layer 3.
+Over a field, if f is a prime polynomial, weighted homogeneous of weight e for any integer
+weights, the units of its localisation are the nonzero constant multiples of the integer
+powers of f, so their degrees are the multiples of e. The discriminant of the generic
+polynomial `Xᵐ + a₂ Xᵐ⁻² + ⋯ + aₘ`, with aⱼ of weight j and m ≥ 2, has weight m(m − 1), and in
+characteristic 0 it is prime. These results are also stated, unproved, in Lean.
 
-Boundaries with the shared owners:
+The second part works over a base scheme S, with G a flat group scheme of finite presentation over
+S. It builds the groupoid of G-linearised invertible sheaves and proves `Pic [X/G] ≅ Pic^G(X)`. The
+group `Pic^G(X)` is not the group of invariant classes in Pic(X): for `𝔾_m` acting trivially on Spec
+k it is ℤ, while Pic(Spec k) = 0. Two reductions, change of group and slices, rewrite [X/G] as a
+quotient [Y/H] by a subgroup H of G, under explicit hypotheses.
 
-| Material | Owner | Boundary |
-| --- | --- | --- |
-| Graded algebras, their affine charts and localisation comparisons | AlgebraicVectorBundles L2A; StableReduction's relative Proj consumes it | Layer 0 uses Mathlib's `GradedAlgebra` and `HomogeneousLocalization` and that roadmap's affine graded-ring interface; it defines no graded quasi-coherent carrier. Its own addition is the `ℤ`-grading of `A_f` in all degrees, negative ones included (0.3), which the nonnegatively graded interface does not supply after inversion; 0.3 proves the comparison with that interface on the nonnegative part. |
-| Group spaces and their actions, quotient stacks, torsors, quasi-coherent modules on stacks, Picard groups of schemes, Chow groups of schemes and their operations, equivariant modules for a discrete group, moduli stacks of pointed curves | SchemeAndStackFoundations §§1.13, 1.15, 1.21, 1.22, 2.23, 3.4, 4.15, 5.1–5.6 | Layer 1 constructs the equivariant theory on those objects: linearised sheaves are descent data for `X → [X/G]` through `QCoh.presentationEquiv`, `Pic [X/G]` is the group of isomorphism classes of invertible objects of `Stacks.QCoh [X/G]`, and for a finite constant group the linearised sheaves are the invertible objects of `EquivariantModules`. No second quotient-stack, line-bundle or Chow carrier is introduced. |
-| `G`-linearised invertible sheaves on flag varieties | SchubertGeometry S3 (`G/B⁻`, `G/P⁻`) | SchubertGeometry S3 builds the `G/B⁻` case itself, with its root-theoretic statements (dominance, ampleness, Schubert divisors); 1.4 restricted to `G/B⁻` agrees with it. Layer 1 is the producer for an arbitrary scheme with an action: the groupoid with its equivariant isomorphisms and scalar automorphisms, tensor, dual, pullback, base change, the forgetful map to `LineBundleClass`, associated lines `G ×^H χ` and the fibre equivalence on `G/H` (1.4), and the comparison of two linearisations of one line by a character (1.3). |
+The third part constructs the equivariant Chow groups and their operations over a field k,
+for G a smooth affine group scheme of finite type and X quasi-projective with a
+G-linearised ample invertible sheaf. For X smooth, the first Chern class is an isomorphism
+from `Pic^G(X)` onto `A¹_G(X)`, so `Pic [X/G] ≅ A¹_G(X)`. The equivariant Chow ring of a
+point is ℤ[t] for `𝔾_m` and ℤ[t]/(n t) for `μ_n` with n invertible in k.
 
-Out of scope: equivariant cohomology of topological spaces, equivariant K-theory, Chow groups of
-stacks that are not global quotients (Kresch), equivariant Chow groups of actions whose mixed
-spaces are only algebraic spaces, which would need Chow groups of algebraic spaces at
-SchemeAndStackFoundations, and the Chow ring of `[M_{0,2g+2}/𝔖_{2g+1}]` beyond degree one
-(Edidin–Hu, Theorem 1.3), which no layer computes. So is a Borel fixed-point theorem for proper
-Deligne–Mumford stacks with an action of a connected solvable group, which is not in print: with
-fixed points in the sense of Romagny (an object with a `G`-linearisation; Romagny 2005), `𝔾_m`
-acting on `Bμ_n ≅ [𝔾_m/𝔾_m]` (quotient by `t ↦ tⁿ`, `n ≥ 2` invertible) by translation has none,
-since a fixed point would be a homomorphism `s` with `s(t)ⁿ = t`, although its coarse space, a
-point, is fixed (own example).
+The last part computes over a field, from a model case: `𝔾_m` acting with positive weights on
+𝔸ⁿ minus an integral invariant divisor of weight e. The quotient has Picard group ℤ/e,
+computed by the localisation sequence and from the graded description. In characteristic not 2
+or 3, `M_{1,1}` is such a quotient, with weights 4 and 6 and a divisor of weight 12, so its
+Picard group is ℤ/12, generated by the Hodge bundle. In characteristic 0, for every n ≥ 3, the
+Picard group of `[M_{0,n}/𝔖ₙ₋₁]` is cyclic of order (n − 1)(n − 2): sending one marked point
+to infinity and the mean of the others to 0 reduces this stack to the model case, with the
+discriminant above for m = n − 1. For n = 2g + 2 this group is the Picard group of the stack
+of hyperelliptic Weierstrass points.
+
+These four parts are Layers 0 to 3 below. Layer 0 needs only Mathlib, apart from one comparison with
+the nonnegatively graded algebras of AlgebraicVectorBundles. Layer 1 builds on the group actions,
+quotient stacks and quasi-coherent modules on stacks of SchemeAndStackFoundations, and Layer 2 on
+its Chow groups of schemes. Layer 3 combines the three, with the moduli stacks of curves of
+SchemeAndStackFoundations. On the flag varieties G/B⁻, Layer 1 agrees with SchubertGeometry, which
+builds linearised sheaves there itself.
 
 ## Conventions
 
@@ -72,53 +78,6 @@ point, is fixed (own example).
    §2.1; it holds for every quasi-affine `G`-scheme, whose structure sheaf with its trivial
    linearisation is ample, hence for every example of Layer 3. Witness: `𝔸ⁿ ∖ 0` is quasi-affine
    and, for `n ≥ 2`, not affine, and satisfies it with `O`.
-
-## Exact supplier contracts
-
-**From Mathlib** (at the pinned revision).
-
-- Graded rings: `GradedAlgebra`, `DirectSum.Decomposition`, `DirectSum.IsInternal`,
-  `SetLike.GradedSMul`, `HomogeneousLocalization.Away`, `Localization.Away`,
-  `IsLocalization.mk'`, `Submodule.span`, `Submodule.map`, `LinearMap.mulLeft`,
-  `AddSubgroup.closure`, `AddSubgroup.zmultiples`.
-- Polynomials: `MvPolynomial`, `MvPolynomial.weightedHomogeneousSubmodule`, `Polynomial.discr`,
-  `Polynomial.isUnit_iff` (the units of `R[t]` over a domain are the constant units),
-  `LaurentPolynomial`, `LaurentPolynomial.C`, `LaurentPolynomial.T`,
-  `LaurentPolynomial.isUnit_T`.
-- Spectra: `PrimeSpectrum.basicOpen`, `PrimeSpectrum.isClopen_iff` (a clopen subset of
-  `Spec A` is `D(e)` for an idempotent `e`), `IsIdempotentElem`.
-- Affine group schemes: `CommHopfAlgCat` and `AlgebraicGeometry.hopfSpec`, for `𝔾_m`, `GL_n`,
-  `μ_n` and `Aff = 𝔾_a ⋊ 𝔾_m` as group objects over `Spec k`.
-
-**From Tau Ceti** (at the pinned revision).
-
-- `TauCeti.AlgebraicGeometry.LineBundleClass` (`TauCeti/AlgebraicGeometry/LineBundle/Class.lean`):
-  the Picard group of a scheme, target of the forgetful map of 1.1.
-
-**From AlgebraicVectorBundles.** L2A, the affine graded-ring interface of graded quasi-coherent
-algebras with its localisation comparison (0.3).
-
-**From SchemeAndStackFoundations.** §1.13, `GroupSpace S`, `GroupSpace.ofGroupScheme` and the
-actions `Action G X` (1.1); §1.15, torsors and `Gm S` (1.4); §1.21, `actionQuotient G X` and
-`actionQuotient.torsorEquiv` (1.4); §1.22, `Stacks.QCoh` and `QCoh.presentationEquiv` (1.4);
-§2.23, `EquivariantModules X Γ act` (1.1); §3.4, Picard groups and the divisor class comparison
-(1.1, 2.4); §4.15, `StableCurves.Mbar` with its open substack `Mbar.smooth` of smooth curves, for
-`M_{1,1}` and `M_{0,n}` (3.2–3.4); §5.1, `ChowGroup κ X k`, and §§5.2–5.6, proper pushforward,
-flat pullback, the localisation sequence, the first Chern class `Chow.c1`, projective bundles and
-Chern classes, Gysin maps and intersection products (Layer 2).
-
-## How to read the build
-
-Layer 0 is commutative algebra on Mathlib alone, with the affine graded-ring interface of
-AlgebraicVectorBundles L2A for one comparison in 0.3; it delivers the shift classification, the
-grading of `A_f`, and the graded computations that Layer 3 reads off (0.4, 0.5). Layer 1 needs
-group-space actions, quotient stacks and quasi-coherent modules on stacks from
-SchemeAndStackFoundations, and delivers `Pic^G(X)`, its graded description over `Spec A` (1.2)
-and `Pic [X/G] ≅ Pic^G(X)` with change of group and slices (1.4). Layer 2 needs the Chow groups of
-SchemeAndStackFoundations Layer 5 and delivers equivariant Chow groups with `Pic^G(X) ≅ A¹_G(X)`
-(2.4). Layer 3 combines the three: 3.1 is the model computation, by the localisation sequence and
-by the graded description; 3.2–3.4 reduce moduli stacks to it by presentations as quotient stacks,
-change of group and slices.
 
 ## Layer 0: graded rings and homogeneous units
 
@@ -596,6 +555,68 @@ Layers 0–2; SchemeAndStackFoundations §4.15. Within the layer, 3.1 → 3.2 an
 ## Downstream consumers
 
 No roadmap on main cites this one.
+
+## Scope and ownership
+
+This roadmap owns: the degree group of homogeneous units of a `ℤ`-graded ring, the shift classes,
+and the `ℤ`-grading of a localisation at a homogeneous element; the groupoid of `G`-linearised
+invertible sheaves on a scheme with an action of a flat group scheme, the equivariant Picard group
+and its comparison with the Picard group of the quotient stack; equivariant Chow groups of schemes
+with an action of a smooth affine group over a field, their operations, and the comparison with the
+equivariant Picard group; and the computations of Layer 3.
+
+Boundaries with the shared owners:
+
+| Material | Owner | Boundary |
+| --- | --- | --- |
+| Graded algebras, their affine charts and localisation comparisons | AlgebraicVectorBundles L2A; StableReduction's relative Proj consumes it | Layer 0 uses Mathlib's `GradedAlgebra` and `HomogeneousLocalization` and that roadmap's affine graded-ring interface; it defines no graded quasi-coherent carrier. Its own addition is the `ℤ`-grading of `A_f` in all degrees, negative ones included (0.3), which the nonnegatively graded interface does not supply after inversion; 0.3 proves the comparison with that interface on the nonnegative part. |
+| Group spaces and their actions, quotient stacks, torsors, quasi-coherent modules on stacks, Picard groups of schemes, Chow groups of schemes and their operations, equivariant modules for a discrete group, moduli stacks of pointed curves | SchemeAndStackFoundations §§1.13, 1.15, 1.21, 1.22, 2.23, 3.4, 4.15, 5.1–5.6 | Layer 1 constructs the equivariant theory on those objects: linearised sheaves are descent data for `X → [X/G]` through `QCoh.presentationEquiv`, `Pic [X/G]` is the group of isomorphism classes of invertible objects of `Stacks.QCoh [X/G]`, and for a finite constant group the linearised sheaves are the invertible objects of `EquivariantModules`. No second quotient-stack, line-bundle or Chow carrier is introduced. |
+| `G`-linearised invertible sheaves on flag varieties | SchubertGeometry S3 (`G/B⁻`, `G/P⁻`) | SchubertGeometry S3 builds the `G/B⁻` case itself, with its root-theoretic statements (dominance, ampleness, Schubert divisors); 1.4 restricted to `G/B⁻` agrees with it. Layer 1 is the producer for an arbitrary scheme with an action: the groupoid with its equivariant isomorphisms and scalar automorphisms, tensor, dual, pullback, base change, the forgetful map to `LineBundleClass`, associated lines `G ×^H χ` and the fibre equivalence on `G/H` (1.4), and the comparison of two linearisations of one line by a character (1.3). |
+
+Out of scope: equivariant cohomology of topological spaces, equivariant K-theory, Chow groups of
+stacks that are not global quotients (Kresch), equivariant Chow groups of actions whose mixed
+spaces are only algebraic spaces, which would need Chow groups of algebraic spaces at
+SchemeAndStackFoundations, and the Chow ring of `[M_{0,2g+2}/𝔖_{2g+1}]` beyond degree one
+(Edidin–Hu, Theorem 1.3), which no layer computes. So is a Borel fixed-point theorem for proper
+Deligne–Mumford stacks with an action of a connected solvable group, which is not in print: with
+fixed points in the sense of Romagny (an object with a `G`-linearisation; Romagny 2005), `𝔾_m`
+acting on `Bμ_n ≅ [𝔾_m/𝔾_m]` (quotient by `t ↦ tⁿ`, `n ≥ 2` invertible) by translation has none,
+since a fixed point would be a homomorphism `s` with `s(t)ⁿ = t`, although its coarse space, a
+point, is fixed (own example).
+
+## Exact supplier contracts
+
+**From Mathlib** (at the pinned revision).
+
+- Graded rings: `GradedAlgebra`, `DirectSum.Decomposition`, `DirectSum.IsInternal`,
+  `SetLike.GradedSMul`, `HomogeneousLocalization.Away`, `Localization.Away`,
+  `IsLocalization.mk'`, `Submodule.span`, `Submodule.map`, `LinearMap.mulLeft`,
+  `AddSubgroup.closure`, `AddSubgroup.zmultiples`.
+- Polynomials: `MvPolynomial`, `MvPolynomial.weightedHomogeneousSubmodule`, `Polynomial.discr`,
+  `Polynomial.isUnit_iff` (the units of `R[t]` over a domain are the constant units),
+  `LaurentPolynomial`, `LaurentPolynomial.C`, `LaurentPolynomial.T`,
+  `LaurentPolynomial.isUnit_T`.
+- Spectra: `PrimeSpectrum.basicOpen`, `PrimeSpectrum.isClopen_iff` (a clopen subset of
+  `Spec A` is `D(e)` for an idempotent `e`), `IsIdempotentElem`.
+- Affine group schemes: `CommHopfAlgCat` and `AlgebraicGeometry.hopfSpec`, for `𝔾_m`, `GL_n`,
+  `μ_n` and `Aff = 𝔾_a ⋊ 𝔾_m` as group objects over `Spec k`.
+
+**From Tau Ceti** (at the pinned revision).
+
+- `TauCeti.AlgebraicGeometry.LineBundleClass` (`TauCeti/AlgebraicGeometry/LineBundle/Class.lean`):
+  the Picard group of a scheme, target of the forgetful map of 1.1.
+
+**From AlgebraicVectorBundles.** L2A, the affine graded-ring interface of graded quasi-coherent
+algebras with its localisation comparison (0.3).
+
+**From SchemeAndStackFoundations.** §1.13, `GroupSpace S`, `GroupSpace.ofGroupScheme` and the
+actions `Action G X` (1.1); §1.15, torsors and `Gm S` (1.4); §1.21, `actionQuotient G X` and
+`actionQuotient.torsorEquiv` (1.4); §1.22, `Stacks.QCoh` and `QCoh.presentationEquiv` (1.4);
+§2.23, `EquivariantModules X Γ act` (1.1); §3.4, Picard groups and the divisor class comparison
+(1.1, 2.4); §4.15, `StableCurves.Mbar` with its open substack `Mbar.smooth` of smooth curves, for
+`M_{1,1}` and `M_{0,n}` (3.2–3.4); §5.1, `ChowGroup κ X k`, and §§5.2–5.6, proper pushforward,
+flat pullback, the localisation sequence, the first Chern class `Chow.c1`, projective bundles and
+Chern classes, Gysin maps and intersection products (Layer 2).
 
 ## References
 

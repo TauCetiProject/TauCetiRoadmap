@@ -1,52 +1,57 @@
 # Roadmap: Sobolev spaces of differential forms and the L² de Rham complex
 
-**Summary.** Build the Sobolev theory of differential forms on a Euclidean domain: the weak exterior
-derivative, the Banach spaces `WᵖΛᵏ(Ω)` for `1 ≤ p ≤ ∞` and their Hilbert case `HΛᵏ(Ω) := W²Λᵏ(Ω)`,
-the
-**L² de Rham complex** as a Hilbert complex with its Hodge decomposition, pullback under
-diffeomorphisms
-and bi-Lipschitz maps, traces, Green's formula and gluing across interfaces, and **compactness and
-closed
-range** of the complex on bounded Lipschitz domains (Picard). Someone working with mixed
-formulations,
-Maxwell's equations or Hodge Laplacians on a domain finds these spaces with the API they expect,
-connected
-to the scalar Sobolev spaces in degree `0` and to the divergence in degree `n − 1`.
+**Summary.** Mixed formulations, Maxwell's equations and Hodge Laplacians use spaces of differential
+forms in which only the exterior derivative, not the full gradient, need be square integrable. In
+dimension at least two, `sign x₁ dx₁` has weak exterior derivative zero although it has no weak
+derivative. This roadmap builds the Sobolev theory of differential forms on a Euclidean domain, the
+L² de Rham complex with its Hodge decomposition, and Picard's compactness theorem on bounded
+Lipschitz domains.
 
-## Scope and ownership
+Forms are real valued on an open set `Ω ⊆ ℝⁿ` with Lebesgue measure, and `1 ≤ p ≤ ∞`, with `p = ∞`
+included unless a statement says `p < ∞`. Covectors carry the Gram inner product
+`⟪α, β⟫ = ∑_I α(e_I) β(e_I)` over the standard basis, not Mathlib's operator norm; the two norms
+differ for `k ≥ 2`. The space `WᵖΛᵏ(Ω)` consists of the `Lᵖ` forms of degree `k` whose weak exterior
+derivative, defined by duality, is again in `Lᵖ`. With the graph norm it is a Banach space, with
+Hilbert case `HΛᵏ(Ω) := W²Λᵏ(Ω)`. For `p < ∞`, the space `WᵖΛᵏ₀(Ω)` of forms with zero boundary
+values is the closure of the test forms.
 
-This roadmap owns, for real-valued forms on open subsets of `EuclideanSpace ℝ (Fin n)`:
+The first main theorem is abstract. Let `d₀ : W₀ → W₁` and `d₁ : W₁ → W₂` be closed, densely defined
+operators between real Hilbert spaces, with the range of `d₀` inside the kernel of `d₁`. Then `W₁`
+is the orthogonal sum of the closures of the ranges of `d₀` and of `d₁*` and the harmonic space
+`ker d₁ ∩ ker d₀*`. The range of `d₁` is closed exactly when some constant `c` gives
+`‖u‖ ≤ c ‖d₁ u‖` for every `u` in the domain of `d₁` orthogonal to its kernel. If the intersection
+of the domains of `d₁` and `d₀*`, with its graph norm, embeds compactly into `W₁`, the ranges of
+`d₀` and `d₁` are closed and the harmonic space is finite dimensional.
 
-- Layer 1: the type `Covector n k` carrying the Gram inner product, `LᵖΛᵏ(Ω)`, the star and
-  codifferential on it, and the adjointness of `d` and `δ` on test forms;
-- Layers 2 and 3: the weak exterior derivative, `WᵖΛᵏ(Ω)`, `WᵖΛᵏ₀(Ω)`, `H*Λᵏ(Ω)`, the adjoints of
-  `d`, density,
-  the degree-zero and top-degree identifications, and the weak divergence link;
-- Layer 4: pullback under `C¹` diffeomorphisms and bi-Lipschitz maps;
-- Layer 5: tangential traces, Green's formula, the zero-trace characterization and gluing;
-- Layer 6: abstract Hilbert complexes and the L² de Rham complex;
-- Layer 7: the Gaffney identity on the cube, Lipschitz charts as bi-Lipschitz cubes, Picard's
-  compactness and
-  its consequences.
+The second says that the L² de Rham complex is a Hilbert complex in this sense, with `d` defined on
+`HΛᵏ(Ω)` and also on `HΛᵏ₀(Ω)`. Let `H*Λᵏ(Ω)` be the `L²` forms whose Hodge star lies in `HΛⁿ⁻ᵏ(Ω)`,
+and `H*Λᵏ₀(Ω)` those with Hodge star in `HΛⁿ⁻ᵏ₀(Ω)`. The adjoint of `d` on `HΛᵏ⁻¹₀(Ω)` is the
+codifferential `δ` on `H*Λᵏ(Ω)`, and the adjoint of `d` on `HΛᵏ⁻¹(Ω)` is `δ` on `H*Λᵏ₀(Ω)`. So the
+dual of each complex is the codifferential complex of the other.
 
-It leaves to named owners:
+The third is Picard's theorem: on a bounded Lipschitz domain, `HΛᵏ₀(Ω) ∩ H*Λᵏ(Ω)` and
+`HΛᵏ(Ω) ∩ H*Λᵏ₀(Ω)` embed compactly into `L²Λᵏ(Ω)`. With the first theorem, both complexes then have
+closed ranges and finite-dimensional harmonic spaces. The Poincaré inequality `‖u‖ ≤ c ‖du‖` holds
+on `HΛᵏ(Ω) ∩ (ker d)ᗮ` and on `HΛᵏ₀(Ω) ∩ (ker d)ᗮ` with a non-explicit constant, and the abstract
+Hodge Laplacian is well posed. On a plane annulus, the harmonic `1`-forms of the complex on `HΛᵏ`
+form a space of dimension one containing `dθ`.
 
-- the Gram inner product on alternating maps, their identification with exterior powers and the
-  pointwise Hodge star to Tau Ceti;
-- scalar Sobolev spaces, Lipschitz domains, the scalar trace and Rellich to PDE Lane A, implemented in
-  Tau Ceti;
-- Gauss–Green, BV traces and BV gluing to GeometricMeasureTheory G6;
-- smooth forms and `extDeriv` to Mathlib, and forms on manifolds to DifferentialGeometry.
+The roadmap builds on Tau Ceti's Gram inner product and Hodge star of alternating forms. In degree
+zero `WᵖΛ⁰(Ω)` is the scalar Sobolev space `W^{1,p}(Ω)`, with the same norm; that space, Lipschitz
+domains and Rellich's theorem are specified by the PDE roadmap and already in Tau Ceti. Gauss–Green
+with the outward normal and traces of BV functions come from the GeometricMeasureTheory roadmap. No
+roadmap on the main branch uses this one; one on finite element exterior calculus would be a
+natural user.
 
-It does not contain the L² theory on Riemannian manifolds; the identification of the harmonic spaces
-on a
-Lipschitz domain with de Rham cohomology; boundary conditions on a part of the boundary; regularized
-Poincaré
-and Bogovskiĭ operators and explicit Poincaré constants; vector-field proxies (`H(curl)`, `H(div)`)
-and Piola
-transforms; the `Lᵖ` Hodge decomposition and closed range for `p ≠ 2`; fractional trace spaces; or
-approximation
-of forms by piecewise polynomial forms.
+The first layer fixes the pointwise geometry and `d` on test forms, and the second defines the weak
+exterior derivative. The third builds the spaces, their zero-boundary versions and the adjoints of
+`d`. The fourth shows that pullback by a `C¹` diffeomorphism `Φ` with `DΦ` and `DΦ⁻¹` bounded, or a bi-Lipschitz
+homeomorphism, preserves `WᵖΛᵏ`, with norm bounds, and commutes with `d`. The fifth relates the spaces to the
+boundary through Gauss–Green: traces, Green's formula and gluing. The sixth proves the abstract
+theorems and applies them. The seventh reduces a Lipschitz domain to the cube `Q = (0,1)ⁿ` by
+bi-Lipschitz pullback, which puts a weight into the codifferential; the sixth layer's
+weight-independence theorem removes it. On `Q`, the Gaffney identity puts the coefficients of every
+form in `HΛᵏ₀ ∩ H*Λᵏ` into `W^{1,2}(Q)`, and Rellich's theorem concludes.
 
 ## Conventions
 
@@ -64,81 +69,6 @@ of forms by piecewise polynomial forms.
   (Arnold–Falk–Winther 2006, (2.7)).
 - **Lean names.** The names below live in `TauCetiRoadmap.SobolevDifferentialForms` in
   `Suggested.lean`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-All at the pinned Mathlib; file paths under `Mathlib/`.
-
-- `extDeriv`, `extDeriv_extDeriv` (`Analysis/Calculus/DifferentialForm/Basic.lean`);
-  `ContinuousAlternatingMap.alternatizeUncurryFin`
-  (`Analysis/Normed/Module/Alternating/Uncurry/Fin.lean`).
-- `exteriorPower.alternatingMapLinearEquiv` (`LinearAlgebra/ExteriorPower/Basic.lean`);
-  `LinearMap.BilinForm.exteriorPower`, `LinearMap.BilinForm.bijective_exteriorPower`
-  (`LinearAlgebra/ExteriorPower/BilinForm.lean`); the inner product on `⋀[ℝ]^k E`,
-  `exteriorPower.inner_ιMulti_ιMulti`, `OrthonormalBasis.exteriorPower`
-  (`Analysis/InnerProductSpace/ExteriorPower.lean`).
-- `Orientation.volumeForm_robust` (`Analysis/InnerProductSpace/Orientation.lean`).
-- `LinearPMap`, `LinearPMap.IsClosed` (`Topology/Algebra/Module/LinearPMap.lean`),
-  `LinearPMap.adjoint`,
-  `LinearPMap.IsFormalAdjoint` (`Analysis/InnerProductSpace/LinearPMap.lean`).
-- `Lp`, `WithLp`, Rademacher's theorem, mollification and the Lebesgue change of variables.
-
-### From Tau Ceti
-
-All on Tau Ceti's main branch, which `Suggested.lean` does not import; file paths under `TauCeti/Analysis/`.
-
-- `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`, `TauCeti.alternatingFormInner_eq_sum`
-  (`InnerProductSpace/AlternatingForm.lean`).
-- `Orientation.formHodgeStar`, `Orientation.wedge_formHodgeStar_apply`,
-  `Orientation.alternatingFormInner_formHodgeStar`, `Orientation.formHodgeStar_formHodgeStar`
-  (`InnerProductSpace/HodgeStar/AlternatingForm.lean`).
-- `TestFunction.extDerivCLM`, `TestFunction.extDerivCLM_apply`, `TestFunction.extDerivCLM_extDerivCLM`
-  (`Distribution/TestFunction/ExtDeriv.lean`); `TestFunction.divergenceCLM`
-  (`Distribution/TestFunction/Divergence.lean`).
-- `TauCeti.HasWeakFDerivOn`, `TauCeti.HasWeakLineDerivOn` (`Sobolev/WeakDeriv/Basic.lean`);
-  `HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace`
-  (`Sobolev/WeakDeriv/Divergence.lean`).
-- `TauCeti.W1p`, with jets `WithLp 2 (ℝ × E)` (`Sobolev/W1p/Basic.lean`); `TauCeti.W1p0`
-  (`Sobolev/W1p/Zero.lean`); `W1p.compL` (`Sobolev/W1p/ChangeOfVariables.lean`).
-- `Wkp.dense_contDiffOn_representatives` (`Sobolev/Wkp/MeyersSerrin.lean`) and
-  `Wkp0.extendByZeroₗᵢ` (`Sobolev/Wkp/Extension.lean`), as patterns for §3.2 and §3.3.
-- `Set.IsLipschitzDomainWith` (`Sobolev/LipschitzDomain/Basic.lean`);
-  `IsLipschitzDomainWith.exists_contDiff_partitionOfUnity` (`Sobolev/LipschitzDomain/PartitionOfUnity.lean`);
-  `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
-  (`Sobolev/LipschitzDomain/RellichKondrachov.lean`); `W1p.frontierTrace`, `W1p.ker_frontierTrace`
-  (`Sobolev/LipschitzDomain/Trace/Frontier.lean`).
-
-The pointwise Gram inner product and Hodge star are used with `V = E` and the standard orientation.
-`Orientation.formHodgeStar` is Mathlib's `exteriorPower.hodgeStar` on `⋀ᵏ V`, transported to alternating
-forms along `TauCeti.alternatingFormEquiv`.
-
-### From TauCetiRoadmap.PDE
-
-Lane A.6 owns the Lipschitz, trace and Rellich declarations above, and the normalized Hausdorff measure
-`μHE[n−1]` on the frontier. Tau Ceti states them on open subsets of `WithLp 2 (ℝ × E')`. On `E`, a **bounded
-Lipschitz domain** for `n ≥ 1` means the image of such a bounded set under a linear isometry onto `E`, with
-`finrank ℝ E' = n − 1`, and those theorems are transported along the isometry.
-
-### From TauCetiRoadmap.GeometricMeasureTheory
-
-G6: Gauss–Green with the outward normal, BV traces, integration by parts with the trace term on Lipschitz
-domains, and gluing across a Lipschitz interface.
-
-## How to read the build
-
-Layer 1 fixes the pointwise geometry and `d` on test forms. Layer 2 defines the weak exterior
-derivative by
-duality. Layer 3 builds the spaces, their boundary-value versions and the adjoints of `d`. Layer 4
-proves pullback.
-Layer 5 relates the spaces to the boundary through G6. Layer 6 proves the abstract Hilbert-complex
-theorems,
-independent of forms, and applies them. Layer 7 reduces a Lipschitz domain to the cube by
-bi-Lipschitz pullback,
-absorbs the resulting weight by Layer 6's weight independence, and proves the model case by the
-Gaffney identity and
-Rellich. Each layer uses only earlier layers and the suppliers above.
 
 ## Layer 1: pointwise geometry and test forms
 
@@ -654,6 +584,102 @@ Layers 2 to 6; Tau Ceti's Lipschitz domains and Rellich.
 No roadmap on the main branch consumes this one. The natural consumers are a roadmap on finite
 element exterior calculus, and on mixed formulations of Maxwell's
 equations and Hodge Laplacians on domains.
+
+## Scope and ownership
+
+This roadmap owns, for real-valued forms on open subsets of `EuclideanSpace ℝ (Fin n)`:
+
+- Layer 1: the type `Covector n k` carrying the Gram inner product, `LᵖΛᵏ(Ω)`, the star and
+  codifferential on it, and the adjointness of `d` and `δ` on test forms;
+- Layers 2 and 3: the weak exterior derivative, `WᵖΛᵏ(Ω)`, `WᵖΛᵏ₀(Ω)`, `H*Λᵏ(Ω)`, the adjoints of
+  `d`, density,
+  the degree-zero and top-degree identifications, and the weak divergence link;
+- Layer 4: pullback under `C¹` diffeomorphisms and bi-Lipschitz maps;
+- Layer 5: tangential traces, Green's formula, the zero-trace characterization and gluing;
+- Layer 6: abstract Hilbert complexes and the L² de Rham complex;
+- Layer 7: the Gaffney identity on the cube, Lipschitz charts as bi-Lipschitz cubes, Picard's
+  compactness and
+  its consequences.
+
+It leaves to named owners:
+
+- the Gram inner product on alternating maps, their identification with exterior powers and the
+  pointwise Hodge star to Tau Ceti;
+- scalar Sobolev spaces, Lipschitz domains, the scalar trace and Rellich to PDE Lane A, implemented in
+  Tau Ceti;
+- Gauss–Green, BV traces and BV gluing to GeometricMeasureTheory G6;
+- smooth forms and `extDeriv` to Mathlib, and forms on manifolds to DifferentialGeometry.
+
+It does not contain the L² theory on Riemannian manifolds; the identification of the harmonic spaces
+on a
+Lipschitz domain with de Rham cohomology; boundary conditions on a part of the boundary; regularized
+Poincaré
+and Bogovskiĭ operators and explicit Poincaré constants; vector-field proxies (`H(curl)`, `H(div)`)
+and Piola
+transforms; the `Lᵖ` Hodge decomposition and closed range for `p ≠ 2`; fractional trace spaces; or
+approximation
+of forms by piecewise polynomial forms.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+All at the pinned Mathlib; file paths under `Mathlib/`.
+
+- `extDeriv`, `extDeriv_extDeriv` (`Analysis/Calculus/DifferentialForm/Basic.lean`);
+  `ContinuousAlternatingMap.alternatizeUncurryFin`
+  (`Analysis/Normed/Module/Alternating/Uncurry/Fin.lean`).
+- `exteriorPower.alternatingMapLinearEquiv` (`LinearAlgebra/ExteriorPower/Basic.lean`);
+  `LinearMap.BilinForm.exteriorPower`, `LinearMap.BilinForm.bijective_exteriorPower`
+  (`LinearAlgebra/ExteriorPower/BilinForm.lean`); the inner product on `⋀[ℝ]^k E`,
+  `exteriorPower.inner_ιMulti_ιMulti`, `OrthonormalBasis.exteriorPower`
+  (`Analysis/InnerProductSpace/ExteriorPower.lean`).
+- `Orientation.volumeForm_robust` (`Analysis/InnerProductSpace/Orientation.lean`).
+- `LinearPMap`, `LinearPMap.IsClosed` (`Topology/Algebra/Module/LinearPMap.lean`),
+  `LinearPMap.adjoint`,
+  `LinearPMap.IsFormalAdjoint` (`Analysis/InnerProductSpace/LinearPMap.lean`).
+- `Lp`, `WithLp`, Rademacher's theorem, mollification and the Lebesgue change of variables.
+
+### From Tau Ceti
+
+All on Tau Ceti's main branch, which `Suggested.lean` does not import; file paths under `TauCeti/Analysis/`.
+
+- `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`, `TauCeti.alternatingFormInner_eq_sum`
+  (`InnerProductSpace/AlternatingForm.lean`).
+- `Orientation.formHodgeStar`, `Orientation.wedge_formHodgeStar_apply`,
+  `Orientation.alternatingFormInner_formHodgeStar`, `Orientation.formHodgeStar_formHodgeStar`
+  (`InnerProductSpace/HodgeStar/AlternatingForm.lean`).
+- `TestFunction.extDerivCLM`, `TestFunction.extDerivCLM_apply`, `TestFunction.extDerivCLM_extDerivCLM`
+  (`Distribution/TestFunction/ExtDeriv.lean`); `TestFunction.divergenceCLM`
+  (`Distribution/TestFunction/Divergence.lean`).
+- `TauCeti.HasWeakFDerivOn`, `TauCeti.HasWeakLineDerivOn` (`Sobolev/WeakDeriv/Basic.lean`);
+  `HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace`
+  (`Sobolev/WeakDeriv/Divergence.lean`).
+- `TauCeti.W1p`, with jets `WithLp 2 (ℝ × E)` (`Sobolev/W1p/Basic.lean`); `TauCeti.W1p0`
+  (`Sobolev/W1p/Zero.lean`); `W1p.compL` (`Sobolev/W1p/ChangeOfVariables.lean`).
+- `Wkp.dense_contDiffOn_representatives` (`Sobolev/Wkp/MeyersSerrin.lean`) and
+  `Wkp0.extendByZeroₗᵢ` (`Sobolev/Wkp/Extension.lean`), as patterns for §3.2 and §3.3.
+- `Set.IsLipschitzDomainWith` (`Sobolev/LipschitzDomain/Basic.lean`);
+  `IsLipschitzDomainWith.exists_contDiff_partitionOfUnity` (`Sobolev/LipschitzDomain/PartitionOfUnity.lean`);
+  `W1p.isCompactOperator_valueL_of_isLipschitzDomainWith`
+  (`Sobolev/LipschitzDomain/RellichKondrachov.lean`); `W1p.frontierTrace`, `W1p.ker_frontierTrace`
+  (`Sobolev/LipschitzDomain/Trace/Frontier.lean`).
+
+The pointwise Gram inner product and Hodge star are used with `V = E` and the standard orientation.
+`Orientation.formHodgeStar` is Mathlib's `exteriorPower.hodgeStar` on `⋀ᵏ V`, transported to alternating
+forms along `TauCeti.alternatingFormEquiv`.
+
+### From TauCetiRoadmap.PDE
+
+Lane A.6 owns the Lipschitz, trace and Rellich declarations above, and the normalized Hausdorff measure
+`μHE[n−1]` on the frontier. Tau Ceti states them on open subsets of `WithLp 2 (ℝ × E')`. On `E`, a **bounded
+Lipschitz domain** for `n ≥ 1` means the image of such a bounded set under a linear isometry onto `E`, with
+`finrank ℝ E' = n − 1`, and those theorems are transported along the isometry.
+
+### From TauCetiRoadmap.GeometricMeasureTheory
+
+G6: Gauss–Green with the outward normal, BV traces, integration by parts with the trace term on Lipschitz
+domains, and gluing across a Lipschitz interface.
 
 ## References
 

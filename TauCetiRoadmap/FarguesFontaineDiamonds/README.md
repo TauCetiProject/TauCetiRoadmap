@@ -1,61 +1,89 @@
 # Roadmap: the Fargues–Fontaine curve as a diamond
 
-**Summary.** This roadmap connects the fixed-field adic Fargues–Fontaine curve with the
-language of diamonds, using its specified adic construction. Starting from the
-period domain and Frobenius quotient of [AdicSpaces, Layer 6][adic-anchor],
-construct the product description `Y^◇ ≅ S × Spd(ℚ_p)` of the period-domain diamond, identify the
-curve diamond as an effective quotient, and transport its étale and finite
-étale sites. A second geometric milestone identifies a marked mixed-characteristic
-untilt with an analytic closed Cartier divisor, first on the period domain and
-then on the curve. The coefficient layer compares the resulting enhanced étale
-categories and their derived-complete adic systems.
+**Summary.** Fix a prime `p` and a complete rank-one perfectoid field `F` of
+characteristic `p` with valuation ring `O_F`, and write `S=Spa(F,O_F)`. The
+Fargues–Fontaine curve of `F` is built from the Witt vectors `W(O_F)`. Its
+period domain `Y` is the open part of `Spa(W(O_F),W(O_F))` where neither `p` nor
+`[ϖ]` vanishes, for a nonzero topologically nilpotent `ϖ ∈ O_F`, and the curve
+is the quotient `X=Y/φ_Y^ℤ` by Witt-vector Frobenius. Tau Ceti constructs `Y`,
+`X` and `q:Y→X` as adic spaces in [AdicSpaces][adic-anchor]; this roadmap
+describes the same curve as a diamond. Over a perfectoid space `T` of
+characteristic `p`, a point of `Y^◇` is an isomorphism class of a marked untilt
+`T^♯` of `T` (an untilt with its tilt identified with `T`) together with a map
+`T^♯→Y`. The coefficient field is `ℚ_p` throughout.
 
-The distinction between a comparison and a new construction matters throughout.
-The period ring, its Huber-pair topology, annuli, wandering charts and quotient
-are the objects of AdicSpaces. The diamond functor, tilting and primitive kernels
-are taken from their general theories. This roadmap supplies the fixed-field
-formulas and the analytic argument which makes the untilt equation a closed
-Cartier divisor. Its site compatibilities are useful independently of any
-classification of vector bundles.
+The first main theorem is a natural isomorphism of locally spatial diamonds
+`α_F:Y^◇ ≅ S×Spd(ℚ_p)`, compatible with the maps to `Spd(ℚ_p)`. It sends a
+marked untilt with its map to `Y` to the tilted map `T→S` and the untilt itself,
+which lies over `ℚ_p`. Conversely, a pair `(f,u)` gives the point defined by
+`θ_u∘W(f)`, where `θ_u` is Fontaine's map for the untilt. For `F` the completion
+of `𝔽_p((t^{1/p^∞}))` and its Kummer untilt with `t^♯=p`, the point with
+coordinates `(id_S,u)` sends `[t^{1/p^m}]` to `p^{1/p^m}`.
 
-## Scope and ownership
+Under `α_F`, Frobenius of `Y` becomes `φ_S×id`, where `φ_S` comes from `x↦x^p`
+on `F`. The second main theorem passes to the quotient. The map `q^◇:Y^◇→X^◇` is
+a surjective étale cover, and composition with it identifies maps from `X^◇` to
+any `v`-sheaf with the `φ_Y^◇`-invariant maps from `Y^◇`. Hence `α_F` induces a
+unique compatible isomorphism `X^◇ ≅ (S×Spd(ℚ_p))/(φ_S^ℤ×id)`. Both sides are
+locally spatial, quasi-compact and quasi-separated.
 
-The coefficient field is **`E = ℚ_p`**. The tilt is **`S = Spa(F, O_F)`**, where `F` is
-a complete rank-one perfectoid field of characteristic `p`. Algebraic closedness
-is required only in the stated geometric examples and in the residue-field
-reduction of the norm argument. All six layers are work in this scope.
+Through the étale-site comparison of [DiamondsAndVStacks][diamonds], `X` and
+`X^◇` have equivalent étale and finite étale sites. The third main theorem is
+Frobenius descent. Étale sheaves on `X^◇` of sets, or of modules over a discrete
+commutative ring, are equivalent to étale sheaves `M` on `Y^◇` with an
+isomorphism `φ_Y^{◇,*}M ≅ M`. Finite étale covers of `X^◇`, and hence of `X`,
+likewise correspond to finite étale covers of `Y^◇` with a Frobenius isomorphism
+and its cocycle.
 
-| Material | Owner and interface used here |
-| --- | --- |
-| Witt period ring, interval Huber pairs, radius, wandering-chart isomorphisms, actual adic quotient | [AdicSpaces, Layer 6][adic-anchor]; underlying spaces, windows and orbit topology from pinned `TauCeti.FarguesFontaine` as specified below |
-| Analytic adic spaces in the Yoneda category and their fibre products | [AdicEtaleGeometry][adic-etale], **A1** |
-| Marked untilts, bounded Fontaine `θ`, primitive kernels, integral tilts | [PerfectoidSpaces][perfectoid], **P1** |
-| Glued tilting, slice equivalence and rational perfectoid localizations | PerfectoidSpaces, **P2** |
-| Effective quotients and descent, `v`-local finite étale criterion, diamond atlases | [DiamondsAndVStacks][diamonds], **D0, D3, D4** |
-| Analytic adic-space diamond functor, `Spd` and étale-site comparison | DiamondsAndVStacks, **D6** |
-| Integral perfectoid recognition before inversion | PerfectoidSpaces, **P1.24**; primitive untilting and inversion in **P1.20–P1.21** |
-| Completed tensor products, Banach-module tensors and closed subspaces | [AdicSpacesPartII][adic-part-ii], **R0.3, R0.5, R0.8**; the analytic Cartier criterion is F4 below |
-| Topologically split completed base change | [AdicSpacesPartIII][adic-part-iii], **R3.5**, `split-injection-completed-base-change` |
-| Enhanced étale categories, `t`-structures and left completion; sections, tensor and coefficient change | [DiamondEtaleCohomology][cohomology], **C2; C3.2, C3.8, C3.11** |
-| Ringed-site enhancements, Postnikov and derived completion | EnhancedDerivedSheaves, **§§0.1–0.4, E2.3, E3.4, E4** |
-| Derived-complete adic coefficient systems and finite-level limits | [AdicCoefficientsAndComparisons][coefficients], **L0** |
+The fourth main theorem realizes untilts as divisors. Sections of `Y^◇→S`
+correspond to isomorphism classes of marked `ℚ_p`-untilts `S^♯` of `S`. For such
+an untilt, Fontaine's map `θ:W(O_F)→O_{F^♯}` has a principal kernel with a
+primitive generator `ξ`, and induces `i_u:S^♯→Y`. Then `i_u` is a closed Cartier
+divisor with ideal sheaf `ξO_Y`. The ideal is locally free of rank one, its
+quotient with the inherited valuations is an adic space, and the sequence
+`0→O_Y→O_Y→i_{u,*}O_{S^♯}→0`, starting with multiplication by `ξ`, is exact. The
+proof establishes a criterion of Scholze and Weinstein: on a uniform analytic
+adic space, a Cartier ideal is closed exactly when its section ideal has closed
+image on every open affinoid. Closed image on rational affinoids of `Y` comes
+from a lower bound for multiplication by `ξ` in the spectral norm. On the curve,
+`q∘i_u` is again a closed Cartier immersion, whose ideal is not claimed to be
+globally principal. Its divisor depends only on the Frobenius orbit of the
+marking. The moduli quotient `Spd(ℚ_p)/φ^ℤ`, whose `S`-points are these orbits,
+is distinct from `X^◇`.
 
-There is no reconstruction of a supplier's objects in a second namespace. In
-particular, F2 proves the categorical Frobenius graph relation from the actual
-wandering-chart maps; it does not replace those maps by topological quotient
-data. F4 uses the primitive-kernel classification, establishes the analytic closed
-Cartier criterion, and proves its applicability to these period annuli. F3 establishes effective descent for the étale-sheaf pseudofunctor along `q`
-and identifies its data with the cyclic relation.
+Finally, for every discrete commutative ring `Λ`, without torsion or
+prime-to-`p` hypotheses, the site comparison induces an equivalence from the
+left-completed derived category of `X_et` to `D_et(X^◇,Λ)`. On bounded-below
+complexes it is the ordinary comparison, and the natural map on global sections
+is an equivalence. For `Λ` complete for an ideal `I` generated by a finite
+regular sequence and containing an integer prime to `p`, such as `ℤ_ℓ` with
+`I=(ℓ)` and `ℓ≠p`, the finite levels assemble into an equivalence of derived
+`I`-complete categories. No adic comparison follows for `ℤ_p` with `I=(p)` or
+for rational `ℓ`-adic coefficients.
 
-Curves for general coefficient fields, arbitrary perfectoid bases and ramified
-Witt coefficients, with their marked-untilt Cartier divisors and `Div¹`, are
-VectorBundlesAndIsocrystals Layer 0 and RelativeFarguesFontaine Layers 2–4.
-Vector-bundle classification is VectorBundlesAndIsocrystals Layer 4, and
-the effective divisor moduli `Div^d` are its Layer 5, “Effective divisors and projective sections”. `Bun_G` is
-BunGAndNewtonStrata Layer 2. These roadmaps consume this one; see Downstream
-consumers. The fixed curve diamond is distinct from the moduli quotient
-`Div¹ = Spd(ℚ_p)/φ^ℤ`. The coefficient and six-operation
-theory is not a prerequisite for F0–F4.
+Marked untilts and `θ` come from [PerfectoidSpaces][perfectoid].
+VectorBundlesAndIsocrystals extends the untilt divisors to general coefficient
+fields, ramified Witt coefficients and arbitrary perfectoid bases, and
+classifies vector bundles. A first layer gives the curve its structure over
+`ℚ_p`; the next three prove the product formula, the quotient and the étale
+descent. Of these layers, the divisor layer needs only the first three, and the
+coefficient layer builds on the étale one.
+
+## How to read the build
+
+| Layer | Mathematical output | Prerequisite layers |
+| --- | --- | --- |
+| [F0](#layer-f0-adic-objects-and-comparison-category) | Analytic and scalar interfaces for the actual adic curve | AdicSpaces Layer 6; AdicEtaleGeometry A1; DiamondsAndVStacks D6 |
+| [F1](#layer-f1-the-untilt-product-formula) | `Y^◇ ≅ S × Spd(ℚ_p)`, with formulas and naturality | F0; PerfectoidSpaces P1/P2; DiamondsAndVStacks D6 |
+| [F2](#layer-f2-frobenius-and-the-effective-quotient) | Chosen-generator equivariance and `X^◇ ≅ (S × Spd(ℚ_p))/(φ_S^ℤ × id)` | F0/F1; AdicEtaleGeometry A1; DiamondsAndVStacks D0/D4/D6 |
+| [F3](#layer-f3-étale-sites-and-frobenius-descent) | Étale and finite étale equivalences, compatible sheaf descent | F2; DiamondsAndVStacks D0/D3/D6 |
+| [F4](#layer-f4-marked-untilts-as-analytic-cartier-divisors) | Closed Cartier untilt immersions on `Y` and `X` | F0/F1/F2; PerfectoidSpaces P1/P2; PerfectoidSpaces P1.24; AdicSpacesPartII R0.3/R0.5/R0.8; AdicSpacesPartIII R3.5 |
+| [F5](#layer-f5-enhanced-derived-and-adic-coefficients) | Left-completed and derived-complete coefficient comparisons | F3; DiamondEtaleCohomology C2/C3; AdicCoefficientsAndComparisons L0 |
+
+F3 is the first geometric endpoint: the existing curve is a specified locally
+spatial diamond with the same étale and finite étale sites. F4 adds the analytic
+divisor interpretation and can be developed without F3's coefficient
+categories. F5 uses F3's actual site functors and their restriction coherence.
 
 ## Conventions
 
@@ -143,188 +171,6 @@ Lean declarations of this roadmap belong to the namespace
 `TauCetiRoadmap.FarguesFontaineDiamonds`. The mathematical
 specification here includes the topological, geometric and enhanced coherence
 hypotheses.
-
-## Exact supplier contracts
-
-Use Mathlib's existing Witt-vector and categorical vocabulary. The following
-interfaces are used with their hypotheses, rather than as evidence that the
-fixed-field geometry has already been constructed:
-
-- **[WittVector.map](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Basic.lean#L253)**: for commutative coefficient rings and prime `p`, a ring
-  homomorphism induces the coefficientwise Witt-vector ring map.
-- **[WittVector.fontaineTheta](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/FontaineTheta.lean#L165)** and **[WittVector.fontaineTheta_teichmuller](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/FontaineTheta.lean#L182)**:
-  for a commutative ring `R`, prime `p`, `Fact (¬ IsUnit (p : R))` and
-  `IsAdicComplete (Ideal.span {(p : R)}) R`, the algebraic `θ` map on
-  `W(PreTilt(R,p))` evaluates `[x]` as `PreTilt.untilt x`. Continuity, boundedness
-  on the integral subring and the primitive kernel are additional P1 inputs.
-- **[WittVector.frobeniusEquiv](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Frobenius.lean#L283)**: for `CharP R p` and `PerfectRing R p`, with
-  prime `p`, Witt Frobenius is a ring equivalence. Transport it through the
-  topological Huber pair before using an adic automorphism.
-- **[CategoryTheory.Equivalence](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/CategoryTheory/Equivalence.lean#L82)**: functor, inverse, unit, counit and triangle
-  identity. Enhanced categories require the coherent C2/L0 interfaces in
-  addition to a bundled ordinary categorical equivalence.
-- **[TauCeti.ValuationSpectrum](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/ValuationSpectrum/Basic.lean#L73)** and
-  **[TauCeti.ValuationSpectrum.spaAnalytic_eq_spa_of_isTateRing](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean#L377)**: the existing
-  valuative-relation spectrum and its Tate analyticity theorem. For a
-  topological commutative Tate ring and specified plus subring, all Spa points
-  are analytic. Apply this chartwise to the adic objects of AdicSpaces.
-- **`TauCeti.FarguesFontaine` underlying spaces and Frobenius windows**:
-  [`Y.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean),
-  [`Window.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean),
-  [`Quotient.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Quotient.lean).
-  In this namespace `spaY`, `mem_spaY_iff` and
-  `spaY_eq_spa_inter_basicOpen` give `Y = D(p) ∩ D([ϖ])` inside
-  `Spa(W(R),W(R))`. For prime `p`, perfect commutative `R` of characteristic
-  `p`, and an `IsAdic` witness for `(p,[ϖ])` on `W(R)`,
-  `spaY_subset_spaAnalytic` gives analyticity of these points and
-  `frobeniusHomeomorph` gives valuation-precomposition Frobenius.
-  `IsRadiusLowerBound`, `IsRadiusUpperBound` and
-  `isRadiusLowerBound_comap_frobenius_iff` express radius scaling without
-  real-valued higher-rank valuations. The definitions `windowU`, `windowV`
-  use breakpoint `(p+1)/2`; `disjoint_image_iterate_comap_frobenius_windowU`
-  supplies wandering. The topological orbit space `spaX` and projection
-  `quotientMap` satisfy `quotientMap_eq_iff`:
-  `q(y)=q(y′) ↔ ∃ n∈ℤ, φ^n(y′)=y`.
-  `isOpenEmbedding_quotientMap_windowU`,
-  `image_windowU_zero_union_image_windowV_zero`, `compactSpace_spaX` and
-  `t0Space_spaX` give open window embeddings, the two-window cover,
-  quasi-compactness and `T0`. These are the point-set inputs of F0 and F2
-  from AdicSpaces §6.2. AdicSpaces §§6.3–6.4 supply the interval rings,
-  structure sheaf, adic chart isomorphisms and adic quotient. Their pinned
-  implementations include `TauCeti.FarguesFontaine.windowPreAdicSpaceIso` in
-  `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/IntervalChart.lean` and
-  `TauCeti.FarguesFontaine.isSheaf_spaYPresheaf`,
-  `TauCeti.FarguesFontaine.spaYAdicSpace`, `TauCeti.FarguesFontaine.spaXAdicSpace`,
-  `TauCeti.FarguesFontaine.spaYAdicFrobenius` and
-  `TauCeti.FarguesFontaine.quotientAdicHom` in
-  `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Adic.lean`.
-  The sheaf theorem assumes a perfect characteristic-`p` ring of integers in a
-  valued field, a nonzero `ϖ` of value less than 1 and the specified adic topology;
-  the adic objects and maps take its sheaf witness.
-
-### Algebraic suppliers and fixed-curve specializations
-
-Mathlib's `Ideal.IsPrime.mul_mem_iff_mem_or_mem` gives
-`D(p[ϖ]) = D(p) ∩ D([ϖ])` for a prime valuation support; there is no
-second support-product theorem here. `WittVector.map_teichmuller`, followed by
-`WittVector.fontaineTheta_teichmuller`, evaluates `θ ∘ W(f)` on `[x]` as
-`(f x).untilt` under the completeness and nonunit hypotheses above. This is the
-algebraic formula used in F1; the topological bijection remains F1's target.
-`Ideal.span_singleton_mul_left_unit` identifies the ideals of `ξ` and `u ξ`
-for a unit `u`, and `Ideal.span_singleton_eq_top` treats a unit generator.
-These are used with the quotient-pair transport in F4. For the set-level
-cover test, `Equiv.image_eq_iff_eq` and `Set.image_univ_of_surjective` identify
-a subset with the whole source exactly when its image is the whole target;
-`Set.image_union` transports the two-window union. They are supplied in
-`Logic/Equiv/Set` and `Data/Set/Image`. For a complete normed ring, the norm consequence in
-F4 uses `AddMonoidHomClass.antilipschitz_of_bound`, applied to
-`AddMonoidHom.mulLeft ξ` with nonnegative real constant `c⁻¹` for `c>0`,
-then `AntilipschitzWith.injective` and `AntilipschitzWith.isClosed_range`.
-Multiplication by `ξ` is Lipschitz by `norm_mul_le`, hence uniformly continuous;
-the normed-ring step needs no separate target. These are Mathlib declarations in
-`RingTheory/Ideal/Prime`, `RingTheory/Ideal/Span`,
-`RingTheory/WittVector/Teichmuller`, `Analysis/Normed/Group/Uniform` and
-`Topology/MetricSpace/Antilipschitz`.
-
-AdicSpaces §§6.1–6.4 supply the actual Witt pair, interval charts and quotient,
-including the canonical change-of-pseudouniformizer isomorphisms. The changes
-intertwine `q` and Frobenius, preserve rational restrictions and satisfy identity
-and composition. Uniqueness of the F0 `ℚ_p` factorization makes them `ℚ_p`-linear;
-the diamond functor of DiamondsAndVStacks §D6.4 transports these diagrams.
-For three choices, the direct comparison equals the composite comparison.
-
-DiamondsAndVStacks §D6.5 supplies `η:X_et ≌ X^◇_et` and its finite étale
-restriction `η_f`, applied to the analytic `X` of F0. Its forward functor sends
-`Z→X` to `Z^◇→X^◇`; the inverse, unit and counit are those of D6.5,
-and `η_f` commutes with the inclusion into the étale site. Covering families
-are the surjective families in the public KL Definitions 8.2.16 and 8.2.19.
-The identity object maps to the identity, the split cover `X⊔X` maps to the
-split diamond cover with its sheet maps, and the two wandering-chart images
-cover precisely when their diamond images cover. F3 builds the chart and
-Frobenius-descent compatibilities around this supplied equivalence.
-
-The external interfaces needed in stronger form are precise mathematical
-prerequisites:
-
-1. **AdicSpaces, Layer 6.** Import the `(p,[ϖ])`-adic Witt pair, strongly
-   noetherian complete interval pairs with their plus rings, actual wandering
-   locally valued-ringed-space isomorphisms, valuation-precomposition
-   Frobenius, radius scaling, quotient `q`, two-window cover and canonical
-   `ϖ`-change isomorphisms. A homeomorphism of chart spaces is insufficient.
-2. **PerfectoidSpaces, §§P1.20–P1.24.** Use primitive untilting and the
-   integral/Tate dictionary. For a regular parameter `π` with `π^p` dividing `p`,
-   separated `π`-adic completeness and bijective Frobenius `A/(π) → A/(π^p)`
-   give the integral perfectoid recognition theorem of §P1.24. On the root chart
-   use `π=v₁`, so `π^p=[ϖ]`; `[ϖ]^p` dividing `p` is not assumed.
-   Establish completeness and regularity on this actual chart in F4.
-3. **AdicSpacesPartII, §§R0.3, R0.5, R0.8.** Use the ordinary completed
-   tensor product for adic scalar maps, the Banach-module completed tensor
-   functor with its `BanachModule.CompletedTensor.exact_of_split` contract,
-   and closed adic subspaces for admissible ideal sheaves. A continuous
-   coefficient retraction gives the split annulus base change through
-   AdicSpacesPartIII §R3.5 (`split-injection-completed-base-change`), whose
-   module-level input is §R0.5. F4 supplies the continuous coefficient
-   projection and its rational-restriction compatibility; §R3.5 supplies the
-   completed retraction and closed embedding. The quotient plus ring in §R0.8 is the integral closure of the image.
-   F4 proves the additional all-affinoids Cartier criterion of SW Proposition
-   5.3.8; closed-subspace vocabulary alone does not assert it.
-4. **DiamondsAndVStacks, §§D0.25–D0.26, D3, D4 and D6.5.** Use its
-   `v`-site groupoid quotients, effective descent and finite étale descent,
-   and the analytic étale-site comparison. F3's Frobenius descent of étale sheaves establishes
-   the specialization to `U ↦ Sh(U_et, A)`, including objects, morphisms,
-   pullback associators and restriction compatibility along the particular
-   surjective étale cover `q`. The general quotient-stack construction is not
-   by itself an assertion that this pseudofunctor is a stack.
-5. **DiamondEtaleCohomology, §§C2.2–C2.5, C2.9–C2.12 and Layer C3.** Enhanced exact module-topos derived categories,
-   `t`-structures, coherent truncations and pullbacks, the left-completion
-   comparison for locally spatial diamonds, bounded-below agreement, the
-   derived tensor product of §C3.8 on `D_et(Y,Λ)`, symmetric monoidal with
-   unit `Λ_Y` and compatible with pullback, and the right adjoint `Rf_*` of
-   §C3.2, exact and limit-preserving, with `RΓ(Y,−)` the mapping object out
-   of `Λ_Y`. Use §C3.11 for derived coefficient reduction. Transport the
-   §C3.8 tensor to the left-completed adic-site category; the global-sections
-   functor preserves Postnikov limits, being corepresented by `Λ_Y`. These contracts
-   are stated for an arbitrary commutative coefficient ring, so they apply
-   directly at every finite level `Λ/I^n` of L0.
-6. **AdicCoefficientsAndComparisons, Layer L0**, targets
-   `L0/derived-I-complete-etale-category`, `L0/adic-coefficient-limit` and
-   `L0/completed-tensor-and-colimits`, supplies derived `I`-complete étale
-   systems on the diamond `v`-topos, their enhanced finite-coefficient limit,
-   coherent reduction and completed tensors. F5 transports this description
-   to the left-completed adic étale-site system via the finite-level
-   comparisons; no reconstruction theorem for the uncompleted adic étale
-   topos is assumed. The coefficient dependency order is EnhancedDerivedSheaves
-   E4 and DiamondEtaleCohomology C2/C3, then AdicCoefficientsAndComparisons L0,
-   then F5. L0 owns the generic derived-complete category, reconstruction and
-   completed operations; F5 owns their transport through the fixed-curve site
-   comparison. Include `ℤ_ℓ, I=(ℓ), ℓ≠p` with its transitions.
-7. **EnhancedDerivedSheaves, §§0.1–0.4, E2.3, E3.4 and Layer E4.** Use
-   coherent ringed-site module enhancements, Postnikov completion, coefficient
-   towers and mates, derived-complete sheaves and coefficient-system
-   reconstruction on a replete topos. The ordinary adic étale topos need
-   not be replete; the diamond `v`-topos and the finite-level left completions
-   are the inputs to F5's completed comparison.
-
-These contracts determine the mathematical prerequisites. The target prerequisites below name the
-owning roadmap and layer and, where needed, the particular interface within
-that layer. A local declaration name refers to the target in its indicated
-layer, with all the conventions above.
-
-## How to read the build
-
-| Layer | Mathematical output | Prerequisite layers |
-| --- | --- | --- |
-| [F0](#layer-f0-adic-objects-and-comparison-category) | Analytic and scalar interfaces for the actual adic curve | AdicSpaces Layer 6; AdicEtaleGeometry A1; DiamondsAndVStacks D6 |
-| [F1](#layer-f1-the-untilt-product-formula) | `Y^◇ ≅ S × Spd(ℚ_p)`, with formulas and naturality | F0; PerfectoidSpaces P1/P2; DiamondsAndVStacks D6 |
-| [F2](#layer-f2-frobenius-and-the-effective-quotient) | Chosen-generator equivariance and `X^◇ ≅ (S × Spd(ℚ_p))/(φ_S^ℤ × id)` | F0/F1; AdicEtaleGeometry A1; DiamondsAndVStacks D0/D4/D6 |
-| [F3](#layer-f3-étale-sites-and-frobenius-descent) | Étale and finite étale equivalences, compatible sheaf descent | F2; DiamondsAndVStacks D0/D3/D6 |
-| [F4](#layer-f4-marked-untilts-as-analytic-cartier-divisors) | Closed Cartier untilt immersions on `Y` and `X` | F0/F1/F2; PerfectoidSpaces P1/P2; PerfectoidSpaces P1.24; AdicSpacesPartII R0.3/R0.5/R0.8; AdicSpacesPartIII R3.5 |
-| [F5](#layer-f5-enhanced-derived-and-adic-coefficients) | Left-completed and derived-complete coefficient comparisons | F3; DiamondEtaleCohomology C2/C3; AdicCoefficientsAndComparisons L0 |
-
-F3 is the first geometric endpoint: the existing curve is a specified locally
-spatial diamond with the same étale and finite étale sites. F4 adds the analytic
-divisor interpretation and can be developed without F3's coefficient
-categories. F5 uses F3's actual site functors and their restriction coherence.
 
 ## Layer F0: Adic objects and comparison category
 
@@ -1124,6 +970,211 @@ effective divisors, degree-one divisor moduli) compare their relative
 constructions with F4 at `E=ℚ_p`. BunGAndNewtonStrata Layer 2 owns `Bun_G`.
 AutomorphicGaloisRepresentationsPartII and ModularityAndLanglandsExtensions use
 F0–F4 for the fixed-field `ℚ_p` curve, its quotient and marked-untilt divisors.
+
+## Scope and ownership
+
+The coefficient field is **`E = ℚ_p`**. The tilt is **`S = Spa(F, O_F)`**, where `F` is
+a complete rank-one perfectoid field of characteristic `p`. Algebraic closedness
+is required only in the stated geometric examples and in the residue-field
+reduction of the norm argument. All six layers are work in this scope.
+
+| Material | Owner and interface used here |
+| --- | --- |
+| Witt period ring, interval Huber pairs, radius, wandering-chart isomorphisms, actual adic quotient | [AdicSpaces, Layer 6][adic-anchor]; underlying spaces, windows and orbit topology from pinned `TauCeti.FarguesFontaine` as specified below |
+| Analytic adic spaces in the Yoneda category and their fibre products | [AdicEtaleGeometry][adic-etale], **A1** |
+| Marked untilts, bounded Fontaine `θ`, primitive kernels, integral tilts | [PerfectoidSpaces][perfectoid], **P1** |
+| Glued tilting, slice equivalence and rational perfectoid localizations | PerfectoidSpaces, **P2** |
+| Effective quotients and descent, `v`-local finite étale criterion, diamond atlases | [DiamondsAndVStacks][diamonds], **D0, D3, D4** |
+| Analytic adic-space diamond functor, `Spd` and étale-site comparison | DiamondsAndVStacks, **D6** |
+| Integral perfectoid recognition before inversion | PerfectoidSpaces, **P1.24**; primitive untilting and inversion in **P1.20–P1.21** |
+| Completed tensor products, Banach-module tensors and closed subspaces | [AdicSpacesPartII][adic-part-ii], **R0.3, R0.5, R0.8**; the analytic Cartier criterion is F4 above |
+| Topologically split completed base change | [AdicSpacesPartIII][adic-part-iii], **R3.5**, `split-injection-completed-base-change` |
+| Enhanced étale categories, `t`-structures and left completion; sections, tensor and coefficient change | [DiamondEtaleCohomology][cohomology], **C2; C3.2, C3.8, C3.11** |
+| Ringed-site enhancements, Postnikov and derived completion | EnhancedDerivedSheaves, **§§0.1–0.4, E2.3, E3.4, E4** |
+| Derived-complete adic coefficient systems and finite-level limits | [AdicCoefficientsAndComparisons][coefficients], **L0** |
+
+There is no reconstruction of a supplier's objects in a second namespace. In
+particular, F2 proves the categorical Frobenius graph relation from the actual
+wandering-chart maps; it does not replace those maps by topological quotient
+data. F4 uses the primitive-kernel classification, establishes the analytic closed
+Cartier criterion, and proves its applicability to these period annuli. F3 establishes effective descent for the étale-sheaf pseudofunctor along `q`
+and identifies its data with the cyclic relation.
+
+Curves for general coefficient fields, arbitrary perfectoid bases and ramified
+Witt coefficients, with their marked-untilt Cartier divisors and `Div¹`, are
+VectorBundlesAndIsocrystals Layer 0 and RelativeFarguesFontaine Layers 2–4.
+Vector-bundle classification is VectorBundlesAndIsocrystals Layer 4, and
+the effective divisor moduli `Div^d` are its Layer 5, “Effective divisors and projective sections”. `Bun_G` is
+BunGAndNewtonStrata Layer 2. These roadmaps consume this one; see Downstream
+consumers. The fixed curve diamond is distinct from the moduli quotient
+`Div¹ = Spd(ℚ_p)/φ^ℤ`. The coefficient and six-operation
+theory is not a prerequisite for F0–F4.
+
+## Exact supplier contracts
+
+Use Mathlib's existing Witt-vector and categorical vocabulary. The following
+interfaces are used with their hypotheses, rather than as evidence that the
+fixed-field geometry has already been constructed:
+
+- **[WittVector.map](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Basic.lean#L253)**: for commutative coefficient rings and prime `p`, a ring
+  homomorphism induces the coefficientwise Witt-vector ring map.
+- **[WittVector.fontaineTheta](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/FontaineTheta.lean#L165)** and **[WittVector.fontaineTheta_teichmuller](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/FontaineTheta.lean#L182)**:
+  for a commutative ring `R`, prime `p`, `Fact (¬ IsUnit (p : R))` and
+  `IsAdicComplete (Ideal.span {(p : R)}) R`, the algebraic `θ` map on
+  `W(PreTilt(R,p))` evaluates `[x]` as `PreTilt.untilt x`. Continuity, boundedness
+  on the integral subring and the primitive kernel are additional P1 inputs.
+- **[WittVector.frobeniusEquiv](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Frobenius.lean#L283)**: for `CharP R p` and `PerfectRing R p`, with
+  prime `p`, Witt Frobenius is a ring equivalence. Transport it through the
+  topological Huber pair before using an adic automorphism.
+- **[CategoryTheory.Equivalence](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/CategoryTheory/Equivalence.lean#L82)**: functor, inverse, unit, counit and triangle
+  identity. Enhanced categories require the coherent C2/L0 interfaces in
+  addition to a bundled ordinary categorical equivalence.
+- **[TauCeti.ValuationSpectrum](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/ValuationSpectrum/Basic.lean#L73)** and
+  **[TauCeti.ValuationSpectrum.spaAnalytic_eq_spa_of_isTateRing](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean#L377)**: the existing
+  valuative-relation spectrum and its Tate analyticity theorem. For a
+  topological commutative Tate ring and specified plus subring, all Spa points
+  are analytic. Apply this chartwise to the adic objects of AdicSpaces.
+- **`TauCeti.FarguesFontaine` underlying spaces and Frobenius windows**:
+  [`Y.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean),
+  [`Window.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean),
+  [`Quotient.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Quotient.lean).
+  In this namespace `spaY`, `mem_spaY_iff` and
+  `spaY_eq_spa_inter_basicOpen` give `Y = D(p) ∩ D([ϖ])` inside
+  `Spa(W(R),W(R))`. For prime `p`, perfect commutative `R` of characteristic
+  `p`, and an `IsAdic` witness for `(p,[ϖ])` on `W(R)`,
+  `spaY_subset_spaAnalytic` gives analyticity of these points and
+  `frobeniusHomeomorph` gives valuation-precomposition Frobenius.
+  `IsRadiusLowerBound`, `IsRadiusUpperBound` and
+  `isRadiusLowerBound_comap_frobenius_iff` express radius scaling without
+  real-valued higher-rank valuations. The definitions `windowU`, `windowV`
+  use breakpoint `(p+1)/2`; `disjoint_image_iterate_comap_frobenius_windowU`
+  supplies wandering. The topological orbit space `spaX` and projection
+  `quotientMap` satisfy `quotientMap_eq_iff`:
+  `q(y)=q(y′) ↔ ∃ n∈ℤ, φ^n(y′)=y`.
+  `isOpenEmbedding_quotientMap_windowU`,
+  `image_windowU_zero_union_image_windowV_zero`, `compactSpace_spaX` and
+  `t0Space_spaX` give open window embeddings, the two-window cover,
+  quasi-compactness and `T0`. These are the point-set inputs of F0 and F2
+  from AdicSpaces §6.2. AdicSpaces §§6.3–6.4 supply the interval rings,
+  structure sheaf, adic chart isomorphisms and adic quotient. Their pinned
+  implementations include `TauCeti.FarguesFontaine.windowPreAdicSpaceIso` in
+  `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/IntervalChart.lean` and
+  `TauCeti.FarguesFontaine.isSheaf_spaYPresheaf`,
+  `TauCeti.FarguesFontaine.spaYAdicSpace`, `TauCeti.FarguesFontaine.spaXAdicSpace`,
+  `TauCeti.FarguesFontaine.spaYAdicFrobenius` and
+  `TauCeti.FarguesFontaine.quotientAdicHom` in
+  `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Adic.lean`.
+  The sheaf theorem assumes a perfect characteristic-`p` ring of integers in a
+  valued field, a nonzero `ϖ` of value less than 1 and the specified adic topology;
+  the adic objects and maps take its sheaf witness.
+
+### Algebraic suppliers and fixed-curve specializations
+
+Mathlib's `Ideal.IsPrime.mul_mem_iff_mem_or_mem` gives
+`D(p[ϖ]) = D(p) ∩ D([ϖ])` for a prime valuation support; there is no
+second support-product theorem here. `WittVector.map_teichmuller`, followed by
+`WittVector.fontaineTheta_teichmuller`, evaluates `θ ∘ W(f)` on `[x]` as
+`(f x).untilt` under the completeness and nonunit hypotheses above. This is the
+algebraic formula used in F1; the topological bijection remains F1's target.
+`Ideal.span_singleton_mul_left_unit` identifies the ideals of `ξ` and `u ξ`
+for a unit `u`, and `Ideal.span_singleton_eq_top` treats a unit generator.
+These are used with the quotient-pair transport in F4. For the set-level
+cover test, `Equiv.image_eq_iff_eq` and `Set.image_univ_of_surjective` identify
+a subset with the whole source exactly when its image is the whole target;
+`Set.image_union` transports the two-window union. They are supplied in
+`Logic/Equiv/Set` and `Data/Set/Image`. For a complete normed ring, the norm consequence in
+F4 uses `AddMonoidHomClass.antilipschitz_of_bound`, applied to
+`AddMonoidHom.mulLeft ξ` with nonnegative real constant `c⁻¹` for `c>0`,
+then `AntilipschitzWith.injective` and `AntilipschitzWith.isClosed_range`.
+Multiplication by `ξ` is Lipschitz by `norm_mul_le`, hence uniformly continuous;
+the normed-ring step needs no separate target. These are Mathlib declarations in
+`RingTheory/Ideal/Prime`, `RingTheory/Ideal/Span`,
+`RingTheory/WittVector/Teichmuller`, `Analysis/Normed/Group/Uniform` and
+`Topology/MetricSpace/Antilipschitz`.
+
+AdicSpaces §§6.1–6.4 supply the actual Witt pair, interval charts and quotient,
+including the canonical change-of-pseudouniformizer isomorphisms. The changes
+intertwine `q` and Frobenius, preserve rational restrictions and satisfy identity
+and composition. Uniqueness of the F0 `ℚ_p` factorization makes them `ℚ_p`-linear;
+the diamond functor of DiamondsAndVStacks §D6.4 transports these diagrams.
+For three choices, the direct comparison equals the composite comparison.
+
+DiamondsAndVStacks §D6.5 supplies `η:X_et ≌ X^◇_et` and its finite étale
+restriction `η_f`, applied to the analytic `X` of F0. Its forward functor sends
+`Z→X` to `Z^◇→X^◇`; the inverse, unit and counit are those of D6.5,
+and `η_f` commutes with the inclusion into the étale site. Covering families
+are the surjective families in the public KL Definitions 8.2.16 and 8.2.19.
+The identity object maps to the identity, the split cover `X⊔X` maps to the
+split diamond cover with its sheet maps, and the two wandering-chart images
+cover precisely when their diamond images cover. F3 builds the chart and
+Frobenius-descent compatibilities around this supplied equivalence.
+
+The external interfaces needed in stronger form are precise mathematical
+prerequisites:
+
+1. **AdicSpaces, Layer 6.** Import the `(p,[ϖ])`-adic Witt pair, strongly
+   noetherian complete interval pairs with their plus rings, actual wandering
+   locally valued-ringed-space isomorphisms, valuation-precomposition
+   Frobenius, radius scaling, quotient `q`, two-window cover and canonical
+   `ϖ`-change isomorphisms. A homeomorphism of chart spaces is insufficient.
+2. **PerfectoidSpaces, §§P1.20–P1.24.** Use primitive untilting and the
+   integral/Tate dictionary. For a regular parameter `π` with `π^p` dividing `p`,
+   separated `π`-adic completeness and bijective Frobenius `A/(π) → A/(π^p)`
+   give the integral perfectoid recognition theorem of §P1.24. On the root chart
+   use `π=v₁`, so `π^p=[ϖ]`; `[ϖ]^p` dividing `p` is not assumed.
+   Establish completeness and regularity on this actual chart in F4.
+3. **AdicSpacesPartII, §§R0.3, R0.5, R0.8.** Use the ordinary completed
+   tensor product for adic scalar maps, the Banach-module completed tensor
+   functor with its `BanachModule.CompletedTensor.exact_of_split` contract,
+   and closed adic subspaces for admissible ideal sheaves. A continuous
+   coefficient retraction gives the split annulus base change through
+   AdicSpacesPartIII §R3.5 (`split-injection-completed-base-change`), whose
+   module-level input is §R0.5. F4 supplies the continuous coefficient
+   projection and its rational-restriction compatibility; §R3.5 supplies the
+   completed retraction and closed embedding. The quotient plus ring in §R0.8 is the integral closure of the image.
+   F4 proves the additional all-affinoids Cartier criterion of SW Proposition
+   5.3.8; closed-subspace vocabulary alone does not assert it.
+4. **DiamondsAndVStacks, §§D0.25–D0.26, D3, D4 and D6.5.** Use its
+   `v`-site groupoid quotients, effective descent and finite étale descent,
+   and the analytic étale-site comparison. F3's Frobenius descent of étale sheaves establishes
+   the specialization to `U ↦ Sh(U_et, A)`, including objects, morphisms,
+   pullback associators and restriction compatibility along the particular
+   surjective étale cover `q`. The general quotient-stack construction is not
+   by itself an assertion that this pseudofunctor is a stack.
+5. **DiamondEtaleCohomology, §§C2.2–C2.5, C2.9–C2.12 and Layer C3.** Enhanced exact module-topos derived categories,
+   `t`-structures, coherent truncations and pullbacks, the left-completion
+   comparison for locally spatial diamonds, bounded-below agreement, the
+   derived tensor product of §C3.8 on `D_et(Y,Λ)`, symmetric monoidal with
+   unit `Λ_Y` and compatible with pullback, and the right adjoint `Rf_*` of
+   §C3.2, exact and limit-preserving, with `RΓ(Y,−)` the mapping object out
+   of `Λ_Y`. Use §C3.11 for derived coefficient reduction. Transport the
+   §C3.8 tensor to the left-completed adic-site category; the global-sections
+   functor preserves Postnikov limits, being corepresented by `Λ_Y`. These contracts
+   are stated for an arbitrary commutative coefficient ring, so they apply
+   directly at every finite level `Λ/I^n` of L0.
+6. **AdicCoefficientsAndComparisons, Layer L0**, targets
+   `L0/derived-I-complete-etale-category`, `L0/adic-coefficient-limit` and
+   `L0/completed-tensor-and-colimits`, supplies derived `I`-complete étale
+   systems on the diamond `v`-topos, their enhanced finite-coefficient limit,
+   coherent reduction and completed tensors. F5 transports this description
+   to the left-completed adic étale-site system via the finite-level
+   comparisons; no reconstruction theorem for the uncompleted adic étale
+   topos is assumed. The coefficient dependency order is EnhancedDerivedSheaves
+   E4 and DiamondEtaleCohomology C2/C3, then AdicCoefficientsAndComparisons L0,
+   then F5. L0 owns the generic derived-complete category, reconstruction and
+   completed operations; F5 owns their transport through the fixed-curve site
+   comparison. Include `ℤ_ℓ, I=(ℓ), ℓ≠p` with its transitions.
+7. **EnhancedDerivedSheaves, §§0.1–0.4, E2.3, E3.4 and Layer E4.** Use
+   coherent ringed-site module enhancements, Postnikov completion, coefficient
+   towers and mates, derived-complete sheaves and coefficient-system
+   reconstruction on a replete topos. The ordinary adic étale topos need
+   not be replete; the diamond `v`-topos and the finite-level left completions
+   are the inputs to F5's completed comparison.
+
+These contracts determine the mathematical prerequisites. The target prerequisites above name the
+owning roadmap and layer and, where needed, the particular interface within
+that layer. A local declaration name refers to the target in its indicated
+layer, with all the conventions above.
 
 ## References
 

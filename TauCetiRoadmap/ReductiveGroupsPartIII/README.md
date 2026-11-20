@@ -1,138 +1,73 @@
 # Roadmap: reductive groups, part III — arithmetic conjugacy quotients and tori
 
-**Summary.** This roadmap builds the arithmetic theory of semisimple conjugacy classes and maximal
-tori of reductive groups over number fields and their completions. It uses ArithmeticGaloisRepresentations §1.11’s conjugacy
-quotient `Conj(G)=Spec C(G)` of a connected reductive group, where `C(G)` is the algebra of
-regular functions invariant under conjugation over every coefficient algebra. It proves the group
-form of Chevalley restriction `C(G)≅O(T)^W` and separation of geometric semisimple classes
-by characters (Steinberg), using that supplier’s classification by `Conj(G)`. Arithmetic descent follows:
-Jordan's covering lemma, rationality of points that are rational at almost every prime, quotient
-maps that are injective on geometric points, and inner-form identifications. For tori it proves
-Harder's approximation of local maximal tori by a global one, the construction of global torus
-classes with prescribed real component, and the real Weyl-cocycle adjustment of a Shimura
-cocharacter. It then defines the Serre condition, prime-units and Weil points, and proves that Weil
-points of a Serre torus are its prime-units and that neat ones are Zariski dense. Two consequences
-follow. One is the Kisin–Madapusi Pera–Shin descent of a family of realizations of one group to a
-rational torus embedding, together with the odd unitary Hasse principle. The other is the
-reductive-group half of Kisin–Zhou's independence of `ℓ` for abelian varieties: a common rational
-Frobenius class in `Conj(G)` for the Mumford–Tate group `G`, a real elliptic representative of it,
-and, when `G_der` is simply connected and `G_{ℚ_p}` is quasi-split, a rational representative that
-matches the local Frobenius classes away from one auxiliary prime.
+**Summary.** For a connected reductive group G over a field, the regular functions on G invariant
+under conjugation form the algebra `C(G)` of class functions; its spectrum `Conj(G)` is the
+conjugacy quotient. Over an algebraically closed field its points correspond to the semisimple
+conjugacy classes. Over a number field, a rational point of `Conj(G)` need not lift to a rational
+element of G, and two rational elements with the same image need not be rationally conjugate. This
+roadmap builds the arithmetic theory of semisimple conjugacy classes and maximal tori of reductive
+groups over number fields and their completions, and applies it to Frobenius elements of abelian
+varieties. Layer 0, apart from one construction, and a rigidity lemma hold over any field;
+everything else is in characteristic zero.
 
-The quotient `Conj(G)` records geometric semisimple classes. Its rational points are not rational
-conjugacy classes, and a rational point of `Conj(G)` need not lift to a rational element of `G`.
-These three notions stay distinct throughout. Torus cohomology controls the passage from local to
-global, and dense subgroups of Weil points make comparisons of realization maps rigid.
+If T is a maximal torus of G defined over the ground field, with Weyl group W, restriction of
+functions maps `C(G)` isomorphically onto the W-invariant functions on T, so `Conj(G)` is `T/W`. No
+splitting, simple connectivity or condition on the characteristic is assumed. Hence, over an
+algebraically closed field, two semisimple elements are conjugate if and only if they have equal
+traces in every finite-dimensional representation. One faithful representation is not enough: under
+`t ↦ diag(t, t⁻¹)` the points 2 and 1/2 of `G_m` have the same characteristic polynomial.
 
-## Scope and ownership
+Let G be connected reductive over a number field F, and prescribe a maximal torus of G over the
+completion `F_v` for each place v in a finite set. By Harder's approximation theorem, some maximal
+torus of G defined over F becomes conjugate to the prescribed one by an element of `G(F_v)` at each
+of these places.
 
-This roadmap continues **ReductiveGroups** and **ReductiveGroupsPartII**. ReductiveGroups
-supplies the algebraic structure theory: representations as comodules (Layer 1),
-subgroups and quotients (Layer 3), Jordan decomposition and tori (Layer 4), reductive groups and
-central isogenies (Layer 6), maximal tori, root data and Weyl groups (Layer 7), the
-isomorphism theorem with inner and outer automorphisms (Layer 9D), and highest-weight theory
-(Layer 10). ReductiveGroupsPartII adds the point topology over local fields (RG2.0), Weil restriction
-and the Deligne torus (RG2.0a), quasi-split forms (RG2.1.1), the algebraic fundamental group and
-`z`-extensions (RG2.1.5) and parahoric group schemes (RG2.3). Neither treats the conjugacy
-quotient as an arithmetic object, the descent of Frobenius classes, or the global theory of
-maximal tori. That is the subject here.
+A ℚ-torus satisfies the Serre condition when its largest ℝ-split subtorus is defined and split over
+ℚ. For a prime l, a rational point is an l-unit when its integer powers form a relatively compact
+subgroup of the `ℚ_v`-points for every prime v≠l. It is an l-Weil point when its eigenvalues in a
+faithful representation are units at every finite place not above l and have absolute value
+`l^(w/2)`, for an integer w depending on the eigenvalue, under every complex embedding. On a torus satisfying the Serre
+condition the two notions coincide. On the norm-one torus of ℚ(√3), which fails it, 2+√3 is an
+l-unit for every l but not a Weil point. If the torus is also split over `ℚ_l`, its l-Weil points
+form a Zariski-dense subgroup, and for some m>0 their m-th powers are dense and are neat: their
+eigenvalues generate a torsion-free group.
 
-**Owned here.** The equalizer presentation of class functions; group Chevalley restriction for connected reductive groups over any field; separation of geometric semisimple classes by characters; finiteness of the quotient map of a faithful representation; the orthogonal outer
-quotient `Conj′(G)` and the group `Aut′(G)`. Jordan's covering lemma and rational descent of
-algebraic points; algebraicity above rational invariants; the inner-form identification of
-conjugacy quotients; the quotient injections for diagonal Weil-restriction subgroups and
-antidiagonal central products. Global torus classes with prescribed real component; Harder's
-approximation of maximal tori; real Weyl cocycles and the global cocharacter twist. The Serre
-condition, prime-units, `l`-Weil numbers (as a refinement of Weil numbers), Weil points, the neat
-cyclic-closure comparison, the Serre-unit criterion, density of neat Weil points and rigidity under
-finite automorphism groups. Conjugacy of common-source realizations, Galois descent of local
-embedding classes, rational torus embeddings into quasi-split groups, local-to-global transfer of
-maximal tori, rational tori for common realizations and the odd unitary similitude Hasse
-principle. The cohomological Mumford–Tate conventions and their explicit normalization witnesses, the auxiliary groups of good-reduction descent, the common rational Frobenius
-class obtained from an auxiliary group, real elliptic representatives and the one-prime patching
-of rational representatives. Five interfaces at the edge of the cohomology and building suppliers
-are owned here as well, each at the point where its supplier stops: the localization exact sequence
-of torus cohomology (§2.0; EndoscopicTransferAndUnitaryTraceComparison §1.2(b) identifies the
-global-mod-local group with `(X_*(T)_Γ)_tors` but not the map from local classes as the sum of
-local Tate–Nakayama maps); the openness of local regular-centralizer loci (§2.1a; its real case is
-ShimuraVarieties §P.5, which §2.1a consumes, and ReductiveGroupsPartII §RG2.0.2 supplies analytic
-charts and the inverse function theorem only); rational
-embeddings in a Galois-stable embedding class into a quasi-split group (§4.3;
-EndoscopicTransferAndUnitaryTraceComparison §1.6 transfers maximal tori from an inner form only);
-the fixer intersection and very special points for a closed immersion with identical derived
-groups (§5.3a; ReductiveGroupsPartII §§RG2.2.3–RG2.2.4 give building maps for field extensions,
-Weil restrictions, central surjections, Levi subgroups and the toral embedding into a `GL(V)`
-building, and §§RG2.3.3–RG2.3.4 fixers and very special points of a single group, but no fixer
-intersection along such an immersion); and the relative obstruction for an inner form (§5.7a;
-EndoscopicTransferAndUnitaryTraceComparison §1.15 states the case `G₀=G`).
+Layer 5 proves the group-theoretic part of Kisin and Zhou's independence of ℓ for Frobenius
+conjugacy classes. Let A be an abelian variety of dimension g ≥ 1 over a number field, G the
+Mumford–Tate group of its first Betti cohomology, and `Fr_v` a geometric Frobenius at a place v of
+good reduction above p. Assume each ℓ-adic representation `ρ_ℓ` takes values in `G(ℚ_ℓ)`. Geometry
+enters as an explicit hypothesis: a rational point of the conjugacy quotient of an auxiliary group
+built here, matching the class of `ρ_ℓ(Fr_v)` for every ℓ≠p. For p>2 this is Kisin and Zhou's
+geometric theorem on Shimura varieties, not proved here. The roadmap deduces a unique rational point
+`γ_v` of `Conj(G)` that is the class of `ρ_ℓ(Fr_v)` over `ℚ_ℓ` for every ℓ≠p. It has a
+representative in `G(ℝ)` lying in an elliptic maximal torus, one anisotropic modulo the centre. If
+moreover the derived group of G is simply connected and G is quasi-split over `ℚ_p`, then `γ_v`
+lifts to an element of `G(ℚ)` conjugate to `ρ_ℓ(Fr_v)` in `G(ℚ_ℓ)` for every ℓ≠p but at most one.
 
-**Used from other roadmaps, not rebuilt.**
+The quotient and its correspondence with semisimple classes come from
+ArithmeticGaloisRepresentations. The roadmap continues ReductiveGroups and ReductiveGroupsPartII,
+whose structure theory of reductive groups it uses, and takes its Galois cohomology from
+EndoscopicTransferAndUnitaryTraceComparison. A Shimura-variety roadmap proving the geometric
+theorems assumed here can combine them with this roadmap into unconditional statements.
 
-- **ArithmeticGaloisRepresentations** §1.11, *Reductive quotients over fields and DVRs*, owns
-  the conjugacy quotient of a connected reductive group, its universal property, flat base change,
-  finite generation, the characteristic-polynomial quotient of `GL_n`, and the bijection between
-  geometric quotient points and semisimple conjugacy classes, including surjectivity and the
-  semisimple-part description of every fibre. Group Chevalley restriction here adds the explicit
-  torus restriction isomorphism for arbitrary maximal tori.
-- **ShimuraVarieties** §7.0i.1 owns the common open Galois subgroup on which all realizations take
-  values in the Mumford–Tate group, its independence of `ℓ`, the finite extension it defines, and
-  the inner-form transport under a change of complex embedding. **MotivesAndAlgebraicCycles**
-  §6.8 owns the tensor-isomorphism torsor between two fibre functors and the inner twist it
-  produces; no target here consumes it. §5.1 fixes the conventions used by the arithmetic
-  applications.
-- The invariant coordinate algebras under simultaneous conjugation, `O[Hⁿ]^H` for a commutative
-  Hopf algebra and every arity `n`, are **IntegralHeckeAndGaloisDeterminants** §0.7. The arity-one
-  algebra is the algebra of regular class functions; Layer 0 proves only its presentation as an
-  equalizer of two coordinate maps, used to state the headline finiteness theorem.
-- The classification of simple rational representations of a split connected reductive group by
-  dominant weights and their highest lines, together with the characters of induced and Weyl modules, is **ReductiveGroups** Layer 10B.
-  The representation-ring isomorphism `R(G)≅ℤ[X]^W` with highest-weight triangularity, over any field,
-  is **SchemeKTheoryOperations** §6.3.1. Group Chevalley restriction consumes both.
-- The Lie-algebra Chevalley quotient `𝔤→𝔱/W` is **ReductiveGroups** Layer 11C (over `ℂ`) and
-  **EndoscopicTransferAndUnitaryTraceComparison** §3.3. The group quotient here is a different object.
-- Weil `q`-numbers of integer weight, their products, inverses and uniqueness of weight are
-  **DeligneWeightsAndPurity** §§0.1–0.2. An `l`-Weil number here is such a number for `q=l` that is in
-  addition a unit at every finite place not above `l`.
-- Neatness of elements and the generation of eigenvalues of algebraic tensor subquotients are
-  **AdelicAlgebraicGroups** §4.3; finiteness of class numbers is §3.4. `IsNeatPoint` here is that
-  eigenvalue condition for a rational point of a `ℚ`-group, imposed on all its finite-dimensional
-  comodules instead of one complex matrix; it is kept to state §3.7.
-- Nonabelian Galois cohomology, Tate–Nakayama for tori, stable conjugacy and centralizers, abelianized
-  cohomology, inner twists and quasi-split inner forms, Kneser and Hasse principles, Kottwitz duality,
-  rational classes in a stable class and the global obstruction are
-  **EndoscopicTransferAndUnitaryTraceComparison** §§1.1–1.15.
-- Mumford–Tate groups, their connectedness and reductivity, and the additional axiom `SV2*` for data of
-  Hodge type are **ShimuraData** §§1.2–1.4 and 4.2–4.3. Real tori compact modulo the centre are
-  **ShimuraVarieties** §P.5. Deligne's theorem that Hodge tensors on abelian varieties are absolute
-  Hodge (**ShimuraVarieties** §7.0i) and the finite tensor stabilizers of reductive groups
-  (**AutomorphicBundles** §1.1) are inputs of ShimuraVarieties §7.0i.1 and are not consumed directly.
-- The forms of unitary PEL data and the identification `ker¹(ℚ,Z)≅ker¹(ℚ,G)` for a unitary similitude
-  group in an odd number of variables are **PELModuli** §§M3.1–M3.2; §4.6 adds the vanishing when the
-  totally real field has odd degree.
-- Good-reduction specialization of Tate modules, inertia triviality and arithmetic Frobenius on
-  the Tate module are **NeronModelsAndSemistableAbelianVarieties** §§5.0a–5.0b.
-- Abelian varieties, the Serre tensor construction, the Betti, de Rham and étale realizations with their
-  conventions, the `ℓ`-independent characteristic polynomial and Frobenius semisimplicity are
-  **AbelianSchemesAndArithmeticModuli** §§A1.3a, A3.7, A3.9, A4.1, A5.1, A5.7, A6.11 and A6.21.
-- Dirichlet-density Chebotarev is **Chebotarev** Layer 10; Artin–Whaples weak approximation is
-  **GlobalNumberFields** Layer 1.
-- The split, simply-connected-derived Steinberg map over `ℤ` is planned in **GroupSchemesOverABase**
-  §7.2, and the integral restriction isomorphism `ℤ[M]^M≅ℤ[T]^W` for split standard dual Levi groups
-  over `ℤ` in **LanglandsParameterStacks** §4.26; the restriction theorem here holds for every
-  connected reductive group over a field, with a possibly non-split maximal torus. Neither of those statements covers a non-split torus or an
-  arbitrary base field.
+Layers 0 to 3 develop the quotient, arithmetic descent and tori. Layer 4 starts from ℓ-adic
+embeddings of one reductive group I into another, G, and, under explicit hypotheses, embeds each
+maximal ℚ-torus of I into G over ℚ; it also proves a Hasse principle for certain unitary similitude
+groups in odd dimension.
 
-**Not in this roadmap.** The geometric independence-of-`ℓ` theorem for a good-reduction point of a
-Hodge-type Shimura variety with strongly acceptable datum (KZ25 Theorem 5.1.4, KZ25 lines 2104–2106)
-and the realization theorem for isogeny groups (KMPS22 Proposition 2.2.2, KMPS22 lines 1122–1123)
-are theorems about integral models of Shimura varieties. Here they enter only as explicit hypotheses
-of §4.5 and §5.5, stated in group-theoretic terms. A Shimura-variety roadmap that proves them
-consumes this roadmap and obtains the unconditional statements by combining them with §4.5 and
-§5.5. The basic `σ`-conjugacy classes and Newton strata attached to an elliptic torus belong to
-**BunGAndNewtonStrata**. Coadjoint orbits in good characteristic,
-characteristic-`p` `σ`-dual homomorphisms, general Levi decompositions of arbitrary affine groups,
-integral and modular representation theory of reductive groups and arithmetic gerbs are not part of this
-roadmap.
+## How to read the build
+
+Layer 0 uses the supplied `Conj(G)` over an arbitrary field and proves group Chevalley restriction and character separation; it adds the orthogonal outer quotient `Conj′` in characteristic
+zero. Layer 1 is arithmetic descent: rationality from local data at almost every prime, algebraicity
+over rational invariants, inner forms and quotient injections. Layer 2 is the global theory of
+tori: classes with a prescribed real component, approximation of local tori, and the real cocharacter
+twist. Layer 3 introduces Serre tori, prime-units and Weil points and proves the density and
+rigidity statements. Layer 4 combines Layers 0–3 with inner twists to descend a family of
+realizations to a rational torus embedding. Layer 5 specializes to Mumford–Tate groups of abelian
+varieties: it fixes the cohomological conventions and proves the common rational Frobenius class from an
+auxiliary group, the real elliptic representative and the rational representative away from one prime.
+Layer 1 needs only Layer 0; Layer 2 uses its own localization and local openness targets; Layer 3 needs Layer 0; Layer 4 needs Layers 0–3; Layer 5 needs
+Layers 0–2.
 
 ## Conventions
 
@@ -173,213 +108,6 @@ roadmap.
   automorphism group.
 - Sources are cited by the keys of the references list with exact theorem numbers and printed pages;
   KZ25 uses the arXiv v2 pagination and KMPS22 the author PDF of 27 January 2021.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `AlgHom.equalizer` (`Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`): the subalgebra on which two
-  algebra maps agree. It presents the class-function algebra.
-- `Algebra.TensorProduct.includeRight`: the second-factor inclusion `h↦1⊗h`.
-- `MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group`
-  (`Mathlib/GroupTheory/GroupAction/Quotient.lean`): Burnside's count for a finite group acting with
-  finite fixed-point sets. Jordan's lemma uses it for the coset action.
-- `LinearMap.trace`: the trace of a linear endomorphism, the honest trace on a finite free module.
-- `IsConj`: conjugacy in a group.
-- `NumberField.InfinitePlace.Completion` and `IsDedekindDomain.HeightOneSpectrum.adicCompletion`:
-  the completions of a number field at its archimedean and finite places.
-- `NumberField`, `NumberField.RingOfIntegers` and `IsAlgClosed`, for the hypotheses of the Lean statements.
-- `Padic` (`ℚ_[v]`), `IsCompact`, `closure`, `minpoly`, `Polynomial.aroots`, `LinearMap.charpoly`,
-  `IsIntegral`, `Subgroup.closure` and `IsOfFinOrder`: the carriers of the Layer 3 predicates.
-- Scheme language: `AlgebraicGeometry.Scheme`, `IsReduced`, `IrreducibleSpace`, `IsSeparated`.
-
-### From Tau Ceti
-
-- `TauCeti.HopfAlgebra.conjugationAlgHom`, `TauCeti.HopfAlgebra.productMap_comp_conjugationAlgHom`
-  and `TauCeti.HopfAlgebra.tensorProduct_map_comp_conjugationAlgHom`
-  (`TauCeti/Algebra/AlgebraicGroup/Hopf/Conjugation.lean`): the coordinate map of left conjugation, its
-  evaluation `gxg⁻¹` at algebra-valued points, and its naturality for bialgebra maps.
-- `TauCeti.reductiveCommHopfAlgProperty` and `TauCeti.FiniteTypeCommHopfAlgCat`
-  (`TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`, `…/FiniteType/CommHopfAlgCat.lean`): the
-  reductivity predicate and the category of finite-type commutative Hopf algebras.
-- `TauCeti.HopfAlgebra.IsSemisimplePoint` (`TauCeti/Algebra/AlgebraicGroup/Representation/SemisimplePoint/Basic.lean`):
-  semisimple points; closed under inverses, integer powers and conjugation, and under commuting
-  products over a perfect field.
-- `TauCeti.Comodule.endOfPoint` (`TauCeti/Algebra/Coalgebra/Comodule/PointsAction.lean`) and
-  `TauCeti.FGComoduleCat` (`TauCeti/Algebra/Coalgebra/Comodule/Finite/Basic.lean`): the action of a
-  point on the scalar extension of a comodule, and finite-dimensional comodules.
-- `TauCeti.HopfIdeal.IsMaximalTorus` (`TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.lean`),
-  `TauCeti.HopfIdeal.exists_isMaximalTorus` (`…/Torus/Existence.lean`) and
-  `TauCeti.HopfIdeal.IsMaximalTorus.conjugate` (`…/Torus/Conjugation.lean`): maximal tori as Hopf
-  ideals, their existence and their conjugates by rational points.
-- `TauCeti.HopfIdeal.conjugate` (`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Conjugation.lean`) and
-  `TauCeti.CommHopfAlgCat.baseChangeHopfIdeal`, `TauCeti.CommHopfAlgCat.baseChange`
-  (`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/BaseChange.lean`, `…/CommHopfAlgCat/BaseChange.lean`):
-  conjugation and scalar extension of closed subgroups.
-- `TauCeti.PointTopology.topology` with its instance on `WithConv (A →ₐ[k] R)`
-  (`TauCeti/Topology/Algebra/PointTopology/Basic.lean`) and
-  `TauCeti.PointTopology.isTopologicalGroup` (`…/PointTopology/Group.lean`): the topology on the
-  `R`-points of an affine scheme induced from the product topology on `A → R`, for which the points
-  of an affine group over a topological ring form a topological group. It is Hausdorff when `R` is
-  (`…/PointTopology/Separation.lean`).
-- `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`
-  (`TauCeti/Topology/Algebra/PointTopology/Basic.lean`), made an instance on the convolution type as
-  `TauCeti.PointTopology.instLocallyCompactSpaceWithConv` (`…/PointTopology/Separation.lean`): the
-  points of a finite-type algebra with values in a locally compact T1 ring form a locally compact space.
-  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` (`…/PointTopology/Functoriality.lean`):
-  a surjection of coordinate rings, that is a closed immersion, induces a closed embedding of points
-  over a T1 ring. The coefficient rings are locally compact by Mathlib's `Padic.instProperSpace`
-  (`Mathlib/NumberTheory/Padics/ProperSpace.lean`; a proper space is locally compact) for `ℚ_[v]`,
-  and by
-  `IsDedekindDomain.HeightOneSpectrum.isNonarchimedeanLocalField_adicCompletion`
-  (`TauCeti/RingTheory/DedekindDomain/AdicValuation/ValuativeRel.lean`; Mathlib's
-  `IsNonarchimedeanLocalField` includes local compactness) for the finite completions of a number
-  field.
-- `TauCeti.splitTorusCommHopfAlgProperty` and `TauCeti.torusCommHopfAlgProperty`
-  (`TauCeti/Algebra/AlgebraicGroup/Torus/Basic.lean`): split tori of finite rank, rank zero included,
-  and tori as the finite-type Hopf algebras that become split over an algebraic closure.
-- `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`
-  (`TauCeti/Algebra/AlgebraicGroup/Representation/ExteriorStabilizer/Character.lean`): Chevalley's
-  line-stabilizer theorem, used by ReductiveGroups Layer 10B and not restated here.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 1: the representation–comodule dictionary, faithful representations as closed immersions and the
-embedding theorem. Layer 3: Hopf ideals and closed subgroups, normal subgroups, central quotients,
-identity components and finite group quotients. Layer 4: Jordan decomposition and its functoriality,
-diagonalizable groups `D(M)` and tori with their character and cocharacter lattices. Layer 6: reductive
-and semisimple groups, centre, derived group and central isogenies. Layer 7: Borel subgroups, conjugacy
-of maximal tori, root data and Weyl groups, the absolute root datum with its Galois action. Layer 9D: the inner/outer and pinned automorphism interfaces. Layer 10B: dominant-weight classification of simple rational representations
-of split connected reductive groups, highest-weight order and Weyl characters.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-§RG2.0.2, *smooth-group-analytic-charts*: analytic charts on `G(F_v)` and the inverse function
-theorem over characteristic-zero local fields, used in §2.1a. The point topology itself, its local
-compactness and its closed embeddings are taken from the Tau Ceti pin. §RG2.0a.1–RG2.0a.2:
-Weil restriction of affine schemes and group schemes, with `Res_{k′/k}(G′)(R)≅G′(k′⊗R)`.
-§RG2.0a.3: the Deligne torus `S`. §RG2.2: enlarged buildings, apartments, affine root groups and
-their central functoriality. §RG2.3.3:
-*compact-elements-in-hyperspecial-subgroups* (an element of `G(ℚ_p)` in a compact open subgroup lies in
-a hyperspecial parahoric over a finite splitting extension) and *fixer-versus-parahoric* (5) (the
-fixer of a very special point is the connected parahoric when `G_der` is a product of Weil
-restrictions of split groups and `X_*(G_ab)_I` is torsion free). §RG2.3.4: very special points and
-parahorics.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-§1.11, *Reductive quotients over fields and DVRs*: for a connected reductive group acting on an
-integral affine variety over any field, the affine invariant quotient, invariant-morphism universal
-property, finite generation and flat base change. For the conjugation action on the group itself,
-its geometric points classify semisimple classes; every geometric quotient point lifts, and the
-quotient value of any element is that of its semisimple part. Consume the induced quotient map
-of a group morphism by this universal property. No simply connected or characteristic-zero
-hypothesis is imposed on this field statement.
-
-### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
-§0.7, *Connected reductive invariant evaluations*, paragraph *Invariant coordinate algebras under conjugation*: for a commutative Hopf algebra `C` and `n≥0`,
-the subalgebra of the arity-`n` tensor coordinates invariant under simultaneous conjugation over every
-commutative coefficient algebra. Section 0.1 of this roadmap identifies the arity-one algebra with
-`classFunctions`.
-
-### From TauCetiRoadmap.SchemeKTheoryOperations
-
-§6.3.1: for a split connected reductive group over any field, the character isomorphism of the
-representation ring onto `ℤ[X]^W`, with highest-weight triangularity. The irreducible characters are a
-`ℤ`-basis of `ℤ[X]^W`, unitriangular with respect to Weyl orbit sums.
-
-### From TauCetiRoadmap.DeligneWeightsAndPurity
-
-§0.1: Weil `q`-numbers of integer weight (algebraic over `ℚ`, every conjugate of absolute value
-`q^{n/2}`), their nonvanishing and uniqueness of weight. §0.2: products, inverses, powers, and the
-reciprocal conjugation formula `conj σ(α)=q^n/σ(α)` for rational `q`.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-§4.3: eigenvalues of algebraic tensor subquotients lie in the group generated by the eigenvalues of a
-faithful representation; neat elements (target `Neat.IsNeatAut`) (eigenvalue group torsion free) and independence
-of the faithful representation. §3.4: *class-number-finite*, finiteness of `G(F)\G(𝔸_f)/K` for compact
-open `K`.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§1.1 nonabelian `H¹` and twisting; §1.2 Tate–Nakayama for tori, local `H¹(F,T)≅(X_*(T)_Γ)_tors` and the
-global-mod-local group; §1.3 rational, geometric and stable conjugacy, with reductivity of connected
-centralizers of semisimple elements; §1.5 abelianized cohomology; §1.6 inner twists, the quasi-split
-inner form and transfer of maximal tori from an inner form to the quasi-split form; §1.9 Kneser,
-Hasse principle for simply connected groups and the cartesian real-abelianized square; §1.11 Kottwitz's
-map and `ker¹(F,G)≅ker¹(F,Z(Ĝ))^D`; §1.14 rational classes in a stable class and Kottwitz's rationality
-theorem in a quasi-split group with simply connected derived group; §1.15 the global obstruction and
-Kottwitz's rational-realization criterion.
-
-### From TauCetiRoadmap.ShimuraData and TauCetiRoadmap.ShimuraVarieties
-
-ShimuraData §1.2: the Mumford–Tate group of a rational Hodge structure, the smallest `ℚ`-subgroup whose
-real points contain `h(S)`; §1.3 connectedness; §1.4 reductivity in the polarizable case; §4.2–4.3:
-for a datum inside a Siegel datum, `Int(h(i))` is a Cartan involution of `G_ℝ/w(G_m)` (`SV2*`), so
-`Z(ℝ)/w(ℝ^×)` is compact. ShimuraVarieties §P.5: regular semisimple Lie elements, centralizer maximal
-tori, and real tori compact modulo the centre. ShimuraVarieties §5.8: the Shimura–Taniyama Frobenius
-calculation for CM abelian varieties, used only in a Check of §5.5. ShimuraVarieties §7.0i.1 supplies
-simultaneous Mumford–Tate factorization after one finite extension, its independence of `ℓ`,
-the inner-form transport of the quotient under a change of complex embedding and the integral
-`ℓ`-independent characteristic polynomial of good-reduction Frobenius.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-§A1.3a: the Serre tensor construction over an arbitrary base. §A5.1: `T_ℓA≅Λ⊗ℤ_ℓ` for the period lattice
-of a complex abelian variety, for every prime `ℓ`. §A5.7: over `ℂ`, `H¹=Λ^*`; and, for `ℓ` prime to the
-characteristic and to the polarization degree, `H¹_et(A_K̄,ℚ_ℓ)=V_ℓ(A)^*` with cohomological multiplier
-`χ_ℓ⁻¹`; it is used only under that restriction. §A3.7 (the polarized Weil pairings), §A3.9 (the
-rational inverse `λ⁻¹∈Hom⁰(A^∨,A)` of a polarization) and §A4.1 (`AbelianTate.dualPairing`,
-`T_ℓ(A^∨)≅Hom(T_ℓA,ℤ_ℓ(1))`): tensored with `ℚ_ℓ`, they give for every `ℓ` prime to the characteristic,
-including primes dividing the polarization degree, a nondegenerate alternating pairing on `V_ℓA` with
-values in `ℚ_ℓ(1)`, hence the multiplier `χ_ℓ⁻¹` on `V_ℓ(A)^*`. §A6.11: the characteristic polynomial of an endomorphism on `V_ℓA` has integer
-coefficients independent of `ℓ≠p`. §A6.21: the `q`-Frobenius is semisimple on `V_ℓA` and satisfies
-`π^†π=q`.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-§§5.0a–5.0b: finite-étale specialization identifies the generic and special geometric `ℓ`-adic
-Tate modules at good reduction for every `ℓ≠p`, compatibly with transition maps and the Weil
-pairing; inertia acts trivially, and arithmetic Frobenius on the Tate module is the action of the
-`q`-Frobenius endomorphism of the special fibre. On the dual, geometric Frobenius therefore has
-the same eigenvalues as that endomorphism. This is the good-reduction comparison used to apply
-AbelianSchemesAndArithmeticModuli §A6.21 in §5.5 and §5.7.
-
-### From TauCetiRoadmap.PELModuli
-
-§M3.2, *When the Hasse principle holds*: `hasseCases` (A) states that, for a unitary PEL datum of Case A
-with CM centre `F/F⁺` and odd hermitian dimension, the map `ker¹(ℚ,Z)→ker¹(ℚ,G)` from the centre is a
-bijection; `unitaryCentre_sha_vanishing`, the vanishing of the all-place obstruction groups of the
-finite centre `Z₀` of `G^der`, is an input of its proof and is not consumed directly.
-
-### From TauCetiRoadmap.Chebotarev and TauCetiRoadmap.GlobalNumberFields
-
-Chebotarev Layer 10, implemented at the Tau Ceti pin as
-`NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`, with
-`NumberField.Chebotarev.infinite_frobeniusPrimeSet` and
-`NumberField.Chebotarev.hasDirichletDensity_iff_of_finite_symmDiff_frobeniusPrimeSet`
-(`TauCeti/NumberTheory/Chebotarev/Density/Chebotarev.lean`): for a finite Galois extension of number
-fields every conjugacy class is the Frobenius class of a set of primes of Dirichlet density `#C/#G`,
-infinite and stable under finite changes. GlobalNumberFields Layer 1, implemented at the Tau Ceti pin as
-`TauCeti.GlobalNumberFields.weakApproximation_denseRange`
-(`TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`): density of a number field in finitely
-many mixed completions.
-
-## How to read the build
-
-Layer 0 uses the supplied `Conj(G)` over an arbitrary field and proves group Chevalley restriction and character separation; it adds the orthogonal outer quotient `Conj′` in characteristic
-zero. Layer 1 is arithmetic descent: rationality from local data at almost every prime, algebraicity
-over rational invariants, inner forms and quotient injections. Layer 2 is the global theory of
-tori: classes with a prescribed real component, approximation of local tori, and the real cocharacter
-twist. Layer 3 introduces Serre tori, prime-units and Weil points and proves the density and
-rigidity statements. Layer 4 combines Layers 0–3 with inner twists to descend a family of
-realizations to a rational torus embedding. Layer 5 specializes to Mumford–Tate groups of abelian
-varieties: it fixes the cohomological conventions and proves the common rational Frobenius class from an
-auxiliary group, the real elliptic representative and the rational representative away from one prime.
-Layer 1 needs only Layer 0; Layer 2 uses its own localization and local openness targets; Layer 3 needs Layer 0; Layer 4 needs Layers 0–3; Layer 5 needs
-Layers 0–2.
 
 ## Layer 0: Conjugacy quotients and semisimple classes
 
@@ -1836,6 +1564,309 @@ Honda–Tate theory for Shimura varieties (CM lifts of isogeny classes, KMPS22 �
 - **Rigidity.** On `Spec k[ε]/(ε²)` the automorphism `ε↦2ε` fixes the unique dense point, and on the doubled
   affine line the swap of the origins fixes the dense punctured line; reducedness and separatedness are
   both needed in §3.8, and both hold for tori.
+
+## Scope and ownership
+
+This roadmap continues **ReductiveGroups** and **ReductiveGroupsPartII**. ReductiveGroups
+supplies the algebraic structure theory: representations as comodules (Layer 1),
+subgroups and quotients (Layer 3), Jordan decomposition and tori (Layer 4), reductive groups and
+central isogenies (Layer 6), maximal tori, root data and Weyl groups (Layer 7), the
+isomorphism theorem with inner and outer automorphisms (Layer 9D), and highest-weight theory
+(Layer 10). ReductiveGroupsPartII adds the point topology over local fields (RG2.0), Weil restriction
+and the Deligne torus (RG2.0a), quasi-split forms (RG2.1.1), the algebraic fundamental group and
+`z`-extensions (RG2.1.5) and parahoric group schemes (RG2.3). Neither treats the conjugacy
+quotient as an arithmetic object, the descent of Frobenius classes, or the global theory of
+maximal tori. That is the subject here.
+
+**Owned here.** The equalizer presentation of class functions; group Chevalley restriction for connected reductive groups over any field; separation of geometric semisimple classes by characters; finiteness of the quotient map of a faithful representation; the orthogonal outer
+quotient `Conj′(G)` and the group `Aut′(G)`. Jordan's covering lemma and rational descent of
+algebraic points; algebraicity above rational invariants; the inner-form identification of
+conjugacy quotients; the quotient injections for diagonal Weil-restriction subgroups and
+antidiagonal central products. Global torus classes with prescribed real component; Harder's
+approximation of maximal tori; real Weyl cocycles and the global cocharacter twist. The Serre
+condition, prime-units, `l`-Weil numbers (as a refinement of Weil numbers), Weil points, the neat
+cyclic-closure comparison, the Serre-unit criterion, density of neat Weil points and rigidity under
+finite automorphism groups. Conjugacy of common-source realizations, Galois descent of local
+embedding classes, rational torus embeddings into quasi-split groups, local-to-global transfer of
+maximal tori, rational tori for common realizations and the odd unitary similitude Hasse
+principle. The cohomological Mumford–Tate conventions and their explicit normalization witnesses, the auxiliary groups of good-reduction descent, the common rational Frobenius
+class obtained from an auxiliary group, real elliptic representatives and the one-prime patching
+of rational representatives. Five interfaces at the edge of the cohomology and building suppliers
+are owned here as well, each at the point where its supplier stops: the localization exact sequence
+of torus cohomology (§2.0; EndoscopicTransferAndUnitaryTraceComparison §1.2(b) identifies the
+global-mod-local group with `(X_*(T)_Γ)_tors` but not the map from local classes as the sum of
+local Tate–Nakayama maps); the openness of local regular-centralizer loci (§2.1a; its real case is
+ShimuraVarieties §P.5, which §2.1a consumes, and ReductiveGroupsPartII §RG2.0.2 supplies analytic
+charts and the inverse function theorem only); rational
+embeddings in a Galois-stable embedding class into a quasi-split group (§4.3;
+EndoscopicTransferAndUnitaryTraceComparison §1.6 transfers maximal tori from an inner form only);
+the fixer intersection and very special points for a closed immersion with identical derived
+groups (§5.3a; ReductiveGroupsPartII §§RG2.2.3–RG2.2.4 give building maps for field extensions,
+Weil restrictions, central surjections, Levi subgroups and the toral embedding into a `GL(V)`
+building, and §§RG2.3.3–RG2.3.4 fixers and very special points of a single group, but no fixer
+intersection along such an immersion); and the relative obstruction for an inner form (§5.7a;
+EndoscopicTransferAndUnitaryTraceComparison §1.15 states the case `G₀=G`).
+
+**Used from other roadmaps, not rebuilt.**
+
+- **ArithmeticGaloisRepresentations** §1.11, *Reductive quotients over fields and DVRs*, owns
+  the conjugacy quotient of a connected reductive group, its universal property, flat base change,
+  finite generation, the characteristic-polynomial quotient of `GL_n`, and the bijection between
+  geometric quotient points and semisimple conjugacy classes, including surjectivity and the
+  semisimple-part description of every fibre. Group Chevalley restriction here adds the explicit
+  torus restriction isomorphism for arbitrary maximal tori.
+- **ShimuraVarieties** §7.0i.1 owns the common open Galois subgroup on which all realizations take
+  values in the Mumford–Tate group, its independence of `ℓ`, the finite extension it defines, and
+  the inner-form transport under a change of complex embedding. **MotivesAndAlgebraicCycles**
+  §6.8 owns the tensor-isomorphism torsor between two fibre functors and the inner twist it
+  produces; no target here consumes it. §5.1 fixes the conventions used by the arithmetic
+  applications.
+- The invariant coordinate algebras under simultaneous conjugation, `O[Hⁿ]^H` for a commutative
+  Hopf algebra and every arity `n`, are **IntegralHeckeAndGaloisDeterminants** §0.7. The arity-one
+  algebra is the algebra of regular class functions; Layer 0 proves only its presentation as an
+  equalizer of two coordinate maps, used to state the headline finiteness theorem.
+- The classification of simple rational representations of a split connected reductive group by
+  dominant weights and their highest lines, together with the characters of induced and Weyl modules, is **ReductiveGroups** Layer 10B.
+  The representation-ring isomorphism `R(G)≅ℤ[X]^W` with highest-weight triangularity, over any field,
+  is **SchemeKTheoryOperations** §6.3.1. Group Chevalley restriction consumes both.
+- The Lie-algebra Chevalley quotient `𝔤→𝔱/W` is **ReductiveGroups** Layer 11C (over `ℂ`) and
+  **EndoscopicTransferAndUnitaryTraceComparison** §3.3. The group quotient here is a different object.
+- Weil `q`-numbers of integer weight, their products, inverses and uniqueness of weight are
+  **DeligneWeightsAndPurity** §§0.1–0.2. An `l`-Weil number here is such a number for `q=l` that is in
+  addition a unit at every finite place not above `l`.
+- Neatness of elements and the generation of eigenvalues of algebraic tensor subquotients are
+  **AdelicAlgebraicGroups** §4.3; finiteness of class numbers is §3.4. `IsNeatPoint` here is that
+  eigenvalue condition for a rational point of a `ℚ`-group, imposed on all its finite-dimensional
+  comodules instead of one complex matrix; it is kept to state §3.7.
+- Nonabelian Galois cohomology, Tate–Nakayama for tori, stable conjugacy and centralizers, abelianized
+  cohomology, inner twists and quasi-split inner forms, Kneser and Hasse principles, Kottwitz duality,
+  rational classes in a stable class and the global obstruction are
+  **EndoscopicTransferAndUnitaryTraceComparison** §§1.1–1.15.
+- Mumford–Tate groups, their connectedness and reductivity, and the additional axiom `SV2*` for data of
+  Hodge type are **ShimuraData** §§1.2–1.4 and 4.2–4.3. Real tori compact modulo the centre are
+  **ShimuraVarieties** §P.5. Deligne's theorem that Hodge tensors on abelian varieties are absolute
+  Hodge (**ShimuraVarieties** §7.0i) and the finite tensor stabilizers of reductive groups
+  (**AutomorphicBundles** §1.1) are inputs of ShimuraVarieties §7.0i.1 and are not consumed directly.
+- The forms of unitary PEL data and the identification `ker¹(ℚ,Z)≅ker¹(ℚ,G)` for a unitary similitude
+  group in an odd number of variables are **PELModuli** §§M3.1–M3.2; §4.6 adds the vanishing when the
+  totally real field has odd degree.
+- Good-reduction specialization of Tate modules, inertia triviality and arithmetic Frobenius on
+  the Tate module are **NeronModelsAndSemistableAbelianVarieties** §§5.0a–5.0b.
+- Abelian varieties, the Serre tensor construction, the Betti, de Rham and étale realizations with their
+  conventions, the `ℓ`-independent characteristic polynomial and Frobenius semisimplicity are
+  **AbelianSchemesAndArithmeticModuli** §§A1.3a, A3.7, A3.9, A4.1, A5.1, A5.7, A6.11 and A6.21.
+- Dirichlet-density Chebotarev is **Chebotarev** Layer 10; Artin–Whaples weak approximation is
+  **GlobalNumberFields** Layer 1.
+- The split, simply-connected-derived Steinberg map over `ℤ` is planned in **GroupSchemesOverABase**
+  §7.2, and the integral restriction isomorphism `ℤ[M]^M≅ℤ[T]^W` for split standard dual Levi groups
+  over `ℤ` in **LanglandsParameterStacks** §4.26; the restriction theorem here holds for every
+  connected reductive group over a field, with a possibly non-split maximal torus. Neither of those statements covers a non-split torus or an
+  arbitrary base field.
+
+**Not in this roadmap.** The geometric independence-of-`ℓ` theorem for a good-reduction point of a
+Hodge-type Shimura variety with strongly acceptable datum (KZ25 Theorem 5.1.4, KZ25 lines 2104–2106)
+and the realization theorem for isogeny groups (KMPS22 Proposition 2.2.2, KMPS22 lines 1122–1123)
+are theorems about integral models of Shimura varieties. Here they enter only as explicit hypotheses
+of §4.5 and §5.5, stated in group-theoretic terms. A Shimura-variety roadmap that proves them
+consumes this roadmap and obtains the unconditional statements by combining them with §4.5 and
+§5.5. The basic `σ`-conjugacy classes and Newton strata attached to an elliptic torus belong to
+**BunGAndNewtonStrata**. Coadjoint orbits in good characteristic,
+characteristic-`p` `σ`-dual homomorphisms, general Levi decompositions of arbitrary affine groups,
+integral and modular representation theory of reductive groups and arithmetic gerbs are not part of this
+roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `AlgHom.equalizer` (`Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`): the subalgebra on which two
+  algebra maps agree. It presents the class-function algebra.
+- `Algebra.TensorProduct.includeRight`: the second-factor inclusion `h↦1⊗h`.
+- `MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group`
+  (`Mathlib/GroupTheory/GroupAction/Quotient.lean`): Burnside's count for a finite group acting with
+  finite fixed-point sets. Jordan's lemma uses it for the coset action.
+- `LinearMap.trace`: the trace of a linear endomorphism, the honest trace on a finite free module.
+- `IsConj`: conjugacy in a group.
+- `NumberField.InfinitePlace.Completion` and `IsDedekindDomain.HeightOneSpectrum.adicCompletion`:
+  the completions of a number field at its archimedean and finite places.
+- `NumberField`, `NumberField.RingOfIntegers` and `IsAlgClosed`, for the hypotheses of the Lean statements.
+- `Padic` (`ℚ_[v]`), `IsCompact`, `closure`, `minpoly`, `Polynomial.aroots`, `LinearMap.charpoly`,
+  `IsIntegral`, `Subgroup.closure` and `IsOfFinOrder`: the carriers of the Layer 3 predicates.
+- Scheme language: `AlgebraicGeometry.Scheme`, `IsReduced`, `IrreducibleSpace`, `IsSeparated`.
+
+### From Tau Ceti
+
+- `TauCeti.HopfAlgebra.conjugationAlgHom`, `TauCeti.HopfAlgebra.productMap_comp_conjugationAlgHom`
+  and `TauCeti.HopfAlgebra.tensorProduct_map_comp_conjugationAlgHom`
+  (`TauCeti/Algebra/AlgebraicGroup/Hopf/Conjugation.lean`): the coordinate map of left conjugation, its
+  evaluation `gxg⁻¹` at algebra-valued points, and its naturality for bialgebra maps.
+- `TauCeti.reductiveCommHopfAlgProperty` and `TauCeti.FiniteTypeCommHopfAlgCat`
+  (`TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`, `…/FiniteType/CommHopfAlgCat.lean`): the
+  reductivity predicate and the category of finite-type commutative Hopf algebras.
+- `TauCeti.HopfAlgebra.IsSemisimplePoint` (`TauCeti/Algebra/AlgebraicGroup/Representation/SemisimplePoint/Basic.lean`):
+  semisimple points; closed under inverses, integer powers and conjugation, and under commuting
+  products over a perfect field.
+- `TauCeti.Comodule.endOfPoint` (`TauCeti/Algebra/Coalgebra/Comodule/PointsAction.lean`) and
+  `TauCeti.FGComoduleCat` (`TauCeti/Algebra/Coalgebra/Comodule/Finite/Basic.lean`): the action of a
+  point on the scalar extension of a comodule, and finite-dimensional comodules.
+- `TauCeti.HopfIdeal.IsMaximalTorus` (`TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.lean`),
+  `TauCeti.HopfIdeal.exists_isMaximalTorus` (`…/Torus/Existence.lean`) and
+  `TauCeti.HopfIdeal.IsMaximalTorus.conjugate` (`…/Torus/Conjugation.lean`): maximal tori as Hopf
+  ideals, their existence and their conjugates by rational points.
+- `TauCeti.HopfIdeal.conjugate` (`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Conjugation.lean`) and
+  `TauCeti.CommHopfAlgCat.baseChangeHopfIdeal`, `TauCeti.CommHopfAlgCat.baseChange`
+  (`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/BaseChange.lean`, `…/CommHopfAlgCat/BaseChange.lean`):
+  conjugation and scalar extension of closed subgroups.
+- `TauCeti.PointTopology.topology` with its instance on `WithConv (A →ₐ[k] R)`
+  (`TauCeti/Topology/Algebra/PointTopology/Basic.lean`) and
+  `TauCeti.PointTopology.isTopologicalGroup` (`…/PointTopology/Group.lean`): the topology on the
+  `R`-points of an affine scheme induced from the product topology on `A → R`, for which the points
+  of an affine group over a topological ring form a topological group. It is Hausdorff when `R` is
+  (`…/PointTopology/Separation.lean`).
+- `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`
+  (`TauCeti/Topology/Algebra/PointTopology/Basic.lean`), made an instance on the convolution type as
+  `TauCeti.PointTopology.instLocallyCompactSpaceWithConv` (`…/PointTopology/Separation.lean`): the
+  points of a finite-type algebra with values in a locally compact T1 ring form a locally compact space.
+  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` (`…/PointTopology/Functoriality.lean`):
+  a surjection of coordinate rings, that is a closed immersion, induces a closed embedding of points
+  over a T1 ring. The coefficient rings are locally compact by Mathlib's `Padic.instProperSpace`
+  (`Mathlib/NumberTheory/Padics/ProperSpace.lean`; a proper space is locally compact) for `ℚ_[v]`,
+  and by
+  `IsDedekindDomain.HeightOneSpectrum.isNonarchimedeanLocalField_adicCompletion`
+  (`TauCeti/RingTheory/DedekindDomain/AdicValuation/ValuativeRel.lean`; Mathlib's
+  `IsNonarchimedeanLocalField` includes local compactness) for the finite completions of a number
+  field.
+- `TauCeti.splitTorusCommHopfAlgProperty` and `TauCeti.torusCommHopfAlgProperty`
+  (`TauCeti/Algebra/AlgebraicGroup/Torus/Basic.lean`): split tori of finite rank, rank zero included,
+  and tori as the finite-type Hopf algebras that become split over an algebraic closure.
+- `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`
+  (`TauCeti/Algebra/AlgebraicGroup/Representation/ExteriorStabilizer/Character.lean`): Chevalley's
+  line-stabilizer theorem, used by ReductiveGroups Layer 10B and not restated here.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 1: the representation–comodule dictionary, faithful representations as closed immersions and the
+embedding theorem. Layer 3: Hopf ideals and closed subgroups, normal subgroups, central quotients,
+identity components and finite group quotients. Layer 4: Jordan decomposition and its functoriality,
+diagonalizable groups `D(M)` and tori with their character and cocharacter lattices. Layer 6: reductive
+and semisimple groups, centre, derived group and central isogenies. Layer 7: Borel subgroups, conjugacy
+of maximal tori, root data and Weyl groups, the absolute root datum with its Galois action. Layer 9D: the inner/outer and pinned automorphism interfaces. Layer 10B: dominant-weight classification of simple rational representations
+of split connected reductive groups, highest-weight order and Weyl characters.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+§RG2.0.2, *smooth-group-analytic-charts*: analytic charts on `G(F_v)` and the inverse function
+theorem over characteristic-zero local fields, used in §2.1a. The point topology itself, its local
+compactness and its closed embeddings are taken from the Tau Ceti pin. §RG2.0a.1–RG2.0a.2:
+Weil restriction of affine schemes and group schemes, with `Res_{k′/k}(G′)(R)≅G′(k′⊗R)`.
+§RG2.0a.3: the Deligne torus `S`. §RG2.2: enlarged buildings, apartments, affine root groups and
+their central functoriality. §RG2.3.3:
+*compact-elements-in-hyperspecial-subgroups* (an element of `G(ℚ_p)` in a compact open subgroup lies in
+a hyperspecial parahoric over a finite splitting extension) and *fixer-versus-parahoric* (5) (the
+fixer of a very special point is the connected parahoric when `G_der` is a product of Weil
+restrictions of split groups and `X_*(G_ab)_I` is torsion free). §RG2.3.4: very special points and
+parahorics.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§1.11, *Reductive quotients over fields and DVRs*: for a connected reductive group acting on an
+integral affine variety over any field, the affine invariant quotient, invariant-morphism universal
+property, finite generation and flat base change. For the conjugation action on the group itself,
+its geometric points classify semisimple classes; every geometric quotient point lifts, and the
+quotient value of any element is that of its semisimple part. Consume the induced quotient map
+of a group morphism by this universal property. No simply connected or characteristic-zero
+hypothesis is imposed on this field statement.
+
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
+
+§0.7, *Connected reductive invariant evaluations*, paragraph *Invariant coordinate algebras under conjugation*: for a commutative Hopf algebra `C` and `n≥0`,
+the subalgebra of the arity-`n` tensor coordinates invariant under simultaneous conjugation over every
+commutative coefficient algebra. Section 0.1 of this roadmap identifies the arity-one algebra with
+`classFunctions`.
+
+### From TauCetiRoadmap.SchemeKTheoryOperations
+
+§6.3.1: for a split connected reductive group over any field, the character isomorphism of the
+representation ring onto `ℤ[X]^W`, with highest-weight triangularity. The irreducible characters are a
+`ℤ`-basis of `ℤ[X]^W`, unitriangular with respect to Weyl orbit sums.
+
+### From TauCetiRoadmap.DeligneWeightsAndPurity
+
+§0.1: Weil `q`-numbers of integer weight (algebraic over `ℚ`, every conjugate of absolute value
+`q^{n/2}`), their nonvanishing and uniqueness of weight. §0.2: products, inverses, powers, and the
+reciprocal conjugation formula `conj σ(α)=q^n/σ(α)` for rational `q`.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+§4.3: eigenvalues of algebraic tensor subquotients lie in the group generated by the eigenvalues of a
+faithful representation; neat elements (target `Neat.IsNeatAut`) (eigenvalue group torsion free) and independence
+of the faithful representation. §3.4: *class-number-finite*, finiteness of `G(F)\G(𝔸_f)/K` for compact
+open `K`.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+§1.1 nonabelian `H¹` and twisting; §1.2 Tate–Nakayama for tori, local `H¹(F,T)≅(X_*(T)_Γ)_tors` and the
+global-mod-local group; §1.3 rational, geometric and stable conjugacy, with reductivity of connected
+centralizers of semisimple elements; §1.5 abelianized cohomology; §1.6 inner twists, the quasi-split
+inner form and transfer of maximal tori from an inner form to the quasi-split form; §1.9 Kneser,
+Hasse principle for simply connected groups and the cartesian real-abelianized square; §1.11 Kottwitz's
+map and `ker¹(F,G)≅ker¹(F,Z(Ĝ))^D`; §1.14 rational classes in a stable class and Kottwitz's rationality
+theorem in a quasi-split group with simply connected derived group; §1.15 the global obstruction and
+Kottwitz's rational-realization criterion.
+
+### From TauCetiRoadmap.ShimuraData and TauCetiRoadmap.ShimuraVarieties
+
+ShimuraData §1.2: the Mumford–Tate group of a rational Hodge structure, the smallest `ℚ`-subgroup whose
+real points contain `h(S)`; §1.3 connectedness; §1.4 reductivity in the polarizable case; §4.2–4.3:
+for a datum inside a Siegel datum, `Int(h(i))` is a Cartan involution of `G_ℝ/w(G_m)` (`SV2*`), so
+`Z(ℝ)/w(ℝ^×)` is compact. ShimuraVarieties §P.5: regular semisimple Lie elements, centralizer maximal
+tori, and real tori compact modulo the centre. ShimuraVarieties §5.8: the Shimura–Taniyama Frobenius
+calculation for CM abelian varieties, used only in a Check of §5.5. ShimuraVarieties §7.0i.1 supplies
+simultaneous Mumford–Tate factorization after one finite extension, its independence of `ℓ`,
+the inner-form transport of the quotient under a change of complex embedding and the integral
+`ℓ`-independent characteristic polynomial of good-reduction Frobenius.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+§A1.3a: the Serre tensor construction over an arbitrary base. §A5.1: `T_ℓA≅Λ⊗ℤ_ℓ` for the period lattice
+of a complex abelian variety, for every prime `ℓ`. §A5.7: over `ℂ`, `H¹=Λ^*`; and, for `ℓ` prime to the
+characteristic and to the polarization degree, `H¹_et(A_K̄,ℚ_ℓ)=V_ℓ(A)^*` with cohomological multiplier
+`χ_ℓ⁻¹`; it is used only under that restriction. §A3.7 (the polarized Weil pairings), §A3.9 (the
+rational inverse `λ⁻¹∈Hom⁰(A^∨,A)` of a polarization) and §A4.1 (`AbelianTate.dualPairing`,
+`T_ℓ(A^∨)≅Hom(T_ℓA,ℤ_ℓ(1))`): tensored with `ℚ_ℓ`, they give for every `ℓ` prime to the characteristic,
+including primes dividing the polarization degree, a nondegenerate alternating pairing on `V_ℓA` with
+values in `ℚ_ℓ(1)`, hence the multiplier `χ_ℓ⁻¹` on `V_ℓ(A)^*`. §A6.11: the characteristic polynomial of an endomorphism on `V_ℓA` has integer
+coefficients independent of `ℓ≠p`. §A6.21: the `q`-Frobenius is semisimple on `V_ℓA` and satisfies
+`π^†π=q`.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+§§5.0a–5.0b: finite-étale specialization identifies the generic and special geometric `ℓ`-adic
+Tate modules at good reduction for every `ℓ≠p`, compatibly with transition maps and the Weil
+pairing; inertia acts trivially, and arithmetic Frobenius on the Tate module is the action of the
+`q`-Frobenius endomorphism of the special fibre. On the dual, geometric Frobenius therefore has
+the same eigenvalues as that endomorphism. This is the good-reduction comparison used to apply
+AbelianSchemesAndArithmeticModuli §A6.21 in §5.5 and §5.7.
+
+### From TauCetiRoadmap.PELModuli
+
+§M3.2, *When the Hasse principle holds*: `hasseCases` (A) states that, for a unitary PEL datum of Case A
+with CM centre `F/F⁺` and odd hermitian dimension, the map `ker¹(ℚ,Z)→ker¹(ℚ,G)` from the centre is a
+bijection; `unitaryCentre_sha_vanishing`, the vanishing of the all-place obstruction groups of the
+finite centre `Z₀` of `G^der`, is an input of its proof and is not consumed directly.
+
+### From TauCetiRoadmap.Chebotarev and TauCetiRoadmap.GlobalNumberFields
+
+Chebotarev Layer 10, implemented at the Tau Ceti pin as
+`NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`, with
+`NumberField.Chebotarev.infinite_frobeniusPrimeSet` and
+`NumberField.Chebotarev.hasDirichletDensity_iff_of_finite_symmDiff_frobeniusPrimeSet`
+(`TauCeti/NumberTheory/Chebotarev/Density/Chebotarev.lean`): for a finite Galois extension of number
+fields every conjugacy class is the Frobenius class of a set of primes of Dirichlet density `#C/#G`,
+infinite and stable under finite changes. GlobalNumberFields Layer 1, implemented at the Tau Ceti pin as
+`TauCeti.GlobalNumberFields.weakApproximation_denseRange`
+(`TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`): density of a number field in finitely
+many mixed completions.
 
 ## References
 

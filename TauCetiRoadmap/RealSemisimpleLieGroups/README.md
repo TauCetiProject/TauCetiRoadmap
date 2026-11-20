@@ -1,147 +1,71 @@
 # Roadmap: real semisimple Lie groups, parabolic subgroups and Riemannian symmetric spaces
 
-**Summary.** This roadmap builds the structure theory of real semisimple and real reductive Lie
-groups that sits on top of the global Cartan, Iwasawa and `KAK` decompositions, and the
-Riemannian geometry of the symmetric space `G/K`. At the Lie-algebra level it develops Cartan
-involutions of a real semisimple or reductive Lie algebra with their conjugacy, maximal abelian
-subspaces `𝔞 ⊆ 𝔭`, the restricted root system (possibly nonreduced) with its multiplicities, the
-real rank, split forms and hyperbolic elements. At the group level it develops the real rank of a
-Lie group and its almost-simple factors, the restricted Weyl group, minimal parabolic subgroups,
-the Bruhat decomposition as a Tits system, standard and general parabolic subgroups with their
-Langlands decompositions, Levi subgroups, the dynamical description and the comparison with
-algebraic `ℝ`-parabolics. On the geometric side it develops Riemannian symmetric spaces, the
-symmetric space `X = G/K` of a real reductive group with its invariant metric, curvature, geodesics
-and distance, Cartan's fixed-point theorem and the conjugacy of maximal compact subgroups, flats
-and the rank of `X`, the vector-valued distance, and quotients `Λ\X` by discrete subgroups with
-their injectivity radius and volume.
+**Summary.** A real semisimple Lie group G, such as `SL_n(ℝ)` or `SU(n, 1)`, is studied through
+two objects: the Cartan involutions of its Lie algebra 𝔤₀, and the symmetric space G/K, with K a
+subgroup whose Lie algebra is the fixed algebra 𝔨 of such an involution. For SL₂(ℝ) the
+involution X ↦ −Xᵀ gives K = SO(2), and G/K is the upper half-plane. This roadmap builds the
+structure theory of real semisimple and reductive Lie groups resting on these objects.
+Throughout, 𝔤₀ is a finite-dimensional real Lie algebra, and connected semisimple groups with
+finite centre are always covered, nonlinear ones included.
 
-This README is the roadmap. `Suggested.lean` states the roadmap's headline theorems against the
-pinned Mathlib and Tau Ceti.
+A Cartan involution of a real semisimple 𝔤₀ is an involutive automorphism θ for which
+`−B(X, θY)` is positive definite, B being the Killing form; 𝔨 and 𝔭 are its eigenspaces for +1
+and −1. That every such 𝔤₀ has one is taken from RepresentationTheory/LieGroups. The first main
+theorem says that any two, θ and θ′, are conjugate by an inner automorphism:
+`θ′ = e^{ad Z} θ e^{−ad Z}` for some Z in the 𝔭 of θ.
 
-## Scope and ownership
+Fix θ and a maximal abelian subspace 𝔞 of 𝔭. Then 𝔤₀ is the direct sum of the joint eigenspaces of
+ad 𝔞, and the nonzero joint eigenvalues, the restricted roots, form a crystallographic root system,
+possibly nonreduced: for 𝔰𝔲(n, 1), n ≥ 2, they are ±λ and ±2λ. The dimension of 𝔞, the real rank
+of 𝔤₀, depends on neither choice; it is n − 1 for `𝔰𝔩_n(ℝ)`, and it vanishes exactly when the
+Killing form is negative definite. Likewise a connected Lie group with semisimple Lie algebra has
+real rank zero exactly when it is compact, whatever its centre.
 
-This roadmap owns:
+Let G be connected with semisimple Lie algebra and finite centre, and order the restricted
+roots by a regular element of 𝔞. The minimal parabolic subgroup P is the normalizer in G of the sum
+of the positive restricted root spaces. The second main theorem says that P and the normalizer of 𝔞
+form a Tits system, whose Weyl group is that of the restricted roots. So G is the disjoint union of
+the double cosets PwP; for `SL_n(ℝ)` this is Gaussian elimination with permutation matrices. A
+parabolic subgroup, one containing a minimal parabolic subgroup, is conjugate to exactly one
+standard parabolic subgroup, indexed by a set of simple restricted roots. If ad X is diagonalizable
+over ℝ, the g whose conjugates exp(−tX) g exp(tX), t ≥ 0, stay in a compact set form a closed
+parabolic subgroup.
 
-- the Cartan-involution predicate on a real semisimple and on a real reductive Lie algebra, the
-  Cartan decomposition `𝔤₀ = 𝔨 ⊕ 𝔭` with its bracket, Killing-form and adjointness relations,
-  the conjugacy of Cartan involutions under inner automorphisms, their behaviour on ideals and
-  products, the compactness criterion, and the classical matrix realizations (Layer 0);
-- maximal abelian subspaces of `𝔭`, the restricted root spaces and restricted roots of a real Lie
-  algebra with a Cartan involution, LieGroups Layer 9's restricted root system read on such an
-  algebra and packaged as a Mathlib `RootPairing` with multiplicities and the comparison with
-  Mathlib's weight spaces, positive systems and simple restricted roots, conjugacy of maximal
-  abelian subspaces, the real rank of a real semisimple Lie algebra, and split real forms
-  (Layer 1);
-- the real rank of a Lie group with semisimple Lie algebra, almost-simple and compact factors,
-  higher rank, the hyperbolic elements and their conjugacy into the closed chamber, the
-  characterization of real rank by `ℝ`-split abelian subalgebras and by algebraic split tori, the
-  conjugacy of maximal `ℝ`-split tori of a connected reductive `ℝ`-group under its real points, the
-  identification of the restricted Weyl group `N_K(𝔞)/Z_K(𝔞)` with the Weyl group of the
-  restricted root system, and, for a real form `H^τ` of a connected complex reductive group, the
-  identification of `τ` with the conjugation of an `ℝ`-form and the reading on `H^τ` of
-  ArithmeticLocallySymmetricSpaces ALS.0.1's Cartan involutions, with their LieGroups Layer 9 datum
-  and maximal compact subgroups (Layer 2);
-- minimal parabolic subgroups beyond the class of real points of algebraic groups, the normalizer
-  `N_G(𝔞)`, rank-one subgroups, the Tits system `(P, N_G(𝔞))`, the Bruhat decomposition, the big
-  cell and the Furstenberg boundary `G/P` with its Bruhat cells (Layer 3);
-- standard parabolic subalgebras and subgroups, their classification by subsets of the simple
-  restricted roots, Levi subgroups and Langlands decompositions, general parabolic subgroups and
-  their type, maximal parabolic subgroups, the dynamical description, and the comparison with
-  algebraic `ℝ`-parabolic subgroups (Layer 4);
-- Riemannian symmetric spaces, the symmetric space `G/K` of a real reductive group with its
-  invariant metric, Levi-Civita connection, curvature, geodesics, completeness and distance;
-  convexity of the squared distance on Hadamard manifolds, Cartan's fixed-point theorem and the
-  conjugacy of maximal compact subgroups; totally geodesic submanifolds and Lie triple systems,
-  flats, the rank of `X`, Weyl chambers and the vector-valued distance; quotients `Λ\X` by
-  discrete subgroups, their injectivity radius, local symmetry and volume; and complex hyperbolic
-  space, the symmetric space of `PU(1, n)`, in its ball model with its invariant metrics and its
-  totally geodesic submanifolds (Layer 5).
+On the geometric side, X = G/K carries a G-invariant metric from the Killing form on 𝔭. It is a
+Riemannian symmetric space, in which every point is fixed by an isometric involution with
+differential −1 there, and a Hadamard manifold: complete, simply connected and of nonpositive
+sectional curvature. Cartan's fixed-point theorem, that a compact group acting continuously by
+isometries on a Hadamard manifold has a fixed point, leads to the third main theorem. For G as
+above, maximal compact subgroups exist and every compact subgroup lies in a conjugate of any given
+one. Moreover θ ↦ `K_θ`, the connected subgroup with Lie algebra 𝔨, is a bijection from the Cartan
+involutions onto the maximal compact subgroups. For the universal cover of SL₂(ℝ), whose centre is
+infinite, this fails: no `K_θ` is compact.
 
-It consumes, and does not rebuild:
+LieGroups also supplies the global Cartan, Iwasawa and `KAK` decompositions on which Layers 2 to
+5 are built. AutomorphicFormsOnReductiveGroups supplies minimal parabolic
+subgroups for a class of real reductive groups, and Layer 3 provides them for every connected group
+with semisimple Lie algebra and finite centre, linear or not. RiemannianGeometry supplies the
+curvature calculus used in Layer 5. Downstream, ShimuraData uses the Riemannian symmetric spaces,
+and NoncompactQuantumSymmetry the Cartan involutions and maximal compact subgroups.
 
-- from RepresentationTheory/LieGroups: Lie groups, `lieExp`, `Ad`, closed and immersed subgroups,
-  integration of subalgebras, universal covers (Layers 0–5); the splitting `𝔤 = 𝔷(𝔤) ⊕ [𝔤, 𝔤]` of
-  the Lie algebra of a compact connected group, with negative definite Killing form on `[𝔤, 𝔤]`
-  (Layer 5A); the compact real form of a complex semisimple Lie algebra and the **existence** of a
-  Cartan involution of a real semisimple Lie algebra, and compactness of the simply connected
-  integration of a compact semisimple Lie algebra, real forms of a complex Lie group as fixed
-  groups of antiholomorphic involutions, the compact real forms of a connected complex reductive
-  group with their conjugacy, and the lower analytic dictionary `H ≃ 𝐆(ℂ)` (Layer 7); and the
-  global real-reductive datum
-  `CartanInvolution`, the global Cartan polar decomposition `cartan_polar_decomposition`, the
-  `IwasawaData` with its maximal abelian `𝔞`, `N₊` and positive chamber, `iwasawaDecomposition`,
-  `kakDecomposition`, `Ad(K)𝔞 = 𝔭`, the compactness and maximality of `K`, and the possibly
-  nonreduced restricted root system with its root space decomposition, the representatives in
-  `N_K(𝔞)` of the restricted reflections, the root chambers and the carrying of every element of `𝔞`
-  into the closed chamber by `N_K(𝔞)` (Layer 9);
-- from AutomorphicFormsOnReductiveGroups §2.3a: the minimal parabolic subgroup `P = MAN` and its
-  Langlands decomposition for real reductive groups in its supplied class
-  (ArithmeticLocallySymmetricSpaces ALS.0.1–ALS.0.3: the real points `𝐇(ℝ)` of a connected
-  reductive `ℝ`-group and the groups `𝐆(F_∞)`), with the real-rank-one description, and the
-  algebraic comparison with minimal `ℝ`-parabolics for `𝐆(ℝ)` and its identity component;
-- from RiemannianGeometry and HopfRinow: the curvature calculus, homogeneous metrics and
-  Riemannian submersions (R1.3), Jacobi fields (R2), Cartan–Hadamard and the injectivity radius
-  (R4.4, R4.6), immersion geometry and the second fundamental form (R5a), and the Riemannian
-  distance and Hopf–Rinow theorem;
-- from SmoothBundlesConnections: the smooth homogeneous space `G ⧸ H` of a closed subgroup and
-  the principal bundle `G → G ⧸ H` (B1.4);
-- from RootSystems and Mathlib: root pairings, bases, Weyl groups, chambers, Coxeter systems.
+Layers 0 and 1 hold the Lie algebra theory, and Layer 2 passes to Lie groups. Layer 3 builds the
+Bruhat decomposition, and Layer 4 the parabolic subgroups with their Langlands decompositions.
+Layer 5 is the geometry of G/K, ending with complex hyperbolic space; it is independent of
+Layers 3–4.
 
-It leaves to other roadmaps:
+`Suggested.lean` states the headline theorems in Lean; for those it cannot state, such as the
+Langlands decompositions, it says what is lacking.
 
-- Lie groups and the global Cartan, Iwasawa and `KAK` decompositions:
-  RepresentationTheory/LieGroups;
-- representation theory of real reductive groups (principal series, Harish-Chandra modules,
-  Langlands classification): AutomorphicFormsOnReductiveGroups and the representation-theory
-  roadmaps that consume this one;
-- algebraic groups over a field, their parabolic `k`-subgroups, cocharacter parabolics and
-  relative root systems: ReductiveGroups;
-- arithmetic subgroups, the symmetric space with the split-centre correction `G(F_∞)/K_∞A_∞`,
-  Borel–Serre compactifications: ArithmeticLocallySymmetricSpaces and AdelicAlgebraicGroups;
-- Hermitian symmetric domains and Shimura data: ShimuraData; the complex structure of a Hermitian
-  symmetric domain, its Borel embedding into the compact dual, and arithmetic quotients of it as
-  normal quasi-projective varieties (Baily–Borel), ball quotients by arithmetic lattices included:
-  ShimuraVarieties (§§P.2–P.3 and Layers 1–3); Kähler forms and complex projective space:
-  ComplexKahlerGeometry;
-- lattices in locally compact groups (discrete subgroups with a fundamental domain of finite Haar
-  measure), arithmetic subgroups, and arithmetic lattices in a real Lie group with their
-  independence of choices: AdelicAlgebraicGroups (AA.2.2–AA.2.3 and §3.4, "Arithmetic lattices in
-  a real Lie group"); §5.6 states its covolume results for an arbitrary discrete subgroup;
-- the restricted root system of a group carrying LieGroups Layer 9's `IwasawaData` (its root
-  space decomposition, the reflections realized in `N_K(𝔞)`, the root chambers and the carrying of
-  `𝔞` into the closed chamber) and the maximality of `K`: LieGroups Layer 9; Layer 1 reads them on
-  a real Lie algebra through the adjoint datum of §0.2 and adds the `RootPairing` packaging;
-- the splitting of the Lie algebra of a compact group: LieGroups Layer 5A; §0.1 states it for a
-  real Lie algebra with a negative definite invariant form, which needs no group;
-- the conjugacy of the maximal compact subgroups of the real points of a reductive `ℝ`-group, every
-  compact subgroup lying in one: ArithmeticLocallySymmetricSpaces ALS.F.1; §5.4 proves containment
-  and conjugacy for every LieGroups `CartanInvolution` datum, nonlinear finite covers included;
-- the Cartan involutions of a connected reductive `ℝ`-group, their existence and their conjugacy
-  under its real points, and the transpose-stable realization of its real points:
-  ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1; §2.5 reads them on `H^τ` and refines the
-  conjugacy to `(H^τ)°`, §0.2 proves the conjugacy of the Cartan involutions of a real semisimple
-  Lie algebra under `Int(𝔤₀)`, and §5.4 that of LieGroups `CartanInvolution` data on a group
-  with semisimple Lie algebra, nonlinear finite covers included.
+## How to read the build
 
-The boundary with LieGroups Layer 9 is the following. Layer 9 owns the global decompositions
-of a group carrying its `CartanInvolution` datum, the group-level fields of `IwasawaData`, and the
-restricted root system of such a group: its root space decomposition, the reflections realized in
-`N_K(𝔞)`, the root chambers and the carrying of `𝔞` into the closed chamber. A real semisimple
-`𝔤₀` with a Cartan involution `θ` is `Lie(Int(𝔤₀))` with `θ = dΘ` for the adjoint datum of §0.2,
-so §1.1–§1.2 obtain these statements for `(𝔤₀, θ)` from Layer 9 and own only what Layer 9 does not
-state: the Lie-algebra carriers `restrictedRootSpace` and `restrictedRoots`, the `RootPairing`
-packaging, the multiplicities and the comparison with Mathlib's weight spaces. Everything in
-Layers 2–5 is built on top of Layer 9 and is not restated there.
-
-Outside this roadmap: the Lie-group structure of the full isometry group of a Riemannian
-manifold (Myers–Steenrod) and the resulting Cartan classification of abstract symmetric spaces,
-symmetric spaces of compact type and duality, the visual boundary and Tits building of `X`,
-spherical functions and harmonic analysis on `X`; the theory of lattices beyond the definitions
-AdelicAlgebraicGroups supplies (Selberg's lemma, finite generation, arithmeticity, superrigidity,
-non-arithmetic ball quotients and their Siu–Yau–Mok compactification); the full biholomorphism
-group of the ball (H. Cartan's uniqueness theorem); and representation and character varieties
-of surface groups in real reductive groups (reductive representations, closed orbits,
-Richardson–Slodowy), which consume §2.5 and Layer 0.
+Layer k is cited as Lk and its subsection k.n as §k.n; AF §2.3a is
+AutomorphicFormsOnReductiveGroups §2.3a. Layers 0 and 1 are pure Lie-algebra
+theory over `ℝ`: no group appears except the inner automorphism group `Int(𝔤₀)`, which §0.2 takes
+from LieGroups. Layer 2 passes to Lie groups. Layers 3 and 4 are the parabolic theory and need
+LieGroups Layer 9's `IwasawaData`. Layer 5 is the geometry of `G/K`; it needs Layers 0–2 and the
+Cartan polar decomposition, and its §5.5 uses the `KAK` decomposition and the restricted Weyl
+group of §2.3. Layers 3–4 and Layer 5 are independent of each other and can be built in
+parallel once Layer 2 exists.
 
 ## Conventions
 
@@ -191,138 +115,6 @@ Richardson–Slodowy), which consume §2.5 and Layer 0.
   meets every connected component of `G` (`G = M·G⁰`). Connected semisimple groups with finite
   centre, including nonlinear ones such as finite covers of `SL₂(ℝ)` and the metaplectic group,
   are always covered.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Lie algebras: `killingForm`, `LieAlgebra.IsKilling`,
-  `LieAlgebra.HasTrivialRadical.instIsKilling` (Cartan's criterion, so a real semisimple Lie
-  algebra has nondegenerate Killing form), `LieAlgebra.IsSemisimple`, `LieAlgebra.center`,
-  `LieAlgebra.derivedSeries`, `LieDerivation.IsKilling.exists_eq_ad` (every derivation of a
-  Killing Lie algebra is inner), `LieAlgebra.ad`, `Module.End.eigenspace`,
-  `LieModule.genWeightSpace`, `LieModule.Weight`, `LieAlgebra.rootSpace`,
-  `LieSubalgebra.IsCartanSubalgebra`, `LieAlgebra.exists_isCartanSubalgebra_engel`.
-- Classical matrix Lie algebras: `LieAlgebra.SpecialLinear.sl`, `LieAlgebra.Orthogonal.so'`
-  with `LieAlgebra.Orthogonal.indefiniteDiagonal`, `LieAlgebra.Symplectic.sp`,
-  `skewAdjointMatricesLieSubalgebra`.
-- Root pairings: `RootPairing`, `RootPairing.IsRootSystem`, `RootPairing.IsCrystallographic`,
-  `RootPairing.IsReduced`, `RootPairing.Base`, `RootPairing.nonempty_base`,
-  `RootPairing.weylGroup`, `CoxeterSystem`.
-- Groups and topology: `Subgroup.normalizer`, `Subgroup.centralizer`, `DoubleCoset`,
-  `QuotientGroup`, `ProperlyDiscontinuousSMul`, `ContractibleSpace`, `IsIsometricSMul`,
-  `MeasureTheory.Measure.haar`, `MeasureTheory.IsFundamentalDomain`.
-- Manifolds: `LieGroup`, `LeftInvariantDerivation`, `mfderiv`, `IsManifold`,
-  `Bundle.RiemannianBundle`, `IsRiemannianManifold`, `Manifold.riemannianEDist`,
-  `CovariantDerivative.leviCivitaConnection`, `SimplyConnectedSpace`.
-- Order: `Maximal` (for maximal abelian subspaces), `Module.finrank`.
-
-### From Tau Ceti
-
-- The Lie-group floor of LieGroups Layers 0–3: `lieExp`
-  (`TauCeti/Geometry/Lie/Exponential/Basic.lean`),
-  `TauCeti.Lie.Ad` (`TauCeti/Geometry/Lie/Adjoint/Derivation.lean`),
-  `finiteDimensional_leftInvariantDerivation`, `TauCeti.Lie.lieSubalgebraOfSubgroup`,
-  `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`.
-- The symplectic Cartan involution `LieAlgebra.Symplectic.cartanInvolution` with
-  `LieAlgebra.Symplectic.killingForm_cartanInvolution_apply` and
-  `LieAlgebra.Symplectic.killingForm_cartanInvolution_self_neg`
-  (`TauCeti/Algebra/Lie/Symplectic/{Cartan,Killing}.lean`) and its group form
-  (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Cartan.lean`,
-  `TauCeti/Geometry/Lie/Symplectic/Cartan.lean`).
-- Matrix Iwasawa data: `TauCeti.iwasawaHomeomorph`
-  (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Iwasawa.lean`),
-  `TauCeti.iwasawaSLHomeomorph`, `TauCeti.posDiagonalSubgroup`,
-  `TauCeti.upperUnitriangularGroup`, `TauCeti.upperTriangularGroup`, the restricted Weyl group
-  of `GL n` `TauCeti.unitaryNormalizerPosDiagonalQuotientMulEquivPerm`
-  (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/RestrictedWeylGroup.lean`) and the maximal
-  compact subgroups of `GL n` (`.../GeneralLinearGroup/MaximalCompact.lean`).
-- Tits systems: `TauCeti.TitsSystem`, its Bruhat cells and
-  `TauCeti.TitsSystem.existsUnique_mem_bruhatCell`; standard parabolic subgroups
-  `TauCeti.TitsSystem.standardParabolic`, `standardParabolicOrderIso` (subgroups containing `B`),
-  `mem_doubleCoset_standardParabolic_iff`, `normalizer_standardParabolic` and
-  `parabolicTitsSystem` (`TauCeti/GroupTheory/TitsSystem/Parabolic/`).
-- Coxeter parabolics: `CoxeterSystem.parabolic` and minimal coset representatives
-  (`TauCeti/GroupTheory/Coxeter/Parabolic`).
-- Root systems: `RootPairing.dominantChamber`,
-  `TauCeti.existsUnique_mem_orbit_inter_dominantChamber`,
-  `RootPairing.Base.existsUnique_map_eq`, `TauCeti.longestElement`
-  (`TauCeti/LinearAlgebra/RootSystem/`).
-- Borel subalgebras `TauCeti.borelSubalgebra` and `TauCeti.positiveNilradical`
-  (`TauCeti/Algebra/Lie/Weights/Borel.lean`).
-- Algebraic parabolics: `TauCeti.HopfIdeal.IsParabolic`, `TauCeti.Cocharacter.parabolic`
-  (`TauCeti/Algebra/AlgebraicGroup/Parabolic/Basic.lean`, `.../Dynamic/`).
-- Riemannian geometry: `TauCeti.RiemannianIsometry`, `TauCeti.IsLocalRiemannianIsometry` and
-  `TauCeti.IsLocalRiemannianIsometry.hasParallelCurvature`
-  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/`), `CovariantDerivative.HasParallelCurvature`
-  and `CovariantDerivative.sectionalCurvature`
-  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/`),
-  `TauCeti.leftInvariantMetric` (`.../Riemannian/LieGroup/LeftInvariant.lean`),
-  `TauCeti.completeSpace_of_isPretransitive_isom_of_finiteDimensional`
-  (`.../Riemannian/Homogeneous.lean`),
-  `TauCeti.Manifold.norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
-  (`.../Riemannian/Jacobi/Comparison.lean`), `TauCeti.riemannianVolume`
-  (`.../Riemannian/VolumeDensity/Volume.lean`), the upper half-space model `TauCeti.UpperHalfSpace`
-  of real hyperbolic space (`TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/`), and
-  the quotient manifold of a free properly
-  discontinuous action (`TauCeti/Geometry/Manifold/Instances/Quotient.lean`).
-
-### From other roadmaps
-
-- **RepresentationTheory/LieGroups.** Layers 0–5 as above. Layer 5A: for compact connected `G`,
-  `𝔤 = 𝔷(𝔤) ⊕ [𝔤, 𝔤]` with `[𝔤, 𝔤]` semisimple of negative definite Killing form. Layer 7: the
-  compact real form `τ` of `𝔤₀ ⊗ ℂ` and the Cartan involution `θ = στ|_{𝔤₀}` of a real semisimple
-  `𝔤₀` (existence), the compact semisimple integration theorem; a real form of a complex Lie group
-  `H` as a closed embedded real Lie subgroup with `Lie(R) ⊗ ℂ ≅ Lie(H)`, the full and
-  identity-component fixed subgroups of an antiholomorphic involution, the compact real forms of a
-  connected linear complex reductive group with their compact-case polar decomposition and their
-  conjugacy, and the identification `H ≃ 𝐆(ℂ)` with a connected reductive `ℂ`-group with its
-  faithful closed immersion. Layer 9: `CartanInvolution`,
-  `IsRealReductive`, `cartan_polar_decomposition`, the adjoint model of a connected semisimple group
-  with finite centre, `IwasawaData`, `iwasawaDecomposition`, `kakDecomposition`, `Ad(K)𝔞 = 𝔭`, the
-  compactness and maximality of `K`, the restricted root system with its root space decomposition
-  and root chambers, `N_K(𝔞)/Z_K(𝔞)`, the reflection representatives and the carrying of `𝔞` into
-  the closed chamber by `N_K(𝔞)`.
-- **AutomorphicFormsOnReductiveGroups §2.3a.** `M`, `A`, `N`, `P = MAN`, the Langlands
-  decomposition `M × A × N ≅ P`, `P = N_G(𝔫) = N_G(P)`, `P ∩ Θ(P) = MA`, `G = KP`, conjugacy of
-  minimal parabolics, recovery of the decomposition from `P` and `θ`, the real-rank-one
-  description, and the algebraic comparison `P = G ∩ 𝐏(ℝ)` with `A = 𝐒(ℝ)°` for a maximal
-  `ℝ`-split torus `𝐒`, for its supplied class of real reductive groups.
-- **ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1.** ALS.0.1: the Cartan involutions of a
-  connected reductive `ℝ`-group (involutions with compact twisted real form), their existence, their
-  conjugacy under real points, and the Cartan involution `g ↦ (gᵀ)⁻¹` of a transpose-stable group,
-  consumed by §2.5. ALS.F.1: real points of linear algebraic groups as Lie groups with finitely
-  many components and the transpose-stable realization of a reductive group, consumed by §2.4,
-  §2.5 and §4.5 and through AF §2.3a (whose class they form). Its maximal-compact clauses are the
-  linear case of §5.4, cited there and not consumed.
-- **ReductiveGroups Layer 7.** Parabolic `k`-subgroups, the cocharacter description
-  `P_G(λ)` with its Levi `Z_G(λ)` and unipotent radical `U_G(λ)`. Layer 4: split tori and their
-  diagonalizable representations. Layer 6: the derived group `𝐆_der`, the central torus `Z(𝐆)°`
-  and the central isogeny `Z(𝐆)° × 𝐆_der → 𝐆`.
-- **SmoothBundlesConnections B1.4.** The smooth quotient `G ⧸ H` by a closed subgroup, the
-  principal `H`-bundle `G → G ⧸ H` and its tangent description.
-- **RiemannianGeometry.** R1.3 (curvature of left-invariant metrics, homogeneous metrics on
-  `G ⧸ H` from an `Ad(H)`-invariant product on a reductive complement, completeness of
-  `G`-invariant metrics, Riemannian submersions), R1.2 (`HasParallelCurvature` and parallel
-  transport), R2 (Jacobi fields and the exponential differential), R4.1 (index comparison),
-  R4.4 (`cartanHadamard_isCoveringMap`), R4.6 (injectivity radius), R5a (second fundamental
-  form of an immersion).
-- **HopfRinow (completed).** Riemannian distance, minimizing geodesics, Hopf–Rinow, compactness
-  of closed balls in a complete connected manifold.
-- **RootSystems.** Bases, chambers, simple transitivity of the Weyl group on bases, longest
-  element, standard parabolic subgroups of the Weyl group.
-- **CompactGroups.** Haar probability measure on a compact group and averaging.
-
-## How to read the build
-
-Layer k is cited as Lk and its subsection k.n as §k.n; AF §2.3a is
-AutomorphicFormsOnReductiveGroups §2.3a. Layers 0 and 1 are pure Lie-algebra
-theory over `ℝ`: no group appears except the inner automorphism group `Int(𝔤₀)`, which §0.2 takes
-from LieGroups. Layer 2 passes to Lie groups. Layers 3 and 4 are the parabolic theory and need
-LieGroups Layer 9's `IwasawaData`. Layer 5 is the geometry of `G/K`; it needs Layers 0–2 and the
-Cartan polar decomposition, and its §5.5 uses the `KAK` decomposition and the restricted Weyl
-group of §2.3. Layers 3–4 and Layer 5 are independent of each other and can be built in
-parallel once Layer 2 exists.
 
 ## Layer 0: Cartan involutions of real semisimple and reductive Lie algebras
 
@@ -1364,6 +1156,252 @@ ShimuraData (Hermitian symmetric spaces as Riemannian symmetric spaces),
 NoncompactQuantumSymmetry (Cartan involutions, `Int(𝔤₀)`, maximal compact subgroups), and
 roadmaps on lattices in semisimple groups, character varieties of surface groups, and complex
 hyperbolic geometry.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the Cartan-involution predicate on a real semisimple and on a real reductive Lie algebra, the
+  Cartan decomposition `𝔤₀ = 𝔨 ⊕ 𝔭` with its bracket, Killing-form and adjointness relations,
+  the conjugacy of Cartan involutions under inner automorphisms, their behaviour on ideals and
+  products, the compactness criterion, and the classical matrix realizations (Layer 0);
+- maximal abelian subspaces of `𝔭`, the restricted root spaces and restricted roots of a real Lie
+  algebra with a Cartan involution, LieGroups Layer 9's restricted root system read on such an
+  algebra and packaged as a Mathlib `RootPairing` with multiplicities and the comparison with
+  Mathlib's weight spaces, positive systems and simple restricted roots, conjugacy of maximal
+  abelian subspaces, the real rank of a real semisimple Lie algebra, and split real forms
+  (Layer 1);
+- the real rank of a Lie group with semisimple Lie algebra, almost-simple and compact factors,
+  higher rank, the hyperbolic elements and their conjugacy into the closed chamber, the
+  characterization of real rank by `ℝ`-split abelian subalgebras and by algebraic split tori, the
+  conjugacy of maximal `ℝ`-split tori of a connected reductive `ℝ`-group under its real points, the
+  identification of the restricted Weyl group `N_K(𝔞)/Z_K(𝔞)` with the Weyl group of the
+  restricted root system, and, for a real form `H^τ` of a connected complex reductive group, the
+  identification of `τ` with the conjugation of an `ℝ`-form and the reading on `H^τ` of
+  ArithmeticLocallySymmetricSpaces ALS.0.1's Cartan involutions, with their LieGroups Layer 9 datum
+  and maximal compact subgroups (Layer 2);
+- minimal parabolic subgroups beyond the class of real points of algebraic groups, the normalizer
+  `N_G(𝔞)`, rank-one subgroups, the Tits system `(P, N_G(𝔞))`, the Bruhat decomposition, the big
+  cell and the Furstenberg boundary `G/P` with its Bruhat cells (Layer 3);
+- standard parabolic subalgebras and subgroups, their classification by subsets of the simple
+  restricted roots, Levi subgroups and Langlands decompositions, general parabolic subgroups and
+  their type, maximal parabolic subgroups, the dynamical description, and the comparison with
+  algebraic `ℝ`-parabolic subgroups (Layer 4);
+- Riemannian symmetric spaces, the symmetric space `G/K` of a real reductive group with its
+  invariant metric, Levi-Civita connection, curvature, geodesics, completeness and distance;
+  convexity of the squared distance on Hadamard manifolds, Cartan's fixed-point theorem and the
+  conjugacy of maximal compact subgroups; totally geodesic submanifolds and Lie triple systems,
+  flats, the rank of `X`, Weyl chambers and the vector-valued distance; quotients `Λ\X` by
+  discrete subgroups, their injectivity radius, local symmetry and volume; and complex hyperbolic
+  space, the symmetric space of `PU(1, n)`, in its ball model with its invariant metrics and its
+  totally geodesic submanifolds (Layer 5).
+
+It consumes, and does not rebuild:
+
+- from RepresentationTheory/LieGroups: Lie groups, `lieExp`, `Ad`, closed and immersed subgroups,
+  integration of subalgebras, universal covers (Layers 0–5); the splitting `𝔤 = 𝔷(𝔤) ⊕ [𝔤, 𝔤]` of
+  the Lie algebra of a compact connected group, with negative definite Killing form on `[𝔤, 𝔤]`
+  (Layer 5A); the compact real form of a complex semisimple Lie algebra and the **existence** of a
+  Cartan involution of a real semisimple Lie algebra, and compactness of the simply connected
+  integration of a compact semisimple Lie algebra, real forms of a complex Lie group as fixed
+  groups of antiholomorphic involutions, the compact real forms of a connected complex reductive
+  group with their conjugacy, and the lower analytic dictionary `H ≃ 𝐆(ℂ)` (Layer 7); and the
+  global real-reductive datum
+  `CartanInvolution`, the global Cartan polar decomposition `cartan_polar_decomposition`, the
+  `IwasawaData` with its maximal abelian `𝔞`, `N₊` and positive chamber, `iwasawaDecomposition`,
+  `kakDecomposition`, `Ad(K)𝔞 = 𝔭`, the compactness and maximality of `K`, and the possibly
+  nonreduced restricted root system with its root space decomposition, the representatives in
+  `N_K(𝔞)` of the restricted reflections, the root chambers and the carrying of every element of `𝔞`
+  into the closed chamber by `N_K(𝔞)` (Layer 9);
+- from AutomorphicFormsOnReductiveGroups §2.3a: the minimal parabolic subgroup `P = MAN` and its
+  Langlands decomposition for real reductive groups in its supplied class
+  (ArithmeticLocallySymmetricSpaces ALS.0.1–ALS.0.3: the real points `𝐇(ℝ)` of a connected
+  reductive `ℝ`-group and the groups `𝐆(F_∞)`), with the real-rank-one description, and the
+  algebraic comparison with minimal `ℝ`-parabolics for `𝐆(ℝ)` and its identity component;
+- from RiemannianGeometry and HopfRinow: the curvature calculus, homogeneous metrics and
+  Riemannian submersions (R1.3), Jacobi fields (R2), Cartan–Hadamard and the injectivity radius
+  (R4.4, R4.6), immersion geometry and the second fundamental form (R5a), and the Riemannian
+  distance and Hopf–Rinow theorem;
+- from SmoothBundlesConnections: the smooth homogeneous space `G ⧸ H` of a closed subgroup and
+  the principal bundle `G → G ⧸ H` (B1.4);
+- from RootSystems and Mathlib: root pairings, bases, Weyl groups, chambers, Coxeter systems.
+
+It leaves to other roadmaps:
+
+- Lie groups and the global Cartan, Iwasawa and `KAK` decompositions:
+  RepresentationTheory/LieGroups;
+- representation theory of real reductive groups (principal series, Harish-Chandra modules,
+  Langlands classification): AutomorphicFormsOnReductiveGroups and the representation-theory
+  roadmaps that consume this one;
+- algebraic groups over a field, their parabolic `k`-subgroups, cocharacter parabolics and
+  relative root systems: ReductiveGroups;
+- arithmetic subgroups, the symmetric space with the split-centre correction `G(F_∞)/K_∞A_∞`,
+  Borel–Serre compactifications: ArithmeticLocallySymmetricSpaces and AdelicAlgebraicGroups;
+- Hermitian symmetric domains and Shimura data: ShimuraData; the complex structure of a Hermitian
+  symmetric domain, its Borel embedding into the compact dual, and arithmetic quotients of it as
+  normal quasi-projective varieties (Baily–Borel), ball quotients by arithmetic lattices included:
+  ShimuraVarieties (§§P.2–P.3 and Layers 1–3); Kähler forms and complex projective space:
+  ComplexKahlerGeometry;
+- lattices in locally compact groups (discrete subgroups with a fundamental domain of finite Haar
+  measure), arithmetic subgroups, and arithmetic lattices in a real Lie group with their
+  independence of choices: AdelicAlgebraicGroups (AA.2.2–AA.2.3 and §3.4, "Arithmetic lattices in
+  a real Lie group"); §5.6 states its covolume results for an arbitrary discrete subgroup;
+- the restricted root system of a group carrying LieGroups Layer 9's `IwasawaData` (its root
+  space decomposition, the reflections realized in `N_K(𝔞)`, the root chambers and the carrying of
+  `𝔞` into the closed chamber) and the maximality of `K`: LieGroups Layer 9; Layer 1 reads them on
+  a real Lie algebra through the adjoint datum of §0.2 and adds the `RootPairing` packaging;
+- the splitting of the Lie algebra of a compact group: LieGroups Layer 5A; §0.1 states it for a
+  real Lie algebra with a negative definite invariant form, which needs no group;
+- the conjugacy of the maximal compact subgroups of the real points of a reductive `ℝ`-group, every
+  compact subgroup lying in one: ArithmeticLocallySymmetricSpaces ALS.F.1; §5.4 proves containment
+  and conjugacy for every LieGroups `CartanInvolution` datum, nonlinear finite covers included;
+- the Cartan involutions of a connected reductive `ℝ`-group, their existence and their conjugacy
+  under its real points, and the transpose-stable realization of its real points:
+  ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1; §2.5 reads them on `H^τ` and refines the
+  conjugacy to `(H^τ)°`, §0.2 proves the conjugacy of the Cartan involutions of a real semisimple
+  Lie algebra under `Int(𝔤₀)`, and §5.4 that of LieGroups `CartanInvolution` data on a group
+  with semisimple Lie algebra, nonlinear finite covers included.
+
+The boundary with LieGroups Layer 9 is the following. Layer 9 owns the global decompositions
+of a group carrying its `CartanInvolution` datum, the group-level fields of `IwasawaData`, and the
+restricted root system of such a group: its root space decomposition, the reflections realized in
+`N_K(𝔞)`, the root chambers and the carrying of `𝔞` into the closed chamber. A real semisimple
+`𝔤₀` with a Cartan involution `θ` is `Lie(Int(𝔤₀))` with `θ = dΘ` for the adjoint datum of §0.2,
+so §1.1–§1.2 obtain these statements for `(𝔤₀, θ)` from Layer 9 and own only what Layer 9 does not
+state: the Lie-algebra carriers `restrictedRootSpace` and `restrictedRoots`, the `RootPairing`
+packaging, the multiplicities and the comparison with Mathlib's weight spaces. Everything in
+Layers 2–5 is built on top of Layer 9 and is not restated there.
+
+Outside this roadmap: the Lie-group structure of the full isometry group of a Riemannian
+manifold (Myers–Steenrod) and the resulting Cartan classification of abstract symmetric spaces,
+symmetric spaces of compact type and duality, the visual boundary and Tits building of `X`,
+spherical functions and harmonic analysis on `X`; the theory of lattices beyond the definitions
+AdelicAlgebraicGroups supplies (Selberg's lemma, finite generation, arithmeticity, superrigidity,
+non-arithmetic ball quotients and their Siu–Yau–Mok compactification); the full biholomorphism
+group of the ball (H. Cartan's uniqueness theorem); and representation and character varieties
+of surface groups in real reductive groups (reductive representations, closed orbits,
+Richardson–Slodowy), which consume §2.5 and Layer 0.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Lie algebras: `killingForm`, `LieAlgebra.IsKilling`,
+  `LieAlgebra.HasTrivialRadical.instIsKilling` (Cartan's criterion, so a real semisimple Lie
+  algebra has nondegenerate Killing form), `LieAlgebra.IsSemisimple`, `LieAlgebra.center`,
+  `LieAlgebra.derivedSeries`, `LieDerivation.IsKilling.exists_eq_ad` (every derivation of a
+  Killing Lie algebra is inner), `LieAlgebra.ad`, `Module.End.eigenspace`,
+  `LieModule.genWeightSpace`, `LieModule.Weight`, `LieAlgebra.rootSpace`,
+  `LieSubalgebra.IsCartanSubalgebra`, `LieAlgebra.exists_isCartanSubalgebra_engel`.
+- Classical matrix Lie algebras: `LieAlgebra.SpecialLinear.sl`, `LieAlgebra.Orthogonal.so'`
+  with `LieAlgebra.Orthogonal.indefiniteDiagonal`, `LieAlgebra.Symplectic.sp`,
+  `skewAdjointMatricesLieSubalgebra`.
+- Root pairings: `RootPairing`, `RootPairing.IsRootSystem`, `RootPairing.IsCrystallographic`,
+  `RootPairing.IsReduced`, `RootPairing.Base`, `RootPairing.nonempty_base`,
+  `RootPairing.weylGroup`, `CoxeterSystem`.
+- Groups and topology: `Subgroup.normalizer`, `Subgroup.centralizer`, `DoubleCoset`,
+  `QuotientGroup`, `ProperlyDiscontinuousSMul`, `ContractibleSpace`, `IsIsometricSMul`,
+  `MeasureTheory.Measure.haar`, `MeasureTheory.IsFundamentalDomain`.
+- Manifolds: `LieGroup`, `LeftInvariantDerivation`, `mfderiv`, `IsManifold`,
+  `Bundle.RiemannianBundle`, `IsRiemannianManifold`, `Manifold.riemannianEDist`,
+  `CovariantDerivative.leviCivitaConnection`, `SimplyConnectedSpace`.
+- Order: `Maximal` (for maximal abelian subspaces), `Module.finrank`.
+
+### From Tau Ceti
+
+- The Lie-group floor of LieGroups Layers 0–3: `lieExp`
+  (`TauCeti/Geometry/Lie/Exponential/Basic.lean`),
+  `TauCeti.Lie.Ad` (`TauCeti/Geometry/Lie/Adjoint/Derivation.lean`),
+  `finiteDimensional_leftInvariantDerivation`, `TauCeti.Lie.lieSubalgebraOfSubgroup`,
+  `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`.
+- The symplectic Cartan involution `LieAlgebra.Symplectic.cartanInvolution` with
+  `LieAlgebra.Symplectic.killingForm_cartanInvolution_apply` and
+  `LieAlgebra.Symplectic.killingForm_cartanInvolution_self_neg`
+  (`TauCeti/Algebra/Lie/Symplectic/{Cartan,Killing}.lean`) and its group form
+  (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Cartan.lean`,
+  `TauCeti/Geometry/Lie/Symplectic/Cartan.lean`).
+- Matrix Iwasawa data: `TauCeti.iwasawaHomeomorph`
+  (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Iwasawa.lean`),
+  `TauCeti.iwasawaSLHomeomorph`, `TauCeti.posDiagonalSubgroup`,
+  `TauCeti.upperUnitriangularGroup`, `TauCeti.upperTriangularGroup`, the restricted Weyl group
+  of `GL n` `TauCeti.unitaryNormalizerPosDiagonalQuotientMulEquivPerm`
+  (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/RestrictedWeylGroup.lean`) and the maximal
+  compact subgroups of `GL n` (`.../GeneralLinearGroup/MaximalCompact.lean`).
+- Tits systems: `TauCeti.TitsSystem`, its Bruhat cells and
+  `TauCeti.TitsSystem.existsUnique_mem_bruhatCell`; standard parabolic subgroups
+  `TauCeti.TitsSystem.standardParabolic`, `standardParabolicOrderIso` (subgroups containing `B`),
+  `mem_doubleCoset_standardParabolic_iff`, `normalizer_standardParabolic` and
+  `parabolicTitsSystem` (`TauCeti/GroupTheory/TitsSystem/Parabolic/`).
+- Coxeter parabolics: `CoxeterSystem.parabolic` and minimal coset representatives
+  (`TauCeti/GroupTheory/Coxeter/Parabolic`).
+- Root systems: `RootPairing.dominantChamber`,
+  `TauCeti.existsUnique_mem_orbit_inter_dominantChamber`,
+  `RootPairing.Base.existsUnique_map_eq`, `TauCeti.longestElement`
+  (`TauCeti/LinearAlgebra/RootSystem/`).
+- Borel subalgebras `TauCeti.borelSubalgebra` and `TauCeti.positiveNilradical`
+  (`TauCeti/Algebra/Lie/Weights/Borel.lean`).
+- Algebraic parabolics: `TauCeti.HopfIdeal.IsParabolic`, `TauCeti.Cocharacter.parabolic`
+  (`TauCeti/Algebra/AlgebraicGroup/Parabolic/Basic.lean`, `.../Dynamic/`).
+- Riemannian geometry: `TauCeti.RiemannianIsometry`, `TauCeti.IsLocalRiemannianIsometry` and
+  `TauCeti.IsLocalRiemannianIsometry.hasParallelCurvature`
+  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/`), `CovariantDerivative.HasParallelCurvature`
+  and `CovariantDerivative.sectionalCurvature`
+  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/`),
+  `TauCeti.leftInvariantMetric` (`.../Riemannian/LieGroup/LeftInvariant.lean`),
+  `TauCeti.completeSpace_of_isPretransitive_isom_of_finiteDimensional`
+  (`.../Riemannian/Homogeneous.lean`),
+  `TauCeti.Manifold.norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
+  (`.../Riemannian/Jacobi/Comparison.lean`), `TauCeti.riemannianVolume`
+  (`.../Riemannian/VolumeDensity/Volume.lean`), the upper half-space model `TauCeti.UpperHalfSpace`
+  of real hyperbolic space (`TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/`), and
+  the quotient manifold of a free properly
+  discontinuous action (`TauCeti/Geometry/Manifold/Instances/Quotient.lean`).
+
+### From other roadmaps
+
+- **RepresentationTheory/LieGroups.** Layers 0–5 as above. Layer 5A: for compact connected `G`,
+  `𝔤 = 𝔷(𝔤) ⊕ [𝔤, 𝔤]` with `[𝔤, 𝔤]` semisimple of negative definite Killing form. Layer 7: the
+  compact real form `τ` of `𝔤₀ ⊗ ℂ` and the Cartan involution `θ = στ|_{𝔤₀}` of a real semisimple
+  `𝔤₀` (existence), the compact semisimple integration theorem; a real form of a complex Lie group
+  `H` as a closed embedded real Lie subgroup with `Lie(R) ⊗ ℂ ≅ Lie(H)`, the full and
+  identity-component fixed subgroups of an antiholomorphic involution, the compact real forms of a
+  connected linear complex reductive group with their compact-case polar decomposition and their
+  conjugacy, and the identification `H ≃ 𝐆(ℂ)` with a connected reductive `ℂ`-group with its
+  faithful closed immersion. Layer 9: `CartanInvolution`,
+  `IsRealReductive`, `cartan_polar_decomposition`, the adjoint model of a connected semisimple group
+  with finite centre, `IwasawaData`, `iwasawaDecomposition`, `kakDecomposition`, `Ad(K)𝔞 = 𝔭`, the
+  compactness and maximality of `K`, the restricted root system with its root space decomposition
+  and root chambers, `N_K(𝔞)/Z_K(𝔞)`, the reflection representatives and the carrying of `𝔞` into
+  the closed chamber by `N_K(𝔞)`.
+- **AutomorphicFormsOnReductiveGroups §2.3a.** `M`, `A`, `N`, `P = MAN`, the Langlands
+  decomposition `M × A × N ≅ P`, `P = N_G(𝔫) = N_G(P)`, `P ∩ Θ(P) = MA`, `G = KP`, conjugacy of
+  minimal parabolics, recovery of the decomposition from `P` and `θ`, the real-rank-one
+  description, and the algebraic comparison `P = G ∩ 𝐏(ℝ)` with `A = 𝐒(ℝ)°` for a maximal
+  `ℝ`-split torus `𝐒`, for its supplied class of real reductive groups.
+- **ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1.** ALS.0.1: the Cartan involutions of a
+  connected reductive `ℝ`-group (involutions with compact twisted real form), their existence, their
+  conjugacy under real points, and the Cartan involution `g ↦ (gᵀ)⁻¹` of a transpose-stable group,
+  consumed by §2.5. ALS.F.1: real points of linear algebraic groups as Lie groups with finitely
+  many components and the transpose-stable realization of a reductive group, consumed by §2.4,
+  §2.5 and §4.5 and through AF §2.3a (whose class they form). Its maximal-compact clauses are the
+  linear case of §5.4, cited there and not consumed.
+- **ReductiveGroups Layer 7.** Parabolic `k`-subgroups, the cocharacter description
+  `P_G(λ)` with its Levi `Z_G(λ)` and unipotent radical `U_G(λ)`. Layer 4: split tori and their
+  diagonalizable representations. Layer 6: the derived group `𝐆_der`, the central torus `Z(𝐆)°`
+  and the central isogeny `Z(𝐆)° × 𝐆_der → 𝐆`.
+- **SmoothBundlesConnections B1.4.** The smooth quotient `G ⧸ H` by a closed subgroup, the
+  principal `H`-bundle `G → G ⧸ H` and its tangent description.
+- **RiemannianGeometry.** R1.3 (curvature of left-invariant metrics, homogeneous metrics on
+  `G ⧸ H` from an `Ad(H)`-invariant product on a reductive complement, completeness of
+  `G`-invariant metrics, Riemannian submersions), R1.2 (`HasParallelCurvature` and parallel
+  transport), R2 (Jacobi fields and the exponential differential), R4.1 (index comparison),
+  R4.4 (`cartanHadamard_isCoveringMap`), R4.6 (injectivity radius), R5a (second fundamental
+  form of an immersion).
+- **HopfRinow (completed).** Riemannian distance, minimizing geodesics, Hopf–Rinow, compactness
+  of closed balls in a complete connected manifold.
+- **RootSystems.** Bases, chambers, simple transitivity of the Weyl group on bases, longest
+  element, standard parabolic subgroups of the Weyl group.
+- **CompactGroups.** Haar probability measure on a compact group and averaging.
 
 ## References
 

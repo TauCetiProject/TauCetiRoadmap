@@ -1,33 +1,34 @@
 # Roadmap: local variational field theory
 
-**Summary.** Build general smooth-bundle jets and their variational bicomplex, all-order first variation, global variational cohomology, Noether I/II, classical Cauchy brackets, model-specific Koszul–Tate resolutions and Dirac/stress comparisons. The library develops jet-local densities, their Euler expressions and boundary terms, differential identities, symmetry currents, gauge identities, and metric variation. It treats actions only on specified domains with stated support/boundary hypotheses. It does not assert path-integral measures, existence of global solutions, or minimizers. Physical equations are model assumptions or consequences of an explicitly chosen Lagrangian; they are not universal mathematical axioms.
+**Summary.** A classical field theory starts from a Lagrangian, a density depending on a field and finitely many of its derivatives. Its field equations, conservation laws and gauge identities come from varying it and integrating by parts.
 
-## Scope and ownership
+The roadmap builds this calculus on a smooth fiber bundle π: E → M with finite-dimensional real base and fiber, on Hausdorff second-countable smooth manifolds; n is the dimension of M and fields are local smooth sections. Its objects are the jet bundles JʳE of a field and its derivatives up to order r, and the variational bicomplex of forms on them, with horizontal (base) and vertical (field) degrees. Globally the forms make a sheaf with jet order bounded on compact subsets of E.
 
-LVF owns general nonlinear field-bundle jets, joint field/parameter jets, jet-dependent
-variational transposes, orientation-twisted variational cohomology, admissible classical
-Cauchy functionals and their graded bracket, model equation resolutions, and the
-Lorentzian Dirac/stress adapters. These extend the linear vector-bundle jets and
-smooth-base transposes of PseudodifferentialOperators P1.0. The all-signature local
-Yang–Mills equation and identity theory extends SmoothBundlesConnections B8.1–B8.2:
-for a positive metric its density is −one-half of that supplier's curvature-norm
-energy density, so its first variation has Euler one-form −D_A†F_A.
+The first main theorem is the first variation formula: for a Lagrangian L of order r, δL is the pairing of its Euler expression E(L) with the field variation δu, plus the divergence of a boundary term Θ. E(L) is density-valued, of order at most 2r; for L = u₂²/2 in one variable, E(L) = u₄. Every Lagrangian also has a global Lepage equivalent: an n-form with horizontal part L whose exterior derivative has the Euler source form as its one-contact component.
 
-DifferentialGeometry Layers 0–2, 5–6 and 12 own ordinary forms, orientation, Stokes,
-de Rham cohomology and the positive metric/density comparison. SmoothBundlesConnections
-B2–B4 owns principal/associated bundles, densities, connections and curvature;
-B6.0–B6.1 owns good covers and the constant-coefficient Čech–de Rham comparison.
-HopfRinow Layer 1 owns the general nondegenerate metric/family Levi–Civita theory.
-IntegrableSystems I3 owns particle mechanics, and SpinRepresentations Layer 7 owns
-the real Spin covers. None of these constructions is replanned here.
+Conversely, over a star-shaped ball in the base and a star-shaped fiber patch, and for n > 0, a Lagrangian with zero Euler expression is a total divergence. Globally, n-form Lagrangians with zero Euler expression, modulo divergences, form a group isomorphic to `Hⁿ_dR(E)`. For density-valued Lagrangians on an unoriented base the twisted group `Hⁿ(E; π^*o_M)` replaces it. On E = S¹ × ℝ, dθ has zero Euler expression and integral 2π, so it is not globally a divergence.
 
-Real descent and rank are already in Tau Ceti: consume the fixed-point equivalence,
-its pure-tensor and inverse formulas, and the rank theorem in
-`TauCeti/LinearAlgebra/Complex/Conjugation.lean`. LVF owns the category and polynomial-jet
-comparisons. The analytic test-function core of the fundamental lemma is already in
-Mathlib; LVF owns its continuous bundle/source-form and jet-realization adapters.
-Quantum fields, causal propagators, Fock/operator domains and quantum constraints
-remain with the downstream roadmaps named below; they are not prerequisites.
+In Noether's first theorem, a finite-order vertical variation Q changes L by the divergence of some K; the current Θ − K then has divergence minus the pairing of E(L) with Q. The second concerns a gauge generator R, a finite-order operator on parameter sections ε with coefficients local in the field u. For n ≥ 1, the variation of a Lagrangian λ along Rε is the pairing of Rᵗ E(λ) with ε plus the divergence of one current operator B(u, ε), linear in the jets of ε; Rᵗ is the formal transpose. So Rᵗ E(λ) = 0 holds off shell exactly when the gauge variation is the divergence of one such operator, not of a primitive chosen for each ε.
+
+The roadmap also builds the Koszul–Tate resolution of the stationary algebra: local functions on jets modulo the Euler expressions and all their total derivatives. Its positive homology vanishes for pure Yang–Mills on a fixed principal bundle with finite-dimensional Lie group and a nondegenerate Ad-invariant symmetric pairing. Here n ≥ 2, and the base has a fixed nondegenerate metric, of any signature, and a positive density. It also vanishes for scalar electrodynamics on a connected four-dimensional Minkowski domain. The equations' regularity is proved with explicit jet coordinates, not assumed.
+
+The spinor part uses the real Clifford algebra and Spin group of v₀² + v₁² + v₂² − v₃² already in Tau Ceti. A fixed signed permutation passes to time-first coordinates with metric g = diag(+1, −1, −1, −1), where each vector x has a 4×4 complex Dirac matrix C(x) with C(x)² = g(x)·I. One theorem gives a real algebra homomorphism from the Clifford algebra to these matrices sending x to −i C(x); restricted to Spin ≅ SL₂(ℂ) it is the Weyl representation A ↦ diag(A, (A†)⁻¹). Another says Clifford multiplication is Spin-equivariant and that the Weyl action preserves the indefinite Hermitian Dirac pairing.
+
+Within Tau Ceti the roadmap builds on [DifferentialGeometry](../DifferentialGeometry/README.md) for forms, Stokes' theorem and de Rham cohomology, and on [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) for connections and curvature. Its jets and transposes extend the linear ones of [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) to nonlinear bundles and jet-dependent coefficients. [RelativisticQuantumFieldTheory](../RelativisticQuantumFieldTheory/README.md) uses its sourced Maxwell model and finite Dirac module.
+
+Layer 1 builds jets and the bicomplex, and Layer 2 the first variation and variational cohomology. Layer 3 holds formal adjoints, the canonical bracket of Cauchy-data functionals, and the model calculations. Layers 4 and 5 prove the Noether theorems, Layer 5 ending with Koszul–Tate. Layer 6 treats stress-energy, metric variation and the global Dirac action.
+
+## How to read the build
+
+Layers 1 and 2 construct jets and first variation. Layer 3's transpose and Cauchy
+constructors are independent of the Noether theorems in Layers 4 and 5; its finite
+Dirac matrices use only native algebra. The model current and gauge comparisons
+in Layer 3 are read after those generic Noether theorems, as specified in their
+own dependencies. Layer 5's equation coordinates precede identity presentations
+and the Koszul–Tate contraction. Layer 6 then constructs global spinor variation
+and stress. The labels LVF1–LVF6 refer to these six layers. Suggested.lean states
+the native finite Dirac headlines and identifies the missing carriers for all
+other headlines; the model calculations below are Checks.
 
 ## Conventions
 
@@ -66,90 +67,6 @@ The source's classical Dirac example below uses commuting complex spinors. Its s
 Grassmann-valued extension uses the already declared exterior coefficient algebra and
 reversal involution; it retains the same even phase transformations, gamma matrices and
 ordered bilinears, with graded integration by parts and right odd canonical momenta.
-
-## Exact supplier contracts
-
-**From Mathlib.** Use `ContDiff`, `ContMDiff`, `fderiv`, `FiberBundle`,
-`VectorBundle` and `ContMDiffVectorBundle` for smooth finite-dimensional charts and
-bundle calculus. Use `MvPolynomial`, `KaehlerDifferential` and `KaehlerDifferential.D`
-(`Mathlib/RingTheory/Kaehler/Basic.lean`) for polynomial coefficients and their
-universal degree-one derivation; the higher differential complex is constructed in
-Layer 1. Use `ExteriorAlgebra` and `SymmetricAlgebra` for the two antifield parities,
-`CliffordAlgebra.ι` and `CliffordAlgebra.lift` for the real Clifford representation,
-and `Matrix.fromBlocks`, `Matrix.adjugate`, `Matrix.conjTranspose` for its matrices.
-The analytic test input is `IsOpen.ae_eq_zero_of_integral_contDiff_smul_eq_zero`
-(`Mathlib/Analysis/Distribution/AEEqOfIntegralContDiff.lean`): its coefficient is
-locally integrable on an open finite-dimensional real domain and its conclusion
-is almost-everywhere vanishing. Everywhere vanishing additionally uses continuity
-and full support of the chosen positive smooth density. The positive-metric
-comparison uses `CovariantDerivative.leviCivitaConnection` and
-`CovariantDerivative.IsLeviCivitaConnection` from
-`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, with
-its Riemannian bundle hypotheses.
-
-**From Tau Ceti.** Use `TauCeti.realPoints`, `TauCeti.realPointsEquiv`,
-`TauCeti.realPointsEquiv_tmul`, `TauCeti.realPointsEquiv_symm_apply`,
-`TauCeti.finrank_realPoints`, `TauCeti.tmulConj` and `TauCeti.tmulConj_baseChange`
-from `TauCeti/LinearAlgebra/Complex/Conjugation.lean`. The fixed-point carrier
-requires a conjugate-linear map; descent requires its involutivity. For a native
-star module take `(starLinearEquiv ℂ).toLinearMap` with `star_star`; fixed points
-are `selfAdjoint`. The rank identity is valid even without finite dimensionality,
-with the native zero finrank in infinite dimension. Use the real/imaginary parts
-and decomposition in `Mathlib/LinearAlgebra/Complex/Module.lean` for this adapter.
-For finite Dirac use `TauCeti.realCliffordForm`,
-`TauCeti.realCliffordThreeOneVectorEquivHermitian`,
-`TauCeti.realCliffordThreeOneEvenEquivComplexMatrix_ι`,
-`TauCeti.realSpinThreeOneEquivSpecialLinear` and
-`TauCeti.realSpinThreeOneEquivSpecialLinear_action` from
-`TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` and
-`TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean`.
-The positive-metric smooth comparison uses
-`CovariantDerivative.contMDiffOn_leviCivitaConnection` and
-`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection` from
-`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Regularity.lean`.
-
-**From TauCetiRoadmap.DifferentialGeometry.** Layers 0–2 provide forms, exterior
-derivative and orientation; §§5.2–5.5 provide top-form/density integration, Stokes
-and homotopy; Layer 6 gives ordinary de Rham cohomology; §§12.3–12.4 provide the
-positive metric/divergence/density comparison. Each integral retains that
-supplier's support, orientation and boundary hypotheses.
-
-**From TauCetiRoadmap.SmoothBundlesConnections.** B2.1 and B2.4–B2.5 supply
-associated bundles, density measures and frames; B3.1–B3.3 and B4.1–B4.2 supply
-principal/associated connections, curvature and gauge transformations. B6.0–B6.1
-supplies locally finite good covers and constant-coefficient Čech–de Rham
-comparison. B8.1–B8.2 supplies positive Riemannian Yang–Mills first variation for
-the normalization comparison in Layer 4.
-
-**From TauCetiRoadmap.PseudodifferentialOperators.** P1.0 supplies linear
-vector-bundle jets, differential-operator factorization, density-dual transpose
-and formal adjoint with fixed pairings and positive density. Its coefficients
-are smooth base coefficients; evaluation of LVF jet coefficients is compared to it.
-
-**From TauCetiRoadmap.HopfRinow.** Layer 1 supplies smooth nondegenerate
-Levi–Civita connections and metric families, including the tensorial connection
-variation identity. LVF imposes no completeness or positive signature on this input.
-
-**From TauCetiRoadmap.SymplecticGeometry.IntegrableSystems.** I3 supplies intrinsic
-first variation, Cartan form and quasi-invariant currents for time-dependent
-particle mechanics; Legendre comparison is local under regularity and global
-under hyperregularity.
-
-**From TauCetiRoadmap.RepresentationTheory.SpinRepresentations.** Layer 7 supplies
-real Spin covers, their vector action and smooth Lie-algebra comparison; its
-norm-±1 covers and the native norm-one subgroup are distinguished.
-
-## How to read the build
-
-Layers 1 and 2 construct jets and first variation. Layer 3's transpose and Cauchy
-constructors are independent of the Noether theorems in Layers 4 and 5; its finite
-Dirac matrices use only native algebra. The model current and gauge comparisons
-in Layer 3 are read after those generic Noether theorems, as specified in their
-own dependencies. Layer 5's equation coordinates precede identity presentations
-and the Koszul–Tate contraction. Layer 6 then constructs global spinor variation
-and stress. The labels LVF1–LVF6 refer to these six layers. Suggested.lean states
-the native finite Dirac headlines and identifies the missing carriers for all
-other headlines; the model calculations below are Checks.
 
 ## Layer 1: jet-local differential algebra
 
@@ -1165,6 +1082,105 @@ The source editions used for coverage are the complete collection artifacts labe
 ## Downstream consumers
 
 [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core) owns the smooth-base linear differential-operator, vector-bundle jet and transpose layer. [SmoothBundlesConnections B6.0–B6.1](../SmoothBundlesConnections/README.md#b6-circle-bundles-integral-classes-and-flat-ambiguity) owns its locally finite good-cover and Čech–de Rham interface. [IntegrableSystems I3](../SymplecticGeometry/IntegrableSystems/README.md#i3-hamiltonian-and-lagrangian-mechanics) owns finite-dimensional mechanics. [Hopf–Rinow L1](../HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map) owns the nondegenerate metric/family/connection-variation contract stated in LVF6, separately from its positive-definite distance theory. LVF6 owns the density/index adapter, global Lorentzian spin lift, fixed-carrier metric variation and independent-connection-to-Levi–Civita comparison. LVF owns general fiber-bundle and joint field/parameter jets, their vector-bundle comparison, the jet-coefficient variational/formal-adjoint calculus, and the classical Cauchy phase/functionals/canonical-bracket/constraint construction with its support, boundary, affine/nonlinear and graded comparisons. Its Noether-II theorem uses one joint-local current operator. These classical producers precede the field-theory and quantum consumer bridges. [NoncompactQuantumSymmetry M4–M6](../NoncompactQuantumSymmetry/README.md) owns covered Poincaré representations, little groups and selected one-particle models; it supplies no local fields. [QuantumFoundations' QF Fock-operator API and QF4–QF6](../QuantumFoundations/README.md#qf-fock-operator-api-on-d8-carriers) own their tensor/Fock operator carriers and selected operational model interfaces, while [OperatorAlgebraDynamics D8](../OperatorAlgebraDynamics/README.md#d8-car-weyl-algebras-and-free-equilibrium-states) owns CAR/Weyl algebras and free Fock carriers. [UnboundedOperators UO1–UO5](../OperatorTheory/UnboundedOperators/README.md#milestone-names-and-dependency-order) owns operator domains, closures, spectral calculus, cores and evolution. [RelativisticQuantumFieldTheory RQFT0–RQFT1](../RelativisticQuantumFieldTheory/README.md#milestone-rqft0--conventions-test-functions-and-exact-solution-carriers) owns distributional Lorentzian KG/Dirac/Maxwell equations and causal propagators; [RQFT2–RQFT4](../RelativisticQuantumFieldTheory/README.md#milestone-rqft2--lorentz-spinors-and-classical-to-quantum-field-bridges) owns spinor-field bridges, free fields, Wightman/Haag–Kastler axioms and their theorem hypotheses; [RQFT5–RQFT6](../RelativisticQuantumFieldTheory/README.md#milestone-rqft5--graph-combinatorics-amplitudes-and-formal-perturbation-theory) owns graph distributions, products and renormalization; [RQFT9](../RelativisticQuantumFieldTheory/README.md#milestone-rqft9--electromagnetic-examples-and-perturbative-qed) owns perturbative QED examples. Infinite-dimensional path-integral measures are not defined by those formal perturbation targets or by a local action. Coulomb-gauge reachability and Fourier/distribution estimates belong to the explicit RQFT1/RQFT0 targets and their stated PDE/Fourier inputs.
+
+## Scope and ownership
+
+LVF owns general nonlinear field-bundle jets, joint field/parameter jets, jet-dependent
+variational transposes, orientation-twisted variational cohomology, admissible classical
+Cauchy functionals and their graded bracket, model equation resolutions, and the
+Lorentzian Dirac/stress adapters. These extend the linear vector-bundle jets and
+smooth-base transposes of PseudodifferentialOperators P1.0. The all-signature local
+Yang–Mills equation and identity theory extends SmoothBundlesConnections B8.1–B8.2:
+for a positive metric its density is −one-half of that supplier's curvature-norm
+energy density, so its first variation has Euler one-form −D_A†F_A.
+
+DifferentialGeometry Layers 0–2, 5–6 and 12 own ordinary forms, orientation, Stokes,
+de Rham cohomology and the positive metric/density comparison. SmoothBundlesConnections
+B2–B4 owns principal/associated bundles, densities, connections and curvature;
+B6.0–B6.1 owns good covers and the constant-coefficient Čech–de Rham comparison.
+HopfRinow Layer 1 owns the general nondegenerate metric/family Levi–Civita theory.
+IntegrableSystems I3 owns particle mechanics, and SpinRepresentations Layer 7 owns
+the real Spin covers. None of these constructions is replanned here.
+
+Real descent and rank are already in Tau Ceti: consume the fixed-point equivalence,
+its pure-tensor and inverse formulas, and the rank theorem in
+`TauCeti/LinearAlgebra/Complex/Conjugation.lean`. LVF owns the category and polynomial-jet
+comparisons. The analytic test-function core of the fundamental lemma is already in
+Mathlib; LVF owns its continuous bundle/source-form and jet-realization adapters.
+Quantum fields, causal propagators, Fock/operator domains and quantum constraints
+remain with the downstream roadmaps named above; they are not prerequisites.
+
+## Exact supplier contracts
+
+**From Mathlib.** Use `ContDiff`, `ContMDiff`, `fderiv`, `FiberBundle`,
+`VectorBundle` and `ContMDiffVectorBundle` for smooth finite-dimensional charts and
+bundle calculus. Use `MvPolynomial`, `KaehlerDifferential` and `KaehlerDifferential.D`
+(`Mathlib/RingTheory/Kaehler/Basic.lean`) for polynomial coefficients and their
+universal degree-one derivation; the higher differential complex is constructed in
+Layer 1. Use `ExteriorAlgebra` and `SymmetricAlgebra` for the two antifield parities,
+`CliffordAlgebra.ι` and `CliffordAlgebra.lift` for the real Clifford representation,
+and `Matrix.fromBlocks`, `Matrix.adjugate`, `Matrix.conjTranspose` for its matrices.
+The analytic test input is `IsOpen.ae_eq_zero_of_integral_contDiff_smul_eq_zero`
+(`Mathlib/Analysis/Distribution/AEEqOfIntegralContDiff.lean`): its coefficient is
+locally integrable on an open finite-dimensional real domain and its conclusion
+is almost-everywhere vanishing. Everywhere vanishing additionally uses continuity
+and full support of the chosen positive smooth density. The positive-metric
+comparison uses `CovariantDerivative.leviCivitaConnection` and
+`CovariantDerivative.IsLeviCivitaConnection` from
+`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, with
+its Riemannian bundle hypotheses.
+
+**From Tau Ceti.** Use `TauCeti.realPoints`, `TauCeti.realPointsEquiv`,
+`TauCeti.realPointsEquiv_tmul`, `TauCeti.realPointsEquiv_symm_apply`,
+`TauCeti.finrank_realPoints`, `TauCeti.tmulConj` and `TauCeti.tmulConj_baseChange`
+from `TauCeti/LinearAlgebra/Complex/Conjugation.lean`. The fixed-point carrier
+requires a conjugate-linear map; descent requires its involutivity. For a native
+star module take `(starLinearEquiv ℂ).toLinearMap` with `star_star`; fixed points
+are `selfAdjoint`. The rank identity is valid even without finite dimensionality,
+with the native zero finrank in infinite dimension. Use the real/imaginary parts
+and decomposition in `Mathlib/LinearAlgebra/Complex/Module.lean` for this adapter.
+For finite Dirac use `TauCeti.realCliffordForm`,
+`TauCeti.realCliffordThreeOneVectorEquivHermitian`,
+`TauCeti.realCliffordThreeOneEvenEquivComplexMatrix_ι`,
+`TauCeti.realSpinThreeOneEquivSpecialLinear` and
+`TauCeti.realSpinThreeOneEquivSpecialLinear_action` from
+`TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` and
+`TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean`.
+The positive-metric smooth comparison uses
+`CovariantDerivative.contMDiffOn_leviCivitaConnection` and
+`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection` from
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Regularity.lean`.
+
+**From TauCetiRoadmap.DifferentialGeometry.** Layers 0–2 provide forms, exterior
+derivative and orientation; §§5.2–5.5 provide top-form/density integration, Stokes
+and homotopy; Layer 6 gives ordinary de Rham cohomology; §§12.3–12.4 provide the
+positive metric/divergence/density comparison. Each integral retains that
+supplier's support, orientation and boundary hypotheses.
+
+**From TauCetiRoadmap.SmoothBundlesConnections.** B2.1 and B2.4–B2.5 supply
+associated bundles, density measures and frames; B3.1–B3.3 and B4.1–B4.2 supply
+principal/associated connections, curvature and gauge transformations. B6.0–B6.1
+supplies locally finite good covers and constant-coefficient Čech–de Rham
+comparison. B8.1–B8.2 supplies positive Riemannian Yang–Mills first variation for
+the normalization comparison in Layer 4.
+
+**From TauCetiRoadmap.PseudodifferentialOperators.** P1.0 supplies linear
+vector-bundle jets, differential-operator factorization, density-dual transpose
+and formal adjoint with fixed pairings and positive density. Its coefficients
+are smooth base coefficients; evaluation of LVF jet coefficients is compared to it.
+
+**From TauCetiRoadmap.HopfRinow.** Layer 1 supplies smooth nondegenerate
+Levi–Civita connections and metric families, including the tensorial connection
+variation identity. LVF imposes no completeness or positive signature on this input.
+
+**From TauCetiRoadmap.SymplecticGeometry.IntegrableSystems.** I3 supplies intrinsic
+first variation, Cartan form and quasi-invariant currents for time-dependent
+particle mechanics; Legendre comparison is local under regularity and global
+under hyperregularity.
+
+**From TauCetiRoadmap.RepresentationTheory.SpinRepresentations.** Layer 7 supplies
+real Spin covers, their vector action and smooth Lie-algebra comparison; its
+norm-±1 covers and the native norm-one subgroup are distinguished.
 
 ## References
 

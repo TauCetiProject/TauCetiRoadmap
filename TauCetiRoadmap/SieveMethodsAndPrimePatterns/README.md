@@ -1,24 +1,22 @@
 # Roadmap: sieve methods, prime gaps and prime patterns
 
-**Summary.** Build weighted sieves from finite divisibility and local residue data, develop Brun and Selberg bounds and additive, character and quadratic large sieves, and use them to obtain maximal prime distribution, Maynard's prime clusters and Chen's prime-plus-almost-prime theorem. The same interfaces support polynomial sieves, binary quadratic values, conditional joint-spin cancellation and affine almost-prime saturation. Each application keeps its local obstructions, quantitative constants and analytic assumptions visible. The unconditional prime-distribution estimates (small conductors, Bombieri–Vinogradov, every level below one half and Barban–Davenport–Halberstam) have effective constants, because AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly.
+**Summary.** A sieve estimates how much of a finite population of integers, weighted by nonnegative reals, survives the removal of every member divisible by one of a given finite set of primes. Its input is local: an approximation X to the total weight, a multiplicative density ν, and for each divisor d of the product of the sifting primes a remainder, the difference between the weight of the multiples of d and ν(d)X. This roadmap builds Brun's combinatorial sieve and Selberg's upper-bound sieve. It adds the large sieve, which bounds squared exponential and character sums over many frequencies or moduli, and applies these tools to primes in arithmetic progressions and to patterns among the primes.
 
-## Scope and ownership
+Selberg's sieve shows that the number of primes p ≤ x with p + 2 also prime is O(x/log²x). Brun's theorem follows: the sum of 1/p over these primes converges.
 
-This roadmap owns the sieve inequalities and their quantitative distribution interfaces. It also owns Vaughan's identity, the prime-tuple statement register, the tuple version of the W-trick, Maynard's variational argument, weighted almost-prime sieves, and the sieve-specific adapters for binary polynomials, polynomial vectors, number-field spin-sign distributions and affine orbits.
+The first main theorem is a maximal form of the Bombieri–Vinogradov theorem. Let ψ(y;q,a) be the sum of the von Mangoldt function over the n ≤ y congruent to a modulo q. For every A > 0 there are B, C and x₀ such that, for x ≥ x₀ and 1 ≤ Q ≤ √x/(log x)^B, the sum over q ≤ Q of the largest |ψ(y;q,a) − y/φ(q)| over residues a prime to q and cutoffs 0 ≤ y ≤ x is at most Cx/(log x)^A. Classically these constants are ineffective, through Siegel's theorem. Here they are effectively computable from A, because AnalyticNumberTheoryPartI excludes Landau–Siegel zeros uniformly. Consequently the primes have level of distribution θ for every θ < 1/2: the sum over q ≤ x^θ of the largest |π(x;q,a) − π(x)/φ(q)| over residues a prime to q is O(x/(log x)^A) for every A. The Elliott–Halberstam conjecture, level θ for every θ < 1, is only a named hypothesis.
 
-The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed remainders, upper-Möbius condition, squared Selberg weights and diagonalization are Mathlib inputs. Their constructions and existing upper inequalities are supplier contracts. Native `IsApproximateSubgroup`, its subgroup specialization and small-tripling construction are also consumed; §5.4 adds the quantitative measure theorem and squarefree product growth. Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` also supply the coefficient parametrization and cardinality qʲ of degree-j monic polynomials; §0.10 retains only the irreducible-count and harmonic consequences. The finite-family and arbitrary-residue constructions below add preservation of indexed multiplicities and nonzero bad residue classes; they do not replace these carriers. An existing Selberg truncation level supplies no estimate on the remainders.
+The second is Maynard's theorem on prime clusters. A finite set H of nonnegative integers is admissible if it misses some residue class modulo every prime. To each k Maynard attaches a number Mₖ, the supremum of a ratio of integrals over functions supported on a k-dimensional simplex. If the primes have level θ with 0 < θ ≤ 1 and H = {h₁, …, hₖ} is admissible, then for infinitely many n at least ⌈θMₖ/2⌉ of the numbers n + hᵢ are prime. The roadmap shows M₁₀₅ > 4 and exhibits an admissible set of 105 integers in [0, 600], so infinitely many pairs of consecutive primes differ by at most 600. Under Elliott–Halberstam the bound becomes 12.
 
-IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassicalArithmeticCompletion §§1.57 and 1.66 owns quadratic reciprocity in a number field with its dyadic and archimedean factors; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
+The third is Chen's theorem. Write Ω(m) for the number of prime factors of m counted with multiplicity. There are absolute c > 0 and N₀ such that every even N ≥ N₀ has at least cN/(log N)² representations N = p + m with p prime and 1 ≤ Ω(m) ≤ 2. Likewise, for each fixed positive even h, the primes p ≤ x with 1 ≤ Ω(p + h) ≤ 2 number at least c x/(log x)² for large x, where c depends on h.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.31, 0.32, 0.34, 3.1, 3.3–3.4, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower, ideal-count and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a) and the uniform and fixed-model Lang–Weil estimates (§5.4). AdelicAlgebraicGroups owns the adelic points of affine groups, their integral models and S-integral points (§1.1), and strong approximation with its proof chain (§4.2); §5.4 consumes them and restates neither. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+The roadmap builds on Mathlib's basic structure of a sieve and its Selberg weights with their upper inequality. AnalyticNumberTheoryPartI also supplies the quantitative prime number theorem and the Siegel–Walfisz theorem. In turn, ArithmeticStatisticsPartVII uses the sharp large sieves, and CircleMethodThreePrimes uses Vaughan's identity, an exact decomposition of the von Mangoldt function into divisor sums involving the Möbius function.
 
-AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the spin of a generator, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The quadratic ideal residue symbol itself is Tau Ceti's `Ideal.powerResidueSymbolIdeal` at exponent 2, and total positivity is Tau Ceti's `NumberField.IsTotallyPositive`; §5.6 consumes both and restates neither. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
+Layer 0 collects finite identities and inner-product inequalities for the sieves, and lattice-point counts. Layer 1 builds the sieves of Brun and Selberg and their classical applications. Layer 2 proves the large sieves and Vaughan's identity, Layer 3 the Bombieri–Vinogradov and Barban–Davenport–Halberstam theorems, and Layer 4 Maynard's theorem. Layer 5 has three branches. The first, a weighted sieve, gives Chen's theorems. The second shows, for suitable totally real Galois number fields and automorphisms and assuming a conjectured bound for short real-character sums, that joint spin signs of principal prime ideals are equidistributed. The third, the affine sieve, shows under stated algebraic hypotheses and an assumed squarefree expansion property that, for some r, the orbit points where a polynomial has at most r prime factors are Zariski dense in the orbit's closure.
 
-The tuple W-trick here is a construction for Maynard weights. Layer 5 states the conjectural short-character input Cₘ and its reduced-conductor progression consequence; every spin conclusion retains Cₘ as a hypothesis. Elliott–Halberstam, the prime-tuple conjecture, Bouniakowsky and Schinzel H remain named conjectures. The general affine endpoint uses lazy walks on the same group whose squarefree congruence expansion is assumed. The explicit free-tree bound separately requires mixing for its chosen free subgroup.
+## How to read the build
 
-The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4; rational-point strong approximation is AdelicAlgebraicGroups §4.2. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments belong to the joint-spin Type I and Type II estimates of §5.6.
-
-The finite evaluations behind Maynard's and Chen's constants are owned here as targets: the Gram-form values of Maynard's witnesses at k=5 and k=105 (§4.6), the admissible tuples of diameters 12 and 600 (§4.7), and the two logarithmic evaluations behind Chen's constants (§5.5). Each is stated as a proposition about explicit numbers, no certificate is printed, and none is a hypothesis of the theorems that use it.
+Layer 0 establishes finite weighted identities, local-density adapters, dimension predicates and finite Gram inequalities. Layer 1 builds Brun and Selberg bounds and their polynomial and binary applications; the convex-domain Gram estimate precedes those applications. Layer 2 develops Fourier and character large sieves, Vaughan's identity, quadratic estimates and the sharp variants. Layer 3 obtains maximal distribution and its first- and second-moment transfers. Layer 4 combines that distribution with Maynard's multidimensional weights, the variational quantity and admissible tuples; its numerical inputs are finite evaluations stated as targets in §§4.6–4.7. Layer 5 follows three branches: weighted almost primes and Chen, conditional ideal spins, and affine saturation. Read each claim with its local hypotheses and its *Needs* sentence. Construction and analytic proof requirements remain part of the mathematics; an imported near miss does not supply a stronger contract. `Suggested.lean` states the headline theorems statable on the pinned carriers and only the simple definitions they require. This README specifies the entire build.
 
 ## Conventions
 
@@ -37,126 +35,6 @@ Prime indices start at zero: pⱼ=`Nat.nth Nat.Prime` j. Prime counts include pr
 Binary polynomials lie in ℤ[x₀,x₁]. Ordinary local densities count all residue zeros; corrected densities count smooth zeros and singular zeros with no lift. The quadratic discriminant character uses its explicit dyadic factor. At prime denominator two the separate Skorobogatov–Sofos symbol is one on odd numerators; it is not the Kronecker value. For conics the integral bilinear matrix is [[2a,b],[b,2c]], whose half-norm is ax²+bxy+cy². Its discriminant is b²−4ac, with this sign fixed throughout.
 
 All asymptotic constants are chosen after the fixed parameters listed in the statement and before the varying population, cutoff or modulus. In particular, Maynard uses fixed 0<δ<θ/2, and the extremely-smooth estimate fixes α before its constant. A geometric bound, a remainder bound and a conjectural character bound each remain separate inputs.
-
-## Exact supplier contracts
-
-These are the precise inputs required from each owner. Only the stated exports are consumed. Reduction images of Zariski-dense subgroups (§5.4), maximal character estimates and curvature-uniform lattice errors are owned below. The analytic requirement subsections identify where each input is consumed. Additional analytic and geometric statements are targets of the layers below.
-
-### From Mathlib
-
-The pinned APIs are Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The local *Needs* sentences identify the declarations used. Continuous and L² functions, integrals, finite measures, `Asymptotics.IsBigO`, real powers and Gamma functions use existing Mathlib carriers. Unit-interval and simplex integrals retain their measures and integrability hypotheses.
-
-Reuse the native sieve declarations described under Scope and ownership: `BoundingSieve.multSum`, `rem`, `siftedSum`, `mainSum`, `errSum`, `multSum_eq_main_err`, `siftedSum_eq_sum_support_mul_ite`, `IsUpperMoebius`, `siftedSum_le_mainSum_errSum_of_upperMoebius`, `lambdaSquared`, `upperMoebius_lambdaSquared`, `selbergTerms` and `mainSum_lambdaSquared_eq_sum_mul_sum_sq`. The squared-weight upper inequality needs normalization at one; its diagonal identity does not choose an optimizer or bound the absolute remainder.
-
-For simplex mollification, use the supremum norm on `Fin k → ℝ`: `Pi.norm_def` and `norm_le_pi_norm` in `Mathlib/Analysis/Normed/Group/Constructions.lean` (lines 310 and 346). Use `ContDiffBump.normed`, `ContDiffBump.integral_normed` and `ContDiffBump.tsupport_normed_eq` from `Mathlib/Analysis/Calculus/BumpFunction/Normed.lean` (lines 35, 71 and 79) with Lebesgue measure; the normalization denominator is positive by `ContDiffBump.integral_pos` (line 66). For affine escape, `Nat.exists_prime_lt_and_le_two_mul` from `Mathlib/NumberTheory/Bertrand.lean` (line 225) supplies a prime between n and 2n for n≥1.
-
-For finite polynomial counts, use `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` from `Mathlib/RingTheory/Polynomial/Basic.lean` (lines 141 and 114): their composition identifies monic polynomials of degree j over a finite field with its j coefficient choices. Neither equivalence counts irreducibles.
-
-Reuse native `ArithmeticFunction` (functions vanishing at zero, without a support restriction) and `ArithmeticFunction.mul_apply` from `Mathlib/NumberTheory/ArithmeticFunction/Defs.lean:254` for Dirichlet convolution. Reuse native Möbius, von Mangoldt, Liouville, multiplicative functions, prime-factor finsets and lists, `Nat.IsAtMostAlmostPrime`, `Nat.primeCounting`, totients and prime enumeration. Reuse `Matrix.gram`, finite Euclidean spaces, inner products, the period-one additive circle and Fourier characters. For characters use `DirichletCharacter`, its conductor, primitive-character reduction, Gauss sums and unit-group orthogonality, including modulus one. Native finite fields, `Polynomial`, `MvPolynomial`, derivatives, Schwartz–Zippel, power series, ideal factorization, absolute norms and finite residue-field quadratic characters provide the algebraic carriers. They supply none of the analytic large-sieve or prime-distribution conclusions specified below.
-
-For approximate groups use `IsApproximateSubgroup`, `IsApproximateSubgroup.subgroup` and `IsApproximateSubgroup.of_small_tripling` from `Mathlib/Combinatorics/Additive/ApproximateSubgroup.lean` (lines 64, 120 and 128). The native fields are identity membership, invariance under inversion and a bound on the number of translates covering the square. They include no finiteness or probability-mass hypothesis; §5.4 states those separately.
-
-For the finite-character Gram estimate use `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one` from `Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean:240` and `:250`: summing a character over a finite additive group gives zero for a nontrivial character and its cardinality for the trivial one. The quotient here is the product of two copies of ZMod a, of cardinality a².
-
-### From Tau Ceti
-
-For ideal coefficients consume `TauCeti.IdealArithmeticFunction.vonMangoldt` and `TauCeti.IdealArithmeticFunction.norm_vonMangoldt_le_log` from `TauCeti/NumberTheory/ArithmeticDirichletSeries/VonMangoldt.lean` (lines 82 and 178). The carrier is nonzero integral ideals, the codomain is ℂ, its values are real and nonnegative, and the norm bound is log of the absolute norm. For τ_K use the real value of native ideal convolution of the constant-one function with itself: `TauCeti.IdealArithmeticFunction.convolution_one_one_apply` in `TauCeti/NumberTheory/ArithmeticDirichletSeries/Convolution/Basic.lean:366` identifies it with the ideal divisor count. This convolution is distinct from pointwise multiplication. The ideal divisor-subpower and coefficient-moment estimates in §5.6 add analytic strength beyond these identities.
-
-The pinned comparison is `TauCeti.Multiquadratic.fundamentalDiscriminantChar D hD` in `TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/Character.lean`, with the explicit proof hD.
-
-For §5.6 consume `Ideal.powerResidueSymbolIdeal` from `TauCeti/NumberTheory/NumberField/PowerResidueSymbol/Ideal.lean` (line 94): for a number field K whose ring of integers has enough n-th roots of unity and an ideal a of O_K, a multiplicative character of O_K/a with values in O_K, equal at a coprime class to the product, over the prime factors p of a with multiplicity, of the prime symbols `Ideal.powerResidueSymbol p n` of `PowerResidueSymbol/Basic.lean` (line 66), and zero at the other classes. At a prime p of norm prime to n the prime symbol is the n-th root of unity congruent to x^((Np−1)/n) modulo p (`Ideal.mk_powerResidueSymbol`); at a prime of norm not prime to n it is the trivial character by convention, and the symbol at the zero ideal is the trivial character. Here n=2, with −1 as primitive square root of unity (Mathlib `IsPrimitiveRoot.neg_one` in characteristic zero). The same file supplies `Ideal.powerResidueSymbolIdeal_top`, `Ideal.powerResidueSymbolIdeal_mul_right`, `Ideal.powerResidueSymbolIdeal_pow_right`, `Ideal.powerResidueSymbolIdeal_mk_eq_zero_iff`, `Ideal.powerResidueSymbolIdeal_pow_eq_one` and the Galois equivariance `Ideal.map_powerResidueSymbolIdeal`. Total positivity is `NumberField.IsTotallyPositive` from `TauCeti/NumberTheory/NumberField/TotallyPositive.lean` (line 71): strict positivity at every real place, vacuous for a totally complex field.
-
-For Henk's count in §0.11a consume, from `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`, the zero-based minima `ZLattice.successiveMin` (line 111) with `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin` (lines 424 and 416); `ZLattice.finite_setOf_gauge_le` (line 300): for a discrete ℤ-submodule L of a finite-dimensional real normed space and a convex body K with 0 in its interior, the vectors of L of gauge at most r form a finite set for every real r, without symmetry of K; and `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin` (line 552): for L discrete and spanning, some ℤ-basis b of L puts every vector of L of gauge less than the i-th minimum in the real span of b₀,…,b_(i−1). No bound on the gauges of the basis vectors is claimed or used.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range, with effective constants and threshold; and §§3.1, 3.26 for divisor subpower bounds. Use §3.3 for the norm-fibre divisor majorant: for a number field K of degree n≥1 and every m≥1, the number a_K(m) of nonzero integral ideals of norm m is at most d_n(m), the number of ordered n-tuples of positive integers with product m; and §3.4 for the fixed-order divisor bound: for each n≥1 and ε>0 there is C_(n,ε) with d_n(m)≤C_(n,ε)m^ε for every m≥1. For example, over ℚ(i) the norm 5 carries two ideals and d₂(5)=2, while the inert norm 9 carries one ideal against d₂(9)=3. §5.6 consumes both. The additional uniform analytic statements are targets below. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
-
-Use §0.34, `landau_siegel_exclusion`: there is an absolute, effectively computable c_LS>0 with (1−β)log q≥c_LS for every real zero β∈(0,1) of L(s,χ), for every primitive nonprincipal real Dirichlet character χ of conductor q≥3, with no finite range of conductors set aside. It is consumed through §0.18, the character prime number theorem without an exceptional-zero term: for a primitive nonprincipal χ of conductor N>1 and X above an absolute threshold, |Σ_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴, with c,C and the threshold absolute and effective; the term −X^β/β of an exceptional zero is absent. Through §0.18 it also makes §0.32 effective. Layer 3 consumes §§0.18 and 0.34 in §3.0 and inherits their effectivity in §§3.2–3.4; no statement here carries an exceptional-zero alternative.
-
-Use §3.34, `smoothCount_dickman`, for the fixed-parameter positive-density count and §3.35, “Rankin smooth-number upper bound”, for the Rankin estimate with x≥1,y≥2,σ>0. The native count is positive integers only: #Nat.smoothNumbersUpTo(N,z+1)≤N^δ∏_(p≤z)(1−p^(−δ))⁻¹ for δ>0. Treat N=0, z=0,1 and N<1 directly. Distinct integers are counted once. The extremely-smooth tail is proved in §1.4 from the Rankin estimate.
-
-Use §3.22 for the summatory divisor bound and §3.24, the divisor-square estimate among its auxiliary targets, for Σ_(n≤Y)τ(n)²≪Y log³(2Y): that estimate, Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for X≥2, implies the bound there, and the range 1≤Y<2 is the single term τ(1)²=1. These are the divisor inputs to Jutila’s argument.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartII
-
-Use §5.29 for the odd-squarefree quadratic large sieve and its primitive-real and square-pair versions: for every ε>0 the constant is uniform in M,N≥1 and all complex coefficients. Both odd squarefree ranges include 1; the square-pair version retains all pairs whose product is square. For M=1,N=3 and a₁=1,a₃=−1 the squared sum is 0 and energy is 2; with a₃=1 they are 4 and 2.
-
-### From TauCetiRoadmap.IntegralLattices
-
-IntegralLattices Layers 0 and 3 supply even-bilinear half-norms and integral local GL₂ changes, including dyadic cases; Layer 0 here supplies the residue bijections.
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-GlobalNumberFields §§3, 3C supplies generator domains, units and class representatives away from fixed moduli; Layer 11 supplies quadratic orders and invertible ideals, with extension/contraction only away from the conductor. The conductor-prime norm counts are constructed in §0.9.
-
-### From TauCetiRoadmap.ArithmeticDirichletSeries
-
-[ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) Layers 1–2 supply maximal-order ideal norm fibres and convolution, and Layer 5 supplies prime-power and higher-residue-degree removal. The ideal divisor and logarithmic coefficient estimates are owned in §5.6 here.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-§1.66 supplies quadratic reciprocity in a number field K: for nonzero, odd, coprime α,β∈O_K, (α/β)=μ₂(α,β)μ_∞(α,β)(β/α), where the symbols are the quadratic residue symbols at the ideals (β) and (α), on odd ideals the symbol of §5.6, and μ₂, μ_∞ are the products of the quadratic Hilbert symbols (α,β)_v over the dyadic and the infinite places. §1.57 supplies that μ₂(α,β) depends only on α and β modulo 8O_K. Over ℚ, α=3,β=7 gives (3/7)(7/3)=−1, with dyadic symbol −1 and real symbol 1; α=β=−1 gives 1 on the left, with dyadic and real symbols both −1; α=β=3 is excluded, since the left side would be 0. §5.6 consumes both in kernel reciprocity for joint spins.
-
-### From TauCetiRoadmap.QuadraticFormInvariants
-
-QuadraticFormInvariants §6C supplies the dyadic and infinite local Hilbert symbols in which the factor ε(α,β) of kernel reciprocity (§5.6) is written.
-
-### From TauCetiRoadmap.Chebotarev
-
-Chebotarev Layer 13 supplies the principal-class natural prime count ∼li(X)/h_K.
-
-### From TauCetiRoadmap.ThetaSeries
-
-ThetaSeries §2H supplies `kroneckerSym` and `kroneckerChar`; use only their natural-argument real adapter in §0.6.
-
-### From TauCetiRoadmap.Isoperimetry
-
-Isoperimetry I2 supplies convex-body isoperimetry.
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-RiemannianGeometry R4.9.6a supplies signed planar turning and the tangent-angle comparison for smooth Jordan curves. Their specialization and C² approximation give the curvature-to-area comparison of §1.4.
-
-### From TauCetiRoadmap.RealAlgebraicGeometry
-
-[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md) Layers 5–6 supply Collins projection, cylindrical algebraic decomposition and quantifier elimination over ℝ. §0.11a derives from them the fibre-component bound of Davenport's estimate, uniform in the number and degrees of the defining polynomials.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§0.8 `generic_fibre_spreading` and `fibre_locus_constructible` spread geometric irreducibility and dimension from the generic fibre to the fibres over a dense open; §5.11 `weil_bound` bounds the points of a smooth proper geometrically integral curve over a finite field; §5.12 `bezout_inequality` bounds the degrees of the components of an intersection. The Lang–Weil estimates of §5.4 rest on them.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-AlgebraicCurves supplies function fields of curves over a field, their places, genus and Riemann–Roch; §5.4 counts points of a geometrically irreducible curve through its smooth projective model.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-§1.1 supplies, for a finitely generated commutative Hopf algebra H over a number field F, the adelic points G(𝔸_F) with their evaluation topology and rational diagonal, integral models M of H away from a finite set S₀ of places with their local points G(O_v)⊆G(F_v) for v∉S₀, and the subgroup Γ(M,S)⊆G(F) of rational points integral at every finite place outside a finite S⊇S₀∪∞. It constructs a model over the ring of integers as the schematic closure of a faithful matrix representation; for G⊆GL_n over ℚ every Γ⊆G(ℚ)∩GL_n(ℤ) consists of ℤ-points of the closure in GL_n over ℤ, so reduction modulo each prime p sends Γ into the 𝔽_p-points of that model. §4.2 supplies the strong approximation predicate with respect to S=∞∪S_f (G(F)·G(F_S) is dense in G(𝔸_F)) and strong approximation for a connected semisimple simply connected group whose F-simple factors are all noncompact over S. For S=∞ it gives that G(F)\G(𝔸_(F,f))/U is a point for every compact open U; for SL_n over ℚ, that SL_n(ℤ)→SL_n(ℤ/Nℤ) is onto for every N≥1. For the norm-one group of a definite quaternion algebra over ℚ, compact at ∞, the hypothesis fails at S=∞ and so does the conclusion. §5.4 consumes the integral models and S-integral points in its subgroup reduction images and local densities, and strong approximation in its primitive-pair local-obstruction reduction, local densities and squarefree expansion. Strong approximation for rational points does not give the reduction images of a thin subgroup Γ, which §5.4 states separately.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-ReductiveGroups supplies connected semisimple and simply connected groups (Layer 6) and their rational points over finite fields (Layer 7a).
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-RG2.4.4 supplies absolute almost simplicity, `Decomposition.IsAbsolutelyAlmostSimple`: a nontrivial semisimple group with no smooth connected normal subgroup over the algebraic closure other than itself and the trivial group. §5.4 states its subgroup-reduction, local-density and saturation targets for connected simply connected absolutely almost simple groups over ℚ in the sense of ReductiveGroups Layer 6 and this predicate.
-
-### Short-character conjecture owned in Layer 5
-
-For each integer m≥3, Cₘ asserts that some δ(m)>0 has this property: for every ε>0 there is C(m,ε)>0 such that every integer Q≥3, real nonprincipal Dirichlet character χ of modulus 1<q≤Q, integer interval origin M and integer length 0≤N≤Q^(1/m) satisfy
-
-`|Σ_(M<n≤M+N)χ(n)| ≤ C(m,ε) Q^((1−δ(m))/m+ε)`.
-
-This is the explicitly conjectural uniform-modulus input of KM-21 §2.5, Conjecture Cₙ (KM-21 lines 340–345), also used in FIMR-13 §9. It includes imprimitive characters. `SieveSpin.ShortCharacterConjecture m` states it, with χ ranging over Mathlib's `DirichletCharacter ℂ q` and real nonprincipal meaning χ≠1 and χ²=1; the definition accepts every natural m and is used only at m≥3. Taking ε=δ(m)/(2m) gives an ε-free exponent after replacing the saving by δ(m)/2; δ in the spin endpoints denotes that smaller saving. The reduced-conductor progression corollary and subset transfer are §5.3 targets here: for odd squarefree q>1 and q∤k, retain q/gcd(q,k)>1. Passing from C_(tn) to C_(|T|n) partitions intervals and replaces δ by δ|T|/t. Every dependent conclusion retains this input.
-
-
-
-## How to read the build
-
-Layer 0 establishes finite weighted identities, local-density adapters, dimension predicates and finite Gram inequalities. Layer 1 builds Brun and Selberg bounds and their polynomial and binary applications; the convex-domain Gram estimate precedes those applications. Layer 2 develops Fourier and character large sieves, Vaughan's identity, quadratic estimates and the sharp variants. Layer 3 obtains maximal distribution and its first- and second-moment transfers. Layer 4 combines that distribution with Maynard's multidimensional weights, the variational quantity and admissible tuples; its numerical inputs are finite evaluations stated as targets in §§4.6–4.7. Layer 5 follows three branches: weighted almost primes and Chen, conditional ideal spins, and affine saturation. Read each claim with its local hypotheses and its *Needs* sentence. Construction and analytic proof requirements remain part of the mathematics; an imported near miss does not supply a stronger contract. `Suggested.lean` states the headline theorems statable on the pinned carriers and only the simple definitions they require. This README specifies the entire build.
-
-
 
 ## Layer 0: finite weighted sieves and local data
 
@@ -1070,6 +948,8 @@ Q=x₀² modulo 9 has three x₀ values and nine x₁ values, giving ρ_Q(9)=27.
 
 External inputs: AnalyticNumberTheoryPartI §3.26; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; GlobalNumberFields Layer 11 orders and Picard groups; IntegralLattices Layers 0 and 3 half-norms and integral local classification; Tau Ceti `ZLattice.successiveMin`, `ZLattice.finite_setOf_gauge_le` and `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin` for §0.11a; RealAlgebraicGeometry Layers 5–6 for §0.11a.
 
+
+
 ## Layer 1: Brun and Selberg sieves and polynomial values
 
 Brun brackets supply a relative fundamental estimate; Selberg optimization supplies an upper bound with its absolute lcm remainder. Binary and polynomial applications require the precise local densities and the geometric or joint-law error estimates stated here.
@@ -1647,6 +1527,8 @@ Parity counts multiplicity: 1 and 4 have even weight one, 12 has odd weight one 
 ### Dependencies
 
 Layer 0. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.26; Layer 1 §1.1 uniform multiplicative mean values; Layer 1 §1.1 ordered-divisor harmonic majorant; AnalyticNumberTheoryPartI §0.11; AnalyticNumberTheoryPartI §§3.34–3.35; Layer 1 §1.4 extremely smooth-factor saving; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`; Layer 0 §0.10 finite-field irreducible counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
+
+
 
 ## Layer 2: large sieves and Vaughan decomposition
 
@@ -4278,6 +4160,136 @@ The following conventions fix the mathematical statements at the cited versions.
 **BGS-10, Published Invent. Math. 179 (2010), p.581, (3.47), compared with Theorem 3.1 and (3.33)** Choose δ<(1−τ)/dim G and s>9t, then z=X^(δ/s); state the resulting factor bound with a strict margin. The earlier estimates need a smaller distribution power and a strict Brun parameter. Simultaneous equality cannot be inferred from them. The stated strict factor bound is retained.
 
 **CHEN-73-CN, Chinese original, p.127, (27)** The printed lower endpoint −0.0164725 is not a lower bound for the expression (27). Chen's lower constant in §5.5 is stated through that expression itself and uses no endpoint.
+
+## Scope and ownership
+
+This roadmap owns the sieve inequalities and their quantitative distribution interfaces. It also owns Vaughan's identity, the prime-tuple statement register, the tuple version of the W-trick, Maynard's variational argument, weighted almost-prime sieves, and the sieve-specific adapters for binary polynomials, polynomial vectors, number-field spin-sign distributions and affine orbits.
+
+The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed remainders, upper-Möbius condition, squared Selberg weights and diagonalization are Mathlib inputs. Their constructions and existing upper inequalities are supplier contracts. Native `IsApproximateSubgroup`, its subgroup specialization and small-tripling construction are also consumed; §5.4 adds the quantitative measure theorem and squarefree product growth. Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` also supply the coefficient parametrization and cardinality qʲ of degree-j monic polynomials; §0.10 retains only the irreducible-count and harmonic consequences. The finite-family and arbitrary-residue constructions above add preservation of indexed multiplicities and nonzero bad residue classes; they do not replace these carriers. An existing Selberg truncation level supplies no estimate on the remainders.
+
+IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassicalArithmeticCompletion §§1.57 and 1.66 owns quadratic reciprocity in a number field with its dyadic and archimedean factors; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
+
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.31, 0.32, 0.34, 3.1, 3.3–3.4, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower, ideal-count and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a) and the uniform and fixed-model Lang–Weil estimates (§5.4). AdelicAlgebraicGroups owns the adelic points of affine groups, their integral models and S-integral points (§1.1), and strong approximation with its proof chain (§4.2); §5.4 consumes them and restates neither. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+
+AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the spin of a generator, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The quadratic ideal residue symbol itself is Tau Ceti's `Ideal.powerResidueSymbolIdeal` at exponent 2, and total positivity is Tau Ceti's `NumberField.IsTotallyPositive`; §5.6 consumes both and restates neither. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
+
+The tuple W-trick here is a construction for Maynard weights. Layer 5 states the conjectural short-character input Cₘ and its reduced-conductor progression consequence; every spin conclusion retains Cₘ as a hypothesis. Elliott–Halberstam, the prime-tuple conjecture, Bouniakowsky and Schinzel H remain named conjectures. The general affine endpoint uses lazy walks on the same group whose squarefree congruence expansion is assumed. The explicit free-tree bound separately requires mixing for its chosen free subgroup.
+
+The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4; rational-point strong approximation is AdelicAlgebraicGroups §4.2. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments belong to the joint-spin Type I and Type II estimates of §5.6.
+
+The finite evaluations behind Maynard's and Chen's constants are owned here as targets: the Gram-form values of Maynard's witnesses at k=5 and k=105 (§4.6), the admissible tuples of diameters 12 and 600 (§4.7), and the two logarithmic evaluations behind Chen's constants (§5.5). Each is stated as a proposition about explicit numbers, no certificate is printed, and none is a hypothesis of the theorems that use it.
+
+## Exact supplier contracts
+
+These are the precise inputs required from each owner. Only the stated exports are consumed. Reduction images of Zariski-dense subgroups (§5.4), maximal character estimates and curvature-uniform lattice errors are owned above. The analytic requirement subsections identify where each input is consumed. Additional analytic and geometric statements are targets of the layers above.
+
+### From Mathlib
+
+The pinned APIs are Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The local *Needs* sentences identify the declarations used. Continuous and L² functions, integrals, finite measures, `Asymptotics.IsBigO`, real powers and Gamma functions use existing Mathlib carriers. Unit-interval and simplex integrals retain their measures and integrability hypotheses.
+
+Reuse the native sieve declarations described under Scope and ownership: `BoundingSieve.multSum`, `rem`, `siftedSum`, `mainSum`, `errSum`, `multSum_eq_main_err`, `siftedSum_eq_sum_support_mul_ite`, `IsUpperMoebius`, `siftedSum_le_mainSum_errSum_of_upperMoebius`, `lambdaSquared`, `upperMoebius_lambdaSquared`, `selbergTerms` and `mainSum_lambdaSquared_eq_sum_mul_sum_sq`. The squared-weight upper inequality needs normalization at one; its diagonal identity does not choose an optimizer or bound the absolute remainder.
+
+For simplex mollification, use the supremum norm on `Fin k → ℝ`: `Pi.norm_def` and `norm_le_pi_norm` in `Mathlib/Analysis/Normed/Group/Constructions.lean` (lines 310 and 346). Use `ContDiffBump.normed`, `ContDiffBump.integral_normed` and `ContDiffBump.tsupport_normed_eq` from `Mathlib/Analysis/Calculus/BumpFunction/Normed.lean` (lines 35, 71 and 79) with Lebesgue measure; the normalization denominator is positive by `ContDiffBump.integral_pos` (line 66). For affine escape, `Nat.exists_prime_lt_and_le_two_mul` from `Mathlib/NumberTheory/Bertrand.lean` (line 225) supplies a prime between n and 2n for n≥1.
+
+For finite polynomial counts, use `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` from `Mathlib/RingTheory/Polynomial/Basic.lean` (lines 141 and 114): their composition identifies monic polynomials of degree j over a finite field with its j coefficient choices. Neither equivalence counts irreducibles.
+
+Reuse native `ArithmeticFunction` (functions vanishing at zero, without a support restriction) and `ArithmeticFunction.mul_apply` from `Mathlib/NumberTheory/ArithmeticFunction/Defs.lean:254` for Dirichlet convolution. Reuse native Möbius, von Mangoldt, Liouville, multiplicative functions, prime-factor finsets and lists, `Nat.IsAtMostAlmostPrime`, `Nat.primeCounting`, totients and prime enumeration. Reuse `Matrix.gram`, finite Euclidean spaces, inner products, the period-one additive circle and Fourier characters. For characters use `DirichletCharacter`, its conductor, primitive-character reduction, Gauss sums and unit-group orthogonality, including modulus one. Native finite fields, `Polynomial`, `MvPolynomial`, derivatives, Schwartz–Zippel, power series, ideal factorization, absolute norms and finite residue-field quadratic characters provide the algebraic carriers. They supply none of the analytic large-sieve or prime-distribution conclusions specified above.
+
+For approximate groups use `IsApproximateSubgroup`, `IsApproximateSubgroup.subgroup` and `IsApproximateSubgroup.of_small_tripling` from `Mathlib/Combinatorics/Additive/ApproximateSubgroup.lean` (lines 64, 120 and 128). The native fields are identity membership, invariance under inversion and a bound on the number of translates covering the square. They include no finiteness or probability-mass hypothesis; §5.4 states those separately.
+
+For the finite-character Gram estimate use `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one` from `Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean:240` and `:250`: summing a character over a finite additive group gives zero for a nontrivial character and its cardinality for the trivial one. The quotient here is the product of two copies of ZMod a, of cardinality a².
+
+### From Tau Ceti
+
+For ideal coefficients consume `TauCeti.IdealArithmeticFunction.vonMangoldt` and `TauCeti.IdealArithmeticFunction.norm_vonMangoldt_le_log` from `TauCeti/NumberTheory/ArithmeticDirichletSeries/VonMangoldt.lean` (lines 82 and 178). The carrier is nonzero integral ideals, the codomain is ℂ, its values are real and nonnegative, and the norm bound is log of the absolute norm. For τ_K use the real value of native ideal convolution of the constant-one function with itself: `TauCeti.IdealArithmeticFunction.convolution_one_one_apply` in `TauCeti/NumberTheory/ArithmeticDirichletSeries/Convolution/Basic.lean:366` identifies it with the ideal divisor count. This convolution is distinct from pointwise multiplication. The ideal divisor-subpower and coefficient-moment estimates in §5.6 add analytic strength beyond these identities.
+
+The pinned comparison is `TauCeti.Multiquadratic.fundamentalDiscriminantChar D hD` in `TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/Character.lean`, with the explicit proof hD.
+
+For §5.6 consume `Ideal.powerResidueSymbolIdeal` from `TauCeti/NumberTheory/NumberField/PowerResidueSymbol/Ideal.lean` (line 94): for a number field K whose ring of integers has enough n-th roots of unity and an ideal a of O_K, a multiplicative character of O_K/a with values in O_K, equal at a coprime class to the product, over the prime factors p of a with multiplicity, of the prime symbols `Ideal.powerResidueSymbol p n` of `PowerResidueSymbol/Basic.lean` (line 66), and zero at the other classes. At a prime p of norm prime to n the prime symbol is the n-th root of unity congruent to x^((Np−1)/n) modulo p (`Ideal.mk_powerResidueSymbol`); at a prime of norm not prime to n it is the trivial character by convention, and the symbol at the zero ideal is the trivial character. Here n=2, with −1 as primitive square root of unity (Mathlib `IsPrimitiveRoot.neg_one` in characteristic zero). The same file supplies `Ideal.powerResidueSymbolIdeal_top`, `Ideal.powerResidueSymbolIdeal_mul_right`, `Ideal.powerResidueSymbolIdeal_pow_right`, `Ideal.powerResidueSymbolIdeal_mk_eq_zero_iff`, `Ideal.powerResidueSymbolIdeal_pow_eq_one` and the Galois equivariance `Ideal.map_powerResidueSymbolIdeal`. Total positivity is `NumberField.IsTotallyPositive` from `TauCeti/NumberTheory/NumberField/TotallyPositive.lean` (line 71): strict positivity at every real place, vacuous for a totally complex field.
+
+For Henk's count in §0.11a consume, from `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`, the zero-based minima `ZLattice.successiveMin` (line 111) with `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin` (lines 424 and 416); `ZLattice.finite_setOf_gauge_le` (line 300): for a discrete ℤ-submodule L of a finite-dimensional real normed space and a convex body K with 0 in its interior, the vectors of L of gauge at most r form a finite set for every real r, without symmetry of K; and `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin` (line 552): for L discrete and spanning, some ℤ-basis b of L puts every vector of L of gauge less than the i-th minimum in the real span of b₀,…,b_(i−1). No bound on the gauges of the basis vectors is claimed or used.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range, with effective constants and threshold; and §§3.1, 3.26 for divisor subpower bounds. Use §3.3 for the norm-fibre divisor majorant: for a number field K of degree n≥1 and every m≥1, the number a_K(m) of nonzero integral ideals of norm m is at most d_n(m), the number of ordered n-tuples of positive integers with product m; and §3.4 for the fixed-order divisor bound: for each n≥1 and ε>0 there is C_(n,ε) with d_n(m)≤C_(n,ε)m^ε for every m≥1. For example, over ℚ(i) the norm 5 carries two ideals and d₂(5)=2, while the inert norm 9 carries one ideal against d₂(9)=3. §5.6 consumes both. The additional uniform analytic statements are targets above. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
+
+Use §0.34, `landau_siegel_exclusion`: there is an absolute, effectively computable c_LS>0 with (1−β)log q≥c_LS for every real zero β∈(0,1) of L(s,χ), for every primitive nonprincipal real Dirichlet character χ of conductor q≥3, with no finite range of conductors set aside. It is consumed through §0.18, the character prime number theorem without an exceptional-zero term: for a primitive nonprincipal χ of conductor N>1 and X above an absolute threshold, |Σ_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴, with c,C and the threshold absolute and effective; the term −X^β/β of an exceptional zero is absent. Through §0.18 it also makes §0.32 effective. Layer 3 consumes §§0.18 and 0.34 in §3.0 and inherits their effectivity in §§3.2–3.4; no statement here carries an exceptional-zero alternative.
+
+Use §3.34, `smoothCount_dickman`, for the fixed-parameter positive-density count and §3.35, “Rankin smooth-number upper bound”, for the Rankin estimate with x≥1,y≥2,σ>0. The native count is positive integers only: #Nat.smoothNumbersUpTo(N,z+1)≤N^δ∏_(p≤z)(1−p^(−δ))⁻¹ for δ>0. Treat N=0, z=0,1 and N<1 directly. Distinct integers are counted once. The extremely-smooth tail is proved in §1.4 from the Rankin estimate.
+
+Use §3.22 for the summatory divisor bound and §3.24, the divisor-square estimate among its auxiliary targets, for Σ_(n≤Y)τ(n)²≪Y log³(2Y): that estimate, Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for X≥2, implies the bound there, and the range 1≤Y<2 is the single term τ(1)²=1. These are the divisor inputs to Jutila’s argument.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartII
+
+Use §5.29 for the odd-squarefree quadratic large sieve and its primitive-real and square-pair versions: for every ε>0 the constant is uniform in M,N≥1 and all complex coefficients. Both odd squarefree ranges include 1; the square-pair version retains all pairs whose product is square. For M=1,N=3 and a₁=1,a₃=−1 the squared sum is 0 and energy is 2; with a₃=1 they are 4 and 2.
+
+### From TauCetiRoadmap.IntegralLattices
+
+IntegralLattices Layers 0 and 3 supply even-bilinear half-norms and integral local GL₂ changes, including dyadic cases; Layer 0 here supplies the residue bijections.
+
+### From TauCetiRoadmap.GlobalNumberFields
+
+GlobalNumberFields §§3, 3C supplies generator domains, units and class representatives away from fixed moduli; Layer 11 supplies quadratic orders and invertible ideals, with extension/contraction only away from the conductor. The conductor-prime norm counts are constructed in §0.9.
+
+### From TauCetiRoadmap.ArithmeticDirichletSeries
+
+[ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) Layers 1–2 supply maximal-order ideal norm fibres and convolution, and Layer 5 supplies prime-power and higher-residue-degree removal. The ideal divisor and logarithmic coefficient estimates are owned in §5.6 here.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§1.66 supplies quadratic reciprocity in a number field K: for nonzero, odd, coprime α,β∈O_K, (α/β)=μ₂(α,β)μ_∞(α,β)(β/α), where the symbols are the quadratic residue symbols at the ideals (β) and (α), on odd ideals the symbol of §5.6, and μ₂, μ_∞ are the products of the quadratic Hilbert symbols (α,β)_v over the dyadic and the infinite places. §1.57 supplies that μ₂(α,β) depends only on α and β modulo 8O_K. Over ℚ, α=3,β=7 gives (3/7)(7/3)=−1, with dyadic symbol −1 and real symbol 1; α=β=−1 gives 1 on the left, with dyadic and real symbols both −1; α=β=3 is excluded, since the left side would be 0. §5.6 consumes both in kernel reciprocity for joint spins.
+
+### From TauCetiRoadmap.QuadraticFormInvariants
+
+QuadraticFormInvariants §6C supplies the dyadic and infinite local Hilbert symbols in which the factor ε(α,β) of kernel reciprocity (§5.6) is written.
+
+### From TauCetiRoadmap.Chebotarev
+
+Chebotarev Layer 13 supplies the principal-class natural prime count ∼li(X)/h_K.
+
+### From TauCetiRoadmap.ThetaSeries
+
+ThetaSeries §2H supplies `kroneckerSym` and `kroneckerChar`; use only their natural-argument real adapter in §0.6.
+
+### From TauCetiRoadmap.Isoperimetry
+
+Isoperimetry I2 supplies convex-body isoperimetry.
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+RiemannianGeometry R4.9.6a supplies signed planar turning and the tangent-angle comparison for smooth Jordan curves. Their specialization and C² approximation give the curvature-to-area comparison of §1.4.
+
+### From TauCetiRoadmap.RealAlgebraicGeometry
+
+[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md) Layers 5–6 supply Collins projection, cylindrical algebraic decomposition and quantifier elimination over ℝ. §0.11a derives from them the fibre-component bound of Davenport's estimate, uniform in the number and degrees of the defining polynomials.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§0.8 `generic_fibre_spreading` and `fibre_locus_constructible` spread geometric irreducibility and dimension from the generic fibre to the fibres over a dense open; §5.11 `weil_bound` bounds the points of a smooth proper geometrically integral curve over a finite field; §5.12 `bezout_inequality` bounds the degrees of the components of an intersection. The Lang–Weil estimates of §5.4 rest on them.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+AlgebraicCurves supplies function fields of curves over a field, their places, genus and Riemann–Roch; §5.4 counts points of a geometrically irreducible curve through its smooth projective model.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+§1.1 supplies, for a finitely generated commutative Hopf algebra H over a number field F, the adelic points G(𝔸_F) with their evaluation topology and rational diagonal, integral models M of H away from a finite set S₀ of places with their local points G(O_v)⊆G(F_v) for v∉S₀, and the subgroup Γ(M,S)⊆G(F) of rational points integral at every finite place outside a finite S⊇S₀∪∞. It constructs a model over the ring of integers as the schematic closure of a faithful matrix representation; for G⊆GL_n over ℚ every Γ⊆G(ℚ)∩GL_n(ℤ) consists of ℤ-points of the closure in GL_n over ℤ, so reduction modulo each prime p sends Γ into the 𝔽_p-points of that model. §4.2 supplies the strong approximation predicate with respect to S=∞∪S_f (G(F)·G(F_S) is dense in G(𝔸_F)) and strong approximation for a connected semisimple simply connected group whose F-simple factors are all noncompact over S. For S=∞ it gives that G(F)\G(𝔸_(F,f))/U is a point for every compact open U; for SL_n over ℚ, that SL_n(ℤ)→SL_n(ℤ/Nℤ) is onto for every N≥1. For the norm-one group of a definite quaternion algebra over ℚ, compact at ∞, the hypothesis fails at S=∞ and so does the conclusion. §5.4 consumes the integral models and S-integral points in its subgroup reduction images and local densities, and strong approximation in its primitive-pair local-obstruction reduction, local densities and squarefree expansion. Strong approximation for rational points does not give the reduction images of a thin subgroup Γ, which §5.4 states separately.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+ReductiveGroups supplies connected semisimple and simply connected groups (Layer 6) and their rational points over finite fields (Layer 7a).
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.4.4 supplies absolute almost simplicity, `Decomposition.IsAbsolutelyAlmostSimple`: a nontrivial semisimple group with no smooth connected normal subgroup over the algebraic closure other than itself and the trivial group. §5.4 states its subgroup-reduction, local-density and saturation targets for connected simply connected absolutely almost simple groups over ℚ in the sense of ReductiveGroups Layer 6 and this predicate.
+
+### Short-character conjecture owned in Layer 5
+
+For each integer m≥3, Cₘ asserts that some δ(m)>0 has this property: for every ε>0 there is C(m,ε)>0 such that every integer Q≥3, real nonprincipal Dirichlet character χ of modulus 1<q≤Q, integer interval origin M and integer length 0≤N≤Q^(1/m) satisfy
+
+`|Σ_(M<n≤M+N)χ(n)| ≤ C(m,ε) Q^((1−δ(m))/m+ε)`.
+
+This is the explicitly conjectural uniform-modulus input of KM-21 §2.5, Conjecture Cₙ (KM-21 lines 340–345), also used in FIMR-13 §9. It includes imprimitive characters. `SieveSpin.ShortCharacterConjecture m` states it, with χ ranging over Mathlib's `DirichletCharacter ℂ q` and real nonprincipal meaning χ≠1 and χ²=1; the definition accepts every natural m and is used only at m≥3. Taking ε=δ(m)/(2m) gives an ε-free exponent after replacing the saving by δ(m)/2; δ in the spin endpoints denotes that smaller saving. The reduced-conductor progression corollary and subset transfer are §5.3 targets here: for odd squarefree q>1 and q∤k, retain q/gcd(q,k)>1. Passing from C_(tn) to C_(|T|n) partitions intervals and replaces δ by δ|T|/t. Every dependent conclusion retains this input.
 
 ## References
 

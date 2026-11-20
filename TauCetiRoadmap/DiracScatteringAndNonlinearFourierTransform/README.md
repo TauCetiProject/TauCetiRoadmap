@@ -1,155 +1,76 @@
 # Roadmap: Dirac scattering and the non-linear Fourier transform
 
-**Summary.** Build the theory of one-dimensional Dirac systems on the half-line and of the SU(1,1)
-non-linear Fourier transform, from Mathlib's Bochner integration, absolutely continuous functions
-and complex analysis and from Tau Ceti's Carathéodory, Grönwall, maximal-function and Nevanlinna–Pick
-modules, up to the pointwise convergence of the non-linear Fourier transform at
-resonance-free points, the conditional form of Poltoratski's non-linear Carleson theorem. The roadmap first
-extends Carathéodory's theory of linear differential equations to integrable coefficients
-depending holomorphically on a parameter. It then develops the function theory of the upper
-half-plane that the scattering theory consumes: Poisson integrals, Fatou's theorem, bounded
-holomorphic functions, the Hardy spaces `H^p(ℂ₊)` with the Hilbert space `H²(ℂ₊)`, Paley–Wiener spaces and
-outer functions. On this
-base it defines the Dirac system `ΩX′ = zX − Q_q X` with a locally integrable complex potential
-`q`, its fundamental matrix, its Hermite–Biehler functions `E`, `Ẽ` and its scattering functions
-`a`, `b`. It proves the SU(1,1) structure, the half-plane bounds `|a| ≥ 1` and `|b| < |a|`,
-outerness of `a` and the non-linear Plancherel identity `∫_ℝ log|a(t,x)| dx = (π/2)∫₀ᵗ |q|²`.
-For square-integrable `q` it constructs the scattering limit and the non-linear Fourier transform
-`q⌃ = b(∞,·)/a(∞,·)`, with its boundary values, its Plancherel identity at `t = ∞`, the
-`L²(ℝ)`-convergence of truncations and the elementary rules it shares with the linear transform.
-The spectral side follows: de Branges spaces, Weyl functions, the Neumann and Dirichlet spectral
-measures with the isometric embeddings `B(E(t,·)) → L²(μ)`, and the Szegő condition
-`log w ∈ L¹(Π)` for square-integrable potentials. For real potentials the last three layers develop
-meromorphic inner functions and resonances, universality of reproducing kernels and the
-approximation of `E` by sines and exponentials near almost every real point, and prove the pointwise
-convergence `q⌃_T(s) → q⌃(s)` at almost every resonance-free point `s ∈ ℝ`: a point such that, for every
-`C > 0`, neither `E(t, ·)` nor `Ẽ(t, ·)` has a zero in the square of side `2C/t` centred at `s` once `t` is
-large.
+**Summary.** A complex potential `q` on the half-line determines a Dirac system `ΩX′ = zX − Q_q X`, a
+linear equation for `X(t) ∈ ℂ²` with spectral parameter `z`. Solving it up to time `t` gives two entire
+functions `a(t, ·)` and `b(t, ·)`, the scattering functions. When `q` is square-integrable on `(0, ∞)`,
+the quotient `b(t, ·)/a(t, ·)` converges on the upper half-plane as `t → ∞`. The limit `q⌃` is the
+SU(1,1) non-linear Fourier transform of `q`; to first order in `q` it is the Fourier integral
+`∫₀^∞ q(s) e^{2izs} ds`. The roadmap proves non-linear analogues of Plancherel's identity and of the
+convergence of truncations, and, for real potentials, a pointwise convergence theorem.
 
-`Suggested.lean` states the headline theorems against the pinned Mathlib and Tau Ceti: the linear
-Carathéodory theorem (§1.2), the existence and uniqueness of the Dirac fundamental system (§3.1), the
-finite non-linear Plancherel identity (§4.4), the non-linear Fourier transform on `ℝ` with its Plancherel
-identity and the convergence of truncations (§5.4–§5.5), the existence, the isometric embedding and the
-uniqueness of the spectral measures (§6.5–§6.6), the Szegő condition (§6.8) and the pointwise convergence
-at resonance-free points (§9.6). Every headline theorem is statable at the pins, and the few definitions
-these statements need are named in the sections that introduce their objects.
+Throughout, a potential is integrable on every `[0, t]`, and only its values on `[0, ∞)` matter. The
+solutions `(A, C)` and `(B, D)` with initial values `(1, 0)` and `(0, 1)` give entire functions
+`E = A − iC` and `Ẽ = B − iD`, which have no zeros in the closed upper half-plane.
 
-## Scope and ownership
+The first main theorem is the non-linear Plancherel identity on a finite interval: if `q` is
+square-integrable on `[0, t]`, then `log|a(t, x)|` is integrable over `ℝ` and
+`∫_ℝ log|a(t, x)| dx = (π/2) ∫₀ᵗ |q|²`. The sources print `1` in place of `π/2`; the roadmap checks
+`π/2` numerically and to first order in `q`.
 
-This roadmap owns, by layer:
+For `q` square-integrable on `(0, ∞)`, `q⌃` is holomorphic on the upper half-plane with `|q⌃| < 1`. Its
+boundary function `q⌃*` satisfies `|q⌃*| < 1` almost everywhere. The second main theorem is the identity
+at infinity, `∫_ℝ −log(1 − |q⌃*(x)|²) dx = π ∫₀^∞ |q|²`. The truncations converge at a rate: the
+boundary functions `b(T, ·)/a(T, ·)` of `q · 1_{(0,T)}` lie within squared `L²(ℝ)` distance
+`4π ∫_T^∞ |q|²` of `q⌃*`.
 
-- Layer 1: the integral Grönwall inequality with an integrable kernel, the linear Carathéodory
-  theorem with an integrable coefficient in a Banach space, the two-parameter propagator, Liouville's
-  formula, continuous dependence on the coefficient in `L¹`, holomorphic dependence on a
-  parameter, and the nonlinear Carathéodory theorem with an integrable Lipschitz modulus;
-- Layer 2: Poisson integrals of Poisson-finite measures on `ℝ` (Tau Ceti's half-space Poisson
-  integral takes bounded data only), positive harmonic functions on `ℂ₊`, nontangential maximal
-  functions, Fatou's theorem for Poisson integrals, boundary values and uniqueness for bounded
-  holomorphic functions on `ℂ₊`, the Hardy spaces `H^p(ℂ₊)` for `1 < p < ∞` with the Hilbert space `H²(ℂ₊)`,
-  the Paley–Wiener spaces `PW_t`, and outer functions on `ℂ₊`;
-- Layer 3: the Dirac system with a locally integrable complex potential, its fundamental matrix,
-  its Hermite–Biehler functions and the Hermite–Biehler property;
-- Layer 4: the scattering matrix `G`, the scattering functions `a`, `b` on a finite interval,
-  their algebraic identities and composition laws, the Dyson bounds, the half-plane bounds,
-  outerness and the finite-interval non-linear Plancherel identity, and the Riccati representation;
-- Layer 5: the scattering limit for square-integrable potentials, the non-linear Fourier
-  transform, its boundary behaviour, its Plancherel identity, convergence of truncations and
-  its elementary rules;
-- Layer 6: de Branges spaces of Hermite–Biehler functions, the de Branges spaces of a Dirac
-  system, the isometric chain, Weyl functions, the Neumann and Dirichlet spectral measures, the
-  entropy of the Poisson measure relative to a spectral measure and the Szegő condition for
-  square-integrable potentials;
-- Layer 7: meromorphic inner functions and their Blaschke representation, the phase-derivative
-  representation of a Hermite–Biehler function, Poltoratski's zero-localisation lemma, and the Dirac inner
-  functions with their Riccati equation and the motion of resonances;
-- Layer 8: universality of reproducing kernels at almost every real point and the
-  approximation of the Hermite–Biehler functions near a real point;
-- Layer 9: scattering data of subintervals, the lemma that resonances near a point occupy little
-  time, resonance-free points, and the pointwise convergence of the non-linear Fourier transform at
-  almost every resonance-free point, with its strong form and the boundedness of generalised
-  eigenfunctions there.
+Every potential also has a Neumann and a Dirichlet spectral measure. The Weyl function `m` is the limit
+of `−Ẽ(t, ·)/E(t, ·)` as `t → ∞`. The Neumann measure `μ` integrates `1/(1 + x²)`, and its Poisson
+integral is `Im m` up to a term `β Im z` with `β ≥ 0`; the Dirichlet measure comes from `−1/m` in the
+same way. For every `t > 0`, `∫ |F|² dμ = ∫_ℝ |F(x)/E(t, x)|² dx` for each Paley–Wiener function
+`F(z) = ∫_{−t}^{t} φ(s) e^{isz} ds` with `φ ∈ L²(−t, t)`. No other measure that integrates `1/(1 + x²)`
+has this property for every `t > 0`.
 
-It leaves to named owners:
+The third main theorem is the Szegő condition. If `q` is square-integrable on `(0, ∞)`, the density `w`
+of the absolutely continuous part of either spectral measure is positive almost everywhere, and `log w`
+is integrable against `dx/(1 + x²)` with integral at least `−2π log 2 − π ∫₀^∞ |q|²`.
 
-- Picard–Lindelöf with continuous time, `ODE_solution_unique_of_mem_Ioo`, absolutely continuous
-  functions, the Lebesgue differentiation theorem, the `L²` Fourier transform, the Poisson kernel
-  and the Poisson formula of a disc, Phragmén–Lindelöf in a half-plane, and the relative entropy
-  of finite measures (`InformationTheory.klDiv`) with its lower bound by the total masses to
-  Mathlib, consumed as listed in the supplier contracts;
-- the essentially-bounded Carathéodory theorem, the constant-kernel integral Grönwall inequality, the
-  absolute continuity of indefinite integrals with values in a normed space, the Dyson series of a
-  continuous path, Jacobi's formula for the derivative of the determinant, the identity
-  `det(exp A) = exp(tr A)`, Young's inequality for an integrable kernel, the duality
-  `L^∞(μ) ≃ L¹(μ)*` of a finite measure, the Hardy–Littlewood maximal function with its weak
-  and strong type bounds, the Herglotz representation on the disc with the Herglotz transform of a
-  finite measure on the circle, the Nevanlinna representation with a finite measure, the Cayley transform of
-  the half-plane, the half-space Poisson kernel with its mass, positivity, harmonicity in the pole and
-  kernel comparison, the half-space Poisson integral of bounded data with its harmonicity and boundary
-  values, the converse mean-value theorem for harmonic functions, the F. and M. Riesz uniqueness
-  theorem on discs, and the variational formula of the relative entropy of finite measures with its
-  joint weak lower semicontinuity to Tau Ceti; Layer 1 states the integrable-coefficient
-  generalisations and records the pinned essentially-bounded, continuous and constant-coefficient
-  cases as Checks, Layer 2 states the Poisson integral of a Poisson-finite measure and records the
-  pinned bounded-data case as a Check, and §6.7 computes the relative entropy of the Poisson measure
-  with respect to a spectral measure;
-- the subtracted-kernel Herglotz representation of a holomorphic `F` on `ℂ₊` with `Im F ≥ 0`,
-  `F(z) = a + bz + ∫ ((x − z)⁻¹ − x/(1 + x²)) dν_F(x)` with its unique triple `(a, b, ν_F)`, to
-  AutomorphicSpectralTheory §0.5, consumed in §2.2 and §6.5; §2.2 states the form for nonnegative
-  harmonic functions, which differs by the passage from `u` to a holomorphic `F` with `Im F = u`, the
-  normalisation `ν = πν_F` of the Poisson integral and the mass and vague-limit descriptions of `ν`;
-- the disc Hardy space `H²(𝔻)` to Tau Ceti (`TauCeti.HardySpace`, `Analysis/Fourier/Hardy/Basic.lean`
-  line 43, with its disc functions, reproducing kernel, boundary uniqueness and the Toeplitz operators
-  of bounded symbols in `Analysis/Fourier/Hardy/`), and the further theory of those Toeplitz operators
-  to OperatorTheory/ToeplitzOperators, Layers 2–5; harmonic Hardy spaces on Euclidean balls and the
-  circle maximal function of a finite measure to StochasticCalculus S6.5; none of these is consumed,
-  since Layer 2 works on the half-plane with Lebesgue measure, holomorphic `H^p(ℂ₊)`, and the maximal
-  function of a density, reaching Poisson-finite measures in §2.3 by smoothing them into densities;
-- the minimal and maximal operators of the Dirac expression in `L²(ℝ₊; ℂ²)`, Green's formula, Weyl's
-  limit-point/limit-circle alternative with its independence of the spectral parameter, and the
-  self-adjoint realisations by boundary conditions to OperatorTheory/UnboundedOperators §4.8 (UO-D07),
-  whose expression `Ju′ + Vu = λu` with `J = [[0, −1], [1, 0]]` and locally integrable Hermitian `V` is
-  the Dirac system here under `J = −Ω`, `V = −Q_q`, `λ = −z` (Conventions). None of this is consumed: §6.4
-  proves from `det M = 1` (§3.1) that `∞` is a limit-point endpoint for every potential, and builds the Weyl
-  discs and the Weyl function.
-  §1.2 is the integral-equation theorem with values in a Banach space, an inhomogeneous term and explicit
-  bounds; its case `E = ℂ²` at a fixed parameter is the local integral-equation existence and uniqueness
-  stated there. The eigenfunction expansion of a self-adjoint Dirac operator, its unitary equivalence with
-  multiplication by `x` in `L²(μ_q)`, is outside this roadmap: Layer 6 builds the spectral measures from
-  Weyl functions and Herglotz representations and needs no unbounded operator;
-- inverse scattering, the Riemann–Hilbert approach, the `ℓ^p` and `L^p` theory of Christ and Kiselev,
-  the discrete SU(1,1) model, the Schrödinger reduction and integrable systems are outside this roadmap;
-  they consume Layers 3–6 and are listed under Downstream consumers.
+The fourth main theorem concerns real potentials `f`, for which the zeros of `E(t, ·)` are called
+resonances. A real point `s` is resonance-free when, for every `C > 0` and all large `t`, neither
+`E(t, ·)` nor `Ẽ(t, ·)` vanishes in the closed square of side `2C/t` centred at `s`. For `f`
+square-integrable on `(0, ∞)`, at almost every resonance-free point `s` the quotient `b(T, z)/a(T, z)`
+tends to `f⌃*(s)` as `T → ∞`, uniformly for `|z − s| < C/T`, for each `C > 0`. There `|a(T, s)|` and
+`|b(T, s)|` converge, and the solutions at `z = s` stay bounded for `t ≥ 0`. This is the conditional
+form of Poltoratski's non-linear Carleson theorem. That almost every point is resonance-free for every
+real square-integrable potential would give convergence almost everywhere; it is not a target of this
+roadmap.
 
-AsymptoticExpansions §10.1 states the scalar Volterra equation `h(x) = ∫_x^b K(x, v)(J(v) + ψ(v)h(v)) dv`
-with a continuous kernel bounded by a separable product, on which its asymptotic expansions rest. §1.2 is
-the linear equation with an integrable operator-valued coefficient on a Banach space, whose coefficient need
-not be continuous; neither statement contains the other, and this roadmap uses only its own.
+The roadmap builds on Mathlib's Bochner integration, absolutely continuous functions and complex
+analysis. Its first layer generalises Tau Ceti's Carathéodory theorem from essentially bounded
+coefficients to integrable ones. The half-plane theory uses Tau Ceti's half-space Poisson kernel and
+maximal function. The Herglotz representation on the upper half-plane comes from the roadmap
+AutomorphicSpectralTheory. OperatorTheory/UnboundedOperators treats the same Dirac expression as an
+operator, with spectral parameter `λ = −z`; nothing from it is needed here. A roadmap on one-dimensional
+Schrödinger and Dirac operators is among the intended uses.
 
-AutomorphicSpectralTheory §1.6 records the Euclidean Paley–Wiener theorem (`euclidean_paley_wiener`): the
-Fourier–Laplace transform `ĥ(λ) = ∫ h(H) e^{−λ(H)} dH` maps the smooth functions supported in the closed
-ball of radius `R` onto the entire functions `ĥ` with `(1 + ‖λ‖)^N e^{−R‖Re λ‖} |ĥ(λ)|` bounded for every `N`.
-§2.7 states the `L²` theorem on `ℝ`: `PW_t` is the image of `L²(−t, t)`, and an entire function of
-exponential type at most `t` that is square-integrable on `ℝ` lies in it. The density `1_{[−t,t]}` gives
-`2 sin(tz)/z ∈ PW_t`, which is only `O(1/|x|)` on `ℝ`, so the smooth theorem does not reach it; and the
-`L²` theorem does not characterise smooth densities. Neither statement contains the other, and this roadmap
-uses only its own.
+The next section guides the reader through the nine layers, and `Suggested.lean` states the main
+theorems in Lean.
 
-The headline theorem of Layer 9 is stated for real potentials, the generality of poltoratski2024
-Theorem 1 (line 579–581), and at resonance-free points (§9.4): it proves convergence at almost every
-point `s` such that, for every `C > 0`, the box `Q(s, C/t)` contains no zero of `E(t, ·)` or of `Ẽ(t, ·)`
-for large `t`. That almost every point is resonance-free for every real square-integrable potential, which
-together with §9.6 gives poltoratski2024 Theorem 1, is not a target of this roadmap. mnatsakanyan2022
-reports an error in the proof of Lemma 11 of an earlier arXiv version of poltoratski2024, which it cites as
-the e-print arXiv:2103.13349 of 2021 (line 9–13, 135–137, 1812–1813). Version 14 has no Lemma 11; its §9
-(line 1482–1533) compares the moduli at `s` of the transforms of `f` and of potentials with inserted zero
-intervals on three subintervals. These moduli are pseudo-hyperbolic distances that the insertion does not
-change (§9.4, fourth Check), and this roadmap does not use that comparison. denisov2026 poses as a
-question (Q2R, line 211–212) whether, for a square-integrable potential on `ℝ` truncated to `(−T, T)`, the
-quotient `b/a#` of its scattering coefficients (in its normalisation, line 165–195) converges almost
-everywhere as `T → ∞`, and proves that for some square-integrable potential its coefficients `a` and `b`
-themselves diverge at every real point (Theorem 1.4, line 215–216); of `a` and `b` themselves, §9.5 and
-§9.6 assert only that the moduli converge. Layers 1–6 are stated for complex potentials `q = f + ig` (the
-system with `Q_q = [[g, f], [f, −g]]`), and Layers 7–9 for real `f`.
+## How to read the build
+
+Layer 1 is the analytic engine: integrable-coefficient linear systems, their propagators and their
+holomorphic dependence on a parameter. Layer 2 is the function theory of the upper half-plane. Layer 3
+applies Layer 1 to the Dirac system and proves the
+algebra and the Hermite–Biehler property of `E` and `Ẽ`. Layer 4 passes to the scattering
+functions `a`, `b` and proves, on a finite interval, the SU(1,1) structure, the composition laws, the
+half-plane bounds, outerness of `a` and the non-linear Plancherel identity. Layer 5 takes the limit
+`t → ∞` for square-integrable potentials, defines the non-linear Fourier transform and proves its
+boundary theory. Layer 6 is the spectral theory: de Branges spaces, Weyl functions, spectral measures
+and the Szegő condition. Layers 7–9 prove, for real potentials, the pointwise convergence of the
+non-linear Fourier transform at almost every resonance-free point: Layer 7 the meromorphic-inner-function
+tools, Layer 8 the universality and approximation results, Layer 9 the subinterval calculus, the bound on
+the time resonances spend near a point, and the conclusion. Every layer uses only
+earlier layers and the suppliers below. Layers 3–5 do not use Layer 6, and Layer 6 does not use Layer 5:
+the Szegő condition needs only the finite Plancherel identity of §4.4 and the truncations of §6.5.
 
 ## Conventions
 
@@ -232,279 +153,6 @@ system with `Q_q = [[g, f], [f, −g]]`), and Layers 7–9 for real `f`.
   its maximum-row-sum norm, which is the operator norm of `Fin 2 → ℂ` with the sup norm, is `2`. The
   bounds on the Dirac coefficient and on `M` in §1.6 and §3.1 hold for the Euclidean norm, not for the
   sup norm.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-All at the pinned Mathlib; paths under `Mathlib/`.
-
-- `AbsolutelyContinuousOnInterval` (`MeasureTheory/Function/AbsolutelyContinuous.lean` line 155),
-  defined for maps into any pseudo-metric space through the total-length filter, with
-  `AbsolutelyContinuousOnInterval.continuousOn`, `.add`, `.smul`, `.boundedVariationOn`;
-  `AbsolutelyContinuousOnInterval.const_of_ae_hasDerivAt_zero`
-  (`MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean` line 171) for maps into a
-  normed space; `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub` (line 227) and
-  `IntervalIntegrable.absolutelyContinuousOnInterval_intervalIntegral`
-  (`MeasureTheory/Function/AbsolutelyContinuous.lean` line 451) only for real-valued maps. For maps into
-  a real Banach space, `IntervalIntegrable.ae_hasDerivAt_integral`
-  (`MeasureTheory/Integral/IntervalIntegral/LebesgueDifferentiationThm.lean` line 67): if `f : ℝ → E` is
-  interval integrable on `a..b`, then at almost every `x` between `a` and `b`, and for every base point `c`
-  between them, `t ↦ ∫_c^t f` has derivative `f(x)` at `x`. With Tau Ceti's absolute continuity of
-  vector-valued indefinite integrals (below) this is the vector-valued fundamental theorem that Layer 1
-  consumes: an indefinite integral is absolutely continuous with the integrand as its derivative almost
-  everywhere, and by the constancy theorem an absolutely continuous curve is determined by its value at one
-  point and its derivative almost everywhere.
-- `IsPicardLindelof` and `ODE.picard` (`Analysis/ODE/PicardLindelof.lean` lines 80, 106), which
-  require a field continuous in time; `ODE_solution_unique_of_mem_Ioo`
-  (`Analysis/ODE/ExistUnique.lean` line 279). Used only in compatibility Checks.
-- `VitaliFamily.ae_tendsto_lintegral_enorm_sub_div` (`MeasureTheory/Covering/Differentiation.lean`
-  line 819, Lebesgue points of a locally integrable function) and `VitaliFamily.ae_tendsto_rnDeriv`
-  (line 658), applied to the Vitali family of closed balls in `ℝ`, in §2.4.
-- `MeasureTheory.TendstoInMeasure` (`MeasureTheory/Function/ConvergenceInMeasure.lean` line 57),
-  `MeasureTheory.tendstoInMeasure_of_tendsto_eLpNorm` (line 445),
-  `MeasureTheory.TendstoInMeasure.exists_seq_tendsto_ae` (line 266).
-- `Real.fourier_real_eq` (`Analysis/Fourier/FourierTransform.lean` line 483, the kernel
-  `e^{−2πi v w}`) and `MeasureTheory.Lp.fourierTransformₗᵢ` (`Analysis/Fourier/LpSpace.lean` line 51,
-  the `L²` Fourier transform as a linear isometry equivalence); `MeasureTheory.Measure.ext_of_charFun`
-  (`MeasureTheory/Measure/CharacteristicFunction/Basic.lean` line 257, finite measures with equal
-  characteristic functions are equal).
-- `PhragmenLindelof.right_half_plane_of_bounded_on_real` (`Analysis/Complex/PhragmenLindelof.lean`
-  line 717); `TendstoLocallyUniformlyOn.differentiableOn`
-  (`Analysis/Complex/LocallyUniformLimit.lean` line 136); `hasFDerivAt_integral_of_dominated_of_fderiv_le`
-  (`Analysis/Calculus/ParametricIntegral.lean` line 222).
-- `InnerProductSpace.HarmonicOnNhd`, `HarmonicAt.differentiableAt_complex_partial`
-  (`Analysis/Complex/Harmonic/Analytic.lean` line 35: the complex partial `∂u/∂x − i ∂u/∂y` of a
-  harmonic function is holomorphic), `InnerProductSpace.HarmonicOnNhd.exists_analyticOnNhd_ball_re_eq`
-  (line 74, on balls only) and `InnerProductSpace.bounded_harmonic_on_complex_plane_is_constant`
-  (`Analysis/Complex/Harmonic/Liouville.lean` line 52).
-- `WeakDual.isCompact_closedBall` (`Analysis/Normed/Module/WeakDual.lean` line 270, Banach–Alaoglu:
-  closed balls of the dual of a normed space over a proper field are weak-* compact), in §2.5.
-- `ContractingWith` (`Topology/MetricSpace/Contracting.lean` line 42, a Lipschitz self-map with constant
-  `K < 1`) for the Picard scheme of §1.2; `MeasureTheory.Measure.rnDeriv` and
-  `MeasureTheory.Measure.singularPart` (`MeasureTheory/Measure/Decomposition/Lebesgue.lean` lines 80, 73,
-  the Lebesgue decomposition `ν = (dν/dx) dx + ν_s` when `ν` has one with respect to Lebesgue measure) in
-  §2.4 and §6.7; `MeasureTheory.measure_limsup_atTop_eq_zero`
-  (`MeasureTheory/OuterMeasure/BorelCantelli.lean` line 62: if `Σ μ(sᵢ) < ∞` then `limsup sᵢ` is null) in
-  §9.3.
-- `Real.tendsto_integral_exp_smul_cocompact` (`Analysis/Fourier/RiemannLebesgueLemma.lean` line 205): the
-  Riemann–Lebesgue lemma on `ℝ`, `∫ e^{−2πivw} f(v) dv → 0` as `|w| → ∞` for `f : ℝ → E` (the Bochner integral
-  of a non-integrable `f` is `0`, so the content is for integrable `f`), in §4.2.
-- For the matching of §8.9: `ApproximatesLinearOn.surjOn_closedBall_of_nonlinearRightInverse`
-  (`Analysis/Calculus/InverseFunctionTheorem/ApproximatesLinearOn.lean` line 143): over a complete space, if
-  `‖f x − f y − f′(x − y)‖ ≤ c‖x − y‖` on a set containing `closedBall b ε`, `ε ≥ 0`, and `f′` has a right
-  inverse bounded by `N`, then `f(closedBall b ε)` contains `closedBall (f b) ((N⁻¹ − c)ε)`;
-  `ContinuousLinearEquiv.toNonlinearRightInverse` (`Analysis/Normed/Operator/Banach.lean` line 66: the inverse of
-  a continuous linear equivalence as such a right inverse, bounded by its norm), applied to multiplication by
-  `g′(s) ≠ 0` on `ℂ`; and `Convex.norm_image_sub_le_of_norm_fderiv_le'` (`Analysis/Calculus/MeanValue.lean`
-  line 550: on a convex set where `f` is differentiable with `‖Df(x) − φ‖ ≤ C`,
-  `‖f y − f x − φ(y − x)‖ ≤ C‖y − x‖`), which gives the hypothesis on a disc whose radius is explicit.
-- `Matrix.det_fin_two` (`LinearAlgebra/Matrix/Determinant/Basic.lean` line 815), `NormedSpace.exp`
-  for the constant-coefficient Check, `UpperHalfPlane.upperHalfPlaneSet`.
-- For the entropy in §6.7 and §6.8: `InformationTheory.klDiv` (`InformationTheory/KullbackLeibler/Basic.lean`
-  line 56), the relative entropy of measures with values in `ℝ≥0∞`. For `σ ≪ ν` with the log-likelihood
-  ratio `MeasureTheory.llr σ ν = log (dσ/dν)` (`MeasureTheory/Measure/LogLikelihoodRatio.lean` line 37)
-  integrable against `σ` it is `ENNReal.ofReal (∫ llr σ ν dσ + ν(X) − σ(X))`, and it is `∞` otherwise. For
-  finite measures the real expression is already nonnegative
-  (`InformationTheory.integral_llr_add_sub_measure_univ_nonneg`, line 147), so `ENNReal.ofReal` truncates
-  nothing. `InformationTheory.mul_log_le_klDiv` (line 355): for finite `σ`, `ν`,
-  `σ(X) log(σ(X)/ν(X)) + ν(X) − σ(X) ≤ klDiv σ ν`, the left side read through `ENNReal.ofReal`. The circle
-  carries Mathlib's Borel structure (`MeasureTheory/Group/Circle.lean` lines 32, 34) and is a compact
-  metric space.
-- For the convergence of truncated spectral measures in §6.5: `span_fourier_closure_eq_top`
-  (`Analysis/Fourier/AddCircle.lean` line 244: the span of the monomials `fourier n`, `n ∈ ℤ`, is dense in
-  the continuous complex functions on `AddCircle T`), `AddCircle.homeomorphCircle'`
-  (`Analysis/SpecialFunctions/Complex/Circle.lean` line 421: the homeomorphism `AddCircle (2π) ≃ₜ Circle`,
-  `θ ↦ e^{iθ}`) and `MeasureTheory.FiniteMeasure.tendsto_iff_forall_integral_rclike_tendsto`
-  (`MeasureTheory/Measure/FiniteMeasure.lean` line 748: weak convergence of finite measures is convergence
-  of the integrals of every bounded continuous `𝕜`-valued function, `𝕜 = ℝ` or `ℂ`).
-- For Liouville's formula in §1.4: `Matrix.det_apply` (`LinearAlgebra/Matrix/Determinant/Basic.lean`
-  line 66, the Leibniz expansion of `det` as a signed sum over permutations of products of entries),
-  `Matrix.trace_mul_comm` (`LinearAlgebra/Matrix/Trace.lean` line 156, `tr(AB) = tr(BA)`),
-  `Matrix.mul_nonsing_inv` (`LinearAlgebra/Matrix/NonsingularInverse.lean` line 209, `AA⁻¹ = 1` when
-  `det A` is a unit), `HasFDerivAt.comp_hasDerivAt` (`Analysis/Calculus/Deriv/Comp.lean` line 375, the
-  chain rule along a curve) and `HasFDerivAt.restrictScalars`
-  (`Analysis/Calculus/FDeriv/RestrictScalars.lean` line 54). Also
-  `LipschitzWith.comp_absolutelyContinuousOnInterval` (`MeasureTheory/Function/AbsolutelyContinuous.lean`
-  line 344: a Lipschitz map into a pseudo-metric space composed with an absolutely continuous curve is
-  absolutely continuous), applied to the entry maps of the matrix, and `EuclideanSpace.equiv`
-  (`Analysis/InnerProductSpace/PiL2.lean` line 296, the continuous linear equivalence
-  `EuclideanSpace 𝕜 ι ≃L[𝕜] (ι → 𝕜)` that is the identity on coordinates), for the transport to the
-  Euclidean carrier. The derivative of `det` is Tau Ceti's (below).
-- For the Euclidean carrier of the Dirac system: `Matrix.toEuclideanCLM` (`Analysis/CStarAlgebra/Matrix.lean`
-  line 101, the star-algebra equivalence of `Matrix n n 𝕜` with `EuclideanSpace 𝕜 n →L[𝕜] EuclideanSpace 𝕜 n`
-  given by the standard basis, for `RCLike 𝕜`), with the scoped Euclidean operator norm
-  `Matrix.Norms.L2Operator` and `Matrix.l2_opNorm_toEuclideanCLM` (line 240, the two norms agree).
-- For the Hardy space in §2.6 and §2.8: `ConvexOn.map_integral_le` (`Analysis/Convex/Integral.lean` line
-  196, Jensen's inequality for a probability measure, with `f` and `g ∘ f` integrable and `g` continuous
-  and convex on a closed convex set), `convexOn_exp` (`Analysis/Convex/SpecificFunctions/Basic.lean` line
-  62), `MeasureTheory.lintegral_liminf_le` (`MeasureTheory/Integral/Lebesgue/Add.lean` line 237, Fatou's
-  lemma for measurable `ℝ≥0∞`-valued functions) and `MeasureTheory.lintegral_lintegral_swap`
-  (`MeasureTheory/Measure/Prod.lean` line 1102, Tonelli for s-finite measures); for the point bound of
-  `H^p(ℂ₊)`, `DiffContOnCl.circleAverage` (`Analysis/Complex/MeanValue.lean` line 108: a function complex
-  differentiable on an open disc and continuous on its closure has circle average its value at the centre)
-  and `Complex.lintegral_comp_polarCoord_symm` (`Analysis/SpecialFunctions/PolarCoord.lean` line 215: the
-  lower Lebesgue integral over `ℂ` in polar coordinates, with the weight `r`).
-- For the isometric chain in §6.3: `MeasureTheory.intervalIntegral_integral_swap`
-  (`MeasureTheory/Integral/Prod.lean` line 486: for an s-finite measure `μ` and `f : ℝ → α → E` integrable
-  for the product of Lebesgue measure on the interval between `a` and `b` with `μ`,
-  `∫_a^b ∫ f(x, y) dμ(y) dx = ∫ ∫_a^b f(x, y) dx dμ(y)`), with `LipschitzWith.comp_absolutelyContinuousOnInterval`
-  and `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub` above.
-- For the half-plane Poisson kernel in §2.1: `Complex.orthonormalBasisOneI`
-  (`Analysis/InnerProductSpace/PiL2.lean` line 853, the orthonormal basis `1, i` of `ℂ` over `ℝ`, whose
-  coordinate map `ℂ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 2)` is `z ↦ (Re z, Im z)`),
-  `EuclideanSpace.volume_ball_fin_two` (`MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean` line 395, the
-  ball of radius `r` in `EuclideanSpace ℝ (Fin 2)` has volume `πr²`), `LinearIsometryEquiv.measurePreserving`
-  (`MeasureTheory/Measure/Haar/InnerProductSpace.lean` line 151, a linear isometry of finite-dimensional
-  real inner product spaces preserves volume), `DifferentiableOn.analyticAt` (`Analysis/Complex/CauchyIntegral.lean`
-  line 723, a function complex differentiable on a neighbourhood of a point is analytic there) and
-  `AnalyticAt.harmonicAt_re` (`Analysis/InnerProductSpace/Harmonic/Constructions.lean` line 55, the real part of
-  a complex-analytic function is harmonic).
-- The disc Poisson kernel `poissonKernel c w ζ = (|ζ − c|² − |w − c|²)/|ζ − w|²` (`Analysis/Complex/Poisson.lean`
-  line 54, in the root namespace and without the factor `1/(2π)`, which Mathlib's `Real.circleAverage`
-  carries), so that `poissonKernel 0 w ζ = (1 − |w|²)/|ζ − w|²` for `|ζ| = 1`, in §2.1's Cayley comparison
-  and §2.5; and the Poisson formula `InnerProductSpace.HarmonicOnNhd.circleAverage_poissonKernel_smul`
-  (`Analysis/Complex/Harmonic/Poisson.lean` line 92: a real function harmonic on a neighbourhood of the
-  closed disc `closedBall c R` is, at every `w` of the open disc, the circle average of
-  `poissonKernel c w` times it), used in a §2.1 Check.
-
-### From Tau Ceti
-
-All at the pinned Tau Ceti; paths under `TauCeti/`.
-
-- `TauCeti.exists_continuousOn_eq_forall_mem_Icc_eq_picard` and
-  `TauCeti.eqOn_of_forall_mem_Icc_eq_picard` (`Analysis/ODE/Caratheodory.lean` lines 196, 219):
-  existence and uniqueness for `x′ = M(t)x + F(t)` on `[a, b]` over `ℝ` when `M` is strongly
-  measurable and **essentially bounded** and `F` integrable. Layer 1 replaces essential
-  boundedness by integrability of `‖M‖` and adds the parameter; the bounded case is a Check.
-- `TauCeti.le_mul_exp_of_le_add_mul_integral` (`Analysis/ODE/Gronwall.lean` line 59): Grönwall for
-  continuous `φ` with `φ(t) ≤ c + K∫ₐᵗ φ`, `K ≥ 0` constant. Layer 1 states the integrable-kernel
-  form; the constant kernel is a Check.
-- `IntervalIntegrable.absolutelyContinuousOnInterval_intervalIntegral'`
-  (`MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean` line 240): for `f : ℝ → V`
-  interval integrable on `a..b`, `V` a real normed space, and a base point `c` between `a` and `b`, the
-  indefinite integral `t ↦ ∫_c^t f` is absolutely continuous on the interval. §1.2 applies it to
-  `s ↦ P(s)Y(s) + F(s)` in `E`, and §1.3 through §1.2 in `E →L[𝕜] E`.
-- `MeasureTheory.AEStronglyMeasurable.apply_of_forall_of_continuous`
-  (`MeasureTheory/Function/StronglyMeasurable/Caratheodory.lean` line 41): for a measure `μ`, a topological
-  space `X` and a pseudo-metrizable space `G`, if `g : α → X → G` has almost everywhere strongly measurable
-  sections `t ↦ g t x` for every `x` and `g t` is continuous for every `t`, then `t ↦ g t (u t)` is almost
-  everywhere strongly measurable for every almost everywhere strongly measurable `u : α → X`; no
-  separability of `X` is asked. §1.7 applies it with `X = E` or a closed ball of `E`.
-- `TauCeti.dysonSeriesLeft` and `TauCeti.hasDerivAt_dysonSeriesLeft`
-  (`Analysis/ODE/DysonSeries.lean` lines 165, 281): the time-ordered exponential of a
-  **continuous** path in a Banach algebra; compatibility Check for the propagator.
-- `Matrix.hasFDerivAt_det` (`Analysis/Calculus/FDeriv/Det.lean` line 110): Jacobi's formula. Over a
-  nontrivially normed field, with Mathlib's `L∞` operator norm on matrices
-  (`open scoped Matrix.Norms.Operator`), `det` has Fréchet derivative `H ↦ det A · tr(A⁻¹H)` at
-  every square matrix `A` whose determinant is a unit; the same file has the adjugate form
-  `tr(adj A · H)` at every matrix (`Matrix.fderiv_det_apply_adjugate`, line 75). §1.4 consumes the
-  invertible form. `Matrix.det_exp` (`Analysis/Normed/Algebra/MatrixExponential.lean` line 75):
-  `det(exp A) = exp(tr A)` for a square matrix over an `RCLike` field, the constant-coefficient case
-  of §1.4 and its compatibility Check.
-- `TauCeti.maximalFunction` (`MeasureTheory/Integral/MaximalFunction.lean` line 125, the centred
-  maximal function `sup_{r>0} ⨍_{B(x,r)} ‖f‖` with values in `ℝ≥0∞`),
-  `TauCeti.mul_measure_lt_maximalFunction_le` (line 353, weak type `(1,1)` with constant `4^{dim}`
-  for an additive Haar measure) and `TauCeti.lintegral_rpow_maximalFunction_le` (line 439, strong
-  type `(p,p)` for `1 < p`), applied on `ℝ` with Lebesgue measure.
-- `TauCeti.norm_convolutionLp_le` and `TauCeti.convolutionLp_ae_eq_convolution`
-  (`MeasureTheory/Function/Lp/Convolution.lean` lines 117, 197): Young's inequality. On a
-  finite-dimensional real normed space with an additive Haar measure, for `1 ≤ p < ∞` and a real
-  integrable kernel `k`, convolution with `k` is a continuous linear operator on `Lᵖ` of norm at most
-  `∫ |k|`, represented almost everywhere by the pointwise convolution `∫ k(y) f(x − y) dy` for a
-  Banach-space-valued `f`. §5.1 applies it on `ℝ` with `p = 2`.
-- `MeasureTheory.Lp.dualOneEquiv` (`MeasureTheory/Function/L1Space/Dual.lean` line 102): for a
-  **finite** measure `μ` and `𝕜 = ℝ` or `ℂ`, integration against an essentially bounded function is a
-  linear isometric equivalence `L^∞(μ) ≃ L¹(μ)*`. §2.5 applies it to the finite Poisson measure `Π`.
-- `MeasureTheory.Measure.herglotzTransform` (`Analysis/Complex/Herglotz.lean` line 138): the Herglotz
-  transform `H_ν(ξ) = ∫ (ζ + ξ)/(ζ − ξ) dν(ζ)` of a measure `ν` on Mathlib's `Circle`;
-  `MeasureTheory.Measure.herglotzTransform_zero` (line 150): `H_ν(0)` is the total mass of `ν`, as a real
-  number. `TauCeti.I_mul_herglotzTransform_cayley_eq` (`Analysis/Complex/Pick/Nevanlinna.lean` line 404): for
-  a finite measure `ν` on `Circle` and `z ∈ ℂ₊`, `i H_ν((z − i)/(z + i)) = ν({1}) z + ∫ (1 + xz)/(x − z) dν_C(x)`,
-  with `ν_C` the Cayley pushforward below. §6.5 uses them to write a Weyl function as a Herglotz transform
-  in the Cayley coordinate. The Nevanlinna representation `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add`
-  (same file, line 436: `F(z) = βz + ∫ (1 + xz)/(x − z) dρ(x) + Re F(i)` with `ρ` finite and `β ≥ 0`) is
-  consumed through AutomorphicSpectralTheory §0.5, which converts it to the subtracted kernel.
-- `TauCeti.integral_circle_eq_atom_add_integral_cayleyPushforward` and
-  `MeasureTheory.Measure.cayleyPushforward` (`Analysis/Complex/Pick/Nevanlinna.lean` lines 188, 176): for a
-  finite measure `ν` on Mathlib's `Circle` and a continuous `f` from `Circle` to a real Banach space,
-  `∫ f dν = ν({1}) f(1) + ∫_ℝ f((x − i)/(x + i)) dν_C(x)`, where `ν_C` is the Cayley pushforward: the
-  restriction of `ν` to the punctured circle carried to `ℝ` by the inverse of the boundary Cayley map
-  `TauCeti.boundaryCayley`, `x ↦ (x − i)/(x + i)`. §6.6 uses it to read weak convergence of the Cayley
-  images of the measures `μ_T` on the circle as convergence of integrals over `ℝ` plus the atoms at `1`.
-- The relative entropy, in `InformationTheory/KullbackLeibler/Variational.lean`.
-  `TauCeti.klDiv_eq_iSup_boundedContinuousFunction_integral_sub_integral_exp_sub_one` (line 457): on a
-  normal Borel space, for finite `σ`, `ν` with `σ + ν` weakly regular, `klDiv σ ν` is the supremum of
-  `∫ f dσ − ∫ (e^f − 1) dν` over bounded continuous real `f`. `TauCeti.lowerSemicontinuous_klDiv_finiteMeasure`
-  (line 499): on a pseudometrizable Borel space, `(σ, ν) ↦ klDiv σ ν` is jointly lower semicontinuous on
-  pairs of finite measures with the topology of weak convergence (Mathlib's `MeasureTheory.FiniteMeasure`).
-  §6.7 and §6.8 apply them on the circle.
-- `TauCeti.rouche_exists_eq_zero_iff` (`Analysis/Complex/Conformal/Rouche.lean` line 359): Rouché's theorem
-  as a zero-detection principle; for `f`, `g` holomorphic on a neighbourhood of the closed disc
-  `closedBall c R`, `R > 0`, with `‖f z − g z‖ < ‖f z‖` on the bounding circle, `f` has a zero in the open disc
-  if and only if `g` has one. §8.7 applies it on discs of radius `1/(2t)` to a two-term trigonometric form and
-  `E(t, ·)`.
-- The half-space Poisson kernel, in `Analysis/PDE/GreenFunction/HalfSpace.lean`: for a unit inward
-  normal `v` of `EuclideanSpace ℝ (Fin n)`, `TauCeti.halfSpacePoissonKernel n v x y`
-  (line 122) is `2⟨v, x⟩/(n ωₙ ‖y − x‖ⁿ)`, with pole `x`, point `y` and `ωₙ` the volume of the unit
-  ball. `TauCeti.halfSpacePoissonKernel_pos` (line 147): positive for `0 < ⟨v, x⟩` and `y ≠ x`.
-  `TauCeti.harmonicOnNhd_halfSpacePoissonKernel_left` (line 177): for `y` on the hyperplane
-  `⟨v, y⟩ = 0`, harmonic in the pole on the open half-space `0 < ⟨v, x⟩`.
-  `TauCeti.halfSpacePoissonKernel_le_mul` (line 198): for `y` on the hyperplane, `0 ≤ ⟨v, x⟩`,
-  `0 < ⟨v, x₁⟩` and `‖y − x₁‖ ≤ A‖y − x‖`, the bound `K(x, y) ≤ (⟨v, x⟩/⟨v, x₁⟩) Aⁿ K(x₁, y)`.
-- The half-space Poisson integral, in `Analysis/PDE/PoissonIntegral/HalfSpace.lean`, against the
-  Lebesgue measure of the hyperplane `(ℝ ∙ v)ᗮ`. `TauCeti.integral_halfSpacePoissonKernel` (line 135):
-  mass one, `∫ K(x, y) dy = 1`, for `0 < ⟨v, x⟩`. `TauCeti.halfSpacePoissonIntegral` (line 179): the
-  Poisson integral `∫ K(x, y) g(y) dy` of real data `g` on the hyperplane.
-  `TauCeti.harmonicOnNhd_halfSpacePoissonIntegral` (line 419): harmonic on the open half-space for
-  bounded, almost everywhere strongly measurable `g`. `TauCeti.tendsto_halfSpacePoissonIntegral`
-  (line 297): for such `g` continuous at a point `ξ` of the hyperplane, `P[g](x) → g(ξ)` as `x → ξ`
-  through the open half-space, without restriction on the approach.
-- Layer 2 uses these at `n = 2` with `v = (0, 1)`, identifying `ℂ` with `EuclideanSpace ℝ (Fin 2)`
-  through `Complex.orthonormalBasisOneI` (Mathlib, above). Then `⟨v, z⟩ = Im z` and `ω₂ = π`, so the kernel
-  is `Im z/(π|x − z|²)`. The hyperplane is the real axis, with Lebesgue measure. Complex data are
-  treated through their real and imaginary parts.
-- `DifferentiableOn.hasDerivAt_wedgeIntegral_upperHalfPlane`
-  (`Analysis/Complex/UpperHalfPlane/Primitive.lean` line 118): every holomorphic function on `ℂ₊`
-  has a primitive there; with Mathlib's complex partial this gives harmonic conjugates and
-  logarithms of zero-free holomorphic functions on `ℂ₊`.
-- `TauCeti.harmonicOnNhd_of_setAverage_ball_eq`
-  (`Analysis/InnerProductSpace/Harmonic/MeanValue/Converse.lean` line 69): a continuous function with
-  the mean-value property on small balls is harmonic (used for reflection of harmonic functions
-  across `ℝ`).
-- `TauCeti.eqOn_const_ball_of_tendsto_circleMap` and `AnalyticOnNhd.le_circleAverage_log_norm`
-  (`Analysis/Complex/RadialUniqueness.lean` lines 198, 76): a bounded holomorphic function on a disc
-  with radial limit `a` on a set of angles of positive measure is the constant `a`, and Jensen's
-  lower bound for circle averages of `log‖f‖`; transported to `ℂ₊` by the Cayley transform
-  `TauCeti.bijOn_sub_I_div_add_I_upperHalfPlaneSet` and `TauCeti.boundaryCayley`
-  (`Analysis/Complex/UpperHalfPlane/Cayley.lean`).
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-- §0.5 (Herglotz representation): a function `F` holomorphic on `ℂ₊` with `Im F ≥ 0` is
-  `F(z) = a + bz + ∫ ((t − z)⁻¹ − t/(1 + t²)) dν_F(t)` for a unique triple with `a = Re F(i)`, `b ≥ 0` and
-  `ν_F` a positive Borel measure with `∫ dν_F/(1 + t²) < ∞`, obtained from the finite measure `ρ` of Tau
-  Ceti `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add` by `dν_F = (1 + t²) dρ`. Since
-  `Im (t − z)⁻¹ = π P(z, t)`, on `ℂ₊` this gives `Im F = b Im z + P[πν_F]` with the Poisson integral of §2.1.
-  §2.2 consumes it for a holomorphic `F` with `Im F = u`, and §6.5 for the Weyl function `m`, whose triple is
-  `(Re m(i), β, μ_q/π)`.
-
-## How to read the build
-
-Layer 1 is the analytic engine: integrable-coefficient linear systems, their propagators and their
-holomorphic dependence on a parameter. Layer 2 is the function theory of the upper half-plane. Layer 3
-applies Layer 1 to the Dirac system and proves the
-algebra and the Hermite–Biehler property of `E` and `Ẽ`. Layer 4 passes to the scattering
-functions `a`, `b` and proves, on a finite interval, the SU(1,1) structure, the composition laws, the
-half-plane bounds, outerness of `a` and the non-linear Plancherel identity. Layer 5 takes the limit
-`t → ∞` for square-integrable potentials, defines the non-linear Fourier transform and proves its
-boundary theory. Layer 6 is the spectral theory: de Branges spaces, Weyl functions, spectral measures
-and the Szegő condition. Layers 7–9 prove, for real potentials, the pointwise convergence of the
-non-linear Fourier transform at almost every resonance-free point: Layer 7 the meromorphic-inner-function
-tools, Layer 8 the universality and approximation results, Layer 9 the subinterval calculus, the bound on
-the time resonances spend near a point, and the conclusion. Every layer uses only
-earlier layers and the suppliers above. Layers 3–5 do not use Layer 6, and Layer 6 does not use Layer 5:
-the Szegő condition needs only the finite Plancherel identity of §4.4 and the truncations of §6.5.
 
 ## Layer 1: Carathéodory linear systems with a holomorphic parameter
 
@@ -2658,6 +2306,379 @@ Layer 3, Layer 4, Layer 5 (§5.2, §5.5, §5.6), Layer 6 (§6.4, §6.5, §6.8), 
   Zakharov–Shabat scattering) and inverse scattering: Layers 4, 5 and 9.
 - A proof that almost every point is resonance-free for every real square-integrable potential, which with
   §9.6 gives convergence almost everywhere (poltoratski2024 Theorem 1): §9.1–§9.4, with Layers 7 and 8.
+
+## Scope and ownership
+
+This roadmap owns, by layer:
+
+- Layer 1: the integral Grönwall inequality with an integrable kernel, the linear Carathéodory
+  theorem with an integrable coefficient in a Banach space, the two-parameter propagator, Liouville's
+  formula, continuous dependence on the coefficient in `L¹`, holomorphic dependence on a
+  parameter, and the nonlinear Carathéodory theorem with an integrable Lipschitz modulus;
+- Layer 2: Poisson integrals of Poisson-finite measures on `ℝ` (Tau Ceti's half-space Poisson
+  integral takes bounded data only), positive harmonic functions on `ℂ₊`, nontangential maximal
+  functions, Fatou's theorem for Poisson integrals, boundary values and uniqueness for bounded
+  holomorphic functions on `ℂ₊`, the Hardy spaces `H^p(ℂ₊)` for `1 < p < ∞` with the Hilbert space `H²(ℂ₊)`,
+  the Paley–Wiener spaces `PW_t`, and outer functions on `ℂ₊`;
+- Layer 3: the Dirac system with a locally integrable complex potential, its fundamental matrix,
+  its Hermite–Biehler functions and the Hermite–Biehler property;
+- Layer 4: the scattering matrix `G`, the scattering functions `a`, `b` on a finite interval,
+  their algebraic identities and composition laws, the Dyson bounds, the half-plane bounds,
+  outerness and the finite-interval non-linear Plancherel identity, and the Riccati representation;
+- Layer 5: the scattering limit for square-integrable potentials, the non-linear Fourier
+  transform, its boundary behaviour, its Plancherel identity, convergence of truncations and
+  its elementary rules;
+- Layer 6: de Branges spaces of Hermite–Biehler functions, the de Branges spaces of a Dirac
+  system, the isometric chain, Weyl functions, the Neumann and Dirichlet spectral measures, the
+  entropy of the Poisson measure relative to a spectral measure and the Szegő condition for
+  square-integrable potentials;
+- Layer 7: meromorphic inner functions and their Blaschke representation, the phase-derivative
+  representation of a Hermite–Biehler function, Poltoratski's zero-localisation lemma, and the Dirac inner
+  functions with their Riccati equation and the motion of resonances;
+- Layer 8: universality of reproducing kernels at almost every real point and the
+  approximation of the Hermite–Biehler functions near a real point;
+- Layer 9: scattering data of subintervals, the lemma that resonances near a point occupy little
+  time, resonance-free points, and the pointwise convergence of the non-linear Fourier transform at
+  almost every resonance-free point, with its strong form and the boundedness of generalised
+  eigenfunctions there.
+
+It leaves to named owners:
+
+- Picard–Lindelöf with continuous time, `ODE_solution_unique_of_mem_Ioo`, absolutely continuous
+  functions, the Lebesgue differentiation theorem, the `L²` Fourier transform, the Poisson kernel
+  and the Poisson formula of a disc, Phragmén–Lindelöf in a half-plane, and the relative entropy
+  of finite measures (`InformationTheory.klDiv`) with its lower bound by the total masses to
+  Mathlib, consumed as listed in the supplier contracts;
+- the essentially-bounded Carathéodory theorem, the constant-kernel integral Grönwall inequality, the
+  absolute continuity of indefinite integrals with values in a normed space, the Dyson series of a
+  continuous path, Jacobi's formula for the derivative of the determinant, the identity
+  `det(exp A) = exp(tr A)`, Young's inequality for an integrable kernel, the duality
+  `L^∞(μ) ≃ L¹(μ)*` of a finite measure, the Hardy–Littlewood maximal function with its weak
+  and strong type bounds, the Herglotz representation on the disc with the Herglotz transform of a
+  finite measure on the circle, the Nevanlinna representation with a finite measure, the Cayley transform of
+  the half-plane, the half-space Poisson kernel with its mass, positivity, harmonicity in the pole and
+  kernel comparison, the half-space Poisson integral of bounded data with its harmonicity and boundary
+  values, the converse mean-value theorem for harmonic functions, the F. and M. Riesz uniqueness
+  theorem on discs, and the variational formula of the relative entropy of finite measures with its
+  joint weak lower semicontinuity to Tau Ceti; Layer 1 states the integrable-coefficient
+  generalisations and records the pinned essentially-bounded, continuous and constant-coefficient
+  cases as Checks, Layer 2 states the Poisson integral of a Poisson-finite measure and records the
+  pinned bounded-data case as a Check, and §6.7 computes the relative entropy of the Poisson measure
+  with respect to a spectral measure;
+- the subtracted-kernel Herglotz representation of a holomorphic `F` on `ℂ₊` with `Im F ≥ 0`,
+  `F(z) = a + bz + ∫ ((x − z)⁻¹ − x/(1 + x²)) dν_F(x)` with its unique triple `(a, b, ν_F)`, to
+  AutomorphicSpectralTheory §0.5, consumed in §2.2 and §6.5; §2.2 states the form for nonnegative
+  harmonic functions, which differs by the passage from `u` to a holomorphic `F` with `Im F = u`, the
+  normalisation `ν = πν_F` of the Poisson integral and the mass and vague-limit descriptions of `ν`;
+- the disc Hardy space `H²(𝔻)` to Tau Ceti (`TauCeti.HardySpace`, `Analysis/Fourier/Hardy/Basic.lean`
+  line 43, with its disc functions, reproducing kernel, boundary uniqueness and the Toeplitz operators
+  of bounded symbols in `Analysis/Fourier/Hardy/`), and the further theory of those Toeplitz operators
+  to OperatorTheory/ToeplitzOperators, Layers 2–5; harmonic Hardy spaces on Euclidean balls and the
+  circle maximal function of a finite measure to StochasticCalculus S6.5; none of these is consumed,
+  since Layer 2 works on the half-plane with Lebesgue measure, holomorphic `H^p(ℂ₊)`, and the maximal
+  function of a density, reaching Poisson-finite measures in §2.3 by smoothing them into densities;
+- the minimal and maximal operators of the Dirac expression in `L²(ℝ₊; ℂ²)`, Green's formula, Weyl's
+  limit-point/limit-circle alternative with its independence of the spectral parameter, and the
+  self-adjoint realisations by boundary conditions to OperatorTheory/UnboundedOperators §4.8 (UO-D07),
+  whose expression `Ju′ + Vu = λu` with `J = [[0, −1], [1, 0]]` and locally integrable Hermitian `V` is
+  the Dirac system here under `J = −Ω`, `V = −Q_q`, `λ = −z` (Conventions). None of this is consumed: §6.4
+  proves from `det M = 1` (§3.1) that `∞` is a limit-point endpoint for every potential, and builds the Weyl
+  discs and the Weyl function.
+  §1.2 is the integral-equation theorem with values in a Banach space, an inhomogeneous term and explicit
+  bounds; its case `E = ℂ²` at a fixed parameter is the local integral-equation existence and uniqueness
+  stated there. The eigenfunction expansion of a self-adjoint Dirac operator, its unitary equivalence with
+  multiplication by `x` in `L²(μ_q)`, is outside this roadmap: Layer 6 builds the spectral measures from
+  Weyl functions and Herglotz representations and needs no unbounded operator;
+- inverse scattering, the Riemann–Hilbert approach, the `ℓ^p` and `L^p` theory of Christ and Kiselev,
+  the discrete SU(1,1) model, the Schrödinger reduction and integrable systems are outside this roadmap;
+  they consume Layers 3–6 and are listed under Downstream consumers.
+
+AsymptoticExpansions §10.1 states the scalar Volterra equation `h(x) = ∫_x^b K(x, v)(J(v) + ψ(v)h(v)) dv`
+with a continuous kernel bounded by a separable product, on which its asymptotic expansions rest. §1.2 is
+the linear equation with an integrable operator-valued coefficient on a Banach space, whose coefficient need
+not be continuous; neither statement contains the other, and this roadmap uses only its own.
+
+AutomorphicSpectralTheory §1.6 records the Euclidean Paley–Wiener theorem (`euclidean_paley_wiener`): the
+Fourier–Laplace transform `ĥ(λ) = ∫ h(H) e^{−λ(H)} dH` maps the smooth functions supported in the closed
+ball of radius `R` onto the entire functions `ĥ` with `(1 + ‖λ‖)^N e^{−R‖Re λ‖} |ĥ(λ)|` bounded for every `N`.
+§2.7 states the `L²` theorem on `ℝ`: `PW_t` is the image of `L²(−t, t)`, and an entire function of
+exponential type at most `t` that is square-integrable on `ℝ` lies in it. The density `1_{[−t,t]}` gives
+`2 sin(tz)/z ∈ PW_t`, which is only `O(1/|x|)` on `ℝ`, so the smooth theorem does not reach it; and the
+`L²` theorem does not characterise smooth densities. Neither statement contains the other, and this roadmap
+uses only its own.
+
+The headline theorem of Layer 9 is stated for real potentials, the generality of poltoratski2024
+Theorem 1 (line 579–581), and at resonance-free points (§9.4): it proves convergence at almost every
+point `s` such that, for every `C > 0`, the box `Q(s, C/t)` contains no zero of `E(t, ·)` or of `Ẽ(t, ·)`
+for large `t`. That almost every point is resonance-free for every real square-integrable potential, which
+together with §9.6 gives poltoratski2024 Theorem 1, is not a target of this roadmap. mnatsakanyan2022
+reports an error in the proof of Lemma 11 of an earlier arXiv version of poltoratski2024, which it cites as
+the e-print arXiv:2103.13349 of 2021 (line 9–13, 135–137, 1812–1813). Version 14 has no Lemma 11; its §9
+(line 1482–1533) compares the moduli at `s` of the transforms of `f` and of potentials with inserted zero
+intervals on three subintervals. These moduli are pseudo-hyperbolic distances that the insertion does not
+change (§9.4, fourth Check), and this roadmap does not use that comparison. denisov2026 poses as a
+question (Q2R, line 211–212) whether, for a square-integrable potential on `ℝ` truncated to `(−T, T)`, the
+quotient `b/a#` of its scattering coefficients (in its normalisation, line 165–195) converges almost
+everywhere as `T → ∞`, and proves that for some square-integrable potential its coefficients `a` and `b`
+themselves diverge at every real point (Theorem 1.4, line 215–216); of `a` and `b` themselves, §9.5 and
+§9.6 assert only that the moduli converge. Layers 1–6 are stated for complex potentials `q = f + ig` (the
+system with `Q_q = [[g, f], [f, −g]]`), and Layers 7–9 for real `f`.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+All at the pinned Mathlib; paths under `Mathlib/`.
+
+- `AbsolutelyContinuousOnInterval` (`MeasureTheory/Function/AbsolutelyContinuous.lean` line 155),
+  defined for maps into any pseudo-metric space through the total-length filter, with
+  `AbsolutelyContinuousOnInterval.continuousOn`, `.add`, `.smul`, `.boundedVariationOn`;
+  `AbsolutelyContinuousOnInterval.const_of_ae_hasDerivAt_zero`
+  (`MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean` line 171) for maps into a
+  normed space; `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub` (line 227) and
+  `IntervalIntegrable.absolutelyContinuousOnInterval_intervalIntegral`
+  (`MeasureTheory/Function/AbsolutelyContinuous.lean` line 451) only for real-valued maps. For maps into
+  a real Banach space, `IntervalIntegrable.ae_hasDerivAt_integral`
+  (`MeasureTheory/Integral/IntervalIntegral/LebesgueDifferentiationThm.lean` line 67): if `f : ℝ → E` is
+  interval integrable on `a..b`, then at almost every `x` between `a` and `b`, and for every base point `c`
+  between them, `t ↦ ∫_c^t f` has derivative `f(x)` at `x`. With Tau Ceti's absolute continuity of
+  vector-valued indefinite integrals (below) this is the vector-valued fundamental theorem that Layer 1
+  consumes: an indefinite integral is absolutely continuous with the integrand as its derivative almost
+  everywhere, and by the constancy theorem an absolutely continuous curve is determined by its value at one
+  point and its derivative almost everywhere.
+- `IsPicardLindelof` and `ODE.picard` (`Analysis/ODE/PicardLindelof.lean` lines 80, 106), which
+  require a field continuous in time; `ODE_solution_unique_of_mem_Ioo`
+  (`Analysis/ODE/ExistUnique.lean` line 279). Used only in compatibility Checks.
+- `VitaliFamily.ae_tendsto_lintegral_enorm_sub_div` (`MeasureTheory/Covering/Differentiation.lean`
+  line 819, Lebesgue points of a locally integrable function) and `VitaliFamily.ae_tendsto_rnDeriv`
+  (line 658), applied to the Vitali family of closed balls in `ℝ`, in §2.4.
+- `MeasureTheory.TendstoInMeasure` (`MeasureTheory/Function/ConvergenceInMeasure.lean` line 57),
+  `MeasureTheory.tendstoInMeasure_of_tendsto_eLpNorm` (line 445),
+  `MeasureTheory.TendstoInMeasure.exists_seq_tendsto_ae` (line 266).
+- `Real.fourier_real_eq` (`Analysis/Fourier/FourierTransform.lean` line 483, the kernel
+  `e^{−2πi v w}`) and `MeasureTheory.Lp.fourierTransformₗᵢ` (`Analysis/Fourier/LpSpace.lean` line 51,
+  the `L²` Fourier transform as a linear isometry equivalence); `MeasureTheory.Measure.ext_of_charFun`
+  (`MeasureTheory/Measure/CharacteristicFunction/Basic.lean` line 257, finite measures with equal
+  characteristic functions are equal).
+- `PhragmenLindelof.right_half_plane_of_bounded_on_real` (`Analysis/Complex/PhragmenLindelof.lean`
+  line 717); `TendstoLocallyUniformlyOn.differentiableOn`
+  (`Analysis/Complex/LocallyUniformLimit.lean` line 136); `hasFDerivAt_integral_of_dominated_of_fderiv_le`
+  (`Analysis/Calculus/ParametricIntegral.lean` line 222).
+- `InnerProductSpace.HarmonicOnNhd`, `HarmonicAt.differentiableAt_complex_partial`
+  (`Analysis/Complex/Harmonic/Analytic.lean` line 35: the complex partial `∂u/∂x − i ∂u/∂y` of a
+  harmonic function is holomorphic), `InnerProductSpace.HarmonicOnNhd.exists_analyticOnNhd_ball_re_eq`
+  (line 74, on balls only) and `InnerProductSpace.bounded_harmonic_on_complex_plane_is_constant`
+  (`Analysis/Complex/Harmonic/Liouville.lean` line 52).
+- `WeakDual.isCompact_closedBall` (`Analysis/Normed/Module/WeakDual.lean` line 270, Banach–Alaoglu:
+  closed balls of the dual of a normed space over a proper field are weak-* compact), in §2.5.
+- `ContractingWith` (`Topology/MetricSpace/Contracting.lean` line 42, a Lipschitz self-map with constant
+  `K < 1`) for the Picard scheme of §1.2; `MeasureTheory.Measure.rnDeriv` and
+  `MeasureTheory.Measure.singularPart` (`MeasureTheory/Measure/Decomposition/Lebesgue.lean` lines 80, 73,
+  the Lebesgue decomposition `ν = (dν/dx) dx + ν_s` when `ν` has one with respect to Lebesgue measure) in
+  §2.4 and §6.7; `MeasureTheory.measure_limsup_atTop_eq_zero`
+  (`MeasureTheory/OuterMeasure/BorelCantelli.lean` line 62: if `Σ μ(sᵢ) < ∞` then `limsup sᵢ` is null) in
+  §9.3.
+- `Real.tendsto_integral_exp_smul_cocompact` (`Analysis/Fourier/RiemannLebesgueLemma.lean` line 205): the
+  Riemann–Lebesgue lemma on `ℝ`, `∫ e^{−2πivw} f(v) dv → 0` as `|w| → ∞` for `f : ℝ → E` (the Bochner integral
+  of a non-integrable `f` is `0`, so the content is for integrable `f`), in §4.2.
+- For the matching of §8.9: `ApproximatesLinearOn.surjOn_closedBall_of_nonlinearRightInverse`
+  (`Analysis/Calculus/InverseFunctionTheorem/ApproximatesLinearOn.lean` line 143): over a complete space, if
+  `‖f x − f y − f′(x − y)‖ ≤ c‖x − y‖` on a set containing `closedBall b ε`, `ε ≥ 0`, and `f′` has a right
+  inverse bounded by `N`, then `f(closedBall b ε)` contains `closedBall (f b) ((N⁻¹ − c)ε)`;
+  `ContinuousLinearEquiv.toNonlinearRightInverse` (`Analysis/Normed/Operator/Banach.lean` line 66: the inverse of
+  a continuous linear equivalence as such a right inverse, bounded by its norm), applied to multiplication by
+  `g′(s) ≠ 0` on `ℂ`; and `Convex.norm_image_sub_le_of_norm_fderiv_le'` (`Analysis/Calculus/MeanValue.lean`
+  line 550: on a convex set where `f` is differentiable with `‖Df(x) − φ‖ ≤ C`,
+  `‖f y − f x − φ(y − x)‖ ≤ C‖y − x‖`), which gives the hypothesis on a disc whose radius is explicit.
+- `Matrix.det_fin_two` (`LinearAlgebra/Matrix/Determinant/Basic.lean` line 815), `NormedSpace.exp`
+  for the constant-coefficient Check, `UpperHalfPlane.upperHalfPlaneSet`.
+- For the entropy in §6.7 and §6.8: `InformationTheory.klDiv` (`InformationTheory/KullbackLeibler/Basic.lean`
+  line 56), the relative entropy of measures with values in `ℝ≥0∞`. For `σ ≪ ν` with the log-likelihood
+  ratio `MeasureTheory.llr σ ν = log (dσ/dν)` (`MeasureTheory/Measure/LogLikelihoodRatio.lean` line 37)
+  integrable against `σ` it is `ENNReal.ofReal (∫ llr σ ν dσ + ν(X) − σ(X))`, and it is `∞` otherwise. For
+  finite measures the real expression is already nonnegative
+  (`InformationTheory.integral_llr_add_sub_measure_univ_nonneg`, line 147), so `ENNReal.ofReal` truncates
+  nothing. `InformationTheory.mul_log_le_klDiv` (line 355): for finite `σ`, `ν`,
+  `σ(X) log(σ(X)/ν(X)) + ν(X) − σ(X) ≤ klDiv σ ν`, the left side read through `ENNReal.ofReal`. The circle
+  carries Mathlib's Borel structure (`MeasureTheory/Group/Circle.lean` lines 32, 34) and is a compact
+  metric space.
+- For the convergence of truncated spectral measures in §6.5: `span_fourier_closure_eq_top`
+  (`Analysis/Fourier/AddCircle.lean` line 244: the span of the monomials `fourier n`, `n ∈ ℤ`, is dense in
+  the continuous complex functions on `AddCircle T`), `AddCircle.homeomorphCircle'`
+  (`Analysis/SpecialFunctions/Complex/Circle.lean` line 421: the homeomorphism `AddCircle (2π) ≃ₜ Circle`,
+  `θ ↦ e^{iθ}`) and `MeasureTheory.FiniteMeasure.tendsto_iff_forall_integral_rclike_tendsto`
+  (`MeasureTheory/Measure/FiniteMeasure.lean` line 748: weak convergence of finite measures is convergence
+  of the integrals of every bounded continuous `𝕜`-valued function, `𝕜 = ℝ` or `ℂ`).
+- For Liouville's formula in §1.4: `Matrix.det_apply` (`LinearAlgebra/Matrix/Determinant/Basic.lean`
+  line 66, the Leibniz expansion of `det` as a signed sum over permutations of products of entries),
+  `Matrix.trace_mul_comm` (`LinearAlgebra/Matrix/Trace.lean` line 156, `tr(AB) = tr(BA)`),
+  `Matrix.mul_nonsing_inv` (`LinearAlgebra/Matrix/NonsingularInverse.lean` line 209, `AA⁻¹ = 1` when
+  `det A` is a unit), `HasFDerivAt.comp_hasDerivAt` (`Analysis/Calculus/Deriv/Comp.lean` line 375, the
+  chain rule along a curve) and `HasFDerivAt.restrictScalars`
+  (`Analysis/Calculus/FDeriv/RestrictScalars.lean` line 54). Also
+  `LipschitzWith.comp_absolutelyContinuousOnInterval` (`MeasureTheory/Function/AbsolutelyContinuous.lean`
+  line 344: a Lipschitz map into a pseudo-metric space composed with an absolutely continuous curve is
+  absolutely continuous), applied to the entry maps of the matrix, and `EuclideanSpace.equiv`
+  (`Analysis/InnerProductSpace/PiL2.lean` line 296, the continuous linear equivalence
+  `EuclideanSpace 𝕜 ι ≃L[𝕜] (ι → 𝕜)` that is the identity on coordinates), for the transport to the
+  Euclidean carrier. The derivative of `det` is Tau Ceti's (below).
+- For the Euclidean carrier of the Dirac system: `Matrix.toEuclideanCLM` (`Analysis/CStarAlgebra/Matrix.lean`
+  line 101, the star-algebra equivalence of `Matrix n n 𝕜` with `EuclideanSpace 𝕜 n →L[𝕜] EuclideanSpace 𝕜 n`
+  given by the standard basis, for `RCLike 𝕜`), with the scoped Euclidean operator norm
+  `Matrix.Norms.L2Operator` and `Matrix.l2_opNorm_toEuclideanCLM` (line 240, the two norms agree).
+- For the Hardy space in §2.6 and §2.8: `ConvexOn.map_integral_le` (`Analysis/Convex/Integral.lean` line
+  196, Jensen's inequality for a probability measure, with `f` and `g ∘ f` integrable and `g` continuous
+  and convex on a closed convex set), `convexOn_exp` (`Analysis/Convex/SpecificFunctions/Basic.lean` line
+  62), `MeasureTheory.lintegral_liminf_le` (`MeasureTheory/Integral/Lebesgue/Add.lean` line 237, Fatou's
+  lemma for measurable `ℝ≥0∞`-valued functions) and `MeasureTheory.lintegral_lintegral_swap`
+  (`MeasureTheory/Measure/Prod.lean` line 1102, Tonelli for s-finite measures); for the point bound of
+  `H^p(ℂ₊)`, `DiffContOnCl.circleAverage` (`Analysis/Complex/MeanValue.lean` line 108: a function complex
+  differentiable on an open disc and continuous on its closure has circle average its value at the centre)
+  and `Complex.lintegral_comp_polarCoord_symm` (`Analysis/SpecialFunctions/PolarCoord.lean` line 215: the
+  lower Lebesgue integral over `ℂ` in polar coordinates, with the weight `r`).
+- For the isometric chain in §6.3: `MeasureTheory.intervalIntegral_integral_swap`
+  (`MeasureTheory/Integral/Prod.lean` line 486: for an s-finite measure `μ` and `f : ℝ → α → E` integrable
+  for the product of Lebesgue measure on the interval between `a` and `b` with `μ`,
+  `∫_a^b ∫ f(x, y) dμ(y) dx = ∫ ∫_a^b f(x, y) dx dμ(y)`), with `LipschitzWith.comp_absolutelyContinuousOnInterval`
+  and `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub` above.
+- For the half-plane Poisson kernel in §2.1: `Complex.orthonormalBasisOneI`
+  (`Analysis/InnerProductSpace/PiL2.lean` line 853, the orthonormal basis `1, i` of `ℂ` over `ℝ`, whose
+  coordinate map `ℂ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 2)` is `z ↦ (Re z, Im z)`),
+  `EuclideanSpace.volume_ball_fin_two` (`MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean` line 395, the
+  ball of radius `r` in `EuclideanSpace ℝ (Fin 2)` has volume `πr²`), `LinearIsometryEquiv.measurePreserving`
+  (`MeasureTheory/Measure/Haar/InnerProductSpace.lean` line 151, a linear isometry of finite-dimensional
+  real inner product spaces preserves volume), `DifferentiableOn.analyticAt` (`Analysis/Complex/CauchyIntegral.lean`
+  line 723, a function complex differentiable on a neighbourhood of a point is analytic there) and
+  `AnalyticAt.harmonicAt_re` (`Analysis/InnerProductSpace/Harmonic/Constructions.lean` line 55, the real part of
+  a complex-analytic function is harmonic).
+- The disc Poisson kernel `poissonKernel c w ζ = (|ζ − c|² − |w − c|²)/|ζ − w|²` (`Analysis/Complex/Poisson.lean`
+  line 54, in the root namespace and without the factor `1/(2π)`, which Mathlib's `Real.circleAverage`
+  carries), so that `poissonKernel 0 w ζ = (1 − |w|²)/|ζ − w|²` for `|ζ| = 1`, in §2.1's Cayley comparison
+  and §2.5; and the Poisson formula `InnerProductSpace.HarmonicOnNhd.circleAverage_poissonKernel_smul`
+  (`Analysis/Complex/Harmonic/Poisson.lean` line 92: a real function harmonic on a neighbourhood of the
+  closed disc `closedBall c R` is, at every `w` of the open disc, the circle average of
+  `poissonKernel c w` times it), used in a §2.1 Check.
+
+### From Tau Ceti
+
+All at the pinned Tau Ceti; paths under `TauCeti/`.
+
+- `TauCeti.exists_continuousOn_eq_forall_mem_Icc_eq_picard` and
+  `TauCeti.eqOn_of_forall_mem_Icc_eq_picard` (`Analysis/ODE/Caratheodory.lean` lines 196, 219):
+  existence and uniqueness for `x′ = M(t)x + F(t)` on `[a, b]` over `ℝ` when `M` is strongly
+  measurable and **essentially bounded** and `F` integrable. Layer 1 replaces essential
+  boundedness by integrability of `‖M‖` and adds the parameter; the bounded case is a Check.
+- `TauCeti.le_mul_exp_of_le_add_mul_integral` (`Analysis/ODE/Gronwall.lean` line 59): Grönwall for
+  continuous `φ` with `φ(t) ≤ c + K∫ₐᵗ φ`, `K ≥ 0` constant. Layer 1 states the integrable-kernel
+  form; the constant kernel is a Check.
+- `IntervalIntegrable.absolutelyContinuousOnInterval_intervalIntegral'`
+  (`MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean` line 240): for `f : ℝ → V`
+  interval integrable on `a..b`, `V` a real normed space, and a base point `c` between `a` and `b`, the
+  indefinite integral `t ↦ ∫_c^t f` is absolutely continuous on the interval. §1.2 applies it to
+  `s ↦ P(s)Y(s) + F(s)` in `E`, and §1.3 through §1.2 in `E →L[𝕜] E`.
+- `MeasureTheory.AEStronglyMeasurable.apply_of_forall_of_continuous`
+  (`MeasureTheory/Function/StronglyMeasurable/Caratheodory.lean` line 41): for a measure `μ`, a topological
+  space `X` and a pseudo-metrizable space `G`, if `g : α → X → G` has almost everywhere strongly measurable
+  sections `t ↦ g t x` for every `x` and `g t` is continuous for every `t`, then `t ↦ g t (u t)` is almost
+  everywhere strongly measurable for every almost everywhere strongly measurable `u : α → X`; no
+  separability of `X` is asked. §1.7 applies it with `X = E` or a closed ball of `E`.
+- `TauCeti.dysonSeriesLeft` and `TauCeti.hasDerivAt_dysonSeriesLeft`
+  (`Analysis/ODE/DysonSeries.lean` lines 165, 281): the time-ordered exponential of a
+  **continuous** path in a Banach algebra; compatibility Check for the propagator.
+- `Matrix.hasFDerivAt_det` (`Analysis/Calculus/FDeriv/Det.lean` line 110): Jacobi's formula. Over a
+  nontrivially normed field, with Mathlib's `L∞` operator norm on matrices
+  (`open scoped Matrix.Norms.Operator`), `det` has Fréchet derivative `H ↦ det A · tr(A⁻¹H)` at
+  every square matrix `A` whose determinant is a unit; the same file has the adjugate form
+  `tr(adj A · H)` at every matrix (`Matrix.fderiv_det_apply_adjugate`, line 75). §1.4 consumes the
+  invertible form. `Matrix.det_exp` (`Analysis/Normed/Algebra/MatrixExponential.lean` line 75):
+  `det(exp A) = exp(tr A)` for a square matrix over an `RCLike` field, the constant-coefficient case
+  of §1.4 and its compatibility Check.
+- `TauCeti.maximalFunction` (`MeasureTheory/Integral/MaximalFunction.lean` line 125, the centred
+  maximal function `sup_{r>0} ⨍_{B(x,r)} ‖f‖` with values in `ℝ≥0∞`),
+  `TauCeti.mul_measure_lt_maximalFunction_le` (line 353, weak type `(1,1)` with constant `4^{dim}`
+  for an additive Haar measure) and `TauCeti.lintegral_rpow_maximalFunction_le` (line 439, strong
+  type `(p,p)` for `1 < p`), applied on `ℝ` with Lebesgue measure.
+- `TauCeti.norm_convolutionLp_le` and `TauCeti.convolutionLp_ae_eq_convolution`
+  (`MeasureTheory/Function/Lp/Convolution.lean` lines 117, 197): Young's inequality. On a
+  finite-dimensional real normed space with an additive Haar measure, for `1 ≤ p < ∞` and a real
+  integrable kernel `k`, convolution with `k` is a continuous linear operator on `Lᵖ` of norm at most
+  `∫ |k|`, represented almost everywhere by the pointwise convolution `∫ k(y) f(x − y) dy` for a
+  Banach-space-valued `f`. §5.1 applies it on `ℝ` with `p = 2`.
+- `MeasureTheory.Lp.dualOneEquiv` (`MeasureTheory/Function/L1Space/Dual.lean` line 102): for a
+  **finite** measure `μ` and `𝕜 = ℝ` or `ℂ`, integration against an essentially bounded function is a
+  linear isometric equivalence `L^∞(μ) ≃ L¹(μ)*`. §2.5 applies it to the finite Poisson measure `Π`.
+- `MeasureTheory.Measure.herglotzTransform` (`Analysis/Complex/Herglotz.lean` line 138): the Herglotz
+  transform `H_ν(ξ) = ∫ (ζ + ξ)/(ζ − ξ) dν(ζ)` of a measure `ν` on Mathlib's `Circle`;
+  `MeasureTheory.Measure.herglotzTransform_zero` (line 150): `H_ν(0)` is the total mass of `ν`, as a real
+  number. `TauCeti.I_mul_herglotzTransform_cayley_eq` (`Analysis/Complex/Pick/Nevanlinna.lean` line 404): for
+  a finite measure `ν` on `Circle` and `z ∈ ℂ₊`, `i H_ν((z − i)/(z + i)) = ν({1}) z + ∫ (1 + xz)/(x − z) dν_C(x)`,
+  with `ν_C` the Cayley pushforward below. §6.5 uses them to write a Weyl function as a Herglotz transform
+  in the Cayley coordinate. The Nevanlinna representation `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add`
+  (same file, line 436: `F(z) = βz + ∫ (1 + xz)/(x − z) dρ(x) + Re F(i)` with `ρ` finite and `β ≥ 0`) is
+  consumed through AutomorphicSpectralTheory §0.5, which converts it to the subtracted kernel.
+- `TauCeti.integral_circle_eq_atom_add_integral_cayleyPushforward` and
+  `MeasureTheory.Measure.cayleyPushforward` (`Analysis/Complex/Pick/Nevanlinna.lean` lines 188, 176): for a
+  finite measure `ν` on Mathlib's `Circle` and a continuous `f` from `Circle` to a real Banach space,
+  `∫ f dν = ν({1}) f(1) + ∫_ℝ f((x − i)/(x + i)) dν_C(x)`, where `ν_C` is the Cayley pushforward: the
+  restriction of `ν` to the punctured circle carried to `ℝ` by the inverse of the boundary Cayley map
+  `TauCeti.boundaryCayley`, `x ↦ (x − i)/(x + i)`. §6.6 uses it to read weak convergence of the Cayley
+  images of the measures `μ_T` on the circle as convergence of integrals over `ℝ` plus the atoms at `1`.
+- The relative entropy, in `InformationTheory/KullbackLeibler/Variational.lean`.
+  `TauCeti.klDiv_eq_iSup_boundedContinuousFunction_integral_sub_integral_exp_sub_one` (line 457): on a
+  normal Borel space, for finite `σ`, `ν` with `σ + ν` weakly regular, `klDiv σ ν` is the supremum of
+  `∫ f dσ − ∫ (e^f − 1) dν` over bounded continuous real `f`. `TauCeti.lowerSemicontinuous_klDiv_finiteMeasure`
+  (line 499): on a pseudometrizable Borel space, `(σ, ν) ↦ klDiv σ ν` is jointly lower semicontinuous on
+  pairs of finite measures with the topology of weak convergence (Mathlib's `MeasureTheory.FiniteMeasure`).
+  §6.7 and §6.8 apply them on the circle.
+- `TauCeti.rouche_exists_eq_zero_iff` (`Analysis/Complex/Conformal/Rouche.lean` line 359): Rouché's theorem
+  as a zero-detection principle; for `f`, `g` holomorphic on a neighbourhood of the closed disc
+  `closedBall c R`, `R > 0`, with `‖f z − g z‖ < ‖f z‖` on the bounding circle, `f` has a zero in the open disc
+  if and only if `g` has one. §8.7 applies it on discs of radius `1/(2t)` to a two-term trigonometric form and
+  `E(t, ·)`.
+- The half-space Poisson kernel, in `Analysis/PDE/GreenFunction/HalfSpace.lean`: for a unit inward
+  normal `v` of `EuclideanSpace ℝ (Fin n)`, `TauCeti.halfSpacePoissonKernel n v x y`
+  (line 122) is `2⟨v, x⟩/(n ωₙ ‖y − x‖ⁿ)`, with pole `x`, point `y` and `ωₙ` the volume of the unit
+  ball. `TauCeti.halfSpacePoissonKernel_pos` (line 147): positive for `0 < ⟨v, x⟩` and `y ≠ x`.
+  `TauCeti.harmonicOnNhd_halfSpacePoissonKernel_left` (line 177): for `y` on the hyperplane
+  `⟨v, y⟩ = 0`, harmonic in the pole on the open half-space `0 < ⟨v, x⟩`.
+  `TauCeti.halfSpacePoissonKernel_le_mul` (line 198): for `y` on the hyperplane, `0 ≤ ⟨v, x⟩`,
+  `0 < ⟨v, x₁⟩` and `‖y − x₁‖ ≤ A‖y − x‖`, the bound `K(x, y) ≤ (⟨v, x⟩/⟨v, x₁⟩) Aⁿ K(x₁, y)`.
+- The half-space Poisson integral, in `Analysis/PDE/PoissonIntegral/HalfSpace.lean`, against the
+  Lebesgue measure of the hyperplane `(ℝ ∙ v)ᗮ`. `TauCeti.integral_halfSpacePoissonKernel` (line 135):
+  mass one, `∫ K(x, y) dy = 1`, for `0 < ⟨v, x⟩`. `TauCeti.halfSpacePoissonIntegral` (line 179): the
+  Poisson integral `∫ K(x, y) g(y) dy` of real data `g` on the hyperplane.
+  `TauCeti.harmonicOnNhd_halfSpacePoissonIntegral` (line 419): harmonic on the open half-space for
+  bounded, almost everywhere strongly measurable `g`. `TauCeti.tendsto_halfSpacePoissonIntegral`
+  (line 297): for such `g` continuous at a point `ξ` of the hyperplane, `P[g](x) → g(ξ)` as `x → ξ`
+  through the open half-space, without restriction on the approach.
+- Layer 2 uses these at `n = 2` with `v = (0, 1)`, identifying `ℂ` with `EuclideanSpace ℝ (Fin 2)`
+  through `Complex.orthonormalBasisOneI` (Mathlib, above). Then `⟨v, z⟩ = Im z` and `ω₂ = π`, so the kernel
+  is `Im z/(π|x − z|²)`. The hyperplane is the real axis, with Lebesgue measure. Complex data are
+  treated through their real and imaginary parts.
+- `DifferentiableOn.hasDerivAt_wedgeIntegral_upperHalfPlane`
+  (`Analysis/Complex/UpperHalfPlane/Primitive.lean` line 118): every holomorphic function on `ℂ₊`
+  has a primitive there; with Mathlib's complex partial this gives harmonic conjugates and
+  logarithms of zero-free holomorphic functions on `ℂ₊`.
+- `TauCeti.harmonicOnNhd_of_setAverage_ball_eq`
+  (`Analysis/InnerProductSpace/Harmonic/MeanValue/Converse.lean` line 69): a continuous function with
+  the mean-value property on small balls is harmonic (used for reflection of harmonic functions
+  across `ℝ`).
+- `TauCeti.eqOn_const_ball_of_tendsto_circleMap` and `AnalyticOnNhd.le_circleAverage_log_norm`
+  (`Analysis/Complex/RadialUniqueness.lean` lines 198, 76): a bounded holomorphic function on a disc
+  with radial limit `a` on a set of angles of positive measure is the constant `a`, and Jensen's
+  lower bound for circle averages of `log‖f‖`; transported to `ℂ₊` by the Cayley transform
+  `TauCeti.bijOn_sub_I_div_add_I_upperHalfPlaneSet` and `TauCeti.boundaryCayley`
+  (`Analysis/Complex/UpperHalfPlane/Cayley.lean`).
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+- §0.5 (Herglotz representation): a function `F` holomorphic on `ℂ₊` with `Im F ≥ 0` is
+  `F(z) = a + bz + ∫ ((t − z)⁻¹ − t/(1 + t²)) dν_F(t)` for a unique triple with `a = Re F(i)`, `b ≥ 0` and
+  `ν_F` a positive Borel measure with `∫ dν_F/(1 + t²) < ∞`, obtained from the finite measure `ρ` of Tau
+  Ceti `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add` by `dν_F = (1 + t²) dρ`. Since
+  `Im (t − z)⁻¹ = π P(z, t)`, on `ℂ₊` this gives `Im F = b Im z + P[πν_F]` with the Poisson integral of §2.1.
+  §2.2 consumes it for a holomorphic `F` with `Im F = u`, and §6.5 for the Weyl function `m`, whose triple is
+  `(Re m(i), β, μ_q/π)`.
 
 ## References
 

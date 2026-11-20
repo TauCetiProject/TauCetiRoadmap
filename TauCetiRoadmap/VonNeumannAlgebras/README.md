@@ -1,107 +1,101 @@
 # Roadmap: von Neumann algebras, factors, and modular theory
 
-**Summary.** Starting from Mathlib's concrete `VonNeumannAlgebra`, abstract `WStarAlgebra`,
-C*-algebra functional calculus and GNS construction, build a reusable theory of von Neumann
-algebras: operator topologies and the bicommutant and Kaplansky theorems (Layer 1), corners,
-tensor products and abelian algebras (Layers 2–3), preduals and normality (Layer 4), projection
-comparison and the trace on finite factors (Layer 5), standard form and semifinite factors
-(Layer 6), Hilbert modules, coupling constant and index (Layer 7), group algebras and crossed
-products (Layers 8–9), Tomita–Takesaki theory and KMS states (Layer 10), weights, Connes
-invariants and continuous cores (Layer 11), two projections, ultraproducts, central sequences and
-Jordan reconstruction (Layer 12), and the classification of injective factors (Layer 13). The end
-theorems are the bicommutant theorem, existence and uniqueness of the trace on a II₁ factor,
-the Tomita–Takesaki theorem, Connes's classification of type III factors by `S(M)`, Dye's
-theorem, and the equivalence of injectivity with hyperfiniteness together with the uniqueness of
-the injective factors of types II₁, II∞, IIIλ (0<λ<1), III₀ (via the flow of weights) and III₁.
+**Summary.** A von Neumann algebra is an algebra of bounded operators on a complex Hilbert space
+that contains the identity, is closed under adjoints, and equals its double commutant: the
+operators commuting with everything that commutes with it. A factor is one whose centre consists
+of the scalars. This roadmap builds their general theory, from the operator topologies to the
+classification of injective factors. Zero Hilbert spaces, zero algebras and all cardinalities are
+included unless a stated theorem requires separability or σ-finiteness. The classification
+requires a separable predual, which the Lean statements express by an action on a separable
+Hilbert space.
 
-## Scope and ownership
+The first main theorem is von Neumann's bicommutant theorem: a unital star subalgebra of `B(H)`
+equals its double commutant exactly when it is closed in the weak operator topology, in which a net
+`T_i` converges when every matrix coefficient `⟪η, T_i ξ⟫` converges.
 
-This roadmap owns the von Neumann algebra theory listed above: concrete and abstract algebras,
-their operator topologies, normal representations, projections, traces, modules and index,
-crossed products, modular theory, weights, central sequences, normal Jordan maps, the finite
-Gleason frame-function theorem used by the scalar Mackey–Gleason–Bunce–Wright theorem, and the
-injective classification, with all their intermediate constructions. Layer k is cited as `Vk`,
-and a named target inside it as `Vk.Name`.
+The second is the trace on a II₁ factor, a factor in which every isometry is unitary and every
+nonzero projection has a nonzero proper subprojection. Such a factor has a faithful normal tracial
+state τ: a state with τ(xy) = τ(yx) that vanishes on no nonzero x*x and respects suprema of
+bounded increasing nets of positive elements. It is the only tracial state, since a factor has at
+most one, normal or not. On an infinite factor there is none: 1 is the sum of two projections
+equivalent to 1, so τ(1) = 2τ(1). Every von Neumann algebra splits uniquely along central
+projections into parts of type I, II₁, II∞ and III.
 
-It leaves the following to the named owners and consumes them by section.
+The third is modular theory. Let Ω be cyclic and separating for M: the vectors xΩ with x in M are
+dense, and xΩ = 0 only for x = 0. Tomita's theorem gives a conjugate-linear isometric involution
+J, the modular conjugation, with JMJ = M′. A unitary group `Δ^(it)` built from the same data maps
+M onto itself by conjugation. Takesaki's theorem characterizes the modular group of a faithful
+normal state through the KMS condition, a boundary condition for analytic functions on a strip: it
+is the only pointwise strongly continuous one-parameter automorphism group for which the state
+satisfies it.
 
-* [OperatorTheory](../OperatorTheory/README.md) owns general Hilbert geometry
-  (OrthogonalGeometry); the bounded modulus and polar decomposition (PolarDecomposition
-  PD-A36–A45 and PD-B23–B36); the trace-class and Hilbert–Schmidt ideals (OperatorIdeals
-  OI-B29–B41); and general principal angles. Its spectral sub-roadmap, SelfAdjointSpectralTheory,
-  is a consumer of this roadmap (its SA-B85 consumes V4.0.Fields), so nothing here is taken from
-  it. The projection-valued-measure carrier `TauCeti.ProjValMeasure` with its integral, null
-  filter, vector identity and dominated convergence; the Riesz measures, polarized measures and
-  Borel extension of a unital representation of `C(K)`, and the Riesz measures of a normal
-  operator; and the resolvent estimates and Cayley transform of a self-adjoint `LinearPMap` are
-  implemented in Tau Ceti at the pin and are consumed from there (From Tau Ceti below). Owned
-  here, at the generality this roadmap uses: multiplicativity of that Borel extension, its
-  spectral measure as a `TauCeti.ProjValMeasure`, the essential-supremum norm and the commutant
-  law, for representations of `C(K)` and for normal operators (V2.BorelCalculus); the cyclic
-  multiplication models, control measures, measurable multiplicity, the essentially bounded
-  symbol quotient and the classification of representations of `C(K)` and `C₀(X)` by control
-  class and multiplicity (V4.0.Multiplication); and the inverse Cayley correspondence and the
-  spectral measure of a self-adjoint `LinearPMap` operator (V10.ClosedOperators). V2, V4 and
-  V10 add what is about algebras: membership of Borel-calculus values and
-  polar factors in the generated von Neumann algebra, the canonical trace functional with its
-  cyclicity and the trace-class duality, the inverse Cayley correspondence, the multiplier-form
-  unbounded spectral theorem, polar decomposition of closed unbounded operators, affiliation,
-  antilinear extensions and modular consequences.
-* [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) owns C₀ semigroups, generators and
-  resolvents. Stone's theorem is consumed from Tau Ceti. Modular automorphism groups and their
-  KMS characterization belong here. The KMS condition of a point-norm continuous action on a
-  C*-algebra, with the uniqueness of KMS functions and the KMS states of the inner dynamics of a
-  Hermitian matrix (its Gibbs states), is consumed from Tau Ceti; V10.KMS adds the condition for
-  weakly continuous automorphism groups of a von Neumann algebra, which need not be norm
-  continuous, and its characterization of the modular group.
-* [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns annihilators, quotient duals, adjoints,
-  Goldstine and weak/weak-star duality (B1), Eberlein–Šmulian, James and Krein–Šmulian (B2)
-  and Banach tensor products (B4). Its B1 also owns the generic strong and weak operator
-  topologies of bounded maps between normed spaces: norm ⇒ SOT ⇒ WOT, norm boundedness of SOT-
-  and WOT-convergent sequences on a Banach domain, joint SOT continuity of products on
-  norm-bounded sets and its failure for unbounded nets in infinite dimension. V1 consumes these
-  at `E=F=H` and owns the strong-star, ultraweak and ultrastrong topologies, their comparisons
-  with the WOT and SOT, and the Hilbert-space examples. Annihilators, quotient duals,
-  Krein–Šmulian and the Banach space of nuclear operators are implemented in Tau Ceti at the pin
-  and are consumed from there.
-* [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
-  Peter–Weyl, and RepresentationTheory/SemisimpleAlgebras the finite-dimensional
-  double-centralizer theorem.
-* [AmenableGroups](../AmenableGroups/README.md) owns invariant means and Følner theory (Layers
-  5–7) and, in its Layer 7, the `L¹` convolution algebra of a locally compact Hausdorff group
-  with its translation continuity, approximate-identity kernels and Haar pushforward formulas.
-  [GlobalNumberFields](../../Completed/GlobalNumberFields/README.md) Layer 4 owns the finite-adele carrier, and
-  [OptimalTransport](../OptimalTransport/README.md) Layers 2 and 8.2 Jankov–von Neumann
-  uniformization and the finite-measure completion theorem. The Hecke-ring convolution, its
-  structure constants and its commutativity criterion are consumed from Tau Ceti; Hecke operators
-  on modular forms remain the scope of [ModularForms](../ModularForms/README.md).
-* [Chebotarev](../../Completed/Chebotarev/README.md) owns prime counting in arithmetic
-  progressions: the prime number theorem in an invertible residue class, implemented in Tau Ceti
-  (its Layers 13–14 specialized to the cyclotomic fields `ℚ(ζ_d)`), is consumed by V10.AffineAP,
-  which adds only the identity between that prime-ideal count and the count of rational primes,
-  transported along the comparison of the primes of `𝓞 ℚ` with rational primes that Mathlib and
-  Tau Ceti prove, and the ratio-2 prime-pair lemma.
-* [BanachAlgebras](../BanachAlgebras/README.md) owns the group algebra `L¹(G)` of a locally
-  compact group and its harmonic analysis up to Fourier uniqueness: its §7.2 the convolution and
-  involution of `L¹(G)`; its §7.3 (A7.IntegratedRepresentations and A7.RegularL2) the faithful
-  nondegenerate left-regular action λ of `L¹(G)` on `L²(G)`, with `‖λ(f)‖≤‖f‖₁` and
-  `λ(f*)=λ(f)*`; its §3.1 the unitization/character-space comparison of a commutative
-  C*-algebra; and its §7.5 (A7.CharactersAndUniqueness) the correspondence between the characters
-  of `L¹(G)` and the Pontryagin dual of an abelian G, with Fourier uniqueness for `L¹` functions
-  and finite regular complex measures. Uniqueness of finite inner regular measures on the dual
-  group from their integrals against the evaluation characters is Tau Ceti's. V8.RegularL2 adds
-  the reduced group C*-algebra, the discrete comparison and the group von Neumann algebra
-  `λ(G)''`; V11 adds the closed double-dual embedding, the passage from the characters of
-  `C*_r(G)` to those of `L¹(G)`, and inversion, Plancherel and duality.
-* [CStarAlgebras](../CStarAlgebras/README.md) is a consumer of this roadmap (it consumes V0–V4,
-  V12.J and V13a), so nothing here is taken from it. The spatial C*-norm on the algebraic tensor
-  product of two concrete C*-algebras is owned in V13b.SpatialNorm. Pure-state and
-  irreducible-GNS theory, operator spaces and completely bounded maps, C*-tensor norms other than
-  the spatial norm, and the C*-algebraic consequences of semidiscreteness are left to
-  CStarAlgebras.
+The fourth is Connes's theorem. M is injective when some linear map of norm at most one sends every
+bounded operator into M and fixes M pointwise. It is hyperfinite when it is generated by an
+increasing sequence of finite-dimensional subalgebras. For algebras on a separable Hilbert space
+the two notions coincide. With the uniqueness of the hyperfinite II₁ factor R, it follows that any
+two injective II₁ factors on separable spaces are isomorphic, as are any two injective II∞
+factors. The free group factor `L(F₂)` is not hyperfinite: every hyperfinite II₁ factor has
+property Γ, an asymptotically central sequence of trace-zero unitaries, and `L(F₂)` does not. For
+type III the roadmap defines Connes's invariant S(M), the intersection of the modular spectra of
+the faithful normal semifinite weights. A factor is of type III exactly when 0 lies in S(M), and
+S(M) is then `{0, 1}`, `{0} ∪ λ^ℤ` with 0 < λ < 1, or `[0, ∞)`: the types III₀, IIIλ and III₁.
+Injective factors with separable predual of type IIIλ, for a fixed λ, are all isomorphic, as are
+those of type III₁; those of type III₀ are classified by their flows of weights.
 
-Compact ergodic-action classification beyond SU(2) and direct-finiteness questions in positive
-characteristic are outside this roadmap.
+The roadmap builds on Mathlib's `VonNeumannAlgebra` and `WStarAlgebra`, its C*-algebra functional
+calculus and its GNS construction. [OperatorTheory](../OperatorTheory/README.md) supplies polar
+decomposition and the trace-class and Hilbert–Schmidt ideals.
+[Subfactors](../Subfactors/README.md) uses the index and the uniqueness of R.
+[NoncommutativeIntegration](../NoncommutativeIntegration/README.md) uses the weights, the
+continuous core and tracial Lp. [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md)
+uses the modular group and its KMS characterization.
+
+Layers 0 to 4 lay the foundations, from states and the operator topologies to preduals and normal
+representations. Layers 5 to 7 compare projections, construct traces and the standard form, and
+define the coupling dimension and index. Layers 8 and 9 draw examples from groups and their
+lattices. Layers 10 and 11 hold the modular theory. Layer 12 treats pairs of projections, central
+sequences and Dye's theorem on maps of projections, and Layer 13 proves Connes's theorem and the
+classification. The next section gives the finer order of the milestones.
+
+## How to read the build
+
+Layers are built in the order V0–V13, with the following finer milestone order. V0 supplies
+abstract C*-algebra states and GNS; V1 the operator topologies, bicommutant and Kaplansky
+theorems; V2 corners, tensor products and the elementary abelian carriers; V3 type I algebras.
+In V4, V4.Core precedes V4.PositivePredual, which precedes V4.Normality, and the other
+normality/representation conclusions consume that one criterion. V4.0.Fields constructs
+Hilbert and operator fields from countable fundamental sections and given measures,
+independently of projection-valued measures, multiplication models and central decomposition.
+In V8, V8.RegularL2 precedes
+V8.LCHRegularNormalBridge and the compact-action and dense-translation targets, and
+V8.GroupApplications follows V8.SubgroupCosets. In V11 the harmonic-analysis layer is built as
+V11.DoubleDualEmbedding, then V11.UnitizationCharacters and V11.FourierUniqueness, then
+inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
+V2.BorelCalculus uses only Tau Ceti's projection-valued measures and Borel extension, Mathlib's
+continuous calculus and Layer 1's topologies and bicommutant theorem, and precedes Fields;
+V4.0.Multiplication consumes Fields and V2.BorelCalculus. V4.AbelianClassification,
+V4.AbelianLocalizable and V4.AbelianRepresentationMultiplicity close Layer 4, after Fields,
+V4.0.Multiplication and V4.Normality; the elementary V2 carriers, V2.BorelCalculus, the
+single-generator construction and the given-measure multiplication/MASA theorem precede Fields.
+V4.0.Decomposition consumes Fields, V4.Normality and V4.0.Multiplication and owns
+spectral/central reduction and measurable selection; V5's measurable
+trivialization and the central-reduction applications consume Decomposition. V5 delivers
+projection comparison and the trace of finite factors, V6 the standard form and semifinite
+classification, V7 modules and index, V8–V9 group algebras, crossed products and discrete series.
+In V10, StandardRealSubspaces builds the bounded modular data from V2.BorelCalculus and
+PolarDecomposition, independently of ClosedOperators. ClosedOperators precedes Affiliation;
+TracialLp also consumes V6. ModularTheory first proves the cyclic-separating modular theorem
+using StandardRealSubspaces and V0/V1/V4; its unbounded-operator comparison and natural cone
+then consume ClosedOperators and Affiliation. Its product-state and crossed-product examples
+also consume V2's infinite tensor product, V6 and V8's nonsingular crossed products. KMS
+fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime
+number theorem in arithmetic progressions; AffineHecke constructs the
+finite-adele corner from Hecke, GlobalNumberFields Layer 4 and V8; AffineType consumes that
+model, AffineAP, KMS and V2/V6's full-corner comparison. These affine constructions have no V11
+input. V11 consumes the completed V10 interfaces. In V12, V12.J.Maps precedes Dye, Enriched and
+CentralSplitting, and V12.J.Frame precedes V12.J.Scalar; standard-form implementations
+additionally consume V11. V13a (tensor-independent CP extension) precedes V13b
+(semidiscreteness and classification).
 
 ## Conventions
 
@@ -157,399 +151,6 @@ standard forms, and injectivity versus semidiscreteness have no σ-finiteness
 or separable-predual restriction; finite-dimensional CP approximations there
 are nets. Continuous-core flow classification is for factors with separable
 predual. Earlier algebraic and net-based theory has no separability restriction.
-
-## Exact supplier contracts
-
-**From Mathlib.** `VonNeumannAlgebra`, `VonNeumannAlgebra.commutant`,
-`VonNeumannAlgebra.centralizer_centralizer` and `WStarAlgebra`
-(`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`); `StarSubalgebra.centralizer` and
-`Set.centralizer`; `ContinuousLinearMapWOT` with `ContinuousLinearMapWOT.ext_inner`,
-`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto` (a net converges in the WOT
-exactly when every matrix coefficient `⟪η,T_iξ⟫` converges), `ContinuousLinearMapWOT.continuous_iff`
-and the `ContinuousStar` instance of `H →WOT[ℂ] H` (the adjoint is WOT continuous)
-(`Mathlib/Analysis/InnerProductSpace/WeakOperatorTopology.lean`), and the separate WOT continuity
-of products `ContinuousLinearMapWOT.continuous_precomp` and
-`ContinuousLinearMapWOT.continuous_postcomp` (`Mathlib/Analysis/LocallyConvex/WeakOperatorTopology.lean`);
-the closure comparison `LinearEquiv.image_closure_of_convex` (a linear equivalence of locally
-convex spaces whose transpose matches their continuous duals carries closures of convex sets to
-closures) with its weak-topology case `Convex.toWeakSpace_closure`
-(`Mathlib/Analysis/LocallyConvex/WeakSpace.lean`); the pointwise-convergence copy
-`H →Lₚₜ[ℂ] H`, `PointwiseConvergenceCLM.tendsto_iff_forall_tendsto` and
-`ContinuousLinearMap.toPointwiseConvergenceCLM`
-(`Mathlib/Topology/Algebra/Module/Spaces/PointwiseConvergenceCLM.lean`); `banach_steinhaus`
-(`Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean`); the geometric Hahn–Banach separation
-theorems `geometric_hahn_banach_closed_point` and `geometric_hahn_banach_compact_closed` of a
-locally convex real topological vector space (`Mathlib/Analysis/LocallyConvex/Separation.lean`),
-applied in the weak and weak-star topologies, which are locally convex by
-`WeakBilin.locallyConvexSpace` (`Mathlib/Analysis/LocallyConvex/WeakDual.lean`), and in the WOT
-and SOT of `B(H)`, which are locally convex by `ContinuousLinearMapWOT.instLocallyConvexSpace`
-(`Mathlib/Analysis/LocallyConvex/WeakOperatorTopology.lean`) and by the `LocallyConvexSpace`
-instance of `H →Lₚₜ[ℂ] H` built from `UniformConvergenceCLM.locallyConvexSpace`
-(`Mathlib/Analysis/LocallyConvex/PointwiseConvergence.lean` and `StrongTopology.lean`), with the
-continuity of scalar multiplication on `H →Lₚₜ[ℂ] H` that the separation theorems also require
-taken from `UniformConvergenceCLM.continuousSMul` on finite sets (`Set.Finite.isVonNBounded`,
-then `IsScalarTower.continuousSMul` for real scalars), since the pin states it as a theorem and
-not as an instance; the commutative Gelfand duality
-`gelfandStarTransform`, `gelfandTransform_isometry` and `gelfandTransform_bijective` under
-`CommCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) and the compactness of
-`characterSpace ℂ A` for a unital normed algebra (`Mathlib/Analysis/Normed/Algebra/Basic.lean`);
-`Unitization.starLift` and `Unitization.fstHom`; the joint continuity
-`MeasureTheory.Lp.instContinuousSMulDomMulAct` of the domain action on `Lp E p μ`, `1 ≤ p < ∞`,
-of a monoid acting continuously by measure-preserving maps on a space with a locally finite
-measure that is inner regular on finite-measure sets
-(`Mathlib/MeasureTheory/Function/LpSpace/DomAct/Continuous.lean`), applied to a locally compact
-group acting on itself with a regular left Haar measure; the C*-algebra classes, continuous
-functional calculus and positive-operator order on `H →L[ℂ] H`; `PositiveLinearMap`,
-`PositiveLinearMap.exists_norm_apply_le`, `PositiveLinearMap.GNS`, `gnsStarAlgHom` and
-`gnsNonUnitalStarAlgHom` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`);
-`LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, the RCLike `SeparatingDual`
-instance and `SeparatingDual.eq_zero_of_forall_dual_eq_zero`; Banach–Alaoglu and
-`Analysis/Convex/KreinMilman`; `lp` with `lp.instInnerProductSpace`; `WeakDual.metrizable_of_isCompact`; `SymAlg` and `IsCommJordan`;
-`IsSimpleRing`; `CompletelyPositiveMap`, with its underlying complex linear map and positivity
-of all finite `CStarMatrix` amplifications (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`);
-`ErgodicSMul`, Haar measure and `PontryaginDual`; the Hecke-pair predicate `IsHeckeTriple` and the
-Hecke-ring carrier `HeckeRing` with its scoped notation `𝕋` (`Mathlib/NumberTheory/HeckeRing/Defs.lean`),
-whose ring structure is Tau Ceti's; the Riesz–Markov–Kakutani
-measure `RealRMK.rieszMeasure` with `RealRMK.integral_rieszMeasure`
-(`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`) and `essSup`; the continuous
-functional calculus `cfc` of a normal element (`IsStarNormal`) and Fuglede's theorem
-`IsStarNormal.commute_star_right`, that an element commuting with a normal element commutes
-with its adjoint (`Mathlib/Analysis/CStarAlgebra/Fuglede.lean`); the one-point
-compactification `OnePoint`; the partial-map
-adjoint `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and `LinearPMap.isSelfAdjoint_def`
-(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`); the Phragmén–Lindelöf principle on a
-horizontal strip `a<Im z<b` for functions with values in a complex normed space,
-`PhragmenLindelof.horizontal_strip` (a function holomorphic on the open strip, continuous on its
-closure, of growth at most `exp(B·exp(c·|Re z|))` with `c<π/(b−a)`, and bounded by C on both
-boundary lines is bounded by C on the closed strip) and `PhragmenLindelof.eqOn_horizontal_strip`
-(two such functions that agree on both boundary lines agree on the closed strip)
-(`Mathlib/Analysis/Complex/PhragmenLindelof.lean`); the Gaussian integrals
-`integral_cexp_quadratic` and `fourierIntegral_gaussian`
-(`Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean`); and the bijection
-`Rat.HeightOneSpectrum.primesEquiv` from the height-one primes of a Dedekind domain that is the
-integral closure of ℤ in its fraction field ℚ, here `𝓞 ℚ`, onto `Nat.Primes`, sending v to the
-positive generator `Rat.HeightOneSpectrum.natGenerator v` of its contraction to ℤ
-(`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean`); for the completed Hilbert tensor
-product, the inner product space `TensorProduct.instInnerProductSpace` on `E ⊗[ℂ] F` with
-`ContinuousLinearMap.rTensor` and `ContinuousLinearMap.lTensor`
-(`Mathlib/Analysis/InnerProductSpace/TensorProduct.lean`), completed by `UniformSpace.Completion`
-and `ContinuousLinearMap.completion` (`Mathlib/Topology/Algebra/LinearMapCompletion.lean`); the
-orthogonal projections `Submodule.orthogonalProjectionOnto` and `Submodule.starProjection` onto a
-subspace with `Submodule.HasOrthogonalProjection`
-(`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`); the Hilbert sum `WithLp 2 (L × L)`
-with `WithLp.toLp`, and `CFC.sqrt`; the Hölder product `ContinuousLinearMap.holderL`
-(`Mathlib/MeasureTheory/Function/Holder.lean`), which for the exponents `∞, 2, 2` and the
-multiplication of ℂ is multiplication by `L∞` on `L²`, and `StandardBorelSpace`; the composition
-isometry `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, the counting measure
-`MeasureTheory.Measure.count` with its left invariance and `measurePreserving_mul_left`, and
-`DiscreteMeasurableSpace`; `FreeGroup` and `IsConj`. Each is used as stated at the
-pin; none of them includes separability, a chosen faithful state or a nonzero identity.
-
-For V10.StandardRealSubspaces consume Mathlib's `StandardSubspace`,
-`StandardSubspace.mulI`, `StandardSubspace.symplComp` and
-`StandardSubspace.symplComp_symplComp_eq`
-(`Mathlib/Analysis/InnerProductSpace/StandardSubspace.lean`, introduced in
-[Mathlib #29251](https://github.com/leanprover-community/mathlib4/pull/29251)).
-Use its `ClosedSubmodule`-scoped real inner product and
-`ClosedSubmodule.mem_symplComp_iff`; the symplectic complement means vanishing imaginary
-inner product, not the complex orthogonal complement. Mathlib supplies the carrier and
-complement operations; the modular conjugation, unitary group and KMS theory are targets here.
-For V10.ModularTheory consume the Fourier inversion theorem `Continuous.fourierInv_fourier_eq`,
-for a continuous integrable function on a finite-dimensional real inner product space whose
-Fourier transform is integrable, with values in a complete complex normed space
-(`Mathlib/Analysis/Fourier/Inversion.lean`). For V11 consume the Lax–Milgram theorem
-`IsCoercive.continuousLinearEquivOfBilin`, for a coercive bounded real bilinear form on a
-complete real inner product space, not assumed symmetric
-(`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`).
-
-**From Tau Ceti.** The Stone theorem in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`;
-the measurability lemmas `ContinuousOn.aestronglyMeasurable_of_measure_ne_top` and
-`AEFinStronglyMeasurable.aestronglyMeasurable_smul`
-(`TauCeti/MeasureTheory/Function/StronglyMeasurable/InnerRegular.lean`);
-`ContRepresentation.integratedOperatorL1`
-(`TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`); the Pontryagin-dual
-modules `TauCeti/Analysis/Fourier/Pontryagin/{DualEval,Continuity,Measure,Uniqueness,StronglyContinuous}`,
-in particular the cyclic spectral theorem
-`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (a diagonal matrix coefficient
-`g↦⟪ξ,π(g)ξ⟫` of a strongly continuous unitary representation of a locally compact abelian group
-is the Fourier–Stieltjes transform of a finite inner regular measure on the Pontryagin dual) and
-the uniqueness theorem
-`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`, with
-the subalgebra extension theorem
-`TauCeti.MeasureTheory.ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular`
-(`TauCeti/MeasureTheory/Measure/FiniteMeasureExt.lean`) behind it; and the Hecke-ring
-convolution: the ring structure on `𝕋 Δ H R` with `HeckeCosetModule.single_mul_single`
-(`TauCeti/NumberTheory/HeckeRing/Multiplication.lean`), the structure constants
-`DoubleCoset.multiplicity` (`TauCeti/NumberTheory/HeckeRing/Multiplicity/Basic.lean`), and
-`HeckeAntiInvolution`, `HeckeAntiInvolution.ofAmbient` and
-`HeckeCosetModule.mul_comm_of_antiInvolution` (`TauCeti/NumberTheory/HeckeRing/Commutativity.lean`).
-The GNS class map of a positive functional on a possibly nonunital C*-algebra,
-`PositiveLinearMap.toGNS`, the continuous linear map `a ↦ [a]` into the GNS Hilbert space, with
-dense range `PositiveLinearMap.denseRange_toGNS`; the canonical GNS cyclic vector of a positive
-functional on a unital C*-algebra,
-`PositiveLinearMap.gnsVector`, with `PositiveLinearMap.inner_gnsVector_coe`,
-`PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
-`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `PositiveLinearMap.norm_gnsVector`
-(`TauCeti/Analysis/CStarAlgebra/GNS.lean`); the nondegeneracy predicate
-`NonUnitalStarAlgHom.IsNondegenerate` of a representation `π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)` of a
-C*-algebra, density of the span of the vectors `π a ξ`, with its unfolding
-`NonUnitalStarAlgHom.isNondegenerate_iff_dense` and the unital criterion
-`NonUnitalStarAlgHom.isNondegenerate_of_map_one` (`π 1 = 1` implies nondegeneracy)
-(`TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean`); the generated von Neumann algebra
-`VonNeumannAlgebra.adjoin`, the double commutant of `s ∪ star s`, with
-`VonNeumannAlgebra.coe_adjoin`, `VonNeumannAlgebra.coe_commutant_adjoin`,
-`VonNeumannAlgebra.subset_adjoin`, `VonNeumannAlgebra.adjoin_le_iff` and
-`VonNeumannAlgebra.adjoin_mono` (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`); and the von
-Neumann density theorem `StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_centralizer_centralizer`
-(`TauCeti/Analysis/VonNeumannAlgebra/Density.lean`): for a unital star subalgebra `S` of the bounded
-operators on a complete real or complex inner product space, an element of `S''` is approximated
-by an element of `S` at finitely many vectors simultaneously.
-The prime number theorem in arithmetic progressions,
-`NumberField.Chebotarev.tendsto_primeCount_primesCongruent` and
-`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`
-(`TauCeti/NumberTheory/Chebotarev/PrimeCounting/PrimesCongruent.lean`): for a nonzero level m
-and a natural number a with `IsUnit (a : ZMod m)`, the number
-`TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % m = a % m} x` of primes 𝔭 of `𝓞 ℚ` with
-`absNorm 𝔭 ≤ x` in that class (`TauCeti.primeCount`,
-`TauCeti/NumberTheory/ArithmeticDirichletSeries/Counting.lean`), divided by `x / log x`, tends
-to `1/φ(m)`, and the count is asymptotic to `Li(x)/φ(m)`. The norm of a prime of `𝓞 ℚ`,
-`Rat.HeightOneSpectrum.absNorm_asIdeal`: `Ideal.absNorm v.asIdeal = natGenerator v`
-(`TauCeti/NumberTheory/NumberField/Ideal/IntegersRat.lean`).
-The KMS condition of a point-norm continuous real action α on a possibly nonunital C*-algebra
-(`TauCeti.CStarAction`): `TauCeti.CStarAction.IsKMSFunction`, a function F bounded and
-continuous on the closed strip between ℝ and the line `Im z=β`, holomorphic on the open strip,
-with `F(t)=φ(aα_t(b))` and `F(t+iβ)=φ(α_t(b)a)`; `TauCeti.CStarAction.IsKMSState`, a state with
-such a function for every pair a, b; `TauCeti.CStarAction.IsKMSFunction.eqOn`, the uniqueness of
-the KMS function of a pair; and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
-for entire analytic b the function `z↦φ(aα_z(b))` is the KMS function of the pair exactly when
-`φ(aα_(t+iβ)(b))=φ(α_t(b)a)` for real t (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`).
-The inner dynamics `selfAdjoint.cstarAction h`, `τ_t(a)=exp(ith)a·exp(−ith)` for a self-adjoint
-element h of a unital C*-algebra, for which every element is entire analytic with
-`τ_z(a)=exp(izh)a·exp(−izh)`, `selfAdjoint.entireExtension_cstarAction`
-(`TauCeti/Analysis/CStarAlgebra/Action/Inner.lean`). The Gibbs state `Matrix.gibbsState`,
-`x↦Tr(exp(−βK)x)/Tr(exp(−βK))` for a Hermitian complex matrix K, with
-`Matrix.IsHermitian.isKMSState_gibbsState` (it is a β-KMS state of the inner dynamics of K for
-every real β) and `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState` (it is the only one)
-(`TauCeti/Analysis/CStarAlgebra/Action/Gibbs.lean`). Trace duality
-`LinearMap.existsUnique_trace_mul_eq`: every linear functional on square matrices is `x↦Tr(ρx)`
-for a unique matrix ρ (`TauCeti/LinearAlgebra/Matrix/Trace/Duality.lean`).
-The Banach duality of V4.Core. For a subspace S of a normed space E, the isometries
-`Submodule.quotientDualEquivAnnihilator`, the dual of `E ⧸ S` is the annihilator of S by
-precomposition with the quotient map (`TauCeti/Analysis/Normed/Module/Dual/Quotient.lean`), and
-`Submodule.quotientAnnihilatorEquivDual`, the dual of S is the quotient of the dual of E by the
-annihilator of S by restriction (`TauCeti/Analysis/Normed/Module/Dual/Submodule.lean`); the
-double-annihilator theorems `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`,
-the preannihilator of the annihilator of S is its norm closure
-(`TauCeti/Analysis/Normed/Module/Annihilator.lean`), and
-`Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`, the annihilator of the
-preannihilator of a subspace G of the dual is its weak-star closure
-(`TauCeti/Analysis/LocallyConvex/WeakDual/Annihilator.lean`); and the Krein–Šmulian theorem for
-a Banach space E, `Convex.isClosed_iff_forall_isClosed_inter_closedBall` (a real-convex subset
-of `WeakDual 𝕜 E` is weak-star closed exactly when its intersection with every closed ball centred
-at zero is) with its subspace form `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`
-(the closed unit ball suffices) (`TauCeti/Analysis/Normed/Module/Dual/KreinSmulian.lean`). The
-Banach space `TauCeti.NuclearOperator` of nuclear operators from a normed space to a Banach space,
-normed by the nuclear norm (the quotient norm of `E* ⊗̂π F` by the kernel of the canonical map),
-with the rank-one value `TauCeti.NuclearOperator.norm_smulRight` (`x↦f(x)y` has nuclear norm
-`‖f‖‖y‖`) and `TauCeti.exists_toContinuousLinearMap_eq_of_nuclearGauge_lt` (an operator of
-nuclear norm below c is induced by a projective tensor of norm below c)
-(`TauCeti/Analysis/Normed/Operator/Nuclear.lean`), and the series representation
-`TauCeti.CompletedProjectiveTensor.exists_hasSum_tmul_of_norm_lt` (a completed projective tensor
-of norm below c is a convergent series `Σ xₙ⊗yₙ` with `Σ‖xₙ‖‖yₙ‖<c`)
-(`TauCeti/Analysis/Normed/Module/TensorProduct/Series.lean`).
-The Borel-calculus inputs of V2.BorelCalculus, on a complete complex Hilbert space H. The
-projection-valued measure `TauCeti.ProjValMeasure` on a measurable space X: projections `P(B)` of
-the measurable sets with finite diagonal measures `diag ξ`, `⟪ξ,P(B)ξ⟫=diag ξ (B)`, `P(X)=1` and
-`P(B∩C)=P(B)P(C)`, with strong countable additivity
-`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean`); the commutative C*-algebra
-`TauCeti.BoundedBorelFunction X` of bounded measurable complex functions with the supremum norm
-(`TauCeti/MeasureTheory/Function/BoundedBorel.lean`); the integral
-`TauCeti.ProjValMeasure.integral`, a unital star algebra homomorphism from the bounded Borel
-functions into `B(H)`, with `TauCeti.ProjValMeasure.integral_indicator` (`∫1_B dP=P(B)`),
-`TauCeti.ProjValMeasure.eq_integral_of_continuous` (a continuous map agreeing with the integral on
-simple functions is the integral), `TauCeti.ProjValMeasure.norm_integral_le` (`|f|≤c` pointwise
-gives `‖∫f dP‖≤c`), the vector identity `TauCeti.ProjValMeasure.norm_sq_integral_apply`
-(`‖(∫f dP)ξ‖²=∫|f|²d(diag ξ)`) and `TauCeti.ProjValMeasure.integral_apply_eq_zero_iff` (`(∫f dP)ξ=0`
-iff f=0 `diag ξ`-almost everywhere)
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Integral.lean`); the null filter
-`TauCeti.ProjValMeasure.ae`, the sets conull for every diagonal measure, with
-`TauCeti.ProjValMeasure.proj_eq_zero_iff_compl_mem_ae`
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Null.lean`);
-`TauCeti.ProjValMeasure.integral_eq_integral_iff` (two integrals agree iff the functions agree
-P-almost everywhere) and dominated convergence
-`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (functions bounded
-by a common constant and converging P-almost everywhere along a countably generated filter have
-strongly converging integrals)
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/DominatedConvergence.lean`); the polarized
-measures `TauCeti.ProjValMeasure.polarizedComplexMeasure` with
-`TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` (value `⟪ψ,P(B)ξ⟫` on B) and the variation
-bound `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le` (at most `‖ψ‖‖ξ‖`)
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Polarization.lean`,
-`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Variation.lean`); and the pushforward
-`TauCeti.ProjValMeasure.map` along a measurable map with the change of variables
-`TauCeti.ProjValMeasure.integral_map`
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Map.lean`). For a unital star representation π
-of `C(K,ℂ)` on H, K compact Hausdorff with its Borel σ-algebra: the finite regular Riesz measure
-`StarAlgHom.representationDiagMeasure` of `f↦⟪ξ,π(f)ξ⟫`, with
-`StarAlgHom.integral_representationDiagMeasure` (`∫f dμ_ξ=⟪ξ,π(f)ξ⟫` for continuous f),
-`StarAlgHom.representationDiagMeasure_univ` (mass `‖ξ‖²`) and
-`StarAlgHom.integral_norm_sq_representationDiagMeasure` (`∫|f|²dμ_ξ=‖π(f)ξ‖²` for continuous f)
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/DiagonalMeasure.lean`); the
-polarized complex measures `StarAlgHom.representationPolarizedMeasure`, conjugate-linear in the
-first vector, with `StarAlgHom.integral_representationPolarizedMeasure` (`∫f dμ_(ψ,ξ)=⟪ψ,π(f)ξ⟫` for
-continuous f), `StarAlgHom.representationPolarizedMeasure_swap_apply` (`μ_(ξ,ψ)(B)` is the conjugate
-of `μ_(ψ,ξ)(B)`) and `StarAlgHom.variation_representationPolarizedMeasure_univ_le` (variation at
-most `2‖ψ‖‖ξ‖`)
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/PolarizedMeasure.lean`); and the
-Borel extension `StarAlgHom.representationBorelOperator`, a complex linear map from the bounded
-Borel functions on K into `B(H)` with `⟪ψ,π(f)ξ⟫=∫f dμ_(ψ,ξ)`
-(`StarAlgHom.inner_representationBorelOperator`) that agrees with π on continuous functions
-(`StarAlgHom.representationBorelOperator_ofContinuousMap`), bounded through
-`StarAlgHom.norm_integral_representationPolarizedMeasure_le` (`‖∫f dμ_(ψ,ξ)‖≤2·sup|f|·‖ψ‖‖ξ‖`), and
-not shown multiplicative at the pin
-(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/BorelOperator.lean`). For a
-normal operator a, `ContinuousLinearMap.diagMeasure`, the Riesz measure on `spectrum ℂ a` of its
-continuous calculus `cfcHom`, with `ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc`
-(`TauCeti/Analysis/InnerProductSpace/BorelCalculus/DiagonalMeasure.lean`). The resolvent and Cayley
-inputs of V10.ClosedOperators, for a self-adjoint partial linear map T on H (Mathlib's
-`IsSelfAdjoint` for the adjoint `LinearPMap.adjoint`): every nonreal λ is a resolvent point,
-`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, with `‖(λ−T)⁻¹‖≤|Im λ|⁻¹`,
-`IsSelfAdjoint.norm_resolvent_le` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`);
-the Cayley transform `LinearPMap.cayley`, `U=1+2i(−i−T)⁻¹`, which is `(T−i)(T+i)⁻¹`, with
-`LinearPMap.mem_graph_iff_exists_cayley` (the graph of T is `{(x−Ux, i(x+Ux)) : x∈H}`) and
-`LinearPMap.cayley_apply_eq_self_iff` (`Ux=x` only for x=0)
-(`TauCeti/Analysis/Normed/Operator/LinearPMap/Cayley.lean`), and its unitarity and normality
-`IsSelfAdjoint.cayley_mem_unitary` and `IsSelfAdjoint.isStarNormal_cayley`
-(`TauCeti/Analysis/InnerProductSpace/LinearPMap/Cayley.lean`). The GNS covariance of V4.Normality.
-For a point-norm continuous action α of a topological group G on a C*-algebra A
-(`TauCeti.CStarAction`) and a positive functional φ with `φ∘α_g=φ`, the GNS implementing group
-`TauCeti.CStarAction.gnsImplementingGroup`, the strongly continuous unitary representation of G on
-the GNS space extending `[b]↦[α_g(b)]`, with
-`TauCeti.CStarAction.inner_gnsImplementingGroup_apply_coe` (`⟪[a],U_g[b]⟫=φ(a*α_g(b))`), and the
-covariant pair `TauCeti.CStarAction.gnsCovariantRepresentation` of Mathlib's GNS representation with
-that group, `U_gπ_φ(a)U_g*=π_φ(α_g(a))` (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/GNS.lean`).
-The separating theorem of Layer 6: for a β-KMS state ω of a point-norm continuous real action on a
-unital C*-algebra A, `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`, an
-operator x of `π_ω(A)''` with `x[1]=0` is zero
-(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Separating.lean`), and
-`TauCeti.CStarAction.isKMSState_zero_iff`, the 0-KMS states are the tracial states, for every action
-(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`). Each is used as stated at the pin.
-
-**From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
-annihilators, quotient duals, adjoints and Goldstine, the weak and weak-star continuity criteria
-by evaluation and the comparison of the norm and weak-star topologies on dual balls; and the
-generic operator topologies of bounded maps between normed spaces, on Mathlib's
-`PointwiseConvergenceCLM` (SOT) and `ContinuousLinearMapWOT` (WOT): norm convergence implies SOT
-convergence, which implies WOT convergence; an SOT- or WOT-convergent sequence of bounded maps on
-a Banach space is norm bounded; multiplication is jointly SOT continuous on norm-bounded sets;
-and on an infinite-dimensional Banach space there are SOT-null nets `S_i`, `T_i` with `S_iT_i` a
-fixed nonzero rank-one operator, so it is not jointly SOT continuous there.
-[B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
-James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
-quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
-representation, and the compact Schmidt series with its zero-based singular-value comparison and
-its nuclear-norm identity on Hilbert pairs, together with B4's isometric identification of the
-Hilbert nuclear operators (`TauCeti.NuclearOperator` on Hilbert pairs) with the trace-class ideal
-of OperatorIdeals OI-B29–B30. The annihilator and quotient dualities, Krein–Šmulian and the
-nuclear operators are consumed through their Tau Ceti implementations listed above.
-
-**From TauCetiRoadmap.OperatorTheory.** From
-[PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) Part A, the bounded
-modulus `|x|=√(x†x)` of a bounded operator between complete real or complex Hilbert spaces with its
-positivity, square, pointwise norm, kernel and norm laws (PD-A36–A45), and from Part B the
-canonical polar partial isometry v with initial space the closure of `range |x|`, equal to
-`(ker x)⊥`, final space the closure of `range x`, `v|x|=x`, the initial and final projection
-formulas, the polar factor of `x†` equal to `v†`, and uniqueness among maps that vanish off the
-initial space (PD-B23–B36). From [OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), the
-nuclear gauge `ν(x)=∑ₙ aₙ(x)` and the trace-class ideal family (OI-B29–B31, OI-B23), and the
-Hilbert–Schmidt energy, its basis independence, the Hilbert–Schmidt norm with its operator-norm
-domination, adjoint invariance and ideal inequality, and the Hilbert–Schmidt family
-(OI-B32–B41). The ideal statements are consumed on arbitrary complex Hilbert spaces;
-the modulus and polar decomposition are consumed over both ℝ and ℂ. Nothing is consumed from
-the spectral sub-roadmap SelfAdjointSpectralTheory, which consumes V4.0.Fields; the spectral
-inputs of V2, V4, V5 and V10 are Tau Ceti's projection-valued measures, Borel extension,
-resolvent and Cayley transform (From Tau Ceti) and the targets V2.BorelCalculus,
-V4.0.Multiplication and V10.ClosedOperators.
-
-**From TauCetiRoadmap.AmenableGroups.** [Layers 5–7](../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups)
-invariant means, discrete Følner theory and abelian amenability, and from
-[Layer 7](../AmenableGroups/README.md#layer-7-locally-compact-hausdorff-groups-and-haar-l), for an
-arbitrary locally compact Hausdorff group with a regular left Haar measure μ: the Haar pushforward
-and inversion formulas with the modular character, the `L¹` convolution
-`(h*k)(x)=∫ h(y)k(y⁻¹x) dμ(y)` with its associativity and norm bounds, `L¹` continuity of
-translations, and the nonnegative integral-one kernels `h_U` supported in shrinking identity
-neighbourhoods U with `‖h*h_U−h‖₁→0` for every `h∈L¹` (a net built from compactly supported
-continuous functions).
-
-**From TauCetiRoadmap.BanachAlgebras.** For a locally compact Hausdorff group G with a nonzero
-regular left Haar measure μ, with no second-countability or σ-finiteness hypothesis:
-[§7.2](../BanachAlgebras/README.md#72-convolution-and-approximate-identities), the Banach
-algebra `L¹(G,μ)` with the convolution `(f*h)(x)=∫f(y)h(y⁻¹x)dμ(y)` and the isometric
-involution `f*(x)=c(x)·conj(f(x⁻¹))`, where `c=Measure.modularCharacter` satisfies
-`∫f(xg)dμ(x)=c(g)∫f dμ`; [§7.3](../BanachAlgebras/README.md#73-integrated-representations)
-A7.IntegratedRepresentations and A7.RegularL2, the unitary left translations
-`(λ_xξ)(y)=ξ(x⁻¹y)` on `L²(G,μ)` with their strong continuity and the integrated operators λ(f),
-f∈L¹, with `‖λ(f)‖≤‖f‖₁`, `λ(f*h)=λ(f)λ(h)`, `λ(f*)=λ(f)*`, nondegeneracy, faithfulness on `L¹`,
-and the common representative of `f*h` in `L¹` and `λ(f)h` in `L²` for h∈L¹∩L², with
-commutativity of `L¹(G)` for abelian G; and
-[§7.5](../BanachAlgebras/README.md#75-characters-and-fourier-comparisons)
-A7.CharactersAndUniqueness, for abelian G: `γ↦(f↦∫f(x)γ(x)dμ(x))` is a bijection from the
-continuous unitary characters of G onto the nonzero bounded characters of `L¹(G)`, with no
-conjugation, and a homeomorphism from the compact-open dual onto the weak-star character space;
-`L¹(G)` is semisimple, so `f̂=0` forces f=0; and two finite regular complex Borel measures on G
-with equal transforms `γ↦∫γ dν` are equal. From
-[§3.1](../BanachAlgebras/README.md#31-characters-and-function-algebras), for a commutative
-C*-algebra A with nonzero characters Ω: restriction is a bijection, and a homeomorphism for the
-weak-star topologies, from the characters of `Unitization ℂ A` other than the augmentation
-`Unitization.fstHom` onto Ω, so that Ω is open in the compact unitized character space, which is
-its one-point compactification when A has no identity. Each is used as BanachAlgebras states it.
-
-**From the other roadmaps named in the scope.** RepresentationTheory/CompactGroups (Peter–Weyl),
-RepresentationTheory/SemisimpleAlgebras (finite double centralizer),
-RepresentationTheory/LieHighestWeight (the rank-one Clebsch–Gordan decomposition for the SU(2)
-application of V8), GlobalNumberFields Layer 4 (finite adeles), and OptimalTransport Layers 2 and
-8.2.
-
-## How to read the build
-
-Layers are built in the order V0–V13, with the following finer milestone order. V0 supplies
-abstract C*-algebra states and GNS; V1 the operator topologies, bicommutant and Kaplansky
-theorems; V2 corners, tensor products and the elementary abelian carriers; V3 type I algebras.
-In V4, V4.Core precedes V4.PositivePredual, which precedes V4.Normality, and the other
-normality/representation conclusions consume that one criterion. V4.0.Fields constructs
-Hilbert and operator fields from countable fundamental sections and given measures,
-independently of projection-valued measures, multiplication models and central decomposition.
-In V8, V8.RegularL2 precedes
-V8.LCHRegularNormalBridge and the compact-action and dense-translation targets, and
-V8.GroupApplications follows V8.SubgroupCosets. In V11 the harmonic-analysis layer is built as
-V11.DoubleDualEmbedding, then V11.UnitizationCharacters and V11.FourierUniqueness, then
-inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
-V2.BorelCalculus uses only Tau Ceti's projection-valued measures and Borel extension, Mathlib's
-continuous calculus and Layer 1's topologies and bicommutant theorem, and precedes Fields;
-V4.0.Multiplication consumes Fields and V2.BorelCalculus. V4.AbelianClassification,
-V4.AbelianLocalizable and V4.AbelianRepresentationMultiplicity close Layer 4, after Fields,
-V4.0.Multiplication and V4.Normality; the elementary V2 carriers, V2.BorelCalculus, the
-single-generator construction and the given-measure multiplication/MASA theorem precede Fields.
-V4.0.Decomposition consumes Fields, V4.Normality and V4.0.Multiplication and owns
-spectral/central reduction and measurable selection; V5's measurable
-trivialization and the central-reduction applications consume Decomposition. V5 delivers
-projection comparison and the trace of finite factors, V6 the standard form and semifinite
-classification, V7 modules and index, V8–V9 group algebras, crossed products and discrete series.
-In V10, StandardRealSubspaces builds the bounded modular data from V2.BorelCalculus and
-PolarDecomposition, independently of ClosedOperators. ClosedOperators precedes Affiliation;
-TracialLp also consumes V6. ModularTheory first proves the cyclic-separating modular theorem
-using StandardRealSubspaces and V0/V1/V4; its unbounded-operator comparison and natural cone
-then consume ClosedOperators and Affiliation. Its product-state and crossed-product examples
-also consume V2's infinite tensor product, V6 and V8's nonsingular crossed products. KMS
-fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime
-number theorem in arithmetic progressions; AffineHecke constructs the
-finite-adele corner from Hecke, GlobalNumberFields Layer 4 and V8; AffineType consumes that
-model, AffineAP, KMS and V2/V6's full-corner comparison. These affine constructions have no V11
-input. V11 consumes the completed V10 interfaces. In V12, V12.J.Maps precedes Dye, Enriched and
-CentralSplitting, and V12.J.Frame precedes V12.J.Scalar; standard-form implementations
-additionally consume V11. V13a (tensor-independent CP extension) precedes V13b
-(semidiscreteness and classification).
 
 ## Layer 0: C*-algebra and state prerequisites
 
@@ -5439,6 +5040,448 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   Tomita comparison for the Haar modular group).
 - [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) consumes V2's completed
   Hilbert tensor product.
+
+## Scope and ownership
+
+This roadmap owns the von Neumann algebra theory listed above: concrete and abstract algebras,
+their operator topologies, normal representations, projections, traces, modules and index,
+crossed products, modular theory, weights, central sequences, normal Jordan maps, the finite
+Gleason frame-function theorem used by the scalar Mackey–Gleason–Bunce–Wright theorem, and the
+injective classification, with all their intermediate constructions. Layer k is cited as `Vk`,
+and a named target inside it as `Vk.Name`.
+
+It leaves the following to the named owners and consumes them by section.
+
+* [OperatorTheory](../OperatorTheory/README.md) owns general Hilbert geometry
+  (OrthogonalGeometry); the bounded modulus and polar decomposition (PolarDecomposition
+  PD-A36–A45 and PD-B23–B36); the trace-class and Hilbert–Schmidt ideals (OperatorIdeals
+  OI-B29–B41); and general principal angles. Its spectral sub-roadmap, SelfAdjointSpectralTheory,
+  is a consumer of this roadmap (its SA-B85 consumes V4.0.Fields), so nothing here is taken from
+  it. The projection-valued-measure carrier `TauCeti.ProjValMeasure` with its integral, null
+  filter, vector identity and dominated convergence; the Riesz measures, polarized measures and
+  Borel extension of a unital representation of `C(K)`, and the Riesz measures of a normal
+  operator; and the resolvent estimates and Cayley transform of a self-adjoint `LinearPMap` are
+  implemented in Tau Ceti at the pin and are consumed from there (From Tau Ceti below). Owned
+  here, at the generality this roadmap uses: multiplicativity of that Borel extension, its
+  spectral measure as a `TauCeti.ProjValMeasure`, the essential-supremum norm and the commutant
+  law, for representations of `C(K)` and for normal operators (V2.BorelCalculus); the cyclic
+  multiplication models, control measures, measurable multiplicity, the essentially bounded
+  symbol quotient and the classification of representations of `C(K)` and `C₀(X)` by control
+  class and multiplicity (V4.0.Multiplication); and the inverse Cayley correspondence and the
+  spectral measure of a self-adjoint `LinearPMap` operator (V10.ClosedOperators). V2, V4 and
+  V10 add what is about algebras: membership of Borel-calculus values and
+  polar factors in the generated von Neumann algebra, the canonical trace functional with its
+  cyclicity and the trace-class duality, the inverse Cayley correspondence, the multiplier-form
+  unbounded spectral theorem, polar decomposition of closed unbounded operators, affiliation,
+  antilinear extensions and modular consequences.
+* [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) owns C₀ semigroups, generators and
+  resolvents. Stone's theorem is consumed from Tau Ceti. Modular automorphism groups and their
+  KMS characterization belong here. The KMS condition of a point-norm continuous action on a
+  C*-algebra, with the uniqueness of KMS functions and the KMS states of the inner dynamics of a
+  Hermitian matrix (its Gibbs states), is consumed from Tau Ceti; V10.KMS adds the condition for
+  weakly continuous automorphism groups of a von Neumann algebra, which need not be norm
+  continuous, and its characterization of the modular group.
+* [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns annihilators, quotient duals, adjoints,
+  Goldstine and weak/weak-star duality (B1), Eberlein–Šmulian, James and Krein–Šmulian (B2)
+  and Banach tensor products (B4). Its B1 also owns the generic strong and weak operator
+  topologies of bounded maps between normed spaces: norm ⇒ SOT ⇒ WOT, norm boundedness of SOT-
+  and WOT-convergent sequences on a Banach domain, joint SOT continuity of products on
+  norm-bounded sets and its failure for unbounded nets in infinite dimension. V1 consumes these
+  at `E=F=H` and owns the strong-star, ultraweak and ultrastrong topologies, their comparisons
+  with the WOT and SOT, and the Hilbert-space examples. Annihilators, quotient duals,
+  Krein–Šmulian and the Banach space of nuclear operators are implemented in Tau Ceti at the pin
+  and are consumed from there.
+* [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
+  Peter–Weyl, and RepresentationTheory/SemisimpleAlgebras the finite-dimensional
+  double-centralizer theorem.
+* [AmenableGroups](../AmenableGroups/README.md) owns invariant means and Følner theory (Layers
+  5–7) and, in its Layer 7, the `L¹` convolution algebra of a locally compact Hausdorff group
+  with its translation continuity, approximate-identity kernels and Haar pushforward formulas.
+  [GlobalNumberFields](../../Completed/GlobalNumberFields/README.md) Layer 4 owns the finite-adele carrier, and
+  [OptimalTransport](../OptimalTransport/README.md) Layers 2 and 8.2 Jankov–von Neumann
+  uniformization and the finite-measure completion theorem. The Hecke-ring convolution, its
+  structure constants and its commutativity criterion are consumed from Tau Ceti; Hecke operators
+  on modular forms remain the scope of [ModularForms](../ModularForms/README.md).
+* [Chebotarev](../../Completed/Chebotarev/README.md) owns prime counting in arithmetic
+  progressions: the prime number theorem in an invertible residue class, implemented in Tau Ceti
+  (its Layers 13–14 specialized to the cyclotomic fields `ℚ(ζ_d)`), is consumed by V10.AffineAP,
+  which adds only the identity between that prime-ideal count and the count of rational primes,
+  transported along the comparison of the primes of `𝓞 ℚ` with rational primes that Mathlib and
+  Tau Ceti prove, and the ratio-2 prime-pair lemma.
+* [BanachAlgebras](../BanachAlgebras/README.md) owns the group algebra `L¹(G)` of a locally
+  compact group and its harmonic analysis up to Fourier uniqueness: its §7.2 the convolution and
+  involution of `L¹(G)`; its §7.3 (A7.IntegratedRepresentations and A7.RegularL2) the faithful
+  nondegenerate left-regular action λ of `L¹(G)` on `L²(G)`, with `‖λ(f)‖≤‖f‖₁` and
+  `λ(f*)=λ(f)*`; its §3.1 the unitization/character-space comparison of a commutative
+  C*-algebra; and its §7.5 (A7.CharactersAndUniqueness) the correspondence between the characters
+  of `L¹(G)` and the Pontryagin dual of an abelian G, with Fourier uniqueness for `L¹` functions
+  and finite regular complex measures. Uniqueness of finite inner regular measures on the dual
+  group from their integrals against the evaluation characters is Tau Ceti's. V8.RegularL2 adds
+  the reduced group C*-algebra, the discrete comparison and the group von Neumann algebra
+  `λ(G)''`; V11 adds the closed double-dual embedding, the passage from the characters of
+  `C*_r(G)` to those of `L¹(G)`, and inversion, Plancherel and duality.
+* [CStarAlgebras](../CStarAlgebras/README.md) is a consumer of this roadmap (it consumes V0–V4,
+  V12.J and V13a), so nothing here is taken from it. The spatial C*-norm on the algebraic tensor
+  product of two concrete C*-algebras is owned in V13b.SpatialNorm. Pure-state and
+  irreducible-GNS theory, operator spaces and completely bounded maps, C*-tensor norms other than
+  the spatial norm, and the C*-algebraic consequences of semidiscreteness are left to
+  CStarAlgebras.
+
+Compact ergodic-action classification beyond SU(2) and direct-finiteness questions in positive
+characteristic are outside this roadmap.
+
+## Exact supplier contracts
+
+**From Mathlib.** `VonNeumannAlgebra`, `VonNeumannAlgebra.commutant`,
+`VonNeumannAlgebra.centralizer_centralizer` and `WStarAlgebra`
+(`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`); `StarSubalgebra.centralizer` and
+`Set.centralizer`; `ContinuousLinearMapWOT` with `ContinuousLinearMapWOT.ext_inner`,
+`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto` (a net converges in the WOT
+exactly when every matrix coefficient `⟪η,T_iξ⟫` converges), `ContinuousLinearMapWOT.continuous_iff`
+and the `ContinuousStar` instance of `H →WOT[ℂ] H` (the adjoint is WOT continuous)
+(`Mathlib/Analysis/InnerProductSpace/WeakOperatorTopology.lean`), and the separate WOT continuity
+of products `ContinuousLinearMapWOT.continuous_precomp` and
+`ContinuousLinearMapWOT.continuous_postcomp` (`Mathlib/Analysis/LocallyConvex/WeakOperatorTopology.lean`);
+the closure comparison `LinearEquiv.image_closure_of_convex` (a linear equivalence of locally
+convex spaces whose transpose matches their continuous duals carries closures of convex sets to
+closures) with its weak-topology case `Convex.toWeakSpace_closure`
+(`Mathlib/Analysis/LocallyConvex/WeakSpace.lean`); the pointwise-convergence copy
+`H →Lₚₜ[ℂ] H`, `PointwiseConvergenceCLM.tendsto_iff_forall_tendsto` and
+`ContinuousLinearMap.toPointwiseConvergenceCLM`
+(`Mathlib/Topology/Algebra/Module/Spaces/PointwiseConvergenceCLM.lean`); `banach_steinhaus`
+(`Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean`); the geometric Hahn–Banach separation
+theorems `geometric_hahn_banach_closed_point` and `geometric_hahn_banach_compact_closed` of a
+locally convex real topological vector space (`Mathlib/Analysis/LocallyConvex/Separation.lean`),
+applied in the weak and weak-star topologies, which are locally convex by
+`WeakBilin.locallyConvexSpace` (`Mathlib/Analysis/LocallyConvex/WeakDual.lean`), and in the WOT
+and SOT of `B(H)`, which are locally convex by `ContinuousLinearMapWOT.instLocallyConvexSpace`
+(`Mathlib/Analysis/LocallyConvex/WeakOperatorTopology.lean`) and by the `LocallyConvexSpace`
+instance of `H →Lₚₜ[ℂ] H` built from `UniformConvergenceCLM.locallyConvexSpace`
+(`Mathlib/Analysis/LocallyConvex/PointwiseConvergence.lean` and `StrongTopology.lean`), with the
+continuity of scalar multiplication on `H →Lₚₜ[ℂ] H` that the separation theorems also require
+taken from `UniformConvergenceCLM.continuousSMul` on finite sets (`Set.Finite.isVonNBounded`,
+then `IsScalarTower.continuousSMul` for real scalars), since the pin states it as a theorem and
+not as an instance; the commutative Gelfand duality
+`gelfandStarTransform`, `gelfandTransform_isometry` and `gelfandTransform_bijective` under
+`CommCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) and the compactness of
+`characterSpace ℂ A` for a unital normed algebra (`Mathlib/Analysis/Normed/Algebra/Basic.lean`);
+`Unitization.starLift` and `Unitization.fstHom`; the joint continuity
+`MeasureTheory.Lp.instContinuousSMulDomMulAct` of the domain action on `Lp E p μ`, `1 ≤ p < ∞`,
+of a monoid acting continuously by measure-preserving maps on a space with a locally finite
+measure that is inner regular on finite-measure sets
+(`Mathlib/MeasureTheory/Function/LpSpace/DomAct/Continuous.lean`), applied to a locally compact
+group acting on itself with a regular left Haar measure; the C*-algebra classes, continuous
+functional calculus and positive-operator order on `H →L[ℂ] H`; `PositiveLinearMap`,
+`PositiveLinearMap.exists_norm_apply_le`, `PositiveLinearMap.GNS`, `gnsStarAlgHom` and
+`gnsNonUnitalStarAlgHom` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`);
+`LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, the RCLike `SeparatingDual`
+instance and `SeparatingDual.eq_zero_of_forall_dual_eq_zero`; Banach–Alaoglu and
+`Analysis/Convex/KreinMilman`; `lp` with `lp.instInnerProductSpace`; `WeakDual.metrizable_of_isCompact`; `SymAlg` and `IsCommJordan`;
+`IsSimpleRing`; `CompletelyPositiveMap`, with its underlying complex linear map and positivity
+of all finite `CStarMatrix` amplifications (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`);
+`ErgodicSMul`, Haar measure and `PontryaginDual`; the Hecke-pair predicate `IsHeckeTriple` and the
+Hecke-ring carrier `HeckeRing` with its scoped notation `𝕋` (`Mathlib/NumberTheory/HeckeRing/Defs.lean`),
+whose ring structure is Tau Ceti's; the Riesz–Markov–Kakutani
+measure `RealRMK.rieszMeasure` with `RealRMK.integral_rieszMeasure`
+(`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`) and `essSup`; the continuous
+functional calculus `cfc` of a normal element (`IsStarNormal`) and Fuglede's theorem
+`IsStarNormal.commute_star_right`, that an element commuting with a normal element commutes
+with its adjoint (`Mathlib/Analysis/CStarAlgebra/Fuglede.lean`); the one-point
+compactification `OnePoint`; the partial-map
+adjoint `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and `LinearPMap.isSelfAdjoint_def`
+(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`); the Phragmén–Lindelöf principle on a
+horizontal strip `a<Im z<b` for functions with values in a complex normed space,
+`PhragmenLindelof.horizontal_strip` (a function holomorphic on the open strip, continuous on its
+closure, of growth at most `exp(B·exp(c·|Re z|))` with `c<π/(b−a)`, and bounded by C on both
+boundary lines is bounded by C on the closed strip) and `PhragmenLindelof.eqOn_horizontal_strip`
+(two such functions that agree on both boundary lines agree on the closed strip)
+(`Mathlib/Analysis/Complex/PhragmenLindelof.lean`); the Gaussian integrals
+`integral_cexp_quadratic` and `fourierIntegral_gaussian`
+(`Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean`); and the bijection
+`Rat.HeightOneSpectrum.primesEquiv` from the height-one primes of a Dedekind domain that is the
+integral closure of ℤ in its fraction field ℚ, here `𝓞 ℚ`, onto `Nat.Primes`, sending v to the
+positive generator `Rat.HeightOneSpectrum.natGenerator v` of its contraction to ℤ
+(`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean`); for the completed Hilbert tensor
+product, the inner product space `TensorProduct.instInnerProductSpace` on `E ⊗[ℂ] F` with
+`ContinuousLinearMap.rTensor` and `ContinuousLinearMap.lTensor`
+(`Mathlib/Analysis/InnerProductSpace/TensorProduct.lean`), completed by `UniformSpace.Completion`
+and `ContinuousLinearMap.completion` (`Mathlib/Topology/Algebra/LinearMapCompletion.lean`); the
+orthogonal projections `Submodule.orthogonalProjectionOnto` and `Submodule.starProjection` onto a
+subspace with `Submodule.HasOrthogonalProjection`
+(`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`); the Hilbert sum `WithLp 2 (L × L)`
+with `WithLp.toLp`, and `CFC.sqrt`; the Hölder product `ContinuousLinearMap.holderL`
+(`Mathlib/MeasureTheory/Function/Holder.lean`), which for the exponents `∞, 2, 2` and the
+multiplication of ℂ is multiplication by `L∞` on `L²`, and `StandardBorelSpace`; the composition
+isometry `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, the counting measure
+`MeasureTheory.Measure.count` with its left invariance and `measurePreserving_mul_left`, and
+`DiscreteMeasurableSpace`; `FreeGroup` and `IsConj`. Each is used as stated at the
+pin; none of them includes separability, a chosen faithful state or a nonzero identity.
+
+For V10.StandardRealSubspaces consume Mathlib's `StandardSubspace`,
+`StandardSubspace.mulI`, `StandardSubspace.symplComp` and
+`StandardSubspace.symplComp_symplComp_eq`
+(`Mathlib/Analysis/InnerProductSpace/StandardSubspace.lean`, introduced in
+[Mathlib #29251](https://github.com/leanprover-community/mathlib4/pull/29251)).
+Use its `ClosedSubmodule`-scoped real inner product and
+`ClosedSubmodule.mem_symplComp_iff`; the symplectic complement means vanishing imaginary
+inner product, not the complex orthogonal complement. Mathlib supplies the carrier and
+complement operations; the modular conjugation, unitary group and KMS theory are targets here.
+For V10.ModularTheory consume the Fourier inversion theorem `Continuous.fourierInv_fourier_eq`,
+for a continuous integrable function on a finite-dimensional real inner product space whose
+Fourier transform is integrable, with values in a complete complex normed space
+(`Mathlib/Analysis/Fourier/Inversion.lean`). For V11 consume the Lax–Milgram theorem
+`IsCoercive.continuousLinearEquivOfBilin`, for a coercive bounded real bilinear form on a
+complete real inner product space, not assumed symmetric
+(`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`).
+
+**From Tau Ceti.** The Stone theorem in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`;
+the measurability lemmas `ContinuousOn.aestronglyMeasurable_of_measure_ne_top` and
+`AEFinStronglyMeasurable.aestronglyMeasurable_smul`
+(`TauCeti/MeasureTheory/Function/StronglyMeasurable/InnerRegular.lean`);
+`ContRepresentation.integratedOperatorL1`
+(`TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`); the Pontryagin-dual
+modules `TauCeti/Analysis/Fourier/Pontryagin/{DualEval,Continuity,Measure,Uniqueness,StronglyContinuous}`,
+in particular the cyclic spectral theorem
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (a diagonal matrix coefficient
+`g↦⟪ξ,π(g)ξ⟫` of a strongly continuous unitary representation of a locally compact abelian group
+is the Fourier–Stieltjes transform of a finite inner regular measure on the Pontryagin dual) and
+the uniqueness theorem
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`, with
+the subalgebra extension theorem
+`TauCeti.MeasureTheory.ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular`
+(`TauCeti/MeasureTheory/Measure/FiniteMeasureExt.lean`) behind it; and the Hecke-ring
+convolution: the ring structure on `𝕋 Δ H R` with `HeckeCosetModule.single_mul_single`
+(`TauCeti/NumberTheory/HeckeRing/Multiplication.lean`), the structure constants
+`DoubleCoset.multiplicity` (`TauCeti/NumberTheory/HeckeRing/Multiplicity/Basic.lean`), and
+`HeckeAntiInvolution`, `HeckeAntiInvolution.ofAmbient` and
+`HeckeCosetModule.mul_comm_of_antiInvolution` (`TauCeti/NumberTheory/HeckeRing/Commutativity.lean`).
+The GNS class map of a positive functional on a possibly nonunital C*-algebra,
+`PositiveLinearMap.toGNS`, the continuous linear map `a ↦ [a]` into the GNS Hilbert space, with
+dense range `PositiveLinearMap.denseRange_toGNS`; the canonical GNS cyclic vector of a positive
+functional on a unital C*-algebra,
+`PositiveLinearMap.gnsVector`, with `PositiveLinearMap.inner_gnsVector_coe`,
+`PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
+`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `PositiveLinearMap.norm_gnsVector`
+(`TauCeti/Analysis/CStarAlgebra/GNS.lean`); the nondegeneracy predicate
+`NonUnitalStarAlgHom.IsNondegenerate` of a representation `π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)` of a
+C*-algebra, density of the span of the vectors `π a ξ`, with its unfolding
+`NonUnitalStarAlgHom.isNondegenerate_iff_dense` and the unital criterion
+`NonUnitalStarAlgHom.isNondegenerate_of_map_one` (`π 1 = 1` implies nondegeneracy)
+(`TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean`); the generated von Neumann algebra
+`VonNeumannAlgebra.adjoin`, the double commutant of `s ∪ star s`, with
+`VonNeumannAlgebra.coe_adjoin`, `VonNeumannAlgebra.coe_commutant_adjoin`,
+`VonNeumannAlgebra.subset_adjoin`, `VonNeumannAlgebra.adjoin_le_iff` and
+`VonNeumannAlgebra.adjoin_mono` (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`); and the von
+Neumann density theorem `StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_centralizer_centralizer`
+(`TauCeti/Analysis/VonNeumannAlgebra/Density.lean`): for a unital star subalgebra `S` of the bounded
+operators on a complete real or complex inner product space, an element of `S''` is approximated
+by an element of `S` at finitely many vectors simultaneously.
+The prime number theorem in arithmetic progressions,
+`NumberField.Chebotarev.tendsto_primeCount_primesCongruent` and
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`
+(`TauCeti/NumberTheory/Chebotarev/PrimeCounting/PrimesCongruent.lean`): for a nonzero level m
+and a natural number a with `IsUnit (a : ZMod m)`, the number
+`TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % m = a % m} x` of primes 𝔭 of `𝓞 ℚ` with
+`absNorm 𝔭 ≤ x` in that class (`TauCeti.primeCount`,
+`TauCeti/NumberTheory/ArithmeticDirichletSeries/Counting.lean`), divided by `x / log x`, tends
+to `1/φ(m)`, and the count is asymptotic to `Li(x)/φ(m)`. The norm of a prime of `𝓞 ℚ`,
+`Rat.HeightOneSpectrum.absNorm_asIdeal`: `Ideal.absNorm v.asIdeal = natGenerator v`
+(`TauCeti/NumberTheory/NumberField/Ideal/IntegersRat.lean`).
+The KMS condition of a point-norm continuous real action α on a possibly nonunital C*-algebra
+(`TauCeti.CStarAction`): `TauCeti.CStarAction.IsKMSFunction`, a function F bounded and
+continuous on the closed strip between ℝ and the line `Im z=β`, holomorphic on the open strip,
+with `F(t)=φ(aα_t(b))` and `F(t+iβ)=φ(α_t(b)a)`; `TauCeti.CStarAction.IsKMSState`, a state with
+such a function for every pair a, b; `TauCeti.CStarAction.IsKMSFunction.eqOn`, the uniqueness of
+the KMS function of a pair; and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
+for entire analytic b the function `z↦φ(aα_z(b))` is the KMS function of the pair exactly when
+`φ(aα_(t+iβ)(b))=φ(α_t(b)a)` for real t (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`).
+The inner dynamics `selfAdjoint.cstarAction h`, `τ_t(a)=exp(ith)a·exp(−ith)` for a self-adjoint
+element h of a unital C*-algebra, for which every element is entire analytic with
+`τ_z(a)=exp(izh)a·exp(−izh)`, `selfAdjoint.entireExtension_cstarAction`
+(`TauCeti/Analysis/CStarAlgebra/Action/Inner.lean`). The Gibbs state `Matrix.gibbsState`,
+`x↦Tr(exp(−βK)x)/Tr(exp(−βK))` for a Hermitian complex matrix K, with
+`Matrix.IsHermitian.isKMSState_gibbsState` (it is a β-KMS state of the inner dynamics of K for
+every real β) and `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState` (it is the only one)
+(`TauCeti/Analysis/CStarAlgebra/Action/Gibbs.lean`). Trace duality
+`LinearMap.existsUnique_trace_mul_eq`: every linear functional on square matrices is `x↦Tr(ρx)`
+for a unique matrix ρ (`TauCeti/LinearAlgebra/Matrix/Trace/Duality.lean`).
+The Banach duality of V4.Core. For a subspace S of a normed space E, the isometries
+`Submodule.quotientDualEquivAnnihilator`, the dual of `E ⧸ S` is the annihilator of S by
+precomposition with the quotient map (`TauCeti/Analysis/Normed/Module/Dual/Quotient.lean`), and
+`Submodule.quotientAnnihilatorEquivDual`, the dual of S is the quotient of the dual of E by the
+annihilator of S by restriction (`TauCeti/Analysis/Normed/Module/Dual/Submodule.lean`); the
+double-annihilator theorems `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`,
+the preannihilator of the annihilator of S is its norm closure
+(`TauCeti/Analysis/Normed/Module/Annihilator.lean`), and
+`Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`, the annihilator of the
+preannihilator of a subspace G of the dual is its weak-star closure
+(`TauCeti/Analysis/LocallyConvex/WeakDual/Annihilator.lean`); and the Krein–Šmulian theorem for
+a Banach space E, `Convex.isClosed_iff_forall_isClosed_inter_closedBall` (a real-convex subset
+of `WeakDual 𝕜 E` is weak-star closed exactly when its intersection with every closed ball centred
+at zero is) with its subspace form `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`
+(the closed unit ball suffices) (`TauCeti/Analysis/Normed/Module/Dual/KreinSmulian.lean`). The
+Banach space `TauCeti.NuclearOperator` of nuclear operators from a normed space to a Banach space,
+normed by the nuclear norm (the quotient norm of `E* ⊗̂π F` by the kernel of the canonical map),
+with the rank-one value `TauCeti.NuclearOperator.norm_smulRight` (`x↦f(x)y` has nuclear norm
+`‖f‖‖y‖`) and `TauCeti.exists_toContinuousLinearMap_eq_of_nuclearGauge_lt` (an operator of
+nuclear norm below c is induced by a projective tensor of norm below c)
+(`TauCeti/Analysis/Normed/Operator/Nuclear.lean`), and the series representation
+`TauCeti.CompletedProjectiveTensor.exists_hasSum_tmul_of_norm_lt` (a completed projective tensor
+of norm below c is a convergent series `Σ xₙ⊗yₙ` with `Σ‖xₙ‖‖yₙ‖<c`)
+(`TauCeti/Analysis/Normed/Module/TensorProduct/Series.lean`).
+The Borel-calculus inputs of V2.BorelCalculus, on a complete complex Hilbert space H. The
+projection-valued measure `TauCeti.ProjValMeasure` on a measurable space X: projections `P(B)` of
+the measurable sets with finite diagonal measures `diag ξ`, `⟪ξ,P(B)ξ⟫=diag ξ (B)`, `P(X)=1` and
+`P(B∩C)=P(B)P(C)`, with strong countable additivity
+`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean`); the commutative C*-algebra
+`TauCeti.BoundedBorelFunction X` of bounded measurable complex functions with the supremum norm
+(`TauCeti/MeasureTheory/Function/BoundedBorel.lean`); the integral
+`TauCeti.ProjValMeasure.integral`, a unital star algebra homomorphism from the bounded Borel
+functions into `B(H)`, with `TauCeti.ProjValMeasure.integral_indicator` (`∫1_B dP=P(B)`),
+`TauCeti.ProjValMeasure.eq_integral_of_continuous` (a continuous map agreeing with the integral on
+simple functions is the integral), `TauCeti.ProjValMeasure.norm_integral_le` (`|f|≤c` pointwise
+gives `‖∫f dP‖≤c`), the vector identity `TauCeti.ProjValMeasure.norm_sq_integral_apply`
+(`‖(∫f dP)ξ‖²=∫|f|²d(diag ξ)`) and `TauCeti.ProjValMeasure.integral_apply_eq_zero_iff` (`(∫f dP)ξ=0`
+iff f=0 `diag ξ`-almost everywhere)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Integral.lean`); the null filter
+`TauCeti.ProjValMeasure.ae`, the sets conull for every diagonal measure, with
+`TauCeti.ProjValMeasure.proj_eq_zero_iff_compl_mem_ae`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Null.lean`);
+`TauCeti.ProjValMeasure.integral_eq_integral_iff` (two integrals agree iff the functions agree
+P-almost everywhere) and dominated convergence
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (functions bounded
+by a common constant and converging P-almost everywhere along a countably generated filter have
+strongly converging integrals)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/DominatedConvergence.lean`); the polarized
+measures `TauCeti.ProjValMeasure.polarizedComplexMeasure` with
+`TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` (value `⟪ψ,P(B)ξ⟫` on B) and the variation
+bound `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le` (at most `‖ψ‖‖ξ‖`)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Polarization.lean`,
+`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Variation.lean`); and the pushforward
+`TauCeti.ProjValMeasure.map` along a measurable map with the change of variables
+`TauCeti.ProjValMeasure.integral_map`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Map.lean`). For a unital star representation π
+of `C(K,ℂ)` on H, K compact Hausdorff with its Borel σ-algebra: the finite regular Riesz measure
+`StarAlgHom.representationDiagMeasure` of `f↦⟪ξ,π(f)ξ⟫`, with
+`StarAlgHom.integral_representationDiagMeasure` (`∫f dμ_ξ=⟪ξ,π(f)ξ⟫` for continuous f),
+`StarAlgHom.representationDiagMeasure_univ` (mass `‖ξ‖²`) and
+`StarAlgHom.integral_norm_sq_representationDiagMeasure` (`∫|f|²dμ_ξ=‖π(f)ξ‖²` for continuous f)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/DiagonalMeasure.lean`); the
+polarized complex measures `StarAlgHom.representationPolarizedMeasure`, conjugate-linear in the
+first vector, with `StarAlgHom.integral_representationPolarizedMeasure` (`∫f dμ_(ψ,ξ)=⟪ψ,π(f)ξ⟫` for
+continuous f), `StarAlgHom.representationPolarizedMeasure_swap_apply` (`μ_(ξ,ψ)(B)` is the conjugate
+of `μ_(ψ,ξ)(B)`) and `StarAlgHom.variation_representationPolarizedMeasure_univ_le` (variation at
+most `2‖ψ‖‖ξ‖`)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/PolarizedMeasure.lean`); and the
+Borel extension `StarAlgHom.representationBorelOperator`, a complex linear map from the bounded
+Borel functions on K into `B(H)` with `⟪ψ,π(f)ξ⟫=∫f dμ_(ψ,ξ)`
+(`StarAlgHom.inner_representationBorelOperator`) that agrees with π on continuous functions
+(`StarAlgHom.representationBorelOperator_ofContinuousMap`), bounded through
+`StarAlgHom.norm_integral_representationPolarizedMeasure_le` (`‖∫f dμ_(ψ,ξ)‖≤2·sup|f|·‖ψ‖‖ξ‖`), and
+not shown multiplicative at the pin
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/BorelOperator.lean`). For a
+normal operator a, `ContinuousLinearMap.diagMeasure`, the Riesz measure on `spectrum ℂ a` of its
+continuous calculus `cfcHom`, with `ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc`
+(`TauCeti/Analysis/InnerProductSpace/BorelCalculus/DiagonalMeasure.lean`). The resolvent and Cayley
+inputs of V10.ClosedOperators, for a self-adjoint partial linear map T on H (Mathlib's
+`IsSelfAdjoint` for the adjoint `LinearPMap.adjoint`): every nonreal λ is a resolvent point,
+`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, with `‖(λ−T)⁻¹‖≤|Im λ|⁻¹`,
+`IsSelfAdjoint.norm_resolvent_le` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`);
+the Cayley transform `LinearPMap.cayley`, `U=1+2i(−i−T)⁻¹`, which is `(T−i)(T+i)⁻¹`, with
+`LinearPMap.mem_graph_iff_exists_cayley` (the graph of T is `{(x−Ux, i(x+Ux)) : x∈H}`) and
+`LinearPMap.cayley_apply_eq_self_iff` (`Ux=x` only for x=0)
+(`TauCeti/Analysis/Normed/Operator/LinearPMap/Cayley.lean`), and its unitarity and normality
+`IsSelfAdjoint.cayley_mem_unitary` and `IsSelfAdjoint.isStarNormal_cayley`
+(`TauCeti/Analysis/InnerProductSpace/LinearPMap/Cayley.lean`). The GNS covariance of V4.Normality.
+For a point-norm continuous action α of a topological group G on a C*-algebra A
+(`TauCeti.CStarAction`) and a positive functional φ with `φ∘α_g=φ`, the GNS implementing group
+`TauCeti.CStarAction.gnsImplementingGroup`, the strongly continuous unitary representation of G on
+the GNS space extending `[b]↦[α_g(b)]`, with
+`TauCeti.CStarAction.inner_gnsImplementingGroup_apply_coe` (`⟪[a],U_g[b]⟫=φ(a*α_g(b))`), and the
+covariant pair `TauCeti.CStarAction.gnsCovariantRepresentation` of Mathlib's GNS representation with
+that group, `U_gπ_φ(a)U_g*=π_φ(α_g(a))` (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/GNS.lean`).
+The separating theorem of Layer 6: for a β-KMS state ω of a point-norm continuous real action on a
+unital C*-algebra A, `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`, an
+operator x of `π_ω(A)''` with `x[1]=0` is zero
+(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Separating.lean`), and
+`TauCeti.CStarAction.isKMSState_zero_iff`, the 0-KMS states are the tracial states, for every action
+(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`). Each is used as stated at the pin.
+
+**From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
+annihilators, quotient duals, adjoints and Goldstine, the weak and weak-star continuity criteria
+by evaluation and the comparison of the norm and weak-star topologies on dual balls; and the
+generic operator topologies of bounded maps between normed spaces, on Mathlib's
+`PointwiseConvergenceCLM` (SOT) and `ContinuousLinearMapWOT` (WOT): norm convergence implies SOT
+convergence, which implies WOT convergence; an SOT- or WOT-convergent sequence of bounded maps on
+a Banach space is norm bounded; multiplication is jointly SOT continuous on norm-bounded sets;
+and on an infinite-dimensional Banach space there are SOT-null nets `S_i`, `T_i` with `S_iT_i` a
+fixed nonzero rank-one operator, so it is not jointly SOT continuous there.
+[B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
+James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
+quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
+representation, and the compact Schmidt series with its zero-based singular-value comparison and
+its nuclear-norm identity on Hilbert pairs, together with B4's isometric identification of the
+Hilbert nuclear operators (`TauCeti.NuclearOperator` on Hilbert pairs) with the trace-class ideal
+of OperatorIdeals OI-B29–B30. The annihilator and quotient dualities, Krein–Šmulian and the
+nuclear operators are consumed through their Tau Ceti implementations listed above.
+
+**From TauCetiRoadmap.OperatorTheory.** From
+[PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) Part A, the bounded
+modulus `|x|=√(x†x)` of a bounded operator between complete real or complex Hilbert spaces with its
+positivity, square, pointwise norm, kernel and norm laws (PD-A36–A45), and from Part B the
+canonical polar partial isometry v with initial space the closure of `range |x|`, equal to
+`(ker x)⊥`, final space the closure of `range x`, `v|x|=x`, the initial and final projection
+formulas, the polar factor of `x†` equal to `v†`, and uniqueness among maps that vanish off the
+initial space (PD-B23–B36). From [OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), the
+nuclear gauge `ν(x)=∑ₙ aₙ(x)` and the trace-class ideal family (OI-B29–B31, OI-B23), and the
+Hilbert–Schmidt energy, its basis independence, the Hilbert–Schmidt norm with its operator-norm
+domination, adjoint invariance and ideal inequality, and the Hilbert–Schmidt family
+(OI-B32–B41). The ideal statements are consumed on arbitrary complex Hilbert spaces;
+the modulus and polar decomposition are consumed over both ℝ and ℂ. Nothing is consumed from
+the spectral sub-roadmap SelfAdjointSpectralTheory, which consumes V4.0.Fields; the spectral
+inputs of V2, V4, V5 and V10 are Tau Ceti's projection-valued measures, Borel extension,
+resolvent and Cayley transform (From Tau Ceti) and the targets V2.BorelCalculus,
+V4.0.Multiplication and V10.ClosedOperators.
+
+**From TauCetiRoadmap.AmenableGroups.** [Layers 5–7](../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups)
+invariant means, discrete Følner theory and abelian amenability, and from
+[Layer 7](../AmenableGroups/README.md#layer-7-locally-compact-hausdorff-groups-and-haar-l), for an
+arbitrary locally compact Hausdorff group with a regular left Haar measure μ: the Haar pushforward
+and inversion formulas with the modular character, the `L¹` convolution
+`(h*k)(x)=∫ h(y)k(y⁻¹x) dμ(y)` with its associativity and norm bounds, `L¹` continuity of
+translations, and the nonnegative integral-one kernels `h_U` supported in shrinking identity
+neighbourhoods U with `‖h*h_U−h‖₁→0` for every `h∈L¹` (a net built from compactly supported
+continuous functions).
+
+**From TauCetiRoadmap.BanachAlgebras.** For a locally compact Hausdorff group G with a nonzero
+regular left Haar measure μ, with no second-countability or σ-finiteness hypothesis:
+[§7.2](../BanachAlgebras/README.md#72-convolution-and-approximate-identities), the Banach
+algebra `L¹(G,μ)` with the convolution `(f*h)(x)=∫f(y)h(y⁻¹x)dμ(y)` and the isometric
+involution `f*(x)=c(x)·conj(f(x⁻¹))`, where `c=Measure.modularCharacter` satisfies
+`∫f(xg)dμ(x)=c(g)∫f dμ`; [§7.3](../BanachAlgebras/README.md#73-integrated-representations)
+A7.IntegratedRepresentations and A7.RegularL2, the unitary left translations
+`(λ_xξ)(y)=ξ(x⁻¹y)` on `L²(G,μ)` with their strong continuity and the integrated operators λ(f),
+f∈L¹, with `‖λ(f)‖≤‖f‖₁`, `λ(f*h)=λ(f)λ(h)`, `λ(f*)=λ(f)*`, nondegeneracy, faithfulness on `L¹`,
+and the common representative of `f*h` in `L¹` and `λ(f)h` in `L²` for h∈L¹∩L², with
+commutativity of `L¹(G)` for abelian G; and
+[§7.5](../BanachAlgebras/README.md#75-characters-and-fourier-comparisons)
+A7.CharactersAndUniqueness, for abelian G: `γ↦(f↦∫f(x)γ(x)dμ(x))` is a bijection from the
+continuous unitary characters of G onto the nonzero bounded characters of `L¹(G)`, with no
+conjugation, and a homeomorphism from the compact-open dual onto the weak-star character space;
+`L¹(G)` is semisimple, so `f̂=0` forces f=0; and two finite regular complex Borel measures on G
+with equal transforms `γ↦∫γ dν` are equal. From
+[§3.1](../BanachAlgebras/README.md#31-characters-and-function-algebras), for a commutative
+C*-algebra A with nonzero characters Ω: restriction is a bijection, and a homeomorphism for the
+weak-star topologies, from the characters of `Unitization ℂ A` other than the augmentation
+`Unitization.fstHom` onto Ω, so that Ω is open in the compact unitized character space, which is
+its one-point compactification when A has no identity. Each is used as BanachAlgebras states it.
+
+**From the other roadmaps named in the scope.** RepresentationTheory/CompactGroups (Peter–Weyl),
+RepresentationTheory/SemisimpleAlgebras (finite double centralizer),
+RepresentationTheory/LieHighestWeight (the rank-one Clebsch–Gordan decomposition for the SU(2)
+application of V8), GlobalNumberFields Layer 4 (finite adeles), and OptimalTransport Layers 2 and
+8.2.
 
 ## References
 

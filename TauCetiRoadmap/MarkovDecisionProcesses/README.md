@@ -1,57 +1,70 @@
 # Roadmap: Markov decision processes, dynamic programming and Q-learning
 
-**Summary.** Develop the theory of Markov decision processes with discounted reward, on a
-countable state space with finitely many actions and bounded rewards. The Bellman evaluation and
-optimality operators are monotone `γ`-contractions of the bounded functions with the sup norm;
-their fixed points are the value of a policy and the optimal value, and a policy that is greedy
-for the optimal value is optimal among all history-dependent randomized policies, whose returns
-are defined through the Ionescu-Tulcea trajectory law. The roadmap solves finite-horizon problems
-by backward induction, proves the optimality of greedy policies, the policy improvement theorem
-and the performance difference lemma, proves the convergence and error bounds of value iteration
-and policy iteration, and, on a finite state space, characterizes the optimal value and the
-occupancy measures by a pair of linear programs. It ends with stochastic approximation:
-Tsitsiklis's boundedness and convergence theorems for asynchronous iterations, with delays, of a
-map that contracts towards its fixed point in a weighted max norm under martingale-difference
-noise, and their consequences, the almost-sure convergence of tabular Q-learning and of tabular
-TD(0).
+**Summary.** A Markov decision process is a random system steered by a controller. At each time
+the controller observes the state and chooses an action, possibly at random and possibly
+depending on the past. It collects a reward depending on the state and the action, and the next
+state is drawn from a law depending on both. The aim is to maximize the expected discounted
+return, in which the reward at time `n` is weighted by `γ^n`. This roadmap develops the theory on
+a countable state space with finitely many actions and bounded rewards.
 
-## Scope and ownership
+The central object is the Bellman optimality operator `T`, which sends a bounded function `v` on
+the states to `s ↦ max_a (reward s a + γ ∫ v d(trans s a))`. For `γ < 1` it is a monotone
+`γ`-contraction for the sup norm, and its unique fixed point is the optimal value `V⋆`. The first
+main theorem says that `V⋆` is exactly what can be achieved. For `γ < 1`, no history-dependent
+randomized policy has an expected discounted return above `V⋆` at any state. A deterministic
+stationary policy that is greedy for `V⋆`, choosing at each state an action attaining the maximum
+in `T V⋆`, attains `V⋆`. Such a policy exists because there are finitely many actions, and no
+measurable selection is needed, since every function on the state space is measurable.
 
-This roadmap owns:
+Over a finite horizon `N` the problem is solved by backward induction, for every discount
+factor, `γ ≥ 1` included. The `N`-step return adds `γ^N g` at the final state, for a bounded
+terminal value `g`. No policy has an `N`-step return above `T^N g`, and a deterministic Markov
+policy that at each time `n < N` is greedy for `T^(N−n−1) g` attains it.
 
-- Markov decision processes with countably many states, finitely many actions and bounded
-  rewards, their policies (deterministic and randomized, stationary, Markov and
-  history-dependent), the trajectory law of a policy and its expected discounted return;
-- the Bellman operators, their contraction and monotonicity, the value of a policy and the optimal
-  value, Q-functions, greedy policies and the existence of optimal deterministic stationary
-  policies;
-- finite-horizon dynamic programming;
-- the policy improvement theorem, the discounted occupancy measure and the performance difference
-  lemma;
-- value iteration and policy iteration;
-- the primal and dual linear programs of a discounted MDP with finitely many states;
-- the scalar noise lemma with random step sizes, the boundedness and convergence theorems for
-  asynchronous stochastic approximation, tabular Q-learning and tabular TD(0).
+For `γ < 1` the two classical algorithms are then proved correct. Value iteration
+`v_k = T^k v₀` satisfies `‖v_k − V⋆‖ ≤ γ^k ‖v₀ − V⋆‖`, and a policy greedy for a bounded `v` has
+value within `2γ/(1 − γ) ‖v − V⋆‖` of `V⋆`. Policy iteration replaces a deterministic stationary
+policy by one greedy for its value, and approaches `V⋆` at least as fast as value iteration. On a
+finite state space, greedy policies of value iteration are eventually optimal. There, policy
+iteration that keeps the current action wherever it is already a maximizer is optimal and
+constant from step `|A|^|S|` on. Also on a finite state space, a pair of linear programs
+characterizes `V⋆` and the occupancy measures of policies: for positive weights `μ`, `V⋆` is the
+unique minimizer of `Σ_s μ s v s` among the `v` with `v ≥ T v`.
 
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
+The last part treats learning from samples, through Tsitsiklis's theorems on asynchronous
+stochastic approximation. Each coordinate of a vector moves by its own step towards that
+coordinate of a map `F`, evaluated at possibly delayed values, plus noise of conditional mean
+zero. Assume, besides measurability and integrability conditions, that the step sizes lie in
+`[0, 1]` and almost surely have infinite sum and finite sum of squares. Assume also that the
+times of the delayed values tend to infinity and that the conditional variance of the noise grows
+at most quadratically with the past iterates, both almost surely. If `F` contracts towards a
+point `x⋆` with a factor `β < 1` in a weighted max norm, the iterates converge to `x⋆` almost
+surely. For `γ < 1` this gives the almost-sure convergence of tabular Q-learning, which keeps one
+estimate for each state and action, on a finite state space, under explicit conditions on the
+step sizes and samples. The limit is the optimal Q-function
+`Q⋆ (s, a) = reward s a + γ ∫ V⋆ d(trans s a)`. Tabular TD(0) converges likewise to the value of
+a fixed policy.
 
-Out of scope:
+The roadmap builds on Mathlib's contraction mapping theorem, Ionescu-Tulcea construction and
+martingale convergence theorem. From Tau Ceti it uses the law of a Markov chain with its Markov
+property. The classification, stationary laws and convergence of Markov chains belong to
+MarkovChainsAndRenewal, and stochastic gradient descent to FirstOrderOptimization. The six
+layers put the finite horizon before the optimality theorem, which uses it; the next section
+shows how they depend on each other.
 
-- uncountable state spaces, infinite action sets, unbounded rewards, and measurable selection;
-- average-reward and total-reward criteria, undiscounted problems, and constrained MDPs;
-- partially observable MDPs, stochastic games, and optimal stopping as a separate theory;
-- continuous-time control and the Hamilton–Jacobi–Bellman equation;
-- function approximation, including linear TD with Markovian sampling, policy-gradient methods and
-  sample-complexity bounds;
-- asynchronous stochastic approximation of monotone maps that are not contractions (Tsitsiklis
-  1994, Theorem 2), which serves undiscounted problems;
-- general linear-programming duality: the two programs of Layer 5 are solved directly;
-- the classification, stationary laws and convergence of Markov chains, which belong to
-  MarkovChainsAndRenewal;
-- the Robbins–Siegmund theorem and stochastic gradient descent, which belong to
-  FirstOrderOptimization (its Layer 5); the noise lemma 6.1 is proved here with a stopped
-  martingale and uses neither.
+## How to read the build
+
+Layer 1 constructs the trajectory law of a policy and the Bellman operators on the bounded
+functions and identifies the
+value of a stationary policy with its expected return. Layer 2 solves the finite-horizon problem,
+which Layer 3 uses, with the tail bound of Layer 1, to prove that the fixed point of the optimality
+operator dominates every policy; Layer 3 also contains the Q-function, policy improvement and the
+performance difference lemma. Layer 4 gives the rates of value iteration and policy iteration and
+Layer 5, on a finite state space, the two linear programs; both use Layers 1 and 3 only. Layer 6
+proves the stochastic-approximation theorems from Mathlib's martingale convergence alone and
+applies them to the operators of 1.2 and 3.2. Each numbered target ends with **Checks** and a
+*Needs:* line, and every claim carries a source locator in parentheses or says that it is proved
+here.
 
 ## Conventions
 
@@ -85,70 +98,6 @@ Out of scope:
 - A randomized stationary `π` is **optimal** if `V^π = V⋆`.
 - **Probability.** `(Ω, P)` is a probability space with filtration `ℱ : Filtration ℕ m₀`;
   conditional expectation is Mathlib's `P[· | ℱ n]`, and almost-sure statements are `∀ᵐ ω ∂P`.
-
-## Exact supplier contracts
-
-- Mathlib:
-  - `ContractingWith`, `ContractingWith.fixedPoint_unique'` (two fixed points of a contraction are
-    equal), `ContractingWith.tendsto_iterate_fixedPoint` (the iterates from any point converge to
-    the fixed point, in a complete nonempty metric space), `ContractingWith.dist_fixedPoint_le`
-    and `ContractingWith.apriori_dist_iterate_fixedPoint_le`
-    (`Mathlib/Topology/MetricSpace/Contracting.lean`);
-  - `lp` with exponent `∞` (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`): `memℓp_infty` (a family
-    with bounded norms is in `lp ∞`), `lp.norm_eq_ciSup` (the norm is the supremum of the norms
-    of the entries), `lp.norm_apply_le_norm` and `lp.completeSpace`;
-    `norm_integral_le_of_norm_le_const` (`Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`): on
-    a finite measure, `‖f‖ ≤ C` almost everywhere gives `‖∫ f‖ ≤ C · μ.real univ`;
-  - `Matrix.linftyOpNormedRing`
-    (`Mathlib/Analysis/Matrix/Normed.lean`), a `def` used as a local instance;
-    `NormedRing.inverse_one_sub` (`Mathlib/Analysis/Normed/Ring/Units.lean`): in a normed ring
-    with summable geometric series, `‖t‖ < 1` gives `Ring.inverse (1 − t) = (1 − t)⁻¹` as a unit;
-  - `PMF`, `PMF.bind`, `Kernel`, `IsMarkovKernel`, `Kernel.compProd`, the monoid structure on
-    `Kernel α α` given by composition (`Mathlib/Probability/Kernel/Composition/Comp.lean`), whose
-    powers are the `n`-step kernels, and `Measure.sum`;
-  - `Kernel.traj`, `Kernel.trajMeasure`, `Kernel.integral_traj_partialTraj` (for `a ≤ b` and `f`
-    integrable for `traj κ a x₀`) and `Kernel.condDistrib_trajMeasure` (for a probability measure
-    `μ₀` and `X (a + 1)` standard Borel and nonempty, the conditional law of the coordinate
-    `a + 1` given the coordinates up to `a` is `κ a`)
-    (`Mathlib/Probability/Kernel/IonescuTulcea/Traj.lean`);
-  - `condExp`, `Filtration`, `StronglyAdapted`, `Martingale`;
-    `Submartingale.exists_ae_tendsto_of_bdd` (`Mathlib/Probability/Martingale/Convergence.lean`):
-    on a finite measure, a submartingale with `eLpNorm (f n) 1 μ ≤ R` for all `n` converges almost
-    everywhere; the stopping-time API `MeasureTheory.IsStoppingTime`,
-    `MeasureTheory.stoppedProcess` (`Mathlib/Probability/Process/Stopping.lean`) and
-    `MeasureTheory.hittingAfter` (`Mathlib/Probability/Process/HittingTime.lean`).
-- Tau Ceti:
-  - `TauCeti.Probability.markovChainLaw ν κ` (`TauCeti/Probability/Process/MarkovChain.lean`), the
-    law on `ℕ → S` of the homogeneous Markov chain with initial law `ν` and Markov kernel `κ`;
-    `MeasureTheory.Measure.eq_markovChainLaw` (same file): for finite `ν`, a measure on paths whose
-    time-zero marginal is `ν` and whose prefix laws satisfy the one-step recursion with `κ` is
-    `markovChainLaw ν κ`; `MeasureTheory.Measure.markovChainLaw_map_eval` (same file): the state
-    at time `n` has law `(κ ^ n) ∘ₘ ν`;
-  - `MeasureTheory.Measure.condExp_shift_iterate_markovChainLaw`
-    (`TauCeti/Probability/MarkovChain/MarkovProperty.lean`): for finite `ν` and `f` integrable for
-    `markovChainLaw ((κ ^ n) ∘ₘ ν) κ`, the conditional expectation of `f` of the path shifted by
-    `n`, given the first `n + 1` coordinates, is `∫ f ∂(markovChainLaw (dirac (x n)) κ)`;
-  - `Kernel.ofPMF p` (`TauCeti/Probability/Kernel/PMF.lean`): for a family `p : α → PMF β` on a
-    countable `α` with measurable singletons, the kernel whose row at `a` is the measure of
-    `p a`, with its instance `IsMarkovKernel (Kernel.ofPMF p)`; every kernel of this roadmap
-    built from `PMF`s is this one; `Kernel.toMatrix`, `Kernel.toMatrix_pow`
-    and `Kernel.comp_apply_singleton_eq_vecMul` (`TauCeti/Probability/Kernel/Matrix.lean`): the
-    `ℝ≥0`-valued transition matrix of a kernel on a finite type, its compatibility with powers,
-    and propagation of an initial law as a row-vector product.
-
-## How to read the build
-
-Layer 1 constructs the trajectory law of a policy and the Bellman operators on the bounded
-functions and identifies the
-value of a stationary policy with its expected return. Layer 2 solves the finite-horizon problem,
-which Layer 3 uses, with the tail bound of Layer 1, to prove that the fixed point of the optimality
-operator dominates every policy; Layer 3 also contains the Q-function, policy improvement and the
-performance difference lemma. Layer 4 gives the rates of value iteration and policy iteration and
-Layer 5, on a finite state space, the two linear programs; both use Layers 1 and 3 only. Layer 6
-proves the stochastic-approximation theorems from Mathlib's martingale convergence alone and
-applies them to the operators of 1.2 and 3.2. Each numbered target ends with **Checks** and a
-*Needs:* line, and every claim carries a source locator in parentheses or says that it is proved
-here.
 
 ## Layer 1: MDPs, policies and Bellman operators
 
@@ -797,6 +746,94 @@ proper.
   AlphaZero and MuZero on tic-tac-toe; it contains no proofs on this material.
 
 These are reference material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- Markov decision processes with countably many states, finitely many actions and bounded
+  rewards, their policies (deterministic and randomized, stationary, Markov and
+  history-dependent), the trajectory law of a policy and its expected discounted return;
+- the Bellman operators, their contraction and monotonicity, the value of a policy and the optimal
+  value, Q-functions, greedy policies and the existence of optimal deterministic stationary
+  policies;
+- finite-horizon dynamic programming;
+- the policy improvement theorem, the discounted occupancy measure and the performance difference
+  lemma;
+- value iteration and policy iteration;
+- the primal and dual linear programs of a discounted MDP with finitely many states;
+- the scalar noise lemma with random step sizes, the boundedness and convergence theorems for
+  asynchronous stochastic approximation, tabular Q-learning and tabular TD(0).
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope:
+
+- uncountable state spaces, infinite action sets, unbounded rewards, and measurable selection;
+- average-reward and total-reward criteria, undiscounted problems, and constrained MDPs;
+- partially observable MDPs, stochastic games, and optimal stopping as a separate theory;
+- continuous-time control and the Hamilton–Jacobi–Bellman equation;
+- function approximation, including linear TD with Markovian sampling, policy-gradient methods and
+  sample-complexity bounds;
+- asynchronous stochastic approximation of monotone maps that are not contractions (Tsitsiklis
+  1994, Theorem 2), which serves undiscounted problems;
+- general linear-programming duality: the two programs of Layer 5 are solved directly;
+- the classification, stationary laws and convergence of Markov chains, which belong to
+  MarkovChainsAndRenewal;
+- the Robbins–Siegmund theorem and stochastic gradient descent, which belong to
+  FirstOrderOptimization (its Layer 5); the noise lemma 6.1 is proved here with a stopped
+  martingale and uses neither.
+
+## Exact supplier contracts
+
+- Mathlib:
+  - `ContractingWith`, `ContractingWith.fixedPoint_unique'` (two fixed points of a contraction are
+    equal), `ContractingWith.tendsto_iterate_fixedPoint` (the iterates from any point converge to
+    the fixed point, in a complete nonempty metric space), `ContractingWith.dist_fixedPoint_le`
+    and `ContractingWith.apriori_dist_iterate_fixedPoint_le`
+    (`Mathlib/Topology/MetricSpace/Contracting.lean`);
+  - `lp` with exponent `∞` (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`): `memℓp_infty` (a family
+    with bounded norms is in `lp ∞`), `lp.norm_eq_ciSup` (the norm is the supremum of the norms
+    of the entries), `lp.norm_apply_le_norm` and `lp.completeSpace`;
+    `norm_integral_le_of_norm_le_const` (`Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`): on
+    a finite measure, `‖f‖ ≤ C` almost everywhere gives `‖∫ f‖ ≤ C · μ.real univ`;
+  - `Matrix.linftyOpNormedRing`
+    (`Mathlib/Analysis/Matrix/Normed.lean`), a `def` used as a local instance;
+    `NormedRing.inverse_one_sub` (`Mathlib/Analysis/Normed/Ring/Units.lean`): in a normed ring
+    with summable geometric series, `‖t‖ < 1` gives `Ring.inverse (1 − t) = (1 − t)⁻¹` as a unit;
+  - `PMF`, `PMF.bind`, `Kernel`, `IsMarkovKernel`, `Kernel.compProd`, the monoid structure on
+    `Kernel α α` given by composition (`Mathlib/Probability/Kernel/Composition/Comp.lean`), whose
+    powers are the `n`-step kernels, and `Measure.sum`;
+  - `Kernel.traj`, `Kernel.trajMeasure`, `Kernel.integral_traj_partialTraj` (for `a ≤ b` and `f`
+    integrable for `traj κ a x₀`) and `Kernel.condDistrib_trajMeasure` (for a probability measure
+    `μ₀` and `X (a + 1)` standard Borel and nonempty, the conditional law of the coordinate
+    `a + 1` given the coordinates up to `a` is `κ a`)
+    (`Mathlib/Probability/Kernel/IonescuTulcea/Traj.lean`);
+  - `condExp`, `Filtration`, `StronglyAdapted`, `Martingale`;
+    `Submartingale.exists_ae_tendsto_of_bdd` (`Mathlib/Probability/Martingale/Convergence.lean`):
+    on a finite measure, a submartingale with `eLpNorm (f n) 1 μ ≤ R` for all `n` converges almost
+    everywhere; the stopping-time API `MeasureTheory.IsStoppingTime`,
+    `MeasureTheory.stoppedProcess` (`Mathlib/Probability/Process/Stopping.lean`) and
+    `MeasureTheory.hittingAfter` (`Mathlib/Probability/Process/HittingTime.lean`).
+- Tau Ceti:
+  - `TauCeti.Probability.markovChainLaw ν κ` (`TauCeti/Probability/Process/MarkovChain.lean`), the
+    law on `ℕ → S` of the homogeneous Markov chain with initial law `ν` and Markov kernel `κ`;
+    `MeasureTheory.Measure.eq_markovChainLaw` (same file): for finite `ν`, a measure on paths whose
+    time-zero marginal is `ν` and whose prefix laws satisfy the one-step recursion with `κ` is
+    `markovChainLaw ν κ`; `MeasureTheory.Measure.markovChainLaw_map_eval` (same file): the state
+    at time `n` has law `(κ ^ n) ∘ₘ ν`;
+  - `MeasureTheory.Measure.condExp_shift_iterate_markovChainLaw`
+    (`TauCeti/Probability/MarkovChain/MarkovProperty.lean`): for finite `ν` and `f` integrable for
+    `markovChainLaw ((κ ^ n) ∘ₘ ν) κ`, the conditional expectation of `f` of the path shifted by
+    `n`, given the first `n + 1` coordinates, is `∫ f ∂(markovChainLaw (dirac (x n)) κ)`;
+  - `Kernel.ofPMF p` (`TauCeti/Probability/Kernel/PMF.lean`): for a family `p : α → PMF β` on a
+    countable `α` with measurable singletons, the kernel whose row at `a` is the measure of
+    `p a`, with its instance `IsMarkovKernel (Kernel.ofPMF p)`; every kernel of this roadmap
+    built from `PMF`s is this one; `Kernel.toMatrix`, `Kernel.toMatrix_pow`
+    and `Kernel.comp_apply_singleton_eq_vecMul` (`TauCeti/Probability/Kernel/Matrix.lean`): the
+    `ℝ≥0`-valued transition matrix of a kernel on a finite type, its compatibility with powers,
+    and propagation of an initial law as a row-vector product.
 
 ## References
 

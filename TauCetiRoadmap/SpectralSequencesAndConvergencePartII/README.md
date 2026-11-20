@@ -1,143 +1,91 @@
 # Roadmap: spectral sequences and convergence, part II — the standard constructions and their products
 
-**Summary.** SpectralSequencesAndConvergence builds, over an arbitrary abelian category, the
-language in which a spectral sequence converges: limit pages, convergence structures in a set of
-total degrees, morphisms of converging sequences, the comparison theorem, the classical
-spectral sequence of a decreasingly filtered complex with its convergence theorems, and the
-spectral sequence of an exact couple. It constructs no particular spectral sequence beyond these,
-and it has no products. This Part II constructs the standard spectral sequences of homological
-algebra inside that language and proves that they converge: the two spectral sequences of a double
-complex for the direct-sum and the product totalisation, with the half-plane convergence theorems,
-the comparison of totals and the acyclic assembly lemma; horseshoe and Cartan–Eilenberg
-resolutions, the right derived functors of Mathlib's bounded-below derived category compared with
-the classical ones, and the two hypercohomology spectral sequences of an additive functor, with
-their hyperhomology and contravariant duals; the composition theorem for right derived
-functors and the composite-functor spectral sequence of a complex; the balancing of Tor, the
-universal-coefficient, Künneth and change-of-rings spectral sequences over rings; pairings of exact
-couples, filtered complexes and double complexes with the Leibniz rule on every page; and the
-Bockstein spectral sequence of a torsion-free complex with its higher Bocksteins, limit page and
-convergence.
+**Summary.** Many spectral sequences of homological algebra arise from a double complex filtered by
+columns or rows, from a complex resolved by a double complex of injectives, or from a composite
+of two derived functors. The first part, SpectralSequencesAndConvergence, builds over any abelian
+category the language of convergence and the spectral sequences of filtered complexes and exact
+couples, but no products. This Part II constructs the standard spectral sequences in that language,
+proves that they converge, and adds products and the Bockstein spectral sequence.
 
-## Scope and ownership
+Categories are abelian, further hypotheses are stated where used, and indexing is cohomological.
+Convergence means that the canonical comparison of the limit page with the graded pieces of the
+abutment is an isomorphism; an abstract isomorphism is never meant.
 
-This roadmap owns:
+A double complex `K` has two total complexes, using direct sums or products along antidiagonals.
+Filtering by columns gives the first spectral sequence and by rows the second, with second pages
+`H_I^p H_II^q(K)` and `H_II^p H_I^q(K)`. If each antidiagonal has finitely many nonzero terms, both
+converge strongly to the cohomology of the total complex, in any abelian category. With exact
+sequential colimits, the first spectral sequence converges strongly to the direct-sum total, where
+it exists, when each antidiagonal vanishes far enough to the right. Under further hypotheses on the
+category and a regularity condition, it converges strongly to the product total when each
+antidiagonal vanishes far enough to the left. A staircase of copies of `ℤ` with exact rows has
+`H^0 = 0` for the direct-sum total and `H^0 = ℤ` for the product total. Under matching conditions,
+exact columns or rows make the total complex acyclic, and a quasi-isomorphism on every column, or
+every row, induces one on totals.
 
-- the product totalisation of a double complex, the column and row filtrations of both
-  totalisations, the two spectral sequences of a double complex as spectral sequences of filtered
-  complexes, their first and second pages in any abelian category, their convergence for finitely
-  many terms on each antidiagonal and in the half-plane cases, the comparison of totals and the
-  acyclic assembly lemma;
-- the horseshoe lemma for injective resolutions and its relative form, the right derived functors
-  `RⁿF` of Mathlib's `CategoryTheory.Functor.rightDerivedFunctorPlus` with their comparison to
-  `CategoryTheory.Functor.rightDerived`, Leray's acyclicity lemma, Cartan–Eilenberg resolutions
-  with their existence and the lifting of chain maps, the two hypercohomology spectral sequences
-  with their independence of the resolution and their naturality, and the hyper-left-derived
-  functors and hyperhomology spectral sequences obtained through opposite categories;
-- the canonical transformation `R(G ∘ F) ⟶ RG ∘ RF` on `D⁺` with Grothendieck's criterion for it
-  to be an isomorphism, the composite-functor spectral sequence of a complex, its low-degree
-  exact sequences and its naturality in the functors, and the right exact and mixed-variance
-  composites;
-- the balancing of Tor in a monoidal abelian category, the universal-coefficient spectral sequences
-  for Tor and Ext, the Künneth spectral sequence over a commutative ring, and the change-of-rings
-  spectral sequences;
-- Massey's conditions for a pairing of exact couples, pairings of filtered complexes and of double
-  complexes, and the Leibniz rule and convergence of the induced pairings on pages;
-- the Bockstein exact couple of a complex of `f`-torsion-free modules, its pages, higher
-  Bocksteins, higher universal-coefficient sequences, limit page and convergence.
+For additive `F` out of a category with enough injectives, `RⁿF` is the cohomology of Mathlib's
+right derived functor on the bounded-below derived category. On objects it agrees with the classical
+right derived functors, naturally in the object and in `F`. For `F` left exact, Leray's acyclicity
+lemma says that `F(L) → RF(L)` is an isomorphism for a bounded-below complex `L` whose terms have
+`RⁱF = 0` for `i > 0`. A bounded-below complex `K` has a Cartan–Eilenberg resolution: a double
+complex whose columns, and whose horizontal cycles, boundaries and cohomology, are injective
+resolutions of those of `K`. Through it, for any additive `F`, the roadmap builds hypercohomology
+spectral sequences `′E_1^{p,q} = R^qF(K^p)` and `″E_2^{p,q} = R^pF(H^q(K))`. Both converge strongly,
+with finite filtrations, to `R^{p+q}F(K)`.
 
-It leaves to named owners:
+Let `F` be additive and `G` left exact, both sources having enough injectives. Grothendieck's
+criterion says that the canonical transformation `R(G ∘ F) → RG ∘ RF` is an isomorphism exactly when
+`F` sends injective objects to objects on which `RⁱG` vanishes for `i > 0`. Then every `X` in the
+bounded-below derived category has a spectral sequence
+`E₂^{p,q} = R^pG(H^q(RF(X))) ⇒ R^{p+q}(G ∘ F)(X)`, converging strongly with finite filtrations. For
+an object `A` its second page is `R^pG(R^qF(A))`.
 
-- **SpectralSequencesAndConvergence**, the roadmap this Part II extends. It stops at the general
-  language of convergence and builds no particular spectral sequence beyond those of a filtered
-  complex, of a spectral object and of an exact couple, and no products. It owns Mathlib's carrier
-  as used there, cycle and boundary towers and limit pages (§§1.2–1.4), bidegree assignments and
-  boundedness (§§2.1–2.2), filtered objects and convergence structures (§§3.1–3.3), finite
-  filtrations, the comparison theorem and the vanishing, two-column, two-row, edge-morphism and
-  five-term consequences (§§3.4–3.6), spectral objects indexed by `EInt` and their convergence
-  (Layer 4), the classical spectral sequence of a decreasingly filtered complex and its convergence
-  (§§5.1–5.4), exact couples, their towers and the couple of a filtered complex (§§6.1–6.3), lim,
-  lim¹, replete abelian categories and the complete convergence theorem (§§7.1, 7.2, 7.4, 7.5).
-  Every spectral sequence of this roadmap is one of its filtered-complex or exact-couple spectral
-  sequences and carries one of its convergence structures; no convergence theory is restated. Each
-  of its sections used here is listed under *Exact supplier contracts* with the statement and
-  hypotheses used; the classical indexing of its §5.1 is read directly on Tau Ceti's construction
-  (Conventions).
-- **GrothendieckEulerForms, §3.5**: comparison maps and the projective horseshoe lemma for
-  projective resolutions in an exact category with enough projectives, implemented in Tau Ceti for
-  finite resolutions (`TauCeti.ExactStructure.FiniteResolution.horseshoe`). For objects of an
-  abelian category with enough projectives, the projective form of 2.1(a) is its case of the exact
-  structure `TauCeti.ExactStructure.abelian`; 2.1 states the injective form with prescribed outer
-  resolutions and no supply of injectives, the form for complexes and the relative form.
-- **DerivedModuleAlgebra, §S.1**: the first-quadrant double complex with its second page, abutment
-  filtration, stabilisation bound, edge morphisms, five-term and extended sequences, exact-rows
-  comparison and homological form. Layer 1 states the second page and convergence for an arbitrary
-  double complex whose totalisation exists; on first-quadrant double complexes, read in §S.1's
-  convention of anticommuting differentials through `d′ = d₁`, `d″ = (−1)^p d₂` (1.2), it is §S.1's
-  statement (the comparison 1.3(a′), which identifies the two sequences with their edge morphisms),
-  and the edge morphisms and low-degree sequences of double complexes are not restated.
-- **DerivedModuleAlgebra, §0.2**: the derived tensor product on `D(R)` for a commutative ring `R`,
-  computed by `Tot(P ⊗ L)` when `P` is a bounded-above complex of flat modules. Layer 4 consumes it
-  as the abutment of the universal-coefficient and Künneth spectral sequences.
-- **ArithmeticGaloisDuality, §D7.1**, target *Derived composite spectral sequence*: the
-  composite-functor spectral sequence `E₂^{a,b} = R^aH(R^bF(X)) ⇒ R^{a+b}(H ∘ F)(X)` of an object
-  `X`, with finite filtrations and edge maps the canonical maps. Layer 3 states the sequence of a
-  complex in `D⁺` for an additive first functor, of which §D7.1's is the case of an object and a
-  left exact first functor (§D7.1 builds on DerivedModuleAlgebra §S.1's spectral sequence,
-  identified with Layer 1's by 1.3(a′)), and adds the composition theorem, the low-degree sequences,
-  naturality in the functors and the right exact and mixed-variance forms.
-- **ArithmeticStatisticsPartVIII, §5.16** (*Tor spectral sequences over graded algebras*): the
-  bigraded `Tor` of graded modules over a nonnegatively graded, possibly noncommutative algebra over
-  a field, its balance, and its universal-coefficient and change-of-rings sequences, on its own
-  graded carrier. Layer 4 states the ungraded Tor forms over commutative rings, on Mathlib's
-  `CategoryTheory.Tor`; the two spectral sequences of a double complex of graded modules that
-  §5.16 uses are those of Layer 1 in that abelian category.
-- **Mathlib** (at the pin): `CategoryTheory.Abelian.Ext` is computed both from a projective
-  resolution of the first variable and from an injective resolution of the second, so the
-  balancing of Ext is a Check of Layer 4, not a target.
-- **Tau Ceti** (at the pin): the row- and column-filtration spectral sequences of a first-quadrant
-  homological bicomplex with their first pages and convergence, the quasi-isomorphism of totals
-  induced by a quasi-isomorphism on rows and the exact-augmentation form, the comparison theorem for
-  filtered cochain complexes with finite filtrations and its degreewise form for exhaustive
-  filtrations of complexes of modules
-  (`CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`,
-  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`), the horseshoe of
-  finite projective resolutions of the outer terms of a conflation in an exact category (in an
-  abelian category, the finite case of the projective form of 2.1(a) for objects), the Künneth short
-  exact sequence for `ℕ`-indexed chain complexes `K`, `L` of modules over a commutative ring whose
-  cycles `Z_q(L)` and quotients `L_q/Z_q(L)` are projective, with no condition on `K`
-  (`HomologicalComplex.homologyKunnethShortComplex_shortExact`), the universal coefficient sequence
-  for cohomology, K-flat complexes, `Tor₁` and the vanishing of `Tor_{≥2}` from a projective
-  presentation of length one of the second variable
-  (`CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel`,
-  `CategoryTheory.ShortComplex.ShortExact.isZero_Tor_add_two`), and the Bocksteins of continuous
-  cohomology of a compact group with trivial cyclic coefficients (`TauCeti.cyclicBockstein`). These
-  are instances of Layers 1, 2, 4 and 6 and are consumed as they stand.
-- **KhovanovHomology, §K5**: for bounded complexes of finitely generated free `ℤ`-modules and an
-  abelian group `M`, the universal-coefficient short exact sequences for `C ⊗ M` and for
-  `Hom(C, M)`, the Künneth short exact sequence of two such complexes, and the comparison of
-  `CategoryTheory.Tor'` with `CategoryTheory.Tor` through a two-term free presentation of the first
-  variable. Over `ℤ` these are the two-column sequences of 4.2(a), 4.2(c) and 4.3 and the case of
-  4.1 for a first variable with a free resolution of length one; they stay with their owner and are
-  compared in Checks of 4.1–4.3.
-- **AlgebraicTopology, §5.1** (the Künneth spectral sequence of singular chains),
-  **DGFloer, Layer 1 item 2** (the multiplicative Serre spectral sequence),
-  **SchemeAndStackFoundations, §§2.2, 2.7, 2.15** (`leray_spectral_sequence`,
-  `cech_to_cohomology`, `localToGlobal`, `hochschildSerre_galois_covering`) and
-  **SchemeKTheoryOperations, §6.7** (the hyperhomology spectral sequence of a group acting on a
-  chain complex): instances of Layers 2–5 that stay with their owners and are compared in Checks.
+In a monoidal abelian category with projective resolutions, where tensoring on either side with a
+projective object is exact, the two Tor bifunctors, computed by resolving the second or the first
+variable, are isomorphic in every degree. Modules over a commutative ring qualify. For example,
+`Tor_1(ℤ/4, ℤ/6) = ℤ/2` either way: the kernel of `×6` on `ℤ/4`, or of `×4` on `ℤ/6`.
 
-The spectral sequences of fibrations (Serre, Eilenberg–Moore), the Adams and Atiyah–Hirzebruch
-spectral sequences, the coniveau and descent spectral sequences, the spectral sequences of group
-extensions, graded Tor over graded algebras and Tor of one-sided modules over noncommutative rings
-are not part of this roadmap. Neither are the
-uniqueness of Cartan–Eilenberg resolutions up to homotopy of double complexes (no statement here
-needs it: Layer 2 obtains the independence of the hypercohomology spectral sequences from the
-existence of lifts), Grothendieck's comparison of the composite-functor sequences of a commuting
-square of functors with resolving functors, Douady's products of spectral systems (douady1959 line
-143–166, §II A), products on the hypercohomology and composite-functor spectral sequences, the
-extension of the hypercohomology sequences to unbounded complexes for functors of finite injective
-dimension, and the resolutions of unbounded complexes with exact kernel or cokernel complexes
-(stacks-012K Lemmas 26.2 and 26.3).
+Every spectral sequence here is one of SpectralSequencesAndConvergence's, with one of its
+convergence structures. DerivedModuleAlgebra provides the derived tensor product; its spectral
+sequence of a first-quadrant double complex is identified with the first one here.
+ArithmeticGaloisDuality's composite-functor spectral sequence of an object is the case of a left
+exact first functor. CohomologyOfGroups draws group hypercohomology and extension spectral sequences
+from this roadmap.
+
+The first three layers treat double complexes, hypercohomology and composite functors. The fourth
+balances Tor and builds universal-coefficient, Künneth and change-of-rings spectral sequences over
+rings. In the fifth, over a commutative ring, pairings of filtered complexes respecting the
+filtrations, of double complexes, and of exact couples satisfying Massey's conditions induce
+pairings on every page obeying the Leibniz rule. The sixth builds the Bockstein spectral sequence,
+whose differentials are the higher Bocksteins, for a complex of modules over a commutative ring on
+whose terms multiplication by some `f` is injective.
+
+## How to read the build
+
+Layer 1 totalises double complexes, filters the totals by columns and by rows, and identifies the
+two resulting spectral sequences of filtered complexes through their second pages; it proves their
+convergence when every antidiagonal is finite and in the half-plane cases, by
+SpectralSequencesAndConvergence §§5.3, 5.4 and 7.5, and deduces the acyclic assembly lemma and,
+through mapping cones, the comparison of totals. Layer 2 builds horseshoe and Cartan–Eilenberg
+resolutions, compares Mathlib's two right derived functors, and obtains the two hypercohomology
+spectral sequences as the two spectral sequences of Layer 1 for a Cartan–Eilenberg resolution;
+opposite categories give their duals. Layer 3 composes right derived functors on `D⁺` and obtains
+the composite-functor spectral sequence of a complex as a second hypercohomology sequence. Layer 4
+applies Layers 1–3 to modules: balancing Tor, the universal-coefficient sequences, the Künneth
+sequence and the change-of-rings sequences. Layer 5 constructs products on the pages of exact
+couples, filtered complexes and double complexes. Layer 6 constructs the Bockstein spectral sequence
+as an exact couple and as the spectral sequence of a filtered complex, and computes its pages and
+its limit page.
+
+The roadmap is this README. `Suggested.lean` states the headline theorems whose carriers exist at
+the pins: the direct-sum forms of the comparison of totals and of the acyclic assembly lemma (1.4,
+1.5), the horseshoe lemma for injective resolutions of objects and of bounded-below complexes and
+the relative horseshoe lemma (2.1(a), (a′), (b)), the comparison of Mathlib's two right derived
+functors and Leray's acyclicity lemma (2.2(i), (v)), Grothendieck's criterion for the composition of
+right derived functors (3.1) and the balancing of Tor (4.1). The spectral sequences themselves,
+their convergence and products, the product totalisation, Cartan–Eilenberg resolutions and the
+Bockstein spectral sequence are targets of this README whose carriers the pins lack; its module
+docstring names what each lacks.
 
 ## Conventions
 
@@ -231,415 +179,6 @@ dimension, and the resolutions of unbounded complexes with exact kernel or coker
   `H^0 = H^{−1} = ℤ/2` for `ℤ/2 ⊗^L ℤ/2`.
 - **Products.** Pairings are over a commutative ring `R`, bilinear on the terms and graded by
   adding bidegrees; the Koszul sign of a homogeneous element is that of its total degree.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `HomologicalComplex₂`, `HomologicalComplex₂.flip`, `HomologicalComplex₂.HasTotal`,
-  `HomologicalComplex₂.total`, `HomologicalComplex₂.ιTotal`, `HomologicalComplex₂.totalDesc`,
-  `HomologicalComplex₂.total.map` (`Mathlib/Algebra/Homology/HomologicalBicomplex.lean`,
-  `TotalComplex.lean`): the direct-sum total complex, which exists when the coproducts over the
-  antidiagonals exist. `HomologicalComplex₂.totalFlipIso` (`TotalComplexSymmetry.lean`) with the
-  signs `σ(p, q) = (−1)^{pq}` of `TotalComplexShapeSymmetry (up ℤ) (up ℤ) (up ℤ)`
-  (`ComplexShapeSigns.lean`), and `HomologicalComplex₂.flipFunctor`, the flip on morphisms
-  (`HomologicalBicomplex.lean`). There is no product total complex at the pin. Acyclicity and
-  quasi-isomorphisms are Mathlib's `HomologicalComplex.Acyclic` (exact in every degree) and
-  `QuasiIso`.
-- `HomologicalComplex.mapBifunctor`, `CategoryTheory.Functor.mapBifunctorHomologicalComplex`
-  (`Mathlib/Algebra/Homology/Bifunctor.lean`): the double complex and the total complex of a
-  bifunctor applied to two complexes.
-- `HomologicalComplex.stupidTrunc` (`Mathlib/Algebra/Homology/Embedding/StupidTrunc.lean`),
-  `HomologicalComplex.homologyOp` (`Mathlib/Algebra/Homology/Opposite.lean`),
-  `CochainComplex.opEquivalence` (`Mathlib/Algebra/Homology/CochainComplexOpposite.lean`).
-- `CategoryTheory.SpectralSequence` and `CategoryTheory.SpectralSequence.Hom`, whose field `comm`
-  determines the page-`(r + 1)` component of a morphism from its page-`r` component
-  (`Mathlib/Algebra/Homology/SpectralSequence/Basic.lean`).
-- `DerivedCategory.Plus`, `DerivedCategory.Plus.Q`, `DerivedCategory.Plus.homologyFunctor`,
-  `DerivedCategory.Plus.singleFunctor`, `DerivedCategory.Plus.isIso_iff`
-  (`Mathlib/Algebra/Homology/DerivedCategory/Plus.lean`); `CochainComplex.Plus`,
-  `CategoryTheory.Functor.mapCochainComplexPlus` (`CochainComplexPlus.lean`);
-  `CategoryTheory.Functor.rightDerivedFunctorPlus`,
-  `CategoryTheory.Functor.rightDerivedFunctorPlusUnit` and
-  `CategoryTheory.NatTrans.rightDerivedFunctorPlus`
-  (`Mathlib/Algebra/Homology/DerivedCategory/RightDerivedFunctorPlus.lean`). The unit is an
-  isomorphism at bounded-below complexes of injective objects, and `RF` is a triangulated right
-  derived functor: with its unit it is an instance of `CategoryTheory.Functor.IsRightDerivedFunctor`
-  for the quasi-isomorphisms (`Mathlib/CategoryTheory/Functor/Derived/RightDerived.lean`, a left Kan
-  extension along the localisation). Assumed: nothing about left derived functors on `D⁻` (there are
-  none at the pin) and no comparison with `Functor.rightDerived` (none is proved at the pin; the
-  documentation of this file and of `Mathlib/CategoryTheory/Abelian/RightDerived.lean` records only
-  the intention to redefine `Functor.rightDerived` through `rightDerivedFunctorPlus`).
-  `CategoryTheory.Functor.rightDerivedDesc`
-  (`Mathlib/CategoryTheory/Functor/Derived/RightDerived.lean`): the natural transformation out of a
-  right derived functor determined by a transformation out of the functor it derives, through the
-  universal property of a left Kan extension along the localisation; and
-  `CategoryTheory.Functor.mapCochainComplexPlus` (`CochainComplexPlus.lean`), the functor that an
-  additive functor induces on bounded-below complexes.
-- `CategoryTheory.Functor.rightDerived`, `CategoryTheory.NatTrans.rightDerived`,
-  `CategoryTheory.InjectiveResolution.isoRightDerivedObj`
-  (`Mathlib/CategoryTheory/Abelian/RightDerived.lean`), `CategoryTheory.Functor.leftDerived`,
-  `CategoryTheory.ProjectiveResolution.isoLeftDerivedObj`,
-  `CategoryTheory.Functor.leftDerivedZeroIsoSelf` (`LeftDerived.lean`, for additive `F` preserving
-  finite colimits), `InjectiveResolution`,
-  `ProjectiveResolution`, `CategoryTheory.Injective.injective_of_adjoint`,
-  `CategoryTheory.Adjunction.map_injective` and the instance giving `EnoughInjectives 𝒜ᵒᵖ` from
-  `EnoughProjectives 𝒜` (`Mathlib/CategoryTheory/Preadditive/Injective/Basic.lean`).
-- `CategoryTheory.InjectiveResolution`
-  (`Mathlib/CategoryTheory/Preadditive/Injective/Resolution.lean`): an `ℕ`-indexed cochain complex
-  of injective objects with a quasi-isomorphism from the object placed in degree `0`
-  (`CochainComplex.single₀`); `CategoryTheory.ShortComplex.ShortExact` and
-  `CategoryTheory.ShortComplex.Splitting` for short exact and split short exact sequences.
-- `CategoryTheory.Tor`, `CategoryTheory.Tor'`, `CategoryTheory.isZero_Tor'_succ_of_projective`
-  (`Mathlib/CategoryTheory/Monoidal/Tor.lean`, which records `Tor ≅ Tor'` as missing), defined for
-  a monoidal abelian category with `MonoidalPreadditive` and `HasProjectiveResolutions`;
-  `CategoryTheory.MonoidalCategory.tensorLeft` and `CategoryTheory.MonoidalCategory.tensorRight`;
-  exactness of a functor as `PreservesFiniteLimits` together with `PreservesFiniteColimits`.
-- `CategoryTheory.Abelian.Ext` (`Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean`),
-  `CategoryTheory.ProjectiveResolution.extEquivCohomologyClass` and
-  `CategoryTheory.InjectiveResolution.extEquivCohomologyClass`
-  (`Mathlib/CategoryTheory/Abelian/Projective/Ext.lean`, `Injective/Ext.lean`),
-  `CochainComplex.IsKInjective`, `CochainComplex.IsKProjective`.
-- `CochainComplex.IsStrictlyGE` (`Mathlib/Algebra/Homology/Embedding/CochainComplex.lean`): a
-  cochain complex indexed by `ℤ` whose terms vanish below a given degree.
-  `CochainComplex.isKInjective_of_injective`
-  (`Mathlib/Algebra/Homology/HomotopyCategory/KInjective.lean`): a cochain complex indexed by `ℤ`,
-  strictly bounded below, with injective terms is K-injective, that is, every map into it from an
-  acyclic complex is null-homotopic. `CochainComplex.IsKInjective.Qh_map_bijective`
-  (`Mathlib/Algebra/Homology/DerivedCategory/KInjective.lean`, under `HasDerivedCategory`): for `L`
-  K-injective, homotopy classes of maps into `L` are in bijection with maps into `L` in the derived
-  category. `CochainComplex.Plus.exists_quasiIso_injective`
-  (`Mathlib/Algebra/Homology/DerivedCategory/DerivabilityStructureInjectives.lean`): with enough
-  injectives, a complex strictly bounded below by `n` has a quasi-isomorphism into a complex of
-  injectives strictly bounded below by `n`. `CategoryTheory.InjectiveResolution.desc` and
-  `CategoryTheory.InjectiveResolution.descHomotopy`
-  (`Mathlib/CategoryTheory/Abelian/Injective/Resolution.lean`): a morphism of objects lifts to their
-  injective resolutions, uniquely up to homotopy; dually `CategoryTheory.ProjectiveResolution.lift`
-  and `CategoryTheory.ProjectiveResolution.liftHomotopy`
-  (`Mathlib/CategoryTheory/Abelian/Projective/Resolution.lean`) for projective resolutions.
-  Assumed: nothing beyond these statements; Mathlib's injective resolutions are indexed by `ℕ` and
-  are extended to `ℤ` where K-injectivity is used.
-- `ModuleCat.restrictScalars`, `ModuleCat.coextendScalars` and
-  `ModuleCat.restrictCoextendScalarsAdj` for any rings, `ModuleCat.extendScalars` and
-  `ModuleCat.extendRestrictScalarsAdj` for commutative rings
-  (`Mathlib/Algebra/Category/ModuleCat/ChangeOfRings.lean`).
-- `HasCountableProducts`, `HasCountableCoproducts`
-  (`Mathlib/CategoryTheory/Limits/Shapes/Countable.lean`), `CountableAB4Star`
-  (`Mathlib/CategoryTheory/Abelian/GrothendieckAxioms/Basic.lean`), `HasExactColimitsOfShape`
-  (`Mathlib/CategoryTheory/Limits/HasExactLimitsOfShape.lean`), and the instances `AB5` and
-  `AB4Star` of `ModuleCat.{u} R` for `R : Type u` (`Mathlib/Algebra/Category/ModuleCat/AB.lean`).
-  Assumed: nothing beyond the definitions; existence of countable products is not exactness of
-  products.
-
-### From Tau Ceti
-
-- `CochainComplex.filtrationFunctor`, `CochainComplex.filtrationFunctorMap`,
-  `CochainComplex.spectralObjectMap`, `CochainComplex.spectralSequence`,
-  `CochainComplex.spectralSequenceFirstPageXIsoCokernel`
-  (`TauCeti/Algebra/Homology/SpectralSequence/Filtered/SpectralObject.lean`, `Naturality.lean`),
-  `CochainComplex.spectralSequence_first_page_d_eq` (`Filtered/FirstPage.lean`) and
-  `CategoryTheory.Abelian.SpectralObject.spectralSequenceMap`
-  (`TauCeti/Algebra/Homology/SpectralObject/SpectralSequenceMap.lean`): the spectral sequence of a
-  filtered cochain complex in any abelian category, starting on native page `2`, its first page as
-  the cohomology of the graded pieces when the filtration maps are monomorphisms (the instance on
-  `filtrationFunctor`), its first differential as the connecting morphism, and the morphisms induced
-  by morphisms of filtrations. Read in the classical indexing of the Conventions.
-  `CochainComplex.filtrationAbutmentIso` (`Filtered/Convergence.lean`) and
-  `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`Filtered/Stabilization.lean`): the
-  abutment of that spectral sequence is `Hⁿ(K)`, and a page on which the relevant cohomology of the
-  filtration steps vanishes is the limit term `EInfty`; the identification of `E_∞` with the graded
-  pieces that DerivedModuleAlgebra §S.1 uses, compared with the canonical presentation in 1.3(a′).
-- `CategoryTheory.SpectralSequence.Hom.isIso_hom_f_of_le`
-  (`TauCeti/Algebra/Homology/SpectralSequence/Comparison.lean`): a morphism of spectral sequences
-  that is an isomorphism at every position of page `r` is one on every later page.
-- `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`
-  (`TauCeti/Algebra/Homology/SpectralSequence/Filtered/Comparison.lean`): in any abelian category,
-  for monotone filtrations `F` of `K` and `G` of `L` by subobjects, indexed by `ℤ`, that are finite
-  as filtrations of complexes (`F_a = G_a = ⊥` and `F_b = G_b = ⊤` for some `a ≤ b`), a morphism of
-  the filtration functors that induces an isomorphism at every position of some native page `r ≥ 2`
-  induces isomorphisms `Hⁿ(K) → Hⁿ(L)` for every `n`.
-  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
-  (`Filtered/Exhaustive.lean`): the same conclusion in one degree `n`, for cochain complexes of
-  modules over a ring, when, for some `a ≤ b`, the stages of index `≤ a` of both filtrations have no
-  cohomology in degrees `n`, `n + 1`, both filtrations are exhaustive in degrees `n − 1`, `n`, and
-  the graded pieces of index `≥ b` have no cohomology in degrees `n − 1`, `n`. Special cases of
-  SpectralSequencesAndConvergence §3.5 for the spectral sequences of filtered complexes, used in 1.4
-  for the finite case.
-- `HomologicalComplex₂.rowFiltrationSpectralSequence`,
-  `HomologicalComplex₂.columnFiltrationSpectralSequence`,
-  `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`
-  (`TauCeti/Algebra/Homology/SpectralSequence/Bicomplex.lean`), and
-  `HomologicalComplex₂.quasiIso_total_map_of_rows`,
-  `HomologicalComplex₂.quasiIso_totalAugmentation_of_rows`
-  (`TauCeti/Algebra/Homology/TotalComplex.lean`): first-quadrant homological bicomplexes indexed by
-  `ℕ × ℕ` in an abelian category.
-- `TauCeti.ExactStructure.abelian` and `TauCeti.ExactStructure.abelian_conflation`
-  (`TauCeti/CategoryTheory/Exact/Abelian.lean`): the exact structure of an abelian category whose
-  conflations are the short exact sequences; `TauCeti.ExactStructure.abelian_isInjective_iff` and
-  `TauCeti.ExactStructure.exists_conflation_of_conflation_of_injective`
-  (`TauCeti/CategoryTheory/Exact/Injective.lean`): its relative injectives are the injective
-  objects, and the one-step injective horseshoe: for a conflation `X ↪ Y ↠ Z` and conflations
-  `X ↪ I_X ↠ C_X`, `Z ↪ I_Z ↠ C_Z` with `I_X` injective, `Y` embeds by a conflation into a split
-  extension of `I_Z` by `I_X`, with cokernel an extension of `C_Z` by `C_X`, compatibly with the
-  given conflations.
-- `TauCeti.ExactStructure.FiniteResolution.horseshoe`
-  (`TauCeti/CategoryTheory/Exact/Resolution/Horseshoe.lean`) and
-  `TauCeti.ExactStructure.abelian_isProjective_iff`
-  (`TauCeti/CategoryTheory/Exact/Projective.lean`): for a conflation in an exact category and finite
-  resolutions of its outer terms by relative projectives, a finite projective resolution of the
-  middle term, no longer than the longer of the two, with augmentation-compatible chain maps and
-  degreewise split exactness; for `TauCeti.ExactStructure.abelian` the relative projectives are the
-  projective objects. Consumed as it stands, as the finite case of the projective form of 2.1(a) for
-  objects.
-- `CochainComplex.IsKFlat`, `CochainComplex.isKFlat_of_boundedAbove_flat`,
-  `CochainComplex.quasiIso_id_tensorHom` (`TauCeti/Algebra/Homology/Monoidal/KFlat/Basic.lean`).
-- `HomologicalComplex.homologyCross`, `HomologicalComplex.homologyKunnethShortComplex_shortExact`
-  (`TauCeti/Algebra/Homology/Monoidal/Homology/Cross.lean`, `Kunneth/Sequence.lean`) and
-  `TauCeti.ChainComplex.exact_extToHomology_kronecker`
-  (`TauCeti/Algebra/Homology/UniversalCoefficient/Basic.lean`): compared in Checks. The Künneth
-  sequence is stated for `ℕ`-indexed chain complexes `K`, `L` of modules over a commutative ring,
-  under the hypotheses that the cycles `Z_q(L)` and the quotients `L_q/Z_q(L)` be projective, and
-  none on `K` or on the ring; it reads
-  `0 → ⊕_{p+q=m+1} H_p(K) ⊗ H_q(L) → H_{m+1}(K ⊗ L) → ⊕_{p+q=m} Tor₁(H_p K, H_q L) → 0`.
-- `CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel` and
-  `CategoryTheory.ShortComplex.ShortExact.isZero_Tor_add_two`
-  (`TauCeti/CategoryTheory/Monoidal/Tor.lean`): in a monoidal abelian category with
-  `MonoidalPreadditive` and `HasProjectiveResolutions`, for a short exact sequence
-  `0 → P₁ → P₀ → M → 0` with `P₁`, `P₀` projective, `Tor₁(X, M) ≅ ker(X ⊗ P₁ → X ⊗ P₀)` and
-  `Tor_n(X, M) = 0` for `n ≥ 2`; the presentation is of the second variable, the one Mathlib's `Tor`
-  derives. Compared in the Check *Resolutions of length one* of 4.1.
-- `TauCeti.cyclicBockstein`
-  (`TauCeti/RepresentationTheory/Homological/ContCohomology/Bockstein/AllDegrees.lean`): for a
-  compact group `G` and a natural number `n ≠ 0`, the connecting map of
-  `0 → ℤ/n →(×n) ℤ/n² → ℤ/n → 0` (trivial action) on continuous cohomology, which Tau Ceti defines
-  as the connecting map of the short exact sequence of homogeneous continuous cochains. Compared in
-  the Examples of Layer 6.
-- `TauCeti.IsReplete` and the instance `TauCeti.IsReplete.countableAB4Star`
-  (`TauCeti/CategoryTheory/Limits/Replete.lean`): a category is replete when, for every tower
-  `ℕᵒᵖ ⥤ C` whose transitions are epimorphisms, the projection to the first term of every limit
-  cone is an epimorphism; an abelian replete category with countable products satisfies
-  `CountableAB4Star`. `CategoryTheory.Functor.towerDifference`
-  (`TauCeti/CategoryTheory/Preadditive/TowerDifference.lean`): the map `1 − s` on `∏ Fₙ` whose
-  cokernel is `lim¹`. Assumed: nothing beyond these; no instance of repleteness for `ModuleCat` is
-  used from the pin, that being SpectralSequencesAndConvergence §7.2's.
-
-### From TauCetiRoadmap.SpectralSequencesAndConvergence
-
-The convergence language of this roadmap is SpectralSequencesAndConvergence's (*Scope and
-ownership*). Each of its sections that a statement or a route here uses is listed below with the
-statement and hypotheses under which it is used; none of them is restated as a target here. The
-classical indexing of its §5.1 is read on Tau Ceti's construction (Conventions, *From Tau Ceti*),
-and the pages of an exact couple on which 5.1 states its pairings are StableHomotopyKTheory §7.22's.
-Of its tower theory only the class of categories of §7.4, the vanishing of `lim¹` of §7.2 and the
-complete convergence theorem of §7.5 are used, not the limit side of §7.4.
-
-- **§1.2–§1.4.** For a spectral sequence `E` in Mathlib's carrier
-  `CategoryTheory.SpectralSequence C c r₀` over an abelian category and a position `pq`: the cycle
-  and boundary towers `B_r(pq) ≤ Z_r(pq)` in `(E.page r₀).X pq`, presenting `(E.page r).X pq` as
-  `Z_r/B_r` (§1.2); the notions "`E` stabilises at `pq` from page `s`" (every differential of every
-  page `r ≥ s` leaving or entering `pq` vanishes), "`E` is regular at `pq`" (the leaving
-  differentials vanish for all large `r`) and "`E` degenerates at page `s`" (every differential of
-  every page `r ≥ s` vanishes), with the canonical isomorphisms `(E.page s).X pq ≅ (E.page r).X pq`
-  for `r ≥ s` under stabilisation, compatible with composition and natural in morphisms, and
-  stabilisation at every position from `s` under degeneration at `s` (§1.3); and the limit page
-  `E_∞(pq) = Z_∞/B_∞` wherever the meet `Z_∞` of the `Z_r` and the join `B_∞` of the `B_r` exist in
-  `Subobject ((E.page r₀).X pq)` (always under countable products and countable coproducts), with
-  `E_∞(pq) ≅ (E.page s).X pq` when `E` stabilises at `pq` from `s` (no hypothesis on the category),
-  functorial in morphisms of spectral sequences having limit pages (§1.4). Used in 1.3(a) and (c),
-  4.2, 4.3 and 6.2, and through §3.2 wherever a convergence is stated.
-- **§2.1.** Bidegree assignments `(fil, deg, e)` for a spectral sequence in Mathlib's carrier
-  (`pq ↦ (fil pq, deg pq)` injective, every relation of page `r` raising `deg` by `1` and `fil` by
-  `r − e`), transported along isomorphisms of spectral sequences; the cohomological assignment
-  `(p, q) ↦ (p, p + q)`, `e = 0`; and the classical filtered-complex assignment
-  `(p, q) ↦ (−q − 1, p + q)`, `e = 1`, on the native positions of `coreE₂Cohomological`. The
-  homological assignment of the Conventions is an assignment in the sense of this definition. Used
-  in the Conventions and 2.6, and through 2.6 in 3.4 and 4.4.
-- **§2.2.** For a spectral sequence with a bidegree assignment, vanishing at a position persists to
-  all later pages; a bounded-below sequence (for every `n` there is `β(n)` with
-  `(E.page r₀).X pq = 0` whenever `deg pq = n` and `fil pq ≥ β(n)`) is regular at every position;
-  and if only finitely many first-page positions of total degrees `n − 1` and `n + 1` are nonzero,
-  every position of total degree `n` stabilises. Used in 1.3(a) (the stabilisation bound) and
-  1.3(c) (the regularity criterion).
-- **§3.1.** Decreasingly filtered objects as Mathlib `CategoryTheory.FilteredObject C ℤᵒᵖ`, their
-  graded pieces `gr^p = F^p/F^{p+1}`, functorial in `CategoryTheory.FilteredObject.Hom`, and the
-  predicates exhaustive (`⊤` is the join of the steps), separated (`⊥` is their meet), complete (the
-  cone from `X` to the system `(X/F^p X)_p` is a limit cone) and finite (`F^a X = X` and
-  `F^b X = 0` for some `a ≤ b`), finite implying the other three. Used in 6.2, and through §3.2.
-- **§3.2.** For a spectral sequence `E` with a bidegree assignment `(fil, deg, e)`, a set `I ⊆ ℤ`
-  and an abutment `H : ℤ → FilteredObject C ℤᵒᵖ`: the structures of weak convergence in `I`
-  (limit pages at every position of total degree in `I`, isomorphisms `β : E_∞(pq) ≅ gr^s H^n`
-  when `(fil pq, deg pq) = (s, n)` with `n ∈ I`, and `gr^s H^n = 0` when `(s, n)` is not of this
-  form), of convergence in `I` (adding that the filtration of every `H^n`, `n ∈ I`, is exhaustive
-  and separated) and of strong convergence in `I` (adding completeness), each restricting to
-  subsets of `I` and transported along isomorphisms of spectral sequences and filtered
-  isomorphisms of abutments. Used wherever a convergence is stated: 1.3–1.5, 2.4–2.6, 3.2–3.4,
-  4.2–4.4, 5.2 and 6.2.
-- **§3.3.** Morphisms of weakly converging structures in `I`: pairs `(f, h)` of a
-  `CategoryTheory.SpectralSequence.Hom` `f : E ⟶ E′` and filtered morphisms `h_n : H^n ⟶ H′^n`
-  with `β′ ∘ E_∞(f, pq) = gr^s(h_n) ∘ β` at every position of total degree `n ∈ I`, forming a
-  category whose composition and identities are those of the components. Used in 1.4, 2.4, 2.5
-  and 3.3.
-- **§3.4.** Weak convergence in degree `n` together with a finite filtration of `H^n` is strong
-  convergence in degree `n`; `H^n` then has a finite chain of subobjects whose successive quotients
-  are the `E_∞` at the positions of total degree `n`, vanishes when all of them vanish, and lies in
-  every weak Serre class (a property of objects containing `0` and closed under kernels, cokernels
-  and extensions) that contains all of these `E_∞`, or that contains all `E_r` of total degree `n`
-  for a page `r` on which every position of total degree `n` has reached its limit page. Used in
-  1.3(a) and in the two-column sequences of 4.2 and 4.3.
-- **§3.5.** For a morphism `(f, h)` of weakly converging structures in degree `n` such that `f` is
-  an isomorphism at every position of some page `s ≥ r₀`: `E_∞(f)` is an isomorphism at every
-  position of total degree `n`; `h_n` is an isomorphism when the filtrations of `H^n` and `H′^n`
-  are finite; and, in an abelian category with exact sequential colimits, `h_n` is an isomorphism
-  when both structures converge strongly in degree `n`. Used in 1.4.
-- **§3.6.** For an `E₂` cohomological spectral sequence with the cohomological assignment and
-  `E_2^{p,q} = 0` for `p < 0` or `q < 0`: under convergence in degree `n`, the edge morphisms
-  `E_2^{n,0} ↠ E_∞^{n,0} ≅ F^n H^n ↪ H^n` and `H^n ↠ H^n/F^1 H^n ≅ E_∞^{0,n} ↪ E_2^{0,n}`; under
-  convergence in degrees `1` and `2`, the exact sequence
-  `0 → E_2^{1,0} → H^1 → E_2^{0,1} → E_2^{2,0} → H^2`, whose map `E_2^{0,1} → E_2^{2,0}` is `d_2`
-  and whose other maps are the edge morphisms; and, for `m ≥ 1` with `E_2^{p,q} = 0` for all `p` and
-  `0 < q < m`, under convergence in degrees up to `m + 1`, the isomorphisms `E_2^{j,0} ≅ H^j` for
-  `j < m` and the exact sequence `0 → E_2^{m,0} → H^m → E_2^{0,m} → E_2^{m+1,0} → H^{m+1}`. Used in
-  1.3(a′) and 3.3, and through 2.6 in the low-degree sequences of 3.4 and 4.4.
-- **§4.3 and §4.6.** For a spectral object `X : CategoryTheory.Abelian.SpectralObject C EInt` and a
-  position `(p, q)`, `n = p + q`, at which `X.spectralSequence coreE₂Cohomological` has a limit
-  page, with `Zᵗ = ker(δ : H^n(q ≤ q + 1) → H^{n+1}(⊥ ≤ q))` and
-  `Bᵗ = im(δ : H^{n−1}(q + 1 ≤ ⊤) → H^n(q ≤ q + 1))`: `Zᵗ ≤ Z_∞` and `B_∞ ≤ Bᵗ`, and the canonical
-  subobject `Zᵗ/B_∞` of `E_∞(p, q)` maps onto Tau Ceti's
-  `CategoryTheory.Abelian.SpectralObject.EInfty q n ≅ Zᵗ/Bᵗ`, the inclusion being an isomorphism
-  exactly when `Z_∞ = Zᵗ` and the projection exactly when `B_∞ = Bᵗ` (§4.3); and a morphism of
-  spectral objects induces a morphism of the converging structures whose `β` are these
-  comparisons (§4.6). Used in 1.2 (naturality of the canonical presentation) and 5.2, and through
-  §5.2.
-- **§5.1.** The spectral sequence of a decreasingly filtered complex `(K, F)` is Tau Ceti's
-  `CochainComplex.spectralSequence (CochainComplex.filtrationFunctor G _)` for `G_t = F^{−t}`, read
-  in the classical indexing: `E_r^{p,q}` is page `r + 1` at `(2p + q + 1, −p − 1)`, with
-  `E_1^{p,q} ≅ H^{p+q}(gr^p K)`, `d_1` the connecting morphism, and filtered morphisms inducing
-  morphisms of spectral sequences. Used in the Conventions and throughout.
-- **§5.2.** For a cochain complex `K` with an antitone family `F : ℤ → Subobject K` of
-  subcomplexes, the induced filtration `F^p H^n(K) = im(H^n(F^p K) → H^n(K))`, functorial in
-  filtered morphisms, and, wherever the limit page exists at `(p, n − p)`, the canonical
-  presentation of `gr^p H^n(K)` as a subquotient of `E_∞^{p,n−p}`: an inclusion
-  `Zᵗ/B_∞ ↪ E_∞^{p,n−p}` followed by a projection `Zᵗ/B_∞ ↠ Zᵗ/Bᵗ ≅ gr^p H^n(K)` (§4.3 read through
-  Tau Ceti's `CochainComplex.filtrationAbutmentIso`). When both maps are isomorphisms at every
-  position of total degree in `I`, these comparisons are the `β` of a weak convergence structure in
-  `I` (stacks-012K line 3131–3140, Definition 24.9, tag 012U). The existence of some other
-  isomorphism `E_∞^{p,n−p} ≅ gr^p H^n(K)` does not make the presentation invertible (its fourth
-  Check). Used in the Conventions, 1.2, 1.3, 1.4 and 5.2.
-- **§5.3.** For a decreasingly filtered cochain complex `(K, F)` in an abelian category and an
-  integer `n` such that the filtrations of `K^{n−1}`, `K^n` and `K^{n+1}` are finite, the spectral
-  sequence in the classical indexing stabilises at every position of total degree `n` and converges
-  strongly in degree `n` to `H^n(K)` with the induced filtration, which is finite, through the
-  canonical isomorphisms of §5.2; and `H^n(K)` lies in every weak Serre class that contains every
-  `E_r^{p,q}` for some `r`. Used in 1.3(a), 4.3 and 5.2.
-- **§5.4.** In an abelian category with exact sequential colimits, for a decreasingly filtered
-  cochain complex `(K, F)` and an integer `n` such that the filtration is exhaustive on `K^{n−1}`
-  and `K^n` and `H^m(F^s K) = 0` for `m ∈ {n, n + 1}` and all `s ≥ p₀(n)` (in particular when
-  `F^s K^n = F^s K^{n+1} = 0` for `s ≥ p₀(n)`), the spectral sequence in the classical indexing is
-  regular and has a limit page at every position of total degree `n`, and converges strongly in
-  degree `n` to `H^n(K)` with the induced filtration, through the canonical isomorphisms of §5.2.
-  Its comparison item: a morphism of the filtration functors of two such filtrations that is an
-  isomorphism at every position of some native page `r ≥ 2` induces an isomorphism on `H^n`. Used in
-  1.3(b), 1.4, 1.5 and 5.2.
-- **§6.1.** For a bigraded exact couple of StableHomotopyKTheory §7.22 with degrees `a, b, c`, its
-  spectral sequence in Mathlib's carrier
-  `CategoryTheory.SpectralSequence C (fun r ↦ ComplexShape.up' (c + b − (r − 1) • a)) 1`, whose page
-  `r` is the `E` of the `(r − 1)`-th derived couple with differential `j ∘ k` and whose homology
-  isomorphisms identify the `E` of the next derived couple with `H(E, jk)`, functorial in morphisms
-  of exact couples; for `a = (−1, 1)`, `b = (0, 0)`, `c = (1, 0)` it is a
-  `CategoryTheory.CohomologicalSpectralSequence C 1`. Used in 5.2, 6.1 and 6.2.
-- **§6.2.** For a cohomological exact couple, the towers of its spectral sequence are
-  `Z_{r+1}^{s,t} = k^{−1}(im(i^r : D^{s+r+1,t−r} → D^{s+1,t}))` and
-  `B_{r+1}^{s,t} = j(ker(i^r : D^{s,t} → D^{s−r,t+r}))`, the differential `d_{r+1}` sends the class
-  of `x` with `k x = i^r y` to the class of `j y`, and the limit page exists whenever the meet of
-  the `im i^r` and the join of the `ker i^r` exist, with `Z_∞ = k^{−1}(⋂_r im i^r)` and
-  `B_∞ = j(⋃_r ker i^r)`. Used in 1.3(c) and 6.2.
-- **§6.3.** For a decreasingly filtered cochain complex `(K, F)`, the cohomological exact couple
-  `D^{s,t} = H^{s+t}(F^s K)`, `E^{s,t} = H^{s+t}(gr^s K)` with the maps of the long exact cohomology
-  sequences, functorial in filtered morphisms, whose spectral sequence (§6.1) is the classical one
-  of §5.1, compatibly with the differentials. Used in 1.3(c), 5.2 and 6.1.
-- **§7.2.** Repleteness (Tau Ceti's `TauCeti.IsReplete`) of an abelian category with countable
-  products is equivalent to `CountableAB4Star` together with `lim¹ = 0` for every tower of
-  epimorphisms, `lim¹` being the cokernel of Tau Ceti's `CategoryTheory.Functor.towerDifference`;
-  `ModuleCat.{v} R` is replete for every ring `R`. Used in the Conventions, 1.3(c) and 1.5.
-- **§7.4 and §7.5.** The class of §7.4: abelian categories with countable products and coproducts,
-  exact sequential colimits and repleteness. In it (§7.5), for a decreasingly filtered cochain
-  complex `(K, F)` whose filtration is exhaustive and complete (`K^m ≅ lim_p K^m/F^p K^m`) in every
-  degree and whose spectral sequence in the classical indexing is regular, and such that for every
-  `n` there is a bound below which `E_1^{p,m−p} = 0` for `m ∈ {n − 1, n}`, the spectral sequence
-  converges strongly in every degree to `H^*(K)` with the induced filtration; the isomorphisms are
-  those of §7.4's first theorem for the exact couple of §6.3, induced by `j`. Used in the
-  Conventions, 1.3(c) and 1.5.
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-- §7.22: bigraded exact couples in an abelian category, their derived couples and their pages: page
-  `r ≥ 1` is the `E` of the `(r − 1)`-th derived couple, with `d_r = j ∘ k` there of degree
-  `c + b − (r − 1)a`. These pages carry the pairings of 5.1, and the couples are the input of
-  SpectralSequencesAndConvergence §6.1. Assumed: the derived couple is again exact.
-
-### From TauCetiRoadmap.GrothendieckEulerForms
-
-- §3.5: the projective horseshoe lemma for projective resolutions in an exact category with enough
-  projectives, with comparison maps to a fixed projective resolution unique up to chain homotopy.
-  Cited in 2.1 for the projective forms over an abelian category, through the exact structure
-  `TauCeti.ExactStructure.abelian`; nothing of it is used in a route here.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-- §0.2: the derived tensor bifunctor on `D(R)` for a commutative ring `R`, symmetric monoidal with
-  unit `R[0]`, with `P ⊗^L L ≅ Tot(P ⊗ L)` naturally for every bounded-above complex `P` of flat
-  modules.
-- §S.1: the first-quadrant double complex spectral sequence and its consequences (second page,
-  abutment filtration, edge morphisms, five-term and extended sequences), for double complexes with
-  anticommuting differentials, compared with Layer 1 through `d′ = d₁`, `d″ = (−1)^p d₂` (1.2) and
-  identified with `′E` of a first-quadrant double complex, with its edge morphisms, in 1.3(a′).
-  Assumed: what its API and proof sketch state, that its spectral sequence is Tau Ceti's spectral
-  sequence of the column filtration of the total complex, with abutment and `E_∞` identified
-  through Tau Ceti's `CochainComplex.filtrationAbutmentIso` and
-  `CochainComplex.filtrationSpectralSequencePageXIsoEInfty`.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-- §D7.1, target *Derived composite spectral sequence*: for left exact `F : 𝒜 → ℬ`, `H : ℬ → 𝒞`
-  with `𝒜, ℬ` having enough injectives and `F` sending injectives to `H`-acyclic objects, the
-  natural convergent first-quadrant spectral sequence `E₂^{a,b} = R^aH(R^bF(X)) ⇒ R^{a+b}(H ∘ F)(X)`
-  of an object `X`, with finite filtrations, whose edge maps are the canonical maps
-  `R^aH(F(X)) → R^a(H ∘ F)(X)` and `R^b(H ∘ F)(X) → H(R^bF(X))`. Assumed: what its statement, its
-  *Needs* line and its proof sketch say, that the sequence is DerivedModuleAlgebra §S.1's spectral
-  sequence of the first-quadrant double complex obtained by applying `H` to a Cartan–Eilenberg
-  resolution of `F` applied to an injective resolution of `X`, filtered so that its second page is
-  `R^aH(R^bF(X))`, with abutment identified with `R^{a+b}(H ∘ F)(X)` through the acyclicity of the
-  `F` of the injective terms. That double complex is the one of 3.2 for `X[0]`, and 1.3(a′),
-  through the flip, identifies §S.1's sequence of it and its edge morphisms with `E(F, H; X[0])` of
-  3.2 and the edge morphisms of SpectralSequencesAndConvergence §3.6; nothing else of §D7.1's
-  construction is used.
-
-## How to read the build
-
-Layer 1 totalises double complexes, filters the totals by columns and by rows, and identifies the
-two resulting spectral sequences of filtered complexes through their second pages; it proves their
-convergence when every antidiagonal is finite and in the half-plane cases, by
-SpectralSequencesAndConvergence §§5.3, 5.4 and 7.5, and deduces the acyclic assembly lemma and,
-through mapping cones, the comparison of totals. Layer 2 builds horseshoe and Cartan–Eilenberg
-resolutions, compares Mathlib's two right derived functors, and obtains the two hypercohomology
-spectral sequences as the two spectral sequences of Layer 1 for a Cartan–Eilenberg resolution;
-opposite categories give their duals. Layer 3 composes right derived functors on `D⁺` and obtains
-the composite-functor spectral sequence of a complex as a second hypercohomology sequence. Layer 4
-applies Layers 1–3 to modules: balancing Tor, the universal-coefficient sequences, the Künneth
-sequence and the change-of-rings sequences. Layer 5 constructs products on the pages of exact
-couples, filtered complexes and double complexes. Layer 6 constructs the Bockstein spectral sequence
-as an exact couple and as the spectral sequence of a filtered complex, and computes its pages and
-its limit page.
-
-The roadmap is this README. `Suggested.lean` states the headline theorems whose carriers exist at
-the pins: the direct-sum forms of the comparison of totals and of the acyclic assembly lemma (1.4,
-1.5), the horseshoe lemma for injective resolutions of objects and of bounded-below complexes and
-the relative horseshoe lemma (2.1(a), (a′), (b)), the comparison of Mathlib's two right derived
-functors and Leray's acyclicity lemma (2.2(i), (v)), Grothendieck's criterion for the composition of
-right derived functors (3.1) and the balancing of Tor (4.1). The spectral sequences themselves,
-their convergence and products, the product totalisation, Cartan–Eilenberg resolutions and the
-Bockstein spectral sequence are targets of this README whose carriers the pins lack; its module
-docstring names what each lacks.
 
 ## Layer 1: double complexes and their two spectral sequences
 
@@ -2128,6 +1667,509 @@ spectral sequence; Layer 5 for multiplicativity; StableHomotopyKTheory §7.22.
   universal-coefficient sequences), and **HilbertModularVarietiesAndShimuraCurvesPartII** (change of
   rings for Ext along `A → A/x`): they state these sequences, or instances of them, for their own
   use.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the product totalisation of a double complex, the column and row filtrations of both
+  totalisations, the two spectral sequences of a double complex as spectral sequences of filtered
+  complexes, their first and second pages in any abelian category, their convergence for finitely
+  many terms on each antidiagonal and in the half-plane cases, the comparison of totals and the
+  acyclic assembly lemma;
+- the horseshoe lemma for injective resolutions and its relative form, the right derived functors
+  `RⁿF` of Mathlib's `CategoryTheory.Functor.rightDerivedFunctorPlus` with their comparison to
+  `CategoryTheory.Functor.rightDerived`, Leray's acyclicity lemma, Cartan–Eilenberg resolutions
+  with their existence and the lifting of chain maps, the two hypercohomology spectral sequences
+  with their independence of the resolution and their naturality, and the hyper-left-derived
+  functors and hyperhomology spectral sequences obtained through opposite categories;
+- the canonical transformation `R(G ∘ F) ⟶ RG ∘ RF` on `D⁺` with Grothendieck's criterion for it
+  to be an isomorphism, the composite-functor spectral sequence of a complex, its low-degree
+  exact sequences and its naturality in the functors, and the right exact and mixed-variance
+  composites;
+- the balancing of Tor in a monoidal abelian category, the universal-coefficient spectral sequences
+  for Tor and Ext, the Künneth spectral sequence over a commutative ring, and the change-of-rings
+  spectral sequences;
+- Massey's conditions for a pairing of exact couples, pairings of filtered complexes and of double
+  complexes, and the Leibniz rule and convergence of the induced pairings on pages;
+- the Bockstein exact couple of a complex of `f`-torsion-free modules, its pages, higher
+  Bocksteins, higher universal-coefficient sequences, limit page and convergence.
+
+It leaves to named owners:
+
+- **SpectralSequencesAndConvergence**, the roadmap this Part II extends. It stops at the general
+  language of convergence and builds no particular spectral sequence beyond those of a filtered
+  complex, of a spectral object and of an exact couple, and no products. It owns Mathlib's carrier
+  as used there, cycle and boundary towers and limit pages (§§1.2–1.4), bidegree assignments and
+  boundedness (§§2.1–2.2), filtered objects and convergence structures (§§3.1–3.3), finite
+  filtrations, the comparison theorem and the vanishing, two-column, two-row, edge-morphism and
+  five-term consequences (§§3.4–3.6), spectral objects indexed by `EInt` and their convergence
+  (Layer 4), the classical spectral sequence of a decreasingly filtered complex and its convergence
+  (§§5.1–5.4), exact couples, their towers and the couple of a filtered complex (§§6.1–6.3), lim,
+  lim¹, replete abelian categories and the complete convergence theorem (§§7.1, 7.2, 7.4, 7.5).
+  Every spectral sequence of this roadmap is one of its filtered-complex or exact-couple spectral
+  sequences and carries one of its convergence structures; no convergence theory is restated. Each
+  of its sections used here is listed under *Exact supplier contracts* with the statement and
+  hypotheses used; the classical indexing of its §5.1 is read directly on Tau Ceti's construction
+  (Conventions).
+- **GrothendieckEulerForms, §3.5**: comparison maps and the projective horseshoe lemma for
+  projective resolutions in an exact category with enough projectives, implemented in Tau Ceti for
+  finite resolutions (`TauCeti.ExactStructure.FiniteResolution.horseshoe`). For objects of an
+  abelian category with enough projectives, the projective form of 2.1(a) is its case of the exact
+  structure `TauCeti.ExactStructure.abelian`; 2.1 states the injective form with prescribed outer
+  resolutions and no supply of injectives, the form for complexes and the relative form.
+- **DerivedModuleAlgebra, §S.1**: the first-quadrant double complex with its second page, abutment
+  filtration, stabilisation bound, edge morphisms, five-term and extended sequences, exact-rows
+  comparison and homological form. Layer 1 states the second page and convergence for an arbitrary
+  double complex whose totalisation exists; on first-quadrant double complexes, read in §S.1's
+  convention of anticommuting differentials through `d′ = d₁`, `d″ = (−1)^p d₂` (1.2), it is §S.1's
+  statement (the comparison 1.3(a′), which identifies the two sequences with their edge morphisms),
+  and the edge morphisms and low-degree sequences of double complexes are not restated.
+- **DerivedModuleAlgebra, §0.2**: the derived tensor product on `D(R)` for a commutative ring `R`,
+  computed by `Tot(P ⊗ L)` when `P` is a bounded-above complex of flat modules. Layer 4 consumes it
+  as the abutment of the universal-coefficient and Künneth spectral sequences.
+- **ArithmeticGaloisDuality, §D7.1**, target *Derived composite spectral sequence*: the
+  composite-functor spectral sequence `E₂^{a,b} = R^aH(R^bF(X)) ⇒ R^{a+b}(H ∘ F)(X)` of an object
+  `X`, with finite filtrations and edge maps the canonical maps. Layer 3 states the sequence of a
+  complex in `D⁺` for an additive first functor, of which §D7.1's is the case of an object and a
+  left exact first functor (§D7.1 builds on DerivedModuleAlgebra §S.1's spectral sequence,
+  identified with Layer 1's by 1.3(a′)), and adds the composition theorem, the low-degree sequences,
+  naturality in the functors and the right exact and mixed-variance forms.
+- **ArithmeticStatisticsPartVIII, §5.16** (*Tor spectral sequences over graded algebras*): the
+  bigraded `Tor` of graded modules over a nonnegatively graded, possibly noncommutative algebra over
+  a field, its balance, and its universal-coefficient and change-of-rings sequences, on its own
+  graded carrier. Layer 4 states the ungraded Tor forms over commutative rings, on Mathlib's
+  `CategoryTheory.Tor`; the two spectral sequences of a double complex of graded modules that
+  §5.16 uses are those of Layer 1 in that abelian category.
+- **Mathlib** (at the pin): `CategoryTheory.Abelian.Ext` is computed both from a projective
+  resolution of the first variable and from an injective resolution of the second, so the
+  balancing of Ext is a Check of Layer 4, not a target.
+- **Tau Ceti** (at the pin): the row- and column-filtration spectral sequences of a first-quadrant
+  homological bicomplex with their first pages and convergence, the quasi-isomorphism of totals
+  induced by a quasi-isomorphism on rows and the exact-augmentation form, the comparison theorem for
+  filtered cochain complexes with finite filtrations and its degreewise form for exhaustive
+  filtrations of complexes of modules
+  (`CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`,
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`), the horseshoe of
+  finite projective resolutions of the outer terms of a conflation in an exact category (in an
+  abelian category, the finite case of the projective form of 2.1(a) for objects), the Künneth short
+  exact sequence for `ℕ`-indexed chain complexes `K`, `L` of modules over a commutative ring whose
+  cycles `Z_q(L)` and quotients `L_q/Z_q(L)` are projective, with no condition on `K`
+  (`HomologicalComplex.homologyKunnethShortComplex_shortExact`), the universal coefficient sequence
+  for cohomology, K-flat complexes, `Tor₁` and the vanishing of `Tor_{≥2}` from a projective
+  presentation of length one of the second variable
+  (`CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel`,
+  `CategoryTheory.ShortComplex.ShortExact.isZero_Tor_add_two`), and the Bocksteins of continuous
+  cohomology of a compact group with trivial cyclic coefficients (`TauCeti.cyclicBockstein`). These
+  are instances of Layers 1, 2, 4 and 6 and are consumed as they stand.
+- **KhovanovHomology, §K5**: for bounded complexes of finitely generated free `ℤ`-modules and an
+  abelian group `M`, the universal-coefficient short exact sequences for `C ⊗ M` and for
+  `Hom(C, M)`, the Künneth short exact sequence of two such complexes, and the comparison of
+  `CategoryTheory.Tor'` with `CategoryTheory.Tor` through a two-term free presentation of the first
+  variable. Over `ℤ` these are the two-column sequences of 4.2(a), 4.2(c) and 4.3 and the case of
+  4.1 for a first variable with a free resolution of length one; they stay with their owner and are
+  compared in Checks of 4.1–4.3.
+- **AlgebraicTopology, §5.1** (the Künneth spectral sequence of singular chains),
+  **DGFloer, Layer 1 item 2** (the multiplicative Serre spectral sequence),
+  **SchemeAndStackFoundations, §§2.2, 2.7, 2.15** (`leray_spectral_sequence`,
+  `cech_to_cohomology`, `localToGlobal`, `hochschildSerre_galois_covering`) and
+  **SchemeKTheoryOperations, §6.7** (the hyperhomology spectral sequence of a group acting on a
+  chain complex): instances of Layers 2–5 that stay with their owners and are compared in Checks.
+
+The spectral sequences of fibrations (Serre, Eilenberg–Moore), the Adams and Atiyah–Hirzebruch
+spectral sequences, the coniveau and descent spectral sequences, the spectral sequences of group
+extensions, graded Tor over graded algebras and Tor of one-sided modules over noncommutative rings
+are not part of this roadmap. Neither are the
+uniqueness of Cartan–Eilenberg resolutions up to homotopy of double complexes (no statement here
+needs it: Layer 2 obtains the independence of the hypercohomology spectral sequences from the
+existence of lifts), Grothendieck's comparison of the composite-functor sequences of a commuting
+square of functors with resolving functors, Douady's products of spectral systems (douady1959 line
+143–166, §II A), products on the hypercohomology and composite-functor spectral sequences, the
+extension of the hypercohomology sequences to unbounded complexes for functors of finite injective
+dimension, and the resolutions of unbounded complexes with exact kernel or cokernel complexes
+(stacks-012K Lemmas 26.2 and 26.3).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `HomologicalComplex₂`, `HomologicalComplex₂.flip`, `HomologicalComplex₂.HasTotal`,
+  `HomologicalComplex₂.total`, `HomologicalComplex₂.ιTotal`, `HomologicalComplex₂.totalDesc`,
+  `HomologicalComplex₂.total.map` (`Mathlib/Algebra/Homology/HomologicalBicomplex.lean`,
+  `TotalComplex.lean`): the direct-sum total complex, which exists when the coproducts over the
+  antidiagonals exist. `HomologicalComplex₂.totalFlipIso` (`TotalComplexSymmetry.lean`) with the
+  signs `σ(p, q) = (−1)^{pq}` of `TotalComplexShapeSymmetry (up ℤ) (up ℤ) (up ℤ)`
+  (`ComplexShapeSigns.lean`), and `HomologicalComplex₂.flipFunctor`, the flip on morphisms
+  (`HomologicalBicomplex.lean`). There is no product total complex at the pin. Acyclicity and
+  quasi-isomorphisms are Mathlib's `HomologicalComplex.Acyclic` (exact in every degree) and
+  `QuasiIso`.
+- `HomologicalComplex.mapBifunctor`, `CategoryTheory.Functor.mapBifunctorHomologicalComplex`
+  (`Mathlib/Algebra/Homology/Bifunctor.lean`): the double complex and the total complex of a
+  bifunctor applied to two complexes.
+- `HomologicalComplex.stupidTrunc` (`Mathlib/Algebra/Homology/Embedding/StupidTrunc.lean`),
+  `HomologicalComplex.homologyOp` (`Mathlib/Algebra/Homology/Opposite.lean`),
+  `CochainComplex.opEquivalence` (`Mathlib/Algebra/Homology/CochainComplexOpposite.lean`).
+- `CategoryTheory.SpectralSequence` and `CategoryTheory.SpectralSequence.Hom`, whose field `comm`
+  determines the page-`(r + 1)` component of a morphism from its page-`r` component
+  (`Mathlib/Algebra/Homology/SpectralSequence/Basic.lean`).
+- `DerivedCategory.Plus`, `DerivedCategory.Plus.Q`, `DerivedCategory.Plus.homologyFunctor`,
+  `DerivedCategory.Plus.singleFunctor`, `DerivedCategory.Plus.isIso_iff`
+  (`Mathlib/Algebra/Homology/DerivedCategory/Plus.lean`); `CochainComplex.Plus`,
+  `CategoryTheory.Functor.mapCochainComplexPlus` (`CochainComplexPlus.lean`);
+  `CategoryTheory.Functor.rightDerivedFunctorPlus`,
+  `CategoryTheory.Functor.rightDerivedFunctorPlusUnit` and
+  `CategoryTheory.NatTrans.rightDerivedFunctorPlus`
+  (`Mathlib/Algebra/Homology/DerivedCategory/RightDerivedFunctorPlus.lean`). The unit is an
+  isomorphism at bounded-below complexes of injective objects, and `RF` is a triangulated right
+  derived functor: with its unit it is an instance of `CategoryTheory.Functor.IsRightDerivedFunctor`
+  for the quasi-isomorphisms (`Mathlib/CategoryTheory/Functor/Derived/RightDerived.lean`, a left Kan
+  extension along the localisation). Assumed: nothing about left derived functors on `D⁻` (there are
+  none at the pin) and no comparison with `Functor.rightDerived` (none is proved at the pin; the
+  documentation of this file and of `Mathlib/CategoryTheory/Abelian/RightDerived.lean` records only
+  the intention to redefine `Functor.rightDerived` through `rightDerivedFunctorPlus`).
+  `CategoryTheory.Functor.rightDerivedDesc`
+  (`Mathlib/CategoryTheory/Functor/Derived/RightDerived.lean`): the natural transformation out of a
+  right derived functor determined by a transformation out of the functor it derives, through the
+  universal property of a left Kan extension along the localisation; and
+  `CategoryTheory.Functor.mapCochainComplexPlus` (`CochainComplexPlus.lean`), the functor that an
+  additive functor induces on bounded-below complexes.
+- `CategoryTheory.Functor.rightDerived`, `CategoryTheory.NatTrans.rightDerived`,
+  `CategoryTheory.InjectiveResolution.isoRightDerivedObj`
+  (`Mathlib/CategoryTheory/Abelian/RightDerived.lean`), `CategoryTheory.Functor.leftDerived`,
+  `CategoryTheory.ProjectiveResolution.isoLeftDerivedObj`,
+  `CategoryTheory.Functor.leftDerivedZeroIsoSelf` (`LeftDerived.lean`, for additive `F` preserving
+  finite colimits), `InjectiveResolution`,
+  `ProjectiveResolution`, `CategoryTheory.Injective.injective_of_adjoint`,
+  `CategoryTheory.Adjunction.map_injective` and the instance giving `EnoughInjectives 𝒜ᵒᵖ` from
+  `EnoughProjectives 𝒜` (`Mathlib/CategoryTheory/Preadditive/Injective/Basic.lean`).
+- `CategoryTheory.InjectiveResolution`
+  (`Mathlib/CategoryTheory/Preadditive/Injective/Resolution.lean`): an `ℕ`-indexed cochain complex
+  of injective objects with a quasi-isomorphism from the object placed in degree `0`
+  (`CochainComplex.single₀`); `CategoryTheory.ShortComplex.ShortExact` and
+  `CategoryTheory.ShortComplex.Splitting` for short exact and split short exact sequences.
+- `CategoryTheory.Tor`, `CategoryTheory.Tor'`, `CategoryTheory.isZero_Tor'_succ_of_projective`
+  (`Mathlib/CategoryTheory/Monoidal/Tor.lean`, which records `Tor ≅ Tor'` as missing), defined for
+  a monoidal abelian category with `MonoidalPreadditive` and `HasProjectiveResolutions`;
+  `CategoryTheory.MonoidalCategory.tensorLeft` and `CategoryTheory.MonoidalCategory.tensorRight`;
+  exactness of a functor as `PreservesFiniteLimits` together with `PreservesFiniteColimits`.
+- `CategoryTheory.Abelian.Ext` (`Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean`),
+  `CategoryTheory.ProjectiveResolution.extEquivCohomologyClass` and
+  `CategoryTheory.InjectiveResolution.extEquivCohomologyClass`
+  (`Mathlib/CategoryTheory/Abelian/Projective/Ext.lean`, `Injective/Ext.lean`),
+  `CochainComplex.IsKInjective`, `CochainComplex.IsKProjective`.
+- `CochainComplex.IsStrictlyGE` (`Mathlib/Algebra/Homology/Embedding/CochainComplex.lean`): a
+  cochain complex indexed by `ℤ` whose terms vanish below a given degree.
+  `CochainComplex.isKInjective_of_injective`
+  (`Mathlib/Algebra/Homology/HomotopyCategory/KInjective.lean`): a cochain complex indexed by `ℤ`,
+  strictly bounded below, with injective terms is K-injective, that is, every map into it from an
+  acyclic complex is null-homotopic. `CochainComplex.IsKInjective.Qh_map_bijective`
+  (`Mathlib/Algebra/Homology/DerivedCategory/KInjective.lean`, under `HasDerivedCategory`): for `L`
+  K-injective, homotopy classes of maps into `L` are in bijection with maps into `L` in the derived
+  category. `CochainComplex.Plus.exists_quasiIso_injective`
+  (`Mathlib/Algebra/Homology/DerivedCategory/DerivabilityStructureInjectives.lean`): with enough
+  injectives, a complex strictly bounded below by `n` has a quasi-isomorphism into a complex of
+  injectives strictly bounded below by `n`. `CategoryTheory.InjectiveResolution.desc` and
+  `CategoryTheory.InjectiveResolution.descHomotopy`
+  (`Mathlib/CategoryTheory/Abelian/Injective/Resolution.lean`): a morphism of objects lifts to their
+  injective resolutions, uniquely up to homotopy; dually `CategoryTheory.ProjectiveResolution.lift`
+  and `CategoryTheory.ProjectiveResolution.liftHomotopy`
+  (`Mathlib/CategoryTheory/Abelian/Projective/Resolution.lean`) for projective resolutions.
+  Assumed: nothing beyond these statements; Mathlib's injective resolutions are indexed by `ℕ` and
+  are extended to `ℤ` where K-injectivity is used.
+- `ModuleCat.restrictScalars`, `ModuleCat.coextendScalars` and
+  `ModuleCat.restrictCoextendScalarsAdj` for any rings, `ModuleCat.extendScalars` and
+  `ModuleCat.extendRestrictScalarsAdj` for commutative rings
+  (`Mathlib/Algebra/Category/ModuleCat/ChangeOfRings.lean`).
+- `HasCountableProducts`, `HasCountableCoproducts`
+  (`Mathlib/CategoryTheory/Limits/Shapes/Countable.lean`), `CountableAB4Star`
+  (`Mathlib/CategoryTheory/Abelian/GrothendieckAxioms/Basic.lean`), `HasExactColimitsOfShape`
+  (`Mathlib/CategoryTheory/Limits/HasExactLimitsOfShape.lean`), and the instances `AB5` and
+  `AB4Star` of `ModuleCat.{u} R` for `R : Type u` (`Mathlib/Algebra/Category/ModuleCat/AB.lean`).
+  Assumed: nothing beyond the definitions; existence of countable products is not exactness of
+  products.
+
+### From Tau Ceti
+
+- `CochainComplex.filtrationFunctor`, `CochainComplex.filtrationFunctorMap`,
+  `CochainComplex.spectralObjectMap`, `CochainComplex.spectralSequence`,
+  `CochainComplex.spectralSequenceFirstPageXIsoCokernel`
+  (`TauCeti/Algebra/Homology/SpectralSequence/Filtered/SpectralObject.lean`, `Naturality.lean`),
+  `CochainComplex.spectralSequence_first_page_d_eq` (`Filtered/FirstPage.lean`) and
+  `CategoryTheory.Abelian.SpectralObject.spectralSequenceMap`
+  (`TauCeti/Algebra/Homology/SpectralObject/SpectralSequenceMap.lean`): the spectral sequence of a
+  filtered cochain complex in any abelian category, starting on native page `2`, its first page as
+  the cohomology of the graded pieces when the filtration maps are monomorphisms (the instance on
+  `filtrationFunctor`), its first differential as the connecting morphism, and the morphisms induced
+  by morphisms of filtrations. Read in the classical indexing of the Conventions.
+  `CochainComplex.filtrationAbutmentIso` (`Filtered/Convergence.lean`) and
+  `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`Filtered/Stabilization.lean`): the
+  abutment of that spectral sequence is `Hⁿ(K)`, and a page on which the relevant cohomology of the
+  filtration steps vanishes is the limit term `EInfty`; the identification of `E_∞` with the graded
+  pieces that DerivedModuleAlgebra §S.1 uses, compared with the canonical presentation in 1.3(a′).
+- `CategoryTheory.SpectralSequence.Hom.isIso_hom_f_of_le`
+  (`TauCeti/Algebra/Homology/SpectralSequence/Comparison.lean`): a morphism of spectral sequences
+  that is an isomorphism at every position of page `r` is one on every later page.
+- `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`
+  (`TauCeti/Algebra/Homology/SpectralSequence/Filtered/Comparison.lean`): in any abelian category,
+  for monotone filtrations `F` of `K` and `G` of `L` by subobjects, indexed by `ℤ`, that are finite
+  as filtrations of complexes (`F_a = G_a = ⊥` and `F_b = G_b = ⊤` for some `a ≤ b`), a morphism of
+  the filtration functors that induces an isomorphism at every position of some native page `r ≥ 2`
+  induces isomorphisms `Hⁿ(K) → Hⁿ(L)` for every `n`.
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
+  (`Filtered/Exhaustive.lean`): the same conclusion in one degree `n`, for cochain complexes of
+  modules over a ring, when, for some `a ≤ b`, the stages of index `≤ a` of both filtrations have no
+  cohomology in degrees `n`, `n + 1`, both filtrations are exhaustive in degrees `n − 1`, `n`, and
+  the graded pieces of index `≥ b` have no cohomology in degrees `n − 1`, `n`. Special cases of
+  SpectralSequencesAndConvergence §3.5 for the spectral sequences of filtered complexes, used in 1.4
+  for the finite case.
+- `HomologicalComplex₂.rowFiltrationSpectralSequence`,
+  `HomologicalComplex₂.columnFiltrationSpectralSequence`,
+  `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`
+  (`TauCeti/Algebra/Homology/SpectralSequence/Bicomplex.lean`), and
+  `HomologicalComplex₂.quasiIso_total_map_of_rows`,
+  `HomologicalComplex₂.quasiIso_totalAugmentation_of_rows`
+  (`TauCeti/Algebra/Homology/TotalComplex.lean`): first-quadrant homological bicomplexes indexed by
+  `ℕ × ℕ` in an abelian category.
+- `TauCeti.ExactStructure.abelian` and `TauCeti.ExactStructure.abelian_conflation`
+  (`TauCeti/CategoryTheory/Exact/Abelian.lean`): the exact structure of an abelian category whose
+  conflations are the short exact sequences; `TauCeti.ExactStructure.abelian_isInjective_iff` and
+  `TauCeti.ExactStructure.exists_conflation_of_conflation_of_injective`
+  (`TauCeti/CategoryTheory/Exact/Injective.lean`): its relative injectives are the injective
+  objects, and the one-step injective horseshoe: for a conflation `X ↪ Y ↠ Z` and conflations
+  `X ↪ I_X ↠ C_X`, `Z ↪ I_Z ↠ C_Z` with `I_X` injective, `Y` embeds by a conflation into a split
+  extension of `I_Z` by `I_X`, with cokernel an extension of `C_Z` by `C_X`, compatibly with the
+  given conflations.
+- `TauCeti.ExactStructure.FiniteResolution.horseshoe`
+  (`TauCeti/CategoryTheory/Exact/Resolution/Horseshoe.lean`) and
+  `TauCeti.ExactStructure.abelian_isProjective_iff`
+  (`TauCeti/CategoryTheory/Exact/Projective.lean`): for a conflation in an exact category and finite
+  resolutions of its outer terms by relative projectives, a finite projective resolution of the
+  middle term, no longer than the longer of the two, with augmentation-compatible chain maps and
+  degreewise split exactness; for `TauCeti.ExactStructure.abelian` the relative projectives are the
+  projective objects. Consumed as it stands, as the finite case of the projective form of 2.1(a) for
+  objects.
+- `CochainComplex.IsKFlat`, `CochainComplex.isKFlat_of_boundedAbove_flat`,
+  `CochainComplex.quasiIso_id_tensorHom` (`TauCeti/Algebra/Homology/Monoidal/KFlat/Basic.lean`).
+- `HomologicalComplex.homologyCross`, `HomologicalComplex.homologyKunnethShortComplex_shortExact`
+  (`TauCeti/Algebra/Homology/Monoidal/Homology/Cross.lean`, `Kunneth/Sequence.lean`) and
+  `TauCeti.ChainComplex.exact_extToHomology_kronecker`
+  (`TauCeti/Algebra/Homology/UniversalCoefficient/Basic.lean`): compared in Checks. The Künneth
+  sequence is stated for `ℕ`-indexed chain complexes `K`, `L` of modules over a commutative ring,
+  under the hypotheses that the cycles `Z_q(L)` and the quotients `L_q/Z_q(L)` be projective, and
+  none on `K` or on the ring; it reads
+  `0 → ⊕_{p+q=m+1} H_p(K) ⊗ H_q(L) → H_{m+1}(K ⊗ L) → ⊕_{p+q=m} Tor₁(H_p K, H_q L) → 0`.
+- `CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel` and
+  `CategoryTheory.ShortComplex.ShortExact.isZero_Tor_add_two`
+  (`TauCeti/CategoryTheory/Monoidal/Tor.lean`): in a monoidal abelian category with
+  `MonoidalPreadditive` and `HasProjectiveResolutions`, for a short exact sequence
+  `0 → P₁ → P₀ → M → 0` with `P₁`, `P₀` projective, `Tor₁(X, M) ≅ ker(X ⊗ P₁ → X ⊗ P₀)` and
+  `Tor_n(X, M) = 0` for `n ≥ 2`; the presentation is of the second variable, the one Mathlib's `Tor`
+  derives. Compared in the Check *Resolutions of length one* of 4.1.
+- `TauCeti.cyclicBockstein`
+  (`TauCeti/RepresentationTheory/Homological/ContCohomology/Bockstein/AllDegrees.lean`): for a
+  compact group `G` and a natural number `n ≠ 0`, the connecting map of
+  `0 → ℤ/n →(×n) ℤ/n² → ℤ/n → 0` (trivial action) on continuous cohomology, which Tau Ceti defines
+  as the connecting map of the short exact sequence of homogeneous continuous cochains. Compared in
+  the Examples of Layer 6.
+- `TauCeti.IsReplete` and the instance `TauCeti.IsReplete.countableAB4Star`
+  (`TauCeti/CategoryTheory/Limits/Replete.lean`): a category is replete when, for every tower
+  `ℕᵒᵖ ⥤ C` whose transitions are epimorphisms, the projection to the first term of every limit
+  cone is an epimorphism; an abelian replete category with countable products satisfies
+  `CountableAB4Star`. `CategoryTheory.Functor.towerDifference`
+  (`TauCeti/CategoryTheory/Preadditive/TowerDifference.lean`): the map `1 − s` on `∏ Fₙ` whose
+  cokernel is `lim¹`. Assumed: nothing beyond these; no instance of repleteness for `ModuleCat` is
+  used from the pin, that being SpectralSequencesAndConvergence §7.2's.
+
+### From TauCetiRoadmap.SpectralSequencesAndConvergence
+
+The convergence language of this roadmap is SpectralSequencesAndConvergence's (*Scope and
+ownership*). Each of its sections that a statement or a route here uses is listed below with the
+statement and hypotheses under which it is used; none of them is restated as a target here. The
+classical indexing of its §5.1 is read on Tau Ceti's construction (Conventions, *From Tau Ceti*),
+and the pages of an exact couple on which 5.1 states its pairings are StableHomotopyKTheory §7.22's.
+Of its tower theory only the class of categories of §7.4, the vanishing of `lim¹` of §7.2 and the
+complete convergence theorem of §7.5 are used, not the limit side of §7.4.
+
+- **§1.2–§1.4.** For a spectral sequence `E` in Mathlib's carrier
+  `CategoryTheory.SpectralSequence C c r₀` over an abelian category and a position `pq`: the cycle
+  and boundary towers `B_r(pq) ≤ Z_r(pq)` in `(E.page r₀).X pq`, presenting `(E.page r).X pq` as
+  `Z_r/B_r` (§1.2); the notions "`E` stabilises at `pq` from page `s`" (every differential of every
+  page `r ≥ s` leaving or entering `pq` vanishes), "`E` is regular at `pq`" (the leaving
+  differentials vanish for all large `r`) and "`E` degenerates at page `s`" (every differential of
+  every page `r ≥ s` vanishes), with the canonical isomorphisms `(E.page s).X pq ≅ (E.page r).X pq`
+  for `r ≥ s` under stabilisation, compatible with composition and natural in morphisms, and
+  stabilisation at every position from `s` under degeneration at `s` (§1.3); and the limit page
+  `E_∞(pq) = Z_∞/B_∞` wherever the meet `Z_∞` of the `Z_r` and the join `B_∞` of the `B_r` exist in
+  `Subobject ((E.page r₀).X pq)` (always under countable products and countable coproducts), with
+  `E_∞(pq) ≅ (E.page s).X pq` when `E` stabilises at `pq` from `s` (no hypothesis on the category),
+  functorial in morphisms of spectral sequences having limit pages (§1.4). Used in 1.3(a) and (c),
+  4.2, 4.3 and 6.2, and through §3.2 wherever a convergence is stated.
+- **§2.1.** Bidegree assignments `(fil, deg, e)` for a spectral sequence in Mathlib's carrier
+  (`pq ↦ (fil pq, deg pq)` injective, every relation of page `r` raising `deg` by `1` and `fil` by
+  `r − e`), transported along isomorphisms of spectral sequences; the cohomological assignment
+  `(p, q) ↦ (p, p + q)`, `e = 0`; and the classical filtered-complex assignment
+  `(p, q) ↦ (−q − 1, p + q)`, `e = 1`, on the native positions of `coreE₂Cohomological`. The
+  homological assignment of the Conventions is an assignment in the sense of this definition. Used
+  in the Conventions and 2.6, and through 2.6 in 3.4 and 4.4.
+- **§2.2.** For a spectral sequence with a bidegree assignment, vanishing at a position persists to
+  all later pages; a bounded-below sequence (for every `n` there is `β(n)` with
+  `(E.page r₀).X pq = 0` whenever `deg pq = n` and `fil pq ≥ β(n)`) is regular at every position;
+  and if only finitely many first-page positions of total degrees `n − 1` and `n + 1` are nonzero,
+  every position of total degree `n` stabilises. Used in 1.3(a) (the stabilisation bound) and
+  1.3(c) (the regularity criterion).
+- **§3.1.** Decreasingly filtered objects as Mathlib `CategoryTheory.FilteredObject C ℤᵒᵖ`, their
+  graded pieces `gr^p = F^p/F^{p+1}`, functorial in `CategoryTheory.FilteredObject.Hom`, and the
+  predicates exhaustive (`⊤` is the join of the steps), separated (`⊥` is their meet), complete (the
+  cone from `X` to the system `(X/F^p X)_p` is a limit cone) and finite (`F^a X = X` and
+  `F^b X = 0` for some `a ≤ b`), finite implying the other three. Used in 6.2, and through §3.2.
+- **§3.2.** For a spectral sequence `E` with a bidegree assignment `(fil, deg, e)`, a set `I ⊆ ℤ`
+  and an abutment `H : ℤ → FilteredObject C ℤᵒᵖ`: the structures of weak convergence in `I`
+  (limit pages at every position of total degree in `I`, isomorphisms `β : E_∞(pq) ≅ gr^s H^n`
+  when `(fil pq, deg pq) = (s, n)` with `n ∈ I`, and `gr^s H^n = 0` when `(s, n)` is not of this
+  form), of convergence in `I` (adding that the filtration of every `H^n`, `n ∈ I`, is exhaustive
+  and separated) and of strong convergence in `I` (adding completeness), each restricting to
+  subsets of `I` and transported along isomorphisms of spectral sequences and filtered
+  isomorphisms of abutments. Used wherever a convergence is stated: 1.3–1.5, 2.4–2.6, 3.2–3.4,
+  4.2–4.4, 5.2 and 6.2.
+- **§3.3.** Morphisms of weakly converging structures in `I`: pairs `(f, h)` of a
+  `CategoryTheory.SpectralSequence.Hom` `f : E ⟶ E′` and filtered morphisms `h_n : H^n ⟶ H′^n`
+  with `β′ ∘ E_∞(f, pq) = gr^s(h_n) ∘ β` at every position of total degree `n ∈ I`, forming a
+  category whose composition and identities are those of the components. Used in 1.4, 2.4, 2.5
+  and 3.3.
+- **§3.4.** Weak convergence in degree `n` together with a finite filtration of `H^n` is strong
+  convergence in degree `n`; `H^n` then has a finite chain of subobjects whose successive quotients
+  are the `E_∞` at the positions of total degree `n`, vanishes when all of them vanish, and lies in
+  every weak Serre class (a property of objects containing `0` and closed under kernels, cokernels
+  and extensions) that contains all of these `E_∞`, or that contains all `E_r` of total degree `n`
+  for a page `r` on which every position of total degree `n` has reached its limit page. Used in
+  1.3(a) and in the two-column sequences of 4.2 and 4.3.
+- **§3.5.** For a morphism `(f, h)` of weakly converging structures in degree `n` such that `f` is
+  an isomorphism at every position of some page `s ≥ r₀`: `E_∞(f)` is an isomorphism at every
+  position of total degree `n`; `h_n` is an isomorphism when the filtrations of `H^n` and `H′^n`
+  are finite; and, in an abelian category with exact sequential colimits, `h_n` is an isomorphism
+  when both structures converge strongly in degree `n`. Used in 1.4.
+- **§3.6.** For an `E₂` cohomological spectral sequence with the cohomological assignment and
+  `E_2^{p,q} = 0` for `p < 0` or `q < 0`: under convergence in degree `n`, the edge morphisms
+  `E_2^{n,0} ↠ E_∞^{n,0} ≅ F^n H^n ↪ H^n` and `H^n ↠ H^n/F^1 H^n ≅ E_∞^{0,n} ↪ E_2^{0,n}`; under
+  convergence in degrees `1` and `2`, the exact sequence
+  `0 → E_2^{1,0} → H^1 → E_2^{0,1} → E_2^{2,0} → H^2`, whose map `E_2^{0,1} → E_2^{2,0}` is `d_2`
+  and whose other maps are the edge morphisms; and, for `m ≥ 1` with `E_2^{p,q} = 0` for all `p` and
+  `0 < q < m`, under convergence in degrees up to `m + 1`, the isomorphisms `E_2^{j,0} ≅ H^j` for
+  `j < m` and the exact sequence `0 → E_2^{m,0} → H^m → E_2^{0,m} → E_2^{m+1,0} → H^{m+1}`. Used in
+  1.3(a′) and 3.3, and through 2.6 in the low-degree sequences of 3.4 and 4.4.
+- **§4.3 and §4.6.** For a spectral object `X : CategoryTheory.Abelian.SpectralObject C EInt` and a
+  position `(p, q)`, `n = p + q`, at which `X.spectralSequence coreE₂Cohomological` has a limit
+  page, with `Zᵗ = ker(δ : H^n(q ≤ q + 1) → H^{n+1}(⊥ ≤ q))` and
+  `Bᵗ = im(δ : H^{n−1}(q + 1 ≤ ⊤) → H^n(q ≤ q + 1))`: `Zᵗ ≤ Z_∞` and `B_∞ ≤ Bᵗ`, and the canonical
+  subobject `Zᵗ/B_∞` of `E_∞(p, q)` maps onto Tau Ceti's
+  `CategoryTheory.Abelian.SpectralObject.EInfty q n ≅ Zᵗ/Bᵗ`, the inclusion being an isomorphism
+  exactly when `Z_∞ = Zᵗ` and the projection exactly when `B_∞ = Bᵗ` (§4.3); and a morphism of
+  spectral objects induces a morphism of the converging structures whose `β` are these
+  comparisons (§4.6). Used in 1.2 (naturality of the canonical presentation) and 5.2, and through
+  §5.2.
+- **§5.1.** The spectral sequence of a decreasingly filtered complex `(K, F)` is Tau Ceti's
+  `CochainComplex.spectralSequence (CochainComplex.filtrationFunctor G _)` for `G_t = F^{−t}`, read
+  in the classical indexing: `E_r^{p,q}` is page `r + 1` at `(2p + q + 1, −p − 1)`, with
+  `E_1^{p,q} ≅ H^{p+q}(gr^p K)`, `d_1` the connecting morphism, and filtered morphisms inducing
+  morphisms of spectral sequences. Used in the Conventions and throughout.
+- **§5.2.** For a cochain complex `K` with an antitone family `F : ℤ → Subobject K` of
+  subcomplexes, the induced filtration `F^p H^n(K) = im(H^n(F^p K) → H^n(K))`, functorial in
+  filtered morphisms, and, wherever the limit page exists at `(p, n − p)`, the canonical
+  presentation of `gr^p H^n(K)` as a subquotient of `E_∞^{p,n−p}`: an inclusion
+  `Zᵗ/B_∞ ↪ E_∞^{p,n−p}` followed by a projection `Zᵗ/B_∞ ↠ Zᵗ/Bᵗ ≅ gr^p H^n(K)` (§4.3 read through
+  Tau Ceti's `CochainComplex.filtrationAbutmentIso`). When both maps are isomorphisms at every
+  position of total degree in `I`, these comparisons are the `β` of a weak convergence structure in
+  `I` (stacks-012K line 3131–3140, Definition 24.9, tag 012U). The existence of some other
+  isomorphism `E_∞^{p,n−p} ≅ gr^p H^n(K)` does not make the presentation invertible (its fourth
+  Check). Used in the Conventions, 1.2, 1.3, 1.4 and 5.2.
+- **§5.3.** For a decreasingly filtered cochain complex `(K, F)` in an abelian category and an
+  integer `n` such that the filtrations of `K^{n−1}`, `K^n` and `K^{n+1}` are finite, the spectral
+  sequence in the classical indexing stabilises at every position of total degree `n` and converges
+  strongly in degree `n` to `H^n(K)` with the induced filtration, which is finite, through the
+  canonical isomorphisms of §5.2; and `H^n(K)` lies in every weak Serre class that contains every
+  `E_r^{p,q}` for some `r`. Used in 1.3(a), 4.3 and 5.2.
+- **§5.4.** In an abelian category with exact sequential colimits, for a decreasingly filtered
+  cochain complex `(K, F)` and an integer `n` such that the filtration is exhaustive on `K^{n−1}`
+  and `K^n` and `H^m(F^s K) = 0` for `m ∈ {n, n + 1}` and all `s ≥ p₀(n)` (in particular when
+  `F^s K^n = F^s K^{n+1} = 0` for `s ≥ p₀(n)`), the spectral sequence in the classical indexing is
+  regular and has a limit page at every position of total degree `n`, and converges strongly in
+  degree `n` to `H^n(K)` with the induced filtration, through the canonical isomorphisms of §5.2.
+  Its comparison item: a morphism of the filtration functors of two such filtrations that is an
+  isomorphism at every position of some native page `r ≥ 2` induces an isomorphism on `H^n`. Used in
+  1.3(b), 1.4, 1.5 and 5.2.
+- **§6.1.** For a bigraded exact couple of StableHomotopyKTheory §7.22 with degrees `a, b, c`, its
+  spectral sequence in Mathlib's carrier
+  `CategoryTheory.SpectralSequence C (fun r ↦ ComplexShape.up' (c + b − (r − 1) • a)) 1`, whose page
+  `r` is the `E` of the `(r − 1)`-th derived couple with differential `j ∘ k` and whose homology
+  isomorphisms identify the `E` of the next derived couple with `H(E, jk)`, functorial in morphisms
+  of exact couples; for `a = (−1, 1)`, `b = (0, 0)`, `c = (1, 0)` it is a
+  `CategoryTheory.CohomologicalSpectralSequence C 1`. Used in 5.2, 6.1 and 6.2.
+- **§6.2.** For a cohomological exact couple, the towers of its spectral sequence are
+  `Z_{r+1}^{s,t} = k^{−1}(im(i^r : D^{s+r+1,t−r} → D^{s+1,t}))` and
+  `B_{r+1}^{s,t} = j(ker(i^r : D^{s,t} → D^{s−r,t+r}))`, the differential `d_{r+1}` sends the class
+  of `x` with `k x = i^r y` to the class of `j y`, and the limit page exists whenever the meet of
+  the `im i^r` and the join of the `ker i^r` exist, with `Z_∞ = k^{−1}(⋂_r im i^r)` and
+  `B_∞ = j(⋃_r ker i^r)`. Used in 1.3(c) and 6.2.
+- **§6.3.** For a decreasingly filtered cochain complex `(K, F)`, the cohomological exact couple
+  `D^{s,t} = H^{s+t}(F^s K)`, `E^{s,t} = H^{s+t}(gr^s K)` with the maps of the long exact cohomology
+  sequences, functorial in filtered morphisms, whose spectral sequence (§6.1) is the classical one
+  of §5.1, compatibly with the differentials. Used in 1.3(c), 5.2 and 6.1.
+- **§7.2.** Repleteness (Tau Ceti's `TauCeti.IsReplete`) of an abelian category with countable
+  products is equivalent to `CountableAB4Star` together with `lim¹ = 0` for every tower of
+  epimorphisms, `lim¹` being the cokernel of Tau Ceti's `CategoryTheory.Functor.towerDifference`;
+  `ModuleCat.{v} R` is replete for every ring `R`. Used in the Conventions, 1.3(c) and 1.5.
+- **§7.4 and §7.5.** The class of §7.4: abelian categories with countable products and coproducts,
+  exact sequential colimits and repleteness. In it (§7.5), for a decreasingly filtered cochain
+  complex `(K, F)` whose filtration is exhaustive and complete (`K^m ≅ lim_p K^m/F^p K^m`) in every
+  degree and whose spectral sequence in the classical indexing is regular, and such that for every
+  `n` there is a bound below which `E_1^{p,m−p} = 0` for `m ∈ {n − 1, n}`, the spectral sequence
+  converges strongly in every degree to `H^*(K)` with the induced filtration; the isomorphisms are
+  those of §7.4's first theorem for the exact couple of §6.3, induced by `j`. Used in the
+  Conventions, 1.3(c) and 1.5.
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+- §7.22: bigraded exact couples in an abelian category, their derived couples and their pages: page
+  `r ≥ 1` is the `E` of the `(r − 1)`-th derived couple, with `d_r = j ∘ k` there of degree
+  `c + b − (r − 1)a`. These pages carry the pairings of 5.1, and the couples are the input of
+  SpectralSequencesAndConvergence §6.1. Assumed: the derived couple is again exact.
+
+### From TauCetiRoadmap.GrothendieckEulerForms
+
+- §3.5: the projective horseshoe lemma for projective resolutions in an exact category with enough
+  projectives, with comparison maps to a fixed projective resolution unique up to chain homotopy.
+  Cited in 2.1 for the projective forms over an abelian category, through the exact structure
+  `TauCeti.ExactStructure.abelian`; nothing of it is used in a route here.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+- §0.2: the derived tensor bifunctor on `D(R)` for a commutative ring `R`, symmetric monoidal with
+  unit `R[0]`, with `P ⊗^L L ≅ Tot(P ⊗ L)` naturally for every bounded-above complex `P` of flat
+  modules.
+- §S.1: the first-quadrant double complex spectral sequence and its consequences (second page,
+  abutment filtration, edge morphisms, five-term and extended sequences), for double complexes with
+  anticommuting differentials, compared with Layer 1 through `d′ = d₁`, `d″ = (−1)^p d₂` (1.2) and
+  identified with `′E` of a first-quadrant double complex, with its edge morphisms, in 1.3(a′).
+  Assumed: what its API and proof sketch state, that its spectral sequence is Tau Ceti's spectral
+  sequence of the column filtration of the total complex, with abutment and `E_∞` identified
+  through Tau Ceti's `CochainComplex.filtrationAbutmentIso` and
+  `CochainComplex.filtrationSpectralSequencePageXIsoEInfty`.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+- §D7.1, target *Derived composite spectral sequence*: for left exact `F : 𝒜 → ℬ`, `H : ℬ → 𝒞`
+  with `𝒜, ℬ` having enough injectives and `F` sending injectives to `H`-acyclic objects, the
+  natural convergent first-quadrant spectral sequence `E₂^{a,b} = R^aH(R^bF(X)) ⇒ R^{a+b}(H ∘ F)(X)`
+  of an object `X`, with finite filtrations, whose edge maps are the canonical maps
+  `R^aH(F(X)) → R^a(H ∘ F)(X)` and `R^b(H ∘ F)(X) → H(R^bF(X))`. Assumed: what its statement, its
+  *Needs* line and its proof sketch say, that the sequence is DerivedModuleAlgebra §S.1's spectral
+  sequence of the first-quadrant double complex obtained by applying `H` to a Cartan–Eilenberg
+  resolution of `F` applied to an injective resolution of `X`, filtered so that its second page is
+  `R^aH(R^bF(X))`, with abutment identified with `R^{a+b}(H ∘ F)(X)` through the acyclicity of the
+  `F` of the injective terms. That double complex is the one of 3.2 for `X[0]`, and 1.3(a′),
+  through the flip, identifies §S.1's sequence of it and its edge morphisms with `E(F, H; X[0])` of
+  3.2 and the edge morphisms of SpectralSequencesAndConvergence §3.6; nothing else of §D7.1's
+  construction is used.
 
 ## References
 

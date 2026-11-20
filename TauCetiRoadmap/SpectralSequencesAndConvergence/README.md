@@ -1,116 +1,61 @@
 # Roadmap: spectral sequences and convergence
 
-**Summary.** Mathlib's `CategoryTheory.SpectralSequence` records the pages of a spectral sequence
-in an abelian category and the isomorphisms identifying the homology of one page with the next;
-Mathlib's spectral objects produce such sequences, and the pinned Tau Ceti attaches to a spectral
-object indexed by `EInt` its abutment, the filtration of the abutment and the graded pieces, and
-builds from them the spectral sequence of a filtered cochain complex. What neither library has is
-the common language in which a spectral sequence *converges*: the cycle and boundary towers of an
-arbitrary spectral sequence, its limit page, convergence as a structure on a pair (spectral
-sequence, filtered abutment) in a prescribed set of total degrees, and the theorems that use this
-structure. This roadmap builds that language over an arbitrary abelian category and proves: the
-stabilisation theorems for bounded and regular sequences; the comparison theorem; the vanishing,
-dimension-count, Euler-characteristic, two-row, two-column, edge-morphism and five-term
-consequences; the identification of the towers and of the limit page of the spectral sequence of
-a spectral object, with convergence criteria in a range of degrees (Stacks Lemma 24.13 in
-spectral-object form) and the convergence of Mathlib's first- and third-quadrant sequences;
-convergence of the spectral sequence of a filtered complex in the finite, cohomologically bounded
-and exhaustive-bounded-below cases; the spectral sequence of an exact couple, its towers, and its
-identification with the spectral sequence of a spectral object; and, in replete abelian
-categories (Tau Ceti's `TauCeti.IsReplete`) with countable products and coproducts and exact
-sequential colimits, Boardman's conditional-convergence theorems with the whole-plane obstruction
-and the complete convergence theorem for filtered complexes.
+**Summary.** A spectral sequence is a sequence of pages, each the homology of the one before. It
+is useful when it converges: when a limit of its pages gives the graded pieces of a filtered
+object, the abutment. Mathlib records the pages of a spectral sequence in an
+abelian category, and the Tau Ceti library attaches a filtered abutment to a spectral object and
+builds the spectral sequence of a filtered complex. Neither defines convergence for an arbitrary
+spectral sequence. This roadmap does, over an arbitrary abelian category; further hypotheses on
+the category are stated with the theorems that need them.
 
-## Scope and ownership
+At each position, page `r` is a subquotient `Z_r / B_r` of the first page, for a decreasing tower
+of cycles and an increasing tower of boundaries. The limit page `E_∞` is the meet of the cycles
+modulo the join of the boundaries. It exists where the sequence stabilises, and in general when the
+category has countable products and coproducts, even when no page reaches it. A spectral sequence
+converges weakly to filtered objects `H^n` when each limit page is isomorphic to the matching
+graded piece of `H^n`, the other pieces vanishing. It converges when each filtration is also
+exhaustive and separated, and strongly when each is also complete.
 
-This roadmap owns:
+A spectral object indexed by the integers with `−∞` and `+∞` adjoined assigns to each `i ≤ j`
+objects `H^n(i ≤ j)` linked by long exact sequences; for an increasing filtration `G` of a complex
+they are the cohomology of `G_j / G_i`. Its abutment `H^n(−∞ ≤ +∞)` is filtered by the images of
+the `H^n(−∞ ≤ q)`. The first main theorem is the spectral-object form of Stacks Lemma 24.13. Fix a
+degree `n` and integers `a`, `b`. Suppose that `H^n(−∞ ≤ i)` and `H^{n+1}(−∞ ≤ i)` vanish for
+`i ≤ a`, and that `H^n(−∞ ≤ j) → H^n(−∞ ≤ +∞)` is an isomorphism for `j ≥ b`. Then the spectral
+sequence converges strongly in degree `n` to this abutment, with a finite filtration.
+Hence Mathlib's first- and third-quadrant spectral sequences converge strongly.
 
-- the cycle and boundary towers, stabilisation, regularity, coregularity, degeneration and the
-  limit page of an arbitrary spectral sequence in Mathlib's carrier;
-- bidegree assignments, boundedness, and the Euler characteristic of pages;
-- decreasing filtrations as Mathlib filtered objects together with graded pieces, exhaustiveness,
-  separation, completeness and finiteness; weak, ordinary and strong convergence in a set of
-  total degrees; morphisms of converging spectral sequences; the comparison theorem; the
-  consequences listed in Layer 3;
-- the towers, limit page and convergence of the spectral sequence of a spectral object indexed
-  by `EInt`, including Mathlib's first- and third-quadrant sequences, and the towers of Mathlib's
-  sequence of a spectral object indexed by `Fin (l + 1)`;
-- the classical indexing of the spectral sequence of a decreasingly filtered cochain complex in an
-  arbitrary abelian category, its convergence in the cohomologically bounded and
-  degreewise-finite cases, and Weibel's classical convergence theorem in abelian categories with
-  exact sequential colimits;
-- the spectral sequence of an exact couple in Mathlib's carrier, its towers, and the exact couple
-  of a spectral object and of a filtered complex with the identification of spectral sequences;
-- lim and lim¹ of towers in abelian categories with countable products, the characterisation of
-  repleteness through lim¹ and the Mittag–Leffler vanishing in replete abelian categories,
-  Boardman's double-tower sequence, conditional convergence and Boardman's theorems for exact
-  couples, and the complete convergence theorem for filtered complexes, in abelian categories.
+The second is the comparison theorem. Take a morphism between two spectral sequences converging
+weakly in degree `n`, with compatible filtered morphisms of abutments. If it is an
+isomorphism at every position of some page, it is one on `H^n` when both filtrations are finite, or
+when the category has exact sequential colimits and both converge strongly in degree `n`.
+Completeness cannot be dropped: the inclusion `ℤ → ℤ_ℓ`, both filtered `ℓ`-adically, is an
+isomorphism on every page but not on the abutments.
 
-It leaves to named owners:
+The third is the classical convergence theorem for a decreasingly filtered complex `K`, in a
+category with exact sequential colimits. If the filtration is exhaustive on `K^{n−1}` and `K^n`, and
+the steps `F^s K` for large `s` have vanishing `H^n` and `H^{n+1}`, the spectral sequence converges
+strongly in degree `n` to `H^n(K)` with the induced filtration.
 
-- **Mathlib** (at the pin): the carrier `CategoryTheory.SpectralSequence` and its cohomological
-  abbreviations, spectral objects and the recipes `coreE₂Cohomological`, `coreE₂CohomologicalNat`,
-  `coreE₂CohomologicalFin`, `coreE₂HomologicalNat`, the classes `IsFirstQuadrant` and
-  `IsThirdQuadrant`, the mapping-cone spectral object, filtered objects, subobject lattices, the
-  Grothendieck axioms and Serre classes.
-- **Tau Ceti** (at the pin): the abutment `abutment`, its filtration `abutmentFiltration`, the
-  object `EInfty` and its identification with the graded pieces, the stabilisation isomorphism
-  `spectralSequencePageXIsoEInfty`, the comparison theorems for spectral objects and for
-  finitely filtered complexes, the spectral sequence of an increasing filtration of a cochain
-  complex with its first page and first differential, the exhaustive convergence theorems for
-  complexes of modules, the row-filtration spectral sequence of a first-quadrant bicomplex, the
-  product–difference map of a tower, module towers with lim, lim¹ and Mittag–Leffler
-  vanishing, replete categories with the exactness of countable products in a replete abelian
-  category and the repleteness of sheaves on a replete topos, and the Euler–Poincaré engine for
-  additive invariants. These are consumed as they stand; this roadmap restates none of them.
-  Three targets here are kept variants of Tau Ceti theorems: 4.4 and 4.6 replace the vanishing of
-  `H^{n−1}(j ≤ ⊤)` and `H^n(j ≤ ⊤)` for large `j` by the condition that `H^n(⊥ ≤ j) → H^n(⊥ ≤ ⊤)` be
-  an isomorphism, and the comparison theorem of 5.4 holds in every abelian category with exact
-  sequential colimits and asks nothing of the graded pieces in the exhaustive direction, where
-  Tau Ceti's `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive` is
-  for complexes of modules whose graded pieces beyond a bound have vanishing cohomology; its
-  hypothesis at the bounded end is Tau Ceti's.
-- **DGFloer, Layer 1 item 3**: the homological and cohomological adapters for filtered complexes
-  of modules over a ring, Weibel's classical convergence theorem 5.5.1(2) and the complete
-  convergence theorem 5.5.10 for module complexes. This roadmap's abelian-category theorems
-  specialise to these; the specialisation is recorded at 5.4 and 7.5, and the module statements
-  are not restated.
-  **DGFloer, Layer 1 item 2** owns the Serre spectral sequences.
-- **AlgebraicTopology, §6.0**: the restriction towers of singular and cellular cochains of a CW
-  pair, and the maps of homotopy limits induced by maps of towers of module complexes whose
-  squares commute up to specified homotopies. The module tower algebra it builds on (lim, lim¹,
-  the six-term sequence, Mittag–Leffler vanishing, the Milnor sequences) is Tau Ceti's
-  `TauCeti.ModuleTower` and `TauCeti.ComplexTower`. Layer 7 here owns lim and lim¹ only in an
-  abelian category, states no homotopy limit, and identifies its lim and lim¹ on modules with
-  Tau Ceti's (7.1).
-- **DerivedModuleAlgebra, §S.1**: the spectral sequence of a first-quadrant double complex in an
-  abelian category, with the column filtration of its abutment, edge morphisms and five-term
-  sequence; an instance of Layers 3 and 4, recorded in their Examples.
-- **StableHomotopyKTheory, §7.22**: bigraded exact couples in an abelian category and their derived
-  couples. Layer 6 assembles the iterated derived couples into Mathlib's carrier and proves the
-  identifications. **StableHomotopyKTheory, §§7.21 and 7.23–7.26**: filtered spectra, their
-  spectral sequences and their convergence, including Boardman's theorem for towers of spectra.
-  Two of these are instances of statements here, kept with their owner: §7.23's identification
-  of the exact-couple pages of a filtered spectrum with Mathlib's spectral-object pages is, after
-  its homological reindexing, 6.3 for its homotopy spectral object, and the abelian-group form of
-  §7.26 is 7.4 in `ModuleCat ℤ` once its bidegrees are converted to the cohomological ones of 6.1
-  (recorded at 7.4).
-- **SchemeAndStackFoundations, §2.2** (Leray and Čech spectral sequences), **ComplexKahlerGeometry,
-  K8** (the Frölicher spectral sequence), **HeegaardFloer** and **MorseTheory** (finite filtered
-  complexes of modules): instances that stay with their owners.
-- **SchemeAndStackFoundations, §2.17**: replete topoi, and *IsReplete.derived_limits* (in a
-  replete topos, `R lim` of a tower of abelian sheaves with epimorphic transitions is `lim`, and
-  `lim¹ = 0`). The vanishing of `lim¹` there is an instance of 7.2, through Tau Ceti's
-  `TauCeti.isReplete_sheaf`.
-- **EnhancedDerivedSheaves, E2:towers.1, E2.1 and E2.2**: derived limits of coherent towers,
-  countable products in a replete topos, the Milnor sequence and pro-zero vanishing for module
-  sheaves on a replete topos. Layer 7 here concerns `lim` and `lim¹` in an abelian category and
-  Tau Ceti's repleteness of a category; it states no derived limit.
+The last part works in replete categories, where every tower with epimorphic transitions has
+epimorphic limit projections. An abelian category with countable products is replete if and only
+if countable products are exact and every such tower has vanishing `lim¹`. Adding countable
+coproducts and exact sequential colimits, the roadmap proves Boardman's theorems for exact
+couples. If the couple converges conditionally to the limit and the `lim¹` of the cycle
+towers vanishes in total degree `n`, the spectral sequence converges strongly in degree `n` to the
+limit of its tower one total degree up.
 
-Multiplicative structures on spectral sequences, the Adams and Atiyah–Hirzebruch spectral
-sequences, and spectral sequences in triangulated or stable ∞-categories beyond Mathlib's
-`CategoryTheory.Triangulated.SpectralObject` and its image under a homological functor are not
-part of this roadmap.
+The roadmap takes exact couples from StableHomotopyKTheory. For complexes of modules its
+filtered-complex theorems contain the convergence theorems of DGFloer. Among its users,
+ClassicalAdicEtaleCohomology needs finite-filtration convergence, and ChromaticHomotopyTheory
+conditional convergence.
+
+Layer 1 builds the towers and the limit page. Layer 2 proves that bounded spectral sequences
+stabilise and that, for a suitably additive invariant, the Euler characteristic of a finitely
+supported page equals that of the next. Layer 3 defines convergence and proves the comparison
+theorem and the two-row, two-column and five-term exact sequences. Layers 4 and 5 specialise to
+spectral objects and filtered complexes. Layer 6 builds the spectral sequence of an exact couple and
+identifies it with those of Layers 4 and 5. Layer 7 treats `lim¹`, repleteness and Boardman's theorems.
 
 ## Conventions
 
@@ -181,225 +126,6 @@ part of this roadmap.
   converge to the colimit `A_n^{−∞}` but to the limit `A_{n+1}^{+∞}` (7.4). *Witness:* the two
   step couples of 7.4's Checks. In the colimit one `E_∞^{0,0} = ℤ` matches `A_0^{−∞} = ℤ`; in the
   limit one it matches `A_1^{+∞} = ℤ`, while `A_0^{+∞} = 0`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `CategoryTheory.SpectralSequence`, `CategoryTheory.SpectralSequence.Hom`,
-  `CategoryTheory.SpectralSequence.pageFunctor`,
-  `CategoryTheory.SpectralSequence.pageHomologyNatIso`,
-  `CategoryTheory.SpectralSequence.pageXIsoOfEq`, `CategoryTheory.CohomologicalSpectralSequence`,
-  `CategoryTheory.E₂CohomologicalSpectralSequence`,
-  `CategoryTheory.CohomologicalSpectralSequenceNat`,
-  `CategoryTheory.CohomologicalSpectralSequenceFin`, `ComplexShape.up'`,
-  `ComplexShape.spectralSequenceNat` and `ComplexShape.spectralSequenceFin`
-  (`Mathlib/Algebra/Homology/SpectralSequence/Basic.lean` and `ComplexShape.lean`). A spectral
-  sequence records pages and homology isomorphisms only; no limit page, abutment or convergence
-  is recorded.
-- `CategoryTheory.Abelian.SpectralObject` with `H`, `δ`, `E`, `cycles`, `opcycles`,
-  `CategoryTheory.Abelian.SpectralObject.SpectralSequenceDataCore`,
-  `CategoryTheory.Abelian.SpectralObject.coreE₂Cohomological`, `coreE₂CohomologicalNat`,
-  `coreE₂CohomologicalFin`, `coreE₂HomologicalNat`, `HasSpectralSequence`, `IsFirstQuadrant`,
-  `IsThirdQuadrant`, `spectralSequence`, `spectralSequencePageXIso`, `isoMapFourδ₁Toδ₀'`,
-  `isoMapFourδ₄Toδ₃'`, `SpectralSequenceDataCore.HasFirstPageComputation`,
-  `spectralSequenceFirstPageXIso` (`Mathlib/Algebra/Homology/SpectralObject/`). The object
-  `E^n(i₀ ≤ i₁ ≤ i₂ ≤ i₃)` is the homology of
-  `H^{n−1}(i₂ ≤ i₃) →δ H^n(i₁ ≤ i₂) →δ H^{n+1}(i₀ ≤ i₁)`. The recipe `coreE₂CohomologicalFin l`
-  is for spectral objects indexed by `Fin (l + 1)`, with positions `ℤ × Fin l` and indices
-  clamped to `0` and `l`; `HasSpectralSequence` is an instance for it and for
-  `coreE₂Cohomological`, and a hypothesis for `coreE₂CohomologicalNat` and `coreE₂HomologicalNat`,
-  implied by `IsFirstQuadrant` and `IsThirdQuadrant` respectively. `HasFirstPageComputation` is an
-  instance for the three recipes on `EInt` only.
-- `HomotopyCategory.spectralObjectMappingCone`,
-  `CategoryTheory.Triangulated.SpectralObject.mapHomologicalFunctor`, `EInt`
-  (`Mathlib/Order/WithBotTop.lean`).
-- `CategoryTheory.FilteredObject`, `CategoryTheory.Filtration`,
-  `CategoryTheory.FilteredObject.Hom`, `CategoryTheory.FilteredObject.IsStrictHom`
-  (`Mathlib/CategoryTheory/Filtration/Basic.lean`). A filtration indexed by `ℤᵒᵖ` is a decreasing
-  family of monomorphisms into the object; exhaustiveness, separation and completeness are not
-  part of the definition.
-- `CategoryTheory.Subobject`, `Subobject.ofLE`, `Subobject.pullback`, `imageSubobject`,
-  `kernelSubobject` (`Mathlib/CategoryTheory/Subobject/`). Arbitrary meets and joins in
-  `Subobject X` are provided by Mathlib only under well-poweredness and all small limits or
-  coproducts. The countable meets and joins used here are built in Layer 1 from countable
-  products and coproducts.
-- `HasCountableProducts`, `HasCountableCoproducts`, `CountableAB4Star`, `HasExactColimitsOfShape`,
-  `AB5`, `EnoughProjectives`, `IsGrothendieckAbelian`, with the module-category instances `AB5`
-  and `AB4Star` for `ModuleCat.{u} R` with `R : Type u` only, and `EnoughProjectives` for
-  `ModuleCat.{v} R` under `Small.{v} R`. `CountableAB4Star` follows from `AB4Star` by the
-  instance after its definition, and exact sequential colimits follow from `AB5` by the lemma
-  `AB5OfSize_shrink`
-  (`Mathlib/CategoryTheory/Limits/Shapes/Countable.lean`,
-  `Mathlib/CategoryTheory/Limits/HasExactLimitsOfShape.lean`,
-  `Mathlib/CategoryTheory/Abelian/GrothendieckAxioms/Basic.lean`,
-  `Mathlib/CategoryTheory/Abelian/GrothendieckCategory/Basic.lean`,
-  `Mathlib/CategoryTheory/Preadditive/Projective/Basic.lean`,
-  `Mathlib/Algebra/Category/ModuleCat/AB.lean`,
-  `Mathlib/Algebra/Category/ModuleCat/Projective.lean`).
-- `ModuleCat.forget_preservesEpimorphisms` (`Mathlib/Algebra/Category/ModuleCat/EpiMono.lean`)
-  and the instance, dual to `CategoryTheory.Functor.reflectsMonomorphisms_of_faithful`, by which a
-  faithful functor reflects epimorphisms (`Mathlib/CategoryTheory/Functor/EpiMono.lean`): the
-  forgetful functor from `ModuleCat.{v} R` to `Type v` preserves and reflects epimorphisms, in
-  every universe `v`.
-- `CategoryTheory.IsArtinianObject` and
-  `CategoryTheory.antitone_chain_condition_of_isArtinianObject`
-  (`Mathlib/CategoryTheory/Subobject/ArtinianObject.lean`): an object is Artinian when
-  `Subobject X` satisfies the descending chain condition, and every antitone sequence of its
-  subobjects is then eventually constant. No length function is part of the definition.
-- `CategoryTheory.ObjectProperty.IsSerreClass`
-  (`Mathlib/CategoryTheory/Abelian/SerreClass/Basic.lean`), `ComplexShape.EulerCharSigns`,
-  `HomologicalComplex.eulerChar`, `HomologicalComplex.homologyEulerChar`
-  (`Mathlib/Algebra/Homology/EulerCharacteristic.lean`).
-- `CategoryTheory.ObjectProperty.ContainsZero`,
-  `CategoryTheory.ObjectProperty.IsClosedUnderKernels`,
-  `CategoryTheory.ObjectProperty.IsClosedUnderCokernels` and
-  `CategoryTheory.ObjectProperty.IsClosedUnderExtensions`
-  (`Mathlib/CategoryTheory/ObjectProperty/ContainsZero.lean`, `Kernels.lean`, `Extensions.lean`).
-  Together they make a property of objects a weak Serre class: some zero object has it, it is closed
-  under every kernel and cokernel of a morphism between its objects (any limit kernel fork or
-  colimit cokernel cofork, so the property is closed under isomorphisms), and under the middle term
-  of short exact sequences.
-- `HomologicalComplex.dFrom` and `HomologicalComplex.dTo`
-  (`Mathlib/Algebra/Homology/HomologicalComplex.lean`): the differentials leaving and entering a
-  position, zero when the shape has no relation there; `Int.negOnePow` for signs.
-- `CategoryTheory.ComposableArrows.twoδ₂Toδ₁` and, for a spectral object indexed by a preorder,
-  `CategoryTheory.Abelian.SpectralObject.mapFourδ₁Toδ₀'`, `mapFourδ₄Toδ₃'`, `isIso_mapFourδ₁Toδ₀'`,
-  `isIso_mapFourδ₄Toδ₃'`, `isoMapFourδ₁Toδ₀'` and `isoMapFourδ₄Toδ₃'`
-  (`Mathlib/CategoryTheory/ComposableArrows/Two.lean`,
-  `Mathlib/Algebra/Homology/SpectralObject/EpiMono.lean`): the canonical maps
-  `E^n(i₀ ≤ i₂ ≤ i₃ ≤ i₄) → E^n(i₁ ≤ i₂ ≤ i₃ ≤ i₄)` and
-  `E^n(i₀ ≤ i₁ ≤ i₂ ≤ i₃) → E^n(i₀ ≤ i₁ ≤ i₂ ≤ i₄)`, isomorphisms when `H^{n+1}(i₀ ≤ i₁)`,
-  respectively `H^{n−1}(i₃ ≤ i₄)`, vanishes. The second is also an isomorphism when
-  `H^{n−1}(i₂ ≤ i₄) → H^{n−1}(i₃ ≤ i₄)` is zero (`isIso_map_fourδ₄Toδ₃`); the criterion of 4.3 for
-  `i₀ = ⊥`, that `H^n(⊥ ≤ i₃) → H^n(⊥ ≤ i₄)` be a monomorphism, is not at the pin.
-
-### From Tau Ceti
-
-- `CategoryTheory.SpectralSequence.Hom.isIso_hom_f_of_le`
-  (`TauCeti/Algebra/Homology/SpectralSequence/Comparison.lean`): a morphism of spectral sequences
-  that is an isomorphism at every position of page `r` is one at every position of every page
-  `r' ≥ r`.
-- `CategoryTheory.Abelian.SpectralObject.abutment`, `abutmentFiltration`, `abutmentFiltrationι`,
-  `abutmentFiltrationMap`, `EInftyIsoCokernel`, `isZero_abutmentFiltration`,
-  `isIso_abutmentFiltrationι` (`SpectralObject/Abutment.lean`), and `EInfty`,
-  `spectralSequencePageXIsoEInfty` and `coe_le_coe_add_one` (`SpectralObject/Stabilization.lean`).
-  For `X` indexed by `EInt`,
-  `abutmentFiltration q n` is the image of `H^n(⊥ ≤ q)` in `H^n(⊥ ≤ ⊤)`, increasing in `q`.
-  `EInfty q n = E^n(⊥ ≤ q ≤ q + 1 ≤ ⊤)` is the cokernel of the step from `q` to `q + 1`. Page
-  objects are identified with `EInfty` when `H^{n+1}(⊥ ≤ q − r + 2)` and `H^{n−1}(q + r − 1 ≤ ⊤)`
-  vanish.
-- `CategoryTheory.Abelian.SpectralObject.isIso_hom_app_abutment`,
-  `CategoryTheory.Abelian.SpectralObject.isIso_hom_app_abutment_of_isIso_page`,
-  `spectralSequencePageXMap_comp_pageXIsoEInfty_hom`
-  (`SpectralObject/Comparison.lean`), `spectralSequenceMap`, `spectralSequencePageXMap`
-  (`SpectralObject/SpectralSequenceMap.lean`), `EMap`, `opcyclesMapOfHom`,
-  `isIso_opcyclesMapOfHom_of_isIso` (`SpectralObject/Map.lean`).
-- `CochainComplex.spectralObject`, `CochainComplex.spectralObjectMap`,
-  `CochainComplex.filtrationFunctor`, `CochainComplex.filtrationFunctorMap`,
-  `CochainComplex.spectralSequence`, `CochainComplex.spectralSequenceFirstPageXIsoCokernel`,
-  `CochainComplex.spectralObjectHIsoCokernel` (for `f : i ⟶ j` with `F.map f` a monomorphism,
-  `H^n(f) ≅ H^n(coker F.map f)`; for the functor of a filtration and `f : ⊥ ⟶ i` this is
-  `H^n(G_i)`) and `CochainComplex.spectralObject_H_map_comp_spectralObjectHIsoCokernel_hom` (under
-  these isomorphisms the maps of the spectral object are the maps induced on cokernels)
-  (`SpectralSequence/Filtered/SpectralObject.lean`, `Naturality.lean`);
-  `CochainComplex.spectralSequence_first_page_d_eq` (`Filtered/FirstPage.lean`);
-  `CochainComplex.isZero_spectralObject_H_bot`, `CochainComplex.isZero_spectralObject_H_top`,
-  `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`Filtered/Stabilization.lean`);
-  `CochainComplex.filtrationAbutmentIso`,
-  `CochainComplex.toFiltrationAbutmentFiltration_comp_filtrationAbutmentIso_hom`,
-  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite` (`Filtered/Convergence.lean`);
-  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page` (`Filtered/Comparison.lean`);
-  `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`,
-  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`,
-  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
-  (`Filtered/Exhaustive.lean`, complexes of modules only). The filtration there is increasing,
-  `ℤ → Subobject K` with `⊥` and `⊤` adjoined at the ends of `EInt`.
-- `HomologicalComplex₂.rowFiltrationSpectralSequence`,
-  `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`
-  (`SpectralSequence/Bicomplex.lean`).
-- `CategoryTheory.Functor.towerDifference`, `CategoryTheory.Functor.towerDifference_naturality`,
-  `CategoryTheory.Functor.isLimitConeOfTowerDifference`,
-  `CategoryTheory.Functor.IsProZero.isIso_towerDifference`
-  (`TauCeti/CategoryTheory/Preadditive/TowerDifference.lean`): the map `1 − s` in a preadditive
-  category with the product; its kernel is the limit; for a pro-zero tower it is an isomorphism
-  without any exactness hypothesis.
-- `TauCeti.IsReplete`, `TauCeti.IsReplete.epi_π_app`, `TauCeti.IsReplete.countableAB4Star`,
-  `TauCeti.IsReplete.of_reflectsEpimorphisms`, `TauCeti.isReplete_type`
-  (`TauCeti/CategoryTheory/Limits/Replete.lean`), `TauCeti.isReplete_sheaf`
-  (`TauCeti/CategoryTheory/Sites/Replete.lean`) and `TauCeti.isReplete_lightCondMod`
-  (`TauCeti/Condensed/Light/Replete.lean`). A category is replete when, for every tower
-  `F : ℕᵒᵖ ⥤ C` whose transitions are epimorphisms, the projection to `F 0` of every limit cone is
-  an epimorphism; every projection is then one (`epi_π_app`). A replete abelian category with
-  countable products satisfies `CountableAB4Star` (the instance `countableAB4Star`). Repleteness
-  descends along a functor that preserves sequential limits and preserves and reflects
-  epimorphisms; `Type u` is replete; sheaves with values in a concrete category on a replete
-  topos are replete, under the hypotheses of `isReplete_sheaf`; light condensed modules over a
-  ring are replete. The definition says nothing about `lim¹`; 7.2 supplies that.
-- `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`, `TauCeti.ModuleTower.IsMittagLeffler`,
-  `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`
-  (`TauCeti/Algebra/Category/ModuleCat/Tower/`). The Mittag–Leffler condition there is Mathlib's
-  `CategoryTheory.Functor.IsMittagLeffler` of the underlying tower of types: for every `n` the
-  ranges of the maps `F_k → F_n` are eventually constant.
-- `TauCeti.AbelianK0.AdditiveInvariant` (`TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`)
-  and `HomologicalComplex.sum_negOnePow_X_eq_sum_negOnePow_homology`
-  (`TauCeti/CategoryTheory/GrothendieckGroup/EulerCharacteristic.lean`).
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-- §7.22: bigraded exact couples `D →i D →j E →k D` in an abelian category, of degrees `a, b, c`,
-  exact at each vertex; the derived couple `D′ = im i`, `E′ = H(E, jk)` of degrees `a, b − a, c`;
-  and the iterated derived couples, with `d_r` of degree `c + b − (r − 1)a` on page `r ≥ 1`.
-  Assumed: the derived couple is again exact, and the homology of `(E, jk)` at a bidegree is the
-  homology of the complex of shape `ComplexShape.up' (c + b)` at that bidegree.
-- What StableHomotopyKTheory must provide (gap:exact-couple-morphisms): Define morphisms of
-  bigraded exact couples of fixed degrees a, b, c in an abelian category (bigraded maps of D and of
-  E commuting with i, j and k), with identities and composition, and the morphism of derived
-  couples that a morphism induces, functorially, so that it induces a morphism on every page.
-  Layer 6 uses it for the functoriality of the spectral sequence of an exact couple (6.1) and of
-  the couples of 6.3.
-- §7.26 (as an instance only): Boardman's conditional and strong convergence for towers of
-  spectra, with abelian-group homotopy.
-
-### From TauCetiRoadmap.DGFloer
-
-- Layer 1 item 3: the classical and complete convergence theorems for filtered complexes of
-  modules, and the classical-to-native reindexing. Compared in Checks of Layers 5 and 7, not
-  consumed by any proof.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-- §6.0: restriction towers and the homotopy-square maps of towers of module complexes, built on
-  Tau Ceti's `TauCeti.ModuleTower` and `TauCeti.ComplexTower`. Not consumed by any proof here:
-  the lim and lim¹ on `ModuleCat R` that 7.1 identifies with Layer 7's are Tau Ceti's (From Tau
-  Ceti), the ones §6.0 builds on.
-
-### From TauCetiRoadmap.DerivedModuleAlgebra
-
-- §S.1: the spectral sequence of a first-quadrant double complex `A` in an abelian category, the
-  column filtration of `Hⁿ(Tot A)`, the identification `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`, the
-  stabilisation `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`, the edge morphisms
-  `E₂^{n,0} → Hⁿ(Tot A) → E₂^{0,n}` and the five-term sequence. Compared with Layers 3 and 4 in
-  Examples, not consumed by any proof.
-
-## How to read the build
-
-Layer 1 builds, for an arbitrary spectral sequence in Mathlib's carrier, the cycle and boundary
-towers inside the first page, stabilisation, and the limit page `Z_∞/B_∞`; this needs no
-hypothesis on `C` at stabilising positions and countable products and coproducts in general.
-Layer 2 adds bidegree assignments, boundedness with its stabilisation theorems, and the Euler
-characteristic of pages. Layer 3 defines filtered abutments and the three convergence
-structures in a set of total degrees, and proves the finite-filtration theorems, the comparison
-theorem and the standard consequences. Layer 4 identifies the towers of the spectral sequence of
-a spectral object indexed by `EInt` as kernels and images of connecting morphisms, compares its
-limit page with Tau Ceti's `EInfty`, and proves convergence in a range of degrees, including
-Mathlib's quadrant cases. Layer 5 specialises to decreasingly filtered complexes in the
-classical indexing: finite, cohomologically bounded and exhaustive-bounded-below filtrations.
-Layer 6 puts the spectral sequence of an exact couple into Mathlib's carrier, computes its
-towers, and identifies the exact couple of a spectral object and of a filtered complex with
-Layers 4 and 5. Layer 7 builds lim and lim¹ in abelian categories, characterises Tau Ceti's
-repleteness through lim¹, the hypothesis on `C` under which tower arguments hold, and proves
-Boardman's conditional-convergence theorems and the complete convergence theorem.
 
 ## Layer 1: cycle and boundary towers and the limit page
 
@@ -1931,6 +1657,297 @@ Grothendieck axioms and `EnoughProjectives`.
 - **DGFloerPartII**, **AlgebraicTopologyPartII**, **StableHomotopyKTheoryPartII**,
   **ChromaticHomotopyTheory**, **EtaleHomotopyTypes**: convergence in a range of degrees,
   comparison and conditional convergence (Layers 3, 4, 7).
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the cycle and boundary towers, stabilisation, regularity, coregularity, degeneration and the
+  limit page of an arbitrary spectral sequence in Mathlib's carrier;
+- bidegree assignments, boundedness, and the Euler characteristic of pages;
+- decreasing filtrations as Mathlib filtered objects together with graded pieces, exhaustiveness,
+  separation, completeness and finiteness; weak, ordinary and strong convergence in a set of
+  total degrees; morphisms of converging spectral sequences; the comparison theorem; the
+  consequences listed in Layer 3;
+- the towers, limit page and convergence of the spectral sequence of a spectral object indexed
+  by `EInt`, including Mathlib's first- and third-quadrant sequences, and the towers of Mathlib's
+  sequence of a spectral object indexed by `Fin (l + 1)`;
+- the classical indexing of the spectral sequence of a decreasingly filtered cochain complex in an
+  arbitrary abelian category, its convergence in the cohomologically bounded and
+  degreewise-finite cases, and Weibel's classical convergence theorem in abelian categories with
+  exact sequential colimits;
+- the spectral sequence of an exact couple in Mathlib's carrier, its towers, and the exact couple
+  of a spectral object and of a filtered complex with the identification of spectral sequences;
+- lim and lim¹ of towers in abelian categories with countable products, the characterisation of
+  repleteness through lim¹ and the Mittag–Leffler vanishing in replete abelian categories,
+  Boardman's double-tower sequence, conditional convergence and Boardman's theorems for exact
+  couples, and the complete convergence theorem for filtered complexes, in abelian categories.
+
+It leaves to named owners:
+
+- **Mathlib** (at the pin): the carrier `CategoryTheory.SpectralSequence` and its cohomological
+  abbreviations, spectral objects and the recipes `coreE₂Cohomological`, `coreE₂CohomologicalNat`,
+  `coreE₂CohomologicalFin`, `coreE₂HomologicalNat`, the classes `IsFirstQuadrant` and
+  `IsThirdQuadrant`, the mapping-cone spectral object, filtered objects, subobject lattices, the
+  Grothendieck axioms and Serre classes.
+- **Tau Ceti** (at the pin): the abutment `abutment`, its filtration `abutmentFiltration`, the
+  object `EInfty` and its identification with the graded pieces, the stabilisation isomorphism
+  `spectralSequencePageXIsoEInfty`, the comparison theorems for spectral objects and for
+  finitely filtered complexes, the spectral sequence of an increasing filtration of a cochain
+  complex with its first page and first differential, the exhaustive convergence theorems for
+  complexes of modules, the row-filtration spectral sequence of a first-quadrant bicomplex, the
+  product–difference map of a tower, module towers with lim, lim¹ and Mittag–Leffler
+  vanishing, replete categories with the exactness of countable products in a replete abelian
+  category and the repleteness of sheaves on a replete topos, and the Euler–Poincaré engine for
+  additive invariants. These are consumed as they stand; this roadmap restates none of them.
+  Three targets here are kept variants of Tau Ceti theorems: 4.4 and 4.6 replace the vanishing of
+  `H^{n−1}(j ≤ ⊤)` and `H^n(j ≤ ⊤)` for large `j` by the condition that `H^n(⊥ ≤ j) → H^n(⊥ ≤ ⊤)` be
+  an isomorphism, and the comparison theorem of 5.4 holds in every abelian category with exact
+  sequential colimits and asks nothing of the graded pieces in the exhaustive direction, where
+  Tau Ceti's `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive` is
+  for complexes of modules whose graded pieces beyond a bound have vanishing cohomology; its
+  hypothesis at the bounded end is Tau Ceti's.
+- **DGFloer, Layer 1 item 3**: the homological and cohomological adapters for filtered complexes
+  of modules over a ring, Weibel's classical convergence theorem 5.5.1(2) and the complete
+  convergence theorem 5.5.10 for module complexes. This roadmap's abelian-category theorems
+  specialise to these; the specialisation is recorded at 5.4 and 7.5, and the module statements
+  are not restated.
+  **DGFloer, Layer 1 item 2** owns the Serre spectral sequences.
+- **AlgebraicTopology, §6.0**: the restriction towers of singular and cellular cochains of a CW
+  pair, and the maps of homotopy limits induced by maps of towers of module complexes whose
+  squares commute up to specified homotopies. The module tower algebra it builds on (lim, lim¹,
+  the six-term sequence, Mittag–Leffler vanishing, the Milnor sequences) is Tau Ceti's
+  `TauCeti.ModuleTower` and `TauCeti.ComplexTower`. Layer 7 here owns lim and lim¹ only in an
+  abelian category, states no homotopy limit, and identifies its lim and lim¹ on modules with
+  Tau Ceti's (7.1).
+- **DerivedModuleAlgebra, §S.1**: the spectral sequence of a first-quadrant double complex in an
+  abelian category, with the column filtration of its abutment, edge morphisms and five-term
+  sequence; an instance of Layers 3 and 4, recorded in their Examples.
+- **StableHomotopyKTheory, §7.22**: bigraded exact couples in an abelian category and their derived
+  couples. Layer 6 assembles the iterated derived couples into Mathlib's carrier and proves the
+  identifications. **StableHomotopyKTheory, §§7.21 and 7.23–7.26**: filtered spectra, their
+  spectral sequences and their convergence, including Boardman's theorem for towers of spectra.
+  Two of these are instances of statements here, kept with their owner: §7.23's identification
+  of the exact-couple pages of a filtered spectrum with Mathlib's spectral-object pages is, after
+  its homological reindexing, 6.3 for its homotopy spectral object, and the abelian-group form of
+  §7.26 is 7.4 in `ModuleCat ℤ` once its bidegrees are converted to the cohomological ones of 6.1
+  (recorded at 7.4).
+- **SchemeAndStackFoundations, §2.2** (Leray and Čech spectral sequences), **ComplexKahlerGeometry,
+  K8** (the Frölicher spectral sequence), **HeegaardFloer** and **MorseTheory** (finite filtered
+  complexes of modules): instances that stay with their owners.
+- **SchemeAndStackFoundations, §2.17**: replete topoi, and *IsReplete.derived_limits* (in a
+  replete topos, `R lim` of a tower of abelian sheaves with epimorphic transitions is `lim`, and
+  `lim¹ = 0`). The vanishing of `lim¹` there is an instance of 7.2, through Tau Ceti's
+  `TauCeti.isReplete_sheaf`.
+- **EnhancedDerivedSheaves, E2:towers.1, E2.1 and E2.2**: derived limits of coherent towers,
+  countable products in a replete topos, the Milnor sequence and pro-zero vanishing for module
+  sheaves on a replete topos. Layer 7 here concerns `lim` and `lim¹` in an abelian category and
+  Tau Ceti's repleteness of a category; it states no derived limit.
+
+Multiplicative structures on spectral sequences, the Adams and Atiyah–Hirzebruch spectral
+sequences, and spectral sequences in triangulated or stable ∞-categories beyond Mathlib's
+`CategoryTheory.Triangulated.SpectralObject` and its image under a homological functor are not
+part of this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `CategoryTheory.SpectralSequence`, `CategoryTheory.SpectralSequence.Hom`,
+  `CategoryTheory.SpectralSequence.pageFunctor`,
+  `CategoryTheory.SpectralSequence.pageHomologyNatIso`,
+  `CategoryTheory.SpectralSequence.pageXIsoOfEq`, `CategoryTheory.CohomologicalSpectralSequence`,
+  `CategoryTheory.E₂CohomologicalSpectralSequence`,
+  `CategoryTheory.CohomologicalSpectralSequenceNat`,
+  `CategoryTheory.CohomologicalSpectralSequenceFin`, `ComplexShape.up'`,
+  `ComplexShape.spectralSequenceNat` and `ComplexShape.spectralSequenceFin`
+  (`Mathlib/Algebra/Homology/SpectralSequence/Basic.lean` and `ComplexShape.lean`). A spectral
+  sequence records pages and homology isomorphisms only; no limit page, abutment or convergence
+  is recorded.
+- `CategoryTheory.Abelian.SpectralObject` with `H`, `δ`, `E`, `cycles`, `opcycles`,
+  `CategoryTheory.Abelian.SpectralObject.SpectralSequenceDataCore`,
+  `CategoryTheory.Abelian.SpectralObject.coreE₂Cohomological`, `coreE₂CohomologicalNat`,
+  `coreE₂CohomologicalFin`, `coreE₂HomologicalNat`, `HasSpectralSequence`, `IsFirstQuadrant`,
+  `IsThirdQuadrant`, `spectralSequence`, `spectralSequencePageXIso`, `isoMapFourδ₁Toδ₀'`,
+  `isoMapFourδ₄Toδ₃'`, `SpectralSequenceDataCore.HasFirstPageComputation`,
+  `spectralSequenceFirstPageXIso` (`Mathlib/Algebra/Homology/SpectralObject/`). The object
+  `E^n(i₀ ≤ i₁ ≤ i₂ ≤ i₃)` is the homology of
+  `H^{n−1}(i₂ ≤ i₃) →δ H^n(i₁ ≤ i₂) →δ H^{n+1}(i₀ ≤ i₁)`. The recipe `coreE₂CohomologicalFin l`
+  is for spectral objects indexed by `Fin (l + 1)`, with positions `ℤ × Fin l` and indices
+  clamped to `0` and `l`; `HasSpectralSequence` is an instance for it and for
+  `coreE₂Cohomological`, and a hypothesis for `coreE₂CohomologicalNat` and `coreE₂HomologicalNat`,
+  implied by `IsFirstQuadrant` and `IsThirdQuadrant` respectively. `HasFirstPageComputation` is an
+  instance for the three recipes on `EInt` only.
+- `HomotopyCategory.spectralObjectMappingCone`,
+  `CategoryTheory.Triangulated.SpectralObject.mapHomologicalFunctor`, `EInt`
+  (`Mathlib/Order/WithBotTop.lean`).
+- `CategoryTheory.FilteredObject`, `CategoryTheory.Filtration`,
+  `CategoryTheory.FilteredObject.Hom`, `CategoryTheory.FilteredObject.IsStrictHom`
+  (`Mathlib/CategoryTheory/Filtration/Basic.lean`). A filtration indexed by `ℤᵒᵖ` is a decreasing
+  family of monomorphisms into the object; exhaustiveness, separation and completeness are not
+  part of the definition.
+- `CategoryTheory.Subobject`, `Subobject.ofLE`, `Subobject.pullback`, `imageSubobject`,
+  `kernelSubobject` (`Mathlib/CategoryTheory/Subobject/`). Arbitrary meets and joins in
+  `Subobject X` are provided by Mathlib only under well-poweredness and all small limits or
+  coproducts. The countable meets and joins used here are built in Layer 1 from countable
+  products and coproducts.
+- `HasCountableProducts`, `HasCountableCoproducts`, `CountableAB4Star`, `HasExactColimitsOfShape`,
+  `AB5`, `EnoughProjectives`, `IsGrothendieckAbelian`, with the module-category instances `AB5`
+  and `AB4Star` for `ModuleCat.{u} R` with `R : Type u` only, and `EnoughProjectives` for
+  `ModuleCat.{v} R` under `Small.{v} R`. `CountableAB4Star` follows from `AB4Star` by the
+  instance after its definition, and exact sequential colimits follow from `AB5` by the lemma
+  `AB5OfSize_shrink`
+  (`Mathlib/CategoryTheory/Limits/Shapes/Countable.lean`,
+  `Mathlib/CategoryTheory/Limits/HasExactLimitsOfShape.lean`,
+  `Mathlib/CategoryTheory/Abelian/GrothendieckAxioms/Basic.lean`,
+  `Mathlib/CategoryTheory/Abelian/GrothendieckCategory/Basic.lean`,
+  `Mathlib/CategoryTheory/Preadditive/Projective/Basic.lean`,
+  `Mathlib/Algebra/Category/ModuleCat/AB.lean`,
+  `Mathlib/Algebra/Category/ModuleCat/Projective.lean`).
+- `ModuleCat.forget_preservesEpimorphisms` (`Mathlib/Algebra/Category/ModuleCat/EpiMono.lean`)
+  and the instance, dual to `CategoryTheory.Functor.reflectsMonomorphisms_of_faithful`, by which a
+  faithful functor reflects epimorphisms (`Mathlib/CategoryTheory/Functor/EpiMono.lean`): the
+  forgetful functor from `ModuleCat.{v} R` to `Type v` preserves and reflects epimorphisms, in
+  every universe `v`.
+- `CategoryTheory.IsArtinianObject` and
+  `CategoryTheory.antitone_chain_condition_of_isArtinianObject`
+  (`Mathlib/CategoryTheory/Subobject/ArtinianObject.lean`): an object is Artinian when
+  `Subobject X` satisfies the descending chain condition, and every antitone sequence of its
+  subobjects is then eventually constant. No length function is part of the definition.
+- `CategoryTheory.ObjectProperty.IsSerreClass`
+  (`Mathlib/CategoryTheory/Abelian/SerreClass/Basic.lean`), `ComplexShape.EulerCharSigns`,
+  `HomologicalComplex.eulerChar`, `HomologicalComplex.homologyEulerChar`
+  (`Mathlib/Algebra/Homology/EulerCharacteristic.lean`).
+- `CategoryTheory.ObjectProperty.ContainsZero`,
+  `CategoryTheory.ObjectProperty.IsClosedUnderKernels`,
+  `CategoryTheory.ObjectProperty.IsClosedUnderCokernels` and
+  `CategoryTheory.ObjectProperty.IsClosedUnderExtensions`
+  (`Mathlib/CategoryTheory/ObjectProperty/ContainsZero.lean`, `Kernels.lean`, `Extensions.lean`).
+  Together they make a property of objects a weak Serre class: some zero object has it, it is closed
+  under every kernel and cokernel of a morphism between its objects (any limit kernel fork or
+  colimit cokernel cofork, so the property is closed under isomorphisms), and under the middle term
+  of short exact sequences.
+- `HomologicalComplex.dFrom` and `HomologicalComplex.dTo`
+  (`Mathlib/Algebra/Homology/HomologicalComplex.lean`): the differentials leaving and entering a
+  position, zero when the shape has no relation there; `Int.negOnePow` for signs.
+- `CategoryTheory.ComposableArrows.twoδ₂Toδ₁` and, for a spectral object indexed by a preorder,
+  `CategoryTheory.Abelian.SpectralObject.mapFourδ₁Toδ₀'`, `mapFourδ₄Toδ₃'`, `isIso_mapFourδ₁Toδ₀'`,
+  `isIso_mapFourδ₄Toδ₃'`, `isoMapFourδ₁Toδ₀'` and `isoMapFourδ₄Toδ₃'`
+  (`Mathlib/CategoryTheory/ComposableArrows/Two.lean`,
+  `Mathlib/Algebra/Homology/SpectralObject/EpiMono.lean`): the canonical maps
+  `E^n(i₀ ≤ i₂ ≤ i₃ ≤ i₄) → E^n(i₁ ≤ i₂ ≤ i₃ ≤ i₄)` and
+  `E^n(i₀ ≤ i₁ ≤ i₂ ≤ i₃) → E^n(i₀ ≤ i₁ ≤ i₂ ≤ i₄)`, isomorphisms when `H^{n+1}(i₀ ≤ i₁)`,
+  respectively `H^{n−1}(i₃ ≤ i₄)`, vanishes. The second is also an isomorphism when
+  `H^{n−1}(i₂ ≤ i₄) → H^{n−1}(i₃ ≤ i₄)` is zero (`isIso_map_fourδ₄Toδ₃`); the criterion of 4.3 for
+  `i₀ = ⊥`, that `H^n(⊥ ≤ i₃) → H^n(⊥ ≤ i₄)` be a monomorphism, is not at the pin.
+
+### From Tau Ceti
+
+- `CategoryTheory.SpectralSequence.Hom.isIso_hom_f_of_le`
+  (`TauCeti/Algebra/Homology/SpectralSequence/Comparison.lean`): a morphism of spectral sequences
+  that is an isomorphism at every position of page `r` is one at every position of every page
+  `r' ≥ r`.
+- `CategoryTheory.Abelian.SpectralObject.abutment`, `abutmentFiltration`, `abutmentFiltrationι`,
+  `abutmentFiltrationMap`, `EInftyIsoCokernel`, `isZero_abutmentFiltration`,
+  `isIso_abutmentFiltrationι` (`SpectralObject/Abutment.lean`), and `EInfty`,
+  `spectralSequencePageXIsoEInfty` and `coe_le_coe_add_one` (`SpectralObject/Stabilization.lean`).
+  For `X` indexed by `EInt`,
+  `abutmentFiltration q n` is the image of `H^n(⊥ ≤ q)` in `H^n(⊥ ≤ ⊤)`, increasing in `q`.
+  `EInfty q n = E^n(⊥ ≤ q ≤ q + 1 ≤ ⊤)` is the cokernel of the step from `q` to `q + 1`. Page
+  objects are identified with `EInfty` when `H^{n+1}(⊥ ≤ q − r + 2)` and `H^{n−1}(q + r − 1 ≤ ⊤)`
+  vanish.
+- `CategoryTheory.Abelian.SpectralObject.isIso_hom_app_abutment`,
+  `CategoryTheory.Abelian.SpectralObject.isIso_hom_app_abutment_of_isIso_page`,
+  `spectralSequencePageXMap_comp_pageXIsoEInfty_hom`
+  (`SpectralObject/Comparison.lean`), `spectralSequenceMap`, `spectralSequencePageXMap`
+  (`SpectralObject/SpectralSequenceMap.lean`), `EMap`, `opcyclesMapOfHom`,
+  `isIso_opcyclesMapOfHom_of_isIso` (`SpectralObject/Map.lean`).
+- `CochainComplex.spectralObject`, `CochainComplex.spectralObjectMap`,
+  `CochainComplex.filtrationFunctor`, `CochainComplex.filtrationFunctorMap`,
+  `CochainComplex.spectralSequence`, `CochainComplex.spectralSequenceFirstPageXIsoCokernel`,
+  `CochainComplex.spectralObjectHIsoCokernel` (for `f : i ⟶ j` with `F.map f` a monomorphism,
+  `H^n(f) ≅ H^n(coker F.map f)`; for the functor of a filtration and `f : ⊥ ⟶ i` this is
+  `H^n(G_i)`) and `CochainComplex.spectralObject_H_map_comp_spectralObjectHIsoCokernel_hom` (under
+  these isomorphisms the maps of the spectral object are the maps induced on cokernels)
+  (`SpectralSequence/Filtered/SpectralObject.lean`, `Naturality.lean`);
+  `CochainComplex.spectralSequence_first_page_d_eq` (`Filtered/FirstPage.lean`);
+  `CochainComplex.isZero_spectralObject_H_bot`, `CochainComplex.isZero_spectralObject_H_top`,
+  `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`Filtered/Stabilization.lean`);
+  `CochainComplex.filtrationAbutmentIso`,
+  `CochainComplex.toFiltrationAbutmentFiltration_comp_filtrationAbutmentIso_hom`,
+  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite` (`Filtered/Convergence.lean`);
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page` (`Filtered/Comparison.lean`);
+  `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`,
+  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`,
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
+  (`Filtered/Exhaustive.lean`, complexes of modules only). The filtration there is increasing,
+  `ℤ → Subobject K` with `⊥` and `⊤` adjoined at the ends of `EInt`.
+- `HomologicalComplex₂.rowFiltrationSpectralSequence`,
+  `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`
+  (`SpectralSequence/Bicomplex.lean`).
+- `CategoryTheory.Functor.towerDifference`, `CategoryTheory.Functor.towerDifference_naturality`,
+  `CategoryTheory.Functor.isLimitConeOfTowerDifference`,
+  `CategoryTheory.Functor.IsProZero.isIso_towerDifference`
+  (`TauCeti/CategoryTheory/Preadditive/TowerDifference.lean`): the map `1 − s` in a preadditive
+  category with the product; its kernel is the limit; for a pro-zero tower it is an isomorphism
+  without any exactness hypothesis.
+- `TauCeti.IsReplete`, `TauCeti.IsReplete.epi_π_app`, `TauCeti.IsReplete.countableAB4Star`,
+  `TauCeti.IsReplete.of_reflectsEpimorphisms`, `TauCeti.isReplete_type`
+  (`TauCeti/CategoryTheory/Limits/Replete.lean`), `TauCeti.isReplete_sheaf`
+  (`TauCeti/CategoryTheory/Sites/Replete.lean`) and `TauCeti.isReplete_lightCondMod`
+  (`TauCeti/Condensed/Light/Replete.lean`). A category is replete when, for every tower
+  `F : ℕᵒᵖ ⥤ C` whose transitions are epimorphisms, the projection to `F 0` of every limit cone is
+  an epimorphism; every projection is then one (`epi_π_app`). A replete abelian category with
+  countable products satisfies `CountableAB4Star` (the instance `countableAB4Star`). Repleteness
+  descends along a functor that preserves sequential limits and preserves and reflects
+  epimorphisms; `Type u` is replete; sheaves with values in a concrete category on a replete
+  topos are replete, under the hypotheses of `isReplete_sheaf`; light condensed modules over a
+  ring are replete. The definition says nothing about `lim¹`; 7.2 supplies that.
+- `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`, `TauCeti.ModuleTower.IsMittagLeffler`,
+  `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`
+  (`TauCeti/Algebra/Category/ModuleCat/Tower/`). The Mittag–Leffler condition there is Mathlib's
+  `CategoryTheory.Functor.IsMittagLeffler` of the underlying tower of types: for every `n` the
+  ranges of the maps `F_k → F_n` are eventually constant.
+- `TauCeti.AbelianK0.AdditiveInvariant` (`TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`)
+  and `HomologicalComplex.sum_negOnePow_X_eq_sum_negOnePow_homology`
+  (`TauCeti/CategoryTheory/GrothendieckGroup/EulerCharacteristic.lean`).
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+- §7.22: bigraded exact couples `D →i D →j E →k D` in an abelian category, of degrees `a, b, c`,
+  exact at each vertex; the derived couple `D′ = im i`, `E′ = H(E, jk)` of degrees `a, b − a, c`;
+  and the iterated derived couples, with `d_r` of degree `c + b − (r − 1)a` on page `r ≥ 1`.
+  Assumed: the derived couple is again exact, and the homology of `(E, jk)` at a bidegree is the
+  homology of the complex of shape `ComplexShape.up' (c + b)` at that bidegree.
+- What StableHomotopyKTheory must provide (gap:exact-couple-morphisms): Define morphisms of
+  bigraded exact couples of fixed degrees a, b, c in an abelian category (bigraded maps of D and of
+  E commuting with i, j and k), with identities and composition, and the morphism of derived
+  couples that a morphism induces, functorially, so that it induces a morphism on every page.
+  Layer 6 uses it for the functoriality of the spectral sequence of an exact couple (6.1) and of
+  the couples of 6.3.
+- §7.26 (as an instance only): Boardman's conditional and strong convergence for towers of
+  spectra, with abelian-group homotopy.
+
+### From TauCetiRoadmap.DGFloer
+
+- Layer 1 item 3: the classical and complete convergence theorems for filtered complexes of
+  modules, and the classical-to-native reindexing. Compared in Checks of Layers 5 and 7, not
+  consumed by any proof.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+- §6.0: restriction towers and the homotopy-square maps of towers of module complexes, built on
+  Tau Ceti's `TauCeti.ModuleTower` and `TauCeti.ComplexTower`. Not consumed by any proof here:
+  the lim and lim¹ on `ModuleCat R` that 7.1 identifies with Layer 7's are Tau Ceti's (From Tau
+  Ceti), the ones §6.0 builds on.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+- §S.1: the spectral sequence of a first-quadrant double complex `A` in an abelian category, the
+  column filtration of `Hⁿ(Tot A)`, the identification `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`, the
+  stabilisation `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`, the edge morphisms
+  `E₂^{n,0} → Hⁿ(Tot A) → E₂^{0,n}` and the five-term sequence. Compared with Layers 3 and 4 in
+  Examples, not consumed by any proof.
 
 ## References
 

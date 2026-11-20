@@ -1,89 +1,59 @@
 # Roadmap: continuous cohomology of profinite groups, part II — Massey products and unipotent lifting
 
-**Summary.** This roadmap extends ProfiniteCohomology from continuous cohomology and its cup
-products to degree-one Massey products, read through finite unipotent groups. It builds the strict
-continuous cochain algebra of a profinite group and its defining systems, proves Dwyer's dictionary
-between Massey products and lifts to unitriangular groups, and develops the finite group theory of
-the unitriangular group `Uₙ₊₁(𝔽_p)` that the homogeneous-space approach of Harpaz–Wittenberg (HW
-below) needs: the abelianized stabilizer `B = U¹/U³` with its explicit conjugation action, outer
-exponents, the vanishing of the Bogomolov multiplier of the derived subgroup `U¹`, cyclically
-trivial cohomology of the boundary module, and the examples that show where these computations
-stop. It then proves refined lifting through the two-boundary subgroups `P_(r,s)` at every local
-field, archimedean or not, for constant and for rank-one twisted coefficients, and constructs three
-characters of `Γ_ℚ` with values in `ℤ/8` whose triple Massey product is defined and does not
-contain zero. The end theorems are Dwyer's criteria (`masseyDefined_iff_exists_lift`,
-`masseyContainsZero_iff_exists_lift`), outer powering on the conjugacy classes of `U¹` in rank at
-most six (`isConj_pow_superdiagonalSubgroup_two`), the vanishing of the Bogomolov multiplier of `U¹`
-(`bogomolovMultiplier_superdiagonalSubgroup_two_eq_bot`), refined local lifting
-(`refinedLocalLifting`, HW Proposition 5.3 extended to `ℝ` and `ℂ`), local Massey vanishing
-(`localMasseyVanishing`), its rank-one twisted form (`twistedRefinedLocalLifting`), and the `ℤ/8`
-counterexample (`exists_masseyDefined_not_masseyContainsZero_zmod_eight`, HW Theorem 7.5).
+**Summary.** Massey products are higher-order companions of the cup product. For classes
+`α₀, …, α_{n−1}` in `H¹(Γ, R)`, the `n`-fold Massey product is the set of values in `H²(Γ, R)` of
+all defining systems, triangular families of cochains whose differentials are prescribed sums of
+cups. For `n = 3` it is nonempty exactly when `α₀ ∪ α₁` and `α₁ ∪ α₂` vanish. The product is
+*defined* when this set is nonempty and *contains zero* when some value is zero. These conditions
+differ. Massey vanishing means that every defined product contains zero.
 
-## Scope and ownership
+This roadmap builds degree-one Massey products in the continuous cohomology of a profinite group
+and studies them through unitriangular matrix groups, following Harpaz and Wittenberg. Throughout,
+`Γ` is profinite unless a statement says otherwise, coefficient modules are discrete, and a lift
+need not be surjective.
 
-ProfiniteCohomology stops at continuous cohomology in all degrees, its low-degree and graded cup
-products, cohomological dimension, the Evens norm and the Galois interface (Hilbert 90, Kummer
-theory); it defines no Massey product and no lifting theory for unitriangular groups. This roadmap
-is its Part II in that direction. It owns:
+The first main result is Dwyer's dictionary. Write `Uₙ₊₁(R)` for the group of upper unitriangular
+`(n+1) × (n+1)` matrices over `R`, and `Z` for its centre, the matrices that differ from the identity
+only in the top right corner. Let `Γ` be any topological group, `R` a discrete commutative ring with
+trivial action, `n ≥ 2`, and `χ₀, …, χ_{n−1} : Γ → R` continuous homomorphisms. Their Massey product
+is defined exactly when some continuous homomorphism `Γ → Uₙ₊₁(R)/Z` has the `χ_i` as its entries
+just above the diagonal, and contains zero exactly when some such homomorphism goes to `Uₙ₊₁(R)`
+itself. For the nonzero character `χ : ℤ/2 → 𝔽₂`, the pair `(χ, χ)` lifts to `U₃(𝔽₂)/Z` but not
+to `U₃(𝔽₂) ≅ D₈`, reflecting `χ ∪ χ ≠ 0`.
 
-- the strict continuous inhomogeneous cochain algebra of a profinite group with coefficients in a
-  discrete commutative ring with action, its comparison with continuous cohomology, its
-  specialization of DGAInfinity's degree-one defining systems, and the trivial-coefficient defining
-  systems `DefiningSystem`, `MasseyDefined`, `MasseyContainsZero` (Layer 0);
-- the increasing-distance factorization of `Uₙ₊₁(R)`, exact superdiagonal commutators, the adjacent
-  quotient, the corner extension and Dwyer's correspondence and criteria (Layer 1);
-- the finite group theory of `Uₙ₊₁(𝔽_p)` used by HW §§3, 4 and 6: the stabilizer module `B`, its
-  boundary submodule, sparse conjugation, the reversal involution, support submodules, outer
-  exponents, the Bogomolov multiplier with its commutativity-preserving exterior-square description,
-  cyclically trivial first cohomology, conjugacy-power evaluation and fixed-class generation, with
-  their sharpness examples (Layers 2–6);
-- refined lifting at every local field and local Massey vanishing for `𝔽_p` coefficients
-  (Layers 7–8);
-- defining systems with coefficients in a system of Hom modules, filtered automorphism groups, the
-  twisted Dwyer correspondence and rank-one twisted refined lifting (Layers 9–10);
-- the defined non-vanishing `ℤ/8` triple Massey product over `ℚ` (Layer 11).
+The second is refined lifting. A local field here is a nonarchimedean local field or a field
+isomorphic to `ℝ` or `ℂ`, with absolute Galois group `Γ_K`. Fix a prime `p`, integers `r, s ≥ 1`,
+`n = r + s + 1` and `U = Uₙ₊₁(𝔽_p)`. The two-boundary subgroup `P_(r,s)` consists of the matrices
+that differ from the identity only in the last `s + 1` entries of the first row and the first
+`r + 1` entries of the last column. Every continuous homomorphism `Γ_K → U/Z` agrees modulo `P_(r,s)`
+with a continuous homomorphism `Γ_K → U`. Harpaz and Wittenberg prove this for nonarchimedean
+fields; the roadmap adds `ℝ` and `ℂ`. Since `P_(r,s)` lies in the derived subgroup, Dwyer's criteria
+give local Massey vanishing: over every local field, for every prime `p` and every `n ≥ 3`, a defined
+`n`-fold Massey product of classes in `H¹(K, 𝔽_p)` contains zero.
 
-It leaves to named owners, and imports:
+The third is a counterexample: there are continuous characters `χ₀₁, χ₁₂, χ₂₃ : Γ_ℚ → ℤ/8` whose
+triple Massey product is defined and does not contain zero. So Massey vanishing fails over `ℚ`
+for the coefficient ring `ℤ/8`.
 
-- ProfiniteCohomology, Layers 0, 1, 2, 3, 5, 6, 8, 9, 10, 11 and 12: discrete modules, the canonical
-  carrier, the explicit `H⁰, H¹, H²`, the comparisons, long exact sequences, corestriction, Shapiro,
-  the low-degree and graded cups, Hilbert 90 and Kummer theory, cohomological dimension. The
-  characteristic-`p` vanishing used in Layer 7 is declared as a gap of its Layer 9.
-- DGAInfinity, Layers 1 and 8: DG algebras and DG categories, and the generic matric Massey products
-  with their defining systems. Layer 0 specializes them and builds no second generic Massey theory;
-  the integral independence of representatives is declared as a gap of its Layer 8.
-- ProfiniteProPGroups, Layer 5, implemented by Tau Ceti's `TauCeti.FiniteEmbeddingProblem`: finite
-  embedding problems and the obstruction class of an abelian kernel. InverseGaloisAndArithmeticFundamentalGroups
-  §IG.4.1 extends the criterion to maps that need not be surjective and adds the torsor of lifts;
-  its §IG.4.2 owns twisting of solutions and the two independent cyclic degree-eight lifts used in
-  Layer 11.
-- ClassFieldTheory, Layer 5, implemented by Tau Ceti's
-  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and its companions in degrees 0
-  and 2: local Tate duality for finite modules over every nonarchimedean local field, in the
-  explicit low-degree model.
-- ArithmeticGaloisDuality §R02.1.4: the pointwise Hom, the splitting torsor of an additively split
-  sequence and the connecting map as cup product with its class; §R02.3.0d: the Tate–Shafarevich
-  kernels `Ш^i(K, A)`; §R02.4.5a: the perfect pairing `Ш²(K, A) × Ш¹(K, A^D) → ℚ/ℤ`, natural in
-  `A` by §R02.4.3; §R02.4.5b:
-  the Grunwald–Wang alternative, `Ш¹(ℚ, μ₈) = 0` and `Ш²(ℚ, ℤ/8) = 0`.
-- K2SymbolsBrauer §6.14: unique factorization of `Uₘ(A)` into elementary matrices in lexicographic
-  order, for a commutative ring `A` and `m ≥ 3`. Layer 1 keeps the factorization in increasing
-  distance, which differs in the order of the factors and is the one adapted to the superdiagonal
-  filtration.
-- Tau Ceti: the unitriangular and upper triangular groups, the superdiagonal filtration with the
-  forward commutator inclusion, transvections and their commutators, the Heisenberg criterion
-  `ContCohomology.explicitCup11_eq_zero_iff` for a vanishing `(1,1)` cup, and all-degree Shapiro and
-  corestriction.
+This roadmap is the second part of ProfiniteCohomology, which provides continuous cohomology and its
+cup products. It also builds on DGAInfinity, whose general Massey products it specializes, and on
+ClassFieldTheory, whose local Tate duality it uses at nonarchimedean fields. ArithmeticGaloisDuality
+provides the global duality behind the counterexample, and
+InverseGaloisAndArithmeticFundamentalGroups two of its characters. The finite group theory and
+local results are inputs to the homogeneous-space proof of Massey vanishing over number fields,
+which is not stated here.
 
-Two notions here have namesakes elsewhere and are kept with their difference stated: the cyclically
-trivial cohomology `H¹_cyc(G, M)` of Layer 5 is the kernel of restriction to the cyclic subgroups of
-a finite group, not an arithmetic kernel of localization maps like ArithmeticGaloisDuality's `Ш^i`;
-the outer exponent of Layer 3 uses ordinary powers in a finite group and Mathlib's `ConjClasses`,
-not profinite powering.
-
-The global Massey vanishing theorem for number fields (HW Theorems 1.3 and 7.4) needs homogeneous
-spaces, unramified Brauer groups and the Brauer–Manin obstruction. It is not stated here; this
-roadmap supplies its finite-group and local inputs (see Downstream consumers).
+Layer 0 builds the continuous cochain algebra and its defining systems, and Layer 1 proves Dwyer's
+criteria. Layers 2–6 are finite group theory of `Uₙ₊₁(𝔽_p)`. Layer 2 studies the abelianization
+`B = U¹/[U¹, U¹]` of the derived subgroup `U¹` with its conjugation action, Layer 3 powers and exponents.
+Layer 4 proves that the Bogomolov multiplier of `U¹` vanishes: no nonzero class of `H²(U¹, ℚ/ℤ)`,
+with trivial coefficients, vanishes on every abelian subgroup. Layer 5 treats cyclically trivial
+first cohomology (classes vanishing on every cyclic subgroup) and fixed conjugacy classes, and
+Layer 6 gives the examples that bound these results. Layers 7–11 do not use Layers 2–6. Layer 7 proves
+refined lifting at nonarchimedean fields, Layer 8 at `ℝ` and `ℂ`, deriving local Massey vanishing.
+Layer 9 redoes Layers 0–1 for coefficients in a system of Hom modules; Layer 10 proves refined
+lifting for invertible upper triangular matrices over `𝔽_p`, with arbitrary characters on the diagonal.
+Layer 11 builds the `ℤ/8` counterexample from Layers 0–1, independently of Layers 2–10.
 
 ## Conventions
 
@@ -145,165 +115,6 @@ Cartier dual with `(σf)(m) = σ(f(σ⁻¹m))`; it differs from `M^∨` by the c
 **Universes.** Fields in the local statements live in `Type`, the universe of Tau Ceti's local
 duality theorems; groups whose Bogomolov multiplier is taken live in `Type`, as Mathlib's
 `groupCohomology` requires the coefficient ring `ℤ` and the group in one universe.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `IsNonarchimedeanLocalField` (`NumberTheory/LocalField/Basic.lean`), assumed to provide the
-  standard consequences listed there (local compactness, a discrete valuation ring of integers, a
-  finite residue field); `Field.absoluteGaloisGroup`, identified with Tau Ceti's
-  `TauCeti.AbsoluteGaloisGroup` as a topological group by Tau Ceti's
-  `TauCeti.absoluteGaloisGroupRestrictEquiv`.
-- `continuousCohomology`, `TopRep.homogeneousCochains` and `TopRep.resolutionX`
-  (`RepresentationTheory/Homological/ContCohomology/Basic.lean`), the canonical carrier of ProfiniteCohomology;
-  `ContinuousCohomology.tateShafarevich`, through ArithmeticGaloisDuality §R02.3.0d.
-- `groupCohomology`, `groupCohomology.map`, `Rep.trivial` and `Rep.res`: the cohomology of a group
-  with trivial coefficients `ℚ/ℤ` and restriction to a subgroup, used to define
-  `bogomolovMultiplier`.
-- `ConjClasses` and `IsConj.pow` (powering on conjugacy classes, Layer 3); `FreeGroup` and
-  `PresentedGroup` (the exterior square of Layer 4); `CharacterModule.dual_surjective_of_injective`
-  (extension of characters into `ℚ/ℤ`, Layer 4).
-- `Subgroup.center`, `Subgroup.normalClosure`, `QuotientGroup.mk`, `ContinuousMap` and
-  `ContinuousMap.ext`, `Finset.Ioo`, `IsConj`.
-
-### From Tau Ceti
-
-- Unitriangular matrices: `Matrix.IsUpperUnitriangular` (`LinearAlgebra/Matrix/Triangular.lean`).
-- DG carriers: `TauCeti.IsDGAlgebra` (`Algebra/Homology/DG/Algebra/Defs.lean`: a degree-raising,
-  square-zero differential with the graded Leibniz rule on an internally `ℤ`-graded algebra),
-  `TauCeti.DGCategoryData` (`CategoryTheory/DG/HomComplexData.lean`: Hom complexes, bilinear
-  composition, Leibniz rule, associativity and units) and `TauCeti.DGCategory`
-  (`CategoryTheory/DG/Basic.lean`). These are the generic carriers of DGAInfinity Layer 1; the
-  cochain algebra of Layer 0 and the Hom-coefficient category of Layer 9 are constructed here as
-  objects of them.
-- Unitriangular and triangular groups: `TauCeti.upperUnitriangularGroup`,
-  `TauCeti.UpperUnitriangularGroup.ext` (equality from strictly upper entries),
-  `TauCeti.UpperUnitriangularGroup.map`, `TauCeti.UpperUnitriangularGroup.superdiagonalSubgroup`
-  with `mem_superdiagonalSubgroup_iff`, `superdiagonalSubgroup_eq_bot_of_le` and
-  `commutator_superdiagonalSubgroup_le` (only the inclusion `[U⁽ʳ⁾, U⁽ˢ⁾] ≤ U⁽ʳ⁺ˢ⁾` in Tau Ceti's
-  indexing); `TauCeti.upperTriangularGroup` with `TauCeti.UpperTriangularGroup.diag`,
-  `TauCeti.UpperTriangularGroup.diagonalHom`, `TauCeti.UpperTriangularGroup.ker_diag` and
-  `TauCeti.UpperTriangularGroup.upperUnitriangularGroup_le_upperTriangularGroup`.
-- Transvections: `TauCeti.transvectionUnit`, `TauCeti.commutatorElement_transvectionUnit`,
-  `TauCeti.commutatorElement_transvectionUnit_reverse`, `TauCeti.commute_transvectionUnit`,
-  `TauCeti.transvectionUnit_mem_upperTriangularGroup`.
-- The explicit cohomology of ProfiniteCohomology Layer 2: `TauCeti.ContCohomology.C1`, `d0`, `d1`,
-  `Z1`, `Z2`, `B1`, `B2`, `H1`, `H2`, `DiscreteH1`, `B1_eq_bot_of_smul_eq_self`; the comparisons
-  `ContCohomology.explicitH1AddEquivContinuousCohomology` and
-  `ContCohomology.explicitH2AddEquivContinuousCohomology`; the cup `ContCohomology.explicitCup11`
-  with `ContCohomology.explicitCup11_eq_zero_iff` and `ContCohomology.IsHeisenbergCochain`; cyclic
-  groups `ContCohomology.H1pi_eq_zero_iff_exists_smul_sub_eq` and
-  `ContCohomology.explicitH2CyclicEquiv`; the duality map `ContCohomology.dualityMap1`.
-- All degrees: `TauCeti.ContinuousCohomology.corestriction_res` (`cor ∘ res = [G : U]`) and
-  `TauCeti.ContinuousCohomology.isIso_shapiroMap`.
-- Extensions and embedding problems: `TauCeti.FactorSet.exists_cohomologyClass_eq`,
-  `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero`,
-  `TauCeti.exists_continuous_section`, `TauCeti.FiniteEmbeddingProblem`,
-  `TauCeti.FiniteEmbeddingProblem.obstruction` and
-  `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` (an embedding problem
-  with abelian kernel and surjective `π` is solvable exactly when its obstruction vanishes).
-- Internal Hom: `TauCeti.InternalHom`, `TauCeti.homAction`, `TauCeti.InternalHom.evalPairing`.
-- Local fields: `TauCeti.AbsoluteGaloisGroup`, `TauCeti.absoluteGaloisGroupEquivFixingSubgroup`,
-  `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.KummerCoeff`,
-  `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`,
-  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective`,
-  `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective` (for a nonarchimedean local field
-  `K`, `n` invertible in `K` and a finite discrete module killed by `n`, Tate's duality maps are
-  bijective; no hypothesis on the residue characteristic beyond invertibility of `n`) and
-  `TauCeti.ClassFieldTheory.h2MuEquivZMod`.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-- Layer 0 (discrete modules and continuous sections), Layer 1 (the canonical carrier and the
-  coefficient dictionary `ofDiscreteModule`), Layer 2 (the explicit low-degree complex), Layer 3
-  (the comparison isomorphisms, including the comparison with discrete `groupCohomology` for finite
-  groups), Layer 5 (long exact sequences and their connecting maps, with their sign conventions),
-  Layer 6 (low-degree corestriction), Layer 8 (the six low-degree cups, the evaluation pairing and
-  the connecting-map compatibilities), Layer 9 (Hilbert 90 and Kummer theory,
-  `H¹(K, μ_m) ≅ Kˣ/Kˣᵐ` for `m` invertible in `K`), Layer 10 (all-degree long exact sequences,
-  corestriction with `cor ∘ res = [G : U]`, Shapiro), Layer 11 (cohomological dimension `cd_p`) and
-  Layer 12 (the graded cup product with associativity and graded commutativity on cohomology).
-- What ProfiniteCohomology must provide (gap:char-p-galois-h2-vanishing): for every field `K` of
-  characteristic `p`, the second continuous cohomology `H²(Γ_K, ℤ/p)` of the trivial module vanishes,
-  so that `cd_p(Γ_K) ≤ 1`, from the Artin–Schreier sequence `0 → ℤ/p → Kˢ → Kˢ → 0` and the vanishing
-  of `H^q(Γ_K, Kˢ)` for `q ≥ 1`. HW use this fact in the proof of Proposition 5.3 (p. 19, citing
-  Koch, *Galois theory of p-extensions*, Theorem 9.1).
-
-### From TauCetiRoadmap.DGAInfinity
-
-- Layer 1: unital DG algebras and DG categories over a commutative ring, with the Leibniz sign
-  `d(ab) = d(a)b + (−1)^{|a|} a d(b)`, implemented at the pin by Tau Ceti's `TauCeti.IsDGAlgebra`
-  and `TauCeti.DGCategoryData`; the cochain algebra of Layer 0 and the Hom-coefficient DG category
-  of Layer 9 are objects of these carriers.
-- Layer 8: matric Massey products and their defining systems, defined only when lower products and
-  defining systems make them defined, with their indeterminacy recorded. Layer 0 uses them with all
-  degrees one and Kraines' sign.
-- What DGAInfinity must provide (gap:integral-gauge-massey-independence): for a unital DG algebra or
-  DG category over any commutative ring, the set of values of a degree-one matric Massey product
-  depends only on the cohomology classes of its adjacent inputs, proved by the finite unipotent
-  gauge transformation `A ↦ G⁻¹AG + G⁻¹dG` with `G = 1 + U` and no rational coefficients.
-
-### From TauCetiRoadmap.ProfiniteProPGroups
-
-- Layer 5: extensions of a profinite group by a finite abelian module and their classification by
-  `H²`, splitting of an extension exactly when its class vanishes, and finite embedding problems
-  with their weak solutions, implemented by `TauCeti.FiniteEmbeddingProblem` and
-  `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`. No surjectivity of a
-  solution is assumed or produced.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-- Layer 5: local Tate duality for finite modules, consumed through the Tau Ceti theorems listed above
-  and `TauCeti.ClassFieldTheory.h2MuEquivZMod` (`H²(Γ_K, μ_n) ≅ ℤ/n`).
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-- §R02.1.4, *Pointwise Hom of discrete modules*, *The splitting torsor*, *The connecting map is cup
-  product with the torsor class* and *Finitely generated `C`: the discrete case*: for an additively
-  split exact sequence `0 → A → B → C → 0` of discrete modules with `C` finite, the additive sections
-  form a torsor under the discrete module `Hom(C, A)`, its class `[γ] ∈ H¹(Γ, Hom(C, A))` vanishes
-  exactly when an equivariant section exists, and the connecting map `H^m(Γ, C) → H^{m+1}(Γ, A)` is
-  `[c] ↦ [γ ∪ c]`, on cochains `d(s ∘ c)(g₀, …, g_m) = γ(g₀)(g₀·c(g₁, …, g_m))`.
-- §R02.3.0d, *Finite Galois localization and Sha kernels*: `Ш^i(K, A)` for a number field `K` and a
-  finite module `A`, the Cartier dual `A^D`, and naturality in `A`.
-- §R02.4.5a, *Finite-coefficient Poitou–Tate input*, statement (3): the perfect pairing
-  `Ш²(K, A) × Ш¹(K, A^D) → ℚ/ℤ`. It is the pairing of §R02.4.3, *Poitou–Tate duality*, part (a),
-  with the set of places taken to be all places of `K`, and that part states its naturality in the
-  module: for a map `f : A → B` of finite modules, `⟨f_* a, b⟩ = ⟨a, f^D_* b⟩`.
-- §R02.4.5b, *Grunwald–Wang and its exceptional class*: `Ш¹(K, μ_m)` is zero or of order two for
-  every number field `K`, and `Ш¹(ℚ, μ₈) = 0`, `Ш²(ℚ, ℤ/8) = 0`.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-- §IG.4.1, *Finite abelian-kernel obstruction and pullback*: for an extension `1 → A → E → Q → 1` of
-  finite groups with `A` abelian and a continuous `π : Γ → Q`, a continuous lift exists exactly when
-  the pulled-back class vanishes, with no surjectivity hypothesis on `π`; the lifts up to
-  `A`-conjugacy form a torsor under `H¹(Γ, A_π)`.
-- §IG.4.2, *Twisting abelian-kernel solutions*: every weak solution is `zβ` for a unique crossed
-  homomorphism `z`; and *Two independent cyclic degree-eight lifts*: for distinct primes
-  `p ≡ q ≡ 1 (mod 8)`, characters `ψ₁, ψ₂ : Γ_ℚ → ℤ/8` lifting the quadratic characters of `ℚ(√p)`
-  and `ℚ(√2q)`, with `(ψ₁, ψ₂)` surjective onto `(ℤ/8)²` and compositum `L` of degree `64` whose
-  quadratic subfields are `ℚ(√p)`, `ℚ(√2q)`, `ℚ(√2pq)`.
-
-### From TauCetiRoadmap.K2SymbolsBrauer
-
-- §6.14, *The upper unipotent subgroup `T_n(A)` maps isomorphically onto `U_n(A)`*: for a commutative
-  ring `A` and `m ≥ 3`, every element of `Uₘ(A)` is uniquely a product of elementary matrices in
-  lexicographic order of the positions, with uniquely determined parameters. Layer 1 uses the same
-  elimination for the increasing distance order.
-
-## How to read the build
-
-Layer 0 builds the continuous cochain algebra and its defining systems. Layer 1 turns defining
-systems into lifts to unitriangular groups (Dwyer). Layers 2–6 are finite group theory of
-`Uₙ₊₁(𝔽_p)`: the conjugation module `B` (Layer 2), powers and exponents (Layer 3), the Bogomolov
-multiplier (Layer 4), cyclically trivial cohomology and fixed conjugacy classes (Layer 5) and the
-examples that bound these results (Layer 6); they are what a homogeneous-space proof of global
-Massey vanishing consumes, and Layers 7–11 do not use them. Layer 7 proves refined lifting at nonarchimedean local fields, Layer 8 at `ℝ` and `ℂ` and derives
-local Massey vanishing. Layers 9–10 redo Layers 1 and 7–8 for coefficients in a system of Hom
-modules and prove the rank-one twisted local lifting theorem. Layer 11 is independent of Layers
-2–10: it uses Layers 0–1 and the arithmetic duality suppliers to build the `ℤ/8` counterexample.
 
 ## Layer 0: continuous cochains and degree-one defining systems
 
@@ -2101,6 +1912,219 @@ and 9.
   fixed-class images span five dimensions (6.1).
 - **`ℤ/8`.** With `p = 17`, `q = 41`, Layer 11 produces three characters `Γ_ℚ → ℤ/8` with a defined
   triple Massey product not containing zero.
+
+## Scope and ownership
+
+ProfiniteCohomology stops at continuous cohomology in all degrees, its low-degree and graded cup
+products, cohomological dimension, the Evens norm and the Galois interface (Hilbert 90, Kummer
+theory); it defines no Massey product and no lifting theory for unitriangular groups. This roadmap
+is its Part II in that direction. It owns:
+
+- the strict continuous inhomogeneous cochain algebra of a profinite group with coefficients in a
+  discrete commutative ring with action, its comparison with continuous cohomology, its
+  specialization of DGAInfinity's degree-one defining systems, and the trivial-coefficient defining
+  systems `DefiningSystem`, `MasseyDefined`, `MasseyContainsZero` (Layer 0);
+- the increasing-distance factorization of `Uₙ₊₁(R)`, exact superdiagonal commutators, the adjacent
+  quotient, the corner extension and Dwyer's correspondence and criteria (Layer 1);
+- the finite group theory of `Uₙ₊₁(𝔽_p)` used by HW §§3, 4 and 6: the stabilizer module `B`, its
+  boundary submodule, sparse conjugation, the reversal involution, support submodules, outer
+  exponents, the Bogomolov multiplier with its commutativity-preserving exterior-square description,
+  cyclically trivial first cohomology, conjugacy-power evaluation and fixed-class generation, with
+  their sharpness examples (Layers 2–6);
+- refined lifting at every local field and local Massey vanishing for `𝔽_p` coefficients
+  (Layers 7–8);
+- defining systems with coefficients in a system of Hom modules, filtered automorphism groups, the
+  twisted Dwyer correspondence and rank-one twisted refined lifting (Layers 9–10);
+- the defined non-vanishing `ℤ/8` triple Massey product over `ℚ` (Layer 11).
+
+It leaves to named owners, and imports:
+
+- ProfiniteCohomology, Layers 0, 1, 2, 3, 5, 6, 8, 9, 10, 11 and 12: discrete modules, the canonical
+  carrier, the explicit `H⁰, H¹, H²`, the comparisons, long exact sequences, corestriction, Shapiro,
+  the low-degree and graded cups, Hilbert 90 and Kummer theory, cohomological dimension. The
+  characteristic-`p` vanishing used in Layer 7 is declared as a gap of its Layer 9.
+- DGAInfinity, Layers 1 and 8: DG algebras and DG categories, and the generic matric Massey products
+  with their defining systems. Layer 0 specializes them and builds no second generic Massey theory;
+  the integral independence of representatives is declared as a gap of its Layer 8.
+- ProfiniteProPGroups, Layer 5, implemented by Tau Ceti's `TauCeti.FiniteEmbeddingProblem`: finite
+  embedding problems and the obstruction class of an abelian kernel. InverseGaloisAndArithmeticFundamentalGroups
+  §IG.4.1 extends the criterion to maps that need not be surjective and adds the torsor of lifts;
+  its §IG.4.2 owns twisting of solutions and the two independent cyclic degree-eight lifts used in
+  Layer 11.
+- ClassFieldTheory, Layer 5, implemented by Tau Ceti's
+  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and its companions in degrees 0
+  and 2: local Tate duality for finite modules over every nonarchimedean local field, in the
+  explicit low-degree model.
+- ArithmeticGaloisDuality §R02.1.4: the pointwise Hom, the splitting torsor of an additively split
+  sequence and the connecting map as cup product with its class; §R02.3.0d: the Tate–Shafarevich
+  kernels `Ш^i(K, A)`; §R02.4.5a: the perfect pairing `Ш²(K, A) × Ш¹(K, A^D) → ℚ/ℤ`, natural in
+  `A` by §R02.4.3; §R02.4.5b:
+  the Grunwald–Wang alternative, `Ш¹(ℚ, μ₈) = 0` and `Ш²(ℚ, ℤ/8) = 0`.
+- K2SymbolsBrauer §6.14: unique factorization of `Uₘ(A)` into elementary matrices in lexicographic
+  order, for a commutative ring `A` and `m ≥ 3`. Layer 1 keeps the factorization in increasing
+  distance, which differs in the order of the factors and is the one adapted to the superdiagonal
+  filtration.
+- Tau Ceti: the unitriangular and upper triangular groups, the superdiagonal filtration with the
+  forward commutator inclusion, transvections and their commutators, the Heisenberg criterion
+  `ContCohomology.explicitCup11_eq_zero_iff` for a vanishing `(1,1)` cup, and all-degree Shapiro and
+  corestriction.
+
+Two notions here have namesakes elsewhere and are kept with their difference stated: the cyclically
+trivial cohomology `H¹_cyc(G, M)` of Layer 5 is the kernel of restriction to the cyclic subgroups of
+a finite group, not an arithmetic kernel of localization maps like ArithmeticGaloisDuality's `Ш^i`;
+the outer exponent of Layer 3 uses ordinary powers in a finite group and Mathlib's `ConjClasses`,
+not profinite powering.
+
+The global Massey vanishing theorem for number fields (HW Theorems 1.3 and 7.4) needs homogeneous
+spaces, unramified Brauer groups and the Brauer–Manin obstruction. It is not stated here; this
+roadmap supplies its finite-group and local inputs (see Downstream consumers).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `IsNonarchimedeanLocalField` (`NumberTheory/LocalField/Basic.lean`), assumed to provide the
+  standard consequences listed there (local compactness, a discrete valuation ring of integers, a
+  finite residue field); `Field.absoluteGaloisGroup`, identified with Tau Ceti's
+  `TauCeti.AbsoluteGaloisGroup` as a topological group by Tau Ceti's
+  `TauCeti.absoluteGaloisGroupRestrictEquiv`.
+- `continuousCohomology`, `TopRep.homogeneousCochains` and `TopRep.resolutionX`
+  (`RepresentationTheory/Homological/ContCohomology/Basic.lean`), the canonical carrier of ProfiniteCohomology;
+  `ContinuousCohomology.tateShafarevich`, through ArithmeticGaloisDuality §R02.3.0d.
+- `groupCohomology`, `groupCohomology.map`, `Rep.trivial` and `Rep.res`: the cohomology of a group
+  with trivial coefficients `ℚ/ℤ` and restriction to a subgroup, used to define
+  `bogomolovMultiplier`.
+- `ConjClasses` and `IsConj.pow` (powering on conjugacy classes, Layer 3); `FreeGroup` and
+  `PresentedGroup` (the exterior square of Layer 4); `CharacterModule.dual_surjective_of_injective`
+  (extension of characters into `ℚ/ℤ`, Layer 4).
+- `Subgroup.center`, `Subgroup.normalClosure`, `QuotientGroup.mk`, `ContinuousMap` and
+  `ContinuousMap.ext`, `Finset.Ioo`, `IsConj`.
+
+### From Tau Ceti
+
+- Unitriangular matrices: `Matrix.IsUpperUnitriangular` (`LinearAlgebra/Matrix/Triangular.lean`).
+- DG carriers: `TauCeti.IsDGAlgebra` (`Algebra/Homology/DG/Algebra/Defs.lean`: a degree-raising,
+  square-zero differential with the graded Leibniz rule on an internally `ℤ`-graded algebra),
+  `TauCeti.DGCategoryData` (`CategoryTheory/DG/HomComplexData.lean`: Hom complexes, bilinear
+  composition, Leibniz rule, associativity and units) and `TauCeti.DGCategory`
+  (`CategoryTheory/DG/Basic.lean`). These are the generic carriers of DGAInfinity Layer 1; the
+  cochain algebra of Layer 0 and the Hom-coefficient category of Layer 9 are constructed here as
+  objects of them.
+- Unitriangular and triangular groups: `TauCeti.upperUnitriangularGroup`,
+  `TauCeti.UpperUnitriangularGroup.ext` (equality from strictly upper entries),
+  `TauCeti.UpperUnitriangularGroup.map`, `TauCeti.UpperUnitriangularGroup.superdiagonalSubgroup`
+  with `mem_superdiagonalSubgroup_iff`, `superdiagonalSubgroup_eq_bot_of_le` and
+  `commutator_superdiagonalSubgroup_le` (only the inclusion `[U⁽ʳ⁾, U⁽ˢ⁾] ≤ U⁽ʳ⁺ˢ⁾` in Tau Ceti's
+  indexing); `TauCeti.upperTriangularGroup` with `TauCeti.UpperTriangularGroup.diag`,
+  `TauCeti.UpperTriangularGroup.diagonalHom`, `TauCeti.UpperTriangularGroup.ker_diag` and
+  `TauCeti.UpperTriangularGroup.upperUnitriangularGroup_le_upperTriangularGroup`.
+- Transvections: `TauCeti.transvectionUnit`, `TauCeti.commutatorElement_transvectionUnit`,
+  `TauCeti.commutatorElement_transvectionUnit_reverse`, `TauCeti.commute_transvectionUnit`,
+  `TauCeti.transvectionUnit_mem_upperTriangularGroup`.
+- The explicit cohomology of ProfiniteCohomology Layer 2: `TauCeti.ContCohomology.C1`, `d0`, `d1`,
+  `Z1`, `Z2`, `B1`, `B2`, `H1`, `H2`, `DiscreteH1`, `B1_eq_bot_of_smul_eq_self`; the comparisons
+  `ContCohomology.explicitH1AddEquivContinuousCohomology` and
+  `ContCohomology.explicitH2AddEquivContinuousCohomology`; the cup `ContCohomology.explicitCup11`
+  with `ContCohomology.explicitCup11_eq_zero_iff` and `ContCohomology.IsHeisenbergCochain`; cyclic
+  groups `ContCohomology.H1pi_eq_zero_iff_exists_smul_sub_eq` and
+  `ContCohomology.explicitH2CyclicEquiv`; the duality map `ContCohomology.dualityMap1`.
+- All degrees: `TauCeti.ContinuousCohomology.corestriction_res` (`cor ∘ res = [G : U]`) and
+  `TauCeti.ContinuousCohomology.isIso_shapiroMap`.
+- Extensions and embedding problems: `TauCeti.FactorSet.exists_cohomologyClass_eq`,
+  `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero`,
+  `TauCeti.exists_continuous_section`, `TauCeti.FiniteEmbeddingProblem`,
+  `TauCeti.FiniteEmbeddingProblem.obstruction` and
+  `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` (an embedding problem
+  with abelian kernel and surjective `π` is solvable exactly when its obstruction vanishes).
+- Internal Hom: `TauCeti.InternalHom`, `TauCeti.homAction`, `TauCeti.InternalHom.evalPairing`.
+- Local fields: `TauCeti.AbsoluteGaloisGroup`, `TauCeti.absoluteGaloisGroupEquivFixingSubgroup`,
+  `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.KummerCoeff`,
+  `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`,
+  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective`,
+  `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective` (for a nonarchimedean local field
+  `K`, `n` invertible in `K` and a finite discrete module killed by `n`, Tate's duality maps are
+  bijective; no hypothesis on the residue characteristic beyond invertibility of `n`) and
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod`.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+- Layer 0 (discrete modules and continuous sections), Layer 1 (the canonical carrier and the
+  coefficient dictionary `ofDiscreteModule`), Layer 2 (the explicit low-degree complex), Layer 3
+  (the comparison isomorphisms, including the comparison with discrete `groupCohomology` for finite
+  groups), Layer 5 (long exact sequences and their connecting maps, with their sign conventions),
+  Layer 6 (low-degree corestriction), Layer 8 (the six low-degree cups, the evaluation pairing and
+  the connecting-map compatibilities), Layer 9 (Hilbert 90 and Kummer theory,
+  `H¹(K, μ_m) ≅ Kˣ/Kˣᵐ` for `m` invertible in `K`), Layer 10 (all-degree long exact sequences,
+  corestriction with `cor ∘ res = [G : U]`, Shapiro), Layer 11 (cohomological dimension `cd_p`) and
+  Layer 12 (the graded cup product with associativity and graded commutativity on cohomology).
+- What ProfiniteCohomology must provide (gap:char-p-galois-h2-vanishing): for every field `K` of
+  characteristic `p`, the second continuous cohomology `H²(Γ_K, ℤ/p)` of the trivial module vanishes,
+  so that `cd_p(Γ_K) ≤ 1`, from the Artin–Schreier sequence `0 → ℤ/p → Kˢ → Kˢ → 0` and the vanishing
+  of `H^q(Γ_K, Kˢ)` for `q ≥ 1`. HW use this fact in the proof of Proposition 5.3 (p. 19, citing
+  Koch, *Galois theory of p-extensions*, Theorem 9.1).
+
+### From TauCetiRoadmap.DGAInfinity
+
+- Layer 1: unital DG algebras and DG categories over a commutative ring, with the Leibniz sign
+  `d(ab) = d(a)b + (−1)^{|a|} a d(b)`, implemented at the pin by Tau Ceti's `TauCeti.IsDGAlgebra`
+  and `TauCeti.DGCategoryData`; the cochain algebra of Layer 0 and the Hom-coefficient DG category
+  of Layer 9 are objects of these carriers.
+- Layer 8: matric Massey products and their defining systems, defined only when lower products and
+  defining systems make them defined, with their indeterminacy recorded. Layer 0 uses them with all
+  degrees one and Kraines' sign.
+- What DGAInfinity must provide (gap:integral-gauge-massey-independence): for a unital DG algebra or
+  DG category over any commutative ring, the set of values of a degree-one matric Massey product
+  depends only on the cohomology classes of its adjacent inputs, proved by the finite unipotent
+  gauge transformation `A ↦ G⁻¹AG + G⁻¹dG` with `G = 1 + U` and no rational coefficients.
+
+### From TauCetiRoadmap.ProfiniteProPGroups
+
+- Layer 5: extensions of a profinite group by a finite abelian module and their classification by
+  `H²`, splitting of an extension exactly when its class vanishes, and finite embedding problems
+  with their weak solutions, implemented by `TauCeti.FiniteEmbeddingProblem` and
+  `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`. No surjectivity of a
+  solution is assumed or produced.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+- Layer 5: local Tate duality for finite modules, consumed through the Tau Ceti theorems listed above
+  and `TauCeti.ClassFieldTheory.h2MuEquivZMod` (`H²(Γ_K, μ_n) ≅ ℤ/n`).
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+- §R02.1.4, *Pointwise Hom of discrete modules*, *The splitting torsor*, *The connecting map is cup
+  product with the torsor class* and *Finitely generated `C`: the discrete case*: for an additively
+  split exact sequence `0 → A → B → C → 0` of discrete modules with `C` finite, the additive sections
+  form a torsor under the discrete module `Hom(C, A)`, its class `[γ] ∈ H¹(Γ, Hom(C, A))` vanishes
+  exactly when an equivariant section exists, and the connecting map `H^m(Γ, C) → H^{m+1}(Γ, A)` is
+  `[c] ↦ [γ ∪ c]`, on cochains `d(s ∘ c)(g₀, …, g_m) = γ(g₀)(g₀·c(g₁, …, g_m))`.
+- §R02.3.0d, *Finite Galois localization and Sha kernels*: `Ш^i(K, A)` for a number field `K` and a
+  finite module `A`, the Cartier dual `A^D`, and naturality in `A`.
+- §R02.4.5a, *Finite-coefficient Poitou–Tate input*, statement (3): the perfect pairing
+  `Ш²(K, A) × Ш¹(K, A^D) → ℚ/ℤ`. It is the pairing of §R02.4.3, *Poitou–Tate duality*, part (a),
+  with the set of places taken to be all places of `K`, and that part states its naturality in the
+  module: for a map `f : A → B` of finite modules, `⟨f_* a, b⟩ = ⟨a, f^D_* b⟩`.
+- §R02.4.5b, *Grunwald–Wang and its exceptional class*: `Ш¹(K, μ_m)` is zero or of order two for
+  every number field `K`, and `Ш¹(ℚ, μ₈) = 0`, `Ш²(ℚ, ℤ/8) = 0`.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+- §IG.4.1, *Finite abelian-kernel obstruction and pullback*: for an extension `1 → A → E → Q → 1` of
+  finite groups with `A` abelian and a continuous `π : Γ → Q`, a continuous lift exists exactly when
+  the pulled-back class vanishes, with no surjectivity hypothesis on `π`; the lifts up to
+  `A`-conjugacy form a torsor under `H¹(Γ, A_π)`.
+- §IG.4.2, *Twisting abelian-kernel solutions*: every weak solution is `zβ` for a unique crossed
+  homomorphism `z`; and *Two independent cyclic degree-eight lifts*: for distinct primes
+  `p ≡ q ≡ 1 (mod 8)`, characters `ψ₁, ψ₂ : Γ_ℚ → ℤ/8` lifting the quadratic characters of `ℚ(√p)`
+  and `ℚ(√2q)`, with `(ψ₁, ψ₂)` surjective onto `(ℤ/8)²` and compositum `L` of degree `64` whose
+  quadratic subfields are `ℚ(√p)`, `ℚ(√2q)`, `ℚ(√2pq)`.
+
+### From TauCetiRoadmap.K2SymbolsBrauer
+
+- §6.14, *The upper unipotent subgroup `T_n(A)` maps isomorphically onto `U_n(A)`*: for a commutative
+  ring `A` and `m ≥ 3`, every element of `Uₘ(A)` is uniquely a product of elementary matrices in
+  lexicographic order of the positions, with uniquely determined parameters. Layer 1 uses the same
+  elimination for the increasing distance order.
 
 ## References
 
