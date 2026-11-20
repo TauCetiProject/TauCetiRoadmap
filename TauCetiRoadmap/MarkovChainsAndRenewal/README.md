@@ -754,7 +754,7 @@ be nonincreasing. For μ = ∞, lattice or not, prove `P(E_t ≤ x) → 0` for e
 The targets here connect the renewal processes of Layers 4–5 and the chains of Layer 0 with the
 rate-λ Poisson process of StochasticCalculus §0.6 (Convention 9), for λ > 0 unless stated otherwise:
 no point at zero, simple paths and no explosion (Tassion, Definitions 9.1 and 9.4 and
-Proposition 9.1; Last and Penrose, Chapters 3 and 5).
+Proposition 9.1; Last and Penrose, Definition 3.1, Proposition 6.9 and Section 7.1).
 
 ### 7.1 Exponential renewals are Poisson processes
 
@@ -822,7 +822,7 @@ arrival kept independently with probability p, splits a rate-λ Poisson process 
 Poisson processes of rates pλ and (1 − p)λ. The sum of independent Poisson processes of rates λ and
 λ' is a Poisson process of rate λ + λ'. Rate zero is the identically zero process and is treated
 separately from the positive-rate characterization by exponential gaps (Tassion, Theorems 9.9 and
-9.11; Last and Penrose, Chapters 3 and 5).
+9.11; Last and Penrose, Theorem 3.3, Proposition 5.5 and Corollary 5.9).
 *Needs:* §7.1; StochasticCalculus §0.6; Mathlib `ProbabilityTheory.poissonMeasure`,
 `ProbabilityTheory.poissonMeasure_conv_poissonMeasure`.
 
@@ -1041,8 +1041,9 @@ Mathlib and Tau Ceti contracts above are the contract.
 - W. Feller, *An Introduction to Probability Theory and Its Applications*, vol. II, second edition
   (1971), Chapter XI, renewal theory, for full proofs of the renewal results and the argument of
   §5.4.
-- G. Last and M. Penrose, *Lectures on the Poisson Process* (2017), especially Chapters 3 and 5, for
-  construction, mapping, marking and thinning.
+- G. Last and M. Penrose, *Lectures on the Poisson Process* (2017), for the definition and
+  simplicity of Poisson processes, the homogeneous process on the half-line, superposition and
+  thinning.
 - Zulip discussion of adapted filtrations for Markov chains and Markov processes,
   https://leanprover-community.github.io/archive/stream/509433-Brownian-motion/topic/Adapted.20Filtrations.20for.20Markov.20Chains.20and.20Markov.20Processes.html,
   for the filtration-relative form of §1.1.
