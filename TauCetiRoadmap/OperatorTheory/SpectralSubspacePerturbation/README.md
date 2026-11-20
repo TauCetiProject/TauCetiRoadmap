@@ -8,7 +8,7 @@ spectra of `A` and `B` are separated. The separation decides the constant: one s
 interval and the other outside its `δ`-neighbourhood gives `δ N(X) ≤ N(C)` in every unitarily
 invariant norm `N`; spectra only `δ` apart pairwise give the sharp `δ N(X) ≤ (π/2) N(C)`.
 Bhatia, Davis and McIntosh proved the pairwise bound with a universal constant, the best one
-lying between `√3/2` and `2`; the sharp constant `π/2` is the least `L¹` norm of a function whose
+lying between `√(3/2)` and `2`; the sharp constant `π/2` is the least `L¹` norm of a function whose
 Fourier integral is `1/x` for `|x| ≥ 1`, and Layer 1 is an explicit kernel attaining it, which
 Tau Ceti calls the Haagerup–Zsidó kernel. Yu, Wang and Samworth give a variant for statistics
 with a gap in the unperturbed (population) operator alone.
@@ -245,7 +245,7 @@ real point `a` of the spectrum of `A` and `b` of the spectrum of `B`
 (Seelmann 2014, Theorem 3.1; for weak solutions, Albeverio, Makarov and Motovilov 2003,
 Theorem 2.7). Bhatia, Davis and McIntosh proved the bound with a universal constant
 (Bhatia–Davis–McIntosh 1983, Theorem 4.1); by Albeverio, Makarov and Motovilov 2003, Remark 2.8,
-they placed the best constant between `√3/2` and `2`, the value `π/2` goes back to Sz.-Nagy, and
+they placed the best constant between `√(3/2)` and `2`, the value `π/2` goes back to Sz.-Nagy, and
 its sharpness is McEachin's. For bounded `A` and `B`, viewed as total partial operators, it is the
 operator-norm `π/2` bound on every Hilbert space. Route: `X` is
 the weak integral `∫ k(δt) e^{itA} C e^{−itB} dt` of the unitary groups of `A` and `B` against the
@@ -385,10 +385,16 @@ Under the hypotheses of §3.28 with `dim Z < dim U` in place of `dim Z = dim U`,
 two conclusions: the directed gap from `Z` to `U` is less than `1`, and the tangent map
 `T_{Z,U} : Z → E` of Tau Ceti's `Submodule.tanThetaMap Z U`, whose singular values are the
 principal tangents, satisfies `δ N(T_{Z,U}) ≤ N(R)` for every unitarily invariant seminorm `N` on
-the maps `Z → E` (Davis and Kahan 1970, the generalized `tan Θ` theorem). Route: as for §3.28;
-the transversality now makes `Z` the graph of the tangent operator over the proper subspace
-`P_U Z` of `U`.
-*Needs:* as §3.28.
+the maps `Z → E` (Davis and Kahan 1970, the generalized `tan Θ` theorem). Route: a compression
+reduces it to §3.28. Put `U′ = P_U Z` and `E′ = U′ ⊕ U⊥`, and let `A′` be the compression of `A`
+to `E′`, which is `P_{U′}A` on `U′` and `A` on `U⊥`: `U′` is `A′`-invariant with complement `U⊥`
+in `E′`, and `dim U′ = dim Z` because `Z ∩ U⊥ = 0`. Then `Z ⊆ E′`, the compression of `A′` to `Z`
+is `M`, its Ritz residual is `P_{E′}R`, and the sine embedding `P_{U⊥}` on `Z`, hence the directed
+gap and the tangent map, is unchanged. §3.28 for `A′`, `U′` and `Z`, with `N` restricted to the
+maps into `E′` (still unitarily invariant, since unitaries of `E′` extend to `E`), gives
+`δ N(T_{Z,U}) ≤ N(P_{E′}R) ≤ N(R)`, the last step because `P_{E′} = (1 + S)/2` with the unitary
+`S = 2P_{E′} − 1`.
+*Needs:* §3.28; Tau Ceti `ContinuousLinearMap.compression`, `Submodule.tanThetaMap`.
 
 ### 3.31 The quarter-acute bound for off-diagonal perturbations
 
@@ -401,8 +407,12 @@ satisfies the same two bounds relative to `V` and `V⊥`, and that `H` is off-di
 less than `π/4` (Davis and Kahan 1970, the `tan 2Θ` theorem, in the form of Kostrykin, Makarov
 and Motovilov 2004, (1.2) and (1.4)). Route: the bounds and the off-diagonal shape of `H` give
 `V ∩ U⊥ = 0` and `V⊥ ∩ U = 0` (a unit vector in either would have its form value both at most `a`
-and at least `b`, since `⟪Hz, z⟫ = 0` for `z` in `U` or in `U⊥`), so `V` is the graph of an angular
-operator `K` from `U` to `U⊥`; the Davis–Kahan `tan 2Θ` argument, of which Tau Ceti's per-vector
+and at least `b`, since `⟪Hz, z⟫ = 0` for `z` in `U` or in `U⊥`). The same computation bounds the
+graph: for `z = u + w` in `V` with `u ∈ U` and `w ∈ U⊥`,
+`b‖z‖² ≤ Re⟪(A + H)z, z⟫ ≤ ‖A‖‖u‖² + a‖w‖² + 2‖H‖‖u‖‖w‖`, so
+`(b − a)‖w‖² ≤ (‖A‖ − b)‖u‖² + 2‖H‖‖u‖‖w‖` and `‖w‖ ≤ c‖u‖` for a constant `c`. Hence `P_U` is
+bounded below on `V`, its image is closed, and `V⊥ ∩ U = 0` makes it all of `U`: `V` is the graph
+of a bounded angular operator `K` from `U` to `U⊥`; the Davis–Kahan `tan 2Θ` argument, of which Tau Ceti's per-vector
 `LinearMap.IsSymmetric.tan_two_theta_le` is the eigenvector case, gives
 `‖K‖ ≤ tan(½ arctan(2‖H‖/(b − a))) < 1`, and the exact graph gap `‖K‖/√(1 + ‖K‖²)` concludes. In
 finite dimension the two trivial intersections give `dim U = dim V`, so the projection gap equals
@@ -522,7 +532,8 @@ eigenvalue order (Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis`), the *left
 vectors*, and let `s` be a set of indices with a squared-singular-value gap `Γ ≥ 0`:
 `Γ ≤ |λ_j(AA†) − λ_k(AA†)|` for `j ∈ s`, `k ∉ s`. Prove
 `Γ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, û_j⟫|² ≤ 4|s|((a + â)ε)²` (Yu, Wang and Samworth 2015, Theorem 4,
-the remark after it, and steps (10)–(11) of its proof). The right form, with `A†A`, `Â†Â` and their eigenvector bases indexed by `k < dim E`, is Tau Ceti's
+the remark after it, and steps (10)–(11) of its proof, proved there for real matrices and a run of
+consecutive indices). The right form, with `A†A`, `Â†Â` and their eigenvector bases indexed by `k < dim E`, is Tau Ceti's
 `LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq`, which needs
 no sign condition. Route: the right form for `A†` and `Â†`, whose right Gram operators are `AA†`
 and `ÂÂ†`, with `‖A†‖ = ‖A‖` and the singular values of the adjoint.
