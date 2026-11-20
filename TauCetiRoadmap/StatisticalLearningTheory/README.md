@@ -46,77 +46,30 @@ docstring of `Suggested.lean` lists the bold ones with the vocabulary each would
 
 Suggested home: `TauCeti/Statistics/Learning/`, with one subdirectory per layer.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 fixes the objects every later layer measures: risk, empirical risk, the Bayes
+classifier, and the losses that replace the 0–1 loss. Layer 2 is the single source of uniform
+deviation bounds: one symmetrization, one bounded-differences step (Tau Ceti's McDiarmid), and a
+calculus of Rademacher averages (contraction, finite classes, convex hulls, kernel balls). Layer 3
+turns the combinatorial capacity of Asymptotic 3.5 into the sample-complexity theory of PAC
+learning, with the lower bounds by the probabilistic method. Layer 4 applies Layer 2 to
+real-valued scores: margins via contraction, stability via McDiarmid directly, and kernel ridge
+regression via localized Gaussian complexity.
 
-1. **Risk, Bayes rules and losses.** The ERM inequality; the Bayes classifier with its risk, its
-   optimality and the excess-risk identity; the plug-in bounds, with the margin condition;
-   properness of the logarithmic and Brier losses; classification calibration of convex
-   surrogates and Zhang's comparison inequality.
-2. **Rademacher averages.** Empirical Rademacher complexity; Talagrand's contraction, Massart's
-   lemma and the convex hull identity; the kernel-ball bound; one-sided symmetrization and the
-   Rademacher generalization bound in expectation and with high probability; finite classes and
-   hold-out selection.
-3. **VC dimension and PAC learnability.** VC dimension of classifiers, realizable and agnostic
-   PAC learnability, uniform deviation over VC classes, upper sample-complexity bounds for
-   empirical risk minimization and for consistent rules, lower bounds, the fundamental theorem
-   and the no-free-lunch theorem.
-4. **Margins, stability and kernel regression.** The margin bound and its kernel form; uniform
-   stability and its generalization bound, with the stability of regularized kernel methods;
-   kernel ridge regression: closed form, oracle inequality and its finite-rank and polynomial-decay
-   rates.
-5. **Distribution-free prediction, local rules and clustering.** Split conformal prediction; the
-   Cover–Hart inequalities and the asymptotics of nearest-neighbour classification; Stone's
-   theorem for local weights, with response-independent forests as an example of local weights;
-   consistency of `k`-means.
-6. **Trees, boosting and ensembles.** Minimal cost-complexity pruning; impurity decrease and the
-   categorical-split ordering; the descent of `L²` boosting; the variance of an ensemble average;
-   AdaBoost's training error, margins and line search.
-7. **Differential privacy.** Central and local privacy; post-processing and group privacy; the
-   Laplace, Gaussian and exponential mechanisms; basic and advanced composition; randomized
-   response and contraction under local privacy; minimax rates of private mean estimation; the
-   sparse vector technique.
-8. **Fairness and distribution shift.** Separation, sufficiency and independence and their
-   incompatibilities; covariate shift, the domain-adaptation bound and importance-weighted
-   validation; label-shift correction and identification.
+Layers 5 and 6 are algorithms with guarantees. Layer 5 is distribution-free in the strong sense
+(conformal prediction needs only exchangeability; nearest-neighbour and local-weight rules are
+consistent for every law) and ends with `k`-means, which reduces to Wasserstein convergence of
+empirical measures. Layer 6 collects the deterministic theory of trees, boosting and ensembles;
+its only probabilistic input is the margin bound of 4.1 applied to AdaBoost.
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+Layers 7 and 8 are about data that are protected or shifted. Layer 7 is self-contained apart
+from the Laplace and Gaussian laws and, for the lower bounds of 7.5, the minimax toolkit of
+Nonparametric. Layer 8 uses conditional independence from Mathlib, Bernstein's inequality from
+Tau Ceti and the disagreement argument of 1.1.
 
-**Not owned here.** The following are used, not built, or belong elsewhere:
-- the VC dimension of a family of sets, the Sauer–Shelah bound, symmetrization in absolute value
-  with outer expectations, chaining, and the covering numbers of VC classes:
-  [MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) 3.2, 3.3
-  and 3.5, on Mathlib's `Finset.vcDim` and `Finset.card_shatterer_le_sum_vcDim`. 2.3 proves the
-  one-sided symmetrization with signed Rademacher averages that the generalization bounds use,
-  by the same ghost-sample argument;
-- `L²` consistency of nearest-neighbour and kernel regression, the reproducing-kernel Hilbert
-  space and the representer theorem:
-  [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 5.6
-  and 5.8. 5.2 adds only the classification results, and 4.3 only the rates;
-- Pinsker's inequality and Le Cam's two-point method:
-  [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.4
-  and 2.2, applied in 3.3 and 7.5;
-- i.i.d. sequences, samples and empirical measures:
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.5 and
-  9.1, whose conventions this roadmap adopts;
-- the Hedge forecaster and its regret:
-  [RegretMinimizationAndEquilibria](../RegretMinimizationAndEquilibria/README.md) 1.2. Online
-  gradient descent is outside the scope; it belongs to a roadmap on first-order methods
-  (FirstOrderOptimization);
-- bandits (upper confidence bounds, Thompson sampling, adversarial and linear bandits, the
-  Lai–Robbins and minimax lower bounds) are outside the scope; they belong to the roadmap
-  MultiArmedBandits;
-- Markov decision processes, Bellman operators, policy iteration, linear programming and tabular
-  `Q`-learning and TD(0): [MarkovDecisionProcesses](../MarkovDecisionProcesses/README.md);
-- realisation maps of neural networks: [Neuromanifolds](../Neuromanifolds/README.md);
-- Wasserstein distances and quantization of laws: Tau Ceti's optimal-transport library, consumed
-  by 5.4;
-- kernel mean embeddings, maximum mean discrepancy and characteristic kernels are not part of
-  this roadmap.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are in build order. Layers 7 and 8 need only Layer 1 and the suppliers and may be
+built directly after Layer 1.
 
 ## Conventions
 
@@ -167,114 +120,6 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Kernels.** A reproducing-kernel Hilbert space of real functions on `X` is Mathlib's
   `RKHS ℝ H X ℝ`; the scalar kernel value `K(x, y)` is `RKHS.kernel H x y 1`, and
   `K(x, x) = ‖RKHS.kernel H x x‖`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Shattering:** `Finset.vcDim` and the Sauer–Shelah bound `Finset.card_shatterer_le_sum_vcDim`
-  (`Mathlib/Combinatorics/SetFamily/Shatter.lean`).
-- **Reproducing kernels:** the class `RKHS`, `RKHS.kerFun`, `RKHS.kernel` and the evaluation
-  bound `RKHS.norm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`).
-- **Sub-Gaussian variables:** `HasSubgaussianMGF` and the Azuma–Hoeffding inequality for
-  conditionally sub-Gaussian increments,
-  `ProbabilityTheory.measure_sum_ge_le_of_hasCondSubgaussianMGF`
-  (`Mathlib/Probability/Moments/SubGaussian.lean`).
-- **Conditional independence:** `ProbabilityTheory.CondIndepFun`, with the notation
-  `X ⟂ᵢ[Z, hZ; μ] Y` and the characterisation `ProbabilityTheory.condIndepFun_iff`
-  (`Mathlib/Probability/Independence/Conditional.lean`).
-- **Divergences and distances:** `tvDist`
-  (`Mathlib/MeasureTheory/Measure/TotalVariation/Defs.lean`),
-  `klDiv` (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`), `Metric.hausdorffDist`
-  (`Mathlib/Topology/MetricSpace/HausdorffDistance.lean`) and `hammingDist`
-  (`Mathlib/InformationTheory/Hamming.lean`).
-- **Laws and moments:** `gaussianReal` (`Mathlib/Probability/Distributions/Gaussian/Real.lean`),
-  `variance` (`Mathlib/Probability/Moments/Variance.lean`) and `covariance`
-  (`Mathlib/Probability/Moments/Covariance.lean`).
-- **Kernels and densities:** `Measure.compProd` with the notation `μ ⊗ₘ κ`
-  (`Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean`), `Measure.rnDeriv`
-  (`Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`), and the composition `κ ∘ₘ μ`.
-- **Spectra:** `Matrix.IsHermitian.eigenvalues` (`Mathlib/Analysis/Matrix/Spectrum.lean`).
-
-Mathlib has no Rademacher complexity, PAC learnability, generalization bound, conformal
-prediction, differential privacy or fairness criterion.
-
-### From Tau Ceti
-
-- **Bounded differences:** `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences_fin`
-  (`TauCeti/Probability/McDiarmid.lean`): a measurable `f : (Fin n → β) → ℝ` that changes by at
-  most `c` when one coordinate changes satisfies `HasSubgaussianMGF` with parameter `n (c/2)²`
-  under the product measure, which gives McDiarmid's inequality.
-- **Bernstein's inequality:** `ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le`
-  (`TauCeti/Probability/Moments/Bernstein.lean`): for independent centred `X i` with `|X i| ≤ b`,
-  `μ(ε ≤ |∑ X i|) ≤ 2 exp(-ε²/(2(v + bε/3)))` with `v = ∑ E X i²`.
-- **Laplace laws:** `TauCeti.Probability.laplaceMeasure μ b`, the law with density
-  `(2b)⁻¹ exp(-|x - μ|/b)`, and `TauCeti.Probability.isProbabilityMeasure_laplaceMeasure` for
-  `b > 0` (`TauCeti/Probability/Distributions/Laplace/Basic.lean`).
-- **Exchangeability:** `TauCeti.Probability.ExchangeableFamily μ X`, equality of the joint laws
-  along injective selections of indices (`TauCeti/Probability/Exchangeability/Family.lean`).
-- **Empirical measures and order statistics:** `TauCeti.Probability.empiricalMeasure`, the
-  empirical probability measure of the first `n + 1` terms of a sequence
-  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`), and `TauCeti.orderStatistic`
-  (`TauCeti/Data/Fin/Tuple/OrderStatistic.lean`).
-- **Wasserstein convergence and quantization:**
-  `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae`
-  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Empirical.lean`): almost surely the
-  `p`-Wasserstein distance from the empirical measure to a law with finite `p`-th moment tends to
-  `0`; `TauCeti.wassersteinQuantizationError`
-  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/FiniteSupport.lean`) and
-  `TauCeti.exists_wassersteinEDist_eq_wassersteinQuantizationError`
-  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Quantization.lean`).
-- **Relative entropy:** the chain rule `TauCeti.klDiv_compProd_eq_add_lintegral` and the
-  tensorization `TauCeti.klDiv_prod_prod_eq_add`
-  (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`).
-
-### From MathematicalStatisticsAsymptotic
-
-- 3.2: pointwise separability, of which `IsPointwiseSeparable` is a local copy, and covering
-  and packing numbers.
-- 3.3: the finite sub-Gaussian maximal inequality and chaining with Mathlib's
-  `Metric.packingNumber`.
-- 3.5: the VC dimension of a family of sets, of which `vcDimSet` is a local copy, the
-  Sauer–Shelah bound for traces, and the uniform `L¹(Q)` covering bound for VC families.
-
-### From MathematicalStatisticsNonparametric
-
-- 1.4: Pinsker's inequality.
-- 2.2: Le Cam's two-point method in its total variation and Kullback–Leibler forms.
-- 5.6: `L²` consistency of the `k`-nearest-neighbour regression estimate, with distance ties
-  broken by index, for `k → ∞` and `k/n → 0`.
-- 5.8: the representer theorem for Mathlib's `RKHS`.
-
-### From MathematicalStatisticsFoundations
-
-- 8.5: i.i.d. sequences; 9.1: empirical measures and sample means; the Conventions on samples
-  and on `tvDist / 2`.
-
-## How to read the build
-
-Layer 1 fixes the objects every later layer measures: risk, empirical risk, the Bayes
-classifier, and the losses that replace the 0–1 loss. Layer 2 is the single source of uniform
-deviation bounds: one symmetrization, one bounded-differences step (Tau Ceti's McDiarmid), and a
-calculus of Rademacher averages (contraction, finite classes, convex hulls, kernel balls). Layer 3
-turns the combinatorial capacity of Asymptotic 3.5 into the sample-complexity theory of PAC
-learning, with the lower bounds by the probabilistic method. Layer 4 applies Layer 2 to
-real-valued scores: margins via contraction, stability via McDiarmid directly, and kernel ridge
-regression via localized Gaussian complexity.
-
-Layers 5 and 6 are algorithms with guarantees. Layer 5 is distribution-free in the strong sense
-(conformal prediction needs only exchangeability; nearest-neighbour and local-weight rules are
-consistent for every law) and ends with `k`-means, which reduces to Wasserstein convergence of
-empirical measures. Layer 6 collects the deterministic theory of trees, boosting and ensembles;
-its only probabilistic input is the margin bound of 4.1 applied to AdaBoost.
-
-Layers 7 and 8 are about data that are protected or shifted. Layer 7 is self-contained apart
-from the Laplace and Gaussian laws and, for the lower bounds of 7.5, the minimax toolkit of
-Nonparametric. Layer 8 uses conditional independence from Mathlib, Bernstein's inequality from
-Tau Ceti and the disagreement argument of 1.1.
-
-The layers are in build order. Layers 7 and 8 need only Layer 1 and the suppliers and may be
-built directly after Layer 1.
 
 ## Layer 1: risk, Bayes rules and losses
 
@@ -1596,6 +1441,161 @@ Layer 1 (1.1, 1.2); Mathlib conditional independence and kernels; Tau Ceti Berns
 ## Downstream consumers
 
 No other roadmap consumes the results of this one.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Risk, Bayes rules and losses.** The ERM inequality; the Bayes classifier with its risk, its
+   optimality and the excess-risk identity; the plug-in bounds, with the margin condition;
+   properness of the logarithmic and Brier losses; classification calibration of convex
+   surrogates and Zhang's comparison inequality.
+2. **Rademacher averages.** Empirical Rademacher complexity; Talagrand's contraction, Massart's
+   lemma and the convex hull identity; the kernel-ball bound; one-sided symmetrization and the
+   Rademacher generalization bound in expectation and with high probability; finite classes and
+   hold-out selection.
+3. **VC dimension and PAC learnability.** VC dimension of classifiers, realizable and agnostic
+   PAC learnability, uniform deviation over VC classes, upper sample-complexity bounds for
+   empirical risk minimization and for consistent rules, lower bounds, the fundamental theorem
+   and the no-free-lunch theorem.
+4. **Margins, stability and kernel regression.** The margin bound and its kernel form; uniform
+   stability and its generalization bound, with the stability of regularized kernel methods;
+   kernel ridge regression: closed form, oracle inequality and its finite-rank and polynomial-decay
+   rates.
+5. **Distribution-free prediction, local rules and clustering.** Split conformal prediction; the
+   Cover–Hart inequalities and the asymptotics of nearest-neighbour classification; Stone's
+   theorem for local weights, with response-independent forests as an example of local weights;
+   consistency of `k`-means.
+6. **Trees, boosting and ensembles.** Minimal cost-complexity pruning; impurity decrease and the
+   categorical-split ordering; the descent of `L²` boosting; the variance of an ensemble average;
+   AdaBoost's training error, margins and line search.
+7. **Differential privacy.** Central and local privacy; post-processing and group privacy; the
+   Laplace, Gaussian and exponential mechanisms; basic and advanced composition; randomized
+   response and contraction under local privacy; minimax rates of private mean estimation; the
+   sparse vector technique.
+8. **Fairness and distribution shift.** Separation, sufficiency and independence and their
+   incompatibilities; covariate shift, the domain-adaptation bound and importance-weighted
+   validation; label-shift correction and identification.
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built, or belong elsewhere:
+- the VC dimension of a family of sets, the Sauer–Shelah bound, symmetrization in absolute value
+  with outer expectations, chaining, and the covering numbers of VC classes:
+  [MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) 3.2, 3.3
+  and 3.5, on Mathlib's `Finset.vcDim` and `Finset.card_shatterer_le_sum_vcDim`. 2.3 proves the
+  one-sided symmetrization with signed Rademacher averages that the generalization bounds use,
+  by the same ghost-sample argument;
+- `L²` consistency of nearest-neighbour and kernel regression, the reproducing-kernel Hilbert
+  space and the representer theorem:
+  [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 5.6
+  and 5.8. 5.2 adds only the classification results, and 4.3 only the rates;
+- Pinsker's inequality and Le Cam's two-point method:
+  [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.4
+  and 2.2, applied in 3.3 and 7.5;
+- i.i.d. sequences, samples and empirical measures:
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.5 and
+  9.1, whose conventions this roadmap adopts;
+- the Hedge forecaster and its regret:
+  [RegretMinimizationAndEquilibria](../RegretMinimizationAndEquilibria/README.md) 1.2. Online
+  gradient descent is outside the scope; it belongs to a roadmap on first-order methods
+  (FirstOrderOptimization);
+- bandits (upper confidence bounds, Thompson sampling, adversarial and linear bandits, the
+  Lai–Robbins and minimax lower bounds) are outside the scope; they belong to the roadmap
+  MultiArmedBandits;
+- Markov decision processes, Bellman operators, policy iteration, linear programming and tabular
+  `Q`-learning and TD(0): [MarkovDecisionProcesses](../MarkovDecisionProcesses/README.md);
+- realisation maps of neural networks: [Neuromanifolds](../Neuromanifolds/README.md);
+- Wasserstein distances and quantization of laws: Tau Ceti's optimal-transport library, consumed
+  by 5.4;
+- kernel mean embeddings, maximum mean discrepancy and characteristic kernels are not part of
+  this roadmap.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Shattering:** `Finset.vcDim` and the Sauer–Shelah bound `Finset.card_shatterer_le_sum_vcDim`
+  (`Mathlib/Combinatorics/SetFamily/Shatter.lean`).
+- **Reproducing kernels:** the class `RKHS`, `RKHS.kerFun`, `RKHS.kernel` and the evaluation
+  bound `RKHS.norm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`).
+- **Sub-Gaussian variables:** `HasSubgaussianMGF` and the Azuma–Hoeffding inequality for
+  conditionally sub-Gaussian increments,
+  `ProbabilityTheory.measure_sum_ge_le_of_hasCondSubgaussianMGF`
+  (`Mathlib/Probability/Moments/SubGaussian.lean`).
+- **Conditional independence:** `ProbabilityTheory.CondIndepFun`, with the notation
+  `X ⟂ᵢ[Z, hZ; μ] Y` and the characterisation `ProbabilityTheory.condIndepFun_iff`
+  (`Mathlib/Probability/Independence/Conditional.lean`).
+- **Divergences and distances:** `tvDist`
+  (`Mathlib/MeasureTheory/Measure/TotalVariation/Defs.lean`),
+  `klDiv` (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`), `Metric.hausdorffDist`
+  (`Mathlib/Topology/MetricSpace/HausdorffDistance.lean`) and `hammingDist`
+  (`Mathlib/InformationTheory/Hamming.lean`).
+- **Laws and moments:** `gaussianReal` (`Mathlib/Probability/Distributions/Gaussian/Real.lean`),
+  `variance` (`Mathlib/Probability/Moments/Variance.lean`) and `covariance`
+  (`Mathlib/Probability/Moments/Covariance.lean`).
+- **Kernels and densities:** `Measure.compProd` with the notation `μ ⊗ₘ κ`
+  (`Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean`), `Measure.rnDeriv`
+  (`Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`), and the composition `κ ∘ₘ μ`.
+- **Spectra:** `Matrix.IsHermitian.eigenvalues` (`Mathlib/Analysis/Matrix/Spectrum.lean`).
+
+Mathlib has no Rademacher complexity, PAC learnability, generalization bound, conformal
+prediction, differential privacy or fairness criterion.
+
+### From Tau Ceti
+
+- **Bounded differences:** `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences_fin`
+  (`TauCeti/Probability/McDiarmid.lean`): a measurable `f : (Fin n → β) → ℝ` that changes by at
+  most `c` when one coordinate changes satisfies `HasSubgaussianMGF` with parameter `n (c/2)²`
+  under the product measure, which gives McDiarmid's inequality.
+- **Bernstein's inequality:** `ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le`
+  (`TauCeti/Probability/Moments/Bernstein.lean`): for independent centred `X i` with `|X i| ≤ b`,
+  `μ(ε ≤ |∑ X i|) ≤ 2 exp(-ε²/(2(v + bε/3)))` with `v = ∑ E X i²`.
+- **Laplace laws:** `TauCeti.Probability.laplaceMeasure μ b`, the law with density
+  `(2b)⁻¹ exp(-|x - μ|/b)`, and `TauCeti.Probability.isProbabilityMeasure_laplaceMeasure` for
+  `b > 0` (`TauCeti/Probability/Distributions/Laplace/Basic.lean`).
+- **Exchangeability:** `TauCeti.Probability.ExchangeableFamily μ X`, equality of the joint laws
+  along injective selections of indices (`TauCeti/Probability/Exchangeability/Family.lean`).
+- **Empirical measures and order statistics:** `TauCeti.Probability.empiricalMeasure`, the
+  empirical probability measure of the first `n + 1` terms of a sequence
+  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`), and `TauCeti.orderStatistic`
+  (`TauCeti/Data/Fin/Tuple/OrderStatistic.lean`).
+- **Wasserstein convergence and quantization:**
+  `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae`
+  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Empirical.lean`): almost surely the
+  `p`-Wasserstein distance from the empirical measure to a law with finite `p`-th moment tends to
+  `0`; `TauCeti.wassersteinQuantizationError`
+  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/FiniteSupport.lean`) and
+  `TauCeti.exists_wassersteinEDist_eq_wassersteinQuantizationError`
+  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Quantization.lean`).
+- **Relative entropy:** the chain rule `TauCeti.klDiv_compProd_eq_add_lintegral` and the
+  tensorization `TauCeti.klDiv_prod_prod_eq_add`
+  (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`).
+
+### From MathematicalStatisticsAsymptotic
+
+- 3.2: pointwise separability, of which `IsPointwiseSeparable` is a local copy, and covering
+  and packing numbers.
+- 3.3: the finite sub-Gaussian maximal inequality and chaining with Mathlib's
+  `Metric.packingNumber`.
+- 3.5: the VC dimension of a family of sets, of which `vcDimSet` is a local copy, the
+  Sauer–Shelah bound for traces, and the uniform `L¹(Q)` covering bound for VC families.
+
+### From MathematicalStatisticsNonparametric
+
+- 1.4: Pinsker's inequality.
+- 2.2: Le Cam's two-point method in its total variation and Kullback–Leibler forms.
+- 5.6: `L²` consistency of the `k`-nearest-neighbour regression estimate, with distance ties
+  broken by index, for `k → ∞` and `k/n → 0`.
+- 5.8: the representer theorem for Mathlib's `RKHS`.
+
+### From MathematicalStatisticsFoundations
+
+- 8.5: i.i.d. sequences; 9.1: empirical measures and sample means; the Conventions on samples
+  and on `tvDist / 2`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
