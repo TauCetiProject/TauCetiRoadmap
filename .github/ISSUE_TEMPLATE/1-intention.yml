@@ -112,6 +112,7 @@ body:
         - ConvexLifting
         - CountableModelCounting
         - CountableStructureSpaces
+        - CountableStructureSpacesPartII
         - CrystallineCohomology
         - CrystallineCohomologyPartII
         - CyclotomicClassGroupsAndStickelberger
