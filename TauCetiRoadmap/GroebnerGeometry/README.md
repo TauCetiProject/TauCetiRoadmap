@@ -703,6 +703,8 @@ redundant monic generators of the Checks of §3.4 complete the regression set.
 Layer 2 §2.1 (toric ideals); Layer 1 §1.10; Tau Ceti's SAGBI library with the declarations named
 above.
 
+<a id="g4-rees-algebras-and-flat-initial-families"></a>
+
 ## Layer 4: Rees algebras and flat initial families
 
 ### 4.1 Weight filtrations and their Rees algebras
@@ -1352,6 +1354,17 @@ Left to other roadmaps:
   and manifolds are AnalyticToricGeometry's.
 - Executable procedures, their programs and complexity bounds are outside this roadmap; its
   completion statements (§§1.4, 3.7) are existence and termination theorems.
+
+Other roadmaps cite sections of this roadmap by the labels of its former numbering:
+
+| Former label | Now |
+|---|---|
+| G1 | Layer 1 |
+| G2 | Layer 2 |
+| G3 | Layer 3 |
+| G4 | Layer 4 |
+| G5 | Layer 5 |
+| G6 | Layer 6 |
 
 ## Exact supplier contracts
 
