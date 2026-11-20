@@ -121,7 +121,7 @@ sequence `s T : ℕ → ℝ≥0` (Pietsch 1974). *Needs:* Mathlib `ContinuousLin
 ### 1.2 s-number sequences
 
 Define `IsSNumberSequence s` as the conjunction of Pietsch's axioms, for all normed spaces and all
-bounded operators (Pietsch 1974):
+bounded operators (Ullrich 2026, §2):
 
 - (S1) `s T 0 = ‖T‖₊`, and `n ↦ s T n` is antitone;
 - (S2) `s (S + T) n ≤ s S n + ‖T‖₊`;
@@ -143,7 +143,7 @@ Define `IsStrictSNumberSequence s` as (S1)–(S4) together with (S5′): `s (id_
 normed space `X` with `n < Module.rank 𝕜 X`, including infinite-dimensional `X` (Pietsch 1974, §1;
 Ullrich 2024, Remark 1). Prove that (S5′) implies (S5), since `ℓ₂^{n+1}` has rank `n + 1`, so that a
 strict s-number sequence is an s-number sequence. *Needs:* §1.2; Mathlib `Module.rank`,
-`finrank_euclideanSpace`.
+`WithLp.linearEquiv`, `rank_fin_fun`.
 
 ### 1.4 Norm bound and continuity
 
@@ -238,12 +238,12 @@ linear functionals, which are continuous on `𝕜^{n+1}`) and proper, and Riesz'
 ### 1.13 Kolmogorov numbers are strict
 
 Prove `isStrictSNumberSequence_kolmogorov`: over a complete field (`CompleteSpace 𝕜`) the
-Kolmogorov numbers form a strict s-number sequence. For `rank V ≤ n < rank X` the
-finite-dimensional `V` is closed and proper, and Riesz's lemma gives, for every `r < 1`, a vector
-`x ≠ 0` with `dist (x, V) ≥ r ‖x‖`, so `‖π_V‖ = 1` and `dₙ(id_X) = 1`. Completeness of `𝕜` is
-needed: over `ℚ`, the line `ℚ · 1` is dense in the `ℚ`-normed space `ℝ`, so `d₁(id_ℝ) = 0`
-although `ℝ` has rank greater than `1`. *Needs:* §1.3, §1.12; Mathlib `riesz_lemma`,
-`Submodule.closed_of_finiteDimensional`.
+Kolmogorov numbers form a strict s-number sequence (Pietsch 1974, Theorem 5.1). For
+`rank V ≤ n < rank X` the finite-dimensional `V` is closed and proper, and Riesz's lemma gives,
+for every `r < 1`, a vector `x ≠ 0` with `dist (x, V) ≥ r ‖x‖`, so `‖π_V‖ = 1` and `dₙ(id_X) = 1`.
+Completeness of `𝕜` is needed: over `ℚ`, the line `ℚ · 1` is dense in the `ℚ`-normed space `ℝ`, so
+`d₁(id_ℝ) = 0` although `ℝ` has rank greater than `1`. *Needs:* §1.3, §1.12; Mathlib
+`riesz_lemma`, `Submodule.closed_of_finiteDimensional`.
 
 ### 1.14 Pietsch's lifting identity
 
@@ -296,7 +296,7 @@ Define `ContinuousLinearMap.bernsteinNumber`:
 ### 1.17 Bernstein numbers are strict
 
 Prove `isStrictSNumberSequence_bernstein`: over any nontrivially normed field `bernstein` is a strict
-s-number sequence (Pietsch 1974, §4, Theorems 4.5, 4.6). (S2) is the pointwise triangle inequality
+s-number sequence (Pietsch 1974, Theorem 4.5). (S2) is the pointwise triangle inequality
 through infimum and supremum. (S3): if `A` is not injective on `M` the gain of `B T A` vanishes,
 and otherwise `A(M)` has dimension `n + 1`. (S4) is rank–nullity. (S5′) holds because the
 identity has gain `1` on every nonzero subspace. *Needs:* §1.3, §1.16; Mathlib
@@ -357,12 +357,13 @@ for every metric surjection `Q`, for all operators and indices
 ### 1.23 Gelfand numbers are injective
 
 Prove `injective_gelfand`: `cₙ(J ∘L T) = cₙ(T)`, over any nontrivially normed field, since
-`‖J ∘ T|_M‖ = ‖T|_M‖` for every `M`. *Needs:* §1.8, §1.22.
+`‖J ∘ T|_M‖ = ‖T|_M‖` for every `M` (Pietsch 1974, Theorem 4.1). *Needs:* §1.8, §1.22.
 
 ### 1.24 Kolmogorov numbers are surjective
 
 Prove `surjective_kolmogorov`: `dₙ(T ∘L Q) = dₙ(T)` over every nontrivially normed field, for the
-quotient form of §1.10, since `‖π_V ∘ T ∘ Q‖ = ‖π_V ∘ T‖` by §1.21. *Needs:* §1.10, §1.21, §1.22.
+quotient form of §1.10, since `‖π_V ∘ T ∘ Q‖ = ‖π_V ∘ T‖` by §1.21 (Pietsch 1974, Theorem 5.1).
+*Needs:* §1.10, §1.21, §1.22.
 
 **Checks.**
 - On finitely supported sequences over `ℚ₂` with the norm `maxᵢ (1 + 1/(i+2)) |wᵢ|₂` and
@@ -399,26 +400,29 @@ of rank `≤ n` (Pietsch 1987, Chapter 2). *Needs:* §1.2; Tau Ceti `le_singular
 
 ### 2.2 Scalar factorization
 
-Prove `exists_comp_comp_eq_smul_id`: over `RCLike 𝕜`, for complete Hilbert spaces `H₁`, `H₂`, every
-bounded `T : H₁ →L[𝕜] H₂` and every `0 ≤ c < aₙ(T)`, there are `A : ℓ₂^{n+1} →L[𝕜] H₁` and
-`B : H₂ →L[𝕜] ℓ₂^{n+1}` with `‖A‖ ≤ 1`, `‖B‖ ≤ 1` and `B ∘L T ∘L A = c • id`. Route: the converse
-min–max localization gives an `(n+1)`-dimensional `V` with `‖T x‖ ≥ c' ‖x‖` on `V` for some
-`c' > c`; take `A` an isometry onto `V` and `B := c • (T ∘ A)⁻¹ ∘ P_{T(V)}` with the orthogonal
-projection onto `T(V)`. *Needs:* Tau Ceti `TauCeti.HasMinMaxLowerBound.of_completeSpace`; Mathlib
-`EuclideanSpace`, `Submodule.orthogonalProjection`.
+Prove `exists_comp_comp_eq_smul_id`: over `RCLike 𝕜`, for a complete inner product space `H₁`, an
+inner product space `H₂`, every bounded `T : H₁ →L[𝕜] H₂` and every `0 ≤ c < aₙ(T)`, there are
+`A : ℓ₂^{n+1} →L[𝕜] H₁` and `B : H₂ →L[𝕜] ℓ₂^{n+1}` with `‖A‖ ≤ 1`, `‖B‖ ≤ 1` and
+`B ∘L T ∘L A = c • id`. Route: the converse min–max localization gives an `(n+1)`-dimensional `V`
+with `‖T x‖ ≥ c' ‖x‖` on `V` for some `c' > c`; take `A` an isometry onto `V` and
+`B := c • (T ∘ A)⁻¹ ∘ P_{T(V)}` with the orthogonal projection onto the finite-dimensional, hence
+complete, `T(V)` (Lean-SNumbers blueprint, Theorem 6.8). *Needs:* Tau Ceti
+`TauCeti.HasMinMaxLowerBound.of_completeSpace`; Mathlib `EuclideanSpace`,
+`Submodule.orthogonalProjection`.
 
 ### 2.3 Uniqueness on Hilbert spaces
 
 Prove `IsSNumberSequence.eq_singularValue`: over `RCLike 𝕜`, `s T n = aₙ(T)` for every s-number
-sequence `s` and every `T : H₁ →L[𝕜] H₂` between complete Hilbert spaces. One inequality is §2.1;
-for `c < aₙ(T)`, chain (S3), (S5) and §1.5 on §2.2 to get `c ≤ s T n` (Pietsch 1987, Chapter 2).
-*Needs:* §1.5, §2.1, §2.2.
+sequence `s` and every `T : H₁ →L[𝕜] H₂` from a complete inner product space to an inner product
+space. One inequality is §2.1; for `c < aₙ(T)`, chain (S3), (S5) and §1.5 on §2.2 to get
+`c ≤ s T n` (Pietsch 1987, Chapter 2). *Needs:* §1.5, §2.1, §2.2.
 
 ### 2.4 Lower bound by Hilbert numbers
 
 Prove `IsSNumberSequence.hilbertNumber_le`: over `RCLike 𝕜`, `hₙ(T) ≤ s T n` for every s-number
 sequence. Each `aₙ(B T A)` in the supremum defining `hₙ` equals `s (B T A) n` by §2.3 and is at
-most `s T n` by (S3). Together with §2.1: `hₙ(T) ≤ sₙ(T) ≤ aₙ(T)`. *Needs:* §1.18, §2.3.
+most `s T n` by (S3). Together with §2.1: `hₙ(T) ≤ sₙ(T) ≤ aₙ(T)` (Lean-SNumbers blueprint,
+Theorem 4.2; Ullrich 2026, §1). *Needs:* §1.18, §2.3.
 
 ### 2.5 Singular values in finite dimension
 
@@ -477,7 +481,8 @@ criterion for approximation numbers on Hilbert targets. *Needs:* §2.3; Tau Ceti
 
 Prove `bernsteinNumber_le_gelfandNumber`: `bₙ(T) ≤ cₙ(T)` over any nontrivially normed field. An
 `(n+1)`-dimensional `M` and a closed `N` of codimension `≤ n` meet in a nonzero vector `x`, so the
-gain of `T` on `M` is at most `‖T x‖ / ‖x‖ ≤ ‖T|_N‖` (Pietsch 1974). *Needs:* §1.8, §1.16.
+gain of `T` on `M` is at most `‖T x‖ / ‖x‖ ≤ ‖T|_N‖` (Pietsch 1974, Theorem 8.1). *Needs:* §1.8,
+§1.16.
 
 ### 2.12 Bernstein numbers are the smallest injective strict s-numbers
 
@@ -485,8 +490,8 @@ Prove `IsStrictSNumberSequence.bernsteinNumber_le`: over any nontrivially normed
 `bₙ(T) ≤ sₙ(T)` for every injective strict s-number sequence `s`. If `T` has gain `c > 0` on an
 `(n+1)`-dimensional `M`, then `T|_M = ι ∘ T₀` with `ι` the inclusion of `T(M)` (a metric
 injection) and `T₀ : M → T(M)` invertible with `‖T₀⁻¹‖ ≤ 1/c`. Injectivity, (S3) and (S5′) give
-`1 = sₙ(id_M) ≤ c⁻¹ sₙ(T₀) = c⁻¹ sₙ(T|_M) ≤ c⁻¹ sₙ(T)` (Pietsch 1974). *Needs:* §1.3, §1.16,
-§1.22.
+`1 = sₙ(id_M) ≤ c⁻¹ sₙ(T₀) = c⁻¹ sₙ(T|_M) ≤ c⁻¹ sₙ(T)` (Pietsch 1974, Theorem 4.6). *Needs:*
+§1.3, §1.16, §1.22.
 
 ### Examples
 
@@ -530,7 +535,8 @@ BanachSpaceTheory B7 (the Kadec–Snobar projection theorem); Tau Ceti `singular
 
 ### 3.3 Combined bound
 
-Prove `aₙ(T) ≤ (1 + √n) min (cₙ(T), dₙ(T))`, from §3.1 and §3.2. *Needs:* §3.1, §3.2.
+Prove `aₙ(T) ≤ (1 + √n) min (cₙ(T), dₙ(T))`, from §3.1 and §3.2 (Pietsch 1974, Theorem 8.4, whose
+proof gives the factor `1 + √n` in this indexing). *Needs:* §3.1, §3.2.
 
 ### 3.4 Determinant quantities
 
@@ -554,10 +560,10 @@ Define `ContinuousLinearMap.detNumber`: for `k : ℕ`,
 ### 3.5 Product of approximation numbers
 
 Prove that for an endomorphism `S` of a finite-dimensional inner product space of dimension `m`
-over `RCLike 𝕜`, `∏_{k < m} a_k(S) = |det S|`. Route: the Eckart–Young identification and Mathlib's
-`LinearMap.normDet_eq_prod_singularValues` with `LinearMap.normDet_eq_norm_det`. *Needs:* Tau Ceti
-`singularValue_eq_linearMap_singularValues`; Mathlib `LinearMap.normDet_eq_prod_singularValues`,
-`LinearMap.normDet_eq_norm_det`.
+over `RCLike 𝕜`, `∏_{k < m} a_k(S) = |det S|` (Lean-SNumbers blueprint, Lemma 7.9). Route: the
+Eckart–Young identification and Mathlib's `LinearMap.normDet_eq_prod_singularValues` with
+`LinearMap.normDet_eq_norm_det`. *Needs:* Tau Ceti `singularValue_eq_linearMap_singularValues`;
+Mathlib `LinearMap.normDet_eq_prod_singularValues`, `LinearMap.normDet_eq_norm_det`.
 
 ### 3.6 Bordered determinant
 
@@ -571,10 +577,13 @@ kills the last column off the diagonal, then expand along the last column. *Need
 ### 3.7 Lower recursion
 
 Prove `pow_div_mul_singularValue_mul_detNumber_le`:
-`k^k / (k+1)^{k+1} * a_k(T) * Δ_k(T) ≤ Δ_{k+1}(T)`, with `0⁰ = 1` (Ullrich 2026). Route: border an
-admissible pair for `Δ_k` by a vector of `B_X` on which a near-best rank-`k` approximant of `T` is
-far from `T`, and optimize the weight of the new coordinate. *Needs:* §3.4, §3.6; Tau Ceti
-`exists_rank_le_nnnorm_sub_lt`.
+`k^k / (k+1)^{k+1} * a_k(T) * Δ_k(T) ≤ Δ_{k+1}(T)`, with `0⁰ = 1` (Ullrich 2026). Route: for an
+admissible pair `(A, B)` for `Δ_k` with `det (B T A) ≠ 0`, the operator `L := T A (B T A)⁻¹ B T`
+has rank at most `k`, so `‖T − L‖ ≥ a_k(T)`. Border the pair by a vector `x ∈ B_X` on which
+`T − L` nearly attains its norm and a functional `b` of norm `≤ 1` norming `(T − L) x`; by §3.6 the
+bordered determinant is `λ^{2k} μ² · b((T − L) x) · det (B T A)` for weights `λ² + μ² = 1`, and
+optimize the weights. *Needs:* §3.4, §3.6; Tau Ceti `singularValue_le_nnnorm_sub`; Mathlib
+`exists_dual_vector''`.
 
 ### 3.8 Upper recursion
 
@@ -674,8 +683,9 @@ Pietsch 1974, Theorem 9.5; multiplicativity: Lean-SNumbers blueprint, Theorem 3.
 ### 3.19 Hilbert numbers are additive
 
 Prove `additive_hilbert`: `h_{m+n}(S + T) ≤ h_m(S) + h_n(T)`, from the mixed-index additivity of
-the approximation numbers under the supremum. The Hilbert numbers are not multiplicative (§5.14).
-*Needs:* §1.18, §3.16; Tau Ceti `singularValue_add_index_le`.
+the approximation numbers under the supremum (Lean-SNumbers blueprint, Proposition 3.12). The
+Hilbert numbers are not multiplicative (§5.14). *Needs:* §1.18, §3.16; Tau Ceti
+`singularValue_add_index_le`.
 
 ### 3.20 Bernstein numbers of the identities between `ℓ₂^N` and `ℓ∞^N`
 
@@ -685,7 +695,8 @@ Prove that for `n < N`, `bₙ(id : ℓ₂^N → ℓ∞^N) ≤ 1/√(n+1)` and
 least `n+1` of which have modulus `1`. For the second, take an orthonormal basis `v₀, …, vₙ` of
 an `(n+1)`-dimensional `M` and a coordinate `k`. The vector `x = ∑ᵢ conj(vᵢ(k)) vᵢ ∈ M` has
 `x(k) = ‖x‖₂²`, so `‖x‖₂² ≤ c⁻²` for the gain `c` on `M`, and summing over `k` gives
-`c² (n+1) ≤ N`. *Needs:* §1.16; Mathlib `EuclideanSpace`, `PiLp`, `OrthonormalBasis`.
+`c² (n+1) ≤ N` (Lean-SNumbers blueprint, proof of Theorem 3.4; the vector of the first bound is
+Pietsch 1974, Lemma 7.1). *Needs:* §1.16; Mathlib `EuclideanSpace`, `PiLp`, `OrthonormalBasis`.
 
 ### 3.21 Bernstein numbers are not multiplicative
 
@@ -848,8 +859,8 @@ and §4.5 (Carl–Stephani 1990, Chapters 1–2). *Needs:* §2.2, §4.5, §4.9.
 ### 4.13 Hilbert numbers against entropy numbers
 
 Prove `hilbertNumber_le_two_mul_entropyNumber`: `hₙ(T) ≤ 2 eₙ(T)`. Each `aₙ(B T A)` in §1.18 is at
-most `2 eₙ(B T A) ≤ 2 ‖B‖ eₙ(T) ‖A‖` by §4.12 and §4.5 (Carl–Stephani 1990, Chapters 1–2). *Needs:*
-§1.18, §4.5, §4.12.
+most `2 eₙ(B T A) ≤ 2 ‖B‖ eₙ(T) ‖A‖` by §4.12 and §4.5 (Pietsch 1980, 12.3.1; Carl–Stephani 1990,
+Chapters 1–2). *Needs:* §1.18, §4.5, §4.12.
 
 ### 4.14 Entropy numbers bound every s-number sequence
 
@@ -909,7 +920,7 @@ Define the diagonal operator `ContinuousLinearMap.diagOp`: for `σ : Fin m → �
 `D_σ = diagOp p q σ : ℓ_q^m → ℓ_p^m`, `(D_σ x)_i = σ_i x_i`. Prove that for
 `1 ≤ p ≤ ∞` and `σ : Fin m → 𝕜` with `|σ|` nonincreasing, `D_σ : ℓ_p^m → ℓ_p^m` has
 `‖D_σ‖ = max |σ_i|`, and prove `IsStrictSNumberSequence.apply_diagOp`: `s (D_σ) n = |σₙ|` for every
-strict s-number sequence and `n < m`. The upper bound is §2.1 with the
+strict s-number sequence and `n < m` (Pietsch 1974, Theorem 7.1). The upper bound is §2.1 with the
 truncation of `σ` after `n` terms; the lower bound restricts `D_σ` to the first `n + 1`
 coordinates, where it is invertible with inverse of norm `|σₙ|⁻¹` when `σₙ ≠ 0`, and applies
 (S5′). *Needs:* §1.3, §2.1; Mathlib `PiLp`, `WithLp.linearEquiv`.
@@ -925,7 +936,7 @@ Prove `singularValue_diagOp`: for `1 ≤ p < q < ∞`, `1/r = 1/p − 1/q`, `|σ
 
 Prove that for `1 ≤ q ≤ p ≤ ∞`, `m ≥ 1` and `σ : Fin m → 𝕜` with `|σ|` nonincreasing,
 `D_σ : ℓ_q^m → ℓ_p^m` has `‖D_σ‖ = max |σ_i|` and `s (D_σ) n ≤ |σₙ|` for every s-number sequence
-and `n < m` (Pietsch 1974, §7). *Needs:* §2.1, §5.4.
+and `n < m` (Lean-SNumbers blueprint, Theorem 8.6). *Needs:* §2.1, §5.4.
 
 **Checks.**
 - `σ = (0, 1)`, `p = q = 2`, `n = 0` violates the ordering, and indeed `a₀(D_σ) = ‖D_σ‖ = 1 > 0`.
@@ -948,8 +959,9 @@ Prove that for `B : ℓ∞ →L[𝕜] H`, `∑_{j ∈ J} ‖B e_j‖² ≤ ‖B�
 Prove that if `T = T₂ ∘L T₁` is compact, with `T₁ : H₁ →L H₂` and `T₂ : H₂ →L H₃` between complete
 Hilbert spaces, and `∑_{k ∈ s} ‖T₁ u_k‖² ≤ a²`, `∑_{k ∈ s} ‖T₂† v_k‖² ≤ b²` for all finite `s` and
 all orthonormal families `(u_k)`, `(v_k)`, with `a, b ≥ 0`, then
-`(n+1) aₙ(T) ≤ ∑_{k ≤ n} a_k(T) ≤ a b`. Route: the Schmidt series of `T` gives
-`∑_{k ≤ n} a_k(T) = ∑_{k ≤ n} ⟪T₁ e_k, T₂† f_k⟫`, and the Cauchy–Schwarz inequality concludes.
+`(n+1) aₙ(T) ≤ ∑_{k ≤ n} a_k(T) ≤ a b` (Lean-SNumbers blueprint, Theorem 8.10). Route: the Schmidt
+series of `T` gives `∑_{k ≤ n} a_k(T) = ∑_{k ≤ n} ⟪T₁ e_k, T₂† f_k⟫`, and the Cauchy–Schwarz
+inequality concludes.
 *Needs:* BanachSpaceTheory B4 (the Schmidt series with `sⱼ = aⱼ(T)`); Tau Ceti
 `antitone_singularValue`; Mathlib `ContinuousLinearMap.adjoint`.
 
@@ -967,10 +979,11 @@ nearly equal values under all of them, and a small correction of `e_k − e_l` l
 
 ### 5.11 Hilbert numbers of the inclusion
 
-Prove `hilbertNumber_inclusion_l1_linfty`: `hₙ(I) = 1 / (n+1)` (Ullrich 2026). The upper bound
-comes from §5.8 and §5.9 applied to `B I A = (B ∘ ι₂) ∘ (ι₁ ∘ A)` with the inclusions
-`ι₁ : ℓ₁ → ℓ₂`, `ι₂ : ℓ₂ → ℓ∞`. The lower bound comes from `A := (n+1)^{-1/2} id : ℓ₂^{n+1} → ℓ₁^{n+1}`
-and `B := (n+1)^{-1/2} id : ℓ∞^{n+1} → ℓ₂^{n+1}`, embedded in the first `n + 1` coordinates.
+Prove `hilbertNumber_inclusion_l1_linfty`: `hₙ(I) = 1 / (n+1)` (Lean-SNumbers blueprint,
+Corollary 8.14). The upper bound comes from §5.8 and §5.9 applied to `B I A = (B ∘ ι₂) ∘ (ι₁ ∘ A)`
+with the inclusions `ι₁ : ℓ₁ → ℓ₂`, `ι₂ : ℓ₂ → ℓ∞`. The lower bound comes from
+`A := (n+1)^{-1/2} id : ℓ₂^{n+1} → ℓ₁^{n+1}` and `B := (n+1)^{-1/2} id : ℓ∞^{n+1} → ℓ₂^{n+1}`,
+embedded in the first `n + 1` coordinates.
 *Needs:* §1.18, §5.8, §5.9.
 
 ### 5.12 The factor `n+1` is of the right order
@@ -982,8 +995,8 @@ Prove `mul_hilbertNumber_le_gelfandNumber_inclusion`: `(n+1)/2 * hₙ(I) ≤ c�
 ### 5.13 Hilbert numbers of the identity of `ℓ₁^m`
 
 Prove `le_hilbertNumber_id_piLp_one`: for `n < m`, `(n+1)^{-1/2} ≤ hₙ(id_{ℓ₁^m})`, and the upper
-bound `hₙ(id_{ℓ₁^m}) ≤ κ_𝕜 (n+1)^{-1/2}`, with `κ_𝕜` the Grothendieck constant of
-BanachSpaceTheory B6 (`κ_ℝ = 8`, `κ_ℂ = 16`). In particular there is one constant `κ` with
+bound `hₙ(id_{ℓ₁^m}) ≤ κ_𝕜 (n+1)^{-1/2}`, with `κ_𝕜` the constant with which BanachSpaceTheory B6
+proves Grothendieck's theorem (`κ_ℝ = 8`, `κ_ℂ = 16`). In particular there is one constant `κ` with
 `hₙ(id_{ℓ₁^m}) ≤ κ (n+1)^{-1/2}` for all `m` and `n`, which is `exists_hilbertNumber_id_piLp_one_le`.
 
 - Lower bound: `A := (n+1)^{-1/2} id : ℓ₂^{n+1} → ℓ₁^{n+1}` and `B := id : ℓ₁^{n+1} → ℓ₂^{n+1}`,
@@ -1004,7 +1017,8 @@ series), or Tau Ceti `tsum_singularValue_sq_le_hilbertSchmidtEnergy` for the las
 
 ### 5.14 The Hilbert numbers are not multiplicative
 
-Prove `not_multiplicative_hilbert`. For `n` with `(n+1)² > κ_𝕜⁴ (2n+1)` and `m > 2n`, §5.13 gives
+Prove `not_multiplicative_hilbert` (derived here from §5.13). For `n` with
+`(n+1)² > κ_𝕜⁴ (2n+1)` and `m > 2n`, §5.13 gives
 `h_{2n}(id_{ℓ₁^m}) ≥ (2n+1)^{-1/2} > κ_𝕜² (n+1)^{-1} ≥ hₙ(id_{ℓ₁^m})²`, while multiplicativity would
 give `h_{2n}(id ∘ id) ≤ hₙ(id)²`. *Needs:* §3.16, §5.13.
 
@@ -1138,7 +1152,7 @@ All the declarations below are proved at the pin. Paths are under `TauCeti/`.
   `singularValue` (`aₙ(T) = ⨅ {‖T − R‖₊ : rank R ≤ n}`, zero-based, in `ℝ≥0`);
   `singularValue_zero` (`a₀(T) = ‖T‖₊`); `antitone_singularValue`; `singularValue_le_nnnorm`;
   `singularValue_le_nnnorm_sub` (`aₙ(T) ≤ ‖T − R‖₊` for `rank R ≤ n`); `le_singularValue_iff`;
-  `exists_rank_le_nnnorm_sub_lt` (near-best approximants); `singularValue_eq_zero_of_rank_le`;
+  `singularValue_eq_zero_of_rank_le`;
   `singularValue_add_le` (`aₙ(S + T) ≤ aₙ(S) + ‖T‖₊`); `singularValue_add_index_le`
   (`a_{m+n}(S + T) ≤ aₘ(S) + aₙ(T)`); `abs_singularValue_sub_singularValue_le`;
   `singularValue_comp_comp_le` (`aₙ(A T B) ≤ ‖A‖₊ aₙ(T) ‖B‖₊`); `singularValue_comp_add_le_mul`

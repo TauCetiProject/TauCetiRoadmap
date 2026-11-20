@@ -22,7 +22,8 @@ dual operator `T' : Y* → X*` is Mathlib's `ContinuousLinearMap.precomp 𝕜 T`
 
 Every headline theorem of the README is statable at the pins and is stated below. The upper bound
 for the Hilbert numbers of the identities of `ℓ₁ᵐ` (README §5.13) is stated as the existence of
-one constant for all `m` and `n`; the README identifies the constant as Grothendieck's.
+one constant for all `m` and `n`; the README takes for it the constant with which
+BanachSpaceTheory B6 proves Grothendieck's theorem (`8` over `ℝ`, `16` over `ℂ`).
 
 The unit-ball form of the Kolmogorov numbers (README §1.11) rests on the Mathlib theorem
 `ContinuousLinearMap.sSup_unitClosedBall_eq_nnnorm`, pinned below.
@@ -181,7 +182,7 @@ theorem isStrictSNumberSequence_gelfand : IsStrictSNumberSequence (gelfand (𝕜
 theorem isStrictSNumberSequence_kolmogorov [CompleteSpace 𝕜] :
     IsStrictSNumberSequence (kolmogorov (𝕜 := 𝕜)) := sorry
 
-/-- The Bernstein numbers form a strict s-number sequence (Pietsch 1974, Theorems 4.5, 4.6;
+/-- The Bernstein numbers form a strict s-number sequence (Pietsch 1974, Theorem 4.5;
 README §1.17). -/
 theorem isStrictSNumberSequence_bernstein : IsStrictSNumberSequence (bernstein (𝕜 := 𝕜)) :=
   sorry
@@ -270,20 +271,21 @@ variable {s : SNumberFamily 𝕜}
 variable {X Y : Type u} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
   [NormedAddCommGroup Y] [NormedSpace 𝕜 Y]
 
-/-- The scalar factorization through `ℓ₂ⁿ⁺¹` below `aₙ(T)` on Hilbert spaces: for `0 ≤ c < aₙ(T)`
-there are contractions `A`, `B` with `B T A = c • id` (README §2.2). -/
+/-- The scalar factorization through `ℓ₂ⁿ⁺¹` below `aₙ(T)`, from a complete inner product space
+to an inner product space: for `0 ≤ c < aₙ(T)` there are contractions `A`, `B` with
+`B T A = c • id` (README §2.2). -/
 theorem exists_comp_comp_eq_smul_id {H₁ H₂ : Type u}
     [NormedAddCommGroup H₁] [InnerProductSpace 𝕜 H₁] [CompleteSpace H₁]
-    [NormedAddCommGroup H₂] [InnerProductSpace 𝕜 H₂] [CompleteSpace H₂]
+    [NormedAddCommGroup H₂] [InnerProductSpace 𝕜 H₂]
     (T : H₁ →L[𝕜] H₂) (n : ℕ) {c : ℝ} (hc0 : 0 ≤ c) (hc : c < T.singularValue n) :
     ∃ (A : EuclideanSpace 𝕜 (Fin (n + 1)) →L[𝕜] H₁) (B : H₂ →L[𝕜] EuclideanSpace 𝕜 (Fin (n + 1))),
       ‖A‖ ≤ 1 ∧ ‖B‖ ≤ 1 ∧ B ∘L T ∘L A = (c : 𝕜) • ContinuousLinearMap.id 𝕜 _ := sorry
 
-/-- On Hilbert spaces every s-number sequence is the sequence of approximation numbers
-(README §2.3). -/
+/-- From a complete inner product space to an inner product space, every s-number sequence is the
+sequence of approximation numbers (README §2.3). -/
 theorem IsSNumberSequence.eq_singularValue {H₁ H₂ : Type u}
     [NormedAddCommGroup H₁] [InnerProductSpace 𝕜 H₁] [CompleteSpace H₁]
-    [NormedAddCommGroup H₂] [InnerProductSpace 𝕜 H₂] [CompleteSpace H₂]
+    [NormedAddCommGroup H₂] [InnerProductSpace 𝕜 H₂]
     (hs : IsSNumberSequence s) (T : H₁ →L[𝕜] H₂) (n : ℕ) :
     s T n = T.singularValue n := sorry
 
