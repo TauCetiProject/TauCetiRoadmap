@@ -216,7 +216,7 @@ variable with that law (`TauCeti.Probability.hasPDF_of_hasLaw_withDensity`), and
 σ-finite the pdf of such a variable is `f` almost everywhere
 (`TauCeti.Probability.pdf_eq_of_hasLaw_withDensity`); neither statement asks anything of the
 source measure. Every family statement below factors through these two bridges, on the parameter
-range where the law is absolutely continuous (Billingsley). For a variable `X` on a measure space
+range where the law is absolutely continuous (Billingsley, §32). For a variable `X` on a measure space
 `(Ω, P)`:
 
 - **Gamma**, for all real shape `a` and rate `r`, with no positivity hypothesis: if `X` has law
@@ -265,7 +265,7 @@ range where the law is absolutely continuous (Billingsley). For a variable `X` o
 ### 0.2 Radon–Nikodym derivatives
 
 The Radon–Nikodym derivative of each law against Lebesgue measure is its named density almost
-everywhere, for every parameter value (Billingsley):
+everywhere, for every parameter value (Billingsley, §32):
 
 - Gamma: `TauCeti.Probability.rnDeriv_gammaMeasure` (`gammaPDF a r`, all real `a, r`);
 - Beta: `TauCeti.Probability.rnDeriv_betaMeasure` (`betaPDF α β`);
@@ -295,7 +295,7 @@ The interval uniform law is `TauCeti.Probability.uniformMeasure a b`, the condit
 measure `cond volume (Ioc a b)` (Mathlib `ProbabilityTheory.cond`). It is the zero measure when
 `b ≤ a` (`TauCeti.Probability.uniformMeasure_eq_zero_of_le`) and a probability measure when `a < b`
 (`TauCeti.Probability.isProbabilityMeasure_uniformMeasure`). For `a < b` (Johnson, Kotz and
-Balakrishnan, vol. 2):
+Balakrishnan, vol. 2, ch. 26):
 
 - its real density is `f(x) = (b − a)⁻¹` on `(a, b]` and `0` elsewhere
   (`TauCeti.Probability.uniformPDFReal`); its `ℝ≥0∞`-valued density is Mathlib's
@@ -503,7 +503,7 @@ with the Bernoulli law as the case `n = 1`.
 
 ### 1.3 Geometric
 
-Fix `p ∈ [0, 1]` and `q = 1 − p` (Johnson, Kemp and Kotz). Mathlib's
+Fix `p ∈ [0, 1]` and `q = 1 − p` (Johnson, Kemp and Kotz, ch. 5). Mathlib's
 `ProbabilityTheory.geometricMeasure p` counts failures before the first success: for `p ≠ 0` it is
 the weighted Dirac sum with masses `qᵏ p` (`ProbabilityTheory.geometricMeasure_eq`,
 `ProbabilityTheory.geometricMeasure_real_singleton`), every mass being positive when `p ∉ {0, 1}`
@@ -589,7 +589,7 @@ cumulative masses through the incomplete Gamma function are in §2.4.
 
 For a rate `r > 0`, Mathlib's `ProbabilityTheory.expMeasure r` is `gammaMeasure 1 r`, with density
 `re^(−rx)` on `x ≥ 0` (`ProbabilityTheory.exponentialPDF`); for `r ≤ 0` it is the zero measure
-(`ProbabilityTheory.expMeasure_of_nonpos`) (Johnson, Kotz and Balakrishnan, vol. 1). For `r > 0`:
+(`ProbabilityTheory.expMeasure_of_nonpos`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 19). For `r > 0`:
 
 - mean `r⁻¹` and variance `r⁻²` (`TauCeti.Probability.integral_id_expMeasure`,
   `TauCeti.Probability.variance_id_expMeasure`);
@@ -620,7 +620,7 @@ For a rate `r > 0`, Mathlib's `ProbabilityTheory.expMeasure r` is `gammaMeasure 
 
 For shape `a > 0` and rate `r > 0`, `ProbabilityTheory.gammaMeasure a r` has density
 `r^a Γ(a)⁻¹ x^(a−1) e^(−rx)` on `x ≥ 0` and is a probability measure
-(`ProbabilityTheory.isProbabilityMeasure_gammaMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1).
+(`ProbabilityTheory.isProbabilityMeasure_gammaMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 17).
 For `a, r > 0`:
 
 - mean `a/r` and variance `a/r²` (`TauCeti.Probability.integral_id_gammaMeasure`,
@@ -654,7 +654,7 @@ For `a, r > 0`:
 
 For `α, β > 0`, `ProbabilityTheory.betaMeasure α β` has density
 `B(α, β)⁻¹ x^(α−1) (1 − x)^(β−1)` on `(0, 1)` (`ProbabilityTheory.betaPDF`) and is a probability
-measure (`ProbabilityTheory.isProbabilityMeasureBeta`) (Johnson, Kotz and Balakrishnan, vol. 2).
+measure (`ProbabilityTheory.isProbabilityMeasureBeta`) (Johnson, Kotz and Balakrishnan, vol. 2, ch. 25).
 For `α, β > 0`:
 
 - mean `α/(α + β)` and variance `αβ/((α + β)²(α + β + 1))`
@@ -679,7 +679,7 @@ At `α = 0` the law is the zero measure (`TauCeti.Probability.betaMeasure_zero_l
 
 For a location `x₀ ∈ ℝ` and a scale `γ ∈ ℝ≥0`, `ProbabilityTheory.cauchyMeasure x₀ γ` is a
 probability measure for every scale (`ProbabilityTheory.instIsProbabilityMeasure_cauchyMeasure`)
-(Johnson, Kotz and Balakrishnan, vol. 1). For every `γ`, `φ(t) = e^(ix₀t − γ|t|)`
+(Johnson, Kotz and Balakrishnan, vol. 1, ch. 16). For every `γ`, `φ(t) = e^(ix₀t − γ|t|)`
 (`TauCeti.Probability.charFun_cauchyMeasure`). At `γ = 0` the law is `δ_x₀`
 (`ProbabilityTheory.cauchyMeasure_zero_scale`) and the Dirac package of §0.5 specializes: cdf the
 step at `x₀`, mean `x₀`, variance `0`, `D = ℝ`, `M(t) = e^(tx₀)`, `K(t) = tx₀`
@@ -714,7 +714,7 @@ nonempty finite index type); no statement about an empty average is part of this
 
 For a threshold `t > 0` and a shape `r > 0`, `ProbabilityTheory.paretoMeasure t r` has density
 `r tʳ x^(−(r+1))` on `x ≥ t` and is a probability measure
-(`ProbabilityTheory.isProbabilityMeasure_paretoMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1).
+(`ProbabilityTheory.isProbabilityMeasure_paretoMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 20).
 For `t, r > 0`:
 
 - `F(x) = 0` for `x < t` and `F(x) = 1 − (t/x)ʳ` for `x ≥ t`
@@ -741,7 +741,7 @@ For `t, r > 0`:
 ### 1.10 Real Gaussian
 
 For `ProbabilityTheory.gaussianReal m v` with `m ∈ ℝ`, `v ∈ ℝ≥0` (Johnson, Kotz and Balakrishnan,
-vol. 1), for every natural `n`:
+vol. 1, ch. 13), for every natural `n`:
 
 - the even central moments are `E[(X − m)^(2n)] = vⁿ (2n − 1)!!`
   (`TauCeti.Probability.centralMoment_id_two_mul_gaussianReal`, with the integral form
@@ -772,7 +772,7 @@ forms for noncentral absolute moments are not part of this roadmap.
 ### 1.11 Real-power moments
 
 With valid parameters and real exponents through `Real.rpow`, the following hold, with the exact
-integrability criteria (Johnson, Kotz and Balakrishnan, vol. 1 for Gamma and Pareto, vol. 2 for
+integrability criteria (Johnson, Kotz and Balakrishnan, vol. 1, chs. 17 and 20 for Gamma and Pareto, vol. 2, ch. 25 for
 Beta). The value of `x^q` at the null endpoint `0` does not affect them.
 
 | Law and integrand | Value | Integrable exactly when |
@@ -794,7 +794,7 @@ for every `n` (`TauCeti.Probability.integral_pow_gammaMeasure`,
 `n < a` (`TauCeti.Probability.integral_inv_pow_gammaMeasure`,
 `TauCeti.Probability.integrable_inv_pow_gammaMeasure_iff`); for Beta, §1.7
 (`TauCeti.Probability.integral_pow_betaMeasure`, `TauCeti.Probability.integrable_pow_betaMeasure`).
-For Pareto with `t, r > 0`, prove that for every natural `n`, `Xⁿ` is integrable exactly when
+For Pareto with `t, r > 0`, the Pareto row at `q = n` gives, through `Real.rpow_natCast`, that for every natural `n`, `Xⁿ` is integrable exactly when
 `n < r`, and that then `E[Xⁿ] = r tⁿ/(r − n)`; the cases `n = 1, 2` are §1.9.
 
 *Needs:* Mathlib `Real.rpow`, `Real.rpow_natCast`, `Real.Gamma`, `ProbabilityTheory.beta`; §1.6,
@@ -812,7 +812,7 @@ For Pareto with `t, r > 0`, prove that for every natural `n`, `Xⁿ` is integrab
 For an `ℕ`-valued `X` on `(Ω, μ)` and real `z`, the probability generating function is
 `TauCeti.Probability.pgf X μ z = ∫ ω, z^(X ω) ∂μ` (`TauCeti.Probability.pgf_def`), and
 `pgf X μ (e^t) = mgf (X cast to ℝ) μ t` for every real `t` (`TauCeti.Probability.pgf_exp`)
-(Johnson, Kemp and Kotz). On generating functions:
+(Johnson, Kemp and Kotz, ch. 1). On generating functions:
 
 - **Independent sums.** For independent `X, Y` and real `z` with `z^X` and `z^Y` integrable,
   `pgf (X + Y) μ z = pgf X μ z · pgf Y μ z`, for any measure (`TauCeti.Probability.IndepFun.pgf_add`);
@@ -1074,7 +1074,7 @@ The Laplace law is `TauCeti.Probability.laplaceMeasure m b`, the measure with de
 `TauCeti.Probability.laplacePDFReal m b x = e^(−|x − m|/b)/(2b)` for `b > 0`
 (`TauCeti.Probability.laplacePDFReal_of_pos`); for `b ≤ 0` the densities and the law are zero
 (`TauCeti.Probability.laplacePDFReal_of_nonpos`, `TauCeti.Probability.laplaceMeasure_of_nonpos`)
-(Johnson, Kotz and Balakrishnan, vol. 2). Interface: the law is `volume.withDensity` of
+(Johnson, Kotz and Balakrishnan, vol. 2, ch. 24). Interface: the law is `volume.withDensity` of
 `TauCeti.Probability.laplacePDF m b` (`TauCeti.Probability.laplaceMeasure_eq_withDensity`), a
 variable with it has a density equal to `laplacePDF m b` almost everywhere
 (`TauCeti.Probability.hasPDF_of_hasLaw_laplaceMeasure`,
@@ -1112,7 +1112,7 @@ image of `gaussianReal m v` under exp (`TauCeti.Probability.logNormalMeasure_map
 probability measure for every `v` (`TauCeti.Probability.isProbabilityMeasure_logNormalMeasure`),
 carried by `(0, ∞)` (`TauCeti.Probability.ae_pos_logNormalMeasure`), and jointly measurable in
 `(m, v)` (`TauCeti.Probability.measurable_logNormalMeasure`) (Johnson, Kotz and Balakrishnan,
-vol. 1). For `v > 0`, by change of variables:
+vol. 1, ch. 14). For `v > 0`, by change of variables:
 
 - the density is `f(x) = (x√(2πv))⁻¹ e^(−(log x − m)²/(2v))` for `x > 0` and `0` for `x ≤ 0`
   (`TauCeti.Probability.logNormalPDFReal_of_pos`, `TauCeti.Probability.logNormalPDFReal_of_nonpos`),
@@ -1200,7 +1200,7 @@ measure with density `TauCeti.Probability.weibullPDFReal k s x = (k/s)(x/s)^(k�
 `x > 0` when `k, s > 0`, and `0` otherwise (`TauCeti.Probability.weibullPDFReal_of_pos`,
 `TauCeti.Probability.weibullPDFReal_of_nonpos`, `TauCeti.Probability.weibullPDFReal_of_shape_nonpos`,
 `TauCeti.Probability.weibullPDFReal_of_scale_nonpos`); for invalid parameters the law is zero
-(`TauCeti.Probability.weibullMeasure_of_not_pos`) (Johnson, Kotz and Balakrishnan, vol. 1).
+(`TauCeti.Probability.weibullMeasure_of_not_pos`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 21).
 Interface: `TauCeti.Probability.weibullMeasure_def` (the withDensity form),
 `TauCeti.Probability.hasPDF_of_hasLaw_weibullMeasure`,
 `TauCeti.Probability.pdf_eq_weibullPDF_of_hasLaw_weibullMeasure`,
@@ -1256,7 +1256,7 @@ The chi-squared law of degree `k` is `TauCeti.Probability.chiSquaredMeasure k`: 
 (`TauCeti.Probability.chiSquaredMeasure_eq_gammaMeasure`) and `0` for `k < 0`
 (`TauCeti.Probability.chiSquaredMeasure_of_neg`); it is a probability measure for every `k ≥ 0`
 (`TauCeti.Probability.isProbabilityMeasure_chiSquaredMeasure`) and measurable in `k`
-(`TauCeti.Probability.measurable_chiSquaredMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1). For
+(`TauCeti.Probability.measurable_chiSquaredMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 18). For
 `k > 0` it inherits from §1.6 and §2.4:
 
 - density `TauCeti.Probability.chiSquaredPDFReal k x = x^(k/2−1) e^(−x/2)/(2^(k/2) Γ(k/2))` for
@@ -1345,7 +1345,7 @@ For `ν > 0`, Student's law `TauCeti.Probability.studentTMeasure ν` has density
 `TauCeti.Probability.studentTPDFReal ν x = Γ((ν + 1)/2)/(√(νπ) Γ(ν/2)) · (1 + x²/ν)^(−(ν+1)/2)`
 (`TauCeti.Probability.studentTPDFReal_of_pos`); for `ν ≤ 0` the density and the law are zero
 (`TauCeti.Probability.studentTPDFReal_of_nonpos`, `TauCeti.Probability.studentTMeasure_of_nonpos`)
-(Johnson, Kotz and Balakrishnan, vol. 2). Interface: `TauCeti.Probability.studentTMeasure_def`,
+(Johnson, Kotz and Balakrishnan, vol. 2, ch. 28). Interface: `TauCeti.Probability.studentTMeasure_def`,
 `TauCeti.Probability.isProbabilityMeasure_studentTMeasure` (for `ν > 0`),
 `TauCeti.Probability.hasPDF_of_hasLaw_studentTMeasure`,
 `TauCeti.Probability.pdf_eq_studentTPDF_of_hasLaw_studentTMeasure`,
@@ -1389,7 +1389,7 @@ density `Γ((m + n)/2)/(Γ(m/2) Γ(n/2)) · (m/n)^(m/2) x^(m/2−1) (1 + mx/n)^(
 (`TauCeti.Probability.cdf_fisherSnedecorMeasure_eq`); the density and the cdf vanish for `x ≤ 0`
 (`TauCeti.Probability.fisherSnedecorPDFReal_of_nonpos`), and invalid parameters give the zero
 measure (`TauCeti.Probability.fisherSnedecorMeasure_of_not_pos`) (Johnson, Kotz and Balakrishnan,
-vol. 2). Interface: it is a probability measure exactly when `m, n > 0`
+vol. 2, ch. 27). Interface: it is a probability measure exactly when `m, n > 0`
 (`TauCeti.Probability.isProbabilityMeasure_fisherSnedecorMeasure_iff`), with
 `TauCeti.Probability.fisherSnedecorMeasure_eq_withDensity`,
 `TauCeti.Probability.hasPDF_of_hasLaw_fisherSnedecorMeasure`,
@@ -1569,7 +1569,7 @@ For `ι = Fin k` this is the law of `Z₁² + ⋯ + Z_k²` for every `k`, includ
 `k = 0`, where both sides are the point mass at `0` (`TauCeti.Probability.chiSquaredMeasure_zero`).
 In product-measure form, with a common variance `v`, the image of the product of copies of
 N(0, v) under `y ↦ ∑ᵢ yᵢ²` is the image of χ²(card ι) under multiplication by `v`
-(`TauCeti.Probability.map_sum_sq_pi_gaussianReal`) (Johnson, Kotz and Balakrishnan, vol. 1).
+(`TauCeti.Probability.map_sum_sq_pi_gaussianReal`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 18).
 
 *Needs:* Mathlib `ProbabilityTheory.gaussianReal`, `MeasureTheory.Measure.pi`,
 `ProbabilityTheory.iIndepFun`; Tau Ceti `TauCeti.Probability.chiSquaredMeasure`; §1.10, §3.5.
@@ -1601,8 +1601,8 @@ standard Gaussians has the standard Cauchy law `ProbabilityTheory.cauchyMeasure 
 (`TauCeti.Probability.map_div_prod_gaussianReal`, random-variable form
 `TauCeti.Probability.hasLaw_ratio_gaussian_cauchy`); the zero-denominator branch is null because
 N(0, 1) has no atoms. The t law with one degree of freedom is the standard Cauchy law
-(`TauCeti.Probability.studentTMeasure_one`, §3.7) (Johnson, Kotz and Balakrishnan, vol. 1 for the
-Cauchy law, vol. 2 for t and F).
+(`TauCeti.Probability.studentTMeasure_one`, §3.7) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 16 for the
+Cauchy law, vol. 2, chs. 28 and 27 for t and F).
 
 *Needs:* Mathlib `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.cauchyMeasure`,
 `ProbabilityTheory.gammaMeasure`; Tau Ceti `TauCeti.Probability.chiSquaredMeasure`,
@@ -1622,7 +1622,7 @@ Cauchy law, vol. 2 for t and F).
 
 ### 4.3 Gamma–Beta factorization
 
-For `a, b, r > 0` (Johnson, Kotz and Balakrishnan, vol. 2):
+For `a, b, r > 0` (Johnson, Kotz and Balakrishnan, vol. 2, ch. 25):
 
     ((gammaMeasure a r).prod (gammaMeasure b r)).map
         (fun z => (z.1 / (z.1 + z.2), z.1 + z.2)) =
@@ -1653,7 +1653,7 @@ injective there with Jacobian determinant `s` (`TauCeti.Probability.betaGammaMap
 
 ### 4.4 Sums and differences
 
-The three identities below (Johnson, Kotz and Balakrishnan, vol. 1 for exponential sums, vol. 2 for
+The three identities below (Johnson, Kotz and Balakrishnan, vol. 1, ch. 19 for exponential sums, vol. 2, ch. 24 for
 the Laplace law; Johnson, Kemp and Kotz, ch. 5 for geometric sums):
 
 - For every real `b`, the image of `Exp(1/b) ⊗ Exp(1/b)` under `(x, y) ↦ x − y` is
@@ -1748,7 +1748,7 @@ order statistic is `TauCeti.orderStatistic (k − 1)`; all formulas below use th
   statistic has law Beta(k, n + 1 − k)
   (`TauCeti.Probability.map_orderStatistic_pi_uniformMeasure`,
   `TauCeti.Probability.hasLaw_orderStatistic_iid_uniformMeasure`) (Johnson, Kotz and Balakrishnan,
-  vol. 2), and the sorted vector `i ↦ orderStatistic i x` has density
+  vol. 2, ch. 26), and the sorted vector `i ↦ orderStatistic i x` has density
   `n! · 1{0 < y₁ < ⋯ < yₙ < 1}` relative to volume on `Fin n → ℝ`, for every `n` including `0`
   (`TauCeti.Probability.map_orderStatistics_pi_uniformMeasure`,
   `TauCeti.Probability.hasLaw_orderStatistics_iid_uniformMeasure`).
@@ -1809,7 +1809,7 @@ positive semidefinite, `√S = 0` and N(m, S) is the point mass at `m`
 For a measure `μ` on `EuclideanSpace ℝ ι`, the covariance matrix `TauCeti.covMatrix μ` has entries
 `cov[z ↦ z i, z ↦ z j; μ]` (`TauCeti.covMatrix_apply`). It is symmetric
 (`TauCeti.isHermitian_covMatrix`) and, for a finite `μ` with `MemLp id 2 μ`, positive semidefinite
-(`TauCeti.posSemidef_covMatrix`) (Eaton).
+(`TauCeti.posSemidef_covMatrix`) (Eaton, ch. 2).
 
 - For `S ⪰ 0`, the covariance matrix of N(m, S) is `S`
   (`TauCeti.Probability.covMatrix_multivariateGaussian`).
@@ -1850,7 +1850,7 @@ For `S ≻ 0` and `d = card ι`, the density of N(m, S) is
 with Euclidean volume, real powers (`Real.rpow`), the dimension cast to `ℝ`, and `S⁻¹` acting through
 `Matrix.toEuclideanLin`. It is `TauCeti.Probability.multivariateGaussianPDFReal m S`, with
 `ℝ≥0∞`-valued companion `TauCeti.Probability.multivariateGaussianPDF m S` given by `ENNReal.ofReal`
-(Eaton). Its API:
+(Eaton, §3.5). Its API:
 
 - For `S ≻ 0`, N(m, S) is `volume.withDensity (multivariateGaussianPDF m S)`
   (`TauCeti.Probability.multivariateGaussian_eq_withDensity`), obtained by the affine change of
@@ -1900,7 +1900,7 @@ with Euclidean volume, real powers (`Real.rpow`), the dimension cast to `ℝ`, a
 
     N(m, S).map (x ↦ L x + c) = N(L m + c, L S Lᵀ)
 
-(`TauCeti.Probability.map_affine_multivariateGaussian`) (Eaton). Special cases are scaling and
+(`TauCeti.Probability.map_affine_multivariateGaussian`) (Eaton, §3.1). Special cases are scaling and
 translation (`TauCeti.Probability.map_add_smul_multivariateGaussian`), reindexing along any map of
 index types, which repeats or omits coordinates
 (`TauCeti.Probability.map_comp_multivariateGaussian`), the coordinate marginals N(mᵢ, Sᵢᵢ)
@@ -2028,7 +2028,7 @@ Write the joint vector on `EuclideanSpace ℝ (ι ⊕ κ)` and split it by Mathl
 `EuclideanSpace.sumEquivProd` into the retained block `X₁` (indices `Sum.inl`) and the observed block
 `X₂` (indices `Sum.inr`); `m₁`, `m₂` are the corresponding blocks of the mean, and `S₁₁`, `S₁₂`,
 `S₂₁`, `S₂₂` the submatrices `S.submatrix Sum.inl Sum.inl`, `S.submatrix Sum.inl Sum.inr`, and so on
-(Anderson 2003).
+(Anderson 2003, §2.5).
 
 **The covariance pseudoinverse.** `Matrix.covariancePseudoInverse C` is `cfc (x ↦ x⁻¹) C` for
 positive semidefinite `C` and `0` otherwise (`Matrix.covariancePseudoInverse_of_posSemidef`,
@@ -2227,7 +2227,7 @@ bilinear form (`TauCeti.Probability.covarianceBilin_dirichletMeasure`); all mome
 `∑ i with f i = j, aᵢ` (`TauCeti.Probability.map_euclideanFiberSum_dirichletMeasure`); surjectivity
 keeps every new shape positive. For a block `s` with `s` and its complement nonempty, `∑ i ∈ s, Xᵢ`
 has law Beta(∑ i ∈ s, aᵢ, ∑ i ∉ s, aᵢ) (`TauCeti.Probability.map_sum_dirichletMeasure`; Johnson, Kotz and
-Balakrishnan, vol. 2, for the Gamma-ratio construction of the Beta law). With at least
+Balakrishnan, vol. 2, ch. 25, for the Gamma-ratio construction of the Beta law). With at least
 two coordinates, `Xᵢ` has law Beta(aᵢ, A − aᵢ) (`TauCeti.Probability.map_eval_dirichletMeasure`, whose
 second shape is written `∑ j ≠ i, aⱼ`); with one coordinate the law is the point mass at the vector
 `1` (`TauCeti.Probability.dirichletMeasure_eq_dirac_of_card_eq_one`), not a Beta law with second shape
@@ -2346,6 +2346,7 @@ at invalid shapes (the zero Dirichlet measure, and Mathlib's Beta law at a zero 
 
 ### 5.7 Parameter measurability
 
+No source is cited for this section: its statements are the pinned declarations named.
 The shared parameter maps, each for the full totalized family with the Giry measurable structure:
 
 - Gaussian: `(m, S) ↦ N(m, S)` is measurable on `EuclideanSpace ℝ ι × Matrix ι ι ℝ`, that is jointly in
@@ -3204,7 +3205,7 @@ The lower quantile of a measure `μ` on `ℝ` is `MeasureTheory.Measure.quantile
 `Q(u) = μ.quantile u = inf {x : u ≤ F(x)}` (`MeasureTheory.Measure.quantile_def`), and its upper
 quantile is `MeasureTheory.Measure.upperQuantile`, `Q⁺(u) = inf {x : u < F(x)}`
 (`MeasureTheory.Measure.upperQuantile_def`); where `F` has a plateau at level `u` they are its two
-ends, and elsewhere they agree (Billingsley). Every theorem about finite quantiles assumes
+ends, and elsewhere they agree (Billingsley, §14). Every theorem about finite quantiles assumes
 `0 < u < 1`; outside that range the ordinary `sInf` totalization is kept, so `Q(u) = 0` for
 `u ≤ 0` and for `u > 1` (`MeasureTheory.Measure.quantile_of_nonpos`,
 `MeasureTheory.Measure.quantile_of_one_lt`), and `Q⁺(u) = 0` for `u < 0` and `u ≥ 1`
@@ -3805,6 +3806,7 @@ native Poisson `λ ↦ λeᵗ` for every `λ ≥ 0`, including `λ = 0`
 (`TauCeti.Probability.poissonMeasure_tilted_mul`); native binomial
 `p ↦ peᵗ/(1 − p + peᵗ)` for every `p ∈ [0, 1]`, including the Dirac laws at `p = 0` and `p = 1`
 (`TauCeti.Probability.binomial_tilted_mul`). Vector tilting on spheres is specialized in §12.2.
+No source is cited for this section: its statements are the pinned declarations named.
 
 *Needs:* Mathlib `MeasureTheory.Measure.tilted`, `MeasureTheory.isProbabilityMeasure_tilted`,
 `MeasureTheory.tilted_tilted`, `MeasureTheory.rnDeriv_tilted_left`,
@@ -3936,7 +3938,7 @@ formula of the order statistic is stated in §13.3.
 ### 7.11 Weak continuity
 
 Weak continuity is continuity into `MeasureTheory.ProbabilityMeasure` with its topology of weak
-convergence, on each stated valid parameter domain (Billingsley); the families of Layers 9–11 are
+convergence, on each stated valid parameter domain (Billingsley, §25); the families of Layers 9–11 are
 treated in §13.6. The following are jointly weakly continuous:
 
 | Family | Domain and boundaries | Theorem |
@@ -4791,7 +4793,7 @@ above `N − K` (`TauCeti.Probability.negativeHypergeometricMeasure_real_singlet
 (`r > K` or `K > N`) gives the zero measure
 (`TauCeti.Probability.negativeHypergeometricMeasure_eq_zero_of_invalid`). It is measurable in
 `(N, K, r)` (`TauCeti.Probability.measurable_negativeHypergeometricMeasure`). For `r ≤ K ≤ N` (Johnson,
-Kemp and Kotz):
+Kemp and Kotz, ch. 6):
 
 - it is a probability measure, the corresponding sum of Dirac measures on `{0, …, N − K}`, with mass at
   `k` positive iff `k ≤ N − K` and (`k = 0` or `r > 0`)
@@ -5113,7 +5115,7 @@ corresponding sum of Dirac measures, with support the positive integers
 `TauCeti.Probability.logarithmicSeriesMeasure_eq_sum_dirac`,
 `TauCeti.Probability.logarithmicSeriesMeasure_singleton_ne_zero_iff`,
 `TauCeti.Probability.ae_pos_logarithmicSeriesMeasure`), and is measurable in `q`
-(`TauCeti.Probability.measurable_logarithmicSeriesMeasure`). For `0 < q < 1` (Johnson, Kemp and Kotz):
+(`TauCeti.Probability.measurable_logarithmicSeriesMeasure`). For `0 < q < 1` (Johnson, Kemp and Kotz, ch. 7):
 
 - `z^X` is integrable iff `|qz| < 1` (`TauCeti.Probability.integrable_pow_logarithmicSeriesMeasure_iff`),
   and there the pgf is `log(1 − qz)/log(1 − q)` (`TauCeti.Probability.pgf_logarithmicSeriesMeasure`);
@@ -5513,7 +5515,7 @@ For `m ∈ ℝ` and `s > 0` the logistic law with location `m` and scale `s` is
 `TauCeti.Probability.logisticMeasure m s`, the image of the unit uniform law
 `TauCeti.Probability.uniformMeasure 0 1` under `u ↦ m + s log(u/(1 − u))`
 (`TauCeti.Probability.logisticMeasure_of_pos`); for `s ≤ 0` it is the zero measure
-(`TauCeti.Probability.logisticMeasure_of_nonpos`) (Johnson, Kotz and Balakrishnan, vol. 2). For
+(`TauCeti.Probability.logisticMeasure_of_nonpos`) (Johnson, Kotz and Balakrishnan, vol. 2, ch. 23). For
 `s > 0` it is a probability measure (`TauCeti.Probability.isProbabilityMeasure_logisticMeasure`),
 and if `U` has the unit uniform law then `m + s log(U/(1 − U))` has the logistic law
 (`TauCeti.Probability.hasLaw_logisticMeasure_of_hasLaw_uniformMeasure`). Write `y = (x − m)/s`. For
@@ -5566,7 +5568,7 @@ standard exponential law `Exp(1)`, Mathlib's `ProbabilityTheory.expMeasure 1`
 (`TauCeti.Probability.gumbelMeasure_of_pos`,
 `TauCeti.Probability.hasLaw_gumbelMeasure_of_hasLaw_expMeasure`); it is the zero measure for `s ≤ 0`
 (`TauCeti.Probability.gumbelMeasure_of_nonpos`) and a probability measure for `s > 0`
-(`TauCeti.Probability.isProbabilityMeasure_gumbelMeasure`) (Johnson, Kotz and Balakrishnan, vol. 2).
+(`TauCeti.Probability.isProbabilityMeasure_gumbelMeasure`) (Johnson, Kotz and Balakrishnan, vol. 2, ch. 22).
 For `s > 0`, with `y = (x − m)/s` and Euler's constant `γ`, Mathlib's
 `Real.eulerMascheroniConstant`:
 
@@ -5612,7 +5614,7 @@ For `s > 0` and any `m₁, m₂ ∈ ℝ`, if `X` and `Y` are independent with la
 and is `Gumbel(m, s)` at `ξ = 0` (`TauCeti.Probability.generalizedExtremeValueMeasure_zero`);
 it is the zero measure for `s ≤ 0` (`TauCeti.Probability.generalizedExtremeValueMeasure_of_nonpos`)
 and a probability measure for `s > 0`
-(`TauCeti.Probability.isProbabilityMeasure_generalizedExtremeValueMeasure`) (Coles 2001). For
+(`TauCeti.Probability.isProbabilityMeasure_generalizedExtremeValueMeasure`) (Coles 2001, ch. 3). For
 `s > 0`, with `y = (x − m)/s`:
 
 - for `ξ ≠ 0`, `f(x) = (1 + ξy)^(−1/ξ − 1) exp(−(1 + ξy)^(−1/ξ))/s` where `1 + ξy > 0`, and `f(x) = 0`
@@ -5704,7 +5706,7 @@ For `s > 0` and `ξ ∈ ℝ`, the generalized Pareto law `GPD(s, ξ)` with scale
 the law of `sE`, the exponential law of rate `1/s`, at `ξ = 0`
 (`TauCeti.Probability.generalizedParetoMeasure_zero`); it is the zero measure for `s ≤ 0`
 (`TauCeti.Probability.generalizedParetoMeasure_of_nonpos`) and a probability measure for `s > 0`
-(`TauCeti.Probability.isProbabilityMeasure_generalizedParetoMeasure`) (Coles 2001). For `s > 0`:
+(`TauCeti.Probability.isProbabilityMeasure_generalizedParetoMeasure`) (Coles 2001, ch. 4). For `s > 0`:
 
 - `f(x) = (1 + ξx/s)^(−1/ξ − 1)/s` for `ξ ≠ 0`, `x > 0` and `1 + ξx/s > 0`; `f(x) = e^(−x/s)/s` for
   `ξ = 0` and `x > 0`; and `f = 0` elsewhere
@@ -5776,7 +5778,7 @@ the law of `sE`, the exponential law of rate `1/s`, at `ξ = 0`
 `TauCeti.Probability.hasLaw_chiMeasure_of_hasLaw_chiSquaredMeasure`); it is the zero measure for
 `s ≤ 0` or `k < 0` (`TauCeti.Probability.chiMeasure_of_scale_nonpos`,
 `TauCeti.Probability.chiMeasure_of_neg`) and a probability measure for `k ≥ 0`, `s > 0`
-(`TauCeti.Probability.isProbabilityMeasure_chiMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1).
+(`TauCeti.Probability.isProbabilityMeasure_chiMeasure`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 18).
 For `s > 0`:
 
 - for `k > 0`, `f(x) = 2^(1 − k/2) x^(k−1) e^(−x²/(2s²))/(Γ(k/2) s^k)` for `x > 0` and `f(x) = 0` for
@@ -5876,7 +5878,7 @@ mixture (`MeasureTheory.Measure.bind`) of the laws `χ²_{k+2j}` against the Poi
 (`TauCeti.Probability.noncentralChiSquaredMeasure_of_nonneg`,
 `TauCeti.Probability.noncentralChiSquaredMeasure_eq_sum`); for `k < 0` it is the zero measure, the
 guard coming before the mixture (`TauCeti.Probability.noncentralChiSquaredMeasure_of_neg`) (Johnson,
-Kotz and Balakrishnan, vol. 2). For `k ≥ 0` it is a probability measure
+Kotz and Balakrishnan, vol. 2, ch. 29). For `k ≥ 0` it is a probability measure
 (`TauCeti.Probability.isProbabilityMeasure_noncentralChiSquaredMeasure`), and for `k ≥ 0`, writing
 `w_j = e^(−λ/2)(λ/2)^j/j!`:
 
@@ -6006,7 +6008,7 @@ construction above), and for `x > 0` its density is
 (`TauCeti.Probability.noncentralChiPDFReal_two_div_scale_eq_besselI`).
 
 **Folded normal.** For `m ∈ ℝ` and `s > 0` the folded normal law is the image of `N(m, s²)` under
-`x ↦ |x|` (Johnson, Kotz and Balakrishnan, vol. 1). Prove that it is the noncentral chi law with
+`x ↦ |x|` (Johnson, Kotz and Balakrishnan, vol. 1, ch. 13). Prove that it is the noncentral chi law with
 `k = 1`, `δ = |m|/s` and scale `s`, and that its cdf is `Φ((x − m)/s) − Φ((−x − m)/s)` for `x ≥ 0`
 and `0` for `x < 0`, its mean is `s√(2/π) e^(−m²/(2s²)) + m(1 − 2Φ(−m/s))`, its second moment is
 `m² + s²`, and its variance is `m² + s² − (E X)²`. Route: `X/s ∼ N(m/s, 1)`, whose square has law
@@ -6052,7 +6054,7 @@ surely (`TauCeti.Probability.ae_pos_sqrt_div_chiSquaredMeasure`). It is the zero
 (`TauCeti.Probability.noncentralTMeasure_of_nonpos`) and a probability measure exactly when `ν > 0`
 (`TauCeti.Probability.isProbabilityMeasure_noncentralTMeasure_iff`), and it is the mixture over `V`
 of the laws of `Y/√(V/ν)` with `Y ∼ N(δ, 1)` (`TauCeti.Probability.noncentralTMeasure_eq_bind`)
-(Johnson, Kotz and Balakrishnan, vol. 2). For `ν > 0`:
+(Johnson, Kotz and Balakrishnan, vol. 2, ch. 31). For `ν > 0`:
 
 - integrating `√(v/ν) ϕ(x√(v/ν) − δ)` against the chi-squared law gives the density,
   `f(x) = ∫ √(v/ν) ϕ(x√(v/ν) − δ) dχ²_ν(v)` (`TauCeti.Probability.noncentralTPDFReal_def`), positive
@@ -6090,7 +6092,7 @@ of the laws of `Y/√(V/ν)` with `Y ∼ N(δ, 1)` (`TauCeti.Probability.noncent
 `TauCeti.Probability.hasLaw_noncentralF_of_noncentralChiSquared`); it is the zero measure unless
 `m, n > 0` (`TauCeti.Probability.noncentralFMeasure_of_not_pos`) and a probability measure exactly
 when `m, n > 0` (`TauCeti.Probability.isProbabilityMeasure_noncentralFMeasure_iff`) (Johnson, Kotz and
-Balakrishnan, vol. 2). For `m, n > 0`, with `w_j = e^(−λ/2)(λ/2)^j/j!`:
+Balakrishnan, vol. 2, ch. 30). For `m, n > 0`, with `w_j = e^(−λ/2)(λ/2)^j/j!`:
 
 - the law is the Poisson mixture `∑_j w_j` of the laws `((m + 2j)/m) F(m + 2j, n)`, the images of
   the central F laws `F(m + 2j, n) = TauCeti.Probability.fisherSnedecorMeasure (m + 2j) n` of §3.8
@@ -6252,7 +6254,7 @@ For `μ, λ > 0`, the inverse Gaussian law `IG(μ, λ)` with mean `μ` and shape
 (`TauCeti.Probability.inverseGaussianPDFReal_of_pos`,
 `TauCeti.Probability.inverseGaussianPDFReal_of_nonpos`,
 `TauCeti.Probability.inverseGaussianMeasure_eq_withDensity`), and the zero measure unless `μ, λ > 0`
-(`TauCeti.Probability.inverseGaussianMeasure_of_not_pos`) (Johnson, Kotz and Balakrishnan, vol. 1).
+(`TauCeti.Probability.inverseGaussianMeasure_of_not_pos`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 15).
 For `μ, λ > 0`:
 
 - `∫ f = 1` (`TauCeti.Probability.integral_inverseGaussianPDFReal`), so the law is a probability
@@ -6306,7 +6308,7 @@ mean `1`, variance `1/λ`, `D = (−∞, λ/2]` and `M(t) = exp(λ(1 − √(1 �
 of `N(m, v)` on `s` (`TauCeti.Probability.truncatedNormalMeasure_def`); it
 is a probability measure exactly when `N(m, v)(s) ≠ 0`, and the zero measure otherwise
 (`TauCeti.Probability.isProbabilityMeasure_truncatedNormalMeasure_iff`,
-`TauCeti.Probability.truncatedNormalMeasure_eq_zero_iff`) (Johnson, Kotz and Balakrishnan, vol. 1).
+`TauCeti.Probability.truncatedNormalMeasure_eq_zero_iff`) (Johnson, Kotz and Balakrishnan, vol. 1, ch. 13).
 An interval with extended bounds `l < r` in `EReal` and either endpoint convention is any `s` with
 `(l, r) ⊆ s ⊆ [l, r]`, read through the coercion `ℝ → EReal`; for `v ≠ 0` all four conventions give
 the same law (`TauCeti.Probability.truncatedNormalMeasure_eq_preimage_Ioc`), which is a probability
@@ -6367,7 +6369,7 @@ point is `TauCeti.Probability.gaussianPDFRealEReal`, zero at `±∞`). Then:
 `d = α/√(1 + α²)`, the skew-normal law `SN(m, s, α)` is `TauCeti.Probability.skewNormalMeasure m s α`,
 Lebesgue measure with density `f(x) = 2ϕ(y)Φ(αy)/s` (`TauCeti.Probability.skewNormalPDFReal_of_pos`,
 `TauCeti.Probability.skewNormalMeasure_eq_withDensity`), and the zero measure for `s ≤ 0`
-(`TauCeti.Probability.skewNormalMeasure_of_nonpos`) (Azzalini and Capitanio 2014). For `s > 0`:
+(`TauCeti.Probability.skewNormalMeasure_of_nonpos`) (Azzalini and Capitanio 2014, ch. 2). For `s > 0`:
 
 - it is a probability measure (`TauCeti.Probability.isProbabilityMeasure_skewNormalMeasure`), with a
   positive density (`TauCeti.Probability.skewNormalPDFReal_pos`), `TauCeti.Probability.skewNormalPDF`,
@@ -6430,7 +6432,7 @@ variables (`TauCeti.Probability.map_sum_pi_uniformMeasure_zero_one`,
 (`TauCeti.Probability.irwinHallMeasure_one`), it is a probability measure for every `n`
 (`TauCeti.Probability.isProbabilityMeasure_irwinHallMeasure`), and
 `IH(m) ∗ IH(n) = IH(m + n)` (`TauCeti.Probability.irwinHallMeasure_conv_irwinHallMeasure`)
-(Johnson, Kotz and Balakrishnan, vol. 2). Then:
+(Johnson, Kotz and Balakrishnan, vol. 2, ch. 26). Then:
 
 - for `n ≥ 1`, `F(x) = (1/n!) ∑_{k=0}^{n} (−1)^k C(n, k) max(x − k, 0)^n`
   (`TauCeti.Probability.cdf_irwinHallMeasure_eq`), `0` for `x ≤ 0` and `1` for `x ≥ n`, continuous
@@ -6499,7 +6501,7 @@ off `(a, b)` (`TauCeti.Probability.triangularPDFReal_def`,
 for `c = a` or `c = b` only the nonempty branch occurs. It is the zero measure unless `a < b` and
 `a ≤ c ≤ b` (`TauCeti.Probability.triangularMeasure_eq_zero_of_not`) and a probability measure
 exactly then (`TauCeti.Probability.isProbabilityMeasure_triangularMeasure_iff`) (Johnson, Kotz and
-Balakrishnan, vol. 2). For `a < b`, `a ≤ c ≤ b`:
+Balakrishnan, vol. 2, ch. 26). For `a < b`, `a ≤ c ≤ b`:
 
 - the density interface is `TauCeti.Probability.triangularPDFReal`,
   `TauCeti.Probability.triangularPDF`, `TauCeti.Probability.hasPDF_of_hasLaw_triangularMeasure` and
@@ -6627,7 +6629,7 @@ the zero measure unless `a, b > 0` (`TauCeti.Probability.logLogisticMeasure_of_p
 `a, b > 0` (`TauCeti.Probability.isProbabilityMeasure_logLogisticMeasure_iff`), and its logarithm
 has that logistic law (`TauCeti.Probability.map_log_logLogisticMeasure`,
 `TauCeti.Probability.hasLaw_logLogisticMeasure_of_hasLaw_logisticMeasure`) (Johnson, Kotz and
-Balakrishnan, vol. 2). For `a, b > 0`:
+Balakrishnan, vol. 2, ch. 23). For `a, b > 0`:
 
 - its density is `f(x) = (b/a)(x/a)^(b − 1)/(1 + (x/a)^b)²` for `x > 0` and `0` for `x ≤ 0`
   (`TauCeti.Probability.logLogisticPDFReal`, `TauCeti.Probability.logLogisticPDFReal_of_pos`,
@@ -7110,7 +7112,7 @@ with degree `2b` (`TauCeti.Probability.chiSquaredMeasure (2 * b)`, §3.5)
 zero measure (`TauCeti.Probability.noncentralBetaMeasure_of_not`), and the law is a probability
 measure exactly when `a ≥ 0` and `b > 0`
 (`TauCeti.Probability.isProbabilityMeasure_noncentralBetaMeasure_iff`) (R noncentral Beta
-documentation, Details, ratio and Poisson-mixture conventions; Johnson, Kotz and Balakrishnan,
+documentation, Details for the ratio and Source for the Poisson mixture; Johnson, Kotz and Balakrishnan,
 vol. 2, pp. 502–503, where the R documentation locates both definitions). The
 numerator shape `a = 0` is allowed and is specified explicitly below.
 
@@ -7461,7 +7463,7 @@ The arcsine law is `TauCeti.Probability.arcsineMeasure`, defined as
 `TauCeti.Probability.semicircleMeasure`, the image of `ProbabilityTheory.betaMeasure (3/2) (3/2)` under
 `x ↦ 2x − 1` (`TauCeti.Probability.semicircleMeasure_eq_map_betaMeasure`, written there as
 `x ↦ −1 + 2x`); both inherit the theory of the Beta law of §1.7 and §2.2 (Johnson, Kotz and
-Balakrishnan, vol. 2).
+Balakrishnan, vol. 2, ch. 25).
 
 **Arcsine.** It is a probability measure carried by `(0, 1)` with topological support `[0, 1]`
 (`TauCeti.Probability.isProbabilityMeasure_arcsineMeasure`,
@@ -7662,7 +7664,7 @@ positive semidefinite.
   `κ`-marginal composed with this kernel (`EuclideanSpace.map_snd_fst_multivariateTMeasure`), and
   for every `X` with this law `ProbabilityTheory.condDistrib` of the `ι`-block given the `κ`-block
   equals the kernel almost everywhere (`TauCeti.Probability.condDistrib_multivariateTMeasure`). The
-  Gaussian case of this conditional law is Anderson 2003.
+  Gaussian case of this conditional law is Anderson 2003, §2.5.
 
 *Needs:* Mathlib `ProbabilityTheory.multivariateGaussian`, `ProbabilityTheory.condDistrib`,
 `ProbabilityTheory.Kernel`, `ProbabilityTheory.integrableExpSet`,
@@ -7693,7 +7695,7 @@ Let `ι` and `κ` be finite types, `r = card ι`, `c = card κ`. Matrices `Matri
 product Borel structure on their entries, and volume on them is the product of the entry volumes
 (`Matrix.instMeasureSpace`). The matrix normal law with mean `M : Matrix ι κ ℝ`, row covariance
 `U : Matrix ι ι ℝ` and column covariance `V : Matrix κ κ ℝ` is
-`TauCeti.Probability.matrixNormalMeasure M U V` (Eaton, vector-space Gaussians). For `U` and `V`
+`TauCeti.Probability.matrixNormalMeasure M U V` (Eaton, ch. 3, vector-space Gaussians). For `U` and `V`
 positive semidefinite it is the image, under the inverse of the column-stacking vectorization
 `TauCeti.matrixVecMeasurableEquiv 2` onto `EuclideanSpace ℝ (κ × ι)`, of the Gaussian with mean
 `vec M` and covariance the Kronecker product `V ⊗ U`
@@ -7898,7 +7900,7 @@ probability measure for all parameters
 whenever `log X ∼ N(m, S)` (`TauCeti.Probability.hasLaw_exp_multivariateGaussian`), and the
 coordinatewise logarithm of the law is `N(m, S)`
 (`TauCeti.Probability.map_log_multivariateLogNormalMeasure`). The coordinate laws are the scalar
-log-normal laws of §3.2 (Johnson, Kotz and Balakrishnan, vol. 1).
+log-normal laws of §3.2 (Johnson, Kotz and Balakrishnan, vol. 1, ch. 14).
 
 - **Support.** The law is almost surely in the open positive orthant
   (`TauCeti.Probability.ae_pos_multivariateLogNormalMeasure`). For `S` positive semidefinite it is
@@ -8763,7 +8765,7 @@ tails (§2.4); §3.9, §3.10.
 The quantiles of the families of Layers 9 and 10 are those stated in their own sections, as explicit
 formulas or as root and crossing characterizations. The quantiles of the stable laws are stated in
 §15.4. Mixtures and compound Poisson laws are handled through their explicit cdfs and the quantile
-adjunction `Q(u) ≤ x ⟺ u ≤ F(x)` (`MeasureTheory.Measure.quantile_le_iff`; Billingsley), with no
+adjunction `Q(u) ≤ x ⟺ u ≤ F(x)` (`MeasureTheory.Measure.quantile_le_iff`; Billingsley, §14), with no
 uniqueness or strict monotonicity claimed where it fails:
 
 -  **General mixtures.** For a probability measure `ρ` and an a.e.-measurable family `K` of laws
@@ -8933,8 +8935,8 @@ and circle laws; §7.2 (Tau Ceti `TauCeti.Probability.quantile_map_affine_pos`).
 ### 13.5 Family transport coverage
 
 This section specializes the affine transport of §7.1 to named families (Johnson, Kotz and
-Balakrishnan, vols. 1 and 2; Coles 2001 for the GEV and generalized Pareto laws; Azzalini and
-Capitanio 2014 for the skew-normal law; the SciPy asymmetric Laplace documentation for its rate
+Balakrishnan, vols. 1 and 2; Coles 2001, chs. 3 and 4, for the GEV and generalized Pareto laws; Azzalini and
+Capitanio 2014, ch. 2, for the skew-normal law; the SciPy asymmetric Laplace documentation for its rate
 convention). Only the parameter changes listed are required; other images stay explicit
 pushforwards. Every row assumes valid input parameters and leaves the parameters it does not mention
 unchanged. At `b = 0` the image of a probability law is the Dirac law at `a`
@@ -9050,7 +9052,7 @@ normal law.
 ### 13.6 Weak continuity of the later families
 
 As in §7.11, weak continuity is continuity into `MeasureTheory.ProbabilityMeasure` with its
-topology of weak convergence, on each stated valid parameter domain (Billingsley), and the generic
+topology of weak convergence, on each stated valid parameter domain (Billingsley, §25), and the generic
 preservation results of §7.11 (continuous pushforwards, affine transport, finite products, finite
 mixtures with convergent simplex weights) apply to these families as well. The families defined in
 Layers 9–11 are jointly weakly continuous:
@@ -9313,6 +9315,7 @@ product and marginal laws. The quantiles follow from the Beta marginals of §14.
 (`TauCeti.Probability.quantile_map_affine_pos`, `TauCeti.Probability.quantile_betaMeasure`,
 `TauCeti.Probability.tendsto_quantile_betaMeasure_nhdsGT_zero`,
 `TauCeti.Probability.tendsto_quantile_betaMeasure_nhdsLT_one`).
+No source is cited for this section beyond those of §14.3: its statements are consequences of §14.3.
 
 *Needs:* §14.3; §7.2; §8.4 (Tau Ceti `TauCeti.inverseRegularizedIncompleteBeta`).
 
@@ -9459,7 +9462,7 @@ characteristic functions converge to `e^(Ψ(t))`
 continuous at zero (`TauCeti.Probability.continuousAt_stableCharacteristicExponent_zero`).
 
 The existence bridge is the reusable lemma `TauCeti.exists_probabilityMeasure_of_tendsto_charFun`
-(Billingsley). If the characteristic functions of a sequence of probability measures on a
+(Billingsley, §26 and §29). If the characteristic functions of a sequence of probability measures on a
 finite-dimensional real inner product space converge pointwise to a function continuous at zero,
 there is a unique probability measure with that characteristic function, and the sequence converges
 weakly to it. Its route is tightness (Mathlib `MeasureTheory.isTightMeasureSet_of_tendsto_charFun`),
@@ -9773,8 +9776,8 @@ the names are listed under the supplier contracts below. The targets the pinned 
 state, and which this roadmap asks for, are:
 
 - the topological support of the Gaussian law with `v ≠ 0` (§1.10), of the Weibull law (§3.4), the
-  inverse-gamma law (§3.6) and the Student law (§3.7); the natural Pareto moments with their exact
-  threshold (§1.11); the probability generating function of a Dirac mass on `ℕ` (§1.12);
+  inverse-gamma law (§3.6) and the Student law (§3.7); the probability generating function of a
+  Dirac mass on `ℕ` (§1.12);
 - the Wick–Isserlis formula in every even degree and the noncentred mixed moments (§5.3); the
   range-inverse description of the covariance pseudoinverse (§5.4); the singularity of the Dirichlet
   law with respect to ambient volume, the full stick-breaking construction and the non-integrability
