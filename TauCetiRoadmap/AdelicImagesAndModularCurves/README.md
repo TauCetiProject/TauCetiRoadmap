@@ -49,114 +49,38 @@ Suggested home: `TauCeti/NumberTheory/AdelicImages/`, with subdirectories `GL2Zh
 0–2), `GaloisImage/` (Layer 3), `OpenImage/` (Layer 4), `ModularCurve/` (Layer 5),
 `IsogenyClass/` (Layer 6) and `GSp4/` (Layer 7).
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
+Layer 0 builds the carrier `GL₂(Ẑ)`, its reductions and its open subgroups with level, index,
+`±H`, determinant and `Γ_H`. Layer 1 reads NoncongruenceModularForms' coset invariants (cusps,
+widths, elliptic points, genus) on the level-`N` model of an open subgroup and adds the Galois
+action on cusps. Layer 2 is the remaining group theory: Cartan subgroups, Serre's lifting lemma,
+the commutator subgroup, entanglement, agreeable closures, twists, isogeny orbits and the
+Gassmann invariants. Layer 3 attaches to an elliptic curve its adelic representation in
+`GL₂(Ẑ)` and reads its image through Layers 0–2. Layer 4 proves that this image is open for non-CM
+curves, on the `ℓ`-adic and residual inputs it consumes, and describes the CM case. Layer 5
+identifies the group-side invariants with the arithmetic of the curves `X_H` of
+ModularCurvesPartII. Layer 6 treats isogeny classes and ends with Mazur's torsion theorem and the
+shape of isogeny classes over `ℚ`. Layer 7 does the group theory of `GSp₄(Ẑ)` for genus-two
+Jacobians and depends only on Layer 0's methods.
 
-- **Layer 0.** The profinite group `GL₂(Ẑ) = GL (Fin 2) ẑ`: its reductions
-  `red n : GL₂(Ẑ) →* GL₂(ℤ/n)`, the kernels `Γ(n)`, the inverse-limit property, the
-  subgroups `SL₂(Ẑ)` and the determinant `det : GL₂(Ẑ) →* ẑˣ`; open subgroups and their
-  **level**, **index**, `±H`, **projective index**, **determinant image**, the predicates
-  `−I ∈ H` and `det H = ẑˣ`; the standard open subgroups (preimages of MC2 §3.8's finite-level
-  subgroups and of the Cartan subgroups of étale `ℤ/N`-algebras); the congruence subgroup
-  `Γ_H := H ∩ SL₂(ℤ)`, its **`SL₂`-level** and **`PSL₂`-index**, and the density of `SL₂(ℤ)`
-  in `SL₂(Ẑ)`.
-- **Layer 1.** The reduction of the LMFDB's `gl2.genus` data of an open `H` to the level-`N`
-  coset model: `ν₂`, `ν₃`, the cusps of `H` as `⟨T⟩`-orbits with their **widths** and the
-  **genus** `g(H)` are NoncongruenceModularForms' invariants of the image `Γ̄_{±H}` of `Γ_{±H}`
-  in `PSL₂(ℤ)` (consumed); owned are their reading on `Γ̄_H \ SL₂(ℤ/N)`, their invariance under
-  `GL₂(Ẑ)`-conjugation and under `H ↦ ±H`, the Galois action on cusps through `(ℤ/N)ˣ`, **cusp
-  orbits**, **rational cusps** and **cusp fields**, and the relative index of a cover.
-- **Layer 2.** Cartan subgroups of `GL₂(R)` for `R = ℤ/N, ℤ_ℓ, ẑ` attached to an étale
-  algebra, in particular the Cartan `C_𝒪 = Aut_𝒪` of an imaginary quadratic order; Serre's
-  lifting lemma and its failures at `ℓ = 2, 3`; the commutator subgroup of `GL₂(Ẑ)` and the
-  index-two subgroups containing it; **entanglement index** and **entanglement quotient**;
-  Zywina's **agreeable** subgroups and the agreeable closure; the **invariants of Gassmann-equivalent
-  subgroups** (the equivalence itself is consumed from `FiniteGroupInvariants` 7.3);
-  **twists** `H₁ ∩ SL₂(Ẑ) = H₂ ∩ SL₂(Ẑ)`, **quadratic refinements**, **relative index**;
-  the **isogeny orbits** `[M, n, m]` and the three field-degree invariants.
-- **Layer 3.** On the adelic Tate module `T̂E = ∏_ℓ T_ℓ E` and its Galois action, which are
-  ArithmeticGaloisRepresentations §6.1's for `A = E` (consumed): the `ẑ`-module structure, the
-  identification of its level-`N` quotient with `E[N]`, frames and the matrix form
-  `ρ_E : G_K → GL₂(Ẑ)` with its reductions `ρ_{E,N}` and components `ρ_{E,ℓ^∞}`, the determinant
-  as the cyclotomic character `χ : G_K → ẑˣ`; the **mod-`N`**, **`ℓ`-adic** and **adelic
-  images** as conjugacy classes of closed subgroups; **adelic level, index and genus**;
-  **non-maximal primes** (relative to `Aut_𝒪` in the CM case); division fields and **torsion
-  growth**; the **index-two obstruction** over `ℚ` and **Serre curves**.
-- **Layer 4.** The parts of Serre's open image theorem for non-CM curves over number fields that
-  no earlier roadmap owns: surjectivity onto `GL₂(ℤ_ℓ)` for almost all `ℓ` and adelic openness,
-  on top of the `ℓ`-adic openness of NoncommutativeAndEquivariantIwasawa §4.0 and the
-  `SL₂(𝔽_ℓ)`-inclusion for almost all `ℓ` of EllipticCurveModularityImaginaryQuadratic §5.1
-  (both consumed); the CM counterpart: the adelic image lies in `Aut_𝒪(T̂E)` or the index-two
-  group `N_𝒪(ẑ)` according to whether `𝒪 ⊂ K`, and is open there.
-- **Layer 5.** The arithmetic gloss on `X_H` over `ℚ` and over number fields: the identification
-  of MC2's cusps, widths, Galois action, `j`-degree and genus with Layers 0–1; points of `X_H`
-  against images, with the `−I` and `j ∈ {0, 1728}` caveats stated as theorems; **CM points**
-  and the `cm_discriminants` of `H`; **isolated points**, with their push-forward along finite
-  maps of curves (Bourdon–Ejder–Liu–Odumodu–Viray, Theorem 4.3); **fibre products**; Gassmann
-  classes and isogenous Jacobians; twists and the cyclotomic isomorphism; **local obstructions** and
-  the real-point criterion; the decomposition of `J_H` into the `A_f` with multiplicities,
-  **simple**, **squarefree**, **newform level**, **conductor**, **analytic rank** and
-  **genus minus rank** as derived invariants.
-- **Layer 6.** `K`-isogeny classes, the **isogeny matrix**, **isogeny graph**, **class
-  degree**, the **isogeny degrees** of a curve, the dictionary with `X₀(N)(K)`; Mazur's
-  torsion theorem as the last milestone of a layered chain over `ℚ`, including the explicit
-  models of the six curves `X₁(14)`, `X₁(15)`, `X₁(16)`, `X₁(18)`, `X₀(21)`, `X₀(27)` that the
-  chain runs on and the rational points it needs on them (those of the genus-two models of
-  `X₁(16)` and `X₁(18)` are consumed from EffectiveDiophantineMethods under two declared gaps);
-  what Mazur's and Kenku's
-  isogeny theorems (consumed) force on the isogeny degrees, class degree, class size and
-  isogeny graph over `ℚ`; the finiteness and shape of isogeny classes over number fields.
-- **Layer 7.** `GSp₄(Ẑ)`, the `ẑ`-points of AGR §7.3's similitude group (the group, its
-  multiplier and their laws are consumed): reductions, open subgroups, level and index, orbit
-  signatures, finite cardinalities; the mod-`ℓ` image of a genus-two Jacobian, its **non-maximal
-  primes** and **two-torsion field**; the subgroup configurations of `GSp₄(𝔽_ℓ)` with a
-  single-label rule, and Mitchell's classification of the maximal subgroups of `PSp₄(𝔽_ℓ)`.
+```
+Layer 0 ──► Layer 1 ──► Layer 2 (2.6, 2.8 need 1; 2.1–2.5, 2.7 need only 0)
+   │                       │
+   │                       ├──► Layer 3 (3.5 needs 2.4; 3.6 needs 2.7) ──► Layer 4 (needs 2.2, 2.4, 3; NEI §4.0, ECMIQ §5.1)
+   │                       │                                                   │
+   │                       └──► Layer 5 (5.1 needs 1; 5.2 needs 3; 5.3 needs 4.5; 5.6 needs 2.8;
+   │                                      5.9 needs 1 and MC2 Layers 13, 16)
+   │                                                                           │
+   │                            Layer 6 (6.1–6.2 need only EC/FF; 6.3 needs 5.2; 6.4–6.5 need 5.1–5.3, 5.9)
+   │
+   └──► Layer 7 (needs only 0's methods and AGR §§4.4, 7.3, 7.5; independent of Layers 1–6)
+```
 
-### Not owned here
-
-- Katz–Mazur moduli problems, Drinfeld level structures, the integral curves and their bad
-  fibres: MC and MC2. This roadmap never constructs a modular curve.
-- The theory of models of a curve (model data, complete, canonical, plane and Weierstrass
-  models, closed immersions, coordinate expressions of functions such as `j`), gonality and
-  gonality bounds: `CanonicalModelsAndGonality`. The LMFDB's embedded model is that roadmap's
-  complete model (its §§2.5, 9.1) of the divisor of weight-`k` forms on `X(Γ_{±H})`, MF 10C's
-  section-space divisor, which is consumed here as it stands. The LMFDB's stored models of
-  individual curves `X_H` are not targets; the one place this roadmap names models is 6.4, whose
-  six model targets (`X₁(14)`, `X₁(15)`, `X₁(16)`, `X₁(18)`, `X₀(21)`, `X₀(27)`) are owned here,
-  since CanonicalModelsAndGonality leaves the modular-curve dictionary to this roadmap.
-- Label components beyond the intrinsic prefix, orderings and normal forms fixed by
-  convention, stored lists, and the completeness of database tables are not targets: the final
-  integer `n` of an RSZB label `N.i.g.c.n`, the Gassmann letter `c`, `canonical_conjugator`,
-  canonical generators, `psl2label`, `sl2label`, CP, SZ, RZB, S and Zywina labels, the choice
-  of the minimal twist as the least label, `reductions`, `parents`, `factorization` as label
-  lists, `known_points` counts and `trace_hash`. This roadmap states the intrinsic **prefix** `(N, i, g)` and the coarse prefix `(M, j, g)` of
-  `±H`, and the predicates `fine` (`−I ∉ H`) and `coarse`.
-- Modular forms, Hecke operators, newforms, `L`-functions and their analytic ranks: MF and
-  LFunctions. The analytic rank of `X_H` is defined here as a sum of analytic ranks of newforms
-  supplied there.
-- Endomorphism algebras and Sato–Tate groups: `SatoTateGroups`. Genus-two curve models,
-  Igusa invariants: `HyperellipticCurves`. The Hasse–Weil bound: SSF §5.11.
-- Modular degree, Manin constant, periods, optimal curves:
-  `EllipticCurvePeriodsAndModularParametrizations`.
-- The theory of Galois representations in general (conductors, Weil–Deligne representations,
-  big-image conditions): AGR. In particular the adelic Tate module `T̂A = ∏_ℓ T_ℓA` of an abelian
-  variety with its Galois action (AGR §6.1) and the open-image predicates *IsPGaloisGeneric* and
-  *IsGaloisGeneric* with their API (finite index, base change, framing; AGR §6.4), read here for
-  `A = E`, `g = 1`, where the similitude group `GSp₂` is `GL₂`. Serre's local weight recipe:
-  AlgebraicModularFormsAndSerreWeights Layer 4. Serre's modularity conjecture in its strong form:
-  SerreModularityByCompatibleSystems Layer S6.
-- The `ℓ`-adic open image theorems for elliptic curves, non-CM and CM, at every `ℓ`:
-  NoncommutativeAndEquivariantIwasawa §4.0 (`elliptic_nonCM_openImage`,
-  `elliptic_CM_openImage`). The inclusion `SL₂(𝔽_ℓ) ⊆ ρ̄_{E,ℓ}(G_K)` for all but finitely many
-  `ℓ` for a geometrically non-CM `E`, with Serre's proof through Dickson's classification:
-  EllipticCurveModularityImaginaryQuadratic §5.1 (`nonCM_elliptic_large_residual_primes`).
-  Layer 4 consumes both and owns the passage to `GL₂(ℤ_ℓ)` and to the adelic image.
-- Cusp widths, cusp counts, elliptic-point counts and the genus of a finite-index subgroup of
-  `PSL₂(ℤ)`, read on its cosets through its modular permutation triple, with the integral genus
-  formula, the comparison with the compact Riemann surface and the closed forms for `Γ₀(N)`:
-  NoncongruenceModularForms §§2.1–2.3, 2.5 (on Tau Ceti's `PermutationTriple`). Layer 1 applies
-  them to `Γ̄_{±H}`.
+Parallel tracks: Layers 0 and 2 are startable against Mathlib and Tau Ceti alone, and Layer 1
+against them and NoncongruenceModularForms Layer 2; `6.1–6.2` (isogeny classes) and `7.1`
+(`GSp₄`) can start at once; `3` starts after `0` and `2.4`; `4` after `3`; `5.1` after `1`; the
+rest of `5` after `3` and `4.5`; `6.3–6.5` last.
 
 ## Pinned conventions
 
@@ -251,316 +175,6 @@ Suggested home: `TauCeti/NumberTheory/AdelicImages/`, with subdirectories `GL2Zh
     polarised abelian surface is a `GSp₄(𝔽_ℓ)`-conjugacy class, read in a symplectic frame of
     `A[ℓ]` for the Weil pairing.
 
-## Exact supplier contracts
-
-Every milestone lists what it rests on. Each prerequisite is one of: a Mathlib declaration at
-the pin; a Tau Ceti declaration at the pin; an earlier milestone of this roadmap; a named
-layer or milestone of another roadmap of this repository, cited by that roadmap's own
-numbering; or a supplier gap declared below, in which case the statement using it says so.
-Nothing rests on anything else.
-
-### From Mathlib
-
-- `Matrix.GeneralLinearGroup` (`GL n R`), `GeneralLinearGroup.map`, `GeneralLinearGroup.det`,
-  `SpecialLinearGroup.mapGL`, `SpecialLinearGroup.map`, and the finite-field cardinalities
-  `Matrix.card_GL_field`, `Matrix.card_SL_field`.
-- The topology of units: `Units` of a topological monoid is a topological group, compact when
-  the monoid is compact and `T1` (`Units.isClosedEmbedding_embedProduct` and the `CompactSpace`
-  instance in `Topology/Algebra/Group/Units.lean`); `Units.map` of a continuous homomorphism is
-  continuous; `Matrix m n R` carries the product topology and is a topological ring
-  (`Matrix.topologicalRing`).
-- `OpenSubgroup G` with `OpenSubgroup.comap`, `ClosedSubgroup G`, `Subgroup.index`,
-  `Subgroup.relIndex`, `Subgroup.FiniteIndex`, `Subgroup.subgroupOf`, `Subgroup.normalizer`,
-  `ConjAct`, `MulAction.orbitRel.Quotient`, `Subgroup.goursat`,
-  `Subgroup.isOpen_of_isClosed_of_finiteIndex`; `MonoidHom.pi` and `Representation.asGroupHom`,
-  with which `Suggested.lean` reads the product of the `ℓ`-adic representations.
-- The congruence subgroups `CongruenceSubgroup.Gamma`, `Gamma0`, `Gamma1`,
-  `IsCongruenceSubgroup`, `Subgroup.adjoinNegOne`, `Subgroup.IsArithmetic`, the cusp
-  vocabulary of `NumberTheory/ModularForms/Cusps.lean` (`IsCusp`, `CuspOrbits`,
-  `strictWidthInfty`, `widthInfty`) and the modular group `ModularGroup.S`, `ModularGroup.T`.
-- `modularCyclotomicCharacter`, `rootsOfUnity`, `IsPrimitiveRoot`,
-  `Polynomial.cyclotomic.irreducible_rat`, `ZMod.unitsMap`, `ZMod.chineseRemainder`.
-- `WeierstrassCurve`, `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.Affine.Point` with its
-  `AddCommGroup`, `WeierstrassCurve.j`, `AddSubgroup.torsionBy`, `VariableChange`.
-- `Field.absoluteGaloisGroup`, the Krull topology, `NumberField`, `AlgebraicClosure`.
-- `Matrix.J`, `Matrix.symplecticGroup`, `Matrix.ProjectiveSpecialLinearGroup` and
-  `ProjectiveSpecialLinearGroup.rank_two_simple'`, `Matrix.SL2.commutator_eq_top`.
-- `NumberField.InfinitePlace`; Euler's case of Fermat's last theorem `fermatLastTheoremThree`
-  (`NumberTheory/FLT/Three.lean`), for the rational points of `X₀(27)` in 6.4.
-- `ModularForm.L` (`NumberTheory/ModularForms/LFunction.lean`), the continued `L`-function of a
-  cusp form, for 5.9.
-
-### From Tau Ceti
-
-- The profinite integers: `TauCeti.zHat`, the ring `Additive TauCeti.zHat`
-  (`TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring`), `zHat.toZMod` and `zHat.ringLift`
-  (`.ZMod`), `zHat.component` (`.Component`), `zHat.ringEquivPiPadicInt` and `zHat.idem`
-  (`.Decomposition`), `zHat.unitsEquivPiPadicInt` and `zHat.unitsLift` (`.Units`),
-  `zHat.continuousAutEquivUnits` (`TauCeti.Topology.Algebra.Group.ContinuousAut.ZHat`).
-- `TauCeti.Supernatural`, `TauCeti.profiniteOrder`, `Subgroup.profiniteIndex`.
-- The Tate module: `TauCeti.TateModule ℓ A` with its `ℤ_ℓ`-module structure and inverse-limit
-  topology (`TauCeti.Algebra.Module.Torsion.TateModule`), `WeierstrassCurve.finrank_tateModule`
-  and `nonempty_linearEquiv_tateModule` (`…TateModule.Basic`),
-  `WeierstrassCurve.tateModuleGaloisRepresentation` with
-  `continuous_tateModuleGaloisRepresentation_apply` (`…TateModule.Galois`),
-  `WeierstrassCurve.tateModuleWeilPairing` (`…TateModule.WeilPairing`),
-  `TauCeti.det_tateModuleGaloisRepresentation` (`…TateModule.Determinant`).
-- Isogenies: `TauCeti.Isogeny`, `Isogeny.degree`, `degree_comp`, `Isogeny.ker`,
-  `card_ker_le_degree`, `Isogeny.galoisConj`, the descent criteria
-  (`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.*`), `WeierstrassCurve.autGroup` and
-  `autGroupMulEquiv` (`…EllipticCurve.Aut`), the quadratic twist (`…EllipticCurve.QuadraticTwist`).
-- Endomorphisms and complex multiplication: `WeierstrassCurve.GeometricEnd` (the endomorphisms over
-  `SeparableClosure K`), `WeierstrassCurve.HasGeometricCM`, `TauCeti.CMAction` with its base change
-  `CMAction.map` (`…EllipticCurve.Isogeny.Hom.ComplexMultiplication`); the action of a morphism on
-  points `TauCeti.Isogeny.Hom.pointMapHom` (`…Isogeny.Hom.Ring`) and its map of Tate modules
-  `TauCeti.TateModule.mapLinearMap` (`TauCeti.Algebra.Module.Torsion.TateModule`);
-  `WeierstrassCurve.torsion_addEquiv_prod`, `E[N] ≃+ (ZMod N)²` for `N` invertible
-  (`…Isogeny.MulByInt.Torsion.Structure`). EllipticCurves Layers 1–2 specify them.
-- The Tate normal form `WeierstrassCurve.tateNormalForm a b`, `Y² + aXY + bY = X³ + bX²`, with
-  `WeierstrassCurve.existsUnique_variableChange_tateNormalForm`
-  (`TauCeti.AlgebraicGeometry.EllipticCurve.TateNormalForm`: a point `(x, y)` at which `ψ₂` and
-  `Ψ₃` are units is carried to `(0, 0)` of a Tate normal form by exactly one change of variables)
-  and its scheme form `WeierstrassCurve.existsUnique_tateNormalForm`
-  (`…EllipticCurve.Scheme.TateNormalForm`), for 6.4.
-- Gassmann equivalence in a finite group: `Subgroup.AlmostConjugate`
-  (`TauCeti.GroupTheory.AlmostConjugate`), for 2.8.
-- Congruence-subgroup arithmetic: `Gamma0_prime_index`, `Gamma0_prime_power_index`,
-  `Gamma_le_Gamma_of_dvd`, `neg_one_mem_Gamma0`, `withCenter_le_Gamma0`
-  (`TauCeti.NumberTheory.ModularForms.CongruenceSubgroups.Basic`),
-  `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`
-  (`TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Basic`), `Subgroup.integerCuspWidth`
-  (`…ModularForms.Cusps.Basic`), the stabiliser orders `TauCeti.ModularGroup.ellipticOrder`
-  with `card_stabilizer_psl_I = 2`, `card_stabilizer_psl_ρ = 3`
-  (`TauCeti.NumberTheory.Modular.Stabilizer`), the relations `S² = 1`, `(TS)³ = 1` in
-  `PSL(2, ℤ)` (`…Modular.Relations`).
-- `natCard_GL_fin_two` (`TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Card`) and the
-  `GL₂` toolkit of `TauCeti.RepresentationTheory.CharacterTable.GL2.*` (diagonal and
-  non-split tori, conjugacy classes of `GL₂(𝔽_q)`).
-- Newforms `HeckeRing.GL2.Newform` (`TauCeti.NumberTheory.ModularForms.Newforms.Newform`) and their
-  analytic rank `HeckeRing.GL2.Newform.analyticRank` (`…ModularForms.Newforms.AnalyticInvariants`),
-  for 5.9.
-- Divisors of function fields: the pull-back `TauCeti.Divisor.conorm` with
-  `TauCeti.Divisor.conorm_principal` and `TauCeti.Divisor.degree_conorm`
-  (`TauCeti.FieldTheory.FunctionField.Divisor.Conorm`), for the push-forward of isolated points
-  in 5.4.
-- `Field.absoluteGaloisGroup` is profinite (`TauCeti.absoluteGaloisGroupRestrictEquiv` and its
-  instances), `TauCeti.inertiaSubgroup`, `TauCeti.inertiaPadicTameCharacter`,
-  `TauCeti.continuousLocalCyclotomicCharacter`.
-
-### From other roadmaps
-
-The roadmaps consumed, with the relative links used throughout:
-
-- [ProfiniteArithmetic](../../Completed/ProfiniteArithmetic/README.md) (PA): Layer 0 (the ring `ẑ`, its
-  projections, components, units and `zHat.unitsLift`), Layer 2.3 (`ClosedSubgroup`
-  conjugacy classes `ClosedSubgroupConjClasses`).
-- [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md) (PPG): Layer 1 (supernatural order
-  and `Subgroup.profiniteIndex`), used only to say that the index of a closed subgroup is a
-  supernatural number and is a natural number exactly for open subgroups.
-- [ModularCurvesPartII](../ModularCurvesPartII/README.md) (MC2): §3.8 (the finite-level
-  standard subgroups `levelGamma0`, `levelGamma1`, `levelGamma1Mu`, `splitCartan`,
-  `splitCartanNormalizer`, `nonsplitCartan`, `nonsplitCartanNormalizer`, `projectiveIndex`,
-  `levelDet`, `levelPullback`, `levelConj`), §3.9 (level-`H` structures), §3.12 (the stack
-  `𝒳_H`), §§5.8–5.12 (the coarse curve `X_H`, the `j`-degree, the cusp divisor, cusps away
-  from the level with their widths and Galois action, the cyclotomic structure), §§5.15–5.17
-  (level maps, quotients, the Katz–Mazur comparison), §6.1 (compact analytic–algebraic
-  comparison), §6.3 and §8.3 (cusp and component fields), §8.2 (the function field of `X₀(N)`
-  over `ℚ` as the field `ℚ(j(q), j(q^N))` of `q`-expansions), §9.3 (the Fricke involution),
-  §9.6 (Cartan curves), §9.7 (rational points of `X_H` and Galois images), §5.14 (the twisted curves `X(ρ)`), Layer 13 (modular
-  Jacobians) and Layer 16 (the quotients `A_f` of §16.2, `dim A_f = [K_f : ℚ]` of §16.3).
-- [ModularCurves](../ModularCurves/README.md) (MC): Convention 5 (the right action on frames),
-  Layer 2 (isogenies and the Weil pairing at scheme level), Layer 5A (for `N ≥ 4`, `Y₁(N)` over
-  `ℤ[1/N]` is the locus in the base of the universal Tate normal form where `(0, 0)` has exact
-  order `N`, and it represents `[Γ₁(N)]`), Layer 8D (`[Γ₀(N)]`), Layers 9–10 (quotients, coarse
-  curves and the prime-level compactifications).
-- [ModularForms](../ModularForms/README.md) (MF): §0.2 (eta quotients, their transformation law
-  and their orders at the cusps), §10A (cusp and elliptic-point counts
-  `ε∞, ε₂, ε₃` of a congruence subgroup, the degree `d` of `X(Γ) → X(1)`, and by Riemann–Hurwitz the
-  genus formula `g = 1 + d/12 − ε₂/4 − ε₃/3 − ε∞/2` of the compact Riemann surface), §10C (the
-  weight-`k` section spaces), §4.1 (primitive associates: a good eigenform lies in the span of the
-  `g(dz)` for one newform `g`), §8.2 (Galois conjugates of newforms over their coefficient fields).
-  Newforms are Tau Ceti's `HeckeRing.GL2.Newform`, with analytic rank
-  `HeckeRing.GL2.Newform.analyticRank` (`…ModularForms.Newforms.AnalyticInvariants`), the order of
-  Mathlib's continued `ModularForm.L` at the centre, as MF's table of its earlier labels records.
-- [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) (FO): Layers 3–5 (cusp data, widths,
-  compactification, degree and Riemann–Hurwitz).
-- [NoncongruenceModularForms](../NoncongruenceModularForms/README.md) (NC): §2.1 (`cuspWidths`,
-  `cuspCount` of a finite-index `Γ̄ ≤ PSL₂(ℤ)` as the cycles of `T̄` on its cosets, identified with
-  FO's cusp orbits and widths), §2.2 (`ellipticTwo`, `ellipticThree`, the fixed points of `S̄` and
-  `R̄`, identified with the elliptic orbits), §2.3 (`genus`, the genus of the modular permutation
-  triple, the integral formula `12 g + 3 ε₂ + 4 ε₃ + 6 ε∞ = 12 + n` and its equality with the genus
-  of the compact Riemann surface), §2.5 (the closed forms for `Γ̄₀(N)` and the comparison of the
-  modular triple of `Γ̄ ⊇ Γ̄(N)` with the action of `PSL₂(ℤ/N)` on the cosets of the image of `Γ̄`).
-- [EllipticCurves](../EllipticCurves/README.md) (EC): Layer 1 (isogenies, `Isogeny.degree`,
-  `[n]`, formal groups, and the specification of the CM vocabulary that Tau Ceti implements as
-  `CMAction`, `HasGeometricCM`, `GeometricEnd`), Layer 2 (`E[N] ≃+ (ZMod N)²`, the Weil pairing,
-  the Tate module), Layer 4 (reduction, Tate's algorithm, the Tate curve), Layer 5 (twists),
-  Layer 6 (Mordell–Weil).
-- [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md) (AGR):
-  §3.3 (the prime-to-`p` conductor `N(ρ̄)` of a residual representation, *primeToPConductor*),
-  Layer 4 (Borel and Cartan subgroups over finite fields, Dickson's classification
-  `GL2Subgroup.dickson_projectiveImage`, Serre's Propositions 15–18, its §4.5), §6.1 (the Tate
-  module as a continuous representation and the adelic action on `T̂A = ∏_ℓ T_ℓA`, used for
-  `A = E` through FF R28.6.1), §6.2 (determinant and Weil pairing), §6.4 (the predicates
-  *IsPGaloisGeneric* and *IsGaloisGeneric*, image open at one `ℓ` and adelically, with their API),
-  §7.3 (similitude groups: `SimilitudeGroup.GSp`, `SimilitudeGroup.multiplier`, `det g = ν(g)^m` on
-  `GSp_{2m}`), §7.5 (`GSp₄`-valued representations).
-- [NoncommutativeAndEquivariantIwasawa](../NoncommutativeAndEquivariantIwasawa/README.md) (NEI):
-  §4.0 (`elliptic_nonCM_openImage`: for `E` over a number field with geometric endomorphisms
-  `ℤ`, the `ℓ`-adic image is open in `GL₂(ℤ_ℓ)` for every `ℓ`; `elliptic_CM_openImage`: with CM
-  by an order `𝒪` defined over the base, the `ℓ`-adic image is open in `(𝒪 ⊗ ℤ_ℓ)ˣ`).
-- [EllipticCurveModularityImaginaryQuadratic](../EllipticCurveModularityImaginaryQuadratic/README.md)
-  (ECMIQ): §5.1 (`nonCM_elliptic_large_residual_primes`: for a geometrically non-CM `E` over a
-  number field `K`, `SL₂(𝔽_ℓ) ⊆ ρ̄_{E,ℓ}(G_K)` for all but finitely many `ℓ`).
-- [FaltingsFinitenessAndIsogenyTheorems](../FaltingsFinitenessAndIsogenyTheorems/README.md)
-  (FF): R28.6.1 (a Weierstrass elliptic curve as a one-dimensional abelian variety, with the
-  same homomorphisms, degrees and Tate modules), R28.6.5 (`finite_ellipticIsogenyClass`), R28.6.6
-  (the homomorphisms to an isogenous curve form an infinite cyclic group).
-- [EisensteinIdealAndRationalTorsion](../EisensteinIdealAndRationalTorsion/README.md) (EI):
-  §8.8 (`all_prime_torsion`: a rational point of prime order on an elliptic curve over `ℚ` has
-  order `2`, `3`, `5` or `7`), proved there from its §§8.1–8.7 without further hypotheses.
-- [EllipticCurveModularityPartII](../EllipticCurveModularityPartII/README.md) (EM2): §5.0a
-  (`HasCyclicIsogeny`; Mazur's isogeny theorem `prime_isogeny_degrees` and
-  `noncm_prime_isogeny_degrees`), §5.0b (Kenku's `cyclic_isogeny_degrees`), §6.0b (the
-  `j`-images of `Y₀(11)(ℚ)`, `Y₀(17)(ℚ)`, `Y₀(37)(ℚ)`), §6.0d (the winding class and its
-  annihilator), §6.0f (the isogeny-degree bound over a number field), and §6.0e (finiteness of
-  `A_f(ℚ)` for a trivial-character weight-two newform with `L(f, 1) ≠ 0`), whose extension to
-  newforms with a character is the declared gap `gap:nebentypus-rank-zero` below.
-- [GlobalQuadraticForms](../GlobalQuadraticForms/README.md) (GQF): Layer 5, §5.5 (Hasse–Minkowski
-  isotropy over a number field, with its ternary case §5.1).
-- [EffectiveDiophantineMethods](../EffectiveDiophantineMethods/README.md) (ED): §§3.10–3.11
-  (descent via a rational `2`-isogeny for elliptic curves over `ℚ`), §3.20 (exact torsion
-  subgroups from reductions), and the complete rational-point lists of two genus-two curves
-  requested from it under the declared gaps `gap:x1-16-rational-points` and
-  `gap:x1-18-rational-points` below. These are applied in 6.4 to the explicit models of modular
-  curves; ED identifies none of its curves with a modular curve, and the identifications are
-  6.4's targets.
-- [ShimuraVarieties](../ShimuraVarieties/README.md) (SV): §5.10 (the main theorem of complex
-  multiplication).
-- [ClassFieldTheory](../ClassFieldTheory/README.md) (CFT): Layer 11 (global Artin
-  reciprocity), used through SV §5.10 and for the abelian division fields of CM curves.
-- [Chebotarev](../../Completed/Chebotarev/README.md): the density theorem for finite Galois extensions.
-- [NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md) (NFA): decomposition
-  groups, the Artin symbol, the splitting of a prime in a quadratic field.
-- [ImaginaryQuadraticClassNumber](../ImaginaryQuadraticClassNumber/README.md) (IQ): the
-  thirteen imaginary quadratic orders of class number one (H3.6), the class number of an order
-  (H1.4), finiteness of the discriminants of bounded class number (H2.4), and the Hilbert class
-  polynomial of degree `h(𝒪)` with root `j(𝒪)` (H3.1).
-- [JacobianChallenge](../JacobianChallenge/README.md) (JC): Riemann–Roch for curves over a
-  field, the Jacobian of a curve.
-- [AlgebraicCurves](../AlgebraicCurves/README.md) (AC): function fields, closed points and
-  their degrees, finite morphisms of curves, and 12C's anti-equivalence between smooth projective
-  curves and function fields (a smooth projective curve is determined up to isomorphism by its
-  function field).
-- [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) (SSF): §5.11
-  (`weil_bound_via_surfaces`, the Hasse–Weil bound `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` for a smooth
-  projective geometrically irreducible curve of genus `g` over `𝔽_q`).
-- `CanonicalModelsAndGonality` (CMG): §2.1 (model data, their divisors and degrees), §§2.5 and
-  9.1 (complete models and closed immersions), which the model targets of 6.4 instantiate at six
-  modular curves, §1.6 (the norm of divisors along a finite map, with norm after conorm the
-  multiplication by the degree), Layer 7 (isolated, parametrized and sporadic points, Frey's
-  criterion), Layer 8 (Abramovich's linear lower bound on gonality).
-- [AlgebraicModularFormsAndSerreWeights](../AlgebraicModularFormsAndSerreWeights/README.md)
-  (AMFSW): §§4.1–4.3 (Serre's local weight recipe: the tame inertia alternatives, the tame weight
-  table and the extension-sensitive wild weight table), read at the restriction of `ρ̄_{E,ℓ}` to a
-  decomposition group at `ℓ`, as its §7.6 reads it for a global `ρ̄`.
-- [SerreModularityByCompatibleSystems](../SerreModularityByCompatibleSystems/README.md) (SMC): Layer S6
-  (`S6/strong-form-of-serre-conjecture`: an odd, absolutely irreducible `ρ̄ : G_ℚ → GL₂(𝔽̄_p)`
-  arises from a newform of weight `k(ρ̄)` and level `N(ρ̄)`), for the reading of the Serre
-  invariants in 3.4.
-
-Sibling roadmaps whose material is named but not specified here:
-`SatoTateGroups` (endomorphism algebras, Sato–Tate groups of elliptic curves and abelian
-surfaces), `HyperellipticCurves` (models and invariants of genus-two curves),
-`EllipticCurvePeriodsAndModularParametrizations` (modular degree, Manin constant, periods).
-
-### Consumed, not redefined
-
-Every object below is used under its supplier's name and is not defined again here.
-
-| Object | Supplier |
-| --- | --- |
-| `ẑ`, `zHat.toZMod`, `zHat.component`, `zHat.ringEquivPiPadicInt`, `zHat.unitsLift` | Tau Ceti `TauCeti.Topology.Algebra.Group.Profinite.ZHat.*`, specified by PA Layer 0 |
-| `ClosedSubgroupConjClasses G` | PA 2.3 |
-| `Subgroup.profiniteIndex` | Tau Ceti, specified by PPG Layer 1 |
-| Gassmann equivalence in a finite group: `Subgroup.AlmostConjugate` | Tau Ceti `TauCeti.GroupTheory.AlmostConjugate`, whose laws `FiniteGroupInvariants` 7.1 states |
-| Gassmann equivalence of finite-index subgroups: `AlmostConjugateOfFiniteIndex` with its reduction to a common finite quotient | `FiniteGroupInvariants` 7.3 |
-| `levelGamma0 N`, `levelGamma1 N`, `splitCartan ℓ`, `splitCartanNormalizer ℓ`, `nonsplitCartan ℓ ε`, `nonsplitCartanNormalizer ℓ ε`, `projectiveIndex`, `levelDet`, `levelPullback`, `levelConj` as subgroups of `GL₂(ℤ/n)` | MC2 §3.8 |
-| `Gamma N`, `Gamma0 N`, `Gamma1 N`, `IsCongruenceSubgroup`, `Subgroup.adjoinNegOne`, `Matrix.SpecialLinearGroup.mapGL`, `Matrix.GeneralLinearGroup.map`, `Matrix.GeneralLinearGroup.det` | Mathlib |
-| `Gamma0_prime_index`, `Gamma0_prime_power_index`, `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`, `natCard_GL_fin_two` | Tau Ceti |
-| Borel, split and non-split Cartan subgroups over finite fields, Dickson's classification, Serre's Propositions 15–18 | AGR §§4.2–4.5 |
-| `SimilitudeGroup.GSp`, `SimilitudeGroup.multiplier`, `det g = ν(g)^m`, the comparison of the Gram matrices `−Matrix.J` and `Matrix.J` | AGR §7.3 |
-| `ε₂, ε₃, ε∞`, the genus of `X(Γ)` and `deg(X(Γ) → X(1)) = [PSL₂(ℤ) : Γ̄]` | MF §10A on FO Layers 3–5 |
-| `cuspWidths`, `cuspCount`, `ellipticTwo`, `ellipticThree`, `genus` of a finite-index `Γ̄ ≤ PSL₂(ℤ)`, the integral genus formula and its Riemann-surface comparison, the closed forms for `Γ̄₀(N)`, the comparison with the action of `PSL₂(ℤ/N)` on cosets | NC §§2.1–2.3, 2.5 |
-| The adelic action on `T̂A = ∏_ℓ T_ℓA`; *IsPGaloisGeneric*, *IsGaloisGeneric* and their API | AGR §§6.1, 6.4 |
-| `elliptic_nonCM_openImage`, `elliptic_CM_openImage` | NEI §4.0 |
-| `nonCM_elliptic_large_residual_primes` | ECMIQ §5.1 |
-| `TateModule ℓ`, `tateModuleGaloisRepresentation`, `tateModuleWeilPairing`, `det_tateModuleGaloisRepresentation`, `finrank_tateModule` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.*` |
-| `Isogeny`, `Isogeny.degree`, `Isogeny.ker`, `[n]`, `autGroup`, `quadraticTwist` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.*`, specified by EC Layers 1, 2, 5 |
-| `torsion_addEquiv_prod` (`E[N] ≃+ (ZMod N)²`), `CMAction`, `HasGeometricCM`, `GeometricEnd`, `Isogeny.Hom.pointMapHom`, `TateModule.mapLinearMap` | Tau Ceti `…Isogeny.MulByInt.Torsion.Structure`, `…Isogeny.Hom.ComplexMultiplication`, `…Isogeny.Hom.Ring`, `TauCeti.Algebra.Module.Torsion.TateModule`, specified by EC Layers 1–2 |
-| `𝒳_H`, `X_H`, `levelStack.map`, `levelMap`, `conjIso`, `toCyclotomicBase`, the cusp set `⟨±u⟩\GL₂(ℤ/n)/H̄` with widths and Galois action | MC2 §§3.12, 5.8–5.12, 5.15 |
-| The dictionary between `Y_H(K)` and images, `j ∉ {0, 1728}`, `−I ∈ H̄` | MC2 §9.7 |
-| `cartanCurve`, `splitCartanCurve_iso_gammaZero`, `gammaZeroPlus` | MC2 §§9.5–9.8 |
-| `modularQuotient` (`A_f`), `dim A_f = [K_f : ℚ]`, `J₁(N)`, `J₀(N)` | MC2 §§13.1, 16.2, 16.3, 16.6 |
-| The elliptic-to-abelian comparison, `finite_ellipticIsogenyClass`, the infinite cyclic `Hom_K(E, E')` between isogenous curves | FF R28.6.1, R28.6.5, R28.6.6 |
-| `all_prime_torsion` (prime orders `2, 3, 5, 7` only) | EI §8.8 |
-| `HasCyclicIsogeny`; Mazur's isogeny theorem `prime_isogeny_degrees`, `noncm_prime_isogeny_degrees`; Kenku's `cyclic_isogeny_degrees`; the `j`-images of `Y₀(11)(ℚ)`, `Y₀(17)(ℚ)`, `Y₀(37)(ℚ)` | EM2 §§5.0a–5.0b, 6.0b |
-| The winding class of a congruence modular Jacobian and its annihilator; finiteness of `A_f(ℚ)` for a trivial-character weight-two newform with `L(f, 1) ≠ 0` | EM2 §§6.0d–6.0e |
-| The degree bound `10⁷ d² (max{h_F(E), 985} + 4 log d)²` for a geometric isogeny between geometrically isogenous curves over a degree-`d` field, and for every cyclic isogeny from a non-CM `E` | EM2 §6.0f |
-| Descent via a `2`-isogeny over `ℚ`, exact torsion subgroups | ED §§3.10–3.11, 3.20 |
-| The rational points of the genus-two models of `X₁(16)` and `X₁(18)` | ED, under the declared gaps `gap:x1-16-rational-points`, `gap:x1-18-rational-points` |
-| The Tate normal form `tateNormalForm`, `existsUnique_variableChange_tateNormalForm`, `existsUnique_tateNormalForm` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.TateNormalForm`, `…Scheme.TateNormalForm` |
-| `Y₁(N)` for `N ≥ 4` as the exact-order-`N` locus of the universal Tate normal form, representing `[Γ₁(N)]` | MC Layer 5A |
-| Eta quotients and their orders at the cusps | MF §0.2 |
-| The function field of `X₀(N)_ℚ` as `ℚ(j(q), j(q^N))`, and the Fricke involution on it | MC2 §§8.2, 9.3 |
-| Frey's criterion, Abramovich's gonality bound, isolated and parametrized points | CMG Layers 7–8 |
-| Model data, complete models and closed immersions, instantiated at six modular curves in 6.4 | CMG §§2.1, 2.5, 9.1 |
-| The prime-to-`p` conductor `N(ρ̄)` of a residual representation | AGR §3.3 |
-| Serre's local weight recipe `k(ρ_p)` | AMFSW §§4.1–4.3 |
-| Serre's modularity conjecture, strong form | SMC Layer S6 |
-| The norm of divisors along a finite extension of function fields, with norm after conorm the multiplication by the degree | CMG §1.6 |
-| `TauCeti.Divisor.conorm`, `conorm_principal`, `degree_conorm`; `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.analyticRank` | Tau Ceti |
-| The main theorem of complex multiplication | SV §5.10 |
-| The Hasse–Weil bound `weil_bound_via_surfaces` for curves over `𝔽_q` | SSF §5.11 |
-| The thirteen class-number-one orders and their `j`-invariants | IQ |
-| Hasse–Minkowski isotropy over a number field | GQF Layer 5 |
-| `modularCyclotomicCharacter`, `Polynomial.cyclotomic.irreducible_rat`, `fermatLastTheoremThree`, `Matrix.card_GL_field`, `Matrix.J`, `Matrix.symplecticGroup`, `ProjectiveSpecialLinearGroup.rank_two_simple'`, `Matrix.SL2.commutator_eq_top`, `MonoidHom.pi`, `ModularForm.L` | Mathlib |
-
-### Supplier gaps
-
-The following `gaps` entries specify required inputs that no cited contract supplies
-unconditionally. A gap supplies no theorem; a statement here that uses one is conditional on it and
-says so.
-
-- `gap:abelian-surface-open-image`: supplier
-  [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md) Layer 7 (its
-  big-image layer); needs: for a principally polarised abelian surface `A` over a number field `K`
-  with `End(A_{K̄}) = ℤ`, `ρ̄_{A,ℓ}(G_K) ⊇ Sp₄(𝔽_ℓ)` for all but finitely many primes `ℓ` (Serre,
-  *Résumé des cours de 1985–1986*, §2.3, Théorème 3, p. 97, whose equality `G_{K,ℓ} = GSp(T_ℓ, e_ℓ)`
-  for large `ℓ` implies it). The finite-group criteria of AGR §§7.9–7.11 (adequate, enormous, vast
-  images) take large residual images as hypotheses and do not supply it. 7.2 uses this gap for the
-  finiteness of `nonmaximalPrimes A` and for nothing else.
-- `gap:nebentypus-rank-zero`: supplier
-  [EllipticCurveModularityPartII](../EllipticCurveModularityPartII/README.md) §6.0e; needs: for a
-  primitive weight-two newform `f` of any level and any Dirichlet character with `L(f, 1) ≠ 0`, the
-  modular abelian variety `A_f` has `A_f(ℚ)` finite (§6.0e's statement without its
-  trivial-character hypothesis). 6.4 uses this gap at `N = 25` only, for the four-dimensional `A_f`
-  of the newforms of level `25` with a character of order `5`.
-- `gap:x1-16-rational-points`: supplier
-  [EffectiveDiophantineMethods](../EffectiveDiophantineMethods/README.md) Layer 3 (beside the
-  complete point lists of its §§3.26–3.28); the same contract ArithmeticDynamics, earlier in the
-  merge order, declares under this slug. Needs: the rational points over `ℚ` of the smooth
-  projective genus-two curve `v² = u(u² + 1)(1 + 2u − u²)` are exactly `(0, 0)`, `(1, ±2)`,
-  `(−1, ±2)` and its one point at infinity. Its certification (a rank bound for the Jacobian by
-  ED §3.23's `x − T` descent and the exact torsion by ED §3.20) belongs to the supplier. 6.4 uses
-  this gap at `N = 16` only, through its model target for `X₁(16)`.
-- `gap:x1-18-rational-points`: supplier
-  [EffectiveDiophantineMethods](../EffectiveDiophantineMethods/README.md) Layer 3, the same
-  contract ArithmeticDynamics declares under this slug. Needs: the rational points over `ℚ` of the
-  smooth projective genus-two curve `y² = x⁶ + 2x⁵ + 5x⁴ + 10x³ + 10x² + 4x + 1` are exactly
-  `(0, ±1)`, `(−1, ±1)` and its two points at infinity. 6.4 uses this gap at `N = 18` only,
-  through its model target for `X₁(18)`.
-
 ## What is missing
 
 Nothing in Mathlib or Tau Ceti names `GL₂(Ẑ)`, an open subgroup's level or genus, a Galois
@@ -595,39 +209,6 @@ image as a conjugacy class, an adelic Tate module, an isogeny class, or `GSp₄`
 - `GSp₄` is not in Mathlib, which has only `Sp`; the group and its multiplier are AGR §7.3's,
   and its adelic points, open subgroups, orbit signatures and the subgroup types of `GSp₄(𝔽_ℓ)`
   exist nowhere.
-
-## How to read the build
-
-Layer 0 builds the carrier `GL₂(Ẑ)`, its reductions and its open subgroups with level, index,
-`±H`, determinant and `Γ_H`. Layer 1 reads NoncongruenceModularForms' coset invariants (cusps,
-widths, elliptic points, genus) on the level-`N` model of an open subgroup and adds the Galois
-action on cusps. Layer 2 is the remaining group theory: Cartan subgroups, Serre's lifting lemma,
-the commutator subgroup, entanglement, agreeable closures, twists, isogeny orbits and the
-Gassmann invariants. Layer 3 attaches to an elliptic curve its adelic representation in
-`GL₂(Ẑ)` and reads its image through Layers 0–2. Layer 4 proves that this image is open for non-CM
-curves, on the `ℓ`-adic and residual inputs it consumes, and describes the CM case. Layer 5
-identifies the group-side invariants with the arithmetic of the curves `X_H` of
-ModularCurvesPartII. Layer 6 treats isogeny classes and ends with Mazur's torsion theorem and the
-shape of isogeny classes over `ℚ`. Layer 7 does the group theory of `GSp₄(Ẑ)` for genus-two
-Jacobians and depends only on Layer 0's methods.
-
-```
-Layer 0 ──► Layer 1 ──► Layer 2 (2.6, 2.8 need 1; 2.1–2.5, 2.7 need only 0)
-   │                       │
-   │                       ├──► Layer 3 (3.5 needs 2.4; 3.6 needs 2.7) ──► Layer 4 (needs 2.2, 2.4, 3; NEI §4.0, ECMIQ §5.1)
-   │                       │                                                   │
-   │                       └──► Layer 5 (5.1 needs 1; 5.2 needs 3; 5.3 needs 4.5; 5.6 needs 2.8;
-   │                                      5.9 needs 1 and MC2 Layers 13, 16)
-   │                                                                           │
-   │                            Layer 6 (6.1–6.2 need only EC/FF; 6.3 needs 5.2; 6.4–6.5 need 5.1–5.3, 5.9)
-   │
-   └──► Layer 7 (needs only 0's methods and AGR §§4.4, 7.3, 7.5; independent of Layers 1–6)
-```
-
-Parallel tracks: Layers 0 and 2 are startable against Mathlib and Tau Ceti alone, and Layer 1
-against them and NoncongruenceModularForms Layer 2; `6.1–6.2` (isogeny classes) and `7.1`
-(`GSp₄`) can start at once; `3` starts after `0` and `2.4`; `4` after `3`; `5.1` after `1`; the
-rest of `5` after `3` and `4.5`; `6.3–6.5` last.
 
 ## Layer 0: the profinite group `GL₂(Ẑ)` and its open subgroups
 
@@ -3277,6 +2858,425 @@ targets and are not stated. Each item names the milestone that computes it.
     `|C_ns(15)| = 15²(1 − 1/9)(1 − 1/25) = 192`, `ψ(15) = 24`; `|C_s⁺(13)| = 288`, `|C_ns⁺(13)| =
     336`, `26208/288 = 91`, `26208/336 = 78`. **`GSp₄` (7.1):** `|GSp₄(𝔽₂)| = 1·16·3·15 = 720 =
     |S₆|`, `|GSp₄(𝔽₃)| = 2·81·8·80 = 103680`, `|Sp₄(𝔽₃)| = 51840`.
+
+## Scope and ownership
+
+### Owned here
+
+- **Layer 0.** The profinite group `GL₂(Ẑ) = GL (Fin 2) ẑ`: its reductions
+  `red n : GL₂(Ẑ) →* GL₂(ℤ/n)`, the kernels `Γ(n)`, the inverse-limit property, the
+  subgroups `SL₂(Ẑ)` and the determinant `det : GL₂(Ẑ) →* ẑˣ`; open subgroups and their
+  **level**, **index**, `±H`, **projective index**, **determinant image**, the predicates
+  `−I ∈ H` and `det H = ẑˣ`; the standard open subgroups (preimages of MC2 §3.8's finite-level
+  subgroups and of the Cartan subgroups of étale `ℤ/N`-algebras); the congruence subgroup
+  `Γ_H := H ∩ SL₂(ℤ)`, its **`SL₂`-level** and **`PSL₂`-index**, and the density of `SL₂(ℤ)`
+  in `SL₂(Ẑ)`.
+- **Layer 1.** The reduction of the LMFDB's `gl2.genus` data of an open `H` to the level-`N`
+  coset model: `ν₂`, `ν₃`, the cusps of `H` as `⟨T⟩`-orbits with their **widths** and the
+  **genus** `g(H)` are NoncongruenceModularForms' invariants of the image `Γ̄_{±H}` of `Γ_{±H}`
+  in `PSL₂(ℤ)` (consumed); owned are their reading on `Γ̄_H \ SL₂(ℤ/N)`, their invariance under
+  `GL₂(Ẑ)`-conjugation and under `H ↦ ±H`, the Galois action on cusps through `(ℤ/N)ˣ`, **cusp
+  orbits**, **rational cusps** and **cusp fields**, and the relative index of a cover.
+- **Layer 2.** Cartan subgroups of `GL₂(R)` for `R = ℤ/N, ℤ_ℓ, ẑ` attached to an étale
+  algebra, in particular the Cartan `C_𝒪 = Aut_𝒪` of an imaginary quadratic order; Serre's
+  lifting lemma and its failures at `ℓ = 2, 3`; the commutator subgroup of `GL₂(Ẑ)` and the
+  index-two subgroups containing it; **entanglement index** and **entanglement quotient**;
+  Zywina's **agreeable** subgroups and the agreeable closure; the **invariants of Gassmann-equivalent
+  subgroups** (the equivalence itself is consumed from `FiniteGroupInvariants` 7.3);
+  **twists** `H₁ ∩ SL₂(Ẑ) = H₂ ∩ SL₂(Ẑ)`, **quadratic refinements**, **relative index**;
+  the **isogeny orbits** `[M, n, m]` and the three field-degree invariants.
+- **Layer 3.** On the adelic Tate module `T̂E = ∏_ℓ T_ℓ E` and its Galois action, which are
+  ArithmeticGaloisRepresentations §6.1's for `A = E` (consumed): the `ẑ`-module structure, the
+  identification of its level-`N` quotient with `E[N]`, frames and the matrix form
+  `ρ_E : G_K → GL₂(Ẑ)` with its reductions `ρ_{E,N}` and components `ρ_{E,ℓ^∞}`, the determinant
+  as the cyclotomic character `χ : G_K → ẑˣ`; the **mod-`N`**, **`ℓ`-adic** and **adelic
+  images** as conjugacy classes of closed subgroups; **adelic level, index and genus**;
+  **non-maximal primes** (relative to `Aut_𝒪` in the CM case); division fields and **torsion
+  growth**; the **index-two obstruction** over `ℚ` and **Serre curves**.
+- **Layer 4.** The parts of Serre's open image theorem for non-CM curves over number fields that
+  no earlier roadmap owns: surjectivity onto `GL₂(ℤ_ℓ)` for almost all `ℓ` and adelic openness,
+  on top of the `ℓ`-adic openness of NoncommutativeAndEquivariantIwasawa §4.0 and the
+  `SL₂(𝔽_ℓ)`-inclusion for almost all `ℓ` of EllipticCurveModularityImaginaryQuadratic §5.1
+  (both consumed); the CM counterpart: the adelic image lies in `Aut_𝒪(T̂E)` or the index-two
+  group `N_𝒪(ẑ)` according to whether `𝒪 ⊂ K`, and is open there.
+- **Layer 5.** The arithmetic gloss on `X_H` over `ℚ` and over number fields: the identification
+  of MC2's cusps, widths, Galois action, `j`-degree and genus with Layers 0–1; points of `X_H`
+  against images, with the `−I` and `j ∈ {0, 1728}` caveats stated as theorems; **CM points**
+  and the `cm_discriminants` of `H`; **isolated points**, with their push-forward along finite
+  maps of curves (Bourdon–Ejder–Liu–Odumodu–Viray, Theorem 4.3); **fibre products**; Gassmann
+  classes and isogenous Jacobians; twists and the cyclotomic isomorphism; **local obstructions** and
+  the real-point criterion; the decomposition of `J_H` into the `A_f` with multiplicities,
+  **simple**, **squarefree**, **newform level**, **conductor**, **analytic rank** and
+  **genus minus rank** as derived invariants.
+- **Layer 6.** `K`-isogeny classes, the **isogeny matrix**, **isogeny graph**, **class
+  degree**, the **isogeny degrees** of a curve, the dictionary with `X₀(N)(K)`; Mazur's
+  torsion theorem as the last milestone of a layered chain over `ℚ`, including the explicit
+  models of the six curves `X₁(14)`, `X₁(15)`, `X₁(16)`, `X₁(18)`, `X₀(21)`, `X₀(27)` that the
+  chain runs on and the rational points it needs on them (those of the genus-two models of
+  `X₁(16)` and `X₁(18)` are consumed from EffectiveDiophantineMethods under two declared gaps);
+  what Mazur's and Kenku's
+  isogeny theorems (consumed) force on the isogeny degrees, class degree, class size and
+  isogeny graph over `ℚ`; the finiteness and shape of isogeny classes over number fields.
+- **Layer 7.** `GSp₄(Ẑ)`, the `ẑ`-points of AGR §7.3's similitude group (the group, its
+  multiplier and their laws are consumed): reductions, open subgroups, level and index, orbit
+  signatures, finite cardinalities; the mod-`ℓ` image of a genus-two Jacobian, its **non-maximal
+  primes** and **two-torsion field**; the subgroup configurations of `GSp₄(𝔽_ℓ)` with a
+  single-label rule, and Mitchell's classification of the maximal subgroups of `PSp₄(𝔽_ℓ)`.
+
+### Not owned here
+
+- Katz–Mazur moduli problems, Drinfeld level structures, the integral curves and their bad
+  fibres: MC and MC2. This roadmap never constructs a modular curve.
+- The theory of models of a curve (model data, complete, canonical, plane and Weierstrass
+  models, closed immersions, coordinate expressions of functions such as `j`), gonality and
+  gonality bounds: `CanonicalModelsAndGonality`. The LMFDB's embedded model is that roadmap's
+  complete model (its §§2.5, 9.1) of the divisor of weight-`k` forms on `X(Γ_{±H})`, MF 10C's
+  section-space divisor, which is consumed here as it stands. The LMFDB's stored models of
+  individual curves `X_H` are not targets; the one place this roadmap names models is 6.4, whose
+  six model targets (`X₁(14)`, `X₁(15)`, `X₁(16)`, `X₁(18)`, `X₀(21)`, `X₀(27)`) are owned here,
+  since CanonicalModelsAndGonality leaves the modular-curve dictionary to this roadmap.
+- Label components beyond the intrinsic prefix, orderings and normal forms fixed by
+  convention, stored lists, and the completeness of database tables are not targets: the final
+  integer `n` of an RSZB label `N.i.g.c.n`, the Gassmann letter `c`, `canonical_conjugator`,
+  canonical generators, `psl2label`, `sl2label`, CP, SZ, RZB, S and Zywina labels, the choice
+  of the minimal twist as the least label, `reductions`, `parents`, `factorization` as label
+  lists, `known_points` counts and `trace_hash`. This roadmap states the intrinsic **prefix** `(N, i, g)` and the coarse prefix `(M, j, g)` of
+  `±H`, and the predicates `fine` (`−I ∉ H`) and `coarse`.
+- Modular forms, Hecke operators, newforms, `L`-functions and their analytic ranks: MF and
+  LFunctions. The analytic rank of `X_H` is defined here as a sum of analytic ranks of newforms
+  supplied there.
+- Endomorphism algebras and Sato–Tate groups: `SatoTateGroups`. Genus-two curve models,
+  Igusa invariants: `HyperellipticCurves`. The Hasse–Weil bound: SSF §5.11.
+- Modular degree, Manin constant, periods, optimal curves:
+  `EllipticCurvePeriodsAndModularParametrizations`.
+- The theory of Galois representations in general (conductors, Weil–Deligne representations,
+  big-image conditions): AGR. In particular the adelic Tate module `T̂A = ∏_ℓ T_ℓA` of an abelian
+  variety with its Galois action (AGR §6.1) and the open-image predicates *IsPGaloisGeneric* and
+  *IsGaloisGeneric* with their API (finite index, base change, framing; AGR §6.4), read here for
+  `A = E`, `g = 1`, where the similitude group `GSp₂` is `GL₂`. Serre's local weight recipe:
+  AlgebraicModularFormsAndSerreWeights Layer 4. Serre's modularity conjecture in its strong form:
+  SerreModularityByCompatibleSystems Layer S6.
+- The `ℓ`-adic open image theorems for elliptic curves, non-CM and CM, at every `ℓ`:
+  NoncommutativeAndEquivariantIwasawa §4.0 (`elliptic_nonCM_openImage`,
+  `elliptic_CM_openImage`). The inclusion `SL₂(𝔽_ℓ) ⊆ ρ̄_{E,ℓ}(G_K)` for all but finitely many
+  `ℓ` for a geometrically non-CM `E`, with Serre's proof through Dickson's classification:
+  EllipticCurveModularityImaginaryQuadratic §5.1 (`nonCM_elliptic_large_residual_primes`).
+  Layer 4 consumes both and owns the passage to `GL₂(ℤ_ℓ)` and to the adelic image.
+- Cusp widths, cusp counts, elliptic-point counts and the genus of a finite-index subgroup of
+  `PSL₂(ℤ)`, read on its cosets through its modular permutation triple, with the integral genus
+  formula, the comparison with the compact Riemann surface and the closed forms for `Γ₀(N)`:
+  NoncongruenceModularForms §§2.1–2.3, 2.5 (on Tau Ceti's `PermutationTriple`). Layer 1 applies
+  them to `Γ̄_{±H}`.
+
+## Exact supplier contracts
+
+Every milestone lists what it rests on. Each prerequisite is one of: a Mathlib declaration at
+the pin; a Tau Ceti declaration at the pin; an earlier milestone of this roadmap; a named
+layer or milestone of another roadmap of this repository, cited by that roadmap's own
+numbering; or a supplier gap declared below, in which case the statement using it says so.
+Nothing rests on anything else.
+
+### From Mathlib
+
+- `Matrix.GeneralLinearGroup` (`GL n R`), `GeneralLinearGroup.map`, `GeneralLinearGroup.det`,
+  `SpecialLinearGroup.mapGL`, `SpecialLinearGroup.map`, and the finite-field cardinalities
+  `Matrix.card_GL_field`, `Matrix.card_SL_field`.
+- The topology of units: `Units` of a topological monoid is a topological group, compact when
+  the monoid is compact and `T1` (`Units.isClosedEmbedding_embedProduct` and the `CompactSpace`
+  instance in `Topology/Algebra/Group/Units.lean`); `Units.map` of a continuous homomorphism is
+  continuous; `Matrix m n R` carries the product topology and is a topological ring
+  (`Matrix.topologicalRing`).
+- `OpenSubgroup G` with `OpenSubgroup.comap`, `ClosedSubgroup G`, `Subgroup.index`,
+  `Subgroup.relIndex`, `Subgroup.FiniteIndex`, `Subgroup.subgroupOf`, `Subgroup.normalizer`,
+  `ConjAct`, `MulAction.orbitRel.Quotient`, `Subgroup.goursat`,
+  `Subgroup.isOpen_of_isClosed_of_finiteIndex`; `MonoidHom.pi` and `Representation.asGroupHom`,
+  with which `Suggested.lean` reads the product of the `ℓ`-adic representations.
+- The congruence subgroups `CongruenceSubgroup.Gamma`, `Gamma0`, `Gamma1`,
+  `IsCongruenceSubgroup`, `Subgroup.adjoinNegOne`, `Subgroup.IsArithmetic`, the cusp
+  vocabulary of `NumberTheory/ModularForms/Cusps.lean` (`IsCusp`, `CuspOrbits`,
+  `strictWidthInfty`, `widthInfty`) and the modular group `ModularGroup.S`, `ModularGroup.T`.
+- `modularCyclotomicCharacter`, `rootsOfUnity`, `IsPrimitiveRoot`,
+  `Polynomial.cyclotomic.irreducible_rat`, `ZMod.unitsMap`, `ZMod.chineseRemainder`.
+- `WeierstrassCurve`, `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.Affine.Point` with its
+  `AddCommGroup`, `WeierstrassCurve.j`, `AddSubgroup.torsionBy`, `VariableChange`.
+- `Field.absoluteGaloisGroup`, the Krull topology, `NumberField`, `AlgebraicClosure`.
+- `Matrix.J`, `Matrix.symplecticGroup`, `Matrix.ProjectiveSpecialLinearGroup` and
+  `ProjectiveSpecialLinearGroup.rank_two_simple'`, `Matrix.SL2.commutator_eq_top`.
+- `NumberField.InfinitePlace`; Euler's case of Fermat's last theorem `fermatLastTheoremThree`
+  (`NumberTheory/FLT/Three.lean`), for the rational points of `X₀(27)` in 6.4.
+- `ModularForm.L` (`NumberTheory/ModularForms/LFunction.lean`), the continued `L`-function of a
+  cusp form, for 5.9.
+
+### From Tau Ceti
+
+- The profinite integers: `TauCeti.zHat`, the ring `Additive TauCeti.zHat`
+  (`TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring`), `zHat.toZMod` and `zHat.ringLift`
+  (`.ZMod`), `zHat.component` (`.Component`), `zHat.ringEquivPiPadicInt` and `zHat.idem`
+  (`.Decomposition`), `zHat.unitsEquivPiPadicInt` and `zHat.unitsLift` (`.Units`),
+  `zHat.continuousAutEquivUnits` (`TauCeti.Topology.Algebra.Group.ContinuousAut.ZHat`).
+- `TauCeti.Supernatural`, `TauCeti.profiniteOrder`, `Subgroup.profiniteIndex`.
+- The Tate module: `TauCeti.TateModule ℓ A` with its `ℤ_ℓ`-module structure and inverse-limit
+  topology (`TauCeti.Algebra.Module.Torsion.TateModule`), `WeierstrassCurve.finrank_tateModule`
+  and `nonempty_linearEquiv_tateModule` (`…TateModule.Basic`),
+  `WeierstrassCurve.tateModuleGaloisRepresentation` with
+  `continuous_tateModuleGaloisRepresentation_apply` (`…TateModule.Galois`),
+  `WeierstrassCurve.tateModuleWeilPairing` (`…TateModule.WeilPairing`),
+  `TauCeti.det_tateModuleGaloisRepresentation` (`…TateModule.Determinant`).
+- Isogenies: `TauCeti.Isogeny`, `Isogeny.degree`, `degree_comp`, `Isogeny.ker`,
+  `card_ker_le_degree`, `Isogeny.galoisConj`, the descent criteria
+  (`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.*`), `WeierstrassCurve.autGroup` and
+  `autGroupMulEquiv` (`…EllipticCurve.Aut`), the quadratic twist (`…EllipticCurve.QuadraticTwist`).
+- Endomorphisms and complex multiplication: `WeierstrassCurve.GeometricEnd` (the endomorphisms over
+  `SeparableClosure K`), `WeierstrassCurve.HasGeometricCM`, `TauCeti.CMAction` with its base change
+  `CMAction.map` (`…EllipticCurve.Isogeny.Hom.ComplexMultiplication`); the action of a morphism on
+  points `TauCeti.Isogeny.Hom.pointMapHom` (`…Isogeny.Hom.Ring`) and its map of Tate modules
+  `TauCeti.TateModule.mapLinearMap` (`TauCeti.Algebra.Module.Torsion.TateModule`);
+  `WeierstrassCurve.torsion_addEquiv_prod`, `E[N] ≃+ (ZMod N)²` for `N` invertible
+  (`…Isogeny.MulByInt.Torsion.Structure`). EllipticCurves Layers 1–2 specify them.
+- The Tate normal form `WeierstrassCurve.tateNormalForm a b`, `Y² + aXY + bY = X³ + bX²`, with
+  `WeierstrassCurve.existsUnique_variableChange_tateNormalForm`
+  (`TauCeti.AlgebraicGeometry.EllipticCurve.TateNormalForm`: a point `(x, y)` at which `ψ₂` and
+  `Ψ₃` are units is carried to `(0, 0)` of a Tate normal form by exactly one change of variables)
+  and its scheme form `WeierstrassCurve.existsUnique_tateNormalForm`
+  (`…EllipticCurve.Scheme.TateNormalForm`), for 6.4.
+- Gassmann equivalence in a finite group: `Subgroup.AlmostConjugate`
+  (`TauCeti.GroupTheory.AlmostConjugate`), for 2.8.
+- Congruence-subgroup arithmetic: `Gamma0_prime_index`, `Gamma0_prime_power_index`,
+  `Gamma_le_Gamma_of_dvd`, `neg_one_mem_Gamma0`, `withCenter_le_Gamma0`
+  (`TauCeti.NumberTheory.ModularForms.CongruenceSubgroups.Basic`),
+  `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`
+  (`TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Basic`), `Subgroup.integerCuspWidth`
+  (`…ModularForms.Cusps.Basic`), the stabiliser orders `TauCeti.ModularGroup.ellipticOrder`
+  with `card_stabilizer_psl_I = 2`, `card_stabilizer_psl_ρ = 3`
+  (`TauCeti.NumberTheory.Modular.Stabilizer`), the relations `S² = 1`, `(TS)³ = 1` in
+  `PSL(2, ℤ)` (`…Modular.Relations`).
+- `natCard_GL_fin_two` (`TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Card`) and the
+  `GL₂` toolkit of `TauCeti.RepresentationTheory.CharacterTable.GL2.*` (diagonal and
+  non-split tori, conjugacy classes of `GL₂(𝔽_q)`).
+- Newforms `HeckeRing.GL2.Newform` (`TauCeti.NumberTheory.ModularForms.Newforms.Newform`) and their
+  analytic rank `HeckeRing.GL2.Newform.analyticRank` (`…ModularForms.Newforms.AnalyticInvariants`),
+  for 5.9.
+- Divisors of function fields: the pull-back `TauCeti.Divisor.conorm` with
+  `TauCeti.Divisor.conorm_principal` and `TauCeti.Divisor.degree_conorm`
+  (`TauCeti.FieldTheory.FunctionField.Divisor.Conorm`), for the push-forward of isolated points
+  in 5.4.
+- `Field.absoluteGaloisGroup` is profinite (`TauCeti.absoluteGaloisGroupRestrictEquiv` and its
+  instances), `TauCeti.inertiaSubgroup`, `TauCeti.inertiaPadicTameCharacter`,
+  `TauCeti.continuousLocalCyclotomicCharacter`.
+
+### From other roadmaps
+
+The roadmaps consumed, with the relative links used throughout:
+
+- [ProfiniteArithmetic](../../Completed/ProfiniteArithmetic/README.md) (PA): Layer 0 (the ring `ẑ`, its
+  projections, components, units and `zHat.unitsLift`), Layer 2.3 (`ClosedSubgroup`
+  conjugacy classes `ClosedSubgroupConjClasses`).
+- [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md) (PPG): Layer 1 (supernatural order
+  and `Subgroup.profiniteIndex`), used only to say that the index of a closed subgroup is a
+  supernatural number and is a natural number exactly for open subgroups.
+- [ModularCurvesPartII](../ModularCurvesPartII/README.md) (MC2): §3.8 (the finite-level
+  standard subgroups `levelGamma0`, `levelGamma1`, `levelGamma1Mu`, `splitCartan`,
+  `splitCartanNormalizer`, `nonsplitCartan`, `nonsplitCartanNormalizer`, `projectiveIndex`,
+  `levelDet`, `levelPullback`, `levelConj`), §3.9 (level-`H` structures), §3.12 (the stack
+  `𝒳_H`), §§5.8–5.12 (the coarse curve `X_H`, the `j`-degree, the cusp divisor, cusps away
+  from the level with their widths and Galois action, the cyclotomic structure), §§5.15–5.17
+  (level maps, quotients, the Katz–Mazur comparison), §6.1 (compact analytic–algebraic
+  comparison), §6.3 and §8.3 (cusp and component fields), §8.2 (the function field of `X₀(N)`
+  over `ℚ` as the field `ℚ(j(q), j(q^N))` of `q`-expansions), §9.3 (the Fricke involution),
+  §9.6 (Cartan curves), §9.7 (rational points of `X_H` and Galois images), §5.14 (the twisted curves `X(ρ)`), Layer 13 (modular
+  Jacobians) and Layer 16 (the quotients `A_f` of §16.2, `dim A_f = [K_f : ℚ]` of §16.3).
+- [ModularCurves](../ModularCurves/README.md) (MC): Convention 5 (the right action on frames),
+  Layer 2 (isogenies and the Weil pairing at scheme level), Layer 5A (for `N ≥ 4`, `Y₁(N)` over
+  `ℤ[1/N]` is the locus in the base of the universal Tate normal form where `(0, 0)` has exact
+  order `N`, and it represents `[Γ₁(N)]`), Layer 8D (`[Γ₀(N)]`), Layers 9–10 (quotients, coarse
+  curves and the prime-level compactifications).
+- [ModularForms](../ModularForms/README.md) (MF): §0.2 (eta quotients, their transformation law
+  and their orders at the cusps), §10A (cusp and elliptic-point counts
+  `ε∞, ε₂, ε₃` of a congruence subgroup, the degree `d` of `X(Γ) → X(1)`, and by Riemann–Hurwitz the
+  genus formula `g = 1 + d/12 − ε₂/4 − ε₃/3 − ε∞/2` of the compact Riemann surface), §10C (the
+  weight-`k` section spaces), §4.1 (primitive associates: a good eigenform lies in the span of the
+  `g(dz)` for one newform `g`), §8.2 (Galois conjugates of newforms over their coefficient fields).
+  Newforms are Tau Ceti's `HeckeRing.GL2.Newform`, with analytic rank
+  `HeckeRing.GL2.Newform.analyticRank` (`…ModularForms.Newforms.AnalyticInvariants`), the order of
+  Mathlib's continued `ModularForm.L` at the centre, as MF's table of its earlier labels records.
+- [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) (FO): Layers 3–5 (cusp data, widths,
+  compactification, degree and Riemann–Hurwitz).
+- [NoncongruenceModularForms](../NoncongruenceModularForms/README.md) (NC): §2.1 (`cuspWidths`,
+  `cuspCount` of a finite-index `Γ̄ ≤ PSL₂(ℤ)` as the cycles of `T̄` on its cosets, identified with
+  FO's cusp orbits and widths), §2.2 (`ellipticTwo`, `ellipticThree`, the fixed points of `S̄` and
+  `R̄`, identified with the elliptic orbits), §2.3 (`genus`, the genus of the modular permutation
+  triple, the integral formula `12 g + 3 ε₂ + 4 ε₃ + 6 ε∞ = 12 + n` and its equality with the genus
+  of the compact Riemann surface), §2.5 (the closed forms for `Γ̄₀(N)` and the comparison of the
+  modular triple of `Γ̄ ⊇ Γ̄(N)` with the action of `PSL₂(ℤ/N)` on the cosets of the image of `Γ̄`).
+- [EllipticCurves](../EllipticCurves/README.md) (EC): Layer 1 (isogenies, `Isogeny.degree`,
+  `[n]`, formal groups, and the specification of the CM vocabulary that Tau Ceti implements as
+  `CMAction`, `HasGeometricCM`, `GeometricEnd`), Layer 2 (`E[N] ≃+ (ZMod N)²`, the Weil pairing,
+  the Tate module), Layer 4 (reduction, Tate's algorithm, the Tate curve), Layer 5 (twists),
+  Layer 6 (Mordell–Weil).
+- [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md) (AGR):
+  §3.3 (the prime-to-`p` conductor `N(ρ̄)` of a residual representation, *primeToPConductor*),
+  Layer 4 (Borel and Cartan subgroups over finite fields, Dickson's classification
+  `GL2Subgroup.dickson_projectiveImage`, Serre's Propositions 15–18, its §4.5), §6.1 (the Tate
+  module as a continuous representation and the adelic action on `T̂A = ∏_ℓ T_ℓA`, used for
+  `A = E` through FF R28.6.1), §6.2 (determinant and Weil pairing), §6.4 (the predicates
+  *IsPGaloisGeneric* and *IsGaloisGeneric*, image open at one `ℓ` and adelically, with their API),
+  §7.3 (similitude groups: `SimilitudeGroup.GSp`, `SimilitudeGroup.multiplier`, `det g = ν(g)^m` on
+  `GSp_{2m}`), §7.5 (`GSp₄`-valued representations).
+- [NoncommutativeAndEquivariantIwasawa](../NoncommutativeAndEquivariantIwasawa/README.md) (NEI):
+  §4.0 (`elliptic_nonCM_openImage`: for `E` over a number field with geometric endomorphisms
+  `ℤ`, the `ℓ`-adic image is open in `GL₂(ℤ_ℓ)` for every `ℓ`; `elliptic_CM_openImage`: with CM
+  by an order `𝒪` defined over the base, the `ℓ`-adic image is open in `(𝒪 ⊗ ℤ_ℓ)ˣ`).
+- [EllipticCurveModularityImaginaryQuadratic](../EllipticCurveModularityImaginaryQuadratic/README.md)
+  (ECMIQ): §5.1 (`nonCM_elliptic_large_residual_primes`: for a geometrically non-CM `E` over a
+  number field `K`, `SL₂(𝔽_ℓ) ⊆ ρ̄_{E,ℓ}(G_K)` for all but finitely many `ℓ`).
+- [FaltingsFinitenessAndIsogenyTheorems](../FaltingsFinitenessAndIsogenyTheorems/README.md)
+  (FF): R28.6.1 (a Weierstrass elliptic curve as a one-dimensional abelian variety, with the
+  same homomorphisms, degrees and Tate modules), R28.6.5 (`finite_ellipticIsogenyClass`), R28.6.6
+  (the homomorphisms to an isogenous curve form an infinite cyclic group).
+- [EisensteinIdealAndRationalTorsion](../EisensteinIdealAndRationalTorsion/README.md) (EI):
+  §8.8 (`all_prime_torsion`: a rational point of prime order on an elliptic curve over `ℚ` has
+  order `2`, `3`, `5` or `7`), proved there from its §§8.1–8.7 without further hypotheses.
+- [EllipticCurveModularityPartII](../EllipticCurveModularityPartII/README.md) (EM2): §5.0a
+  (`HasCyclicIsogeny`; Mazur's isogeny theorem `prime_isogeny_degrees` and
+  `noncm_prime_isogeny_degrees`), §5.0b (Kenku's `cyclic_isogeny_degrees`), §6.0b (the
+  `j`-images of `Y₀(11)(ℚ)`, `Y₀(17)(ℚ)`, `Y₀(37)(ℚ)`), §6.0d (the winding class and its
+  annihilator), §6.0f (the isogeny-degree bound over a number field), and §6.0e (finiteness of
+  `A_f(ℚ)` for a trivial-character weight-two newform with `L(f, 1) ≠ 0`), whose extension to
+  newforms with a character is the declared gap `gap:nebentypus-rank-zero` below.
+- [GlobalQuadraticForms](../GlobalQuadraticForms/README.md) (GQF): Layer 5, §5.5 (Hasse–Minkowski
+  isotropy over a number field, with its ternary case §5.1).
+- [EffectiveDiophantineMethods](../EffectiveDiophantineMethods/README.md) (ED): §§3.10–3.11
+  (descent via a rational `2`-isogeny for elliptic curves over `ℚ`), §3.20 (exact torsion
+  subgroups from reductions), and the complete rational-point lists of two genus-two curves
+  requested from it under the declared gaps `gap:x1-16-rational-points` and
+  `gap:x1-18-rational-points` below. These are applied in 6.4 to the explicit models of modular
+  curves; ED identifies none of its curves with a modular curve, and the identifications are
+  6.4's targets.
+- [ShimuraVarieties](../ShimuraVarieties/README.md) (SV): §5.10 (the main theorem of complex
+  multiplication).
+- [ClassFieldTheory](../ClassFieldTheory/README.md) (CFT): Layer 11 (global Artin
+  reciprocity), used through SV §5.10 and for the abelian division fields of CM curves.
+- [Chebotarev](../../Completed/Chebotarev/README.md): the density theorem for finite Galois extensions.
+- [NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md) (NFA): decomposition
+  groups, the Artin symbol, the splitting of a prime in a quadratic field.
+- [ImaginaryQuadraticClassNumber](../ImaginaryQuadraticClassNumber/README.md) (IQ): the
+  thirteen imaginary quadratic orders of class number one (H3.6), the class number of an order
+  (H1.4), finiteness of the discriminants of bounded class number (H2.4), and the Hilbert class
+  polynomial of degree `h(𝒪)` with root `j(𝒪)` (H3.1).
+- [JacobianChallenge](../JacobianChallenge/README.md) (JC): Riemann–Roch for curves over a
+  field, the Jacobian of a curve.
+- [AlgebraicCurves](../AlgebraicCurves/README.md) (AC): function fields, closed points and
+  their degrees, finite morphisms of curves, and 12C's anti-equivalence between smooth projective
+  curves and function fields (a smooth projective curve is determined up to isomorphism by its
+  function field).
+- [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) (SSF): §5.11
+  (`weil_bound_via_surfaces`, the Hasse–Weil bound `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` for a smooth
+  projective geometrically irreducible curve of genus `g` over `𝔽_q`).
+- `CanonicalModelsAndGonality` (CMG): §2.1 (model data, their divisors and degrees), §§2.5 and
+  9.1 (complete models and closed immersions), which the model targets of 6.4 instantiate at six
+  modular curves, §1.6 (the norm of divisors along a finite map, with norm after conorm the
+  multiplication by the degree), Layer 7 (isolated, parametrized and sporadic points, Frey's
+  criterion), Layer 8 (Abramovich's linear lower bound on gonality).
+- [AlgebraicModularFormsAndSerreWeights](../AlgebraicModularFormsAndSerreWeights/README.md)
+  (AMFSW): §§4.1–4.3 (Serre's local weight recipe: the tame inertia alternatives, the tame weight
+  table and the extension-sensitive wild weight table), read at the restriction of `ρ̄_{E,ℓ}` to a
+  decomposition group at `ℓ`, as its §7.6 reads it for a global `ρ̄`.
+- [SerreModularityByCompatibleSystems](../SerreModularityByCompatibleSystems/README.md) (SMC): Layer S6
+  (`S6/strong-form-of-serre-conjecture`: an odd, absolutely irreducible `ρ̄ : G_ℚ → GL₂(𝔽̄_p)`
+  arises from a newform of weight `k(ρ̄)` and level `N(ρ̄)`), for the reading of the Serre
+  invariants in 3.4.
+
+Sibling roadmaps whose material is named but not specified here:
+`SatoTateGroups` (endomorphism algebras, Sato–Tate groups of elliptic curves and abelian
+surfaces), `HyperellipticCurves` (models and invariants of genus-two curves),
+`EllipticCurvePeriodsAndModularParametrizations` (modular degree, Manin constant, periods).
+
+### Consumed, not redefined
+
+Every object below is used under its supplier's name and is not defined again here.
+
+| Object | Supplier |
+| --- | --- |
+| `ẑ`, `zHat.toZMod`, `zHat.component`, `zHat.ringEquivPiPadicInt`, `zHat.unitsLift` | Tau Ceti `TauCeti.Topology.Algebra.Group.Profinite.ZHat.*`, specified by PA Layer 0 |
+| `ClosedSubgroupConjClasses G` | PA 2.3 |
+| `Subgroup.profiniteIndex` | Tau Ceti, specified by PPG Layer 1 |
+| Gassmann equivalence in a finite group: `Subgroup.AlmostConjugate` | Tau Ceti `TauCeti.GroupTheory.AlmostConjugate`, whose laws `FiniteGroupInvariants` 7.1 states |
+| Gassmann equivalence of finite-index subgroups: `AlmostConjugateOfFiniteIndex` with its reduction to a common finite quotient | `FiniteGroupInvariants` 7.3 |
+| `levelGamma0 N`, `levelGamma1 N`, `splitCartan ℓ`, `splitCartanNormalizer ℓ`, `nonsplitCartan ℓ ε`, `nonsplitCartanNormalizer ℓ ε`, `projectiveIndex`, `levelDet`, `levelPullback`, `levelConj` as subgroups of `GL₂(ℤ/n)` | MC2 §3.8 |
+| `Gamma N`, `Gamma0 N`, `Gamma1 N`, `IsCongruenceSubgroup`, `Subgroup.adjoinNegOne`, `Matrix.SpecialLinearGroup.mapGL`, `Matrix.GeneralLinearGroup.map`, `Matrix.GeneralLinearGroup.det` | Mathlib |
+| `Gamma0_prime_index`, `Gamma0_prime_power_index`, `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`, `natCard_GL_fin_two` | Tau Ceti |
+| Borel, split and non-split Cartan subgroups over finite fields, Dickson's classification, Serre's Propositions 15–18 | AGR §§4.2–4.5 |
+| `SimilitudeGroup.GSp`, `SimilitudeGroup.multiplier`, `det g = ν(g)^m`, the comparison of the Gram matrices `−Matrix.J` and `Matrix.J` | AGR §7.3 |
+| `ε₂, ε₃, ε∞`, the genus of `X(Γ)` and `deg(X(Γ) → X(1)) = [PSL₂(ℤ) : Γ̄]` | MF §10A on FO Layers 3–5 |
+| `cuspWidths`, `cuspCount`, `ellipticTwo`, `ellipticThree`, `genus` of a finite-index `Γ̄ ≤ PSL₂(ℤ)`, the integral genus formula and its Riemann-surface comparison, the closed forms for `Γ̄₀(N)`, the comparison with the action of `PSL₂(ℤ/N)` on cosets | NC §§2.1–2.3, 2.5 |
+| The adelic action on `T̂A = ∏_ℓ T_ℓA`; *IsPGaloisGeneric*, *IsGaloisGeneric* and their API | AGR §§6.1, 6.4 |
+| `elliptic_nonCM_openImage`, `elliptic_CM_openImage` | NEI §4.0 |
+| `nonCM_elliptic_large_residual_primes` | ECMIQ §5.1 |
+| `TateModule ℓ`, `tateModuleGaloisRepresentation`, `tateModuleWeilPairing`, `det_tateModuleGaloisRepresentation`, `finrank_tateModule` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.*` |
+| `Isogeny`, `Isogeny.degree`, `Isogeny.ker`, `[n]`, `autGroup`, `quadraticTwist` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.*`, specified by EC Layers 1, 2, 5 |
+| `torsion_addEquiv_prod` (`E[N] ≃+ (ZMod N)²`), `CMAction`, `HasGeometricCM`, `GeometricEnd`, `Isogeny.Hom.pointMapHom`, `TateModule.mapLinearMap` | Tau Ceti `…Isogeny.MulByInt.Torsion.Structure`, `…Isogeny.Hom.ComplexMultiplication`, `…Isogeny.Hom.Ring`, `TauCeti.Algebra.Module.Torsion.TateModule`, specified by EC Layers 1–2 |
+| `𝒳_H`, `X_H`, `levelStack.map`, `levelMap`, `conjIso`, `toCyclotomicBase`, the cusp set `⟨±u⟩\GL₂(ℤ/n)/H̄` with widths and Galois action | MC2 §§3.12, 5.8–5.12, 5.15 |
+| The dictionary between `Y_H(K)` and images, `j ∉ {0, 1728}`, `−I ∈ H̄` | MC2 §9.7 |
+| `cartanCurve`, `splitCartanCurve_iso_gammaZero`, `gammaZeroPlus` | MC2 §§9.5–9.8 |
+| `modularQuotient` (`A_f`), `dim A_f = [K_f : ℚ]`, `J₁(N)`, `J₀(N)` | MC2 §§13.1, 16.2, 16.3, 16.6 |
+| The elliptic-to-abelian comparison, `finite_ellipticIsogenyClass`, the infinite cyclic `Hom_K(E, E')` between isogenous curves | FF R28.6.1, R28.6.5, R28.6.6 |
+| `all_prime_torsion` (prime orders `2, 3, 5, 7` only) | EI §8.8 |
+| `HasCyclicIsogeny`; Mazur's isogeny theorem `prime_isogeny_degrees`, `noncm_prime_isogeny_degrees`; Kenku's `cyclic_isogeny_degrees`; the `j`-images of `Y₀(11)(ℚ)`, `Y₀(17)(ℚ)`, `Y₀(37)(ℚ)` | EM2 §§5.0a–5.0b, 6.0b |
+| The winding class of a congruence modular Jacobian and its annihilator; finiteness of `A_f(ℚ)` for a trivial-character weight-two newform with `L(f, 1) ≠ 0` | EM2 §§6.0d–6.0e |
+| The degree bound `10⁷ d² (max{h_F(E), 985} + 4 log d)²` for a geometric isogeny between geometrically isogenous curves over a degree-`d` field, and for every cyclic isogeny from a non-CM `E` | EM2 §6.0f |
+| Descent via a `2`-isogeny over `ℚ`, exact torsion subgroups | ED §§3.10–3.11, 3.20 |
+| The rational points of the genus-two models of `X₁(16)` and `X₁(18)` | ED, under the declared gaps `gap:x1-16-rational-points`, `gap:x1-18-rational-points` |
+| The Tate normal form `tateNormalForm`, `existsUnique_variableChange_tateNormalForm`, `existsUnique_tateNormalForm` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.TateNormalForm`, `…Scheme.TateNormalForm` |
+| `Y₁(N)` for `N ≥ 4` as the exact-order-`N` locus of the universal Tate normal form, representing `[Γ₁(N)]` | MC Layer 5A |
+| Eta quotients and their orders at the cusps | MF §0.2 |
+| The function field of `X₀(N)_ℚ` as `ℚ(j(q), j(q^N))`, and the Fricke involution on it | MC2 §§8.2, 9.3 |
+| Frey's criterion, Abramovich's gonality bound, isolated and parametrized points | CMG Layers 7–8 |
+| Model data, complete models and closed immersions, instantiated at six modular curves in 6.4 | CMG §§2.1, 2.5, 9.1 |
+| The prime-to-`p` conductor `N(ρ̄)` of a residual representation | AGR §3.3 |
+| Serre's local weight recipe `k(ρ_p)` | AMFSW §§4.1–4.3 |
+| Serre's modularity conjecture, strong form | SMC Layer S6 |
+| The norm of divisors along a finite extension of function fields, with norm after conorm the multiplication by the degree | CMG §1.6 |
+| `TauCeti.Divisor.conorm`, `conorm_principal`, `degree_conorm`; `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.analyticRank` | Tau Ceti |
+| The main theorem of complex multiplication | SV §5.10 |
+| The Hasse–Weil bound `weil_bound_via_surfaces` for curves over `𝔽_q` | SSF §5.11 |
+| The thirteen class-number-one orders and their `j`-invariants | IQ |
+| Hasse–Minkowski isotropy over a number field | GQF Layer 5 |
+| `modularCyclotomicCharacter`, `Polynomial.cyclotomic.irreducible_rat`, `fermatLastTheoremThree`, `Matrix.card_GL_field`, `Matrix.J`, `Matrix.symplecticGroup`, `ProjectiveSpecialLinearGroup.rank_two_simple'`, `Matrix.SL2.commutator_eq_top`, `MonoidHom.pi`, `ModularForm.L` | Mathlib |
+
+### Supplier gaps
+
+The following `gaps` entries specify required inputs that no cited contract supplies
+unconditionally. A gap supplies no theorem; a statement here that uses one is conditional on it and
+says so.
+
+- `gap:abelian-surface-open-image`: supplier
+  [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md) Layer 7 (its
+  big-image layer); needs: for a principally polarised abelian surface `A` over a number field `K`
+  with `End(A_{K̄}) = ℤ`, `ρ̄_{A,ℓ}(G_K) ⊇ Sp₄(𝔽_ℓ)` for all but finitely many primes `ℓ` (Serre,
+  *Résumé des cours de 1985–1986*, §2.3, Théorème 3, p. 97, whose equality `G_{K,ℓ} = GSp(T_ℓ, e_ℓ)`
+  for large `ℓ` implies it). The finite-group criteria of AGR §§7.9–7.11 (adequate, enormous, vast
+  images) take large residual images as hypotheses and do not supply it. 7.2 uses this gap for the
+  finiteness of `nonmaximalPrimes A` and for nothing else.
+- `gap:nebentypus-rank-zero`: supplier
+  [EllipticCurveModularityPartII](../EllipticCurveModularityPartII/README.md) §6.0e; needs: for a
+  primitive weight-two newform `f` of any level and any Dirichlet character with `L(f, 1) ≠ 0`, the
+  modular abelian variety `A_f` has `A_f(ℚ)` finite (§6.0e's statement without its
+  trivial-character hypothesis). 6.4 uses this gap at `N = 25` only, for the four-dimensional `A_f`
+  of the newforms of level `25` with a character of order `5`.
+- `gap:x1-16-rational-points`: supplier
+  [EffectiveDiophantineMethods](../EffectiveDiophantineMethods/README.md) Layer 3 (beside the
+  complete point lists of its §§3.26–3.28); the same contract ArithmeticDynamics, earlier in the
+  merge order, declares under this slug. Needs: the rational points over `ℚ` of the smooth
+  projective genus-two curve `v² = u(u² + 1)(1 + 2u − u²)` are exactly `(0, 0)`, `(1, ±2)`,
+  `(−1, ±2)` and its one point at infinity. Its certification (a rank bound for the Jacobian by
+  ED §3.23's `x − T` descent and the exact torsion by ED §3.20) belongs to the supplier. 6.4 uses
+  this gap at `N = 16` only, through its model target for `X₁(16)`.
+- `gap:x1-18-rational-points`: supplier
+  [EffectiveDiophantineMethods](../EffectiveDiophantineMethods/README.md) Layer 3, the same
+  contract ArithmeticDynamics declares under this slug. Needs: the rational points over `ℚ` of the
+  smooth projective genus-two curve `y² = x⁶ + 2x⁵ + 5x⁴ + 10x³ + 10x² + 4x + 1` are exactly
+  `(0, ±1)`, `(−1, ±1)` and its two points at infinity. 6.4 uses this gap at `N = 18` only,
+  through its model target for `X₁(18)`.
 
 ## References
 
