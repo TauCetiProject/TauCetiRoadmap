@@ -13,48 +13,6 @@ bounds (CROWN-type linear relaxation). The roadmap ends with rational `LDLᵀ` f
 witnessing semidefiniteness, and a worked example in which the four certified radii are computed
 and compared.
 
-## Scope and ownership
-
-This roadmap owns:
-
-- the robustness predicate and its basic API;
-- Lipschitz-margin certificates in an arbitrary normed input space, with global and per-pair
-  constants, and the exact certified radius of an affine classifier;
-- Lipschitz bounds for layers and for multilayer perceptrons, and the product bound;
-- slope-restricted activations, the incremental quadratic constraint, and the LipSDP
-  certificate for one hidden layer and for multilayer perceptrons, with its Schur-complement
-  form and its comparison with the product bound;
-- interval bound propagation: boxes, affine and monotone-activation layers, soundness and
-  coordinatewise exactness per layer, and margin certificates;
-- linear relaxations of ReLU and the soundness of one-hidden-layer backward linear bound
-  propagation, with its closed-form minimum over an `ℓ∞` ball;
-- positive-semidefiniteness certificates by rational `LDLᵀ` factorizations, and their transfer
-  from `ℚ` to `ℝ`.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
-
-Out of scope: randomized smoothing and other probabilistic certificates, which need Gaussian
-measure and binomial confidence bounds and belong to the RandomizedSmoothing roadmap; attacks
-and lower bounds on the robust radius;
-complexity results (computing the exact Lipschitz constant of a ReLU network is NP-hard);
-convolutional, residual and attention layers beyond what `MLPSpec` covers; training methods;
-and floating-point error in evaluating a network.
-
-## Exact supplier contracts
-
-- [Neuromanifolds](../Neuromanifolds/README.md), Milestone 2, as implemented in Tau Ceti under
-  `TauCeti/Geometry/Neuromanifold`: the specification `TauCeti.Neuromanifold.MLPSpec`, its
-  parameters `MLPSpec.Parameters`, its prefix evaluation `MLPSpec.evalPrefix` with
-  `evalPrefix_succ`, its realization `MLPSpec.realize`, its layer activation
-  `MLPSpec.layerActivation`, the dense layer `TauCeti.Neuromanifold.dense` and the activation
-  layers `reluActivation` and `tanhActivation`.
-- Mathlib: `LipschitzWith`, `EuclideanSpace` and `WithLp.equiv`, the sup norm on `Fin n → ℝ`,
-  `Matrix.PosSemidef` with the Schur-complement lemmas `Matrix.PosDef.fromBlocks₁₁` and
-  `Matrix.PosDef.fromBlocks₂₂`, the `LDLᴴ` decomposition of a positive definite matrix
-  (`LDL.lower_conj_diag`, `LDL.isLowerTriangular_lower`, in `Analysis/Matrix/LDL.lean`), and the
-  `ℓ²` operator norm on matrices (`Matrix.Norms.L2Operator`).
-
 ## How to read the build
 
 Each layer opens with its definitions. Each numbered target ends with its source locator in
@@ -549,6 +507,48 @@ author contributed this roadmap. There the certificates are applied to trained M
 CIFAR-10 networks with generated rational data. The roadmap generalizes the statements to
 `MLPSpec`, to slope restrictions in `[α, β]`, and to exact radii; the source is reference
 material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the robustness predicate and its basic API;
+- Lipschitz-margin certificates in an arbitrary normed input space, with global and per-pair
+  constants, and the exact certified radius of an affine classifier;
+- Lipschitz bounds for layers and for multilayer perceptrons, and the product bound;
+- slope-restricted activations, the incremental quadratic constraint, and the LipSDP
+  certificate for one hidden layer and for multilayer perceptrons, with its Schur-complement
+  form and its comparison with the product bound;
+- interval bound propagation: boxes, affine and monotone-activation layers, soundness and
+  coordinatewise exactness per layer, and margin certificates;
+- linear relaxations of ReLU and the soundness of one-hidden-layer backward linear bound
+  propagation, with its closed-form minimum over an `ℓ∞` ball;
+- positive-semidefiniteness certificates by rational `LDLᵀ` factorizations, and their transfer
+  from `ℚ` to `ℝ`.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope: randomized smoothing and other probabilistic certificates, which need Gaussian
+measure and binomial confidence bounds and belong to the RandomizedSmoothing roadmap; attacks
+and lower bounds on the robust radius;
+complexity results (computing the exact Lipschitz constant of a ReLU network is NP-hard);
+convolutional, residual and attention layers beyond what `MLPSpec` covers; training methods;
+and floating-point error in evaluating a network.
+
+## Exact supplier contracts
+
+- [Neuromanifolds](../Neuromanifolds/README.md), Milestone 2, as implemented in Tau Ceti under
+  `TauCeti/Geometry/Neuromanifold`: the specification `TauCeti.Neuromanifold.MLPSpec`, its
+  parameters `MLPSpec.Parameters`, its prefix evaluation `MLPSpec.evalPrefix` with
+  `evalPrefix_succ`, its realization `MLPSpec.realize`, its layer activation
+  `MLPSpec.layerActivation`, the dense layer `TauCeti.Neuromanifold.dense` and the activation
+  layers `reluActivation` and `tanhActivation`.
+- Mathlib: `LipschitzWith`, `EuclideanSpace` and `WithLp.equiv`, the sup norm on `Fin n → ℝ`,
+  `Matrix.PosSemidef` with the Schur-complement lemmas `Matrix.PosDef.fromBlocks₁₁` and
+  `Matrix.PosDef.fromBlocks₂₂`, the `LDLᴴ` decomposition of a positive definite matrix
+  (`LDL.lower_conj_diag`, `LDL.isLowerTriangular_lower`, in `Analysis/Matrix/LDL.lean`), and the
+  `ℓ²` operator norm on matrices (`Matrix.Norms.L2Operator`).
 
 ## References
 
