@@ -15,132 +15,52 @@ statements need.
 
 Stated here:
 
-* C3: the generating-function symplectomorphism between open subsets of two cotangent bundles
-  (`exists_diffeomorph_opens_cotangent_of_isInvertible_mixedHessian`);
-* C3.1: the dictionary between critical configurations of a cyclic action and periodic states of
-  a chain of generated symplectomorphisms, whose case `N = 1` is the fixed-point/critical-point
-  correspondence (`exists_equiv_periodic_of_generating`), and the periodic billiard trajectories
-  of a strictly convex table (`exists_billiard_periodic_reflection`);
-* C4: the relative Moser theorem (`exists_diffeomorph_opens_of_eq_along`), the point-germ
-  relative Darboux theorem (`exists_diffeomorph_opens_of_mpullback_eq`), the neighborhood
-  theorem with prescribed ambient derivative (`exists_diffeomorph_opens_mfderiv_eq`),
-  Weinstein's Lagrangian neighborhood theorem
-  (`exists_diffeomorph_opens_cotangent_of_isLagrangianEmbedding`) and the uniqueness of
-  coisotropic neighborhoods (`exists_diffeomorph_opens_of_isCoisotropicMap`).
+* README §3.0a: the generating-function symplectomorphism between open subsets of two cotangent
+  bundles (`exists_diffeomorph_opens_cotangent_of_isInvertible_mixedHessian`);
+* README §3.1: the dictionary between critical configurations of a cyclic action and periodic
+  states of a chain of generated symplectomorphisms, whose case `N = 1` is the
+  fixed-point/critical-point correspondence (`exists_equiv_periodic_of_generating`), and the
+  periodic billiard trajectories of a strictly convex table (`exists_billiard_periodic_reflection`);
+* README Layer 4: the relative Moser theorem (§4.2, `exists_diffeomorph_opens_of_eq_along`), the
+  point-germ relative Darboux theorem (§4.4, `exists_diffeomorph_opens_of_mpullback_eq`), the
+  neighborhood theorem with prescribed ambient derivative (§4.5,
+  `exists_diffeomorph_opens_mfderiv_eq`), Weinstein's Lagrangian neighborhood theorem (§4.7,
+  `exists_diffeomorph_opens_cotangent_of_isLagrangianEmbedding`) and the uniqueness of coisotropic
+  neighborhoods (§4.8, `exists_diffeomorph_opens_of_isCoisotropicMap`).
 
 A symplectomorphism of open sets is a `Diffeomorph` between `TopologicalSpace.Opens` whose
 pullback, by `TauCeti.SmoothForm.mpullback`, of one restricted form is the other. A covector at
 `q` is a point of the pinned cotangent bundle, and the partial differentials `d_q S`, `d_Q S` of
 a function on a product are Mathlib's `mvfderiv` of its restrictions to the two factors.
 
-Proved at the pins, and therefore not restated (the README cites each declaration at its
-sentence):
-
-* C1: the projection of a fibre bundle is a submersion (`Bundle.isSubmersion_proj`); the
-  transition maps of `T*M` (`TauCeti.CotangentBundle.extChartAt_extChartAt_symm`); the Liouville
-  form `TauCeti.CotangentBundle.liouvilleForm`, with its chart formula `Σ pᵢ dqᵢ`
-  (`TauCeti.CotangentBundle.inChartAt_liouvilleForm`) and its tautological property
-  (`TauCeti.CotangentBundle.mpullback_liouvilleForm`); the canonical symplectic form
-  `TauCeti.CotangentBundle.symplecticForm`, with the identity `ω = −dλ`
-  (`TauCeti.CotangentBundle.symplecticForm_eq_neg_mextDeriv`), its expression
-  `TauCeti.strongDualCotangentSymplecticForm` in every cotangent chart
-  (`TauCeti.CotangentBundle.inChartAt_symplecticForm_apply`) and its symplecticity
-  (`TauCeti.CotangentBundle.isSymplectic_symplecticForm`);
-* C1.3: the cotangent lift `Diffeomorph.cotangent` of a diffeomorphism preserves `λ` and `ω`
-  (`Diffeomorph.mpullback_cotangent_liouvilleForm`,
-  `Diffeomorph.mpullback_cotangent_symplecticForm`); the cotangent relation of a general map,
-  `TauCeti.CotangentBundle.cotangentRel`, with its composition law
-  (`TauCeti.CotangentBundle.cotangentRel_comp_iff`);
-* C1.4: open restriction (`TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm`),
-  products (`TauCeti.CotangentBundle.mpullback_prodDiffeomorph_symplecticForm`), fibre
-  translation, symplectic exactly for closed one-forms
-  (`TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_symplecticForm_eq_self_iff`),
-  and fibre dilation
-  (`TauCeti.CotangentBundle.mpullback_vectorBundleScalarDiffeomorph_symplecticForm`);
-* C2: the Lagrangian embedding predicate
-  `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianEmbedding`; parametrization independence,
-  transport, dimension, products and open restriction of the tangent-image predicates
-  (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_comp_diffeomorph_iff`,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_diffeomorph_comp_iff`,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianMap.two_mul_finrank`,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_prodMap_iff`,
-  `TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_iff_of_isOpenCover`); the linear
-  identities `dim W + dim W^ω = dim V` and Lagrangian iff maximal isotropic
-  (`TauCeti.SymplecticForm.finrank_add_finrank_orthogonal`,
-  `TauCeti.SymplecticForm.isLagrangian_iff_maximal_isIsotropic`);
-* C2.0: the matrix polar decomposition and its uniqueness
-  (`Matrix.GeneralLinearGroup.existsUnique_posDef_mul_unitary`), the positive-definite
-  logarithm (`Matrix.PosDef.exp_cfc_log`, `Matrix.contDiffOn_cfc_log`) and the smooth polar
-  deformation (`Matrix.GeneralLinearGroup.polarDeformation`);
-* C2.1: the realification `Matrix.realify`, an isomorphism of topological groups onto the closed
-  subgroup of invertible matrices commuting with `J`
-  (`Matrix.GeneralLinearGroup.realifyEquivRange`,
-  `Matrix.GeneralLinearGroup.isClosedEmbedding_realify`,
-  `Matrix.GeneralLinearGroup.mem_range_realify_iff`); the polar factors of a symplectic matrix
-  are symplectic (`SymplecticGroup.rpow_mem`, `SymplecticGroup.polarUnitary_mem`); the three
-  pairwise intersections of the symplectic, orthogonal and realified groups are the realified
-  `U(n)` (`TauCeti.GLSymplectic.inf_unitarySubgroup`, `TauCeti.GLSymplectic.inf_range_realify`,
-  `Matrix.GeneralLinearGroup.unitarySubgroup_inf_range_realify`); `U(n)` is maximal compact in
-  `GL(n, ℂ)` (`Matrix.GeneralLinearGroup.isCompact_unitarySubgroup`,
-  `Matrix.GeneralLinearGroup.eq_unitarySubgroup_of_isCompact_of_le`); the realified `U(n)` is
-  maximal compact in `Sp(2n, ℝ)` (`TauCeti.GLSymplectic.eq_inf_unitarySubgroup_of_isCompact_of_le`
-  with `Matrix.GeneralLinearGroup.range_realify_comp_toUnits`); `GL(n, ℂ)` and `Sp(2n, ℝ)` are
-  path connected (`TauCeti.instPathConnectedSpaceMatrixGeneralLinearGroup`,
-  `Matrix.isPathConnected_symplecticGroup`);
-* C2.2: the zero section is exact Lagrangian
-  (`TauCeti.CotangentBundle.isExactLagrangianMap_zeroSection`); the graph of a one-form is
-  Lagrangian exactly when the form is closed and exact Lagrangian exactly when it is exact
-  (`TauCeti.CotangentBundle.isLagrangianMap_section_iff`,
-  `TauCeti.CotangentBundle.exists_isExactLagrangianMap_section_iff`); conormal maps are exact
-  Lagrangian (`TauCeti.CotangentBundle.isExactLagrangianMap_of_conormal`) and conormal fibres have
-  the complementary dimension (`TauCeti.CotangentBundle.finrank_add_finrank_conormalSpace`); a
-  diffeomorphism has an embedded Lagrangian graph exactly when it is symplectic
-  (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_graph_iff`); the radial field is
-  Liouville (`TauCeti.CotangentBundle.isLiouvilleVectorField_vectorBundleEulerField`);
-  `λ`-preserving diffeomorphisms of cotangent bundles are cotangent lifts
-  (`Diffeomorph.existsUnique_cotangent_eq_of_mpullback_liouvilleForm`); `∓λ` restrict to
-  contact forms on the unit cosphere bundle
-  (`TauCeti.CotangentBundle.isContactForm_mpullback_neg_liouvilleForm_cosphereBundle`,
-  `TauCeti.CotangentBundle.isContactForm_mpullback_liouvilleForm_cosphereBundle`);
-* C3, on open subsets of normed spaces: the map generated by a function with invertible mixed
-  Hessian, `TauCeti.cotangentGeneratedMap`, preserves `ω`
-  (`TauCeti.eventually_strongDualCotangentSymplecticForm_fderiv_cotangentGeneratedMap`), has the
-  generating function as primitive
-  (`TauCeti.eventually_cotangentLiouvilleForm_sub_cotangentGeneratedMap`) and is a local
-  diffeomorphism in finite dimension
-  (`TauCeti.eventually_isInvertible_fderiv_cotangentGeneratedMap`); composition by stationary
-  elimination (`TauCeti.exists_cotangentGeneratingComposition`); the free particle and the
-  oscillator (`TauCeti.cotangentGeneratedMap_freeParticleGeneratingFunction_eventuallyEq`,
-  `TauCeti.cotangentGeneratedMap_oscillatorGeneratingFunction_eventuallyEq`); generating
-  families (`TauCeti.isLagrangianImmersion_cotangentGeneratingSource_comp_coe`); on a product of
-  manifolds, the intrinsic mixed Hessian `TauCeti.mixedHessian`;
-* C4, the linear step: symplectic Witt extension for arbitrary subspaces of equal-dimensional
-  symplectic vector spaces, `TauCeti.SymplecticForm.exists_isSymplectomorphism_extend_linearEquiv`.
+The results of the roadmap that the pinned Tau Ceti already proves are named in the README's
+supplier contracts and are not restated here.
 
 Not statable at the pins, and therefore absent:
 
-* the C2.2 Kodaira–Thurston example is compact, symplectic and not Kähler: there is no carrier
-  for a Kähler structure on a smooth manifold (the pinned Kähler form
+* the README §2.2 Kodaira–Thurston example is compact, symplectic and not Kähler: there is no
+  carrier for a Kähler structure on a smooth manifold (the pinned Kähler form
   `TauCeti.AlmostComplexStructure.kahlerForm` is linear);
-* the C3 composition of Lagrangian correspondences: there is no manifold structure on a
+* the README §3.0 composition of Lagrangian correspondences: there is no manifold structure on a
   transverse fibre product (the pin has only its local equations,
   `PartialDiffeomorph.fiberProductEquation`);
-* the C3.1 twist, area and measure-preservation theorems of the convex billiard map: the
+* the README §3.1 twist, area and measure-preservation theorems of the convex billiard map: the
   next-collision map is a construction whose existence, uniqueness and smoothness are themselves
-  the first C3.1 billiard theorem, so it is a README target with its intended signature and not
-  a carrier at the pins;
-* the C4 symplectic neighborhood theorem: there is no carrier for the symplectic normal bundle
-  `TQ^ω` of a symplectic submanifold as a smooth subbundle of `i*TM` with its fibre form (the
-  pinned smooth distributions, `TauCeti.IsContMDiffDistribution`, are subbundles of a tangent
-  bundle, not of a pulled-back one);
-* the existence half of the C4 coisotropic embedding theorem: its model is the total space of
-  the dual of the kernel distribution of a presymplectic form, which has no manifold structure
-  at the pins (a smooth distribution is a smooth vector bundle only through local instances
-  depending on its smoothness proof, `TauCeti.IsContMDiffDistribution.contMDiffVectorBundle`).
+  the first billiard theorem of §3.1, so it is a README target with its intended signature and
+  not a carrier at the pins;
+* the README §4.6 symplectic neighborhood theorem: there is no carrier for the symplectic normal
+  bundle `TQ^ω` of a symplectic submanifold as a smooth subbundle of `i*TM` with its fibre form
+  (the pinned smooth distributions, `TauCeti.IsContMDiffDistribution`, are subbundles of a
+  tangent bundle, not of a pulled-back one);
+* the existence half of the README §4.8 coisotropic embedding theorem: its model is the total
+  space of the dual of the kernel distribution of a presymplectic form, which has no manifold
+  structure at the pins (a smooth distribution is a smooth vector bundle only through local
+  instances depending on its smoothness proof,
+  `TauCeti.IsContMDiffDistribution.contMDiffVectorBundle`).
 
 The three abbreviations below name the pinned cotangent bundle, its model with corners and its
 canonical symplectic form; HamiltonianReduction R1 states its cotangent momentum theorem against
-these names, and the C3 and C4 theorems below use them.
+these names, and the Layer 3 and Layer 4 theorems below use them.
 -/
 noncomputable section
 @[expose] public section
@@ -150,7 +70,7 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
   [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
 
-/-! ## C1: Intrinsic cotangent phase space -/
+/-! ## Layer 1: intrinsic cotangent phase space -/
 
 /-- The cotangent bundle `T*M`: the pinned `TauCeti.CotangentBundle`, Mathlib's total space of
 the bundle whose fibre at `x` is the space of continuous linear functionals on
@@ -172,7 +92,7 @@ variable {I}
 variable {F K Q : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] [TopologicalSpace K]
   {J : ModelWithCorners ℝ F K} [TopologicalSpace Q] [ChartedSpace K Q] [IsManifold J ∞ Q]
 
-/-! ## C3: Correspondences and generating functions -/
+/-! ## Layer 3: correspondences and generating functions -/
 
 open TopologicalSpace in
 /-- Generating functions on manifolds (Cannas da Silva, §4.2, pp. 23–24, in coordinates):
@@ -204,8 +124,6 @@ theorem exists_diffeomorph_opens_cotangent_of_isInvertible_mixedHessian
         TauCeti.SmoothForm.mpullback (Subtype.val : U → Cotangent J Q) contMDiff_subtype_val
           (canonicalForm J) := by
   sorry
-
-/-! ## C3.1: Discrete action, iterates and convex billiards -/
 
 open TopologicalSpace in
 /-- Periodic states and critical points of the cyclic action (for `N = 1`, Cannas da Silva,
@@ -254,7 +172,7 @@ theorem exists_billiard_periodic_reflection {L : ℝ} (hL : 0 < L)
         inner ℝ (‖χ (s (k + 1)) - χ (s k)‖⁻¹ • (χ (s (k + 1)) - χ (s k))) (deriv χ (s k)) := by
   sorry
 
-/-! ## C4: Relative symplectic germs -/
+/-! ## Layer 4: relative symplectic germs -/
 
 open TopologicalSpace in
 /-- Relative Moser theorem (Cannas da Silva, Thm. 7.4, p. 45): two symplectic forms on `M` that
