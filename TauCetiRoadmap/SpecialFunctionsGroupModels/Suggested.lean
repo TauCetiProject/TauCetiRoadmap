@@ -15,11 +15,10 @@ carry a Lean name, each with every conclusion the README attaches to it. It is n
 acceptance test: the other targets of the README have the same standing, stated in prose.
 Discharging this file finishes neither a layer nor the roadmap.
 
-Bold headlines of the README that are not stated here, and what each lacks:
-* the irreducibility and inequivalence of the sphere models (README 2.6) need the sphere
-  `S^{n-1}` as an `M(n)`-space with its surface measure as a carrier of `multiplierRep`; the
-  representation law and the norm identity of the sphere model are stated pointwise
-  (`motionAction_mul`, `lintegral_motionAction`).
+Every bold headline of the README that carries a Lean name is stated here. Some statements
+(`multiplierRep_unique`, `matrixElement_eq_conj_matrixCoeff`, `continuous_matrixElement`,
+`matrixElement_one`) are sanity checks of the definitions rather than targets of substance; their
+docstrings say so.
 
 Prose bullets of the README that name results owned by other roadmaps are not stated either:
 the irreducibility, equivalences, invariant forms, Hilbert completions and Casimir values of the
@@ -299,10 +298,6 @@ end AxB
 /-- README 0.3. `SO(n)` as the special orthogonal matrices of Mathlib. -/
 abbrev SOn (n : ℕ) := Matrix.specialOrthogonalGroup (Fin n) ℝ
 
-instance (n : ℕ) : MeasurableSpace (SOn n) := borel (SOn n)
-
-instance (n : ℕ) : BorelSpace (SOn n) := ⟨rfl⟩
-
 /-- README 0.3. A matrix of `SO(n)` acting on `ℝⁿ`. -/
 def rotE {n : ℕ} (k : SOn n) (a : EuclideanSpace ℝ (Fin n)) : EuclideanSpace ℝ (Fin n) :=
   Matrix.toEuclideanLin k.1 a
@@ -525,8 +520,8 @@ theorem multiplierAction_law_iff (α : G → X → ℂ) :
         multiplierAction α g (multiplierAction α h f) x) ↔ IsMultiplierCocycle α := by
   sorry
 
-/-- README 1.3. **Uniqueness of the `L²` realization.** Two representations on `L²(μ)` that agree
-almost everywhere with the multiplier formula are equal. -/
+/-- README 1.3. Uniqueness of the `L²` realization, a sanity check of the definitions: two
+representations on `L²(μ)` that agree almost everywhere with the multiplier formula are equal. -/
 theorem multiplierRep_unique [MeasurableSpace X] {μ : Measure X} {α : G → X → ℂ}
     {U V : ContRepresentation ℂ G (Lp ℂ 2 μ)}
     (hU : ∀ g f, (U g f : X → ℂ) =ᵐ[μ] multiplierAction α g f)
@@ -594,12 +589,20 @@ theorem multiplierAction_coboundaryTwist (β : X → ℂ) (hβ : ∀ x, β x ≠
     ((∀ x, ‖β x‖ = 1) → ∀ g x, ‖coboundaryTwist β α g x‖ = ‖α g x‖) := by
   sorry
 
-/-- README 1.3. **Quasi-regular representation.** The square root of a Radon–Nikodym cocycle is
-a multiplier cocycle of modulus squared `ρ`. -/
-theorem isMultiplierCocycle_sqrt (ρ : G → X → ℝ≥0) (h₁ : ∀ x, ρ 1 x = 1)
-    (hmul : ∀ g h x, ρ (g * h) x = ρ g x * ρ h (g⁻¹ • x)) :
-    IsMultiplierCocycle (fun g x => ((NNReal.sqrt (ρ g x) : ℝ) : ℂ)) ∧
-      ∀ g x, ‖((NNReal.sqrt (ρ g x) : ℝ) : ℂ)‖ ^ 2 = ρ g x := by
+/-- README 1.3. The multiplier `ρ(g, x)^{1/2}` of the quasi-regular representation. -/
+def quasiRegularCocycle (ρ : G → X → ℝ≥0) (g : G) (x : X) : ℂ := ((NNReal.sqrt (ρ g x) : ℝ) : ℂ)
+
+/-- README 1.3. **Quasi-regular representation.** For a quasi-invariant σ-finite measure whose
+Radon–Nikodym densities form a pointwise cocycle `ρ`, the formula
+`(π(g) f)(x) = ρ(g, x)^{1/2} f(g⁻¹ • x)` is realized on `L²(μ)` by a unitary representation. -/
+theorem multiplierRep_quasiRegular_spec [MeasurableSpace X] [MeasurableConstSMul G X]
+    {μ : Measure X} [SigmaFinite μ] (ρ : G → X → ℝ≥0) (h₁ : ∀ x, ρ 1 x = 1)
+    (hmul : ∀ g h x, ρ (g * h) x = ρ g x * ρ h (g⁻¹ • x)) (hρm : ∀ g, Measurable (ρ g))
+    (hρ : IsQuasiInvariantWith μ fun g x => (ρ g x : ℝ≥0∞)) :
+    IsMultiplierCocycle (quasiRegularCocycle ρ) ∧
+      (∀ g f, (multiplierRep μ (quasiRegularCocycle ρ) g f : X → ℂ) =ᵐ[μ]
+        multiplierAction (quasiRegularCocycle ρ) g f) ∧
+      (multiplierRep μ (quasiRegularCocycle ρ)).IsUnitary := by
   sorry
 
 end Multipliers
@@ -831,12 +834,10 @@ theorem discreteAction_isometry (k : ℕ) (hk : 2 ≤ k) (g g' : SU11) (h : ℂ 
 def antiDiscreteAction (k : ℕ) (g : SU11) (h : ℂ → ℂ) (z : ℂ) : ℂ :=
   conj (circleDenominator g z ^ (-(k : ℤ))) * h (diskAct g z)
 
-/-- README 2.3. **Antiholomorphic discrete series.** It is the complex conjugate of the
-holomorphic action; for `k ≥ 2` it is a right action on the disc, preserves antiholomorphy and
-preserves the weighted Bergman norm. -/
+/-- README 2.3. **Antiholomorphic discrete series.** For `k ≥ 2` the conjugate action is a right
+action on the disc, preserves antiholomorphy and preserves the weighted Bergman norm. -/
 theorem antiDiscreteAction_spec (k : ℕ) (hk : 2 ≤ k) (g g' : SU11) (h : ℂ → ℂ)
     (hh : DifferentiableOn ℂ (fun z => conj (h z)) (Metric.ball 0 1)) :
-    antiDiscreteAction k g h = (fun z => conj (discreteAction k g (fun w => conj (h w)) z)) ∧
     (∀ z ∈ Metric.ball (0 : ℂ) 1,
       antiDiscreteAction k (g * g') h z = antiDiscreteAction k g (antiDiscreteAction k g' h) z) ∧
     DifferentiableOn ℂ (fun z => conj (antiDiscreteAction k g h z)) (Metric.ball 0 1) ∧
@@ -888,7 +889,7 @@ theorem axbRep_spec (lam lam' : ℝ) (hlam : lam ≠ 0) (hlam' : lam' ≠ 0) :
   sorry
 
 /-- README 2.5. Tau Ceti's Heisenberg group acts on the line through `g • x = x - g.x`. -/
-instance : MulAction (TauCeti.HeisenbergGroup ℝ) ℝ where
+scoped instance heisenbergLineAction : MulAction (TauCeti.HeisenbergGroup ℝ) ℝ where
   smul g x := x - g.x
   one_smul x := sub_zero x
   mul_smul g h x := by
@@ -940,6 +941,42 @@ theorem lintegral_motionAction {n : ℕ} (R : ℝ) (g : MotionGroup n)
       ∫⁻ ξ, ‖f ξ‖ₑ ^ 2 ∂(volume : Measure (EuclideanSpace ℝ (Fin n))).toSphere := by
   sorry
 
+/-- README 2.6. `M(n)` acts on `ℝⁿ` through its rotation part, `(a, k) • ξ = k ξ`; it preserves
+the unit sphere. -/
+scoped instance motionRotationAction {n : ℕ} : MulAction (MotionGroup n) (EuclideanSpace ℝ (Fin n))
+    where
+  smul g ξ := rotE g.k ξ
+  one_smul ξ := rotE_one ξ
+  mul_smul g h ξ := rotE_mul g.k h.k ξ
+
+/-- README 2.6. The surface measure of the unit sphere `S^{n-1}`, as a measure on `ℝⁿ`. -/
+def sphereMeasure (n : ℕ) : Measure (EuclideanSpace ℝ (Fin n)) :=
+  ((volume : Measure (EuclideanSpace ℝ (Fin n))).toSphere).map Subtype.val
+
+/-- README 2.6. The multiplier `e^{i R ⟨a, ξ⟩}` of the sphere model. -/
+def sphereCocycle {n : ℕ} (R : ℝ) (g : MotionGroup n) (ξ : EuclideanSpace ℝ (Fin n)) : ℂ :=
+  Complex.exp ((R * ⟪g.a, ξ⟫_ℝ : ℝ) * Complex.I)
+
+/-- README 2.6. The sphere model `T_R` of `M(n)` on `L²(S^{n-1})`. -/
+def sphereRep (n : ℕ) (R : ℝ) :
+    ContRepresentation ℂ (MotionGroup n) (Lp ℂ 2 (sphereMeasure n)) :=
+  multiplierRep (sphereMeasure n) (sphereCocycle R)
+
+/-- README 2.6. **Irreducibility of the sphere models.** For `n ≥ 2` and `R, R' > 0`, `T_R`
+realizes `motionAction R`, is unitary, has continuous orbits and is irreducible, and
+`T_R ≅ T_R'` exactly when `R = R'`. -/
+theorem sphereRep_spec (n : ℕ) (R R' : ℝ) (hR : 0 < R) (hR' : 0 < R') :
+    (∀ g f, (sphereRep (n + 2) R g f : EuclideanSpace ℝ (Fin (n + 2)) → ℂ)
+      =ᵐ[sphereMeasure (n + 2)] motionAction R g f) ∧
+    (sphereRep (n + 2) R).IsUnitary ∧
+    (∀ f, Continuous fun g => sphereRep (n + 2) R g f) ∧
+    (∀ W : Submodule ℂ (Lp ℂ 2 (sphereMeasure (n + 2))),
+      IsClosed (W : Set (Lp ℂ 2 (sphereMeasure (n + 2)))) →
+      (∀ g, ∀ v ∈ W, sphereRep (n + 2) R g v ∈ W) → W = ⊥ ∨ W = ⊤) ∧
+    ((∃ U : Lp ℂ 2 (sphereMeasure (n + 2)) ≃ₗᵢ[ℂ] Lp ℂ 2 (sphereMeasure (n + 2)),
+        ∀ g v, U (sphereRep (n + 2) R g v) = sphereRep (n + 2) R' g (U v)) ↔ R = R') := by
+  sorry
+
 /-! ## Layer 3: matrix elements -/
 
 section MatrixElements
@@ -951,14 +988,15 @@ basis, Edmonds's `⟨m|D(g)|n⟩`. -/
 def matrixElement (U : ContRepresentation ℂ G H) (e : HilbertBasis ι ℂ H) (m n : ι) (g : G) : ℂ :=
   ⟪e m, U g (e n)⟫_ℂ
 
-/-- README 3.1. **Bridge to Tau Ceti's matrix coefficient.** When `U` is norm continuous,
-`D_{mn}(g)` is the conjugate of `matrixCoeff U hU (e n) (e m) g`. -/
+/-- README 3.1. Bridge to Tau Ceti's matrix coefficient, a sanity check of the definitions: when
+`U` is norm continuous, `D_{mn}(g)` is the conjugate of `matrixCoeff U hU (e n) (e m) g`. -/
 theorem matrixElement_eq_conj_matrixCoeff [TopologicalSpace G] (U : ContRepresentation ℂ G H)
     (hU : Continuous U) (e : HilbertBasis ι ℂ H) (m n : ι) (g : G) :
     matrixElement U e m n g = conj (U.matrixCoeff hU (e n) (e m) g) := by
   sorry
 
-/-- README 3.1. Continuous orbit maps give continuous matrix elements. -/
+/-- README 3.1. Continuous orbit maps give continuous matrix elements (a sanity check of the
+definition). -/
 theorem continuous_matrixElement [TopologicalSpace G] (U : ContRepresentation ℂ G H)
     (e : HilbertBasis ι ℂ H) (m n : ι) (h : Continuous fun g => U g (e n)) :
     Continuous (matrixElement U e m n) := by
@@ -979,7 +1017,7 @@ theorem summable_norm_matrixElement_mul (U : ContRepresentation ℂ G H) (e : Hi
     Summable (fun k => ‖matrixElement U e m k g * matrixElement U e k n h‖) := by
   sorry
 
-/-- README 3.2. `D_{mn}(1) = δ_{mn}`. -/
+/-- README 3.2. `D_{mn}(1) = δ_{mn}` (a sanity check of the definition). -/
 theorem matrixElement_one [DecidableEq ι] (U : ContRepresentation ℂ G H)
     (e : HilbertBasis ι ℂ H) (m n : ι) :
     matrixElement U e m n 1 = if m = n then 1 else 0 := by
@@ -1224,7 +1262,9 @@ end Gelfand
 
 /-- README 5.3. **Positive-definite spherical functions come from representations.** A
 positive-definite spherical function is `g ↦ ⟪v, U(g) v⟫` for a strongly continuous unitary
-representation `U` and a `K`-fixed unit vector `v`. -/
+representation `U` and a `K`-fixed unit vector `v`. The algebraic GNS statement is
+FactorRigidity §4.1's, for `G` as a discrete group; the strong continuity and the `K`-fixed
+vector are this roadmap's. -/
 theorem exists_isUnitary_of_sphericalFunction {G : Type u} [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] [MeasurableSpace G] [BorelSpace G] {K : Subgroup G}
     (hK : IsCompact (K : Set G)) (ν : Measure K) [IsProbabilityMeasure ν] [ν.IsMulLeftInvariant]
@@ -1252,7 +1292,10 @@ theorem sphericalFunction_su11_ode (ν : Measure SU11.diagonalSubgroup) [IsProba
   sorry
 
 
-/-! ## The `SU11` names as the README writes them -/
+/-! ## Names written in the README
+
+The `SU11` names in the form the README writes them, then the supplier declarations the README
+names. -/
 
 #check @SU11.ofSL2R_spec
 #check @SU11.principalAction_compactPicture
@@ -1290,8 +1333,6 @@ theorem sphericalFunction_su11_ode (ν : Measure SU11.diagonalSubgroup) [IsProba
 #check @SU11.antiDiscreteAction_spec
 
 end TauCetiRoadmap.SpecialFunctionsGroupModels
-
-/-! ## Supplier declarations named in the README -/
 
 #check @Matrix.SpecialLinearGroup
 #check @Matrix.specialOrthogonalGroup

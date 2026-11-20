@@ -28,11 +28,12 @@ measure `MeasureTheory.Measure.toSphere`. Tau Ceti has continuous representation
 vector spaces with unitarity (`ContRepresentation.IsUnitary`), norm-continuous matrix coefficients
 (`ContRepresentation.matrixCoeff`), the left regular representation on `Lᵖ` with its unitarity and
 strong continuity (`MeasureTheory.Measure.leftRegular`), one-parameter groups
-(`ContRepresentation.toStronglyContinuousGroup`), the Heisenberg group `TauCeti.HeisenbergGroup`,
-and the characterization of positive-definite functions on a group as coefficients of unitary
-representations (its GNS construction). Neither has the motion groups `ℝⁿ ⋊ SO(n)` as topological
-groups, multiplier representations, any model of a noncompact group on a function space, matrix
-elements of a strongly continuous representation, Gel'fand pairs or spherical functions.
+(`ContRepresentation.toStronglyContinuousGroup`) and the Heisenberg group
+`TauCeti.HeisenbergGroup`; the roadmap FactorRigidity characterizes the positive-definite
+functions on a group as the coefficients of its unitary representations. Neither library has the
+motion groups `ℝⁿ ⋊ SO(n)` as topological groups, multiplier representations, any model of a
+noncompact group on a function space, matrix elements of a strongly continuous representation,
+Gel'fand pairs or spherical functions.
 
 The roadmap covers:
 - `SU(1,1)` with Euler angles, Haar measure and the Lie algebra; the `ax + b`, Heisenberg and
@@ -55,146 +56,26 @@ The roadmap covers:
   spherical transform, spherical functions of representations, multiplicity one, and the pair
   `(SU(1,1), K)` with its radial equation (Layer 5).
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 0 fixes the groups and their invariant measures in coordinates, so that every later formula
+can be checked by hand. Layer 1 is the general machinery of multiplier representations on a
+measure space with a quasi-invariant measure; its unitarity criterion and its strong-continuity
+theorem are used for every model of Layer 2. Layer 2 builds the models. The `SU(1,1)` models on the
+circle are written with the right action on angles; 2.1 proves their representation law, `L²`
+realization, unitarity range and Hermitian adjoint, and the general theorems of Layer 1 apply
+through the left action `g • θ = circleAct g⁻¹ θ`. Layer 3 is general: it holds for any
+representation on a Hilbert space with a Hilbert basis, and its weight decomposition is what makes
+the matrix elements of Layer 4 functions of one variable. Layer 4 computes the infinitesimal
+operators of the principal series on the trigonometric basis and derives the second-order equation
+of its matrix elements; it is the template that special-function identifications instantiate.
+Layer 5 is harmonic analysis on `K\G/K` and needs only Layers 0 and 3; its `SU(1,1)` example uses
+the radial part of the Casimir equation of Layer 4.
 
-0. **Groups in coordinates** (0.1–0.3).
-1. **`G`-spaces and multiplier representations** (1.1–1.4).
-2. **Function-space models** (2.1–2.6).
-3. **Matrix elements in infinite dimension** (3.1–3.3).
-4. **Infinitesimal operators of the circle models** (4.1–4.3).
-5. **Gel'fand pairs and spherical functions** (5.1–5.4).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines and the
-plain bullets of each subsection are targets of the same standing, stated in prose. The
-`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions
-on explicit values.
-
-**Boundary with the RepresentationTheory family.** The family index
-([RepresentationTheory](../RepresentationTheory/README.md)) stops the analytic theory at compact
-groups: it has no infinite-dimensional unitary representations of noncompact groups, no Plancherel
-theory and no tempered spectrum, and it keeps the structure theory of noncompact reductive groups
-(Cartan, Iwasawa and KAK decompositions in its LieGroups roadmap). This roadmap sits outside that
-family and owns exactly the following analytic material for noncompact groups: explicit models on
-function spaces given by multiplier formulas, the analysis of a given model through its matrix
-elements, weights and infinitesimal operators, and harmonic analysis on `K\G/K` up to the
-spherical transform. It owns no classification, no decomposition of a representation into
-irreducibles and no Plancherel formula.
-
-**Boundary with SmoothBanachRepresentations.**
-[SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md) (its
-Layers 0–4), extending
-[AutomorphicFormsOnReductiveGroups §2.7](../AutomorphicFormsOnReductiveGroups/README.md), owns
-the one-parameter generators, the Gårding space, the smooth vectors and the derived Lie and
-enveloping actions of a strongly continuous Banach representation, with the convention
-`dπ(X) v = d/dt π(exp tX) v` at `t = 0`.
-[NoncompactQuantumSymmetry M0](../NoncompactQuantumSymmetry/README.md) owns the Hilbert-adjoint
-statements on that domain (skew-symmetry of real generators, Nelson's theorem, analytic vectors).
-This roadmap consumes them and computes, for the principal series of `SU(1,1)`, the derivatives of
-explicit orbits `s ↦ T(ω(s)) e_m` of trigonometric basis vectors; the derivative it uses is the
-same one, at the same point, and agrees with the derived action of those roadmaps on smooth
-vectors (4.1).
-
-**Boundary with NoncompactQuantumSymmetry.** One object has one owner: what
-[NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md) owns is consumed from it with
-its hypotheses and is not restated here; this roadmap gives only its own concrete model and a
-dictionary, an agreement theorem identifying the model with that roadmap's object and the
-parameter map. That roadmap owns:
-- the measurable theory of quasi-invariant measures on transitive spaces `G/H`, Borel sections,
-  normalized induction and the imprimitivity theorem (its M1); this roadmap owns quasi-invariant
-  measures given by a density for an arbitrary measurable action (1.1) and the multiplier
-  representations they carry (1.2–1.4), which on a transitive space are induced representations
-  in its M1 model;
-- the regular Mackey machine for semidirect products (its M2), which classifies the irreducible
-  unitary representations of the `ax + b` and motion groups, and, in its M2 shear-coordinate
-  block, the induced models `π_b` of the Heisenberg group with their unitarity, strong
-  continuity, central character, irreducibility and classification;
-- the unitary dual of `SL(2,ℝ) ≅ SU(1,1)` for the fixed conjugacy by `C₀`, including the
-  equality `C₀ SL(2,ℝ) C₀⁻¹ = SU(1,1)` (its M4 and M4.SL2R): normalized parabolic induction, the
-  principal and complementary series with their invariant forms and Hilbert completions, the
-  discrete series `D_n^±` for `n ≥ 2`, their limits `D_1^±`, irreducibility, equivalences,
-  endpoint composition, exhaustion, the compact weights and the Casimir values `q_B`; the compact
-  eigenvalues of the complementary forms (its M5); the Fourier–Laplace and upper half-plane
-  models of `D_l^±` (its M6.C); and the Plancherel theorem of `SL(2,ℝ)` (its M4.P);
-- the null little group `Δ` with `E(2) = Δ/{±1}` and its type I property (its M4.TypeI), and the
-  Euclidean adapters `ℝ² ⋊ Spin(2)` and `ℝ³ ⋊ SU(2)` with their nonzero-radius irreducibles and
-  restriction calculations (its M6).
-
-This roadmap owns the motion groups `M(n)` and `ISO(1,1)` as topological groups (0.3), which that
-roadmap uses only as the quotients of its covers; the circle, disc, half-line, line and sphere
-models; the facts that are visible on those models (representation law, `L²` realization,
-unitarity range, Hermitian adjoint, reproducing kernels, weights, infinitesimal operators); the
-`ax + b` models, which that roadmap does not treat separately; Gel'fand pairs and spherical
-functions (Layer 5), which it does not treat; and the dictionaries:
-`SU11.ofSL2R_spec`, `SU11.principalAction_compactPicture`, `complementaryWeight_ratio` and
-`SU11.discreteAction_rotation` (2.1–2.3), the Casimir dictionary (4.2), `fourier_schrodinger`
-(2.5) and the identification of the sphere models of `M(2)` and `M(3)` with its Euclidean
-adapters (2.6).
-
-**Boundary with SpecialFunctionsSU2MatrixElements.** The roadmap SpecialFunctionsSU2MatrixElements
-owns the compact group `SU(2)`: its Euler angles in Edmonds's convention (its §1.1), its Haar
-measure in Euler angles with density `(16π²)⁻¹ sin β` (its §1.3), its unitary model of spin `d/2`
-with the basis indexed by the magnetic weight `m = i − d/2` (its §1.4), its matrix elements
-`D^{d/2}_{m'm}(g) = ⟪e_{m'}, T(g) e_m⟫` with their Euler factorization
-`e^{im'α} d_{m'm}(β) e^{imγ}` (its §§2.1, 2.3), the differential equation of `d_{m'm}` with
-eigenvalue `−j(j + 1)` (its §4.2) and the Gel'fand pair `(SU(2), T)` (its §6.4). This roadmap
-uses its conventions verbatim for `SU(1,1)` (Conventions), owns the general matrix element in a
-Hilbert basis of which that roadmap's matrix element is an instance (3.1), and owns the general
-Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates none of those
-`SU(2)` results.
-
-**Other boundaries.**
-- [RealSemisimpleLieGroups §5.7](../RealSemisimpleLieGroups/README.md) owns `U(1, n)` and
-  `SU(1, n)` as matrix groups with their topology, maximal compact subgroup and polar
-  decomposition; 0.1 identifies its coordinate group `SU11` with that `SU(1, 1)` (`mem_su11_iff`)
-  and owns only the Euler-angle coordinates, the Haar measure in them and the explicit Lie basis.
-  [BallQuotientsAndComplexHyperbolicLattices §1.6](../BallQuotientsAndComplexHyperbolicLattices/README.md)
-  owns the Cayley isomorphism `PU(1,1) ≅ PSL(2,ℝ)` and its action on the disc and the upper
-  half-plane, which this roadmap does not restate.
-- [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md) owns the Schrödinger
-  representation of the Heisenberg group of a symplectic space over a local field (its 0.15 and,
-  on `L²`, 0.17) and the Stone–von Neumann theorem in its smooth and unitary forms, with the
-  Hilbert multiplicity theorem (its 1.1–1.2); 2.5 owns the line model in the coordinates of
-  `TauCeti.HeisenbergGroup` as an instance of the multiplier representations of Layer 1, with its
-  dictionaries to that roadmap's model and to NoncompactQuantumSymmetry M2.
-  [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) D4.LCAWeyl proves that an
-  irreducible Weyl pair for a locally compact abelian group is the Schrödinger pair with
-  multiplicity one; 2.5 does not use it.
-- [AutomorphicFormsOnReductiveGroups §2.6](../AutomorphicFormsOnReductiveGroups/README.md) owns
-  the explicit `(𝔤𝔩₂, O(2))`-modules of `GL₂(ℝ)` and their classification; this roadmap works
-  with the group `SU(1,1)` and its Hilbert models and states nothing about Harish-Chandra modules.
-- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 9 owns the
-  KAK decomposition of a real reductive group; the Euler angles of 0.1 are its instance for
-  `SU(1,1)` and are proved here directly in coordinates. That roadmap leaves spherical and
-  Harish-Chandra harmonic analysis downstream, and
-  [RealSemisimpleLieGroups](../RealSemisimpleLieGroups/README.md) excludes spherical functions
-  on `G/K`; Layer 5 owns spherical functions for locally compact `G` and compact `K` in general.
-  [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md) treats
-  spherical Hecke algebras of `p`-adic groups; Layer 5 states nothing specific to totally
-  disconnected groups.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) Layer 5
-  supplies Haar measure, Peter–Weyl and representative-function density for compact `K`; the
-  density of `K`-finite vectors in a Banach representation is its named gap
-  `gap:banach-gfinite-density`, consumed by AutomorphicFormsOnReductiveGroups §2.1 and here (3.3).
-- The identification of specific matrix elements and spherical functions with named special
-  functions (Legendre and Jacobi functions for `SU(1,1)`, Bessel functions for the motion groups,
-  Laguerre and Hermite functions for the Heisenberg and oscillator groups), the decomposition of
-  specific quasi-regular representations and the resulting integral transforms are not targets of
-  this roadmap. The Checks below compare with those functions numerically.
-
-**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
-- the left regular representation on `L²(G)`, its unitarity and strong continuity:
-  `MeasureTheory.Measure.leftRegular`, `MeasureTheory.Measure.isUnitary_leftRegular`,
-  `MeasureTheory.Measure.continuous_leftRegular_apply`; 1.3 identifies it with a multiplier
-  representation;
-- Parseval's identity in a Hilbert basis, `HilbertBasis.hasSum_inner_mul_inner`, consumed in 3.2;
-- the positive definiteness of `g ↦ ⟪ξ, π g ξ⟫` for unitary `π`, and the GNS construction of a
-  unitary representation from a positive-definite function on a group, in Tau Ceti's
-  `TauCeti/RepresentationTheory/Continuous/Unitary/PositiveDefinite.lean`, consumed in 5.3
-  (`Suggested.lean` does not import that module and states 5.3 without it).
+The harder material is 1.3 (strong continuity, which needs density of compactly supported
+continuous functions), 2.4 (irreducibility of the `ax + b` models), 4.3 (the template equation)
+and 5.3 (multiplicity one, which needs the scalar-commutant form of irreducibility, CStarAlgebras
+§2.2).
 
 ## Conventions
 
@@ -290,103 +171,6 @@ Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates non
   Schrödinger cocycle of Wawrzyńczyk §2.8 (2.5), and the bi-invariant functions of
   Vilenkin–Klimyk §1.2.7, which form a subalgebra and not an ideal (5.1).
 
-## Exact supplier contracts
-
-### From Tau Ceti
-
-- `ContRepresentation.IsUnitary` (`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`):
-  `∀ g v w, ⟪π g v, π g w⟫ = ⟪v, w⟫`. The unitarity predicate throughout.
-- `ContRepresentation.matrixCoeff`
-  (`TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`):
-  the coefficient `g ↦ ⟪π g v, w⟫` as an element of `C(G, 𝕜)` for norm-continuous `π`. 3.1
-  relates `matrixElement` to it.
-- `MeasureTheory.Measure.leftRegular`, `MeasureTheory.Measure.isUnitary_leftRegular`,
-  `MeasureTheory.Measure.continuous_leftRegular_apply`
-  (`TauCeti/RepresentationTheory/Continuous/LeftRegular.lean`): left translation
-  `f ↦ f(g⁻¹ ·)` on `Lᵖ(G, μ)` for left-invariant `μ`, unitary for `p = 2`, with continuous
-  orbits for `p < ∞` and locally finite `μ`. Used in 1.3.
-- `ContRepresentation.toStronglyContinuousGroup`
-  (`TauCeti/RepresentationTheory/Continuous/OneParameter.lean`): a representation of `ℝ` with
-  continuous orbits as a strongly continuous group. Used in 4.1 for the one-parameter subgroups.
-- `TauCeti.HeisenbergGroup` and `TauCeti.HeisenbergGroup.equivProd`
-  (`TauCeti/GroupTheory/SpecificGroups/Heisenberg.lean`): the group of triples with
-  `(x, y, z)(x', y', z') = (x + x', y + y', z + z' + x y')`. Used in 0.2 and 2.5.
-- The unitary GNS theorem for positive-definite functions on a group
-  (`TauCeti/RepresentationTheory/Continuous/Unitary/PositiveDefinite.lean`): the kernel
-  `(g, h) ↦ φ(g⁻¹h)` is positive semidefinite exactly when `φ(g) = ⟪ξ, π(g) ξ⟫` for a unitary
-  representation `π` on a Hilbert space. Used in 5.3.
-
-### From Mathlib
-
-- `haarAddCircle`, `fourier`, `fourierLp`, `fourierBasis`: the circle, its Haar probability
-  measure and the trigonometric Hilbert basis. Used in 2.1, 3.3, Layer 4.
-- `Real.fourier_real_eq_integral_exp_smul`: the Fourier transform `𝓕` on `ℝ` with the kernel
-  `e^{−2πivξ}`. Used in 2.5.
-- `Matrix.toEuclideanLin`: a matrix acting on `EuclideanSpace`. Used in 0.3.
-- `HilbertBasis.hasSum_inner_mul_inner`, `IsHilbertSum`: Parseval and Hilbert sums. Used in 3.2,
-  3.3.
-- `MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.Measure.modularCharacter`, `withDensity`,
-  `Measure.map`, `MeasureTheory.Measure.rnDeriv`: Haar measure, the modular function and densities.
-  Used in Layer 0, 1.1, Layer 5.
-- `MeasureTheory.Measure.toSphere`: the surface measure on the unit sphere. Used in 2.6.
-- `Matrix.SpecialLinearGroup` with its topology and `IsTopologicalGroup` instance, and
-  `Matrix.specialOrthogonalGroup`. Used in 0.1 and 0.3.
-- `Real.Gamma`: in 2.2. `Complex.besselJ`: in the Checks of 2.6 and 4.3.
-
-### From other roadmaps
-
-- [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
-  0.2 (one-parameter generators), Layer 2 (smooth vectors) and 3.1 (the real Lie and enveloping
-  action on smooth vectors);
-  [AutomorphicFormsOnReductiveGroups §2.7](../AutomorphicFormsOnReductiveGroups/README.md) for the
-  smooth carrier. Consumed in 2.5 and 4.1–4.2 for the statements that the explicit derivatives are
-  the derived action on smooth vectors.
-- [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md), consumed with its
-  hypotheses: M0 (skew-symmetry of `dπ(X)` for unitary `π`) in 4.1; M2 (the regular Mackey
-  classification) in 2.4 and 2.6, and its shear-coordinate Heisenberg models `π_b` (irreducibility
-  and classification) in 2.5; M4 and M4.SL2R (the fixed conjugacy `C₀` with
-  `C₀ SL(2,ℝ) C₀⁻¹ = SU(1,1)`, normalized induction, the `SL(2,ℝ)` dual with its invariant forms,
-  completions, irreducibility, equivalences, endpoint composition, compact weights and `q_B`) in
-  2.1–2.3 and 4.2; M5 (the compact eigenvalues of the complementary forms) in 2.2; M6.C (the
-  half-plane models of `D_l^±`) in 2.3; M4.TypeI (`Δ` and `E(2) = Δ/{±1}`) and M6 (the Euclidean
-  adapters) in 2.6.
-- [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md) 0.17 (the Hilbert
-  Schrödinger model over `ℝ`) and 1.2 (the unitary Stone–von Neumann theorem), in 2.5.
-- [RealSemisimpleLieGroups §5.7](../RealSemisimpleLieGroups/README.md) (`SU(1, n)` with
-  `J = diag(1, −1, …, −1)`), in 0.1.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) Layer 5
-  and its gap `gap:banach-gfinite-density`, with AutomorphicFormsOnReductiveGroups §2.1 for its
-  abbreviation of `K`-finiteness. Consumed in 3.3.
-- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 9 (the KAK
-  decomposition), of which 0.1 is the `SU(1,1)` instance; and its Lie functor, for the general
-  form of 5.4.
-- SpecialFunctionsSU2MatrixElements, a roadmap of the same project: its §§1.1, 1.3, 1.4, 2.1,
-  2.3, 4.2 and 6.4 as described under Scope and ownership: the `SU(2)`
-  conventions of Conventions, the instance bullets of 3.1 and 5.4, and the comparison bullets of
-  0.1 and 4.3.
-
-`Suggested.lean` imports no other roadmap; it uses Tau Ceti's declarations above directly.
-
-## How to read the build
-
-Layer 0 fixes the groups and their invariant measures in coordinates, so that every later formula
-can be checked by hand. Layer 1 is the general machinery of multiplier representations on a
-measure space with a quasi-invariant measure; its unitarity criterion and its strong-continuity
-theorem are used for every model of Layer 2. Layer 2 builds the models. The `SU(1,1)` models on the
-circle are written with the right action on angles; 2.1 proves their representation law, `L²`
-realization, unitarity range and Hermitian adjoint, and the general theorems of Layer 1 apply
-through the left action `g • θ = circleAct g⁻¹ θ`. Layer 3 is general: it holds for any
-representation on a Hilbert space with a Hilbert basis, and its weight decomposition is what makes
-the matrix elements of Layer 4 functions of one variable. Layer 4 computes the infinitesimal
-operators of the principal series on the trigonometric basis and derives the second-order equation
-of its matrix elements; it is the template that special-function identifications instantiate.
-Layer 5 is harmonic analysis on `K\G/K` and needs only Layers 0 and 3; its `SU(1,1)` example uses
-the radial part of the Casimir equation of Layer 4.
-
-The harder material is 1.3 (strong continuity, which needs density of compactly supported
-continuous functions), 2.4 (irreducibility of the `ax + b` models), 4.3 (the template equation)
-and 5.3 (multiplicity one, which needs Schur's lemma for a commutative `*`-algebra of operators).
-
 ## Layer 0: groups in coordinates
 
 ### 0.1 `SU(1,1)`
@@ -466,7 +250,7 @@ function), p. 66, Example 5 (triangular groups), §1.1.8, p. 50, Example 2 (Heis
 (triangular and oscillator groups), §2.8, p. 166 (the `ax + b` group); Wawrzyńczyk §2.8,
 Example 2, pp. 132–133 (Heisenberg group).
 
-The `ax + b` group is `AxB`, triples `(a, b)` with `a > 0` and `(a, b)(a', b') = (aa', ab' + b)`.
+The `ax + b` group is `AxB`, pairs `(a, b)` with `a > 0` and `(a, b)(a', b') = (aa', ab' + b)`.
 Prove:
 - **Haar measures of the `ax + b` group** (`axb_haar`): `a⁻² da db` (`axbLeftHaar`) is left
   invariant, `a⁻¹ da db` (`axbRightHaar`) is right invariant, and `a⁻² da db` is not right
@@ -611,8 +395,9 @@ Sources: Wawrzyńczyk §2.2 (2.2.12)–(2.2.13), Proposition 2.2.4, pp. 108–10
 
 `multiplierRep μ α` is the continuous representation on `L²(X, μ)` that agrees almost everywhere
 with `multiplierAction α`, when one exists. Prove:
-- **Uniqueness of the `L²` realization** (`multiplierRep_unique`): two representations on
-  `L²(μ)` that agree almost everywhere with the formula are equal;
+- uniqueness of the `L²` realization, a sanity check of the definitions
+  (`multiplierRep_unique`): two representations on `L²(μ)` that agree almost everywhere with the
+  formula are equal;
 - **Existence of the `L²` realization** (`exists_multiplierRepresentation`): a multiplier cocycle
   along a quasi-measure-preserving action, with operators bounded on `L²(μ)`, is realized by a
   representation;
@@ -624,9 +409,10 @@ with `multiplierAction α`, when one exists. Prove:
 - **Strong continuity** (`continuous_multiplierRep_apply`): for a continuous action of a locally
   compact group on a locally compact Hausdorff space with a regular measure and a jointly
   continuous unitary multiplier, every orbit `g ↦ T(g) f` is continuous;
-- **Quasi-regular representation** (`isMultiplierCocycle_sqrt`): for a pointwise Radon–Nikodym
-  cocycle `ρ`, `√ρ` is a multiplier cocycle with `|√ρ|² = ρ`, so
-  `(π(g) f)(x) = ρ(g, x)^{1/2} f(g⁻¹ • x)` is unitary;
+- **Quasi-regular representation** (`multiplierRep_quasiRegular_spec`): for a quasi-invariant
+  σ-finite `μ` whose Radon–Nikodym densities form a pointwise cocycle `ρ`, the multiplier
+  `quasiRegularCocycle ρ = √ρ` is a multiplier cocycle and `multiplierRep μ (quasiRegularCocycle ρ)`
+  realizes `(π(g) f)(x) = ρ(g, x)^{1/2} f(g⁻¹ • x)` and is unitary;
 - **Left regular representation** (`multiplierRep_one_eq_leftRegular`): for `G` acting on itself
   with a left-invariant measure, `multiplierRep μ 1` is `MeasureTheory.Measure.leftRegular`.
 
@@ -671,7 +457,8 @@ Sources: Vilenkin–Klimyk §2.2.5 (1), p. 87 (equivalent representations).
 
 - The left regular representation of `AxB` with left Haar measure is the multiplier
   representation with `α = 1`; with right Haar measure it is the multiplier representation with
-  `α(g, x) = Δ(g)^{1/2}`.
+  `α(g, x) = Δ(g)^{−1/2}`: left translation by `g` multiplies `a⁻¹ da db` by `Δ(g)`, so
+  `‖f(g⁻¹ ·)‖² = Δ(g) ‖f‖²`.
 
 ### Dependencies
 
@@ -727,7 +514,10 @@ angles, `SU11.principalAction τ e g f θ = principalMultiplier τ e g θ · f(c
 
 The `L²` operator exists for every `τ` because the multiplier is bounded and the Jacobian of
 `circleAct g` is bounded above and below (`exists_multiplierRepresentation` of 1.3). Unitarity at
-`Re τ = −1/2` is the criterion of 1.3; the converse tests `f = 1`. The Poisson density follows
+`Re τ = −1/2` is the criterion of 1.3. The converse is the other direction of that criterion with
+the uniqueness of the realization: a unitary `principalSeries τ e` forces `|u|^{4 Re τ + 2} = 1`
+almost everywhere, which fails for every `g` with `b ≠ 0` unless `Re τ = −1/2`; testing `f = 1`
+does not separate `Re τ = 0` from `Re τ = −1/2` (Checks). The Poisson density follows
 from the mean-value property on the dense span of the characters `e^{inθ}`. The adjoint formula is
 the change of variables `θ ↦ circleAct g θ` with that density.
 
@@ -774,8 +564,9 @@ subsection owns the weights and the dictionary. Prove:
   for `−1 < τ < 0`, and all equal `1` at `τ = −1/2`;
 - **Agreement with the compact eigenforms of NoncompactQuantumSymmetry M5**
   (`complementaryWeight_ratio`): with `ν = −(2τ + 1)`,
-  `w(j)/w(0) = ∏_{k=1}^{j} (2k − 1 − ν)/(2k − 1 + ν)`, its eigenvalue `a_{±2j}` on the vectors of
-  compact weight `±2j`;
+  `w(j)/w(0) = ∏_{k=1}^{j} (2k − 1 − ν)/(2k − 1 + ν)`, which is M5's eigenvalue `a_{±2j}(ν)` on
+  the vectors of compact weight `±2j` for `0 < ν < 1`, and `1/a_{±2j}(|ν|)` for `−1 < ν < 0`, the
+  form of `I_(0,ν)`, which M4's intertwiner identifies with `C_{|ν|}`;
 - through `W` of 2.1, `w(0)⁻¹ Σₙ w(n) conj(f̂ n) ĥ n` is M4's complementary form at
   `ν = −(2τ + 1)`, normalized at the constant vector, so the completion of the smooth functions in
   it carries M4's complementary series; its invariance, completion and irreducibility are consumed
@@ -789,8 +580,8 @@ The ratio is the recursion `w(n + 1)/w(n) = (n + 1 + τ)/(n − τ)` of the Gamm
 - `w(−0.9, 0) = 8.90253 80657` and `w(−0.9, ±1) = 0.98917 08962`.
 - Negative control: `w(0.3, 0) = −0.20741 88997 < 0`, so the form is indefinite outside
   `−1 < τ < 0`.
-- At `τ = −0.3` (`ν = −0.4`): `w(1)/w(0) = 7/3 = a_2(−0.4)` and
-  `w(5)/w(0) = 4.38970 63503`; at `τ = −0.8` (`ν = 0.6`): `w(2)/w(0) = 1/6`.
+- At `τ = −0.3` (`ν = −0.4`): `w(1)/w(0) = 7/3 = 1/a_2(0.4)` and `w(5)/w(0) = 4.38970 63503`;
+  at `τ = −0.8` (`ν = 0.6`): `w(2)/w(0) = 1/6 = a_4(0.6)`.
 - Negative control: the product at `ν = 2τ + 1` is the reciprocal, `3/7` at `τ = −0.3`, `j = 1`.
 
 *Needs:* 2.1; Mathlib `Real.Gamma`; NoncompactQuantumSymmetry M4 and M5.
@@ -807,10 +598,9 @@ For `k ≥ 2`, `bergmanMeasure k = ((k − 1)/π) (1 − |z|²)^{k−2} dA` on t
 - **Holomorphic discrete series** (`SU11.discreteAction_isometry`): `diskAct g` maps the disc to
   itself, the action is a representation on functions on the disc, preserves holomorphy and
   preserves the weighted Bergman norm;
-- **Antiholomorphic discrete series** (`SU11.antiDiscreteAction_spec`): `antiDiscreteAction k g h`
-  is `conj ∘ discreteAction k g (conj ∘ h)`, and for `k ≥ 2` and antiholomorphic `h` the action
-  is a representation on functions on the disc, preserves antiholomorphy and preserves the
-  weighted Bergman norm;
+- **Antiholomorphic discrete series** (`SU11.antiDiscreteAction_spec`): for `k ≥ 2` and
+  antiholomorphic `h` the action `antiDiscreteAction k` is a representation on functions on the
+  disc, preserves antiholomorphy and preserves the weighted Bergman norm;
 - **Bergman norms and kernel** (`bergman_monomial_kernel`): `‖zʲ‖² = C(k − 1 + j, j)⁻¹` and the
   reproducing kernel is `Σⱼ C(k − 1 + j, j) (z conj w)ʲ = (1 − z conj w)^{−k}`;
 - **Weights of the discrete series** (`SU11.discreteAction_rotation`):
@@ -820,10 +610,12 @@ For `k ≥ 2`, `bergmanMeasure k = ((k − 1)/π) (1 − |z|²)^{k−2} dA` on t
   and so is the conjugate action on `conj(A²_k)`. Their weights `m = ±(k/2 + j)` are M4's compact
   weights `±(k + 2j)`, those of `D_k^±`. Through `ofSL2R` and the lowest-weight vector `1`,
   `A²_k` is M4's `D_k^+` and `conj(A²_k)` its `D_k^−`; their irreducibility and the comparison
-  with M6.C's half-plane models are consumed from NoncompactQuantumSymmetry.
+  with the Fourier–Laplace and upper half-plane models of M6.A (in M6's subsection on two
+  spacelike inputs) are consumed from NoncompactQuantumSymmetry.
 
 **Checks.**
 - `bergmanMeasure k` is a probability measure (`j = 0`).
+- `antiDiscreteAction k g h = conj ∘ discreteAction k g (conj ∘ h)`, by the definitions.
 - `‖z‖² = 1/2` for `k = 2`; `‖z³‖² = 1/10` for `k = 3`; `‖z‖² = 1/5` for `k = 5`.
 - For `g = g(0.3, 0.8, 1.2)` and `h = 1 + 2z − z³`, `k = 3`: `‖T(g) h‖² = ‖h‖² = 2.43333 33333`.
 - Negative control: the exponent `+k` in place of `−k` gives `‖·‖² = 12.92483 64196` for the same
@@ -836,7 +628,7 @@ For `k ≥ 2`, `bergmanMeasure k = ((k − 1)/π) (1 − |z|²)^{k−2} dA` on t
   both directions, so that formula is not `D_k^−`.
 
 *Needs:* 1.2; Mathlib `DifferentiableOn`, `Metric.ball`, `lintegral`; NoncompactQuantumSymmetry M4
-and M6.C.
+and M6.A.
 
 ### 2.4 The `ax + b` group on the half-line
 
@@ -911,19 +703,24 @@ Sources: Vilenkin–Klimyk §4.1.2 (1)–(9), pp. 166–167; Klimyk–Vilenkin �
 pp. 165–166; Miller §3-7 (3.48)–(3.51), pp. 70–71, §3-8 (3.52)–(3.54), pp. 71–72.
 
 For `R > 0` and `g = (a, k)` in `MotionGroup n`, `(T_R(g) f)(ξ) = e^{iR⟨a, ξ⟩} f(k⁻¹ ξ)` on
-`L²(S^{n−1})` (`motionAction`). Prove:
+`L²(S^{n−1})` (`motionAction`); in the framework of 1.3 it is `sphereRep n R`, the multiplier
+representation with `sphereCocycle R` for the action `(a, k) • ξ = k ξ` and the surface measure
+`sphereMeasure n` of the unit sphere. Prove:
 - **Sphere model: representation law** (`motionAction_mul`): `T_R(gh) = T_R(g) T_R(h)` and
   `T_R(1) = 1` on functions;
 - **Sphere model: unitarity** (`lintegral_motionAction`) for the surface measure;
-- **Irreducibility of the sphere models**: for `n ≥ 2` and `R > 0`, `T_R` is a strongly continuous
-  irreducible unitary representation of `M(n)`, and `T_R ≅ T_R'` only for `R = R'`. For `n ≥ 4`
+- **Irreducibility of the sphere models** (`sphereRep_spec`): for `n ≥ 2` and `R, R' > 0`,
+  `sphereRep n R` realizes `T_R` and is a strongly continuous irreducible unitary representation
+  of `M(n)`, and `T_R ≅ T_R'` exactly when `R = R'`. For `n ≥ 4`
   this is a target here: an invariant closed subspace is invariant under multiplication by the
   functions `ξ ↦ e^{iR⟨a, ξ⟩}`, whose span is dense in `C(S^{n−1})` by Stone–Weierstrass, and so
   is `L²(E)` for a rotation-invariant `E`, which transitivity of `SO(n)` makes null or conull;
 - for `n = 2, 3`, `M(2) = (ℝ² ⋊ Spin(2))/{±1}`, which is NoncompactQuantumSymmetry's
   `E(2) = Δ/{±1}`, and `M(3) = (ℝ³ ⋊ SU(2))/{±1}`; `T_R` is the pullback of its Euclidean
-  adapters' nonzero-radius irreducibles `T_(R, 0)` and `S_(R, 0)` (radius `R`, trivial on `−1`),
-  whose irreducibility and inequivalence are consumed from its M6 and M2.
+  adapters' nonzero-radius irreducibles `T_(ℏR, 0)` and `S_(ℏR, 0)` (trivial on `−1`), whose
+  irreducibility and inequivalence are consumed from its M6 and M2. The radius label is `ℏR`:
+  that roadmap writes the translation characters of its adapters as `v ↦ exp(i k·v/ℏ)` and labels
+  an irreducible by `|k|`, and the character `a ↦ e^{iR⟨a, ξ⟩}` of `T_R` is `k = ℏRξ`.
 
 **Checks.**
 - On `M(2)`, with the normalized measure `dθ/2π` on the circle (Mathlib's surface measure is
@@ -933,7 +730,7 @@ For `R > 0` and `g = (a, k)` in `MotionGroup n`, `(T_R(g) f)(ξ) = e^{iR⟨a, ξ
 - Negative control: for `n = 1`, `S⁰ = {±1}`, the rotation group is trivial and `T_R` splits into
   the two characters `a ↦ e^{±iRa}`: irreducibility needs `n ≥ 2`.
 
-*Needs:* 0.3, 1.2; Mathlib `MeasureTheory.Measure.toSphere`; NoncompactQuantumSymmetry M2,
+*Needs:* 0.3, 1.2–1.3; Mathlib `MeasureTheory.Measure.toSphere`; NoncompactQuantumSymmetry M2,
 M4.TypeI and M6.
 
 ### Examples
@@ -945,7 +742,7 @@ M4.TypeI and M6.
 
 ### Dependencies
 
-Layers 0–1; NoncompactQuantumSymmetry M2, M4, M4.TypeI, M5, M6 and M6.C;
+Layers 0–1; NoncompactQuantumSymmetry M2, M4, M4.TypeI, M5, M6 and M6.A;
 MetaplecticAutomorphicForms 0.17 and 1.2.
 
 ## Layer 3: matrix elements in infinite dimension
@@ -957,10 +754,11 @@ Miller §3-6, pp. 67–68; Edmonds (4.1.10), p. 55.
 
 `matrixElement U e m' m g = ⟪e m', U g (e m)⟫ = D_{m'm}(g)` for a representation `U` on a Hilbert
 space with Hilbert basis `e`. Prove:
-- **Bridge to Tau Ceti's matrix coefficient** (`matrixElement_eq_conj_matrixCoeff`): for
-  norm-continuous `U`, `matrixElement U e m' m g = conj (matrixCoeff U hU (e m) (e m') g)`;
-- **Continuity** (`continuous_matrixElement`): if the orbit `g ↦ U g (e m)` is continuous, so is
-  `matrixElement U e m' m`;
+- bridge to Tau Ceti's matrix coefficient, a sanity check of the definitions
+  (`matrixElement_eq_conj_matrixCoeff`): for norm-continuous `U`,
+  `matrixElement U e m' m g = conj (matrixCoeff U hU (e m) (e m') g)`;
+- continuity, a sanity check of the definition (`continuous_matrixElement`): if the orbit
+  `g ↦ U g (e m)` is continuous, so is `matrixElement U e m' m`;
 - for SpecialFunctionsSU2MatrixElements' unitary model of spin `d/2` (its §1.4) and the standard
   basis of `EuclideanSpace ℂ (Fin (d + 1))`, `matrixElement` is that roadmap's matrix element (its
   §2.1), and the results of 3.2 specialize to its group law and unitarity relations (its §2.2).
@@ -983,13 +781,16 @@ Prove:
 - **Addition theorem** (`hasSum_matrixElement_mul`, `summable_norm_matrixElement_mul`):
   `D_{m'm}(gh) = Σₖ D_{m'k}(g) D_{km}(h)` with absolute convergence, for every representation on
   a Hilbert space;
-- **Identity** (`matrixElement_one`): `D_{m'm}(1) = δ_{m'm}`;
+- identity, a sanity check of the definition (`matrixElement_one`): `D_{m'm}(1) = δ_{m'm}`;
 - **Inverse** (`matrixElement_inv`): for unitary `U`, `D_{m'm}(g⁻¹) = conj D_{mm'}(g)`;
 - **Unitarity relations** (`isUnitary_iff_hasSum_matrixElement`): `U` is unitary exactly when
   `Σₖ conj D_{km'}(g) D_{km}(g) = δ_{m'm}` for all `g`; then also
   `Σₖ D_{m'k}(g) conj D_{mk}(g) = δ_{m'm}`;
 - change of basis: for Hilbert bases `e`, `e'` with `e' m = Σⱼ c_{jm} e j`, the matrix elements in
-  `e'` are `D'_{m'm} = Σ conj c_{jm'} D_{jk} c_{km}` with absolute convergence.
+  `e'` are the iterated sums `D'_{m'm} = Σⱼ conj c_{jm'} (Σₖ D_{jk} c_{km})`, the inner sum and
+  the outer sum each absolutely convergent (Parseval and Cauchy–Schwarz, as for the addition
+  theorem). The double series over pairs `(j, k)` need not converge absolutely: the matrix of
+  absolute values of a bounded operator need not be bounded.
 
 The addition theorem is Parseval (`HilbertBasis.hasSum_inner_mul_inner`) applied to
 `⟪U(g)* e_{m'}, U(h) e_m⟫`; absolute convergence is Cauchy–Schwarz in `ℓ²`.
@@ -1207,7 +1008,7 @@ and `φ(x) φ(1) = ∫ φ(x k) dk = φ(x)`.
 - Negative control (unbounded spherical function): `φ_1(b_t) = cosh t`, with
   `φ_1(b_5) = 74.20994 85248`, is spherical but unbounded, and its spherical transform is not
   defined on all of `L¹(K\G/K)`; dropping boundedness from the character theorem would admit it.
-  `φ_τ` is bounded exactly for `−1 ≤ Re τ ≤ 0`; at `τ = −0.3`, `φ(b_5) = 0.41425 42793`.
+  `φ_τ` is bounded exactly for `−1 ≤ Re τ ≤ 0`; at `τ = −0.3`, `φ(b_5) = 0.41207 99646`.
 
 *Needs:* 5.1; Mathlib Bochner integration.
 
@@ -1222,12 +1023,17 @@ Dieudonné §9 (110), p. 30.
   then `g ↦ ⟪v, U(g) v⟫` is a positive-definite spherical function;
 - **Multiplicity one** (`rank_fixedSubmodule_le_one`): for a Gel'fand pair and an irreducible
   strongly continuous unitary representation of a second-countable `G`, the `K`-fixed space has
-  dimension at most one;
+  dimension at most one: the compressions to it of the operators `U(f)`, `f` bi-invariant, form a
+  commutative `*`-algebra acting irreducibly, whose commutant is therefore scalar (CStarAlgebras
+  §2.2);
 - **Positive-definite spherical functions come from representations**
   (`exists_isUnitary_of_sphericalFunction`): a positive-definite spherical function is
-  `⟪v, U(g) v⟫` for a strongly continuous unitary `U` and a `K`-fixed unit vector `v` (Tau Ceti's
-  GNS construction, with strong continuity from the continuity of `φ` and `v` fixed because `φ`
-  is bi-invariant);
+  `⟪v, U(g) v⟫` for a strongly continuous unitary `U` and a `K`-fixed unit vector `v`. The
+  algebraic statement, that a positive-definite function is a coefficient `⟨ξ, π(g)ξ⟩` of a
+  unitary representation, is FactorRigidity §4.1's, applied to `G` as a discrete group; this
+  roadmap's part is that on the closed span of `π(G)ξ` the orbits are continuous, because
+  `‖π(g)ξ − ξ‖² = 2 Re(φ(1) − φ(g))` and `π` is unitary, and that `ξ` is `K`-fixed because `φ` is
+  bi-invariant;
 - for a Gel'fand pair, the closed span of `U(G) v` is irreducible and determined by `φ` up to
   equivalence.
 
@@ -1236,7 +1042,8 @@ Dieudonné §9 (110), p. 30.
 - Negative control: for `principalSeries τ 1` it is `0` (3.3), so no spherical function arises.
 - For the trivial representation, `fixedSubmodule` is everything and `φ ≡ 1`.
 
-*Needs:* 5.1–5.2; Tau Ceti's GNS theorem (Exact supplier contracts).
+*Needs:* 5.1–5.2; FactorRigidity §4.1 (positive-definite functions as coefficients);
+CStarAlgebras §2.2 (irreducibility and scalar commutant).
 
 ### 5.4 `(SU(1,1), K)` and the radial equation
 
@@ -1271,8 +1078,8 @@ Prove:
 
 ### Dependencies
 
-Layers 0, 3, 4; Mathlib Haar measure; Tau Ceti positive definiteness; RepresentationTheory/LieGroups
-for the general form of 5.4.
+Layers 0, 3, 4; Mathlib Haar measure; FactorRigidity §4.1; CStarAlgebras §2.2;
+RepresentationTheory/LieGroups for the general form of 5.4.
 
 ## Downstream consumers
 
@@ -1280,6 +1087,225 @@ for the general form of 5.4.
   Laguerre, Whittaker, Legendre and Jacobi functions (Euclidean motion groups and Bessel
   functions; affine, triangular and Heisenberg groups; `SU(1,1)` and `SL(2, ℝ)`; rank-one
   symmetric spaces), which the same project plans as sequels.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+0. **Groups in coordinates** (0.1–0.3).
+1. **`G`-spaces and multiplier representations** (1.1–1.4).
+2. **Function-space models** (2.1–2.6).
+3. **Matrix elements in infinite dimension** (3.1–3.3).
+4. **Infinitesimal operators of the circle models** (4.1–4.3).
+5. **Gel'fand pairs and spherical functions** (5.1–5.4).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines and the
+plain bullets of each subsection are targets of the same standing, stated in prose. The
+`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions
+on explicit values.
+
+**Boundary with the RepresentationTheory family.** The family index
+([RepresentationTheory](../RepresentationTheory/README.md)) stops the analytic theory at compact
+groups: it has no infinite-dimensional unitary representations of noncompact groups, no Plancherel
+theory and no tempered spectrum, and it keeps the structure theory of noncompact reductive groups
+(Cartan, Iwasawa and KAK decompositions in its LieGroups roadmap). This roadmap sits outside that
+family and owns exactly the following analytic material for noncompact groups: explicit models on
+function spaces given by multiplier formulas, the analysis of a given model through its matrix
+elements, weights and infinitesimal operators, and harmonic analysis on `K\G/K` up to the
+spherical transform. It owns no classification, no decomposition of a representation into
+irreducibles and no Plancherel formula.
+
+**Boundary with SmoothBanachRepresentations.**
+[SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md) (its
+Layers 0–4), extending
+[AutomorphicFormsOnReductiveGroups §2.7](../AutomorphicFormsOnReductiveGroups/README.md), owns
+the one-parameter generators, the Gårding space, the smooth vectors and the derived Lie and
+enveloping actions of a strongly continuous Banach representation, with the convention
+`dπ(X) v = d/dt π(exp tX) v` at `t = 0`.
+[NoncompactQuantumSymmetry M0](../NoncompactQuantumSymmetry/README.md) owns the Hilbert-adjoint
+statements on that domain (skew-symmetry of real generators, Nelson's theorem, analytic vectors).
+This roadmap consumes them and computes, for the principal series of `SU(1,1)`, the derivatives of
+explicit orbits `s ↦ T(ω(s)) e_m` of trigonometric basis vectors; the derivative it uses is the
+same one, at the same point, and agrees with the derived action of those roadmaps on smooth
+vectors (4.1).
+
+**Boundary with NoncompactQuantumSymmetry.** One object has one owner: what
+[NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md) owns is consumed from it with
+its hypotheses and is not restated here; this roadmap gives only its own concrete model and a
+dictionary, an agreement theorem identifying the model with that roadmap's object and the
+parameter map. That roadmap owns:
+- the measurable theory of quasi-invariant measures on transitive spaces `G/H`, Borel sections,
+  normalized induction and the imprimitivity theorem (its M1); this roadmap owns quasi-invariant
+  measures given by a density for an arbitrary measurable action (1.1) and the multiplier
+  representations they carry (1.2–1.4), which on a transitive space are induced representations
+  in its M1 model;
+- the regular Mackey machine for semidirect products (its M2), which classifies the irreducible
+  unitary representations of the `ax + b` and motion groups, and, in its M2 shear-coordinate
+  block, the induced models `π_b` of the Heisenberg group with their unitarity, strong
+  continuity, central character, irreducibility and classification;
+- the unitary dual of `SL(2,ℝ) ≅ SU(1,1)` for the fixed conjugacy by `C₀`, including the
+  equality `C₀ SL(2,ℝ) C₀⁻¹ = SU(1,1)` (its M4 and M4.SL2R): normalized parabolic induction, the
+  principal and complementary series with their invariant forms and Hilbert completions, the
+  discrete series `D_n^±` for `n ≥ 2`, their limits `D_1^±`, irreducibility, equivalences,
+  endpoint composition, exhaustion, the compact weights and the Casimir values `q_B`; the compact
+  eigenvalues of the complementary forms (its M5); the Fourier–Laplace and upper half-plane
+  models of `D_l^±` (its M6.A); and the Plancherel theorem of `SL(2,ℝ)` (its M4.P);
+- the null little group `Δ` with `E(2) = Δ/{±1}` and its type I property (its M4.TypeI), and the
+  Euclidean adapters `ℝ² ⋊ Spin(2)` and `ℝ³ ⋊ SU(2)` with their nonzero-radius irreducibles and
+  restriction calculations (its M6).
+
+This roadmap owns the motion groups `M(n)` and `ISO(1,1)` as topological groups (0.3), which that
+roadmap uses only as the quotients of its covers; the circle, disc, half-line, line and sphere
+models; the facts that are visible on those models (representation law, `L²` realization,
+unitarity range, Hermitian adjoint, reproducing kernels, weights, infinitesimal operators); the
+`ax + b` models, which that roadmap does not treat separately; Gel'fand pairs and spherical
+functions (Layer 5), which it does not treat; and the dictionaries:
+`SU11.ofSL2R_spec`, `SU11.principalAction_compactPicture`, `complementaryWeight_ratio` and
+`SU11.discreteAction_rotation` (2.1–2.3), the Casimir dictionary (4.2), `fourier_schrodinger`
+(2.5) and the identification of the sphere models of `M(2)` and `M(3)` with its Euclidean
+adapters (2.6).
+
+**Boundary with SpecialFunctionsSU2MatrixElements.** The roadmap SpecialFunctionsSU2MatrixElements
+owns the compact group `SU(2)`: its Euler angles in Edmonds's convention (its §1.1), its Haar
+measure in Euler angles with density `(16π²)⁻¹ sin β` (its §1.3), its unitary model of spin `d/2`
+with the basis indexed by the magnetic weight `m = i − d/2` (its §1.4), its matrix elements
+`D^{d/2}_{m'm}(g) = ⟪e_{m'}, T(g) e_m⟫` with their Euler factorization
+`e^{im'α} d_{m'm}(β) e^{imγ}` (its §§2.1, 2.3), the differential equation of `d_{m'm}` with
+eigenvalue `−j(j + 1)` (its §4.2) and the Gel'fand pair `(SU(2), T)` (its §6.4). This roadmap
+uses its conventions verbatim for `SU(1,1)` (Conventions), owns the general matrix element in a
+Hilbert basis of which that roadmap's matrix element is an instance (3.1), and owns the general
+Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates none of those
+`SU(2)` results.
+
+**Other boundaries.**
+- [RealSemisimpleLieGroups §5.7](../RealSemisimpleLieGroups/README.md) owns `U(1, n)` and
+  `SU(1, n)` as matrix groups with their topology, maximal compact subgroup and polar
+  decomposition; 0.1 identifies its coordinate group `SU11` with that `SU(1, 1)` (`mem_su11_iff`)
+  and owns only the Euler-angle coordinates, the Haar measure in them and the explicit Lie basis.
+  [BallQuotientsAndComplexHyperbolicLattices §1.6](../BallQuotientsAndComplexHyperbolicLattices/README.md)
+  owns the Cayley isomorphism `PU(1,1) ≅ PSL(2,ℝ)` and its action on the disc and the upper
+  half-plane, which this roadmap does not restate.
+- [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md) owns the Schrödinger
+  representation of the Heisenberg group of a symplectic space over a local field (its 0.15 and,
+  on `L²`, 0.17) and the Stone–von Neumann theorem in its smooth and unitary forms, with the
+  Hilbert multiplicity theorem (its 1.1–1.2); 2.5 owns the line model in the coordinates of
+  `TauCeti.HeisenbergGroup` as an instance of the multiplier representations of Layer 1, with its
+  dictionaries to that roadmap's model and to NoncompactQuantumSymmetry M2.
+  [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) D4.LCAWeyl proves that an
+  irreducible Weyl pair for a locally compact abelian group is the Schrödinger pair with
+  multiplicity one; 2.5 does not use it.
+- [AutomorphicFormsOnReductiveGroups §2.6](../AutomorphicFormsOnReductiveGroups/README.md) owns
+  the explicit `(𝔤𝔩₂, O(2))`-modules of `GL₂(ℝ)` and their classification; this roadmap works
+  with the group `SU(1,1)` and its Hilbert models and states nothing about Harish-Chandra modules.
+- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 9 owns the
+  KAK decomposition of a real reductive group; the Euler angles of 0.1 are its instance for
+  `SU(1,1)` and are proved here directly in coordinates. That roadmap leaves spherical and
+  Harish-Chandra harmonic analysis downstream, and
+  [RealSemisimpleLieGroups](../RealSemisimpleLieGroups/README.md) excludes spherical functions
+  on `G/K`; Layer 5 owns spherical functions for locally compact `G` and compact `K` in general.
+  [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md) treats
+  spherical Hecke algebras of `p`-adic groups; Layer 5 states nothing specific to totally
+  disconnected groups.
+- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) Layer 5
+  supplies Haar measure, Peter–Weyl and representative-function density for compact `K`; the
+  density of `K`-finite vectors in a Banach representation is its named gap
+  `gap:banach-gfinite-density`, consumed by AutomorphicFormsOnReductiveGroups §2.1 and here (3.3).
+- The identification of specific matrix elements and spherical functions with named special
+  functions (Legendre and Jacobi functions for `SU(1,1)`, Bessel functions for the motion groups,
+  Laguerre and Hermite functions for the Heisenberg and oscillator groups), the decomposition of
+  specific quasi-regular representations and the resulting integral transforms are not targets of
+  this roadmap. The Checks below compare with those functions numerically.
+
+**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
+- the left regular representation on `L²(G)`, its unitarity and strong continuity:
+  `MeasureTheory.Measure.leftRegular`, `MeasureTheory.Measure.isUnitary_leftRegular`,
+  `MeasureTheory.Measure.continuous_leftRegular_apply`; 1.3 identifies it with a multiplier
+  representation;
+- Parseval's identity in a Hilbert basis, `HilbertBasis.hasSum_inner_mul_inner`, consumed in 3.2;
+- the positive definiteness of `g ↦ ⟪ξ, π g ξ⟫` for unitary `π`, and the GNS construction of a
+  unitary representation from a positive-definite function on a group, FactorRigidity §4.1's,
+  consumed in 5.3.
+
+## Exact supplier contracts
+
+### From Tau Ceti
+
+- `ContRepresentation.IsUnitary` (`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`):
+  `∀ g v w, ⟪π g v, π g w⟫ = ⟪v, w⟫`. The unitarity predicate throughout.
+- `ContRepresentation.matrixCoeff`
+  (`TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`):
+  the coefficient `g ↦ ⟪π g v, w⟫` as an element of `C(G, 𝕜)` for norm-continuous `π`. 3.1
+  relates `matrixElement` to it.
+- `MeasureTheory.Measure.leftRegular`, `MeasureTheory.Measure.isUnitary_leftRegular`,
+  `MeasureTheory.Measure.continuous_leftRegular_apply`
+  (`TauCeti/RepresentationTheory/Continuous/LeftRegular.lean`): left translation
+  `f ↦ f(g⁻¹ ·)` on `Lᵖ(G, μ)` for left-invariant `μ`, unitary for `p = 2`, with continuous
+  orbits for `p < ∞` and locally finite `μ`. Used in 1.3.
+- `ContRepresentation.toStronglyContinuousGroup`
+  (`TauCeti/RepresentationTheory/Continuous/OneParameter.lean`): a representation of `ℝ` with
+  continuous orbits as a strongly continuous group. Used in 4.1 for the one-parameter subgroups.
+- `TauCeti.HeisenbergGroup` and `TauCeti.HeisenbergGroup.equivProd`
+  (`TauCeti/GroupTheory/SpecificGroups/Heisenberg.lean`): the group of triples with
+  `(x, y, z)(x', y', z') = (x + x', y + y', z + z' + x y')`. Used in 0.2 and 2.5.
+
+### From Mathlib
+
+- `haarAddCircle`, `fourier`, `fourierLp`, `fourierBasis`: the circle, its Haar probability
+  measure and the trigonometric Hilbert basis. Used in 2.1, 3.3, Layer 4.
+- `Real.fourier_real_eq_integral_exp_smul`: the Fourier transform `𝓕` on `ℝ` with the kernel
+  `e^{−2πivξ}`. Used in 2.5.
+- `Matrix.toEuclideanLin`: a matrix acting on `EuclideanSpace`. Used in 0.3.
+- `HilbertBasis.hasSum_inner_mul_inner`, `IsHilbertSum`: Parseval and Hilbert sums. Used in 3.2,
+  3.3.
+- `MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.Measure.modularCharacter`, `withDensity`,
+  `Measure.map`, `MeasureTheory.Measure.rnDeriv`: Haar measure, the modular function and densities.
+  Used in Layer 0, 1.1, Layer 5.
+- `MeasureTheory.Measure.toSphere`: the surface measure on the unit sphere. Used in 2.6.
+- `Matrix.SpecialLinearGroup` with its topology and `IsTopologicalGroup` instance, and
+  `Matrix.specialOrthogonalGroup`. Used in 0.1 and 0.3.
+- `Real.Gamma`: in 2.2. `Complex.besselJ`: in the Checks of 2.6 and 4.3.
+
+### From other roadmaps
+
+- [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
+  0.2 (one-parameter generators), Layer 2 (smooth vectors) and 3.1 (the real Lie and enveloping
+  action on smooth vectors);
+  [AutomorphicFormsOnReductiveGroups §2.7](../AutomorphicFormsOnReductiveGroups/README.md) for the
+  smooth carrier. Consumed in 2.5 and 4.1–4.2 for the statements that the explicit derivatives are
+  the derived action on smooth vectors.
+- [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md), consumed with its
+  hypotheses: M0 (skew-symmetry of `dπ(X)` for unitary `π`) in 4.1; M2 (the regular Mackey
+  classification) in 2.4 and 2.6, and its shear-coordinate Heisenberg models `π_b` (irreducibility
+  and classification) in 2.5; M4 and M4.SL2R (the fixed conjugacy `C₀` with
+  `C₀ SL(2,ℝ) C₀⁻¹ = SU(1,1)`, normalized induction, the `SL(2,ℝ)` dual with its invariant forms,
+  completions, irreducibility, equivalences, endpoint composition, compact weights and `q_B`) in
+  2.1–2.3 and 4.2; M5 (the compact eigenvalues of the complementary forms) in 2.2; M6.A (the
+  Fourier–Laplace and half-plane models of `D_l^±`) in 2.3; M4.TypeI (`Δ` and
+  `E(2) = Δ/{±1}`) and M6 (the Euclidean adapters, with radius label `ℏR` for `T_R`) in 2.6.
+- [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md) 0.17 (the Hilbert
+  Schrödinger model over `ℝ`) and 1.2 (the unitary Stone–von Neumann theorem), in 2.5.
+- [RealSemisimpleLieGroups §5.7](../RealSemisimpleLieGroups/README.md) (`SU(1, n)` with
+  `J = diag(1, −1, …, −1)`), in 0.1.
+- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) Layer 5
+  and its gap `gap:banach-gfinite-density`, with AutomorphicFormsOnReductiveGroups §2.1 for its
+  abbreviation of `K`-finiteness. Consumed in 3.3.
+- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 9 (the KAK
+  decomposition), of which 0.1 is the `SU(1,1)` instance; and its Lie functor, for the general
+  form of 5.4.
+- [FactorRigidity](../FactorRigidity/README.md) §4.1: positive-definite functions on a group are
+  exactly the coefficients `⟨ξ, π(g)ξ⟩` of unitary representations (GNS), for a discrete group,
+  applied to the underlying discrete group of `G`. Consumed in 5.3.
+- [CStarAlgebras](../CStarAlgebras/README.md) §2.2 (C2.2): a nonzero nondegenerate representation
+  is irreducible exactly when its commutant is scalar. Consumed in 5.3 for multiplicity one.
+- SpecialFunctionsSU2MatrixElements, a roadmap of the same project: its §§1.1, 1.3, 1.4, 2.1–2.3,
+  2.7, 4.2 and 6.4 as described under Scope and ownership and in Conventions: the `SU(2)`
+  conventions and the Vilenkin–Klimyk dictionary (§2.7) of Conventions, the instance bullets of
+  3.1 (with its group law and unitarity relations, §2.2) and 5.4, and the comparison bullets of
+  0.1 and 4.3.
+
+`Suggested.lean` imports no other roadmap; it uses Tau Ceti's declarations above directly.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
