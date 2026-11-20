@@ -109,7 +109,7 @@ Define `IsFlowOn v φ a b` for `φ : ℝ → E → E` as the conjunction of `φ 
 - `v t x = t • x` on `[0, 2]`, `K = 2`: `φ t x = exp (t²/2) • x`, and
   `exp 2 ≤ exp 4` at `t = 2`. For `E ≠ 0` the map `(t, x) ↦ (1, t • x)` is not Lipschitz on `ℝ × E`, so this
   field is outside `TauCeti.timeDependentFlow` and inside 1.1.
-- `v t x = 2 √|x|` on `ℝ` is not Lipschitz, and both `φ t x = x` and `φ t x = t²` describe
+- `v t x = 2 √|x|` on `ℝ` is not Lipschitz, and both `t ↦ 0` and `t ↦ t²` are
   integral curves from `x = 0`: uniqueness needs the Lipschitz hypothesis.
 - `a > b`: `[a, b]` is empty, `φ t x = x` is a flow of every field, and nothing is said about
   `φ b`.
@@ -118,7 +118,7 @@ Define `IsFlowOn v φ a b` for `φ : ℝ → E → E` as the conjunction of `φ 
   `Σ_n (tⁿ/n!) e_n`, which is not finitely supported; no flow exists.
 
 *Needs:* Mathlib `IsIntegralCurveOn`, `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`,
-`ODE_solution_unique_of_mem_Icc_right`, `dist_le_of_trajectories_ODE`; Tau Ceti
+`ODE_solution_unique_of_mem_Icc_right`, `dist_le_of_trajectories_ODE_of_mem`; Tau Ceti
 `TauCeti.timeDependentFlow` for the agreement; DiracScatteringAndNonlinearFourierTransform 1.7
 for the second route to existence.
 
@@ -147,7 +147,7 @@ inequality; the determinant formula is Liouville's formula for the matrix of `Y`
   `exp (∫₀ᵗ −n/(1 − s) ds) = (1 − t)ⁿ` in dimension `n`.
 
 *Needs:* 1.1; Tau Ceti `TauCeti.hasDerivAt_dysonSeriesLeft_apply`; Mathlib
-`dist_le_of_trajectories_ODE`; DiracScatteringAndNonlinearFourierTransform 1.4.
+`dist_le_of_trajectories_ODE_of_mem`; DiracScatteringAndNonlinearFourierTransform 1.4.
 
 ### 1.3 Pushforwards solve the continuity equation
 
@@ -393,6 +393,9 @@ and, for measurable `α`, `β`:
       w t x = (deriv α t / α t) • x + (deriv α t * (β t)² / α t − β t * deriv β t) • s_t x
 
   is an interpolant velocity. For the linear schedule this is `w t x = (x + (1 − t) s_t x)/t`.
+  The measurability of `(t, x) ↦ s_t x` on `(a, b) × E` that a marginal velocity needs is proved
+  here: `α` and `β` are continuous, so the smoothed density and its gradient are continuous in
+  `(t, x)` where `β t > 0`, by dominated convergence.
 
 All three identities follow from `x = α t • x₁ + β t • x₀` on the support and the linearity of
 the conditional expectation. (Albergo and Vanden-Eijnden 2023, Proposition 4 and Appendix F,
@@ -650,7 +653,7 @@ constant `e^{1 + 2K}` for the squared distance; the bound above is proved here.)
   needed.
 - `u t x = sin x + t`, `w t x = (4/5) tanh x + (9/10) t`, `μ = N(0, 1)` on `[0, 1]`, `p = 2`:
   the distance, the bound of the theorem and the two bounds of the display are
-  `0.211 ≤ 0.314 ≤ 0.332 ≤ 0.469`.
+  `0.211 ≤ 0.316 ≤ 0.333 ≤ 0.471`.
 
 *Needs:* 5.1; Tau Ceti `TauCeti.wassersteinEDist`, `TauCeti.wassersteinEDist_le`,
 `TauCeti.IsCoupling`, `TauCeti.lintegral_Lp_lintegral_le`.
@@ -666,7 +669,7 @@ distance and Minkowski integral inequality.
 
 ## Downstream consumers
 
-No roadmap on main consumes this one. The discretization error of a numerical integrator applied
+The discretization error of a numerical integrator applied
 to the flows of Layer 1 adds to the bound of 5.2 by the triangle inequality for `W_p`.
 
 ## Scope and ownership
@@ -742,9 +745,10 @@ this material.
 - `ODE_solution_unique_of_mem_Icc_right` (same file): two curves continuous on `Icc a b` with
   right derivative `v t (·)` on `Ico a b`, staying in sets on which `v t` is `K`-Lipschitz and
   equal at `a`, agree on `Icc a b`.
-- `dist_le_of_trajectories_ODE` (`Mathlib/Analysis/ODE/Gronwall.lean`): for
-  `∀ t, LipschitzWith K (v t)` and two such curves with `dist (f a) (g a) ≤ δ`,
-  `dist (f t) (g t) ≤ δ * exp (K * (t − a))` on `Icc a b`.
+- `dist_le_of_trajectories_ODE_of_mem` (`Mathlib/Analysis/ODE/Gronwall.lean`): for
+  `∀ t ∈ Ico a b, LipschitzOnWith K (v t) (s t)` and two curves with values in `s t`, here
+  `s t = univ`, and `dist (f a) (g a) ≤ δ`, `dist (f t) (g t) ≤ δ * exp (K * (t − a))` on
+  `Icc a b`.
 - `image_le_of_liminf_slope_right_le_deriv_boundary` (`Mathlib/Analysis/Calculus/MeanValue.lean`):
   a function continuous on `Icc a b` whose right lower slope is at most `B'` wherever it meets
   `B`, with `f a ≤ B a`, stays below `B`.
