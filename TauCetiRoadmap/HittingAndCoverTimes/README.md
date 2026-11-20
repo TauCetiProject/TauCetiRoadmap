@@ -60,8 +60,9 @@ References. `Suggested.lean` states the theorem of every numbered section.
   `markovChainLaw ν κ` on `ℕ → S`, written `P_ν`, and `P_x` when `ν` is the point mass at `x`. On a
   path `ω`, `τ_A = hittingAfter (fun n ω => ω n) A 0 ω` is the first entrance time of `A`, in
   `WithTop ℕ`, with `τ_A = 0` when `ω 0 ∈ A` and `τ_A = ⊤` when `A` is never entered; `τ_y` stands
-  for `τ_{y}`. This is the first entrance `H_A` of the conventions of MarkovChainsAndRenewal (item 3
-  there), which defines the hitting and return times themselves but not their means. Mean times
+  for `τ_{y}`. This is the first entrance `H_A` of the Conventions of MarkovChainsAndRenewal (the
+  paragraph on first entrance and first return), which defines the hitting and return times
+  themselves but not their means. Mean times
   are lower integrals in `ℝ≥0∞` of `ENat.toENNReal` of these times.
 - **Matrices.** `P` is the real matrix `transitionMatrix κ`, `Π` is `stationaryMatrix π` and `Z`
   is `fundamentalMatrix κ π`, as in MCMCAsymptoticVariance 1.1, with Mathlib's matrix inverse,
@@ -99,8 +100,9 @@ its value `⊤` when the set is missed with positive probability, and the theore
 Prove `isLeast_meanHittingTime`: on a countable state space, for every Markov kernel and every set
 `A`, the function `x ↦ E_x τ_A` is the least function `h : S → ℝ≥0∞` with `h a = 0` for `a ∈ A`
 and `h x = 1 + Σ'_y P(x, y) h(y)` for `x ∉ A`. No irreducibility is assumed. This is the classical
-first-step analysis of absorption times, due in this form to the theory of minimal nonnegative
-solutions of Markov chain equations.
+first-step analysis of absorption times; the mean hitting times as the minimal nonnegative
+solution are in J. R. Norris, *Markov chains* (Cambridge University Press, 1997), Section 1.3,
+cited here without a theorem number because the text was not opened for this roadmap.
 
 Route: the Markov property at time `1` (Tau Ceti's
 `Measure.markovChainLaw_map_prefix_shift_iterate_eq_compProd` with `n = 1`) shows that the mean
@@ -152,7 +154,9 @@ grounded at `z`; it is `0` when `a = z`.
 
 Prove `meanHittingTime_walk_eq_sum`: on a connected network, for all vertices `a` and `z`,
 `E_a τ_z = Σ_x c(x) v(x)` with `v = voltage a z` (LP, Proposition 2.20, p. 48, the hitting-time
-identity, due to Tetali; there `π(x)` denotes the weight `c(x)`). For `a = z` both sides are `0`.
+identity, due to Tetali; there `π(x)` denotes the weight `c(x)`). LP state it for a target set
+`Z`; here `Z = {z}`, the case the voltage of ElectricalNetworksAndRandomWalks 2.1 expresses. For
+`a = z` both sides are `0`.
 
 Route: by 1.3, `h(x) = E_x τ_z` is the unique function vanishing at `z` with
 `c(x) h(x) − Σ_y c(x, y) h(y) = c(x)` for `x ≠ z`, that is, the grounded Laplacian applied to the
@@ -409,7 +413,7 @@ every starting state `x`, `E_x τ_cov^A ≥ t_min^A H_(|A| − 1)`, where `t_min
 `E_a τ_b` over distinct `a`, `b` in `A` (LPW, Proposition 11.4, pp. 151–152, proved there for
 starting states in `A`; LP, §2.7, p. 49, states it for every starting state just before Theorem
 2.23 and leaves the proof of that theorem as Exercise 2.20). The sources assume irreducibility; it
-is not needed here, and the route below does not use it. For `|A| ≤ 1` the left side is the
+is not needed here, and the route below does not use it. For `|A| ≤ 1` the bound is the
 junk product `⊤ · 0 = 0`. Since `E_x τ_cov ≥ E_x τ_cov^A`, the mean cover time from every state
 is at least the maximum of `t_min^A H_(|A| − 1)` over the sets `A`.
 
@@ -469,8 +473,9 @@ Mathlib; nothing at the pins takes their means or treats cover times.
 
 Left to other roadmaps:
 
-- MarkovChainsAndRenewal owns the first entrance and return times themselves (its conventions,
-  item 3), recurrence, positive recurrence of finite irreducible chains (Layer 2, item 3), Kac's
+- MarkovChainsAndRenewal owns the first entrance and return times themselves (its Conventions,
+  the paragraph on first entrance and first return), recurrence, positive recurrence of finite
+  irreducible chains (Layer 2, item 3), Kac's
   formula `π(x) = 1/E_x τ_x⁺` (Layer 3, item 2) and convergence to equilibrium (Layer 3, item 5);
   2.1 and 3.1 above consume them. It takes no means of hitting times.
 - ElectricalNetworksAndRandomWalks owns networks, their walk, voltages, effective resistance,
@@ -513,7 +518,8 @@ continuous-time chains and countable state spaces beyond 1.2.
   in `[0, 2]` on probability measures.
 - `Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`: the inverse of a square matrix,
   `Matrix.mul_nonsing_inv` (`A * A⁻¹ = 1` when `A.det` is a unit) and
-  `Matrix.nonsing_inv_apply_not_isUnit` (`A⁻¹ = 0` otherwise); `Matrix.trace`.
+  `Matrix.nonsing_inv_apply_not_isUnit` (`A⁻¹ = 0` otherwise).
+  `Mathlib/LinearAlgebra/Matrix/Trace.lean`: `Matrix.trace`.
 - `Mathlib/NumberTheory/Harmonic/Defs.lean`: `harmonic n = Σ_{i < n} 1/(i + 1)`, in `ℚ`.
 - `Mathlib/Data/Finset/Lattice/Fold.lean`: `Finset.sup`, the supremum over a finite set, `⊥` on `∅`.
 - For the copied network definitions: `PMF.ofFintype`, `PMF.pure`, `SimpleGraph.fromRel`,
