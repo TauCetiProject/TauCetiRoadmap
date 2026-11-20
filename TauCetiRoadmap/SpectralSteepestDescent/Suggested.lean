@@ -13,7 +13,8 @@ import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.OpNorm
 Tau Ceti APIs; discharging them finishes neither a milestone nor the roadmap. The `sorry` proofs
 are targets, not completed results. The entry-time bound `K(s)` of §4.3, the cubic and quintic
 directions of §5.2, the surjective case of §2.3, and the matrix forms of §6.1 are README targets
-not stated here; §1.1 is API of the definition.
+not stated here; §1.1 is API of the definition. Layer 6 contributes the definition
+`matrixPolarFactor` alone, to fix the convention of §6.1.
 -/
 
 noncomputable section

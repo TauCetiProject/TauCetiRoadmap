@@ -18,7 +18,7 @@ Each layer opens with its definitions, each followed by its **Checks**: three or
 discriminating tests that a wrong convention would fail. Each numbered target ends with a
 *Needs:* line naming the targets and suppliers it uses. Every claim carries a source locator in
 parentheses, or says that it is proved here. `Suggested.lean` states the headline theorems of
-Layers 1–5 against the pinned APIs.
+Layers 1–5 against the pinned APIs, and from Layer 6 the definition `matrixPolarFactor` alone.
 
 ## Conventions
 
