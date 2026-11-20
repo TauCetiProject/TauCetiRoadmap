@@ -141,11 +141,14 @@ theorems, without a global instance that turns every representation into a modul
 `LieModule.ker`, `LieHom.ker_eq_bot`.
 
 **Checks.**
-- For `L = sl₂` the adjoint action is faithful, the centre being `0`; for an abelian `L ≠ 0` it is
-  not, the adjoint representation being zero (Mathlib `LieAlgebra.isFaithful_self_iff`: the
-  adjoint module is faithful iff `center = ⊥`). For the Heisenberg algebra with basis `x, y, z` and
-  `⁅x, y⁆ = z` central, the adjoint representation is nonzero and kills `z`: a definition of
-  faithfulness as "`ρ ≠ 0`" would accept it, injectivity does not.
+- For `L = sl₂` over a field of characteristic ≠ 2 the adjoint action is faithful, the centre
+  being `0`; for an abelian `L ≠ 0` it is not, the adjoint representation being zero (Mathlib
+  `LieAlgebra.isFaithful_self_iff`: the adjoint module is faithful iff `center = ⊥`). For the
+  Heisenberg algebra with basis `x, y, z` and `⁅x, y⁆ = z` central, the adjoint representation is
+  nonzero and kills `z`: a definition of faithfulness as "`ρ ≠ 0`" would accept it, injectivity
+  does not. Over a field of characteristic 2, `sl₂` is this Heisenberg algebra, `⁅h, e⁆ = 2e` and
+  `⁅h, f⁆ = −2f` vanishing while `⁅e, f⁆ = h`, so its adjoint representation is nonzero and kills
+  `h`.
 
 ### 0.2 The left-regular representation
 
@@ -224,7 +227,8 @@ Derivation-invariance of the nilradical is a characteristic-zero statement and i
   Lie algebra, while `ad x` is the identity on it, so `L` does not act nilpotently on it. Defining
   the nilradical as `maxNilpotentIdeal` would give `⊥`, and the nilrepresentation condition would
   become vacuous for this algebra.
-- For `sl₂` the nilradical is `0`; for an abelian or a Heisenberg algebra it is everything.
+- For `sl₂` over a field of characteristic ≠ 2 the nilradical is `0`; for an abelian or a
+  Heisenberg algebra it is everything, and so for `sl₂` in characteristic 2 (§0.1).
 
 ### Examples
 
@@ -563,12 +567,12 @@ refinement is stable under every lifted derivation
 (`Ideal.exists_cofinite_refinement_stableDerivations_of_isSolvable`). This is the input of Layer 4.
 Solvability enters the route through `D S ≤ nil S` (§3.4). For a semisimple `S`, `nil S = 0` and
 `B = I`, and the range containment `Dᵁ (U(S)) ≤ B` depends on `I`: it holds for `I = U⁺(S)`, which
-contains every `ι (D y)` (§3.2), and fails for `S = sl₂`, `D = ad x` with `x ≠ 0` and `I` the kernel
-of the two-dimensional representation `σ`, the image of `Dᵁ` in `U(S) ⧸ I ≅ M₂(K)` being
-`[σ x, M₂(K)] ≠ 0`. The statement is made for solvable `S`, as Layer 4 uses it; for a
-finite-dimensional semisimple `S` in characteristic zero its conclusion holds with `J = I`, every
-derivation being inner and the lift of `ad x` being the commutator with `ι x` (§3.2), which preserves
-every two-sided ideal.
+contains every `ι (D y)` (§3.2), and fails for `S = sl₂` over a field of characteristic ≠ 2,
+`D = ad x` with `x ≠ 0` and `I` the kernel of the two-dimensional representation `σ`, the image of
+`Dᵁ` in `U(S) ⧸ I ≅ M₂(K)` being `[σ x, M₂(K)] ≠ 0`. The statement is made for solvable `S`, as
+Layer 4 uses it; for a finite-dimensional semisimple `S` in characteristic zero its conclusion holds
+with `J = I`, every derivation being inner and the lift of `ad x` being the commutator with `ι x`
+(§3.2), which preserves every two-sided ideal.
 *Needs:* §§1.2–1.3, 3.2, 3.4, 3.5; Mathlib `LieModule.isNilpotent_iff_forall` (Engel); Tau Ceti
 `LieIdeal.envelopingIdeal` and the declarations named above.
 
