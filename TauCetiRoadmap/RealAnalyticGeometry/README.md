@@ -27,7 +27,7 @@ Its headline theorems are four.
   exhaustion is Stein (holomorphically convex, with holomorphic functions separating points and
   giving local coordinates); a complexification of `M` carries such an exhaustion on a tube around
   `M`, so the tube is Stein. On a complete Kähler manifold with a Hermitian holomorphic bundle and
-  a weight whose curvature operator is positive definite, Hörmander's weighted `L²` estimate solves
+  a weight whose curvature operator is positive semi-definite, Hörmander's weighted `L²` estimate solves
   `∂̄u = f` for every `∂̄`-closed bundle-valued `(n, k)`-form `f` that is square-integrable for the
   weight and of finite weighted inverse-curvature norm, with `u` bounded by that norm. On a Stein manifold, Cartan's theorems hold for coherent analytic
   sheaves: global sections generate every stalk, and `Hᵏ(X, F) = 0` for `k > 0`.
@@ -414,8 +414,9 @@ semialgebraic dimension, and the analytic inverse and implicit function theorems
 
 Theorem 1 (§2.0h) is Łojasiewicz's triangulation theorem in affine space, proved by induction on
 the dimension `n`; dimensions `0` and `1` are handled directly, and §§2.0–2.0g are the steps of
-the induction, in the order their *Needs:* lines force; they treat Łojasiewicz's Lemmas 1–15 (§2)
-and the four steps of his §4. In these
+the induction, in the order their *Needs:* lines force; with §2.0h they treat Łojasiewicz's
+Lemmas 1–15 (§2) and the five steps of his §4, step V (the triangulation, printed p. 473) in
+§2.0h. In these
 sections `ℝⁿ = M × ℝ` with base `M = ℝ^(n−1)`, carrying its Euclidean norm, and vertical
 coordinate `t`; `π : M × ℝ → M` is the projection. A set `Γ ⊆ M × ℝ` is *topographic* when it is
 the graph of an analytic function on an analytic submanifold of `M`. A set `Z ⊆ M × ℝ` has
@@ -1134,9 +1135,11 @@ countable discrete space, by a proper enumeration into `ℂ`; no `∂̄` estimat
 (Demailly, Chapter VIII, §§3–5, Theorems 3.2 and 4.5; Hörmander, 1965). Let `X` be a complete
 Kähler manifold of complex dimension `n ≥ 1` without boundary, `E` a smooth Hermitian holomorphic
 bundle, `φ` a smooth real weight and `1 ≤ k ≤ n`, with `B = [iΘ(E) + i∂∂̄φ, Λ]` on `E`-valued
-`(n, k)`-forms (Convention 9). If `B` is positive definite at every point and `f` is a
+`(n, k)`-forms (Convention 9). If `B` is positive semi-definite at every point and `f` is a
 distributionally `∂̄`-closed `E`-valued `(n, k)`-form with `∫|f|² e^(−φ) dV < ∞` and
-`∫⟨B⁻¹f, f⟩ e^(−φ) dV < ∞`, there is an
+`∫⟨B⁻¹f, f⟩ e^(−φ) dV < ∞`, where `⟨B⁻¹f, f⟩` at a point is the least `α ≥ 0` with
+`|⟨f, v⟩|² ≤ α⟨Bv, v⟩` for every `E`-valued `(n, k)`-covector `v` there, and `+∞` when there is
+none (Demailly, Chapter VIII, p. 371; the usual value where `B` is invertible), there is an
 `E`-valued `(n, k − 1)`-form `u` with `∂̄u = f` and `∫|u|² e^(−φ) dV ≤ ∫⟨B⁻¹f, f⟩ e^(−φ) dV`. The uniform
 variant `B ≥ ε Id`, `ε > 0`, gives the closed-range bound `‖u‖ ≤ ε^(−1/2) ‖f‖` in the weighted norms;
 the pointwise statement asserts no uniform constant. Prove that the maximal distributional `∂̄` is
@@ -1526,8 +1529,8 @@ interpolation) and no Cartan theorem for arbitrary coherent sheaves, and the tar
 
 ### 4.2 Grauert's embedding theorem
 
-**Theorem** (Grauert, 1958), `grauert_proper_real_analytic_embedding`. Every Hausdorff,
-second-countable real-analytic manifold `M` of dimension `n` has a regular proper real-analytic
+**Theorem** (Grauert, 1958, Theorem 3, p. 470), `grauert_proper_real_analytic_embedding`. Every
+Hausdorff, second-countable real-analytic manifold `M` of dimension `n` has a regular proper real-analytic
 embedding into `ℝ^(4n+2)` with closed image: a closed embedding `F : M → ℝ^(4n+2)`
 (`ProperRealAnalyticEmbedding`) whose expression in every chart is analytic with injective
 differential. The target dimension is `2N` for the fixed `N = 2n + 1` of §4.1. Route: complexify `M`
@@ -1612,9 +1615,15 @@ theorem.
 Prove that the images of the open simplices of the triangulation of Theorem 2 form a locally finite
 partition of `M` into semianalytic analytic submanifolds that is compatible with every `B_ν` and has the
 frontier property: the closure of each piece is a union of pieces, and a piece in the closure of
-another, distinct piece has strictly smaller dimension. The local dimension and the semianalytic
-compatibility come from §1.0a, the frontier property from that of the locally finite subcomplex.
-*Needs:* §§1.0a, 5.2.
+another, distinct piece has strictly smaller dimension. Each piece `τ(σ)` is semianalytic because
+`τ` has property (A) and the open simplex `σ` is semialgebraic (Łojasiewicz, §3, printed p. 463):
+read in the chart at a point `y` of `M` as in §5.2, the part of the graph of `τ` over `σ` is
+partially semialgebraic over the chart image of `y`, so its projection to the base, the chart
+image of the part of `τ(σ)` in the chart domain, is semianalytic at the chart image of `y`. The
+local dimension comes from §1.0a, the compatibility with every `B_ν` from Theorem 2, and the
+frontier property from that of the locally finite subcomplex.
+*Needs:* §§1.0a, 5.2; Tau Ceti `TauCeti.IsSemialgebraic.partiallySemialgebraicAt_preimage_snd`,
+`TauCeti.PartiallySemialgebraicAt.inter`, `TauCeti.PartiallySemialgebraicAt.semianalyticAt_image_fst`.
 
 ### Examples
 
@@ -1650,7 +1659,7 @@ local normal decomposition, semianalytic dimension, components and the frontier 
 (§§1.0–1.0a); the Nash inverse and implicit function theorems, the Nashness of real Weierstrass
 coefficients, the Nash normal decomposition and its comparison with semialgebraic dimension, and
 Nash maps on semialgebraic analytic submanifolds (§1.1); normal boxes and their prescribed-zero-set
-and projection forms, Łojasiewicz's Lemmas 3, 4, 5, 7, 8, 9 and 10, the four steps of his §4, the face
+and projection forms, Łojasiewicz's Lemmas 3, 4, 5, 7, 8, 9 and 10, the five steps of his §4, the face
 statement of Lemma 15 and Theorem 1 (§§2.0–2.0h); the bounded semialgebraic Theorem 3 with the
 analytic invariant of the semialgebraic lift (§2.1); semialgebraic structure and Nash projector
 comparison for real multiprojective spaces and Theorem 4 (§§2.1a–2.1b); the Whitney–Bruhat
@@ -1827,7 +1836,9 @@ Paths are under `TauCeti/`. Each declaration is assumed as stated there.
   `TauCeti.isSetAlgebra_setOf_isPartiallySemialgebraic`, `LocallyFinite.isPartiallySemialgebraic_iUnion`
   (for families with locally finite projections), `TauCeti.IsPartiallySemialgebraic.preimage_prodMap`
   (analytic changes of the base) (`PartiallySemialgebraic.lean`);
-  `TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`,
+  `TauCeti.PartiallySemialgebraicAt.inter`, `TauCeti.IsSemialgebraic.partiallySemialgebraicAt_preimage_snd`
+  (`PartiallySemialgebraic.lean`); `TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`,
+  `TauCeti.PartiallySemialgebraicAt.semianalyticAt_image_fst`,
   `TauCeti.IsPartiallySemialgebraic.isSemianalytic_image_fst` (`PartiallySemialgebraic/Projection.lean`);
   `TauCeti.isPartiallySemialgebraic_graphOn_regionBetweenMap` (`PartiallySemialgebraic/RegionBetween.lean`,
   Lemma 14's property (A⁻¹)).
@@ -1973,8 +1984,8 @@ sections).
   the paper says that the basic properties of semianalytic sets in §1 are stated without proof, the
   proofs to appear separately.
 - H. Grauert, [“On Levi's problem and the imbedding of real-analytic manifolds”](https://doi.org/10.2307/1970257),
-  *Annals of Mathematics* (2) 68 (1958), 460–472: the real-analytic embedding theorem and the Stein
-  and Levi-problem arguments of Layer 3.
+  *Annals of Mathematics* (2) 68 (1958), 460–472: the real-analytic embedding theorem (Theorem 3,
+  p. 470) and the Stein and Levi-problem arguments of Layer 3.
 - H. Whitney and F. Bruhat, [doi:10.1007/BF02565913](https://doi.org/10.1007/BF02565913), §1,
   Proposition 1: the complexification of a real-analytic manifold, with its separation buffers.
 - F. Forstnerič, [“Holomorphic embeddings and immersions of Stein manifolds: a survey”](https://arxiv.org/abs/1709.05630),

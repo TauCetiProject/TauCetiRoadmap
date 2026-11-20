@@ -344,10 +344,11 @@ structure ProperRealAnalyticEmbedding
     Function.Injective
       (fderiv ℝ (fun y : E => toFun ((extChartAt I x).symm y)) (extChartAt I x x))
 
-/-- **Grauert's embedding theorem** (Grauert 1958), in the fixed target dimension `4n + 2`: every
-Hausdorff, second-countable real-analytic manifold of dimension `n` without boundary has a regular
-proper analytic embedding into `ℝ^(4n+2)`. The proof handles noncompact manifolds through the
-Stein tube of the complexification and a proper holomorphic embedding into `ℂ^(2n+1)`. -/
+/-- **Grauert's embedding theorem** (Grauert 1958, Theorem 3, p. 470), in the fixed target
+dimension `4n + 2`: every Hausdorff, second-countable real-analytic manifold of dimension `n`
+without boundary has a regular proper analytic embedding into `ℝ^(4n+2)`. The proof handles
+noncompact manifolds through the Stein tube of the complexification and a proper holomorphic
+embedding into `ℂ^(2n+1)`. -/
 theorem grauert_proper_real_analytic_embedding
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
