@@ -936,17 +936,14 @@ equations with every theorem about them in Layer 6.
   the restriction of the vector heat semigroup to an invariant closed subspace and builds no
   generation engine.
 - **IncompressibleFlows** plans incompressible Euler and Navier–Stokes theory on the torus and
-  on Euclidean space together. The two roadmaps divide as follows. This roadmap owns the
-  whole-space objects and theorems listed above: the solenoidal subspace and Leray projection
-  on `E`, the whole-space pressure operator, the Stokes semigroup and Oseen kernel on `E`, the
-  Biot–Savart law on `ℝ²` and `ℝ³`, and Leray–Hopf, mild and Euler solutions on `E`.
-  IncompressibleFlows owns everything periodic (vector-valued and periodic Sobolev spaces, the
-  periodic Leray projector with its zero Fourier mode, Galerkin constructions on the torus),
-  transport by incompressible fields with its Koopman groups and renormalized solutions,
-  conditional regularity and endpoint criteria beyond §4.4, critical spaces beyond `H^{1/2}`
-  and `L³`, suitable weak solutions with partial regularity, and the Onsager theory. A
-  whole-space statement that both roadmaps name is built once, in the form given here, and the
-  periodic statement is not a consequence of it.
+  on Euclidean space together, and overlaps this roadmap on the whole space: both name the
+  solenoidal subspace and Leray projection, Leray–Hopf solutions, mild solutions in critical
+  spaces, local well-posedness of the Euler equations and the two-dimensional global theory.
+  This roadmap states those on `E` only, in the forms given above. It states nothing periodic,
+  and it does not cover transport by incompressible fields, renormalized solutions,
+  regularity criteria beyond §4.4, critical spaces beyond `H^{1/2}` and `L³`, suitable weak
+  solutions and partial regularity, or the Onsager theory, all of which IncompressibleFlows
+  plans. No periodic statement is a consequence of a whole-space statement here.
 - **CompressibleEulerEquations** owns the product and commutator estimates at integer order on
   its spaces `Hᵏ_Λ` (its §4.3). Section 3.3 here is the real-order statement on the Bessel
   scale `Hˢ(E)`, which at integer `s` and `Λ = 0` agrees with it.
