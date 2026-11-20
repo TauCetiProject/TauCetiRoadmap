@@ -3267,7 +3267,7 @@ criteria (Serre–Tate 1968, §1, Thm 1; §2, Thm 2 and corollaries). *Needs:* 1
 ### 5.2 Good reduction is isogeny invariant
 
 Let `R` be a discrete valuation ring. Prove `GoodIsogeny`: isogenous abelian
-varieties over `K` have good reduction over `R` simultaneously (Conrad, Proposition 4.1, pp. 8–9, and pp. 9–10, stated for an arbitrary discrete valuation ring). An isogeny induces an
+varieties over `K` have good reduction over `R` simultaneously (Conrad, Proposition 4.1(1), pp. 8–9, stated for an arbitrary discrete valuation ring, with 3.2 and `good` and `toric_zero` of 3.1). An isogeny induces an
 isomorphism of the rational Tate modules `V_ℓ(A) ≅ V_ℓ(B)` even when `ℓ` divides its degree,
 inertia acts trivially on the torsion-free lattice `T_ℓ(A)` if and only if it does on `V_ℓ(A)`,
 and 5.1 applies; for a non-henselian `R` the abelian-scheme model descends from the henselisation
@@ -3721,8 +3721,7 @@ conductor–discriminant theorem.
 
 ### 5.3e Ogg's formula and the conductor–discriminant theorem
 
-**Ogg's formula.** Prove that for `p ≥ 5`, `v(Δ_min) = f(E) + m − 1` (Darmon–Diamond–Taylor 2007,
-§2.2, Rem. 2.14, p. 58). Prove Saito's conductor–discriminant formula: for `R` a complete discrete
+**Ogg's formula.** Prove Saito's conductor–discriminant formula: for `R` a complete discrete
 valuation ring with perfect residue field of characteristic `p`, `C/K` smooth projective geometrically
 connected of genus `≥ 1` with minimal regular model `X/R`,
 `Art(X/R) := χ(X_K̄) − χ(X_k̄) − Sw(H¹_ét(C_K̄, ℚ_ℓ))` (`ℓ ≠ p`) and Deligne's discriminant `Δ_{X/R}`,

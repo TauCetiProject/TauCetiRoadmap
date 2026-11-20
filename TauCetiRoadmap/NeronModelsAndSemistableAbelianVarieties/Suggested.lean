@@ -107,7 +107,8 @@ def HasGoodModel (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRi
 
 /-- Isogenous abelian varieties over the fraction field of any DVR have good reduction
 simultaneously; the isogeny may be inseparable (Conrad, *Semistable reduction for abelian
-varieties*, Proposition 4.1, pp. 8–9, and the good-reduction discussion, pp. 9–10). -/
+varieties*, Proposition 4.1(1), pp. 8–9, with README §3.2, equal toric ranks, and §3.1, good
+reduction is semistable reduction of toric rank zero). -/
 theorem GoodIsogeny (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     [Field K] [Algebra R K] [IsFractionRing R K]
     (A B : TauCeti.AlgebraicGeometry.AbelianVariety K) (f : A ⟶ B)
