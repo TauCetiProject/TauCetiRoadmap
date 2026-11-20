@@ -25,51 +25,18 @@ Applications*) and Shaked and Shanthikumar (*Stochastic Orders*). No layer follo
 organisation of any one of them: the layers follow proof dependency, from one-variable convexity
 through finite and integral inequalities to the two orders and their test functions.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when every target below is a theorem of the TauCeti namespace with the
-hypotheses stated here, every owned definition has the API its Checks name, and every statement
-in `Suggested.lean` is proved. The headlines with a Lean name are stated in `Suggested.lean`, each
-with every conclusion this README attaches to it; that file is not an exhaustive acceptance test,
-and the other headlines here are targets of the same standing, stated in prose.
+There are six layers. Layer 1 builds the means. Layer 2 proves the one-variable convexity
+inequalities that Layer 1 does not already take from Mathlib, and Layer 3 the inequalities for
+sums and integrals. Layer 4 builds majorization and proves the Hardy–Littlewood–Pólya and
+Karamata theorems; Layer 5 turns them into theorems about symmetric functions (Schur-convexity,
+Muirhead, entropy), and Layer 6 extends the test-function picture from vectors to laws on `ℝ`.
 
-Owned here:
-
-- weighted power means `powerMean`, their monotonicity, strictness, continuity and limits, and the
-  log-convexity of moments in finite and integral form;
-- quasi-arithmetic means `quasiArithMean`: internality, comparison, equivalence and the
-  homogeneous ones;
-- the logarithmic mean `logMean`: integral representation, the chain of Lin's bounds and its
-  sharpness;
-- the equality case of Jensen's inequality, Jensen–Steffensen, Hermite–Hadamard with its equality
-  cases, Kantorovich in measure and finite form;
-- weighted Chebyshev and Grüss, Bergström's equality case, reverse Minkowski, generalized Hölder
-  with extended exponents, the equality cases of Hölder and Minkowski;
-- majorization `Majorizes`, the largest-subset-sum functional `maxSubsetSum`, weak majorization
-  `WeaklyMajorizes`, doubly substochastic matrices `doublySubstochastic`, and the theorems of
-  Layer 4;
-- Schur-convexity `SchurConvexOn`, the Muirhead sum `muirheadSum`, Shannon entropy `entropy` of a
-  real vector, and the theorems of Layer 5;
-- the convex order `ConvexOrderLE` on laws on `ℝ` and the theorems of Layer 6.
-
-**Not owned here.**
-
-- The roadmap OperatorTheory/Majorization owns, in its Part A (labels MAJ-A01 to MAJ-A40),
-  prefix sums, weak majorization of antitone nonnegative tuples, Robin Hood transfers and
-  T-transforms, symmetric-convex sets, symmetric gauges, transfer descent, gauge monotonicity,
-  the forward Schur–Horn theorem and Ky Fan sums. All of it is implemented in Tau Ceti and is
-  consumed here through the declarations listed under the supplier contracts; none of it is
-  restated as a target.
-- The roadmap MathematicalStatisticsFoundations owns, in its §7.5, Strassen's theorem for laws
-  carried by a compact convex subset of `ℝ^d` (a Markov kernel with barycentre the identity
-  carrying one law to the other). The martingale-coupling characterisation of the convex order
-  is consumed from there and is not restated.
-- The roadmap ComplexHessianEquations owns, in its §2.1, elementary symmetric functions with the
-  Newton inequalities for all real tuples and the Maclaurin inequalities on the Gårding cones,
-  whose closure contains the nonnegative orthant. The normalised Newton and Maclaurin
-  inequalities are consumed from there.
-- Integral inequalities of Hardy, Hilbert and Carleman type, rearrangement of functions and
-  symmetrisation are not in this roadmap; see Beyond.
+Each subsection states its targets and gives locators into the sources and a proof route; a
+target with a Lean name is a declaration in `Suggested.lean`. Each subsection ends with a
+*Needs:* line naming what it uses. Locators give the theorem or section number and the printed
+page.
 
 ## Conventions
 
@@ -106,144 +73,6 @@ Owned here:
   `fderiv ℝ φ x (Pi.single i 1)`.
 - **Namespace.** Implementations live in the TauCeti namespace; `Suggested.lean` states the
   prototypes in `TauCetiRoadmap.MeansMajorizationAndDiscreteInequalities`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Means and finite inequalities:
-
-- `Real.geom_mean_le_arith_mean_weighted`, `Real.geom_mean_eq_arith_mean_weighted_iff_of_pos`,
-  `Real.harm_mean_le_geom_mean_weighted` (`Mathlib/Analysis/MeanInequalities.lean`): weighted
-  AM–GM with its equality case and HM–GM.
-- `Real.rpow_arith_mean_le_arith_mean_rpow`, `Real.arith_mean_le_rpow_mean`
-  (`Mathlib/Analysis/MeanInequalitiesPow.lean`): the comparison of `M_1` with `M_p` for `p ≥ 1`.
-- `Real.young_inequality`, `Real.young_inequality_eq_iff_of_nonneg`
-  (`Mathlib/Analysis/MeanInequalities.lean`): Young's inequality with its equality case.
-- `Real.inner_le_Lp_mul_Lq`, `Real.Lp_add_le` (`Mathlib/Analysis/MeanInequalities.lean`): finite
-  Hölder and Minkowski.
-- `Finset.sum_mul_sq_le_sq_mul_sq`, `Finset.sq_sum_div_le_sum_sq_div`
-  (`Mathlib/Algebra/Order/BigOperators/Ring/Finset.lean`): Cauchy–Schwarz for sums and the
-  Bergström (Sedrakyan) inequality without equality case.
-- `norm_inner_le_norm`, `norm_inner_eq_norm_iff`
-  (`Mathlib/Analysis/InnerProductSpace/Basic.lean`): Cauchy–Schwarz with its equality case.
-- `MonovaryOn.sum_mul_sum_le_card_mul_sum` (`Mathlib/Algebra/Order/Chebyshev.lean`): Chebyshev's
-  sum inequality with uniform weights.
-- `MonovaryOn.sum_smul_comp_perm_le_sum_smul`, `Monovary.sum_mul_comp_perm_le_sum_mul`
-  (`Mathlib/Algebra/Order/Rearrangement.lean`): the rearrangement inequality.
-
-Convexity:
-
-- `ConvexOn.map_sum_le`, `StrictConvexOn.map_sum_eq_iff` (`Mathlib/Analysis/Convex/Jensen.lean`):
-  finite Jensen with the strict equality case.
-- `ConvexOn.map_integral_le`, `StrictConvexOn.ae_eq_const_or_map_average_lt`
-  (`Mathlib/Analysis/Convex/Integral.lean`): integral Jensen and its strict equality case.
-- `ConvexOn.slope_mono_adjacent` (`Mathlib/Analysis/Convex/Slope.lean`): monotone slopes, used for
-  supporting lines and Hermite–Hadamard.
-
-Integral inequalities:
-
-- `ENNReal.lintegral_mul_le_Lp_mul_Lq`, `ENNReal.lintegral_mul_norm_pow_le`,
-  `ENNReal.lintegral_prod_norm_pow_le`, `ENNReal.lintegral_Lp_add_le`,
-  `ENNReal.lintegral_Lp_add_le_of_le_one` (`Mathlib/MeasureTheory/Integral/MeanInequalities.lean`):
-  Hölder in `∫⁻` form, its weighted product forms for exponents summing to `1`, and Minkowski.
-- `MeasureTheory.eLpNorm_smul_le_mul_eLpNorm`, `MeasureTheory.eLpNorm_le_eLpNorm_of_exponent_le`
-  (`Mathlib/MeasureTheory/Function/LpSeminorm/CompareExp.lean`): Hölder for a `HolderTriple`
-  of extended exponents (`ENNReal.HolderTriple`, `Mathlib/Basic/ENNReal/Holder.lean`) and the
-  Lyapunov comparison of norms on a probability space.
-- `ProbabilityTheory.variance_le_sq_of_bounded` (`Mathlib/Probability/Moments/Variance.lean`):
-  Popoviciu's variance bound `Var f ≤ ((b − a)/2)²`.
-
-Doubly stochastic matrices and sorting:
-
-- `doublyStochastic` (`Mathlib/Analysis/Convex/DoublyStochasticMatrix.lean`): the submonoid of
-  nonnegative matrices with row and column sums `1`.
-- `doublyStochastic_eq_convexHull_permMatrix`, `exists_eq_sum_perm_of_mem_doublyStochastic`,
-  `extremePoints_doublyStochastic`, `Matrix.l2_opNorm_le_one_of_mem_doublyStochastic`
-  (`Mathlib/Analysis/Convex/Birkhoff.lean`): the Birkhoff–von Neumann theorem, its extreme
-  points, and the Euclidean contraction.
-- `Tuple.sortDesc`, `Tuple.antitone_sortDesc` (`Mathlib/Data/Fin/Tuple/Sort.lean`): the
-  decreasing rearrangement.
-
-Entropy and divergence:
-
-- `Real.negMulLog`, `Real.strictConcaveOn_negMulLog`, `Real.strictConvexOn_mul_log`
-  (`Mathlib/Analysis/SpecialFunctions/Log/NegMulLog.lean`).
-- `Real.binEntropy_le_log_two` (`Mathlib/Analysis/SpecialFunctions/BinaryEntropy.lean`): the case
-  of two outcomes of the entropy maximum.
-- `InformationTheory.klDiv`, `InformationTheory.klDiv_eq_zero_iff`
-  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`) and `InformationTheory.klDiv_map_le`
-  (`Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`): the Gibbs inequality with
-  its equality case, and data processing.
-- `InformationTheory.mul_log_le_klDiv`, `InformationTheory.mul_log_le_toReal_klDiv`
-  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`): for finite measures `μ, ν`,
-  `μ(univ) log (μ(univ)/ν(univ)) + ν(univ) − μ(univ) ≤ klDiv μ ν`, in `ℝ≥0∞` with
-  `klDiv μ ν = ∞` when `μ` is not absolutely continuous with respect to `ν`, and in real form
-  under absolute continuity and integrability of the log-likelihood ratio.
-
-### From Tau Ceti
-
-- `TauCeti.prefixSum` (`TauCeti/Algebra/BigOperators/Finset/PartialSum.lean`): `prefixSum k x` is
-  the sum of the first `min k n` entries of `x : Fin n → M` (MAJ-A01).
-- `TauCeti.IsWeaklyMajorizedBy`, `TauCeti.IsWeaklyMajorizedBy.apply_le`, `TauCeti.robinHood`,
-  `TauCeti.mem_of_prefixSum_le_of_sum_eq`, `TauCeti.IsSymmetricConvex.mem_of_prefixSum_le`,
-  `Seminorm.IsSymmetricGauge`, `Seminorm.isSymmetricGauge_piLp`
-  (`TauCeti/Analysis/Convex/Majorization.lean`): weak majorization of antitone nonnegative tuples
-  as a structure with prefix-sum field, Robin Hood transfers, transfer closure of
-  symmetric-convex sets, and symmetric gauges with the `ℓ^p` examples (MAJ-A02 to MAJ-A17).
-- `Matrix.mulVec_mem_convexHull_range_comp_perm`, `TauCeti.mem_convexHull_range_comp_perm_iff`,
-  `TauCeti.mem_convexHull_range_comp_perm_iff_of_antitone`
-  (`TauCeti/Analysis/Convex/PermutationOrbit.lean`): a doubly stochastic image of `w` lies in the
-  convex hull of the permutations of `w`, and Rado's theorem: for antitone `w`, `x` lies in that
-  hull exactly when the prefix sums of the decreasing rearrangement of `x` are bounded by those of
-  `w` and the totals agree.
-- `ConvexOn.sum_map_mulVec_le_of_mem_doublyStochastic`,
-  `Monovary.dotProduct_mulVec_le_of_mem_doublyStochastic`
-  (`TauCeti/Analysis/Convex/DoublyStochasticMatrix.lean`): for convex `φ` on a convex set
-  containing the entries, `∑ φ ((D *ᵥ x) i) ≤ ∑ φ (x i)`, and the rearrangement form for doubly
-  stochastic matrices.
-- `TauCeti.sub_le_fenchelConjugate` (`TauCeti/Analysis/Convex/Conjugate.lean`): the Fenchel–Young
-  inequality.
-- `TauCeti.Probability.empiricalFiniteMeasure`,
-  `TauCeti.Probability.integral_empiricalFiniteMeasure`
-  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`): the uniform empirical law of a finite
-  family and its integrals.
-- `TauCeti.etvDist_sq_le_two_mul_klDiv` (`TauCeti/InformationTheory/KullbackLeibler/Pinsker.lean`):
-  Pinsker's inequality.
-
-### From other roadmaps
-
-- OperatorTheory/Majorization, Part A, labels MAJ-A01 to MAJ-A17: the weak-majorization calculus
-  and transfer descent, through the Tau Ceti declarations above. Used in 4.1, 4.4 and 4.5.
-- MathematicalStatisticsFoundations §7.5: Strassen's theorem on compact convex sets. Used in the
-  remark of 6.1.
-- ComplexHessianEquations §2.1: the Newton and Maclaurin inequalities. Used in the remark of 5.2.
-
-### Mathlib pull requests followed
-
-- #41898 (majorization preorder and T-transform decomposition, in the file
-  `Mathlib/Analysis/Convex/Majorization.lean` of the PR): the shape of `maxSubsetSum` and
-  `Majorizes` here is that of
-  the PR, with `ι` an arbitrary `Fintype`, `≺` read as "majorized by", and the descending
-  prefix-sum form as a theorem. Implementation uses Mathlib's declarations when they are present
-  at the pin, and the targets of Layer 4 then become statements about them.
-- #33406 (basics of majorization) is earlier prior art in the same direction.
-- #42876 (the Newton and Maclaurin inequalities for normalised elementary symmetric means) and
-  #42874 (multiset elementary symmetric functions) concern the material owned by
-  ComplexHessianEquations §2.1.
-
-## How to read the build
-
-There are six layers. Layer 1 builds the means. Layer 2 proves the one-variable convexity
-inequalities that Layer 1 does not already take from Mathlib, and Layer 3 the inequalities for
-sums and integrals. Layer 4 builds majorization and proves the Hardy–Littlewood–Pólya and
-Karamata theorems; Layer 5 turns them into theorems about symmetric functions (Schur-convexity,
-Muirhead, entropy), and Layer 6 extends the test-function picture from vectors to laws on `ℝ`.
-
-Each subsection states its targets and gives locators into the sources and a proof route; a
-target with a Lean name is a declaration in `Suggested.lean`. Each subsection ends with a
-*Needs:* line naming what it uses. Locators give the theorem or section number and the printed
-page.
 
 ## Layer 1: Means
 
@@ -1148,6 +977,177 @@ The empty finset gives `0 = 0` on both sides and the condition is vacuous.
 - ComplexHessianEquations §2.1 works with elementary symmetric functions of eigenvalues;
   Schur–Ostrowski (5.1) gives the Schur-concavity of the normalised elementary symmetric means
   on the positive orthant.
+
+## Scope and ownership
+
+The roadmap is complete when every target below is a theorem of the TauCeti namespace with the
+hypotheses stated here, every owned definition has the API its Checks name, and every statement
+in `Suggested.lean` is proved. The headlines with a Lean name are stated in `Suggested.lean`, each
+with every conclusion this README attaches to it; that file is not an exhaustive acceptance test,
+and the other headlines here are targets of the same standing, stated in prose.
+
+Owned here:
+
+- weighted power means `powerMean`, their monotonicity, strictness, continuity and limits, and the
+  log-convexity of moments in finite and integral form;
+- quasi-arithmetic means `quasiArithMean`: internality, comparison, equivalence and the
+  homogeneous ones;
+- the logarithmic mean `logMean`: integral representation, the chain of Lin's bounds and its
+  sharpness;
+- the equality case of Jensen's inequality, Jensen–Steffensen, Hermite–Hadamard with its equality
+  cases, Kantorovich in measure and finite form;
+- weighted Chebyshev and Grüss, Bergström's equality case, reverse Minkowski, generalized Hölder
+  with extended exponents, the equality cases of Hölder and Minkowski;
+- majorization `Majorizes`, the largest-subset-sum functional `maxSubsetSum`, weak majorization
+  `WeaklyMajorizes`, doubly substochastic matrices `doublySubstochastic`, and the theorems of
+  Layer 4;
+- Schur-convexity `SchurConvexOn`, the Muirhead sum `muirheadSum`, Shannon entropy `entropy` of a
+  real vector, and the theorems of Layer 5;
+- the convex order `ConvexOrderLE` on laws on `ℝ` and the theorems of Layer 6.
+
+**Not owned here.**
+
+- The roadmap OperatorTheory/Majorization owns, in its Part A (labels MAJ-A01 to MAJ-A40),
+  prefix sums, weak majorization of antitone nonnegative tuples, Robin Hood transfers and
+  T-transforms, symmetric-convex sets, symmetric gauges, transfer descent, gauge monotonicity,
+  the forward Schur–Horn theorem and Ky Fan sums. All of it is implemented in Tau Ceti and is
+  consumed here through the declarations listed under the supplier contracts; none of it is
+  restated as a target.
+- The roadmap MathematicalStatisticsFoundations owns, in its §7.5, Strassen's theorem for laws
+  carried by a compact convex subset of `ℝ^d` (a Markov kernel with barycentre the identity
+  carrying one law to the other). The martingale-coupling characterisation of the convex order
+  is consumed from there and is not restated.
+- The roadmap ComplexHessianEquations owns, in its §2.1, elementary symmetric functions with the
+  Newton inequalities for all real tuples and the Maclaurin inequalities on the Gårding cones,
+  whose closure contains the nonnegative orthant. The normalised Newton and Maclaurin
+  inequalities are consumed from there.
+- Integral inequalities of Hardy, Hilbert and Carleman type, rearrangement of functions and
+  symmetrisation are not in this roadmap; see Beyond.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Means and finite inequalities:
+
+- `Real.geom_mean_le_arith_mean_weighted`, `Real.geom_mean_eq_arith_mean_weighted_iff_of_pos`,
+  `Real.harm_mean_le_geom_mean_weighted` (`Mathlib/Analysis/MeanInequalities.lean`): weighted
+  AM–GM with its equality case and HM–GM.
+- `Real.rpow_arith_mean_le_arith_mean_rpow`, `Real.arith_mean_le_rpow_mean`
+  (`Mathlib/Analysis/MeanInequalitiesPow.lean`): the comparison of `M_1` with `M_p` for `p ≥ 1`.
+- `Real.young_inequality`, `Real.young_inequality_eq_iff_of_nonneg`
+  (`Mathlib/Analysis/MeanInequalities.lean`): Young's inequality with its equality case.
+- `Real.inner_le_Lp_mul_Lq`, `Real.Lp_add_le` (`Mathlib/Analysis/MeanInequalities.lean`): finite
+  Hölder and Minkowski.
+- `Finset.sum_mul_sq_le_sq_mul_sq`, `Finset.sq_sum_div_le_sum_sq_div`
+  (`Mathlib/Algebra/Order/BigOperators/Ring/Finset.lean`): Cauchy–Schwarz for sums and the
+  Bergström (Sedrakyan) inequality without equality case.
+- `norm_inner_le_norm`, `norm_inner_eq_norm_iff`
+  (`Mathlib/Analysis/InnerProductSpace/Basic.lean`): Cauchy–Schwarz with its equality case.
+- `MonovaryOn.sum_mul_sum_le_card_mul_sum` (`Mathlib/Algebra/Order/Chebyshev.lean`): Chebyshev's
+  sum inequality with uniform weights.
+- `MonovaryOn.sum_smul_comp_perm_le_sum_smul`, `Monovary.sum_mul_comp_perm_le_sum_mul`
+  (`Mathlib/Algebra/Order/Rearrangement.lean`): the rearrangement inequality.
+
+Convexity:
+
+- `ConvexOn.map_sum_le`, `StrictConvexOn.map_sum_eq_iff` (`Mathlib/Analysis/Convex/Jensen.lean`):
+  finite Jensen with the strict equality case.
+- `ConvexOn.map_integral_le`, `StrictConvexOn.ae_eq_const_or_map_average_lt`
+  (`Mathlib/Analysis/Convex/Integral.lean`): integral Jensen and its strict equality case.
+- `ConvexOn.slope_mono_adjacent` (`Mathlib/Analysis/Convex/Slope.lean`): monotone slopes, used for
+  supporting lines and Hermite–Hadamard.
+
+Integral inequalities:
+
+- `ENNReal.lintegral_mul_le_Lp_mul_Lq`, `ENNReal.lintegral_mul_norm_pow_le`,
+  `ENNReal.lintegral_prod_norm_pow_le`, `ENNReal.lintegral_Lp_add_le`,
+  `ENNReal.lintegral_Lp_add_le_of_le_one` (`Mathlib/MeasureTheory/Integral/MeanInequalities.lean`):
+  Hölder in `∫⁻` form, its weighted product forms for exponents summing to `1`, and Minkowski.
+- `MeasureTheory.eLpNorm_smul_le_mul_eLpNorm`, `MeasureTheory.eLpNorm_le_eLpNorm_of_exponent_le`
+  (`Mathlib/MeasureTheory/Function/LpSeminorm/CompareExp.lean`): Hölder for a `HolderTriple`
+  of extended exponents (`ENNReal.HolderTriple`, `Mathlib/Basic/ENNReal/Holder.lean`) and the
+  Lyapunov comparison of norms on a probability space.
+- `ProbabilityTheory.variance_le_sq_of_bounded` (`Mathlib/Probability/Moments/Variance.lean`):
+  Popoviciu's variance bound `Var f ≤ ((b − a)/2)²`.
+
+Doubly stochastic matrices and sorting:
+
+- `doublyStochastic` (`Mathlib/Analysis/Convex/DoublyStochasticMatrix.lean`): the submonoid of
+  nonnegative matrices with row and column sums `1`.
+- `doublyStochastic_eq_convexHull_permMatrix`, `exists_eq_sum_perm_of_mem_doublyStochastic`,
+  `extremePoints_doublyStochastic`, `Matrix.l2_opNorm_le_one_of_mem_doublyStochastic`
+  (`Mathlib/Analysis/Convex/Birkhoff.lean`): the Birkhoff–von Neumann theorem, its extreme
+  points, and the Euclidean contraction.
+- `Tuple.sortDesc`, `Tuple.antitone_sortDesc` (`Mathlib/Data/Fin/Tuple/Sort.lean`): the
+  decreasing rearrangement.
+
+Entropy and divergence:
+
+- `Real.negMulLog`, `Real.strictConcaveOn_negMulLog`, `Real.strictConvexOn_mul_log`
+  (`Mathlib/Analysis/SpecialFunctions/Log/NegMulLog.lean`).
+- `Real.binEntropy_le_log_two` (`Mathlib/Analysis/SpecialFunctions/BinaryEntropy.lean`): the case
+  of two outcomes of the entropy maximum.
+- `InformationTheory.klDiv`, `InformationTheory.klDiv_eq_zero_iff`
+  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`) and `InformationTheory.klDiv_map_le`
+  (`Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`): the Gibbs inequality with
+  its equality case, and data processing.
+- `InformationTheory.mul_log_le_klDiv`, `InformationTheory.mul_log_le_toReal_klDiv`
+  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`): for finite measures `μ, ν`,
+  `μ(univ) log (μ(univ)/ν(univ)) + ν(univ) − μ(univ) ≤ klDiv μ ν`, in `ℝ≥0∞` with
+  `klDiv μ ν = ∞` when `μ` is not absolutely continuous with respect to `ν`, and in real form
+  under absolute continuity and integrability of the log-likelihood ratio.
+
+### From Tau Ceti
+
+- `TauCeti.prefixSum` (`TauCeti/Algebra/BigOperators/Finset/PartialSum.lean`): `prefixSum k x` is
+  the sum of the first `min k n` entries of `x : Fin n → M` (MAJ-A01).
+- `TauCeti.IsWeaklyMajorizedBy`, `TauCeti.IsWeaklyMajorizedBy.apply_le`, `TauCeti.robinHood`,
+  `TauCeti.mem_of_prefixSum_le_of_sum_eq`, `TauCeti.IsSymmetricConvex.mem_of_prefixSum_le`,
+  `Seminorm.IsSymmetricGauge`, `Seminorm.isSymmetricGauge_piLp`
+  (`TauCeti/Analysis/Convex/Majorization.lean`): weak majorization of antitone nonnegative tuples
+  as a structure with prefix-sum field, Robin Hood transfers, transfer closure of
+  symmetric-convex sets, and symmetric gauges with the `ℓ^p` examples (MAJ-A02 to MAJ-A17).
+- `Matrix.mulVec_mem_convexHull_range_comp_perm`, `TauCeti.mem_convexHull_range_comp_perm_iff`,
+  `TauCeti.mem_convexHull_range_comp_perm_iff_of_antitone`
+  (`TauCeti/Analysis/Convex/PermutationOrbit.lean`): a doubly stochastic image of `w` lies in the
+  convex hull of the permutations of `w`, and Rado's theorem: for antitone `w`, `x` lies in that
+  hull exactly when the prefix sums of the decreasing rearrangement of `x` are bounded by those of
+  `w` and the totals agree.
+- `ConvexOn.sum_map_mulVec_le_of_mem_doublyStochastic`,
+  `Monovary.dotProduct_mulVec_le_of_mem_doublyStochastic`
+  (`TauCeti/Analysis/Convex/DoublyStochasticMatrix.lean`): for convex `φ` on a convex set
+  containing the entries, `∑ φ ((D *ᵥ x) i) ≤ ∑ φ (x i)`, and the rearrangement form for doubly
+  stochastic matrices.
+- `TauCeti.sub_le_fenchelConjugate` (`TauCeti/Analysis/Convex/Conjugate.lean`): the Fenchel–Young
+  inequality.
+- `TauCeti.Probability.empiricalFiniteMeasure`,
+  `TauCeti.Probability.integral_empiricalFiniteMeasure`
+  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`): the uniform empirical law of a finite
+  family and its integrals.
+- `TauCeti.etvDist_sq_le_two_mul_klDiv` (`TauCeti/InformationTheory/KullbackLeibler/Pinsker.lean`):
+  Pinsker's inequality.
+
+### From other roadmaps
+
+- OperatorTheory/Majorization, Part A, labels MAJ-A01 to MAJ-A17: the weak-majorization calculus
+  and transfer descent, through the Tau Ceti declarations above. Used in 4.1, 4.4 and 4.5.
+- MathematicalStatisticsFoundations §7.5: Strassen's theorem on compact convex sets. Used in the
+  remark of 6.1.
+- ComplexHessianEquations §2.1: the Newton and Maclaurin inequalities. Used in the remark of 5.2.
+
+### Mathlib pull requests followed
+
+- #41898 (majorization preorder and T-transform decomposition, in the file
+  `Mathlib/Analysis/Convex/Majorization.lean` of the PR): the shape of `maxSubsetSum` and
+  `Majorizes` here is that of
+  the PR, with `ι` an arbitrary `Fintype`, `≺` read as "majorized by", and the descending
+  prefix-sum form as a theorem. Implementation uses Mathlib's declarations when they are present
+  at the pin, and the targets of Layer 4 then become statements about them.
+- #33406 (basics of majorization) is earlier prior art in the same direction.
+- #42876 (the Newton and Maclaurin inequalities for normalised elementary symmetric means) and
+  #42874 (multiset elementary symmetric functions) concern the material owned by
+  ComplexHessianEquations §2.1.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
