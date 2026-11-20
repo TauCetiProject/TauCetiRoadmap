@@ -1108,6 +1108,8 @@ of spheres; Mathlib's ideals of `C(Y)`, Tietze extension, partitions of unity an
 V4.Core; TopologicalKTheory T1; CharacteristicClasses C1.2b and C1.6; AlgebraicTopology §4.5;
 SmoothBundlesConnections B1.3, B3.3, B6.0, B6.2 and B6.3; DifferentialGeometry §5.2.
 
+<a id="h6-closed-module-operators-and-regularity"></a>
+
 ## Layer 6: closed module operators and regularity
 
 Kaad–Lesch, §§2–4; Blackadar, II.7. Throughout, E and F are Hilbert A-modules and operators are
@@ -1433,6 +1435,18 @@ sum criterion (Layer 7).
 - K-theory and KK-theory, C*-dynamical imprimitivity theorems and categorical completions consume
   the interfaces built here; their classification and product theorems are not prerequisites of
   this roadmap.
+
+Other roadmaps cite sections of this roadmap by the labels of its former numbering:
+
+| Former label | Now |
+|---|---|
+| H1 | Layer 1 |
+| H2 | Layer 2 |
+| H3 | Layer 3 |
+| H4 | Layer 4 |
+| H5 | Layer 5 |
+| H6 | Layer 6 |
+| H7 | Layer 7 |
 
 ## Exact supplier contracts
 
