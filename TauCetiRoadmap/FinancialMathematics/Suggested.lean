@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.Analysis.Holder.Iterated
+import TauCeti.Analysis.PDE.Parabolic.Holder.Two
 import TauCeti.Probability.Finance.BlackScholes.Extension
 
 /-!
@@ -19,25 +21,55 @@ The headline theorems are:
   and away from zero and a bounded market price of risk, a solution continuous up to maturity with
   polynomial growth and finite maximal moments is the replication price of its terminal claim;
 * existence and uniqueness of prices for general coefficients in a weighted parabolic Hölder class
-  (§3.3);
+  (§3.3), stated below;
 * replication of the Black–Scholes call and put by their delta hedges (§4.1);
 * uniqueness of the Black–Scholes call and put prices among classical solutions of linear growth
   (§4.2), stated below.
 
-Only the last is statable at the pins. The first three and the fifth need the stochastic integral
-against Brownian motion and the continuous-time self-financing strategies built on it
-(StochasticCalculus Layer 3); neither Mathlib nor Tau Ceti has a stochastic integral at the pins,
-and Tau Ceti's trading and arbitrage API covers simple strategies only. The pricing equation
-needs in addition strong solutions of stochastic differential equations with Markov coefficients
-(StochasticCalculus §9.1). The existence theorem of §3.3 needs the parabolic Hölder spaces of
-PDE §6.4, which are not at the pins either.
+The fourth and the last are statable at the pins, the fourth on Tau Ceti's parabolic Hölder spaces
+`TauCeti.ParabolicC2HolderSpace` and `TauCeti.CkHolderSpace`. The first three and the
+fifth need the stochastic integral against Brownian motion and the continuous-time self-financing
+strategies built on it (StochasticCalculus Layer 3); neither Mathlib nor Tau Ceti has a stochastic
+integral at the pins, and Tau Ceti's trading and arbitrage API covers simple strategies only. The
+pricing equation needs in addition strong solutions of stochastic differential equations with
+Markov coefficients (StochasticCalculus §9.1).
 -/
 
 noncomputable section
 
 open Set
+open scoped NNReal
 
 namespace TauCetiRoadmap.FinancialMathematics
+
+/-! ## Layer 3: classical price and the self-financing PDE -/
+
+open TauCeti TauCeti.ParabolicSpaceTime in
+/-- **Prices for general coefficients in the weighted parabolic Hölder class** (§3.3). Let
+`0 < α < 1`, `T > 0` and `δ > 0`. Let the volatility `σ(s, t)` be such that `σ(e^y, t)` is
+parabolically `α`-Hölder on the slab `ℝ × [0, T]`, for the parabolic distance
+`|y - y'| + √|t - t'|`, with `δ ≤ σ(s, t)² ≤ Λ` for `s > 0` and `0 ≤ t ≤ T`, and let the rate `r`
+be `α/2`-Hölder on `[0, T]`. Let `h` be terminal data such that `h(e^y) / (1 + e^y)` is the function
+of an element of `C_b^{2+α}(ℝ)`. Then there is exactly one `v` in the parabolic Hölder space
+`C_b^{2+α,1+α/2}(ℝ × [0, T])` such that `C(s, t) = (1 + s) v(log s, t)` has terminal value
+`C(s, T) = h(s)` for `s > 0` and solves the Black–Scholes equation
+`C_t + σ(s, t)² s² / 2 C_ss + r(t) (s C_s - C) = 0` for `s > 0`, `0 < t < T`. The time slices of `v`
+are extended to all times by `ParabolicC2HolderSpace.timeExtension`, constant outside `[0, T]`. -/
+theorem existsUnique_weighted_price {α : ℝ≥0} (hα0 : 0 < α) (hα1 : α < 1) {T δ Λ : ℝ}
+    (hT : 0 < T) (hδ : 0 < δ) (σ : ℝ → ℝ → ℝ) (r : ℝ → ℝ) (h : ℝ → ℝ)
+    (hσ : MemHolder α fun p : slab (E := ℝ) 0 T ↦
+      σ (Real.exp (space (p : ParabolicSpaceTime ℝ))) (time (p : ParabolicSpaceTime ℝ)))
+    (hell : ∀ s ∈ Ioi (0 : ℝ), ∀ t ∈ Icc 0 T, δ ≤ σ s t ^ 2 ∧ σ s t ^ 2 ≤ Λ)
+    (hr : ∃ M, HolderOnWith M (α / 2) r (Icc 0 T))
+    (hh : ∃ g : CkHolderSpace 2 α ℝ ℝ, ∀ y, g y = h (Real.exp y) / (1 + Real.exp y)) :
+    ∃! v : ParabolicC2HolderSpace α ℝ ℝ hT,
+      let C : ℝ → ℝ → ℝ := fun s t ↦
+        (1 + s) * ParabolicC2HolderSpace.timeExtension hT.le (⇑v) (Real.log s) t
+      (∀ s ∈ Ioi (0 : ℝ), C s T = h s) ∧
+      ∀ s ∈ Ioi (0 : ℝ), ∀ t ∈ Ioo 0 T,
+        deriv (fun u ↦ C s u) t + σ s t ^ 2 * s ^ 2 / 2 * deriv (deriv fun x ↦ C x t) s +
+          r t * (s * deriv (fun x ↦ C x t) s - C s t) = 0 := by
+  sorry
 
 /-! ## Layer 4: Black–Scholes calls and puts -/
 

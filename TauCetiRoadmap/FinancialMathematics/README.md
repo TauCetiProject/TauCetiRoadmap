@@ -114,8 +114,9 @@ the solution:
 - For constant μ = 0, σ = 1 and S₀ = 1, the mean of S₁ is 1 (in general E S_t = S₀ e^(μt) for
   constant coefficients and deterministic S₀). The formula without the correction −σ²/2 in the
   exponent would give mean e^(1/2) ≈ 1.6487.
-- For σ = 0 the asset is deterministic and equals S₀ exp(∫₀ᵗ μ_u du), whatever the Brownian path;
-  a definition that kept a term in W would make it random.
+- For σ = 0, with μ and S₀ deterministic, the asset is deterministic and equals
+  S₀ exp(∫₀ᵗ μ_u du), whatever the Brownian path; a definition that kept a term in W would make it
+  random.
 
 *Needs:* StochasticCalculus §9.4 (the linear equation, its explicit solution, uniqueness and
 positivity, and the Gaussian law of log S_t) and §3.4 (progressive integrands); Tau Ceti
@@ -373,8 +374,9 @@ and the Bayes formula) and §7.4 (Girsanov's theorem on a finite horizon); Tau C
 - With r = 0.05, μ = 0.1 and σ = 0.2, the market price of risk is κ = 0.25, Q has density
   exp(−0.25 W_T − 0.03125 T), and under Q the asset has drift 0.05, so the discounted asset has
   Q-mean S₀ at every time.
-- The digital claim H = 1{S_T > K} has e^(−rT)H bounded, so §2.2 replicates it; with S₀ = s its value
-  at time 0 is `e^(−rT) Q(S_T > K) = e^(−rT) Φ(d₋)`, d₋ evaluated at spot s and remaining maturity T.
+- The digital claim H = 1{S_T > K} has e^(−rT)H bounded, so §2.2 replicates it; with S₀ = s and
+  σ > 0 its value at time 0 is `e^(−rT) Q(S_T > K) = e^(−rT) Φ(d₋)`, d₋ evaluated at spot s and
+  remaining maturity T.
 
 ### Dependencies
 
@@ -388,10 +390,11 @@ simple strategies. Mathlib: tilted measures, martingales and Lᵖ spaces.
 In §3.1 and §3.2 the coefficients are deterministic continuous Markov coefficients μ(s, t) and
 σ(s, t) on (0, ∞) × [0, T] and a deterministic continuous rate r(t). Assume that from every
 deterministic start (s₀, t₀) with s₀ > 0 and t₀ ∈ [0, T) the equation
-`dS_t = μ(S_t, t) S_t dt + σ(S_t, t) S_t dW_t`, `S_(t₀) = s₀`, has a positive strong solution on
-[t₀, T] that does not explode. A function C of class C^(2,1) on D = {(s, t) : s > 0, t < T}
-**replicates from (s₀, t₀)** when some self-financing strategy (§1.2, on [t₀, T]) has wealth
-V_t = C(S_t, t) for all t ∈ [t₀, T), almost surely; equality at maturity alone is not replication.
+`dS_t = μ(S_t, t) S_t dt + σ(S_t, t) S_t dW_t`, `S_(t₀) = s₀`, has a positive strong solution
+(StochasticCalculus §9.1) on [t₀, T] that does not explode. A function C of class C^(2,1) on
+D = {(s, t) : s > 0, t < T} **replicates from (s₀, t₀)** when some self-financing strategy (§1.2,
+on [t₀, T]) has wealth V_t = C(S_t, t) for all t ∈ [t₀, T), almost surely; equality at maturity
+alone is not replication.
 
 ### 3.1 The pricing equation as a necessary condition
 
@@ -477,22 +480,29 @@ inequality; a local martingale of class DL is a martingale); Tau Ceti
 
 ### 3.3 Existence for general coefficients
 
-Write y = log s. Assume that the risk-neutral drift `r(t) − σ(e^y, t)²/2` and the volatility
-`σ(e^y, t)` of the log-spot equation are bounded and parabolically α-Hölder on ℝ × [0, T] for some
-α ∈ (0, 1), globally Lipschitz in y uniformly in t, with `0 < δ ≤ σ² ≤ Λ`, and that r is
-α/2-Hölder on [0, T]. For terminal data h with `h(e^y)/(1 + e^y)` in `C_b^(2+α)(ℝ)`, prove that
-the Black–Scholes equation on (0, ∞) × [0, T) with C(s, T) = h(s) has a classical solution C with
-`C(e^y, t)/(1 + e^y)` in the parabolic Hölder class `C_b^(2+α, 1+α/2)(ℝ × [0, T])`, and that it is
-the only solution in that class. *Route:* in the log-spot variable the equation becomes
-`u_t + (σ²/2) u_yy + (r − σ²/2) u_y − r u = 0` on the whole line (Tau Ceti's
-`TauCeti.Finance.pde_comp_log` and `TauCeti.Finance.pde_comp_exp`); the weight w(y) = 1 + e^y has
-log w with bounded, Hölder continuous derivatives of every positive order, the derivatives of the
-sigmoid (`Real.iteratedDeriv_succ_log_one_add_exp`, `Real.memHolder_iteratedDeriv_sigmoid`), so the
-spatial-weight transport of PDE §6.9 reduces the problem to the unweighted class, where the
-backward terminal-data isomorphism of PDE §6.6 gives existence and uniqueness. This roadmap owns
-the localization, Feynman–Kac coefficient and growth adapters between the spot form and the
-suppliers' classes. The call and put theorems of Layer 4 have an independent direct proof and do
-not use this theorem, whose hypothesis on h excludes their kinked payoffs.
+Write y = log s and let 0 < α < 1. Assume that the volatility `σ(e^y, t)` is parabolically
+α-Hölder on the slab ℝ × [0, T], for the parabolic distance `|y − y'| + √|t − t'|` of Tau Ceti's
+`TauCeti.ParabolicSpaceTime.slab`, that `0 < δ ≤ σ(s, t)² ≤ Λ` for s > 0 and t ∈ [0, T], and that
+r is α/2-Hölder on [0, T]. Then the volatility and the risk-neutral drift `r(t) − σ(e^y, t)²/2` of
+the log-spot equation are bounded and parabolically α-Hölder. Let h be terminal data with
+`h(e^y)/(1 + e^y)` in `C_b^(2+α)(ℝ)`, Tau Ceti's `TauCeti.CkHolderSpace 2 α ℝ ℝ`. Prove
+`existsUnique_weighted_price`: there is exactly one v in the parabolic Hölder space
+`C_b^(2+α, 1+α/2)(ℝ × [0, T])`, Tau Ceti's `TauCeti.ParabolicC2HolderSpace`, such that
+`C(s, t) = (1 + s) v(log s, t)` has terminal value C(s, T) = h(s) for s > 0 and solves the
+Black–Scholes equation of Convention 8 for s > 0, 0 < t < T. In the statement the time slices of v
+are extended to all times by `TauCeti.ParabolicC2HolderSpace.timeExtension`. *Route:* in the
+log-spot variable the equation becomes `u_t + (σ²/2) u_yy + (r − σ²/2) u_y − r u = 0` on the whole
+line (Tau Ceti's `TauCeti.Finance.pde_comp_log` and `TauCeti.Finance.pde_comp_exp`); the weight
+w(y) = 1 + e^y has log w with bounded, Hölder continuous derivatives of every positive order, the
+derivatives of the sigmoid (`Real.iteratedDeriv_succ_log_one_add_exp`,
+`Real.memHolder_iteratedDeriv_sigmoid`), so the spatial-weight transport of PDE §6.9 turns the
+equation for u into `v_t + a v_yy + b v_y + c v = 0` for v = u/w, with `a = σ²/2`,
+`b = r − σ²/2 + σ²ρ` and `c = −r(1 − ρ)`, where ρ = e^y/(1 + e^y). These coefficients are bounded
+and parabolically α-Hölder, and a ≥ δ/2, so the backward terminal-data isomorphism of PDE §6.6 gives
+existence; uniqueness in the unweighted class is also Tau Ceti's
+`TauCeti.ParabolicC2HolderSpace.eq_of_euclideanBackwardParabolicOperatorL_eq`, on
+`EuclideanSpace ℝ (Fin 1)`. The call and put theorems of Layer 4 have an independent direct proof
+and do not use this theorem, whose hypothesis on h excludes their kinked payoffs.
 
 **Checks.**
 
@@ -503,10 +513,13 @@ not use this theorem, whose hypothesis on h excludes their kinked payoffs.
   y = log K, so it is not in `C_b^(2+α)(ℝ)`: the call is outside this theorem and is treated in
   Layer 4.
 
-*Needs:* §3.1 (the equation and its operator); PDE §6.4 (parabolic Hölder spaces), §6.6 (variable
-coefficients and backward problems) and §6.9 (spatial weights); Tau Ceti
-`TauCeti.Finance.pde_comp_log`, `TauCeti.Finance.pde_comp_exp`,
-`Real.iteratedDeriv_succ_log_one_add_exp`, `Real.memHolder_iteratedDeriv_sigmoid`.
+*Needs:* for the statement, Convention 8 (the operator), Tau Ceti
+`TauCeti.ParabolicSpaceTime.slab`, `TauCeti.CkHolderSpace`, `TauCeti.ParabolicC2HolderSpace`,
+`TauCeti.ParabolicC2HolderSpace.timeExtension` and Mathlib `MemHolder`, `HolderOnWith`; for the
+route, PDE §6.6 (variable coefficients and backward problems) and §6.9 (spatial weights) and Tau
+Ceti `TauCeti.Finance.pde_comp_log`, `TauCeti.Finance.pde_comp_exp`,
+`Real.iteratedDeriv_succ_log_one_add_exp`, `Real.memHolder_iteratedDeriv_sigmoid`,
+`TauCeti.ParabolicC2HolderSpace.eq_of_euclideanBackwardParabolicOperatorL_eq`.
 
 ### Examples
 
@@ -518,9 +531,10 @@ coefficients and backward problems) and §6.9 (spatial weights); Tau Ceti
 
 ### Dependencies
 
-Layers 1 and 2. StochasticCalculus §2.2, §4.1, §4.3 and §5.1. PDE §6.4, §6.6 and §6.9. Tau Ceti:
+Layers 1 and 2. StochasticCalculus §2.2, §4.1, §4.3, §5.1 and §9.1. PDE §6.6 and §6.9. Tau Ceti:
 the drift identity of the delta hedge, the log-spot form of the pricing operator, the derivatives
-of the sigmoid, the moments of geometric Brownian motion.
+of the sigmoid, the moments of geometric Brownian motion, the parabolic Hölder spaces and uniqueness
+for the backward terminal-value problem.
 
 ## Layer 4: Black–Scholes calls and puts (M0.4)
 
@@ -629,15 +643,22 @@ right time derivative at t = 0 is a solution on the open domain, so it is covere
 
 *Route:* the difference D = V − C is in the same class with terminal value 0
 (`TauCeti.BlackScholes.callValue_pde`, `TauCeti.BlackScholes.continuous_callValue`,
-`TauCeti.BlackScholes.callValue_le`). Fix s > 0 and 0 < t < T, and let S be the geometric Brownian
+`TauCeti.BlackScholes.callValue_le`). Put `v(y, τ) = D(e^y, T − τ)/(1 + e^y)`. Then |v| ≤ A + 1,
+since 0 ≤ C ≤ s, v(·, 0) = 0, and with ρ = e^y/(1 + e^y) the equation becomes
+`v_τ = (σ²/2) v_yy + (r − σ²/2 + σ²ρ) v_y − r(1 − ρ) v` for 0 < τ < T, with diffusion σ²/2, drift
+of absolute value at most |r| + σ²/2 and zeroth-order coefficient at most |r|. Tau Ceti's
+uniqueness theorem for the Cauchy problem on the whole space among classical solutions with bounded
+difference (`TauCeti.PDE.eqOn_of_deriv_sub_sum_mul_fderiv_fderiv_add_fderiv_add_mul_eq_of_eqOn_initial`,
+on `EuclideanSpace ℝ (Fin 1)`) gives v = 0, so D = 0 for s > 0, and continuity gives D = 0 at s = 0.
+A second route is stochastic. Fix s > 0 and 0 < t < T, and let S be the geometric Brownian
 motion with drift r started at s at time t. Apply Itô's formula to `e^(−ru) D(S_u, u)` up to the
 exit of S from [1/n, n] and the time T − ε, where the derivatives of D are bounded; the drift
 vanishes by the equation, so `e^(−rt) D(s, t)` is the expectation of the stopped discounted value.
 Let n → ∞ and then ε → 0: S neither reaches 0 nor explodes, `|D(S_u, u)| ≤ A'(1 + sup_u S_u)` with
 the supremum integrable by the moments of geometric Brownian motion and Doob's inequality, and
 uniform integrability gives `D(s, t) = e^(−r(T−t)) E[D(S_T, T)] = 0`. Continuity extends the
-identity to s = 0 and to t = 0. The route uses no maximum principle on a bounded domain in place of
-a uniqueness theorem on the unbounded one, and it does not apply StochasticCalculus §10.3's
+identity to s = 0 and to t = 0. Neither route uses a maximum principle on a bounded domain in place
+of a uniqueness theorem on the unbounded one, and neither applies StochasticCalculus §10.3's
 polynomial-growth Feynman–Kac theorem on ℝ^d to the log-spot form, where the class grows
 exponentially.
 
@@ -654,14 +675,17 @@ exponentially.
   classical solution with terminal value 0. Added to C it gives a second solution with terminal
   value (s − K)⁺, so it is outside the class.
 
-*Needs:* §1.1; StochasticCalculus §5.1 (Itô's formula), §2.2 (Doob's inequality, uniform
-integrability) and §9.4 (moments of geometric Brownian motion); Tau Ceti
-`TauCeti.BlackScholes.callValue`, `TauCeti.BlackScholes.putValue`, `TauCeti.BlackScholes.callValue_pde`,
-`TauCeti.BlackScholes.putValue_pde`, `TauCeti.BlackScholes.continuous_callValue`,
-`TauCeti.BlackScholes.continuous_putValue`, `TauCeti.BlackScholes.callValue_maturity_zero`,
-`TauCeti.BlackScholes.putValue_maturity_zero`,
-`ProbabilityTheory.IsPreBrownianReal.memLp_geometricBrownianMotion`; Mathlib `deriv`, `ContDiffOn`,
-`ContinuousOn`.
+*Needs:* Tau Ceti `TauCeti.BlackScholes.callValue`, `TauCeti.BlackScholes.putValue`,
+`TauCeti.BlackScholes.callValue_pde`, `TauCeti.BlackScholes.putValue_pde`,
+`TauCeti.BlackScholes.continuous_callValue`, `TauCeti.BlackScholes.continuous_putValue`,
+`TauCeti.BlackScholes.callValue_maturity_zero`, `TauCeti.BlackScholes.putValue_maturity_zero`,
+`TauCeti.BlackScholes.callValue_nonneg`, `TauCeti.BlackScholes.callValue_le`,
+`TauCeti.BlackScholes.putValue_nonneg`, `TauCeti.BlackScholes.putValue_le`,
+`TauCeti.PDE.eqOn_of_deriv_sub_sum_mul_fderiv_fderiv_add_fderiv_add_mul_eq_of_eqOn_initial`; Mathlib
+`deriv`, `ContDiffOn`, `ContinuousOn`. The stochastic route needs in addition §1.1,
+StochasticCalculus §5.1 (Itô's formula), §2.2 (Doob's inequality, uniform integrability) and §9.4
+(moments of geometric Brownian motion), and Tau Ceti
+`ProbabilityTheory.IsPreBrownianReal.memLp_geometricBrownianMotion`.
 
 ### Examples
 
@@ -674,8 +698,9 @@ integrability) and §9.4 (moments of geometric Brownian motion); Tau Ceti
 ### Dependencies
 
 Layers 1–3. StochasticCalculus §2.2, §5.1 and §9.4. Tau Ceti: the Black–Scholes closed forms, their
-extensions, Greeks, limits, conditional prices and value processes, and the Gaussian distribution
-function. Mathlib: derivatives and continuity.
+extensions, Greeks, limits, conditional prices and value processes, the Gaussian distribution
+function, and uniqueness for the Cauchy problem on the whole space. Mathlib: derivatives and
+continuity.
 
 ## Downstream consumers
 
@@ -693,11 +718,10 @@ self-financing strategies (Layer 1); predictable representation under the risk-n
 admissible class, completeness and pricing, the law of one price, absence of arbitrage and the
 static-claim extension, for constant and for progressive coefficients (Layer 2); the pricing
 equation as a necessary condition, the price-admissibility and growth criteria, and existence and
-uniqueness of prices in the weighted Hölder class together with its localization, Feynman–Kac
-coefficient and growth adapters (Layer 3); and replication and uniqueness for the Black–Scholes
-call and put (Layer 4). Trading, self-financing and admissibility are this roadmap's contracts, not
-StochasticCalculus's. MarketImpact and StochasticCalculus cite Layers 1–4 by the labels M0.1–M0.4
-carried in the layer headings.
+uniqueness of prices in the weighted Hölder class (Layer 3); and replication and uniqueness for the
+Black–Scholes call and put (Layer 4). Trading, self-financing and admissibility are this roadmap's
+contracts, not StochasticCalculus's. MarketImpact and StochasticCalculus cite Layers 1–4 by the
+labels M0.1–M0.4 carried in the layer headings.
 
 **Already in the library and used above by name.**
 
@@ -708,25 +732,29 @@ carried in the layer headings.
   under Q; simple strategies, their self-financing formula, their discounted form and their
   arbitrage theory, including absence of arbitrage for simple strategies in the Black–Scholes market
   and the static-claim cash flows; the log-spot form of the pricing operator and the drift identity
-  of the delta hedge; and the Black–Scholes closed forms with their extension to the closed domain,
+  of the delta hedge; the parabolic Hölder spaces on a slab, the bounded `C^(2,α)` spaces of the
+  terminal data and uniqueness for the backward terminal-value problem in the parabolic Hölder class;
+  uniqueness for the Cauchy problem on the whole space among classical solutions with bounded
+  difference; and the Black–Scholes closed forms with their extension to the closed domain,
   risk-neutral and conditional pricing identities, equation, put–call parity, bounds, boundary and
   far-field limits, deltas, bond holdings, gammas, vegas and terminal limits, listed at the head of
   Layer 4.
 - Mathlib: Brownian motion as a predicate on laws and with continuous paths, natural filtrations
   and their right-continuous regularization, predictable processes, martingales, tilted measures,
-  the standard Gaussian density and distribution function.
+  the standard Gaussian density and distribution function, Hölder functions.
 
 **Owned elsewhere and consumed here.**
 
-- [StochasticCalculus](../StochasticCalculus/README.md): the stochastic integral and its
-  localization and predictable versions (§3.2–§3.4), Doob's inequalities and uniform integrability
-  (§2.2), continuous semimartingale decompositions (§4.1, §4.3), Itô's formula (§5.1), stochastic
-  exponentials and Novikov's criterion (§5.4), augmentation of the natural Brownian filtration and L²
-  martingale representation (§6.1), density martingales and the Bayes formula (§7.3), Girsanov's
-  theorem on a finite horizon (§7.4) and the progressive-coefficient linear equation (§9.4). Its
-  Feynman–Kac theorem (§10.3) is not used for the exponentially growing log-spot form.
-- [PDE](../PDE/README.md): parabolic Hölder spaces (§6.4), the backward terminal-data isomorphism for
-  variable coefficients (§6.6) and spatial-weight transport (§6.9).
+- [StochasticCalculus](../StochasticCalculus/README.md): versions, indistinguishability and
+  progressive measurability (§0.2), the stochastic integral and its localization and predictable
+  versions (§3.2–§3.4), Doob's inequalities and uniform integrability (§2.2), continuous
+  semimartingale decompositions (§4.1, §4.3), Itô's formula (§5.1), stochastic exponentials and
+  Novikov's criterion (§5.4), augmentation of the natural Brownian filtration and L² martingale
+  representation (§6.1), density martingales and the Bayes formula (§7.3), Girsanov's theorem on a
+  finite horizon (§7.4), strong solutions (§9.1) and the progressive-coefficient linear equation
+  (§9.4). Its Feynman–Kac theorem (§10.3) is not used for the exponentially growing log-spot form.
+- [PDE](../PDE/README.md): the backward terminal-data isomorphism for variable coefficients (§6.6)
+  and spatial-weight transport (§6.9).
 
 **Owned elsewhere and not consumed here.**
 
@@ -757,6 +785,8 @@ carried in the layer headings.
   `ProbabilityTheory.tendsto_cdf_atBot`, `ProbabilityTheory.tendsto_cdf_atTop`,
   `Mathlib/Probability/CDF.lean`.
 - `deriv`, `ContDiffOn`, `ContinuousOn` and `posPart`, for the statements of §4.2.
+- `MemHolder` (`Mathlib/Topology/MetricSpace/HolderNorm.lean`) and `HolderOnWith`
+  (`Mathlib/Topology/MetricSpace/Holder.lean`), for the coefficient hypotheses of §3.3.
 
 ### From Tau Ceti
 
@@ -778,6 +808,21 @@ carried in the layer headings.
   `TauCeti.Finance.pde_comp_exp` (pointwise, for local differentiability of the price).
 - `TauCeti/Analysis/SpecialFunctions/Sigmoid.lean`: `Real.iteratedDeriv_succ_log_one_add_exp`,
   `Real.memHolder_iteratedDeriv_sigmoid`.
+- `TauCeti/Analysis/PDE/Parabolic/SpaceTime/Basic.lean`: `TauCeti.ParabolicSpaceTime.slab`, the slab
+  E × [a, b] with the parabolic distance `dist x y + √|t − s|`.
+- `TauCeti/Analysis/Holder/Iterated.lean`: `TauCeti.CkHolderSpace` (bounded `C^k` maps with bounded
+  derivatives through order k and an α-Hölder k-th derivative).
+- `TauCeti/Analysis/PDE/Parabolic/Holder/Two.lean`: `TauCeti.ParabolicC2HolderSpace` (bounded maps on
+  a nondegenerate closed slab with bounded continuous spatial gradient and parabolically α-Hölder
+  spatial Hessian and time derivative, the time derivative taken within [a, b]) and
+  `TauCeti.ParabolicC2HolderSpace.timeExtension` (the time slices extended constantly outside [a, b]).
+- `TauCeti/Analysis/PDE/Parabolic/Holder/Backward.lean`:
+  `TauCeti.ParabolicC2HolderSpace.eq_of_euclideanBackwardParabolicOperatorL_eq` (scalar coefficients
+  in the parabolic Hölder space on `EuclideanSpace ℝ ι`, degenerate elliptic second-order part).
+- `TauCeti/Analysis/PDE/MaximumPrinciple/Parabolic/WholeSpace.lean`:
+  `TauCeti.PDE.eqOn_of_deriv_sub_sum_mul_fderiv_fderiv_add_fderiv_add_mul_eq_of_eqOn_initial`
+  (degenerate elliptic a with `tr a ≤ Λ(1 + ‖x‖²)`, `‖b‖ ≤ β(1 + ‖x‖)`, `c ≤ γ`, no regularity of the
+  coefficients; classical solutions continuous on [0, T] × ℝⁿ with bounded difference).
 - `TauCeti/Probability/BrownianMotion/Filtered.lean`: `TauCeti.Probability.IsFilteredPreBrownianReal`
   (pre-Brownian, adapted, increments independent of the past).
 - `TauCeti/Probability/BrownianMotion/Geometric.lean`: `TauCeti.Probability.geometricBrownianMotion`,
@@ -810,21 +855,21 @@ carried in the layer headings.
 
 ### From TauCetiRoadmap.StochasticCalculus
 
-§2.2 (Doob's inequalities, class DL), §3.2–§3.4 (the stochastic integral of predictable integrands,
-its continuous version, congruence, localization and predictable versions of progressive
-integrands), §4.1 and §4.3 (uniqueness of the decomposition of a continuous semimartingale), §5.1
-(Itô's formula and the product rule), §5.4 (stochastic exponentials, Novikov's criterion), §6.1
-(augmentation of the natural Brownian filtration, L² martingale representation in it), §7.3
-(density martingales, the Bayes formula), §7.4 (Girsanov's theorem on a finite horizon) and §9.4
-(the progressive-coefficient linear equation, its explicit solution, uniqueness and positivity, the
-Gaussian law of log S_t for deterministic coefficients, and the moments of geometric Brownian
-motion). Assumed as stated there.
+§0.2 (versions, indistinguishability, progressive measurability), §2.2 (Doob's inequalities, class
+DL), §3.2–§3.4 (the stochastic integral of predictable integrands, its continuous version,
+congruence, localization and predictable versions of progressive integrands), §4.1 and §4.3
+(uniqueness of the decomposition of a continuous semimartingale), §5.1 (Itô's formula and the
+product rule), §5.4 (stochastic exponentials, Novikov's criterion), §6.1 (augmentation of the
+natural Brownian filtration, L² martingale representation in it), §7.3 (density martingales, the
+Bayes formula), §7.4 (Girsanov's theorem on a finite horizon), §9.1 (strong solutions of stochastic
+differential equations) and §9.4 (the progressive-coefficient linear equation, its explicit
+solution, uniqueness and positivity, the Gaussian law of log S_t for deterministic coefficients, and
+the moments of geometric Brownian motion). Assumed as stated there.
 
 ### From TauCetiRoadmap.PDE
 
-§6.4 (parabolic Hölder spaces and traces), §6.6 (existence and uniqueness for variable coefficients,
-the backward terminal-data isomorphism) and §6.9 (spatial weights with bounded Hölder logarithmic
-derivatives). Assumed as stated there.
+§6.6 (existence and uniqueness for variable coefficients, the backward terminal-data isomorphism)
+and §6.9 (spatial weights with bounded Hölder logarithmic derivatives). Assumed as stated there.
 
 ## References
 
@@ -834,3 +879,9 @@ derivatives). Assumed as stated there.
   trading*, Stochastic Process. Appl. 11 (1981), 215–260.
 - I. Karatzas, S. E. Shreve, *Methods of Mathematical Finance*, Springer, 1998.
 - S. E. Shreve, *Stochastic Calculus for Finance II: Continuous-Time Models*, Springer, 2004.
+
+The hypotheses of every statement above are this roadmap's own formulation; in particular the
+coefficient bounds of §2.4, the growth criterion of §3.2 and the classes of §3.3 and §4.2 are
+formulated here for the library. Harrison–Pliska is the classical source of completeness and
+martingale pricing in continuous trading, Black–Scholes of the call price and its hedge, and
+Karatzas–Shreve and Shreve are textbook treatments of the continuous-time market.
