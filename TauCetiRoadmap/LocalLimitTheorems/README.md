@@ -8,7 +8,8 @@ close to the normal density itself, uniformly over the whole line. This roadmap 
 classical local limit theorems of Gnedenko and the local de Moivre–Laplace theorem. Throughout, the
 summands are independent and identically distributed, and no rate of convergence is claimed.
 Gnedenko's two theorems need no moment hypothesis: when the second moment is infinite they say
-that the local probabilities, or the densities, of `Sₙ/√n` tend to `0` uniformly.
+that the rescaled local probabilities `√n · P(Sₙ = k)`, or the densities of `(Sₙ − n m)/√n`, tend
+to `0` uniformly.
 
 The headline theorems are these.
 
@@ -16,6 +17,9 @@ The headline theorems are these.
   law is carried by no coset `b + hℤ` with `h ≥ 2`, then, uniformly in the integer `k`,
   `√n · P(Sₙ = k) − (2πσ²)^(−1/2) exp(−(k − n m)²/(2nσ²)) → 0`, where `m` is the mean and `σ²` the
   variance; if the second moment is infinite, `√n · P(Sₙ = k) → 0` uniformly in `k`.
+- *The lattice local limit theorem for real lattice laws.* If the summands are real, carried by
+  `b + hℤ` with `h > 0` and by no `b' + h'ℤ` with `h' > h`, then, uniformly in the integer `k`,
+  `(√n/h) · P(Sₙ = n b + h k) − (2πσ²)^(−1/2) exp(−(n b + h k − n m)²/(2nσ²)) → 0`.
 - *The local de Moivre–Laplace theorem.* For `0 < p < 1` and every `A`, the ratio of
   `P(Bin(n, p) = k)` to the normal density with mean `n p` and variance `n p (1 − p)` at `k` tends
   to `1`, uniformly over the integers `k` with `|k − n p| ≤ A √n`.
@@ -34,7 +38,8 @@ MarkovChainsAndRenewal treats lattice laws on the half-line for the renewal theo
 span differs from the one here and nothing passes between the two.
 
 Layer 1 below defines integer laws of maximal span one and proves the lattice local limit
-theorem, through the characteristic function of such a law and Fourier inversion on the integers.
+theorem, through the characteristic function of such a law and Fourier inversion on the integers,
+and then its form for real lattice laws of any span.
 Layer 2 deduces the local de Moivre–Laplace theorem. Layer 3, which uses no other layer, proves the
 smoothing condition and the local limit theorem for densities.
 
@@ -179,23 +184,37 @@ then at least some `c > 0` on `0 < |t| ≤ π`, so `|φ(t)|ⁿ ≤ exp(−n t² 
 
 ### 1.5 Real lattice laws of any span
 
-The form of 1.4 for real summands is a consequence of 1.4 by an affine change of variable, recorded
-here and not a separate target: let `X : ℕ → Ω → ℝ` be independent and identically distributed
-with mean `0` and finite variance `σ²`, carried by `b + hℤ` with `h > 0`, and carried by
-no `b' + h'ℤ` with `h' > h`. Then, uniformly over the points `x` of `Lₙ = (n b + hℤ)/√n`,
-`(√n/h) P(Sₙ/√n = x) − n_σ²(x) → 0` (Durrett, Theorem 3.5.3, p. 162).
+Prove `localLimit_lattice_real`, the form of 1.4 for real summands (Durrett, Theorem 3.5.3,
+p. 162, which assumes mean `0` and a finite variance): let `X : ℕ → Ω → ℝ` be independent and
+identically distributed, with the law of `X 0` carried by `b + hℤ` for some real `b` and `h > 0`
+(the complement of `b + hℤ` is null) and carried by no `b' + h'ℤ` with `h' > h` (the complement of
+each has positive measure). Then, with `m` and `σ²` the total mean and variance of `X 0` as in 1.4,
+uniformly in `k : ℤ`,
+`(√n/h) · P(Sₙ = n b + h k) − n_σ²((n b + h k − n m)/√n) → 0`.
+As in 1.4 no moment is assumed: if the second moment is infinite, the normal term is `0` and the
+statement is `(√n/h) · P(Sₙ = n b + h k) → 0` uniformly in `k`. A point mass is excluded by the
+second carrier condition, since it is carried by `b + h'ℤ` for every `h'`. In Durrett's notation,
+with `x = (n b + h k)/√n` running over `Lₙ = (n b + hℤ)/√n` and `m = 0`, this is
+`(√n/h) P(Sₙ/√n = x) − n_σ²(x) → 0`.
 
-Derivation: `Y = (X − b)/h` is integer valued almost surely, and its law has maximal span one,
-because a coset `c + dℤ` with `d ≥ 2` carrying it would make `b + hc + hdℤ` carry `X`, with
-`hd > h`. Its mean is `−b/h` and its variance `σ²/h²`. Apply 1.4 to `Y` and use
-`n_{σ²/h²}(y/h) = h n_σ²(y)`.
+Route: by an affine change of variable from 1.4. `Y = (X − b)/h` is integer valued almost surely,
+and its law has maximal span one, because a coset `c + dℤ` with `d ≥ 2` carrying it would make
+`b + hc + hdℤ` carry `X`, with `hd > h`. Replace each `Y i` by an integer-valued variable equal to
+it almost surely; independence and the common law are kept. `X 0` is square integrable if and only
+if `Y 0` is; then the mean of `Y 0` is `(m − b)/h` and its variance `σ²/h²`, so
+`(k − n E Y)/√n = (n b + h k − n m)/(h √n)`, and 1.4 for `Y` with `n_{σ²/h²}(y/h) = h n_σ²(y)`
+gives the statement after division by `h`. If `X 0` is not square integrable both variances are
+`0` by convention and both normal terms are `0`, whatever the two means are.
 
 **Checks.**
 - Rademacher summands, `b = 1`, `h = 2`: the statement predicts `(√n/2) P(Sₙ = k) ≈ n_1(k/√n)` for
   `k ≡ n mod 2`; at `n = 400`, `k = 0` the two sides are `0.3987` and `0.3989`, which accounts for
   the factor `2` in the Check of 1.4.
+- `h` must be the largest span: Rademacher summands are also carried by `ℤ` (`b = 0`, `h = 1`), and
+  with `h = 1` the conclusion fails, since at `n = 400`, `k = 0` it would read `0.7974 ≈ 0.3989`.
+  The second carrier condition excludes this choice, because `1 + 2ℤ` carries the law.
 
-*Needs:* 1.1, 1.4.
+*Needs:* 1.1, 1.4; Mathlib `IdentDistrib`, `iIndepFun`, `gaussianPDFReal`.
 
 ### Examples
 
@@ -317,7 +336,7 @@ Route: the characteristic function of `Zₙ` is `ψ(t/√n)ⁿ`, with `ψ` that 
 inversion theorem gives the density. Then `charFunDensity (law of Zₙ)(x) − n_σ²(x)` is bounded,
 independently of `x`, by `(2π)⁻¹ ∫ |ψ(t/√n)ⁿ − exp(−σ²t²/2)| dt`. Split as in 1.4: on `|t| ≤ A` the
 integrand tends to `0` boundedly; on `A ≤ |t| ≤ δ√n` it is at most `2 exp(−σ²t²/4)`, by the Taylor
-expansion of `ψ` at `0` with `σ² > 0` (a law with a density is not a point mass); on `|t| ≥ δ√n`,
+expansion of `ψ` at `0` with `σ² > 0` (`S_ν` has a density, so `X 0` is not a point mass); on `|t| ≥ δ√n`,
 `η = sup_{|v| ≥ δ} |φ(v)| < 1`, and that piece is at most `√n η^(n − ν) ∫ |φ|^ν` plus a Gaussian
 tail. The bound `η < 1` holds because `φ^ν` is the characteristic function of a law with a density
 (3.1), so `φ(v) → 0` as `|v| → ∞` by the Riemann–Lebesgue lemma, and `|φ(v₀)| = 1` for some `v₀ ≠ 0`
@@ -368,16 +387,16 @@ moment in 1.4) for laws on the line, and use no statement of Layer 1.
 - Recurrence of the simple random walk on `ℤ`: by the case `kₙ = 0` of 2.2 the series
   `∑ P(S_{2n} = 0)` diverges.
 - Renewal and Markov-chain arguments that need the probability that a lattice walk sits at a given
-  point at a large time, which 1.4 gives uniformly in the point.
+  point at a large time, which 1.4 and 1.5 give uniformly in the point.
 
 ## Scope and ownership
 
-This roadmap owns the definition and the four theorems stated above: integer laws of maximal span
-one, Gnedenko's lattice local limit theorem, the local de Moivre–Laplace theorem, the smoothing
-condition and Gnedenko's local limit theorem for densities. The characterization of maximal span
-one by the characteristic function (1.2) and inversion on the integers (1.3) are steps of the proof
-of the lattice theorem; the form for real lattice laws of any span (1.5) and the fair-coin form
-(2.2) are recorded consequences. None of these four is a separate target.
+This roadmap owns the definition and the five theorems stated above: integer laws of maximal span
+one, Gnedenko's lattice local limit theorem and its form for real lattice laws of any span, the
+local de Moivre–Laplace theorem, the smoothing condition and Gnedenko's local limit theorem for
+densities. The characterization of maximal span one by the characteristic function (1.2) and
+inversion on the integers (1.3) are steps of the proof of the lattice theorem, and the fair-coin
+form (2.2) is a recorded consequence. None of these three is a separate target.
 
 The asymptotics `√(πn) · C(2n, n)/4ⁿ → 1` of the central binomial coefficient, the case `kₙ = 0`
 of 2.2, is not a target: Mathlib's Wallis product gives it in a few lines, since
@@ -386,8 +405,7 @@ of 2.2, is not a target: Mathlib's Wallis product gives it in a few lines, since
 
 Already in the libraries and therefore not targets: characteristic functions with their product
 formula for independent sums, Taylor expansion at `0` and continuity, the central limit theorem
-for independent identically distributed summands and its integral form for the binomial law, the
-binomial law, Stirling's formula and the Wallis product, the Fourier transform of the Gaussian,
+for independent identically distributed summands, the binomial law, Stirling's formula and the Wallis product, the Fourier transform of the Gaussian,
 the Riemann–Lebesgue lemma and Plancherel's theorem (Mathlib); the inversion theorem for laws on
 the line with integrable characteristic function and the binomial law as a sum of Bernoulli
 variables (Tau Ceti).
@@ -397,7 +415,7 @@ Boundaries with other roadmaps:
 - MarkovChainsAndRenewal, Layer 5, defines lattice laws on the half-line by support in `aℕ`,
   without translation, for the lattice renewal theorem. Integer laws of maximal span one here allow
   a translation and live on all of `ℤ`; neither notion is consumed by the other.
-- MathematicalStatisticsHigherOrderAndResampling (an open roadmap, not on main), §3.1, states
+- MathematicalStatisticsHigherOrderAndResampling, §3.1, states
   lattice laws on `ℝ` and their characterization by the characteristic function, for every span;
   1.2 here, the special case of integer laws phrased through the maximal span one of 1.1, is only
   a step of the proof of 1.4, and this roadmap does not depend on that one. Its §4.3 (lattice
@@ -492,6 +510,6 @@ recurrence and fluctuation theory of random walks.
   limit theorem* (extended version), arXiv:1802.10212v1 (2018): §2, display (2.1) and the
   paragraph after it, p. 4.
 - Attributions made in prose without a locator: Abraham de Moivre (1733) and Pierre-Simon Laplace
-  (1812) for the local normal approximation of the binomial law; B. V. Gnedenko (1948) for the local
+  (1812) for the local normal approximation of the binomial law; B. V. Gnedenko for the local
   limit theorems for lattice laws and for densities, presented in B. V. Gnedenko and
   A. N. Kolmogorov, *Limit Distributions for Sums of Independent Random Variables* (1954).

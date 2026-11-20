@@ -8,7 +8,7 @@ import TauCeti.Analysis.Bochner.CharFun.Inversion
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the one
 definition they need, which has a real body. Every headline theorem of the README is statable at
 the pins and is stated here: Gnedenko's local limit theorem for integer-valued summands of maximal
-span one, the local de Moivre–Laplace theorem for the binomial law, the characterization of the
+span one, its form for real lattice laws of any span, the local de Moivre–Laplace theorem for the binomial law, the characterization of the
 smoothing condition by bounded densities, and Gnedenko's local limit theorem for densities. The
 README's route lemmas, consequences, API lists and Checks are not restated.
 
@@ -50,6 +50,23 @@ theorem localLimit_lattice {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
       |√(n : ℝ) * P.real {ω | ∑ i ∈ range n, X i ω = k} -
           gaussianPDFReal 0 (Var[fun ω ↦ (X 0 ω : ℝ); P]).toNNReal
             ((k - n * P[fun ω ↦ (X 0 ω : ℝ)]) / √(n : ℝ))| ≤ ε := by
+  sorry
+
+/-- 1.5 **The lattice local limit theorem for real lattice laws of any span.** Let `X 0, X 1, …`
+be independent, identically distributed and real, with the law of `X 0` carried by `b + hℤ` for
+some `h > 0` and by no `b' + h'ℤ` with `h' > h`, and let `m` be its mean and `σ²` its variance.
+Then, uniformly in `k : ℤ`,
+`(√n / h) · P(Sₙ = n b + h k) − (2πσ²)^(-1/2) exp(−(n b + h k − n m)² / (2 n σ²)) → 0`. If the
+second moment is infinite, `σ² = 0` by Mathlib's convention and the normal term is `0`. -/
+theorem localLimit_lattice_real {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    [IsProbabilityMeasure P] (X : ℕ → Ω → ℝ) (hindep : iIndepFun X P)
+    (hident : ∀ i, IdentDistrib (X i) (X 0) P P) (b h : ℝ) (hh : 0 < h)
+    (hcarrier : P.map (X 0) {x : ℝ | ¬ ∃ j : ℤ, x = b + h * j} = 0)
+    (hspan : ∀ b' h' : ℝ, h < h' → P.map (X 0) {x : ℝ | ¬ ∃ j : ℤ, x = b' + h' * j} ≠ 0) :
+    ∀ ε > 0, ∀ᶠ n : ℕ in atTop, ∀ k : ℤ,
+      |√(n : ℝ) / h * P.real {ω | ∑ i ∈ range n, X i ω = n * b + h * k} -
+          gaussianPDFReal 0 (Var[X 0; P]).toNNReal
+            ((n * b + h * k - n * P[X 0]) / √(n : ℝ))| ≤ ε := by
   sorry
 
 /-! ## Layer 2: the de Moivre–Laplace theorem -/
