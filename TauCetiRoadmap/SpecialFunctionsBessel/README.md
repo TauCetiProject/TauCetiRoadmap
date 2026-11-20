@@ -1,207 +1,87 @@
 # Roadmap: Bessel functions
 
-**Summary.** This roadmap builds the theory of the Bessel functions as a library: the cylinder
-functions `J_ν`, `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, which solve Bessel's equation
+**Summary.** Bessel's equation
 
 ```text
-z² w″ + z w′ + (z² − ν²) w = 0,
+z² w″ + z w′ + (z² − ν²) w = 0
 ```
 
-the modified functions `I_ν`, `K_ν`, which solve the same equation after `z ↦ iz`, the spherical
-Bessel functions of half-odd order and the Kelvin functions. Its organization follows the
-structure of the subject rather than any one text. The standard solutions of the two equations
-are built together from the Frobenius solutions at the origin and the entire dependence on the
-order, and every identity between solutions is then a comparison at `0`. The elementary orders
-`n + ½` and the spherical functions follow from the series alone. The theorems that sum over the
-order (generating functions, addition theorems, Neumann series and the minimal solution of the
-recurrence) form one layer, and the integral representations another. The behaviour for large
-argument comes from the Laplace forms of `H⁽¹⁾_ν` and `K_ν`, and it gives the Kelvin functions and
-the relations to the Airy, parabolic cylinder and error functions. Debye's expansions for large
-order, the real zeros with the Fourier–Bessel and Dini series, and the integrals come last. The
-content is drawn from Andrews, Askey and Roy, Beals and Wong, Lebedev, Olver's *Asymptotics and
-Special Functions*, Temme, Whittaker and Watson, and the NIST Digital Library of Mathematical
-Functions (DLMF), and each headline cites its sources; see [References](#references).
+is a linear differential equation in a complex variable `z` and a complex parameter `ν`, the order.
+Near the origin its solutions are convergent Frobenius series, with logarithms in some cases; near
+infinity they have asymptotic expansions. This roadmap builds their theory as a library. The
+cylinder functions `J_ν`, `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν` solve the equation itself, and the modified
+functions `I_ν`, `K_ν` solve it after the substitution `z ↦ iz`. The spherical Bessel functions are
+defined by entire series and agree, up to the factor `(π/(2z))^{1/2}`, with Bessel functions of
+half-odd order. The Kelvin functions `ber`, `bei`, `ker`, `kei` are built from `J_ν` and `K_ν` on
+the diagonal rays. The six standard solutions are holomorphic functions of `z` on the plane cut
+along `(−∞, 0]` and entire functions of `ν`. All powers, logarithms and square roots are principal,
+and other sheets of the logarithm are left out.
 
-The roadmap covers:
-- the standard solutions `J_ν`, `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` as holomorphic functions
-  of `z` on the slit plane and entire functions of `ν`, with the two equations, uniqueness, the
-  Wronskians, the linear relations, the recurrences, the continuation across the cut and the
-  equations reducible to Bessel's (Layer 1);
-- the Frobenius expansions at the origin, the leading behaviour there, the elementary orders and
-  the derivatives with respect to the order (Layer 2);
-- the spherical Bessel functions, their elementary forms, recurrences and series (Layer 3);
-- the generating function and the Jacobi–Anger expansions, the multiplication theorem and the
-  addition theorems of Neumann, Graf and Gegenbauer, Neumann series, and the minimal solution of
-  the recurrence with its continued fraction (Layer 4);
-- the integral representations: Bessel's, Poisson's, Schläfli's and the Mehler–Sonine integrals,
-  the contour integrals, the Mellin–Barnes integrals and Nicholson's formula (Layer 5);
-- Hankel's expansions for large argument with both kinds of error bound, the amplitude and phase
-  functions, and the bounds and monotonicity in argument and order (Layer 6);
-- the Kelvin functions (Layer 7);
-- the relations to Kummer's, Airy's, the parabolic cylinder, the exponential-integral, error and
-  incomplete Gamma functions (Layer 8);
-- Debye's expansions for large order outside the transition region (Layer 9);
-- the real zeros: existence, reality, simplicity, interlacing, spacing, the product over the zeros,
-  Rayleigh's sums, McMahon's expansions, the zeros of cross-products, and the Fourier–Bessel and
-  Dini series (Layer 10);
-- integrals of one, two and three Bessel functions, of `I_ν` and `K_ν`, and of the spherical
-  functions (Layer 11).
+For every complex `ν`, `J_ν` and `Y_ν` solve Bessel's equation on the cut plane, and every solution
+there is a combination `c₁ J_ν + c₂ Y_ν`. Their Wronskian is `J_ν Y′_ν − J′_ν Y_ν = 2/(πz)`. The
+usual formula for `Y_ν` is a quotient by `sin νπ`, which becomes `0/0` at an integer order. The
+roadmap defines `Y_ν` there by a derivative in the order instead. It then proves that `ν ↦ Y_ν(z)`
+is entire, so that each integer value is the limit of the quotient.
 
-The general asymptotic and contour tools are consumed from
-[AsymptoticExpansions](../AsymptoticExpansions/README.md): the expansion API, reversion, Watson's
-lemma, Laplace's method on contours and saddle points, the Mellin tools, the Volterra equations,
-the regular and rank-one irregular singularities and the Liouville–Green approximation. The Airy
-functions, Kummer's second transformation and the integral of `J₀` are consumed from
-[SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md), the parabolic cylinder functions from
-[SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md), `K_ν` on
-`(0, ∞)` and `Y_ν` on `Re z > 0` from
-[AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md), `I_ν` at real argument from
-[AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md) (its §0.25), the exponential,
-sine and cosine integrals, the error functions, the incomplete Gamma functions and Pincherle's
-theorem from
-[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md),
-Gegenbauer's polynomials from [LaguerreJacobi](../LaguerreJacobi/README.md) (its §§6.1–6.2),
-and the principal branch of the regularized Gauss function on `ℂ \ [1, ∞)` and Gauss's sum from
-[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md). This roadmap builds
-the removable singularity in the order behind the integer orders of `Y_ν` and `K_ν`, Neumann's
-polynomials, the facts that Gegenbauer's addition theorem needs about Gegenbauer's polynomials,
-Sturm comparison, the Rayleigh functions, the partial-fraction expansion of `J′_ν/J_ν` and the
-Fourier–Bessel expansion theorem.
+For large argument the central result is Hankel's expansion. Put `ω = z − νπ/2 − π/4`, and let
+`aₖ(ν) = (½ − ν)ₖ (½ + ν)ₖ / ((−2)ᵏ k!)`. For every `ν`, every `δ > 0` and every `N`, as `z → ∞` in
+the sector `|arg z| ≤ π − δ`,
+
+```text
+H⁽¹⁾_ν(z) − (2/(πz))^{1/2} e^{iω} ∑_{k<N} iᵏ aₖ(ν) z^{−k} = O(|e^{iω}| |z|^{−N−1/2}),
+```
+
+and `K_ν(z)` has the same kind of expansion, with `(π/(2z))^{1/2} e^{−z} ∑_{k<N} aₖ(ν) z^{−k}`. Each
+truncation is a separate statement; the series is never summed. At `ν = ½` every coefficient after
+the first vanishes, and the expansion is exact: `H⁽¹⁾_ν(z) = −i (2/(πz))^{1/2} e^{iz}` at that
+order.
+
+The real zeros come next. For every real `ν`, `J_ν` has infinitely many positive zeros
+`j_{ν,1} < j_{ν,2} < ⋯`, all of them simple. Consecutive zeros are more than `π` apart when
+`|ν| > ½`, less than `π` apart when `|ν| < ½`, and exactly `π` apart when `|ν| = ½`. For `ν ≥ 0` and
+`z` in the cut plane, `J_ν` is a product over its zeros,
+`J_ν(z) = (z/2)^ν/Γ(ν + 1) ∏_k (1 − z²/j_{ν,k}²)`. At `ν = ½` this is Euler's product
+`sin z/z = ∏ (1 − z²/(k²π²))`. The zeros also carry an expansion theorem. Let `ν ≥ −½`, let
+`t^{1/2} f(t)` be integrable on `(0, 1)`, and let `f` have bounded variation on some `[a, b]` with
+`0 < a < x < b < 1`. Then the partial sums of the Fourier–Bessel series of `f`, its expansion in the
+functions `J_ν(j_{ν,m} x)`, converge at `x` to `½ (f(x−) + f(x+))`.
+
+`J_ν` is the Bessel function already in Mathlib, and for real `ν` and `x > 0`, `I_ν(x)` agrees with
+Tau Ceti's real modified Bessel function.
+[AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) has `K_ν` on the positive axis
+and `Y_ν` on the half-plane `Re z > 0`. This roadmap defines both on the cut plane and proves that
+the definitions agree. The general asymptotic methods, such as Watson's lemma and the
+Liouville–Green approximation, come from [AsymptoticExpansions](../AsymptoticExpansions/README.md).
+The roadmaps on Struve and Mathieu functions build on the standard solutions and Hankel's
+expansions.
+
+The first three layers build the solutions and their relations from the behaviour at the origin.
+Layers 4 and 5 add the series over the order and the integral representations, and Layer 6 the
+behaviour for large argument. Layers 7 and 8 apply these to the Kelvin functions and to the Airy,
+parabolic cylinder and error functions. Layers 9 to 11 treat large order, the real zeros and
+integrals. The next section explains how each layer rests on the earlier ones.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Bessel/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/BesselI.lean`, which this roadmap extends.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **The equations and their standard solutions** (1.1–1.7).
-2. **Behaviour at the origin and the elementary orders** (2.1–2.4).
-3. **Bessel functions of half-odd order in three dimensions** (3.1–3.2).
-4. **Series over the order** (4.1–4.5).
-5. **Bessel functions as integrals** (5.1–5.4).
-6. **Hankel's expansions and the behaviour for large argument** (6.1–6.5).
-7. **Bessel functions on the diagonal rays: ber, bei, ker, kei** (7.1–7.3).
-8. **Bessel functions among the confluent, Airy, parabolic cylinder and error functions**
-   (8.1–8.4).
-9. **Debye's expansions for large order** (9.1–9.2).
-10. **Real zeros and the Fourier–Bessel and Dini series** (10.1–10.8).
-11. **Integrals of Bessel functions** (11.1–11.5).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose. The DLMF equation numbers that the subsections
-cite identify the formulas they own, with the hypotheses and conventions stated there.
-
-**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
-- the definition of `J_ν` (Mathlib `Complex.besselJ_def`; DLMF 10.2.2);
-- `J_{−n} = (−1)ⁿ J_n`, the `J` half of DLMF 10.4.1 (Mathlib `Complex.besselJ_neg_int`); the `Y`
-  half is a target;
-- `2ν J_ν = z J_{ν−1} + z J_{ν+1}`, the first identity of DLMF 10.6.1 for `J` (Mathlib
-  `Complex.two_mul_self_mul_besselJ`); the derivative identity, and both for `Y`, `H⁽¹⁾`, `H⁽²⁾`,
-  are targets;
-- `J_n(−z) = (−1)ⁿ J_n(z)`, the case of DLMF 10.11.1 at integer order and `m = ±1` (Mathlib
-  `Complex.besselJ_int_neg`, `Complex.odd_besselJ`, `Complex.even_besselJ`);
-- for real `ν` and real `x`, the restriction of `I_ν` to `(0, ∞)` with its series (DLMF 10.25.2;
-  Tau Ceti `Real.besselI_eq_rpow_mul`, `Real.hasSum_besselI`);
-  `I_{ν−1}(x) − I_{ν+1}(x) = (2ν/x) I_ν(x)` and `I′_ν(x) = I_{ν+1}(x) + (ν/x) I_ν(x)` for
-  `x ≠ 0`, one form each of DLMF 10.29.1 and 10.29.2 (`Real.besselI_sub_besselI`,
-  `Real.hasDerivAt_besselI`); the case `k = 1` of the second identity of DLMF 10.29.4,
-  `d/dx((x/2)^{−ν} I_ν(x)) = (x/2)^{−ν} I_{ν+1}(x)` (`Real.hasDerivAt_rpow_neg_mul_besselI`);
-  DLMF 10.30.1 on the positive axis (`Real.tendsto_rpow_neg_mul_besselI_nhdsGT_zero`); the values
-  `I_ν(0)` (`Real.besselI_zero`); `I_ν(x) > 0` for `ν > −1`, `x > 0` (`Real.besselI_pos`); and
-  DLMF 10.32.3 at real argument and natural order (`Real.integral_exp_mul_cos_mul_cos`, over
-  `[−π, π]`). The targets of 1.3–1.5, 2.1 and 5.1 are the complex argument, `K_ν`, and the other
-  forms of DLMF 10.29.1–10.29.2 (`I_{ν−1} + I_{ν+1} = 2I′_ν`, `I′_ν = I_{ν−1} − (ν/z) I_ν`);
-- the positive-axis and right-half-plane results of AnalyticNumberTheoryPartI and the
-  real-argument results of AutomorphicSpectralTheory listed under
-  [Exact supplier contracts](#exact-supplier-contracts): for `K_ν(x)`, `x > 0`, the integral
-  DLMF 10.32.9, the evenness 10.27.3, holomorphy in `ν`, the equation 10.25.1, positivity, decay
-  and `K_{1/2}`; for `Y_ν` on `Re z > 0`, Schläfli's integral 10.9.7 with 10.2.3, holomorphy, the
-  equation 10.2.1 and the recurrence 10.6.1; for real `ν` and `x > 0`, the size of the remainders
-  of 10.40.2 and of the `Y_ν` form of 10.17.4 in the ranges stated there; and for `I_ν` at real
-  argument, 10.25.2 with 10.25.1, 10.29.1 and 10.27.1 for `y > 0`. The targets are their
-  extensions to the slit plane, and the agreement of the definitions
-  (`besselK_ofReal_eq_positiveAxisBesselK` and `besselY_eq_schlafli`, 5.1). The pinned `I_ν` at
-  real `y` is AutomorphicSpectralTheory's `I_ν(y)` by definition.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib, Tau Ceti nor a
-consumed roadmap provides:
-- `J_ν(z)` and `I_ν(z)` are entire in `ν` for `z` in the slit plane, and the quotients defining
-  `Y_ν` and `K_ν` off the integers have removable singularities at the integers (1.2, 1.3);
-- uniqueness for Bessel's equation on the slit plane given value and derivative at one point (1.1);
-- Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and continuous
-  `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of
-  `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in
-  `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and the
-  zeros of a nontrivial real solution are simple and isolated (10.1, 10.3);
-- Neumann's polynomials `O_n(t)` and their generating function (4.4);
-- for LaguerreJacobi's Gegenbauer polynomials `C_n^{(ν)}(x)` over `ℂ`: the generating function
-  (DLMF 18.12.4), the expansion of `(2x)ⁿ` (DLMF 18.18.17) and `C_n^{(1/2)}(x) = P_n(x)` (4.3);
-- the partial-fraction expansion `J′_ν(z)/J_ν(z) = ν/z − ∑ₘ 2z/(j_{ν,m}² − z²)` and its
-  logarithmic integral (10.4);
-- Rayleigh's functions `σ_n(ν) = ∑ₘ j_{ν,m}^{−2n}` and the recursion from the Maclaurin series of
-  `J_{ν+1}/J_ν` (10.4);
-- the Fourier–Bessel and Dini expansion theorems for functions of bounded variation (10.7, 10.8);
-- Debye's polynomials `U_k`, `V_k` (9.1);
-- the explicit error bound of the Liouville–Green Case I expansion on `(ξ, ∞)` for real `ξ`
-  (9.1; Olver Ch. 10, Theorem 3.1, p. 366);
-- the variation of `t^{−ℓ}` along the paths `P_R(z)` of 6.3, bounded as in DLMF 10.17.15 and
-  10.40.12 (6.3).
-
-**What it does not own:**
-- The general asymptotic and contour tools: asymptotic expansions, reversion, Watson's lemma,
-  Laplace's method and saddle points, the Mellin tools, Volterra equations, regular and rank-one
-  irregular singularities, and the Liouville–Green approximation. They are consumed from
-  AsymptoticExpansions; see [Exact supplier contracts](#exact-supplier-contracts).
-- `Ai`, `Bi` and the generalized Airy functions, Kummer's second transformation
-  `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` and the integral
-  `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ`, consumed from SpecialFunctionsAiry.
-- The parabolic cylinder functions `U(a, z)` and `W(a, x)`, consumed from
-  SpecialFunctionsParabolicCylinder.
-- `K_ν(x)` for complex `ν` and `x > 0`, `Y_ν(z)` on `Re z > 0`, and their positive-axis
-  remainder bounds, consumed from AnalyticNumberTheoryPartI; `I_ν` at real argument, consumed
-  from AutomorphicSpectralTheory. This roadmap owns their extensions to the slit plane.
-- The exponential, sine and cosine integrals, the error and Fresnel functions, the incomplete
-  Gamma functions and Pincherle's theorem, consumed from SpecialFunctionsEiLiErfIncompleteGamma.
-- The principal branch of the regularized Gauss function `𝐅(α, β; γ; x)` on `ℂ \ [1, ∞)`, its
-  holomorphy and its agreement with Mathlib's series on the unit disc, consumed from
-  SpecialFunctionsHypergeometric 1.2–1.4 for DLMF 10.22.49, and Gauss's sum, consumed from its
-  4.2 for DLMF 10.22.57.
-- The formulas through the Struve, Whittaker, Kummer `U` and Legendre functions, which neither
-  Mathlib, Tau Ceti nor a consumed roadmap defines, and the formulas through the Gauss
-  hypergeometric function other than DLMF 10.22.49 and 10.22.64 (DLMF 10.16.6–10.16.8, 10.16.10,
-  10.22.2, 10.22.50, 10.22.56, 10.22.58, 10.22.66, 10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10,
-  10.43.2, 10.43.22, 10.43.26, 10.54.4–10.54.5, and 9.6.21–9.6.24).
-- Values off the principal sheet: the parts of DLMF 10.17.5–10.17.6, 10.17.11–10.17.12, 10.40.2,
-  10.40.4–10.40.5 with `|ph z| ≥ π`.
-- The uniform expansions for large order in terms of Airy functions and everything that rests on
-  them, and the complex sectors of Debye's expansions; functions of imaginary order, the
-  generalized and incomplete Bessel functions, the complex zeros, the exponentially improved
-  expansions, the Hankel and Kontorovich–Lebedev transforms, and the applications and
-  computation. See the last section for these.
-
-**The boundary in one sentence:** this roadmap owns `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν`, the
-spherical and Kelvin functions and the results stated through them and through functions that
-Mathlib, Tau Ceti or a consumed roadmap defines, on the principal sheet, together with the
-Bessel-function formulas that the Airy, parabolic cylinder, exponential-integral and error-function
-roadmaps exclude; it consumes the general methods of AsymptoticExpansions, the positive-axis `K_ν`
-and right-half-plane `Y_ν` of AnalyticNumberTheoryPartI and the real-argument `I_ν` of
-AutomorphicSpectralTheory, and excludes formulas through the Struve, Whittaker, `U` and Legendre
-functions and, except DLMF 10.22.49 and 10.22.64, the Gauss function, the Airy-type uniform theory
-for large order, imaginary order, transforms and numerics.
-
-**Former numbering.** [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) and
-[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) cite sections of this
-roadmap by an earlier numbering. The cited sections are now:
-
-| Cited as | Section | Content |
-|---|---|---|
-| 3.1 | 5.1 | 10.9.1, consumed from SpecialFunctionsAiry 8.3 |
-| 4.3 | 8.1 | the Kummer forms 10.16.5 and 10.39.5 |
-| 8.2 | 11.2 | 10.22.49, and 10.22.57 through Gauss's sum (SpecialFunctionsHypergeometric 4.2) |
-| 11.1 | 8.2 | the Airy functions as Bessel functions of order `±1/3` |
+Layer 1 rests on two facts: Bessel's equation has, on the slit plane, a two-dimensional solution
+space determined by the behaviour at `0` (AsymptoticExpansions §10.3), and `J_ν(z)` is entire in
+`ν`. Every identity between solutions in Layers 1–4 is then checked on series coefficients or by
+comparing leading terms at `0`; the integer orders follow from the non-integer ones by continuity
+in `ν`. Layer 2 makes the behaviour at `0` explicit, and Layer 3 specializes it to the half-odd
+orders. Layer 4 sums over the order: the generating function, the addition theorems, Neumann
+series and the minimal solution of the recurrence. Layer 5 proves each integral representation by
+showing that the integral solves the equation with the right behaviour at `0` or `∞`. Layer 6
+identifies `H⁽¹⁾_ν`, `H⁽²⁾_ν` and `K_ν` as recessive solutions at `∞` and expands their Laplace
+forms by Watson's lemma; `J_ν`, `Y_ν` and `I_ν` follow from the connection formulas, and the
+phase of 6.4 is the tool for the zeros. Layers 7 and 8 apply Layers 1–6 to the Kelvin functions
+and to the relations with the Airy, parabolic cylinder and error functions. Layer 9 applies
+saddle points to the Sommerfeld integrals and the Liouville–Green theory to the modified
+equation. Layer 10 locates the real zeros through the phase and Sturm comparison, and inverts the
+phase expansions. Layer 11 evaluates integrals with all of these tools. The `### Examples` of
+each layer are statements to prove, and they test the conventions on explicit values.
 
 ## Conventions
 
@@ -326,198 +206,6 @@ N_ν(x) = (J′_ν(x)² + Y′_ν(x)²)^{1/2}      φ_ν(x) = π/2 + ∫₀^x 2(
   `J_n`, not the spherical function, and Andrews–Askey–Roy write `α` for the order. Locators
   give the printed page; Olver's equation numbers are local to each chapter, written
   `Ch. 7, (4.03)`.
-
-## Exact supplier contracts
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-The following are consumed with the hypotheses and conventions stated there.
-- The expansion notion `Asymptotics.HasAsymptoticExpansion` along a filter and an asymptotic
-  scale ([its Conventions](../AsymptoticExpansions/README.md#conventions)) and the integration
-  and differentiation of expansions
-  ([§1.5](../AsymptoticExpansions/README.md#15-integration-and-differentiation)), for Layers 6, 7
-  and 9.
-- The inversion of `f(x) ∼ x`, successive resubstitution and Lagrange's reversion
-  ([Layer 2](../AsymptoticExpansions/README.md#layer-2-transcendental-equations)), for McMahon's
-  expansions 10.21.19–10.21.21 (10.5), the cross-product zeros 10.21.48–10.21.54 (10.6) and the
-  Kelvin zeros 10.70 (7.3).
-- Watson's lemma in a sector and the rotation of the path
-  ([§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector),
-  [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path)), applied in 6.1 to the
-  Laplace forms of `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν` (10.9.21, 10.32.8).
-- Laplace's method on a contour and saddle points
-  ([§5.4](../AsymptoticExpansions/README.md#54-laplaces-method-on-a-contour),
-  [§5.5](../AsymptoticExpansions/README.md#55-saddle-points)), applied in 9.2 to the
-  Sommerfeld integrals 10.9.17–10.9.18 for Debye's expansions 10.19.3–10.19.7.
-- The Mellin tools: Parseval and the line shift with simple poles
-  ([§8.1](../AsymptoticExpansions/README.md#81-parseval),
-  [§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line)) and the Gamma function on
-  vertical strips
-  ([§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips)),
-  for the Mellin–Barnes integrals 10.9.22–10.9.25, 10.9.29 and 10.32.13–10.32.19 (5.3).
-- Volterra integral equations
-  ([§10.1](../AsymptoticExpansions/README.md#101-volterra-integral-equations)), for the error
-  bounds 10.17.13–10.17.15 and 10.40.10–10.40.12 (6.3) and for the Case I error bound behind
-  10.41.12–10.41.13 (9.1).
-- Regular singularities and the irregular singularity of rank one
-  ([§10.3](../AsymptoticExpansions/README.md#103-regular-singularities),
-  [§10.4](../AsymptoticExpansions/README.md#104-irregular-singularity-of-rank-one-at-infinity)):
-  the Frobenius solutions of Bessel's equation at `0`, which identify every solution on the slit
-  plane through its behaviour at `0` (1.1), and the recessive solutions at `∞`, which identify
-  `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν` by 10.2.5–10.2.6 and 10.25.3 (6.1).
-- The Liouville–Green approximation and Case I with a large parameter
-  ([§11.1](../AsymptoticExpansions/README.md#111-the-liouvillegreen-theorem) to
-  [§11.4](../AsymptoticExpansions/README.md#114-case-i-no-transition-points)),
-  for Debye's expansions of `I_ν(νz)`, `K_ν(νz)` on `z > 0` (9.1).
-
-### From [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
-
-- `TauCetiRoadmap.AnalyticNumberTheoryPartI.besselK (ν : ℂ) (c : ℝ)`,
-  `K_ν(c) = ½ ∫₀^∞ exp(−c(u + u⁻¹)/2) u^ν du/u` for `c > 0`, with its cosh form
-  `∫₀^∞ e^{−c cosh t} cosh(νt) dt`, `K_{−ν} = K_ν`, holomorphy in `ν`, the modified equation in
-  `c`, `|K_ν(c)| ≤ K_{Re ν}(c)`, `K_σ(c) > 0` for real `σ`, the decay
-  `|K_ν(c)| ≤ C c^{−1/2} e^{−c}` for `c ≥ 1` and `ν` in a compact set, and `K_{1/2}`
-  ([its §2.1a](../AnalyticNumberTheoryPartI/README.md#21a-the-k-bessel-kernel)), for 1.3, 5.1 and
-  6.5. `positiveAxisBesselK` in `Suggested.lean` is a roadmap-local copy of this definition.
-- From [its §3.23b](../AnalyticNumberTheoryPartI/README.md#323-second-moment-of-zeta):
-  - `Y_ν(z)` on `Re z > 0`, defined by Schläfli's integral 10.9.7, with the connection formula
-    10.2.3, holomorphy in `z`, entire dependence on `ν`, the equation 10.2.1, the recurrence
-    10.6.1 and `Y_{±1/2}` there, for 5.1;
-  - for real `ν` and `x > 0`, the coefficients `a_j(ν)` and the first-omitted-term bounds on the
-    remainders of 10.40.2 for `K_ν(x)`, with `|ν| < m + ½` after `m` terms, and of 10.17.4 for
-    `Y_ν(x)`, with `|ν| < min(2r + ½, 2s + 3/2)` after `r` even and `s` odd terms, for 6.3;
-  - the first-kind API on `(0, ∞)`: the series, the equation, 10.6.1 and `J_{1/2}`, which are the
-    positive-axis cases of 1.1, 1.5, 2.1 and 2.3.
-
-### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
-
-- `I_ν(y) = (y/2)^ν 𝐅(ν + 1, y²/4)` for complex `ν` and real `y`, with its series, the modified
-  equation, `I_{ν−1}(y) − I_{ν+1}(y) = (2ν/y) I_ν(y)` and `I_{−n}(y) = I_n(y)` for `y > 0`
-  (its §0.25), the real-argument cases of 1.3–1.5.
-
-### From [LaguerreJacobi](../LaguerreJacobi/README.md)
-
-- Gegenbauer's polynomial `Polynomial.gegenbauer (lam : R) (n : ℕ) : R[X]`, defined by the
-  explicit sum `∑ₖ (−1)ᵏ (λ)ₙ₋ₖ/(k! (n − 2k)!) (2X)^{n−2k}` of DLMF 18.5.10, with
-  `gegenbauer lam 0 = 1`, `gegenbauer lam 1 = C (2*lam) * X` and its relation to the Jacobi
-  family (its §6.2), for 4.3. Over `ℂ`, `(Polynomial.gegenbauer ν n).eval x` is the sum
-  `∑ₖ (−1)ᵏ (ν)ₙ₋ₖ/(k! (n − 2k)!) (2x)^{n−2k}` term for term; `Complex.gegenbauerC` in
-  `Suggested.lean` is that sum, a roadmap-local copy.
-- The Legendre polynomial `P_n = jacobi 0 0 n` and its identification with Mathlib's
-  `Polynomial.shiftedLegendre` by `P̃_n(y) = P_n(1 − 2y)` (its §6.1), for `C_n^{(1/2)} = P_n` in
-  4.3.
-
-### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
-
-- `TauCeti.airyAi`, `TauCeti.airyBi`, `TauCeti.scorerGi`, `TauCeti.scorerHi` (its Conventions) and
-  the generalized Airy functions `A_n`, `B_n` of its Layer 9, with Airy's equation, the connection
-  formulas of its 1.4, the `J_ν` and real `I_ν` forms of its 1.7, the modulus and phase of its 4.1
-  and the integral representations of its 9.3, for 8.2.
-- Kummer's second transformation `exp_neg_mul_kummer_two_mul`
-  (`e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` for `2a ∉ {0, −1, −2, …}`,
-  [its 1.7](../SpecialFunctionsAiry/README.md#17-relations-to-bessel-and-kummer-functions)), for
-  10.16.5 and 10.39.5 in 8.1.
-- The integral `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ` for every `z ∈ ℂ`
-  ([its 8.3](../SpecialFunctionsAiry/README.md#83-integral-representations-of-products)), for
-  10.9.1 in 5.1.
-
-### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
-
-- `TauCeti.parabolicCylinderU (a z : ℂ)` and `TauCeti.Real.parabolicCylinderW (a x : ℝ)`, with
-  their equations and values at `0`
-  ([its Conventions](../SpecialFunctionsParabolicCylinder/README.md#conventions)),
-  for 10.16.3–10.16.4 and 10.39.3–10.39.4 in 8.1 and for 12.7.8–12.7.11 in 8.3.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- Pincherle's theorem and the continued-fraction conventions `contFrac`, `IsMinimalSolution`,
-  `pincherle` ([§4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)),
-  for 4.5.
-- `TauCeti.sinIntegral`, `TauCeti.cosIntegral`, `TauCeti.cosIntegralCin`,
-  `TauCeti.expIntegralEin`, `TauCeti.expIntegralE`, `TauCeti.Real.expIntegralEi`,
-  `TauCeti.sinIntegralAuxF`, `TauCeti.sinIntegralAuxG`, `TauCeti.Complex.erf`,
-  `TauCeti.fresnelC`, `TauCeti.fresnelS`, `TauCeti.Complex.lowerIncompleteGamma`,
-  `TauCeti.Complex.upperIncompleteGamma`, `TauCeti.Complex.tricomiIncompleteGamma`,
-  `TauCeti.generalizedSinIntegral` and `TauCeti.generalizedCosIntegral`
-  ([its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions)), for
-  10.15.6–10.15.9 and 10.38.6–10.38.7 (2.4), 10.60.11 (11.5) and Layer 8.
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- [§§1.2–1.4](../SpecialFunctionsHypergeometric/README.md#12-definition-uniqueness-and-existence):
-  `Complex.regularizedGaussHypergeometric a b c x`, the principal branch of `𝐅(a, b; c; x)` on
-  `1 − x ∈ slitPlane` for all parameters; it is holomorphic in `x` there (1.4) and equals Mathlib's
-  `Complex.regularizedGaussHGFun a b c x` for `‖x‖ < 1` (1.3). For 10.22.49 in 11.2.
-- [§4.2](../SpecialFunctionsHypergeometric/README.md#42-unit-argument): Gauss's sum 15.4.20 in
-  regularized form, `𝐅(a, b; c; 1) = Γ(c − a − b)/(Γ(c − a) Γ(c − b))` for `Re(c − a − b) > 0`,
-  as the value of Mathlib's series at `1`. For 10.22.57 in 11.2.
-
-### From Tau Ceti
-
-- **Modified Bessel function.** `Real.besselI`, `Real.besselI_eq_rpow_mul`, `Real.hasSum_besselI`,
-  `Real.hasDerivAt_besselI`, `Real.besselI_sub_besselI`, `Real.hasDerivAt_rpow_neg_mul_besselI`,
-  `Real.tendsto_rpow_neg_mul_besselI_nhdsGT_zero`, `Real.besselI_zero`, `Real.besselI_pos` and
-  `Real.integral_exp_mul_cos_mul_cos` (10.32.3 at real argument)
-  (`TauCeti/Analysis/SpecialFunctions/BesselI.lean`, owned by StandardDistributions). 1.3 proves
-  that `Complex.besselI` restricts to it on `(0, ∞)`.
-- **Regularized hypergeometric series.**
-  [`Complex.hasSum_regularizedHGFun`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean),
-  the `HasSum` form of `𝐅` and `𝐌`.
-- **Wronskians.** `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`),
-  for the real Wronskians of 6.4 and Layer 10.
-- **Residues.** `TauCeti.Contour.residue` and the residue theorem
-  (`TauCeti/Analysis/Contour/Residue/`, from ContourIntegration), for the partial-fraction
-  expansion of 10.4.
-
-### From Mathlib
-
-- **Bessel function.** `Complex.besselJ`, `Complex.besselJ_def`, `Complex.analyticAt_besselJ`,
-  `Complex.analyticOnNhd_besselJ`, `Complex.analyticAt_besselJ_int`,
-  `Complex.analyticOnNhd_besselJ_int`, `Complex.besselJ_neg_int` (the `J` half of 10.4.1),
-  `Complex.besselJ_neg_comm` (`J_{−n}(z) = J_n(−z)`), `Complex.besselJ_int_neg`,
-  `Complex.odd_besselJ` and `Complex.even_besselJ` (10.11.1 at integer order, `m = ±1`),
-  `Complex.besselJ_zero` and `Complex.two_mul_self_mul_besselJ` (the first identity of 10.6.1 for
-  `J`) (`Mathlib/Analysis/SpecialFunctions/Bessel.lean`).
-- **Regularized hypergeometric series.** `Complex.regularizedHGFun`,
-  `Complex.regularizedHGFunCoeff` and `Complex.analyticOnNhd_regularizedHGFun_of_card_le`; the
-  regularized Gauss series `Complex.regularizedGaussHGFun`,
-  `𝐅(α, β; γ; x) = ∑ (α)_k (β)_k xᵏ/(k! Γ(γ + k))`, whose series has radius at least 1, for
-  10.22.49.
-- **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_mul_Gamma_one_sub`,
-  `Complex.Gamma_mul_Gamma_add_half`, `Complex.Gamma_eq_integral`, `Complex.betaIntegral`,
-  `Complex.digamma` and `Real.eulerMascheroniConstant`.
-- **Polynomials.** `Polynomial.shiftedLegendre`, with `P̃_n(y) = P_n(1 − 2y)` (for
-  `P_n(x) = P̃_n((1 − x)/2)` in 5.4 and 11.5), and
-  `Polynomial.Chebyshev.T` (for 7.6.9 in 8.4).
-- **Holomorphic functions and contour integrals.** `AnalyticOnNhd`, the identity theorem
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, the Cauchy integral formula and
-  `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
-- **Integration and transforms.** `MeasureTheory.integral` on `Set.Ioi`, `intervalIntegral`,
-  Fubini, parametric differentiation, `mellin` and `mellinInv`, and `HasProd`.
-- **Continued fractions and bounded variation.** `GenContFract`, `GenContFract.convs` and
-  `Stream'.Seq.ofStream` (for 10.10.1 in 4.5); `BoundedVariationOn`, `Function.leftLim` and
-  `Function.rightLim` (for 10.23.20 in 10.7).
-- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded`,
-  `Complex.arg` and `Complex.cpow`.
-
-## How to read the build
-
-Layer 1 rests on two facts: Bessel's equation has, on the slit plane, a two-dimensional solution
-space determined by the behaviour at `0` (AsymptoticExpansions §10.3), and `J_ν(z)` is entire in
-`ν`. Every identity between solutions in Layers 1–4 is then checked on series coefficients or by
-comparing leading terms at `0`; the integer orders follow from the non-integer ones by continuity
-in `ν`. Layer 2 makes the behaviour at `0` explicit, and Layer 3 specializes it to the half-odd
-orders. Layer 4 sums over the order: the generating function, the addition theorems, Neumann
-series and the minimal solution of the recurrence. Layer 5 proves each integral representation by
-showing that the integral solves the equation with the right behaviour at `0` or `∞`. Layer 6
-identifies `H⁽¹⁾_ν`, `H⁽²⁾_ν` and `K_ν` as recessive solutions at `∞` and expands their Laplace
-forms by Watson's lemma; `J_ν`, `Y_ν` and `I_ν` follow from the connection formulas, and the
-phase of 6.4 is the tool for the zeros. Layers 7 and 8 apply Layers 1–6 to the Kelvin functions
-and to the relations with the Airy, parabolic cylinder and error functions. Layer 9 applies
-saddle points to the Sommerfeld integrals and the Liouville–Green theory to the modified
-equation. Layer 10 locates the real zeros through the phase and Sturm comparison, and inverts the
-phase expansions. Layer 11 evaluates integrals with all of these tools. The `### Examples` of
-each layer are statements to prove, and they test the conventions on explicit values.
 
 ## Layer 1: the equations and their standard solutions
 
@@ -1939,6 +1627,311 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 | 10.3 | `DLMF/Bessel/SturmZeros.lean`, `DLMF/Bessel/CylinderZeroDifferences.lean` (Andrews–Askey–Roy Corollary 4.15.2) |
 | 10.8 | `DLMF/Bessel/DiniZeros.lean` |
 | 11.1–11.4 | the files for DLMF §§10.22, 10.43 |
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The equations and their standard solutions** (1.1–1.7).
+2. **Behaviour at the origin and the elementary orders** (2.1–2.4).
+3. **Bessel functions of half-odd order in three dimensions** (3.1–3.2).
+4. **Series over the order** (4.1–4.5).
+5. **Bessel functions as integrals** (5.1–5.4).
+6. **Hankel's expansions and the behaviour for large argument** (6.1–6.5).
+7. **Bessel functions on the diagonal rays: ber, bei, ker, kei** (7.1–7.3).
+8. **Bessel functions among the confluent, Airy, parabolic cylinder and error functions**
+   (8.1–8.4).
+9. **Debye's expansions for large order** (9.1–9.2).
+10. **Real zeros and the Fourier–Bessel and Dini series** (10.1–10.8).
+11. **Integrals of Bessel functions** (11.1–11.5).
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
+targets of the same standing, stated in prose. The DLMF equation numbers that the subsections
+cite identify the formulas they own, with the hypotheses and conventions stated there.
+
+**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
+- the definition of `J_ν` (Mathlib `Complex.besselJ_def`; DLMF 10.2.2);
+- `J_{−n} = (−1)ⁿ J_n`, the `J` half of DLMF 10.4.1 (Mathlib `Complex.besselJ_neg_int`); the `Y`
+  half is a target;
+- `2ν J_ν = z J_{ν−1} + z J_{ν+1}`, the first identity of DLMF 10.6.1 for `J` (Mathlib
+  `Complex.two_mul_self_mul_besselJ`); the derivative identity, and both for `Y`, `H⁽¹⁾`, `H⁽²⁾`,
+  are targets;
+- `J_n(−z) = (−1)ⁿ J_n(z)`, the case of DLMF 10.11.1 at integer order and `m = ±1` (Mathlib
+  `Complex.besselJ_int_neg`, `Complex.odd_besselJ`, `Complex.even_besselJ`);
+- for real `ν` and real `x`, the restriction of `I_ν` to `(0, ∞)` with its series (DLMF 10.25.2;
+  Tau Ceti `Real.besselI_eq_rpow_mul`, `Real.hasSum_besselI`);
+  `I_{ν−1}(x) − I_{ν+1}(x) = (2ν/x) I_ν(x)` and `I′_ν(x) = I_{ν+1}(x) + (ν/x) I_ν(x)` for
+  `x ≠ 0`, one form each of DLMF 10.29.1 and 10.29.2 (`Real.besselI_sub_besselI`,
+  `Real.hasDerivAt_besselI`); the case `k = 1` of the second identity of DLMF 10.29.4,
+  `d/dx((x/2)^{−ν} I_ν(x)) = (x/2)^{−ν} I_{ν+1}(x)` (`Real.hasDerivAt_rpow_neg_mul_besselI`);
+  DLMF 10.30.1 on the positive axis (`Real.tendsto_rpow_neg_mul_besselI_nhdsGT_zero`); the values
+  `I_ν(0)` (`Real.besselI_zero`); `I_ν(x) > 0` for `ν > −1`, `x > 0` (`Real.besselI_pos`); and
+  DLMF 10.32.3 at real argument and natural order (`Real.integral_exp_mul_cos_mul_cos`, over
+  `[−π, π]`). The targets of 1.3–1.5, 2.1 and 5.1 are the complex argument, `K_ν`, and the other
+  forms of DLMF 10.29.1–10.29.2 (`I_{ν−1} + I_{ν+1} = 2I′_ν`, `I′_ν = I_{ν−1} − (ν/z) I_ν`);
+- the positive-axis and right-half-plane results of AnalyticNumberTheoryPartI and the
+  real-argument results of AutomorphicSpectralTheory listed under
+  [Exact supplier contracts](#exact-supplier-contracts): for `K_ν(x)`, `x > 0`, the integral
+  DLMF 10.32.9, the evenness 10.27.3, holomorphy in `ν`, the equation 10.25.1, positivity, decay
+  and `K_{1/2}`; for `Y_ν` on `Re z > 0`, Schläfli's integral 10.9.7 with 10.2.3, holomorphy, the
+  equation 10.2.1 and the recurrence 10.6.1; for real `ν` and `x > 0`, the size of the remainders
+  of 10.40.2 and of the `Y_ν` form of 10.17.4 in the ranges stated there; and for `I_ν` at real
+  argument, 10.25.2 with 10.25.1, 10.29.1 and 10.27.1 for `y > 0`. The targets are their
+  extensions to the slit plane, and the agreement of the definitions
+  (`besselK_ofReal_eq_positiveAxisBesselK` and `besselY_eq_schlafli`, 5.1). The pinned `I_ν` at
+  real `y` is AutomorphicSpectralTheory's `I_ν(y)` by definition.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib, Tau Ceti nor a
+consumed roadmap provides:
+- `J_ν(z)` and `I_ν(z)` are entire in `ν` for `z` in the slit plane, and the quotients defining
+  `Y_ν` and `K_ν` off the integers have removable singularities at the integers (1.2, 1.3);
+- uniqueness for Bessel's equation on the slit plane given value and derivative at one point (1.1);
+- Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and continuous
+  `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of
+  `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in
+  `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and the
+  zeros of a nontrivial real solution are simple and isolated (10.1, 10.3);
+- Neumann's polynomials `O_n(t)` and their generating function (4.4);
+- for LaguerreJacobi's Gegenbauer polynomials `C_n^{(ν)}(x)` over `ℂ`: the generating function
+  (DLMF 18.12.4), the expansion of `(2x)ⁿ` (DLMF 18.18.17) and `C_n^{(1/2)}(x) = P_n(x)` (4.3);
+- the partial-fraction expansion `J′_ν(z)/J_ν(z) = ν/z − ∑ₘ 2z/(j_{ν,m}² − z²)` and its
+  logarithmic integral (10.4);
+- Rayleigh's functions `σ_n(ν) = ∑ₘ j_{ν,m}^{−2n}` and the recursion from the Maclaurin series of
+  `J_{ν+1}/J_ν` (10.4);
+- the Fourier–Bessel and Dini expansion theorems for functions of bounded variation (10.7, 10.8);
+- Debye's polynomials `U_k`, `V_k` (9.1);
+- the explicit error bound of the Liouville–Green Case I expansion on `(ξ, ∞)` for real `ξ`
+  (9.1; Olver Ch. 10, Theorem 3.1, p. 366);
+- the variation of `t^{−ℓ}` along the paths `P_R(z)` of 6.3, bounded as in DLMF 10.17.15 and
+  10.40.12 (6.3).
+
+**What it does not own:**
+- The general asymptotic and contour tools: asymptotic expansions, reversion, Watson's lemma,
+  Laplace's method and saddle points, the Mellin tools, Volterra equations, regular and rank-one
+  irregular singularities, and the Liouville–Green approximation. They are consumed from
+  AsymptoticExpansions; see [Exact supplier contracts](#exact-supplier-contracts).
+- `Ai`, `Bi` and the generalized Airy functions, Kummer's second transformation
+  `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` and the integral
+  `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ`, consumed from SpecialFunctionsAiry.
+- The parabolic cylinder functions `U(a, z)` and `W(a, x)`, consumed from
+  SpecialFunctionsParabolicCylinder.
+- `K_ν(x)` for complex `ν` and `x > 0`, `Y_ν(z)` on `Re z > 0`, and their positive-axis
+  remainder bounds, consumed from AnalyticNumberTheoryPartI; `I_ν` at real argument, consumed
+  from AutomorphicSpectralTheory. This roadmap owns their extensions to the slit plane.
+- The exponential, sine and cosine integrals, the error and Fresnel functions, the incomplete
+  Gamma functions and Pincherle's theorem, consumed from SpecialFunctionsEiLiErfIncompleteGamma.
+- The principal branch of the regularized Gauss function `𝐅(α, β; γ; x)` on `ℂ \ [1, ∞)`, its
+  holomorphy and its agreement with Mathlib's series on the unit disc, consumed from
+  SpecialFunctionsHypergeometric 1.2–1.4 for DLMF 10.22.49, and Gauss's sum, consumed from its
+  4.2 for DLMF 10.22.57.
+- The formulas through the Struve, Whittaker, Kummer `U` and Legendre functions, which neither
+  Mathlib, Tau Ceti nor a consumed roadmap defines, and the formulas through the Gauss
+  hypergeometric function other than DLMF 10.22.49 and 10.22.64 (DLMF 10.16.6–10.16.8, 10.16.10,
+  10.22.2, 10.22.50, 10.22.56, 10.22.58, 10.22.66, 10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10,
+  10.43.2, 10.43.22, 10.43.26, 10.54.4–10.54.5, and 9.6.21–9.6.24).
+- Values off the principal sheet: the parts of DLMF 10.17.5–10.17.6, 10.17.11–10.17.12, 10.40.2,
+  10.40.4–10.40.5 with `|ph z| ≥ π`.
+- The uniform expansions for large order in terms of Airy functions and everything that rests on
+  them, and the complex sectors of Debye's expansions; functions of imaginary order, the
+  generalized and incomplete Bessel functions, the complex zeros, the exponentially improved
+  expansions, the Hankel and Kontorovich–Lebedev transforms, and the applications and
+  computation. See the last section for these.
+
+**The boundary in one sentence:** this roadmap owns `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν`, the
+spherical and Kelvin functions and the results stated through them and through functions that
+Mathlib, Tau Ceti or a consumed roadmap defines, on the principal sheet, together with the
+Bessel-function formulas that the Airy, parabolic cylinder, exponential-integral and error-function
+roadmaps exclude; it consumes the general methods of AsymptoticExpansions, the positive-axis `K_ν`
+and right-half-plane `Y_ν` of AnalyticNumberTheoryPartI and the real-argument `I_ν` of
+AutomorphicSpectralTheory, and excludes formulas through the Struve, Whittaker, `U` and Legendre
+functions and, except DLMF 10.22.49 and 10.22.64, the Gauss function, the Airy-type uniform theory
+for large order, imaginary order, transforms and numerics.
+
+**Former numbering.** [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) and
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) cite sections of this
+roadmap by an earlier numbering. The cited sections are now:
+
+| Cited as | Section | Content |
+|---|---|---|
+| 3.1 | 5.1 | 10.9.1, consumed from SpecialFunctionsAiry 8.3 |
+| 4.3 | 8.1 | the Kummer forms 10.16.5 and 10.39.5 |
+| 8.2 | 11.2 | 10.22.49, and 10.22.57 through Gauss's sum (SpecialFunctionsHypergeometric 4.2) |
+| 11.1 | 8.2 | the Airy functions as Bessel functions of order `±1/3` |
+
+## Exact supplier contracts
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+The following are consumed with the hypotheses and conventions stated there.
+- The expansion notion `Asymptotics.HasAsymptoticExpansion` along a filter and an asymptotic
+  scale ([its Conventions](../AsymptoticExpansions/README.md#conventions)) and the integration
+  and differentiation of expansions
+  ([§1.5](../AsymptoticExpansions/README.md#15-integration-and-differentiation)), for Layers 6, 7
+  and 9.
+- The inversion of `f(x) ∼ x`, successive resubstitution and Lagrange's reversion
+  ([Layer 2](../AsymptoticExpansions/README.md#layer-2-transcendental-equations)), for McMahon's
+  expansions 10.21.19–10.21.21 (10.5), the cross-product zeros 10.21.48–10.21.54 (10.6) and the
+  Kelvin zeros 10.70 (7.3).
+- Watson's lemma in a sector and the rotation of the path
+  ([§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector),
+  [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path)), applied in 6.1 to the
+  Laplace forms of `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν` (10.9.21, 10.32.8).
+- Laplace's method on a contour and saddle points
+  ([§5.4](../AsymptoticExpansions/README.md#54-laplaces-method-on-a-contour),
+  [§5.5](../AsymptoticExpansions/README.md#55-saddle-points)), applied in 9.2 to the
+  Sommerfeld integrals 10.9.17–10.9.18 for Debye's expansions 10.19.3–10.19.7.
+- The Mellin tools: Parseval and the line shift with simple poles
+  ([§8.1](../AsymptoticExpansions/README.md#81-parseval),
+  [§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line)) and the Gamma function on
+  vertical strips
+  ([§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips)),
+  for the Mellin–Barnes integrals 10.9.22–10.9.25, 10.9.29 and 10.32.13–10.32.19 (5.3).
+- Volterra integral equations
+  ([§10.1](../AsymptoticExpansions/README.md#101-volterra-integral-equations)), for the error
+  bounds 10.17.13–10.17.15 and 10.40.10–10.40.12 (6.3) and for the Case I error bound behind
+  10.41.12–10.41.13 (9.1).
+- Regular singularities and the irregular singularity of rank one
+  ([§10.3](../AsymptoticExpansions/README.md#103-regular-singularities),
+  [§10.4](../AsymptoticExpansions/README.md#104-irregular-singularity-of-rank-one-at-infinity)):
+  the Frobenius solutions of Bessel's equation at `0`, which identify every solution on the slit
+  plane through its behaviour at `0` (1.1), and the recessive solutions at `∞`, which identify
+  `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν` by 10.2.5–10.2.6 and 10.25.3 (6.1).
+- The Liouville–Green approximation and Case I with a large parameter
+  ([§11.1](../AsymptoticExpansions/README.md#111-the-liouvillegreen-theorem) to
+  [§11.4](../AsymptoticExpansions/README.md#114-case-i-no-transition-points)),
+  for Debye's expansions of `I_ν(νz)`, `K_ν(νz)` on `z > 0` (9.1).
+
+### From [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
+
+- `TauCetiRoadmap.AnalyticNumberTheoryPartI.besselK (ν : ℂ) (c : ℝ)`,
+  `K_ν(c) = ½ ∫₀^∞ exp(−c(u + u⁻¹)/2) u^ν du/u` for `c > 0`, with its cosh form
+  `∫₀^∞ e^{−c cosh t} cosh(νt) dt`, `K_{−ν} = K_ν`, holomorphy in `ν`, the modified equation in
+  `c`, `|K_ν(c)| ≤ K_{Re ν}(c)`, `K_σ(c) > 0` for real `σ`, the decay
+  `|K_ν(c)| ≤ C c^{−1/2} e^{−c}` for `c ≥ 1` and `ν` in a compact set, and `K_{1/2}`
+  ([its §2.1a](../AnalyticNumberTheoryPartI/README.md#21a-the-k-bessel-kernel)), for 1.3, 5.1 and
+  6.5. `positiveAxisBesselK` in `Suggested.lean` is a roadmap-local copy of this definition.
+- From [its §3.23b](../AnalyticNumberTheoryPartI/README.md#323-second-moment-of-zeta):
+  - `Y_ν(z)` on `Re z > 0`, defined by Schläfli's integral 10.9.7, with the connection formula
+    10.2.3, holomorphy in `z`, entire dependence on `ν`, the equation 10.2.1, the recurrence
+    10.6.1 and `Y_{±1/2}` there, for 5.1;
+  - for real `ν` and `x > 0`, the coefficients `a_j(ν)` and the first-omitted-term bounds on the
+    remainders of 10.40.2 for `K_ν(x)`, with `|ν| < m + ½` after `m` terms, and of 10.17.4 for
+    `Y_ν(x)`, with `|ν| < min(2r + ½, 2s + 3/2)` after `r` even and `s` odd terms, for 6.3;
+  - the first-kind API on `(0, ∞)`: the series, the equation, 10.6.1 and `J_{1/2}`, which are the
+    positive-axis cases of 1.1, 1.5, 2.1 and 2.3.
+
+### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
+
+- `I_ν(y) = (y/2)^ν 𝐅(ν + 1, y²/4)` for complex `ν` and real `y`, with its series, the modified
+  equation, `I_{ν−1}(y) − I_{ν+1}(y) = (2ν/y) I_ν(y)` and `I_{−n}(y) = I_n(y)` for `y > 0`
+  (its §0.25), the real-argument cases of 1.3–1.5.
+
+### From [LaguerreJacobi](../LaguerreJacobi/README.md)
+
+- Gegenbauer's polynomial `Polynomial.gegenbauer (lam : R) (n : ℕ) : R[X]`, defined by the
+  explicit sum `∑ₖ (−1)ᵏ (λ)ₙ₋ₖ/(k! (n − 2k)!) (2X)^{n−2k}` of DLMF 18.5.10, with
+  `gegenbauer lam 0 = 1`, `gegenbauer lam 1 = C (2*lam) * X` and its relation to the Jacobi
+  family (its §6.2), for 4.3. Over `ℂ`, `(Polynomial.gegenbauer ν n).eval x` is the sum
+  `∑ₖ (−1)ᵏ (ν)ₙ₋ₖ/(k! (n − 2k)!) (2x)^{n−2k}` term for term; `Complex.gegenbauerC` in
+  `Suggested.lean` is that sum, a roadmap-local copy.
+- The Legendre polynomial `P_n = jacobi 0 0 n` and its identification with Mathlib's
+  `Polynomial.shiftedLegendre` by `P̃_n(y) = P_n(1 − 2y)` (its §6.1), for `C_n^{(1/2)} = P_n` in
+  4.3.
+
+### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
+
+- `TauCeti.airyAi`, `TauCeti.airyBi`, `TauCeti.scorerGi`, `TauCeti.scorerHi` (its Conventions) and
+  the generalized Airy functions `A_n`, `B_n` of its Layer 9, with Airy's equation, the connection
+  formulas of its 1.4, the `J_ν` and real `I_ν` forms of its 1.7, the modulus and phase of its 4.1
+  and the integral representations of its 9.3, for 8.2.
+- Kummer's second transformation `exp_neg_mul_kummer_two_mul`
+  (`e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` for `2a ∉ {0, −1, −2, …}`,
+  [its 1.7](../SpecialFunctionsAiry/README.md#17-relations-to-bessel-and-kummer-functions)), for
+  10.16.5 and 10.39.5 in 8.1.
+- The integral `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ` for every `z ∈ ℂ`
+  ([its 8.3](../SpecialFunctionsAiry/README.md#83-integral-representations-of-products)), for
+  10.9.1 in 5.1.
+
+### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
+
+- `TauCeti.parabolicCylinderU (a z : ℂ)` and `TauCeti.Real.parabolicCylinderW (a x : ℝ)`, with
+  their equations and values at `0`
+  ([its Conventions](../SpecialFunctionsParabolicCylinder/README.md#conventions)),
+  for 10.16.3–10.16.4 and 10.39.3–10.39.4 in 8.1 and for 12.7.8–12.7.11 in 8.3.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- Pincherle's theorem and the continued-fraction conventions `contFrac`, `IsMinimalSolution`,
+  `pincherle` ([§4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)),
+  for 4.5.
+- `TauCeti.sinIntegral`, `TauCeti.cosIntegral`, `TauCeti.cosIntegralCin`,
+  `TauCeti.expIntegralEin`, `TauCeti.expIntegralE`, `TauCeti.Real.expIntegralEi`,
+  `TauCeti.sinIntegralAuxF`, `TauCeti.sinIntegralAuxG`, `TauCeti.Complex.erf`,
+  `TauCeti.fresnelC`, `TauCeti.fresnelS`, `TauCeti.Complex.lowerIncompleteGamma`,
+  `TauCeti.Complex.upperIncompleteGamma`, `TauCeti.Complex.tricomiIncompleteGamma`,
+  `TauCeti.generalizedSinIntegral` and `TauCeti.generalizedCosIntegral`
+  ([its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions)), for
+  10.15.6–10.15.9 and 10.38.6–10.38.7 (2.4), 10.60.11 (11.5) and Layer 8.
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [§§1.2–1.4](../SpecialFunctionsHypergeometric/README.md#12-definition-uniqueness-and-existence):
+  `Complex.regularizedGaussHypergeometric a b c x`, the principal branch of `𝐅(a, b; c; x)` on
+  `1 − x ∈ slitPlane` for all parameters; it is holomorphic in `x` there (1.4) and equals Mathlib's
+  `Complex.regularizedGaussHGFun a b c x` for `‖x‖ < 1` (1.3). For 10.22.49 in 11.2.
+- [§4.2](../SpecialFunctionsHypergeometric/README.md#42-unit-argument): Gauss's sum 15.4.20 in
+  regularized form, `𝐅(a, b; c; 1) = Γ(c − a − b)/(Γ(c − a) Γ(c − b))` for `Re(c − a − b) > 0`,
+  as the value of Mathlib's series at `1`. For 10.22.57 in 11.2.
+
+### From Tau Ceti
+
+- **Modified Bessel function.** `Real.besselI`, `Real.besselI_eq_rpow_mul`, `Real.hasSum_besselI`,
+  `Real.hasDerivAt_besselI`, `Real.besselI_sub_besselI`, `Real.hasDerivAt_rpow_neg_mul_besselI`,
+  `Real.tendsto_rpow_neg_mul_besselI_nhdsGT_zero`, `Real.besselI_zero`, `Real.besselI_pos` and
+  `Real.integral_exp_mul_cos_mul_cos` (10.32.3 at real argument)
+  (`TauCeti/Analysis/SpecialFunctions/BesselI.lean`, owned by StandardDistributions). 1.3 proves
+  that `Complex.besselI` restricts to it on `(0, ∞)`.
+- **Regularized hypergeometric series.**
+  [`Complex.hasSum_regularizedHGFun`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean),
+  the `HasSum` form of `𝐅` and `𝐌`.
+- **Wronskians.** `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`),
+  for the real Wronskians of 6.4 and Layer 10.
+- **Residues.** `TauCeti.Contour.residue` and the residue theorem
+  (`TauCeti/Analysis/Contour/Residue/`, from ContourIntegration), for the partial-fraction
+  expansion of 10.4.
+
+### From Mathlib
+
+- **Bessel function.** `Complex.besselJ`, `Complex.besselJ_def`, `Complex.analyticAt_besselJ`,
+  `Complex.analyticOnNhd_besselJ`, `Complex.analyticAt_besselJ_int`,
+  `Complex.analyticOnNhd_besselJ_int`, `Complex.besselJ_neg_int` (the `J` half of 10.4.1),
+  `Complex.besselJ_neg_comm` (`J_{−n}(z) = J_n(−z)`), `Complex.besselJ_int_neg`,
+  `Complex.odd_besselJ` and `Complex.even_besselJ` (10.11.1 at integer order, `m = ±1`),
+  `Complex.besselJ_zero` and `Complex.two_mul_self_mul_besselJ` (the first identity of 10.6.1 for
+  `J`) (`Mathlib/Analysis/SpecialFunctions/Bessel.lean`).
+- **Regularized hypergeometric series.** `Complex.regularizedHGFun`,
+  `Complex.regularizedHGFunCoeff` and `Complex.analyticOnNhd_regularizedHGFun_of_card_le`; the
+  regularized Gauss series `Complex.regularizedGaussHGFun`,
+  `𝐅(α, β; γ; x) = ∑ (α)_k (β)_k xᵏ/(k! Γ(γ + k))`, whose series has radius at least 1, for
+  10.22.49.
+- **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_mul_Gamma_one_sub`,
+  `Complex.Gamma_mul_Gamma_add_half`, `Complex.Gamma_eq_integral`, `Complex.betaIntegral`,
+  `Complex.digamma` and `Real.eulerMascheroniConstant`.
+- **Polynomials.** `Polynomial.shiftedLegendre`, with `P̃_n(y) = P_n(1 − 2y)` (for
+  `P_n(x) = P̃_n((1 − x)/2)` in 5.4 and 11.5), and
+  `Polynomial.Chebyshev.T` (for 7.6.9 in 8.4).
+- **Holomorphic functions and contour integrals.** `AnalyticOnNhd`, the identity theorem
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, the Cauchy integral formula and
+  `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
+- **Integration and transforms.** `MeasureTheory.integral` on `Set.Ioi`, `intervalIntegral`,
+  Fubini, parametric differentiation, `mellin` and `mellinInv`, and `HasProd`.
+- **Continued fractions and bounded variation.** `GenContFract`, `GenContFract.convs` and
+  `Stream'.Seq.ofStream` (for 10.10.1 in 4.5); `BoundedVariationOn`, `Function.leftLim` and
+  `Function.rightLim` (for 10.23.20 in 10.7).
+- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded`,
+  `Complex.arg` and `Complex.cpow`.
 
 ## References
 

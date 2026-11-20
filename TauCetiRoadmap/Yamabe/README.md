@@ -1,86 +1,77 @@
 # Roadmap: the Yamabe problem and conformal scalar curvature
 
-**Summary.** Develop conformal scalar-curvature geometry on closed smooth manifolds, the sharp
-critical Sobolev inequality, the variational and blow-up analysis of the conformal Laplacian, and
-the existence and rigidity theory of Yamabe metrics. The headline theorems are the converse
-Weyl–Schouten theorem, the sharp Euclidean Sobolev inequality with its equality cases, Aubin's
-bound `Y ≤ Y(Sⁿ)`, Theorem A (a minimizer exists when `Y < Y(Sⁿ)`), Aubin's strict inequality for
-`n ≥ 6` at a point of nonzero Weyl tensor (Theorem B), Schoen's strict inequality off the
-conformal sphere in dimensions 3–5 and for locally conformally flat manifolds (Theorem C), the
-Yamabe theorem, uniqueness when `Y ≤ 0`, Obata's rigidity theorems and the characterization of
-the conformal sphere by `Y = Y(Sⁿ)`. The low-dimensional Green-function argument, the
-all-dimensional locally conformally flat argument and the Weyl-curvature test functions in higher
-dimensions are all built. The conformal Laplacian, the Yamabe quotient, the conformal laws of
-curvature, the Weyl and Cotton tensors, local conformal flatness, the bubbles and the homogeneous
-space `D¹,²` are Tau Ceti's; the positive mass theorems are PositiveMass's.
+**Summary.** Can every Riemannian metric on a closed connected manifold of dimension n≥3 be
+multiplied by a positive function so that the result has constant scalar curvature? This is the
+Yamabe problem, which the roadmap solves. Unless a Euclidean or complete auxiliary space is
+specified, M is a nonempty connected closed smooth real n-manifold, n≥3, with a smooth Riemannian
+metric g; Hausdorffness and second countability are explicit, and no orientation is required.
 
-## Scope and ownership
+For `ĝ=u^(4/(n−2))g` with u smooth and positive, the scalar curvature of ĝ is
+`u^(−(n+2)/(n−2))L_g u`, where `L_g=a_nΔ⁺+Scal_g` is the conformal Laplacian, `a_n=4(n−1)/(n−2)` and
+Δ⁺ is the nonnegative Laplacian. Constant scalar curvature c means `L_g u=c u^(p_n−1)`, with
+`p_n=2n/(n−2)`. This is the Euler–Lagrange equation of the Yamabe quotient
+`Q_g(u)=∫(a_n|du|²+Scal_g u²)dV_g / (∫|u|^(p_n)dV_g)^(2/p_n)`. Its infimum Y, the Yamabe invariant,
+is the same over nonzero H¹ functions and over smooth positive ones, and depends only on the
+conformal class of g. On the round sphere it is `Y(Sⁿ)=n(n−1)|Sⁿ|^(2/n)`, where |Sⁿ| is the area of
+the unit sphere.
 
-This roadmap owns:
+The first main theorem is the sharp Sobolev inequality: for n≥3 and every smooth compactly supported
+u on ℝⁿ, `Y(Sⁿ)(∫|u|^(p_n))^(2/p_n) ≤ a_n∫|du|²`. It extends by density to D¹,², the completion of
+the test functions in the L² norm of the gradient. The bubbles
+`U_(λ,b)(x)=(2λ/(λ²+|x−b|²))^((n−2)/2)`, with λ>0 and b∈ℝⁿ, attain equality, and a nonzero function
+in D¹,² that attains it is almost everywhere a nonzero multiple of a bubble.
 
-- Layer 0: the finite-regularity conformal laws, the weak-domain conformal invariance of the
-  Yamabe quotient and its weak Euler–Lagrange equation, the round-sphere volume and stereographic
-  change of variables, the comparison of local conformal flatness with conformal Euclidean charts,
-  the converse Weyl–Schouten theorem, and the developing map of a locally conformally flat
-  manifold.
-- Layer 1: the comparison of the scalar Sobolev carriers of a closed manifold
-  (PseudodifferentialOperators 5.2, ComplexKahlerGeometry K5a) and their critical embedding, the
-  realization and first eigenvalue of the conformal Laplacian, the local estimates and the critical
-  bootstrap, and the Green function of L_g.
-- Layer 2: the sharp Euclidean Sobolev inequality, its equality cases and its transfer to closed
-  manifolds with an ε loss.
-- Layer 3: the Yamabe invariant, Aubin's bound, the subcritical minimizers and Theorem A.
-- Layer 4: conformal normal coordinates, the cutoff-bubble Taylor bounds and the Green
-  expansions with the constant A.
-- Layer 5: Aubin's strict inequality, Theorem B.
-- Layer 6: the Green blow-up, the identity `m_ADM = 2A`, the glued test function and the
-  zero-mass compactification.
-- Layer 7: Theorem C in dimensions 3–5, through PositiveMass 8.1.
-- Layer 8: the Spin structure pulled back along the developing map, the lifted blow-up and
-  Theorem C for locally conformally flat manifolds, through PositiveMass 8.3.
-- Layer 9: the Yamabe theorem, uniqueness when `Y ≤ 0`, Obata's theorems with the equality case
-  of the Lichnerowicz bound, and the characterization of the conformal sphere.
-- Layer 10: the examples of the quotient and the invariant, the cylinder ODE and the invariant
-  `σ(M)`.
+On every M, Aubin's bound gives Y≤Y(Sⁿ). Theorem A, of Yamabe, Trudinger and Aubin, says that if
+Y<Y(Sⁿ), some smooth positive function minimizes the Yamabe quotient among smooth positive
+functions. Two further theorems give Y<Y(Sⁿ). Theorem B, Aubin's, assumes n≥6 and a point p where
+the Weyl tensor is nonzero; a small bubble cut off near p has quotient below Y(Sⁿ). Theorem C,
+Schoen's, assumes 3≤n≤5 or g locally conformally flat (near each point some positive function times
+g is flat). It also assumes that M is not conformal to the round sphere: no diffeomorphism onto the
+unit sphere pulls the round metric back to a positive function times g. It needs no orientation or
+spin structure.
 
-Boundaries with other roadmaps:
+Theorem C rests on the positive mass theorem. When Y>0, L_g has a positive Green function G_p at
+each point p, and `G_p^(4/(n−2))g` is a complete scalar-flat metric on `M∖{p}`. In the cases of
+Theorem C it has an asymptotically Euclidean end, `G_p=r^(2−n)+A+O(r)` in normalized coordinates at
+p, and the end has mass 2A. If A>0, a test function glued from a bubble and G_p has quotient below
+Y(Sⁿ). The positive mass theorem gives A≥0, and A=0 forces M to be conformal to the round sphere.
+For locally conformally flat M it is applied on the universal cover, where the developing map into
+the sphere provides a spin structure.
 
-- Tau Ceti proves the conformal Laplacian, its covariance, the scalar law, the energy identity,
-  the Yamabe quotient with its Euler–Lagrange equation, the conformal laws of the connection and
-  curvature for smooth metrics, the Weyl and Cotton tensors with `div W = (n − 3)C` and the
-  integrability identity of the conformal flattening equation, local conformal flatness with the
-  forward Weyl–Schouten implications, the bubbles with their energies, moments and cutoff
-  estimates, the area of the round sphere and the homogeneous space `D¹,²`. These are supplier
-  contracts below; the items consume them and own only what the pin lacks.
-- [PositiveMass](../PositiveMass/README.md) is a supplier of this roadmap and consumes nothing
-  from it. It owns asymptotically Euclidean ends, the ADM mass and its normalization (0.2), the
-  mass shift under a conformal factor (0.4), the
-  positive-scalar metric from a positive first eigenfunction (3.0), the torus obstruction to
-  positive scalar curvature (3.1), and the positive mass theorems with rigidity (8.1, 8.3) with
-  their isometry and finite-cover invariance (8.4). This roadmap owns the identity `m = 2A` for
-  the actual Green metric, including its normal-coordinate curvature terms, the conformal
-  developing map, the completeness of the lifted blow-up and the compactification of the
-  zero-mass conclusion.
-- [RiemannianGeometry](../RiemannianGeometry/README.md) owns the curvature calculus and the
-  conformal formulas for `e^(2f)g` (R1), the realization of `Δ⁺+q` on a closed manifold and its
-  principal eigenfunction (R5c), and the scalar Bochner identity with the equality case of the
-  Lichnerowicz bound (R7.0). Obata's theorem is Y9.3's; R7.0 cites it there.
-- [DifferentialGeometry](../DifferentialGeometry/README.md) owns the orientation cover (2), local
-  Frobenius (4.3) and the gradient, divergence, Laplace–Beltrami operator and densities
-  (12.2–12.5); Y0 owns their conformal behaviour, not replacement operators.
-- [PDE](../PDE/README.md) owns the Euclidean weak spaces and estimates;
-  [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) 5.2 owns the W^(k,p)
-  carrier of a bundle over a compact base; ComplexKahlerGeometry K5a owns the bundle Sobolev
-  scales and the Laplace-type realization on closed manifolds; Y1 builds the scalar
-  closed-manifold comparison and the critical embedding.
-- [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2 owns the area formula,
-  spherical surface measure and polar integration. [Isoperimetry](../Isoperimetry/README.md)
-  owns Schwarz rearrangement (I2) and the Pólya–Szegő inequality (I5); the equality
-  classification of the sharp L² Sobolev inequality is Y2's.
-- SpinGeometry, SmoothBundlesConnections, CharacteristicClasses, AlgebraicTopology and the
-  completed UniversalCovers roadmap own Spin structures, frame bundles, van Kampen and universal
-  covers; Y0.6 owns the conformal developing map, and Y8 the Spin lift of the round sphere and
-  the metric-completeness adapters built on them.
+A metric whose Weyl tensor vanishes everywhere falls under Theorem C, by the converse of the
+Weyl–Schouten theorem: for n≥4 such a metric is locally conformally flat, and for n=3 so is one
+whose Cotton tensor vanishes. Since the conformal sphere has an explicit minimizer, the cases
+combine into the Yamabe theorem: on every M some smooth positive function minimizes the Yamabe
+quotient, and every smooth metric has a conformal rescaling of constant scalar curvature. Moreover
+Y=Y(Sⁿ) exactly when M is conformal to the round sphere; the round RP³ has `Y=6(π²)^(2/3)≈27.61`,
+below `Y(S³)≈43.82`. Uniqueness holds when Y≤0: two unit-volume metrics of constant scalar curvature
+in the conformal class of g, the first with nonpositive scalar curvature, coincide.
+
+The conformal Laplacian and the Yamabe quotient are already in Tau Ceti, as are the Weyl and Cotton
+tensors. [PositiveMass](../PositiveMass/README.md) provides the ADM mass and the positive mass
+theorems, and uses nothing from this roadmap. [RiemannianGeometry](../RiemannianGeometry/README.md)
+provides the curvature calculus and the positive first eigenfunction of Δ⁺+q on a closed connected
+manifold. YangMillsConnectionsAndCaloricGauge uses the sharp Sobolev inequality in dimension four.
+
+Layers 0 to 2 build the conformal geometry, the analysis of L_g on M and the Euclidean Sobolev
+theory. Layer 3 proves Theorem A. Layer 4 builds conformal normal coordinates and the Green
+expansions, Layer 5 proves Theorem B, and Layers 6 to 8 prove Theorem C. Layer 9 draws the
+conclusions and proves Obata's theorems, and Layer 10 collects examples.
+
+## How to read the build
+
+The section Yk is Layer k, and its subsection k.n is cited as Yk.n; "Yk item n" means Yk.n. Layer 0
+consumes Tau Ceti's conformal geometry and proves what it lacks, ending with the converse
+Weyl–Schouten theorem and the developing map of a locally conformally flat manifold. Layer 1 builds
+the closed-manifold analysis of L_g, Layer 2 the sharp Euclidean Sobolev theory, and Layer 3 the
+variational theory below the sphere threshold, Theorem A. Layer 4 builds conformal normal
+coordinates and the Green expansions. Y4–Y6's expansions and test-function construction and Y0.6's
+developing geometry use no positive-mass theorem. Layer 5 proves Theorem B from Layers 0, 2 and 4,
+with no positive-mass input. PositiveMass 8.1 and 8.3 then supply positivity and Euclidean rigidity;
+Y6's zero-mass compactification, Y7 and Y8.2–Y8.4 consume them. Y6's zero-mass compactification uses
+Y0.6 even in dimensions 3–5. Layer 9 concludes existence, uniqueness and rigidity, and Layer 10
+collects examples and the invariant σ. The Lean name at each headline target is its signature in
+`Suggested.lean`.
 
 ## Conventions
 
@@ -126,205 +117,6 @@ L_g at p is normalized by `L_g G_p=a_n(n−2)|S^(n−1)| δ_p`, so its leading s
 Witnesses: on the unit S³, `L=8Δ⁺+6`; on the unit S⁴, `L=6Δ⁺+12`; on ℝⁿ, `L=a_n(−Δ)`. A law with
 `(n−2)/(4(n−1))` in place of a_n would give the n=3 bubble metric scalar curvature `3/32` at the
 origin instead of 6.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Bundle.ContMDiffRiemannianMetric`, `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`,
-  `IsContinuousRiemannianBundle` and `IsRiemannianManifold`
-  (`Mathlib/Topology/VectorBundle/Riemannian.lean`,
-  `Mathlib/Geometry/Manifold/VectorBundle/Riemannian.lean`,
-  `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`): the metric carriers.
-- `CovariantDerivative.leviCivitaConnection`
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
-- `MeasureTheory.Measure.euclideanHausdorffMeasure`
-  (`Mathlib/Geometry/Euclidean/Volume/Measure.lean`), the normalized Hausdorff measure behind
-  `TauCeti.roundSphereVolume`.
-- `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
-  (`Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean`): the Gagliardo–Nirenberg–Sobolev
-  inequality with a non-sharp constant, the a priori input of Y1 and Y2.4.
-- `Diffeomorph`, `ContMDiff`, `mfderiv` and `IsMinOn`: the carriers of the statements of
-  `Suggested.lean`.
-
-### From Tau Ceti
-
-Each item names its module under `TauCeti/`.
-
-- `Analysis/PDE/Yamabe/`: the conformal Laplacian `TauCeti.Yamabe.conformalLaplacian`, its
-  covariance `TauCeti.Yamabe.conformalLaplacian_rescale`, the scalar law
-  `TauCeti.Yamabe.scalarCurvature_rescale_eq_rpow_mul_conformalLaplacian` and its Yamabe-equation
-  form `TauCeti.Yamabe.scalarCurvature_rescale_eq_iff_conformalLaplacian_eq`, the Euclidean and
-  constant-rescaling forms
-  `TauCeti.Yamabe.conformalLaplacian_eq_conformalCoefficient_mul_neg_laplacian` and
-  `TauCeti.Yamabe.conformalLaplacian_rescale_const` (`ConformalLaplacian.lean`); integration by
-  parts, formal symmetry, the energy identity and its conformal invariance
-  `TauCeti.Yamabe.integral_mul_conformalLaplacian`,
-  `TauCeti.Yamabe.integral_mul_conformalLaplacian_right_eq_left`,
-  `TauCeti.Yamabe.integral_mul_conformalLaplacian_self`, `TauCeti.Yamabe.integral_energy_rescale`
-  (`Energy.lean`); the volume-normalized total scalar curvature
-  `TauCeti.Yamabe.integral_scalarCurvature_rescale_div_riemannianTotalVolume_rpow`
-  (`TotalScalarCurvature.lean`); the Yamabe quotient `TauCeti.Yamabe.yamabeQuotient`, its first
-  variation and Euler–Lagrange equation
-  `TauCeti.Yamabe.forall_hasDerivAt_yamabeQuotient_add_smul_iff_exists_conformalLaplacian_eq`, with
-  the multiplier `TauCeti.Yamabe.yamabeQuotient_eq_of_conformalLaplacian_eq_of_integral_eq_one`
-  (`Quotient.lean`); `TauCeti.Yamabe.sphereYamabeConstant` (`SphereConstant.lean`); and the bubbles
-  `TauCeti.Yamabe.bubble` with `TauCeti.Yamabe.conformalCoefficient_mul_neg_laplacian_bubble`,
-  `TauCeti.Yamabe.conformalCoefficient_mul_integral_norm_fderiv_bubble_sq_eq_sphereYamabeConstant`,
-  `TauCeti.Yamabe.inner_mfderiv_stereographic'_symm_smul_sub` and the decay, moment and cutoff
-  estimates of `Bubble/{Basic,Decay,Energy,Moments,Cutoff,SobolevQuotient,Stereographic}.lean`.
-- Conformal change of metric: `Bundle.ContMDiffRiemannianMetric.rescale`,
-  `Bundle.ContMDiffRiemannianMetric.rescale_inner`,
-  `Bundle.ContMDiffRiemannianMetric.conformalClass` with
-  `Bundle.ContMDiffRiemannianMetric.mem_conformalClass_iff_existsUnique_rpow`,
-  `Bundle.ContMDiffRiemannianMetric.rescale_const_mul_rpow`,
-  `Bundle.ContMDiffRiemannianMetric.rescale_rescale` and
-  `Bundle.ContMDiffRiemannianMetric.rescale_inv_rescale`
-  (`Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
-  `Bundle.ContMDiffRiemannianMetric.pullback_rescale` (`Riemannian/Pullback/Basic.lean`);
-  `Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_apply`
-  (`CovariantDerivative/LeviCivita/Conformal.lean`); the curvature-operator, curvature, Ricci,
-  scalar, Schouten, Weyl and Cotton laws
-  `Bundle.ContMDiffRiemannianMetric.curvatureOperator_leviCivitaConnection_rescale`,
-  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale`,
-  `Bundle.ContMDiffRiemannianMetric.ricciTensor_leviCivitaConnection_rescale`,
-  `Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale`,
-  `Bundle.ContMDiffRiemannianMetric.schoutenTensor_leviCivitaConnection_rescale`,
-  `Bundle.ContMDiffRiemannianMetric.weylTensor_leviCivitaConnection_rescale`,
-  `Bundle.ContMDiffRiemannianMetric.cottonTensor_leviCivitaConnection_rescale` and
-  `Bundle.ContMDiffRiemannianMetric.cottonTensor_leviCivitaConnection_rescale_of_finrank_eq_three`
-  (`CovariantDerivative/Curvature/Conformal.lean`);
-  `Bundle.ContMDiffRiemannianMetric.hessian_rescale_rpow` and
-  `Bundle.ContMDiffRiemannianMetric.laplaceBeltrami_rescale` (`Riemannian/Hessian/Conformal.lean`);
-  `TauCeti.WithMetric.inner_mgradient_rescale` (`Riemannian/Conformal.lean`);
-  `TauCeti.WithMetric.integral_riemannianVolume_rescale`,
-  `TauCeti.WithMetric.riemannianTotalVolume_rescale_rpow` and
-  `TauCeti.WithMetric.integral_abs_rpow_rescale_rpow` (`Riemannian/VolumeDensity/Conformal.lean`);
-  the copies `TauCeti.WithMetric` with `TauCeti.WithMetric.diffeomorphWithMetric` and
-  `TauCeti.WithMetric.inner_def` (`Riemannian/WithMetric.lean`); `TauCeti.riemannianVolume` and
-  `TauCeti.riemannianTotalVolume` (`Riemannian/VolumeDensity/`).
-- Conformal curvature (`Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/`):
-  `CovariantDerivative.schoutenTensor` (`Schouten.lean`); `LinearMap.BilinForm.kulkarniNomizu`
-  (`LinearAlgebra/BilinearForm/KulkarniNomizu.lean`); `CovariantDerivative.weylTensor` with its
-  symmetries, trace-freeness and vanishing in dimension three (`Weyl/Basic.lean`); the divergence
-  `CovariantDerivative.IsMetricCompatible.sum_derivWeylTensor_self_eq_mul_cottonTensor`,
-  `div W=(n−3)C` (`Weyl/Divergence.lean`); the integrability defect of the conformal flattening
-  equation `CovariantDerivative.IsMetricCompatible.conformalFlatteningDeriv_sub_swap` and its
-  vanishing under W=C=0,
-  `CovariantDerivative.IsMetricCompatible.conformalFlatteningDeriv_sub_swap_eq_inner_curvatureTensor`
-  (`Weyl/Integrability.lean`); `CovariantDerivative.cottonTensor` (`Cotton.lean`);
-  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat` with its conformal invariance,
-  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.weylTensor_eq_zero`,
-  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.cottonTensor_eq_zero`,
-  `TauCeti.Manifold.isLocallyConformallyFlat_rescale_model_space` and the reduction
-  `Bundle.ContMDiffRiemannianMetric.isLocallyConformallyFlat_iff_forall_weylTensor_eq_zero_and_forall_exists_eventually_hessian_eq`
-  (`ConformallyFlat.lean`).
-- `TauCeti.roundSphereVolume` with `TauCeti.roundSphereVolume_pos` and
-  `TauCeti.roundSphereVolume_eq_two_mul_pi_rpow_div_Gamma`
-  (`Geometry/Euclidean/Volume/Sphere.lean`);
-  the round metric `TauCeti.sphereRoundMetric` (`Riemannian/Sphere/Basic.lean`) with its scalar
-  curvature `TauCeti.scalarCurvature_sphereRoundMetric_ofLE` (`Riemannian/Sphere/Curvature.lean`);
-  `TauCeti.RiemannianIsometry` (`Riemannian/Isometry/Basic.lean`).
-- The homogeneous space `TauCeti.D1p0` with `TauCeti.D1p0.ofTestFunctionₗ`,
-  `TauCeti.D1p0.sobolevEmbeddingL` and `TauCeti.D1p0.sobolevEmbeddingL_injective`
-  (`Analysis/Sobolev/D1p0/Basic.lean`), its translations `TauCeti.D1p0.translate` and dilations
-  `TauCeti.D1p0.dilate` (`D1p0/Translation.lean`, `D1p0/Dilation.lean`); the Euclidean Sobolev
-  modules `Analysis/Sobolev/W1p/{Basic,Density,ChainRule}`, `Analysis/Sobolev/Embedding` with
-  `TauCeti.W1p0.sobolevEmbeddingL`, `Analysis/Sobolev/RellichKondrachov` and
-  `Analysis/PDE/FundamentalSolution/Euclidean/{Basic,DistributionalLaplacian}`.
-- The critical Sobolev estimate for `C¹` functions on a closed manifold
-  `TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add` (`Riemannian/Sobolev.lean`);
-  the Lichnerowicz bound `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul`
-  (`Riemannian/Lichnerowicz.lean`); `TauCeti.Manifold.hessian` and
-  `TauCeti.Manifold.laplaceBeltrami` (`Riemannian/Laplacian.lean`).
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-[RiemannianGeometry](../RiemannianGeometry/README.md) R1–R4: Levi-Civita connection, full scalar
-curvature, the general conformal-change formulas for `e^(2f)g`, geodesics, normal coordinates and
-density, and comparison geometry; R1.1 item 3: flat curvature on an open set is equivalent to a
-local Euclidean isometry around every point. R5c: the closed-case self-adjoint realization of
-`Δ⁺+q` with its eigenbasis, independent of the shift; R5c item 1: on a closed connected manifold
-the lowest eigenvalue of `Δ⁺+q` is the least Rayleigh quotient, simple, with a smooth positive
-eigenfunction; R5c item 2: a smooth `h>0` with `(Δ⁺+q)h=0` exists exactly when that eigenvalue is
-0. R7.0: the scalar Bochner identity and the equality case of the Lichnerowicz bound: for
-Ric≥(n−1)kg, k>0, a nonzero mean-zero eigenfunction of `Δ⁺` with eigenvalue nk satisfies
-`Hess f=−kfg`. The normal-coordinate normalization and Obata's theorem are targets here.
-
-### From TauCetiRoadmap.PositiveMass
-
-[PositiveMass](../PositiveMass/README.md) 0.2: the ADM mass, its normalization and its existence for
-order `t>(n−2)/2` with integrable scalar curvature; under a finite Riemannian covering each end
-lifts to deg copies with the mass of the end below. 0.4: the mass `m(g)+2c` of `u^(4/(n−2))g` for
-`u=1+c r^(2−n)+o_2(r^(2−n))`; the inversion of a normalized Green expansion; the lifts of ends to
-finite covers. 3.0: for λ₁(L_g)>0 with positive eigenfunction φ, the metric `φ^(4/(n−2))g` of scalar
-curvature `λ₁φ^(−4/(n−2))>0`. 3.1: a closed oriented d-manifold, 3≤d≤7, with a nonzero-degree map to
-`T^d` has no metric of positive scalar curvature. 3.2: the orientation double cover, which removes
-orientability from 8.1. 8.1: positivity and rigidity of the mass of every end of a complete
-connected finite-ended AE manifold, 3≤n≤7, Scal≥0, with no Spin or orientation hypothesis. 8.3: the
-same for one AE end of a complete connected spin manifold whose other ends are arbitrary, every n≥3.
-8.4: invariance of 8.1–8.3 under isometries and finite covers. The geometric end, mass and Spin
-hypotheses are verified in Y6–Y8.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-[DifferentialGeometry](../DifferentialGeometry/README.md) 2: the orientation cover and smooth
-covering transport; 4.3: local Frobenius; 12.2–12.5: generic manifold gradient, divergence,
-Laplace–Beltrami, integration by parts, density and volume comparison, with their tensor,
-partition and integration foundations.
-
-### From TauCetiRoadmap.PDE
-
-[PDE](../PDE/README.md) Layers 1, 3, 4 and 5 (A1–A7, C12–C15, D16–D19, E20–E26): Euclidean weak
-Sobolev spaces, smooth density, extension, compact embedding below the critical exponent,
-maximum and Harnack principles, linear elliptic existence and local and boundary estimates.
-Y1–Y3 construct the closed-manifold, critical and conformal-Laplacian bridges explicitly.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-[PseudodifferentialOperators](../PseudodifferentialOperators/README.md) 5.2: the W^(k,p) carrier
-of a real bundle over a compact base, its norms, completeness, smooth density and compact
-embeddings, used on the trivial real line.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a: generic finite-rank real and
-complex bundle distributions, all-real-order Hilbert Sobolev scales, realification, compact
-Rellich, Laplace-type regularity and the geometric L² realization. These are written supplier
-targets, and Y1 uses their real rank-one specialization.
-
-### From TauCetiRoadmap.GeometricMeasureTheory and TauCetiRoadmap.Isoperimetry
-
-[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2: the area and coarea formulas,
-spherical surface measure and polar integration, for spherical and stereographic integration.
-[Isoperimetry](../Isoperimetry/README.md) I2: Schwarz rearrangement, equimeasurability and Lᵖ
-norms; I5: the convex-integrand Pólya–Szegő estimate for nonnegative integrable Lipschitz
-functions.
-
-### From the topology, bundle, Spin and covering roadmaps
-
-[AlgebraicTopology](../AlgebraicTopology/README.md) Layer 1: van Kampen on the native
-fundamental-groupoid carrier. [SmoothBundlesConnections](../SmoothBundlesConnections/README.md)
-B1.4 and [CharacteristicClasses](../CharacteristicClasses/README.md) C1: associated principal
-bundles and the oriented orthonormal frame bundle used by the sphere Spin lift.
-[SpinGeometry](../SpinGeometry/README.md) G3–G5, with G4.2: Spin pullback and metric change.
-[UniversalCovers](../../Completed/UniversalCovers/README.md) Stages 1–4: the native universal
-cover, deck group and lifting theory.
-
-## How to read the build
-
-The section Yk is Layer k, and its subsection k.n is cited as Yk.n; "Yk item n" means Yk.n. Layer 0
-consumes Tau Ceti's conformal geometry and proves what it lacks, ending with the converse
-Weyl–Schouten theorem and the developing map of a locally conformally flat manifold. Layer 1 builds
-the closed-manifold analysis of L_g, Layer 2 the sharp Euclidean Sobolev theory, and Layer 3 the
-variational theory below the sphere threshold, Theorem A. Layer 4 builds conformal normal
-coordinates and the Green expansions. Y4–Y6's expansions and test-function construction and Y0.6's
-developing geometry use no positive-mass theorem. Layer 5 proves Theorem B from Layers 0, 2 and 4,
-with no positive-mass input. PositiveMass 8.1 and 8.3 then supply positivity and Euclidean rigidity;
-Y6's zero-mass compactification, Y7 and Y8.2–Y8.4 consume them. Y6's zero-mass compactification uses
-Y0.6 even in dimensions 3–5. Layer 9 concludes existence, uniqueness and rigidity, and Layer 10
-collects examples and the invariant σ. The Lean name at each headline target is its signature in
-`Suggested.lean`.
 
 ## Y0: conformal tensors and the conformal Laplacian
 
@@ -1271,6 +1063,258 @@ Layers 0, 3 and 9; PositiveMass 3.1.
   PositiveMass's nonspin theorem, and DifferentialGeometry lists this roadmap among the
   consumers of its sections 2, 4 and 12.2–12.5. These are supplier statements; none of them
   consumes this roadmap.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- Layer 0: the finite-regularity conformal laws, the weak-domain conformal invariance of the
+  Yamabe quotient and its weak Euler–Lagrange equation, the round-sphere volume and stereographic
+  change of variables, the comparison of local conformal flatness with conformal Euclidean charts,
+  the converse Weyl–Schouten theorem, and the developing map of a locally conformally flat
+  manifold.
+- Layer 1: the comparison of the scalar Sobolev carriers of a closed manifold
+  (PseudodifferentialOperators 5.2, ComplexKahlerGeometry K5a) and their critical embedding, the
+  realization and first eigenvalue of the conformal Laplacian, the local estimates and the critical
+  bootstrap, and the Green function of L_g.
+- Layer 2: the sharp Euclidean Sobolev inequality, its equality cases and its transfer to closed
+  manifolds with an ε loss.
+- Layer 3: the Yamabe invariant, Aubin's bound, the subcritical minimizers and Theorem A.
+- Layer 4: conformal normal coordinates, the cutoff-bubble Taylor bounds and the Green
+  expansions with the constant A.
+- Layer 5: Aubin's strict inequality, Theorem B.
+- Layer 6: the Green blow-up, the identity `m_ADM = 2A`, the glued test function and the
+  zero-mass compactification.
+- Layer 7: Theorem C in dimensions 3–5, through PositiveMass 8.1.
+- Layer 8: the Spin structure pulled back along the developing map, the lifted blow-up and
+  Theorem C for locally conformally flat manifolds, through PositiveMass 8.3.
+- Layer 9: the Yamabe theorem, uniqueness when `Y ≤ 0`, Obata's theorems with the equality case
+  of the Lichnerowicz bound, and the characterization of the conformal sphere.
+- Layer 10: the examples of the quotient and the invariant, the cylinder ODE and the invariant
+  `σ(M)`.
+
+Boundaries with other roadmaps:
+
+- Tau Ceti proves the conformal Laplacian, its covariance, the scalar law, the energy identity,
+  the Yamabe quotient with its Euler–Lagrange equation, the conformal laws of the connection and
+  curvature for smooth metrics, the Weyl and Cotton tensors with `div W = (n − 3)C` and the
+  integrability identity of the conformal flattening equation, local conformal flatness with the
+  forward Weyl–Schouten implications, the bubbles with their energies, moments and cutoff
+  estimates, the area of the round sphere and the homogeneous space `D¹,²`. These are supplier
+  contracts below; the items consume them and own only what the pin lacks.
+- [PositiveMass](../PositiveMass/README.md) is a supplier of this roadmap and consumes nothing
+  from it. It owns asymptotically Euclidean ends, the ADM mass and its normalization (0.2), the
+  mass shift under a conformal factor (0.4), the
+  positive-scalar metric from a positive first eigenfunction (3.0), the torus obstruction to
+  positive scalar curvature (3.1), and the positive mass theorems with rigidity (8.1, 8.3) with
+  their isometry and finite-cover invariance (8.4). This roadmap owns the identity `m = 2A` for
+  the actual Green metric, including its normal-coordinate curvature terms, the conformal
+  developing map, the completeness of the lifted blow-up and the compactification of the
+  zero-mass conclusion.
+- [RiemannianGeometry](../RiemannianGeometry/README.md) owns the curvature calculus and the
+  conformal formulas for `e^(2f)g` (R1), the realization of `Δ⁺+q` on a closed manifold and its
+  principal eigenfunction (R5c), and the scalar Bochner identity with the equality case of the
+  Lichnerowicz bound (R7.0). Obata's theorem is Y9.3's; R7.0 cites it there.
+- [DifferentialGeometry](../DifferentialGeometry/README.md) owns the orientation cover (2), local
+  Frobenius (4.3) and the gradient, divergence, Laplace–Beltrami operator and densities
+  (12.2–12.5); Y0 owns their conformal behaviour, not replacement operators.
+- [PDE](../PDE/README.md) owns the Euclidean weak spaces and estimates;
+  [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) 5.2 owns the W^(k,p)
+  carrier of a bundle over a compact base; ComplexKahlerGeometry K5a owns the bundle Sobolev
+  scales and the Laplace-type realization on closed manifolds; Y1 builds the scalar
+  closed-manifold comparison and the critical embedding.
+- [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2 owns the area formula,
+  spherical surface measure and polar integration. [Isoperimetry](../Isoperimetry/README.md)
+  owns Schwarz rearrangement (I2) and the Pólya–Szegő inequality (I5); the equality
+  classification of the sharp L² Sobolev inequality is Y2's.
+- SpinGeometry, SmoothBundlesConnections, CharacteristicClasses, AlgebraicTopology and the
+  completed UniversalCovers roadmap own Spin structures, frame bundles, van Kampen and universal
+  covers; Y0.6 owns the conformal developing map, and Y8 the Spin lift of the round sphere and
+  the metric-completeness adapters built on them.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Bundle.ContMDiffRiemannianMetric`, `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`,
+  `IsContinuousRiemannianBundle` and `IsRiemannianManifold`
+  (`Mathlib/Topology/VectorBundle/Riemannian.lean`,
+  `Mathlib/Geometry/Manifold/VectorBundle/Riemannian.lean`,
+  `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`): the metric carriers.
+- `CovariantDerivative.leviCivitaConnection`
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
+- `MeasureTheory.Measure.euclideanHausdorffMeasure`
+  (`Mathlib/Geometry/Euclidean/Volume/Measure.lean`), the normalized Hausdorff measure behind
+  `TauCeti.roundSphereVolume`.
+- `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
+  (`Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean`): the Gagliardo–Nirenberg–Sobolev
+  inequality with a non-sharp constant, the a priori input of Y1 and Y2.4.
+- `Diffeomorph`, `ContMDiff`, `mfderiv` and `IsMinOn`: the carriers of the statements of
+  `Suggested.lean`.
+
+### From Tau Ceti
+
+Each item names its module under `TauCeti/`.
+
+- `Analysis/PDE/Yamabe/`: the conformal Laplacian `TauCeti.Yamabe.conformalLaplacian`, its
+  covariance `TauCeti.Yamabe.conformalLaplacian_rescale`, the scalar law
+  `TauCeti.Yamabe.scalarCurvature_rescale_eq_rpow_mul_conformalLaplacian` and its Yamabe-equation
+  form `TauCeti.Yamabe.scalarCurvature_rescale_eq_iff_conformalLaplacian_eq`, the Euclidean and
+  constant-rescaling forms
+  `TauCeti.Yamabe.conformalLaplacian_eq_conformalCoefficient_mul_neg_laplacian` and
+  `TauCeti.Yamabe.conformalLaplacian_rescale_const` (`ConformalLaplacian.lean`); integration by
+  parts, formal symmetry, the energy identity and its conformal invariance
+  `TauCeti.Yamabe.integral_mul_conformalLaplacian`,
+  `TauCeti.Yamabe.integral_mul_conformalLaplacian_right_eq_left`,
+  `TauCeti.Yamabe.integral_mul_conformalLaplacian_self`, `TauCeti.Yamabe.integral_energy_rescale`
+  (`Energy.lean`); the volume-normalized total scalar curvature
+  `TauCeti.Yamabe.integral_scalarCurvature_rescale_div_riemannianTotalVolume_rpow`
+  (`TotalScalarCurvature.lean`); the Yamabe quotient `TauCeti.Yamabe.yamabeQuotient`, its first
+  variation and Euler–Lagrange equation
+  `TauCeti.Yamabe.forall_hasDerivAt_yamabeQuotient_add_smul_iff_exists_conformalLaplacian_eq`, with
+  the multiplier `TauCeti.Yamabe.yamabeQuotient_eq_of_conformalLaplacian_eq_of_integral_eq_one`
+  (`Quotient.lean`); `TauCeti.Yamabe.sphereYamabeConstant` (`SphereConstant.lean`); and the bubbles
+  `TauCeti.Yamabe.bubble` with `TauCeti.Yamabe.conformalCoefficient_mul_neg_laplacian_bubble`,
+  `TauCeti.Yamabe.conformalCoefficient_mul_integral_norm_fderiv_bubble_sq_eq_sphereYamabeConstant`,
+  `TauCeti.Yamabe.inner_mfderiv_stereographic'_symm_smul_sub` and the decay, moment and cutoff
+  estimates of `Bubble/{Basic,Decay,Energy,Moments,Cutoff,SobolevQuotient,Stereographic}.lean`.
+- Conformal change of metric: `Bundle.ContMDiffRiemannianMetric.rescale`,
+  `Bundle.ContMDiffRiemannianMetric.rescale_inner`,
+  `Bundle.ContMDiffRiemannianMetric.conformalClass` with
+  `Bundle.ContMDiffRiemannianMetric.mem_conformalClass_iff_existsUnique_rpow`,
+  `Bundle.ContMDiffRiemannianMetric.rescale_const_mul_rpow`,
+  `Bundle.ContMDiffRiemannianMetric.rescale_rescale` and
+  `Bundle.ContMDiffRiemannianMetric.rescale_inv_rescale`
+  (`Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
+  `Bundle.ContMDiffRiemannianMetric.pullback_rescale` (`Riemannian/Pullback/Basic.lean`);
+  `Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_apply`
+  (`CovariantDerivative/LeviCivita/Conformal.lean`); the curvature-operator, curvature, Ricci,
+  scalar, Schouten, Weyl and Cotton laws
+  `Bundle.ContMDiffRiemannianMetric.curvatureOperator_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.ricciTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.schoutenTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.weylTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.cottonTensor_leviCivitaConnection_rescale` and
+  `Bundle.ContMDiffRiemannianMetric.cottonTensor_leviCivitaConnection_rescale_of_finrank_eq_three`
+  (`CovariantDerivative/Curvature/Conformal.lean`);
+  `Bundle.ContMDiffRiemannianMetric.hessian_rescale_rpow` and
+  `Bundle.ContMDiffRiemannianMetric.laplaceBeltrami_rescale` (`Riemannian/Hessian/Conformal.lean`);
+  `TauCeti.WithMetric.inner_mgradient_rescale` (`Riemannian/Conformal.lean`);
+  `TauCeti.WithMetric.integral_riemannianVolume_rescale`,
+  `TauCeti.WithMetric.riemannianTotalVolume_rescale_rpow` and
+  `TauCeti.WithMetric.integral_abs_rpow_rescale_rpow` (`Riemannian/VolumeDensity/Conformal.lean`);
+  the copies `TauCeti.WithMetric` with `TauCeti.WithMetric.diffeomorphWithMetric` and
+  `TauCeti.WithMetric.inner_def` (`Riemannian/WithMetric.lean`); `TauCeti.riemannianVolume` and
+  `TauCeti.riemannianTotalVolume` (`Riemannian/VolumeDensity/`).
+- Conformal curvature (`Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/`):
+  `CovariantDerivative.schoutenTensor` (`Schouten.lean`); `LinearMap.BilinForm.kulkarniNomizu`
+  (`LinearAlgebra/BilinearForm/KulkarniNomizu.lean`); `CovariantDerivative.weylTensor` with its
+  symmetries, trace-freeness and vanishing in dimension three (`Weyl/Basic.lean`); the divergence
+  `CovariantDerivative.IsMetricCompatible.sum_derivWeylTensor_self_eq_mul_cottonTensor`,
+  `div W=(n−3)C` (`Weyl/Divergence.lean`); the integrability defect of the conformal flattening
+  equation `CovariantDerivative.IsMetricCompatible.conformalFlatteningDeriv_sub_swap` and its
+  vanishing under W=C=0,
+  `CovariantDerivative.IsMetricCompatible.conformalFlatteningDeriv_sub_swap_eq_inner_curvatureTensor`
+  (`Weyl/Integrability.lean`); `CovariantDerivative.cottonTensor` (`Cotton.lean`);
+  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat` with its conformal invariance,
+  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.weylTensor_eq_zero`,
+  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.cottonTensor_eq_zero`,
+  `TauCeti.Manifold.isLocallyConformallyFlat_rescale_model_space` and the reduction
+  `Bundle.ContMDiffRiemannianMetric.isLocallyConformallyFlat_iff_forall_weylTensor_eq_zero_and_forall_exists_eventually_hessian_eq`
+  (`ConformallyFlat.lean`).
+- `TauCeti.roundSphereVolume` with `TauCeti.roundSphereVolume_pos` and
+  `TauCeti.roundSphereVolume_eq_two_mul_pi_rpow_div_Gamma`
+  (`Geometry/Euclidean/Volume/Sphere.lean`);
+  the round metric `TauCeti.sphereRoundMetric` (`Riemannian/Sphere/Basic.lean`) with its scalar
+  curvature `TauCeti.scalarCurvature_sphereRoundMetric_ofLE` (`Riemannian/Sphere/Curvature.lean`);
+  `TauCeti.RiemannianIsometry` (`Riemannian/Isometry/Basic.lean`).
+- The homogeneous space `TauCeti.D1p0` with `TauCeti.D1p0.ofTestFunctionₗ`,
+  `TauCeti.D1p0.sobolevEmbeddingL` and `TauCeti.D1p0.sobolevEmbeddingL_injective`
+  (`Analysis/Sobolev/D1p0/Basic.lean`), its translations `TauCeti.D1p0.translate` and dilations
+  `TauCeti.D1p0.dilate` (`D1p0/Translation.lean`, `D1p0/Dilation.lean`); the Euclidean Sobolev
+  modules `Analysis/Sobolev/W1p/{Basic,Density,ChainRule}`, `Analysis/Sobolev/Embedding` with
+  `TauCeti.W1p0.sobolevEmbeddingL`, `Analysis/Sobolev/RellichKondrachov` and
+  `Analysis/PDE/FundamentalSolution/Euclidean/{Basic,DistributionalLaplacian}`.
+- The critical Sobolev estimate for `C¹` functions on a closed manifold
+  `TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add` (`Riemannian/Sobolev.lean`);
+  the Lichnerowicz bound `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul`
+  (`Riemannian/Lichnerowicz.lean`); `TauCeti.Manifold.hessian` and
+  `TauCeti.Manifold.laplaceBeltrami` (`Riemannian/Laplacian.lean`).
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+[RiemannianGeometry](../RiemannianGeometry/README.md) R1–R4: Levi-Civita connection, full scalar
+curvature, the general conformal-change formulas for `e^(2f)g`, geodesics, normal coordinates and
+density, and comparison geometry; R1.1 item 3: flat curvature on an open set is equivalent to a
+local Euclidean isometry around every point. R5c: the closed-case self-adjoint realization of
+`Δ⁺+q` with its eigenbasis, independent of the shift; R5c item 1: on a closed connected manifold
+the lowest eigenvalue of `Δ⁺+q` is the least Rayleigh quotient, simple, with a smooth positive
+eigenfunction; R5c item 2: a smooth `h>0` with `(Δ⁺+q)h=0` exists exactly when that eigenvalue is
+0. R7.0: the scalar Bochner identity and the equality case of the Lichnerowicz bound: for
+Ric≥(n−1)kg, k>0, a nonzero mean-zero eigenfunction of `Δ⁺` with eigenvalue nk satisfies
+`Hess f=−kfg`. The normal-coordinate normalization and Obata's theorem are targets here.
+
+### From TauCetiRoadmap.PositiveMass
+
+[PositiveMass](../PositiveMass/README.md) 0.2: the ADM mass, its normalization and its existence for
+order `t>(n−2)/2` with integrable scalar curvature; under a finite Riemannian covering each end
+lifts to deg copies with the mass of the end below. 0.4: the mass `m(g)+2c` of `u^(4/(n−2))g` for
+`u=1+c r^(2−n)+o_2(r^(2−n))`; the inversion of a normalized Green expansion; the lifts of ends to
+finite covers. 3.0: for λ₁(L_g)>0 with positive eigenfunction φ, the metric `φ^(4/(n−2))g` of scalar
+curvature `λ₁φ^(−4/(n−2))>0`. 3.1: a closed oriented d-manifold, 3≤d≤7, with a nonzero-degree map to
+`T^d` has no metric of positive scalar curvature. 3.2: the orientation double cover, which removes
+orientability from 8.1. 8.1: positivity and rigidity of the mass of every end of a complete
+connected finite-ended AE manifold, 3≤n≤7, Scal≥0, with no Spin or orientation hypothesis. 8.3: the
+same for one AE end of a complete connected spin manifold whose other ends are arbitrary, every n≥3.
+8.4: invariance of 8.1–8.3 under isometries and finite covers. The geometric end, mass and Spin
+hypotheses are verified in Y6–Y8.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+[DifferentialGeometry](../DifferentialGeometry/README.md) 2: the orientation cover and smooth
+covering transport; 4.3: local Frobenius; 12.2–12.5: generic manifold gradient, divergence,
+Laplace–Beltrami, integration by parts, density and volume comparison, with their tensor,
+partition and integration foundations.
+
+### From TauCetiRoadmap.PDE
+
+[PDE](../PDE/README.md) Layers 1, 3, 4 and 5 (A1–A7, C12–C15, D16–D19, E20–E26): Euclidean weak
+Sobolev spaces, smooth density, extension, compact embedding below the critical exponent,
+maximum and Harnack principles, linear elliptic existence and local and boundary estimates.
+Y1–Y3 construct the closed-manifold, critical and conformal-Laplacian bridges explicitly.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+[PseudodifferentialOperators](../PseudodifferentialOperators/README.md) 5.2: the W^(k,p) carrier
+of a real bundle over a compact base, its norms, completeness, smooth density and compact
+embeddings, used on the trivial real line.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a: generic finite-rank real and
+complex bundle distributions, all-real-order Hilbert Sobolev scales, realification, compact
+Rellich, Laplace-type regularity and the geometric L² realization. These are written supplier
+targets, and Y1 uses their real rank-one specialization.
+
+### From TauCetiRoadmap.GeometricMeasureTheory and TauCetiRoadmap.Isoperimetry
+
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2: the area and coarea formulas,
+spherical surface measure and polar integration, for spherical and stereographic integration.
+[Isoperimetry](../Isoperimetry/README.md) I2: Schwarz rearrangement, equimeasurability and Lᵖ
+norms; I5: the convex-integrand Pólya–Szegő estimate for nonnegative integrable Lipschitz
+functions.
+
+### From the topology, bundle, Spin and covering roadmaps
+
+[AlgebraicTopology](../AlgebraicTopology/README.md) Layer 1: van Kampen on the native
+fundamental-groupoid carrier. [SmoothBundlesConnections](../SmoothBundlesConnections/README.md)
+B1.4 and [CharacteristicClasses](../CharacteristicClasses/README.md) C1: associated principal
+bundles and the oriented orthonormal frame bundle used by the sphere Spin lift.
+[SpinGeometry](../SpinGeometry/README.md) G3–G5, with G4.2: Spin pullback and metric change.
+[UniversalCovers](../../Completed/UniversalCovers/README.md) Stages 1–4: the native universal
+cover, deck group and lifting theory.
 
 ## References
 

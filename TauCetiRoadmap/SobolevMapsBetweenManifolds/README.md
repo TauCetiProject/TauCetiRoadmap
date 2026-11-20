@@ -1,138 +1,80 @@
 # Roadmap: Sobolev maps between manifolds
 
-**Summary.** Build the first-order Sobolev theory of maps from finite-dimensional manifolds to
-Banach manifolds, intrinsic weak maps into finite-dimensional targets, and finite-dimensional
-Jacobian and degree theory. The
-roadmap extends the local Sobolev class from planar domains to Euclidean domains of every
-dimension with Banach-valued functions, chain rules and change of variables; defines null sets,
-measurability and local `Lᵖ` on a manifold without a metric; and defines the class `W^{1,p}_loc(M, N)` of
-continuous maps whose chart representatives are Sobolev, with its weak differential
-`Df(x) : T_xM → T_{f(x)}N`. It also defines the colocal weak differential of measurable maps
-into finite-dimensional targets, through compactly supported scalar probes. Compatible
-continuous tangent norms on source and target and a positive continuous source density give
-the derivative-energy classes; for oriented
-Riemannian manifolds of the same finite dimension it adds `J_f` and Hadamard's inequality.
-It pulls back forms with fixed Banach coefficients on Banach targets along Sobolev
-maps and proves that pullback commutes with the weak exterior derivative. It characterizes the
-class through split immersions into Banach spaces (a Nash embedding is a finite-dimensional
-special case), approximates continuous Sobolev maps into arbitrary smooth Banach targets by
-successive chartwise smoothing, preserving the map near closed sets where it is already smooth,
-and defines extrinsic spaces of possibly discontinuous maps using a fixed closed
-embedding with a controlled retraction. It proves smooth density for these spaces when
-`p ≥ dim M`, recovering Schoen–Uhlenbeck for compact finite-dimensional targets. The end theorems are:
+**Summary.** A function on a domain of ℝⁿ is in the Sobolev class `W^{1,p}` when it and its weak
+derivative lie in `Lᵖ`. For a map `f : M → N` between manifolds the class can be defined by reading
+`f` in charts, or by embedding `N` in a vector space and asking that the composite be a Sobolev
+function. This roadmap builds the first-order theory of maps from finite-dimensional manifolds into
+Banach manifolds, and relates the two definitions. All manifolds are Hausdorff and without
+boundary; sources are also second countable, targets need not be; and `1 ≤ p ≤ ∞`.
 
-- the class `W^{1,p}_loc(M, N)` does not depend on the atlases or the metrics, is local, contains
-  the `C¹` maps with `Df = mfderiv f`, and is preserved by precomposition with `C¹` submersions
-  and postcomposition with `C¹` maps, with the chain rule for `Df`;
-- for continuous `f` with `W^{1,1}_loc` chart representatives, `f ∈ W^{1,p}_loc(M, N)` if and
-  only if `‖Df‖ ∈ L^p_loc(M)` for compatible continuous tangent norms; for oriented Riemannian
-  source and target of dimension `n`, `|J_f| ≤ ‖Df‖ⁿ`, so `J_f ∈ L¹_loc` for `p ≥ n`;
-- for a `C¹` form `ω` of degree `k` with values in a fixed real Banach space and `p ≥ k + 1`,
-  the pullback `f^♯ω` has weak exterior
-  derivative `f^♯(dω)`;
-- for a `C¹` split immersion `ι : N → F` into a Banach space, a continuous `f` lies
-  in `W^{1,p}_loc(M, N)` if and only if `ι ∘ f` lies in `W^{1,p}_loc(M; F)`, with
-  `‖D(ι ∘ f)‖ = ‖Df‖` when `ι` is isometric;
-- continuous Sobolev maps into a smooth Banach manifold are limits of smooth maps, locally
-  uniformly and in `W^{1,p}_loc` in target charts, for `p < ∞`; the approximants can agree with
-  the map on a neighbourhood of a closed set where it is already smooth;
-- measurable colocal weakly differentiable maps into finite-dimensional targets have a unique
-  measurable weak differential; its local `Lᵖ` energy defines an intrinsic homogeneous class,
-  agrees with the continuous class on continuous maps, and for compact targets and sources
-  agrees with the extrinsic space, with the induced target norm;
-- for closed finite-dimensional `M`, a target with a controlled retractive embedding `ι` (§10.1),
-  and `dim M ≤ p < ∞`, smooth maps are dense in `W^{1,p}_ι(M, N)`; compact finite-dimensional
-  targets satisfy these hypotheses and the space is independent of the embedding
-  (Schoen–Uhlenbeck), while for `n − 1 ≤ p < n` the map `x ↦ x/|x|` of the unit ball of `ℝⁿ`
-  is not a `W^{1,p}` limit of smooth maps into `S^{n−1}`;
-- for closed connected oriented finite-dimensional `M`, `N` of dimension `n`, every
-  `u ∈ W^{1,n}(M, N)` has an integer
-  degree `∫_M u^♯ω` (`∫_N ω = 1`), locally constant on `W^{1,n}(M, N)`, equal to the topological
-  degree when `u` is continuous; in particular `∫_M J_f = deg(f) vol(N)`.
+The central object is the class `W^{1,p}_loc(M, N)` of continuous maps whose chart representatives
+are Sobolev in the Euclidean sense. No metric enters: null sets are defined chart by chart. The
+first main result is that membership does not depend on the atlases. Every member has a weak
+differential `Df`, unique almost everywhere. A `C¹` map belongs to the class for every `p`, with
+its ordinary differential as weak differential. Composing on the left with a `C¹` map, or on the
+right with a `C¹` submersion, preserves the class, with the chain rule and no bound on the
+derivatives.
 
-## Scope and ownership
+The second main result connects charts with embeddings. Let `ι : N → F` be a `C¹` split immersion
+into a Banach space: in suitable charts it is the inclusion `v ↦ (v, 0)` into a topological direct
+sum. A continuous `f` lies in `W^{1,p}_loc(M, N)` if and only if `ι ∘ f` lies in
+`W^{1,p}_loc(M; F)`. For measurable maps into a finite-dimensional second-countable target, the
+roadmap also develops Convent and Van Schaftingen's intrinsic notion: `u` is colocally weakly
+differentiable when `φ ∘ u` lies in `W^{1,1}_loc` for every compactly supported `C¹` function
+`φ : N → ℝ`. Such a map has a weak differential, unique almost everywhere; on continuous maps, its
+local `Lᵖ` integrability in charts is exactly membership in `W^{1,p}_loc(M, N)`.
 
-This roadmap owns:
+The third main result is smooth approximation. For smooth `M`, any smooth Banach manifold `N` and
+`p < ∞`, every continuous `f ∈ W^{1,p}_loc(M, N)` is a limit of smooth maps, locally uniformly and
+in `W^{1,p}_loc` read in target charts. They can agree with `f` near a closed set around which `f`
+is already smooth. No metric, embedding or retraction of `N` is assumed.
 
-- the local Lebesgue class `MemLpLoc` and the first-order local Sobolev class
-  `W^{1,p}_loc(Ω; F)` with Banach `F` on open subsets of every finite-dimensional real normed
-  space, with their Banach-valued API (§1.1–§1.2); they extend the planar classes of orders `0`
-  and `1` of PseudoholomorphicCurveAnalysis §1.1 from `ℂ` to every such source (those are the
-  case `E = ℂ`);
-- the Euclidean chain rule for `C¹` outer maps with bounded derivative and arbitrary Sobolev
-  inner maps, the continuity of the composition operator, the change of variables of the local
-  class under `C¹` local diffeomorphisms and submersions, local mollification, and Banach-valued
-  Poincaré and Morrey estimates for the local class, whose `C¹` cases are Tau Ceti's (Layer 2);
-- on manifolds without a metric: the almost-everywhere filter, chart measurability and local
-  `Lᵖ`, null preimages under submersions, and measures defined by positive continuous densities
-  (Layer 3);
-- the local class `W^{1,p}_loc(M; F)` of Banach-valued functions, the
-  continuous class `W^{1,p}_loc(M, N)` for Banach targets, the weak differential, `C¹` members,
-  restriction, locality, metric independence and the chain rules; colocal weak differentiability
-  and its differential for measurable maps into finite-dimensional targets (Layer 4);
-- compatible continuous tangent norms on source and target, `‖Df‖` and its `L^p` characterization,
-  and intrinsic derivative-energy classes for colocal weak maps (Layer 5);
-  the oriented Jacobian of a linear map and of a Sobolev map between manifolds of the same
-  finite dimension, and Hadamard's inequality (Layer 6);
-- the comparison of the class with its Euclidean form, with PseudoholomorphicCurveAnalysis §4.1
-  and with the Sobolev sections of a trivial bundle over a compact manifold of
-  PseudodifferentialOperators §5.2, including the first-order extension of that carrier to
-  Banach fibres (Layer 7);
-- the pullback of forms with fixed Banach coefficients, the Bochner extension of top-form
-  integration and Stokes needed for testing their weak exterior derivative, and commutation of
-  pullback with that derivative (Layer 8);
-- the characterization through split immersions, smooth retractive embeddings and their
-  compact Euclidean and Hilbert-sphere examples, and smooth approximation of continuous Sobolev
-  maps into arbitrary smooth Banach targets, including relative approximation (Layer 9);
-- the extrinsic space `W^{1,p}_ι(M, N)` on compact finite-dimensional `M` for a closed embedding
-  with a controlled retraction, comparison under controlled changes of embedding, Morrey's
-  theorem and smooth density, including Schoen–Uhlenbeck for compact finite-dimensional targets
-  and comparison with intrinsic weak maps for compact finite-dimensional targets (Layer 10);
-- the integral formula for the degree of a continuous `W^{1,n}` map, the degree of a `W^{1,n}`
-  map, and the failure of density for `n − 1 ≤ p < n` at `x/|x|` (Layer 11).
+Possibly discontinuous maps on a closed `n`-manifold `M` are handled through a smooth embedding `ι`
+of `N` with closed image in a Banach space `F`, with a retraction subject to quantitative
+hypotheses: `W^{1,p}_ι(M, N)` consists of the `u ∈ W^{1,p}_loc(M; F)` with values in `ι(N)` almost
+everywhere. For `n ≤ p < ∞`, the maps `ι ∘ g` with `g : M → N` smooth are dense in it. For compact
+finite-dimensional targets in a Euclidean space this is the theorem of Schoen and Uhlenbeck. Below
+the dimension density can fail: for `n ≥ 2` and `n − 1 ≤ p < n`, the map `x ↦ x/|x|` of the unit
+ball of ℝⁿ is not a `W^{1,p}` limit of maps into `S^{n−1}` that are smooth on the ball.
 
-It leaves to named owners:
+For oriented Riemannian manifolds of one dimension `n`, the Jacobian `J_f` of a member satisfies
+Hadamard's inequality `|J_f| ≤ ‖Df‖ⁿ` almost everywhere, hence is locally integrable for `p ≥ n`.
+Every map in `W^{1,n}(M, N)` between closed connected oriented `n`-manifolds has an integer degree,
+equal to the usual one for continuous maps.
 
-- **PDE** Layer 1 owns the Euclidean scalar spaces `W^{k,p}(Ω)`, Poincaré inequalities, Morrey's
-  theorem and density; Tau Ceti implements the parts consumed here (Exact supplier contracts).
-- **PseudoholomorphicCurveAnalysis** PH1 owns the planar classes on planar domains and
-  half-discs and their higher-order theory (embeddings, products, composition of order `k ≥ 2`,
-  reflection, local compactness), and PH4.1 owns `W^{k,p}_loc(Σ, M)` for maps from a Riemann
-  surface with `kp > 2`. §1.1 defines the classes of PH1.1 of orders `0` and `1` over every
-  finite-dimensional source, PH1.1's being the case `E = ℂ`, and §7.2 proves that PH4.1's class
-  at `k = 1` is this roadmap's class on surfaces.
-- **PseudodifferentialOperators** §5.2 owns the Banach space of `W^{k,p}` sections of a vector
-  bundle over a compact base, its finite-chart norms and its smooth density.
-  **Yamabe** Y1 owns the scalar closed-manifold carriers used for the Yamabe problem. This roadmap
-  builds no second carrier: §7.3 extends the §5.2 carrier at first order to trivial bundles
-  with Banach fibre, identifies this roadmap's class on a compact manifold with it, and Layer 10
-  uses it. Higher-order and nontrivial Banach bundles are outside this roadmap.
-- **RiemannianGeometry** R4.6 owns the agreement of chartwise null sets with null sets of the
-  Riemannian volume of a smooth metric (§3.1 proves it for every positive continuous density,
-  which covers continuous metrics), and R6 owns the nearest-point retraction onto the image of
-  a closed-image `C²` embedding into a Euclidean space.
-- **DifferentialGeometry** owns orientations (2.1–2.2), integration of forms and Stokes' theorem
-  (Layer 5), the Riemannian volume (12.4) and the degree of smooth and continuous maps with its
-  integral formula and homotopy invariance (10.3–10.5). §8.2 here extends its existing scalar
-  top-form integration and boundaryless Stokes API to fixed Banach coefficients in place.
-- **QuasiregularMaps** owns the membership of locally Lipschitz maps between finite-dimensional
-  manifolds in the class (its §2.8), the
-  classes `ACL` and `ACL^p` and the theorem that continuous `ACL^p` maps are the continuous
-  `W^{1,p}_loc` maps on Euclidean domains (its §5.1–§5.2), and everything about distortion.
-- **GeometricMeasureTheory** owns the area and coarea formulas for Lipschitz maps.
+The roadmap builds on Tau Ceti's Euclidean weak derivatives and Banach-valued Poincaré and Morrey
+inequalities, which implement parts of the PDE roadmap. Its Euclidean classes of orders `0` and `1`
+extend the planar ones of PseudoholomorphicCurveAnalysis to every finite dimension.
+DifferentialGeometry provides orientations, integration of forms and the degree of continuous maps.
+QuasiregularMaps builds quasiregular maps on `W^{1,n}_loc(M, N)` and the Jacobian.
 
-Outside this roadmap: Sobolev classes of order `k ≥ 2` or fractional order, of functions on
-Euclidean domains and of maps between manifolds;
-Sobolev maps on manifolds with boundary, traces and extension of Sobolev maps; Bethuel's density
-theorem for `p < dim M` and the homotopy theory of `W^{1,p}(M, N)`; lifting; Nash's isometric
-embedding theorem; harmonic maps and the calculus of variations for maps between manifolds;
-Sobolev spaces of differential forms; Lusin's condition (N) and the area formula for Sobolev
-maps; mappings of finite distortion; Sobolev theory on infinite-dimensional sources; weak
-Riemannian metrics; general Lipschitz composition in Banach targets and its Radon–Nikodým
-characterization; existence of embeddings or tubular retractions for arbitrary Banach manifolds.
-The colocal theory is for finite-dimensional targets; a replacement for its compactly supported
-probes on Banach targets, variable coefficient bundles with connections, and intrinsic metrics
-and completeness of the full space of weak maps are outside this roadmap.
+The first three layers are Euclidean analysis and measure theory without a metric; the next three
+give the classes, the norm `‖Df‖` and the Jacobian. The seventh compares the class with the
+library's other Sobolev classes. The eighth shows that, for `p ≥ k + 1`, pullback of `C¹` `k`-forms
+commutes with the weak exterior derivative. The ninth and tenth treat embeddings, approximation and
+density; the eleventh, the degree.
+
+## How to read the build
+
+Layers 1–2 are Euclidean. Layer 3 sets up measure theory on a manifold without a metric. Layer 4
+defines the classes and the weak differential and proves the chain rules; it needs only Layers
+1–3. Layer 5 adds compatible tangent norms; Layer 6 specializes to equal finite dimensions
+and adds orientations. Layer 7 compares the class with the other
+Sobolev classes in the library. Sections 4.7–4.8 add colocal weak differentiation, and §5.4
+adds its norm-dependent intrinsic energy classes. Layer 8 pulls back Banach-valued forms.
+Layer 9 characterizes maps through immersions, supplies retraction examples, and proves
+intrinsic relative smooth approximation. Layer 10 defines extrinsic spaces of
+possibly discontinuous maps under quantitative retraction hypotheses. Layer 11 is the
+finite-dimensional degree theory.
+
+Layer 2 needs Layer 1; within it §2.3 comes first, since §2.1, §2.2 and §2.4 use its
+mollification. Layer 3 uses §2.2 and §2.5. Layer 4 needs Layers 2 and 3,
+including §2.6's locality on measurable equality sets for the colocal construction;
+Layer 5 needs Layer 4; Layer 6 needs Layer 5. Layer 7 needs Layers 4–5, with §6.2 used only for
+the Jacobian comparison. Layer 8 needs Layers 4–5 and §2.3, with §6.2 used only for its volume-form
+specialization. Layer 9 needs Layers 4–5 and §2.3; §9.3(a)–(c) do not depend on §9.1–§9.2,
+and the direct retraction construction of §9.3(d) uses §9.2. Layer 10 needs Layers 7 and 9
+and §2.4, with §5.4 used in §10.4. Layer 11 needs §6.3 and Layers 8–10.
 
 ## Conventions
 
@@ -207,137 +149,6 @@ and completeness of the full space of weak maps are outside this roadmap.
   different measure and derivative data and are outside the scope here.
 - **Lean names.** The names below are suggestions; `Suggested.lean` states the signatures in the
   namespace `TauCetiRoadmap.SobolevMapsBetweenManifolds`.
-
-## Exact supplier contracts
-
-The [Mathlib discussion of Sobolev interfaces](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/near/625821807)
-distinguishes the Euclidean and manifold interfaces. This roadmap keeps Euclidean weak
-derivatives directly usable and compares them with its manifold predicates in Layer 7.
-
-### From Mathlib
-
-- `MeasureTheory.MemLp`, `MeasureTheory.LocallyIntegrableOn`, `MeasureTheory.AEStronglyMeasurable`
-  `measureSpaceOfInnerProductSpace` and `MeasureTheory.Measure.IsAddHaarMeasure`.
-- `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero` and
-  `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`
-  (`Mathlib/MeasureTheory/Function/Jacobian.lean`): differentiable images of null sets are null,
-  and the change of variables formula.
-- `extChartAt`, `writtenInExtChartAt`, `mfderiv`, `ContMDiff`, `IsManifold`, and
-  `TopologicalSpace.Opens` as a charted space.
-- `Manifold.IsSubmersionAt` (`Mathlib/Geometry/Manifold/Submersion.lean`), the local chart
-  normal form of a projection with a continuous linear complement. §2.5 and §4.6 use this
-  predicate. Mathlib has no conversion from a surjective differential to
-  `Manifold.IsSubmersionAt`; §2.5 proves the finite-dimensional one from the inverse function
-  theorem.
-- `Manifold.IsImmersionAt` (`Mathlib/Geometry/Manifold/Immersion.lean`), with
-  `ContMDiffAt.iff_comp_isImmersionAtOfComplement` as the smooth pattern of §9.1. This is the
-  chart-normal-form notion of a split immersion, not just injectivity of the differential.
-  `Manifold.IsDiffImmersionAt` says that the differential has a continuous linear left inverse;
-  `IsDiffImmersionAt.of_injective_of_finiteDimensional` (`Mathlib/Geometry/Manifold/ImmersionDiff.lean`):
-  an injective differential with finite-dimensional ambient model has such a left inverse.
-  §9.1 uses `IsImmersionAt` directly and derives the finite-dimensional injective-differential
-  corollary using the inverse function theorem and a complement.
-- `exists_embedding_euclidean_of_compact` (`Mathlib/Geometry/Manifold/WhitneyEmbedding.lean`):
-  a compact smooth manifold embeds in a Euclidean space.
-- `SmoothPartitionOfUnity` and `Continuous.exists_contMDiff_approx`
-  (`Mathlib/Geometry/Manifold/SmoothApprox.lean`). Only source cutoffs and Banach-valued
-  local smoothing are consumed here; intrinsic relative Sobolev approximation into an arbitrary
-  Banach manifold is a target of §9.3, not a consequence supplied by these declarations alone.
-- `Orientation.volumeForm`, `Orientation.volumeForm_robust`, `Orientation.volumeForm_neg_orientation`,
-  `Orientation.abs_volumeForm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Orientation.lean`);
-  `LinearMap.det`; `LinearMap.normDet` and `LinearMap.normDet_eq_abs_det`
-  (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`).
-- `Bundle.RiemannianBundle`, `IsContinuousRiemannianBundle`.
-  These supply the Riemannian source specialization and the strong Hilbert special case of
-  §5.1; the compatible continuous tangent-norm API is built in §5.1 for both source and target.
-
-### From Tau Ceti
-
-- `TauCeti.HasWeakFDerivOn` and, in `TauCeti/Analysis/Sobolev/WeakDeriv/`:
-  `TauCeti.HasWeakFDerivOn.ae_eq`, `.mono`, `.congr_ae_deriv`,
-  `TauCeti.hasWeakFDerivOn_of_differentiableOn` (`Basic.lean`); detection on relatively compact
-  subdomains `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure` (`Local.lean`); the
-  classical derivative of a continuous function with a continuous weak derivative,
-  `TauCeti.HasWeakFDerivOn.fderiv_eq_of_continuousOn` and
-  `TauCeti.HasWeakFDerivOn.contDiffOn_succ` (`Classical.lean`); closedness under
-  `L¹_loc` limits `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub` (`Limit.lean`).
-  In `TauCeti/Analysis/Sobolev/Mollification/`: mollification
-  `TauCeti.HasWeakFDerivOn.fderiv_convolution_right` (`Basic.lean`)
-  and `TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed` (`Interior.lean`).
-- `TauCeti.W1p`, `TauCeti.W1p.hasWeakFDerivOn_comp` (`W1p/ChainRule.lean`, scalar outer maps),
-  `TauCeti.W1p.continuousOn_preciseRepresentative` (`W1p/InteriorMorrey.lean`, Morrey for
-  `p > n`), `TauCeti.Wkp.dense_contDiffOn_representatives` (`Wkp/MeyersSerrin.lean`). For `C¹`
-  functions with values in a Banach space `F`: the Poincaré–Wirtinger inequality on bounded
-  convex open sets `TauCeti.eLpNorm_sub_setAverage_le_of_convex` (`Poincare/Wirtinger/Basic.lean`,
-  `1 ≤ p < ∞`) and Morrey's inequality on balls `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`
-  (`Morrey.lean`, finite `p > n`); §2.3–§2.4 pass them to the local class by mollification, and
-  §7.3 supplies the Banach-valued first-order carrier comparison. No finite-coordinate argument
-  is a supplier for an infinite-dimensional target.
-- `TauCeti.WeakDerivStep` (`TauCeti/Analysis/Sobolev/GraphStep/Basic.lean`): with base the
-  identity of `Lp F p (volume.restrict U)`, `1 ≤ p`, the closed graph of `u ↦ (u, Du)` in
-  `Lp F p × Lp (E →L[ℝ] F) p` over an open `U`, complete for Banach `F` by its `CompleteSpace`
-  instance; membership is `TauCeti.mem_weakDerivStepSubmodule_iff_hasWeakFDerivOn`, and
-  convergence is convergence of both components
-  (`TauCeti.WeakDerivStep.tendsto_iff_prev_weakFDeriv`).
-- `TauCeti.IsNullSet`, `TauCeti.IsNullSet.chartwise`, `TauCeti.IsNullSet.iUnion`,
-  `TauCeti.IsNullSet.interior_eq_empty` (`TauCeti/Geometry/Manifold/Measure.lean`).
-- `TauCeti.riemannianVolume`, `TauCeti.isLocallyFiniteMeasure_riemannianVolume`
-  (`…/Riemannian/VolumeDensity/Volume.lean`), `TauCeti.isOpenPosMeasure_riemannianVolume`
-  (`…/VolumeDensity/Support.lean`), `TauCeti.riemannianVolumeForm` (`…/Riemannian/VolumeForm.lean`),
-  `TauCeti.WithMetric` (`…/Riemannian/WithMetric.lean`).
-- `TauCeti.Manifold.Orientation`, `.orientationAt`, `.model`
-  (`TauCeti/Geometry/Manifold/Orientation/Basic.lean`).
-- `TauCeti.RoughForm`, `TauCeti.mpullback` (`…/DifferentialForm/Pullback/Basic.lean`),
-  `TauCeti.mextDeriv` (`…/DifferentialForm/ExtDeriv.lean`), `TauCeti.bundleWedgeWith`
-  (`…/DifferentialForm/Wedge/Basic.lean`), `TauCeti.IntegrableTopForm`, `TauCeti.integralTopForm`
-  (`…/DifferentialForm/Integration/TopForm.lean`), `TauCeti.integralTopForm_mextDeriv_eq_zero`
-  (`…/Integration/BoundarylessStokes.lean`). `RoughForm`, `mpullback` and `mextDeriv` already
-  allow fixed general coefficients. The listed top-form integral and Stokes API is scalar;
-  §8.2 supplies its Bochner-valued extension, compact-support integrability API and
-  compatibility with continuous linear coefficient maps.
-- `TauCeti.degreeAtRegularValue` (`TauCeti/Geometry/Manifold/Degree/Basic.lean`), the signed
-  count over a regular value of a `C¹` map, from which DifferentialGeometry 10.3–10.5 builds
-  the degree.
-- `TauCeti.exists_isTubularNeighborhood_normalBundle`
-  (`TauCeti/Geometry/Manifold/TubularNeighborhood/Euclidean.lean`).
-
-### From other roadmaps
-
-- **PDE** Layer 1: §1.2 (density), §1.4 (Morrey), §1.5 (Poincaré on balls), through the Tau
-  Ceti declarations above.
-- **PseudoholomorphicCurveAnalysis** PH1.1 (the planar classes, generalized in §1.1) and PH4.1
-  (the surface class, compared in §7.2).
-- **PseudodifferentialOperators** §5.2: the `W^{k,p}` section carrier of a vector bundle over a
-  compact base, its finite-chart norms, completeness and smooth density for `p < ∞`.
-- **RiemannianGeometry** R4.6 (chartwise and Riemannian null sets, for smooth metrics) and R6
-  (the nearest-point retraction `π` onto a closed-image `C²` embedded submanifold of a Euclidean
-  space, defined on an open tube, `C¹` for `C²` embeddings and smooth for smooth ones).
-- **DifferentialGeometry** 2.1–2.2 (orientations), Layer 5 (integration of top forms and the
-  boundaryless Stokes theorem), 12.4 (Riemannian volume), 10.4 (the integral formula
-  `∫_M f^*ω = deg f · ∫_N ω` for smooth maps of closed oriented manifolds and smooth `ω`) and
-  10.5 (the degree of continuous maps and its homotopy invariance).
-
-## How to read the build
-
-Layers 1–2 are Euclidean. Layer 3 sets up measure theory on a manifold without a metric. Layer 4
-defines the classes and the weak differential and proves the chain rules; it needs only Layers
-1–3. Layer 5 adds compatible tangent norms; Layer 6 specializes to equal finite dimensions
-and adds orientations. Layer 7 compares the class with the other
-Sobolev classes in the library. Sections 4.7–4.8 add colocal weak differentiation, and §5.4
-adds its norm-dependent intrinsic energy classes. Layer 8 pulls back Banach-valued forms.
-Layer 9 characterizes maps through immersions, supplies retraction examples, and proves
-intrinsic relative smooth approximation. Layer 10 defines extrinsic spaces of
-possibly discontinuous maps under quantitative retraction hypotheses. Layer 11 is the
-finite-dimensional degree theory.
-
-Layer 2 needs Layer 1; within it §2.3 comes first, since §2.1, §2.2 and §2.4 use its
-mollification. Layer 3 uses §2.2 and §2.5. Layer 4 needs Layers 2 and 3,
-including §2.6's locality on measurable equality sets for the colocal construction;
-Layer 5 needs Layer 4; Layer 6 needs Layer 5. Layer 7 needs Layers 4–5, with §6.2 used only for
-the Jacobian comparison. Layer 8 needs Layers 4–5 and §2.3, with §6.2 used only for its volume-form
-specialization. Layer 9 needs Layers 4–5 and §2.3; §9.3(a)–(c) do not depend on §9.1–§9.2,
-and the direct retraction construction of §9.3(d) uses §9.2. Layer 10 needs Layers 7 and 9
-and §2.4, with §5.4 used in §10.4. Layer 11 needs §6.3 and Layers 8–10.
 
 ## Layer 1: local classes on Euclidean domains
 
@@ -1847,6 +1658,199 @@ Degrees of `z ↦ zᵏ` and of the antipodal map of `Sⁿ` computed as `∫ J`; 
   §6.1–§6.3 and §7.1. Its Parts II and III (Reshetnyak's theory; the cohomological bounds of
   Bonk–Heinonen, Prywes and Heikkilä–Pankka) consume Layers 8 and 11.
 - A roadmap on harmonic maps between Riemannian manifolds would start from Layers 5, 9 and 10.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the local Lebesgue class `MemLpLoc` and the first-order local Sobolev class
+  `W^{1,p}_loc(Ω; F)` with Banach `F` on open subsets of every finite-dimensional real normed
+  space, with their Banach-valued API (§1.1–§1.2); they extend the planar classes of orders `0`
+  and `1` of PseudoholomorphicCurveAnalysis §1.1 from `ℂ` to every such source (those are the
+  case `E = ℂ`);
+- the Euclidean chain rule for `C¹` outer maps with bounded derivative and arbitrary Sobolev
+  inner maps, the continuity of the composition operator, the change of variables of the local
+  class under `C¹` local diffeomorphisms and submersions, local mollification, and Banach-valued
+  Poincaré and Morrey estimates for the local class, whose `C¹` cases are Tau Ceti's (Layer 2);
+- on manifolds without a metric: the almost-everywhere filter, chart measurability and local
+  `Lᵖ`, null preimages under submersions, and measures defined by positive continuous densities
+  (Layer 3);
+- the local class `W^{1,p}_loc(M; F)` of Banach-valued functions, the
+  continuous class `W^{1,p}_loc(M, N)` for Banach targets, the weak differential, `C¹` members,
+  restriction, locality, metric independence and the chain rules; colocal weak differentiability
+  and its differential for measurable maps into finite-dimensional targets (Layer 4);
+- compatible continuous tangent norms on source and target, `‖Df‖` and its `L^p` characterization,
+  and intrinsic derivative-energy classes for colocal weak maps (Layer 5);
+  the oriented Jacobian of a linear map and of a Sobolev map between manifolds of the same
+  finite dimension, and Hadamard's inequality (Layer 6);
+- the comparison of the class with its Euclidean form, with PseudoholomorphicCurveAnalysis §4.1
+  and with the Sobolev sections of a trivial bundle over a compact manifold of
+  PseudodifferentialOperators §5.2, including the first-order extension of that carrier to
+  Banach fibres (Layer 7);
+- the pullback of forms with fixed Banach coefficients, the Bochner extension of top-form
+  integration and Stokes needed for testing their weak exterior derivative, and commutation of
+  pullback with that derivative (Layer 8);
+- the characterization through split immersions, smooth retractive embeddings and their
+  compact Euclidean and Hilbert-sphere examples, and smooth approximation of continuous Sobolev
+  maps into arbitrary smooth Banach targets, including relative approximation (Layer 9);
+- the extrinsic space `W^{1,p}_ι(M, N)` on compact finite-dimensional `M` for a closed embedding
+  with a controlled retraction, comparison under controlled changes of embedding, Morrey's
+  theorem and smooth density, including Schoen–Uhlenbeck for compact finite-dimensional targets
+  and comparison with intrinsic weak maps for compact finite-dimensional targets (Layer 10);
+- the integral formula for the degree of a continuous `W^{1,n}` map, the degree of a `W^{1,n}`
+  map, and the failure of density for `n − 1 ≤ p < n` at `x/|x|` (Layer 11).
+
+It leaves to named owners:
+
+- **PDE** Layer 1 owns the Euclidean scalar spaces `W^{k,p}(Ω)`, Poincaré inequalities, Morrey's
+  theorem and density; Tau Ceti implements the parts consumed here (Exact supplier contracts).
+- **PseudoholomorphicCurveAnalysis** PH1 owns the planar classes on planar domains and
+  half-discs and their higher-order theory (embeddings, products, composition of order `k ≥ 2`,
+  reflection, local compactness), and PH4.1 owns `W^{k,p}_loc(Σ, M)` for maps from a Riemann
+  surface with `kp > 2`. §1.1 defines the classes of PH1.1 of orders `0` and `1` over every
+  finite-dimensional source, PH1.1's being the case `E = ℂ`, and §7.2 proves that PH4.1's class
+  at `k = 1` is this roadmap's class on surfaces.
+- **PseudodifferentialOperators** §5.2 owns the Banach space of `W^{k,p}` sections of a vector
+  bundle over a compact base, its finite-chart norms and its smooth density.
+  **Yamabe** Y1 owns the scalar closed-manifold carriers used for the Yamabe problem. This roadmap
+  builds no second carrier: §7.3 extends the §5.2 carrier at first order to trivial bundles
+  with Banach fibre, identifies this roadmap's class on a compact manifold with it, and Layer 10
+  uses it. Higher-order and nontrivial Banach bundles are outside this roadmap.
+- **RiemannianGeometry** R4.6 owns the agreement of chartwise null sets with null sets of the
+  Riemannian volume of a smooth metric (§3.1 proves it for every positive continuous density,
+  which covers continuous metrics), and R6 owns the nearest-point retraction onto the image of
+  a closed-image `C²` embedding into a Euclidean space.
+- **DifferentialGeometry** owns orientations (2.1–2.2), integration of forms and Stokes' theorem
+  (Layer 5), the Riemannian volume (12.4) and the degree of smooth and continuous maps with its
+  integral formula and homotopy invariance (10.3–10.5). §8.2 here extends its existing scalar
+  top-form integration and boundaryless Stokes API to fixed Banach coefficients in place.
+- **QuasiregularMaps** owns the membership of locally Lipschitz maps between finite-dimensional
+  manifolds in the class (its §2.8), the
+  classes `ACL` and `ACL^p` and the theorem that continuous `ACL^p` maps are the continuous
+  `W^{1,p}_loc` maps on Euclidean domains (its §5.1–§5.2), and everything about distortion.
+- **GeometricMeasureTheory** owns the area and coarea formulas for Lipschitz maps.
+
+Outside this roadmap: Sobolev classes of order `k ≥ 2` or fractional order, of functions on
+Euclidean domains and of maps between manifolds;
+Sobolev maps on manifolds with boundary, traces and extension of Sobolev maps; Bethuel's density
+theorem for `p < dim M` and the homotopy theory of `W^{1,p}(M, N)`; lifting; Nash's isometric
+embedding theorem; harmonic maps and the calculus of variations for maps between manifolds;
+Sobolev spaces of differential forms; Lusin's condition (N) and the area formula for Sobolev
+maps; mappings of finite distortion; Sobolev theory on infinite-dimensional sources; weak
+Riemannian metrics; general Lipschitz composition in Banach targets and its Radon–Nikodým
+characterization; existence of embeddings or tubular retractions for arbitrary Banach manifolds.
+The colocal theory is for finite-dimensional targets; a replacement for its compactly supported
+probes on Banach targets, variable coefficient bundles with connections, and intrinsic metrics
+and completeness of the full space of weak maps are outside this roadmap.
+
+## Exact supplier contracts
+
+The [Mathlib discussion of Sobolev interfaces](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/near/625821807)
+distinguishes the Euclidean and manifold interfaces. This roadmap keeps Euclidean weak
+derivatives directly usable and compares them with its manifold predicates in Layer 7.
+
+### From Mathlib
+
+- `MeasureTheory.MemLp`, `MeasureTheory.LocallyIntegrableOn`, `MeasureTheory.AEStronglyMeasurable`
+  `measureSpaceOfInnerProductSpace` and `MeasureTheory.Measure.IsAddHaarMeasure`.
+- `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero` and
+  `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`
+  (`Mathlib/MeasureTheory/Function/Jacobian.lean`): differentiable images of null sets are null,
+  and the change of variables formula.
+- `extChartAt`, `writtenInExtChartAt`, `mfderiv`, `ContMDiff`, `IsManifold`, and
+  `TopologicalSpace.Opens` as a charted space.
+- `Manifold.IsSubmersionAt` (`Mathlib/Geometry/Manifold/Submersion.lean`), the local chart
+  normal form of a projection with a continuous linear complement. §2.5 and §4.6 use this
+  predicate. Mathlib has no conversion from a surjective differential to
+  `Manifold.IsSubmersionAt`; §2.5 proves the finite-dimensional one from the inverse function
+  theorem.
+- `Manifold.IsImmersionAt` (`Mathlib/Geometry/Manifold/Immersion.lean`), with
+  `ContMDiffAt.iff_comp_isImmersionAtOfComplement` as the smooth pattern of §9.1. This is the
+  chart-normal-form notion of a split immersion, not just injectivity of the differential.
+  `Manifold.IsDiffImmersionAt` says that the differential has a continuous linear left inverse;
+  `IsDiffImmersionAt.of_injective_of_finiteDimensional` (`Mathlib/Geometry/Manifold/ImmersionDiff.lean`):
+  an injective differential with finite-dimensional ambient model has such a left inverse.
+  §9.1 uses `IsImmersionAt` directly and derives the finite-dimensional injective-differential
+  corollary using the inverse function theorem and a complement.
+- `exists_embedding_euclidean_of_compact` (`Mathlib/Geometry/Manifold/WhitneyEmbedding.lean`):
+  a compact smooth manifold embeds in a Euclidean space.
+- `SmoothPartitionOfUnity` and `Continuous.exists_contMDiff_approx`
+  (`Mathlib/Geometry/Manifold/SmoothApprox.lean`). Only source cutoffs and Banach-valued
+  local smoothing are consumed here; intrinsic relative Sobolev approximation into an arbitrary
+  Banach manifold is a target of §9.3, not a consequence supplied by these declarations alone.
+- `Orientation.volumeForm`, `Orientation.volumeForm_robust`, `Orientation.volumeForm_neg_orientation`,
+  `Orientation.abs_volumeForm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Orientation.lean`);
+  `LinearMap.det`; `LinearMap.normDet` and `LinearMap.normDet_eq_abs_det`
+  (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`).
+- `Bundle.RiemannianBundle`, `IsContinuousRiemannianBundle`.
+  These supply the Riemannian source specialization and the strong Hilbert special case of
+  §5.1; the compatible continuous tangent-norm API is built in §5.1 for both source and target.
+
+### From Tau Ceti
+
+- `TauCeti.HasWeakFDerivOn` and, in `TauCeti/Analysis/Sobolev/WeakDeriv/`:
+  `TauCeti.HasWeakFDerivOn.ae_eq`, `.mono`, `.congr_ae_deriv`,
+  `TauCeti.hasWeakFDerivOn_of_differentiableOn` (`Basic.lean`); detection on relatively compact
+  subdomains `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure` (`Local.lean`); the
+  classical derivative of a continuous function with a continuous weak derivative,
+  `TauCeti.HasWeakFDerivOn.fderiv_eq_of_continuousOn` and
+  `TauCeti.HasWeakFDerivOn.contDiffOn_succ` (`Classical.lean`); closedness under
+  `L¹_loc` limits `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub` (`Limit.lean`).
+  In `TauCeti/Analysis/Sobolev/Mollification/`: mollification
+  `TauCeti.HasWeakFDerivOn.fderiv_convolution_right` (`Basic.lean`)
+  and `TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed` (`Interior.lean`).
+- `TauCeti.W1p`, `TauCeti.W1p.hasWeakFDerivOn_comp` (`W1p/ChainRule.lean`, scalar outer maps),
+  `TauCeti.W1p.continuousOn_preciseRepresentative` (`W1p/InteriorMorrey.lean`, Morrey for
+  `p > n`), `TauCeti.Wkp.dense_contDiffOn_representatives` (`Wkp/MeyersSerrin.lean`). For `C¹`
+  functions with values in a Banach space `F`: the Poincaré–Wirtinger inequality on bounded
+  convex open sets `TauCeti.eLpNorm_sub_setAverage_le_of_convex` (`Poincare/Wirtinger/Basic.lean`,
+  `1 ≤ p < ∞`) and Morrey's inequality on balls `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`
+  (`Morrey.lean`, finite `p > n`); §2.3–§2.4 pass them to the local class by mollification, and
+  §7.3 supplies the Banach-valued first-order carrier comparison. No finite-coordinate argument
+  is a supplier for an infinite-dimensional target.
+- `TauCeti.WeakDerivStep` (`TauCeti/Analysis/Sobolev/GraphStep/Basic.lean`): with base the
+  identity of `Lp F p (volume.restrict U)`, `1 ≤ p`, the closed graph of `u ↦ (u, Du)` in
+  `Lp F p × Lp (E →L[ℝ] F) p` over an open `U`, complete for Banach `F` by its `CompleteSpace`
+  instance; membership is `TauCeti.mem_weakDerivStepSubmodule_iff_hasWeakFDerivOn`, and
+  convergence is convergence of both components
+  (`TauCeti.WeakDerivStep.tendsto_iff_prev_weakFDeriv`).
+- `TauCeti.IsNullSet`, `TauCeti.IsNullSet.chartwise`, `TauCeti.IsNullSet.iUnion`,
+  `TauCeti.IsNullSet.interior_eq_empty` (`TauCeti/Geometry/Manifold/Measure.lean`).
+- `TauCeti.riemannianVolume`, `TauCeti.isLocallyFiniteMeasure_riemannianVolume`
+  (`…/Riemannian/VolumeDensity/Volume.lean`), `TauCeti.isOpenPosMeasure_riemannianVolume`
+  (`…/VolumeDensity/Support.lean`), `TauCeti.riemannianVolumeForm` (`…/Riemannian/VolumeForm.lean`),
+  `TauCeti.WithMetric` (`…/Riemannian/WithMetric.lean`).
+- `TauCeti.Manifold.Orientation`, `.orientationAt`, `.model`
+  (`TauCeti/Geometry/Manifold/Orientation/Basic.lean`).
+- `TauCeti.RoughForm`, `TauCeti.mpullback` (`…/DifferentialForm/Pullback/Basic.lean`),
+  `TauCeti.mextDeriv` (`…/DifferentialForm/ExtDeriv.lean`), `TauCeti.bundleWedgeWith`
+  (`…/DifferentialForm/Wedge/Basic.lean`), `TauCeti.IntegrableTopForm`, `TauCeti.integralTopForm`
+  (`…/DifferentialForm/Integration/TopForm.lean`), `TauCeti.integralTopForm_mextDeriv_eq_zero`
+  (`…/Integration/BoundarylessStokes.lean`). `RoughForm`, `mpullback` and `mextDeriv` already
+  allow fixed general coefficients. The listed top-form integral and Stokes API is scalar;
+  §8.2 supplies its Bochner-valued extension, compact-support integrability API and
+  compatibility with continuous linear coefficient maps.
+- `TauCeti.degreeAtRegularValue` (`TauCeti/Geometry/Manifold/Degree/Basic.lean`), the signed
+  count over a regular value of a `C¹` map, from which DifferentialGeometry 10.3–10.5 builds
+  the degree.
+- `TauCeti.exists_isTubularNeighborhood_normalBundle`
+  (`TauCeti/Geometry/Manifold/TubularNeighborhood/Euclidean.lean`).
+
+### From other roadmaps
+
+- **PDE** Layer 1: §1.2 (density), §1.4 (Morrey), §1.5 (Poincaré on balls), through the Tau
+  Ceti declarations above.
+- **PseudoholomorphicCurveAnalysis** PH1.1 (the planar classes, generalized in §1.1) and PH4.1
+  (the surface class, compared in §7.2).
+- **PseudodifferentialOperators** §5.2: the `W^{k,p}` section carrier of a vector bundle over a
+  compact base, its finite-chart norms, completeness and smooth density for `p < ∞`.
+- **RiemannianGeometry** R4.6 (chartwise and Riemannian null sets, for smooth metrics) and R6
+  (the nearest-point retraction `π` onto a closed-image `C²` embedded submanifold of a Euclidean
+  space, defined on an open tube, `C¹` for `C²` embeddings and smooth for smooth ones).
+- **DifferentialGeometry** 2.1–2.2 (orientations), Layer 5 (integration of top forms and the
+  boundaryless Stokes theorem), 12.4 (Riemannian volume), 10.4 (the integral formula
+  `∫_M f^*ω = deg f · ∫_N ω` for smooth maps of closed oriented manifolds and smooth `ω`) and
+  10.5 (the degree of continuous maps and its homotopy invariance).
 
 ## References
 

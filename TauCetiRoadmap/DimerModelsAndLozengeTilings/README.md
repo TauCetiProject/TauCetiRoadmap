@@ -1,30 +1,56 @@
 # Roadmap: dimer models and lozenge tilings
 
-**Summary.** This roadmap builds two-dimensional lattice statistical mechanics in Tau Ceti, with the
-dimer model on the hexagonal lattice (equivalently, lozenge tilings of the triangular lattice) as
-its worked case. It starts from Mathlib's simple graphs, perfect matchings, placed tiles, product
-spaces, weak convergence of probability measures, curve integrals and determinants, and from Tau
-Ceti's characterisation of ergodic countable-group actions as extreme invariant measures. It builds
-the triangular lattice with its faces, lozenges and dual hexagonal graph; tilings of regions as
-perfect matchings; height functions, a combinatorial simple connectivity with a bridge to Mathlib's
-`IsSimplyConnected`, the lattice of height functions, flips and Thurston's tileability criterion;
-Kasteleyn's theorem and Kenyon's determinantal local statistics on finite simply connected regions;
-Gibbs specifications on configuration spaces with a proper action of a countable group, and the
-dimer specification on any locally finite periodic graph, with the face property and the
-extreme-point characterisation of ergodic Gibbs measures; slopes; the classification of ergodic
-Gibbs measures on the boundary of the slope triangle; torus tilings and the four-determinant
-Kasteleyn formula on the torus; and the explicit determinantal kernel of an ergodic Gibbs measure of
-every interior slope, identified with Okounkov–Reshetikhin's incomplete beta kernel and, along a
-row, with the discrete sine kernel. The end theorems are: tilings are perfect matchings of the dual
-graph (1.5); plane tilings are height functions (2.5); flip connectivity (2.8) and Thurston's
-criterion (2.9); Kasteleyn's theorem and the local statistics formula (3.2, 3.3); the face and
-ergodicity theorem for translation-invariant Gibbs measures (4.6, 5.3, with its lozenge instance in
-5.4); the classification on the edges of the slope triangle, with two distinct ergodic Gibbs
-measures of every non-corner edge slope (6.3); every torus limit is a translation-invariant Gibbs
-measure of the prescribed slope (7.3); the torus partition function as a signed sum of four
-determinants (8.3); existence of an ergodic Gibbs measure of every slope (9.5); existence,
-uniqueness and ergodicity of the incomplete beta process of every complex slope (9.7); and
-convergence of local statistics of tilings of growing regions to Gibbs measures (10.2).
+**Summary.** A lozenge is the union of two adjacent triangles of the triangular lattice, one white
+and one black. A lozenge tiling of a region is the same as a perfect matching of the dual hexagonal
+graph on its triangles, a dimer configuration. Two questions drive the subject: how many tilings a
+region has, and what a random tiling looks like near a point. This roadmap builds the lattice theory
+behind both: height functions, Kasteleyn determinants, and Gibbs measures on plane tilings.
+
+Let a finite region be simply connected, with as many white as black triangles, and give the edges
+positive weights. By Kasteleyn's theorem, the weighted number of tilings is the absolute value of
+the determinant of the Kasteleyn matrix, the matrix of weights between adjacent white and black
+triangles. With unit weights the unit hexagon has two tilings and determinant `2`. A ring of twelve
+triangles round a missing one is not simply connected: it also has two tilings, but determinant `0`.
+Simple connectivity is meant combinatorially, through integer edge cochains, and holds whenever the
+union of the triangles is simply connected in the plane. If the region is tileable and each tiling
+is weighted by the product of its edge weights, the probability that given distinct white–black
+pairs are all matched is the product of their matrix entries times a determinant of entries of the
+inverse matrix.
+
+A probability measure on plane tilings is Gibbs when, given the tiling outside any finite set, the
+tiling inside is uniform among its completions. The translation-invariant Gibbs measures form a face
+of the invariant probability measures: if a proper convex combination of two invariant probability
+measures is Gibbs, both are. Hence an invariant Gibbs measure is extreme among them exactly when it
+is ergodic under translations. Both statements hold for any specification, a consistent family of
+conditional laws on finite sets, under a proper action of a countable infinite group on a countable
+index set, and so for dimer models with positive weights on locally finite periodic graphs.
+
+The slope of an invariant measure is the pair `(s,t)` of densities of the first two lozenge types, a
+point of the closed triangle `s, t ≥ 0`, `s + t ≤ 1`. Every point of this triangle is the slope of
+an ergodic translation-invariant Gibbs measure, and every boundary point other than the corners of
+at least two. Existence does not follow from an extreme-point argument, since the invariant Gibbs
+measures of a non-corner slope do not form a face of all invariant Gibbs measures.
+
+Interior slopes have explicit measures. For `Im ξ > 0` there is a unique probability measure
+on plane tilings under which the positions `X(M)` of the type-1 lozenges satisfy
+`μ{v₁, …, v_m ∈ X(M)} = det[K_ξ(vᵢ;vⱼ)]` for distinct points. Here `K_ξ((x₁,y₁);(x₂,y₂))`,
+Okounkov and Reshetikhin's incomplete beta kernel, is `(2πi)⁻¹ ∫ (1−z)^{y₁−y₂} z^{x₂−x₁−1} dz`
+from `ξ̄` to `ξ` along a path crossing the real axis once, in `(0,1)` if `y₁ ≥ y₂` and in `(−∞,0)`
+otherwise. This measure is ergodic, translation-invariant and Gibbs, of slope
+`(arg ξ/π, −arg(1−ξ)/π)`, and every interior slope arises from exactly one `ξ`. Along a row its
+correlations are determinants of the discrete sine kernel `sin(πsm)/(πm)`.
+
+From Tau Ceti the roadmap takes the characterisation of ergodic measures of a countable group action
+as the extreme invariant ones. Jacobi's complementary-minor identity, also from Tau Ceti, yields the
+correlation formulas. The homology form of Cauchy's theorem, likewise from Tau Ceti,
+shows that the kernel depends on the path only through its side of crossing. The sequel,
+DimerModelsAndLozengeTilingsPartII, builds on these results for Sheffield's uniqueness of the
+ergodic Gibbs measure of each interior slope, for limit shapes and for Aggarwal's universality
+theorem.
+
+Layers 1–3 treat tilings, height functions and finite regions, including Thurston's tileability criterion. Layers 4–6 develop
+Gibbs measures and settle the boundary of the slope triangle. Layers 7–9 pass through the torus to
+the explicit measures, and Layer 10 treats growing regions.
 
 The README is definitive; `Suggested.lean` is the roadmap's acceptance test and states the
 headline theorems named in this document, each with `sorry`, with the simple definitions they
@@ -32,127 +58,23 @@ need. Suggested homes: `TauCeti/Combinatorics/Tiling/Lozenge/`
 (Layers 1–3, 7–8), `TauCeti/Probability/Gibbs/` (Layers 4–5), `TauCeti/Probability/Dimer/`
 (Layers 6, 9, 10).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the triangular lattice on `ℤ × ℤ`, its edges, faces, colours, lozenges and lozenge types, its
-  translations and its rotation of order three; the dual hexagonal graph; regions (arbitrary
-  sets of faces), their interior and boundary edges and boundary vertices; tilings and free
-  tilings of regions; the comparison of tilings with Mathlib's perfect matchings (Layer 1);
-- integer edge cochains on regions, combinatorial simple connectivity, its bridge from
-  topological simple connectivity of the union of faces in `ℝ²`, height functions of plane
-  tilings and of tilings of regions, boundary heights, the distributive lattice of height
-  functions, flips, flip connectivity and Thurston's criterion (Layer 2);
-- Kasteleyn matrices of finite regions with positive edge weights, Kasteleyn's theorem for
-  finite simply connected regions and the determinantal formula for lozenge correlations
-  (Layer 3);
-- tail σ-algebras of product spaces over a countable index set with a proper action of a
-  countable group, identified along an enumeration with Tau Ceti's `tailProcess`, the theorem
-  that invariant events are almost surely tail events, tail triviality and ergodicity of Bernoulli
-  product measures under such actions, the weak topology on probability measures of a
-  finite-alphabet subshift, Gibbs specifications and their Gibbs measures, the stability of the
-  Gibbs property under tail-measurable densities, the face property of the invariant Gibbs
-  measures, and their weak closedness (Layer 4);
-- perfect-matching configuration spaces of locally finite countable graphs with a proper action
-  of a countable group, the weighted dimer specification, its cylinder-identity form, and the
-  lozenge instance on the hexagonal graph (Layer 5);
-- slopes of translation-invariant measures on plane tilings, the corners and the edges of the
-  slope triangle (Layer 6); torus tilings, height changes and torus measures (Layer 7);
-  Kasteleyn theory on the torus (Layer 8); the infinite inverse Kasteleyn kernel, Riemann-sum
-  limits on good tori, the resulting ergodic Gibbs measures, the incomplete beta kernel and the
-  discrete sine kernel (Layer 9); local-statistics convergence of measures on tilings of growing
-  regions (Layer 10).
-
-It does not own, and does not restate:
-
-- simple graphs, `SimpleGraph.induce`, subgraphs and `SimpleGraph.Subgraph.IsPerfectMatching`;
-  product topologies and σ-algebras, the σ-algebras `MeasureTheory.cylinderEvents Δ` generated by
-  the coordinates in a set `Δ`, the ring `MeasureTheory.measurableCylinders` of measurable
-  cylinders and its generation of the product σ-algebra, `MeasureTheory.ProbabilityMeasure` with
-  its weak topology, compactness of probability measures on a compact space, the portmanteau
-  implications and the π-system convergence criterion; Markov kernels measurable for a
-  sub-σ-algebra, their composition, properness of a single kernel
-  (`ProbabilityTheory.Kernel.IsProper`) and invariance of a measure under a kernel
-  (`ProbabilityTheory.Kernel.Invariant`); closed shift-invariant subsets of `G → A` indexed by the
-  acting monoid `G` itself (`SymbolicDynamics.FullShift.MulSubshift`); Kolmogorov's zero-one law;
-  `ErgodicSMul`; conditional expectation; determinants and inverses; the lifting criterion through
-  covering maps; the Riemann–Lebesgue lemma; curve integrals of 1-forms along paths — all in
-  Mathlib (exact names under the supplier contracts);
-- Mathlib's language of placed tiles, `DiscreteTiling.Prototile`, `DiscreteTiling.Protoset` and
-  `DiscreteTiling.PlacedTile` (`Mathlib/Combinatorics/Tiling/Tile.lean`), which at the pin
-  describes single copies of prototiles under a group action and has no notion of a tiling; 1.4
-  identifies the lozenges with the placed tiles of the protoset of the three lozenges, and a
-  tiling is encoded here by the set of inner edges of its lozenges, the perfect-matching form of
-  1.5;
-- the characterisation of ergodic invariant probability measures of a countable group action as
-  extreme points of the invariant probability measures, `ErgodicSMul.iff_mem_extremePoints`,
-  the convex set `TauCeti.MeasureTheory.invariantMeasuresOfMeasureUnivEq`, and the test of
-  ergodicity on exactly invariant events,
-  `TauCeti.MeasureTheory.ergodicSMul_iff_forall_smul_invariant` — already in Tau Ceti; this
-  roadmap applies them and adds the Gibbs-specific face property;
-- contour integrals along piecewise `C¹` curves, winding numbers and the homology form of Cauchy's
-  theorem, `TauCeti.Contour.homologyCauchyTheorem` — already in Tau Ceti, built by the completed
-  ContourIntegration roadmap (Layer 3, the global homological Cauchy theorem); 9.6 applies them;
-- the tail σ-algebra of an ℕ-indexed process, `TauCeti.Probability.tailProcess`, with its normal
-  form as the intersection of the future σ-algebras — already in Tau Ceti; the tail σ-algebra of
-  4.1 differs in being indexed by an arbitrary countable set carrying a proper action of a
-  countable group, under which it is equivariant, and for an infinite index set it equals
-  `tailProcess` of the coordinate process along any enumeration;
-- the Bernoulli shift of an infinite discrete group `Γ` on `S^Γ`, for a finite `S` with at least
-  two positive weights, with its measure preservation, ergodicity and the null fixed-point sets of
-  its non-identity elements, which VonNeumannAlgebras owns (Layer 8, target
-  V8.BernoulliArbitraryDiscrete), and its extension to a general nontrivial standard base for a
-  countably infinite `Γ`, which FactorRigidity §8.3 builds, and the Bernoulli action of a
-  countable discrete group `G` on `G → α` for any measurable `α` and probability law, with its
-  mixing for infinite `G`, which ClassicalErgodicTheory §0.3 (item 2) and §1.4 (item 2) build;
-  4.3 is a kept variant that differs in taking a countable `Γ` acting properly on any countable
-  index set `I` (the edges of the hexagonal graph under `ℤ²` among them), any measurable alphabet
-  and any law `ν`, point masses included, and in proving tail triviality by Kolmogorov's zero-one
-  law;
-- Jacobi's complementary-minor identity, which expresses a minor of a square matrix with
-  invertible determinant through the complementary minor of its inverse,
-  `Matrix.det_submatrix_comp_inr_eq_sign_mul_det_mul_det_submatrix_comp_inl_nonsing_inv` —
-  already in Tau Ceti; 3.3 and 8.4 apply it to the restricted Leibniz sums of Kasteleyn
-  matrices (Conventions);
-- the finite triangular array `Δₙ = {(x,y,z) ∈ ℕ³ : x+y+z = n}` with its unit rhombi and hives,
-  which TensorProductCombinatorics §1.1 owns for tensor-product multiplicities: it is a finite
-  barycentric carrier for concave functions, not the infinite lattice with its dual graph used
-  here, and no target here needs a comparison;
-- determinantal point processes on continuous spaces and the continuous sine kernel, which
-  RandomMatrices §8.3–8.4 owns; the discrete sine kernel of 9.7 is the lattice counterpart and
-  is stated here only as a kernel of a measure on tilings;
-- the perfect-matching theory of finite bipartite multigraphs of GraphConnectivityAndFlows §§6.7
-  and 6.9, and Tau Ceti's perfect matchings of a finite type as fixed-point-free involutions,
-  `TauCeti.IsPerfectMatching` (`TauCeti/Combinatorics/Enumerative/PerfectMatching.lean`), neither
-  of which is used: matchings here are Mathlib's perfect matchings of simple graphs, finite or
-  infinite;
-- the Gibbs states of finite quantum systems, `Matrix.gibbsState`
-  (`TauCeti/Analysis/CStarAlgebra/Action/Gibbs.lean`), the KMS states of a matrix Hamiltonian:
-  a different object from the classical Gibbs measures of a specification built here, and not
-  used;
-- the Gibbs measures of an equilibrium state in Bowen's sense, `IsGibbsMeasure T φ μ` of
-  ClassicalErgodicTheory §8.4 (two-sided bounds on the masses of Bowen balls for a potential of a
-  single map), a different notion from the Gibbs measures of a specification of 4.5, and the
-  invariant Radon probabilities of a single continuous map of a compact Hausdorff space, closed
-  and convex, of ClassicalErgodicTheory §5.1; the weak closedness of 4.6(c) is the
-  countable-group form on a finite-alphabet subshift, where the invariant probability measures
-  are the intersection over `γ ∈ Γ` of the closed sets of measures fixed by the homeomorphism
-  `ω ↦ γω`;
-- the incomplete Beta function `B_x(a,b)` of SpecialFunctionsEiLiErfIncompleteGamma Layer 15, a
-  real integral over `[0,x]` with exponents `a, b > 0`: the incomplete beta kernel of 9.6
-  integrates integer powers of `z` and `1 − z` along a path in `ℂ ∖ {0,1}` between complex
-  conjugate endpoints, and is not a value of it.
-
-Outside this roadmap, and the subject of its Part II (DimerModelsAndLozengeTilingsPartII):
-Sheffield's uniqueness of the ergodic Gibbs measure of each interior slope and the consequent
-convergence of the fixed-height-change torus measures; the specific free energy, surface tension
-and the Cohn–Kenyon–Propp variational principle with limit shapes; the continuum objects of
-Aggarwal's universality theorem (admissible functions, the entropy functional and its maximiser,
-convergence of domains); amoebae and the frozen–liquid–gaseous classification for general
-periodic weights; general periodic bipartite planar graphs, the planar Kasteleyn theorem and
-domino tilings. No ergodic theorem (Birkhoff or mean ergodic theorem for `ℤ²`) and no ergodic
-decomposition is used: ergodicity enters only as triviality of invariant events.
+Layer 1 fixes the lattice, the dual graph, regions and tilings, and proves that tilings are perfect
+matchings. Layer 2 builds edge cochains, simple connectivity and height functions, and from them the
+lattice of height functions, flips and Thurston's criterion. Layer 3 proves Kasteleyn's theorem on
+finite simply connected regions from flip connectivity, and the local statistics formula from it and
+Tau Ceti's complementary-minor identity. Layer 4 is abstract: product spaces with a proper action,
+tail events, Bernoulli measures, the weak topology, specifications and the face property. Layer 5
+instantiates Layer 4 for perfect matchings of periodic graphs and for lozenge tilings. Layer 6
+introduces slopes and settles the boundary of the slope triangle by hand. Layer 7 builds torus
+tilings and shows that torus limits are translation-invariant Gibbs measures of the prescribed
+slope. Layer 8 is Kasteleyn theory on the torus. Layer 9 passes to the limit on good tori, obtains
+the determinantal ergodic Gibbs measure of every interior slope and identifies its kernel with the
+incomplete beta kernel. Layer 10 defines local-statistics convergence for tilings of growing regions
+and proves that limits of uniform measures are Gibbs. Layer 4 depends on no earlier layer, and Layer
+5 uses Layers 1–2 only in its lozenge instance 5.4, so Layers 1–3 and Layers 4–5.3 may be built in
+parallel.
 
 ## Conventions
 
@@ -296,272 +218,6 @@ All conventions below are fixed.
 - **Sizes and real numbers.** Probabilities are real numbers in `[0,1]`; all divisions are real.
   Natural-number subtraction does not occur: height changes satisfy `n₂h₁ + n₁h₂ ≤ n₁n₂`, and
   `n₁n₂ − n₂h₁ − n₁h₂` is computed in `ℤ`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the Mathlib revision pinned in `lake-manifest.json`.
-
-- `SimpleGraph`, `SimpleGraph.induce` (`Mathlib/Combinatorics/SimpleGraph/Maps.lean`, an abbrev
-  giving the induced graph on a subtype), `SimpleGraph.LocallyFinite`
-  (`Mathlib/Combinatorics/SimpleGraph/Finite.lean`), `SimpleGraph.Subgraph`,
-  `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.Subgraph.IsPerfectMatching` and
-  `SimpleGraph.Subgraph.isPerfectMatching_iff` (`Mathlib/Combinatorics/SimpleGraph/Matching.lean`:
-  a perfect matching is a spanning subgraph in which every vertex has exactly one neighbour).
-- `Pi.topologicalSpace` (`Mathlib/Topology/Constructions.lean`), `Function.compactSpace` and
-  `Pi.compactSpace` (`Mathlib/Topology/Compactness/Compact.lean`); `MeasurableSpace.pi`
-  (`Mathlib/MeasureTheory/MeasurableSpace/Constructions.lean`); `MeasureTheory.Measure.infinitePi`
-  (`Mathlib/Probability/ProductMeasure.lean`, for a family of probability measures), with
-  `MeasureTheory.Measure.infinitePi_map_piCongrLeft` (the same file, line 494: for probability
-  measures `μ i` on measurable spaces `X i` and `e : α ≃ ι`, the push-forward of
-  `infinitePi (fun a => μ (e a))` along `MeasurableEquiv.piCongrLeft X e`, which sends `f` to the
-  function with value `f a` at `e a`, is `infinitePi μ`; for a constant family and `e` the
-  bijection `i ↦ γi` of `I`, this is invariance of `ν^{⊗I}` under `(γω)(i) = ω(γ⁻¹i)`);
-  `ProbabilityTheory.iIndepFun_infinitePi` (`Mathlib/Probability/Independence/InfinitePi.lean`,
-  line 124: for probability measures `P i` and measurable maps `f i` on the factors, the functions
-  `ω ↦ f i (ω i)` are independent under `infinitePi P`);
-  `ProbabilityTheory.iIndepFun.precomp` and `ProbabilityTheory.iIndepFun_iff_iIndep`
-  (`Mathlib/Probability/Independence/Basic.lean`, lines 323 and 231: an independent family stays
-  independent along an injective reindexing, and independence of functions is independence of the
-  σ-algebras they generate). 4.3 uses them to feed the coordinates along an enumeration
-  `e : ℕ ≃ I` to the zero-one law.
-- `Pi.borelSpace` (`Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean`, line 645: for a
-  countable index type and factors that are second-countable Borel spaces, the product σ-algebra
-  is the Borel σ-algebra of the product topology; a factor whose σ-algebra is not its Borel
-  σ-algebra is not covered); `DiscreteMeasurableSpace`
-  (`Mathlib/MeasureTheory/MeasurableSpace/Defs.lean`: every subset is measurable) and
-  `DiscreteMeasurableSpace.toBorelSpace` (the same Borel file: a space with the discrete topology
-  and the discrete σ-algebra is a Borel space); `Subtype.borelSpace` (the same Borel file: a subset
-  of a Borel space, with the subspace topology and the trace σ-algebra, is a Borel space);
-  `Bool.instMeasurableSpace` (defined as `⊤`,
-  `Mathlib/MeasureTheory/MeasurableSpace/Instances.lean`) and `Bool.borelSpace`. These are the
-  Borel structures of 4.4–4.6 and Layers 5–10.
-- `MeasureTheory.ProbabilityMeasure` and its weak topology
-  (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`: the topology instance is stated for an
-  `OpensMeasurableSpace`); the instance `CompactSpace (ProbabilityMeasure E)` for a compact
-  Hausdorff Borel space `E` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`, line 176);
-  `MeasureTheory.ProbabilityMeasure.tendsto_measure_of_isClopen_of_tendsto` and
-  `IsPiSystem.tendsto_probabilityMeasure_of_tendsto_of_mem`
-  (`Mathlib/MeasureTheory/Measure/Portmanteau.lean`: the first needs `OpensMeasurableSpace` and
-  `HasOuterApproxClosed`, which Mathlib provides for every pseudo-metrisable space in
-  `Mathlib/MeasureTheory/Measure/HasOuterApproxClosed.lean`; the second needs
-  `OpensMeasurableSpace`, second countability, a π-system of measurable sets containing
-  arbitrarily small neighbourhoods of every point, and a countably generated filter).
-- `MeasureTheory.cylinderEvents` (`Mathlib/MeasureTheory/Constructions/Cylinders.lean`, line 409:
-  the σ-algebra on a product generated by the coordinates in a set `Δ`), with
-  `MeasureTheory.cylinderEvents_mono` and `MeasureTheory.cylinderEvents_le_pi` (lines 415 and 418:
-  monotone in `Δ` and below the product σ-algebra); `MeasureTheory.Filtration.cylinderEventsCompl`
-  (`Mathlib/Probability/Process/Filtration.lean`, line 534: the σ-algebras `cylinderEvents Λᶜ`,
-  `Λ` finite, as a family decreasing in `Λ`). Mathlib does not form their intersection.
-- `MeasureTheory.measurableCylinders` (the same cylinders file, line 275: the sets
-  `cylinder s B` with `s` a finite set of indices and `B` a measurable subset of the product over
-  `s`), `MeasureTheory.isPiSystem_measurableCylinders`,
-  `MeasureTheory.univ_mem_measurableCylinders` and `MeasureTheory.generateFrom_measurableCylinders`
-  (lines 335, 345 and 366: a π-system containing the whole space and generating
-  `MeasurableSpace.pi`), and `MeasureTheory.isSetRing_measurableCylinders`
-  (`Mathlib/MeasureTheory/Constructions/ProjectiveFamilyContent.lean`, line 57: a ring of sets);
-  `IsPiSystem.comap` (`Mathlib/MeasureTheory/PiSystem.lean`, line 106), so that the traces of the
-  measurable cylinders on a subset form a π-system.
-- `MeasureTheory.exists_measure_symmDiff_lt_of_generateFrom_isSetRing`
-  (`Mathlib/MeasureTheory/Measure/MeasuredSets.lean`, line 86): for a finite measure, a ring of
-  sets `C` generating the σ-algebra and a countable subfamily of `C` whose union has null
-  complement, every measurable set is approximated by members of `C` in the measure of the
-  symmetric difference. 4.2 and 9.4 take for `C` the measurable cylinders and for the subfamily
-  `{univ}` (`MeasureTheory.univ_mem_measurableCylinders`).
-- `ProbabilityTheory.Kernel`, with the notation `Kernel[𝓑, 𝓧] X X` for a kernel measurable for
-  `𝓑` on its source and for `𝓧` on its target, and `ProbabilityTheory.IsMarkovKernel`
-  (`Mathlib/Probability/Kernel/Defs.lean`, lines 55, 70 and 138); `ProbabilityTheory.Kernel.comp`,
-  written `η ∘ₖ κ`, which applies `κ` first: `(η ∘ₖ κ) a = (κ a).bind η`
-  (`Mathlib/Probability/Kernel/Composition/Comp.lean`, line 50); `ProbabilityTheory.Kernel.comap`
-  (`Mathlib/Probability/Kernel/Composition/MapComap.lean`, line 152) along the identity, with
-  `measurable_id''` (`Mathlib/MeasureTheory/MeasurableSpace/Basic.lean`, line 233), which reads a
-  kernel measurable for `𝓑 ≤ 𝓧` on its source as a kernel for `𝓧`;
-  `ProbabilityTheory.Kernel.IsProper` (`Mathlib/Probability/Kernel/Proper.lean`, line 47) with
-  `ProbabilityTheory.Kernel.isProper_iff_inter_eq_indicator_mul` (line 57: for `𝓑 ≤ 𝓧`,
-  properness is `π x (A ∩ B) = 1_B(x) · π x A` for `A ∈ 𝓧` and `B ∈ 𝓑`) and
-  `ProbabilityTheory.Kernel.IsProper.setLIntegral_eq_comp` (line 73: for `𝓑 ≤ 𝓧`, `A ∈ 𝓧` and
-  `B ∈ 𝓑`, `∫⁻_B π(·)(A) dμ = (μ.bind π)(A ∩ B)`); `ProbabilityTheory.Kernel.Invariant`
-  (`Mathlib/Probability/Kernel/Invariance.lean`, line 39: `μ.bind κ = μ`, for a kernel with one
-  σ-algebra on source and target).
-- `SymbolicDynamics.FullShift.MulSubshift` and its additive form
-  `SymbolicDynamics.FullShift.Subshift` (`Mathlib/Dynamics/SymbolicDynamics/Basic.lean`, lines 253
-  and 233: a closed subset of `G → A` mapped into itself by every `mulShift g`, where
-  `(mulShift g x)(h) = x(g * h)`, line 150), with `SymbolicDynamics.FullShift.isOpen_cylinder`
-  and `SymbolicDynamics.FullShift.isClosed_cylinder` (lines 214 and 219). Its index set is the
-  monoid `G` itself and its cylinders are indexed by finite subsets of `G`; Layers 4–10 need index
-  sets with several orbits (the edges of the hexagonal graph under `ℤ²`), which it does not cover.
-- `ProbabilityTheory.measure_zero_or_one_of_measurableSet_limsup` and its sequential form
-  `ProbabilityTheory.measure_zero_or_one_of_measurableSet_limsup_atTop`
-  (`Mathlib/Probability/Independence/ZeroOne.lean`, lines 229 and 290: Kolmogorov's zero-one law
-  along a filter and a directed family of index sets, and for an event measurable with respect to
-  `limsup s atTop` when the σ-algebras `s n` are independent under the measure).
-- `ErgodicSMul`, `ErgodicVAdd` (`Mathlib/Dynamics/Ergodic/Action/Basic.lean`: ergodicity tests
-  almost invariant measurable sets); `MeasureTheory.SMulInvariantMeasure`
-  (`Mathlib/MeasureTheory/Group/Defs.lean`); `Set.extremePoints`, `IsExtreme`
-  (`Mathlib/Analysis/Convex/Extreme.lean`).
-- `MeasureTheory.condExp` (`Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean`).
-- `Matrix.det`, `Matrix.det_apply` (`Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`: the
-  Leibniz expansion), `Matrix.inv` (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`:
-  the inverse of a matrix whose determinant is not a unit is `0`), `Equiv.Perm.sign`
-  (`Mathlib/GroupTheory/Perm/Sign.lean`).
-- `IsSimplyConnected` and `SimplyConnectedSpace`
-  (`Mathlib/AlgebraicTopology/FundamentalGroupoid/SimplyConnected.lean`: a set is simply connected
-  when its subtype is, which includes nonemptiness and path-connectedness);
-  `LocallyPathConnectedSpace` (`Mathlib/Topology/Connected/LocallyPathConnected.lean`);
-  `IsCoveringMap.existsUnique_continuousMap_lifts` (`Mathlib/Topology/Homotopy/Lifting.lean`:
-  unique lifts of maps from simply connected, locally path-connected spaces);
-  `AddCircle.isCoveringMap_coe` (`Mathlib/Topology/Covering/AddCircle.lean`); `convexHull`.
-- `tendsto_integral_exp_inner_smul_cocompact` (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`:
-  Riemann–Lebesgue on a finite-dimensional inner product space; integrability is not assumed and
-  the non-integrable case is vacuous); `intervalIntegral`, `Complex.arg`.
-- `curveIntegral`, written `∫ᶜ x in γ, ω x`
-  (`Mathlib/MeasureTheory/Integral/CurveIntegral/Basic.lean`, line 125: the integral of a 1-form `ω : E → E →L[𝕜] F` along a path `γ`, the interval integral of
-  `ω(γ t)(γ' t)` over `[0,1]`, and `0` when that function is not integrable), with
-  `curveIntegral_segment` (line 306: along `Path.segment a b` it is
-  `∫₀¹ ω(a + t(b − a))(b − a) dt`, with no integrability hypothesis) and `curveIntegral_trans`
-  (line 277: additivity along a concatenation of two paths on which `ω` is curve integrable);
-  `Path.segment` (`Mathlib/Analysis/Convex/PathConnected.lean`, line 39). These are the curve
-  integrals of 9.6.
-- `circleIntegral`, written `∮ z in C(c, R), f z`
-  (`Mathlib/MeasureTheory/Integral/CircleIntegral.lean`, line 435: the interval integral over
-  `[0, 2π]` of `deriv (circleMap c R) θ • f (circleMap c R θ)`), with `deriv_circleMap` (line 130:
-  the derivative is `circleMap 0 R θ · i`), `circleIntegral.integral_sub_zpow_of_ne` (line 615: the
-  circle integral of `(z − w)^n` vanishes for every integer `n ≠ −1` and every `w`) and
-  `circleIntegral.integral_sub_inv_of_mem_ball` (line 748: the circle integral of `(z − w)⁻¹` is
-  `2πi` for `w` in the open disc); `DiffContOnCl.circleIntegral_eq_zero`
-  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`, line 479: the circle integral of a function
-  complex differentiable on the open disc and continuous on its closure vanishes). These evaluate
-  the inner integrals of 9.1.
-- `DiscreteTiling.Prototile`, `DiscreteTiling.Protoset` and `DiscreteTiling.PlacedTile`
-  (`Mathlib/Combinatorics/Tiling/Tile.lean`, lines 79, 110 and 142: a prototile is a set of points
-  of `X` with a subgroup of its stabilizer in the acting group `G`, a protoset an indexed family of
-  prototiles, and a placed tile a prototile index with a coset of its symmetries, read as the
-  image of the prototile under a representative). The acting group is multiplicative; 1.4 uses
-  `Multiplicative (ℤ × ℤ)` acting on faces by translation.
-- The carriers of the statements of `Suggested.lean`: `SimpleGraph.fromRel`
-  (`Mathlib/Combinatorics/SimpleGraph/Basic.lean`, line 135: `u ~ v` iff `u ≠ v` and the relation
-  holds in one of the two orders), `SimpleGraph.edgeSet`; the automorphisms `G ≃g G`, a group by
-  the instance on relation isomorphisms (`Mathlib/Algebra/Order/Group/End.lean`, line 73: the
-  product `f * g` is `g` followed by `f`), and `SimpleGraph.Iso.mapEdgeSet`
-  (`Mathlib/Combinatorics/SimpleGraph/Maps.lean`, line 669: the bijection of edge sets induced by an
-  isomorphism); `SimpleGraph.toSubgraph`
-  (`Mathlib/Combinatorics/SimpleGraph/Subgraph.lean`, line 574: a spanning subgraph from a graph
-  below `G`), `SimpleGraph.Walk.darts` (`Mathlib/Combinatorics/SimpleGraph/Walk/Basic.lean`, line
-  123) and `SimpleGraph.Reachable`; `Set.BijOn` (`Mathlib/Data/Set/Operations.lean`, line 318);
-  `Relation.ReflTransGen` (`Mathlib/Logic/Relation.lean`, line 374); `arrowAddAction`
-  (`Mathlib/Algebra/Group/Action/Basic.lean`, line 101: `(g +ᵥ F) a = F (−g +ᵥ a)`, a definition and
-  not an instance, installed here as the action of `ℤ²` on configurations);
-  `MeasureTheory.VAddInvariantMeasure` (`Mathlib/MeasureTheory/Group/Defs.lean`, line 51),
-  `ErgodicVAdd` (`Mathlib/Dynamics/Ergodic/Action/Basic.lean`, line 31: invariance and every almost
-  invariant measurable set null or conull), `Ergodic` and `MeasureTheory.MeasurePreserving`
-  (`Mathlib/Dynamics/Ergodic/Ergodic.lean`, line 49, and `MeasurePreserving.lean`, line 44);
-  `ProbabilityTheory.uniformOn` (`Mathlib/Probability/UniformOn.lean`, line 60: the counting measure
-  conditioned on a set, a probability measure when the set is finite and nonempty and `0` when it is
-  infinite); `MeasureTheory.Measure.real` (`Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean`,
-  line 102: `(μ s).toReal`); `MeasureTheory.Measure.bind`
-  (`Mathlib/MeasureTheory/Measure/GiryMonad.lean`, line 235); `MeasurableSpace.comap_mono`
-  (`Mathlib/MeasureTheory/MeasurableSpace/Basic.lean`, line 121); `finsum` and `finprod`
-  (`Mathlib/Algebra/BigOperators/Finprod.lean`: the sum or product over the support when it is
-  finite and `0` or `1` otherwise; every support used here is finite); `Matrix.submatrix`
-  (`Mathlib/LinearAlgebra/Matrix/Defs.lean`, line 457); `IsExtreme`
-  (`Mathlib/Analysis/Convex/Extreme.lean`, line 63: `B ⊆ A`, and a point of `B` in an open segment
-  of `A` has its endpoints in `B`, which for measures with `ℝ≥0∞`-scalars is the face property).
-
-At that pin Mathlib has no lattice tilings, no height functions, no Kasteleyn matrices, no Gibbs
-specifications and no tail σ-algebra of a product space (the tail σ-algebra appears only as
-`limsup` of a sequence of σ-algebras in the zero-one law, and the exterior σ-algebras
-`cylinderEvents Λᶜ` of finite sets are not intersected). Properness of a single kernel and
-invariance of a measure under one kernel are Mathlib's; a specification, a consistent family of
-proper kernels indexed by the finite sets, and its Gibbs measures are not. Its subshifts are
-indexed by the acting monoid only.
-
-### From Tau Ceti
-
-At the Tau Ceti revision pinned in `lake-manifest.json`.
-
-- `TauCeti.MeasureTheory.invariantMeasuresOfMeasureUnivEq`, its convexity lemma, and
-  `ErgodicSMul.iff_mem_extremePoints` (`TauCeti/MeasureTheory/Group/ErgodicExtreme.lean`): for a
-  countable group acting measurably (`[Group G] [Countable G] [MulAction G X]
-  [MeasurableConstSMul G X]`) an invariant probability measure is ergodic iff it is an extreme
-  point, in `ℝ≥0∞`-convexity of measures, of the invariant measures of mass one. The statements
-  are multiplicative only; the additive action of `ℤ²` is used through `Multiplicative (ℤ × ℤ)`.
-- `TauCeti.MeasureTheory.ergodicSMul_iff_forall_smul_invariant` and
-  `TauCeti.MeasureTheory.exists_smul_invariant_ae_eq`
-  (`TauCeti/MeasureTheory/Group/CountableAction.lean`, lines 68 and 53, for a countable group
-  acting measurably): an almost invariant measurable event is almost equal to an exactly invariant
-  one, with no hypothesis on the measure (used in 4.6(b)); and, for a measure with
-  `[SMulInvariantMeasure G X μ]`, the action is ergodic iff every measurable, exactly invariant
-  event is null or conull. Its reverse implication is the criterion used in 4.3, 5.3 and 9.4: for
-  an invariant probability measure, exactly invariant events of probability `0` or `1` give
-  ergodicity.
-- `TauCeti.MeasureTheory.isExtreme_setOf_measure_eq_zero`
-  (`TauCeti/MeasureTheory/Measure/Face.lean`): measures vanishing on a fixed set form a face.
-- `TauCeti.Probability.tailFamily`, `TauCeti.Probability.tailProcess` and
-  `TauCeti.Probability.tailProcess_eq_iInf_tailFamily`
-  (`TauCeti/Probability/Process/Tail/Basic.lean`, lines 42, 47 and 64): for a process
-  `X : (k : ℕ) → Ω → β k`, the future σ-algebra generated by the `X k` with `n ≤ k`, the tail
-  σ-algebra `limsup (fun k => MeasurableSpace.comap (X k) _) atTop`, and its normal form
-  `⨅ n, tailFamily X n`. Target 4.1 identifies its tail σ-algebra with `tailProcess` of the
-  coordinate process along an enumeration of the index set. The `ℕ × ℕ`-indexed variant
-  `TauCeti.Probability.arrayTail` (`TauCeti/Probability/Process/Array/Tail/Basic.lean`,
-  line 43) is not used.
-- `Matrix.det_submatrix_comp_inr_eq_sign_mul_det_mul_det_submatrix_comp_inl_nonsing_inv`
-  (`TauCeti/LinearAlgebra/Matrix/Determinant/ComplementaryMinor.lean`, line 160), Jacobi's
-  complementary-minor identity: for a square matrix `A` over a commutative ring, indexed by a
-  finite type `n` with decidable equality, with `IsUnit A.det`, a splitting `e : m ⊕ p ≃ n` of the
-  index type into finite types and permutations `σ`, `τ` of `n`, the minor of `A` on the rows
-  `τ(e(inr ·))` and the columns `σ(e(inr ·))` equals `sgn σ · sgn τ · det A` times the minor of
-  `A⁻¹` on the rows `σ(e(inl ·))` and the columns `τ(e(inl ·))`. Over `ℝ` the hypothesis is
-  `det A ≠ 0`. 3.3 and 8.4 use it with `m` indexing the selected rows, `τ` the identity and `σ`
-  sending each selected row to its selected column (read through `β`), so that the left side is
-  the complementary minor of a restricted Leibniz sum (Conventions) and the two factors `sgn σ`
-  cancel. The adjugate form `Matrix.det_mul_det_submatrix_adjugate`
-  (`TauCeti/LinearAlgebra/Matrix/Determinant/Jacobi.lean`, line 54), stated for `Fin n` with
-  increasing enumerations, is not used.
-
-- `TauCeti.Contour.homologyCauchyTheorem` (`TauCeti/Analysis/Contour/HomologyCauchy.lean`, line
-  108): for an open `Ω ⊆ ℂ`, a closed curve `γ : ℝ → ℂ` on `[a, b]` that is piecewise `C¹`
-  (`TauCeti.IsPiecewiseC1On`, `TauCeti/Analysis/Calculus/ContDiff/PiecewiseC1On.lean`, line 91),
-  lies in `Ω` and is null-homologous in `Ω`, and `f` holomorphic on `Ω`, the contour integral
-  `∫ t in a..b, γ'(t) • f(γ t)` vanishes; `TauCeti.Contour.IsNullHomologous`
-  (`TauCeti/Analysis/Contour/Winding/Number/Basic.lean`, line 147) is the vanishing of
-  `TauCeti.Contour.windingNumber` (line 76 of the same file) about every point outside `Ω`.
-  `TauCeti.Contour.intervalIntegral_deriv_smul_segment_eq_curveIntegral`
-  (`TauCeti/Analysis/Contour/Primitive.lean`, line 129): the contour integral along an affinely
-  parametrised segment from `z` to `w` is Mathlib's curve integral of the 1-form
-  `ContinuousLinearMap.toSpanSingleton ℂ (f x)` along `Path.segment z w`, which is the 1-form of
-  `incompleteBetaKernel`. 9.6 uses them for the independence of the kernel from the path.
-
-Tau Ceti has, at that pin, the invariant σ-algebra and mean ergodic projection for one map
-(`TauCeti/Probability/Ergodic/`) and one-sided shift ergodicity of i.i.d. laws
-(`MeasureTheory.Measure.ergodic_shift_infinitePi_const`,
-`TauCeti/Probability/Ergodic/BernoulliShift.lean`); neither is needed, since the two-sided and
-proper-action statements of Layer 4 are proved directly. Its tail σ-algebras are indexed by `ℕ`
-or `ℕ × ℕ` and carry no group action. It has no dimers, height functions or Gibbs measures.
-
-### From other roadmaps
-
-None. The roadmaps named under Scope and ownership own neighbouring objects; no target here
-consumes them.
-
-## How to read the build
-
-Layer 1 fixes the lattice, the dual graph, regions and tilings, and proves that tilings are perfect
-matchings. Layer 2 builds edge cochains, simple connectivity and height functions, and from them the
-lattice of height functions, flips and Thurston's criterion. Layer 3 proves Kasteleyn's theorem on
-finite simply connected regions from flip connectivity, and the local statistics formula from it and
-Tau Ceti's complementary-minor identity. Layer 4 is abstract: product spaces with a proper action,
-tail events, Bernoulli measures, the weak topology, specifications and the face property. Layer 5
-instantiates Layer 4 for perfect matchings of periodic graphs and for lozenge tilings. Layer 6
-introduces slopes and settles the boundary of the slope triangle by hand. Layer 7 builds torus
-tilings and shows that torus limits are translation-invariant Gibbs measures of the prescribed
-slope. Layer 8 is Kasteleyn theory on the torus. Layer 9 passes to the limit on good tori, obtains
-the determinantal ergodic Gibbs measure of every interior slope and identifies its kernel with the
-incomplete beta kernel. Layer 10 defines local-statistics convergence for tilings of growing regions
-and proves that limits of uniform measures are Gibbs. Layer 4 depends on no earlier layer, and Layer
-5 uses Layers 1–2 only in its lozenge instance 5.4, so Layers 1–3 and Layers 4–5.3 may be built in
-parallel.
 
 ## Layer 1: the triangular lattice and lozenge tilings
 
@@ -2415,6 +2071,376 @@ Layers 4, 5, 9 (for 10.3), and 2.
 - The 2 × 2 torus: nine tilings; `det K₀₀ = −3`, the other three determinants `5`.
 - The uniform measure `μ^{(1,1,1)} = μ_{e^{πi/3}}`: densities `1/3`; vertical type-1 pair
   `2/9 − √3/(6π)`.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the triangular lattice on `ℤ × ℤ`, its edges, faces, colours, lozenges and lozenge types, its
+  translations and its rotation of order three; the dual hexagonal graph; regions (arbitrary
+  sets of faces), their interior and boundary edges and boundary vertices; tilings and free
+  tilings of regions; the comparison of tilings with Mathlib's perfect matchings (Layer 1);
+- integer edge cochains on regions, combinatorial simple connectivity, its bridge from
+  topological simple connectivity of the union of faces in `ℝ²`, height functions of plane
+  tilings and of tilings of regions, boundary heights, the distributive lattice of height
+  functions, flips, flip connectivity and Thurston's criterion (Layer 2);
+- Kasteleyn matrices of finite regions with positive edge weights, Kasteleyn's theorem for
+  finite simply connected regions and the determinantal formula for lozenge correlations
+  (Layer 3);
+- tail σ-algebras of product spaces over a countable index set with a proper action of a
+  countable group, identified along an enumeration with Tau Ceti's `tailProcess`, the theorem
+  that invariant events are almost surely tail events, tail triviality and ergodicity of Bernoulli
+  product measures under such actions, the weak topology on probability measures of a
+  finite-alphabet subshift, Gibbs specifications and their Gibbs measures, the stability of the
+  Gibbs property under tail-measurable densities, the face property of the invariant Gibbs
+  measures, and their weak closedness (Layer 4);
+- perfect-matching configuration spaces of locally finite countable graphs with a proper action
+  of a countable group, the weighted dimer specification, its cylinder-identity form, and the
+  lozenge instance on the hexagonal graph (Layer 5);
+- slopes of translation-invariant measures on plane tilings, the corners and the edges of the
+  slope triangle (Layer 6); torus tilings, height changes and torus measures (Layer 7);
+  Kasteleyn theory on the torus (Layer 8); the infinite inverse Kasteleyn kernel, Riemann-sum
+  limits on good tori, the resulting ergodic Gibbs measures, the incomplete beta kernel and the
+  discrete sine kernel (Layer 9); local-statistics convergence of measures on tilings of growing
+  regions (Layer 10).
+
+It does not own, and does not restate:
+
+- simple graphs, `SimpleGraph.induce`, subgraphs and `SimpleGraph.Subgraph.IsPerfectMatching`;
+  product topologies and σ-algebras, the σ-algebras `MeasureTheory.cylinderEvents Δ` generated by
+  the coordinates in a set `Δ`, the ring `MeasureTheory.measurableCylinders` of measurable
+  cylinders and its generation of the product σ-algebra, `MeasureTheory.ProbabilityMeasure` with
+  its weak topology, compactness of probability measures on a compact space, the portmanteau
+  implications and the π-system convergence criterion; Markov kernels measurable for a
+  sub-σ-algebra, their composition, properness of a single kernel
+  (`ProbabilityTheory.Kernel.IsProper`) and invariance of a measure under a kernel
+  (`ProbabilityTheory.Kernel.Invariant`); closed shift-invariant subsets of `G → A` indexed by the
+  acting monoid `G` itself (`SymbolicDynamics.FullShift.MulSubshift`); Kolmogorov's zero-one law;
+  `ErgodicSMul`; conditional expectation; determinants and inverses; the lifting criterion through
+  covering maps; the Riemann–Lebesgue lemma; curve integrals of 1-forms along paths — all in
+  Mathlib (exact names under the supplier contracts);
+- Mathlib's language of placed tiles, `DiscreteTiling.Prototile`, `DiscreteTiling.Protoset` and
+  `DiscreteTiling.PlacedTile` (`Mathlib/Combinatorics/Tiling/Tile.lean`), which at the pin
+  describes single copies of prototiles under a group action and has no notion of a tiling; 1.4
+  identifies the lozenges with the placed tiles of the protoset of the three lozenges, and a
+  tiling is encoded here by the set of inner edges of its lozenges, the perfect-matching form of
+  1.5;
+- the characterisation of ergodic invariant probability measures of a countable group action as
+  extreme points of the invariant probability measures, `ErgodicSMul.iff_mem_extremePoints`,
+  the convex set `TauCeti.MeasureTheory.invariantMeasuresOfMeasureUnivEq`, and the test of
+  ergodicity on exactly invariant events,
+  `TauCeti.MeasureTheory.ergodicSMul_iff_forall_smul_invariant` — already in Tau Ceti; this
+  roadmap applies them and adds the Gibbs-specific face property;
+- contour integrals along piecewise `C¹` curves, winding numbers and the homology form of Cauchy's
+  theorem, `TauCeti.Contour.homologyCauchyTheorem` — already in Tau Ceti, built by the completed
+  ContourIntegration roadmap (Layer 3, the global homological Cauchy theorem); 9.6 applies them;
+- the tail σ-algebra of an ℕ-indexed process, `TauCeti.Probability.tailProcess`, with its normal
+  form as the intersection of the future σ-algebras — already in Tau Ceti; the tail σ-algebra of
+  4.1 differs in being indexed by an arbitrary countable set carrying a proper action of a
+  countable group, under which it is equivariant, and for an infinite index set it equals
+  `tailProcess` of the coordinate process along any enumeration;
+- the Bernoulli shift of an infinite discrete group `Γ` on `S^Γ`, for a finite `S` with at least
+  two positive weights, with its measure preservation, ergodicity and the null fixed-point sets of
+  its non-identity elements, which VonNeumannAlgebras owns (Layer 8, target
+  V8.BernoulliArbitraryDiscrete), and its extension to a general nontrivial standard base for a
+  countably infinite `Γ`, which FactorRigidity §8.3 builds, and the Bernoulli action of a
+  countable discrete group `G` on `G → α` for any measurable `α` and probability law, with its
+  mixing for infinite `G`, which ClassicalErgodicTheory §0.3 (item 2) and §1.4 (item 2) build;
+  4.3 is a kept variant that differs in taking a countable `Γ` acting properly on any countable
+  index set `I` (the edges of the hexagonal graph under `ℤ²` among them), any measurable alphabet
+  and any law `ν`, point masses included, and in proving tail triviality by Kolmogorov's zero-one
+  law;
+- Jacobi's complementary-minor identity, which expresses a minor of a square matrix with
+  invertible determinant through the complementary minor of its inverse,
+  `Matrix.det_submatrix_comp_inr_eq_sign_mul_det_mul_det_submatrix_comp_inl_nonsing_inv` —
+  already in Tau Ceti; 3.3 and 8.4 apply it to the restricted Leibniz sums of Kasteleyn
+  matrices (Conventions);
+- the finite triangular array `Δₙ = {(x,y,z) ∈ ℕ³ : x+y+z = n}` with its unit rhombi and hives,
+  which TensorProductCombinatorics §1.1 owns for tensor-product multiplicities: it is a finite
+  barycentric carrier for concave functions, not the infinite lattice with its dual graph used
+  here, and no target here needs a comparison;
+- determinantal point processes on continuous spaces and the continuous sine kernel, which
+  RandomMatrices §8.3–8.4 owns; the discrete sine kernel of 9.7 is the lattice counterpart and
+  is stated here only as a kernel of a measure on tilings;
+- the perfect-matching theory of finite bipartite multigraphs of GraphConnectivityAndFlows §§6.7
+  and 6.9, and Tau Ceti's perfect matchings of a finite type as fixed-point-free involutions,
+  `TauCeti.IsPerfectMatching` (`TauCeti/Combinatorics/Enumerative/PerfectMatching.lean`), neither
+  of which is used: matchings here are Mathlib's perfect matchings of simple graphs, finite or
+  infinite;
+- the Gibbs states of finite quantum systems, `Matrix.gibbsState`
+  (`TauCeti/Analysis/CStarAlgebra/Action/Gibbs.lean`), the KMS states of a matrix Hamiltonian:
+  a different object from the classical Gibbs measures of a specification built here, and not
+  used;
+- the Gibbs measures of an equilibrium state in Bowen's sense, `IsGibbsMeasure T φ μ` of
+  ClassicalErgodicTheory §8.4 (two-sided bounds on the masses of Bowen balls for a potential of a
+  single map), a different notion from the Gibbs measures of a specification of 4.5, and the
+  invariant Radon probabilities of a single continuous map of a compact Hausdorff space, closed
+  and convex, of ClassicalErgodicTheory §5.1; the weak closedness of 4.6(c) is the
+  countable-group form on a finite-alphabet subshift, where the invariant probability measures
+  are the intersection over `γ ∈ Γ` of the closed sets of measures fixed by the homeomorphism
+  `ω ↦ γω`;
+- the incomplete Beta function `B_x(a,b)` of SpecialFunctionsEiLiErfIncompleteGamma Layer 15, a
+  real integral over `[0,x]` with exponents `a, b > 0`: the incomplete beta kernel of 9.6
+  integrates integer powers of `z` and `1 − z` along a path in `ℂ ∖ {0,1}` between complex
+  conjugate endpoints, and is not a value of it.
+
+Outside this roadmap, and the subject of its Part II (DimerModelsAndLozengeTilingsPartII):
+Sheffield's uniqueness of the ergodic Gibbs measure of each interior slope and the consequent
+convergence of the fixed-height-change torus measures; the specific free energy, surface tension
+and the Cohn–Kenyon–Propp variational principle with limit shapes; the continuum objects of
+Aggarwal's universality theorem (admissible functions, the entropy functional and its maximiser,
+convergence of domains); amoebae and the frozen–liquid–gaseous classification for general
+periodic weights; general periodic bipartite planar graphs, the planar Kasteleyn theorem and
+domino tilings. No ergodic theorem (Birkhoff or mean ergodic theorem for `ℤ²`) and no ergodic
+decomposition is used: ergodicity enters only as triviality of invariant events.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the Mathlib revision pinned in `lake-manifest.json`.
+
+- `SimpleGraph`, `SimpleGraph.induce` (`Mathlib/Combinatorics/SimpleGraph/Maps.lean`, an abbrev
+  giving the induced graph on a subtype), `SimpleGraph.LocallyFinite`
+  (`Mathlib/Combinatorics/SimpleGraph/Finite.lean`), `SimpleGraph.Subgraph`,
+  `SimpleGraph.Subgraph.IsMatching`, `SimpleGraph.Subgraph.IsPerfectMatching` and
+  `SimpleGraph.Subgraph.isPerfectMatching_iff` (`Mathlib/Combinatorics/SimpleGraph/Matching.lean`:
+  a perfect matching is a spanning subgraph in which every vertex has exactly one neighbour).
+- `Pi.topologicalSpace` (`Mathlib/Topology/Constructions.lean`), `Function.compactSpace` and
+  `Pi.compactSpace` (`Mathlib/Topology/Compactness/Compact.lean`); `MeasurableSpace.pi`
+  (`Mathlib/MeasureTheory/MeasurableSpace/Constructions.lean`); `MeasureTheory.Measure.infinitePi`
+  (`Mathlib/Probability/ProductMeasure.lean`, for a family of probability measures), with
+  `MeasureTheory.Measure.infinitePi_map_piCongrLeft` (the same file, line 494: for probability
+  measures `μ i` on measurable spaces `X i` and `e : α ≃ ι`, the push-forward of
+  `infinitePi (fun a => μ (e a))` along `MeasurableEquiv.piCongrLeft X e`, which sends `f` to the
+  function with value `f a` at `e a`, is `infinitePi μ`; for a constant family and `e` the
+  bijection `i ↦ γi` of `I`, this is invariance of `ν^{⊗I}` under `(γω)(i) = ω(γ⁻¹i)`);
+  `ProbabilityTheory.iIndepFun_infinitePi` (`Mathlib/Probability/Independence/InfinitePi.lean`,
+  line 124: for probability measures `P i` and measurable maps `f i` on the factors, the functions
+  `ω ↦ f i (ω i)` are independent under `infinitePi P`);
+  `ProbabilityTheory.iIndepFun.precomp` and `ProbabilityTheory.iIndepFun_iff_iIndep`
+  (`Mathlib/Probability/Independence/Basic.lean`, lines 323 and 231: an independent family stays
+  independent along an injective reindexing, and independence of functions is independence of the
+  σ-algebras they generate). 4.3 uses them to feed the coordinates along an enumeration
+  `e : ℕ ≃ I` to the zero-one law.
+- `Pi.borelSpace` (`Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.lean`, line 645: for a
+  countable index type and factors that are second-countable Borel spaces, the product σ-algebra
+  is the Borel σ-algebra of the product topology; a factor whose σ-algebra is not its Borel
+  σ-algebra is not covered); `DiscreteMeasurableSpace`
+  (`Mathlib/MeasureTheory/MeasurableSpace/Defs.lean`: every subset is measurable) and
+  `DiscreteMeasurableSpace.toBorelSpace` (the same Borel file: a space with the discrete topology
+  and the discrete σ-algebra is a Borel space); `Subtype.borelSpace` (the same Borel file: a subset
+  of a Borel space, with the subspace topology and the trace σ-algebra, is a Borel space);
+  `Bool.instMeasurableSpace` (defined as `⊤`,
+  `Mathlib/MeasureTheory/MeasurableSpace/Instances.lean`) and `Bool.borelSpace`. These are the
+  Borel structures of 4.4–4.6 and Layers 5–10.
+- `MeasureTheory.ProbabilityMeasure` and its weak topology
+  (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`: the topology instance is stated for an
+  `OpensMeasurableSpace`); the instance `CompactSpace (ProbabilityMeasure E)` for a compact
+  Hausdorff Borel space `E` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`, line 176);
+  `MeasureTheory.ProbabilityMeasure.tendsto_measure_of_isClopen_of_tendsto` and
+  `IsPiSystem.tendsto_probabilityMeasure_of_tendsto_of_mem`
+  (`Mathlib/MeasureTheory/Measure/Portmanteau.lean`: the first needs `OpensMeasurableSpace` and
+  `HasOuterApproxClosed`, which Mathlib provides for every pseudo-metrisable space in
+  `Mathlib/MeasureTheory/Measure/HasOuterApproxClosed.lean`; the second needs
+  `OpensMeasurableSpace`, second countability, a π-system of measurable sets containing
+  arbitrarily small neighbourhoods of every point, and a countably generated filter).
+- `MeasureTheory.cylinderEvents` (`Mathlib/MeasureTheory/Constructions/Cylinders.lean`, line 409:
+  the σ-algebra on a product generated by the coordinates in a set `Δ`), with
+  `MeasureTheory.cylinderEvents_mono` and `MeasureTheory.cylinderEvents_le_pi` (lines 415 and 418:
+  monotone in `Δ` and below the product σ-algebra); `MeasureTheory.Filtration.cylinderEventsCompl`
+  (`Mathlib/Probability/Process/Filtration.lean`, line 534: the σ-algebras `cylinderEvents Λᶜ`,
+  `Λ` finite, as a family decreasing in `Λ`). Mathlib does not form their intersection.
+- `MeasureTheory.measurableCylinders` (the same cylinders file, line 275: the sets
+  `cylinder s B` with `s` a finite set of indices and `B` a measurable subset of the product over
+  `s`), `MeasureTheory.isPiSystem_measurableCylinders`,
+  `MeasureTheory.univ_mem_measurableCylinders` and `MeasureTheory.generateFrom_measurableCylinders`
+  (lines 335, 345 and 366: a π-system containing the whole space and generating
+  `MeasurableSpace.pi`), and `MeasureTheory.isSetRing_measurableCylinders`
+  (`Mathlib/MeasureTheory/Constructions/ProjectiveFamilyContent.lean`, line 57: a ring of sets);
+  `IsPiSystem.comap` (`Mathlib/MeasureTheory/PiSystem.lean`, line 106), so that the traces of the
+  measurable cylinders on a subset form a π-system.
+- `MeasureTheory.exists_measure_symmDiff_lt_of_generateFrom_isSetRing`
+  (`Mathlib/MeasureTheory/Measure/MeasuredSets.lean`, line 86): for a finite measure, a ring of
+  sets `C` generating the σ-algebra and a countable subfamily of `C` whose union has null
+  complement, every measurable set is approximated by members of `C` in the measure of the
+  symmetric difference. 4.2 and 9.4 take for `C` the measurable cylinders and for the subfamily
+  `{univ}` (`MeasureTheory.univ_mem_measurableCylinders`).
+- `ProbabilityTheory.Kernel`, with the notation `Kernel[𝓑, 𝓧] X X` for a kernel measurable for
+  `𝓑` on its source and for `𝓧` on its target, and `ProbabilityTheory.IsMarkovKernel`
+  (`Mathlib/Probability/Kernel/Defs.lean`, lines 55, 70 and 138); `ProbabilityTheory.Kernel.comp`,
+  written `η ∘ₖ κ`, which applies `κ` first: `(η ∘ₖ κ) a = (κ a).bind η`
+  (`Mathlib/Probability/Kernel/Composition/Comp.lean`, line 50); `ProbabilityTheory.Kernel.comap`
+  (`Mathlib/Probability/Kernel/Composition/MapComap.lean`, line 152) along the identity, with
+  `measurable_id''` (`Mathlib/MeasureTheory/MeasurableSpace/Basic.lean`, line 233), which reads a
+  kernel measurable for `𝓑 ≤ 𝓧` on its source as a kernel for `𝓧`;
+  `ProbabilityTheory.Kernel.IsProper` (`Mathlib/Probability/Kernel/Proper.lean`, line 47) with
+  `ProbabilityTheory.Kernel.isProper_iff_inter_eq_indicator_mul` (line 57: for `𝓑 ≤ 𝓧`,
+  properness is `π x (A ∩ B) = 1_B(x) · π x A` for `A ∈ 𝓧` and `B ∈ 𝓑`) and
+  `ProbabilityTheory.Kernel.IsProper.setLIntegral_eq_comp` (line 73: for `𝓑 ≤ 𝓧`, `A ∈ 𝓧` and
+  `B ∈ 𝓑`, `∫⁻_B π(·)(A) dμ = (μ.bind π)(A ∩ B)`); `ProbabilityTheory.Kernel.Invariant`
+  (`Mathlib/Probability/Kernel/Invariance.lean`, line 39: `μ.bind κ = μ`, for a kernel with one
+  σ-algebra on source and target).
+- `SymbolicDynamics.FullShift.MulSubshift` and its additive form
+  `SymbolicDynamics.FullShift.Subshift` (`Mathlib/Dynamics/SymbolicDynamics/Basic.lean`, lines 253
+  and 233: a closed subset of `G → A` mapped into itself by every `mulShift g`, where
+  `(mulShift g x)(h) = x(g * h)`, line 150), with `SymbolicDynamics.FullShift.isOpen_cylinder`
+  and `SymbolicDynamics.FullShift.isClosed_cylinder` (lines 214 and 219). Its index set is the
+  monoid `G` itself and its cylinders are indexed by finite subsets of `G`; Layers 4–10 need index
+  sets with several orbits (the edges of the hexagonal graph under `ℤ²`), which it does not cover.
+- `ProbabilityTheory.measure_zero_or_one_of_measurableSet_limsup` and its sequential form
+  `ProbabilityTheory.measure_zero_or_one_of_measurableSet_limsup_atTop`
+  (`Mathlib/Probability/Independence/ZeroOne.lean`, lines 229 and 290: Kolmogorov's zero-one law
+  along a filter and a directed family of index sets, and for an event measurable with respect to
+  `limsup s atTop` when the σ-algebras `s n` are independent under the measure).
+- `ErgodicSMul`, `ErgodicVAdd` (`Mathlib/Dynamics/Ergodic/Action/Basic.lean`: ergodicity tests
+  almost invariant measurable sets); `MeasureTheory.SMulInvariantMeasure`
+  (`Mathlib/MeasureTheory/Group/Defs.lean`); `Set.extremePoints`, `IsExtreme`
+  (`Mathlib/Analysis/Convex/Extreme.lean`).
+- `MeasureTheory.condExp` (`Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean`).
+- `Matrix.det`, `Matrix.det_apply` (`Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean`: the
+  Leibniz expansion), `Matrix.inv` (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`:
+  the inverse of a matrix whose determinant is not a unit is `0`), `Equiv.Perm.sign`
+  (`Mathlib/GroupTheory/Perm/Sign.lean`).
+- `IsSimplyConnected` and `SimplyConnectedSpace`
+  (`Mathlib/AlgebraicTopology/FundamentalGroupoid/SimplyConnected.lean`: a set is simply connected
+  when its subtype is, which includes nonemptiness and path-connectedness);
+  `LocallyPathConnectedSpace` (`Mathlib/Topology/Connected/LocallyPathConnected.lean`);
+  `IsCoveringMap.existsUnique_continuousMap_lifts` (`Mathlib/Topology/Homotopy/Lifting.lean`:
+  unique lifts of maps from simply connected, locally path-connected spaces);
+  `AddCircle.isCoveringMap_coe` (`Mathlib/Topology/Covering/AddCircle.lean`); `convexHull`.
+- `tendsto_integral_exp_inner_smul_cocompact` (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`:
+  Riemann–Lebesgue on a finite-dimensional inner product space; integrability is not assumed and
+  the non-integrable case is vacuous); `intervalIntegral`, `Complex.arg`.
+- `curveIntegral`, written `∫ᶜ x in γ, ω x`
+  (`Mathlib/MeasureTheory/Integral/CurveIntegral/Basic.lean`, line 125: the integral of a 1-form `ω : E → E →L[𝕜] F` along a path `γ`, the interval integral of
+  `ω(γ t)(γ' t)` over `[0,1]`, and `0` when that function is not integrable), with
+  `curveIntegral_segment` (line 306: along `Path.segment a b` it is
+  `∫₀¹ ω(a + t(b − a))(b − a) dt`, with no integrability hypothesis) and `curveIntegral_trans`
+  (line 277: additivity along a concatenation of two paths on which `ω` is curve integrable);
+  `Path.segment` (`Mathlib/Analysis/Convex/PathConnected.lean`, line 39). These are the curve
+  integrals of 9.6.
+- `circleIntegral`, written `∮ z in C(c, R), f z`
+  (`Mathlib/MeasureTheory/Integral/CircleIntegral.lean`, line 435: the interval integral over
+  `[0, 2π]` of `deriv (circleMap c R) θ • f (circleMap c R θ)`), with `deriv_circleMap` (line 130:
+  the derivative is `circleMap 0 R θ · i`), `circleIntegral.integral_sub_zpow_of_ne` (line 615: the
+  circle integral of `(z − w)^n` vanishes for every integer `n ≠ −1` and every `w`) and
+  `circleIntegral.integral_sub_inv_of_mem_ball` (line 748: the circle integral of `(z − w)⁻¹` is
+  `2πi` for `w` in the open disc); `DiffContOnCl.circleIntegral_eq_zero`
+  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`, line 479: the circle integral of a function
+  complex differentiable on the open disc and continuous on its closure vanishes). These evaluate
+  the inner integrals of 9.1.
+- `DiscreteTiling.Prototile`, `DiscreteTiling.Protoset` and `DiscreteTiling.PlacedTile`
+  (`Mathlib/Combinatorics/Tiling/Tile.lean`, lines 79, 110 and 142: a prototile is a set of points
+  of `X` with a subgroup of its stabilizer in the acting group `G`, a protoset an indexed family of
+  prototiles, and a placed tile a prototile index with a coset of its symmetries, read as the
+  image of the prototile under a representative). The acting group is multiplicative; 1.4 uses
+  `Multiplicative (ℤ × ℤ)` acting on faces by translation.
+- The carriers of the statements of `Suggested.lean`: `SimpleGraph.fromRel`
+  (`Mathlib/Combinatorics/SimpleGraph/Basic.lean`, line 135: `u ~ v` iff `u ≠ v` and the relation
+  holds in one of the two orders), `SimpleGraph.edgeSet`; the automorphisms `G ≃g G`, a group by
+  the instance on relation isomorphisms (`Mathlib/Algebra/Order/Group/End.lean`, line 73: the
+  product `f * g` is `g` followed by `f`), and `SimpleGraph.Iso.mapEdgeSet`
+  (`Mathlib/Combinatorics/SimpleGraph/Maps.lean`, line 669: the bijection of edge sets induced by an
+  isomorphism); `SimpleGraph.toSubgraph`
+  (`Mathlib/Combinatorics/SimpleGraph/Subgraph.lean`, line 574: a spanning subgraph from a graph
+  below `G`), `SimpleGraph.Walk.darts` (`Mathlib/Combinatorics/SimpleGraph/Walk/Basic.lean`, line
+  123) and `SimpleGraph.Reachable`; `Set.BijOn` (`Mathlib/Data/Set/Operations.lean`, line 318);
+  `Relation.ReflTransGen` (`Mathlib/Logic/Relation.lean`, line 374); `arrowAddAction`
+  (`Mathlib/Algebra/Group/Action/Basic.lean`, line 101: `(g +ᵥ F) a = F (−g +ᵥ a)`, a definition and
+  not an instance, installed here as the action of `ℤ²` on configurations);
+  `MeasureTheory.VAddInvariantMeasure` (`Mathlib/MeasureTheory/Group/Defs.lean`, line 51),
+  `ErgodicVAdd` (`Mathlib/Dynamics/Ergodic/Action/Basic.lean`, line 31: invariance and every almost
+  invariant measurable set null or conull), `Ergodic` and `MeasureTheory.MeasurePreserving`
+  (`Mathlib/Dynamics/Ergodic/Ergodic.lean`, line 49, and `MeasurePreserving.lean`, line 44);
+  `ProbabilityTheory.uniformOn` (`Mathlib/Probability/UniformOn.lean`, line 60: the counting measure
+  conditioned on a set, a probability measure when the set is finite and nonempty and `0` when it is
+  infinite); `MeasureTheory.Measure.real` (`Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean`,
+  line 102: `(μ s).toReal`); `MeasureTheory.Measure.bind`
+  (`Mathlib/MeasureTheory/Measure/GiryMonad.lean`, line 235); `MeasurableSpace.comap_mono`
+  (`Mathlib/MeasureTheory/MeasurableSpace/Basic.lean`, line 121); `finsum` and `finprod`
+  (`Mathlib/Algebra/BigOperators/Finprod.lean`: the sum or product over the support when it is
+  finite and `0` or `1` otherwise; every support used here is finite); `Matrix.submatrix`
+  (`Mathlib/LinearAlgebra/Matrix/Defs.lean`, line 457); `IsExtreme`
+  (`Mathlib/Analysis/Convex/Extreme.lean`, line 63: `B ⊆ A`, and a point of `B` in an open segment
+  of `A` has its endpoints in `B`, which for measures with `ℝ≥0∞`-scalars is the face property).
+
+At that pin Mathlib has no lattice tilings, no height functions, no Kasteleyn matrices, no Gibbs
+specifications and no tail σ-algebra of a product space (the tail σ-algebra appears only as
+`limsup` of a sequence of σ-algebras in the zero-one law, and the exterior σ-algebras
+`cylinderEvents Λᶜ` of finite sets are not intersected). Properness of a single kernel and
+invariance of a measure under one kernel are Mathlib's; a specification, a consistent family of
+proper kernels indexed by the finite sets, and its Gibbs measures are not. Its subshifts are
+indexed by the acting monoid only.
+
+### From Tau Ceti
+
+At the Tau Ceti revision pinned in `lake-manifest.json`.
+
+- `TauCeti.MeasureTheory.invariantMeasuresOfMeasureUnivEq`, its convexity lemma, and
+  `ErgodicSMul.iff_mem_extremePoints` (`TauCeti/MeasureTheory/Group/ErgodicExtreme.lean`): for a
+  countable group acting measurably (`[Group G] [Countable G] [MulAction G X]
+  [MeasurableConstSMul G X]`) an invariant probability measure is ergodic iff it is an extreme
+  point, in `ℝ≥0∞`-convexity of measures, of the invariant measures of mass one. The statements
+  are multiplicative only; the additive action of `ℤ²` is used through `Multiplicative (ℤ × ℤ)`.
+- `TauCeti.MeasureTheory.ergodicSMul_iff_forall_smul_invariant` and
+  `TauCeti.MeasureTheory.exists_smul_invariant_ae_eq`
+  (`TauCeti/MeasureTheory/Group/CountableAction.lean`, lines 68 and 53, for a countable group
+  acting measurably): an almost invariant measurable event is almost equal to an exactly invariant
+  one, with no hypothesis on the measure (used in 4.6(b)); and, for a measure with
+  `[SMulInvariantMeasure G X μ]`, the action is ergodic iff every measurable, exactly invariant
+  event is null or conull. Its reverse implication is the criterion used in 4.3, 5.3 and 9.4: for
+  an invariant probability measure, exactly invariant events of probability `0` or `1` give
+  ergodicity.
+- `TauCeti.MeasureTheory.isExtreme_setOf_measure_eq_zero`
+  (`TauCeti/MeasureTheory/Measure/Face.lean`): measures vanishing on a fixed set form a face.
+- `TauCeti.Probability.tailFamily`, `TauCeti.Probability.tailProcess` and
+  `TauCeti.Probability.tailProcess_eq_iInf_tailFamily`
+  (`TauCeti/Probability/Process/Tail/Basic.lean`, lines 42, 47 and 64): for a process
+  `X : (k : ℕ) → Ω → β k`, the future σ-algebra generated by the `X k` with `n ≤ k`, the tail
+  σ-algebra `limsup (fun k => MeasurableSpace.comap (X k) _) atTop`, and its normal form
+  `⨅ n, tailFamily X n`. Target 4.1 identifies its tail σ-algebra with `tailProcess` of the
+  coordinate process along an enumeration of the index set. The `ℕ × ℕ`-indexed variant
+  `TauCeti.Probability.arrayTail` (`TauCeti/Probability/Process/Array/Tail/Basic.lean`,
+  line 43) is not used.
+- `Matrix.det_submatrix_comp_inr_eq_sign_mul_det_mul_det_submatrix_comp_inl_nonsing_inv`
+  (`TauCeti/LinearAlgebra/Matrix/Determinant/ComplementaryMinor.lean`, line 160), Jacobi's
+  complementary-minor identity: for a square matrix `A` over a commutative ring, indexed by a
+  finite type `n` with decidable equality, with `IsUnit A.det`, a splitting `e : m ⊕ p ≃ n` of the
+  index type into finite types and permutations `σ`, `τ` of `n`, the minor of `A` on the rows
+  `τ(e(inr ·))` and the columns `σ(e(inr ·))` equals `sgn σ · sgn τ · det A` times the minor of
+  `A⁻¹` on the rows `σ(e(inl ·))` and the columns `τ(e(inl ·))`. Over `ℝ` the hypothesis is
+  `det A ≠ 0`. 3.3 and 8.4 use it with `m` indexing the selected rows, `τ` the identity and `σ`
+  sending each selected row to its selected column (read through `β`), so that the left side is
+  the complementary minor of a restricted Leibniz sum (Conventions) and the two factors `sgn σ`
+  cancel. The adjugate form `Matrix.det_mul_det_submatrix_adjugate`
+  (`TauCeti/LinearAlgebra/Matrix/Determinant/Jacobi.lean`, line 54), stated for `Fin n` with
+  increasing enumerations, is not used.
+
+- `TauCeti.Contour.homologyCauchyTheorem` (`TauCeti/Analysis/Contour/HomologyCauchy.lean`, line
+  108): for an open `Ω ⊆ ℂ`, a closed curve `γ : ℝ → ℂ` on `[a, b]` that is piecewise `C¹`
+  (`TauCeti.IsPiecewiseC1On`, `TauCeti/Analysis/Calculus/ContDiff/PiecewiseC1On.lean`, line 91),
+  lies in `Ω` and is null-homologous in `Ω`, and `f` holomorphic on `Ω`, the contour integral
+  `∫ t in a..b, γ'(t) • f(γ t)` vanishes; `TauCeti.Contour.IsNullHomologous`
+  (`TauCeti/Analysis/Contour/Winding/Number/Basic.lean`, line 147) is the vanishing of
+  `TauCeti.Contour.windingNumber` (line 76 of the same file) about every point outside `Ω`.
+  `TauCeti.Contour.intervalIntegral_deriv_smul_segment_eq_curveIntegral`
+  (`TauCeti/Analysis/Contour/Primitive.lean`, line 129): the contour integral along an affinely
+  parametrised segment from `z` to `w` is Mathlib's curve integral of the 1-form
+  `ContinuousLinearMap.toSpanSingleton ℂ (f x)` along `Path.segment z w`, which is the 1-form of
+  `incompleteBetaKernel`. 9.6 uses them for the independence of the kernel from the path.
+
+Tau Ceti has, at that pin, the invariant σ-algebra and mean ergodic projection for one map
+(`TauCeti/Probability/Ergodic/`) and one-sided shift ergodicity of i.i.d. laws
+(`MeasureTheory.Measure.ergodic_shift_infinitePi_const`,
+`TauCeti/Probability/Ergodic/BernoulliShift.lean`); neither is needed, since the two-sided and
+proper-action statements of Layer 4 are proved directly. Its tail σ-algebras are indexed by `ℕ`
+or `ℕ × ℕ` and carry no group action. It has no dimers, height functions or Gibbs measures.
+
+### From other roadmaps
+
+None. The roadmaps named under Scope and ownership own neighbouring objects; no target here
+consumes them.
 
 ## References
 

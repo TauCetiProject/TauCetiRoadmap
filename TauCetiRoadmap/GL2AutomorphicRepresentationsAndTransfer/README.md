@@ -1,433 +1,20 @@
 # Roadmap: GL₂ automorphic representations and transfer
 
-**Summary.** This roadmap builds the rank-two local and adelic representation theory that connects classical modular forms to automorphic transfer and residual modularity: last-row level and conductor comparisons using supplied newvectors, Whittaker functions and local factors, the classical and Hilbert weight comparisons, quaternionic Jacquet–Langlands, cyclic and solvable base change, non-normal cubic transfer, solvable Artin automorphy, and the characteristic-two modularity theorems. It extends [ModularForms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md) to local/adelic GL₂, newvectors, Whittaker models, Jacquet–Langlands, base change, induction and Artin/residual modularity.
+**Summary.** A primitive classical newform corresponds to a cuspidal automorphic representation of GL₂ over the adeles of ℚ, which breaks the newform into local components, one at each place. Transfer and modularity theorems compare such representations place by place. This roadmap builds the rank-two local and adelic representation theory these comparisons need, extending [ModularForms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md). It then proves transfer theorems for GL₂ and the automorphy of two-dimensional Galois representations with solvable projective image, both complex ones with finite image and residual ones in characteristic two.
 
-The definitive specification is this README. [`Suggested.lean`](Suggested.lean) states
-Chevalley congruence, full-local character prescription, fixed-central-character supercuspidal
-projectivity, quaternion ramification realization and local-global isomorphism, the algebraic
-coefficient action and its symmetric-power comparison, finiteness and dimension of quaternionic
-level forms, the good-place relation and inversion formulas in the local Hecke ring, finite
-projective lifting, Fong–Swan lifting, the characteristic-two dihedral classification, and the Frobenius
-coefficient conclusions of odd solvable Artin modularity over ℚ and characteristic-two solvable
-residual modularity on the pinned library carriers, with admitted proofs. It is not an exhaustive checklist. The local Langlands,
-automorphic transfer and residual modularity conclusions need local types, automorphic classes,
-Whittaker models or modular cohomology absent at the pins; their mathematics, API and Checks
-are specified below.
+Over a nonarchimedean local field of characteristic zero, every irreducible admissible representation of GL₂ that is not a character of the determinant is an irreducible principal series, a twist of the Steinberg representation, or supercuspidal, meaning that its matrix coefficients are compactly supported modulo the centre. For each kind the roadmap computes the local Langlands parameter, a two-dimensional Weil–Deligne representation, and matches its L- and ε-factors and conductor with the representation's. Over ℚ, for k ≥ 2 and χ(−1) = (−1)^k, a primitive newform of weight k, level N and character χ corresponds to a cuspidal representation whose local conductors multiply to exactly N and whose archimedean component is the discrete series Dₖ. At a prime p not dividing N its Satake parameters satisfy `α_p + β_p = a_p p^(−(k−1)/2)` and `α_p β_p = χ(p)`.
 
-## Scope and ownership
+The first main theorem is the global Jacquet–Langlands correspondence. Let D be a quaternion algebra over a number field F, ramified at a set S of places, and fix a unitary Hecke character ω. There is a bijection from the irreducible representations of D×(𝔸_F) in the discrete spectrum with central character ω that are not one-dimensional, onto the cuspidal representations of GL₂ with central character ω that are square-integrable modulo the centre at every place of S. Corresponding representations have the same components where D splits, and components matched by the local Jacquet–Langlands correspondence at the places of S.
 
-This roadmap owns the GL₂ comparisons in layers R16.1–R16.6 and R17.1–R17.6 below. It builds the
-arithmetic character prescription, the specific rank-two trace comparisons, the strong local transfer
-identifications, solvable Artin automorphy and residual modularity, and local conductor comparisons
-for the supplied classical attachments. It uses existing matrix groups, representation modules, fixed submodules, newforms,
-symmetric powers, coefficient twists, idele classes and quaternion algebras.
+The second is the Langlands–Tunnell theorem. Let ρ be a continuous irreducible representation of the absolute Galois group of a number field F in GL₂(ℂ) with finite image, whose projective image is solvable. Then there is a unique cuspidal representation π of GL₂ over F whose local Langlands parameter at every place is the dual of the restriction of ρ to the local Weil group. The projective image is dihedral, A₄ or S₄. The dihedral case is quadratic automorphic induction; the other two need cubic base change and descent, and the Gelbart–Jacquet lift to GL₃. Over ℚ, if moreover det ρ(c) = −1 for complex conjugation c, then π corresponds to a weight-one newform of level the Artin conductor of ρ and nebentypus det ρ. At every prime p not dividing that level, its p-th coefficient is the trace of ρ at an arithmetic Frobenius.
 
-ModularForms, Layers 0–4, 7, 8, 8G and 8W, owns classical Hecke operators, old/new spaces,
-nebentypus, bad-prime eigenproperties, coefficient fields and classical L-functions.
-SmoothRepresentationsOfLocalGroups, SR.0–SR.4, owns smooth categories, induction, Whittaker
-functionals, types, the Bernstein centre and Satake. AdelicAlgebraicGroups, AA.0–AA.3, owns adelic
-points, Haar products, arithmetic quotient measures and anisotropic compactness.
-AutomorphicLFunctionsAndLocalFactors representation prerequisites AL.R.1–AL.R.3 own GLₙ archimedean
-modules, globalizations and restricted tensors. AutomorphicSpectralTheory §§0.48–0.50 supplies
-the general reductive-group extensions of these constructions.
-ArithmeticLocallySymmetricSpaces ALS.F.6 owns automorphic forms and cuspidal classes.
-AutomorphicFormsOnReductiveGroups §2.6 owns the full-O(2) discrete and limit modules
-and the real/complex unitary dual, including exhaustion; R16.2.13 identifies its explicit
-K-type, reducibility and parameter formulas with that classification. Its §§7.2–7.3 own
-the classical/adelic dictionary, its inverse, raising and Casimir normalizations, and Hecke
-and diamond comparisons.
-R16.1/finite-level-comparison adapts that dictionary to the matrix and level conventions here;
-R16.4/cohomological-rationality compares the supplied finite-part rational models with classical
-Hecke fields, and R16.6 compares the supplied primitive correspondence with local newvectors
-and conductors. AutomorphicLFunctionsAndLocalFactors, AL.0–AL.4, owns
-local Fourier analysis, vector-space and distribution refinements, local factors,
-Rankin–Selberg analysis and the general converse theorems. ArithmeticGaloisRepresentations
-§2.7 **Global inputs** owns the common scalar adelic Schwartz–Bruhat, Fourier and Poisson theory.
-Its three subsections, Local-constant Gauss sum, Standard-test-function evaluations and
-Root-number product formula, supply arithmetic character constants, standard-function
-evaluations and the finite-sum root-number identity. ClassicalArithmeticCompletion §7.12b owns
-the Deligne–Langlands local constants of complex Weil representations with their λ-constants,
-and its §7.12c the completed finite-image Artin functions with their functional equation;
-R16.0/local-langlands extends those constants to Weil–Deligne representations.
-AutomorphicLFunctionsAndLocalFactors AL.1.6.2 supplies the canonical
-scalar Hecke completion and functional equation for every unitary idele-class character
-as the rank-one case of Godement–Jacquet.
-AutomorphicSpectralTheory §1.15c identifies its Eisenstein
-construction with that supplied completion.
-AutomorphicLFunctionsAndLocalFactors AL.1.3.2–AL.1.3.3 supplies
-local zeta integrals, their functional equation and the comparison with those character constants.
-AutomorphicSpectralTheory, Layers 0, 2, 4 and 6, owns spectral decomposition, truncation,
-trace-class bounds and the generic trace formula. SmoothRepresentationsOfLocalGroups SR.5.2
-owns the classical GL_n correspondence rec, stated in the arithmetic-Frobenius convention;
-R16.0/local-langlands consumes it at n=2 and n=3, transported to the geometric-Frobenius
-convention, and owns the conductor comparison, the twisted standard and pair-factor
-comparisons and the uniqueness theorem for the rank-two and rank-three finite-place
-parameters. PadicLocalLanglandsForGL2Qp §6.9 owns nonarchimedean
-division-algebra Jacquet–Langlands; R17.1/local-quaternionic-comparison consumes its
-degree-two specialization and packages the quaternionic parameters and split comparisons.
-PadicLocalLanglandsForGL2Qp §4.4 owns the supercuspidal `GL₂(O_F)`-type with its occurrence
-and multiplicity one; R16.2/henniart-unicity adds Henniart's unicity of that type.
-R17.1/real-quaternionic-comparison owns the real comparison, and
-R17.2/quaternionic-orbital-matching owns the matching test functions.
-AutomorphicSpectralTheory §§7.0a–7.0c and §7.1 owns the canonical cyclic twisted objects,
-local matching, normalized characters, trace comparison, weak cyclic/isobaric base change,
-descent, fibres and tower operations, including rank two and specified norm twists.
-R17.2 compares its explicit GL₂ ledger and local conventions with those supplied objects;
-R17.4 upgrades the same base-change outputs to all-place Weil–Deligne compatibility.
-R17.4/metaplectic-adjoint-input owns the theta-integral input
-needed for the adjoint lift. R17.4/whittaker-type-adjoint-converse owns the
-Whittaker-type-module converse and constituent argument, including the nongeneric boundary.
-R17.3.8a–R17.3.8d own the classical quaternionic coefficient modules with their determinant
-normalizations and integral monoid actions, the quaternionic level forms over every number field
-with their evaluation, level maps and norms, the classical form spaces with their stabilizer
-actions, dimensions and changes of splitting, and the Hecke operators with their good-place
-relation, inversion formulas and commutation. They specialize AutomorphicFormsOnReductiveGroups
-§7.4's abstract level-form carrier and opposite-ring Hecke action to quaternion algebras over number
-fields. R17.3/definite-hilbert-exports owns the division-place coefficient adapter, the level
-colimit, the comparison of R17.3.8d's action with Pan’s `T_ℓ, S_ℓ`, and their JL spectrum.
-AutomorphicGaloisRepresentations §§0.2a–0.2f owns the analytic weight actions at weights that need
-not be algebraic, the analytic and overconvergent quaternionic forms, property (Pr), the certified
-Hecke matrices and compact controlling operator, the Fredholm series, slope summands and families,
-and small-slope classicality. It builds them on R17.3.8a–R17.3.8d, from which it takes the
-algebraic coefficient modules with their determinant normalizations, nebentypus monoids and
-restricted-series slash at algebraic weights, the level and classical forms with their finiteness,
-norms, stabilizer averaging and dimension, and the Hecke operators with their coset
-decompositions, commutative Hecke algebra and norm bounds.
+The third concerns characteristic two. Over an algebraically closed field of characteristic two, an irreducible two-dimensional representation with finite image and solvable projective image has dihedral projective image of order 2n, for some odd n ≥ 3; the natural representation of GL₂(F₂) is the case n = 3. Every continuous absolutely irreducible representation of Gal(ℚ̄/ℚ) in GL₂(F̄₂) with solvable projective image is the semisimple reduction, at a prime above 2, of a holomorphic weight-one cuspidal newform. Its level is the Artin conductor of a chosen lift and is not controlled in general.
 
-ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
-Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
-powers/adjoints. AlgebraicModularFormsAndSerreWeights, R15.1–R15.6, owns geometric forms,
-Hasse invariants, integral Hecke theory, eigenvalue lifting and the classical rank-two
-cohomological summand and Galois attachments of R15.5A.1–R15.5A.3. The geometry exports give specified automorphic representations, coefficient modules and split-place
-Hecke actions. A geometric realization, an extension with prescribed completions, and a compatible
-system are explicit inputs wherever used. The transfer interfaces construct their indicated
-restrictions and descents from those data.
+The roadmap builds on SmoothRepresentationsOfLocalGroups for the local Langlands correspondence, and on AutomorphicSpectralTheory for the trace formula and weak cyclic base change, which it strengthens to agreement of local parameters everywhere. PotentialModularityAndCompatibleSystems uses its Jacquet–Langlands correspondence, base change and residual modularity. AutomorphicGaloisRepresentations builds on its classical quaternionic modular forms and their Hecke operators.
 
-## Conventions
+The first seven layers develop GL₂ itself, local theory first, then cuspidal representations and their dictionary with classical and Hilbert modular forms. The last six concern transfer. Three pass from local to global Jacquet–Langlands through a comparison of trace formulas. The other three treat base change, then solvable Artin representations, then characteristic two. The guide that follows gives the order in which the layers are built.
 
-Reuse Mathlib `Matrix.GeneralLinearGroup (Fin 2) R`, determinant/scalars/maps, `Matrix.ProjGenLinGroup`, `Representation.invariants` and Haar measure; build adelic quotient measure. `HeckeRing.GL2.Newform` gives newspace, nebentypus, good eigenvalues and a₁=1; ModularForms Layer 4 gives bad eigenproperties. `eq_of_forall_notMem_eigenvalue_eq` fixes level/character; adelic strong multiplicity one compares classes. Hilbert coefficients use `TauCeti.symPowerRep` and Mathlib finite tensors.
-
-`TauCeti.IsProjectiveRep.exists_monoidHom_of_cohomologyClass_eq_zero` gives algebraic lifting; arithmetic vanishing/continuity is separate. `TauCeti.simple_indFDRep_ofLinearCharacter_iff` requires finite groups and algebraically closed characteristic-zero coefficients; `TauCeti.Matrix.GeneralLinearGroup.not_isSolvable_fin_two` requires a field with a nonzero a satisfying a²≠1.
-
-At finite places O,p,ϖ,q are valuation ring, maximal ideal, uniformizer and residue size; ν(ϖ)=q⁻¹. Upper-Borel induction uses `δ_B^(1/2)`, with `δ_B(diag(a,d))=|a/d|`. K₀(pⁿ) constrains the lower-left entry; K₁(pⁿ) fixes the last row; both equal GL₂(O) at n=0. Right translation gives K₀-character ω(d); transport Casselman's top-left convention by π∨≅π⊗ω⁻¹det. Fix ψ of conductor O and W(1)=1. SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals gives the functional space `Hom_U(V,ψ)` and proves it has dimension one for irreducible infinite-dimensional V. One-dimensional classes have no Whittaker model.
-
-Reciprocity sends ϖ to geometric Φ, `ν_W(Φ)=q⁻¹`. `rec` matches normalized induction; `recᵀ(π)=rec(π)⊗ν_W^(-1/2)` multiplies rank-two Frobenius by √q and preserves N. Factors use `(ker N)^I`; arithmetic-Frobenius eigenvalues must be inverted with the cohomological dual specified. For unitary Satake α,β, T₁=√q(α+β); weight-k roots are `q^((k−1)/2)α` and `q^((k−1)/2)β`. For a classical arithmetic Artin representation ρ, `rec(π_v)≅(ρ|W_Fv)^∨`; the geometric eigenvalues of rec π are the arithmetic eigenvalues of ρ. The centre corresponds to (detρ)⁻¹ under geometric reciprocity, while the classical nebentypus is detρ. Rationality uses `π_alg=π_unitary⊗|det|^(-(k−2)/2)`.
-
-Use full O(2) modules `D_k`, k≥2, with positive-determinant weights ±k; weight one's limit has parameter 1⊕sgn. At complex places `|z|_ℂ=|z|²` (gamma conventions: R16.3). Fix the additive character by trace to ℚ, self-dual measures and additive quotient mass one. Conductor: |Disc(F)|²N(𝔣π). Over ℚ, t=s+(k−1)/2 converts s↔1−s to t↔k−t.
-
-Fix quaternion split-place identifications. Cuspidal JL excludes norm characters; local division characters match Steinberg twists. Use automorphic isomorphism classes. Residual data: coefficient place, residue embedding, lattice, semisimplification. In characteristic two determinant oddness is vacuous and involutions need not be semisimple. Compatible families share a coefficient field and good-place polynomials.
-
-Namespace: `TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer` for every statement in `Suggested.lean`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At Mathlib `1b1ccf4b`, the matrix carrier is `Matrix.GeneralLinearGroup (Fin 2) R`
-(`Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs`), with `scalar`, `det`, `map` and `toLin`.
-`Matrix.ProjGenLinGroup` and `Matrix.ProjGenLinGroup.mk`
-(`Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Projective`) provide projectivization.
-`Representation`, `Representation.comp`, `Representation.invariants`, `Representation.ind` and
-`Representation.IsIrreducible` provide algebraic actions, restriction, fixed submodules, induction
-and irreducibility. In particular, restriction of a supplied finite type is `Representation.comp`;
-there is no second definition of restriction in this roadmap. Smoothness and compact-open
-admissibility are stated explicitly when using these carriers.
-
-`IsNonarchimedeanLocalField`, `Valuation.integer (ValuativeRel.valuation F)` and
-`IsLocalRing.maximalIdeal` on that valuation ring, with notation from
-`Mathlib.Topology.Algebra.Valued.ValuativeRel` fix the
-local field, valuation ring and ideal notation. `Ideal`, its powers, `Submonoid.units`, subgroup
-maps and `Nat.find` give the congruence subgroups and the least nonzero fixed level.
-`MeasureTheory.Measure.haarMeasure` and `haarMeasure_self` in
-`Mathlib.MeasureTheory.Measure.Haar.Basic` give local Haar normalization, while the quotient and
-restricted Haar products below use AdelicAlgebraicGroups.
-
-`IdeleClassGroup`, `IdeleClassGroup.ofAdicCompletion` and `IdeleClassGroup.ofCompletion` in
-`Mathlib.NumberTheory.NumberField.AdeleRing` give the character domain and its full finite
-and infinite local maps. `MonoidHom.domRestrict_surjective` in
-`Mathlib.GroupTheory.FiniteAbelian.Duality` extends subgroup characters with algebraically closed
-coefficients through a finite quotient. `NumberField.Units.mem_torsion` in
-`Mathlib.NumberTheory.NumberField.Units.Basic` detects torsion by archimedean absolute values.
-`Set.unit` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the group of S-units of a Dedekind
-domain's fraction field; Mathlib proves no finiteness for it.
-These do not assert the arithmetic congruence or full-local prescription theorem.
-
-`Matrix.det_smul` in `Mathlib.LinearAlgebra.Matrix.Determinant.Basic` gives the scalar
-determinant identity (uA has determinant u²det A at rank two); this is a supplier, not a new
-normalization lemma. `Complex.Gammaℝ_def`, `Complex.Gammaℂ_def` and `Complex.Gammaℝ_mul_Gammaℝ_add_one` in
-`Mathlib.Analysis.SpecialFunctions.Gamma.Deligne` fix the gamma factors. `AddCircle` and its
-quotient map provide the spectral periodization and the additive Q/Z carrier.
-`Matrix.charpoly`, `rootsOfUnity`, `Localization.AtPrime`, `HeightOneSpectrum` and
-`Field.absoluteGaloisGroup` supply the algebraic and arithmetic carriers of the lifting
-milestones; Brauer-character construction and arithmetic lifting are targets here.
-
-`IsArithFrobAt` (`Mathlib.RingTheory.Frobenius`), `Algebra.IsUnramifiedAt`
-(`Mathlib.RingTheory.Unramified.Locus`), `Ideal.LiesOver` (`Mathlib.RingTheory.Ideal.Over`) and
-`UpperHalfPlane.qExpansion` (`Mathlib.NumberTheory.ModularForms.QExpansion`) express the
-arithmetic-Frobenius traces and q-coefficients in `odd_solvable_artin_weight_one` and
-`characteristicTwo_solvable_weight_one`. There `σ : E ≃ₐ[ℚ] E` acts on `𝓞 E` through the
-`MulSemiringAction` instance of `Mathlib.NumberTheory.NumberField.Basic`, and `IsArithFrobAt ℤ σ Q`
-says `σ x ≡ x^p` modulo Q for every x in `𝓞 E`, p being the residue characteristic of Q. At a prime
-Q unramified over ℤ, `AlgHom.IsArithFrobAt.eq_of_isUnramifiedAt` determines the action of such σ
-on `𝓞 E`, hence σ itself, since E is the fraction field of `𝓞 E`; so the traces and determinants
-in those statements do not depend on a choice.
-
-`MvPolynomial.restrictSupport` carries the coefficient modules of R17.3.8a, and
-`MvPolynomial.basisRestrictSupport` is their monomial basis over every commutative ring;
-`MvPowerSeries.IsRestricted` cuts out the restricted series of their analytic comparison.
-`Algebra.TensorProduct.includeRight`, `IsDedekindDomain.FiniteAdeleRing` and `IsModuleTopology`
-give the finite adelic units of a quaternion algebra and their topology in R17.3.8b, and
-`DoubleCoset.Quotient` its class sets. `Representation.averageMap` and
-`Representation.isProj_averageMap` (`Mathlib.RepresentationTheory.Invariants`) give the averaging
-projector onto invariants of a finite group whose order is a unit, used in R17.3.8c.
-`IsHeckeTriple`, `HeckeCoset.mk`, `HeckeCosetModule` and `HeckeRing`
-(`Mathlib.NumberTheory.HeckeRing.Defs`) give the double-coset modules of R17.3.8d.
-
-### From Tau Ceti
-
-At Tau Ceti `2fd255d9`, import the following APIs rather than reproducing them.
-
-- `TauCeti.NumberTheory.ModularForms.Newforms.Newform`: `HeckeRing.GL2.Newform`, its
-  `toCuspForm`, `χ`, `dirichletLift`, and `qExpansion_coeff_one`. The newform is normalized,
-  lies in the existing newspace, and is an eigenform away from its level. The complete bad-prime
-  theory is supplied by ModularForms Layer 4.
-- `TauCeti.NumberTheory.ModularForms.Newforms.StrongMultiplicityOne`:
-  `HeckeRing.GL2.Newform.eq_of_forall_notMem_eigenvalue_eq` compares newforms at a fixed level,
-  weight and nebentypus outside a finite set. It does not compare adelic classes at arbitrary levels.
-- `TauCeti.NumberTheory.ModularForms.LFunction.Basic`: `CuspForm.LSeries_qExpansion_coeff_eq`
-  gives the convergent-domain width-one Mellin comparison for positive weight and the stated
-  right-half-plane hypothesis. Analytic extension and transfer use their named targets below.
-- `TauCeti.RepresentationTheory.ClassicalGroups.SymmetricPower`: `TauCeti.symPowerRep` supplies
-  the symmetric powers of the standard matrix action.
-  `TauCeti.RepresentationTheory.CharacterTwist`: `Representation.charTwist` supplies determinant
-  twists on the same module. The Hilbert weight factors specialize these APIs; they do not define
-  a new symmetric-power or twisting construction.
-- `TauCeti.RepresentationTheory.Induction.Mackey.LinearCharacter`:
-  `TauCeti.simple_indFDRep_ofLinearCharacter_iff` is the finite-group Mackey criterion for a
-  linear character of a normal subgroup over algebraically closed characteristic-zero coefficients.
-  The quadratic restriction target also covers infinite groups and characteristic two.
-- `TauCeti.RepresentationTheory.ProjectiveRepresentation.SchurMultiplier`:
-  `TauCeti.IsProjectiveRep.exists_monoidHom_of_cohomologyClass_eq_zero` gives algebraic lifting
-  when the factor-set class vanishes. The arithmetic vanishing, continuity and finite image
-  are additional targets, not consequences of algebraic lifting alone.
-- `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Solvable`:
-  `TauCeti.Matrix.GeneralLinearGroup.not_isSolvable_fin_two` assumes a field with a nonzero a
-  satisfying a²≠1. It must not be applied to F₂ or F₃.
-- `TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus`:
-  `TauCeti.GlobalNumberFields.Modulus`, `Modulus.support`, `IsCongrOne` and
-  `congruenceSubgroup` give the existing modulus and multiplicative congruence predicates.
-  `TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Basic`:
-  `TauCeti.GlobalNumberFields.HeckeCharacter` is the continuous character of Mathlib's idele
-  class group, with no additional carrier.
-- `TauCeti.Algebra.Quaternion.Split`: `TauCeti.QuaternionAlgebra.oneEquivMatrix` identifies
-  `QuaternionAlgebra K 1 0 1` with 2×2 matrices. Global realization with prescribed nonsplit
-  places and comparison of two quaternion algebras use the contracts below.
-- `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg` gives finite generation of
-  Mathlib's S-unit group `Set.unit S K` for finite S over a Dedekind domain whose ∅-units are
-  finitely generated, and the instance `Set.unit_fg_of_units` gives it from `Monoid.FG Rˣ`, which
-  Mathlib registers for `(𝓞 K)ˣ`. Neither computes a rank.
-- `TauCeti.NumberTheory.NumberField.Frobenius`: `NumberField.exists_isArithFrobAt_int_of_liesOver`
-  gives, for a Galois number field E/ℚ and a prime Q of `𝓞 E` lying over a rational prime p, some
-  `σ : E ≃ₐ[ℚ] E` with `IsArithFrobAt ℤ σ Q`. Hence the Frobenius hypotheses of
-  `odd_solvable_artin_weight_one` and `characteristicTwo_solvable_weight_one` can be met at every
-  nonzero prime Q of `𝓞 E`, so their coefficient conditions are not vacuous. The statements
-  themselves use only Mathlib's predicate.
-- `TauCeti.NumberTheory.HeckeRing.Associativity`, with `Basic`, `One` and `Degree` in the same
-  directory: the ring structure on `HeckeRing Δ H ℤ` for a Hecke pair, its basis elements
-  `HeckeCosetModule.single` and the degree homomorphism `LeftCosetModule.deg`. R17.3.8d states the
-  good-place relation and the inversion formulas in this ring.
-- `TauCeti.Algebra.CentralSimple.SkolemNoether`: `TauCeti.skolemNoether` makes two algebra maps
-  from a central simple algebra into a finite-dimensional simple algebra conjugate by a unit; it
-  makes the splittings of R17.3.8c unique up to conjugation.
-
-### From roadmaps
-
-ReductiveGroupsPartII, RG2.0 and RG2.4, supplies rational point topologies, integral points,
-Iwasawa/Cartan coordinates and the local modulus. AdelicAlgebraicGroups, AA.0
-`restricted-haar-product`, §§1.1–1.2 affine and adelic points, §1.5 compact open levels, §§2.2–2.3
-quotient measures and §3.4 compact anisotropic quotients, supplies their adelic and measure
-counterparts. R16.1 constructs central-character L² from these quotient measures. SmoothRepresentationsOfLocalGroups, SR.2.3 `whittaker-functionals` and
-its GL₂ multiplicity-one statement, supplies the nonzero Whittaker functional and uniqueness for
-irreducible infinite-dimensional GL₂ representations. SR.0 supplies the smooth fixed-character
-category; SR.3a.1 compact representations and SR.3.2 cuspidal splitting supply the projectivity
-argument. SR.1 and SR.4 supply Hecke carriers, Bernstein centre and spherical parameters.
-
-AutomorphicLFunctionsAndLocalFactors, representation prerequisites AL.R.1 (Archimedean Whittaker
-comparisons), AL.R.2 (Archimedean `GLₙ` parameters) and AL.R.3 (Restricted tensor
-realizations), supply archimedean categories, normalized induction, Weil
-parameters, Casselman–Wallach globalizations, Flath factorization and algebraic/Hilbert tensor
-realizations for GLₙ. AutomorphicSpectralTheory §§0.48–0.50 (`real_representation_foundations`,
-`smooth_frechet_globalization`, `restricted_tensor_factorization`) extends these constructions
-to general reductive groups. ArithmeticLocallySymmetricSpaces ALS.F.6
-`LocallySymmetric.AutomorphicForm`, `.cuspForm` and `.cuspidalRepresentation` supplies the
-function spaces and their admissible constituents; ALS.F.7 supplies relative Lie cohomology.
-AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization and its inverse over ℚ,
-including the lowering criterion for every k≥1, the raising and Casimir formulas, the unitary
-scalar normalization, the actual cuspidal newform occurrence and the good-prime Hecke and
-diamond actions. R16.1/finite-level-comparison transports these maps to the matrix realization
-and levels here; its general-number-field restriction uses the supplied double-coset spaces.
-AL.R.5 (finite-part rationality) supplies the regular-algebraic finite-part rational model and
-coefficient conjugates; R16.4/cohomological-rationality constructs their GL₂ Hecke-field comparison.
-R16.6 specializes the supplied primitive dictionary to the AL.2 newvector tensor and compares
-its exact conductor and local factors, including the weight-one limit.
-Isobaric GL₂ means a cusp class or
-the Langlands quotient attached to two Hecke characters; the GL₃ isobaric carrier used in transfer
-is assembled from cuspidal blocks by normalized induction. Use AL.3's isobaric uniqueness.
-
-ArithmeticGaloisRepresentations §2.7 **Global inputs** supplies the scalar adelic
-Schwartz–Bruhat space and tensor API, self-dual Fourier transform and Poisson summation.
-Its Local-constant Gauss sum
-supplies the arithmetic character constants `tateLocalConstant` as finite sums;
-Standard-test-function evaluations
-supplies the local standard integrals;
-Root-number product formula
-defines Hecke's Gauss-sum root number `W_H` and identifies it with the product of local
-constants as a finite-sum identity; its finite-order globalisation supplies a finite-order
-Hecke character with prescribed components at a finite set of places. These are all that
-§2.7 provides: it consumes no continued L-function and states neither the local constants of
-non-abelian Weil representations nor an Artin functional equation. The comparison of the
-scalar standard integral with LFunctions' completed Hecke function is
-AutomorphicLFunctionsAndLocalFactors AL.1.5.3.
-
-ClassicalArithmeticCompletion §7.12b supplies, for every finite extension `F/ℚ_p`, nontrivial
-additive character ψ and Haar measure dx, the unique constants `ε_F(V,ψ,dx)` of
-finite-dimensional smooth complex representations V of `W_F` (those with open inertia kernel),
-built on the reciprocity that sends a uniformizer to geometric Frobenius, as in the Conventions.
-It proves multiplicativity in exact sequences, inductivity for virtual representations of degree
-zero, agreement in dimension one with the Tate constant of its §7.12a (the same finite sum that
-defines ArithmeticGaloisRepresentations §2.7's `tateLocalConstant`), the unramified-twist law
-`ε_F(V⊗ν_W^t,ψ,dx) = q^{−t(a_F(V)+n(ψ)·dim V)}·ε_F(V,ψ,dx)` with `a_F` the Artin conductor, and
-the constants `λ(E/F,ψ) = ε_F(Ind_{W_E}^{W_F} 1,ψ)/ε_E(1,ψ∘Tr_{E/F})`, for which
-`ε_F(Ind V,ψ) = λ(E/F,ψ)^{dim V}·ε_E(V,ψ∘Tr_{E/F})`; it treats the archimedean places as well.
-Its §7.12c supplies, for a finite Galois extension L/F of number fields and a complex
-representation ρ of `Gal(L/F)`, the completed Artin function with its meromorphic continuation
-and the functional equation `Λ(s,ρ) = W(ρ)·Λ(1−s,ρ^∨)`, where `W(ρ)` is the product of the
-central constants of §7.12b at the dual of ρ and of the archimedean constants, unchanged when
-the global additive character is translated by an element of `F×`. A twist by a Hecke character
-`χ₀·|·|^{s₀}` with χ₀ of finite order follows from the case `ρ⊗χ₀` by the shift `s ↦ s+s₀` and
-the unramified-twist law. Neither section treats monodromy: R16.0/local-langlands defines the
-constant of a Weil–Deligne representation from that of §7.12b.
-
-AutomorphicLFunctionsAndLocalFactors AL.1.3.2–AL.1.3.3
-supplies local zeta integrals, analytic extension and the functional equation, identifying its epsilon
-factor with ArithmeticGaloisRepresentations §2.7's `tateLocalConstant`.
-AutomorphicLFunctionsAndLocalFactors AL.1.6.2
-supplies the canonical scalar completion, analytic extension, reflected equation and polar divisor
-for all unitary Hecke characters through the rank-one case of Godement–Jacquet, with
-quasi-characters obtained by norm twists. Its root number is the arithmetic Gauss-sum
-root number above. AutomorphicSpectralTheory §1.15c
-identifies its Eisenstein construction with this same completion by agreement of the full
-primitive Euler product, archimedean factors and conductor power.
-AutomorphicLFunctionsAndLocalFactors AL.0.3.1 (the local Schwartz–Bruhat space) and its
-vector-space Fourier/Poisson refinements, AL.1.4.2 (canonical archimedean factors) and
-distribution refinements, AL.2.1 standard factors and AL.1.4.3 (the archimedean standard
-epsilon factor), and AL.4.2.1 (transport of local parameter comparisons) fix the local and GLₙ
-factor conventions.
-AL.2.2 (GL₂ newvectors, AL.2.2.1–AL.2.2.5)
-supplies the local K₀/K₁ subgroups with their cosets (AL.2.2.1), their integral embeddings,
-compact/open properties, the least
-last-row level, minimal fixed lines, Whittaker normalization and essential spherical-twist
-tests used in R16.1–R16.6. The lower-right quotient and the integral-scalar decomposition
-of K₀ are stated in R16.1.3, not supplied. Its targets “Existence of a nonzero newvector level”, “The
-newvector conductor exponent”, “Casselman’s newvector theorem” and “The normalized
-Whittaker newvector” use these same groups.
-AL.3.4.1 (cuspidal Fourier expansion), AL.3.4.2 (global Whittaker factorization),
-AL.3.4.3 (ordinary multiplicity one), AL.3.7.1 (strong multiplicity one), AL.3.7.2 (strong
-multiplicity one for isobaric sums), AL.3.6.1 (Rankin–Selberg continuation and poles),
-AL.3.6.3 (boundary nonvanishing), AL.3.6.2 (global Rankin–Selberg functional equation),
-AL.3.2.2 (local convergence) and AL.3.2.3 (the Rankin–Selberg local L-factor) are consumed
-with the hypotheses stated below.
-AL.3.9.5 (the converse theorem with twists through rank n−1) at n=2 needs every GL₁
-quasicharacter twist. AL.3.9.6 (twists through rank n−2) at n=3 supplies the GL₃ input; an
-omitted finite set gives only an
-outside-set match. The highly ramified family for generic candidates is obtained by the
-R17.4 fill-and-twist deduction. The adjoint application with possibly nongeneric local quotients instead uses
-R17.4/whittaker-type-adjoint-converse; genericity is a conclusion of its constituent argument.
-
-AutomorphicSpectralTheory, §3.6a (Rankin–Selberg strip bounds), §6.9 orbital integrals and
-Layers 0, 2, 4, 6, supplies Rankin–Selberg strip bounds, trace class,
-Eisenstein/intertwining analytic extension, spectral completeness, truncation, compact trace formula
-and Euler–Poincaré functions. The finite-place correspondence is
-SmoothRepresentationsOfLocalGroups SR.5.2's rec, transported to the geometric-Frobenius
-convention in R16.0/local-langlands, which owns its conductor and factor comparisons.
-
-From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §6.9 supplies the division-algebra
-Jacquet–Langlands transfer from D× to GL_d(F), defined there as the inverse of its general local
-correspondence restricted to m=1, for central division algebras of degree d over
-nonarchimedean local fields, with characteristic-zero coefficient descent and extension. At d=2,
-consume its bijection between irreducible smooth D× classes and essentially square-integrable
-GL₂(F) classes, directed from D× to GL₂(F), with matching elliptic character sign
-`(−1)^(d−1) = −1`. It supplies central-character equality, contragredients, smooth
-`χ ∘ Nrd` versus `χ ∘ det` twists and the inverse on these classes; it attaches no
-D× class to a representation outside the essentially square-integrable domain.
-§4.4 supplies, for every nonarchimedean local field `F` and algebraically closed
-characteristic-zero coefficients, the smooth irreducible `GL₂(O_F)`-type of a supercuspidal
-inertial class: its Hom into an irreducible admissible π has dimension one when π lies in the
-class and zero otherwise, it is unchanged by unramified twist, and occurrence descends along
-coefficient-field extension. R16.2/henniart-unicity consumes this type.
-
-R17.1 packages the degree-two Jacquet–Langlands specialization with the GL₂ parameters
-and constructs the split and real comparisons; R17.2/quaternionic-orbital-matching
-constructs its matching functions. AutomorphicSpectralTheory §§7.0a–7.0c supplies cyclic twisted
-objects, local matching and the trace distribution; §7.1 supplies weak cyclic/isobaric
-base change, descent, fibres and towers. R17.2/cyclic-local-matching identifies the rank-two
-normalizations, and R17.2 compares its six-term ledger and correction terms with that distribution.
-
-ArithmeticGaloisRepresentations, §2.4 (arithmetic Weil–Deligne adapter), Layer 3
-(Artin/Swan conductors, with the Weil–Deligne correction in §3.3), Layers 1, 4, 5 and §§7.1–7.2, 7.6 supplies arithmetic
-parameters, lattices, classification, recognition and adjoints. Its arithmetic Frobenius convention
-is compared with the geometric convention here through the stated dual and twist.
-AlgebraicModularFormsAndSerreWeights, R15.1–R15.3, R15.5 (§5.10, Deligne–Serre eigenvalue
-lifting, and §5.14, eigenform lifting with weight shifts),
-R15.5A.1–R15.5A.3 classical cohomology and Galois attachments,
-and R15.6 (§7.4–§7.5, residual modularity witness), supplies the geometric residual-form interface.
-
-AutomorphicFormsOnReductiveGroups §7.4 supplies the abstract level-form carrier for a group, a
-subgroup, a level and a right coefficient module, its evaluation/reconstruction equivalence without
-finiteness hypotheses, coefficient maps, restriction and the trace over left cosets, the slash
-operators, the opposite-ring action of the double-coset Hecke ring and `inverseActionHeckeEquiv`,
-which converts that action into weighted coset sums; its §7.6 supplies the central-character
-submodule. AdelicAlgebraicGroups §5.3, *quaternion-class-sets* and
-*definite-quaternion-stabilizers*, supplies finite quaternionic class sets at compact open levels
-of every quaternion algebra over every number field, with surjective refinement maps, and
-stabilizers finite modulo their central units for totally definite algebras. RestrictedPowerSeries
-§§0.1 and 2.2 supplies the restricted algebra and the analytic substitution of R17.3.8a's
-analytic-coefficient comparison. R17.3.8a–R17.3.8d specialize these to quaternion algebras and
-construct the classical coefficient modules, form spaces and Hecke operators; R17.3 also constructs
-the division-place algebraic coefficient adapter, the level colimit, the comparison with Pan's
-spaces, the norm-character decomposition and the JL spectrum.
-
-GlobalNumberFields, Layers 2, 7–10, supplies moduli, ray subgroups, finite ray quotients and
-characters. ClassFieldTheory, Layers 7, 9–11, supplies reciprocity, local Weil groups and the global
-Brauer sequence; R17.5/global-weil-group constructs the global Weil carrier. ClassFieldTheory Layer 10 `eq_zero_of_localInv_eq_zero` is the injectivity needed to compare
-quaternion classes. GlobalQuadraticForms, §4.4 `exists_hilbertSymbol_eq_neg_one_iff_pair`, supplies
-prescribed Hilbert signs; QuadraticFormInvariants, Layer 2, supplies quaternion splitting and
-RepresentationTheory/SemisimpleAlgebras, Layer 6, supplies the unique division representative.
-The actual quaternion algebra isomorphism and exchanged-place comparison are R17.1 targets.
-ProfiniteCohomology, Layer 10, supplies continuous cochains and connecting maps.
-ArithmeticGaloisRepresentations §7.6 supplies idelic torsion-character extension, finite-kernel
-lifting obstruction and Tate vanishing with trivial discrete Q/Z coefficients. NumberFieldArithmetic, Layer 5, LocalFieldsRamification, Layer 1,
-and Chebotarev, Layer 10, supply completions/valuations, Hensel lifting and inert primes.
-
-AlgebraicModularFormsAndSerreWeights R15.5A.1 supplies the classical primitive rank-two
-parabolic summand, its coefficient de Rham realization, Hodge sequence and Hecke projector;
-R15.5A.2–R15.5A.3 supplies the higher-weight λ-adic and weight-one Artin attachments.
-R17.6.1 identifies the supplied primitive summand with its adelic Hom in the tower.
-EtaleCohomologyFoundations §§0.6, 0.8, 0.11 and F.0–F.6 supplies scheme constructible
-cohomology, compact support, traces and duality; ClassicalAdicEtaleCohomology Layers 8–9
-supplies the adic coefficient operations used in R17.6.3a–R17.6.3b.
-ComplexComparisonPartII §§C6.3–C6.6 supplies equivariant finite- and adic-coefficient
-Artin comparison. LefschetzPencilsAndVanishingCycles LPV.0 and LPV.2 supplies nearby
-cycles, variation and Picard–Lefschetz, retaining the monodromy map. R17.6.3a–R17.6.3b
-owns the reusable correspondence trace, Lefschetz–Verdier and contracting-local-term interfaces
-on separated finite-type schemes,
-including their normalized adic realization. R17.6.4 applies these interfaces to the
-ramified conductor comparison.
-
-Related integral GL₂ level conventions are described in the
-[FLT local-level discussion](https://leanprover-community.github.io/archive/stream/416277-FLT/topic/Rolling.20update.html).
-Its tame scalar-residue condition differs from the last-row K₁ condition here; the common
-matrix-unit and coefficient-map vocabulary is used throughout.
+[`Suggested.lean`](Suggested.lean) states a selection of these results in Lean, with admitted proofs; it is not an exhaustive checklist, and this README is the definitive specification.
 
 ## How to read the build
 
@@ -455,6 +42,22 @@ the weak phase specifies no ramified local Langlands components. R17.6 compares 
 the correspondence trace inputs before conductor comparison, and determinant-untwist before solvable-dihedral.
 Katz coprime-level descent precedes unramified-katz. The layer numbers group mathematics; this
 order determines which inputs are available to each proof.
+
+## Conventions
+
+Reuse Mathlib `Matrix.GeneralLinearGroup (Fin 2) R`, determinant/scalars/maps, `Matrix.ProjGenLinGroup`, `Representation.invariants` and Haar measure; build adelic quotient measure. `HeckeRing.GL2.Newform` gives newspace, nebentypus, good eigenvalues and a₁=1; ModularForms Layer 4 gives bad eigenproperties. `eq_of_forall_notMem_eigenvalue_eq` fixes level/character; adelic strong multiplicity one compares classes. Hilbert coefficients use `TauCeti.symPowerRep` and Mathlib finite tensors.
+
+`TauCeti.IsProjectiveRep.exists_monoidHom_of_cohomologyClass_eq_zero` gives algebraic lifting; arithmetic vanishing/continuity is separate. `TauCeti.simple_indFDRep_ofLinearCharacter_iff` requires finite groups and algebraically closed characteristic-zero coefficients; `TauCeti.Matrix.GeneralLinearGroup.not_isSolvable_fin_two` requires a field with a nonzero a satisfying a²≠1.
+
+At finite places O,p,ϖ,q are valuation ring, maximal ideal, uniformizer and residue size; ν(ϖ)=q⁻¹. Upper-Borel induction uses `δ_B^(1/2)`, with `δ_B(diag(a,d))=|a/d|`. K₀(pⁿ) constrains the lower-left entry; K₁(pⁿ) fixes the last row; both equal GL₂(O) at n=0. Right translation gives K₀-character ω(d); transport Casselman's top-left convention by π∨≅π⊗ω⁻¹det. Fix ψ of conductor O and W(1)=1. SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals gives the functional space `Hom_U(V,ψ)` and proves it has dimension one for irreducible infinite-dimensional V. One-dimensional classes have no Whittaker model.
+
+Reciprocity sends ϖ to geometric Φ, `ν_W(Φ)=q⁻¹`. `rec` matches normalized induction; `recᵀ(π)=rec(π)⊗ν_W^(-1/2)` multiplies rank-two Frobenius by √q and preserves N. Factors use `(ker N)^I`; arithmetic-Frobenius eigenvalues must be inverted with the cohomological dual specified. For unitary Satake α,β, T₁=√q(α+β); weight-k roots are `q^((k−1)/2)α` and `q^((k−1)/2)β`. For a classical arithmetic Artin representation ρ, `rec(π_v)≅(ρ|W_Fv)^∨`; the geometric eigenvalues of rec π are the arithmetic eigenvalues of ρ. The centre corresponds to (detρ)⁻¹ under geometric reciprocity, while the classical nebentypus is detρ. Rationality uses `π_alg=π_unitary⊗|det|^(-(k−2)/2)`.
+
+Use full O(2) modules `D_k`, k≥2, with positive-determinant weights ±k; weight one's limit has parameter 1⊕sgn. At complex places `|z|_ℂ=|z|²` (gamma conventions: R16.3). Fix the additive character by trace to ℚ, self-dual measures and additive quotient mass one. Conductor: |Disc(F)|²N(𝔣π). Over ℚ, t=s+(k−1)/2 converts s↔1−s to t↔k−t.
+
+Fix quaternion split-place identifications. Cuspidal JL excludes norm characters; local division characters match Steinberg twists. Use automorphic isomorphism classes. Residual data: coefficient place, residue embedding, lattice, semisimplification. In characteristic two determinant oddness is vacuous and involutions need not be semisimple. Compatible families share a coefficient field and good-place polynomials.
+
+Namespace: `TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer` for every statement in `Suggested.lean`.
 
 ## Layer R16.0: Finite-place parameters
 
@@ -3469,6 +3072,405 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 - PotentialAutomorphyInfrastructure §1.13 builds its genericity-making character twist from
   R16.1.8's `finite_hecke_full_local_prescription`, through PotentialModularityAndCompatibleSystems
   §2.15.
+
+## Scope and ownership
+
+This roadmap owns the GL₂ comparisons in layers R16.1–R16.6 and R17.1–R17.6 above. It builds the
+arithmetic character prescription, the specific rank-two trace comparisons, the strong local transfer
+identifications, solvable Artin automorphy and residual modularity, and local conductor comparisons
+for the supplied classical attachments. It uses existing matrix groups, representation modules, fixed submodules, newforms,
+symmetric powers, coefficient twists, idele classes and quaternion algebras.
+
+ModularForms, Layers 0–4, 7, 8, 8G and 8W, owns classical Hecke operators, old/new spaces,
+nebentypus, bad-prime eigenproperties, coefficient fields and classical L-functions.
+SmoothRepresentationsOfLocalGroups, SR.0–SR.4, owns smooth categories, induction, Whittaker
+functionals, types, the Bernstein centre and Satake. AdelicAlgebraicGroups, AA.0–AA.3, owns adelic
+points, Haar products, arithmetic quotient measures and anisotropic compactness.
+AutomorphicLFunctionsAndLocalFactors representation prerequisites AL.R.1–AL.R.3 own GLₙ archimedean
+modules, globalizations and restricted tensors. AutomorphicSpectralTheory §§0.48–0.50 supplies
+the general reductive-group extensions of these constructions.
+ArithmeticLocallySymmetricSpaces ALS.F.6 owns automorphic forms and cuspidal classes.
+AutomorphicFormsOnReductiveGroups §2.6 owns the full-O(2) discrete and limit modules
+and the real/complex unitary dual, including exhaustion; R16.2.13 identifies its explicit
+K-type, reducibility and parameter formulas with that classification. Its §§7.2–7.3 own
+the classical/adelic dictionary, its inverse, raising and Casimir normalizations, and Hecke
+and diamond comparisons.
+R16.1/finite-level-comparison adapts that dictionary to the matrix and level conventions here;
+R16.4/cohomological-rationality compares the supplied finite-part rational models with classical
+Hecke fields, and R16.6 compares the supplied primitive correspondence with local newvectors
+and conductors. AutomorphicLFunctionsAndLocalFactors, AL.0–AL.4, owns
+local Fourier analysis, vector-space and distribution refinements, local factors,
+Rankin–Selberg analysis and the general converse theorems. ArithmeticGaloisRepresentations
+§2.7 **Global inputs** owns the common scalar adelic Schwartz–Bruhat, Fourier and Poisson theory.
+Its three subsections, Local-constant Gauss sum, Standard-test-function evaluations and
+Root-number product formula, supply arithmetic character constants, standard-function
+evaluations and the finite-sum root-number identity. ClassicalArithmeticCompletion §7.12b owns
+the Deligne–Langlands local constants of complex Weil representations with their λ-constants,
+and its §7.12c the completed finite-image Artin functions with their functional equation;
+R16.0/local-langlands extends those constants to Weil–Deligne representations.
+AutomorphicLFunctionsAndLocalFactors AL.1.6.2 supplies the canonical
+scalar Hecke completion and functional equation for every unitary idele-class character
+as the rank-one case of Godement–Jacquet.
+AutomorphicSpectralTheory §1.15c identifies its Eisenstein
+construction with that supplied completion.
+AutomorphicLFunctionsAndLocalFactors AL.1.3.2–AL.1.3.3 supplies
+local zeta integrals, their functional equation and the comparison with those character constants.
+AutomorphicSpectralTheory, Layers 0, 2, 4 and 6, owns spectral decomposition, truncation,
+trace-class bounds and the generic trace formula. SmoothRepresentationsOfLocalGroups SR.5.2
+owns the classical GL_n correspondence rec, stated in the arithmetic-Frobenius convention;
+R16.0/local-langlands consumes it at n=2 and n=3, transported to the geometric-Frobenius
+convention, and owns the conductor comparison, the twisted standard and pair-factor
+comparisons and the uniqueness theorem for the rank-two and rank-three finite-place
+parameters. PadicLocalLanglandsForGL2Qp §6.9 owns nonarchimedean
+division-algebra Jacquet–Langlands; R17.1/local-quaternionic-comparison consumes its
+degree-two specialization and packages the quaternionic parameters and split comparisons.
+PadicLocalLanglandsForGL2Qp §4.4 owns the supercuspidal `GL₂(O_F)`-type with its occurrence
+and multiplicity one; R16.2/henniart-unicity adds Henniart's unicity of that type.
+R17.1/real-quaternionic-comparison owns the real comparison, and
+R17.2/quaternionic-orbital-matching owns the matching test functions.
+AutomorphicSpectralTheory §§7.0a–7.0c and §7.1 owns the canonical cyclic twisted objects,
+local matching, normalized characters, trace comparison, weak cyclic/isobaric base change,
+descent, fibres and tower operations, including rank two and specified norm twists.
+R17.2 compares its explicit GL₂ ledger and local conventions with those supplied objects;
+R17.4 upgrades the same base-change outputs to all-place Weil–Deligne compatibility.
+R17.4/metaplectic-adjoint-input owns the theta-integral input
+needed for the adjoint lift. R17.4/whittaker-type-adjoint-converse owns the
+Whittaker-type-module converse and constituent argument, including the nongeneric boundary.
+R17.3.8a–R17.3.8d own the classical quaternionic coefficient modules with their determinant
+normalizations and integral monoid actions, the quaternionic level forms over every number field
+with their evaluation, level maps and norms, the classical form spaces with their stabilizer
+actions, dimensions and changes of splitting, and the Hecke operators with their good-place
+relation, inversion formulas and commutation. They specialize AutomorphicFormsOnReductiveGroups
+§7.4's abstract level-form carrier and opposite-ring Hecke action to quaternion algebras over number
+fields. R17.3/definite-hilbert-exports owns the division-place coefficient adapter, the level
+colimit, the comparison of R17.3.8d's action with Pan’s `T_ℓ, S_ℓ`, and their JL spectrum.
+AutomorphicGaloisRepresentations §§0.2a–0.2f owns the analytic weight actions at weights that need
+not be algebraic, the analytic and overconvergent quaternionic forms, property (Pr), the certified
+Hecke matrices and compact controlling operator, the Fredholm series, slope summands and families,
+and small-slope classicality. It builds them on R17.3.8a–R17.3.8d, from which it takes the
+algebraic coefficient modules with their determinant normalizations, nebentypus monoids and
+restricted-series slash at algebraic weights, the level and classical forms with their finiteness,
+norms, stabilizer averaging and dimension, and the Hecke operators with their coset
+decompositions, commutative Hecke algebra and norm bounds.
+
+ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
+Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
+powers/adjoints. AlgebraicModularFormsAndSerreWeights, R15.1–R15.6, owns geometric forms,
+Hasse invariants, integral Hecke theory, eigenvalue lifting and the classical rank-two
+cohomological summand and Galois attachments of R15.5A.1–R15.5A.3. The geometry exports give specified automorphic representations, coefficient modules and split-place
+Hecke actions. A geometric realization, an extension with prescribed completions, and a compatible
+system are explicit inputs wherever used. The transfer interfaces construct their indicated
+restrictions and descents from those data.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At Mathlib `1b1ccf4b`, the matrix carrier is `Matrix.GeneralLinearGroup (Fin 2) R`
+(`Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs`), with `scalar`, `det`, `map` and `toLin`.
+`Matrix.ProjGenLinGroup` and `Matrix.ProjGenLinGroup.mk`
+(`Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Projective`) provide projectivization.
+`Representation`, `Representation.comp`, `Representation.invariants`, `Representation.ind` and
+`Representation.IsIrreducible` provide algebraic actions, restriction, fixed submodules, induction
+and irreducibility. In particular, restriction of a supplied finite type is `Representation.comp`;
+there is no second definition of restriction in this roadmap. Smoothness and compact-open
+admissibility are stated explicitly when using these carriers.
+
+`IsNonarchimedeanLocalField`, `Valuation.integer (ValuativeRel.valuation F)` and
+`IsLocalRing.maximalIdeal` on that valuation ring, with notation from
+`Mathlib.Topology.Algebra.Valued.ValuativeRel` fix the
+local field, valuation ring and ideal notation. `Ideal`, its powers, `Submonoid.units`, subgroup
+maps and `Nat.find` give the congruence subgroups and the least nonzero fixed level.
+`MeasureTheory.Measure.haarMeasure` and `haarMeasure_self` in
+`Mathlib.MeasureTheory.Measure.Haar.Basic` give local Haar normalization, while the quotient and
+restricted Haar products below use AdelicAlgebraicGroups.
+
+`IdeleClassGroup`, `IdeleClassGroup.ofAdicCompletion` and `IdeleClassGroup.ofCompletion` in
+`Mathlib.NumberTheory.NumberField.AdeleRing` give the character domain and its full finite
+and infinite local maps. `MonoidHom.domRestrict_surjective` in
+`Mathlib.GroupTheory.FiniteAbelian.Duality` extends subgroup characters with algebraically closed
+coefficients through a finite quotient. `NumberField.Units.mem_torsion` in
+`Mathlib.NumberTheory.NumberField.Units.Basic` detects torsion by archimedean absolute values.
+`Set.unit` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the group of S-units of a Dedekind
+domain's fraction field; Mathlib proves no finiteness for it.
+These do not assert the arithmetic congruence or full-local prescription theorem.
+
+`Matrix.det_smul` in `Mathlib.LinearAlgebra.Matrix.Determinant.Basic` gives the scalar
+determinant identity (uA has determinant u²det A at rank two); this is a supplier, not a new
+normalization lemma. `Complex.Gammaℝ_def`, `Complex.Gammaℂ_def` and `Complex.Gammaℝ_mul_Gammaℝ_add_one` in
+`Mathlib.Analysis.SpecialFunctions.Gamma.Deligne` fix the gamma factors. `AddCircle` and its
+quotient map provide the spectral periodization and the additive Q/Z carrier.
+`Matrix.charpoly`, `rootsOfUnity`, `Localization.AtPrime`, `HeightOneSpectrum` and
+`Field.absoluteGaloisGroup` supply the algebraic and arithmetic carriers of the lifting
+milestones; Brauer-character construction and arithmetic lifting are targets here.
+
+`IsArithFrobAt` (`Mathlib.RingTheory.Frobenius`), `Algebra.IsUnramifiedAt`
+(`Mathlib.RingTheory.Unramified.Locus`), `Ideal.LiesOver` (`Mathlib.RingTheory.Ideal.Over`) and
+`UpperHalfPlane.qExpansion` (`Mathlib.NumberTheory.ModularForms.QExpansion`) express the
+arithmetic-Frobenius traces and q-coefficients in `odd_solvable_artin_weight_one` and
+`characteristicTwo_solvable_weight_one`. There `σ : E ≃ₐ[ℚ] E` acts on `𝓞 E` through the
+`MulSemiringAction` instance of `Mathlib.NumberTheory.NumberField.Basic`, and `IsArithFrobAt ℤ σ Q`
+says `σ x ≡ x^p` modulo Q for every x in `𝓞 E`, p being the residue characteristic of Q. At a prime
+Q unramified over ℤ, `AlgHom.IsArithFrobAt.eq_of_isUnramifiedAt` determines the action of such σ
+on `𝓞 E`, hence σ itself, since E is the fraction field of `𝓞 E`; so the traces and determinants
+in those statements do not depend on a choice.
+
+`MvPolynomial.restrictSupport` carries the coefficient modules of R17.3.8a, and
+`MvPolynomial.basisRestrictSupport` is their monomial basis over every commutative ring;
+`MvPowerSeries.IsRestricted` cuts out the restricted series of their analytic comparison.
+`Algebra.TensorProduct.includeRight`, `IsDedekindDomain.FiniteAdeleRing` and `IsModuleTopology`
+give the finite adelic units of a quaternion algebra and their topology in R17.3.8b, and
+`DoubleCoset.Quotient` its class sets. `Representation.averageMap` and
+`Representation.isProj_averageMap` (`Mathlib.RepresentationTheory.Invariants`) give the averaging
+projector onto invariants of a finite group whose order is a unit, used in R17.3.8c.
+`IsHeckeTriple`, `HeckeCoset.mk`, `HeckeCosetModule` and `HeckeRing`
+(`Mathlib.NumberTheory.HeckeRing.Defs`) give the double-coset modules of R17.3.8d.
+
+### From Tau Ceti
+
+At Tau Ceti `2fd255d9`, import the following APIs rather than reproducing them.
+
+- `TauCeti.NumberTheory.ModularForms.Newforms.Newform`: `HeckeRing.GL2.Newform`, its
+  `toCuspForm`, `χ`, `dirichletLift`, and `qExpansion_coeff_one`. The newform is normalized,
+  lies in the existing newspace, and is an eigenform away from its level. The complete bad-prime
+  theory is supplied by ModularForms Layer 4.
+- `TauCeti.NumberTheory.ModularForms.Newforms.StrongMultiplicityOne`:
+  `HeckeRing.GL2.Newform.eq_of_forall_notMem_eigenvalue_eq` compares newforms at a fixed level,
+  weight and nebentypus outside a finite set. It does not compare adelic classes at arbitrary levels.
+- `TauCeti.NumberTheory.ModularForms.LFunction.Basic`: `CuspForm.LSeries_qExpansion_coeff_eq`
+  gives the convergent-domain width-one Mellin comparison for positive weight and the stated
+  right-half-plane hypothesis. Analytic extension and transfer use their named targets below.
+- `TauCeti.RepresentationTheory.ClassicalGroups.SymmetricPower`: `TauCeti.symPowerRep` supplies
+  the symmetric powers of the standard matrix action.
+  `TauCeti.RepresentationTheory.CharacterTwist`: `Representation.charTwist` supplies determinant
+  twists on the same module. The Hilbert weight factors specialize these APIs; they do not define
+  a new symmetric-power or twisting construction.
+- `TauCeti.RepresentationTheory.Induction.Mackey.LinearCharacter`:
+  `TauCeti.simple_indFDRep_ofLinearCharacter_iff` is the finite-group Mackey criterion for a
+  linear character of a normal subgroup over algebraically closed characteristic-zero coefficients.
+  The quadratic restriction target also covers infinite groups and characteristic two.
+- `TauCeti.RepresentationTheory.ProjectiveRepresentation.SchurMultiplier`:
+  `TauCeti.IsProjectiveRep.exists_monoidHom_of_cohomologyClass_eq_zero` gives algebraic lifting
+  when the factor-set class vanishes. The arithmetic vanishing, continuity and finite image
+  are additional targets, not consequences of algebraic lifting alone.
+- `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Solvable`:
+  `TauCeti.Matrix.GeneralLinearGroup.not_isSolvable_fin_two` assumes a field with a nonzero a
+  satisfying a²≠1. It must not be applied to F₂ or F₃.
+- `TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus`:
+  `TauCeti.GlobalNumberFields.Modulus`, `Modulus.support`, `IsCongrOne` and
+  `congruenceSubgroup` give the existing modulus and multiplicative congruence predicates.
+  `TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Basic`:
+  `TauCeti.GlobalNumberFields.HeckeCharacter` is the continuous character of Mathlib's idele
+  class group, with no additional carrier.
+- `TauCeti.Algebra.Quaternion.Split`: `TauCeti.QuaternionAlgebra.oneEquivMatrix` identifies
+  `QuaternionAlgebra K 1 0 1` with 2×2 matrices. Global realization with prescribed nonsplit
+  places and comparison of two quaternion algebras use the contracts below.
+- `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg` gives finite generation of
+  Mathlib's S-unit group `Set.unit S K` for finite S over a Dedekind domain whose ∅-units are
+  finitely generated, and the instance `Set.unit_fg_of_units` gives it from `Monoid.FG Rˣ`, which
+  Mathlib registers for `(𝓞 K)ˣ`. Neither computes a rank.
+- `TauCeti.NumberTheory.NumberField.Frobenius`: `NumberField.exists_isArithFrobAt_int_of_liesOver`
+  gives, for a Galois number field E/ℚ and a prime Q of `𝓞 E` lying over a rational prime p, some
+  `σ : E ≃ₐ[ℚ] E` with `IsArithFrobAt ℤ σ Q`. Hence the Frobenius hypotheses of
+  `odd_solvable_artin_weight_one` and `characteristicTwo_solvable_weight_one` can be met at every
+  nonzero prime Q of `𝓞 E`, so their coefficient conditions are not vacuous. The statements
+  themselves use only Mathlib's predicate.
+- `TauCeti.NumberTheory.HeckeRing.Associativity`, with `Basic`, `One` and `Degree` in the same
+  directory: the ring structure on `HeckeRing Δ H ℤ` for a Hecke pair, its basis elements
+  `HeckeCosetModule.single` and the degree homomorphism `LeftCosetModule.deg`. R17.3.8d states the
+  good-place relation and the inversion formulas in this ring.
+- `TauCeti.Algebra.CentralSimple.SkolemNoether`: `TauCeti.skolemNoether` makes two algebra maps
+  from a central simple algebra into a finite-dimensional simple algebra conjugate by a unit; it
+  makes the splittings of R17.3.8c unique up to conjugation.
+
+### From roadmaps
+
+ReductiveGroupsPartII, RG2.0 and RG2.4, supplies rational point topologies, integral points,
+Iwasawa/Cartan coordinates and the local modulus. AdelicAlgebraicGroups, AA.0
+`restricted-haar-product`, §§1.1–1.2 affine and adelic points, §1.5 compact open levels, §§2.2–2.3
+quotient measures and §3.4 compact anisotropic quotients, supplies their adelic and measure
+counterparts. R16.1 constructs central-character L² from these quotient measures. SmoothRepresentationsOfLocalGroups, SR.2.3 `whittaker-functionals` and
+its GL₂ multiplicity-one statement, supplies the nonzero Whittaker functional and uniqueness for
+irreducible infinite-dimensional GL₂ representations. SR.0 supplies the smooth fixed-character
+category; SR.3a.1 compact representations and SR.3.2 cuspidal splitting supply the projectivity
+argument. SR.1 and SR.4 supply Hecke carriers, Bernstein centre and spherical parameters.
+
+AutomorphicLFunctionsAndLocalFactors, representation prerequisites AL.R.1 (Archimedean Whittaker
+comparisons), AL.R.2 (Archimedean `GLₙ` parameters) and AL.R.3 (Restricted tensor
+realizations), supply archimedean categories, normalized induction, Weil
+parameters, Casselman–Wallach globalizations, Flath factorization and algebraic/Hilbert tensor
+realizations for GLₙ. AutomorphicSpectralTheory §§0.48–0.50 (`real_representation_foundations`,
+`smooth_frechet_globalization`, `restricted_tensor_factorization`) extends these constructions
+to general reductive groups. ArithmeticLocallySymmetricSpaces ALS.F.6
+`LocallySymmetric.AutomorphicForm`, `.cuspForm` and `.cuspidalRepresentation` supplies the
+function spaces and their admissible constituents; ALS.F.7 supplies relative Lie cohomology.
+AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization and its inverse over ℚ,
+including the lowering criterion for every k≥1, the raising and Casimir formulas, the unitary
+scalar normalization, the actual cuspidal newform occurrence and the good-prime Hecke and
+diamond actions. R16.1/finite-level-comparison transports these maps to the matrix realization
+and levels here; its general-number-field restriction uses the supplied double-coset spaces.
+AL.R.5 (finite-part rationality) supplies the regular-algebraic finite-part rational model and
+coefficient conjugates; R16.4/cohomological-rationality constructs their GL₂ Hecke-field comparison.
+R16.6 specializes the supplied primitive dictionary to the AL.2 newvector tensor and compares
+its exact conductor and local factors, including the weight-one limit.
+Isobaric GL₂ means a cusp class or
+the Langlands quotient attached to two Hecke characters; the GL₃ isobaric carrier used in transfer
+is assembled from cuspidal blocks by normalized induction. Use AL.3's isobaric uniqueness.
+
+ArithmeticGaloisRepresentations §2.7 **Global inputs** supplies the scalar adelic
+Schwartz–Bruhat space and tensor API, self-dual Fourier transform and Poisson summation.
+Its Local-constant Gauss sum
+supplies the arithmetic character constants `tateLocalConstant` as finite sums;
+Standard-test-function evaluations
+supplies the local standard integrals;
+Root-number product formula
+defines Hecke's Gauss-sum root number `W_H` and identifies it with the product of local
+constants as a finite-sum identity; its finite-order globalisation supplies a finite-order
+Hecke character with prescribed components at a finite set of places. These are all that
+§2.7 provides: it consumes no continued L-function and states neither the local constants of
+non-abelian Weil representations nor an Artin functional equation. The comparison of the
+scalar standard integral with LFunctions' completed Hecke function is
+AutomorphicLFunctionsAndLocalFactors AL.1.5.3.
+
+ClassicalArithmeticCompletion §7.12b supplies, for every finite extension `F/ℚ_p`, nontrivial
+additive character ψ and Haar measure dx, the unique constants `ε_F(V,ψ,dx)` of
+finite-dimensional smooth complex representations V of `W_F` (those with open inertia kernel),
+built on the reciprocity that sends a uniformizer to geometric Frobenius, as in the Conventions.
+It proves multiplicativity in exact sequences, inductivity for virtual representations of degree
+zero, agreement in dimension one with the Tate constant of its §7.12a (the same finite sum that
+defines ArithmeticGaloisRepresentations §2.7's `tateLocalConstant`), the unramified-twist law
+`ε_F(V⊗ν_W^t,ψ,dx) = q^{−t(a_F(V)+n(ψ)·dim V)}·ε_F(V,ψ,dx)` with `a_F` the Artin conductor, and
+the constants `λ(E/F,ψ) = ε_F(Ind_{W_E}^{W_F} 1,ψ)/ε_E(1,ψ∘Tr_{E/F})`, for which
+`ε_F(Ind V,ψ) = λ(E/F,ψ)^{dim V}·ε_E(V,ψ∘Tr_{E/F})`; it treats the archimedean places as well.
+Its §7.12c supplies, for a finite Galois extension L/F of number fields and a complex
+representation ρ of `Gal(L/F)`, the completed Artin function with its meromorphic continuation
+and the functional equation `Λ(s,ρ) = W(ρ)·Λ(1−s,ρ^∨)`, where `W(ρ)` is the product of the
+central constants of §7.12b at the dual of ρ and of the archimedean constants, unchanged when
+the global additive character is translated by an element of `F×`. A twist by a Hecke character
+`χ₀·|·|^{s₀}` with χ₀ of finite order follows from the case `ρ⊗χ₀` by the shift `s ↦ s+s₀` and
+the unramified-twist law. Neither section treats monodromy: R16.0/local-langlands defines the
+constant of a Weil–Deligne representation from that of §7.12b.
+
+AutomorphicLFunctionsAndLocalFactors AL.1.3.2–AL.1.3.3
+supplies local zeta integrals, analytic extension and the functional equation, identifying its epsilon
+factor with ArithmeticGaloisRepresentations §2.7's `tateLocalConstant`.
+AutomorphicLFunctionsAndLocalFactors AL.1.6.2
+supplies the canonical scalar completion, analytic extension, reflected equation and polar divisor
+for all unitary Hecke characters through the rank-one case of Godement–Jacquet, with
+quasi-characters obtained by norm twists. Its root number is the arithmetic Gauss-sum
+root number above. AutomorphicSpectralTheory §1.15c
+identifies its Eisenstein construction with this same completion by agreement of the full
+primitive Euler product, archimedean factors and conductor power.
+AutomorphicLFunctionsAndLocalFactors AL.0.3.1 (the local Schwartz–Bruhat space) and its
+vector-space Fourier/Poisson refinements, AL.1.4.2 (canonical archimedean factors) and
+distribution refinements, AL.2.1 standard factors and AL.1.4.3 (the archimedean standard
+epsilon factor), and AL.4.2.1 (transport of local parameter comparisons) fix the local and GLₙ
+factor conventions.
+AL.2.2 (GL₂ newvectors, AL.2.2.1–AL.2.2.5)
+supplies the local K₀/K₁ subgroups with their cosets (AL.2.2.1), their integral embeddings,
+compact/open properties, the least
+last-row level, minimal fixed lines, Whittaker normalization and essential spherical-twist
+tests used in R16.1–R16.6. The lower-right quotient and the integral-scalar decomposition
+of K₀ are stated in R16.1.3, not supplied. Its targets “Existence of a nonzero newvector level”, “The
+newvector conductor exponent”, “Casselman’s newvector theorem” and “The normalized
+Whittaker newvector” use these same groups.
+AL.3.4.1 (cuspidal Fourier expansion), AL.3.4.2 (global Whittaker factorization),
+AL.3.4.3 (ordinary multiplicity one), AL.3.7.1 (strong multiplicity one), AL.3.7.2 (strong
+multiplicity one for isobaric sums), AL.3.6.1 (Rankin–Selberg continuation and poles),
+AL.3.6.3 (boundary nonvanishing), AL.3.6.2 (global Rankin–Selberg functional equation),
+AL.3.2.2 (local convergence) and AL.3.2.3 (the Rankin–Selberg local L-factor) are consumed
+with the hypotheses stated below.
+AL.3.9.5 (the converse theorem with twists through rank n−1) at n=2 needs every GL₁
+quasicharacter twist. AL.3.9.6 (twists through rank n−2) at n=3 supplies the GL₃ input; an
+omitted finite set gives only an
+outside-set match. The highly ramified family for generic candidates is obtained by the
+R17.4 fill-and-twist deduction. The adjoint application with possibly nongeneric local quotients instead uses
+R17.4/whittaker-type-adjoint-converse; genericity is a conclusion of its constituent argument.
+
+AutomorphicSpectralTheory, §3.6a (Rankin–Selberg strip bounds), §6.9 orbital integrals and
+Layers 0, 2, 4, 6, supplies Rankin–Selberg strip bounds, trace class,
+Eisenstein/intertwining analytic extension, spectral completeness, truncation, compact trace formula
+and Euler–Poincaré functions. The finite-place correspondence is
+SmoothRepresentationsOfLocalGroups SR.5.2's rec, transported to the geometric-Frobenius
+convention in R16.0/local-langlands, which owns its conductor and factor comparisons.
+
+From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §6.9 supplies the division-algebra
+Jacquet–Langlands transfer from D× to GL_d(F), defined there as the inverse of its general local
+correspondence restricted to m=1, for central division algebras of degree d over
+nonarchimedean local fields, with characteristic-zero coefficient descent and extension. At d=2,
+consume its bijection between irreducible smooth D× classes and essentially square-integrable
+GL₂(F) classes, directed from D× to GL₂(F), with matching elliptic character sign
+`(−1)^(d−1) = −1`. It supplies central-character equality, contragredients, smooth
+`χ ∘ Nrd` versus `χ ∘ det` twists and the inverse on these classes; it attaches no
+D× class to a representation outside the essentially square-integrable domain.
+§4.4 supplies, for every nonarchimedean local field `F` and algebraically closed
+characteristic-zero coefficients, the smooth irreducible `GL₂(O_F)`-type of a supercuspidal
+inertial class: its Hom into an irreducible admissible π has dimension one when π lies in the
+class and zero otherwise, it is unchanged by unramified twist, and occurrence descends along
+coefficient-field extension. R16.2/henniart-unicity consumes this type.
+
+R17.1 packages the degree-two Jacquet–Langlands specialization with the GL₂ parameters
+and constructs the split and real comparisons; R17.2/quaternionic-orbital-matching
+constructs its matching functions. AutomorphicSpectralTheory §§7.0a–7.0c supplies cyclic twisted
+objects, local matching and the trace distribution; §7.1 supplies weak cyclic/isobaric
+base change, descent, fibres and towers. R17.2/cyclic-local-matching identifies the rank-two
+normalizations, and R17.2 compares its six-term ledger and correction terms with that distribution.
+
+ArithmeticGaloisRepresentations, §2.4 (arithmetic Weil–Deligne adapter), Layer 3
+(Artin/Swan conductors, with the Weil–Deligne correction in §3.3), Layers 1, 4, 5 and §§7.1–7.2, 7.6 supplies arithmetic
+parameters, lattices, classification, recognition and adjoints. Its arithmetic Frobenius convention
+is compared with the geometric convention here through the stated dual and twist.
+AlgebraicModularFormsAndSerreWeights, R15.1–R15.3, R15.5 (§5.10, Deligne–Serre eigenvalue
+lifting, and §5.14, eigenform lifting with weight shifts),
+R15.5A.1–R15.5A.3 classical cohomology and Galois attachments,
+and R15.6 (§7.4–§7.5, residual modularity witness), supplies the geometric residual-form interface.
+
+AutomorphicFormsOnReductiveGroups §7.4 supplies the abstract level-form carrier for a group, a
+subgroup, a level and a right coefficient module, its evaluation/reconstruction equivalence without
+finiteness hypotheses, coefficient maps, restriction and the trace over left cosets, the slash
+operators, the opposite-ring action of the double-coset Hecke ring and `inverseActionHeckeEquiv`,
+which converts that action into weighted coset sums; its §7.6 supplies the central-character
+submodule. AdelicAlgebraicGroups §5.3, *quaternion-class-sets* and
+*definite-quaternion-stabilizers*, supplies finite quaternionic class sets at compact open levels
+of every quaternion algebra over every number field, with surjective refinement maps, and
+stabilizers finite modulo their central units for totally definite algebras. RestrictedPowerSeries
+§§0.1 and 2.2 supplies the restricted algebra and the analytic substitution of R17.3.8a's
+analytic-coefficient comparison. R17.3.8a–R17.3.8d specialize these to quaternion algebras and
+construct the classical coefficient modules, form spaces and Hecke operators; R17.3 also constructs
+the division-place algebraic coefficient adapter, the level colimit, the comparison with Pan's
+spaces, the norm-character decomposition and the JL spectrum.
+
+GlobalNumberFields, Layers 2, 7–10, supplies moduli, ray subgroups, finite ray quotients and
+characters. ClassFieldTheory, Layers 7, 9–11, supplies reciprocity, local Weil groups and the global
+Brauer sequence; R17.5/global-weil-group constructs the global Weil carrier. ClassFieldTheory Layer 10 `eq_zero_of_localInv_eq_zero` is the injectivity needed to compare
+quaternion classes. GlobalQuadraticForms, §4.4 `exists_hilbertSymbol_eq_neg_one_iff_pair`, supplies
+prescribed Hilbert signs; QuadraticFormInvariants, Layer 2, supplies quaternion splitting and
+RepresentationTheory/SemisimpleAlgebras, Layer 6, supplies the unique division representative.
+The actual quaternion algebra isomorphism and exchanged-place comparison are R17.1 targets.
+ProfiniteCohomology, Layer 10, supplies continuous cochains and connecting maps.
+ArithmeticGaloisRepresentations §7.6 supplies idelic torsion-character extension, finite-kernel
+lifting obstruction and Tate vanishing with trivial discrete Q/Z coefficients. NumberFieldArithmetic, Layer 5, LocalFieldsRamification, Layer 1,
+and Chebotarev, Layer 10, supply completions/valuations, Hensel lifting and inert primes.
+
+AlgebraicModularFormsAndSerreWeights R15.5A.1 supplies the classical primitive rank-two
+parabolic summand, its coefficient de Rham realization, Hodge sequence and Hecke projector;
+R15.5A.2–R15.5A.3 supplies the higher-weight λ-adic and weight-one Artin attachments.
+R17.6.1 identifies the supplied primitive summand with its adelic Hom in the tower.
+EtaleCohomologyFoundations §§0.6, 0.8, 0.11 and F.0–F.6 supplies scheme constructible
+cohomology, compact support, traces and duality; ClassicalAdicEtaleCohomology Layers 8–9
+supplies the adic coefficient operations used in R17.6.3a–R17.6.3b.
+ComplexComparisonPartII §§C6.3–C6.6 supplies equivariant finite- and adic-coefficient
+Artin comparison. LefschetzPencilsAndVanishingCycles LPV.0 and LPV.2 supplies nearby
+cycles, variation and Picard–Lefschetz, retaining the monodromy map. R17.6.3a–R17.6.3b
+owns the reusable correspondence trace, Lefschetz–Verdier and contracting-local-term interfaces
+on separated finite-type schemes,
+including their normalized adic realization. R17.6.4 applies these interfaces to the
+ramified conductor comparison.
+
+Related integral GL₂ level conventions are described in the
+[FLT local-level discussion](https://leanprover-community.github.io/archive/stream/416277-FLT/topic/Rolling.20update.html).
+Its tame scalar-residue condition differs from the last-row K₁ condition here; the common
+matrix-unit and coefficient-map vocabulary is used throughout.
 
 ## References
 [jl70] H. Jacquet and R. P. Langlands, Automorphic forms on GL(2). LNM 114 (1970); locators cite the IAS retypeset edition (2026).

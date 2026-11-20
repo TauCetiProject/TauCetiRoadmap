@@ -1,64 +1,66 @@
 # Roadmap: regret minimization and equilibria in games
 
-**Summary.** Develop the theory of no-regret learning over finite action sets and its consequences
-for equilibria of finite games. It starts with the online protocol over the probability simplex
-and proves the regret bounds of the exponential-weights method (Hedge), regret matching and
-regret matching+. It proves Blackwell's approachability theorem for closed convex sets, with an
-explicit rate. For two-player zero-sum matrix games it spells out von Neumann's minimax theorem
-and proves that average strategies of no-regret self-play are approximate equilibria. For general
-finite games it proves the existence of Nash equilibria and that no-external-regret and
-no-swap-regret dynamics converge to coarse correlated and correlated equilibria, the latter
-through the Blum–Mansour reduction. It ends with sequential decision processes in sequence form,
-the laminar regret decomposition behind counterfactual regret minimization (CFR), the CFR regret
-bound, CFR self-play in two-player zero-sum games in sequence form, and the value `−1/18` of Kuhn
-poker.
+**Summary.** In an online decision problem, a player chooses a mixed strategy over finitely many
+actions in each round and then sees the payoff of every action. Its regret against an action after
+`T` rounds is the total payoff of that action minus the player's total expected payoff, and the
+external regret is the largest of these. The swap regret compares the player with every rule that
+replaces each action by another, and is at least the external regret. This roadmap proves that
+explicit learning procedures keep these regrets of order `√T`, and derives the consequences for
+equilibria of finite games, sequential games included. Players maximize payoffs, and regret is that
+of the mixed strategies, not of sampled actions.
 
-## Scope and ownership
+The regret bounds concern payoff sequences of range `Δ`: at each time, all payoffs lie in an
+interval of length `Δ`. Hedge plays each action with probability proportional to `exp (η S)`, where
+`S` is its cumulative payoff and `η > 0` is a learning rate. For `n ≥ 2` actions, range `Δ > 0`, `T ≥ 1`
+rounds and `η` tuned to these, its external regret is at most `Δ √(T log n / 2)`. Regret matching
+plays each action with probability proportional to the positive part of its cumulative regret, and
+uniformly if none is positive. With `n` actions, its external regret, and that of its variant regret
+matching+, is at most `Δ √(n T)`.
 
-This roadmap owns:
+Blackwell's approachability theorem is proved with an explicit rate. Each pair of actions has a
+payoff vector in a finite-dimensional real inner product space, and the target `S` is nonempty and
+closed. Call `S` response-satisfiable if against every mixed strategy of the opponent some mixed
+strategy of the player has its expected payoff in `S`. If `S` is also convex, the player has a
+strategy keeping the average expected payoff within `D / √T` of `S` after every `T ≥ 1` rounds,
+whatever the opponent plays, where `D` is the diameter of the set of pure payoff vectors.
+Conversely, if `S` is not response-satisfiable, one fixed mixed strategy of the opponent keeps every
+average at least some `δ > 0` away from `S`.
 
-- the full-information online protocol over a finite simplex, external regret and swap regret;
-- Hedge, regret matching and regret matching+, with their regret bounds;
-- Blackwell approachability for closed convex sets, with the rate `D/√T`, and its converse;
-- the matrix-game form of von Neumann's minimax theorem, and the approximate-equilibrium
-  guarantee of no-regret self-play;
-- finite normal-form games: mixed Nash equilibria and their existence, correlated and coarse
-  correlated equilibria, and the convergence of no-regret dynamics to them;
-- the Blum–Mansour swap-regret reduction, with the existence of a stationary distribution of an
-  arbitrary finite row-stochastic matrix as a fixed-point statement (3.4);
-- tree-form sequential decision processes, their sequence-form strategy polytopes, behavioral
-  strategies, best responses, counterfactual values, the laminar regret decomposition, CFR, and
-  CFR self-play in two-player zero-sum sequence-form games.
+In a finite game, a correlated equilibrium with tolerances `ε i` is a distribution on action
+profiles under which no player `i` gains more than `ε i` in expectation by replacing each
+recommended action by its image under a fixed map. It is coarse if only constant maps are tested.
+Let the players use mixed strategies for `T ≥ 1` rounds, each measuring its regret against the
+expected payoffs of its actions given the others' current strategies. If player `i` has external
+regret at most `R i`, the empirical distribution of the product profiles is a coarse correlated
+equilibrium with tolerances `R i / T`. Swap regret at most `SR i` gives a correlated equilibrium
+with tolerances `SR i / T`, and the Blum–Mansour reduction, built from one copy of regret matching
+per action, has swap regret at most `Δ n √T` for payoffs of range `Δ`.
 
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
+For sequential decisions, strategies are recorded by their sequence forms, vectors indexed by
+sequences. Kuhn's theorem in sequence form says that the sequence-form polytope consists exactly of
+the sequence forms of behavioral strategies. Counterfactual regret minimization (CFR) runs regret
+matching at every decision point on counterfactual values. If at each time the values at the
+decision point `j` lie in an interval of length `w j`, its regret against every point of the
+polytope is at most `Σ_j w j √(|A j| T)`, with `A j` the actions at `j`. In two-player zero-sum
+games in sequence form, CFR self-play gives averaged sequence forms with duality gap at most the sum
+of the two bounds divided by `T`. The worked example is Kuhn's three-card poker, whose value for the
+first player is `−1/18`.
 
-Out of scope:
+The roadmap builds on Mathlib for the probability simplex, Hoeffding's lemma and Sion's minimax
+theorem, which gives von Neumann's minimax theorem for matrix games. Tau Ceti's Brouwer fixed-point
+theorem gives the existence of Nash equilibria and of stationary distributions of row-stochastic
+matrices; the theory of stationary distributions of Markov chains belongs to
+[MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md). No roadmap uses the results here.
 
-- Sion's minimax theorem, which is Mathlib's, and Brouwer's fixed-point theorem, which is Tau
-  Ceti's;
-- the theory of stationary distributions of Markov chains, which belongs to
-  [MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3: stationarity as
-  `Kernel.Invariant` with its finite matrix form, and existence and uniqueness for irreducible
-  positive recurrent chains. Target 3.4 keeps one statement, existence for an arbitrary finite
-  row-stochastic matrix, which has no irreducibility hypothesis and is a fixed-point argument;
-- the minimax theorem for statistical decision problems, which belongs to
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 7.2 and is
-  about risk sets of randomized decision rules, not about matrices;
-- sampled play: the almost-sure and high-probability forms of the regret bounds and of
-  Blackwell's theorem for realized actions. Every statement here is about the mixed strategies
-  and their expected payoffs;
-- extensive-form games presented as game trees with chance nodes and information partitions, and
-  their translation into sequence form; sequential games here are given in sequence form directly;
-- bandit feedback, sampled and Monte Carlo CFR, neural approximations such as Deep CFR, and
-  CFR+'s alternating updates and weighted averaging;
-- online convex optimization over general convex sets, online mirror descent and optimistic
-  methods;
-- equilibrium refinements (perfect, proper, sequential), potential and congestion games,
-  evolutionary dynamics, mechanism design, and the computational complexity of equilibria;
-- first-order methods for smooth optimization, including the regret computation for Adam, which
-  belong to the FirstOrderOptimization roadmap (its 6.4); that roadmap excludes online-learning
-  regret bounds and mirror descent, so the two do not overlap.
+## How to read the build
+
+Layer 1 is the online protocol and its algorithms; Layers 2 and 3 apply it to matrix games and to
+finite games; Layer 4 applies Layers 1 and 2 to sequential decision processes. Each layer opens
+with its definitions. Each numbered target ends with a **Checks** list of tests that a wrong
+convention or constant would fail, and a *Needs:* line naming the targets and suppliers it uses.
+Every claim carries a source locator in parentheses, or says that it is proved here.
+`Suggested.lean` states the definitions and headline theorems named in this README against the
+pinned APIs.
 
 ## Conventions
 
@@ -105,44 +107,6 @@ Out of scope:
 - **Sequential decision processes** are specified in 4.1; their counterfactual-value ranges are
   written `w j`.
 
-## Exact supplier contracts
-
-- Mathlib:
-  - `Convexity.StdSimplex`, `Convexity.StdSimplex.range_toFun_comp_weights`
-    (`Geometry/Convex/ConvexSpace/Defs.lean`): for a finite type, the weight vectors are the
-    nonnegative vectors of sum `1`; the compactness of `simplex ι` from
-    `Convexity.StdSimplex.isClosedEmbedding_toFun_comp_weights`
-    (`Geometry/Convex/ConvexSpace/Topology.lean`) with the instance
-    `Convexity.StdSimplex.compactSpace` (`Geometry/Convex/ConvexSpace/CompactSpaceStdSimplex.lean`);
-  - `IsSaddlePointOn X Y f a b` (`Order/SaddlePoint.lean`), which says `f a y ≤ f x b` for all
-    `x ∈ X`, `y ∈ Y`, and Sion's theorem for real-valued functions,
-    `Sion.exists_isSaddlePointOn` (`Topology/Sion.lean`): for `X` and `Y` nonempty, convex and
-    compact in real topological vector spaces and `f` with `f · y` lower semicontinuous and
-    quasiconvex on `X` for every `y ∈ Y` and `f x ·` upper semicontinuous and quasiconcave on `Y`
-    for every `x ∈ X`, there are `a ∈ X` and `b ∈ Y` with `IsSaddlePointOn X Y f a b`;
-  - Hoeffding's lemma `ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc`
-    (`Probability/Moments/SubGaussian.lean`): for a probability measure `μ` and an almost
-    everywhere measurable `X` with values in `[a, b]` almost surely, `X − μ[X]` has a
-    sub-Gaussian moment generating function with parameter `((b − a)/2)²`; it is applied to a
-    distribution on a finite set;
-  - `Matrix.rowStochastic` (`LinearAlgebra/Matrix/Stochastic.lean`), with
-    `Matrix.nonneg_vecMul_of_mem_rowStochastic` and
-    `Matrix.vecMul_dotProduct_one_eq_one_rowStochastic`: `x ᵥ* Q` is nonnegative with the same
-    coordinate sum as `x` for nonnegative `x`;
-  - `Metric.infDist`, `Metric.diam`, `convexHull_diam` (`Analysis/Normed/Module/Convex.lean`),
-    `Set.extremePoints`, and the projection onto a nonempty complete convex set `K` of a real
-    inner product space (`Analysis/InnerProductSpace/Projection/Minimal.lean`):
-    `exists_norm_eq_iInf_of_complete_convex` gives `v ∈ K` with `‖u − v‖ = ⨅ w : K, ‖u − w‖`, and
-    `norm_eq_iInf_iff_real_inner_le_zero` says that `v ∈ K` is such a point exactly when
-    `⟪u − v, w − v⟫ ≤ 0` for all `w ∈ K`.
-- Tau Ceti:
-  - `Convexity.StdSimplex.convex_range_toFun_comp_weights`
-    (`TauCeti/Analysis/Convex/StdSimplex.lean`), the convexity of `simplex ι`;
-  - `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`
-    (`TauCeti/AlgebraicTopology/Singular/BrouwerFixedPoint.lean`): a function that is continuous
-    on a nonempty compact convex subset `C` of a finite-dimensional real normed space and maps
-    `C` into itself has a fixed point in `C`.
-
 ## Coordination
 
 - Mathlib PR [#39393](https://github.com/leanprover-community/mathlib4/pull/39393) proves
@@ -152,16 +116,6 @@ Out of scope:
   stationary distributions of finite stochastic matrices; 3.4 takes the name
   `Matrix.rowStochastic.exists_stationary_distribution` and the vector form `μ ᵥ* M = μ` of its
   existence theorem.
-
-## How to read the build
-
-Layer 1 is the online protocol and its algorithms; Layers 2 and 3 apply it to matrix games and to
-finite games; Layer 4 applies Layers 1 and 2 to sequential decision processes. Each layer opens
-with its definitions. Each numbered target ends with a **Checks** list of tests that a wrong
-convention or constant would fail, and a *Needs:* line naming the targets and suppliers it uses.
-Every claim carries a source locator in parentheses, or says that it is proved here.
-`Suggested.lean` states the definitions and headline theorems named in this README against the
-pinned APIs.
 
 ## Layer 1: online learning over the simplex
 
@@ -766,6 +720,91 @@ obstructions for Blackwell approachability reductions
 (<https://github.com/Arthur742Ramos/blackwell-approachability-lean>). The roadmap develops the
 mathematics independently of them, cites this work, and treats it as reference material, not as
 the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the full-information online protocol over a finite simplex, external regret and swap regret;
+- Hedge, regret matching and regret matching+, with their regret bounds;
+- Blackwell approachability for closed convex sets, with the rate `D/√T`, and its converse;
+- the matrix-game form of von Neumann's minimax theorem, and the approximate-equilibrium
+  guarantee of no-regret self-play;
+- finite normal-form games: mixed Nash equilibria and their existence, correlated and coarse
+  correlated equilibria, and the convergence of no-regret dynamics to them;
+- the Blum–Mansour swap-regret reduction, with the existence of a stationary distribution of an
+  arbitrary finite row-stochastic matrix as a fixed-point statement (3.4);
+- tree-form sequential decision processes, their sequence-form strategy polytopes, behavioral
+  strategies, best responses, counterfactual values, the laminar regret decomposition, CFR, and
+  CFR self-play in two-player zero-sum sequence-form games.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope:
+
+- Sion's minimax theorem, which is Mathlib's, and Brouwer's fixed-point theorem, which is Tau
+  Ceti's;
+- the theory of stationary distributions of Markov chains, which belongs to
+  [MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3: stationarity as
+  `Kernel.Invariant` with its finite matrix form, and existence and uniqueness for irreducible
+  positive recurrent chains. Target 3.4 keeps one statement, existence for an arbitrary finite
+  row-stochastic matrix, which has no irreducibility hypothesis and is a fixed-point argument;
+- the minimax theorem for statistical decision problems, which belongs to
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 7.2 and is
+  about risk sets of randomized decision rules, not about matrices;
+- sampled play: the almost-sure and high-probability forms of the regret bounds and of
+  Blackwell's theorem for realized actions. Every statement here is about the mixed strategies
+  and their expected payoffs;
+- extensive-form games presented as game trees with chance nodes and information partitions, and
+  their translation into sequence form; sequential games here are given in sequence form directly;
+- bandit feedback, sampled and Monte Carlo CFR, neural approximations such as Deep CFR, and
+  CFR+'s alternating updates and weighted averaging;
+- online convex optimization over general convex sets, online mirror descent and optimistic
+  methods;
+- equilibrium refinements (perfect, proper, sequential), potential and congestion games,
+  evolutionary dynamics, mechanism design, and the computational complexity of equilibria;
+- first-order methods for smooth optimization, including the regret computation for Adam, which
+  belong to the FirstOrderOptimization roadmap (its 6.4); that roadmap excludes online-learning
+  regret bounds and mirror descent, so the two do not overlap.
+
+## Exact supplier contracts
+
+- Mathlib:
+  - `Convexity.StdSimplex`, `Convexity.StdSimplex.range_toFun_comp_weights`
+    (`Geometry/Convex/ConvexSpace/Defs.lean`): for a finite type, the weight vectors are the
+    nonnegative vectors of sum `1`; the compactness of `simplex ι` from
+    `Convexity.StdSimplex.isClosedEmbedding_toFun_comp_weights`
+    (`Geometry/Convex/ConvexSpace/Topology.lean`) with the instance
+    `Convexity.StdSimplex.compactSpace` (`Geometry/Convex/ConvexSpace/CompactSpaceStdSimplex.lean`);
+  - `IsSaddlePointOn X Y f a b` (`Order/SaddlePoint.lean`), which says `f a y ≤ f x b` for all
+    `x ∈ X`, `y ∈ Y`, and Sion's theorem for real-valued functions,
+    `Sion.exists_isSaddlePointOn` (`Topology/Sion.lean`): for `X` and `Y` nonempty, convex and
+    compact in real topological vector spaces and `f` with `f · y` lower semicontinuous and
+    quasiconvex on `X` for every `y ∈ Y` and `f x ·` upper semicontinuous and quasiconcave on `Y`
+    for every `x ∈ X`, there are `a ∈ X` and `b ∈ Y` with `IsSaddlePointOn X Y f a b`;
+  - Hoeffding's lemma `ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc`
+    (`Probability/Moments/SubGaussian.lean`): for a probability measure `μ` and an almost
+    everywhere measurable `X` with values in `[a, b]` almost surely, `X − μ[X]` has a
+    sub-Gaussian moment generating function with parameter `((b − a)/2)²`; it is applied to a
+    distribution on a finite set;
+  - `Matrix.rowStochastic` (`LinearAlgebra/Matrix/Stochastic.lean`), with
+    `Matrix.nonneg_vecMul_of_mem_rowStochastic` and
+    `Matrix.vecMul_dotProduct_one_eq_one_rowStochastic`: `x ᵥ* Q` is nonnegative with the same
+    coordinate sum as `x` for nonnegative `x`;
+  - `Metric.infDist`, `Metric.diam`, `convexHull_diam` (`Analysis/Normed/Module/Convex.lean`),
+    `Set.extremePoints`, and the projection onto a nonempty complete convex set `K` of a real
+    inner product space (`Analysis/InnerProductSpace/Projection/Minimal.lean`):
+    `exists_norm_eq_iInf_of_complete_convex` gives `v ∈ K` with `‖u − v‖ = ⨅ w : K, ‖u − w‖`, and
+    `norm_eq_iInf_iff_real_inner_le_zero` says that `v ∈ K` is such a point exactly when
+    `⟪u − v, w − v⟫ ≤ 0` for all `w ∈ K`.
+- Tau Ceti:
+  - `Convexity.StdSimplex.convex_range_toFun_comp_weights`
+    (`TauCeti/Analysis/Convex/StdSimplex.lean`), the convexity of `simplex ι`;
+  - `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`
+    (`TauCeti/AlgebraicTopology/Singular/BrouwerFixedPoint.lean`): a function that is continuous
+    on a nonempty compact convex subset `C` of a finite-dimensional real normed space and maps
+    `C` into itself has a fixed point in `C`.
 
 ## References
 

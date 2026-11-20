@@ -1,96 +1,77 @@
 # Roadmap: the Feit–Thompson odd order theorem
 
-**Summary.** This roadmap proves that every finite group of odd order is solvable, following the
-Bender–Glauberman local analysis and Part I of Peterfalvi's character theory, and it builds the
-reusable libraries that proof needs: the minimal-counterexample reduction (Layer 0), the general
-local analysis the pinned libraries lack together with the local theorems special to solvable
-groups of odd order (Layer 1), the Dade isometry, coherence and the
-cyclic trivial-intersection isometry on native class functions (Layer 2), the `α`, `β`, `σ` and
-`τ` prime sets of a maximal subgroup with Thompson transitivity, uniqueness, the Hall cores and
-the five types of maximal subgroup (Layer 3), the character analysis of the five types and of the
-supporting pair (Layer 4), Bender–Glauberman's Appendix C finite-field comparison and the final
-contradiction (Layer 5), and the assembly (Layer 6). The end theorem is
-`isSolvable_of_odd_natCard`, with its two equivalent forms `not_isMinimalOddSimple` and
-`even_natCard_of_nonabelian_simple`; the reusable exports consumed elsewhere are the Dade
-isometry `exists_dadeExtension`, its agreement with induction when every complement is trivial,
-`isDadeExtension_eq_indClassFunction`, and the Appendix C theorem `appendixC_prime_le`. The final
-solvability theorem has no hypothesis asserting a local structure theorem, a coherence theorem or
-the nonexistence of a minimal counterexample: each of those is a theorem of an earlier layer.
+**Summary.** A finite group is solvable when it can be assembled from abelian groups by repeated
+extensions. Feit and Thompson proved in 1963 that every finite group of odd order is solvable. This
+roadmap proves that theorem, following Bender and Glauberman's *Local Analysis for the Odd Order
+Theorem* and Part I of Peterfalvi's *Character Theory for the Odd Order Theorem*. It also builds the
+group theory and character theory the proof needs as reusable libraries.
+
+The main theorem has three equivalent forms. Every finite group of odd order is solvable. Every
+finite nonabelian simple group has even order. And there is no **minimal odd simple group**: no
+nonabelian simple group of odd order all of whose proper subgroups are solvable. A nonsolvable group
+of odd order would have one as a quotient of a subgroup. The final theorem assumes only that the
+group is finite of odd order: every local structure or coherence theorem it uses is proved in an
+earlier layer.
+
+A second headline is the Dade isometry, a construction valid in any finite group `G`. Let `L` be a
+subgroup and `A` a subset of `L` not containing `1`, stable under conjugation by `L`, such that
+elements of `A` conjugate in `G` are conjugate in `L`. Suppose each `a ∈ A` has a normal subgroup
+`H_a` of its centralizer `C_G(a)` complementing `C_L(a)`, of order prime to `|C_L(b)|` for every `b ∈ A`.
+Then there is a linear map `T` from the class functions of `L` vanishing outside `A` (functions
+constant on conjugacy classes) to those of `G`. It preserves the normalized Hermitian inner product,
+gives `T f` the value `f(a)` at every conjugate of `a · u` with `u ∈ H_a`, and carries virtual
+characters (integer combinations of irreducible characters) to virtual characters. The first two
+properties determine `T`. When every `H_a` is trivial, `T` is ordinary induction from `L` to `G` on
+these functions, with no further hypothesis on `L`. The fusion condition matters: for `L = A₃` in
+`S₃`, where it fails, induction sends the difference of the two nontrivial characters of `A₃`, of
+norm 2, to zero.
+
+A third headline is Theorem C of Bender and Glauberman's Appendix C, about finite fields inside
+finite groups. Let `p` and `q` be primes with `(p^q − 1)/(p − 1)` prime to `p − 1`, and `F` a field
+with `p^q` elements. Suppose a finite group contains copies `P` of the additive group of `F` and `U`
+of the elements of `Fˣ` of norm one over the prime field, with `P ∩ U = 1` and `U` acting on `P` by
+conjugation as multiplication by scalars. Suppose it also contains an abelian subgroup `Q` of order
+prime to `p`, tied to `U` and to the prime field in `P` by two explicit normalizing conditions. Then
+`p ≤ q`. At `p = 5`, `q = 3` the arithmetic hypothesis holds, so no such `Q` exists in any finite
+group containing `𝔽₁₂₅ ⋊ C₃₁`.
+
+Ordinary character theory is not redeveloped: it comes from the Tau Ceti library and the
+InductionRestriction and CharacterTheory roadmaps. InverseGaloisAndArithmeticFundamentalGroups
+supplies the Fitting subgroup and the conjugacy of coprime complements, and FiniteGroupInvariants
+the existence of Hall subgroups of solvable groups. The Brauer–Suzuki case of GlaubermanZStar uses
+the comparison of the Dade isometry with induction. The classification of finite simple groups is
+never used.
+
+Of the seven layers, Layer 0 is the reduction to a minimal odd simple group, Layer 1 the local group
+theory, and Layer 2 the character theory, which depends on no other layer. Layer 3 shows that in a
+minimal odd simple group every maximal subgroup has exactly one of five explicitly defined types.
+Either all have type I, or two maximal subgroups of types II to V meet in a cyclic group and every
+maximal subgroup not of type I is conjugate to one of them. Layer 4 excludes the first case by
+character theory, Layer 5 excludes the second using Appendix C, and Layer 6 assembles the theorem.
 
 Suggested homes: `TauCeti/GroupTheory/OddOrder/` for the local analysis and the assembly,
 `TauCeti/RepresentationTheory/CharacterTable/Dade/` for the general character theory of Layer 2,
 `TauCeti/GroupTheory/OddOrder/FiniteFieldComparison/` for Appendix C, and
 `TauCeti/GroupTheory/OddOrder.lean` for the public endpoint.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap owns:
+Layer 0 reduces the theorem to the nonexistence of a minimal odd simple group and records what
+such a group satisfies. Layer 1 states the general local analysis of Bender–Glauberman Chapter I
+that the pins lack (§1.1–§1.5) and proves the odd-order local theorems of that chapter
+(§1.6–§1.10). Layer 2 is independent of Layers 0, 1 and 3–6 and of Layer 1's suppliers: it
+builds the Dade isometry, coherence and the cyclic trivial-intersection isometry for an arbitrary
+finite group, and is the part other developments consume. Layer 3 applies Layers 1–2's group
+theory inside a minimal odd simple group: prime sets, transitivity, uniqueness, Hall cores, the
+proper-subgroup `p`-length theorem and the five types, ending with the supporting-pair
+alternative. Layer 4 is the character analysis: coherence of the local families, the type-I
+Frobenius theorem, the exclusion of the all-type-I case and the orientation of the supporting
+pair. Layer 5 proves Appendix C and runs Peterfalvi §14 to a contradiction; Layer 6 assembles.
+`README.md` is normative; `Suggested.lean` states the headline theorems (the three forms of the
+odd order theorem, the Dade isometry and its comparison with induction, and Appendix C) against
+the pinned APIs with the four definitions they need, and nothing else.
 
-- the reduction of a nonsolvable group of odd order to a **minimal odd simple group** (a
-  nonabelian simple group of odd order all of whose proper subgroups are solvable), the predicate
-  `IsMinimalOddSimple`, and its elementary properties (Layer 0);
-- the general local analysis of Bender–Glauberman Chapter I and Appendices A–B that neither the
-  pinned libraries nor an earlier roadmap state: `π`-cores and the upper `p`-series, Hall
-  subgroups of solvable groups beyond their existence (conjugacy, containment and the
-  coprime-action forms), the Fitting-subgroup laws beyond its definition, coprime action,
-  elementary abelian subgroups, `p`-rank, critical and extraspecial subgroups, `p`-constraint,
-  `p`-stability, the focal subgroup theorem and the Baer–Suzuki theorem, and the Puig subgroup
-  with the `ZL` theorem (Theorem 6.2); and the odd-order local tools of that chapter: `p`-length
-  at most one and its formulations, the rank-two `p`-length theorem (Theorem 4.18), the
-  `p`-stability of groups of odd order (Theorem A.4(c)) with the `p`-abelian-constraint of
-  solvable groups of odd order (Theorem 6.1), and the Z-group prime-length theorem (Theorem 3.6)
-  (Layer 1);
-- Peterfalvi Part I §§1–6 on native class functions: the preliminary lemmas of §1, **Dade data**,
-  the **Dade isometry** and its comparison with induction (§2), the **cyclic trivial-intersection
-  isometry** (§3), the prime trivial-intersection configurations (§4), **coherence** with its
-  restriction, duality, gluing and conjugation laws (§5) and the coherence theorems of §§5–6
-  (Layer 2).
-  Layer 2 imports nothing from Layers 0–1 and 3–6, nothing from Layer 1's suppliers, and no
-  odd-order hypothesis beyond those the cited theorems carry; GlaubermanZStar consumes the trivial-complement comparison from it;
-- the prime sets `α(M)`, `β(M)`, `σ(M)`, `τ₁(M)`, `τ₂(M)`, `τ₃(M)`, `κ(M)` of a maximal subgroup,
-  the cores `M_α`, `M_β`, `M_σ`, the `σ`-support and its multiplicities, Thompson transitivity,
-  the uniqueness theorems, the Hall-core theorems, the proper-subgroup `p`-length theorem, the
-  `σ`-complement `E = E₁E₂E₃`, `H(M)`, Frobenius-type data, P-configurations, the **five types**
-  and the supporting-pair alternative (Bender–Glauberman Chapters II–III and Peterfalvi §8)
-  (Layer 3);
-- the character analysis of Peterfalvi §§7 and 9–13: induced families and their Dade data, the
-  type-I Frobenius theorem (12.7), the exclusion of the all-type-I case (12.17) and the reciprocal
-  supporting maxima of §13 (Layer 4);
-- Bender–Glauberman Appendix C, Theorem C, the identification of the norm-one subgroup of a finite
-  field with `rootsOfUnity`, and the final comparison of Peterfalvi §14 (Layer 5);
-- the assembly and the public corollaries (Layer 6).
-
-The roadmap leaves to named suppliers:
-
-- Mathlib: finite groups, Sylow theory, solvability, nilpotence, commutators, centralizers and
-  normalizers, Z-groups, semidirect products and complements, fixed-point-free endomorphisms,
-  finite fields, roots of unity and the field norm (`## Exact supplier contracts`);
-- Tau Ceti: class functions and their pairing, virtual and irreducible characters, induction of
-  class functions, trivial-intersection sets and subgroups, Frobenius complements and kernels,
-  Burnside's `pᵃqᵇ` theorem and the norm-one virtual-character theorem;
-- CharacterTheory (`TauCetiRoadmap/RepresentationTheory/CharacterTheory`): the Galois action on
-  characters, cyclotomic values and degree divisibility; InductionRestriction
-  (`TauCetiRoadmap/RepresentationTheory/InductionRestriction`): Frobenius reciprocity, Mackey and
-  Clifford theory. Ordinary character theory is not redeveloped here;
-- InverseGaloisAndArithmeticFundamentalGroups IG.4.3, target *The Fitting subgroup*: the Fitting
-  subgroup `F(G)` as the supremum of the nilpotent normal subgroups, Fitting's theorem, its
-  characteristic property, its nilpotence for finite `G` and `Φ(G) ≤ F(G)`; Layer 1 §1.2 adds the
-  laws the local analysis needs and never redefines `F(G)`. IG.4.3, target *Fitting supplements
-  for solvable groups*: `Φ(G) < F(G)` for a nontrivial finite solvable `G`, hence `F(G) ≠ 1`.
-  IG.3.4, target *Conjugacy of coprime complements*: the conjugacy of the complements of a normal
-  Hall subgroup `N` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy), consumed by
-  §1.1 and §4.2;
-- FiniteGroupInvariants §2.1: the predicate `IsHallFor π H` and Hall's existence theorem
-  `exists_isHallFor_of_isSolvable`; conjugacy and containment, which that section does not state,
-  are Layer 1 §1.1. FiniteGroupInvariants §0.2 and §0.3: chief series `ChiefSeries G`, the
-  predicate `IsMinimalNormal`, and the structure of a minimal normal subgroup of a finite group as
-  a direct power of a simple group, from which Layer 1 §1.2 reads off Lemma 1.1;
-- FiniteGroupExtensionSplitting §2.4 (Gaschütz) and §3.1 (Sylow detection): the splitting of an
-  abelian normal subgroup after restriction to a Sylow subgroup, consumed by Layer 1.
-
-Out of scope, and never an input: the classification of finite simple groups or of minimal simple
-groups, Glauberman's `Z*` theorem, modular block theory, and Peterfalvi Part II on groups of rank
-one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not consumed here.
+---
 
 ## Conventions
 
@@ -130,94 +111,6 @@ one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not
   together with `N_G(D) = N`; Layer 3 §3.4 proves that `N_G(D) = N` follows from the data.
 - Universes: `G : Type u` is arbitrary in every statement; the final theorem is proved for every
   universe without a `ULift` detour, because every step is internal to subgroups of `G`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-| Use here | Exact declarations |
-|---|---|
-| orders, indices, Lagrange | `Nat.card`, `Subgroup.card_subgroup_dvd_card`, `Subgroup.index`, `Subgroup.card_mul_index`, `Subgroup.FiniteIndex`, `Subgroup.finiteIndex_of_finite` |
-| simplicity, commutativity, solvability | `IsSimpleGroup` (extends `Nontrivial`), `IsMulCommutative`, `Group.IsSolvable`, `derivedSeries`, `commutator`, `Group.isSolvable_of_comm`, `Group.isSolvable_of_isSolvable_injective`, `Group.isSolvable_of_surjective`, `Group.isSolvable_iff_subgroup_quotient`, `Group.isSolvable_of_subgroup_quotient`, `IsSimpleGroup.comm_iff_isSolvable`, `Group.IsSolvable.commutator_lt_top_of_nontrivial` |
-| nilpotence and `p`-groups | `Group.IsNilpotent`, `IsPGroup`, `IsPGroup.le_sylow_of_normal`, `Sylow`, `Sylow.card_eq_multiplicity`, `Sylow.not_dvd_index`, `IsZGroup` (every Sylow subgroup cyclic), `IsZGroup.coprime_commutator_index` |
-| subgroup lattice | `Subgroup.Normal`, `Subgroup.Characteristic`, `Subgroup.normal_of_characteristic`, `Subgroup.normalizer (S : Set G)`, `Subgroup.centralizer`, `Subgroup.center`, `Subgroup.subgroupOf`, `Subgroup.map`, `Subgroup.comap`, `Subgroup.IsComplement'`, `SemidirectProduct`, `IsConj`, `ConjClasses` |
-| fixed points and exponents | `MonoidHom.FixedPointFree`, `Monoid.exponent`, `orderOf` |
-| complements, transfer and the Frattini subgroup | `Subgroup.exists_right_complement'_of_coprime` (Schur–Zassenhaus, existence), `MonoidHom.ker_transferSylow_isComplement'` (Burnside's normal `p`-complement theorem: a Sylow `p`-subgroup `P` with `N_G(P) ≤ C_G(P)` has the normal complement `ker (transferSylow P)`), `IsZGroup.coprime_commutator_index` (the derived group of a Z-group is a Hall subgroup), `Sylow.normalizer_sup_eq_top` (the Frattini argument), `IsPGroup.exists_le_sylow`, `Sylow.characteristic_of_normal`, `frattini`, `frattini_nilpotent` |
-| finite fields and the norm | `GaloisField`, `GaloisField.card`, `FiniteField.card`, `ZMod`, `CharP`, `rootsOfUnity`, `mem_rootsOfUnity`, `Algebra.norm`, `FiniteField.algebraMap_norm_eq_pow` (the norm of `x` is `x ^ ((|K'| − 1)/(|K| − 1))`), `FiniteField.unitsMap_norm_surjective` |
-| arithmetic | `Nat.Prime`, `Nat.Coprime`, `Nat.ModEq` |
-
-### From Tau Ceti
-
-| Use here | Exact declarations |
-|---|---|
-| class functions and the pairing | `TauCeti.ClassFunction` (`CharacterTable/ClassFunction.lean`), `TauCeti.ClassFunction.characterPairing`, `TauCeti.ClassFunction.characterPairing_apply` (`CharacterTable/Pairing.lean`), `TauCeti.ClassFunction.powMap` |
-| irreducible and virtual characters | `TauCeti.irreducibleCharacters`, `TauCeti.irreducibleCharacter`, `TauCeti.virtualCharacters` (`CharacterTable/VirtualCharacter.lean`), `TauCeti.conj_apply_of_mem_virtualCharacters`, `TauCeti.exists_eq_irreducibleCharacter_or_neg` (a norm-one virtual character is `±χᵢ`), `TauCeti.mem_irreducibleCharacters_of_characterPairing_self_eq_one`, `TauCeti.Representation.finrank_dvd_card` |
-| Burnside | `TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow` (`CharacterTable/Solvable.lean`) |
-| elementary abelian `p`-groups | `TauCeti.exists_index_eq_notMem_of_exponent_dvd` (`GroupTheory/ExponentPrime.lean`: in an abelian group of exponent dividing a prime `p`, every `σ ≠ 1` lies outside some subgroup of index `p`) |
-| induction of class functions | `Subgroup.indClassFunction : ClassFunction k S →ₗ[k] ClassFunction k G` for `[S.FiniteIndex]`, `Subgroup.indClassFunction_apply` (`Induction/ClassFunction.lean`), `TauCeti.characterPairing_ind_ind`, `TauCeti.characterPairing_ind_ind_of_isTISet`, `TauCeti.isometry_ind_of_isTISet` (`Induction/TrivialIntersection.lean`; these three carry `IsTISubgroup H` and `H ≠ ⊤`, hypotheses Layer 2 §2.4 does without) |
-| trivial-intersection sets and Frobenius groups | `TauCeti.IsTISubgroup`, `TauCeti.IsTISet` (fields `subset`, `conj_mem`, `disjoint_conj`; `GroupTheory/TrivialIntersection.lean`), `TauCeti.IsFrobeniusComplement` (`ne_bot ∧ ne_top ∧ isTISubgroup`), `TauCeti.frobeniusKernel`, `TauCeti.frobeniusKernelSubgroup`, `TauCeti.coe_frobeniusKernelSubgroup`, `TauCeti.frobeniusKernelSubgroup_normal`, `TauCeti.frobeniusKernel_isComplement'`, `TauCeti.ClassFunction.indExtend`, `TauCeti.characterPairing_indExtend_indExtend` |
-
-### From `TauCetiRoadmap.RepresentationTheory.CharacterTheory`
-
-| Use here | Section |
-|---|---|
-| values of characters are cyclotomic integers; the Galois action on `ℤ[Irr G]` and its action on values; the field of values | Layer 4 (§4.2, §4.4) |
-| central characters and degree divisibility `χ(1) ∣ |G|` | Layer 4 (§4.3) |
-| Burnside's `pᵃqᵇ` theorem as background, with the pinned name above | Layer 4 (§4.6) |
-
-### From `TauCetiRoadmap.RepresentationTheory.InductionRestriction`
-
-| Use here | Section |
-|---|---|
-| induced characters, the induced-character formula, Frobenius reciprocity | Layer 2 |
-| the Mackey decomposition and the intertwining-number criterion | Layers 3–4 |
-| Clifford theory over a normal subgroup: restriction of an irreducible to the conjugates of a constituent, inertia groups, induction from the inertia group | Layer 5 |
-| the virtual-character ring | Layer 6 |
-
-### From `TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`
-
-| Use here | Section |
-|---|---|
-| the Fitting subgroup `F(G)` of a group, the supremum of its nilpotent normal subgroups; Fitting's theorem (the join of two nilpotent normal subgroups is nilpotent); `F(G)` characteristic, nilpotent for finite `G`, containing every nilpotent normal subgroup and `Φ(G)` | IG.4.3, target *The Fitting subgroup* |
-| `Φ(G) < F(G)` for a nontrivial finite solvable group `G`, so `F(G) ≠ 1` | IG.4.3, target *Fitting supplements for solvable groups* |
-| the conjugacy, by an element of `N`, of any two complements of a normal subgroup `N ⊴ G` with `Nat.Coprime (Nat.card N) N.index` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy) | IG.3.4, target *Conjugacy of coprime complements* |
-
-### From `TauCetiRoadmap.FiniteGroupInvariants`
-
-| Use here | Section |
-|---|---|
-| chief series `ChiefSeries G` (composition series in the lattice of normal subgroups, with no endpoint condition in the carrier), used in §1.2 only from `⊥` to `⊤`, the endpoint hypothesis of `chiefFactors_eq`; their successive factors are the chief factors of §1.2 | §0.2 |
-| `IsMinimalNormal N` and `exists_mulEquiv_pi_of_isMinimalNormal`: a minimal normal subgroup of a finite group is isomorphic to `S^k` for a simple group `S`; for solvable `G` every chief factor is elementary abelian | §0.3 |
-| `IsHallFor π H` (every prime divisor of `|H|` lies in `π`, none of `|G : H|` does) and Hall's theorem `exists_isHallFor_of_isSolvable`: a finite solvable group has a Hall `π`-subgroup for every `π` | §2.1 |
-
-FiniteGroupInvariants §2.1 states existence only; the conjugacy of Hall subgroups, the
-containment of every `π`-subgroup in one and the coprime-action forms are §1.1 here.
-
-### From `TauCetiRoadmap.FiniteGroupExtensionSplitting`
-
-| Use here | Section |
-|---|---|
-| Gaschütz's splitting theorem `exists_isComplement'_of_coprime_index`: an abelian normal `N` with a local complement in `H` of index prime to `|N|` has a global complement | §2.4 |
-| Sylow detection `exists_isComplement'_iff_sylow`: an abelian normal `p`-subgroup splits iff it splits in a Sylow `p`-subgroup | §3.1 |
-
-## How to read the build
-
-Layer 0 reduces the theorem to the nonexistence of a minimal odd simple group and records what
-such a group satisfies. Layer 1 states the general local analysis of Bender–Glauberman Chapter I
-that the pins lack (§1.1–§1.5) and proves the odd-order local theorems of that chapter
-(§1.6–§1.10). Layer 2 is independent of Layers 0, 1 and 3–6 and of Layer 1's suppliers: it
-builds the Dade isometry, coherence and the cyclic trivial-intersection isometry for an arbitrary
-finite group, and is the part other developments consume. Layer 3 applies Layers 1–2's group
-theory inside a minimal odd simple group: prime sets, transitivity, uniqueness, Hall cores, the
-proper-subgroup `p`-length theorem and the five types, ending with the supporting-pair
-alternative. Layer 4 is the character analysis: coherence of the local families, the type-I
-Frobenius theorem, the exclusion of the all-type-I case and the orientation of the supporting
-pair. Layer 5 proves Appendix C and runs Peterfalvi §14 to a contradiction; Layer 6 assembles.
-`README.md` is normative; `Suggested.lean` states the headline theorems (the three forms of the
-odd order theorem, the Dade isometry and its comparison with induction, and Appendix C) against
-the pinned APIs with the four definitions they need, and nothing else.
-
----
 
 ## Layer 0: minimal counterexamples (F0)
 
@@ -1636,6 +1529,145 @@ Layers 0–5.
   the classification without citing either.
 - Any later roadmap on the Bender–Suzuki strongly embedded theorem consumes Layer 1 and the Dade
   library of Layer 2.
+
+## Scope and ownership
+
+The roadmap owns:
+
+- the reduction of a nonsolvable group of odd order to a **minimal odd simple group** (a
+  nonabelian simple group of odd order all of whose proper subgroups are solvable), the predicate
+  `IsMinimalOddSimple`, and its elementary properties (Layer 0);
+- the general local analysis of Bender–Glauberman Chapter I and Appendices A–B that neither the
+  pinned libraries nor an earlier roadmap state: `π`-cores and the upper `p`-series, Hall
+  subgroups of solvable groups beyond their existence (conjugacy, containment and the
+  coprime-action forms), the Fitting-subgroup laws beyond its definition, coprime action,
+  elementary abelian subgroups, `p`-rank, critical and extraspecial subgroups, `p`-constraint,
+  `p`-stability, the focal subgroup theorem and the Baer–Suzuki theorem, and the Puig subgroup
+  with the `ZL` theorem (Theorem 6.2); and the odd-order local tools of that chapter: `p`-length
+  at most one and its formulations, the rank-two `p`-length theorem (Theorem 4.18), the
+  `p`-stability of groups of odd order (Theorem A.4(c)) with the `p`-abelian-constraint of
+  solvable groups of odd order (Theorem 6.1), and the Z-group prime-length theorem (Theorem 3.6)
+  (Layer 1);
+- Peterfalvi Part I §§1–6 on native class functions: the preliminary lemmas of §1, **Dade data**,
+  the **Dade isometry** and its comparison with induction (§2), the **cyclic trivial-intersection
+  isometry** (§3), the prime trivial-intersection configurations (§4), **coherence** with its
+  restriction, duality, gluing and conjugation laws (§5) and the coherence theorems of §§5–6
+  (Layer 2).
+  Layer 2 imports nothing from Layers 0–1 and 3–6, nothing from Layer 1's suppliers, and no
+  odd-order hypothesis beyond those the cited theorems carry; GlaubermanZStar consumes the trivial-complement comparison from it;
+- the prime sets `α(M)`, `β(M)`, `σ(M)`, `τ₁(M)`, `τ₂(M)`, `τ₃(M)`, `κ(M)` of a maximal subgroup,
+  the cores `M_α`, `M_β`, `M_σ`, the `σ`-support and its multiplicities, Thompson transitivity,
+  the uniqueness theorems, the Hall-core theorems, the proper-subgroup `p`-length theorem, the
+  `σ`-complement `E = E₁E₂E₃`, `H(M)`, Frobenius-type data, P-configurations, the **five types**
+  and the supporting-pair alternative (Bender–Glauberman Chapters II–III and Peterfalvi §8)
+  (Layer 3);
+- the character analysis of Peterfalvi §§7 and 9–13: induced families and their Dade data, the
+  type-I Frobenius theorem (12.7), the exclusion of the all-type-I case (12.17) and the reciprocal
+  supporting maxima of §13 (Layer 4);
+- Bender–Glauberman Appendix C, Theorem C, the identification of the norm-one subgroup of a finite
+  field with `rootsOfUnity`, and the final comparison of Peterfalvi §14 (Layer 5);
+- the assembly and the public corollaries (Layer 6).
+
+The roadmap leaves to named suppliers:
+
+- Mathlib: finite groups, Sylow theory, solvability, nilpotence, commutators, centralizers and
+  normalizers, Z-groups, semidirect products and complements, fixed-point-free endomorphisms,
+  finite fields, roots of unity and the field norm (`## Exact supplier contracts`);
+- Tau Ceti: class functions and their pairing, virtual and irreducible characters, induction of
+  class functions, trivial-intersection sets and subgroups, Frobenius complements and kernels,
+  Burnside's `pᵃqᵇ` theorem and the norm-one virtual-character theorem;
+- CharacterTheory (`TauCetiRoadmap/RepresentationTheory/CharacterTheory`): the Galois action on
+  characters, cyclotomic values and degree divisibility; InductionRestriction
+  (`TauCetiRoadmap/RepresentationTheory/InductionRestriction`): Frobenius reciprocity, Mackey and
+  Clifford theory. Ordinary character theory is not redeveloped here;
+- InverseGaloisAndArithmeticFundamentalGroups IG.4.3, target *The Fitting subgroup*: the Fitting
+  subgroup `F(G)` as the supremum of the nilpotent normal subgroups, Fitting's theorem, its
+  characteristic property, its nilpotence for finite `G` and `Φ(G) ≤ F(G)`; Layer 1 §1.2 adds the
+  laws the local analysis needs and never redefines `F(G)`. IG.4.3, target *Fitting supplements
+  for solvable groups*: `Φ(G) < F(G)` for a nontrivial finite solvable `G`, hence `F(G) ≠ 1`.
+  IG.3.4, target *Conjugacy of coprime complements*: the conjugacy of the complements of a normal
+  Hall subgroup `N` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy), consumed by
+  §1.1 and §4.2;
+- FiniteGroupInvariants §2.1: the predicate `IsHallFor π H` and Hall's existence theorem
+  `exists_isHallFor_of_isSolvable`; conjugacy and containment, which that section does not state,
+  are Layer 1 §1.1. FiniteGroupInvariants §0.2 and §0.3: chief series `ChiefSeries G`, the
+  predicate `IsMinimalNormal`, and the structure of a minimal normal subgroup of a finite group as
+  a direct power of a simple group, from which Layer 1 §1.2 reads off Lemma 1.1;
+- FiniteGroupExtensionSplitting §2.4 (Gaschütz) and §3.1 (Sylow detection): the splitting of an
+  abelian normal subgroup after restriction to a Sylow subgroup, consumed by Layer 1.
+
+Out of scope, and never an input: the classification of finite simple groups or of minimal simple
+groups, Glauberman's `Z*` theorem, modular block theory, and Peterfalvi Part II on groups of rank
+one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not consumed here.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+| Use here | Exact declarations |
+|---|---|
+| orders, indices, Lagrange | `Nat.card`, `Subgroup.card_subgroup_dvd_card`, `Subgroup.index`, `Subgroup.card_mul_index`, `Subgroup.FiniteIndex`, `Subgroup.finiteIndex_of_finite` |
+| simplicity, commutativity, solvability | `IsSimpleGroup` (extends `Nontrivial`), `IsMulCommutative`, `Group.IsSolvable`, `derivedSeries`, `commutator`, `Group.isSolvable_of_comm`, `Group.isSolvable_of_isSolvable_injective`, `Group.isSolvable_of_surjective`, `Group.isSolvable_iff_subgroup_quotient`, `Group.isSolvable_of_subgroup_quotient`, `IsSimpleGroup.comm_iff_isSolvable`, `Group.IsSolvable.commutator_lt_top_of_nontrivial` |
+| nilpotence and `p`-groups | `Group.IsNilpotent`, `IsPGroup`, `IsPGroup.le_sylow_of_normal`, `Sylow`, `Sylow.card_eq_multiplicity`, `Sylow.not_dvd_index`, `IsZGroup` (every Sylow subgroup cyclic), `IsZGroup.coprime_commutator_index` |
+| subgroup lattice | `Subgroup.Normal`, `Subgroup.Characteristic`, `Subgroup.normal_of_characteristic`, `Subgroup.normalizer (S : Set G)`, `Subgroup.centralizer`, `Subgroup.center`, `Subgroup.subgroupOf`, `Subgroup.map`, `Subgroup.comap`, `Subgroup.IsComplement'`, `SemidirectProduct`, `IsConj`, `ConjClasses` |
+| fixed points and exponents | `MonoidHom.FixedPointFree`, `Monoid.exponent`, `orderOf` |
+| complements, transfer and the Frattini subgroup | `Subgroup.exists_right_complement'_of_coprime` (Schur–Zassenhaus, existence), `MonoidHom.ker_transferSylow_isComplement'` (Burnside's normal `p`-complement theorem: a Sylow `p`-subgroup `P` with `N_G(P) ≤ C_G(P)` has the normal complement `ker (transferSylow P)`), `IsZGroup.coprime_commutator_index` (the derived group of a Z-group is a Hall subgroup), `Sylow.normalizer_sup_eq_top` (the Frattini argument), `IsPGroup.exists_le_sylow`, `Sylow.characteristic_of_normal`, `frattini`, `frattini_nilpotent` |
+| finite fields and the norm | `GaloisField`, `GaloisField.card`, `FiniteField.card`, `ZMod`, `CharP`, `rootsOfUnity`, `mem_rootsOfUnity`, `Algebra.norm`, `FiniteField.algebraMap_norm_eq_pow` (the norm of `x` is `x ^ ((|K'| − 1)/(|K| − 1))`), `FiniteField.unitsMap_norm_surjective` |
+| arithmetic | `Nat.Prime`, `Nat.Coprime`, `Nat.ModEq` |
+
+### From Tau Ceti
+
+| Use here | Exact declarations |
+|---|---|
+| class functions and the pairing | `TauCeti.ClassFunction` (`CharacterTable/ClassFunction.lean`), `TauCeti.ClassFunction.characterPairing`, `TauCeti.ClassFunction.characterPairing_apply` (`CharacterTable/Pairing.lean`), `TauCeti.ClassFunction.powMap` |
+| irreducible and virtual characters | `TauCeti.irreducibleCharacters`, `TauCeti.irreducibleCharacter`, `TauCeti.virtualCharacters` (`CharacterTable/VirtualCharacter.lean`), `TauCeti.conj_apply_of_mem_virtualCharacters`, `TauCeti.exists_eq_irreducibleCharacter_or_neg` (a norm-one virtual character is `±χᵢ`), `TauCeti.mem_irreducibleCharacters_of_characterPairing_self_eq_one`, `TauCeti.Representation.finrank_dvd_card` |
+| Burnside | `TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow` (`CharacterTable/Solvable.lean`) |
+| elementary abelian `p`-groups | `TauCeti.exists_index_eq_notMem_of_exponent_dvd` (`GroupTheory/ExponentPrime.lean`: in an abelian group of exponent dividing a prime `p`, every `σ ≠ 1` lies outside some subgroup of index `p`) |
+| induction of class functions | `Subgroup.indClassFunction : ClassFunction k S →ₗ[k] ClassFunction k G` for `[S.FiniteIndex]`, `Subgroup.indClassFunction_apply` (`Induction/ClassFunction.lean`), `TauCeti.characterPairing_ind_ind`, `TauCeti.characterPairing_ind_ind_of_isTISet`, `TauCeti.isometry_ind_of_isTISet` (`Induction/TrivialIntersection.lean`; these three carry `IsTISubgroup H` and `H ≠ ⊤`, hypotheses Layer 2 §2.4 does without) |
+| trivial-intersection sets and Frobenius groups | `TauCeti.IsTISubgroup`, `TauCeti.IsTISet` (fields `subset`, `conj_mem`, `disjoint_conj`; `GroupTheory/TrivialIntersection.lean`), `TauCeti.IsFrobeniusComplement` (`ne_bot ∧ ne_top ∧ isTISubgroup`), `TauCeti.frobeniusKernel`, `TauCeti.frobeniusKernelSubgroup`, `TauCeti.coe_frobeniusKernelSubgroup`, `TauCeti.frobeniusKernelSubgroup_normal`, `TauCeti.frobeniusKernel_isComplement'`, `TauCeti.ClassFunction.indExtend`, `TauCeti.characterPairing_indExtend_indExtend` |
+
+### From `TauCetiRoadmap.RepresentationTheory.CharacterTheory`
+
+| Use here | Section |
+|---|---|
+| values of characters are cyclotomic integers; the Galois action on `ℤ[Irr G]` and its action on values; the field of values | Layer 4 (§4.2, §4.4) |
+| central characters and degree divisibility `χ(1) ∣ |G|` | Layer 4 (§4.3) |
+| Burnside's `pᵃqᵇ` theorem as background, with the pinned name above | Layer 4 (§4.6) |
+
+### From `TauCetiRoadmap.RepresentationTheory.InductionRestriction`
+
+| Use here | Section |
+|---|---|
+| induced characters, the induced-character formula, Frobenius reciprocity | Layer 2 |
+| the Mackey decomposition and the intertwining-number criterion | Layers 3–4 |
+| Clifford theory over a normal subgroup: restriction of an irreducible to the conjugates of a constituent, inertia groups, induction from the inertia group | Layer 5 |
+| the virtual-character ring | Layer 6 |
+
+### From `TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`
+
+| Use here | Section |
+|---|---|
+| the Fitting subgroup `F(G)` of a group, the supremum of its nilpotent normal subgroups; Fitting's theorem (the join of two nilpotent normal subgroups is nilpotent); `F(G)` characteristic, nilpotent for finite `G`, containing every nilpotent normal subgroup and `Φ(G)` | IG.4.3, target *The Fitting subgroup* |
+| `Φ(G) < F(G)` for a nontrivial finite solvable group `G`, so `F(G) ≠ 1` | IG.4.3, target *Fitting supplements for solvable groups* |
+| the conjugacy, by an element of `N`, of any two complements of a normal subgroup `N ⊴ G` with `Nat.Coprime (Nat.card N) N.index` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy) | IG.3.4, target *Conjugacy of coprime complements* |
+
+### From `TauCetiRoadmap.FiniteGroupInvariants`
+
+| Use here | Section |
+|---|---|
+| chief series `ChiefSeries G` (composition series in the lattice of normal subgroups, with no endpoint condition in the carrier), used in §1.2 only from `⊥` to `⊤`, the endpoint hypothesis of `chiefFactors_eq`; their successive factors are the chief factors of §1.2 | §0.2 |
+| `IsMinimalNormal N` and `exists_mulEquiv_pi_of_isMinimalNormal`: a minimal normal subgroup of a finite group is isomorphic to `S^k` for a simple group `S`; for solvable `G` every chief factor is elementary abelian | §0.3 |
+| `IsHallFor π H` (every prime divisor of `|H|` lies in `π`, none of `|G : H|` does) and Hall's theorem `exists_isHallFor_of_isSolvable`: a finite solvable group has a Hall `π`-subgroup for every `π` | §2.1 |
+
+FiniteGroupInvariants §2.1 states existence only; the conjugacy of Hall subgroups, the
+containment of every `π`-subgroup in one and the coprime-action forms are §1.1 here.
+
+### From `TauCetiRoadmap.FiniteGroupExtensionSplitting`
+
+| Use here | Section |
+|---|---|
+| Gaschütz's splitting theorem `exists_isComplement'_of_coprime_index`: an abelian normal `N` with a local complement in `H` of index prime to `|N|` has a global complement | §2.4 |
+| Sylow detection `exists_isComplement'_iff_sylow`: an abelian normal `p`-subgroup splits iff it splits in a Sylow `p`-subgroup | §3.1 |
 
 ## References
 

@@ -1,94 +1,73 @@
 # Roadmap: cyclotomic completions and classical Habiro rings
 
-**Summary.** The classical Habiro ring packages compatible polynomial congruences into an
-object that can be evaluated at every root of unity. Over the integers it
-behaves like a ring of functions whose Taylor expansion at one root determines
-the whole function. Its topology allows factorial series that have no meaning
-as ordinary power series at zero. Its integral Taylor image is constrained by
-explicit congruences, and those constraints disappear over rational
-coefficients. These features make the ring useful in quantum topology,
-arithmetic q-series, and the study of cyclotomic and Habiro cohomology.
+**Summary.** A polynomial in `q` can be evaluated at every root of unity.
+Habiro's cyclotomic completions extend this to certain infinite sums of the
+products `P_n = (1-q)(1-q²)⋯(1-qⁿ)`, which can have no meaning as ordinary power
+series at zero. The standard example is Kontsevich's series `F = Σ_{n≥0} P_n`.
+At a root of unity of order `d` only its first `d` terms contribute, so
+`F(-1) = 3`. These rings appear in quantum topology, arithmetic q-series, and
+cyclotomic and Habiro cohomology.
 
-This roadmap builds a reusable theory of the classical completions
-`R[q]^S`, for a commutative unital coefficient ring `R` and a set `S` of
-positive root orders. The central outputs are their topology and universal
-property; normalized factorial expansions and finite arithmetic; evaluation,
-Taylor maps and p-adic re-expansion; rigidity under precise separation
-hypotheses; the integral Taylor image; and the behavior of modules and
-localized coefficient rings. The reference examples are part of the interface:
-they distinguish an actual completion from an incorrectly chosen power-series
-ring, tensor product, or localization.
+This roadmap builds the classical completions `R[q]^S`. All rings are
+commutative and unital, and `S` is a set of positive integers: the orders of the
+roots of unity kept. The ring `R[q]^S` is the inverse limit of the discrete
+quotients `R[q]/(f)`, where `f` runs over finite products of cyclotomic
+polynomials `Φ_n` with `n` in `S`. It is a complete Hausdorff topological ring.
+For `S` all positive integers it is the full classical Habiro ring of `R`, also
+the inverse limit of the quotients `R[q]/(P_N)`.
 
-`README.md` specifies the mathematics. [Suggested.lean](Suggested.lean) records
-headline theorem signatures on existing library carriers, with supporting
-definitions that have real bodies. It is not exhaustive and does not assert
-that the targets have been implemented. Backticked names of this roadmap
-refer to those declarations; other API targets are stated in prose. The main namespace is
-`TauCetiRoadmap.HabiroCyclotomicCompletions`.
-Naming can follow the surrounding library, while the hypotheses, coordinate
-conventions, and compatibility requirements below determine the interface.
+Two basic theorems come first. Let `ψ` be a ring map from `R[q]` to a complete
+Hausdorff topological ring, such that every neighbourhood of zero contains the
+image of one of the ideals `(f)`. Then `ψ` extends uniquely to a continuous ring
+map on `R[q]^S`. Every element of the full ring has a unique expansion
+`Σ_{n≥0} a_n(q) P_n(q)` with `deg a_n ≤ n`. All digits of `F` are one.
 
-## Scope and ownership
+The central theme is rigidity. Over a nonzero ring `R`, two distinct orders are
+adjacent when their ratio is a nontrivial power of a prime `p` and `R` is
+p-adically separated: the powers of `pR` intersect in zero. A set of orders is
+connected if it is nonempty and any two of its elements are joined by a chain of
+adjacent orders inside it. Over `ℤ`, 1 and 6 are not adjacent, but both are
+adjacent to 2.
 
-The construction here is the ordinary cyclotomic completion. The arithmetic
-Habiro ring of a number field has Frobenius conditions on its Taylor
-collections; that ring and the comparison for the rational number field belong
-to **HabiroNumberFields §2.9**. In particular, a classical ring with coefficient
-ring `ℚ` is not the arithmetic ring attached to the number field
-`ℚ`. The classical coefficient-change map and the components over
-`ℤ[1/Δ]` constructed here are inputs to that comparison.
+Let `R` be a characteristic-zero domain and `S` connected. Let `ζ` be a
+primitive `n`th root of unity in an algebraic closure of the fraction field of
+`R`, with `n` in `S`. Suppose `R` is p-adically separated for every odd prime
+`p` dividing `n`, and 2-adically separated when 4 divides `n`. Then the Taylor
+expansion at `ζ`, from `R[q]^S` to `R[ζ][[q-ζ]]`, is injective. Over `ℤ` these
+expansions of the full ring are injective but never surjective. If `R` lies in
+the algebraic integers, an element of the full ring is determined by its
+residues modulo `Φ_m` for `m` in any set containing infinitely many prime
+powers. No finite set suffices. Habiro's conjecture for arbitrary infinite sets
+is not assumed.
 
-Mathlib’s `descPochhammer` and `ascPochhammer` are falling and rising
-products in additive shifts; Tau Ceti’s `TauCeti.monic_descPochhammer` in
-`TauCeti.RingTheory.Polynomial.Pochhammer` extends the falling-product API. The finite q-products here use multiplicative q-shifts.
-ProfiniteArithmetic §0.2's inverse limits of integer residue rings provide a
-neighboring arithmetic construction; this roadmap instead takes polynomial
-quotients generated by cyclotomic products, with their own cofinal maps.
+For each order `m`, the joint Taylor map expands an element of the full ring
+around the universal root of `Φ_m` in `A_m(R) = R[q]/(Φ_m)`, in a multiplicative
+coordinate `u`. It is injective when `R` is `ℤ`-torsion-free. For a `ℚ`-algebra
+it is a topological isomorphism onto the product of the rings `A_m(R)[[u]]`. For
+`ℤ`-torsion-free `R` its image is cut out by explicit integer-matrix congruences
+at each finite precision. These hold automatically over a `ℚ`-algebra, but not
+over `ℤ`.
 
-The q-integers are finite geometric sums; Mathlib's `mul_geom_sum` and
-`one_geom_sum` supply their geometric and specialization identities.
-Use the same q-integer convention as the framed monomial differential in
-AInfCohomology §AI.3.3.
-ArithmeticStatisticsPartIV §3.2 owns Gaussian polynomials, their semiring
-evaluations and the finite q-binomial theorem.
-The Gaussian-dependent multinomial extension belongs with
-that API. None of these Gaussian constructions is an input to the cyclotomic
-completion here.
-The elementary q-analogue extensions in **Layer 1** are q-factorials, finite
-and infinite multiplicative Pochhammer symbols, their infinite q-binomial
-and Euler identities, Jackson derivatives, and the elementary plethystic
-substitution operation.
-**QSeriesPartitionsAndMockModularForms §§1.2–1.5**, arithmetic q-series consumers,
-and quantum-topology consumers import this toolkit. General lambda-ring theory
-belongs to **SchemeKTheoryOperations §§6.2.1–6.2.2**;
-**QWittVectors §2.1a** owns its comparison with Witt-coalgebra structures. The toolkit's infinite products use
-explicit coefficient topologies; they are distinct from Layer 2's convergent
-factorial sums in the cyclotomic completion.
+Completion of polynomial modules `M[q]` is exact for every coefficient ring,
+order set and `R`-module `M`. Over `ℤ[1/Δ]` with `Δ ≥ 1`, the full ring is a
+product of domains, one for each class of orders with prescribed valuations at
+the primes dividing `Δ`. Evaluation at all orders is still injective.
 
-General derived Habiro completion and the ordinary/derived comparison belong
-to **HabiroRings §2.4**, after its completion adjunction. That comparison
-consumes this roadmap's factorial topology (§1.4), Laurent comparison (§2.3),
-and exact ordinary functor on polynomial coefficient modules (§5.1).
-The construction here uses no derived Habiro input.
+The roadmap builds on Mathlib's cyclotomic polynomials and adic completions, and
+on Tau Ceti's complete separated topological rings.
+QSeriesPartitionsAndMockModularForms uses its elementary q-calculus. HabiroRings
+uses the factorial topology and the exact module completion in comparing this
+completion with the derived one. HabiroNumberFields uses the coefficient changes
+and the components over `ℤ[1/Δ]`. Its Habiro rings of number fields are
+different objects: a classical ring with coefficient ring `ℚ` is not the
+arithmetic ring attached to the number field `ℚ`.
 
-The consumers of the resulting library are:
-
-| Consumer | Interface supplied here |
-| --- | --- |
-| HabiroRings §2.4 and §§5.3–5.9 | Completion systems, factorial expansions, polynomial-module exactness, cyclotomic comaximality, Taylor maps and rigidity |
-| HabiroNumberFields §§2.3 and 2.9–2.10 | Coefficient change, classical evaluations, Taylor re-expansion, and the components after inverting primes |
-| Arithmetic quantum topology (application area) | Integral Habiro ring, factorial arithmetic, root values, single-root Taylor injectivity, and explicit examples |
-| QSeriesPartitionsAndMockModularForms §§1.2–1.5 | Layer 1 finite and formal Pochhammer identities and coefficientwise integral products |
-| HabiroNahmSeries §§1.1 and 5.1–5.2 | Finite and formal Pochhammer identities and plethystic root expansions |
-| HabiroCohomologyFoundations §§0.2 and 1.2 | Cyclotomic intersections, comaximal splitting and polynomial Jackson calculus |
-| QWittVectors §3.2a | Cyclotomic congruences, comaximality, and order adjacency |
-| Analytic Habiro geometry (application area) | The complete topological rings and their expansion coordinates |
-
-No consumer may replace the infinite-adjacency condition of Layer 4 by an
-arbitrary infinite set or a phrase such as “a set with a limit point.” That
-would require Habiro's Conjecture 6.1, which remains a conjecture in this
-roadmap. Likewise, the conjectural description of the integral unit group is
-not a theorem exported here. The actual theorem on the unit `q` is included.
+Layer 1 builds the elementary q-toolkit, the completions and their topology.
+Layer 2 gives factorial coordinates and arithmetic, and Layer 3 values and
+Taylor expansions. Layer 4 proves rigidity and reconstructs the integral Taylor
+image. Layer 5 handles modules, components and localization. Layer 6 gives
+worked checks. [Suggested.lean](Suggested.lean) states several of these theorems
+in Lean, without asserting that they are implemented.
 
 ## Conventions
 
@@ -136,71 +115,6 @@ topologically nilpotent constant uses convergent power-series evaluation.
 Algebraic substitution with a nonzero constant requires actual nilpotence and
 does not provide the required p-adic operation.
 
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-The library interfaces are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. Reuse the following library
-material instead of introducing a parallel vocabulary:
-
-| Input | Use in this roadmap |
-| --- | --- |
-| Mathlib `mul_geom_sum` and `one_geom_sum` | Finite geometric sums defining q-integers, their multiplication identity, and specialization at one |
-| Mathlib polynomial cyclotomic modules | Monicity, base change, the factorization of `q^N-1`, prime-power reductions, and values at one |
-| Mathlib polynomial division and quotient operations | Canonical representatives modulo a monic polynomial, free finite quotient modules, ideal quotients, and Chinese remainder maps |
-| `Polynomial.hasseDeriv` and `Polynomial.factorial_smul_hasseDeriv` | The coefficient formula `D_k(∑ a_iq^i)=∑binom(i, k) a_iq^{i-k}`, and `k!D_k=∂_q^k` without dividing by `k!` |
-| Mathlib polynomial Taylor and power-series modules | Polynomial translation, coefficient extensionality, power-series topology, and continuous evaluation through `PowerSeries.eval₂Hom` |
-| Mathlib `AdicCompletion`, `IsAdicComplete`, `IsHausdorff` | Finite-order completions, separated coefficient embeddings, and completion at finitely generated witnessing ideals |
-| Mathlib polynomial modules, exactness and tensor products | Polynomial modules `M[q]`, monic finite quotients, finite presentation, and ordinary module completion |
-| Mathlib roots of unity, fraction fields, finite modules and bases | Primitive-root arguments and the finite-domain separation transfer |
-| `HahnSeries.embDomainRingHom` | Laurent-series dilation induced by the injective additive map `i ↦ n*i` on `ℤ`, for `n>0` |
-| Mathlib resultants and integral matrices | Cyclotomic resultants, simultaneous remainder determinants, and adjugate image congruences |
-| Tau Ceti `TauCeti.TopCommRingCat.IsCompleteSeparated` and `TauCeti.CompleteSeparatedTopCommRingCat` | Complete separated topological rings as existing categorical objects; products and closed compatible-family subobjects |
-| Tau Ceti polynomial coefficient-list and synthetic-division API | Descending coefficient lists read through Mathlib's `Polynomial.ofCoeffList` after reversal, `TauCeti.Polynomial.divModByMonicList`, and its monic quotient/remainder identities for the finite digit comparisons in §2.2 |
-
-The exact contracts used by the constructions are:
-
-- `Polynomial.cyclotomic.monic` gives monicity over a commutative ring; `Polynomial.map_cyclotomic` and `Polynomial.map_cyclotomic_int` give coefficient transport. For `n>0`, `Polynomial.prod_cyclotomic_eq_X_pow_sub_one` factors `qⁿ−1` over its positive divisors. `Polynomial.cyclotomic_mul_prime_pow_eq` and `Polynomial.cyclotomic_mul_prime_dvd_eq_pow` supply the prime-power and characteristic-p reductions; `Polynomial.eval_one_cyclotomic_prime_pow` and `Polynomial.eval_one_cyclotomic_not_prime_pow` fix the value-at-one boundary.
-- `Polynomial.div_modByMonic_unique` and `Polynomial.map_modByMonic` supply unique reduced representatives and coefficient transport for monic divisors; `Polynomial.degree_modByMonic_lt` supplies the degree bound over a nontrivial ring. The zero-ring case is treated by subsingletonness. `AdjoinRoot.mk_eq_zero` characterizes the zero class by divisibility, and `AdjoinRoot.liftAlgHom` selects a root only after its polynomial equation is supplied. `Ideal.quotientMulEquivQuotientProd` consumes comaximality, and `Ideal.quotientInfRingEquivPiQuotient` provides the finite CRT form.
-- `Polynomial.taylor_coeff` supplies translation coefficients; `Polynomial.hasseDeriv` keeps these coefficients integral, and `Polynomial.factorial_smul_hasseDeriv` compares with iterated differentiation without inverting a factorial. `PowerSeries.HasEval`, `PowerSeries.eval₂Hom`, `PowerSeries.hasSum_eval₂` and `PowerSeries.eval₂_unique` provide the continuous evaluation contract. `PowerSeries.subst` with `PowerSeries.HasSubst.of_constantCoeff_zero` supplies the zero-constant algebraic substitution used in the exponential coordinate.
-- `AdicCompletion`, `AdicCompletion.isAdicComplete` (for a finitely generated ideal), `AdicCompletion.of_injective` (under `IsHausdorff`), `IsAdicComplete` and `IsHausdorff` provide ideal-power completion and separation. `Ideal.iInf_pow_eq_bot_of_isDomain` is used only under its Noetherian-domain hypotheses; the finite-domain transfer proved in Layer 4 does not assume that every coefficient domain is Noetherian.
-- `Polynomial.resultant_eq_prod_eval` supplies the root-product formula over a domain when the first polynomial splits, with an explicit bound on the second degree; `Polynomial.isUnit_resultant_iff_isCoprime` supplies the comaximality criterion for a monic first polynomial. `LaurentPolynomial.isLocalization`, `Polynomial.toLaurent` and `IsLocalization.Away.lift` supply Laurent extension after the image of `q` is a unit. `IsPrimitiveRoot.isRoot_cyclotomic` supplies the root equation for a positive order in a commutative domain; torsion coefficient algebras instead carry the equation explicitly.
-- Tau Ceti's `TauCeti.TopCommRingCat.IsCompleteSeparated.pi` and `TauCeti.TopCommRingCat.IsCompleteSeparated.of_isClosedEmbedding` supply complete separated products and closed subobjects. `UniformSpace.Completion.ringHom_ext_of_continuous` supplies uniqueness of continuous completed maps. `TauCeti.Polynomial.divModByMonicList`, `TauCeti.Polynomial.ofCoeffList_reverse_divByMonicList` and `TauCeti.Polynomial.ofCoeffList_reverse_modByMonicList` identify the two list outputs with monic polynomial quotient and remainder.
-
-The coefficient-list contracts are supplied by
-`TauCeti.Algebra.Polynomial.Coeff.List`.
-Mathlib's `Polynomial.ofCoeffList` reads constant coefficients first; a descending
-list `l` represents `Polynomial.ofCoeffList l.reverse`.
-`TauCeti.Polynomial.ofCoeffList_reverse_concat` gives
-`ofCoeffList (l ++ [a]).reverse = ofCoeffList l.reverse * X + C a`. The divisor of
-`TauCeti.Polynomial.divModByMonicList t l` is
-`X ^ t.length + ofCoeffList t.reverse`. Its two polynomial identities supply the
-monic quotient and remainder used in the mathematical digit comparisons of
-§2.2, including leading-zero lists and the negative quotient sign for divisor
-`q^(n+1) − 1`.
-
-The complete separated ring contracts are supplied by
-`TauCeti.Topology.Category.TopCommRingCat.CompleteSeparated.Basic`, and
-`UniformSpace.Completion.ringHom_ext_of_continuous` by
-`TauCeti.Topology.Algebra.UniformRing`. Laurent dilation uses
-`HahnSeries.embDomainRingHom` from Mathlib's Hahn-series multiplication
-API directly; there is no additional Laurent dilation definition here.
-
-The general completion and category inputs belong to the existing Tau Ceti
-topological-ring theory. The new work below is the particular cyclotomic
-system and its mathematics. Sources are abbreviated H, H₀, G, L, W and O, with
-versioned links in the bibliography. H uses printed journal pages; G and W
-use their printed preprint pages. H₀ is cited separately because its numbering
-and some proof details differ from H.
-
-## How to read the build
-
-Layer 1 constructs the elementary q-toolkit, the compatible completion
-systems and their topology. Layer 2 gives factorial coordinates and arithmetic;
-Layer 3 turns finite quotients into values and Taylor expansions. Layer 4
-proves rigidity and reconstructs the integral Taylor image. Layer 5 handles
-modules, components and localization. Layer 6 gives worked checks of the resulting
-objects, including projectors that require both Layers 4 and 5.
 ## Layer 1: completion systems and factorial ideals
 
 ### 1.1 Elementary q-calculus and its consumers
@@ -933,7 +847,6 @@ The digits of `F`, `q⁻¹` and `F²` above fix normalization and carries. The d
 ### Dependencies
 
 Layer 1 finite quotients, factorial cofinality and topology; the existing coefficient-list supplier. No rigidity or comaximality theorem is required for q-inversion.
-
 ## Layer 3: values, Taylor expansions, and p-adic translation
 
 ### 3.1 Root evaluation and additive Taylor coefficients
@@ -2751,6 +2664,125 @@ HabiroNumberFields receives the classical coefficient-change and localized
 component maps for its arithmetic comparison. Q-series consumers receive
 the integral toolkit separately from the completed-ring evaluation and
 rigidity interfaces. Every construction input is a library contract above or an earlier layer here.
+
+## Scope and ownership
+
+The construction here is the ordinary cyclotomic completion. The arithmetic
+Habiro ring of a number field has Frobenius conditions on its Taylor
+collections; that ring and the comparison for the rational number field belong
+to **HabiroNumberFields §2.9**. In particular, a classical ring with coefficient
+ring `ℚ` is not the arithmetic ring attached to the number field
+`ℚ`. The classical coefficient-change map and the components over
+`ℤ[1/Δ]` constructed here are inputs to that comparison.
+
+Mathlib’s `descPochhammer` and `ascPochhammer` are falling and rising
+products in additive shifts; Tau Ceti’s `TauCeti.monic_descPochhammer` in
+`TauCeti.RingTheory.Polynomial.Pochhammer` extends the falling-product API. The finite q-products here use multiplicative q-shifts.
+ProfiniteArithmetic §0.2's inverse limits of integer residue rings provide a
+neighboring arithmetic construction; this roadmap instead takes polynomial
+quotients generated by cyclotomic products, with their own cofinal maps.
+
+The q-integers are finite geometric sums; Mathlib's `mul_geom_sum` and
+`one_geom_sum` supply their geometric and specialization identities.
+Use the same q-integer convention as the framed monomial differential in
+AInfCohomology §AI.3.3.
+ArithmeticStatisticsPartIV §3.2 owns Gaussian polynomials, their semiring
+evaluations and the finite q-binomial theorem.
+The Gaussian-dependent multinomial extension belongs with
+that API. None of these Gaussian constructions is an input to the cyclotomic
+completion here.
+The elementary q-analogue extensions in **Layer 1** are q-factorials, finite
+and infinite multiplicative Pochhammer symbols, their infinite q-binomial
+and Euler identities, Jackson derivatives, and the elementary plethystic
+substitution operation.
+**QSeriesPartitionsAndMockModularForms §§1.2–1.5**, arithmetic q-series consumers,
+and quantum-topology consumers import this toolkit. General lambda-ring theory
+belongs to **SchemeKTheoryOperations §§6.2.1–6.2.2**;
+**QWittVectors §2.1a** owns its comparison with Witt-coalgebra structures. The toolkit's infinite products use
+explicit coefficient topologies; they are distinct from Layer 2's convergent
+factorial sums in the cyclotomic completion.
+
+General derived Habiro completion and the ordinary/derived comparison belong
+to **HabiroRings §2.4**, after its completion adjunction. That comparison
+consumes this roadmap's factorial topology (§1.4), Laurent comparison (§2.3),
+and exact ordinary functor on polynomial coefficient modules (§5.1).
+The construction here uses no derived Habiro input.
+
+The consumers of the resulting library are:
+
+| Consumer | Interface supplied here |
+| --- | --- |
+| HabiroRings §2.4 and §§5.3–5.9 | Completion systems, factorial expansions, polynomial-module exactness, cyclotomic comaximality, Taylor maps and rigidity |
+| HabiroNumberFields §§2.3 and 2.9–2.10 | Coefficient change, classical evaluations, Taylor re-expansion, and the components after inverting primes |
+| Arithmetic quantum topology (application area) | Integral Habiro ring, factorial arithmetic, root values, single-root Taylor injectivity, and explicit examples |
+| QSeriesPartitionsAndMockModularForms §§1.2–1.5 | Layer 1 finite and formal Pochhammer identities and coefficientwise integral products |
+| HabiroNahmSeries §§1.1 and 5.1–5.2 | Finite and formal Pochhammer identities and plethystic root expansions |
+| HabiroCohomologyFoundations §§0.2 and 1.2 | Cyclotomic intersections, comaximal splitting and polynomial Jackson calculus |
+| QWittVectors §3.2a | Cyclotomic congruences, comaximality, and order adjacency |
+| Analytic Habiro geometry (application area) | The complete topological rings and their expansion coordinates |
+
+No consumer may replace the infinite-adjacency condition of Layer 4 by an
+arbitrary infinite set or a phrase such as “a set with a limit point.” That
+would require Habiro's Conjecture 6.1, which remains a conjecture in this
+roadmap. Likewise, the conjectural description of the integral unit group is
+not a theorem exported here. The actual theorem on the unit `q` is included.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+The library interfaces are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. Reuse the following library
+material instead of introducing a parallel vocabulary:
+
+| Input | Use in this roadmap |
+| --- | --- |
+| Mathlib `mul_geom_sum` and `one_geom_sum` | Finite geometric sums defining q-integers, their multiplication identity, and specialization at one |
+| Mathlib polynomial cyclotomic modules | Monicity, base change, the factorization of `q^N-1`, prime-power reductions, and values at one |
+| Mathlib polynomial division and quotient operations | Canonical representatives modulo a monic polynomial, free finite quotient modules, ideal quotients, and Chinese remainder maps |
+| `Polynomial.hasseDeriv` and `Polynomial.factorial_smul_hasseDeriv` | The coefficient formula `D_k(∑ a_iq^i)=∑binom(i, k) a_iq^{i-k}`, and `k!D_k=∂_q^k` without dividing by `k!` |
+| Mathlib polynomial Taylor and power-series modules | Polynomial translation, coefficient extensionality, power-series topology, and continuous evaluation through `PowerSeries.eval₂Hom` |
+| Mathlib `AdicCompletion`, `IsAdicComplete`, `IsHausdorff` | Finite-order completions, separated coefficient embeddings, and completion at finitely generated witnessing ideals |
+| Mathlib polynomial modules, exactness and tensor products | Polynomial modules `M[q]`, monic finite quotients, finite presentation, and ordinary module completion |
+| Mathlib roots of unity, fraction fields, finite modules and bases | Primitive-root arguments and the finite-domain separation transfer |
+| `HahnSeries.embDomainRingHom` | Laurent-series dilation induced by the injective additive map `i ↦ n*i` on `ℤ`, for `n>0` |
+| Mathlib resultants and integral matrices | Cyclotomic resultants, simultaneous remainder determinants, and adjugate image congruences |
+| Tau Ceti `TauCeti.TopCommRingCat.IsCompleteSeparated` and `TauCeti.CompleteSeparatedTopCommRingCat` | Complete separated topological rings as existing categorical objects; products and closed compatible-family subobjects |
+| Tau Ceti polynomial coefficient-list and synthetic-division API | Descending coefficient lists read through Mathlib's `Polynomial.ofCoeffList` after reversal, `TauCeti.Polynomial.divModByMonicList`, and its monic quotient/remainder identities for the finite digit comparisons in §2.2 |
+
+The exact contracts used by the constructions are:
+
+- `Polynomial.cyclotomic.monic` gives monicity over a commutative ring; `Polynomial.map_cyclotomic` and `Polynomial.map_cyclotomic_int` give coefficient transport. For `n>0`, `Polynomial.prod_cyclotomic_eq_X_pow_sub_one` factors `qⁿ−1` over its positive divisors. `Polynomial.cyclotomic_mul_prime_pow_eq` and `Polynomial.cyclotomic_mul_prime_dvd_eq_pow` supply the prime-power and characteristic-p reductions; `Polynomial.eval_one_cyclotomic_prime_pow` and `Polynomial.eval_one_cyclotomic_not_prime_pow` fix the value-at-one boundary.
+- `Polynomial.div_modByMonic_unique` and `Polynomial.map_modByMonic` supply unique reduced representatives and coefficient transport for monic divisors; `Polynomial.degree_modByMonic_lt` supplies the degree bound over a nontrivial ring. The zero-ring case is treated by subsingletonness. `AdjoinRoot.mk_eq_zero` characterizes the zero class by divisibility, and `AdjoinRoot.liftAlgHom` selects a root only after its polynomial equation is supplied. `Ideal.quotientMulEquivQuotientProd` consumes comaximality, and `Ideal.quotientInfRingEquivPiQuotient` provides the finite CRT form.
+- `Polynomial.taylor_coeff` supplies translation coefficients; `Polynomial.hasseDeriv` keeps these coefficients integral, and `Polynomial.factorial_smul_hasseDeriv` compares with iterated differentiation without inverting a factorial. `PowerSeries.HasEval`, `PowerSeries.eval₂Hom`, `PowerSeries.hasSum_eval₂` and `PowerSeries.eval₂_unique` provide the continuous evaluation contract. `PowerSeries.subst` with `PowerSeries.HasSubst.of_constantCoeff_zero` supplies the zero-constant algebraic substitution used in the exponential coordinate.
+- `AdicCompletion`, `AdicCompletion.isAdicComplete` (for a finitely generated ideal), `AdicCompletion.of_injective` (under `IsHausdorff`), `IsAdicComplete` and `IsHausdorff` provide ideal-power completion and separation. `Ideal.iInf_pow_eq_bot_of_isDomain` is used only under its Noetherian-domain hypotheses; the finite-domain transfer proved in Layer 4 does not assume that every coefficient domain is Noetherian.
+- `Polynomial.resultant_eq_prod_eval` supplies the root-product formula over a domain when the first polynomial splits, with an explicit bound on the second degree; `Polynomial.isUnit_resultant_iff_isCoprime` supplies the comaximality criterion for a monic first polynomial. `LaurentPolynomial.isLocalization`, `Polynomial.toLaurent` and `IsLocalization.Away.lift` supply Laurent extension after the image of `q` is a unit. `IsPrimitiveRoot.isRoot_cyclotomic` supplies the root equation for a positive order in a commutative domain; torsion coefficient algebras instead carry the equation explicitly.
+- Tau Ceti's `TauCeti.TopCommRingCat.IsCompleteSeparated.pi` and `TauCeti.TopCommRingCat.IsCompleteSeparated.of_isClosedEmbedding` supply complete separated products and closed subobjects. `UniformSpace.Completion.ringHom_ext_of_continuous` supplies uniqueness of continuous completed maps. `TauCeti.Polynomial.divModByMonicList`, `TauCeti.Polynomial.ofCoeffList_reverse_divByMonicList` and `TauCeti.Polynomial.ofCoeffList_reverse_modByMonicList` identify the two list outputs with monic polynomial quotient and remainder.
+
+The coefficient-list contracts are supplied by
+`TauCeti.Algebra.Polynomial.Coeff.List`.
+Mathlib's `Polynomial.ofCoeffList` reads constant coefficients first; a descending
+list `l` represents `Polynomial.ofCoeffList l.reverse`.
+`TauCeti.Polynomial.ofCoeffList_reverse_concat` gives
+`ofCoeffList (l ++ [a]).reverse = ofCoeffList l.reverse * X + C a`. The divisor of
+`TauCeti.Polynomial.divModByMonicList t l` is
+`X ^ t.length + ofCoeffList t.reverse`. Its two polynomial identities supply the
+monic quotient and remainder used in the mathematical digit comparisons of
+§2.2, including leading-zero lists and the negative quotient sign for divisor
+`q^(n+1) − 1`.
+
+The complete separated ring contracts are supplied by
+`TauCeti.Topology.Category.TopCommRingCat.CompleteSeparated.Basic`, and
+`UniformSpace.Completion.ringHom_ext_of_continuous` by
+`TauCeti.Topology.Algebra.UniformRing`. Laurent dilation uses
+`HahnSeries.embDomainRingHom` from Mathlib's Hahn-series multiplication
+API directly; there is no additional Laurent dilation definition here.
+
+The general completion and category inputs belong to the existing Tau Ceti
+topological-ring theory. The new work above is the particular cyclotomic
+system and its mathematics. Sources are abbreviated H, H₀, G, L, W and O, with
+versioned links in the bibliography. H uses printed journal pages; G and W
+use their printed preprint pages. H₀ is cited separately because its numbering
+and some proof details differ from H.
 
 ## References
 

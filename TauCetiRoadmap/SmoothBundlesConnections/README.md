@@ -1,128 +1,58 @@
 # Roadmap: smooth principal bundles, connections, and holonomy
 
-**Summary.** This roadmap develops smooth principal bundles and their associated vector bundles
-as usable geometric objects: local trivializations and cocycles, regular fibres and fibre products
-of submersions, free proper quotients and homogeneous spaces, Ehresmann's fibration theorem,
-connections and curvature, the Atiyah sequence, parallel transport and its inverse
-(reconstruction of a connection from smooth transport), holonomy groups with the Ambrose–Singer
-theorem and the holonomy reductions, the finite-rank Hilbert space of square-integrable sections
-of a metrized bundle, smooth good covers, the comparison of the native Čech complex of a good
-cover with locally constant, smooth and circle-valued coefficients, and the integral
-classification of circle bundles with connection by `H²(M;ℤ)` with its flat ambiguity
-`H¹(M;ℝ/ℤ)`. Its end theorems are Ehresmann's fibration theorem, the free proper quotient
-theorem, the flat-bundle dictionary with representations of the fundamental group, Ambrose–Singer,
-the reconstruction of connections from smooth parallel transport, the Čech–de Rham–singular
-comparison on good covers, the classification of principal circle bundles by `H²(M;ℤ)` with the
-Hopf normalization `⟨c₁(Hopf),[ℂP¹]⟩ = 1` on `ℂP¹ = S³/Circle`, Tau Ceti's sphere quotient with
-the smooth structure of its own quotient theorem, and rank-one Chern–Weil. The output supports
-differential geometry, symplectic reduction and prequantization, Lie groupoids and gauge theory
-without a separate bundle or connection language in each application. It stops before the
-Yang–Mills energy and its variational calculus, which need the elliptic theory of bundle-valued forms that
-is built on these layers.
+**Summary.** A principal bundle with structure group G over a manifold M is a manifold P with a
+projection to M and a right action of G that, over small open sets U of M, looks like `U × G` with
+G acting by right multiplication. A representation of G on a vector space turns P into an
+associated vector bundle, and every finite-rank real or complex vector bundle comes from its frame
+bundle. A connection on P carries fibres along paths in M; when its curvature vanishes, this
+transport depends only on the homotopy class of the path. This roadmap builds these objects and
+develops their theory as far as holonomy and the classification of circle bundles. Bases are
+finite-dimensional, Hausdorff, second-countable smooth real manifolds without boundary, and
+structure groups are finite-dimensional real Lie groups, Hausdorff and second countable.
 
-## Scope and ownership
+Two theorems produce bundles from geometric data. In the free proper quotient theorem, G acts
+smoothly, freely and properly on a manifold M of the same kind as the bases. The orbit space, with
+its quotient topology, is then a smooth manifold of dimension `dim M − dim G` for which the
+projection is a submersion, and M is a smooth principal G-bundle over it. Instances include
+`G → G/H` for a closed subgroup H and the Hopf bundle `S³ → S³/Circle = ℂP¹`. Ehresmann's
+fibration theorem says that a proper surjective submersion between manifolds of this kind, onto a
+connected base, is a locally trivial smooth fibre bundle whose model fibre is the fibre over any
+chosen point.
 
-This roadmap owns, on Tau Ceti's principal bundles and smooth fibre bundles with a manifold fibre
-(Exact supplier contracts): the open restriction of regular fibres, the transverse fibre product of
-smooth maps and the smooth local frames of the pulled-back kernel bundle of a submersion, all
-without a Hausdorff hypothesis on the total space (B1.0); the presentation of a principal bundle by a given total space,
-its converse for free actions whose orbits are the fibres of a submersion, smooth descent along the
-projection of a presented bundle, the fibre product `P ×_M P` with smooth division on it, and the
-restriction of bundle isomorphisms (B1.1); products of principal bundles and the conversion of left
-actions into right actions (B1.2); the classification of principal bundles by their cocycles and
-nonabelian Čech H¹ (B1.3); the slice theorem for proper
-actions, free proper quotients, the characterization of principal bundles given by their total
-space as such quotients, homogeneous spaces `G/H` and the properness of the principal right
-action (B1.4); Ehresmann connections and Ehresmann's fibration theorem (B1.5); associated,
-frame, tensor, dual, Hom and complexified bundles, reductions and extensions of the structure group,
-and the adjoint bundle (B2); fibre metrics and the Hilbert space `L²(E,h,μ)` of sections of a
-finite-rank bundle with all its functoriality (B2); principal connections, the Atiyah sequence as a
-vector-bundle sequence, induced covariant derivatives (B3); curvature, exterior covariant
-derivatives and the gauge group (B4); horizontal lifts, the reconstruction of connections from smooth
-transport, holonomy groups, Ambrose–Singer, the holonomy reductions, the flat-bundle dictionary
-and the countability of the fundamental group of a connected second-countable manifold (B5);
-smooth good covers, the identification of the native Čech complex of a good cover in locally
-constant, smooth and circle coefficients, the vanishing of Mathlib's `Sheaf.H` in positive degrees
-for soft sheaves on paracompact Hausdorff spaces, the softness of smooth functions and of sheaves of
-modules over them, the Čech–de Rham and Čech–singular comparisons on good
-covers, and the integral theory of circle bundles and lattice torus bundles (B6), with the Hopf
-bundle over Tau Ceti's sphere quotient `ℂP¹ = S³/Circle`, the agreement of B1.4's quotient smooth
-structure on it with the real structure underlying Tau Ceti's homogeneous-ratio atlas, and the Hopf
-normalization stated on that orbit manifold (B1.4, B6.2, B7).
+Fix a connection on P over a connected base, and a point p of P over the base point. Transport
+around each loop at the base point moves p to `p·g` for some g in G, and these elements form the
+holonomy group. It is an immersed Lie subgroup of G, not necessarily closed. The Ambrose–Singer
+theorem says that the Lie algebra of its identity component, the restricted holonomy group, is
+spanned by the values of the curvature transported to the base point. Up to isomorphism, principal
+G-bundles with a flat connection correspond, through holonomy, to homomorphisms from the
+fundamental group of M to G up to conjugation.
 
-It leaves to named roadmaps: time-dependent flows, distributions and Frobenius, densities,
-integration over smooth chains, the de Rham homomorphism and theorem, and the volume of the round
-circle to [DifferentialGeometry](../DifferentialGeometry/README.md) (Layers 4 and 8, and 3.5,
-5.5, 12.1, 12.4);
-the exponential map, adjoint representation, closed-subgroup theorem and immersed Lie subgroups
-(the carrier `integralSubgroup`) to [LieGroups](../RepresentationTheory/LieGroups/README.md)
-(Layers 0–2, 4); singular cohomology, cup and cap products, coefficient sequences and the
-Bockstein, orientation local systems and fundamental classes, and the projectivization topology
-to [AlgebraicTopology](../AlgebraicTopology/README.md) (Stages 3.2, 6.1, 6.3); the Levi-Civita
-connection, geodesics, the exponential map, normal neighbourhoods, the local logarithm and the Gauss
-lemma to the completed [HopfRinow](../../Completed/HopfRinow/README.md) roadmap (Layers 1–2), as
-implemented in Tau Ceti; the universal cover's
-manifold structure to Tau Ceti and the [UniversalCovers](../../Completed/UniversalCovers/README.md)
-roadmap. Two roadmaps that consume this one are never its suppliers:
-[DGFloer](../DGFloer/README.md) consumes B1.4 and owns the degree-one Hurewicz isomorphism, and
-[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) consumes B2–B4 and B6 and owns the
-projective charts, complex structure and complex orientation of `ℂP¹` on the `Projectivization`
-carrier and the comparison of that carrier with Tau Ceti's sphere quotient
-`TauCeti.ComplexProjectiveSpace` (K7.1), together with the density line, the real Hodge star, the
-elliptic and Sobolev theory of bundle-valued forms and the compact real Hodge theorem (K5a).
-Everything that would need those results is left to SmoothBundlesConnections, Part II, which begins
-where this roadmap stops: the transport of the Hopf bundle and its normalization along K7.1's
-comparison to the `Projectivization` carrier, with matching orientations; the identification of the
-degree-one singular group `H¹(M;A)` with `Hom(π₁(M),A)` through the Hurewicz isomorphism and its
-agreement with the holonomy dictionary of B6.4; and the Yang–Mills energy on a closed Riemannian
-manifold with its formal adjoints, first and second variations, gauge-fixed elliptic operator,
-conformal scaling and stationary circle connections. Algebraic vector bundles on schemes are
-[AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md)'s objects; no analytification or
-algebraic-to-topological comparison is asserted here.
+Circle bundles lead to integral cohomology. The tool is the smooth good cover: every open cover of
+a base has a locally finite refinement whose nonempty finite intersections are smoothly
+contractible. On such covers Čech cohomology is compared with de Rham and singular cohomology. The
+first Chern class `c₁`, defined from the transition functions through the exponential sequence, is
+a bijection from isomorphism classes of principal circle bundles over M onto `H²(M;ℤ)`, natural
+under pullback. With the orientation and sign conventions fixed in the Conventions, the Hopf bundle
+has `⟨c₁,[ℂP¹]⟩ = 1`. Rank-one Chern–Weil theory identifies the real image of `c₁` with the de Rham
+class of `F/(2π)`, for F the curvature of a connection. Integral classes see more than curvature:
+over the lens space `L(n,1)`, n ≥ 2, the pulled-back Hopf bundle carries a flat connection, yet its
+first Chern class has order n.
 
-Mathlib already provides smooth vector bundles and
-[`CovariantDerivative`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.html#CovariantDerivative),
-its `addOneForm` and `difference` API, and smoothness classes. Tau Ceti supplies curvature
-operators and their basic linearity and Bianchi results; principal bundles as a mixin on
-fibre-bundle data, smooth fibre bundles with a manifold fibre and their charted total space, the
-smooth division map, descent along the projection, the vertical tangent spaces, equivariant
-diffeomorphisms, pullbacks and the gluing of group-valued cocycles; regular fibres and the kernel
-distribution of a submersion; continuous fibre norms, continuous local orthonormal frames by
-Gram–Schmidt and the orthogonal and unitary frame bundles of a bundle with fibre inner products;
-differential forms with the wedge, the exterior derivative, the homotopy
-operator, integration of top forms, de Rham cohomology and the existence of Riemannian metrics;
-the maps of native Čech complexes induced by refinements of covers, with their laws, the homotopy
-between the maps of two refinements, the change of coefficients and the diagram of Čech
-cohomology over a system of covers;
-and complex projective space as the circle quotient of the unit sphere, with its homogeneous-ratio
-charts, its complex atlas and the real structure underlying a complex manifold.
-Consume those objects, supplying principal/associated-bundle bridges and missing general bundle
-operations here.
+The roadmap builds on what Tau Ceti already has: principal bundles as a structure on Mathlib's fibre
+bundles, smooth fibre bundles, and differential forms with de Rham cohomology. Singular cohomology
+comes from the AlgebraicTopology roadmap. In turn, HamiltonianReduction uses the quotients, and
+GeometricQuantization uses circle bundles with connection as prequantum bundles. The Yang–Mills
+energy, which needs the elliptic theory of bundle-valued forms, is left to SmoothBundlesConnections,
+Part II.
 
-Consumers that build on these layers and own what lies beyond them:
-[LieGroupoidsPoisson](../LieGroupoidsPoisson/README.md) owns the Lie algebroid bracket on the
-Atiyah bundle, its integration by the gauge groupoid, the constant-rank theorem, the bracket
-naturality for related vector fields and the smooth-subbundle API, and consumes B1.0, B1.1, B1.4,
-B2, B3 and B5; [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) owns
-the gluing of symplectic forms on slice charts, its orbifold reduction theorem, Sobolev completions
-of gauge groups and Coulomb slices over a surface (R5); GeometricQuantization owns polarized
-sections and quantization operators; [IntegrableSystems](../SymplecticGeometry/IntegrableSystems/README.md)
-owns the symplectic and Lagrangian torus-bundle obstruction; FourManifolds (F5) and
-InstantonFloerTheory (IF1) own the self-dual and anti-self-dual energy comparisons, the BPST
-solution, instanton moduli, nonlinear gauge slices and their stabilizers; TopologicalSheafCohomology
-owns Čech cohomology as a cover colimit on arbitrary and compact spaces and its comparison with
-derived global sections; OperatorAlgebraDynamics consumes the countability theorem of B5.2 for its
-topological groupoid layer.
-
-Kept variants: the Čech complex used here is Mathlib's native fixed-cover complex on a smooth good
-cover, identified degreewise with coordinate cochains, not a cover-colimit Čech cohomology; the
-holonomy groups carry the immersed Lie-group topology, never the subspace topology of `G`; the
-`L²` space is parametrized by an explicit fibre metric and a Borel measure, never by a density
-alone; the Hopf bundle is the orbit projection onto the orbit manifold `S³/Circle` of B1.4, which
-is Tau Ceti's `TauCeti.ComplexProjectiveSpace 1`, with its unit-sphere identification descended
-from `S³`, whereas the Hopf map `z ↦ ℂ·z` onto the projective line of complex lines and that
-carrier's comparison with the unit sphere are [RiemannianGeometry](../RiemannianGeometry/README.md)
-R3.3c's, a consumer of this roadmap.
+Layer 1, starting from transverse fibre products, presents principal bundles by a given total
+space, classifies them by cocycles, and proves the quotient and fibration theorems. Layer 2 builds
+associated and frame bundles and the Hilbert space of square-integrable sections of a finite-rank
+bundle with a fibre metric. Layers 3 and 4 put connections, curvature and gauge transformations on
+these bundles. Layer 5 constructs parallel transport, reconstructs connections on vector bundles
+from smooth transport, and studies holonomy and flat bundles. The first two sections of Layer 6, on
+good covers and Čech comparisons, are independent of Layers 1–5; the rest combines both strands
+into the integral theory of circle and torus bundles. Layer 7 fixes the acceptance examples.
 
 ## Conventions
 
@@ -234,32 +164,6 @@ around a subdivided loop, with final chart `i_n=i_0` and basepoint `p=s_(i_0)(γ
 `g_(i_(n−1)i_n)⁻¹⋯g_(i_0 i_1)⁻¹`, with the last crossing leftmost. For `p·a` conjugate this
 expression by `a⁻¹` and `a`. The dual-character line has the inverse transition cocycle, so its
 exponential connecting class is `β(h)`; B6.4 proves this dictionary and B7 tests it on lens spaces.
-
-## Exact supplier contracts
-
-| Supplier | Exact interface consumed |
-| --- | --- |
-| Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`, `ContMDiffVectorBundle.pullback`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.FormalCoproduct`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`. |
-| Tau Ceti, at the pin | `TauCeti.PrincipalBundle` with `Bundle.Trivialization.IsEquivariant`, `Bundle.Trivialization.coordChange_eq_mul`, `TauCeti.PrincipalBundle.division`, `TauCeti.PrincipalBundle.trivializationOfSection` and the instances `TauCeti.PrincipalBundle.trivial` and `TauCeti.PrincipalBundle.pullback` (`Topology/FiberBundle/Principal.lean`); `TauCeti.ContMDiffFiberBundle`, `TauCeti.ContMDiffFiberBundle.trivial`, `TauCeti.ManifoldTotalSpace`, `TauCeti.ManifoldTotalSpace.homeomorph`, `TauCeti.ManifoldTotalSpace.isManifold`, `TauCeti.ManifoldTotalSpace.contMDiff_proj`, `TauCeti.ManifoldTotalSpace.contMDiff_comp_proj_iff` and `TauCeti.ManifoldTotalSpace.existsUnique_contMDiff_comp_proj_eq` (`Geometry/Manifold/FiberBundle/Basic.lean`), `TauCeti.ManifoldTotalSpace.isSubmersion_proj` (`Geometry/Manifold/FiberBundle/Submersion.lean`); `TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`, `ContMDiff.totalSpaceMk_smul`, `ContMDiff.division`, `TauCeti.PrincipalBundle.contMDiffOn_trivializationOfSection`, `TauCeti.PrincipalBundle.ker_mfderiv_proj_eq_range_mfderiv_totalSpaceMk_smul_one`, `TauCeti.PrincipalBundle.mfderiv_totalSpaceMk_smul_injective` and `TauCeti.PrincipalBundle.finrank_ker_mfderiv_proj` (`Geometry/Manifold/FiberBundle/Principal.lean`), `TauCeti.PrincipalBundle.diffeomorphOfEquivariant` (`Geometry/Manifold/FiberBundle/Principal/Equivariant.lean`); `TauCeti.ContMDiffFiberBundle.pullback` and `TauCeti.ManifoldTotalSpace.contMDiff_pullback_iff` (`Geometry/Manifold/FiberBundle/Pullback.lean`); `TauCeti.fiberBundleCoreOfGroupCocycle`, `TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`, `TauCeti.homeomorphOfCohomologous`, `TauCeti.contMDiffFiberBundle_fiberBundleCoreOfGroupCocycle` and `TauCeti.diffeomorphOfCohomologous` (bundles glued from group-valued cocycles); `TauCeti.exists_regularFiber_smoothEmbedding`, `TauCeti.regularFiberChartedSpace`, `TauCeti.isManifold_regularFiber`, `TauCeti.isSmoothEmbedding_coe_regularFiber`, `TauCeti.range_mfderiv_coe_regularFiber`, `TauCeti.RegularFiber.exists_diffeomorph_apply_eq_self` and `TauCeti.exists_diffeomorph_regularFiber_regularLevel_apply_eq_self` (regular fibres of `C^m` maps, `1 ≤ m`, over interior values, with no separation hypothesis); `PartialDiffeomorph.fiberProductEquation`, `PartialDiffeomorph.isRegularPoint_fiberProductEquation_iff` and `PartialDiffeomorph.finrank_ker_mvfderiv_fiberProductEquation` (local equations of transverse fibre products); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`, `Manifold.IsSubmersion.isContMDiffDistribution_ker_mfderiv`, `Manifold.IsSubmersion.contMDiffVectorBundle_ker_mfderiv`; `TauCeti.ContinuousFiberNorm` (`Topology/VectorBundle/Riemannian/Hermitian.lean`), `Bundle.Trivialization.orthonormalBasis`, `Bundle.Trivialization.continuous_orthonormalBasis` and `Module.Basis.exists_continuous_local_orthonormalBasis` (`Topology/VectorBundle/GramSchmidt.lean`: continuous local orthonormal frames by Gram–Schmidt, over any `RCLike` field); `TauCeti.OrthonormalFrameBundle`, `Bundle.Trivialization.orthonormalFrameBundle`, `TauCeti.OrthonormalFrameBundle.exists_trivialization` and `TauCeti.OrthonormalFrameBundle.associatedHomeomorph` (`Topology/VectorBundle/OrthonormalFrame/Basic.lean`); `TauCeti.SmoothBundleForm` with its fixed-coefficient specialization, `ContinuousAlternatingMap.pairedWedge`, `TauCeti.bracketWedge`, `TauCeti.CurvatureForm`, `TauCeti.mextDeriv`, `TauCeti.homotopyOperator` on `M × Icc 0 1`, `TauCeti.integralTopForm` and `TauCeti.integralTopForm_mextDeriv_eq_zero`, `TauCeti.deRhamCohomology`, `TauCeti.fullSimplex` and `TauCeti.fullSimplexEquivStdSimplex`, `TauCeti.SmoothSimplex` and `TauCeti.smoothSingularSubcomplex` (smooth singular chains), `TauCeti.poincarePairing`, `TauCeti.riemannianVolumeForm`, `TauCeti.nonempty_contMDiffRiemannianMetric`; `TauCeti.fundamentalVectorField` and `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul` (`Geometry/Lie/FundamentalVectorField.lean`); `leftInvariantDerivationLieEquivGroupLieAlgebra`, `mulInvariantExp`, `lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.ComplexProjectiveSpace`, `TauCeti.ComplexProjectiveSpace.mk` and `TauCeti.ComplexProjectiveSpace.mk_eq_mk_iff` (`Topology/ComplexProjectiveSpace/Basic.lean`), `TauCeti.ComplexProjectiveSpace.ratio`, `TauCeti.ComplexProjectiveSpace.affineParam`, `TauCeti.ComplexProjectiveSpace.affineChart` and `TauCeti.ComplexProjectiveSpace.affineChart_transition` (`Topology/ComplexProjectiveSpace/Charts.lean`), `TauCeti.ComplexProjectiveSpace.contDiffOn_affineChart_transition` and the instances `TauCeti.ComplexProjectiveSpace.instChartedSpace` and `TauCeti.ComplexProjectiveSpace.instIsManifold` (`Geometry/Manifold/Instances/ComplexProjectiveSpace.lean`), and `IsManifold.restrictScalars_of_ne_zero` (`Geometry/Manifold/Complex/Analytic.lean`: a complex manifold modelled on `𝓘(ℂ, E)` is, with the same charts, a real smooth manifold modelled on `𝓘(ℝ, E)`); `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`, `TauCeti.CategoryTheory.cechComplexMap` with `TauCeti.CategoryTheory.cechComplexMap_f_π`, `TauCeti.CategoryTheory.cechComplexMap_id`, `TauCeti.CategoryTheory.cechComplexMap_comp` and `TauCeti.CategoryTheory.cechComplexMap_naturality`, `TauCeti.CategoryTheory.cechComplexMapHomotopy` and `TauCeti.CategoryTheory.cechComplexHomologyMap_eq` (`CategoryTheory/Sites/SheafCohomology/Cech/Basic.lean`: refinement maps of native Čech complexes and their homotopies), `TauCeti.CategoryTheory.cechComplexFunctorMapIso` (`Cech/Coefficients.lean`: change of coefficients), `TauCeti.CategoryTheory.cechCohomologyDiagram` (`Cech/Colimit.lean`: Čech cohomology over a system of covers); `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; `TauCeti.Topology.isFlasque_of_injective` and `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` (injective abelian sheaves are flasque, and flasque sheaves have no higher `Sheaf.H`); the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
-| DifferentialGeometry | 3.5 (time-dependent flows), 4.1–4.3 (distributions, integral manifolds and the local Frobenius theorem on the native carriers), 5.5 (densities and `integralDensity`), 8.3 (smooth chains, `smoothToSingular` and the smoothing theorem with its chain homotopies, under T2, σ-compact, finite-dimensional hypotheses), 8.4 (`simplexFace`, `chainIntegral`, `SmoothSimplex.integral_mextDeriv`, `deRhamHom`), 8.5 (`deRhamEquiv`, `circleLoop`), 12.1 (`volume_circle`), 12.4 (`riemannianDensity`). Its Layers 0, 1 and 6, 5.2–5.4, 9.1's pairing and 12.1's existence of metrics are realized by the Tau Ceti declarations of the preceding row and are consumed from there. |
-| LieGroups | Layer 0 (`lieExp`, one-parameter subgroups), Layer 1 (`Ad`, `ad`), Layer 2 (the closed-subgroup theorem and embedded Lie subgroups), Layer 4 (`integralSubgroup`, `IsImmersedLieSubgroup`). |
-| AlgebraicTopology | Stage 3.2 (the small-chain theorem for an open cover), Stage 4 (cellular chains and the cellular-to-singular comparison as a chain-homotopy equivalence), Stage 6.1 (absolute and relative singular cochains, the coefficient long exact sequence and the Bockstein for `0→ℤ→ℝ→ℝ/ℤ→0` and `0→ℤ→[×2]ℤ→F₂→0`, universal coefficients), Stage 6.3 (the integral orientation local system, the tangent-orientation comparison and the fundamental class of a closed oriented manifold). |
-| HopfRinow (completed) | Layer 1 (the geodesic flow and `exp_p`), Layer 2 (normal neighbourhoods, `log_p` on a normal ball, the Gauss lemma, radial minimization), as implemented in Tau Ceti: `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and the Gauss lemma of `Geometry/Manifold/Riemannian/Geodesic/Gauss/Basic.lean`. |
-| UniversalCovers (completed) | the universal cover's path model, its deck group and the identification of the deck group with `π₁`, as implemented in Tau Ceti. |
-
-Every declaration named in this table is consumed, never restated.
-
-## How to read the build
-
-B1 builds on Tau Ceti's principal bundles and smooth fibre bundles: presentations by a given total
-space, products, the classification by cocycles, quotients and Ehresmann's theorem, starting from
-the fibre products and kernel bundles of B1.0. B2 builds associated bundles, frames,
-reductions, the adjoint bundle and the `L²` theory of metrized bundles. B3 and B4 put connections,
-curvature and gauge transformations on these bundles. B5 develops parallel transport in both
-directions (lifting and reconstruction), holonomy groups and flat bundles. B6.0–B6.1 are
-independent of B1–B5: they build smooth good covers and the Čech comparisons on them. B6.2–B6.6
-combine both strands into the integral theory of circle and torus bundles. B7 fixes the acceptance
-examples.
 
 ## Layer 1: Principal bundles and descent
 
@@ -2328,6 +2232,124 @@ frame-bundle groupoid equivalence. SmoothBundlesConnections, Part II consumes B1
 with ComplexKahlerGeometry K5a and K7.1 for the Yang–Mills variational calculus, the transport of
 the Hopf bundle along K7.1's comparison of `TauCeti.ComplexProjectiveSpace 1` with the
 `Projectivization` carrier and the Hurewicz identification of B6.4's dictionary.
+
+## Scope and ownership
+
+This roadmap owns, on Tau Ceti's principal bundles and smooth fibre bundles with a manifold fibre
+(Exact supplier contracts): the open restriction of regular fibres, the transverse fibre product of
+smooth maps and the smooth local frames of the pulled-back kernel bundle of a submersion, all
+without a Hausdorff hypothesis on the total space (B1.0); the presentation of a principal bundle by a given total space,
+its converse for free actions whose orbits are the fibres of a submersion, smooth descent along the
+projection of a presented bundle, the fibre product `P ×_M P` with smooth division on it, and the
+restriction of bundle isomorphisms (B1.1); products of principal bundles and the conversion of left
+actions into right actions (B1.2); the classification of principal bundles by their cocycles and
+nonabelian Čech H¹ (B1.3); the slice theorem for proper
+actions, free proper quotients, the characterization of principal bundles given by their total
+space as such quotients, homogeneous spaces `G/H` and the properness of the principal right
+action (B1.4); Ehresmann connections and Ehresmann's fibration theorem (B1.5); associated,
+frame, tensor, dual, Hom and complexified bundles, reductions and extensions of the structure group,
+and the adjoint bundle (B2); fibre metrics and the Hilbert space `L²(E,h,μ)` of sections of a
+finite-rank bundle with all its functoriality (B2); principal connections, the Atiyah sequence as a
+vector-bundle sequence, induced covariant derivatives (B3); curvature, exterior covariant
+derivatives and the gauge group (B4); horizontal lifts, the reconstruction of connections from smooth
+transport, holonomy groups, Ambrose–Singer, the holonomy reductions, the flat-bundle dictionary
+and the countability of the fundamental group of a connected second-countable manifold (B5);
+smooth good covers, the identification of the native Čech complex of a good cover in locally
+constant, smooth and circle coefficients, the vanishing of Mathlib's `Sheaf.H` in positive degrees
+for soft sheaves on paracompact Hausdorff spaces, the softness of smooth functions and of sheaves of
+modules over them, the Čech–de Rham and Čech–singular comparisons on good
+covers, and the integral theory of circle bundles and lattice torus bundles (B6), with the Hopf
+bundle over Tau Ceti's sphere quotient `ℂP¹ = S³/Circle`, the agreement of B1.4's quotient smooth
+structure on it with the real structure underlying Tau Ceti's homogeneous-ratio atlas, and the Hopf
+normalization stated on that orbit manifold (B1.4, B6.2, B7).
+
+It leaves to named roadmaps: time-dependent flows, distributions and Frobenius, densities,
+integration over smooth chains, the de Rham homomorphism and theorem, and the volume of the round
+circle to [DifferentialGeometry](../DifferentialGeometry/README.md) (Layers 4 and 8, and 3.5,
+5.5, 12.1, 12.4);
+the exponential map, adjoint representation, closed-subgroup theorem and immersed Lie subgroups
+(the carrier `integralSubgroup`) to [LieGroups](../RepresentationTheory/LieGroups/README.md)
+(Layers 0–2, 4); singular cohomology, cup and cap products, coefficient sequences and the
+Bockstein, orientation local systems and fundamental classes, and the projectivization topology
+to [AlgebraicTopology](../AlgebraicTopology/README.md) (Stages 3.2, 6.1, 6.3); the Levi-Civita
+connection, geodesics, the exponential map, normal neighbourhoods, the local logarithm and the Gauss
+lemma to the completed [HopfRinow](../../Completed/HopfRinow/README.md) roadmap (Layers 1–2), as
+implemented in Tau Ceti; the universal cover's
+manifold structure to Tau Ceti and the [UniversalCovers](../../Completed/UniversalCovers/README.md)
+roadmap. Two roadmaps that consume this one are never its suppliers:
+[DGFloer](../DGFloer/README.md) consumes B1.4 and owns the degree-one Hurewicz isomorphism, and
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) consumes B2–B4 and B6 and owns the
+projective charts, complex structure and complex orientation of `ℂP¹` on the `Projectivization`
+carrier and the comparison of that carrier with Tau Ceti's sphere quotient
+`TauCeti.ComplexProjectiveSpace` (K7.1), together with the density line, the real Hodge star, the
+elliptic and Sobolev theory of bundle-valued forms and the compact real Hodge theorem (K5a).
+Everything that would need those results is left to SmoothBundlesConnections, Part II, which begins
+where this roadmap stops: the transport of the Hopf bundle and its normalization along K7.1's
+comparison to the `Projectivization` carrier, with matching orientations; the identification of the
+degree-one singular group `H¹(M;A)` with `Hom(π₁(M),A)` through the Hurewicz isomorphism and its
+agreement with the holonomy dictionary of B6.4; and the Yang–Mills energy on a closed Riemannian
+manifold with its formal adjoints, first and second variations, gauge-fixed elliptic operator,
+conformal scaling and stationary circle connections. Algebraic vector bundles on schemes are
+[AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md)'s objects; no analytification or
+algebraic-to-topological comparison is asserted here.
+
+Mathlib already provides smooth vector bundles and
+[`CovariantDerivative`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.html#CovariantDerivative),
+its `addOneForm` and `difference` API, and smoothness classes. Tau Ceti supplies curvature
+operators and their basic linearity and Bianchi results; principal bundles as a mixin on
+fibre-bundle data, smooth fibre bundles with a manifold fibre and their charted total space, the
+smooth division map, descent along the projection, the vertical tangent spaces, equivariant
+diffeomorphisms, pullbacks and the gluing of group-valued cocycles; regular fibres and the kernel
+distribution of a submersion; continuous fibre norms, continuous local orthonormal frames by
+Gram–Schmidt and the orthogonal and unitary frame bundles of a bundle with fibre inner products;
+differential forms with the wedge, the exterior derivative, the homotopy
+operator, integration of top forms, de Rham cohomology and the existence of Riemannian metrics;
+the maps of native Čech complexes induced by refinements of covers, with their laws, the homotopy
+between the maps of two refinements, the change of coefficients and the diagram of Čech
+cohomology over a system of covers;
+and complex projective space as the circle quotient of the unit sphere, with its homogeneous-ratio
+charts, its complex atlas and the real structure underlying a complex manifold.
+Consume those objects, supplying principal/associated-bundle bridges and missing general bundle
+operations here.
+
+Consumers that build on these layers and own what lies beyond them:
+[LieGroupoidsPoisson](../LieGroupoidsPoisson/README.md) owns the Lie algebroid bracket on the
+Atiyah bundle, its integration by the gauge groupoid, the constant-rank theorem, the bracket
+naturality for related vector fields and the smooth-subbundle API, and consumes B1.0, B1.1, B1.4,
+B2, B3 and B5; [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) owns
+the gluing of symplectic forms on slice charts, its orbifold reduction theorem, Sobolev completions
+of gauge groups and Coulomb slices over a surface (R5); GeometricQuantization owns polarized
+sections and quantization operators; [IntegrableSystems](../SymplecticGeometry/IntegrableSystems/README.md)
+owns the symplectic and Lagrangian torus-bundle obstruction; FourManifolds (F5) and
+InstantonFloerTheory (IF1) own the self-dual and anti-self-dual energy comparisons, the BPST
+solution, instanton moduli, nonlinear gauge slices and their stabilizers; TopologicalSheafCohomology
+owns Čech cohomology as a cover colimit on arbitrary and compact spaces and its comparison with
+derived global sections; OperatorAlgebraDynamics consumes the countability theorem of B5.2 for its
+topological groupoid layer.
+
+Kept variants: the Čech complex used here is Mathlib's native fixed-cover complex on a smooth good
+cover, identified degreewise with coordinate cochains, not a cover-colimit Čech cohomology; the
+holonomy groups carry the immersed Lie-group topology, never the subspace topology of `G`; the
+`L²` space is parametrized by an explicit fibre metric and a Borel measure, never by a density
+alone; the Hopf bundle is the orbit projection onto the orbit manifold `S³/Circle` of B1.4, which
+is Tau Ceti's `TauCeti.ComplexProjectiveSpace 1`, with its unit-sphere identification descended
+from `S³`, whereas the Hopf map `z ↦ ℂ·z` onto the projective line of complex lines and that
+carrier's comparison with the unit sphere are [RiemannianGeometry](../RiemannianGeometry/README.md)
+R3.3c's, a consumer of this roadmap.
+
+## Exact supplier contracts
+
+| Supplier | Exact interface consumed |
+| --- | --- |
+| Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`, `ContMDiffVectorBundle.pullback`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.FormalCoproduct`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`. |
+| Tau Ceti, at the pin | `TauCeti.PrincipalBundle` with `Bundle.Trivialization.IsEquivariant`, `Bundle.Trivialization.coordChange_eq_mul`, `TauCeti.PrincipalBundle.division`, `TauCeti.PrincipalBundle.trivializationOfSection` and the instances `TauCeti.PrincipalBundle.trivial` and `TauCeti.PrincipalBundle.pullback` (`Topology/FiberBundle/Principal.lean`); `TauCeti.ContMDiffFiberBundle`, `TauCeti.ContMDiffFiberBundle.trivial`, `TauCeti.ManifoldTotalSpace`, `TauCeti.ManifoldTotalSpace.homeomorph`, `TauCeti.ManifoldTotalSpace.isManifold`, `TauCeti.ManifoldTotalSpace.contMDiff_proj`, `TauCeti.ManifoldTotalSpace.contMDiff_comp_proj_iff` and `TauCeti.ManifoldTotalSpace.existsUnique_contMDiff_comp_proj_eq` (`Geometry/Manifold/FiberBundle/Basic.lean`), `TauCeti.ManifoldTotalSpace.isSubmersion_proj` (`Geometry/Manifold/FiberBundle/Submersion.lean`); `TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`, `ContMDiff.totalSpaceMk_smul`, `ContMDiff.division`, `TauCeti.PrincipalBundle.contMDiffOn_trivializationOfSection`, `TauCeti.PrincipalBundle.ker_mfderiv_proj_eq_range_mfderiv_totalSpaceMk_smul_one`, `TauCeti.PrincipalBundle.mfderiv_totalSpaceMk_smul_injective` and `TauCeti.PrincipalBundle.finrank_ker_mfderiv_proj` (`Geometry/Manifold/FiberBundle/Principal.lean`), `TauCeti.PrincipalBundle.diffeomorphOfEquivariant` (`Geometry/Manifold/FiberBundle/Principal/Equivariant.lean`); `TauCeti.ContMDiffFiberBundle.pullback` and `TauCeti.ManifoldTotalSpace.contMDiff_pullback_iff` (`Geometry/Manifold/FiberBundle/Pullback.lean`); `TauCeti.fiberBundleCoreOfGroupCocycle`, `TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`, `TauCeti.homeomorphOfCohomologous`, `TauCeti.contMDiffFiberBundle_fiberBundleCoreOfGroupCocycle` and `TauCeti.diffeomorphOfCohomologous` (bundles glued from group-valued cocycles); `TauCeti.exists_regularFiber_smoothEmbedding`, `TauCeti.regularFiberChartedSpace`, `TauCeti.isManifold_regularFiber`, `TauCeti.isSmoothEmbedding_coe_regularFiber`, `TauCeti.range_mfderiv_coe_regularFiber`, `TauCeti.RegularFiber.exists_diffeomorph_apply_eq_self` and `TauCeti.exists_diffeomorph_regularFiber_regularLevel_apply_eq_self` (regular fibres of `C^m` maps, `1 ≤ m`, over interior values, with no separation hypothesis); `PartialDiffeomorph.fiberProductEquation`, `PartialDiffeomorph.isRegularPoint_fiberProductEquation_iff` and `PartialDiffeomorph.finrank_ker_mvfderiv_fiberProductEquation` (local equations of transverse fibre products); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`, `Manifold.IsSubmersion.isContMDiffDistribution_ker_mfderiv`, `Manifold.IsSubmersion.contMDiffVectorBundle_ker_mfderiv`; `TauCeti.ContinuousFiberNorm` (`Topology/VectorBundle/Riemannian/Hermitian.lean`), `Bundle.Trivialization.orthonormalBasis`, `Bundle.Trivialization.continuous_orthonormalBasis` and `Module.Basis.exists_continuous_local_orthonormalBasis` (`Topology/VectorBundle/GramSchmidt.lean`: continuous local orthonormal frames by Gram–Schmidt, over any `RCLike` field); `TauCeti.OrthonormalFrameBundle`, `Bundle.Trivialization.orthonormalFrameBundle`, `TauCeti.OrthonormalFrameBundle.exists_trivialization` and `TauCeti.OrthonormalFrameBundle.associatedHomeomorph` (`Topology/VectorBundle/OrthonormalFrame/Basic.lean`); `TauCeti.SmoothBundleForm` with its fixed-coefficient specialization, `ContinuousAlternatingMap.pairedWedge`, `TauCeti.bracketWedge`, `TauCeti.CurvatureForm`, `TauCeti.mextDeriv`, `TauCeti.homotopyOperator` on `M × Icc 0 1`, `TauCeti.integralTopForm` and `TauCeti.integralTopForm_mextDeriv_eq_zero`, `TauCeti.deRhamCohomology`, `TauCeti.fullSimplex` and `TauCeti.fullSimplexEquivStdSimplex`, `TauCeti.SmoothSimplex` and `TauCeti.smoothSingularSubcomplex` (smooth singular chains), `TauCeti.poincarePairing`, `TauCeti.riemannianVolumeForm`, `TauCeti.nonempty_contMDiffRiemannianMetric`; `TauCeti.fundamentalVectorField` and `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul` (`Geometry/Lie/FundamentalVectorField.lean`); `leftInvariantDerivationLieEquivGroupLieAlgebra`, `mulInvariantExp`, `lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.ComplexProjectiveSpace`, `TauCeti.ComplexProjectiveSpace.mk` and `TauCeti.ComplexProjectiveSpace.mk_eq_mk_iff` (`Topology/ComplexProjectiveSpace/Basic.lean`), `TauCeti.ComplexProjectiveSpace.ratio`, `TauCeti.ComplexProjectiveSpace.affineParam`, `TauCeti.ComplexProjectiveSpace.affineChart` and `TauCeti.ComplexProjectiveSpace.affineChart_transition` (`Topology/ComplexProjectiveSpace/Charts.lean`), `TauCeti.ComplexProjectiveSpace.contDiffOn_affineChart_transition` and the instances `TauCeti.ComplexProjectiveSpace.instChartedSpace` and `TauCeti.ComplexProjectiveSpace.instIsManifold` (`Geometry/Manifold/Instances/ComplexProjectiveSpace.lean`), and `IsManifold.restrictScalars_of_ne_zero` (`Geometry/Manifold/Complex/Analytic.lean`: a complex manifold modelled on `𝓘(ℂ, E)` is, with the same charts, a real smooth manifold modelled on `𝓘(ℝ, E)`); `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`, `TauCeti.CategoryTheory.cechComplexMap` with `TauCeti.CategoryTheory.cechComplexMap_f_π`, `TauCeti.CategoryTheory.cechComplexMap_id`, `TauCeti.CategoryTheory.cechComplexMap_comp` and `TauCeti.CategoryTheory.cechComplexMap_naturality`, `TauCeti.CategoryTheory.cechComplexMapHomotopy` and `TauCeti.CategoryTheory.cechComplexHomologyMap_eq` (`CategoryTheory/Sites/SheafCohomology/Cech/Basic.lean`: refinement maps of native Čech complexes and their homotopies), `TauCeti.CategoryTheory.cechComplexFunctorMapIso` (`Cech/Coefficients.lean`: change of coefficients), `TauCeti.CategoryTheory.cechCohomologyDiagram` (`Cech/Colimit.lean`: Čech cohomology over a system of covers); `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; `TauCeti.Topology.isFlasque_of_injective` and `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` (injective abelian sheaves are flasque, and flasque sheaves have no higher `Sheaf.H`); the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
+| DifferentialGeometry | 3.5 (time-dependent flows), 4.1–4.3 (distributions, integral manifolds and the local Frobenius theorem on the native carriers), 5.5 (densities and `integralDensity`), 8.3 (smooth chains, `smoothToSingular` and the smoothing theorem with its chain homotopies, under T2, σ-compact, finite-dimensional hypotheses), 8.4 (`simplexFace`, `chainIntegral`, `SmoothSimplex.integral_mextDeriv`, `deRhamHom`), 8.5 (`deRhamEquiv`, `circleLoop`), 12.1 (`volume_circle`), 12.4 (`riemannianDensity`). Its Layers 0, 1 and 6, 5.2–5.4, 9.1's pairing and 12.1's existence of metrics are realized by the Tau Ceti declarations of the preceding row and are consumed from there. |
+| LieGroups | Layer 0 (`lieExp`, one-parameter subgroups), Layer 1 (`Ad`, `ad`), Layer 2 (the closed-subgroup theorem and embedded Lie subgroups), Layer 4 (`integralSubgroup`, `IsImmersedLieSubgroup`). |
+| AlgebraicTopology | Stage 3.2 (the small-chain theorem for an open cover), Stage 4 (cellular chains and the cellular-to-singular comparison as a chain-homotopy equivalence), Stage 6.1 (absolute and relative singular cochains, the coefficient long exact sequence and the Bockstein for `0→ℤ→ℝ→ℝ/ℤ→0` and `0→ℤ→[×2]ℤ→F₂→0`, universal coefficients), Stage 6.3 (the integral orientation local system, the tangent-orientation comparison and the fundamental class of a closed oriented manifold). |
+| HopfRinow (completed) | Layer 1 (the geodesic flow and `exp_p`), Layer 2 (normal neighbourhoods, `log_p` on a normal ball, the Gauss lemma, radial minimization), as implemented in Tau Ceti: `TauCeti.Manifold.riemannianExp`, `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and the Gauss lemma of `Geometry/Manifold/Riemannian/Geodesic/Gauss/Basic.lean`. |
+| UniversalCovers (completed) | the universal cover's path model, its deck group and the identification of the deck group with `π₁`, as implemented in Tau Ceti. |
+
+Every declaration named in this table is consumed, never restated.
 
 ## References
 

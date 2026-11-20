@@ -1,63 +1,92 @@
 # Roadmap: fixed fibers, parity obstructions and finite reduced-multiplier calculations (induction, restriction, and Mackey theory for finite groups, part II)
 
-**Summary.** This roadmap counts fixed points of unit powers in marked central extensions of
-finite groups, expresses the answer through square classes and two-adic thresholds, and proves
-structural reduced-multiplier formulas for marked groups. Its main theorem gives every compatible
-fiber either zero fixed points or exactly the torsion count `|A[q−1]|`. The surviving degree
-parities form an affine kernel coset over `𝔽₂`; ranks, threshold histograms and weight enumerators
-then make the count explicit. A homological toolkit proves the full five-term exact sequence,
-positive-degree finiteness and a Hall-coinvariant comparison. The final layer relates
-centralizer-generated relation subgroups to reduced multipliers and
-proves an exterior-square formula for odd abelian bases. It applies the fixed-fiber theorems to
-finite marked models under explicit multiplier hypotheses; the nineteen abelian entries of
-Wood's Table 2 are worked Checks of that formula. RepresentationTheory/InductionRestriction stops at its Layer 7, which supplies representation groups (Schur covers) and leaves the integral multiplier `M(G) = H₂(G, ℤ)` to be pinned separately; this Part starts from those covers and builds the reduced-multiplier theory on them, using no induction or Mackey theory.
+**Summary.** Let c be a conjugacy-invariant subset of a finite group G. The Schur multiplier
+`M(G)=H₂(G,ℤ)` is integral homology, not the cohomological `H²(G,kˣ)`. Commuting elements
+x and y give a class ⟨x,y⟩ in M(G), that of the cycle `[x|y]−[y|x]`. The *reduced multiplier*
+M(G,c) is the quotient of M(G) by the classes ⟨x,y⟩ with x in c. Dividing a Schur cover of G by
+the image of these classes gives a *reduced cover*, a central extension of G with kernel M(G,c).
 
-The end results are the fixed-fiber count, `two_adic_survival`, the affine-coset description of
-surviving parities and the rank count of surviving parities in Layer RS.4, and the reduced-multiplier formula,
-`antidiagonal_multiplier` and the conditional finite-model applications in Layer RS.6.
-Layers RS.0, RS.1 and RS.3 supply
-the homological comparisons, local normalization and degree restrictions they need. The
-suggested home is `TauCeti/GroupTheory/ReducedSchur/`, with the general homological comparisons
-beside `TauCeti/RepresentationTheory/Homological/GroupHomology/`.
+When c generates G, the universal marked extension U(G,c) is isomorphic to a group of pairs
+(h,m). Here h lies in the reduced cover and m is an integer vector of *class degrees*, one for
+each class in c, with the same image as h in the abelianization of G. When c is also closed under
+invertible powers, units of the prime-to-p profinite integers act on U(G,c) by power maps
+corrected by central factors. The roadmap counts the points fixed by an odd integer q in each
+*fiber*: the pairs over a given g with given degrees m.
 
-## Scope and ownership
+The counting theorems assume that c generates G and consists of involutions, and that
+g is 1 or lies in c; write A = M(G,c). Squares of lifts of involutions give an element b(g,m) of
+A, well defined up to squares. The first main theorem says that, for odd q ≥ 1 prime to |G|, the
+fiber over (g,m) has either no fixed point or exactly `|A[q−1]|`, the number of elements of A
+killed by q−1. It has fixed points exactly when m is compatible with g in the abelianization and
+b(g,m) is a square times an element killed by (q−1)/2.
 
-This roadmap owns the full low-degree homology exactness theorem for a central extension,
-finiteness in every positive homological degree, and the isomorphism from
-a normal Hall subgroup's multiplier coinvariants to the corresponding primary part of the
-ambient multiplier. It adds the power law for commuting-pair classes, local normalization within
-one inertia class, and the image equality for reduced-cover homology. It owns the restriction of
-the unit action to an automorphism of the central kernel, its finite-level bound, bounded degree
-slices, fixed degree lattices and degree orbit sets. It then owns the fixed-fiber, parity and
-finite-model comparison theorems described above.
+The second main theorem makes this explicit. The *threshold* t(b) of b in A is the least t such
+that b is a square times an element killed by 2^t. For odd q > 1, the equation
+`h^(q−1) = b^((q−1)/2)` is solvable in A exactly when 2^(t(b)+1) divides q−1. For example, a
+generator of a cyclic group of order 8 has threshold 3, so the equation is solvable exactly when 16
+divides q−1. Applied to b(g,m), this decides which compatible fibers have fixed points.
 
-The following objects and results are supplied elsewhere and enter only as prerequisites:
+Modulo squares, b(g,m) depends only on the parities of the degrees, so the rest is linear algebra
+over 𝔽₂. Two linear maps on parity vectors, to the abelianization and to square classes, combine
+into a map Lₜ for each t. The third main theorem takes odd q > 1 prime to a common exponent of the
+reduced cover and of G, with v₂(q−1) = t+1. The parities whose fibers have fixed points then
+form a translate of the kernel of Lₜ, so there are 2^(N−rank Lₜ) of them when c has N classes. A
+generating series built from a weight polynomial then counts, by total degree, the degree vectors
+with these parities and coordinates at least a bound N₀ ≥ 0.
 
-- **InverseGaloisAndArithmeticFundamentalGroups, IG.3.4–IG.3.5** supplies oriented commuting-pair
-  classes and the class map of a central extension, universal coefficients, reduced Schur
-  multipliers and covers, conjugacy-equivariant markings, the universal marked extension and its
-  fiber-product model, the class degree map, compatible covers of coprime semidirect products,
-  unit-power corrections and their set action, and cyclotomic twists. The exact contracts below
-  fix the interfaces consumed here; none of these constructions is a target of this roadmap.
-- **RepresentationTheory/InductionRestriction, Layer 7** supplies representation groups of finite
-  groups and projective-representation theory. IG.3.4 supplies the oriented comparison between
-  the kernel of a Schur cover and `H₂(G, ℤ)`. Induction and Mackey theory themselves are not used.
-- **Mathlib** supplies integral group-homology carriers, chain differentials, abelianization,
-  semidirect products and finite linear algebra. **Tau Ceti** supplies elementary-2 quotients,
-  factor-set conventions, homological transfer, the annihilation of positive-degree homology of a
-  finite group by its order, and nonempty homomorphism-fiber cardinalities.
-- **ProfiniteArithmetic, Layer 0** supplies the profinite-integer ring and its units. The action
-  used here is the finite-level action supplied by IG.3.5; there is no second profinite carrier.
-- **AlgebraicTopology, Stage 2, relative singular chains and homology** supplies singular
-  homology of spaces. The group-homology comparisons
-  here concern the algebraic bar complex rather than a second singular-homology development.
-- **AlgebraicCodingTheory, Layer 3 (Completed/AlgebraicCodingTheory)**, and the pinned Tau Ceti module
-  `TauCeti/InformationTheory/Coding/Weight/Enumerator.lean` supply weight distributions and
-  polynomials for arbitrary finite sets of words, including affine binary cosets. Use
-  `Set.weightPolynomial : Set (Fin N → ZMod 2) → Polynomial ℤ`,
-  `Set.coeff_weightPolynomial` and `Set.eval_one_weightPolynomial`; their coefficient and
-  cardinality formulas are prerequisites. RS.4.18 adds the translation by a coordinate lower
-  bound and the generating series for integer degrees satisfying that bound.
+A finite group with a normal subgroup of odd order and index two has a multiplier of odd order,
+equal to its reduced multiplier for every union of involution classes. For every abelian group G,
+M(G) is the exterior square Λ²G. The *anti-diagonal model* F(G) is the semidirect product of an
+abelian G with a group of order two acting by inversion, marked by its elements outside G.
+For G finite of odd order, M(F(G),c(G)) = M(F(G)) ≅ M(G) ≅ Λ²G. The nineteen abelian entries of
+Table 2 of Wood's *Nonabelian Cohen–Lenstra moments* are worked examples. The fixed-fiber theorems are then applied to finite marked
+models, with the reduced multiplier's value as a hypothesis.
+
+The roadmap builds on
+[InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticFundamentalGroups/README.md),
+which provides the reduced covers, the universal marked extension and the action of units. Its
+fixed-fiber formula treats fibers over the identity; this roadmap extends it to fibers over
+elements of c. From the InductionRestriction roadmap it uses only
+representation groups of finite groups, not induction or Mackey theory. Weight polynomials come
+from AlgebraicCodingTheory. ArithmeticStatisticsPartVIII uses the fixed-fiber
+counts for stable Hurwitz-component counts, and ArithmeticStatisticsPartV for nonabelian quadratic
+moments.
+
+The layers below run from homological groundwork and the unit action to the fixed-fiber theorems,
+and end with explicit finite groups; the next section describes each.
+
+## How to read the build
+
+Layer RS.0 proves the complete central-extension exact sequence and the Hall-coinvariant
+comparison. Layer RS.1 applies the supplied oriented cycles and covers to a power law, local
+normalization and an exact homology image. Layer RS.3 studies the supplied unit action on its
+central kernel and degree lattice. Layer RS.4 solves the fiber equation and translates it into
+binary linear algebra. Layer RS.6 relates centralizer relations to reduced kernels, proves an
+exterior-square formula
+for odd abelian bases, and applies the fixed-fiber theorems to finite marked models under explicit
+multiplier hypotheses. Each layer ends with examples and dependencies.
+
+The headline statements in `Suggested.lean` are:
+
+| Lean theorem | Roadmap statement on pinned carriers |
+| --- | --- |
+| `integralHomology_finite` | RS.0.2: finiteness of integral homology in every positive degree. |
+| `multiplier_hallPart` | RS.0.3: inclusion identifies Hall-subgroup multiplier coinvariants with the ambient Hall-primary part. |
+| `two_adic_survival` | RS.4.10: the finite abelian power equation is solvable exactly at the obstruction threshold. |
+| `parity_degree_generatingSeries` | RS.4.18: the translated weight polynomial counts integer degrees with a coordinate lower bound. |
+| `odd_index_two_reduction` | RS.6.1: the full multiplier is the odd-order subgroup's conjugation coinvariants, and has odd order. |
+| `multiplier_prod_abelian` | RS.6.8: the degree-two Künneth comparison, including the oriented tensor summand. |
+| `abelian_multiplier_exteriorSquare` | RS.6.8: the exterior square identifies with the multiplier of every abelian group through oriented cycles. |
+| `antidiagonal_multiplier` | RS.6.8: the inclusion of an odd-order abelian base into its anti-diagonal model induces an isomorphism of ordinary integral multipliers. |
+
+The file defines `Multiplier`, `torsionImageFiltration`, `obstructionThreshold`, `C₂`,
+`swapAction`, `SwapWreath`, `abelianizedSum`, `sumKernelModel` and `antidiagonalInclusion` to state these results on
+native homology, square-quotient and semidirect-product carriers. The full five-term sequence
+and reduced-cover homology image require the supplied section-cocycle class map and reduced
+cover. The kernel-action, marked fixed-fiber and surviving-parity theorems require the supplied
+marked extension, class degree map and unit action. The reduced-multiplier comparison requires
+the supplied relation subgroup and quotient. These objects are absent at the pins; their
+mathematical targets are specified in the layers below.
 
 ## Conventions
 
@@ -92,230 +121,6 @@ The following objects and results are supplied elsewhere and enter only as prere
   `TauCeti.ElementaryTwoQuotient` of `Multiplicative A`, and `v₂` is the 2-adic valuation.
 - Explicit finite groups are given by their multiplication and their marked embedding; an abstract
   group name or a SmallGroups number names an example but does not replace these data.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned 1b1ccf4)
-
-- `GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`
-  (`Mathlib/GroupTheory/GroupExtension/Defs.lean`): an injective `inl`, a surjective `rightHom` and
-  exactness; centrality is not part of the structure and is always a separate hypothesis.
-- `Rep.trivial`, `groupHomology.cycles₂`, `groupHomology.boundaries₂`, `groupHomology.H2`,
-  `groupHomology.H2π`, `groupHomology.H2π_eq_iff`, `groupHomology.d₂₁_single`,
-  `groupHomology.d₃₂_single`
-  (`Mathlib/RepresentationTheory/Homological/GroupHomology/LowDegree.lean`): the integral 2-cycles
-  as a submodule of `G × G →₀ ℤ`, their quotient `H₂` and its kernel. `groupHomology.map` and
-  `groupHomology.map_comp` (`.../GroupHomology/Functoriality.lean`) give functoriality along a group
-  homomorphism together with a compatible coefficient map; with trivial integral coefficients the
-  identity serves.
-- `groupHomology.H1AddEquivOfIsTrivial` and `groupHomology.H1AddEquivOfIsTrivial_single`:
-  `H₁(G, A) ≃+ Gᵃᵇ ⊗ A` for trivial `A`, sending the class of `single g a` to `[g] ⊗ a`;
-  `groupHomology.d₁₀_eq_zero_of_isTrivial`, `groupHomology.cycles₁IsoOfIsTrivial`,
-  `isZero_groupHomology_succ_of_subsingleton` (root namespace, `.../GroupHomology/Basic.lean`), `groupHomology.H0IsoOfIsTrivial`,
-  `Rep.FiniteCyclicGroup.groupHomologyIsoEven` and `Rep.FiniteCyclicGroup.groupHomologyIsoOdd`.
-- `groupCohomology.cocycles₂`, `groupCohomology.H2`, `groupCohomology.H2π`,
-  `groupCohomology.H2π_eq_iff`, `groupCohomology.map`
-  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/`).
-- `Abelianization`, `Abelianization.of`, `Abelianization.lift`, `Abelianization.map`, `commutator`,
-  `ConjClasses`, `IsConj`, `Subgroup.centralizer`, `Subgroup.center`, `QuotientGroup`,
-  `MonoidHom.eqLocus`, `SemidirectProduct` (with `inl`, `inr`, `rightHom`,
-  `toGroupExtension`), `MulEquiv.prodComm`, `alternatingGroup`, `DihedralGroup`,
-  `Matrix.SpecialLinearGroup`, `Matrix.GeneralLinearGroup`.
-- `Finsupp.domCongr`, `Finsupp.liftAddHom`, `MulActionHom` (`T →[B] X`), `AddTorsor`/
-  `MulAction.IsPretransitive`, `MulAction.orbitRel`.
-- `powMonoidHom`, `MonoidHom.fiberEquivKer`, `AddCommGroup.equiv_directSum_zmod_of_finite`,
-  `AddCommGroup.primaryComponent`, `Representation.Coinvariants`, `LinearMap.finrank_range_add_finrank_ker`,
-  `Module.card_eq_pow_finrank`.
-
-### From Tau Ceti (pinned 2fd255d)
-
-- `TauCeti.ElementaryTwoQuotient G` for a commutative group `G`, the `ZMod 2`-module
-  `ModN (Additive G) 2`, and `TauCeti.elementaryTwoQuotientMk`,
-  `TauCeti.elementaryTwoQuotientMk_mul`, `TauCeti.elementaryTwoQuotientMk_eq_iff`,
-  `TauCeti.elementaryTwoQuotientMk_eq_zero_iff`, `TauCeti.elementaryTwoQuotientMap`
-  (`TauCeti/Algebra/Group/ElementaryTwoQuotient/Basic.lean`). Multiplicative squares map to zero;
-  two elements have the same image exactly when their quotient is a square.
-- `TauCeti.GroupExtension.factorSet` and `TauCeti.GroupExtension.inl_factorSet`
-  (`TauCeti/GroupTheory/GroupExtension/FactorSetOfSection.lean`) fix the convention
-  `inl(φ(g,h)) = σ(g)σ(h)σ(gh)⁻¹`. They require a normalized section, an abelian kernel and
-  `TauCeti.GroupExtension.InducesAction S`; for a central extension take the trivial kernel action and prove that
-  compatibility from centrality. The supplied class map uses this sign.
-- `TauCeti.FactorSet.characterTransgression` and
-  `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator`
-  (`TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`) send a kernel character `χ` to the
-  cohomology class of `χ ∘ φ`, and prove this map injective when the kernel lies in the
-  commutator subgroup and the coefficient action is trivial. They require neither finiteness
-  nor divisibility. The finite Schur-cover comparison below uses coefficients `ℂˣ`.
-- `TauCeti.groupHomology.transfer` and
-  `TauCeti.groupHomology.transfer_comp_map_subtype_id`
-  (`TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`) supply transfer
-  `Hₙ(G,M) → Hₙ(H,Res M)` for a finite-index subgroup `H`, in every degree, and
-  `transfer M H n ≫ groupHomology.map H.subtype (𝟙 (Rep.res H.subtype M)) n = [G:H] • 𝟙`.
-  Thus corestriction after transfer is multiplication by the index. RS.0.3 adds the opposite-composite
-  norm formula for a normal subgroup, with the hypotheses stated there. The same file proves
-  `groupHomology.natCard_nsmul_eq_zero` (root `groupHomology` namespace): for a finite group `G`
-  and any representation `A` over a commutative ring, `Nat.card G • x = 0` for every
-  `x ∈ Hₙ₊₁(G, A)`.
-- `Set.weightPolynomial`, `Set.coeff_weightPolynomial` and `Set.eval_one_weightPolynomial`
-  (`TauCeti/InformationTheory/Coding/Weight/Enumerator.lean`) apply to arbitrary finite sets of
-  words, including affine cosets. For `C : Set (Fin N → ZMod 2)`, the polynomial lies in
-  `Polynomial ℤ`, its coefficient at `w` is the number of words of Hamming weight `w`, and
-  evaluation at `1` is `Nat.card C`. No linear-subspace hypothesis is required.
-- `groupHomology.exists_map_subtype_eq` and
-  `TauCeti.groupHomology.exists_chainsMap_subtype_f_eq_of_directed`
-  (`TauCeti/RepresentationTheory/Homological/GroupHomology/DirectedUnion.lean`): for a directed
-  family of subgroups with supremum `G`, every homology class of `G` is the image of a class of one
-  member under the inclusion, and every inhomogeneous chain of `G` is the image of a chain of one
-  member. They do not identify the homology of `G` with the colimit; RS.6.8 derives the injectivity
-  it needs from the chain statement. `TauCeti.isZero_groupHomology_pi_multiplicative_int`
-  (`TauCeti/AlgebraicTopology/ClassifyingSpace/Torus.lean`): for finite `ι`, the homology of
-  `ι → Multiplicative ℤ` with trivial coefficients vanishes above degree `card ι`; one coordinate
-  gives `M(ℤ)=0`.
-- `MonoidHom.subtypeFiberEquivKer`, `MonoidHom.card_fiber_eq_card_ker` and
-  `MonoidHom.finite_fiber` (`TauCeti/GroupTheory/Coset/Fiber.lean`) identify the actual subtype
-  `{x // f x = b}` with the kernel after a point of that fiber is given, count its elements, and
-  prove finiteness from finiteness of the kernel. The coordinate equation in RS.4 uses these
-  directly; it does not introduce a second power-fiber equivalence or counting theorem.
-- `TauCeti.schurMultiplier` and `TauCeti.schurMultiplier_def`
-  (`TauCeti/RepresentationTheory/ProjectiveRepresentation/SchurMultiplier.lean`) identify the
-  cohomological multiplier with `groupCohomology.H2 (Rep.ofMulDistribMulAction G kˣ)` for a
-  commutative semiring `k`, with trivial action. This fixes the distinction from the integral
-  homological multiplier `M(G)` used here.
-
-### From roadmaps on main
-
-- **RepresentationTheory/InductionRestriction, Layer 7, projective representations, factor sets,
-  and the Schur multiplier:** representation groups of finite groups, namely central stem
-  extensions with kernel the integral multiplier. Only this cover input is used; induction and
-  character formulas are not needed.
-- **ProfiniteArithmetic, Layer 0, the ring structure on the profinite integers:** the ring on
-  `Additive TauCeti.zHat` and its units, with reductions to finite residue rings. IG.3.5 supplies their
-  prime-to-characteristic unit-power action; RS.3.2 proves its finite-level bound.
-- **[AlgebraicCodingTheory, Layer 3, weight enumerators and MacWilliams](../../Completed/AlgebraicCodingTheory/README.md#layer-3-weight-enumerators-and-macwilliams):** weight distributions
-  of finite word sets and their polynomial interpretation. The exact APIs used are the pinned
-  Tau Ceti declarations above.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-Use Layer IG.3.4, **Reduced Schur covers and the universal marked extension**, and Layer IG.3.5,
-**The action of units and the cyclotomic twist**, and IG.5.6, **General rational-class
-fixed-fiber formula**. The cover and action contracts are stated in
-[InverseGaloisAndArithmeticFundamentalGroups, IG.3.4–IG.3.5](../InverseGaloisAndArithmeticFundamentalGroups/README.md#ig34-reduced-schur-covers-and-the-universal-marked-extension).
-
-- IG.3.4 **Commutators of lifts and the class map of a central extension** supplies the
-  oriented commuting-pair cycle, its homology class and the commutator of lifts. The cycle is `[x|y]−[y|x]` for `xy=yx`; its class is `⟨x,y⟩`.
-  For a central extension `1→A→E→G→1`, its natural additive class map `τ_E:M(G)→Additive A`
-  sends this class to `XYX⁻¹Y⁻¹` for any lifts. The universal-coefficient evaluation
-  `H²(G,A)→Hom(M(G),A)` has kernel `Ext(Gᵃᵇ,A)` and is onto for trivial abelian `A`. These inputs supply the sign and naturality
-  needed in RS.0 and RS.1. The class map is defined by evaluating the section cocycle on cycles;
-  its construction and universal coefficients precede the full exactness theorem in RS.0.1.
-- IG.3.4 **The reduced Schur multiplier** and **Reduced Schur covers** supply the relation
-  subgroup `Q_c`, the reduced multiplier `M(G,c)` and the reduced cover `S_c`.
-  For conjugacy-invariant `c`, `Q_c` is generated by `⟨x,y⟩` with `x∈c`, `y∈C_G(x)` and
-  `M(G,c)=M(G)/Q_c`. For a chosen finite Schur cover with oriented class isomorphism
-  `τ_S:M(G)≃ker π`, the quotient `S_c=S/τ_S(Q_c)` has central kernel `M(G,c)`, is stem, and
-  lifts commuting pairs with first entry in `c` to commuting pairs. IG supplies the zero composite
-  `H₂(S_c,ℤ)→M(G)→M(G,c)`; RS.1 asks for the stronger image equality. No generation hypothesis
-  on `c` is used for these objects.
-- IG.3.4 **Conjugacy classes lift bijectively** supplies the class-compatible marking.
-  Every individual conjugacy class above a class in `c` maps bijectively to it. Choosing one lift
-  `X_d` of one representative in each class gives an equivariant marking `x↦x̂`; representative
-  lifts remain choices. This is the input to local normalization and the lift-square columns.
-- IG.3.4 **Marked central extensions**, **The universal marked extension**, **The class degree map**,
-  **The marked fibre product and the computation of `U(G,c)`** and **The kernel of the universal
-  marked extension** supply marked central extensions, the universal marked extension
-  `ReducedSchur.universalMarked`, the class set `ReducedSchur.classSet`, the class degree map
-  `ReducedSchur.degree`, the marked fibre product, its isomorphism with the universal marked
-  extension, and the kernel of the universal marked extension. For finite `G` generated by conjugacy-invariant `c`,
-  `D=c/G`, `L=D→₀ℤ`, `δ(e_[x])=[x]`, and the marked isomorphism is
-  `U(G,c)≅P={(h,m)∈S_c×L:[π_c(h)]=δ(m)}`, carrying `[x]` to `(x̂,e_[x])`.
-  The central kernel is `K≅M(G,c)×ker δ`; its torsion is `M(G,c)`. Integer degrees, negative
-  degrees included, are essential. No comparison with this presentation is assumed without
-  generation.
-- IG.3.4 **Coprime semidirect products and admissible inertia** supplies compatible covers, the
-  primary decomposition of the multiplier, admissible inertia classes and the primary
-  decomposition of the reduced kernel. For finite
-  `H,Γ` of coprime orders, the projection `M(H⋊Γ)→M(Γ)` is onto and has precisely the
-  `|H|`-primary kernel; the complementary primary part maps isomorphically to `M(Γ)`. With
-  admissibility (generation of `H` by `h⁻¹γ(h)`), the nonidentity equal-order inertia classes
-  generate `H⋊Γ`; their conjugacy classes project bijectively to the nonidentity conjugacy
-  classes of `Γ`. The compatible covers and degree maps descend to reduced covers and multipliers. The Hall-coinvariant isomorphism in RS.0 is
-  the additional comparison, not a second construction of these compatible covers.
-- IG.3.5 **Powers by units and the permutation of class degrees**, **Central power corrections**
-  and **The discrete action of units** supply the unit power map, the degree permutation, the
-  central power corrections and the unit action.
-  For characteristic exponent `p=1` or a prime coprime to `|G|`, and
-  `α∈Ẑ^{(p′)×}`, set `z_d(α)=X_d^{−α}(x_d^α)^` and
-  `W_α(m)=∏_d z_d(α)^{m_d}`. For conjugacy-invariant generating `c` stable under invertible powers,
-  `α·(h,m)=(h^αW_α(m),m^α)` on `P`, where `m^α` permutes coordinates. The cocycle law is
-  `W_{αβ}(m)=W_β(m)^α W_α(m^β)`. The action is by permutations in general, and compatible changes
-  of model intertwine it. RS.3 asks for its multiplicativity only on `K` and its finite-level bound.
-- IG.3.5 **The cyclotomic twist of a set** supplies the cyclotomic twist
-  `X⟨−1⟩=Map_B(T,X)` for a nonempty `B`-torsor `T` and a `B`-set `X`. Evaluation at a torsor
-  point is a bijection; changing that point acts by the corresponding unit. A central character
-  `χ:Γ→B` acts on the evaluated twist by `χ⁻¹`. In the finite-field application arithmetic
-  Frobenius therefore acts by `q⁻¹`, geometric Frobenius by `q`; their fixed sets coincide.
-
-- [IG.5.6, **General rational-class fixed-fiber formula**](../InverseGaloisAndArithmeticFundamentalGroups/README.md#ig56-components-and-their-invariants)
-  supplies the identity-signature
-  power-image criterion and the count zero or `|A[q−1]|` for rational class unions. RS.4
-  expresses this obstruction through involution squares and extends the formula to signatures
-  in `c`.
-
-The homological inputs have two branches. RS.0.1 uses only IG.3.4's section-cocycle class map
-and universal coefficients to prove full five-term exactness and
-the stem-surjectivity corollary for arbitrary central stem extensions. The finite
-oriented Schur-cover comparison belongs to IG.3.4 and follows independently from its universal
-coefficients and the pinned character transgression: for a finite central stem extension
-`1→A→S→G→1`, the map on `ℂˣ`-valued kernel characters is injective and, under universal
-coefficients, sends `χ` to `χ ∘ τ_S`. Here `Ext(Gᵃᵇ,ℂˣ)=0` since `ℂˣ` is divisible. Characters
-separate the finite quotient `A/im τ_S`, so injectivity forces `τ_S` onto; the Schur-cover
-hypothesis `|A|=|M(G)|` makes it an isomorphism. The character separation is Mathlib's
-`CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`
-(`Mathlib/GroupTheory/FiniteAbelian/Duality.lean`), and `Additive ℂˣ` is an injective coefficient
-group by `AddCommGrpCat.injective_of_divisible` (`Mathlib/Algebra/Category/Grp/Injective.lean`).
-Thus the IG.3.4 cover comparison has no prerequisite in RS.0.1; the reduced-cover homology
-applications in RS.1 use both branches. The finite comparison is the one of Wood (2021),
-§2.1, p. 2; full exactness retains the generality and source of RS.0.1.
-
-The finite-group universal-coefficient, cover and power interfaces above are used with their
-stated hypotheses. The original sources are Wood (2021), §2.1–Theorem 2.5, pp. 2–4, and §4,
-equations (2) and (4), pp. 6–8; Wood (2019), §2.3, p. 387, Definition 3.1, p. 388, and
-Lemmas 3.3–3.4, p. 390; and Liu–Wood–Zureick-Brown, §12 and Lemma 12.10, published pp. 104–105
-and 110–112. They are supplier contracts, not extra targets here.
-
-## How to read the build
-
-Layer RS.0 proves the complete central-extension exact sequence and the Hall-coinvariant
-comparison. Layer RS.1 applies the supplied oriented cycles and covers to a power law, local
-normalization and an exact homology image. Layer RS.3 studies the supplied unit action on its
-central kernel and degree lattice. Layer RS.4 solves the fiber equation and translates it into
-binary linear algebra. Layer RS.6 relates centralizer relations to reduced kernels, proves an
-exterior-square formula
-for odd abelian bases, and applies the fixed-fiber theorems to finite marked models under explicit
-multiplier hypotheses. Each layer ends with examples and dependencies.
-
-The headline statements in `Suggested.lean` are:
-
-| Lean theorem | Roadmap statement on pinned carriers |
-| --- | --- |
-| `integralHomology_finite` | RS.0.2: finiteness of integral homology in every positive degree. |
-| `multiplier_hallPart` | RS.0.3: inclusion identifies Hall-subgroup multiplier coinvariants with the ambient Hall-primary part. |
-| `two_adic_survival` | RS.4.10: the finite abelian power equation is solvable exactly at the obstruction threshold. |
-| `parity_degree_generatingSeries` | RS.4.18: the translated weight polynomial counts integer degrees with a coordinate lower bound. |
-| `odd_index_two_reduction` | RS.6.1: the full multiplier is the odd-order subgroup's conjugation coinvariants, and has odd order. |
-| `multiplier_prod_abelian` | RS.6.8: the degree-two Künneth comparison, including the oriented tensor summand. |
-| `abelian_multiplier_exteriorSquare` | RS.6.8: the exterior square identifies with the multiplier of every abelian group through oriented cycles. |
-| `antidiagonal_multiplier` | RS.6.8: the inclusion of an odd-order abelian base into its anti-diagonal model induces an isomorphism of ordinary integral multipliers. |
-
-The file defines `Multiplier`, `torsionImageFiltration`, `obstructionThreshold`, `C₂`,
-`swapAction`, `SwapWreath`, `abelianizedSum`, `sumKernelModel` and `antidiagonalInclusion` to state these results on
-native homology, square-quotient and semidirect-product carriers. The full five-term sequence
-and reduced-cover homology image require the supplied section-cocycle class map and reduced
-cover. The kernel-action, marked fixed-fiber and surviving-parity theorems require the supplied
-marked extension, class degree map and unit action. The reduced-multiplier comparison requires
-the supplied relation subgroup and quotient. These objects are absent at the pins; their
-mathematical targets are specified in the layers below.
 
 ## Layer RS.0: Exactness and Hall-coinvariant homology comparisons
 
@@ -1797,6 +1602,236 @@ by these consumers come directly from InverseGaloisAndArithmeticFundamentalGroup
 inertia factors; the exactness and Hall-coinvariant comparisons in RS.0 apply to central
 extensions independently of arithmetic. Embedded-type enumeration and arithmetic distribution
 statements remain with the named arithmetic roadmaps.
+
+## Scope and ownership
+
+This roadmap owns the full low-degree homology exactness theorem for a central extension,
+finiteness in every positive homological degree, and the isomorphism from
+a normal Hall subgroup's multiplier coinvariants to the corresponding primary part of the
+ambient multiplier. It adds the power law for commuting-pair classes, local normalization within
+one inertia class, and the image equality for reduced-cover homology. It owns the restriction of
+the unit action to an automorphism of the central kernel, its finite-level bound, bounded degree
+slices, fixed degree lattices and degree orbit sets. It then owns the fixed-fiber, parity and
+finite-model comparison theorems described above.
+
+The following objects and results are supplied elsewhere and enter only as prerequisites:
+
+- **InverseGaloisAndArithmeticFundamentalGroups, IG.3.4–IG.3.5** supplies oriented commuting-pair
+  classes and the class map of a central extension, universal coefficients, reduced Schur
+  multipliers and covers, conjugacy-equivariant markings, the universal marked extension and its
+  fiber-product model, the class degree map, compatible covers of coprime semidirect products,
+  unit-power corrections and their set action, and cyclotomic twists. The exact contracts below
+  fix the interfaces consumed here; none of these constructions is a target of this roadmap.
+- **RepresentationTheory/InductionRestriction, Layer 7** supplies representation groups of finite
+  groups and projective-representation theory. IG.3.4 supplies the oriented comparison between
+  the kernel of a Schur cover and `H₂(G, ℤ)`. Induction and Mackey theory themselves are not used.
+- **Mathlib** supplies integral group-homology carriers, chain differentials, abelianization,
+  semidirect products and finite linear algebra. **Tau Ceti** supplies elementary-2 quotients,
+  factor-set conventions, homological transfer, the annihilation of positive-degree homology of a
+  finite group by its order, and nonempty homomorphism-fiber cardinalities.
+- **ProfiniteArithmetic, Layer 0** supplies the profinite-integer ring and its units. The action
+  used here is the finite-level action supplied by IG.3.5; there is no second profinite carrier.
+- **AlgebraicTopology, Stage 2, relative singular chains and homology** supplies singular
+  homology of spaces. The group-homology comparisons
+  here concern the algebraic bar complex rather than a second singular-homology development.
+- **AlgebraicCodingTheory, Layer 3 (Completed/AlgebraicCodingTheory)**, and the pinned Tau Ceti module
+  `TauCeti/InformationTheory/Coding/Weight/Enumerator.lean` supply weight distributions and
+  polynomials for arbitrary finite sets of words, including affine binary cosets. Use
+  `Set.weightPolynomial : Set (Fin N → ZMod 2) → Polynomial ℤ`,
+  `Set.coeff_weightPolynomial` and `Set.eval_one_weightPolynomial`; their coefficient and
+  cardinality formulas are prerequisites. RS.4.18 adds the translation by a coordinate lower
+  bound and the generating series for integer degrees satisfying that bound.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned 1b1ccf4)
+
+- `GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`
+  (`Mathlib/GroupTheory/GroupExtension/Defs.lean`): an injective `inl`, a surjective `rightHom` and
+  exactness; centrality is not part of the structure and is always a separate hypothesis.
+- `Rep.trivial`, `groupHomology.cycles₂`, `groupHomology.boundaries₂`, `groupHomology.H2`,
+  `groupHomology.H2π`, `groupHomology.H2π_eq_iff`, `groupHomology.d₂₁_single`,
+  `groupHomology.d₃₂_single`
+  (`Mathlib/RepresentationTheory/Homological/GroupHomology/LowDegree.lean`): the integral 2-cycles
+  as a submodule of `G × G →₀ ℤ`, their quotient `H₂` and its kernel. `groupHomology.map` and
+  `groupHomology.map_comp` (`.../GroupHomology/Functoriality.lean`) give functoriality along a group
+  homomorphism together with a compatible coefficient map; with trivial integral coefficients the
+  identity serves.
+- `groupHomology.H1AddEquivOfIsTrivial` and `groupHomology.H1AddEquivOfIsTrivial_single`:
+  `H₁(G, A) ≃+ Gᵃᵇ ⊗ A` for trivial `A`, sending the class of `single g a` to `[g] ⊗ a`;
+  `groupHomology.d₁₀_eq_zero_of_isTrivial`, `groupHomology.cycles₁IsoOfIsTrivial`,
+  `isZero_groupHomology_succ_of_subsingleton` (root namespace, `.../GroupHomology/Basic.lean`), `groupHomology.H0IsoOfIsTrivial`,
+  `Rep.FiniteCyclicGroup.groupHomologyIsoEven` and `Rep.FiniteCyclicGroup.groupHomologyIsoOdd`.
+- `groupCohomology.cocycles₂`, `groupCohomology.H2`, `groupCohomology.H2π`,
+  `groupCohomology.H2π_eq_iff`, `groupCohomology.map`
+  (`Mathlib/RepresentationTheory/Homological/GroupCohomology/`).
+- `Abelianization`, `Abelianization.of`, `Abelianization.lift`, `Abelianization.map`, `commutator`,
+  `ConjClasses`, `IsConj`, `Subgroup.centralizer`, `Subgroup.center`, `QuotientGroup`,
+  `MonoidHom.eqLocus`, `SemidirectProduct` (with `inl`, `inr`, `rightHom`,
+  `toGroupExtension`), `MulEquiv.prodComm`, `alternatingGroup`, `DihedralGroup`,
+  `Matrix.SpecialLinearGroup`, `Matrix.GeneralLinearGroup`.
+- `Finsupp.domCongr`, `Finsupp.liftAddHom`, `MulActionHom` (`T →[B] X`), `AddTorsor`/
+  `MulAction.IsPretransitive`, `MulAction.orbitRel`.
+- `powMonoidHom`, `MonoidHom.fiberEquivKer`, `AddCommGroup.equiv_directSum_zmod_of_finite`,
+  `AddCommGroup.primaryComponent`, `Representation.Coinvariants`, `LinearMap.finrank_range_add_finrank_ker`,
+  `Module.card_eq_pow_finrank`.
+
+### From Tau Ceti (pinned 2fd255d)
+
+- `TauCeti.ElementaryTwoQuotient G` for a commutative group `G`, the `ZMod 2`-module
+  `ModN (Additive G) 2`, and `TauCeti.elementaryTwoQuotientMk`,
+  `TauCeti.elementaryTwoQuotientMk_mul`, `TauCeti.elementaryTwoQuotientMk_eq_iff`,
+  `TauCeti.elementaryTwoQuotientMk_eq_zero_iff`, `TauCeti.elementaryTwoQuotientMap`
+  (`TauCeti/Algebra/Group/ElementaryTwoQuotient/Basic.lean`). Multiplicative squares map to zero;
+  two elements have the same image exactly when their quotient is a square.
+- `TauCeti.GroupExtension.factorSet` and `TauCeti.GroupExtension.inl_factorSet`
+  (`TauCeti/GroupTheory/GroupExtension/FactorSetOfSection.lean`) fix the convention
+  `inl(φ(g,h)) = σ(g)σ(h)σ(gh)⁻¹`. They require a normalized section, an abelian kernel and
+  `TauCeti.GroupExtension.InducesAction S`; for a central extension take the trivial kernel action and prove that
+  compatibility from centrality. The supplied class map uses this sign.
+- `TauCeti.FactorSet.characterTransgression` and
+  `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator`
+  (`TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`) send a kernel character `χ` to the
+  cohomology class of `χ ∘ φ`, and prove this map injective when the kernel lies in the
+  commutator subgroup and the coefficient action is trivial. They require neither finiteness
+  nor divisibility. The finite Schur-cover comparison below uses coefficients `ℂˣ`.
+- `TauCeti.groupHomology.transfer` and
+  `TauCeti.groupHomology.transfer_comp_map_subtype_id`
+  (`TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`) supply transfer
+  `Hₙ(G,M) → Hₙ(H,Res M)` for a finite-index subgroup `H`, in every degree, and
+  `transfer M H n ≫ groupHomology.map H.subtype (𝟙 (Rep.res H.subtype M)) n = [G:H] • 𝟙`.
+  Thus corestriction after transfer is multiplication by the index. RS.0.3 adds the opposite-composite
+  norm formula for a normal subgroup, with the hypotheses stated there. The same file proves
+  `groupHomology.natCard_nsmul_eq_zero` (root `groupHomology` namespace): for a finite group `G`
+  and any representation `A` over a commutative ring, `Nat.card G • x = 0` for every
+  `x ∈ Hₙ₊₁(G, A)`.
+- `Set.weightPolynomial`, `Set.coeff_weightPolynomial` and `Set.eval_one_weightPolynomial`
+  (`TauCeti/InformationTheory/Coding/Weight/Enumerator.lean`) apply to arbitrary finite sets of
+  words, including affine cosets. For `C : Set (Fin N → ZMod 2)`, the polynomial lies in
+  `Polynomial ℤ`, its coefficient at `w` is the number of words of Hamming weight `w`, and
+  evaluation at `1` is `Nat.card C`. No linear-subspace hypothesis is required.
+- `groupHomology.exists_map_subtype_eq` and
+  `TauCeti.groupHomology.exists_chainsMap_subtype_f_eq_of_directed`
+  (`TauCeti/RepresentationTheory/Homological/GroupHomology/DirectedUnion.lean`): for a directed
+  family of subgroups with supremum `G`, every homology class of `G` is the image of a class of one
+  member under the inclusion, and every inhomogeneous chain of `G` is the image of a chain of one
+  member. They do not identify the homology of `G` with the colimit; RS.6.8 derives the injectivity
+  it needs from the chain statement. `TauCeti.isZero_groupHomology_pi_multiplicative_int`
+  (`TauCeti/AlgebraicTopology/ClassifyingSpace/Torus.lean`): for finite `ι`, the homology of
+  `ι → Multiplicative ℤ` with trivial coefficients vanishes above degree `card ι`; one coordinate
+  gives `M(ℤ)=0`.
+- `MonoidHom.subtypeFiberEquivKer`, `MonoidHom.card_fiber_eq_card_ker` and
+  `MonoidHom.finite_fiber` (`TauCeti/GroupTheory/Coset/Fiber.lean`) identify the actual subtype
+  `{x // f x = b}` with the kernel after a point of that fiber is given, count its elements, and
+  prove finiteness from finiteness of the kernel. The coordinate equation in RS.4 uses these
+  directly; it does not introduce a second power-fiber equivalence or counting theorem.
+- `TauCeti.schurMultiplier` and `TauCeti.schurMultiplier_def`
+  (`TauCeti/RepresentationTheory/ProjectiveRepresentation/SchurMultiplier.lean`) identify the
+  cohomological multiplier with `groupCohomology.H2 (Rep.ofMulDistribMulAction G kˣ)` for a
+  commutative semiring `k`, with trivial action. This fixes the distinction from the integral
+  homological multiplier `M(G)` used here.
+
+### From roadmaps on main
+
+- **RepresentationTheory/InductionRestriction, Layer 7, projective representations, factor sets,
+  and the Schur multiplier:** representation groups of finite groups, namely central stem
+  extensions with kernel the integral multiplier. Only this cover input is used; induction and
+  character formulas are not needed.
+- **ProfiniteArithmetic, Layer 0, the ring structure on the profinite integers:** the ring on
+  `Additive TauCeti.zHat` and its units, with reductions to finite residue rings. IG.3.5 supplies their
+  prime-to-characteristic unit-power action; RS.3.2 proves its finite-level bound.
+- **[AlgebraicCodingTheory, Layer 3, weight enumerators and MacWilliams](../../Completed/AlgebraicCodingTheory/README.md#layer-3-weight-enumerators-and-macwilliams):** weight distributions
+  of finite word sets and their polynomial interpretation. The exact APIs used are the pinned
+  Tau Ceti declarations above.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+Use Layer IG.3.4, **Reduced Schur covers and the universal marked extension**, and Layer IG.3.5,
+**The action of units and the cyclotomic twist**, and IG.5.6, **General rational-class
+fixed-fiber formula**. The cover and action contracts are stated in
+[InverseGaloisAndArithmeticFundamentalGroups, IG.3.4–IG.3.5](../InverseGaloisAndArithmeticFundamentalGroups/README.md#ig34-reduced-schur-covers-and-the-universal-marked-extension).
+
+- IG.3.4 **Commutators of lifts and the class map of a central extension** supplies the
+  oriented commuting-pair cycle, its homology class and the commutator of lifts. The cycle is `[x|y]−[y|x]` for `xy=yx`; its class is `⟨x,y⟩`.
+  For a central extension `1→A→E→G→1`, its natural additive class map `τ_E:M(G)→Additive A`
+  sends this class to `XYX⁻¹Y⁻¹` for any lifts. The universal-coefficient evaluation
+  `H²(G,A)→Hom(M(G),A)` has kernel `Ext(Gᵃᵇ,A)` and is onto for trivial abelian `A`. These inputs supply the sign and naturality
+  needed in RS.0 and RS.1. The class map is defined by evaluating the section cocycle on cycles;
+  its construction and universal coefficients precede the full exactness theorem in RS.0.1.
+- IG.3.4 **The reduced Schur multiplier** and **Reduced Schur covers** supply the relation
+  subgroup `Q_c`, the reduced multiplier `M(G,c)` and the reduced cover `S_c`.
+  For conjugacy-invariant `c`, `Q_c` is generated by `⟨x,y⟩` with `x∈c`, `y∈C_G(x)` and
+  `M(G,c)=M(G)/Q_c`. For a chosen finite Schur cover with oriented class isomorphism
+  `τ_S:M(G)≃ker π`, the quotient `S_c=S/τ_S(Q_c)` has central kernel `M(G,c)`, is stem, and
+  lifts commuting pairs with first entry in `c` to commuting pairs. IG supplies the zero composite
+  `H₂(S_c,ℤ)→M(G)→M(G,c)`; RS.1 asks for the stronger image equality. No generation hypothesis
+  on `c` is used for these objects.
+- IG.3.4 **Conjugacy classes lift bijectively** supplies the class-compatible marking.
+  Every individual conjugacy class above a class in `c` maps bijectively to it. Choosing one lift
+  `X_d` of one representative in each class gives an equivariant marking `x↦x̂`; representative
+  lifts remain choices. This is the input to local normalization and the lift-square columns.
+- IG.3.4 **Marked central extensions**, **The universal marked extension**, **The class degree map**,
+  **The marked fibre product and the computation of `U(G,c)`** and **The kernel of the universal
+  marked extension** supply marked central extensions, the universal marked extension
+  `ReducedSchur.universalMarked`, the class set `ReducedSchur.classSet`, the class degree map
+  `ReducedSchur.degree`, the marked fibre product, its isomorphism with the universal marked
+  extension, and the kernel of the universal marked extension. For finite `G` generated by conjugacy-invariant `c`,
+  `D=c/G`, `L=D→₀ℤ`, `δ(e_[x])=[x]`, and the marked isomorphism is
+  `U(G,c)≅P={(h,m)∈S_c×L:[π_c(h)]=δ(m)}`, carrying `[x]` to `(x̂,e_[x])`.
+  The central kernel is `K≅M(G,c)×ker δ`; its torsion is `M(G,c)`. Integer degrees, negative
+  degrees included, are essential. No comparison with this presentation is assumed without
+  generation.
+- IG.3.4 **Coprime semidirect products and admissible inertia** supplies compatible covers, the
+  primary decomposition of the multiplier, admissible inertia classes and the primary
+  decomposition of the reduced kernel. For finite
+  `H,Γ` of coprime orders, the projection `M(H⋊Γ)→M(Γ)` is onto and has precisely the
+  `|H|`-primary kernel; the complementary primary part maps isomorphically to `M(Γ)`. With
+  admissibility (generation of `H` by `h⁻¹γ(h)`), the nonidentity equal-order inertia classes
+  generate `H⋊Γ`; their conjugacy classes project bijectively to the nonidentity conjugacy
+  classes of `Γ`. The compatible covers and degree maps descend to reduced covers and multipliers. The Hall-coinvariant isomorphism in RS.0 is
+  the additional comparison, not a second construction of these compatible covers.
+- IG.3.5 **Powers by units and the permutation of class degrees**, **Central power corrections**
+  and **The discrete action of units** supply the unit power map, the degree permutation, the
+  central power corrections and the unit action.
+  For characteristic exponent `p=1` or a prime coprime to `|G|`, and
+  `α∈Ẑ^{(p′)×}`, set `z_d(α)=X_d^{−α}(x_d^α)^` and
+  `W_α(m)=∏_d z_d(α)^{m_d}`. For conjugacy-invariant generating `c` stable under invertible powers,
+  `α·(h,m)=(h^αW_α(m),m^α)` on `P`, where `m^α` permutes coordinates. The cocycle law is
+  `W_{αβ}(m)=W_β(m)^α W_α(m^β)`. The action is by permutations in general, and compatible changes
+  of model intertwine it. RS.3 asks for its multiplicativity only on `K` and its finite-level bound.
+- IG.3.5 **The cyclotomic twist of a set** supplies the cyclotomic twist
+  `X⟨−1⟩=Map_B(T,X)` for a nonempty `B`-torsor `T` and a `B`-set `X`. Evaluation at a torsor
+  point is a bijection; changing that point acts by the corresponding unit. A central character
+  `χ:Γ→B` acts on the evaluated twist by `χ⁻¹`. In the finite-field application arithmetic
+  Frobenius therefore acts by `q⁻¹`, geometric Frobenius by `q`; their fixed sets coincide.
+
+- [IG.5.6, **General rational-class fixed-fiber formula**](../InverseGaloisAndArithmeticFundamentalGroups/README.md#ig56-components-and-their-invariants)
+  supplies the identity-signature
+  power-image criterion and the count zero or `|A[q−1]|` for rational class unions. RS.4
+  expresses this obstruction through involution squares and extends the formula to signatures
+  in `c`.
+
+The homological inputs have two branches. RS.0.1 uses only IG.3.4's section-cocycle class map
+and universal coefficients to prove full five-term exactness and
+the stem-surjectivity corollary for arbitrary central stem extensions. The finite
+oriented Schur-cover comparison belongs to IG.3.4 and follows independently from its universal
+coefficients and the pinned character transgression: for a finite central stem extension
+`1→A→S→G→1`, the map on `ℂˣ`-valued kernel characters is injective and, under universal
+coefficients, sends `χ` to `χ ∘ τ_S`. Here `Ext(Gᵃᵇ,ℂˣ)=0` since `ℂˣ` is divisible. Characters
+separate the finite quotient `A/im τ_S`, so injectivity forces `τ_S` onto; the Schur-cover
+hypothesis `|A|=|M(G)|` makes it an isomorphism. The character separation is Mathlib's
+`CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`
+(`Mathlib/GroupTheory/FiniteAbelian/Duality.lean`), and `Additive ℂˣ` is an injective coefficient
+group by `AddCommGrpCat.injective_of_divisible` (`Mathlib/Algebra/Category/Grp/Injective.lean`).
+Thus the IG.3.4 cover comparison has no prerequisite in RS.0.1; the reduced-cover homology
+applications in RS.1 use both branches. The finite comparison is the one of Wood (2021),
+§2.1, p. 2; full exactness retains the generality and source of RS.0.1.
+
+The finite-group universal-coefficient, cover and power interfaces above are used with their
+stated hypotheses. The original sources are Wood (2021), §2.1–Theorem 2.5, pp. 2–4, and §4,
+equations (2) and (4), pp. 6–8; Wood (2019), §2.3, p. 387, Definition 3.1, p. 388, and
+Lemmas 3.3–3.4, p. 390; and Liu–Wood–Zureick-Brown, §12 and Lemma 12.10, published pp. 104–105
+and 110–112. They are supplier contracts, not extra targets here.
 
 ## References
 

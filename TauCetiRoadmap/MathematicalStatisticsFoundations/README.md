@@ -1,109 +1,78 @@
 # Roadmap: foundations of mathematical statistics
 
-**Summary.** This roadmap builds the finite-sample core of mathematical statistics on Mathlib's
-measure theory, Markov kernels and decision-theoretic risk:
-- statistical experiments, densities and tests;
-- sufficiency, completeness, ancillarity and U-statistics;
-- natural exponential families;
-- unbiased estimation and information;
-- order statistics and the Gaussian sampling laws;
-- the Neyman–Pearson theory of tests, from the lemma to unbiased and conditional tests;
-- decision theory: minimax and Bayes rules, complete classes, admissibility, equivariance and
-  Blackwell's comparison of experiments.
+**Summary.** Mathematical statistics asks what an observation can reveal about the unknown
+parameter that governs its law, and which procedures use it best. This roadmap builds the
+finite-sample core of the subject on Mathlib's measure theory, Markov kernels and
+decision-theoretic risk. A statistical model is a family of probability measures `P θ`, indexed
+by a parameter set that carries no measurable structure. Where a prior is integrated, the family
+is a Markov kernel. A test is a measurable function with values in `[0, 1]`, the probability of
+rejecting. The material is the standard graduate content of the texts listed under
+[References](#references).
 
-It also builds a **starting vocabulary for later statistics roadmaps**:
-- convergence in probability and in law, and their stochastic algebra;
-- i.i.d. sequences and the laws of large numbers for statistics;
-- contiguity;
-- empirical distributions and the elementary estimators, distances and procedures of
-  asymptotic, nonparametric, Bayesian, linear-model, time-series and survival statistics.
+Much of the theory is about reducing the data without losing information. A statistic `T` is
+sufficient when one Markov kernel, the same for every parameter, gives the conditional law of the
+observation given `T` under every `P θ`. It is complete when every integrable function of `T` with
+mean zero under every `P θ` vanishes `P θ`-almost surely for every `θ`. The first headline is the
+Lehmann–Scheffé theorem. If `T` is complete and sufficient and `r(T)` is a square-integrable
+unbiased estimator of `g(θ)`, then at every `θ` its variance is at most that of any other
+square-integrable unbiased estimator of `g(θ)`. For a Gaussian sample, the sample mean is in this
+sense the best unbiased estimator of the mean.
 
-The material is the standard graduate content of Pfanzagl, Schervish, Brown and Ferguson (see
-[References](#references)). Each headline carries a locator in a text listed under References.
+The second headline is about natural exponential families. Take a nonzero σ-finite measure `ν`
+on a finite-dimensional real inner product space, and tilt it by `exp ⟪η, x⟫`, normalized, for
+each `η` in the natural parameter space, the set where this exponential is `ν`-integrable. Suppose
+that no nonzero linear functional is `ν`-almost everywhere constant and that the natural parameter
+space is nonempty. Then the log likelihood `η ↦ ⟪η, t⟫ - log ∫ exp ⟪η, x⟫ dν(x)` of an observation
+`t` attains its maximum on the natural parameter space if and only if `t` lies in the interior of
+the convex hull of the support of `ν`.
 
-**This roadmap is a base.** Layers 8 and 9 provide vocabulary for later roadmaps on five areas:
-asymptotic and robust statistics; nonparametric and high-dimensional statistics; Bayesian
-statistics and stochastic computation; linear models and design; and dependent data, stochastic
-models and survival analysis. The aim is that each such roadmap needs this one and none of the
-others. Layer 9 is a closed list, stated by its own rule (see [Layer 9](#layer-9-shared-vocabulary)).
+The third headline is the Neyman–Pearson lemma. Let `P₀` and `P₁` be probability laws with
+densities `f₀` and `f₁` with respect to a measure `μ`, and let `0 < α < 1`. Then there are `k ≥ 0`
+and a test of size exactly `α` under `P₀` that equals `1` where `f₁ > k f₀` and `0` where
+`f₁ < k f₀`, and no test of level `α` has larger power under `P₁`. Every most powerful test of
+level `α` agrees with it `μ`-almost everywhere off the set where `f₁ = k f₀`.
+
+The fourth headline is Blackwell's comparison of experiments. A family `P` is more informative
+than a family `Q` if, for every finite set of actions and every bounded loss, each randomized rule
+based on `Q` is matched at every parameter by a rule based on `P` with no larger risk. Suppose the
+parameter set is finite and the laws `Q θ` live on a nonempty standard Borel space, while the laws
+`P θ` may live on any measurable space. Then `P` is more informative than `Q` if and only if `Q` is
+a garbling of `P`: one Markov kernel carries every `P θ` to `Q θ`.
+
+The probability distributions themselves come from Mathlib and
+[StandardDistributions](../StandardDistributions/README.md). The James–Stein theorem uses
+Gaussian integration by parts from [RandomMatrices](../RandomMatrices/README.md). Layers 8 and 9
+are in turn a base for later roadmaps in five areas, and the aim is that each of them needs this
+one and none of the others. Three areas are asymptotic and robust statistics, nonparametric and
+high-dimensional statistics, and Bayesian statistics and stochastic computation. The other two
+are linear models and design, and dependent data, stochastic models and survival analysis.
+
+Layers 1–7 are the finite-sample theory, and the next section explains how they rest on one
+another. Layer 8 develops convergence in probability and in law, with Slutsky's lemma and the
+delta method. Layer 9 is a closed list of definitions with their elementary finite-sample theory,
+stated by its own rule (see [Layer 9](#layer-9-shared-vocabulary)).
 
 `Suggested.lean` states every headline of Layers 1–8 against the pinned Mathlib and Tau Ceti,
 with the definitions those statements need. Layer 9 has no headlines.
 
 Suggested home: `TauCeti/Statistics/`, with one subdirectory per layer.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layers 1–7 are finite-sample theory. Layer 1 fixes the objects. Layer 2 represents sufficiency
+by one Markov kernel that disintegrates every joint law of `(T, X)`. Every later use of
+sufficiency (Rao–Blackwell, Basu, Neyman structure) goes through the integration identity of
+2.1. The exponential-family results of Layer 3 rest on two analytic facts, Laplace determinacy
+and the power series of the partition function. Completeness, the mean map and maximum
+likelihood follow from these, and so do the size calculations of the tests in Layer 6. Layer 6
+is one argument used many times: a test that rejects where a likelihood ratio, or a positive
+combination of likelihood ratios, exceeds a threshold maximizes the power among tests satisfying
+the matching side conditions. Layer 7 is convex geometry of risk sets together with Sion's
+theorem.
 
-1. **Experiments, densities and tests.** Real densities, countable mixtures and domination,
-   randomized tests and their power, confidence sets, risk of randomized rules, and garblings.
-2. **Sufficiency and completeness.** The factorization theorem, minimal sufficiency, Basu's
-   theorem, completeness of symmetric statistics, and U-statistics.
-3. **Natural exponential families.** Convexity, Laplace determinacy, analyticity and moments of
-   the log partition function, completeness, the mean parametrization, maximum likelihood,
-   conditional families and the Pitman–Koopman–Darmois theorem. The family law is Mathlib's
-   exponential tilt `Measure.tilted`, and the case `E = ℝ` of 3.1–3.3 is already Mathlib's:
-   `integrableExpSet`, `convex_integrableExpSet`, `cgf`, `analyticOnNhd_cgf`,
-   `integral_tilted_mul_self` and `variance_tilted_mul`
-   (`Mathlib/Probability/Moments/IntegrableExpMul.lean`, `Basic.lean`, `MGFAnalytic.lean`,
-   `Tilted.lean`). Layer 3 owns the finite-dimensional case.
-4. **Unbiased estimation and information.** Rao–Blackwell, Lehmann–Scheffé, the covariance
-   characterization of UMVU estimators, the optimality of U-statistics, the information
-   inequality, Stein's identity, the James–Stein estimator and the Pitman estimator.
-5. **Order statistics and Gaussian samples.** Joint and marginal laws of order statistics, the
-   law of the ranks, and the chi-squared, independence and Student statements for a Gaussian
-   sample.
-6. **Tests.** Threshold tests, the Neyman–Pearson lemma in its constrained, sum-of-errors and
-   generalized forms, monotone likelihood ratio and the Karlin–Rubin theorems, least favorable
-   mixtures, uniformly most powerful interval tests, unbiased tests and Neyman structure,
-   conditional tests with a nuisance parameter, maximal invariants, and the duality of tests and
-   confidence sets.
-7. **Decision theory.** Admissible, Bayes and minimax rules, the minimax theorem for finite
-   statistical games, the complete class theorem for a finite parameter set, averaging over a
-   finite group, Blyth's method, Scheffé's simultaneous intervals, and Blackwell's comparison
-   theorem.
-8. **Convergence and stochastic algebra.** Boundedness in probability, the adapters to Mathlib's
-   convergence in law and in measure, Slutsky's lemma without separability, the delta method,
-   i.i.d. sequences with the weak law of large numbers, and contiguity.
-9. **Shared vocabulary.** Empirical distributions and quantiles; total variation and the
-   distribution-function bound; the Huber score; kernel density estimators; sparse vectors and the
-   restricted isometry property; the Benjamini–Hochberg count; the Poisson likelihood,
-   Metropolis–Hastings and leapfrog maps and the normal-location posterior; sample means, scatter
-   matrices and the Gaussian likelihood; simple random sampling and Latin squares; second-order
-   stationarity, i.i.d. noise and the sample autocovariance; the Nelson–Aalen and Kaplan–Meier
-   estimators.
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**Not owned here.** The following are used, not built:
-- the probability distributions themselves (Gaussian, chi-squared, Student, Fisher–Snedecor,
-  beta, Poisson, quantile functions). They are Mathlib's and Tau Ceti's, as built by
-  [StandardDistributions](../StandardDistributions/README.md), which leaves statistical
-  inference out of its scope;
-- the order-statistic facts that StandardDistributions (4.6) and the pinned Tau Ceti provide: the
-  definition `TauCeti.orderStatistic`, its distribution function
-  `cdf_map_orderStatistic_pi_eq_regularizedIncompleteBeta`, the beta law of a uniform order
-  statistic, the joint density of uniform order statistics, and the chamber formula
-  `map_orderStatistics_pi`. Layer 5 builds only what StandardDistributions excludes: the joint
-  and marginal densities for a general density, and the law of the ranks;
-- Markov chain theory, including invariance, detailed balance in Mathlib's `Kernel.IsReversible`
-  form and its finite-matrix adapters
-  ([MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3). 9.4 only checks that
-  the Metropolis–Hastings kernel is reversible;
-- sampling from a finite population: Tau Ceti's
-  `TauCeti.Probability.sampleWithoutReplacement`, the uniform law on injective selections, owned
-  by [Exchangeability (completed)](../../Completed/Exchangeability/README.md), Layer 8. The
-  simple random sampling design of 9.5 is Mathlib's `uniformOn` on the `n`-subsets, and 9.5
-  relates the two;
-- Gaussian integration by parts:
-  [RandomMatrices](../RandomMatrices/README.md) §2.5 owns it. 4.4 keeps only the coordinate form
-  for `N(θ, v I)` on `EuclideanSpace ℝ (Fin p)` with a `C¹` field, as James–Stein needs it;
-- the central limit theorem: Mathlib's `tendstoInDistribution_inv_sqrt_mul_sum_sub`, applied to
-  a statistic `s ∘ Xᵢ` of an i.i.d. sequence through the i.i.d. adapters of 8.5.
-
-Asymptotic theory beyond the stochastic algebra of Layer 8, and every result that is not listed
-in a layer, belongs to the [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are in build order: each layer needs only earlier layers and the suppliers. Layers 8
+and 9 need none of Layers 2–7 and may be built first. They contain everything the other
+statistics roadmaps share.
 
 ## Conventions
 
@@ -158,114 +127,6 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Locators** are `(Author, Theorem, printed page)` in the editions listed under
   [References](#references). A locator marked *by the same argument* names the theorem whose
   proof the target follows when the target's hypotheses differ from those printed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Measures and kernels:** `Measure.withDensity`, `Measure.rnDeriv`, `Measure.pi`, `Kernel`,
-  `IsMarkovKernel`, composition `κ ∘ₘ μ`, composition product `μ ⊗ₘ κ`, `Kernel.withDensity`,
-  `condDistrib`, `condExp` (notation `μ[f | m]`), `StandardBorelSpace`, `uniformOn` with
-  `isProbabilityMeasure_uniformOn`.
-- **Probability:** `iIndepFun`, `IndepFun`, `IdentDistrib`, `HasLaw`, `variance` (`Var[X; μ]`),
-  `covariance` (`cov[X, Y; μ]`), `memLp_two_of_variance_ne_zero`, `cdf`, `gaussianReal`,
-  `multivariateGaussian`, `stdGaussian`, `poissonMeasure`, `betaMeasure`, the strong law
-  `ProbabilityTheory.strong_law_ae`, the central limit theorem
-  `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the characteristic function and
-  `Measure.ext_of_charFun`.
-- **Convergence:** `TendstoInMeasure`, `TendstoInDistribution`,
-  `TendstoInDistribution.continuous_comp`, `tendstoInDistribution_of_tendstoInMeasure_sub`,
-  `IsTightMeasureSet`, `isTightMeasureSet_range_iff_tendsto_limsup_measure_norm_gt`,
-  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`.
-- **Decision theory:** `avgRisk`, `bayesRisk`, `minimaxRisk`, `IsBayesEstimator` and the
-  posterior `P†π` of `Mathlib/Probability/Decision`.
-- **Divergences:** `tvDist`, `etvDist`, `klDiv`.
-- **Tilting and cumulants:** `Measure.tilted` with `isProbabilityMeasure_tilted`, `tilted_tilted`,
-  `tilted_absolutelyContinuous` and `absolutelyContinuous_tilted`
-  (`Mathlib/MeasureTheory/Measure/Tilted.lean`); the scalar case of Layer 3: `integrableExpSet`,
-  `convex_integrableExpSet`, `cgf`, `analyticOnNhd_cgf`, `integral_tilted_mul_self` and
-  `variance_tilted_mul`.
-- **Analysis:** Sion's minimax theorem (`Sion.minimax'`, `Sion.exists_isSaddlePointOn`) and
-  `IsSaddlePointOn`; Banach–Alaoglu (`WeakDual.isCompact_polar`) and `InnerProductSpace.toDual`;
-  analytic functions (`AnalyticOnNhd`, `HasFPowerSeriesOnBall`);
-  `hasSum_integral_of_dominated_convergence` and
-  `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; integration by parts
-  `integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable`; convex hulls, the separation theorems
-  `geometric_hahn_banach_open_point` and `geometric_hahn_banach_point_closed`, Jensen's
-  inequality `ConvexOn.map_integral_le`, and the inverse function theorem
-  (`HasStrictFDerivAt.toOpenPartialHomeomorph`) with its analytic form
-  `OpenPartialHomeomorph.analyticAt_symm`.
-- **Sorting:** `Tuple.sort` and `Function.FactorsThrough`.
-- **Markov kernels and sparsity:** `Kernel.IsReversible`, `Kernel.IsReversible.invariant`,
-  `Kernel.ofFunOfCountable`, `hammingNorm` and `hammingDist_triangle`.
-
-### From Tau Ceti
-
-- **Distributions:** `TauCeti.Probability.chiSquaredMeasure` with
-  `isProbabilityMeasure_chiSquaredMeasure`, `studentTMeasure`, `fisherSnedecorMeasure`, the Gaussian
-  projection laws `HasLaw.iIndepFun_orthogonalProjectionOnto_stdGaussian` and
-  `HasLaw.norm_sq_orthogonalProjectionOnto_stdGaussian`, and
-  `hasLaw_studentT_of_gaussian_chiSquared`. Also the density `multivariateGaussianPDFReal` with
-  `multivariateGaussian_eq_withDensity`.
-- **Order statistics and quantiles:** `TauCeti.orderStatistic`, `orderStatistic_comp_perm`, the
-  chamber formula `TauCeti.Probability.map_orderStatistics_pi`,
-  `cdf_map_orderStatistic_pi_eq_regularizedIncompleteBeta`, `cdf_betaMeasure_eq`, the quantile
-  function `MeasureTheory.Measure.quantile`, `measurePreserving_quantile`,
-  `monotoneOn_quantile` and `cdf_map_eq_volume_restrict`.
-- **Empirical measures:** `TauCeti.Probability.empiricalFiniteMeasure`, `empiricalMeasure`,
-  `integral_empiricalFiniteMeasure`, `empiricalFiniteMeasure_comp_equiv`,
-  `map_empiricalFiniteMeasure` and `isProbabilityMeasure_empiricalFiniteMeasure`.
-- **Total variation:** `MeasureTheory.etvDist_eq_two_mul_iSup_sub`,
-  `etvDist_eq_iSup_sub_add_iSup_sub` and `etvDist_le_two_mul_iff`.
-- **Measure theory:** `TauCeti.pi_withDensity`, `integrableOn_norm_rpow_ball`, and determinacy
-  by the moment generating function `TauCeti.Measure.ext_of_mgf`.
-- **Finite populations:** `TauCeti.Probability.sampleWithoutReplacement` with
-  `isProbabilityMeasure_sampleWithoutReplacement`.
-
-### From StandardDistributions
-
-[StandardDistributions](../StandardDistributions/README.md) is the owner of the laws above. This
-roadmap consumes its 4.6 (extrema and order statistics: the uniform order statistics, their beta
-laws and the chamber formula), its 7.2 (lower and upper quantiles), its 7.8 (exponential tilting,
-built on Mathlib's `Measure.tilted`, which is the family law of Layer 3) and its Gaussian,
-chi-squared, Student and Fisher–Snedecor laws in Layers 1 and 4. Where these are already in the
-pinned Tau Ceti, the names above are the contract. Layer 5 takes nothing from 4.6 that 4.6
-excludes.
-
-### From MarkovChainsAndRenewal
-
-[MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3, owns stationarity and
-detailed balance, stated with Mathlib's `Kernel.Invariant` and `Kernel.IsReversible`. 9.4 proves
-only that the Metropolis–Hastings kernel satisfies `Kernel.IsReversible`, and consumes
-`Kernel.IsReversible.invariant` for invariance. No other chain theory is used.
-
-### From Exchangeability (completed)
-
-[Exchangeability](../../Completed/Exchangeability/README.md), Layer 8, owns the finite sampling
-laws `sampleWithoutReplacement` and `sampleWithReplacement`. 9.5 consumes the first and proves
-that the law of its image set is the simple random sampling design.
-
-### From RandomMatrices
-
-[RandomMatrices](../RandomMatrices/README.md) §2.5 owns Gaussian integration by parts. 4.4
-consumes it for Stein's identity, in the coordinate form for `N(θ, v I)` that James–Stein needs.
-
-## How to read the build
-
-Layers 1–7 are finite-sample theory. Layer 1 fixes the objects. Layer 2 represents sufficiency
-by one Markov kernel that disintegrates every joint law of `(T, X)`. Every later use of
-sufficiency (Rao–Blackwell, Basu, Neyman structure) goes through the integration identity of
-2.1. The exponential-family results of Layer 3 rest on two analytic facts, Laplace determinacy
-and the power series of the partition function. Completeness, the mean map and maximum
-likelihood follow from these, and so do the size calculations of the tests in Layer 6. Layer 6
-is one argument used many times: a test that rejects where a likelihood ratio, or a positive
-combination of likelihood ratios, exceeds a threshold maximizes the power among tests satisfying
-the matching side conditions. Layer 7 is convex geometry of risk sets together with Sion's
-theorem.
-
-The layers are in build order: each layer needs only earlier layers and the suppliers. Layers 8
-and 9 need none of Layers 2–7 and may be built first. They contain everything the other
-statistics roadmaps share.
 
 ## Layer 1: experiments, densities and tests
 
@@ -1798,6 +1659,170 @@ Related libraries:
   information and total variation) and
   [#39791](https://github.com/leanprover-community/mathlib4/pull/39791) (Neyman–Pearson) are
   followed as stated in the Conventions.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Experiments, densities and tests.** Real densities, countable mixtures and domination,
+   randomized tests and their power, confidence sets, risk of randomized rules, and garblings.
+2. **Sufficiency and completeness.** The factorization theorem, minimal sufficiency, Basu's
+   theorem, completeness of symmetric statistics, and U-statistics.
+3. **Natural exponential families.** Convexity, Laplace determinacy, analyticity and moments of
+   the log partition function, completeness, the mean parametrization, maximum likelihood,
+   conditional families and the Pitman–Koopman–Darmois theorem. The family law is Mathlib's
+   exponential tilt `Measure.tilted`, and the case `E = ℝ` of 3.1–3.3 is already Mathlib's:
+   `integrableExpSet`, `convex_integrableExpSet`, `cgf`, `analyticOnNhd_cgf`,
+   `integral_tilted_mul_self` and `variance_tilted_mul`
+   (`Mathlib/Probability/Moments/IntegrableExpMul.lean`, `Basic.lean`, `MGFAnalytic.lean`,
+   `Tilted.lean`). Layer 3 owns the finite-dimensional case.
+4. **Unbiased estimation and information.** Rao–Blackwell, Lehmann–Scheffé, the covariance
+   characterization of UMVU estimators, the optimality of U-statistics, the information
+   inequality, Stein's identity, the James–Stein estimator and the Pitman estimator.
+5. **Order statistics and Gaussian samples.** Joint and marginal laws of order statistics, the
+   law of the ranks, and the chi-squared, independence and Student statements for a Gaussian
+   sample.
+6. **Tests.** Threshold tests, the Neyman–Pearson lemma in its constrained, sum-of-errors and
+   generalized forms, monotone likelihood ratio and the Karlin–Rubin theorems, least favorable
+   mixtures, uniformly most powerful interval tests, unbiased tests and Neyman structure,
+   conditional tests with a nuisance parameter, maximal invariants, and the duality of tests and
+   confidence sets.
+7. **Decision theory.** Admissible, Bayes and minimax rules, the minimax theorem for finite
+   statistical games, the complete class theorem for a finite parameter set, averaging over a
+   finite group, Blyth's method, Scheffé's simultaneous intervals, and Blackwell's comparison
+   theorem.
+8. **Convergence and stochastic algebra.** Boundedness in probability, the adapters to Mathlib's
+   convergence in law and in measure, Slutsky's lemma without separability, the delta method,
+   i.i.d. sequences with the weak law of large numbers, and contiguity.
+9. **Shared vocabulary.** Empirical distributions and quantiles; total variation and the
+   distribution-function bound; the Huber score; kernel density estimators; sparse vectors and the
+   restricted isometry property; the Benjamini–Hochberg count; the Poisson likelihood,
+   Metropolis–Hastings and leapfrog maps and the normal-location posterior; sample means, scatter
+   matrices and the Gaussian likelihood; simple random sampling and Latin squares; second-order
+   stationarity, i.i.d. noise and the sample autocovariance; the Nelson–Aalen and Kaplan–Meier
+   estimators.
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- the probability distributions themselves (Gaussian, chi-squared, Student, Fisher–Snedecor,
+  beta, Poisson, quantile functions). They are Mathlib's and Tau Ceti's, as built by
+  [StandardDistributions](../StandardDistributions/README.md), which leaves statistical
+  inference out of its scope;
+- the order-statistic facts that StandardDistributions (4.6) and the pinned Tau Ceti provide: the
+  definition `TauCeti.orderStatistic`, its distribution function
+  `cdf_map_orderStatistic_pi_eq_regularizedIncompleteBeta`, the beta law of a uniform order
+  statistic, the joint density of uniform order statistics, and the chamber formula
+  `map_orderStatistics_pi`. Layer 5 builds only what StandardDistributions excludes: the joint
+  and marginal densities for a general density, and the law of the ranks;
+- Markov chain theory, including invariance, detailed balance in Mathlib's `Kernel.IsReversible`
+  form and its finite-matrix adapters
+  ([MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3). 9.4 only checks that
+  the Metropolis–Hastings kernel is reversible;
+- sampling from a finite population: Tau Ceti's
+  `TauCeti.Probability.sampleWithoutReplacement`, the uniform law on injective selections, owned
+  by [Exchangeability (completed)](../../Completed/Exchangeability/README.md), Layer 8. The
+  simple random sampling design of 9.5 is Mathlib's `uniformOn` on the `n`-subsets, and 9.5
+  relates the two;
+- Gaussian integration by parts:
+  [RandomMatrices](../RandomMatrices/README.md) §2.5 owns it. 4.4 keeps only the coordinate form
+  for `N(θ, v I)` on `EuclideanSpace ℝ (Fin p)` with a `C¹` field, as James–Stein needs it;
+- the central limit theorem: Mathlib's `tendstoInDistribution_inv_sqrt_mul_sum_sub`, applied to
+  a statistic `s ∘ Xᵢ` of an i.i.d. sequence through the i.i.d. adapters of 8.5.
+
+Asymptotic theory beyond the stochastic algebra of Layer 8, and every result that is not listed
+in a layer, belongs to the [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Measures and kernels:** `Measure.withDensity`, `Measure.rnDeriv`, `Measure.pi`, `Kernel`,
+  `IsMarkovKernel`, composition `κ ∘ₘ μ`, composition product `μ ⊗ₘ κ`, `Kernel.withDensity`,
+  `condDistrib`, `condExp` (notation `μ[f | m]`), `StandardBorelSpace`, `uniformOn` with
+  `isProbabilityMeasure_uniformOn`.
+- **Probability:** `iIndepFun`, `IndepFun`, `IdentDistrib`, `HasLaw`, `variance` (`Var[X; μ]`),
+  `covariance` (`cov[X, Y; μ]`), `memLp_two_of_variance_ne_zero`, `cdf`, `gaussianReal`,
+  `multivariateGaussian`, `stdGaussian`, `poissonMeasure`, `betaMeasure`, the strong law
+  `ProbabilityTheory.strong_law_ae`, the central limit theorem
+  `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the characteristic function and
+  `Measure.ext_of_charFun`.
+- **Convergence:** `TendstoInMeasure`, `TendstoInDistribution`,
+  `TendstoInDistribution.continuous_comp`, `tendstoInDistribution_of_tendstoInMeasure_sub`,
+  `IsTightMeasureSet`, `isTightMeasureSet_range_iff_tendsto_limsup_measure_norm_gt`,
+  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`.
+- **Decision theory:** `avgRisk`, `bayesRisk`, `minimaxRisk`, `IsBayesEstimator` and the
+  posterior `P†π` of `Mathlib/Probability/Decision`.
+- **Divergences:** `tvDist`, `etvDist`, `klDiv`.
+- **Tilting and cumulants:** `Measure.tilted` with `isProbabilityMeasure_tilted`, `tilted_tilted`,
+  `tilted_absolutelyContinuous` and `absolutelyContinuous_tilted`
+  (`Mathlib/MeasureTheory/Measure/Tilted.lean`); the scalar case of Layer 3: `integrableExpSet`,
+  `convex_integrableExpSet`, `cgf`, `analyticOnNhd_cgf`, `integral_tilted_mul_self` and
+  `variance_tilted_mul`.
+- **Analysis:** Sion's minimax theorem (`Sion.minimax'`, `Sion.exists_isSaddlePointOn`) and
+  `IsSaddlePointOn`; Banach–Alaoglu (`WeakDual.isCompact_polar`) and `InnerProductSpace.toDual`;
+  analytic functions (`AnalyticOnNhd`, `HasFPowerSeriesOnBall`);
+  `hasSum_integral_of_dominated_convergence` and
+  `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; integration by parts
+  `integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable`; convex hulls, the separation theorems
+  `geometric_hahn_banach_open_point` and `geometric_hahn_banach_point_closed`, Jensen's
+  inequality `ConvexOn.map_integral_le`, and the inverse function theorem
+  (`HasStrictFDerivAt.toOpenPartialHomeomorph`) with its analytic form
+  `OpenPartialHomeomorph.analyticAt_symm`.
+- **Sorting:** `Tuple.sort` and `Function.FactorsThrough`.
+- **Markov kernels and sparsity:** `Kernel.IsReversible`, `Kernel.IsReversible.invariant`,
+  `Kernel.ofFunOfCountable`, `hammingNorm` and `hammingDist_triangle`.
+
+### From Tau Ceti
+
+- **Distributions:** `TauCeti.Probability.chiSquaredMeasure` with
+  `isProbabilityMeasure_chiSquaredMeasure`, `studentTMeasure`, `fisherSnedecorMeasure`, the Gaussian
+  projection laws `HasLaw.iIndepFun_orthogonalProjectionOnto_stdGaussian` and
+  `HasLaw.norm_sq_orthogonalProjectionOnto_stdGaussian`, and
+  `hasLaw_studentT_of_gaussian_chiSquared`. Also the density `multivariateGaussianPDFReal` with
+  `multivariateGaussian_eq_withDensity`.
+- **Order statistics and quantiles:** `TauCeti.orderStatistic`, `orderStatistic_comp_perm`, the
+  chamber formula `TauCeti.Probability.map_orderStatistics_pi`,
+  `cdf_map_orderStatistic_pi_eq_regularizedIncompleteBeta`, `cdf_betaMeasure_eq`, the quantile
+  function `MeasureTheory.Measure.quantile`, `measurePreserving_quantile`,
+  `monotoneOn_quantile` and `cdf_map_eq_volume_restrict`.
+- **Empirical measures:** `TauCeti.Probability.empiricalFiniteMeasure`, `empiricalMeasure`,
+  `integral_empiricalFiniteMeasure`, `empiricalFiniteMeasure_comp_equiv`,
+  `map_empiricalFiniteMeasure` and `isProbabilityMeasure_empiricalFiniteMeasure`.
+- **Total variation:** `MeasureTheory.etvDist_eq_two_mul_iSup_sub`,
+  `etvDist_eq_iSup_sub_add_iSup_sub` and `etvDist_le_two_mul_iff`.
+- **Measure theory:** `TauCeti.pi_withDensity`, `integrableOn_norm_rpow_ball`, and determinacy
+  by the moment generating function `TauCeti.Measure.ext_of_mgf`.
+- **Finite populations:** `TauCeti.Probability.sampleWithoutReplacement` with
+  `isProbabilityMeasure_sampleWithoutReplacement`.
+
+### From StandardDistributions
+
+[StandardDistributions](../StandardDistributions/README.md) is the owner of the laws above. This
+roadmap consumes its 4.6 (extrema and order statistics: the uniform order statistics, their beta
+laws and the chamber formula), its 7.2 (lower and upper quantiles), its 7.8 (exponential tilting,
+built on Mathlib's `Measure.tilted`, which is the family law of Layer 3) and its Gaussian,
+chi-squared, Student and Fisher–Snedecor laws in Layers 1 and 4. Where these are already in the
+pinned Tau Ceti, the names above are the contract. Layer 5 takes nothing from 4.6 that 4.6
+excludes.
+
+### From MarkovChainsAndRenewal
+
+[MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3, owns stationarity and
+detailed balance, stated with Mathlib's `Kernel.Invariant` and `Kernel.IsReversible`. 9.4 proves
+only that the Metropolis–Hastings kernel satisfies `Kernel.IsReversible`, and consumes
+`Kernel.IsReversible.invariant` for invariance. No other chain theory is used.
+
+### From Exchangeability (completed)
+
+[Exchangeability](../../Completed/Exchangeability/README.md), Layer 8, owns the finite sampling
+laws `sampleWithoutReplacement` and `sampleWithReplacement`. 9.5 consumes the first and proves
+that the law of its image set is the simple random sampling design.
+
+### From RandomMatrices
+
+[RandomMatrices](../RandomMatrices/README.md) §2.5 owns Gaussian integration by parts. 4.4
+consumes it for Stein's identity, in the coordinate form for `N(θ, v I)` that James–Stein needs.
 
 ## References
 

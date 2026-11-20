@@ -1,64 +1,91 @@
 # Roadmap: diagrammatic coherence for monoidal categories and duality
 
-**Summary.** Build on native monoidal categories, chosen duals and braid groups,
-TemperleyLieb’s general monoidal presentations, PivotalSpherical’s structures
-and the shared relative geometry of KhovanovHomology and GeometricTopology.
-Construct free categories, independent geometric diagram categories and
-evaluation functors, proving soundness, completeness and universal properties
-for six structures:
+**Summary.** String diagrams are a calculus for monoidal categories. A
+morphism is drawn as strands joining labelled boxes; composition stacks
+pictures from bottom to top, and the tensor product sets them side by side.
+A coherence theorem says which deformations of a picture leave the morphism
+unchanged in every category of the given kind. This roadmap proves such
+theorems for six structures, the rows of this table.
 
-| Structure | Geometric equality | Endpoint |
+| Structure | Diagrams are identified up to | Classical result |
 | --- | --- | --- |
 | Monoidal | Planar isotopy of progressive diagrams | Joyal–Street; structural Mac Lane coherence as a specialization |
 | Braided monoidal | Progressive spatial isotopy with front-facing coupons | Joyal–Street; the braid category on one object |
-| Rigid (autonomous) | Planar isotopy with iterated-dual/winding data | Joyal–Street autonomous coherence |
+| Rigid (autonomous) | Planar isotopy with integer winding labels for iterated duals | Joyal–Street autonomous coherence |
 | Pivotal | Planar isotopy with pivotal rotation of marked coupons | Freyd–Yetter pivotal coherence |
 | Braided and pivotal | Projection-regular spatial isotopy with front-facing marked coupons | Freyd–Yetter braided-pivotal coherence |
 | Ribbon (tortile) | Framed, oriented three-dimensional tangle isotopy | Shum coherence and the Reshetikhin–Turaev evaluation functor |
 
-The programme includes arbitrary sets of object generators and arbitrary-arity
-morphism generators, including zero inputs or outputs. The category-generated
-and one-object cases are specializations with explicit comparison functors.
-For every row, prove that the independently defined geometric category is free
-for the stated structure, not just that selected pictures evaluate equally.
+The generators are arbitrary sets of objects and of boxes, called coupons.
+Each coupon has an ordered list of inputs and one of outputs, and either may
+be empty. For each row the roadmap builds the free category with that
+structure, and a category of geometric diagrams up to isotopy, defined
+neither by the axioms nor by equality of evaluations. The main theorems say
+that the geometric category is free: for every target with the structure,
+possibly non-strict, strong structure-preserving functors out of it
+correspond, up to equivalence of groupoids, to interpretations of the
+generators. For the last three rows the cited proofs treat only generators
+that are morphisms of a category; here coupons may have any number of
+ports. No linearity, semisimplicity, field, dagger or
+finiteness-of-generators hypothesis is standing; individual diagrams and
+expressions are finite.
+
+In the monoidal row diagrams are progressive: along every strand the height
+has positive derivative. The comparison functor from the free monoidal
+category is fully faithful and essentially surjective. With object
+generators only, it recovers Mac Lane's coherence theorem, already in
+Mathlib: parallel structural maps are equal. With coupons this fails: a
+coupon with no inputs or outputs, interpreted as 2 over ℚ, is a second
+endomorphism of the unit.
+
+In the braided row diagrams live in space, strands stay progressive, and
+coupons keep facing the viewer. For one object and no coupons the free
+braided category is equivalent to the braid category: the endomorphisms of
+n strands form Tau Ceti's Artin braid group. The square of the positive
+crossing on two strands permutes nothing, yet is not the identity.
+
+The ribbon row adds one equation to the braided pivotal row: the twist of a
+dual is the dual of the twist, `θ_(A*) = (θ_A)*`. Its diagrams are framed
+oriented tangles: oriented curves in space with a nonzero normal field, or
+thin ribbons, carrying labelled coupons. The free ribbon category is
+equivalent to these tangles. With one object and no coupons
+this is Shum's theorem, and the endomorphisms of the empty boundary are
+framed oriented links.
+
+Evaluation extends an interpretation to the matching diagrams, using only
+that row's structure. In a ribbon category it is the general
+Reshetikhin–Turaev functor. Suppose End(𝟙) is identified with a commutative
+ring R compatibly with the scalar action. Let a color V have twist q·id for
+a unit q, and quantum dimension d a unit. For an oriented knot diagram D
+with writhe w(D), the value `N_V(D) = d⁻¹ q^(−w(D)) RT_V(D)` depends only on
+the oriented knot, and is 1 on the unknot.
+
+[PivotalSpherical](../PivotalSpherical/README.md) supplies pivotal and ribbon
+structures and traces; their free geometric models are built here.
+[TemperleyLieb](../TemperleyLieb/README.md) supplies monoidal categories
+presented by generators and relations, which this roadmap extends to the
+other five structures. [KhovanovHomology](../KhovanovHomology/README.md) and
+[GeometricTopology](../GeometricTopology/README.md) supply general position,
+isotopy extension and knot presentations, to which it adds coupons,
+boundaries and framings. Representation categories from
+[QuantumGroups](../QuantumGroups/README.md) are targets of the evaluation
+functors.
 
 Suggested homes: `TauCeti/CategoryTheory/Monoidal/Diagram/` for syntax,
 presentations and evaluations, and `TauCeti/Topology/Tangle/` for geometric
-models and their generic-position proofs. Keep general geometric suppliers in
-their existing manifold, embedding and isotopy namespaces. No linearity,
-semisimplicity, field, dagger or finiteness-of-generators hypothesis is standing;
-individual diagrams and expressions are finite.
+models and their generic-position proofs.
 
-## Scope and ownership
+## How to read the build
 
-The six rows are the coherence endpoints. Symmetric/compact-closed coherence,
-independent balanced or traced coherence, spherical graphical coherence,
-Frobenius/surface-bordism presentations, higher categorical coherence and the
-higher tangle hypothesis are outside this roadmap. Balanced/ribbon definitions
-are consumed when constructing the last row; they are not extra coherence
-endpoints. The finite-dimensional geometric machinery needed for these six
-rows is in scope, with general dimension in the supplier statements and only
-planar and three-dimensional diagram applications.
-
-| Supplier or consumer | Boundary |
-| --- | --- |
-| Mathlib `CategoryTheory/Monoidal/Free/{Basic,Coherence}` | Consume `FreeMonoidalCategory`, `project`, and the proved thin structural category. Add arbitrary morphism generators and geometric models; do not reprove structural Mac Lane coherence behind new names. |
-| Mathlib `CategoryTheory/Monoidal/{Functor,NaturalTransformation,Braided/*,Rigid/*}` | Consume strong monoidal functors, `NatTrans.IsMonoidal`, braidings, chosen duals, `ExactPairing` and mate maps. |
-| [PivotalSpherical, Layers 0–2, 7 and 10](../PivotalSpherical/README.md) | Owns double duals, pivotal structures/functors, traces, representation-category rigidity, balanced/ribbon structures and their algebraic relationships. This roadmap owns their free constructions and graphical coherence. The functor-level compatibility of the Drinfeld comparison is constructed in Layer 0.3 here. |
-| [GeometricTopology, Layers 1–4](../GeometricTopology/README.md) | Owns general manifold/embedding/isotopy foundations, knot presentations and braid groups. Its closed Reidemeister comparison is shared with Khovanov G. This roadmap constructs boundary- and coupon-labelled tangles and their Morse-word presentation against those same realization and isotopy definitions. |
-| [KhovanovHomology, G](../KhovanovHomology/README.md#g-plane-geometry-relative-extension-and-smooth-link-comparison) | Owns the common finite-dimensional relative jet/multijet general-position floor, relative ambient extension and finite-labelled smooth projection/Reidemeister comparison. Consume these in their shared manifold namespaces, independent of Khovanov complexes. G0 adds strip/boundary/coupon adapters, height/progressive constraints and framing sections; the closed coupon-free specialization compares with G's supported plane-event words and GT's presentations. |
-| [DifferentialGeometry, Layers 3 and 10.2](../DifferentialGeometry/README.md), [MorseTheory, M1 and M3](../MorseTheory/README.md) | Supply flows, Sard, Morse normal forms and approximation at their actual hypotheses, also used by Khovanov G's common floor. G0 constructs the diagram-specific normal forms and adapters. |
-| [TemperleyLieb, Layer 2](../TemperleyLieb/README.md) | Owns the generic monoidal presentation/congruence construction. C0 pins its consumer interface and extends it to the other five structures, using one shared API in the general category-theory namespace. TL owns its matching diagrams, extra relations, linearization and special self-duality; its TL presentation is not a premise of free rigid or pivotal coherence. |
-| [QuantumGroups, Q8](../QuantumGroups/README.md) | Its braided representation examples are consumers of the general evaluation theorem. No quantum-group construction is a premise of coherence. |
-
-At the pins, Mathlib supplies the object-generated structural category, not a
-category freely generated by arbitrary coupons. Tau Ceti supplies Artin braid
-groups and smooth closed-link embeddings, not the collared, coupon-labelled,
-framed tangle categories here. PivotalSpherical owns the pivotal and ribbon
-structures absent at these pins; their free geometric models belong here.
-TemperleyLieb Layer 2 owns the generic monoidal presentation, including its
-strong-monoidal universal property. The other five presentation structures and
-the functor-level Drinfeld compatibility are extensions owned here.
+Layer 0 supplies the algebraic presentations and functor comparisons; Layer 1
+supplies independent geometry and its relative presentation machinery.
+Layers 2–7 prove the six coherence endpoints in order: monoidal, braided,
+rigid, pivotal, braided-pivotal and ribbon. Layer 8 assembles evaluation,
+closure and scalar normalization from those results. The labels C0, G0 and
+C1–C7 name these same layers. The geometric carriers and several supplier
+structures are not expressible at the pins by a few simple definitions;
+`Suggested.lean` records the missing carriers separately for every headline,
+without replacing a geometric theorem by a syntax lemma.
 
 ## Conventions
 
@@ -134,82 +161,6 @@ field, and §8.2 states the commutative-ring and unit hypotheses it uses.
   Prove extension computation rules and uniqueness up to the resulting
   coherent isomorphism. Strict targets/strict functors are separate
   specializations, not standing hypotheses.
-
-## Exact supplier contracts
-
-**From Mathlib.** In `Mathlib/CategoryTheory/Monoidal/Free/Basic.lean`,
-`CategoryTheory.FreeMonoidalCategory.projectObj` and
-`CategoryTheory.FreeMonoidalCategory.project` interpret structural objects and
-arrows in any monoidal category; `FreeMonoidalCategory.subsingleton_hom` in
-`Mathlib/CategoryTheory/Monoidal/Free/Coherence.lean` concerns only that
-object-generated category. Use `Functor.Monoidal` from
-`Mathlib/CategoryTheory/Monoidal/Functor.lean`, `Functor.Braided` from
-`Mathlib/CategoryTheory/Monoidal/Braided/Basic.lean` and `NatTrans.IsMonoidal`
-from `Mathlib/CategoryTheory/Monoidal/NaturalTransformation.lean` for strong
-functors and their transformations. Use `ExactPairing`, `rightAdjointMate`,
-`leftAdjointMate` from `Mathlib/CategoryTheory/Monoidal/Rigid/Basic.lean`, and
-`rightDualFunctor`, `leftDualFunctor` from
-`Mathlib/CategoryTheory/Monoidal/Rigid/Functor.lean`, with their actual
-opposite and monoidal-opposite codomains. No strict target is assumed.
-
-**From Tau Ceti.** `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`,
-`TauCeti.BraidGroup.exponentSum_sigma` in
-`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean` and
-`TauCeti.BraidWord.toBraid_append` in
-`TauCeti/GroupTheory/SpecificGroups/Braid/Word.lean` fix the Artin generators
-and multiplication order. `TauCeti.BraidWord.overPair_closure` and
-`TauCeti.BraidWord.crossingSign_closure` in
-`TauCeti/KnotTheory/BraidWord/PDCode.lean` send a positive letter to a
-left-input-over crossing of sign +1. `TauCeti.SmoothLinkEmbedding` in
-`TauCeti/KnotTheory/SmoothLink/Basic.lean` is a finite family of disjoint
-smooth circle embeddings. `SmoothEmbedding.SmoothAmbientIsotopic` in
-`TauCeti/Geometry/Manifold/SmoothEmbedding/SmoothAmbientIsotopy/Basic.lean`
-provides ambient transport; Layer 1 adds the stated relative constraints.
-
-**From TauCetiRoadmap.TemperleyLieb.** Layer 2's “Monoidal presentations
-(reusable infrastructure)” supplies tensor-word generators, typed congruence,
-the presented monoidal category and its universal property for strong
-monoidal functors into non-strict targets. Its additional circle-centrality
-relation for Temperley–Lieb diagrams is not a relation of our free categories.
-
-**From TauCetiRoadmap.PivotalSpherical.** Layers 0–2 supply dual comparisons,
-double duals, pivotal structures and functors, and the two traces; Layer 7
-supplies rigidity of finite-dimensional representations. Layer 10's “central
-equivalence” fixes the braid/pivotal-to-twist formula and its inverse, and its
-ribbon node imposes dual compatibility. Layer 0.3 below proves this formula's
-compatibility with strong braided functors, including its functor groupoids.
-
-**From TauCetiRoadmap.GeometricTopology.** Layers 1–2 supply collars,
-tubular neighborhoods, gluing and locally flat embeddings. Layer 3 supplies
-the smooth-family map to diffeomorphisms of a compact manifold; Layer 4
-supplies geometric knot presentations. Use only finite-dimensional smooth/PL
-cases with the boundary and local-flatness hypotheses specified there.
-
-**From TauCetiRoadmap.KhovanovHomology.** Section G's common relative
-finite-dimensional jet/multijet floor supplies submersive evaluation and
-generic parameters. Its ambient-extension target retains compact parameter
-families, fixed open germs, common compact spatial support and finite-time
-confinement; its finite-labelled smooth link comparison supplies the closed,
-coupon-free specialization. Our Layer 1 constructs the additional collared
-edge/coupon/framing adapters against that same API.
-
-**From TauCetiRoadmap.DifferentialGeometry and TauCetiRoadmap.MorseTheory.**
-DifferentialGeometry §§3.2, 3.3, 3.5 and 10.2 supply maximal/time-dependent
-flows and Sard with their finite-dimensional hypotheses. MorseTheory M1 and
-M3 supply nondegenerate normal forms and relative Morse approximation.
-One-parameter birth/death and coupon normal forms are Layer 1 targets here.
-
-## How to read the build
-
-Layer 0 supplies the algebraic presentations and functor comparisons; Layer 1
-supplies independent geometry and its relative presentation machinery.
-Layers 2–7 prove the six coherence endpoints in order: monoidal, braided,
-rigid, pivotal, braided-pivotal and ribbon. Layer 8 assembles evaluation,
-closure and scalar normalization from those results. The labels C0, G0 and
-C1–C7 name these same layers. The geometric carriers and several supplier
-structures are not expressible at the pins by a few simple definitions;
-`Suggested.lean` records the missing carriers separately for every headline,
-without replacing a geometric theorem by a syntax lemma.
 
 ## Layer 0: signatures, syntax, congruences and interpretations (C0)
 
@@ -1315,6 +1266,101 @@ isotopy in both directions. Merely replacing each tensor word by a new atom
 loses its decomposition and is not such a reduction. Nullary coupons and
 closed components must be included in that proof. State precisely which
 result each source proves; a citation does not discharge this extension.
+
+## Scope and ownership
+
+The six rows are the coherence endpoints. Symmetric/compact-closed coherence,
+independent balanced or traced coherence, spherical graphical coherence,
+Frobenius/surface-bordism presentations, higher categorical coherence and the
+higher tangle hypothesis are outside this roadmap. Balanced/ribbon definitions
+are consumed when constructing the last row; they are not extra coherence
+endpoints. The finite-dimensional geometric machinery needed for these six
+rows is in scope, with general dimension in the supplier statements and only
+planar and three-dimensional diagram applications.
+
+| Supplier or consumer | Boundary |
+| --- | --- |
+| Mathlib `CategoryTheory/Monoidal/Free/{Basic,Coherence}` | Consume `FreeMonoidalCategory`, `project`, and the proved thin structural category. Add arbitrary morphism generators and geometric models; do not reprove structural Mac Lane coherence behind new names. |
+| Mathlib `CategoryTheory/Monoidal/{Functor,NaturalTransformation,Braided/*,Rigid/*}` | Consume strong monoidal functors, `NatTrans.IsMonoidal`, braidings, chosen duals, `ExactPairing` and mate maps. |
+| [PivotalSpherical, Layers 0–2, 7 and 10](../PivotalSpherical/README.md) | Owns double duals, pivotal structures/functors, traces, representation-category rigidity, balanced/ribbon structures and their algebraic relationships. This roadmap owns their free constructions and graphical coherence. The functor-level compatibility of the Drinfeld comparison is constructed in Layer 0.3 here. |
+| [GeometricTopology, Layers 1–4](../GeometricTopology/README.md) | Owns general manifold/embedding/isotopy foundations, knot presentations and braid groups. Its closed Reidemeister comparison is shared with Khovanov G. This roadmap constructs boundary- and coupon-labelled tangles and their Morse-word presentation against those same realization and isotopy definitions. |
+| [KhovanovHomology, G](../KhovanovHomology/README.md#g-plane-geometry-relative-extension-and-smooth-link-comparison) | Owns the common finite-dimensional relative jet/multijet general-position floor, relative ambient extension and finite-labelled smooth projection/Reidemeister comparison. Consume these in their shared manifold namespaces, independent of Khovanov complexes. G0 adds strip/boundary/coupon adapters, height/progressive constraints and framing sections; the closed coupon-free specialization compares with G's supported plane-event words and GT's presentations. |
+| [DifferentialGeometry, Layers 3 and 10.2](../DifferentialGeometry/README.md), [MorseTheory, M1 and M3](../MorseTheory/README.md) | Supply flows, Sard, Morse normal forms and approximation at their actual hypotheses, also used by Khovanov G's common floor. G0 constructs the diagram-specific normal forms and adapters. |
+| [TemperleyLieb, Layer 2](../TemperleyLieb/README.md) | Owns the generic monoidal presentation/congruence construction. C0 pins its consumer interface and extends it to the other five structures, using one shared API in the general category-theory namespace. TL owns its matching diagrams, extra relations, linearization and special self-duality; its TL presentation is not a premise of free rigid or pivotal coherence. |
+| [QuantumGroups, Q8](../QuantumGroups/README.md) | Its braided representation examples are consumers of the general evaluation theorem. No quantum-group construction is a premise of coherence. |
+
+At the pins, Mathlib supplies the object-generated structural category, not a
+category freely generated by arbitrary coupons. Tau Ceti supplies Artin braid
+groups and smooth closed-link embeddings, not the collared, coupon-labelled,
+framed tangle categories here. PivotalSpherical owns the pivotal and ribbon
+structures absent at these pins; their free geometric models belong here.
+TemperleyLieb Layer 2 owns the generic monoidal presentation, including its
+strong-monoidal universal property. The other five presentation structures and
+the functor-level Drinfeld compatibility are extensions owned here.
+
+## Exact supplier contracts
+
+**From Mathlib.** In `Mathlib/CategoryTheory/Monoidal/Free/Basic.lean`,
+`CategoryTheory.FreeMonoidalCategory.projectObj` and
+`CategoryTheory.FreeMonoidalCategory.project` interpret structural objects and
+arrows in any monoidal category; `FreeMonoidalCategory.subsingleton_hom` in
+`Mathlib/CategoryTheory/Monoidal/Free/Coherence.lean` concerns only that
+object-generated category. Use `Functor.Monoidal` from
+`Mathlib/CategoryTheory/Monoidal/Functor.lean`, `Functor.Braided` from
+`Mathlib/CategoryTheory/Monoidal/Braided/Basic.lean` and `NatTrans.IsMonoidal`
+from `Mathlib/CategoryTheory/Monoidal/NaturalTransformation.lean` for strong
+functors and their transformations. Use `ExactPairing`, `rightAdjointMate`,
+`leftAdjointMate` from `Mathlib/CategoryTheory/Monoidal/Rigid/Basic.lean`, and
+`rightDualFunctor`, `leftDualFunctor` from
+`Mathlib/CategoryTheory/Monoidal/Rigid/Functor.lean`, with their actual
+opposite and monoidal-opposite codomains. No strict target is assumed.
+
+**From Tau Ceti.** `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`,
+`TauCeti.BraidGroup.exponentSum_sigma` in
+`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean` and
+`TauCeti.BraidWord.toBraid_append` in
+`TauCeti/GroupTheory/SpecificGroups/Braid/Word.lean` fix the Artin generators
+and multiplication order. `TauCeti.BraidWord.overPair_closure` and
+`TauCeti.BraidWord.crossingSign_closure` in
+`TauCeti/KnotTheory/BraidWord/PDCode.lean` send a positive letter to a
+left-input-over crossing of sign +1. `TauCeti.SmoothLinkEmbedding` in
+`TauCeti/KnotTheory/SmoothLink/Basic.lean` is a finite family of disjoint
+smooth circle embeddings. `SmoothEmbedding.SmoothAmbientIsotopic` in
+`TauCeti/Geometry/Manifold/SmoothEmbedding/SmoothAmbientIsotopy/Basic.lean`
+provides ambient transport; Layer 1 adds the stated relative constraints.
+
+**From TauCetiRoadmap.TemperleyLieb.** Layer 2's “Monoidal presentations
+(reusable infrastructure)” supplies tensor-word generators, typed congruence,
+the presented monoidal category and its universal property for strong
+monoidal functors into non-strict targets. Its additional circle-centrality
+relation for Temperley–Lieb diagrams is not a relation of our free categories.
+
+**From TauCetiRoadmap.PivotalSpherical.** Layers 0–2 supply dual comparisons,
+double duals, pivotal structures and functors, and the two traces; Layer 7
+supplies rigidity of finite-dimensional representations. Layer 10's “central
+equivalence” fixes the braid/pivotal-to-twist formula and its inverse, and its
+ribbon node imposes dual compatibility. Layer 0.3 above proves this formula's
+compatibility with strong braided functors, including its functor groupoids.
+
+**From TauCetiRoadmap.GeometricTopology.** Layers 1–2 supply collars,
+tubular neighborhoods, gluing and locally flat embeddings. Layer 3 supplies
+the smooth-family map to diffeomorphisms of a compact manifold; Layer 4
+supplies geometric knot presentations. Use only finite-dimensional smooth/PL
+cases with the boundary and local-flatness hypotheses specified there.
+
+**From TauCetiRoadmap.KhovanovHomology.** Section G's common relative
+finite-dimensional jet/multijet floor supplies submersive evaluation and
+generic parameters. Its ambient-extension target retains compact parameter
+families, fixed open germs, common compact spatial support and finite-time
+confinement; its finite-labelled smooth link comparison supplies the closed,
+coupon-free specialization. Our Layer 1 constructs the additional collared
+edge/coupon/framing adapters against that same API.
+
+**From TauCetiRoadmap.DifferentialGeometry and TauCetiRoadmap.MorseTheory.**
+DifferentialGeometry §§3.2, 3.3, 3.5 and 10.2 supply maximal/time-dependent
+flows and Sard with their finite-dimensional hypotheses. MorseTheory M1 and
+M3 supply nondegenerate normal forms and relative Morse approximation.
+One-parameter birth/death and coupon normal forms are Layer 1 targets here.
 
 ## References
 

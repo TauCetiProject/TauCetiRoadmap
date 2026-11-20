@@ -1,59 +1,62 @@
 # Roadmap: coboundary expansion with group coefficients
 
-**Summary.** A 1-cochain on a finite 2-complex with values in a group fails to be a coboundary to
-some extent, measured by how far a gauge must move it, and it carries a triangle defect, the
-holonomy around each triangle. The first coboundary Cheeger constant is the least ratio of defect
-to distance. With `𝔽₂` coefficients this is the Linial–Meshulam constant; with permutation
-coefficients in the normalized Hamming metric it is the constant of Chapman and Lubotzky.
-Coboundary expansion measures the distance from a cochain to the gauge-trivial cochains (the
-coboundaries); cocycle expansion measures the distance to all cochains with zero triangle defect
-(the cocycles). Chapman and Lubotzky's route to non-sofic groups needs cocycle expansion of
-quotients of buildings, which this roadmap does not supply.
+**Summary.** Put an element of a group `G` on each oriented edge of a finite 2-complex, with the
+inverse on the reversed edge. Such a 1-cochain `α` is a coboundary when `α(u,v) = β(u)β(v)⁻¹` for
+some function `β` on the vertices; its holonomy around each triangle, the product of the three
+edge values, is then trivial. Coboundary expansion compares how far a cochain is from the
+coboundaries with how far its holonomies are from trivial.
+
+Both are measured by a group norm `ℓ` on `G`, a length function vanishing only at the identity
+with `ℓ(gh) ≤ ℓ(g)+ℓ(h)` and `ℓ(g⁻¹) = ℓ(g)`; it is conjugation invariant when `ℓ(hgh⁻¹) = ℓ(g)`.
+The defect `N(α)` is the sum of the norms of the triangle holonomies. A gauge `β` changes the
+edge values to `β(u)⁻¹α(u,v)β(v)`, and the gauge distance `D(α)` is the infimum over gauges of the
+sum of their norms. The first coboundary Cheeger constant `h₁(X, ℓ)` is the infimum of
+`N(α)/D(α)` over cochains with `D(α) > 0`. With `𝔽₂` coefficients this is the Linial–Meshulam
+constant, and with permutations in the normalized Hamming metric that of Chapman and Lubotzky.
 
 This roadmap develops that theory for an arbitrary group carrying a conjugation-invariant group
-norm, then determines the constant of the complete complex `K_k`. The lower bound `k/3` holds for
-every such group (Beasley, Proposition 1, extending Chapman–Lubotzky's Proposition 3.2 for
-permutation coefficients). For `𝔽₂` and `k ≥ 3` not a power of two, Kozlov proves that
-the bound is attained. For permutation coefficients it is attained for every `k ≥ 4`, already
-with values in `Sym(3)` (Beasley), in the same-degree and in the cross-degree convention. The
-proof uses a three-transposition seed at `k = 4`, a balanced replication that multiplies the
-defect by `q³` and the gauge distance by exactly `q²`, Kozlov's staircase witnesses, and a parity
-retraction. The end theorems are `card_div_three_le_h1` (Layer 4), `Cochain.defect_replicate`
-and `Cochain.gaugeDist_replicate` (Layer 5), `h1_complete_movedNorm_fin_two` (Layer 7),
-`h1_complete_movedNorm_fin_three`, `h1Norm_complete_movedNorm_fin_three` and `h1Sym_complete`
-(Layer 8), and `h1Err_complete` (Layer 9).
+norm, then determines the constant of the complete complex `K_k` on `k` vertices. On symmetric
+groups the norm counts moved points. Defect and distance are sums, not averages; the normalized
+constant, which averages over edges and over triangles, turns `k/3` on `K_k` into `k/(k−2)`.
+
+The first main theorem is a lower bound for every coefficient group. For a conjugation-invariant
+norm, every cochain on `K_k` satisfies `k·D(α) ≤ 3·N(α)`. Hence `h₁(K_k, ℓ) ≥ k/3` whenever some
+cochain has positive gauge distance (Beasley; Chapman and Lubotzky for permutations). The star
+gauge at a vertex `x` makes the edges at `x` cost nothing and gives each other edge `uv` the
+holonomy of the triangle `xuv`; the `k` star gauges cost `3N` in total.
+
+Permutation coefficients attain the bound. For every `k ≥ 4`, the constant of `K_k` with
+coefficients in `Sym(3)` is exactly `k/3`, and so is the infimum over all degrees `n ≥ 2` of the
+constants of `Sym(n)`. Counted the same way, Chapman and Lubotzky's cross-degree constant, in
+which gauge and cochain may have different degrees, is `k/3` too. At `k = 4` a witness puts the
+three transpositions of `Sym(3)` on the edges of one triangle and the identity elsewhere, with
+defect `8` and gauge distance `6`.
+
+The proof for general `k` rests on two further theorems. Balanced replication replaces each vertex
+by a cluster of `q` vertices, with the identity inside clusters and `α(i,j)` between clusters `i`
+and `j`. For every group norm it multiplies the defect by `q³` and the gauge distance by exactly
+`q²`, which settles the multiples of four. Kozlov's theorem gives `h₁(K_k, 𝔽₂) = k/3` whenever
+`k ≥ 3` is not a power of two, which covers the remaining `k`. His witnesses keep their ratio in
+`Sym(3)`, because the parity retraction, sending odd permutations to a fixed transposition and
+even ones to the identity, never increases the number of moved points.
+
+Mathlib has group norms and permutation supports but no cochains with group coefficients. The
+2-complexes specialize the finite simplicial complexes of the [Regularity](../Regularity/README.md)
+roadmap to edges and triangles. Developments of Linial–Meshulam random complexes, cosystolic
+expansion or Chapman–Lubotzky stability would use Layers 1–4. Coboundary expansion is not cocycle
+expansion, the distance to all cochains with zero triangle defect; Chapman and Lubotzky's route to
+non-sofic groups needs the latter for quotients of buildings, which this roadmap does not supply.
+
+Layer 1 treats the norms and the parity retraction. Layer 2 builds cochains and the gauge
+distance, and Layer 3 defines the constants. Layers 4 and 5 prove the star bound and the
+replication law. Layer 6 computes the `Sym(3)` constant at `k = 4, …, 8` and at multiples of four,
+and Layer 7 proves Kozlov's theorem. Layer 8 assembles the permutation theorem, and Layer 9
+transfers it to the cross-degree convention.
 
 The README is definitive. [Suggested.lean](Suggested.lean) gives suggested, non-exhaustive
 signatures, with `sorry` for unproved targets. The suggested home is
 `TauCeti/Combinatorics/CoboundaryExpansion/`, with the norm material of Layer 1 under
 `TauCeti/Algebra/Group/` and the permutation material under `TauCeti/GroupTheory/Perm/`.
-
-## Scope and ownership
-
-This roadmap owns: conjugation-invariant group norms and their constructions; the moved-point
-norm on finite permutation groups and the parity retraction; group-valued 1-cochains on finite
-2-complexes with their holonomy, defect, gauge action, gauge distance and coboundaries; the first
-coboundary Cheeger constant in the counting, normalized, same-degree permutation and cross-degree
-conventions; the star bound on the complete complex; balanced replication; the `Sym(3)` and
-`𝔽₂` witnesses on the complete complex, including Kozlov's staircase graphs; and the exact value
-of every one of these constants on `complete V`.
-
-It does not own, and does not restate:
-
-- finite graded simplicial complexes, which the [regularity roadmap](../Regularity/README.md)
-  owns as `HypergraphComplex r V` in its Layer 5, together with the conversion to and from
-  Mathlib's `PreAbstractSimplicialComplex`. The carrier `TwoComplex V` of Layer 2 here is the
-  specialization `r = 3` read at levels 2 and 3, with conversion and round-trip targets; it is
-  not a second foundational complex;
-- group norms, `GroupNorm`, permutation supports and signs, Hamming distance, and finite sums
-  and infima, all already in Mathlib (exact names under supplier contracts).
-
-Out of scope altogether: cochains in degree other than 1; coboundary expansion of infinite or
-random complexes; cosystolic expansion of buildings and their quotients; the stability theory of
-homomorphisms that Chapman and Lubotzky derive from these constants; soficity; and any search
-procedure, decision procedure or evaluation strategy. Every finite value below is a theorem about
-cochains; how it is proved is the implementor's choice. Graph Cheeger constants appear only as
-the cut counts of Layer 7.
 
 ## Conventions
 
@@ -109,66 +112,6 @@ All conventions below are fixed; contributors do not choose between alternatives
   indicator of a non-identity element; Layer 7 transports this to edge sets.
 - **Real division.** Every ratio and every quotient such as `n / 3` or `k/(k − 2)` is a real
   number, never natural-number division.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Pinned at Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2`, the pin of `lake-manifest.json`.
-
-- `GroupSeminorm`, `GroupNorm` (`Mathlib/Analysis/Normed/Group/Seminorm.lean`): product
-  inequality, inverse invariance, and separation for `GroupNorm`; no conjugation-invariance
-  field. The sum of two group norms is already an instance there; only preservation of
-  conjugation invariance is new.
-- `Equiv.Perm.support`, `Equiv.Perm.support_one`, `Equiv.Perm.support_eq_empty_iff`,
-  `Equiv.Perm.support_mul_le`, `Equiv.Perm.support_inv`, `Equiv.Perm.card_support_conj`,
-  `Equiv.Perm.IsSwap`, `Equiv.Perm.card_support_eq_two` (`Mathlib/GroupTheory/Perm/Support.lean`):
-  the moved set, its behaviour under products, inverses and conjugation, and swaps as the
-  permutations moving exactly two points.
-- `Equiv.Perm.sign`, `Equiv.Perm.IsSwap.sign_eq` (`Mathlib/GroupTheory/Perm/Sign.lean`): a monoid
-  homomorphism to `ℤˣ`, `−1` on swaps.
-- [`hammingDist`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/InformationTheory/Hamming.html#hammingDist)
-  (`Mathlib/InformationTheory/Hamming.lean`): the number of unequal values of two functions on a
-  finite domain with decidable equality in the codomain.
-- `Finset.powersetCard`, `Finset.mem_powersetCard`, `Finset.card_powersetCard`
-  (`Mathlib/Data/Finset/Powerset.lean`): the fixed-cardinality subsets, including the empty and
-  boundary cases.
-- `Finset.sum_comm`, `Finset.sum_le_sum` and `Finset.inf'` for the double counts of Layers 4 and 5
-  and the attained minima of Layer 2.
-- `Prod.Lex`, `toLex`, `ofLex` (`Mathlib/Order/Lex.lean`): the vertex order on the replicated
-  complex of Layer 5.
-- [`SimpleGraph`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph),
-  `SimpleGraph.fromRel`, `SimpleGraph.edgeFinset`: edge sets and the staircase graphs of Layer 7.
-- `PreAbstractSimplicialComplex`, `AbstractSimplicialComplex`
-  (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`): nonempty finite faces with downward
-  closure, with no finiteness of the face set and no dimension bound. They are reached through
-  the regularity roadmap's conversion, not directly.
-- `Real.sInf_empty`: the empty real infimum is `0`.
-
-At that pin Mathlib has no cochains on a simplicial complex with group coefficients, no gauge
-distance and no coboundary Cheeger constant.
-
-### From Tau Ceti
-
-None. Tau Ceti's `hammingDist_eq_hammingNorm_sub` (`TauCeti/InformationTheory/Hamming.lean`)
-concerns additive codomains and is not the composition identity of 1.3.
-
-### From other roadmaps
-
-- [Regularity](../Regularity/README.md), Layer 5: `HypergraphComplex r V`, a finite augmented
-  complex whose level `k` holds faces of cardinality `k ≤ r`, closed under subsets, with the empty
-  face; and its conversions to and from `PreAbstractSimplicialComplex`. Target 2.1 consumes the
-  case `r = 3`.
-
-## How to read the build
-
-Layer 1 fixes the coefficient norms: conjugation invariance, the moved-point norm and the parity
-retraction. Layer 2 specializes the regularity roadmap's complexes to the edge/triangle carrier
-and builds cochains, the gauge action and the gauge distance with their invariances. Layer 3
-defines the four constants. Layer 4 proves the star bound `k/3` for every group, and Layer 5 the
-replication law. Layer 6 computes the `Sym(3)` constant at `k = 4`, at multiples of four, and at
-`k = 5, …, 8`. Layer 7 proves Kozlov's `𝔽₂` theorem. Layer 8 combines Layers 1, 4, 6 and 7 into
-the permutation headline, and Layer 9 transfers it to the cross-degree convention.
 
 ## Layer 1: conjugation-invariant group norms
 
@@ -843,6 +786,83 @@ Any development of Linial–Meshulam random complexes, of cosystolic expansion, 
 Chapman–Lubotzky stability of homomorphisms consumes Layers 1–4: the conjugation-invariant norm
 API, the cochain and gauge-distance theory with its invariances, and the star bound. Layer 7.1–7.2
 is the `𝔽₂` edge-set dictionary such developments use.
+
+## Scope and ownership
+
+This roadmap owns: conjugation-invariant group norms and their constructions; the moved-point
+norm on finite permutation groups and the parity retraction; group-valued 1-cochains on finite
+2-complexes with their holonomy, defect, gauge action, gauge distance and coboundaries; the first
+coboundary Cheeger constant in the counting, normalized, same-degree permutation and cross-degree
+conventions; the star bound on the complete complex; balanced replication; the `Sym(3)` and
+`𝔽₂` witnesses on the complete complex, including Kozlov's staircase graphs; and the exact value
+of every one of these constants on `complete V`.
+
+It does not own, and does not restate:
+
+- finite graded simplicial complexes, which the [regularity roadmap](../Regularity/README.md)
+  owns as `HypergraphComplex r V` in its Layer 5, together with the conversion to and from
+  Mathlib's `PreAbstractSimplicialComplex`. The carrier `TwoComplex V` of Layer 2 here is the
+  specialization `r = 3` read at levels 2 and 3, with conversion and round-trip targets; it is
+  not a second foundational complex;
+- group norms, `GroupNorm`, permutation supports and signs, Hamming distance, and finite sums
+  and infima, all already in Mathlib (exact names under supplier contracts).
+
+Out of scope altogether: cochains in degree other than 1; coboundary expansion of infinite or
+random complexes; cosystolic expansion of buildings and their quotients; the stability theory of
+homomorphisms that Chapman and Lubotzky derive from these constants; soficity; and any search
+procedure, decision procedure or evaluation strategy. Every finite value above is a theorem about
+cochains; how it is proved is the implementor's choice. Graph Cheeger constants appear only as
+the cut counts of Layer 7.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Pinned at Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2`, the pin of `lake-manifest.json`.
+
+- `GroupSeminorm`, `GroupNorm` (`Mathlib/Analysis/Normed/Group/Seminorm.lean`): product
+  inequality, inverse invariance, and separation for `GroupNorm`; no conjugation-invariance
+  field. The sum of two group norms is already an instance there; only preservation of
+  conjugation invariance is new.
+- `Equiv.Perm.support`, `Equiv.Perm.support_one`, `Equiv.Perm.support_eq_empty_iff`,
+  `Equiv.Perm.support_mul_le`, `Equiv.Perm.support_inv`, `Equiv.Perm.card_support_conj`,
+  `Equiv.Perm.IsSwap`, `Equiv.Perm.card_support_eq_two` (`Mathlib/GroupTheory/Perm/Support.lean`):
+  the moved set, its behaviour under products, inverses and conjugation, and swaps as the
+  permutations moving exactly two points.
+- `Equiv.Perm.sign`, `Equiv.Perm.IsSwap.sign_eq` (`Mathlib/GroupTheory/Perm/Sign.lean`): a monoid
+  homomorphism to `ℤˣ`, `−1` on swaps.
+- [`hammingDist`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/InformationTheory/Hamming.html#hammingDist)
+  (`Mathlib/InformationTheory/Hamming.lean`): the number of unequal values of two functions on a
+  finite domain with decidable equality in the codomain.
+- `Finset.powersetCard`, `Finset.mem_powersetCard`, `Finset.card_powersetCard`
+  (`Mathlib/Data/Finset/Powerset.lean`): the fixed-cardinality subsets, including the empty and
+  boundary cases.
+- `Finset.sum_comm`, `Finset.sum_le_sum` and `Finset.inf'` for the double counts of Layers 4 and 5
+  and the attained minima of Layer 2.
+- `Prod.Lex`, `toLex`, `ofLex` (`Mathlib/Order/Lex.lean`): the vertex order on the replicated
+  complex of Layer 5.
+- [`SimpleGraph`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Basic.html#SimpleGraph),
+  `SimpleGraph.fromRel`, `SimpleGraph.edgeFinset`: edge sets and the staircase graphs of Layer 7.
+- `PreAbstractSimplicialComplex`, `AbstractSimplicialComplex`
+  (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`): nonempty finite faces with downward
+  closure, with no finiteness of the face set and no dimension bound. They are reached through
+  the regularity roadmap's conversion, not directly.
+- `Real.sInf_empty`: the empty real infimum is `0`.
+
+At that pin Mathlib has no cochains on a simplicial complex with group coefficients, no gauge
+distance and no coboundary Cheeger constant.
+
+### From Tau Ceti
+
+None. Tau Ceti's `hammingDist_eq_hammingNorm_sub` (`TauCeti/InformationTheory/Hamming.lean`)
+concerns additive codomains and is not the composition identity of 1.3.
+
+### From other roadmaps
+
+- [Regularity](../Regularity/README.md), Layer 5: `HypergraphComplex r V`, a finite augmented
+  complex whose level `k` holds faces of cardinality `k ≤ r`, closed under subsets, with the empty
+  face; and its conversions to and from `PreAbstractSimplicialComplex`. Target 2.1 consumes the
+  case `r = 3`.
 
 ## References
 

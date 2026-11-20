@@ -1,134 +1,91 @@
 # Roadmap: nonparametric statistics
 
-**Summary.** This roadmap builds the theory of nonparametric inference on Mathlib's measure
-theory, Markov kernels, divergences and Hilbert spaces:
-- divergences between probability measures (Hellinger, chi-squared, Kullback–Leibler, total
-  variation) and the inequalities between them;
-- the minimax lower-bound toolkit: reduction to testing, Le Cam's two-point method, Fano's
-  method, the Varshamov–Gilbert bound and Assouad's lemma;
-- ranks, signed ranks and linear rank statistics, their exact null laws and their asymptotics,
-  locally most powerful and asymptotically optimal rank tests, the Hodges–Lehmann estimator;
-- goodness of fit: distribution-freeness and the limit laws of the Kolmogorov–Smirnov and
-  Cramér–von Mises statistics, the Kolmogorov distribution, a Dvoretzky–Kiefer–Wolfowitz bound;
-- smoothing: kernels of order `ℓ`, kernel density estimation, linear smoothers, local
-  polynomial regression, Stone's consistency theorem, cross-validation, reproducing kernels and
-  smoothing splines, and the minimax rates over Hölder and Sobolev classes;
-- the Gaussian sequence model: ellipsoids, Pinsker's theorem, soft thresholding, the
-  chi-bar-squared law and the nonparametric detection boundary;
-- shape constraints: isotonic regression and its risk, the Grenander estimator and Chernoff's
-  limit, log-concave maximum likelihood;
-- functional data: covariance operators on a separable Hilbert space, the Karhunen–Loève
-  expansion, the Hilbertian central limit theorem, functional principal components and
-  functional linear regression.
+**Summary.** Nonparametric statistics studies inference when the law behind the data is not
+assumed to lie in a family indexed by finitely many real parameters. Two questions recur: how
+accurately can any procedure estimate or test, and which procedures attain that accuracy? This
+roadmap formalizes the classical answers on Mathlib's measure theory and Markov kernels. Estimators
+are Markov kernels, so every lower bound, except the one for functional data, also covers
+randomized estimators.
 
-Headlines that restate a source result carry a theorem, definition,
-section or equation locator with its printed page in a text listed under References; corollaries
-and adaptations are derived in the proof routes.
+The first main result is a lower bound for testing. Let `M ≥ 2` probability measures be given, and
+let a test, possibly randomized, observe a draw from one of them and guess which. Fano's
+inequality says that its probability of error, averaged over the measures, is at least
+`1 - (I + log 2) / log M`, and hence so is its largest one. Here `I` is the average
+Kullback–Leibler divergence of the measures from their uniform mixture. Le Cam's two-point method
+and Assouad's lemma, for hypotheses indexed by a cube, play the same role. A reduction of
+estimation to testing turns these bounds into lower bounds on minimax risks. For instance, Le
+Cam's method shows that from `n` observations of `N(θ, 1)` no estimator of θ has worst-case mean
+squared error below `1/(16n)`.
 
-**This roadmap is a supplier.** Layers 1 and 2 and the soft-threshold section 6.4 are
-self-contained: they need only Mathlib, Tau Ceti and
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) (6.4 also uses
-the finite form of 6.1), and their headline statements are the contract used by the high-dimensional
-statistics roadmap MathematicalStatisticsHighDimensional (see
-[Downstream consumers](#downstream-consumers)). The remaining layers also consume the
-empirical-process, contiguity and argmax material of the asymptotic statistics roadmap
-MathematicalStatisticsAsymptotic (see [Exact supplier contracts](#exact-supplier-contracts)).
+The second theme is rank tests. For an independent sample from a law without atoms, the vector of
+ranks is uniform on the permutations, so statistics of the ranks have null laws that do not depend
+on the law. The asymptotic headline is the Chernoff–Savage inequality. Let `f` be a probability
+density on the line with finite variance `σ²` and distribution function `F`, and let `φ` and `Φ`
+be the standard normal density and distribution function. Then
+`σ² (∫ f(x)² / φ(Φ⁻¹(F(x))) dx)² ≥ 1`, the integral possibly infinite, with equality exactly for
+the normal densities. When `f` is moreover absolutely continuous with finite Fisher information
+and `σ² > 0`, the left side is the Pitman efficiency of the normal-scores rank test relative to
+the `t` test in the two-sample shift model. For the Laplace density it is `4/π`.
 
-`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
-a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. The headlines without a Lean name are those whose carrier is missing at the
-pins; the module docstring of `Suggested.lean` lists them with the carrier each one lacks.
+Third, in the Gaussian sequence model one observes `Y_j = θ_j + ε ξ_j`, `j ≥ 1`, with
+independent standard normal noise, and θ lies in an ellipsoid `Σ a_j² θ_j² ≤ C²` with
+`C > 0`. Pinsker's theorem assumes the weights positive, nondecreasing and tending to infinity.
+It says that, as `ε → 0`, the minimax risk for squared `ℓ²` loss is asymptotically equal to the
+minimax risk over the linear estimators `y ↦ (c_j y_j)`, which is explicit. For `a_j = j^β` with
+`β > 0` it is asymptotic to Pinsker's constant times `C^{2/(2β+1)} ε^{4β/(2β+1)}`.
+
+The fourth headline concerns monotone densities. Given positive observations, the Grenander
+estimator, the left derivative of the least concave majorant of the empirical distribution
+function, maximizes the likelihood among nonincreasing densities on `[0, ∞)`. Suppose the
+observations are independent with a nonincreasing density `f` on `[0, ∞)`, differentiable at a
+point `x₀ > 0` with `f'(x₀) < 0`. Then the estimator at that point, minus `f(x₀)` and multiplied
+by `n^{1/3}`, converges in law to `|4 f'(x₀) f(x₀)|^{1/3} Z`. Here `Z`, Chernoff's variable, is the almost
+surely unique maximizer of `W(t) - t²` for a two-sided Brownian motion `W`.
+
+Within Tau Ceti, the roadmap builds on
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) for its
+vocabulary, from tests to the empirical distribution function. It uses
+[MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) for empirical
+processes, the argmax theorem and the central limit theorems.
+[MathematicalStatisticsHighDimensional](../MathematicalStatisticsHighDimensional/README.md) uses
+only the first two layers and the soft-thresholding part of Layer 6. Pinsker's inequality and
+McDiarmid's inequality are already proved in Tau Ceti.
+
+Layers 1 and 2 treat divergences and the lower-bound methods. Layers 3 and 4 treat rank and
+goodness-of-fit statistics, first their exact laws and then their limits. Layers 5 to 7 estimate
+functions: by smoothing, in the Gaussian sequence model, and under shape constraints. Layer 8
+treats functional data in a separable Hilbert space.
+
+`Suggested.lean` states in Lean, with proofs left open, the headlines below that carry a Lean
+name; its module docstring lists the others, each with what Mathlib or Tau Ceti lacks for it.
 
 Suggested home: `TauCeti/Statistics/Nonparametric/`, with one subdirectory per layer.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layers 1 and 2 are information theory of finitely many experiments. Every lower bound in the
+roadmap is one of four arguments, all in Layer 2: two hypotheses (Le Cam), many separated
+hypotheses (Fano), a hypercube of hypotheses (Assouad), each fed by a bound on a divergence from
+Layer 1 and, for Fano, a packing from the Varshamov–Gilbert bound. Layers 5, 6 and 7 apply them
+to specific classes: perturbations of a fixed density or regression function by bumps scaled to
+the bandwidth.
 
-1. **Divergences.** The Hellinger affinity and distance, the chi-squared divergence, the
-   Kullback–Leibler complements (finite products, Gaussian laws, binary divergence), and the
-   comparison inequalities of Le Cam, Pinsker, Bretagnolle–Huber and the chi-squared bound,
-   with the testing affinity `1 - tvDist / 2`.
-2. **Minimax lower bounds.** Reduction of estimation to testing, Le Cam's two-point bounds in
-   total variation, Hellinger and Kullback–Leibler form, the Varshamov–Gilbert bound, Fano's
-   inequality for the average and the maximal error with the mutual-information bound, Assouad's
-   lemma with its metric form, and the corollaries for Mathlib's `minimaxRisk`.
-3. **Exact rank theory.** Ranks and signed ranks and their null laws, linear rank statistics
-   with their means and variances, exact and approximate scores, score-generating functions of
-   location and scale families, the sign test, the Wilcoxon signed-rank and Mann–Whitney laws,
-   Kendall's tau and Spearman's rho under independence, the Kruskal–Wallis statistic, the
-   Hodges–Lehmann estimator, and the distribution-freeness of the one- and two-sample
-   Kolmogorov–Smirnov and Cramér–von Mises statistics. The Kolmogorov distribution and the
-   Cramér–von Mises limit law.
-4. **Rank and goodness-of-fit asymptotics.** The projection of a rank statistic and the rank
-   central limit theorem, the limits of the classical rank statistics, locally most powerful
-   rank tests and their asymptotic optimality, the Chernoff–Savage inequality, the
-   Hodges–Lehmann limit, the Kolmogorov–Smirnov limit and the identification of the Kolmogorov
-   law, a Dvoretzky–Kiefer–Wolfowitz bound, the Cramér–von Mises limit, the two-sample
-   Kolmogorov–Smirnov limit and its consistency, and the Kolmogorov–Smirnov statistic with
-   estimated parameters.
-5. **Smoothing.** Hölder and Sobolev classes, kernels of order `ℓ`, bias, variance, asymptotic
-   normality and mean integrated squared error of the kernel density estimator, universal `L¹`
-   consistency, linear smoothers and the leave-one-out identity, Nadaraya–Watson and local
-   polynomial asymptotics in the interior and at the boundary, Stone's theorem,
-   cross-validation, the representer theorem, smoothing splines as linear smoothers, and the
-   minimax rates of density estimation and of Hölder regression.
-6. **The Gaussian sequence model.** Ellipsoids, periodic Sobolev classes as ellipsoids,
-   Pinsker's linear minimax theorem and its asymptotic minimaxity, the Sobolev rate and constant,
-   the soft-threshold oracle inequality, the chi-bar-squared law for polyhedral cones, and the
-   detection boundary.
-7. **Shape constraints.** Isotonic least squares and its max–min and convex-minorant
-   characterizations, its risk bound and the matching lower bound, the Grenander estimator, the
-   switching relation, the local empirical-process limit and the cube-root limit with Chernoff's
-   distribution, and log-concave
-   maximum likelihood with its Hellinger rates.
-8. **Functional data.** The covariance operator of a square-integrable random element of a
-   separable Hilbert space, its eigen-expansion, the Karhunen–Loève expansion, Gaussian measures
-   with a given trace-class covariance, the Hilbertian central limit theorem, the asymptotics of
-   functional principal components and their optimality, and functional linear regression.
+Layers 3 and 4 are rank theory. Every exact statement is one fact, the uniform law of the rank
+vector (Foundations 5.1), and every limit statement is the projection of a rank statistic
+onto a sum of independent terms, after which the central limit theorems and LAN of
+MathematicalStatisticsAsymptotic apply. The goodness-of-fit statistics reduce, by the quantile
+transform, to the uniform case, and their limits are real-valued functionals of the Brownian
+bridge.
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+Layer 5 is bias–variance calculus with kernels; its single nonelementary input is the continuity of
+translation in `L¹` of Tau Ceti, for `L¹` consistency. Layer 6 is Gaussian computations in the
+sequence model, with the Bayes risk of Gaussian priors as the lower bound. Layer 7 is convex
+analysis of least squares under order and concavity constraints, plus the cube-root asymptotics
+built on the argmax theorem. Layer 8 is spectral theory of compact positive operators.
 
-**Not owned here.** The following are used, not built:
-- the vocabulary of
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md): tests,
-  the law of the ranks (5.1), U-statistics (2.4), convergence in probability and in law with
-  Slutsky's lemma and the delta method (Layer 8), i.i.d. sequences (8.5), contiguity (8.6), the
-  empirical distribution function and the sample quantile (9.1), the statistical form of total
-  variation and the Kolmogorov–Smirnov statistic (9.2), and the kernel density estimator (9.3).
-  This roadmap proves the asymptotic and minimax theory of these objects, not their definitions
-  or their finite-sample identities;
-- the empirical-process toolkit: weak convergence in `ℓ^∞(T)`, the classical Donsker theorem for
-  the empirical distribution function with the Brownian bridge limit, Donsker theorems for
-  bracketing and VC classes, maximal inequalities, and the argmax continuous-mapping theorem,
-  owned by MathematicalStatisticsAsymptotic. The one triangular-array empirical-process limit
-  this roadmap needs, the local empirical process at the cube-root scale (7.4), is owned here;
-- the asymptotic theory of experiments: the Lindeberg–Feller and multivariate central limit
-  theorems, asymptotic normality of nondegenerate U-statistics with the Hoeffding projection,
-  local asymptotic normality of smooth models, Le Cam's third lemma, the asymptotic power
-  envelope, and Pitman efficiency with the efficiencies `3/π` of the Wilcoxon test and
-  `108/125` of the Hodges–Lehmann bound, all owned by MathematicalStatisticsAsymptotic. Layer 4
-  applies them to rank statistics;
-- Wiener measure, Brownian motion and Brownian bridges as processes, owned by the
-  StochasticCalculus roadmap (its Wiener measure on `C(ℝ≥0, ℝ)` and its Brownian bridges). This
-  roadmap uses Mathlib's `IsBrownianReal` predicate and never constructs a process;
-- the Kullback–Leibler divergence, its chain rule, its tensorization for two factors, Pinsker's
-  inequality and McDiarmid's inequality, already proved in Tau Ceti;
-- trace-class operators as an operator ideal, owned by OperatorTheory/OperatorIdeals; Layer 8
-  consumes nothing from it. It uses Tau Ceti's approximation numbers
-  `ContinuousLinearMap.singularValue` and `ContinuousLinearMap.nuclearENorm` as the trace norm,
-  introduces no second trace-class carrier, and proves the identity it needs between
-  `nuclearENorm` of a positive compact operator and the sum of its diagonal entries in a Hilbert
-  basis (8.2);
-- the dimension-free perturbation bound for spectral projectors, owned by
-  OperatorTheory/SpectralSubspacePerturbation (SSP-C16); 8.6 applies it to the eigenvectors;
-- Gaussian integration by parts `E[Z f(Z)] = E f'(Z)` for smooth `f`, owned by RandomMatrices
-  §2.5; 4.4 states the form for nondecreasing maps as its own target;
-- the high-dimensional theory (sparse minimax rates, the Lasso, multiple testing), which consumes
-  Layers 1 and 2 and 6.4 and belongs to MathematicalStatisticsHighDimensional.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+Layers 1, 3, 5, 6 and 8 need none of the others except as stated in their `*Needs:*` lines.
+Layers 1 and 2 may be built first. They and 6.4 are the only parts that
+MathematicalStatisticsHighDimensional consumes.
 
 ## Conventions
 
@@ -204,200 +161,6 @@ These are fixed for every target. A statement that departs from them is a differ
   [References](#references). A locator marked *by the same argument* names the theorem whose
   proof the target follows when the target's hypotheses differ from those printed. A target
   without a locator carries a proof route.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Divergences:** `InformationTheory.klDiv` with `klDiv_map_le` (data processing,
-  `Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`) and `klDiv_compProd_eq_add`
-  (`ChainRule.lean`), `InformationTheory.klFun`; `MeasureTheory.tvDist`, `etvDist`,
-  `tvDist_triangle`, `tvDist_comm`, `tvDist_self`, `tvDist_eq_zero_iff`, `tvDist_le_add`,
-  `tvDist_eq_integral_abs_rnDeriv_of_ac`, `tvDist_of_mutuallySingular`
-  (`Mathlib/MeasureTheory/Measure/TotalVariation/`).
-- **Decision theory:** `ProbabilityTheory.avgRisk`, `bayesRisk`, `minimaxRisk`,
-  `bayesRisk_le_minimaxRisk`, `iSup_bayesRisk_le_minimaxRisk`
-  (`Mathlib/Probability/Decision/Risk/`).
-- **Combinatorics and entropy:** `hammingDist`, `hammingNorm`
-  (`Mathlib/InformationTheory/Hamming.lean`), `Metric.packingNumber`
-  (`Mathlib/Topology/MetricSpace/CoveringNumbers.lean`), `Tuple.sort`, `Equiv.Perm`,
-  `Finset.card`.
-- **Measures and kernels:** `Measure.pi`, `Measure.infinitePi`
-  (`Mathlib/Probability/ProductMeasure.lean`), `Measure.rnDeriv`, `Measure.withDensity`, `Kernel`,
-  `IsMarkovKernel`, `Kernel.deterministic`, `Measure.bind`, `StieltjesFunction.measure`, `cdf`,
-  `MeasureTheory.condExp`, `ProbabilityTheory.bernoulliMeasure`.
-- **Gaussian laws and limit theorems:** `gaussianReal`, `stdGaussian`, `multivariateGaussian`,
-  `IsGaussian` (`Mathlib/Probability/Distributions/Gaussian/`), Fernique's moment bound
-  `IsGaussian.memLp_id`, the central limit
-  theorem `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the Cramér–Wold device
-  `tendstoInDistribution_iff_tendstoInDistribution_inner`, martingale convergence
-  `tendsto_ae_condExp` and `tendsto_eLpNorm_condExp`
-  (`Mathlib/Probability/Martingale/Convergence.lean`).
-- **Brownian motion:** `IsPreBrownianReal`, `IsBrownianReal`
-  (`Mathlib/Probability/BrownianMotion/Basic.lean`), processes `ℝ≥0 → Ω → ℝ` with continuous
-  paths.
-- **Hilbert spaces and operators:** `HilbertBasis`, `Orthonormal`, `OrthonormalBasis`,
-  `OrthogonalFamily.summable_iff_norm_sq_summable`,
-  `Submodule.orthogonalProjectionOnto`, `Submodule.starProjection`,
-  `exists_norm_eq_iInf_of_complete_convex` and `norm_eq_iInf_iff_real_inner_le_zero`
-  (`Mathlib/Analysis/InnerProductSpace/Projection/`), `IsCompactOperator`,
-  `ContinuousLinearMap.IsPositive`, `LinearMap.IsSymmetric`, `Module.End.HasEigenvector`; the
-  reproducing-kernel Hilbert space class `RKHS` with `RKHS.kerFun` and `RKHS.inner_kerFun`
-  (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`); the uncentered covariance operator
-  `ProbabilityTheory.covarianceOperator` with `covarianceOperator_inner` and
-  `isPositive_covarianceOperator` (`Mathlib/Probability/Moments/CovarianceBilin.lean`).
-- **Analysis:** `HolderWith`, `HolderOnWith`, `iteratedDeriv`, `ContDiff`, `ConcaveOn`,
-  `ConvexOn`, `MonotoneOn`, `AntitoneOn`, `Real.cos` and `Real.sin` for the trigonometric
-  bases, `intervalIntegral`, `MeasureTheory.Lp`, `HasSum`.
-
-### From Tau Ceti
-
-- **Kullback–Leibler** (`TauCeti/InformationTheory/KullbackLeibler/`): Pinsker
-  `TauCeti.etvDist_sq_le_two_mul_klDiv` and `TauCeti.two_mul_sq_measureReal_sub_le_klDiv`
-  (`Pinsker.lean`); `TauCeti.klDiv_prod_prod`, `TauCeti.klDiv_prod_prod_eq_add`,
-  `TauCeti.klDiv_prod_left`, `TauCeti.klDiv_prod_right`,
-  `TauCeti.klDiv_compProd_eq_add_lintegral` (`ChainRule.lean`); convexity
-  `TauCeti.klDiv_smul_add_smul_le` (`Convex.lean`); `TauCeti.klDiv_eq_sum_klFun_singleton`
-  (`Finite.lean`); `TauCeti.lowerSemicontinuous_klDiv_probabilityMeasure` (`Variational.lean`).
-- **Total variation:** `MeasureTheory.etvDist_eq_two_mul_iSup_sub`.
-- **Concentration:** McDiarmid's inequality
-  `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences_fin`
-  (`TauCeti/Probability/McDiarmid.lean`).
-- **Counting laws:** `TauCeti.Probability.hasLaw_card_filter_mem_pi` (Poisson-binomial counts,
-  `TauCeti/Probability/Distributions/PoissonBinomial/Count.lean`),
-  `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli`,
-  `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`.
-- **Order statistics and quantiles:** `TauCeti.orderStatistic`
-  (`TauCeti/Data/Fin/Tuple/OrderStatistic.lean`), the chamber formula
-  `TauCeti.Probability.map_orderStatistics_pi` and
-  `TauCeti.Probability.map_orderStatistic_pi_uniformMeasure`
-  (`TauCeti/Probability/Distributions/OrderStatistic/`), `MeasureTheory.Measure.quantile`,
-  `MeasureTheory.Measure.cdf_map_eq_volume_restrict` and
-  `MeasureTheory.Measure.map_quantile_volume_Ioo` (`TauCeti/Probability/Quantile.lean`).
-- **Gaussian projections:** `HasLaw.norm_sq_orthogonalProjectionOnto_stdGaussian` and
-  `HasLaw.iIndepFun_orthogonalProjectionOnto_stdGaussian`
-  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`); the chi-squared laws
-  `TauCeti.Probability.chiSquaredMeasure`.
-- **Empirical measures:** `TauCeti.Probability.empiricalFiniteMeasure`.
-- **Continuity of translation in `L¹`:** `MeasureTheory.Measure.continuous_translateLp`
-  (`TauCeti/MeasureTheory/Function/Lp/Translation.lean`).
-- **Log-concavity:** `TauCeti.LogConcave` for `f : E → ℝ≥0∞`
-  (`TauCeti/Analysis/Convex/LogConcave.lean`) and the Prékopa–Leindler consequence
-  `TauCeti.LogConcave.lintegral_prod_right` (`TauCeti/MeasureTheory/Integral/PrekopaLeindler.lean`).
-- **Hilbert–Schmidt operators:** `ContinuousLinearMap.hilbertSchmidtEnergy` and
-  `ContinuousLinearMap.hilbertSchmidtNorm`
-  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean`),
-  `ContinuousLinearMap.tsum_singularValue_sq_eq_hilbertSchmidtEnergy`
-  (`OperatorIdeal/ApproximationNumber/HilbertSchmidt.lean`), and the min–max characterization
-  `singularValue_eq_iInf_nnnorm_comp_orthogonal` (`ApproximationNumber/MinMax.lean`).
-- **Spectral theory and approximation numbers:**
-  `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
-  (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`): a compact symmetric operator on a Hilbert
-  space has a Hilbert basis of eigenvectors; `ContinuousLinearMap.singularValue`
-  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/Basic.lean`),
-  `ContinuousLinearMap.abs_singularValue_sub_singularValue_le` (`|aₙ(S) - aₙ(T)| ≤ ‖S - T‖`),
-  `IsCompactOperator.tendsto_singularValue`, `ContinuousLinearMap.nuclearENorm`
-  (`OperatorIdeal/Nuclear/Basic.lean`), `ContinuousLinearMap.kyFanGauge`,
-  `ContinuousLinearMap.IsPositive.exists_orthonormal_kyFanGauge_le_sum_re_inner_add`, and the
-  finite-dimensional Ky
-  Fan principle `LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues`.
-
-### From MathematicalStatisticsFoundations
-
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) is consumed
-as follows, with its names as the contract:
-- 2.4: the U-statistic `uStatistic m n h x`;
-- 5.1: the law of the ranks: under an atomless law the sorting permutation is uniform and
-  independent of the order statistics;
-- 1.3: statistical tests `IsStatisticalTest` (functions with values in `[0, 1]`) and their level,
-  used in 6.6;
-- 6.2: the Neyman–Pearson lemma for tests in `[0, 1]`, used in 3.2 for locally most powerful
-  rank tests;
-- Layer 8: the adapters to Mathlib's `TendstoInMeasure` and `TendstoInDistribution` (8.1),
-  boundedness in probability (8.2), Slutsky's lemma and the delta method (8.4),
-  `IsIndependentIdenticallyDistributed` with the weak law of large numbers (8.5), and contiguity
-  (8.6);
-- 9.1: the empirical distribution function `empiricalCdf` and the sample quantile;
-- 9.2: the statistical form of total variation, the distribution-function bound and the
-  Kolmogorov–Smirnov statistic `sup_{t ∈ ℚ} |F̂ₙ(t) - cdf P t|`;
-- 9.3: the kernel density estimator `(n h)⁻¹ ∑ K((t - xᵢ)/h)` and its integral identities.
-- 9.4: the posterior of the normal-location model, used in 6.3 for the Bayes risk of the
-  Pinsker lower bound.
-
-### From MathematicalStatisticsAsymptotic
-
-The asymptotic statistics roadmap MathematicalStatisticsAsymptotic owns the following, consumed
-by name and material:
-- weak convergence in `ℓ^∞(T)` with the continuous-mapping theorem (2.2), convergence from
-  finite-dimensional laws plus asymptotic equicontinuity, and the uniqueness of a tight law
-  given its finite-dimensional marginals (2.3);
-- the bracketing maximal inequality (3.3), stated with the extended outer expectation of 2.1,
-  and the classical Glivenko–Cantelli theorem for the empirical distribution function (3.4);
-- the classical Donsker theorem for the empirical distribution function with the Brownian bridge
-  limit (3.4), the Brownian bridge law described by its marginals (2.4);
-- the Donsker theorems for bracketing (3.4) and VC (3.5) classes (for 4.7 with estimated
-  parameters);
-- the Lindeberg–Feller central limit theorem and the multivariate central limit theorem (1.2);
-- asymptotic normality of nondegenerate U-statistics with the Hoeffding projection and variance
-  (6.2);
-- local asymptotic normality of quadratic-mean differentiable models (7.3), Le Cam's third lemma
-  (7.2), and the asymptotic power envelope for one-sided tests (8.2);
-- the argmax continuous-mapping theorem (4.3), whose hypotheses include the uniform tightness of
-  the maximizers (for every `ε > 0` a compact set contains them with outer probability at least
-  `1 - ε` for all large `n`), and the rate theorem for M-estimators (5.6), whose modulus bound is
-  stated with the extended outer expectation of 2.1 and which needs consistency in outer
-  probability;
-- Pitman efficiency (8.3) with its hypotheses, used in 4.4, and the efficiencies of the sign and
-  Wilcoxon tests relative to the `t` test.
-- influence functions `HasInfluenceFunction` (9.1) and the influence function of a functional
-  Hadamard differentiable at the distribution function (9.2), used in 4.5 for the Hodges–Lehmann
-  functional.
-
-### From StochasticCalculus
-
-The StochasticCalculus roadmap owns Wiener measure on `C(ℝ≥0, ℝ)`, Brownian bridges, and the
-law of large numbers `B t / t → 0` for Brownian motion (its §1.4). This roadmap consumes the
-existence of a process satisfying Mathlib's `IsBrownianReal` and the a.s. growth `B t / t → 0` of
-§1.4, in 7.4. The
-Brownian bridge enters only through MathematicalStatisticsAsymptotic's Donsker theorem (3.4).
-
-### From OperatorTheory/SpectralSubspacePerturbation
-
-The spectral subspace perturbation roadmap owns the dimension-free projector bound SSP-C16, which
-rests on its directed bound SSP-C15. Let `A`, `B` be bounded symmetric operators on a Hilbert
-space, `U` a closed subspace reducing `A`, `V` a closed subspace reducing `B`, and `g > 0`. A
-*form separation of size `g`* from `U` to `V` is a constant `c` with
-`(c + g) ‖u‖² ≤ Re ⟪A u, u⟫` for `u ∈ U` and `Re ⟪B w, w⟫ ≤ c ‖w‖²` for `w ∈ Vᗮ`; the reversed
-separation is a `c'` with `(c' + g) ‖v‖² ≤ Re ⟪B v, v⟫` for `v ∈ V` and
-`Re ⟪A w, w⟫ ≤ c' ‖w‖²` for `w ∈ Uᗮ`. Under both separations, `‖P_U − P_V‖ ≤ ‖B − A‖/g`. This
-roadmap consumes it in 8.6, with `A = C`, `B = Ĉ_n` and `U`, `V` the spans of the leading
-eigenvectors.
-
-## How to read the build
-
-Layers 1 and 2 are information theory of finitely many experiments. Every lower bound in the
-roadmap is one of four arguments, all in Layer 2: two hypotheses (Le Cam), many separated
-hypotheses (Fano), a hypercube of hypotheses (Assouad), each fed by a bound on a divergence from
-Layer 1 and, for Fano, a packing from the Varshamov–Gilbert bound. Layers 5, 6 and 7 apply them
-to specific classes: perturbations of a fixed density or regression function by bumps scaled to
-the bandwidth.
-
-Layers 3 and 4 are rank theory. Every exact statement is one fact, the uniform law of the rank
-vector (Foundations 5.1), and every limit statement is the projection of a rank statistic
-onto a sum of independent terms, after which the central limit theorems and LAN of
-MathematicalStatisticsAsymptotic apply. The goodness-of-fit statistics reduce, by the quantile
-transform, to the uniform case, and their limits are real-valued functionals of the Brownian
-bridge.
-
-Layer 5 is bias–variance calculus with kernels; its single nonelementary input is the continuity of
-translation in `L¹` of Tau Ceti, for `L¹` consistency. Layer 6 is Gaussian computations in the
-sequence model, with the Bayes risk of Gaussian priors as the lower bound. Layer 7 is convex
-analysis of least squares under order and concavity constraints, plus the cube-root asymptotics
-built on the argmax theorem. Layer 8 is spectral theory of compact positive operators.
-
-Layers 1, 3, 5, 6 and 8 need none of the others except as stated in their `*Needs:*` lines.
-Layers 1 and 2 may be built first. They and 6.4 are the only parts that
-MathematicalStatisticsHighDimensional consumes.
 
 ## Layer 1: divergences
 
@@ -2937,6 +2700,263 @@ MathematicalStatisticsHighDimensional.
 The Kolmogorov distance between distribution functions is not defined here; it belongs to the
 higher-order asymptotics roadmap MathematicalStatisticsHigherOrderAndResampling, and this roadmap
 does not use it.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Divergences.** The Hellinger affinity and distance, the chi-squared divergence, the
+   Kullback–Leibler complements (finite products, Gaussian laws, binary divergence), and the
+   comparison inequalities of Le Cam, Pinsker, Bretagnolle–Huber and the chi-squared bound,
+   with the testing affinity `1 - tvDist / 2`.
+2. **Minimax lower bounds.** Reduction of estimation to testing, Le Cam's two-point bounds in
+   total variation, Hellinger and Kullback–Leibler form, the Varshamov–Gilbert bound, Fano's
+   inequality for the average and the maximal error with the mutual-information bound, Assouad's
+   lemma with its metric form, and the corollaries for Mathlib's `minimaxRisk`.
+3. **Exact rank theory.** Ranks and signed ranks and their null laws, linear rank statistics
+   with their means and variances, exact and approximate scores, score-generating functions of
+   location and scale families, the sign test, the Wilcoxon signed-rank and Mann–Whitney laws,
+   Kendall's tau and Spearman's rho under independence, the Kruskal–Wallis statistic, the
+   Hodges–Lehmann estimator, and the distribution-freeness of the one- and two-sample
+   Kolmogorov–Smirnov and Cramér–von Mises statistics. The Kolmogorov distribution and the
+   Cramér–von Mises limit law.
+4. **Rank and goodness-of-fit asymptotics.** The projection of a rank statistic and the rank
+   central limit theorem, the limits of the classical rank statistics, locally most powerful
+   rank tests and their asymptotic optimality, the Chernoff–Savage inequality, the
+   Hodges–Lehmann limit, the Kolmogorov–Smirnov limit and the identification of the Kolmogorov
+   law, a Dvoretzky–Kiefer–Wolfowitz bound, the Cramér–von Mises limit, the two-sample
+   Kolmogorov–Smirnov limit and its consistency, and the Kolmogorov–Smirnov statistic with
+   estimated parameters.
+5. **Smoothing.** Hölder and Sobolev classes, kernels of order `ℓ`, bias, variance, asymptotic
+   normality and mean integrated squared error of the kernel density estimator, universal `L¹`
+   consistency, linear smoothers and the leave-one-out identity, Nadaraya–Watson and local
+   polynomial asymptotics in the interior and at the boundary, Stone's theorem,
+   cross-validation, the representer theorem, smoothing splines as linear smoothers, and the
+   minimax rates of density estimation and of Hölder regression.
+6. **The Gaussian sequence model.** Ellipsoids, periodic Sobolev classes as ellipsoids,
+   Pinsker's linear minimax theorem and its asymptotic minimaxity, the Sobolev rate and constant,
+   the soft-threshold oracle inequality, the chi-bar-squared law for polyhedral cones, and the
+   detection boundary.
+7. **Shape constraints.** Isotonic least squares and its max–min and convex-minorant
+   characterizations, its risk bound and the matching lower bound, the Grenander estimator, the
+   switching relation, the local empirical-process limit and the cube-root limit with Chernoff's
+   distribution, and log-concave
+   maximum likelihood with its Hellinger rates.
+8. **Functional data.** The covariance operator of a square-integrable random element of a
+   separable Hilbert space, its eigen-expansion, the Karhunen–Loève expansion, Gaussian measures
+   with a given trace-class covariance, the Hilbertian central limit theorem, the asymptotics of
+   functional principal components and their optimality, and functional linear regression.
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- the vocabulary of
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md): tests,
+  the law of the ranks (5.1), U-statistics (2.4), convergence in probability and in law with
+  Slutsky's lemma and the delta method (Layer 8), i.i.d. sequences (8.5), contiguity (8.6), the
+  empirical distribution function and the sample quantile (9.1), the statistical form of total
+  variation and the Kolmogorov–Smirnov statistic (9.2), and the kernel density estimator (9.3).
+  This roadmap proves the asymptotic and minimax theory of these objects, not their definitions
+  or their finite-sample identities;
+- the empirical-process toolkit: weak convergence in `ℓ^∞(T)`, the classical Donsker theorem for
+  the empirical distribution function with the Brownian bridge limit, Donsker theorems for
+  bracketing and VC classes, maximal inequalities, and the argmax continuous-mapping theorem,
+  owned by MathematicalStatisticsAsymptotic. The one triangular-array empirical-process limit
+  this roadmap needs, the local empirical process at the cube-root scale (7.4), is owned here;
+- the asymptotic theory of experiments: the Lindeberg–Feller and multivariate central limit
+  theorems, asymptotic normality of nondegenerate U-statistics with the Hoeffding projection,
+  local asymptotic normality of smooth models, Le Cam's third lemma, the asymptotic power
+  envelope, and Pitman efficiency with the efficiencies `3/π` of the Wilcoxon test and
+  `108/125` of the Hodges–Lehmann bound, all owned by MathematicalStatisticsAsymptotic. Layer 4
+  applies them to rank statistics;
+- Wiener measure, Brownian motion and Brownian bridges as processes, owned by the
+  StochasticCalculus roadmap (its Wiener measure on `C(ℝ≥0, ℝ)` and its Brownian bridges). This
+  roadmap uses Mathlib's `IsBrownianReal` predicate and never constructs a process;
+- the Kullback–Leibler divergence, its chain rule, its tensorization for two factors, Pinsker's
+  inequality and McDiarmid's inequality, already proved in Tau Ceti;
+- trace-class operators as an operator ideal, owned by OperatorTheory/OperatorIdeals; Layer 8
+  consumes nothing from it. It uses Tau Ceti's approximation numbers
+  `ContinuousLinearMap.singularValue` and `ContinuousLinearMap.nuclearENorm` as the trace norm,
+  introduces no second trace-class carrier, and proves the identity it needs between
+  `nuclearENorm` of a positive compact operator and the sum of its diagonal entries in a Hilbert
+  basis (8.2);
+- the dimension-free perturbation bound for spectral projectors, owned by
+  OperatorTheory/SpectralSubspacePerturbation (SSP-C16); 8.6 applies it to the eigenvectors;
+- Gaussian integration by parts `E[Z f(Z)] = E f'(Z)` for smooth `f`, owned by RandomMatrices
+  §2.5; 4.4 states the form for nondecreasing maps as its own target;
+- the high-dimensional theory (sparse minimax rates, the Lasso, multiple testing), which consumes
+  Layers 1 and 2 and 6.4 and belongs to MathematicalStatisticsHighDimensional.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Divergences:** `InformationTheory.klDiv` with `klDiv_map_le` (data processing,
+  `Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`) and `klDiv_compProd_eq_add`
+  (`ChainRule.lean`), `InformationTheory.klFun`; `MeasureTheory.tvDist`, `etvDist`,
+  `tvDist_triangle`, `tvDist_comm`, `tvDist_self`, `tvDist_eq_zero_iff`, `tvDist_le_add`,
+  `tvDist_eq_integral_abs_rnDeriv_of_ac`, `tvDist_of_mutuallySingular`
+  (`Mathlib/MeasureTheory/Measure/TotalVariation/`).
+- **Decision theory:** `ProbabilityTheory.avgRisk`, `bayesRisk`, `minimaxRisk`,
+  `bayesRisk_le_minimaxRisk`, `iSup_bayesRisk_le_minimaxRisk`
+  (`Mathlib/Probability/Decision/Risk/`).
+- **Combinatorics and entropy:** `hammingDist`, `hammingNorm`
+  (`Mathlib/InformationTheory/Hamming.lean`), `Metric.packingNumber`
+  (`Mathlib/Topology/MetricSpace/CoveringNumbers.lean`), `Tuple.sort`, `Equiv.Perm`,
+  `Finset.card`.
+- **Measures and kernels:** `Measure.pi`, `Measure.infinitePi`
+  (`Mathlib/Probability/ProductMeasure.lean`), `Measure.rnDeriv`, `Measure.withDensity`, `Kernel`,
+  `IsMarkovKernel`, `Kernel.deterministic`, `Measure.bind`, `StieltjesFunction.measure`, `cdf`,
+  `MeasureTheory.condExp`, `ProbabilityTheory.bernoulliMeasure`.
+- **Gaussian laws and limit theorems:** `gaussianReal`, `stdGaussian`, `multivariateGaussian`,
+  `IsGaussian` (`Mathlib/Probability/Distributions/Gaussian/`), Fernique's moment bound
+  `IsGaussian.memLp_id`, the central limit
+  theorem `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the Cramér–Wold device
+  `tendstoInDistribution_iff_tendstoInDistribution_inner`, martingale convergence
+  `tendsto_ae_condExp` and `tendsto_eLpNorm_condExp`
+  (`Mathlib/Probability/Martingale/Convergence.lean`).
+- **Brownian motion:** `IsPreBrownianReal`, `IsBrownianReal`
+  (`Mathlib/Probability/BrownianMotion/Basic.lean`), processes `ℝ≥0 → Ω → ℝ` with continuous
+  paths.
+- **Hilbert spaces and operators:** `HilbertBasis`, `Orthonormal`, `OrthonormalBasis`,
+  `OrthogonalFamily.summable_iff_norm_sq_summable`,
+  `Submodule.orthogonalProjectionOnto`, `Submodule.starProjection`,
+  `exists_norm_eq_iInf_of_complete_convex` and `norm_eq_iInf_iff_real_inner_le_zero`
+  (`Mathlib/Analysis/InnerProductSpace/Projection/`), `IsCompactOperator`,
+  `ContinuousLinearMap.IsPositive`, `LinearMap.IsSymmetric`, `Module.End.HasEigenvector`; the
+  reproducing-kernel Hilbert space class `RKHS` with `RKHS.kerFun` and `RKHS.inner_kerFun`
+  (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`); the uncentered covariance operator
+  `ProbabilityTheory.covarianceOperator` with `covarianceOperator_inner` and
+  `isPositive_covarianceOperator` (`Mathlib/Probability/Moments/CovarianceBilin.lean`).
+- **Analysis:** `HolderWith`, `HolderOnWith`, `iteratedDeriv`, `ContDiff`, `ConcaveOn`,
+  `ConvexOn`, `MonotoneOn`, `AntitoneOn`, `Real.cos` and `Real.sin` for the trigonometric
+  bases, `intervalIntegral`, `MeasureTheory.Lp`, `HasSum`.
+
+### From Tau Ceti
+
+- **Kullback–Leibler** (`TauCeti/InformationTheory/KullbackLeibler/`): Pinsker
+  `TauCeti.etvDist_sq_le_two_mul_klDiv` and `TauCeti.two_mul_sq_measureReal_sub_le_klDiv`
+  (`Pinsker.lean`); `TauCeti.klDiv_prod_prod`, `TauCeti.klDiv_prod_prod_eq_add`,
+  `TauCeti.klDiv_prod_left`, `TauCeti.klDiv_prod_right`,
+  `TauCeti.klDiv_compProd_eq_add_lintegral` (`ChainRule.lean`); convexity
+  `TauCeti.klDiv_smul_add_smul_le` (`Convex.lean`); `TauCeti.klDiv_eq_sum_klFun_singleton`
+  (`Finite.lean`); `TauCeti.lowerSemicontinuous_klDiv_probabilityMeasure` (`Variational.lean`).
+- **Total variation:** `MeasureTheory.etvDist_eq_two_mul_iSup_sub`.
+- **Concentration:** McDiarmid's inequality
+  `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences_fin`
+  (`TauCeti/Probability/McDiarmid.lean`).
+- **Counting laws:** `TauCeti.Probability.hasLaw_card_filter_mem_pi` (Poisson-binomial counts,
+  `TauCeti/Probability/Distributions/PoissonBinomial/Count.lean`),
+  `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli`,
+  `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`.
+- **Order statistics and quantiles:** `TauCeti.orderStatistic`
+  (`TauCeti/Data/Fin/Tuple/OrderStatistic.lean`), the chamber formula
+  `TauCeti.Probability.map_orderStatistics_pi` and
+  `TauCeti.Probability.map_orderStatistic_pi_uniformMeasure`
+  (`TauCeti/Probability/Distributions/OrderStatistic/`), `MeasureTheory.Measure.quantile`,
+  `MeasureTheory.Measure.cdf_map_eq_volume_restrict` and
+  `MeasureTheory.Measure.map_quantile_volume_Ioo` (`TauCeti/Probability/Quantile.lean`).
+- **Gaussian projections:** `HasLaw.norm_sq_orthogonalProjectionOnto_stdGaussian` and
+  `HasLaw.iIndepFun_orthogonalProjectionOnto_stdGaussian`
+  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`); the chi-squared laws
+  `TauCeti.Probability.chiSquaredMeasure`.
+- **Empirical measures:** `TauCeti.Probability.empiricalFiniteMeasure`.
+- **Continuity of translation in `L¹`:** `MeasureTheory.Measure.continuous_translateLp`
+  (`TauCeti/MeasureTheory/Function/Lp/Translation.lean`).
+- **Log-concavity:** `TauCeti.LogConcave` for `f : E → ℝ≥0∞`
+  (`TauCeti/Analysis/Convex/LogConcave.lean`) and the Prékopa–Leindler consequence
+  `TauCeti.LogConcave.lintegral_prod_right` (`TauCeti/MeasureTheory/Integral/PrekopaLeindler.lean`).
+- **Hilbert–Schmidt operators:** `ContinuousLinearMap.hilbertSchmidtEnergy` and
+  `ContinuousLinearMap.hilbertSchmidtNorm`
+  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean`),
+  `ContinuousLinearMap.tsum_singularValue_sq_eq_hilbertSchmidtEnergy`
+  (`OperatorIdeal/ApproximationNumber/HilbertSchmidt.lean`), and the min–max characterization
+  `singularValue_eq_iInf_nnnorm_comp_orthogonal` (`ApproximationNumber/MinMax.lean`).
+- **Spectral theory and approximation numbers:**
+  `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
+  (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`): a compact symmetric operator on a Hilbert
+  space has a Hilbert basis of eigenvectors; `ContinuousLinearMap.singularValue`
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/Basic.lean`),
+  `ContinuousLinearMap.abs_singularValue_sub_singularValue_le` (`|aₙ(S) - aₙ(T)| ≤ ‖S - T‖`),
+  `IsCompactOperator.tendsto_singularValue`, `ContinuousLinearMap.nuclearENorm`
+  (`OperatorIdeal/Nuclear/Basic.lean`), `ContinuousLinearMap.kyFanGauge`,
+  `ContinuousLinearMap.IsPositive.exists_orthonormal_kyFanGauge_le_sum_re_inner_add`, and the
+  finite-dimensional Ky
+  Fan principle `LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues`.
+
+### From MathematicalStatisticsFoundations
+
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) is consumed
+as follows, with its names as the contract:
+- 2.4: the U-statistic `uStatistic m n h x`;
+- 5.1: the law of the ranks: under an atomless law the sorting permutation is uniform and
+  independent of the order statistics;
+- 1.3: statistical tests `IsStatisticalTest` (functions with values in `[0, 1]`) and their level,
+  used in 6.6;
+- 6.2: the Neyman–Pearson lemma for tests in `[0, 1]`, used in 3.2 for locally most powerful
+  rank tests;
+- Layer 8: the adapters to Mathlib's `TendstoInMeasure` and `TendstoInDistribution` (8.1),
+  boundedness in probability (8.2), Slutsky's lemma and the delta method (8.4),
+  `IsIndependentIdenticallyDistributed` with the weak law of large numbers (8.5), and contiguity
+  (8.6);
+- 9.1: the empirical distribution function `empiricalCdf` and the sample quantile;
+- 9.2: the statistical form of total variation, the distribution-function bound and the
+  Kolmogorov–Smirnov statistic `sup_{t ∈ ℚ} |F̂ₙ(t) - cdf P t|`;
+- 9.3: the kernel density estimator `(n h)⁻¹ ∑ K((t - xᵢ)/h)` and its integral identities.
+- 9.4: the posterior of the normal-location model, used in 6.3 for the Bayes risk of the
+  Pinsker lower bound.
+
+### From MathematicalStatisticsAsymptotic
+
+The asymptotic statistics roadmap MathematicalStatisticsAsymptotic owns the following, consumed
+by name and material:
+- weak convergence in `ℓ^∞(T)` with the continuous-mapping theorem (2.2), convergence from
+  finite-dimensional laws plus asymptotic equicontinuity, and the uniqueness of a tight law
+  given its finite-dimensional marginals (2.3);
+- the bracketing maximal inequality (3.3), stated with the extended outer expectation of 2.1,
+  and the classical Glivenko–Cantelli theorem for the empirical distribution function (3.4);
+- the classical Donsker theorem for the empirical distribution function with the Brownian bridge
+  limit (3.4), the Brownian bridge law described by its marginals (2.4);
+- the Donsker theorems for bracketing (3.4) and VC (3.5) classes (for 4.7 with estimated
+  parameters);
+- the Lindeberg–Feller central limit theorem and the multivariate central limit theorem (1.2);
+- asymptotic normality of nondegenerate U-statistics with the Hoeffding projection and variance
+  (6.2);
+- local asymptotic normality of quadratic-mean differentiable models (7.3), Le Cam's third lemma
+  (7.2), and the asymptotic power envelope for one-sided tests (8.2);
+- the argmax continuous-mapping theorem (4.3), whose hypotheses include the uniform tightness of
+  the maximizers (for every `ε > 0` a compact set contains them with outer probability at least
+  `1 - ε` for all large `n`), and the rate theorem for M-estimators (5.6), whose modulus bound is
+  stated with the extended outer expectation of 2.1 and which needs consistency in outer
+  probability;
+- Pitman efficiency (8.3) with its hypotheses, used in 4.4, and the efficiencies of the sign and
+  Wilcoxon tests relative to the `t` test.
+- influence functions `HasInfluenceFunction` (9.1) and the influence function of a functional
+  Hadamard differentiable at the distribution function (9.2), used in 4.5 for the Hodges–Lehmann
+  functional.
+
+### From StochasticCalculus
+
+The StochasticCalculus roadmap owns Wiener measure on `C(ℝ≥0, ℝ)`, Brownian bridges, and the
+law of large numbers `B t / t → 0` for Brownian motion (its §1.4). This roadmap consumes the
+existence of a process satisfying Mathlib's `IsBrownianReal` and the a.s. growth `B t / t → 0` of
+§1.4, in 7.4. The
+Brownian bridge enters only through MathematicalStatisticsAsymptotic's Donsker theorem (3.4).
+
+### From OperatorTheory/SpectralSubspacePerturbation
+
+The spectral subspace perturbation roadmap owns the dimension-free projector bound SSP-C16, which
+rests on its directed bound SSP-C15. Let `A`, `B` be bounded symmetric operators on a Hilbert
+space, `U` a closed subspace reducing `A`, `V` a closed subspace reducing `B`, and `g > 0`. A
+*form separation of size `g`* from `U` to `V` is a constant `c` with
+`(c + g) ‖u‖² ≤ Re ⟪A u, u⟫` for `u ∈ U` and `Re ⟪B w, w⟫ ≤ c ‖w‖²` for `w ∈ Vᗮ`; the reversed
+separation is a `c'` with `(c' + g) ‖v‖² ≤ Re ⟪B v, v⟫` for `v ∈ V` and
+`Re ⟪A w, w⟫ ≤ c' ‖w‖²` for `w ∈ Uᗮ`. Under both separations, `‖P_U − P_V‖ ≤ ‖B − A‖/g`. This
+roadmap consumes it in 8.6, with `A = C`, `B = Ĉ_n` and `U`, `V` the spans of the leading
+eigenvectors.
 
 ## References
 

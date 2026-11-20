@@ -1,109 +1,85 @@
 # Roadmap: arithmetic K-theory of number fields and S-integers
 
-**Summary.** Build the arithmetic of Quillen K-groups from the existing rings
-of S-integers, class groups and units, through localization and Quillen's rank
-filtration, to integral structure theorems and explicit arithmetic
-presentations. The endpoints are finite generation, the odd integral tables,
-even primary and wild-kernel descriptions, Bott-inverted arithmetic tables,
-regular-prime consequences, and tame-kernel presentations for the Gaussian and
-golden fields. The same finite-type argument gives the arithmetic finiteness
-inputs for symmetric, quadratic and genuine hermitian K-theory.
+**Summary.** For the ring of integers of a number field, the first two
+algebraic K-groups are classical: K₀ is ℤ ⊕ Pic, with Pic the class group,
+and K₁ is the group of units. Quillen's higher K-groups continue this
+sequence. This roadmap develops their theory for rings of S-integers,
+starting from the library's S-integers, class groups and units. Throughout,
+F is a number field with r₁ real and r₂ complex places, S is a set of finite
+primes of F, finite unless arbitrary S is expressly allowed, and
+O = O_(F,S).
 
-## Scope and ownership
+The first main theorem is Quillen's: for finite S, every K_n(O) is finitely
+generated. The proof filters Quillen's Q-construction by the rank of
+projective modules; each step contributes the homology of their automorphism
+groups with coefficients in Steinberg modules. The Steinberg modules come
+from the Solomon–Tits theorem: the Tits building of a vector space of dimension m ≥ 2,
+the flag complex of its nonzero proper subspaces, has the integral homology
+of a point except in degree m − 2, where its reduced homology is the
+Steinberg module. The argument yields a finiteness criterion for every
+Dedekind domain with finite Picard group. Its Steinberg-homology hypothesis is verified for
+rings of integers and for coordinate rings of smooth affine curves over a
+finite field with one point at infinity.
 
-This roadmap owns arithmetic specialization and assembly. General exact-category
-K-theory, localization and transfer belong to GeneralAlgebraicKTheory;
-StableHomotopyKTheory §§7.1–7.8 and 7.28 supply coefficients and safe-modulus
-products. Section 2.1 assembles their coefficient localization comparison.
-General scheme localization belongs to SchemeKTheoryOperations §§3.6–3.7. KTheoryLowDegrees owns the rank–Picard
-description of K₀, determinant and S-unit comparisons for K₁, and the first
-low-degree computations. K2SymbolsBrauer owns Matsumoto symbols, tame and real
-sign symbols, the degree-two tame-kernel sequence, and K₂ of ℤ and ℚ. Their theorems supply the
-comparisons used below.
+The second is Borel's rank theorem. For n ≥ 2 the rank of K_n(O) is r₁ + r₂
+when n ≡ 1 mod 4, r₂ when n ≡ 3 mod 4, and zero when n is even. So the
+positive even K-groups of O are finite, whereas K_(2i)(F) is infinite
+torsion for i ≥ 1. The symmetric and quadratic L-groups and the
+Grothendieck–Witt groups of O are finitely generated too, without
+inverting 2.
 
-This roadmap owns the Tits-building and projective-lattice Steinberg
-finiteness inputs in §3.2, and in §3.4 Borel's finite-stage invariant-form
-comparison for arithmetic groups and the rational rank theorem for orders.
-The rank-filtered Q-space assembles finite generation and extends ranks to
-finite S. Section 3.2 constructs the finite CW model of each neat arithmetic
-bordification from its rounded collar and the MorseTheory M2–M3 cell and
-relative-approximation theorems; it does not require a triangulation. The
-general smooth triangulation comparison belongs to GeometricTopology,
-“The smoothing-and-triangulation comparison”, item 1.
-This roadmap consumes EtaleCohomologyFoundations §§F.0.3/F.4 for twists and owns
-the Suslin and arithmetic-base motivic/étale descent comparisons in §5.2, and the algebraic-to-real
-comparison in §5.4. KTheoryFiniteLocalFields §3.0a owns the shared motivic
-complexes, norm-residue theorem and motivic-to-K tower;
-GeneralizedCohomology G5.4 owns ko, ku, KO, KU and their Bott classes.
-ArithmeticGaloisDuality owns Kummer, Brauer and Poitou–Tate calculations;
-KTheoryFiniteLocalFields owns local K-groups and completion. The full
-Chern/regulator family is not a prerequisite for the torsion descent edge.
+Layers 4 to 6 turn to torsion. By Soulé's theorem, K_n(O) → K_n(F) is an
+isomorphism for odd n ≥ 3. Let w_i(F) be the order of the Galois invariants
+of ℚ/ℤ(i), the roots of unity with Galois acting through the i-th power of
+the cyclotomic character; w₁(F) counts the roots of unity in F, and
+w₂(ℚ) = 24. If F is totally imaginary and i ≥ 2, then
+K_(2i−1)(O) ≅ ℤ^r₂ ⊕ ℤ/w_i(F), so K₃(ℤ[i]) ≅ ℤ ⊕ ℤ/24. Real places change
+the 2-primary part according to n modulo 8, and K₃(ℤ) ≅ ℤ/48. For i ≥ 1 and
+ℓ odd or F totally imaginary, the ℓ-primary part of K_(2i)(O) is the étale
+cohomology group H²(O[1/ℓ], ℤ_ℓ(i+1)).
 
-GeometryOfNumbersAndQuadraticArithmetic §§6.1a, 6.8a and 6.9 supplies the
-hermitian carriers, coherent duality action, GW–L fibre sequence and localization.
-HermitianKTheoryOfPoincareCategories supplies their comparison theorems.
-GeometryOfNumbersAndQuadraticArithmetic §6.10a supplies the integral ℤ L-groups; §3.5 owns the Dedekind
-Witt injection and symmetric/quadratic L-tables. The number-ring signature theorem
-belongs to GeometryOfNumbersAndQuadraticArithmetic §6.11 through the exact
-contract below; the connective homotopy-orbit spectral sequence for
-C₂-actions belongs to StableHomotopyKTheory Layer 7 through its exact contract.
-Section 3.5 consumes both for arithmetic finite generation.
-CyclotomicClassGroupsAndStickelberger owns the cyclotomic class action,
-projectors, Kummer congruences, reflection, finite criterion and regular-prime
-tower theorem. Its §§0.2–0.4, 2.1, 3.1–3.2 and 5.1 use AINTLIB's
-FltRegularBernoulli project as a formalised source; §§7.1–7.3 consume those
-interfaces, including §3.1's unrestricted extensions of the source congruences.
-IntegralIwasawaTheory owns Vandiver propagation and the
-arithmetic-weight Euler characteristics. This roadmap uses those inputs for finite
-cyclotomic K-groups; it does not build another Iwasawa theory. The arithmetic
-K₃ results below precede the downstream decomposable and indecomposable
-analysis. The golden-field presentation has independent upper and lower bounds
-that use no special-value formula. The applications are listed under
-Downstream consumers.
+Using Euler-characteristic formulas from IntegralIwasawaTheory, the roadmap
+proves, for totally real F and k ≥ 1,
+`|ζ_F(1−2k)| = 2^r₁ · |K_(4k−2)(O_F)| / |K_(4k−1)(O_F)|`. For ℤ this gives
+the orders of K_n(ℤ) for n ≡ 2 or 6 mod 8 through numerators of B_(2j)/(4j):
+K₂₂(ℤ) has order 691. K₄(ℤ) = 0 is proved unconditionally. Assuming Vandiver's conjecture for every odd prime p
+(p does not divide the class number of the maximal real subfield of
+ℚ(ζ_p)), the roadmap gives the table of K_n(ℤ) for n ≥ 2, marking as
+conditional every value that uses the hypothesis.
 
-The general rings, valuations, finite extensions, class groups, local Galois
-objects, quadratic forms and integral lattices already provided by Mathlib,
-Tau Ceti and TauCetiRoadmap are used through their existing APIs.
-In particular NumberFieldArithmetic supplies general quadratic-field arithmetic,
-and `TauCeti.NumberField.Sqrt5` already supplies the golden field’s integral
-basis, signature, principal ideals, class number, dyadic prime and fundamental
-unit. Those are inputs to the K₂ presentation, rather than targets of this
-roadmap. Section 7.5 owns the vanishing of π₄(S)⊗ℤ[1/2] for the sphere
-spectrum S, which it uses for K₄(ℤ), and the low Adams–Novikov E₂-term of
-the sphere that proves it; it computes them with the Adams–Novikov
-spectral sequence of BordismFormalGroups F3–F4. The 2-primary part of
-K₄(ℤ) comes from §6.4's dyadic 2-rank formula, not from the sphere. No
-target here uses the stable stems as a colimit of unstable homotopy groups
-of spheres, their composition product or their comparison with π_*S. The
-2-primary fourth stem and every other stable-stem calculation are outside
-the present scope.
-Real lattice infrastructure comes from
-Mathlib’s `IsZLattice` and
-`ZLattice.covolume`; LocalGaloisGroups and
-ProfiniteArithmetic supply local and profinite arithmetic; ClassFieldTheory
-supplies the class-formation interfaces. No replacement for those roadmaps is
-introduced. Curves over finite fields enter only through §3.2. Its
-finiteness criterion holds for every Dedekind domain, and §3.2 owns the
-Steinberg-homology hypothesis both for rings of integers of number fields and
-for the coordinate ring of a smooth affine curve over a finite field with one
-point at infinity (curveSteinbergHomology_fg). A curve with several points at
-infinity is a localization of a one-point complement by §1.1, and its
-consumers reduce to that case through the Dedekind localization sequence. The
-K-theory of curves over finite fields is otherwise outside the present scope.
-Arithmetic K-theory Part II,
-regulator families and special-value formulas beyond the order comparison
-in §7.5 also lie outside the present scope. The latter comparison consumes the
-IntegralIwasawaTheory §12.3 Euler-characteristic comparison and is not used in the independent
-tame-kernel presentations.
+A prime p is regular when it does not divide the class number of ℚ(ζ_p).
+A regular prime divides the reduced numerator of B_(2k)/k for no k ≥ 1. For
+an odd regular prime ℓ, K_n(ℤ) has no ℓ-torsion in positive even degrees. In
+odd degrees 2i − 1 ≥ 3 its ℓ-primary torsion is cyclic of order the ℓ-part
+of w_i(ℚ), nontrivial exactly when ℓ − 1 divides i.
 
-The low-degree computations K₀(ℤ), K₁(ℤ), K₂(ℤ) and K₂(ℚ) are
-supplied by KTheoryLowDegrees §§5.1/11.1 and K2SymbolsBrauer §§12.10–12.11;
-§8.2 uses them as examples of the higher localization statements. The
-Steinitz formula is KTheoryLowDegrees §5.5; §1.3 adds its arithmetic
-S-enlargement compatibility. General motivic cycles and norm residue are
-KTheoryFiniteLocalFields §3.0a; §5.2 extends descent to mixed-characteristic
-S-integer bases. The real Bott spectra are GeneralizedCohomology G5.4;
-§5.4 owns the comparison from algebraic K-theory.
+The last layer's examples include K₂ of two rings of integers, computed from
+independent upper and lower bounds that use no special-value formula. First,
+K₂(ℤ[i]) = 0. Second, for ℚ(√5) and ε = (1 + √5)/2, K₂ of the ring of
+integers is (ℤ/2)², generated by {−1, −1} and {−1, ε} and detected by the
+two real Hilbert symbols.
+
+Within Tau Ceti, GeneralAlgebraicKTheory provides K-theory of exact
+categories with localization and transfer, and KTheoryLowDegrees and
+K2SymbolsBrauer provide the classical descriptions of K₀, K₁ and K₂.
+KTheoryFiniteLocalFields provides the norm-residue theorem and motivic
+complexes over fields; CyclotomicClassGroupsAndStickelberger provides
+Kummer's congruences and regularity criterion. Downstream, K3BlochGroups
+uses the results on K₃, and EllipticKTheory the finiteness criterion for
+curves. The next section describes the eight layers.
+
+## How to read the build
+
+Layers 1–2 identify the arithmetic rings and maps, and make localization usable
+with finite support and ramification. Layer 3 proves finite generation and
+extends the rational rank theorem, including its hermitian consequences.
+Layer 4 computes the finite cyclotomic invariants that control odd torsion.
+Layer 5 identifies the odd groups and their natural torsion maps. Layer 6
+handles even groups, real corrections, divisibility, wild kernels, presentations
+and Bott degrees. Layer 7 extracts Bernoulli and regular-prime consequences.
+Layer 8 supplies computations whose upper and lower bounds can be checked
+independently. The README specifies all targets; Suggested.lean records only
+its headline signatures and the simple definitions needed on the pinned carriers.
 
 ## Conventions
 
@@ -156,457 +132,6 @@ the trivial group at d=1. A displayed free-plus-torsion decomposition is an
 abstract group isomorphism unless a particular map is identified. All divisions
 by 2 in Adams projectors occur over ℤ/p^r with p odd. Bernoulli numbers B_n use
 Mathlib's B₁=−1/2; Weibel's positive reindexing is treated separately in Layer 7.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `SmoothPartitionOfUnity.exists_isSubordinate` in
-`Mathlib/Geometry/Manifold/PartitionOfUnity.lean` for the smooth collar
-cutoffs in §3.2; its Hausdorff and sigma-compact hypotheses hold for the
-second-countable finite-dimensional quotient manifolds.
-
-Use `Mathlib/RingTheory/DedekindDomain/SInteger.lean`,
-`Mathlib/RingTheory/ClassGroup/ExtendedHom.lean` and
-`Mathlib/RingTheory/PicardGroup.lean` for the following arithmetic carriers.
-At the pinned APIs, `Set.integer` gives the S-integer subalgebra and `Set.unit`
-its units. `Set.unitEquivUnitsInteger` identifies the unit carriers. Use
-`IsDedekindDomain.HeightOneSpectrum`, `IsFractionRing`, `IsLocalization`,
-valuation support and the existing finite-extension/integral-closure API.
-For localization in stages, use `IsLocalization.isLocalization_of_submonoid_le`
-in `Mathlib/RingTheory/Localization/LocalizationLocalization.lean`: if M≤N,
-B is the localization of R at M and C that at N, and R→B→C is a scalar tower,
-then C is the localization of B at the image of N.
-`ClassGroup`, `ClassGroup.equivPic`, `ClassGroup.extendedHom`,
-`NumberField.classNumber` and the finite class group of a number ring supply
-the arithmetic class data.
-
-`CategoryTheory.nerve` in `Mathlib/AlgebraicTopology/SimplicialSet/Nerve.lean`,
-applied to the poset of nonzero proper subspaces of a `Submodule` lattice,
-carries §3.2's `titsBuilding`. Its homology is the simplicial homology
-`SSet.homology` with the induced maps `SSet.homologyMap` in
-`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean`; these give no
-linear-group action on that homology, which §3.2 constructs.
-`Submodule`, categorical full subcategories and nerves, group homology,
-chain complexes, homotopy groups and tensor products supply the
-existing algebraic carriers under the rank-filtration interfaces; the relative
-chain and classifying-space comparisons are the named homotopy-supplier targets. The comparison of
-categorical and topological homology is a specific homotopy supplier,
-not a consequence of the mere existence of `CategoryTheory.nerve`.
-`LinearEquiv.ofBijective` packages the actual rationalized localization map.
-`AddCommGroup.equiv_free_prod_directSum_zmod` supplies the abstract structure
-theorem once finite generation and ranks are known.
-
-`Module.Relations`, its quotient, solutions and presentation API supply finite
-linear presentations. In particular use
-`Module.Relations.Solution.surjective_fromQuotient_iff_surjective_π` and
-`Module.Relations.Solution.surjective_π_iff_span_eq_top`. `AddSubgroup.index_eq_natAbs_det` supplies the
-integer lattice index calculation. `IsZLattice` and `ZLattice.covolume` in
-`Mathlib/Algebra/Module/ZLattice/Basic.lean` and
-`Mathlib/Algebra/Module/ZLattice/Covolume.lean` supply real lattices and
-covolume, including `ZLattice.covolume_div_covolume_eq_relIndex'`.
-Minkowski's lattice point theorem in
-`Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean` is
-`MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure`.
-These statements do not themselves establish any arithmetic relation or span.
-
-For cyclotomic arithmetic use `CyclotomicField`, `IsCyclotomicExtension`,
-`autEquivPow`, the cyclotomic character, roots of unity and the existing unique
-prime, ramification and inertia-degree theorems over ℚ. For coefficient
-eigenspaces use `Module.End.eigenspace`; ℤ/ℓ character projectors require a
-separate group-action construction. `bernoulli`, `bernoulli'`,
-`bernoulli_one`, `bernoulli_eq_bernoulli'_of_ne_one` and the
-`Bernoulli.vonStaudt_clausen` denominator API are the Bernoulli suppliers.
-They do not include the divided-denominator Kummer refinement.
-
-### From Tau Ceti
-
-The arithmetic maps below are in
-`TauCeti/RingTheory/ClassGroup/RelNorm.lean` and
-`TauCeti/RingTheory/DedekindDomain/SInteger/` (Spectrum, ClassGroup, Unit
-and Rank), with the number-field S-unit rank in
-`TauCeti/NumberTheory/NumberField/Units/SUnit/Basic.lean`.
-
-Tau Ceti's `ClassGroup.relNorm` and
-`ClassGroup.relNorm_extendedHom` supply ideal norms and their degree composite.
-
-For S-integers use Tau Ceti's `integerHeightOneSpectrumEquiv`,
-`valuation_integerHeightOneSpectrumEquiv`, `integer_extendedHom_surjective`,
-`ker_integer_extendedHom`, `integerClassGroupEquiv`,
-`finite_integer_classGroup`, `Set.unit_mono`, `Set.unitValuation`,
-`Set.unitValuation_ker`, and
-`Set.unit_fg_of_units`. The last result supplies finite generation for finite
-S. The S-unit rank is `TauCeti.finrank_sUnits`: for a Dedekind domain with
-finite class group and finitely generated unit group, and finite S, the
-ℤ-rank of `Additive (S.unit K)` is that of `Additive Rˣ` plus |S|. For a
-number field F, `TauCeti.finrank_sUnits_numberField` combines it with
-Mathlib's `NumberField.Units.finrank_eq` into
-`NumberField.Units.rank F + Nat.card S`; since `NumberField.Units.rank F`
-is the number of infinite places minus one, Mathlib's
-`NumberField.InfinitePlace.card_eq_nrRealPlaces_add_nrComplexPlaces`
-turns this into r₁+r₂−1+|S|. The existing class-group quotient and unit
-valuation maps are reused; their K-theoretic interpretation is what Layer 2
-adds. `Set.unitValuation` takes values in the product of `Multiplicative ℤ`,
-with uniformizer exponent −1; §2.2 negates these exponents and proves finite
-support before comparing them with the positive-order localization boundary.
-The pinned Tau Ceti library also provides `TauCeti.ExactStructure` (in
-`TauCeti.CategoryTheory.Exact.ExactStructure`),
-`TauCeti.ExactK0` and `TauCeti.ExactK0.liftEquiv` (the latter two in
-`TauCeti.CategoryTheory.GrothendieckGroup.Exact`), together with exact-functor
-maps and the finite-projective-module K₀ carrier. These supply exact-category and
-Grothendieck-group infrastructure; their comparison to the genuine higher
-Q-space is the general K-theory supplier's responsibility. Neither that
-comparison nor the higher arithmetic groups follow merely from K₀'s
-presentation universal property.
-
-For the golden field, the pinned Tau Ceti modules
-`TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt5.Basic`, `Invariants`,
-`Units` and `RealPlace` supply the arithmetic under an integral generator θ with
-`minpoly ℤ θ = X²−X−1` and `Algebra.adjoin ℚ {(θ : F)} = ⊤`.
-In namespace `TauCeti.NumberField.Sqrt5`, use `finrank_eq_two`,
-`adjoin_eq_top`, `index_eq_one`, `isMonogenic`, `discr_eq_five`,
-`isTotallyReal`, `nrRealPlaces_eq_two`, `nrComplexPlaces_eq_zero`,
-`isPrincipalIdealRing` and `classNumber_eq_one`.
-Use `ncard_primesOver_two_eq_one`,
-`ramificationIdx_eq_one_of_mem_primesOver_two` and
-`inertiaDeg_eq_two_of_mem_primesOver_two` for the dyadic place. For the unit
-coming from θ, `mul_sub_one_eq_one` gives its inverse,
-`closure_sup_torsion_eq_top` gives generation modulo torsion, and
-`exists_isReal_and_apply_eq_goldenRatio` fixes the positive embedding;
-`units_rank_eq_one` supplies the unit rank and `torsionOrder_eq_two` the
-order of the roots of unity. Transport these arithmetic inputs along the chosen field-model equivalence.
-
-### From TauCetiRoadmap.StableHomotopyKTheory
-
-Sections 1.24–1.28 supply category homology and its classifying-space and
-relative-chain comparisons; §3.36 supplies the finite-type theorem for connected
-abelian CW spaces, including nonzero π₁. Sections 7.1–7.13 supply Moore spectra,
-coefficient triangles, transition maps, Bocksteins, colimits and Milnor sequences;
-§§7.21–7.28 supply filtered spectral sequences, their convergence and safe-modulus
-products. Section 2.1 applies these to the supplied localization triangle.
-
-What StableHomotopyKTheory must provide (gap:connective-c2-homotopy-orbit-spectral-sequence):
-for every connective spectrum E with a coherent C₂-action, the natural strongly
-convergent spectral sequence H_p(C₂;π_q E) ⇒ π_(p+q)(E_hC₂), with its skeletal
-filtration. Here p,q≥0 and the coefficients are the actual C₂-modules π_q E
-induced by the action. The required API consists of naturality in
-C₂-equivariant spectrum maps, the finite filtration in each total degree and
-the degree-zero coinvariant isomorphism π₀(E)_(C₂)→π₀(E_hC₂). Section 3.5
-consumes this contract and proves its arithmetic finite-generation
-consequences. (Calmès et al., proof of Corollary 2.3.18, p. 48; the
-skeletal filtration is a filtered spectrum in the sense of §§7.21–7.24.)
-
-### From TauCetiRoadmap.GeneralAlgebraicKTheory
-
-Sections 2.1–2.6 supply exact categories, the genuine Q-construction and
-functorial K-groups; §4.3 additivity; §4.8 dévissage; §4.14 Serre localization;
-§§7.4–7.8 products, finite-projective transfer and projection/base-change
-formulas; §§8.12–8.13 the DVR boundary and its right-module identity; §13.8c the
-finite-field groups K₀(𝔽_q)=ℤ, K_(2i)(𝔽_q)=0 and K_(2i−1)(𝔽_q)≅ℤ/(qⁱ−1) for
-i≥1, the vanishing used by §§2.4, 3.3 and 5.5.
-Section 2.1 constructs finite-coefficient localization by smashing this triangle
-with StableHomotopyKTheory §7.2's S/m. It retains §7.7's coefficient reductions
-and §7.3's Bocksteins, and proves the signed localization–Bockstein identity
-of §2.1 and the boundary/product compatibility at the safe prime powers of
-§7.28. No ring structure at an unsafe modulus is inferred.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-F.0.1/F.0.2 supplies coefficient sheaves and finite-cover monodromy.
-F.0.3, `VanishingCycles.etaleTateTwists`, supplies integer-weight finite
-Tate twists on the canonical roots-of-unity sheaf, positive tensor powers,
-negative dual powers, pullback and coefficient reductions. F.4.1–F.4.6
-supplies their integral and rational realization and continuous coefficient
-comparison.
-
-### From TauCetiRoadmap.IntegralIwasawaTheory
-
-Section 3.1 supplies general one-prime class control; §7.4 supplies
-`VandiverCondition` and its propagation, with §§7.7–7.8 the cyclic arithmetic
-module and rational cyclotomic comparisons. Sections 10.4–10.5 and 12.3 supply
-`oddPrime_specialValueEuler` at χ=1,n=2k and `dyadic_specialValueEuler` at n=2k,
-including the H¹-order identification. Their finite Euler quotient is |H²|/|H¹|.
-Section 6.0, `totallyRealHeckeValue_rational`, supplies rationality of the
-negative-integer zeta values used in the order comparison.
-Section 7.5 combines those exports with §6.5 to obtain K-group orders.
-
-### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
-
-Sections 0.1–0.4 supply the direct Artin class action, tame projectors,
-decomposition and plus part; §2.1 supplies the prime-conductor Stickelberger
-element. For odd prime p, §3.1 supplies p-integrality of pB_n for positive
-even n; when p−1∤n it supplies p-integrality of B_n/n and its residue invariance
-for all positive even indices congruent modulo p−1, including indices divisible
-by p. It also supplies the Teichmüller–Bernoulli comparison in the finite range.
-§3.3 supplies the vanishing of the exponent-zero class component and
-character reflection; §4.5 supplies `herbrand_ribet`. Sections 5.1 and 5.4
-supply `IsRegularPrime`, `kummer_criterion` and
-`regular_prime_power_class_number`. Section 7.2 applies
-the criterion to the divided Bernoulli sequence; §7.3 transports the supplied
-class module to the localized Picard module. No class-action or projector
-carrier is reconstructed here. The AINTLIB source signatures and their index
-restrictions are recorded in §§7.1–7.3; the unrestricted congruence and
-integrality interfaces are the supplier's targets, beyond those source signatures.
-
-### From TauCetiRoadmap.SchemeKTheoryOperations
-
-Sections 3.6–3.7 supply general Dedekind localization, Cartan comparison,
-finite-pushforward naturality, the DVR boundary valuation and its
-flat-ramification law: after a local flat map of DVRs with ramification index
-e, the boundary of the extended class is e times the pulled-back boundary.
-Section 2.3 assembles this ramification square on the arithmetic residue
-direct sums.
-
-Section 4.3 supplies spectral hypercohomology on a site with enough points,
-as the totalization of the Godement resolution, and its descent spectral
-sequence `E₂^{p,q}=Hᵖ(C,π̃_qF)⇒π_{q−p}H(C,F)`, strongly convergent when the
-cohomological dimension of the site is bounded (Thomason, Proposition 1.36,
-p. 452). Section 6.15 applies it to the Bott-localized K-sheaf on the étale
-site of X, with the index change p=−s, q=t.
-
-### From TauCetiRoadmap.KTheoryLowDegrees
-
-Sections 5.1–5.5 supply rank–Picard, projective classification and the
-transfer formula in rank–Picard coordinates, including virtual negative
-ranks. Section 8.1 supplies determinant and §§11.1–11.3 the arithmetic SK₁ and S-unit comparisons.
-
-### From TauCetiRoadmap.K2SymbolsBrauer
-
-Sections 7.1–7.2 supply Matsumoto comparison; §§9.2–9.6 the normalized tame
-symbol; §11.2 and §§12.1–12.3 the Dedekind and S-integer tame-kernel sequences;
-§12.5 real sign symbols; §§12.10–12.11 K₂ of ℤ and ℚ. Tate's filtration
-uses the inverse of the localization boundary, with §2.2's witness.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-Sections 1.14–1.15 and 1.35 supply the classical local norm-residue symbol,
-its real/complex specializations and the norm criterion. KTheoryFiniteLocalFields
-§§3.1–3.5 and 7.3 supply its K₂ factorization and completion comparisons.
-
-### From TauCetiRoadmap.ArithmeticGaloisDuality
-
-R02.1/R02.3/R02.4 supplies continuous inverse-limit control, Kummer,
-finite H¹/H², the Brauer invariant-sum computation and Poitou–Tate.
-For finite S, odd ℓ and r≥1, retain the full support T_ℓ of Conventions
-and use R02.3's Kummer sequence and R02.4.4's invariant-sum calculation:
-
-```text
-Br(O_(F,T_ℓ))[ℓ^r] ≃ ker((ℤ/ℓ^r)^(T_ℓ) --sum--> ℤ/ℓ^r),
-0 → Pic(O_(F,T_ℓ))/ℓ^r → H²_et(O_(F,T_ℓ),μ_(ℓ^r))
-  → Br(O_(F,T_ℓ))[ℓ^r] → 0.
-```
-
-The coordinates identify the local invariant a/ℓ^r with a modulo ℓ^r.
-Only when |T_ℓ|=1 does this give Brauer vanishing and the Picard/H²
-isomorphism. Real 2-torsion is retained at ℓ=2. (K-book, (VI.8.1.1),
-p. 513, and Example VI.8.3.1, p. 514.)
-
-**Checks.**
-
-- For F=ℚ, S=∅, ℓ=3 and r=1, T₃={3}; the sum map is the
-  identity on ℤ/3 and its kernel is zero. Since Pic(ℤ[1/3])=0,
-  H²_et(ℤ[1/3],μ₃)=0.
-- For F=ℚ, S={2}, ℓ=3 and r=1, T₃={2,3}; the nonzero invariant
-  tuple (1/3,−1/3) has sum zero. Thus Br(ℤ[1/6])[3]≃ℤ/3,
-  and Pic(ℤ[1/6])=0 gives H²_et(ℤ[1/6],μ₃)≃ℤ/3. The tuple
-  (1/3,1/3) has sum 2/3 and is excluded; a difference map would admit it.
-- For the same S and ℓ with r=2, the tuple (1/9,−1/9) has order
-  nine, so the kernel is ℤ/9. Counting places above ℓ alone would
-  incorrectly give zero in both of the last two cases.
-- At F=ℚ and ℓ=2, the finite support {2} is a singleton, but invariants
-  1/2 at 2 and 1/2 at the real place have sum zero in ℚ/ℤ and give
-  Br(ℤ[1/2])[2]≃ℤ/2. The odd-prime hypothesis excludes this case.
-
-### From TauCetiRoadmap.SelmerIwasawaCohomology
-
-Sections 2.1–2.4 and 2.21–2.23 supply strict local conditions, functorial
-Selmer kernels, their mapping-fibre formulation and condition-change triangles.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-Sections 6.1a, 6.8a and 6.9 supply coherent C₂ actions on connective K-theory,
-homotopy orbits, the Poincaré GW/L carriers, fundamental fibre sequence and
-localization. Section 6.10a supplies the integral ℤ symmetric and quadratic L-group
-calculations with their signature and Arf normalizations. The localized Picard
-quotient is supplied by Tau Ceti. Section 3.5 constructs the general Dedekind
-injection and L-tables on the supplier's Poincaré carriers.
-
-Section 6.4.2 supplies the metabolic-quotient symmetric Witt carrier
-`ExactW0`; §6.10a supplies its integral signature normalization.
-What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:number-ring-witt-signature):
-for every number field F and finite S of finite primes, the symmetric Witt
-real-signature map W^s(O_(F,S)) → ℤ^r₁ has finite kernel and image of rank r₁.
-This §6.11 contract uses the specified carrier and the map obtained by extension
-to F, then to each real embedding, followed by real signature. It is additive,
-kills metabolic forms, commutes with S-enlargement and field transport, and
-sends a positive real line to 1. Section 3.5 deduces finite generation from
-this contract. (Calmès et al., Corollary 2.3.16 and proof, pp. 47–48.)
-
-### From TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
-
-Sections 0.1–0.3 and 1.2–1.4 compare genuine Poincaré structures and
-GW–L fibre sequences on GeometryOfNumbersAndQuadraticArithmetic §6.8a's carriers; §4.4 and §§7.1–7.5
-supply quadratic and symmetric
-comparison ranges; §§8.1–8.2 supply the classical connective fibre sequences. The quadratic comparison starting in
-degree four is not used for classical degrees zero through three.
-
-### From TauCetiRoadmap.KTheoryFiniteLocalFields
-
-Sections 1.1–1.6 normalize the finite-field K-groups supplied by
-GeneralAlgebraicKTheory §13.8c and supply the Bott classes and finite-field transfers;
-§§3.1–3.5 supply Moore's K₂ theorem; §§6.2–6.9 and 7.3 supply higher local
-groups, cohomological quotients and completion compatibilities. Section 3.0a
-supplies `motivicCycles` and `motivicToK` on their shared cycle and Milnor
-carriers with coefficient, residue, transfer and Bott normalizations. Section 0.5
-supplies stable finite-cover transfers, including identity, composition and
-pullback laws. Section 6.5a supplies `periodicEtaleK`, `etaleKComparison`,
-`etaleDescentFiltration` and `quillenLichtenbaumField`, with coefficient,
-restriction and finite-separable transfer compatibility. Section 5.2 consumes
-that field comparison and extends it to the mixed-characteristic S-integer base.
-The supplier's determinant, semilocal K₁, Matsumoto and finite-field K₂
-inputs come from AlgebraicKTheory A2/A4/A5; these are inherited prerequisites
-of its local comparisons. Its §2.2 uses the uniformizer-last boundary
-∂_n=(−1)^(n−1)B_n, whereas §2.1 below retains the raw right-linear B_n.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layers 11–13, including `hilbertClassField`, `narrowHilbertClassField` and
-`gal_hilbertClassField_equiv_classGroup`, supply global reciprocity and the
-Hilbert class field comparisons. Their S-class quotients identify the
-class group and its arithmetic Artin action in §6.11.
-
-### From TauCetiRoadmap.NumberFieldArithmetic
-
-Layers 1–5 and 7–8, including the Gaussian and golden worked examples,
-supply number-field embeddings, integral closure, discriminants, prime
-factorization, units and class numbers. The golden specialization below uses
-the named pinned declarations in the Tau Ceti contract.
-
-### From TauCetiRoadmap.Chebotarev
-
-Layer 10, `hasDirichletDensity_frobeniusPrimeSet`, supplies positive density
-and infinitude for each Frobenius class, unchanged by finite exclusions.
-Section 6.11 applies it to the compatible class/cyclotomic fiber product.
-
-### From TauCetiRoadmap.GeneralizedCohomology
-
-G5.4 supplies ko, ku, KO, KU, Bott classes and the connective-cover comparisons,
-with complexification in degrees zero and four normalized by 1 and 2.
-G2.4 supplies the stable homotopy category with its distinguished cofibre
-triangles and long exact sequences of homotopy groups, and G2.5 and G2.7
-the sphere spectrum S, its unit maps and the transport of
-AlgebraicTopology Stage 8's relative Hurewicz theorem to connective
-spectra; §7.5 uses them for the cofibre of the unit S→K(ℤ). G3 item 9
-supplies the prime localization E_(p) of a spectrum,
-`spectrumPrimeLocalization`, with π_n(E_(p))=π_nE⊗ℤ_(p) in every degree;
-§7.5 uses it for the sphere spectrum.
-
-### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
-
-ALS.2.2–ALS.2.3 supply Borel–Serre bordification and compact arithmetic
-quotients at neat level; ALS.5a.1 supplies the rounded smooth manifold with
-boundary and its collar. ALS.F.5 supplies relative Lie algebra cochains and
-identifies invariant forms on G(ℝ)/K with them; ALS.0.4–ALS.0.5 and ALS.0.8
-supply the symmetric space, its contractibility and the proper action with
-finite stabilizers; ALS.5b.1 supplies the de Rham and relative Lie algebra
-comparison at neat level. Section 3.4 uses these for
-borelInvariantFormComparison. Section 3.2 supplies a finite CW model by a Morse
-exhaustion of its interior, then identifies boundary homology, orientation
-twist and projective-lattice duality after passage to a torsion-free neat
-subgroup. ALS.2.4 requires boundary-compatible triangulability and is not an
-input to this finite-generation argument.
-
-### From TauCetiRoadmap.MorseTheory
-
-M1 supplies nondegenerate critical charts and finiteness of critical points
-on compact sets; M3 supplies proper bounded-below Morse exhaustions and
-relative approximation fixed near a closed set where the function is already
-Morse. M2 supplies finite cell models of compact sublevels and their
-compatibility. Section 3.2 applies these to the rounded arithmetic
-bordification, using the smooth collar and gluing of GeometricTopology Layer 1
-and the pinned `SmoothPartitionOfUnity.exists_isSubordinate` on Hausdorff
-second-countable finite-dimensional smooth manifolds.
-
-### From TauCetiRoadmap.GeometricTopology
-
-Layer 1 supplies smooth collars and boundary gluing used in §3.2 after the
-arithmetic rounding. No smooth triangulation theorem is used there.
-
-### From TauCetiRoadmap.ClassifyingSpaces
-
-Stage 3, items 12–13 supply CW-type classifier uniqueness and the lifting
-of cells under coverings; Stage 4, item 16 identifies lifted cellular
-chains with group (co)homology. Section 3.2 uses these for its finite
-arithmetic classifying model.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 8 supplies the simply connected relative Hurewicz theorem.
-Section 7.5 applies it in the stable range of the connective spectrum models.
-
-### From TauCetiRoadmap.BordismFormalGroups
-
-F3 supplies, at each prime p, the spectrum BP with
-BP_*≅ℤ_(p)[v₁,v₂,…] on Hazewinkel generators, the logarithm recursion,
-and the Hopf algebroid BP_*BP≅BP_*[t₁,t₂,…] with its right unit and
-coproduct. F4 supplies its comodules, the normalized cobar complex and Ext,
-the BP-based Adams tower of a spectrum and its Adams–Novikov spectral
-sequence with E₂^(s,t)=Ext_(BP_*BP)^(s,t)(BP_*,BP_*X), and strong
-convergence to X_(p) for bounded-below X. Section 7.5 applies them to the
-sphere spectrum at odd primes, and records the p=2 entry E₂^(1,2).
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-Section 3.6 supplies the fixed-maximal-compact Siegel covering and finite-overlap
-reduction theory consumed in the arithmetic bordification and in the growth
-estimates on Siegel sets for §3.4's invariant-form comparison.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-RG2.2.1–RG2.2.2 supply the Bruhat–Tits building over a discretely valued
-field, its contractibility, and the reduced building with facets and fixers.
-RG2.2.4 *gl-building-lattice-chains* identifies the building of GL(V) over a
-nonarchimedean local field with norms and graded lattice chains, with vertices
-of the reduced building the homothety classes of lattices. Section 3.2 uses
-this at the point at infinity of a curve over a finite field.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-AL.3.10.5 supplies, for a smooth projective geometrically connected curve
-over a finite field, slopes, semistability, and existence and uniqueness of
-Harder–Narasimhan filtrations with their polygons. AL.3.10.7 supplies the
-boundedness of the bundles of fixed rank and degree under a fixed upper
-polygon, as a finite-type family. Section 3.2 uses them for
-curveSteinbergHomology_fg.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-Layer 0 supplies the constant field of a function field and Layer 12 its
-regular projective model, used in §3.2 for curves over finite fields.
-
-### From TauCetiRoadmap.JacobianChallenge
-
-Layer B supplies finite-dimensional coherent cohomology over the base field;
-§3.2 uses it to make automorphism groups of bundles on a curve over a finite
-field finite.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Section 3.3 supplies degrees of vector bundles on proper curves, their
-additivity and their change under twisting by a divisor, as used in §3.2.
-
-## How to read the build
-
-Layers 1–2 identify the arithmetic rings and maps, and make localization usable
-with finite support and ramification. Layer 3 proves finite generation and
-extends the rational rank theorem, including its hermitian consequences.
-Layer 4 computes the finite cyclotomic invariants that control odd torsion.
-Layer 5 identifies the odd groups and their natural torsion maps. Layer 6
-handles even groups, real corrections, divisibility, wild kernels, presentations
-and Bott degrees. Layer 7 extracts Bernoulli and regular-prime consequences.
-Layer 8 supplies computations whose upper and lower bounds can be checked
-independently. The README specifies all targets; Suggested.lean records only
-its headline signatures and the simple definitions needed on the pinned carriers.
 
 ## Layer 1: S-integers and arithmetic functoriality
 
@@ -5019,6 +4544,540 @@ computations consume §3.5's periodic
 L-group and classical Grothendieck–Witt finiteness results. Even
 computations can use §6.14's cohomological presentation independently
 of a zeta-value order formula.
+
+## Scope and ownership
+
+This roadmap owns arithmetic specialization and assembly. General exact-category
+K-theory, localization and transfer belong to GeneralAlgebraicKTheory;
+StableHomotopyKTheory §§7.1–7.8 and 7.28 supply coefficients and safe-modulus
+products. Section 2.1 assembles their coefficient localization comparison.
+General scheme localization belongs to SchemeKTheoryOperations §§3.6–3.7. KTheoryLowDegrees owns the rank–Picard
+description of K₀, determinant and S-unit comparisons for K₁, and the first
+low-degree computations. K2SymbolsBrauer owns Matsumoto symbols, tame and real
+sign symbols, the degree-two tame-kernel sequence, and K₂ of ℤ and ℚ. Their theorems supply the
+comparisons used above.
+
+This roadmap owns the Tits-building and projective-lattice Steinberg
+finiteness inputs in §3.2, and in §3.4 Borel's finite-stage invariant-form
+comparison for arithmetic groups and the rational rank theorem for orders.
+The rank-filtered Q-space assembles finite generation and extends ranks to
+finite S. Section 3.2 constructs the finite CW model of each neat arithmetic
+bordification from its rounded collar and the MorseTheory M2–M3 cell and
+relative-approximation theorems; it does not require a triangulation. The
+general smooth triangulation comparison belongs to GeometricTopology,
+“The smoothing-and-triangulation comparison”, item 1.
+This roadmap consumes EtaleCohomologyFoundations §§F.0.3/F.4 for twists and owns
+the Suslin and arithmetic-base motivic/étale descent comparisons in §5.2, and the algebraic-to-real
+comparison in §5.4. KTheoryFiniteLocalFields §3.0a owns the shared motivic
+complexes, norm-residue theorem and motivic-to-K tower;
+GeneralizedCohomology G5.4 owns ko, ku, KO, KU and their Bott classes.
+ArithmeticGaloisDuality owns Kummer, Brauer and Poitou–Tate calculations;
+KTheoryFiniteLocalFields owns local K-groups and completion. The full
+Chern/regulator family is not a prerequisite for the torsion descent edge.
+
+GeometryOfNumbersAndQuadraticArithmetic §§6.1a, 6.8a and 6.9 supplies the
+hermitian carriers, coherent duality action, GW–L fibre sequence and localization.
+HermitianKTheoryOfPoincareCategories supplies their comparison theorems.
+GeometryOfNumbersAndQuadraticArithmetic §6.10a supplies the integral ℤ L-groups; §3.5 owns the Dedekind
+Witt injection and symmetric/quadratic L-tables. The number-ring signature theorem
+belongs to GeometryOfNumbersAndQuadraticArithmetic §6.11 through the exact
+contract below; the connective homotopy-orbit spectral sequence for
+C₂-actions belongs to StableHomotopyKTheory Layer 7 through its exact contract.
+Section 3.5 consumes both for arithmetic finite generation.
+CyclotomicClassGroupsAndStickelberger owns the cyclotomic class action,
+projectors, Kummer congruences, reflection, finite criterion and regular-prime
+tower theorem. Its §§0.2–0.4, 2.1, 3.1–3.2 and 5.1 use AINTLIB's
+FltRegularBernoulli project as a formalised source; §§7.1–7.3 consume those
+interfaces, including §3.1's unrestricted extensions of the source congruences.
+IntegralIwasawaTheory owns Vandiver propagation and the
+arithmetic-weight Euler characteristics. This roadmap uses those inputs for finite
+cyclotomic K-groups; it does not build another Iwasawa theory. The arithmetic
+K₃ results above precede the downstream decomposable and indecomposable
+analysis. The golden-field presentation has independent upper and lower bounds
+that use no special-value formula. The applications are listed under
+Downstream consumers.
+
+The general rings, valuations, finite extensions, class groups, local Galois
+objects, quadratic forms and integral lattices already provided by Mathlib,
+Tau Ceti and TauCetiRoadmap are used through their existing APIs.
+In particular NumberFieldArithmetic supplies general quadratic-field arithmetic,
+and `TauCeti.NumberField.Sqrt5` already supplies the golden field’s integral
+basis, signature, principal ideals, class number, dyadic prime and fundamental
+unit. Those are inputs to the K₂ presentation, rather than targets of this
+roadmap. Section 7.5 owns the vanishing of π₄(S)⊗ℤ[1/2] for the sphere
+spectrum S, which it uses for K₄(ℤ), and the low Adams–Novikov E₂-term of
+the sphere that proves it; it computes them with the Adams–Novikov
+spectral sequence of BordismFormalGroups F3–F4. The 2-primary part of
+K₄(ℤ) comes from §6.4's dyadic 2-rank formula, not from the sphere. No
+target here uses the stable stems as a colimit of unstable homotopy groups
+of spheres, their composition product or their comparison with π_*S. The
+2-primary fourth stem and every other stable-stem calculation are outside
+the present scope.
+Real lattice infrastructure comes from
+Mathlib’s `IsZLattice` and
+`ZLattice.covolume`; LocalGaloisGroups and
+ProfiniteArithmetic supply local and profinite arithmetic; ClassFieldTheory
+supplies the class-formation interfaces. No replacement for those roadmaps is
+introduced. Curves over finite fields enter only through §3.2. Its
+finiteness criterion holds for every Dedekind domain, and §3.2 owns the
+Steinberg-homology hypothesis both for rings of integers of number fields and
+for the coordinate ring of a smooth affine curve over a finite field with one
+point at infinity (curveSteinbergHomology_fg). A curve with several points at
+infinity is a localization of a one-point complement by §1.1, and its
+consumers reduce to that case through the Dedekind localization sequence. The
+K-theory of curves over finite fields is otherwise outside the present scope.
+Arithmetic K-theory Part II,
+regulator families and special-value formulas beyond the order comparison
+in §7.5 also lie outside the present scope. The latter comparison consumes the
+IntegralIwasawaTheory §12.3 Euler-characteristic comparison and is not used in the independent
+tame-kernel presentations.
+
+The low-degree computations K₀(ℤ), K₁(ℤ), K₂(ℤ) and K₂(ℚ) are
+supplied by KTheoryLowDegrees §§5.1/11.1 and K2SymbolsBrauer §§12.10–12.11;
+§8.2 uses them as examples of the higher localization statements. The
+Steinitz formula is KTheoryLowDegrees §5.5; §1.3 adds its arithmetic
+S-enlargement compatibility. General motivic cycles and norm residue are
+KTheoryFiniteLocalFields §3.0a; §5.2 extends descent to mixed-characteristic
+S-integer bases. The real Bott spectra are GeneralizedCohomology G5.4;
+§5.4 owns the comparison from algebraic K-theory.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `SmoothPartitionOfUnity.exists_isSubordinate` in
+`Mathlib/Geometry/Manifold/PartitionOfUnity.lean` for the smooth collar
+cutoffs in §3.2; its Hausdorff and sigma-compact hypotheses hold for the
+second-countable finite-dimensional quotient manifolds.
+
+Use `Mathlib/RingTheory/DedekindDomain/SInteger.lean`,
+`Mathlib/RingTheory/ClassGroup/ExtendedHom.lean` and
+`Mathlib/RingTheory/PicardGroup.lean` for the following arithmetic carriers.
+At the pinned APIs, `Set.integer` gives the S-integer subalgebra and `Set.unit`
+its units. `Set.unitEquivUnitsInteger` identifies the unit carriers. Use
+`IsDedekindDomain.HeightOneSpectrum`, `IsFractionRing`, `IsLocalization`,
+valuation support and the existing finite-extension/integral-closure API.
+For localization in stages, use `IsLocalization.isLocalization_of_submonoid_le`
+in `Mathlib/RingTheory/Localization/LocalizationLocalization.lean`: if M≤N,
+B is the localization of R at M and C that at N, and R→B→C is a scalar tower,
+then C is the localization of B at the image of N.
+`ClassGroup`, `ClassGroup.equivPic`, `ClassGroup.extendedHom`,
+`NumberField.classNumber` and the finite class group of a number ring supply
+the arithmetic class data.
+
+`CategoryTheory.nerve` in `Mathlib/AlgebraicTopology/SimplicialSet/Nerve.lean`,
+applied to the poset of nonzero proper subspaces of a `Submodule` lattice,
+carries §3.2's `titsBuilding`. Its homology is the simplicial homology
+`SSet.homology` with the induced maps `SSet.homologyMap` in
+`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean`; these give no
+linear-group action on that homology, which §3.2 constructs.
+`Submodule`, categorical full subcategories and nerves, group homology,
+chain complexes, homotopy groups and tensor products supply the
+existing algebraic carriers under the rank-filtration interfaces; the relative
+chain and classifying-space comparisons are the named homotopy-supplier targets. The comparison of
+categorical and topological homology is a specific homotopy supplier,
+not a consequence of the mere existence of `CategoryTheory.nerve`.
+`LinearEquiv.ofBijective` packages the actual rationalized localization map.
+`AddCommGroup.equiv_free_prod_directSum_zmod` supplies the abstract structure
+theorem once finite generation and ranks are known.
+
+`Module.Relations`, its quotient, solutions and presentation API supply finite
+linear presentations. In particular use
+`Module.Relations.Solution.surjective_fromQuotient_iff_surjective_π` and
+`Module.Relations.Solution.surjective_π_iff_span_eq_top`. `AddSubgroup.index_eq_natAbs_det` supplies the
+integer lattice index calculation. `IsZLattice` and `ZLattice.covolume` in
+`Mathlib/Algebra/Module/ZLattice/Basic.lean` and
+`Mathlib/Algebra/Module/ZLattice/Covolume.lean` supply real lattices and
+covolume, including `ZLattice.covolume_div_covolume_eq_relIndex'`.
+Minkowski's lattice point theorem in
+`Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean` is
+`MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure`.
+These statements do not themselves establish any arithmetic relation or span.
+
+For cyclotomic arithmetic use `CyclotomicField`, `IsCyclotomicExtension`,
+`autEquivPow`, the cyclotomic character, roots of unity and the existing unique
+prime, ramification and inertia-degree theorems over ℚ. For coefficient
+eigenspaces use `Module.End.eigenspace`; ℤ/ℓ character projectors require a
+separate group-action construction. `bernoulli`, `bernoulli'`,
+`bernoulli_one`, `bernoulli_eq_bernoulli'_of_ne_one` and the
+`Bernoulli.vonStaudt_clausen` denominator API are the Bernoulli suppliers.
+They do not include the divided-denominator Kummer refinement.
+
+### From Tau Ceti
+
+The arithmetic maps below are in
+`TauCeti/RingTheory/ClassGroup/RelNorm.lean` and
+`TauCeti/RingTheory/DedekindDomain/SInteger/` (Spectrum, ClassGroup, Unit
+and Rank), with the number-field S-unit rank in
+`TauCeti/NumberTheory/NumberField/Units/SUnit/Basic.lean`.
+
+Tau Ceti's `ClassGroup.relNorm` and
+`ClassGroup.relNorm_extendedHom` supply ideal norms and their degree composite.
+
+For S-integers use Tau Ceti's `integerHeightOneSpectrumEquiv`,
+`valuation_integerHeightOneSpectrumEquiv`, `integer_extendedHom_surjective`,
+`ker_integer_extendedHom`, `integerClassGroupEquiv`,
+`finite_integer_classGroup`, `Set.unit_mono`, `Set.unitValuation`,
+`Set.unitValuation_ker`, and
+`Set.unit_fg_of_units`. The last result supplies finite generation for finite
+S. The S-unit rank is `TauCeti.finrank_sUnits`: for a Dedekind domain with
+finite class group and finitely generated unit group, and finite S, the
+ℤ-rank of `Additive (S.unit K)` is that of `Additive Rˣ` plus |S|. For a
+number field F, `TauCeti.finrank_sUnits_numberField` combines it with
+Mathlib's `NumberField.Units.finrank_eq` into
+`NumberField.Units.rank F + Nat.card S`; since `NumberField.Units.rank F`
+is the number of infinite places minus one, Mathlib's
+`NumberField.InfinitePlace.card_eq_nrRealPlaces_add_nrComplexPlaces`
+turns this into r₁+r₂−1+|S|. The existing class-group quotient and unit
+valuation maps are reused; their K-theoretic interpretation is what Layer 2
+adds. `Set.unitValuation` takes values in the product of `Multiplicative ℤ`,
+with uniformizer exponent −1; §2.2 negates these exponents and proves finite
+support before comparing them with the positive-order localization boundary.
+The pinned Tau Ceti library also provides `TauCeti.ExactStructure` (in
+`TauCeti.CategoryTheory.Exact.ExactStructure`),
+`TauCeti.ExactK0` and `TauCeti.ExactK0.liftEquiv` (the latter two in
+`TauCeti.CategoryTheory.GrothendieckGroup.Exact`), together with exact-functor
+maps and the finite-projective-module K₀ carrier. These supply exact-category and
+Grothendieck-group infrastructure; their comparison to the genuine higher
+Q-space is the general K-theory supplier's responsibility. Neither that
+comparison nor the higher arithmetic groups follow merely from K₀'s
+presentation universal property.
+
+For the golden field, the pinned Tau Ceti modules
+`TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt5.Basic`, `Invariants`,
+`Units` and `RealPlace` supply the arithmetic under an integral generator θ with
+`minpoly ℤ θ = X²−X−1` and `Algebra.adjoin ℚ {(θ : F)} = ⊤`.
+In namespace `TauCeti.NumberField.Sqrt5`, use `finrank_eq_two`,
+`adjoin_eq_top`, `index_eq_one`, `isMonogenic`, `discr_eq_five`,
+`isTotallyReal`, `nrRealPlaces_eq_two`, `nrComplexPlaces_eq_zero`,
+`isPrincipalIdealRing` and `classNumber_eq_one`.
+Use `ncard_primesOver_two_eq_one`,
+`ramificationIdx_eq_one_of_mem_primesOver_two` and
+`inertiaDeg_eq_two_of_mem_primesOver_two` for the dyadic place. For the unit
+coming from θ, `mul_sub_one_eq_one` gives its inverse,
+`closure_sup_torsion_eq_top` gives generation modulo torsion, and
+`exists_isReal_and_apply_eq_goldenRatio` fixes the positive embedding;
+`units_rank_eq_one` supplies the unit rank and `torsionOrder_eq_two` the
+order of the roots of unity. Transport these arithmetic inputs along the chosen field-model equivalence.
+
+### From TauCetiRoadmap.StableHomotopyKTheory
+
+Sections 1.24–1.28 supply category homology and its classifying-space and
+relative-chain comparisons; §3.36 supplies the finite-type theorem for connected
+abelian CW spaces, including nonzero π₁. Sections 7.1–7.13 supply Moore spectra,
+coefficient triangles, transition maps, Bocksteins, colimits and Milnor sequences;
+§§7.21–7.28 supply filtered spectral sequences, their convergence and safe-modulus
+products. Section 2.1 applies these to the supplied localization triangle.
+
+What StableHomotopyKTheory must provide (gap:connective-c2-homotopy-orbit-spectral-sequence):
+for every connective spectrum E with a coherent C₂-action, the natural strongly
+convergent spectral sequence H_p(C₂;π_q E) ⇒ π_(p+q)(E_hC₂), with its skeletal
+filtration. Here p,q≥0 and the coefficients are the actual C₂-modules π_q E
+induced by the action. The required API consists of naturality in
+C₂-equivariant spectrum maps, the finite filtration in each total degree and
+the degree-zero coinvariant isomorphism π₀(E)_(C₂)→π₀(E_hC₂). Section 3.5
+consumes this contract and proves its arithmetic finite-generation
+consequences. (Calmès et al., proof of Corollary 2.3.18, p. 48; the
+skeletal filtration is a filtered spectrum in the sense of §§7.21–7.24.)
+
+### From TauCetiRoadmap.GeneralAlgebraicKTheory
+
+Sections 2.1–2.6 supply exact categories, the genuine Q-construction and
+functorial K-groups; §4.3 additivity; §4.8 dévissage; §4.14 Serre localization;
+§§7.4–7.8 products, finite-projective transfer and projection/base-change
+formulas; §§8.12–8.13 the DVR boundary and its right-module identity; §13.8c the
+finite-field groups K₀(𝔽_q)=ℤ, K_(2i)(𝔽_q)=0 and K_(2i−1)(𝔽_q)≅ℤ/(qⁱ−1) for
+i≥1, the vanishing used by §§2.4, 3.3 and 5.5.
+Section 2.1 constructs finite-coefficient localization by smashing this triangle
+with StableHomotopyKTheory §7.2's S/m. It retains §7.7's coefficient reductions
+and §7.3's Bocksteins, and proves the signed localization–Bockstein identity
+of §2.1 and the boundary/product compatibility at the safe prime powers of
+§7.28. No ring structure at an unsafe modulus is inferred.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+F.0.1/F.0.2 supplies coefficient sheaves and finite-cover monodromy.
+F.0.3, `VanishingCycles.etaleTateTwists`, supplies integer-weight finite
+Tate twists on the canonical roots-of-unity sheaf, positive tensor powers,
+negative dual powers, pullback and coefficient reductions. F.4.1–F.4.6
+supplies their integral and rational realization and continuous coefficient
+comparison.
+
+### From TauCetiRoadmap.IntegralIwasawaTheory
+
+Section 3.1 supplies general one-prime class control; §7.4 supplies
+`VandiverCondition` and its propagation, with §§7.7–7.8 the cyclic arithmetic
+module and rational cyclotomic comparisons. Sections 10.4–10.5 and 12.3 supply
+`oddPrime_specialValueEuler` at χ=1,n=2k and `dyadic_specialValueEuler` at n=2k,
+including the H¹-order identification. Their finite Euler quotient is |H²|/|H¹|.
+Section 6.0, `totallyRealHeckeValue_rational`, supplies rationality of the
+negative-integer zeta values used in the order comparison.
+Section 7.5 combines those exports with §6.5 to obtain K-group orders.
+
+### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
+
+Sections 0.1–0.4 supply the direct Artin class action, tame projectors,
+decomposition and plus part; §2.1 supplies the prime-conductor Stickelberger
+element. For odd prime p, §3.1 supplies p-integrality of pB_n for positive
+even n; when p−1∤n it supplies p-integrality of B_n/n and its residue invariance
+for all positive even indices congruent modulo p−1, including indices divisible
+by p. It also supplies the Teichmüller–Bernoulli comparison in the finite range.
+§3.3 supplies the vanishing of the exponent-zero class component and
+character reflection; §4.5 supplies `herbrand_ribet`. Sections 5.1 and 5.4
+supply `IsRegularPrime`, `kummer_criterion` and
+`regular_prime_power_class_number`. Section 7.2 applies
+the criterion to the divided Bernoulli sequence; §7.3 transports the supplied
+class module to the localized Picard module. No class-action or projector
+carrier is reconstructed here. The AINTLIB source signatures and their index
+restrictions are recorded in §§7.1–7.3; the unrestricted congruence and
+integrality interfaces are the supplier's targets, beyond those source signatures.
+
+### From TauCetiRoadmap.SchemeKTheoryOperations
+
+Sections 3.6–3.7 supply general Dedekind localization, Cartan comparison,
+finite-pushforward naturality, the DVR boundary valuation and its
+flat-ramification law: after a local flat map of DVRs with ramification index
+e, the boundary of the extended class is e times the pulled-back boundary.
+Section 2.3 assembles this ramification square on the arithmetic residue
+direct sums.
+
+Section 4.3 supplies spectral hypercohomology on a site with enough points,
+as the totalization of the Godement resolution, and its descent spectral
+sequence `E₂^{p,q}=Hᵖ(C,π̃_qF)⇒π_{q−p}H(C,F)`, strongly convergent when the
+cohomological dimension of the site is bounded (Thomason, Proposition 1.36,
+p. 452). Section 6.15 applies it to the Bott-localized K-sheaf on the étale
+site of X, with the index change p=−s, q=t.
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+Sections 5.1–5.5 supply rank–Picard, projective classification and the
+transfer formula in rank–Picard coordinates, including virtual negative
+ranks. Section 8.1 supplies determinant and §§11.1–11.3 the arithmetic SK₁ and S-unit comparisons.
+
+### From TauCetiRoadmap.K2SymbolsBrauer
+
+Sections 7.1–7.2 supply Matsumoto comparison; §§9.2–9.6 the normalized tame
+symbol; §11.2 and §§12.1–12.3 the Dedekind and S-integer tame-kernel sequences;
+§12.5 real sign symbols; §§12.10–12.11 K₂ of ℤ and ℚ. Tate's filtration
+uses the inverse of the localization boundary, with §2.2's witness.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+Sections 1.14–1.15 and 1.35 supply the classical local norm-residue symbol,
+its real/complex specializations and the norm criterion. KTheoryFiniteLocalFields
+§§3.1–3.5 and 7.3 supply its K₂ factorization and completion comparisons.
+
+### From TauCetiRoadmap.ArithmeticGaloisDuality
+
+R02.1/R02.3/R02.4 supplies continuous inverse-limit control, Kummer,
+finite H¹/H², the Brauer invariant-sum computation and Poitou–Tate.
+For finite S, odd ℓ and r≥1, retain the full support T_ℓ of Conventions
+and use R02.3's Kummer sequence and R02.4.4's invariant-sum calculation:
+
+```text
+Br(O_(F,T_ℓ))[ℓ^r] ≃ ker((ℤ/ℓ^r)^(T_ℓ) --sum--> ℤ/ℓ^r),
+0 → Pic(O_(F,T_ℓ))/ℓ^r → H²_et(O_(F,T_ℓ),μ_(ℓ^r))
+  → Br(O_(F,T_ℓ))[ℓ^r] → 0.
+```
+
+The coordinates identify the local invariant a/ℓ^r with a modulo ℓ^r.
+Only when |T_ℓ|=1 does this give Brauer vanishing and the Picard/H²
+isomorphism. Real 2-torsion is retained at ℓ=2. (K-book, (VI.8.1.1),
+p. 513, and Example VI.8.3.1, p. 514.)
+
+**Checks.**
+
+- For F=ℚ, S=∅, ℓ=3 and r=1, T₃={3}; the sum map is the
+  identity on ℤ/3 and its kernel is zero. Since Pic(ℤ[1/3])=0,
+  H²_et(ℤ[1/3],μ₃)=0.
+- For F=ℚ, S={2}, ℓ=3 and r=1, T₃={2,3}; the nonzero invariant
+  tuple (1/3,−1/3) has sum zero. Thus Br(ℤ[1/6])[3]≃ℤ/3,
+  and Pic(ℤ[1/6])=0 gives H²_et(ℤ[1/6],μ₃)≃ℤ/3. The tuple
+  (1/3,1/3) has sum 2/3 and is excluded; a difference map would admit it.
+- For the same S and ℓ with r=2, the tuple (1/9,−1/9) has order
+  nine, so the kernel is ℤ/9. Counting places above ℓ alone would
+  incorrectly give zero in both of the last two cases.
+- At F=ℚ and ℓ=2, the finite support {2} is a singleton, but invariants
+  1/2 at 2 and 1/2 at the real place have sum zero in ℚ/ℤ and give
+  Br(ℤ[1/2])[2]≃ℤ/2. The odd-prime hypothesis excludes this case.
+
+### From TauCetiRoadmap.SelmerIwasawaCohomology
+
+Sections 2.1–2.4 and 2.21–2.23 supply strict local conditions, functorial
+Selmer kernels, their mapping-fibre formulation and condition-change triangles.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+Sections 6.1a, 6.8a and 6.9 supply coherent C₂ actions on connective K-theory,
+homotopy orbits, the Poincaré GW/L carriers, fundamental fibre sequence and
+localization. Section 6.10a supplies the integral ℤ symmetric and quadratic L-group
+calculations with their signature and Arf normalizations. The localized Picard
+quotient is supplied by Tau Ceti. Section 3.5 constructs the general Dedekind
+injection and L-tables on the supplier's Poincaré carriers.
+
+Section 6.4.2 supplies the metabolic-quotient symmetric Witt carrier
+`ExactW0`; §6.10a supplies its integral signature normalization.
+What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:number-ring-witt-signature):
+for every number field F and finite S of finite primes, the symmetric Witt
+real-signature map W^s(O_(F,S)) → ℤ^r₁ has finite kernel and image of rank r₁.
+This §6.11 contract uses the specified carrier and the map obtained by extension
+to F, then to each real embedding, followed by real signature. It is additive,
+kills metabolic forms, commutes with S-enlargement and field transport, and
+sends a positive real line to 1. Section 3.5 deduces finite generation from
+this contract. (Calmès et al., Corollary 2.3.16 and proof, pp. 47–48.)
+
+### From TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
+
+Sections 0.1–0.3 and 1.2–1.4 compare genuine Poincaré structures and
+GW–L fibre sequences on GeometryOfNumbersAndQuadraticArithmetic §6.8a's carriers; §4.4 and §§7.1–7.5
+supply quadratic and symmetric
+comparison ranges; §§8.1–8.2 supply the classical connective fibre sequences. The quadratic comparison starting in
+degree four is not used for classical degrees zero through three.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+Sections 1.1–1.6 normalize the finite-field K-groups supplied by
+GeneralAlgebraicKTheory §13.8c and supply the Bott classes and finite-field transfers;
+§§3.1–3.5 supply Moore's K₂ theorem; §§6.2–6.9 and 7.3 supply higher local
+groups, cohomological quotients and completion compatibilities. Section 3.0a
+supplies `motivicCycles` and `motivicToK` on their shared cycle and Milnor
+carriers with coefficient, residue, transfer and Bott normalizations. Section 0.5
+supplies stable finite-cover transfers, including identity, composition and
+pullback laws. Section 6.5a supplies `periodicEtaleK`, `etaleKComparison`,
+`etaleDescentFiltration` and `quillenLichtenbaumField`, with coefficient,
+restriction and finite-separable transfer compatibility. Section 5.2 consumes
+that field comparison and extends it to the mixed-characteristic S-integer base.
+The supplier's determinant, semilocal K₁, Matsumoto and finite-field K₂
+inputs come from AlgebraicKTheory A2/A4/A5; these are inherited prerequisites
+of its local comparisons. Its §2.2 uses the uniformizer-last boundary
+∂_n=(−1)^(n−1)B_n, whereas §2.1 above retains the raw right-linear B_n.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layers 11–13, including `hilbertClassField`, `narrowHilbertClassField` and
+`gal_hilbertClassField_equiv_classGroup`, supply global reciprocity and the
+Hilbert class field comparisons. Their S-class quotients identify the
+class group and its arithmetic Artin action in §6.11.
+
+### From TauCetiRoadmap.NumberFieldArithmetic
+
+Layers 1–5 and 7–8, including the Gaussian and golden worked examples,
+supply number-field embeddings, integral closure, discriminants, prime
+factorization, units and class numbers. The golden specialization above uses
+the named pinned declarations in the Tau Ceti contract.
+
+### From TauCetiRoadmap.Chebotarev
+
+Layer 10, `hasDirichletDensity_frobeniusPrimeSet`, supplies positive density
+and infinitude for each Frobenius class, unchanged by finite exclusions.
+Section 6.11 applies it to the compatible class/cyclotomic fiber product.
+
+### From TauCetiRoadmap.GeneralizedCohomology
+
+G5.4 supplies ko, ku, KO, KU, Bott classes and the connective-cover comparisons,
+with complexification in degrees zero and four normalized by 1 and 2.
+G2.4 supplies the stable homotopy category with its distinguished cofibre
+triangles and long exact sequences of homotopy groups, and G2.5 and G2.7
+the sphere spectrum S, its unit maps and the transport of
+AlgebraicTopology Stage 8's relative Hurewicz theorem to connective
+spectra; §7.5 uses them for the cofibre of the unit S→K(ℤ). G3 item 9
+supplies the prime localization E_(p) of a spectrum,
+`spectrumPrimeLocalization`, with π_n(E_(p))=π_nE⊗ℤ_(p) in every degree;
+§7.5 uses it for the sphere spectrum.
+
+### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
+
+ALS.2.2–ALS.2.3 supply Borel–Serre bordification and compact arithmetic
+quotients at neat level; ALS.5a.1 supplies the rounded smooth manifold with
+boundary and its collar. ALS.F.5 supplies relative Lie algebra cochains and
+identifies invariant forms on G(ℝ)/K with them; ALS.0.4–ALS.0.5 and ALS.0.8
+supply the symmetric space, its contractibility and the proper action with
+finite stabilizers; ALS.5b.1 supplies the de Rham and relative Lie algebra
+comparison at neat level. Section 3.4 uses these for
+borelInvariantFormComparison. Section 3.2 supplies a finite CW model by a Morse
+exhaustion of its interior, then identifies boundary homology, orientation
+twist and projective-lattice duality after passage to a torsion-free neat
+subgroup. ALS.2.4 requires boundary-compatible triangulability and is not an
+input to this finite-generation argument.
+
+### From TauCetiRoadmap.MorseTheory
+
+M1 supplies nondegenerate critical charts and finiteness of critical points
+on compact sets; M3 supplies proper bounded-below Morse exhaustions and
+relative approximation fixed near a closed set where the function is already
+Morse. M2 supplies finite cell models of compact sublevels and their
+compatibility. Section 3.2 applies these to the rounded arithmetic
+bordification, using the smooth collar and gluing of GeometricTopology Layer 1
+and the pinned `SmoothPartitionOfUnity.exists_isSubordinate` on Hausdorff
+second-countable finite-dimensional smooth manifolds.
+
+### From TauCetiRoadmap.GeometricTopology
+
+Layer 1 supplies smooth collars and boundary gluing used in §3.2 after the
+arithmetic rounding. No smooth triangulation theorem is used there.
+
+### From TauCetiRoadmap.ClassifyingSpaces
+
+Stage 3, items 12–13 supply CW-type classifier uniqueness and the lifting
+of cells under coverings; Stage 4, item 16 identifies lifted cellular
+chains with group (co)homology. Section 3.2 uses these for its finite
+arithmetic classifying model.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 8 supplies the simply connected relative Hurewicz theorem.
+Section 7.5 applies it in the stable range of the connective spectrum models.
+
+### From TauCetiRoadmap.BordismFormalGroups
+
+F3 supplies, at each prime p, the spectrum BP with
+BP_*≅ℤ_(p)[v₁,v₂,…] on Hazewinkel generators, the logarithm recursion,
+and the Hopf algebroid BP_*BP≅BP_*[t₁,t₂,…] with its right unit and
+coproduct. F4 supplies its comodules, the normalized cobar complex and Ext,
+the BP-based Adams tower of a spectrum and its Adams–Novikov spectral
+sequence with E₂^(s,t)=Ext_(BP_*BP)^(s,t)(BP_*,BP_*X), and strong
+convergence to X_(p) for bounded-below X. Section 7.5 applies them to the
+sphere spectrum at odd primes, and records the p=2 entry E₂^(1,2).
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+Section 3.6 supplies the fixed-maximal-compact Siegel covering and finite-overlap
+reduction theory consumed in the arithmetic bordification and in the growth
+estimates on Siegel sets for §3.4's invariant-form comparison.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.2.1–RG2.2.2 supply the Bruhat–Tits building over a discretely valued
+field, its contractibility, and the reduced building with facets and fixers.
+RG2.2.4 *gl-building-lattice-chains* identifies the building of GL(V) over a
+nonarchimedean local field with norms and graded lattice chains, with vertices
+of the reduced building the homothety classes of lattices. Section 3.2 uses
+this at the point at infinity of a curve over a finite field.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+AL.3.10.5 supplies, for a smooth projective geometrically connected curve
+over a finite field, slopes, semistability, and existence and uniqueness of
+Harder–Narasimhan filtrations with their polygons. AL.3.10.7 supplies the
+boundedness of the bundles of fixed rank and degree under a fixed upper
+polygon, as a finite-type family. Section 3.2 uses them for
+curveSteinbergHomology_fg.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+Layer 0 supplies the constant field of a function field and Layer 12 its
+regular projective model, used in §3.2 for curves over finite fields.
+
+### From TauCetiRoadmap.JacobianChallenge
+
+Layer B supplies finite-dimensional coherent cohomology over the base field;
+§3.2 uses it to make automorphism groups of bundles on a curve over a finite
+field finite.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Section 3.3 supplies degrees of vector bundles on proper curves, their
+additivity and their change under twisting by a divisor, as used in §3.2.
 
 ## References
 

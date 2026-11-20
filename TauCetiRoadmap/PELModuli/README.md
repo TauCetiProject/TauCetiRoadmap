@@ -1,256 +1,95 @@
 # Roadmap: Siegel and PEL moduli problems
 
-**Summary.** This roadmap builds the moduli spaces of abelian schemes with a polarization, an
-action of an order in a semisimple algebra with positive involution, and a level structure: the
-PEL moduli problems of Shimura, Deligne, Kottwitz and Lan, which contain the Siegel moduli of
-principally and nonprincipally polarized abelian schemes, the elliptic modular curves, the
-Hilbert–Blumenthal problems and the unitary problems over CM fields. It starts from linear algebra:
-positive involutions and their Albert types, orders and discriminants, symplectic lattices with an
-order action, integral, rational and `p`-integral PEL data, the similitude group with its
-multiplier, the polarized Hodge structure attached to a datum, signatures, the determinant
-polynomial, the reflex field and the Kottwitz determinant condition, and the hermitian and
-skew-hermitian language of unitary data. It then defines the relative objects — prime-to-`□`
-quasi-isogenies, PEL-type abelian schemes, the finite étale pro-system of symplectic Tate trivializations,
-principal and arbitrary level structures — and the integral isomorphism problem `M_H`, the rational
-quasi-isogeny problem `M_H^rat` and the characteristic-zero adelic problem `M_K^ad`, with their
-comparison, descent and Hecke action. It proves that `M_H` is a smooth separated algebraic stack of
-finite type over the good reflex base `Spec O_{F₀,(□)}`, an algebraic space at neat level, with
-universal family and Kodaira–Spencer isomorphism, and it proves properness in the division-algebra
-case, the Grothendieck–Messing description of unitary deformations, the kernel-rank identities for
-isogenies between unitary abelian schemes and Wedhorn's ordinariness criterion. Over `ℂ` it
-identifies `M_K^ad` with the disjoint union, over `ker¹(ℚ, G)`, of the arithmetic quotients
-`G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)`, as analytic spaces and then algebraically; it shows that the generic
-fibres are canonical models, compatible with level, Hecke maps and morphisms of data, builds normal
-integral models at higher `p`-level and the rank-one CM moduli schemes with their torus trace. It
-ends with the Siegel, Hilbert and unitary examples and the arithmetic moduli interface used by
-heights and finiteness: the stacks `𝔄_g` and `𝔄_{g,d}` over `ℤ`, coarse spaces, fields of moduli,
-forms and the descent obstruction, models over bounded extensions, the Hodge bundle and Hodge line,
-and finiteness over finite fields.
+**Summary.** The PEL moduli problems classify abelian schemes with a polarization, an action of an
+order in a semisimple ℚ-algebra with positive involution, and a level structure on the Tate module.
+They contain the Siegel moduli of principally and nonprincipally polarized abelian schemes, and in
+genus one the modular curves. This roadmap builds them and describes them over ℂ and over the reflex
+field.
 
-Every object keeps its full structure. The polarization of an integral object is an actual
-polarization, never only a quasi-isogeny class; the order action, the Tate twist of every pairing,
-the multiplier of every level structure and the descent data of every family are retained. The
-integral isomorphism problem and the rational isogeny problem have different morphisms, and their
-comparison transports the lattice and the level. The determinant condition is a polynomial identity
-on the base, not an equality of traces. Groups are the full, possibly disconnected, similitude
-groups; a Shimura-variety name is used only when the axiom SV3 holds.
+Each problem starts from a PEL datum: a finite-dimensional semisimple ℚ-algebra `B` with positive
+involution `*`, an order `O` in `B`, and a lattice `L` with an `O`-action and an alternating pairing
+`ψ`, nondegenerate over ℚ, with `ψ(bx, y) = ψ(x, b*y)`. It also fixes an `O`-linear complex
+structure `J` on `L ⊗ ℝ` making `ψ(x, Jy)` symmetric and positive definite. Each simple factor of
+`B` has an Albert type C, D or A: at each real place it becomes a matrix algebra over ℝ, the
+quaternions or ℂ. The datum has a similitude group `G`, of `O`-linear automorphisms preserving `ψ`
+up to a scalar, and a reflex field `F₀`.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| M0 | Linear algebra and reflex fields | `PositiveInvolution`, `albertTypes`, `IntegralPELDatum`, `similitudeGroup`, `galoisH1`, `ker1`, `hodgeStructureOfDatum`, `reflexField`, `SatisfiesDetCondition`, `GeneralizedCMType` |
-| M1 | Relative PEL families, levels and descent | `QuasiIsogeny`, `PELTriple`, `symplecticIsomSheaf`, `PrincipalLevel`, `moduliProblem`, `ratModuliProblem`, `adelicModuli`, `isoIsogenyComparison`, `effectiveDescent`, `heckeTranslate` |
-| M2 | Representability and smooth good models | `rigidity`, `IsNeat`, `isomScheme_finite`, `formalSmoothness`, `representability`, `universal`, `kodairaSpencer`, `properOfDivision`, `Display`, `wedhornOrdinary` |
-| M3 | Galois forms and complex uniformization | `ker1Classification`, `hasseCases`, `arithmeticQuotient_structure`, `complexPoints`, `uniformization`, `algebraization`, `typeDComparison`, `hermitianHomOfAbelianSchemes` |
-| M4 | Canonical models, twists and integral level changes | `cmReciprocity`, `canonicalModel`, `twist`, `normalizedModel`, `cmModuli`, `torusTrace` |
-| M5 | Siegel, Hilbert and unitary examples | `siegelIntegralDatum`, `siegelModuli`, `genusOneComparison`, `hilbertIntegralDatum`, `unitaryRationalDatum` |
-| M6 | Arithmetic moduli, coarse spaces and Hodge lines | `levelForgetting_finiteEtale`, `arbitraryLevelStack`, `siegelStack`, `polarizedStackFiniteType`, `coarseModuli`, `fieldOfModuli`, `descentObstruction`, `PELModuli.hodgeLine`, `finiteFieldFiniteness` |
+The moduli problem admits only abelian schemes whose Lie algebra satisfies Kottwitz's determinant
+condition: as an `O`-module it has the same determinant polynomial (the determinant of the generic
+element `Σ X_iα_i` of `O`, for a basis `α_i`) as the `+√−1`-eigenspace of `J`. The first theorem in
+`Suggested.lean` classifies modules by this polynomial: over any field `k`, two finite-dimensional
+modules over a finite-dimensional semisimple `k`-algebra are isomorphic exactly when their
+determinant polynomials agree. Traces suffice in characteristic zero but not in characteristic `p`:
+over `𝔽_p` the modules `𝔽_p^p` and `0` both have zero trace, and determinant polynomials `X^p` and
+`1`. The third shows that the `G(ℝ)`-conjugacy class `X` of `J` depends only on the datum: any two
+`O`-linear complex structures compatible with `ψ` are exchanged by an `O`-linear isometry of `ψ`.
 
-`Suggested.lean` states `detPoly_classifies` and `detPoly_classifies_charZero` (M0.15),
-with the definition `detPoly` (M0.14), and `compatibleComplexStructures_conjugacy` (M0.11).
-Other target names below specify the interfaces to build.
+Fix a set `□` of good primes: they divide neither the discriminant of the order nor the index of `L`
+in its dual, and 2 is excluded when a factor of type D occurs. For an open compact `H ⊆ G(Ẑ^□)`, an
+object of `M_H` is an abelian scheme with an actual prime-to-`□` polarization, a compatible
+`O`-action and a level-`H` structure. The representability theorem says that `M_H` is a smooth
+separated algebraic stack of finite type over `Spec O_{F₀,(□)}`, the integers of the reflex field
+with the primes outside `□` inverted, and an algebraic space when `H` is neat. For the principal
+Siegel datum of genus `g` at full level `n ≥ 3`, it is an algebraic space over `ℤ[1/n]` of relative
+dimension `g(g+1)/2`.
 
-## Scope and ownership
+Over ℂ one uses the characteristic-zero problem `M_K^ad`, with level an open compact `K ⊆ G(𝔸_f)`
+and quasi-isogenies as morphisms. Rational forms of the datum isomorphic to it at every place, up to
+scaling the pairing, are classified by the finite set `ker¹(ℚ, G)` and give inner forms `G^{(i)}` of
+`G`. In Cases A and C, named after the Albert types, the uniformization theorem says that
+`M_K^ad(ℂ)` is the disjoint union over these forms of the nonempty arithmetic quotients
+`G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)`. For neat `K` this is an isomorphism of analytic spaces, coming from
+an isomorphism of ℂ-schemes onto the Baily–Borel algebraizations. If moreover `G` is connected and
+satisfies SV3 (the complex structure projects nontrivially to every ℚ-simple factor of the adjoint
+group), then, for neat `K`, `M_K^ad` splits over `F₀` into open and closed pieces indexed by
+`ker¹(ℚ, G)`. Each is the canonical model of the Shimura variety `Sh_K(G^{(i)}, X)` over `F₀`.
 
-**Owned here.** Positive involutions on finite-dimensional semisimple `ℚ`-algebras and their PEL Albert
-types, using AbelianSchemesAndArithmeticModuli A6.15 for the general real positive-involution normal
-form; star-stable enrichment of arithmetic orders, their reduced-trace discriminant and inverse
-different; symplectic `O`-lattices, their dual lattice and multi-rank, with polarization type exposed from AbelianSchemesAndArithmeticModuli
-A5.4(1); integral, rational and `p`-integral PEL data, their
-rationalization and restriction; the similitude group `G` of a PEL datum with its multiplier, over
-arbitrary base rings, its coordinate Hopf algebra and its structure over `ℚ`; bad and good primes and
-the good reflex base; the polarized Hodge structure and the Shimura datum of a PEL datum; signatures;
-the determinant polynomial `Det_{O|M}` and its classification theorem; the PEL reflex field and its
-comparison with the Shimura reflex field; the Kottwitz determinant condition and its comparison with
-the representation over a splitting field; self-dual lattices at good primes; the signature
-constancy of Bijakowski; hermitian and skew-hermitian spaces over CM orders, `GU`, the
-norm-similitude torus `T₀` and rank-one classification; generalized CM types, their reflex fields,
-the reflexive closure of a CM field and `τ`-parts at unramified primes. Prime-to-`□` quasi-isogenies
-and quasi-polarizations; PEL-type abelian schemes and unitary `O_F`-abelian schemes; the pro-system of
-symplectic Tate trivializations; principal and arbitrary integral and rational level structures; the
-moduli problems `M_H`, `M_H^rat`, `M_K^ad`, their comparison, change of lattice and of good primes,
-effective descent, Hecke action and functoriality in the datum, including the forgetful morphism to
-Siegel moduli. Rigidity for PEL automorphisms from the polarized-automorphism supplier,
-neat levels, finiteness of `Isom`, deformation theory, formal smoothness, effectivity, representability, the universal family, the Kodaira–Spencer
-map and isomorphism, properness when `End_B(V)` is a division algebra, unitary Grothendieck–Messing
-deformations, kernel ranks of isogenies of unitary abelian schemes with the perfect-field Dieudonné
-length identity, Zink's displays with their polarized `O`-version and Wedhorn's ordinariness
-criterion. The torsor/Galois-cohomology comparison for smooth affine groups over arbitrary fields, continuous
-nonabelian Galois cohomology of the PEL group and `ker¹(ℚ, G)`, the Hasse
-principle in Cases A and C, the complex points and the analytic and algebraic uniformization of
-`M_K^ad`, including the full disconnected group in type D, and the hermitian space of homomorphisms
-from a CM object. Reciprocity on CM points, canonical models, the twisting automorphisms of Case A
-with odd rank, functoriality of canonical models, normal integral models at higher `p`-level, the
-rank-one CM moduli schemes and the torus trace. The Siegel datum of every genus and polarization type,
-the integral Siegel moduli `A_{g,D,n}` and their generic-fibre comparison with
-ShimuraVarieties §5.0, which supplies the characteristic-zero Siegel schemes and analytic
-families; the genus-one comparison with the modular curves, the principal
-Hilbert datum and the unitary data with prescribed signatures, with their examples. Level-forgetting
-maps, the stack at arbitrary level, the stacks `𝔄_g` and `𝔄_{g,d}` over `ℤ`, coarse moduli spaces,
-fields of moduli, forms and the descent gerbe, bounded fields of definition, the descent of
-universal Hodge bundles and lines, the export interface for heights and finiteness, finiteness over finite fields and
-explicit nonempty examples.
+The roadmap builds on
+[AbelianSchemesAndArithmeticModuli](../AbelianSchemesAndArithmeticModuli/README.md) for abelian
+schemes with their polarizations and Tate modules, and on
+[AlgebraicModuliForArithmeticGeometry](../AlgebraicModuliForArithmeticGeometry/README.md) for Isom
+schemes, descent and Artin's criteria. [ShimuraVarieties](../ShimuraVarieties/README.md) supplies
+Baily–Borel algebraization and canonical models for connected groups satisfying SV3. Downstream,
+[ShimuraCompactifications](../ShimuraCompactifications/README.md) builds the toroidal and minimal
+compactifications of `M_H`. Heights of abelian varieties and Faltings' finiteness theorems use the
+stacks of the last layer.
 
-**Built in Tau Ceti and cited.**
+Of the seven layers, the first is linear algebra, the second defines the moduli problems, and the
+third proves representability. The fourth proves the uniformization, the fifth constructs the
+canonical models, and the sixth works out the examples. The seventh uses only the first three layers
+and builds the stacks `𝔄_g` and `𝔄_{g,d}` over `ℤ`.
 
-- *The Tau Ceti library.* `TauCeti.AlgebraicGeometry.AbelianVariety` with `End`, `mulBy` and
-  `IsIsogeny`; the symplectic, orthogonal, general linear, roots-of-unity and constant-form group
-  schemes `TauCeti.Symplectic.groupScheme`, `TauCeti.Orthogonal.groupScheme`,
-  `TauCeti.GeneralLinear.groupScheme`, `TauCeti.RootsOfUnityGroup.groupScheme`,
-  `TauCeti.ConstantForm.groupScheme`; compatible almost complex structures
-  `TauCeti.SymplecticForm`, `TauCeti.SymplecticForm.Compatible`, `TauCeti.SymplecticForm.exists_compatible`,
-  `TauCeti.AlmostComplexStructure` and `TauCeti.AlmostComplexStructure.hodgeStructure`; Hodge
-  structures `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.IsPolarization`,
-  `TauCeti.AlmostComplexStructure.IsRiemannForm.isPolarization` and the weight-one
-  criterion `TauCeti.Hodge.isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`; the dual
-  lattice of a nondegenerate bilinear form `LinearMap.BilinForm.dualSubmodule_dualSubmodule_flip`;
-  `Matrix.exists_smith_normal_form_of_det_ne_zero`; the symplectic multiplier identity
-  `Matrix.transpose_mul_J_mul_eq_det_smul`; quadratic twists of Weierstrass curves
-  `WeierstrassCurve.j_quadraticTwist` and `WeierstrassCurve.not_exists_smul_quadraticTwist_eq`.
-- *TauCetiRoadmap.AdelicAlgebraicGroups.* Layer 1 (adelic points of affine groups, §1.2
-  restricted-product realization, §1.3 rational points and functoriality); Layer 3, §3.4 (finite adelic class sets and arithmetic component stabilizers);
-  Layer 4, §4.1 (coordinate torsors over a field and their comparison with the fppf class set
-  `torsorClasses G` of SchemeAndStackFoundations §§1.15 and 2.3,
-  local triviality of torsors under semisimple simply connected groups over
-  nonarchimedean local fields of characteristic zero, the Hasse principle at real places for
-  semisimple simply connected groups) and §4.3 (neat elements and neat levels).
-- *TauCetiRoadmap.GlobalNumberFields, Layer 11.* `NumberFieldOrder` for orders in
-  a number field; the PEL star-order permits noncommutative semisimple algebras.
-- *TauCetiRoadmap.ReductiveGroups.* Layer 3 (subgroups, quotients and component groups) and Layer 6
-  (reductive and semisimple groups, centre, derived group, simply connected groups).
-- *TauCetiRoadmap.ReductiveGroupsPartII.* RG2.3.7 `Lang.lang_surjective` and finite-field
-  torsor triviality; RG2.5.1 `AbsoluteRootData` with based Galois action and cocharacter lattice.
-- *ArithmeticGaloisDuality.* R02.4.6, “All-place Sha duality and transfer adjunction”:
-  for the finite Galois module `M = Z(G^der)(ℚ̄)`, its Cartier dual is
-  `M^D = X^*(Z(G^der))`, and `Ш²(ℚ,M)` is perfectly paired with `Ш¹(ℚ,M^D)`,
-  retaining the supplier's complete Tate terms at real places. M3.2 owns the
-  type-A centre identification and the vanishing application.
-- *TauCetiRoadmap.ClassFieldTheory, Layer 13.* The cyclic Hasse norm theorem `cyclicHasseNorm`
-  and its local-everywhere export `isGlobalNorm_iff_isLocalNormEverywhere`.
-- *Further Tau Ceti inputs.* `TauCeti.FieldTheory.GaloisCohomology.Hilbert90`:
-  `TauCeti.hilbert90` and `TauCeti.subsingleton_H1_unitsCoeff` for continuous Hilbert 90;
-  `TauCeti.Analysis.Matrix.HermitianSignature.Basic`: `Matrix.IsHermitian.signature`,
-  `Matrix.IsHermitian.signature_congr`, `Matrix.IsHermitian.signature_diagonal` and
-  `Matrix.IsHermitian.signature_neg` for matrix signatures;
-  `TauCeti.Geometry.Symplectic.Hermitian`: `TauCeti.SymplecticForm.complexAssociatedForm`
-  and `TauCeti.SymplecticForm.Compatible.hermitianCore` for the complex inner product of a compatible real pair.
-  The PEL signature records the multiplicities of a coefficient-algebra representation;
-  the CM-order hermitian API retains integral coefficients and first-variable linearity.
-- *TauCetiRoadmap.LocalFieldsRamification, Layer 2*, and *TauCetiRoadmap.NumberFieldArithmetic.*
-  Finite unramified extensions of `ℚ_p` with their integer rings, residue fields and Frobenius; the
-  completions of a number field at its places.
-- *TauCetiRoadmap.ModularCurves.* §0E (effective affine descent), §2E (Cartier–Nishi duality and the Weil pairing `e_N` of an
-  elliptic curve), §3C (the four level structures, in particular `[Γ(N)]`), §5B (the full level
-  scheme `Y_full(N)` over `ℤ[1/N]` and its fibre `Y(N, ζ)` over `ℤ[1/N, ζ_N]`), §7D (universal
-  deformations of elliptic curves over `W(k)[[T]]`), §9E (the coarse `j`-line).
-- *TauCetiRoadmap.ProfiniteArithmetic, Layer 0*, and *RestrictedProducts.* The ring `Ẑ` with its
-  product decomposition over primes, and the restricted-product topology on adeles.
-- *TauCetiRoadmap.ProfiniteCohomology, Layers 5, 7 and 10*, and *TauCetiRoadmap.Chebotarev, Layer 10.*
-  Exact sequences with inflation–restriction, Shapiro's lemma and continuous cohomology in all
-  degrees; Dirichlet-density Chebotarev, which kills locally trivial characters and supplies the
-  inert places used in M3.2.
+## How to read the build
 
-Elliptic curves themselves, their level structures and the modular curves are ModularCurves'; this
-roadmap compares its genus-one Siegel moduli with them (M5.3) and never rebuilds them. The general
-theory of algebraic groups, geometric torsors, strong approximation and neat subgroups is
-AdelicAlgebraicGroups' and ReductiveGroups'; the PEL group is constructed here as a closed subgroup
-of `GL(L) × G_m` and these theories are applied to it.
+Section numbers group interfaces by subject. Within M0 the dependency order is:
 
-**Built in other roadmaps and cited.**
+1. Build the datum carriers and underlying lattice/group constructions independently of their
+   Hodge, signature and reflex-field adapters. Build the primitive generalized-CM-type predicate,
+   its positive imaginary cone and type-reflex field (M0.25), then the split `τ`-decomposition
+   (M0.27). These primitive constructions use neither signatures nor the PEL reflex field.
+2. Build the Hodge decomposition (M0.11), signatures (M0.13), determinant polynomial and module
+   classification (M0.14–M0.15), and PEL reflex field (M0.16). Then compare the generalized-CM-type
+   and PEL signatures/reflex fields in M0.25. The `signatureType` adapter uses only the primitive
+   conjugate-pair predicate. Construct `goodBase` (M0.10) after M0.16; its bad-prime integer and
+   prime predicates need only the underlying order and lattice.
+3. Build M0.18's linear unitary rank criterion from the split idempotents of M0.27; M1.3 applies
+   that criterion to `Lie A`. No relative abelian-scheme construction is an input to M0.18.
 
-- *ClassicalArithmeticCompletion.* §7.4 `IntegralOrder.IsOrder` and `IntegralOrder.isOrder_iff`
-  for orders in finite-dimensional, possibly noncommutative algebras; §7.21
-  `IntegralOrder.IsMaximalOrder` and overorder inclusions; §7.49 (a common regular-trace-dual
-  bound for overorders); §7.56 (containment in a maximal order when the regular-trace pairing
-  is nondegenerate). Specialize to `ℤ ⊆ ℚ` for PEL orders. Generic orders and maximality
-  belong to this supplier; M0.1 supplies the star-stable adapter, and M0.3 supplies the
-  reduced-trace invariants and their consequences for good primes.
-- *AbelianSchemesAndArithmeticModuli.* A1 (abelian schemes over arbitrary bases, rigidity,
-  products, base change, relative dimension, one-dimensional abelian schemes as elliptic curves);
-  A2 (the dual abelian scheme and Poincaré bundle, polarizations `Polarization` and their local
-  representatives by ample line bundles `A2.6`, ample cohomology and degree `A2.4`, projective
-  presentations with very ampleness of `L^n` for `n ≥ 3` in every characteristic `A2.8`); A3
-  (isogenies, `[n]`, torsion, Weil pairings `polarizedWeilPairing` on `A[n]`, full level structures,
-  the Rosati involution over a field `A3.9`); A4 (the integral Tate module with
-  `AbelianTate.dualPairing`, the universal vector extension, `H¹_dR` with its Hodge filtration
-  `A4.3`, Barsotti–Tate groups, `grothendieckMessing` with polarizations and endomorphisms `A4.7`,
-  `polarizedEffectivity` `A4.8`, `serreTate` with structures `A4.9`); A5 (lattice uniformization,
-  Riemann forms, the polarized Hodge equivalence, analytic families and the Siegel family,
-  A5.4 `polarizationType` (1) for integral alternating normal form); A6
-  (Rosati positivity `A6.14`, the general real positive-involution normal form
-  `realRosatiDecomposition` `A6.15`, finiteness of polarized automorphisms `A6.18`, Silverberg's descent of
-  homomorphisms `A6.20`, localized Hom and coefficient Hom `A6.26`–`A6.27`, the Hodge bundle, its determinant line, base change, product and
-  analytic transition factor for an abelian scheme, A6.38).
-- *AlgebraicModuliForArithmeticGeometry.* Layer 2 (Hilbert families, Hom and Isom schemes
-  `homAndIsomSchemes`, `automorphismGroupScheme`); Layer 3 (fpqc descent
-  `fpqcQuasicoherentDescent`, `spaceFpqcQuasicoherentDescent`, polarized descent
-  `ModuliDescent.polarizedDescentComparison`, §3.5); Layer 4 (gerbes, bands and neutralizations); Layer 5 (rigidification, levels and quotient recovery
-  `levelRemovalQuotient`, finite correspondences `coarse_finite`, normalization); Layer 7 (Artin's
-  criteria `artin_space_criterion`, `artin_stack_criterion`, rigidification of invertible sheaves
-  `rigidification_gm_torsor`, `sectionRigidifiedPicard`);
-  Layer 8 (framed deformation functors `FramedDeformation` and versality
-  `familyVersalAt_completion_iff`).
-- *SchemeAndStackFoundations.* §§1.1–1.2 (fpqc/fppf descent), §§1.4–1.11 (algebraic
-  spaces and their étale presentations), §1.18 (`StackInGroupoids`, `Stack.stackification`,
-  two-fibre products), §1.19 (`IsAlgebraicStack`, `IsDeligneMumford`), §1.21
-  (`Stack.quotient`, quotient stacks), §1.23 (`FineModuliSpace`, `IsCoarseModuliSpace`,
-  `keel_mori`); §§0.20–0.21 (Nagata and excellent schemes), Layer 2 (sheaf and
-  quasi-coherent cohomology), §3.8 (invariant differentials), §§4.1–4.4 (formal smoothness,
-  `schlessinger_hull`, `schlessinger_prorepresentable`), §4.10 (Grothendieck existence),
-  §4.14 (`hilbert_quot_schemes`). General polarized descent is the
-  AlgebraicModuliForArithmeticGeometry §3.5 contract above.
-- *ComplexComparisonPartII.* §C−1.1 (`ComplexAnalyticSpace`, `complexSchemeAnalytification`
-  and `complexSchemeAnalytification.etaleLocalIso`), §C−1.2
-  (`completedAnalyticStalkComparison`), §C−1.3 (`SpaceAnalytification`,
-  `complex_local_comparison`), §C0.4 (`coherentAnalytification_faithful`). These are the
-  analytic spaces with their local ring sheaves, including nilpotents; algebraic spaces
-  are locally separated and locally of finite type over `ℂ`.
-- *AbelianSchemesAndArithmeticModuli, §A4.CR.7.2.* The crystalline Dieudonné crystal
-  of a Barsotti–Tate group over a `p`-nilpotent base, its variance, Tate twists and
-  evaluation on PD thickenings. Its crystalline sites are CrystallineCohomology Layer CR.1.
-- *FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.2.* Dieudonné theory of finite group schemes
-  and `p`-divisible groups over perfect fields, lengths and heights, the covariant Dieudonné module;
-  R07.2.15–R07.2.16 supply Dieudonné–Manin slopes and `slopeSequence`, and R07.2.20 fixes
-  `M_cov(G) = M_contra(Gᴰ)`. The PEL Newton point with coefficient action and pairing, the
-  covariant cocharacter adapter and its Galois average are constructed in M2.16 using `F`,
-  with slopes `0` on multiplicative groups and `1` on étale groups.
-- *NeronModelsAndSemistableAbelianVarieties.* R11.1 §§1.5 and 1.8 (extension of homomorphisms;
-  abelian schemes are their own Néron models); R11.3 §3.10 (potential semistability,
-  with the toric part and its character group in Layer 3); R11.5 §§5.1–5.2
-  (`NeronOggShafarevich` over excellent henselian discrete valuation rings and
-  good-reduction descent from the henselization).
-- *EtaleCohomologyFoundations.* §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory` (finite étale
-  schemes, continuous fundamental-group actions and basepoint transport); §F.2.5 (compactly supported cohomology), §0.11
-  (`ClassicalAlgebraic.smoothTrace`), §§F.5–F.6 (duality and smooth purity), and
-  §§F.4.1–F.4.6 (integral and rational adic realization). The torsion coefficient
-  exponent and the adic residue characteristic are invertible on the schemes.
-- *ShimuraVarieties.* §P.1 (`TauCeti.Shimura.PureDatum`, morphisms, Hodge type, special
-  pairs and points), §P.2 (Hermitian components), §P.3 (cocharacter conjugacy classes
-  and their reflex fields), §P.4 (levels, the genus-`g` Siegel datum for `g ≥ 1`, and
-  the terminal genus-zero datum); §P.5 `TauCeti.Shimura.real_approximation_tori`
-  (real approximation for connected `ℚ`-algebraic groups). Layers 0–1 supply arithmetic components and the
-  complex analytic tower; §2.7 supplies Baily–Borel algebraization and §3.2 Borel
-  algebraicity. §§4.1–4.4 supply `geometricArtin`, reflex norms and `CanonicalModel`;
-  §4.12 supplies `CanonicalModel.unique_iso`. §5.0 supplies rational polarized Siegel
-  charts `TauCeti.Shimura.rational_siegel_moduli` and their complex uniformization
-  `TauCeti.Shimura.siegel_moduli_uniformization`; §5.1 supplies rank-one CM types and their
-  reflex fields; §§5.10–5.11 supply `main_cm` and `cm_polarization_level`;
-  §§6.1–6.2 supply `hodge_inheritance` and `hodge_canonical`. §§8.11–8.13 fix the
-  determinant, fixed-pairing and row-basis conventions. These contracts use connected
-  groups and SV3; M3.3 supplies the adapter for general PEL quotients. The integral
-  Hilbert datum, its rational trace embedding and the unitary PEL data are constructed
-  here in M5.4–M5.5.
+In M6 build forms and the descent gerbe (M6.7) before field-of-moduli descent (M6.6).
 
-**Not here.** Toroidal and minimal compactifications of `M_H`, the integral quasi-projectivity of
-`M_H` at neat level over `Spec O_{F₀,(□)}` that follows from them, and the ampleness of the Hodge line
-on the minimal compactification are ShimuraCompactifications', which builds on this roadmap; nothing
-here uses them, since every construction below is made on algebraic spaces and stacks. Hilbert
-modular varieties with nonprincipal polarization modules, their Deligne–Pappas models at ramified
-primes and Shimura curves are HilbertModularVarietiesAndShimuraCurves'; the principal Hilbert datum
-of M5.4 is the example they specialize. Igusa varieties, Newton strata beyond the ordinary locus and
-perfectoid towers are IgusaVarietiesAndTorsionConcentration's and PerfectoidShimuraVarieties'.
-Shimura varieties of Hodge and abelian type that are not of PEL type, and general canonical-model
-theory, are ShimuraVarieties'. Heights of abelian varieties and Faltings' finiteness theorems consume
-the export of M6.10.
+M0 is linear algebra over `ℚ`, `ℤ`, `ℤ_p` and `ℝ`: it fixes every convention (sign, twist,
+multiplier, determinant, reflex field) that the moduli problems use, and its examples compute each
+invariant for the Siegel, Hilbert and unitary data. M1 defines the relative objects and the three
+moduli problems, compares them, proves descent and constructs the Hecke action; nothing in M1 needs
+representability. M2 proves that `M_H` is algebraic, smooth over the good reflex base and separated,
+constructs the universal family, the Kodaira–Spencer isomorphism and the local `p`-adic theory
+(unitary deformations, kernel ranks, displays and Wedhorn's criterion). M3 classifies rational forms
+by `ker¹(ℚ, G)` and identifies the complex fibre with arithmetic quotients, first analytically and
+then algebraically. M4 descends that identification to the reflex field (canonical models) and
+builds the integral models at higher `p`-level and the CM moduli schemes. M5 instantiates everything
+for the Siegel, Hilbert and unitary data and is the place to test conventions. M6 is the arithmetic
+interface: stacks at arbitrary level and over `ℤ`, coarse spaces, fields of moduli, forms and the
+descent gerbe, the Hodge line and finiteness; it uses M1–M2 and not M3–M5.
 
 ## Conventions
 
@@ -313,112 +152,6 @@ the export of M6.10.
   rational point of a coarse space and an object over that field are related through the gerbe of
   M6.7; a family exists only when that gerbe is neutral.
 - **Hodge bundle.** `ω_{A/S} = e^*Ω¹_{A/S}`, the Hodge line `ω̄_{A/S} = det ω_{A/S}`.
-
-## Exact supplier contracts
-
-### From Mathlib at `1b1ccf4`
-
-`StarRing`, `IsSemisimpleRing` with `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`
-(Wedderburn–Artin), `Algebra.trace`, `Algebra.discr`, `NumberField.discr`, `Algebra.IsSeparable`,
-`LinearMap.BilinForm.IsAlt`, `LinearMap.BilinForm.Nondegenerate`, `LinearMap.BilinForm.dualSubmodule`,
-`LinearMap.IsAdjointPair`, `Submodule.IsLattice`, `LinearMap.charpoly` with
-`LinearMap.charpoly_baseChange`, `LinearMap.polyCharpoly` with `LinearMap.polyCharpoly_baseChange`
-and `LinearMap.polyCharpoly_map_eq_charpoly` (the generic characteristic polynomial of a family of
-endomorphisms), `Matrix.J` with `Matrix.J_squared`, `Matrix.unitaryGroup`, `NumberField.IsCMField` with
-`NumberField.IsCMField.complexConj`, `NumberField.IsTotallyReal`, `NumberField.maximalRealSubfield`,
-`NumberField.ComplexEmbedding.conjugate`, `IntermediateField.fixedField`,
-`IntermediateField.normalClosure`, `FractionalIdeal.dual`, `IsDedekindDomain.FiniteAdeleRing`,
-`UpperHalfPlane`, `Algebra.FormallySmooth`, `AlgebraicGeometry.Scheme` with
-`Scheme.etaleTopology` and `Scheme.fppfTopology`, the morphism properties `Smooth`, `Etale`, `Flat`,
-`IsFinite`, `IsSeparated`, `LocallyOfFinitePresentation`, the relative normalization
-`Scheme.Hom.normalization` with `Scheme.Hom.normalizationDesc`, `CategoryTheory.Functor.IsFibered`,
-`CategoryTheory.Pseudofunctor.IsStack`, `CategoryTheory.PresheafOfGroups.H1`,
-`WeierstrassCurve.ofJ` with `WeierstrassCurve.ofJ_j`. Each is used with the hypotheses its Mathlib
-statement has; where the roadmap needs a different generality the target says so.
-
-### From Tau Ceti at `2fd255d`
-
-The declarations listed under *Built in Tau Ceti and cited*. Two conventions are imported with them:
-`TauCeti.Symplectic.groupScheme ℤ g` is the isometry group of the form with Gram matrix `Matrix.J`
-over `ℤ` after the standard block-basis reindexing, so the principal PEL Siegel form (Gram matrix `−J`) has the same isometry group, and
-`TauCeti.AlmostComplexStructure.hodgeStructure` is the weight-one structure on the real carrier
-with Weil operator `J`. The homological structure on `V` is supplied by
-AbelianSchemesAndArithmeticModuli A5.2 `RiemannForm.homological` with `E = −ψ`, as in M0.11;
-its cohomological dual lives on `V∨`. The real complex structure of an integral datum uses
-`TauCeti.AlmostComplexStructure` directly, including its `square_neg` law; it
-does not introduce another complex-structure carrier. The Siegel complex-structure
-matrix is Mathlib's `Matrix.J (Fin g) ℝ`, with square identity `Matrix.J_squared`.
-Double duality of the underlying alternating lattice is the supplied
-`LinearMap.BilinForm.dualSubmodule_dualSubmodule_flip`; no separate PEL
-double-duality theorem is required.
-
-### From the supplier roadmaps
-
-Each layer's `Dependencies` paragraph lists the layers it consumes; the contracts are the statements
-named in *Built in other roadmaps and cited*, with these precise readings:
-
-- AbelianSchemesAndArithmeticModuli A2.6 represents a polarization by an ample line bundle fppf
-  locally on the base, and étale locally when `2` is invertible; descent arguments below use the
-  fppf form. A2.4 gives `h⁰(L) = χ(L) = c₁(L)^g/g!` for ample `L` on an abelian variety, hence
-  `h⁰(L³) = 3^g d` when `χ(L) = d`. A4.1 identifies `T(A^∨)` with `Hom(T A, ℤ̂(1))`; composed with
-  `T(λ)` it gives the `λ`-Weil pairing `e^λ` on Tate modules, which M1.4 uses. Here a lisse Tate
-  module means the inverse system of finite étale torsion schemes, with geometric fibre obtained
-  by taking their fibres first and then their profinite inverse limit. Pullback is termwise.
-  The source coefficients in M1.4 are the pro-constant systems `(L/nL)_S` and `((ℤ/n)(1))_S`.
-- AbelianSchemesAndArithmeticModuli A6.15 `realRosatiDecomposition` supplies the general normal form
-  for any finite-dimensional real algebra with a real-linear involution and a cyclic,
-  involution-invariant real linear trace `t` satisfying `t(x x*) > 0` for `x ≠ 0`: a finite product
-  of real, complex and quaternionic matrix algebras with their standard adjoints. M0.1 supplies
-  these hypotheses for `B ⊗ ℝ` with the regular trace. M0.2 derives the rational-centre
-  consequences, the PEL A/C/D labels, their constancy and the classical-group comparisons.
-- AlgebraicModuliForArithmeticGeometry Layer 2 represents `Hom` and `Isom` of projective flat
-  families by disjoint unions of quasi-projective schemes; finiteness of the PEL `Isom` scheme is
-  proved in M2.4, not imported.
-- EtaleCohomologyFoundations §F.0.2 identifies finite étale schemes over a connected nonempty
-  locally noetherian scheme with finite continuous `π₁`-sets. Applying its fibre functor termwise
-  to the systems in M1.4 gives their profinite fibres and monodromy; invariant finite subsets
-  and their orbit sets give ordinary finite étale sheaves. Basepoint comparisons retain the
-  chosen path, while invariant orbit sets are independent as in M1.6.
-- AlgebraicModuliForArithmeticGeometry Layer 7 states Artin's criterion over a locally Noetherian
-  base whose local rings are G-rings; `O_{F₀,(□)}` is excellent. The openness-of-versality input in
-  the form needed for PEL problems is proved in M2.8.
-- SchemeAndStackFoundations §§1.19 and 1.23 supply algebraic and Deligne–Mumford stacks and the Keel–Mori
-  coarse space; AlgebraicModuliForArithmeticGeometry Layer 5 supplies quotient recovery for rigid
-  levels and finite group quotients.
-- ShimuraVarieties Layers 0–3 are stated for Shimura data with `G` connected. The PEL arithmetic quotients
-  for disconnected `G` or when SV3 fails reduce to their connected-component statements by M3.3.
-
-## How to read the build
-
-Section numbers group interfaces by subject. Within M0 the dependency order is:
-
-1. Build the datum carriers and underlying lattice/group constructions independently of their
-   Hodge, signature and reflex-field adapters. Build the primitive generalized-CM-type predicate,
-   its positive imaginary cone and type-reflex field (M0.25), then the split `τ`-decomposition
-   (M0.27). These primitive constructions use neither signatures nor the PEL reflex field.
-2. Build the Hodge decomposition (M0.11), signatures (M0.13), determinant polynomial and module
-   classification (M0.14–M0.15), and PEL reflex field (M0.16). Then compare the generalized-CM-type
-   and PEL signatures/reflex fields in M0.25. The `signatureType` adapter uses only the primitive
-   conjugate-pair predicate. Construct `goodBase` (M0.10) after M0.16; its bad-prime integer and
-   prime predicates need only the underlying order and lattice.
-3. Build M0.18's linear unitary rank criterion from the split idempotents of M0.27; M1.3 applies
-   that criterion to `Lie A`. No relative abelian-scheme construction is an input to M0.18.
-
-In M6 build forms and the descent gerbe (M6.7) before field-of-moduli descent (M6.6).
-
-M0 is linear algebra over `ℚ`, `ℤ`, `ℤ_p` and `ℝ`: it fixes every convention (sign, twist,
-multiplier, determinant, reflex field) that the moduli problems use, and its examples compute each
-invariant for the Siegel, Hilbert and unitary data. M1 defines the relative objects and the three
-moduli problems, compares them, proves descent and constructs the Hecke action; nothing in M1 needs
-representability. M2 proves that `M_H` is algebraic, smooth over the good reflex base and separated,
-constructs the universal family, the Kodaira–Spencer isomorphism and the local `p`-adic theory
-(unitary deformations, kernel ranks, displays and Wedhorn's criterion). M3 classifies rational forms
-by `ker¹(ℚ, G)` and identifies the complex fibre with arithmetic quotients, first analytically and
-then algebraically. M4 descends that identification to the reflex field (canonical models) and
-builds the integral models at higher `p`-level and the CM moduli schemes. M5 instantiates everything
-for the Siegel, Hilbert and unitary data and is the place to test conventions. M6 is the arithmetic
-interface: stacks at arbitrary level and over `ℤ`, coarse spaces, fields of moduli, forms and the
-descent gerbe, the Hodge line and finiteness; it uses M1–M2 and not M3–M5.
 
 ## Layer M0: Linear algebra and reflex fields
 
@@ -4166,6 +3899,283 @@ EndoscopicTransferAndUnitaryTraceComparison use the unitary
 data, the CM moduli schemes and the torus trace. FaltingsFinitenessAndIsogenyTheorems and
 ArakelovGeometryAndAbelianHeights consume the interface of M6.10: the stacks, classifying maps, moduli
 points, rigidifying extensions, Hodge line and the descent gerbe.
+
+## Scope and ownership
+
+**Owned here.** Positive involutions on finite-dimensional semisimple `ℚ`-algebras and their PEL Albert
+types, using AbelianSchemesAndArithmeticModuli A6.15 for the general real positive-involution normal
+form; star-stable enrichment of arithmetic orders, their reduced-trace discriminant and inverse
+different; symplectic `O`-lattices, their dual lattice and multi-rank, with polarization type exposed from AbelianSchemesAndArithmeticModuli
+A5.4(1); integral, rational and `p`-integral PEL data, their
+rationalization and restriction; the similitude group `G` of a PEL datum with its multiplier, over
+arbitrary base rings, its coordinate Hopf algebra and its structure over `ℚ`; bad and good primes and
+the good reflex base; the polarized Hodge structure and the Shimura datum of a PEL datum; signatures;
+the determinant polynomial `Det_{O|M}` and its classification theorem; the PEL reflex field and its
+comparison with the Shimura reflex field; the Kottwitz determinant condition and its comparison with
+the representation over a splitting field; self-dual lattices at good primes; the signature
+constancy of Bijakowski; hermitian and skew-hermitian spaces over CM orders, `GU`, the
+norm-similitude torus `T₀` and rank-one classification; generalized CM types, their reflex fields,
+the reflexive closure of a CM field and `τ`-parts at unramified primes. Prime-to-`□` quasi-isogenies
+and quasi-polarizations; PEL-type abelian schemes and unitary `O_F`-abelian schemes; the pro-system of
+symplectic Tate trivializations; principal and arbitrary integral and rational level structures; the
+moduli problems `M_H`, `M_H^rat`, `M_K^ad`, their comparison, change of lattice and of good primes,
+effective descent, Hecke action and functoriality in the datum, including the forgetful morphism to
+Siegel moduli. Rigidity for PEL automorphisms from the polarized-automorphism supplier,
+neat levels, finiteness of `Isom`, deformation theory, formal smoothness, effectivity, representability, the universal family, the Kodaira–Spencer
+map and isomorphism, properness when `End_B(V)` is a division algebra, unitary Grothendieck–Messing
+deformations, kernel ranks of isogenies of unitary abelian schemes with the perfect-field Dieudonné
+length identity, Zink's displays with their polarized `O`-version and Wedhorn's ordinariness
+criterion. The torsor/Galois-cohomology comparison for smooth affine groups over arbitrary fields, continuous
+nonabelian Galois cohomology of the PEL group and `ker¹(ℚ, G)`, the Hasse
+principle in Cases A and C, the complex points and the analytic and algebraic uniformization of
+`M_K^ad`, including the full disconnected group in type D, and the hermitian space of homomorphisms
+from a CM object. Reciprocity on CM points, canonical models, the twisting automorphisms of Case A
+with odd rank, functoriality of canonical models, normal integral models at higher `p`-level, the
+rank-one CM moduli schemes and the torus trace. The Siegel datum of every genus and polarization type,
+the integral Siegel moduli `A_{g,D,n}` and their generic-fibre comparison with
+ShimuraVarieties §5.0, which supplies the characteristic-zero Siegel schemes and analytic
+families; the genus-one comparison with the modular curves, the principal
+Hilbert datum and the unitary data with prescribed signatures, with their examples. Level-forgetting
+maps, the stack at arbitrary level, the stacks `𝔄_g` and `𝔄_{g,d}` over `ℤ`, coarse moduli spaces,
+fields of moduli, forms and the descent gerbe, bounded fields of definition, the descent of
+universal Hodge bundles and lines, the export interface for heights and finiteness, finiteness over finite fields and
+explicit nonempty examples.
+
+**Built in Tau Ceti and cited.**
+
+- *The Tau Ceti library.* `TauCeti.AlgebraicGeometry.AbelianVariety` with `End`, `mulBy` and
+  `IsIsogeny`; the symplectic, orthogonal, general linear, roots-of-unity and constant-form group
+  schemes `TauCeti.Symplectic.groupScheme`, `TauCeti.Orthogonal.groupScheme`,
+  `TauCeti.GeneralLinear.groupScheme`, `TauCeti.RootsOfUnityGroup.groupScheme`,
+  `TauCeti.ConstantForm.groupScheme`; compatible almost complex structures
+  `TauCeti.SymplecticForm`, `TauCeti.SymplecticForm.Compatible`, `TauCeti.SymplecticForm.exists_compatible`,
+  `TauCeti.AlmostComplexStructure` and `TauCeti.AlmostComplexStructure.hodgeStructure`; Hodge
+  structures `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.IsPolarization`,
+  `TauCeti.AlmostComplexStructure.IsRiemannForm.isPolarization` and the weight-one
+  criterion `TauCeti.Hodge.isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`; the dual
+  lattice of a nondegenerate bilinear form `LinearMap.BilinForm.dualSubmodule_dualSubmodule_flip`;
+  `Matrix.exists_smith_normal_form_of_det_ne_zero`; the symplectic multiplier identity
+  `Matrix.transpose_mul_J_mul_eq_det_smul`; quadratic twists of Weierstrass curves
+  `WeierstrassCurve.j_quadraticTwist` and `WeierstrassCurve.not_exists_smul_quadraticTwist_eq`.
+- *TauCetiRoadmap.AdelicAlgebraicGroups.* Layer 1 (adelic points of affine groups, §1.2
+  restricted-product realization, §1.3 rational points and functoriality); Layer 3, §3.4 (finite adelic class sets and arithmetic component stabilizers);
+  Layer 4, §4.1 (coordinate torsors over a field and their comparison with the fppf class set
+  `torsorClasses G` of SchemeAndStackFoundations §§1.15 and 2.3,
+  local triviality of torsors under semisimple simply connected groups over
+  nonarchimedean local fields of characteristic zero, the Hasse principle at real places for
+  semisimple simply connected groups) and §4.3 (neat elements and neat levels).
+- *TauCetiRoadmap.GlobalNumberFields, Layer 11.* `NumberFieldOrder` for orders in
+  a number field; the PEL star-order permits noncommutative semisimple algebras.
+- *TauCetiRoadmap.ReductiveGroups.* Layer 3 (subgroups, quotients and component groups) and Layer 6
+  (reductive and semisimple groups, centre, derived group, simply connected groups).
+- *TauCetiRoadmap.ReductiveGroupsPartII.* RG2.3.7 `Lang.lang_surjective` and finite-field
+  torsor triviality; RG2.5.1 `AbsoluteRootData` with based Galois action and cocharacter lattice.
+- *ArithmeticGaloisDuality.* R02.4.6, “All-place Sha duality and transfer adjunction”:
+  for the finite Galois module `M = Z(G^der)(ℚ̄)`, its Cartier dual is
+  `M^D = X^*(Z(G^der))`, and `Ш²(ℚ,M)` is perfectly paired with `Ш¹(ℚ,M^D)`,
+  retaining the supplier's complete Tate terms at real places. M3.2 owns the
+  type-A centre identification and the vanishing application.
+- *TauCetiRoadmap.ClassFieldTheory, Layer 13.* The cyclic Hasse norm theorem `cyclicHasseNorm`
+  and its local-everywhere export `isGlobalNorm_iff_isLocalNormEverywhere`.
+- *Further Tau Ceti inputs.* `TauCeti.FieldTheory.GaloisCohomology.Hilbert90`:
+  `TauCeti.hilbert90` and `TauCeti.subsingleton_H1_unitsCoeff` for continuous Hilbert 90;
+  `TauCeti.Analysis.Matrix.HermitianSignature.Basic`: `Matrix.IsHermitian.signature`,
+  `Matrix.IsHermitian.signature_congr`, `Matrix.IsHermitian.signature_diagonal` and
+  `Matrix.IsHermitian.signature_neg` for matrix signatures;
+  `TauCeti.Geometry.Symplectic.Hermitian`: `TauCeti.SymplecticForm.complexAssociatedForm`
+  and `TauCeti.SymplecticForm.Compatible.hermitianCore` for the complex inner product of a compatible real pair.
+  The PEL signature records the multiplicities of a coefficient-algebra representation;
+  the CM-order hermitian API retains integral coefficients and first-variable linearity.
+- *TauCetiRoadmap.LocalFieldsRamification, Layer 2*, and *TauCetiRoadmap.NumberFieldArithmetic.*
+  Finite unramified extensions of `ℚ_p` with their integer rings, residue fields and Frobenius; the
+  completions of a number field at its places.
+- *TauCetiRoadmap.ModularCurves.* §0E (effective affine descent), §2E (Cartier–Nishi duality and the Weil pairing `e_N` of an
+  elliptic curve), §3C (the four level structures, in particular `[Γ(N)]`), §5B (the full level
+  scheme `Y_full(N)` over `ℤ[1/N]` and its fibre `Y(N, ζ)` over `ℤ[1/N, ζ_N]`), §7D (universal
+  deformations of elliptic curves over `W(k)[[T]]`), §9E (the coarse `j`-line).
+- *TauCetiRoadmap.ProfiniteArithmetic, Layer 0*, and *RestrictedProducts.* The ring `Ẑ` with its
+  product decomposition over primes, and the restricted-product topology on adeles.
+- *TauCetiRoadmap.ProfiniteCohomology, Layers 5, 7 and 10*, and *TauCetiRoadmap.Chebotarev, Layer 10.*
+  Exact sequences with inflation–restriction, Shapiro's lemma and continuous cohomology in all
+  degrees; Dirichlet-density Chebotarev, which kills locally trivial characters and supplies the
+  inert places used in M3.2.
+
+Elliptic curves themselves, their level structures and the modular curves are ModularCurves'; this
+roadmap compares its genus-one Siegel moduli with them (M5.3) and never rebuilds them. The general
+theory of algebraic groups, geometric torsors, strong approximation and neat subgroups is
+AdelicAlgebraicGroups' and ReductiveGroups'; the PEL group is constructed here as a closed subgroup
+of `GL(L) × G_m` and these theories are applied to it.
+
+**Built in other roadmaps and cited.**
+
+- *ClassicalArithmeticCompletion.* §7.4 `IntegralOrder.IsOrder` and `IntegralOrder.isOrder_iff`
+  for orders in finite-dimensional, possibly noncommutative algebras; §7.21
+  `IntegralOrder.IsMaximalOrder` and overorder inclusions; §7.49 (a common regular-trace-dual
+  bound for overorders); §7.56 (containment in a maximal order when the regular-trace pairing
+  is nondegenerate). Specialize to `ℤ ⊆ ℚ` for PEL orders. Generic orders and maximality
+  belong to this supplier; M0.1 supplies the star-stable adapter, and M0.3 supplies the
+  reduced-trace invariants and their consequences for good primes.
+- *AbelianSchemesAndArithmeticModuli.* A1 (abelian schemes over arbitrary bases, rigidity,
+  products, base change, relative dimension, one-dimensional abelian schemes as elliptic curves);
+  A2 (the dual abelian scheme and Poincaré bundle, polarizations `Polarization` and their local
+  representatives by ample line bundles `A2.6`, ample cohomology and degree `A2.4`, projective
+  presentations with very ampleness of `L^n` for `n ≥ 3` in every characteristic `A2.8`); A3
+  (isogenies, `[n]`, torsion, Weil pairings `polarizedWeilPairing` on `A[n]`, full level structures,
+  the Rosati involution over a field `A3.9`); A4 (the integral Tate module with
+  `AbelianTate.dualPairing`, the universal vector extension, `H¹_dR` with its Hodge filtration
+  `A4.3`, Barsotti–Tate groups, `grothendieckMessing` with polarizations and endomorphisms `A4.7`,
+  `polarizedEffectivity` `A4.8`, `serreTate` with structures `A4.9`); A5 (lattice uniformization,
+  Riemann forms, the polarized Hodge equivalence, analytic families and the Siegel family,
+  A5.4 `polarizationType` (1) for integral alternating normal form); A6
+  (Rosati positivity `A6.14`, the general real positive-involution normal form
+  `realRosatiDecomposition` `A6.15`, finiteness of polarized automorphisms `A6.18`, Silverberg's descent of
+  homomorphisms `A6.20`, localized Hom and coefficient Hom `A6.26`–`A6.27`, the Hodge bundle, its determinant line, base change, product and
+  analytic transition factor for an abelian scheme, A6.38).
+- *AlgebraicModuliForArithmeticGeometry.* Layer 2 (Hilbert families, Hom and Isom schemes
+  `homAndIsomSchemes`, `automorphismGroupScheme`); Layer 3 (fpqc descent
+  `fpqcQuasicoherentDescent`, `spaceFpqcQuasicoherentDescent`, polarized descent
+  `ModuliDescent.polarizedDescentComparison`, §3.5); Layer 4 (gerbes, bands and neutralizations); Layer 5 (rigidification, levels and quotient recovery
+  `levelRemovalQuotient`, finite correspondences `coarse_finite`, normalization); Layer 7 (Artin's
+  criteria `artin_space_criterion`, `artin_stack_criterion`, rigidification of invertible sheaves
+  `rigidification_gm_torsor`, `sectionRigidifiedPicard`);
+  Layer 8 (framed deformation functors `FramedDeformation` and versality
+  `familyVersalAt_completion_iff`).
+- *SchemeAndStackFoundations.* §§1.1–1.2 (fpqc/fppf descent), §§1.4–1.11 (algebraic
+  spaces and their étale presentations), §1.18 (`StackInGroupoids`, `Stack.stackification`,
+  two-fibre products), §1.19 (`IsAlgebraicStack`, `IsDeligneMumford`), §1.21
+  (`Stack.quotient`, quotient stacks), §1.23 (`FineModuliSpace`, `IsCoarseModuliSpace`,
+  `keel_mori`); §§0.20–0.21 (Nagata and excellent schemes), Layer 2 (sheaf and
+  quasi-coherent cohomology), §3.8 (invariant differentials), §§4.1–4.4 (formal smoothness,
+  `schlessinger_hull`, `schlessinger_prorepresentable`), §4.10 (Grothendieck existence),
+  §4.14 (`hilbert_quot_schemes`). General polarized descent is the
+  AlgebraicModuliForArithmeticGeometry §3.5 contract above.
+- *ComplexComparisonPartII.* §C−1.1 (`ComplexAnalyticSpace`, `complexSchemeAnalytification`
+  and `complexSchemeAnalytification.etaleLocalIso`), §C−1.2
+  (`completedAnalyticStalkComparison`), §C−1.3 (`SpaceAnalytification`,
+  `complex_local_comparison`), §C0.4 (`coherentAnalytification_faithful`). These are the
+  analytic spaces with their local ring sheaves, including nilpotents; algebraic spaces
+  are locally separated and locally of finite type over `ℂ`.
+- *AbelianSchemesAndArithmeticModuli, §A4.CR.7.2.* The crystalline Dieudonné crystal
+  of a Barsotti–Tate group over a `p`-nilpotent base, its variance, Tate twists and
+  evaluation on PD thickenings. Its crystalline sites are CrystallineCohomology Layer CR.1.
+- *FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.2.* Dieudonné theory of finite group schemes
+  and `p`-divisible groups over perfect fields, lengths and heights, the covariant Dieudonné module;
+  R07.2.15–R07.2.16 supply Dieudonné–Manin slopes and `slopeSequence`, and R07.2.20 fixes
+  `M_cov(G) = M_contra(Gᴰ)`. The PEL Newton point with coefficient action and pairing, the
+  covariant cocharacter adapter and its Galois average are constructed in M2.16 using `F`,
+  with slopes `0` on multiplicative groups and `1` on étale groups.
+- *NeronModelsAndSemistableAbelianVarieties.* R11.1 §§1.5 and 1.8 (extension of homomorphisms;
+  abelian schemes are their own Néron models); R11.3 §3.10 (potential semistability,
+  with the toric part and its character group in Layer 3); R11.5 §§5.1–5.2
+  (`NeronOggShafarevich` over excellent henselian discrete valuation rings and
+  good-reduction descent from the henselization).
+- *EtaleCohomologyFoundations.* §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory` (finite étale
+  schemes, continuous fundamental-group actions and basepoint transport); §F.2.5 (compactly supported cohomology), §0.11
+  (`ClassicalAlgebraic.smoothTrace`), §§F.5–F.6 (duality and smooth purity), and
+  §§F.4.1–F.4.6 (integral and rational adic realization). The torsion coefficient
+  exponent and the adic residue characteristic are invertible on the schemes.
+- *ShimuraVarieties.* §P.1 (`TauCeti.Shimura.PureDatum`, morphisms, Hodge type, special
+  pairs and points), §P.2 (Hermitian components), §P.3 (cocharacter conjugacy classes
+  and their reflex fields), §P.4 (levels, the genus-`g` Siegel datum for `g ≥ 1`, and
+  the terminal genus-zero datum); §P.5 `TauCeti.Shimura.real_approximation_tori`
+  (real approximation for connected `ℚ`-algebraic groups). Layers 0–1 supply arithmetic components and the
+  complex analytic tower; §2.7 supplies Baily–Borel algebraization and §3.2 Borel
+  algebraicity. §§4.1–4.4 supply `geometricArtin`, reflex norms and `CanonicalModel`;
+  §4.12 supplies `CanonicalModel.unique_iso`. §5.0 supplies rational polarized Siegel
+  charts `TauCeti.Shimura.rational_siegel_moduli` and their complex uniformization
+  `TauCeti.Shimura.siegel_moduli_uniformization`; §5.1 supplies rank-one CM types and their
+  reflex fields; §§5.10–5.11 supply `main_cm` and `cm_polarization_level`;
+  §§6.1–6.2 supply `hodge_inheritance` and `hodge_canonical`. §§8.11–8.13 fix the
+  determinant, fixed-pairing and row-basis conventions. These contracts use connected
+  groups and SV3; M3.3 supplies the adapter for general PEL quotients. The integral
+  Hilbert datum, its rational trace embedding and the unitary PEL data are constructed
+  here in M5.4–M5.5.
+
+**Not here.** Toroidal and minimal compactifications of `M_H`, the integral quasi-projectivity of
+`M_H` at neat level over `Spec O_{F₀,(□)}` that follows from them, and the ampleness of the Hodge line
+on the minimal compactification are ShimuraCompactifications', which builds on this roadmap; nothing
+here uses them, since every construction above is made on algebraic spaces and stacks. Hilbert
+modular varieties with nonprincipal polarization modules, their Deligne–Pappas models at ramified
+primes and Shimura curves are HilbertModularVarietiesAndShimuraCurves'; the principal Hilbert datum
+of M5.4 is the example they specialize. Igusa varieties, Newton strata beyond the ordinary locus and
+perfectoid towers are IgusaVarietiesAndTorsionConcentration's and PerfectoidShimuraVarieties'.
+Shimura varieties of Hodge and abelian type that are not of PEL type, and general canonical-model
+theory, are ShimuraVarieties'. Heights of abelian varieties and Faltings' finiteness theorems consume
+the export of M6.10.
+
+## Exact supplier contracts
+
+### From Mathlib at `1b1ccf4`
+
+`StarRing`, `IsSemisimpleRing` with `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`
+(Wedderburn–Artin), `Algebra.trace`, `Algebra.discr`, `NumberField.discr`, `Algebra.IsSeparable`,
+`LinearMap.BilinForm.IsAlt`, `LinearMap.BilinForm.Nondegenerate`, `LinearMap.BilinForm.dualSubmodule`,
+`LinearMap.IsAdjointPair`, `Submodule.IsLattice`, `LinearMap.charpoly` with
+`LinearMap.charpoly_baseChange`, `LinearMap.polyCharpoly` with `LinearMap.polyCharpoly_baseChange`
+and `LinearMap.polyCharpoly_map_eq_charpoly` (the generic characteristic polynomial of a family of
+endomorphisms), `Matrix.J` with `Matrix.J_squared`, `Matrix.unitaryGroup`, `NumberField.IsCMField` with
+`NumberField.IsCMField.complexConj`, `NumberField.IsTotallyReal`, `NumberField.maximalRealSubfield`,
+`NumberField.ComplexEmbedding.conjugate`, `IntermediateField.fixedField`,
+`IntermediateField.normalClosure`, `FractionalIdeal.dual`, `IsDedekindDomain.FiniteAdeleRing`,
+`UpperHalfPlane`, `Algebra.FormallySmooth`, `AlgebraicGeometry.Scheme` with
+`Scheme.etaleTopology` and `Scheme.fppfTopology`, the morphism properties `Smooth`, `Etale`, `Flat`,
+`IsFinite`, `IsSeparated`, `LocallyOfFinitePresentation`, the relative normalization
+`Scheme.Hom.normalization` with `Scheme.Hom.normalizationDesc`, `CategoryTheory.Functor.IsFibered`,
+`CategoryTheory.Pseudofunctor.IsStack`, `CategoryTheory.PresheafOfGroups.H1`,
+`WeierstrassCurve.ofJ` with `WeierstrassCurve.ofJ_j`. Each is used with the hypotheses its Mathlib
+statement has; where the roadmap needs a different generality the target says so.
+
+### From Tau Ceti at `2fd255d`
+
+The declarations listed under *Built in Tau Ceti and cited*. Two conventions are imported with them:
+`TauCeti.Symplectic.groupScheme ℤ g` is the isometry group of the form with Gram matrix `Matrix.J`
+over `ℤ` after the standard block-basis reindexing, so the principal PEL Siegel form (Gram matrix `−J`) has the same isometry group, and
+`TauCeti.AlmostComplexStructure.hodgeStructure` is the weight-one structure on the real carrier
+with Weil operator `J`. The homological structure on `V` is supplied by
+AbelianSchemesAndArithmeticModuli A5.2 `RiemannForm.homological` with `E = −ψ`, as in M0.11;
+its cohomological dual lives on `V∨`. The real complex structure of an integral datum uses
+`TauCeti.AlmostComplexStructure` directly, including its `square_neg` law; it
+does not introduce another complex-structure carrier. The Siegel complex-structure
+matrix is Mathlib's `Matrix.J (Fin g) ℝ`, with square identity `Matrix.J_squared`.
+Double duality of the underlying alternating lattice is the supplied
+`LinearMap.BilinForm.dualSubmodule_dualSubmodule_flip`; no separate PEL
+double-duality theorem is required.
+
+### From the supplier roadmaps
+
+Each layer's `Dependencies` paragraph lists the layers it consumes; the contracts are the statements
+named in *Built in other roadmaps and cited*, with these precise readings:
+
+- AbelianSchemesAndArithmeticModuli A2.6 represents a polarization by an ample line bundle fppf
+  locally on the base, and étale locally when `2` is invertible; descent arguments above use the
+  fppf form. A2.4 gives `h⁰(L) = χ(L) = c₁(L)^g/g!` for ample `L` on an abelian variety, hence
+  `h⁰(L³) = 3^g d` when `χ(L) = d`. A4.1 identifies `T(A^∨)` with `Hom(T A, ℤ̂(1))`; composed with
+  `T(λ)` it gives the `λ`-Weil pairing `e^λ` on Tate modules, which M1.4 uses. Here a lisse Tate
+  module means the inverse system of finite étale torsion schemes, with geometric fibre obtained
+  by taking their fibres first and then their profinite inverse limit. Pullback is termwise.
+  The source coefficients in M1.4 are the pro-constant systems `(L/nL)_S` and `((ℤ/n)(1))_S`.
+- AbelianSchemesAndArithmeticModuli A6.15 `realRosatiDecomposition` supplies the general normal form
+  for any finite-dimensional real algebra with a real-linear involution and a cyclic,
+  involution-invariant real linear trace `t` satisfying `t(x x*) > 0` for `x ≠ 0`: a finite product
+  of real, complex and quaternionic matrix algebras with their standard adjoints. M0.1 supplies
+  these hypotheses for `B ⊗ ℝ` with the regular trace. M0.2 derives the rational-centre
+  consequences, the PEL A/C/D labels, their constancy and the classical-group comparisons.
+- AlgebraicModuliForArithmeticGeometry Layer 2 represents `Hom` and `Isom` of projective flat
+  families by disjoint unions of quasi-projective schemes; finiteness of the PEL `Isom` scheme is
+  proved in M2.4, not imported.
+- EtaleCohomologyFoundations §F.0.2 identifies finite étale schemes over a connected nonempty
+  locally noetherian scheme with finite continuous `π₁`-sets. Applying its fibre functor termwise
+  to the systems in M1.4 gives their profinite fibres and monodromy; invariant finite subsets
+  and their orbit sets give ordinary finite étale sheaves. Basepoint comparisons retain the
+  chosen path, while invariant orbit sets are independent as in M1.6.
+- AlgebraicModuliForArithmeticGeometry Layer 7 states Artin's criterion over a locally Noetherian
+  base whose local rings are G-rings; `O_{F₀,(□)}` is excellent. The openness-of-versality input in
+  the form needed for PEL problems is proved in M2.8.
+- SchemeAndStackFoundations §§1.19 and 1.23 supply algebraic and Deligne–Mumford stacks and the Keel–Mori
+  coarse space; AlgebraicModuliForArithmeticGeometry Layer 5 supplies quotient recovery for rigid
+  levels and finite group quotients.
+- ShimuraVarieties Layers 0–3 are stated for Shimura data with `G` connected. The PEL arithmetic quotients
+  for disconnected `G` or when SV3 fails reduce to their connected-component statements by M3.3.
 
 ## References
 

@@ -1,56 +1,32 @@
 # Roadmap: K3 surfaces, cohomology, periods, cones and Torelli
 
-**Summary.** Construct the geometry of K3 surfaces and its integral cohomology, deformation, period and automorphism APIs. The outputs include actual marked families and surface isomorphisms, not an assignment of a lattice or a period to a name. The integral gluing and Enriques-involution applications use the existing IntegralLattices theory. The construction is over actual schemes and complex manifolds; a collection of arbitrary propositions asserting the conclusions is not a surface interface.
+**Summary.** Over an algebraically closed field k, an algebraic K3 surface is a smooth proper geometrically integral surface X over k with ω_X ≃ O_X and H¹(X, O_X) = 0; a smooth quartic surface in ℙ³ is one. Over ℂ the analytic version is a compact connected complex surface with trivial canonical bundle and H¹(O) = 0, and it need not be projective. This roadmap builds the geometry of these surfaces, together with their cohomology lattice, their periods and their automorphisms.
 
-## Scope and ownership
+The first part is algebraic. Its main theorem says that when k has characteristic p > 2, an algebraic K3 surface has no nonzero global vector field and no nonzero global one-form: H⁰(X, T_X) = 0 and H⁰(X, Ω¹_X) = 0. The proof passes through two theorems that hold more widely. In every characteristic p > 0, p = 2 included, a K3 surface with a nonzero global vector field is unirational: some rational map over k from the affine plane to X has dense image. In every characteristic, a unirational K3 surface has Picard number 22. The smooth Fermat quartic in characteristic 3 is unirational with Picard number 22, and has no nonzero vector fields or one-forms. The proof then builds on X a genus-one fibration with at least two singular fibres, and shows that a nonzero vector field would force c₂(X) ≠ 24, whereas every K3 surface has c₂ = 24.
 
-This roadmap owns K3-specific differential vanishing, analytic surface positivity,
-Ricci-flat geometry, deformation families, periods, Torelli, cones and the realization
-of free involutions, including the finite-order clean fixed-locus specialization
-of MorseNovikov N6’s topological trace theorem in §7.2. General scheme
-cohomology, Picard objects and finite quotients
-belong to SchemeAndStackFoundations §§1.17, 1.23, 2.3, 2.6, 2.11, 2.20, 3.4, 4.9, 4.11 and 5.9–5.10;
-analytic GAGA belongs to ComplexComparisonPartII C−1–C2 and C4. Its C1.9
-owns the analytic Picard group, the isomorphism classes of invertible analytic
-modules (holomorphic line bundles) under tensor product, and its C5.4 owns, on
-every complex manifold, the frame-torsor bijection of that group onto
-H¹(M,O_Mˣ) with its tensor, dual and pullback laws, the holomorphic exponential sequence and the identification of
-its connecting map with the integral first Chern class. The exact segment
-H¹(M,O_M)→H¹(M,O_Mˣ)→H²(M,ℤ)→H²(M,O_M) on an arbitrary complex manifold is
-not owned here: it is Mathlib's long exact cohomology sequence of C5.4's
-exponential sequence, read through C5.4's bijection. Section 1.1 owns only its
-application to compact complex surfaces with H¹(O)=0, which include the
-analytic K3 surfaces, and constructs neither a bundle category, a torsor
-cohomology theory, a Picard group nor that comparison. The ℓ-adic
-cycle classes, duality and étale Gauss–Bonnet identity used in §0.2 belong to
-EtaleCohomologyFoundations, Hasse–Minkowski isotropy to GlobalQuadraticForms,
-the Castelnuovo–Zariski rationality criterion to
-NeronModelsAndSemistableAbelianVarietiesPartII and Enriques' ruledness theorem
-to SchemeAndStackFoundations through the contract stated under the supplier
-contracts. K0.A owns the vector-field unirationality reduction over
-algebraically closed fields of every positive characteristic, 2 included, and
-the Picard-number theorem ρ(X)=22 for unirational K3 surfaces over algebraically
-closed fields of every characteristic; both binders are wider than that of its
-vanishing theorem, and the Part II roadmap consumes both. Restricted Lie
-algebras, Jacobson's formula and the p-th power of a derivation of a commutative
-algebra belong to PCurvature §§0.1–0.3; §0.2 here owns only their passage to
-vector fields on a scheme and the p-closed vector field it produces. The norm of
-invertible sheaves along finite locally free morphisms belongs to ModularCurves §2B
-and Ogg's formula to NeronModelsAndSemistableAbelianVarieties §5.3e. Linear analytic
-Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant forms and
-overlattices belong to IntegralLattices §§1B–1F; their native constructions are used
-below. The gluing theorem is the extension/restriction criterion for a
-specified pair of actions on the two summands, not a second overlattice construction.
-IntegralLattices supplies no surjectivity of an integral orthogonal group onto the
-orthogonal group of its discriminant form; §7.1 owns the one case used here, for the
-invariant lattice U(2)⊕E₈(−2) and its complement, together with the generation of
-orthogonal groups in characteristic two by orthogonal transvections that its proof uses.
+The second part works over ℂ. Every analytic K3 surface is Kähler and simply connected, and each Kähler class contains a unique Ricci-flat Kähler form. The second integral cohomology with the cup product is isometric to the even unimodular lattice Λ = U³ ⊕ E₈(−1)² of signature (3,19), where U is the hyperbolic plane. An analytic K3 surface is projective exactly when it carries an integral (1,1)-class of positive square.
 
-EnriquesSurfaces E1 and E6.U0–U4 own the converse canonical-cover comparison,
-primitive numerical pullback, and lift/descent of automorphisms, including
-Aut(S) ≃ Centralizer(ι)/⟨ι⟩. They consume Layers 0–2 and 6–7 here; this roadmap
-consumes no Enriques result. K3SurfacesAndSymplecticBoundedness is the Part II
-extension, including its all-characteristic, Picard-lattice and symplectic-boundedness programme.
+A marking of X is an isometry H²(X,ℤ) ≅ Λ. The period of a marked surface is the line of its holomorphic two-form, a point of the connected 20-dimensional period domain of lines [z] in ℙ(Λ⊗ℂ) with z·z = 0 and z·z̄ > 0. The local universal deformations of X have a smooth 20-dimensional base, and their period map is a local isomorphism. Every point of the period domain is the period of a marked K3 surface. The strong Torelli theorem says that an integral Hodge isometry H²(Y,ℤ) → H²(X,ℤ) carrying some Kähler class of Y to a Kähler class of X is the pullback of a unique biholomorphism X → Y.
+
+The last part treats involutions, beginning with lattices. Let S and T be nondegenerate even lattices, glued along an isometry γ from the discriminant form of S to the negative of that of T into an even unimodular overlattice of S ⊕ T. A pair of isometries of S and of T extends to the glued lattice, necessarily uniquely, exactly when their actions on the discriminant groups commute with γ. When S ≅ U(2) ⊕ E₈(−2), every isometry of the discriminant quadratic form of S is induced by an integral isometry of S. Geometrically, a non-symplectic involution of a complex K3 surface, one acting by −1 on the holomorphic two-form, has no fixed points exactly when its invariant lattice is isometric to U(2) ⊕ E₈(−2). Isomorphism classes of K3 surfaces with a fixed-point-free involution correspond bijectively to orbits in one component of the period domain of the anti-invariant lattice, with the hyperplanes orthogonal to its vectors of square −2 removed, under the isometries of that lattice preserving the component.
+
+In Tau Ceti, SchemeAndStackFoundations supplies coherent cohomology, Riemann–Roch and the Hodge index theorem for surfaces. ComplexComparisonPartII supplies analytification, GAGA and the holomorphic Picard group. IntegralLattices supplies Λ, discriminant forms and gluing, but not the theorem on U(2) ⊕ E₈(−2) above, which is proved here. EnriquesSurfaces uses the vanishing theorem, strong Torelli and the free involutions. K3SurfacesAndSymplecticBoundedness, which extends these foundations, uses the vanishing theorem, the unirationality theorem at p = 2 and the rank-22 theorem.
+
+Layer 0 is the algebraic part. Layers 1 to 4 build the complex theory up to local Torelli, Layers 5 and 6 the twistor families and the global theorems, and Layer 7 the lattice theory and the involutions.
+
+## How to read the build
+
+Layer 0 supplies the independent algebraic vanishing theorem, together with the
+unirationality reduction and the rank-22 theorem for unirational K3 surfaces, whose
+characteristic binders are wider. Layers 1–4 construct
+complex geometry, the cup lattice, actual families and their local periods.
+Layer 5 realizes local chains of twistor lines; Layer 6 proves global periods,
+Torelli and the full cone theorem. Layer 7 combines this geometry with integral
+gluing to realize and classify free involutions. The acceptance statements are
+`algebraicK3_differential_vanishing`, `unirational_of_nontrivial_vectorField`,
+`finrank_lineBundleClass_eq_twentyTwo_of_unirational`, `gluing_isometry_extension_iff` and
+`discriminantOrthogonalHom_surjective_of_isometry_scale_two`; Suggested.lean lists the
+geometric headlines whose carriers are not yet available.
 
 ## Conventions
 
@@ -67,156 +43,6 @@ actual ample line bundle, with primitive class h of square 2d and d>0 when
 primitivity is stipulated; a positive-square class alone need not be ample.
 The symbol O⁺(Λ) means preservation of positive-three-space orientation,
 whereas O⁺(T) for signature (2,10) means preservation of a chosen period component.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Scheme.Over`,
-`AlgebraicGeometry.SmoothOfRelativeDimension`, `AlgebraicGeometry.IsProper`
-and `AlgebraicGeometry.GeometricallyIntegral` for the algebraic carrier.
-Use `Projectivization` and `Matrix.toBilin'` for projective lines and matrix
-bilinear evaluation; nondegeneracy and symmetry are separate hypotheses.
-Use `AlgebraicGeometry.Scheme.RationalMap` (notation `X ⤏ Y`, rational maps as
-classes of partial maps defined on dense opens), `AlgebraicGeometry.Scheme.RationalMap.IsOver`
-(some representative is a morphism over the base), `AlgebraicGeometry.Scheme.RationalMap.IsDominant`
-(some, equivalently every, representative has dense image) and `AlgebraicGeometry.AffineSpace`
-(notation `𝔸(n; S)`, with its canonical structure over S) for unirationality. Mathlib has
-`AlgebraicGeometry.Scheme.IsRationalOver` (birational to an affine space) but no unirationality
-predicate, so unirationality is stated as the existence of a dominant rational k-map from the
-affine plane.
-Use `AlgebraicGeometry.exists_isFinite_morphismRestrict_of_finite_preimage_singleton`
-(Stacks, §37.44, Lemma 37.44.2, Tag 02UP): for a proper morphism of schemes and a
-point of its target whose fibre is a finite set, the point has an open
-neighbourhood over which the restricted morphism is finite. This is the
-consequence of Zariski's main theorem that §0.2 step 1 case (b) uses at the
-finite-fibre points of the minimal resolution.
-Use `CategoryTheory.Sheaf.H` (Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean),
-its connecting map `CategoryTheory.Sheaf.H.δ` and `CategoryTheory.Sheaf.H.longSequence_exact`
-(Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean): for a short exact
-sequence 0→F₁→F₂→F₃→0 of abelian sheaves and n₀+1=n₁, the sequence
-Hⁿ⁰(F₁)→Hⁿ⁰(F₂)→Hⁿ⁰(F₃)→Hⁿ¹(F₁)→Hⁿ¹(F₂)→Hⁿ¹(F₃) is exact. Sections 1.1 and 3.1 read
-it on ComplexComparisonPartII C5.4's exponential sequence.
-
-### From Tau Ceti
-
-Use `AlgebraicGeometry.Scheme.relativeDifferentials` in
-TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean,
-`SheafOfModules.exteriorPower`, Tau Ceti's exterior power of a sheaf of modules under
-TauCeti/Algebra/Category/ModuleCat/Sheaf,
-and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` in
-TauCeti/AlgebraicGeometry/Cohomology/Basic.lean. These retain the actual structure
-morphism, sheaf and cohomology group. Global vector fields are morphisms
-from relative differentials to `SheafOfModules.unit`;
-`AlgebraicGeometry.Scheme.relativeDifferentialsHomEquiv`, in the same
-Differentials/Basic.lean, identifies them with
-`AlgebraicGeometry.Scheme.Modules.Derivation` of the structure sheaf, the
-compatible families of k-derivations of the rings of sections over all opens.
-Use `TauCeti.AlgebraicGeometry.LineBundleClass` in
-TauCeti/AlgebraicGeometry/LineBundle/Class.lean, the commutative group of isomorphism
-classes of invertible sheaves under tensor product, as Pic(X).
-
-Use `TauCeti.QuadraticMap.orthogonalGroup` and `TauCeti.QuadraticMap.reflectionOrthogonal`
-in TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean: the second sends a
-vector v with Q(v) invertible to y↦y−Q(v)⁻¹·b(v,y)·v, b the polar form, which in
-characteristic two is the orthogonal transvection in v. Tau Ceti's Cartan–Dieudonné
-generation `TauCeti.QuadraticMap.subgroup_eq_top_of_reflection_mem`
-(TauCeti/LinearAlgebra/QuadraticForm/CartanDieudonne/Basic.lean) assumes 2 invertible and
-does not apply over 𝔽₂. For an even nondegenerate lattice L, the action of O(L) on
-the discriminant form is `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`,
-O(L)→O(q_L), in TauCeti/LinearAlgebra/IntegralLattice/Discriminant/OrthogonalGroup.lean,
-with kernel `TauCeti.IntegralLattice.Isometry.discriminantKernel`
-(`TauCeti.IntegralLattice.Isometry.ker_discriminantOrthogonalHom`); the rescaled lattice
-L(n) is `TauCeti.IntegralLattice.scale`, whose dual carrier is n⁻¹ times that of L
-(`TauCeti.IntegralLattice.dualCarrier_smul`), and the negation −L is the rescaling by −1.
-The lattice M=U⊕E₈(−1) is the orthogonal sum `TauCeti.IntegralLattice.orthogonalSum` of
-`TauCeti.IntegralLattice.hyperbolicPlane` (Examples.lean, Gram matrix (0,1;1,0) on ℚ²) and
-the negation of `TauCeti.IntegralLattice.typeE₈RootLattice` (RootLattice/TypeE/Basic.lean,
-the positive definite Gram lattice of the E₈ Cartan matrix on ℚ⁸). Tau Ceti supplies the
-homomorphism and its kernel, not its surjectivity, which §7.1 proves for the one lattice
-used here.
-
-Use `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.Isometry`,
-`TauCeti.IntegralLattice.IsNondegenerate`,
-`TauCeti.IntegralLattice.discriminantGroupOrthogonalSumEquiv`,
-`TauCeti.IntegralLattice.Isometry.discriminantGroupEquiv`,
-`TauCeti.IntegralLattice.discriminantQuadraticMap` and
-`TauCeti.IntegralLattice.intermediateCarrierOfDiscriminantSubgroup` from the
-Basic, Isometry/Basic, Discriminant/Operations, Discriminant/Group,
-Discriminant/Quadratic and Overlattice/Basic files under
-TauCeti/LinearAlgebra/IntegralLattice. The even construction is
-`TauCeti.IntegralLattice.ofIsotropicSubgroup` in Overlattice/Isotropic.lean.
-The correspondence is natural under
-`TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv`
-in Overlattice/Naturality.lean.
-
-Graph gluing is native. For even nondegenerate S and T, the discriminant form of S
-is `TauCeti.IntegralLattice.discriminantQuadraticModule` (Discriminant/Quadratic.lean).
-An isometry γ from it to the negative of the discriminant form of T is a
-`TauCeti.FiniteQuadraticModule.Isometry` into `TauCeti.FiniteQuadraticModule.neg`
-(TauCeti/LinearAlgebra/FiniteBilinearModule/Quadratic.lean), that is, a ℤ-linear
-equivalence A_S→A_T with q_T(γa)=−q_S(a). Overlattice/Graph.lean supplies three
-declarations for such a γ:
-
-- `TauCeti.IntegralLattice.discriminantGraph`, the graph of γ transported to the
-  discriminant group of S⊕T, which is Lagrangian;
-- `TauCeti.IntegralLattice.glueAlongDiscriminant`, the lattice on S_ℚ×T_ℚ with the
-  orthogonal-sum form whose carrier is the inverse image of that graph in S*⊕T*. It is
-  even and unimodular, and meets each coordinate space exactly in S and in T;
-- `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant`: every even unimodular
-  lattice for the orthogonal-sum form that contains S⊕T and meets the two coordinate
-  spaces exactly in S and in T is the gluing along some such γ.
-
-Tau Ceti supplies no criterion for extending a pair of isometries of S and T to the
-glued lattice. That criterion is §7.1's `gluing_isometry_extension_iff`, stated on
-`TauCeti.IntegralLattice.glueAlongDiscriminant` itself, so that it applies directly to
-the lattice that `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant` produces.
-
-### From the named roadmaps
-
-Each row specifies the sections consumed and their exact output.
-
-| Input | Exact output used here | What it does not supply |
-| --- | --- | --- |
-| SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.2–2.3, 2.6, 2.11, 2.20, 4.9, 4.11, 5.9–5.10 and the ruledness contract below | projective schemes and finite-group quotients; stack/groupoid descent; Čech-to-derived comparison and abelian torsor/H¹ identification; Hilbert 90 and the Kummer sequence; coherent cohomology, duality, Kähler differentials and proper base change; Stein factorization and Zariski's connectedness theorem for proper morphisms of Noetherian schemes (§4.9); adjunction, Noether's formula, surface Riemann–Roch and the Hodge index theorem; Enriques' ruledness theorem in every characteristic | a K3 period map, analytic Kuranishi space, global Torelli, or the rationality of a given quotient surface |
-| AlgebraicModuliForArithmeticGeometry 1.1–1.3, 7.3, 7.8 and 8.1–8.3 (with SchemeAndStackFoundations Layer4) | projective-space and coherent-quotient carriers (§§1.1–1.3); Picard lifting (§7.3); Artin test groupoids and tangent/obstruction maps (§§8.1–8.3); effective algebraic families under the algebraicity/effectivity hypotheses of §7.8 | the vanishing of K3 obstruction spaces or an unrestricted universal coarse family |
-| AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D, StableReduction Layers 4–6 | relative genus-one curves, Jacobians/Picard torsors, Weierstrass and minimal regular models, intersection/coherent-duality and projectivity constructions; finite-dimensionality of coherent cohomology of proper k-schemes (JacobianChallenge Layer B) | the K0.A vector-field theorem or a genus-one fibration on an arbitrary K3 |
-| PCurvature §§0.1–0.3 | Jacobson's formula, with its correction term vanishing on commuting elements (§0.1); restricted Lie algebras over a commutative ring of characteristic p, their morphisms and restricted subalgebras (§0.2); the p-th iterate of a derivation of a commutative algebra of characteristic p as a derivation, with the scalar law, Hochschild's formula, the commutator law, Jacobson additivity, the restricted Lie algebra of all derivations and compatibility with localization (§0.3) | vector fields on a scheme, the existence of a p-closed vector field, or the quotient by one |
-| ModularCurves §2B; NeronModelsAndSemistableAbelianVarieties §5.3e | the norm functor on invertible sheaves along finite locally free morphisms, with its base-change, tensor-product and tower laws; Ogg's formula v(Δ_min)=f(E)+m−1 for elliptic curves over complete discrete valuation rings with perfect residue field, in every residue characteristic | the canonical-divisor formula of a p-closed quotient or the fibre configurations of a K3 pencil |
-| ComplexComparisonPartII C−1.1–C0.7, C1.9, C2, C4.1–C4.4 and C5.4 | actual scheme/space analytification, coherent GAGA and ideal/section/bundle/morphism dictionaries, analytic proper images and cycle currents; C1.9’s analytic Picard group of holomorphic line-bundle classes; C5.4’s frame-torsor bijection of that group onto H¹(M,O_Mˣ) on every complex manifold with its tensor, dual and pullback laws, its exponential sequence and integral first-Chern comparison | a K3 family, positive-square algebraization criterion or global Torelli |
-| CKG K1–K4, K5a/K5b, K6.0–K6.1, K7 | type/Dolbeault calculus, analytic sets and coherent gluing, holomorphic bundles, among them K4’s holomorphic line bundles with tensor, dual and pullback, elliptic estimates, compact Hodge/Serre and projective Kähler examples | the holomorphic Picard comparison, K3 Kählerness, nonlinear Monge–Ampère existence, K3 periods or Torelli |
-| IndexTheory I6, I7.1–I7.3 and I8; CharacteristicClasses C1–C7 | actual Dolbeault index/Todd, Euler/signature and holomorphic fixed-map traces for isolated nondegenerate fixed points (including the empty fixed set), with symbol, orientation and Chern normalizations | the K3-specific numerical specialization, simple connectivity or surface isomorphism |
-| SmoothBundlesConnections B1.5; DifferentialGeometry Layers 0–2, 5, 8–9 and AlgebraicTopology Stage 6 | smooth bundles and the componentwise local trivialization of a proper surjective smooth submersion from B1.5; differential forms, singular cup product, Poincaré duality and coefficient comparison from the other named owners | a K3-specific integral marking, monodromy image or period realization |
-| IntegralLattices 0G, 1B–1F, 5F, 5G, 5J, 6A | Λ=U³⊕E₈(−1)², dual/discriminant forms and actual overlattice graph gluing (0G, 1B–1F); primitive embeddings into even unimodular lattices (5F–5G); the invariants (r,a,δ) of 2-elementary lattices with their existence and genus theorem (5J); the normal form of indefinite even unimodular lattices (6A); with isometries and inverses | a Hodge structure, a free geometric involution, a surface isomorphism, the isometry class of a 2-elementary lattice in its genus, or the surjectivity O(S)→O(q_S) (constructed in §7.1) |
-| MorseNovikov N5–N7; GeometricTopology Layer 1 | continuous local index, topological trace/local-index equality, vector-field Poincaré–Hopf, and tubular neighbourhoods | the finite-order clean fixed-locus specialization constructed in §7.2 |
-| FourManifolds F7 | the independently constructed quartic K3 example and its topological calculation | a theorem about every K3, a period family or a Torelli proof |
-| EtaleCohomologyFoundations §0.9, F.0.4, F.2.5, F.5–F.7 | ℓ-adic cycle classes with pullback and proper pushforward, Poincaré duality, the projection and self-intersection formulas, the étale Gauss–Bonnet identity and the blow-up decomposition, for smooth proper varieties over an algebraically closed field with ℓ invertible; invariance of étale cohomology under universal homeomorphisms; compact-support cohomology with its open–closed localization sequence | the unirationality reduction, the Picard number of a K3 or its genus-one pencil |
-| GlobalQuadraticForms §5.5; NeronModelsAndSemistableAbelianVarietiesPartII §6.1 | Hasse–Minkowski isotropy of regular forms over number fields, with local isotropy in rank at least five from its prerequisites; the Castelnuovo–Zariski rationality criterion for smooth projective surfaces in every characteristic | an isotropic class on a given K3 or the rationality of a given quotient |
-
-**What SchemeAndStackFoundations must provide (gap:enriques-ruledness).** For
-every smooth projective surface S over an algebraically closed field of any
-characteristic: if h⁰(S,ω_S^n)=0 for every n>0, then S is birationally ruled,
-that is, birational to C×ℙ¹ for a smooth projective curve C, and
-h¹(S,O_S)=g(C)=b₁(S)/2, with b₁ the first ℓ-adic Betti number for any ℓ
-invertible in the field. This is Enriques' theorem, proved in positive characteristic
-by Bombieri and Mumford (Liedtke, Theorem 4.4, p.21, and Theorem 6.1, p.25).
-Section 0.2 consumes it for the resolved quotient of a K3 surface by a p-closed
-derivation, in both its divisorial and its isolated case, and restates no part
-of it.
-
-## How to read the build
-
-Layer 0 supplies the independent algebraic vanishing theorem, together with the
-unirationality reduction and the rank-22 theorem for unirational K3 surfaces, whose
-characteristic binders are wider. Layers 1–4 construct
-complex geometry, the cup lattice, actual families and their local periods.
-Layer 5 realizes local chains of twistor lines; Layer 6 proves global periods,
-Torelli and the full cone theorem. Layer 7 combines this geometry with integral
-gluing to realize and classify free involutions. The acceptance statements are
-`algebraicK3_differential_vanishing`, `unirational_of_nontrivial_vectorField`,
-`finrank_lineBundleClass_eq_twentyTwo_of_unirational`, `gluing_isometry_extension_iff` and
-`discriminantOrthogonalHom_surjective_of_isometry_scale_two`; Suggested.lean lists the
-geometric headlines whose carriers are not yet available.
 
 ## Layer 0: Algebraic surfaces and the early differential theorem
 
@@ -1185,6 +1011,192 @@ uses §0.2's vanishing theorem, and at p=2 it uses §0.2's unirationality reduct
 the vanishing theorem's binder. This roadmap owns (U) for every prime p, so the p=2 case
 is a citation of §0.2, not a second proof. Its §§2.1a and 6.0c consume step 1's rank
 theorem (i), `finrank_lineBundleClass_eq_twentyTwo_of_unirational`.
+
+## Scope and ownership
+
+This roadmap owns K3-specific differential vanishing, analytic surface positivity,
+Ricci-flat geometry, deformation families, periods, Torelli, cones and the realization
+of free involutions, including the finite-order clean fixed-locus specialization
+of MorseNovikov N6’s topological trace theorem in §7.2. General scheme
+cohomology, Picard objects and finite quotients
+belong to SchemeAndStackFoundations §§1.17, 1.23, 2.3, 2.6, 2.11, 2.20, 3.4, 4.9, 4.11 and 5.9–5.10;
+analytic GAGA belongs to ComplexComparisonPartII C−1–C2 and C4. Its C1.9
+owns the analytic Picard group, the isomorphism classes of invertible analytic
+modules (holomorphic line bundles) under tensor product, and its C5.4 owns, on
+every complex manifold, the frame-torsor bijection of that group onto
+H¹(M,O_Mˣ) with its tensor, dual and pullback laws, the holomorphic exponential sequence and the identification of
+its connecting map with the integral first Chern class. The exact segment
+H¹(M,O_M)→H¹(M,O_Mˣ)→H²(M,ℤ)→H²(M,O_M) on an arbitrary complex manifold is
+not owned here: it is Mathlib's long exact cohomology sequence of C5.4's
+exponential sequence, read through C5.4's bijection. Section 1.1 owns only its
+application to compact complex surfaces with H¹(O)=0, which include the
+analytic K3 surfaces, and constructs neither a bundle category, a torsor
+cohomology theory, a Picard group nor that comparison. The ℓ-adic
+cycle classes, duality and étale Gauss–Bonnet identity used in §0.2 belong to
+EtaleCohomologyFoundations, Hasse–Minkowski isotropy to GlobalQuadraticForms,
+the Castelnuovo–Zariski rationality criterion to
+NeronModelsAndSemistableAbelianVarietiesPartII and Enriques' ruledness theorem
+to SchemeAndStackFoundations through the contract stated under the supplier
+contracts. K0.A owns the vector-field unirationality reduction over
+algebraically closed fields of every positive characteristic, 2 included, and
+the Picard-number theorem ρ(X)=22 for unirational K3 surfaces over algebraically
+closed fields of every characteristic; both binders are wider than that of its
+vanishing theorem, and the Part II roadmap consumes both. Restricted Lie
+algebras, Jacobson's formula and the p-th power of a derivation of a commutative
+algebra belong to PCurvature §§0.1–0.3; §0.2 here owns only their passage to
+vector fields on a scheme and the p-closed vector field it produces. The norm of
+invertible sheaves along finite locally free morphisms belongs to ModularCurves §2B
+and Ogg's formula to NeronModelsAndSemistableAbelianVarieties §5.3e. Linear analytic
+Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant forms and
+overlattices belong to IntegralLattices §§1B–1F; their native constructions are used
+above. The gluing theorem is the extension/restriction criterion for a
+specified pair of actions on the two summands, not a second overlattice construction.
+IntegralLattices supplies no surjectivity of an integral orthogonal group onto the
+orthogonal group of its discriminant form; §7.1 owns the one case used here, for the
+invariant lattice U(2)⊕E₈(−2) and its complement, together with the generation of
+orthogonal groups in characteristic two by orthogonal transvections that its proof uses.
+
+EnriquesSurfaces E1 and E6.U0–U4 own the converse canonical-cover comparison,
+primitive numerical pullback, and lift/descent of automorphisms, including
+Aut(S) ≃ Centralizer(ι)/⟨ι⟩. They consume Layers 0–2 and 6–7 here; this roadmap
+consumes no Enriques result. K3SurfacesAndSymplecticBoundedness is the Part II
+extension, including its all-characteristic, Picard-lattice and symplectic-boundedness programme.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Scheme.Over`,
+`AlgebraicGeometry.SmoothOfRelativeDimension`, `AlgebraicGeometry.IsProper`
+and `AlgebraicGeometry.GeometricallyIntegral` for the algebraic carrier.
+Use `Projectivization` and `Matrix.toBilin'` for projective lines and matrix
+bilinear evaluation; nondegeneracy and symmetry are separate hypotheses.
+Use `AlgebraicGeometry.Scheme.RationalMap` (notation `X ⤏ Y`, rational maps as
+classes of partial maps defined on dense opens), `AlgebraicGeometry.Scheme.RationalMap.IsOver`
+(some representative is a morphism over the base), `AlgebraicGeometry.Scheme.RationalMap.IsDominant`
+(some, equivalently every, representative has dense image) and `AlgebraicGeometry.AffineSpace`
+(notation `𝔸(n; S)`, with its canonical structure over S) for unirationality. Mathlib has
+`AlgebraicGeometry.Scheme.IsRationalOver` (birational to an affine space) but no unirationality
+predicate, so unirationality is stated as the existence of a dominant rational k-map from the
+affine plane.
+Use `AlgebraicGeometry.exists_isFinite_morphismRestrict_of_finite_preimage_singleton`
+(Stacks, §37.44, Lemma 37.44.2, Tag 02UP): for a proper morphism of schemes and a
+point of its target whose fibre is a finite set, the point has an open
+neighbourhood over which the restricted morphism is finite. This is the
+consequence of Zariski's main theorem that §0.2 step 1 case (b) uses at the
+finite-fibre points of the minimal resolution.
+Use `CategoryTheory.Sheaf.H` (Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean),
+its connecting map `CategoryTheory.Sheaf.H.δ` and `CategoryTheory.Sheaf.H.longSequence_exact`
+(Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean): for a short exact
+sequence 0→F₁→F₂→F₃→0 of abelian sheaves and n₀+1=n₁, the sequence
+Hⁿ⁰(F₁)→Hⁿ⁰(F₂)→Hⁿ⁰(F₃)→Hⁿ¹(F₁)→Hⁿ¹(F₂)→Hⁿ¹(F₃) is exact. Sections 1.1 and 3.1 read
+it on ComplexComparisonPartII C5.4's exponential sequence.
+
+### From Tau Ceti
+
+Use `AlgebraicGeometry.Scheme.relativeDifferentials` in
+TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean,
+`SheafOfModules.exteriorPower`, Tau Ceti's exterior power of a sheaf of modules under
+TauCeti/Algebra/Category/ModuleCat/Sheaf,
+and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` in
+TauCeti/AlgebraicGeometry/Cohomology/Basic.lean. These retain the actual structure
+morphism, sheaf and cohomology group. Global vector fields are morphisms
+from relative differentials to `SheafOfModules.unit`;
+`AlgebraicGeometry.Scheme.relativeDifferentialsHomEquiv`, in the same
+Differentials/Basic.lean, identifies them with
+`AlgebraicGeometry.Scheme.Modules.Derivation` of the structure sheaf, the
+compatible families of k-derivations of the rings of sections over all opens.
+Use `TauCeti.AlgebraicGeometry.LineBundleClass` in
+TauCeti/AlgebraicGeometry/LineBundle/Class.lean, the commutative group of isomorphism
+classes of invertible sheaves under tensor product, as Pic(X).
+
+Use `TauCeti.QuadraticMap.orthogonalGroup` and `TauCeti.QuadraticMap.reflectionOrthogonal`
+in TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean: the second sends a
+vector v with Q(v) invertible to y↦y−Q(v)⁻¹·b(v,y)·v, b the polar form, which in
+characteristic two is the orthogonal transvection in v. Tau Ceti's Cartan–Dieudonné
+generation `TauCeti.QuadraticMap.subgroup_eq_top_of_reflection_mem`
+(TauCeti/LinearAlgebra/QuadraticForm/CartanDieudonne/Basic.lean) assumes 2 invertible and
+does not apply over 𝔽₂. For an even nondegenerate lattice L, the action of O(L) on
+the discriminant form is `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`,
+O(L)→O(q_L), in TauCeti/LinearAlgebra/IntegralLattice/Discriminant/OrthogonalGroup.lean,
+with kernel `TauCeti.IntegralLattice.Isometry.discriminantKernel`
+(`TauCeti.IntegralLattice.Isometry.ker_discriminantOrthogonalHom`); the rescaled lattice
+L(n) is `TauCeti.IntegralLattice.scale`, whose dual carrier is n⁻¹ times that of L
+(`TauCeti.IntegralLattice.dualCarrier_smul`), and the negation −L is the rescaling by −1.
+The lattice M=U⊕E₈(−1) is the orthogonal sum `TauCeti.IntegralLattice.orthogonalSum` of
+`TauCeti.IntegralLattice.hyperbolicPlane` (Examples.lean, Gram matrix (0,1;1,0) on ℚ²) and
+the negation of `TauCeti.IntegralLattice.typeE₈RootLattice` (RootLattice/TypeE/Basic.lean,
+the positive definite Gram lattice of the E₈ Cartan matrix on ℚ⁸). Tau Ceti supplies the
+homomorphism and its kernel, not its surjectivity, which §7.1 proves for the one lattice
+used here.
+
+Use `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.Isometry`,
+`TauCeti.IntegralLattice.IsNondegenerate`,
+`TauCeti.IntegralLattice.discriminantGroupOrthogonalSumEquiv`,
+`TauCeti.IntegralLattice.Isometry.discriminantGroupEquiv`,
+`TauCeti.IntegralLattice.discriminantQuadraticMap` and
+`TauCeti.IntegralLattice.intermediateCarrierOfDiscriminantSubgroup` from the
+Basic, Isometry/Basic, Discriminant/Operations, Discriminant/Group,
+Discriminant/Quadratic and Overlattice/Basic files under
+TauCeti/LinearAlgebra/IntegralLattice. The even construction is
+`TauCeti.IntegralLattice.ofIsotropicSubgroup` in Overlattice/Isotropic.lean.
+The correspondence is natural under
+`TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv`
+in Overlattice/Naturality.lean.
+
+Graph gluing is native. For even nondegenerate S and T, the discriminant form of S
+is `TauCeti.IntegralLattice.discriminantQuadraticModule` (Discriminant/Quadratic.lean).
+An isometry γ from it to the negative of the discriminant form of T is a
+`TauCeti.FiniteQuadraticModule.Isometry` into `TauCeti.FiniteQuadraticModule.neg`
+(TauCeti/LinearAlgebra/FiniteBilinearModule/Quadratic.lean), that is, a ℤ-linear
+equivalence A_S→A_T with q_T(γa)=−q_S(a). Overlattice/Graph.lean supplies three
+declarations for such a γ:
+
+- `TauCeti.IntegralLattice.discriminantGraph`, the graph of γ transported to the
+  discriminant group of S⊕T, which is Lagrangian;
+- `TauCeti.IntegralLattice.glueAlongDiscriminant`, the lattice on S_ℚ×T_ℚ with the
+  orthogonal-sum form whose carrier is the inverse image of that graph in S*⊕T*. It is
+  even and unimodular, and meets each coordinate space exactly in S and in T;
+- `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant`: every even unimodular
+  lattice for the orthogonal-sum form that contains S⊕T and meets the two coordinate
+  spaces exactly in S and in T is the gluing along some such γ.
+
+Tau Ceti supplies no criterion for extending a pair of isometries of S and T to the
+glued lattice. That criterion is §7.1's `gluing_isometry_extension_iff`, stated on
+`TauCeti.IntegralLattice.glueAlongDiscriminant` itself, so that it applies directly to
+the lattice that `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant` produces.
+
+### From the named roadmaps
+
+Each row specifies the sections consumed and their exact output.
+
+| Input | Exact output used here | What it does not supply |
+| --- | --- | --- |
+| SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.2–2.3, 2.6, 2.11, 2.20, 4.9, 4.11, 5.9–5.10 and the ruledness contract below | projective schemes and finite-group quotients; stack/groupoid descent; Čech-to-derived comparison and abelian torsor/H¹ identification; Hilbert 90 and the Kummer sequence; coherent cohomology, duality, Kähler differentials and proper base change; Stein factorization and Zariski's connectedness theorem for proper morphisms of Noetherian schemes (§4.9); adjunction, Noether's formula, surface Riemann–Roch and the Hodge index theorem; Enriques' ruledness theorem in every characteristic | a K3 period map, analytic Kuranishi space, global Torelli, or the rationality of a given quotient surface |
+| AlgebraicModuliForArithmeticGeometry 1.1–1.3, 7.3, 7.8 and 8.1–8.3 (with SchemeAndStackFoundations Layer4) | projective-space and coherent-quotient carriers (§§1.1–1.3); Picard lifting (§7.3); Artin test groupoids and tangent/obstruction maps (§§8.1–8.3); effective algebraic families under the algebraicity/effectivity hypotheses of §7.8 | the vanishing of K3 obstruction spaces or an unrestricted universal coarse family |
+| AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D, StableReduction Layers 4–6 | relative genus-one curves, Jacobians/Picard torsors, Weierstrass and minimal regular models, intersection/coherent-duality and projectivity constructions; finite-dimensionality of coherent cohomology of proper k-schemes (JacobianChallenge Layer B) | the K0.A vector-field theorem or a genus-one fibration on an arbitrary K3 |
+| PCurvature §§0.1–0.3 | Jacobson's formula, with its correction term vanishing on commuting elements (§0.1); restricted Lie algebras over a commutative ring of characteristic p, their morphisms and restricted subalgebras (§0.2); the p-th iterate of a derivation of a commutative algebra of characteristic p as a derivation, with the scalar law, Hochschild's formula, the commutator law, Jacobson additivity, the restricted Lie algebra of all derivations and compatibility with localization (§0.3) | vector fields on a scheme, the existence of a p-closed vector field, or the quotient by one |
+| ModularCurves §2B; NeronModelsAndSemistableAbelianVarieties §5.3e | the norm functor on invertible sheaves along finite locally free morphisms, with its base-change, tensor-product and tower laws; Ogg's formula v(Δ_min)=f(E)+m−1 for elliptic curves over complete discrete valuation rings with perfect residue field, in every residue characteristic | the canonical-divisor formula of a p-closed quotient or the fibre configurations of a K3 pencil |
+| ComplexComparisonPartII C−1.1–C0.7, C1.9, C2, C4.1–C4.4 and C5.4 | actual scheme/space analytification, coherent GAGA and ideal/section/bundle/morphism dictionaries, analytic proper images and cycle currents; C1.9’s analytic Picard group of holomorphic line-bundle classes; C5.4’s frame-torsor bijection of that group onto H¹(M,O_Mˣ) on every complex manifold with its tensor, dual and pullback laws, its exponential sequence and integral first-Chern comparison | a K3 family, positive-square algebraization criterion or global Torelli |
+| CKG K1–K4, K5a/K5b, K6.0–K6.1, K7 | type/Dolbeault calculus, analytic sets and coherent gluing, holomorphic bundles, among them K4’s holomorphic line bundles with tensor, dual and pullback, elliptic estimates, compact Hodge/Serre and projective Kähler examples | the holomorphic Picard comparison, K3 Kählerness, nonlinear Monge–Ampère existence, K3 periods or Torelli |
+| IndexTheory I6, I7.1–I7.3 and I8; CharacteristicClasses C1–C7 | actual Dolbeault index/Todd, Euler/signature and holomorphic fixed-map traces for isolated nondegenerate fixed points (including the empty fixed set), with symbol, orientation and Chern normalizations | the K3-specific numerical specialization, simple connectivity or surface isomorphism |
+| SmoothBundlesConnections B1.5; DifferentialGeometry Layers 0–2, 5, 8–9 and AlgebraicTopology Stage 6 | smooth bundles and the componentwise local trivialization of a proper surjective smooth submersion from B1.5; differential forms, singular cup product, Poincaré duality and coefficient comparison from the other named owners | a K3-specific integral marking, monodromy image or period realization |
+| IntegralLattices 0G, 1B–1F, 5F, 5G, 5J, 6A | Λ=U³⊕E₈(−1)², dual/discriminant forms and actual overlattice graph gluing (0G, 1B–1F); primitive embeddings into even unimodular lattices (5F–5G); the invariants (r,a,δ) of 2-elementary lattices with their existence and genus theorem (5J); the normal form of indefinite even unimodular lattices (6A); with isometries and inverses | a Hodge structure, a free geometric involution, a surface isomorphism, the isometry class of a 2-elementary lattice in its genus, or the surjectivity O(S)→O(q_S) (constructed in §7.1) |
+| MorseNovikov N5–N7; GeometricTopology Layer 1 | continuous local index, topological trace/local-index equality, vector-field Poincaré–Hopf, and tubular neighbourhoods | the finite-order clean fixed-locus specialization constructed in §7.2 |
+| FourManifolds F7 | the independently constructed quartic K3 example and its topological calculation | a theorem about every K3, a period family or a Torelli proof |
+| EtaleCohomologyFoundations §0.9, F.0.4, F.2.5, F.5–F.7 | ℓ-adic cycle classes with pullback and proper pushforward, Poincaré duality, the projection and self-intersection formulas, the étale Gauss–Bonnet identity and the blow-up decomposition, for smooth proper varieties over an algebraically closed field with ℓ invertible; invariance of étale cohomology under universal homeomorphisms; compact-support cohomology with its open–closed localization sequence | the unirationality reduction, the Picard number of a K3 or its genus-one pencil |
+| GlobalQuadraticForms §5.5; NeronModelsAndSemistableAbelianVarietiesPartII §6.1 | Hasse–Minkowski isotropy of regular forms over number fields, with local isotropy in rank at least five from its prerequisites; the Castelnuovo–Zariski rationality criterion for smooth projective surfaces in every characteristic | an isotropic class on a given K3 or the rationality of a given quotient |
+
+**What SchemeAndStackFoundations must provide (gap:enriques-ruledness).** For
+every smooth projective surface S over an algebraically closed field of any
+characteristic: if h⁰(S,ω_S^n)=0 for every n>0, then S is birationally ruled,
+that is, birational to C×ℙ¹ for a smooth projective curve C, and
+h¹(S,O_S)=g(C)=b₁(S)/2, with b₁ the first ℓ-adic Betti number for any ℓ
+invertible in the field. This is Enriques' theorem, proved in positive characteristic
+by Bombieri and Mumford (Liedtke, Theorem 4.4, p.21, and Theorem 6.1, p.25).
+Section 0.2 consumes it for the resolved quotient of a K3 surface by a p-closed
+derivation, in both its divisorial and its isolated case, and restates no part
+of it.
 
 ## References
 

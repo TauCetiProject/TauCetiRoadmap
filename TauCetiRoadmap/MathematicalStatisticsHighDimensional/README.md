@@ -1,109 +1,85 @@
 # Roadmap: high-dimensional statistics
 
 **Summary.** This roadmap builds the finite-sample theory of estimation, testing and recovery when
-the number of parameters is comparable to or larger than the number of observations:
-- exact and stable sparse recovery: restricted nullspace, basis pursuit and the restricted
-  isometry property, including the restricted isometry property of sub-Gaussian designs;
-- the lasso: optimality conditions, the cone condition, slow and fast rates under compatibility
-  and restricted eigenvalue conditions, orthogonal designs, support recovery under mutual
-  incoherence, and debiased inference;
-- penalized model selection in the Gaussian regression model, and Akaike's and Schwarz's
-  criteria;
-- minimax rates for sparse estimation in the Gaussian sequence model and in sparse regression;
-- false discovery rate control by the Benjamini–Hochberg and Benjamini–Yekutieli procedures;
-- low-rank and structured matrices: nuclear-norm trace regression, thresholded covariance
-  estimation, neighbourhood selection and the graphical lasso;
-- principal components: the Davis–Kahan bound for the leading eigenvector, the spiked
-  sub-Gaussian ensemble, and the statistical reading of the Marchenko–Pastur, Bai–Yin and spiked
-  covariance limits.
+the number of parameters is comparable to or larger than the number of observations. Its theorems
+rest on structure in the unknown: a vector with few nonzero coordinates, or a matrix of low rank.
+For the lasso, random designs and sample covariances, each probabilistic theorem separates a
+deterministic statement on an explicit event from a bound for the probability of that event.
 
-Every probabilistic theorem is split in two: a **deterministic theorem on an event** (the noise
-event of the lasso, the restricted eigenvalue event of a random design, the max-norm event of a
-sample covariance), and a **probability bound for the event**. The deterministic theorems are
-convex analysis and linear algebra; the probability bounds rest on a small toolkit of
-sub-Gaussian, chi-squared and net arguments (Layer 1) and on the matrix concentration owned by
-[RandomMatrices](../RandomMatrices/README.md).
+Basis pursuit estimates a vector `β` from noiseless measurements `y = Xβ` by minimizing the `ℓ¹`
+norm over all `b` with `Xb = y`. By the first main theorem, it succeeds for random designs. Let the
+`n × p` matrix `X` have independent centred entries of variance 1, each sub-Gaussian with variance
+proxy `K²`, and let `1 ≤ s` and `2s ≤ p`. There are `C, c > 0`, depending only on `K`, such that if
+`n ≥ Cs log(ep/s)`, then with probability at least `1 - 2exp(-cn)` every vector with at most `s`
+nonzero coordinates is the unique basis pursuit solution for its measurements.
 
-The material is the standard content of Wainwright, Giraud, Foucart–Rauhut, van de Geer and
-Johnstone (see [References](#references)). Headlines that restate a source result cite a
-theorem, definition, section or equation number with its printed page; corollaries and
-adaptations carry a proof route.
+The lasso replaces the constraint by a penalty. For observations `y = Xβ + ε` and `λ > 0`, a lasso
+solution is any minimizer of `‖y - Xb‖²/(2n) + λ‖b‖₁`. The noise event says that every column of `X`
+has inner product with `ε` at most `λn/2` in absolute value. Let `β` vanish off a nonempty set `S`.
+The compatibility constant `φ` is the infimum of `|S| ‖Xδ‖²/n` over the vectors `δ` whose `ℓ¹` norm
+is 1 on `S` and at most 3 off `S`. By the second main theorem, if `φ > 0` then on the noise event
+every lasso solution `β̂` satisfies `‖X(β̂ - β)‖²/n ≤ 9λ²|S|/(4φ)`. If moreover the coordinates of
+`ε` are independent and sub-Gaussian with variance proxy `σ²`, and every column of `X` has squared
+norm at most `n`, then for `t ≥ 0` the noise event at `λ = 2σ√(2(log p + t)/n)` has probability at
+least `1 - 2e^{-t}`.
 
-`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
-a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. Every headline whose carriers exist at the pins carries a Lean name; the bullets
-without one are consumed results, marked as such, or facts about a single definition, as the
-module docstring of `Suggested.lean` lists.
+The third main theorem concerns the Gaussian sequence model, in which one observes `Y = θ + σξ` in
+`ℝ^p`, where `ξ` is standard Gaussian, `σ > 0`, and `θ` has at most `s` nonzero coordinates. There
+are universal constants `0 < c ≤ C` such that, whenever `1 ≤ s` and `2s ≤ p`, the minimax risk for
+squared error lies between `cσ²s log(p/s)` and `Cσ²s log(p/s)`. Soft thresholding each coordinate at
+`σ√(2 log(p/s))` achieves the upper bound.
+
+The fourth main theorem concerns testing `m` hypotheses at once. The false discovery rate of a
+procedure is the expected proportion of true null hypotheses among those it rejects, counted as zero
+when it rejects nothing. Suppose that `m₀` of the `m` hypotheses are true, each with a valid
+p-value: `P(pᵢ ≤ t) ≤ t` for `t ∈ [0, 1]`. At level `α ∈ (0, 1)`, the Benjamini–Hochberg procedure
+has false discovery rate at most `αm₀/m` under weak positive regression dependence. This
+monotonicity condition on the joint law of the p-values holds when each null p-value is independent
+of all the others. Under arbitrary dependence the same bound holds for the Benjamini–Yekutieli
+procedure, which is Benjamini–Hochberg at level `α/(1 + 1/2 + ⋯ + 1/m)`.
+
+The roadmap builds on
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) for the language
+of sparsity and Slutsky's lemma. MathematicalStatisticsNonparametric supplies the minimax
+lower-bound methods of Le Cam, Fano and Assouad. [RandomMatrices](../RandomMatrices/README.md)
+supplies bounds on the singular values of random matrices and the eigenvalue limits of sample
+covariances. No other roadmap uses its results.
+
+The first layer is a toolkit of tail bounds and matrix-norm inequalities. The second treats basis
+pursuit, and the third the lasso, with support recovery and debiased estimation. The fourth is model
+selection in Gaussian regression, the fifth the minimax rates and the sixth multiple testing. The
+seventh treats low-rank and structured matrices, among them nuclear-norm trace regression and the
+graphical lasso. The eighth treats principal components.
+
+The material is the standard content of books such as those of Wainwright and of Giraud (see
+[References](#references)). `Suggested.lean` states the named headline theorems in Lean, with
+`sorry` in place of proofs.
 
 Suggested home: `TauCeti/Statistics/HighDimensional/`, with one subdirectory per layer.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 is the toolkit: everything probabilistic in Layers 2–8 is a union bound over
+sub-Gaussian or sub-exponential tails, a chi-squared tail, or a net argument, and Layer 1 states
+each in the exact form used. Layer 2 is the geometry of the `ℓ¹` ball: a matrix recovers every
+vector supported on `S` by basis pursuit exactly when its kernel avoids the cone `C_1(S)`, and
+the restricted isometry property is a checkable sufficient condition that random designs
+satisfy.
 
-1. **Probabilistic toolkit.** Gaussian variables are sub-Gaussian; tail and maximal inequalities
-   for finitely many sub-Gaussian variables; sub-Gaussian random vectors; two-sided chi-squared
-   tails; sub-exponential products and the entrywise and operator-norm concentration of sample
-   covariances; entrywise domination and the Schur test for operator norms; trace duality,
-   orthogonal additivity and the low-rank decomposition of the nuclear norm; nets of low-rank
-   matrices; row sums of the inverse of a positive definite matrix; the binomial bound; and the
-   sparse Varshamov–Gilbert packing.
-2. **Sparse recovery.** The restricted nullspace property and its equivalence with exact recovery
-   by basis pursuit; the restricted isometry route to it; the robust nullspace property and
-   stable recovery under `δ₂ₛ < 4/√41`; and the restricted isometry property of designs with
-   independent sub-Gaussian entries, and exact recovery from such designs.
-3. **The lasso.** Existence, optimality conditions and uniqueness of the fit; the basic
-   inequality and the cone condition; the slow rate; fast rates under the compatibility and
-   restricted eigenvalue conditions; the probability of the noise event; restricted eigenvalues
-   from the restricted isometry property and for random designs; orthogonal designs, soft
-   thresholding and ridge; support recovery by the primal–dual witness; and debiased inference.
-4. **Model selection.** The oracle inequality for penalized model selection over a countable
-   family of linear models; the optimism identity behind Akaike's criterion, the overfitting of
-   the Akaike selector and the consistency of the Schwarz (BIC) selector in nested models.
-5. **Sparse minimax rates.** The risk of soft thresholding at a general threshold; the minimax
-   rate `σ² s log(p/s)` in the Gaussian sequence model with the matching soft-threshold
-   estimator and the universal threshold; and the minimax rate of sparse regression.
-6. **Multiple testing.** False discovery proportion and rate, valid p-values, step-up
-   procedures, positive regression dependence; false discovery rate control by
-   Benjamini–Hochberg under independence and under positive regression dependence, exactness
-   under independent uniform nulls, and the Benjamini–Yekutieli procedure under arbitrary
-   dependence.
-7. **Low-rank and structured matrices.** Nuclear-norm penalized trace regression; hard
-   thresholding of a sample covariance; neighbourhood selection and the graphical lasso for
-   Gaussian graphical models.
-8. **Principal components.** Perturbation of the leading eigenvector; the leading sample
-   eigenvector in the spiked sub-Gaussian ensemble; and the high-dimensional limits of sample
-   eigenvalues and eigenvectors in the form statistics uses them: the translation to the
-   conventions of RandomMatrices, the centring and scaling of the largest eigenvalue, and the
-   inconsistency of the leading sample eigenvector in the spiked model.
+Layer 3 is one inequality used many times. Optimality of the lasso gives the basic inequality
+`‖XΔ‖²/n ≤ ⟪ε, XΔ⟫/n + λ(‖β‖₁ - ‖β̂‖₁)` for the error `Δ = β̂ - β`. On the noise event
+`λ ≥ 2 maxⱼ |⟪X_j, ε⟫|/n` this places `Δ` in the cone `C_3(S)` and bounds the prediction error
+by `(3λ/2)‖Δ_S‖₁`; every rate follows by comparing `‖Δ_S‖₁` with `‖XΔ‖` through a design
+constant. Layer 7 runs the same argument for the nuclear norm and for the graphical lasso.
+Layer 4 is the Gaussian regression model with projections, Layer 5 combines the soft-threshold
+risk with the lower-bound toolkit, and Layer 6 is the combinatorics of step-up procedures
+together with one monotonicity property of the joint law of the p-values. Layer 8 is
+perturbation theory for the leading eigenvector, and the translation of the random matrix
+limits into statements about sample covariances.
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**Not owned here.** The following are used, not built:
-- the vocabulary of
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md): the
-  number of nonzero coordinates as `hammingNorm`, the restricted `ℓ¹` norm, the best `s`-sparse
-  `ℓ¹` error and the restricted isometry property (9.3); the Benjamini–Hochberg count (9.3);
-  the algebra of convergence in probability (8.3) and Slutsky's lemma (8.4);
-- from MathematicalStatisticsNonparametric: the Kullback–Leibler divergence between isotropic
-  Gaussian laws (1.3) and the minimax lower-bound toolkit of its Layer 2, Le Cam's two-point
-  method (2.2), Fano's method (2.4) and Assouad's lemma (2.5) with their minimax forms (2.6).
-  Layer 5 applies them to Gaussian location families; the sparse packing it needs (1.5) is not
-  the Varshamov–Gilbert packing of the full hypercube owned there (2.3);
-- the soft-threshold map, its one-coordinate risk and the two one-coordinate risk bounds, and
-  the oracle inequality at the universal threshold, which belong to
-  MathematicalStatisticsNonparametric (6.4). 5.1 owns the risk bounds at a general threshold;
-- random matrix theory, from [RandomMatrices](../RandomMatrices/README.md): the sub-exponential
-  definition and Bernstein's inequality for sub-exponential sums (§2.1), norms and singular
-  values of matrices with independent sub-Gaussian entries or rows (§2.4), the sample covariance
-  (§4.1), the Marchenko–Pastur law (§4.4), the Bai–Yin limit of the largest eigenvalue (§4.5),
-  and the spiked sample covariance limits (§7.3);
-- the residual Davis–Kahan `sin Θ` theorem, owned by
-  [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md)
-  (SSP-C17) and proved in Tau Ceti; 8.1 applies it to the leading eigenvector.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are in build order. Layers 2, 4 and 6 need only Layer 1 and the suppliers; Layer 3
+needs Layer 2 for random designs; Layer 5 needs Layers 1 and 4; Layer 7 needs Layers 1 and 3;
+Layer 8 needs Layer 1.
 
 ## Conventions
 
@@ -179,149 +155,6 @@ These are fixed for every target. A statement that departs from them is a differ
 - `designCol`: for `X = [[1, 2], [3, 4]]`, `X_1 = (2, 4)`, not the row `(3, 4)`.
 - `designCol`: for the same `X`, `‖X_0‖²/n = (1 + 9)/2 = 5`.
 - `designCol`: for `X = [[2, 1]]` (`n = 1`), `⟪X_0, y⟫/n = 2y`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Probability:** `HasSubgaussianMGF` with `HasSubgaussianMGF.measure_ge_le`,
-  `HasSubgaussianMGF.const_mul` and `HasSubgaussianMGF.sum_of_iIndepFun`
-  (`Mathlib/Probability/Moments/SubGaussian.lean`), `gaussianReal` and `mgf_id_gaussianReal`,
-  for 1.1; `mgf`; `stdGaussian` and `multivariateGaussian`; `iIndepFun`, `IndepFun`, `HasLaw`;
-  `condDistrib`, for 3.8 and 6.1; `cdf` and `TendstoInMeasure`, for 3.8.
-- **Decision theory and divergences:** `minimaxRisk`, `Kernel.deterministic`, `Kernel.map` and
-  `Kernel.comap`, for Layer 5; `klDiv` (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`)
-  and `tvDist`, for 5.2 and 5.3.
-- **Sparsity:** `hammingNorm`, `hammingDist` (`Mathlib/InformationTheory/Hamming.lean`).
-- **Linear algebra:** `Matrix.toEuclideanLin`, the `Matrix.Norms.L2Operator` scope with
-  `Matrix.l2_opNorm_def` and `Matrix.l2_opNorm_mulVec`, `Matrix.IsHermitian.eigenvalues₀`,
-  `LinearMap.singularValues` (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`),
-  `Matrix.PosDef`, `Matrix.PosSemidef`, `Submodule.starProjection`, `Matrix.det`.
-- **Optimization:** `IsMinOn`, `ConvexOn`, `StrictConvexOn`.
-
-### From Tau Ceti
-
-- **Gaussian laws**, for 1.2 and Layer 4: `TauCeti.Probability.chiSquaredMeasure` with its
-  moment generating function `TauCeti.Probability.mgf_id_chiSquaredMeasure`
-  (`TauCeti/Probability/Distributions/ChiSquared/Basic.lean`);
-  `ProbabilityTheory.HasLaw.norm_sq_orthogonalProjectionOnto_stdGaussian` and
-  `ProbabilityTheory.HasLaw.iIndepFun_norm_sq_orthogonalProjectionOnto_stdGaussian`
-  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`).
-- **Gaussian conditioning**, for 7.3: `EuclideanSpace.gaussianCondMean`,
-  `TauCeti.Probability.condDistrib_multivariateGaussian` and
-  `ProbabilityTheory.HasLaw.indepFun_gaussianResidual`
-  (`TauCeti/Probability/Distributions/Gaussian/Conditional/Basic.lean`).
-- **Information theory**, for 5.2 and 5.3: Pinsker's inequality
-  `TauCeti.etvDist_sq_le_two_mul_klDiv` (`TauCeti/InformationTheory/KullbackLeibler/Pinsker.lean`).
-- **Matrices and operators:** `TauCeti.sampleSecondMoment` with
-  `TauCeti.isHermitian_sampleSecondMoment` (`TauCeti/Analysis/Matrix/SampleSecondMoment.lean`),
-  for 1.3 and 8.3; Weyl's inequality `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`
-  (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), for 8.1; the residual `sin Θ`
-  theorem `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`
-  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/SinTheta/Basic.lean`) in the
-  operator norm `TauCeti.UnitarilyInvariantSeminorm.opNorm`, for 8.1; the nuclear seminorm
-  `TauCeti.UnitarilyInvariantSeminorm.nuclear` with
-  `TauCeti.UnitarilyInvariantSeminorm.nuclear_apply` and
-  `TauCeti.UnitarilyInvariantSeminorm.nuclear_apply_le_sqrt_finrank_range_mul_frobenius_apply`
-  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/`), for 1.4 and 7.1.
-- **Convex analysis and nets:** `TauCeti.subdifferential` with
-  `TauCeti.mem_subdifferential_coe_iff_isMinOn_sub`
-  (`TauCeti/Analysis/Convex/Subdifferential.lean`), for 3.1; the net bounds
-  `TauCeti.exists_finset_isCover_of_subset_closedBall`, for 1.5, and
-  `TauCeti.exists_finset_isCover_sphere`, `(1 + 2/η)^d` points, for 8.2
-  (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`).
-- **Spectral laws**, for 8.3: the Marchenko–Pastur law `TauCeti.Probability.marchenkoPastur`
-  (`TauCeti/Probability/Distributions/MarchenkoPastur/Basic.lean`).
-
-### From MathematicalStatisticsFoundations
-
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
-- 9.3: `hammingNorm (WithLp.ofLp x)` as the sparsity of `x`, for Layers 2 and 5; the restricted
-  `ℓ¹` norm `∑_{j ∈ S} |xⱼ|`, for Layers 2 and 3; the best `s`-sparse `ℓ¹` error `σₛ(x)₁` with
-  its attainment on a set of `s` largest coordinates, for 2.2 and 2.3; the restricted isometry
-  property of order `s` and constant `δ` with its passage to smaller orders and larger
-  constants, for Layer 2 and 3.4–3.5; the Benjamini–Hochberg count with its rejection set, for
-  6.1.
-- 8.3: the algebra of convergence in probability, including `O_P(1) · o_P(1) = o_P(1)`, for 3.8.
-- 8.4: Slutsky's lemma without separability, for 3.8.
-
-`Suggested.lean` carries local copies of the restricted `ℓ¹` norm (`restrictedL1Norm`), the best
-`s`-sparse `ℓ¹` error (`bestSparseL1Error`), and the restricted isometry property (`HasRIP`), each
-with a docstring naming 9.3.
-
-### From MathematicalStatisticsNonparametric
-
-MathematicalStatisticsNonparametric supplies exactly the following, all from its Layers 1 and 2
-and its section 6.4, and nothing else is used:
-- 1.3: for `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`, the divergence
-  `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1))` is
-  `ENNReal.ofReal (‖a - b‖²/(2v))`, for 1.5, 5.2 and 5.3.
-- 2.2 and 2.6: Le Cam's two-point method in its minimax form. For a kernel `P : Kernel Θ X`,
-  `g : Θ → Y`, the loss `ofReal (d(a, g θ)²)`, `s ≥ 0` and `θ₀, θ₁` with
-  `d(g θ₀, g θ₁) ≥ 2s`, the minimax risk is at least `ofReal (s²(1 - tvDist(P θ₀, P θ₁)/2)/2)`;
-  Mathlib's `tvDist` takes values in `[0, 2]`. For 5.2.
-- 2.4 and 2.6: Fano's method in its minimax form. For `M ≥ 2` parameters `θⱼ` with
-  `d(g θᵢ, g θⱼ) ≥ 2s` for `i ≠ j`, `s ≥ 0`, and a probability measure `Q` with
-  `klDiv (P θⱼ) Q ≠ ∞` for every `j`, the minimax risk is at least `ofReal` of
-  `s²(1 - (M⁻¹ ∑ⱼ (klDiv (P θⱼ) Q).toReal + log 2)/log M)`. For 5.2.
-- 2.5 and 2.6: Assouad's lemma in its metric form. For `θ : (Fin m → Bool) → Θ` and `c > 0` with
-  `d(g(θ ω), g(θ ω'))² ≥ c · hammingDist ω ω'`, the minimax risk is at least
-  `ofReal ((c/8) m min (1 - tvDist(P(θ ω), P(θ ω'))/2))`, the minimum over neighbours
-  (`hammingDist ω ω' = 1`). For 5.3.
-- 6.4: the soft-threshold map `η_λ(y) = sign(y)(|y| - λ)₊`, its one-coordinate risk
-  `r(λ, θ) = E(η_λ(θ + Z) - θ)²` for `Z ~ N(0, 1)`, and, for `λ ≥ 0`, the bounds
-  `r(λ, 0) ≤ e^{-λ²/2}` and `r(λ, θ) ≤ r(λ, 0) + min(θ², 1 + λ²)`, for 3.6 and 5.1.
-
-`Suggested.lean` carries local copies of the soft-threshold map and its one-coordinate risk, each
-with a docstring naming 6.4.
-
-### From RandomMatrices
-
-[RandomMatrices](../RandomMatrices/README.md) supplies:
-- §2.1: the definition of a sub-exponential variable with parameter `K > 0`
-  (`exp(t(X - EX))` integrable and `E exp(t(X - EX)) ≤ exp(K²t²)` for `|t| ≤ 1/K`), of which
-  `Suggested.lean` carries a local copy, and Bernstein's inequality for independent sums of
-  such variables (V Theorem 2.8.1), for 1.3 and 8.2.
-- §2.4: for a `p × n` matrix with independent centred entries, each sub-Gaussian with proxy at
-  most `K²`, `P(‖X‖ > CK(√p + √n + t)) ≤ 2exp(-ct²)` for `t ≥ 0` (V Theorem 4.4.5), for 7.1;
-  for a matrix with `N` independent centred isotropic rows in `ℝ^d` whose linear forms in
-  direction `u` have proxy at most `K²‖u‖²`,
-  `√N - CK²(√d + t) ≤ s_min ≤ s_max ≤ √N + CK²(√d + t)` with probability at least
-  `1 - 2exp(-ct²)` (V Theorem 4.6.1), for 1.3, 2.4 and 7.3.
-- §4.1: the sample covariance `XX*/n` of a `p × n` matrix `X` as Tau Ceti's sample second moment
-  of the columns of `X`, for 8.3.
-- §4.4: the almost-sure Marchenko–Pastur law for the `p(n) × n` corners of an infinite real
-  i.i.d. array with mean `0` and variance `1`, `p(n) ≥ 1` and `p(n)/n → y ∈ (0, ∞)`, for 8.3.
-- §4.5: under the hypotheses of §4.4 and a finite fourth moment,
-  `λ_max(XX*/n) → (1 + √y)²` almost surely, for 8.3.
-- §7.3: for the Gaussian sample covariance with `0 < y < 1` and `T_p = diag(ℓ, 1, …, 1)`,
-  `ℓ > 1`, the threshold `1 + √y`; above it the outlier limit `ℓ(1 + y/(ℓ - 1))` and the squared
-  overlap limit `(1 - y/(ℓ - 1)²)/(1 + y/(ℓ - 1))`; at and below it the limits `(1 + √y)²` and
-  `0`. For 8.3.
-
-## How to read the build
-
-Layer 1 is the toolkit: everything probabilistic in Layers 2–8 is a union bound over
-sub-Gaussian or sub-exponential tails, a chi-squared tail, or a net argument, and Layer 1 states
-each in the exact form used. Layer 2 is the geometry of the `ℓ¹` ball: a matrix recovers every
-vector supported on `S` by basis pursuit exactly when its kernel avoids the cone `C_1(S)`, and
-the restricted isometry property is a checkable sufficient condition that random designs
-satisfy.
-
-Layer 3 is one inequality used many times. Optimality of the lasso gives the basic inequality
-`‖XΔ‖²/n ≤ ⟪ε, XΔ⟫/n + λ(‖β‖₁ - ‖β̂‖₁)` for the error `Δ = β̂ - β`. On the noise event
-`λ ≥ 2 maxⱼ |⟪X_j, ε⟫|/n` this places `Δ` in the cone `C_3(S)` and bounds the prediction error
-by `(3λ/2)‖Δ_S‖₁`; every rate follows by comparing `‖Δ_S‖₁` with `‖XΔ‖` through a design
-constant. Layer 7 runs the same argument for the nuclear norm and for the graphical lasso.
-Layer 4 is the Gaussian regression model with projections, Layer 5 combines the soft-threshold
-risk with the lower-bound toolkit, and Layer 6 is the combinatorics of step-up procedures
-together with one monotonicity property of the joint law of the p-values. Layer 8 is
-perturbation theory for the leading eigenvector, and the translation of the random matrix
-limits into statements about sample covariances.
-
-The layers are in build order. Layers 2, 4 and 6 need only Layer 1 and the suppliers; Layer 3
-needs Layer 2 for random designs; Layer 5 needs Layers 1 and 4; Layer 7 needs Layers 1 and 3;
-Layer 8 needs Layer 1.
 
 ## Layer 1: probabilistic and linear-algebra toolkit
 
@@ -1911,6 +1744,193 @@ Related libraries:
 ## Downstream consumers
 
 No other roadmap consumes the results of this one.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Probabilistic toolkit.** Gaussian variables are sub-Gaussian; tail and maximal inequalities
+   for finitely many sub-Gaussian variables; sub-Gaussian random vectors; two-sided chi-squared
+   tails; sub-exponential products and the entrywise and operator-norm concentration of sample
+   covariances; entrywise domination and the Schur test for operator norms; trace duality,
+   orthogonal additivity and the low-rank decomposition of the nuclear norm; nets of low-rank
+   matrices; row sums of the inverse of a positive definite matrix; the binomial bound; and the
+   sparse Varshamov–Gilbert packing.
+2. **Sparse recovery.** The restricted nullspace property and its equivalence with exact recovery
+   by basis pursuit; the restricted isometry route to it; the robust nullspace property and
+   stable recovery under `δ₂ₛ < 4/√41`; and the restricted isometry property of designs with
+   independent sub-Gaussian entries, and exact recovery from such designs.
+3. **The lasso.** Existence, optimality conditions and uniqueness of the fit; the basic
+   inequality and the cone condition; the slow rate; fast rates under the compatibility and
+   restricted eigenvalue conditions; the probability of the noise event; restricted eigenvalues
+   from the restricted isometry property and for random designs; orthogonal designs, soft
+   thresholding and ridge; support recovery by the primal–dual witness; and debiased inference.
+4. **Model selection.** The oracle inequality for penalized model selection over a countable
+   family of linear models; the optimism identity behind Akaike's criterion, the overfitting of
+   the Akaike selector and the consistency of the Schwarz (BIC) selector in nested models.
+5. **Sparse minimax rates.** The risk of soft thresholding at a general threshold; the minimax
+   rate `σ² s log(p/s)` in the Gaussian sequence model with the matching soft-threshold
+   estimator and the universal threshold; and the minimax rate of sparse regression.
+6. **Multiple testing.** False discovery proportion and rate, valid p-values, step-up
+   procedures, positive regression dependence; false discovery rate control by
+   Benjamini–Hochberg under independence and under positive regression dependence, exactness
+   under independent uniform nulls, and the Benjamini–Yekutieli procedure under arbitrary
+   dependence.
+7. **Low-rank and structured matrices.** Nuclear-norm penalized trace regression; hard
+   thresholding of a sample covariance; neighbourhood selection and the graphical lasso for
+   Gaussian graphical models.
+8. **Principal components.** Perturbation of the leading eigenvector; the leading sample
+   eigenvector in the spiked sub-Gaussian ensemble; and the high-dimensional limits of sample
+   eigenvalues and eigenvectors in the form statistics uses them: the translation to the
+   conventions of RandomMatrices, the centring and scaling of the largest eigenvalue, and the
+   inconsistency of the leading sample eigenvector in the spiked model.
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- the vocabulary of
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md): the
+  number of nonzero coordinates as `hammingNorm`, the restricted `ℓ¹` norm, the best `s`-sparse
+  `ℓ¹` error and the restricted isometry property (9.3); the Benjamini–Hochberg count (9.3);
+  the algebra of convergence in probability (8.3) and Slutsky's lemma (8.4);
+- from MathematicalStatisticsNonparametric: the Kullback–Leibler divergence between isotropic
+  Gaussian laws (1.3) and the minimax lower-bound toolkit of its Layer 2, Le Cam's two-point
+  method (2.2), Fano's method (2.4) and Assouad's lemma (2.5) with their minimax forms (2.6).
+  Layer 5 applies them to Gaussian location families; the sparse packing it needs (1.5) is not
+  the Varshamov–Gilbert packing of the full hypercube owned there (2.3);
+- the soft-threshold map, its one-coordinate risk and the two one-coordinate risk bounds, and
+  the oracle inequality at the universal threshold, which belong to
+  MathematicalStatisticsNonparametric (6.4). 5.1 owns the risk bounds at a general threshold;
+- random matrix theory, from [RandomMatrices](../RandomMatrices/README.md): the sub-exponential
+  definition and Bernstein's inequality for sub-exponential sums (§2.1), norms and singular
+  values of matrices with independent sub-Gaussian entries or rows (§2.4), the sample covariance
+  (§4.1), the Marchenko–Pastur law (§4.4), the Bai–Yin limit of the largest eigenvalue (§4.5),
+  and the spiked sample covariance limits (§7.3);
+- the residual Davis–Kahan `sin Θ` theorem, owned by
+  [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md)
+  (SSP-C17) and proved in Tau Ceti; 8.1 applies it to the leading eigenvector.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Probability:** `HasSubgaussianMGF` with `HasSubgaussianMGF.measure_ge_le`,
+  `HasSubgaussianMGF.const_mul` and `HasSubgaussianMGF.sum_of_iIndepFun`
+  (`Mathlib/Probability/Moments/SubGaussian.lean`), `gaussianReal` and `mgf_id_gaussianReal`,
+  for 1.1; `mgf`; `stdGaussian` and `multivariateGaussian`; `iIndepFun`, `IndepFun`, `HasLaw`;
+  `condDistrib`, for 3.8 and 6.1; `cdf` and `TendstoInMeasure`, for 3.8.
+- **Decision theory and divergences:** `minimaxRisk`, `Kernel.deterministic`, `Kernel.map` and
+  `Kernel.comap`, for Layer 5; `klDiv` (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`)
+  and `tvDist`, for 5.2 and 5.3.
+- **Sparsity:** `hammingNorm`, `hammingDist` (`Mathlib/InformationTheory/Hamming.lean`).
+- **Linear algebra:** `Matrix.toEuclideanLin`, the `Matrix.Norms.L2Operator` scope with
+  `Matrix.l2_opNorm_def` and `Matrix.l2_opNorm_mulVec`, `Matrix.IsHermitian.eigenvalues₀`,
+  `LinearMap.singularValues` (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`),
+  `Matrix.PosDef`, `Matrix.PosSemidef`, `Submodule.starProjection`, `Matrix.det`.
+- **Optimization:** `IsMinOn`, `ConvexOn`, `StrictConvexOn`.
+
+### From Tau Ceti
+
+- **Gaussian laws**, for 1.2 and Layer 4: `TauCeti.Probability.chiSquaredMeasure` with its
+  moment generating function `TauCeti.Probability.mgf_id_chiSquaredMeasure`
+  (`TauCeti/Probability/Distributions/ChiSquared/Basic.lean`);
+  `ProbabilityTheory.HasLaw.norm_sq_orthogonalProjectionOnto_stdGaussian` and
+  `ProbabilityTheory.HasLaw.iIndepFun_norm_sq_orthogonalProjectionOnto_stdGaussian`
+  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`).
+- **Gaussian conditioning**, for 7.3: `EuclideanSpace.gaussianCondMean`,
+  `TauCeti.Probability.condDistrib_multivariateGaussian` and
+  `ProbabilityTheory.HasLaw.indepFun_gaussianResidual`
+  (`TauCeti/Probability/Distributions/Gaussian/Conditional/Basic.lean`).
+- **Information theory**, for 5.2 and 5.3: Pinsker's inequality
+  `TauCeti.etvDist_sq_le_two_mul_klDiv` (`TauCeti/InformationTheory/KullbackLeibler/Pinsker.lean`).
+- **Matrices and operators:** `TauCeti.sampleSecondMoment` with
+  `TauCeti.isHermitian_sampleSecondMoment` (`TauCeti/Analysis/Matrix/SampleSecondMoment.lean`),
+  for 1.3 and 8.3; Weyl's inequality `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`
+  (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), for 8.1; the residual `sin Θ`
+  theorem `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`
+  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/SinTheta/Basic.lean`) in the
+  operator norm `TauCeti.UnitarilyInvariantSeminorm.opNorm`, for 8.1; the nuclear seminorm
+  `TauCeti.UnitarilyInvariantSeminorm.nuclear` with
+  `TauCeti.UnitarilyInvariantSeminorm.nuclear_apply` and
+  `TauCeti.UnitarilyInvariantSeminorm.nuclear_apply_le_sqrt_finrank_range_mul_frobenius_apply`
+  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/`), for 1.4 and 7.1.
+- **Convex analysis and nets:** `TauCeti.subdifferential` with
+  `TauCeti.mem_subdifferential_coe_iff_isMinOn_sub`
+  (`TauCeti/Analysis/Convex/Subdifferential.lean`), for 3.1; the net bounds
+  `TauCeti.exists_finset_isCover_of_subset_closedBall`, for 1.5, and
+  `TauCeti.exists_finset_isCover_sphere`, `(1 + 2/η)^d` points, for 8.2
+  (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`).
+- **Spectral laws**, for 8.3: the Marchenko–Pastur law `TauCeti.Probability.marchenkoPastur`
+  (`TauCeti/Probability/Distributions/MarchenkoPastur/Basic.lean`).
+
+### From MathematicalStatisticsFoundations
+
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
+- 9.3: `hammingNorm (WithLp.ofLp x)` as the sparsity of `x`, for Layers 2 and 5; the restricted
+  `ℓ¹` norm `∑_{j ∈ S} |xⱼ|`, for Layers 2 and 3; the best `s`-sparse `ℓ¹` error `σₛ(x)₁` with
+  its attainment on a set of `s` largest coordinates, for 2.2 and 2.3; the restricted isometry
+  property of order `s` and constant `δ` with its passage to smaller orders and larger
+  constants, for Layer 2 and 3.4–3.5; the Benjamini–Hochberg count with its rejection set, for
+  6.1.
+- 8.3: the algebra of convergence in probability, including `O_P(1) · o_P(1) = o_P(1)`, for 3.8.
+- 8.4: Slutsky's lemma without separability, for 3.8.
+
+`Suggested.lean` carries local copies of the restricted `ℓ¹` norm (`restrictedL1Norm`), the best
+`s`-sparse `ℓ¹` error (`bestSparseL1Error`), and the restricted isometry property (`HasRIP`), each
+with a docstring naming 9.3.
+
+### From MathematicalStatisticsNonparametric
+
+MathematicalStatisticsNonparametric supplies exactly the following, all from its Layers 1 and 2
+and its section 6.4, and nothing else is used:
+- 1.3: for `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`, the divergence
+  `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1))` is
+  `ENNReal.ofReal (‖a - b‖²/(2v))`, for 1.5, 5.2 and 5.3.
+- 2.2 and 2.6: Le Cam's two-point method in its minimax form. For a kernel `P : Kernel Θ X`,
+  `g : Θ → Y`, the loss `ofReal (d(a, g θ)²)`, `s ≥ 0` and `θ₀, θ₁` with
+  `d(g θ₀, g θ₁) ≥ 2s`, the minimax risk is at least `ofReal (s²(1 - tvDist(P θ₀, P θ₁)/2)/2)`;
+  Mathlib's `tvDist` takes values in `[0, 2]`. For 5.2.
+- 2.4 and 2.6: Fano's method in its minimax form. For `M ≥ 2` parameters `θⱼ` with
+  `d(g θᵢ, g θⱼ) ≥ 2s` for `i ≠ j`, `s ≥ 0`, and a probability measure `Q` with
+  `klDiv (P θⱼ) Q ≠ ∞` for every `j`, the minimax risk is at least `ofReal` of
+  `s²(1 - (M⁻¹ ∑ⱼ (klDiv (P θⱼ) Q).toReal + log 2)/log M)`. For 5.2.
+- 2.5 and 2.6: Assouad's lemma in its metric form. For `θ : (Fin m → Bool) → Θ` and `c > 0` with
+  `d(g(θ ω), g(θ ω'))² ≥ c · hammingDist ω ω'`, the minimax risk is at least
+  `ofReal ((c/8) m min (1 - tvDist(P(θ ω), P(θ ω'))/2))`, the minimum over neighbours
+  (`hammingDist ω ω' = 1`). For 5.3.
+- 6.4: the soft-threshold map `η_λ(y) = sign(y)(|y| - λ)₊`, its one-coordinate risk
+  `r(λ, θ) = E(η_λ(θ + Z) - θ)²` for `Z ~ N(0, 1)`, and, for `λ ≥ 0`, the bounds
+  `r(λ, 0) ≤ e^{-λ²/2}` and `r(λ, θ) ≤ r(λ, 0) + min(θ², 1 + λ²)`, for 3.6 and 5.1.
+
+`Suggested.lean` carries local copies of the soft-threshold map and its one-coordinate risk, each
+with a docstring naming 6.4.
+
+### From RandomMatrices
+
+[RandomMatrices](../RandomMatrices/README.md) supplies:
+- §2.1: the definition of a sub-exponential variable with parameter `K > 0`
+  (`exp(t(X - EX))` integrable and `E exp(t(X - EX)) ≤ exp(K²t²)` for `|t| ≤ 1/K`), of which
+  `Suggested.lean` carries a local copy, and Bernstein's inequality for independent sums of
+  such variables (V Theorem 2.8.1), for 1.3 and 8.2.
+- §2.4: for a `p × n` matrix with independent centred entries, each sub-Gaussian with proxy at
+  most `K²`, `P(‖X‖ > CK(√p + √n + t)) ≤ 2exp(-ct²)` for `t ≥ 0` (V Theorem 4.4.5), for 7.1;
+  for a matrix with `N` independent centred isotropic rows in `ℝ^d` whose linear forms in
+  direction `u` have proxy at most `K²‖u‖²`,
+  `√N - CK²(√d + t) ≤ s_min ≤ s_max ≤ √N + CK²(√d + t)` with probability at least
+  `1 - 2exp(-ct²)` (V Theorem 4.6.1), for 1.3, 2.4 and 7.3.
+- §4.1: the sample covariance `XX*/n` of a `p × n` matrix `X` as Tau Ceti's sample second moment
+  of the columns of `X`, for 8.3.
+- §4.4: the almost-sure Marchenko–Pastur law for the `p(n) × n` corners of an infinite real
+  i.i.d. array with mean `0` and variance `1`, `p(n) ≥ 1` and `p(n)/n → y ∈ (0, ∞)`, for 8.3.
+- §4.5: under the hypotheses of §4.4 and a finite fourth moment,
+  `λ_max(XX*/n) → (1 + √y)²` almost surely, for 8.3.
+- §7.3: for the Gaussian sample covariance with `0 < y < 1` and `T_p = diag(ℓ, 1, …, 1)`,
+  `ℓ > 1`, the threshold `1 + √y`; above it the outlier limit `ℓ(1 + y/(ℓ - 1))` and the squared
+  overlap limit `(1 - y/(ℓ - 1)²)/(1 + y/(ℓ - 1))`; at and below it the limits `(1 + √y)²` and
+  `0`. For 8.3.
 
 ## References
 

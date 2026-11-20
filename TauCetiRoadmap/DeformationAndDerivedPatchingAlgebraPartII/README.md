@@ -1,126 +1,77 @@
 # Roadmap: commutative algebra for deformation theory and patching, Part II — Kawasaki's Cohen–Macaulay blowing-ups
 
-**Summary.** This roadmap builds Kawasaki's
-Cohen–Macaulay blowing-ups of finite modules over Noetherian local rings. Given a finite module
-`M` over a Noetherian local ring `(R, 𝔪)` and an ordered sequence
-`r₁, …, rₜ ∈ 𝔪` that is *CM-secant* for `M`, the end theorem says that the blowing-up of `M` along
-the product of successive prefix ideals
+**Summary.** Blowing up a Cohen–Macaulay local ring at its maximal ideal can produce a scheme
+that is not Cohen–Macaulay. Kawasaki's theorem gives centres that do the opposite: blowing up a
+finite module along a suitable product of ideals makes it Cohen–Macaulay, even when the module is
+not. This roadmap builds these Cohen–Macaulay blowing-ups of finite modules over Noetherian local
+rings, following §3 of Česnavičius's *Macaulayfication of Noetherian schemes*, where the theorem
+is an input to Macaulayfication. Rings are commutative with `1`. A finite module over a Noetherian
+local ring is Cohen–Macaulay when it is zero or its depth equals the dimension of its support, and
+a coherent sheaf is Cohen–Macaulay when every stalk at a point of its support is.
 
-```text
-I = ∏_{i=1}^{t} (r₁, …, rᵢ) = (r₁)·(r₁, r₂)·⋯·(r₁, …, rₜ)
-```
+Let `(R, 𝔪)` be a Noetherian local ring and `M` a finite `R`-module. A sequence `r₁, …, rₜ` of
+elements of `𝔪` is *secant* for `M` when dividing by each successive element strictly lowers the
+dimension of the support. It is *CM-secant* when, in addition, the final quotient
+`M/(r₁, …, rₜ)M` is Cohen–Macaulay and each `rᵢ` lies in the product of the annihilators of the
+local cohomology modules `H^j_𝔪` of the preceding quotient, over the degrees `j` below that
+quotient's dimension. Geometrically, this forces `rᵢ` to vanish to a sufficiently large order
+wherever the preceding quotient fails to be Cohen–Macaulay.
 
-is a Cohen–Macaulay module on the blow-up scheme `Bl_I(Spec R)`. Kawasaki's theorem for module
-blowing-ups is an input to Česnavičius's Macaulayfication of Noetherian schemes, and its proof is a
-self-contained piece of commutative algebra: an annihilator calculus for local cohomology, Huneke's
-d-sequences, Kawasaki's three conditions on prefix-product ideals, the graded Rees module and its
-sheaf on the blow-up, and a depth induction through two-generator blow-up charts.
+The main theorem is Kawasaki's. If `r₁, …, rₜ` is CM-secant for `M`, then the blowing-up of `M`
+along the product of the successive prefix ideals `I = (r₁)·(r₁, r₂)·⋯·(r₁, …, rₜ)` is a
+Cohen–Macaulay module on the blow-up scheme `Bl_I(Spec R)`. Here `Bl_I(M)` is the sheaf of the
+graded Rees module `⊕ IⁿM`; it is the strict transform of the sheaf of `M`, the pullback with its
+sections supported on the exceptional divisor removed. For example, `R = M = k⟦x, y⟧/(x², xy)`,
+a line with an embedded point, is not Cohen–Macaulay. Yet `[y]` is CM-secant, and blowing up
+`(y)` removes the embedded point and leaves the Cohen–Macaulay module `k⟦y⟧`.
 
-Layer K0 defines the local-cohomology annihilator product `a_J(M, d)`, secant and
-CM-secant sequences, and relates them: Schenzel's torsion bound, extension of a CM-secant sequence
-to a system of parameters, the reversal comparison with Kawasaki's `p`-standard systems, and — over
-a ring with a normalized dualizing complex — the description of the zero locus of `a(M)` as the
-non-Cohen–Macaulay locus (equidimensional support) or the depth-defect set (arbitrary support).
-Layer K1 defines d-sequences on arbitrary modules over arbitrary commutative rings and proves the
-torsion characterization and the two Goto–Yamagishi intersection identities. Layer K2 defines the
-prefix products `I_s`, packages Kawasaki's three conditions, proves that every initial segment of
-a CM-secant sequence satisfies them (Kawasaki's proposition) and that they survive division by
-auxiliary secant sequences. Layer K3 builds the graded Rees module `⊕ IⁿM`, the chart modules
-`M_(a) ⊆ M[1/a]`, the module blowing-up `Bl_I(M)` as a sheaf on `Proj ⊕ Iⁿ` and its comparison with
-the strict transform, and proves the dimension bound `dim Supp Bl_I(M) ≤ dim Supp M`. Layer K4 runs
-Kawasaki's induction: the regular-element reduction, the principal and two-generator charts, the
-two local-cohomology claims, the depth bound at closed points, and the Cohen–Macaulay theorem in
-its CM-secant form and in a weaker form; it ends with a Cohen–Macaulay local ring whose blowing-up
-at the maximal ideal is not Cohen–Macaulay, which shows why the centre must be chosen this way.
-The Cohen–Macaulay theorems cover finite modules, not only rings; the strict-transform and
-product-of-ideals comparisons allow arbitrary modules and ideals over any commutative ring.
-Zero modules, empty sequences and unit ideals are treated explicitly.
+Kawasaki's proposition says that every initial segment of a CM-secant sequence satisfies three
+conditions, which survive division by auxiliary secant sequences: a reversed d-sequence
+condition, a torsion condition and a regularity condition. The theorem is in fact proved for
+every secant sequence whose initial segments satisfy them and whose final quotient is
+Cohen–Macaulay. Its core is a depth bound with no hypothesis on the final quotient: if
+`r₁, …, rₛ` is secant and its initial segments satisfy Kawasaki's conditions, the blowing-up of
+`M` along `(r₁)·⋯·(r₁, …, rₛ)` has depth at least `s` at every closed point over `𝔪`.
 
-The main source is Česnavičius, *Macaulayfication of Noetherian schemes*, §3, cited in the
-numbering of arXiv:1810.04493v2 (pages are the printed pages of that version). The `p`-standard
-comparison uses Kawasaki's 1996 RIMS note, the counterexample uses Heinzer–Johnston–Lantz–Shah, and
-generic facts are cited from the Stacks Project by tag.
+Schenzel's torsion bound says that if a nonempty sequence `r₁, …, rₛ` is secant for `M`, of
+support dimension `d`, then the product of the annihilators of `H^j_𝔪(M)` for `j < d` kills every
+element of `M/(r₁, …, r_{s-1})M` killed by a positive power of `rₛ`. It needs no Cohen–Macaulay
+or dualizing-complex hypothesis, and shows that every secant sequence of a Cohen–Macaulay module
+is regular.
 
-## Scope and ownership
+Huckaba's example shows that the centre matters. For any field `k`, the localization `A` of
+`k[x³, x⁵y³, x¹⁵y², y⁷]` at the maximal ideal generated by these monomials is a two-dimensional
+Noetherian Cohen–Macaulay local domain. Yet the blowing-up of its maximal ideal has a local ring
+that is not Cohen–Macaulay. By contrast, `x³, y⁷` is CM-secant for `A`, so by Kawasaki's theorem
+the blowing-up along `(x³)·(x³, y⁷)`, the same as along `(x³, y⁷)`, is Cohen–Macaulay.
 
-The base roadmap, DeformationAndDerivedPatchingAlgebra, is a consumer of this one, not a
-supplier: it uses the local-cohomology calculus of K0.1 and K0.4–K0.7 and the Rees module
-`Rees_I(M)` of K3.1. Macaulayfication itself (Česnavičius §§4–5) is planned in neither roadmap.
+The roadmap builds on Tau Ceti's Cohen–Macaulay modules and its affine blow-up algebras `R[I/a]`,
+the rings of the charts of the blow-up scheme. SchemeAndStackFoundations provides depth through
+local cohomology, and AdicSpacesPartIII the sheaf of a graded module on `Proj`. The base roadmap,
+[DeformationAndDerivedPatchingAlgebra](../DeformationAndDerivedPatchingAlgebra/README.md), uses
+the local-cohomology calculus and the Rees module built here. Macaulayfication itself is planned
+in neither roadmap.
 
-This roadmap owns:
+The first of five layers studies CM-secant sequences and proves Schenzel's bound. The second
+treats Huneke's d-sequences, a weakening of regular sequences, over any commutative ring. The
+third proves Kawasaki's proposition. The fourth builds the blowing-up of a module and bounds the
+dimension of its support by `dim Supp M`. The fifth runs Kawasaki's depth induction through
+two-generator charts, proves both forms of the theorem, and ends with Huckaba's example.
 
-- the annihilator product `annihilatorProduct J M d` of local cohomology modules, secant sequences
-  `IsSecant`, CM-secant sequences `IsCMSecant`, Schenzel's torsion bound for secant sequences, the
-  extension of CM-secant sequences to parameters, and the reversal comparison with `p`-standard
-  systems of parameters;
-- the composite-support spectral sequence for local cohomology of modules and its change of rings
-  (as used in the depth induction), the noncomplete extension of normalized local duality in the module form
-  `H^j_𝔪(M) ≅ Hom_R(Ext^{-j}_R(M, ω), E)`, the Matlis annihilator lemma, the local-duality
-  annihilator identity, the annihilator description of the non-Cohen–Macaulay locus and the
-  defect set of a module of arbitrary support. ArithmeticGaloisDuality D7.1 owns the complete-ring
-  local-duality comparison; K0.7 agrees with it through Matlis evaluation;
-- Huneke's d-sequences `IsDSequence`, their torsion characterization and the Goto–Yamagishi
-  identities;
-- the prefix products `prefixProduct`, Kawasaki's conditions `KawasakiConditions`, Kawasaki's
-  proposition that initial segments of CM-secant sequences satisfy them, and their robustness;
-- homogeneous module localization over an arbitrary ℕ-graded ring and, on AdicSpacesPartIII's
-  graded-module sheaf at twist zero, its standard-chart comparisons, functoriality in graded maps,
-  exactness and invariance under deleting degrees below any fixed bound (K3.3);
-- the graded Rees module `⊕ IⁿM`, the chart modules of the blowing-up of a module, the strict
-  transform of a quasi-coherent module along a blowing-up, the module blowing-up `Bl_I(M)` with its functoriality, its comparison with the strict
-  transform, the product-of-ideals identity for scheme blowing-ups and its module form, the support
-  of `Bl_I(M)`, the dimension bound for the Rees algebra, the `Proj` prime-chain bound and the
-  dimension bound for `Supp Bl_I(M)`;
-- Kawasaki's depth induction and the Cohen–Macaulay blowing-up theorem, and the
-  Heinzer–Johnston–Lantz–Shah example.
+## How to read the build
 
-It leaves to other roadmaps, and imports:
-
-- **Mathlib**: local cohomology `localCohomology J j` (defined as a colimit of `Ext(R/Jⁿ, -)`),
-  annihilators, support and support dimension of modules, depth `IsLocalRing.depth`, regular and
-  weakly regular sequences, the polynomial module and the Rees algebra, localizations of rings and
-  modules, `Proj` of a graded ring, sheaves of modules on schemes and the affine `tilde`
-  construction, ideal sheaves and their pullbacks, Krull dimension and the flat height formula
-  `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, with going-down supplied by
-  `Algebra.HasGoingDown.of_flat`.
-- **Tau Ceti**: Cohen–Macaulay modules `Module.IsCohenMacaulay`, parameter regularity
-  `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`, injectivity of ideal-power
-  torsion `Ideal.injective_primaryComponent`, the grading
-  `reesAlgebra.grade I` of the Rees algebra, the affine blow-up algebra `Ideal.affineBlowup I a S`
-  with its membership criterion and universal property, and the chart open immersions
-  `TauCeti.AlgebraicGeometry.affineBlowupι` into `Proj (reesAlgebra.grade I)` with their covering
-  and base compatibility; the blow-up of an arbitrary quasi-coherent ideal on an arbitrary scheme,
-  its charts over affine opens of the base and its exceptional Cartier divisor, and the sections of
-  a pulled-back ideal on affine opens. Over an affine base the blow-up is
-  `Proj (reesAlgebra.grade I)`.
-- **TauCetiRoadmap StableReduction, Layer 4**: the blowing-up of a quasi-coherent ideal as a
-  relative `Proj`, its universal property, properness, behaviour away from the centre, the
-  exceptional divisor, strict transforms of closed subschemes and the affine chart description.
-- **SchemeAndStackFoundations**: the API of depth and Cohen–Macaulay modules, Cohen–Macaulay
-  coherent sheaves `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay` (§0.17, depth and
-  Cohen–Macaulay modules; §0.18, scheme-theoretic support and Cohen–Macaulay schemes), and catenary
-  rings `Excellence.IsCatenary` (§0.16); cohomology with supports, the comparison of sheaf and
-  module local cohomology, flat base change, and the characterization of depth as the first
-  nonvanishing local-cohomology degree (§2.7); dualizing complexes `DualizingComplex` and their
-  normalization
-  `NormalizedDualizing` over Noetherian (local) rings (§2.21); strict transforms of modules along
-  modifications with a chosen dense open (§4.11). K3.4 extends the last construction to arbitrary
-  blow-ups without a density or integrality hypothesis.
-
-Not here: Macaulayfication itself (Česnavičius §§4–5); the CM-quasi-excellence conditions
-(SchemeAndStackFoundations §0.19); the general theory of blowing-ups and strict transforms of
-schemes; dualizing complexes on schemes; the foundations of local cohomology; the sheaf of a
-graded module on `Proj`, which is AdicSpacesPartIII §F0.9's `AlgebraicGeometry.gradedTwist G ℳ n`
-(ℕ-graded ring, ℤ-graded module, `M(n)_d = M_{d+n}`), used here at `n = 0`. The graded-module
-sheafification on projective space over a field, with its restriction and localization charts,
-exactness, twist and quotient comparisons, eventual-sections comparison, graded Hilbert syzygy
-and Hilbert/`K₀` comparisons, is
-[GroebnerGeometry, G4](../GroebnerGeometry/README.md#g4-rees-algebras-and-flat-initial-families);
-K3.3 states chart, exactness and tail statements over an arbitrary ℕ-graded ring (the Rees algebra
-is not a polynomial ring) and does not restate G4's polynomial-ring statements.
-K3.4's strict transform along a blowing-up extends SchemeAndStackFoundations §4.11's `strictTransformModule`
-to blow-ups without a dense witness and agrees with it on modifications; no other second carrier
-is introduced.
+Layers K0 and K1 share only the prefix-quotient notation of K0.3. K0 is about one module and one
+sequence: it defines
+the annihilator product and CM-secant sequences and relates the product to duality and to the
+non-Cohen–Macaulay locus; its duality targets (K0.7) are not used later and can be built last. K1
+is pure module theory over an arbitrary ring. K2 combines them into Kawasaki's conditions on
+prefix-product ideals. K3 first builds the homogeneous module localization of K3.3 and its chart
+comparison for the supplied graded-module sheaf, then K3.2's homogeneous-localization comparison
+and the rest of K3.3. It constructs the blowing-up of a module on
+charts `R[I/a]` and `M_(a)` glued along the supplied Tau Ceti charts, and bounds the dimension of its
+support. K4 proves the Cohen–Macaulay theorem: a regular-element reduction to a zero-dimensional
+terminal quotient, then an induction on the length of the sequence through two-generator charts,
+in which K2's conditions control the local cohomology of each chart.
 
 ## Conventions
 
@@ -164,204 +115,6 @@ is introduced.
   at every prime of every chart `R[I/a]`, `a ∈ I`). The chartwise condition agrees with
   `Scheme.Modules.IsCohenMacaulay` of `Bl_I(M)` because the charts of all `a ∈ I` cover the blow-up
   and the condition is local (Layer K3.3).
-
-## Exact supplier contracts
-
-### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
-
-- Local cohomology: `localCohomology (J : Ideal R) (i : ℕ) : ModuleCat R ⥤ ModuleCat R`, and
-  `localCohomology.isoOfSameRadical` (ideals with the same radical give isomorphic functors over a
-  Noetherian ring). Nothing else of the local-cohomology calculus is assumed from Mathlib.
-- Modules: `Module.annihilator`, `Module.support`, `Module.supportDim` with
-  `Module.supportDim_eq_bot_iff_subsingleton`,
-  `Module.supportDim_eq_ringKrullDim_quotient_annihilator` (finite modules),
-  `Module.supportDim_le_supportDim_quotSMulTop_succ` and
-  `Module.supportDim_quotSMulTop_succ_eq_supportDim`: for a finite module over a Noetherian local
-  ring and `x ∈ 𝔪`, the support dimension drops by at most one, and by exactly one if `x` is
-  regular on the module. These are in `Mathlib.RingTheory.KrullDimension.Regular`.
-  `Ideal.ofList`; `RingTheory.Sequence.IsWeaklyRegular` and
-  `RingTheory.Sequence.IsRegular`; `IsSMulRegular`; `Submodule.mkQ`, `Submodule.mapQ`,
-  `Submodule.comap`, `Submodule.smul_mem_smul`, `Submodule.mul_smul`.
-- Polynomial modules and Rees algebras: `PolynomialModule R M` with `PolynomialModule.single`,
-  `PolynomialModule.smul_apply`, `PolynomialModule.coeff_inj`, `PolynomialModule.map`,
-  `PolynomialModule.map_smul`; `reesAlgebra I : Subalgebra R R[X]` with `mem_reesAlgebra_iff`,
-  `reesAlgebra.fg` and its `Algebra.FiniteType` and `IsNoetherianRing` instances over a Noetherian
-  ring.
-- Localization: `Localization.Away`, `IsLocalization.Away.invSelf`, `LocalizedModule`,
-  `LocalizedModule.mkLinearMap`, `LocalizedModule.moduleOfIsLocalization`, `Localization.AtPrime`,
-  `Algebra.adjoin`.
-- Geometry: `AlgebraicGeometry.Proj`, `AlgebraicGeometry.projIsoSpec`,
-  `AlgebraicGeometry.Scheme.Modules` with `Scheme.Modules.pullback` and `Scheme.Modules.presheaf`,
-  `AlgebraicGeometry.tilde` and `tilde.map`, `PrimeSpectrum.zeroLocus`;
-  `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms` in `Mathlib.AlgebraicGeometry.Gluing`;
-  `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop` in `Mathlib.AlgebraicGeometry.IdealSheaf.Basic`
-  (the ideal sheaf of an ideal of global sections) and
-  `AlgebraicGeometry.Scheme.IdealSheafData.comap` in `Mathlib.AlgebraicGeometry.IdealSheaf.Functorial`
-  (the pullback of an ideal sheaf along a morphism).
-- Dimension: `ringKrullDim`, `topologicalKrullDim`, `Polynomial.ringKrullDim_of_isNoetherianRing`.
-  `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown` in
-  `Mathlib.RingTheory.Ideal.KrullsHeightTheorem` gives, for Noetherian rings `A, B`, an
-  `A`-algebra `B` satisfying going-down and primes `q` over `p`,
-  `ht(q) = ht(p) + ht(q/pB)` (Stacks 00ON). `Algebra.HasGoingDown.of_flat` in
-  `Mathlib.RingTheory.Ideal.GoingDown` supplies going-down when `B` is flat over `A`.
-  K3.6 applies these to localized polynomial extensions.
-- Depth: `IsLocalRing.depth` in `Mathlib.RingTheory.Depth.Basic`, the least `n` with
-  `Ext^n(κ, M) ≠ 0`, equal to `⊤` on the zero module (`IsLocalRing.depth_eq_top_of_subsingleton`).
-- Injectivity: `CategoryTheory.Injective` in `ModuleCat R`.
-
-### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
-
-The chart rings, the Rees grading, the chart immersions and the Cohen–Macaulay predicate are
-supplied by the following individual modules; the scheme `Proj (reesAlgebra.grade I)` is an
-existing carrier.
-
-- `TauCeti.RingTheory.CohenMacaulay.Basic`: `Module.IsCohenMacaulay R M` for a module `M` over a
-  local ring `R`: `M` is zero or its depth equals its support dimension;
-- `TauCeti.RingTheory.CohenMacaulay.RegularSequence`:
-  `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt` makes `x` regular on
-  a finite Cohen–Macaulay module `M` over a Noetherian local ring whenever
-  `dim Supp(M/xM) < dim Supp M`. K0.5–K0.6 and K4 use this on successive secant quotients;
-- `TauCeti.Algebra.Module.Injective.Noetherian`: `Ideal.injective_primaryComponent` gives
-  injectivity of `I.primaryComponent E = Γ_I(E)` for every ideal `I` in a Noetherian ring
-  and every injective module `E`. Consequently `H^p_J(Γ_I(E)) = 0` for every ideal `J`
-  and `p > 0`; K0.1 uses this acyclicity in the composite-support spectral sequence;
-- `TauCeti.RingTheory.ReesAlgebra.Grading`: `reesAlgebra.grade I` (the degree-`n` piece `Iⁿ tⁿ`),
-  `reesAlgebra.gradedMonoid`,
-  `reesAlgebra.isInternal_grade`, `reesAlgebra.gradeZeroEquiv`, `reesAlgebra.monomialDegreeOne`
-  (the element `a t`, `a ∈ I`);
-- `TauCeti.RingTheory.Ideal.AffineBlowup`: `Ideal.affineBlowup I a S` (the subalgebra `R[I/a]`
-  of a localization `S` of `R` away from `a`),
-  `Ideal.mem_affineBlowup_iff` (for `a ∈ I`, `z ∈ R[I/a]` iff there exist `k ∈ ℕ` and `y ∈ Iᵏ`
-  with `algebraMap R S a ^ k * z = algebraMap R S y`),
-  `Ideal.map_algebraMap_affineBlowup` (for `a ∈ I` the extension of `I` to `R[I/a]` is `(a)`), the
-  regularity of `a` in `R[I/a]` (`Ideal.isRegular_algebraMap_affineBlowup`), and the universal
-  property `Ideal.affineBlowupLift`, whose inputs are `IB ⊆ aB` and injectivity of multiplication
-  by `a` on the target algebra `B`;
-- `TauCeti.RingTheory.ReesAlgebra.AffineBlowup`: `reesAlgebra.awayEquivAffineBlowup` (for `a ∈ I`,
-  the homogeneous localization `R[It]_(a t) ≅ R[I/a]`);
-- `TauCeti.AlgebraicGeometry.Blowup.AffineCharts`: `TauCeti.AlgebraicGeometry.affineBlowupι` (for
-  `a ∈ I`, the open immersion `Spec R[I/a] → Proj (grade I)` onto
-  `D₊(a t)`), `opensRange_affineBlowupι`, `iSup_opensRange_affineBlowupι` (the charts of a family
-  generating `I` cover the blow-up) and `affineBlowupι_toSpecZero` (compatibility with the map to
-  `Spec R`);
-- `TauCeti.AlgebraicGeometry.Blowup.IdealSheaf`: `AlgebraicGeometry.Scheme.IdealSheafData.blowup`
-  and `AlgebraicGeometry.Scheme.IdealSheafData.blowupToBase` for an arbitrary quasi-coherent ideal
-  on an arbitrary scheme, and, for each affine open `U` of the base,
-  `AlgebraicGeometry.Scheme.IdealSheafData.blowupChart`, the open immersion of
-  `Proj (reesAlgebra.grade I(U))` whose square `AlgebraicGeometry.Scheme.IdealSheafData.isPullback_blowupChart`
-  identifies it with the part of the blow-up over `U`.
-  `TauCeti.AlgebraicGeometry.IdealSheaf.Affine` supplies
-  `AlgebraicGeometry.Scheme.IdealSheafData.ideal_comap_ofIdealTop_map_ΓSpecIso_inv`: for a
-  morphism `X → Spec R` and an ideal `J` of `R`, the pulled-back ideal sheaf `J𝒪_X` has sections
-  `J·Γ(X, U)` on every affine open `U` of `X`.
-  `TauCeti.AlgebraicGeometry.Blowup.ExceptionalDivisor` supplies
-  `AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase` without a
-  finite-type hypothesis. K3.4 uses this exceptional divisor; K3.5 uses the blow-up of the
-  non-affine scheme `Bl_I(Spec R)` along `J𝒪` and its charts.
-
-`Suggested.lean` imports `TauCeti.RingTheory.CohenMacaulay.Basic` and
-`TauCeti.RingTheory.Ideal.AffineBlowup`, and uses `ChartRing I a` as a type synonym for the
-carrier of `Ideal.affineBlowup I a (Localization.Away a)`.
-The restricted action `ChartRing.moduleLocalizedModule` on `M[1/a]` is induced by the
-inclusion of this algebra in `R[1/a]`. The grading and geometric chart modules above supply the
-README constructions; their carriers are not copied into `Suggested.lean`.
-
-### From TauCetiRoadmap roadmaps
-
-- **StableReduction, Layer 4** (blowups and intersection theory on arithmetic surfaces): the
-  blowing-up `b : Bl_𝓘(X) → X` of a quasi-coherent ideal of finite type as a relative `Proj` of the
-  Rees algebra; its universal property (the pullback of `𝓘` is invertible, and `b` is final with
-  this property); properness; `b` is an isomorphism over `X ∖ V(𝓘)`; the exceptional divisor;
-  strict transforms of closed subschemes; and the affine chart description over `Spec A`. Used in
-  K3.3, K3.6 and K4.
-
-### From other roadmaps
-
-These contracts consume the named roadmap targets, with the stated hypotheses; their definitions
-are not imported as Lean carriers.
-
-- **SchemeAndStackFoundations, §0.16**: `Excellence.IsCatenary` and its localization and quotient
-  API. Used in K0.7's dimension formula.
-- **SchemeAndStackFoundations, §0.17** (depth, Cohen–Macaulay modules and Serre's conditions):
-  the API of Mathlib's `IsLocalRing.depth` and Tau Ceti's `Module.IsCohenMacaulay`, by its Tau Ceti
-  names: `IsLocalRing.depth_le_supportDim` for nonzero finite modules over Noetherian local rings,
-  the localization theorem `Module.IsCohenMacaulay.localizedModule` and the regular-element
-  quotient criterion `Module.isCohenMacaulay_quotSMulTop_iff`. **§0.18** supplies
-  `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay`, checked on the stalks in the support or on
-  affine opens. Used in K0, K3.3 and K4.
-- **SchemeAndStackFoundations, §2.7** (cohomology with supports and local cohomology):
-  `localCohomology_colimit_ext_comparison` identifies Mathlib's native Ext-colimit functor with
-  derived ideal-power torsion over a Noetherian ring; `localCohomology_module_comparison`
-  identifies it with `RΓ_{V(J)}` on an affine scheme. K0.1's Čech computation supplies
-  the comparison with the extended Čech complex. `localCohomology_flat_baseChange` is consumed
-  for flat maps of Noetherian rings and arbitrary modules. `depth_localCohomology_vanishing` and
-  `depth_localCohomology_nonvanishing` characterize depth for finite modules, with nonvanishing
-  only when the depth is a natural number (Stacks, Lemma 47.11.1). Used throughout K0 and K4.
-- **SchemeAndStackFoundations, §2.21** (dualising complexes): `DualizingComplex` over a
-  Noetherian ring (finite injective dimension, finite cohomology and quasi-isomorphic homothety,
-  Stacks, Definition 47.15.1), and `NormalizedDualizing` over a Noetherian local ring
-  (`RHom(κ, ω) ≅ κ[0]`), including localization with the normalization shift. Used in K0.7.
-- **SchemeAndStackFoundations, §4.11** (modifications and strict transforms):
-  `strictTransformModule f φ U M`, the quotient of the pullback by sections supported outside
-  the inverse image of the chosen dense open `U`; `strictTransform_eq_blowup` identifies the
-  removed subsheaf with exceptional-ideal-power torsion when `φ` is a blow-up and
-  `U = S ∖ V(𝓘)`. K3.4 gives the arbitrary-blow-up extension and its agreement with this
-  construction in the modification case.
-- **SchemeAndStackFoundations, §0.3**: `relativeProj_affine_iso` and
-  `relativeProj_eq_stableReduction` identify StableReduction's blow-up of `Spec R` along a
-  finitely generated ideal with `Proj (reesAlgebra.grade I)` over `Spec R`. Used in K4.2.
-- **AdicSpacesPartIII, §F0.9** (*projective-bundles-ample-serre*, the twisted graded module
-  sheaf): for an ℕ-graded commutative ring `G` and a ℤ-graded module `ℳ` with graded scalar
-  multiplication, `AlgebraicGeometry.gradedTwistSections G ℳ n U` (functions on `U` valued in the
-  homogeneous localizations at the points of `U`, locally a fraction `m/f` with
-  `deg m = deg f + n`), the module sheaf `AlgebraicGeometry.gradedTwist G ℳ n` on `Proj G`, and
-  `AlgebraicGeometry.gradedTwist_restrict`; no finiteness, Noetherian or degree-one hypothesis
-  enters the definition. The shift is `M(n)_d = M_{d+n}`, the zero module gives the zero sheaf and
-  the regular module at twist zero gives the structure sheaf. K3.3 writes `Ñ` for
-  `gradedTwist G ℳ 0` and uses it in K3.3–K3.6 and K4.
-- **AdicSpacesPartII, localization-cech-complex-exact**: the algebraic complex with terms
-  `cechLocalizationTerm`, augmentation `cechLocalizationAugmentation` and differential
-  `cechLocalizationDifferential`. Their construction allows arbitrary generating lists;
-  the unit-ideal hypothesis belongs to exactness only. Used in K0.1; K3.3 uses its exactness
-  for lists generating the unit ideal.
-- **ArithmeticGaloisDuality, D7.1**: its target *Grothendieck local duality for a complete
-  Noetherian local ring* owns Grothendieck local duality over complete Noetherian local rings for
-  bounded complexes with finite cohomology. K0.7 owns the noncomplete finite-module extension and
-  its annihilator consequences, agreeing with that target and Matlis evaluation over complete
-  rings.
-- **DerivedModuleAlgebra, §§1.M.1–1.M.2**: Matlis duality for complete rings with finite
-  residue fields and for Noetherian local rings with arbitrary residue fields, canonical
-  completion actions on power-torsion modules, biduality and the completion adjunction.
-  Used in K0.7.
-
-- **DerivedModuleAlgebra, §0.K.1**, **Koszul complex of a finite sequence**:
-  `koszulComplex φ`, its alternating-deletion differential, maps, tensor formula and homotopies.
-  K0.5 uses `φ(e_i)=z_i` on the finite free module and tensors with `M`.
-- **DGFloer, Layer 1, item 3**, **The spectral sequence of a filtered complex**:
-  the spectral sequence of a bounded-below exhaustive filtered chain complex over a ring,
-  strong convergence, the induced filtration on homology and naturality. K0.5 uses finite
-  filtrations of the bounded Čech–Koszul complex, with cohomological reindexing.
-- **SchemeAndStackFoundations, §2.18**: `derivedTensor` and `derivedHom` on module derived
-  categories. Together with §2.7's derived torsion these supply K0.7's evaluation argument.
-- **DerivedModuleAlgebra, §§1.3 and 1.5**: `DerivedDeRham.derivedCompletion` is
-  `RHom(C_I,−)` for a finite generating list of `I`; over a Noetherian ring its cohomology
-  on complexes with finite cohomology is ordinary adic completion (Stacks 0A06). Used in K0.7.
-
-
-## How to read the build
-
-Layers K0 and K1 share only the prefix-quotient notation of K0.3. K0 is about one module and one
-sequence: it defines
-the annihilator product and CM-secant sequences and relates the product to duality and to the
-non-Cohen–Macaulay locus; its duality targets (K0.7) are not used later and can be built last. K1
-is pure module theory over an arbitrary ring. K2 combines them into Kawasaki's conditions on
-prefix-product ideals. K3 first builds the homogeneous module localization of K3.3 and its chart
-comparison for the supplied graded-module sheaf, then K3.2's homogeneous-localization comparison
-and the rest of K3.3. It constructs the blowing-up of a module on
-charts `R[I/a]` and `M_(a)` glued along the supplied Tau Ceti charts, and bounds the dimension of its
-support. K4 proves the Cohen–Macaulay theorem: a regular-element reduction to a zero-dimensional
-terminal quotient, then an induction on the length of the sequence through two-generator charts,
-in which K2's conditions control the local cohomology of each chart.
 
 ## Layer K0: Annihilator products, secant and CM-secant sequences
 
@@ -981,6 +734,7 @@ SchemeAndStackFoundations §2.7 (depth), §2.21 (localization shifts); the caten
 Mathlib; SchemeAndStackFoundations §§0.16–0.18, §2.7, §2.18 and §2.21;
 AdicSpacesPartII (algebraic Čech complex); DerivedModuleAlgebra §0.K.1;
 DGFloer Layer 1, item 3; ArithmeticGaloisDuality D7.1; DerivedModuleAlgebra §§1.3, 1.5 and 1.M.1–1.M.2.
+
 
 ## Layer K1: Huneke d-sequences and the Goto–Yamagishi identities
 
@@ -2283,6 +2037,269 @@ for Rees modules. Macaulayfication is outside this roadmap's scope.
 - **The centre matters.** For `A = k[x³, x⁵y³, x¹⁵y², y⁷]` localized at its monomial maximal ideal, `A` is
   Cohen–Macaulay, `Bl_𝔪(A)` is not (K4.6), and `Bl_{(x³, y⁷)}(A)` is, by Kawasaki's theorem applied to the
   CM-secant system of parameters `x³, y⁷`.
+
+## Scope and ownership
+
+The base roadmap, DeformationAndDerivedPatchingAlgebra, is a consumer of this one, not a
+supplier: it uses the local-cohomology calculus of K0.1 and K0.4–K0.7 and the Rees module
+`Rees_I(M)` of K3.1. Macaulayfication itself (Česnavičius §§4–5) is planned in neither roadmap.
+
+This roadmap owns:
+
+- the annihilator product `annihilatorProduct J M d` of local cohomology modules, secant sequences
+  `IsSecant`, CM-secant sequences `IsCMSecant`, Schenzel's torsion bound for secant sequences, the
+  extension of CM-secant sequences to parameters, and the reversal comparison with `p`-standard
+  systems of parameters;
+- the composite-support spectral sequence for local cohomology of modules and its change of rings
+  (as used in the depth induction), the noncomplete extension of normalized local duality in the module form
+  `H^j_𝔪(M) ≅ Hom_R(Ext^{-j}_R(M, ω), E)`, the Matlis annihilator lemma, the local-duality
+  annihilator identity, the annihilator description of the non-Cohen–Macaulay locus and the
+  defect set of a module of arbitrary support. ArithmeticGaloisDuality D7.1 owns the complete-ring
+  local-duality comparison; K0.7 agrees with it through Matlis evaluation;
+- Huneke's d-sequences `IsDSequence`, their torsion characterization and the Goto–Yamagishi
+  identities;
+- the prefix products `prefixProduct`, Kawasaki's conditions `KawasakiConditions`, Kawasaki's
+  proposition that initial segments of CM-secant sequences satisfy them, and their robustness;
+- homogeneous module localization over an arbitrary ℕ-graded ring and, on AdicSpacesPartIII's
+  graded-module sheaf at twist zero, its standard-chart comparisons, functoriality in graded maps,
+  exactness and invariance under deleting degrees below any fixed bound (K3.3);
+- the graded Rees module `⊕ IⁿM`, the chart modules of the blowing-up of a module, the strict
+  transform of a quasi-coherent module along a blowing-up, the module blowing-up `Bl_I(M)` with its functoriality, its comparison with the strict
+  transform, the product-of-ideals identity for scheme blowing-ups and its module form, the support
+  of `Bl_I(M)`, the dimension bound for the Rees algebra, the `Proj` prime-chain bound and the
+  dimension bound for `Supp Bl_I(M)`;
+- Kawasaki's depth induction and the Cohen–Macaulay blowing-up theorem, and the
+  Heinzer–Johnston–Lantz–Shah example.
+
+It leaves to other roadmaps, and imports:
+
+- **Mathlib**: local cohomology `localCohomology J j` (defined as a colimit of `Ext(R/Jⁿ, -)`),
+  annihilators, support and support dimension of modules, depth `IsLocalRing.depth`, regular and
+  weakly regular sequences, the polynomial module and the Rees algebra, localizations of rings and
+  modules, `Proj` of a graded ring, sheaves of modules on schemes and the affine `tilde`
+  construction, ideal sheaves and their pullbacks, Krull dimension and the flat height formula
+  `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, with going-down supplied by
+  `Algebra.HasGoingDown.of_flat`.
+- **Tau Ceti**: Cohen–Macaulay modules `Module.IsCohenMacaulay`, parameter regularity
+  `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`, injectivity of ideal-power
+  torsion `Ideal.injective_primaryComponent`, the grading
+  `reesAlgebra.grade I` of the Rees algebra, the affine blow-up algebra `Ideal.affineBlowup I a S`
+  with its membership criterion and universal property, and the chart open immersions
+  `TauCeti.AlgebraicGeometry.affineBlowupι` into `Proj (reesAlgebra.grade I)` with their covering
+  and base compatibility; the blow-up of an arbitrary quasi-coherent ideal on an arbitrary scheme,
+  its charts over affine opens of the base and its exceptional Cartier divisor, and the sections of
+  a pulled-back ideal on affine opens. Over an affine base the blow-up is
+  `Proj (reesAlgebra.grade I)`.
+- **TauCetiRoadmap StableReduction, Layer 4**: the blowing-up of a quasi-coherent ideal as a
+  relative `Proj`, its universal property, properness, behaviour away from the centre, the
+  exceptional divisor, strict transforms of closed subschemes and the affine chart description.
+- **SchemeAndStackFoundations**: the API of depth and Cohen–Macaulay modules, Cohen–Macaulay
+  coherent sheaves `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay` (§0.17, depth and
+  Cohen–Macaulay modules; §0.18, scheme-theoretic support and Cohen–Macaulay schemes), and catenary
+  rings `Excellence.IsCatenary` (§0.16); cohomology with supports, the comparison of sheaf and
+  module local cohomology, flat base change, and the characterization of depth as the first
+  nonvanishing local-cohomology degree (§2.7); dualizing complexes `DualizingComplex` and their
+  normalization
+  `NormalizedDualizing` over Noetherian (local) rings (§2.21); strict transforms of modules along
+  modifications with a chosen dense open (§4.11). K3.4 extends the last construction to arbitrary
+  blow-ups without a density or integrality hypothesis.
+
+Not here: Macaulayfication itself (Česnavičius §§4–5); the CM-quasi-excellence conditions
+(SchemeAndStackFoundations §0.19); the general theory of blowing-ups and strict transforms of
+schemes; dualizing complexes on schemes; the foundations of local cohomology; the sheaf of a
+graded module on `Proj`, which is AdicSpacesPartIII §F0.9's `AlgebraicGeometry.gradedTwist G ℳ n`
+(ℕ-graded ring, ℤ-graded module, `M(n)_d = M_{d+n}`), used here at `n = 0`. The graded-module
+sheafification on projective space over a field, with its restriction and localization charts,
+exactness, twist and quotient comparisons, eventual-sections comparison, graded Hilbert syzygy
+and Hilbert/`K₀` comparisons, is
+[GroebnerGeometry, G4](../GroebnerGeometry/README.md#g4-rees-algebras-and-flat-initial-families);
+K3.3 states chart, exactness and tail statements over an arbitrary ℕ-graded ring (the Rees algebra
+is not a polynomial ring) and does not restate G4's polynomial-ring statements.
+K3.4's strict transform along a blowing-up extends SchemeAndStackFoundations §4.11's `strictTransformModule`
+to blow-ups without a dense witness and agrees with it on modifications; no other second carrier
+is introduced.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
+
+- Local cohomology: `localCohomology (J : Ideal R) (i : ℕ) : ModuleCat R ⥤ ModuleCat R`, and
+  `localCohomology.isoOfSameRadical` (ideals with the same radical give isomorphic functors over a
+  Noetherian ring). Nothing else of the local-cohomology calculus is assumed from Mathlib.
+- Modules: `Module.annihilator`, `Module.support`, `Module.supportDim` with
+  `Module.supportDim_eq_bot_iff_subsingleton`,
+  `Module.supportDim_eq_ringKrullDim_quotient_annihilator` (finite modules),
+  `Module.supportDim_le_supportDim_quotSMulTop_succ` and
+  `Module.supportDim_quotSMulTop_succ_eq_supportDim`: for a finite module over a Noetherian local
+  ring and `x ∈ 𝔪`, the support dimension drops by at most one, and by exactly one if `x` is
+  regular on the module. These are in `Mathlib.RingTheory.KrullDimension.Regular`.
+  `Ideal.ofList`; `RingTheory.Sequence.IsWeaklyRegular` and
+  `RingTheory.Sequence.IsRegular`; `IsSMulRegular`; `Submodule.mkQ`, `Submodule.mapQ`,
+  `Submodule.comap`, `Submodule.smul_mem_smul`, `Submodule.mul_smul`.
+- Polynomial modules and Rees algebras: `PolynomialModule R M` with `PolynomialModule.single`,
+  `PolynomialModule.smul_apply`, `PolynomialModule.coeff_inj`, `PolynomialModule.map`,
+  `PolynomialModule.map_smul`; `reesAlgebra I : Subalgebra R R[X]` with `mem_reesAlgebra_iff`,
+  `reesAlgebra.fg` and its `Algebra.FiniteType` and `IsNoetherianRing` instances over a Noetherian
+  ring.
+- Localization: `Localization.Away`, `IsLocalization.Away.invSelf`, `LocalizedModule`,
+  `LocalizedModule.mkLinearMap`, `LocalizedModule.moduleOfIsLocalization`, `Localization.AtPrime`,
+  `Algebra.adjoin`.
+- Geometry: `AlgebraicGeometry.Proj`, `AlgebraicGeometry.projIsoSpec`,
+  `AlgebraicGeometry.Scheme.Modules` with `Scheme.Modules.pullback` and `Scheme.Modules.presheaf`,
+  `AlgebraicGeometry.tilde` and `tilde.map`, `PrimeSpectrum.zeroLocus`;
+  `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms` in `Mathlib.AlgebraicGeometry.Gluing`;
+  `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop` in `Mathlib.AlgebraicGeometry.IdealSheaf.Basic`
+  (the ideal sheaf of an ideal of global sections) and
+  `AlgebraicGeometry.Scheme.IdealSheafData.comap` in `Mathlib.AlgebraicGeometry.IdealSheaf.Functorial`
+  (the pullback of an ideal sheaf along a morphism).
+- Dimension: `ringKrullDim`, `topologicalKrullDim`, `Polynomial.ringKrullDim_of_isNoetherianRing`.
+  `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown` in
+  `Mathlib.RingTheory.Ideal.KrullsHeightTheorem` gives, for Noetherian rings `A, B`, an
+  `A`-algebra `B` satisfying going-down and primes `q` over `p`,
+  `ht(q) = ht(p) + ht(q/pB)` (Stacks 00ON). `Algebra.HasGoingDown.of_flat` in
+  `Mathlib.RingTheory.Ideal.GoingDown` supplies going-down when `B` is flat over `A`.
+  K3.6 applies these to localized polynomial extensions.
+- Depth: `IsLocalRing.depth` in `Mathlib.RingTheory.Depth.Basic`, the least `n` with
+  `Ext^n(κ, M) ≠ 0`, equal to `⊤` on the zero module (`IsLocalRing.depth_eq_top_of_subsingleton`).
+- Injectivity: `CategoryTheory.Injective` in `ModuleCat R`.
+
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
+
+The chart rings, the Rees grading, the chart immersions and the Cohen–Macaulay predicate are
+supplied by the following individual modules; the scheme `Proj (reesAlgebra.grade I)` is an
+existing carrier.
+
+- `TauCeti.RingTheory.CohenMacaulay.Basic`: `Module.IsCohenMacaulay R M` for a module `M` over a
+  local ring `R`: `M` is zero or its depth equals its support dimension;
+- `TauCeti.RingTheory.CohenMacaulay.RegularSequence`:
+  `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt` makes `x` regular on
+  a finite Cohen–Macaulay module `M` over a Noetherian local ring whenever
+  `dim Supp(M/xM) < dim Supp M`. K0.5–K0.6 and K4 use this on successive secant quotients;
+- `TauCeti.Algebra.Module.Injective.Noetherian`: `Ideal.injective_primaryComponent` gives
+  injectivity of `I.primaryComponent E = Γ_I(E)` for every ideal `I` in a Noetherian ring
+  and every injective module `E`. Consequently `H^p_J(Γ_I(E)) = 0` for every ideal `J`
+  and `p > 0`; K0.1 uses this acyclicity in the composite-support spectral sequence;
+- `TauCeti.RingTheory.ReesAlgebra.Grading`: `reesAlgebra.grade I` (the degree-`n` piece `Iⁿ tⁿ`),
+  `reesAlgebra.gradedMonoid`,
+  `reesAlgebra.isInternal_grade`, `reesAlgebra.gradeZeroEquiv`, `reesAlgebra.monomialDegreeOne`
+  (the element `a t`, `a ∈ I`);
+- `TauCeti.RingTheory.Ideal.AffineBlowup`: `Ideal.affineBlowup I a S` (the subalgebra `R[I/a]`
+  of a localization `S` of `R` away from `a`),
+  `Ideal.mem_affineBlowup_iff` (for `a ∈ I`, `z ∈ R[I/a]` iff there exist `k ∈ ℕ` and `y ∈ Iᵏ`
+  with `algebraMap R S a ^ k * z = algebraMap R S y`),
+  `Ideal.map_algebraMap_affineBlowup` (for `a ∈ I` the extension of `I` to `R[I/a]` is `(a)`), the
+  regularity of `a` in `R[I/a]` (`Ideal.isRegular_algebraMap_affineBlowup`), and the universal
+  property `Ideal.affineBlowupLift`, whose inputs are `IB ⊆ aB` and injectivity of multiplication
+  by `a` on the target algebra `B`;
+- `TauCeti.RingTheory.ReesAlgebra.AffineBlowup`: `reesAlgebra.awayEquivAffineBlowup` (for `a ∈ I`,
+  the homogeneous localization `R[It]_(a t) ≅ R[I/a]`);
+- `TauCeti.AlgebraicGeometry.Blowup.AffineCharts`: `TauCeti.AlgebraicGeometry.affineBlowupι` (for
+  `a ∈ I`, the open immersion `Spec R[I/a] → Proj (grade I)` onto
+  `D₊(a t)`), `opensRange_affineBlowupι`, `iSup_opensRange_affineBlowupι` (the charts of a family
+  generating `I` cover the blow-up) and `affineBlowupι_toSpecZero` (compatibility with the map to
+  `Spec R`);
+- `TauCeti.AlgebraicGeometry.Blowup.IdealSheaf`: `AlgebraicGeometry.Scheme.IdealSheafData.blowup`
+  and `AlgebraicGeometry.Scheme.IdealSheafData.blowupToBase` for an arbitrary quasi-coherent ideal
+  on an arbitrary scheme, and, for each affine open `U` of the base,
+  `AlgebraicGeometry.Scheme.IdealSheafData.blowupChart`, the open immersion of
+  `Proj (reesAlgebra.grade I(U))` whose square `AlgebraicGeometry.Scheme.IdealSheafData.isPullback_blowupChart`
+  identifies it with the part of the blow-up over `U`.
+  `TauCeti.AlgebraicGeometry.IdealSheaf.Affine` supplies
+  `AlgebraicGeometry.Scheme.IdealSheafData.ideal_comap_ofIdealTop_map_ΓSpecIso_inv`: for a
+  morphism `X → Spec R` and an ideal `J` of `R`, the pulled-back ideal sheaf `J𝒪_X` has sections
+  `J·Γ(X, U)` on every affine open `U` of `X`.
+  `TauCeti.AlgebraicGeometry.Blowup.ExceptionalDivisor` supplies
+  `AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase` without a
+  finite-type hypothesis. K3.4 uses this exceptional divisor; K3.5 uses the blow-up of the
+  non-affine scheme `Bl_I(Spec R)` along `J𝒪` and its charts.
+
+`Suggested.lean` imports `TauCeti.RingTheory.CohenMacaulay.Basic` and
+`TauCeti.RingTheory.Ideal.AffineBlowup`, and uses `ChartRing I a` as a type synonym for the
+carrier of `Ideal.affineBlowup I a (Localization.Away a)`.
+The restricted action `ChartRing.moduleLocalizedModule` on `M[1/a]` is induced by the
+inclusion of this algebra in `R[1/a]`. The grading and geometric chart modules above supply the
+README constructions; their carriers are not copied into `Suggested.lean`.
+
+### From TauCetiRoadmap roadmaps
+
+- **StableReduction, Layer 4** (blowups and intersection theory on arithmetic surfaces): the
+  blowing-up `b : Bl_𝓘(X) → X` of a quasi-coherent ideal of finite type as a relative `Proj` of the
+  Rees algebra; its universal property (the pullback of `𝓘` is invertible, and `b` is final with
+  this property); properness; `b` is an isomorphism over `X ∖ V(𝓘)`; the exceptional divisor;
+  strict transforms of closed subschemes; and the affine chart description over `Spec A`. Used in
+  K3.3, K3.6 and K4.
+
+### From other roadmaps
+
+These contracts consume the named roadmap targets, with the stated hypotheses; their definitions
+are not imported as Lean carriers.
+
+- **SchemeAndStackFoundations, §0.16**: `Excellence.IsCatenary` and its localization and quotient
+  API. Used in K0.7's dimension formula.
+- **SchemeAndStackFoundations, §0.17** (depth, Cohen–Macaulay modules and Serre's conditions):
+  the API of Mathlib's `IsLocalRing.depth` and Tau Ceti's `Module.IsCohenMacaulay`, by its Tau Ceti
+  names: `IsLocalRing.depth_le_supportDim` for nonzero finite modules over Noetherian local rings,
+  the localization theorem `Module.IsCohenMacaulay.localizedModule` and the regular-element
+  quotient criterion `Module.isCohenMacaulay_quotSMulTop_iff`. **§0.18** supplies
+  `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay`, checked on the stalks in the support or on
+  affine opens. Used in K0, K3.3 and K4.
+- **SchemeAndStackFoundations, §2.7** (cohomology with supports and local cohomology):
+  `localCohomology_colimit_ext_comparison` identifies Mathlib's native Ext-colimit functor with
+  derived ideal-power torsion over a Noetherian ring; `localCohomology_module_comparison`
+  identifies it with `RΓ_{V(J)}` on an affine scheme. K0.1's Čech computation supplies
+  the comparison with the extended Čech complex. `localCohomology_flat_baseChange` is consumed
+  for flat maps of Noetherian rings and arbitrary modules. `depth_localCohomology_vanishing` and
+  `depth_localCohomology_nonvanishing` characterize depth for finite modules, with nonvanishing
+  only when the depth is a natural number (Stacks, Lemma 47.11.1). Used throughout K0 and K4.
+- **SchemeAndStackFoundations, §2.21** (dualising complexes): `DualizingComplex` over a
+  Noetherian ring (finite injective dimension, finite cohomology and quasi-isomorphic homothety,
+  Stacks, Definition 47.15.1), and `NormalizedDualizing` over a Noetherian local ring
+  (`RHom(κ, ω) ≅ κ[0]`), including localization with the normalization shift. Used in K0.7.
+- **SchemeAndStackFoundations, §4.11** (modifications and strict transforms):
+  `strictTransformModule f φ U M`, the quotient of the pullback by sections supported outside
+  the inverse image of the chosen dense open `U`; `strictTransform_eq_blowup` identifies the
+  removed subsheaf with exceptional-ideal-power torsion when `φ` is a blow-up and
+  `U = S ∖ V(𝓘)`. K3.4 gives the arbitrary-blow-up extension and its agreement with this
+  construction in the modification case.
+- **SchemeAndStackFoundations, §0.3**: `relativeProj_affine_iso` and
+  `relativeProj_eq_stableReduction` identify StableReduction's blow-up of `Spec R` along a
+  finitely generated ideal with `Proj (reesAlgebra.grade I)` over `Spec R`. Used in K4.2.
+- **AdicSpacesPartIII, §F0.9** (*projective-bundles-ample-serre*, the twisted graded module
+  sheaf): for an ℕ-graded commutative ring `G` and a ℤ-graded module `ℳ` with graded scalar
+  multiplication, `AlgebraicGeometry.gradedTwistSections G ℳ n U` (functions on `U` valued in the
+  homogeneous localizations at the points of `U`, locally a fraction `m/f` with
+  `deg m = deg f + n`), the module sheaf `AlgebraicGeometry.gradedTwist G ℳ n` on `Proj G`, and
+  `AlgebraicGeometry.gradedTwist_restrict`; no finiteness, Noetherian or degree-one hypothesis
+  enters the definition. The shift is `M(n)_d = M_{d+n}`, the zero module gives the zero sheaf and
+  the regular module at twist zero gives the structure sheaf. K3.3 writes `Ñ` for
+  `gradedTwist G ℳ 0` and uses it in K3.3–K3.6 and K4.
+- **AdicSpacesPartII, localization-cech-complex-exact**: the algebraic complex with terms
+  `cechLocalizationTerm`, augmentation `cechLocalizationAugmentation` and differential
+  `cechLocalizationDifferential`. Their construction allows arbitrary generating lists;
+  the unit-ideal hypothesis belongs to exactness only. Used in K0.1; K3.3 uses its exactness
+  for lists generating the unit ideal.
+- **ArithmeticGaloisDuality, D7.1**: its target *Grothendieck local duality for a complete
+  Noetherian local ring* owns Grothendieck local duality over complete Noetherian local rings for
+  bounded complexes with finite cohomology. K0.7 owns the noncomplete finite-module extension and
+  its annihilator consequences, agreeing with that target and Matlis evaluation over complete
+  rings.
+- **DerivedModuleAlgebra, §§1.M.1–1.M.2**: Matlis duality for complete rings with finite
+  residue fields and for Noetherian local rings with arbitrary residue fields, canonical
+  completion actions on power-torsion modules, biduality and the completion adjunction.
+  Used in K0.7.
+
+- **DerivedModuleAlgebra, §0.K.1**, **Koszul complex of a finite sequence**:
+  `koszulComplex φ`, its alternating-deletion differential, maps, tensor formula and homotopies.
+  K0.5 uses `φ(e_i)=z_i` on the finite free module and tensors with `M`.
+- **DGFloer, Layer 1, item 3**, **The spectral sequence of a filtered complex**:
+  the spectral sequence of a bounded-below exhaustive filtered chain complex over a ring,
+  strong convergence, the induced filtration on homology and naturality. K0.5 uses finite
+  filtrations of the bounded Čech–Koszul complex, with cohomological reindexing.
+- **SchemeAndStackFoundations, §2.18**: `derivedTensor` and `derivedHom` on module derived
+  categories. Together with §2.7's derived torsion these supply K0.7's evaluation argument.
+- **DerivedModuleAlgebra, §§1.3 and 1.5**: `DerivedDeRham.derivedCompletion` is
+  `RHom(C_I,−)` for a finite generating list of `I`; over a Noetherian ring its cohomology
+  on complexes with finite cohomology is ordinary adic completion (Stacks 0A06). Used in K0.7.
 
 ## References
 

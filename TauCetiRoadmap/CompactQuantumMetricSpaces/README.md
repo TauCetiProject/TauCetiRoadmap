@@ -1,120 +1,83 @@
 # Roadmap: compact quantum metric spaces
 
-**Summary.** This roadmap builds the metric geometry of states on Archimedean order-unit
-spaces and on the self-adjoint parts of unital C*-algebras. From Mathlib's weak duals, positive
-continuous linear maps, seminorms, quotients and Hausdorff distances, from Tau Ceti's
-Kantorovich–Rubinstein duality, and from the order-unit, C*-, compact-group and transport
-foundations of earlier roadmaps, it develops Lipschitz seminorms as usable analytic objects:
-their domains, quotients, closed extensions, morphisms and state metrics. It proves the
-compactness criterion under which the state metric induces the weak-star topology
-(`tendsto_stateEDist_iff`), full-state recovery of a closed seminorm
-(`closedLipNorm_recovery`), the identification of the classical state metric of `C(X, ℝ)`
-with the `1`-Wasserstein distance (`stateEDist_integrationState`), the closed Lip-norm
-theorem for ergodic actions of compact groups (`exists_closedLipNorm_actionLip`), and the
-order-unit quantum Gromov–Hausdorff distance with its triangle inequality
-(`quantumGHEDist_triangle`), zero-distance rigidity (`quantumGHEDist_eq_zero_iff`),
-completeness (`exists_limit_of_cauchySeq_quantumGHEDist`) and compactness
-(`totallyBounded_quantumGHEDist_iff`) theorems, stated for sequences of presentations. The end
-example is the uniform continuity of the quantum tori
-`Θ ↦ (A_Θ, L_Θ)` in that distance, in every dimension and over all real skew-symmetric
-parameters, built on the twisted group C*-algebra `C*(ℤᵈ, σ_Θ)` of
-[HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) §3.1.
+**Summary.** On a compact metric space X, `d(x, y)` is the supremum of `|f(x) − f(y)|` over
+continuous functions f with Lipschitz constant at most 1. Rieffel's compact quantum metric spaces
+make this a definition: an ordered vector space, such as the self-adjoint part of a unital
+C*-algebra, replaces the functions, a seminorm the Lipschitz constant, and states the points. The
+roadmap develops that theory up to a quantum Gromov–Hausdorff distance, in which quantum tori vary
+continuously.
 
-## Scope and ownership
+An order-unit space is a real ordered vector space E with an element e ≠ 0 such that every a
+satisfies `−r e ≤ a ≤ r e` for some r > 0, and whose order is Archimedean. Every theorem assumes
+the order-unit norm on E: `‖e‖ = 1`, and `‖a‖ ≤ r` exactly when `−r e ≤ a ≤ r e`, for `r ≥ 0`. The
+states, the positive linear functionals φ with φ(e) = 1, form a weak-star compact set S(E).
 
-This roadmap owns: real Archimedean order-unit duality (the order-unit norm, states, Kadison's
-affine representation and the dual-ball identity); extended-valued Lipschitz seminorms with
-dense finite domain, their state metrics, the radius identity and the Lip-norm criterion; closed
-Lip-norms, closed completions, full-state recovery, Lipschitz maps and quotients by compact
-convex subsets of the state space; the classical adapters between `C(X, ℝ)`, probability
-measures and the `1`-Wasserstein distance, and the commutator seminorm of a spectral triple
-with its metric criterion; the action seminorm of a compact group acting on a C*-algebra, its
-closed Lip-norm theorem for ergodic actions, central finite-character approximation and the
-comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
-admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; for
-every `d`, the quantum-torus family `A_Θ = C*(ℤᵈ, σ_Θ)` on the common regular model `ℓ²(ℤᵈ)`
-with its identification theorem, its gauge coefficient maps and gauge-finite Fourier
-polynomials, the continuous-field norm estimates and the uniform metric continuity of quantum
-tori.
+A seminorm L on E with values in [0, ∞], finite on a dense subspace and zero exactly on the
+multiples of e, defines a distance on states, `ρ(φ, ψ) = sup {|φ(a) − ψ(a)| : L(a) ≤ 1}`. L is a
+Lip-norm, and (E, L) a compact quantum metric space, when ρ is finite and induces the weak-star
+topology. Rieffel's criterion says this happens exactly when the image of `{a : L(a) ≤ 1}` in
+`E ⧸ ℝe` is totally bounded. When L is closed, meaning that its sublevel sets are norm closed, it
+is recovered from ρ: L(a) is the supremum of `|φ(a) − ψ(a)| / ρ(φ, ψ)` over pairs of states, with
+`0/0 = 0` and `x/∞ = 0`.
 
-It does not own, and does not restate:
+Two theorems give examples. For a nonempty compact metric space X, the Lipschitz constant is a
+closed Lip-norm on C(X, ℝ). The distance between integration against two probability measures is
+their Wasserstein distance W₁. Second, let a compact Hausdorff group G with a continuous length
+function ℓ act on a nonzero unital C*-algebra A by star automorphisms α with norm-continuous
+orbits, and ergodically: only scalars are fixed. Then `sup_(g ≠ 1) ‖α_g(a) − a‖ / ℓ(g)` is a closed
+Lip-norm on the self-adjoint part of A.
 
-- Hahn–Banach separation, annihilator and quotient duality, and the Jordan decomposition of
-  signed regular measures on a compact Hausdorff space, which
-  [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns (its B1 and B5). Layer 0 owns only
-  their order-unit consequences.
-- C*-positive functionals, GNS, norm and state separation and faithful representations, which
-  [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) owns (its Layer 0); ideals, the Gelfand
-  representation and state extension, which [CStarAlgebras](../CStarAlgebras/README.md) owns
-  (its C1 and C2). Layer 0's order-unit Hahn–Banach argument does not consume the C*-pure-state
-  theorem or any von Neumann decomposition, and no pure-state hypothesis enters the compactness
-  criterion.
-- Haar probability, averaging, unitarizability, matrix coefficients, Schur orthogonality and
-  Peter–Weyl, which
-  [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
-  (its Layers 0–5); the closed-subgroup theorem and its corollary that continuous
-  homomorphisms of Lie groups are smooth, which
-  [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) owns (its
-  Layer 2); the faithful finite-dimensional unitary representation of a compact Lie group,
-  which [CharacteristicClasses](../CharacteristicClasses/README.md) owns (its C1, item 3).
-  §4.4 consumes it to build its central kernels.
-- The Haar conditional expectation, isotypic and matrix-coefficient projections, the dense
-  finite-orbit star algebra, the unique faithful invariant trace and the finite-multiplicity
-  theorem for ergodic actions of compact groups, which VonNeumannAlgebras owns in its
-  V8.CompactErgodicActions, the early C*-sublayer of its Layer 8. Its later W* continuity and
-  predual bridge and its SU(2) and factor-classification applications are not inputs here.
-  Finite multiplicity is a theorem about ergodic actions on C*-algebras and is not asserted for
-  an arbitrary Banach representation.
-- Differentiable and smooth vectors and the derivatives `dα(X)` of a strongly continuous Lie
-  group action, and the smooth complete Fréchet star algebra of such an action on a Banach star
-  algebra, which
-  [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
-  owns (its §§2.1 and 3.1, and its §8.1). Layer 4 owns the metric comparison with length
-  functions only.
-- Couplings, `W₁` and Kantorovich–Rubinstein duality, which
-  [OptimalTransport](../OptimalTransport/README.md) owns (its Layers 0–3) and Tau Ceti
-  implements. Layer 3 owns the state and probability-measure adapters, not transport duality.
-- Spectral triples, and for the two-dimensional rotation algebra `A_θ` its faithful canonical
-  trace, the smooth algebra `𝒜_θ` with its derivations, the trace-GNS space identified with
-  `ℓ²(ℤ²)` by the ordered Fourier basis and the Fourier triple, which
-  [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) owns (its N5–N7). These are
-  two-dimensional objects: Layer 6 consumes them only at `d = 2`, through the identification
-  `Φ_θ` of §6.1, and plans no `d`-dimensional Dirac operator.
-- Smooth bounded Lipschitz approximation, intrinsic-distance duality and the Clifford-module
-  commutator-norm theorem, which [RiemannianGeometry](../RiemannianGeometry/README.md) owns
-  (its R7.8) with the Clifford module of [SpinGeometry](../SpinGeometry/README.md) (its G6).
-  Layer 3 consumes those formulas to identify a state metric. Spinor bundles, Dirac domains,
-  compact resolvents, index pairings and Connes' reconstruction axioms have their own
-  geometric and analytic owners; none is inferred from a Lip-norm.
-- The twisted group C*-algebra `C*(L, c)` of a discrete abelian group `L` with a normalized
-  circle-valued `2`-cocycle `c`: its `ℓ¹` algebra, universal and twisted regular completions,
-  universal property, faithful canonical trace with its Fourier coefficients, gauge action of
-  the compact dual with fixed algebra `ℂ·1` and gauge average `τ(·)·1`, and the theorem
-  `C*(L, c) = C*_r(L, c)`, which
-  [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) owns (its
-  §3.1), on Tau Ceti's finitely supported `TauCeti.twistedMonoidAlgebra`. Layer 6 consumes it
-  at `L = ℤᵈ`, `c = σ_Θ`. The amenability inputs of its full = reduced theorem, the discrete
-  absorption argument of [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) D2 and
-  the amenability of abelian groups of [AmenableGroups](../AmenableGroups/README.md) Layer 6,
-  enter only through that section. The Følner boxes of `ℤᵈ` and their boundary estimate are
-  owned here (§6.3).
-- The point-norm continuity of the gauge action on `C*(L, c)`, that `χ ↦ α_χ(a)` is norm
-  continuous on the dual group `L̂` for every element `a`, which
-  [OperatorKTheory](../OperatorKTheory/README.md) owns (its K7.5, for every discrete abelian `L`
-  and circle-valued factor set `c`). §6.1 consumes it at `L = ℤᵈ`, `c = σ_Θ`.
-- A metric that detects the full C*-multiplication. The distance of Layer 5 is an order-unit
-  (Jordan) distance: opposite algebras with the transported Lip-norm are at distance zero
-  (§5.4).
+For compact quantum metric spaces E and F, call a Lip-norm on E × F admissible when its quotient
+seminorms on the factors are the given Lip-norms and it is finite exactly where both are. The
+quantum Gromov–Hausdorff distance is the infimum, over admissible Lip-norms, of the Hausdorff
+distance between the copies of S(E) and S(F) in the state space of E × F. It satisfies the triangle
+inequality. For complete spaces with closed Lip-norms it is zero exactly when a linear isometry of
+E onto F, an order isomorphism keeping the order unit, carries one Lip-norm to the other. It does
+not see multiplication: a C*-algebra and its opposite, with the transported Lip-norm, are at
+distance zero. Cauchy sequences of complete spaces with closed Lip-norms converge to such a space.
+Rieffel's compactness theorem characterizes the totally bounded sequences by uniform bounds on the
+diameters of their state spaces and, for each ε > 0, on the sizes of their ε-nets.
 
-**The quantum tori.** §6.0 specializes HeisenbergImprimitivity §3.1 to `L = ℤᵈ` and the
-bicharacter `σ_Θ`. That section's twisted regular representation at `c = σ_Θ` is the
-representation `λ_Θ(p)δ_q = σ_Θ(p, q)δ_(p+q)` used here, so `A_Θ` is its reduced algebra
-`C*_r(ℤᵈ, σ_Θ)`, and every `A_Θ` acts on the one space `ℓ²(ℤᵈ)`, which the norm-continuity
-estimates of §6.3 need. §6.0 owns the identification theorem: a unital C*-algebra generated by
-unitaries satisfying the `σ_Θ`-twisted relations and carrying a state that kills every nonzero
-Fourier mode is isomorphic to `A_Θ` over the generators, and that state is then faithful. It
-identifies `A_Θ` with every other model of `C*(ℤᵈ, σ_Θ)` carrying such a state; nothing in
-Layer 6 depends on another model.
+Finally, for a real skew-symmetric d × d matrix Θ, the quantum torus is the twisted group
+C*-algebra of ℤᵈ for the cocycle `exp(πi pᵀΘq)`; for d = 2 these are the rotation algebras, with
+`U₂U₁ = exp(2πiθ)U₁U₂`. The ergodic gauge action of the d-torus, with a fixed continuous length
+function, gives each a closed Lip-norm. Rieffel's theorem says these spaces depend uniformly
+continuously on Θ, in every dimension. This includes rational-to-irrational and
+noncommutative-to-classical limits, although the isomorphism class and K-theory do not vary
+continuously.
+
+In Tau Ceti the roadmap builds on the Kantorovich–Rubinstein duality of
+[OptimalTransport](../OptimalTransport/README.md), already in the library, and on the ergodic
+actions of compact groups in [VonNeumannAlgebras](../VonNeumannAlgebras/README.md). The twisted
+group C*-algebras come from
+[HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md), the rotation
+algebras from [NoncommutativeGeometry](../NoncommutativeGeometry/README.md).
+[SpectralManifolds](../SpectralManifolds/README.md) uses the classical Lipschitz constant and the
+Riemannian Dirac metric of Layer 3.
+
+Layers 0 to 2 build the general theory, Layers 3 and 4 the examples, and Layers 5 and 6 the
+distance and the quantum tori, as the next section describes.
+
+## How to read the build
+
+Layer 0 constructs the order-unit norm, states, the compact state space and Kadison's affine
+representation, and proves the dual-ball identity on which every later metric estimate rests.
+Layer 1 introduces extended Lipschitz seminorms, the state distance, the radius identity and
+the Lip-norm criterion with its three equivalent conditions, and derives the metric,
+uniformity and separability. Layer 2 closes a Lip-norm, proves full-state recovery for lower
+semicontinuous seminorms, characterizes the metrics on compact convex sets that arise from
+closed Lip-norms, and treats Lipschitz maps and quotients by compact convex subsets. Layer 3
+is the classical calibration: `C(X, ℝ)` with its Lipschitz constant, probability measures and
+`W₁`, pushforward, and the commutator seminorm of a spectral triple with the Riemannian
+identification. Layer 4 builds Leibniz Lip-norms from actions of compact groups: the action
+seminorm, the ergodic closed Lip-norm theorem, central finite-character approximation on
+compact Lie groups and the comparison with derivative seminorms. Layer 5 defines the quantum
+Gromov–Hausdorff distance through admissible Lip-norms and proves its metric laws, rigidity,
+completeness
+and compactness. Layer 6 specializes the twisted group C*-algebra of HeisenbergImprimitivity
+§3.1 to the quantum tori `A_Θ` of `ℤᵈ` and builds their Lip-norms, the continuous-field norm
+estimates and the metric continuity of quantum tori; it uses Layers 4–5 and consumes
+NoncommutativeGeometry only at `d = 2`.
 
 ## Conventions
 
@@ -188,151 +151,6 @@ quotients are `L_E` and `L_F` (Rieffel 2000, Notation 4.1, the set `M(L_E, L_F)`
 full product finite domain in Layer 5's main class; a **bridge** is the auxiliary seminorm `N`
 of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible Lip-norm
 (§5.2). The two words are never interchanged.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `WeakDual ℝ E` with its weak-star topology and `WeakDual.isCompact_closedBall`
-  (Banach–Alaoglu; `Mathlib/Analysis/Normed/Module/WeakDual.lean`).
-- `PositiveLinearMap`, `PositiveContinuousLinearMap` (`E →P[ℝ] ℝ`, `A →P[ℂ] ℂ`) and, for a
-  C*-algebra with its `StarOrderedRing` order,
-  `PositiveContinuousLinearMap.ofReal_opNorm_eq_map_one`, the norm of a positive functional
-  as its value at `1` (`Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`).
-- `exists_extension_norm_eq` (norm-preserving Hahn–Banach extension;
-  `Mathlib/Analysis/Normed/Module/HahnBanach.lean`) and
-  `geometric_hahn_banach_closed_point` (separation of a closed convex set from a point;
-  `Mathlib/Analysis/LocallyConvex/Separation.lean`).
-- `Seminorm`, `Submodule.span`, `Submodule.Quotient.mk` and the quotient norm on
-  `E ⧸ scalarLine e`; `TotallyBounded`, `Dense`, `IsClosed`.
-- `BoundedContinuousFunction.arzela_ascoli`
-  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`).
-- `LipschitzWith`, `edist`, `Metric.hausdorffEDist`, `Metric.hausdorffDist`
-  (`Mathlib/Topology/MetricSpace/HausdorffDistance.lean`) and `GromovHausdorff.ghDist`
-  (`Mathlib/Topology/MetricSpace/GromovHausdorff.lean`).
-- `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.Measure.IsProbabilityMeasure`, the
-  Riesz measure `RealRMK.rieszMeasure` of a positive functional on `C(X, ℝ)`
-  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`), `ContinuousMap.toLp`
-  (`Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`) and
-  `MeasureTheory.L1.integralCLM` (`Mathlib/MeasureTheory/Integral/Bochner/L1.lean`), whose
-  composite is the integration functional of §3.3.
-- `GroupNorm` (`Mathlib/Analysis/Normed/Group/Seminorm.lean`), `IsCompactOperator`, `selfAdjoint`
-  with its normed-space structure, `CStarAlgebra`, `StarAlgEquiv` (`A ≃⋆ₐ[ℂ] A`).
-- `LieGroup` (`Mathlib/Geometry/Manifold/Algebra/LieGroup.lean`) and `Matrix.unitaryGroup`
-  (`Mathlib/LinearAlgebra/UnitaryGroup.lean`) for the compact Lie groups of §4.4 and their
-  finite-dimensional unitary representations.
-- `LinearIsometryEquiv` (`E ≃ₗᵢ[ℝ] F`) for the statement of §5.4.
-
-### From Tau Ceti
-
-- `TauCeti.wassersteinEDist` (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Basic.lean`)
-  and Kantorovich–Rubinstein duality on a compact pseudometric space,
-  `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`, with its basepoint-normalized form
-  `TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`
-  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`). The compact
-  form assumes a compact pseudometric space with `OpensMeasurableSpace X` and two probability
-  measures, and no moment hypothesis. The basepoint-normalized form assumes a pseudometric space
-  with `OpensMeasurableSpace X`, `SecondCountableTopology X` and `StandardBorelSpace X`, two
-  probability measures with `TauCeti.HasFiniteMoment 1 μ` and `TauCeti.HasFiniteMoment 1 ν`, and
-  a basepoint `x₀`, and no compactness. On a compact metric space with its Borel σ-algebra the
-  three typeclass hypotheses are instances (a compact metric space is Polish), and §3.3's adapter
-  proves the moment bounds by bounding `edist x₀ y` by the finite diameter of `X`.
-- `TauCeti.IsFactorSet` (a normalized multiplicative `2`-cocycle `α : G → G → kˣ`) and the
-  twisted monoid algebra `TauCeti.twistedMonoidAlgebra k G α` with its basis elements
-  `TauCeti.TwistedMonoidAlgebra.of`, the multiplication table
-  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g * h)`), the universal
-  property `TauCeti.TwistedMonoidAlgebra.lift` (a family `u` with `u 1 = 1` and
-  `u g * u h = α g h • u (g * h)` extends to an algebra map) and
-  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
-  `β g h * c (g * h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from
-  the `β`-algebra to the `α`-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). They
-  are used with `k = ℂ`, `G = Multiplicative (Fin d → ℤ)` and `σ_Θ` read in `ℂˣ`; at the pin this
-  algebra carries no involution, norm or completion.
-
-### From other roadmaps
-
-- [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1 and B5: annihilator and quotient
-  duality, and the Jordan decomposition `μ = μ⁺ − μ⁻` of a signed regular Borel measure on a
-  compact Hausdorff space with `‖μ‖ = μ⁺(S) + μ⁻(S)`.
-- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) Layer 0: C*-positive functionals and
-  states, GNS, norm detection by states and faithful representations.
-  VonNeumannAlgebras V8.CompactErgodicActions: for an arbitrary compact Hausdorff `G` acting
-  on a nonzero unital C*-algebra with norm-continuous orbits, the Haar conditional expectation
-  `E` onto `A^G` (positive, unital, contractive, bimodular); the isotypic Haar projections and
-  their matrix-coefficient versions, spectral subspaces with their multiplication and star
-  relations, the norm-dense finite-orbit star algebra; and under ergodicity the unique
-  `G`-invariant state `η`, its faithfulness and traciality, the multiplicity bound
-  `mult(π) ≤ dim π` and hence `dim A_π ≤ (dim π)²`, with the normalized Haar probability and
-  the CompactGroups coefficient conventions. Its theorem has no length-function hypothesis.
-- [CStarAlgebras](../CStarAlgebras/README.md) C1 and C2: closed ideals, the Gelfand
-  representation of a commutative unital C*-algebra, and extension of states from unital
-  C*-subalgebras.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md)
-  Layers 0–5: the normalized Haar probability and averaging operator, unitarizability, Schur
-  orthogonality of matrix coefficients and the Peter–Weyl theorem.
-- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2:
-  Cartan's automatic smoothness of continuous homomorphisms between finite-dimensional real Lie
-  groups, the corollary of its closed-subgroup theorem.
-- [CharacteristicClasses](../CharacteristicClasses/README.md) C1, item 3: every compact Lie
-  group, finite and disconnected ones included, has a finite-dimensional faithful unitary
-  representation, that is a continuous injective homomorphism into some `U(n)`.
-- [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
-  §2.1: the differentiable vectors `E^k` and smooth vectors `E^∞` of a strongly continuous
-  action of a finite-dimensional real Lie group on a real or complex Banach space, with the
-  orbit derivative `dα(X)v` linear in `X`; §3.1: the Lie action `X ↦ dα(X)` on smooth vectors
-  with its seminorm estimates; §8.1: for a Banach star algebra with a star-preserving strongly
-  continuous action by bounded algebra automorphisms, the smooth elements form a dense complete
-  Fréchet star subalgebra on which every `dα(X)` is a derivation commuting with the star.
-- [OptimalTransport](../OptimalTransport/README.md) Layers 0–3: couplings, transport cost,
-  pushforward of plans, `W₁` and its topology on probability measures.
-- [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) N5 (spectral triples and their
-  densely defined self-adjoint `D`), N6 (the rotation algebra `A_θ` with
-  `U₂U₁ = exp(2πiθ)U₁U₂`, its gauge action `β`, Fourier coefficients, faithful trace `τ` and
-  smooth algebra `𝒜_θ`) and N7 (the trace-GNS space identified with `ℓ²(ℤ²)` by the ordered
-  Fourier basis `e_(m,n) = [U₁^mU₂^n]`, the derivations `δ₁, δ₂` and the Fourier–Dirac operator
-  `D = −i(σ₁δ₁ − σ₂δ₂)` on `ℓ²(ℤ²) ⊗ ℂ²`).
-- [RiemannianGeometry](../RiemannianGeometry/README.md) R7.8: quantitative smooth bounded
-  Lipschitz approximation, intrinsic-distance duality
-  `d(x, y) = sup {|f(x) − f(y)| : ‖∇f‖ ≤ 1}` and the Clifford-module commutator-norm theorem
-  `‖[D, f]‖ = ‖∇f‖_∞` for the Dirac operator of the Hermitian Clifford module of
-  [SpinGeometry](../SpinGeometry/README.md) G6.
-- [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) §3.1: for a
-  discrete abelian group `L` and a normalized circle-valued `2`-cocycle `c`, the twisted regular
-  representation `(λ_c(x)h)(y) = c(x, y − x)h(y − x)` on `ℓ²(L)` with reduced completion
-  `C*_r(L, c)`; the universal completion `C*(L, c)` with its universal property for
-  `c`-projective unitary representations `V_xV_y = c(x, y)V_(x+y)`; the theorem
-  `C*(L, c) = C*_r(L, c)`; the faithful canonical trace `τ(f) = f(0)` on `C*_r(L, c)`, whose
-  Fourier coefficients `x ↦ τ(aδ_x*)` determine `a`; and the gauge action `α_γ(δ_x) = γ(x)δ_x`
-  of the dual group with fixed-point algebra `ℂ·1`, whose Haar average of `a` is `τ(a)·1`. Its
-  star is
-  `f*(x) = conj(c(−x, x)) conj(f(−x))`.
-- [OperatorKTheory](../OperatorKTheory/README.md) K7.5: for a discrete abelian group `L` and a
-  circle-valued factor set `c` (`TauCeti.IsFactorSet c` with `|c| = 1`), the twisted shifts
-  `W_xδ_z = c(x, z)δ_(x+z)` on `ℓ²(L)`, the algebra `C*(L, c)` as the norm closure of their span,
-  and the gauge action `α_χ = Ad(M_χ)` of the Pontryagin dual `L̂`, with `M_χ` multiplication by
-  `χ`, so that `α_χ(W_y) = χ(y)W_y`; this gauge action is norm continuous in `χ` at each element.
-  Only that continuity is consumed (§6.1).
-
-## How to read the build
-
-Layer 0 constructs the order-unit norm, states, the compact state space and Kadison's affine
-representation, and proves the dual-ball identity on which every later metric estimate rests.
-Layer 1 introduces extended Lipschitz seminorms, the state distance, the radius identity and
-the Lip-norm criterion with its three equivalent conditions, and derives the metric,
-uniformity and separability. Layer 2 closes a Lip-norm, proves full-state recovery for lower
-semicontinuous seminorms, characterizes the metrics on compact convex sets that arise from
-closed Lip-norms, and treats Lipschitz maps and quotients by compact convex subsets. Layer 3
-is the classical calibration: `C(X, ℝ)` with its Lipschitz constant, probability measures and
-`W₁`, pushforward, and the commutator seminorm of a spectral triple with the Riemannian
-identification. Layer 4 builds Leibniz Lip-norms from actions of compact groups: the action
-seminorm, the ergodic closed Lip-norm theorem, central finite-character approximation on
-compact Lie groups and the comparison with derivative seminorms. Layer 5 defines the quantum
-Gromov–Hausdorff distance through admissible Lip-norms and proves its metric laws, rigidity,
-completeness
-and compactness. Layer 6 specializes the twisted group C*-algebra of HeisenbergImprimitivity
-§3.1 to the quantum tori `A_Θ` of `ℤᵈ` and builds their Lip-norms, the continuous-field norm
-estimates and the metric continuity of quantum tori; it uses Layers 4–5 and consumes
-NoncommutativeGeometry only at `d = 2`.
 
 ## Layer 0: Order units, states and affine representation (Q0)
 
@@ -1711,6 +1529,226 @@ CompactGroups Layer 0.
 - Roadmaps on noncommutative geometry and operator-algebra dynamics may consume the closed
   Lip-norm theorem of §4.3, the quantum Gromov–Hausdorff distance of Layer 5 and the
   identification theorem of §6.0 for models of `C*(ℤᵈ, σ_Θ)`.
+
+## Scope and ownership
+
+This roadmap owns: real Archimedean order-unit duality (the order-unit norm, states, Kadison's
+affine representation and the dual-ball identity); extended-valued Lipschitz seminorms with
+dense finite domain, their state metrics, the radius identity and the Lip-norm criterion; closed
+Lip-norms, closed completions, full-state recovery, Lipschitz maps and quotients by compact
+convex subsets of the state space; the classical adapters between `C(X, ℝ)`, probability
+measures and the `1`-Wasserstein distance, and the commutator seminorm of a spectral triple
+with its metric criterion; the action seminorm of a compact group acting on a C*-algebra, its
+closed Lip-norm theorem for ergodic actions, central finite-character approximation and the
+comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
+admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; for
+every `d`, the quantum-torus family `A_Θ = C*(ℤᵈ, σ_Θ)` on the common regular model `ℓ²(ℤᵈ)`
+with its identification theorem, its gauge coefficient maps and gauge-finite Fourier
+polynomials, the continuous-field norm estimates and the uniform metric continuity of quantum
+tori.
+
+It does not own, and does not restate:
+
+- Hahn–Banach separation, annihilator and quotient duality, and the Jordan decomposition of
+  signed regular measures on a compact Hausdorff space, which
+  [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns (its B1 and B5). Layer 0 owns only
+  their order-unit consequences.
+- C*-positive functionals, GNS, norm and state separation and faithful representations, which
+  [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) owns (its Layer 0); ideals, the Gelfand
+  representation and state extension, which [CStarAlgebras](../CStarAlgebras/README.md) owns
+  (its C1 and C2). Layer 0's order-unit Hahn–Banach argument does not consume the C*-pure-state
+  theorem or any von Neumann decomposition, and no pure-state hypothesis enters the compactness
+  criterion.
+- Haar probability, averaging, unitarizability, matrix coefficients, Schur orthogonality and
+  Peter–Weyl, which
+  [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
+  (its Layers 0–5); the closed-subgroup theorem and its corollary that continuous
+  homomorphisms of Lie groups are smooth, which
+  [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) owns (its
+  Layer 2); the faithful finite-dimensional unitary representation of a compact Lie group,
+  which [CharacteristicClasses](../CharacteristicClasses/README.md) owns (its C1, item 3).
+  §4.4 consumes it to build its central kernels.
+- The Haar conditional expectation, isotypic and matrix-coefficient projections, the dense
+  finite-orbit star algebra, the unique faithful invariant trace and the finite-multiplicity
+  theorem for ergodic actions of compact groups, which VonNeumannAlgebras owns in its
+  V8.CompactErgodicActions, the early C*-sublayer of its Layer 8. Its later W* continuity and
+  predual bridge and its SU(2) and factor-classification applications are not inputs here.
+  Finite multiplicity is a theorem about ergodic actions on C*-algebras and is not asserted for
+  an arbitrary Banach representation.
+- Differentiable and smooth vectors and the derivatives `dα(X)` of a strongly continuous Lie
+  group action, and the smooth complete Fréchet star algebra of such an action on a Banach star
+  algebra, which
+  [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
+  owns (its §§2.1 and 3.1, and its §8.1). Layer 4 owns the metric comparison with length
+  functions only.
+- Couplings, `W₁` and Kantorovich–Rubinstein duality, which
+  [OptimalTransport](../OptimalTransport/README.md) owns (its Layers 0–3) and Tau Ceti
+  implements. Layer 3 owns the state and probability-measure adapters, not transport duality.
+- Spectral triples, and for the two-dimensional rotation algebra `A_θ` its faithful canonical
+  trace, the smooth algebra `𝒜_θ` with its derivations, the trace-GNS space identified with
+  `ℓ²(ℤ²)` by the ordered Fourier basis and the Fourier triple, which
+  [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) owns (its N5–N7). These are
+  two-dimensional objects: Layer 6 consumes them only at `d = 2`, through the identification
+  `Φ_θ` of §6.1, and plans no `d`-dimensional Dirac operator.
+- Smooth bounded Lipschitz approximation, intrinsic-distance duality and the Clifford-module
+  commutator-norm theorem, which [RiemannianGeometry](../RiemannianGeometry/README.md) owns
+  (its R7.8) with the Clifford module of [SpinGeometry](../SpinGeometry/README.md) (its G6).
+  Layer 3 consumes those formulas to identify a state metric. Spinor bundles, Dirac domains,
+  compact resolvents, index pairings and Connes' reconstruction axioms have their own
+  geometric and analytic owners; none is inferred from a Lip-norm.
+- The twisted group C*-algebra `C*(L, c)` of a discrete abelian group `L` with a normalized
+  circle-valued `2`-cocycle `c`: its `ℓ¹` algebra, universal and twisted regular completions,
+  universal property, faithful canonical trace with its Fourier coefficients, gauge action of
+  the compact dual with fixed algebra `ℂ·1` and gauge average `τ(·)·1`, and the theorem
+  `C*(L, c) = C*_r(L, c)`, which
+  [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) owns (its
+  §3.1), on Tau Ceti's finitely supported `TauCeti.twistedMonoidAlgebra`. Layer 6 consumes it
+  at `L = ℤᵈ`, `c = σ_Θ`. The amenability inputs of its full = reduced theorem, the discrete
+  absorption argument of [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) D2 and
+  the amenability of abelian groups of [AmenableGroups](../AmenableGroups/README.md) Layer 6,
+  enter only through that section. The Følner boxes of `ℤᵈ` and their boundary estimate are
+  owned here (§6.3).
+- The point-norm continuity of the gauge action on `C*(L, c)`, that `χ ↦ α_χ(a)` is norm
+  continuous on the dual group `L̂` for every element `a`, which
+  [OperatorKTheory](../OperatorKTheory/README.md) owns (its K7.5, for every discrete abelian `L`
+  and circle-valued factor set `c`). §6.1 consumes it at `L = ℤᵈ`, `c = σ_Θ`.
+- A metric that detects the full C*-multiplication. The distance of Layer 5 is an order-unit
+  (Jordan) distance: opposite algebras with the transported Lip-norm are at distance zero
+  (§5.4).
+
+**The quantum tori.** §6.0 specializes HeisenbergImprimitivity §3.1 to `L = ℤᵈ` and the
+bicharacter `σ_Θ`. That section's twisted regular representation at `c = σ_Θ` is the
+representation `λ_Θ(p)δ_q = σ_Θ(p, q)δ_(p+q)` used here, so `A_Θ` is its reduced algebra
+`C*_r(ℤᵈ, σ_Θ)`, and every `A_Θ` acts on the one space `ℓ²(ℤᵈ)`, which the norm-continuity
+estimates of §6.3 need. §6.0 owns the identification theorem: a unital C*-algebra generated by
+unitaries satisfying the `σ_Θ`-twisted relations and carrying a state that kills every nonzero
+Fourier mode is isomorphic to `A_Θ` over the generators, and that state is then faithful. It
+identifies `A_Θ` with every other model of `C*(ℤᵈ, σ_Θ)` carrying such a state; nothing in
+Layer 6 depends on another model.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `WeakDual ℝ E` with its weak-star topology and `WeakDual.isCompact_closedBall`
+  (Banach–Alaoglu; `Mathlib/Analysis/Normed/Module/WeakDual.lean`).
+- `PositiveLinearMap`, `PositiveContinuousLinearMap` (`E →P[ℝ] ℝ`, `A →P[ℂ] ℂ`) and, for a
+  C*-algebra with its `StarOrderedRing` order,
+  `PositiveContinuousLinearMap.ofReal_opNorm_eq_map_one`, the norm of a positive functional
+  as its value at `1` (`Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`).
+- `exists_extension_norm_eq` (norm-preserving Hahn–Banach extension;
+  `Mathlib/Analysis/Normed/Module/HahnBanach.lean`) and
+  `geometric_hahn_banach_closed_point` (separation of a closed convex set from a point;
+  `Mathlib/Analysis/LocallyConvex/Separation.lean`).
+- `Seminorm`, `Submodule.span`, `Submodule.Quotient.mk` and the quotient norm on
+  `E ⧸ scalarLine e`; `TotallyBounded`, `Dense`, `IsClosed`.
+- `BoundedContinuousFunction.arzela_ascoli`
+  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`).
+- `LipschitzWith`, `edist`, `Metric.hausdorffEDist`, `Metric.hausdorffDist`
+  (`Mathlib/Topology/MetricSpace/HausdorffDistance.lean`) and `GromovHausdorff.ghDist`
+  (`Mathlib/Topology/MetricSpace/GromovHausdorff.lean`).
+- `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.Measure.IsProbabilityMeasure`, the
+  Riesz measure `RealRMK.rieszMeasure` of a positive functional on `C(X, ℝ)`
+  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`), `ContinuousMap.toLp`
+  (`Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`) and
+  `MeasureTheory.L1.integralCLM` (`Mathlib/MeasureTheory/Integral/Bochner/L1.lean`), whose
+  composite is the integration functional of §3.3.
+- `GroupNorm` (`Mathlib/Analysis/Normed/Group/Seminorm.lean`), `IsCompactOperator`, `selfAdjoint`
+  with its normed-space structure, `CStarAlgebra`, `StarAlgEquiv` (`A ≃⋆ₐ[ℂ] A`).
+- `LieGroup` (`Mathlib/Geometry/Manifold/Algebra/LieGroup.lean`) and `Matrix.unitaryGroup`
+  (`Mathlib/LinearAlgebra/UnitaryGroup.lean`) for the compact Lie groups of §4.4 and their
+  finite-dimensional unitary representations.
+- `LinearIsometryEquiv` (`E ≃ₗᵢ[ℝ] F`) for the statement of §5.4.
+
+### From Tau Ceti
+
+- `TauCeti.wassersteinEDist` (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Basic.lean`)
+  and Kantorovich–Rubinstein duality on a compact pseudometric space,
+  `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`, with its basepoint-normalized form
+  `TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`
+  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`). The compact
+  form assumes a compact pseudometric space with `OpensMeasurableSpace X` and two probability
+  measures, and no moment hypothesis. The basepoint-normalized form assumes a pseudometric space
+  with `OpensMeasurableSpace X`, `SecondCountableTopology X` and `StandardBorelSpace X`, two
+  probability measures with `TauCeti.HasFiniteMoment 1 μ` and `TauCeti.HasFiniteMoment 1 ν`, and
+  a basepoint `x₀`, and no compactness. On a compact metric space with its Borel σ-algebra the
+  three typeclass hypotheses are instances (a compact metric space is Polish), and §3.3's adapter
+  proves the moment bounds by bounding `edist x₀ y` by the finite diameter of `X`.
+- `TauCeti.IsFactorSet` (a normalized multiplicative `2`-cocycle `α : G → G → kˣ`) and the
+  twisted monoid algebra `TauCeti.twistedMonoidAlgebra k G α` with its basis elements
+  `TauCeti.TwistedMonoidAlgebra.of`, the multiplication table
+  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g * h)`), the universal
+  property `TauCeti.TwistedMonoidAlgebra.lift` (a family `u` with `u 1 = 1` and
+  `u g * u h = α g h • u (g * h)` extends to an algebra map) and
+  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
+  `β g h * c (g * h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from
+  the `β`-algebra to the `α`-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). They
+  are used with `k = ℂ`, `G = Multiplicative (Fin d → ℤ)` and `σ_Θ` read in `ℂˣ`; at the pin this
+  algebra carries no involution, norm or completion.
+
+### From other roadmaps
+
+- [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1 and B5: annihilator and quotient
+  duality, and the Jordan decomposition `μ = μ⁺ − μ⁻` of a signed regular Borel measure on a
+  compact Hausdorff space with `‖μ‖ = μ⁺(S) + μ⁻(S)`.
+- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) Layer 0: C*-positive functionals and
+  states, GNS, norm detection by states and faithful representations.
+  VonNeumannAlgebras V8.CompactErgodicActions: for an arbitrary compact Hausdorff `G` acting
+  on a nonzero unital C*-algebra with norm-continuous orbits, the Haar conditional expectation
+  `E` onto `A^G` (positive, unital, contractive, bimodular); the isotypic Haar projections and
+  their matrix-coefficient versions, spectral subspaces with their multiplication and star
+  relations, the norm-dense finite-orbit star algebra; and under ergodicity the unique
+  `G`-invariant state `η`, its faithfulness and traciality, the multiplicity bound
+  `mult(π) ≤ dim π` and hence `dim A_π ≤ (dim π)²`, with the normalized Haar probability and
+  the CompactGroups coefficient conventions. Its theorem has no length-function hypothesis.
+- [CStarAlgebras](../CStarAlgebras/README.md) C1 and C2: closed ideals, the Gelfand
+  representation of a commutative unital C*-algebra, and extension of states from unital
+  C*-subalgebras.
+- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md)
+  Layers 0–5: the normalized Haar probability and averaging operator, unitarizability, Schur
+  orthogonality of matrix coefficients and the Peter–Weyl theorem.
+- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2:
+  Cartan's automatic smoothness of continuous homomorphisms between finite-dimensional real Lie
+  groups, the corollary of its closed-subgroup theorem.
+- [CharacteristicClasses](../CharacteristicClasses/README.md) C1, item 3: every compact Lie
+  group, finite and disconnected ones included, has a finite-dimensional faithful unitary
+  representation, that is a continuous injective homomorphism into some `U(n)`.
+- [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
+  §2.1: the differentiable vectors `E^k` and smooth vectors `E^∞` of a strongly continuous
+  action of a finite-dimensional real Lie group on a real or complex Banach space, with the
+  orbit derivative `dα(X)v` linear in `X`; §3.1: the Lie action `X ↦ dα(X)` on smooth vectors
+  with its seminorm estimates; §8.1: for a Banach star algebra with a star-preserving strongly
+  continuous action by bounded algebra automorphisms, the smooth elements form a dense complete
+  Fréchet star subalgebra on which every `dα(X)` is a derivation commuting with the star.
+- [OptimalTransport](../OptimalTransport/README.md) Layers 0–3: couplings, transport cost,
+  pushforward of plans, `W₁` and its topology on probability measures.
+- [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) N5 (spectral triples and their
+  densely defined self-adjoint `D`), N6 (the rotation algebra `A_θ` with
+  `U₂U₁ = exp(2πiθ)U₁U₂`, its gauge action `β`, Fourier coefficients, faithful trace `τ` and
+  smooth algebra `𝒜_θ`) and N7 (the trace-GNS space identified with `ℓ²(ℤ²)` by the ordered
+  Fourier basis `e_(m,n) = [U₁^mU₂^n]`, the derivations `δ₁, δ₂` and the Fourier–Dirac operator
+  `D = −i(σ₁δ₁ − σ₂δ₂)` on `ℓ²(ℤ²) ⊗ ℂ²`).
+- [RiemannianGeometry](../RiemannianGeometry/README.md) R7.8: quantitative smooth bounded
+  Lipschitz approximation, intrinsic-distance duality
+  `d(x, y) = sup {|f(x) − f(y)| : ‖∇f‖ ≤ 1}` and the Clifford-module commutator-norm theorem
+  `‖[D, f]‖ = ‖∇f‖_∞` for the Dirac operator of the Hermitian Clifford module of
+  [SpinGeometry](../SpinGeometry/README.md) G6.
+- [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) §3.1: for a
+  discrete abelian group `L` and a normalized circle-valued `2`-cocycle `c`, the twisted regular
+  representation `(λ_c(x)h)(y) = c(x, y − x)h(y − x)` on `ℓ²(L)` with reduced completion
+  `C*_r(L, c)`; the universal completion `C*(L, c)` with its universal property for
+  `c`-projective unitary representations `V_xV_y = c(x, y)V_(x+y)`; the theorem
+  `C*(L, c) = C*_r(L, c)`; the faithful canonical trace `τ(f) = f(0)` on `C*_r(L, c)`, whose
+  Fourier coefficients `x ↦ τ(aδ_x*)` determine `a`; and the gauge action `α_γ(δ_x) = γ(x)δ_x`
+  of the dual group with fixed-point algebra `ℂ·1`, whose Haar average of `a` is `τ(a)·1`. Its
+  star is
+  `f*(x) = conj(c(−x, x)) conj(f(−x))`.
+- [OperatorKTheory](../OperatorKTheory/README.md) K7.5: for a discrete abelian group `L` and a
+  circle-valued factor set `c` (`TauCeti.IsFactorSet c` with `|c| = 1`), the twisted shifts
+  `W_xδ_z = c(x, z)δ_(x+z)` on `ℓ²(L)`, the algebra `C*(L, c)` as the norm closure of their span,
+  and the gauge action `α_χ = Ad(M_χ)` of the Pontryagin dual `L̂`, with `M_χ` multiplication by
+  `χ`, so that `α_χ(W_y) = χ(y)W_y`; this gauge action is norm continuous in `χ` at each element.
+  Only that continuity is consumed (§6.1).
 
 ## References
 

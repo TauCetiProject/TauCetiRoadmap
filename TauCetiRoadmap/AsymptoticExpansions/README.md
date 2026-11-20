@@ -1,115 +1,62 @@
 # Roadmap: Asymptotic expansions
 
-**Summary.** This roadmap builds the general theory of asymptotic approximation of Chapter 2 of
-the NIST *Digital Library of Mathematical Functions* (DLMF; see [References](#references)) as a
-library. It is the shared toolkit that roadmaps for the special functions of the other DLMF
-chapters consume: Watson's lemma, Laplace's method, stationary phase and the Euler–Maclaurin and
-Abel–Plana formulas for their integral and series representations, Mellin transform techniques,
-and the asymptotic theory of their differential and difference equations.
+**Summary.** Functions defined by integrals, sums or differential equations are often needed through
+their behaviour as a variable tends to a limit. An asymptotic expansion describes it: a series whose
+partial sums approximate the function with errors of ever smaller order. This roadmap builds the
+general methods for finding such expansions, those of Chapter 2 of the NIST *Digital Library of
+Mathematical Functions* (DLMF §§2.1–2.10; see [References](#references)), for arbitrary functions
+under explicit hypotheses.
 
-The roadmap covers:
-- asymptotic scales, Poincaré and generalized asymptotic expansions, uniformity, and the algebra,
-  integration, differentiation and existence theory of asymptotic power series (DLMF §2.1);
-- asymptotic solution and reversion of transcendental equations (§2.2);
-- Laplace and Fourier integrals: integration by parts, Watson's lemma on the real line and in
-  sectors, Laplace's method, saddle points and stationary phase (§§2.3(i)–(iv), 2.4(i)–(iv));
-- uniform methods for coalescing critical points: Bleistein's method for a peak coalescing with
-  an endpoint, with an infinite transformed upper limit (§2.3(v)), and the local cubic normal
-  form of Chester, Friedman and Ursell (§2.4(v) through 2.4.20);
-- Mellin-transform methods and the method of distributions (§§2.5, 2.6);
-- linear differential equations: ordinary and regular singular points, irregular singularities of
-  rank one with their Stokes multipliers, the Liouville–Green approximation, and equations with a
-  large parameter without transition points (§§2.7(i)–(iii), 2.8(i)–(ii));
-- three-term linear recurrences (§§2.9(i)–(ii));
-- sums and sequences: the Euler–Maclaurin and Abel–Plana formulas, summation by parts, entire
-  functions defined by power series and Darboux's method (§§2.10(i)–(iv));
-- the worked examples of these sections, as checks on the general theorems.
+Throughout the roadmap, `f` has the expansion `∑ a_n φ_n` along a filter when, for every `N`,
+`f − ∑_{n<N} a_n φ_n` is `O(φ_N)`. When each `φ_{n+1}` is `o(φ_n)`, the `φ_n` form an asymptotic
+scale, and the coefficients are unique as soon as every `φ_n` is frequently nonzero. The function is
+not determined by them: as `x → +∞`, both `e^{−x}` and `0` have the zero expansion in powers of
+`1/x`.
 
-Nothing in this roadmap refers to a particular special function beyond the Gamma function, the
-Riemann zeta function and the Bernoulli polynomials that Mathlib provides.
+The prototype of the integral methods is Watson's lemma. Let `e^{−σt} q(t)` be integrable on
+`(0, ∞)` for some real `σ`, and let `q(t) ∼ ∑ c_s t^{α_s − 1}` as `t → 0+`, with `Re α₀ > 0`,
+strictly increasing real parts of the exponents, and remainder `O(t^{Re α_N − 1})` after `N` terms.
+Then for every `δ ∈ (0, π/2)` the Laplace transform `∫₀^∞ e^{−zt} q(t) dt` has the expansion
+`∑ Γ(α_s) c_s z^{−α_s}` as `z → ∞` in `|ph z| ≤ π/2 − δ`. For instance,
+`∫₀^∞ e^{−xt}/(1 + t) dt ∼ ∑ (−1)^s s! x^{−s−1}` as `x → +∞`. Under further conditions, including
+holomorphy of `q` around the positive axis, rotating the path continues the transform and its
+expansion to wider sectors, glued in logarithmic coordinates `z = e^ζ`.
+
+Laplace's method treats `∫_a^∞ e^{−x p(t)} q(t) dt`. Suppose that, as `t → a+`,
+`p(t) − p(a) ∼ ∑ p_s (t − a)^{s+μ}` with `μ > 0` and `p₀ > 0`, and `q(t) ∼ ∑ q_s (t − a)^{s+λ−1}`
+with `Re λ > 0`, and that outside each neighbourhood of `a` the function `p` stays above `p(a)` by a
+positive margin. Under further regularity and integrability conditions, `e^{x p(a)}` times the
+integral has the expansion `∑ Γ((s+λ)/μ) b_s x^{−(s+λ)/μ}` as `x → +∞`, with explicit coefficients
+`b_s`. Under conditions on the path, the method extends to contour integrals, for `z` in a closed
+sector of opening less than `π`. Applied to the two halves of a path through a point `t₀` with
+`p′(t₀) = 0 ≠ p″(t₀)`, it gives the saddle-point expansion
+`2 e^{−z p(t₀)} ∑ Γ(s + ½) b_{2s} z^{−s−½}` of the contour integral.
+
+For `w″ = (f + g) w`, with `f` positive and `C²` and `g` continuous on an interval, the
+Liouville–Green theorem gives solutions `f^{−1/4} exp(±∫ f^{1/2}) (1 + ε)` with
+`|ε| ≤ exp(½ V) − 1`, where `V`, assumed finite, integrates an explicit expression in `f` and `g`
+from the corresponding end.
+
+Mathlib supplies the order symbols `O`, `o` and `∼`, but no notion of asymptotic expansion and none
+of the methods above. From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md) the roadmap takes the
+asymptotics of `Γ` on vertical lines, and derives from them a bound for `Γ` on vertical strips away
+from its poles. ContourIntegration supplies residues. Among the special-function roadmaps that build
+on this roadmap, SpecialFunctionsParabolicCylinder (DLMF Chapter 12) takes Watson's lemma on rotated
+rays and the contour tools for Mellin–Barnes integrals.
+
+Layer 1 is the foundation: the notion and its algebra, including that of asymptotic power series.
+Every later layer states its conclusions through it. Layer 2, on transcendental equations, uses the
+inversion of power series. Layers 3–7 are the integral methods, in dependency order, from Watson's
+lemma to uniform methods for coalescing critical points. Layers 8–9 are the Mellin-transform and
+distributional methods; the continued Mellin transforms of Layer 8 feed Layer 9. Layers 10–12 are
+the differential and difference equations. Volterra integral equations underlie the existence and
+error bounds for the irregular singularity of rank one and for Layer 11, and their discrete analogue
+underlies Layer 12. Layer 13, on sums, is independent of Layers 6–12. Each layer's worked examples
+are statements to prove, testing the general theorems on explicit functions.
 
 Suggested home: `TauCeti/Analysis/Asymptotics/`, beside Tau Ceti's existing
 `TauCeti/Analysis/Asymptotics/Lemmas.lean`, with the differential equations of Layers 10–11 under
 `TauCeti/Analysis/ODE/`.
-
-## Scope and ownership
-
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **Scales and expansions** (DLMF §2.1). The notions `IsAsymptoticScale` and
-   `HasAsymptoticExpansion` with their API; Poincaré expansions at infinity and at a finite point;
-   the characterization DLMF 2.1.15; uniform and generalized expansions; the algebra of asymptotic
-   power series; integration (2.1.11–2.1.12) and Ritt's differentiation theorem; the Borel–Ritt
-   existence theorem in sectors; the examples 2.1.4–2.1.9 and 2.1.17.
-2. **Transcendental equations** (DLMF 2.2.1–2.2.8), including Lagrange's reversion formula.
-3. **Laplace and Fourier integrals of a real variable** (DLMF 2.3.1–2.3.12, with the example
-   2.11.1–2.11.3).
-4. **Laplace transforms of a complex variable** (DLMF 2.4.1–2.4.9): Watson's lemma in sectors,
-   its extension by rotation of the path, inverse Laplace transforms and Haar's method.
-5. **Laplace's method and saddle points** (DLMF 2.3.13–2.3.18 and 2.4.10–2.4.16).
-6. **Stationary phase** (DLMF 2.3.19–2.3.23).
-7. **Coalescing critical points** (DLMF 2.3.24–2.3.33 and 2.4.17–2.4.20): Bleistein's change of
-   variables, the uniform remainder bound and the uniform expansion 2.3.32 under the hypotheses
-   of 7.2, and the local cubic normal form.
-8. **Mellin-transform methods** (DLMF 2.5.1–2.5.7 and 2.5.17–2.5.48).
-9. **Distributional methods** (DLMF 2.6.1–2.6.30, 2.6.33–2.6.47 and 2.6.54–2.6.62).
-10. **Linear differential equations in the complex domain** (DLMF 2.7.1–2.7.19), with the
-    Volterra integral equations they rest on.
-11. **The Liouville–Green approximation and equations with a large parameter**
-    (DLMF 2.7.20–2.7.34 and 2.8.1–2.8.13).
-12. **Difference equations** (DLMF 2.9.1–2.9.13).
-13. **Sums and sequences** (DLMF 2.10.1–2.10.32).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**What this roadmap owns:** the general theory listed above, the DLMF formulas named there with
-the hypotheses and conventions specified in the layers, and the following auxiliary results,
-which the layers need and which neither Mathlib nor Tau Ceti provides:
-
-| Result | Target |
-|---|---|
-| `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` for `Re s > 0`, `Re z > 0` | 4.1 |
-| Watson's lemma in sectors and along rotated rays, with the gluing of the rotated integrals | 4.2, 4.3 |
-| The formal complex power of a power series | 1.4 |
-| The Laplace coefficients `b_s` | 5.1 |
-| The continued Mellin transforms through an expansion at `0+` or at `+∞`, and the entire model integral `oscTail` for oscillatory tails | 8.3 |
-| `∫₀^∞ t^{α−1}(x+t)^{−α−β} dt = Γ(α)Γ(β)Γ(α+β)⁻¹ x^{−β}` (DLMF 2.6.4) for complex `α`, `β` with positive real parts and every `x > 0`, extending Tau Ceti's real case at `x = 1` | 9.1 |
-| Volterra integral equations with separable kernel bounds, and their discrete analogue | 10.1, 12 |
-| The line-shift identity with simple poles and vanishing horizontal connectors, and its iteration over infinitely many lines | 8.2 |
-| The pole-separated bound `\|Γ(x + iy)\| ≤ C (1 + \|y\|)^K e^{−π\|y\|/2}` on vertical strips | 8.6 |
-| The exponential Mellin inversion `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` | 8.7 |
-
-These are general tools, and this roadmap is their only owner: the special-function roadmaps
-consume them (see [Downstream consumers](#downstream-consumers)).
-
-**What it does not own:**
-- Asymptotics of particular special functions. The examples used as checks here are the only
-  exceptions, and each is stated by an explicit integral or series, never through a named
-  special function.
-- Complex Stirling and the Gamma function on vertical lines (DLMF 5.11.1, 5.11.7, 5.11.9). They
-  are consumed from ZerosOfLFunctions (see
-  [Exact supplier contracts](#exact-supplier-contracts)), and the pole-separated bound of 8.6 is
-  derived from them here.
-- Bounds for particular Barnes kernels, and Gamma-function identities such as the product formula
-  DLMF 5.8.3.
-- Uniform expansions in terms of special functions. This covers the Airy-function expansions
-  that complete the cubic change of variables of §2.4(v), the turning-point and Bessel-type
-  cases of §§2.8(iii)–(vi), and the transition-point theory of §2.9(iii).
-- The remainder theory of §2.11(ii)–(vi): exponentially improved expansions, the Stokes
-  phenomenon, hyperasymptotics and numerical acceleration.
-- Laplace integrals that converge only conditionally. DLMF assumes for 2.3.8 only that the
-  integral converges for large `x`; here the Laplace integrals of Layers 3–5 are Lebesgue
-  integrals, as in Mathlib's `laplace` and `LaplaceConvergent`, so Watson's lemma (3.3, 4.2) and
-  Laplace's method (5.2, 5.4) assume absolute convergence. The oscillatory integrals of 3.2 and
-  Layer 6 are improper integrals under DLMF's own hypotheses.
-
-[Excluded material](#excluded-material) lists these with their owners.
-
-**The boundary in one sentence:** this roadmap owns the general asymptotic methods of the DLMF
-subsections listed at the top (all within §§2.1–2.10), stated for arbitrary functions under
-explicit hypotheses; it consumes the Gamma asymptotics of ZerosOfLFunctions and the residue
-theory of ContourIntegration, and it excludes expansions of named special functions, uniform
-expansions in special functions, and the remainder and Stokes-phenomenon theory of §2.11.
 
 ## Conventions
 
@@ -175,106 +122,6 @@ def Asymptotics.HasAsymptoticExpansion (l : Filter α) (φ : ℕ → α → 𝕜
   infinitely differentiable" means: for every `k` and `N`,
   `q^{(k)}(t) − ∑_{s<N} c_s (α_s − 1)(α_s − 2)⋯(α_s − k) t^{α_s − 1 − k} = O(t^{Re α_N − 1 − k})`
   as `t → 0+`, with the falling factorial `(descPochhammer ℂ k).eval (α_s − 1)`.
-
-## Exact supplier contracts
-
-### From [ZerosOfLFunctions §1.2](../ZerosOfLFunctions/README.md#12-stirling-on-the-sector) and [§1.3](../ZerosOfLFunctions/README.md#13-vertical-strips)
-
-- **Stirling's formula in the sector** `|ph s| ≤ π − δ`:
-  `logGamma δ s = (s − ½) log s − s + ½ log 2π + O(1/|s|)` uniformly (DLMF 5.11.1). Consumed by
-  13.5 for the example 2.10.19–2.10.24.
-- **The Gamma function on vertical strips**, uniformly for real `x` in compact intervals as
-  `|y| → ∞`: `log ‖Γ(x + iy)‖ = (x − ½) log |y| − π|y|/2 + ½ log 2π + O(1/|y|)` (DLMF 5.11.9).
-  8.6 derives from it the pole-separated bound for `Γ` on vertical strips, which the rest of
-  Layer 8 and the Mellin–Barnes integrals of the special-function roadmaps use.
-
-No L-function theory is needed by this contract.
-
-### From [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
-
-Residues and the residue theorem, in `TauCeti/Analysis/Contour/Residue/`: `TauCeti.Contour.residue`
-is the coefficient of `(z − z₀)⁻¹` of the Laurent expansion. 5.3 and Layer 8 compute these
-residues and add the vertical-line shift with decay hypotheses; they define no new residue notion.
-
-### From Tau Ceti
-
-- `TauCeti/Analysis/Complex/Laurent/Basic.lean` defines the Laurent coefficient
-  `TauCeti.circleLaurentCoeff f c R n = (2πi)⁻¹ ∮_{|z−c|=R} (z − c)^{−n−1} f(z) dz` and proves its
-  independence of the radius on an annulus of holomorphy
-  (`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`), the monomial
-  value (`TauCeti.circleLaurentCoeff_sub_zpow_smul`), additivity (`TauCeti.circleLaurentCoeff_add`)
-  and the Cauchy estimate (`TauCeti.norm_circleLaurentCoeff_le`). 13.6 uses it for `f_n`.
-- `TauCeti/Analysis/SpecialFunctions/Beta.lean` has Euler's second Beta integral
-  `TauCeti.integral_rpow_mul_one_add_rpow`:
-  `∫₀^∞ t^{a−1}(1 + t)^{−(a+b)} dt = B(a, b)` for real `a, b > 0`. 9.1 extends it.
-- `TauCeti/Analysis/Asymptotics/` has general `IsBigO` and summation lemmas in the namespace
-  `Asymptotics`; this roadmap adds to that namespace.
-- `TauCeti/Analysis/Complex/LaplaceTransform.lean` has, for `f : ℝ → ℂ` and the integrand
-  `f t * cexp (-z * t)`: `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul` (each
-  truncated transform `z ↦ ∫ t in a..b, f t * cexp (-z * t)` is entire for interval-integrable
-  `f`), `TauCeti.integrableOn_mul_cexp_neg_mul` (integrability on `[0, ∞)` for bounded measurable
-  `f` and `0 < Re z`) and `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` (holomorphy of the
-  transform on `0 < Re z` for bounded measurable `f`). They cover bounded kernels; 4.4 extends them
-  to kernels `q` with `e^{−ct} q(t)` integrable.
-- `TauCeti/Analysis/ODE/` treats real and Banach-space equations (Carathéodory solutions, Dyson
-  series, Wronskians of `f″ = q f` with `TauCeti.wronskian_eq_of_hasDerivAt`, the
-  stable-manifold theorem, the local Frobenius integrability theorem
-  `TauCeti.IsFrobeniusIntegrableAt`). None of it treats analytic equations in the complex domain.
-  The regular singular points of 10.3 are unrelated to that Frobenius theorem, and their names
-  avoid the word `frobenius`.
-
-### From Mathlib
-
-- The order symbols `IsBigO`, `IsLittleO` and `IsEquivalent`, and their algebra. Mathlib has no
-  notion of asymptotic expansion, asymptotic scale or asymptotic power series, and no Watson's
-  lemma, Laplace's method, stationary phase, Euler–Maclaurin formula, Frobenius method,
-  Liouville–Green approximation or theory of irregular singularities.
-- `mellin`, `MellinConvergent`, `mellinInv` and `mellinInv_mellin_eq`.
-- `Complex.Gamma`, `Complex.digamma`, `riemannZeta`, `riemannZeta_one_sub` and
-  `Real.eulerMascheroniConstant`. Mathlib's Stirling formula covers `n!` only
-  (`Stirling.factorial_isEquivalent_stirling`), and
-  `Complex.integral_cpow_mul_exp_neg_mul_Ioi` evaluates `∫₀^∞ t^{s−1} e^{−rt} dt` for real
-  `r > 0` only.
-- `bernoulli`, `bernoulliFun` and `periodizedBernoulli`.
-- `PowerSeries.subst`, `PowerSeries.binomialSeries`, `PowerSeries.substInvOfIsUnit` and
-  `descPochhammer`.
-- The Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
-- `circleIntegral`, the Cauchy integral formula and the unbounded-rectangle Cauchy theorems of
-  `Mathlib/Analysis/Complex/CauchyIntegral.lean`.
-- `Finset.sum_range_by_parts`.
-- `ODE_solution_unique` and the Picard–Lindelöf theorem `IsPicardLindelof`.
-- **Mathlib pull request [#40582](https://github.com/leanprover-community/mathlib4/pull/40582)
-  (Laplace transform)** defines
-  `laplace f s = ∫ t, Complex.exp ((−s) * t) • f t ∂(volume.restrict (Ioi 0))` with
-  `LaplaceConvergent` and `HasLaplace`. The layers write Laplace integrals out in exactly this
-  shape, `∫ t in Ioi 0, cexp (−(z * t)) • q t`, so that adopting that API when it lands is a
-  rewrite by definition.
-- Mathlib's `Mathlib/Tactic/ComputeAsymptotics/Multiseries/` (with pull request
-  [#28291](https://github.com/leanprover-community/mathlib4/pull/28291)) implements real
-  multiseries at `+∞` for the `compute_asymptotics` tactic. It is a decision procedure for
-  expressions built from elementary functions, not an expansion API, and the notions here neither
-  replace nor duplicate it. Pull request
-  [#39429](https://github.com/leanprover-community/mathlib4/pull/39429) (`IsOfAsymptoticClassAt`)
-  classifies the growth of a single function for integrability arguments; it defines no expansion
-  or scale and does not overlap the notions here. Pull requests
-  [#40572](https://github.com/leanprover-community/mathlib4/pull/40572) (first-order
-  Euler–Maclaurin through `periodizedBernoulli1`) and
-  [#44746](https://github.com/leanprover-community/mathlib4/pull/44746) (complex Stirling) are
-  prior art.
-
-## How to read the build
-
-Layer 1 is the foundation: the two notions, their API and the algebra of asymptotic power series.
-Every later layer states its conclusions through `HasAsymptoticExpansion`. Layer 2 uses the
-inversion of power series from 1.4. Layers 3–7 are the integral methods, in dependency order:
-Watson's lemma on the line (3), in sectors and on rotated rays (4), Laplace's method with the
-coefficients `b_s` (5), stationary phase on top of 3.2 and 5.1 (6), and the uniform methods (7).
-Layers 8–9 are the Mellin and distributional methods; 8.3's continued transforms feed Layer 9,
-and 8.2, 8.6 and 8.7 are the contour tools that Mellin–Barnes integrals elsewhere consume.
-Layers 10–12 are the equations: the Volterra theorem 10.1 underlies the existence and error
-bounds of 10.4 and Layer 11, and its discrete analogue underlies Layer 12. Layer 13 is
-independent of Layers 6–12. The worked examples in each layer's `### Examples` are statements
-to prove, and they test the general theorems on explicit functions.
 
 ## Layer 1: scales and expansions
 
@@ -1592,6 +1439,171 @@ interoperable. The following secondary provenance map records source counterpart
 | 10–11. ODEs | `ODE/Basic`, `ODE/Singularities`, `ODE/LiouvilleGreen`, `ODE/Parameter` |
 | 12. Difference equations | `ODE/Difference` |
 | 13. Sums | `PowerSums`, `IntegralComparison`; `Sums/Basic`, `Sums/EulerMaclaurin`, `Sums/PowerSums`, `Sums/Darboux` |
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Scales and expansions** (DLMF §2.1). The notions `IsAsymptoticScale` and
+   `HasAsymptoticExpansion` with their API; Poincaré expansions at infinity and at a finite point;
+   the characterization DLMF 2.1.15; uniform and generalized expansions; the algebra of asymptotic
+   power series; integration (2.1.11–2.1.12) and Ritt's differentiation theorem; the Borel–Ritt
+   existence theorem in sectors; the examples 2.1.4–2.1.9 and 2.1.17.
+2. **Transcendental equations** (DLMF 2.2.1–2.2.8), including Lagrange's reversion formula.
+3. **Laplace and Fourier integrals of a real variable** (DLMF 2.3.1–2.3.12, with the example
+   2.11.1–2.11.3).
+4. **Laplace transforms of a complex variable** (DLMF 2.4.1–2.4.9): Watson's lemma in sectors,
+   its extension by rotation of the path, inverse Laplace transforms and Haar's method.
+5. **Laplace's method and saddle points** (DLMF 2.3.13–2.3.18 and 2.4.10–2.4.16).
+6. **Stationary phase** (DLMF 2.3.19–2.3.23).
+7. **Coalescing critical points** (DLMF 2.3.24–2.3.33 and 2.4.17–2.4.20): Bleistein's change of
+   variables, the uniform remainder bound and the uniform expansion 2.3.32 under the hypotheses
+   of 7.2, and the local cubic normal form.
+8. **Mellin-transform methods** (DLMF 2.5.1–2.5.7 and 2.5.17–2.5.48).
+9. **Distributional methods** (DLMF 2.6.1–2.6.30, 2.6.33–2.6.47 and 2.6.54–2.6.62).
+10. **Linear differential equations in the complex domain** (DLMF 2.7.1–2.7.19), with the
+    Volterra integral equations they rest on.
+11. **The Liouville–Green approximation and equations with a large parameter**
+    (DLMF 2.7.20–2.7.34 and 2.8.1–2.8.13).
+12. **Difference equations** (DLMF 2.9.1–2.9.13).
+13. **Sums and sequences** (DLMF 2.10.1–2.10.32).
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**What this roadmap owns:** the general theory listed above, the DLMF formulas named there with
+the hypotheses and conventions specified in the layers, and the following auxiliary results,
+which the layers need and which neither Mathlib nor Tau Ceti provides:
+
+| Result | Target |
+|---|---|
+| `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` for `Re s > 0`, `Re z > 0` | 4.1 |
+| Watson's lemma in sectors and along rotated rays, with the gluing of the rotated integrals | 4.2, 4.3 |
+| The formal complex power of a power series | 1.4 |
+| The Laplace coefficients `b_s` | 5.1 |
+| The continued Mellin transforms through an expansion at `0+` or at `+∞`, and the entire model integral `oscTail` for oscillatory tails | 8.3 |
+| `∫₀^∞ t^{α−1}(x+t)^{−α−β} dt = Γ(α)Γ(β)Γ(α+β)⁻¹ x^{−β}` (DLMF 2.6.4) for complex `α`, `β` with positive real parts and every `x > 0`, extending Tau Ceti's real case at `x = 1` | 9.1 |
+| Volterra integral equations with separable kernel bounds, and their discrete analogue | 10.1, 12 |
+| The line-shift identity with simple poles and vanishing horizontal connectors, and its iteration over infinitely many lines | 8.2 |
+| The pole-separated bound `\|Γ(x + iy)\| ≤ C (1 + \|y\|)^K e^{−π\|y\|/2}` on vertical strips | 8.6 |
+| The exponential Mellin inversion `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` | 8.7 |
+
+These are general tools, and this roadmap is their only owner: the special-function roadmaps
+consume them (see [Downstream consumers](#downstream-consumers)).
+
+**What it does not own:**
+- Asymptotics of particular special functions. The examples used as checks here are the only
+  exceptions, and each is stated by an explicit integral or series, never through a named
+  special function.
+- Complex Stirling and the Gamma function on vertical lines (DLMF 5.11.1, 5.11.7, 5.11.9). They
+  are consumed from ZerosOfLFunctions (see
+  [Exact supplier contracts](#exact-supplier-contracts)), and the pole-separated bound of 8.6 is
+  derived from them here.
+- Bounds for particular Barnes kernels, and Gamma-function identities such as the product formula
+  DLMF 5.8.3.
+- Uniform expansions in terms of special functions. This covers the Airy-function expansions
+  that complete the cubic change of variables of §2.4(v), the turning-point and Bessel-type
+  cases of §§2.8(iii)–(vi), and the transition-point theory of §2.9(iii).
+- The remainder theory of §2.11(ii)–(vi): exponentially improved expansions, the Stokes
+  phenomenon, hyperasymptotics and numerical acceleration.
+- Laplace integrals that converge only conditionally. DLMF assumes for 2.3.8 only that the
+  integral converges for large `x`; here the Laplace integrals of Layers 3–5 are Lebesgue
+  integrals, as in Mathlib's `laplace` and `LaplaceConvergent`, so Watson's lemma (3.3, 4.2) and
+  Laplace's method (5.2, 5.4) assume absolute convergence. The oscillatory integrals of 3.2 and
+  Layer 6 are improper integrals under DLMF's own hypotheses.
+
+[Excluded material](#excluded-material) lists these with their owners.
+
+**The boundary in one sentence:** this roadmap owns the general asymptotic methods of the DLMF
+subsections listed at the top (all within §§2.1–2.10), stated for arbitrary functions under
+explicit hypotheses; it consumes the Gamma asymptotics of ZerosOfLFunctions and the residue
+theory of ContourIntegration, and it excludes expansions of named special functions, uniform
+expansions in special functions, and the remainder and Stokes-phenomenon theory of §2.11.
+
+## Exact supplier contracts
+
+### From [ZerosOfLFunctions §1.2](../ZerosOfLFunctions/README.md#12-stirling-on-the-sector) and [§1.3](../ZerosOfLFunctions/README.md#13-vertical-strips)
+
+- **Stirling's formula in the sector** `|ph s| ≤ π − δ`:
+  `logGamma δ s = (s − ½) log s − s + ½ log 2π + O(1/|s|)` uniformly (DLMF 5.11.1). Consumed by
+  13.5 for the example 2.10.19–2.10.24.
+- **The Gamma function on vertical strips**, uniformly for real `x` in compact intervals as
+  `|y| → ∞`: `log ‖Γ(x + iy)‖ = (x − ½) log |y| − π|y|/2 + ½ log 2π + O(1/|y|)` (DLMF 5.11.9).
+  8.6 derives from it the pole-separated bound for `Γ` on vertical strips, which the rest of
+  Layer 8 and the Mellin–Barnes integrals of the special-function roadmaps use.
+
+No L-function theory is needed by this contract.
+
+### From [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
+
+Residues and the residue theorem, in `TauCeti/Analysis/Contour/Residue/`: `TauCeti.Contour.residue`
+is the coefficient of `(z − z₀)⁻¹` of the Laurent expansion. 5.3 and Layer 8 compute these
+residues and add the vertical-line shift with decay hypotheses; they define no new residue notion.
+
+### From Tau Ceti
+
+- `TauCeti/Analysis/Complex/Laurent/Basic.lean` defines the Laurent coefficient
+  `TauCeti.circleLaurentCoeff f c R n = (2πi)⁻¹ ∮_{|z−c|=R} (z − c)^{−n−1} f(z) dz` and proves its
+  independence of the radius on an annulus of holomorphy
+  (`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`), the monomial
+  value (`TauCeti.circleLaurentCoeff_sub_zpow_smul`), additivity (`TauCeti.circleLaurentCoeff_add`)
+  and the Cauchy estimate (`TauCeti.norm_circleLaurentCoeff_le`). 13.6 uses it for `f_n`.
+- `TauCeti/Analysis/SpecialFunctions/Beta.lean` has Euler's second Beta integral
+  `TauCeti.integral_rpow_mul_one_add_rpow`:
+  `∫₀^∞ t^{a−1}(1 + t)^{−(a+b)} dt = B(a, b)` for real `a, b > 0`. 9.1 extends it.
+- `TauCeti/Analysis/Asymptotics/` has general `IsBigO` and summation lemmas in the namespace
+  `Asymptotics`; this roadmap adds to that namespace.
+- `TauCeti/Analysis/Complex/LaplaceTransform.lean` has, for `f : ℝ → ℂ` and the integrand
+  `f t * cexp (-z * t)`: `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul` (each
+  truncated transform `z ↦ ∫ t in a..b, f t * cexp (-z * t)` is entire for interval-integrable
+  `f`), `TauCeti.integrableOn_mul_cexp_neg_mul` (integrability on `[0, ∞)` for bounded measurable
+  `f` and `0 < Re z`) and `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` (holomorphy of the
+  transform on `0 < Re z` for bounded measurable `f`). They cover bounded kernels; 4.4 extends them
+  to kernels `q` with `e^{−ct} q(t)` integrable.
+- `TauCeti/Analysis/ODE/` treats real and Banach-space equations (Carathéodory solutions, Dyson
+  series, Wronskians of `f″ = q f` with `TauCeti.wronskian_eq_of_hasDerivAt`, the
+  stable-manifold theorem, the local Frobenius integrability theorem
+  `TauCeti.IsFrobeniusIntegrableAt`). None of it treats analytic equations in the complex domain.
+  The regular singular points of 10.3 are unrelated to that Frobenius theorem, and their names
+  avoid the word `frobenius`.
+
+### From Mathlib
+
+- The order symbols `IsBigO`, `IsLittleO` and `IsEquivalent`, and their algebra. Mathlib has no
+  notion of asymptotic expansion, asymptotic scale or asymptotic power series, and no Watson's
+  lemma, Laplace's method, stationary phase, Euler–Maclaurin formula, Frobenius method,
+  Liouville–Green approximation or theory of irregular singularities.
+- `mellin`, `MellinConvergent`, `mellinInv` and `mellinInv_mellin_eq`.
+- `Complex.Gamma`, `Complex.digamma`, `riemannZeta`, `riemannZeta_one_sub` and
+  `Real.eulerMascheroniConstant`. Mathlib's Stirling formula covers `n!` only
+  (`Stirling.factorial_isEquivalent_stirling`), and
+  `Complex.integral_cpow_mul_exp_neg_mul_Ioi` evaluates `∫₀^∞ t^{s−1} e^{−rt} dt` for real
+  `r > 0` only.
+- `bernoulli`, `bernoulliFun` and `periodizedBernoulli`.
+- `PowerSeries.subst`, `PowerSeries.binomialSeries`, `PowerSeries.substInvOfIsUnit` and
+  `descPochhammer`.
+- The Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
+- `circleIntegral`, the Cauchy integral formula and the unbounded-rectangle Cauchy theorems of
+  `Mathlib/Analysis/Complex/CauchyIntegral.lean`.
+- `Finset.sum_range_by_parts`.
+- `ODE_solution_unique` and the Picard–Lindelöf theorem `IsPicardLindelof`.
+- **Mathlib pull request [#40582](https://github.com/leanprover-community/mathlib4/pull/40582)
+  (Laplace transform)** defines
+  `laplace f s = ∫ t, Complex.exp ((−s) * t) • f t ∂(volume.restrict (Ioi 0))` with
+  `LaplaceConvergent` and `HasLaplace`. The layers write Laplace integrals out in exactly this
+  shape, `∫ t in Ioi 0, cexp (−(z * t)) • q t`, so that adopting that API when it lands is a
+  rewrite by definition.
+- Mathlib's `Mathlib/Tactic/ComputeAsymptotics/Multiseries/` (with pull request
+  [#28291](https://github.com/leanprover-community/mathlib4/pull/28291)) implements real
+  multiseries at `+∞` for the `compute_asymptotics` tactic. It is a decision procedure for
+  expressions built from elementary functions, not an expansion API, and the notions here neither
+  replace nor duplicate it. Pull request
+  [#39429](https://github.com/leanprover-community/mathlib4/pull/39429) (`IsOfAsymptoticClassAt`)
+  classifies the growth of a single function for integrability arguments; it defines no expansion
+  or scale and does not overlap the notions here. Pull requests
+  [#40572](https://github.com/leanprover-community/mathlib4/pull/40572) (first-order
+  Euler–Maclaurin through `periodizedBernoulli1`) and
+  [#44746](https://github.com/leanprover-community/mathlib4/pull/44746) (complex Stirling) are
+  prior art.
 
 ## References
 

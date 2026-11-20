@@ -1,61 +1,20 @@
 # Roadmap: zigzag, preprojective, and Ginzburg algebras
 
-**Summary.** Zigzag algebras are finite-dimensional symmetric quotients of doubled-graph path algebras.
-Their quadratic duals lead to preprojective algebras, while their derived Koszul duals lead to
-2-dimensional Ginzburg DG algebras and Calabi--Yau completions.  This roadmap builds that chain
-without identifying objects which agree only after a duality, a completion, or transfer of an
-`A∞` structure.  It covers arbitrary finite simple graphs at the strict-algebra level, finite
-trees for the sharp intrinsic-formality theorem, and finite and affine ADE graphs as named
-examples.
+**Summary.** Let k be a field and G a finite connected simple graph with at least three vertices. The zigzag algebra `Z_k(G)` is the path algebra of the doubled graph, with one arrow each way along every edge, modulo two relations. Paths of length two between distinct vertices vanish. At each vertex, all paths that leave along an edge and come straight back are equal. Its dimension is `2|V| + 2|E|`; the one-vertex and one-edge graphs follow separate conventions. Graded by path length, it is a symmetric Frobenius algebra over every field.
 
-The development consumes Tau Ceti's path algebra, bound-quiver, projective-module, Euler-form,
-and Dynkin-type APIs.  It consumes the general graded Grothendieck, DG, `A∞`, Hochschild, transfer,
-and Calabi--Yau interfaces from the sibling roadmaps rather than introducing local substitutes.
+The preprojective algebra `Π_k(Q)` of a quiver Q is the path algebra of its double modulo `Σ (aa* − a*a)` over the arrows a of Q. For an oriented simple graph it is independent of the orientation, up to isomorphism. For a connected graph with at least three vertices, the quadratic dual of the zigzag algebra is a signless variant of Π, isomorphic to Π for bipartite graphs. For a tree with a source–sink orientation Q, derived Koszul duality relates the zigzag algebra to the 2-dimensional Ginzburg DG algebra `Π₂(Q)`, whose zeroth cohomology is Π.
 
-Suggested homes in Tau Ceti are `TauCeti/RepresentationTheory/Quiver/Zigzag/` for doubled graphs
-and strict zigzag algebras, `TauCeti/RepresentationTheory/Quiver/Preprojective/` for additive
-preprojective algebras, and `TauCeti/Algebra/Homology/Ginzburg/` for their DG and Calabi--Yau
-comparisons.  The mathematical dependency order below is fixed even if the final file split is
-different.
+The main theorems turn on whether the graph is a Dynkin diagram of type A, D or E. If G is connected and not of this kind, then for every orientation and field the dimensions of `e_j Π_d e_i` form matrices `H_d` with `H₀ = I`, `H₁ = C` and `H_{d+2} + H_d = C H_{d+1}`, C being the adjacency matrix (Etingof–Eu). Thus the matrix Hilbert series is `(1 − Ct + t²)⁻¹`, the inverse of the zigzag algebra's graded Cartan matrix `(1 + q²)I + qC` at `q = −t`.
 
-## Scope and ownership
+On the Dynkin side Π is finite-dimensional, and for every orientation and field the roadmap proves it injective as a module over itself. Following Grant's route, it identifies Π with the Baer–Geigle–Lenzing algebra (Crawley-Boevey; Ringel), built from inverse Auslander–Reiten translates of the path algebra, which carries a functional φ with `(a, b) ↦ φ(ab)` nondegenerate.
 
-This roadmap constructs:
+The bad primes are 2 for type D, 2 and 3 for E₆ and E₇, and 2, 3 and 5 for E₈; type A has none. For an orientation of a finite connected simple graph G and any field, every element of Π of degree at least 3 is a linear combination of commutators exactly when G is a simply-laced Dynkin diagram and the characteristic is not bad for its type (Schedler; Liu–Wang).
 
-- affine simply-laced Dynkin diagrams on the native carrier, their null-vector/completeness
-  comparisons, and the graph data consumed by the algebraic layers below;
-- doubled quivers attached to finite simple graphs and symmetrifications of finite quivers;
-- ordinary and skew zigzag algebras, including the one-vertex, one-edge, and non-bipartite cases;
-- their gradings, bases, dimensions, centers, Frobenius traces, projectives, graded Cartan
-  matrices, and convergent `q`-Euler comparisons;
-- additive preprojective algebras, their local relations, orientation/sign independence, and their
-  self-injectivity in Dynkin type through the Baer--Geigle--Lenzing algebra; the Auslander--Reiten
-  translate and the Nakayama functor that construction uses are the Artin algebras roadmap's
-  (ArtinAlgebras §4.1 and §2.3);
-- the zigzag and preprojective instances of quadratic, classical Koszul and derived `A∞` Koszul
-  duality under separately stated hypotheses; the Koszul predicate and its general theorems are
-  the DG and `A∞` roadmap's and the Grothendieck/Euler roadmap's;
-- 2-dimensional Ginzburg DG algebras, ordinary and completed versions, and their relation to
-  Calabi--Yau completions;
-- the distinct 3-dimensional Ginzburg construction for a quiver with potential;
-- Hochschild classes, DG deformations, minimal `A∞` deformations, transferred products, and
-  intrinsic formality;
-- the characteristic-zero finite-ADE-versus-non-ADE theorem for finite trees; and
-- the published braid actions by complexes of bimodules and their precise spherical-twist
-  comparison.
+Liu–Wang's theorem concerns strictly unital minimal `A∞` deformations of the zigzag algebra: `A∞` structures that keep its grading and its product as `m₂`, with `m₁ = 0` and 1 a strict unit. The algebra is intrinsically formal if all of them are `A∞`-isomorphic to it. For a finite tree G, this holds over k exactly when G is a simply-laced Dynkin diagram and the characteristic of k is not bad for its type. So D₄ is intrinsically formal over ℚ and 𝔽₃ but not over 𝔽₂. The proof uses the commutator theorem through the Hochschild cohomology of `Π₂(Q)`.
 
-It does not construct the following research-specific material:
+Tau Ceti already has the zigzag, preprojective and Ginzburg algebras, with the zigzag bases and Cartan matrices. The DG and `A∞` roadmap provides Hochschild cochains, Calabi–Yau completions and the Koszul property. The Artin algebras roadmap provides the Auslander–Reiten translate. The algebraic McKay roadmap uses the zigzag algebras of simple McKay graphs, the skew-zigzag algebras of odd cycles and the transfer of braid actions.
 
-- a finiteness conjecture for affine `E₈`;
-- a categorical quotient by the affine null root or any categorical delta quotient;
-- a distinguished Hopf algebra or a choice of Hopf action;
-- a categorification of a root lattice, the Leech lattice, or any rank-24 lattice;
-- geometric McKay correspondence, quiver varieties, or surface resolutions; or
-- the polynomial/exterior skew-group-algebra construction itself, which belongs to the algebraic
-  McKay roadmap.
-
-The affine examples here are unconditional calculations about graph-indexed algebras.  Nothing in
-their inclusion asserts the excluded finiteness or categorification statements.
+The layers come in build order, after the conventions. Layer 0 shows that the finite connected simple graphs with a nonzero nonnegative integral null vector of `2I − A` are, up to isomorphism, the cycles, `D̃_n` with n ≥ 4, and Ẽ₆, Ẽ₇, Ẽ₈. Layers 1–3 build the ordinary and skew zigzag algebras with their bases, traces and Cartan matrices, and Layer 4 the preprojective algebras. Layer 5 treats Koszul duality: for a connected graph with at least three vertices, the zigzag algebra is Koszul exactly when the graph is not of type A, D or E. Layer 6 treats the Ginzburg algebras, Layer 7 proves derived Koszul duality and the last two theorems above, and Layer 8 builds braid group actions by complexes of bimodules. Each layer closes with examples and dependencies.
 
 ## Conventions
 
@@ -159,155 +118,6 @@ is stated separately.
   one-edge zigzag algebra.
 - `Γ = 1`: the multiplicity matrix is `[2]`, a loop of multiplicity two, so no simple graph is
   attached; the dimensions `4 ≠ 2` exclude the `A₁` convention.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `SimpleGraph`, connectedness, bipartiteness, graph isomorphisms, finite edge sets, adjacency
-  matrices, and the named finite graph constructions;
-- `Quiver`, `Quiver.Path`, `Quiver.Symmetrify`, `Quiver.HasInvolutiveReverse`, and path reversal;
-- `TwoSidedIdeal.span`, `TwoSidedIdeal.asIdeal`, the supplied `Ideal.IsTwoSided` instance, and ideal
-  quotients;
-- graded objects, polynomials and Laurent polynomials, matrices, bases, bilinear forms, tensor
-  algebras, homological complexes, and derived categories;
-- Mathlib's Cartan matrices and root-system infrastructure.
-
-Relation-generated noncommutative quotients use `TwoSidedIdeal`, not a private closure predicate.
-If a needed interface is absent, Tau Ceti supplies the complete target in the same mathematical
-shape and replaces it with the Mathlib declaration when available.
-
-### From Tau Ceti
-
-The landed declarations include:
-
-- `TauCeti.pathAlgebra`, `TauCeti.Quiver.TotalPath`, `TauCeti.pathAlgebraBasis`,
-  `TauCeti.PathAlgebra.ofPath`, `ofArrow`, and `vertexIdempotent`;
-- multiplication and basis-coordinate lemmas implementing the left-module convention;
-- admissible ideals, radical powers, primitive idempotents, semisimple quotients, projective quiver
-  representations, and finite-dimensional path-algebra results;
-- `TauCeti.eulerForm`, `titsForm`, projective evaluation, and path-count computations; and
-- `TauCeti.DynkinType`, its validity and simply-laced predicates, standard finite Cartan
-  matrices and Bourbaki numbering;
-- the separate native `TauCeti.AffineDynkinType` carrier and its `Basic`, `Star`, `Deletion`
-  and `PositiveSemidefinite` modules: affine graphs, Cartan matrices, marks, star models,
-  finite-node deletion and singular-semidefinite comparisons; and
-- native `SimpleGraph.graphCartanMatrix` and the positive-additive-function energy and
-  kernel theorems consumed in Layer 0. Extend these same APIs with the coefficient-game
-  adapters and affine classification below; do not introduce a second affine family;
-- the native implementations of the strict algebras of Layers 1--5, which the headline
-  statements consume rather than redeclare: `TauCeti.DoubledQuiver`, `TauCeti.nonisolatedZigzagQuotient`,
-  the componentwise public algebra `TauCeti.zigzagAlgebra` (dual numbers on singleton
-  components) with its path-length pieces `TauCeti.zigzagAlgebraGrade`,
-  `TauCeti.zigzagAlgebraIntegerGrade` and `TauCeti.zigzagAlgebraGradedAlgebra`
-  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Componentwise/Basic.lean` and `Grading.lean`),
-  the orientations `TauCeti.DoubledQuiver.Orientation` and their quivers
-  `TauCeti.DoubledQuiver.OrientedQuiver` (`Zigzag/Orientation.lean`), the additive preprojective
-  algebra `TauCeti.preprojectiveAlgebra` and its path-length pieces `TauCeti.preprojectiveGrade`
-  (`Preprojective/Basic.lean`, `Preprojective/Grading.lean`), and the finite diagram graph
-  `TauCeti.diagramGraph` of a Cartan matrix (`LinearAlgebra/RootSystem/FiniteType/Diagram.lean`);
-- the `A∞` carrier `TauCeti.AInfinityAlgebra` (unsuspended operations `m n` of degree `2 - n`,
-  `Algebra/Homology/AInfinity/Algebra.lean`), its predicates `IsMinimal` (`m₁ = 0`),
-  `StrictUnit` (degree-zero two-sided unit for `m₂` killing every other operation) and
-  `IsFormal` (an `A∞` quasi-isomorphism to the cohomology algebra with `m₂` only), and
-  `TauCeti.AInfinityHom.isQuasiIso_iff_isIso` (a quasi-isomorphism of minimal algebras is an
-  isomorphism), from `Algebra/Minimal.lean`, `Algebra/Unit.lean` and `Algebra/Formal.lean`;
-- the corner map `TauCeti.cornerMap k e f`, `x ↦ e x f`, and the corner submodule
-  `TauCeti.cornerSubmodule` (`RingTheory/Idempotents/Corner.lean`), on which the graded corners of
-  Layer 5 are built;
-- Gabriel's theorem over every field,
-  `TauCeti.isFiniteRepType_iff_card_hom_add_card_hom_le_one_and_exists_dynkinType_iso`
-  (`RepresentationTheory/Quiver/FiniteRepType/Gabriel.lean`): a finite connected quiver has finite
-  representation type exactly when it is an oriented simply-laced Dynkin diagram, consumed by the
-  self-injectivity target of §4.2;
-- Frobenius functionals: `LinearMap.IsFrobeniusFunctional φ` (the pairing `(a, b) ↦ φ(ab)` is
-  nondegenerate), the bijection `TauCeti.frobeniusFunctionalEquivDualEquiv` between the Frobenius
-  functionals on a finite-dimensional algebra and the isomorphisms of its regular right module with
-  its dual, and `LinearMap.IsFrobeniusFunctional.moduleInjective_self` with
-  `LinearMap.IsFrobeniusFunctional.moduleInjective_op_self`: a finite-dimensional algebra over a
-  field carrying a Frobenius functional is injective as a left and as a right module over itself
-  (`Algebra/Algebra/Frobenius/Basic.lean`), consumed by the self-injectivity target of §4.2;
-- the native Layer 6 constructions, consumed rather than rebuilt: the two-dimensional Ginzburg
-  differential `TauCeti.ginzburgTwoDifferential` with `TauCeti.isDGAlgebra_ginzburgTwoDifferential`,
-  `TauCeti.ginzburgTwoDifferential_sq_zero` and the Adams grading `TauCeti.ginzburgTwoAdamsDegree`
-  (`Algebra/Homology/Ginzburg/Basic.lean`), the zeroth cohomology
-  `TauCeti.preprojectiveEquivGinzburgTwoCohomologyZero` (`Ginzburg/ZerothCohomology.lean`), the
-  completed algebra `TauCeti.completedGinzburgTwo` with the comparison
-  `TauCeti.ginzburgTwoToCompleted`, `TauCeti.ginzburgTwoToCompleted_injective` and
-  `TauCeti.mem_range_ginzburgTwoToCompleted_iff` (`Ginzburg/Completion.lean`), and the
-  three-dimensional differential `TauCeti.ginzburgThreeDifferential` with
-  `TauCeti.isDGAlgebra_ginzburgThreeDifferential` and the cyclic derivative
-  `TauCeti.PathAlgebra.cyclicDerivative` (`Ginzburg/ThreeDimensional.lean`,
-  `RepresentationTheory/Quiver/PathAlgebra/CyclicDerivative.lean`);
-- the native Layer 7 deformations: the loop deformations `TauCeti.zigzagLoopAInfinityAlgebra`
-  (`RepresentationTheory/Quiver/Zigzag/AInfinity/Loop.lean`) and Liu--Wang's affine `D₄` example
-  `TauCeti.liuWangAffineD4AInfinityAlgebra` with `TauCeti.liuWangAffineD4AInfinityAlgebra_m_four_values`,
-  `TauCeti.isMinimal_liuWangAffineD4AInfinityAlgebra`,
-  `TauCeti.strictUnit_one_liuWangAffineD4AInfinityAlgebra` and
-  `TauCeti.isHomogeneous_liuWangAffineD4AInfinityAlgebra_m_adams` (`AInfinity/AffineD4.lean`);
-- the native Layer 8 complexes: `TauCeti.zigzagBraidComplex` and `TauCeti.zigzagBraidInverseComplex`
-  with their differentials `TauCeti.zigzagBraidEvaluationHom` and `TauCeti.zigzagBraidCoevaluationHom`,
-  the gradings `TauCeti.zigzagEnvelopingGrading` on `Z ⊗ Zᵐᵒᵖ`, the degree statement
-  `TauCeti.isHomogeneous_zigzagBraidCoevaluation` and the Casimir element `TauCeti.zigzagCasimir`
-  (`Zigzag/Braid/Basic.lean`, `Zigzag/Componentwise/Casimir.lean`).
-
-### From TauCetiRoadmap.QuiverRepresentations, GrothendieckEulerForms and DGAInfinity
-
-The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md)
-owns general path algebras, projectives, bound quivers, and Ringel forms.  Its Layer 1 identifies
-representations with left `kQ`-modules, which §4.2 uses.  This roadmap adds the specific relation
-quotients and their homological structure.
-
-The [Grothendieck groups and Euler forms roadmap](../GrothendieckEulerForms/README.md) supplies
-graded `K₀`, the shift action, Laurent-polynomial sesquilinearity, finite-support `q`-Euler forms,
-and comparison with projective/simple bases.  In particular, a `q`-Euler value is formed only after
-cohomological and internal finite-support hypotheses are proved.  Its Layer 3 supplies linear
-graded projective resolutions, their equivalence with the diagonal vanishing of bigraded `Ext` and
-with the inversion of the graded Cartan and Poincaré series up to `q ↦ −q`: the vocabulary in
-which the Koszulity of Layer 5 is stated.
-
-The [DG and A-infinity roadmap](../DGAInfinity/README.md) supplies DG and `A∞` algebras and modules,
-bar/cobar duality, completion, perfect modules, Hochschild cochains, homological perturbation,
-minimal-model transfer, smoothness, Calabi--Yau structures, the derived tensor algebra and the
-(deformed) Calabi--Yau completions `Π_n(C)=T_C(C![n-1])`, derived Morita equivalence, and, in its
-Layer 11, the Koszul predicate on graded right modules over a quadratic algebra `T_S(V)/(R)` with
-its quadratic dual `A^! = T_S(V^∨)/(R^⊥)`, the theorems that a Koszul algebra is quadratic, that
-its dual is Koszul and is the Yoneda algebra `Ext^*_A(S,S)`, and the double-dual comparison
-under its dualizability hypotheses.  This
-roadmap instantiates those interfaces for zigzag and preprojective data.  It owns no second sign
-convention or transfer theorem.  In particular, the sibling's DG and `A∞` module APIs are
-right-module primary; the strict left modules used above enter them as right modules over the
-opposite algebra.  Its unsuspended operations have cohomological degree `2-n`, satisfy the
-Keller/Getzler--Jones `(-1)^(r+s*t)` Stasheff identities, use ordinary multiplication for `m₂`
-without a Seidel-style twist, and are strictly unital in the deformation statements below.
-
-### From TauCetiRoadmap.ArtinAlgebras
-
-The Artin algebras roadmap owns the Auslander--Reiten translate `τ = D Tr` and its inverse
-`τ⁻ = Tr D` of a finitely generated module over an Artin algebra (its §4.1: formed from a minimal
-projective presentation, independent of the presentation, with `τ M = 0` exactly for `M`
-projective) and the Nakayama functor `ν = D Hom_A(−, A)` (its §2.3: an equivalence from finitely
-generated projective to finitely generated injective modules).  Over a field these are the pinned
-`TauCeti.AuslanderReitenTranslate`, the dual of the transpose `TauCeti.AuslanderReitenTranspose` of
-a presentation (`Algebra/Module/AuslanderReiten/Transpose.lean` and `Translate.lean`), and, on
-pointwise finite-dimensional quiver representations, `TauCeti.arTranslate`
-(`RepresentationTheory/Quiver/Representation/Translate.lean`).  §4.2 consumes them for the
-hereditary path algebra `kQ` and proves only their hereditary description, Serre duality and the
-preprojectivity of the injective modules of a Dynkin quiver.
-
-## How to read the build
-
-The layers are in build order.  Layer 0 fixes the graph-theoretic input: the affine simply-laced
-diagrams on the native carrier, doubled quivers, relation quotients and grading descent.  Layers
-1--3 deliver the strict zigzag algebras, ordinary and skew, with their bases, traces, centres,
-projectives and graded Cartan matrices; Layer 4 the additive preprojective algebras with
-orientation independence, the finite/infinite dichotomy and the non-Dynkin Hilbert series; Layer 5
-quadratic and classical Koszul duality between the two.  Layer 6 passes to the differential graded
-level with the two- and three-dimensional Ginzburg algebras and their Calabi--Yau completions;
-Layer 7 proves derived Koszul duality, the Hochschild comparison and Liu--Wang's intrinsic
-formality theorem; Layer 8 delivers the braid actions by bimodule complexes and their comparison
-with spherical twists.  Each layer ends with its examples and its dependencies on the earlier
-layers and the suppliers.
 
 ## Layer 0: affine simply-laced diagrams, doubled graphs, relation quotients, and grading descent
 
@@ -1364,6 +1174,180 @@ Every example is computed from the general definitions.
   comparison is unavailable over characteristic different from two.
 - Match the skew version, not the ordinary version, with the odd-cyclic exterior skew group
   algebra used downstream.
+
+## Scope and ownership
+
+This roadmap constructs:
+
+- affine simply-laced Dynkin diagrams on the native carrier, their null-vector/completeness
+  comparisons, and the graph data consumed by the algebraic layers above;
+- doubled quivers attached to finite simple graphs and symmetrifications of finite quivers;
+- ordinary and skew zigzag algebras, including the one-vertex, one-edge, and non-bipartite cases;
+- their gradings, bases, dimensions, centers, Frobenius traces, projectives, graded Cartan
+  matrices, and convergent `q`-Euler comparisons;
+- additive preprojective algebras, their local relations, orientation/sign independence, and their
+  self-injectivity in Dynkin type through the Baer--Geigle--Lenzing algebra; the Auslander--Reiten
+  translate and the Nakayama functor that construction uses are the Artin algebras roadmap's
+  (ArtinAlgebras §4.1 and §2.3);
+- the zigzag and preprojective instances of quadratic, classical Koszul and derived `A∞` Koszul
+  duality under separately stated hypotheses; the Koszul predicate and its general theorems are
+  the DG and `A∞` roadmap's and the Grothendieck/Euler roadmap's;
+- 2-dimensional Ginzburg DG algebras, ordinary and completed versions, and their relation to
+  Calabi--Yau completions;
+- the distinct 3-dimensional Ginzburg construction for a quiver with potential;
+- Hochschild classes, DG deformations, minimal `A∞` deformations, transferred products, and
+  intrinsic formality;
+- the characteristic-zero finite-ADE-versus-non-ADE theorem for finite trees; and
+- the published braid actions by complexes of bimodules and their precise spherical-twist
+  comparison.
+
+It does not construct the following research-specific material:
+
+- a finiteness conjecture for affine `E₈`;
+- a categorical quotient by the affine null root or any categorical delta quotient;
+- a distinguished Hopf algebra or a choice of Hopf action;
+- a categorification of a root lattice, the Leech lattice, or any rank-24 lattice;
+- geometric McKay correspondence, quiver varieties, or surface resolutions; or
+- the polynomial/exterior skew-group-algebra construction itself, which belongs to the algebraic
+  McKay roadmap.
+
+The affine examples here are unconditional calculations about graph-indexed algebras.  Nothing in
+their inclusion asserts the excluded finiteness or categorification statements.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `SimpleGraph`, connectedness, bipartiteness, graph isomorphisms, finite edge sets, adjacency
+  matrices, and the named finite graph constructions;
+- `Quiver`, `Quiver.Path`, `Quiver.Symmetrify`, `Quiver.HasInvolutiveReverse`, and path reversal;
+- `TwoSidedIdeal.span`, `TwoSidedIdeal.asIdeal`, the supplied `Ideal.IsTwoSided` instance, and ideal
+  quotients;
+- graded objects, polynomials and Laurent polynomials, matrices, bases, bilinear forms, tensor
+  algebras, homological complexes, and derived categories;
+- Mathlib's Cartan matrices and root-system infrastructure.
+
+Relation-generated noncommutative quotients use `TwoSidedIdeal`, not a private closure predicate.
+If a needed interface is absent, Tau Ceti supplies the complete target in the same mathematical
+shape and replaces it with the Mathlib declaration when available.
+
+### From Tau Ceti
+
+The landed declarations include:
+
+- `TauCeti.pathAlgebra`, `TauCeti.Quiver.TotalPath`, `TauCeti.pathAlgebraBasis`,
+  `TauCeti.PathAlgebra.ofPath`, `ofArrow`, and `vertexIdempotent`;
+- multiplication and basis-coordinate lemmas implementing the left-module convention;
+- admissible ideals, radical powers, primitive idempotents, semisimple quotients, projective quiver
+  representations, and finite-dimensional path-algebra results;
+- `TauCeti.eulerForm`, `titsForm`, projective evaluation, and path-count computations; and
+- `TauCeti.DynkinType`, its validity and simply-laced predicates, standard finite Cartan
+  matrices and Bourbaki numbering;
+- the separate native `TauCeti.AffineDynkinType` carrier and its `Basic`, `Star`, `Deletion`
+  and `PositiveSemidefinite` modules: affine graphs, Cartan matrices, marks, star models,
+  finite-node deletion and singular-semidefinite comparisons; and
+- native `SimpleGraph.graphCartanMatrix` and the positive-additive-function energy and
+  kernel theorems consumed in Layer 0. Extend these same APIs with the coefficient-game
+  adapters and affine classification above; do not introduce a second affine family;
+- the native implementations of the strict algebras of Layers 1--5, which the headline
+  statements consume rather than redeclare: `TauCeti.DoubledQuiver`, `TauCeti.nonisolatedZigzagQuotient`,
+  the componentwise public algebra `TauCeti.zigzagAlgebra` (dual numbers on singleton
+  components) with its path-length pieces `TauCeti.zigzagAlgebraGrade`,
+  `TauCeti.zigzagAlgebraIntegerGrade` and `TauCeti.zigzagAlgebraGradedAlgebra`
+  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Componentwise/Basic.lean` and `Grading.lean`),
+  the orientations `TauCeti.DoubledQuiver.Orientation` and their quivers
+  `TauCeti.DoubledQuiver.OrientedQuiver` (`Zigzag/Orientation.lean`), the additive preprojective
+  algebra `TauCeti.preprojectiveAlgebra` and its path-length pieces `TauCeti.preprojectiveGrade`
+  (`Preprojective/Basic.lean`, `Preprojective/Grading.lean`), and the finite diagram graph
+  `TauCeti.diagramGraph` of a Cartan matrix (`LinearAlgebra/RootSystem/FiniteType/Diagram.lean`);
+- the `A∞` carrier `TauCeti.AInfinityAlgebra` (unsuspended operations `m n` of degree `2 - n`,
+  `Algebra/Homology/AInfinity/Algebra.lean`), its predicates `IsMinimal` (`m₁ = 0`),
+  `StrictUnit` (degree-zero two-sided unit for `m₂` killing every other operation) and
+  `IsFormal` (an `A∞` quasi-isomorphism to the cohomology algebra with `m₂` only), and
+  `TauCeti.AInfinityHom.isQuasiIso_iff_isIso` (a quasi-isomorphism of minimal algebras is an
+  isomorphism), from `Algebra/Minimal.lean`, `Algebra/Unit.lean` and `Algebra/Formal.lean`;
+- the corner map `TauCeti.cornerMap k e f`, `x ↦ e x f`, and the corner submodule
+  `TauCeti.cornerSubmodule` (`RingTheory/Idempotents/Corner.lean`), on which the graded corners of
+  Layer 5 are built;
+- Gabriel's theorem over every field,
+  `TauCeti.isFiniteRepType_iff_card_hom_add_card_hom_le_one_and_exists_dynkinType_iso`
+  (`RepresentationTheory/Quiver/FiniteRepType/Gabriel.lean`): a finite connected quiver has finite
+  representation type exactly when it is an oriented simply-laced Dynkin diagram, consumed by the
+  self-injectivity target of §4.2;
+- Frobenius functionals: `LinearMap.IsFrobeniusFunctional φ` (the pairing `(a, b) ↦ φ(ab)` is
+  nondegenerate), the bijection `TauCeti.frobeniusFunctionalEquivDualEquiv` between the Frobenius
+  functionals on a finite-dimensional algebra and the isomorphisms of its regular right module with
+  its dual, and `LinearMap.IsFrobeniusFunctional.moduleInjective_self` with
+  `LinearMap.IsFrobeniusFunctional.moduleInjective_op_self`: a finite-dimensional algebra over a
+  field carrying a Frobenius functional is injective as a left and as a right module over itself
+  (`Algebra/Algebra/Frobenius/Basic.lean`), consumed by the self-injectivity target of §4.2;
+- the native Layer 6 constructions, consumed rather than rebuilt: the two-dimensional Ginzburg
+  differential `TauCeti.ginzburgTwoDifferential` with `TauCeti.isDGAlgebra_ginzburgTwoDifferential`,
+  `TauCeti.ginzburgTwoDifferential_sq_zero` and the Adams grading `TauCeti.ginzburgTwoAdamsDegree`
+  (`Algebra/Homology/Ginzburg/Basic.lean`), the zeroth cohomology
+  `TauCeti.preprojectiveEquivGinzburgTwoCohomologyZero` (`Ginzburg/ZerothCohomology.lean`), the
+  completed algebra `TauCeti.completedGinzburgTwo` with the comparison
+  `TauCeti.ginzburgTwoToCompleted`, `TauCeti.ginzburgTwoToCompleted_injective` and
+  `TauCeti.mem_range_ginzburgTwoToCompleted_iff` (`Ginzburg/Completion.lean`), and the
+  three-dimensional differential `TauCeti.ginzburgThreeDifferential` with
+  `TauCeti.isDGAlgebra_ginzburgThreeDifferential` and the cyclic derivative
+  `TauCeti.PathAlgebra.cyclicDerivative` (`Ginzburg/ThreeDimensional.lean`,
+  `RepresentationTheory/Quiver/PathAlgebra/CyclicDerivative.lean`);
+- the native Layer 7 deformations: the loop deformations `TauCeti.zigzagLoopAInfinityAlgebra`
+  (`RepresentationTheory/Quiver/Zigzag/AInfinity/Loop.lean`) and Liu--Wang's affine `D₄` example
+  `TauCeti.liuWangAffineD4AInfinityAlgebra` with `TauCeti.liuWangAffineD4AInfinityAlgebra_m_four_values`,
+  `TauCeti.isMinimal_liuWangAffineD4AInfinityAlgebra`,
+  `TauCeti.strictUnit_one_liuWangAffineD4AInfinityAlgebra` and
+  `TauCeti.isHomogeneous_liuWangAffineD4AInfinityAlgebra_m_adams` (`AInfinity/AffineD4.lean`);
+- the native Layer 8 complexes: `TauCeti.zigzagBraidComplex` and `TauCeti.zigzagBraidInverseComplex`
+  with their differentials `TauCeti.zigzagBraidEvaluationHom` and `TauCeti.zigzagBraidCoevaluationHom`,
+  the gradings `TauCeti.zigzagEnvelopingGrading` on `Z ⊗ Zᵐᵒᵖ`, the degree statement
+  `TauCeti.isHomogeneous_zigzagBraidCoevaluation` and the Casimir element `TauCeti.zigzagCasimir`
+  (`Zigzag/Braid/Basic.lean`, `Zigzag/Componentwise/Casimir.lean`).
+
+### From TauCetiRoadmap.QuiverRepresentations, GrothendieckEulerForms and DGAInfinity
+
+The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md)
+owns general path algebras, projectives, bound quivers, and Ringel forms.  Its Layer 1 identifies
+representations with left `kQ`-modules, which §4.2 uses.  This roadmap adds the specific relation
+quotients and their homological structure.
+
+The [Grothendieck groups and Euler forms roadmap](../GrothendieckEulerForms/README.md) supplies
+graded `K₀`, the shift action, Laurent-polynomial sesquilinearity, finite-support `q`-Euler forms,
+and comparison with projective/simple bases.  In particular, a `q`-Euler value is formed only after
+cohomological and internal finite-support hypotheses are proved.  Its Layer 3 supplies linear
+graded projective resolutions, their equivalence with the diagonal vanishing of bigraded `Ext` and
+with the inversion of the graded Cartan and Poincaré series up to `q ↦ −q`: the vocabulary in
+which the Koszulity of Layer 5 is stated.
+
+The [DG and A-infinity roadmap](../DGAInfinity/README.md) supplies DG and `A∞` algebras and modules,
+bar/cobar duality, completion, perfect modules, Hochschild cochains, homological perturbation,
+minimal-model transfer, smoothness, Calabi--Yau structures, the derived tensor algebra and the
+(deformed) Calabi--Yau completions `Π_n(C)=T_C(C![n-1])`, derived Morita equivalence, and, in its
+Layer 11, the Koszul predicate on graded right modules over a quadratic algebra `T_S(V)/(R)` with
+its quadratic dual `A^! = T_S(V^∨)/(R^⊥)`, the theorems that a Koszul algebra is quadratic, that
+its dual is Koszul and is the Yoneda algebra `Ext^*_A(S,S)`, and the double-dual comparison
+under its dualizability hypotheses.  This
+roadmap instantiates those interfaces for zigzag and preprojective data.  It owns no second sign
+convention or transfer theorem.  In particular, the sibling's DG and `A∞` module APIs are
+right-module primary; the strict left modules used above enter them as right modules over the
+opposite algebra.  Its unsuspended operations have cohomological degree `2-n`, satisfy the
+Keller/Getzler--Jones `(-1)^(r+s*t)` Stasheff identities, use ordinary multiplication for `m₂`
+without a Seidel-style twist, and are strictly unital in the deformation statements above.
+
+### From TauCetiRoadmap.ArtinAlgebras
+
+The Artin algebras roadmap owns the Auslander--Reiten translate `τ = D Tr` and its inverse
+`τ⁻ = Tr D` of a finitely generated module over an Artin algebra (its §4.1: formed from a minimal
+projective presentation, independent of the presentation, with `τ M = 0` exactly for `M`
+projective) and the Nakayama functor `ν = D Hom_A(−, A)` (its §2.3: an equivalence from finitely
+generated projective to finitely generated injective modules).  Over a field these are the pinned
+`TauCeti.AuslanderReitenTranslate`, the dual of the transpose `TauCeti.AuslanderReitenTranspose` of
+a presentation (`Algebra/Module/AuslanderReiten/Transpose.lean` and `Translate.lean`), and, on
+pointwise finite-dimensional quiver representations, `TauCeti.arTranslate`
+(`RepresentationTheory/Quiver/Representation/Translate.lean`).  §4.2 consumes them for the
+hereditary path algebra `kQ` and proves only their hereditary description, Serre duality and the
+preprojectivity of the injective modules of a Dynkin quiver.
 
 ## References
 

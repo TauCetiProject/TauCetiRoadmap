@@ -1,262 +1,81 @@
 # Roadmap: explicit prime counting
 
-**Summary.** This roadmap develops, on Mathlib's carriers `Chebyshev.psi`, `Chebyshev.theta`,
-`Nat.primeCounting`, `Nat.nth Nat.Prime` and `ArithmeticFunction.vonMangoldt`, on Tau Ceti's
-offset logarithmic integral `TauCeti.Real.logIntegral`, the numerically explicit theory of the
-distribution of primes. It builds the unoffset logarithmic integral `li`, the exact transfer
-identities between `ψ`, `θ`, `π`, `Li` and `li`, and the Brun–Titchmarsh inequality of
-Montgomery–Vaughan with the constant `2`. Its general
-theorems turn a zero-free region with constant `R`, a height `H` of verified zeros, an explicit
-zero-counting error and a zero-density bound into a bound `|ψ(x) − x| ≤ ε(x) x` with `ε` an
-explicit function of those parameters, the zero density being the general input and the
-density-free schemes its special cases. It proves the extremal-kernel bound
-`|ψ(x) − x| ≤ (π/T) x + C_T √x` from a height `T` of verified zeros alone, and the same theorems
-for primes in a residue class modulo `q`. The published constants of Rosser–Schoenfeld,
-Schoenfeld, Dusart, Faber–Kadiri, Trudgian, Platt–Trudgian, Broadbent–Kadiri–Lumley–Ng–Wilk,
-Johnston–Yang, Fiori–Kadiri–Swidinsky, Axler, Büthe, Johnston, Lee–Nosal, Ramaré–Rumely,
-Bennett–Martin–O'Bryant–Rechnitzer, Lamzouri–Li–Soundararajan, Kadiri–Lumley and Cully-Hugill–Lee
-are instances of those theorems. Results available only as preprints (Chirre–Helfgott,
-Broadbent–Fiori–Kadiri–Ng–Wilk, Fiori–Jaskari, Banks) are stated as instances with that status
-recorded, next to the refereed statement they would sharpen, never in its place. From the
-Chebyshev bounds the roadmap derives explicit bounds for `π(x)`, for the `n`-th prime, for the
-Mertens sums `∑ Λ(n)/n` and `∑ 1/p`, for the sums `∑_{p ≤ x} p^r`, for primes in arithmetic
-progressions, and for short intervals `(x(1 − Δ⁻¹), x]` that contain a prime. Every computational
-fact a source relies on (a verified height of zeros, a table of constants, a finite-range check, a
-table of prime gaps) is an assumption: a named proposition with its data in the statement, stated
-once (a verified height in ExplicitZetaBounds §§0.4–0.4b; a finite-range check, a gap bound or a
-tabulation in Layer 1, or in §0.1 for the two that the Brun–Titchmarsh inequality uses and in §0.8
-for the one that Chebyshev's weight method uses; a table of constants next to the general theorem
-whose error function it evaluates), and an explicit
-hypothesis of every theorem that uses it. The roadmap proves, performs and plans no computation.
+**Summary.** The prime number theorem says that the number π(x) of primes up to x is asymptotic
+to x/log x, and the zeros of the Riemann zeta function govern the error. An explicit version of
+such a statement is an inequality with numerical constants that holds for every x beyond a stated
+point. This roadmap develops that numerically explicit theory for Mathlib's Chebyshev functions
+`ψ(x) = ∑_{n ≤ x} Λ(n)` and `θ(x) = ∑_{p ≤ x} log p`, for π(x), and for their analogues in an
+arithmetic progression.
 
-The end theorems are:
+Throughout, every computational fact that a source relies on, such as a height up to which the
+zeros of ζ are known to lie on the critical line, is a named hypothesis with its data in the
+statement, carried explicitly by every theorem that uses it. The roadmap proves, performs and plans
+no computation.
 
-- under the Riemann hypothesis, Lee–Nosal's `|ψ(x) − x| ≤ √x log x (log x − log log x)/(8π)` for
-  `x ≥ 101` and the same bound for `|θ(x) − x|` for `x ≥ 2657`, Schoenfeld's
-  `|π(x) − li x| < √x log x/(8π)` for `x > 2657`, Carneiro–Milinovich–Soundararajan's prime in
-  `[x, x + (22/25) √x log x]` for `x ≥ 4`, and Dudek–Platt's Ramanujan inequality
-  `π(n)² < (e n/log n) π(n/e)` for every integer `n > 38 358 837 682`, the largest integer at which
-  it fails;
-- from the zeros up to a height `T`, Büthe's four bounds of Schoenfeld's shape for every `x` with
-  `4.92 √(x/log x) ≤ T`, and, together with the verified height `3·10¹²`, the same bounds under
-  Johnston's weaker condition `9.06 √(x/log x)/log log x ≤ T`, which at `T = 3·10¹²` gives the
-  range `x ≤ 1.101·10²⁶`;
-- unconditionally, Dusart's `|ψ(x) − x| < x √(8/π) X^{1/2} e^{−X}`, `X = √(log x/R)`, from a
-  zero-free region of constant `R`, the absence of zeros up to height `14` and Rosser's bound for
-  the sum of `1/γ³` over the zeros, Rosser–Schoenfeld's `ψ(x) < 1.03883 x` for `x > 0`,
-  Broadbent–Kadiri–Lumley–Ng–Wilk's `θ(x) ≤ (1 + 1.93378·10⁻⁸) x` for `x > 0`,
-  Fiori–Kadiri–Swidinsky's `|ψ(x) − x| ≤ 9.22022 x (log x)^{3/2} exp(−0.8476836 √log x)` for
-  `x ≥ 2`, and Axler's
-  `π(x) < x/(log x − 1 − 1/log x − 3.024334/log² x − ⋯ − 4331.1/log⁶ x)` for `x ≥ 48`;
-- Montgomery–Vaughan's `π(x + y; k, l) − π(x; k, l) ≤ 2y/(φ(k) log(y/k))` for `y > k`, from two
-  finite-range propositions (the diagonal sum `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` on `[6, 10⁹)`
-  and the weighted sieve evaluated exactly for `25 ≤ y/k ≤ 2·10⁴`);
-- Vanlalngaia's `∑_{p ≤ x} 1/p = log log x + B + O*(4/log³ x)` for `x ≥ 2`, and Dusart's
-  `p_n > n(log n + log log n − 1)` for `n ≥ 2`;
-- the Bennett–Martin–O'Bryant–Rechnitzer bound `|ψ(x; q, a) − x/φ(q)| < x/(840 log x)` for
-  `3 ≤ q ≤ 10⁴`, `a` prime to `q` and `x ≥ 8·10⁹`, and Lamzouri–Li–Soundararajan's least prime
-  `p ≤ (φ(q) log q)²` in every reduced class modulo `q > 3` under the generalised Riemann
-  hypothesis;
-- Schoenfeld's prime in `(x, x + x/16597)` for `x > 2 010 759.9`, Trudgian's prime in
-  `[x, x(1 + 1/(111 log² x))]` for `x ≥ 2 898 242`, and Axler's prime in
-  `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` for `x ≥ 17 051 708`.
+Besides the logarithmic integral `Li x = ∫₂ˣ dt/log t`, which Tau Ceti already has, the roadmap
+defines the unoffset logarithmic integral li, with li x = Li x + li 2 for x > 1. Exact identities
+link ψ, θ, π, Li and li, so that a bound for one of them converts into bounds for the others by a
+theorem rather than by a repeated argument. The first headline is the Brun–Titchmarsh inequality
+with Montgomery and Vaughan's constant 2: for real x, y > 0 and coprime positive integers k and l
+with y > k, the interval (x, x + y] contains at most 2y/(φ(k) log(y/k)) primes p ≡ l (mod k).
 
-Suggested home: `TauCeti/NumberTheory/ExplicitPrimes/`, divided into `Carriers/`, `Hypotheses/`,
-`ConditionalBounds/`, `ChebyshevBounds/`, `PrimeSums/`, `NthPrime/`, `Progressions/` and
-`ShortIntervals/`. [`Suggested.lean`](Suggested.lean) states the headline theorems that are
-statable against the pinned libraries; it is not the roadmap. The headlines whose routes pass
-through a table proposition on the error function of a general theorem are named in its module
-docstring with what they lack.
+Under the Riemann hypothesis, the roadmap proves Schoenfeld's bound |π(x) − li x| < √x log x/(8π)
+for x > 2657, with companion bounds for ψ and θ. Büthe's theorem assumes the Riemann hypothesis
+only up to a height T: if every zero of ζ in the critical strip with |Im s| ≤ T lies on the
+critical line, then |π(x) − li x| ≤ √x log x/(8π) for every x > 2657 with 4.92 √(x/log x) ≤ T.
 
-## Scope and ownership
+The central unconditional result is a general scheme. It takes as input a region free of zeros of
+ζ and a height up to which the zeros lie on the critical line. It also takes an explicit bound for
+the error in counting the zeros, and a zero-density bound, which limits how many zeros up to a
+given height have real part at least σ. Its output is a bound |ψ(x) − x| ≤ εx on a stated range,
+with ε an explicit function of all four inputs. The bounds of Rosser and Schoenfeld, of Dusart and
+of many later authors are proved as instances, the tables of constants they rely on entering as
+hypotheses. Among them is ψ(x) < 1.03883 x for every x > 0. For primes in progressions the scheme
+is repeated modulo q. There the roadmap also proves Lamzouri, Li and Soundararajan's theorem: for
+q > 3, if the generalised Riemann hypothesis holds for every Dirichlet L-function modulo q, then
+every residue class prime to q contains a prime p ≤ (φ(q) log q)².
 
-### Owned here
+ExplicitZetaBounds supplies zero-free regions with decimal constants, explicit zero counts and zero
+densities. It also records the verifications of the Riemann hypothesis up to given heights. The
+explicit inequalities of Layers 2, 3, 6 and 7 start from the Weil explicit formula of
+ZerosOfLFunctions, or from a truncated explicit formula proved here. In the other direction,
+ExplicitMultiplicativeFunctions uses the explicit bounds for ψ and for the Mertens sums, and
+ExplicitCharacterSumsAndSieves uses the Brun–Titchmarsh inequality.
 
-- The Brun–Titchmarsh inequality of Montgomery–Vaughan with the constant `2`, together with the
-  two inputs of its proof that no earlier roadmap states: Montgomery–Vaughan's lower bound
-  `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` for `u ≥ 6`, with Büthe's explicit asymptotic for that sum
-  and the finite-range proposition `MVDiagonalFiniteRange`, and the finite-range proposition
-  `BrunTitchmarshFiniteRange` (§0.1). This roadmap is their owner: ExplicitCharacterSumsAndSieves,
-  which plans the explicit sieve bounds and uses both the inequality and the diagonal bound, is
-  later in the order of supply, so the statements of §0.1 are the ones of record and a statement
-  of either object there cites §0.1. The proof uses
-  Montgomery–Vaughan's weighted large sieve, ExplicitZetaBounds §6.5.
-- The inputs about zeros with numerical constants that particular sources use and that
-  ExplicitZetaBounds, the owner of the explicit regions, zero counts and densities, leaves to the
-  theorem that needs them: the low-height zero count `ZetaZeroCountLowRange` (§1.1, for the zero
-  counts of §§2.2 and 2.6), the zero counts against `M(T)` with `7/8` at the triples of Trudgian and
-  of Platt–Trudgian (instances of ExplicitZetaBounds §5.2a's predicate, written *ZeroCountBound*,
-  §3.1), the Kadiri–Lumley–Ng densities recomputed at the height `3·10¹²` with
-  changed inputs, whose constants are not the closed forms of ExplicitZetaBounds §8.3
-  (Johnston–Yang's *JohnstonYangDensityTable* and Fiori–Kadiri–Swidinsky's
-  *FioriKadiriSwidinskyDensity*, §3.4; Cully-Hugill's *CullyHugillDensity*, §7.5),
-  Johnston–Yang's truncated explicit formula (*JohnstonYangExplicitFormula*, §3.4), Liu–Wang's
-  bound of four zeros near `σ = 1` (*LiuWangFourZeros*, §6.6) and Ramaré's revised density for `ζ`
-  (*RamareRevisedDensity*, §7.5). Each is a named hypothesis, never discharged here, of the
-  instances that use it; no general theorem depends on one (Conventions).
-- The truncated explicit formula for `ψ` with an explicit error, `ψ(x) = x − ∑_{|γ| ≤ T} x^ρ/ρ`
-  up to `M x log x/T`, and in Dudek's shape up to `2 x log² x/T` for every `50 < T < x` (§2.1),
-  proved from the Perron formula of ExplicitZetaBounds §6.1, which that roadmap states for a
-  general Dirichlet series; and the Pintz form of the general scheme built on
-  it (§3.1(d)).
-- The carriers this roadmap adds: the logarithmic progression sum
-  `ψ̃(x; q, a) = ∑_{n ≤ x, n ≡ a (q)} Λ(n)/n` and the Mertens constants `C(q, a)` of a residue
-  class, the half-weight versions of `ψ`, `θ`, `π` and `π*` (Layer 0), and the first-occurrence
-  function of prime gaps (§1.4).
-- Chebyshev's weight method with explicit constants (§0.8), and the elementary explicit forms of
-  Mertens' first and second theorems valid from `x = 1` and `x = 2` (§§1.6, 4.1, 4.3).
-- The unoffset logarithmic integral `li` on `(0, 1) ∪ (1, ∞)`, defined by the exponential-integral
-  series at `log x`, with its principal-value integral, its derivative `1/log x`, its monotonicity
-  and sign, the identity `Li x = li x − li 2` for `x > 1` and its asymptotic expansion (§0.3a).
-- The rational prime-count adapter `TauCeti.primeCount ℚ Set.univ x = π(⌊x⌋₊)` and the asymptotic
-  `p_n ∼ n log n` of the `n`-th prime (§0.3b).
-- The exact transfer identities between `ψ`, `θ`, `π`, `Li` and `li` with their remainders, and the
-  general conversion of a `ψ`-bound into `θ`- and `π`-bounds (Layer 0).
-- The hypotheses, each a named assumption that nothing here proves: the finite-range
-  verifications, the prime-gap verifications, the progression tabulations and the decimal
-  enclosures of Euler's constant `γ` and of the Meissel–Mertens constant `B` (Layer 1), and the
-  computations on the low zeros of `ζ` (§1.1); the tables of constants, each in the section of the
-  general theorem whose error function it evaluates (Layers 2–7). The bounded-height Riemann
-  hypotheses, the records of ExplicitZetaBounds §0.4b (Platt's two, *BrentPlattTrudgianRecord*,
-  *BordignonRecord*, *LuZamanZhaoRecord*, *HiaryRecord*, *PatelRecord*, *YangRecord*,
-  *BennettMartinOBryantRechnitzerRecord*) and the real-zero gap are
-  ExplicitZetaBounds' (see Consumed, not redefined); §§1.1, 1.2 and 1.7 cite them, and a statement
-  here names a record wherever its route obtains a supplier region from it (Conventions). The
-  decimal enclosures are stated here because the roadmap `ExplicitMultiplicativeFunctions`, which
-  also needs them, is later in the order of supply.
-- Bounds for `ψ`, `θ`, `π` under the Riemann hypothesis and under the Riemann hypothesis to a height
-  (Layer 2); unconditionally, the general scheme and its published instances (Layer 3).
-- Explicit Mertens sums, Ramaré's weighted prime sums, Treviño's sums of primes and
-  Deléglise–Nicolas's sums `∑_{p ≤ x} p^r` (Layer 4).
-- Two-sided bounds for the `n`-th prime, Cipolla's expansion, and sums of the first `n` primes
-  (Layer 5).
-- Primes in arithmetic progressions with explicit constants, the general theorem and its instances,
-  and the consequences of a numerical real-zero gap for the exceptional-modulus clauses (Layer 6);
-  short intervals containing a prime, conditional (Layer 2) and unconditional (Layer 7).
+Layer 0 holds li, the exact identities and the Brun–Titchmarsh inequality, and Layer 1 states
+computational hypotheses. Layer 2 proves the bounds under the Riemann hypothesis, in full and to a
+height. Layer 3 builds the unconditional scheme and its instances. Layers 4 and 5 derive sums over
+primes and bounds for the n-th prime from the bounds of Layer 3. Layer 6 treats primes in
+progressions, and Layer 7 unconditional short intervals that contain a prime.
+[`Suggested.lean`](Suggested.lean) states in Lean the headline theorems that can be stated against
+the fixed versions of Mathlib and Tau Ceti; it is not the roadmap.
 
-### Consumed, not redefined
+## How to read the build
 
-- `Chebyshev.psi`, `Chebyshev.theta`, their basic laws and the identities
-  `Chebyshev.psi_eq_theta_add_sum_theta`, `Chebyshev.primeCounting_eq_theta_div_log_add_integral`,
-  `Chebyshev.theta_eq_primeCounting_mul_log_sub_integral`, `Chebyshev.theta_le_log4_mul_x`, and
-  Costa Pereira's two comparisons of `ψ − θ` with sums of `ψ(x^{1/k})`
-  (`Chebyshev.psi_sub_theta_le_psi_add_psi_add_psi`,
-  `Chebyshev.psi_sub_theta_ge_psi_add_psi_add_psi`): Mathlib.
-- `TauCeti.Real.logIntegral` (`Li`, with `Li 2 = 0`) and its calculus, in particular
-  `TauCeti.Real.logIntegral_eq_div_log_sub_add`; `TauCeti.LFunctions.mertensConstant ℚ` (the
-  constant `B`): Tau Ceti. The asymptotic adapters `Li x − x/log x ∼ x/log² x`: ZerosOfLFunctions
-  §8.9.
-- The weighted large sieve `∑_x (N + (3/2) δ(x)⁻¹)⁻¹ |S(x)|² ≤ ∑ |a_n|²` of Montgomery–Vaughan:
-  ExplicitZetaBounds §6.5. The unweighted forbidden-residue large sieve with the sharp
-  constant `H − 1 + Q²` (SieveMethodsAndPrimePatterns §2.9) gives the constant `2` of §0.1 only up
-  to a factor `1 + O(log log(y/k)/log(y/k))` and is not its input.
-- The progression carriers `psiAP q a x` and `primeCountAP q a x` (modulus `q`, residue `a : ZMod q`,
-  real `x`) and the theta sum `θ(x; a, q)`: AnalyticNumberTheoryPartI §0.2.
-- Everything about the zeros of `ζ` and `L(s, χ)`: the counting function `zeroCount` and `N(T)`
-  (ZerosOfLFunctions §§4.1, 4.5), the zero-free regions with existential constants and the
-  exceptional-zero predicate (§§6.2–6.4), the truncated and Weil explicit formulas
-  (§§8.3–8.4), the prime number theorem with error term and its progression form (§§8.5, 8.7),
-  the certificate semantics `AllOnCriticalLine` and `GRH` (Layer 9). The decimal constants of the
-  zero-free regions, the explicit zero-counting errors and the zero-density bounds are the business
-  of ExplicitZetaBounds and are listed as gaps in the supplier contracts, except the
-  source-specific inputs that it leaves to this roadmap (Owned here); its weighted sums over the
-  ordinates (§5.4), its Perron formula with a free cut-off (§6.1) and Ford's intermediate region
-  (§7.2) are consumed by contract. The truncated explicit formula for `ψ` with a numerical error, which ZerosOfLFunctions
-  §8.3 states with an inexplicit `O`, is §2.1 here.
-- The bounded-height propositions `RH(H)` (`RiemannHypothesisUpTo`) and `GRH(f, H)` (primitive
-  characters modulo `f`), their antitonicity in `H`, their limits `RiemannHypothesis` and
-  `DirichletGRH`, the passage from primitive to all characters of a modulus, Platt's records
-  *PlattRecord* (`GRH(f, H(f))` for `2 ≤ f ≤ 400 000`, at heights `H(f) ≥ 10⁸/f`) and
-  *PlattCentralRecord* (`L(1/2, χ) ≠ 0` for primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`) with the
-  corollaries given them, and the recorded verifications of `ζ` (the heights `545 439 823`,
-  `30 610 046 000` and `3 000 175 332 800`, and the absence of zeros up to height `14`):
-  ExplicitZetaBounds §§0.2–0.4b (`gap:rh-up-to-height`, `gap:grh-up-to-height`).
-  §§1.1–1.2 cite them; `Suggested.lean` carries verbatim copies of `RiemannHypothesisUpTo` and of
-  the records `HiaryRecord`, `PatelRecord` and `YangRecord` (§0.4b there) only to make its headlines
-  statable.
-- The zero-count predicate *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀` of ExplicitZetaBounds §5.2a,
-  with its laws and its instances at Rosser's and Bellotti–Wong's triples; §3.1 here writes
-  *ZeroCountBound* `a₁ a₂ a₃ a₄ T₀` for it at `κ = 7/8`. The classical-region predicate of
-  ExplicitZetaBounds §7.3a (no zero with `|Im s| ≥ t₀` and `Re s ≥ 1 − 1/(R log |Im s|)`), with its
-  monotonicity and its instances at the constants of `gap:classical-zero-free-constants`;
-  `Suggested.lean` carries a verbatim copy, `ClassicalZeroFreeRegion`, only to state
-  `dusart_of_zeroFreeRegion`.
-- Dirichlet characters and `L(s, χ)`: Mathlib `DirichletCharacter.LFunction`, with
-  `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`); the statements
-  `DirichletGRH χ` and `GRH`: AnalyticNumberTheoryPartI §1.6; Siegel–Walfisz: §0.32.
-- Ramaré–Rumely's region for the zeros `β + iγ` of `L(s, χ)` with `|γ| ≥ H ≥ 1000`, for a primitive
-  character of conductor `k` with their constant `C₁(k, H)`, and its form for a modulus `q`, with
-  one constant for all the characters modulo `q`: ExplicitZetaBounds §7.5, fifth item and its end
-  (`gap:dirichlet-zero-free-constants`). §6.1 here names the form for a modulus
-  *RamareRumelyRegion* and applies it at Dusart's constant `C₁(q)`.
-- The discriminant of a cyclotomic field, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}` for `K`
-  a cyclotomic extension of `ℚ` of level `n ≥ 1`: Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`.
-  The conductor–discriminant formula `|disc ℚ(ζ_q)| = ∏_{χ mod q} f_χ` (`f_χ` the conductor of `χ`):
-  ClassFieldTheory Layer 13. §6.5 proves only the two bounds for `log |disc ℚ(ζ_q)|` that its
-  least-prime bounds use.
-- The existence of an absolute constant `c > 0` with `(1 − β) log q ≥ c` for every real zero `β`
-  of every primitive real `L(s, χ)` of conductor `q ≥ 3` (the uniform exclusion of Landau–Siegel
-  zeros, with no numerical value of `c`): AnalyticNumberTheoryPartI §0.34. The proposition with a
-  numerical `c` and a conductor cap `Q`, *HasLandauSiegelGap* `c Q`, and the two of its instances
-  used here, a computation and an argument with explicit constants: ExplicitZetaBounds §7.9
-  (`gap:real-zero-gap`), cited in §1.7; this roadmap owns only the consequences for its
-  progression theorems (§6.7).
-- The four finite-range inputs `SchoenfeldFiniteRangeInput`, `RosserSchoenfeldFiniteRangeInput`,
-  `PrimeProductFiniteInput` and the theta clause of `ModEightFiniteInput` of
-  AnalyticNumberTheoryPartI §§0.3, 0.5, 0.25, 0.16, and the theorems they gate (§§0.3, 0.5, 0.8,
-  0.16, 0.19, 0.20, 0.25), in particular `θ(x) < 1.000081 x` for `x > 0` (§0.3 there) and both
-  halves of Rosser–Schoenfeld's Theorem 1 for `x ≥ 59` (§0.5 there): imported by section, not
-  restated. This roadmap adds only the theorems that prove those inputs from its own hypotheses
-  (§§3.2, 3.5, 4.3, 6.1).
-- Chebyshev's identity `log ⌊x⌋₊! = ∑_{n ≤ x} Λ(n) ⌊x/n⌋₊` with the two-sided bounds for
-  `log ⌊x⌋₊!` at real `x ≥ 1`, and the von Mangoldt form
-  `∑_{2 ≤ n ≤ x} Λ(n)/(n log n) = log log x + γ + O(1/log x)` of Mertens' second theorem, whose
-  constant is identified there as `γ`: AnalyticNumberTheoryPartI §§0.11d and 0.26a (§§0.8, 4.3
-  here).
-- The Graham–Vaaler extremal majorant and minorant of `t ↦ 1_{t ≥ 0} e^{−νt}` with their `L¹`
-  errors and closed forms, and the bounds for `(z coth z)′`: ExplicitZetaBounds §6.3a (§2.6 here).
-  The density predicate *ZetaZeroDensityBound* and the Kadiri–Lumley–Ng density at an arbitrary
-  verification height: ExplicitZetaBounds §§8.3–8.3a (§3.1(d) here).
-
-### Not owned here
-
-- The inequality `π(2x) − π(x) > 3x/(5 log x)` for `x ≥ 41/2`, the lower half of
-  Rosser–Schoenfeld's Corollary 3: ClassicalArithmeticCompletion §6.34 (`dyadicPrimeCount`). §3.5
-  states only the upper half, `0 < π(2x) − π(x) < 7x/(5 log x)` for `x > 1`.
-- Products over primes (Mertens' third theorem with explicit constants, including the two product
-  forms of Lee–Nosal's Corollary 1.3 under the Riemann hypothesis), the Möbius function and Euler
-  products: ExplicitMultiplicativeFunctions, a consumer of Layers 2–4.
-- The proof that Landau–Siegel zeros do not exist, in any of its forms: AnalyticNumberTheoryPartI
-  §0.34 (see Consumed). The conditional bounds that assume a zero-free half-plane `Re s > 7/8` are
-  not stated anywhere here: that half-plane has no published proof.
-- Almost-all and probabilistic statements about primes in short intervals:
-  ProbabilisticAndMetricNumberTheory Layer 5.
-- Algorithms and computations: no prime generation, no primality proof, no Meissel–Lehmer method,
-  no computation of zeros, no verification of a table or of a finite range. Every number a paper
-  obtained by computation enters as data in a named proposition (Layer 1, or the section of the
-  general theorem whose error function it evaluates) and is assumed, never established.
-- The explicit Vinogradov–Korobov zero-free region: ExplicitZetaBounds §7.6 (given `RH(3·10¹²)`,
-  *BrentPlattTrudgianRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*); the two theorems
-  that need it (§3.6, §7.5) take that region as a hypothesis.
-- The asymptotic prime-gap statements of Carneiro–Milinovich–Soundararajan (their Theorem 3 and
-  Corollary 4), which rest on a Brun–Titchmarsh constant `36/11` that no roadmap plans; only their
-  explicit Theorem 5 is a target (§2.5).
-- Primes between consecutive `k`-th powers for every `n ≥ 1` with `k` below the `140` of §7.5:
-  Cully-Hugill–Johnston's `k = 90` (`cully-hugill-johnston-2025` Theorem 1.4) and the preprint
-  statements built on it, `k = 86` (`lee-2026` Theorem 1.2) and a prime in `[x, x + x^{1 − 1/n}]`
-  for every `n ≥ 106` and real `x ≥ 1` (`visser-2025`, the third statement of its abstract). The
-  route of the first rests on the averaged truncated explicit formula of that paper (its Theorem
-  1.3, with a height `T* ∈ [T, 2T]` chosen by the averaging, at the rows with `α = 1/85` of its
-  Table 1), which `lee-2026` also uses (its display (3.3)), and on Kadiri–Lumley–Ng's density at
-  `σ₁ = 3/5` with the recomputed constants of `johnston-yang-2023` Table 3 (its §5), a constant
-  `C₂(3/5)` that neither that paper nor the table prints (the table's rows start at `σ = 0.980`,
-  `johnston-yang-2023` lines 1049–1073); the preprints add inputs that no refereed theorem states,
-  the zero-free constants of a thesis (`lee-2026` §2.1, display (2.2)) and the real-`x` form read
-  off the proof of the `k = 90` theorem (`visser-2025` §2.1, display (2.5)). None of them is stated
-  here.
-- The effective Chebotarev theorem under the generalised Riemann hypothesis for a general Galois
-  extension (Bach–Sorenson's Theorem 5.1): §6.5 proves its rational instance for the characters
-  modulo `q` directly from Dirichlet `L`-functions.
+Layer 0 proves the Brun–Titchmarsh inequality with the constant `2` from the weighted large sieve,
+Montgomery–Vaughan's lower bound for the diagonal sum and two finite-range propositions,
+builds the carriers that the library lacks (`li`, `ψ̃`, `C(q, a)`, the half-weight functions), the
+rational prime-count adapter with `p_n ∼ n log n`, Chebyshev's elementary bounds, and the exact
+transfer identities between `ψ`, `θ`, `π`, `Li` and `li`, so that every later bound for one of these
+functions converts into bounds for the others by a theorem rather than by a repeated argument. Layer 1 states, as assumptions, every computational
+fact that needs no later definition, once: the finite-range verifications, the prime-gap
+verifications, the progression tabulations and the two decimal enclosures, and it cites the
+bounded-height hypotheses and the real-zero gap from ExplicitZetaBounds; a table of constants
+evaluates the error function of a general theorem and is stated in that theorem's section. Layer 2
+proves the bounds that hold under the Riemann hypothesis and under the Riemann hypothesis to a
+height, from the explicit formula, including the extremal-kernel bound that uses the verified
+zeros alone, and it proves the truncated explicit formula for `ψ` with a numerical error. Layer 3
+proves the general unconditional scheme, whose general form takes a zero density, in its smoothed
+form and in Pintz's form on the truncated explicit formula, and its two density-free special cases
+(a region with the zeros below height `14` excluded; a region with a verified height and a
+zero-counting error), specialises it to the
+published constants for `ψ` and `θ`, then transfers to `π`. Layers 4 and 5 derive sums over primes and bounds for the `n`-th prime by
+partial summation and inversion of the Layer 3 bounds, each stated from its Layer 3 input. Layer 6 repeats the scheme for a residue class modulo `q` with the zero data of the
+characters as parameters, applies Ramaré–Rumely's region for a modulus at Dusart's constant,
+and records which exceptional-modulus clauses a numerical real-zero gap removes, and Layer 7 derives
+the unconditional short-interval theorems from the smoothed explicit formula (§§7.2–7.3), the
+truncated explicit formula of §2.1 (§7.5) and the Layer 3 bounds (§§7.1, 7.4). Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a
+statement and its route use, item by item.
 
 ## Conventions
 
@@ -344,285 +163,6 @@ docstring with what they lack.
   zero* of `L(s, χ)` is a real `β ∈ (0, 1)` with `L(β, χ) = 0`; a primitive real character of
   conductor `q ≥ 3` is a Kronecker symbol, and its real zeros are those of every character it
   induces, the Euler factors at the primes dividing the modulus not vanishing on `Re s > 0`.
-
-## Exact supplier contracts
-
-The suppliers are Mathlib and Tau Ceti at the pins and the roadmaps named below.
-PrimeNumberTheoremAnd and IEANTN, Lean projects outside the pinned libraries, are not suppliers:
-nothing is imported from them, and every statement here is cited to its primary source.
-
-### From Mathlib
-
-- `Chebyshev.psi`, `Chebyshev.theta` (sums over `Finset.Ioc 0 ⌊x⌋₊`), `Chebyshev.psi_nonneg`,
-  `Chebyshev.theta_nonneg`, `Chebyshev.psi_mono`, `Chebyshev.theta_mono`,
-  `Chebyshev.psi_eq_zero_of_lt_two`, `Chebyshev.theta_eq_zero_of_lt_two`, `Chebyshev.theta_le_psi`,
-  `Chebyshev.psi_eq_psi_coe_floor`, `Chebyshev.theta_eq_theta_coe_floor`.
-- `Chebyshev.psi_eq_theta_add_sum_theta`: for `x ≥ 2`, `ψ(x) = θ(x) + ∑_{n=2}^{⌊log x/log 2⌋} θ(x^{1/n})`.
-- `Chebyshev.theta_le_log4_mul_x`: `θ(x) ≤ (log 4) x` for `x ≥ 0`; `Chebyshev.psi_le_const_mul_self`:
-  `ψ(x) ≤ (log 4 + 4) x` for `x ≥ 0`; `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`:
-  `|ψ(x) − θ(x)| ≤ 2 √x log x` for `x ≥ 1`; `Chebyshev.pi_le_log4_mul_div`:
-  `π(x) ≤ (log 4) x/log √x + √x` for `x > 1`.
-- Costa Pereira's comparisons (`Mathlib/NumberTheory/Chebyshev.lean`, section `CostaPereira`):
-  `Chebyshev.psi_sub_theta_le_psi_add_psi_add_psi`, for every real `x`,
-  `ψ(x) − θ(x) ≤ ψ(x^{1/2}) + ψ(x^{1/3}) + ψ(x^{1/5})`, and
-  `Chebyshev.psi_sub_theta_ge_psi_add_psi_add_psi`, for real `x ≥ 0`,
-  `ψ(x^{1/2}) + ψ(x^{1/3}) + ψ(x^{1/7}) ≤ ψ(x) − θ(x)`, the roots being real powers `x ^ (k : ℝ)⁻¹`;
-  for §§0.3, 3.4a and 3.7.
-- `IsPrimePow`, `Function.leftLim` and `Monotone.leftLim_le` (left limits of monotone functions),
-  for §§0.3 and 0.6.
-- `Chebyshev.primeCounting_eq_theta_div_log_add_integral`: for `x ≥ 2`,
-  `π(⌊x⌋₊) = θ(x)/log x + ∫₂ˣ θ(t)/(t log² t) dt`;
-  `Chebyshev.theta_eq_primeCounting_mul_log_sub_integral`: `θ(x) = π(⌊x⌋₊) log x − ∫₂ˣ π(⌊t⌋₊)/t dt`;
-  `Chebyshev.integrableOn_theta_div_id_mul_log_sq`.
-- `Nat.primeCounting`, `Nat.primeCounting'`, `Nat.primeCounting'_nth_eq`, `Nat.prime_nth_prime`,
-  `Nat.add_two_le_nth_prime`, `Nat.nth_prime_zero_eq_two`, `Nat.nth_prime_one_eq_three`,
-  `Nat.primesLE`, `Nat.mem_primesLE`; `Nat.exists_prime_lt_and_le_two_mul` (Bertrand);
-  `Nat.totient`, `Nat.Coprime`, `ArithmeticFunction.moebius` (for §0.1).
-- `ArithmeticFunction.vonMangoldt` (`Λ n = log (minFac n)` on prime powers, `0` elsewhere),
-  `ArithmeticFunction.vonMangoldt_apply`, `ArithmeticFunction.vonMangoldt_nonneg`.
-- `RiemannHypothesis` (every zero of `riemannZeta` that is neither a trivial zero nor `1` has real
-  part `1/2`), `riemannZeta`, `DirichletCharacter.LFunction`, `analyticOrderNatAt`;
-  `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`) and
-  `DirichletCharacter.LFunction_ne_zero_of_one_le_re` (no zero on `Re s ≥ 1` away from the pole),
-  in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean`.
-- `NumberField.discr`, `IsCyclotomicExtension` and `IsCyclotomicExtension.Rat.natAbs_discr`
-  (`Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.lean`): for `n ≥ 1` and `K` a cyclotomic
-  extension of `ℚ` of level `n`, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}`, the quotient
-  being exact. It is the value of the discriminant in §6.5.
-- `Real.eulerMascheroniConstant`, `Real.one_half_lt_eulerMascheroniConstant`,
-  `Real.eulerMascheroniConstant_lt_two_thirds` (the only enclosure of `γ` in the pin);
-  `Real.pi_gt_d6`, `Real.pi_lt_d6`, `Real.exp_one_gt_d9`, `Real.exp_one_lt_d9`, `Real.log_two_gt_d9`,
-  `Real.log_two_lt_d9`; `sum_mul_eq_sub_sub_integral_mul` (Abel summation).
-- `Real.eulerMascheroniConstant_eq_neg_integral_log` (`γ = −∫₀^∞ e^{−t} log t dt`), `HasDerivAt`,
-  `intervalIntegral`, `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, for §0.3a;
-  `Rat.HeightOneSpectrum.primesEquiv` (`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean`, the
-  height-one primes of a ring of integers of `ℚ` against the rational primes) and `Ideal.absNorm`,
-  for §0.3b.
-
-### From Tau Ceti
-
-- `TauCeti.Real.logIntegral x = ∫₂ˣ (log t)⁻¹ dt`, `TauCeti.Real.logIntegral_two`,
-  `TauCeti.Real.logIntegral_nonneg`, `TauCeti.Real.le_logIntegral`,
-  `TauCeti.Real.logIntegral_eq_div_log_sub_add` (`Li x = x/log x − 2/log 2 + ∫₂ˣ dt/log² t` for
-  `x ≥ 2`), `TauCeti.Real.logIntegral_isEquivalent_div_log`,
-  `TauCeti.Real.intervalIntegrable_inv_log_pow`, `TauCeti.Real.intervalIntegrable_div_mul_log_sq`.
-- `TauCeti.LFunctions.mertensConstant K` (the limit of `∑_{N𝔭 ≤ x} 1/N𝔭 − log log x`) with
-  `TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log` and
-  `TauCeti.LFunctions.isBigO_primeSummatory_inv_absNorm_sub_log_log_sub_mertensConstant`
-  (`TauCeti/NumberTheory/LFunctions/Mertens.lean`); at `K = ℚ` the prime ideals of `𝓞 ℚ`
-  correspond to the rational primes with norm `p`.
-- `TauCeti.primeCount`, `TauCeti.primeTheta`, `TauCeti.primeCount_eq_card`,
-  `TauCeti.primeCount_sub_mul_logIntegral_eq` (the number-field remainder identity, of which §0.4
-  is the rational instance), `TauCeti.primeCount_univ_isEquivalent_div_log` (the prime ideal
-  theorem `π_K(x) ∼ x/log x`, used at `K = ℚ` in §0.3b), and the prime number theorem in progressions
-  `NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`.
-- `Nat.primeCounting_nth_prime` (`π(p_k) = k + 1` for `p_k = Nat.nth Nat.Prime k`) and
-  `Nat.primesLE_eq_image_nth`, declared in namespace `Nat` by Tau Ceti's
-  `TauCeti/NumberTheory/PrimeCounting.lean`.
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-- §4.1 `zeroCount`, §4.5 `N(T)` and the discreteness of the zero set; §6.2–6.4 the de la Vallée
-  Poussin region with an existential constant and *IsExceptionalZero*; §7.4 the Riemann–von
-  Mangoldt formula (inexplicit); §8.3 the truncated explicit formula `chebyshevPsi_explicitFormula`
-  (with an inexplicit `O`), §8.4 the Weil explicit formula `riemannZeta_weilExplicitFormula` on
-  the stated test class; §8.5 `primeIdealCount_effective` at `K = ℚ`; §8.7
-  `primeCounting_progression_effective`; §8.9 the `Li` adapters; Layer 9 *AllOnCriticalLine*
-  and the bridge of *GRH* at the `ζ` record to Mathlib's `RiemannHypothesis`.
-
-### From TauCetiRoadmap.LFunctions
-
-- Layer 4 `dirichletData` (the record of `L(s, χ)` with conductor, parity and functional equation),
-  through ZerosOfLFunctions.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-- Layer 13, the abelian conductor–discriminant formula, at `ℚ(ζ_q)/ℚ`. There the characters of
-  `Gal(ℚ(ζ_q)/ℚ) = (ℤ/q)^×` are the Dirichlet characters modulo `q`, and the same layer's
-  identification of the least cyclotomic level with the finite part of the conductor makes their
-  conductors the Dirichlet conductors `f_χ`. The formula then reads
-  `log |disc ℚ(ζ_q)| = ∑_{χ mod q} log f_χ`. It is used only in Bach–Sorenson's route in §6.5.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §0.2 `psiAP q a x`, `primeCountAP q a x`, `thetaAP q a x` with the level-one identity
-  `θ(x; 0, 1) = Chebyshev.theta x` and, for `q ≥ 1`, the sum over the classes modulo `q`, which is
-  `Chebyshev.theta x` (both stated there in prose); §0.7 `quadratic_real_zero_le_of_bmor` (under its `BMORFiniteInput` and
-  `BMORClassNumberInput`: for `q ≥ 3`, every real zero `β > 0` of `L(s, χ)` for a nonprincipal
-  quadratic `χ` modulo `q` has `β ≤ 1 − 40/(√q log² q)`), for the exceptional clause of §6.3;
-  §0.3, §0.5, §0.8, §0.16, §0.19, §0.20, §0.25 and their finite-range
-  inputs `SchoenfeldFiniteRangeInput`, `RosserSchoenfeldFiniteRangeInput`, `ModEightFiniteInput`,
-  `PrimeProductFiniteInput` (consumed by name in §0.6); §0.30 the rational Dirichlet-to-ray-class
-  dictionary; §0.32 Siegel–Walfisz in the `ψ` form `siegel_walfisz`; §0.34 the existence of an
-  absolute constant `c > 0` with `(1 − β) log q ≥ c` for the real zeros of primitive real
-  `L(s, χ)`, consumed in §1.7 only as the statement that some gap exists; §1.6 `DirichletGRH χ` and
-  `GRH` (`Suggested.lean` writes the body of `DirichletGRH` out in the hypothesis of the §6.5
-  headline, so that it declares no second copy of the proposition);
-  §1.9 `psi_sub_self_isBigO_of_riemannHypothesis` and `psiAP_isBigO_of_dirichletGRH` (consumed
-  only as consistency checks); §0.11d `log_floor_factorial_eq_sum_vonMangoldt` with the bounds
-  `x log x − x + 1 − log x ≤ log ⌊x⌋₊! ≤ x log x − x + 1 + log x` for real `x ≥ 1` (Mathlib's
-  `Real.le_sum_log` and `Real.sum_log_le`), for §0.8 and §4.1; §0.26a
-  `mertens_vonMangoldt_eulerGamma` (the constant of `∑ Λ(n)/(n log n) − log log x` is `γ`), for
-  §4.3.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-- §2.9 the large sieve for forbidden residues: for a finite set of primes `P`, forbidden residue
-  sets `Ω_p ⊆ 𝔽_p` with `|Ω_p| < p`, and a sequence `a_n` supported on `H` consecutive integers and
-  vanishing on every forbidden residue, `J(Q) |∑ a_n|² ≤ (H − 1 + Q²) ∑ |a_n|²`, where `J(Q)` is the
-  sum over squarefree `d ≤ Q` composed of primes of `P` of `∏_{p ∣ d} |Ω_p|/(p − |Ω_p|)`. It is not
-  an input of §0.1, whose input is the weighted large sieve of ExplicitZetaBounds §6.5; §0.1 states
-  for itself the passage from a prime to a squarefree modulus that the proof of §2.9 contains.
-- §3.1 `SieveDistribution.primeCountAP` (real `x`, modulus `q : ℕ`, residue `a : ℕ`, the
-  congruence being equality at `q = 0`), for the agreement lemma of §0.6 only.
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-ExplicitZetaBounds precedes this roadmap in the order of supply and owns the decimal constants of
-the zero-free regions, the explicit zero counts, the zero densities, the weighted sums over the
-ordinates and the verified heights. The zero inputs that particular sources use and that its
-Not owned here leaves to the theorems needing them (Liu–Wang's four-zero bound, Ramaré's revised
-density for `ζ`, Johnston–Yang's recomputed density constants, the low-height zero count
-`0.28 log T` and the zero counts against `M(T)` at the triples of Trudgian and of Platt–Trudgian)
-are this roadmap's
-(Owned here), and so are the two other recomputations of Kadiri–Lumley–Ng's density at the height
-`3·10¹²` with changed inputs (Fiori–Kadiri–Swidinsky's, Cully-Hugill's), whose constants are not
-that roadmap's closed forms at any parameters. Kadiri–Lumley–Ng's theorem itself, with its closed
-forms evaluated at an arbitrary verification height `H₀`, is that roadmap's §8.3, and
-Cully-Hugill–Lee's density is its instance at `H₀ = 3 000 175 332 800` (§7.3). Ramaré–Rumely's
-region for a primitive character of conductor `k`, with the constant `C₁(k, H)`, and its form for a modulus `q`, with one
-constant for all the characters modulo `q`, are that roadmap's (its §7.5, fifth item and its end,
-in `gap:dirichlet-zero-free-constants` below), as its Not owned here records; §6.1 here applies the
-form for a modulus at Dusart's constant (*RamareRumelyRegion*). Each region, zero count, weighted
-sum and density below is consumed under the verified heights and the records (ExplicitZetaBounds
-§0.4b: *PlattRecord*, *BrentPlattTrudgianRecord*, *BordignonRecord*, *LuZamanZhaoRecord*,
-*HiaryRecord*, *PatelRecord*, *YangRecord*, *BennettMartinOBryantRechnitzerRecord*) with which that
-roadmap states it, listed with the item (Conventions). The following sections are consumed exactly
-as that roadmap states them:
-
-- §6.5, the weighted large sieve of Montgomery–Vaughan: for a finite set `X ⊂ ℝ/ℤ` with at least
-  two points, `δ(x)` the distance from `x` to the rest of `X`, an integer `M`, `N ≥ 1` and complex
-  `a_n` on `M < n ≤ M + N`, `∑_{x ∈ X} (N + (3/2) δ(x)⁻¹)⁻¹ |∑_n a_n e(nx)|² ≤ ∑ |a_n|²` (the
-  constant `c = 3/2`, from the `3π/2` Hilbert inequality of AnalyticNumberTheoryPartI §1.5a). This
-  is the input of the Brun–Titchmarsh inequality of §0.1, where `X` is the set of reduced fractions
-  with denominator at most `Q ≥ 2`.
-- §0.2, `RiemannHypothesisUpTo H` (`RH(H)`) and *DirichletGRHUpTo* `f H` (`GRH(f, H)`), with
-  antitonicity in `H`, `RH(H) ↔ GRH(1, H)`, the limits `RiemannHypothesis` and `DirichletGRH`, and
-  the passage to imprimitive characters: for `q ≥ 1`, every character modulo `q` has its zeros with
-  `0 < Re s < 1` and `|Im s| ≤ H` on `Re s = 1/2` iff `GRH(f, H)` holds for every `f ∣ q`.
-- §§0.3 and 0.4b, Platt's two records, named propositions there: *PlattRecord*, `GRH(f, H(f))` for
-  `2 ≤ f ≤ 400 000` (`H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f`,
-  `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f`), and *PlattCentralRecord*, `L(1/2, χ) ≠ 0` for every
-  primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`; and, given *PlattRecord*, `GRH(f, 10⁸/f)` for
-  `2 ≤ f ≤ 400 000`, `GRH(f, 10 000)` for `2 ≤ f ≤ 13` and `GRH(f, 2500)` for `2 ≤ f ≤ 40 000`;
-  and, given *PlattRecord* and *PlattCentralRecord*, `LFunction_ne_zero_of_platt`: for `χ`
-  primitive modulo `f ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0` (at `f = 1`, where `L = ζ`,
-  without any record).
-- §0.4, the recorded verifications `RH(545 439 823)`, `RH(30 610 046 000)` and
-  `RH(3 000 175 332 800)`, and the absence of zeros of `ζ` with `0 < Re s < 1` and `|Im s| ≤ 14`.
-- §5.2a, the zero-count predicate *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀`: for every `T ≥ T₀`,
-  `|N(T) − (T/2π) log(T/(2πe)) − κ| ≤ a₁ log T + a₂ log log T + a₃ + a₄/T`, with its monotonicity
-  (larger `a_i`, and `T₀' ≥ max(T₀, e)`), its shift (from `κ` to `κ'` at the cost `|κ − κ'|` in
-  `a₃`) and Rosser's bound as its instance `(7/8) 0.137 0.443 1.588 0 2`. Since
-  `(T/2π) log(T/(2πe)) + 7/8 = M(T)`, its case `κ = 7/8` measures the count against `M(T)`; §3.1
-  writes *ZeroCountBound* `a₁ a₂ a₃ a₄ T₀` for *ZetaZeroCountBound* `(7/8) a₁ a₂ a₃ a₄ T₀`.
-- §7.3a, the classical-region predicate: for real `R` and `t₀`, every `s` with `riemannZeta s = 0`
-  and `|Im s| ≥ t₀` has `Re s < 1 − 1/(R log |Im s|)`; with its monotonicity (for `0 < R ≤ R'` and
-  `1 < t₀ ≤ t₀'`) and its instances at the constants of `gap:classical-zero-free-constants`.
-  `Suggested.lean`'s `ClassicalZeroFreeRegion` is a verbatim copy, used at `t₀ = 2π` in §3.1(a).
-- §5.4, the weighted sums over the ordinates `γ > 0` of the zeros of `ζ`, counted with
-  multiplicity, `Σ′` giving weight `1/2` to an ordinate equal to an end of the range. Lehman's
-  form: for `2πe ≤ T₁ ≤ T₂` and `φ` continuous, nonnegative and non-increasing on `[T₁, T₂]`,
-  `Σ′_{T₁ ≤ γ ≤ T₂} φ(γ) = (1/2π) ∫_{T₁}^{T₂} φ(t) log(t/2π) dt + O*(4 φ(T₁) log T₁ + 2 ∫_{T₁}^{T₂} φ(t) dt/t)`.
-  Brent–Platt–Trudgian's form (`brent-platt-trudgian-2021`, Lemma 3 and Theorem 1), given
-  *HiaryRecord* (through Trudgian's bound for `∫ S(t) dt` from `168π`, the next item of that
-  section): for `φ` of
-  class `C²` on `[T₀, ∞)` with `φ ≥ 0`, `φ′ ≤ 0`, `φ″ > 0` and `168π < T₀ ≤ T₁ ≤ T₂`,
-  `Σ′_{T₁ ≤ γ ≤ T₂} φ(γ) − (1/2π) ∫_{T₁}^{T₂} φ(t) log(t/2π) dt = φ(T₂) Q(T₂) − φ(T₁) Q(T₁) + E₂`
-  with `|E₂| ≤ 2(2.067 + 0.059 log T₁) |φ′(T₁)| + (0.059 + 1/150) φ(T₁)/T₁`, where `Q = N − M` and
-  `N` at an ordinate is the mean of its one-sided limits; and the same with `T₂ = ∞` when
-  `∫^∞ φ(t) log t dt < ∞` (the source's range `2π ≤ T₀` rests on a computation with the zeros below
-  `168π` that the supplier does not state). Neither form contains the other: Lehman's asks no
-  convexity and no record and starts at `2πe`; Brent–Platt–Trudgian's has the error
-  `|φ′(T₁)| log T₁ + φ(T₁)/T₁` in place of `φ(T₁) log T₁` and starts at `168π`. Below `168π`
-  Lehman's form, from `2πe`, and Rosser–Schoenfeld's Lemma 7 serve.
-- §6.1, the smoothed truncated Perron formula with a free cut-off (Cully-Hugill–Johnston's
-  Theorem 2.1): for `F(z) = ∑ a_n n^{−z}` absolutely convergent on `Re z > κ_a`, `κ > max(κ_a, 0)`,
-  `T > 0`, `x ≥ 1` and `λ ≥ θ'/T` with `θ' = 2/(√(π² + 4) + π)`,
-  `∑_{n ≤ x} a_n = (1/2πi) ∫_{κ−iT}^{κ+iT} F(z) x^z dz/z` up to
-  `(x^κ/(πλT)) ∑_n |a_n|/n^κ + (1/(πT)) ∫_{θ'/T}^{λ} ∑_{|log(x/n)| ≤ u} |a_n| e^{κu} du/u²` in
-  absolute value. It is the first input of the truncated explicit formula of §2.1, at
-  `a_n = Λ(n)`.
-- §7.2, Ford's intermediate region in the form with `log 0.618` in place of `log 3` in
-  `J(t) = (1/6) log t + log log t + log 3`: given `RH(545 439 823)`, for `t ≥ 1.88·10¹⁴`, no zero of
-  `ζ` with `σ ≥ 1 − (0.04962 − 0.0196/(J(t) + 1.15))/(J(t) + 0.685 + 0.155 log log t)`. It is the
-  input of the region `ν₂` of §3.4 above the height `exp(91.2853)`.
-- §7.9, *HasLandauSiegelGap* `c Q` (for every primitive real nonprincipal `χ` of conductor
-  `3 ≤ q ≤ Q` and every real zero `β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q ≥ c`), with its laws and
-  the instances `(1/5, 10¹⁰)` and `(3.0·10⁻³, ∞)`.
-- §6.3a, the extremal approximants of the one-sided exponential: for `ν > 0` and
-  `I_ν(x) = e^{−νx}` on `x ≥ 0`, `0` on `x < 0`, the Graham–Vaaler functions `F^±_ν`, entire of
-  exponential type `2π`, integrable, real on `ℝ`, with `F^−_ν ≤ I_ν ≤ F^+_ν`,
-  `∫ (F^+_ν − I_ν) = 1/(1 − e^{−ν}) − 1/ν`, `∫ (I_ν − F^−_ν) = 1/ν − 1/(e^ν − 1)`, their Fourier-side
-  form `F^±_ν = ∫_{−1}^{1} φ^±_ν(t) e(−tx) dt` with `φ^±_ν = 1_{[−1,1]}(Φ^{±,∘}_ν + sgn · Φ^{±,⋆}_ν)`,
-  where `B^±(u) = (u/2)(coth(u/2) ± 1)`, `w = ν − 2πiz`, `Φ^{±,∘}_ν(z) = (1/2)(coth(w/2) ± 1)` and
-  `Φ^{±,⋆}_ν(z) = (B^±(w) − B^±(ν))/(2πi)`, their closed forms, `B⁺` increasing and `B⁻` decreasing
-  on `ℝ`, and the bounds `|(z coth z)′| < 1` on `|Im z| ≤ π/4` and `≤ |z|` on `|Im z| ≤ π/2`, with
-  their consequences `|Φ^{±,⋆}_ν(z)| ≤ |z|` and `|(Φ^{±,∘}_ν + Φ^{±,⋆}_ν)(1 − z)| ≤ |z|` for
-  `0 ≤ Re z ≤ 1/4`. They are the kernels of the bracketing theorem of §2.6.
-- §8.3a, the density predicate *ZetaZeroDensityBound* `T₀ S c₁ c₂ p q` (for every `T ≥ T₀` and
-  `σ ∈ S`, `N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) log² T`), with its laws and the
-  Kadiri–Lumley–Ng instances of its §8.3 at every verification height `H₀` (given `RH(H₀)` and
-  *HiaryRecord*). It is the density input of the lemmas of §3.1(d).
-
-Each item below is cited as a gap (`gap:<slug>`) wherever a theorem needs it; the general
-theorems of Layers 3, 6 and 7 take the corresponding object as an explicit parameter, so only
-their instances wait for these items.
-
-What ExplicitZetaBounds must provide (gap:rh-up-to-height): For real `H`, the proposition `RH(H)` that every zero `s` of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2`, antitone in `H` and implied by Mathlib's `RiemannHypothesis`, with the recorded verifications at `H = 545 439 823`, `30 610 046 000` and `3 000 175 332 800` and the recorded verification that `ζ` has no zero `s` with `0 < Re s < 1` and `|Im s| ≤ 14`. Required location: target 20 (its §§0.2 and 0.4).
-
-What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f ≥ 1` and real `H`, the proposition `GRH(f, H)` that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2` for every primitive character `χ` modulo `f`, antitone in `H`, with the passage to imprimitive characters (every character modulo `q` has its zeros of the open strip up to height `H` on the line iff `GRH(f, H)` holds for every `f ∣ q`), Platt's record *PlattRecord*, the proposition `GRH(f, H(f))` for every `2 ≤ f ≤ 400 000`, `H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f` and `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f` (`platt-2016` Theorem 7.1, arXiv numbering), whose ranges contain Rumely's (`rumely-1993` lines 29–36), with its corollaries at the heights `10⁸/f`, `10 000` and `2500`, and Platt's central record *PlattCentralRecord*, the proposition that `L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ f ≤ 2·10⁶` (`platt-2016` Theorem 7.2). Required location: target 20 (its §§0.2, 0.3 and 0.4b).
-
-What ExplicitZetaBounds must provide (gap:classical-zero-free-constants): For `ζ`, given `RH(30 610 046 000)`, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(5.69693 log |t|)`; given `RH(3·10¹²)` and *BrentPlattTrudgianRecord*, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(R log |t|)` for each of `R = 5.573412` and `5.5666305` (both from the `5.558691` region of its §7.3), and that no zero has `|t| ≥ 21` and `σ ≥ 1 − 1/(9.645908801 log(|t|/17))`. Required location: target 16 (its §7.3).
-
-What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord* and *PlattRecord*, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)`, *PlattRecord*, *BennettMartinOBryantRechnitzerRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*, for `3 ≤ q ≤ 400 000` and `χ` nonprincipal primitive modulo `q`, that `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))`, with no exceptional zero (Kadiri's 2018 region, the second item of its §7.5, the region of `bennett-martin-obryant-rechnitzer-2018` Proposition 4.34 for the conductors `q ≥ 3`); given `RH(545 439 823)` and *PlattRecord*, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies, given also *BordignonRecord*, `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)` and *LuZamanZhaoRecord*, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–838, Theorem 3.6.3): for `χ` primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `H ≥ 1000`, every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(k, H)))`, where `C₁(k, H) ≥ C₁ = 4.171838431` is the closed form of that theorem, a function of `H` and of the conductor through the local constants `D*(k, σ)` of their (3.4.3), with no record; and its form for a modulus, which ends that item: for `q ≥ 1`, `H ≥ 1000` and real `C` with `0 < C ≤ C₁(k_χ, H)` for the conductor `k_χ` of every character `χ` modulo `q`, every zero `β + iγ` of `L(s, χ)`, `χ` modulo `q`, with `0 < β < 1` and `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. Required location: its §7.5.
-
-What ExplicitZetaBounds must provide (gap:real-zero-gap): For real `c` and a conductor cap `Q ∈ ℕ ∪ {∞}`, the proposition *HasLandauSiegelGap* `c Q` that every real zero `β ∈ (0, 1)` of `L(s, χ)`, for every primitive real nonprincipal character `χ` of conductor `q` with `3 ≤ q ≤ Q`, satisfies `(1 − β) log q ≥ c`, with the named instances `(c, Q) = (1/5, 10¹⁰)` (the computation of `lu-zaman-zhao-2026`, Theorem 1.1) and `(c, Q) = (3.0·10⁻³, ∞)` (`banks-2026`, Theorem 1.1, with the first instance). Required location: target 18 and target 20 (its §7.9).
-
-What ExplicitZetaBounds must provide (gap:vinogradov-korobov-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*, for `|t| ≥ 3`, that `ζ` has no zero with `σ ≥ 1 − 1/(57.54 (log |t|)^(2/3) (log log |t|)^(1/3))`. Required location: target 17 (its §7.6).
-
-What ExplicitZetaBounds must provide (gap:explicit-zero-count-error): With `N(T)` the number of zeros of `ζ` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity and `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`, Rosser's bound `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for `T ≥ 2`, and, given *HiaryRecord*, *PatelRecord* and *YangRecord*, Bellotti–Wong's bounds `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` for `T ≥ 30 610 046 000` (and for every `T ≥ e` given also its recorded bound for `S(T)`), which against `M(T)` hold with `7/8` added to the constants. Required location: its §5.2.
-
-What ExplicitZetaBounds must provide (gap:dirichlet-zero-count-error): Given *BennettMartinOBryantRechnitzerRecord* (which covers `ℓ ≤ 6`), for a primitive character `χ` of conductor `q > 1` and `T ≥ 5/7` with `ℓ = log(q(T + 2)/(2π)) > 1.567`, that the number of zeros of `L(s, χ)` with `0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity, is `(T/π) log(qT/(2π)) − T/π − χ(−1)/4 + O*(0.22737 ℓ + 2 log(1 + ℓ) − 0.5)`. Required location: target 9.
-
-What ExplicitZetaBounds must provide (gap:explicit-zero-density): Given `RH(30 610 046 000)`, Kadiri's bound `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and `T ≥ 3.061·10¹⁰`, with `N(σ, T)` the number of zeros of `ζ` with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity, and the general form `b₁(T − H) + b₂ log(T/H) + b₃` of her Theorem 1.1 (its §8.1); and, at every verification height `H₀` (the range `10⁹/H₀ ≤ k ≤ 1` forcing `H₀ ≥ 10⁹`), given `RH(H₀)` and *HiaryRecord*, Kadiri–Lumley–Ng's bound for the count `N°(σ, T)` of the zeros with `σ < Re ρ < 1` and `0 < Im ρ < T`, `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T` for `T ≥ H₀`, with `C₁`, `C₂` their closed forms (4.72)–(4.73) in the parameters of their Theorem 1.1, evaluated at `H₀` (`kadiri-lumley-ng-2018` lines 74–81), and its instance at `H₀ = 3.0610046·10¹⁰`, `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` given `RH(30 610 046 000)` (its §8.3). Required location: its §§8.1 and 8.3.
-
-## How to read the build
-
-Layer 0 proves the Brun–Titchmarsh inequality with the constant `2` from the weighted large sieve,
-Montgomery–Vaughan's lower bound for the diagonal sum and two finite-range propositions,
-builds the carriers that the library lacks (`li`, `ψ̃`, `C(q, a)`, the half-weight functions), the
-rational prime-count adapter with `p_n ∼ n log n`, Chebyshev's elementary bounds, and the exact
-transfer identities between `ψ`, `θ`, `π`, `Li` and `li`, so that every later bound for one of these
-functions converts into bounds for the others by a theorem rather than by a repeated argument. Layer 1 states, as assumptions, every computational
-fact that needs no later definition, once: the finite-range verifications, the prime-gap
-verifications, the progression tabulations and the two decimal enclosures, and it cites the
-bounded-height hypotheses and the real-zero gap from ExplicitZetaBounds; a table of constants
-evaluates the error function of a general theorem and is stated in that theorem's section. Layer 2
-proves the bounds that hold under the Riemann hypothesis and under the Riemann hypothesis to a
-height, from the explicit formula, including the extremal-kernel bound that uses the verified
-zeros alone, and it proves the truncated explicit formula for `ψ` with a numerical error. Layer 3
-proves the general unconditional scheme, whose general form takes a zero density, in its smoothed
-form and in Pintz's form on the truncated explicit formula, and its two density-free special cases
-(a region with the zeros below height `14` excluded; a region with a verified height and a
-zero-counting error), specialises it to the
-published constants for `ψ` and `θ`, then transfers to `π`. Layers 4 and 5 derive sums over primes and bounds for the `n`-th prime by
-partial summation and inversion of the Layer 3 bounds, each stated from its Layer 3 input. Layer 6 repeats the scheme for a residue class modulo `q` with the zero data of the
-characters as parameters, applies Ramaré–Rumely's region for a modulus at Dusart's constant,
-and records which exceptional-modulus clauses a numerical real-zero gap removes, and Layer 7 derives
-the unconditional short-interval theorems from the smoothed explicit formula (§§7.2–7.3), the
-truncated explicit formula of §2.1 (§7.5) and the Layer 3 bounds (§§7.1, 7.4). Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a
-statement and its route use, item by item.
 
 ## Layer 0: the Brun–Titchmarsh inequality, carriers and transfer identities
 
@@ -4814,6 +4354,448 @@ ExplicitZetaBounds §8.3 at `H₀ = 3 000 175 332 800` (for §7.3), §7.2 (for �
   §2.2.
 - Any roadmap later in the order of supply needing a prime in `(x, x(1 + δ)]`, an explicit
   Chebotarev or least-prime bound in a progression, or an explicit Mertens sum: Layers 4–7.
+
+## Scope and ownership
+
+### Owned here
+
+- The Brun–Titchmarsh inequality of Montgomery–Vaughan with the constant `2`, together with the
+  two inputs of its proof that no earlier roadmap states: Montgomery–Vaughan's lower bound
+  `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` for `u ≥ 6`, with Büthe's explicit asymptotic for that sum
+  and the finite-range proposition `MVDiagonalFiniteRange`, and the finite-range proposition
+  `BrunTitchmarshFiniteRange` (§0.1). This roadmap is their owner: ExplicitCharacterSumsAndSieves,
+  which plans the explicit sieve bounds and uses both the inequality and the diagonal bound, is
+  later in the order of supply, so the statements of §0.1 are the ones of record and a statement
+  of either object there cites §0.1. The proof uses
+  Montgomery–Vaughan's weighted large sieve, ExplicitZetaBounds §6.5.
+- The inputs about zeros with numerical constants that particular sources use and that
+  ExplicitZetaBounds, the owner of the explicit regions, zero counts and densities, leaves to the
+  theorem that needs them: the low-height zero count `ZetaZeroCountLowRange` (§1.1, for the zero
+  counts of §§2.2 and 2.6), the zero counts against `M(T)` with `7/8` at the triples of Trudgian and
+  of Platt–Trudgian (instances of ExplicitZetaBounds §5.2a's predicate, written *ZeroCountBound*,
+  §3.1), the Kadiri–Lumley–Ng densities recomputed at the height `3·10¹²` with
+  changed inputs, whose constants are not the closed forms of ExplicitZetaBounds §8.3
+  (Johnston–Yang's *JohnstonYangDensityTable* and Fiori–Kadiri–Swidinsky's
+  *FioriKadiriSwidinskyDensity*, §3.4; Cully-Hugill's *CullyHugillDensity*, §7.5),
+  Johnston–Yang's truncated explicit formula (*JohnstonYangExplicitFormula*, §3.4), Liu–Wang's
+  bound of four zeros near `σ = 1` (*LiuWangFourZeros*, §6.6) and Ramaré's revised density for `ζ`
+  (*RamareRevisedDensity*, §7.5). Each is a named hypothesis, never discharged here, of the
+  instances that use it; no general theorem depends on one (Conventions).
+- The truncated explicit formula for `ψ` with an explicit error, `ψ(x) = x − ∑_{|γ| ≤ T} x^ρ/ρ`
+  up to `M x log x/T`, and in Dudek's shape up to `2 x log² x/T` for every `50 < T < x` (§2.1),
+  proved from the Perron formula of ExplicitZetaBounds §6.1, which that roadmap states for a
+  general Dirichlet series; and the Pintz form of the general scheme built on
+  it (§3.1(d)).
+- The carriers this roadmap adds: the logarithmic progression sum
+  `ψ̃(x; q, a) = ∑_{n ≤ x, n ≡ a (q)} Λ(n)/n` and the Mertens constants `C(q, a)` of a residue
+  class, the half-weight versions of `ψ`, `θ`, `π` and `π*` (Layer 0), and the first-occurrence
+  function of prime gaps (§1.4).
+- Chebyshev's weight method with explicit constants (§0.8), and the elementary explicit forms of
+  Mertens' first and second theorems valid from `x = 1` and `x = 2` (§§1.6, 4.1, 4.3).
+- The unoffset logarithmic integral `li` on `(0, 1) ∪ (1, ∞)`, defined by the exponential-integral
+  series at `log x`, with its principal-value integral, its derivative `1/log x`, its monotonicity
+  and sign, the identity `Li x = li x − li 2` for `x > 1` and its asymptotic expansion (§0.3a).
+- The rational prime-count adapter `TauCeti.primeCount ℚ Set.univ x = π(⌊x⌋₊)` and the asymptotic
+  `p_n ∼ n log n` of the `n`-th prime (§0.3b).
+- The exact transfer identities between `ψ`, `θ`, `π`, `Li` and `li` with their remainders, and the
+  general conversion of a `ψ`-bound into `θ`- and `π`-bounds (Layer 0).
+- The hypotheses, each a named assumption that nothing here proves: the finite-range
+  verifications, the prime-gap verifications, the progression tabulations and the decimal
+  enclosures of Euler's constant `γ` and of the Meissel–Mertens constant `B` (Layer 1), and the
+  computations on the low zeros of `ζ` (§1.1); the tables of constants, each in the section of the
+  general theorem whose error function it evaluates (Layers 2–7). The bounded-height Riemann
+  hypotheses, the records of ExplicitZetaBounds §0.4b (Platt's two, *BrentPlattTrudgianRecord*,
+  *BordignonRecord*, *LuZamanZhaoRecord*, *HiaryRecord*, *PatelRecord*, *YangRecord*,
+  *BennettMartinOBryantRechnitzerRecord*) and the real-zero gap are
+  ExplicitZetaBounds' (see Consumed, not redefined); §§1.1, 1.2 and 1.7 cite them, and a statement
+  here names a record wherever its route obtains a supplier region from it (Conventions). The
+  decimal enclosures are stated here because the roadmap `ExplicitMultiplicativeFunctions`, which
+  also needs them, is later in the order of supply.
+- Bounds for `ψ`, `θ`, `π` under the Riemann hypothesis and under the Riemann hypothesis to a height
+  (Layer 2); unconditionally, the general scheme and its published instances (Layer 3).
+- Explicit Mertens sums, Ramaré's weighted prime sums, Treviño's sums of primes and
+  Deléglise–Nicolas's sums `∑_{p ≤ x} p^r` (Layer 4).
+- Two-sided bounds for the `n`-th prime, Cipolla's expansion, and sums of the first `n` primes
+  (Layer 5).
+- Primes in arithmetic progressions with explicit constants, the general theorem and its instances,
+  and the consequences of a numerical real-zero gap for the exceptional-modulus clauses (Layer 6);
+  short intervals containing a prime, conditional (Layer 2) and unconditional (Layer 7).
+
+### Consumed, not redefined
+
+- `Chebyshev.psi`, `Chebyshev.theta`, their basic laws and the identities
+  `Chebyshev.psi_eq_theta_add_sum_theta`, `Chebyshev.primeCounting_eq_theta_div_log_add_integral`,
+  `Chebyshev.theta_eq_primeCounting_mul_log_sub_integral`, `Chebyshev.theta_le_log4_mul_x`, and
+  Costa Pereira's two comparisons of `ψ − θ` with sums of `ψ(x^{1/k})`
+  (`Chebyshev.psi_sub_theta_le_psi_add_psi_add_psi`,
+  `Chebyshev.psi_sub_theta_ge_psi_add_psi_add_psi`): Mathlib.
+- `TauCeti.Real.logIntegral` (`Li`, with `Li 2 = 0`) and its calculus, in particular
+  `TauCeti.Real.logIntegral_eq_div_log_sub_add`; `TauCeti.LFunctions.mertensConstant ℚ` (the
+  constant `B`): Tau Ceti. The asymptotic adapters `Li x − x/log x ∼ x/log² x`: ZerosOfLFunctions
+  §8.9.
+- The weighted large sieve `∑_x (N + (3/2) δ(x)⁻¹)⁻¹ |S(x)|² ≤ ∑ |a_n|²` of Montgomery–Vaughan:
+  ExplicitZetaBounds §6.5. The unweighted forbidden-residue large sieve with the sharp
+  constant `H − 1 + Q²` (SieveMethodsAndPrimePatterns §2.9) gives the constant `2` of §0.1 only up
+  to a factor `1 + O(log log(y/k)/log(y/k))` and is not its input.
+- The progression carriers `psiAP q a x` and `primeCountAP q a x` (modulus `q`, residue `a : ZMod q`,
+  real `x`) and the theta sum `θ(x; a, q)`: AnalyticNumberTheoryPartI §0.2.
+- Everything about the zeros of `ζ` and `L(s, χ)`: the counting function `zeroCount` and `N(T)`
+  (ZerosOfLFunctions §§4.1, 4.5), the zero-free regions with existential constants and the
+  exceptional-zero predicate (§§6.2–6.4), the truncated and Weil explicit formulas
+  (§§8.3–8.4), the prime number theorem with error term and its progression form (§§8.5, 8.7),
+  the certificate semantics `AllOnCriticalLine` and `GRH` (Layer 9). The decimal constants of the
+  zero-free regions, the explicit zero-counting errors and the zero-density bounds are the business
+  of ExplicitZetaBounds and are listed as gaps in the supplier contracts, except the
+  source-specific inputs that it leaves to this roadmap (Owned here); its weighted sums over the
+  ordinates (§5.4), its Perron formula with a free cut-off (§6.1) and Ford's intermediate region
+  (§7.2) are consumed by contract. The truncated explicit formula for `ψ` with a numerical error, which ZerosOfLFunctions
+  §8.3 states with an inexplicit `O`, is §2.1 here.
+- The bounded-height propositions `RH(H)` (`RiemannHypothesisUpTo`) and `GRH(f, H)` (primitive
+  characters modulo `f`), their antitonicity in `H`, their limits `RiemannHypothesis` and
+  `DirichletGRH`, the passage from primitive to all characters of a modulus, Platt's records
+  *PlattRecord* (`GRH(f, H(f))` for `2 ≤ f ≤ 400 000`, at heights `H(f) ≥ 10⁸/f`) and
+  *PlattCentralRecord* (`L(1/2, χ) ≠ 0` for primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`) with the
+  corollaries given them, and the recorded verifications of `ζ` (the heights `545 439 823`,
+  `30 610 046 000` and `3 000 175 332 800`, and the absence of zeros up to height `14`):
+  ExplicitZetaBounds §§0.2–0.4b (`gap:rh-up-to-height`, `gap:grh-up-to-height`).
+  §§1.1–1.2 cite them; `Suggested.lean` carries verbatim copies of `RiemannHypothesisUpTo` and of
+  the records `HiaryRecord`, `PatelRecord` and `YangRecord` (§0.4b there) only to make its headlines
+  statable.
+- The zero-count predicate *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀` of ExplicitZetaBounds §5.2a,
+  with its laws and its instances at Rosser's and Bellotti–Wong's triples; §3.1 here writes
+  *ZeroCountBound* `a₁ a₂ a₃ a₄ T₀` for it at `κ = 7/8`. The classical-region predicate of
+  ExplicitZetaBounds §7.3a (no zero with `|Im s| ≥ t₀` and `Re s ≥ 1 − 1/(R log |Im s|)`), with its
+  monotonicity and its instances at the constants of `gap:classical-zero-free-constants`;
+  `Suggested.lean` carries a verbatim copy, `ClassicalZeroFreeRegion`, only to state
+  `dusart_of_zeroFreeRegion`.
+- Dirichlet characters and `L(s, χ)`: Mathlib `DirichletCharacter.LFunction`, with
+  `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`); the statements
+  `DirichletGRH χ` and `GRH`: AnalyticNumberTheoryPartI §1.6; Siegel–Walfisz: §0.32.
+- Ramaré–Rumely's region for the zeros `β + iγ` of `L(s, χ)` with `|γ| ≥ H ≥ 1000`, for a primitive
+  character of conductor `k` with their constant `C₁(k, H)`, and its form for a modulus `q`, with
+  one constant for all the characters modulo `q`: ExplicitZetaBounds §7.5, fifth item and its end
+  (`gap:dirichlet-zero-free-constants`). §6.1 here names the form for a modulus
+  *RamareRumelyRegion* and applies it at Dusart's constant `C₁(q)`.
+- The discriminant of a cyclotomic field, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}` for `K`
+  a cyclotomic extension of `ℚ` of level `n ≥ 1`: Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`.
+  The conductor–discriminant formula `|disc ℚ(ζ_q)| = ∏_{χ mod q} f_χ` (`f_χ` the conductor of `χ`):
+  ClassFieldTheory Layer 13. §6.5 proves only the two bounds for `log |disc ℚ(ζ_q)|` that its
+  least-prime bounds use.
+- The existence of an absolute constant `c > 0` with `(1 − β) log q ≥ c` for every real zero `β`
+  of every primitive real `L(s, χ)` of conductor `q ≥ 3` (the uniform exclusion of Landau–Siegel
+  zeros, with no numerical value of `c`): AnalyticNumberTheoryPartI §0.34. The proposition with a
+  numerical `c` and a conductor cap `Q`, *HasLandauSiegelGap* `c Q`, and the two of its instances
+  used here, a computation and an argument with explicit constants: ExplicitZetaBounds §7.9
+  (`gap:real-zero-gap`), cited in §1.7; this roadmap owns only the consequences for its
+  progression theorems (§6.7).
+- The four finite-range inputs `SchoenfeldFiniteRangeInput`, `RosserSchoenfeldFiniteRangeInput`,
+  `PrimeProductFiniteInput` and the theta clause of `ModEightFiniteInput` of
+  AnalyticNumberTheoryPartI §§0.3, 0.5, 0.25, 0.16, and the theorems they gate (§§0.3, 0.5, 0.8,
+  0.16, 0.19, 0.20, 0.25), in particular `θ(x) < 1.000081 x` for `x > 0` (§0.3 there) and both
+  halves of Rosser–Schoenfeld's Theorem 1 for `x ≥ 59` (§0.5 there): imported by section, not
+  restated. This roadmap adds only the theorems that prove those inputs from its own hypotheses
+  (§§3.2, 3.5, 4.3, 6.1).
+- Chebyshev's identity `log ⌊x⌋₊! = ∑_{n ≤ x} Λ(n) ⌊x/n⌋₊` with the two-sided bounds for
+  `log ⌊x⌋₊!` at real `x ≥ 1`, and the von Mangoldt form
+  `∑_{2 ≤ n ≤ x} Λ(n)/(n log n) = log log x + γ + O(1/log x)` of Mertens' second theorem, whose
+  constant is identified there as `γ`: AnalyticNumberTheoryPartI §§0.11d and 0.26a (§§0.8, 4.3
+  here).
+- The Graham–Vaaler extremal majorant and minorant of `t ↦ 1_{t ≥ 0} e^{−νt}` with their `L¹`
+  errors and closed forms, and the bounds for `(z coth z)′`: ExplicitZetaBounds §6.3a (§2.6 here).
+  The density predicate *ZetaZeroDensityBound* and the Kadiri–Lumley–Ng density at an arbitrary
+  verification height: ExplicitZetaBounds §§8.3–8.3a (§3.1(d) here).
+
+### Not owned here
+
+- The inequality `π(2x) − π(x) > 3x/(5 log x)` for `x ≥ 41/2`, the lower half of
+  Rosser–Schoenfeld's Corollary 3: ClassicalArithmeticCompletion §6.34 (`dyadicPrimeCount`). §3.5
+  states only the upper half, `0 < π(2x) − π(x) < 7x/(5 log x)` for `x > 1`.
+- Products over primes (Mertens' third theorem with explicit constants, including the two product
+  forms of Lee–Nosal's Corollary 1.3 under the Riemann hypothesis), the Möbius function and Euler
+  products: ExplicitMultiplicativeFunctions, a consumer of Layers 2–4.
+- The proof that Landau–Siegel zeros do not exist, in any of its forms: AnalyticNumberTheoryPartI
+  §0.34 (see Consumed). The conditional bounds that assume a zero-free half-plane `Re s > 7/8` are
+  not stated anywhere here: that half-plane has no published proof.
+- Almost-all and probabilistic statements about primes in short intervals:
+  ProbabilisticAndMetricNumberTheory Layer 5.
+- Algorithms and computations: no prime generation, no primality proof, no Meissel–Lehmer method,
+  no computation of zeros, no verification of a table or of a finite range. Every number a paper
+  obtained by computation enters as data in a named proposition (Layer 1, or the section of the
+  general theorem whose error function it evaluates) and is assumed, never established.
+- The explicit Vinogradov–Korobov zero-free region: ExplicitZetaBounds §7.6 (given `RH(3·10¹²)`,
+  *BrentPlattTrudgianRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*); the two theorems
+  that need it (§3.6, §7.5) take that region as a hypothesis.
+- The asymptotic prime-gap statements of Carneiro–Milinovich–Soundararajan (their Theorem 3 and
+  Corollary 4), which rest on a Brun–Titchmarsh constant `36/11` that no roadmap plans; only their
+  explicit Theorem 5 is a target (§2.5).
+- Primes between consecutive `k`-th powers for every `n ≥ 1` with `k` below the `140` of §7.5:
+  Cully-Hugill–Johnston's `k = 90` (`cully-hugill-johnston-2025` Theorem 1.4) and the preprint
+  statements built on it, `k = 86` (`lee-2026` Theorem 1.2) and a prime in `[x, x + x^{1 − 1/n}]`
+  for every `n ≥ 106` and real `x ≥ 1` (`visser-2025`, the third statement of its abstract). The
+  route of the first rests on the averaged truncated explicit formula of that paper (its Theorem
+  1.3, with a height `T* ∈ [T, 2T]` chosen by the averaging, at the rows with `α = 1/85` of its
+  Table 1), which `lee-2026` also uses (its display (3.3)), and on Kadiri–Lumley–Ng's density at
+  `σ₁ = 3/5` with the recomputed constants of `johnston-yang-2023` Table 3 (its §5), a constant
+  `C₂(3/5)` that neither that paper nor the table prints (the table's rows start at `σ = 0.980`,
+  `johnston-yang-2023` lines 1049–1073); the preprints add inputs that no refereed theorem states,
+  the zero-free constants of a thesis (`lee-2026` §2.1, display (2.2)) and the real-`x` form read
+  off the proof of the `k = 90` theorem (`visser-2025` §2.1, display (2.5)). None of them is stated
+  here.
+- The effective Chebotarev theorem under the generalised Riemann hypothesis for a general Galois
+  extension (Bach–Sorenson's Theorem 5.1): §6.5 proves its rational instance for the characters
+  modulo `q` directly from Dirichlet `L`-functions.
+
+## Exact supplier contracts
+
+The suppliers are Mathlib and Tau Ceti at the pins and the roadmaps named below.
+PrimeNumberTheoremAnd and IEANTN, Lean projects outside the pinned libraries, are not suppliers:
+nothing is imported from them, and every statement here is cited to its primary source.
+
+### From Mathlib
+
+- `Chebyshev.psi`, `Chebyshev.theta` (sums over `Finset.Ioc 0 ⌊x⌋₊`), `Chebyshev.psi_nonneg`,
+  `Chebyshev.theta_nonneg`, `Chebyshev.psi_mono`, `Chebyshev.theta_mono`,
+  `Chebyshev.psi_eq_zero_of_lt_two`, `Chebyshev.theta_eq_zero_of_lt_two`, `Chebyshev.theta_le_psi`,
+  `Chebyshev.psi_eq_psi_coe_floor`, `Chebyshev.theta_eq_theta_coe_floor`.
+- `Chebyshev.psi_eq_theta_add_sum_theta`: for `x ≥ 2`, `ψ(x) = θ(x) + ∑_{n=2}^{⌊log x/log 2⌋} θ(x^{1/n})`.
+- `Chebyshev.theta_le_log4_mul_x`: `θ(x) ≤ (log 4) x` for `x ≥ 0`; `Chebyshev.psi_le_const_mul_self`:
+  `ψ(x) ≤ (log 4 + 4) x` for `x ≥ 0`; `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`:
+  `|ψ(x) − θ(x)| ≤ 2 √x log x` for `x ≥ 1`; `Chebyshev.pi_le_log4_mul_div`:
+  `π(x) ≤ (log 4) x/log √x + √x` for `x > 1`.
+- Costa Pereira's comparisons (`Mathlib/NumberTheory/Chebyshev.lean`, section `CostaPereira`):
+  `Chebyshev.psi_sub_theta_le_psi_add_psi_add_psi`, for every real `x`,
+  `ψ(x) − θ(x) ≤ ψ(x^{1/2}) + ψ(x^{1/3}) + ψ(x^{1/5})`, and
+  `Chebyshev.psi_sub_theta_ge_psi_add_psi_add_psi`, for real `x ≥ 0`,
+  `ψ(x^{1/2}) + ψ(x^{1/3}) + ψ(x^{1/7}) ≤ ψ(x) − θ(x)`, the roots being real powers `x ^ (k : ℝ)⁻¹`;
+  for §§0.3, 3.4a and 3.7.
+- `IsPrimePow`, `Function.leftLim` and `Monotone.leftLim_le` (left limits of monotone functions),
+  for §§0.3 and 0.6.
+- `Chebyshev.primeCounting_eq_theta_div_log_add_integral`: for `x ≥ 2`,
+  `π(⌊x⌋₊) = θ(x)/log x + ∫₂ˣ θ(t)/(t log² t) dt`;
+  `Chebyshev.theta_eq_primeCounting_mul_log_sub_integral`: `θ(x) = π(⌊x⌋₊) log x − ∫₂ˣ π(⌊t⌋₊)/t dt`;
+  `Chebyshev.integrableOn_theta_div_id_mul_log_sq`.
+- `Nat.primeCounting`, `Nat.primeCounting'`, `Nat.primeCounting'_nth_eq`, `Nat.prime_nth_prime`,
+  `Nat.add_two_le_nth_prime`, `Nat.nth_prime_zero_eq_two`, `Nat.nth_prime_one_eq_three`,
+  `Nat.primesLE`, `Nat.mem_primesLE`; `Nat.exists_prime_lt_and_le_two_mul` (Bertrand);
+  `Nat.totient`, `Nat.Coprime`, `ArithmeticFunction.moebius` (for §0.1).
+- `ArithmeticFunction.vonMangoldt` (`Λ n = log (minFac n)` on prime powers, `0` elsewhere),
+  `ArithmeticFunction.vonMangoldt_apply`, `ArithmeticFunction.vonMangoldt_nonneg`.
+- `RiemannHypothesis` (every zero of `riemannZeta` that is neither a trivial zero nor `1` has real
+  part `1/2`), `riemannZeta`, `DirichletCharacter.LFunction`, `analyticOrderNatAt`;
+  `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`) and
+  `DirichletCharacter.LFunction_ne_zero_of_one_le_re` (no zero on `Re s ≥ 1` away from the pole),
+  in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean`.
+- `NumberField.discr`, `IsCyclotomicExtension` and `IsCyclotomicExtension.Rat.natAbs_discr`
+  (`Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.lean`): for `n ≥ 1` and `K` a cyclotomic
+  extension of `ℚ` of level `n`, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}`, the quotient
+  being exact. It is the value of the discriminant in §6.5.
+- `Real.eulerMascheroniConstant`, `Real.one_half_lt_eulerMascheroniConstant`,
+  `Real.eulerMascheroniConstant_lt_two_thirds` (the only enclosure of `γ` in the pin);
+  `Real.pi_gt_d6`, `Real.pi_lt_d6`, `Real.exp_one_gt_d9`, `Real.exp_one_lt_d9`, `Real.log_two_gt_d9`,
+  `Real.log_two_lt_d9`; `sum_mul_eq_sub_sub_integral_mul` (Abel summation).
+- `Real.eulerMascheroniConstant_eq_neg_integral_log` (`γ = −∫₀^∞ e^{−t} log t dt`), `HasDerivAt`,
+  `intervalIntegral`, `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, for §0.3a;
+  `Rat.HeightOneSpectrum.primesEquiv` (`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean`, the
+  height-one primes of a ring of integers of `ℚ` against the rational primes) and `Ideal.absNorm`,
+  for §0.3b.
+
+### From Tau Ceti
+
+- `TauCeti.Real.logIntegral x = ∫₂ˣ (log t)⁻¹ dt`, `TauCeti.Real.logIntegral_two`,
+  `TauCeti.Real.logIntegral_nonneg`, `TauCeti.Real.le_logIntegral`,
+  `TauCeti.Real.logIntegral_eq_div_log_sub_add` (`Li x = x/log x − 2/log 2 + ∫₂ˣ dt/log² t` for
+  `x ≥ 2`), `TauCeti.Real.logIntegral_isEquivalent_div_log`,
+  `TauCeti.Real.intervalIntegrable_inv_log_pow`, `TauCeti.Real.intervalIntegrable_div_mul_log_sq`.
+- `TauCeti.LFunctions.mertensConstant K` (the limit of `∑_{N𝔭 ≤ x} 1/N𝔭 − log log x`) with
+  `TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log` and
+  `TauCeti.LFunctions.isBigO_primeSummatory_inv_absNorm_sub_log_log_sub_mertensConstant`
+  (`TauCeti/NumberTheory/LFunctions/Mertens.lean`); at `K = ℚ` the prime ideals of `𝓞 ℚ`
+  correspond to the rational primes with norm `p`.
+- `TauCeti.primeCount`, `TauCeti.primeTheta`, `TauCeti.primeCount_eq_card`,
+  `TauCeti.primeCount_sub_mul_logIntegral_eq` (the number-field remainder identity, of which §0.4
+  is the rational instance), `TauCeti.primeCount_univ_isEquivalent_div_log` (the prime ideal
+  theorem `π_K(x) ∼ x/log x`, used at `K = ℚ` in §0.3b), and the prime number theorem in progressions
+  `NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`.
+- `Nat.primeCounting_nth_prime` (`π(p_k) = k + 1` for `p_k = Nat.nth Nat.Prime k`) and
+  `Nat.primesLE_eq_image_nth`, declared in namespace `Nat` by Tau Ceti's
+  `TauCeti/NumberTheory/PrimeCounting.lean`.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+- §4.1 `zeroCount`, §4.5 `N(T)` and the discreteness of the zero set; §6.2–6.4 the de la Vallée
+  Poussin region with an existential constant and *IsExceptionalZero*; §7.4 the Riemann–von
+  Mangoldt formula (inexplicit); §8.3 the truncated explicit formula `chebyshevPsi_explicitFormula`
+  (with an inexplicit `O`), §8.4 the Weil explicit formula `riemannZeta_weilExplicitFormula` on
+  the stated test class; §8.5 `primeIdealCount_effective` at `K = ℚ`; §8.7
+  `primeCounting_progression_effective`; §8.9 the `Li` adapters; Layer 9 *AllOnCriticalLine*
+  and the bridge of *GRH* at the `ζ` record to Mathlib's `RiemannHypothesis`.
+
+### From TauCetiRoadmap.LFunctions
+
+- Layer 4 `dirichletData` (the record of `L(s, χ)` with conductor, parity and functional equation),
+  through ZerosOfLFunctions.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+- Layer 13, the abelian conductor–discriminant formula, at `ℚ(ζ_q)/ℚ`. There the characters of
+  `Gal(ℚ(ζ_q)/ℚ) = (ℤ/q)^×` are the Dirichlet characters modulo `q`, and the same layer's
+  identification of the least cyclotomic level with the finite part of the conductor makes their
+  conductors the Dirichlet conductors `f_χ`. The formula then reads
+  `log |disc ℚ(ζ_q)| = ∑_{χ mod q} log f_χ`. It is used only in Bach–Sorenson's route in §6.5.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §0.2 `psiAP q a x`, `primeCountAP q a x`, `thetaAP q a x` with the level-one identity
+  `θ(x; 0, 1) = Chebyshev.theta x` and, for `q ≥ 1`, the sum over the classes modulo `q`, which is
+  `Chebyshev.theta x` (both stated there in prose); §0.7 `quadratic_real_zero_le_of_bmor` (under its `BMORFiniteInput` and
+  `BMORClassNumberInput`: for `q ≥ 3`, every real zero `β > 0` of `L(s, χ)` for a nonprincipal
+  quadratic `χ` modulo `q` has `β ≤ 1 − 40/(√q log² q)`), for the exceptional clause of §6.3;
+  §0.3, §0.5, §0.8, §0.16, §0.19, §0.20, §0.25 and their finite-range
+  inputs `SchoenfeldFiniteRangeInput`, `RosserSchoenfeldFiniteRangeInput`, `ModEightFiniteInput`,
+  `PrimeProductFiniteInput` (consumed by name in §0.6); §0.30 the rational Dirichlet-to-ray-class
+  dictionary; §0.32 Siegel–Walfisz in the `ψ` form `siegel_walfisz`; §0.34 the existence of an
+  absolute constant `c > 0` with `(1 − β) log q ≥ c` for the real zeros of primitive real
+  `L(s, χ)`, consumed in §1.7 only as the statement that some gap exists; §1.6 `DirichletGRH χ` and
+  `GRH` (`Suggested.lean` writes the body of `DirichletGRH` out in the hypothesis of the §6.5
+  headline, so that it declares no second copy of the proposition);
+  §1.9 `psi_sub_self_isBigO_of_riemannHypothesis` and `psiAP_isBigO_of_dirichletGRH` (consumed
+  only as consistency checks); §0.11d `log_floor_factorial_eq_sum_vonMangoldt` with the bounds
+  `x log x − x + 1 − log x ≤ log ⌊x⌋₊! ≤ x log x − x + 1 + log x` for real `x ≥ 1` (Mathlib's
+  `Real.le_sum_log` and `Real.sum_log_le`), for §0.8 and §4.1; §0.26a
+  `mertens_vonMangoldt_eulerGamma` (the constant of `∑ Λ(n)/(n log n) − log log x` is `γ`), for
+  §4.3.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+- §2.9 the large sieve for forbidden residues: for a finite set of primes `P`, forbidden residue
+  sets `Ω_p ⊆ 𝔽_p` with `|Ω_p| < p`, and a sequence `a_n` supported on `H` consecutive integers and
+  vanishing on every forbidden residue, `J(Q) |∑ a_n|² ≤ (H − 1 + Q²) ∑ |a_n|²`, where `J(Q)` is the
+  sum over squarefree `d ≤ Q` composed of primes of `P` of `∏_{p ∣ d} |Ω_p|/(p − |Ω_p|)`. It is not
+  an input of §0.1, whose input is the weighted large sieve of ExplicitZetaBounds §6.5; §0.1 states
+  for itself the passage from a prime to a squarefree modulus that the proof of §2.9 contains.
+- §3.1 `SieveDistribution.primeCountAP` (real `x`, modulus `q : ℕ`, residue `a : ℕ`, the
+  congruence being equality at `q = 0`), for the agreement lemma of §0.6 only.
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+ExplicitZetaBounds precedes this roadmap in the order of supply and owns the decimal constants of
+the zero-free regions, the explicit zero counts, the zero densities, the weighted sums over the
+ordinates and the verified heights. The zero inputs that particular sources use and that its
+Not owned here leaves to the theorems needing them (Liu–Wang's four-zero bound, Ramaré's revised
+density for `ζ`, Johnston–Yang's recomputed density constants, the low-height zero count
+`0.28 log T` and the zero counts against `M(T)` at the triples of Trudgian and of Platt–Trudgian)
+are this roadmap's
+(Owned here), and so are the two other recomputations of Kadiri–Lumley–Ng's density at the height
+`3·10¹²` with changed inputs (Fiori–Kadiri–Swidinsky's, Cully-Hugill's), whose constants are not
+that roadmap's closed forms at any parameters. Kadiri–Lumley–Ng's theorem itself, with its closed
+forms evaluated at an arbitrary verification height `H₀`, is that roadmap's §8.3, and
+Cully-Hugill–Lee's density is its instance at `H₀ = 3 000 175 332 800` (§7.3). Ramaré–Rumely's
+region for a primitive character of conductor `k`, with the constant `C₁(k, H)`, and its form for a modulus `q`, with one
+constant for all the characters modulo `q`, are that roadmap's (its §7.5, fifth item and its end,
+in `gap:dirichlet-zero-free-constants` below), as its Not owned here records; §6.1 here applies the
+form for a modulus at Dusart's constant (*RamareRumelyRegion*). Each region, zero count, weighted
+sum and density below is consumed under the verified heights and the records (ExplicitZetaBounds
+§0.4b: *PlattRecord*, *BrentPlattTrudgianRecord*, *BordignonRecord*, *LuZamanZhaoRecord*,
+*HiaryRecord*, *PatelRecord*, *YangRecord*, *BennettMartinOBryantRechnitzerRecord*) with which that
+roadmap states it, listed with the item (Conventions). The following sections are consumed exactly
+as that roadmap states them:
+
+- §6.5, the weighted large sieve of Montgomery–Vaughan: for a finite set `X ⊂ ℝ/ℤ` with at least
+  two points, `δ(x)` the distance from `x` to the rest of `X`, an integer `M`, `N ≥ 1` and complex
+  `a_n` on `M < n ≤ M + N`, `∑_{x ∈ X} (N + (3/2) δ(x)⁻¹)⁻¹ |∑_n a_n e(nx)|² ≤ ∑ |a_n|²` (the
+  constant `c = 3/2`, from the `3π/2` Hilbert inequality of AnalyticNumberTheoryPartI §1.5a). This
+  is the input of the Brun–Titchmarsh inequality of §0.1, where `X` is the set of reduced fractions
+  with denominator at most `Q ≥ 2`.
+- §0.2, `RiemannHypothesisUpTo H` (`RH(H)`) and *DirichletGRHUpTo* `f H` (`GRH(f, H)`), with
+  antitonicity in `H`, `RH(H) ↔ GRH(1, H)`, the limits `RiemannHypothesis` and `DirichletGRH`, and
+  the passage to imprimitive characters: for `q ≥ 1`, every character modulo `q` has its zeros with
+  `0 < Re s < 1` and `|Im s| ≤ H` on `Re s = 1/2` iff `GRH(f, H)` holds for every `f ∣ q`.
+- §§0.3 and 0.4b, Platt's two records, named propositions there: *PlattRecord*, `GRH(f, H(f))` for
+  `2 ≤ f ≤ 400 000` (`H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f`,
+  `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f`), and *PlattCentralRecord*, `L(1/2, χ) ≠ 0` for every
+  primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`; and, given *PlattRecord*, `GRH(f, 10⁸/f)` for
+  `2 ≤ f ≤ 400 000`, `GRH(f, 10 000)` for `2 ≤ f ≤ 13` and `GRH(f, 2500)` for `2 ≤ f ≤ 40 000`;
+  and, given *PlattRecord* and *PlattCentralRecord*, `LFunction_ne_zero_of_platt`: for `χ`
+  primitive modulo `f ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0` (at `f = 1`, where `L = ζ`,
+  without any record).
+- §0.4, the recorded verifications `RH(545 439 823)`, `RH(30 610 046 000)` and
+  `RH(3 000 175 332 800)`, and the absence of zeros of `ζ` with `0 < Re s < 1` and `|Im s| ≤ 14`.
+- §5.2a, the zero-count predicate *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀`: for every `T ≥ T₀`,
+  `|N(T) − (T/2π) log(T/(2πe)) − κ| ≤ a₁ log T + a₂ log log T + a₃ + a₄/T`, with its monotonicity
+  (larger `a_i`, and `T₀' ≥ max(T₀, e)`), its shift (from `κ` to `κ'` at the cost `|κ − κ'|` in
+  `a₃`) and Rosser's bound as its instance `(7/8) 0.137 0.443 1.588 0 2`. Since
+  `(T/2π) log(T/(2πe)) + 7/8 = M(T)`, its case `κ = 7/8` measures the count against `M(T)`; §3.1
+  writes *ZeroCountBound* `a₁ a₂ a₃ a₄ T₀` for *ZetaZeroCountBound* `(7/8) a₁ a₂ a₃ a₄ T₀`.
+- §7.3a, the classical-region predicate: for real `R` and `t₀`, every `s` with `riemannZeta s = 0`
+  and `|Im s| ≥ t₀` has `Re s < 1 − 1/(R log |Im s|)`; with its monotonicity (for `0 < R ≤ R'` and
+  `1 < t₀ ≤ t₀'`) and its instances at the constants of `gap:classical-zero-free-constants`.
+  `Suggested.lean`'s `ClassicalZeroFreeRegion` is a verbatim copy, used at `t₀ = 2π` in §3.1(a).
+- §5.4, the weighted sums over the ordinates `γ > 0` of the zeros of `ζ`, counted with
+  multiplicity, `Σ′` giving weight `1/2` to an ordinate equal to an end of the range. Lehman's
+  form: for `2πe ≤ T₁ ≤ T₂` and `φ` continuous, nonnegative and non-increasing on `[T₁, T₂]`,
+  `Σ′_{T₁ ≤ γ ≤ T₂} φ(γ) = (1/2π) ∫_{T₁}^{T₂} φ(t) log(t/2π) dt + O*(4 φ(T₁) log T₁ + 2 ∫_{T₁}^{T₂} φ(t) dt/t)`.
+  Brent–Platt–Trudgian's form (`brent-platt-trudgian-2021`, Lemma 3 and Theorem 1), given
+  *HiaryRecord* (through Trudgian's bound for `∫ S(t) dt` from `168π`, the next item of that
+  section): for `φ` of
+  class `C²` on `[T₀, ∞)` with `φ ≥ 0`, `φ′ ≤ 0`, `φ″ > 0` and `168π < T₀ ≤ T₁ ≤ T₂`,
+  `Σ′_{T₁ ≤ γ ≤ T₂} φ(γ) − (1/2π) ∫_{T₁}^{T₂} φ(t) log(t/2π) dt = φ(T₂) Q(T₂) − φ(T₁) Q(T₁) + E₂`
+  with `|E₂| ≤ 2(2.067 + 0.059 log T₁) |φ′(T₁)| + (0.059 + 1/150) φ(T₁)/T₁`, where `Q = N − M` and
+  `N` at an ordinate is the mean of its one-sided limits; and the same with `T₂ = ∞` when
+  `∫^∞ φ(t) log t dt < ∞` (the source's range `2π ≤ T₀` rests on a computation with the zeros below
+  `168π` that the supplier does not state). Neither form contains the other: Lehman's asks no
+  convexity and no record and starts at `2πe`; Brent–Platt–Trudgian's has the error
+  `|φ′(T₁)| log T₁ + φ(T₁)/T₁` in place of `φ(T₁) log T₁` and starts at `168π`. Below `168π`
+  Lehman's form, from `2πe`, and Rosser–Schoenfeld's Lemma 7 serve.
+- §6.1, the smoothed truncated Perron formula with a free cut-off (Cully-Hugill–Johnston's
+  Theorem 2.1): for `F(z) = ∑ a_n n^{−z}` absolutely convergent on `Re z > κ_a`, `κ > max(κ_a, 0)`,
+  `T > 0`, `x ≥ 1` and `λ ≥ θ'/T` with `θ' = 2/(√(π² + 4) + π)`,
+  `∑_{n ≤ x} a_n = (1/2πi) ∫_{κ−iT}^{κ+iT} F(z) x^z dz/z` up to
+  `(x^κ/(πλT)) ∑_n |a_n|/n^κ + (1/(πT)) ∫_{θ'/T}^{λ} ∑_{|log(x/n)| ≤ u} |a_n| e^{κu} du/u²` in
+  absolute value. It is the first input of the truncated explicit formula of §2.1, at
+  `a_n = Λ(n)`.
+- §7.2, Ford's intermediate region in the form with `log 0.618` in place of `log 3` in
+  `J(t) = (1/6) log t + log log t + log 3`: given `RH(545 439 823)`, for `t ≥ 1.88·10¹⁴`, no zero of
+  `ζ` with `σ ≥ 1 − (0.04962 − 0.0196/(J(t) + 1.15))/(J(t) + 0.685 + 0.155 log log t)`. It is the
+  input of the region `ν₂` of §3.4 above the height `exp(91.2853)`.
+- §7.9, *HasLandauSiegelGap* `c Q` (for every primitive real nonprincipal `χ` of conductor
+  `3 ≤ q ≤ Q` and every real zero `β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q ≥ c`), with its laws and
+  the instances `(1/5, 10¹⁰)` and `(3.0·10⁻³, ∞)`.
+- §6.3a, the extremal approximants of the one-sided exponential: for `ν > 0` and
+  `I_ν(x) = e^{−νx}` on `x ≥ 0`, `0` on `x < 0`, the Graham–Vaaler functions `F^±_ν`, entire of
+  exponential type `2π`, integrable, real on `ℝ`, with `F^−_ν ≤ I_ν ≤ F^+_ν`,
+  `∫ (F^+_ν − I_ν) = 1/(1 − e^{−ν}) − 1/ν`, `∫ (I_ν − F^−_ν) = 1/ν − 1/(e^ν − 1)`, their Fourier-side
+  form `F^±_ν = ∫_{−1}^{1} φ^±_ν(t) e(−tx) dt` with `φ^±_ν = 1_{[−1,1]}(Φ^{±,∘}_ν + sgn · Φ^{±,⋆}_ν)`,
+  where `B^±(u) = (u/2)(coth(u/2) ± 1)`, `w = ν − 2πiz`, `Φ^{±,∘}_ν(z) = (1/2)(coth(w/2) ± 1)` and
+  `Φ^{±,⋆}_ν(z) = (B^±(w) − B^±(ν))/(2πi)`, their closed forms, `B⁺` increasing and `B⁻` decreasing
+  on `ℝ`, and the bounds `|(z coth z)′| < 1` on `|Im z| ≤ π/4` and `≤ |z|` on `|Im z| ≤ π/2`, with
+  their consequences `|Φ^{±,⋆}_ν(z)| ≤ |z|` and `|(Φ^{±,∘}_ν + Φ^{±,⋆}_ν)(1 − z)| ≤ |z|` for
+  `0 ≤ Re z ≤ 1/4`. They are the kernels of the bracketing theorem of §2.6.
+- §8.3a, the density predicate *ZetaZeroDensityBound* `T₀ S c₁ c₂ p q` (for every `T ≥ T₀` and
+  `σ ∈ S`, `N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) log² T`), with its laws and the
+  Kadiri–Lumley–Ng instances of its §8.3 at every verification height `H₀` (given `RH(H₀)` and
+  *HiaryRecord*). It is the density input of the lemmas of §3.1(d).
+
+Each item below is cited as a gap (`gap:<slug>`) wherever a theorem needs it; the general
+theorems of Layers 3, 6 and 7 take the corresponding object as an explicit parameter, so only
+their instances wait for these items.
+
+What ExplicitZetaBounds must provide (gap:rh-up-to-height): For real `H`, the proposition `RH(H)` that every zero `s` of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2`, antitone in `H` and implied by Mathlib's `RiemannHypothesis`, with the recorded verifications at `H = 545 439 823`, `30 610 046 000` and `3 000 175 332 800` and the recorded verification that `ζ` has no zero `s` with `0 < Re s < 1` and `|Im s| ≤ 14`. Required location: target 20 (its §§0.2 and 0.4).
+
+What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f ≥ 1` and real `H`, the proposition `GRH(f, H)` that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2` for every primitive character `χ` modulo `f`, antitone in `H`, with the passage to imprimitive characters (every character modulo `q` has its zeros of the open strip up to height `H` on the line iff `GRH(f, H)` holds for every `f ∣ q`), Platt's record *PlattRecord*, the proposition `GRH(f, H(f))` for every `2 ≤ f ≤ 400 000`, `H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f` and `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f` (`platt-2016` Theorem 7.1, arXiv numbering), whose ranges contain Rumely's (`rumely-1993` lines 29–36), with its corollaries at the heights `10⁸/f`, `10 000` and `2500`, and Platt's central record *PlattCentralRecord*, the proposition that `L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ f ≤ 2·10⁶` (`platt-2016` Theorem 7.2). Required location: target 20 (its §§0.2, 0.3 and 0.4b).
+
+What ExplicitZetaBounds must provide (gap:classical-zero-free-constants): For `ζ`, given `RH(30 610 046 000)`, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(5.69693 log |t|)`; given `RH(3·10¹²)` and *BrentPlattTrudgianRecord*, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(R log |t|)` for each of `R = 5.573412` and `5.5666305` (both from the `5.558691` region of its §7.3), and that no zero has `|t| ≥ 21` and `σ ≥ 1 − 1/(9.645908801 log(|t|/17))`. Required location: target 16 (its §7.3).
+
+What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord* and *PlattRecord*, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)`, *PlattRecord*, *BennettMartinOBryantRechnitzerRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*, for `3 ≤ q ≤ 400 000` and `χ` nonprincipal primitive modulo `q`, that `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))`, with no exceptional zero (Kadiri's 2018 region, the second item of its §7.5, the region of `bennett-martin-obryant-rechnitzer-2018` Proposition 4.34 for the conductors `q ≥ 3`); given `RH(545 439 823)` and *PlattRecord*, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies, given also *BordignonRecord*, `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)` and *LuZamanZhaoRecord*, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–838, Theorem 3.6.3): for `χ` primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `H ≥ 1000`, every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(k, H)))`, where `C₁(k, H) ≥ C₁ = 4.171838431` is the closed form of that theorem, a function of `H` and of the conductor through the local constants `D*(k, σ)` of their (3.4.3), with no record; and its form for a modulus, which ends that item: for `q ≥ 1`, `H ≥ 1000` and real `C` with `0 < C ≤ C₁(k_χ, H)` for the conductor `k_χ` of every character `χ` modulo `q`, every zero `β + iγ` of `L(s, χ)`, `χ` modulo `q`, with `0 < β < 1` and `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. Required location: its §7.5.
+
+What ExplicitZetaBounds must provide (gap:real-zero-gap): For real `c` and a conductor cap `Q ∈ ℕ ∪ {∞}`, the proposition *HasLandauSiegelGap* `c Q` that every real zero `β ∈ (0, 1)` of `L(s, χ)`, for every primitive real nonprincipal character `χ` of conductor `q` with `3 ≤ q ≤ Q`, satisfies `(1 − β) log q ≥ c`, with the named instances `(c, Q) = (1/5, 10¹⁰)` (the computation of `lu-zaman-zhao-2026`, Theorem 1.1) and `(c, Q) = (3.0·10⁻³, ∞)` (`banks-2026`, Theorem 1.1, with the first instance). Required location: target 18 and target 20 (its §7.9).
+
+What ExplicitZetaBounds must provide (gap:vinogradov-korobov-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*, for `|t| ≥ 3`, that `ζ` has no zero with `σ ≥ 1 − 1/(57.54 (log |t|)^(2/3) (log log |t|)^(1/3))`. Required location: target 17 (its §7.6).
+
+What ExplicitZetaBounds must provide (gap:explicit-zero-count-error): With `N(T)` the number of zeros of `ζ` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity and `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`, Rosser's bound `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for `T ≥ 2`, and, given *HiaryRecord*, *PatelRecord* and *YangRecord*, Bellotti–Wong's bounds `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` for `T ≥ 30 610 046 000` (and for every `T ≥ e` given also its recorded bound for `S(T)`), which against `M(T)` hold with `7/8` added to the constants. Required location: its §5.2.
+
+What ExplicitZetaBounds must provide (gap:dirichlet-zero-count-error): Given *BennettMartinOBryantRechnitzerRecord* (which covers `ℓ ≤ 6`), for a primitive character `χ` of conductor `q > 1` and `T ≥ 5/7` with `ℓ = log(q(T + 2)/(2π)) > 1.567`, that the number of zeros of `L(s, χ)` with `0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity, is `(T/π) log(qT/(2π)) − T/π − χ(−1)/4 + O*(0.22737 ℓ + 2 log(1 + ℓ) − 0.5)`. Required location: target 9.
+
+What ExplicitZetaBounds must provide (gap:explicit-zero-density): Given `RH(30 610 046 000)`, Kadiri's bound `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and `T ≥ 3.061·10¹⁰`, with `N(σ, T)` the number of zeros of `ζ` with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity, and the general form `b₁(T − H) + b₂ log(T/H) + b₃` of her Theorem 1.1 (its §8.1); and, at every verification height `H₀` (the range `10⁹/H₀ ≤ k ≤ 1` forcing `H₀ ≥ 10⁹`), given `RH(H₀)` and *HiaryRecord*, Kadiri–Lumley–Ng's bound for the count `N°(σ, T)` of the zeros with `σ < Re ρ < 1` and `0 < Im ρ < T`, `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T` for `T ≥ H₀`, with `C₁`, `C₂` their closed forms (4.72)–(4.73) in the parameters of their Theorem 1.1, evaluated at `H₀` (`kadiri-lumley-ng-2018` lines 74–81), and its instance at `H₀ = 3.0610046·10¹⁰`, `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` given `RH(30 610 046 000)` (its §8.3). Required location: its §§8.1 and 8.3.
 
 ## References
 

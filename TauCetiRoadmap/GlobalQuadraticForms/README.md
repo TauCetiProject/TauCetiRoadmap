@@ -1,108 +1,71 @@
 # Roadmap: global quadratic forms over number fields
 
-**Summary.** This roadmap completes the local-to-global theory of regular quadratic forms over an
-arbitrary number field `K`. It starts from Tau Ceti's localizations of a form at the finite and
-real places, the four local predicates built on them, real signatures, finite Hasse signs, the
-invariant record `GlobalFormInvariants` with its admissibility predicate, Hilbert reciprocity and
-Hilbert sign prescription for the norm-equation symbol, the conditional quaternary and
-rank-at-least-five steps of Hasse–Minkowski, the local realization of admissible records, and the
-global-to-local map of Witt rings. On these it proves the global square theorem, the binary and
-ternary cases of Hasse–Minkowski, and then Hasse–Minkowski for isotropy, for the representation
-of scalars and of forms, and for isometry. It ends with the existence of a global form with
-prescribed admissible local invariants (O'Meara 72:1), the classification of regular forms by rank,
-global discriminant, finite Hasse signs and real positive indices, global hyperbolicity, and the
-injectivity of the global-to-local map of Witt rings. The end theorems are
-`hasseMinkowski_equivalent`, `exists_globalForm_of_isAdmissible`,
-`equivalent_iff_globalInvariants_eq` and `injective_wittRing_baseChange_places`.
+**Summary.** Over a completion of a number field `K`, regular quadratic forms are classified by a
+handful of invariants. At a finite place these are the rank, the discriminant and the Hasse sign, a
+sign built from Hilbert symbols; at a real place a form is determined by its signature. This roadmap
+develops the local-to-global theory of regular (that is, nondegenerate) quadratic forms on
+finite-dimensional spaces over an arbitrary number field `K`: how much of a form over `K` does the
+local data decide? Throughout, "locally" means over the completion of `K` at every finite and every
+real place. Complex places are left out because Tau Ceti proves that they add no condition.
 
-## Scope and ownership
+The central theorem is Hasse–Minkowski: a regular form over `K` is isotropic, that is, vanishes at
+some nonzero vector, exactly when it is isotropic locally. The real places alone do not suffice:
+`x² + y² − 3z²` has a nonzero real zero, but none over the 3-adic numbers `ℚ₃`, and hence none over
+`ℚ`. The same principle governs representation. A regular form represents a nonzero scalar exactly
+when it does so locally. More generally, a regular form `Q` admits an injective isometry into a
+regular form `R` exactly when it does so locally. In particular, two regular forms are isometric
+over `K` exactly when they are isometric locally.
 
-This roadmap owns:
+The binary and ternary cases of Hasse–Minkowski rest on two arithmetic facts, which the roadmap
+proves first. The first is the global square theorem: an element of `Kˣ` that is a square in the
+completion at every finite place outside a finite set is a square in `K`. Nothing is assumed at the
+archimedean places. The analogue for eighth powers fails: `16` is an eighth power in `ℝ` and in the
+`p`-adic numbers for every odd prime `p`, but not in `ℚ`. The second fact is the quadratic Hasse
+norm theorem, read for forms: if `d` is not a square in `K`, then `x² − d y²` represents a nonzero
+`a` over `K` exactly when it does so locally.
 
-- transport along isomorphisms of number fields, and the statements, for number fields in every
-  universe, of seven of the eight Tau Ceti inputs stated for number fields in `Type` (4.1); the
-  remaining one, the first inequality, is applied only to a model in `Type` inside 4.2;
-- the global square theorem (4.2) and the quadratic Hasse norm theorem read as representation by
-  the binary form `⟨1, -d⟩` (4.3);
-- the binary and ternary cases of Hasse–Minkowski isotropy (5.1) and the theorem in every rank
-  (5.5);
-- Hasse–Minkowski for nonzero scalars, for forms and for isometry (6.1–6.3);
-- existence of a global form with prescribed local behaviour, realization of admissible records
-  and uniqueness (7.2–7.4);
-- classification by invariants, global hyperbolicity, injectivity of the global-to-local Witt map,
-  and the isometry corollary for the orthogonal-group roadmaps (8.1–8.4);
-- the worked examples that test these theorems.
+The second half of the roadmap classifies regular forms. The record of a form `⟨a₁, …, aₙ⟩` holds
+its rank `n` and its discriminant, the class of `a₁ ⋯ aₙ` in `Kˣ/(Kˣ)²`. The record also holds the
+Hasse sign at each finite place and the positive index at each real place. Two regular forms are
+isometric exactly when their records coincide. Conversely, every admissible record is the record of
+a regular form (O'Meara 72:1). Admissibility is a short list of explicit conditions, chiefly
+positive rank and a product formula: the finite Hasse signs are `1` at almost every place, and their
+product with the real Hasse signs is `1`. Together the two theorems put the isometry classes of
+regular forms of positive rank in bijection with the admissible records.
 
-Already in Tau Ceti, and consumed through the supplier contracts below rather than planned here:
-the localizations of a form and of a unit at finite, real and complex places, with their
-compatibility with sums, scaling, negation, isometry, representation, regularity, discriminants
-and towers of completions; the predicates `IsLocallyIsotropic`, `LocallyRepresentsScalar`,
-`LocallyRepresents` and `LocallyEquivalent` and their API; the automaticity of complex places;
-real signatures and the real classification; finite Hasse signs, their finite support, and the
-classification at one finite place in global notation; the invariant record, admissibility and
-the record of a form; vector weak approximation and the openness of square classes; the value of
-the norm-equation symbol at a real and at a complex place, its finite support at the finite
-places, the localized product formula and Hilbert sign prescription with and without a
-prescribed second argument; quaternary descent, the quaternary
-case of Hasse–Minkowski assuming the ternary case, the rank-at-least-five step assuming the rank
-below, the finiteness of anisotropic places in rank at least three, and the local values used by
-that step; the local realization of an admissible record and the reduction of 72:1 to one global
-representation; the local hyperbolicity criteria; the global-to-local map of Witt rings and its
-value on the Witt class of a form; and the worked examples `⟨1, 1, -3⟩`, `⟨1, 1⟩`,
-`⟨1, 1, -1⟩ ≅ ⟨1, 2, -2⟩` and the `ℚ(√5)` record.
+A regular form that is locally a sum of hyperbolic planes `⟨1, −1⟩` is such a sum over `K`. In the
+Witt ring `W(K)`, a regular form becomes zero exactly when it is a sum of hyperbolic planes.
+Extending scalars maps `W(K)` to the product of the Witt rings of the finite completions and of
+copies of `W(ℝ)` at the real places. This map is injective: a Witt class of `K` that vanishes at
+every finite and every real place is zero.
 
-Section and name map, for citations of Layers 0–3 and of 4.4 of this roadmap. Each id below
-resolves to the Tau Ceti declarations named on its line. They hold for number fields in every
-universe except where a line says "in `Type`"; for those, the statement in every universe is 4.1,
-item 3:
+Every input of this roadmap is already in Mathlib or Tau Ceti. Witt cancellation and the
+classification over one nonarchimedean local field come from Quadratic Form Invariants. The Hasse
+norm theorem and the first inequality of class field theory come from Class Field Theory. Integral
+Lattices builds on the isometry theorem, and Orthogonal and Spin Groups on the theorem for scalars
+and on the Hasse norm theorem for forms. Orthogonal Tamagawa and Lattice Mass is to recast the
+isometry theorem as the triviality of the localization kernel of `H¹(K, SO(Q))`; this roadmap
+defines no `H¹`.
 
-- Layer 0, localizations and local predicates, resolves to `QuadraticForm.atFinitePlace`,
-  `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
-  `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
-  `QuadraticForm.LocallyRepresents` and `QuadraticForm.LocallyEquivalent`, with
-  `QuadraticForm.equivalent_atComplexEmbedding_iff_finrank_eq` for the complex places.
-- Layer 1, real places, resolves to `QuadraticForm.realPositiveIndex`,
-  `QuadraticForm.realNegativeIndex` and `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`.
-- Layer 2, finite places, resolves to `QuadraticForm.finiteHasse`,
-  `QuadraticForm.hasFiniteMulSupport_finiteHasse` and
-  `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq`.
-- Layer 3, admissible systems of local invariants, resolves to the record
-  `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` (3.1), `GlobalFormInvariants.IsAdmissible`
-  (3.2), and the record of a form `QuadraticForm.globalInvariants` with
-  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3); the admissibility of the record of a
-  regular form of positive rank is `QuadraticForm.isAdmissible_globalInvariants`, in `Type`.
-- 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`, in
-  `Type`.
-- 4.4, the finite support of the localized symbol (for `a, b ∈ Kˣ`, `(a, b)_v = 1` at all but
-  finitely many finite places `v`), resolves to
-  `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace`.
-- 4.4, the archimedean symbol, resolves to `TauCeti.hilbertSymbol_real` and
-  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff` at a real place, and, at a complex
-  place, to `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (every symbol over the
-  completion is `1`).
-- 4.4, sign prescription with a prescribed second argument, resolves to
-  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
-- 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair,
-  resolves to `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`, in `Type`.
-- 4.4, the Hasse product of one form, resolves to
-  `QuadraticForm.globalInvariants_hasseProduct_eq_one`, in `Type`.
+The layers are numbered from 4, because the foundations are already Tau Ceti declarations. Layer 4
+proves the two arithmetic facts, Layer 5 the isotropy theorem and Layer 6 its versions for
+representation and isometry. Layer 7 constructs forms from admissible records, and Layer 8 proves
+the classification and the Witt-ring consequences.
 
-This roadmap does not own, and cites:
+## How to read the build
 
-- diagonalization, Witt cancellation and extension, the Hilbert symbol over one field, and the
-  classification over one nonarchimedean local field: Quadratic Form Invariants, whose results
-  used here are Tau Ceti declarations;
-- weak approximation, adeles and ideles: Global Number Fields;
-- completions and their towers: Number Field Arithmetic;
-- the Hasse norm theorem, reciprocity and the idele-class norm index: Class Field Theory;
-- nonabelian cohomology and the localization kernel of `H¹(K, SO(Q))`: this roadmap defines no
-  `H¹`. The pointed set `H¹(G, A)` of continuous cocycles is Tau Ceti's `TauCeti.NonabelianH1`
-  (`RepresentationTheory/Homological/ContCohomology/Nonabelian/Basic.lean`). Orthogonal and Spin
-  Groups, in its consumer contract for Orthogonal Tamagawa and Lattice Mass, assigns to that
-  roadmap the translation of 6.3, and so of its corollary 8.4, into the triviality of the kernel
-  of `H¹(K, SO(Q)) → ∏_v H¹(K_v, SO(Q))`;
-- integral lattices, genera, spinor genera and mass formulae: Integral Lattices;
-- quadratic forms in characteristic two and over global function fields.
+The build starts at Layer 4. The foundations (localization, local predicates, archimedean and
+finite invariants, the invariant record) are Tau Ceti declarations, and the section map in Scope
+and ownership resolves citations of Layers 0–3 to them. Layer 4 first states seven of the eight
+Tau Ceti inputs stated for number fields in `Type` for number fields in every universe (4.1; the
+first inequality is used only in `Type`, inside 4.2), and then proves the two arithmetic inputs of
+Hasse–Minkowski that are not in Tau Ceti: the global square theorem and the quadratic Hasse norm
+theorem in the language of forms. Layer 5 proves the binary and ternary cases and
+assembles Hasse–Minkowski for isotropy in every rank from them and Tau Ceti's conditional
+quaternary and higher-rank steps. Layer 6 derives Hasse–Minkowski for representation and
+isometry. Layer 7 produces a global form from admissible local data, using Layer 6 for the single
+global representation that Tau Ceti's reduction leaves open. Layer 8 draws the classification and
+the Witt-ring consequences. The worked examples test the end theorems on `ℚ` and on `ℚ(√5)`.
 
 ## Conventions
 
@@ -153,291 +116,6 @@ This roadmap does not own, and cites:
   `-1` at exactly two places, as the product formula requires.
 - The record of the zero form fails `1 ≤ n` and so is not admissible, although it is the record of a
   regular form.
-
-## Exact supplier contracts
-
-There is no roadmap supplier. Every input below is a declaration of Mathlib or Tau Ceti at the
-pins. Eight of the Tau Ceti inputs are stated for number fields in `Type`:
-`TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`,
-`TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
-`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
-`TauCeti.hilbertSymbol_productFormula`, `QuadraticForm.globalInvariants_hasseProduct_eq_one`,
-`QuadraticForm.isAdmissible_globalInvariants`,
-`TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
-`TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`. Section 4.1, item 3, states
-the last seven of these for number fields in every universe. The first, the first inequality of
-class field theory, is not transported: it concerns a second field `L`, idele classes and the index
-of a norm group, which 4.1 does not carry, and 4.2 applies it only after transporting its own
-hypothesis and conclusion to a model of `K` in `Type`.
-
-### From Mathlib
-
-- `QuadraticForm`, `QuadraticForm.baseChange` (`LinearAlgebra/QuadraticForm/TensorProduct.lean`),
-  `QuadraticMap.Anisotropic` (`LinearAlgebra/QuadraticForm/Basic.lean`) and
-  `QuadraticMap.Equivalent` (`LinearAlgebra/QuadraticForm/IsometryEquiv.lean`): forms, scalar
-  extension along an algebra map, anisotropy (`Q x = 0` only for `x = 0`; the zero-dimensional
-  form is anisotropic), and the existence of an isometry.
-- `QuadraticMap.Nondegenerate` (`LinearAlgebra/QuadraticForm/Radical.lean`): the radical is `⊥`
-  and the kernel of the polar form has rank at most one. When `2` is invertible the radical is the
-  kernel of the polar form (`QuadraticMap.radical_eq_ker_polarBilin`), so this is regularity in the
-  usual sense: `⟨1, -1⟩` satisfies it, `⟨1, 0⟩` does not, and the zero form on the zero space does.
-- `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'`
-  (`LinearAlgebra/QuadraticForm/IsometryEquiv.lean`): a form whose associated bilinear form is
-  separating is isometric to a diagonal form `⟨a₁, …, aₙ⟩` with unit weights.
-- `IsDedekindDomain.HeightOneSpectrum` and `HeightOneSpectrum.adicCompletion`
-  (`RingTheory/DedekindDomain/AdicValuation/Completion.lean`): the finite places and their
-  completions.
-- `NumberField.InfinitePlace`, `InfinitePlace.IsReal`, `InfinitePlace.embedding_of_isReal`
-  (`NumberTheory/NumberField/InfinitePlace/Basic.lean`), `InfinitePlace.Completion` and
-  `InfinitePlace.Completion.ringEquivRealOfIsReal`
-  (`NumberTheory/NumberField/Completion/InfinitePlace.lean`): the infinite places, the real
-  embedding of a real place, and the identification of its completion with `ℝ`.
-- `IdeleGroup` and `IdeleClassGroup` (`NumberTheory/NumberField/AdeleRing.lean`): the ideles and
-  the idele classes.
-- `IsSquare`, `Function.HasFiniteMulSupport` and `finprod`.
-- `invertibleTwo` (`Algebra/CharP/Invertible.lean`): the instance `Invertible (2 : K)` for a
-  division semiring of characteristic zero, through which a number field carries its Witt ring.
-- Transport of number fields: `Field.exists_primitive_element`
-  (`FieldTheory/PrimitiveElement.lean`), `IntermediateField.adjoinRootEquivAdjoin`
-  (`FieldTheory/IntermediateField/Adjoin/Basic.lean`; `AdjoinRoot (minpoly F α) ≃ₐ[F] F⟮α⟯` for
-  integral `α`), `NumberField.RingOfIntegers.mapRingEquiv` (`NumberTheory/NumberField/Basic.lean`;
-  a field isomorphism restricted to the rings of integers),
-  `IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv`
-  (`RingTheory/DedekindDomain/Ideal/Lemmas.lean`; the induced bijection of height-one primes),
-  `NumberField.InfinitePlace.comap`, `NumberField.InfinitePlace.isReal_comap_iff` (pulling back
-  along a ring isomorphism preserves reality) and `NumberField.InfinitePlace.comap_embedding_of_isReal`
-  (when the pulled-back place is real, its complex embedding is the composite of the complex
-  embedding with the ring map) (`NumberTheory/NumberField/InfinitePlace/Ramification.lean`), with
-  `NumberField.InfinitePlace.embedding_of_isReal_apply`
-  (`NumberTheory/NumberField/InfinitePlace/Basic.lean`; the real embedding of a real place, read
-  in `ℂ`, is its complex embedding), which together give the same statement for the real
-  embeddings `embedding_of_isReal`.
-- `LinearMap.injective_iff_surjective_of_finrank_eq_finrank`
-  (`LinearAlgebra/FiniteDimensional/Lemmas.lean`): a linear map between finite-dimensional spaces of
-  the same dimension is injective exactly when it is surjective.
-- `injective_iff_map_eq_zero` (`Algebra/Group/Hom/Basic.lean`): a homomorphism of additive groups is
-  injective exactly when its kernel is zero.
-- `Module.finrank_baseChange` (`LinearAlgebra/Dimension/Constructions.lean`): scalar extension
-  `A ⊗[K] V` of a free module keeps its rank, so a localization of a form on `V` lives on a space of
-  dimension `finrank K V`.
-
-### From Tau Ceti
-
-All paths are under `TauCeti/`.
-
-- Localization (`NumberTheory/QuadraticForm/Global/Localization.lean`, `Operations.lean`,
-  `Discriminant.lean`, `CompletionTower.lean`): `QuadraticForm.atFinitePlace`,
-  `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
-  `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`; the transport of
-  isometry, representation and regularity (`QuadraticMap.Equivalent.atFinitePlace`,
-  `QuadraticMap.Equivalent.atRealPlace`, `QuadraticForm.Nondegenerate.atFinitePlace`,
-  `QuadraticForm.Nondegenerate.atRealPlace`); compatibility with orthogonal sums (the isometries
-  `QuadraticForm.atFinitePlaceProd` and `QuadraticForm.atRealPlaceProd` from the localization of
-  `Q ⊥ R` to `Q_v ⊥ R_v`), negation
-  (`QuadraticForm.atFinitePlace_neg`, `QuadraticForm.atRealPlace_neg`) and scaling
-  (`QuadraticForm.atFinitePlace_smul`, `QuadraticForm.atRealPlace_smul`: the localization of
-  `c • Q` is the image of `c` times the localization of `Q`); diagonal forms (the isometries
-  `QuadraticForm.atFinitePlaceWeightedSumSquares` and `QuadraticForm.atRealPlaceWeightedSumSquares`
-  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the
-  localized discriminant
-  (`QuadraticForm.discr_atFinitePlace`: the discriminant of `Q_v` is the image of that of `Q`); and
-  `QuadraticForm.IsLocallyIsotropic.baseChange` for a finite extension of number fields.
-- Local predicates (`NumberTheory/QuadraticForm/Global/Predicates.lean`):
-  `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
-  `QuadraticForm.LocallyRepresents`, `QuadraticForm.LocallyEquivalent`, each a conjunction over
-  every finite and every real place; `QuadraticForm.isLocallyIsotropic_of_not_anisotropic`,
-  `QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff` (isometric forms are locally
-  isotropic together),
-  `QuadraticForm.LocallyEquivalent.of_equivalent`, `QuadraticForm.LocallyRepresents.of_isRepresentedBy`,
-  `QuadraticForm.LocallyEquivalent.finrank_eq`, `QuadraticForm.LocallyRepresents.finrank_le`,
-  `QuadraticForm.LocallyEquivalent.locallyRepresents` (local isometry gives local representation),
-  `QuadraticForm.LocallyRepresents.locallyRepresentsScalar` (if `Q` is locally represented by `R`,
-  every scalar locally represented by `Q` is locally represented by `R`),
-  `QuadraticForm.LocallyRepresentsScalar.of_represents` (a scalar represented by `Q` over `K` is
-  represented by its localization at every finite and every real place) and
-  `QuadraticForm.LocallyRepresentsScalar.isLocallyIsotropic_smul_sq_prod` (local representation of
-  `a` makes `⟨-a⟩ ⊥ W` locally isotropic).
-- Complex places (`NumberTheory/QuadraticForm/Global/ComplexPlaces.lean`):
-  `QuadraticForm.equivalent_atComplexEmbedding_iff_finrank_eq` and the four lemmas showing that
-  each local predicate implies its complex clause.
-- Real places (`NumberTheory/QuadraticForm/Global/Signature.lean`, `RealHasse.lean`):
-  `QuadraticForm.realSignature`, `QuadraticForm.realPositiveIndex`,
-  `QuadraticForm.realNegativeIndex`, `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`
-  and the anisotropy criterion at a real place (definiteness).
-- Finite places (`NumberTheory/QuadraticForm/Global/FiniteHasse.lean`, `HasseSupport.lean`,
-  `AnisotropicPlaces.lean`, `Classification.lean`): `QuadraticForm.finiteHasse` with its
-  diagonal formula and orthogonal-sum formula; `QuadraticForm.hasFiniteMulSupport_finiteHasse`;
-  `QuadraticForm.finite_setOfPred_anisotropic_atFinitePlace` (rank at least three);
-  `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq` and
-  `QuadraticForm.locallyEquivalent_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq_and_realPositiveIndex_eq`.
-- Invariant records (`NumberTheory/QuadraticForm/Global/Invariants.lean`, `FormInvariants.lean`,
-  `ProductFormula.lean`, `Classification.lean`): `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants`
-  and `GlobalFormInvariants.IsAdmissible` (positive rank; `p_w ≤ n` and real discriminant
-  `q_w • [-1]`; finite support of `s_v`; `s_v = 1` in rank one, and in rank two where the local
-  discriminant is `[-1]`; Hasse product one), `QuadraticForm.globalInvariants` (defined in every
-  rank), `QuadraticMap.Equivalent.globalInvariants_eq`,
-  `QuadraticForm.isAdmissible_globalInvariants_iff` (admissible exactly when the rank is positive
-  and the Hasse product is one), `QuadraticForm.globalInvariants_hasseProduct_eq_one`,
-  `QuadraticForm.isAdmissible_globalInvariants` (positive rank), and
-  `QuadraticForm.LocallyEquivalent.of_globalInvariants_eq`.
-- Symbols (`NumberTheory/HilbertSymbol/Basic.lean`, `Archimedean.lean`,
-  `NumberTheory/QuadraticForm/Global/ArchimedeanSymbol.lean`, `HilbertSymbol.lean`,
-  `ProductFormula.lean`, `SignPrescription.lean`): `TauCeti.hilbertSymbol`,
-  `TauCeti.hilbertSymbol_real`, `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`,
-  `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (at a complex place every symbol over
-  the completion is `1`),
-  `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace` (the finite symbols of
-  `a, b ∈ Kˣ` are `1` at almost every finite place), `TauCeti.hilbertSymbol_productFormula` (their
-  product `∏ᶠ` over the finite places times the product over the real places is `1`),
-  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
-  `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`.
-- Approximation (`NumberTheory/NumberField/Global/Approximation/Weak.lean`, `Vector.lean`,
-  `SquareClass.lean`, `NumberTheory/QuadraticForm/Global/Nonsquare.lean`):
-  `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (the diagonal image of `K` is dense in
-  any finite product of finite and infinite completions),
-  `TauCeti.NumberField.exists_one_tmul_mem_of_mem_nhds` (the same for vectors),
-  `TauCeti.GlobalNumberFields.exists_fieldUnit_isSquare_div_at_places` (for finite sets of finite
-  places and of real places, prescribed units `a_v` of the finite completions and nonzero reals
-  `b_w`, one `x ∈ Kˣ` with `x / a_v` a square in `K_v` and `x / b_w` a square in `ℝ` through the
-  real embedding; it combines weak approximation with the openness of the squares, which at a
-  finite place is `TauCeti.isOpen_range_powMonoidHom` with exponent `2` and at a real place is the
-  openness of the positive reals), and
-  `TauCeti.NumberField.QuadraticForm.exists_fieldUnit_not_isSquare_at_places`.
-- Transport (`RingTheory/DedekindDomain/AdicValuation/Transport.lean`,
-  `RingTheory/DedekindDomain/Ideal/Basic.lean`):
-  `IsDedekindDomain.HeightOneSpectrum.valuation_ringEquivOfRingEquiv` (an isomorphism of Dedekind
-  domains carries the `v`-adic valuation of the fraction field to the valuation at the image prime),
-  `IsDedekindDomain.HeightOneSpectrum.asIdeal_equivOfRingEquiv` (the image prime of
-  `equivOfRingEquiv` is the image ideal) and `IsDedekindDomain.HeightOneSpectrum.adicCompletionCongr`
-  (a field isomorphism `σ : K ≃+* K'` compatible with the valuations at `v` and `w` extends to
-  `K_v ≃+* K'_w`, continuous and agreeing with `σ` on `K`).
-- Ideles and class field theory (`NumberTheory/NumberField/Global/Ideles/Norm/Relative.lean`,
-  `Range.lean`, `Surjective.lean`, `RingTheory/Norm/Units.lean`,
-  `NumberTheory/ClassFieldTheory/Global/IdeleClass/FirstInequality.lean`,
-  `NumberTheory/ClassFieldTheory/Global/HasseNorm/Quadratic.lean`):
-  `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
-  `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff` (an idele is a norm exactly when each
-  coordinate is a norm from the local algebra), `TauCeti.Algebra.normUnits` (the algebra norm
-  read as a homomorphism `Sˣ →* Rˣ` for an `R`-algebra `S`),
-  `TauCeti.GlobalNumberFields.ideleClassNormMap_surjective_of_forall_range_normUnits_eq_top` (for
-  an extension `L/K` of number fields, in any universes, and a finite set `S` of finite places of
-  `K`, if `TauCeti.Algebra.normUnits : (K_v ⊗_K L)ˣ → K_vˣ` is onto at every finite `v ∉ S`, the
-  norm map on idele classes is onto),
-  `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`
-  (for a cyclic extension `L/K` of number fields in `Type`, that is `[IsGalois K L]` and
-  `[IsCyclic Gal(L/K)]`, `[L : K] ≤ [C_K : N(C_L)]`; without the cyclic hypothesis it fails, for
-  `L = ℚ(∛2, ζ₃)` has degree `6` over `ℚ` and norm index `2`) and
-  `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion` (for a nonsquare `d` and
-  `a ∈ Kˣ`, `a = x² - d y²` is solvable in `K` exactly when it is solvable in every finite and every
-  infinite completion).
-- Local form theory (`LinearAlgebra/QuadraticForm/Representation.lean`, `Radical.lean`,
-  `Witt/Cancellation.lean`, `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`,
-  `RegularFormClass/LowRank.lean`, `NumberTheory/LocalField/QuadraticForm/Hasse.lean`,
-  `Classification.lean`, `Realization.lean`):
-  `QuadraticMap.Represents`, `QuadraticMap.IsRepresentedBy`,
-  `QuadraticMap.Equivalent.anisotropic_iff` (isometric forms are anisotropic together),
-  `QuadraticMap.IsometryEquiv.represents_iff` (isometric forms represent the same values),
-  `QuadraticMap.not_anisotropic_prod_of_represents_neg` (if `Q₁` represents `a ≠ 0` and `Q₂`
-  represents `-a`, then `Q₁ ⊥ Q₂` is isotropic),
-  `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic` (a regular isotropic form is
-  universal), `QuadraticMap.IsRepresentedBy.exists_equivalent_prod` (when `2` is invertible, a
-  finite-dimensional regular form `Q₁` represented by a regular form `Q` splits off:
-  `Q ≅ Q₁ ⊥ Q|_P` with `Q|_P` regular), the regularity of auxiliary forms when `2` is invertible
-  (`QuadraticMap.Nondegenerate.prod`: an orthogonal sum of regular forms is regular;
-  `QuadraticMap.nondegenerate_smul_iff`: scaling by a unit preserves regularity;
-  `QuadraticMap.nondegenerate_smul_sq`: the line `⟨a⟩` is regular for `a ≠ 0`;
-  `QuadraticMap.Nondegenerate.exists_isUnit`: a regular form on a nonzero space takes a unit
-  value), `TauCeti.equivalent_of_equivalent_prod` (Witt cancellation),
-  `QuadraticMap.IsometryEquiv.exists_extension` (Witt extension),
-  `TauCeti.RegularFormClass.discr` (over a field in which `2` is invertible, the class in
-  `SquareClassGroup K` of the product of the weights of any diagonalization, independent of the
-  diagonalization), `TauCeti.RegularFormClass.localHasse` (over a nonarchimedean local field in
-  which `2` is invertible, the product over `i < j` of the Hilbert symbols `(aᵢ, aⱼ)` of the
-  weights of any diagonalization `⟨a₁, …, aₙ⟩`, independent of the diagonalization, in `ℤˣ`),
-  `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over any field in which
-  `2` is invertible, a regular binary form is isotropic exactly when its discriminant is `[-1]`),
-  `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq` and
-  `TauCeti.RegularFormClass.exists_of_realization`.
-- Hasse–Minkowski steps (`LinearAlgebra/QuadraticForm/QuaternaryDescent.lean`,
-  `NumberTheory/QuadraticForm/Global/Quaternary.lean`, `HigherRank.lean`, `ApproximateValue.lean`,
-  `LocalValues.lean`): `QuadraticForm.not_anisotropic_of_not_anisotropic_baseChange_quaternary`
-  (O'Meara 58:7), `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary` (a locally
-  isotropic regular quaternary form is isotropic, given the ternary case over every number field
-  in the universe of `K`),
-  `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank` (the same in rank
-  `n ≥ 5`, given rank `n - 1` over `K`; both state the lower-rank case only for the diagonal forms
-  `TauCeti.presentedForm p` on `Fin p.1 → L`, which are regular by
-  `TauCeti.nondegenerate_presentedForm` and to which every regular form is isometric by
-  `TauCeti.exists_presentedForm_equivalent`, all three in
-  `LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`),
-  `QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`
-  (for `U ≠ 0` and regular `W` anisotropic at finitely many finite places, with matching local
-  values where `W` is anisotropic, a global `x` with `U x ≠ 0` and `-U x` locally represented by
-  `W`), and `QuadraticForm.exists_atFinitePlace_ne_zero_eq_neg`.
-- Existence (`NumberTheory/QuadraticForm/Global/LocalRealization.lean`, `PrescribedLocalForms.lean`,
-  `Existence.lean`, `CorrectionPlanes.lean`, `Classification.lean`):
-  `GlobalFormInvariants.IsLocalRealization`,
-  `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
-  `GlobalFormInvariants.isAdmissible_ofLocalForms`, `GlobalFormInvariants.isLocalRealization_ofLocalForms`,
-  `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod` (for an admissible
-  record with a local realization: a regular `W` on `Kⁿ` and `a, b ∈ Kˣ` such that `⟨a, -ab⟩` is
-  locally represented by `⟨1, -b⟩ ⊥ W`, and a global representation yields a form with the record),
-  `QuadraticForm.nondegenerate_weightedSumSquares_one_neg` and
-  `QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul` (the correction planes `⟨1, -b⟩`
-  and `⟨a, -ab⟩` are regular for `a, b ∈ Kˣ`),
-  `QuadraticForm.exists_discr_eq_equivalent_of_isRepresentedBy_prod`,
-  `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace` and
-  `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace` (a form with record `I` is
-  isometric at each place to any family realizing `I`).
-- Form classes, hyperbolicity and Witt rings
-  (`LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`,
-  `NumberTheory/QuadraticForm/Global/Hyperbolicity.lean`, `WittLocalization.lean`,
-  `LinearAlgebra/QuadraticForm/Witt/Ring.lean`, `Witt/Decomposition.lean`, `Witt/BaseChange.lean`):
-  `TauCeti.formClass_eq_iff` (two regular forms have the same class exactly when they are
-  isometric), `TauCeti.formClass_prod` (the class of `Q ⊥ R` is the sum of the classes),
-  `TauCeti.formClass_smul` (`RegularFormClass/TensorProduct.lean`; for a unit `a`, the class of
-  `a • Q` is `⟨a⟩` times the class of `Q`),
-  `TauCeti.formClass_presentedForm` (every class of regular forms is the class of the diagonal form
-  `TauCeti.presentedForm p` of one of its presentations),
-  `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
-  `QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass` and
-  `QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass` (a regular form whose class over
-  `K` is `m` times the hyperbolic class has `m` times the hyperbolic class at every finite place
-  and, along the real embedding, at every real place), `TauCeti.WittRing`,
-  `TauCeti.wittClass_surjective` (every element of `W(K)` is the Witt class of a class of regular
-  forms), `TauCeti.wittClass_eq_zero_iff` (a class has Witt class zero exactly when its anisotropic
-  part is zero), `TauCeti.RegularFormClass.wittDecomposition` (a class is a multiple of the
-  hyperbolic class plus its anisotropic part), `TauCeti.RegularFormClass.add_neg_one_mul` (`q ⊥ -q`
-  is `dim q` hyperbolic planes), `TauCeti.WittRing.baseChange`, `TauCeti.WittRing.globalToLocal`
-  (the ring homomorphism `W(K) → ∏_v W(K_v) × ∏_w W(ℝ)` whose components are scalar extension along
-  `K → K_v` and along the real embedding of `w`) and
-  `TauCeti.WittRing.globalToLocal_wittClass_formClass` (on the Witt class of a regular form `Q`, the
-  components are the Witt classes of the localizations `Q_v` and `Q_w`).
-- Examples (`NumberTheory/QuadraticForm/Global/TernaryObstruction.lean`, `BinaryObstruction.lean`,
-  `DefiniteObstruction.lean`, `HyperbolicIsometry.lean`, `WorkedExamples/Sqrt5.lean`,
-  `Invariants.lean`): `TauCeti.NumberField.QuadraticForm.anisotropic_sumTwoSquaresSubThreeSq`,
-  `TauCeti.NumberField.QuadraticForm.not_equivalent_sumTwoSquaresSubThreeSq_sumTwoSquaresSubSq`,
-  `TauCeti.NumberField.QuadraticForm.infinite_anisotropic_sumTwoSquares_atFinitePlace`,
-  `TauCeti.NumberField.QuadraticForm.exists_anisotropic_and_not_anisotropic_away_from_realPlace`,
-  `TauCeti.NumberField.QuadraticForm.equivalent_sumTwoSquaresSubSq_sqAddTwoSqSubTwoSq`,
-  `TauCeti.NumberField.QuadraticForm.Sqrt5.exists_admissible_rank_three`,
-  `GlobalFormInvariants.isAdmissible_rankOne_iff_eq_empty` and
-  `GlobalFormInvariants.isAdmissible_rankTwo_iff_eq_empty`.
-
-## How to read the build
-
-The build starts at Layer 4. The foundations (localization, local predicates, archimedean and
-finite invariants, the invariant record) are Tau Ceti declarations, and the section map in Scope
-and ownership resolves citations of Layers 0–3 to them. Layer 4 first states seven of the eight
-Tau Ceti inputs stated for number fields in `Type` for number fields in every universe (4.1; the
-first inequality is used only in `Type`, inside 4.2), and then proves the two arithmetic inputs of
-Hasse–Minkowski that are not in Tau Ceti: the global square theorem and the quadratic Hasse norm
-theorem in the language of forms. Layer 5 proves the binary and ternary cases and
-assembles Hasse–Minkowski for isotropy in every rank from them and Tau Ceti's conditional
-quaternary and higher-rank steps. Layer 6 derives Hasse–Minkowski for representation and
-isometry. Layer 7 produces a global form from admissible local data, using Layer 6 for the single
-global representation that Tau Ceti's reduction leaves open. Layer 8 draws the classification and
-the Witt-ring consequences. The worked examples test the end theorems on `ℚ` and on `ℚ(√5)`.
 
 ## Layer 4: global square, norm, and approximation lemmas
 
@@ -1228,6 +906,365 @@ Layer 8 uses 6.3 and Layer 7, and Tau Ceti's Witt ring and hyperbolicity criteri
 - Classical Arithmetic Completion consumes Layer 4's archimedean symbol (its value at a real and
   at a complex place) and localized product formula, which the section map above resolves to Tau
   Ceti.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- transport along isomorphisms of number fields, and the statements, for number fields in every
+  universe, of seven of the eight Tau Ceti inputs stated for number fields in `Type` (4.1); the
+  remaining one, the first inequality, is applied only to a model in `Type` inside 4.2;
+- the global square theorem (4.2) and the quadratic Hasse norm theorem read as representation by
+  the binary form `⟨1, -d⟩` (4.3);
+- the binary and ternary cases of Hasse–Minkowski isotropy (5.1) and the theorem in every rank
+  (5.5);
+- Hasse–Minkowski for nonzero scalars, for forms and for isometry (6.1–6.3);
+- existence of a global form with prescribed local behaviour, realization of admissible records
+  and uniqueness (7.2–7.4);
+- classification by invariants, global hyperbolicity, injectivity of the global-to-local Witt map,
+  and the isometry corollary for the orthogonal-group roadmaps (8.1–8.4);
+- the worked examples that test these theorems.
+
+Already in Tau Ceti, and consumed through the supplier contracts below rather than planned here:
+the localizations of a form and of a unit at finite, real and complex places, with their
+compatibility with sums, scaling, negation, isometry, representation, regularity, discriminants
+and towers of completions; the predicates `IsLocallyIsotropic`, `LocallyRepresentsScalar`,
+`LocallyRepresents` and `LocallyEquivalent` and their API; the automaticity of complex places;
+real signatures and the real classification; finite Hasse signs, their finite support, and the
+classification at one finite place in global notation; the invariant record, admissibility and
+the record of a form; vector weak approximation and the openness of square classes; the value of
+the norm-equation symbol at a real and at a complex place, its finite support at the finite
+places, the localized product formula and Hilbert sign prescription with and without a
+prescribed second argument; quaternary descent, the quaternary
+case of Hasse–Minkowski assuming the ternary case, the rank-at-least-five step assuming the rank
+below, the finiteness of anisotropic places in rank at least three, and the local values used by
+that step; the local realization of an admissible record and the reduction of 72:1 to one global
+representation; the local hyperbolicity criteria; the global-to-local map of Witt rings and its
+value on the Witt class of a form; and the worked examples `⟨1, 1, -3⟩`, `⟨1, 1⟩`,
+`⟨1, 1, -1⟩ ≅ ⟨1, 2, -2⟩` and the `ℚ(√5)` record.
+
+Section and name map, for citations of Layers 0–3 and of 4.4 of this roadmap. Each id below
+resolves to the Tau Ceti declarations named on its line. They hold for number fields in every
+universe except where a line says "in `Type`"; for those, the statement in every universe is 4.1,
+item 3:
+
+- Layer 0, localizations and local predicates, resolves to `QuadraticForm.atFinitePlace`,
+  `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
+  `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
+  `QuadraticForm.LocallyRepresents` and `QuadraticForm.LocallyEquivalent`, with
+  `QuadraticForm.equivalent_atComplexEmbedding_iff_finrank_eq` for the complex places.
+- Layer 1, real places, resolves to `QuadraticForm.realPositiveIndex`,
+  `QuadraticForm.realNegativeIndex` and `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`.
+- Layer 2, finite places, resolves to `QuadraticForm.finiteHasse`,
+  `QuadraticForm.hasFiniteMulSupport_finiteHasse` and
+  `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq`.
+- Layer 3, admissible systems of local invariants, resolves to the record
+  `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` (3.1), `GlobalFormInvariants.IsAdmissible`
+  (3.2), and the record of a form `QuadraticForm.globalInvariants` with
+  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3); the admissibility of the record of a
+  regular form of positive rank is `QuadraticForm.isAdmissible_globalInvariants`, in `Type`.
+- 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`, in
+  `Type`.
+- 4.4, the finite support of the localized symbol (for `a, b ∈ Kˣ`, `(a, b)_v = 1` at all but
+  finitely many finite places `v`), resolves to
+  `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace`.
+- 4.4, the archimedean symbol, resolves to `TauCeti.hilbertSymbol_real` and
+  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff` at a real place, and, at a complex
+  place, to `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (every symbol over the
+  completion is `1`).
+- 4.4, sign prescription with a prescribed second argument, resolves to
+  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
+- 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair,
+  resolves to `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`, in `Type`.
+- 4.4, the Hasse product of one form, resolves to
+  `QuadraticForm.globalInvariants_hasseProduct_eq_one`, in `Type`.
+
+This roadmap does not own, and cites:
+
+- diagonalization, Witt cancellation and extension, the Hilbert symbol over one field, and the
+  classification over one nonarchimedean local field: Quadratic Form Invariants, whose results
+  used here are Tau Ceti declarations;
+- weak approximation, adeles and ideles: Global Number Fields;
+- completions and their towers: Number Field Arithmetic;
+- the Hasse norm theorem, reciprocity and the idele-class norm index: Class Field Theory;
+- nonabelian cohomology and the localization kernel of `H¹(K, SO(Q))`: this roadmap defines no
+  `H¹`. The pointed set `H¹(G, A)` of continuous cocycles is Tau Ceti's `TauCeti.NonabelianH1`
+  (`RepresentationTheory/Homological/ContCohomology/Nonabelian/Basic.lean`). Orthogonal and Spin
+  Groups, in its consumer contract for Orthogonal Tamagawa and Lattice Mass, assigns to that
+  roadmap the translation of 6.3, and so of its corollary 8.4, into the triviality of the kernel
+  of `H¹(K, SO(Q)) → ∏_v H¹(K_v, SO(Q))`;
+- integral lattices, genera, spinor genera and mass formulae: Integral Lattices;
+- quadratic forms in characteristic two and over global function fields.
+
+## Exact supplier contracts
+
+There is no roadmap supplier. Every input below is a declaration of Mathlib or Tau Ceti at the
+pins. Eight of the Tau Ceti inputs are stated for number fields in `Type`:
+`TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`,
+`TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
+`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
+`TauCeti.hilbertSymbol_productFormula`, `QuadraticForm.globalInvariants_hasseProduct_eq_one`,
+`QuadraticForm.isAdmissible_globalInvariants`,
+`TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
+`TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`. Section 4.1, item 3, states
+the last seven of these for number fields in every universe. The first, the first inequality of
+class field theory, is not transported: it concerns a second field `L`, idele classes and the index
+of a norm group, which 4.1 does not carry, and 4.2 applies it only after transporting its own
+hypothesis and conclusion to a model of `K` in `Type`.
+
+### From Mathlib
+
+- `QuadraticForm`, `QuadraticForm.baseChange` (`LinearAlgebra/QuadraticForm/TensorProduct.lean`),
+  `QuadraticMap.Anisotropic` (`LinearAlgebra/QuadraticForm/Basic.lean`) and
+  `QuadraticMap.Equivalent` (`LinearAlgebra/QuadraticForm/IsometryEquiv.lean`): forms, scalar
+  extension along an algebra map, anisotropy (`Q x = 0` only for `x = 0`; the zero-dimensional
+  form is anisotropic), and the existence of an isometry.
+- `QuadraticMap.Nondegenerate` (`LinearAlgebra/QuadraticForm/Radical.lean`): the radical is `⊥`
+  and the kernel of the polar form has rank at most one. When `2` is invertible the radical is the
+  kernel of the polar form (`QuadraticMap.radical_eq_ker_polarBilin`), so this is regularity in the
+  usual sense: `⟨1, -1⟩` satisfies it, `⟨1, 0⟩` does not, and the zero form on the zero space does.
+- `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'`
+  (`LinearAlgebra/QuadraticForm/IsometryEquiv.lean`): a form whose associated bilinear form is
+  separating is isometric to a diagonal form `⟨a₁, …, aₙ⟩` with unit weights.
+- `IsDedekindDomain.HeightOneSpectrum` and `HeightOneSpectrum.adicCompletion`
+  (`RingTheory/DedekindDomain/AdicValuation/Completion.lean`): the finite places and their
+  completions.
+- `NumberField.InfinitePlace`, `InfinitePlace.IsReal`, `InfinitePlace.embedding_of_isReal`
+  (`NumberTheory/NumberField/InfinitePlace/Basic.lean`), `InfinitePlace.Completion` and
+  `InfinitePlace.Completion.ringEquivRealOfIsReal`
+  (`NumberTheory/NumberField/Completion/InfinitePlace.lean`): the infinite places, the real
+  embedding of a real place, and the identification of its completion with `ℝ`.
+- `IdeleGroup` and `IdeleClassGroup` (`NumberTheory/NumberField/AdeleRing.lean`): the ideles and
+  the idele classes.
+- `IsSquare`, `Function.HasFiniteMulSupport` and `finprod`.
+- `invertibleTwo` (`Algebra/CharP/Invertible.lean`): the instance `Invertible (2 : K)` for a
+  division semiring of characteristic zero, through which a number field carries its Witt ring.
+- Transport of number fields: `Field.exists_primitive_element`
+  (`FieldTheory/PrimitiveElement.lean`), `IntermediateField.adjoinRootEquivAdjoin`
+  (`FieldTheory/IntermediateField/Adjoin/Basic.lean`; `AdjoinRoot (minpoly F α) ≃ₐ[F] F⟮α⟯` for
+  integral `α`), `NumberField.RingOfIntegers.mapRingEquiv` (`NumberTheory/NumberField/Basic.lean`;
+  a field isomorphism restricted to the rings of integers),
+  `IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv`
+  (`RingTheory/DedekindDomain/Ideal/Lemmas.lean`; the induced bijection of height-one primes),
+  `NumberField.InfinitePlace.comap`, `NumberField.InfinitePlace.isReal_comap_iff` (pulling back
+  along a ring isomorphism preserves reality) and `NumberField.InfinitePlace.comap_embedding_of_isReal`
+  (when the pulled-back place is real, its complex embedding is the composite of the complex
+  embedding with the ring map) (`NumberTheory/NumberField/InfinitePlace/Ramification.lean`), with
+  `NumberField.InfinitePlace.embedding_of_isReal_apply`
+  (`NumberTheory/NumberField/InfinitePlace/Basic.lean`; the real embedding of a real place, read
+  in `ℂ`, is its complex embedding), which together give the same statement for the real
+  embeddings `embedding_of_isReal`.
+- `LinearMap.injective_iff_surjective_of_finrank_eq_finrank`
+  (`LinearAlgebra/FiniteDimensional/Lemmas.lean`): a linear map between finite-dimensional spaces of
+  the same dimension is injective exactly when it is surjective.
+- `injective_iff_map_eq_zero` (`Algebra/Group/Hom/Basic.lean`): a homomorphism of additive groups is
+  injective exactly when its kernel is zero.
+- `Module.finrank_baseChange` (`LinearAlgebra/Dimension/Constructions.lean`): scalar extension
+  `A ⊗[K] V` of a free module keeps its rank, so a localization of a form on `V` lives on a space of
+  dimension `finrank K V`.
+
+### From Tau Ceti
+
+All paths are under `TauCeti/`.
+
+- Localization (`NumberTheory/QuadraticForm/Global/Localization.lean`, `Operations.lean`,
+  `Discriminant.lean`, `CompletionTower.lean`): `QuadraticForm.atFinitePlace`,
+  `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
+  `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`; the transport of
+  isometry, representation and regularity (`QuadraticMap.Equivalent.atFinitePlace`,
+  `QuadraticMap.Equivalent.atRealPlace`, `QuadraticForm.Nondegenerate.atFinitePlace`,
+  `QuadraticForm.Nondegenerate.atRealPlace`); compatibility with orthogonal sums (the isometries
+  `QuadraticForm.atFinitePlaceProd` and `QuadraticForm.atRealPlaceProd` from the localization of
+  `Q ⊥ R` to `Q_v ⊥ R_v`), negation
+  (`QuadraticForm.atFinitePlace_neg`, `QuadraticForm.atRealPlace_neg`) and scaling
+  (`QuadraticForm.atFinitePlace_smul`, `QuadraticForm.atRealPlace_smul`: the localization of
+  `c • Q` is the image of `c` times the localization of `Q`); diagonal forms (the isometries
+  `QuadraticForm.atFinitePlaceWeightedSumSquares` and `QuadraticForm.atRealPlaceWeightedSumSquares`
+  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the
+  localized discriminant
+  (`QuadraticForm.discr_atFinitePlace`: the discriminant of `Q_v` is the image of that of `Q`); and
+  `QuadraticForm.IsLocallyIsotropic.baseChange` for a finite extension of number fields.
+- Local predicates (`NumberTheory/QuadraticForm/Global/Predicates.lean`):
+  `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
+  `QuadraticForm.LocallyRepresents`, `QuadraticForm.LocallyEquivalent`, each a conjunction over
+  every finite and every real place; `QuadraticForm.isLocallyIsotropic_of_not_anisotropic`,
+  `QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff` (isometric forms are locally
+  isotropic together),
+  `QuadraticForm.LocallyEquivalent.of_equivalent`, `QuadraticForm.LocallyRepresents.of_isRepresentedBy`,
+  `QuadraticForm.LocallyEquivalent.finrank_eq`, `QuadraticForm.LocallyRepresents.finrank_le`,
+  `QuadraticForm.LocallyEquivalent.locallyRepresents` (local isometry gives local representation),
+  `QuadraticForm.LocallyRepresents.locallyRepresentsScalar` (if `Q` is locally represented by `R`,
+  every scalar locally represented by `Q` is locally represented by `R`),
+  `QuadraticForm.LocallyRepresentsScalar.of_represents` (a scalar represented by `Q` over `K` is
+  represented by its localization at every finite and every real place) and
+  `QuadraticForm.LocallyRepresentsScalar.isLocallyIsotropic_smul_sq_prod` (local representation of
+  `a` makes `⟨-a⟩ ⊥ W` locally isotropic).
+- Complex places (`NumberTheory/QuadraticForm/Global/ComplexPlaces.lean`):
+  `QuadraticForm.equivalent_atComplexEmbedding_iff_finrank_eq` and the four lemmas showing that
+  each local predicate implies its complex clause.
+- Real places (`NumberTheory/QuadraticForm/Global/Signature.lean`, `RealHasse.lean`):
+  `QuadraticForm.realSignature`, `QuadraticForm.realPositiveIndex`,
+  `QuadraticForm.realNegativeIndex`, `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`
+  and the anisotropy criterion at a real place (definiteness).
+- Finite places (`NumberTheory/QuadraticForm/Global/FiniteHasse.lean`, `HasseSupport.lean`,
+  `AnisotropicPlaces.lean`, `Classification.lean`): `QuadraticForm.finiteHasse` with its
+  diagonal formula and orthogonal-sum formula; `QuadraticForm.hasFiniteMulSupport_finiteHasse`;
+  `QuadraticForm.finite_setOfPred_anisotropic_atFinitePlace` (rank at least three);
+  `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq` and
+  `QuadraticForm.locallyEquivalent_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq_and_realPositiveIndex_eq`.
+- Invariant records (`NumberTheory/QuadraticForm/Global/Invariants.lean`, `FormInvariants.lean`,
+  `ProductFormula.lean`, `Classification.lean`): `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants`
+  and `GlobalFormInvariants.IsAdmissible` (positive rank; `p_w ≤ n` and real discriminant
+  `q_w • [-1]`; finite support of `s_v`; `s_v = 1` in rank one, and in rank two where the local
+  discriminant is `[-1]`; Hasse product one), `QuadraticForm.globalInvariants` (defined in every
+  rank), `QuadraticMap.Equivalent.globalInvariants_eq`,
+  `QuadraticForm.isAdmissible_globalInvariants_iff` (admissible exactly when the rank is positive
+  and the Hasse product is one), `QuadraticForm.globalInvariants_hasseProduct_eq_one`,
+  `QuadraticForm.isAdmissible_globalInvariants` (positive rank), and
+  `QuadraticForm.LocallyEquivalent.of_globalInvariants_eq`.
+- Symbols (`NumberTheory/HilbertSymbol/Basic.lean`, `Archimedean.lean`,
+  `NumberTheory/QuadraticForm/Global/ArchimedeanSymbol.lean`, `HilbertSymbol.lean`,
+  `ProductFormula.lean`, `SignPrescription.lean`): `TauCeti.hilbertSymbol`,
+  `TauCeti.hilbertSymbol_real`, `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`,
+  `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (at a complex place every symbol over
+  the completion is `1`),
+  `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace` (the finite symbols of
+  `a, b ∈ Kˣ` are `1` at almost every finite place), `TauCeti.hilbertSymbol_productFormula` (their
+  product `∏ᶠ` over the finite places times the product over the real places is `1`),
+  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
+  `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`.
+- Approximation (`NumberTheory/NumberField/Global/Approximation/Weak.lean`, `Vector.lean`,
+  `SquareClass.lean`, `NumberTheory/QuadraticForm/Global/Nonsquare.lean`):
+  `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (the diagonal image of `K` is dense in
+  any finite product of finite and infinite completions),
+  `TauCeti.NumberField.exists_one_tmul_mem_of_mem_nhds` (the same for vectors),
+  `TauCeti.GlobalNumberFields.exists_fieldUnit_isSquare_div_at_places` (for finite sets of finite
+  places and of real places, prescribed units `a_v` of the finite completions and nonzero reals
+  `b_w`, one `x ∈ Kˣ` with `x / a_v` a square in `K_v` and `x / b_w` a square in `ℝ` through the
+  real embedding; it combines weak approximation with the openness of the squares, which at a
+  finite place is `TauCeti.isOpen_range_powMonoidHom` with exponent `2` and at a real place is the
+  openness of the positive reals), and
+  `TauCeti.NumberField.QuadraticForm.exists_fieldUnit_not_isSquare_at_places`.
+- Transport (`RingTheory/DedekindDomain/AdicValuation/Transport.lean`,
+  `RingTheory/DedekindDomain/Ideal/Basic.lean`):
+  `IsDedekindDomain.HeightOneSpectrum.valuation_ringEquivOfRingEquiv` (an isomorphism of Dedekind
+  domains carries the `v`-adic valuation of the fraction field to the valuation at the image prime),
+  `IsDedekindDomain.HeightOneSpectrum.asIdeal_equivOfRingEquiv` (the image prime of
+  `equivOfRingEquiv` is the image ideal) and `IsDedekindDomain.HeightOneSpectrum.adicCompletionCongr`
+  (a field isomorphism `σ : K ≃+* K'` compatible with the valuations at `v` and `w` extends to
+  `K_v ≃+* K'_w`, continuous and agreeing with `σ` on `K`).
+- Ideles and class field theory (`NumberTheory/NumberField/Global/Ideles/Norm/Relative.lean`,
+  `Range.lean`, `Surjective.lean`, `RingTheory/Norm/Units.lean`,
+  `NumberTheory/ClassFieldTheory/Global/IdeleClass/FirstInequality.lean`,
+  `NumberTheory/ClassFieldTheory/Global/HasseNorm/Quadratic.lean`):
+  `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
+  `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff` (an idele is a norm exactly when each
+  coordinate is a norm from the local algebra), `TauCeti.Algebra.normUnits` (the algebra norm
+  read as a homomorphism `Sˣ →* Rˣ` for an `R`-algebra `S`),
+  `TauCeti.GlobalNumberFields.ideleClassNormMap_surjective_of_forall_range_normUnits_eq_top` (for
+  an extension `L/K` of number fields, in any universes, and a finite set `S` of finite places of
+  `K`, if `TauCeti.Algebra.normUnits : (K_v ⊗_K L)ˣ → K_vˣ` is onto at every finite `v ∉ S`, the
+  norm map on idele classes is onto),
+  `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`
+  (for a cyclic extension `L/K` of number fields in `Type`, that is `[IsGalois K L]` and
+  `[IsCyclic Gal(L/K)]`, `[L : K] ≤ [C_K : N(C_L)]`; without the cyclic hypothesis it fails, for
+  `L = ℚ(∛2, ζ₃)` has degree `6` over `ℚ` and norm index `2`) and
+  `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion` (for a nonsquare `d` and
+  `a ∈ Kˣ`, `a = x² - d y²` is solvable in `K` exactly when it is solvable in every finite and every
+  infinite completion).
+- Local form theory (`LinearAlgebra/QuadraticForm/Representation.lean`, `Radical.lean`,
+  `Witt/Cancellation.lean`, `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`,
+  `RegularFormClass/LowRank.lean`, `NumberTheory/LocalField/QuadraticForm/Hasse.lean`,
+  `Classification.lean`, `Realization.lean`):
+  `QuadraticMap.Represents`, `QuadraticMap.IsRepresentedBy`,
+  `QuadraticMap.Equivalent.anisotropic_iff` (isometric forms are anisotropic together),
+  `QuadraticMap.IsometryEquiv.represents_iff` (isometric forms represent the same values),
+  `QuadraticMap.not_anisotropic_prod_of_represents_neg` (if `Q₁` represents `a ≠ 0` and `Q₂`
+  represents `-a`, then `Q₁ ⊥ Q₂` is isotropic),
+  `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic` (a regular isotropic form is
+  universal), `QuadraticMap.IsRepresentedBy.exists_equivalent_prod` (when `2` is invertible, a
+  finite-dimensional regular form `Q₁` represented by a regular form `Q` splits off:
+  `Q ≅ Q₁ ⊥ Q|_P` with `Q|_P` regular), the regularity of auxiliary forms when `2` is invertible
+  (`QuadraticMap.Nondegenerate.prod`: an orthogonal sum of regular forms is regular;
+  `QuadraticMap.nondegenerate_smul_iff`: scaling by a unit preserves regularity;
+  `QuadraticMap.nondegenerate_smul_sq`: the line `⟨a⟩` is regular for `a ≠ 0`;
+  `QuadraticMap.Nondegenerate.exists_isUnit`: a regular form on a nonzero space takes a unit
+  value), `TauCeti.equivalent_of_equivalent_prod` (Witt cancellation),
+  `QuadraticMap.IsometryEquiv.exists_extension` (Witt extension),
+  `TauCeti.RegularFormClass.discr` (over a field in which `2` is invertible, the class in
+  `SquareClassGroup K` of the product of the weights of any diagonalization, independent of the
+  diagonalization), `TauCeti.RegularFormClass.localHasse` (over a nonarchimedean local field in
+  which `2` is invertible, the product over `i < j` of the Hilbert symbols `(aᵢ, aⱼ)` of the
+  weights of any diagonalization `⟨a₁, …, aₙ⟩`, independent of the diagonalization, in `ℤˣ`),
+  `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over any field in which
+  `2` is invertible, a regular binary form is isotropic exactly when its discriminant is `[-1]`),
+  `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq` and
+  `TauCeti.RegularFormClass.exists_of_realization`.
+- Hasse–Minkowski steps (`LinearAlgebra/QuadraticForm/QuaternaryDescent.lean`,
+  `NumberTheory/QuadraticForm/Global/Quaternary.lean`, `HigherRank.lean`, `ApproximateValue.lean`,
+  `LocalValues.lean`): `QuadraticForm.not_anisotropic_of_not_anisotropic_baseChange_quaternary`
+  (O'Meara 58:7), `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary` (a locally
+  isotropic regular quaternary form is isotropic, given the ternary case over every number field
+  in the universe of `K`),
+  `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank` (the same in rank
+  `n ≥ 5`, given rank `n - 1` over `K`; both state the lower-rank case only for the diagonal forms
+  `TauCeti.presentedForm p` on `Fin p.1 → L`, which are regular by
+  `TauCeti.nondegenerate_presentedForm` and to which every regular form is isometric by
+  `TauCeti.exists_presentedForm_equivalent`, all three in
+  `LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`),
+  `QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`
+  (for `U ≠ 0` and regular `W` anisotropic at finitely many finite places, with matching local
+  values where `W` is anisotropic, a global `x` with `U x ≠ 0` and `-U x` locally represented by
+  `W`), and `QuadraticForm.exists_atFinitePlace_ne_zero_eq_neg`.
+- Existence (`NumberTheory/QuadraticForm/Global/LocalRealization.lean`, `PrescribedLocalForms.lean`,
+  `Existence.lean`, `CorrectionPlanes.lean`, `Classification.lean`):
+  `GlobalFormInvariants.IsLocalRealization`,
+  `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
+  `GlobalFormInvariants.isAdmissible_ofLocalForms`, `GlobalFormInvariants.isLocalRealization_ofLocalForms`,
+  `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod` (for an admissible
+  record with a local realization: a regular `W` on `Kⁿ` and `a, b ∈ Kˣ` such that `⟨a, -ab⟩` is
+  locally represented by `⟨1, -b⟩ ⊥ W`, and a global representation yields a form with the record),
+  `QuadraticForm.nondegenerate_weightedSumSquares_one_neg` and
+  `QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul` (the correction planes `⟨1, -b⟩`
+  and `⟨a, -ab⟩` are regular for `a, b ∈ Kˣ`),
+  `QuadraticForm.exists_discr_eq_equivalent_of_isRepresentedBy_prod`,
+  `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace` and
+  `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace` (a form with record `I` is
+  isometric at each place to any family realizing `I`).
+- Form classes, hyperbolicity and Witt rings
+  (`LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`,
+  `NumberTheory/QuadraticForm/Global/Hyperbolicity.lean`, `WittLocalization.lean`,
+  `LinearAlgebra/QuadraticForm/Witt/Ring.lean`, `Witt/Decomposition.lean`, `Witt/BaseChange.lean`):
+  `TauCeti.formClass_eq_iff` (two regular forms have the same class exactly when they are
+  isometric), `TauCeti.formClass_prod` (the class of `Q ⊥ R` is the sum of the classes),
+  `TauCeti.formClass_smul` (`RegularFormClass/TensorProduct.lean`; for a unit `a`, the class of
+  `a • Q` is `⟨a⟩` times the class of `Q`),
+  `TauCeti.formClass_presentedForm` (every class of regular forms is the class of the diagonal form
+  `TauCeti.presentedForm p` of one of its presentations),
+  `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
+  `QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass` and
+  `QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass` (a regular form whose class over
+  `K` is `m` times the hyperbolic class has `m` times the hyperbolic class at every finite place
+  and, along the real embedding, at every real place), `TauCeti.WittRing`,
+  `TauCeti.wittClass_surjective` (every element of `W(K)` is the Witt class of a class of regular
+  forms), `TauCeti.wittClass_eq_zero_iff` (a class has Witt class zero exactly when its anisotropic
+  part is zero), `TauCeti.RegularFormClass.wittDecomposition` (a class is a multiple of the
+  hyperbolic class plus its anisotropic part), `TauCeti.RegularFormClass.add_neg_one_mul` (`q ⊥ -q`
+  is `dim q` hyperbolic planes), `TauCeti.WittRing.baseChange`, `TauCeti.WittRing.globalToLocal`
+  (the ring homomorphism `W(K) → ∏_v W(K_v) × ∏_w W(ℝ)` whose components are scalar extension along
+  `K → K_v` and along the real embedding of `w`) and
+  `TauCeti.WittRing.globalToLocal_wittClass_formClass` (on the Witt class of a regular form `Q`, the
+  components are the Witt classes of the localizations `Q_v` and `Q_w`).
+- Examples (`NumberTheory/QuadraticForm/Global/TernaryObstruction.lean`, `BinaryObstruction.lean`,
+  `DefiniteObstruction.lean`, `HyperbolicIsometry.lean`, `WorkedExamples/Sqrt5.lean`,
+  `Invariants.lean`): `TauCeti.NumberField.QuadraticForm.anisotropic_sumTwoSquaresSubThreeSq`,
+  `TauCeti.NumberField.QuadraticForm.not_equivalent_sumTwoSquaresSubThreeSq_sumTwoSquaresSubSq`,
+  `TauCeti.NumberField.QuadraticForm.infinite_anisotropic_sumTwoSquares_atFinitePlace`,
+  `TauCeti.NumberField.QuadraticForm.exists_anisotropic_and_not_anisotropic_away_from_realPlace`,
+  `TauCeti.NumberField.QuadraticForm.equivalent_sumTwoSquaresSubSq_sqAddTwoSqSubTwoSq`,
+  `TauCeti.NumberField.QuadraticForm.Sqrt5.exists_admissible_rank_three`,
+  `GlobalFormInvariants.isAdmissible_rankOne_iff_eq_empty` and
+  `GlobalFormInvariants.isAdmissible_rankTwo_iff_eq_empty`.
 
 ## References
 

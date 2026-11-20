@@ -1,75 +1,28 @@
 # Roadmap: generic double-point interpolation
 
-**Summary.** This roadmap builds value-and-first-derivative interpolation for multivariate
-polynomials, the projective double-point theorem that supplies its generic
-rank, and a nonvanishing polynomial minor that gives small integer coordinates.
-The reusable objects are the bounded polynomial submodule, its coefficient
-basis, the native square-zero first-jet algebra, finite double-point quotients,
-and universal interpolation matrices. The geometric argument develops the
-restriction-rank and residual/trace tools needed for ordinary and differential
-Horace induction.
+**Summary.** In one variable, Hermite interpolation is classical: over any field, values and first derivatives at n distinct points can be prescribed arbitrarily in degree at most d once 2n ≤ d+1. In r variables, polynomials of total degree at most d have N(r,d) = choose(r+d, d) coefficients, and values and first partial derivatives at n points impose n(r+1) conditions. Counting is not enough: seven distinct collinear points in the affine plane give 21 conditions on the 21 coefficients in degree at most five, yet the rank is only 11. The question is what a general configuration does.
 
-The final theorem is the following. Let k be a field of
-characteristic zero, let r,n≥1 and d≥5, and suppose
+This roadmap builds that interpolation theory and the projective theorem that decides its generic rank. Its basic object is the first-jet matrix, recording in the monomial basis a polynomial's value and first partial derivatives at each point. Over a field, the quotient of the polynomial ring by the square of the ideal of n distinct points is a product of n copies of the square-zero algebra k ⊕ k^r. Interpolation thus becomes restriction to double points, the subschemes cut out by squared point ideals. The geometric statements use an algebraically closed field of characteristic zero unless a statement explicitly gives weaker hypotheses. There, "general" means a nonempty Zariski-open set of ordered configurations, not every tuple of distinct points.
 
-    m = n(r+1) ≤ N(r,d) = choose(r+d,d).
+The first main theorem is the Alexander–Hirschowitz theorem in every degree. Over an algebraically closed field of characteristic zero, with r ≥ 1, restricting forms of degree d to q general double points in P^r has rank min(N(r,d), q(r+1)). When conditions outnumber forms, this means injectivity rather than surjectivity. The only exceptions are quadrics with 2 ≤ q ≤ r and the triples (r,d,q) = (2,4,5), (3,4,9), (4,3,7), (4,4,14). For (3,4,9), the square of the quadric through the nine points is singular at all of them, so the rank is at most 34 rather than 35. An affine form holds over every field of characteristic zero: outside the same exceptions, some q distinct points of k^r have a first-jet matrix of that rank.
 
-There is a nonzero polynomial Δ with integer coefficients in the rn point
-coordinates such that its principal open is nonempty and every tuple on that
-open consists of distinct points and admits arbitrary values and first partial
-derivatives of a polynomial of total degree at most d. One can choose such a
-tuple with all integer coordinates between 0 and md. This is a theorem about a
-nonempty open set of configurations. For example, seven distinct collinear
-points in the affine plane have rank 11 in degree 5 although m=N(2,5)=21.
+The second main theorem, following Couveignes, is effective. Let k be a field of characteristic zero, let r, n ≥ 1 and d ≥ 5, and suppose n(r+1) ≤ N(r,d). Some maximal minor Δ of the first-jet matrix at indeterminate points is a nonzero polynomial with integer coefficients whose nonvanishing locus has a point over k. Every tuple on that locus consists of distinct points at which arbitrary values and first partial derivatives are attained in degree at most d. Such a tuple can be chosen with integer coordinates between 0 and n(r+1)d. For a family of points given by integer polynomials in parameters, on which Δ does not vanish identically, integer parameter values bounded by its degree in each parameter work too.
 
-The projective input is the degree-d≥5 range of the Alexander–Hirschowitz
-theorem. The plane, cubic and quartic results are included as the bases of its
-proof, with their exceptional triples stated explicitly. With the quadric and
-univariate cases they also assemble into the theorem in every degree. The proof uses
-Brambilla–Ottaviani's plane contact argument, codimension-three cubic
-specializations, and differential Horace induction. Couveignes's interpolation
-matrix and integer-box argument give the affine and effective endpoint.
-These sources support different parts of the development; the native algebraic
-comparisons below specify how those parts fit together.
+The projective theorem follows Brambilla and Ottaviani's proof by the Horace method. If some double points lie on a hyperplane H, the rank is at least that of the trace on H in degree d plus that of the residual in degree d − 1, in which the points on H become reduced. When the sizes fit, maximal rank of both gives maximal rank. At the two critical counts, the floor and ceiling of N(r,d)/(r+1), differential Horace induction moves points off H in families. It deduces the case (r,d) from dimension r − 1 in degree d and from degrees d − 1 and d − 2 in dimension r. Other counts follow by removing or adding points. The bases are the plane in every degree, cubics in every dimension and quartics from dimension five on.
 
-## Scope and ownership
+Within Tau Ceti, the roadmap builds on AlgebraicModuliForArithmeticGeometry, whose twisting sheaves make forms of degree d into global sections of O(d). SchemeAndStackFoundations provides closed subschemes from ideal sheaves and the cohomology of projective space, and DiophantineApproximationAndTranscendence provides homogenization. In the other direction, ArithmeticStatisticsPartV uses the theorem in every degree, for homogeneous partial derivatives, in its finite-fibre argument for mixed traces.
 
-This roadmap owns bounded-degree coefficient coordinates, the native-carrier
-adapter for fixed-degree homogenization, first jets, double-point interpolation,
-the Veronese and plane specializations, the squared-point families used in its
-Horace proof, and the universal minor. General projective bundles and twisting
-cohomology belong to AlgebraicModuliForArithmeticGeometry §§1.1–1.2;
-determinantal loci and Hilbert functors belong to its §§1.7 and 2.1. General
-ideal-sheaf quotient comparisons and Bézout belong to SchemeAndStackFoundations
-§§0.28 and 5.12. The exact contracts are listed below.
-DiophantineApproximationAndTranscendence §2.7 owns block homogenization and its
-dehomogenization identities; the adapter here restricts its one-block case to
-the native bounded and homogeneous submodules. This roadmap also owns the Cartier residual sequence (§2.2), finite locally free
-pushforward and relative generic smoothness (§2.0), the universal length-two
-direction family (§2.4), and plane singular-curve incidence (§3.2). Its compatible
-mixed-specialization theorem (§4.3) concerns the specified Horace family.
-The supply boundary with ArithmeticStatisticsPartV §3.28, mixed trace finite
-fibres, puts the full characteristic-zero double-point theorem (§4.8, the
-double-point theorem in every degree), its low-degree
-inputs and its ordinary and differential Horace proof here; that consumer owns
-the mixed-trace Jacobian, exceptional-case exclusion and finite-fibre arguments.
-Section 1.4 gives the homogeneous-partial adapter for this boundary. These
-constructions use the projective-quotient and ideal-sheaf interfaces just named.
+Layers 0 and 1 set up coefficients and first jets, and Layer 2 the general tools. Layer 3 proves the plane and cubic bases, Layer 4 the Horace induction, and Layer 5 the affine and integer statements.
 
-The degree-bounded carrier, its support basis, Euler's homogeneous derivative
-identity, finite Chinese remainder and product-grid vanishing are supplied by
-Mathlib; the total-degree inclusion and span API is supplied by Tau Ceti.
-The coefficient equivalence here specializes the support basis, and the
-homogenization equivalence is the native-carrier adapter of the named one-block
-supplier. The Veronese morphism is the complete-monomial map from the projective-section
-interface; §3.2 owns its construction and tangent and secant-rank calculations.
+## How to read the build
 
-Arithmetic consumers use the principal-open and integer-box results and supply
-their own number-field embedding parametrizations, nonzero pullbacks and
-arithmetic counting arguments. IntegralLattices, Layer 0, owns general integral lattice theory;
-the metric here is the elementary monomial metric. Higher jets,
-positive-characteristic Alexander–Hirschowitz and Waring classification lie
-outside this roadmap's scope.
+Layer 0 fixes coefficient and section coordinates. Layer 1 identifies first
+jets with doubled points. Layer 2 supplies finite locally free sections, relative generic smoothness,
+restriction ranks, residuals and curvilinear families. Layer 3 proves the plane and cubic bases. Layer 4 uses
+ordinary and differential Horace for the projective theorem. Layer 5 constructs
+the affine principal open and bounded integer witnesses. The headline signatures
+in Suggested.lean use explicit native polynomial and spectrum carriers; the
+projective-section and relative-incidence interfaces are specified here.
 
 ## Conventions
 
@@ -125,116 +78,6 @@ one-dimensional Hermite theorem uses arbitrary distinct points over any field.
 In all division formulas below u is an integer; only in the critical range is
 its nonnegativity established. This prevents natural-number subtraction from
 silently changing a statement when the dividend is negative.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The polynomial submodule and basis are supplied at Mathlib commit `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
-Their hypotheses are used as written: in particular, the affine first-jet
-identities do not require characteristic zero, while the geometric genericity
-arguments do.
-
-| Mathlib declarations | What is reused |
-| --- | --- |
-| [MvPolynomial.restrictTotalDegree, basisRestrictSupport, mem_restrictTotalDegree, monomial_mem_restrictSupport](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/MvPolynomial/Basic.lean) | The submodule of polynomials of total degree ≤d, its admissible monomials and its restricted monomial basis. |
-| [MvPolynomial.pderiv, pderiv_monomial, pderiv_X, pderiv_mul](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/PDeriv.lean) | Partial differentiation, including the exponent-decrement formula and Leibniz rule. |
-| [MvPolynomial.eval, aeval, eval_monomial, aeval_monomial](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/Eval.lean) | Evaluation and algebra evaluation, including evaluation in square-zero algebras and substitution. |
-| [MvPolynomial.homogeneousSubmodule](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/MvPolynomial/Homogeneous.lean) | The native fixed-degree homogeneous submodule. |
-| [MvPolynomial.lcoeff](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/Basic.lean) | Coefficient extraction as a linear map. |
-| [Sym.equivNatSum](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Finsupp/Multiset.lean), [Sym.card_sym_eq_choose](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Sym/Card.lean) | Degree-d exponent tuples as size-d multisets, and their stars-and-bars count. Only the slack-coordinate adapter is new here. |
-| [TrivSqZeroExt, TrivSqZeroExt.inr_mul_inr](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/TrivSqZeroExt/Basic.lean) | The existing algebra R⊕M and the vanishing of products of infinitesimal terms. |
-| [Ideal.quotientInfRingEquivPiQuotient](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Ideal/Quotient/Operations.lean) | Finite Chinese remainder for pairwise comaximal ideals. The scalar-compatible algebra upgrade is checked here. |
-| [Matrix.rank_of_det_ne_zero, rank_submatrix_le, rank_eq_finrank_range_toLin](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Rank.lean) | Determinant and submatrix rank bounds, and matrix rank as dimension of the range of its represented linear map. |
-| [MvPolynomial.eq_zero_of_eval_zero_at_prod_finset](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Combinatorics/Nullstellensatz.lean) | A polynomial over a domain vanishing on a product of sufficiently large coordinate sets is zero. |
-| [MvPolynomial.degreeOf_le_totalDegree](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/Degrees.lean) | The coordinate-degree bound used for the integer grid. |
-| [PrimeSpectrum.basicOpen, mem_basicOpen](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Spectrum/Prime/Topology.lean) | The principal open D(Δ) and its pointwise membership criterion. |
-| [AlgebraicGeometry.Spec, Spec.map, Spec.algebraMap, Spec.map_apply](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/Scheme.lean), [AffineSpace.SpecIso, homOverEquiv](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/AffineSpace.lean) | Actual affine schemes, evaluation morphisms over Spec k, the polynomial-spectrum identification and the existing affine-space functor of points. |
-
-Mathlib also supplies `MvPolynomial.IsHomogeneous.sum_X_mul_pderiv` in
-`Mathlib/RingTheory/MvPolynomial/EulerIdentity.lean` (line 73); it holds over a
-commutative semiring, including degree zero.
-Use `AlgebraicGeometry.Scheme.Hom.dense_smoothLocus_of_perfectField` in
-`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean` (line 361) for a reduced
-scheme locally of finite presentation over a perfect field. This is an
-absolute smooth-locus theorem, not the relative contract below.
-Use `MvPolynomial.funext` in `Mathlib/Algebra/MvPolynomial/Funext.lean`
-(line 82) over an infinite integral domain for the rational realization of
-the generic rank locus.
-
-### From Tau Ceti
-
-Tau Ceti supplies the total-degree inclusion and span lemmas in
-[RingTheory/MvPolynomial/RestrictTotalDegree](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/MvPolynomial/RestrictTotalDegree.lean),
-including `MvPolynomial.restrictTotalDegree_mono`,
-`MvPolynomial.restrictTotalDegree_eq_span` and
-`TauCeti.MvPolynomial.apply_mem_of_basis`. Their contracts concern inclusion and linear extension on the
-submodule, whereas the targets here add coefficient coordinates, homogenization
-and jets.
-
-The sheaf of relative differentials is Tau Ceti
-`AlgebraicGeometry.Scheme.relativeDifferentials` in
-`TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean` (line 85), with
-its universal derivation and universal property. Its affine section comparison
-is `TauCeti.AlgebraicGeometry.relativeDifferentialsSectionsEquiv` in
-`TauCeti/AlgebraicGeometry/Modules/Differentials/Quasicoherent.lean` (line 180).
-Use `TauCeti.AlgebraicGeometry.ZariskiTangentSpace` in
-`TauCeti/AlgebraicGeometry/TangentSpace/Basic.lean` (line 65) for the dual of
-`m / m^2` over the residue field. This tangent carrier alone specifies no
-relative differential of a morphism. In §2.0 construct the differential at a geometric point Spec Ω→X by
-dualizing the map on relative differentials. Use the Zariski tangent spaces
-at the resulting Ω-rational points of X_Ω and Y_Ω. This base change of the
-schemes is essential at a nonclosed underlying point.
-
-### From TauCetiRoadmap.AlgebraicVectorBundles
-
-Consume §L0B, quasicoherent and finite locally free sheaves: the affine
-finite-projective equivalence, rank, tensor and pullback comparisons. Layer 2
-§2.0 adds restriction of scalars along a finite locally free morphism, rather
-than a second construction of the finite locally free sheaf carrier.
-
-### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
-
-Consume §2.7, `blockHomogenize`, with one block, affine variables Fin r and
-block degree d, over every commutative ring. Use its linearity, monomial and
-coefficient formulas, homogeneity and both dehomogenization identities on
-bounded inputs and homogeneous outputs. Rename the single homogenizing
-variable to None and the affine variables to Some. Layer 0 bundles these
-identities into the equivalence of native submodules and its chart comparison.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Consume §0.28, IdealPullback: `quotientPresheaf`, `quotientToClosedNatTrans_isIso`
-for affine morphisms, and `allOpenSheafComparison` after sheafification.
-These do not identify a non-affine global quotient presheaf with all sections.
-Consume §2.6, `projectiveSpace_cohomology`, §4.12, `generic_flatness`,
-and §5.12, `bezout_inequality`,
-with the proper-intersection hypothesis retained for its equality statement.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-Consume §1.1, ProjectiveBundles.projectiveBundle and integerTwists, on
-quasicoherent modules and their invertible quotient convention; specialize to
-the free module of rank r+1. Consume §1.2,
-ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison, over a
-commutative ring, with q=0 and nonnegative twist d: use its natural coefficient
-basis comparison, together with the native H⁰/global-section equivalence.
-Layer 0 owns its chart-normalized polynomial adapter.
-Consume §1.7, rankLocus, for maps between finite locally free sheaves and
-its scheme-theoretic base-change law. Consume §2.1, hilbertFunctorAsQuot,
-for separated morphisms of finite presentation, parametrizing finitely
-presented flat proper closed subschemes. Layers 1–2 and 4 construct the
-squared-point specializations and construct the direction family of §2.4.
-
-## How to read the build
-
-Layer 0 fixes coefficient and section coordinates. Layer 1 identifies first
-jets with doubled points. Layer 2 supplies finite locally free sections, relative generic smoothness,
-restriction ranks, residuals and curvilinear families. Layer 3 proves the plane and cubic bases. Layer 4 uses
-ordinary and differential Horace for the projective theorem. Layer 5 constructs
-the affine principal open and bounded integer witnesses. The headline signatures
-in Suggested.lean use explicit native polynomial and spectrum carriers; the
-projective-section and relative-incidence interfaces are specified here.
 
 ## Layer 0: Coefficient spaces and fixed homogenization
 
@@ -1756,6 +1599,145 @@ lifting, Euler comparison and generic openness are mathematical statements to
 prove, as are the unbounded cubic recursion and Horace induction. Exact
 arithmetic for selected small dimensions does not replace the symbolic
 exception-avoiding induction argument.
+
+## Scope and ownership
+
+This roadmap owns bounded-degree coefficient coordinates, the native-carrier
+adapter for fixed-degree homogenization, first jets, double-point interpolation,
+the Veronese and plane specializations, the squared-point families used in its
+Horace proof, and the universal minor. General projective bundles and twisting
+cohomology belong to AlgebraicModuliForArithmeticGeometry §§1.1–1.2;
+determinantal loci and Hilbert functors belong to its §§1.7 and 2.1. General
+ideal-sheaf quotient comparisons and Bézout belong to SchemeAndStackFoundations
+§§0.28 and 5.12. The exact contracts are listed below.
+DiophantineApproximationAndTranscendence §2.7 owns block homogenization and its
+dehomogenization identities; the adapter here restricts its one-block case to
+the native bounded and homogeneous submodules. This roadmap also owns the Cartier residual sequence (§2.2), finite locally free
+pushforward and relative generic smoothness (§2.0), the universal length-two
+direction family (§2.4), and plane singular-curve incidence (§3.2). Its compatible
+mixed-specialization theorem (§4.3) concerns the specified Horace family.
+The supply boundary with ArithmeticStatisticsPartV §3.28, mixed trace finite
+fibres, puts the full characteristic-zero double-point theorem (§4.8, the
+double-point theorem in every degree), its low-degree
+inputs and its ordinary and differential Horace proof here; that consumer owns
+the mixed-trace Jacobian, exceptional-case exclusion and finite-fibre arguments.
+Section 1.4 gives the homogeneous-partial adapter for this boundary. These
+constructions use the projective-quotient and ideal-sheaf interfaces just named.
+
+The degree-bounded carrier, its support basis, Euler's homogeneous derivative
+identity, finite Chinese remainder and product-grid vanishing are supplied by
+Mathlib; the total-degree inclusion and span API is supplied by Tau Ceti.
+The coefficient equivalence here specializes the support basis, and the
+homogenization equivalence is the native-carrier adapter of the named one-block
+supplier. The Veronese morphism is the complete-monomial map from the projective-section
+interface; §3.2 owns its construction and tangent and secant-rank calculations.
+
+Arithmetic consumers use the principal-open and integer-box results and supply
+their own number-field embedding parametrizations, nonzero pullbacks and
+arithmetic counting arguments. IntegralLattices, Layer 0, owns general integral lattice theory;
+the metric here is the elementary monomial metric. Higher jets,
+positive-characteristic Alexander–Hirschowitz and Waring classification lie
+outside this roadmap's scope.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The polynomial submodule and basis are supplied at Mathlib commit `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
+Their hypotheses are used as written: in particular, the affine first-jet
+identities do not require characteristic zero, while the geometric genericity
+arguments do.
+
+| Mathlib declarations | What is reused |
+| --- | --- |
+| [MvPolynomial.restrictTotalDegree, basisRestrictSupport, mem_restrictTotalDegree, monomial_mem_restrictSupport](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/MvPolynomial/Basic.lean) | The submodule of polynomials of total degree ≤d, its admissible monomials and its restricted monomial basis. |
+| [MvPolynomial.pderiv, pderiv_monomial, pderiv_X, pderiv_mul](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/PDeriv.lean) | Partial differentiation, including the exponent-decrement formula and Leibniz rule. |
+| [MvPolynomial.eval, aeval, eval_monomial, aeval_monomial](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/Eval.lean) | Evaluation and algebra evaluation, including evaluation in square-zero algebras and substitution. |
+| [MvPolynomial.homogeneousSubmodule](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/MvPolynomial/Homogeneous.lean) | The native fixed-degree homogeneous submodule. |
+| [MvPolynomial.lcoeff](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/Basic.lean) | Coefficient extraction as a linear map. |
+| [Sym.equivNatSum](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Finsupp/Multiset.lean), [Sym.card_sym_eq_choose](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Sym/Card.lean) | Degree-d exponent tuples as size-d multisets, and their stars-and-bars count. Only the slack-coordinate adapter is new here. |
+| [TrivSqZeroExt, TrivSqZeroExt.inr_mul_inr](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/TrivSqZeroExt/Basic.lean) | The existing algebra R⊕M and the vanishing of products of infinitesimal terms. |
+| [Ideal.quotientInfRingEquivPiQuotient](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Ideal/Quotient/Operations.lean) | Finite Chinese remainder for pairwise comaximal ideals. The scalar-compatible algebra upgrade is checked here. |
+| [Matrix.rank_of_det_ne_zero, rank_submatrix_le, rank_eq_finrank_range_toLin](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Rank.lean) | Determinant and submatrix rank bounds, and matrix rank as dimension of the range of its represented linear map. |
+| [MvPolynomial.eq_zero_of_eval_zero_at_prod_finset](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Combinatorics/Nullstellensatz.lean) | A polynomial over a domain vanishing on a product of sufficiently large coordinate sets is zero. |
+| [MvPolynomial.degreeOf_le_totalDegree](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MvPolynomial/Degrees.lean) | The coordinate-degree bound used for the integer grid. |
+| [PrimeSpectrum.basicOpen, mem_basicOpen](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Spectrum/Prime/Topology.lean) | The principal open D(Δ) and its pointwise membership criterion. |
+| [AlgebraicGeometry.Spec, Spec.map, Spec.algebraMap, Spec.map_apply](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/Scheme.lean), [AffineSpace.SpecIso, homOverEquiv](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/AffineSpace.lean) | Actual affine schemes, evaluation morphisms over Spec k, the polynomial-spectrum identification and the existing affine-space functor of points. |
+
+Mathlib also supplies `MvPolynomial.IsHomogeneous.sum_X_mul_pderiv` in
+`Mathlib/RingTheory/MvPolynomial/EulerIdentity.lean` (line 73); it holds over a
+commutative semiring, including degree zero.
+Use `AlgebraicGeometry.Scheme.Hom.dense_smoothLocus_of_perfectField` in
+`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean` (line 361) for a reduced
+scheme locally of finite presentation over a perfect field. This is an
+absolute smooth-locus theorem, not the relative contract above.
+Use `MvPolynomial.funext` in `Mathlib/Algebra/MvPolynomial/Funext.lean`
+(line 82) over an infinite integral domain for the rational realization of
+the generic rank locus.
+
+### From Tau Ceti
+
+Tau Ceti supplies the total-degree inclusion and span lemmas in
+[RingTheory/MvPolynomial/RestrictTotalDegree](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/MvPolynomial/RestrictTotalDegree.lean),
+including `MvPolynomial.restrictTotalDegree_mono`,
+`MvPolynomial.restrictTotalDegree_eq_span` and
+`TauCeti.MvPolynomial.apply_mem_of_basis`. Their contracts concern inclusion and linear extension on the
+submodule, whereas the targets here add coefficient coordinates, homogenization
+and jets.
+
+The sheaf of relative differentials is Tau Ceti
+`AlgebraicGeometry.Scheme.relativeDifferentials` in
+`TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean` (line 85), with
+its universal derivation and universal property. Its affine section comparison
+is `TauCeti.AlgebraicGeometry.relativeDifferentialsSectionsEquiv` in
+`TauCeti/AlgebraicGeometry/Modules/Differentials/Quasicoherent.lean` (line 180).
+Use `TauCeti.AlgebraicGeometry.ZariskiTangentSpace` in
+`TauCeti/AlgebraicGeometry/TangentSpace/Basic.lean` (line 65) for the dual of
+`m / m^2` over the residue field. This tangent carrier alone specifies no
+relative differential of a morphism. In §2.0 construct the differential at a geometric point Spec Ω→X by
+dualizing the map on relative differentials. Use the Zariski tangent spaces
+at the resulting Ω-rational points of X_Ω and Y_Ω. This base change of the
+schemes is essential at a nonclosed underlying point.
+
+### From TauCetiRoadmap.AlgebraicVectorBundles
+
+Consume §L0B, quasicoherent and finite locally free sheaves: the affine
+finite-projective equivalence, rank, tensor and pullback comparisons. Layer 2
+§2.0 adds restriction of scalars along a finite locally free morphism, rather
+than a second construction of the finite locally free sheaf carrier.
+
+### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
+
+Consume §2.7, `blockHomogenize`, with one block, affine variables Fin r and
+block degree d, over every commutative ring. Use its linearity, monomial and
+coefficient formulas, homogeneity and both dehomogenization identities on
+bounded inputs and homogeneous outputs. Rename the single homogenizing
+variable to None and the affine variables to Some. Layer 0 bundles these
+identities into the equivalence of native submodules and its chart comparison.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Consume §0.28, IdealPullback: `quotientPresheaf`, `quotientToClosedNatTrans_isIso`
+for affine morphisms, and `allOpenSheafComparison` after sheafification.
+These do not identify a non-affine global quotient presheaf with all sections.
+Consume §2.6, `projectiveSpace_cohomology`, §4.12, `generic_flatness`,
+and §5.12, `bezout_inequality`,
+with the proper-intersection hypothesis retained for its equality statement.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+Consume §1.1, ProjectiveBundles.projectiveBundle and integerTwists, on
+quasicoherent modules and their invertible quotient convention; specialize to
+the free module of rank r+1. Consume §1.2,
+ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison, over a
+commutative ring, with q=0 and nonnegative twist d: use its natural coefficient
+basis comparison, together with the native H⁰/global-section equivalence.
+Layer 0 owns its chart-normalized polynomial adapter.
+Consume §1.7, rankLocus, for maps between finite locally free sheaves and
+its scheme-theoretic base-change law. Consume §2.1, hilbertFunctorAsQuot,
+for separated morphisms of finite presentation, parametrizing finitely
+presented flat proper closed subschemes. Layers 1–2 and 4 construct the
+squared-point specializations and construct the direction family of §2.4.
 
 ## References
 

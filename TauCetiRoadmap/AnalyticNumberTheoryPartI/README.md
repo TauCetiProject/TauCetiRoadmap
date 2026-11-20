@@ -1,40 +1,35 @@
 # Roadmap: analytic number theory, Part I
 
-**Summary.** Quantitative primes, the uniform exclusion of Landau–Siegel zeros with its effective consequences, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
+**Summary.** How primes are distributed in arithmetic progressions depends on the zeros of Dirichlet `L`-functions near the point 1. The classical zero-free regions exclude every such zero but possibly one, a simple real zero of `L(s,χ)` for a real character `χ`, called a Landau–Siegel zero. Because of it, Siegel's lower bound for `L(1,χ)` and the Siegel–Walfisz theorem are classically ineffective: their proofs give no way to compute the constants.
 
-`Suggested.lean` states the headline theorems on native library carriers: the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), its effective consequences — the lower bound for `L(1,χ)` (§0.9), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§0.18) and its quadratic prime-interval form (§0.28) — Weierstrass primary products with equal-divisor factorization, finite-order and paired Hadamard factorization, effective Siegel–Walfisz, Chebyshev's factorial identity, Mertens's von Mangoldt sum with its constant `γ`, and the local expansion and half-plane bounds of `ζ′/ζ` (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas (Mestre's general formula and the `C¹` formula for `ζ` with Gauss's digamma integral and its critical-line archimedean form), Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); the K-Bessel kernel, the level-one Eisenstein series with its Fourier expansion and completed continuation, Artin and Swan conductors with their integrality, Hecke's continuation for unitary characters, Zaman's effective lower bound for Chebotarev primes, Louboutin, the effective real quadratic bound for `hR` (§2.13) and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments with the divisor-square Euler identity and the Beurling remainder equivalence (Layer 3). Every published finite computation a theorem rests on is a named proposition there and an explicit hypothesis of that theorem. Its definitions serve those statements.
+This roadmap makes the classical prime estimates quantitative, and its central theorem removes the possible exception, so that they hold with effective constants. It also develops Hecke and Artin `L`-functions and mean values of multiplicative functions. A published finite computation that a theorem rests on is not carried out here: it is a named proposition and an explicit hypothesis of that theorem.
 
-## Scope and ownership
+The central theorem is the uniform exclusion of Landau–Siegel zeros. There is an absolute, effectively computable constant `c > 0` such that, for every primitive nonprincipal real Dirichlet character `χ` (real meaning `χ² = 1`) of conductor `q ≥ 3`, every real zero `β` of `L(s,χ)` in `(0,1)` satisfies `(1 − β) log q ≥ c`. The proof weighs the primes up to a fixed power `X` of `q` by `(log p)/p`, a total weight of `log X + O(1)`. Landau's deduction shows that a real zero close to 1 leaves little of this weight to the primes with `χ(p) = 1`. A determinant method shows that the primes with `χ(p) = −1` carry at most three quarters of it, up to a constant. The finitely many small conductors are handled by an effective bound, not by a computation.
 
-This part owns Layers 0–3: quantitative refinement and arithmetic comparison. It consumes ArithmeticDirichletSeries Layers 1–10, LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8 for order-one growth, Gamma estimates, degree-one zeros, rational explicit formulas and prime-number estimates.
+Classical results then hold without an exceptional term and with effective constants. For the same characters, `L(1,χ) ≥ c/log q`, which gives Siegel's bound `L(1,χ) ≥ c_ε q^(−ε)` for each `ε > 0`. For a primitive nonprincipal character `χ` of conductor `N` and large `X`, `Σ_(m≤X) χ(m)Λ(m)` is `O(X exp(−c log X/(√(log X) + log N)) (log N)^4)`, with absolute effective constants. The Siegel–Walfisz theorem follows: for each `A, B > 0`, uniformly for `q ≤ (log x)^B` and `a` coprime to `q`, `π(x;a,q) = Li(x)/φ(q) + O(x (log x)^(−A))` as `x → ∞`, with effective constants depending only on `A` and `B`.
 
-This part owns the entire-function theory it uses beyond ZerosOfLFunctions' order-one canonical products and entire logarithm: Weierstrass primary factors and products of every genus with equal-divisor factorization (§§0.15–0.15a), finite-order Hadamard factorization with its summability, good-circle estimate and polynomial-degree bound (§0.23), and centered order-one growth with the paired Hadamard theorem (§§0.29–0.29b). It also owns the analytic and arithmetic objects behind its Hecke, Artin and quadratic-period targets: the K-Bessel kernel (§2.1a); the level-one nonholomorphic Eisenstein series with its completion, Fourier expansion, continuation and critical-line cusp estimates (§2.1b); real quadratic reduced cycles, genus characters and Nielsen surfaces (§2.1c); Artin and Swan conductors with their integrality, induction formula and conductor–discriminant formula (§2.2a); Hecke's continuation and functional equation for every unitary idele-class character, by Hecke's theta method (§2.3a); finite-image Artin `L`-functions with their local factors, induction formula, one-dimensional comparison and Brauer continuation (§2.18a); the CM quadratic completion with its gamma correction (§2.22a); and the first-kind Bessel API on Mathlib's `Complex.besselJ` (§3.23b).
+Over number fields the main estimate is Zaman's effective lower bound in the Chebotarev density theorem, assuming a finite list of numerical inequalities for the digamma function. For a finite Galois extension `L/F` of number fields with group `G` and a conjugacy class `C` of `G`, write `D_L = |Disc L|`. If `D_L ≥ D₀` and `x ≥ D_L^35`, at least `c D_L^(−19) (|C|/|G|) x/log x` prime ideals of `F`, unramified in `L` and of norm at most `x`, have Frobenius class `C`. The constants `c` and `D₀` are absolute and effective; they do not depend on the degrees.
 
-The finite-image Artin `L`-function of §2.18a (local factors on inertia invariants, induction at every finite place, the one-dimensional comparison with primitive Hecke functions, Brauer continuation with order `dim V^G` at 1) and the Artin conductors of §2.2a with their integrality, induction formula and conductor–discriminant formula have their single owner here; AdelicAlgebraicGroups and ArithmeticGaloisRepresentations consume them from here. LFunctions (Not owned here) leaves Artin representations, their local polynomials and conductors, Artin `L`-functions, Brauer induction and the Artin formalism to ArtinRepresentations. Of these, the objects just listed are owned here, stated for continuous finite-image representations of `Gal(F̄/F)` (§2.18a) and for representations of finite Galois groups with inflation invariance (§2.2a); ArtinRepresentations reads them on its carrier `ArtinRep F V`, the same object as in §2.18a, through finite Galois factorization: its Euler product with Artin's formalism, its continuation by Brauer induction with the order at 1, and its conductor–discriminant formula are transported from §§2.18a and 2.2a, not constructed again.
+The fourth moment of `ζ` on the critical line is `∫_0^T |ζ(1/2+it)|⁴ dt = (1/(2π²)) T (log T)⁴ + O(T (log T)³)`, with an absolute constant.
 
-Hecke's continuation and functional equation for unitary idele-class characters whose infinity type has real frequencies `|x_w|^(i t_w)` (§2.3a) is the extension that LFunctions (Not owned here, and its Layer 6) assigns to an LFunctions, Part II starting from its Layer 6. It is owned here, on Tau Ceti's `HeckeCharacter`; an LFunctions, Part II imports §2.3a rather than planning it again.
+The roadmap builds on ArithmeticDirichletSeries for Euler products and Perron summation. ZerosOfLFunctions provides zero-free regions, uniform in the conductor, with one possible exception, which the central theorem removes at a suitable width. ArtinRepresentations uses the Artin `L`-functions and conductors built here. SieveMethodsAndPrimePatterns uses the exception-free prime estimates. AnalyticNumberTheoryPartII and the ArithmeticStatistics roadmaps build on its prime error terms and class-number bounds.
 
-This roadmap belongs to the analytic-number-theory cluster (with AnalyticNumberTheoryPartII, ZerosOfLFunctions, SieveMethodsAndPrimePatterns, ProbabilisticAndMetricNumberTheory, ArithmeticDirichletSeries and the explicit prime-counting roadmaps), which depends only on Mathlib, on roadmaps already on main and on the other cluster roadmaps; the automorphic `L`-function, adelic-group, Galois-representation, global holomorphic-function, automorphic spectral, effective class-number and progression-power roadmaps that use the material above import it from here rather than supply it.
+Layer 0 starts from Weierstrass products and Hadamard factorization of entire functions, proves the quantitative prime estimates, and ends with the exclusion theorem and its consequences. Layer 1 gives explicit formulas, including Weil's in Mestre's general form, and zero-density estimates; the Riemann hypothesis and its generalization enter only as explicit hypotheses of conditional estimates. Layer 2 proves Hecke's functional equation for every unitary idele-class character and extends Artin `L`-functions meromorphically by Brauer induction, keeping Artin's holomorphy conjecture as a hypothesis. It then derives Zaman's bound and the Brauer–Siegel theorem in bounded degree. Layer 3 treats the mean-value theorems of Shiu and Halász, smooth numbers through the Dickman function, and the second and fourth moments of `ζ`.
 
-This part owns the uniform exclusion of Landau–Siegel zeros (§0.34): an effective absolute `c_LS>0` with `(1−β)log q≥c_LS` for every real zero `β∈(0,1)` of every primitive nonprincipal real Dirichlet `L`-function of conductor `q≥3`. It also owns the effective consequences drawn here: the lower bound `L(1,χ)≥c/log q` and Siegel's bound `L(1,χ)≥c_ε q^(−ε)` with effective constants (§0.9), the emptiness of the exceptional-zero predicate at width `c_LS` (§0.1), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§§0.18, 0.28), the effective zero gap (§0.31b) and effective Siegel–Walfisz (§0.32). ImaginaryQuadraticClassNumber H2.3–H2.4 keeps its own ineffective two-character proof of Siegel's theorem and of `h(D)≥c_ε|D|^(1/2−ε)`; this part plans no step of that proof and takes nothing from H2.3–H2.4. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13, effective here, is kept in this part because H2.4 states only the imaginary case. This part also owns the classification of primitive nonprincipal real Dirichlet characters as the Kronecker characters of fundamental discriminants (§0.34a); QuadraticCharactersAndReduction §1.4 consumes it. ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements: the exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 are stated in this part (§§0.1, 0.6, 0.9, 0.18, 0.32), where later roadmaps consume them.
+`Suggested.lean` states the headline theorems in Lean; the effectivity the README requires of their constants is not expressed there.
 
-Downstream consumers of §0.34 and its corollaries include SieveMethodsAndPrimePatterns, QuadraticCharactersAndReduction and the explicit prime-counting roadmaps; the section Downstream consumers lists the statements concerned.
+## How to read the build
 
-### Prerequisites and boundaries
+Targets retain their original layer and subsection numbers. Named prerequisite links give the order within each layer; every prerequisite is in this part or an earlier supplier. A source and locator apply to the numbered topic and its subsidiary ingredients unless a nearer citation is supplied. Constants are uniform only in the stated parameters. A source's external proof input remains a target requiring proof, never an assumption that the result is formalized.
 
-ArithmeticDirichletSeries supplies norm-indexed ideal coefficients, genuine Euler products, partial-sum continuation, Abel and Perron summation, Landau positivity, Wiener–Ikehara and the qualitative transfer from logarithmic derivatives to prime counts. Mathlib supplies arithmetic functions, ordinary Dirichlet-series continuation and functional equations, nonvanishing on the closed right half-plane, the real Dedekind residue limit, and the circle-valued real Hurwitz zeta function. None of these is constructed again here.
+### Prerequisite abbreviations
 
-Integral Brauer induction and nilpotent monomiality are already in Tau Ceti; their exact combination is specified under From RepresentationTheory. The Artin targets add arithmetic Euler-factor and continuation comparisons, rather than another representation-theoretic induction theorem.
+Each abbreviation expands to the exact prerequisite list below; these are shared lists, not additional mathematical targets.
 
-Qualitative prime counts use `TauCeti.primeIdealTheorem` and `TauCeti.primeCount_univ_isEquivalent_div_log` (`TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem`), and `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.FrobeniusPrimeCount`). §2.9 counts with `NumberField.Chebotarev.frobeniusPrimeCount K L C x` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt`), for a finite Galois extension `L/K` of number fields and a conjugacy class `C` of `L ≃ₐ[K] L`: the number of primes of `K` unramified in `L`, of norm at most `x`, whose Artin class (arithmetic Frobenius) is `C`. Ramified primes are never counted, and the cutoff is inclusive. Chebotarev Layers 13–14 supply rational progression/total-prime specializations. Its `NumberField.Chebotarev.frobeniusVonMangoldtCoeff_galEquivZMod_symm_of_coprime` compares inclusive rational sums on coprime inputs; the all-input `frobeniusVonMangoldtCoeff_galEquivZMod_symm` needs `q%4≠2`. Otherwise discard prime powers dividing `q`: prime 2 in the conductor-reduced cyclotomic field is not a unit modulo 6. This roadmap adds quantitative errors.
-
-`TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation.Nonvanishing` supplies `continuedLFunctionOfWeight_ne_zero_of_one_lt_re`, `continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` and `continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq`: respectively `Re s>1`, square cancellation on `Re s≥1`, and quadratic weights away from 1. The Hecke boundary adapter identifies the ray character and transports LFunctions Layer 7’s quadratic endpoint to canonical Hecke continuation.
-
-ContourIntegration supplies residues and the argument principle with the exact path, singularity and null-homology hypotheses below. The local additions are rectangle adapters, branch/phase bounds, safe heights and infinite-height limits.
-
-DifferentialGeometry supplies oriented integration and Stokes/Green identities as specified below. The local core Stokes adapter of §2.1 applies these identities to the Nielsen surfaces and oriented boundary maps of §2.1c.
-
-Use the form-class and unit suppliers below; the real quadratic Nielsen surfaces, normalized quadratic period comparisons, general-eigenfunction Stokes and the imaginary-quadratic CM-point adapter are targets here.
+- **B1:** §2.18a; [NumberFieldArithmetic 1][R25]; [NumberFieldArithmetic 2][R24]; [RepresentationTheory/InductionRestriction 3][R31]; §2.18; §2.5; [ArithmeticDirichletSeries 1][R4]; [ArithmeticDirichletSeries 3][R2]; §2.3; [ClassFieldTheory 11][R27]; [ClassFieldTheory 7][R29]; [GlobalNumberFields 9][R19]; §2.28; §2.28a.
+- **B2:** IntegralLattices Layer B, B2/B4/B5 (imaginary quadratic form/ideal classes and units); §2.1 (general-eigenfunction Stokes and imaginary-quadratic CM points); §2.1b (normalized Eisenstein theory, critical-line cusp decay and integrability); §2.1c (real quadratic cycles, genus characters, Nielsen surfaces and oriented boundary maps).
+- **B3:** §2.5; [GlobalNumberFields 9][R19]; [ClassFieldTheory 11][R27].
+- **B4:** `B3`; §2.7; §2.3a; §2.17a.
 
 ## Conventions
 
@@ -53,112 +48,6 @@ Use the supplier’s `OrderLE` predicate for upper order. For an entire function
 A Beurling prime system is an indexed locally finite nondecreasing sequence, with multiplicities; generalized integers are indexed finite prime multisets and can have coincident real values.
 
 For all quadratic-period targets, `E(z,s)=(1/2)Σ_(gcd(c,d)=1)(Im z)^s/|cz+d|^(2s)` on `Re s>1`, and `E*(z,s)=π^(−s)Γ(s)ζ(2s)E(z,s)`; its continuation and functional equation are §2.1b.
-
-## Exact supplier contracts
-
-### From ArithmeticDirichletSeries
-
-Consume [ArithmeticDirichletSeries Layer 1][R4] for `IdealArithmeticFunction`, `normCoeff`, finite norm fibres and regrouping, including ordinary/narrow class restrictions. Fix coefficient zero to 0. [Layer 5][R7] supplies total ideal-count domination and hence absolute convergence of class restrictions on `Re s>1`; Layer 1 alone does not.
-
-[Layer 3][R2] supplies genuine multiplicative ideal Euler products and their norm-regrouped series on `Re s>1`, with finite bad-prime omission. Its degree-one completely multiplicative weight carrier is not a carrier for higher-dimensional Artin factors.
-
-[Layer 4][R8] supplies `HeightOneSpectrum`-indexed nonzero-prime counts, local finiteness and inclusive norm cutoffs. [Layer 5][R7] supplies ideal Mangoldt coefficients, higher-prime-power and finite ramification discard bounds. The degree/discriminant-dependent quantitative lower bounds and splitting errors required here are local targets; qualitative PNT alone does not give them.
-
-[Layer 6][R1] supplies Abel and truncated Perron summation, uniform errors and off-endpoint/half-weight endpoint forms for the actual Mangoldt `LSeries`. The finite-height kernel at 1 is `arctan(T/c)/π`. Its quantitative Abel identity converts progression θ bounds to π with the Li main term and lower-endpoint term, uniformly for `q≤(log x)^B`. For quadratic Hecke logarithmic coefficients use smoothing `1−N𝔞/Y` and kernel `Y^s/(s(s+1))`; contour shifts and quantitative residues are local targets, not supplier outputs.
-
-[Layer 8][R3] supplies the nonnegative logarithmic-coefficient 3–4–1 inequality, meromorphic boundary nonvanishing with pole order at most one, and Landau’s singularity at the finite convergence abscissa. Use its endpoint positivity/convergence corollary for holomorphy across that abscissa.
-
-[Layer 9][R5] supplies Wiener–Ikehara: for nonnegative b, `b(0)=0`, `κ≥0`, `LSeriesHasSum b s (F s)` on `Re s>1`, and G continuous on `Re s≥1` agreeing there off the boundary with `F−κ/(s−1)`, the inclusive summatory sum divided by x tends to κ. No totalized subtraction at 1 is asserted. [Layer 10][R6] transfers ψ to θ to π, including higher powers and `Li(x)∼x/log x`, for ordinary primes and fixed coprime classes.
-
-### From ImaginaryQuadraticClassNumber
-
-H2.2 supplies `ζ_K(s)=ζ(s)L(s,χ_D)` on `Re s>1` for a quadratic field `K` of discriminant `D` and the imaginary quadratic class-number formula `h(D)=w_D√|D|L(1,χ_D)/(2π)` with the exact unit orders `w₋₃=6`, `w₋₄=4` and `w_D=2` otherwise. Nothing from H2.3–H2.4 is consumed. Their statements `quadratic_LFunction_siegel` (for every `ε>0` some `c_ε>0` with `c_ε q^(−ε)≤Re L(1,χ)` for every primitive nonprincipal `χ` modulo `q` with `χ²=1`, Mathlib's `MulChar.IsQuadratic`) and `imaginary_classNumber_lower_bound` (`c_ε|D_L|^(1/2−ε)≤h_L` for every imaginary quadratic field `L`) follow, with effective constants, from §0.9 together with H2.2. The effective exponent-`1/2` zero gap of §0.12 uses only the class-number formula and §0.31a.
-
-### From LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8
-
-[LFunctions Layer 1][R9] supplies Poisson summation on the mixed space `K⊗ℝ` and the theta identities of Hecke's method, Layer 5 the finite-order Hecke functions and Layer 6 the algebraic Hecke characters of type `A₀`; §2.3a extends Hecke's method to continuous infinity types. Use [LFunctions Layers 0–7][R9]’s completed-function records and Layer 7’s intrinsic finite-order Hecke boundary nonvanishing (including quadratic characters and meromorphic pole orders) and [ZerosOfLFunctions][R10]’s meromorphic germs. §0.30 compares Mathlib’s rational functions, conductors, parities and deleted factors with them.
-
-| ZerosOfLFunctions section | Exact contract |
-| --- | --- |
-| [ZerosOfLFunctions 0.1–0.2][R11] | `OrderLE f A`: cobounded big-`O` of `exp(‖z‖^b)` for each `b>A`, with entirety separate. `entireCompletion` is the unique analytic pole-cleared extension with its exact divisor and nonzero former-pole values; for `ζ` it is `s(s−1)Λ`, without 1/2. |
-| [ZerosOfLFunctions 1.2–1.4][R12] | Analytic `logΓ` on `|arg z|<π−δ, |z|>1`, normalized at 2, Stirling remainder, vertical-strip modulus/phase, digamma and balanced Gamma quotients. §0.23a supplies the normalized slit-plane extension, its Stieltjes representation and higher remainder derivatives. |
-| [ZerosOfLFunctions 3.3–3.4][R13] | Pole-cleared conductor-uniform convexity at fixed degree and bounded shifts; order at most one for `ζ` and primitive Hecke entire completions. Finite order alone does not suffice. |
-| [ZerosOfLFunctions Layer 4][R14] | Locally finite analytic zero divisor, multiplicity-weighted restrictions, finite counts and high-height local counts `O(log Q_an)` in the analytic conductor `Q_an` of its Layer 2 (*analyticConductorAt*). Bounded-height conductor uniformity is refined here. |
-| [ZerosOfLFunctions 5.2–5.6][R15] | Zero summability/tails, `E₁(w)=(1−w)exp(w)` and its API, locally uniform unordered products, Hadamard at order `≤1` for `f(0)≠0`, and logarithmic derivative. The origin-zero adapter extends this locally. |
-| [ZerosOfLFunctions 6.2–6.4][R16] | Fixed-degree conductor-uniform regions, including `ζ`, with at most one simple real exception for real characters: 6.3's predicate *IsExceptionalZero* holds for at most one `β`, of multiplicity one, only for a real character, and then `β≥1/2`. Use the supplied width; §0.1 compares `c` before inheriting these assertions, and §0.34b uses the conductor bound 6.4d. Family Landau–Page is additional, and §0.34 shows that the exception does not occur at width `c_LS`. |
-| [ZerosOfLFunctions 7.4][R17] | Multiplicity-sensitive Riemann–von Mangoldt formula with Gamma phase and safe heights. |
-| [ZerosOfLFunctions 8.2–8.8][R18] | Truncated explicit formulas with endpoint/admissible-height conventions, rational PNT remainder, fixed-character and fixed-field abelian effective estimates. Conductor-uniform character PNT and nonabelian effective Chebotarev are refinements here. |
-
-Restrict the supplier divisor to the critical strip and `|Imρ|<T`, excluding height endpoints; pass through zero-avoiding heights. Complex characters pair with their conjugates. ArithmeticDirichletSeries supplies half-weight Perron endpoints; ZerosOfLFunctions owns the generic rational explicit formula.
-
-### From GlobalNumberFields
-
-[Layer 9][R19] supplies `HeckeCharacter`, `unitaryPart`, local components, finite conductors, the finite-order/ray-class dictionary and ideal coefficients in the arithmetic-Frobenius normalization. [Layer 10][R20] supplies infinity types and CM sign components; global Artin sends a negative real element to conjugation.
-
-[Layer 2][R21] supplies ray classes; [Layer 11][R35] supplies `NumberFieldOrder.narrowToPic`, surjectivity and `Oˣ→{±1}^r₁→NarrowPic O→Pic O→1`, with maximal-order `narrowClassToClass`. Only invertible proper ideals occur; other proper ideals belong to the class monoid. LFunctions Layer 2 partitions actual ideals into ordinary/narrow partial series at trivial finite modulus. Geometric form-class and coefficient-presentation comparisons are local adapters.
-
-[Layer 10][R20] supplies finite cyclotomic Galois identifications, compatible transitions and arithmetic Frobenius. Their inverse-limit identification `Gal(ℚcycl/ℚ)=Ẑ×` is an adapter here, not an assumed global reciprocity theorem. [Layer 4][R22] supplies restricted finite adeles and the integral compact-open subgroup.
-
-### From NumberFieldArithmetic
-
-[Layer 2][R24] supplies decomposition/inertia groups, arithmetic Frobenius modulo inertia at every nonzero prime, conjugacy independence and tower compatibility. For `K/ℚ`, its residue action is `x↦x^p`. The polynomial uses inertia invariants, not an arbitrary lift on the whole representation. [§1.4][R25] supplies `doubleCosetEquiv`, between `H∖G/D` and primes of `L^H` above p, with ramification/residue degrees and norm powers. The inertia-orbit determinant adapter is local.
-
-[Layer 7][R26] supplies normal closures and the faithful action on the `2g` embeddings, giving `[L:ℚ]≤(2g)!` for a degree-`2g` CM field. The uniform normal-closure discriminant power and general Artin-conductor budget are proved here, not assumed from a ray-modulus estimate.
-
-### From ClassFieldTheory
-
-[Layer 11][R27] identifies finite one-dimensional Galois characters with primitive finite-order Hecke/ray characters via `globalArtinMap`, `globalArtinMap_local` and the ideal Artin map, retaining arithmetic Frobenius and conductors. This also gives the abelian Dedekind product. [Layer 7][R29] supplies `characterConductorExp` and exponent zero iff inertia-triviality. [Layer 13][R28] supplies conductor–discriminant; for quadratic `E/F`, `f_η=D_(E/F)` and `D_F N(f_η)=D_E/D_F`.
-
-### From LocalFieldsRamification
-
-Completed LocalFieldsRamification supplies, for a finite Galois extension of nonarchimedean local fields, the lower ramification groups `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, the Herbrand functions and the upper numbering with its quotient compatibility, the Hasse–Arf theorem for abelian extensions, the different exponent `TauCeti.differentExponent` with Hilbert's formula, and the abelian conductor exponent `TauCeti.LocalFieldsRamification.artinConductorExponent`. Tau Ceti's `TauCeti.IsLocalRing.ramificationGroup` is the same filtration for a group acting on a local ring. §2.2a builds the conductors of higher-dimensional representations on these.
-
-### From RepresentationTheory
-
-[InductionRestriction Layer 6][R30] supplies rational Artin induction; [Layer 3, Mackey §3a][R31] supplies the representation-level restriction/induction isomorphism with conjugated intersections. The ramified invariant-space cyclic-block determinant is local.
-
-Integral Brauer is `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (`TauCeti.RepresentationTheory.Induction.Brauer.Induction`), over an algebraically closed characteristic-zero field. Elementary groups are nilpotent by `TauCeti.IsElementary.isNilpotent` (`TauCeti.GroupTheory.Elementary`); their irreducibles are induced-linear by `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (`TauCeti.RepresentationTheory.Induction.Monomial`). Transitivity `TauCeti.indClassFun_indClassFun_subgroupOf` (`TauCeti.RepresentationTheory.Induction.ClassFunction`) gives `χ_ρ=Σn_jInd_(H_j)^Gχ_j`, `n_j∈ℤ`, `dimχ_j=1`. `TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot` (`TauCeti.RepresentationTheory.Induction.Cyclotomic.SplittingField`) uses this reduction. Rational induction alone only gives a meromorphic power.
-
-For the CM finite-family bound, transport groups of order `m≤(2g)!` to `Fin m`. There are finitely many laws and irreducibles. Choose an integral induced-linear expression for each and maximize term count and sum of absolute coefficients, enlarged to 1, obtaining `B_g` independent of `E`. Isomorphism transport preserves it. Conductor/discriminant bounds are separate.
-
-### From Mathlib Bessel theory
-
-Mathlib `Analysis/SpecialFunctions/Bessel.lean` supplies `Complex.besselJ`, `Complex.besselJ_neg_int`, `Complex.besselJ_zero`, `Complex.analyticOnNhd_besselJ` and `Complex.analyticOnNhd_besselJ_int`. §3.23b proves its series, positive-axis differential equation, recurrence and half-order formula; the K-Bessel kernel is §2.1a, and the second-kind integral and remainders are §3.23b.
-
-### From FuchsianOrbifolds
-
-Layers 2–3 of FuchsianOrbifolds supply hyperbolic polygons with Mathlib's `UpperHalfPlane.volume`, measurable fundamental domains, the Gauss–Bonnet area formula for finite hyperbolic polygons and cusp neighbourhoods; Layer 6 supplies the standard fundamental polygon of `PSL₂(ℤ)`. §2.1c builds the real quadratic Nielsen surfaces on these.
-
-### From DifferentialGeometry
-
-[Layer 12][R32] supplies Riemannian volume, `laplaceBeltrami` and `integral_mul_laplaceBeltrami`, with sign div grad; the positive operator here is its negative. Layers 5.3–5.5 supply oriented top-form integration, `integralTopForm_mextDeriv` and corner Stokes; §§5.6.2–5.6.3 supply planar Green, integer-weighted arc cancellation and manifold-orientation comparison. The general-eigenfunction Stokes comparison on the orbifold surfaces of §2.1c is local; real Nielsen geometry and boundary multiplicities are §2.1c, and the Eisenstein cusp limits are §2.1b.
-
-### From IntegralLattices and Mathlib's Minkowski bound
-
-Mathlib's `NumberField.abs_discr_ge'` supplies Minkowski's lower bound `|D_K|≥d^(2d)/((4/π)^(2r₂)(d!)²)`. IntegralLattices Layer B, B2/B4/B5, supplies imaginary quadratic proper form/ideal classes and units. GlobalNumberFields Layer 11’s narrow/ordinary map is the one above. §2.1c constructs the real reduced periods, genus characters and full-norm-one stabilizers, with length `2logε_D`; the imaginary-quadratic CM-point adapter is local in §2.1.
-
-### From Tau Ceti, Multiquadratic and ContourIntegration
-
-For squarefree `d≠0,1`, use Tau Ceti’s `fundamentalDiscriminant d` (`TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.OfSquarefree`). In its `Character` module, `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, `fundamentalDiscriminantChar_apply_int`, `fundamentalDiscriminantChar_neg_one`, `fundamentalDiscriminantChar_isQuadratic` and `isPrimitive_fundamentalDiscriminantChar` supply the canonical character, integer values, parity and conductor. Cast from `ℤ` to `ℂ`. The conductor is `|D(d)|`, with `D(d)=d` for `d≡1 mod4`, otherwise `4d`; values include the 2-primary Kronecker factor. Consume these Completed Multiquadratic exports; §0.30 compares ray data.
-
-Completed ContourIntegration Layer 4 and `TauCeti.Contour.Cycle.classicalResidueTheorem_nullHomologous` (`TauCeti.Analysis.Contour.Cycle.Residue`), `TauCeti.Contour.argumentPrinciple_nullHomologous` (`TauCeti.Analysis.Contour.Argument.Cycle`) supply the residue theorem and argument principle. Match rectangles to native piecewise-`C¹` closed paths/cycles, with open neighbourhood, finite singularities, meromorphic germs/orders, off-divisor trace, null-homology and winding conventions. Phase bounds and infinite symmetric contours are local adapters.
-
-### From Chebotarev
-
-[Layer 13][R43] supplies `frobeniusTheta`, `frobeniusPrimeCount` and their progression comparison: for `ℚ(ζ_q)/ℚ` and unit a, `ϑ_C(x)/x→1/φ(q)` and `π_C(x)∼x/(φ(q)logx)`. [Layer 14][R44] supplies `ψ_K(x)∼x` and consistency at `K=ℚ`. [Layer 11][R45] supplies `frobeniusVonMangoldtCoeff`, `frobeniusPsi`, `frobeniusTheta` and §11.3’s `o(x)` discards. [Layer 8][R46] supplies Deuring’s cyclic fixed-field fibre count for `L/L^⟨g⟩` and g. The exact pinned AP and count declarations, including the `q%4≠2` restriction, are stated under Prerequisites and boundaries.
-
-## How to read the build
-
-Targets retain their original layer and subsection numbers. Named prerequisite links give the order within each layer; every prerequisite is in this part or an earlier supplier. A source and locator apply to the numbered topic and its subsidiary ingredients unless a nearer citation is supplied. Constants are uniform only in the stated parameters. A source's external proof input remains a target requiring proof, never an assumption that the result is formalized.
-
-### Prerequisite abbreviations
-
-Each abbreviation expands to the exact prerequisite list below; these are shared lists, not additional mathematical targets.
-
-- **B1:** §2.18a; [NumberFieldArithmetic 1][R25]; [NumberFieldArithmetic 2][R24]; [RepresentationTheory/InductionRestriction 3][R31]; §2.18; §2.5; [ArithmeticDirichletSeries 1][R4]; [ArithmeticDirichletSeries 3][R2]; §2.3; [ClassFieldTheory 11][R27]; [ClassFieldTheory 7][R29]; [GlobalNumberFields 9][R19]; §2.28; §2.28a.
-- **B2:** IntegralLattices Layer B, B2/B4/B5 (imaginary quadratic form/ideal classes and units); §2.1 (general-eigenfunction Stokes and imaginary-quadratic CM points); §2.1b (normalized Eisenstein theory, critical-line cusp decay and integrability); §2.1c (real quadratic cycles, genus characters, Nielsen surfaces and oriented boundary maps).
-- **B3:** §2.5; [GlobalNumberFields 9][R19]; [ClassFieldTheory 11][R27].
-- **B4:** `B3`; §2.7; §2.3a; §2.17a.
 
 ## Layer 0: Entire functions and quantitative prime estimates
 
@@ -3472,6 +3361,131 @@ Weil's explicit formula for `ζ` with `C¹` tests (§1.8a) has this downstream c
 - ExplicitZetaBounds: its §7.3a (Kadiri's smoothed explicit formula) on `Re s>1`, through `zeta_explicit_formula_laplace` and `zeta_weil_archimedean_critical_line`. For its `f` (twice continuously differentiable on `[0,d]`, extended by `0`, with `f(d)=f′(0)=f′(d)=0`) and `Re s>1`, the test `φ_s(y)=(f(0)−f(y))e^(−sy)` for `y≥0`, `φ_s(y)=0` for `y<0`, has `WeilC1TestFunction (fun x ↦ φ_s(x)e^(x/2))` for every exponent `0<ε<Re s−1`, transform `Φ(z)=f(0)/(s+z)−∫_0^d f(t)e^(−(s+z)t)dt`, `φ_s(0)=0` and a vanishing `n^(−1)`-series; the formula of §1.8a at `φ_s`, recombined with that roadmap's partial-fraction expansion of `ζ′/ζ(s)` (its 7.1), is that section's identity on `Re s>1`, and its continuation to `Re s>1/2` stays there.
 
 ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements; what this part takes from them (ZerosOfLFunctions Layers 0–8, ImaginaryQuadraticClassNumber H2.2) precedes §0.34. The exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 (`quadratic_LFunction_siegel`, `imaginary_classNumber_lower_bound`) are stated here (§§0.1, 0.6, 0.9, 0.18, 0.32) and consumed from here by the roadmaps above.
+
+## Scope and ownership
+
+This part owns Layers 0–3: quantitative refinement and arithmetic comparison. It consumes ArithmeticDirichletSeries Layers 1–10, LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8 for order-one growth, Gamma estimates, degree-one zeros, rational explicit formulas and prime-number estimates.
+
+This part owns the entire-function theory it uses beyond ZerosOfLFunctions' order-one canonical products and entire logarithm: Weierstrass primary factors and products of every genus with equal-divisor factorization (§§0.15–0.15a), finite-order Hadamard factorization with its summability, good-circle estimate and polynomial-degree bound (§0.23), and centered order-one growth with the paired Hadamard theorem (§§0.29–0.29b). It also owns the analytic and arithmetic objects behind its Hecke, Artin and quadratic-period targets: the K-Bessel kernel (§2.1a); the level-one nonholomorphic Eisenstein series with its completion, Fourier expansion, continuation and critical-line cusp estimates (§2.1b); real quadratic reduced cycles, genus characters and Nielsen surfaces (§2.1c); Artin and Swan conductors with their integrality, induction formula and conductor–discriminant formula (§2.2a); Hecke's continuation and functional equation for every unitary idele-class character, by Hecke's theta method (§2.3a); finite-image Artin `L`-functions with their local factors, induction formula, one-dimensional comparison and Brauer continuation (§2.18a); the CM quadratic completion with its gamma correction (§2.22a); and the first-kind Bessel API on Mathlib's `Complex.besselJ` (§3.23b).
+
+The finite-image Artin `L`-function of §2.18a (local factors on inertia invariants, induction at every finite place, the one-dimensional comparison with primitive Hecke functions, Brauer continuation with order `dim V^G` at 1) and the Artin conductors of §2.2a with their integrality, induction formula and conductor–discriminant formula have their single owner here; AdelicAlgebraicGroups and ArithmeticGaloisRepresentations consume them from here. LFunctions (Not owned here) leaves Artin representations, their local polynomials and conductors, Artin `L`-functions, Brauer induction and the Artin formalism to ArtinRepresentations. Of these, the objects just listed are owned here, stated for continuous finite-image representations of `Gal(F̄/F)` (§2.18a) and for representations of finite Galois groups with inflation invariance (§2.2a); ArtinRepresentations reads them on its carrier `ArtinRep F V`, the same object as in §2.18a, through finite Galois factorization: its Euler product with Artin's formalism, its continuation by Brauer induction with the order at 1, and its conductor–discriminant formula are transported from §§2.18a and 2.2a, not constructed again.
+
+Hecke's continuation and functional equation for unitary idele-class characters whose infinity type has real frequencies `|x_w|^(i t_w)` (§2.3a) is the extension that LFunctions (Not owned here, and its Layer 6) assigns to an LFunctions, Part II starting from its Layer 6. It is owned here, on Tau Ceti's `HeckeCharacter`; an LFunctions, Part II imports §2.3a rather than planning it again.
+
+This roadmap belongs to the analytic-number-theory cluster (with AnalyticNumberTheoryPartII, ZerosOfLFunctions, SieveMethodsAndPrimePatterns, ProbabilisticAndMetricNumberTheory, ArithmeticDirichletSeries and the explicit prime-counting roadmaps), which depends only on Mathlib, on roadmaps already on main and on the other cluster roadmaps; the automorphic `L`-function, adelic-group, Galois-representation, global holomorphic-function, automorphic spectral, effective class-number and progression-power roadmaps that use the material above import it from here rather than supply it.
+
+This part owns the uniform exclusion of Landau–Siegel zeros (§0.34): an effective absolute `c_LS>0` with `(1−β)log q≥c_LS` for every real zero `β∈(0,1)` of every primitive nonprincipal real Dirichlet `L`-function of conductor `q≥3`. It also owns the effective consequences drawn here: the lower bound `L(1,χ)≥c/log q` and Siegel's bound `L(1,χ)≥c_ε q^(−ε)` with effective constants (§0.9), the emptiness of the exceptional-zero predicate at width `c_LS` (§0.1), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§§0.18, 0.28), the effective zero gap (§0.31b) and effective Siegel–Walfisz (§0.32). ImaginaryQuadraticClassNumber H2.3–H2.4 keeps its own ineffective two-character proof of Siegel's theorem and of `h(D)≥c_ε|D|^(1/2−ε)`; this part plans no step of that proof and takes nothing from H2.3–H2.4. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13, effective here, is kept in this part because H2.4 states only the imaginary case. This part also owns the classification of primitive nonprincipal real Dirichlet characters as the Kronecker characters of fundamental discriminants (§0.34a); QuadraticCharactersAndReduction §1.4 consumes it. ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements: the exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 are stated in this part (§§0.1, 0.6, 0.9, 0.18, 0.32), where later roadmaps consume them.
+
+Downstream consumers of §0.34 and its corollaries include SieveMethodsAndPrimePatterns, QuadraticCharactersAndReduction and the explicit prime-counting roadmaps; the section Downstream consumers lists the statements concerned.
+
+### Prerequisites and boundaries
+
+ArithmeticDirichletSeries supplies norm-indexed ideal coefficients, genuine Euler products, partial-sum continuation, Abel and Perron summation, Landau positivity, Wiener–Ikehara and the qualitative transfer from logarithmic derivatives to prime counts. Mathlib supplies arithmetic functions, ordinary Dirichlet-series continuation and functional equations, nonvanishing on the closed right half-plane, the real Dedekind residue limit, and the circle-valued real Hurwitz zeta function. None of these is constructed again here.
+
+Integral Brauer induction and nilpotent monomiality are already in Tau Ceti; their exact combination is specified under From RepresentationTheory. The Artin targets add arithmetic Euler-factor and continuation comparisons, rather than another representation-theoretic induction theorem.
+
+Qualitative prime counts use `TauCeti.primeIdealTheorem` and `TauCeti.primeCount_univ_isEquivalent_div_log` (`TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem`), and `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.FrobeniusPrimeCount`). §2.9 counts with `NumberField.Chebotarev.frobeniusPrimeCount K L C x` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt`), for a finite Galois extension `L/K` of number fields and a conjugacy class `C` of `L ≃ₐ[K] L`: the number of primes of `K` unramified in `L`, of norm at most `x`, whose Artin class (arithmetic Frobenius) is `C`. Ramified primes are never counted, and the cutoff is inclusive. Chebotarev Layers 13–14 supply rational progression/total-prime specializations. Its `NumberField.Chebotarev.frobeniusVonMangoldtCoeff_galEquivZMod_symm_of_coprime` compares inclusive rational sums on coprime inputs; the all-input `frobeniusVonMangoldtCoeff_galEquivZMod_symm` needs `q%4≠2`. Otherwise discard prime powers dividing `q`: prime 2 in the conductor-reduced cyclotomic field is not a unit modulo 6. This roadmap adds quantitative errors.
+
+`TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation.Nonvanishing` supplies `continuedLFunctionOfWeight_ne_zero_of_one_lt_re`, `continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` and `continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq`: respectively `Re s>1`, square cancellation on `Re s≥1`, and quadratic weights away from 1. The Hecke boundary adapter identifies the ray character and transports LFunctions Layer 7’s quadratic endpoint to canonical Hecke continuation.
+
+ContourIntegration supplies residues and the argument principle with the exact path, singularity and null-homology hypotheses below. The local additions are rectangle adapters, branch/phase bounds, safe heights and infinite-height limits.
+
+DifferentialGeometry supplies oriented integration and Stokes/Green identities as specified below. The local core Stokes adapter of §2.1 applies these identities to the Nielsen surfaces and oriented boundary maps of §2.1c.
+
+Use the form-class and unit suppliers below; the real quadratic Nielsen surfaces, normalized quadratic period comparisons, general-eigenfunction Stokes and the imaginary-quadratic CM-point adapter are targets here.
+
+## Exact supplier contracts
+
+### From ArithmeticDirichletSeries
+
+Consume [ArithmeticDirichletSeries Layer 1][R4] for `IdealArithmeticFunction`, `normCoeff`, finite norm fibres and regrouping, including ordinary/narrow class restrictions. Fix coefficient zero to 0. [Layer 5][R7] supplies total ideal-count domination and hence absolute convergence of class restrictions on `Re s>1`; Layer 1 alone does not.
+
+[Layer 3][R2] supplies genuine multiplicative ideal Euler products and their norm-regrouped series on `Re s>1`, with finite bad-prime omission. Its degree-one completely multiplicative weight carrier is not a carrier for higher-dimensional Artin factors.
+
+[Layer 4][R8] supplies `HeightOneSpectrum`-indexed nonzero-prime counts, local finiteness and inclusive norm cutoffs. [Layer 5][R7] supplies ideal Mangoldt coefficients, higher-prime-power and finite ramification discard bounds. The degree/discriminant-dependent quantitative lower bounds and splitting errors required here are local targets; qualitative PNT alone does not give them.
+
+[Layer 6][R1] supplies Abel and truncated Perron summation, uniform errors and off-endpoint/half-weight endpoint forms for the actual Mangoldt `LSeries`. The finite-height kernel at 1 is `arctan(T/c)/π`. Its quantitative Abel identity converts progression θ bounds to π with the Li main term and lower-endpoint term, uniformly for `q≤(log x)^B`. For quadratic Hecke logarithmic coefficients use smoothing `1−N𝔞/Y` and kernel `Y^s/(s(s+1))`; contour shifts and quantitative residues are local targets, not supplier outputs.
+
+[Layer 8][R3] supplies the nonnegative logarithmic-coefficient 3–4–1 inequality, meromorphic boundary nonvanishing with pole order at most one, and Landau’s singularity at the finite convergence abscissa. Use its endpoint positivity/convergence corollary for holomorphy across that abscissa.
+
+[Layer 9][R5] supplies Wiener–Ikehara: for nonnegative b, `b(0)=0`, `κ≥0`, `LSeriesHasSum b s (F s)` on `Re s>1`, and G continuous on `Re s≥1` agreeing there off the boundary with `F−κ/(s−1)`, the inclusive summatory sum divided by x tends to κ. No totalized subtraction at 1 is asserted. [Layer 10][R6] transfers ψ to θ to π, including higher powers and `Li(x)∼x/log x`, for ordinary primes and fixed coprime classes.
+
+### From ImaginaryQuadraticClassNumber
+
+H2.2 supplies `ζ_K(s)=ζ(s)L(s,χ_D)` on `Re s>1` for a quadratic field `K` of discriminant `D` and the imaginary quadratic class-number formula `h(D)=w_D√|D|L(1,χ_D)/(2π)` with the exact unit orders `w₋₃=6`, `w₋₄=4` and `w_D=2` otherwise. Nothing from H2.3–H2.4 is consumed. Their statements `quadratic_LFunction_siegel` (for every `ε>0` some `c_ε>0` with `c_ε q^(−ε)≤Re L(1,χ)` for every primitive nonprincipal `χ` modulo `q` with `χ²=1`, Mathlib's `MulChar.IsQuadratic`) and `imaginary_classNumber_lower_bound` (`c_ε|D_L|^(1/2−ε)≤h_L` for every imaginary quadratic field `L`) follow, with effective constants, from §0.9 together with H2.2. The effective exponent-`1/2` zero gap of §0.12 uses only the class-number formula and §0.31a.
+
+### From LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8
+
+[LFunctions Layer 1][R9] supplies Poisson summation on the mixed space `K⊗ℝ` and the theta identities of Hecke's method, Layer 5 the finite-order Hecke functions and Layer 6 the algebraic Hecke characters of type `A₀`; §2.3a extends Hecke's method to continuous infinity types. Use [LFunctions Layers 0–7][R9]’s completed-function records and Layer 7’s intrinsic finite-order Hecke boundary nonvanishing (including quadratic characters and meromorphic pole orders) and [ZerosOfLFunctions][R10]’s meromorphic germs. §0.30 compares Mathlib’s rational functions, conductors, parities and deleted factors with them.
+
+| ZerosOfLFunctions section | Exact contract |
+| --- | --- |
+| [ZerosOfLFunctions 0.1–0.2][R11] | `OrderLE f A`: cobounded big-`O` of `exp(‖z‖^b)` for each `b>A`, with entirety separate. `entireCompletion` is the unique analytic pole-cleared extension with its exact divisor and nonzero former-pole values; for `ζ` it is `s(s−1)Λ`, without 1/2. |
+| [ZerosOfLFunctions 1.2–1.4][R12] | Analytic `logΓ` on `|arg z|<π−δ, |z|>1`, normalized at 2, Stirling remainder, vertical-strip modulus/phase, digamma and balanced Gamma quotients. §0.23a supplies the normalized slit-plane extension, its Stieltjes representation and higher remainder derivatives. |
+| [ZerosOfLFunctions 3.3–3.4][R13] | Pole-cleared conductor-uniform convexity at fixed degree and bounded shifts; order at most one for `ζ` and primitive Hecke entire completions. Finite order alone does not suffice. |
+| [ZerosOfLFunctions Layer 4][R14] | Locally finite analytic zero divisor, multiplicity-weighted restrictions, finite counts and high-height local counts `O(log Q_an)` in the analytic conductor `Q_an` of its Layer 2 (*analyticConductorAt*). Bounded-height conductor uniformity is refined here. |
+| [ZerosOfLFunctions 5.2–5.6][R15] | Zero summability/tails, `E₁(w)=(1−w)exp(w)` and its API, locally uniform unordered products, Hadamard at order `≤1` for `f(0)≠0`, and logarithmic derivative. The origin-zero adapter extends this locally. |
+| [ZerosOfLFunctions 6.2–6.4][R16] | Fixed-degree conductor-uniform regions, including `ζ`, with at most one simple real exception for real characters: 6.3's predicate *IsExceptionalZero* holds for at most one `β`, of multiplicity one, only for a real character, and then `β≥1/2`. Use the supplied width; §0.1 compares `c` before inheriting these assertions, and §0.34b uses the conductor bound 6.4d. Family Landau–Page is additional, and §0.34 shows that the exception does not occur at width `c_LS`. |
+| [ZerosOfLFunctions 7.4][R17] | Multiplicity-sensitive Riemann–von Mangoldt formula with Gamma phase and safe heights. |
+| [ZerosOfLFunctions 8.2–8.8][R18] | Truncated explicit formulas with endpoint/admissible-height conventions, rational PNT remainder, fixed-character and fixed-field abelian effective estimates. Conductor-uniform character PNT and nonabelian effective Chebotarev are refinements here. |
+
+Restrict the supplier divisor to the critical strip and `|Imρ|<T`, excluding height endpoints; pass through zero-avoiding heights. Complex characters pair with their conjugates. ArithmeticDirichletSeries supplies half-weight Perron endpoints; ZerosOfLFunctions owns the generic rational explicit formula.
+
+### From GlobalNumberFields
+
+[Layer 9][R19] supplies `HeckeCharacter`, `unitaryPart`, local components, finite conductors, the finite-order/ray-class dictionary and ideal coefficients in the arithmetic-Frobenius normalization. [Layer 10][R20] supplies infinity types and CM sign components; global Artin sends a negative real element to conjugation.
+
+[Layer 2][R21] supplies ray classes; [Layer 11][R35] supplies `NumberFieldOrder.narrowToPic`, surjectivity and `Oˣ→{±1}^r₁→NarrowPic O→Pic O→1`, with maximal-order `narrowClassToClass`. Only invertible proper ideals occur; other proper ideals belong to the class monoid. LFunctions Layer 2 partitions actual ideals into ordinary/narrow partial series at trivial finite modulus. Geometric form-class and coefficient-presentation comparisons are local adapters.
+
+[Layer 10][R20] supplies finite cyclotomic Galois identifications, compatible transitions and arithmetic Frobenius. Their inverse-limit identification `Gal(ℚcycl/ℚ)=Ẑ×` is an adapter here, not an assumed global reciprocity theorem. [Layer 4][R22] supplies restricted finite adeles and the integral compact-open subgroup.
+
+### From NumberFieldArithmetic
+
+[Layer 2][R24] supplies decomposition/inertia groups, arithmetic Frobenius modulo inertia at every nonzero prime, conjugacy independence and tower compatibility. For `K/ℚ`, its residue action is `x↦x^p`. The polynomial uses inertia invariants, not an arbitrary lift on the whole representation. [§1.4][R25] supplies `doubleCosetEquiv`, between `H∖G/D` and primes of `L^H` above p, with ramification/residue degrees and norm powers. The inertia-orbit determinant adapter is local.
+
+[Layer 7][R26] supplies normal closures and the faithful action on the `2g` embeddings, giving `[L:ℚ]≤(2g)!` for a degree-`2g` CM field. The uniform normal-closure discriminant power and general Artin-conductor budget are proved here, not assumed from a ray-modulus estimate.
+
+### From ClassFieldTheory
+
+[Layer 11][R27] identifies finite one-dimensional Galois characters with primitive finite-order Hecke/ray characters via `globalArtinMap`, `globalArtinMap_local` and the ideal Artin map, retaining arithmetic Frobenius and conductors. This also gives the abelian Dedekind product. [Layer 7][R29] supplies `characterConductorExp` and exponent zero iff inertia-triviality. [Layer 13][R28] supplies conductor–discriminant; for quadratic `E/F`, `f_η=D_(E/F)` and `D_F N(f_η)=D_E/D_F`.
+
+### From LocalFieldsRamification
+
+Completed LocalFieldsRamification supplies, for a finite Galois extension of nonarchimedean local fields, the lower ramification groups `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, the Herbrand functions and the upper numbering with its quotient compatibility, the Hasse–Arf theorem for abelian extensions, the different exponent `TauCeti.differentExponent` with Hilbert's formula, and the abelian conductor exponent `TauCeti.LocalFieldsRamification.artinConductorExponent`. Tau Ceti's `TauCeti.IsLocalRing.ramificationGroup` is the same filtration for a group acting on a local ring. §2.2a builds the conductors of higher-dimensional representations on these.
+
+### From RepresentationTheory
+
+[InductionRestriction Layer 6][R30] supplies rational Artin induction; [Layer 3, Mackey §3a][R31] supplies the representation-level restriction/induction isomorphism with conjugated intersections. The ramified invariant-space cyclic-block determinant is local.
+
+Integral Brauer is `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (`TauCeti.RepresentationTheory.Induction.Brauer.Induction`), over an algebraically closed characteristic-zero field. Elementary groups are nilpotent by `TauCeti.IsElementary.isNilpotent` (`TauCeti.GroupTheory.Elementary`); their irreducibles are induced-linear by `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (`TauCeti.RepresentationTheory.Induction.Monomial`). Transitivity `TauCeti.indClassFun_indClassFun_subgroupOf` (`TauCeti.RepresentationTheory.Induction.ClassFunction`) gives `χ_ρ=Σn_jInd_(H_j)^Gχ_j`, `n_j∈ℤ`, `dimχ_j=1`. `TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot` (`TauCeti.RepresentationTheory.Induction.Cyclotomic.SplittingField`) uses this reduction. Rational induction alone only gives a meromorphic power.
+
+For the CM finite-family bound, transport groups of order `m≤(2g)!` to `Fin m`. There are finitely many laws and irreducibles. Choose an integral induced-linear expression for each and maximize term count and sum of absolute coefficients, enlarged to 1, obtaining `B_g` independent of `E`. Isomorphism transport preserves it. Conductor/discriminant bounds are separate.
+
+### From Mathlib Bessel theory
+
+Mathlib `Analysis/SpecialFunctions/Bessel.lean` supplies `Complex.besselJ`, `Complex.besselJ_neg_int`, `Complex.besselJ_zero`, `Complex.analyticOnNhd_besselJ` and `Complex.analyticOnNhd_besselJ_int`. §3.23b proves its series, positive-axis differential equation, recurrence and half-order formula; the K-Bessel kernel is §2.1a, and the second-kind integral and remainders are §3.23b.
+
+### From FuchsianOrbifolds
+
+Layers 2–3 of FuchsianOrbifolds supply hyperbolic polygons with Mathlib's `UpperHalfPlane.volume`, measurable fundamental domains, the Gauss–Bonnet area formula for finite hyperbolic polygons and cusp neighbourhoods; Layer 6 supplies the standard fundamental polygon of `PSL₂(ℤ)`. §2.1c builds the real quadratic Nielsen surfaces on these.
+
+### From DifferentialGeometry
+
+[Layer 12][R32] supplies Riemannian volume, `laplaceBeltrami` and `integral_mul_laplaceBeltrami`, with sign div grad; the positive operator here is its negative. Layers 5.3–5.5 supply oriented top-form integration, `integralTopForm_mextDeriv` and corner Stokes; §§5.6.2–5.6.3 supply planar Green, integer-weighted arc cancellation and manifold-orientation comparison. The general-eigenfunction Stokes comparison on the orbifold surfaces of §2.1c is local; real Nielsen geometry and boundary multiplicities are §2.1c, and the Eisenstein cusp limits are §2.1b.
+
+### From IntegralLattices and Mathlib's Minkowski bound
+
+Mathlib's `NumberField.abs_discr_ge'` supplies Minkowski's lower bound `|D_K|≥d^(2d)/((4/π)^(2r₂)(d!)²)`. IntegralLattices Layer B, B2/B4/B5, supplies imaginary quadratic proper form/ideal classes and units. GlobalNumberFields Layer 11’s narrow/ordinary map is the one above. §2.1c constructs the real reduced periods, genus characters and full-norm-one stabilizers, with length `2logε_D`; the imaginary-quadratic CM-point adapter is local in §2.1.
+
+### From Tau Ceti, Multiquadratic and ContourIntegration
+
+For squarefree `d≠0,1`, use Tau Ceti’s `fundamentalDiscriminant d` (`TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.OfSquarefree`). In its `Character` module, `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, `fundamentalDiscriminantChar_apply_int`, `fundamentalDiscriminantChar_neg_one`, `fundamentalDiscriminantChar_isQuadratic` and `isPrimitive_fundamentalDiscriminantChar` supply the canonical character, integer values, parity and conductor. Cast from `ℤ` to `ℂ`. The conductor is `|D(d)|`, with `D(d)=d` for `d≡1 mod4`, otherwise `4d`; values include the 2-primary Kronecker factor. Consume these Completed Multiquadratic exports; §0.30 compares ray data.
+
+Completed ContourIntegration Layer 4 and `TauCeti.Contour.Cycle.classicalResidueTheorem_nullHomologous` (`TauCeti.Analysis.Contour.Cycle.Residue`), `TauCeti.Contour.argumentPrinciple_nullHomologous` (`TauCeti.Analysis.Contour.Argument.Cycle`) supply the residue theorem and argument principle. Match rectangles to native piecewise-`C¹` closed paths/cycles, with open neighbourhood, finite singularities, meromorphic germs/orders, off-divisor trace, null-homology and winding conventions. Phase bounds and infinite symmetric contours are local adapters.
+
+### From Chebotarev
+
+[Layer 13][R43] supplies `frobeniusTheta`, `frobeniusPrimeCount` and their progression comparison: for `ℚ(ζ_q)/ℚ` and unit a, `ϑ_C(x)/x→1/φ(q)` and `π_C(x)∼x/(φ(q)logx)`. [Layer 14][R44] supplies `ψ_K(x)∼x` and consistency at `K=ℚ`. [Layer 11][R45] supplies `frobeniusVonMangoldtCoeff`, `frobeniusPsi`, `frobeniusTheta` and §11.3’s `o(x)` discards. [Layer 8][R46] supplies Deuring’s cyclic fixed-field fibre count for `L/L^⟨g⟩` and g. The exact pinned AP and count declarations, including the `q%4≠2` restriction, are stated under Prerequisites and boundaries.
 
 ## References
 

@@ -1,228 +1,88 @@
 # Roadmap: adelic algebraic groups and arithmetic quotients
 
-**Summary.** This roadmap develops algebraic groups over number fields on the adeles: the adelic
-points and their topology, Haar and Tamagawa measures, the arithmetic quotient `G(F)\G(𝔸_F)` with
-reduction theory, finiteness of class numbers, finite volume and compactness criteria, strong
-approximation, neat levels and Hecke correspondences, with `GL₁`, `GL₂` and quaternion algebras as
-worked examples. We want it because automorphic forms live on these quotients: the locally
-symmetric spaces whose cohomology carries Hecke eigensystems and Galois representations are exactly
-`G(F)\G(𝔸_F)/K`, and their finiteness, compactness and level structure are what make the
-cohomology finite-dimensional and the Hecke action well defined. Everything about automorphic
-representations and arithmetic manifolds downstream rests on these statements.
+**Summary.** An algebraic group `G` over a number field `F` has points in every completion of `F`.
+The adele ring `𝔸_F` gathers these completions into one locally compact ring, so `G(𝔸_F)` records
+the real geometry of `G` and its congruence conditions at once. The rational points `G(F)` form a
+discrete subgroup, and automorphic forms live on the quotient `G(F)\G(𝔸_F)`. This roadmap builds
+these adelic groups, their Haar and Tamagawa measures, and their arithmetic quotients. An affine
+algebraic group is given by a finite-type commutative Hopf algebra, and its points carry the
+evaluation topology. Connectedness, reductivity and simple connectedness are hypotheses where
+stated, not assumptions on every affine group.
 
-The adeles let one study the real geometry of an algebraic group and its congruence conditions in
-a single locally compact group. This roadmap develops that passage for affine groups over number
-fields: the topology on their adelic points, Haar and Tamagawa measures, arithmetic quotients,
-reduction theory, approximation, and changes of level. It starts from Mathlib's restricted products
-and Tau Ceti's convolution groups of Hopf-algebra points and ends at the theorems that automorphic
-forms, Hecke correspondences and arithmetic locally symmetric spaces consume: finiteness of class
-numbers, finite volume and compactness criteria for `G(F)\G(𝔸_F)^1`, strong approximation, neat
-levels, quaternion norms and compact abelian Fourier limits. Its main reusable objects are
-convergent restricted products of Haar measures, the Harish-Chandra logarithm, adelic heights,
-fixed-compact Siegel sets and neat levels.
+Three theorems of reduction theory are at the centre. The first is finiteness of class numbers:
+for every linear algebraic group `G` over `F` and every compact open subgroup `U` of the finite
+adelic points `G(𝔸_{F,f})`, the double coset space `G(F)\G(𝔸_{F,f})/U` is finite. For `GL₁` and
+the integral units `U = Ô^×`, this is the ideal class group of `F`. The second concerns volume.
+Write `G(𝔸_F)^1` for the subgroup of adelic points on which every `F`-rational character of `G` has
+idele norm one. For every connected `G`, the quotient `G(F)\G(𝔸_F)^1` has finite positive
+volume. The full quotient `G(F)\G(𝔸_F)` of a connected `G` has finite volume
+exactly when `G` has no nontrivial `F`-rational character; for `GL₁` over `ℚ` the split factor
+`ℝ_{>0}` makes that volume infinite. The third is a compactness criterion. For connected reductive
+`G`, the quotient `G(F)\G(𝔸_F)^1` is compact exactly when `G(F)` contains no nontrivial unipotent
+element, that is, when the derived group of `G` is anisotropic over `F`. Thus `F^×\𝔸_F^1` is
+compact, while `SL₂(F)\SL₂(𝔸_F)` is not.
 
-`Suggested.lean` proposes signatures using the existing Lean vocabulary. This document specifies
-the mathematics; the suggested forms are aids to choosing names and interfaces. A condition
-requiring a supplier's algebraic or analytic language remains a mathematical condition, including
-in the checks.
+Approximation comes next. A connected semisimple simply connected group `G` has weak
+approximation: `G(F)` is dense in the product of its points over any finite set of places. Let `S`
+be a finite set of places containing the archimedean ones, such that every `F`-simple factor of `G`
+has noncompact points over `S`. Then `G` has strong approximation: `G(F)` is dense in the adelic
+points away from `S`. When `S` consists of the archimedean places, `G(F)\G(𝔸_{F,f})/U` is a single
+point for every compact open `U`. The noncompactness hypothesis cannot be dropped, as the
+norm-one group of a definite quaternion algebra over `ℚ` shows.
 
-## Scope and ownership
+An element of `G(F)` is neat when the eigenvalues of its image under a faithful algebraic
+representation generate a torsion-free subgroup of `ℂ^×`. A compact open `U` is a neat level when
+every `G(F) ∩ xUx⁻¹` consists of neat elements. Every compact open subgroup contains a neat level
+that is normal of finite index. If `U` is a neat level and `U′ ⊂ U` is compact open, the map
+`X_{U′} → X_U` between the level quotients `X_U = G(F)\G(𝔸_F)/K_∞U` is a finite covering of
+degree `[U : U′]`. Here `K_∞` is a closed archimedean subgroup satisfying two explicit conditions,
+which hold for connected reductive `G` when `K_∞` contains the positive split centre `A_G(ℝ)^0`
+and is compact modulo it. For `GL₂` over `ℚ` and `K_∞ = ℝ^× SO(2)`, the level quotient is
+homeomorphic to a disjoint union of quotients of the upper half-plane, one for each class `c` in
+`ℚ_{>0}\𝔸_f^×/det U`. The copy indexed by `c` is the quotient by `GL₂(ℚ)^+ ∩ gUg⁻¹`, for a chosen
+`g` of determinant `c`.
 
-The roadmap owns:
+The roadmap builds on Mathlib's restricted products and on Tau Ceti's groups of points of Hopf
+algebras. The Global number fields roadmap provides the adeles and the idele norm. The
+ReductiveGroups roadmap and its second part provide parabolics, relative roots and local
+integration. AnalyticNumberTheoryPartII provides the restricted product of Haar measures and
+Weil's quotient measures. Downstream, automorphic forms on reductive groups use the measures and
+the reduction theory. Locally symmetric spaces and Shimura varieties use the neat levels, the
+covering maps and the Hecke correspondences.
 
-- the shared measure theory of restricted products (Layer AA.0): the Borel structure of a
-  restricted product, the convergent rescaling that absorbs non-unit local volumes, and the
-  normalized Haar measures on the adeles and ideles of a number field, built on the restricted
-  product `∏ʳ μ i` of Haar measures of AnalyticNumberTheoryPartII §5.3f. This layer is written for
-  countable families of second countable locally compact groups so that function-field
-  applications can use it unchanged;
-- the adelic points of an affine algebraic `F`-group (carrying Tau Ceti's point topology),
-  integral models, the restricted-product comparison, the discreteness of the rational diagonal, the
-  Lie group structure and the finiteness of the component group of the archimedean points, Weil
-  restriction and the concrete groups `G_a`, `G_m`, `GL_n`, unimodularity and compact open levels
-  (Layer AA.1);
-- rational characters, the Harish-Chandra map `H_G`, the split component `A_G(ℝ)^0` and the
-  norm-one subgroup, right-Haar quotient integration on the quotient measures of
-  AnalyticNumberTheoryPartII §5.3k, rational quotient measures,
-  gauge forms and the convergence factors of the character module, consuming the finite-image
-  Artin L-functions of AnalyticNumberTheoryPartI §2.18a; Tamagawa measures
-  and scalar transport with the Artin and discriminant supplier theorems of AA.2.4–2.5
-  (Layer AA.2);
-- the generic adelic reduction theory: rational parabolics and Iwasawa integration, real Siegel
-  coordinates for one fixed maximal compact, primitive `GL_n` and closed-orbit reduction, adelic
-  Siegel sets, finiteness of class numbers, finite volume and compactness criteria, algebraic
-  heights, cusps and the Orr–Schnell containment of subgroup Siegel sets (Layer AA.3);
-- weak and strong approximation with their torsor and arithmetic-closure bridges, the strong
-  approximation predicate, Borel density for `S`-arithmetic subgroups and strong approximation
-  for simply connected semisimple groups, neat elements
-  and neat compact open levels, level quotients with their covering and fibre formulas, Hecke
-  correspondences, volumes under level change, reductive abelianization, quaternion norms,
-  idele classes modulo squares and Fourier limits on compact abelian groups (Layer AA.4);
-- the analytic identification of the `GL_2` level quotients over `ℚ` with quotients of the upper
-  half-plane by congruence groups, together with its behaviour under change of level, and the
-  `GL_1` and definite-quaternion checks of the centre, determinant, measure and stabilizer
-  conventions (Layer AA.5).
+Layer 0 builds the convergent products of local Haar measures from which every adelic measure
+comes. Layer 1 identifies the finite adelic points with a restricted product of local groups
+through an integral model. Layer 2 treats characters, quotient measures and Tamagawa measures.
+Layer 3 is reduction theory and Layer 4 approximation and levels. Layer 5 works out `GL₁`, `GL₂`
+over `ℚ` and definite quaternion groups.
 
-Locally symmetric spaces, Shimura data and Shimura varieties build on the neat levels of AA.4
-and add their own geometric applications. Automorphic forms on reductive groups use the adelic
-groups, measures and reduction theory of this roadmap; their representation and spectral theory
-lie outside it. The compact abelian Fourier results apply to a specified compact quotient;
-constructing a quaternion residual quotient and identifying arithmetic torus images in it lies
-outside this scope. The comparison of the `GL_2` quotients with algebraic modular curves lies
-outside this roadmap. The finite-image Artin L-functions, with their local factors, their
-induction identity, the one-dimensional comparison with Hecke L-functions, Brauer continuation
-and the leading coefficients at one, are AnalyticNumberTheoryPartI §2.18a; this roadmap consumes
-them for the convergence factors of AA.2.4.
+## How to read the build
 
-Moved: AA.2.4 finite-image Artin functions (the local factors on inertia invariants with
-arithmetic Frobenius, the induction identity at ramified places, the one-dimensional Artin–Hecke
-comparison, Brauer assembly and the leading coefficient at one, formerly owned by
-*convergence-factors*) → AnalyticNumberTheoryPartI §2.18a.
-
-The shared Haar-character, congruence-level and S-arithmetic interfaces draw on the API
-organization of the Imperial College London FLT project.
-
-Mathlib supplies restricted-product carriers and topologies, finite and probability product
-measures, Haar uniqueness, the modular character, fundamental-domain integration, the
-Hausdorff, locally compact, second countable and open quotient of a group by a closed subgroup,
-double cosets, and action groupoids. Tau Ceti supplies convolution groups of Hopf-algebra points,
-their coefficient maps, concrete `GL_n` and `G_m` comparisons, algebraic centres, geometric
-characters, cotangent/adjoint constructions, principal congruence subgroups of points, the Weil
-restriction of affine group schemes with its point isomorphism and point homeomorphism, and the
-adelic base change `𝔸_F ⊗_F E ≃ 𝔸_E`. This roadmap extends those objects rather than
-defining substitutes. In particular, an algebraic equivalence does not by itself supply a
-homeomorphism or an identity of pushed measures.
-
-Algebraic structure belongs to the
-[Reductive groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md)
-and to **ReductiveGroupsPartII**. ReductiveGroups supplies the finite-dimensional
-comodule/tensor dictionary (layer 1), closed subgroups and quotients with affineness of `G/H` for
-reductive `H` (layer 3; the closed-orbit embedding `H\G ↪ V` is derived in AA.3.3 from layers 1
-and 3), character lattices of groups of multiplicative type (layer 4), the centre, derived group
-and simply connected covers (layer 6), rational parabolics, Levi decompositions and relative
-roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the local analytic
-chart/cotangent/Haar-Jacobian bridge specified in the supplier contracts below (the congruence
-subgroups of points and the Weil restriction of affine groups are Tau Ceti's); in RG2.1, the
-valuation map of the maximal split central torus at the finite places (the torus itself is
-ReductiveGroups, layers 6–7); in RG2.3, reductive
-integral models, hyperspecial subgroups and Lang's theorem with Hensel lifting; in RG2.4, the
-local decompositions and integration, the Iwasawa decomposition `G(F_v) = K_v P(F_v)` with
-`K_v ∩ P(F_v) = P(𝒪_v)` for an arbitrary parabolic and a hyperspecial `K_v`
-(`iwasawa-parabolic-integral`), and the Kneser–Tits theorem over a local field
-(`kneser-tits-local`), and the algebraic parabolic adjoint determinant comparison
-(*parabolic-adjoint-determinant*). Quasi-splitness at almost all places (AA.4.2,
-*isotropic-almost-everywhere*) is proved in this roadmap from those inputs.
-
-The
-[Global number fields roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalNumberFields/README.md)
-supplies places and the product formula (layer 0), weak approximation (layer 1), finite adeles
-(layer 4), full adeles and the discrete rational diagonal (layer 5), additive strong
-approximation and idele norm structure (layer 6), and scalar extension of adeles (layer 8).
-NumberFieldArithmetic, layer 4, supplies the discriminant identities used in scalar Jacobians.
-RepresentationTheory/LieGroups supplies the closed-subgroup theorem and the automatic smoothness
-of continuous homomorphisms (layer 2, the Lie group structure of archimedean points in AA.1.2)
-and Cartan and Iwasawa theory (layer 9); simultaneous self-adjointness of a nested chain is proved
-in AA.3.3. GlobalQuadraticForms, layer 5,
-supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
-for approximation obstructions. ClassFieldTheory supplies the global norm-index theorem
-(layer 12), the cyclic Hasse norm theorem (layer 13), and the local Brauer group with
-the global Brauer sequence (layers 5 and 10). AnalyticNumberTheoryPartI §2.18a supplies the
-finite-image Artin L-functions: local factors on inertia invariants, the induction identity at
-every finite place, the one-dimensional comparison with Hecke L-functions and Brauer
-continuation with the leading coefficient at one; AA assembles the convergence factors of the
-character module from them (*convergence-factors*). AnalyticNumberTheoryPartII supplies the
-restricted product of Haar measures (§5.3f) and the quotient measures with their two conventions
-(§5.3k). The `GL₂` targets of AnalyticNumberTheoryPartII §§5.3l–5.3m and the lattice targets of
-ProbabilisticAndMetricNumberTheory §§4.9a–4.9b are special cases of statements here, cited where
-those statements specialise to them.
-RepresentationTheory/CompactGroups,
-layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the Haar probability
-measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
-measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
-of products of circles. LocalFieldsRamification, layers 0 (valuations) and 1 (residue units), supplies the local-field
-input for the distance of `p`-adic roots of unity from one (AA.4.3). SmoothRepresentationsOfLocalGroups supplies ring-valued Haar measures (SR.1.1);
-the arbitrary-characteristic local modulus is supplied by RG2.4,
-`LocalIntegration.modularCharacter_eq_adjointModulus`. IntegralLattices, 2F–2G, supplies
-Minkowski reduction for integral lattices. The
-[Fuchsian orbifolds roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FuchsianOrbifolds/README.md)
-supplies the coarse quotient Riemann surface `Γ\ℍ` of a Fuchsian group (layers 0–1), its cusp
-compactification and the maps induced by conjugation and finite-index inclusions (layer 4), and
-degree theory for finite holomorphic maps (layer 5); AA.5 identifies the `GL_2` components with
-these quotients for its congruence groups.
-
-Tau Ceti already provides the topological splitting of finitely many factors of a restricted
-product (`awayDecomposition`, module `Topology/Algebra/RestrictedProduct/Away/Decomposition`) and
-the homeomorphism of the infinite adeles with the mixed space
-(`InfiniteAdeleRing.homeomorphMixedSpace`, module `NumberTheory/NumberField/Global/Adeles/Basic`);
-AA.0 consumes both and adds only their measure clauses. The
-[restricted-products roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/RestrictedProducts/README.md)
-specifies the completed topological interfaces; the pinned declarations and their measure
-extensions are listed below.
-
-The supplier contracts include positive convergent products of reals with summable error: Mathlib
-`Real.multipliable_one_add_of_summable`, `Real.rexp_tsum_eq_tprod` and
-`Multipliable.tprod_mul_tprod_compl` (the product over a set times the product over its
-complement, under multipliability of both restrictions, in a commutative topological monoid: the
-multiplicative reals are not a group, so the group-valued splitting lemma over a finite set does
-not apply to them). The extension to factor masses that are only summably close
-to one is this roadmap's deduction from these lemmas; AnalyticNumberTheoryPartII §5.3f supplies
-the normalized product of local Haar measures on boxes whose almost-all factors have mass one.
-The point topology on `WithConv (H →ₐ[F] R)` for every topological `F`-algebra `R`, its
-topological-group structure, its Hausdorff, second-countable and locally compact instances (the
-last two for finite-type `H`) and its functoriality are Tau Ceti's (`TauCeti.PointTopology`,
-listed in the supplier table); at `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v` they make the adelic, finite
-adelic, archimedean and local points of a finite-type group second countable, locally compact,
-Hausdorff topological groups ([Borel], §1.2, p. 7), the coefficient rings being second countable
-by Tau Ceti `TauCeti.instSecondCountableTopologyOfIsNonarchimedeanLocalField` for `F_v` and by
-AA.0.4 *adelic-borel-structure* for `𝔸_F`, `𝔸_{F,f}` and `F_∞`. Integral points of a model are
-compact open in `G(F_v)`: Tau Ceti
-`TauCeti.PointTopology.isOpenEmbedding_mapValue_integer` and
-`TauCeti.PointTopology.isCompact_range_mapValue_integer` at the local field `F_v`, whose integer
-ring is `𝒪_v` by `IsDedekindDomain.HeightOneSpectrum.integer_eq_adicCompletionIntegers`. Closed
-subgroups give closed embeddings of adelic points, and `(G × G′)(𝔸_F) ≃ G(𝔸_F) × G′(𝔸_F)`:
-Tau Ceti `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` and
-`TauCeti.PointTopology.tensorProductHomeomorph` (for every T1, respectively every topological,
-coefficient ring), with Tau Ceti `quotientPointsSubgroup` and
-`TauCeti.AffineGroup.Product.pointsMulEquiv` — the closed-subgroup statement is [Conrad],
-Proposition 2.1, p. 2, with Tau Ceti `TauCeti.CommHopfAlgCat.quotientPointsSubgroup` and
-`NumberField.AdeleRing.instT2Space`, the closed-image clause being [Conrad], Example 2.3, p. 3;
-the product statement is [Conrad], Proposition 2.1, proof, p. 2, with
-`TauCeti.AffineGroup.Product.pointsMulEquiv`.
-Volumes of commensurable compact open subgroups, `μ(U)/μ(U′) = [U : U ∩ U′]/[U′ : U ∩ U′]`
-([Borel], §1.7, p. 8): SmoothRepresentationsOfLocalGroups, SR.1.1 (ring-valued Haar measures) and
-Mathlib `MeasureTheory.Subgroup.index_mul_measure`, applied with AA.1.5 and
-AnalyticNumberTheoryPartII §5.3f. A division ring has no unipotent unit other than `1`
-([Milne], §3, Example 3.4, p. 34, in the setting of Mathlib `QuaternionAlgebra`): Mathlib
-`IsNilpotent.eq_zero`. The `GL_1` class number, `F^×\𝔸_{F,f}^×/Ô^× ≃ Cl(𝒪_F)` ([Borel],
-Proposition 2.2, p. 11, with Mathlib `NumberField.classNumber`): Tau Ceti
-`IsDedekindDomain.FiniteAdeleRing.quotientEquivClassGroup` (with `integralUnits`), also
-GlobalNumberFields, layer 4, consumed through AA.1.4 and AA.3.4.
-
-The following Tau Ceti and roadmap statements are the local or algebraic halves of targets that
-remain here, which add only the adelic or measure clause: `restrictedProductCongr` and
-`restrictedProductCongrRight` with their continuity (AA.0.3); Tau Ceti's point topology with its
-local compactness and functoriality, `TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`, and
-the `G_a`, `G_m`, `GL_n` homeomorphisms `TauCeti.PointTopology.polynomialHomeomorph`,
-`TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv` and
-`TauCeti.GeneralLinear.pointsContinuousMulEquiv`, at `R = 𝔸_F` (AA.1); Tau Ceti's Weil-restriction
-point isomorphism `TauCeti.Algebra.WeilRestriction.pointsMulEquiv` and point homeomorphism
-`TauCeti.Algebra.WeilRestriction.homHomeomorph` with the adelic base change
-`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv` (AA.1.4); Tau Ceti's principal congruence
-subgroups `TauCeti.HopfAlgebra.congruenceSubgroup` with their membership, monotonicity, coefficient
-functoriality and openness (AA.1.5, AA.5.2); local unimodularity and the local Iwasawa factorization
-and integration formula of RG2.4.4 (AA.1.5, AA.3.1); the modulus character of a local parabolic,
-RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus` (AA.2.2); Mathlib's `QuotientGroup` instances and
-`inducedMeasure` for normal subgroups, and `QuotientGroup.integral_eq_integral_automorphize` for
-discrete ones (AA.2.2–AA.2.3); Tau Ceti `exists_isFundamentalDomain_of_properlyDiscontinuousSMul`
-(AA.2.3); Minkowski reduction for integral lattices, IntegralLattices 2F–2G (AA.3.2); the local
-Kneser–Tits input of RG2.4.4 (AA.4.2); Tau Ceti `log_unitFiltration_injective` (AA.4.3); Tau Ceti
-`DoubleCoset.quotientMapOfLELeft`, `cosetToOrbitRelMapFiber_surjective`,
-`finite_fiber_orbitRel_map_of_isFiniteRelIndex` and `HeckeCoset.degree_eq_relIndex`
-(AA.4.4–AA.4.5); `IdeleClassGroup.isCompact_normOne`, `ideleClassNorm_surjective`,
-`unitsCongruenceSubgroup_finiteIndex`, Mathlib `isPretransitiveGL2R` and FuchsianOrbifolds
-layer 4 (AA.5). Tau Ceti's `ideleNorm`, `ratFundamentalDomain`, `weakApproximation_denseRange`
-and `FiniteAdeleRing.denseRange_algebraMap` are the idele norm, the fundamental domain
-`[0,1) × ∏ ℤ_p` and the `G_a` cases of approximation used below.
+`README.md` is normative; `Suggested.lean` states headline milestones against the pinned
+Mathlib and Tau Ceti, with the auxiliary definitions needed to state them. It is not exhaustive.
+Each target's *Lean:* line identifies its statement or auxiliary definitions there; *Lean:* none
+means that the target is specified in this README. Checks are mathematical examples in prose.
+The RG2.0 analytic chart suppliers precede RG2.4 local integration,
+which is an input to AA.1.5 and AA.2.2. The AA layers are built in order, with the
+number-field level definitions of AA.5.2 accompanying AA.1.5's local factors; their
+quotient applications follow AA.4. AA.0 is the Borel
+structure of a restricted product, the convergent rescaling of the restricted Haar products of
+AnalyticNumberTheoryPartII §5.3f, and the Haar measures of the adeles and ideles; everything
+measure-theoretic later is an instance of it. AA.1 takes the adelic points of a Hopf algebra
+with Tau Ceti's point topology, compares them with a restricted product of local groups through
+an integral model, and
+establishes the discrete rational diagonal, Weil restriction, the concrete groups, unimodularity
+and compact open levels. AA.2 separates the positive split centre from the norm-one subgroup
+through the character lattice, applies the right-Haar quotient integration of
+AnalyticNumberTheoryPartII §5.3k to rational and central quotients, and fixes the Tamagawa normalization through gauge forms and convergence
+factors. AA.3 is reduction theory: rational parabolics and Iwasawa integration, real Siegel
+coordinates for a fixed maximal compact, the primitive `GL_n` and closed-orbit reductions, their
+adelic consequences (finite class sets, finite volume, compactness), heights, cusps and subgroup
+orbit maps. AA.4 is approximation, neatness, level quotients, Hecke maps and the residual
+quotient. AA.5 works the conventions out on `GL_1`, `GL_2` over `ℚ` and definite quaternion
+groups. In *Needs* clauses, `AA.k.n` is a subsection of this roadmap, a slug in italics such as
+*local-haar-character* is the target of that name, and roadmap layers are cited as in the supplier
+contracts.
 
 ## Conventions
 
@@ -293,342 +153,6 @@ with the same weight multiplicities.
 
 **Checks.** The two local moduli agree on the shared carrier; the empty positive set gives
 one, and a single weight of multiplicity two contributes the square.
-
-## Exact supplier contracts
-
-| Object | Exact supplier and file | Use here |
-|---|---|---|
-| Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
-| Geometric torsors and classes | SchemeAndStackFoundations, §§1.13, 1.15, 2.3: `GroupSpace.ofGroupScheme` (§1.13); `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorRepresentability`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk`, `torsorClasses.mk_eq_base_iff`, `torsorClasses.surjective_mk` (§1.15); `NonabelianH1` (§2.3). Its `Suggested.lean` states `Groups.Torsor.trivial_iff_section` and `Groups.torsorRepresentability`; the other names are targets of its README | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
-| Finite-image Artin L-functions | AnalyticNumberTheoryPartI §2.18a, specified in its README without a Lean statement: the local factors `L_v(ρ,s)` on inertia invariants with arithmetic Frobenius, the induction identity at every finite place including the ramified ones, the one-dimensional comparison with presented Hecke L-functions, and Brauer continuation with order `dim V^G` and a nonzero leading coefficient at one, positive for representations realized over `ℚ` | The character-module factors and leading coefficient of *convergence-factors*, the Artin product formula for `τ_G` and its transport under restriction of scalars (AA.2.5). |
-| Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=\|det M\| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
-| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
-| Restricted products of Haar measures | AnalyticNumberTheoryPartII §5.3f: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_restrictedAddHaar`; `AnalyticNumberTheoryPartII/Suggested.lean` | The measure `∏ʳ μ i` of AA.0.2 with its box formula, its restriction to the level subgroups `U_S` and its Haar property, in the multiplicative and the additive form (the Lean statement there is additive). AA.0 adds the Borel structure, right invariance, the convergent rescaling and the adelic and idelic normalizations. |
-| Quotient measures | AnalyticNumberTheoryPartII §5.3k: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`; `AnalyticNumberTheoryPartII/Suggested.lean` | Weil's quotient measure on `H\G` for right Haar measures with matching modular characters, its extension to nonnegative Borel and to integrable functions, its scaling and composition in stages, and the inversion between the left and right conventions for countable discrete subgroups of unimodular groups. AA.2.2 adds uniqueness among all invariant Radon measures; AA.2.3 applies the measure to rational and central quotients. |
-| Homogeneous quotient topology | `t2Space_quotient_mulAction_of_properSMul`, `Mathlib/Topology/Algebra/ProperAction/Basic.lean`, the left multiplication action of a closed subgroup being proper by instance inference from the same file; `IsOpenQuotientMap.locallyCompactSpace`, `Mathlib/Topology/Compactness/LocallyCompact.lean`; `MulAction.isOpenQuotientMap_quotientMk`, `isOpenMap_quotient_mk'_mul`, `ContinuousConstSMul.secondCountableTopology`, `Mathlib/Topology/Algebra/ConstMulAction.lean` | For a closed subgroup `H` of a second countable locally compact Hausdorff group `G`, the orbit space `MulAction.orbitRel.Quotient H G` of left multiplication is Hausdorff, locally compact and second countable, and the projection is an open quotient map. AA.2.2 adds the lifting of compact sets and the quotient measures. |
-| Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
-| Scheme centralizers, normalizers and character evaluation | RG2.1 targets `BruhatTits.GeometricRoots.characterValue`, `BruhatTits.GeometricRoots.characterValue_coe`, `centralizer`, `normalizer`, `centralizerIdeal`, `centralizerIdeal_points_iff`; `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | AA.3.1 spells the same contracts on the unbundled coordinate algebra `H` and the pinned `quotientPointsSubgroup`. The root-ray helper additionally accepts non-root characters and uses the pinned dynamic contraction subgroups. |
-| Arithmetic level carrier | `TauCetiRoadmap.AdelicAlgebraicGroups.Reduction.levelArithmetic`; `TauCetiRoadmap/AdelicAlgebraicGroups/Suggested.lean` | `Neat.IsNeatLevel` is stated through it; the arithmetic discreteness, neatness and component results consume the same subgroup. |
-| Algebraically closed central-simple splitting | Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`, `Mathlib/RingTheory/SimpleModule/IsAlgClosed.lean`; `Algebra.IsCentral`, `Mathlib/Algebra/Central/Defs.lean`; `Module.Basis.baseChange`, `Mathlib/LinearAlgebra/TensorProduct/Basis.lean`. | The `SL₁(D)` target of AA.3.4 uses this matrix splitting and the extended regular basis; its reduced-norm-one Hopf ideal and compact arithmetic quotients are the additional targets. |
-| Semialgebraic sets | `TauCeti.IsSemialgebraic`, `TauCeti.isSemialgebraic_def`; `TauCeti/Geometry/RealAlgebraic/Semialgebraic/Basic.lean` | AA.3.2 uses this exact polynomial set algebra on matrix-entry coordinates; the new assertions concern the horospherical graph, windows and reduced forms. |
-| Adjoint weight spaces | `Derivation.adjointWeightSpace`, `Derivation.mem_adjointWeightSpace_iff_universalPointAction`, `Derivation.isInternal_adjointWeightSpace`; `TauCeti/Algebra/AlgebraicGroup/Tangent/RootSpace.lean` | The relative weight spaces of AA.3.1 instead realize the geometric weight space inside counit derivations for a Hopf-ideal split torus; the supplier uses the cotangent dual and a specified split-torus coordinate map. |
-| Derived subgroup | `TauCeti.CommHopfAlgCat.derivedDefiningIdeal`; `TauCeti/Algebra/AlgebraicGroup/Derived/Basic.lean`; RG2.1 tests `ZExtension.derivedIdeal_gl_n`, `ZExtension.derivedIdeal_sl_n`, `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | The anisotropy criterion of AA.3.4 specifies the derived Hopf ideal by this universal property (largest ideal killed by every algebra-valued commutator) and tests all rational cocharacters; no independent derived-subgroup definition. |
-| Geometric identity component | `TauCeti.HopfAlgebra.identityComponentHopfIdeal`; `TauCeti/Algebra/AlgebraicGroup/Connected/Comultiplication.lean` | This supplier assumes an algebraically closed field. The finite-volume criterion of AA.3.4 gives the number-field descent by the largest geometrically connected closed subgroup; the disconnected case of that criterion uses its ideal. |
-| Constant-form matrix subgroup | `TauCeti.ConstantForm.definingHopfIdeal`, `TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/ConstantForm/Basic.lean` | The twisted orthogonal group of AA.3.7 is the determinant-one restriction of this equation for its explicit rational form; it does not define another general orthogonal-group construction. |
-| Connected reductivity | `TauCeti.reductiveCommHopfAlgProperty`; `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean` | The reductive groups with finite component groups of AA.3.3 drop connectedness in characteristic zero for the Borel–Harish-Chandra statements. |
-| Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
-| Point topology | `TauCeti.PointTopology.instTopologicalSpaceWithConv`, `TauCeti.PointTopology.continuous_eval_ofConv`, `TauCeti.PointTopology.continuous_withConv_iff`, `TauCeti.PointTopology.isTopologicalGroup`, `AlgHom.continuous_mapValue`, `BialgHom.continuous_mapDomain`, `TauCeti.PointTopology.instT2SpaceWithConv`, `TauCeti.PointTopology.instSecondCountableTopologyWithConv`, `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`, `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`, `TauCeti.PointTopology.isClosedEmbedding_eval_generators`, `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`, `TauCeti.PointTopology.tensorProductHomeomorph`, `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`, `TauCeti.PointTopology.isCompact_range_mapValue_integer`; `TauCeti/Topology/Algebra/PointTopology/{Basic,Functoriality,Group,Separation,IntegralPoints}.lean` | The topology of AA.1.1 on `G(R)` for `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v`: the coarsest topology making every evaluation `x ↦ x(h)` continuous, induced from `R^H`. Coefficient maps along continuous algebra maps are continuous homomorphisms; the Hausdorff instance needs `R` Hausdorff, second countability needs `R` second countable and `H` of finite type, local compactness needs `R` locally compact and T1 and `H` of finite type. `Suggested.lean` uses this instance; AA adds the restricted-product comparison and the adelic clauses. |
-| Concrete point homeomorphisms | `TauCeti.PointTopology.polynomialHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/Basic.lean`. `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/MultiplicativeGroup/Topology.lean`. `TauCeti.GeneralLinear.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Topology.lean` | The topological identifications of `G_a(R)` with `R`, of `G_m(R)` with `Rˣ` and of `GL_n(R)` with `GL (Fin n) R`, each unit group carrying the topology induced by `g ↦ (g, g⁻¹)`, at `R = 𝔸_F` in AA.1.4; AA adds the diagonal and restricted-product clauses. |
-| Weil restriction | `TauCeti.Algebra.WeilRestriction`, `TauCeti.Algebra.WeilRestriction.homEquiv`; `TauCeti/RingTheory/WeilRestriction/Basic.lean`. `TauCeti.Algebra.WeilRestriction.instHopfAlgebra`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_naturality`, `TauCeti.Algebra.WeilRestriction.mapBialgHom`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_mapDomain_mapBialgHom`; `TauCeti/Algebra/HopfAlgebra/WeilRestriction.lean`. `TauCeti.Algebra.WeilRestriction.compAlgEquiv`, `TauCeti.Algebra.WeilRestriction.homEquiv_compAlgEquiv`; `TauCeti/RingTheory/WeilRestriction/Composition.lean`. `TauCeti.Algebra.WeilRestriction.homHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/WeilRestriction.lean` | `Res_{E/F}` of a finitely presented Hopf `E`-algebra along a finite projective `F → E`: the Hopf structure for which `(Res G)(T) ≃* G(E ⊗_F T)` is a group isomorphism natural in `T` and in `G`, the tower isomorphism `Res_{E/F} Res_{L/E} ≃ Res_{L/F}` fixed by its effect on points, and the point homeomorphism when `E ⊗_F T` carries its `T`-module topology. AA.1.4 adds the adelic comparison `exists_weilRestriction_adelicPointsEquiv`, its local factors and its integral clauses. |
-| Adelic base change | `TauCeti.GlobalNumberFields.adeleBaseChangeAlgEquiv`, `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`, `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower`; `TauCeti/NumberTheory/NumberField/Global/Adeles/BaseChange.lean` | The `𝔸_F`-algebra isomorphism `𝔸_F ⊗_F E ≃ 𝔸_E`, a homeomorphism for the `𝔸_F`-module topology on the source, and its compatibility with towers: the coefficient half of AA.1.4. |
-| Congruence subgroups | `TauCeti.HopfAlgebra.congruenceSubgroup`, `TauCeti.HopfAlgebra.mem_congruenceSubgroup_iff`, `TauCeti.HopfAlgebra.congruenceSubgroup_mono`, `TauCeti.HopfAlgebra.congruenceSubgroup_top`, `TauCeti.HopfAlgebra.congruenceSubgroup_bot`, `TauCeti.HopfAlgebra.congruenceSubgroup_le_comap_mapValue`; `TauCeti/Algebra/AlgebraicGroup/CongruenceSubgroup/Basic.lean`. `TauCeti.HopfAlgebra.isOpen_congruenceSubgroup`, `TauCeti.HopfAlgebra.hasBasis_nhds_one_congruenceSubgroup`; `TauCeti/Algebra/AlgebraicGroup/CongruenceSubgroup/Topology.lean`. `TauCeti.GeneralLinear.mem_congruenceSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/CongruenceSubgroup.lean`. `IsDedekindDomain.FiniteAdeleRing.integralAdeles`, `IsDedekindDomain.FiniteAdeleRing.isOpen_integralAdeles`, `IsDedekindDomain.FiniteAdeleRing.isCompact_integralAdeles`; `TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Basic.lean` | The kernel `G(R)_I` of reduction `G(R) → G(R/I)` for an ideal `I` of any commutative coefficient ring `R`: membership tested against the identity point, monotone in `I`, all of `G(R)` at `I = R` and trivial at `I = 0`, carried along coefficient maps sending `I` into `J`, open for an open level and finite-type `H`, and entrywise for `GL_n`. AA.5.2 takes `R = Ô_F` (the integral finite adeles) and `I = NÔ_F`; AA.1.5 and AA.5.2 add `K₀(N)`, `K₁(N)`, the completed-ideal comparison and the local product formulas. |
-| Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `BialgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
-| Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`, `QuaternionAlgebra.normForm_mul`; `TauCeti/Algebra/Quaternion/NormForm.lean`. `QuaternionAlgebra.normForm_eq_of_algEquiv`; `TauCeti/Algebra/Quaternion/AlgEquiv.lean`. `TauCeti.QuaternionAlgebra.baseChange`; `TauCeti/Algebra/Quaternion/BaseChange.lean` | The norm-image theorems use this quadratic form directly. For a presentation `D ≃ ℍ[F,a,b]` and a commutative `F`-algebra `A`, the unit norm `Nrd_A : (D ⊗[F] A)^× → A^×` is `normForm` over `A` transported along `baseChange`; it is multiplicative by `normForm_mul` and independent of the presentation by `normForm_eq_of_algEquiv`, since `2` is invertible in `F`. AA.4.6 (*quaternion-norm-images*) owns its naturality in `A` and the determinant comparison under a splitting. |
-| Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `H_G` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
-| Compact norm-one idele classes | `TauCeti.GlobalNumberFields.IdeleClassGroup.isCompact_normOne`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Compact.lean` | Supplies the compactness assertion in Layer 5 directly. |
-| Finite-factor decomposition | `TauCeti.awayDecomposition`, `TauCeti.continuous_awayDecomposition`, `TauCeti.continuous_awayDecomposition_symm`; `TauCeti/Topology/Algebra/RestrictedProduct/Away/Decomposition.lean` | The finite splitting of AA.0.3 and AA.1.2 bundles these as a topological group equivalence on finset-indexed factors; the new assertion is measure compatibility. |
-| Restricted-product coordinate maps | `TauCeti.restrictedProductCongr_apply`; `TauCeti/Topology/Algebra/RestrictedProduct/Congr/Basic.lean`. `TauCeti.awayDecomposition_fst`, `TauCeti.awayDecomposition_snd`, `TauCeti.awayDecomposition_symm_apply_of_mem`, `TauCeti.awayDecomposition_symm_apply_of_notMem`; `TauCeti/Topology/Algebra/RestrictedProduct/Away/Decomposition.lean` | Supply the coordinate formulas of the bundled topological equivalences. |
-| Modular character under conjugation | `MeasureTheory.Measure.modularCharacter`; `Mathlib/MeasureTheory/Group/ModularCharacter.lean`, with `map_mul` and `map_inv` | Its commutative codomain makes conjugation invariance a general homomorphism identity. |
-| Measurable fundamental domains | `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; `TauCeti/MeasureTheory/Group/ProperlyDiscontinuous.lean` | Apply to the countable discrete rational subgroup acting freely by translation; its Borel domain supplies the existence statement directly. |
-| Right translation of Haar measure | `MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`, `MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`; `TauCeti/MeasureTheory/Group/ModularCharacter.lean`. `MeasureTheory.IsFundamentalDomain.measure_ne_zero`, `MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq`, `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`; `Mathlib/MeasureTheory/Group/FundamentalDomain.lean` | For a regular left Haar measure `μ`, right translation by `g` preserves null sets and satisfies `μ(S g⁻¹) = Δ(g) μ(S)` for every set `S`; a fundamental domain of a countable group acting with an invariant measure has nonzero measure, its images under commuting quasi-measure-preserving bijections are fundamental domains, any two have equal measure, and `μ(K) = Σ_g μ(gK ∩ D)` for a fundamental domain `D` and every set `K`. AA.2.3 (*finite-covolume-unimodular*) combines these. |
-| Exponential tail integral | `integral_exp_mul_Ioi`; `Mathlib/Analysis/SpecialFunctions/ImproperIntegrals.lean` | Finite-product integration gives the relative-chamber integral. |
-| Change of double-coset level | `DoubleCoset.quotientMapOfLELeft`; `TauCeti/GroupTheory/DoubleCoset/Map.lean` | The level map here changes the right subgroup; its defining equation sends the class of `g` to the class of the same `g`. |
-
-All names in this section are part of the dependency contract. Each is cited again in the
-*Needs* clause of the target that consumes it.
-
-### Local analytic and parabolic suppliers
-
-The local charts, their cotangent comparison and their Haar change of variables belong to
-ReductiveGroupsPartII RG2.0. RG2.4 then supplies the local adjoint-modulus theorem and its
-parabolic determinant reduction; AA.2.2 consumes these local results, and AA.2.4 consumes the
-same RG2.0 charts for gauge measures. SmoothRepresentationsOfLocalGroups SR.2.2 consumes RG2.4
-and supplies the change to coefficient-valued moduli and the square root for normalized induction.
-The local supplier order is RG2.0 charts → RG2.4 local modulus → AA.2.2 and SR.2.2;
-AA.2.4 gauge measures use RG2.0 charts independently. The roadmap dependency order is
-ReductiveGroupsPartII before AdelicAlgebraicGroups and SmoothRepresentationsOfLocalGroups;
-AA's local modulus comparison has no dependency on SR.
-
-**Local analytic chart supplier.** (RG2.0, *smooth-group-analytic-charts*) For every
-nondiscrete locally compact field `K` of characteristic zero and smooth affine finite-type
-`K`-group `G = Spec H` of dimension `d`, construct an analytic manifold structure on `G(K)`
-inducing the point topology (Tau Ceti `TauCeti.PointTopology.instTopologicalSpaceWithConv`).
-Construct charts from smooth local parameters
-using the local inverse function theorem; multiplication and inversion are analytic.
-Identify the tangent space at the identity with the `K`-linear dual of
-`TauCeti.Bialgebra.CotangentSpace K H`, with the derivative of a coordinate function equal
-to evaluation on its cotangent class. Prove analytic change of variables for analytic
-isomorphisms of open chart domains, with normalized absolute determinant and product
-additive Haar measure. ReductiveGroupsPartII RG2.0 owns this bridge
-([Platonov–Rapinchuk–Rapinchuk], §3.1,
-Theorem 3.2 and Proposition 3.3, pp. 128–130, and the local-parameter and measure
-constructions on pp. 192–196).
-*Needs:* Tau Ceti `TauCeti.PointTopology.instTopologicalSpaceWithConv` (point topology),
-`TauCeti.Bialgebra.CotangentSpace` and `Derivation.cotangentLinearEquiv` (cotangent duality),
-`Algebra/AlgebraicGroup/Tangent/Cotangent.lean`; Mathlib additive Haar measure and
-`HasStrictFDerivAt.toOpenPartialHomeomorph`. The product additive measure is formed locally;
-no adelic measure or RG2.4 modulus theorem is an input. At a nonarchimedean place use
-`vol(𝒪_K) = 1`, over `ℝ` use `dx`, and over `ℂ` use `2 dx dy` and the squared modulus.
-For a Borel set `B` in the source of an analytic chart isomorphism `f`, the image law is
-`μ_d(f(B)) = ∫_B |det Df(x)|_K dμ_d(x)`; for a linear isomorphism `A`, its pushforward
-is `A_*μ_d = |det A|_K⁻¹ μ_d`.
-*Lean:* none; specified in the README only.
-
-**Checks.**
-
-- `G_a(K)` has its standard coordinate, whose derivative is the identity.
-- `G_m(K)` is the open subset `K^×` with coordinate `T`; at `1` its derivative is
-  dual to the class of `T − 1`.
-- On `ℚ₃`, multiplication by `3` has image factor `1/3` and pushforward factor `3`.
-  RG2.0 *equal-characteristic-smooth-group-analytic-charts* gives the same two factors
-  for multiplication by `t` on `𝔽₃((t))`, with no characteristic-zero argument.
-- The trivial group has dimension zero; its chart is the singleton `K^0` and the
-  empty Jacobian determinant is `1`.
-
-**Parabolic adjoint determinant supplier.** (RG2.4, *parabolic-adjoint-determinant*)
-For a connected reductive group `G` over a field `E`, a parabolic `P = M ⋉ N` and
-`p ∈ P(E)`, supply the algebraic identity
-`det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`. Use the `P`-stable exact sequence
-`0 → Lie N → Lie P → Lie M → 0`, where the action on the quotient factors through
-`P → M`. The adjoint determinant of the connected reductive Levi is the trivial
-algebraic character: after scalar extension to an algebraic closure, its maximal-torus
-weights consist of zero weights and opposite root pairs, whose product is one; a
-character of a connected reductive group trivial on that torus is trivial. Descend the
-identity to `E`. This proves equality in `Eˣ` in every characteristic, before taking
-absolute values; local Haar unimodularity alone only gives an absolute-value identity.
-This is a deduction from [Conrad RGS], §1.2, equation (1.2.1), p. 16
-(the root-weight decomposition in arbitrary characteristic), and Proposition 1.4.7,
-pp. 35–36 (parabolics and Levi factors), with ReductiveGroups layer 7's parabolic/Levi
-theory. Together with `LocalIntegration.modularCharacter_eq_adjointModulus`
-it gives the local formula `Δ_P(p) = |det(Ad(p)|Lie N)|_E` used by AA and SR
-([Casselman], §1.5, p. 16). *Needs:* ReductiveGroups layers 4, 6–7 (characters,
-reductive structure, root spaces and Levi decomposition); RG2.1's shared adjoint-weight
-carriers; Tau Ceti `Derivation.adjointAction`; Mathlib `LinearEquiv.det`.
-*Lean:* none; specified as a supplier contract in the README only.
-
-**Checks.**
-
-- For the upper Borel of `GL₂`, the determinants on `Lie P` and `Lie N` at
-  `diag(a,d)` are both `a/d`, even though `Lie P` has dimension three and `Lie N` one.
-- For the lower Borel they are both `d/a`; at `diag(3,1)` over `ℚ₃` the
-  absolute determinants are `3`, while the upper Borel gives `1/3`. At `diag(t,1)`
-  over `𝔽₃((t))` the same lower and upper values are `3` and `1/3`.
-- For `P = G`, `N = 1`: the determinant on the zero Lie algebra is one, and the
-  adjoint determinant of `G` is one as an algebraic character.
-
-### From Mathlib
-
-Restricted products: `RestrictedProduct.topologicalSpace_eq_iSup`,
-`RestrictedProduct.isOpenEmbedding_inclusion_principal`, `RestrictedProduct.continuous_dom`,
-`RestrictedProduct.mapAlong_continuous`, `RestrictedProduct.locallyCompactSpace_of_group`,
-`RestrictedProduct.isTopologicalGroup`, `RestrictedProduct.unitsEquiv`,
-`RestrictedProduct.evalRingHom`. Measure theory: `MeasureTheory.Measure.haarMeasure`,
-`MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.Measure.pi`,
-`MeasureTheory.Measure.prod`, `MeasureTheory.integral_prod`,
-`MeasureTheory.Measure.isMulLeftInvariant_eq_smul`, `MeasureTheory.Measure.modularCharacter`,
-`MeasureTheory.Measure.map_right_mul_eq_modularCharacterFun_smul`,
-`MeasureTheory.Subgroup.index_mul_measure`,
-`MeasureTheory.IsFundamentalDomain`, `MeasureTheory.IsFundamentalDomain.quotientMeasure_eq`,
-`MeasureTheory.IsFundamentalDomain.measure_eq`, `MeasureTheory.IsFundamentalDomain.measure_ne_zero`,
-`MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`,
-`MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`,
-`MeasureTheory.QuotientMeasureEqMeasurePreimage`, `QuotientGroup.integral_eq_integral_automorphize`,
-`MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`,
-`MeasureTheory.Lp`, `MonoidHom.isOpenMap_of_sigmaCompact`, and the general theory of locally
-compact groups, quotient topologies and summable series. Number fields: `NumberField.AdeleRing`,
-`IsDedekindDomain.FiniteAdeleRing`, `NumberField.IdeleGroup`, `NumberField.IdeleClassGroup`,
-`NumberField.mixedEmbedding.volume_fundamentalDomain_stdBasis`, `NumberField.mixedEmbedding.norm`,
-`NumberField.prod_abs_eq_one`,
-`Nat.Primes.not_summable_one_div`, `Real.rexp_tsum_eq_tprod`,
-`Multipliable.tprod_mul_tprod_compl`, `NumberField.dedekindZeta_residue`,
-`NumberField.dedekindZeta_residue_pos`, `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`,
-`NumberField.classNumber`, `NumberField.Units.rank`, `NumberField.Units.unitLattice_rank`,
-`NumberField.Units.instZLattice_unitLattice`, `Set.integer`, `QuaternionAlgebra`,
-`IsNilpotent.eq_zero`, `Real.multipliable_one_add_of_summable`, finite presentation and
-localization. Hopf and linear algebra: `AlgHom.prod`, `GroupLike`, `GroupLike.instCommGroup`, `Subgroup.index_pi`,
-`IsGroupLikeElem.map`, the convolution monoid on `WithConv (C →ₐc[R] A)`,
-`AddMonoidAlgebra.mapDomainBialgHom`, `Algebra.TensorProduct.cancelBaseChange`,
-`Ideal.Cotangent`, `Bialgebra.counitAlgHom`, `exteriorPower.ιMulti`, `exteriorPower.map`,
-`Module.evalEquiv`, `TensorProduct.lid`, `Subgroup.index_prod`, `Subgroup.isClosed_of_isDiscrete`,
-`Subgroup.isClosed_of_discreteTopology`.
-Double cosets, actions and quotients: `DoubleCoset.Quotient`, `DoubleCoset.eq`,
-`CategoryTheory.ActionCategory`, `CategoryTheory.ActionCategory.stabilizerIsoEnd`, `ProperlyDiscontinuousSMul`, `isOpenMap_quotient_mk'_mul`,
-`isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`,
-`t2Space_of_properlyDiscontinuousSMul_of_t2Space`. Modular groups and the upper half-plane:
-`ModularGroup.exists_smul_mem_fd`, `UpperHalfPlane.glAction`, `UpperHalfPlane.moebius_im`,
-`UpperHalfPlane.denom_ne_zero_of_im`, `UpperHalfPlane.coe_smul`, `Matrix.GeneralLinearGroup.det`,
-`isPretransitiveGL2R`, `CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0`,
-`CongruenceSubgroup.Gamma1`, `Subgroup.IsArithmetic`, `Subgroup.IsArithmetic.conj`,
-`Subgroup.IsArithmetic.properlyDiscontinuous`, `Subgroup.IsArithmetic.discreteTopology`.
-
-Mathlib has no measure on a restricted product (AnalyticNumberTheoryPartII §5.3f builds it), no
-evaluation topology on the points of a Hopf algebra (Tau Ceti's `TauCeti.PointTopology` supplies
-it), no Harish-Chandra map, no Tamagawa measure, no Siegel sets and no neatness; the others are
-built here on the carriers listed above.
-
-### From Tau Ceti
-
-Hopf-algebra points and coordinates: `TauCeti.HopfAlgebra.points`,
-`TauCeti.HopfAlgebra.mapPoints`, `TauCeti.HopfAlgebra.pointsFunctor`,
-`TauCeti.CommHopfAlgCat.pointsFunctor`, `TauCeti.CommHopfAlgCat.baseChangePointsMulEquiv`,
-`TauCeti.CommHopfAlgCat.quotientPointsSubgroup` (also cited as `quotientPointsSubgroup`),
-`TauCeti.AffineGroup.Product.pointsMulEquiv`, `TauCeti.CommHopfAlgCat.centerDefiningIdeal`,
-`TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`,
-`TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
-`TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`,
-`TauCeti.CommHopfAlgCat.isMulTorsionFree_geometricCharacterGroup`,
-`TauCeti.geometricallyReducedCommHopfAlgProperty`,
-`TauCeti.geometricallyConnectedCommHopfAlgProperty`,
-`TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`, `TauCeti.Bialgebra.CotangentSpace`,
-`Derivation.adjointPointRepresentation`, `Derivation.adjointAction`. Concrete groups:
-`TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.GeneralLinear.pointsMulEquiv_determinantPoints`,
-`TauCeti.GeneralLinear.determinantCoordinateMap`, `TauCeti.GeneralLinear.determinantGroupLike`,
-`TauCeti.MultiplicativeGroup.pointsMulEquiv`, `TauCeti.MultiplicativeGroup.pointsMulEquiv_mapValue`.
-Point topology: `TauCeti.PointTopology.instTopologicalSpaceWithConv` with the instances, maps and
-integral-point theorems of the supplier table, and the concrete homeomorphisms
-`TauCeti.PointTopology.polynomialHomeomorph`, `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`
-and `TauCeti.GeneralLinear.pointsContinuousMulEquiv`.
-Weil restriction and adelic base change: `TauCeti.Algebra.WeilRestriction` with the Hopf structure,
-point isomorphism, tower isomorphism and point homeomorphism of the supplier table, and
-`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`. Congruence subgroups:
-`TauCeti.HopfAlgebra.congruenceSubgroup` with the membership, monotonicity, functoriality and
-openness theorems of the supplier table, and the integral finite adeles
-`IsDedekindDomain.FiniteAdeleRing.integralAdeles`.
-Parabolics: `TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.unipotent`,
-`TauCeti.Cocharacter.leviDecompositionMulEquiv`. Their modules are
-`Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` and
-`Algebra/AlgebraicGroup/Dynamic/LeviDecomposition/Basic.lean`; the latter's
-`leviDecompositionMulEquiv_apply` pins multiplication of the unipotent and Levi factors.
-`TauCeti.Cocharacter.levi` is the centralizer factor in the same dynamic API.
-`TauCeti.splitTorusCommHopfAlgProperty` comes from
-`Algebra/AlgebraicGroup/SplitTorus/Basic.lean`; `RootPairing` is Mathlib's abstract root carrier.
-AA.3.1 adds its realization in counit derivations, with characters and the rational normalizer
-quotient of the specified maximal split torus. Tau Ceti supplies the point and Weil-restriction
-carriers; ReductiveGroupsPartII's abstract valued root data, apartments and parahorics remain
-local suppliers, rather than replacements for this adjoint realization.
-These are point-functor decompositions. The algebraic Levi data of AA.3.1 additionally
-specify closed subgroup schemes by Hopf ideals and their unipotence and reductivity.
-Global number fields:
-`IsDedekindDomain.HeightOneSpectrum.isNonarchimedeanLocalField_adicCompletion`,
-`NumberField.AdeleRing.instT2Space`, `TauCeti.GlobalNumberFields.discreteTopology_principalSubgroup`,
-`TauCeti.GlobalNumberFields.isClosed_principalSubgroup`,
-`TauCeti.GlobalNumberFields.normalizedAbsValue`,
-`TauCeti.GlobalNumberFields.finprod_normalizedAbsValue_eq_one`,
-`TauCeti.GlobalNumberFields.weakApproximation_denseRange`,
-`TauCeti.dedekindZeta_eulerProduct_hasProd`,
-`IsDedekindDomain.FiniteAdeleRing.quotientEquivClassGroup`, `QuaternionAlgebra.normForm`,
-`Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`. Reduction and levels: `TauCeti.cholesky`,
-`TauCeti.cholesky_mul_transpose`, `HeckeCoset.degree_eq_relIndex`,
-`DoubleCoset.quotientMapOfLELeft`, `IsQuotientCoveringMap.isCoveringMap_of_comp`,
-`exists_isFundamentalDomain_of_properlyDiscontinuousSMul`,
-`MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`,
-`MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`,
-`log_unitFiltration_injective`,
-`awayDecomposition`, `InfiniteAdeleRing.homeomorphMixedSpace`.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 1 (finite-dimensional comodules and the tensor dictionary), layer 3 (closed subgroups and
-quotients, affineness of `G/H` for reductive `H`), layer 4 (character lattices of groups of
-multiplicative type), layer 6 (centre, derived group, simply connected covers) and layer 7
-(rational parabolics, Levi decompositions, relative roots, maximal split tori and relative Weyl
-groups). Cartier's theorem, that every affine group in characteristic zero is smooth and
-geometrically reduced, is a standing input of that roadmap and is assumed here wherever
-`rational-characters-free` is applied.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-RG2.0 (the local analytic charts, *smooth-group-analytic-charts*; the point topology itself,
-its local compactness and functoriality, the compact open integral points, the congruence
-subgroups of points and the Weil restriction of affine groups with its point isomorphism, tower
-isomorphism and point homeomorphism are Tau Ceti's); RG2.1 (the valuation map of the maximal split
-central torus at the finite
-places); RG2.3 (reductive integral models, `reductive-model`, which is local over a discrete
-valuation ring and gives that a group with a reductive `𝒪_v`-model is unramified, hence
-quasi-split at `v`; hyperspecial subgroups, `hyperspecial-vertices`; Lang's theorem with Hensel
-lifting); RG2.4 (local unimodularity, the local Iwasawa factorization and integration formula of
-RG2.4.4, `iwasawa-parabolic-integral`, and the local Kneser–Tits theorem, `kneser-tits-local`).
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-Layer 0 (places and the product formula), layer 1 (weak approximation for `G_a`), layer 4 (finite
-adeles), layer 5 (full adeles and the discrete rational diagonal), layer 6 (additive strong
-approximation, the idele norm and its structure, `IdeleClassGroup.normOne`, and the compactness
-of `C_F^1`), and layer 8 (scalar extension of adeles,
-`adeleBaseChangeEquiv`, with its local factors).
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-§2.18a (finite-image Artin L-functions: the local factors on inertia invariants, their
-independence of the Frobenius lift and of the place above, multiplicativity, the induction
-identity at every finite place including the ramified ones, the one-dimensional comparison with
-presented Hecke L-functions, and Brauer continuation with the order `dim V^G` and the leading
-coefficient at one, positive for representations realized over `ℚ`). It has no Lean statement
-there; *convergence-factors* and AA.2.5 consume it.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartII
-
-§5.3f (restricted products of Haar measures,
-`TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_restrictedAddHaar`: the unique Haar
-measure with the box formula, its restriction to the level subgroups and the normalized local
-measures `dx_v`), consumed by AA.0; §5.3k (quotient measures and the two quotient conventions,
-`TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`), consumed by
-AA.2.2–AA.2.3 and the quotient-measure arguments of AA.3.4; §5.3h (the self-dual measure on
-`𝔸_F`, under which `𝔸_F/F` has volume one) and §5.3j (the multiplicative measure `d^×x` on
-`𝔸_F^×` built from the self-dual local measures), against which AA.0.4 compares its own
-normalizations.
-
-### From other roadmaps
-
-NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/LieGroups, layer 2
-(the closed-subgroup theorem for finite-dimensional real Lie groups and the automatic smoothness
-of continuous homomorphisms, which give `𝐇(ℝ)` its Lie group structure in AA.1.2) and layer 9
-(Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
-compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
-and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
-obstructions only). ClassFieldTheory, layers 12–13
-(the global norm-index theorem; the cyclic Hasse norm theorem) and layers 5 and 10 (the local
-Brauer group and the global Brauer sequence). AlgebraicTopology,
-stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layers 0–1
-(valuations and residue units, the input for the distance of `p`-adic roots of unity from one).
-SmoothRepresentationsOfLocalGroups, SR.1.1; RG2.4 local integration. IntegralLattices, 2F–2G. FuchsianOrbifolds,
-layers 0, 1, 4 and 5.
-
-### Analytic and integral dependencies
-
-AA.2.4 builds the finite reductive-group order formula from [Dudas–Michel],
-Propositions 7.12(iii) and 7.14, pp. 27–28. AA.4.2 builds the `ℚ_p`-analytic
-closed-subgroup input of [Platonov–Rapinchuk–Rapinchuk], Theorem 3.12, p. 136. The integral
-models in AA.4.6 and *isotropic-almost-everywhere* require reductive fibres after
-inverting finitely many primes. These inputs need the generality specified at each use.
-
-## How to read the build
-
-`README.md` is normative; `Suggested.lean` states headline milestones against the pinned
-Mathlib and Tau Ceti, with the auxiliary definitions needed to state them. It is not exhaustive.
-Each target's *Lean:* line identifies its statement or auxiliary definitions there; *Lean:* none
-means that the target is specified in this README. Checks are mathematical examples in prose.
-The RG2.0 analytic chart suppliers precede RG2.4 local integration,
-which is an input to AA.1.5 and AA.2.2. The AA layers are built in order, with the
-number-field level definitions of AA.5.2 accompanying AA.1.5's local factors; their
-quotient applications follow AA.4. AA.0 is the Borel
-structure of a restricted product, the convergent rescaling of the restricted Haar products of
-AnalyticNumberTheoryPartII §5.3f, and the Haar measures of the adeles and ideles; everything
-measure-theoretic later is an instance of it. AA.1 takes the adelic points of a Hopf algebra
-with Tau Ceti's point topology, compares them with a restricted product of local groups through
-an integral model, and
-establishes the discrete rational diagonal, Weil restriction, the concrete groups, unimodularity
-and compact open levels. AA.2 separates the positive split centre from the norm-one subgroup
-through the character lattice, applies the right-Haar quotient integration of
-AnalyticNumberTheoryPartII §5.3k to rational and central quotients, and fixes the Tamagawa normalization through gauge forms and convergence
-factors. AA.3 is reduction theory: rational parabolics and Iwasawa integration, real Siegel
-coordinates for a fixed maximal compact, the primitive `GL_n` and closed-orbit reductions, their
-adelic consequences (finite class sets, finite volume, compactness), heights, cusps and subgroup
-orbit maps. AA.4 is approximation, neatness, level quotients, Hecke maps and the residual
-quotient. AA.5 works the conventions out on `GL_1`, `GL_2` over `ℚ` and definite quaternion
-groups. In *Needs* clauses, `AA.k.n` is a subsection of this roadmap, a slug in italics such as
-*local-haar-character* is the target of that name, and roadmap layers are cited as in the supplier
-contracts.
 
 ## Layer 0: restricted products of Haar measures
 
@@ -5771,6 +5295,512 @@ The finite-image Artin factors, their induction identity, Brauer continuation an
 coefficients are owned by AnalyticNumberTheoryPartI §2.18a; AA.2.4 consumes them for the
 convergence factors of the character module. These ownership assignments concern the stated generic-measure and
 finite-image targets, rather than all subjects envisaged under either successor name.
+
+## Scope and ownership
+
+The roadmap owns:
+
+- the shared measure theory of restricted products (Layer AA.0): the Borel structure of a
+  restricted product, the convergent rescaling that absorbs non-unit local volumes, and the
+  normalized Haar measures on the adeles and ideles of a number field, built on the restricted
+  product `∏ʳ μ i` of Haar measures of AnalyticNumberTheoryPartII §5.3f. This layer is written for
+  countable families of second countable locally compact groups so that function-field
+  applications can use it unchanged;
+- the adelic points of an affine algebraic `F`-group (carrying Tau Ceti's point topology),
+  integral models, the restricted-product comparison, the discreteness of the rational diagonal, the
+  Lie group structure and the finiteness of the component group of the archimedean points, Weil
+  restriction and the concrete groups `G_a`, `G_m`, `GL_n`, unimodularity and compact open levels
+  (Layer AA.1);
+- rational characters, the Harish-Chandra map `H_G`, the split component `A_G(ℝ)^0` and the
+  norm-one subgroup, right-Haar quotient integration on the quotient measures of
+  AnalyticNumberTheoryPartII §5.3k, rational quotient measures,
+  gauge forms and the convergence factors of the character module, consuming the finite-image
+  Artin L-functions of AnalyticNumberTheoryPartI §2.18a; Tamagawa measures
+  and scalar transport with the Artin and discriminant supplier theorems of AA.2.4–2.5
+  (Layer AA.2);
+- the generic adelic reduction theory: rational parabolics and Iwasawa integration, real Siegel
+  coordinates for one fixed maximal compact, primitive `GL_n` and closed-orbit reduction, adelic
+  Siegel sets, finiteness of class numbers, finite volume and compactness criteria, algebraic
+  heights, cusps and the Orr–Schnell containment of subgroup Siegel sets (Layer AA.3);
+- weak and strong approximation with their torsor and arithmetic-closure bridges, the strong
+  approximation predicate, Borel density for `S`-arithmetic subgroups and strong approximation
+  for simply connected semisimple groups, neat elements
+  and neat compact open levels, level quotients with their covering and fibre formulas, Hecke
+  correspondences, volumes under level change, reductive abelianization, quaternion norms,
+  idele classes modulo squares and Fourier limits on compact abelian groups (Layer AA.4);
+- the analytic identification of the `GL_2` level quotients over `ℚ` with quotients of the upper
+  half-plane by congruence groups, together with its behaviour under change of level, and the
+  `GL_1` and definite-quaternion checks of the centre, determinant, measure and stabilizer
+  conventions (Layer AA.5).
+
+Locally symmetric spaces, Shimura data and Shimura varieties build on the neat levels of AA.4
+and add their own geometric applications. Automorphic forms on reductive groups use the adelic
+groups, measures and reduction theory of this roadmap; their representation and spectral theory
+lie outside it. The compact abelian Fourier results apply to a specified compact quotient;
+constructing a quaternion residual quotient and identifying arithmetic torus images in it lies
+outside this scope. The comparison of the `GL_2` quotients with algebraic modular curves lies
+outside this roadmap. The finite-image Artin L-functions, with their local factors, their
+induction identity, the one-dimensional comparison with Hecke L-functions, Brauer continuation
+and the leading coefficients at one, are AnalyticNumberTheoryPartI §2.18a; this roadmap consumes
+them for the convergence factors of AA.2.4.
+
+Moved: AA.2.4 finite-image Artin functions (the local factors on inertia invariants with
+arithmetic Frobenius, the induction identity at ramified places, the one-dimensional Artin–Hecke
+comparison, Brauer assembly and the leading coefficient at one, formerly owned by
+*convergence-factors*) → AnalyticNumberTheoryPartI §2.18a.
+
+The shared Haar-character, congruence-level and S-arithmetic interfaces draw on the API
+organization of the Imperial College London FLT project.
+
+Mathlib supplies restricted-product carriers and topologies, finite and probability product
+measures, Haar uniqueness, the modular character, fundamental-domain integration, the
+Hausdorff, locally compact, second countable and open quotient of a group by a closed subgroup,
+double cosets, and action groupoids. Tau Ceti supplies convolution groups of Hopf-algebra points,
+their coefficient maps, concrete `GL_n` and `G_m` comparisons, algebraic centres, geometric
+characters, cotangent/adjoint constructions, principal congruence subgroups of points, the Weil
+restriction of affine group schemes with its point isomorphism and point homeomorphism, and the
+adelic base change `𝔸_F ⊗_F E ≃ 𝔸_E`. This roadmap extends those objects rather than
+defining substitutes. In particular, an algebraic equivalence does not by itself supply a
+homeomorphism or an identity of pushed measures.
+
+Algebraic structure belongs to the
+[Reductive groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md)
+and to **ReductiveGroupsPartII**. ReductiveGroups supplies the finite-dimensional
+comodule/tensor dictionary (layer 1), closed subgroups and quotients with affineness of `G/H` for
+reductive `H` (layer 3; the closed-orbit embedding `H\G ↪ V` is derived in AA.3.3 from layers 1
+and 3), character lattices of groups of multiplicative type (layer 4), the centre, derived group
+and simply connected covers (layer 6), rational parabolics, Levi decompositions and relative
+roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the local analytic
+chart/cotangent/Haar-Jacobian bridge specified in the supplier contracts below (the congruence
+subgroups of points and the Weil restriction of affine groups are Tau Ceti's); in RG2.1, the
+valuation map of the maximal split central torus at the finite places (the torus itself is
+ReductiveGroups, layers 6–7); in RG2.3, reductive
+integral models, hyperspecial subgroups and Lang's theorem with Hensel lifting; in RG2.4, the
+local decompositions and integration, the Iwasawa decomposition `G(F_v) = K_v P(F_v)` with
+`K_v ∩ P(F_v) = P(𝒪_v)` for an arbitrary parabolic and a hyperspecial `K_v`
+(`iwasawa-parabolic-integral`), and the Kneser–Tits theorem over a local field
+(`kneser-tits-local`), and the algebraic parabolic adjoint determinant comparison
+(*parabolic-adjoint-determinant*). Quasi-splitness at almost all places (AA.4.2,
+*isotropic-almost-everywhere*) is proved in this roadmap from those inputs.
+
+The
+[Global number fields roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalNumberFields/README.md)
+supplies places and the product formula (layer 0), weak approximation (layer 1), finite adeles
+(layer 4), full adeles and the discrete rational diagonal (layer 5), additive strong
+approximation and idele norm structure (layer 6), and scalar extension of adeles (layer 8).
+NumberFieldArithmetic, layer 4, supplies the discriminant identities used in scalar Jacobians.
+RepresentationTheory/LieGroups supplies the closed-subgroup theorem and the automatic smoothness
+of continuous homomorphisms (layer 2, the Lie group structure of archimedean points in AA.1.2)
+and Cartan and Iwasawa theory (layer 9); simultaneous self-adjointness of a nested chain is proved
+in AA.3.3. GlobalQuadraticForms, layer 5,
+supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
+for approximation obstructions. ClassFieldTheory supplies the global norm-index theorem
+(layer 12), the cyclic Hasse norm theorem (layer 13), and the local Brauer group with
+the global Brauer sequence (layers 5 and 10). AnalyticNumberTheoryPartI §2.18a supplies the
+finite-image Artin L-functions: local factors on inertia invariants, the induction identity at
+every finite place, the one-dimensional comparison with Hecke L-functions and Brauer
+continuation with the leading coefficient at one; AA assembles the convergence factors of the
+character module from them (*convergence-factors*). AnalyticNumberTheoryPartII supplies the
+restricted product of Haar measures (§5.3f) and the quotient measures with their two conventions
+(§5.3k). The `GL₂` targets of AnalyticNumberTheoryPartII §§5.3l–5.3m and the lattice targets of
+ProbabilisticAndMetricNumberTheory §§4.9a–4.9b are special cases of statements here, cited where
+those statements specialise to them.
+RepresentationTheory/CompactGroups,
+layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the Haar probability
+measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
+measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
+of products of circles. LocalFieldsRamification, layers 0 (valuations) and 1 (residue units), supplies the local-field
+input for the distance of `p`-adic roots of unity from one (AA.4.3). SmoothRepresentationsOfLocalGroups supplies ring-valued Haar measures (SR.1.1);
+the arbitrary-characteristic local modulus is supplied by RG2.4,
+`LocalIntegration.modularCharacter_eq_adjointModulus`. IntegralLattices, 2F–2G, supplies
+Minkowski reduction for integral lattices. The
+[Fuchsian orbifolds roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FuchsianOrbifolds/README.md)
+supplies the coarse quotient Riemann surface `Γ\ℍ` of a Fuchsian group (layers 0–1), its cusp
+compactification and the maps induced by conjugation and finite-index inclusions (layer 4), and
+degree theory for finite holomorphic maps (layer 5); AA.5 identifies the `GL_2` components with
+these quotients for its congruence groups.
+
+Tau Ceti already provides the topological splitting of finitely many factors of a restricted
+product (`awayDecomposition`, module `Topology/Algebra/RestrictedProduct/Away/Decomposition`) and
+the homeomorphism of the infinite adeles with the mixed space
+(`InfiniteAdeleRing.homeomorphMixedSpace`, module `NumberTheory/NumberField/Global/Adeles/Basic`);
+AA.0 consumes both and adds only their measure clauses. The
+[restricted-products roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/RestrictedProducts/README.md)
+specifies the completed topological interfaces; the pinned declarations and their measure
+extensions are listed below.
+
+The supplier contracts include positive convergent products of reals with summable error: Mathlib
+`Real.multipliable_one_add_of_summable`, `Real.rexp_tsum_eq_tprod` and
+`Multipliable.tprod_mul_tprod_compl` (the product over a set times the product over its
+complement, under multipliability of both restrictions, in a commutative topological monoid: the
+multiplicative reals are not a group, so the group-valued splitting lemma over a finite set does
+not apply to them). The extension to factor masses that are only summably close
+to one is this roadmap's deduction from these lemmas; AnalyticNumberTheoryPartII §5.3f supplies
+the normalized product of local Haar measures on boxes whose almost-all factors have mass one.
+The point topology on `WithConv (H →ₐ[F] R)` for every topological `F`-algebra `R`, its
+topological-group structure, its Hausdorff, second-countable and locally compact instances (the
+last two for finite-type `H`) and its functoriality are Tau Ceti's (`TauCeti.PointTopology`,
+listed in the supplier table); at `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v` they make the adelic, finite
+adelic, archimedean and local points of a finite-type group second countable, locally compact,
+Hausdorff topological groups ([Borel], §1.2, p. 7), the coefficient rings being second countable
+by Tau Ceti `TauCeti.instSecondCountableTopologyOfIsNonarchimedeanLocalField` for `F_v` and by
+AA.0.4 *adelic-borel-structure* for `𝔸_F`, `𝔸_{F,f}` and `F_∞`. Integral points of a model are
+compact open in `G(F_v)`: Tau Ceti
+`TauCeti.PointTopology.isOpenEmbedding_mapValue_integer` and
+`TauCeti.PointTopology.isCompact_range_mapValue_integer` at the local field `F_v`, whose integer
+ring is `𝒪_v` by `IsDedekindDomain.HeightOneSpectrum.integer_eq_adicCompletionIntegers`. Closed
+subgroups give closed embeddings of adelic points, and `(G × G′)(𝔸_F) ≃ G(𝔸_F) × G′(𝔸_F)`:
+Tau Ceti `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` and
+`TauCeti.PointTopology.tensorProductHomeomorph` (for every T1, respectively every topological,
+coefficient ring), with Tau Ceti `quotientPointsSubgroup` and
+`TauCeti.AffineGroup.Product.pointsMulEquiv` — the closed-subgroup statement is [Conrad],
+Proposition 2.1, p. 2, with Tau Ceti `TauCeti.CommHopfAlgCat.quotientPointsSubgroup` and
+`NumberField.AdeleRing.instT2Space`, the closed-image clause being [Conrad], Example 2.3, p. 3;
+the product statement is [Conrad], Proposition 2.1, proof, p. 2, with
+`TauCeti.AffineGroup.Product.pointsMulEquiv`.
+Volumes of commensurable compact open subgroups, `μ(U)/μ(U′) = [U : U ∩ U′]/[U′ : U ∩ U′]`
+([Borel], §1.7, p. 8): SmoothRepresentationsOfLocalGroups, SR.1.1 (ring-valued Haar measures) and
+Mathlib `MeasureTheory.Subgroup.index_mul_measure`, applied with AA.1.5 and
+AnalyticNumberTheoryPartII §5.3f. A division ring has no unipotent unit other than `1`
+([Milne], §3, Example 3.4, p. 34, in the setting of Mathlib `QuaternionAlgebra`): Mathlib
+`IsNilpotent.eq_zero`. The `GL_1` class number, `F^×\𝔸_{F,f}^×/Ô^× ≃ Cl(𝒪_F)` ([Borel],
+Proposition 2.2, p. 11, with Mathlib `NumberField.classNumber`): Tau Ceti
+`IsDedekindDomain.FiniteAdeleRing.quotientEquivClassGroup` (with `integralUnits`), also
+GlobalNumberFields, layer 4, consumed through AA.1.4 and AA.3.4.
+
+The following Tau Ceti and roadmap statements are the local or algebraic halves of targets that
+remain here, which add only the adelic or measure clause: `restrictedProductCongr` and
+`restrictedProductCongrRight` with their continuity (AA.0.3); Tau Ceti's point topology with its
+local compactness and functoriality, `TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`, and
+the `G_a`, `G_m`, `GL_n` homeomorphisms `TauCeti.PointTopology.polynomialHomeomorph`,
+`TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv` and
+`TauCeti.GeneralLinear.pointsContinuousMulEquiv`, at `R = 𝔸_F` (AA.1); Tau Ceti's Weil-restriction
+point isomorphism `TauCeti.Algebra.WeilRestriction.pointsMulEquiv` and point homeomorphism
+`TauCeti.Algebra.WeilRestriction.homHomeomorph` with the adelic base change
+`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv` (AA.1.4); Tau Ceti's principal congruence
+subgroups `TauCeti.HopfAlgebra.congruenceSubgroup` with their membership, monotonicity, coefficient
+functoriality and openness (AA.1.5, AA.5.2); local unimodularity and the local Iwasawa factorization
+and integration formula of RG2.4.4 (AA.1.5, AA.3.1); the modulus character of a local parabolic,
+RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus` (AA.2.2); Mathlib's `QuotientGroup` instances and
+`inducedMeasure` for normal subgroups, and `QuotientGroup.integral_eq_integral_automorphize` for
+discrete ones (AA.2.2–AA.2.3); Tau Ceti `exists_isFundamentalDomain_of_properlyDiscontinuousSMul`
+(AA.2.3); Minkowski reduction for integral lattices, IntegralLattices 2F–2G (AA.3.2); the local
+Kneser–Tits input of RG2.4.4 (AA.4.2); Tau Ceti `log_unitFiltration_injective` (AA.4.3); Tau Ceti
+`DoubleCoset.quotientMapOfLELeft`, `cosetToOrbitRelMapFiber_surjective`,
+`finite_fiber_orbitRel_map_of_isFiniteRelIndex` and `HeckeCoset.degree_eq_relIndex`
+(AA.4.4–AA.4.5); `IdeleClassGroup.isCompact_normOne`, `ideleClassNorm_surjective`,
+`unitsCongruenceSubgroup_finiteIndex`, Mathlib `isPretransitiveGL2R` and FuchsianOrbifolds
+layer 4 (AA.5). Tau Ceti's `ideleNorm`, `ratFundamentalDomain`, `weakApproximation_denseRange`
+and `FiniteAdeleRing.denseRange_algebraMap` are the idele norm, the fundamental domain
+`[0,1) × ∏ ℤ_p` and the `G_a` cases of approximation used above.
+
+## Exact supplier contracts
+
+| Object | Exact supplier and file | Use here |
+|---|---|---|
+| Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
+| Geometric torsors and classes | SchemeAndStackFoundations, §§1.13, 1.15, 2.3: `GroupSpace.ofGroupScheme` (§1.13); `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorRepresentability`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk`, `torsorClasses.mk_eq_base_iff`, `torsorClasses.surjective_mk` (§1.15); `NonabelianH1` (§2.3). Its `Suggested.lean` states `Groups.Torsor.trivial_iff_section` and `Groups.torsorRepresentability`; the other names are targets of its README | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
+| Finite-image Artin L-functions | AnalyticNumberTheoryPartI §2.18a, specified in its README without a Lean statement: the local factors `L_v(ρ,s)` on inertia invariants with arithmetic Frobenius, the induction identity at every finite place including the ramified ones, the one-dimensional comparison with presented Hecke L-functions, and Brauer continuation with order `dim V^G` and a nonzero leading coefficient at one, positive for representations realized over `ℚ` | The character-module factors and leading coefficient of *convergence-factors*, the Artin product formula for `τ_G` and its transport under restriction of scalars (AA.2.5). |
+| Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=\|det M\| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
+| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
+| Restricted products of Haar measures | AnalyticNumberTheoryPartII §5.3f: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_restrictedAddHaar`; `AnalyticNumberTheoryPartII/Suggested.lean` | The measure `∏ʳ μ i` of AA.0.2 with its box formula, its restriction to the level subgroups `U_S` and its Haar property, in the multiplicative and the additive form (the Lean statement there is additive). AA.0 adds the Borel structure, right invariance, the convergent rescaling and the adelic and idelic normalizations. |
+| Quotient measures | AnalyticNumberTheoryPartII §5.3k: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`; `AnalyticNumberTheoryPartII/Suggested.lean` | Weil's quotient measure on `H\G` for right Haar measures with matching modular characters, its extension to nonnegative Borel and to integrable functions, its scaling and composition in stages, and the inversion between the left and right conventions for countable discrete subgroups of unimodular groups. AA.2.2 adds uniqueness among all invariant Radon measures; AA.2.3 applies the measure to rational and central quotients. |
+| Homogeneous quotient topology | `t2Space_quotient_mulAction_of_properSMul`, `Mathlib/Topology/Algebra/ProperAction/Basic.lean`, the left multiplication action of a closed subgroup being proper by instance inference from the same file; `IsOpenQuotientMap.locallyCompactSpace`, `Mathlib/Topology/Compactness/LocallyCompact.lean`; `MulAction.isOpenQuotientMap_quotientMk`, `isOpenMap_quotient_mk'_mul`, `ContinuousConstSMul.secondCountableTopology`, `Mathlib/Topology/Algebra/ConstMulAction.lean` | For a closed subgroup `H` of a second countable locally compact Hausdorff group `G`, the orbit space `MulAction.orbitRel.Quotient H G` of left multiplication is Hausdorff, locally compact and second countable, and the projection is an open quotient map. AA.2.2 adds the lifting of compact sets and the quotient measures. |
+| Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
+| Scheme centralizers, normalizers and character evaluation | RG2.1 targets `BruhatTits.GeometricRoots.characterValue`, `BruhatTits.GeometricRoots.characterValue_coe`, `centralizer`, `normalizer`, `centralizerIdeal`, `centralizerIdeal_points_iff`; `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | AA.3.1 spells the same contracts on the unbundled coordinate algebra `H` and the pinned `quotientPointsSubgroup`. The root-ray helper additionally accepts non-root characters and uses the pinned dynamic contraction subgroups. |
+| Arithmetic level carrier | `TauCetiRoadmap.AdelicAlgebraicGroups.Reduction.levelArithmetic`; `TauCetiRoadmap/AdelicAlgebraicGroups/Suggested.lean` | `Neat.IsNeatLevel` is stated through it; the arithmetic discreteness, neatness and component results consume the same subgroup. |
+| Algebraically closed central-simple splitting | Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`, `Mathlib/RingTheory/SimpleModule/IsAlgClosed.lean`; `Algebra.IsCentral`, `Mathlib/Algebra/Central/Defs.lean`; `Module.Basis.baseChange`, `Mathlib/LinearAlgebra/TensorProduct/Basis.lean`. | The `SL₁(D)` target of AA.3.4 uses this matrix splitting and the extended regular basis; its reduced-norm-one Hopf ideal and compact arithmetic quotients are the additional targets. |
+| Semialgebraic sets | `TauCeti.IsSemialgebraic`, `TauCeti.isSemialgebraic_def`; `TauCeti/Geometry/RealAlgebraic/Semialgebraic/Basic.lean` | AA.3.2 uses this exact polynomial set algebra on matrix-entry coordinates; the new assertions concern the horospherical graph, windows and reduced forms. |
+| Adjoint weight spaces | `Derivation.adjointWeightSpace`, `Derivation.mem_adjointWeightSpace_iff_universalPointAction`, `Derivation.isInternal_adjointWeightSpace`; `TauCeti/Algebra/AlgebraicGroup/Tangent/RootSpace.lean` | The relative weight spaces of AA.3.1 instead realize the geometric weight space inside counit derivations for a Hopf-ideal split torus; the supplier uses the cotangent dual and a specified split-torus coordinate map. |
+| Derived subgroup | `TauCeti.CommHopfAlgCat.derivedDefiningIdeal`; `TauCeti/Algebra/AlgebraicGroup/Derived/Basic.lean`; RG2.1 tests `ZExtension.derivedIdeal_gl_n`, `ZExtension.derivedIdeal_sl_n`, `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | The anisotropy criterion of AA.3.4 specifies the derived Hopf ideal by this universal property (largest ideal killed by every algebra-valued commutator) and tests all rational cocharacters; no independent derived-subgroup definition. |
+| Geometric identity component | `TauCeti.HopfAlgebra.identityComponentHopfIdeal`; `TauCeti/Algebra/AlgebraicGroup/Connected/Comultiplication.lean` | This supplier assumes an algebraically closed field. The finite-volume criterion of AA.3.4 gives the number-field descent by the largest geometrically connected closed subgroup; the disconnected case of that criterion uses its ideal. |
+| Constant-form matrix subgroup | `TauCeti.ConstantForm.definingHopfIdeal`, `TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/ConstantForm/Basic.lean` | The twisted orthogonal group of AA.3.7 is the determinant-one restriction of this equation for its explicit rational form; it does not define another general orthogonal-group construction. |
+| Connected reductivity | `TauCeti.reductiveCommHopfAlgProperty`; `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean` | The reductive groups with finite component groups of AA.3.3 drop connectedness in characteristic zero for the Borel–Harish-Chandra statements. |
+| Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
+| Point topology | `TauCeti.PointTopology.instTopologicalSpaceWithConv`, `TauCeti.PointTopology.continuous_eval_ofConv`, `TauCeti.PointTopology.continuous_withConv_iff`, `TauCeti.PointTopology.isTopologicalGroup`, `AlgHom.continuous_mapValue`, `BialgHom.continuous_mapDomain`, `TauCeti.PointTopology.instT2SpaceWithConv`, `TauCeti.PointTopology.instSecondCountableTopologyWithConv`, `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`, `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`, `TauCeti.PointTopology.isClosedEmbedding_eval_generators`, `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`, `TauCeti.PointTopology.tensorProductHomeomorph`, `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`, `TauCeti.PointTopology.isCompact_range_mapValue_integer`; `TauCeti/Topology/Algebra/PointTopology/{Basic,Functoriality,Group,Separation,IntegralPoints}.lean` | The topology of AA.1.1 on `G(R)` for `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v`: the coarsest topology making every evaluation `x ↦ x(h)` continuous, induced from `R^H`. Coefficient maps along continuous algebra maps are continuous homomorphisms; the Hausdorff instance needs `R` Hausdorff, second countability needs `R` second countable and `H` of finite type, local compactness needs `R` locally compact and T1 and `H` of finite type. `Suggested.lean` uses this instance; AA adds the restricted-product comparison and the adelic clauses. |
+| Concrete point homeomorphisms | `TauCeti.PointTopology.polynomialHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/Basic.lean`. `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/MultiplicativeGroup/Topology.lean`. `TauCeti.GeneralLinear.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Topology.lean` | The topological identifications of `G_a(R)` with `R`, of `G_m(R)` with `Rˣ` and of `GL_n(R)` with `GL (Fin n) R`, each unit group carrying the topology induced by `g ↦ (g, g⁻¹)`, at `R = 𝔸_F` in AA.1.4; AA adds the diagonal and restricted-product clauses. |
+| Weil restriction | `TauCeti.Algebra.WeilRestriction`, `TauCeti.Algebra.WeilRestriction.homEquiv`; `TauCeti/RingTheory/WeilRestriction/Basic.lean`. `TauCeti.Algebra.WeilRestriction.instHopfAlgebra`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_naturality`, `TauCeti.Algebra.WeilRestriction.mapBialgHom`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_mapDomain_mapBialgHom`; `TauCeti/Algebra/HopfAlgebra/WeilRestriction.lean`. `TauCeti.Algebra.WeilRestriction.compAlgEquiv`, `TauCeti.Algebra.WeilRestriction.homEquiv_compAlgEquiv`; `TauCeti/RingTheory/WeilRestriction/Composition.lean`. `TauCeti.Algebra.WeilRestriction.homHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/WeilRestriction.lean` | `Res_{E/F}` of a finitely presented Hopf `E`-algebra along a finite projective `F → E`: the Hopf structure for which `(Res G)(T) ≃* G(E ⊗_F T)` is a group isomorphism natural in `T` and in `G`, the tower isomorphism `Res_{E/F} Res_{L/E} ≃ Res_{L/F}` fixed by its effect on points, and the point homeomorphism when `E ⊗_F T` carries its `T`-module topology. AA.1.4 adds the adelic comparison `exists_weilRestriction_adelicPointsEquiv`, its local factors and its integral clauses. |
+| Adelic base change | `TauCeti.GlobalNumberFields.adeleBaseChangeAlgEquiv`, `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`, `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower`; `TauCeti/NumberTheory/NumberField/Global/Adeles/BaseChange.lean` | The `𝔸_F`-algebra isomorphism `𝔸_F ⊗_F E ≃ 𝔸_E`, a homeomorphism for the `𝔸_F`-module topology on the source, and its compatibility with towers: the coefficient half of AA.1.4. |
+| Congruence subgroups | `TauCeti.HopfAlgebra.congruenceSubgroup`, `TauCeti.HopfAlgebra.mem_congruenceSubgroup_iff`, `TauCeti.HopfAlgebra.congruenceSubgroup_mono`, `TauCeti.HopfAlgebra.congruenceSubgroup_top`, `TauCeti.HopfAlgebra.congruenceSubgroup_bot`, `TauCeti.HopfAlgebra.congruenceSubgroup_le_comap_mapValue`; `TauCeti/Algebra/AlgebraicGroup/CongruenceSubgroup/Basic.lean`. `TauCeti.HopfAlgebra.isOpen_congruenceSubgroup`, `TauCeti.HopfAlgebra.hasBasis_nhds_one_congruenceSubgroup`; `TauCeti/Algebra/AlgebraicGroup/CongruenceSubgroup/Topology.lean`. `TauCeti.GeneralLinear.mem_congruenceSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/CongruenceSubgroup.lean`. `IsDedekindDomain.FiniteAdeleRing.integralAdeles`, `IsDedekindDomain.FiniteAdeleRing.isOpen_integralAdeles`, `IsDedekindDomain.FiniteAdeleRing.isCompact_integralAdeles`; `TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Basic.lean` | The kernel `G(R)_I` of reduction `G(R) → G(R/I)` for an ideal `I` of any commutative coefficient ring `R`: membership tested against the identity point, monotone in `I`, all of `G(R)` at `I = R` and trivial at `I = 0`, carried along coefficient maps sending `I` into `J`, open for an open level and finite-type `H`, and entrywise for `GL_n`. AA.5.2 takes `R = Ô_F` (the integral finite adeles) and `I = NÔ_F`; AA.1.5 and AA.5.2 add `K₀(N)`, `K₁(N)`, the completed-ideal comparison and the local product formulas. |
+| Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `BialgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
+| Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`, `QuaternionAlgebra.normForm_mul`; `TauCeti/Algebra/Quaternion/NormForm.lean`. `QuaternionAlgebra.normForm_eq_of_algEquiv`; `TauCeti/Algebra/Quaternion/AlgEquiv.lean`. `TauCeti.QuaternionAlgebra.baseChange`; `TauCeti/Algebra/Quaternion/BaseChange.lean` | The norm-image theorems use this quadratic form directly. For a presentation `D ≃ ℍ[F,a,b]` and a commutative `F`-algebra `A`, the unit norm `Nrd_A : (D ⊗[F] A)^× → A^×` is `normForm` over `A` transported along `baseChange`; it is multiplicative by `normForm_mul` and independent of the presentation by `normForm_eq_of_algEquiv`, since `2` is invertible in `F`. AA.4.6 (*quaternion-norm-images*) owns its naturality in `A` and the determinant comparison under a splitting. |
+| Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `H_G` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
+| Compact norm-one idele classes | `TauCeti.GlobalNumberFields.IdeleClassGroup.isCompact_normOne`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Compact.lean` | Supplies the compactness assertion in Layer 5 directly. |
+| Finite-factor decomposition | `TauCeti.awayDecomposition`, `TauCeti.continuous_awayDecomposition`, `TauCeti.continuous_awayDecomposition_symm`; `TauCeti/Topology/Algebra/RestrictedProduct/Away/Decomposition.lean` | The finite splitting of AA.0.3 and AA.1.2 bundles these as a topological group equivalence on finset-indexed factors; the new assertion is measure compatibility. |
+| Restricted-product coordinate maps | `TauCeti.restrictedProductCongr_apply`; `TauCeti/Topology/Algebra/RestrictedProduct/Congr/Basic.lean`. `TauCeti.awayDecomposition_fst`, `TauCeti.awayDecomposition_snd`, `TauCeti.awayDecomposition_symm_apply_of_mem`, `TauCeti.awayDecomposition_symm_apply_of_notMem`; `TauCeti/Topology/Algebra/RestrictedProduct/Away/Decomposition.lean` | Supply the coordinate formulas of the bundled topological equivalences. |
+| Modular character under conjugation | `MeasureTheory.Measure.modularCharacter`; `Mathlib/MeasureTheory/Group/ModularCharacter.lean`, with `map_mul` and `map_inv` | Its commutative codomain makes conjugation invariance a general homomorphism identity. |
+| Measurable fundamental domains | `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; `TauCeti/MeasureTheory/Group/ProperlyDiscontinuous.lean` | Apply to the countable discrete rational subgroup acting freely by translation; its Borel domain supplies the existence statement directly. |
+| Right translation of Haar measure | `MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`, `MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`; `TauCeti/MeasureTheory/Group/ModularCharacter.lean`. `MeasureTheory.IsFundamentalDomain.measure_ne_zero`, `MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq`, `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`; `Mathlib/MeasureTheory/Group/FundamentalDomain.lean` | For a regular left Haar measure `μ`, right translation by `g` preserves null sets and satisfies `μ(S g⁻¹) = Δ(g) μ(S)` for every set `S`; a fundamental domain of a countable group acting with an invariant measure has nonzero measure, its images under commuting quasi-measure-preserving bijections are fundamental domains, any two have equal measure, and `μ(K) = Σ_g μ(gK ∩ D)` for a fundamental domain `D` and every set `K`. AA.2.3 (*finite-covolume-unimodular*) combines these. |
+| Exponential tail integral | `integral_exp_mul_Ioi`; `Mathlib/Analysis/SpecialFunctions/ImproperIntegrals.lean` | Finite-product integration gives the relative-chamber integral. |
+| Change of double-coset level | `DoubleCoset.quotientMapOfLELeft`; `TauCeti/GroupTheory/DoubleCoset/Map.lean` | The level map here changes the right subgroup; its defining equation sends the class of `g` to the class of the same `g`. |
+
+All names in this section are part of the dependency contract. Each is cited again in the
+*Needs* clause of the target that consumes it.
+
+### Local analytic and parabolic suppliers
+
+The local charts, their cotangent comparison and their Haar change of variables belong to
+ReductiveGroupsPartII RG2.0. RG2.4 then supplies the local adjoint-modulus theorem and its
+parabolic determinant reduction; AA.2.2 consumes these local results, and AA.2.4 consumes the
+same RG2.0 charts for gauge measures. SmoothRepresentationsOfLocalGroups SR.2.2 consumes RG2.4
+and supplies the change to coefficient-valued moduli and the square root for normalized induction.
+The local supplier order is RG2.0 charts → RG2.4 local modulus → AA.2.2 and SR.2.2;
+AA.2.4 gauge measures use RG2.0 charts independently. The roadmap dependency order is
+ReductiveGroupsPartII before AdelicAlgebraicGroups and SmoothRepresentationsOfLocalGroups;
+AA's local modulus comparison has no dependency on SR.
+
+**Local analytic chart supplier.** (RG2.0, *smooth-group-analytic-charts*) For every
+nondiscrete locally compact field `K` of characteristic zero and smooth affine finite-type
+`K`-group `G = Spec H` of dimension `d`, construct an analytic manifold structure on `G(K)`
+inducing the point topology (Tau Ceti `TauCeti.PointTopology.instTopologicalSpaceWithConv`).
+Construct charts from smooth local parameters
+using the local inverse function theorem; multiplication and inversion are analytic.
+Identify the tangent space at the identity with the `K`-linear dual of
+`TauCeti.Bialgebra.CotangentSpace K H`, with the derivative of a coordinate function equal
+to evaluation on its cotangent class. Prove analytic change of variables for analytic
+isomorphisms of open chart domains, with normalized absolute determinant and product
+additive Haar measure. ReductiveGroupsPartII RG2.0 owns this bridge
+([Platonov–Rapinchuk–Rapinchuk], §3.1,
+Theorem 3.2 and Proposition 3.3, pp. 128–130, and the local-parameter and measure
+constructions on pp. 192–196).
+*Needs:* Tau Ceti `TauCeti.PointTopology.instTopologicalSpaceWithConv` (point topology),
+`TauCeti.Bialgebra.CotangentSpace` and `Derivation.cotangentLinearEquiv` (cotangent duality),
+`Algebra/AlgebraicGroup/Tangent/Cotangent.lean`; Mathlib additive Haar measure and
+`HasStrictFDerivAt.toOpenPartialHomeomorph`. The product additive measure is formed locally;
+no adelic measure or RG2.4 modulus theorem is an input. At a nonarchimedean place use
+`vol(𝒪_K) = 1`, over `ℝ` use `dx`, and over `ℂ` use `2 dx dy` and the squared modulus.
+For a Borel set `B` in the source of an analytic chart isomorphism `f`, the image law is
+`μ_d(f(B)) = ∫_B |det Df(x)|_K dμ_d(x)`; for a linear isomorphism `A`, its pushforward
+is `A_*μ_d = |det A|_K⁻¹ μ_d`.
+*Lean:* none; specified in the README only.
+
+**Checks.**
+
+- `G_a(K)` has its standard coordinate, whose derivative is the identity.
+- `G_m(K)` is the open subset `K^×` with coordinate `T`; at `1` its derivative is
+  dual to the class of `T − 1`.
+- On `ℚ₃`, multiplication by `3` has image factor `1/3` and pushforward factor `3`.
+  RG2.0 *equal-characteristic-smooth-group-analytic-charts* gives the same two factors
+  for multiplication by `t` on `𝔽₃((t))`, with no characteristic-zero argument.
+- The trivial group has dimension zero; its chart is the singleton `K^0` and the
+  empty Jacobian determinant is `1`.
+
+**Parabolic adjoint determinant supplier.** (RG2.4, *parabolic-adjoint-determinant*)
+For a connected reductive group `G` over a field `E`, a parabolic `P = M ⋉ N` and
+`p ∈ P(E)`, supply the algebraic identity
+`det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`. Use the `P`-stable exact sequence
+`0 → Lie N → Lie P → Lie M → 0`, where the action on the quotient factors through
+`P → M`. The adjoint determinant of the connected reductive Levi is the trivial
+algebraic character: after scalar extension to an algebraic closure, its maximal-torus
+weights consist of zero weights and opposite root pairs, whose product is one; a
+character of a connected reductive group trivial on that torus is trivial. Descend the
+identity to `E`. This proves equality in `Eˣ` in every characteristic, before taking
+absolute values; local Haar unimodularity alone only gives an absolute-value identity.
+This is a deduction from [Conrad RGS], §1.2, equation (1.2.1), p. 16
+(the root-weight decomposition in arbitrary characteristic), and Proposition 1.4.7,
+pp. 35–36 (parabolics and Levi factors), with ReductiveGroups layer 7's parabolic/Levi
+theory. Together with `LocalIntegration.modularCharacter_eq_adjointModulus`
+it gives the local formula `Δ_P(p) = |det(Ad(p)|Lie N)|_E` used by AA and SR
+([Casselman], §1.5, p. 16). *Needs:* ReductiveGroups layers 4, 6–7 (characters,
+reductive structure, root spaces and Levi decomposition); RG2.1's shared adjoint-weight
+carriers; Tau Ceti `Derivation.adjointAction`; Mathlib `LinearEquiv.det`.
+*Lean:* none; specified as a supplier contract in the README only.
+
+**Checks.**
+
+- For the upper Borel of `GL₂`, the determinants on `Lie P` and `Lie N` at
+  `diag(a,d)` are both `a/d`, even though `Lie P` has dimension three and `Lie N` one.
+- For the lower Borel they are both `d/a`; at `diag(3,1)` over `ℚ₃` the
+  absolute determinants are `3`, while the upper Borel gives `1/3`. At `diag(t,1)`
+  over `𝔽₃((t))` the same lower and upper values are `3` and `1/3`.
+- For `P = G`, `N = 1`: the determinant on the zero Lie algebra is one, and the
+  adjoint determinant of `G` is one as an algebraic character.
+
+### From Mathlib
+
+Restricted products: `RestrictedProduct.topologicalSpace_eq_iSup`,
+`RestrictedProduct.isOpenEmbedding_inclusion_principal`, `RestrictedProduct.continuous_dom`,
+`RestrictedProduct.mapAlong_continuous`, `RestrictedProduct.locallyCompactSpace_of_group`,
+`RestrictedProduct.isTopologicalGroup`, `RestrictedProduct.unitsEquiv`,
+`RestrictedProduct.evalRingHom`. Measure theory: `MeasureTheory.Measure.haarMeasure`,
+`MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.Measure.pi`,
+`MeasureTheory.Measure.prod`, `MeasureTheory.integral_prod`,
+`MeasureTheory.Measure.isMulLeftInvariant_eq_smul`, `MeasureTheory.Measure.modularCharacter`,
+`MeasureTheory.Measure.map_right_mul_eq_modularCharacterFun_smul`,
+`MeasureTheory.Subgroup.index_mul_measure`,
+`MeasureTheory.IsFundamentalDomain`, `MeasureTheory.IsFundamentalDomain.quotientMeasure_eq`,
+`MeasureTheory.IsFundamentalDomain.measure_eq`, `MeasureTheory.IsFundamentalDomain.measure_ne_zero`,
+`MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`,
+`MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`,
+`MeasureTheory.QuotientMeasureEqMeasurePreimage`, `QuotientGroup.integral_eq_integral_automorphize`,
+`MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`,
+`MeasureTheory.Lp`, `MonoidHom.isOpenMap_of_sigmaCompact`, and the general theory of locally
+compact groups, quotient topologies and summable series. Number fields: `NumberField.AdeleRing`,
+`IsDedekindDomain.FiniteAdeleRing`, `NumberField.IdeleGroup`, `NumberField.IdeleClassGroup`,
+`NumberField.mixedEmbedding.volume_fundamentalDomain_stdBasis`, `NumberField.mixedEmbedding.norm`,
+`NumberField.prod_abs_eq_one`,
+`Nat.Primes.not_summable_one_div`, `Real.rexp_tsum_eq_tprod`,
+`Multipliable.tprod_mul_tprod_compl`, `NumberField.dedekindZeta_residue`,
+`NumberField.dedekindZeta_residue_pos`, `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`,
+`NumberField.classNumber`, `NumberField.Units.rank`, `NumberField.Units.unitLattice_rank`,
+`NumberField.Units.instZLattice_unitLattice`, `Set.integer`, `QuaternionAlgebra`,
+`IsNilpotent.eq_zero`, `Real.multipliable_one_add_of_summable`, finite presentation and
+localization. Hopf and linear algebra: `AlgHom.prod`, `GroupLike`, `GroupLike.instCommGroup`, `Subgroup.index_pi`,
+`IsGroupLikeElem.map`, the convolution monoid on `WithConv (C →ₐc[R] A)`,
+`AddMonoidAlgebra.mapDomainBialgHom`, `Algebra.TensorProduct.cancelBaseChange`,
+`Ideal.Cotangent`, `Bialgebra.counitAlgHom`, `exteriorPower.ιMulti`, `exteriorPower.map`,
+`Module.evalEquiv`, `TensorProduct.lid`, `Subgroup.index_prod`, `Subgroup.isClosed_of_isDiscrete`,
+`Subgroup.isClosed_of_discreteTopology`.
+Double cosets, actions and quotients: `DoubleCoset.Quotient`, `DoubleCoset.eq`,
+`CategoryTheory.ActionCategory`, `CategoryTheory.ActionCategory.stabilizerIsoEnd`, `ProperlyDiscontinuousSMul`, `isOpenMap_quotient_mk'_mul`,
+`isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`,
+`t2Space_of_properlyDiscontinuousSMul_of_t2Space`. Modular groups and the upper half-plane:
+`ModularGroup.exists_smul_mem_fd`, `UpperHalfPlane.glAction`, `UpperHalfPlane.moebius_im`,
+`UpperHalfPlane.denom_ne_zero_of_im`, `UpperHalfPlane.coe_smul`, `Matrix.GeneralLinearGroup.det`,
+`isPretransitiveGL2R`, `CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0`,
+`CongruenceSubgroup.Gamma1`, `Subgroup.IsArithmetic`, `Subgroup.IsArithmetic.conj`,
+`Subgroup.IsArithmetic.properlyDiscontinuous`, `Subgroup.IsArithmetic.discreteTopology`.
+
+Mathlib has no measure on a restricted product (AnalyticNumberTheoryPartII §5.3f builds it), no
+evaluation topology on the points of a Hopf algebra (Tau Ceti's `TauCeti.PointTopology` supplies
+it), no Harish-Chandra map, no Tamagawa measure, no Siegel sets and no neatness; the others are
+built here on the carriers listed above.
+
+### From Tau Ceti
+
+Hopf-algebra points and coordinates: `TauCeti.HopfAlgebra.points`,
+`TauCeti.HopfAlgebra.mapPoints`, `TauCeti.HopfAlgebra.pointsFunctor`,
+`TauCeti.CommHopfAlgCat.pointsFunctor`, `TauCeti.CommHopfAlgCat.baseChangePointsMulEquiv`,
+`TauCeti.CommHopfAlgCat.quotientPointsSubgroup` (also cited as `quotientPointsSubgroup`),
+`TauCeti.AffineGroup.Product.pointsMulEquiv`, `TauCeti.CommHopfAlgCat.centerDefiningIdeal`,
+`TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`,
+`TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
+`TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`,
+`TauCeti.CommHopfAlgCat.isMulTorsionFree_geometricCharacterGroup`,
+`TauCeti.geometricallyReducedCommHopfAlgProperty`,
+`TauCeti.geometricallyConnectedCommHopfAlgProperty`,
+`TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`, `TauCeti.Bialgebra.CotangentSpace`,
+`Derivation.adjointPointRepresentation`, `Derivation.adjointAction`. Concrete groups:
+`TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.GeneralLinear.pointsMulEquiv_determinantPoints`,
+`TauCeti.GeneralLinear.determinantCoordinateMap`, `TauCeti.GeneralLinear.determinantGroupLike`,
+`TauCeti.MultiplicativeGroup.pointsMulEquiv`, `TauCeti.MultiplicativeGroup.pointsMulEquiv_mapValue`.
+Point topology: `TauCeti.PointTopology.instTopologicalSpaceWithConv` with the instances, maps and
+integral-point theorems of the supplier table, and the concrete homeomorphisms
+`TauCeti.PointTopology.polynomialHomeomorph`, `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`
+and `TauCeti.GeneralLinear.pointsContinuousMulEquiv`.
+Weil restriction and adelic base change: `TauCeti.Algebra.WeilRestriction` with the Hopf structure,
+point isomorphism, tower isomorphism and point homeomorphism of the supplier table, and
+`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`. Congruence subgroups:
+`TauCeti.HopfAlgebra.congruenceSubgroup` with the membership, monotonicity, functoriality and
+openness theorems of the supplier table, and the integral finite adeles
+`IsDedekindDomain.FiniteAdeleRing.integralAdeles`.
+Parabolics: `TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.unipotent`,
+`TauCeti.Cocharacter.leviDecompositionMulEquiv`. Their modules are
+`Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` and
+`Algebra/AlgebraicGroup/Dynamic/LeviDecomposition/Basic.lean`; the latter's
+`leviDecompositionMulEquiv_apply` pins multiplication of the unipotent and Levi factors.
+`TauCeti.Cocharacter.levi` is the centralizer factor in the same dynamic API.
+`TauCeti.splitTorusCommHopfAlgProperty` comes from
+`Algebra/AlgebraicGroup/SplitTorus/Basic.lean`; `RootPairing` is Mathlib's abstract root carrier.
+AA.3.1 adds its realization in counit derivations, with characters and the rational normalizer
+quotient of the specified maximal split torus. Tau Ceti supplies the point and Weil-restriction
+carriers; ReductiveGroupsPartII's abstract valued root data, apartments and parahorics remain
+local suppliers, rather than replacements for this adjoint realization.
+These are point-functor decompositions. The algebraic Levi data of AA.3.1 additionally
+specify closed subgroup schemes by Hopf ideals and their unipotence and reductivity.
+Global number fields:
+`IsDedekindDomain.HeightOneSpectrum.isNonarchimedeanLocalField_adicCompletion`,
+`NumberField.AdeleRing.instT2Space`, `TauCeti.GlobalNumberFields.discreteTopology_principalSubgroup`,
+`TauCeti.GlobalNumberFields.isClosed_principalSubgroup`,
+`TauCeti.GlobalNumberFields.normalizedAbsValue`,
+`TauCeti.GlobalNumberFields.finprod_normalizedAbsValue_eq_one`,
+`TauCeti.GlobalNumberFields.weakApproximation_denseRange`,
+`TauCeti.dedekindZeta_eulerProduct_hasProd`,
+`IsDedekindDomain.FiniteAdeleRing.quotientEquivClassGroup`, `QuaternionAlgebra.normForm`,
+`Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`. Reduction and levels: `TauCeti.cholesky`,
+`TauCeti.cholesky_mul_transpose`, `HeckeCoset.degree_eq_relIndex`,
+`DoubleCoset.quotientMapOfLELeft`, `IsQuotientCoveringMap.isCoveringMap_of_comp`,
+`exists_isFundamentalDomain_of_properlyDiscontinuousSMul`,
+`MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`,
+`MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`,
+`log_unitFiltration_injective`,
+`awayDecomposition`, `InfiniteAdeleRing.homeomorphMixedSpace`.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 1 (finite-dimensional comodules and the tensor dictionary), layer 3 (closed subgroups and
+quotients, affineness of `G/H` for reductive `H`), layer 4 (character lattices of groups of
+multiplicative type), layer 6 (centre, derived group, simply connected covers) and layer 7
+(rational parabolics, Levi decompositions, relative roots, maximal split tori and relative Weyl
+groups). Cartier's theorem, that every affine group in characteristic zero is smooth and
+geometrically reduced, is a standing input of that roadmap and is assumed here wherever
+`rational-characters-free` is applied.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.0 (the local analytic charts, *smooth-group-analytic-charts*; the point topology itself,
+its local compactness and functoriality, the compact open integral points, the congruence
+subgroups of points and the Weil restriction of affine groups with its point isomorphism, tower
+isomorphism and point homeomorphism are Tau Ceti's); RG2.1 (the valuation map of the maximal split
+central torus at the finite
+places); RG2.3 (reductive integral models, `reductive-model`, which is local over a discrete
+valuation ring and gives that a group with a reductive `𝒪_v`-model is unramified, hence
+quasi-split at `v`; hyperspecial subgroups, `hyperspecial-vertices`; Lang's theorem with Hensel
+lifting); RG2.4 (local unimodularity, the local Iwasawa factorization and integration formula of
+RG2.4.4, `iwasawa-parabolic-integral`, and the local Kneser–Tits theorem, `kneser-tits-local`).
+
+### From TauCetiRoadmap.GlobalNumberFields
+
+Layer 0 (places and the product formula), layer 1 (weak approximation for `G_a`), layer 4 (finite
+adeles), layer 5 (full adeles and the discrete rational diagonal), layer 6 (additive strong
+approximation, the idele norm and its structure, `IdeleClassGroup.normOne`, and the compactness
+of `C_F^1`), and layer 8 (scalar extension of adeles,
+`adeleBaseChangeEquiv`, with its local factors).
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+§2.18a (finite-image Artin L-functions: the local factors on inertia invariants, their
+independence of the Frobenius lift and of the place above, multiplicativity, the induction
+identity at every finite place including the ramified ones, the one-dimensional comparison with
+presented Hecke L-functions, and Brauer continuation with the order `dim V^G` and the leading
+coefficient at one, positive for representations realized over `ℚ`). It has no Lean statement
+there; *convergence-factors* and AA.2.5 consume it.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartII
+
+§5.3f (restricted products of Haar measures,
+`TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_restrictedAddHaar`: the unique Haar
+measure with the box formula, its restriction to the level subgroups and the normalized local
+measures `dx_v`), consumed by AA.0; §5.3k (quotient measures and the two quotient conventions,
+`TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`), consumed by
+AA.2.2–AA.2.3 and the quotient-measure arguments of AA.3.4; §5.3h (the self-dual measure on
+`𝔸_F`, under which `𝔸_F/F` has volume one) and §5.3j (the multiplicative measure `d^×x` on
+`𝔸_F^×` built from the self-dual local measures), against which AA.0.4 compares its own
+normalizations.
+
+### From other roadmaps
+
+NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/LieGroups, layer 2
+(the closed-subgroup theorem for finite-dimensional real Lie groups and the automatic smoothness
+of continuous homomorphisms, which give `𝐇(ℝ)` its Lie group structure in AA.1.2) and layer 9
+(Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
+compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
+and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
+obstructions only). ClassFieldTheory, layers 12–13
+(the global norm-index theorem; the cyclic Hasse norm theorem) and layers 5 and 10 (the local
+Brauer group and the global Brauer sequence). AlgebraicTopology,
+stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layers 0–1
+(valuations and residue units, the input for the distance of `p`-adic roots of unity from one).
+SmoothRepresentationsOfLocalGroups, SR.1.1; RG2.4 local integration. IntegralLattices, 2F–2G. FuchsianOrbifolds,
+layers 0, 1, 4 and 5.
+
+### Analytic and integral dependencies
+
+AA.2.4 builds the finite reductive-group order formula from [Dudas–Michel],
+Propositions 7.12(iii) and 7.14, pp. 27–28. AA.4.2 builds the `ℚ_p`-analytic
+closed-subgroup input of [Platonov–Rapinchuk–Rapinchuk], Theorem 3.12, p. 136. The integral
+models in AA.4.6 and *isotropic-almost-everywhere* require reductive fibres after
+inverting finitely many primes. These inputs need the generality specified at each use.
 
 ## References
 

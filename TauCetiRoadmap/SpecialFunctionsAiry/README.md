@@ -1,141 +1,64 @@
 # Roadmap: Airy and Scorer functions
 
-**Summary.** This roadmap builds the theory of the Airy and Scorer functions of Chapter 9 of the
-NIST *Digital Library of Mathematical Functions* (DLMF; see [References](#references)) as a
-library. The Airy functions `Ai` and `Bi` are the standard solutions of Airy's equation
+**Summary.** The solutions of Airy's equation `w″ = z w` behave very differently on the two halves
+of the real line. On `[0, ∞)` the Airy function `Ai` is positive and tends to `0`, while `Bi`
+grows without bound; on the negative axis each has infinitely many zeros. This roadmap builds the
+theory of these functions and of the Scorer functions `Gi` and `Hi`, which solve
+`w″ = z w ∓ 1/π`, following Chapter 9 of the NIST *Digital Library of Mathematical Functions*
+(DLMF; see [References](#references)). `Ai` and `Bi` are defined by their Maclaurin series, `Hi`
+by the Laplace integral `Hi(z) = π⁻¹ ∫₀^∞ exp(−t³/3 + z t) dt`, and `Gi` as `Bi − Hi`. Complex
+powers are principal, and `ζ` stands for `(2/3) z^{3/2}`.
 
-```text
-w″ = z w                                                           (DLMF 9.2.1)
-```
+Every entire solution of Airy's equation is a combination `c₁ Ai + c₂ Bi`, and the Wronskian
+`Ai Bi′ − Ai′ Bi` is the constant `1/π`. Connection formulas such as
+`Bi(z) = e^{−πi/6} Ai(z e^{−2πi/3}) + e^{πi/6} Ai(z e^{2πi/3})` follow by comparing values and
+derivatives at the origin.
 
-and the Scorer functions `Gi` and `Hi` are the standard solutions of the inhomogeneous equations
-`w″ = z w ∓ 1/π` (DLMF 9.12.1, 9.12.3).
+The central analytic result is the expansion of `Ai` for large argument. For `δ ∈ (0, π)` and
+every `N`, as `z → ∞` in `|ph z| ≤ π − δ`, `Ai(z)` differs from
+`e^{−ζ}/(2√π z^{1/4}) Σ_{k<N} (−1)^k uₖ ζ^{−k}` by `O(|e^{−ζ} z^{−1/4}| |ζ|^{−N})`, where the uₖ
+are explicit numbers with `u₀ = 1` and `u₁ = 5/72`. `Bi` and the derivatives have similar
+expansions, which are oscillatory on the negative axis. For `Ai` the error also has explicit
+bounds. On the positive axis, after `n` terms, it is bounded by the first neglected term and has
+its sign. For `z ≠ 0` with `|ph z| < π`, it is at most the modulus of that term times an explicit
+factor that depends only on `n` and the phase of `z`.
 
-The roadmap covers:
-- the definitions as entire functions, the values at the origin, the Wronskians and the
-  connection formulas;
-- the Maclaurin series and the integral representations;
-- the asymptotic expansions for large argument in every sector, with explicit error bounds;
-- the modulus and phase functions on the negative real axis;
-- the real and complex zeros and their asymptotic expansions;
-- the Scorer functions: series, integral representations, connection formulas, asymptotics and
-  zeros;
-- integrals, Laplace and Mellin transforms of `Ai` and `Bi`;
-- products of Airy functions, their integrals and the Airy kernel;
-- the incomplete Airy functions;
-- the relations to Bessel functions of the first kind and to Kummer's function;
-- the generalized Airy functions of Swanson and Headley, Olver, Smirnov and Reid.
+The zeros are reached through a phase. On the real line `Ai = M sin θ` and `Bi = M cos θ`, where
+`M` is positive and `θ` is continuous and strictly decreasing with `θ(0) = π/6`. All zeros of `Ai`
+are real and negative, and the `k`th one counted from the origin is the point aₖ where `θ = kπ`;
+for instance `a₁ = −2.33810 74104…`. Reversing the expansion of `θ` at `−∞` gives the asymptotic
+expansion `−aₖ = tₖ^{2/3} (1 + (5/48) tₖ^{−2} − (5/36) tₖ^{−4} + ⋯)` as `k → ∞`, where
+`tₖ = (3π/8)(4k − 1)`. The real zeros of `Ai′`, `Bi` and `Bi′` have similar expansions, and so do
+the nonreal zeros of `Bi` and `Bi′` in `π/3 < ph z < π/2`.
 
-The general asymptotic and contour tools are consumed from
-[AsymptoticExpansions](../AsymptoticExpansions/README.md) (DLMF Chapter 2): the expansion API,
-the inversion and reversion of transcendental equations, Watson's lemma in sectors and along
-rotated rays, integration of expansions, the line shift with simple poles, the Gamma function on
-vertical strips and the theory of ordinary points. The complex incomplete Gamma functions on the
-logarithmic plane are consumed from
-[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md),
-and Kummer's differential equation for `𝐌` from
-[SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md).
-This roadmap builds the Gauss triplication formula for `Γ`, the binomial remainder bounds behind
-the error bounds of DLMF §§9.7(iii)–(iv), Kummer's second transformation, the Bessel integral for
-`J₀`, a half-line Sokhotski–Plemelj formula, and the Airy-kernel identities used in random matrix
-theory.
+Among the integrals of products, the Airy kernel `∫₀^∞ Ai(x + t) Ai(y + t) dt` equals
+`(Ai(x) Ai′(y) − Ai′(x) Ai(y))/(x − y)` for real `x ≠ y`.
+
+`Ai` and `Bi` are written through Mathlib's regularized hypergeometric series `₀F₁`, which also
+underlies Mathlib's Bessel function of the first kind. The general asymptotic methods, such as
+Watson's lemma and the inversion of transcendental equations, come from
+[AsymptoticExpansions](../AsymptoticExpansions/README.md). The incomplete Gamma function on the
+logarithmic plane, needed for Laplace transforms of `Ai(−t)` and `Bi(−t)` with a complex
+parameter, comes from
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md).
+Conversely, RandomMatrices uses `Ai`, its tail bounds and the Airy kernel, and
+[SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) uses the Airy functions and Kummer's
+second transformation, which is proved here.
+
+The first layer holds the algebraic results above and rewrites the series through Bessel
+functions and Kummer's function. The second shows that the contour integrals solve Airy's
+equation with the right initial values, and derives the other representations from them. The
+third derives the expansion of `Ai` above from a Laplace integral by Watson's lemma, and the other
+sectors from the connection formulas. The fourth defines the modulus and phase and derives their
+expansions from the oscillatory ones, and the fifth locates the zeros. The sixth builds the Scorer
+functions from their Laplace integral and their equations. The seventh treats the integrals, and
+the eighth the products, through the third-order equation they satisfy. The ninth repeats the
+plan of the first three for the generalized Airy equation `w″ = zⁿ w`. Each layer's examples
+check its formulas on special cases.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Airy/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`, with the triplication formula
 of 7.1 in `TauCeti/Analysis/SpecialFunctions/Gamma/`.
-
-## Scope and ownership
-
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **Definitions and Airy's equation** (DLMF §§9.2, 9.4). `Ai` and `Bi` are entire, solve
-   Airy's equation and have the stated Maclaurin series, values at the origin, Wronskians,
-   rotations and connection formulas; every entire solution of Airy's equation is a combination
-   of `Ai` and `Bi`. The relations of DLMF §9.6 to Mathlib's Bessel function `J_ν`, Tau Ceti's
-   real `I_ν` and Kummer's function.
-2. **Integral representations** (DLMF 9.5.1–9.5.8).
-3. **Asymptotic expansions** (DLMF 9.7.1–9.7.19): the expansions of `Ai`, `Bi` and their
-   derivatives in every sector, the error bounds of §9.7(iv) and the exact remainders.
-4. **Modulus and phase** (DLMF 9.8.1–9.8.8 and 9.8.13–9.8.23).
-5. **Zeros** (DLMF §9.9): the location, simplicity and enumeration of the zeros of `Ai`, `Ai′`,
-   `Bi` and `Bi′`, the relations 9.9.1–9.9.5, and the asymptotic expansions 9.9.6–9.9.21.
-6. **Scorer functions** (DLMF 9.12.1–9.12.7, 9.12.11–9.12.21 and 9.12.24–9.12.31, and the zeros
-   of §9.12(ix)).
-7. **Integrals** (DLMF 9.10.1–9.10.22), the Gauss triplication formula, and the incomplete Airy
-   functions of DLMF §9.14.
-8. **Products** (DLMF 9.11.1–9.11.19) and the Airy kernel.
-9. **Generalized Airy functions** (DLMF §9.13): the functions of Swanson and Headley, Olver,
-   Smirnov and Reid.
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**What this roadmap owns:** Airy's equation, the inhomogeneous Airy equations and the following
-DLMF formulas, with the hypotheses and conventions specified in the layers:
-
-| Formulas | Targets |
-|---|---|
-| 9.2.1–9.2.16, 9.4.1–9.4.4 | Equation, values at the origin, Wronskians, connection formulas, Riccati form, Maclaurin series (Layer 1). |
-| 9.6.1, 9.6.6–9.6.14, 9.6.25–9.6.26, and the `I` forms of 9.6.2–9.6.5 | Relations to `J_ν`, to the real `I_ν` on `(0, ∞)` and to Kummer's function (1.7). |
-| 9.5.1–9.5.8 | Integral representations (Layer 2). |
-| 9.7.1–9.7.19 | Coefficients, Poincaré expansions with an `O`-remainder for every truncation order, error bounds and exact remainders (Layer 3). |
-| 9.8.1–9.8.8, 9.8.13–9.8.23 | Modulus and phase, their identities and expansions (Layer 4). |
-| 9.9.1–9.9.21 | Zeros: phases and values at the zeros, and the asymptotic expansions (Layer 5). |
-| 9.12.1–9.12.7, 9.12.11–9.12.21, 9.12.24–9.12.31 | Scorer functions (Layer 6). |
-| 9.10.1–9.10.22 | Integrals and transforms (Layer 7). |
-| 9.11.1–9.11.19 | Products (Layer 8). |
-| 9.13.1–9.13.37 | Generalized Airy functions (Layer 9), with 9.13.2 and 9.13.4 in the forms of 9.1–9.2. |
-
-It also owns the following auxiliary results, which the layers need and which neither Mathlib,
-Tau Ceti nor a consumed roadmap provides:
-
-| Result | Target |
-|---|---|
-| Convergence of the oscillatory improper integrals `∫₀^∞ cos(t³/3 + xt) dt` and `∫₀^∞ sin(t³/3 + xt) dt`, locally uniformly in `x` | 2.2 |
-| Bounds for the remainder of the binomial expansion of `(1 + w)^{−1/6}` on rays and in sectors | 3.5 |
-| The continuous phases `θ`, `φ` defined by integrals, with their limits at `±∞` | 4.1 |
-| Kummer's second transformation `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` | 1.7 |
-| The energy `Gi′² − x Gi² + 2 Gi/π` of the Scorer function, with derivative `−Gi²` | 6.7 |
-| Gauss's triplication formula `Γ(z) Γ(z + ⅓) Γ(z + ⅔) = 2π 3^{½ − 3z} Γ(3z)` (DLMF 5.5.6 for `n = 3`) | 7.1 |
-| The Sokhotski–Plemelj formula for Cauchy integrals over `(0, ∞)` with densities `C¹` near the point | 7.6 |
-| The incomplete Airy function `Ai(a, z)` | 7.8 |
-| Uniqueness for the product equation `w‴ − 4z w′ − 2w = 0` given `w(0)`, `w′(0)`, `w″(0)` | 8.1 |
-| The representation `Ai(x)² = 2^{2/3} π⁻¹ ∫₀^∞ Ai(2^{2/3}(x + t²)) dt` | 8.3 |
-| The Bessel integral `J₀(a) = (2π)⁻¹ ∫₀^{2π} e^{ia cos φ} dφ` for every `a ∈ ℂ` | 8.3 |
-| The Airy kernel `K_Ai(x, y) = ∫₀^∞ Ai(x + t) Ai(y + t) dt` in closed form, with its diagonal and tail bounds | 8.5 |
-| The rotation connection formulas of `A_n` | 9.2 |
-| The integral representation `A_n(z) = (2p/π) sin(pπ) z^{1/2} ∫₀^∞ e^{−ζ cosh u} cosh(pu) du` | 9.3 |
-
-**Consumed by RandomMatrices.** This roadmap owns the Airy function, Airy's equation, the decay of
-`Ai`, its integral representations, its expansions on the real line and the Airy kernel `K_Ai`.
-RandomMatrices §8.4 consumes them from 1.1–1.2, Layer 2, 3.2, 3.4–3.6 and 8.5.
-
-**What it does not own:**
-- The general asymptotic and contour tools: asymptotic expansions, inversion and reversion of
-  transcendental equations, Watson's lemma, the rotation of Laplace integrals, the line shift
-  with simple poles, the Gamma function on vertical strips, and the existence and uniqueness of
-  holomorphic solutions at ordinary points. They are consumed from AsymptoticExpansions; see
-  [Exact supplier contracts](#exact-supplier-contracts).
-- The complex incomplete Gamma functions, consumed from SpecialFunctionsEiLiErfIncompleteGamma for
-  9.10.15–9.10.16.
-- Kummer's differential equation for `𝐌`, consumed from SpecialFunctionsParabolicCylinder for 1.7.
-- The formulas through functions that neither Mathlib nor Tau Ceti defines: `K_ν`, `Y_ν`, the
-  Hankel functions, the Whittaker functions, Kummer's `U` and the modified Bessel function `I_ν`
-  off the positive real axis. These are the `K`, `H` and complex `I` forms of 9.6.2–9.6.9, the
-  relations 9.6.15–9.6.24, 9.8.9–9.8.12 and 9.12.22–9.12.23, and the `K` forms of 9.13.2 and
-  9.13.4.
-- The exponentially improved and hyperasymptotic expansions (DLMF 9.7.20–9.7.23).
-- The complex zeros of the Scorer functions.
-- Numerical values, tables and methods of computation.
-
-See the last section for these.
-
-**The boundary in one sentence:** this roadmap owns `Ai`, `Bi`, `Gi`, `Hi`, the generalized
-Airy functions of DLMF §9.13 and everything in DLMF Chapter 9 stated through them and functions
-that Mathlib or Tau Ceti defines (elementary functions, `Γ`, Kummer's `𝐌`, `J_ν`, the real `I_ν`
-and the real incomplete Gamma function) or that a consumed roadmap supplies (the complex incomplete
-Gamma functions); it consumes the general methods of AsymptoticExpansions and excludes formulas
-through `K_ν`, `Y_ν`, the Hankel, Whittaker and `U` functions or the complex `I_ν`, remainder
-theory beyond §9.7(iv), the complex zeros of the Scorer functions, and numerics.
 
 ## Conventions
 
@@ -229,118 +152,6 @@ TauCeti.Real.negativeZero f k
   `v_k = −(6k + 1)/(6k − 1) · u_k`, so `u₀ = v₀ = 1`, `u₁ = 5/72`, `v₁ = −7/72`. These are
   `TauCeti.airyU`, `TauCeti.airyV : ℕ → ℝ`. The multiplier of DLMF 9.7.3 is
   `χ(x) = π^{1/2} Γ(x/2 + 1) / Γ(x/2 + ½)` (`TauCeti.Real.airyChi`).
-
-## Exact supplier contracts
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-The following are consumed with the hypotheses and conventions stated there.
-- The expansion notion `Asymptotics.HasAsymptoticExpansion` along a filter and an asymptotic
-  scale ([its Conventions](../AsymptoticExpansions/README.md#conventions)), through which
-  Layers 3–6 state their Poincaré expansions, and the integration of expansions
-  ([§1.5](../AsymptoticExpansions/README.md#15-integration-and-differentiation)), for 4.5 and the
-  integrated expansions of 6.6 and 7.3.
-- The inversion of `f(x) ∼ x`, successive resubstitution and Lagrange's reversion
-  ([Layer 2](../AsymptoticExpansions/README.md#layer-2-transcendental-equations)), for the zero
-  expansions of 5.4.
-- Integration by parts and the Fourier integrals at the endpoints
-  ([§3.1](../AsymptoticExpansions/README.md#31-integration-by-parts),
-  [§3.2](../AsymptoticExpansions/README.md#32-fourier-integrals-at-the-endpoints)), for the
-  oscillatory integrals of 2.2 and 7.3.
-- Watson's lemma in a sector and the rotation of the path
-  ([§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector),
-  [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path)): the integrals along rotated
-  rays, written in logarithmic coordinates, are holomorphic, agree on overlapping strips and have
-  the expansion of Watson's lemma in each closed substrip. 3.2 applies them to the Laplace form
-  2.4 of `Ai`, 6.6 to the Laplace integral 9.12.20 of `Hi`, and 9.3 to the integral
-  representation of `A_n`.
-- The line shift with simple poles and its iteration
-  ([§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line)) and the pole-separated bound for
-  `Γ` on vertical strips
-  ([§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips)), for the
-  Mellin–Barnes integral of 6.5 and the residue series of 9.3.
-- Ordinary points ([§10.2](../AsymptoticExpansions/README.md#102-ordinary-points)): for entire
-  coefficients the initial-value problem has a unique entire solution. 1.2 applies it to Airy's
-  equation, 6.1 to the inhomogeneous equations, after subtracting a particular solution, and 9.1
-  to the generalized Airy equation.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- The incomplete Gamma function on the logarithmic plane,
-  `TauCeti.Complex.upperIncompleteGammaLog a w`: `Γ(a, e^w)` continued from the positive axis,
-  holomorphic in `w` and equal to `Γ(a, e^w)` for `|Im w| < π`
-  ([its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions) and
-  [§1.5](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#15-continuation)). 7.5 uses it for
-  9.10.15–9.10.16 with complex `p`.
-
-### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
-
-- Kummer's equation `z 𝐌″ + (b − z) 𝐌′ − a 𝐌 = 0` for `𝐌(a, b, z)`, for all `a, b, z`, as
-  `TauCeti.regularizedHGFun_kummer_equation`
-  ([§1.3](../SpecialFunctionsParabolicCylinder/README.md#13-kummers-equation)). 1.7 uses it for
-  Kummer's second transformation.
-
-### From Tau Ceti
-
-- **Regularized hypergeometric series.**
-  [`Complex.hasSum_regularizedHGFun`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean)
-  gives the `HasSum` form of `𝐅` and `𝐌`, with absolute convergence, since `a.card ≤ b.card`.
-- **Real incomplete Gamma.** `TauCeti.regularizedGamma s x = γ(s, x)/Γ(s)` for `s > 0`
-  (`TauCeti/Analysis/SpecialFunctions/IncompleteGamma.lean`, owned by StandardDistributions);
-  the upper function is `Γ(s, x)/Γ(s) = 1 − regularizedGamma s x`. 7.5 uses it for
-  9.10.15–9.10.16 with real `p > 0`.
-- **Modified Bessel function.** `Real.besselI`, `Real.besselI_eq_rpow_mul` and
-  `Real.hasSum_besselI` (`TauCeti/Analysis/SpecialFunctions/BesselI.lean`), for the `I` forms of
-  1.7 and 9.2.
-- **Wronskians.** `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`),
-  for the real Wronskians of Layer 4.
-- **Rouché's theorem.** `TauCeti.rouche` and `TauCeti.rouche_exists_eq_zero_iff`
-  (`TauCeti/Analysis/Complex/Conformal/Rouche.lean`), for counting complex zeros near their
-  asymptotic positions in 5.3.
-- **The argument principle.** `TauCeti.Contour.argumentPrinciple_nullHomologous`
-  (`TauCeti/Analysis/Contour/Argument/Cycle.lean`), for a piecewise-`C¹` closed null-homologous
-  curve, for counting the complex zeros in truncated sectors in 5.3.
-
-### From Mathlib
-
-- **Regularized hypergeometric series.** `Complex.regularizedHGFun`,
-  `Complex.regularizedHGFunCoeff`, `Complex.regularizedHGFun_zero`,
-  `Complex.analyticOnNhd_regularizedHGFun_of_card_le` and `Complex.regularizedHGFunCoeff_add_one`
-  ([`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.html)).
-- **Bessel function.** `Complex.besselJ`, `Complex.besselJ_def` and
-  `Complex.analyticOnNhd_besselJ` (`Mathlib/Analysis/SpecialFunctions/Bessel.lean`), for 1.7, 8.3
-  and 9.2–9.4.
-- **Mellin inversion.** `mellin`, `mellinInv` and `mellinInv_mellin_eq`, for 9.3.
-- **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_mul_Gamma_one_sub`
-  (reflection), `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.Gamma_eq_integral`,
-  `Complex.betaIntegral` with `Complex.Gamma_mul_Gamma_eq_betaIntegral`,
-  `integral_rpow_mul_exp_neg_rpow` (`∫₀^∞ x^q e^{−x^p} dx = Γ((q + 1)/p)/p`), `Complex.digamma`
-  and `Real.eulerMascheroniConstant`.
-- **Holomorphic functions.** `Differentiable`, `AnalyticOnNhd`, the identity theorem
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, the Cauchy integral formula and
-  `Complex.integral_boundary_rect_eq_zero_of_differentiableOn` for contour deformation.
-- **Integration.** `MeasureTheory.integral` on `Set.Ioi`, `intervalIntegral`, Fubini
-  (`MeasureTheory.integral_integral_swap`) and parametric differentiation
-  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
-- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded`,
-  `Complex.arg` and `Complex.cpow`.
-
-## How to read the build
-
-Layer 1 is algebraic: the series definitions give the equation, the initial values and, through
-the uniqueness theorem of AsymptoticExpansions §10.2, every identity between solutions of Airy's
-equation, which is checked by comparing values and derivatives at `0`. Layer 2 proves the
-integral representations, each by showing that the integral solves Airy's equation with the right
-initial values. 1.7 rewrites the series of 1.1 through `J_ν`, `I_ν` and Kummer's function.
-Layer 3 obtains 9.7.5–9.7.6 from the Laplace form 2.4 by Watson's lemma along
-rotated rays, and the other sectors from the connection formulas of 1.4. Layer 4 builds the
-modulus and phase on the real line and their expansions from 3.4; Layer 5 locates the zeros by the
-phase and inverts the phase expansions. Layer 6 builds the Scorer functions from their Laplace
-integral and the inhomogeneous equations. Layer 7 uses Layers 1–6 for the integrals, and Layer 8
-uses the third-order equation satisfied by products. Layer 9 repeats the pattern of Layers 1–3
-for the equation `w″ = zⁿ w`, and builds Reid's contour integrals as Layer 2 builds those of
-`Ai`. The `### Examples` of each layer are
-statements to prove, and they test the conventions on explicit values.
 
 ## Layer 1: definitions, Airy's equation and connection formulas
 
@@ -1700,6 +1511,194 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 | 7. Integrals | `Airy/Integrals`, `Airy/Integrals/{HalfLineLaplace, PrimitivesAndLaplace}`, `Airy/StieltjesForm`, `Airy/Incomplete` |
 | 8. Products | `Airy/Products`, `Airy/SquareTools` |
 | 9. Generalized Airy functions | `Airy/Generalized`, `Airy/GeneralizedContours`, `Airy/GeneralizedFinitePart` |
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Definitions and Airy's equation** (DLMF §§9.2, 9.4). `Ai` and `Bi` are entire, solve
+   Airy's equation and have the stated Maclaurin series, values at the origin, Wronskians,
+   rotations and connection formulas; every entire solution of Airy's equation is a combination
+   of `Ai` and `Bi`. The relations of DLMF §9.6 to Mathlib's Bessel function `J_ν`, Tau Ceti's
+   real `I_ν` and Kummer's function.
+2. **Integral representations** (DLMF 9.5.1–9.5.8).
+3. **Asymptotic expansions** (DLMF 9.7.1–9.7.19): the expansions of `Ai`, `Bi` and their
+   derivatives in every sector, the error bounds of §9.7(iv) and the exact remainders.
+4. **Modulus and phase** (DLMF 9.8.1–9.8.8 and 9.8.13–9.8.23).
+5. **Zeros** (DLMF §9.9): the location, simplicity and enumeration of the zeros of `Ai`, `Ai′`,
+   `Bi` and `Bi′`, the relations 9.9.1–9.9.5, and the asymptotic expansions 9.9.6–9.9.21.
+6. **Scorer functions** (DLMF 9.12.1–9.12.7, 9.12.11–9.12.21 and 9.12.24–9.12.31, and the zeros
+   of §9.12(ix)).
+7. **Integrals** (DLMF 9.10.1–9.10.22), the Gauss triplication formula, and the incomplete Airy
+   functions of DLMF §9.14.
+8. **Products** (DLMF 9.11.1–9.11.19) and the Airy kernel.
+9. **Generalized Airy functions** (DLMF §9.13): the functions of Swanson and Headley, Olver,
+   Smirnov and Reid.
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**What this roadmap owns:** Airy's equation, the inhomogeneous Airy equations and the following
+DLMF formulas, with the hypotheses and conventions specified in the layers:
+
+| Formulas | Targets |
+|---|---|
+| 9.2.1–9.2.16, 9.4.1–9.4.4 | Equation, values at the origin, Wronskians, connection formulas, Riccati form, Maclaurin series (Layer 1). |
+| 9.6.1, 9.6.6–9.6.14, 9.6.25–9.6.26, and the `I` forms of 9.6.2–9.6.5 | Relations to `J_ν`, to the real `I_ν` on `(0, ∞)` and to Kummer's function (1.7). |
+| 9.5.1–9.5.8 | Integral representations (Layer 2). |
+| 9.7.1–9.7.19 | Coefficients, Poincaré expansions with an `O`-remainder for every truncation order, error bounds and exact remainders (Layer 3). |
+| 9.8.1–9.8.8, 9.8.13–9.8.23 | Modulus and phase, their identities and expansions (Layer 4). |
+| 9.9.1–9.9.21 | Zeros: phases and values at the zeros, and the asymptotic expansions (Layer 5). |
+| 9.12.1–9.12.7, 9.12.11–9.12.21, 9.12.24–9.12.31 | Scorer functions (Layer 6). |
+| 9.10.1–9.10.22 | Integrals and transforms (Layer 7). |
+| 9.11.1–9.11.19 | Products (Layer 8). |
+| 9.13.1–9.13.37 | Generalized Airy functions (Layer 9), with 9.13.2 and 9.13.4 in the forms of 9.1–9.2. |
+
+It also owns the following auxiliary results, which the layers need and which neither Mathlib,
+Tau Ceti nor a consumed roadmap provides:
+
+| Result | Target |
+|---|---|
+| Convergence of the oscillatory improper integrals `∫₀^∞ cos(t³/3 + xt) dt` and `∫₀^∞ sin(t³/3 + xt) dt`, locally uniformly in `x` | 2.2 |
+| Bounds for the remainder of the binomial expansion of `(1 + w)^{−1/6}` on rays and in sectors | 3.5 |
+| The continuous phases `θ`, `φ` defined by integrals, with their limits at `±∞` | 4.1 |
+| Kummer's second transformation `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` | 1.7 |
+| The energy `Gi′² − x Gi² + 2 Gi/π` of the Scorer function, with derivative `−Gi²` | 6.7 |
+| Gauss's triplication formula `Γ(z) Γ(z + ⅓) Γ(z + ⅔) = 2π 3^{½ − 3z} Γ(3z)` (DLMF 5.5.6 for `n = 3`) | 7.1 |
+| The Sokhotski–Plemelj formula for Cauchy integrals over `(0, ∞)` with densities `C¹` near the point | 7.6 |
+| The incomplete Airy function `Ai(a, z)` | 7.8 |
+| Uniqueness for the product equation `w‴ − 4z w′ − 2w = 0` given `w(0)`, `w′(0)`, `w″(0)` | 8.1 |
+| The representation `Ai(x)² = 2^{2/3} π⁻¹ ∫₀^∞ Ai(2^{2/3}(x + t²)) dt` | 8.3 |
+| The Bessel integral `J₀(a) = (2π)⁻¹ ∫₀^{2π} e^{ia cos φ} dφ` for every `a ∈ ℂ` | 8.3 |
+| The Airy kernel `K_Ai(x, y) = ∫₀^∞ Ai(x + t) Ai(y + t) dt` in closed form, with its diagonal and tail bounds | 8.5 |
+| The rotation connection formulas of `A_n` | 9.2 |
+| The integral representation `A_n(z) = (2p/π) sin(pπ) z^{1/2} ∫₀^∞ e^{−ζ cosh u} cosh(pu) du` | 9.3 |
+
+**Consumed by RandomMatrices.** This roadmap owns the Airy function, Airy's equation, the decay of
+`Ai`, its integral representations, its expansions on the real line and the Airy kernel `K_Ai`.
+RandomMatrices §8.4 consumes them from 1.1–1.2, Layer 2, 3.2, 3.4–3.6 and 8.5.
+
+**What it does not own:**
+- The general asymptotic and contour tools: asymptotic expansions, inversion and reversion of
+  transcendental equations, Watson's lemma, the rotation of Laplace integrals, the line shift
+  with simple poles, the Gamma function on vertical strips, and the existence and uniqueness of
+  holomorphic solutions at ordinary points. They are consumed from AsymptoticExpansions; see
+  [Exact supplier contracts](#exact-supplier-contracts).
+- The complex incomplete Gamma functions, consumed from SpecialFunctionsEiLiErfIncompleteGamma for
+  9.10.15–9.10.16.
+- Kummer's differential equation for `𝐌`, consumed from SpecialFunctionsParabolicCylinder for 1.7.
+- The formulas through functions that neither Mathlib nor Tau Ceti defines: `K_ν`, `Y_ν`, the
+  Hankel functions, the Whittaker functions, Kummer's `U` and the modified Bessel function `I_ν`
+  off the positive real axis. These are the `K`, `H` and complex `I` forms of 9.6.2–9.6.9, the
+  relations 9.6.15–9.6.24, 9.8.9–9.8.12 and 9.12.22–9.12.23, and the `K` forms of 9.13.2 and
+  9.13.4.
+- The exponentially improved and hyperasymptotic expansions (DLMF 9.7.20–9.7.23).
+- The complex zeros of the Scorer functions.
+- Numerical values, tables and methods of computation.
+
+See the last section for these.
+
+**The boundary in one sentence:** this roadmap owns `Ai`, `Bi`, `Gi`, `Hi`, the generalized
+Airy functions of DLMF §9.13 and everything in DLMF Chapter 9 stated through them and functions
+that Mathlib or Tau Ceti defines (elementary functions, `Γ`, Kummer's `𝐌`, `J_ν`, the real `I_ν`
+and the real incomplete Gamma function) or that a consumed roadmap supplies (the complex incomplete
+Gamma functions); it consumes the general methods of AsymptoticExpansions and excludes formulas
+through `K_ν`, `Y_ν`, the Hankel, Whittaker and `U` functions or the complex `I_ν`, remainder
+theory beyond §9.7(iv), the complex zeros of the Scorer functions, and numerics.
+
+## Exact supplier contracts
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+The following are consumed with the hypotheses and conventions stated there.
+- The expansion notion `Asymptotics.HasAsymptoticExpansion` along a filter and an asymptotic
+  scale ([its Conventions](../AsymptoticExpansions/README.md#conventions)), through which
+  Layers 3–6 state their Poincaré expansions, and the integration of expansions
+  ([§1.5](../AsymptoticExpansions/README.md#15-integration-and-differentiation)), for 4.5 and the
+  integrated expansions of 6.6 and 7.3.
+- The inversion of `f(x) ∼ x`, successive resubstitution and Lagrange's reversion
+  ([Layer 2](../AsymptoticExpansions/README.md#layer-2-transcendental-equations)), for the zero
+  expansions of 5.4.
+- Integration by parts and the Fourier integrals at the endpoints
+  ([§3.1](../AsymptoticExpansions/README.md#31-integration-by-parts),
+  [§3.2](../AsymptoticExpansions/README.md#32-fourier-integrals-at-the-endpoints)), for the
+  oscillatory integrals of 2.2 and 7.3.
+- Watson's lemma in a sector and the rotation of the path
+  ([§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector),
+  [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path)): the integrals along rotated
+  rays, written in logarithmic coordinates, are holomorphic, agree on overlapping strips and have
+  the expansion of Watson's lemma in each closed substrip. 3.2 applies them to the Laplace form
+  2.4 of `Ai`, 6.6 to the Laplace integral 9.12.20 of `Hi`, and 9.3 to the integral
+  representation of `A_n`.
+- The line shift with simple poles and its iteration
+  ([§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line)) and the pole-separated bound for
+  `Γ` on vertical strips
+  ([§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips)), for the
+  Mellin–Barnes integral of 6.5 and the residue series of 9.3.
+- Ordinary points ([§10.2](../AsymptoticExpansions/README.md#102-ordinary-points)): for entire
+  coefficients the initial-value problem has a unique entire solution. 1.2 applies it to Airy's
+  equation, 6.1 to the inhomogeneous equations, after subtracting a particular solution, and 9.1
+  to the generalized Airy equation.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- The incomplete Gamma function on the logarithmic plane,
+  `TauCeti.Complex.upperIncompleteGammaLog a w`: `Γ(a, e^w)` continued from the positive axis,
+  holomorphic in `w` and equal to `Γ(a, e^w)` for `|Im w| < π`
+  ([its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions) and
+  [§1.5](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#15-continuation)). 7.5 uses it for
+  9.10.15–9.10.16 with complex `p`.
+
+### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
+
+- Kummer's equation `z 𝐌″ + (b − z) 𝐌′ − a 𝐌 = 0` for `𝐌(a, b, z)`, for all `a, b, z`, as
+  `TauCeti.regularizedHGFun_kummer_equation`
+  ([§1.3](../SpecialFunctionsParabolicCylinder/README.md#13-kummers-equation)). 1.7 uses it for
+  Kummer's second transformation.
+
+### From Tau Ceti
+
+- **Regularized hypergeometric series.**
+  [`Complex.hasSum_regularizedHGFun`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean)
+  gives the `HasSum` form of `𝐅` and `𝐌`, with absolute convergence, since `a.card ≤ b.card`.
+- **Real incomplete Gamma.** `TauCeti.regularizedGamma s x = γ(s, x)/Γ(s)` for `s > 0`
+  (`TauCeti/Analysis/SpecialFunctions/IncompleteGamma.lean`, owned by StandardDistributions);
+  the upper function is `Γ(s, x)/Γ(s) = 1 − regularizedGamma s x`. 7.5 uses it for
+  9.10.15–9.10.16 with real `p > 0`.
+- **Modified Bessel function.** `Real.besselI`, `Real.besselI_eq_rpow_mul` and
+  `Real.hasSum_besselI` (`TauCeti/Analysis/SpecialFunctions/BesselI.lean`), for the `I` forms of
+  1.7 and 9.2.
+- **Wronskians.** `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`),
+  for the real Wronskians of Layer 4.
+- **Rouché's theorem.** `TauCeti.rouche` and `TauCeti.rouche_exists_eq_zero_iff`
+  (`TauCeti/Analysis/Complex/Conformal/Rouche.lean`), for counting complex zeros near their
+  asymptotic positions in 5.3.
+- **The argument principle.** `TauCeti.Contour.argumentPrinciple_nullHomologous`
+  (`TauCeti/Analysis/Contour/Argument/Cycle.lean`), for a piecewise-`C¹` closed null-homologous
+  curve, for counting the complex zeros in truncated sectors in 5.3.
+
+### From Mathlib
+
+- **Regularized hypergeometric series.** `Complex.regularizedHGFun`,
+  `Complex.regularizedHGFunCoeff`, `Complex.regularizedHGFun_zero`,
+  `Complex.analyticOnNhd_regularizedHGFun_of_card_le` and `Complex.regularizedHGFunCoeff_add_one`
+  ([`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.html)).
+- **Bessel function.** `Complex.besselJ`, `Complex.besselJ_def` and
+  `Complex.analyticOnNhd_besselJ` (`Mathlib/Analysis/SpecialFunctions/Bessel.lean`), for 1.7, 8.3
+  and 9.2–9.4.
+- **Mellin inversion.** `mellin`, `mellinInv` and `mellinInv_mellin_eq`, for 9.3.
+- **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_mul_Gamma_one_sub`
+  (reflection), `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.Gamma_eq_integral`,
+  `Complex.betaIntegral` with `Complex.Gamma_mul_Gamma_eq_betaIntegral`,
+  `integral_rpow_mul_exp_neg_rpow` (`∫₀^∞ x^q e^{−x^p} dx = Γ((q + 1)/p)/p`), `Complex.digamma`
+  and `Real.eulerMascheroniConstant`.
+- **Holomorphic functions.** `Differentiable`, `AnalyticOnNhd`, the identity theorem
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, the Cauchy integral formula and
+  `Complex.integral_boundary_rect_eq_zero_of_differentiableOn` for contour deformation.
+- **Integration.** `MeasureTheory.integral` on `Set.Ioi`, `intervalIntegral`, Fubini
+  (`MeasureTheory.integral_integral_swap`) and parametric differentiation
+  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
+- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded`,
+  `Complex.arg` and `Complex.cpow`.
 
 ## References
 

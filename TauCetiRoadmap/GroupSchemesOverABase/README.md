@@ -1,126 +1,60 @@
 # Roadmap: group schemes over a base
 
-**Summary.** Build the relative theory of group schemes of SGA 3 that lies under the reductive
-theory: diagonalizable groups, groups of multiplicative type and tori over an arbitrary base scheme,
-their rigidity and density of torsion, Hom schemes and centralizers; the structure of a group of
-finite type over a field and the ranks it defines along the fibres of a smooth group scheme; and, on
-the relative reductive groups of ReductiveGroups Layer 9D, the line bundles of the flag scheme
-`G/B⁻` with its Picard group, the Steinberg map and the Grothendieck–Springer space. The carriers
-are Mathlib's group objects `Grp (Over S)` with base change `(Over.pullback f).mapGrp`, and Tau
-Ceti's `TauCeti.DiagonalizableGroup.groupScheme`. The end theorems are: for a smooth group scheme
-over any base, the identity component is an open subgroup scheme, smooth and quasi-compact with
-connected fibres; over a connected base, `Hom(D_S(M), D_S(N)) = Hom(N, M)`, and `D_S(M)` is smooth
-iff the order of the torsion of `M` is invertible on `S`; every group of multiplicative type of
-finite type is étale-locally diagonalizable, and isotrivial over a connected, locally noetherian,
-normal base, while a torus of rank two over the nodal curve is not; homomorphisms between groups of
-multiplicative type lift uniquely along thickenings and are determined by one fibre over a connected
-base and by their restrictions to torsion; Chevalley's theorem over a perfect field and the
-affinization over any field; for a quasi-compact homomorphism of group schemes locally of finite
-type over a field, that a monomorphism is a closed immersion; for `G` locally of finite type over a
-field `k`, that `G` is separated, that `G_red` is a smooth closed subgroup scheme when `k` is
-perfect, that `G` is smooth when `k` has characteristic `0` (Cartier), that the identity component
-`G⁰` is an open subgroup scheme, quasi-compact and geometrically irreducible, and that `G → π₀(G/k)`
-is the faithfully flat homomorphism with kernel `G⁰` onto an étale group, universal for
-homomorphisms to étale groups, with the finite étale scheme `π₀(X/k)` of connected components of a
-scheme `X` of finite type over `k`; for `G` quasi-compact over a field `k`, not necessarily of
-finite type, that `G` is the limit in `k`-schemes of a cofiltered system of `k`-groups of finite
-type, each a faithfully flat quotient of `G`, with affine transition maps and affine projections
-from some index on (Perrin), and that every quasi-compact homomorphism out of a group scheme over
-`k` factors as a faithfully flat homomorphism followed by a closed immersion; for `G` smooth with
-connected fibres, the specialization inequality of the abelian rank (lower), and, for `G` moreover
-affine, of the reductive rank (lower), the nilpotent and unipotent ranks (upper) and the semisimple
-dimension (lower); for `G` split reductive over a locally noetherian, normal, connected base,
-`Pic(S) ⊕ ℤ^Δ ≅ Pic(G/B⁻)`; for `G` split reductive with simply connected derived group, the
-Steinberg map `G → T/W`, smooth exactly on the regular locus, with a section when `G` is moreover
-semisimple; and, over a regular noetherian connected base and for positive semisimple rank, the
-absence of a resolution of `G` that is an isomorphism over `G^reg`, with exceptional locus of
-codimension `≥ 2` in every fibre and smooth composite to `T/W`.
+**Summary.** A group scheme over a base scheme `S` is a family of group schemes over fields, one over each
+point of `S`, and its fibres can differ sharply. Over `ℤ`, the fibre of the group `μ₂` of square
+roots of unity is two reduced points at the prime `3` and one non-reduced point at `2`. This roadmap
+builds the relative theory of group schemes from SGA 3 that lies under the theory of reductive
+groups. The base is an arbitrary scheme unless a statement names a hypothesis, and groups of
+multiplicative type are of finite type over the base.
 
-## Scope and ownership
+Over every base, a smooth group scheme `G` has an open subgroup scheme, smooth and quasi-compact
+over `S`, with connected fibres. It is unique, since its fibre at each point is the identity
+component of the fibre of `G`.
 
-**Owned here.** Over an arbitrary base `S`: base change of group schemes (0.1) and the identity
-component of a smooth group scheme (0.2) (Layer 0); diagonalizable groups `D_S(M)` for finitely
-generated `M`, their homomorphisms, smoothness, exactness and, for finite `M`, Cartier duality
-(1.1–1.5), and their torsors (1.6) (Layer 1); groups of multiplicative type of finite type and tori
-(2.1), their quasi-isotriviality (2.2), the character sheaf `X*(H)` and the anti-equivalence
-`H ↦ X*(H)` between groups of multiplicative type and étale-locally constant finitely generated
-sheaves (2.3), the Galois description over a field and isotriviality (2.4–2.6), and cocharacter
-sheaves, subgroups of multiplicative type, quotients and the largest subtorus `Hᵗᵒʳ` (2.7)
-(Layer 2); rigidity, density of torsion, Hom schemes out of groups of multiplicative type,
-centralizers and normalizers of such subgroups in smooth affine groups, and centralizers of such
-subgroups of finite type in smooth separated groups (Layer 3); over a field, quotients by closed
-subgroups, Chevalley's theorem for every smooth connected group over a perfect field together with
-its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
-affinization, the rank invariants, and, for groups locally of finite type and not necessarily
-affine, separatedness, the reduced subgroup over a perfect field, Cartier's theorem in
-characteristic `0` and monomorphisms (4.5), the identity component and the étale group of connected
-components `π₀(G/k)`, with the scheme `π₀(X/k)` of a scheme of finite type, and, for quasi-compact
-groups not necessarily of finite type, Perrin's approximation by groups of finite type and its
-corollaries (Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of
-smooth group schemes and the specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on
-`G/B⁻` over a base, the Picard groups of `G/B⁻` and of `G` for `G` connected split reductive over a
-field (6.2), and the Picard group of `G/B⁻` over a base (6.3) (Layer 6); the Steinberg map, the
-regular locus, the Steinberg cross-section, the universal centralizer, the Grothendieck–Springer
-space and the Picard groups of `G̃`, `G` and `G^reg` (Layer 7).
+For a finitely generated abelian group `M`, the diagonalizable group `D_S(M)` is the spectrum of the
+group algebra of `M` over `S`; thus `D_S(ℤ)` is `𝔾_m` and `D_S(ℤ/n)` is `μ_n`. Over a connected
+base, the homomorphisms `D_S(M) → D_S(N)` correspond exactly to the group homomorphisms `N → M`.
+`D_S(M)` is smooth if and only if the order of the torsion subgroup of `M` is invertible on `S`, so
+`D_S(ℤ/6)` is smooth exactly where `6` is invertible.
 
-**Left to other roadmaps.**
+A group of multiplicative type becomes diagonalizable after base change to the members of an fppf
+cover of `S`, and a torus becomes `D(M)` with `M` free. Such a group is already diagonalizable
+étale-locally. Over a connected, locally noetherian, normal base it is isotrivial: a single finite
+étale surjective base change makes it diagonalizable. Normality cannot be dropped: over the nodal
+curve, the affine line over a field with `0` and `1` identified, some torus of rank two is not
+isotrivial. Homomorphisms between groups of multiplicative type are rigid: over a connected base,
+two that agree on the fibre at one point are equal.
 
-- ReductiveGroups Layer 9D, bullet *Relative reductive groups over an arbitrary affine base*,
-  owns the relative reductive theory: the reductive and semisimple predicates on scheme group
-  objects and their invariance, the relative centre and derived subgroup, central isogenies and
-  the simply connected and adjoint forms, the smooth scheme of maximal tori and the smooth
-  projective scheme of Borel subgroups `Bor(G)`, the root-space decomposition and the root datum
-  as étale locally constant sheaves, étale-local splitting, the classification of pinned split
-  models over connected bases, the automorphism sheaf, the `Isom(G₀, G)` torsor and the
-  classification of étale forms in nonabelian `H¹`. Its first bullet owns the isomorphism and
-  existence theorems for split reductive groups. This roadmap states none of these and builds
-  Layers 6–7 on them. Layer 9D extends the multiplicative-type comparisons of ReductiveGroups
-  Layers 3–4 to affine bases as far as its constructions need; Layers 1–3 here state that theory
-  over an arbitrary base and agree with it there.
-- ReductiveGroups Layer 3 owns, for affine group schemes of finite type over a field, the fppf
-  quotient `G/H` and its representability (bullet *Normality and quotients*), which 4.1 extends to
-  groups of finite type, and the identity component `G°` and component group `π₀(G)` (bullet
-  *Identity component `G°` and component group `π₀(G)`*), which 4.6 extends to groups locally of
-  finite type, agreeing with it on affine groups. Its Layer 2 owns `Lie(G)` with the
-  adjoint representation, Layer 6 the radical, and Layer 7 the conjugacy of maximal tori and the
-  root datum with its Weyl group, which 4.4 and 5.3 use. Restricted Lie algebras are PCurvature
-  Layer 0's.
-- ReductiveGroups §8.1 owns split reductive data over a base and §8.2 their pinnings; 9B owns the
-  pinned split reductive groups `𝒢_R` over `ℤ` for every reduced root datum, their base change,
-  the root subgroup maps `x_α` and the pinned isomorphism theorem.
-- SchemeAndStackFoundations owns reflexive sheaves and Hartogs extension (§0.6), Noetherian
-  approximation (§0.9), quotient predicates (§1.17), the carrier `NonabelianH1` of torsor
-  classes (§2.3), the big-site sheaves `𝔾_m` and `μ_n` (§2.9), Hilbert 90 (§2.11) and Picard
-  groups of schemes (§3.4).
-- ModularCurves 0B owns finite locally free group schemes and their Cartier duality, and
-  constructs the diagonalizable group `D_S(M) = Spec_S O_S[M]` and `μ_N` for finite `M`, which
-  1.1 compares with this roadmap's `D_S(M)`; 0C owns finite quotients and torsors, 0E effective
-  descent.
-- NeronModelsAndSemistableAbelianVarieties 2.2 owns `π₀(G/k)` for groups of finite type over a
-  field, and 4.8 extends it to groups locally of finite type.
-- AlgebraicModuliForArithmeticGeometry §7.9 owns the identity-component subfunctor of a
-  quasi-separated group algebraic space over a locally Noetherian base; 0.2 compares with it.
-- ReductiveGroupsPartII RG2.3.1 (*smooth-affine-model*) owns *SmoothModel.identityComponent*, the
-  identity component of a smooth affine model over a discrete valuation ring with connected
-  generic fibre; 0.2 is the general case and agrees with it there.
-- FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4 owns finite locally free groups of
-  multiplicative type and their rigidity; 2.1 and 3.1 compare with it.
-- InverseGaloisAndArithmeticFundamentalGroups IG.0.3 owns the finite monodromy of locally constant
-  sheaves of free `ℤ`-modules on a normal base, and IG.0.4 the Noohi groups and the pro-étale
-  fundamental group; 2.5 and 2.6 use them.
-- AbelianSchemesAndArithmeticModuli A0.1 owns abelian schemes (5.5).
-- SchubertGeometry S3, first item, owns the associated lines `L(λ)` on `G/B⁻` over a field with
-  their tensor, dual, base-change and ampleness laws, and S7, first item, the divisor of the
-  normalized extremal section;
-  EquivariantIntersectionTheory 1.1 owns `G`-linearised invertible sheaves and `Pic^G`, and 1.3
-  the exact sequence `0 → X*(G) → Pic^G(X) → Pic(X)`. Layer 6 is the extension over a base.
+Chevalley's theorem says that a smooth connected group scheme of finite type over a perfect field
+has a unique smooth connected affine normal subgroup that is the kernel of a faithfully flat
+homomorphism to an abelian variety. Cartier's theorem says that a group scheme locally of finite
+type over a field of characteristic `0` is smooth. Perrin's theorem says that a quasi-compact group
+scheme over a field, of finite type or not, is the limit of a cofiltered system of faithfully flat
+quotients of finite type.
 
-**Out of scope.** Groups of multiplicative type that are not of finite type (pro-objects such as
-`D(ℚ)`), pseudo-reductive groups, abelian schemes, Néron models, parahoric group schemes, and
-group algebraic spaces beyond the comparison of 0.2; the restricted Lie algebra of a group scheme
-over a base of characteristic `p` (SGA 3, Exp. VII_A, 6.1) and the equivalence between groups of
-height one and restricted Lie algebras that are locally free of finite rank (SGA 3, Exp. VII_A,
-7.2 and 7.4, and, over a field, 8.1.2).
+Let `G` be smooth over `S`, separated, of finite presentation, with connected fibres. The dimension
+of the abelian variety in Chevalley's theorem for its geometric fibres can only drop under
+specialization. For `G` affine, the same holds for the dimensions of a maximal torus and of the
+quotient by the radical.
+
+The last two layers take `G` split reductive over `S`, with maximal torus `T` and Weyl group `W`.
+Over a locally noetherian, normal, connected base, the Picard group of the flag scheme `G/B⁻` is
+isomorphic to `Pic(S) ⊕ ℤ^Δ`, with `Δ` the simple roots. When the derived group is simply connected,
+the Steinberg map `G → T/W`, the trace for `SL₂`, is smooth exactly on the regular locus.
+
+The roadmap builds on Tau Ceti's diagonalizable group schemes over an affine base, its abelian
+varieties and its Galois theory of finite étale algebras. ReductiveGroups provides the split
+reductive groups over `ℤ` and their scheme of Borel subgroups. SchemeAndStackFoundations provides
+the big-site sheaves `𝔾_m` and `μ_n` and Picard groups of schemes. PurityForFlatCohomology uses the
+groups of multiplicative type and tori, and EllipticCurveModularityPartII uses Cartier's theorem.
+
+Layer 0 sets up base change and the identity component. Layers 1 to 3 build on it in sequence:
+diagonalizable groups, then groups of multiplicative type and tori, then their rigidity, Hom schemes
+and centralizers. Layer 4 works over a field in parallel, from groups of finite type to groups
+locally of finite type, and ends with Perrin's approximation. Layer 5 needs Layers 3 and 4, and
+Layers 6 and 7 need ReductiveGroups; Layer 7 also uses the Picard groups of Layer 6 and Cartier's
+theorem. The roadmap's own statements include the specialization inequality for the quotient by
+the radical and the Picard group of `G/B⁻` over a base.
 
 ## Conventions
 
@@ -162,124 +96,6 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
    the sense of ReductiveGroups §8.1, the base change to `S` of a 9B model `𝒢_R`, and `Bor(G)` is
    the base change of Layer 9D's scheme of Borel subgroups of `𝒢_R` over `Spec ℤ`. Witness: for a
    split torus `G = T`, `Bor(G) = S` (6.1, Checks).
-
-## Exact supplier contracts
-
-**From Mathlib** (at the pinned revision).
-
-- Group objects: `Grp`, `Grp.mk`, `Grp.forget`, `GrpObj`, `MonObj`, `Hom.monoid`,
-  `Functor.mapGrp`, `Over.pullback`, `KernelFork`, `IsLimit`, `AlgebraicGeometry.hopfSpec`.
-- Schemes: `Scheme.Hom.fiber`, `Scheme.fromSpecResidueField`, `Scheme.toSpecΓ`,
-  `Scheme.residueField`, `specULiftZIsTerminal`, `IsLocallyNoetherian`, `Scheme.Opens`, and the
-  morphism classes `Smooth`, `Etale`, `Flat`, `IsFinite`, `Surjective`, `IsOpenImmersion`,
-  `IsClosedImmersion`, `IsAffineHom`, `QuasiCompact`, `LocallyOfFiniteType`,
-  `LocallyOfFinitePresentation`, `IsSeparated`, `GeometricallyConnected`,
-  `GeometricallyIrreducible`, `GeometricallyReduced`, `IsReduced`, and, over a field,
-  `AlgebraicGeometry.smooth_of_grpObj` (a geometrically reduced group locally of finite type is
-  smooth).
-- Over a field: the instance `IsClosedImmersion η[G].left` for a group object `G` over
-  `Spec K` (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`), the closed unit section (4.5).
-- Topology: `connectedComponent`, `IsIrreducible`, `ConnectedSpace`.
-- Limits and monomorphisms: `Mono`, `Cone`, `Functor.mapCone`, `Functor.const`, `homOfLE`,
-  `IsDirected` (4.5, 4.9).
-- Algebra: `AddGroup.FG`, `AddCommGroup.torsion`, `Module.Free`, `QuotientAddGroup.mk'`,
-  `AddMonoidHom.toMultiplicative`, `AlgHom.equalizer`, `Polynomial.aeval`, `RingHom.FiniteType`,
-  `IsIntegrallyClosed`, `PerfectField`, `CharZero`, `RootPairing`.
-
-**From Tau Ceti** (at the pinned revision).
-
-- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Scheme/Basic.lean`:
-  `TauCeti.DiagonalizableGroup.groupScheme` and `TauCeti.DiagonalizableGroup.groupSchemeMap`, over
-  `Spec R`, for `TauCeti.FGCommGrpCat` (1.1).
-- `TauCeti/Algebra/MonoidAlgebra/Etale.lean`: `TauCeti.MonoidAlgebra.etale_of_isUnit_card`, over any
-  ring; `TauCeti/Algebra/MonoidAlgebra/Smooth.lean`: `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`,
-  over a field (1.3).
-- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Exact.lean`:
-  `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`;
-  `TauCeti/Algebra/MonoidAlgebra/FaithfullyFlat.lean`:
-  `TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective` (1.4, over `Spec R`).
-- `TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/Constant.lean`:
-  `TauCeti.DiagonalizableGroup.cartierDualIso` (1.5).
-- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Centralizer/Basic.lean` and
-  `Centralizer/Smooth.lean`: `BialgHom.centralizerHopfIdeal` and
-  `BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`;
-  `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Normalizer/WeylGroup.lean`:
-  `BialgHom.weylGroup` (3.5, for a diagonalizable subgroup of an affine group over `Spec R`).
-- `TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`:
-  `TauCeti.AlgebraicGeometry.AbelianVariety` (4.2).
-- Over a field: `TauCeti.multiplicativeTypeCommHopfAlgProperty` and
-  `TauCeti.torusCommHopfAlgProperty` (2.1, 2.4), `TauCeti.HopfIdeal.IsMaximalTorus` (4.4).
-- `TauCeti/Algebra/AlgebraicGroup/Smooth/GeometricallyReduced.lean`:
-  `TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced` (4.5, affine case).
-- `TauCeti/AlgebraicGeometry/Group/Cartier.lean`:
-  `TauCeti.AlgebraicGeometry.smooth_of_grpObj_of_charZero`, Cartier's theorem for an affine group
-  scheme of finite type over a field of characteristic `0` (4.5, affine case).
-- `TauCeti/Algebra/AlgebraicGroup/Connected/Irreducible.lean`:
-  `TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace` (4.6, affine case).
-- `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`:
-  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, its closed immersion
-  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι` and
-  `TauCeti.FiniteTypeCommHopfAlgCat.geometricallyConnected_identityComponentSpec` (4.6, affine
-  case over an algebraically closed field).
-- `TauCeti/RingTheory/Etale/Galois.lean`: `TauCeti.galoisFiber` and
-  `TauCeti.isEquivalence_galoisFiber`, Grothendieck's Galois theory for a field `K` with
-  separable closure `Ω`, `(FiniteEtale K)ᵒᵖ ≌ ContAction FintypeCat Gal(Ω/K)` (4.7).
-- `TauCeti/AlgebraicGeometry/FiniteEtale/Galois/Basic.lean`:
-  `TauCeti.FiniteEtaleScheme.galoisEquivalence`, its scheme form (4.7).
-- `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`:
-  `TauCeti.stabilizer_eq_closure_wallReflections`; `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`:
-  `RootPairing.exists_mem_dominantChamber` (5.3).
-
-**From ReductiveGroups.** Layer 3, bullets *Normality and quotients* (4.1) and *Identity component
-`G°` and component group `π₀(G)`* (4.6), for the comparisons on affine groups. Layer 6, the
-radical (4.4). Layer 7, the conjugacy of maximal tori and the root datum with its Weyl group (4.4,
-5.3). §8.1, split reductive data, and §8.2, pinnings (Layers 6–7). 9B: the models `𝒢_R`, their
-base change and root subgroups `x_α` (Layers 6–7). Layer 9D, bullet *Relative reductive groups
-over an arbitrary affine base*: the reductive predicate, the scheme of Borel subgroups `Bor(G)`
-with its functor of points, central isogenies and the simply connected cover (Layers 6–7).
-
-**From SchemeAndStackFoundations.** §0.6 (7.7), §0.9 (4.9, 5.3), §1.17 (4.1), §2.3 `NonabelianH1`
-(1.6), §2.9 (1.4, 2.3), §2.11 (1.6), §3.4 (6.3, 7.7).
-
-**From ModularCurves.** 0B (1.1, 1.5), 0C (7.1), 0E (2.3, 6.1).
-
-**From AlgebraicModuliForArithmeticGeometry.** §7.9, the identity-component subfunctor (0.2).
-
-**From ReductiveGroupsPartII.** RG2.3.1 (*smooth-affine-model*), *SmoothModel.identityComponent*
-over a discrete valuation ring (0.2).
-
-**From FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.1.4 (2.1, 3.1).
-
-**From InverseGaloisAndArithmeticFundamentalGroups.** IG.0.3 (2.5) and IG.0.4 (2.6).
-
-**From NeronModelsAndSemistableAbelianVarieties.** 2.2, the component group `π₀(G/k)` of a group
-of finite type over a field (4.8); 2.3, the Chevalley decomposition of a smooth connected
-commutative group over a perfect field (4.2).
-
-**From AbelianSchemesAndArithmeticModuli.** A0.1, abelian schemes (5.5).
-
-**From SchubertGeometry.** S3, first item, the lines `L(λ)` over a field (6.1); S7, first item,
-the divisor of the normalized extremal section (6.2).
-
-**From EquivariantIntersectionTheory.** 1.1, `G`-linearised invertible sheaves and `Pic^G`
-(6.1); 1.3, the sequence `0 → X*(G) → Pic^G(X) → Pic(X)` for `G` connected (6.2).
-
-## How to read the build
-
-Layer 0 fixes base change and the identity component. Layers 1–3 are one lane on it: Layer 1 builds
-`D_S(M)` from Tau Ceti's group schemes over `Spec ℤ`, Layer 2 defines groups of multiplicative type
-and tori and proves quasi-isotriviality and isotriviality, Layer 3 proves rigidity, density of
-torsion and the representability of Hom schemes and centralizers. Layer 4 works over a field with
-Tau Ceti's field theory and abelian varieties, in parallel with Layers 1–3, and delivers quotients,
-Chevalley's theorem, the affinization and the rank invariants, then, in 4.5–4.8, the separatedness,
-the reduced subgroup, Cartier's theorem, the identity component and the component group `π₀(G/k)` of
-a group locally of finite type, through Tau Ceti's Galois theory of finite étale algebras over a
-field, and in 4.9 Perrin's approximation of a quasi-compact group by groups of finite type, which
-extends 4.1 and 4.5 beyond finite type. Layer 5 needs Layers 3 and 4 and delivers the rank
-functions on the base and their specialization. Layers 6 and 7 need, beyond these, ReductiveGroups
-§§8.1–8.2, 9B and Layer 9D: Layer 6 delivers the line bundles on `G/B⁻` over a base and the Picard
-groups, Layer 7 the Steinberg map and its consequences, using Layer 6's Picard groups in 7.7–7.8.
-The hardest targets are 5.3, 6.3, 7.4 and 7.6.
 
 ## Layer 0: carriers over a base
 
@@ -1509,6 +1325,193 @@ approximation, quotients and factorization of 4.9, the schemes and groups of con
 (4.7–4.8), `D_S(M)` for a general `M`, groups of multiplicative type and tori (Layers 1–2),
 rigidity, density of torsion and Hom schemes (Layer 3), rank functions and maximal tori over a base
 (Layer 5), Picard groups of the flag scheme (Layer 6) or the Steinberg map (Layer 7).
+
+## Scope and ownership
+
+**Owned here.** Over an arbitrary base `S`: base change of group schemes (0.1) and the identity
+component of a smooth group scheme (0.2) (Layer 0); diagonalizable groups `D_S(M)` for finitely
+generated `M`, their homomorphisms, smoothness, exactness and, for finite `M`, Cartier duality
+(1.1–1.5), and their torsors (1.6) (Layer 1); groups of multiplicative type of finite type and tori
+(2.1), their quasi-isotriviality (2.2), the character sheaf `X*(H)` and the anti-equivalence
+`H ↦ X*(H)` between groups of multiplicative type and étale-locally constant finitely generated
+sheaves (2.3), the Galois description over a field and isotriviality (2.4–2.6), and cocharacter
+sheaves, subgroups of multiplicative type, quotients and the largest subtorus `Hᵗᵒʳ` (2.7)
+(Layer 2); rigidity, density of torsion, Hom schemes out of groups of multiplicative type,
+centralizers and normalizers of such subgroups in smooth affine groups, and centralizers of such
+subgroups of finite type in smooth separated groups (Layer 3); over a field, quotients by closed
+subgroups, Chevalley's theorem for every smooth connected group over a perfect field together with
+its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
+affinization, the rank invariants, and, for groups locally of finite type and not necessarily
+affine, separatedness, the reduced subgroup over a perfect field, Cartier's theorem in
+characteristic `0` and monomorphisms (4.5), the identity component and the étale group of connected
+components `π₀(G/k)`, with the scheme `π₀(X/k)` of a scheme of finite type, and, for quasi-compact
+groups not necessarily of finite type, Perrin's approximation by groups of finite type and its
+corollaries (Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of
+smooth group schemes and the specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on
+`G/B⁻` over a base, the Picard groups of `G/B⁻` and of `G` for `G` connected split reductive over a
+field (6.2), and the Picard group of `G/B⁻` over a base (6.3) (Layer 6); the Steinberg map, the
+regular locus, the Steinberg cross-section, the universal centralizer, the Grothendieck–Springer
+space and the Picard groups of `G̃`, `G` and `G^reg` (Layer 7).
+
+**Left to other roadmaps.**
+
+- ReductiveGroups Layer 9D, bullet *Relative reductive groups over an arbitrary affine base*,
+  owns the relative reductive theory: the reductive and semisimple predicates on scheme group
+  objects and their invariance, the relative centre and derived subgroup, central isogenies and
+  the simply connected and adjoint forms, the smooth scheme of maximal tori and the smooth
+  projective scheme of Borel subgroups `Bor(G)`, the root-space decomposition and the root datum
+  as étale locally constant sheaves, étale-local splitting, the classification of pinned split
+  models over connected bases, the automorphism sheaf, the `Isom(G₀, G)` torsor and the
+  classification of étale forms in nonabelian `H¹`. Its first bullet owns the isomorphism and
+  existence theorems for split reductive groups. This roadmap states none of these and builds
+  Layers 6–7 on them. Layer 9D extends the multiplicative-type comparisons of ReductiveGroups
+  Layers 3–4 to affine bases as far as its constructions need; Layers 1–3 here state that theory
+  over an arbitrary base and agree with it there.
+- ReductiveGroups Layer 3 owns, for affine group schemes of finite type over a field, the fppf
+  quotient `G/H` and its representability (bullet *Normality and quotients*), which 4.1 extends to
+  groups of finite type, and the identity component `G°` and component group `π₀(G)` (bullet
+  *Identity component `G°` and component group `π₀(G)`*), which 4.6 extends to groups locally of
+  finite type, agreeing with it on affine groups. Its Layer 2 owns `Lie(G)` with the
+  adjoint representation, Layer 6 the radical, and Layer 7 the conjugacy of maximal tori and the
+  root datum with its Weyl group, which 4.4 and 5.3 use. Restricted Lie algebras are PCurvature
+  Layer 0's.
+- ReductiveGroups §8.1 owns split reductive data over a base and §8.2 their pinnings; 9B owns the
+  pinned split reductive groups `𝒢_R` over `ℤ` for every reduced root datum, their base change,
+  the root subgroup maps `x_α` and the pinned isomorphism theorem.
+- SchemeAndStackFoundations owns reflexive sheaves and Hartogs extension (§0.6), Noetherian
+  approximation (§0.9), quotient predicates (§1.17), the carrier `NonabelianH1` of torsor
+  classes (§2.3), the big-site sheaves `𝔾_m` and `μ_n` (§2.9), Hilbert 90 (§2.11) and Picard
+  groups of schemes (§3.4).
+- ModularCurves 0B owns finite locally free group schemes and their Cartier duality, and
+  constructs the diagonalizable group `D_S(M) = Spec_S O_S[M]` and `μ_N` for finite `M`, which
+  1.1 compares with this roadmap's `D_S(M)`; 0C owns finite quotients and torsors, 0E effective
+  descent.
+- NeronModelsAndSemistableAbelianVarieties 2.2 owns `π₀(G/k)` for groups of finite type over a
+  field, and 4.8 extends it to groups locally of finite type.
+- AlgebraicModuliForArithmeticGeometry §7.9 owns the identity-component subfunctor of a
+  quasi-separated group algebraic space over a locally Noetherian base; 0.2 compares with it.
+- ReductiveGroupsPartII RG2.3.1 (*smooth-affine-model*) owns *SmoothModel.identityComponent*, the
+  identity component of a smooth affine model over a discrete valuation ring with connected
+  generic fibre; 0.2 is the general case and agrees with it there.
+- FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4 owns finite locally free groups of
+  multiplicative type and their rigidity; 2.1 and 3.1 compare with it.
+- InverseGaloisAndArithmeticFundamentalGroups IG.0.3 owns the finite monodromy of locally constant
+  sheaves of free `ℤ`-modules on a normal base, and IG.0.4 the Noohi groups and the pro-étale
+  fundamental group; 2.5 and 2.6 use them.
+- AbelianSchemesAndArithmeticModuli A0.1 owns abelian schemes (5.5).
+- SchubertGeometry S3, first item, owns the associated lines `L(λ)` on `G/B⁻` over a field with
+  their tensor, dual, base-change and ampleness laws, and S7, first item, the divisor of the
+  normalized extremal section;
+  EquivariantIntersectionTheory 1.1 owns `G`-linearised invertible sheaves and `Pic^G`, and 1.3
+  the exact sequence `0 → X*(G) → Pic^G(X) → Pic(X)`. Layer 6 is the extension over a base.
+
+**Out of scope.** Groups of multiplicative type that are not of finite type (pro-objects such as
+`D(ℚ)`), pseudo-reductive groups, abelian schemes, Néron models, parahoric group schemes, and
+group algebraic spaces beyond the comparison of 0.2; the restricted Lie algebra of a group scheme
+over a base of characteristic `p` (SGA 3, Exp. VII_A, 6.1) and the equivalence between groups of
+height one and restricted Lie algebras that are locally free of finite rank (SGA 3, Exp. VII_A,
+7.2 and 7.4, and, over a field, 8.1.2).
+
+## Exact supplier contracts
+
+**From Mathlib** (at the pinned revision).
+
+- Group objects: `Grp`, `Grp.mk`, `Grp.forget`, `GrpObj`, `MonObj`, `Hom.monoid`,
+  `Functor.mapGrp`, `Over.pullback`, `KernelFork`, `IsLimit`, `AlgebraicGeometry.hopfSpec`.
+- Schemes: `Scheme.Hom.fiber`, `Scheme.fromSpecResidueField`, `Scheme.toSpecΓ`,
+  `Scheme.residueField`, `specULiftZIsTerminal`, `IsLocallyNoetherian`, `Scheme.Opens`, and the
+  morphism classes `Smooth`, `Etale`, `Flat`, `IsFinite`, `Surjective`, `IsOpenImmersion`,
+  `IsClosedImmersion`, `IsAffineHom`, `QuasiCompact`, `LocallyOfFiniteType`,
+  `LocallyOfFinitePresentation`, `IsSeparated`, `GeometricallyConnected`,
+  `GeometricallyIrreducible`, `GeometricallyReduced`, `IsReduced`, and, over a field,
+  `AlgebraicGeometry.smooth_of_grpObj` (a geometrically reduced group locally of finite type is
+  smooth).
+- Over a field: the instance `IsClosedImmersion η[G].left` for a group object `G` over
+  `Spec K` (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`), the closed unit section (4.5).
+- Topology: `connectedComponent`, `IsIrreducible`, `ConnectedSpace`.
+- Limits and monomorphisms: `Mono`, `Cone`, `Functor.mapCone`, `Functor.const`, `homOfLE`,
+  `IsDirected` (4.5, 4.9).
+- Algebra: `AddGroup.FG`, `AddCommGroup.torsion`, `Module.Free`, `QuotientAddGroup.mk'`,
+  `AddMonoidHom.toMultiplicative`, `AlgHom.equalizer`, `Polynomial.aeval`, `RingHom.FiniteType`,
+  `IsIntegrallyClosed`, `PerfectField`, `CharZero`, `RootPairing`.
+
+**From Tau Ceti** (at the pinned revision).
+
+- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Scheme/Basic.lean`:
+  `TauCeti.DiagonalizableGroup.groupScheme` and `TauCeti.DiagonalizableGroup.groupSchemeMap`, over
+  `Spec R`, for `TauCeti.FGCommGrpCat` (1.1).
+- `TauCeti/Algebra/MonoidAlgebra/Etale.lean`: `TauCeti.MonoidAlgebra.etale_of_isUnit_card`, over any
+  ring; `TauCeti/Algebra/MonoidAlgebra/Smooth.lean`: `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`,
+  over a field (1.3).
+- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Exact.lean`:
+  `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`;
+  `TauCeti/Algebra/MonoidAlgebra/FaithfullyFlat.lean`:
+  `TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective` (1.4, over `Spec R`).
+- `TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/Constant.lean`:
+  `TauCeti.DiagonalizableGroup.cartierDualIso` (1.5).
+- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Centralizer/Basic.lean` and
+  `Centralizer/Smooth.lean`: `BialgHom.centralizerHopfIdeal` and
+  `BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`;
+  `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Normalizer/WeylGroup.lean`:
+  `BialgHom.weylGroup` (3.5, for a diagonalizable subgroup of an affine group over `Spec R`).
+- `TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`:
+  `TauCeti.AlgebraicGeometry.AbelianVariety` (4.2).
+- Over a field: `TauCeti.multiplicativeTypeCommHopfAlgProperty` and
+  `TauCeti.torusCommHopfAlgProperty` (2.1, 2.4), `TauCeti.HopfIdeal.IsMaximalTorus` (4.4).
+- `TauCeti/Algebra/AlgebraicGroup/Smooth/GeometricallyReduced.lean`:
+  `TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced` (4.5, affine case).
+- `TauCeti/AlgebraicGeometry/Group/Cartier.lean`:
+  `TauCeti.AlgebraicGeometry.smooth_of_grpObj_of_charZero`, Cartier's theorem for an affine group
+  scheme of finite type over a field of characteristic `0` (4.5, affine case).
+- `TauCeti/Algebra/AlgebraicGroup/Connected/Irreducible.lean`:
+  `TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace` (4.6, affine case).
+- `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`:
+  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, its closed immersion
+  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι` and
+  `TauCeti.FiniteTypeCommHopfAlgCat.geometricallyConnected_identityComponentSpec` (4.6, affine
+  case over an algebraically closed field).
+- `TauCeti/RingTheory/Etale/Galois.lean`: `TauCeti.galoisFiber` and
+  `TauCeti.isEquivalence_galoisFiber`, Grothendieck's Galois theory for a field `K` with
+  separable closure `Ω`, `(FiniteEtale K)ᵒᵖ ≌ ContAction FintypeCat Gal(Ω/K)` (4.7).
+- `TauCeti/AlgebraicGeometry/FiniteEtale/Galois/Basic.lean`:
+  `TauCeti.FiniteEtaleScheme.galoisEquivalence`, its scheme form (4.7).
+- `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`:
+  `TauCeti.stabilizer_eq_closure_wallReflections`; `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`:
+  `RootPairing.exists_mem_dominantChamber` (5.3).
+
+**From ReductiveGroups.** Layer 3, bullets *Normality and quotients* (4.1) and *Identity component
+`G°` and component group `π₀(G)`* (4.6), for the comparisons on affine groups. Layer 6, the
+radical (4.4). Layer 7, the conjugacy of maximal tori and the root datum with its Weyl group (4.4,
+5.3). §8.1, split reductive data, and §8.2, pinnings (Layers 6–7). 9B: the models `𝒢_R`, their
+base change and root subgroups `x_α` (Layers 6–7). Layer 9D, bullet *Relative reductive groups
+over an arbitrary affine base*: the reductive predicate, the scheme of Borel subgroups `Bor(G)`
+with its functor of points, central isogenies and the simply connected cover (Layers 6–7).
+
+**From SchemeAndStackFoundations.** §0.6 (7.7), §0.9 (4.9, 5.3), §1.17 (4.1), §2.3 `NonabelianH1`
+(1.6), §2.9 (1.4, 2.3), §2.11 (1.6), §3.4 (6.3, 7.7).
+
+**From ModularCurves.** 0B (1.1, 1.5), 0C (7.1), 0E (2.3, 6.1).
+
+**From AlgebraicModuliForArithmeticGeometry.** §7.9, the identity-component subfunctor (0.2).
+
+**From ReductiveGroupsPartII.** RG2.3.1 (*smooth-affine-model*), *SmoothModel.identityComponent*
+over a discrete valuation ring (0.2).
+
+**From FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.1.4 (2.1, 3.1).
+
+**From InverseGaloisAndArithmeticFundamentalGroups.** IG.0.3 (2.5) and IG.0.4 (2.6).
+
+**From NeronModelsAndSemistableAbelianVarieties.** 2.2, the component group `π₀(G/k)` of a group
+of finite type over a field (4.8); 2.3, the Chevalley decomposition of a smooth connected
+commutative group over a perfect field (4.2).
+
+**From AbelianSchemesAndArithmeticModuli.** A0.1, abelian schemes (5.5).
+
+**From SchubertGeometry.** S3, first item, the lines `L(λ)` over a field (6.1); S7, first item,
+the divisor of the normalized extremal section (6.2).
+
+**From EquivariantIntersectionTheory.** 1.1, `G`-linearised invertible sheaves and `Pic^G`
+(6.1); 1.3, the sequence `0 → X*(G) → Pic^G(X) → Pic(X)` for `G` connected (6.2).
 
 ## References
 

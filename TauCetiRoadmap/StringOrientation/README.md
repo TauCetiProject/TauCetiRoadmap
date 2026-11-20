@@ -1,105 +1,70 @@
 # Roadmap: string structures, string connections and the Witten genus
 
-**Summary.** Build String structures on stable Spin bundles as lifts through
-the homotopy fibre of the normalized universal class `λ:BSpin→K(ℤ,4)`, with
-their obstruction, H³ torsor and transport laws; compare them with the String
-bordism spectrum, geometric String bordism and the low stable stems; refine
-them to differential String structures, bundle 2-gerbes and string connections
-on a native diffeological carrier; and construct the integral Witten genus
-from the twisted Dirac index. The end theorems are: existence of a String
-lift iff `c*λ=0`, with lifts a torsor under `H³(X;ℤ)`, and the 8-equivalence
-of λ (S1); `Ω₃^String≅Ω₃^fr≅ℤ/24` with its framing-change formula (S2); the
-affine space of string connections and its `Ĥ³` torsor (S3); integrality and
-modularity of the Witten genus of String manifolds (S4); McTague's theorem that
-connected-F₄ Cayley-plane bundles generate the kernel of the Witten genus over
-`ℤ[1/6]` (S5); and the low-weight positive-Ricci vanishing together with the
-two framed counterexamples to the unrestricted refined tmf/TMF questions (S6).
-A String lift is kept as data throughout; it is never identified with the
-vanishing of a characteristic class.
+**Summary.** On the classifying space BSpin of the stable Spin group, the first
+Pontryagin class p₁ is twice a generator of `H⁴(BSpin;ℤ)≅ℤ`, so there is exactly
+one class λ with `2λ=p₁`. A String structure on a Spin bundle with classifying
+map `c:X→BSpin` is a lift of c through the homotopy fibre BString of
+`λ:BSpin→K(ℤ,4)`; equivalently, it is a nullhomotopy of the composite `λ∘c`. The
+roadmap builds these objects, relates them to bordism and connections, and
+constructs the Witten genus of String manifolds. "Spin bundle" means stable Spin
+bundle unless a rank is written. A String lift is kept as data throughout; it is
+never identified with the vanishing of a characteristic class.
 
-## Scope and ownership
+The first main theorem is an obstruction theory. For a stable Spin bundle on a
+CW complex X with classifying map c, a String structure exists if and only if
+`c*λ=0` in `H⁴(X;ℤ)`. When one exists, the homotopy classes of String structures
+form a torsor under `H³(X;ℤ)`: this group acts on them freely and transitively.
+The vanishing of p₁ is not enough: on the Moore space `S³∪_2e⁴` some stable Spin
+bundle has `p₁=0` but `λ≠0`.
 
-This roadmap owns: the class λ on stable BSpin and its finite-rank pullbacks;
-the classifier BString and the finite-rank BString(n) diagram; String
-structures, their torsor, transport, sums, inverses and relative lifts; the
-group models String(n) for n≥5; the identification of S1's BString diagram with
-the 7-connected-cover diagram that EllipticCohomology E5 Thomifies; geometric
-String bordism and its low-stem and framing comparisons; integral differential
-cohomology by differential characters, bundle gerbes and 2-gerbes, the basic
-gerbe and Chern–Simons 2-gerbe of Spin(n), geometric String structures, string
-connections and transgression, with the contractible prism covers of `M×[0,1]`
-and the iterated submersion fibre products `Y^[k]` they are built on (S3.0); the
-bridges from the manifold diffeology to `ContMDiff` and to the functional
-diffeologies on mapping spaces needed for transgression (S3.5); the octonionic projective plane OP² with its
-F₄/Spin(9) isotropy and characteristic classes (S1.5); the structured
-Pontryagin–Thom theorem for tangential structures given by bundle diagrams, rational
-characteristic-number detection and the odd-primary comparison of Spin and
-oriented bordism (S2.2, S5.3); the framed comparison `Ω^fr_n≅π_nS`, the native
-stable-range formulation
-`π_(n+3)(Sⁿ)≅ℤ/24`, n≥5, of the supplied third stable stem, its quaternionic
-Hopf generator comparison, and the stable J-homomorphism in degree 3 (S2.3); the
-characteristic series and the integral Witten genus on Spin and String bordism;
-Cayley-plane bundles, their family vanishing, McTague's generator criterion and
-the kernel theorem away from 6; and the curvature questions of S6.
+A second theorem concerns bordism of 3-manifolds. Taking the third stable stem
+`π₃S≅ℤ/24` from EllipticCohomology, the roadmap proves `Ω₃^String≅Ω₃^fr≅ℤ/24`:
+String and framed bordism agree in dimension three, and the 3-sphere with its
+left-invariant framing generates. By Freudenthal's suspension theorem, for every
+n≥5 the group `π_(n+3)(Sⁿ)` is also cyclic of order 24. The case n=4 must be
+excluded, since `π₇(S⁴)≅ℤ⊕ℤ/12`.
 
-It leaves to named roadmaps:
+The Witten genus of a closed Spin manifold M of dimension 4k is a power series
+in q whose coefficient of qⁿ is the index of the Dirac operator twisted by a
+virtual bundle built from symmetric powers of the complexified tangent bundle.
+When the rational first Pontryagin class of M vanishes, in particular when M is
+String, the third theorem shows that the Witten genus is a level-one modular
+form of weight 2k whose q-expansion has integer coefficients. The Cayley plane
+OP², a 16-dimensional String manifold, has Witten genus zero.
 
-- RepresentationTheory/LieHighestWeight Layer 8, “The compact real algebra
-  suppliers” and “The formally real Albert supplier”, owns the division
-  octonions and the compact real Albert algebra, including the positive norm,
-  Jordan identities, positive trace form and smooth coordinate maps. S1.5 owns
-  the projective-plane geometry on that carrier.
-- DGFloer Layer 11 item 3 owns the compact connected Lie-group finite-cover
-  decomposition and its criterion that vanishing π₃ forces a torus; S1.2 owns
-  the maximal-compact retraction for general connected Lie groups and its
-  application to String(n).
-- EllipticCohomology E4.S owns the third stable stem computation, with its
-  stable-range application in E5 to `π₁₂(S⁹)≅ℤ/24`. S2.3 transports that input
-  to native spheres and compares the geometric framing and Hopf conventions.
-- EllipticCohomology E5 owns the E∞ String bordism spectrum MString (the E∞ Thom
-  spectrum of `bstring=τ_(≥8)ko→bo→bgl₁(S)`), its comparison with
-  GeneralizedCohomology G5.3's sequential Thom spectrum of the 7-connected
-  covers, the E∞ map MString→MSpin and the Ando–Hopkins–Rezk orientation
-  `σ:MString→tmf` with its q-expansion. E4 owns the spectra tmf, Tmf, TMF, their
-  complete coefficient computation, the lifts of Δ⁸, Δ³, Δ²⁴ and the
-  localization `tmf[(Δ²⁴)⁻¹]≃TMF`; E6 owns the low-stem unit images and the
-  localization criterion. S2 here does not build a second E∞ model.
-- GeneralizedCohomology G5.0 owns the stable Spin classifier, its finite-rank
-  maps and the Hopf normalization `stableBSpin_hopfGenerator_cTwo`; G2 owns the
-  mapping-path carrier and Hurewicz lifting; G3.8 owns connective covers.
-- SmoothBundlesConnections owns the smooth principal bundles, connections,
-  curvature, gauge transformations and good covers that S3 and S5 use: principal
-  bundles, pullbacks, cocycles and free proper quotients (B1.1–B1.4), Ehresmann
-  connections (B1.5), associated and adjoint bundles (B2.1, B2.5), principal
-  connections and their affine space (B3.1), curvature and Bianchi (B4.1), the
-  gauge group (B4.2), smooth good covers (B6.0), the Čech–de Rham and
-  Čech–singular comparisons on them (B6.1) and the binary transverse fibre
-  product of smooth maps (B1.0). S3.0 builds on these the prism covers and the
-  iterated fibre products, S3.1 the Deligne-complex step over B6.1's
-  comparisons, and neither redefines any of them.
-- CharacteristicClasses owns characteristic classes and Chern–Weil (C4);
-  DifferentialGeometry owns forms, smooth-chain integration and Stokes;
-  GeometricTopology Layer 1 owns collars and tubular neighbourhoods.
-- IndexTheory I7 owns the twisted Atiyah–Singer theorem and the L- and Â-index
-  formulas; SpinGeometry G6 owns Lichnerowicz's theorem; ModularForms owns
-  level-one modular forms and q-expansions; BordismFormalGroups F3–F5 owns BP,
-  BP⟨1⟩, cooperations and the Adams–Novikov tower.
-- SchemeAndStackFoundations §4.13 owns `bertini_smoothness`; AffineMorseLefschetz
-  A0 owns `complexProjectiveZeroLocus` and its Jacobian-rank submanifold test.
-- Orbifolds O2 item 6 owns the manifold diffeology on Mathlib's
-  `DiffeologicalSpace`: its construction from chart plots, chart independence, the
-  equality of its D-topology with the manifold topology, open restrictions and
-  the finite-product comparison with its topology compatibility. S3.5 builds on
-  it the comparison with `ContMDiff` and the subspace, pullback and functional
-  diffeologies.
-- Mathlib owns `ContinuousMap.Homotopy`, the diffeology class and its plot API in
-  `Mathlib/Geometry/Diffeology/Basic.lean`, `ContMDiffMap`, and the Levi-Civita
-  connection, and the local-normal-form submersion `Manifold.IsSubmersion`; Tau
-  Ceti owns `CovariantDerivative.ricciTensor`.
+The fourth is McTague's theorem. After inverting 6, the kernel of the Witten
+genus on String bordism is generated exactly by the total spaces of connected-F₄
+Cayley-plane bundles, each with a String structure on its total space. Six must
+be inverted: the generator of `Ω₃^String` has Witten genus zero but does not lie
+in the ideal of these bundles, which sits in degrees 16 and above. Integral
+versions, for the map σ from String bordism to the homotopy of tmf, the spectrum
+of topological modular forms, are stated but not proved.
 
-HomotopySpheres Stage 9 also states `π₃S≅ℤ/24{ν}`; S2.3 does not consume it, but
-takes the stem from EllipticCohomology E4.S and E5 and owns only its geometric
-comparisons.
+Within Tau Ceti, GeneralizedCohomology provides the stable Spin classifying
+space and the mapping-path model of homotopy fibres. EllipticCohomology provides
+the String bordism spectrum MString with its map σ, the third stable stem, and
+the homotopy of tmf and TMF. IndexTheory provides the twisted Atiyah–Singer
+theorem, and SmoothBundlesConnections the principal bundles, connections and
+good covers. TangentialBordism in turn uses the existence criterion, the Cayley
+plane and the Pontryagin–Thom isomorphism.
+
+Of the six layers, the first is pure homotopy theory, with no Thom spectrum,
+genus or coefficient computation as input. It also constructs OP² as
+`F₄/Spin(9)` and, for n≥5, a topological group String(n) over Spin(n) not
+homotopy equivalent to any finite-dimensional Lie group. The second compares
+BString with MString and with geometric bordism. The third, which depends only
+on the first and on differential-geometric foundations, builds the Chern–Simons
+2-gerbe of a Spin bundle with connection; a geometric String structure is a
+trivialization of it with a compatible connection. Every String structure admits
+one, and when λ vanishes their isomorphism classes form a torsor under the
+differential cohomology group `Ĥ³(M;ℤ)`. The fourth builds the genus from the
+second and the index theorem; the fifth uses the second, the fourth and OP². The
+sixth uses the fourth and EllipticCohomology's coefficients. It states Stolz's
+conjecture, that closed String manifolds of positive dimension admitting a
+metric of positive Ricci curvature have zero Witten genus, and proves it only in
+dimensions 4, 8, 12, 16, 20 and 28. With bi-invariant metrics and left-invariant
+framings, SU(3) and S³ have positive Ricci curvature and zero Witten genus but
+nonzero images in the homotopy of tmf and TMF.
 
 ## Conventions
 
@@ -153,122 +118,6 @@ comparisons.
   normalization.
 - **Localization.** "Away from 6" means after inverting 6, never 2- or
   3-completion.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ContinuousMap.Homotopy` (`Mathlib/Topology/Homotopy/Basic.lean`): homotopies
-  between continuous maps, used for nullhomotopies of `λ∘c` and classifier
-  homotopies.
-- `DiffeologicalSpace`, `Diffeology.IsPlot`, `Diffeology.DSmooth`,
-  `DiffeologicalSpace.CorePlotsOn`, `DiffeologicalSpace.ofCorePlotsOn`,
-  `Diffeology.IsDTopologyCompatible`, `Diffeology.IsContDiffCompatible`
-  (`Mathlib/Geometry/Diffeology/Basic.lean`): the diffeology class, plots, smooth
-  maps, plot construction on open domains, and the complete lattice of
-  diffeologies on a type. That file constructs no product, subspace, pullback or
-  functional diffeology and no manifold diffeology; Orbifolds O2 item 6
-  constructs the manifold diffeology and S3.5 the others, as instances of this
-  class. `Diffeology.IsContDiffCompatible` requires a real normed vector
-  space and is used only on coordinate/model spaces; general manifolds use the
-  chartwise comparison of S3.5.
-- `SmoothPartitionOfUnity.exists_isSubordinate`
-  (`Mathlib/Geometry/Manifold/PartitionOfUnity.lean`): smooth partitions subordinate
-  to open covers of closed sets, with `T2Space` and `SigmaCompactSpace` on the
-  manifold. Hausdorff second-countable finite-dimensional bases satisfy these
-  hypotheses.
-- `ContMDiffMap`, `ContMDiff` (`Mathlib/Geometry/Manifold/ContMDiffMap.lean`):
-  bundled smooth maps between manifolds.
-- `CovariantDerivative.leviCivitaConnection`, `CovariantDerivative.IsLeviCivitaConnection`
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
-- `Manifold.IsSubmersion` (`Mathlib/Geometry/Manifold/Submersion.lean`): a map that
-  is, near every point, the projection `(u,v)↦u` in suitable charts, for some global
-  choice of complement. The file constructs no fibre products;
-  SmoothBundlesConnections B1.0 constructs the binary transverse fibre product and
-  S3.0 the iterated fibre products of a surjective submersion.
-
-### From Tau Ceti
-
-- `CovariantDerivative.ricciTensor`
-  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Ricci.lean`):
-  `Ric(u,v)=trace(w↦R(w,u)v)` for the curvature tensor with
-  `R(X,Y)Z=∇_X∇_Y Z−∇_Y∇_X Z−∇_[X,Y]Z`; symmetry is not asserted for an arbitrary
-  connection.
-
-### From TauCetiRoadmap suppliers
-
-- **GeneralizedCohomology** G2 (mapping-path carrier, G2 item 5 Freudenthal for
-  (k−1)-connected pointed CW spaces, G2.10 Hurewicz lifting, compactly generated
-  comparison), G3 (telescope Milnor sequence, G3.8 connective
-  covers), G5.0 (stable Spin classifier, finite-rank maps, stabilization
-  homotopies, `stableBSpin_hopfGenerator_cTwo`), G5.3 (sequential Thom spectra),
-  G5.6 (rational cohomology of Eilenberg–Mac Lane spaces).
-- **AlgebraicTopology** Stage 4.5 (pair-to-mapping-cone comparison), Stage 5
-  item 1 (Künneth), Stage 6 (universal coefficients, fundamental classes),
-  Stage 8 (8.3 Hurewicz, 8.5 Whitehead, 8.7 finite CW models of compact Lie
-  groups, 8.10 representability, 8.11b loop comparison).
-- **CharacteristicClasses** finite compact-Lie classifying spaces, p₁ and w₄ on
-  each BSpin(n), C4 Chern–Weil and C4.3 universal connections.
-- **SmoothBundlesConnections** B1.0 (transverse fibre products of smooth maps),
-  B1.1 (principal structure, local sections, division map), B1.2 (pullbacks),
-  B1.3 (transition cocycles and gluing), B1.4 (free proper quotients, homogeneous
-  spaces), B1.5 (Ehresmann connections), B2.1 (associated bundles), B2.5 (adjoint
-  bundle), B3.1 (principal connections, their affine space over `Ω¹(M;ad P)` and
-  existence), B4.1 (curvature `dA+½[A∧A]`, its descent to `Ω²(M;ad P)`, Bianchi),
-  B4.2 (gauge group and its action on connections and curvature), B6.0
-  (`SmoothGoodCover`, `exists_smoothGoodCover_refining` and the chosen smooth
-  contractions of finite intersections), B6.1 (the real Čech–de Rham
-  isomorphism and the Čech–singular comparison with ℤ, ℝ and ℝ/ℤ coefficients on
-  B6.0's good covers of boundaryless Hausdorff second-countable manifolds, with
-  refinement naturality and compatibility with connecting maps).
-- **TopologicalKTheory** stable BO/BSO comparison, T2.1 virtual bundles, exterior
-  powers, and T2.3's λ-series `λ_t` on virtual classes with its product and
-  inverse identities; it states no symmetric-power operation, and S4.1 defines
-  `Sym_t` from `λ_t`.
-- **SpinGeometry** G4.1 Spin covers, G6 Lichnerowicz.
-- **RepresentationTheory/LieHighestWeight** Layer 8, “The compact real algebra
-  suppliers” and “The formally real Albert supplier”: positive division-octonion
-  norm and conjugation, the compact Albert carrier with its Jordan identities,
-  positive trace form and 27-dimensional smooth coordinate structure.
-- **DGFloer** Layer 1 item 2 (normalized long exact sequence of a homotopy fibre;
-  the homology and multiplicative cohomology Serre spectral sequences of a Serre
-  fibration over a CW base); Layer 1 item 4 (Hurewicz modulo a Serre class, used
-  with the class of groups annihilated by a power of 2); Layer 11 item 3 (finite cover T×K→G for compact connected G, its isomorphisms
-  on πⱼ for j≥2, and nonzero π₃ of nontrivial simply connected semisimple K,
-  giving the torus criterion).
-- **Orbifolds** O2 item 6 (manifold diffeology from chart plots on Mathlib's
-  class, chart independence, equality of the D-topology with the manifold
-  topology, open restrictions, common refinements and the finite-product
-  comparison with its topology compatibility).
-- **DifferentialGeometry** §5.4 (homotopy operator with boundary), §5.5, item
-  5.5b (Stokes with corners through the abstract boundary of a smooth face
-  structure), §6.2 (Poincaré lemma on boundary charts), §§8.3–8.5 (smooth
-  singular chains, Stokes for chains and the de Rham theorem); forms and
-  exterior derivative.
-- **ModularForms** level-one modular forms, dimension formula, q-expansions.
-- **BordismFormalGroups** F3–F5 (BP, BP⟨1⟩, cooperations, Hopf rings,
-  Adams–Novikov tower).
-- **SchemeAndStackFoundations** §4.13 `bertini_smoothness`.
-- **AffineMorseLefschetz** A0 `complexProjectiveZeroLocus`; A5–A6 weak Lefschetz
-  for smooth projective complete intersections via Veronese embeddings.
-- **EllipticCohomology** E4.S (independent third stable stem and generator),
-  E4 (coefficients, Δ-power lifts, localization), E5
-  (`π₁₂(S⁹)≅π₃S≅ℤ/24`, MString, σ, genus comparison), E6 (unit images, localization criterion).
-- **GeometricTopology** Layer 1 (collars, tubular neighbourhoods of closed
-  submanifolds).
-- **IndexTheory** I7.
-
-## How to read the build
-
-S1 is pure homotopy theory on GeneralizedCohomology's classifiers: λ, BString,
-String structures and their laws, with no Thom spectrum, genus or coefficient
-input. S2 compares S1's classifier with EllipticCohomology's MString and with
-geometric bordism and transports the supplied low stems. S3 depends only on S1 and the
-differential suppliers and builds the differential refinement. S4 builds the
-genus from S2 and the index theorem. S5 uses S2, S4 and S1.5's
-Cayley plane for the kernel theorem away from 6. S6 uses S4 for the curvature
-questions and EllipticCohomology's coefficients for the framed counterexamples.
-No String genus theorem is an input to the obstruction theory.
 
 ## Layer 1: the universal obstruction and the String classifier (S1)
 
@@ -1413,6 +1262,194 @@ with its F₄ action, cells and characteristic classes), S2.2 (the
 Pontryagin–Thom isomorphism for bundle diagrams, natural and multiplicative),
 S2.3 (`Ω^fr_n≅π_nS` and `π₃S≅ℤ/24` with generator ν) and S5.3 (the equivalence
 `MSpin[1/2]≃MSO[1/2]`).
+
+## Scope and ownership
+
+This roadmap owns: the class λ on stable BSpin and its finite-rank pullbacks;
+the classifier BString and the finite-rank BString(n) diagram; String
+structures, their torsor, transport, sums, inverses and relative lifts; the
+group models String(n) for n≥5; the identification of S1's BString diagram with
+the 7-connected-cover diagram that EllipticCohomology E5 Thomifies; geometric
+String bordism and its low-stem and framing comparisons; integral differential
+cohomology by differential characters, bundle gerbes and 2-gerbes, the basic
+gerbe and Chern–Simons 2-gerbe of Spin(n), geometric String structures, string
+connections and transgression, with the contractible prism covers of `M×[0,1]`
+and the iterated submersion fibre products `Y^[k]` they are built on (S3.0); the
+bridges from the manifold diffeology to `ContMDiff` and to the functional
+diffeologies on mapping spaces needed for transgression (S3.5); the octonionic projective plane OP² with its
+F₄/Spin(9) isotropy and characteristic classes (S1.5); the structured
+Pontryagin–Thom theorem for tangential structures given by bundle diagrams, rational
+characteristic-number detection and the odd-primary comparison of Spin and
+oriented bordism (S2.2, S5.3); the framed comparison `Ω^fr_n≅π_nS`, the native
+stable-range formulation
+`π_(n+3)(Sⁿ)≅ℤ/24`, n≥5, of the supplied third stable stem, its quaternionic
+Hopf generator comparison, and the stable J-homomorphism in degree 3 (S2.3); the
+characteristic series and the integral Witten genus on Spin and String bordism;
+Cayley-plane bundles, their family vanishing, McTague's generator criterion and
+the kernel theorem away from 6; and the curvature questions of S6.
+
+It leaves to named roadmaps:
+
+- RepresentationTheory/LieHighestWeight Layer 8, “The compact real algebra
+  suppliers” and “The formally real Albert supplier”, owns the division
+  octonions and the compact real Albert algebra, including the positive norm,
+  Jordan identities, positive trace form and smooth coordinate maps. S1.5 owns
+  the projective-plane geometry on that carrier.
+- DGFloer Layer 11 item 3 owns the compact connected Lie-group finite-cover
+  decomposition and its criterion that vanishing π₃ forces a torus; S1.2 owns
+  the maximal-compact retraction for general connected Lie groups and its
+  application to String(n).
+- EllipticCohomology E4.S owns the third stable stem computation, with its
+  stable-range application in E5 to `π₁₂(S⁹)≅ℤ/24`. S2.3 transports that input
+  to native spheres and compares the geometric framing and Hopf conventions.
+- EllipticCohomology E5 owns the E∞ String bordism spectrum MString (the E∞ Thom
+  spectrum of `bstring=τ_(≥8)ko→bo→bgl₁(S)`), its comparison with
+  GeneralizedCohomology G5.3's sequential Thom spectrum of the 7-connected
+  covers, the E∞ map MString→MSpin and the Ando–Hopkins–Rezk orientation
+  `σ:MString→tmf` with its q-expansion. E4 owns the spectra tmf, Tmf, TMF, their
+  complete coefficient computation, the lifts of Δ⁸, Δ³, Δ²⁴ and the
+  localization `tmf[(Δ²⁴)⁻¹]≃TMF`; E6 owns the low-stem unit images and the
+  localization criterion. S2 here does not build a second E∞ model.
+- GeneralizedCohomology G5.0 owns the stable Spin classifier, its finite-rank
+  maps and the Hopf normalization `stableBSpin_hopfGenerator_cTwo`; G2 owns the
+  mapping-path carrier and Hurewicz lifting; G3.8 owns connective covers.
+- SmoothBundlesConnections owns the smooth principal bundles, connections,
+  curvature, gauge transformations and good covers that S3 and S5 use: principal
+  bundles, pullbacks, cocycles and free proper quotients (B1.1–B1.4), Ehresmann
+  connections (B1.5), associated and adjoint bundles (B2.1, B2.5), principal
+  connections and their affine space (B3.1), curvature and Bianchi (B4.1), the
+  gauge group (B4.2), smooth good covers (B6.0), the Čech–de Rham and
+  Čech–singular comparisons on them (B6.1) and the binary transverse fibre
+  product of smooth maps (B1.0). S3.0 builds on these the prism covers and the
+  iterated fibre products, S3.1 the Deligne-complex step over B6.1's
+  comparisons, and neither redefines any of them.
+- CharacteristicClasses owns characteristic classes and Chern–Weil (C4);
+  DifferentialGeometry owns forms, smooth-chain integration and Stokes;
+  GeometricTopology Layer 1 owns collars and tubular neighbourhoods.
+- IndexTheory I7 owns the twisted Atiyah–Singer theorem and the L- and Â-index
+  formulas; SpinGeometry G6 owns Lichnerowicz's theorem; ModularForms owns
+  level-one modular forms and q-expansions; BordismFormalGroups F3–F5 owns BP,
+  BP⟨1⟩, cooperations and the Adams–Novikov tower.
+- SchemeAndStackFoundations §4.13 owns `bertini_smoothness`; AffineMorseLefschetz
+  A0 owns `complexProjectiveZeroLocus` and its Jacobian-rank submanifold test.
+- Orbifolds O2 item 6 owns the manifold diffeology on Mathlib's
+  `DiffeologicalSpace`: its construction from chart plots, chart independence, the
+  equality of its D-topology with the manifold topology, open restrictions and
+  the finite-product comparison with its topology compatibility. S3.5 builds on
+  it the comparison with `ContMDiff` and the subspace, pullback and functional
+  diffeologies.
+- Mathlib owns `ContinuousMap.Homotopy`, the diffeology class and its plot API in
+  `Mathlib/Geometry/Diffeology/Basic.lean`, `ContMDiffMap`, and the Levi-Civita
+  connection, and the local-normal-form submersion `Manifold.IsSubmersion`; Tau
+  Ceti owns `CovariantDerivative.ricciTensor`.
+
+HomotopySpheres Stage 9 also states `π₃S≅ℤ/24{ν}`; S2.3 does not consume it, but
+takes the stem from EllipticCohomology E4.S and E5 and owns only its geometric
+comparisons.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ContinuousMap.Homotopy` (`Mathlib/Topology/Homotopy/Basic.lean`): homotopies
+  between continuous maps, used for nullhomotopies of `λ∘c` and classifier
+  homotopies.
+- `DiffeologicalSpace`, `Diffeology.IsPlot`, `Diffeology.DSmooth`,
+  `DiffeologicalSpace.CorePlotsOn`, `DiffeologicalSpace.ofCorePlotsOn`,
+  `Diffeology.IsDTopologyCompatible`, `Diffeology.IsContDiffCompatible`
+  (`Mathlib/Geometry/Diffeology/Basic.lean`): the diffeology class, plots, smooth
+  maps, plot construction on open domains, and the complete lattice of
+  diffeologies on a type. That file constructs no product, subspace, pullback or
+  functional diffeology and no manifold diffeology; Orbifolds O2 item 6
+  constructs the manifold diffeology and S3.5 the others, as instances of this
+  class. `Diffeology.IsContDiffCompatible` requires a real normed vector
+  space and is used only on coordinate/model spaces; general manifolds use the
+  chartwise comparison of S3.5.
+- `SmoothPartitionOfUnity.exists_isSubordinate`
+  (`Mathlib/Geometry/Manifold/PartitionOfUnity.lean`): smooth partitions subordinate
+  to open covers of closed sets, with `T2Space` and `SigmaCompactSpace` on the
+  manifold. Hausdorff second-countable finite-dimensional bases satisfy these
+  hypotheses.
+- `ContMDiffMap`, `ContMDiff` (`Mathlib/Geometry/Manifold/ContMDiffMap.lean`):
+  bundled smooth maps between manifolds.
+- `CovariantDerivative.leviCivitaConnection`, `CovariantDerivative.IsLeviCivitaConnection`
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
+- `Manifold.IsSubmersion` (`Mathlib/Geometry/Manifold/Submersion.lean`): a map that
+  is, near every point, the projection `(u,v)↦u` in suitable charts, for some global
+  choice of complement. The file constructs no fibre products;
+  SmoothBundlesConnections B1.0 constructs the binary transverse fibre product and
+  S3.0 the iterated fibre products of a surjective submersion.
+
+### From Tau Ceti
+
+- `CovariantDerivative.ricciTensor`
+  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Ricci.lean`):
+  `Ric(u,v)=trace(w↦R(w,u)v)` for the curvature tensor with
+  `R(X,Y)Z=∇_X∇_Y Z−∇_Y∇_X Z−∇_[X,Y]Z`; symmetry is not asserted for an arbitrary
+  connection.
+
+### From TauCetiRoadmap suppliers
+
+- **GeneralizedCohomology** G2 (mapping-path carrier, G2 item 5 Freudenthal for
+  (k−1)-connected pointed CW spaces, G2.10 Hurewicz lifting, compactly generated
+  comparison), G3 (telescope Milnor sequence, G3.8 connective
+  covers), G5.0 (stable Spin classifier, finite-rank maps, stabilization
+  homotopies, `stableBSpin_hopfGenerator_cTwo`), G5.3 (sequential Thom spectra),
+  G5.6 (rational cohomology of Eilenberg–Mac Lane spaces).
+- **AlgebraicTopology** Stage 4.5 (pair-to-mapping-cone comparison), Stage 5
+  item 1 (Künneth), Stage 6 (universal coefficients, fundamental classes),
+  Stage 8 (8.3 Hurewicz, 8.5 Whitehead, 8.7 finite CW models of compact Lie
+  groups, 8.10 representability, 8.11b loop comparison).
+- **CharacteristicClasses** finite compact-Lie classifying spaces, p₁ and w₄ on
+  each BSpin(n), C4 Chern–Weil and C4.3 universal connections.
+- **SmoothBundlesConnections** B1.0 (transverse fibre products of smooth maps),
+  B1.1 (principal structure, local sections, division map), B1.2 (pullbacks),
+  B1.3 (transition cocycles and gluing), B1.4 (free proper quotients, homogeneous
+  spaces), B1.5 (Ehresmann connections), B2.1 (associated bundles), B2.5 (adjoint
+  bundle), B3.1 (principal connections, their affine space over `Ω¹(M;ad P)` and
+  existence), B4.1 (curvature `dA+½[A∧A]`, its descent to `Ω²(M;ad P)`, Bianchi),
+  B4.2 (gauge group and its action on connections and curvature), B6.0
+  (`SmoothGoodCover`, `exists_smoothGoodCover_refining` and the chosen smooth
+  contractions of finite intersections), B6.1 (the real Čech–de Rham
+  isomorphism and the Čech–singular comparison with ℤ, ℝ and ℝ/ℤ coefficients on
+  B6.0's good covers of boundaryless Hausdorff second-countable manifolds, with
+  refinement naturality and compatibility with connecting maps).
+- **TopologicalKTheory** stable BO/BSO comparison, T2.1 virtual bundles, exterior
+  powers, and T2.3's λ-series `λ_t` on virtual classes with its product and
+  inverse identities; it states no symmetric-power operation, and S4.1 defines
+  `Sym_t` from `λ_t`.
+- **SpinGeometry** G4.1 Spin covers, G6 Lichnerowicz.
+- **RepresentationTheory/LieHighestWeight** Layer 8, “The compact real algebra
+  suppliers” and “The formally real Albert supplier”: positive division-octonion
+  norm and conjugation, the compact Albert carrier with its Jordan identities,
+  positive trace form and 27-dimensional smooth coordinate structure.
+- **DGFloer** Layer 1 item 2 (normalized long exact sequence of a homotopy fibre;
+  the homology and multiplicative cohomology Serre spectral sequences of a Serre
+  fibration over a CW base); Layer 1 item 4 (Hurewicz modulo a Serre class, used
+  with the class of groups annihilated by a power of 2); Layer 11 item 3 (finite cover T×K→G for compact connected G, its isomorphisms
+  on πⱼ for j≥2, and nonzero π₃ of nontrivial simply connected semisimple K,
+  giving the torus criterion).
+- **Orbifolds** O2 item 6 (manifold diffeology from chart plots on Mathlib's
+  class, chart independence, equality of the D-topology with the manifold
+  topology, open restrictions, common refinements and the finite-product
+  comparison with its topology compatibility).
+- **DifferentialGeometry** §5.4 (homotopy operator with boundary), §5.5, item
+  5.5b (Stokes with corners through the abstract boundary of a smooth face
+  structure), §6.2 (Poincaré lemma on boundary charts), §§8.3–8.5 (smooth
+  singular chains, Stokes for chains and the de Rham theorem); forms and
+  exterior derivative.
+- **ModularForms** level-one modular forms, dimension formula, q-expansions.
+- **BordismFormalGroups** F3–F5 (BP, BP⟨1⟩, cooperations, Hopf rings,
+  Adams–Novikov tower).
+- **SchemeAndStackFoundations** §4.13 `bertini_smoothness`.
+- **AffineMorseLefschetz** A0 `complexProjectiveZeroLocus`; A5–A6 weak Lefschetz
+  for smooth projective complete intersections via Veronese embeddings.
+- **EllipticCohomology** E4.S (independent third stable stem and generator),
+  E4 (coefficients, Δ-power lifts, localization), E5
+  (`π₁₂(S⁹)≅π₃S≅ℤ/24`, MString, σ, genus comparison), E6 (unit images, localization criterion).
+- **GeometricTopology** Layer 1 (collars, tubular neighbourhoods of closed
+  submanifolds).
+- **IndexTheory** I7.
 
 ## References
 

@@ -1,76 +1,90 @@
 # Roadmap: modular forms — Hecke theory, newforms, and L-functions
 
-**Summary.** Develop the general classical theory of integral-weight modular forms, building
-on the analytic forms, Hecke actions, newforms, periods and L-functions in Mathlib and Tau Ceti.
-The remaining end theorems are integral Hecke polynomiality in arbitrary positive rank,
-cross-level strong multiplicity one, weight-one coefficient arithmetic, Galois stability,
-general-level dimension formulas and the level-one Eichler–Selberg trace formula. The build
-includes character Eisenstein series, the eta transformation and eta quotients, partial
-Atkin–Lehner operators, twists and newform orbit invariants, and the uniformisation and
-scheme–analytic comparison of the level moduli on which the weight-one arithmetic rests,
-with all primes and all positive congruence levels retained.
+**Summary.** A modular form of integral weight k on a congruence group such as Γ₁(N) is a
+holomorphic function on the upper half-plane that transforms under the group by the weight-k
+automorphy factor and is bounded at every cusp. Its arithmetic lies in its Fourier coefficients
+aₙ(f), the coefficients of qⁿ with q=exp(2πiz). A newform of level N is a cusp form orthogonal to
+the forms coming from proper divisors of N; it is an eigenform of the Hecke operators at primes
+not dividing N, normalized by a₁=1. This roadmap develops their general classical theory, building
+on the analytic theory, Hecke operators and newforms already in Mathlib and Tau Ceti. Levels are
+positive and weights are integers; no prime and no positive level is excluded.
 
-## Scope and ownership
+The first main theorem is strong multiplicity one across levels. Let f and g be newforms of the
+same weight k≥1 and positive levels N and M, with aₚ(f)=aₚ(g) for all primes p not dividing NM
+outside a finite set. Then N=M, their characters agree, and f=g. Unlike the library's versions,
+neither level need divide the other and the characters are not assumed equal.
 
-This is the classical modular-forms roadmap. It owns the extensions in the layers below;
-its foundations are supplied by the pinned libraries, rather than reconstructed. In particular,
-Tau Ceti supplies the character spaces, Petersson product, old/new spaces, normalized newforms,
-fixed-level strong multiplicity one, the coefficient field in weight at least two,
-character Eisenstein series in weight at least three, the corrected weight-two E₂,
-Atkin–Lehner character transport and the trivial-character sign theory, Satake parameters
-and conditional angles, complex conjugation of newforms, the Fricke
-functional equation, the level-one graded ring, and the full-index valence formula.
-Mathlib supplies the continued modular-form L-function. The exact contracts follow below.
+The arithmetic of coefficients is extended to weight one. For a weight-one newform, every aₙ with
+n≥1 is an algebraic integer, also at primes dividing the level, and the coefficients generate a
+number field; Tau Ceti has this in weight at least two. For a newform f of weight k≥1 and an
+embedding σ of its coefficient field into ℂ, exactly one newform of the same level and weight has
+coefficients σ(aₙ(f)) for n≥1 and character σ∘χ_f. These rest on rational descent: for k≥1, the
+weight-k cusp forms on Γ₁(N) are spanned over ℂ by forms with rational q-expansions, through a
+comparison with arithmetic modular forms in characteristic zero.
 
-This roadmap owns the transformation of Mathlib's Dedekind eta function under SL₂(ℤ):
-the translation law, the principal-root inversion law, the multiplier at every element
-with its Dedekind-sum and Kronecker-symbol values, the reciprocity law of Dedekind sums, and
-the eta-quotient criterion with its cusp orders (§0.2). Mathlib supplies η, Δ defined as η²⁴,
-and the inversion law in another root normalization. HalfIntegralWeightModularForms §3.3 (the
-Dedekind-sum value, the reciprocity law and the Kronecker form) and §3.4 (the cusp orders of
-eta quotients) plan the same objects under the same normalization: its ν_η is the ε of §0.2,
-as 2πi((a+d)/(24c) − s(d,c)/2 − 1/8) = πi((a+d)/(12c) − s(d,c) − 1/4). It consumes Layers
-0–10 of this roadmap, so it takes these from §0.2 and keeps the packaging of ν_η
-as a multiplier system of weight 1/2 and the half-integral-weight eta-quotient character,
-measured against the theta multiplier; nothing of it is cited here.
+Dimensions are computed for every congruence subgroup Γ. The compactified quotient X(Γ) is a
+compact Riemann surface. Riemann–Hurwitz gives its genus g from the index of the image of Γ in
+PSL₂(ℤ) and the numbers of elliptic points and cusps. With Riemann–Roch and Serre duality, proved
+here for line bundles on nonempty connected compact Riemann surfaces, these give the dimensions of
+modular and cusp forms on Γ in every weight but one. In weight one, for −I∉Γ, the two dimensions
+differ by half the number of regular cusps, and both are determined if that number exceeds 2g−2.
+For Γ₁(13), with 12 cusps and no elliptic points, the genus and the dimension of weight-two cusp
+forms are both 2. Möbius inversion then gives the newspace dimension of Γ₁(N) in every weight.
 
-FuchsianOrbifolds Layers 3–6 own cusp charts, compactification, compact-surface degree theory
-and the level-one sphere identification. Ownership of the normalized level-one j-function
-(j = E₄³/Δ, j − 1728 = E₆²/Δ, its modular invariance, q-expansion and exact elliptic orders)
-moves from this roadmap to FuchsianOrbifolds Layer 6, which is to construct j from Mathlib's
-E₄, E₆ and Δ; this roadmap supplies no j-input module and consumes only the resulting
-identification X(1) ≃ ℙ¹, in §10A and §10D. The generic analytic cohomology and Riemann–Roch chain of §10B remains here; algebraic
-Riemann–Roch is a different theory and is not substituted for the analytic comparison.
+At level one the roadmap proves the Eichler–Selberg trace formula. For even k≥4 and n≥1, the trace
+of Tₙ on weight-k cusp forms for SL₂(ℤ) is
+`−½·Σ_{t²≤4n} P_k(t,n)·H(4n−t²) − ½·Σ_{d∣n} min(d,n/d)^(k−1)`. Here H is the Hurwitz class number,
+with H(0)=−1/12, and P_k(t,n) is the coefficient of x^(k−2) in 1/(1−tx+nx²). At n=2 and k=12 this
+gives a₂(Δ)=−24.
 
-PolynomialGaloisGroups, “What this roadmap consumes from the Number Field Arithmetic roadmap”
-and Layer 1, “The recognition theorems”, own the factorization-to-cycle-type interface and
-permutation-group recognition.
-The weight-60 example uses those mathematical results. No solvability decision procedure or
-certificate checker belongs here. Noncongruence forms, half-integral weights, Galois
-representations of newforms, and general-level trace formulas belong to their separate
-roadmaps; none is a prerequisite for the classical targets below.
+Mathlib provides the modular forms and Dedekind's η. Among the other roadmaps, FuchsianOrbifolds
+provides X(Γ) as a compact Riemann surface. ModularCurves provides elliptic curves over schemes,
+their level structures and the Tate curve, for the arithmetic forms. In the other direction,
+AlgebraicModularFormsAndSerreWeights builds on the rational coefficient theory and the weight-one
+lattice, and HalfIntegralWeightModularForms on the eta multiplier.
 
-The characteristic-zero arithmetic comparison in §8.0 and rational descent in §8.1
-belong to this roadmap's coefficient theory. ModularCurves Layers 1–5, 9 and 10 supply the
-elliptic families, level moduli, descent formalism and the Tate curve; §8.0 constructs the
-arithmetic modular-form laws, their all-cusp Laurent criterion and their analytic comparison.
-The scheme–analytic comparison on which that analytic comparison rests is owned here, in
-§10D: the uniformisation of the complex level moduli by Γ₁(N)\ℍ, the Riemann-surface
-structure of the ℂ-points of the fine curve Y₁(N), the complex Tate curve at the cusps and
-the algebraicity of holomorphic sections of the powers of ω. It is stated for these affine
-level curves and this line bundle only, with no analytification functor and no coherent
-GAGA for arbitrary complex schemes. ModularCurves lists the uniformisation of its twisted
-curve among its external contracts and AlgebraicCurves leaves the compact-Riemann-surface
-comparison to a GAGA development; neither supplies the comparison used here.
-ModularCurvesPartII §§1.1, 1.3, 1.4, 3.13–3.14, 4.8 and 7.1 and EllipticPeriods §2.4 plan the
-same objects under the same conventions (the Weierstrass curve with a₄ = −g₂/4 and
-a₆ = −g₃/4, the marked point 1/N, the frame 2πi du = dt/t and the multiplier (cz+d)⁻¹);
-ModularCurvesPartII consumes Layers 2–8 and 10A–10C of this roadmap and EllipticPeriods
-consumes ModularCurvesPartII, so both take the lattice uniformisation, the lattice–modular
-comparison, the moduli bijection, the complex Tate curve and the automorphy of ω from §10D,
-and nothing of either is cited here. Integral
-geometric modular forms and characteristic-p operations belong to
-AlgebraicModularFormsAndSerreWeights Layers 1–3, which consume this rational theory.
+Layer 0 builds Eisenstein series with characters in weights one and two. It proves that under
+(a b; c d) in SL₂(ℤ), η changes by a 24th root of unity, expressed through a Dedekind sum when c>0,
+times the principal square root of cτ+d. A criterion for eta quotients to be modular forms
+follows: η(z)η(23z), for instance, is a weight-one cusp form of level 23 with the odd quadratic
+character modulo 23. Layer 1 treats orders of vanishing on the quotient. Layer 2 shows that for
+n≥1 and p prime the p-local integral Hecke ring of GLₙ is a polynomial ring over ℤ on its diagonal
+prime cosets. Layers 3 to 7 extend the theory of newforms and L-series, and Layers 8 and 9 the
+coefficient arithmetic and twists. Layer 10 holds the geometry and the dimensions, and Layer 11
+the trace formula. The next section explains the order and maps older layer labels.
+
+## How to read the build
+
+The layer numbers preserve the classical order: character Eisenstein series and geometric
+order conventions precede Hecke extensions, fixed-character old/new bookkeeping and primitive
+uniqueness; partial Atkin–Lehner theory and sharp convergence then feed the arithmetic and orbit
+layers. Layer 10 builds analytic cohomology and exact dimensions from the independent Fuchsian
+geometry, and its §10D proves the uniformisation and algebraicity statements that the
+analytic comparison of §8.0 consumes; that reference, like §9.3's use of §10C, is a proof
+input across layers, not a build-order inversion. Layer 11 uses the integral-period and polynomial inputs for the level-one trace
+formula. Each Needs list names the statement's carriers and one proof route; another proof
+may use different inputs. `Suggested.lean` contains only the remaining statable headlines.
+
+Citations of the earlier layer labels resolve as follows; §§10A–10C keep the topics of the
+earlier Layer 10, with the parts now supplied by Mathlib and Tau Ceti listed below.
+
+| Earlier label | Where the content is now |
+|---|---|
+| Layer 0, diamond operators and character spaces | Tau Ceti character spaces and parity, below; Layer 0 now holds §§0.1–0.2 |
+| Layer 1, valence formula at level one and general level | Tau Ceti valence formulas, below; §1.1 |
+| Layer 2, Hecke ring and Hecke operators | Tau Ceti Hecke rings and operators, below; §§2.1–2.2 |
+| Layer 3, Petersson product and old/new spaces | Tau Ceti old and new spaces, below; §3.1 |
+| Layer 4, newforms, full eigen-ness, bad-prime coefficients, conductor | Tau Ceti newforms, full eigen-ness and bad-prime classification, below; §4.1 |
+| Layer 5, strong multiplicity one and the eigenform characterization | Tau Ceti fixed-level strong multiplicity one, newform basis and coefficient criterion, below; §5.1 |
+| Layer 6, Atkin–Lehner and Fricke operators | Tau Ceti Atkin–Lehner and Fricke operators, below; §6.1 |
+| Layer 7, L-functions, continuation, functional equation, analytic rank | Mathlib `ModularForm.L` with its continuation, Tau Ceti Euler product, Fricke functional equation, analytic rank and conductor, below; the sign in Conventions and the pseudo-eigenvalues of §6.1; §7.1 |
+| Layer 8, modular symbols, integral Hecke algebra and coefficient fields | Tau Ceti period map, `TauCeti.heckeTCuspAlgebra` with its finiteness, coefficient fields and integrality, all for k≥2, below; weight one in §8.1; §8.0 |
+| Layer 8W, the weight-one lattice by the Deligne–Serre route | §8.1 |
+| Layer 8G, Galois stability, character field, rationality | §8.2; the character field is Tau Ceti's |
+| Layer 9, LMFDB invariants | Tau Ceti Satake parameters, below; Hecke characteristic polynomials in §8.2; §§9.1–9.3 |
+| Layer 10, Sturm bound | `TauCeti.ModularForm.eq_of_sturm_bound`, below |
+| Layer 11, Eichler–Selberg trace formula | Tau Ceti Hurwitz class numbers and trace-reduction modules, below; §11.1 |
+| Worked examples, target η²⁴=Δ | §0.2; Δ=η²⁴ is Mathlib's definition |
 
 ## Conventions
 
@@ -104,249 +118,6 @@ is (√N)^(2−k) times the native weight-k slash by the matrix (0,−1;N,0). Wi
   diamond value at 11 would give 1−11 instead.
 - At level 11 and weight 2, Fricke eigenvalue −1 gives i²·(−1) = +1; for Δ,
   weight 12 and Fricke eigenvalue +1 give i¹² = +1.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ModularForm`, `CuspForm`, `ModularFormClass` and `CuspFormClass` in
-  `Mathlib/NumberTheory/ModularForms/Basic.lean`: slash invariance, holomorphy and boundedness
-  or vanishing at every cusp, together with the complex module structures. These hypotheses
-  are carried by the form type; a raw holomorphic function is not a modular form.
-- `CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`,
-  `UpperHalfPlane.qExpansion`, the Eisenstein series, `CuspForm.discriminant`, and
-  `ModularForm.discriminant_ne_zero`: subgroup, expansion and level-one analytic inputs.
-- `ModularForm.eta` and `ModularForm.eta_ne_zero` in
-  `Mathlib/NumberTheory/ModularForms/DedekindEta.lean`: η(τ)=e^(2πiτ/24)∏(1−qⁿ) and its
-  nonvanishing on ℍ. `ModularForm.discriminant` and `ModularForm.eta_comp_eq_csqrt_I_inv` in
-  `Mathlib/NumberTheory/ModularForms/Discriminant.lean`: Δ is defined as η²⁴, and
-  η(−1/τ)=(√i)⁻¹√τ·η(τ) on ℍ with `Complex.sqrt` the principal root. Neither file states the
-  translation law of η itself or its multiplier at a general element of SL₂(ℤ); §0.2 does.
-  Neither pinned library defines Dedekind sums; §0.2 defines them and proves their reciprocity.
-- `jacobiSym.quadratic_reciprocity`, `jacobiSym.at_neg_one` and `jacobiSym.at_two` in
-  `Mathlib/NumberTheory/LegendreSymbol/JacobiSymbol.lean`: quadratic reciprocity and its two
-  supplements for odd positive denominators, used by the Kronecker form of the eta multiplier.
-- `Complex.cot` in `Mathlib/Analysis/Complex/Trigonometric.lean`: the complex cotangent, for
-  the cotangent form of Dedekind sums and the residue route to their reciprocity in §0.2.
-- `ModularForm.dimension_level_one` and `ModularForm.sturm_bound_levelOne` in
-  `Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`.
-- `ModularForm.L` in `Mathlib/NumberTheory/ModularForms/LFunction.lean` is the continued
-  L-function. `CuspForm.differentiable_L` requires positive weight and the cusp-form class;
-  the modular-form continuation alone need not be entire.
-- `CuspFormClass.exists_sum_range_norm_sq_qExpansion_coeff_le_of_mem_strictPeriods`
-  in `Mathlib/NumberTheory/ModularForms/Bounds.lean`: for nonnegative integral weight,
-  an arithmetic subgroup, a cusp form and a positive strict period h, the sum of the first M squared coefficient
-  norms is at most C M^k. Use h=1 for Γ₁(N), including k=1.
-- `PeriodPair.weierstrassP`, `PeriodPair.derivWeierstrassP_sq`, `PeriodPair.G`,
-  `PeriodPair.g₂` and `PeriodPair.g₃` in
-  `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`: the Weierstrass ℘-function
-  of a period pair, its periodicity and meromorphy, and the differential equation
-  ℘′² = 4℘³ − g₂℘ − g₃ with g₂ = 60G₄ and g₃ = 140G₆ as lattice sums. No comparison of
-  these lattice sums with the modular Eisenstein series is supplied; §10D proves it.
-- `WeierstrassCurve.exists_variableChange_of_j_eq` in
-  `Mathlib/AlgebraicGeometry/EllipticCurve/IsomOfJ.lean`: over a separably closed field, two
-  elliptic Weierstrass curves with equal j-invariant differ by a change of variables. The
-  implicit-function, open-mapping and removable-singularity theorems supply the analytic
-  structure used in §10D.
-- `Equiv.Perm.subgroup_eq_top_of_swap_mem` in `Mathlib/GroupTheory/Perm/Cycle/Type.lean`:
-  a subgroup of S_p, p prime, of order divisible by p and containing a transposition is S_p;
-  this is the recognition theorem behind the weight-60 example.
-- `ArithmeticFunction.moebius`, `ArithmeticFunction.sigma`, `Polynomial.dickson`,
-  `LinearMap.trace`, `LinearMap.charpoly`, `IntermediateField` and `NumberField` supply the
-  arithmetic, linear algebra and field carriers used in the acceptance signatures.
-
-### From Tau Ceti
-
-Paths in this list start at `TauCeti/NumberTheory/` unless written in full.
-
-- Character spaces and parity: `modFormCharSpace`, `cuspFormCharSpace`,
-  `TauCeti.char_neg_one_of_modFormCharSpace_ne_bot` in `ModularForms/DiamondOperators.lean`
-  and `ModularForms/Parity.lean`. The spaces are diamond eigenspaces, with the trivial
-  character identified with forms on Γ₀(N); their character decomposition is used throughout.
-- `TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMF` and
-  `TauCeti.EisensteinSeries.qExpansion_normalizedCharEisensteinSeriesMF_coeff` in
-  `ModularForms/EisensteinSeries/Normalized.lean`: character series and positive-coefficient
-  divisor sums for k≥3, primitive second character and compatible parity, including level raises.
-  `TauCeti.eisensteinSubspace` in `ModularForms/EisensteinSeries/Subspace.lean` is their span.
-  `TauCeti.EisensteinSeries.isCompl_primitiveEisensteinSubspace_cuspFormSubmodule` in
-  `ModularForms/EisensteinSeries/Primitive.lean` is the lattice-series decomposition for k≥3;
-  identifying its fixed-character part with the character-series span remains a comparison.
-  `TauCeti.EisensteinSeries.correctedE2` in `ModularForms/EisensteinSeries/WeightTwo/Basic.lean`
-  supplies E₂(z)−tE₂(tz), its coefficients and the exceptional zero at t=1.
-- Valence: `TauCeti.ModularForm.valence_formula_weighted` in
-  `ModularForms/LevelOne/ValenceFormula.lean`, and
-  `TauCeti.ModularForm.valence_formula_finiteIndex` in `ModularForms/Norm/Cusps.lean`.
-  The latter uses the full SL₂ index, interior weights 2/|Stab| and cusp translation orbits;
-  §1.1 compares these to geometric cusp orbits and the projective index.
-- `TauCeti.ModularForm.sturm_bound_finiteIndex`,
-  `TauCeti.ModularForm.sturm_bound_finiteIndex_SL2Z`,
-  `TauCeti.ModularForm.eq_of_sturm_bound` in `ModularForms/SturmBound.lean`, and
-  `TauCeti.ModularForm.mvPolynomialEquivModularForms` in `ModularForms/LevelOne/GradedRing.lean`:
-  finite-index coefficient uniqueness and the level-one graded ring ℂ[E₄,E₆].
-- The abstract Hecke convolution and coset API in `HeckeRing/Basic.lean`; the integral
-  rank-n ring, elementary divisors, degree and transpose anti-involution in `HeckeRing/GLn/`.
-  `HeckeRing.GLn.evalHomLocal` in `HeckeRing/GLn/PolynomialRing/Basic.lean` is the canonical
-  polynomial evaluation map. Its rank-one and rank-two surjectivity and the injectivity
-  results in `HeckeRing/GLn/PolynomialRing/Injective.lean` are inputs to the arbitrary-rank target.
-- `HeckeRing.GL2.heckeTNat`, `HeckeRing.GL2.heckeTCuspNat` in
-  `ModularForms/HeckeSlash/Operators.lean`, and the coefficient and recurrence API in
-  `ModularForms/HeckeSlash/Nebentypus/`: the prime-index arithmetic operators. For arbitrary
-  positive n use `HeckeRing.GL2.heckeTCompositeGamma0` in
-  `HeckeRing/GL2/Gamma0/Diagonal/Composite.lean`, acting through
-  `HeckeRing.GL2.heckeRingHomCuspCharSpace` in
-  `ModularForms/HeckeSlash/Nebentypus/Action.lean`; the single diag(1,n) double coset
-  differs from this composite element when n has a square factor.
-  `TauCeti.forall_heckeTCompositeGamma0_eq_coeff_smul_iff` in
-  `ModularForms/HeckeSlash/Nebentypus/CoefficientCriterion.lean`: a form in M_k(N,χ) with a₁=1
-  is an eigenform of every positive-index Tₙ exactly when its coefficients are multiplicative
-  at coprime indices and satisfy the prime recurrence, with χ extended by zero
-  (Diamond–Shurman, Proposition 5.8.5).
-- `TauCeti.cuspFormsOld`, `TauCeti.cuspFormsNew`,
-  `TauCeti.isCompl_cuspFormsOld_cuspFormsNew` in `ModularForms/Newforms/Basic.lean`.
-  Oldforms use only proper divisor levels M ≠ N. These use the native Petersson inner
-  product and its orthogonal-complement API; §3.1 adds fixed-character indexing.
-- `HeckeRing.GL2.Newform` in `ModularForms/Newforms/Newform.lean`,
-  `HeckeRing.GL2.Newform.toEigenform` in `ModularForms/Newforms/FullEigenform.lean`,
-  `HeckeRing.GL2.Newform.basis` in `ModularForms/Newforms/OrthogonalBasis.lean`, and
-  `HeckeRing.GL2.EigenformAwayFromLevel.exists_newform_eigenvalue_eq` in
-  `ModularForms/Newforms/Decomposition.lean`. These supply full eigen-ness, the orthogonal
-  basis and primitive-associate existence; §5.1 strengthens the uniqueness across levels.
-- `HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one`,
-  `HeckeRing.GL2.Newform.norm_qExpansion_coeff_prime_of_factorization_conductor_eq` and
-  `HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_factorization_conductor_lt` in
-  `ModularForms/Newforms/BadPrime/Classification.lean`: for p∣N, v=v_p(N) and c=v_p(cond χ),
-  a_p²=χ⁽ᵖ⁾(p)p^(k−2) if v=1 and c=0, |a_p|=p^((k−1)/2) if c=v, and a_p=0 otherwise.
-- `HeckeRing.GL2.Newform.eq_of_forall_notMem_qExpansion_coeff_eq` and
-  `HeckeRing.GL2.Newform.level_eq_of_dvd_of_forall_prime_eigenvalue_eq` in
-  `ModularForms/Newforms/StrongMultiplicityOne.lean`: respectively fixed level/character
-  with finite exceptional indices, and divisor-level rigidity with no exceptional good primes.
-- `TauCeti.atkinLehnerGamma1CharCuspRestrict` and
-  `TauCeti.atkinLehnerOperatorGamma1Cusp_mul_left_of_mem_cuspFormCharSpace` in
-  `ModularForms/AtkinLehner/Gamma1.lean`: the Γ₁ slash operator, character transport and
-  the factor χ(d_γ) when W is replaced by γW. `TauCeti.atkinLiMatrix` in
-  `ModularForms/AtkinLehner/Matrix.lean` fixes the Atkin–Li matrix choice.
-  `TauCeti.Nat.ExactDivisor.normalizedAtkinLehnerCuspRepresentation` in
-  `ModularForms/AtkinLehner/Normalized.lean` supplies the normalized Boolean-group action
-  on Γ₀ cusp forms, including involutions and composition.
-  `HeckeRing.GL2.Newform.atkinLehnerSign` in `ModularForms/AtkinLehner/Sign.lean` supplies
-  the ±1 newform signs for trivial character. §6.1 extends the newform comparison to
-  general nebentypus, rather than reconstructing these operators and sign results.
-- `TauCeti.normalizedFrickeOperatorCusp_heckeTCuspNat_of_mem_cuspFormCharSpace`
-  in `ModularForms/Fricke/Hecke.lean` gives 𝒲_N Tₙf = χ(n) Tₙ𝒲_Nf for gcd(n,N)=1.
-  The source and target characters are χ and χ⁻¹.
-- `CuspForm.frickeCompletedL`, `CuspForm.differentiable_frickeCompletedL`,
-  `CuspForm.frickeCompletedL_functional_equation` in
-  `ModularForms/LFunction/FunctionalEquation.lean`: positive weight, arithmetic width-one
-  carriers, cusp forms f and g, and the normalized Fricke-companion equation.
-  `HeckeRing.GL2.Newform.L_eulerProduct_tprod` in `ModularForms/LFunction/EulerProduct.lean`
-  gives all Euler factors, including bad primes, in Re(s) > k/2+1.
-  `HeckeRing.GL2.Newform.analyticRank` and `HeckeRing.GL2.Newform.analyticConductorAt` in
-  `ModularForms/Newforms/AnalyticInvariants.lean` use the continued L-function.
-- `TauCeti.ModularSymbols.periodMap_injective` in
-  `ModularForms/ModularSymbols/Period/Injective.lean` and
-  `TauCeti.ModularSymbols.periodMap_heckeTCuspNat` in
-  `ModularForms/ModularSymbols/Period/Hecke.lean`: the period functional on integral symbols
-  for k = w+2, w ≥ 0, its injectivity and Hecke equivariance by precomposition.
-  No Petersson boundary-cancellation assertion is required for this contract.
-  `TauCeti.heckeTCuspAlgebra` and `TauCeti.heckeTCuspAlgebra_finite` in
-  `ModularForms/HeckeSlash/Finite.lean`: the ℤ-subalgebra of End_ℂ S_k(Γ₁(N)) generated by
-  every positive-index Tₙ, bad indices included and diamonds not, is a finite ℤ-module for
-  k≥2, through the period pairing above. The weight-one integral algebra is built in §8.1.
-- `HeckeRing.GL2.Newform.satakeParameters`, `HeckeRing.GL2.Newform.satakeAngle` and
-  `HeckeRing.GL2.Newform.satakeParameters_eq_exp_satakeAngle` in
-  `ModularForms/Newforms/Satake.lean`: the root multiset, its sum/product and Euler factor;
-  the angle requires a prime, a real coefficient and the explicit Ramanujan bound, while
-  the exponential root formula additionally requires χ(p)=1.
-  `HeckeRing.GL2.Newform.conj` and `HeckeRing.GL2.Newform.qExpansion_conj` in
-  `ModularForms/Newforms/Conjugate.lean` supply complex conjugation and its coefficient
-  identity, including newness and inverse character.
-- `TauCeti.CoefficientField`, `TauCeti.CharacterField`,
-  `TauCeti.CharacterField_le_CoefficientField` in `ModularForms/Newforms/Fields.lean`, and
-  `TauCeti.numberField_CoefficientField` in `ModularForms/Newforms/NumberField.lean`.
-  The last theorem, and newform coefficient integrality there, require k ≥ 2.
-- `TauCeti.ModularForm.eta_eq_exp_mul_tprod` and `TauCeti.ModularForm.eta_neg_one_div_sq` in
-  `ModularForms/DedekindEta.lean`: η as e^(2πiτ/24) times the Euler product on all of ℂ, and
-  the root-free square η(−1/τ)²=−iτη(τ)² on ℍ. `TauCeti.kroneckerSym` in
-  `LegendreSymbol/KroneckerSymbol.lean`: the Kronecker symbol (a/b) at every integer b,
-  including b=2 and b=−1, with `TauCeti.kroneckerSym_mul_left` for products in a.
-- `TauCeti.Contour.classicalResidueTheorem_starConvex` in
-  `TauCeti/Analysis/Contour/StarConvex.lean`: for an open set Ω star-shaped about a point, a
-  finite set S, f holomorphic on Ω∖S and meromorphic at the points of S in Ω, and a closed
-  piecewise-C¹ curve in Ω avoiding S, the integral of f along the curve is 2πi times the sum
-  over S of the winding number times the residue `TauCeti.Contour.residue`. A convex open
-  neighbourhood of a rectangle is star-shaped; §0.2 uses this for the reciprocity law of
-  Dedekind sums.
-- `TauCeti.hurwitzClassNumber` in `HurwitzClassNumber.lean` has H(0)=−1/12,
-  H(3)=1/3, H(4)=1/2. `ModularForms/LevelOne/PeriodPolynomial/` supplies period-polynomial
-  spaces and their dimension count; `ModularForms/LevelOne/TraceFormula/` supplies the
-  determinant-matrix module, explicit element, exchange relations and ambient trace
-  reduction. §11.1 completes the comparison and assembles the classical trace identity.
-
-### From TauCetiRoadmap.FuchsianOrbifolds
-
-Layers 0–4 supply the effective projective action, cusp data with their q-coordinates, and the
-compactified quotient X(Γ) as a compact Riemann surface.
-Layer 5 supplies finite holomorphic maps, degree, divisor pullback and topological
-Riemann–Hurwitz, with no use of analytic Riemann–Roch. Layer 6 supplies X(1) ≃ ℙ¹.
-The local multiplicity, degree and divisor constructions also have native modules
-`TauCeti/Analysis/Complex/RiemannSurface/LocalMultiplicity.lean`, `Degree.lean` and
-`Divisor.lean`; the compactified modular quotient and genus comparison still require the
-stated geometric contracts.
-
-### From TauCetiRoadmap.ModularCurves
-
-Layers 1–2 supply elliptic curves over schemes, Weierstrass models and their variable changes
-(§1C), invariant differentials and isogenies; Layers 3–5 supply level structures, the
-Weierstrass presentation, rigidifying descent (§4C, with the effective descent of sections of
-§0E) and, for N ≥ 4, the fine affine curve Y₁(N) of §5A in Tate normal form, relatively finite
-étale over elliptic curves; §§9A–9B supply the quotient-level moduli and their actions, and
-§9E the coarse j-line. Layer 10 supplies the Tate curve over ℤ[1/N₀]((q)) with its subgroup
-schemes, for the prime level N₀ ≥ 5 of that layer; its coefficient series lie in ℤ[[q]] and do
-not depend on N₀, and §8.0 base-changes the curve from ℤ[1/N₀]((q)) to K((q)), which contains
-1/N₀ because K has characteristic zero, and adds the canonical μ_N-embedding for every N. Over
-characteristic-zero fields, the μ_N-marked moduli used in §8.0 are obtained from these level
-problems by finite étale descent. The ordinary point marking and the μ_N marking are identified
-after choosing a primitive N-th root of unity, not over ℚ without that choice.
-
-### From PolynomialGaloisGroups
-
-Consume its factorization-type input contract and Layer 1, “The recognition theorems”: a
-transitive subgroup of S_p of prime degree p containing a transposition is S_p, which is
-Mathlib's `Equiv.Perm.subgroup_eq_top_of_swap_mem`. No algorithmic construction is imported
-into the modular-forms targets.
-
-## How to read the build
-
-The layer numbers preserve the classical order: character Eisenstein series and geometric
-order conventions precede Hecke extensions, fixed-character old/new bookkeeping and primitive
-uniqueness; partial Atkin–Lehner theory and sharp convergence then feed the arithmetic and orbit
-layers. Layer 10 builds analytic cohomology and exact dimensions from the independent Fuchsian
-geometry, and its §10D proves the uniformisation and algebraicity statements that the
-analytic comparison of §8.0 consumes; that reference, like §9.3's use of §10C, is a proof
-input across layers, not a build-order inversion. Layer 11 uses the integral-period and polynomial inputs for the level-one trace
-formula. Each Needs list names the statement's carriers and one proof route; another proof
-may use different inputs. `Suggested.lean` contains only the remaining statable headlines.
-
-Citations of the earlier layer labels resolve as follows; §§10A–10C keep the topics of the
-earlier Layer 10, with the parts now supplied by Mathlib and Tau Ceti listed above.
-
-| Earlier label | Where the content is now |
-|---|---|
-| Layer 0, diamond operators and character spaces | Tau Ceti character spaces and parity, above; Layer 0 now holds §§0.1–0.2 |
-| Layer 1, valence formula at level one and general level | Tau Ceti valence formulas, above; §1.1 |
-| Layer 2, Hecke ring and Hecke operators | Tau Ceti Hecke rings and operators, above; §§2.1–2.2 |
-| Layer 3, Petersson product and old/new spaces | Tau Ceti old and new spaces, above; §3.1 |
-| Layer 4, newforms, full eigen-ness, bad-prime coefficients, conductor | Tau Ceti newforms, full eigen-ness and bad-prime classification, above; §4.1 |
-| Layer 5, strong multiplicity one and the eigenform characterization | Tau Ceti fixed-level strong multiplicity one, newform basis and coefficient criterion, above; §5.1 |
-| Layer 6, Atkin–Lehner and Fricke operators | Tau Ceti Atkin–Lehner and Fricke operators, above; §6.1 |
-| Layer 7, L-functions, continuation, functional equation, analytic rank | Mathlib `ModularForm.L` with its continuation, Tau Ceti Euler product, Fricke functional equation, analytic rank and conductor, above; the sign in Conventions and the pseudo-eigenvalues of §6.1; §7.1 |
-| Layer 8, modular symbols, integral Hecke algebra and coefficient fields | Tau Ceti period map, `TauCeti.heckeTCuspAlgebra` with its finiteness, coefficient fields and integrality, all for k≥2, above; weight one in §8.1; §8.0 |
-| Layer 8W, the weight-one lattice by the Deligne–Serre route | §8.1 |
-| Layer 8G, Galois stability, character field, rationality | §8.2; the character field is Tau Ceti's |
-| Layer 9, LMFDB invariants | Tau Ceti Satake parameters, above; Hecke characteristic polynomials in §8.2; §§9.1–9.3 |
-| Layer 10, Sturm bound | `TauCeti.ModularForm.eq_of_sturm_bound`, above |
-| Layer 11, Eichler–Selberg trace formula | Tau Ceti Hurwitz class numbers and trace-reduction modules, above; §11.1 |
-| Worked examples, target η²⁴=Δ | §0.2; Δ=η²⁴ is Mathlib's definition |
 
 ## Layer 0: character Eisenstein series
 
@@ -1581,6 +1352,278 @@ f0afa3e2d05622ada4221ec267350fc54026c76d. Its theorem
 level-one modular form with the displayed construction provided coefficients 0 through 5
 match. This conditional uniqueness theorem does not by itself prove newness, irreducibility
 or the Galois-group assertion (leanbridge lines 39–45 and 698–718).
+
+## Scope and ownership
+
+This is the classical modular-forms roadmap. It owns the extensions in the layers above;
+its foundations are supplied by the pinned libraries, rather than reconstructed. In particular,
+Tau Ceti supplies the character spaces, Petersson product, old/new spaces, normalized newforms,
+fixed-level strong multiplicity one, the coefficient field in weight at least two,
+character Eisenstein series in weight at least three, the corrected weight-two E₂,
+Atkin–Lehner character transport and the trivial-character sign theory, Satake parameters
+and conditional angles, complex conjugation of newforms, the Fricke
+functional equation, the level-one graded ring, and the full-index valence formula.
+Mathlib supplies the continued modular-form L-function. The exact contracts follow below.
+
+This roadmap owns the transformation of Mathlib's Dedekind eta function under SL₂(ℤ):
+the translation law, the principal-root inversion law, the multiplier at every element
+with its Dedekind-sum and Kronecker-symbol values, the reciprocity law of Dedekind sums, and
+the eta-quotient criterion with its cusp orders (§0.2). Mathlib supplies η, Δ defined as η²⁴,
+and the inversion law in another root normalization. HalfIntegralWeightModularForms §3.3 (the
+Dedekind-sum value, the reciprocity law and the Kronecker form) and §3.4 (the cusp orders of
+eta quotients) plan the same objects under the same normalization: its ν_η is the ε of §0.2,
+as 2πi((a+d)/(24c) − s(d,c)/2 − 1/8) = πi((a+d)/(12c) − s(d,c) − 1/4). It consumes Layers
+0–10 of this roadmap, so it takes these from §0.2 and keeps the packaging of ν_η
+as a multiplier system of weight 1/2 and the half-integral-weight eta-quotient character,
+measured against the theta multiplier; nothing of it is cited here.
+
+FuchsianOrbifolds Layers 3–6 own cusp charts, compactification, compact-surface degree theory
+and the level-one sphere identification. Ownership of the normalized level-one j-function
+(j = E₄³/Δ, j − 1728 = E₆²/Δ, its modular invariance, q-expansion and exact elliptic orders)
+moves from this roadmap to FuchsianOrbifolds Layer 6, which is to construct j from Mathlib's
+E₄, E₆ and Δ; this roadmap supplies no j-input module and consumes only the resulting
+identification X(1) ≃ ℙ¹, in §10A and §10D. The generic analytic cohomology and Riemann–Roch chain of §10B remains here; algebraic
+Riemann–Roch is a different theory and is not substituted for the analytic comparison.
+
+PolynomialGaloisGroups, “What this roadmap consumes from the Number Field Arithmetic roadmap”
+and Layer 1, “The recognition theorems”, own the factorization-to-cycle-type interface and
+permutation-group recognition.
+The weight-60 example uses those mathematical results. No solvability decision procedure or
+certificate checker belongs here. Noncongruence forms, half-integral weights, Galois
+representations of newforms, and general-level trace formulas belong to their separate
+roadmaps; none is a prerequisite for the classical targets above.
+
+The characteristic-zero arithmetic comparison in §8.0 and rational descent in §8.1
+belong to this roadmap's coefficient theory. ModularCurves Layers 1–5, 9 and 10 supply the
+elliptic families, level moduli, descent formalism and the Tate curve; §8.0 constructs the
+arithmetic modular-form laws, their all-cusp Laurent criterion and their analytic comparison.
+The scheme–analytic comparison on which that analytic comparison rests is owned here, in
+§10D: the uniformisation of the complex level moduli by Γ₁(N)\ℍ, the Riemann-surface
+structure of the ℂ-points of the fine curve Y₁(N), the complex Tate curve at the cusps and
+the algebraicity of holomorphic sections of the powers of ω. It is stated for these affine
+level curves and this line bundle only, with no analytification functor and no coherent
+GAGA for arbitrary complex schemes. ModularCurves lists the uniformisation of its twisted
+curve among its external contracts and AlgebraicCurves leaves the compact-Riemann-surface
+comparison to a GAGA development; neither supplies the comparison used here.
+ModularCurvesPartII §§1.1, 1.3, 1.4, 3.13–3.14, 4.8 and 7.1 and EllipticPeriods §2.4 plan the
+same objects under the same conventions (the Weierstrass curve with a₄ = −g₂/4 and
+a₆ = −g₃/4, the marked point 1/N, the frame 2πi du = dt/t and the multiplier (cz+d)⁻¹);
+ModularCurvesPartII consumes Layers 2–8 and 10A–10C of this roadmap and EllipticPeriods
+consumes ModularCurvesPartII, so both take the lattice uniformisation, the lattice–modular
+comparison, the moduli bijection, the complex Tate curve and the automorphy of ω from §10D,
+and nothing of either is cited here. Integral
+geometric modular forms and characteristic-p operations belong to
+AlgebraicModularFormsAndSerreWeights Layers 1–3, which consume this rational theory.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ModularForm`, `CuspForm`, `ModularFormClass` and `CuspFormClass` in
+  `Mathlib/NumberTheory/ModularForms/Basic.lean`: slash invariance, holomorphy and boundedness
+  or vanishing at every cusp, together with the complex module structures. These hypotheses
+  are carried by the form type; a raw holomorphic function is not a modular form.
+- `CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`,
+  `UpperHalfPlane.qExpansion`, the Eisenstein series, `CuspForm.discriminant`, and
+  `ModularForm.discriminant_ne_zero`: subgroup, expansion and level-one analytic inputs.
+- `ModularForm.eta` and `ModularForm.eta_ne_zero` in
+  `Mathlib/NumberTheory/ModularForms/DedekindEta.lean`: η(τ)=e^(2πiτ/24)∏(1−qⁿ) and its
+  nonvanishing on ℍ. `ModularForm.discriminant` and `ModularForm.eta_comp_eq_csqrt_I_inv` in
+  `Mathlib/NumberTheory/ModularForms/Discriminant.lean`: Δ is defined as η²⁴, and
+  η(−1/τ)=(√i)⁻¹√τ·η(τ) on ℍ with `Complex.sqrt` the principal root. Neither file states the
+  translation law of η itself or its multiplier at a general element of SL₂(ℤ); §0.2 does.
+  Neither pinned library defines Dedekind sums; §0.2 defines them and proves their reciprocity.
+- `jacobiSym.quadratic_reciprocity`, `jacobiSym.at_neg_one` and `jacobiSym.at_two` in
+  `Mathlib/NumberTheory/LegendreSymbol/JacobiSymbol.lean`: quadratic reciprocity and its two
+  supplements for odd positive denominators, used by the Kronecker form of the eta multiplier.
+- `Complex.cot` in `Mathlib/Analysis/Complex/Trigonometric.lean`: the complex cotangent, for
+  the cotangent form of Dedekind sums and the residue route to their reciprocity in §0.2.
+- `ModularForm.dimension_level_one` and `ModularForm.sturm_bound_levelOne` in
+  `Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`.
+- `ModularForm.L` in `Mathlib/NumberTheory/ModularForms/LFunction.lean` is the continued
+  L-function. `CuspForm.differentiable_L` requires positive weight and the cusp-form class;
+  the modular-form continuation alone need not be entire.
+- `CuspFormClass.exists_sum_range_norm_sq_qExpansion_coeff_le_of_mem_strictPeriods`
+  in `Mathlib/NumberTheory/ModularForms/Bounds.lean`: for nonnegative integral weight,
+  an arithmetic subgroup, a cusp form and a positive strict period h, the sum of the first M squared coefficient
+  norms is at most C M^k. Use h=1 for Γ₁(N), including k=1.
+- `PeriodPair.weierstrassP`, `PeriodPair.derivWeierstrassP_sq`, `PeriodPair.G`,
+  `PeriodPair.g₂` and `PeriodPair.g₃` in
+  `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`: the Weierstrass ℘-function
+  of a period pair, its periodicity and meromorphy, and the differential equation
+  ℘′² = 4℘³ − g₂℘ − g₃ with g₂ = 60G₄ and g₃ = 140G₆ as lattice sums. No comparison of
+  these lattice sums with the modular Eisenstein series is supplied; §10D proves it.
+- `WeierstrassCurve.exists_variableChange_of_j_eq` in
+  `Mathlib/AlgebraicGeometry/EllipticCurve/IsomOfJ.lean`: over a separably closed field, two
+  elliptic Weierstrass curves with equal j-invariant differ by a change of variables. The
+  implicit-function, open-mapping and removable-singularity theorems supply the analytic
+  structure used in §10D.
+- `Equiv.Perm.subgroup_eq_top_of_swap_mem` in `Mathlib/GroupTheory/Perm/Cycle/Type.lean`:
+  a subgroup of S_p, p prime, of order divisible by p and containing a transposition is S_p;
+  this is the recognition theorem behind the weight-60 example.
+- `ArithmeticFunction.moebius`, `ArithmeticFunction.sigma`, `Polynomial.dickson`,
+  `LinearMap.trace`, `LinearMap.charpoly`, `IntermediateField` and `NumberField` supply the
+  arithmetic, linear algebra and field carriers used in the acceptance signatures.
+
+### From Tau Ceti
+
+Paths in this list start at `TauCeti/NumberTheory/` unless written in full.
+
+- Character spaces and parity: `modFormCharSpace`, `cuspFormCharSpace`,
+  `TauCeti.char_neg_one_of_modFormCharSpace_ne_bot` in `ModularForms/DiamondOperators.lean`
+  and `ModularForms/Parity.lean`. The spaces are diamond eigenspaces, with the trivial
+  character identified with forms on Γ₀(N); their character decomposition is used throughout.
+- `TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMF` and
+  `TauCeti.EisensteinSeries.qExpansion_normalizedCharEisensteinSeriesMF_coeff` in
+  `ModularForms/EisensteinSeries/Normalized.lean`: character series and positive-coefficient
+  divisor sums for k≥3, primitive second character and compatible parity, including level raises.
+  `TauCeti.eisensteinSubspace` in `ModularForms/EisensteinSeries/Subspace.lean` is their span.
+  `TauCeti.EisensteinSeries.isCompl_primitiveEisensteinSubspace_cuspFormSubmodule` in
+  `ModularForms/EisensteinSeries/Primitive.lean` is the lattice-series decomposition for k≥3;
+  identifying its fixed-character part with the character-series span remains a comparison.
+  `TauCeti.EisensteinSeries.correctedE2` in `ModularForms/EisensteinSeries/WeightTwo/Basic.lean`
+  supplies E₂(z)−tE₂(tz), its coefficients and the exceptional zero at t=1.
+- Valence: `TauCeti.ModularForm.valence_formula_weighted` in
+  `ModularForms/LevelOne/ValenceFormula.lean`, and
+  `TauCeti.ModularForm.valence_formula_finiteIndex` in `ModularForms/Norm/Cusps.lean`.
+  The latter uses the full SL₂ index, interior weights 2/|Stab| and cusp translation orbits;
+  §1.1 compares these to geometric cusp orbits and the projective index.
+- `TauCeti.ModularForm.sturm_bound_finiteIndex`,
+  `TauCeti.ModularForm.sturm_bound_finiteIndex_SL2Z`,
+  `TauCeti.ModularForm.eq_of_sturm_bound` in `ModularForms/SturmBound.lean`, and
+  `TauCeti.ModularForm.mvPolynomialEquivModularForms` in `ModularForms/LevelOne/GradedRing.lean`:
+  finite-index coefficient uniqueness and the level-one graded ring ℂ[E₄,E₆].
+- The abstract Hecke convolution and coset API in `HeckeRing/Basic.lean`; the integral
+  rank-n ring, elementary divisors, degree and transpose anti-involution in `HeckeRing/GLn/`.
+  `HeckeRing.GLn.evalHomLocal` in `HeckeRing/GLn/PolynomialRing/Basic.lean` is the canonical
+  polynomial evaluation map. Its rank-one and rank-two surjectivity and the injectivity
+  results in `HeckeRing/GLn/PolynomialRing/Injective.lean` are inputs to the arbitrary-rank target.
+- `HeckeRing.GL2.heckeTNat`, `HeckeRing.GL2.heckeTCuspNat` in
+  `ModularForms/HeckeSlash/Operators.lean`, and the coefficient and recurrence API in
+  `ModularForms/HeckeSlash/Nebentypus/`: the prime-index arithmetic operators. For arbitrary
+  positive n use `HeckeRing.GL2.heckeTCompositeGamma0` in
+  `HeckeRing/GL2/Gamma0/Diagonal/Composite.lean`, acting through
+  `HeckeRing.GL2.heckeRingHomCuspCharSpace` in
+  `ModularForms/HeckeSlash/Nebentypus/Action.lean`; the single diag(1,n) double coset
+  differs from this composite element when n has a square factor.
+  `TauCeti.forall_heckeTCompositeGamma0_eq_coeff_smul_iff` in
+  `ModularForms/HeckeSlash/Nebentypus/CoefficientCriterion.lean`: a form in M_k(N,χ) with a₁=1
+  is an eigenform of every positive-index Tₙ exactly when its coefficients are multiplicative
+  at coprime indices and satisfy the prime recurrence, with χ extended by zero
+  (Diamond–Shurman, Proposition 5.8.5).
+- `TauCeti.cuspFormsOld`, `TauCeti.cuspFormsNew`,
+  `TauCeti.isCompl_cuspFormsOld_cuspFormsNew` in `ModularForms/Newforms/Basic.lean`.
+  Oldforms use only proper divisor levels M ≠ N. These use the native Petersson inner
+  product and its orthogonal-complement API; §3.1 adds fixed-character indexing.
+- `HeckeRing.GL2.Newform` in `ModularForms/Newforms/Newform.lean`,
+  `HeckeRing.GL2.Newform.toEigenform` in `ModularForms/Newforms/FullEigenform.lean`,
+  `HeckeRing.GL2.Newform.basis` in `ModularForms/Newforms/OrthogonalBasis.lean`, and
+  `HeckeRing.GL2.EigenformAwayFromLevel.exists_newform_eigenvalue_eq` in
+  `ModularForms/Newforms/Decomposition.lean`. These supply full eigen-ness, the orthogonal
+  basis and primitive-associate existence; §5.1 strengthens the uniqueness across levels.
+- `HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one`,
+  `HeckeRing.GL2.Newform.norm_qExpansion_coeff_prime_of_factorization_conductor_eq` and
+  `HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_factorization_conductor_lt` in
+  `ModularForms/Newforms/BadPrime/Classification.lean`: for p∣N, v=v_p(N) and c=v_p(cond χ),
+  a_p²=χ⁽ᵖ⁾(p)p^(k−2) if v=1 and c=0, |a_p|=p^((k−1)/2) if c=v, and a_p=0 otherwise.
+- `HeckeRing.GL2.Newform.eq_of_forall_notMem_qExpansion_coeff_eq` and
+  `HeckeRing.GL2.Newform.level_eq_of_dvd_of_forall_prime_eigenvalue_eq` in
+  `ModularForms/Newforms/StrongMultiplicityOne.lean`: respectively fixed level/character
+  with finite exceptional indices, and divisor-level rigidity with no exceptional good primes.
+- `TauCeti.atkinLehnerGamma1CharCuspRestrict` and
+  `TauCeti.atkinLehnerOperatorGamma1Cusp_mul_left_of_mem_cuspFormCharSpace` in
+  `ModularForms/AtkinLehner/Gamma1.lean`: the Γ₁ slash operator, character transport and
+  the factor χ(d_γ) when W is replaced by γW. `TauCeti.atkinLiMatrix` in
+  `ModularForms/AtkinLehner/Matrix.lean` fixes the Atkin–Li matrix choice.
+  `TauCeti.Nat.ExactDivisor.normalizedAtkinLehnerCuspRepresentation` in
+  `ModularForms/AtkinLehner/Normalized.lean` supplies the normalized Boolean-group action
+  on Γ₀ cusp forms, including involutions and composition.
+  `HeckeRing.GL2.Newform.atkinLehnerSign` in `ModularForms/AtkinLehner/Sign.lean` supplies
+  the ±1 newform signs for trivial character. §6.1 extends the newform comparison to
+  general nebentypus, rather than reconstructing these operators and sign results.
+- `TauCeti.normalizedFrickeOperatorCusp_heckeTCuspNat_of_mem_cuspFormCharSpace`
+  in `ModularForms/Fricke/Hecke.lean` gives 𝒲_N Tₙf = χ(n) Tₙ𝒲_Nf for gcd(n,N)=1.
+  The source and target characters are χ and χ⁻¹.
+- `CuspForm.frickeCompletedL`, `CuspForm.differentiable_frickeCompletedL`,
+  `CuspForm.frickeCompletedL_functional_equation` in
+  `ModularForms/LFunction/FunctionalEquation.lean`: positive weight, arithmetic width-one
+  carriers, cusp forms f and g, and the normalized Fricke-companion equation.
+  `HeckeRing.GL2.Newform.L_eulerProduct_tprod` in `ModularForms/LFunction/EulerProduct.lean`
+  gives all Euler factors, including bad primes, in Re(s) > k/2+1.
+  `HeckeRing.GL2.Newform.analyticRank` and `HeckeRing.GL2.Newform.analyticConductorAt` in
+  `ModularForms/Newforms/AnalyticInvariants.lean` use the continued L-function.
+- `TauCeti.ModularSymbols.periodMap_injective` in
+  `ModularForms/ModularSymbols/Period/Injective.lean` and
+  `TauCeti.ModularSymbols.periodMap_heckeTCuspNat` in
+  `ModularForms/ModularSymbols/Period/Hecke.lean`: the period functional on integral symbols
+  for k = w+2, w ≥ 0, its injectivity and Hecke equivariance by precomposition.
+  No Petersson boundary-cancellation assertion is required for this contract.
+  `TauCeti.heckeTCuspAlgebra` and `TauCeti.heckeTCuspAlgebra_finite` in
+  `ModularForms/HeckeSlash/Finite.lean`: the ℤ-subalgebra of End_ℂ S_k(Γ₁(N)) generated by
+  every positive-index Tₙ, bad indices included and diamonds not, is a finite ℤ-module for
+  k≥2, through the period pairing above. The weight-one integral algebra is built in §8.1.
+- `HeckeRing.GL2.Newform.satakeParameters`, `HeckeRing.GL2.Newform.satakeAngle` and
+  `HeckeRing.GL2.Newform.satakeParameters_eq_exp_satakeAngle` in
+  `ModularForms/Newforms/Satake.lean`: the root multiset, its sum/product and Euler factor;
+  the angle requires a prime, a real coefficient and the explicit Ramanujan bound, while
+  the exponential root formula additionally requires χ(p)=1.
+  `HeckeRing.GL2.Newform.conj` and `HeckeRing.GL2.Newform.qExpansion_conj` in
+  `ModularForms/Newforms/Conjugate.lean` supply complex conjugation and its coefficient
+  identity, including newness and inverse character.
+- `TauCeti.CoefficientField`, `TauCeti.CharacterField`,
+  `TauCeti.CharacterField_le_CoefficientField` in `ModularForms/Newforms/Fields.lean`, and
+  `TauCeti.numberField_CoefficientField` in `ModularForms/Newforms/NumberField.lean`.
+  The last theorem, and newform coefficient integrality there, require k ≥ 2.
+- `TauCeti.ModularForm.eta_eq_exp_mul_tprod` and `TauCeti.ModularForm.eta_neg_one_div_sq` in
+  `ModularForms/DedekindEta.lean`: η as e^(2πiτ/24) times the Euler product on all of ℂ, and
+  the root-free square η(−1/τ)²=−iτη(τ)² on ℍ. `TauCeti.kroneckerSym` in
+  `LegendreSymbol/KroneckerSymbol.lean`: the Kronecker symbol (a/b) at every integer b,
+  including b=2 and b=−1, with `TauCeti.kroneckerSym_mul_left` for products in a.
+- `TauCeti.Contour.classicalResidueTheorem_starConvex` in
+  `TauCeti/Analysis/Contour/StarConvex.lean`: for an open set Ω star-shaped about a point, a
+  finite set S, f holomorphic on Ω∖S and meromorphic at the points of S in Ω, and a closed
+  piecewise-C¹ curve in Ω avoiding S, the integral of f along the curve is 2πi times the sum
+  over S of the winding number times the residue `TauCeti.Contour.residue`. A convex open
+  neighbourhood of a rectangle is star-shaped; §0.2 uses this for the reciprocity law of
+  Dedekind sums.
+- `TauCeti.hurwitzClassNumber` in `HurwitzClassNumber.lean` has H(0)=−1/12,
+  H(3)=1/3, H(4)=1/2. `ModularForms/LevelOne/PeriodPolynomial/` supplies period-polynomial
+  spaces and their dimension count; `ModularForms/LevelOne/TraceFormula/` supplies the
+  determinant-matrix module, explicit element, exchange relations and ambient trace
+  reduction. §11.1 completes the comparison and assembles the classical trace identity.
+
+### From TauCetiRoadmap.FuchsianOrbifolds
+
+Layers 0–4 supply the effective projective action, cusp data with their q-coordinates, and the
+compactified quotient X(Γ) as a compact Riemann surface.
+Layer 5 supplies finite holomorphic maps, degree, divisor pullback and topological
+Riemann–Hurwitz, with no use of analytic Riemann–Roch. Layer 6 supplies X(1) ≃ ℙ¹.
+The local multiplicity, degree and divisor constructions also have native modules
+`TauCeti/Analysis/Complex/RiemannSurface/LocalMultiplicity.lean`, `Degree.lean` and
+`Divisor.lean`; the compactified modular quotient and genus comparison still require the
+stated geometric contracts.
+
+### From TauCetiRoadmap.ModularCurves
+
+Layers 1–2 supply elliptic curves over schemes, Weierstrass models and their variable changes
+(§1C), invariant differentials and isogenies; Layers 3–5 supply level structures, the
+Weierstrass presentation, rigidifying descent (§4C, with the effective descent of sections of
+§0E) and, for N ≥ 4, the fine affine curve Y₁(N) of §5A in Tate normal form, relatively finite
+étale over elliptic curves; §§9A–9B supply the quotient-level moduli and their actions, and
+§9E the coarse j-line. Layer 10 supplies the Tate curve over ℤ[1/N₀]((q)) with its subgroup
+schemes, for the prime level N₀ ≥ 5 of that layer; its coefficient series lie in ℤ[[q]] and do
+not depend on N₀, and §8.0 base-changes the curve from ℤ[1/N₀]((q)) to K((q)), which contains
+1/N₀ because K has characteristic zero, and adds the canonical μ_N-embedding for every N. Over
+characteristic-zero fields, the μ_N-marked moduli used in §8.0 are obtained from these level
+problems by finite étale descent. The ordinary point marking and the μ_N marking are identified
+after choosing a primitive N-th root of unity, not over ℚ without that choice.
+
+### From PolynomialGaloisGroups
+
+Consume its factorization-type input contract and Layer 1, “The recognition theorems”: a
+transitive subgroup of S_p of prime degree p containing a transposition is S_p, which is
+Mathlib's `Equiv.Perm.subgroup_eq_top_of_swap_mem`. No algorithmic construction is imported
+into the modular-forms targets.
 
 ## References
 

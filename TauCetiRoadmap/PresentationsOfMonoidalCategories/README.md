@@ -1,44 +1,69 @@
 # Roadmap: presentations of monoidal categories
 
-**Summary.** A linear monoidal category whose objects are finite direct sums of simple objects `S_a`, with
-`End(S_a)` the base ring, is determined up to linear monoidal equivalence by finite data: fusion
-multiplicities `N_{ab}^c` and F-matrices `F^{abc}_d`. Its braidings are determined in the same way
-by R-matrices `R^{ab}_c`, and its pivotal structures by one unit scalar per simple object. Mathlib
-has the target structures (`MonoidalCategory`, `BraidedCategory`, `RigidCategory`) and generic
-constructors (`MonoidalCategory.ofTensorHom`, `Monoidal.induced`, `Monoidal.transport`). Tau Ceti
-has finite semisimple categories, fusion coefficients and pivotal structures, from the
-[pivotal and spherical categories roadmap](../PivotalSpherical/README.md). Neither has a
-constructor from matrix data or a way to extract such data. This roadmap builds:
+**Summary.** A linear monoidal category whose objects are finite direct sums of simple objects
+`S_a`, with `End(S_a)` the base ring, is determined up to linear monoidal equivalence by finite
+data. The fusion multiplicities `N_{ab}^c` are the ranks of the modules `Hom(S_a ⊗ S_b, S_c)`. In
+chosen bases of these modules, the F-matrices `F^{abc}_d` express the associator, and the pentagon
+and triangle axioms become polynomial identities in their entries. A braiding is recorded in the
+same way by R-matrices `R^{ab}_c`, subject to two hexagon equations, and a pivotal structure by one
+unit scalar per simple object.
 
-- the constructor;
-- the extraction, with a reconstruction theorem;
-- the gauge action and the classification of models and their autoequivalences;
-- braidings, rigidity, and pivotal and spherical structures, all in terms of the data.
+The roadmap constructs a category from the data, extracts the data from a category, and classifies
+the result. The simple objects are indexed by a finite type `ι`, and each has endomorphism ring
+exactly the base ring. Every layer works over a commutative ring `R`, nontrivial wherever
+multiplicities are read off as ranks. Only the comparison with abelian, field-based definitions
+needs a field.
+
+Given F-symbols over `R`, the model category has as objects the `ι`-graded finite sets, read as
+graded bases, and as morphisms the grade-wise matrices over `R`. Each simple object is a single
+basis element in one grade. With the tensor product given by the multiplicities and the associator
+by the F-matrices, the model is an `R`-linear monoidal category with finite direct sums.
+
+Extraction goes the other way. Let `R` be nontrivial and `C` an `R`-linear monoidal category with
+finite direct sums. Let `S_a` be objects indexed by `ι`, such that each `End(S_a)` is `R`, there are
+no nonzero maps between distinct members, and every object is a finite direct sum of members. Fix an
+isomorphism from the unit object to one member, and choose bases of the modules
+`Hom(S_a ⊗ S_b, S_c)` given by the unitors whenever one factor is that member. Then exactly one
+system of F-symbols expresses the associator in these bases. Reconstruction says that `C` is
+`R`-linearly monoidally equivalent to the model of these F-symbols, by an equivalence sending each
+simple object of the model to the corresponding `S_a`. Extracting from a model with its standard
+bases returns the F-symbols it was built from.
+
+Different bases and labelings give different F-symbols, and by the classification these are the only
+ambiguities. A gauge transformation changes the chosen bases by invertible matrices, equal to the
+identity when one factor is the unit. Over a nontrivial ring, two models are `R`-linearly monoidally
+equivalent if and only if their F-symbols differ by a relabeling of the simple objects followed by a
+gauge transformation. Linearity matters: the Fibonacci data over `ℚ(√5)` and its Galois conjugate,
+the Yang–Lee data, are related by a semilinear monoidal equivalence but are not gauge equivalent.
+
+R-symbols satisfying the hexagons give a braiding on the model. Conversely, a braiding on a category
+`C` as above determines exactly one system of R-symbols for its extracted F-symbols. For the fusion
+rules of `ℤ/2` with `F^{111}_1 = −1` and all other entries `1`, the hexagons force
+`(R^{11}_0)² = −1`, so R-symbols exist over `ℤ[i]` but not over `ℤ`. Suppose the unit occurs exactly
+once in the tensor product of two simple objects, in either order. Then the second is a right dual
+of the first exactly when one entry of an inverse F-matrix is a unit of `R`. On a model made rigid
+by these standard duals, pivotal structures correspond bijectively to families of units of `R`, one
+per simple object, satisfying one explicit equation for each triple with `N_{ab}^c ≠ 0`.
+
+The roadmap builds on the [pivotal and spherical categories roadmap](../PivotalSpherical/README.md).
+The models here instantiate its finite semisimple and pivotal categories, and its split simple
+families are the hypothesis of extraction. Mathlib provides monoidal, braided and rigid categories
+and the category of matrices over a ring. Neither has a constructor from matrix data or a way to
+extract such data. The proposed Ocneanu rigidity roadmap is to use the F- and R-symbols, the model
+and the gauge action.
+
+Layer 0 defines the data. Layer 1 builds the model, and Layer 2 proves extraction and
+reconstruction. Layer 3 proves the classification. Layers 4 to 6 treat braidings, rigidity, and
+pivotal and spherical structures.
 
 Suggested home: `TauCeti/CategoryTheory/Monoidal/FSymbols/`. Topic: `math.QA`.
 
-## Scope and ownership
+## How to read the build
 
-- **Semisimple with finitely many simples, split.** `ι` is a `Fintype`, and each simple has
-  `End(S_a) = R`.
-  - Excluded: non-semisimple tensor categories, for example representations of a `p`-group in
-    characteristic `p`. "Skeletal data" for these is deliberately out of scope: Hom spaces between
-    indecomposables are not encoded by multiplicities, so the data below has no analogue.
-  - Excluded: infinitely many simples.
-  - Excluded: non-split simples, whose endomorphism ring is a division algebra larger than the base
-    field, as in fusion categories over `ℝ` with quaternionic or complex simples.
-- **Base ring.** Every layer works over a commutative ring `R`, nontrivial wherever multiplicities
-  are read off as ranks. Noncommutative rings are excluded, because `End(𝟙)` of a monoidal category
-  is commutative and equals `R` here. The ring generality is what reducing a presentation modulo a
-  prime needs. Only the comparison with
-  [PivotalSpherical](../PivotalSpherical/README.md)'s abelian, field-based definitions (Layer 2)
-  needs a field.
-- **Fusion-category infrastructure is not built here.** [PivotalSpherical](../PivotalSpherical/README.md)
-  owns finite semisimple categories, simple classes, fusion coefficients, the Grothendieck ring,
-  pivotal and spherical structures, `Vec^ω_G`, and dual bases for split simple families over a
-  commutative ring. It deliberately has no bundled fusion-category
-  class, and neither does this roadmap. The models here instantiate its definitions (Layers 2, 3
-  and 6).
+Each layer has numbered subsections `k.n`, one per target group, in dependency order, each with
+its *Needs:* clause, followed by worked Examples and the layer's Dependencies. `Suggested.lean`
+gives the data of Layer 0 real bodies, with the equations below written out index by index, and
+states extraction (2.2).
 
 ## Conventions
 
@@ -108,47 +133,6 @@ Normalization: `φ^{ua→a}_0 = λ_a` and `φ^{au→a}_0 = ρ_a`, through a fixe
   invariant.
 - Under the rescaling `φ^{āa→u} ↦ x_a φ^{āa→u}`, `φ^{aā→u} ↦ y_a φ^{aā→u}`, one has
   `s_a ↦ (x_a / y_a) s_a` and `D^{ab}_c ↦ (x_c y_a y_b)/(x_a x_b y_c) · D^{ab}_c`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-
-- **Mathlib, structures and constructors:** `MonoidalCategory.ofTensorHom`, `Monoidal.induced`,
-  `Monoidal.transport`, `BraidedCategory` (`hexagon_forward`, `hexagon_reverse`),
-  `BraidedCategory.ofFaithful`, `Functor.Monoidal`, `Functor.Braided`, `Equivalence.IsMonoidal`.
-- **Mathlib, linear structure:** `Preadditive`, `Linear`, `Functor.Linear`, `MonoidalPreadditive`,
-  `MonoidalLinear`, `HasFiniteBiproducts`.
-- **Mathlib, matrices and duals:** `CategoryTheory.Mat R` (morphisms `X ⟶ Y` are `Matrix X Y R`,
-  with `f ≫ g = f * g`), `HomOrthogonal`, `HomOrthogonal.matrixDecomposition`, `ExactPairing`,
-  `RigidCategory`, `rigidCategoryOfEquivalence`.
-- **Mathlib, rigid structure:** `ExactPairing.tensor`, the exact pairing of `X₁ ⊗ X₂` with
-  `Y₂ ⊗ Y₁`.
-
-### From Tau Ceti
-
-- From [PivotalSpherical](../PivotalSpherical/README.md), implemented:
-  - semisimplicity and fusion coefficients: `TauCeti.IsFiniteSemisimpleCategory`,
-    `TauCeti.SimpleClasses`, `TauCeti.fusionCoeff`, `TauCeti.SplitK0` with its ring structure;
-  - pivotal structures and traces: `TauCeti.PivotalCategory`, `pivotalExactPairing`,
-    `leftDim`, `rightDim`, `TauCeti.SphericalCategory`, `sphericalCategory_iff_leftDim_eq_rightDim`;
-  - the torsor of pivotal structures over `Aut (LaxMonoidalFunctor.of (𝟭 C))`.
-- `TauCeti.ExactPairing.biproduct` (`TauCeti/CategoryTheory/Monoidal/Rigid/Biproduct.lean`):
-  exact pairings of finite biproducts, in a monoidal preadditive category.
-
-### From PivotalSpherical, as targets
-
-- Layer 3.3, *Split simple families*: the hypothesis `IsSplitSimpleFamily R S`, and for it the
-  freeness of the Hom modules into and out of each member, the perfect composition pairing, dual
-  bases `b.homDual`, and the completeness relation.
-- Layer 8.1, `Vec^ω_G`: `VecTwisted R G ω` for a normalized 3-cocycle `ω` with values in `Rˣ`.
-
-## How to read the build
-
-Each layer has numbered subsections `k.n`, one per target group, in dependency order, each with
-its *Needs:* clause, followed by worked Examples and the layer's Dependencies. `Suggested.lean`
-gives the data of Layer 0 real bodies, with the equations above written out index by index, and
-states extraction (2.2).
 
 ## Layer 0: the data
 
@@ -500,6 +484,63 @@ Layers 3 and 5; Tau Ceti `TauCeti.PivotalCategory`, `TauCeti.leftDim`, `TauCeti.
 
 - The proposed Ocneanu rigidity roadmap, Layers 5–8, consumes the F- and R-symbols, base change,
   the model, the gauge action of 3.1 and the rigidity criterion of 5.1.
+
+## Scope and ownership
+
+- **Semisimple with finitely many simples, split.** `ι` is a `Fintype`, and each simple has
+  `End(S_a) = R`.
+  - Excluded: non-semisimple tensor categories, for example representations of a `p`-group in
+    characteristic `p`. "Skeletal data" for these is deliberately out of scope: Hom spaces between
+    indecomposables are not encoded by multiplicities, so the data above has no analogue.
+  - Excluded: infinitely many simples.
+  - Excluded: non-split simples, whose endomorphism ring is a division algebra larger than the base
+    field, as in fusion categories over `ℝ` with quaternionic or complex simples.
+- **Base ring.** Every layer works over a commutative ring `R`, nontrivial wherever multiplicities
+  are read off as ranks. Noncommutative rings are excluded, because `End(𝟙)` of a monoidal category
+  is commutative and equals `R` here. The ring generality is what reducing a presentation modulo a
+  prime needs. Only the comparison with
+  [PivotalSpherical](../PivotalSpherical/README.md)'s abelian, field-based definitions (Layer 2)
+  needs a field.
+- **Fusion-category infrastructure is not built here.** [PivotalSpherical](../PivotalSpherical/README.md)
+  owns finite semisimple categories, simple classes, fusion coefficients, the Grothendieck ring,
+  pivotal and spherical structures, `Vec^ω_G`, and dual bases for split simple families over a
+  commutative ring. It deliberately has no bundled fusion-category
+  class, and neither does this roadmap. The models here instantiate its definitions (Layers 2, 3
+  and 6).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+
+- **Mathlib, structures and constructors:** `MonoidalCategory.ofTensorHom`, `Monoidal.induced`,
+  `Monoidal.transport`, `BraidedCategory` (`hexagon_forward`, `hexagon_reverse`),
+  `BraidedCategory.ofFaithful`, `Functor.Monoidal`, `Functor.Braided`, `Equivalence.IsMonoidal`.
+- **Mathlib, linear structure:** `Preadditive`, `Linear`, `Functor.Linear`, `MonoidalPreadditive`,
+  `MonoidalLinear`, `HasFiniteBiproducts`.
+- **Mathlib, matrices and duals:** `CategoryTheory.Mat R` (morphisms `X ⟶ Y` are `Matrix X Y R`,
+  with `f ≫ g = f * g`), `HomOrthogonal`, `HomOrthogonal.matrixDecomposition`, `ExactPairing`,
+  `RigidCategory`, `rigidCategoryOfEquivalence`.
+- **Mathlib, rigid structure:** `ExactPairing.tensor`, the exact pairing of `X₁ ⊗ X₂` with
+  `Y₂ ⊗ Y₁`.
+
+### From Tau Ceti
+
+- From [PivotalSpherical](../PivotalSpherical/README.md), implemented:
+  - semisimplicity and fusion coefficients: `TauCeti.IsFiniteSemisimpleCategory`,
+    `TauCeti.SimpleClasses`, `TauCeti.fusionCoeff`, `TauCeti.SplitK0` with its ring structure;
+  - pivotal structures and traces: `TauCeti.PivotalCategory`, `pivotalExactPairing`,
+    `leftDim`, `rightDim`, `TauCeti.SphericalCategory`, `sphericalCategory_iff_leftDim_eq_rightDim`;
+  - the torsor of pivotal structures over `Aut (LaxMonoidalFunctor.of (𝟭 C))`.
+- `TauCeti.ExactPairing.biproduct` (`TauCeti/CategoryTheory/Monoidal/Rigid/Biproduct.lean`):
+  exact pairings of finite biproducts, in a monoidal preadditive category.
+
+### From PivotalSpherical, as targets
+
+- Layer 3.3, *Split simple families*: the hypothesis `IsSplitSimpleFamily R S`, and for it the
+  freeness of the Hom modules into and out of each member, the perfect composition pairing, dual
+  bases `b.homDual`, and the completeness relation.
+- Layer 8.1, `Vec^ω_G`: `VecTwisted R G ω` for a normalized 3-cocycle `ω` with values in `Rˣ`.
 
 ## References
 
