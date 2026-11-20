@@ -50,6 +50,7 @@ body:
         - ArakelovGeometryAndAbelianHeights
         - ArcTopologyAndDescent
         - ArithmeticDirichletSeriesPartII
+        - ArithmeticFuchsianGroups
         - ArithmeticGaloisDuality
         - ArithmeticGaloisRepresentations
         - ArithmeticInterpolationDeterminants
@@ -126,6 +127,7 @@ body:
         - DiamondEtaleCohomology
         - DiamondSixOperations
         - DiamondsAndVStacks
+        - DiamondsAndVStacksPartII
         - DifferentialGeometry
         - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
@@ -150,9 +152,11 @@ body:
         - EtaleCohomologyFoundations
         - EtaleDualityAndPerverseSheaves
         - EtaleDualityAndPerverseSheavesPartII
+        - EtaleHomotopyTypes
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
         - EulerSystemsCyclotomicMainConjecture
+        - ExplicitCharacterSumsAndSieves
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
@@ -173,6 +177,7 @@ body:
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
+        - FuchsianOrbifoldsPartII
         - FukayaTheory
         - GL2AutomorphicRepresentationsAndTransfer
         - GaloisActionOnEtaleCohomology
