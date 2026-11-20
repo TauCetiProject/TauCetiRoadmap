@@ -5,10 +5,10 @@ the Dedekind zeta function `ζ_K`, the partial zeta functions of ray classes, Di
 L-functions, the Hecke L-functions of finite-order ray class characters, and the L-functions of
 algebraic Hecke characters (Grossencharacters of Weil's type `A₀`). Each is continued to the whole
 plane as one named function, completed by its conductor power and gamma factors, and given its
-functional equation by Hecke's method as Neukirch presents it: Poisson summation on the
-Minkowski space of `K`, a theta series with one parameter per infinite place averaged over a
-fundamental domain for the units, and Mellin's principle. Throughout, `K` has `r₁` real and `r₂`
-complex places, discriminant `d_K`, class number `h`, regulator `R` and `w` roots of unity.
+functional equation by Hecke's method: Poisson summation on the Minkowski space of `K`, a theta
+series with one parameter per infinite place averaged over a fundamental domain for the units, and
+Mellin's principle. Throughout, `K` has `r₁` real and `r₂` complex places, discriminant `d_K`,
+class number `h`, regulator `R` and `w` roots of unity.
 
 The headline theorems are these.
 
@@ -19,8 +19,10 @@ The headline theorems are these.
 - If `χ ≠ 1` is a primitive ray class character whose conductor has finite part `𝔣₀`, its completed
   L-function, with conductor `|d_K| N𝔣₀`, is entire and satisfies `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)` with
   `|W(χ)| = 1`. The completed L-function of the unitary part of every algebraic Hecke character
-  has the same form of functional equation, and the full completion of a character of shift `σ`
-  reflects about `1/2 + σ` against the inverse character.
+  has the same form of functional equation. The full completion `Λ(χ, s)` of a character of shift
+  `σ`, the unitary completion at `s − σ`, has its critical line at `Re s = 1/2 + σ` and satisfies
+  `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)` off the poles, which carries that line to the critical line
+  `Re s = 1/2 − σ` of the inverse character.
 - If `χ` is a nontrivial primitive finite-order Hecke character, `L(s, χ) ≠ 0` for `Re s ≥ 1`.
   If the unitary part of an algebraic Hecke character is not a norm twist, its L-function has no
   zero on `Re s = 1 + σ`, and the logarithmic derivative of its unitary L-function extends
@@ -182,7 +184,7 @@ the zeros roadmap consumes.
 
 Define the average-coefficient-growth predicate on an analytic card `d`: for every `ε > 0`,
 `∑_{1 ≤ n ≤ x} |a_n| = O(x^(1+ε))` as `x → ∞`, where `a = d.coeff`. The zeroth coefficient,
-which `LSeries` does not read, plays no part (Iwaniec–Kowalski, Chapter 5).
+which `LSeries` does not read, plays no part.
 
 - If `d` satisfies the predicate, its coefficients are `LSeriesSummable` on `Re s > 1`, and for
   every `δ > 0` the L-series of `d` is bounded on `Re s ≥ 1 + δ` by a constant depending on `δ`
@@ -409,7 +411,7 @@ series converges on `Re s > 1`, that the series of the classes sum to
 ### 2.1 The continued partial zeta function
 
 Define `partialZeta K 𝔪 c` as `TauCeti.meromorphicContinuation 1` of the norm-regrouped series of
-`rayClassCoeff 𝔪 c` (Neukirch, Chapter VII). Prove:
+`rayClassCoeff 𝔪 c`. Prove:
 
 - `partialZeta_eq_lSeries`: on `Re s > 1`, `partialZeta K 𝔪 c` is the series. This is the
   statement that the series continues to a meromorphic function on the whole plane.
@@ -456,10 +458,10 @@ plane §3.4 (trivial modulus) or Tau Ceti `sum_inv_mul_LSeries_toUnitaryIdealWei
 Prove compatibility with change of modulus: for `𝔪 ∣ 𝔫` and a ray class `c` of `𝔪`, the partial
 zeta functions of the classes `c'` of `𝔫` with `classMap h c' = c` (the supplier's transition map
 `RayClassGroup 𝔫 →* RayClassGroup 𝔪`) sum to the series of `c` over the ideals prime to `𝔫₀`,
-`∑_{𝔞 ∈ c, (𝔞, 𝔫₀) = 1} N𝔞^(−s)`, on `Re s > 1` and as germs at every point; when `𝔪` and `𝔫` have
-the same support this is `ζ(s, c)`. Prove independence of representatives: the partial zeta
-function of the class of a nonzero integral ideal prime to `𝔪` depends only on its ray class, so
-any representative may be used. The class-group case is the trivial modulus, where the classes are
+`∑_{𝔞 ∈ c, (𝔞, 𝔫₀) = 1} N𝔞^(−s)`, on `Re s > 1`, so that their sum is the canonical continuation
+of that series; when `𝔪` and `𝔫` have the same support this is `ζ(s, c)`. Prove independence of
+representatives: the partial zeta function of the class of a nonzero integral ideal prime to `𝔪`
+depends only on its ray class, so any representative may be used. The class-group case is the trivial modulus, where the classes are
 the ideal classes, the correction is the empty product and `sum_partialZeta_one` applies. No
 generic ideal series or Euler product is introduced in this layer.
 *Needs:* §2.1; Tau Ceti `classMap`, `idealClass`, `integralIdealsPrimeTo`, `support_one`.
@@ -495,8 +497,8 @@ layer for the half-plane statements; the continuation to the plane is §3.4 or �
 ## Layer 3: Dedekind zeta
 
 This layer constructs the completed partial zeta functions of the ideal classes from the theta
-series of Layer 1, following Neukirch VII (5.3)–(5.11) step by step, and the continued and
-completed Dedekind zeta functions as their sum over the classes.
+series of Layer 1 (Neukirch VII (5.3)–(5.11)), and the continued and completed Dedekind zeta
+functions as their sum over the classes.
 
 ### 3.1 The unit quotient: the Epstein regression
 
@@ -613,8 +615,10 @@ property of the kernel (local integrability from `continuousOn_mellinKernel`, th
 fractional ideal `I`:
 
 - `meromorphic_completedPartialZeta` and `analyticAt_completedPartialZeta`: `Z(I, ·)` is meromorphic
-  on `ℂ` and analytic off `{0, 1}`; with `completedPartialZeta_eq_partialZeta` this continues the
-  partial zeta functions of the trivial modulus (§2.1).
+  on `ℂ` and analytic off `{0, 1}`. The first holds for every canonical continuation, which is in
+  meromorphic normal form; the content of the continuation is `completedPartialZeta_eq_tsum`,
+  which with `completedPartialZeta_eq_partialZeta` continues the partial zeta functions of the
+  trivial modulus (§2.1).
 - `completedPartialZeta_one_sub`: `Z(I, 1 − s) = Z((I𝔡)⁻¹, s)` for `s ∉ {0, 1}`, and
   `completedPartialZeta_one_sub_eventuallyEq`: the same as germs at every point (Neukirch VII
   (5.9), `𝔎𝔎' = [𝔡]`), from Tau Ceti's `FEPairWithLevel.Λ_eq` and `Λ_eventuallyEq` with
@@ -638,7 +642,9 @@ and `completedDedekindZeta K`, the continuation of `|d_K|^(s/2) Γ_ℝ(s)^r₁ �
 Prove:
 
 - `dedekindZetaC_eq` and `completedDedekindZeta_eq`: agreement with Mathlib's `dedekindZeta` and
-  with the completed product on `Re s > 1`.
+  with the completed product on `Re s > 1`. These carry the content of the continuation;
+  `meromorphic_dedekindZetaC` and `meromorphic_completedDedekindZeta` below hold for every
+  canonical continuation, which is in meromorphic normal form.
 - `meromorphic_dedekindZetaC`, `analyticAt_dedekindZetaC` off `s = 1`, and
   `meromorphicOrderAt_dedekindZetaC_one`: a simple pole at `1` and analyticity everywhere else.
 - `tendsto_sub_one_mul_dedekindZetaC`: the analytic class number formula
@@ -774,7 +780,7 @@ Prove `dedekindZetaC_quadratic`: for a quadratic field `F` there is a primitive 
 character `χ` such that `dedekindZetaC F = ζ · L(χ)` on `Re s > 1`, as germs at every point, and
 pointwise for `s ≠ 1`. Tau Ceti's `TauCeti.NumberField.dedekindZeta_eq_riemannZeta_mul_LFunction`
 gives the half-plane identity for Mathlib's `dedekindZeta`, with `χ` the quadratic character of
-the discriminant (Neukirch, Chapter VII).
+the discriminant.
 *Needs:* §3.5 (`dedekindZetaC`, `dedekindZetaC_eq`, `meromorphic_dedekindZetaC`); Tau Ceti
 `TauCeti.NumberField.dedekindZeta_eq_riemannZeta_mul_LFunction`,
 `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`; Mathlib `riemannZeta`,
@@ -791,12 +797,12 @@ the discriminant (Neukirch, Chapter VII).
 
 Prove `dedekindZetaC_cyclotomic`: for the cyclotomic field `F = ℚ(ζ_n)` and, for each Dirichlet
 character `χ` modulo `n`, a primitive character `χ'` of level `m_χ ∣ n` inducing it, `dedekindZetaC F`
-is the product of the `L(χ')` on `Re s > 1`, as germs, and pointwise for `s ≠ 1`; this primitive
-form has no correction factor. Prove `dedekindZetaC_cyclotomic_imprimitive`: with the level
+is the product of the `L(χ')` on `Re s > 1` (Washington, Theorem 4.3, for the field of a group of
+Dirichlet characters), as germs, and pointwise for `s ≠ 1`; this primitive form has no correction
+factor. Prove `dedekindZetaC_cyclotomic_imprimitive`: with the level
 characters `χ` themselves the missing Euler factors occur with the inverse correction forced by
 `L(χ, s) = L(χ', s) ∏_{p ∣ n, p ∤ m_χ} (1 − χ'(p) p^(−s))`, so `dedekindZetaC F` times
-`∏_χ ∏_{p ∣ n, p ∤ m_χ} (1 − χ'(p) p^(−s))` is `∏_χ L(χ, s)`, on `Re s > 1` and as germs (Neukirch,
-Chapter VII).
+`∏_χ ∏_{p ∣ n, p ∤ m_χ} (1 − χ'(p) p^(−s))` is `∏_χ L(χ, s)`, on `Re s > 1` and as germs.
 *Needs:* §3.5; Tau Ceti `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`; Mathlib
 `DirichletCharacter.LFunction`, `DirichletCharacter.changeLevel`, `IsCyclotomicExtension`, and the
 decomposition of rational primes in cyclotomic fields.
@@ -1158,7 +1164,8 @@ unitary ideal factor with a nonunitary archimedean factor is false when the shif
 Define `lFunctionC K χ`, the continuation from `Re s > 1 + σ` of the norm-regrouped series of the
 unitary weight at `s − σ`. Prove `lFunctionC_eq`: on that half-plane it is
 `∑ χ_u(𝔞) N𝔞^(σ − s)` over the ideals prime to `𝔪`, with the supplier's Euler factors at `s − σ`;
-and `meromorphic_lFunctionC`. Define the conductor `primitiveConductor K χ` (Convention 12): finite
+and `meromorphic_lFunctionC`, which holds for every canonical continuation (the content is
+`lFunctionC_eq`). Define the conductor `primitiveConductor K χ` (Convention 12): finite
 part the supplier's `HeckeCharacter.finiteConductor` of the primary object, `∏_v v^(a_v)` with
 `a_v` the least `n` for which the local component is trivial on the `n`-th unit group, and infinite
 part the real places at which the parity of the archimedean restriction differs from that of the
@@ -1198,8 +1205,9 @@ by recentering, `Λ(χ, s) = Λ_unit(χ, s − σ)`: with primitive conductor `A
   returns `W(χ)`.
 
 ⚠ The full completion is not the completed function of an analytic card when the shift is
-nonzero: its equation is centred at `1/2 + σ` and reflects against the inverse, whose shift is
-`−σ`, not against the conjugate card.
+nonzero: its critical line is `Re s = 1/2 + σ`, and its equation (`completed_one_sub`, §6.9)
+relates `Λ(χ, s)` to `Λ(χ⁻¹, 1 − s)`, the full completion of the inverse, whose shift is `−σ` and
+whose critical line is `Re s = 1/2 − σ`.
 *Needs:* §§6.1, 6.5; Layer 0 (`AnalyticLFunctionData.ofSeries`, `HasDirichletAgreement`); Tau Ceti
 `HeckeCharacter.idealCharacter`, `HeckeCharacter.finiteConductor`, `ContinuousInfinityType`; for
 `norm_rootNumber` and `rootNumber_inv`, §6.9.
@@ -1413,20 +1421,29 @@ fundamental domains and their volume), Layer 3 (`mellinKernel`, `mellinConstant`
 A theorem that one named character L-function is nonzero on `Re s = 1` belongs here because it is
 part of that function's basic analytic theory. Uniform zero-free regions, zero counting, and
 consequences extracted from zeros belong downstream. The `3-4-1` positivity, the generic
-nonvanishing criterion built on it and Landau's theorem are Tau Ceti's (supplier contracts).
+nonvanishing criterion built on it, the nonvanishing on `Re s ≥ 1` of the continued L-function of
+a weight with cancellation, and Landau's theorem are Tau Ceti's (supplier contracts).
 
 ### 7.1 Nonvanishing of finite-order Hecke L-functions
 
 Prove `heckeLFunction_ne_zero_of_one_le_re`: for a nontrivial primitive ray class character `χ`,
-`L(s, χ) ≠ 0` for `Re s ≥ 1`. On `Re s > 1` this is the Euler product. On `Re s = 1` it is the
-`3-4-1` argument — Tau Ceti's `UnitaryIdealWeight.ne_zero_of_eqOn_LSeries`, which pairs
-`L(s, χ)` at `1 + it` with `L(s, χ²)` at `1 + 2it` against `ζ_K` — when `χ²` is nontrivial or
-`t ≠ 0`, and Landau's argument in the exceptional quadratic case `χ² = 1`, `t = 0` (§7.3), the
-continuations being those of §§5.1 and 5.4. This specializes the supplier's Landau theorem
-(`TauCeti.LSeries.landau`) to the finite-order Hecke family.
+`L(s, χ) ≠ 0` for `Re s ≥ 1`. The weight `χ.toUnitaryIdealWeight` has cancellation (Tau Ceti's
+`hasCancellation_toUnitaryIdealWeight`), so the supplier's `continuedLFunctionOfWeight` of it is
+holomorphic on `Re s > 1 − 1/n`; it agrees with the series on `Re s > 1`, hence with the normal
+form `heckeLFunctionC χ` of §5.1 on `Re s > 1 − 1/n`. Its nonvanishing on `Re s ≥ 1` is Tau Ceti's
+`continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` when `χ² ≠ 1`, the square of the weight
+being then the weight of the nontrivial character `χ²`, and
+`continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq` off `s = 1` when `χ² = 1`. What remains
+is the exceptional quadratic case `χ² = 1`, `s = 1`: Landau's argument (§7.3, the supplier's
+`TauCeti.LSeries.landau`) with the continuation of §§5.1 and 5.4. Mathlib proves the case of
+Dirichlet L-functions (`DirichletCharacter.LFunction_ne_zero_of_one_le_re`) by the same case
+analysis, closing its quadratic case by the positivity of an entire L-series with nonnegative
+coefficients (Loeffler–Stoll, §6, p. 54).
 *Needs:* §§5.1, 5.4 (`heckeLFunctionC_eq`, `differentiable_completedHeckeLFunction`), §3.5; Tau Ceti
-`UnitaryIdealWeight.ne_zero_of_eqOn_LSeries`, `TauCeti.LSeries.ne_zero_of_threeFourOne`,
-`TauCeti.LSeries.threeFourOneCombination_nonneg`, `TauCeti.LSeries.landau`,
+`hasCancellation_toUnitaryIdealWeight`, `continuedLFunctionOfWeight` with
+`continuedLFunctionOfWeight_eq_LSeries` and `differentiableOn_continuedLFunctionOfWeight`,
+`continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
+`continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq`, `TauCeti.LSeries.landau`,
 `RayClassCharacter.toUnitaryIdealWeight`, `EulerProductData`.
 
 **Checks.**
@@ -1469,32 +1486,74 @@ Keep nonvanishing in meromorphic-order form at poles. Prove
 `meromorphicOrderAt_dedekindZetaC_one_add`: `dedekindZetaC K` has order `0` at `1 + it` for
 `t ≠ 0` (its order at `1` is `−1`, §3.5). Prove `Grossencharacter.unitaryCancelling`: for every
 presentation whose unitary weight is not a pure norm twist on its good ideals, the premise
-`UnitaryCancelling` holds, constructed from the ray-class and archimedean inputs rather than
-assumed. Prove `Grossencharacter.meromorphicOrderAt_lFunctionC`: under that premise `lFunctionC`
-has order `0` at `1 + σ + it` for every real `t`; the Grossencharacter boundary is `Re s = 1 + σ`,
-reduced to the unitary statement by recentering.
+`UnitaryCancelling` holds, constructed rather than assumed. Prove
+`Grossencharacter.meromorphicOrderAt_lFunctionC`: under that premise `lFunctionC` has order `0` at
+`1 + σ + it` for every real `t`; the Grossencharacter boundary is `Re s = 1 + σ`, reduced to the
+unitary statement by recentering.
 
-*Route.* At the boundary point `1 + it` of the unitary weight `χ_u` the `3-4-1` argument pairs
-`L(s, χ_u)` at `1 + it` with the companion `L(s, χ_u²)` at `1 + 2it`. Either `χ_u²` cancels, the
-companion is continuous at `1 + 2it`, and the criterion `TauCeti.LSeries.ne_zero_of_threeFourOne`
-applies; or `χ_u²` is trivial on good ideals and the companion is `ζ_K` with finitely many Euler
-factors deleted. For `t ≠ 0` that companion is continuous at `1 + 2it` and the criterion still
-applies. For `t = 0` the companion has the zeta pole at `1` itself, the orders are
-`−3 + 4 − 1 = 0`, and the `3-4-1` bound excludes nothing: this is the exceptional quadratic case,
-proved by Landau's argument. For `χ_u` of order two, `L(s, χ_u)` continues to an entire function
-(§5.4, as the L-function of a nontrivial finite-order Hecke character, Neukirch VII (8.5)); if
-`L(1, χ_u) = 0` then `ζ_K(s) L(s, χ_u)` is entire. Its Dirichlet coefficient at `𝔠` is
-`∑_{𝔞𝔟 = 𝔠} χ_u(𝔟)`, which is multiplicative and equal at `𝔭^k` to `k + 1`, to `1` or `0` by the
-parity of `k`, or to `1`, according as `χ_u(𝔭)` is `1`, `−1` or `0`; so it is nonnegative and at
-least `1` at every square ideal. By Landau's theorem the series then converges at every real `s`,
-and for real `s > 1/2` it is at least `ζ_K(2s)`, which tends to infinity as `s → 1/2⁺`, against the
-continuity of the entire function at `1/2`. A cancellation hypothesis alone does not supply this
-step: it continues the series of a weight only to `Re s > 1 − 1/n`, which for `n ≥ 2` does not
-contain `s = 1/2`.
+*Route of `Grossencharacter.unitaryCancelling`.* Write `χ_u` for the unitary weight; the field
+`not_normTwist` is the hypothesis.
+
+- Cancellation of `χ_u`. If the Hecke character has finite order, `χ_u` is the weight of a ray
+  class character of `𝔪` (§6.2, `unitaryWeight_eq_rayClassIdealWeight`), nontrivial because `χ_u`
+  is not a norm twist, and Tau Ceti's `RayClassCharacter.hasCancellation_toUnitaryIdealWeight`
+  applies. If it has infinite order, some complex place has angular frequency `k_w ≠ 0`, since a
+  Hecke character trivial on the identity component of the archimedean ideles has finite order;
+  the bound then comes from a weighted lattice-point count. For `𝔞` integral and prime to `𝔪`,
+  each nonzero integral ideal prime to `𝔪` in the class of `𝔞⁻¹` is `a𝔞⁻¹` for exactly `w` points
+  `a ∈ 𝔞` of Mathlib's fundamental cone (`fundamentalCone.idealSetEquiv`), and by the unit relation
+  (§6.4) `χ_u(a𝔞⁻¹)` is `χ_u(𝔞)⁻¹` times the residue character (§6.7) at `a mod 𝔪₀` times a
+  function of `a` homogeneous of degree `0`: a character of frequency `k_w` in the angle of `a_w`
+  at each complex place, times signs at the real places. Count the points of each coset of
+  `σ(𝔞𝔪₀)` with this weight by the cell argument of Tau Ceti's lattice count
+  (`TauCeti.abs_ncard_inter_mul_sub_measureReal_le`, with the Lipschitz frontier
+  `fundamentalCone.isLipschitzParametrizable_frontier_normLeOne`), one dyadic shell of the norm at
+  a time, on which the weight is Lipschitz with constant inversely proportional to the shell's
+  radius: the weighted count up to norm `x` is `x` times the integral of the weight over the
+  norm-at-most-one part of the cone plus `O(x^(1 − 1/n))`, the errors of the shells forming a
+  geometric series for `n ≥ 2`. The cone is stable under rotating the complex coordinates, so the
+  integral vanishes.
+- `cancellation_conj`: Tau Ceti's `hasCancellation_conj_iff`.
+- `cancellation_normTwist`: for `n ≥ 2`, Tau Ceti's `HasCancellation.normTwist`. Over `ℚ` the
+  unitary part of an algebraic Hecke character is a Dirichlet character and the bound required is
+  `O(1)`: the partial sums `S(u)` of `χ_u` are periodic, and Abel summation
+  (`idealSummatory_mul_eq_sub_integral_mul`) gives
+  `∑_{n ≤ x} χ_u(n) n^(it) = S(x) x^(it) − it ∫_1^x S(u) u^(it − 1) du`, bounded in `x` because
+  `S` minus its mean over a period has a bounded primitive and the mean contributes a constant
+  times `(x^(it) − 1)/(it)`.
+- `square_twist`: `(χ_u N^(it))² = χ_u² N^(2it)`, where `χ_u²` is the unitary weight of the square
+  presentation (the square Hecke character, the squared weight, the doubled infinity type). If
+  `χ_u²` is trivial on good ideals the first alternative holds with `u = 2t`. Otherwise `χ_u²` is
+  not a norm twist on its good ideals — the unitary weight of an algebraic Hecke character agrees
+  with `N^(iu)` at almost all primes only for `u = 0`, the supplier's `normCharacter K t` being
+  algebraic only for `t = 0` (`not_isAlgebraic_normCharacter`) — and the three items above give
+  the second alternative.
+
+*Route of the nonvanishing.* Under the premise, near `Re s = 1` the recentred `lFunctionC` is the
+supplier's `continuedLFunctionOfWeight χ_u` (§7.5), and its nonvanishing at `1 + it` is Tau Ceti's
+`continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` when `χ_u²` cancels and
+`continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq` for `t ≠ 0` when `χ_u²` is trivial on
+good ideals; by the remark in the last item above no other square occurs for a Grossencharacter.
+For `t = 0` and `χ_u²` trivial on good ideals the `3-4-1` bound excludes nothing (the orders are
+`−3 + 4 − 1 = 0`): this is the exceptional quadratic case, proved by Landau's argument. For `χ_u`
+of order two, `L(s, χ_u)` continues to an entire function (§5.4, as the L-function of a
+nontrivial finite-order Hecke character, Neukirch VII (8.5)); if `L(1, χ_u) = 0` then
+`ζ_K(s) L(s, χ_u)` is entire. Its Dirichlet coefficient at `𝔠` is `∑_{𝔞𝔟 = 𝔠} χ_u(𝔟)`, which is
+multiplicative and equal at `𝔭^k` to `k + 1`, to `1` or `0` by the parity of `k`, or to `1`,
+according as `χ_u(𝔭)` is `1`, `−1` or `0`; so it is nonnegative and at least `1` at every square
+ideal. By Landau's theorem the series then converges at every real `s`, and for real `s > 1/2` it
+is at least `ζ_K(2s)`, which tends to infinity as `s → 1/2⁺`, against the continuity of the entire
+function at `1/2`. A cancellation hypothesis alone does not supply this step: it continues the
+series of a weight only to `Re s > 1 − 1/n`, which for `n ≥ 2` does not contain `s = 1/2`.
 *Needs:* §3.5 (`dedekindZetaC` and its pole), §5.4 (`differentiable_completedHeckeLFunction`),
-§6.5 (`lFunctionC_eq`), §7.2; Tau Ceti `TauCeti.LSeries.ne_zero_of_threeFourOne`,
-`TauCeti.LSeries.landau`, `RayClassCharacter.hasCancellation_toUnitaryIdealWeight`,
-`rayClassCharacter_partialSums`.
+§6.2 (`unitaryWeight_eq_rayClassIdealWeight`), §6.4 (`compatibility`), §6.5 (`lFunctionC_eq`), §6.7
+(`existsUnique_residueCharacter`), §7.2; Tau Ceti
+`RayClassCharacter.hasCancellation_toUnitaryIdealWeight`, `hasCancellation_conj_iff`, `HasCancellation.normTwist`, `idealSummatory_mul_eq_sub_integral_mul`,
+`TauCeti.abs_ncard_inter_mul_sub_measureReal_le`,
+`fundamentalCone.isLipschitzParametrizable_frontier_normLeOne`, `not_isAlgebraic_normCharacter`,
+`continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
+`continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq`, `TauCeti.LSeries.landau`; Mathlib
+`fundamentalCone.idealSetEquiv`.
 
 ### 7.4 Hecke's angular characters
 
@@ -1561,9 +1620,12 @@ zero counting and no explicit formula.
 
 ### Dependencies
 
-Tau Ceti: the `3-4-1` combination and criterion, `TauCeti.LSeries.landau`, `HasCancellation`,
-`continuedLFunctionOfWeight` with `continuedLFunctionOfWeight_eq_LSeries` and
-`differentiableAt_continuedLFunctionOfWeight`, `IsNormTwistOnGood`, `UnitaryIdealWeight.normTwist`,
+Tau Ceti: the `3-4-1` combination and criterion, `TauCeti.LSeries.landau`, `HasCancellation`
+with `hasCancellation_conj_iff` and `HasCancellation.normTwist`, `continuedLFunctionOfWeight` with
+`continuedLFunctionOfWeight_eq_LSeries`, `differentiableAt_continuedLFunctionOfWeight`,
+`continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` and
+`continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq`, the lattice count
+`abs_ncard_inter_mul_sub_measureReal_le`, `IsNormTwistOnGood`, `UnitaryIdealWeight.normTwist`,
 `UnitaryIdealWeight.conj`, `PrimeBoundaryRemainder`, `primeIdealVonMangoldtBoundary`. Layer 3
 (`dedekindZetaC`), Layer 5 (continuation of a nontrivial finite-order character), Layer 6
 (`Grossencharacter`, `lFunctionC`, the angular presentations).
@@ -1755,8 +1817,10 @@ proved at the pin and are used by name (supplier contracts):
   the half-plane and as germs; the continuation of a nontrivial character to `Re s > 1 − 1/n`; the
   orthogonality of the series.
 - *Layer 7*: the `3-4-1` inequality `3 + 4 cos θ + cos 2θ ≥ 0`, as
-  `TauCeti.LSeries.threeFourOneCombination_nonneg` on the closed unit disk, and the nonvanishing
-  criterion built on it.
+  `TauCeti.LSeries.threeFourOneCombination_nonneg` on the closed unit disk, the nonvanishing
+  criterion built on it, and the nonvanishing on `Re s ≥ 1` of the continued L-function of a weight
+  with cancellation whose square cancels, and off `s = 1` of one whose square is trivial on good
+  ideals.
 - *Layer 8*: the von Mangoldt series of `ζ_K`, `∑ Λ(𝔞) N𝔞^(−s) = −ζ_K′(s)/ζ_K(s)` on `Re s > 1`
   with its summability (`TauCeti.hasSum_idealTerm_vonMangoldt`, and
   `LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div` for the supplier's coefficient
@@ -1792,16 +1856,20 @@ proved at the pin and are used by name (supplier contracts):
 - Zero distributions, zero-free regions, zero counting, the explicit formula and effective
   estimates: ZerosOfLFunctions.
 - Artin reciprocity and class fields: ClassFieldTheory.
+- Artin representations, their local reciprocal polynomials and conductors, Artin L-functions,
+  Brauer induction and Artin formalism: AnalyticNumberTheoryPartI §2.18a, with the Artin conductors
+  in its §2.2a.
+- The L-functions of Hecke characters that are not algebraic — an infinity type with a real
+  frequency `|x_w|^(i q_w)`, such as Hecke's unitary characters `|x₁|^(iλ) |x₂|^(−iλ)` of a real
+  quadratic field, `λ ∈ (π / log ε) ℤ` — whose theta kernel carries the weights `|x_w|^(i q_w)` and
+  whose gamma shifts become `ε_w + i q_w` and `|k_w|/2 + i q_w` (Neukirch VII (8.5) at the
+  supplier's `ContinuousInfinityType`): AnalyticNumberTheoryPartI §2.3a, for every continuous
+  unitary idele class character. This roadmap stops at integral infinity types; the imaginary norm
+  twists `N^(it)` of an algebraic character enter Layer 7 through the weight, not as
+  Grossencharacters, and the finite-order characters of Layer 5 have only the supplier's
+  `FiniteOrderInfinityType` signs.
 - Not covered by this roadmap: local epsilon factors and the adelic proof of the functional
-  equation (Tate's thesis); Artin representations, their local reciprocal polynomials and
-  conductors, Artin L-functions, Brauer induction and Artin formalism; and the L-functions of Hecke
-  characters that are not algebraic — an infinity type with a real frequency `|x_w|^(i q_w)`, such as
-  Hecke's unitary characters `|x₁|^(iλ) |x₂|^(−iλ)` of a real quadratic field, `λ ∈ (π / log ε) ℤ` —
-  whose theta kernel carries the weights `|x_w|^(i q_w)` and whose gamma shifts become `ε_w + i q_w`
-  and `|k_w|/2 + i q_w` (Neukirch VII (8.5) at the supplier's `ContinuousInfinityType`). This
-  roadmap stops at integral infinity types; the imaginary norm twists `N^(it)` of an algebraic
-  character enter Layer 7 through the weight, not as Grossencharacters, and the finite-order
-  characters of Layer 5 have only the supplier's `FiniteOrderInfinityType` signs.
+  equation (Tate's thesis).
 
 The absence of zero-distribution targets is intentional: a theorem that one named character
 L-function is nonzero on `Re s = 1` belongs here, while uniform zero-free regions, zero counting and
@@ -1914,14 +1982,23 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   `IsTrivialOnGood`, `UnitaryIdealWeight` with `normTwist` and `conj`, `normCoeff`, `regroupByNorm`,
   `EulerProductData`, `HasCancellation`, `continuedLFunctionOfWeight` with
   `continuedLFunctionOfWeight_eq_LSeries`, `differentiableOn_continuedLFunctionOfWeight` and
-  `differentiableAt_continuedLFunctionOfWeight`, `UnitaryIdealWeight.ne_zero_of_eqOn_LSeries` (the
-  `3-4-1` criterion for weights), `idealSummatory_mul_eq_sub_integral_mul` (Abel summation),
+  `differentiableAt_continuedLFunctionOfWeight`, `hasCancellation_conj_iff`,
+  `HasCancellation.normTwist` (for `[K:ℚ] > 1`), `UnitaryIdealWeight.ne_zero_of_eqOn_LSeries` (the
+  `3-4-1` criterion for weights), `continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
+  `continuedLFunctionOfWeight_ne_zero_of_isNormTwistOnGood_sq` and
+  `continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq` (nonvanishing on `Re s ≥ 1`,
+  `…/Cancellation/Nonvanishing.lean`), `idealSummatory_mul_eq_sub_integral_mul` (Abel summation),
   `PrimeBoundaryRemainder`, `primeVonMangoldtCoeff`, `primeIdealTheorem_of_boundary`,
   `primeIdealTheorem`, `hasSum_idealTerm_vonMangoldt`,
   `LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div`,
   `IdealArithmeticFunction.vonMangoldt_re_nonneg`, `IdealArithmeticFunction.vonMangoldt_im`; and
   `TauCeti.isBigO_card_idealsLE_sub` (`NumberTheory/NumberField/DedekindZeta.lean`: the ideal count
   `κ_K x + O(x^(1 − 1/n))`).
+- *Geometry of numbers* (`NumberTheory/GeometryOfNumbers/LatticePointCount.lean`,
+  `NumberTheory/NumberField/CanonicalEmbedding/NormLeOneLipschitz.lean`):
+  `TauCeti.abs_ncard_inter_mul_sub_measureReal_le` (the lattice points of a bounded set against its
+  volume, up to the lattice points of its thickened frontier) and
+  `NumberField.mixedEmbedding.fundamentalCone.isLipschitzParametrizable_frontier_normLeOne`.
 - *L-series positivity* (`NumberTheory/LSeries/`), in `TauCeti.LSeries`:
   `threeFourOneCombination_nonneg` (`0 ≤ 3 + 4 Re z + Re z²` for `‖z‖ ≤ 1`),
   `ne_zero_of_threeFourOne` (the generic `3-4-1` nonvanishing criterion), `landau` (a Dirichlet
@@ -1958,7 +2035,6 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
 
 ## References
 
-- E. Hecke, *Lectures on the Theory of Algebraic Numbers*.
 - J. Neukirch, *Algebraic Number Theory*, Chapters VI and VII. Chapter VII is cited by number:
   (1.4) the Mellin principle; (3.6) the theta transformation; (5.3)–(5.9) the unit quotient, the
   fundamental domain and its volume, the Mellin kernel, its transformation law and the functional
@@ -1968,9 +2044,12 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   (7.4)–(7.8) the theta series with a harmonic polynomial and its transformation; (8.2)–(8.6) the
   Hecke L-series as a Mellin transform, its transformation law, root number and functional
   equation.
-- H. Iwaniec and E. Kowalski, *Analytic Number Theory*, Chapters 3 and 5.
-- P. Lebacque, *Generalised Mertens and Brauer–Siegel theorems*, Acta Arith. (2007)
-  (arXiv:math/0703570), Theorem 5 (NF), and Propositions 2 and 3 of §4.1 (pp. 8–9): Mertens'
-  product over a number field and the expansion of `∑ 1/N𝔭`, due to M. Rosen,
+- P. Lebacque, *Generalised Mertens and Brauer–Siegel theorems*, Acta Arith. 130 (2007)
+  (arXiv:math/0703570), Theorem 5 (NF), and Propositions 2 and 3 of §4.1 (arXiv version,
+  pp. 8–9): Mertens' product over a number field and the expansion of `∑ 1/N𝔭`, due to M. Rosen,
   *A generalization of Mertens' theorem*, J. Ramanujan Math. Soc. 14 (1999).
-- D. Loeffler and M. Stoll, *Formalizing zeta and L-functions in Lean*.
+- D. Loeffler and M. Stoll, *Formalizing zeta and L-functions in Lean*, Annals of Formalized
+  Mathematics 1 (2025), 43–56 (arXiv:2503.00959), §6, p. 54: the nonvanishing of Dirichlet
+  L-functions on `Re s ≥ 1` in Mathlib.
+- L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Theorem 4.3: the Dedekind zeta
+  function of the field of a group of Dirichlet characters is the product of their L-functions.
