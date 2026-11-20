@@ -3,80 +3,60 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCeti.Analysis.InnerProductSpace.Gram.Rigidity
+import TauCeti.Analysis.InnerProductSpace.InvariantSubspace
+import TauCeti.Analysis.InnerProductSpace.OrthogonalFamily
+import TauCeti.Analysis.InnerProductSpace.Projection.Completeness
 
 /-!
-# Orthogonal geometry: Gram rigidity, coordinate isometries, and orthogonal series
+# Orthogonal geometry: target signatures
 
-**`README.md` is the definitive and exhaustive roadmap specification.** This file gives
-suggested Lean forms for selected labeled obligations. The roadmap is complete when the
-obligations in `README.md` are complete. `sorry` records target signatures in this human-owned
-roadmap library.
+`README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti.
 
+The headline theorems are theorems of the pinned Tau Ceti, under the names that the supplier
+contracts of `README.md` give, so this file does not restate them and pins them by `#check` at
+its end: ambient Gram rigidity (two families in a finite-dimensional inner-product space with
+equal pairwise inner products are carried onto one another by a linear isometric equivalence of
+the space) with the Gram-matrix characterization; the range isometry induced by equal pullback
+inner products; reducing subspaces; completeness of a subspace admitting an orthogonal
+projection in a complete space; and the orthogonal family of the lines spanned by pairwise
+orthogonal vectors. Every headline theorem is statable at the pins.
+
+The file declares one definition, `familyIsometry`, the coordinate isometry of an orthonormal
+family indexed by `Fin d`, which the acceptance file of the PrincipalAngles roadmap builds its
+overlap operator from. It is built from Mathlib alone: Tau Ceti's coordinate isometry
+`Orthonormal.synthesisMapIsometry` lives in a module that imports Tau Ceti's operator square
+root, which the acceptance file of the PolarDecomposition roadmap, imported beside this one,
+declares under the same name.
 -/
 
 namespace TauCetiRoadmap.OrthogonalGeometry
 
-open Module (finrank)
-open scoped InnerProductSpace
-
-universe u v
-
-variable {𝕜 : Type*} [RCLike 𝕜]
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
-variable {d : ℕ}
-
-/-! ## Coordinate isometries -/
-
-/-- The coordinate isometry of an orthonormal family, `eⱼ ↦ vⱼ`.
-
-Roadmap: `OG-09`. -/
-noncomputable def familyIsometry {v : Fin d → E} (hv : Orthonormal 𝕜 v) :
-    EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E := sorry
-
-/-! ## Gram rigidity -/
-
-/-- The isometric first isomorphism theorem: two maps out of a common module with equal
-pullback inner products have canonically isometric ranges.
-
-Roadmap: `OG-02`. -/
-noncomputable def rangeEquivOfInnerEq {M : Type*} [AddCommGroup M] [Module 𝕜 M]
-    {F : Type*} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
-    (S : M →ₗ[𝕜] E) (T : M →ₗ[𝕜] F)
-    (h : ∀ x y, ⟪S x, S y⟫_𝕜 = ⟪T x, T y⟫_𝕜) :
-    LinearMap.range S ≃ₗᵢ[𝕜] LinearMap.range T := sorry
-
-/-- **Gram rigidity.** Two families with equal pairwise inner products are carried onto one
-another by a linear isometry equivalence of the ambient space.
-
-Roadmap: `OG-07`. -/
-theorem exists_linearIsometryEquiv_map_eq_of_inner_eq [FiniteDimensional 𝕜 E]
-    {ι : Type*} {φ ψ : ι → E} (h : ∀ i j, ⟪φ i, φ j⟫_𝕜 = ⟪ψ i, ψ j⟫_𝕜) :
-    ∃ W : E ≃ₗᵢ[𝕜] E, ∀ i, W (φ i) = ψ i := sorry
-
-/-! ## Orthogonal series -/
-
-/-- A pairwise orthogonal family of vectors spans an orthogonal family of lines: the
-vector-level constructor whose upstream counterpart requires unit vectors, and which the
-singular expansion needs because `σᵢ • uᵢ` is not normalizable at `σᵢ = 0`.
-
-Roadmap: `OG-19`. -/
-theorem orthogonalFamily_of_pairwise_inner_eq_zero {ι : Type*} {f : ι → E}
-    (hf : Pairwise fun i j => ⟪f i, f j⟫_𝕜 = 0) :
-    OrthogonalFamily 𝕜 (fun i => (𝕜 ∙ f i : Submodule 𝕜 E))
-      fun i => (𝕜 ∙ f i).subtypeₗᵢ := by
-  sorry
+/-- The coordinate isometry `EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E`, `x ↦ ∑ⱼ xⱼ • vⱼ`, of an
+orthonormal family `v : Fin d → E`: the linear map sending the standard basis vector `eⱼ` to
+`vⱼ`, isometric because it carries the orthonormal standard basis to an orthonormal family. It
+agrees with Tau Ceti's `Orthonormal.synthesisMapIsometry` for the index type `Fin d`. -/
+noncomputable def familyIsometry {𝕜 E : Type*} [RCLike 𝕜] [NormedAddCommGroup E]
+    [InnerProductSpace 𝕜 E] {d : ℕ} {v : Fin d → E} (hv : Orthonormal 𝕜 v) :
+    EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E :=
+  ((EuclideanSpace.basisFun (Fin d) 𝕜).toBasis.constr 𝕜 v).isometryOfOrthonormal
+    (v := (EuclideanSpace.basisFun (Fin d) 𝕜).toBasis)
+    (by rw [OrthonormalBasis.coe_toBasis]; exact (EuclideanSpace.basisFun (Fin d) 𝕜).orthonormal)
+    (by
+      have h : ⇑((EuclideanSpace.basisFun (Fin d) 𝕜).toBasis.constr 𝕜 v) ∘
+          ⇑(EuclideanSpace.basisFun (Fin d) 𝕜).toBasis = v :=
+        funext fun j ↦ Module.Basis.constr_basis _ _ _ j
+      rw [h]
+      exact hv)
 
 end TauCetiRoadmap.OrthogonalGeometry
 
-/-! ## Completeness of projected subspaces -/
+/-! Pinned library declarations named in the supplier contracts of `README.md`. -/
 
-namespace Submodule
-
-/-- A subspace admitting an orthogonal projection is complete when the ambient space is.
-
-Roadmap: `OG-18`. -/
-theorem isComplete_coe_of_hasOrthogonalProjection {𝕜 E : Type*} [RCLike 𝕜]
-    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [CompleteSpace E] (U : Submodule 𝕜 E)
-    [U.HasOrthogonalProjection] : IsComplete (U : Set E) := sorry
-
-end Submodule
+#check @TauCeti.rangeEquivOfInnerEq
+#check @TauCeti.exists_linearIsometryEquiv_of_inner_eq
+#check @TauCeti.gram_eq_iff_exists_linearIsometryEquiv
+#check @Submodule.IsReducing
+#check @Submodule.isComplete_coe_of_hasOrthogonalProjection
+#check @TauCeti.orthogonalFamily_span_singleton
