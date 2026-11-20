@@ -21,51 +21,23 @@ Beale–Kato–Majda criterion, the inviscid limit, and the two-dimensional glob
 Wolibner and Yudovich. The roadmap is this README; `Suggested.lean` states the headline
 definitions and theorems whose carriers exist at the pins.
 
-## Scope and ownership
+The roadmap builds on two others and feeds one. From **PDE** it takes the scalar theory: the
+weak-derivative Sobolev spaces, Calderón–Zygmund and multiplier theory with the Riesz transforms,
+the heat semigroup with its smoothing estimates, and Bochner spaces with the Lions–Magenes
+identity; everything vector-valued and divergence-free is built here. From
+**OneParameterSemigroups** it takes strongly continuous contraction semigroups and their
+generators, to which the Stokes semigroup is reduced by restriction to an invariant subspace.
+**PDE, Part II** consumes Layers 1–4 for the two-dimensional stochastic Navier–Stokes equation.
 
-This roadmap owns, on the whole space `E`: the weak divergence of a locally integrable vector
-field and the closed subspace `L²_σ(E)` of solenoidal `L²` fields; the Helmholtz–Weyl
-decomposition; the Leray projection `ℙ` on `L²`, its Riesz-transform formula, its extension to
-`Lᵖ` for `1 < p < ∞` and to the Bessel scale, and its failure at `p = 1` and `p = ∞`; the
-pressure operator `F ↦ Σⱼₖ RⱼRₖFⱼₖ`; the off-diagonal `Lᵖ`–`L^q` estimates for the heat
-semigroup; the Stokes semigroup and the Oseen-kernel estimates for `e^{tΔ}ℙ div`; the linear
-Stokes system; the Ladyzhenskaya inequalities and the `L²`-based Gagliardo–Nirenberg
-interpolation inequality; the convective trilinear form; the tame product estimate and the
-Kato–Ponce commutator estimate on `Hˢ(E)`; the Aubin–Lions compactness lemma; weak and
-Leray–Hopf solutions of the Navier–Stokes equations and every theorem about them in Layer 4;
-the bilinear fixed-point lemma, mild solutions and every theorem about them in Layer 5; the
-vorticity of a velocity field in every dimension with its two- and three-dimensional
-identifications; the Biot–Savart law; and classical, `Hˢ` and Yudovich solutions of the Euler
-equations with every theorem about them in Layer 6.
+## How to read the build
 
-- **PDE** owns the weak-derivative Sobolev spaces on open sets, the maximal function,
-  interpolation, Calderón–Zygmund theory and the Mihlin–Hörmander theorem, the heat semigroup on
-  `Lᵖ` and `BUC` with its generator and the diagonal smoothing estimates
-  `‖D^α S(t)f‖_p ≤ C t^{−|α|/2}‖f‖_p` (its §6.3), Bochner spaces and the Gelfand triple with the
-  Lions–Magenes identity (its §6.1), and the dyadic partition, Besov spaces and paraproducts
-  (its Layer 7). Tau Ceti implements the parts of these cited in the supplier contracts below.
-  This roadmap consumes them and restates none: every statement in PDE is scalar, and PDE names
-  three-dimensional Navier–Stokes as outside its scope.
-- **PDE, Part II** is the stochastic programme named by PDE, including the two-dimensional
-  stochastic Navier–Stokes equation. It is a consumer of Layers 1–4 here, not a supplier:
-  everything below is deterministic.
-- **OneParameterSemigroups**, Part A, owns strongly continuous semigroups, generators and the
-  generation theorems; Tau Ceti implements it. Section 2.2 constructs the Stokes semigroup as
-  the restriction of the vector heat semigroup to an invariant closed subspace and builds no
-  generation engine.
-- **RiemannianGeometry** and **DifferentialGeometry** own divergence, Lie derivatives and flows
-  on manifolds. Nothing here is stated on a manifold; the flow maps of §6.1 are flows of
-  time-dependent vector fields on `E` built from Mathlib's Picard–Lindelöf theory.
-- Outside this roadmap: domains with boundary and every boundary condition (the Stokes operator
-  on a domain, no-slip, boundary layers); the periodic setting; compressible flow; free
-  boundaries and water waves; coupled systems (Boussinesq, magnetohydrodynamics); stochastic
-  forcing; partial regularity (Caffarelli–Kohn–Nirenberg) and interior regularity of weak
-  solutions in the Serrin class; the endpoint `L^∞(0,T; L³)` regularity theorem; critical spaces
-  beyond `H^{1/2}` and `L³` (Besov spaces of negative order, `BMO⁻¹`); non-uniqueness by convex
-  integration and the Onsager conjecture; vortex patches and vortex sheets; and the geometric
-  formulation of the Euler equations on the group of volume-preserving diffeomorphisms. A
-  statement below that has a boundary term, a periodic cell or a density variable is out of
-  scope by this list.
+Each layer rests on the ones before it and on the cited suppliers. Layers 1–3 are linear and
+functional-analytic and make no reference to a nonlinear equation. Layers 4 and 5 are the two
+existence theories for Navier–Stokes, joined by §5.3, and Layer 6 is the Euler theory, joined
+to Navier–Stokes by the inviscid limit of §6.3. Each section states what to build, then API
+bullets, then **Checks**, which are explicit computations a correct implementation must
+reproduce and which fix the conventions, then *Needs*. A named theorem is a milestone; the
+bullets around it are part of the target and carry the same weight.
 
 ## Conventions
 
@@ -141,120 +113,6 @@ through an explicit power of `ν`; the estimates of §6.3 are uniform in `ν ∈
 **Labels.** The identifiers S1–S4 (Layer 1), L5–L7 (Layer 2), N8–N11 (Layer 3), W12–W15
 (Layer 4), M16–M19 (Layer 5) and E20–E24 (Layer 6) appear in the section headings; consumers
 cite either form.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `TestFunction`, `Distribution`, `TemperedDistribution`, `SchwartzMap` and the Fourier
-  transform on `L²` and on tempered distributions in `Mathlib/Analysis/Distribution/` and
-  `Mathlib/Analysis/Fourier/`.
-- `TemperedDistribution.besselPotential` and `TemperedDistribution.MemSobolev`
-  (`Mathlib/Analysis/Distribution/Sobolev.lean:73,153`): the Bessel-potential scale, used at
-  `p = 2` as `Hˢ(E)`.
-- `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_one` and `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
-  (`Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean:440,602`): the
-  Gagliardo–Nirenberg–Sobolev inequality for compactly supported `C¹` functions, the input to
-  §3.1.
-- `Submodule.starProjection` (`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean:131`):
-  the orthogonal projection onto a closed subspace as a continuous linear endomorphism; `ℙ` is
-  this projection for `L²_σ(E)`.
-- `ContractingWith` (`Mathlib/Topology/MetricSpace/Contracting.lean:42`) with its fixed-point
-  theorems: the Banach fixed-point theorem behind §5.1.
-- `IsPicardLindelof` (`Mathlib/Analysis/ODE/PicardLindelof.lean:80`) and `gronwallBound` with
-  `norm_le_gronwallBound_of_norm_deriv_right_le` (`Mathlib/Analysis/ODE/Gronwall.lean:43,134`):
-  existence and uniqueness for the regularized systems of §4.2 and the flow maps of §6.1, and
-  the Grönwall arguments throughout.
-- `MeasureTheory.convolution`, `ContDiffBump`, the Bochner integral, `Lp`, Hölder's and
-  Minkowski's inequalities, Banach–Alaoglu and weak-star sequential compactness in the dual of
-  a separable space, Arzelà–Ascoli, and `crossProduct`
-  (`Mathlib/LinearAlgebra/CrossProduct.lean:47`).
-- Mathlib has no divergence-free subspace, no Leray projection, no Riesz transform, no
-  Ladyzhenskaya or Gagliardo–Nirenberg interpolation inequality, no Aubin–Lions lemma and no
-  statement about the Navier–Stokes or Euler equations.
-
-### From Tau Ceti
-
-All files are under `TauCeti/`; line numbers are those of the Tau Ceti revision pinned by this
-repository's `lake-manifest.json` (`2fd255d`). Declarations cited without a line number are on
-Tau Ceti's `main` and newer than that pin.
-
-- `TauCeti.HasWeakLineDerivOn` and `TauCeti.HasWeakFDerivOn`
-  (`Analysis/Sobolev/WeakDeriv/Basic.lean:212,251`): weak derivatives of locally integrable
-  `F`-valued functions on an open set, used here with `F = E`.
-- `TestFunction.divergenceCLM` (`Analysis/Distribution/TestFunction/Divergence.lean:58`): the
-  divergence of a test vector field as a continuous linear map `𝓓(Ω, E) →L[ℝ] 𝓓(Ω, ℝ)`;
-  `TauCeti.HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace` and
-  `TauCeti.HasWeakFDerivOn.integral_divergenceCLM_smul_eq_neg_integral`
-  (`Analysis/Sobolev/WeakDeriv/Divergence.lean:79,126`): for a field with weak derivative `U`,
-  integration by parts against a gradient and against the divergence of a test field, with the
-  trace of `U` as the divergence.
-- `TauCeti.W1p` (`Analysis/Sobolev/W1p/Basic.lean:372`) and `TauCeti.Wkp`
-  (`Analysis/Sobolev/Wkp/Basic.lean:145`): the scalar weak-derivative Sobolev spaces;
-  `TauCeti.W1p.isCompactOperator_valueL_restrictL`
-  (`Analysis/Sobolev/W1p/LocalCompactness.lean:111`): local Rellich compactness, the spatial
-  compactness input of §3.4; `TauCeti.W1p0.sobolevEmbeddingL`
-  (`Analysis/Sobolev/Embedding.lean:435`): the Sobolev embedding.
-- `MeasureTheory.Lp.fourierMultiplierCLM` (`Analysis/Fourier/L2Multiplier.lean:88`): the
-  Fourier multiplier on `L²(E; F)` with a bounded symbol;
-  `TauCeti.exists_fourierMultiplierCLM_eq_and_norm_le_of_norm_iteratedFDeriv_le`
-  (`Analysis/Fourier/MihlinHormander.lean:358`): the Mihlin–Hörmander theorem, the source of
-  every `Lᵖ` bound in Layer 1.
-- `TauCeti.rieszTransform` with `norm_rieszTransform_le`, `adjoint_rieszTransform`,
-  `sum_rieszTransform_compL_rieszTransform`, `sum_norm_rieszTransform_apply_sq` and
-  `exists_eLpNorm_rieszTransform_le` (`Analysis/Fourier/RieszTransform/Basic.lean`): the Riesz
-  transforms on `L²(E; F)` for a complex Hilbert space `F`, their skew-adjointness, the identity
-  `Σⱼ RⱼRⱼ = −1`, and their `Lᵖ` bounds for `1 < p < ∞`.
-- `TauCeti.heatKernel` with `heatKernel_convolution_heatKernel` and `fourier_heatKernel`
-  (`Analysis/PDE/HeatKernel/Basic.lean:76,254,289`); `TauCeti.heatSemigroup` and
-  `heatSemigroup_apply` (`Analysis/PDE/HeatKernel/Semigroup.lean:88,131`): the Gaussian kernel
-  `(4πt)^{−d/2}exp(−‖x‖²/4t)` and the heat semigroup as a contraction semigroup on `Lᵖ(E; F)`
-  for `1 ≤ p < ∞` and any real Banach space `F`, used here with `F = E`;
-  `TauCeti.enorm_heatKernel_convolution_le`, `eLpNorm_heatSemigroup_top_le` and
-  `exists_contDiff_ae_eq_heatSemigroup` (`Analysis/PDE/HeatKernel/Smoothing.lean:52,83,97`):
-  the `Lᵖ`–`L^∞` bound and smoothness of the heat flow, the `q = ∞` case of §2.1.
-- `TauCeti.convolutionLp` and `norm_convolutionLp_le`
-  (`MeasureTheory/Function/Lp/Convolution.lean:87,117`): convolution with an integrable kernel
-  as a bounded operator on `Lᵖ`.
-- `TauCeti.Semigroups.StronglyContinuousSemigroup` and `ContractionSemigroup`
-  (`Analysis/Semigroups/Basic.lean:43,211`) with `StronglyContinuousSemigroup.generator`
-  (`Analysis/Semigroups/Generator/Basic.lean:113`), and `duhamel` with `IsForcedMildSolution`
-  (`Analysis/Semigroups/CauchyProblem/Inhomogeneous.lean`): the semigroup carrier of §2.2 and
-  the abstract Duhamel term of §2.3 and Layer 5.
-- `TauCeti.HasWeakLineDerivOn.exists_continuousOn_ae_eq_of_gelfandDual` and
-  `HasWeakLineDerivOn.norm_sq_sub_norm_sq_eq_of_gelfandDual`
-  (`Analysis/Sobolev/WeakDeriv/GelfandTriple.lean:151,270`): for a Gelfand triple
-  `V ↪ H ↪ V*`, a function in `L²(0,T; V)` with weak time derivative in `L²(0,T; V*)` has a
-  representative continuous into `H`, with the energy identity. This is the Lions–Magenes
-  lemma behind every energy equality below.
-- `TauCeti.BesovSpace` (`Analysis/FunctionalSpaces/BesovSpace/Basic.lean`) with Bony's
-  decomposition (`Analysis/FunctionalSpaces/BesovSpace/Paraproduct.lean`): the dyadic input to
-  §3.3.
-- Tau Ceti has no weak divergence of a field without a full weak derivative, no solenoidal
-  subspace, no Leray projection, no off-diagonal heat estimate with `q < ∞`, no vector-valued
-  Sobolev carrier beyond componentwise use of the scalar ones, and no statement about the
-  Navier–Stokes or Euler equations.
-
-### From TauCetiRoadmap.PDE
-
-§1.4 (Sobolev embeddings on `ℝⁿ`), §2.2 (interpolation), §2.3 (Calderón–Zygmund operators),
-§6.1 (Bochner spaces and the Gelfand triple) and §7.1–§7.3 (the dyadic partition, Besov spaces
-and paraproducts). Layer 1 consumes §2.3 through the pinned Mihlin–Hörmander theorem only;
-§3.3 consumes §7.3; Layers 4 and 5 consume §6.1.
-
-### From TauCetiRoadmap.OneParameterSemigroups
-
-Part A, through the Tau Ceti declarations above.
-
-## How to read the build
-
-Each layer rests on the ones before it and on the cited suppliers. Layers 1–3 are linear and
-functional-analytic and make no reference to a nonlinear equation. Layers 4 and 5 are the two
-existence theories for Navier–Stokes, joined by §5.3, and Layer 6 is the Euler theory, joined
-to Navier–Stokes by the inviscid limit of §6.3. Each section states what to build, then API
-bullets, then **Checks**, which are explicit computations a correct implementation must
-reproduce and which fix the conventions, then *Needs*. A named theorem is a milestone; the
-bullets around it are part of the target and carry the same weight.
 
 ## Layer 1: solenoidal fields and the Leray projection
 
@@ -979,6 +837,156 @@ Layers 1–3; Mathlib's ODE theory.
 - **PDE, Part II** consumes Layers 1–4 for the two-dimensional stochastic Navier–Stokes
   equation: the Leray projection, the Stokes semigroup, the trilinear form and the
   two-dimensional deterministic theory.
+
+## Scope and ownership
+
+This roadmap owns, on the whole space `E`: the weak divergence of a locally integrable vector
+field and the closed subspace `L²_σ(E)` of solenoidal `L²` fields; the Helmholtz–Weyl
+decomposition; the Leray projection `ℙ` on `L²`, its Riesz-transform formula, its extension to
+`Lᵖ` for `1 < p < ∞` and to the Bessel scale, and its failure at `p = 1` and `p = ∞`; the
+pressure operator `F ↦ Σⱼₖ RⱼRₖFⱼₖ`; the off-diagonal `Lᵖ`–`L^q` estimates for the heat
+semigroup; the Stokes semigroup and the Oseen-kernel estimates for `e^{tΔ}ℙ div`; the linear
+Stokes system; the Ladyzhenskaya inequalities and the `L²`-based Gagliardo–Nirenberg
+interpolation inequality; the convective trilinear form; the tame product estimate and the
+Kato–Ponce commutator estimate on `Hˢ(E)`; the Aubin–Lions compactness lemma; weak and
+Leray–Hopf solutions of the Navier–Stokes equations and every theorem about them in Layer 4;
+the bilinear fixed-point lemma, mild solutions and every theorem about them in Layer 5; the
+vorticity of a velocity field in every dimension with its two- and three-dimensional
+identifications; the Biot–Savart law; and classical, `Hˢ` and Yudovich solutions of the Euler
+equations with every theorem about them in Layer 6.
+
+- **PDE** owns the weak-derivative Sobolev spaces on open sets, the maximal function,
+  interpolation, Calderón–Zygmund theory and the Mihlin–Hörmander theorem, the heat semigroup on
+  `Lᵖ` and `BUC` with its generator and the diagonal smoothing estimates
+  `‖D^α S(t)f‖_p ≤ C t^{−|α|/2}‖f‖_p` (its §6.3), Bochner spaces and the Gelfand triple with the
+  Lions–Magenes identity (its §6.1), and the dyadic partition, Besov spaces and paraproducts
+  (its Layer 7). Tau Ceti implements the parts of these cited in the supplier contracts below.
+  This roadmap consumes them and restates none: every statement in PDE is scalar, and PDE names
+  three-dimensional Navier–Stokes as outside its scope.
+- **PDE, Part II** is the stochastic programme named by PDE, including the two-dimensional
+  stochastic Navier–Stokes equation. It is a consumer of Layers 1–4 here, not a supplier:
+  everything in this roadmap is deterministic.
+- **OneParameterSemigroups**, Part A, owns strongly continuous semigroups, generators and the
+  generation theorems; Tau Ceti implements it. Section 2.2 constructs the Stokes semigroup as
+  the restriction of the vector heat semigroup to an invariant closed subspace and builds no
+  generation engine.
+- **RiemannianGeometry** and **DifferentialGeometry** own divergence, Lie derivatives and flows
+  on manifolds. Nothing here is stated on a manifold; the flow maps of §6.1 are flows of
+  time-dependent vector fields on `E` built from Mathlib's Picard–Lindelöf theory.
+- Outside this roadmap: domains with boundary and every boundary condition (the Stokes operator
+  on a domain, no-slip, boundary layers); the periodic setting; compressible flow; free
+  boundaries and water waves; coupled systems (Boussinesq, magnetohydrodynamics); stochastic
+  forcing; partial regularity (Caffarelli–Kohn–Nirenberg) and interior regularity of weak
+  solutions in the Serrin class; the endpoint `L^∞(0,T; L³)` regularity theorem; critical spaces
+  beyond `H^{1/2}` and `L³` (Besov spaces of negative order, `BMO⁻¹`); non-uniqueness by convex
+  integration and the Onsager conjecture; vortex patches and vortex sheets; and the geometric
+  formulation of the Euler equations on the group of volume-preserving diffeomorphisms. A
+  statement in this roadmap that has a boundary term, a periodic cell or a density variable is out of
+  scope by this list.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `TestFunction`, `Distribution`, `TemperedDistribution`, `SchwartzMap` and the Fourier
+  transform on `L²` and on tempered distributions in `Mathlib/Analysis/Distribution/` and
+  `Mathlib/Analysis/Fourier/`.
+- `TemperedDistribution.besselPotential` and `TemperedDistribution.MemSobolev`
+  (`Mathlib/Analysis/Distribution/Sobolev.lean:73,153`): the Bessel-potential scale, used at
+  `p = 2` as `Hˢ(E)`.
+- `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_one` and `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
+  (`Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean:440,602`): the
+  Gagliardo–Nirenberg–Sobolev inequality for compactly supported `C¹` functions, the input to
+  §3.1.
+- `Submodule.starProjection` (`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean:131`):
+  the orthogonal projection onto a closed subspace as a continuous linear endomorphism; `ℙ` is
+  this projection for `L²_σ(E)`.
+- `ContractingWith` (`Mathlib/Topology/MetricSpace/Contracting.lean:42`) with its fixed-point
+  theorems: the Banach fixed-point theorem behind §5.1.
+- `IsPicardLindelof` (`Mathlib/Analysis/ODE/PicardLindelof.lean:80`) and `gronwallBound` with
+  `norm_le_gronwallBound_of_norm_deriv_right_le` (`Mathlib/Analysis/ODE/Gronwall.lean:43,134`):
+  existence and uniqueness for the regularized systems of §4.2 and the flow maps of §6.1, and
+  the Grönwall arguments throughout.
+- `MeasureTheory.convolution`, `ContDiffBump`, the Bochner integral, `Lp`, Hölder's and
+  Minkowski's inequalities, Banach–Alaoglu and weak-star sequential compactness in the dual of
+  a separable space, Arzelà–Ascoli, and `crossProduct`
+  (`Mathlib/LinearAlgebra/CrossProduct.lean:47`).
+- Mathlib has no divergence-free subspace, no Leray projection, no Riesz transform, no
+  Ladyzhenskaya or Gagliardo–Nirenberg interpolation inequality, no Aubin–Lions lemma and no
+  statement about the Navier–Stokes or Euler equations.
+
+### From Tau Ceti
+
+All files are under `TauCeti/`; line numbers are those of the Tau Ceti revision pinned by this
+repository's `lake-manifest.json` (`2fd255d`). Declarations cited without a line number are on
+Tau Ceti's `main` and newer than that pin.
+
+- `TauCeti.HasWeakLineDerivOn` and `TauCeti.HasWeakFDerivOn`
+  (`Analysis/Sobolev/WeakDeriv/Basic.lean:212,251`): weak derivatives of locally integrable
+  `F`-valued functions on an open set, used here with `F = E`.
+- `TestFunction.divergenceCLM` (`Analysis/Distribution/TestFunction/Divergence.lean:58`): the
+  divergence of a test vector field as a continuous linear map `𝓓(Ω, E) →L[ℝ] 𝓓(Ω, ℝ)`;
+  `TauCeti.HasWeakFDerivOn.integral_inner_gradient_eq_neg_integral_smul_trace` and
+  `TauCeti.HasWeakFDerivOn.integral_divergenceCLM_smul_eq_neg_integral`
+  (`Analysis/Sobolev/WeakDeriv/Divergence.lean:79,126`): for a field with weak derivative `U`,
+  integration by parts against a gradient and against the divergence of a test field, with the
+  trace of `U` as the divergence.
+- `TauCeti.W1p` (`Analysis/Sobolev/W1p/Basic.lean:372`) and `TauCeti.Wkp`
+  (`Analysis/Sobolev/Wkp/Basic.lean:145`): the scalar weak-derivative Sobolev spaces;
+  `TauCeti.W1p.isCompactOperator_valueL_restrictL`
+  (`Analysis/Sobolev/W1p/LocalCompactness.lean:111`): local Rellich compactness, the spatial
+  compactness input of §3.4; `TauCeti.W1p0.sobolevEmbeddingL`
+  (`Analysis/Sobolev/Embedding.lean:435`): the Sobolev embedding.
+- `MeasureTheory.Lp.fourierMultiplierCLM` (`Analysis/Fourier/L2Multiplier.lean:88`): the
+  Fourier multiplier on `L²(E; F)` with a bounded symbol;
+  `TauCeti.exists_fourierMultiplierCLM_eq_and_norm_le_of_norm_iteratedFDeriv_le`
+  (`Analysis/Fourier/MihlinHormander.lean:358`): the Mihlin–Hörmander theorem, the source of
+  every `Lᵖ` bound in Layer 1.
+- `TauCeti.rieszTransform` with `norm_rieszTransform_le`, `adjoint_rieszTransform`,
+  `sum_rieszTransform_compL_rieszTransform`, `sum_norm_rieszTransform_apply_sq` and
+  `exists_eLpNorm_rieszTransform_le` (`Analysis/Fourier/RieszTransform/Basic.lean`): the Riesz
+  transforms on `L²(E; F)` for a complex Hilbert space `F`, their skew-adjointness, the identity
+  `Σⱼ RⱼRⱼ = −1`, and their `Lᵖ` bounds for `1 < p < ∞`.
+- `TauCeti.heatKernel` with `heatKernel_convolution_heatKernel` and `fourier_heatKernel`
+  (`Analysis/PDE/HeatKernel/Basic.lean:76,254,289`); `TauCeti.heatSemigroup` and
+  `heatSemigroup_apply` (`Analysis/PDE/HeatKernel/Semigroup.lean:88,131`): the Gaussian kernel
+  `(4πt)^{−d/2}exp(−‖x‖²/4t)` and the heat semigroup as a contraction semigroup on `Lᵖ(E; F)`
+  for `1 ≤ p < ∞` and any real Banach space `F`, used here with `F = E`;
+  `TauCeti.enorm_heatKernel_convolution_le`, `eLpNorm_heatSemigroup_top_le` and
+  `exists_contDiff_ae_eq_heatSemigroup` (`Analysis/PDE/HeatKernel/Smoothing.lean:52,83,97`):
+  the `Lᵖ`–`L^∞` bound and smoothness of the heat flow, the `q = ∞` case of §2.1.
+- `TauCeti.convolutionLp` and `norm_convolutionLp_le`
+  (`MeasureTheory/Function/Lp/Convolution.lean:87,117`): convolution with an integrable kernel
+  as a bounded operator on `Lᵖ`.
+- `TauCeti.Semigroups.StronglyContinuousSemigroup` and `ContractionSemigroup`
+  (`Analysis/Semigroups/Basic.lean:43,211`) with `StronglyContinuousSemigroup.generator`
+  (`Analysis/Semigroups/Generator/Basic.lean:113`), and `duhamel` with `IsForcedMildSolution`
+  (`Analysis/Semigroups/CauchyProblem/Inhomogeneous.lean`): the semigroup carrier of §2.2 and
+  the abstract Duhamel term of §2.3 and Layer 5.
+- `TauCeti.HasWeakLineDerivOn.exists_continuousOn_ae_eq_of_gelfandDual` and
+  `HasWeakLineDerivOn.norm_sq_sub_norm_sq_eq_of_gelfandDual`
+  (`Analysis/Sobolev/WeakDeriv/GelfandTriple.lean:151,270`): for a Gelfand triple
+  `V ↪ H ↪ V*`, a function in `L²(0,T; V)` with weak time derivative in `L²(0,T; V*)` has a
+  representative continuous into `H`, with the energy identity. This is the Lions–Magenes
+  lemma behind every energy equality below.
+- `TauCeti.BesovSpace` (`Analysis/FunctionalSpaces/BesovSpace/Basic.lean`) with Bony's
+  decomposition (`Analysis/FunctionalSpaces/BesovSpace/Paraproduct.lean`): the dyadic input to
+  §3.3.
+- Tau Ceti has no weak divergence of a field without a full weak derivative, no solenoidal
+  subspace, no Leray projection, no off-diagonal heat estimate with `q < ∞`, no vector-valued
+  Sobolev carrier beyond componentwise use of the scalar ones, and no statement about the
+  Navier–Stokes or Euler equations.
+
+### From TauCetiRoadmap.PDE
+
+§1.4 (Sobolev embeddings on `ℝⁿ`), §2.2 (interpolation), §2.3 (Calderón–Zygmund operators),
+§6.1 (Bochner spaces and the Gelfand triple) and §7.1–§7.3 (the dyadic partition, Besov spaces
+and paraproducts). Layer 1 consumes §2.3 through the pinned Mihlin–Hörmander theorem only;
+§3.3 consumes §7.3; Layers 4 and 5 consume §6.1.
+
+### From TauCetiRoadmap.OneParameterSemigroups
+
+Part A, through the Tau Ceti declarations above.
 
 ## References
 
