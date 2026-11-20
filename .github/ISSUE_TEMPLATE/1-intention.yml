@@ -61,6 +61,7 @@ body:
         - ArithmeticStatisticsPartV
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
+        - AutomorphicGaloisRepresentations
         - AutomorphicGaloisRepresentationsPartII
         - AutomorphicLFunctionsAndLocalFactors
         - AutomorphicLFunctionsAndLocalFactorsPartII
@@ -254,6 +255,7 @@ body:
         - MathematicalStatisticsNonparametric
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
+        - MetaplecticAutomorphicForms
         - ModularCurves
         - ModularCurvesPartII
         - ModularForms
@@ -288,6 +290,7 @@ body:
         - PadicDifferentialEquationsAndRigidCohomology
         - PadicDifferentialEquationsAndRigidCohomologyPartII
         - PadicExtensionFamilies
+        - PadicFamilies
         - PadicFunctionalAnalysis
         - PadicHodgeTheory
         - PadicLocalLanglandsForGL2Qp
