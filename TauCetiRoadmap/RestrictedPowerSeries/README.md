@@ -911,9 +911,9 @@ by `w` is finite over `T_(n−1)`; these are the iterated statements carried alo
 
 ### 5.2 Noetherian, factorial and dimension theory
 
-`T_n` is a noetherian domain at every positive polyradius
+`K⟨r⁻¹X⟩` is a noetherian domain at every positive polyradius
 (`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`, `TauCeti.instIsDomainIsRestrictedSubring`;
-at unit radius the noetherianity is AdicSpaces §0.5's), a unique factorisation domain
+at unit radius the noetherianity is AdicSpaces §0.5's). At unit radius `T_n` is a unique factorisation domain
 (`TauCeti.MvPowerSeries.uniqueFactorizationMonoid`), hence integrally closed (Mathlib's
 `UniqueFactorizationMonoid.instIsIntegrallyClosed`), a Jacobson ring
 (`TauCeti.MvPowerSeries.isJacobsonRing`) and of Krull dimension `n`
