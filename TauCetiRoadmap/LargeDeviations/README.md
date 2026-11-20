@@ -39,65 +39,28 @@ targets of the same standing, stated in prose with their locators or proof route
 
 Suggested home: `TauCeti/Probability/LargeDeviations/`, with one file per subsection.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 is the topology of the principle: what the two bounds imply about the rate function and
+how the weak principle becomes the full one. Its pivot is 1.5, which turns upper bounds on
+compact sets into upper bounds on closed sets. Layer 2 relates the principle to exponential
+moments in both directions. The exponential Chebyshev bound of 2.1 produces upper bounds on
+compact sets from limits of exponential moments, and is the upper half of Cramér's, Gärtner and
+Ellis's and Sanov's theorems. Varadhan's lemma (2.2) computes exponential moments from a
+principle, and Bryc's lemma (2.5) is the converse. Layer 3 moves principles along maps, between
+exponentially close sequences and to projective limits.
 
-1. **Rate functions and the principle.** Attainment of infima of good rate functions on closed
-   sets; the vanishing infimum of the rate of a principle for probability measures and the
-   existence of a zero of a good rate; the limit on `I`-continuity sets; exponential decay of
-   closed sets without zeros of a good rate; the principle of the largest term; uniqueness of the
-   rate function on regular spaces; the weak principle from ball asymptotics on pseudometric
-   spaces; the upper bound on closed sets from the upper bound on compact sets and exponential
-   tightness; the full principle and goodness from the weak principle and exponential tightness;
-   exponential tightness from a good rate on Polish spaces.
-2. **Exponential moments.** The exponential Chebyshev upper bound on compact sets; Varadhan's
-   lemma for bounded continuous functions, and for continuous functions under the tail
-   condition, with the moment condition implying it; the Laplace principle and its equivalence
-   with the principle on pseudometric spaces for good rates; exponential tilting by bounded
-   continuous functions; Bryc's inverse Varadhan lemma on completely regular spaces.
-3. **Transformations.** Goodness of the image rate function and attainment on fibres; the
-   inverse contraction principle; transfer of a principle with a good rate between exponentially
-   equivalent sequences; the Dawson–Gärtner theorem for countable products.
-4. **Cramér's theorem.** Convexity and lower semicontinuity of the logarithmic moment generating
-   function and of its Legendre transform, the zero at the mean, goodness when the exponential
-   moments are finite near `0`; Chernoff's bound for every sample size and the Cramér–Chernoff
-   tail limit; Cramér's theorem on `ℝ` for every law and in a finite-dimensional real inner
-   product space for laws with finite exponential moments.
-5. **The Gärtner–Ellis theorem.** Exposed points and essential smoothness; the upper bound with
-   goodness and convexity of the rate; the lower bound over exposed points; Rockafellar's lemma;
-   the full principle for essentially smooth lower semicontinuous limits.
-6. **Sanov's theorem.** The method of types; Sanov's theorem for a finite alphabet; exponential
-   tightness of empirical laws; Sanov's theorem on Polish spaces with the relative entropy as
-   good rate.
+Layers 4–6 are the three classical theorems, each built as an upper bound on compact sets from
+2.1, exponential tightness, and a lower bound by change of measure. Cramér's theorem on `ℝ`
+(4.3) uses no moment assumption, and its lower bound truncates the law. Gärtner and Ellis's
+theorem (Layer 5) replaces independence by a limit of logarithmic moment generating functions.
+Its lower bound needs exposed points, which Rockafellar's lemma supplies under essential
+smoothness. Sanov's theorem on a finite alphabet (6.1) is pure counting. On a Polish space (6.3)
+its upper bound is 2.1 applied to the linear functionals `ν ↦ ∫ f dν` together with the
+Donsker–Varadhan formula, and its lower bound is a change of measure with the strong law.
 
-**Not owned here.**
-
-- The definition of the large deviation principle with its rate in `ℝ≥0∞` and logarithms in
-  `EReal`, the definitions of a good rate function, of the weak principle, of exponential
-  tightness and of exponential equivalence, and the contraction principle itself (Anderson,
-  Guionnet and Zeitouni, Thm D.7, pp. 428–429): [RandomMatrices](../RandomMatrices/README.md)
-  §9.1. This roadmap uses local copies of those definitions, consumes the contraction principle,
-  and owns only the goodness of the image rate and the attainment on fibres (3.1), which §9.1
-  does not state.
-- The large deviations of the spectral measure and of the largest eigenvalue of Gaussian and
-  beta ensembles: RandomMatrices §§9.2–9.5.
-- Schilder's theorem for Brownian paths in Laplace-principle form, with its exponential
-  tightness: [OptimalTransport](../OptimalTransport/README.md) §13.13. The equivalence of 2.3
-  converts it into the form of the large deviation principle used here; this roadmap restates
-  nothing about Brownian paths.
-- The Donsker–Varadhan variational formula for the relative entropy, its form over bounded
-  continuous functions, the lower semicontinuity of the relative entropy on probability measures
-  and the tightness of its sublevel sets: Tau Ceti (Exact supplier contracts).
-- Empirical measures of finite samples and their measurability and continuity: Tau Ceti.
-- The Fenchel conjugate with its lower semicontinuity, convexity and the Fenchel–Moreau theorem:
-  Tau Ceti.
-- The Borel property of the Giry σ-algebra on probability measures over a Polish space: Tau Ceti
-  (Exact supplier contracts).
-- The strong law of large numbers and Prokhorov's theorem: Mathlib.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are in build order. Layer 4 needs only 1.3–1.5 and 2.1, and Layer 6 needs only Layer
+1 and 2.1; both can be built directly after 2.1.
 
 ## Conventions
 
@@ -147,98 +110,6 @@ Every result that is not listed in a layer belongs to the
   `n ≥ 1` at speed `n`; the shift changes no limit.
 - **Spaces of probability measures** carry Mathlib's topology of weak convergence. The relative
   entropy is Mathlib's `klDiv`, with value `⊤` off absolute continuity (`klDiv_of_not_ac`).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Logarithms and extended reals:** `ENNReal.log` with `ENNReal.log 0 = ⊥`
-  (`Mathlib/Analysis/SpecialFunctions/Log/ENNRealLog.lean`), `EReal` and `EReal.toENNReal`
-  (`Mathlib/Data/EReal/Basic.lean`).
-- **Semicontinuity and compactness:** `LowerSemicontinuous`, `LowerSemicontinuousOn.exists_isMinOn`
-  (`Mathlib/Topology/Semicontinuity/Basic.lean`), `IsCompact.exists_isMinOn`, `T35Space` and
-  completely regular spaces (`Mathlib/Topology/Separation/CompletelyRegular.lean`), `PolishSpace`.
-- **Moments:** `ProbabilityTheory.mgf`, `ProbabilityTheory.cgf`, `iIndepFun.mgf_sum` and the
-  Chernoff bound `measure_ge_le_exp_mul_mgf` (`Mathlib/Probability/Moments/Basic.lean`);
-  `integrableExpSet` and its convexity (`Mathlib/Probability/Moments/IntegrableExpMul.lean`);
-  `deriv_cgf` and the analyticity of `cgf` on the interior of `integrableExpSet`
-  (`Mathlib/Probability/Moments/MGFAnalytic.lean`).
-- **Tilting and products:** `Measure.tilted` (`Mathlib/MeasureTheory/Measure/Tilted.lean`),
-  `Measure.pi` and `Measure.infinitePi`.
-- **Relative entropy:** `klDiv`, `klDiv_of_not_ac`, `klDiv_eq_zero_iff`
-  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`).
-- **Weak convergence:** `ProbabilityMeasure` with its Giry σ-algebra
-  (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`) and
-  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`; Prokhorov's theorem
-  `isCompact_closure_of_isTightMeasureSet` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`) and
-  `isTightMeasureSet_singleton` (`Mathlib/MeasureTheory/Measure/Tight.lean`); weak regularity of
-  finite measures on pseudometrizable spaces,
-  `Measure.WeaklyRegular.of_pseudoMetrizableSpace_of_isFiniteMeasure`.
-- **Strong law:** `ProbabilityTheory.strong_law_ae` (`Mathlib/Probability/StrongLaw.lean`).
-- **Convex analysis:** `intrinsicInterior` (`Mathlib/Analysis/Convex/Intrinsic.lean`),
-  `gradient` (`Mathlib/Analysis/Calculus/Gradient/Basic.lean`), `innerₗ`.
-
-Mathlib has no large deviation principle, no Cramér, Sanov, Varadhan or Gärtner–Ellis theorem,
-no `EReal`-valued logarithmic moment generating function, and no `BorelSpace` instance for
-`ProbabilityMeasure`.
-
-### From Tau Ceti
-
-- **Fenchel conjugate:** `TauCeti.fenchelConjugate`, `TauCeti.sub_le_fenchelConjugate`,
-  `TauCeti.lowerSemicontinuous_fenchelConjugate_innerₗ` and
-  `TauCeti.convex_epigraph_fenchelConjugate` (`TauCeti/Analysis/Convex/Conjugate.lean`); the
-  Fenchel–Moreau theorem for the inner product pairing
-  `TauCeti.fenchelConjugate_innerₗ_fenchelConjugate_innerₗ`
-  (`TauCeti/Analysis/Convex/FenchelMoreau.lean`).
-- **Relative entropy:** the Donsker–Varadhan formula over bounded measurable functions
-  `TauCeti.klDiv_eq_iSup_integral_sub_log_integral_exp` and over bounded continuous functions
-  `TauCeti.klDiv_eq_iSup_boundedContinuousFunction_integral_sub_log_integral_exp` (normal Borel
-  space, `(μ + ν).WeaklyRegular`); joint lower semicontinuity
-  `TauCeti.lowerSemicontinuous_klDiv_probabilityMeasure` (pseudometrizable Borel space); tightness
-  of sublevel sets `TauCeti.isTightMeasureSet_setOf_klDiv_le`
-  (`TauCeti/InformationTheory/KullbackLeibler/Variational.lean`).
-- **Empirical measures:** `TauCeti.Probability.empiricalMeasureOfFintype` with
-  `TauCeti.Probability.measurable_empiricalMeasureOfFintype`,
-  `TauCeti.Probability.continuous_empiricalMeasureOfFintype` and
-  `TauCeti.Probability.integral_empiricalMeasureOfFintype`
-  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
-- **Borel property of the Giry σ-algebra:** the instance
-  `TauCeti.MeasureTheory.ProbabilityMeasure.borelSpace`, `BorelSpace (ProbabilityMeasure X)` for a
-  Borel space `X` with `HasOuterApproxClosed X` whose `ProbabilityMeasure X` is hereditarily
-  Lindelöf (`TauCeti/MeasureTheory/Measure/ProbabilityMeasure/Borel.lean`), and the instance
-  `MeasureTheory.ProbabilityMeasure.instSecondCountableTopology` for a second-countable standard
-  Borel pseudometrizable `X` (`TauCeti/MeasureTheory/Measure/ProbabilityMeasure/Separable.lean`).
-  On a Polish space with its Borel σ-algebra they give `BorelSpace (ProbabilityMeasure E)` by
-  instance search once a complete metric is chosen, and on a finite discrete alphabet directly.
-
-### From other roadmaps
-
-- [RandomMatrices](../RandomMatrices/README.md) §9.1: the definition of the large deviation
-  principle, goodness, the weak principle, exponential tightness, exponential equivalence and the
-  contraction principle. `Suggested.lean` carries local copies whose docstrings name §9.1.
-
-## How to read the build
-
-Layer 1 is the topology of the principle: what the two bounds imply about the rate function and
-how the weak principle becomes the full one. Its pivot is 1.5, which turns upper bounds on
-compact sets into upper bounds on closed sets. Layer 2 relates the principle to exponential
-moments in both directions. The exponential Chebyshev bound of 2.1 produces upper bounds on
-compact sets from limits of exponential moments, and is the upper half of Cramér's, Gärtner and
-Ellis's and Sanov's theorems. Varadhan's lemma (2.2) computes exponential moments from a
-principle, and Bryc's lemma (2.5) is the converse. Layer 3 moves principles along maps, between
-exponentially close sequences and to projective limits.
-
-Layers 4–6 are the three classical theorems, each built as an upper bound on compact sets from
-2.1, exponential tightness, and a lower bound by change of measure. Cramér's theorem on `ℝ`
-(4.3) uses no moment assumption, and its lower bound truncates the law. Gärtner and Ellis's
-theorem (Layer 5) replaces independence by a limit of logarithmic moment generating functions.
-Its lower bound needs exposed points, which Rockafellar's lemma supplies under essential
-smoothness. Sanov's theorem on a finite alphabet (6.1) is pure counting. On a Polish space (6.3)
-its upper bound is 2.1 applied to the linear functionals `ν ↦ ∫ f dν` together with the
-Donsker–Varadhan formula, and its lower bound is a change of measure with the strong law.
-
-The layers are in build order. Layer 4 needs only 1.3–1.5 and 2.1, and Layer 6 needs only Layer
-1 and 2.1; both can be built directly after 2.1.
 
 ## Layer 1: rate functions and the principle
 
@@ -957,6 +828,135 @@ Prokhorov's theorem.
 - [DysonBrownianMotion](../DysonBrownianMotion/README.md) lists the large deviation theory of the
   empirical measure process among the topics outside that roadmap; Layers 1–3 are the framework
   in which it is stated.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Rate functions and the principle.** Attainment of infima of good rate functions on closed
+   sets; the vanishing infimum of the rate of a principle for probability measures and the
+   existence of a zero of a good rate; the limit on `I`-continuity sets; exponential decay of
+   closed sets without zeros of a good rate; the principle of the largest term; uniqueness of the
+   rate function on regular spaces; the weak principle from ball asymptotics on pseudometric
+   spaces; the upper bound on closed sets from the upper bound on compact sets and exponential
+   tightness; the full principle and goodness from the weak principle and exponential tightness;
+   exponential tightness from a good rate on Polish spaces.
+2. **Exponential moments.** The exponential Chebyshev upper bound on compact sets; Varadhan's
+   lemma for bounded continuous functions, and for continuous functions under the tail
+   condition, with the moment condition implying it; the Laplace principle and its equivalence
+   with the principle on pseudometric spaces for good rates; exponential tilting by bounded
+   continuous functions; Bryc's inverse Varadhan lemma on completely regular spaces.
+3. **Transformations.** Goodness of the image rate function and attainment on fibres; the
+   inverse contraction principle; transfer of a principle with a good rate between exponentially
+   equivalent sequences; the Dawson–Gärtner theorem for countable products.
+4. **Cramér's theorem.** Convexity and lower semicontinuity of the logarithmic moment generating
+   function and of its Legendre transform, the zero at the mean, goodness when the exponential
+   moments are finite near `0`; Chernoff's bound for every sample size and the Cramér–Chernoff
+   tail limit; Cramér's theorem on `ℝ` for every law and in a finite-dimensional real inner
+   product space for laws with finite exponential moments.
+5. **The Gärtner–Ellis theorem.** Exposed points and essential smoothness; the upper bound with
+   goodness and convexity of the rate; the lower bound over exposed points; Rockafellar's lemma;
+   the full principle for essentially smooth lower semicontinuous limits.
+6. **Sanov's theorem.** The method of types; Sanov's theorem for a finite alphabet; exponential
+   tightness of empirical laws; Sanov's theorem on Polish spaces with the relative entropy as
+   good rate.
+
+**Not owned here.**
+
+- The definition of the large deviation principle with its rate in `ℝ≥0∞` and logarithms in
+  `EReal`, the definitions of a good rate function, of the weak principle, of exponential
+  tightness and of exponential equivalence, and the contraction principle itself (Anderson,
+  Guionnet and Zeitouni, Thm D.7, pp. 428–429): [RandomMatrices](../RandomMatrices/README.md)
+  §9.1. This roadmap uses local copies of those definitions, consumes the contraction principle,
+  and owns only the goodness of the image rate and the attainment on fibres (3.1), which §9.1
+  does not state.
+- The large deviations of the spectral measure and of the largest eigenvalue of Gaussian and
+  beta ensembles: RandomMatrices §§9.2–9.5.
+- Schilder's theorem for Brownian paths in Laplace-principle form, with its exponential
+  tightness: [OptimalTransport](../OptimalTransport/README.md) §13.13. The equivalence of 2.3
+  converts it into the form of the large deviation principle used here; this roadmap restates
+  nothing about Brownian paths.
+- The Donsker–Varadhan variational formula for the relative entropy, its form over bounded
+  continuous functions, the lower semicontinuity of the relative entropy on probability measures
+  and the tightness of its sublevel sets: Tau Ceti (Exact supplier contracts).
+- Empirical measures of finite samples and their measurability and continuity: Tau Ceti.
+- The Fenchel conjugate with its lower semicontinuity, convexity and the Fenchel–Moreau theorem:
+  Tau Ceti.
+- The Borel property of the Giry σ-algebra on probability measures over a Polish space: Tau Ceti
+  (Exact supplier contracts).
+- The strong law of large numbers and Prokhorov's theorem: Mathlib.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Logarithms and extended reals:** `ENNReal.log` with `ENNReal.log 0 = ⊥`
+  (`Mathlib/Analysis/SpecialFunctions/Log/ENNRealLog.lean`), `EReal` and `EReal.toENNReal`
+  (`Mathlib/Data/EReal/Basic.lean`).
+- **Semicontinuity and compactness:** `LowerSemicontinuous`, `LowerSemicontinuousOn.exists_isMinOn`
+  (`Mathlib/Topology/Semicontinuity/Basic.lean`), `IsCompact.exists_isMinOn`, `T35Space` and
+  completely regular spaces (`Mathlib/Topology/Separation/CompletelyRegular.lean`), `PolishSpace`.
+- **Moments:** `ProbabilityTheory.mgf`, `ProbabilityTheory.cgf`, `iIndepFun.mgf_sum` and the
+  Chernoff bound `measure_ge_le_exp_mul_mgf` (`Mathlib/Probability/Moments/Basic.lean`);
+  `integrableExpSet` and its convexity (`Mathlib/Probability/Moments/IntegrableExpMul.lean`);
+  `deriv_cgf` and the analyticity of `cgf` on the interior of `integrableExpSet`
+  (`Mathlib/Probability/Moments/MGFAnalytic.lean`).
+- **Tilting and products:** `Measure.tilted` (`Mathlib/MeasureTheory/Measure/Tilted.lean`),
+  `Measure.pi` and `Measure.infinitePi`.
+- **Relative entropy:** `klDiv`, `klDiv_of_not_ac`, `klDiv_eq_zero_iff`
+  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`).
+- **Weak convergence:** `ProbabilityMeasure` with its Giry σ-algebra
+  (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`) and
+  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`; Prokhorov's theorem
+  `isCompact_closure_of_isTightMeasureSet` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`) and
+  `isTightMeasureSet_singleton` (`Mathlib/MeasureTheory/Measure/Tight.lean`); weak regularity of
+  finite measures on pseudometrizable spaces,
+  `Measure.WeaklyRegular.of_pseudoMetrizableSpace_of_isFiniteMeasure`.
+- **Strong law:** `ProbabilityTheory.strong_law_ae` (`Mathlib/Probability/StrongLaw.lean`).
+- **Convex analysis:** `intrinsicInterior` (`Mathlib/Analysis/Convex/Intrinsic.lean`),
+  `gradient` (`Mathlib/Analysis/Calculus/Gradient/Basic.lean`), `innerₗ`.
+
+Mathlib has no large deviation principle, no Cramér, Sanov, Varadhan or Gärtner–Ellis theorem,
+no `EReal`-valued logarithmic moment generating function, and no `BorelSpace` instance for
+`ProbabilityMeasure`.
+
+### From Tau Ceti
+
+- **Fenchel conjugate:** `TauCeti.fenchelConjugate`, `TauCeti.sub_le_fenchelConjugate`,
+  `TauCeti.lowerSemicontinuous_fenchelConjugate_innerₗ` and
+  `TauCeti.convex_epigraph_fenchelConjugate` (`TauCeti/Analysis/Convex/Conjugate.lean`); the
+  Fenchel–Moreau theorem for the inner product pairing
+  `TauCeti.fenchelConjugate_innerₗ_fenchelConjugate_innerₗ`
+  (`TauCeti/Analysis/Convex/FenchelMoreau.lean`).
+- **Relative entropy:** the Donsker–Varadhan formula over bounded measurable functions
+  `TauCeti.klDiv_eq_iSup_integral_sub_log_integral_exp` and over bounded continuous functions
+  `TauCeti.klDiv_eq_iSup_boundedContinuousFunction_integral_sub_log_integral_exp` (normal Borel
+  space, `(μ + ν).WeaklyRegular`); joint lower semicontinuity
+  `TauCeti.lowerSemicontinuous_klDiv_probabilityMeasure` (pseudometrizable Borel space); tightness
+  of sublevel sets `TauCeti.isTightMeasureSet_setOf_klDiv_le`
+  (`TauCeti/InformationTheory/KullbackLeibler/Variational.lean`).
+- **Empirical measures:** `TauCeti.Probability.empiricalMeasureOfFintype` with
+  `TauCeti.Probability.measurable_empiricalMeasureOfFintype`,
+  `TauCeti.Probability.continuous_empiricalMeasureOfFintype` and
+  `TauCeti.Probability.integral_empiricalMeasureOfFintype`
+  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
+- **Borel property of the Giry σ-algebra:** the instance
+  `TauCeti.MeasureTheory.ProbabilityMeasure.borelSpace`, `BorelSpace (ProbabilityMeasure X)` for a
+  Borel space `X` with `HasOuterApproxClosed X` whose `ProbabilityMeasure X` is hereditarily
+  Lindelöf (`TauCeti/MeasureTheory/Measure/ProbabilityMeasure/Borel.lean`), and the instance
+  `MeasureTheory.ProbabilityMeasure.instSecondCountableTopology` for a second-countable standard
+  Borel pseudometrizable `X` (`TauCeti/MeasureTheory/Measure/ProbabilityMeasure/Separable.lean`).
+  On a Polish space with its Borel σ-algebra they give `BorelSpace (ProbabilityMeasure E)` by
+  instance search once a complete metric is chosen, and on a finite discrete alphabet directly.
+
+### From other roadmaps
+
+- [RandomMatrices](../RandomMatrices/README.md) §9.1: the definition of the large deviation
+  principle, goodness, the weak principle, exponential tightness, exponential equivalence and the
+  contraction principle. `Suggested.lean` carries local copies whose docstrings name §9.1.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
