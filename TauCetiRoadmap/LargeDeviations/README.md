@@ -105,11 +105,14 @@ Every result that is not listed in a layer belongs to the
   space `X` with a measurable structure, and the speed is `a : ℕ → ℝ`; every theorem that needs
   it assumes `Tendsto a atTop atTop`. Continuous-parameter families `ε → 0` of the sources are
   read along sequences; the theorems used here never need more.
-- **Measurable open sets.** In "Polish forces tightness" (1.5), in 2.1–2.5 (except the moment
-  condition of 2.2) and in the inverse contraction of 3.1, open sets of `X` are measurable
-  (`OpensMeasurableSpace X`); 3.2–3.3 and Layers 4–6 assume Borel σ-algebras or say so (4.1).
-  Without it 2.1 fails: under the trivial σ-algebra on `ℝ` a lower integral is the infimum of the
-  integrand, so `∫⁻ exp ((n+1) j x) dδ₀ = 0` for `j ≠ 0` while `{0}` has outer measure `1`.
+- **Measurable open sets.** In "Polish forces tightness" (1.5), in 2.1–2.5 and in the inverse
+  contraction of 3.1, open sets of `X` are measurable (`OpensMeasurableSpace X`), except that
+  the moment condition of 2.2 asks instead for a measurable `φ`; 3.2–3.3 and Layers 4–6 assume
+  Borel σ-algebras or say so (4.1). Without it 2.1 fails: under the trivial σ-algebra on `ℝ` a
+  lower integral is the infimum of the integrand, so `∫⁻ exp ((n+1) j x) dδ₀ = 0` for `j ≠ 0`
+  while `{0}` has outer measure `1`. The moment condition fails in the same way for a
+  non-measurable `φ`: for `φ x = |x|`, `γ = 2` and `δ₀` both lower integrals are `1`, because
+  the restriction of `δ₀` to the non-measurable set `{φ ≥ M}` is `δ₀`.
 - **Logarithms and infima.** The normalized logarithm of the measure of a set `s` is
   `(a n)⁻¹ * ENNReal.log (μ n s)` in `EReal`, with `ENNReal.log 0 = ⊥`, so a set of measure `0`
   contributes `-∞`. The junk value `Real.log 0 = 0` never enters; Check 1.1 shows that it would
@@ -406,9 +409,9 @@ such `U` and apply 1.3.
   `lim_{M→∞} limsup_n (a n)⁻¹ log ∫⁻_{φ ≥ M} exp (a n · φ) dμₙ = -∞`, the normalized logarithm of
   `∫⁻ exp (a n · φ) dμₙ` tends to `sup_x (φ x - I x)` (Dembo–Zeitouni, Theorem 4.3.1 with (4.3.2),
   p. 137, and Lemmas 4.3.6 and 4.3.8, p. 138).
-- **Moment condition** (`tendsto_limsup_log_setLIntegral_exp_of_moment`): if for some `γ > 1`
-  the `limsup` of `(a n)⁻¹ log ∫⁻ exp (a n · γ φ) dμₙ` is `< ⊤`, the tail condition holds
-  (Dembo–Zeitouni, (4.3.3), p. 137).
+- **Moment condition** (`tendsto_limsup_log_setLIntegral_exp_of_moment`): for a measurable `φ`,
+  if for some `γ > 1` the `limsup` of `(a n)⁻¹ log ∫⁻ exp (a n · γ φ) dμₙ` is `< ⊤`, the tail
+  condition holds (Dembo–Zeitouni, (4.3.3), p. 137).
 
 *Proof route.* Lower bound: for `x` and `ε`, the open set `{φ > φ x - ε}` and the lower bound of
 the principle. Upper bound for bounded `f`: split the range of `f` into finitely many closed
@@ -416,7 +419,8 @@ slabs `{c_k ≤ f ≤ c_{k+1}}` of width `ε`, bound each integral by `exp (a n 
 the upper bound of the principle and 1.3; no goodness or regularity is used. Tail form: the same
 on `{φ ≤ M}`, the tail condition for `{φ ≥ M}`, and 1.3; goodness makes `sup (φ - I)` over
 `{φ ≤ M}` stable. Moment: on `{φ ≥ M}`,
-`exp (a n φ) ≤ exp (-(γ - 1) a n M) exp (a n γ φ)`, so the `limsup` is at most
+`exp (a n φ) ≤ exp (-(γ - 1) a n M) exp (a n γ φ)` once `a n > 0`; the set and both integrands
+are measurable because `φ` is, so the bound integrates, and the `limsup` is at most
 `-(γ - 1) M + C → -∞`.
 
 *Needs:* 1.1, 1.3.

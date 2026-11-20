@@ -212,9 +212,9 @@ theorem LargeDeviationPrinciple.tendsto_log_lintegral_exp [OpensMeasurableSpace 
       ENNReal.log (∫⁻ x, ENNReal.ofReal (Real.exp (a n * φ x)) ∂μ n)) atTop
       (𝓝 (⨆ x, ((φ x : EReal) - I x))) := sorry
 
-/-- **2.2** The moment condition implies the tail condition. -/
+/-- **2.2** The moment condition implies the tail condition, for a measurable `φ`. -/
 theorem tendsto_limsup_log_setLIntegral_exp_of_moment {μ : ℕ → Measure X} {a : ℕ → ℝ}
-    (ha : Tendsto a atTop atTop) {φ : X → ℝ} {γ : ℝ} (hγ : 1 < γ)
+    (ha : Tendsto a atTop atTop) {φ : X → ℝ} (hφ : Measurable φ) {γ : ℝ} (hγ : 1 < γ)
     (hmom : limsup (fun n ↦ ((a n)⁻¹ : ℝ) *
       ENNReal.log (∫⁻ x, ENNReal.ofReal (Real.exp (a n * (γ * φ x))) ∂μ n)) atTop < ⊤) :
     Tendsto (fun M : ℝ ↦ limsup (fun n ↦ ((a n)⁻¹ : ℝ) *
