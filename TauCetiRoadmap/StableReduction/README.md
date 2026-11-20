@@ -4,12 +4,11 @@
 henselian or residue-field hypothesis. A smooth projective curve over `K` need not extend to a
 smooth curve over `R`, but after a finite separable extension of `K` it extends to a curve with only
 ordinary double points. This roadmap proves this in the scheme-theoretic form of Artin–Winters and
-Deligne–Mumford, as organized in the Stacks Project, and builds the scheme-level theory of stable
-maps. A *model* of a curve `C` over `K` is a flat finitely presented `R`-scheme with a chosen
-isomorphism from its generic fibre to `C`. A *stable curve* over `S` is a proper flat family whose
-geometric fibres are connected, at worst nodal, of arithmetic genus at least two, and free of
-rational tails and bridges (components with normalization `ℙ¹` meeting the rest of the curve in one
-point, or in two).
+Deligne–Mumford, and builds the scheme-level theory of stable maps. A *model* of a curve `C` over
+`K` is a flat finitely presented `R`-scheme with a chosen isomorphism from its generic fibre to `C`.
+A *stable curve* over `S` is a proper flat family whose geometric fibres are connected, at worst
+nodal, of arithmetic genus at least two, and free of rational tails and bridges (components with
+normalization `ℙ¹` meeting the rest of the curve in one point, or in two).
 
 The headline theorems are these.
 
@@ -205,9 +204,9 @@ come before the nodal layer.
 
 ### Examples
 
-- Over a discrete valuation ring, `Spec R[x, y]/(xy − πⁿ) → Spec R` is flat, of finite presentation
-  and of pure relative dimension one, but not proper, so not a family of curves; its generic fibre
-  `xy = πⁿ` is smooth over `K` and its special fibre is two crossing lines over `k`.
+- Over a discrete valuation ring and for `n ≥ 1`, `Spec R[x, y]/(xy − πⁿ) → Spec R` is flat, of
+  finite presentation and of pure relative dimension one, but not proper, so not a family of curves;
+  its generic fibre `xy = πⁿ` is smooth over `K` and its special fibre is two crossing lines over `k`.
 
 ### Dependencies
 
@@ -237,7 +236,8 @@ and prove that `AtWorstNodalOfRelativeDimensionOne f` holds exactly when `f` is 
 relative dimension one and `Sing(f) → S` is unramified. Prove the equivalent pointwise fibrewise
 condition: `f` is flat and locally of finite presentation, its fibres are of pure dimension one, and
 every point of every geometric fibre `X_s̄` is either smooth or an ordinary double point, a point
-whose completed local ring is `κ(s̄)[[u, v]]/(uv)` (Stacks, [families of nodal curves](https://stacks.math.columbia.edu/tag/0C58)).
+whose completed local ring is `κ(s̄)[[u, v]]/(uv)`
+([Stacks Lemma 53.20.1](https://stacks.math.columbia.edu/tag/0C59)).
 *Needs:* §0.1; Tau Ceti `Scheme.singularLocus`, `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension`,
 `TauCeti.AlgebraicGeometry.AtWorstNodalOfRelativeDimensionOne`,
 `TauCeti.AlgebraicGeometry.atWorstNodalOfRelativeDimensionOne_iff_flat_and_fiberToSpecResidueField`,
@@ -259,8 +259,8 @@ Prove the local normal form over a discrete valuation ring: for a point `x` of t
 `f : X → Spec R` at worst nodal of relative dimension one, construct an étale extension of discrete
 valuation rings `R ⊂ R'`, an étale neighbourhood `U → X` containing a point above `x`, and an étale
 morphism `U → Spec(R'[u, v]/(uv))` or `U → Spec(R'[u, v]/(uv − πⁿ))`, with `π` a uniformizer of
-`R'`, such that both triangles to `Spec R' → Spec R` commute (Stacks,
-[local nodal models](https://stacks.math.columbia.edu/tag/0CDB)). This `R'/R` is étale local-chart
+`R'`, such that both triangles to `Spec R' → Spec R` commute
+([Stacks Lemma 55.14.2](https://stacks.math.columbia.edu/tag/0CDD)). This `R'/R` is étale local-chart
 data, not the finite, possibly ramified stable-reduction extension. The ring-level chart is Tau
 Ceti's `TauCeti.exists_etale_nodeAlgebra_hom`, and the singular locus is already in this form by
 `Scheme.exists_singularLocus_iso_Spec_quotient_of_isPullback_etale`; the target puts a nodal
@@ -750,14 +750,14 @@ prove that passing to it does not change the relative `Proj` (Knudsen II, §1).
 
 ### 3.10 The single-marking contraction: the contraction morphism
 
-Construct the everywhere-defined proper surjection `c : C → C'` to that relative `Proj`. Prove
-`C' → S` flat and finitely presented from the graded algebra, identify its geometric fibres with
-the explicit contractions of §3.8, and prove nodality, connectedness and genus `g`. The retained
-sections descend to pairwise disjoint sections in the smooth locus. Prove that
-`𝒪_{C'} → c_*𝒪_C` is an isomorphism and `R¹c_*𝒪_C = 0`, universally; establish the contraction
-universal property, uniqueness and coherent base change using Layer 2 and Tau Ceti's contraction
-descent. The degree-zero assertion is
-about this single step, not about an arbitrary prestable input (Knudsen II, §1).
+Construct the everywhere-defined proper surjection `c : C → C'` to that relative `Proj`, unique up
+to canonical isomorphism (Knudsen II, Proposition 2.1, p. 174). Prove `C' → S` flat and finitely
+presented from the graded algebra, identify its geometric fibres with the explicit contractions of
+§3.8, and prove nodality, connectedness and genus `g`. The retained sections descend to pairwise
+disjoint sections in the smooth locus. Prove that `𝒪_{C'} → c_*𝒪_C` is an isomorphism and
+`R¹c_*𝒪_C = 0`, universally; establish the contraction universal property, uniqueness and coherent
+base change using Layer 2 and Tau Ceti's contraction descent. The degree-zero assertion is about
+this single step, not about an arbitrary prestable input (Knudsen II, Definition 1.3, p. 164).
 *Needs:* §3.9; §2.1, §2.5; Tau Ceti `Scheme.Hom.existsUnique_comp_eq_of_universallyClosed`,
 `Scheme.Hom.descOfIsQuotientMap_of_commSq`.
 
@@ -801,9 +801,9 @@ exceptional divisor, relatively ample.
 `IdealSheafData.isProper_blowupToBase`, `IdealSheafData.isPullback_blowupMap_of_flat`.
 
 **Checks.**
-- Blowing up `ℙ¹_R` at a closed point `p` of its special fibre, the fibre over `p` is the exceptional
-  line `E`, with `E² = −1`, and `𝒪(1) = 𝒪(−E)` has degree `−E² = 1` on it, as relative ampleness
-  requires; the inverse `𝒪(E)` has degree `−1`.
+- Blowing up `ℙ¹_R` at a `k`-rational closed point `p` of its special fibre, the fibre over `p` is the
+  exceptional line `E`, with `E² = −1`, and `𝒪(1) = 𝒪(−E)` has degree `−E² = 1` on it, as relative
+  ampleness requires; the inverse `𝒪(E)` has degree `−1`.
 
 ### 4.2 Resolution of the node `xy = πⁿ`
 
@@ -833,7 +833,8 @@ two-dimensional scheme, especially for vertical divisors on a proper regular mod
 discrete valuation ring: bilinearity, including additivity in the curve argument, the projection
 formula at the level of cycles, self-intersection, and the negative semidefiniteness of the
 intersection matrix `(Cᵢ · Cⱼ)` of the components of the special fibre, whose kernel, for a
-connected special fibre, is spanned by the multiplicity vector `(mᵢ)` (Liu). For an
+connected special fibre, is spanned by the multiplicity vector `(mᵢ)`
+([Stacks Lemma 55.9.7](https://stacks.math.columbia.edu/tag/0C66)). For an
 abstract numerical type the semidefiniteness is Tau Ceti's
 `NumericalType.dotProduct_intersection_mulVec_nonpos` with
 `NumericalType.dotProduct_intersection_mulVec_eq_zero_iff`.
@@ -842,8 +843,8 @@ abstract numerical type the semidefiniteness is Tau Ceti's
 `NumericalType.dotProduct_intersection_mulVec_eq_zero_iff`.
 
 **Checks.**
-- Blow up `ℙ¹_R` at a closed point of the special fibre and then at the point where the two
-  components meet: the special fibre is `C + E + 2F`, with `C² = E² = −2`, `F² = −1`,
+- Blow up `ℙ¹_R` at a `k`-rational closed point of the special fibre and then at the point where the
+  two components meet: the special fibre is `C + E + 2F`, with `C² = E² = −2`, `F² = −1`,
   `C·F = E·F = 1`, `C·E = 0`. The matrix has `xᵀAx ≤ 0` with equality exactly on multiples of
   `(1, 1, 2)`; the opposite sign convention would make it positive semidefinite.
 
@@ -870,7 +871,9 @@ Define exceptional curves of the first kind on a regular proper model: an integr
 of the special fibre with `E ≅ ℙ¹_κ` for `κ = H⁰(E, 𝒪_E)` and `E · E = −[κ : k]`. Prove the
 contraction theorem of Castelnuovo type for curves on arithmetic surfaces: such an `E` can be
 contracted to a regular proper model, with the contraction an isomorphism away from `E`, preserving
-properness and the generic-fibre identification (Liu). Tau Ceti's descent of
+properness and the generic-fibre identification
+([Stacks Lemmas 54.16.8](https://stacks.math.columbia.edu/tag/0C2M) and
+[54.16.11](https://stacks.math.columbia.edu/tag/0C5P)). Tau Ceti's descent of
 morphisms along contractions (`Scheme.Hom.descOfIsQuotientMap`) and the numerical contraction of a
 `(−1)`-index of a numerical type (`NumericalType.contract`) are the morphism-level and numerical
 shadows.
@@ -917,15 +920,18 @@ by the absence of exceptional curves of the first kind (§4.5) in the special fi
 
 **Checks.**
 - `ℙ¹_R` is a regular proper model of `ℙ¹_K` and is minimal: its special fibre is one line of
-  self-intersection `0`. Its blowup at a closed point of the special fibre is regular and not
-  minimal: the exceptional line has self-intersection `−1`.
+  self-intersection `0`. Its blowup at a `k`-rational closed point of the special fibre is regular
+  and not minimal: the exceptional line has self-intersection `−1`.
 
 ### 5.2 Minimal models
 
 Prove that every regular proper model contracts, by finitely many contractions of exceptional
 curves (§4.5), to a minimal one. For a generic fibre of positive genus, prove that the minimal
 regular model is unique up to unique isomorphism of models and is terminal among regular models:
-every regular proper model maps to it by a unique morphism of models (Liu).
+every regular proper model maps to it by a unique morphism of models
+([Stacks Lemmas 55.8.5](https://stacks.math.columbia.edu/tag/0CD9),
+[55.10.1](https://stacks.math.columbia.edu/tag/0C6B) and
+[55.10.2](https://stacks.math.columbia.edu/tag/0C9Z)).
 Uniqueness of morphisms of models into a separated model is Tau Ceti's
 `TauCeti.Model.subsingleton_hom`.
 *Needs:* §5.1, §4.5, §4.4; Tau Ceti `TauCeti.Model.subsingleton_hom`, `TauCeti.Model.subsingleton_iso`.
@@ -937,13 +943,15 @@ The components of the special fibre, their multiplicities `mᵢ`
 `div_X(π) = Σ mᵢ[Cᵢ]` (`AlgebraicGeometry.Scheme.Hom.principalDivisor_eq_sum_specialFiber`) and the
 identification of the special fibre with the effective Cartier subscheme cut out by `π`
 (`TauCeti.isEffectiveCartier_ker_specialFiberι_of_isDiscreteValuationRing`) are Tau Ceti's. Prove
-the intersection relations `Σⱼ (Cᵢ · Cⱼ) mⱼ = 0` for every `i`, adjunction for a component `Cᵢ` of a
-regular proper model, `(Cᵢ · Cᵢ) + deg_k(ω_{X/R}|_{Cᵢ}) = −2χ_k(𝒪_{Cᵢ})`, and the
+the intersection relations `Σⱼ (Cᵢ · Cⱼ) mⱼ = 0` for every `i`
+([Stacks Lemma 55.9.7](https://stacks.math.columbia.edu/tag/0C66)), adjunction for a component
+`Cᵢ` of a regular proper model, `(Cᵢ · Cᵢ) + deg_k(ω_{X/R}|_{Cᵢ}) = −2χ_k(𝒪_{Cᵢ})` (Liu), and the
 genus formula expressing the genus of the generic fibre through the `mᵢ`, the `(Cᵢ · Cⱼ)` and the
-arithmetic genera of the `Cᵢ` (Liu). Prove that a model whose special fibre is geometrically
-reduced and connected, with geometrically smooth components and only ordinary nodes after algebraic
-closure, is a prestable model (through Tau Ceti's `TauCeti.Model.prestableFamily_toBase_iff`), and
-give the equivalent formulation with finite separable residue extensions at the singular points.
+arithmetic genera of the `Cᵢ` ([Stacks Lemma 55.11.2](https://stacks.math.columbia.edu/tag/0CA3)).
+Prove that a model whose special fibre is geometrically reduced and connected, with geometrically
+smooth components and only ordinary nodes after algebraic closure, is a prestable model (through
+Tau Ceti's `TauCeti.Model.prestableFamily_toBase_iff`), and give the equivalent formulation with
+finite separable residue extensions at the singular points.
 *Needs:* §4.3, §2.3, §2.2, §1.1; Tau Ceti `AlgebraicGeometry.Scheme.Hom.specialFiberMultiplicity`,
 `AlgebraicGeometry.Scheme.Hom.principalDivisor_eq_sum_specialFiber`,
 `TauCeti.isEffectiveCartier_ker_specialFiberι_of_isDiscreteValuationRing`,
@@ -990,14 +998,17 @@ Artin–Winters argument.
 
 ### 6.1 The numerical type of a regular model
 
-For a regular proper model `X` with special-fibre components `Cᵢ`, set `κᵢ = H⁰(Cᵢ, 𝒪_{Cᵢ})`,
+For a regular proper model `X` of a smooth projective curve `C` over `K` with `H⁰(C, 𝒪_C) = K`,
+with special-fibre components `Cᵢ`, set `κᵢ = H⁰(Cᵢ, 𝒪_{Cᵢ})`,
 `wᵢ = [κᵢ : k]`, `gᵢ = dim_{κᵢ} H¹(Cᵢ, 𝒪_{Cᵢ})` and `aᵢⱼ = Cᵢ · Cⱼ`; these are arithmetic genera of
 components over their constant fields, not the normalization genera of the geometric dual graph.
 Prove that, with the multiplicities `mᵢ`, these data form a `TauCeti.NumericalType`, the
 `wᵢ ∣ aᵢⱼ` axiom coming from Tau Ceti's `LineBundleClass.finrank_dvd_intersectionNumber` and the
 relation `Σⱼ aᵢⱼmⱼ = 0` from §5.3. Identify its signed genus `TauCeti.NumericalType.arithmeticGenus`
-with the genus of the generic fibre. The genus is computed once on the whole sum, never by dividing
-each diagonal term in `ℤ` or truncating to `ℕ`: abstract numerical types can have negative genus.
+with the genus of `C` ([Stacks Lemma 55.11.3](https://stacks.math.columbia.edu/tag/0CA4) and
+[Definition 55.11.4](https://stacks.math.columbia.edu/tag/0CA5)). The genus is computed once on the
+whole sum, never by dividing each diagonal term in `ℤ` or truncating to `ℕ`: abstract numerical
+types can have negative genus.
 *Needs:* §§5.3, 4.3, 2.2; Tau Ceti `TauCeti.NumericalType`, `TauCeti.NumericalType.arithmeticGenus`,
 `LineBundleClass.finrank_dvd_intersectionNumber`, `AlgebraicGeometry.Scheme.Hom.specialFiberMultiplicity`.
 
@@ -1014,9 +1025,13 @@ each diagonal term in `ℤ` or truncating to `ℕ`: abstract numerical types can
 Compare line bundles on the regular model, its generic fibre, its special fibre, the reduced special
 fibre and the numerical type. Prove the specialization maps and exact sequences required to inject
 enough `ℓ`-torsion of the Picard group of the generic fibre into the Picard group of the reduced
-special fibre, for `ℓ` different from the residue characteristic, and bound the `ℓ`-torsion of the
-Picard group of the reduced geometric special fibre by twice the sum of the geometric genera of its
-components plus the first Betti number of its dual graph ([Stacks, genus at least two](https://stacks.math.columbia.edu/tag/0CEI)).
+special fibre, for `ℓ` different from the residue characteristic. Bound the `ℓ`-torsion of the
+Picard group of the reduced special fibre `Y = (X_k)_red`, a proper scheme of dimension one over
+`k`: `dim_{𝔽_ℓ} Pic(Y)[ℓ] ≤ dim_k H¹(Y, 𝒪_Y) + g_geom(Y/k)`, where `g_geom(Y/k)` is the sum of the
+genera of the normalizations of the one-dimensional irreducible components of `Y_k̄`
+([Stacks Lemma 53.18.6](https://stacks.math.columbia.edu/tag/0CE6)). When `Y_k̄` is nodal the
+right-hand side is twice the sum of those genera plus the first Betti number of the dual graph of
+§1.4.
 *Needs:* §6.1, §5.3, §1.4, §2.5; Tau Ceti `TauCeti.NumericalType.Pic`,
 `TauCeti.NumericalType.torsion`, `TauCeti.AlgebraicGeometry.LineBundleClass`.
 
@@ -1034,9 +1049,12 @@ input for the torsion line bundles. Supply the explicit degree bound used by the
 
 Prove the numerical conclusion: for `g ≥ 2` and a prime `ℓ > 768g` different from the residue
 characteristic (the Stacks proof's choice), a minimal regular model of a smooth projective curve
-`C` of genus `g` with `H⁰(C, 𝒪_C) = K` and `Pic(C)[ℓ] ≅ (ℤ/ℓℤ)^{2g}` has special-fibre components of
-multiplicity one that are geometrically smooth, and an at-worst-nodal special fibre
-([Stacks, genus at least two](https://stacks.math.columbia.edu/tag/0CEI)). The combinatorial input is
+`C` of genus `g` with `H⁰(C, 𝒪_C) = K`, a `K`-rational point and `Pic(C)[ℓ] ≅ (ℤ/ℓℤ)^{2g}` has
+special-fibre components of multiplicity one that are geometrically smooth, and an at-worst-nodal
+special fibre ([Stacks, genus at least two](https://stacks.math.columbia.edu/tag/0CEI)). The
+rational point supplies, through the closed point of its section, a smooth `k`-point of the special
+fibre on a component of multiplicity one
+([Stacks Lemma 55.11.7](https://stacks.math.columbia.edu/tag/0CE8)). The combinatorial input is
 Tau Ceti's `TauCeti.NumericalType.finrank_torsion_le_arithmeticGenus` with
 `NumericalType.IsMinimal.multiplicity_mul_abs_intersection_le` and
 `NumericalType.exists_chain_or_fork_or_exceptional`.
@@ -1106,15 +1124,14 @@ either a smooth genus-one curve or a cycle of rational curves
 
 ### 7.3 Genus at least two, with the uniform bound
 
-Prove nodal reduction in genus `g ≥ 2` by Layers 5–6, as stated in `Suggested.lean`
-(`exists_hasNodalReduction_of_two_le_genus`): if `C` is smooth, proper and geometrically integral
-over `K` of genus `g ≥ 2`, and `768g < ℓ' < ℓ` are the first two primes larger than `768g`, there is
-a finite DVR extension `E` with `[K' : K] ≤ B_g = (2g − 2)(ℓ^{2g})!` over which `C_{K'}` has nodal
-reduction ([Stacks Theorem 55.18.1](https://stacks.math.columbia.edu/tag/0CDN) (3) with equation
-55.18.0.1). The proof uses the Jacobian only through the `ℓ`-torsion of `Pic⁰` supplied by contracts
-J-D and J-E (§6.3); no notion of reduction of an abelian variety enters. With §§7.1–7.2 this
-gives nodal reduction after a finite DVR extension in every genus, for `C` smooth, proper and
-geometrically integral over `K`, stated in `Suggested.lean` as `exists_hasNodalReduction`.
+Prove nodal reduction in genus `g ≥ 2` by Layers 5–6: if `C` is smooth, proper and geometrically
+integral over `K` of genus `g ≥ 2`, and `768g < ℓ' < ℓ` are the first two primes larger than `768g`,
+there is a finite DVR extension `E` with `[K' : K] ≤ B_g = (2g − 2)(ℓ^{2g})!` over which `C_{K'}`
+has nodal reduction ([Stacks Theorem 55.18.1](https://stacks.math.columbia.edu/tag/0CDN) (3) with
+equation 55.18.0.1). The proof uses the Jacobian only through the `ℓ`-torsion of `Pic⁰` supplied by
+contracts J-D and J-E (§6.3); no notion of reduction of an abelian variety enters. With §§7.1–7.2
+this gives nodal reduction after a finite DVR extension in every genus, for `C` smooth, proper and
+geometrically integral over `K`.
 *Needs:* §§6.1–6.4, §§5.1–5.2; Tau Ceti `TauCeti.HasNodalReduction`, `TauCeti.FiniteDVRExtension`,
 `AlgebraicGeometry.Scheme.genus`.
 
@@ -1124,13 +1141,19 @@ geometrically integral over `K`, stated in `Suggested.lean` as `exists_hasNodalR
 
 ### 7.4 The simultaneous form
 
-State both useful forms of §§7.2–7.3: over a chosen place `R'` above `R`, and with simultaneous
-at-worst-nodal models over the localizations of the integral closure of `R` in one finite extension
-`K'` at all its maximal ideals. Derive the simultaneous form from the criterion that full
-`ℓ`-torsion is `K'`-rational, which depends only on `K'` and hence holds at every place above `R`,
-rather than claiming it follows from the single-place statement. Compatibility with further finite
-base extension is Tau Ceti's `TauCeti.HasNodalReduction.baseChange`.
-*Needs:* §§7.2–7.3, §6.3; Tau Ceti `TauCeti.HasNodalReduction.baseChange`,
+Prove the simultaneous form of §§7.1–7.3, as stated in `Suggested.lean`: for `C` smooth, proper
+and geometrically integral over `K` there is a finite separable extension `K'/K` such that `C_{K'}`
+has nodal reduction over the localization of the integral closure of `R` in `K'` at every maximal
+ideal above the maximal ideal of `R`, each such localization being a finite DVR extension
+(`TauCeti.FiniteDVRExtension.of`); this is `exists_hasNodalReduction`. For `g ≥ 2` and `ℓ` as in
+§7.3, such a `K'` exists with `[K' : K] ≤ B_g`; this is `exists_hasNodalReduction_of_two_le_genus`
+([Stacks Theorem 55.18.1](https://stacks.math.columbia.edu/tag/0CDN) (1)–(3)). In genus zero the
+model `ℙ¹` of §7.1 serves at every place, and §7.2 is already stated at every place. In genus at
+least two, derive the form from the hypotheses of §6.4, a `K'`-rational point and full `ℓ`-torsion
+over `K'`, which depend only on `K'` and hence hold at every place above `R`, rather than from the
+single-place statement of §7.3. Compatibility with further finite base extension is Tau Ceti's
+`TauCeti.HasNodalReduction.baseChange`.
+*Needs:* §§7.1–7.3, §§6.3–6.4; Tau Ceti `TauCeti.HasNodalReduction.baseChange`,
 `TauCeti.FiniteDVRExtension.of`.
 
 ### Examples
@@ -1157,10 +1180,11 @@ tails repeatedly until none remain, proving termination by the strictly decreasi
 geometric components and recomputing the dual graph after every contraction. On the resulting
 tail-free curve prove global generation of `ω²` and `ω³` and the required cohomology vanishing;
 then contract the rational bridges and identify the stable result with the `Proj` of the canonical
-ring of the tail-free curve ([Stacks §§53.23–53.25](https://stacks.math.columbia.edu/tag/0E7N)).
-Prove that the contraction `c : X → Xˢᵗ` is characterized by its stable target, preservation of
-the genus, and `𝒪 ≅ c_*𝒪`, `R¹c_*𝒪 = 0`. On dual graphs the steps are Tau Ceti's
-`DualGraph.StabilizationStep`, which decreases the number of vertices
+ring of the tail-free curve (Stacks [Lemma 53.23.6](https://stacks.math.columbia.edu/tag/0E3L) and
+[Lemma 53.24.6](https://stacks.math.columbia.edu/tag/0E3Q)). Prove that the contraction
+`c : X → Xˢᵗ` is characterized by its stable target, preservation of the genus, and `𝒪 ≅ c_*𝒪`,
+`R¹c_*𝒪 = 0` ([Stacks Lemma 53.25.2](https://stacks.math.columbia.edu/tag/0E7Q)). On dual graphs
+the steps are Tau Ceti's `DualGraph.StabilizationStep`, which decreases the number of vertices
 (`DualGraph.StabilizationStep.card_vertex_lt`), preserves the arithmetic genus
 (`DualGraph.arithmeticGenus_eq_of_reflTransGen`), reaches a stable graph
 (`DualGraph.exists_reflTransGen_stabilizationStep_isStable`) and is independent of the order of
@@ -1243,8 +1267,9 @@ closure `R̃` of `R` in `K'` lying over the maximal ideal of `R`, and a stable f
 
 Over a fixed discrete valuation ring `R`, two stable models of the same curve over `K`, each with
 its identification of the generic fibre, are related by a unique isomorphism extending that
-identification: uniqueness in the groupoid of models, not literal equality of schemes or of chosen
-pullbacks. Uniqueness of the isomorphism is Tau Ceti's `TauCeti.Model.subsingleton_iso` (the
+identification ([Stacks Lemma 109.24.2](https://stacks.math.columbia.edu/tag/0E97)): uniqueness in
+the groupoid of models, not literal equality of schemes or of chosen pullbacks. Uniqueness of the
+isomorphism is Tau Ceti's `TauCeti.Model.subsingleton_iso` (the
 target of a model morphism being separated); the target is its existence. Route: extend the generic
 isomorphism through a common regular model (§4.4), show both maps are the canonical stabilization
 (§8.3), and obtain the isomorphism of models.
@@ -1330,7 +1355,8 @@ there are a finite separable extension `K'/K`, a maximal ideal of the integral c
 `K'` above the maximal ideal of `R` with local ring `R'`, and a stable `n`-pointed family over
 `R'` with an isomorphism from its generic fibre to `C_{K'}` carrying its sections to the points
 `pᵢ`; and that over a fixed discrete valuation ring two stable pointed models are related by a
-unique isomorphism extending the identification of their generic fibres (Knudsen II).
+unique isomorphism extending the identification of their generic fibres (Knudsen II, Theorem 2.7,
+p. 179, where the statement appears as properness of the stack of stable `n`-pointed curves).
 *Needs:* §§9.1–9.3; §§7.1–7.3, §8.6; Tau Ceti `TauCeti.FiniteDVRExtension`, `TauCeti.Model`.
 
 **Checks.**
@@ -1775,7 +1801,9 @@ contracts.
   model with reduced nodal special fibre (NeronModelsAndSemistableAbelianVarieties §§3.8–3.9) in the
   forward direction, and descent of a stable model over the fixed discrete valuation ring in the
   converse direction. NeronModelsAndSemistableAbelianVarieties consumes Layers 4–7 here, so the
-  criterion is stated downstream of both roadmaps and is not a target of Layer 7.
+  criterion belongs downstream of both roadmaps, after NeronModelsAndSemistableAbelianVarieties
+  §3.9, and is not a target of Layer 7. In particular this roadmap does not supply the criterion
+  that NeronModelsAndSemistableAbelianVarieties §6.14 applies to curves.
 - *Representability* of relative Isom and Aut objects, and openness of stability of maps for
   general separated locally finitely presented targets (§10.3 proves it for polarized projective
   targets).
@@ -2059,9 +2087,10 @@ do not use the Abel–Jacobi universal property of JacobianChallenge Layer F.
 
 ## References
 
-This roadmap follows the Artin–Winters and Deligne–Mumford arguments through the organization of the
-Stacks Project, and Behrend–Manin and Fulton–Pandharipande for stable maps; its shared Picard,
-divisor and cohomology foundations are coordinated with the JacobianChallenge roadmap.
+The Stacks Project, Chapters 53, 55 and 109, is the main reference for the Artin–Winters and
+Deligne–Mumford arguments, and Behrend–Manin and Fulton–Pandharipande are the main references for
+stable maps; the shared Picard, divisor and cohomology foundations are coordinated with the
+JacobianChallenge roadmap.
 
 - The Stacks Project, [Chapter 55, *Semistable Reduction*](https://stacks.math.columbia.edu/tag/0C2P),
   [numerical types](https://stacks.math.columbia.edu/tag/0C6Y) and
@@ -2086,8 +2115,8 @@ divisor and cohomology foundations are coordinated with the JacobianChallenge ro
   Topology 10 (1971), 373–383.
 - F. F. Knudsen,
   [*The projectivity of the moduli space of stable curves, II: The stacks M_g,n*](https://doi.org/10.7146/math.scand.a-12001),
-  Math. Scand. 52 (1983), 161–199, especially §1 for the single-marking contraction, and for the
-  pointed stabilization and clutching constructions.
+  Math. Scand. 52 (1983), 161–199, especially §1 and Proposition 2.1 for the single-marking
+  contraction, and for the pointed stabilization and clutching constructions.
 - K. Behrend and Yu. Manin,
   [*Stacks of stable maps and Gromov–Witten invariants*](https://arxiv.org/abs/alg-geom/9506023),
   Duke Math. J. 85 (1996), 1–60, for stable maps and decorated graphs; §3, Cases I and V,

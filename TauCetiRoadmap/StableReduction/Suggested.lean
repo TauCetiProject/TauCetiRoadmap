@@ -14,9 +14,9 @@ roadmap is tested against them. Nothing here is a definition of the roadmap's ow
 it uses exists at the pins.
 
 Statable at the pins and stated below: the existence of a regular proper model of a smooth proper
-curve (Layer 5, §5.1), on Tau Ceti's `TauCeti.Model`; nodal reduction after a finite separable
-extension in every genus (Layer 7, §§7.1–7.3), and in genus at least two with the uniform degree
-bound of Stacks Theorem 55.18.1 (§7.3), on Tau Ceti's `TauCeti.HasNodalReduction` and
+curve (Layer 5, §5.1), on Tau Ceti's `TauCeti.Model`; nodal reduction at every place above `R` of
+one finite separable extension, in every genus and, in genus at least two, with the uniform degree
+bound of Stacks Theorem 55.18.1 (Layer 7, §7.4), on Tau Ceti's `TauCeti.HasNodalReduction` and
 `TauCeti.FiniteDVRExtension`.
 
 Headline theorems that are not statable at the pins, and the carrier each lacks:
@@ -49,6 +49,8 @@ universe u
 statement that the README's valuative interface is packaged against. -/
 #check @AlgebraicGeometry.IsProper.eq_valuativeCriterion
 
+/-! ## Layer 5: regular and minimal models -/
+
 /-- **Existence of a regular proper model** (Layer 5, §5.1). Let `R` be a discrete valuation ring
 with fraction field `K`, and let `C` be a smooth proper curve over `K`: `toK` is proper and
 smooth of relative dimension one (a proper curve over a field is projective, Stacks tag 0A26).
@@ -64,11 +66,15 @@ theorem exists_regular_proper_model (R K : Type u) [CommRing R] [IsDomain R]
       ∀ x : M.total, IsRegularLocalRing (M.total.presheaf.stalk x) := by
   sorry
 
-/-- **Nodal reduction** (Layer 7, §§7.1–7.3; Stacks Theorem 55.18.1). Let `R` be a discrete
-valuation ring with fraction field `K`, with no completeness or residue-field hypothesis, and let
-`C` be a smooth, proper, geometrically integral curve over `K`. Then there are a finite separable
-extension `K'` of `K` and a place of `K'` above the closed point of `R`, with local ring `R'`
-(a `TauCeti.FiniteDVRExtension`), such that `C_{K'}` has a proper model over `R'` that is at worst
+/-! ## Layer 7: semistable reduction -/
+
+/-- **Nodal reduction at every place** (Layer 7, §7.4; Stacks Theorem 55.18.1). Let `R` be a
+discrete valuation ring with fraction field `K`, with no completeness or residue-field hypothesis,
+and let `C` be a smooth, proper, geometrically integral curve over `K`. Then there is a finite
+separable extension `K'` of `K`, the field of a `TauCeti.FiniteDVRExtension` `E`, such that at
+every place of `K'` above the closed point of `R` (a prime `P` of the integral closure of `R` in
+`K'` lying over the maximal ideal of `R`, with local ring `R'` the localization at `P`, packaged by
+`TauCeti.FiniteDVRExtension.of`) the curve `C_{K'}` has a proper model over `R'` that is at worst
 nodal of relative dimension one. -/
 theorem exists_hasNodalReduction (R K : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
@@ -76,16 +82,24 @@ theorem exists_hasNodalReduction (R K : Type u) [CommRing R] [IsDomain R]
     [IsProper (C ↘ Spec (.of K))] [SmoothOfRelativeDimension 1 (C ↘ Spec (.of K))]
     [GeometricallyIntegral (C ↘ Spec (.of K))] :
     ∃ E : TauCeti.FiniteDVRExtension R K,
-      TauCeti.HasNodalReduction E.localRing E.extensionField
-        (TauCeti.genericFiber K E.extensionField (C ↘ Spec (.of K))).left
-        (TauCeti.genericFiber K E.extensionField (C ↘ Spec (.of K))).hom := by
+      ∀ (P : Ideal (integralClosure R E.extensionField)) [P.IsPrime]
+          [P.LiesOver (IsLocalRing.maximalIdeal R)],
+        TauCeti.HasNodalReduction (TauCeti.FiniteDVRExtension.of R K E.extensionField P).localRing
+          (TauCeti.FiniteDVRExtension.of R K E.extensionField P).extensionField
+          (TauCeti.genericFiber K
+            (TauCeti.FiniteDVRExtension.of R K E.extensionField P).extensionField
+            (C ↘ Spec (.of K))).left
+          (TauCeti.genericFiber K
+            (TauCeti.FiniteDVRExtension.of R K E.extensionField P).extensionField
+            (C ↘ Spec (.of K))).hom := by
   sorry
 
-/-- **Nodal reduction in genus at least two, with the uniform bound** (Layer 7, §7.3; Stacks
+/-- **Nodal reduction in genus at least two, with the uniform bound** (Layer 7, §7.4; Stacks
 Theorem 55.18.1 (3) and equation 55.18.0.1). Let `R`, `K` and `C` be as in
 `exists_hasNodalReduction`, with `C` of genus `g = dim_K H¹(C, 𝒪_C) ≥ 2`, and let `ℓ` be the
 second prime larger than `768 g`: `ℓ` is a prime, `768 g < ℓ`, and exactly one prime lies strictly
-between `768 g` and `ℓ`. Then the extension can be chosen of degree at most
+between `768 g` and `ℓ`. Then the extension `K'`, over whose every place above the closed point of
+`R` the curve `C_{K'}` has nodal reduction, can be chosen of degree at most
 `B_g = (2g − 2) · (ℓ ^ (2g))!`. -/
 theorem exists_hasNodalReduction_of_two_le_genus (R K : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
@@ -98,9 +112,16 @@ theorem exists_hasNodalReduction_of_two_le_genus (R K : Type u) [CommRing R] [Is
     (hℓ' : ((Finset.Ioo (768 * g) ℓ).filter Nat.Prime).card = 1) :
     ∃ E : TauCeti.FiniteDVRExtension R K,
       finrank K E.extensionField ≤ (2 * g - 2) * (ℓ ^ (2 * g)).factorial ∧
-      TauCeti.HasNodalReduction E.localRing E.extensionField
-        (TauCeti.genericFiber K E.extensionField (C ↘ Spec (.of K))).left
-        (TauCeti.genericFiber K E.extensionField (C ↘ Spec (.of K))).hom := by
+      ∀ (P : Ideal (integralClosure R E.extensionField)) [P.IsPrime]
+          [P.LiesOver (IsLocalRing.maximalIdeal R)],
+        TauCeti.HasNodalReduction (TauCeti.FiniteDVRExtension.of R K E.extensionField P).localRing
+          (TauCeti.FiniteDVRExtension.of R K E.extensionField P).extensionField
+          (TauCeti.genericFiber K
+            (TauCeti.FiniteDVRExtension.of R K E.extensionField P).extensionField
+            (C ↘ Spec (.of K))).left
+          (TauCeti.genericFiber K
+            (TauCeti.FiniteDVRExtension.of R K E.extensionField P).extensionField
+            (C ↘ Spec (.of K))).hom := by
   sorry
 
 end TauCetiRoadmap.StableReduction
