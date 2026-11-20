@@ -693,6 +693,13 @@ The bounds of Layers 2 to 5 apply to every reversible kernel on a finite type, i
 the Metropolis–Hastings kernel of MathematicalStatisticsFoundations 9.4 and to the hard-core
 sampler of MarkovChainsAndRenewal 3.6. Approximate counting by sampling consumes 6.2.
 
+## Provenance and prior work
+
+The Isabelle Archive of Formal Proofs contains the entries `Markov_Models` (Hölzl and Nipkow:
+discrete-time Markov chains and their classification), `Stochastic_Matrices` (stochastic matrices
+and stationary distributions through the Perron–Frobenius theorem) and `Perron_Frobenius`. None
+of them treats mixing times. They are reference material, not the specification.
+
 ## Scope and ownership
 
 This roadmap owns, for chains on finite state spaces: the distances `d` and `d̄`, the mixing time,
@@ -799,13 +806,6 @@ Items are cited as "layer.item" of [MarkovChainsAndRenewal](../MarkovChainsAndRe
 - [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.4: the
   Metropolis–Hastings kernel on a finite type is Markov and reversible for its target; used in
   the Examples of Layer 6 only.
-
-## Provenance and prior work
-
-The Isabelle Archive of Formal Proofs contains the entries `Markov_Models` (Hölzl and Nipkow:
-discrete-time Markov chains and their classification), `Stochastic_Matrices` (stochastic matrices
-and stationary distributions through the Perron–Frobenius theorem) and `Perron_Frobenius`. None
-of them treats mixing times. They are reference material, not the specification.
 
 ## References
 
