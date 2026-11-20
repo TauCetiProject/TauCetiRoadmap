@@ -48,105 +48,18 @@ Suggested home: `TauCeti/Analysis/SpecialFunctions/ParabolicCylinder/`, beside T
 Layer 1 extends Tau Ceti's `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`,
 and the Gamma targets of 6.6 belong in `TauCeti/Analysis/SpecialFunctions/Gamma/`.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **The regularized Kummer function.** For Mathlib's `Complex.regularizedHGFun {a} {b}`
-   (written `𝐌(a, b, z)` below): the derivative formula, Kummer's differential equation,
-   Kummer's transformation, analyticity in the parameters and the regularized polynomial cases.
-
-2. **Weber's equation.** The even and odd solutions `u₁(a, z)`, `u₂(a, z)` are entire in `a`
-   and `z`. This covers their power series, their parity and Wronskian, and uniqueness of the
-   solution with given initial values.
-
-3. **`U`, `V` and `D`.** The definitions, the values at the origin, the Wronskians, the
-   reflection and rotation connection formulas, the solutions of the oscillatory equation, and
-   the reduction of `w″ + (αz² + βz + γ) w = 0` to Weber's equation.
-
-4. **Recurrences and derivatives.** The three-term recurrences in the parameter and the
-   derivative formulas for `U`, `V` and `D`, and the iterated derivatives of `e^{±z²/4} U` and
-   `e^{±z²/4} V`.
-
-5. **Hermite and error function cases.** `D_n` and `V(n + ½, ·)` through Hermite polynomials,
-   `V(−½, ·)` through Dawson's integral, and `U(n + ½, ·)` through the repeated Gaussian integrals
-   and, for real argument, through `erfc`. This includes the bridge to Tau Ceti's `hermiteFunction`
-   and `Real.erfc`.
-
-6. **Integral representations**: the Laplace integral and its variants on the half-line, the loop
-   and straight-line contour integrals and the Mellin–Barnes integrals; and the positivity of
-   `U(a, x)` on the real line for `a > −½`. This includes the Gamma residues and Barnes kernel
-   bounds that support the Barnes representations, and the Gamma product identities of 6.6(a).
-
-7. **Large-argument asymptotics** of `U` and `V` in their principal sectors and in the adjacent
-   sectors, and the characterization of `U(a, ·)` as the recessive solution on the positive real
-   axis.
-
-8. **Integrals and addition theorems.** Three integrals of `U` against Gaussian weights and
-   the integral for `U² + Ū²`; the Taylor expansions of `U` and `V` in a shift of the
-   argument; and the rotational addition theorem.
-
-9. **The real solutions `W(a, ±x)`.** Their initial values, Wronskian and connection with `U`,
-   their power series and Kummer forms, the Bessel case `a = 0`, and the large-`x` expansions.
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**What this roadmap owns:** Weber's equation and the following results, with the hypotheses and
-conventions specified in the layers:
-
-| Results | Targets |
-|---|---|
-| Weber's equation and its oscillatory form; the even and odd solutions in Kummer form and as power series | Layer 2 |
-| `U`, `V` and `D`: definitions, initial values, Wronskians, reflections, connections; the general quadratic equation | Layer 3 |
-| The abbreviation `Ū(a, z) = Γ(½ − a) V(a, z)` | 8.1 |
-| Recurrences in the parameter, derivative formulas and iterated derivatives | Layer 4 |
-| The Hermite, Dawson and repeated Gaussian integral identities; the `erfc` identities, for real argument | Layer 5 |
-| The Laplace, half-line, loop, straight-line and Mellin–Barnes representations | Layer 6 |
-| Poincaré expansions with an `O`-remainder for every truncation order, in the principal and the adjacent sectors | Layer 7 |
-| The Gaussian-weighted integrals of `U`, the integral for `U² + Ū²`, and the addition theorems | Layer 8 |
-| The real solutions `W(a, ±x)`, including their expansions for large variable | Layer 9 |
-
-It also owns the following auxiliary results, which the layers need and which neither Mathlib,
-Tau Ceti nor a consumed roadmap provides:
-
-| Result | Target |
-|---|---|
-| Kummer's derivative formula, differential equation, transformation and parameter theory for `𝐌` | Layer 1 |
-| Complex Dawson's integral `F` (DLMF 7.2.5) and the repeated Gaussian integrals `Hh_n` (related by scaling to DLMF §7.18) | 5.1, 5.3 |
-| The residues of `Γ(z)` at `−n` and of `Γ(A − 2t)` at `(A + n)/2` | 6.6(b) |
-| Bounds, integrability and connector decay for the Barnes kernels of `U` and `V` | 6.6(c) |
-| The application of the rotated Laplace integrals of AsymptoticExpansions §4.3 to `U` | 7.1 |
-
-It also owns, as library material on `Γ` that no layer here uses and that AsymptoticExpansions
-leaves to the special-function roadmaps, the product
-`∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/|Γ(x + iy)|²` (DLMF 5.8.3), its comparison in `x`, and
-`|Γ(1 + iy)|² = πy/sinh(πy)` (6.6(a)).
-
-**What it does not own:**
-- The general asymptotic and contour tools: asymptotic expansions, Watson's lemma, the rotation
-  of Laplace integrals, the line shift with simple poles, the pole-separated Gamma bound and the
-  exponential Mellin inversion. They are consumed from AsymptoticExpansions; see
-  [Exact supplier contracts](#exact-supplier-contracts).
-- Residues and the residue theorem, consumed from ContourIntegration.
-- Kummer's second function `U(a, b, z)` and the Whittaker functions: the confluent
-  hypergeometric theory beyond Layer 1.
-- The complex functions `erf`, `erfc` and the Faddeeva function `w(z)` (DLMF 7.2.1–7.2.3),
-  and the rest of the error-function theory beyond the `F` and `Hh_n` of Layer 5. They belong
-  to the SpecialFunctionsEiLiErfIncompleteGamma roadmap.
-- The finite expansion of `n! U(n + ½, z)` through complex `erfc` (DLMF 12.13.6).
-- Modified Bessel functions.
-- The uniform asymptotic expansions for large parameter and the zeros.
-- The modulus and phase functions; the abbreviation `Ū` is included as specified above.
-- Explicit remainder bounds and re-expansions, beyond the `O`-remainders required in Layer 7.
-- The generalized parabolic cylinder equation.
-
-See [Excluded material](#excluded-material) for these.
-
-**The boundary in one sentence:** this roadmap owns the specified fixed-parameter Weber theory,
-Kummer extensions, Gamma product identities and residues, and Barnes kernel bounds; it consumes
-the general asymptotic and contour tools of AsymptoticExpansions and excludes
-large-parameter turning-point analysis, Airy functions, Kummer's second function, modified
-Bessel functions and complex `erf`, `erfc` and Faddeeva theory.
+Layers 1–5 are the algebraic and differential-equation theory and need no integrals beyond Gaussian
+ones: the Kummer function (1) gives the even and odd solutions and their uniqueness theorem (2),
+these give `U`, `V` and `D` with their initial values, Wronskians and connection formulas (3), the
+recurrences (4), and the Hermite, Dawson and repeated-integral cases (5). Layer 6 starts from the
+Laplace form 6.1, which rests on Layers 2–5, and 6.6 and 6.7 add the Mellin–Barnes integrals on top
+of AsymptoticExpansions §§8.2, 8.6 and 8.7. Layer 7 obtains 12.9.1 for `Re a > −½` from 6.1 and
+AsymptoticExpansions §4.3, extends it to all `a` by the recurrences of Layer 4, and obtains the
+other sectors by the connection formulas of 3.5. Layers 8 and 9 use the Laplace form and the
+expansions of Layer 7. The `### Examples` of each layer are statements to prove, and they test the
+conventions on explicit parameters.
 
 ## Conventions
 
@@ -225,108 +138,6 @@ W(a, x)  = Re( W(a, 0) u₁(−ia, e^{iπ/4} x) + W′(a, 0) e^{−iπ/4} u₂(�
 - **The phase of `Γ(½ + ia)`** (DLMF 12.14.7) is `φ₂(a) = ∫₀^a Re ψ(½ + it) dt`, with Mathlib's
   `Complex.digamma`. It is the continuous branch of `ph Γ(½ + ia)` with `φ₂(0) = 0`. The
   identity `Γ(½ + ia) = |Γ(½ + ia)| e^{iφ₂(a)}` is part of Layer 9.
-
-## Exact supplier contracts
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-The following are consumed with the hypotheses and conventions stated there.
-- The expansion notion `Asymptotics.HasAsymptoticExpansion` along a filter and an asymptotic
-  scale ([its Conventions](../AsymptoticExpansions/README.md#conventions)), through which Layers 7
-  and 9 state their Poincaré expansions.
-- Watson's lemma on the real line and in a sector,
-  [§3.3](../AsymptoticExpansions/README.md#33-watsons-lemma-on-the-real-line) and
-  [§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector), and the rotation of the
-  path, [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path): the integrals along
-  rotated rays, written in logarithmic coordinates `z = exp ζ`, are holomorphic, agree on
-  overlapping strips, and have the expansion of Watson's lemma in each closed substrip. 7.1
-  applies §4.3 to the integrand of DLMF 12.5.1.
-- The line shift with simple poles, vanishing horizontal connectors and its iteration over
-  infinitely many lines, [§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line), with each
-  residue given by the holomorphic numerator `φ(p)` of `F(t) = φ(t)/(t − p)`; used for the Barnes
-  integrals of 6.7.
-- The pole-separated bound `|Γ(x + iy)| ≤ C (1 + |y|)^K e^{−π|y|/2}` on vertical strips and its
-  corollaries, [§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips),
-  which that roadmap derives from ZerosOfLFunctions §1.3 (DLMF 5.11.9).
-- The exponential Mellin inversion `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` for `c > 0`,
-  `Re w > 0`, with absolute convergence,
-  [§8.7](../AsymptoticExpansions/README.md#87-exponential-mellin-inversion).
-
-6.6 adds only what is particular to Gamma and to the Barnes kernels.
-
-### From [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
-
-Residues and the residue theorem, in
-`TauCeti/Analysis/Contour/Residue/{Basic,SimplePole,Theorem}.lean` (Layer 2 of ContourIntegration):
-`TauCeti.Contour.residue`, `TauCeti.Contour.residue_div_sub_pow_of_analyticAt`,
-`TauCeti.Contour.residue_eq_of_tendsto_sub_mul` and the classical residue theorem. 6.6(b) computes
-the residues of Gamma and of the Barnes kernels with this API; it defines no new residue notion.
-
-### From Tau Ceti
-
-- **Regularized hypergeometric series.** Tau Ceti's
-  [`Complex.hasSum_regularizedHGFun`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean)
-  supplies the `HasSum` statement whenever `a.card ≤ b.card`, including the singleton case of 1.1.
-- **Gamma.** `TauCeti/Analysis/SpecialFunctions/Gamma.lean` provides `Real.continuous_inv_Gamma`,
-  `Real.exists_abs_inv_Gamma_le` and `Real.Gamma_nat_add_half_eq_factorial`, for the series and
-  special-value arguments.
-- **Hermite.** `Polynomial.derivative_hermite`, `Polynomial.hermite_add_two` and
-  `Polynomial.hermite_aeval_neg` (`TauCeti/RingTheory/Polynomial/Hermite/Derivative.lean`), and the
-  Hermite function `TauCeti.hermiteFunction n x = He_n(x√2) e^{−x²/2} / √(n! √π)`
-  (`TauCeti/Analysis/SpecialFunctions/Hermite/`). Layer 5 relates them to `D_n` and changes nothing
-  in them.
-- **Real error function.** `TauCeti.Real.erf`, `TauCeti.Real.erfc`, with derivatives, parity and
-  monotonicity (`TauCeti/Analysis/SpecialFunctions/Erf.lean`), consumed in Layer 5 and in 8.3. The
-  complex error function is not built here: DLMF 12.7.5 is proved for real argument, and the
-  complex form is stated through the repeated integral `Hh_n` of 5.3, which needs no error
-  function.
-
-### From Mathlib
-
-- **Regularized hypergeometric series.** `Complex.regularizedHGFun`,
-  `Complex.regularizedHGFunCoeff` (the coefficient `(a)_n / (n! Γ(b + n))`),
-  `Complex.regularizedHGFunSeries`, `Complex.regularizedHGFun_zero`,
-  `Complex.radius_regularizedHGFunSeries_eq_top`,
-  `Complex.analyticOnNhd_regularizedHGFun_of_card_le`, `Complex.regularizedHGFunCoeff_add_one` and
-  `Complex.regularizedHGFun_zero_zero` (`₀F₀ = exp`), in
-  [`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.html).
-  Mathlib proves convergence and analyticity in `z`; Layer 1 builds the Kummer derivative formula,
-  differential equation and parameter theory on top.
-- **Gamma.** `Complex.Gamma`, `Complex.differentiable_one_div_Gamma`,
-  `Complex.Gamma_mul_Gamma_one_sub` (reflection), `Complex.Gamma_mul_Gamma_add_half`
-  (duplication), `Complex.Gamma_one_half_eq`, `Complex.Gamma_conj`, `Complex.Gamma_eq_integral`,
-  `Complex.GammaSeq_tendsto_Gamma`, `Complex.Gamma_add_one`,
-  `Complex.tendsto_self_mul_Gamma_nhds_zero`, `Complex.digamma` (`logDeriv Gamma`), and
-  `ascPochhammer`.
-- **Bessel functions.** `Complex.besselJ`, for the Bessel cases DLMF 12.14.13–12.14.14 of 9.6.
-- **Hermite.** The probabilists' `Polynomial.hermite` and `deriv_gaussian_eq_hermite_mul_gaussian`.
-- **Integration.** `integral_gaussian_complex`, `MeasureTheory.integral` on `Set.Ioi`,
-  `intervalIntegral`, `circleIntegral`, and parametric differentiation
-  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
-- **Contour deformation.**
-  [`Complex.integral_boundary_rect_eq_zero_of_differentiableOn`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Complex/CauchyIntegral.html#Complex.integral_boundary_rect_eq_zero_of_differentiableOn)
-  and the unbounded-rectangle deformation theorems in the same file, through the line shift of
-  AsymptoticExpansions §8.2.
-- **Mellin inversion.**
-  [`mellinInv_mellin_eq`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/MellinInversion.html#mellinInv_mellin_eq),
-  with `MellinConvergent` and
-  [`Complex.VerticalIntegrable`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/MellinTransform.html#Complex.VerticalIntegrable),
-  through the exponential Mellin inversion of AsymptoticExpansions §8.7.
-- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsLittleO`, `Asymptotics.IsEquivalent`,
-  `Bornology.cobounded` and `Complex.arg`.
-
-## How to read the build
-
-Layers 1–5 are the algebraic and differential-equation theory and need no integrals beyond Gaussian
-ones: the Kummer function (1) gives the even and odd solutions and their uniqueness theorem (2),
-these give `U`, `V` and `D` with their initial values, Wronskians and connection formulas (3), the
-recurrences (4), and the Hermite, Dawson and repeated-integral cases (5). Layer 6 starts from the
-Laplace form 6.1, which rests on Layers 2–5, and 6.6 and 6.7 add the Mellin–Barnes integrals on top
-of AsymptoticExpansions §§8.2, 8.6 and 8.7. Layer 7 obtains 12.9.1 for `Re a > −½` from 6.1 and
-AsymptoticExpansions §4.3, extends it to all `a` by the recurrences of Layer 4, and obtains the
-other sectors by the connection formulas of 3.5. Layers 8 and 9 use the Laplace form and the
-expansions of Layer 7. The `### Examples` of each layer are statements to prove, and they test the
-conventions on explicit parameters.
 
 ## Layer 1: the regularized Kummer function
 
@@ -1398,6 +1209,195 @@ continuous phase; 9.4 uses the ODE coefficient recurrence; 9.7 uses the rotated 
   `TauCeti.dawson` with its API from 5.1 and the repeated Gaussian integrals
   `TauCeti.repeatedGaussianIntegral` with their API from 5.3. It proves the Chapter 7 formulas
   that use them, among them 7.5.1 and 7.18.12.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The regularized Kummer function.** For Mathlib's `Complex.regularizedHGFun {a} {b}`
+   (written `𝐌(a, b, z)` below): the derivative formula, Kummer's differential equation,
+   Kummer's transformation, analyticity in the parameters and the regularized polynomial cases.
+
+2. **Weber's equation.** The even and odd solutions `u₁(a, z)`, `u₂(a, z)` are entire in `a`
+   and `z`. This covers their power series, their parity and Wronskian, and uniqueness of the
+   solution with given initial values.
+
+3. **`U`, `V` and `D`.** The definitions, the values at the origin, the Wronskians, the
+   reflection and rotation connection formulas, the solutions of the oscillatory equation, and
+   the reduction of `w″ + (αz² + βz + γ) w = 0` to Weber's equation.
+
+4. **Recurrences and derivatives.** The three-term recurrences in the parameter and the
+   derivative formulas for `U`, `V` and `D`, and the iterated derivatives of `e^{±z²/4} U` and
+   `e^{±z²/4} V`.
+
+5. **Hermite and error function cases.** `D_n` and `V(n + ½, ·)` through Hermite polynomials,
+   `V(−½, ·)` through Dawson's integral, and `U(n + ½, ·)` through the repeated Gaussian integrals
+   and, for real argument, through `erfc`. This includes the bridge to Tau Ceti's `hermiteFunction`
+   and `Real.erfc`.
+
+6. **Integral representations**: the Laplace integral and its variants on the half-line, the loop
+   and straight-line contour integrals and the Mellin–Barnes integrals; and the positivity of
+   `U(a, x)` on the real line for `a > −½`. This includes the Gamma residues and Barnes kernel
+   bounds that support the Barnes representations, and the Gamma product identities of 6.6(a).
+
+7. **Large-argument asymptotics** of `U` and `V` in their principal sectors and in the adjacent
+   sectors, and the characterization of `U(a, ·)` as the recessive solution on the positive real
+   axis.
+
+8. **Integrals and addition theorems.** Three integrals of `U` against Gaussian weights and
+   the integral for `U² + Ū²`; the Taylor expansions of `U` and `V` in a shift of the
+   argument; and the rotational addition theorem.
+
+9. **The real solutions `W(a, ±x)`.** Their initial values, Wronskian and connection with `U`,
+   their power series and Kummer forms, the Bessel case `a = 0`, and the large-`x` expansions.
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+
+**What this roadmap owns:** Weber's equation and the following results, with the hypotheses and
+conventions specified in the layers:
+
+| Results | Targets |
+|---|---|
+| Weber's equation and its oscillatory form; the even and odd solutions in Kummer form and as power series | Layer 2 |
+| `U`, `V` and `D`: definitions, initial values, Wronskians, reflections, connections; the general quadratic equation | Layer 3 |
+| The abbreviation `Ū(a, z) = Γ(½ − a) V(a, z)` | 8.1 |
+| Recurrences in the parameter, derivative formulas and iterated derivatives | Layer 4 |
+| The Hermite, Dawson and repeated Gaussian integral identities; the `erfc` identities, for real argument | Layer 5 |
+| The Laplace, half-line, loop, straight-line and Mellin–Barnes representations | Layer 6 |
+| Poincaré expansions with an `O`-remainder for every truncation order, in the principal and the adjacent sectors | Layer 7 |
+| The Gaussian-weighted integrals of `U`, the integral for `U² + Ū²`, and the addition theorems | Layer 8 |
+| The real solutions `W(a, ±x)`, including their expansions for large variable | Layer 9 |
+
+It also owns the following auxiliary results, which the layers need and which neither Mathlib,
+Tau Ceti nor a consumed roadmap provides:
+
+| Result | Target |
+|---|---|
+| Kummer's derivative formula, differential equation, transformation and parameter theory for `𝐌` | Layer 1 |
+| Complex Dawson's integral `F` (DLMF 7.2.5) and the repeated Gaussian integrals `Hh_n` (related by scaling to DLMF §7.18) | 5.1, 5.3 |
+| The residues of `Γ(z)` at `−n` and of `Γ(A − 2t)` at `(A + n)/2` | 6.6(b) |
+| Bounds, integrability and connector decay for the Barnes kernels of `U` and `V` | 6.6(c) |
+| The application of the rotated Laplace integrals of AsymptoticExpansions §4.3 to `U` | 7.1 |
+
+It also owns, as library material on `Γ` that no layer here uses and that AsymptoticExpansions
+leaves to the special-function roadmaps, the product
+`∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/|Γ(x + iy)|²` (DLMF 5.8.3), its comparison in `x`, and
+`|Γ(1 + iy)|² = πy/sinh(πy)` (6.6(a)).
+
+**What it does not own:**
+- The general asymptotic and contour tools: asymptotic expansions, Watson's lemma, the rotation
+  of Laplace integrals, the line shift with simple poles, the pole-separated Gamma bound and the
+  exponential Mellin inversion. They are consumed from AsymptoticExpansions; see
+  [Exact supplier contracts](#exact-supplier-contracts).
+- Residues and the residue theorem, consumed from ContourIntegration.
+- Kummer's second function `U(a, b, z)` and the Whittaker functions: the confluent
+  hypergeometric theory beyond Layer 1.
+- The complex functions `erf`, `erfc` and the Faddeeva function `w(z)` (DLMF 7.2.1–7.2.3),
+  and the rest of the error-function theory beyond the `F` and `Hh_n` of Layer 5. They belong
+  to the SpecialFunctionsEiLiErfIncompleteGamma roadmap.
+- The finite expansion of `n! U(n + ½, z)` through complex `erfc` (DLMF 12.13.6).
+- Modified Bessel functions.
+- The uniform asymptotic expansions for large parameter and the zeros.
+- The modulus and phase functions; the abbreviation `Ū` is included as specified above.
+- Explicit remainder bounds and re-expansions, beyond the `O`-remainders required in Layer 7.
+- The generalized parabolic cylinder equation.
+
+See [Excluded material](#excluded-material) for these.
+
+**The boundary in one sentence:** this roadmap owns the specified fixed-parameter Weber theory,
+Kummer extensions, Gamma product identities and residues, and Barnes kernel bounds; it consumes
+the general asymptotic and contour tools of AsymptoticExpansions and excludes
+large-parameter turning-point analysis, Airy functions, Kummer's second function, modified
+Bessel functions and complex `erf`, `erfc` and Faddeeva theory.
+
+## Exact supplier contracts
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+The following are consumed with the hypotheses and conventions stated there.
+- The expansion notion `Asymptotics.HasAsymptoticExpansion` along a filter and an asymptotic
+  scale ([its Conventions](../AsymptoticExpansions/README.md#conventions)), through which Layers 7
+  and 9 state their Poincaré expansions.
+- Watson's lemma on the real line and in a sector,
+  [§3.3](../AsymptoticExpansions/README.md#33-watsons-lemma-on-the-real-line) and
+  [§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector), and the rotation of the
+  path, [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path): the integrals along
+  rotated rays, written in logarithmic coordinates `z = exp ζ`, are holomorphic, agree on
+  overlapping strips, and have the expansion of Watson's lemma in each closed substrip. 7.1
+  applies §4.3 to the integrand of DLMF 12.5.1.
+- The line shift with simple poles, vanishing horizontal connectors and its iteration over
+  infinitely many lines, [§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line), with each
+  residue given by the holomorphic numerator `φ(p)` of `F(t) = φ(t)/(t − p)`; used for the Barnes
+  integrals of 6.7.
+- The pole-separated bound `|Γ(x + iy)| ≤ C (1 + |y|)^K e^{−π|y|/2}` on vertical strips and its
+  corollaries, [§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips),
+  which that roadmap derives from ZerosOfLFunctions §1.3 (DLMF 5.11.9).
+- The exponential Mellin inversion `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` for `c > 0`,
+  `Re w > 0`, with absolute convergence,
+  [§8.7](../AsymptoticExpansions/README.md#87-exponential-mellin-inversion).
+
+6.6 adds only what is particular to Gamma and to the Barnes kernels.
+
+### From [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
+
+Residues and the residue theorem, in
+`TauCeti/Analysis/Contour/Residue/{Basic,SimplePole,Theorem}.lean` (Layer 2 of ContourIntegration):
+`TauCeti.Contour.residue`, `TauCeti.Contour.residue_div_sub_pow_of_analyticAt`,
+`TauCeti.Contour.residue_eq_of_tendsto_sub_mul` and the classical residue theorem. 6.6(b) computes
+the residues of Gamma and of the Barnes kernels with this API; it defines no new residue notion.
+
+### From Tau Ceti
+
+- **Regularized hypergeometric series.** Tau Ceti's
+  [`Complex.hasSum_regularizedHGFun`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean)
+  supplies the `HasSum` statement whenever `a.card ≤ b.card`, including the singleton case of 1.1.
+- **Gamma.** `TauCeti/Analysis/SpecialFunctions/Gamma.lean` provides `Real.continuous_inv_Gamma`,
+  `Real.exists_abs_inv_Gamma_le` and `Real.Gamma_nat_add_half_eq_factorial`, for the series and
+  special-value arguments.
+- **Hermite.** `Polynomial.derivative_hermite`, `Polynomial.hermite_add_two` and
+  `Polynomial.hermite_aeval_neg` (`TauCeti/RingTheory/Polynomial/Hermite/Derivative.lean`), and the
+  Hermite function `TauCeti.hermiteFunction n x = He_n(x√2) e^{−x²/2} / √(n! √π)`
+  (`TauCeti/Analysis/SpecialFunctions/Hermite/`). Layer 5 relates them to `D_n` and changes nothing
+  in them.
+- **Real error function.** `TauCeti.Real.erf`, `TauCeti.Real.erfc`, with derivatives, parity and
+  monotonicity (`TauCeti/Analysis/SpecialFunctions/Erf.lean`), consumed in Layer 5 and in 8.3. The
+  complex error function is not built here: DLMF 12.7.5 is proved for real argument, and the
+  complex form is stated through the repeated integral `Hh_n` of 5.3, which needs no error
+  function.
+
+### From Mathlib
+
+- **Regularized hypergeometric series.** `Complex.regularizedHGFun`,
+  `Complex.regularizedHGFunCoeff` (the coefficient `(a)_n / (n! Γ(b + n))`),
+  `Complex.regularizedHGFunSeries`, `Complex.regularizedHGFun_zero`,
+  `Complex.radius_regularizedHGFunSeries_eq_top`,
+  `Complex.analyticOnNhd_regularizedHGFun_of_card_le`, `Complex.regularizedHGFunCoeff_add_one` and
+  `Complex.regularizedHGFun_zero_zero` (`₀F₀ = exp`), in
+  [`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.html).
+  Mathlib proves convergence and analyticity in `z`; Layer 1 builds the Kummer derivative formula,
+  differential equation and parameter theory on top.
+- **Gamma.** `Complex.Gamma`, `Complex.differentiable_one_div_Gamma`,
+  `Complex.Gamma_mul_Gamma_one_sub` (reflection), `Complex.Gamma_mul_Gamma_add_half`
+  (duplication), `Complex.Gamma_one_half_eq`, `Complex.Gamma_conj`, `Complex.Gamma_eq_integral`,
+  `Complex.GammaSeq_tendsto_Gamma`, `Complex.Gamma_add_one`,
+  `Complex.tendsto_self_mul_Gamma_nhds_zero`, `Complex.digamma` (`logDeriv Gamma`), and
+  `ascPochhammer`.
+- **Bessel functions.** `Complex.besselJ`, for the Bessel cases DLMF 12.14.13–12.14.14 of 9.6.
+- **Hermite.** The probabilists' `Polynomial.hermite` and `deriv_gaussian_eq_hermite_mul_gaussian`.
+- **Integration.** `integral_gaussian_complex`, `MeasureTheory.integral` on `Set.Ioi`,
+  `intervalIntegral`, `circleIntegral`, and parametric differentiation
+  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
+- **Contour deformation.**
+  [`Complex.integral_boundary_rect_eq_zero_of_differentiableOn`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Complex/CauchyIntegral.html#Complex.integral_boundary_rect_eq_zero_of_differentiableOn)
+  and the unbounded-rectangle deformation theorems in the same file, through the line shift of
+  AsymptoticExpansions §8.2.
+- **Mellin inversion.**
+  [`mellinInv_mellin_eq`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/MellinInversion.html#mellinInv_mellin_eq),
+  with `MellinConvergent` and
+  [`Complex.VerticalIntegrable`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/MellinTransform.html#Complex.VerticalIntegrable),
+  through the exponential Mellin inversion of AsymptoticExpansions §8.7.
+- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsLittleO`, `Asymptotics.IsEquivalent`,
+  `Bornology.cobounded` and `Complex.arg`.
 
 ## Excluded material
 
