@@ -411,21 +411,23 @@ that the arithmetic genus of the fibres is locally constant on the base
 [109.9.4](https://stacks.math.columbia.edu/tag/0E6K)); without that hypothesis on the fibres the
 genus can jump. The predicate *has genus `g`* of `f : X → S` asks that `R¹f_*𝒪_X` be locally free
 of constant rank `g`, with base change identifying its fibres with `H¹(X_s̄, 𝒪)`. Prove the fibrewise
-and Euler-characteristic formulations equivalent: for `f` proper, flat, with geometrically connected
-and geometrically reduced fibres, `f` has genus `g` exactly when every geometric fibre has
+and Euler-characteristic formulations equivalent: for a family of curves `f` with geometrically
+connected and geometrically reduced fibres, `f` has genus `g` exactly when every geometric fibre has
 `dim H¹ = g`, exactly when every geometric fibre has `χ(𝒪) = 1 − g`.
 *Needs:* §2.1, §1.4; Tau Ceti `AlgebraicGeometry.Scheme.genus`,
 `TauCeti.AlgebraicGeometry.eulerCharBelow_trivial_eq_one_sub_genus`.
 
 **Checks.**
-- A plane cubic `y²z = x³ + axz² + bz³` degenerating to the nodal cubic `y²z = x³ + x²z` has genus
-  one on every fibre; the normalization of the nodal fibre has genus zero, so a definition through
-  normalization genera would see a genus drop.
+- Over a field of characteristic not `2` or `3`, a plane cubic `y²z = x³ + axz² + bz³`
+  degenerating to the nodal cubic `y²z = x³ + x²z` has genus one on every fibre; the normalization
+  of the nodal fibre has genus zero, so a definition through normalization genera would see a genus
+  drop.
 - Two disjoint lines over `k` have `H¹ = 0` and `H⁰ = k²`, so `χ = 2` and `1 − χ = −1 ≠ 0 = dim H¹`:
   the Euler-characteristic formulation needs geometrically connected fibres.
-- The twisted cubics in `ℙ³` given on `𝔸³` by `t ↦ (t² − 1, t³ − t, at)`, `a ≠ 0`, closed up over
-  the `a`-line, have at `a = 0` the fibre `X₀` with affine ideal `(z², xz, yz, y² − x²(x + 1))`: the
-  plane nodal cubic `Y` with an embedded point `P` at the node. From `0 → κ(P) → 𝒪_{X₀} → 𝒪_Y → 0`,
+- Over a field of characteristic not `2`, the twisted cubics in `ℙ³` given on `𝔸³` by
+  `t ↦ (t² − 1, t³ − t, at)`, `a ≠ 0`, closed up over the `a`-line, have at `a = 0` the fibre `X₀`
+  with affine ideal `(z², xz, yz, y² − x²(x + 1))`: the plane nodal cubic `Y` with an embedded
+  point `P` at the node. From `0 → κ(P) → 𝒪_{X₀} → 𝒪_Y → 0`,
   `h⁰(𝒪_{X₀}) = 2` and `h¹(𝒪_{X₀}) = 1`, against `1` and `0` on the fibres `ℙ¹`: `χ = 1` throughout,
   but `dim H¹` jumps at the one fibre where `H⁰(X_s, 𝒪) = κ(s)` fails.
 
@@ -483,10 +485,12 @@ sheaf on `X` over `S`. Build projective morphisms over a general base, and the r
 finitely generated graded quasi-coherent algebra: Tau Ceti constructs
 `CategoryTheory.CommMon.relativeProj A` for graded quasi-coherent algebras
 (`TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`), with its affine charts, properness and
-twisting sheaves. For every graded quasi-coherent algebra `A`, finitely generated or not, prove
-that the formation of `relativeProj A` commutes with arbitrary base change `S' → S`, compatibly
-with the twisting sheaves ([Stacks Lemma 27.16.10](https://stacks.math.columbia.edu/tag/01O3)),
-that over an affine `S` it is Mathlib's `Proj` of the graded ring `A(S)`, and that a Veronese
+twisting sheaves; over an affine `S` it is Mathlib's `Proj` of the graded ring `A(S)`, by the chart
+square `CategoryTheory.CommMon.isPullback_relativeProjCover` on the affine open `S` itself, whose
+inclusion is an isomorphism. For every graded quasi-coherent algebra `A`, finitely generated or
+not, prove that the formation of `relativeProj A` commutes with arbitrary base change `S' → S`,
+compatibly with the twisting sheaves
+([Stacks Lemma 27.16.10](https://stacks.math.columbia.edu/tag/01O3)), and that a Veronese
 subalgebra `A^{(d)} = ⊕ₖ A_{dk}`, `d ≥ 1`, has the same relative `Proj`, its `𝒪(n)` corresponding
 to `𝒪(dn)` on `relativeProj A` (on affine charts,
 [Stacks Lemma 27.11.8](https://stacks.math.columbia.edu/tag/0B5J)). Prove its functoriality in
@@ -498,7 +502,8 @@ scheme-theoretic closure in `ℙᴺ_R` is Tau Ceti's `TauCeti.Model.projectiveCl
 `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.AlgebraicGeometry.InvertibleSheaf.IsGloballyGenerated`,
 `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`, `CategoryTheory.CommMon.relativeProj`,
 `TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`, `CategoryTheory.CommMon.isProper_relativeProjToBase`,
-`TauCeti.Model.projectiveClosure`; Mathlib `AlgebraicGeometry.Proj`.
+`CategoryTheory.CommMon.isPullback_relativeProjCover`, `TauCeti.Model.projectiveClosure`; Mathlib
+`AlgebraicGeometry.Proj`.
 
 **Checks.**
 - `Proj` of `R[x, y]` with `x, y` in degree one is `ℙ¹_R` and `𝒪(1)` is relatively ample; for
@@ -948,8 +953,8 @@ by the absence of exceptional curves of the first kind (§4.5) in the special fi
 ### 5.2 Minimal models
 
 Prove that every regular proper model contracts, by finitely many contractions of exceptional
-curves (§4.5), to a minimal one. For a generic fibre of positive genus, prove that the minimal
-regular model is unique up to unique isomorphism of models and is terminal among regular models:
+curves (§4.5), to a minimal one. For a generic fibre `C` with `H⁰(C, 𝒪_C) = K` and of positive
+genus, prove that the minimal regular model is unique up to unique isomorphism of models and is terminal among regular models:
 every regular proper model maps to it by a unique morphism of models
 ([Stacks Lemmas 55.8.5](https://stacks.math.columbia.edu/tag/0CD9),
 [55.10.1](https://stacks.math.columbia.edu/tag/0C6B) and
@@ -1719,9 +1724,10 @@ map. The fibre algorithm on decorated graphs is Tau Ceti's
 Postcomposition with a morphism of targets is Tau Ceti's `PrestableMap.postcomp`, full for a
 monomorphism and an equivalence for an isomorphism of targets, and a target isomorphism or closed
 immersion preserves contracted components (`PrestableMap.isContractedComponent_postcomp_iff`).
-Prove that stability is preserved under target isomorphisms and closed immersions. For a general
-postcomposition `V → W` prove a sharp criterion for preservation of stability instead of asserting
-it unconditionally: the new map may contract additional source components
+Prove that stability is preserved under target isomorphisms and closed immersions. For a stable
+map `F` to `V` and a general postcomposition `g : V → W`, prove that `g ∘ F` is stable exactly
+when every component of a geometric fibre that `g ∘ F` contracts and `F` does not has positive
+log-canonical degree (§10.3): the new map may contract additional source components
 (`PrestableMap.IsContractedComponent.postcomp`).
 *Needs:* §10.3; Tau Ceti `PrestableMap.postcomp`, `PrestableMap.postcompFunctor`,
 `PrestableMap.isContractedComponent_postcomp_iff`, `PrestableMap.IsContractedComponent.postcomp`.
@@ -1760,8 +1766,8 @@ and étale local structure of nodes, branches, normalization and the dual graph 
 curve with its genus formula, and geometric rational tails and bridges (Layer 1); coherent
 cohomology in families, arithmetic genus in families, the relative dualizing sheaf of a nodal curve
 and its component degrees, relative ampleness and projective morphisms, the API of Tau Ceti's
-relative `Proj` that the library lacks (§2.5, including base change, the affine comparison with
-`Proj` and Veronese invariance for every graded quasi-coherent algebra), the ampleness criterion,
+relative `Proj` that the library lacks (§2.5, including base change and Veronese invariance for
+every graded quasi-coherent algebra), the ampleness criterion,
 openness of ampleness and polarized étale descent (Layer 2);
 semistable, stable and pointed stable families, their automorphisms, clutching and the
 single-marking contraction (Layer 3); projectivity of blowups, the resolution of `xy = πⁿ`,
@@ -1773,7 +1779,8 @@ reduction (Layers 8–9); and the stability of maps with the stable-map construc
 
 [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.3 states the same base
 change, affine comparison and Veronese invariance for `CategoryTheory.CommMon.relativeProj`. That
-roadmap consumes Layers 0–4 here, so these statements belong to §2.5, and its comparison of
+roadmap consumes Layers 0–4 here, so base change and Veronese invariance belong to §2.5, the
+affine comparison is Tau Ceti's chart square on the whole affine base (§2.5), and its comparison of
 `relativeProj` with the relative `Proj` of Layer 2 is the identity, Layer 2 using Tau Ceti's
 construction itself.
 
@@ -1996,7 +2003,9 @@ Paths are relative to `TauCeti/AlgebraicGeometry/`. Every declaration below is p
   `Scheme/CohenMacaulay.lean`.
 - **Relative `Proj`, divisors from sections and descent** (Layer 2).
   `CategoryTheory.CommMon.relativeProj` with `CategoryTheory.CommMon.isProper_relativeProjToBase`
-  (proper when the algebra is of finite type with finite degree-zero part) in
+  (proper when the algebra is of finite type with finite degree-zero part) and
+  `CategoryTheory.CommMon.isPullback_relativeProjCover` (over an affine open `U`, the chart
+  `Proj (⨁ n, Γ(Aₙ, U))` is the base change of the relative `Proj` to `U`) in
   `RelativeProj/Basic.lean` and `RelativeProj/Proper.lean`;
   `TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra` in `Modules/Quasicoherent/GradedAlgebra/Basic.lean`;
   `Scheme.Hom.isRelativeEffectiveCartier_ker_of_comp_eq_id` (a section through an open on which the
