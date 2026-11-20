@@ -1486,7 +1486,7 @@ comparisons.
   (mctague-cayley-plane), Theorems 1 and 4, Lemma 8, Proposition 11, Lemma 12.
 - McTague, [*tmf Is Not a Ring Spectrum Quotient of String Bordism*](https://arxiv.org/abs/1312.2440)
   (mctague-tmf-quotient), Theorem 1, Corollary 2.
-- Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf),
+- Hovey, *The homotopy of MString and MU⟨6⟩ at large primes*,
   Algebr. Geom. Topol. 8 (2008), Theorem 2.4; Hovey–Ravenel, [*The 7-connected
   cobordism ring at p=3*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mypapers/mo8.pdf),
   April 1994 author preprint (hovey-ravenel), Corollary 1.5(2), p. 8.

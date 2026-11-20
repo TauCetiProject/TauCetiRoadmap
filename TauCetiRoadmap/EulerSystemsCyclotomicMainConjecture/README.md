@@ -4039,7 +4039,7 @@ has kernel `p^ℤ×μ_{p−1}` on `ℚ_p^×` and maps `ℤ_p^×` onto `pℤ_p`.
   [Repository PDF](https://repository.dl.itc.u-tokyo.ac.jp/record/39763/files/jfs220209.pdf).
 - **GROSS-KOBLITZ-1979** — Benedict H. Gross and Neal Koblitz, *Gauss sums
   and the `p`-adic `Γ`-function*, Annals of Mathematics 109 (1979), 569–581.
-  [Scan on a University of Rochester faculty page](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/gross_koblitz.pdf).
+  Scan on a University of Rochester faculty page.
 - **ROBERT-2001** — Alain M. Robert, *The Gross–Koblitz formula revisited*,
   Rend. Sem. Mat. Univ. Padova 105 (2001), 157–170.
   [Numdam PDF](https://www.numdam.org/item/RSMUP_2001__105__157_0.pdf).

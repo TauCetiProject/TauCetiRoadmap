@@ -1488,7 +1488,7 @@ The digest identifies the source document, rather than its numbered text extract
 | liedtke-mckay | [A McKay Correspondence in Positive Characteristic](https://arxiv.org/abs/2207.06286v2) | `72a331ee10d39160f37821e3ca5688d716e85e78910dbaa7979dbeb1b64bd148` |
 | shioda-transcendental | [An explicit algorithm for computing the Picard number of certain algebraic surfaces](https://doi.org/10.2307/2374678) | Published locator |
 | stacks-relative-ample | [Divisors on Algebraic Spaces](https://stacks.math.columbia.edu/download/spaces-divisors.pdf) | `51d90e8a3058611785f756c163d700e762363e8ef69cbfc93b5aef7f9e1d0475` |
-| liedtke-surfaces | [Algebraic Surfaces in Positive Characteristic](https://cims.nyu.edu/~tschinke/books/simons12/lectures.pdf) | `1f59795f87151b34d8d5c6a31a858592dad57d55ed0bf127cc5b1bf78e18e861` |
+| liedtke-surfaces | Algebraic Surfaces in Positive Characteristic | `1f59795f87151b34d8d5c6a31a858592dad57d55ed0bf127cc5b1bf78e18e861` |
 | stacks-projective-morphisms | [Morphisms of Schemes](https://stacks.math.columbia.edu/download/morphisms.pdf) | `0bebe1d93baa7e4e99cb4f36fe50c7bcb6094772b8a2f760885a492892eca75f` |
 | enriques-one | [Enriques Surfaces I](https://sites.lsa.umich.edu/idolga/wp-content/uploads/sites/1334/2024/08/EnriquesOne.pdf) | `3c6bf1d54954e28728935bbe1f4b1e38435fe469cf2b8543d657087815a2f526` |
 | arapura-chern | [Algebraic Geometry over the Complex Numbers](https://doi.org/10.1007/978-1-4614-1809-2) | Published locator |

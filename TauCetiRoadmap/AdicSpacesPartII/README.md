@@ -1768,7 +1768,7 @@ image of the integral closure of `C⁺ ⊗_{A⁺} B⁺` taken in `C ⊗_A B`. If
 the plus ring of `Pair.quotient` applied to the weighted-series pair over `(B, B⁺)` and
 `J.closure`. These are precisely the
 ring-level and pair-level presentations, respectively (Huber96 §1.2, proof of Prop. 1.2.2,
-pp. 47–48; [Huber94, proof of Prop. 3.7, p. 536](https://math.stanford.edu/~conrad/Perfseminar/refs/Huberformalrigid.pdf)).
+pp. 47–48; Huber94, proof of Prop. 3.7, p. 536).
 The closedness clause of this presentation proves `J.closure = J` when `B` is of
 noetherian type, including the complete case in (c); for noncomplete `B` this uses invariance
 of noetherian type under completion and closedness of ideals in completed weighted series.

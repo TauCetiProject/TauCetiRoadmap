@@ -5120,8 +5120,8 @@ All formulas and finite data use the conventions fixed here.
   combined author PDF, 29 August 2013. Its chapter numbering and pages
   differ from the separately updated chapter files. Chapters III, V and
   VI supply the principal arithmetic statements.
-- Hyman Bass and John Tate, [*The Milnor ring of a global
-  field*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/SLN342.pdf),
+- Hyman Bass and John Tate, *The Milnor ring of a global
+  field*,
   in *Algebraic K-theory II*, Lecture Notes in Mathematics 342 (1973),
   pp. 349–446, including Tate's appendix, pp. 429–446. The link is
   the complete volume; filtration is II §3 and the unit criterion is
@@ -5136,8 +5136,8 @@ All formulas and finite data use the conventions fixed here.
   in both versions. The golden-field cutoff and the finite residue steps
   here are an explicit specialization and calculation.
 - Daniel Quillen, text prepared by Hyman Bass,
-  [*Finite generation of the groups K_i of rings of algebraic
-  integers*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/bass-seattle.pdf),
+  *Finite generation of the groups K_i of rings of algebraic
+  integers*,
   in *Algebraic K-Theory I*, Lecture Notes in Mathematics 341 (1973),
   pp. 179–198, especially §1, pp. 179–185.
 - Daniel Quillen, *Finite generation of K-groups for rings of S-integers*,
@@ -5164,8 +5164,8 @@ All formulas and finite data use the conventions fixed here.
 - Fei Sun, [*Algebraic K-Theory and Modular Symbols*](https://arxiv.org/abs/1604.04700v1),
   version 1 (2016), pp. 5–6, for the layer poset and the comma-category
   description; the rank-one convention here is fixed explicitly.
-- Jean-Pierre Serre, [*Homologie singulière des espaces
-  fibrés*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Serre-HSEF.pdf),
+- Jean-Pierre Serre, *Homologie singulière des espaces
+  fibrés*,
   *Annals of Mathematics* 54 (1951), pp. 425–505, III §1,
   IV §§3 and 6, and V §§1–2, for the connected H-space finite-type argument.
 - Andrew Putman and Daniel Studenmund,
@@ -5240,9 +5240,9 @@ All formulas and finite data use the conventions fixed here.
   [publication record](https://doi.org/10.2307/1970984).
   The detected-summand proof is distinguished from an abstract
   decomposition in §5.5.
-- Stephen A. Mitchell, [*On the Lichtenbaum–Quillen conjectures from
+- Stephen A. Mitchell, *On the Lichtenbaum–Quillen conjectures from
   a stable homotopy-theoretic
-  viewpoint*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Mitchell-LQ.pdf),
+  viewpoint*,
   in *Algebraic Topology and Its Applications*, MSRI Publications 27
   (1994), pp. 163–240, §3, Theorem 3.4 and its proof sketch,
   pp. 184–186. Section 5.5 makes the monomial subgroup and the
