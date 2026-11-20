@@ -2,18 +2,9 @@
 
 **Summary.** This roadmap builds the mathematics that connects Lorentzian field equations and Fock-space models to local quantum fields, correlation distributions, perturbative graph amplitudes, renormalization and scattering. From Mathlib's Schwartz spaces, tempered distributions, test functions and Fourier transform, the CCR/CAR algebras and Fock carriers of OperatorAlgebraDynamics, the unbounded-operator theory of UnboundedOperators, the Poincaré representations of NoncompactQuantumSymmetry and the wavefront calculus of PseudodifferentialOperators, it constructs: the causal Green operators of the Klein–Gordon, Dirac and Maxwell equations and the classification of the massive Lorentz-invariant fundamental solutions (RQFT1); Lorentz spinors and the classical-to-quantum field bridges (RQFT2); free fields as operator-valued tempered distributions (RQFT3); the Wightman and Haag–Kastler frameworks with Reeh–Schlieder, spin–statistics, PCT and the field–net comparison under stated hypotheses (RQFT4); Feynman-graph combinatorics, the zero-dimensional quartic model and the graph Hopf algebras of formal perturbation theory (RQFT5); the extension of distributions with scaling-degree and wavefront control, the forest formula, the renormalization group action and Ward identities (RQFT6); reflection positivity, Osterwalder–Schrader reconstruction and the zero-mass limits of Euclidean free fields (RQFT7); Haag–Ruelle scattering and the LSZ formula for massive theories (RQFT8); electromagnetic examples and perturbative QED (RQFT9); Shale's implementability theorem and inequivalent free representations (RQFT10); and graviton power counting (RQFT11). It does not claim that interacting four-dimensional QED exists as a positive-metric Wightman theory, and it does not model a path integral as an infinite-dimensional Lebesgue measure: the vacuum, spectrum condition, locality, field content, gauge fixing and renormalization scheme are explicit model data, and every theorem states its hypotheses. `Suggested.lean` states the headline theorems that are statable against the pinned libraries.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the Lorentzian hyperbolic theory on Minkowski space: the causal Green operators of the Klein–Gordon, Dirac and Maxwell equations, their covariance and constraint bridges, and the classification of the invariant fundamental solutions (RQFT1);
-- the field-theoretic constructions: Lorentz spinor bundles and their covariance (RQFT2), the free scalar, Dirac and photon fields on Fock space with their common domains (RQFT3), the Wightman and Haag–Kastler consequences (RQFT4), Euclidean reconstruction (RQFT7), Haag–Ruelle and LSZ scattering (RQFT8), the electromagnetic and QED examples (RQFT9), the field-theoretic Bogoliubov bridge and Shale's theorem (RQFT10) and graviton power counting (RQFT11);
-- the perturbative machinery: the ℤ/2-graded field-jet Hopf construction with its total derivations and port allocations, graph flags and incidence actions (RQFT5), the QFT-specific wavefront calculations for propagators, graph kernels and diagonals, the extension and renormalization of graph distributions, the forest formula, the renormalization group action and the symmetry stabilizers (RQFT6);
-- the current complex built from Kähler differentials `Ω(V)`, the Euler–Lagrange ideal and the solution-homomorphism and D-module comparison, the stress-energy and Belinfante targets, and the abstract isoclinism and topological Lorentz and Pin extension constructions (RQFT2).
-
-It consumes, and does not restate: the CAR, CCR and Weyl algebras, their regular representations, the bosonic and fermionic Fock carriers and quasi-free states (OperatorAlgebraDynamics D8); generic second quantization, its domains and the creation and annihilation operators (QuantumFoundations §6.3–§6.4), the coordinate-change unitaries and the free Hamiltonian (QuantumFoundations §8.1–§8.2), the Kummer and Tricomi functions (QuantumFoundations §9.4), the nonrelativistic Coulomb model (QuantumFoundations §9.5) and the family of regular CCR representations of QuantumFoundations §9.9; unbounded operators, spectral integrals, forms and self-adjoint extensions (UnboundedOperators, SelfAdjointSpectralTheory); induced Poincaré and Lorentz representations, the real Lorentz Lie group data, the Whitehead lemmas and free-particle position and momentum (NoncompactQuantumSymmetry M0, M2, M4, P.4, P.5); generic wavefront sets, pullback and product criteria and microlocal regularity (PseudodifferentialOperators P8); finite-order Euler–Lagrange and Noether theory and the finite-dimensional Lorentz-spinor modules (LocalVariationalFieldTheory); connections and curvature (SmoothBundlesConnections B3–B4, and the completed HopfRinow); Clifford algebras and their real classification (Mathlib, SpinRepresentations); the Hopf structure of a symmetric algebra with primitive generators (Mathlib `SymmetricAlgebra.instBialgebra`, Tau Ceti `TauCeti.SymmetricAlgebra.instHopfAlgebra`) and the group-like elements of a group algebra (Mathlib `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one`); factor sets and central extensions (InductionRestriction Layer 7); Lie groups and their Lie algebras (LieGroups); the one-variable Laurent germs of GlobalHolomorphicFunctions Layer 4 (GH2) and ComplexKahlerGeometry K3.MeromorphicGermField; the local structure of distributions on bundles (ComplexKahlerGeometry K5a.DistributionLocalStructure); hyperfunctions (Hyperfunctions HF3, HF5); Wiener measure (StochasticCalculus S1.2); preduals and affiliated operators (VonNeumannAlgebras V4, V10); Hilbert–Schmidt and Schatten ideals (OperatorIdeals Parts B–C); and the heat kernel (Tau Ceti `TauCeti.heatKernel`, with PDE §6.3).
-
-The PDE roadmap supplies elliptic and parabolic theory; it does not supply the Lorentzian causal Green operators, which are owned here. StandardDistributions concerns probability laws, not Schwartz distributions. QuantumFoundations and NoncompactQuantumSymmetry consume nothing from this roadmap: supply runs from them to it.
+RQFT0 fixes conventions, test and distribution carriers and the real-line boundary values. RQFT1 builds the causal Green operators and the six scalar distributions; RQFT2 the spinor bundles; RQFT3 the free fields on Fock space, consuming D8 and QuantumFoundations §6.3–§6.4; RQFT4 the axiomatic frameworks and their consequences from RQFT1–RQFT3. RQFT5 builds graph combinatorics and the formal perturbative algebra; RQFT6 consumes RQFT5 and P8 for the extension and renormalization of graph distributions, with the regularization boundary GH2 local phase → K3.MeromorphicGermField → RQFT6.RadialExtension and RQFT6.TaylorAdapter, where RQFT6.RegulatorContinuation supplies RQFT6.ForestConvergence and RQFT6.TaylorAdapter, and with the open-graph chain RQFT5.OpenGraphSpecies → RQFT6.SwitchedRealization → RQFT6.ConnectedSubstitution. RQFT7 (Euclidean reconstruction and zero-mass limits) and RQFT8 (scattering) consume RQFT1–RQFT4 and RQFT6; RQFT9 consumes RQFT1–RQFT8 with QuantumFoundations §9.4–§9.5; RQFT10 consumes RQFT3 with D8 and OperatorIdeals; RQFT11 consumes RQFT6 and NoncompactQuantumSymmetry M4. The finite-jet covariance route is LieGroups Layers 2–3 → NoncompactQuantumSymmetry M0 → RQFT0 and RQFT6, and `TauCeti.exists_isCompl_of_isKilling` with NoncompactQuantumSymmetry P.4 → RQFT6 → RQFT9. Each layer `k` is cited as `RQFTk` and is divided into subsections `k.n`; a target cited as `RQFTk.Name` is the subsection of Layer `k` whose heading carries `Name`. Each subsection states its definitions and theorems in prose with their locators, lists its unit tests under **Checks.**, and ends with a *Needs:* line naming the suppliers of its statement and proof route; every layer ends with its Examples and Dependencies.
 
 ## Conventions
 
@@ -24,89 +15,6 @@ Fourier transforms use Mathlib's convention `𝓕f(ξ) = ∫exp(−2πi⟨x,ξ�
 The pairing of a distribution with a test is bilinear: linear in the distribution and in the scalar test. Mathlib's `Distribution Ω F ⊤ = TestFunction Ω ℝ ⊤ →L_c[ℝ] F` tests real-valued test functions; for complex `F` the canonical complex-linear extension `u_ℂ(f + ig) = u(f) + iu(g)` to complex tests is used, and for bundle-valued tests the bilinear dual-bundle contraction with the density. Hermitian `L²` pairings are conjugate-linear in the first argument and linear in the second, and are compared with the bilinear pairing by complex conjugation. Distributional derivatives carry the sign `⟨∂_μu,f⟩ = −⟨u,∂_μf⟩`.
 
 Clifford algebras are Mathlib's `CliffordAlgebra` with its grading and `SpinGroup`. The `Pin(3,1)` versus `Pin(1,3)` and gamma-square conventions are converted explicitly; distinct real Pin groups are not identified by rescaling generators over `ℝ`, and matrix `γ` notation is not a separate algebra. The Dirac representation obeys `{γ^μ,γ^ν} = 2η^{μν}I`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Schwartz space `SchwartzMap` (`𝓢(E,F)`), tempered distributions `TemperedDistribution` (`𝓢'(E,F)`) with their pointwise topology, the Fourier transform `FourierTransform.fourierCLM` on Schwartz space, test functions `TestFunction Ω F n` (`𝓓(Ω,F)`) with their LF topology and the inclusions `TestFunction.monoCLM`, the stagewise spaces `ContDiffMapSupportedIn`, and distributions `Distribution Ω F n` (`𝓓'(Ω,F)`, `Mathlib/Analysis/Distribution/Distribution.lean`), which are defined on real-valued tests and carry the topology of uniform convergence on compact sets of tests.
-- `CliffordAlgebra`, its grading, `SpinGroup`.
-- The cocommutative bialgebra `SymmetricAlgebra.instBialgebra` with primitive generators, `SymmetricAlgebra.comul_ι` and `SymmetricAlgebra.counit_ι` (`Mathlib/RingTheory/Bialgebra/SymmetricAlgebra.lean`), used for the even field jets of §5.6, together with `ExteriorAlgebra`, `ExteriorAlgebra.prodEquivTensor` (`Mathlib/LinearAlgebra/ExteriorAlgebra/Product.lean`) and `GradedTensorProduct` for the odd jets.
-- The group-like elements of a monoid algebra over a commutative domain, `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one` (`Mathlib/RingTheory/Bialgebra/MonoidAlgebra.lean`), with `MonoidAlgebra.single_left_injective` and `MonoidAlgebra.single_mul_single` (`Mathlib/Algebra/MonoidAlgebra/Defs.lean`), used in §5.4.
-- `PowerSeries`, `MvPowerSeries`, `HopfAlgebra`, `Complex.regularizedHGFun`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `MeromorphicAt` with `meromorphicOrderAt_ne_top_iff`, `tendsto_cobounded_of_meromorphicOrderAt_neg`, `tendsto_nhds_of_meromorphicOrderAt_nonneg` and `MeromorphicAt.analyticAt` (`Mathlib/Analysis/Meromorphic/Order.lean`).
-
-### From Tau Ceti
-
-The Tau Ceti declarations and files named here are read at the revision pinned by the content repository's manifest (Tau Ceti `2fd255d9`, Mathlib `1b1ccf4b`), where the Levi-Civita `Nondegenerate/` and `HilbertSchmidt/` directories exist.
-
-- `TauCeti.heatKernel` (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`), the Gaussian kernel `(4πt)^(−n/2)exp(−|x|²/(4t))` on a finite-dimensional inner product space.
-- `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`), complete reducibility for a Lie algebra with nondegenerate Killing form.
-- `TauCeti.exists_unit_conj_of_algEquiv` (Skolem–Noether, `TauCeti/Algebra/CentralSimple/SkolemNoether.lean`) and `TauCeti.Quaternion.complexTensorAlgEquivMatrix` (`TauCeti/Algebra/CentralSimple/Quaternion.lean`).
-- `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` (`TauCeti/Algebra/Lie/UniversalEnveloping/HopfAlgebra.lean`), the Hopf structure of an enveloping algebra.
-- `TauCeti.SymmetricAlgebra.instHopfAlgebra` and `TauCeti.SymmetricAlgebra.antipode_ι` (`TauCeti/Algebra/HopfAlgebra/SymmetricAlgebra/Basic.lean`), the Hopf structure of a symmetric algebra over a commutative ring, with antipode `ι x↦−ι x`, used for the even field jets of §5.6.
-- The Hermitian model of Minkowski space and `Spin(3,1) ≃ SL(2,ℂ)` (`TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean`, `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean`).
-- The Levi-Civita theory of nondegenerate metrics, `TauCeti.Manifold.ContMDiffNondegenerateMetric` and its families, with the coordinate Christoffel formulas (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/`), delivered by the completed HopfRinow roadmap.
-- Hilbert–Schmidt operators (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`).
-
-### From TauCetiRoadmap.OperatorAlgebraDynamics
-
-- D8 (CAR, Weyl algebras and free equilibrium states): the CCR, CAR and Weyl algebras, regular representations, the bosonic and fermionic Fock carriers with their invariant-domain fields, quasi-free states and the symplectic Weyl automorphisms `α_S(W(f)) = W(Sf)`. D8 owns these algebras and representations; this roadmap builds no second CCR or CAR algebra.
-
-### From TauCetiRoadmap.QuantumFoundations
-
-- §6.3–§6.4: second quantization, its domains, the creation and annihilation operators, the normalization adapter `Φ_D8(h) = (a(h) + a†(h))/√2` on the finite-particle core, vacuum cyclicity and irreducibility on D8's carriers; used at RQFT2, RQFT3 and RQFT10.
-- §8.1–§8.2: the coordinate-change unitaries on `L²(ℝⁿ)` and the free Hamiltonian `H₀ = −Δ/(2m)` with its self-adjoint domain; used at RQFT0 and RQFT1.
-- §9.4: the Kummer function `M` through Mathlib's `Complex.regularizedHGFun`, Kummer's equation for all parameters, the Tricomi function `U` on the logarithmic cover, their connection formulas and asymptotics, and the terminating identity; used at RQFT9, which owns its relativistic radial parameter, endpoint and spectrum adapters.
-- §9.5: the nonrelativistic Coulomb model and the spectral representation of hydrogen; used at RQFT9.
-- §9.9: the family `S_t = cosh(t)I + sinh(t)C` of regular CCR representations, whose pairwise inequivalence is proved at RQFT10.
-
-### From TauCetiRoadmap.NoncompactQuantumSymmetry
-
-- M0: the real Lorentz Lie groups `SL(2,ℂ)` and `SO₀(3,1)` with their connectedness, the left-invariant-derivation Lie algebra isomorphism and Killing-form instances, the signed Hermitian-action and two-sheeted-quotient comparisons; used at RQFT0 and RQFT6.
-- M2 and M4: the induced representations of the Poincaré group and its cover, the massive spin and the massless helicity models with their labels `(ε_E, ℓ)` (energy orientation and little-group character `exp(iℓθ/2)`, helicity `ε_Eℓ/2`); used at RQFT2, RQFT3 and RQFT11. These representations alone imply no local field, vacuum, particle creation law, spin–statistics result or scattering theory.
-- P.4: the real Whitehead lemmas for a finite-dimensional Lie algebra with nondegenerate Killing form; used at RQFT6.
-- P.5: free-particle position and momentum on `L²(ℝ³)` with the Schwartz core.
-
-### From TauCetiRoadmap.OperatorTheory
-
-- UnboundedOperators UO-A01–A08 (spectral-integral domains and calculus), UO-B01–B05 (normal and strongly commuting operators), UO-D06–D07 (closed forms, Friedrichs extensions, Hardy bounds, singular endpoint domains), UO-E01, UO-E03 and UO-E05 (graph cores, joint analytic vectors, worked cores) and UO-F01–F04 (completed tensor operators, maximal sums and graph cores).
-- SelfAdjointSpectralTheory Part A (Stone's theorem) and SA-B05 (the bounded Borel and projection-valued-measure interface).
-- OperatorIdeals Parts B–C, OI-B32–B40 and OI-C01–C14: basis-independent Hilbert–Schmidt energy, the ideal estimates and compactness.
-
-### From TauCetiRoadmap.PseudodifferentialOperators
-
-- P1.0: the density-transpose differential-operator core.
-- P3: the global Schwartz kernel adapter.
-- P8 (Layer 9, wave front sets and microlocal regularity): generic wavefront sets, the pullback and product criteria of Hörmander with conormal cancellation, the proper pushforward bound and microlocal regularity, with the normal locally convex topology on distributions with wavefront in a closed cone. This roadmap owns the calculations for the Klein–Gordon and Dirac propagators, graph distributions and diagonals.
-
-### From TauCetiRoadmap.LocalVariationalFieldTheory, TauCetiRoadmap.SmoothBundlesConnections and Completed/HopfRinow
-
-- LocalVariationalFieldTheory Layer 1 (jet-local differential algebra and the real-field correspondence), Layer 3 (models: `UNSW41ScalarLegendre`, `UNSW41GaugeComparison`, `Borcherds52Quadratic`, the fixed-external-current Maxwell variation and the finite Dirac Clifford and Spin comparison), Layers 4–5 (Noether I and II) and Layer 6 (background geometry, Lorentzian densities and stress-energy).
-- SmoothBundlesConnections B3–B4: connections, covariant differentiation, curvature and `CovariantDerivative.curvatureOperator`.
-- HopfRinow (completed) Layer 1: the Levi-Civita connection of a nondegenerate metric, its fixed-signature families and the coordinate Christoffel theorem, now in Tau Ceti as listed above; the positive-definite distance and minimizing-geodesic parts are not used.
-
-### From TauCetiRoadmap.RepresentationTheory and Completed/OrthogonalSpinGroups
-
-- SpinRepresentations Layers 1 and 4 (the complex Clifford matrix algebra) and Layer 7 (the real `Cliff(p,q)` classification, Bott periodicity and real Spin groups).
-- InductionRestriction Layer 7: normalized factor sets, the Schur multiplier and central extensions, where its field and group hypotheses match; the abstract isoclinism and topological Lorentz and Pin extensions are owned here.
-- LieGroups Layers 2–3 (native `LieGroup`, `LeftInvariantDerivation`, closed subgroups, automatic smoothness and connected faithfulness) and Layer 5 (simply connected covers).
-- OrthogonalSpinGroups (completed) Layer 1, items 1A–1E: the Clifford norm, the Lipschitz group, the vector representation, the spinor norm and the comparison sequence.
-
-### From TauCetiRoadmap.GlobalHolomorphicFunctions, TauCetiRoadmap.ComplexKahlerGeometry and TauCetiRoadmap.Hyperfunctions
-
-- GlobalHolomorphicFunctions Layer 4 (GH2, Mittag–Leffler and isolated singularities), its local phase only: the punctured germs, Laurent coefficients and isolated-singularity classification, built from Cauchy-integral inputs with no global Runge or Mittag–Leffler step.
-- ComplexKahlerGeometry K3.MeromorphicGermField (the one-variable meromorphic germ field, finite principal parts and regular evaluation) and K3.HolomorphicStalk (several-variable Taylor germs); K5a (density-valued tests and distributions on bundles, charts and frames, restriction and gluing), K5a.DistributionLocalStructure (the locally finite normal-jet structure of distributions supported on a submanifold, with the nonextension theorem for `exp(1/‖x‖²)`) and K5a.SmoothSectionMontel.
-- Hyperfunctions HF3 and HF5: the hyperfunction alternative to distributional extension used at RQFT6.HyperfunctionAlternative.
-
-### From TauCetiRoadmap.StochasticCalculus, TauCetiRoadmap.VonNeumannAlgebras and TauCetiRoadmap.PDE
-
-- StochasticCalculus S1.2: Wiener laws on continuous path spaces.
-- VonNeumannAlgebras V2.RectangularL2 (Hilbert tensor products and their elementary-tensor density), V4.Core (the predual and the trace-class pairing) and V10.Affiliation (self-adjoint affiliated operators and their spectral measures).
-- PDE §6.3 (F26): the heat semigroup built on `TauCeti.heatKernel`.
-
-## How to read the build
-
-RQFT0 fixes conventions, test and distribution carriers and the real-line boundary values. RQFT1 builds the causal Green operators and the six scalar distributions; RQFT2 the spinor bundles; RQFT3 the free fields on Fock space, consuming D8 and QuantumFoundations §6.3–§6.4; RQFT4 the axiomatic frameworks and their consequences from RQFT1–RQFT3. RQFT5 builds graph combinatorics and the formal perturbative algebra; RQFT6 consumes RQFT5 and P8 for the extension and renormalization of graph distributions, with the regularization boundary GH2 local phase → K3.MeromorphicGermField → RQFT6.RadialExtension and RQFT6.TaylorAdapter, where RQFT6.RegulatorContinuation supplies RQFT6.ForestConvergence and RQFT6.TaylorAdapter, and with the open-graph chain RQFT5.OpenGraphSpecies → RQFT6.SwitchedRealization → RQFT6.ConnectedSubstitution. RQFT7 (Euclidean reconstruction and zero-mass limits) and RQFT8 (scattering) consume RQFT1–RQFT4 and RQFT6; RQFT9 consumes RQFT1–RQFT8 with QuantumFoundations §9.4–§9.5; RQFT10 consumes RQFT3 with D8 and OperatorIdeals; RQFT11 consumes RQFT6 and NoncompactQuantumSymmetry M4. The finite-jet covariance route is LieGroups Layers 2–3 → NoncompactQuantumSymmetry M0 → RQFT0 and RQFT6, and `TauCeti.exists_isCompl_of_isKilling` with NoncompactQuantumSymmetry P.4 → RQFT6 → RQFT9. Each layer `k` is cited as `RQFTk` and is divided into subsections `k.n`; a target cited as `RQFTk.Name` is the subsection of Layer `k` whose heading carries `Name`. Each subsection states its definitions and theorems in prose with their locators, lists its unit tests under **Checks.**, and ends with a *Needs:* line naming the suppliers of its statement and proof route; every layer ends with its Examples and Dependencies.
 
 ## Layer 0: conventions, test functions and exact solution carriers
 
@@ -5575,6 +5483,98 @@ This section is secondary: it maps existing Lean code to targets of this roadmap
 `LeanPool/OSforGFF` (M. R. Douglas, S. Hoback, A. Mei and R. Nissim) works in the Glimm–Jaffe form of the Euclidean axioms: a probability measure `μ` on the weak dual of the real Schwartz space of `ℝ⁴`, with generating functional `Z[f] = ∫ exp(i⟨ω,f⟩) dμ(ω)`. It proves Minlos's theorem for a separable space whose topology is generated by a sequence of Hilbertian seminorms with Hilbert–Schmidt inclusions (`minlos_theorem`), through Bochner's theorem in finite dimension and a Kolmogorov extension, and it proves that the Schwartz space of a nonzero finite-dimensional real space is of that kind, through Hermite expansions. For `m > 0` it constructs the centred Gaussian measure `muGFF m` whose covariance is the kernel of `(−Δ + m²)⁻¹` on `ℝ⁴`, given in momentum form `1/(|k|² + m²)`, in heat form and in Bessel form `m K₁(m|x − y|)/(4π²|x − y|)`, and proves that this measure satisfies analyticity, the regularity bound `|Z[f]| ≤ exp((‖f‖₁ + ‖f‖₂²)/(2m²))`, Euclidean invariance, reflection positivity, clustering and ergodicity (`OSforGFF.gaussianFreeField_satisfies_all_OS_axioms`). Its mixed representation of the reflected covariance, and the nonnegativity of that covariance on complex tests vanishing at nonpositive time (`QFT.RPProof.mixed_representation`, `QFT.freeCovariance_reflection_positive_bilinear`), are the diagonal case `f = g` of `reflectedCovariance_eq_inner` (§7.6, item 1), with the kernel in Bessel rather than heat form; its momentum and heat forms of the kernel are the case `n = 4` of §7.1, and the Bessel form is not stated here. Nothing there treats the zero-diagonal carrier (§7.1), the E0′ growth condition (§7.2), the reconstruction maps (§7.5), the one-particle image with its density, contraction semigroup and Fock-space identification (§7.6, items 2–4), the degree-by-degree bounds on the Schwinger functions (§7.7) or a Wightman theory. No layer here constructs a measure on a space of distributions; Layer 7 works with the Schwinger distributions themselves.
 
 `LeanPool/ConnesKreimer` (C. Marín) constructs, over a commutative ring, the noncommutative Hopf algebra spanned by ordered forests of planar rooted trees, with the coproduct defined by the recursion `Δ(T) = T ⊗ 1 + (id ⊗ B)Δ(F)` for the tree `T = B(F)` obtained by grafting the forest `F` onto a new root (`CK.instCKHopf`); its quotient by the commutator ideal with the descended Hopf structure, in which the trees keep their planar order (`CK.instHabHopf`); and the Adams operators `Ψₙ = id^{⋆n}`. Over a ℚ-algebra it proves that the first Eulerian idempotent `log_⋆(id)` is idempotent on that quotient (`CK.eulerian1_idem_ab`). The Hopf algebras here are of Feynman graphs and field jets: the typed extraction–contraction algebra of §6.18, which follows Connes–Kreimer §2 for graphs, the field-jet Hopf carrier of §5.6 and the Birkhoff decomposition of §6.22. Rooted trees, the grafting operator and the Eulerian idempotents are not targets of this roadmap; what the two developments share is Mathlib's `HopfAlgebra` and the induction on the grading that constructs an antipode.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the Lorentzian hyperbolic theory on Minkowski space: the causal Green operators of the Klein–Gordon, Dirac and Maxwell equations, their covariance and constraint bridges, and the classification of the invariant fundamental solutions (RQFT1);
+- the field-theoretic constructions: Lorentz spinor bundles and their covariance (RQFT2), the free scalar, Dirac and photon fields on Fock space with their common domains (RQFT3), the Wightman and Haag–Kastler consequences (RQFT4), Euclidean reconstruction (RQFT7), Haag–Ruelle and LSZ scattering (RQFT8), the electromagnetic and QED examples (RQFT9), the field-theoretic Bogoliubov bridge and Shale's theorem (RQFT10) and graviton power counting (RQFT11);
+- the perturbative machinery: the ℤ/2-graded field-jet Hopf construction with its total derivations and port allocations, graph flags and incidence actions (RQFT5), the QFT-specific wavefront calculations for propagators, graph kernels and diagonals, the extension and renormalization of graph distributions, the forest formula, the renormalization group action and the symmetry stabilizers (RQFT6);
+- the current complex built from Kähler differentials `Ω(V)`, the Euler–Lagrange ideal and the solution-homomorphism and D-module comparison, the stress-energy and Belinfante targets, and the abstract isoclinism and topological Lorentz and Pin extension constructions (RQFT2).
+
+It consumes, and does not restate: the CAR, CCR and Weyl algebras, their regular representations, the bosonic and fermionic Fock carriers and quasi-free states (OperatorAlgebraDynamics D8); generic second quantization, its domains and the creation and annihilation operators (QuantumFoundations §6.3–§6.4), the coordinate-change unitaries and the free Hamiltonian (QuantumFoundations §8.1–§8.2), the Kummer and Tricomi functions (QuantumFoundations §9.4), the nonrelativistic Coulomb model (QuantumFoundations §9.5) and the family of regular CCR representations of QuantumFoundations §9.9; unbounded operators, spectral integrals, forms and self-adjoint extensions (UnboundedOperators, SelfAdjointSpectralTheory); induced Poincaré and Lorentz representations, the real Lorentz Lie group data, the Whitehead lemmas and free-particle position and momentum (NoncompactQuantumSymmetry M0, M2, M4, P.4, P.5); generic wavefront sets, pullback and product criteria and microlocal regularity (PseudodifferentialOperators P8); finite-order Euler–Lagrange and Noether theory and the finite-dimensional Lorentz-spinor modules (LocalVariationalFieldTheory); connections and curvature (SmoothBundlesConnections B3–B4, and the completed HopfRinow); Clifford algebras and their real classification (Mathlib, SpinRepresentations); the Hopf structure of a symmetric algebra with primitive generators (Mathlib `SymmetricAlgebra.instBialgebra`, Tau Ceti `TauCeti.SymmetricAlgebra.instHopfAlgebra`) and the group-like elements of a group algebra (Mathlib `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one`); factor sets and central extensions (InductionRestriction Layer 7); Lie groups and their Lie algebras (LieGroups); the one-variable Laurent germs of GlobalHolomorphicFunctions Layer 4 (GH2) and ComplexKahlerGeometry K3.MeromorphicGermField; the local structure of distributions on bundles (ComplexKahlerGeometry K5a.DistributionLocalStructure); hyperfunctions (Hyperfunctions HF3, HF5); Wiener measure (StochasticCalculus S1.2); preduals and affiliated operators (VonNeumannAlgebras V4, V10); Hilbert–Schmidt and Schatten ideals (OperatorIdeals Parts B–C); and the heat kernel (Tau Ceti `TauCeti.heatKernel`, with PDE §6.3).
+
+The PDE roadmap supplies elliptic and parabolic theory; it does not supply the Lorentzian causal Green operators, which are owned here. StandardDistributions concerns probability laws, not Schwartz distributions. QuantumFoundations and NoncompactQuantumSymmetry consume nothing from this roadmap: supply runs from them to it.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Schwartz space `SchwartzMap` (`𝓢(E,F)`), tempered distributions `TemperedDistribution` (`𝓢'(E,F)`) with their pointwise topology, the Fourier transform `FourierTransform.fourierCLM` on Schwartz space, test functions `TestFunction Ω F n` (`𝓓(Ω,F)`) with their LF topology and the inclusions `TestFunction.monoCLM`, the stagewise spaces `ContDiffMapSupportedIn`, and distributions `Distribution Ω F n` (`𝓓'(Ω,F)`, `Mathlib/Analysis/Distribution/Distribution.lean`), which are defined on real-valued tests and carry the topology of uniform convergence on compact sets of tests.
+- `CliffordAlgebra`, its grading, `SpinGroup`.
+- The cocommutative bialgebra `SymmetricAlgebra.instBialgebra` with primitive generators, `SymmetricAlgebra.comul_ι` and `SymmetricAlgebra.counit_ι` (`Mathlib/RingTheory/Bialgebra/SymmetricAlgebra.lean`), used for the even field jets of §5.6, together with `ExteriorAlgebra`, `ExteriorAlgebra.prodEquivTensor` (`Mathlib/LinearAlgebra/ExteriorAlgebra/Product.lean`) and `GradedTensorProduct` for the odd jets.
+- The group-like elements of a monoid algebra over a commutative domain, `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one` (`Mathlib/RingTheory/Bialgebra/MonoidAlgebra.lean`), with `MonoidAlgebra.single_left_injective` and `MonoidAlgebra.single_mul_single` (`Mathlib/Algebra/MonoidAlgebra/Defs.lean`), used in §5.4.
+- `PowerSeries`, `MvPowerSeries`, `HopfAlgebra`, `Complex.regularizedHGFun`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `MeromorphicAt` with `meromorphicOrderAt_ne_top_iff`, `tendsto_cobounded_of_meromorphicOrderAt_neg`, `tendsto_nhds_of_meromorphicOrderAt_nonneg` and `MeromorphicAt.analyticAt` (`Mathlib/Analysis/Meromorphic/Order.lean`).
+
+### From Tau Ceti
+
+The Tau Ceti declarations and files named here are read at the revision pinned by the content repository's manifest (Tau Ceti `2fd255d9`, Mathlib `1b1ccf4b`), where the Levi-Civita `Nondegenerate/` and `HilbertSchmidt/` directories exist.
+
+- `TauCeti.heatKernel` (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`), the Gaussian kernel `(4πt)^(−n/2)exp(−|x|²/(4t))` on a finite-dimensional inner product space.
+- `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`), complete reducibility for a Lie algebra with nondegenerate Killing form.
+- `TauCeti.exists_unit_conj_of_algEquiv` (Skolem–Noether, `TauCeti/Algebra/CentralSimple/SkolemNoether.lean`) and `TauCeti.Quaternion.complexTensorAlgEquivMatrix` (`TauCeti/Algebra/CentralSimple/Quaternion.lean`).
+- `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` (`TauCeti/Algebra/Lie/UniversalEnveloping/HopfAlgebra.lean`), the Hopf structure of an enveloping algebra.
+- `TauCeti.SymmetricAlgebra.instHopfAlgebra` and `TauCeti.SymmetricAlgebra.antipode_ι` (`TauCeti/Algebra/HopfAlgebra/SymmetricAlgebra/Basic.lean`), the Hopf structure of a symmetric algebra over a commutative ring, with antipode `ι x↦−ι x`, used for the even field jets of §5.6.
+- The Hermitian model of Minkowski space and `Spin(3,1) ≃ SL(2,ℂ)` (`TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean`, `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean`).
+- The Levi-Civita theory of nondegenerate metrics, `TauCeti.Manifold.ContMDiffNondegenerateMetric` and its families, with the coordinate Christoffel formulas (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/`), delivered by the completed HopfRinow roadmap.
+- Hilbert–Schmidt operators (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`).
+
+### From TauCetiRoadmap.OperatorAlgebraDynamics
+
+- D8 (CAR, Weyl algebras and free equilibrium states): the CCR, CAR and Weyl algebras, regular representations, the bosonic and fermionic Fock carriers with their invariant-domain fields, quasi-free states and the symplectic Weyl automorphisms `α_S(W(f)) = W(Sf)`. D8 owns these algebras and representations; this roadmap builds no second CCR or CAR algebra.
+
+### From TauCetiRoadmap.QuantumFoundations
+
+- §6.3–§6.4: second quantization, its domains, the creation and annihilation operators, the normalization adapter `Φ_D8(h) = (a(h) + a†(h))/√2` on the finite-particle core, vacuum cyclicity and irreducibility on D8's carriers; used at RQFT2, RQFT3 and RQFT10.
+- §8.1–§8.2: the coordinate-change unitaries on `L²(ℝⁿ)` and the free Hamiltonian `H₀ = −Δ/(2m)` with its self-adjoint domain; used at RQFT0 and RQFT1.
+- §9.4: the Kummer function `M` through Mathlib's `Complex.regularizedHGFun`, Kummer's equation for all parameters, the Tricomi function `U` on the logarithmic cover, their connection formulas and asymptotics, and the terminating identity; used at RQFT9, which owns its relativistic radial parameter, endpoint and spectrum adapters.
+- §9.5: the nonrelativistic Coulomb model and the spectral representation of hydrogen; used at RQFT9.
+- §9.9: the family `S_t = cosh(t)I + sinh(t)C` of regular CCR representations, whose pairwise inequivalence is proved at RQFT10.
+
+### From TauCetiRoadmap.NoncompactQuantumSymmetry
+
+- M0: the real Lorentz Lie groups `SL(2,ℂ)` and `SO₀(3,1)` with their connectedness, the left-invariant-derivation Lie algebra isomorphism and Killing-form instances, the signed Hermitian-action and two-sheeted-quotient comparisons; used at RQFT0 and RQFT6.
+- M2 and M4: the induced representations of the Poincaré group and its cover, the massive spin and the massless helicity models with their labels `(ε_E, ℓ)` (energy orientation and little-group character `exp(iℓθ/2)`, helicity `ε_Eℓ/2`); used at RQFT2, RQFT3 and RQFT11. These representations alone imply no local field, vacuum, particle creation law, spin–statistics result or scattering theory.
+- P.4: the real Whitehead lemmas for a finite-dimensional Lie algebra with nondegenerate Killing form; used at RQFT6.
+- P.5: free-particle position and momentum on `L²(ℝ³)` with the Schwartz core.
+
+### From TauCetiRoadmap.OperatorTheory
+
+- UnboundedOperators UO-A01–A08 (spectral-integral domains and calculus), UO-B01–B05 (normal and strongly commuting operators), UO-D06–D07 (closed forms, Friedrichs extensions, Hardy bounds, singular endpoint domains), UO-E01, UO-E03 and UO-E05 (graph cores, joint analytic vectors, worked cores) and UO-F01–F04 (completed tensor operators, maximal sums and graph cores).
+- SelfAdjointSpectralTheory Part A (Stone's theorem) and SA-B05 (the bounded Borel and projection-valued-measure interface).
+- OperatorIdeals Parts B–C, OI-B32–B40 and OI-C01–C14: basis-independent Hilbert–Schmidt energy, the ideal estimates and compactness.
+
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+- P1.0: the density-transpose differential-operator core.
+- P3: the global Schwartz kernel adapter.
+- P8 (Layer 9, wave front sets and microlocal regularity): generic wavefront sets, the pullback and product criteria of Hörmander with conormal cancellation, the proper pushforward bound and microlocal regularity, with the normal locally convex topology on distributions with wavefront in a closed cone. This roadmap owns the calculations for the Klein–Gordon and Dirac propagators, graph distributions and diagonals.
+
+### From TauCetiRoadmap.LocalVariationalFieldTheory, TauCetiRoadmap.SmoothBundlesConnections and Completed/HopfRinow
+
+- LocalVariationalFieldTheory Layer 1 (jet-local differential algebra and the real-field correspondence), Layer 3 (models: `UNSW41ScalarLegendre`, `UNSW41GaugeComparison`, `Borcherds52Quadratic`, the fixed-external-current Maxwell variation and the finite Dirac Clifford and Spin comparison), Layers 4–5 (Noether I and II) and Layer 6 (background geometry, Lorentzian densities and stress-energy).
+- SmoothBundlesConnections B3–B4: connections, covariant differentiation, curvature and `CovariantDerivative.curvatureOperator`.
+- HopfRinow (completed) Layer 1: the Levi-Civita connection of a nondegenerate metric, its fixed-signature families and the coordinate Christoffel theorem, now in Tau Ceti as listed above; the positive-definite distance and minimizing-geodesic parts are not used.
+
+### From TauCetiRoadmap.RepresentationTheory and Completed/OrthogonalSpinGroups
+
+- SpinRepresentations Layers 1 and 4 (the complex Clifford matrix algebra) and Layer 7 (the real `Cliff(p,q)` classification, Bott periodicity and real Spin groups).
+- InductionRestriction Layer 7: normalized factor sets, the Schur multiplier and central extensions, where its field and group hypotheses match; the abstract isoclinism and topological Lorentz and Pin extensions are owned here.
+- LieGroups Layers 2–3 (native `LieGroup`, `LeftInvariantDerivation`, closed subgroups, automatic smoothness and connected faithfulness) and Layer 5 (simply connected covers).
+- OrthogonalSpinGroups (completed) Layer 1, items 1A–1E: the Clifford norm, the Lipschitz group, the vector representation, the spinor norm and the comparison sequence.
+
+### From TauCetiRoadmap.GlobalHolomorphicFunctions, TauCetiRoadmap.ComplexKahlerGeometry and TauCetiRoadmap.Hyperfunctions
+
+- GlobalHolomorphicFunctions Layer 4 (GH2, Mittag–Leffler and isolated singularities), its local phase only: the punctured germs, Laurent coefficients and isolated-singularity classification, built from Cauchy-integral inputs with no global Runge or Mittag–Leffler step.
+- ComplexKahlerGeometry K3.MeromorphicGermField (the one-variable meromorphic germ field, finite principal parts and regular evaluation) and K3.HolomorphicStalk (several-variable Taylor germs); K5a (density-valued tests and distributions on bundles, charts and frames, restriction and gluing), K5a.DistributionLocalStructure (the locally finite normal-jet structure of distributions supported on a submanifold, with the nonextension theorem for `exp(1/‖x‖²)`) and K5a.SmoothSectionMontel.
+- Hyperfunctions HF3 and HF5: the hyperfunction alternative to distributional extension used at RQFT6.HyperfunctionAlternative.
+
+### From TauCetiRoadmap.StochasticCalculus, TauCetiRoadmap.VonNeumannAlgebras and TauCetiRoadmap.PDE
+
+- StochasticCalculus S1.2: Wiener laws on continuous path spaces.
+- VonNeumannAlgebras V2.RectangularL2 (Hilbert tensor products and their elementary-tensor density), V4.Core (the predual and the trace-class pairing) and V10.Affiliation (self-adjoint affiliated operators and their spectral measures).
+- PDE §6.3 (F26): the heat semigroup built on `TauCeti.heatKernel`.
 
 ## References
 
