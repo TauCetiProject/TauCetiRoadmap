@@ -184,7 +184,7 @@ The element `(0 −1; 1 0)` is an isometric involution of `ℍ³` fixing the geo
 ### Dependencies
 
 Polylogarithms §2.4 (the action on its model); GeometricTopology §7.1 (density of the volume,
-`PSL₂(ℂ) ⋊ ℤ/2`); the Tau Ceti suppliers listed above.
+`PSL₂(ℂ) ⋊ ℤ/2`); the Tau Ceti suppliers listed under Exact supplier contracts.
 
 ## Layer 1: discrete groups, fundamental domains and covolume
 
@@ -260,15 +260,28 @@ Layer 0; the Tau Ceti fundamental-domain, proper-discontinuity and free-locus su
 
 ### 2.1 Dirichlet domains at a free point
 
-Define `dirichletDomain Γ p₀`, the points at least as close to `p₀` as to every `g • p₀`, and
-prove `isFundamentalDomain_dirichletDomain` for discrete `Γ` and `p₀` in the free locus, which
-exists by `volume_compl_freeLocus`. The proof: the domain is closed and an intersection of
-half-spaces bounded by geodesic planes, so its frontier is null; every orbit has a point
-nearest `p₀`, by proper discontinuity; and two points of the interior in one orbit are equal,
-because `p₀` has trivial stabilizer.
+The Dirichlet domain is Tau Ceti's `TauCeti.dirichletDomain Γ p₀`, the points at least as close
+to `p₀` as to every `g • p₀`, and that it is a fundamental domain is
+`TauCeti.isFundamentalDomain_dirichletDomain`, for a properly discontinuous isometric action on a
+proper space, a centre with trivial stabilizer and a measure in which the equidistant set of two
+distinct orbit points is null. Neither is planned again here. What is new for `ℍ³`:
 
-- A Dirichlet domain is star-shaped about its centre and locally finite, and
-  `dirichletDomain (g Γ g⁻¹) (g • p₀) = g • dirichletDomain Γ p₀`.
+- Prove `volume_setOf_dist_eq_dist`: for `p ≠ q` in `ℍ³`, `{x | dist x p = dist x q}` is
+  `volume`-null. By `cosh_dist` (§0.4) the condition is
+  `t_q ‖x − p‖² = t_p ‖x − q‖²` in the coordinates `(w, t)`, so the set is a vertical plane when
+  `t_p = t_q` and a sphere centred at height zero otherwise, a Lebesgue-null set in either case,
+  and `volume` is absolutely continuous with respect to Lebesgue measure (§0.3). This is the
+  three-dimensional counterpart of Tau Ceti's `UpperHalfPlane.volume_setOf_dist_eq_dist`.
+- Prove `isFundamentalDomain_dirichletDomain` for discrete `Γ` and `p₀` in the free locus, which
+  exists by `volume_compl_freeLocus`, by applying the Tau Ceti theorem: the action is isometric
+  by `isometry_smul` (§0.2), `ℍ³` is proper by Tau Ceti's
+  `TauCeti.Manifold.properSpace_of_completeSpace` and completeness (§0.4), the action is properly
+  discontinuous by `properlyDiscontinuousSMul_of_discrete` (§1.1), the free locus gives the
+  trivial stabilizer, and `volume_setOf_dist_eq_dist` gives the null equidistant sets.
+
+Tau Ceti's `TauCeti.smul_dirichletDomain` and `TauCeti.locallyFinite_smul_dirichletDomain` give
+the translates and their local finiteness; the domain is star-shaped about its centre, and
+conjugating `Γ` by `g` moves the domain at `p₀` to the domain at `g • p₀`.
 
 **Checks.**
 
@@ -284,7 +297,7 @@ For the translation group by `ℤ[i]`, the Dirichlet domain at `(0, 1)` is the c
 
 ### Dependencies
 
-Layers 0–1.
+Layers 0–1; Tau Ceti's Dirichlet-domain API.
 
 ## Layer 3: Bianchi groups
 
@@ -333,7 +346,7 @@ discreteness passes to `PSL(2, ℂ)` through the finite centre of `SL(2, ℂ)`.
 
 Prove `isTorsionFreeKleinian_bianchiGamma`: for `F` imaginary quadratic and an ideal
 `I` with `2 ∉ I` and `3 ∉ I` (so `I ≠ ⊤`), `bianchiGamma F ι I` is torsion free, hence, with §3.2,
-`IsTorsionFreeKleinian`. The proof: if `A ≢ ±1` maps to an element of finite order, its
+`IsTorsionFreeKleinian`. The proof: if `A ≠ ±1` maps to an element of finite order, its
 eigenvalues are roots of unity `ζ, ζ̄`, so `tr A = ζ + ζ̄` is real, lies in `𝒪_F ∩ ℝ = ℤ`, and has
 absolute value below `2`, so `tr A ∈ {−1, 0, 1}`. `A ≡ 1 mod I` gives `tr A ≡ 2 mod I`, so `3`,
 `2` or `1` lies in `I`.
@@ -565,7 +578,7 @@ finite-index subgroup `Δ` of a witness `Γ` witnesses `[Γ : Δ] · v`; and
 - Members are positive, by `IsCofinite.covolume_pos`; the set is nonempty.
 - A quotient by a subgroup of `PSL(2, ℂ)` is orientable, so these are the volumes of the
   orientable complete finite-volume hyperbolic 3-manifolds. A non-orientable manifold has half
-  the volume of its orientation cover, so adding them changes the set but not the rational
+  the volume of its orientation cover, so adding them may change the set but not the rational
   relations among its members, and Thurston's question (§5.3) is the same for both sets.
 - Closure under every positive integer multiple is not a target: it needs an index-`n` subgroup
   of some witness for every `n`.
@@ -669,8 +682,8 @@ Boundaries with other roadmaps:
 - **AdelicAlgebraicGroups** owns arithmetic discreteness (AA.3.4), Tamagawa measures and the
   local volumes of `SL_n` (AA.2.4) and strong approximation (AA.4.2).
   **EndoscopicTransferAndUnitaryTraceComparison §6.2** owns `τ(S) = 1` for simply connected
-  semisimple `S`. Humbert's formula (§4.6) combines these; this roadmap adds the Euler product
-  of `ζ_F(2)` and the archimedean comparison.
+  semisimple `S`. Humbert's formula (§4.6) combines these; this roadmap adds the archimedean
+  comparison; the Euler product of `ζ_F(2)` is Tau Ceti's.
 - **FuchsianOrbifolds** is the two-dimensional counterpart, with discreteness as its input;
   §0.4 keeps the two distances equal on the slice `w ∈ ℝ`.
 
@@ -719,6 +732,12 @@ of volumes, which is open mathematics.
   `covolume_eq_card_mul_covolume` (for `Δ ≤ Γ` with `Γ` countable and having a fundamental
   domain, `covolume Δ = ENat.card (Γ ⧸ Δ.subgroupOf Γ) · covolume Γ`), `covolume_pos`,
   `covolume_conjAct_smul` and `IsFundamentalDomain.of_disjoint_smul_interior`.
+- `TauCeti.dirichletDomain`, `TauCeti.smul_dirichletDomain`,
+  `TauCeti.locallyFinite_smul_dirichletDomain` and `TauCeti.isFundamentalDomain_dirichletDomain`
+  in `MeasureTheory/Group/DirichletDomain/Basic.lean`; the two-dimensional model
+  `UpperHalfPlane.volume_setOf_dist_eq_dist` in `Analysis/Complex/UpperHalfPlane/Bisector/`.
+- `TauCeti.Manifold.properSpace_of_completeSpace` in
+  `Geometry/Manifold/Riemannian/Geodesic/Minimizing.lean`.
 - `exists_isFundamentalDomain_of_properlyDiscontinuousSMul` in
   `MeasureTheory/Group/ProperlyDiscontinuous.lean`; `TauCeti.freeLocus` and
   `isCoveringMap_quotientMk_freeLocus` in `Topology/Algebra/GroupAction/FreeLocus.lean`.

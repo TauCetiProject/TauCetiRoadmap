@@ -4,6 +4,7 @@ import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace.Metric
 import TauCeti.Geometry.Manifold.Riemannian.Isometry.Action
 import TauCeti.Geometry.Manifold.Riemannian.Isometry.UpperHalfSpace
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
+import TauCeti.MeasureTheory.Group.DirichletDomain.Basic
 import TauCeti.MeasureTheory.Group.FundamentalDomain
 import TauCeti.Topology.Algebra.GroupAction.FreeLocus
 import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
@@ -227,16 +228,16 @@ theorem IsCofinite.covolume_pos {Γ : Subgroup PSL(2, ℂ)} (hΓ : IsCofinite Γ
 
 /-! ## Layer 2: Dirichlet domains -/
 
-/-- The Dirichlet domain of `Γ` centred at `p₀`: the points at least as close to `p₀` as to every
-point of its orbit. -/
-def dirichletDomain (Γ : Subgroup PSL(2, ℂ)) (p₀ : ℍ³) : Set ℍ³ :=
-  {p | ∀ g : Γ, dist p p₀ ≤ dist p ((g : PSL(2, ℂ)) • p₀)}
+/-- Equidistant sets are null: a vertical plane or a sphere centred at height zero. -/
+theorem volume_setOf_dist_eq_dist {p q : ℍ³} (hpq : p ≠ q) :
+    volume {x : ℍ³ | dist x p = dist x q} = 0 := by
+  sorry
 
-/-- At a centre with trivial stabilizer, the Dirichlet domain of a discrete group is a
-fundamental domain. -/
+/-- At a centre with trivial stabilizer, Tau Ceti's Dirichlet domain of a discrete group is a
+fundamental domain, by `TauCeti.isFundamentalDomain_dirichletDomain`. -/
 theorem isFundamentalDomain_dirichletDomain (Γ : Subgroup PSL(2, ℂ)) [DiscreteTopology Γ]
     {p₀ : ℍ³} (hp₀ : p₀ ∈ (freeLocus Γ ℍ³ : Set ℍ³)) :
-    IsFundamentalDomain Γ (dirichletDomain Γ p₀) volume := by
+    IsFundamentalDomain Γ (TauCeti.dirichletDomain Γ p₀) volume := by
   sorry
 
 /-! ## Layer 3: Bianchi groups -/
@@ -442,7 +443,7 @@ theorem covolume_bianchi (F : Type*) [Field F] [NumberField F] [IsTotallyComplex
 
 /-! ## Layer 5: the set of volumes, and Thurston's question -/
 
-/-- The volumes of finite-volume hyperbolic `3`-manifolds: `v` is one when some torsion-free
+/-- The volumes of orientable finite-volume hyperbolic `3`-manifolds: `v` is one when some torsion-free
 Kleinian cofinite subgroup of `PSL(2, ℂ)` has real covolume `v`. The witness is the group, so
 membership carries it, and `0` is excluded by `IsCofinite.covolume_pos`. -/
 def hyperbolicVolumes : Set ℝ :=
