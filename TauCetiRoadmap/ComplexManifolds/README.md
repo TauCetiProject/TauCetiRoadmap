@@ -50,8 +50,8 @@ quotient foundation §§4.1–4.2 and the gluing adapter of Milestone 5 use Mile
 §§7.1–7.3 come next, using the gluing adapter and only the smooth operation carriers of
 SmoothBundlesConnections §B2.1. Bundle descent §4.3 then uses §§7.1–7.3, and the character
 application §7.6 uses §§4.1–4.3, so the quotient foundation does not depend on the bundle
-application built on it. §§7.4–7.5 use the preceding bundle sections and the orientation convention
-of Milestone 2. Milestone 6 uses the canonical maps of Milestone 5 for its gluing statements and
+application built on it. §§7.4–7.5 use the preceding bundle sections. Milestone 6 uses the
+canonical maps of Milestone 5 for its gluing statements and
 develops its general topology independently.
 
 Item `k.n` of Milestone `k` is §`k.n`. Each milestone ends with its examples and its dependencies,
@@ -871,7 +871,7 @@ restriction to `Z` of the cocycle `u_α/u_β` of the line bundle of the divisor 
 with its restriction to `Z` (Demailly, Chapter VII, proof of Proposition (12.4) a), p. 357, for an
 exceptional divisor; the argument uses only that the section vanishes to first order along a smooth
 hypersurface).
-*Needs:* §§7.1–7.3; Milestone 2 (for the orientation convention of §7.5); Tau Ceti
+*Needs:* §§7.1–7.3; Tau Ceti
 `TauCeti.SmoothEmbedding`, `TauCeti.SmoothEmbedding.normalSpaceContMDiffVectorBundle`; Mathlib
 `Manifold.IsSmoothEmbedding`.
 
@@ -949,7 +949,7 @@ cocycle `−z⁻²`, and its holomorphic vector field `∂/∂z` reads `−w² �
 ### Dependencies
 
 Mathlib vector bundles, cores, prebundles and their holomorphic operations; SmoothBundlesConnections
-§B2.1; the Tau Ceti smooth-embedding and normal-space API (supplier contracts below); Milestones 2 and 4
+§B2.1; the Tau Ceti smooth-embedding and normal-space API (supplier contracts below); Milestone 4
 where stated.
 
 ## Downstream consumers
