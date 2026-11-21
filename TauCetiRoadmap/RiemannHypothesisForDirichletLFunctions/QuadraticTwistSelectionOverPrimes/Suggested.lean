@@ -44,7 +44,8 @@ noncomputable def primesInClass (m₀ a₀ : ℕ) (U : ℝ) : Finset ℕ := by
 
 /-- The expression `G_χ(y) = Σ_{n ≤ y} Λ(n) χ(n) (y/n − 1) + y (L′/L)(1, χ)` of a Dirichlet
 character `χ`, with `(L′/L)(1, χ)` the quotient of the derivative of `DirichletCharacter.LFunction χ`
-at `1` by its value there (nonzero for nonprincipal `χ`). -/
+at `1` by its value there (nonzero for nonprincipal `χ`). For primitive `χ` this is the Riesz
+remainder of RiemannHypothesisStatementsAndConsequences §8.4a (b), restated on Mathlib's carriers. -/
 noncomputable def rieszRemainder {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (y : ℝ) : ℂ :=
   (∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (Λ n : ℂ) * χ (n : ZMod M) * ((y / n - 1 : ℝ) : ℂ)) +
     (y : ℂ) * (deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1)
@@ -115,9 +116,10 @@ theorem twistSelection (δ₀ : ℝ) (hδ₀ : 0 < δ₀) (hδ₀' : δ₀ < 1 /
   sorry
 
 /-- **Twist selection in two steps, with conductor bounds** (2.7d (ii); its case `F₁ = N₀`,
-`F₂(q) = N₀ q` is 2.7d (i)). Fix `δ₀ ∈ (0, 1/12)`; `C₂` is that of 2.7c. For `K, τ, η, a, b` as in
-2.7c and a bound `R` on the number of characters there are `C₁` and `Y₀` such that the following
-holds for every `ε > 0` and `Y ≥ Y₀`. Let `N₀ ≥ 1`, let `ξ` be a family of at most `R` primitive
+`F₂(q) = N₀ q` is 2.7d (i)). Fix `δ₀ ∈ (0, 1/12)`. There is `C₂`, a function of `ε` alone (so
+depending only on `(δ₀, ε)`, as in 2.7c), such that for `K, τ, η, a, b` as in 2.7c and a bound `R`
+on the number of characters there are `C₁` and `Y₀` with the following property for every `ε > 0`
+and `Y ≥ Y₀`. Let `N₀ ≥ 1`, let `ξ` be a family of at most `R` primitive
 characters of conductor `≤ N₀`, let `F₁ ≥ N₀` and let `(m₁, a₁, U₁, F₁)` satisfy the hypotheses of
 2.7c; for each `q ∈ P(m₁, a₁; U₁)` let `F₂(q) ≥ N₀ q` and let `(m₂(q), a₂(q), U₂, F₂(q))` satisfy
 them. Then both sets of primes are nonempty, and a proportion at least `1 − η` of the
