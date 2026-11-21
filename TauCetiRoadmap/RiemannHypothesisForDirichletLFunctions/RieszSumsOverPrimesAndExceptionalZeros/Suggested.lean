@@ -7,8 +7,8 @@ This file is not the roadmap. The definitive document for this folder is `README
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, with `sorry`
 proofs. Dirichlet `L`-functions are Mathlib's `DirichletCharacter.LFunction`, and `(L′/L)(1, χ)`
 is the quotient of its derivative at `1` by its value there; the von Mangoldt function is
-`ArithmeticFunction.vonMangoldt` and Euler's constant is `Real.eulerMascheroniConstant`. The
-README requires several of the constants below to be effective; effectivity is not expressed here.
+`ArithmeticFunction.vonMangoldt` and Euler's constant is `Real.eulerMascheroniConstant`. As in the
+README, the constants below are asserted to exist; none of them is claimed to be effective.
 
 All three headlines are statable at the pins and are stated: the prime number theorem for the
 Riesz remainder in its exception-free form (1.4i (c)), Linnik's theorem (1.7b (iii)), and the

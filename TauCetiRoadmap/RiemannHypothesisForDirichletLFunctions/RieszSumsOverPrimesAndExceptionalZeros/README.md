@@ -2,9 +2,9 @@
 
 **Summary.** The distribution of primes in arithmetic progressions, and of prime ideals in ray classes, is governed by the zeros of Dirichlet and Hecke `L`-functions near the point `1`. This roadmap states the classical theorems of that subject in their published form, in which the possible exceptional real zero of a real character is kept as an explicit term rather than excluded: the logarithmic derivative `L′/L` near the line one, smoothed prime sums controlled by a box free of zeros, the prime number theorem for a character with its exceptional term, the Riesz remainder of a character, the Deuring–Heilbronn repulsion and Linnik's theorem, and prime ideals of a ray class in short intervals, uniformly in the field and the modulus. Throughout, `χ` is a Dirichlet character, `L(s, χ)` its `L`-function and `Λ` the von Mangoldt function.
 
-The headline theorems are these. (1) The Riesz remainder `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y(L′/L)(1, χ)` of a primitive nonprincipal character `χ` of conductor `f_χ` satisfies `|G_χ(y) − y^β/(β(1 − β))| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every `y ≥ 2`, with absolute `C, c`, the term present only if `χ` is real and `L(s, χ)` has an exceptional zero `β`. With the uniform exclusion of Landau–Siegel zeros the term can be dropped: `|G_χ(y)| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every such `χ` and every `y ≥ 2`, and the remainder `G_1(y) = Σ_{n≤y} Λ(n)(y/n − 1) − y log y + (1 + γ)y` of the trivial character satisfies `|G_1(y)| ≤ C y exp(−c√(log y))`. Consequently, for every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there is `y₀(α, c_ex)` such that, if `E/ℚ` is a finite abelian extension of conductor `f_E` and every exceptional zero `β` of the `L`-functions of the primitive characters `χ*` attached to its characters has `1 − β ≥ c_ex`, then `|G_{χ*}(y)| ≤ y exp(−c₁(log y)^(1−α))` for all these characters and all `y ≥ y₀(α, c_ex)` with `log f_E ≤ (log y)^α`, where `c₁` is absolute. (2) Linnik's theorem: there is an absolute effective `L` such that the least prime `p ≡ a (mod q)` is at most `q^L` for every `q ≥ 3` and every `a` coprime to `q`. It follows from the prime number theorem in progressions with relative error in Linnik's range `x ≥ q^L`, which rests on the Deuring–Heilbronn repulsion: let `q ≥ 3`, let `χ₁` be a real nonprincipal character modulo `q` and `β₁ ∈ [1/2, 1)` a zero of `L(s, χ₁)`; every zero `β + iγ` with `β ≥ 1/2` of every `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ c log(c/((1 − β₁)ℒ))/ℒ` for every `ℒ ≥ log(q(|γ| + 2))`, with an absolute effective `c`, except the zero `β₁` of `L(s, χ₁)` itself when it is simple. (3) There are absolute `c, c′, X₀ > 0` such that for every imaginary quadratic field `K`, every integer `M ≥ 3` and `B = |d_K| M²`, the number of primes `p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K`, `α ≡ 1 (mod M𝒪_K)`, is at least `c′hX/(B² log X)` whenever `X ≥ X₀`, `log B ≤ c√(log X)` and `e^(−c√(log X)) ≤ h ≤ 1`.
+The headline theorems are these. (1) The Riesz remainder `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y(L′/L)(1, χ)` of a primitive nonprincipal character `χ` of conductor `f_χ` satisfies `|G_χ(y) − y^β/(β(1 − β))| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every `y ≥ 2`, with absolute `C, c`, the term present only if `χ` is real and `L(s, χ)` has an exceptional zero `β`. With the uniform exclusion of Landau–Siegel zeros the term can be dropped: `|G_χ(y)| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every such `χ` and every `y ≥ 2`, and the remainder `G_1(y) = Σ_{n≤y} Λ(n)(y/n − 1) − y log y + (1 + γ)y` of the trivial character satisfies `|G_1(y)| ≤ C y exp(−c√(log y))`. Consequently, for every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there is `y₀(α, c_ex)` such that, if `E/ℚ` is a finite abelian extension of conductor `f_E` and every exceptional zero `β` of the `L`-functions of the primitive characters `χ*` attached to its characters has `1 − β ≥ c_ex`, then `|G_{χ*}(y)| ≤ y exp(−c₁(log y)^(1−α))` for all these characters and all `y ≥ y₀(α, c_ex)` with `log f_E ≤ (log y)^α`, where `c₁` is absolute. (2) Linnik's theorem: there is an absolute `L` such that the least prime `p ≡ a (mod q)` is at most `q^L` for every `q ≥ 3` and every `a` coprime to `q`. It follows from the prime number theorem in progressions with relative error in Linnik's range `x ≥ q^L`, which rests on the Deuring–Heilbronn repulsion: let `q ≥ 3`, let `χ₁` be a real nonprincipal character modulo `q` and `β₁ ∈ [1/2, 1)` a zero of `L(s, χ₁)`; every zero `β + iγ` with `β ≥ 1/2` of every `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ c log(c/((1 − β₁)ℒ))/ℒ` for every `ℒ ≥ log(q(|γ| + 2))`, with an absolute effective `c`, except the zero `β₁` of `L(s, χ₁)` itself when it is simple. (3) There are absolute `c, c′, X₀ > 0` such that for every imaginary quadratic field `K`, every integer `M ≥ 3` and `B = |d_K| M²`, the number of primes `p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K`, `α ≡ 1 (mod M𝒪_K)`, is at least `c′hX/(B² log X)` whenever `X ≥ X₀`, `log B ≤ c√(log X)` and `e^(−c√(log X)) ≤ h ≤ 1`.
 
-On the way the roadmap proves the character prime number theorem with the exceptional term: for a primitive nonprincipal `χ` of conductor `N ≥ 3` and every sufficiently large `X`, `Σ_{m≤X} χ(m)Λ(m) = −X^(β₁)/β₁ + O(X exp(−c log X/(√(log X) + log N)) (log N)^4)` with absolute effective constants, the term present only if `χ` is real and `L(s, χ)` has a real zero `β₁ ∈ (1 − c₁/log N, 1)`. It and the repulsion are proved without the exclusion of Landau–Siegel zeros; with that exclusion both are corollaries of statements of AnalyticNumberTheoryPartI.
+On the way the roadmap proves the character prime number theorem with the exceptional term: for a primitive nonprincipal `χ` of conductor `N ≥ 3` and every sufficiently large `X`, `Σ_{m≤X} χ(m)Λ(m) = −X^(β₁)/β₁ + O(X exp(−c log X/(√(log X) + log N)) (log N)^4)` with absolute constants, the term present only if `χ` is real and `L(s, χ)` has a real zero `β₁ ∈ (1 − c₁/log N, 1)`. It and the repulsion are proved without the exclusion of Landau–Siegel zeros; with that exclusion both are corollaries of statements of AnalyticNumberTheoryPartI.
 
 The roadmap extends [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md), which supplies the exceptional-zero predicate, the effective gap for a real zero and the uniform exclusion of Landau–Siegel zeros, Page's theorem across moduli, the half-interval explicit formula and the mollifier zero-density estimate; [ZerosOfLFunctions](../../ZerosOfLFunctions/README.md) supplies Jensen's bound for zeros in a disc, the zero-free regions with their one possible exceptional zero, and the explicit formulas of Weil and of the prime ideal theorem in a ray class; [ClassFieldTheory](../../ClassFieldTheory/README.md) and GlobalNumberFields supply ray class groups and the identification of abelian characters with primitive Hecke characters. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) supplies the Riesz sums of an `L`-series and the predicates of the Riemann hypotheses; the twist selection of [QuadraticTwistSelectionOverPrimes](../QuadraticTwistSelectionOverPrimes/README.md) uses the zero-free boxes and Linnik's range, the Frobenius-restricted Riesz sums of [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) use the Riesz remainders, the theta-chain roadmaps use the least primes `≡ 1 (mod M)` and the norms from imaginary quadratic fields in short intervals, and [GeneralizedRiemannHypothesisFromWindowBounds](../GeneralizedRiemannHypothesisFromWindowBounds/README.md) uses the Riemann hypothesis of an Artin `L`-function.
 
@@ -49,10 +49,12 @@ function. In both cases `F` is entire, `F(1) ≠ 0`, and its zeros are those of 
 multiplicities. At the centre,
 `|F(z)| ≥ |L(z,χ)| ≥ ζ(4)/ζ(2) > 1/2` (Euler product, `|z − 1| ≥ 1`). On `|s − z| ≤ 15/4`, so `Re s ≥ −7/4`, write
 `L(s,χ) = L(s,χ*) ∏_{p∣q}(1 − χ*(p)p^(−s))` with `χ*` primitive (ZerosOfLFunctions 6.4 (4b), Dirichlet form): each
-deleted factor has modulus at most `1 + p^(7/4) ≤ p³`, and the wide-strip growth used in AnalyticNumberTheoryPartI §0.30a (ZerosOfLFunctions
-3.3–3.4, for `(s − 1)ζ(s)` when `χ*` is trivial) gives `|F(s)| ≤ C (q(|t| + 2))^B`. The nested-disc argument of AnalyticNumberTheoryPartI §0.30a
-on the radii `3 < 15/4` then gives (a) (Jensen's bound, ZerosOfLFunctions 4.3) and shows that
-`g(s) = F′/F(s) − Σ_{|w−z|≤3} m_w/(s − w)` is analytic on `|s − z| < 5/2` with `|g| ≤ C ℒ_t` there. On `Re s > 1`,
+deleted factor has modulus at most `1 + p^(7/4) ≤ p³`, and the wide-strip growth of ZerosOfLFunctions 3.3–3.4 (for
+`(s − 1)ζ(s)` when `χ*` is trivial) gives `|F(s)| ≤ C (q(|t| + 2))^B`. So `|F(s)| ≤ e^M |F(z)|` on `|s − z| ≤ 15/4` with
+`M = log(2C) + B ℒ_t ≤ C′ ℒ_t`. Jensen's bound (ZerosOfLFunctions 4.3) on the radii `3 < 15/4` gives (a), and Landau's
+lemma (AnalyticNumberTheoryPartIII 8.3, with `R = 15/4`, `r₂ = 4/5`, `r₁ = 2/3`, so that `r₂R = 3` and `r₁R = 5/2`) shows
+that `g(s) = F′/F(s) − Σ_{|w−z|≤3} m_w/(s − w)`, holomorphic on `|s − z| < 3` once its removable singularities at the
+zeros are filled, has `|g| ≤ C(r₁, r₂) M/R ≤ C″ ℒ_t` on `|s − z| ≤ 5/2`. On `Re s > 1`,
 `F′/F = L′/L(·,χ) + δ_χ/(s − 1)`, so the `k`-th Taylor coefficient of `−g` at `z` is the left side of (b) inside the
 absolute value; Cauchy's estimate on the circle of radius `2` about `z` bounds it by `C ℒ_t 2^(−k)`. Nonvanishing on
 `Re s ≥ 1` gives `Re w < 1`.
@@ -72,7 +74,7 @@ absolute value; Cauchy's estimate on the circle of radius `2` about `z` bounds i
   (numerically `(s − 1)L(s,χ₀) ≈ 0.333339` at `s = 1 + 10^(−5)`); a function with `F(1) = 0` would have a spurious zero
   at `1`, inside the disc whenever `|t| ≤ √8`.
 
-*Needs:* AnalyticNumberTheoryPartI §0.30; AnalyticNumberTheoryPartI §0.30a; ZerosOfLFunctions 3.3–3.4; ZerosOfLFunctions 4.3–4.4;
+*Needs:* AnalyticNumberTheoryPartI §0.30; AnalyticNumberTheoryPartIII 8.3; ZerosOfLFunctions 3.3–3.4; ZerosOfLFunctions 4.3–4.4;
 ZerosOfLFunctions 6.3–6.4 (4b); Mathlib `DirichletCharacter.LFunction_changeLevel`,
 `DirichletCharacter.LFunction_ne_zero_of_one_le_re`, `Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le`.
 
@@ -82,7 +84,7 @@ For the principal character modulo `6`, `L(s,χ₀) = (1 − 2^(−s))(1 − 3^(
 
 ### Dependencies
 
-AnalyticNumberTheoryPartI §§0.30, 0.30a; ZerosOfLFunctions 3.3–3.4, 4.3–4.4, 6.3–6.4; Mathlib's Dirichlet `L`-functions with their change of level and their nonvanishing on `Re s ≥ 1`, and Cauchy's estimate.
+AnalyticNumberTheoryPartI §0.30; AnalyticNumberTheoryPartIII 8.3; ZerosOfLFunctions 3.3–3.4, 4.3–4.4, 6.3–6.4; Mathlib's Dirichlet `L`-functions with their change of level and their nonvanishing on `Re s ≥ 1`, and Cauchy's estimate.
 
 ## Layer 1: Zero-free boxes, Riesz remainders, exceptional zeros and Linnik's theorem
 
@@ -156,14 +158,17 @@ real `2 ≤ T ≤ X` the following holds. Let `J ≥ 0` be the least integer wit
 ```
 and each kernel `(X^ρ − k_*^ρ)/ρ = ∫_{k_*}^X t^(ρ−1) dt` has absolute value at most `X^(Re ρ) log X`.
 
-**(b) The estimate with the exceptional term.** There are absolute effective
-`c, c₁ > 0` such that for every `χ` as above and every sufficiently large `X` (threshold absolute and effective),
+**(b) The estimate with the exceptional term.** There are absolute
+`c, c₁ > 0` such that for every `χ` as above and every sufficiently large `X` (threshold absolute),
 ```text
 Σ_{m≤X} χ(m) Λ(m) = −X^(β₁)/β₁ + O( X exp(−c log X/(√(log X) + log N)) (log N)^4 ),
 ```
 where the term `X^(β₁)/β₁` is present only if `χ` is real and `L(s,χ)` has a real zero `β₁ ∈ (1 − c₁/log N, 1)`, that
 is, only if `χ` is `c₁`-exceptional at `β₁` in the sense of AnalyticNumberTheoryPartI §0.1 (then `β₁` is unique and simple). The implied
-constant is absolute and effective (Iwaniec–Kowalski, Theorem 5.27; restated as Bennett–Siksek, Theorem 5, (26)).
+constant is absolute (Iwaniec–Kowalski, Theorem 5.27; restated as Bennett–Siksek, Theorem 5, (26), where `c` is effective
+and the implied constant absolute). The constants here are asserted to exist, not to be effective: the route below takes
+its zero-free region from ZerosOfLFunctions 6.3–6.4, whose constant is existential and whose small conductors are settled
+by a minimum over finitely many characters (6.4 (4e)).
 
 *Corollary (no exceptional zero).* For every `c₀ > 0` there are `c′, C′ > 0` such that if `χ` is as above and, when
 real, `L(s,χ)` has no zero in `(1 − c₀, 1)`, then `|Σ_{m≤X} χ(m)Λ(m)| ≤ C′ X exp(−c′ log X/(√(log X) + log N))(log N)^4`
@@ -427,6 +432,11 @@ every `ℒ ≥ log(q(|γ| + 2))`,
 In particular, with `ℒ = log(q(T + 2))`, no zero of `∏_{χ mod q} L(s,χ)` other than one copy of `β₁` lies in
 `σ > max(1/2, 1 − c log(c/((1 − β₁)ℒ))/ℒ)`, `|t| ≤ T`.
 
+Linnik proved the repulsion at heights `|t| ≤ log³ q`, for the characters of all moduli up to `q²` (Linnik 1944 II, §3,
+the second basic theorem, p. 348). For the primitive characters of all moduli up to `T`, at heights up to `T`, it is
+Bombieri 1987, Théorème 16, p. 41, and Gallagher 1970, (27), p. 336; Gallagher credits the form for the characters of one
+modulus to Knapowski. The statement above is the form for one modulus, at every height through `ℒ ≥ log(q(|γ| + 2))`.
+
 This differs from the repulsion table of AnalyticNumberTheoryPartI §2.9a, which repels the zeros of a Dedekind zeta function `ζ_L` in the scale
 `log D_L` under `ZamanDigammaInput`: here the scale is `log(q(|γ| + 2))` for the characters of one modulus `q` (at
 `L = ℚ(ζ_q)` the scale `log D_L` is of order `φ(q) log q`), and no numerical hypothesis enters.
@@ -469,13 +479,20 @@ This differs from the repulsion table of AnalyticNumberTheoryPartI §2.9a, which
 *Needs:* 0.30b; 1.7a.
 
 **(ii) Gallagher's prime number theorem in Linnik's range.** There are absolute
-effective `L, c, c₁, C > 0` such that for every `q ≥ 3`, every `a` coprime to `q` and every `x ≥ q^L`,
+`L, c, c₁, C > 0` such that for every `q ≥ 3`, every `a` coprime to `q` and every `x ≥ q^L`,
 ```text
 | ψ(x;a,q) − E_ψ(x) | ≤ C ( e^(−c log x/log q) + e^(−c√(log x)) ) · E_ψ(x),       E_ψ(x) = ( x − χ₁(a) x^(β₁)/β₁ ) / φ(q),
 | π(x;a,q) − E_π(x) | ≤ C ( e^(−c log x/log q) + e^(−c√(log x)) ) · E_π(x),       E_π(x) = ( Li x − χ₁(a) Li(x^(β₁)) ) / φ(q),
 ```
 where `(χ₁, β₁)` is the exceptional pair modulo `q` at width `c₁` (with `c₁ ≤ min(3c_star/2, c_cmp)`, so that it is
 unique and `β₁ > 1/2`), the terms with `β₁` present only if it exists.
+
+Gallagher's theorem (Gallagher 1970, Theorem 7, (29), p. 337) bounds, for `x/Q ≤ h ≤ x` and `Q` between
+`exp(√(log x))` and a fixed power of `x`, the sum over all primitive characters of moduli `≤ Q` of the absolute values
+of the prime sums `Σ χ(p) log p` over `(x, x + h]` by `h exp(−c log x/log Q)`, the trivial and the exceptional character
+entering with their main terms subtracted; after (29) it notes that an exceptional zero `1 − δ` lowers the bound by the
+factor `(δ log Q)²`. The statement above is a form for one modulus, with the error relative to `E_ψ(x)` and `E_π(x)`;
+the route below proves it directly, not from (29).
 
 *Route.* Orthogonality of characters modulo `q` (`DirichletCharacter.sum_char_inv_mul_char_eq`) and the passage to
 primitive characters (AnalyticNumberTheoryPartI §0.30; deleted factors change `ψ(x,χ)` by `O(log q log x)`). For a nonprincipal primitive `χ`,
@@ -517,7 +534,7 @@ this form.
 ZerosOfLFunctions 8.3; ArithmeticDirichletSeries Layer 6; `DirichletCharacter.sum_char_inv_mul_char_eq`,
 `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`.
 
-**(iii) Linnik's theorem.** There are absolute effective `L, c > 0` such
+**(iii) Linnik's theorem.** There are absolute `L, c > 0` such
 that for every `q ≥ 3`, every `a` coprime to `q` and every `x ≥ q^L`,
 ```text
 π(x;a,q) ≥ c · min(1, (1 − β₁) log x) · x/(φ(q) log x),
@@ -525,6 +542,10 @@ that for every `q ≥ 3`, every `a` coprime to `q` and every `x ≥ q^L`,
 the factor present only if the exceptional pair modulo `q` exists and `χ₁(a) = 1`. Consequently
 `π(x;a,q) ≥ c′ x/(q^(7/4) log x)` for `x ≥ q^L`, the least prime `p ≡ a (mod q)` is at most `q^L` (`exists_prime_modEq_le`), and for every `M ≥ 3`
 the least prime `≡ 1 (mod M)` is at most `M^L`; for each `r ≥ 1` there are `r` such primes below `M^(L_r)`.
+
+The bound `q^L` for the least prime is Linnik's theorem (Linnik 1944 I, (2), p. 139, proved in Linnik 1944 II, Theorem,
+p. 347; Bombieri 1987, Théorème 13, p. 39). The lower bound for `π(x;a,q)`, with its factor `min(1, (1 − β₁) log x)`,
+is the consequence of (ii) drawn in the route.
 
 *Route.* (ii) with `L` large: the relative error is `≤ 1/2`, and
 `E_π(x) ≥ (Li x − Li(x^(β₁)))/φ(q) ≥ x(1 − x^(β₁−1))/(φ(q) log x) ≥ min(1/2, (1 − β₁)(log x)/2) · x/(φ(q) log x)`, using
@@ -538,7 +559,7 @@ the least prime `≡ 1 (mod M)` is at most `M^L`; for each `r ≥ 1` there are `
 
 *Needs:* (ii); AnalyticNumberTheoryPartI §0.12; AnalyticNumberTheoryPartI §0.34a.
 
-**(iv) Exception-free forms.** There are absolute effective
+**(iv) Exception-free forms.** There are absolute
 `L, c, C > 0` such that for every `q ≥ 3`, every `a` coprime to `q` and every `x ≥ q^L`,
 ```text
 | ψ(x;a,q) − x/φ(q) |    ≤ C ( e^(−c log x/log q) + e^(−c√(log x)) ) · x/φ(q),
@@ -554,6 +575,12 @@ the first two bounds absorb once `c ≤ c_LS`. For the third, take `L` so large 
 and use `Li x ≥ (x − 2)/log x`.
 
 *Needs:* (ii); AnalyticNumberTheoryPartI §0.34.
+
+*Effectivity.* The constant `c` of (i) is effective: its route uses 0.30b and 1.7a and no zero-free region. The constants
+of (ii)–(iv) are asserted to exist, not to be effective. Their routes take the zero-free region and the width `c_cmp`
+from ZerosOfLFunctions 6.3–6.4, whose constant is existential and whose small conductors are settled by a minimum over
+finitely many characters (6.4 (4e)), as in 2.9b (iv) below. The published proofs give an effective `L` (Bombieri 1987,
+Théorème 13, p. 39).
 
 ### Examples
 
@@ -747,7 +774,8 @@ class groups of imaginary quadratic fields, units).
 - The size conditions of (ii) pay for the count of zeros: with `log B = cS`, `h = e^(−cS)`, `h_𝔪 = 8^n B`, the target is
   `X e^(−3cS)/8^n` while the unweighted count below `T` costs `T ≤ e^(6cS)`, so the saving `η log X` must exceed `8cS`
   (with room for the factor `S`). The conditions `c² ≤ c_n/12`, `c² ≤ c₂/(12(1 + 6n))` give at least `9cS` for large `X`;
-  with `4` in place of `12` the guaranteed saving is only just above `4cS`, and with `8` just above `8cS`, with no room.
+  with `4` in place of `12` the guaranteed saving is just below `4cS`, and with `8` just below `8cS`: neither exceeds
+  `8cS`.
 - At `K = ℚ`, (iv)(a) is AnalyticNumberTheoryPartI §0.12: for a nontrivial real `ψ`, `D_K = 1`, `n = 1`, `E` is the quadratic field of `ψ*` with
   `D_E = 𝔑𝔣_ψ`, and the bound reads `1 − β ≥ c_ε 𝔑𝔣_ψ^(−1/2−ε)`; for the trivial character `ζ` has no zero in
   `(1/2, 1)`.
@@ -832,7 +860,11 @@ In this family, [QuadraticTwistSelectionOverPrimes](../QuadraticTwistSelectionOv
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-§0.1: the `c`-exceptional predicate of a nontrivial primitive quadratic character of conductor `N` (a real zero `β` of `L(s, χ)` with `1 − c/log N < β < 1`), and its comparison with *IsExceptionalZero* of ZerosOfLFunctions 6.3 for small widths (1.4g, 1.4i, 1.7b). §0.2: the prime counts `ψ(x;a,q)` and `π(x;a,q)` (1.7b). §0.11: Mertens's first theorem (1.4f, 1.4h). §0.11b: the uniform Euler logarithmic derivatives (1.4e). §0.12: the effective gap `1 − β ≥ c_ε q^(−1/2−ε)` for a real zero of `L(s, χ_D)` (1.7b, 2.9b (iv)). §0.17: the two-real-zero inequality with its constant `c_star` (1.7b). §0.30: the rational Dirichlet-to-ray-class dictionary (0.30b, 1.4g, 1.4i, 1.7b). §0.30a: the window expansion of `L′/L` and its nested-disc argument (0.30b, 1.4e). §0.34: the uniform exclusion of Landau–Siegel zeros, `(1 − β) log q ≥ c_LS` (1.4i (c), 1.7b (ii)–(iv)). §0.34a: every real primitive character is a field character `χ_D` (1.7b, 2.9b (iv)). §1.4: the half-interval explicit formula, with its integer `k₀` (1.4g). §§1.4c–1.4d: the kernel bound and the sum of the weights `min(1, 1/|ρ|)` over the zeros of bounded height (1.4g, 1.7b (ii)). §1.7: the log-free zero-density estimate (1.7b (ii)). §2.7: the factorization of the zeta function of a quadratic extension (2.9b (iv) (a)). §2.18a: the Brauer continuation `L_K(·, ρ)` of an Artin `L`-function, its behaviour under induction, inflation and sums, and the one-dimensional comparison (2.41a). §2.31d: the discriminant tower formula, and §2.31e: its interface for the quadratic subfield carrying a near-one Dedekind zero (2.9b (iv) (a)). §2.41: Artin holomorphy as a hypothesis and the completed functional equation (2.41a). §2.43 (i): Landau–Page for an abelian character product, with its threshold (2.9b (i)).
+§0.1: the `c`-exceptional predicate of a nontrivial primitive quadratic character of conductor `N` (a real zero `β` of `L(s, χ)` with `1 − c/log N < β < 1`), and its comparison with *IsExceptionalZero* of ZerosOfLFunctions 6.3 for small widths (1.4g, 1.4i, 1.7b). §0.2: the prime counts `ψ(x;a,q)` and `π(x;a,q)` (1.7b). §0.11: Mertens's first theorem (1.4f, 1.4h). §0.11b: the uniform Euler logarithmic derivatives (1.4e). §0.12: the effective gap `1 − β ≥ c_ε q^(−1/2−ε)` for a real zero of `L(s, χ_D)` (1.7b, 2.9b (iv)). §0.17: the two-real-zero inequality with its constant `c_star` (1.7b). §0.30: the rational Dirichlet-to-ray-class dictionary (0.30b, 1.4g, 1.4i, 1.7b). §0.30a: the window expansion of `L′/L` for a primitive nonprincipal character (1.4e). §0.34: the uniform exclusion of Landau–Siegel zeros, `(1 − β) log q ≥ c_LS` (1.4i (c), 1.7b (ii)–(iv)). §0.34a: every real primitive character is a field character `χ_D` (1.7b, 2.9b (iv)). §1.4: the half-interval explicit formula, with its integer `k₀` (1.4g). §§1.4c–1.4d: the kernel bound and the sum of the weights `min(1, 1/|ρ|)` over the zeros of bounded height (1.4g, 1.7b (ii)). §1.7: the log-free zero-density estimate (1.7b (ii)). §2.7: the factorization of the zeta function of a quadratic extension (2.9b (iv) (a)). §2.18a: the Brauer continuation `L_K(·, ρ)` of an Artin `L`-function, its behaviour under induction, inflation and sums, and the one-dimensional comparison (2.41a). §2.31d: the discriminant tower formula, and §2.31e: its interface for the quadratic subfield carrying a near-one Dedekind zero (2.9b (iv) (a)). §2.41: Artin holomorphy as a hypothesis and the completed functional equation (2.41a). §2.43 (i): Landau–Page for an abelian character product, with its threshold (2.9b (i)).
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartIII
+
+8.3: Landau's local logarithmic-derivative lemma: for `0 < r₁ < r₂ < 1` there is `C(r₁, r₂)` such that, if `f` is holomorphic near `|z − z₀| ≤ R`, `f(z₀) ≠ 0` and `|f| ≤ e^M |f(z₀)|` on that disc, then `|f′/f(z) − Σ_ρ m_ρ/(z − ρ)| ≤ C(r₁, r₂) M/R` for `|z − z₀| ≤ r₁R` with `f(z) ≠ 0`, the sum over the zeros with `|ρ − z₀| ≤ r₂R` (0.30b).
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -877,11 +909,11 @@ Layer 1: the class-number bound `NumberField.classNumber_le_bound`, `h_K ≤ 4^n
 
 ## References
 
-- P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339: the prime number theorem in progressions with relative error (1.7b (ii)).
-- U. V. Linnik, *On the least prime in an arithmetic progression I. The basic theorem; II. The Deuring–Heilbronn phenomenon*, Rec. Math. (Mat. Sbornik) N.S. 15 (1944): 1.7b (i), (iii).
-- S. Knapowski, *On Linnik's theorem concerning exceptional L-zeros*, Publ. Math. Debrecen 9 (1962): 1.7b (i).
-- Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987): the Deuring–Heilbronn phenomenon and Linnik's theorem (1.7b).
-- H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 (2004): Theorem 5.27 (1.4g (b)); Chapter 18 (1.7b).
+- P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339 (Gallagher 1970): Theorem 7, (29), p. 337, the prime sums over short intervals for the primitive characters of all moduli up to `Q`, with the remark after (29) on an exceptional zero (1.7b (ii)); (26)–(27), p. 336, the Landau–Page region and its widening near an exceptional zero (1.7b (i)).
+- U. V. Linnik, *On the least prime in an arithmetic progression. I. The basic theorem*, Rec. Math. (Mat. Sbornik) N.S. 15(57) (1944), 139–178 (Linnik 1944 I): (2), p. 139, the bound for the least prime (1.7b (iii)); *II. The Deuring–Heilbronn phenomenon*, the same volume, 347–368 (Linnik 1944 II): the Theorem, p. 347, that bound for every residue class (1.7b (iii)), and §3, the second basic theorem, p. 348, the repulsion (1.7b (i)).
+- S. Knapowski, *On Linnik's theorem concerning exceptional L-zeros*, Publ. Math. Debrecen 9 (1962), 168–178: the repulsion for the characters of one modulus, the form of 1.7b (i), as Gallagher 1970, p. 337, credits it.
+- Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987) (Bombieri 1987): §6, Théorème 13, p. 39, Linnik's theorem with an effectively computable constant (1.7b (iii)); Théorème 16, p. 41, the Deuring–Heilbronn phenomenon for the primitive characters of moduli up to `T` (1.7b (i)).
+- H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 (2004): Theorem 5.27 (1.4g (b)); Chapter 18, a textbook account of the results of 1.7b.
 - Michael A. Bennett and Samir Siksek, *A conjecture of Erdős, supersingular primes and short character sums*, Ann. of Math. 191 (2020), read as arXiv:1709.01022v1: Theorem 5, (26), p. 17, the character prime number theorem with the exceptional term, there quoted as Iwaniec–Kowalski Theorem 5.27 (1.4g (b)).
 - Harold Davenport, *Multiplicative Number Theory*, 2nd ed., revised by Hugh L. Montgomery, Graduate Texts in Mathematics 74, Springer, 1980; Chapters 18–20: the prime number theorem for a character with its exceptional term, whose partial summation gives 1.4i.
 - J. C. Lagarias and A. M. Odlyzko, *Effective versions of the Chebotarev density theorem*, in *Algebraic Number Fields* (A. Fröhlich, ed.), Academic Press (1977): the uniform explicit-formula method of 2.9b.
