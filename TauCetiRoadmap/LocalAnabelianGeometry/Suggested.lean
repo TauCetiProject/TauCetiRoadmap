@@ -1,127 +1,54 @@
-import Mathlib
-import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Cyclotomic.Character
-import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
-import TauCeti.NumberTheory.LocalField.DeepUnits.Basic
-import TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic
-import TauCeti.NumberTheory.LocalField.WildInertia
-import TauCeti.Topology.Algebra.Group.Transfer
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Cyclotomic.Character
+public import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
+public import TauCeti.NumberTheory.LocalField.DeepUnits.Basic
+public import TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic
+public import TauCeti.NumberTheory.LocalField.WildInertia
 
 /-!
-# Anabelian geometry of `p`-adic local fields: suggested signatures
+# Anabelian geometry of `p`-adic local fields: target signatures
 
-These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
-specification.
+**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
+These statements suggest Lean forms for headline milestones; discharging them finishes neither a
+layer nor the roadmap.
 
-The file states what can be stated against the pinned Mathlib and Tau Ceti: the tools of Layer 0
-(the `p`-adic model, the continuous transfer, its reciprocity form, the logarithm on principal
-units, and the spanning lemma), the unfiltered recovery of the numerical invariants (Layer 1), of the
-cyclotomic character (Layer 2) and of inertia (Layer 3) in their `G_K` forms, and uniformizing
-characters (Layer 7.1–7.2).
+Stated here, against the pinned Mathlib and Tau Ceti: the logarithm on principal units and the
+spanning lemma (0.5–0.6), the unfiltered recovery of the numerical invariants (Layer 1), of inertia
+and wild inertia (Layer 3) and of the cyclotomic character (Layer 2) in their `G_K` forms, and
+uniformizing characters with their existence (7.1–7.2), with the one predicate those need.
 
-The solvable quotients `G_K^m`, filtrations, filtered isomorphisms and `Out_Filt` are those of the
-filtered local Galois groups roadmap (TauCetiProject/TauCetiRoadmap#1795), and `ℂ_p` with its
-Galois action and Hodge–Tate weights are those of TauCetiProject/TauCetiRoadmap#940 and
-TauCetiProject/TauCetiRoadmap#879; none has a declaration at the pins. The `p`-adic model 0.1
-only needs Mathlib's `PadicAlgCl`, and is stated here. The `m`-step forms of
-Layers 2–4, and Layers 5, 6, 7.3–7.4 and 8, are stated in `README.md` only.
+Not stated here:
+
+* 0.1–0.3, the `p`-adic model, the continuous transfer of an open subgroup and its reciprocity
+  form: they are constructions of data (an isomorphism of topological groups and a continuous
+  homomorphism of topological abelianizations), specified in `README.md` with their defining
+  properties.
+* 0.4 and every filtered statement: the upper filtration of `G_K` and of its quotients, the solvable
+  quotients `G_K^m`, filtered isomorphisms and `Out_Filt` are those of FilteredLocalGaloisGroups,
+  and the absolute upper filtration of ClassFieldTheory Layer 7 has no declaration at the pin.
+* the `m`-step forms of Layers 1–4, which need `G_K^m`, and Layers 5, 6, 7.3–7.4 and 8, which
+  further need the Galois action on `ℂ_p` of PadicPeriodRings §1.1 and the Hodge–Tate weights of
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.1, neither declared at the pins.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/Anabelian/`.
 -/
 
+@[expose] public section
+
 open ValuativeRel IsNonarchimedeanLocalField NormedSpace TauCeti TauCeti.ClassFieldTheory
 
 namespace TauCetiRoadmap.LocalAnabelianGeometry
-
-/-! ## Layer 0.1: the `p`-adic model -/
-
-section PadicModel
-
-variable (p : ℕ) [Fact p.Prime] (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
-  [IsNonarchimedeanLocalField K] [FinitePadicExtension K p]
-
-/-- The image `K_ι` of `K` in `PadicAlgCl p` under a `ℚ_p`-isomorphism of algebraic closures. -/
-noncomputable def padicModelField (ι : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p) :
-    IntermediateField ℚ_[p] (PadicAlgCl p) :=
-  (ι.toAlgHom.comp (IsScalarTower.toAlgHom ℚ_[p] K (AlgebraicClosure K))).fieldRange
-
-/-- **The `p`-adic model** `G_K ≃ₜ* K_ι.fixingSubgroup`, `σ ↦ ι σ ι⁻¹`. -/
-noncomputable def padicModelEquiv (ι : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p) :
-    Field.absoluteGaloisGroup K ≃ₜ* (padicModelField p K ι).fixingSubgroup :=
-  sorry
-
-theorem coe_padicModelEquiv (ι : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p)
-    (σ : Field.absoluteGaloisGroup K) :
-    ((padicModelEquiv p K ι σ : (padicModelField p K ι).fixingSubgroup) :
-        PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) =
-      ι.symm.trans ((σ.restrictScalars ℚ_[p]).trans ι) :=
-  sorry
-
-/-- Two choices of `ι` give models conjugate by `ι' ∘ ι⁻¹ ∈ Gal(PadicAlgCl p/ℚ_p)`. -/
-theorem coe_padicModelEquiv_eq_conj (ι ι' : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p)
-    (σ : Field.absoluteGaloisGroup K) :
-    ((padicModelEquiv p K ι' σ : (padicModelField p K ι').fixingSubgroup) :
-        PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) =
-      ι.symm.trans ι' * (padicModelEquiv p K ι σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) *
-        (ι.symm.trans ι')⁻¹ :=
-  sorry
-
-end PadicModel
-
-/-! ## Layer 0.2: the continuous transfer -/
-
-section Transfer
-
-variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
-  (H : Subgroup G) [H.FiniteIndex]
-
-/-- The **continuous transfer** `Ver : G^ab → H^ab` of an open subgroup: Mathlib's
-`MonoidHom.transfer` of `H → H^ab`, continuous by `TauCeti.continuous_transfer`, descended to the
-topological abelianization of `G`. -/
-noncomputable def topologicalTransfer (hH : IsOpen (H : Set G)) :
-    TopologicalAbelianization G →* TopologicalAbelianization H :=
-  sorry
-
-theorem topologicalTransfer_mk (hH : IsOpen (H : Set G)) (g : G) :
-    topologicalTransfer H hH (g : TopologicalAbelianization G) =
-      MonoidHom.transfer (QuotientGroup.mk' _ : H →* TopologicalAbelianization H) g :=
-  sorry
-
-theorem continuous_topologicalTransfer (hH : IsOpen (H : Set G)) :
-    Continuous (topologicalTransfer H hH) :=
-  sorry
-
-end Transfer
-
-/-! ## Layer 0.3: reciprocity and the transfer -/
-
-section ArtinTransfer
-
-variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  (L : Type) [Field L] [Algebra K L] [FiniteDimensional K L] [ValuativeRel L] [TopologicalSpace L]
-  [IsNonarchimedeanLocalField L] [ValuativeExtension K L]
-
-/-- The transfer `G_K^ab → G_L^ab`: `topologicalTransfer` of the open subgroup
-`(absoluteGaloisGroupExtend K L iota).range`, read in `G_L^ab` through
-`absoluteGaloisGroupExtend K L iota`, which is injective with that range. -/
-noncomputable def absoluteTransfer (iota : L →ₐ[K] SeparableClosure K) :
-    Field.absoluteGaloisGroupAbelianization K →* Field.absoluteGaloisGroupAbelianization L :=
-  sorry
-
-/-- **Reciprocity and the transfer**: `Ver(Art_K(x)) = Art_L(x)`, the absolute form of
-`ClassFormation.artinMap_groundInclusion`. -/
-theorem absoluteTransfer_artinMap (iota : L →ₐ[K] SeparableClosure K) (x : Kˣ) :
-    absoluteTransfer K L iota (artinMap K x) =
-      artinMap L (Units.map (algebraMap K L).toMonoidHom x) :=
-  sorry
-
-end ArtinTransfer
 
 /-! ## Layers 0.5–0.6: the logarithm and the spanning lemma -/
 
 section Units
 
 variable {p : ℕ} [Fact p.Prime] {K : Type*} [Field K] [ValuativeRel K] [TopologicalSpace K]
-  [IsNonarchimedeanLocalField K] [FinitePadicExtension K p]
+  [IsNonarchimedeanLocalField K] [hK : FinitePadicExtension K p]
+
+include hK
 
 /-- **The logarithm is a homomorphism on `U(K,1)`**, reduced to the deep case
 `log_mul_of_mem_unitFiltration` by a `p`-power. -/
@@ -160,9 +87,11 @@ section Recovery
 
 variable {p p' : ℕ} [Fact p.Prime] [Fact p'.Prime]
   {K : Type} [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  [FinitePadicExtension K p]
+  [hK : FinitePadicExtension K p]
   {K' : Type} [Field K'] [ValuativeRel K'] [TopologicalSpace K'] [IsNonarchimedeanLocalField K']
-  [FinitePadicExtension K' p']
+  [hK' : FinitePadicExtension K' p']
+
+include hK hK'
 
 /-- **The numerical invariants from `G^ab`** [Hyeon 2025, Prop. 3.1]: the residue characteristic,
 the degree, the residue field size, the absolute ramification index and the number of `p`-power
@@ -193,9 +122,11 @@ section Cyclotomic
 
 variable {p : ℕ} [Fact p.Prime]
   {K : Type} [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  [FinitePadicExtension K p]
+  [hK : FinitePadicExtension K p]
   {K' : Type} [Field K'] [ValuativeRel K'] [TopologicalSpace K'] [IsNonarchimedeanLocalField K']
-  [FinitePadicExtension K' p]
+  [hK' : FinitePadicExtension K' p]
+
+include hK hK'
 
 /-- **The `ℓ`-adic cyclotomic character is recovered from `G_K`** for every prime `ℓ`
 [Mochizuki 1997, Prop. 1.1], through `G_K^2` [Hyeon 2025, Prop. 3.2]. The common residue
