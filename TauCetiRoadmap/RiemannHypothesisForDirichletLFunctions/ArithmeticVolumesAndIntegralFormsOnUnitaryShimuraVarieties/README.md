@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap builds the lattices of integral cusp forms on unitary Shimura varieties and bounds their slopes, together with the CM periods and CM values that enter these bounds. Its objects are: the CM period `log Ω = γ + log(2π/rd_E) − (L′/L)(1, χ_K)` of a CM field `E`, abelian over `ℚ`, containing an imaginary quadratic field `K`; the unitary Shimura variety of a Hermitian space of signature `(p, q)` over `E` with a self-dual lattice, at a principal congruence level that is good at every prime, with its normal projective model over the ring of integers of a number field, its automorphic vector bundles and its flag bundles; the lattices of cusp forms that are integral at every integral point, with their Petersson metrics, read as Hermitian vector bundles; and lattice sums of CM lattices twisted by Hecke characters.
 
-The headline theorems are these. (1) *Chowla–Selberg in class-mean form.* For every imaginary quadratic field `K` of discriminant `−D`, the mean over the ideal classes of `K` of the logarithmic period `log(area(ℂ/𝔞)/π) + (1/6)·log|Δ(𝔞)|` of a fractional ideal `𝔞` in the class is `γ + log(2π/√D) − (L′/L)(1, χ_K)`. (2) *The flat line.* On every geometrically connected component of such a Shimura variety the line `det Lie_τ ⊗ (det Lie_{cτ})^{−1}`, with the Hodge metric and the integral structure of the eigen-submodules of the Lie algebra, has a section without zeros or poles, of constant norm and of the same valuation at every integral point above a given place, and its arithmetic degree is `((p − q)/2)·log Ω`. (3) *The average arithmetic volume theorem.* If a group of automorphisms of the datum acts transitively on the CM type, `q ≥ 1`, `N = p + q ≥ 3` and `3·min(p, q) + 1 ≤ N`, then for every dominant weight `u` whose entries at every place are strictly decreasing, with `|u_{τ,a} − u_{τ,b}| ≥ g > 0` whenever `a` lies in the smaller block, and for which `B(u, g) = c_B|Φ|N²(1 + ‖u‖_∞/g)` is at least a constant depending on `E` and the datum and at least the number of primes dividing `2·disc(E)` and the level, the mean over the components of the volume slopes of the forms of weight `u` is at least `−C·[(log B(u, g) + log rd_E + |(L′/L)(1, χ_K)|)·|u|₁ + q·spread(u)]`, with absolute constants `C`, `c_B`. (4) *The slope of the step lattices.* For the unitary groups `U(W_j)` of a chain of theta lifts (ThetaChainsOnDefiniteUnitaryGroups), under the size conditions of the chain, the multiplicity hypothesis of the type part and `[F:ℚ] ≥ 2`, the lattice of integral cusp forms of the weight of the model lift of step `j`, cut out by its type at the type primes, has slope at least `−(p_j − q_j)·Σ_τ w_j(τ)·log Ω − C·B₀·log log x`.
+The headline theorems are these. (1) *Chowla–Selberg in class-mean form.* For every imaginary quadratic field `K` of discriminant `−D`, the mean over the ideal classes of `K` of the logarithmic period `log(area(ℂ/𝔞)/π) + (1/6)·log|Δ(𝔞)|` of a fractional ideal `𝔞` in the class is `γ + log(2π/√D) − (L′/L)(1, χ_K)`. (2) *The flat line.* On every geometrically connected component of such a Shimura variety the line `det Lie_τ ⊗ (det Lie_{cτ})^{−1}`, with the Hodge metric and the integral structure of the eigen-submodules of the Lie algebra, has a section without zeros or poles, of constant norm and of the same valuation at every integral point above a given place, and its arithmetic degree is `((p − q)/2)·log Ω`. (3) *The average arithmetic volume theorem.* If a group of automorphisms of the datum acts transitively on the CM type, `q ≥ 1`, `N = p + q ≥ 3` and `3·min(p, q) + 1 ≤ N`, then for every dominant weight `u` whose entries at every place are strictly decreasing, with `|u_{τ,a} − u_{τ,b}| ≥ g > 0` whenever `a` lies in the smaller block, and for which `B(u, g) = c_B|Φ|N²(1 + ‖u‖_∞/g)` is at least a constant depending on `E` and the datum and at least the number of primes dividing `2·disc(E)` and the level, the mean over the components of the volume slopes of the forms of weight `u` is at least `−C·[(log B(u, g) + log rd_E + |(L′/L)(1, χ_K)|)·|u|₁ + q·spread(u)]`, with absolute constants `C`, `c_B`. (4) *The slope of the step lattices.* For the unitary groups `U(W_j)` of a chain of theta lifts (ThetaChainsOnDefiniteUnitaryGroups), under the size conditions of the chain, the hypotheses of 8.19 (b) on the type primes and on the level groups of the deep covers, and `[F:ℚ] ≥ 3`, the lattice of integral cusp forms of the weight of the model lift of step `j`, cut out by its type at the type primes, has slope at least `−(p_j − q_j)·Σ_τ w_j(τ)·log Ω − C·B₀·log log x`.
 
 The roadmap takes slopes, Bost's slope inequality and an explicit arithmetic Hilbert–Samuel inequality from [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md); moduli schemes, toroidal compactifications and integral models from [ShimuraCompactifications](../../ShimuraCompactifications/README.md), [PELModuli](../../PELModuli/README.md) and [ProjectiveModelsAndPeriodBoundsOnShimuraVarieties](../ProjectiveModelsAndPeriodBoundsOnShimuraVarieties/README.md); log-log singular metrics and the arithmetic intersection numbers of flag varieties from [HeightsForLogSingularMetrics](../HeightsForLogSingularMetrics/README.md); Hodge–Tate lattices at every prime from [HodgeTateLatticesAndLubinTateLogarithms](../HodgeTateLatticesAndLubinTateLogarithms/README.md); point separation, Bertini and division by sections from [MultiplierIdealsOfPairsAndPointSeparation](../MultiplierIdealsOfPairsAndPointSeparation/README.md); and the data of the chain (ranks, weights, levels, the coefficient field `𝕂`) from [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md). Its results are used by [GluedTargetAndDivisionInequality](../GluedTargetAndDivisionInequality/README.md) for the slope of the glued target and the division inequality.
 
@@ -55,9 +55,11 @@ Notation and conventions not restated here are those of the roadmaps named at ea
 | `fib` | the within-block Vandermonde class | 8.16 (c) |
 | `𝓕_τ, M^W_j, λ^W_j` | flat line; step lattice on the Shimura variety of `U(W_j)`; its weight | 8.11, 8.19 |
 | `α_∞, β_∞, B′` | the two constants of 8.16 (d); the smaller cut-off | 8.15e, 8.16 |
-| `c_Λ, G_{Y_j}` | `log Λ`; the group of the deep cover | 8.18 |
+| `c_Λ, G_{Y_j}, c_j` | `log Λ`; the group of the deep cover; the integer `c` of the weight `c·w_q` | 8.18 |
 | `κ_can; T₁, rem, u₂, wt(i); ρ, P` | the canonical weight of the flag bundle; `T₁ = T + D + 1`, the remainder and the weights `u₂`, `wt(i) = κ_can + u₂ + (D + i)·u₁` of the division of the anchored weight; `ρ := 1 − P(u′)/P(u₁)`, `P` the Weyl polynomial | 8.18 |
 | `q_z, ℒ, SizeSG` | `7(D²/T + D·ρ)`; the logarithmic parameter of 8.18c (c); the size conditions of 8.18c (f) (ii) | 8.18c |
+| `S_u, η_u` | bounds in the gap conditions of 8.18c (f) | 8.18c |
+| `Γ_j, π, H_i` | the level group of the deep cover `Y_j`, its split surjection onto `G₀`, the elements unitriangular at the places not above `g_i` | 8.18f (c) |
 | `Ω_𝔇, B_𝔇, ρ_𝔇, e_P, e_𝔇, 𝔪₁, 𝔪₂, Wt` | the data of the Poincaré series on the flag domain | 8.18a |
 | `ϖ_K` | a twelfth root of `Δ(𝒪_K)` | 8.19b |
 | `R_E, C_R, C_deg, φ′_C` | `rd_E^{C_R}`, `C_R` and `C_deg` constants fixed before `ε` (8.19a (N2): `T ≤ x^{C_deg}`); the map of 8.19a′ | 8.19a, 8.19a′ |
@@ -95,7 +97,7 @@ extension of `F′`) the same objects restricted to `Z` carry the subscript `Z`.
 
 This layer bounds the slopes of the lattices of integral cusp forms on the unitary Shimura varieties of the spaces `W_j` and supplies the CM values that enter the slope test of the chain. The CM period `Ω` of the Conventions is the class mean of the Chowla–Selberg periods (8.5) and the arithmetic degree of the flat line (8.11), whose twists move slopes by an explicit amount (8.12); the definite step is computed at CM points (8.13), and a change of weight by a short section of a power of the Hodge line passes between weights at a controlled loss (8.14). The flag bundles of the Shimura varieties carry models with mixed integral structure (8.14a–8.15), on which arithmetic proportionality holds up to two constants (8.15b–8.16); this gives the average arithmetic volume theorem (8.17). On deep covers the cusp forms are spanned by short theta series (8.17a), the heights of the images of the flag bundles bound the volumes (8.18), and an explicit arithmetic Hilbert–Samuel inequality over the coordinate bundle gives a uniform lower bound for slopes (8.18a–8.18f); descent to the base level gives the slope of the step lattices (8.19). Theta series generate the integral forms uniformly on subspaces (8.19a–8.19a‴). Finally 8.19b–8.19d bound the denominators of CM values at every prime and give the Galois equivariance of toric ratios and Hecke's formula for toric sums with its Euler-factor relation.
 
-Some clauses of this layer are statements whose routes are not given, or not fully given, here: the flag facts (L3), (L4) of the `𝔩`-torsion (8.14b); on the deep covers of the steps, the carrying sections, the sizes other than the two inequalities of `SizeSG` in `err` and `htc`, and the sup norms of integral forms (8.18c (f)); and the two height inequalities of 8.19a (I8). Single steps of the routes of 8.11, 8.15, 8.15c, 8.16, 8.17, 8.18e, 8.19b and 8.19c are not given; each route says which. All numbers attached to the flag bundles in 8.15–8.19 (limit numbers, volumes, volume slopes) are computed on the models of 8.15 (a), built over the modified base models `Y_B(c)`.
+Some clauses of this layer are statements whose routes are not given, or not fully given, here: the flag facts (L3), (L4) of the `𝔩`-torsion (8.14b); on the deep covers of the steps, the carrying sections, the sizes other than the two inequalities of `SizeSG` in `err` and `htc`, and the sup norms of integral forms (8.18c (f)); and the two height inequalities of 8.19a (I8). Single steps of the routes of 8.11, 8.15, 8.15c, 8.16, 8.17, 8.18e, 8.18f, 8.19b and 8.19c are not given; each route says which. All numbers attached to the flag bundles in 8.15–8.19 (limit numbers, volumes, volume slopes) are computed on the models of 8.15 (a), built over the modified base models `Y_B(c)`.
 
 ### 8.5 The CM period: the Chowla–Selberg formula in class-mean form
 
@@ -803,8 +805,10 @@ every level of the setting, deeper levels at auxiliary primes included.
 Let `1 ≤ j < m`, `W = W_j` with the weights of ThetaChainsOnDefiniteUnitaryGroups §2.3, under the
 size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1; `λ^W_j` the weight whose classical lift is the discrete series of the model lift of step `j` (RowTowerAndRallisIdentities §5.7),
 with its *anchor* `â_j(τ) := λ^W_j(τ)_{k−1}` (the entry of index `k − 1`, counting from `1`), `w_q := −(0, …, 0, 1, …, 1)` the
-weight of `ω_q` (8.14), `D` the dimension of the flag bundle of `Sh(W_j)`, and `c ≥ N_j + binom(dim Sh + 1, 2) + 1` an integer
-(`N_j = r` the rank of `W_j`; the threshold of 8.14). Put `u_{M,j} := λ^W_j − par(â_j) − c·w_q`.
+weight of `ω_q` (8.14), `D` the dimension of the flag bundle of `Sh(W_j)`, and `c = c_j` the least positive integer divisible
+by `8` with `c ≥ N_j + binom(dim Sh + 1, 2) + 2` and `c ≥ 8f·r + 4` (`N_j = r` the rank of `W_j`, `dim Sh = f·p_j·q_j`); it
+exceeds the threshold `N_j + binom(dim Sh + 1, 2) + 1` of 8.14 and satisfies `c_j ≤ 22·f²·r⁴`.
+Put `u_{M,j} := λ^W_j − par(â_j) − c·w_q`.
 
 *The weights.* Let `κ_can` be the canonical weight of the flag bundle (the weight whose line is the canonical bundle of the open
 flag bundle, by the Kodaira–Spencer isomorphism), `T ≥ T₀(D)` an integer and `T₁ := T + D + 1`. For every `τ` and every pair
@@ -1007,7 +1011,14 @@ particular `ρ_Z ≤ ρ`; (ii) if `ρ ≤ ½` and `λ` is weakly decreasing with
 `(1 − q_z)·rk(λ, Z) ≤ binom(T − 1, D)·δ_Z`, `q_z := 7·(D²/T + D·ρ)`, `rk(λ, Z)` the rank of the cusp forms of weight `λ` on `Z` (the
 inequality is not divided by `1 − q_z`, which may be negative).
 
-(f) *The deep covers of the steps* (the witnesses, the carrying sections, the sizes, the sup norms). For every step `1 ≤ j < m` let `Y_j` be the cover of 8.18 (o) for `e = ⌊3x^ε/log 3⌋`, and take `T := ⌈P²·D²·k/m⌉` (`P` a fixed polynomial in `f·r·x^ε`), `u₁` the divided weight of 8.18 for this `T`, `e_c := 3N`, `u′ := u₁ − e_c·w_q` and `g := h₀/(4T)`, `h₀` the gap parameter of the weights (ThetaChainsOnDefiniteUnitaryGroups §2.3). Under the gap conditions on `u_{M,j}` (`4D + 4 ≤ T`; `24N·T ≤ h₀`; the gaps of `u_{M,j}` after the anchor at least `h₀ − 1`, at the block boundary at least `h₀`, the others at least `(T + D + 2)(T + D + 2 + 2N) − 2`; the entries before the anchor in `[0, S]`), `g` is a gap of `u′`, `log B(u′, g) ≤ x^ε + 22`, `q·spread(u′) ≤ 6|u′|₁`, `T·|u′|₁ ≤ C·f·m·b`, and `T·err(u′, g) + T·htc(B(u′, g))·|u′|₁ ≤ C·B₀·log log x` with an absolute `C` (`B₀·log log x = f·m·b·x^ε·log log x`). Moreover there are an integer `k_c ≥ 1` and a real `c_c ≥ 0` such that on every component `Z` of `Y_j`, with
+(f) *The deep covers of the steps* (the witnesses, the carrying sections, the sizes, the sup norms). For every step `1 ≤ j < m` let `Y_j` be the cover of 8.18 (o) for `e = ⌊3x^ε/log 3⌋`, and take `T := ⌈P²·D²·k/m⌉` (`P` a fixed polynomial in `f·r·x^ε`), `u₁` the divided weight of 8.18 for this `T`, `e_c := 3N` and `u′ := u₁ − e_c·w_q`. Suppose that there are an integer `h₀` and reals `S_u, η_u ≥ 0` with
+`P·(S_u + η_u) ≤ 100·w″` (`w″` of ThetaChainsOnDefiniteUnitaryGroups §2.1), `4T² ≤ h₀` and `P·T·r·f²·m²·k·D ≤ h₀` for which
+`u_{M,j}` satisfies the *gap conditions*: `4D + 4 ≤ T`; `4(c + 2N + T + D + 1) ≤ h₀` and `24N·T ≤ h₀` (`c = c_j` the integer
+of 8.18); the entry of `u_{M,j}` at the anchor index is `0` and the entries before the anchor lie in `[0, S_u]`; the entries
+after the anchor differ from `−â_j(τ)` by at most `η_u + S_u + N` (`â_j(τ)` the anchor at `τ`, 8.18), and
+`4(η_u + 2S_u + c + 3N) + 20N·T ≤ â_j(τ)`; the gaps of `u_{M,j}` after the anchor are at least `h₀ − 1`, at the block boundary
+at least `h₀`, the others at least `(T + D + 2)(T + D + 2 + 2N) − 2`; and every entry has absolute value at most `8b − c − 4N`.
+Then, with `g := h₀/(4T)` for this `h₀`: `g` is a gap of `u′`, `log B(u′, g) ≤ x^ε + 22`, `q·spread(u′) ≤ 6|u′|₁`, `T·|u′|₁ ≤ C·f·m·b`, and `T·err(u′, g) + T·htc(B(u′, g))·|u′|₁ ≤ C·B₀·log log x` with an absolute `C` (`B₀·log log x = f·m·b·x^ε·log log x`). Moreover there are an integer `k_c ≥ 1` and a real `c_c ≥ 0` such that on every component `Z` of `Y_j`, with
 `n`, `Λ` the numbers of (c) and `β` that of (d) for the weights `u₁`, `wt(0)`, `wt(D)`, `wt(T)` and `ℒ := x^ε`, `ρ` of 8.18 and `q_z` of (e):
 (i) *the carrying sections*: `Z` carries a carrying section (8.18 (b)) of cost at most `c_c` and a valuative carrying
 section (8.18 (b));
@@ -1025,7 +1036,8 @@ only on the constants fixed before `ε`.
 
 (g) *The level and the field of the deep covers.* For every step `1 ≤ j ≤ m` the level `g₀g₁` of the setting on `U(W_j)` is good, and, under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.6 and `(f·r·x^ε)^{12} ≤ b`, the field `𝕃_Y` of 8.18 (o) has `log[𝕃_Y:ℚ] + log rd(𝕃_Y) ≤ b`; no bound on the field `𝕃` of ThetaChainsOnDefiniteUnitaryGroups §2.6 is used.
 
-*On (f) and (g).* The witnesses of (f) and their two inequalities in `err` and `htc` come from division with remainder: only the `≈ m` entries of `u_{M,j}` after the anchor are of size `b`, and the level `g₀g₁·15^e` has four prime factors. The routes of the other clauses of (f), namely (i), the clauses of (ii) other than these two inequalities (the third clause of `SizeSG` among them) and (iii), are not given here. (g) is the goodness of the level in the setting together with 8.18 (o). On (f) (i): on the thick part of `Z(ℂ)` (where the injectivity radius is bounded below) Hörmander's `L²`
+*On (f) and (g).* The gap parameter `h₀` of the weights (ThetaChainsOnDefiniteUnitaryGroups §2.3) serves as the integer `h₀` of (f)
+when it satisfies these inequalities. The witnesses of (f) and their two inequalities in `err` and `htc` come from division with remainder: only the `≈ m` entries of `u_{M,j}` after the anchor are of size `b`, and the level `g₀g₁·15^e` has four prime factors. The routes of the other clauses of (f), namely (i), the clauses of (ii) other than these two inequalities (the third clause of `SizeSG` among them) and (iii), are not given here. (g) is the goodness of the level in the setting together with 8.18 (o). On (f) (i): on the thick part of `Z(ℂ)` (where the injectivity radius is bounded below) Hörmander's `L²`
 estimate with a singular cut-off weight produces peak sections and a lower bound for `Berg_{u₁}` (SingularHermitianMetricsAndL2Methods
 §§3.3 (b), 3.5 and 9.1 in its case (β)); near the boundary the injectivity radius of the period lattice and a Poincaré series
 bound it from below, and a theta constant with an explicit sup norm (SpecialFunctionsTheta Layer 7) is compared with these
@@ -1150,7 +1162,7 @@ one construction; with `q_z = 7(D²/T + Dρ)`, `1 − q_z` is negative for `D = 
 6.7a (i)–(iii), 6.7b (d′)–(f′);
 ShimuraCompactifications §7.12; AlgebraicModuliForArithmeticGeometry §9.10 and MultiplierIdealsOfPairsAndPointSeparation §§9.13, 9.13a; ThetaChainsOnDefiniteUnitaryGroups §2.1.
 
-### 8.18f Rank growth and short vectors on the deep cover; the maximal slope at the base level
+### 8.18f Rank growth and short vectors on the deep cover; the maximal slope at the base level; the level group and group determinants
 
 In the setting of 8.18 and 8.18c, with `q_z` of 8.18c (e):
 
@@ -1164,6 +1176,27 @@ at the level of ThetaChainsOnDefiniteUnitaryGroups §§2.9, 2.9a, over `𝒪_�
 where `ℓ_sup` is an upper bound for the mean over the embeddings of `−log` of the sup norm of the nonzero elements of `L` and
 `β_sup` an upper bound for the Bergman function of the cusp forms of weight `λ^W_j`.
 
+(c) *The level group of the deep cover and the type part.* Let `1 ≤ j < m` and let `Γ_j` be the group of the
+`𝒪_E`-linear automorphisms of the level structure of `Y_j` (level `g₀g₁·15^e`). Hypotheses, carried by this clause:
+(H1) `Γ_j` acts on `Y_j` by change of the level structure, and its action on functions preserves, for every weight,
+the cusp forms of that weight; (H2) reduction at the type primes, in a frame of the level structure there, is a
+split surjection `π : Γ_j → G₀`, and the group `G_{Y_j}` of 8.18 (o) is `π^{−1}(P)`, `P` the product of the upper
+unitriangular groups at all the places above `g₀g₁` (BesselPoincareSeriesAndGramBounds §5.23 (iv)); (H3)
+`r + 1 < g₀` and `r + 1 < g₁`. Then:
+(c1) for `S = π^{−1}(P)` and for `S = π^{−1}(H_i)`, `i ∈ {0, 1}` (`H_i` the elements unitriangular at the places not
+above `g_i`), there is a prime `𝔔` of `E` dividing the level, of degree one over a rational prime `g > r + 1` and
+unramified, such that every element of `S` is unipotent modulo `𝔔` (a *neat prime* for `S`);
+(c2) there are a representation `ρ` of `Γ_j` on the complex cusp forms of weight `λ^W_j` on `Y_j`, equal to the action
+by translation up to a character of `Γ_j`, and a character `λ` of `π^{−1}(P)` inflated from a nondegenerate character of
+`P`, such that the rank of the type part of the lattice of integral forms of weight `λ^W_j` at the base level is
+`dim ρ^{(π^{−1}P, λ)}` and the rank of its non-good part is the dimension of the intersection of `ρ^{(π^{−1}P, λ)}` with the
+kernel of the good idempotent of RowTowerAndRallisIdentities §5.3 acting through the splitting of `π`.
+
+(d) *Cusp forms with a regular group determinant.* Let `1 ≤ j < m`, `p_j, q_j ≥ 1`, `[F:ℚ] ≥ 3`, `c = c_j` (8.18), and
+assume (H1)–(H3) of (c). For `S = π^{−1}(P)` and for each `S = π^{−1}(H_i)` there is a cusp form `ς_S` of weight `c·w_q` on
+`Y_j`, defined over the field of definition of `Y_j`, whose group determinant `det(γ_{hg}^*ς_S)_{h,g∈S}` is not a zero
+divisor of the ring of sections of `Y_j`.
+
 *Route.* (a) After the flat twist by `par(â_j)` (8.12), which preserves ranks, the weights `λ^W_j + s·c·w_q` become
 `u_{M,j} + (s + 1)·c·w_q` and `λ^W_j − c·w_q` becomes `u_{M,j}`, of the rank of `wt(T)` (8.18). On each component, the jet bound
 8.18c (e) (ii) for the weights `wt(T) + (s + 1)·c·w_q` (of the rank of `u_{M,j} + (s + 1)·c·w_q`, 8.12) gives `(1 − q_z)·rk ≤ binom(T − 1, D)·δ_Z`, and 8.18e (e2) (`z ≥ 0`) gives
@@ -1172,13 +1205,27 @@ where `ℓ_sup` is an upper bound for the mean over the embeddings of `−log` o
 `v ∈ L` has `‖v‖_σ² ≥ β_sup^{−1}·sup_σ|v|²` (definition of the Bergman function), so the mean, hence the maximum, over `σ` of
 `log‖v‖_σ` is at least `−ℓ_sup − ½·log β_sup`, and the first minimum satisfies `log λ_0 ≥ −ℓ_sup − ½·log β_sup`;
 SlopesOfHermitianVectorBundles §4.2 gives `μ̂_max ≤ −log λ_0 + ½·log(rk L + 2) + log 2 + ½·log rd(𝕂)`, and `rk L ≤ β_sup` (the rank is the
-integral of the Bergman function), so `μ = 2μ̂` gives the bound.
+integral of the Bergman function), so `μ = 2μ̂` gives the bound. (c) (c1) For `π^{−1}(H_i)` a prime above `g_{1−i}`, at which
+the elements of `H_i` are unitriangular; for `π^{−1}(P)` a prime above either type prime; an element trivial modulo the type
+primes is unipotent there; `g > r + 1` is (H3). The choice of the prime inside the frame is not given here. (c2) Descent
+from the cover (8.19 (a)): the forms at the base level are the `G_{Y_j}`-invariants on `Y_j`, and the type part is cut by the
+character of `P`. Its proof is not given here. (H1), (H2) are properties of the moduli problem with full level structure
+that 8.18 (o) does not state; they are hypotheses of this clause. (d) By (c1) every element of `S` is unipotent at one neat
+prime of the level. (1) *Separation of an orbit* (8.14, existence clause, applied to the quotient of `Y_j` by `S`; its proof
+uses of `S` only this unipotence, and of `c` only `c ≥ N_j + binom(dim Sh + 1, 2) + 1`): on every component `Z` there is a
+complex point `y` over the generic point such that the values of the cusp forms of weight `c·w_q` at the points of the
+`S`-orbit of `y` lying on `Z` are linearly independent. (2) *One form for all components:* for each component the
+nonvanishing at `y` of the group determinant is the nonvanishing of a nonzero polynomial on the space of cusp forms over
+the field of definition, an infinite field, and there are finitely many components. (3) A section whose value at a point
+over the generic point of every component is nonzero is not a zero divisor of the ring of sections. The existence clause
+of 8.14 asks `[F:ℚ] ≥ 2`; the hypothesis here is `[F:ℚ] ≥ 3`, under which the statement is proved. Not given here: (1)
+beyond 8.14, and the linear algebra of (2).
 
 *Check.* The hypothesis of 8.18c (e) (ii) at the weights `wt(T) + (s + 1)·c·w_q` is one of the conditions `SizeSG` of 8.18c (f) (ii)
 (a parallel twist does not change it); `2q_z ≤ 2b/(P_S·|λ^W_j|₁)` by 8.18c (f) (ii), so (a) is the rank growth that 8.14 (iv) asks with
 `ε_rk := 2q_z ≤ 1`.
 
-*NEW* (this form). *Needs:* 8.12, 8.18, 8.18c, 8.18e; SlopesOfHermitianVectorBundles §4.2; ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
+*NEW* (this form). *Needs:* 8.12, 8.14, 8.18, 8.18c, 8.18e, 8.19 (a); RowTowerAndRallisIdentities §5.3; SlopesOfHermitianVectorBundles §4.2; ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
 
 ### 8.19 The slope of the step lattices
 
@@ -1199,9 +1246,9 @@ to the different of `𝕃_Y`; consequently, for every saturated sublattice `L` o
 `μ(L ⊗ 𝒪_{𝕃_Y}) ≥ μ(L′) − 2·log rd(𝕃_Y)` for the lattice `L′` of the integral forms on `Y_j` lying in the span of the pull-back
 of `L` (`rd` the absolute root discriminant).
 
-(b) *The slope.* Under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1, the hypotheses of BesselPoincareSeriesAndGramBounds §5.23 (ii)–(iv) (on `r`, `g_i`, `q`, `d`, the exponent
-of `δ_bad`, and the multiplicity hypothesis of BesselPoincareSeriesAndGramBounds §5.23 (iv) for the weight `λ^W_j` at the level of ThetaChainsOnDefiniteUnitaryGroups §2.9), and, for `j < m`,
-`[F:ℚ] ≥ 2` (Koecher's principle, for the existence clause of 8.14; `p_j, q_j ≥ 1` hold):
+(b) *The slope.* Under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1, the hypotheses of BesselPoincareSeriesAndGramBounds §5.23 (ii), (iii) (on `r`, `g_i`, `q`, `d` and the exponent
+of `δ_bad`), `r + 1 < g₀, g₁`, and, for `j < m`, `[F:ℚ] ≥ 3` (`p_j, q_j ≥ 1` hold), `q_z ≤ ¼` (8.18c (e)) and the hypotheses of
+8.18f (c), (d):
 
 `μ(M^W_j) ≥ −(p_j − q_j)·Σ_τ w_j(τ)·log Ω − C·B₀·log log x`,
 
@@ -1232,15 +1279,32 @@ with `log|G_{Y_j}| ≤ b` and `log Λ ≤ P_S·|λ^W_j|₁` at `λ^W_j`, 8.18c (
 (i)–(iii); then `|t| ≤ P_S·|λ^W_j|₁ + C·B₀·log log x + 2b` (as `|log Ω| ≤ P_S`), and with `q_z·P_S·|λ^W_j|₁ ≤ b`, `q_z ≤ ½` (8.18c (f) (ii))
 `ε_rk|t| ≤ 4b + C·B₀·log log x` and `2ε_rkΛ ≤ 6b`: the loss `ε_rk(|t| + 2Λ)` is at most `10b + C·B₀·log log x`. (v) From
 the type part to the good part: the good projector is a self-adjoint idempotent of the group algebra of `G₀` with
-`|G₀|·Π_good(L) ⊂ L`, `2 log|G₀| ≤ b`; the non-good part of the type part has rank at most `δ_bad` times the whole (BesselPoincareSeriesAndGramBounds §5.23 (iv) with
-the bound `W_i^{GG} ≤ W^{bd}(f, m, r, g_i)` of the Gelfand–Graev shares BesselPoincareSeriesAndGramBounds §5.23 (ii) and BesselPoincareSeriesAndGramBounds §5.23 (iii), under the multiplicity
-hypothesis of BesselPoincareSeriesAndGramBounds §5.23 (iv) for the weight `λ^W_j` and the level of ThetaChainsOnDefiniteUnitaryGroups §2.9, which is carried here: freeness of the action on a cover
-does not give it for global sections, a group of translations of an elliptic curve acting trivially on `H⁰(𝒪)`); `μ_max` of the integral forms of the
+`|G₀|·Π_good(L) ⊂ L`, `2 log|G₀| ≤ b`; the non-good part of the type part has rank at most
+`3e^{−x^{ε/(7J)}}` times the whole. For `j = m`: the forms are functions on a finite set of classes with values in a
+fixed space, the preimage of each `H_i` in the level group permutes the classes freely, so
+BesselPoincareSeriesAndGramBounds §5.23 (vi) gives the hypothesis of BesselPoincareSeriesAndGramBounds §5.23 (iv) with
+`c = 1`, and BesselPoincareSeriesAndGramBounds §5.23 (iv), (ii), (iii) give the bound with `2e^{−x^{ε/(7J)}}`. For `j < m`: by 8.18f (c) the type part and its non-good part are the
+`(π^{−1}P, λ)`-part of the representation `ρ` of `Γ_j` on the cusp forms of weight `λ^W_j` on `Y_j` and its intersection
+with the kernel of the good idempotent; BesselPoincareSeriesAndGramBounds §5.23 (v) applies with `B` the ring of
+sections of `Y_j`, `V` the cusp forms of weight `λ^W_j` and `V_m`, `V₁`, `V₂` those of the weights `λ^W_j − c·w_q`,
+`λ^W_j + c·w_q`, `λ^W_j + 2c·w_q` (products of cusp forms by forms are cusp forms of the sum of the weights, and `Γ_j`
+preserves the cusp forms of each weight, 8.18f (c)), `H₀ = π^{−1}P`, `H = π^{−1}H_i`, and `u₀`, `u` the cusp forms of
+weight `c·w_q` of 8.18f (d); the weights `λ^W_j`, `λ^W_j − c·w_q`, `λ^W_j + 2c·w_q` are good (8.18c (a), (f) (ii)), so the
+three ranks are the dimensions of the spaces of cusp forms, and `dim V₂ ≤ (1 + 2q_z)·dim V_m ≤ (3/2)·dim V_m` by
+8.18f (a) with `s = 2`. So the hypothesis of BesselPoincareSeriesAndGramBounds §5.23 (iv) holds with `c = 3/2`, and
+BesselPoincareSeriesAndGramBounds §5.23 (iv), (ii), (iii) give the bound. Freeness of the action on the cover alone would not give it for global sections (a group of translations of
+an elliptic curve acts trivially on `H⁰(𝒪)`): the cusp form with a group determinant that is not a zero divisor is
+what replaces it; `μ_max` of the integral forms of the
 type part is at most `x^C·b` by 8.18f (b) with `ℓ_sup ≤ x^C·b` (8.18c (f) (iii)) and `β_sup ≤ β` of 8.18c (d) (the pull-back to the deep cover
 is injective and isometric, so the Bergman function at the base level is at most that on the cover; `log β ≤ C·(f·r·x^ε)³`);
 SlopesOfHermitianVectorBundles §2.6 (integer form, `g = |G₀|`) gives
 `μ(L ∩ im e) ≥ μ(L) − (rk(L ∩ ker e)/rk(L ∩ im e))·(2 log|G₀| + μ_max(L) − μ(L))`, a loss `O(δ_bad·x^C·b)`, at most `b ≤ B₀` for
-`x ≥ x₀`. (c) The identification of the rational structures is RowTowerAndRallisIdentities §5.11. (i) The model norm is `vol·dim τ` times the Petersson
+`x ≥ x₀`. (c) The identification of the rational structures is RowTowerAndRallisIdentities §5.11. For every embedding `σ` of
+`𝕃` that is good for the step there is exactly one `σ`-semilinear map from the cusp forms of weight `λ^W_j` at the base level
+into the model of the row space at `σ` whose value at the extremal vector of the lowest `K`-type is the classical lift: the
+values at the extremal vector of the vectors of the model are exactly the classical lifts of the holomorphic cusp forms of
+this weight (rapid decay of cusp forms and finiteness of the volume), and evaluation at the extremal vector is injective on
+the model. (i) The model norm is `vol·dim τ` times the Petersson
 norm (RowTowerAndRallisIdentities §5.1), whose logarithm the size conditions bound. (ii) A full lattice meets every rational subspace in a lattice that
 spans it (a basis of the subspace times a common denominator). The integral structure is then a definition, and the slope
 of `M^W_j` with the model norm differs from that with the Petersson norm by `2·mean_σ log c_σ`.
@@ -1870,7 +1934,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From BesselPoincareSeriesAndGramBounds, a sub-roadmap of this family
 
-- §5.23 (ii)–(iv) (the Gelfand–Graev shares and the multiplicity hypothesis for the discarded share). Used in 8.19.
+- §5.23 (ii)–(vi) (the Gelfand–Graev shares and the bound for the discarded share; (v) embedding in regular representations from a group determinant; (vi) free permutation). Used in 8.19.
 
 ### From CongruenceModulesOfThetaLifts, a sub-roadmap of this family
 
