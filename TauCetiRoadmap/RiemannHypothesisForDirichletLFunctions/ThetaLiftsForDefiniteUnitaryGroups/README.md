@@ -920,7 +920,7 @@ MetaplecticAutomorphicForms §3.22.
 **Checks.**
 
 - `n = 0`, `d = 2`: `χ̃_V ∘ det` has base-change parameter `χ_{V,v}(ϖ_v)(q_w^{1/2}, q_w^{−1/2})`, that is
-  `±(q_v, q_v⁻¹)`; reading `q` as `q_v` would halve the exponents.
+  `(q_v, q_v⁻¹)`, since `χ_{V,v}(ϖ_v) = (−1)^0 = 1`; reading `q` as `q_v` would halve the exponents.
 
 ### 2.4 Constituents of a lift
 
@@ -1032,7 +1032,7 @@ ThetaKernelsForUnitaryDualPairs §4.4a, whose last Check computes `det` on `X₁
 
 ### Examples
 
-For `n = d = 1`, `U(V) = U(W) = E¹` acts on `V ⊗_E W = E` by the scalar `gh`, and the lift of a character `μ` of `E¹\𝔸_E¹` is a theta value times the Hecke character `κ · μ⁻¹ · (χ_V/χ_W)~`, of Satake parameter `c_w μ_w(ϖ_w)⁻¹` at a split place (2.2) and with base change `BC(μ)^∨ ⊗ χ_V/χ_W` (2.4); for the homomorphism pair the parameter is `c_w μ_w(ϖ_w)`, without inversion (2.5). At a real place with `n = d = 1`, a form of weight `w` that occurs lifts to weight `−w + (m_{V,v} − m_{W,v})/2` for either sign `ε_v` (2.1). For `n = 0` the lift is the character `χ̃_V ∘ det`, of Satake parameter `χ_{V,w}(ϖ_w)(q_w^{(d−1)/2}, …, q_w^{−(d−1)/2})` at a split place (2.2) and, for `d = 2` at an inert place, `±(q_v, q_v⁻¹)` (2.3).
+For `n = d = 1`, `U(V) = U(W) = E¹` acts on `V ⊗_E W = E` by the scalar `gh`, and the lift of a character `μ` of `E¹\𝔸_E¹` is a theta value times the Hecke character `κ · μ⁻¹ · (χ_V/χ_W)~`, of Satake parameter `c_w μ_w(ϖ_w)⁻¹` at a split place (2.2) and with base change `BC(μ)^∨ ⊗ χ_V/χ_W` (2.4); for the homomorphism pair the parameter is `c_w μ_w(ϖ_w)`, without inversion (2.5). At a real place with `n = d = 1`, a form of weight `w` that occurs lifts to weight `−w + (m_{V,v} − m_{W,v})/2` for either sign `ε_v` (2.1). For `n = 0` the lift is the character `χ̃_V ∘ det`, of Satake parameter `χ_{V,w}(ϖ_w)(q_w^{(d−1)/2}, …, q_w^{−(d−1)/2})` at a split place (2.2) and, for `d = 2` at an inert place, `(q_v, q_v⁻¹)` (2.3).
 
 ### Dependencies
 
@@ -2133,7 +2133,9 @@ and `⟨f, I_V(Ψ)⟩ = ⟨f, I_{V′}(Ψ′)⟩ = 0` for every test vector `Ψ`
 
 *The form of the formal proof.* For a triple satisfying hypotheses 1–4 of 6.11: a difference `I_V(Φ) − I_{V′}(Φ′)`,
 `Φ′ ∈ S′_{reg}`, that is orthogonal to `I_V(Ψ)` for every test vector `Ψ` and to `I_{V′}(Ψ′)` for every `Ψ′ ∈ S′_{reg}` is
-zero; there the theta integrals are square-integrable (6.3) and cuspidality is not needed. The statement above, in the
+zero; there the theta integrals are square-integrable (6.3) and cuspidality is not needed. This is [FormalProof],
+`Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean` (`PositivityTheory.ThKEnd.PerpZero`).
+The statement above, in the
 range of 6.3 and for cuspidal `f`, is this roadmap's extension, proved by the route below.
 
 Route: `f` is cuspidal of uniform moderate growth, hence rapidly decreasing (6.3), and every theta integral of 6.3 has
@@ -2190,9 +2192,20 @@ pairs `(X, W)`, `(X′, W)` as in the square-integrability statements of 6.3 wit
 `χ_W = χ_X/χ_{X′}`, at every place split in `E` at which the component of `χ_W` is not `1` at a uniformiser.
 Constancy is proved for a function right invariant under `U(X)(F_v)` at every place outside a finite set lying over a
 rational prime that splits completely in `E`. A constant back-lift vanishes when `X` is indefinite at the real places,
-`dim X ≥ 3` and `χ_W` is nontrivial at `v₁`. Orthogonality and the anisotropic case are as stated, for cuspidal `f`. The
-density statement for `𝒮`, the statements at the places of `𝒮` outside that set, and constancy from invariance on an
-arbitrary set of split places of density one are this roadmap's extension.
+`dim X ≥ 3` and `χ_W` is nontrivial at `v₁`. Orthogonality and the anisotropic case are as stated, for cuspidal `f`.
+These statements follow from [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars.Good`),
+`Development/WeilBound/ThetaLifts/LatticeBasics/GoodNe.lean` (`GlobalTheory.ThK.Dbl.nu_pow_ne_one`),
+`Development/WeilBound/ThetaLifts/EigenvalueEndgame/OrthogonalDecomposition/HodgeTateFromSandwich.lean`
+(`PositivityTheory.ThKEnd.Orth.LocDecomp`),
+`Development/WeilBound/ThetaLifts/EigenvalueEndgame/OrthogonalDecomposition/HodgeTateFromSandwich.lean`
+(`PositivityTheory.ThKEnd.Orth.PairLoc`), `Development/WeilBound/ThetaLifts/LatticeBasics/PairsStable.lean`
+(`GlobalTheory.ThK.Dbl.ConstOfGood`),
+`Development/WeilBound/ThetaLifts/EigenvalueEndgame/OrthogonalDecomposition/HodgeTateFromSandwich.lean`
+(`PositivityTheory.ThKEnd.Orth.ThZero`), `Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean`
+(`PositivityTheory.ThKEnd.OrthIso`), `Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean`
+(`PositivityTheory.ThKEnd.OrthAn`). The density statement for `𝒮`, the statements at the places of `𝒮` outside that set,
+and constancy from invariance on an arbitrary set of split places of density one are this roadmap's extension.
 
 Route. Good split places: `ν` has infinity types `κ_v ≠ 0`, so no `ν^k`, `k ≠ 0`, is a norm twist, and
 `L(s, ν^k)` is holomorphic and nonzero at `s = 1` (AnalyticNumberTheoryPartI §2.3a, LFunctions Layer 7);
@@ -2249,7 +2262,11 @@ Prove:
 `p, q ≥ 1`, when the triple `(V₁, V′, W₁)` obtained by removing adapted planes from `V` and `W` satisfies them too: the
 part of law `α|t|^{a′/2}` of an element of `𝒟`, translated by an element of `K_{W,∞} × U(W)(𝔸_f)` and restricted to the
 Levi, is an element of `𝒟(V₁, V′, W₁)`; and if the element of `𝒟` has zero `β`-part, the constant term of that
-restriction along some hyperbolic plane of `W₁` has the single law `α|t|^{a′/2}`. The ranges above, and the explicit
+restriction along some hyperbolic plane of `W₁` has the single law `α|t|^{a′/2}`. These statements follow from
+[FormalProof], `Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean`
+(`PositivityTheory.ThKEnd.CuspOfLine`), `Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean`
+(`PositivityTheory.ThKEnd.AlphaLow`), `Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean`
+(`PositivityTheory.ThKEnd.TwoStep`). The ranges above, and the explicit
 form of the restriction, are this roadmap's extension.
 
 Route. Cuspidality, by induction on `j = dim I`: for `j = 1` all isotropic lines are conjugate under
