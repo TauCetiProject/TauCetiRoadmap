@@ -26,13 +26,14 @@ base.
   place `𝔭` of `𝕃` above a prime `p ≥ 5` inert in `K`, unramified in `E`, with `p ≤ X″` and of
   split type, and for a tuple `ξ` unramified above `p`, every step maps `ℳ^{int}_{j−1}` into
   `p^{g⁰_j(𝔭) + F_j(𝔭) − E_{u,j}(𝔭) + [j=1]·v_p(D_Γ)}·ℳ^{int}_j` locally at `𝔭`, the chain lift
-  gains the sum of these exponents plus `v_p(D_Γ)`, and the periods of row forms have valuation at
-  least `⌊e_𝔭·Σ_j(g⁰_j + F_j − E_{u,j})(𝔭)⌋`. It lacks the lattices of integral forms, the step
+  gains the sum of these exponents plus `v_p(D_Γ)`, and, for the base tuple and the tuples used at
+  some place, the periods of row forms have valuation at least
+  `⌊e_𝔭·Σ_j(g⁰_j + F_j − E_{u,j})(𝔭)⌋`. It lacks the lattices of integral forms, the step
   operators and the chain lift (ThetaChainsOnDefiniteUnitaryGroups §§3.1–3.5), the top period
   (ThetaChainsOnDefiniteUnitaryGroups §3.9), and the ledger of gains, bulks and costs (4.9e,
   4.9f), which is defined through the weights and the Taylor bounds of the chain.
 * The refined gain on the Hecke image and its colength (4.14, 4.15c): on the image of the ideal
-  `𝒴 = ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})` of Hida-normalised Hecke operators at linked places above `p`, the
+  `𝒴 = ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})` of Hida-normalised Hecke operators at places above `p`, the
   chain gains `Σ_j(g_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)`, and under the depth property at every
   `v ∈ 𝒱` with `m·Σ_v sh_v ≤ 1/2` and a sandwich exponent `e`, the colength of
   `𝒴·ℳ^{int}_0 ∩ p^τ·ℳ^{int}_0` in `ℳ^{int}_0` is at most `e_R·rank·(τ + 2S·m·Σ_v sh_v)`. It
@@ -46,10 +47,13 @@ base.
   source lattices `M_u` (ThetaChainsOnDefiniteUnitaryGroups §3.8) and the operators at the level
   prime (ThetaChainsOnDefiniteUnitaryGroups §3.7).
 * The gain inequality (4.17a): with the data of 4.17, at every place above a prime `p ≤ X″` inert
-  in `K` and outside `Drop`, `0 ≤ g_j(𝔭) ≤ 4|Φ_top|a/p` and the ramp sums of the tops, less the
-  losses, are at most `Σ_j g_j(𝔭) − τ_N(𝔭)`. It lacks the gains `g_j` of 4.9e and the data of 4.17
-  (the candidates, the good places and their shares, which are defined through the depth
-  property), besides the hosts with their tops (FrobeniusRestrictedRieszSums §§0.4–0.7).
+  in `K` and outside `Drop`, `0 ≤ g_j(𝔭) ≤ 4|Φ_top|a/p` and the ramp sums of the tops of
+  `Φ_top(𝔭)` (all tops, except below `X′` at the primes inert in `K` and in `ℚ(√−q)`, where only
+  the tops on served orbits count), less the losses, are at most `Σ_j g_j(𝔭) − τ_N(𝔭)`; the ask of
+  the excluded tops is bounded in 4.17c under two properties of the host. It lacks the gains
+  `g_j` of 4.9e and the data of 4.17 (the candidates, the good places and their shares, which are
+  defined through the depth property), besides the hosts with their tops
+  (FrobeniusRestrictedRieszSums §§0.4–0.7).
 
 Some statements on the routes are statable in Mathlib and are not stated here, because they are
 steps of the routes and not headlines: the elementary divisors of a matrix of polynomials along an
