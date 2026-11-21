@@ -16,6 +16,11 @@ A Hermitian vector bundle `Ē` over `O_K` is that of ArakelovGeometryAndAbelianH
 
 Notation and conventions not restated here are those of ArakelovGeometryAndAbelianHeightsPartII (Conventions and Layer 0), HeightsRationalPointsAndObstructions §5.17a and ArakelovGeometryAndAbelianHeights (Conventions and Layer 1).
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: Hermitian line bundles with log-log singular metrics
 
 This layer defines log-smooth models and log-log singular semipositive metrics on projective arithmetic varieties, with their regularisations, and constructs the adelic line bundle and the limit intersection numbers of such metrics, with a bound for the boundary mass of the mixed measures of the regularisations and two rates of convergence.
