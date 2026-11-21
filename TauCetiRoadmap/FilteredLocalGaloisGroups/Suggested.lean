@@ -1,7 +1,10 @@
-import Mathlib
-import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
-import TauCeti.NumberTheory.LocalField.Uniformizer
-import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.FiniteExtension
+public import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
+public import TauCeti.NumberTheory.LocalField.Uniformizer
+public import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 
 /-!
 # Filtered local Galois groups and their solvable quotients: suggested signatures
@@ -13,17 +16,20 @@ The file pins the carriers of Layers 0 and 1, which are group theory with no ari
 the closed derived series `closedDerivedSeries` and the solvable quotients `SolvableQuotient`,
 filtrations `GroupFiltration` with filtered isomorphisms `IsFiltered` relative to an index set and
 outer filtered isomorphisms `FilteredOut`, quotient filtrations, and the Herbrand functions and
-restriction of a filtration to an open subgroup. It states the headline theorems of Layer 3
-against the pinned Tau Ceti: the coordinates `artinCoordinateHom` on the abelianized absolute
-Galois group, and centre-freeness of `G_K^m` for `m ≥ 2` and of `G_K`.
+restriction of a filtration to an open subgroup. It states the open-subgroup model of Layer 2.0
+and the headline theorems of Layer 3 against the pinned Tau Ceti: the coordinates
+`artinCoordinateHom` on the abelianized absolute Galois group, the centre of `G_K^{m+1}`, and
+centre-freeness of `G_K^m` for `m ≥ 2`, for finite extensions `K` of `ℚ_p`.
 
-Of Layer 2, only the open-subgroup model 2.0 (`absoluteGaloisGroupEquivFixingSubgroup'`) is
-stated here. The absolute upper filtration of TauCetiProject/TauCetiRoadmap#1410 §4a.1 has no
-declaration at the pins, so 2.1–2.4 are stated in `README.md` only.
+The absolute upper filtration on a nonarchimedean local field is ClassFieldTheory Layer 7's
+`localAbsoluteUpperRamificationGroup`, which has no declaration at the Tau Ceti pin, so 2.1–2.4
+are stated in `README.md` only.
 
 Suggested homes: `TauCeti/Topology/Algebra/Group/Filtration/` for Layers 0 and 1, and
 `TauCeti/NumberTheory/LocalField/FilteredGaloisGroup/` for Layers 2 and 3.
 -/
+
+@[expose] public section
 
 open scoped Pointwise
 
@@ -35,24 +41,14 @@ section Layer0
 
 variable (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 
-/-- The **closed derived series** `G^[n]`: the topological closure of Mathlib's `derivedSeries`.
+/-- The **closed derived series** `G^[n]`: the topological closure of Mathlib's
+`Subgroup.derivedSeries`.
 The recursion through closed commutators is `closedDerivedSeries_succ`. -/
 def closedDerivedSeries (n : ℕ) : Subgroup G :=
-  (derivedSeries G n).topologicalClosure
+  (Subgroup.derivedSeries G n).topologicalClosure
 
 instance (n : ℕ) : (closedDerivedSeries G n).Normal :=
   Subgroup.is_normal_topologicalClosure _
-
-theorem isClosed_closedDerivedSeries (n : ℕ) : IsClosed (closedDerivedSeries G n : Set G) :=
-  Subgroup.isClosed_topologicalClosure _
-
-theorem closedDerivedSeries_zero : closedDerivedSeries G 0 = ⊤ := by
-  rw [closedDerivedSeries, derivedSeries_zero]
-  exact top_unique (Subgroup.le_topologicalClosure _)
-
-theorem closedDerivedSeries_one :
-    closedDerivedSeries G 1 = (commutator G).topologicalClosure := by
-  rw [closedDerivedSeries, derivedSeries_one]
 
 /-- `G^[n+1]` is the closure of the commutator subgroup of `G^[n]`. -/
 theorem closedDerivedSeries_succ (n : ℕ) :
@@ -70,7 +66,7 @@ theorem map_closedDerivedSeries {G' : Type*} [Group G'] [TopologicalSpace G']
   sorry
 
 /-- The maximal `n`-step solvable quotient `G^n = G/G^[n]`. For `n = 1` it is
-`TopologicalAbelianization G` (`closedDerivedSeries_one`). -/
+`TopologicalAbelianization G`. -/
 abbrev SolvableQuotient (n : ℕ) : Type _ :=
   G ⧸ closedDerivedSeries G n
 
@@ -148,7 +144,10 @@ def FilteredIsom (F : GroupFiltration G) (F' : GroupFiltration G') (S : Set ℝ)
 def FilteredIsom.setoid (F : GroupFiltration G) (F' : GroupFiltration G') (S : Set ℝ) :
     Setoid (FilteredIsom F F' S) where
   r α β := ∃ g : G', ∀ x, β.1 x = g * α.1 x * g⁻¹
-  iseqv := sorry
+  iseqv :=
+    { refl _ := ⟨1, fun _ ↦ by simp⟩
+      symm := fun ⟨g, h⟩ ↦ ⟨g⁻¹, fun x ↦ by simp [h, mul_assoc]⟩
+      trans := fun ⟨g, h⟩ ⟨g', h'⟩ ↦ ⟨g' * g, fun x ↦ by simp [h, h', mul_assoc]⟩ }
 
 /-- **Outer filtered isomorphisms** `Out_Filt(G, G'; S)`: the `S`-filtered isomorphisms modulo
 post-composition with inner automorphisms of `G'`. -/
@@ -167,7 +166,10 @@ def GroupFiltration.quotient [CompactSpace G] (F : GroupFiltration G) (N : Subgr
     (hN : IsClosed (N : Set G)) : GroupFiltration (G ⧸ N) where
   step u := (F.step u).map (QuotientGroup.mk' N)
   antitone_step _ _ h := Subgroup.map_mono (F.antitone_step h)
-  isClosed_step := sorry
+  isClosed_step u := by
+    have := hN
+    rw [Subgroup.coe_map]
+    exact ((F.isClosed_step u).isCompact.image QuotientGroup.continuous_mk).isClosed
   normal_step u := (F.normal_step u).map _ (QuotientGroup.mk'_surjective N)
 
 /-- The **Herbrand function** of a subgroup `H`: `ψ_H(u) = u` for `u ≤ 0`, and
@@ -196,9 +198,14 @@ noncomputable def GroupFiltration.herbrandPsiOrderIso [CompactSpace G] (F : Grou
 noncomputable def GroupFiltration.restrict [CompactSpace G] (F : GroupFiltration G)
     {H : Subgroup G} (hH : IsOpen (H : Set G)) : GroupFiltration H where
   step w := (F.step ((F.herbrandPsiOrderIso hH).symm w)).subgroupOf H
-  antitone_step := sorry
-  isClosed_step := sorry
-  normal_step := sorry
+  antitone_step _ _ h :=
+    Subgroup.subgroupOf_mono H (F.antitone_step ((F.herbrandPsiOrderIso hH).symm.monotone h))
+  isClosed_step w := by
+    rw [Subgroup.coe_subgroupOf]
+    exact (F.isClosed_step _).preimage continuous_subtype_val
+  normal_step w :=
+    haveI := F.normal_step ((F.herbrandPsiOrderIso hH).symm w)
+    Subgroup.normal_subgroupOf
 
 /-- **A filtered isomorphism restricts to open subgroups.** If `α` is `S`-filtered with
 `[0, ∞) ⊆ S` and carries `H` onto `H'`, its restriction is `ψ_H(S)`-filtered for the restricted
@@ -224,19 +231,13 @@ variable (K : Type*) [Field K] (L : IntermediateField K (AlgebraicClosure K))
   [FiniteDimensional K L] [Algebra.IsSeparable K L]
 
 /-- **The absolute Galois group of a finite separable subextension is its fixing subgroup**, as
-topological groups: the composite of `absoluteGaloisGroupRestrictEquiv L`,
-`absoluteGaloisGroupEquivFixingSubgroup K L σ` for the embedding `σ` of `L` into the separable
-closure, and `absoluteGaloisGroupRestrictEquiv K`. -/
-noncomputable def absoluteGaloisGroupEquivFixingSubgroup' :
-    Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup :=
-  sorry
-
-/-- The model is `absoluteGaloisGroupExtend` along the inclusion of `L` into the separable
-closure. -/
-theorem coe_absoluteGaloisGroupEquivFixingSubgroup' (σ : L →ₐ[K] SeparableClosure K)
-    (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x)
-    (τ : Field.absoluteGaloisGroup L) :
-    (absoluteGaloisGroupEquivFixingSubgroup' K L τ).1 = absoluteGaloisGroupExtend K L σ τ :=
+topological groups (Layer 2.0): `absoluteGaloisGroupExtend K L σ`, for the embedding `σ` of `L`
+into the separable closure induced by the inclusion, is a continuous isomorphism onto
+`L.fixingSubgroup`. -/
+theorem exists_continuousMulEquiv_fixingSubgroup (σ : L →ₐ[K] SeparableClosure K)
+    (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x) :
+    ∃ e : Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup,
+      ∀ τ, (e τ).1 = absoluteGaloisGroupExtend K L σ τ :=
   sorry
 
 end Layer2
@@ -247,8 +248,7 @@ section Layer3
 
 open ValuativeRel TauCeti TauCeti.ClassFieldTheory
 
-variable (p : ℕ) [Fact p.Prime] (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
-  [IsNonarchimedeanLocalField K] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
 /-- The **coordinates** `𝒪_K^× × Ẑ → G_K^ab`, `(u, a) ↦ Art_K(u) · Art_K(ϖ)^ᶻ a`. -/
 noncomputable def artinCoordinateHom (ϖ : Kˣ) :
@@ -256,28 +256,26 @@ noncomputable def artinCoordinateHom (ϖ : Kˣ) :
   MonoidHom.coprod ((artinMap K).comp (Units.map (algebraMap 𝒪[K] K).toMonoidHom))
     (zHat.lift (artinMap K ϖ)).toMonoidHom
 
-/-- **`G_K^ab ≅ 𝒪_K^× × Ẑ` for a uniformizer `ϖ`**, as topological groups. -/
-theorem exists_continuousMulEquiv_artinCoordinateHom (ϖ : Kˣ) (hϖ : IsUniformizer K ϖ) :
+/-- **`G_K^ab ≅ 𝒪_K^× × Ẑ` for a uniformizer `ϖ`**, as topological groups, for `K/ℚ_p` finite. -/
+theorem exists_continuousMulEquiv_artinCoordinateHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
+    [Module.Finite ℚ_[p] K] (ϖ : Kˣ) (hϖ : IsUniformizer K ϖ) :
     ∃ e : 𝒪[K]ˣ × zHat.{0} ≃ₜ* Field.absoluteGaloisGroupAbelianization K,
       ⇑e = artinCoordinateHom K ϖ :=
   sorry
 
-/-- **The centre lies in the top layer** [Hyeon 2025, Lem. A.2]:
+/-- **The centre lies in the top layer** [Hyeon 2025, Lem. A.2]: for `K/ℚ_p` finite,
 `Z(G_K^{m+1}) ≤ G_K^[m]/G_K^[m+1]`. -/
-theorem center_solvableQuotient_succ_le (m : ℕ) :
+theorem center_solvableQuotient_succ_le (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
+    [Module.Finite ℚ_[p] K] (m : ℕ) :
     Subgroup.center (SolvableQuotient (Field.absoluteGaloisGroup K) (m + 1)) ≤
       (closedDerivedSeries (Field.absoluteGaloisGroup K) m).map
         (QuotientGroup.mk' (closedDerivedSeries (Field.absoluteGaloisGroup K) (m + 1))) :=
   sorry
 
-/-- **`G_K^m` is centre-free for `m ≥ 2`** [Hyeon 2025, Prop. A.1]. -/
-theorem center_solvableQuotient_eq_bot (m : ℕ) (hm : 2 ≤ m) :
+/-- **`G_K^m` is centre-free for `m ≥ 2`** [Hyeon 2025, Prop. A.1], for `K/ℚ_p` finite. -/
+theorem center_solvableQuotient_eq_bot (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
+    [Module.Finite ℚ_[p] K] (m : ℕ) (hm : 2 ≤ m) :
     Subgroup.center (SolvableQuotient (Field.absoluteGaloisGroup K) m) = ⊥ :=
-  sorry
-
-/-- **`G_K` is centre-free.** -/
-theorem center_absoluteGaloisGroup_eq_bot :
-    Subgroup.center (Field.absoluteGaloisGroup K) = ⊥ :=
   sorry
 
 end Layer3
