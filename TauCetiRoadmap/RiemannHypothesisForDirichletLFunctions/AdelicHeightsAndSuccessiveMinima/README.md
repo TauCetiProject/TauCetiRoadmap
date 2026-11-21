@@ -79,7 +79,8 @@ lies in `GL_n(𝓞_𝔭)` at almost every `𝔭`. It states the value at `A = 1`
 (`adelicSubspaceHeight_one`) and the value on the whole space (`adelicSubspaceHeight_top`).
 
 *Needs:* DiophantineApproximationAndTranscendence §2.5 (the height `H_A` with its adelic carrier, restricted product and local isometric reduction;
-`plucker`, `height2`, `absoluteHeight2`, `subspaceHeight`); Mathlib `NumberField.prod_abs_eq_one`.
+`plucker`, `height2`, `absoluteHeight2`, `subspaceHeight`); ArakelovGeometryAndAbelianHeights §§1.12 and 1.14 (for the comparison
+with the Arakelov height under *Standard data* only); Mathlib `NumberField.prod_abs_eq_one`.
 
 **Checks.**
 
@@ -96,7 +97,7 @@ The Checks of 2.5a work three instances. Over `ℚ` with `n = 2`, `A_∞ = diag(
 
 ### Dependencies
 
-DiophantineApproximationAndTranscendence §2.5 (the height `H_A` with its adelic carrier, restricted product and local isometric reduction; `plucker`, `height2`, `absoluteHeight2`, `subspaceHeight`); Mathlib's product formula `NumberField.prod_abs_eq_one`.
+DiophantineApproximationAndTranscendence §2.5 (the height `H_A` with its adelic carrier, restricted product and local isometric reduction; `plucker`, `height2`, `absoluteHeight2`, `subspaceHeight`); ArakelovGeometryAndAbelianHeights §§1.12 and 1.14 (the height of algebraic points for a metrized line bundle and the Fubini–Study degree, for the comparison under *Standard data* only); Mathlib's product formula `NumberField.prod_abs_eq_one`.
 
 ## Layer 3: Minkowski's second theorem over number fields for balanced bodies
 
@@ -105,7 +106,8 @@ SubspaceTheorem §4.2 defines the successive minima over `K` of a module with re
 ### 3.1 Successive minima over `K` for balanced bodies
 
 Let `B ⊂ ι → mixedSpace K` be compact, convex, symmetric, with `0` in its interior, and **balanced over the
-completions**: if `x ∈ B` and `a ∈ mixedSpace K` has `‖a_v‖ ≤ 1` at every infinite place, then `a·x ∈ B`.
+completions**: if `x ∈ B` and `a ∈ mixedSpace K` has `‖a_v‖ ≤ 1` at every infinite place, then `a·x ∈ B`
+(with `a = −1` this gives the symmetry, which the upper bound below uses without balancedness).
 For a finitely generated `𝓞 K`-module `Λ ⊆ ι → K` spanning it, `μ l` is the `K`-minimum of SubspaceTheorem §4.2,
 indexed from `0`, whose definition reads `B` only as a set, so it applies to these bodies unchanged. Prove,
 with the constant `c_K ≥ 1` of SubspaceTheorem §4.2, the largest house of a member of a fixed integral basis of `𝓞 K`,
@@ -191,9 +193,9 @@ In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [SlopesOf
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the elementary properties that DiophantineApproximationAndTranscendence §2.5 does not state of its height adelicSymmetricPowerHeight and of its subspace height through exterior powers, written out over every finite extension of `K` as `adelicHeight` and `adelicSubspaceHeight`: independence of the scalar and of the Plücker vector, the values at `A = 1`, change of basis, the whole space, lines and the case `n = 1` (2.5a); and, for every compact convex symmetric body with `0` in its interior that is balanced over the completions, the attainment of the successive minima over `K` by one family, their comparison with the real minima and Minkowski's second theorem over `K`, with its upper half for every compact convex symmetric body (3.1).
+This roadmap owns the elementary properties that DiophantineApproximationAndTranscendence §2.5 does not state of its height adelicSymmetricPowerHeight and of its subspace height through exterior powers, written out over every finite extension of `K` as `adelicHeight` and `adelicSubspaceHeight`: independence of the scalar and of the Plücker vector, the values at `A = 1`, the comparison with the Arakelov height of points, change of basis, the whole space, lines and the case `n = 1` (2.5a); and, for every compact convex symmetric body with `0` in its interior that is balanced over the completions, the attainment of the successive minima over `K` by one family, their comparison with the real minima and Minkowski's second theorem over `K`, with its upper half for every compact convex symmetric body (3.1).
 
-Not owned here. The height `H_A` as a construction, adelicSymmetricPowerHeight (with its subspace height through exterior powers), its adelic carrier, its restricted product, its invariance under finite extension and its local isometric reduction, the subspace heights, the absolute Siegel lemma of Roy and Thunder (`absoluteAdelicMinima`) and the dual-height identity are [DiophantineApproximationAndTranscendence](../../DiophantineApproximationAndTranscendence/README.md) §2.5; 2.5a cites the extension invariance, `absoluteAdelicMinima` and the dual-height identity and adds nothing to them. The extraction lemma through field towers is DiophantineApproximationAndTranscendence §2.8, already in the Tau Ceti library. The approximation domains and bodies, pseudo-bases, mixed images and their covolumes are [SubspaceTheorem](../../SubspaceTheorem/README.md) §4.1; the successive minima over `K` themselves, the constant `c_K`, and the attainment, the comparisons and Minkowski's second theorem over `K` for the approximation bodies are SubspaceTheorem §4.2; the span statements for balanced bodies are SubspaceTheorem §4.3. Both halves of the real Minkowski theorem are DiophantineApproximationAndTranscendence §0.0, in the Tau Ceti library; the lower half is also the item `minkowski_second_lower` of [SuccessiveMinima](../../SuccessiveMinima/README.md) §2.1.
+Not owned here. The height `H_A` as a construction, adelicSymmetricPowerHeight (with its subspace height through exterior powers), its adelic carrier, its restricted product, its invariance under finite extension and its local isometric reduction, the subspace heights, the absolute Siegel lemma of Roy and Thunder (`absoluteAdelicMinima`) and the dual-height identity are [DiophantineApproximationAndTranscendence](../../DiophantineApproximationAndTranscendence/README.md) §2.5; 2.5a cites the extension invariance, `absoluteAdelicMinima` and the dual-height identity and adds nothing to them. The height of algebraic points for a metrized line bundle and the Fubini–Study degree on projective space, with which 2.5a compares `adelicHeight`, are [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md) §§1.12 and 1.14. The extraction lemma through field towers is DiophantineApproximationAndTranscendence §2.8, already in the Tau Ceti library. The approximation domains and bodies, pseudo-bases, mixed images and their covolumes are [SubspaceTheorem](../../SubspaceTheorem/README.md) §4.1; the successive minima over `K` themselves, the constant `c_K`, and the attainment, the comparisons and Minkowski's second theorem over `K` for the approximation bodies are SubspaceTheorem §4.2; the span statements for balanced bodies are SubspaceTheorem §4.3. Both halves of the real Minkowski theorem are DiophantineApproximationAndTranscendence §0.0, in the Tau Ceti library; the lower half is also the item `minkowski_second_lower` of [SuccessiveMinima](../../SuccessiveMinima/README.md) §2.1.
 
 Its consumer in the family is SlopesOfHermitianVectorBundles, as described under Downstream consumers above.
 
@@ -206,6 +208,10 @@ Its consumer in the family is SlopesOfHermitianVectorBundles, as described under
 ### From TauCetiRoadmap.SubspaceTheorem
 
 §4.1: the approximation bodies, compact, convex, symmetric and balanced over the completions (in the Tau Ceti library, below); the mixed image `Submodule.mixedImage` of a finitely generated `𝓞 K`-module spanning `ι → K`, a full lattice in `ι → mixedSpace K`. §4.2: the successive minima over `K`, read through `[DiscreteTopology Λ.mixedImage] [IsZLattice ℝ Λ.mixedImage]`, whose definition 3.1 uses for every body; the constant `c_K`, the largest house of a member of a fixed integral basis, with `1 ≤ c_K`; for the approximation bodies, the attainment, the three comparisons with the real minima and Minkowski's second theorem over `K`; and their proofs, which 3.1 carries over to every balanced body.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
+
+§1.12: the height `h_ℒ̄(x) = deg^(x̄^*ℒ̄)/[K′:ℚ]` of an algebraic point for a line bundle with a continuous hermitian metric on a projective flat scheme over `Spec 𝓞 K`, here `O(1)` on the space of lines of a lattice with the Fubini–Study metrics of hermitian norms. §1.14: the Fubini–Study degree of a point of projective space, Tau Ceti's `TauCeti.arakelovLogHeight`, `[K:ℚ]` times the logarithm of `TauCeti.height2` away from `0`. Both are used only for the comparison under *Standard data* in 2.5a.
 
 ### From Mathlib
 

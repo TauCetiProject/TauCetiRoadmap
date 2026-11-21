@@ -35,9 +35,10 @@ The theorems of DiophantineApproximationAndTranscendence §2.5 that 2.5a cites a
 stated: the invariance of both heights under finite extension, the absolute Siegel lemma of Roy
 and Thunder and the dual-height identity. Nor are the elementary clauses of 2.5a that are not
 headlines: the independence of the scalar and of the Plücker vector, the height of vectors at
-`A = 1`, change of basis, the height of a line and the case `n = 1`. The attainment of the minima
-over `K` by one family and their three comparisons with the real minima are steps of the route to
-Minkowski's theorem over `K` and are not stated either.
+`A = 1`, the comparison with the Arakelov height of points, change of basis, the height of a line
+and the case `n = 1`. The attainment of the minima over `K` by one family and their three
+comparisons with the real minima are steps of the route to Minkowski's theorem over `K` and are
+not stated either.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.AdelicHeightsAndSuccessiveMinima
@@ -119,14 +120,15 @@ def IsBalancedOverCompletions {K ι : Type*} [Field K] [NumberField K]
 
 /-- **Minkowski's second theorem over `K`, lower bound** (3.1). Let `Λ ⊆ ι → K` be a finitely
 generated `𝓞 K`-module spanning `ι → K` (so that its mixed image is a full lattice), `B` a compact
-convex symmetric body with `0` in its interior, balanced over the completions, `μ` a Haar measure,
-`d = [K:ℚ]`, `n = card ι`, and `c_K` the largest house of a member of an integral basis `b` of
-`𝓞 K`. Then `c_K^(−d·n) · 2^(d·n)/(d·n)! · covol Λ ≤ (∏_l μ_l)^d · vol B`. -/
+convex body with `0` in its interior, balanced over the completions (hence symmetric, `−1` having
+norm `1` at every infinite place), `μ` a Haar measure, `d = [K:ℚ]`, `n = card ι`, and `c_K` the
+largest house of a member of an integral basis `b` of `𝓞 K`. Then
+`c_K^(−d·n) · 2^(d·n)/(d·n)! · covol Λ ≤ (∏_l μ_l)^d · vol B`. -/
 theorem covolume_le_prod_successiveMinimum_pow_mul_measure_of_isBalancedOverCompletions
     {K ι ι' : Type*} [Field K] [NumberField K] [Fintype ι] [Fintype ι'] (b : Basis ι' ℤ (𝓞 K))
     (Λ : Submodule (𝓞 K) (ι → K)) [DiscreteTopology Λ.mixedImage] [IsZLattice ℝ Λ.mixedImage]
     (B : Set (ι → mixedEmbedding.mixedSpace K)) (hBc : IsCompact B) (hBconv : Convex ℝ B)
-    (hBsymm : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : ι → mixedEmbedding.mixedSpace K) ∈ interior B)
+    (hB0 : (0 : ι → mixedEmbedding.mixedSpace K) ∈ interior B)
     (hBbal : IsBalancedOverCompletions B)
     (μ : MeasureTheory.Measure (ι → mixedEmbedding.mixedSpace K)) [μ.IsAddHaarMeasure] :
     ((⨆ j, house ((b j : 𝓞 K) : K)) ^ (finrank ℚ K * Fintype.card ι))⁻¹ *
