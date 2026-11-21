@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.RepresentationTheory.Continuous.MatrixCoefficient
 public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
 /-!
@@ -24,11 +23,13 @@ compactness instances of SpecialFunctionsGroupModels §0.3 are not copied; nothi
 The lemmas `rotE_mul`, `rotE_one`, `rotE_add` and `lorentzBoost_add` are proved supporting steps
 of the copied group laws, not targets.
 
-Representations on `L²` are chosen by uniqueness: `circleRep R` and `hyperbolaRep R` are the
-representations whose operators agree almost everywhere with the pointwise formulas and have
-continuous orbit maps, when one exists, and the trivial representation otherwise; the theorems
-say when one exists. No definition depends on `sorry`. Section numbers in docstrings are those of
-the README.
+The representations on `L²` enter through the predicates `IsCircleRealization R U` and
+`IsHyperbolaRealization R U`: `U` agrees almost everywhere with the pointwise formula and has
+continuous orbit maps. The theorems about the representations take a realization `U` as an
+argument, and `exists_circleRealization` and `exists_hyperbolaRealization_iff` say when one
+exists. No definition depends on `sorry`. Section numbers in docstrings are those of the README.
+Docstrings that start with "Sanity check of the definition:" mark pointwise identities that unfold
+one definition; they test the conventions and are targets like the others.
 -/
 
 @[expose] public section
@@ -44,13 +45,12 @@ local notation "𝕋" => AddCircle (2 * π)
 
 local instance : Fact (0 < 2 * π) := ⟨Real.two_pi_pos⟩
 
-/-! ## Supplier names used in the README -/
+/-! ## Mathlib and Tau Ceti declarations named in the README -/
 
 #check @Complex.besselJ
 #check @Complex.besselJ_neg_int
 #check @MeasureTheory.Measure.toSphere
 #check @ContRepresentation.IsUnitary
-#check @ContRepresentation.trivial
 #check @Polynomial.eval
 
 /-! ## Local copies of definitions owned by other roadmaps -/
@@ -323,7 +323,8 @@ def rotAngle (k : SOn 2) : 𝕋 := (Complex.arg ((k.1 0 0 : ℂ) + (k.1 1 0 : �
 /-- README 0.1. The element `g(r, φ; α) = (r e(φ), k_α)` of `M(2)`. -/
 def polar (r φ α : ℝ) : MotionGroup 2 := ⟨planePoint r φ, rotation α⟩
 
-/-- README 0.1. **Rotations form a circle group**: `k_{α+β} = k_α k_β`. -/
+/-- Sanity check of the definition: README 0.1. **Rotations form a circle group**:
+`k_{α+β} = k_α k_β`. -/
 theorem rotation_add (α β : ℝ) : rotation (α + β) = rotation α * rotation β := by
   sorry
 
@@ -344,15 +345,16 @@ theorem toComplex_rotE_rotation (α : ℝ) (a : EuclideanSpace ℝ (Fin 2)) :
     toComplex (rotE (rotation α) a) = Complex.exp (α * I) * toComplex a := by
   sorry
 
-/-- README 0.1. **Polar product law, translation part** (Vilenkin–Klimyk Vol. 1 §4.1.1 (4)):
-the translation of `g(r₁, φ₁; α₁) g(r₂, φ₂; α₂)` is `r₁ e^{iφ₁} + r₂ e^{i(φ₂+α₁)}`. -/
+/-- Sanity check of the definition: README 0.1. **Polar product law, translation part**
+(Vilenkin–Klimyk Vol. 1 §4.1.1 (4)): the translation of `g(r₁, φ₁; α₁) g(r₂, φ₂; α₂)` is
+`r₁ e^{iφ₁} + r₂ e^{i(φ₂+α₁)}`. -/
 theorem toComplex_polar_mul_a (r₁ φ₁ α₁ r₂ φ₂ α₂ : ℝ) :
     toComplex (polar r₁ φ₁ α₁ * polar r₂ φ₂ α₂).a =
       r₁ * Complex.exp (φ₁ * I) + r₂ * Complex.exp ((φ₂ + α₁) * I) := by
   sorry
 
-/-- README 0.1. **Polar product law, rotation part**: the rotation of
-`g(r₁, φ₁; α₁) g(r₂, φ₂; α₂)` is `k_{α₁+α₂}`. -/
+/-- Sanity check of the definition: README 0.1. **Polar product law, rotation part**: the rotation
+of `g(r₁, φ₁; α₁) g(r₂, φ₂; α₂)` is `k_{α₁+α₂}`. -/
 theorem polar_mul_k (r₁ φ₁ α₁ r₂ φ₂ α₂ : ℝ) :
     (polar r₁ φ₁ α₁ * polar r₂ φ₂ α₂).k = rotation (α₁ + α₂) := by
   sorry
@@ -377,31 +379,25 @@ def IsCircleRealization (R : ℂ)
   (∀ g f, (U g f : 𝕋 → ℂ) =ᵐ[haarAddCircle] circleAction R g f) ∧
     ∀ f, Continuous fun g => U g f
 
-/-- README 1.1. The circle model on `L²(𝕋)`: the realization when one exists, and the trivial
-representation otherwise. -/
-def circleRep (R : ℂ) :
-    ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π))) :=
-  open Classical in
-  if h : ∃ U, IsCircleRealization R U then h.choose
-  else ContRepresentation.trivial ℂ (MotionGroup 2) _
-
-/-- README 1.1. **Representation law of the circle model.** -/
+/-- Sanity check of the definition: README 1.1. **Representation law of the circle model.** -/
 theorem circleAction_mul (R : ℂ) (g h : MotionGroup 2) (f : 𝕋 → ℂ) :
     circleAction R (g * h) f = circleAction R g (circleAction R h f) := by
   sorry
 
-/-- README 1.1. **The identity acts trivially** in the circle model. -/
+/-- Sanity check of the definition: README 1.1. **The identity acts trivially** in the circle
+model. -/
 theorem circleAction_one (R : ℂ) (f : 𝕋 → ℂ) : circleAction R 1 f = f := by
   sorry
 
-/-- README 1.1. **Agreement with the sphere model** of SpecialFunctionsGroupModels §2.6 at
-`n = 2` and real `R`. -/
+/-- Sanity check of the definition: README 1.1. **Agreement with the sphere model** of
+SpecialFunctionsGroupModels §2.6 at `n = 2` and real `R`. -/
 theorem circleAction_eq_motionAction (R : ℝ) (g : MotionGroup 2)
     (F : EuclideanSpace ℝ (Fin 2) → ℂ) (ψ : 𝕋) :
     circleAction R g (F ∘ unitVec) ψ = motionAction R g F (unitVec ψ) := by
   sorry
 
-/-- README 1.1. **Size of the multiplier**: `|e^{iR⟨a, e(ψ)⟩}| = e^{-Im R ⟨a, e(ψ)⟩}`. -/
+/-- Sanity check of the definition: README 1.1. **Size of the multiplier**:
+`|e^{iR⟨a, e(ψ)⟩}| = e^{-Im R ⟨a, e(ψ)⟩}`. -/
 theorem norm_circleAction (R : ℂ) (g : MotionGroup 2) (f : 𝕋 → ℂ) (ψ : 𝕋) :
     ‖circleAction R g f ψ‖ = Real.exp (-R.im * ⟪g.a, unitVec ψ⟫_ℝ) * ‖f (ψ - rotAngle g.k)‖ := by
   sorry
@@ -410,22 +406,26 @@ theorem norm_circleAction (R : ℂ) (g : MotionGroup 2) (f : 𝕋 → ℂ) (ψ :
 theorem exists_circleRealization (R : ℂ) : ∃ U, IsCircleRealization R U := by
   sorry
 
-/-- README 1.1. **Unitarity range**: `T_R` is unitary exactly for real `R`. -/
-theorem isUnitary_circleRep_iff (R : ℂ) : (circleRep R).IsUnitary ↔ R.im = 0 := by
+/-- README 1.1. **Unitarity range**: a realization of `T_R` is unitary exactly for real `R`. -/
+theorem IsCircleRealization.isUnitary_iff {R : ℂ}
+    {U : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) : U.IsUnitary ↔ R.im = 0 := by
   sorry
 
-/-- README 1.1. **`T_{-R}` and `T_R` are equivalent** through the half-turn `f ↦ f(· + π)`. -/
+/-- Sanity check of the definition: README 1.1. **`T_{-R}` and `T_R` are equivalent** through the
+half-turn `f ↦ f(· + π)`. -/
 theorem circleAction_neg (R : ℂ) (g : MotionGroup 2) (f : 𝕋 → ℂ) :
     circleAction (-R) g (fun ψ => f (ψ + (π : 𝕋))) =
       fun ψ => circleAction R g f (ψ + (π : 𝕋)) := by
   sorry
 
-/-- README 1.1. **Irreducibility of `T_R`, `R ≠ 0`**: a closed invariant subspace is `0` or
-everything. -/
-theorem circleRep_irreducible {R : ℂ} (hR : R ≠ 0)
-    (V : Submodule ℂ (Lp ℂ 2 (haarAddCircle (T := 2 * π))))
+/-- README 1.1. **Irreducibility of `T_R`, `R ≠ 0`**: for a realization of `T_R`, a closed
+invariant subspace is `0` or everything. -/
+theorem IsCircleRealization.irreducible {R : ℂ} (hR : R ≠ 0)
+    {U : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (V : Submodule ℂ (Lp ℂ 2 (haarAddCircle (T := 2 * π))))
     (hV : IsClosed (V : Set (Lp ℂ 2 (haarAddCircle (T := 2 * π)))))
-    (hinv : ∀ g, ∀ v ∈ V, circleRep R g v ∈ V) : V = ⊥ ∨ V = ⊤ := by
+    (hinv : ∀ g, ∀ v ∈ V, U g v ∈ V) : V = ⊥ ∨ V = ⊤ := by
   sorry
 
 /-! ### 1.2 Matrix elements -/
@@ -438,24 +438,32 @@ theorem integral_exp_inner_fourier (R : ℂ) (r φ : ℝ) (n : ℤ) :
       I ^ n * Complex.exp (n * φ * I) * besselJ n (R * r) := by
   sorry
 
-/-- README 1.2. **Matrix elements of `T_R`**:
+/-- README 1.2. **Matrix elements of `T_R`**: for a realization of `T_R`,
 `D_{mn}(g(r, φ; α)) = i^{n-m} e^{i(n-m)φ} e^{-inα} J_{n-m}(R r)`. -/
-theorem matrixElement_circleRep_polar (R : ℂ) (m n : ℤ) (r φ α : ℝ) :
-    matrixElement (circleRep R) fourierBasis m n (polar r φ α) =
+theorem IsCircleRealization.matrixElement_polar {R : ℂ}
+    {U : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (m n : ℤ) (r φ α : ℝ) :
+    matrixElement U fourierBasis m n (polar r φ α) =
       I ^ (n - m) * Complex.exp ((n - m : ℤ) * φ * I) * Complex.exp (-(n * α * I)) *
         besselJ (n - m : ℤ) (R * r) := by
   sorry
 
-/-- README 1.2. **Weights**: `T_R(k_α) eₙ = e^{-inα} eₙ`. -/
-theorem circleRep_rotation_fourierLp (R : ℂ) (α : ℝ) (n : ℤ) :
-    circleRep R ⟨0, rotation α⟩ (fourierLp 2 n) =
+/-- README 1.2. **Weights**: for a realization of `T_R`, `T_R(k_α) eₙ = e^{-inα} eₙ`. -/
+theorem IsCircleRealization.apply_rotation_fourierLp {R : ℂ}
+    {U : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (α : ℝ) (n : ℤ) :
+    U ⟨0, rotation α⟩ (fourierLp 2 n) =
       Complex.exp (-(n * α * I)) • fourierLp 2 n := by
   sorry
 
-/-- README 1.2. **Sign change of `R`**: `D^{-R}_{mn} = (-1)^{m-n} D^R_{mn}`. -/
-theorem matrixElement_circleRep_neg (R : ℂ) (m n : ℤ) (g : MotionGroup 2) :
-    matrixElement (circleRep (-R)) fourierBasis m n g =
-      (-1 : ℂ) ^ (m - n) * matrixElement (circleRep R) fourierBasis m n g := by
+/-- README 1.2. **Sign change of `R`**: for realizations of `T_R` and `T_{-R}`,
+`D^{-R}_{mn} = (-1)^{m-n} D^R_{mn}`. -/
+theorem IsCircleRealization.matrixElement_neg {R : ℂ}
+    {U U' : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (hU' : IsCircleRealization (-R) U') (m n : ℤ)
+    (g : MotionGroup 2) :
+    matrixElement U' fourierBasis m n g =
+      (-1 : ℂ) ^ (m - n) * matrixElement U fourierBasis m n g := by
   sorry
 
 /-! ### 1.3 Infinitesimal operators -/
@@ -476,12 +484,14 @@ theorem circleAction_casimir (R : ℂ) (f : 𝕋 → ℂ) (ψ : 𝕋) :
       -R ^ 2 * f ψ := by
   sorry
 
-/-- README 1.3. **Lie derivative of matrix elements**:
+/-- README 1.3. **Lie derivative of matrix elements**: for a realization of `T_R`,
 `d/dt D_{mn}(g (t e₁, 1)) |₀ = (iR/2)(D_{m,n+1}(g) + D_{m,n-1}(g))`. -/
-theorem hasDerivAt_matrixElement_mul_translation (R : ℂ) (m n : ℤ) (g : MotionGroup 2) :
-    HasDerivAt (fun t : ℝ => matrixElement (circleRep R) fourierBasis m n (g * ⟨planePoint t 0, 1⟩))
-      (I * R / 2 * (matrixElement (circleRep R) fourierBasis m (n + 1) g +
-        matrixElement (circleRep R) fourierBasis m (n - 1) g)) 0 := by
+theorem IsCircleRealization.hasDerivAt_matrixElement_mul_translation {R : ℂ}
+    {U : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (m n : ℤ) (g : MotionGroup 2) :
+    HasDerivAt (fun t : ℝ => matrixElement U fourierBasis m n (g * ⟨planePoint t 0, 1⟩))
+      (I * R / 2 * (matrixElement U fourierBasis m (n + 1) g +
+        matrixElement U fourierBasis m (n - 1) g)) 0 := by
   sorry
 
 /-! ## Layer 2: identities from the group law -/
@@ -496,8 +506,8 @@ theorem hasSum_besselJ_polar_addition (R : ℂ) (m n : ℤ) {r₁ r₂ φ₂ r �
       (Complex.exp ((n - m : ℤ) * φ * I) * besselJ (n - m : ℤ) (R * r)) := by
   sorry
 
-/-- README 2.2. **Multiplication formula** (Vilenkin–Klimyk Vol. 1 §4.1.4 (7)): the mean over the circle
-`w = r₁ + r₂ e^{iφ₂}` of `(w/|w|)ⁿ e^{-imφ₂} Jₙ(R|w|)` is `J_{n-m}(R r₁) J_m(R r₂)`. -/
+/-- README 2.2. **Multiplication formula** (Vilenkin–Klimyk Vol. 1 §4.1.4 (7)): the mean over the
+circle `w = r₁ + r₂ e^{iφ₂}` of `(w/|w|)ⁿ e^{-imφ₂} Jₙ(R|w|)` is `J_{n-m}(R r₁) J_m(R r₂)`. -/
 theorem integral_besselJ_circleMean (R : ℂ) (m n : ℤ) (r₁ r₂ : ℝ) :
     ∫ φ₂ in (0 : ℝ)..2 * π,
         (let w : ℂ := r₁ + r₂ * Complex.exp (φ₂ * I)
@@ -505,13 +515,12 @@ theorem integral_besselJ_circleMean (R : ℂ) (m n : ℤ) (r₁ r₂ : ℝ) :
       2 * π * besselJ (n - m : ℤ) (R * r₁) * besselJ m (R * r₂) := by
   sorry
 
-/-- README 2.2. **Radial form of the multiplication formula** (Vilenkin–Klimyk Vol. 1 §4.1.4 (8)–(9),
-with the cosine where the printed (8) has the exponential): for `r₁, r₂ > 0`, `r₁ ≠ r₂`,
+/-- README 2.2. **Radial form of the multiplication formula** (Vilenkin–Klimyk Vol. 1 §4.1.4
+(8)–(9), with the cosine where the printed (8) has the exponential): for `r₁, r₂ > 0`,
 `J_{n-m}(r₁) J_m(r₂) = (2/π) ∫_{|r₁-r₂|}^{r₁+r₂} cos(nφ - mφ₂) r Jₙ(r) / √Δ dr`,
 `Δ = 4r₁²r₂² - (r² - r₁² - r₂²)²`, with `φ₂ = arccos((r² - r₁² - r₂²)/(2r₁r₂))` and
 `φ = arg(r₁ + r₂ e^{iφ₂})`. -/
-theorem besselJ_mul_besselJ_eq_integral (m n : ℤ) {r₁ r₂ : ℝ} (h₁ : 0 < r₁) (h₂ : 0 < r₂)
-    (h₁₂ : r₁ ≠ r₂) :
+theorem besselJ_mul_besselJ_eq_integral (m n : ℤ) {r₁ r₂ : ℝ} (h₁ : 0 < r₁) (h₂ : 0 < r₂) :
     besselJ (n - m : ℤ) r₁ * besselJ m r₂ =
       2 / π * ∫ r in |r₁ - r₂|..r₁ + r₂,
         (let φ₂ := Real.arccos ((r ^ 2 - r₁ ^ 2 - r₂ ^ 2) / (2 * r₁ * r₂))
@@ -588,12 +597,14 @@ def millerMatrix (ω m₀ : ℂ) (l k : ℤ) (g : T3) : ℂ :=
     ∑' s : ℕ, (ω * g.b) ^ (s + (l - k).toNat) * (ω * g.c) ^ (s + (k - l).toNat) /
       (((s + (l - k).toNat).factorial : ℂ) * ((s + (k - l).toNat).factorial : ℂ))
 
-/-- README 3.1. **Representation law of Miller's model** (Miller (3.7)). -/
+/-- Sanity check of the definition: README 3.1. **Representation law of Miller's model** (Miller
+(3.7)). -/
 theorem millerAction_mul (ω m₀ : ℂ) (g h : T3) (f : ℂ → ℂ) :
     millerAction ω m₀ (g * h) f = millerAction ω m₀ g (millerAction ω m₀ h f) := by
   sorry
 
-/-- README 3.1. **The identity acts trivially** in Miller's model. -/
+/-- Sanity check of the definition: README 3.1. **The identity acts trivially** in Miller's
+model. -/
 theorem millerAction_one (ω m₀ : ℂ) (f : ℂ → ℂ) : millerAction ω m₀ 1 f = f := by
   sorry
 
@@ -643,19 +654,13 @@ def IsHyperbolaRealization (R : ℂ) (U : ContRepresentation ℂ ISO11 (Lp ℂ 2
     Prop :=
   (∀ g f, (U g f : ℝ → ℂ) =ᵐ[volume] hyperbolaAction R g f) ∧ ∀ f, Continuous fun g => U g f
 
-/-- README 4.1. The hyperbola model on `L²(ℝ)`: the realization when one exists, and the trivial
-representation otherwise. -/
-def hyperbolaRep (R : ℂ) : ContRepresentation ℂ ISO11 (Lp ℂ 2 (volume : Measure ℝ)) :=
-  open Classical in
-  if h : ∃ U, IsHyperbolaRealization R U then h.choose
-  else ContRepresentation.trivial ℂ ISO11 _
-
-/-- README 4.1. **Representation law of the hyperbola model.** -/
+/-- Sanity check of the definition: README 4.1. **Representation law of the hyperbola model.** -/
 theorem hyperbolaAction_mul (R : ℂ) (g h : ISO11) (Φ : ℝ → ℂ) :
     hyperbolaAction R (g * h) Φ = hyperbolaAction R g (hyperbolaAction R h Φ) := by
   sorry
 
-/-- README 4.1. **The identity acts trivially** in the hyperbola model. -/
+/-- Sanity check of the definition: README 4.1. **The identity acts trivially** in the hyperbola
+model. -/
 theorem hyperbolaAction_one (R : ℂ) (Φ : ℝ → ℂ) : hyperbolaAction R 1 Φ = Φ := by
   sorry
 
@@ -664,8 +669,11 @@ theorem exists_hyperbolaRealization_iff (R : ℂ) :
     (∃ U, IsHyperbolaRealization R U) ↔ R.re = 0 := by
   sorry
 
-/-- README 4.1. **Unitarity on the imaginary axis.** -/
-theorem isUnitary_hyperbolaRep {R : ℂ} (hR : R.re = 0) : (hyperbolaRep R).IsUnitary := by
+/-- README 4.1. **Unitarity of the hyperbola model**: every realization is unitary (and exists
+only for `Re R = 0`). -/
+theorem IsHyperbolaRealization.isUnitary {R : ℂ}
+    {U : ContRepresentation ℂ ISO11 (Lp ℂ 2 (volume : Measure ℝ))}
+    (hU : IsHyperbolaRealization R U) : U.IsUnitary := by
   sorry
 
 /-- README 4.2. The two-sided Laplace transform `F(λ) = ∫ Φ(θ) e^{λθ} dθ`. -/
@@ -680,8 +688,8 @@ theorem fourierLaplace_hyperbolaAction_boost (R : ℂ) (s : ℝ) (Φ : ℝ → �
   sorry
 
 open scoped ContDiff in
-/-- README 4.2. **Translations act by the Macdonald kernel** (Vilenkin–Klimyk Vol. 1 §4.2.4 (4)–(6)):
-for `Re R > 0`, `r > 0` and real `a`,
+/-- README 4.2. **Translations act by the Macdonald kernel** (Vilenkin–Klimyk Vol. 1 §4.2.4
+(4)–(6)): for `Re R > 0`, `r > 0` and real `a`,
 `F_g(λ) = (1/2π) ∫ (∫ e^{-R r cosh θ + (λ - a - it) θ} dθ) F(a + it) dt`, and the inner integral
 is `2 K_{λ-a-it}(R r)`. -/
 theorem fourierLaplace_hyperbolaAction_translation {R : ℂ} (hR : 0 < R.re) {r : ℝ} (hr : 0 < r)
@@ -725,8 +733,8 @@ theorem laplacian_cylindricalWave (R : ℂ) (n : ℤ) {x : EuclideanSpace ℝ (F
 def hankelTransform (ν : ℂ) (φ : ℝ → ℂ) (R : ℝ) : ℂ :=
   ∫ r in Ioi (0 : ℝ), φ r * besselJ ν (R * r) * r
 
-/-- README 5.2. **Fourier transform of an angular mode** (Vilenkin–Klimyk Vol. 1 §4.4.2 (3), in Mathlib's
-normalization): `𝓕(φ(|x|) e^{inα})(ρ e(ψ)) = 2π (-i)ⁿ e^{inψ} (Hₙφ)(2πρ)`. -/
+/-- README 5.2. **Fourier transform of an angular mode** (Vilenkin–Klimyk Vol. 1 §4.4.2 (3), in
+Mathlib's normalization): `𝓕(φ(|x|) e^{inα})(ρ e(ψ)) = 2π (-i)ⁿ e^{inψ} (Hₙφ)(2πρ)`. -/
 theorem fourier_angularMode (n : ℤ) (φ : ℝ → ℂ)
     (hφ : IntegrableOn (fun r => φ r * r) (Ioi 0)) (ρ : ℝ) (hρ : 0 < ρ) (ψ : 𝕋) :
     𝓕 (fun x : EuclideanSpace ℝ (Fin 2) => φ ‖x‖ * (toComplex x / ‖x‖) ^ n) (ρ • unitVec ψ) =
@@ -818,8 +826,9 @@ theorem besselZonal_eq_integral_sphere {n : ℕ} (hn : 1 ≤ n) (lam : ℂ)
           ∂(volume : Measure (EuclideanSpace ℝ (Fin n))).toSphere := by
   sorry
 
-/-- README 6.1. **Smoothness of the zonal function** in `r`. -/
-theorem contDiff_besselZonal (n : ℕ) (lam : ℂ) : ContDiff ℝ ⊤ (besselZonal n lam) := by
+open scoped ContDiff in
+/-- README 6.1. **Real-analyticity of the zonal function** in `r`. -/
+theorem contDiff_besselZonal (n : ℕ) (lam : ℂ) : ContDiff ℝ ω (besselZonal n lam) := by
   sorry
 
 /-- README 6.1. **Radial equation**: `Ω″ + (n-1)/r Ω′ = -λ² Ω` for `r > 0`. -/
@@ -853,17 +862,20 @@ theorem norm_besselZonal_le_one {n : ℕ} (hn : 1 ≤ n) {lam : ℂ} (hlam : lam
     ‖besselZonal n lam r‖ ≤ 1 := by
   sorry
 
-/-- README 6.2. **The zonal matrix element of `T_R` is the spherical function** at `n = 2`:
-`D_{00}(g) = J₀(R|a|) = Ω₂(R, |a|)`. -/
-theorem matrixElement_circleRep_zero_zero (R : ℂ) (g : MotionGroup 2) :
-    matrixElement (circleRep R) fourierBasis 0 0 g = motionSphericalFunction 2 R g := by
+/-- README 6.2. **The zonal matrix element of `T_R` is the spherical function** at `n = 2`: for a
+realization of `T_R`, `D_{00}(g) = J₀(R|a|) = Ω₂(R, |a|)`. -/
+theorem IsCircleRealization.matrixElement_zero_zero {R : ℂ}
+    {U : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (g : MotionGroup 2) :
+    matrixElement U fourierBasis 0 0 g = motionSphericalFunction 2 R g := by
   sorry
 
 /-- README 6.3. **Plane-wave expansion in `ℝ³`** with the spherical harmonics of
-SpecialFunctionsSU2MatrixElements §6.1 (DLMF 10.60.7 with 14.30.9):
+SpecialFunctionsSU2MatrixElements §6.1 (DLMF 10.60.7 with 14.30.9), at any angles, since
+`sphericalHarmonic` is a polynomial on `ℝ³`:
 `e^{i⟨k, x⟩} = 4π Σ_l i^l j_l(κr) Σ_m Y_l^m(k̂) conj Y_l^m(x̂)`, `j_l(z) = √(π/2z) J_{l+1/2}(z)`. -/
 theorem hasSum_planeWave_sphericalHarmonic {κ r : ℝ} (hκ : 0 < κ) (hr : 0 < r)
-    (θ φ θ' φ' : ℝ) (hθ : θ ∈ Set.Icc 0 π) (hθ' : θ' ∈ Set.Icc 0 π) :
+    (θ φ θ' φ' : ℝ) :
     HasSum (fun l : ℕ => 4 * π * I ^ l *
         (Real.sqrt (π / (2 * (κ * r))) * besselJ (l + 1 / 2 : ℂ) (κ * r)) *
         ∑ i ∈ Finset.range (2 * l + 1),
@@ -872,7 +884,7 @@ theorem hasSum_planeWave_sphericalHarmonic {κ r : ℝ} (hκ : 0 < κ) (hr : 0 <
       (Complex.exp (I * (⟪κ • spherePoint θ φ, r • spherePoint θ' φ'⟫_ℝ : ℝ))) := by
   sorry
 
-/-! ## Layer 7: contraction of `SO(3)` and `SO(n+1)` to the motion groups -/
+/-! ## Layer 7: contraction to the motion groups -/
 
 /-- README 7.1. **Contraction of Wigner's `d`-functions**: for fixed `p, q ∈ ℤ` and real `x`,
 `d^l_{pq}(x/l) → J_{p-q}(x)` as `l → ∞`. -/

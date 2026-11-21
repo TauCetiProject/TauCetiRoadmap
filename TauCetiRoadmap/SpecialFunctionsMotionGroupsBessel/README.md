@@ -34,10 +34,11 @@ Mathlib has the Bessel function of the first kind with its power series and its 
 integer order, the Fourier transform on inner product spaces, Fourier series on the additive
 circle with the trigonometric Hilbert basis, the surface measure of the unit sphere, the
 Laplacian, the special orthogonal group and the complex Gamma function. Tau Ceti has continuous
-representations with unitarity, the modified Bessel function and the sphere integral of the
-exponential of a linear form. Neither has the motion groups, any of their representations,
-Bessel's integral on the circle, the group-theoretic addition theorems, the Hankel transform, the
-zonal functions of `ℝⁿ` or the contraction limits.
+representations with unitarity, the modified Bessel function, the Fourier coefficients of
+`e^{κ cos θ}` on the circle for real `κ` and the sphere integral of the exponential of a linear
+form. Neither has the motion groups, any of their representations, Bessel's integral on the circle
+for complex argument, the group-theoretic addition theorems, the Hankel transform, the zonal
+functions of `ℝⁿ` or the contraction limits.
 
 ## How to read the build
 
@@ -156,9 +157,10 @@ Sources: [VK1, §4.1.2 (1)–(3), p. 166, and the irreducibility argument on p. 
 [KV, Ch. 1, §2.7 (28), p. 165]; [M, §3-8 (3.55)–(3.56), p. 73, and Lemma 3.2, pp. 74–75];
 [D, §16, p. 57].
 
-`circleAction R g f ψ = e^{iR⟨a, e(ψ)⟩} f(ψ − rotAngle k)` for `g = (a, k)`. `circleRep R` is the
-representation on `L²(𝕋)` that agrees almost everywhere with it and has continuous orbit maps,
-chosen when one exists (`IsCircleRealization`), as in SpecialFunctionsGroupModels §1.3. Prove:
+`circleAction R g f ψ = e^{iR⟨a, e(ψ)⟩} f(ψ − rotAngle k)` for `g = (a, k)`. A realization of
+`T_R` (`IsCircleRealization R U`) is a representation `U` on `L²(𝕋)` that agrees almost everywhere
+with it and has continuous orbit maps, as in SpecialFunctionsGroupModels §1.3; the theorems about
+the representation are stated for every realization. Prove:
 - **Representation law of the circle model** (`circleAction_mul`): `T_R(gh) = T_R(g) T_R(h)` on
   functions;
 - **The identity acts trivially** (`circleAction_one`);
@@ -167,11 +169,14 @@ chosen when one exists (`IsCircleRealization`), as in SpecialFunctionsGroupModel
 - **Size of the multiplier** (`norm_circleAction`): `|e^{iR⟨a, e(ψ)⟩}| = e^{−Im R ⟨a, e(ψ)⟩}`, so
   `‖T_R(g)‖ ≤ e^{|Im R| |a|}`;
 - **`L²` realization** (`exists_circleRealization`) for every complex `R`;
-- **Unitarity range** (`isUnitary_circleRep_iff`): `T_R` is unitary exactly when `R` is real;
+- the realization is unique: two realizations of `T_R` agree on every vector, since both agree
+  almost everywhere with `circleAction R g f`;
+- **Unitarity range** (`IsCircleRealization.isUnitary_iff`): a realization of `T_R` is unitary
+  exactly when `R` is real;
 - **`T_{−R}` and `T_R` are equivalent** (`circleAction_neg`) through the half-turn
   `f ↦ f(· + π)`;
-- **Irreducibility of `T_R`, `R ≠ 0`** (`circleRep_irreducible`): a closed invariant subspace is
-  `0` or `L²(𝕋)`, for every nonzero complex `R`;
+- **Irreducibility of `T_R`, `R ≠ 0`** (`IsCircleRealization.irreducible`): for a realization of
+  `T_R`, a closed invariant subspace is `0` or `L²(𝕋)`, for every nonzero complex `R`;
 - `T_R ≅ T_{R'}` by a bounded operator with bounded inverse intertwining them exactly when
   `R'² = R²`, for `R, R' ≠ 0`; for real `R, R' > 0` and unitary equivalence this gives
   SpecialFunctionsGroupModels §2.6's inequivalence at `n = 2`.
@@ -219,11 +224,14 @@ Prove:
 - **Bessel's integral on the circle** (`integral_exp_inner_fourier`):
   `∫_𝕋 e^{iR⟨r e(φ), e(ψ)⟩} e^{inψ} dψ/2π = iⁿ e^{inφ} Jₙ(R r)` for complex `R`; route: the
   Jacobi–Anger expansion of SpecialFunctionsBessel 4.1 at `t = i e^{i(ψ−φ)}`, integrated term by
-  term;
-- **Matrix elements of `T_R`** (`matrixElement_circleRep_polar`):
+  term; or Tau Ceti's Fourier coefficients of `e^{κ cos θ}` (Exact supplier contracts), which are
+  this identity at `R r = −iκ`, since `iⁿ Jₙ(−iκ) = Iₙ(κ)`, with the identity theorem in `R`, both
+  sides being entire;
+- **Matrix elements of `T_R`** (`IsCircleRealization.matrixElement_polar`): for a realization,
   `D_{mn}(g(r, φ; α)) = i^{n−m} e^{i(n−m)φ} e^{−inα} J_{n−m}(R r)` [VK1, §4.1.3 (3), p. 168];
-- **Weights** (`circleRep_rotation_fourierLp`): `T_R(k_α) e_n = e^{−inα} e_n`;
-- **Sign change of `R`** (`matrixElement_circleRep_neg`): `D^{−R}_{mn} = (−1)^{m−n} D^R_{mn}`;
+- **Weights** (`IsCircleRealization.apply_rotation_fourierLp`): `T_R(k_α) e_n = e^{−inα} e_n`;
+- **Sign change of `R`** (`IsCircleRealization.matrixElement_neg`): for realizations of `T_R` and
+  `T_{−R}`, `D^{−R}_{mn} = (−1)^{m−n} D^R_{mn}`;
 - for real `R`, the unitarity relations of SpecialFunctionsGroupModels §3.2 at `g = (r e₁, 1)` are
   `Σ_k J_{k−m}(x) J_{k−n}(x) = δ_{mn}` [VK1, §4.1.4 (6), p. 169], which is DLMF 10.23.3–10.23.4
   of SpecialFunctionsBessel 4.2 for integer order (the odd differences vanish by `k ↦ m + n − k`);
@@ -254,7 +262,8 @@ operators `H± = B_{0} ± i B_{π/2}` act by `H± e_n = iR e_{n±1}`. Prove:
 - **Ladder operators** (`hasDerivAt_circleAction_fourier`):
   `d/dt T_R((t e(β), 1)) e_n |₀ = (iR/2)(e^{−iβ} e_{n+1} + e^{iβ} e_{n−1})` pointwise;
 - **Casimir value `−R²`** (`circleAction_casimir`): `B₀² + B_{π/2}² = −R²` on every function;
-- **Lie derivative of matrix elements** (`hasDerivAt_matrixElement_mul_translation`):
+- **Lie derivative of matrix elements**
+  (`IsCircleRealization.hasDerivAt_matrixElement_mul_translation`): for a realization,
   `d/dt D_{mn}(g (t e₁, 1))|₀ = (iR/2)(D_{m,n+1}(g) + D_{m,n−1}(g))`;
 - with the closed form of 1.2, the last identity at `g = (r e₁, 1)` and the analogous one for
   `(t e₂, 1)` are the recurrences `J_{k−1} − J_{k+1} = 2J'_k` and `J_{k−1} + J_{k+1} = (2k/x) J_k`
@@ -268,7 +277,7 @@ operators `H± = B_{0} ± i B_{π/2}` act by `H± e_n = iR e_{n±1}`. Prove:
 - At `R = 1.7`, `(m, n) = (1, −2)`, `g = g(0.8, 0.4; 1.1)` the Lie derivative is
   `0.04278 48273 − 0.16131 61715 i` from both sides.
 - Negative control: Vilenkin and Klimyk's `H± e_n = R e_{n±1}` (no factor `i`) is the same identity
-  for their `T_R`, our `T_{iR}`; read in our convention it gives the Casimir value `+R²`.
+  for their `T_R`, our `T_{−iR}`; read in our convention it gives the Casimir value `+R²`.
 
 *Needs:* 1.1–1.2; SpecialFunctionsBessel 1.5; SpecialFunctionsGroupModels §4.3.
 
@@ -318,7 +327,7 @@ Prove:
   `∫₀^{2π} (w/|w|)ⁿ e^{−imφ₂} Jₙ(R|w|) dφ₂ = 2π J_{n−m}(R r₁) J_m(R r₂)` [VK1, §4.1.4 (7),
   p. 169];
 - **Radial form of the multiplication formula** (`besselJ_mul_besselJ_eq_integral`): for
-  `r₁, r₂ > 0`, `r₁ ≠ r₂`,
+  `r₁, r₂ > 0`,
   `J_{n−m}(r₁) J_m(r₂) = (2/π) ∫_{|r₁−r₂|}^{r₁+r₂} cos(nφ − mφ₂) r Jₙ(r) Δ^{−1/2} dr`, with
   `Δ = 4r₁²r₂² − (r² − r₁² − r₂²)²` (sixteen times the squared area of the triangle with sides
   `r₁, r₂, r`), `φ₂ = arccos((r² − r₁² − r₂²)/(2r₁r₂))` and `φ = arg(r₁ + r₂ e^{iφ₂})`
@@ -422,8 +431,9 @@ Route (Miller): `h(x, t) = (2 + xt)^m E_m(x² + 2x/t)` is `T(g)[J_m(x) t^m]` for
 `b = τ = 0`, `c = −1` of `T₃` acting by the two-variable realization of §3-3, (3.26), p. 61. The
 Casimir operator `C_{0,0} = −∂²_x − x⁻¹∂_x + x⁻²(t²∂²_t + t∂_t)` (the first-order term `t ∂_t/x²`
 is missing from the printed (3.33)) commutes with `T(g)`, so each Laurent coefficient `hₙ(x)` of
-`h` in `t` solves Bessel's equation of order `n` and is bounded at `x = 0`, hence is `cₙ Jₙ` by
-the uniqueness of SpecialFunctionsBessel 1.1. The second eigen-equation (3.37) gives
+`h` in `t` solves Bessel's equation of order `n` and is bounded at `x = 0`, hence is `cₙ Jₙ`: by
+SpecialFunctionsBessel 1.1 every solution is `c Jₙ + c′ Yₙ`, and `Yₙ` is unbounded at `0` by the
+leading behaviour 10.7.3–10.7.4 of its 2.2. The second eigen-equation (3.37) gives
 `c_{n+1} = (m − n) cₙ`, and `x = 0` gives `c₀ = 1/Γ(m + 1)`.
 
 **Checks.**
@@ -436,11 +446,12 @@ the uniqueness of SpecialFunctionsBessel 1.1. The second eigen-equation (3.37) g
   coefficients carry no `1/Γ(m − n + 1)`; at `m = 0.7` the term `n = 1` has weight
   `1/Γ(0.7) = 0.77038 31839`, not `1`.
 
-*Needs:* 3.1–3.2; SpecialFunctionsBessel 1.1 (uniqueness of the solution bounded at `0`).
+*Needs:* 3.1–3.2; SpecialFunctionsBessel 1.1 (every solution is `c₁ J_ν + c₂ Y_ν`) and 2.2
+(`Yₙ` unbounded at `0`).
 
 ### Dependencies
 
-Mathlib; SpecialFunctionsBessel 1.1, 4.1–4.2.
+Mathlib; SpecialFunctionsBessel 1.1, 2.2, 4.1–4.2.
 
 ## Layer 4: the pseudo-Euclidean motion group `ISO(1,1)`
 
@@ -449,14 +460,16 @@ Mathlib; SpecialFunctionsBessel 1.1, 4.1–4.2.
 Sources: [VK1, §§4.2.1–4.2.3, pp. 171–175, with §4.2.3 (1)–(6), pp. 173–174];
 [KV, Ch. 1, §2.9, pp. 166–167].
 
-`hyperbolaAction R g Φ θ = e^{−R(a₁ cosh θ − a₂ sinh θ)} Φ(θ − s)` for `g = (a, s)`;
-`hyperbolaRep R` is its realization on `L²(ℝ)` by choice (`IsHyperbolaRealization`). Prove:
+`hyperbolaAction R g Φ θ = e^{−R(a₁ cosh θ − a₂ sinh θ)} Φ(θ − s)` for `g = (a, s)`; a
+realization (`IsHyperbolaRealization R U`) is a representation on `L²(ℝ)` that agrees almost
+everywhere with it and has continuous orbit maps. Prove:
 - **Representation law of the hyperbola model** (`hyperbolaAction_mul`);
 - **The identity acts trivially** (`hyperbolaAction_one`);
 - **`L²` realization exactly on the imaginary axis** (`exists_hyperbolaRealization_iff`): a
   realization with continuous orbit maps exists exactly when `Re R = 0`;
-- **Unitarity on the imaginary axis** (`isUnitary_hyperbolaRep`): for `Re R = 0`,
-  `hyperbolaRep R` is unitary;
+- **Unitarity of the hyperbola model** (`IsHyperbolaRealization.isUnitary`): every realization
+  is unitary (by the previous bullet it exists only for `Re R = 0`, where the multiplier has
+  modulus `1`);
 - for `R ∈ iℝ \ {0}` the model is irreducible: it is the representation induced from the
   character `a ↦ e^{−R[x₀, a]}` of `ℝ²` at a point `x₀` of the hyperbola, whose orbit under
   `SO₀(1,1)` is one branch and whose stabilizer is trivial, and NoncompactQuantumSymmetry M2 gives
@@ -528,7 +541,7 @@ with `ISO(n)`).
   `ψ ↦ 𝓕f(ρ e(ψ))`;
 - the map `f ↦ (ρ ↦ 𝓕f(ρ e(·)))` is unitary from `L²(ℝ²)` onto `L²((0, ∞), 2πρ dρ; L²(𝕋))` and
   intertwines `L` with the field `ρ ↦ T_{−2πρ}`: the decomposition `L ≅ ∫^⊕ T_{2πρ} 2πρ dρ` of
-  [VK1, §4.4.1 (7), p. 195], where their `T_R` is our `T_{iR}`;
+  [VK1, §4.4.1 (7), p. 195], where their `T_R` is our `T_{−iR}`;
 - **Cylindrical waves** (`laplacian_cylindricalWave`): `u(x) = Jₙ(R|x|)(x/|x|)ⁿ`, with `x` read as
   a complex number, satisfies `Δu = −R²u` on `x ≠ 0`, for complex `R`.
 
@@ -651,7 +664,8 @@ Sources: [VK2, §9.3.2 (8)–(10), p. 48, and §9.3.3 (1)–(3), pp. 48–49]; [
   `r > 0`, `Ω_n(λ, r) = Γ(n/2)(2/(λr))^{n/2−1} J_{n/2−1}(λr)`;
 - **Integral over the sphere** (`besselZonal_eq_integral_sphere`): `Ω_n(λ, |a|)` is the mean of
   `e^{iλ⟨a, ξ⟩}` over the unit sphere `S^{n−1}`, for `n ≥ 1` and complex `λ`;
-- **Smoothness of the zonal function** (`contDiff_besselZonal`) in `r`;
+- **Real-analyticity of the zonal function** (`contDiff_besselZonal`) in `r`, as a sum of a power
+  series in `r²` with infinite radius;
 - **Radial equation** (`besselZonal_ode`): `Ω″ + ((n − 1)/r) Ω′ = −λ² Ω` for `r > 0`.
 
 Route for the sphere integral: for `n ≥ 2` and real `t`, Tau Ceti's von Mises–Fisher normalizer
@@ -691,7 +705,8 @@ Prove:
   a radial `f(a) = φ(|a|)` is `|S^{n−1}| ∫₀^∞ φ(r) Ω_n(λ, r) r^{n−1} dr`, the radial Fourier
   transform of 5.3 at `λ = 2π|ξ|`;
 - **The zonal matrix element of `T_R` is the spherical function**
-  (`matrixElement_circleRep_zero_zero`) at `n = 2`: `D_{00}(g) = Ω₂(R, |a|) = J₀(R|a|)`.
+  (`IsCircleRealization.matrixElement_zero_zero`) at `n = 2`: for a realization of `T_R`,
+  `D_{00}(g) = Ω₂(R, |a|) = J₀(R|a|)`.
 
 Route for the classification. Dieudonné proves it for positive-definite functions through
 Gel'fand's theory and states the case `n ≥ 3` as a remark [D, p. 57]; the route here needs only
@@ -730,20 +745,24 @@ continuity and does not use spherical harmonics of `S^{n−1}`.
 Sources: [VK2, §9.3.3 (3), p. 48]; DLMF 10.60.7 and 14.30.9.
 
 Prove:
-- **Plane-wave expansion in `ℝ³`** (`hasSum_planeWave_sphericalHarmonic`): for `κ, r > 0` and both
-  polar angles in `[0, π]`,
+- **Plane-wave expansion in `ℝ³`** (`hasSum_planeWave_sphericalHarmonic`): for `κ, r > 0` and
+  unit vectors `k̂ = spherePoint θ φ`, `x̂ = spherePoint θ' φ'` at any real angles,
   `e^{i⟨κ k̂, r x̂⟩} = 4π Σ_l i^l j_l(κr) Σ_m Y_l^m(k̂) conj Y_l^m(x̂)` with
   `j_l(z) = √(π/(2z)) J_{l+1/2}(z)` (DLMF 10.47.3) and SpecialFunctionsSU2MatrixElements' `Y_l^m`
   (its §6.1);
-- for general `n ≥ 2` the zonal form
-  `e^{iz cos α} = Γ(ν)(z/2)^{−ν} Σ_k (ν + k) i^k J_{ν+k}(z) C_k^ν(cos α)`, `ν = n/2 − 1`, is
+- for general `n ≥ 3` the zonal form
+  `e^{iz cos α} = Γ(ν)(z/2)^{−ν} Σ_k (ν + k) i^k J_{ν+k}(z) C_k^ν(cos α)`, `ν = n/2 − 1 > 0`, is
   DLMF 10.23.9 of SpecialFunctionsBessel 4.3; state the agreement with the sphere mean of 6.1, which
-  is its `k = 0` term.
+  is its `k = 0` term. At `n = 2` (`ν = 0`, where `Γ(ν)` has a pole and `C_k^0 = 0` for `k ≥ 1`)
+  the expansion is the Jacobi–Anger expansion `e^{iz cos α} = J₀(z) + 2 Σ_{k≥1} i^k J_k(z) cos kα`
+  of SpecialFunctionsBessel 4.1, whose constant term `J₀(z)` is the sphere mean of 6.1.
 
 Route: at `n = 3` the zonal form is the plane-wave expansion 10.60.7 of SpecialFunctionsBessel 11.5,
 and the first bullet follows from it by the addition theorem of spherical harmonics (DLMF 14.30.9),
 owned by SpecialFunctionsLegendre §3.2, carried to SpecialFunctionsSU2MatrixElements' polynomial
-`Y_l^m` by that roadmap's comparison in its §6.1.
+`Y_l^m` by that roadmap's comparison in its §6.1. The comparison holds for polar angles in
+`[0, π]`; a point of the sphere at other angles is the same point at angles in that range, and
+`sphericalHarmonic` depends only on the point, so the expansion holds at every angle.
 
 **Checks.**
 - At `k = (0.9, 0.4, 1.2)`, `x = (−0.3, 0.7, 0.5)` both sides are `0.81964 80178 + 0.57286 74601 i`
@@ -754,12 +773,12 @@ owned by SpecialFunctionsLegendre §3.2, carried to SpecialFunctionsSU2MatrixEle
   Check.
 
 *Needs:* SpecialFunctionsSU2MatrixElements §6.1; SpecialFunctionsLegendre §3.2;
-SpecialFunctionsBessel 4.3, 11.5.
+SpecialFunctionsBessel 4.1, 4.3, 11.5.
 
 ### Dependencies
 
 Layer 1, 5.3; SpecialFunctionsGroupModels §§5.1–5.2; SpecialFunctionsSU2MatrixElements §6.1;
-SpecialFunctionsLegendre §3.2; SpecialFunctionsBessel 4.3, 5.1, 11.5.
+SpecialFunctionsLegendre §3.2; SpecialFunctionsBessel 4.1, 4.3, 5.1, 11.5.
 
 ## Layer 7: contraction to the motion groups
 
@@ -899,8 +918,8 @@ of Layer 7, which are the integer-parameter and Gegenbauer cases of DLMF 18.11.5
   formula in dimension `n ≥ 4`, and the zonal spherical functions of `SO(n + 1)` belong to the
   sibling roadmap on spheres in higher dimension of the same family. This roadmap does not consume
   it: 6.2 classifies the spherical functions without spherical harmonics of `S^{n−1}`, 6.3 states
-  only the zonal form 10.23.9 for general `n`, and 7.2 states the Gegenbauer limit as a fact about
-  polynomials.
+  only the zonal form 10.23.9 for `n ≥ 3` (and Jacobi–Anger for `n = 2`), and 7.2 states the
+  Gegenbauer limit as a fact about polynomials.
 
 ## Exact supplier contracts
 
@@ -908,7 +927,12 @@ of Layer 7, which are the integer-parameter and Gegenbauer cases of DLMF 18.11.5
 
 - `ContRepresentation.IsUnitary` (`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`):
   the unitarity predicate, in 1.1 and 4.1.
-- `ContRepresentation.trivial`: the fallback of the realizations by choice in 1.1 and 4.1.
+- The Fourier coefficients of `e^{κ cos θ}` on the circle, the theorem
+  integral_exp_mul_cos_sub_mul_fourier of the namespace Real in
+  `TauCeti/Analysis/Fourier/ExpCos.lean`: for real `κ`,
+  `∫ e^{κ cos(θ − m)} e^{inθ} dθ/2π = e^{inm} I_{|n|}(κ)` against `haarAddCircle`, the real-exponent
+  case of Bessel's integral in 1.2. 1.2 uses it only in a proof route, and `Suggested.lean` does
+  not import it.
 - The von Mises–Fisher normalizer on the surface measure, the theorem
   integral_exp_inner_toSphere_eq_besselI of the namespace TauCeti.Probability in
   `TauCeti/Probability/Distributions/VonMisesFisher/Normalizer.lean`: the surface integral of
@@ -947,11 +971,12 @@ of Layer 7, which are the integer-parameter and Gegenbauer cases of DLMF 18.11.5
 
 ### From SpecialFunctionsBessel
 
-- [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) 1.1 (uniqueness of the solution of
-  Bessel's equation bounded at `0`), 1.5 (recurrences), 4.1 (generating function and
-  Jacobi–Anger), 4.2 (10.23.1, 10.23.3–10.23.4, Graf's 10.23.7), 4.3 (10.23.9), 5.1 (10.9.4 and
-  the `cosh` integral 10.32.9), 6.2 (10.40.1), 11.2 (10.22.51 and 10.22.67), 11.3 (10.22.74) and
-  11.5 (10.60.7), consumed as stated in the layers.
+- [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) 1.1 (every solution of Bessel's
+  equation is `c₁ J_ν + c₂ Y_ν`), 1.5 (recurrences), 2.2 (10.7.3–10.7.4, `Yₙ` unbounded at `0`),
+  4.1 (generating function and Jacobi–Anger, also for `n = 2` in 6.3), 4.2 (10.23.1,
+  10.23.3–10.23.4, Graf's 10.23.7), 4.3 (10.23.9, for `ν ∉ {0, −1, −2, …}`), 5.1 (10.9.4 and the
+  `cosh` integral 10.32.9), 6.2 (10.40.1), 11.2 (10.22.51 and 10.22.67), 11.3 (10.22.74) and 11.5
+  (10.60.7), consumed as stated in the layers.
 
 ### From LaguerreJacobi
 
@@ -990,39 +1015,54 @@ Contributors should not attempt it under this roadmap.
 [lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap,
 proves the following targets without `sorry` at commit `2a512fe`, against Tau Ceti and the
 lean-DLMF Gegenbauer, Laguerre, spherical Bessel and spherical harmonic functions in place of the
-local copies here. Its statements split each conjunction into one lemma per fact, with the names
-used here; its modules are a cited source, not the specification.
+local copies here. Its statements split each conjunction into one lemma per fact; its modules are
+a cited source, not the specification. Its names and statements are those used here except in two
+places. First, it defines the two models on `L²` by choice (circleRep and hyperbolaRep: a
+realization when one exists, the trivial representation otherwise) and states the eight theorems
+that take a realization here, `IsCircleRealization.isUnitary_iff`,
+`IsCircleRealization.irreducible`, `IsCircleRealization.matrixElement_polar`,
+`IsCircleRealization.apply_rotation_fourierLp`, `IsCircleRealization.matrixElement_neg`,
+`IsCircleRealization.hasDerivAt_matrixElement_mul_translation`,
+`IsCircleRealization.matrixElement_zero_zero` and `IsHyperbolaRealization.isUnitary`, for the
+chosen representation, under the names isUnitary_circleRep_iff, circleRep_irreducible,
+matrixElement_circleRep_polar, circleRep_rotation_fourierLp, matrixElement_circleRep_neg,
+hasDerivAt_matrixElement_mul_translation, matrixElement_circleRep_zero_zero and
+isUnitary_hyperbolaRep. The two forms are equivalent by `exists_circleRealization`,
+`exists_hyperbolaRealization_iff` and the uniqueness of the realization (1.1). Second, its radial
+multiplication formula assumes `r₁ ≠ r₂`.
 
 - 0.1: `rotation_add`, `exists_rotation_eq`, `rotAngle_rotation`, `rotAngle_mul`,
   `toComplex_rotE_rotation`, `toComplex_polar_mul_a`, `polar_mul_k`, `exists_polar`
   (`SFVK/MotionGroups/Basic/Group.lean`, `SFVK/MotionGroups/Polar.lean`).
 - 1.1: `circleAction_mul`, `circleAction_one`, `circleAction_eq_motionAction`,
-  `norm_circleAction`, `exists_circleRealization`, `isUnitary_circleRep_iff`, `circleAction_neg`
+  `norm_circleAction`, `exists_circleRealization`, `IsCircleRealization.isUnitary_iff`,
+  `circleAction_neg`
   (`SFVK/MotionGroups/Basic/CircleModel.lean`, `SFVK/MotionGroups/CircleModel.lean`).
-- 1.2–1.3: `integral_exp_inner_fourier`, `matrixElement_circleRep_polar`,
-  `circleRep_rotation_fourierLp`, `matrixElement_circleRep_neg`, `hasDerivAt_circleAction_fourier`,
-  `circleAction_casimir`, `hasDerivAt_matrixElement_mul_translation`
+- 1.2–1.3: `integral_exp_inner_fourier`, `IsCircleRealization.matrixElement_polar`,
+  `IsCircleRealization.apply_rotation_fourierLp`, `IsCircleRealization.matrixElement_neg`,
+  `hasDerivAt_circleAction_fourier`, `circleAction_casimir`,
+  `IsCircleRealization.hasDerivAt_matrixElement_mul_translation`
   (`SFVK/MotionGroups/CircleModel.lean`, `SFVK/MotionGroups/MatrixElements.lean`).
-- 2.1–2.2: `hasSum_besselJ_polar_addition`, `integral_besselJ_circleMean`,
-  `besselJ_mul_besselJ_eq_integral` (`SFVK/MotionGroups/Addition.lean`).
+- 2.1–2.2: `hasSum_besselJ_polar_addition`, `integral_besselJ_circleMean`, and
+  `besselJ_mul_besselJ_eq_integral` for `r₁ ≠ r₂` (`SFVK/MotionGroups/Addition.lean`).
 - 3.1–3.2: `millerAction_mul`, `millerAction_one`, `hasSum_millerMatrix`,
   `hasSum_millerMatrix_mul`, `millerMatrix_eq_besselJ` (`SFVK/MotionGroups/Basic/Miller.lean`,
   `SFVK/MotionGroups/Miller.lean`).
 - 4.1–4.2: `hyperbolaAction_mul`, `hyperbolaAction_one`, `exists_hyperbolaRealization_iff`,
-  `isUnitary_hyperbolaRep` (without the hypothesis `Re R = 0`, which the trivial fallback makes
-  vacuous), `fourierLaplace_hyperbolaAction_boost`, `fourierLaplace_hyperbolaAction_translation`
+  `IsHyperbolaRealization.isUnitary`, `fourierLaplace_hyperbolaAction_boost`,
+  `fourierLaplace_hyperbolaAction_translation`
   (`SFVK/MotionGroups/Basic/Hyperbola.lean`, `SFVK/MotionGroups/Hyperbola.lean`).
 - 5.1–5.3: `fourier_comp_motionApply`, `fourier_comp_motionApply_circle`,
   `laplacian_cylindricalWave`, `fourier_angularMode`, `hankelTransform_laguerre`, `fourier_radial`
   (`SFVK/MotionGroups/Hankel.lean`).
 - 6.1–6.2: `besselZonal_eq_besselJ`, `besselZonal_eq_integral_sphere`, `contDiff_besselZonal`,
   `besselZonal_ode`, `motionSphericalFunction_inj`, `bounded_besselZonal_iff`,
-  `norm_besselZonal_le_one`, `matrixElement_circleRep_zero_zero`
+  `norm_besselZonal_le_one`, `IsCircleRealization.matrixElement_zero_zero`
   (`SFVK/MotionGroups/Basic/Zonal.lean`, `SFVK/MotionGroups/Spherical.lean`).
 - 7.1–7.2: `tendsto_wignerSmallD_besselJ`, and the Gegenbauer limit of 7.2 stated for lean-DLMF's
   ultraspherical polynomial (`SFVK/MotionGroups/Contraction.lean`).
 
-Open there: `circleRep_irreducible` (1.1), `hasSum_besselJ_weisner` (3.3),
+Open there: `IsCircleRealization.irreducible` (1.1), `hasSum_besselJ_weisner` (3.3),
 `hankelTransform_hankelTransform` and `lintegral_hankelTransform` (5.2),
 `isSphericalFunction_motion_iff` (6.2) and `hasSum_planeWave_sphericalHarmonic` (6.3).
 
