@@ -12,7 +12,7 @@ The roadmap has one layer, Layer 9, numbered as the layer of AlgebraicModuliForA
 
 Every target names its base field. 9.12, 9.12a and 9.12b are stated over `ℂ`; in 9.12c, `k` is algebraically closed of characteristic zero; in 9.12–9.12c, `n = dim X`, and "subvariety" means a closed integral subvariety of positive dimension. In 9.12–9.12c the boundary `Δ` of a pair `(X, Δ)` is effective. `K_X` is the canonical divisor of `X`, `≡` is numerical equivalence, and `h⁰(Λ)` is the dimension of the space of global sections of `Λ`. For invertible sheaves `L_1, …, L_d` on a proper `k`-scheme and a closed subscheme `Z` of dimension `d`, `(L_1 ⋯ L_d · Z)` is the degree of `c_1(L_1) ∩ ⋯ ∩ c_1(L_d) ∩ [Z]` (SchemeAndStackFoundations §§5.2–5.3, the intersection number of AlgebraicModuliForArithmeticGeometryPartII §1.7), written `(L^d · Z)` when every `L_i` is `L`, and `(B · L^{d−1})`, `(L^d)` when `Z` is the whole integral projective scheme; for a `ℚ`-Cartier divisor `N` with `rN` Cartier, `(N^d · Z) = r^{−d}(O_X(rN)^d · Z)` (also written `N^d·Z`). This number is the numerical intersection of CyclotomicClassGroupsAndStickelberger §4.3 (DynamicalDegreesOfRationalMaps §2.2): `m ↦ χ(Z, L^m)` is a polynomial of degree at most `d` whose coefficient of `m^d` is `(L^d · Z)/d!`, so `(L^d · Z) = Σ_{j=0}^{d} (−1)^{d−j} binom(d, j) χ(Z, L^j)`, the form in which `selfIntersection` computes it. For a real number `t`, `⌈t⌉` is its round-up, applied coefficientwise to divisors.
 
-Notation and conventions not restated here are those of AlgebraicModuliForArithmeticGeometry §9.10 (smooth projective varieties over a field of characteristic zero, simple normal crossings divisors, Kawamata–Viehweg vanishing `algebraicAdjointVanishing` and the multiplier ideal `algebraicMultiplierIdeal` of a nonzero coherent ideal on a smooth variety) and §1.6 (big line bundles, `bigLineBundle`), of AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors and numerical equivalence), §1.5 (nef `ℚ`-Cartier divisors), §1.6 (bigness on integral proper schemes) and §1.7 (ample `ℚ`-Cartier divisors), and of SchemeAndStackFoundations Layer 5 (intersection theory) and §4.17 (simple normal crossings divisors).
+Notation and conventions not restated here are those of AlgebraicModuliForArithmeticGeometry §9.10 (smooth projective varieties over a field of characteristic zero, simple normal crossings divisors, Kawamata–Viehweg vanishing `algebraicAdjointVanishing` and the multiplier ideal `algebraicMultiplierIdeal` of a nonzero coherent ideal on a smooth variety) and §1.6 (big line bundles, `bigLineBundle`), of AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors and numerical equivalence), §1.5 (nef `ℚ`-Cartier divisors), §1.6 (bigness on integral proper schemes) and §1.7 (ample `ℚ`-Cartier divisors), and of SchemeAndStackFoundations Layer 5 (intersection theory) and §4.17 (simple normal crossings divisors). The forms of nefness, bigness and `(N^d · Z)` that the family uses are [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/LineBundleGlobalSectionsDimCongrPicardClass.lean` (`GlobalTheory.IsNef`, `GlobalTheory.IsBig`) and `Development/AbelianVarietyTheory/Definitions/QuasicoherentCohomology/FiniteCohPushforwardIffOfIsClosedImmersion.lean` (`GlobalTheory.interNumRed`).
 
 ## Layer 9: Pairs, multiplier ideals, point separation and Bertini
 
@@ -41,6 +41,21 @@ ideal of the exceptional locus together with the strict transform of `Supp Δ`, 
 of `K_Y − f^*(K_X + Δ)` is `> −1` (resp. `≥ −1`), and `Nklt(X, Δ)` is the image of the union of the components with
 coefficient `≤ −1`, a closed subset; (c) a smooth `X` with `Δ = 0` is klt; klt and lc are invariant under étale
 morphisms and under extension of the base field.
+The form of the definitions that the family uses is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
+(`GlobalTheory.Discrepancy.discrep`, `GlobalTheory.Discrepancy.KltAt`, `GlobalTheory.Discrepancy.LcAt`). The clauses of (a)
+on `a(E; X, Δ)` follow from [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
+(`GlobalTheory.Discrepancy.IsLogEqn.discrep_eq_neg`). For projective `X`, the form of (b) that the family uses is
+[FormalProof],
+`Development/WeilBound/CoreStatements/PublishedTheorems/NadelVanishingPairs/NadelVanishingLemmas/LogResolutionMultiplierLocal.lean`
+(`GlobalTheory.Discrepancy.kltAt_lcAt_iff_of_isLogRes`), with
+`Development/WeilBound/CoreStatements/PublishedTheorems/NadelVanishingPairs/NadelVanishingLemmas/LogResolutionMultiplierOpen.lean`
+(`GlobalTheory.Discrepancy.isOpen_kltAt_and_lcAt_of_isLogRes`) and
+`Development/AbelianVarietyTheory/Definitions/Divisors/ExistsIsLogMult.lean` (`GlobalTheory.Discrepancy.IsLogRes`). The form
+of the first clause of (c) that the family uses is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
+(`GlobalTheory.Discrepancy.kltAt_zero_of_smooth`).
 
 *Route.* (a) If `rD = [A]` and `r′D = [A′]`, then `r′A` and `rA′` have the same Weil divisor, hence are equal because the
 Cartier-to-Weil map of the normal `X` is injective (AlgebraicModuliForArithmeticGeometryPartII §0.7), and their pullbacks agree;
@@ -76,6 +91,13 @@ For smooth `X` and `Δ = c·D` as in the last clause, the independence of `f` an
 `algebraicMultiplierIdeal.resolutionIndependent` and `algebraicMultiplierIdeal.localVanishing` of
 AlgebraicModuliForArithmeticGeometry §9.10, on a log resolution, which is a principalisation of `O(−D)`; the form here
 adds normal `X`.
+For projective `X`, the form of the definition of `J(X, Δ)`, its coherence and independence of `f`, the klt criterion and
+the cosupport that the family uses is [FormalProof],
+`Development/WeilBound/CoreStatements/PublishedTheorems/NadelVanishingPairs/NadelVanishingLemmas/MultiplierIdealIndependent.lean`
+(`GlobalTheory.Discrepancy.isMultIdeal_iff_regularAt`), with
+`Development/AbelianVarietyTheory/Definitions/Divisors/ExistsIsLogMult.lean` (`GlobalTheory.Discrepancy.IsMultIdeal`) and
+`Development/WeilBound/CoreStatements/PublishedTheorems/NadelVanishingPairs/NadelVanishingLemmas/MultiplierIdealSupportNonKlt.lean`
+(`GlobalTheory.Discrepancy.exists_isMultIdeal_support_iff_not_kltAt`).
 
 *Route.* Independence: compare two log resolutions through a common one and use that the round-up of an
 `f`-exceptional divisor with simple normal crossings support pushes forward to `O_X` (Lazarsfeld 9.2.19). Local
@@ -105,6 +127,9 @@ Let `X` be a normal projective variety over a field of characteristic zero, `Δ`
 For smooth `X` this is the case `a = O_X(−qΔ)` (`q ≥ 1` with `qΔ` integral), `c = 1/q`, `M = O_X(qΔ)`, with `L − K_X` in
 place of `L`, of the vanishing clause of `algebraicMultiplierIdeal` (AlgebraicModuliForArithmeticGeometry §9.10), through
 the comparison of 9.10b; the form here adds normal `X`.
+The form that the family uses is [FormalProof],
+`Development/WeilBound/CoreStatements/PublishedTheorems/NadelVanishingPairs/NadelVanishingLemmas/NadelVanishingTheorem.lean`
+(`GlobalTheory.nadelVanishing`).
 
 *Route.* On a log resolution `f`, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with `A = f^*(L − K_X − Δ)` nef and big
 and with simple normal crossings fractional part; `algebraicAdjointVanishing` (AlgebraicModuliForArithmeticGeometry §9.10) gives `H^i(Y, K_Y + ⌈A⌉) = 0`; local
@@ -194,6 +219,11 @@ numbers such that `(N^e · Z) > c(e)^e` for every subvariety `Z` of dimension `e
 `x₁` or `x₂`, and `Σ_{e=1}^{n} 2^{1/e}·e/c(e) ≤ 1`. Prove that every line bundle `M` on `X` with
 `(M · C) = ((K_X + Δ) · C) + (N · C)` for all complete integral curves `C ⊂ X` has a global section `s` with `s(x₁) ≠ 0` and
 `s(x₂) = 0`, or with `s(x₂) ≠ 0` and `s(x₁) = 0` (Kollár 1997, Theorem 5.9, pp. 30–31, with Theorem 6.5).
+The form that the family uses is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/PointSeparationPair.lean`
+(`GlobalTheory.Published.PointSeparationPair`), proved in
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/PointSeparationPairOfPrincipalisation.lean`
+(`GlobalTheory.pointSeparationPair_of_principalisation`).
 
 *Route.* Kollár's induction on the dimension of the non-klt locus through the points. (1) *Budgets.* Write `N = N₀/r` with
 `N₀` a line bundle. The numbers `(N^e · Z)` lie in `r^{−e}ℤ`, so there are rationals `h_e > 0` with `2e^e < h_e^e·(N^e · Z)` for
@@ -379,6 +409,10 @@ an integer with `L′^{⊗n} ⊗ Λ^{−1}` nef, then `(Λ · L^{d−1}) ≤ n·
 `h⁰(X, Λ) ≤ binom(a + d, d)·(L^d)`.
 In the application `L′` carries a linear system that is birational onto its image, `X` is a modification on which its
 base ideal is invertible, `L` is the moving part, and `(L^d)` is the degree `δ` of the image (9.13).
+(a) follows from [FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/RankComponentWeightInvariance.lean`
+(`GlobalTheory.JetRank.globalSections_dim_le_of_intersection_bound`), and (b) from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/RankComponentWeightInvariance.lean`
+(`GlobalTheory.JetRank.interNum_cons_le`).
 
 *Route.* (a) by induction on `d` and on `a`. Let `H` be the generic member of the system generating `L`, over the field
 `k(t_1, …, t_N)`: it is integral or empty, of dimension `d − 1`, and `(P_1 ⋯ P_{d−1})_H = (L · P_1 ⋯ P_{d−1})_X`. The sequence
