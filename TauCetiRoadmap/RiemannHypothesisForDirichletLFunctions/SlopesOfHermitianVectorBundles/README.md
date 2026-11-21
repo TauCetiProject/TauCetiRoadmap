@@ -34,6 +34,10 @@ For linear maps between finite-dimensional inner-product spaces, `T^*` is the ad
 
 Some sources normalise slopes as `2μ̂`, or measure heights of maps by `2h`; every statement here that is homogeneous in slopes and heights (the slope inequalities of Layers 2, 3 and 5) reads the same in that normalisation. Some measure the height of a map `φ` with `φ(E) ⊂ F` by its archimedean part `h_∞(φ) = (1/[K:ℚ])·Σ_σ log ‖φ‖_σ` alone, which is at least `h(φ)` (1.3), so a bound on `h_∞(φ)` is a bound on `h(φ)`; multiplication by `2` on `Ō_ℚ` has `h_∞ = log 2` and height `0`. Others use `2h_∞(φ)`, which is at least `2h(φ)` but need not be at least `h(φ)`, so a bound `2h_∞(φ) ≤ B` gives `h(φ) ≤ B/2`: for the identity map `Ō_ℚ → Ō_ℚ(t)` with `t > 0`, `h = h_∞ = −t` and `2h_∞ = −2t < h`.
 
+**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider statement would need its own proof.
+
 ## Layer 1: Degrees of sub-bundles and heights
 
 Degrees of sub-bundles are adelic subspace heights in coordinates. This layer fixes that dictionary, computes degrees in arbitrary bases and for lattices glued place by place, defines heights of vectors and maps and the symmetric powers, proves that a map of height `h` changes degrees by at most `h` per rank, and derives supermodularity and finiteness, the two properties on which every construction of Layers 2–6 rests.
