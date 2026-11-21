@@ -8,11 +8,11 @@ whose invariant is the two-graph, the set of triples spanning an odd number of e
 develops that dictionary and the classical bounds it yields, for finitely many vectors in real or
 complex inner product spaces and for graphs.
 
-- *Lines and Seidel matrices.* For `n` equiangular unit vectors with angle `α > 0` spanning a
-  space of dimension `r`, every Seidel eigenvalue of the sign graph is at least `−1/α`, and `−1/α`
-  has multiplicity `n − r`. Conversely, if `θ < 0` and `S − θ I` is positive semidefinite for the
-  Seidel matrix of a graph on `n` vertices, with `θ` of multiplicity `m`, there are `n` unit
-  vectors spanning `ℝ^(n − m)` with inner products `−S_ij/θ`.
+- *Lines and Seidel matrices.* For `n` equiangular unit vectors of a real space, with angle
+  `α > 0` and spanning a subspace of dimension `r`, every Seidel eigenvalue of the sign graph is
+  at least `−1/α`, and `−1/α` has multiplicity `n − r`. Conversely, if `θ < 0` and `S − θ I` is
+  positive semidefinite for the Seidel matrix of a graph on `n` vertices, with `θ` of multiplicity
+  `m`, there are `n` unit vectors spanning `ℝ^(n − m)` with inner products `−S_ij/θ`.
 - *Two-graphs and switching.* The odd triples of a graph form a two-graph, every two-graph arises
   so, and two graphs give the same two-graph exactly when they are switching equivalent. The
   two-graph is regular, every pair in the same number of odd triples, exactly when the Seidel
@@ -22,8 +22,8 @@ complex inner product spaces and for graphs.
   If `n` unit vectors of a real or complex space of dimension `d` have all mutual inner products
   of absolute value at most `α`, and `d α² < 1`, then `n ≤ d(1 − α²)/(1 − d α²)`. Equality in the
   real absolute bound with `d ≥ 2` forces `α² = 1/(d + 2)`; equality in the real relative bound
-  forces the Seidel matrix to have only the eigenvalues `(n − d)/(α d)` and `−1/α`, with
-  multiplicities `d` and `n − d`, both odd integers when `d + 1 < n ≠ 2d`.
+  with `α > 0` forces the Seidel matrix to have only the eigenvalues `(n − d)/(α d)` and `−1/α`,
+  with multiplicities `d` and `n − d`, both odd integers when `d + 1 < n ≠ 2d`.
 - *Neumann's theorem.* If `n > 2d` equiangular unit vectors with angle `α` lie in a real space of
   dimension `d`, then `1/α` is an odd integer.
 
@@ -54,13 +54,15 @@ Layer 5 uses Layers 1, 3 and 4.
   every four-element finset of `V` contains an even number of members of `Δ`; the members are the
   coherent triples. `oddTriples G` is the set of triples of distinct vertices of `G` spanning one
   or three edges. `IsRegularTwoGraph Δ a` says that every pair of distinct points lies in exactly
-  `a` members of `Δ`; on at most one point it holds for every `a`.
+  `a` members of `Δ`; on at most one point it holds for every `a`. It is meant for finite `V`:
+  `Set.ncard` is `0` on an infinite set.
 - **Lines.** A system of `n` lines through the origin is given by a family `x : ι → E` of unit
   vectors, one on each line, with `ι` a finite type of `n` elements; `-x i` spans the same line.
   The family is equiangular with angle `α`, `IsEquiangular 𝕜 x α`, when `‖x i‖ = 1` for every `i`
   and `‖⟪x i, x j⟫_𝕜‖ = α` for `i ≠ j`, over `𝕜 = ℝ` or `ℂ` (Mathlib's `RCLike`). Then `α ≤ 1`
   as soon as there are two vectors, and the lines are distinct exactly when `α < 1`. A family with
-  `α = 1` is allowed: it consists of vectors `±x 0`. Nothing is assumed of `α` when `n ≤ 1`.
+  `α = 1` is allowed: it consists of the multiples `c • x 0` with `‖c‖ = 1`, that is, of the
+  vectors `±x 0` over `ℝ`. Nothing is assumed of `α` when `n ≤ 1`.
 - **The sign graph.** For a family in a real inner product space, `signGraph x` joins `i ≠ j`
   when `⟪x i, x j⟫ < 0`. When no inner product between distinct members vanishes, replacing
   `x i` by `-x i` for `i ∈ U` replaces the sign graph by its switch with respect to `U`.
@@ -117,10 +119,10 @@ with multiplicities.
 **Checks.**
 - Switching the edgeless graph on four vertices with respect to one vertex gives the star `K₁,₃`;
   switching it with respect to two vertices gives the four-cycle.
-- Switching with respect to `U` and with respect to its complement give the same graph (checked
-  for all graphs and all `U` on at most four vertices), and every switching class on `n ≥ 1`
-  labelled vertices has exactly `2^(n − 1)` members (checked for `n ≤ 6`).
-- The identity was checked for every graph on at most five vertices and every `U`.
+- Switching with respect to `U` and with respect to its complement give the same graph, and every
+  switching class on `n ≥ 1` labelled vertices has exactly `2^(n − 1)` members.
+- For the edgeless graph on four vertices and `U = {u}`, `D (J − I) D` has `−1` off the diagonal
+  exactly in the row and the column of `u`: the Seidel matrix of the star `K₁,₃`.
 
 *Needs:* 1.1; Mathlib `Matrix.diagonal`, `Matrix.charpoly_units_conj`. (Proved here, following
 the cited text.)
@@ -178,9 +180,9 @@ same odd triples, and the parity of the triple `{ω, x, y}` then decides the pai
 two-graph and the empty graph.
 
 **Checks.**
-- The bijection was checked exhaustively: for `n ≤ 6` labelled vertices the `2^C(n, 2)` graphs
-  fall into exactly `2^C(n − 1, 2)` classes with equal odd triples, each class is a full switching
-  class, and for `n ≤ 5` every two-graph is the two-graph of a graph.
+- For `1 ≤ n ≤ 6` labelled vertices the `2^C(n, 2)` graphs fall into exactly `2^C(n − 1, 2)`
+  classes with equal odd triples, each class is a full switching class, and for `n ≤ 5` every
+  two-graph is the two-graph of a graph.
 - On four vertices there are three switching classes up to isomorphism (the classes of the
   edgeless graph, of a single edge and of the complete graph), as drawn in Brouwer–Haemers,
   §1.8.2, p. 23.
@@ -228,8 +230,7 @@ so it has exactly two eigenvalues.
 **Checks.**
 - Of the `32768` graphs on six labelled vertices exactly `448` have a regular two-graph: `14` of
   the `1024` two-graphs, namely the empty and the complete ones and the twelve labelled copies of
-  the two-graph of the pentagon with an isolated vertex, whose Seidel eigenvalues are `±√5`
-  (checked for all graphs on at most six vertices, together with the degree formula).
+  the two-graph of the pentagon with an isolated vertex, whose Seidel eigenvalues are `±√5`.
 - On four and on five vertices only the empty and the complete two-graphs are regular; the single
   edge on four vertices gives a non-regular two-graph (the edge lies in two odd triples, the
   pair of the two other vertices in none).
@@ -311,8 +312,7 @@ vectors `x i = (−θ)^(−1/2) y i` are unit vectors with Gram matrix `I − θ
 - The path on three vertices has least Seidel eigenvalue `−1`, of multiplicity `2`: three unit
   vectors of `ℝ¹`, so `α = 1` and the lines coincide. Every graph on at least two vertices has
   least Seidel eigenvalue at most `−1`, since `S` has a principal `2 × 2` submatrix with
-  eigenvalue `−1`; distinct lines arise exactly when it is below `−1` (checked for all switching
-  classes on at most seven vertices).
+  eigenvalue `−1`; distinct lines arise exactly when it is below `−1`.
 - If `θ` is not an eigenvalue, `m = 0` and the vectors form a basis of `ℝⁿ`.
 
 *Needs:* 1.1; Mathlib `Matrix.IsHermitian.spectral_theorem`,
@@ -404,9 +404,9 @@ bound; for `n = 0` the right side is nonnegative since `α² < 1/d ≤ 1`.
 **Checks.**
 - Equality: an orthonormal basis (`α = 0`, `n = d`); three lines at `60°` in `ℝ²`
   (`2 · (3/4)/(1/2) = 3`); the icosahedron (`3 · (4/5)/(2/5) = 6`); the 28 lines
-  (`7 · (8/9)/(2/9) = 28`); the four vectors of `ℂ²` of 4.2 (`2 · (2/3)/(1/3) = 4`); the regular
-  simplex of `d + 1` unit vectors in `ℝ^d` with inner products `−1/d`. Strict: any five of the six
-  diagonals of the icosahedron.
+  (`7 · (8/9)/(2/9) = 28`); the four vectors of `ℂ²` of 4.2 (`2 · (2/3)/(1/3) = 4`); for `d ≥ 2`,
+  the regular simplex of `d + 1` unit vectors in `ℝ^d` with inner products `−1/d`. Strict: any
+  five of the six diagonals of the icosahedron.
 - The hypothesis `d α² < 1` is needed: `e₁`, `−e₁` in `ℝ¹` with `α = 1` give the junk value
   `1 · 0 / 0 = 0 < 2`.
 - `[FiniteDimensional 𝕜 E]` is needed: an orthonormal pair in an infinite-dimensional space gives
@@ -583,11 +583,11 @@ Neighbouring roadmaps; this roadmap depends on none of them:
 - SpectralGraphBounds defines the sorted adjacency eigenvalues of a graph and bounds graph
   invariants by them; the statements above concern the Seidel matrix, a different matrix, and use
   eigenspace dimensions rather than its sorted list.
-- SpectralQuantumWalks, EquitableOperatorReduction and DiscreteQuantumWalks (roadmaps of another
-  author) treat adjacency spectra, equitable partitions and quantum walks; none states anything
-  about Seidel matrices, two-graphs or equiangular lines. The gauge switching of
-  SpectralQuantumWalks is conjugation of a Hermitian walk matrix by a diagonal unitary, an
-  invariance of quantum walks, not Seidel switching of a graph.
+- SpectralQuantumWalks, EquitableOperatorReduction and DiscreteQuantumWalks treat adjacency
+  spectra, equitable partitions and quantum walks; none states anything about Seidel matrices,
+  two-graphs or equiangular lines. The gauge switching of SpectralQuantumWalks is conjugation of a
+  Hermitian walk matrix by a diagonal unitary, an invariance of quantum walks, not Seidel switching
+  of a graph.
 
 Outside the scope: the descendants of a two-graph and their strong regularity; the
 classification of two-graphs with least Seidel eigenvalue at least `−3`; the maximal number of
@@ -627,7 +627,7 @@ and Seidel); and every procedure for enumerating or recognising two-graphs.
   `LinearIndependent.fintype_card_le_finrank`, `Submodule.finrank_le` (a linearly independent
   family, and a subspace, have at most the dimension of the space).
 - `Mathlib/RingTheory/Polynomial/RationalRoot.lean`: `isInteger_of_is_root_of_monic` (a root in
-  the fraction field of a monic polynomial over an integrally closed domain is integral).
+  the fraction field of a monic polynomial over a unique factorisation domain lies in the domain).
   `Mathlib/FieldTheory/Minpoly/Basic.lean`, `Mathlib/FieldTheory/Minpoly/Field.lean`: `minpoly`,
   `minpoly.dvd`. `Mathlib/FieldTheory/Separable.lean`: `Irreducible.separable` (in characteristic
   zero). `Mathlib/Algebra/Polynomial/Div.lean`: `Polynomial.rootMultiplicity`.
@@ -651,5 +651,4 @@ and Seidel); and every procedure for enumerating or recognising two-graphs.
   Proposition 10.6.4 and Theorem 10.6.4a, p. 158.
 - The absolute bound is attributed by Brouwer–Haemers to M. Gerzon and Theorem 10.6.4a to
   P. M. Neumann, both with a reference to P. W. H. Lemmens and J. J. Seidel, Equiangular lines,
-  *Journal of Algebra* 24 (1973), 494–512; that paper was not opened and no locator into it is
-  given.
+  *Journal of Algebra* 24 (1973), 494–512.
