@@ -55,38 +55,45 @@ datum (4.19e), and 4.19f gives the bounds at the points of a unitary moduli prob
 ### 4.1 The Gauss norm at radii
 
 Let `𝒦` be a field of characteristic `0`, complete for a non-archimedean absolute value with
-residue characteristic `p`, normalised by `|p| = p^{−1}`, and `ι` a finite set. For radii `r ∈ ℝ_{≥0}^ι` write
-`‖f‖_r := MvPowerSeries.gaussNorm |·| (p^{−r_i})_i f` for `f ∈ 𝒦[[x_i : i ∈ ι]]` (Mathlib's Gauss norm,
-`sup_n |coeff_n f|·∏_i p^{−n_ir_i}`). In this layer "`f` has weight `≥ w` at radii `r`" abbreviates `‖f‖_r ≤ p^{−w}`, and
-"up to `κ ∈ ℕ^ι`" abbreviates the explicit hypothesis `|coeff_n f|·∏_i p^{−n_ir_i} ≤ p^{−w}` for all `n ≤ κ`. Put
+residue characteristic `p`, normalised by `|p| = p^{−1}`, and `ι` a finite set. For radii `r ∈ ℝ_{≥0}^ι` and `w ∈ ℝ`, a series
+`f ∈ 𝒦[[x_i : i ∈ ι]]` *has weight `≥ w` at radii `r`* if `|coeff_n f|·∏_i p^{−n_ir_i} ≤ p^{−w}` for every `n ∈ ℕ^ι`, that is
+`v_p(coeff_n f) ≥ w − Σ_i n_ir_i`; "up to `κ ∈ ℕ^ι`" asks this only for the `n ≤ κ`. Write
+`‖f‖_r := MvPowerSeries.gaussNorm |·| (p^{−r_i})_i f` (Mathlib's Gauss norm, the real supremum of the
+`|coeff_n f|·∏_i p^{−n_ir_i}`): `f` has weight `≥ w` at radii `r` exactly when this family is bounded above
+(`MvPowerSeries.HasGaussNorm`) and `‖f‖_r ≤ p^{−w}`. The bound `‖f‖_r ≤ p^{−w}` alone does not give a weight, because a real
+supremum of an unbounded family is `0` (Check). Put
 `γ_LT(p) := p/(p² − 1) = Σ_{i ≥ 0} p^{−2i−1}` and `ρ_LT(p) := 1/(p² − 1)`. Prove:
-(a) *Substitution:* if `a_i` (`i ∈ ι`) have zero constant term and `‖a_i‖_{r′} ≤ p^{−r_i}`, then
-`‖f(a)‖_{r′} ≤ ‖f‖_r`; the same holds with both bounds read up to total degree `K` (the coefficients `n` with `|n| ≤ K`, for
-`f` and for `f(a)`), and with both bounds read up to `κ` when each `a_i` lies in `Y_i𝒦[[Y_i]]` (one new variable `Y_i` for each `i`;
-then a monomial `≤ κ` of `f(a)` comes only from monomials `≤ κ` of `f`). For substitutions mixing the variables the
-truncation up to `κ` does not pass (Check).
-(b) `‖f‖_r` does not increase when `r` increases (a weight `≥ w` at radii `r` persists at all radii `r′ ≥ r`), and
-`‖fg‖_r ≤ ‖f‖_r‖g‖_r`; both also up to `κ`.
-(c) If `B(0) = 0` and `‖B‖_r ≤ p^{−1/(p−1)}`, then `‖exp(B)‖_r ≤ 1`; also up to `κ` (the coefficients of `exp(B)` up to `κ`
-depend only on those of `B` up to `κ`).
-(d) If `D(0) = 0` and `‖exp(D) − 1‖_r ≤ p^{−1/(p−1)}`, then `‖D‖_r ≤ p^{−1/(p−1)}`; also up to `κ`.
+(a) *Substitution:* if `a_i` (`i ∈ ι`) have zero constant term and weight `≥ r_i` at radii `r′`, and `f` has weight `≥ w` at radii
+`r`, then `f(a)` has weight `≥ w` at radii `r′`; the same holds with the weights of `f` and `f(a)` read up to total degree `K` (the
+coefficients `n` with `|n| ≤ K`), and with the weights of `f` and `f(a)` read up to `κ` when each `a_i` lies in
+`Y_i𝒦[[Y_i]]` (one new variable `Y_i` for each `i`; then a monomial `≤ κ` of `f(a)` comes only from monomials `≤ κ` of `f`). For
+substitutions mixing the variables the truncation up to `κ` does not pass (Check).
+(b) A weight `≥ w` at radii `r` persists at all radii `r′ ≥ r`, and if `f` has weight `≥ w` and `g` weight `≥ w′` at radii `r`, then
+`fg` has weight `≥ w + w′` there; both also up to `κ`. In Gauss-norm form, for `f`, `g` that have a Gauss norm at radii `r`: `f`
+has one at every `r′ ≥ r`, with `‖f‖_{r′} ≤ ‖f‖_r`, and `‖fg‖_r ≤ ‖f‖_r‖g‖_r` (Mathlib `MvPowerSeries.gaussNorm_mul_le`).
+(c) If `B(0) = 0` and `B` has weight `≥ 1/(p−1)` at radii `r`, then `exp(B)` has weight `≥ 0` there; also up to `κ` (the
+coefficients of `exp(B)` up to `κ` depend only on those of `B` up to `κ`).
+(d) If `D(0) = 0` and `exp(D) − 1` has weight `≥ 1/(p−1)` at radii `r`, then so has `D`; also up to `κ`.
 (e) `v_p(κ!) ≥ |κ|/(p−1) − #ι·lg_p|κ|`, `κ! := ∏_i κ_i!`.
 (f) `γ_LT + ρ_LT = 1/(p−1)`; `n/(p−1) − v_p(n) ≥ 1/(p−1)` for `n ≥ 1`; `(p^{2e} − 1)·ρ_LT ≥ e` for `e ≥ 0`.
 
 *Route.* (a), (b): the coefficient formulas and the ultrametric inequality, coefficient by coefficient (which is what
-makes the truncated forms hold). (c): `v_p(B^k/k!) ≥ k/(p−1) − v_p(k!) − Σ n_i r_i` and `v_p(k!) ≤ (k−1)/(p−1)`.
+makes the truncated forms hold); the Gauss-norm form of (b) from the weight form and the bound of each term by the supremum
+(`MvPowerSeries.le_gaussNorm`). (c): `v_p(B^k/k!) ≥ k/(p−1) − v_p(k!) − Σ n_i r_i` and `v_p(k!) ≤ (k−1)/(p−1)`.
 (d): `log(1 + y) = Σ_k (−1)^{k+1}y^k/k` and (f). (e): Legendre's formula `v_p(n!) = (n − s_p(n))/(p−1)` with
 `s_p(n) ≤ (p−1)·lg_p(n)`. (f): geometric series.
 
-*Checks.* (Agreement) `‖f‖_r ≤ p^{−w}` holds exactly when `v_p(coeff_n f) ≥ w − Σ_i n_ir_i` for every `n`, by the
-definition of the Gauss norm as a supremum. `exp(T)` has `‖exp T‖_r ≤ 1` at `r = 1/(p−1)` but at no smaller radius:
-at `n = p^k`, `v_p(1/n!) = −(p^k − 1)/(p−1)`. The Lubin–Tate logarithm `Σ_e T^{p^{2e}}/p^e` has weight `≥ ρ_LT` at radius
+*Checks.* (Agreement) A weight is not a bound on Mathlib's Gauss norm alone. At `r = 0` the terms of `exp(T)`
+have `|1/n!| = p^{v_p(n!)}`, unbounded, so `‖exp T‖_0 = 0` although `exp(T)` has no weight at all at radius `0`. Reading
+"weight `≥ w`" as `‖f‖_r ≤ p^{−w}` would make (d) false: `D = T/p` has `‖exp(D) − 1‖_0 = 0` (its terms have absolute value
+`p^{n + v_p(n!)}`) but `‖D‖_0 = p`; with weights, `exp(D) − 1` has no weight at radius `0` and (d) does not apply.
+`exp(T)` has weight `≥ 0` at radius `1/(p−1)` but at no smaller radius: at `n = p^k`, `v_p(1/n!) = −(p^k − 1)/(p−1)`. The Lubin–Tate logarithm `Σ_e T^{p^{2e}}/p^e` has weight `≥ ρ_LT` at radius
 `ρ_LT` by (f), with equality exactly at the monomials `T` and `T^{p²}`. (Truncation) For `p` odd, `κ = (1, 1)`, radii `0` and
 `f = p^{−1}X_1²`, every coefficient of `f` up to `κ` is `0`, but the substitution `X_1 = Y_1 + Y_2`, `X_2 = 0` gives the coefficient
 `2/p` at `Y_1Y_2`: the truncated form of (a) needs the hypothesis on the `a_i`. (Monotonicity) `‖T‖_0 = 1 > ‖T‖_1 = p^{−1}`.
 
-*KNOWN* (Legendre). *Needs:* Mathlib `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm` (coefficients and
-substitution), Legendre's formula for `padicValNat p n!`.
+*KNOWN* (Legendre). *Needs:* Mathlib `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm`, `MvPowerSeries.le_gaussNorm`,
+`MvPowerSeries.gaussNorm_mul_le` (coefficients and substitution), Legendre's formula for `padicValNat p n!`.
 
 ### 4.2 A valuation gap at degrees divisible by `p + 1`
 
@@ -104,6 +111,8 @@ positive, hence `≥ 1`. For the corollary, `(p+1) | (p^{n′} − 1)` because `
 the theta function of a CM elliptic curve at an inert prime (4.5, Check).
 
 *NEW* (elementary). *Needs:* none.
+
+*In [FormalProof]:* Quant (`Formalism/GaussJetBounds/GenLogInverse.lean`), proved as weightQuantization (`Formalism/GaussJetBounds/GaussJetProofs/OneLetterRadiusIdentity.lean`), is the corollary for coefficients in a subfield with integer valuations, under the hypothesis `v_p(c) ≥ ρ_LT − ρ_LT|n|`, stronger than `v_p(c) > −ρ_LT|n|`.
 
 ### 4.3 The weight of a biextension cocycle in letters
 
@@ -130,14 +139,16 @@ splitting has a binomial coefficient prime to `p` (Lucas), and `v_p C(p^α, p^{�
 exactly `1`; likewise for odd letters. (B3) excludes `α = α′ = 0`, and torus invariance gives `s + α ≡ s′ + α′`.
 
 *Check.* `n′ = 2`, `p = 3`: the torus-invariant monomials `x₀^a x₁^b` are those with `a ≡ 3b (mod 8)`. In degree `4`
-they are `x₀³x₁` and `x₀x₁³`, both bi-power, which may carry valuation `1/2 − 1 − 1/2 = −1`; in degree `8` they are
-`x₀⁶x₁²`, `x₀⁴x₁⁴`, `x₀²x₁⁶`, none bi-power, so their coefficients have `v_3 ≥ −1/2`, hence `≥ 0`; in degree `12` the
+they are `x₀³x₁` and `x₀x₁³`, both bi-power, which may carry valuation `1/2 − 1 − 1/2 = −1`; in degree `8` they are `x₀⁸`, `x₁⁸`
+(excluded from `β` by (B3)) and `x₀⁶x₁²`, `x₀⁴x₁⁴`, `x₀²x₁⁶`, none bi-power, so their coefficients have `v_3 ≥ −1/2`, hence `≥ 0`; in degree `12` the
 bi-power ones are `x₀⁹x₁³` and `x₀³x₁⁹`. At the bi-power monomial `p^ie_s + e_{s+i}` (`i` odd) the exceptional bound equals
 `1/(p−1) − 1 − ρ_LT(p^i + 1) = −E(p, i)`, `E(p, i) := 1 + (p^i − p)/(p² − 1)`. For `i = 1` it is attained by the coefficient `𝔠/p` of 4.4
 with `𝔠` a unit (valuation `−1 = −E(p, 1)`); for `i = 3` the value is `−(1 + p)`, which that coefficient does not realise; for every odd
 `i` it is the valuation of the main coefficient of the polarisation series of a row datum (4.19a).
 
 *NEW*. *Needs:* 4.1, 4.2; HodgeTateLatticesAndLubinTateLogarithms §3.1.
+
+*In [FormalProof]:* LemmaS (`Formalism/GaussJetBounds/Statement.lean`, where (B1)–(B4) are BHyp), proved as lemmaS (`Formalism/GaussJetBounds/OneLetterRadius.lean`), for `p` odd.
 
 ### 4.4 Classification of the biextension cocycles of the height-two Lubin–Tate law
 
@@ -197,6 +208,8 @@ coefficient of `xy^p` gives only `p | 𝔠`.
 *NEW* (the classification in this form; Dwork's lemma and quasi-logarithms are classical). *Needs:* 4.1;
 LubinTateFormalModulesAndQuasiCanonicalLifts §4.3 and HodgeTateLatticesAndLubinTateLogarithms §§3.3, 3.4; Mathlib `Algebra.traceForm`.
 
+*In [FormalProof]* (`Formalism/ThetaLogCoordinates/UniformThetaSubstitution/`), for the sign `𝔰 = +1` only: (i) is BetaIsG (`IsLawOfLog.lean`) with GcIsBeta and GcUnique (`ThmSUniform.lean`); (ii) is RescaleCore (`OddLogRelation.lean`) for `Φ = Σ_eG_𝔠(X_e, Y_e)` and `U₀ = 1`, the general `Φ` and `U₀` being treated in letters in ThmSUniform (`ThmSUniform.lean`); (iii) is ThmSFull (`IsLawOfLog.lean`) and ThmSUniform, with abstract trace-dual families in place of bases of `W(𝔽_{p^{n′}})`. The product over several places is stated there as ThmSPlaces (`ThmSUniform.lean`) and not proved.
+
 ### 4.4a The cocycle of the CM curve in letters
 
 Let `p ≥ 5`, `𝒦₀ ⊃ W(𝔽_{p^{n′}})` as in
@@ -222,6 +235,8 @@ restricted to the even letter would be `ℓ_{−1}^{−1}(ℓ_{+1}(T)) = T + (2/
 `+1` before passing to letters (by the homothety `Y ↦ 𝔲Y`, `𝔲^{p²−1} = −1`, of 4.4, route).
 
 *NEW*. *Needs:* 4.2, 4.3, 4.4; HodgeTateLatticesAndLubinTateLogarithms §§3.2, 3.3, 3.4, 3.5.
+
+*In [FormalProof]:* (a) MeanBiextensionHypothesesOfCocycle and (b) MeanSimeq (`Formalism/LocalToGlobal/TorsionIntegrality/GaussSumParity/StatementA.lean`), (c) B0 (`Formalism/LocalToGlobal/TorsionIntegrality/GaussSumParity/StatementB.lean`), for every odd `p` and abstract trace-dual families.
 
 ### 4.5 Taylor bounds at weighted radii
 
@@ -256,6 +271,8 @@ of `z⁸` in `log σ(z)` is the exceptional term of 4.2; the derivatives of `σ`
 
 *NEW*. *Needs:* 4.1, 4.3; HodgeTateLatticesAndLubinTateLogarithms §3.1.
 
+*In [FormalProof]:* LemmaR (`Formalism/GaussJetBounds/Statement.lean`), with the loss `#ι·(log_p|κ| + 1)`, which is at least `#ι·lg_p|κ|`, derived there from further statements (lemmaR_of, `Formalism/GaussJetBounds/GaussJetProofs/AsmRDotAddRight.lean`); LemmaRA (`Formalism/GaussJetBounds/StatementG.lean`), proved as lemma_R_log_loss, is the form for `κ_i ≤ A` with the loss `#ι·(log_pA + 1)`; the one-letter case is OneLetterRadius and OneLetterR (`Formalism/GaussJetBounds/Statement.lean`).
+
 ### 4.5a Folded letters
 
 Setting of 4.3 with `p` odd and `n′ = 2i` letters, `i ≥ 1`. Let `Pl` be a finite
@@ -279,6 +296,8 @@ the row, the bound passes to jets against products of minors without a frame arg
 of the numbers `κ!·coeff_κΘ` with `|κ_z| = |ν(z)|` at each place.
 
 *NEW*. *Needs:* 4.1, 4.3, 4.5; HodgeTateLatticesAndLubinTateLogarithms §3.1.
+
+*In [FormalProof]:* UpperTheory.norm_mfact_mul_coeff_le_of_B0S (`Development/AutomorphicArithmetic/OrbitLabellings/NormMfactMulCoeffLeOfB0S.lean`), the permutation `h` written as an action of period `i` on the places.
 
 ### 4.6 The flow programme
 
@@ -343,6 +362,8 @@ odd length `< n_o`); for `n_o = 3`, `p = 5`, `D = (1, 0, 0)`: `𝔉_5(ℤ/3) = �
 *KNOWN* (LP duality, complementary slackness), *NEW* form. *Needs:* Mathlib convexity (finite-dimensional linear
 programming).
 
+*In [FormalProof]* (`Formalism/IncomingBounds/IncomingBound.lean`: the programme Fnum, flows IsFlow, dual radius vectors IsDual), for every integer `p ≥ 3`: (a) LemmaFa, (b) LemmaFb (homogeneity, convexity and the lower bound), (c) LemmaFe, (d1) LemmaFc, (d2) LemmaFd, (d3) IncomingBound, (e) TopRadius, all proved in `Formalism/IncomingBounds/WeightIdentities.lean`; (d4) is the case `θ = 2/(k − 1)` of ContentShift, and the truncation of (g) is LevelTail (`Formalism/IncomingBounds/LevelTail.lean`); (f) is UpperTheory.exists_nonneg_dual_fnum_sub_le_of_demand_near_mul (`Development/AutomorphicArithmetic/OrbitLabellings/ExistsNonnegDualFnumSubLeOfDemandNearMul.lean`). The upper bound of (b) and the support clause of (g) are not stated there.
+
 ### 4.7 Jet bounds against products of minors
 
 Setting of 4.5 over a complete algebraically closed `𝒦` (`p ≥ 3`), and
@@ -357,7 +378,7 @@ every size, and `2log_p S + 2 ≤ N0 − 1`. Put `c(s) := ν_1(s)` for `s ∈ �
 (i) `J_I` lies in `p^B` times the lattice spanned over the valuation ring by the products of minors of `x`, where
 `B := Σ_{s∈𝔗}(R^{top}(s) − γ_LT·𝔚(s)) + 𝔉_p(D) − n′N0N1(log_p S + 1)`.
 (ii) *Corollary.* Assume `ν_1(s) ≤ ν_0(s)`, `ν_0(s) + ν_1(s) ≤ size(s)`, `k ≥ 3`, and `w ∈ ℝ_{>0}^{ℤ/n′}` with
-`D_s = (k−1)w_s + E_s` off `𝔗` and `(k−3)w_s + E_s` on `𝔗`, `0 ≤ E_s ≤ 4w_s` and `c(s) ≤ w_s + c`. Then
+`D_s = (k−1)w_s + E_s` off `𝔗` and `(k−3)w_s + E_s` on `𝔗`, `0 ≤ E_s ≤ 4w_s`. Then
 `B ≥ Σ_{s∈𝔗}R^{base}(s) + 𝔉_p((k−1)w) − 15·Σ_s w_s/p − γ_LTΣ_{s∈𝔗}𝔚(s) − C_A·n′N0N1(log_p S + 1)`, where
 `R^{base}(s) := Σ_{e odd, e ≠ d⁺(s)}((ν_0 − ν_1)(s)/p^e − c(s+e))₊`.
 
@@ -376,10 +397,12 @@ polynomial. Cauchy–Binet puts `J_I` in the span of products of minors, and tha
 `𝒦`-span that is integral has integral coordinates in the standard bideterminant basis, whose leading monomials form a
 unitriangular system (IntegralWeylModulesOfGeneralLinearGroups §0.1, the standard bideterminant basis over a domain). (ii): with `W = (k−1)w`
 and `E′ = 2w` at the tops, `D + E′ = W + E`; `𝔉_p(D) ≥ 𝔉_p(W + E) − γ_LTΣE′ ≥ 𝔉_p(W + E) − (9/4)Σw/p` (4.6(d1)), and
-`𝔉_p(W + E) ≥ 𝔉_p(W) − 12Σw/p` (4.6(d4)). The assembly of the bound (i) from these radii, with the term `γ_LT·𝔚(s)`
+`𝔉_p(W + E) ≥ 𝔉_p(W) − 12Σw/p` (4.6(d4)); and `R^{top}(s) ≥ R^{base}(s)` term by term (`ν_1(s) ≥ 0`, `c(s + e) ≥ 0`). The assembly of the bound (i) from these radii, with the term `γ_LT·𝔚(s)`
 for the designated rows, and the reduction of an arbitrary frame to the case of unit determinant are not given here.
 
 *NEW*. *Needs:* 4.5, 4.6; IntegralWeylModulesOfGeneralLinearGroups §0.1 (standard bideterminant basis and saturation).
+
+*In [FormalProof]:* (i) is ThmAWeyl (`Formalism/GaussJetBounds/StatementS.lean`), over `ℂ_p` and with the saturation of the span of products of minors as a hypothesis, derived from ThmAGauss (`Formalism/GaussJetBounds/StatementP.lean`) by thmAWeyl_of; (ii) is CorFromThmA (`Formalism/IncomingBounds/IncomingBound.lean`), proved as corFromThmA (`Formalism/IncomingBounds/WeightIdentities.lean`), with an unspecified absolute constant in place of `15`.
 
 ### 4.8 Jet bounds by counting pairs
 
@@ -423,6 +446,8 @@ box (the odd top's if `b < i`, the even top's if not), and so does every top–l
 
 *NEW*. *Needs:* 4.1, 4.4; Mathlib (determinants, multinomial coefficients).
 
+*In [FormalProof]:* EntryStar, with EntryExcessBound (J1), EntryCappedBound (J2) and EntryB (J3) (`Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementE.lean`; the standard-frame forms FrameJetExcessBound, FrameJetCappedBound and GaussB are in `StatementG.lean` there), for `p` odd and the series of the class with the explicit `𝔥` of 4.4 (iii).
+
 ### 4.8a Jets of a Gaussian against products of minors
 
 Let `𝒦` be a complete ultrametric
@@ -446,6 +471,8 @@ of height `1` on each side, `ν(0,t) = ν(1,t) = (n)`): the jet is `n!·(−S)^n
 the bound `ϖ^{−n/2}` (`c_t = n` whether or not `t ∈ 𝔗`): the exponent `½` per matched pair is attained up to `|n!|`.
 
 *KNOWN* (Wick's theorem), *NEW* in this form. *Needs:* Mathlib (determinants, power series).
+
+*In [FormalProof]:* ThmB (`Formalism/GaussJetBounds/StatementN.lean`), proved as thmB (`Formalism/GaussJetBounds/FinalB.lean`), with a weaker exponent: there `c_t` for `t ∈ 𝔗` also carries the second row `ν(0,t)_1`.
 
 ### 4.8b Framed points, integral charts and the depth of a weight
 
@@ -475,7 +502,8 @@ embedding.
 - *Integral charts.* An *integral chart* `𝔠` of a framed point `y` consists of coordinates `x = (x_1, …, x_g)` on the formal
   completion `𝒜̂` of `𝒜` along the zero section in which the group law `x +_F x′` and the action `[a](x)` (`a ∈ 𝒪_E`) are power
   series with coefficients in `R`; the frame, read as tangent vectors of `𝒜̂`; an element `w₀ ∈ 𝒪_E` with `w₀ + w̄₀ = 1` (it exists
-  when the relative trace `𝒪_E → 𝒪_{E⁺}` is onto, for instance when `E` contains `ℚ(√−d)` with `d ≡ 3 (mod 4)`); and the
+  exactly when the relative trace `𝒪_E → 𝒪_{E⁺}` is onto, whose image is an ideal, for instance when `E` contains `ℚ(√−d)` with
+  `d ≡ 3 (mod 4)`; not for `E = ℚ(i)`, where the trace of `ℤ[i]` is `2ℤ`, so that no point has an integral chart there); and the
   *polarisation series* `h(x, x′)`, a power series over `R[1/p]` in two copies of the coordinates with `h(x, 0) = h(0, x′) = 0`
   (*canonical gauge*), trivialising the biextension `Λ(L)` restricted to `𝒜̂ × 𝒜̂` (for an abelian scheme, the pull-back by
   `1 × λ` of the Poincaré biextension of `Â × Â^∨`): the series
@@ -511,13 +539,15 @@ increase with `n`: a polynomial on `n` copies is one on `n + 1` copies. (Harmoni
 *NEW* (definitions). *Needs:* PELModuli M1.3, M1.7; ShimuraCompactifications 6.1; AbelianSchemesAndArithmeticModuli A2.3;
 Mathlib `PowerSeries`, `MvPolynomial`, `Matrix.det`.
 
+*In [FormalProof]:* framed and integral points FrPt (`Formalism/LocalToGlobal/ProjectiveLattices/IsCombAt.lean`) and IntFr (`Formalism/LocalToGlobal/ProjectiveLattices/VAtVNeBot.lean`), integral charts IntegralChartA3 (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), the depths nuLocC, nuLoc and nuSup (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`). There `w₀ = (1 + √−d)/2` is fixed, for fields `E ⊃ ℚ(√−d)` with `d` a prime `≡ 7 (mod 16)` and `E/E⁺` unramified at every finite place (Host, `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/TwoWeightEqOneAddRoot.lean`), and an algebraic point is one with a finite residue field (IntFr.IsAlg).
+
 ### 4.8b′ Integral charts
 
 Let `y` be a framed point over `R` (4.8b; the involution of `𝒪_E` is complex conjugation).
-(1) `y` has an integral chart.
+(1) If the relative trace `𝒪_E → 𝒪_{E⁺}` is onto (that is, `𝒪_E` contains a `w₀` with `w₀ + w̄₀ = 1`), `y` has an integral chart.
 (2) For every weight `κ` and every `n ≥ 1`, `dep_y(κ; 𝔠, n)` is the same for all integral charts `𝔠` of `y`; so
-`ν_y(κ; n) = dep_y(κ; 𝔠, n)` for any one of them, and the supremum defining `ν_𝔩(κ; n)` runs over all algebraic framed points
-above `𝔩`.
+`ν_y(κ; n) = dep_y(κ; 𝔠, n)` for any one of them, and, when the trace `𝒪_E → 𝒪_{E⁺}` is onto, the supremum defining `ν_𝔩(κ; n)`
+runs over all algebraic framed points above `𝔩` (by (1)).
 (3) In every integral chart of `y` and for every embedding `τ`, the frame vectors `u_{τ,s}` (`s < n_τ`) extend to a basis of the
 module of coordinate tangent vectors and span a saturated submodule.
 
@@ -529,14 +559,16 @@ in `R` whose linear part carries the frame to itself (the frame is part of `y`) 
 one chart to those of the other; the invariant derivations along the frame and the power series with coefficients in `R` are
 intrinsic, so the depth does not change once the two polarisation series are compared. Not given here: the comparison of the
 polarisation series of two charts (that their difference, after the change of coordinates, has an exponential with
-coefficients in `R`) and with it the invariance of the depth. (1) Formal coordinates of the smooth model along the unit section
-give the group law and the action with coefficients in `R`; the existence of a polarisation series in canonical gauge over `R` is
+coefficients in `R`) and with it the invariance of the depth. (1) The hypothesis gives `w₀`; formal coordinates of the smooth model along the unit
+section give the group law and the action with coefficients in `R`; the existence of a polarisation series in canonical gauge over `R` is
 not given here.
 
 *Check.* At a prime unramified in `E`, (3) holds for the whole frame at once (4.8b); at a ramified prime it holds embedding by
 embedding only (4.8b, Check).
 
 *NEW* (as stated; (3) elementary). *Needs:* 4.8b; Mathlib (modules over a discrete valuation ring: saturated submodules, bases).
+
+*In [FormalProof]:* (1) is intChart_exists (`Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/ExistsIntegralChartIntegralFramedPoint.lean`), for the fields of Host (4.8b), a narrower class than the one of (1); (2) is ChartIndep (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`), proved as chartIndep_holds (`Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/NuAlgLeOfCharts.lean`); (3) is ChartSaturated (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), proved as chart_saturated (`Formalism/LocalToGlobal/ProjectiveLattices/SatLeaves.lean`).
 
 ### 4.8c The unramified colength bound
 
@@ -566,6 +598,8 @@ ordinary point (`r(τ̄) = 0` at the embeddings that follow `τ_s`), `S(τ_s) = 
 `S(τ_s) ≤ max_τr(τ̄)/(p − 1)`, the bound that the Hodge–Tate cokernel gives.
 
 *NEW* (as stated). *Needs:* 4.8b; HodgeTateLatticesAndLubinTateLogarithms §0.5d.
+
+*In [FormalProof]:* GlobalTheory.CharMinor.colength_bound (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ExistsCharactersBoundedMinorEigenspace.lean`), with the cycle given as an injective Frobenius-ordered family of embeddings and `p ∤ disc(E)` for the unramified prime.
 
 ### 4.18 The depth of a weight and flags of characters
 
@@ -634,6 +668,8 @@ no polarisation factor; the same bound for the depth of 4.8b, at the places of `
 
 *NEW* ((a) as a statement; (b), (c) elementary). *Needs:* 4.8b, 4.8c; PELModuli M1.7.
 
+*In [FormalProof]:* (a) is GlobalTheory.T.chartDepth_le_of_characterFlags (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ChartDepthLeOfCharacterFlagsStatement.lean`); (b) is CharStatement, proved as charThm (`ReciprocityTheory/DualLattices/UpBrChar.lean`), and for characters GlobalTheory.T.exists_flag_characters_leading_minors_colength (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ExistsFlagCharactersLeadingMinorsColengthStatement.lean`); (c) is ch_minor and frobSum (`Formalism/LocalToGlobal/CharacterGerms/ExistsStrictMonoMinor.lean`), the one-minor clause GlobalTheory.T.flagStep_characters_of_colength (`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlagStepCharactersOfColengthStatement.lean`). The products clause of (b) is not stated there.
+
 ### 4.19 Row data, blocks and the block depth
 
 *Definitions.* Let `ℓ ≠ 2` be a prime, `C` an
@@ -679,17 +715,20 @@ copies, and its *value bound* is
 bi-block of `(a, i, y)` *attains its cost* if there are integral germs `f_1, …, f_n` with
 `v(Δ_{g,a}(D)^{ℓ^iy}Δ_{1−g,a+i}(D)^{y}(∏_ρf_ρ(x_ρ)e^{h_{g,a,a+i}(x_ρ)})(0)) ≤ n·y·((ℓ^i + 1)γ − 1) + n(log_ℓn + 1) + (i + 1)j_t(ℓ^i + 1)y/(ℓ − 1)`;
 `𝒢(a, i)` denotes the set of these `y`, to which `0` is added. A plan is *admissible at level `N`* if `y(a, i) = 0` for `i ≥ N` and
-every nonzero `y(a, i)` lies in `𝒢(a, i)`. The *block depth* `ν_bl` of the weight is the least value bound over the admissible plans
-(the plan `y = 0` is admissible). For several orbits, one row datum each, the block depth is the sum over the orbits. A family of
+every nonzero `y(a, i)` lies in `𝒢(a, i)`. The *block depth at level `N`*, `ν_bl(N)`, of the weight is the least value bound over the
+plans admissible at level `N` (the plan `y = 0` is admissible at every level, and there are finitely many plans); it does not increase
+with `N`. For several orbits, one row datum each, the block depth at level `N` is the sum over the orbits. A family of
 sets `G(a, i)` of nonnegative integers *has windows of length `S`* if `0 ∈ G(a, i)` and every interval `[Y₀, Y₀ + S)` meets `G(a, i)`.
 
-*Checks.* `n_o = 2`, `w` constant: the relaxed plan `y = W/(ℓ + 1)` at level `1` in both directions (a flow, not a plan unless
+*Checks.* `n_o = 2`, `w` constant: the relaxed plan `y = W/(ℓ + 1)` at `i = 1` in both directions (a flow, not a plan unless
 `ℓ + 1` divides `W`; for `W = 1` it is fractional) realises the flow of 4.6 (c); the trivial
 plan `y = 0` has value bound `≈ nγΣW`, the bound of 4.18 with `len = S`. For the Lubin–Tate group of height two (`n = 1`,
 `j = j′ = 0`, `n_o = 2`) and the cocycle `G_𝔠` of 4.4, `∂_yA(x, y)` is integral and `∂_yA(y, x) ≡ ℓ_𝔰′(y)·g₀(x)` modulo integral series, so
 (RD4) holds with `ζ = g₀`.
 
 *NEW* (definitions). *Needs:* 4.1, 4.3, 4.4.
+
+*In [FormalProof]:* RowData (`Formalism/LocalToGlobal/CharacterGerms/Interface.lean`); Plan, Plan.bound, Windows and Plan.Ok (`Formalism/LocalToGlobal/CharacterGerms/ValuationChoiceHypothesis.lean`). There plans are admissible at the level `i₀` of 4.19d only, with at most `n_o` nonzero `y(a, i)`, and the term `R_w/(ℓ − 1)` is kept apart from the value bound.
 
 ### 4.19a Main term of the polarisation series
 
@@ -734,6 +773,8 @@ Lubin–Tate group of height `n_o` (ranks `1, 0, …, 0`) the quasi-logarithm of
 *NEW* (the normal form with its exponent and rank count; quasi-logarithms and the universal vector extension, KNOWN: Katz,
 Mazur–Messing; biextensions of formal groups, Mumford). *Needs:* 4.1, 4.3, 4.19.
 
+*In [FormalProof]:* LemmaM (`Formalism/LocalToGlobal/CharacterGerms/LatticeInclusionFormsInjective.lean`), proved for every row datum, without the hypothesis `j_t < n`, as GlobalTheory.T.rowData_mainTerm_normalForm_and_levelOne (`Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/RowDataMainTermNormalFormAndLevelOneStatement.lean`).
+
 ### 4.19b The capacity jet
 
 Let `C` be any field of characteristic `0` with a real valuation,
@@ -768,6 +809,8 @@ of positive valuation exactly when `y ≡ −1 (mod ℓ)`: the window is necessa
 
 *NEW* (as a statement; its ingredients classical: Cayley's identity, Legendre, finite differences). *Needs:* 4.1, 4.19.
 
+*In [FormalProof]:* CoefficientExpansionLambda, S0 and ThmP (`Formalism/LocalToGlobal/CharacterGerms/BiadditiveInSingleVariables.lean`), ThmP proved as GlobalTheory.OddBlock.windowBound (`Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/SumEqOfIsHomogeneous.lean`); the window bound is stated there for every `n ≥ n₀` with `n(log_ℓn + 1)` in place of `n₀(log_ℓn₀ + 1)`, the case `n = n₀` being the statement here.
+
 ### 4.19c Blocks and the value of a plan
 
 Let a row datum (4.19) with `ℓ ≥ 5`
@@ -777,8 +820,8 @@ and `j_t < n` be given; (ii), (iii) and (iv) for plans without bi-blocks (in par
 (iii) *Monomial blocks.* For a product `P` of powers of leading minors of one side, of degree `δ`, there are integral germs with
 `v(P(D)(∏f)(0)) ≤ δ/(ℓ − 1)`, and with value `0` when every row exponent is `< ℓ`.
 (iv) *Plans.* If the weight is read on at least `n_o·n·N + 2(n + j_t)` copies of the variables, the value of the product of the
-blocks of an admissible plan (4.19), against the product of the germs of (i)–(iii) in disjoint copies, is at most its value bound
-(under (RD7)); in particular the least such value is at most `ν_bl`. For several orbits, one row datum each in disjoint copies, the
+blocks of a plan admissible at level `N` (4.19), against the product of the germs of (i)–(iii) in disjoint copies, is at most its value
+bound (under (RD7)); in particular the least such value is at most `ν_bl(N)`. For several orbits, one row datum each in disjoint copies, the
 values add.
 
 *Route.* (i) Complete `e_1, …, e_{n₀}` of 4.19a to a basis of the span of `U` and use `v′` (the minors change by units). In the copies
@@ -796,13 +839,15 @@ there; in a copy of a bi-block only the component `h_{g,a,a+i}` occurs. The coun
 
 *NEW*. *Needs:* 4.19, 4.19a, 4.19b.
 
+*In [FormalProof]:* (i)–(iii) are BiSupply, CHSupply and MONSupply (`Formalism/LocalToGlobal/CharacterGerms/ContentZeroAt.lean`), proved as GlobalTheory.T.oddLevelBlock_bound_attained, GlobalTheory.T.characterBlocks_attain_bound and GlobalTheory.T.monomialBlock_supply_both_typings (`Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/`), (i) without the hypothesis `j_t < n`; (iv) is GlobalTheory.T.inertPrime_value_le_planBlocks (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/InertPrimeValueLePlanBlocksStatement.lean`), at the level `i₀` and at the points of 4.19f.
+
 ### 4.19d The block depth is at most the flow programme
 
 Let an
 alternating row datum (4.19) with `ℓ ≥ 5`, `j_t ≥ 1`, `n ≥ j_t + 2` be given, and let `w(a) > 0`, `T ≥ 1`, `0 ≤ θ₀ ≤ 1`, `S_E ≥ 0`,
 `C₁ ≥ 0` with `(1 − θ₀)w(a) ≤ T·W(a) ≤ w(a) + C₁S_E` and `nθ₀ ≤ 5j_t`; let `i₀` be the least odd `i ≥ 3` with
 `(n + 1)^{3/2} < ℓ^i`, and let the weight be read on at least `n_o·n·i₀ + 2(n + j_t)` copies per orbit. Then, under (RD7),
-`T·ν_bl ≤ 𝔉_ℓ(n·w) + C·err + T·R_w/(ℓ − 1)`, `err := log(n + 1)·j_t·(Σ_aw(a) + n_o·S_E)/ℓ + n_o·(n + 1)·S_E/ℓ + (n + 1)·ℓ^{−i₀}·Σ_aw(a) + T·n_o·n³log²(n + 1)`,
+`T·ν_bl(i₀) ≤ 𝔉_ℓ(n·w) + C·err + T·R_w/(ℓ − 1)`, `err := log(n + 1)·j_t·(Σ_aw(a) + n_o·S_E)/ℓ + n_o·(n + 1)·S_E/ℓ + (n + 1)·ℓ^{−i₀}·Σ_aw(a) + T·n_o·n³log²(n + 1)`,
 `𝔉_ℓ` the flow programme of 4.6 on `ℤ/n_o` and `C` depending only on `C₁`. When `j_t·log(n + 1) ≤ n + 1` the term `log(n + 1)·j_t·n_o·S_E/ℓ`
 is at most `n_o(n + 1)S_E/ℓ`. For several orbits the bounds add; the last term then becomes `T·R_w/(ℓ − 1)` for the remaining degree
 `R_w` summed over the orbits, which may be bounded in total (no bound orbit by orbit is needed).
@@ -811,8 +856,9 @@ is at most `n_o(n + 1)S_E/ℓ`. For several orbits the bounds add; the last term
 an integral flow (`x = n·y`, slack `n·u`). *Rounding:* let `W_θ := (1 − θ₀)w/T ≤ W`, `Y^{sup}(a, i) := 𝒢(a, i)` (4.19), which contains
 `0` and meets every interval of length `S_int` (4.19c (i)); the rounding uses of these sets only that they have windows. Take a
 maximal flow `x` for `W_θ` and delete the levels `i ≥ i₀`, losing at most `ℓ^{−i₀}ΣW_θ` (4.6 (g)); let `y(a, i)` be the largest
-element of `Y^{sup}(a, i)` that is `≤ x(a, i)` (so `0 ≤ x − y < S_int`, and the capacities hold for `W_θ`, a fortiori for `W`); put
-`u(a) := W(a) − Σ_iℓ^iy(a, i) − Σ_iy(a − i, i) ≥ 0`. The value bound is then at most
+element of `Y^{sup}(a, i)` that is `≤ x(a, i)` (so `0 ≤ x − y < S_int`, `y(a, i) = 0` for `i ≥ i₀`, and the capacities hold for `W_θ`, a
+fortiori for `W`); put
+`u(a) := W(a) − Σ_iℓ^iy(a, i) − Σ_iy(a − i, i) ≥ 0`: a plan admissible at level `i₀`. Its value bound is at most
 `𝔉_ℓ(nW_θ) + ℓ^{−i₀}nΣW_θ + nγΣ(W − W_θ) + j_tΣW/(ℓ − 1) + 2i₀·j_t·ΣW_θ/(ℓ − 1) + n_o·i₀·n(S_int + log_ℓn + 1)`
 (the character blocks cost `j_t/(ℓ − 1)` per unit of `Σu ≤ ΣW`; the bi-blocks, which carry the factor `i + 1 ≤ i₀`, are bounded
 through the capacities `W_θ`; the fixed cost of a bi-block is charged once for each of the at most `n_o·i₀` pairs `(a, i)` with
@@ -825,6 +871,8 @@ gives the last term `T·n_o·n³log²(n + 1)` of `err`. The parity of `n_o` is n
 *Checks.* `n_o = 2`, `w` constant: `𝔉_ℓ(n·w) = ρ_LT·n·Σw` (4.6 (c)).
 
 *NEW* (the rounding of a maximal flow into a plan). *Needs:* 4.6, 4.19, 4.19c.
+
+*In [FormalProof]:* GlobalTheory.InertContent.orbit (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/InertPrimeDepthContentBoundProof.lean`): a plan admissible at level `i₀` whose value bound, without the term `R_w/(ℓ − 1)`, satisfies the bound, with explicit constants and for `n_o` of either parity; ContentOrbit (`Formalism/LocalToGlobal/CharacterGerms/ValuationChoiceHypothesis.lean`), proved as contentOrbit, is a form for `n_o` even.
 
 ### 4.19e The row datum of an integral chart
 
@@ -864,8 +912,9 @@ to `n + j` with conjugate rank `j′`, with `j′ < n`. Then the
 chart over `C`, with the eigen-frame of the orbit, is an integral gauged formal group law, non-degenerate modulo `𝔪` at the big
 positions; by (a), (b) it carries a row datum (alternating or constant), with `I^∨_g = I_{1−g}`; (RD7) holds; and for every dominant weight and every plan of 4.19 the product of its
 blocks is an integral harmonic polynomial of that weight (4.8b) whose jet against a product of germs in disjoint copies is the
-product of the jets of the blocks, each with the component of `h` named by the block. Hence the depth of the weight at `y` (4.8b,
-on the copies the plan uses) is at most the value of the product of the blocks: `ν ≤ ν_bl` (with 4.19c (iv)).
+product of the jets of the blocks, each with the component of `h` named by the block. Hence, for every integer `m ≥ 1`, the depth of
+the weight at `y` (4.8b) on at least `n_o·n·m + 2(n + j_t)` copies is at most the value of the product of the blocks of every plan
+admissible at level `m`: `ν ≤ ν_bl(m)` (with 4.19c (iv)).
 
 *Route.* (a1) Zero, negation (where `ℓ ≠ 2` is used), Teichmüller multiples and Verschiebung of typical curves are formal; sums use
 the integrality of the group law, Frobenius and infinite sums the cocycle relations; the integrality of the first nonzero coefficient
@@ -913,6 +962,8 @@ position.
 Katz, Mazur–Messing; biextensions of formal groups, Mumford; the Weil pairing). *Needs:* 4.8b, 4.8c, 4.18, 4.19, 4.19c; PELModuli
 M1.3, M1.7.
 
+*In [FormalProof]:* integral gauged formal group laws are RLaw with HasProj and HasTeich (`Development/AbelianVarietyTheory/Definitions/TeichmullerDepth/HasTeich.lean`) on RawChart (`Formalism/LocalToGlobal/CharacterGerms/RowTieDefs.lean`), with row datum rowData (`Formalism/LocalToGlobal/CharacterGerms/RowTie.lean`); (a1), (a3), (a4), (a5) are GlobalTheory.T.cartHyp_of_integralGaugedFormalGroupLaw, GlobalTheory.T.integralGerms_independent_of_curveSystem, GlobalTheory.T.gaugeDeriv_eq_pairing_of_integralGaugedLaw and GlobalTheory.T.gaugedFormalGroup_kernel_small_of_second (`Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/`); (c) is PkgInertSt (`Development/AbelianVarietyTheory/Definitions/Jets/DepthNumbersThresholdEq.lean`), proved as pkgInert (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/InertPrimeDepthDataExistsAtPointsProof.lean`). There the level is a natural number `N` with `v(N) = 0`.
+
 ### 4.19f The depth at the points of a unitary moduli problem
 
 Let `M` be a PEL moduli
@@ -925,27 +976,28 @@ places of `E⁺` above `ℓ`); each is `O ∪ Ō` for an orbit `O` of `Frob_ℓ`
 alternates between `Φ` and `cΦ` and `O ≠ Ō`; (O) if `O = Ō` has length `2n_c` with `n_c ≥ 3` odd and `τ_{s+n_c} = τ̄_s`; (C) if
 `O = {τ, τ̄}`; (K) if `O` lies in `Φ` or in `cΦ`. For a dominant weight `κ`, `W`, `R_w` are its gaps and remaining degrees along the
 orbits (4.19), `R_w^{tot}` the sum of the remaining degrees over the orbits, `w(τ) > 0` (`τ ∈ Φ`), `T`, `θ₀`, `S_E`, `C₁` are numbers
-satisfying, orbit by orbit, the hypotheses of 4.19d (`(1 − θ₀)w ≤ T·W ≤ w + C₁S_E`, `nθ₀ ≤ 5j_t`; no hypothesis on the remaining
-degrees), `i₀` is as there, `ν := ν_y(κ; n_cp)` the depth of 4.8b on `n_cp` copies with `n_cp` at least the counts of copies of 4.19c (iv)
-and 4.19d summed over the orbits, and `err` the error term of 4.19d summed over the orbits. Then:
+satisfying, orbit by orbit, the hypotheses of 4.19d (`(1 − θ₀)w ≤ T·W ≤ w + C₁S_E`, `nθ₀ ≤ 5j_t`; a hypothesis on the remaining
+degrees only in (g1) and (g3)), `i₀` is as there, `ν := ν_y(κ; n_cp)` the depth of 4.8b on `n_cp` copies with `n_cp` at least the count of copies of 4.19d (that of
+4.19c (iv) at level `i₀`) summed over the orbits, `ν_bl(i₀)` the block depth at level `i₀` summed over the orbits (4.19), and `err` the error term of 4.19d summed over the orbits. Then:
 (o) *One minor.* At a place of `E⁺` above `ℓ` split in `E` (orbits of types (A), (K)), for a leading principal minor `Δ` of the frame at
 `τ_s` and `k ≥ 0`, the depth of `Δ^k` in the sense of 4.8b (with the polarisation factor, the copies carrying `Δ^k` only) is at most
 `k·S(τ_s)`, `S` of 4.8c.
-(a) *Alternating orbits.* If every orbit at `ℓ` is of type (A): `ν ≤ ν_bl` and `T·ν ≤ Σ_{orbits}𝔉_ℓ(n·w) + C·err + T·R_w^{tot}/(ℓ − 1)`
+(a) *Alternating orbits.* If every orbit at `ℓ` is of type (A): `ν ≤ ν_bl(i₀)` and `T·ν ≤ Σ_{orbits}𝔉_ℓ(n·w) + C·err + T·R_w^{tot}/(ℓ − 1)`
 (4.19d).
-(g1) *Conjugation.* If every orbit is of type (C): `T·ν ≤ ρ_LT(ℓ)·n·Σ_{τ∈Φ}w(τ) + C·err` (the sum over the embeddings of `Φ`, each once).
+(g1) *Conjugation.* If every orbit is of type (C), `T·R_w^{tot} ≤ C₁·f·(n + 1)·S_E` and `n_cp ≥ 8r·f`: `T·ν ≤ ρ_LT(ℓ)·n·Σ_{τ∈Φ}w(τ) + C·err` (the sum over the embeddings of `Φ`, each once).
 (g2) *Constant signature.* If every orbit is of type (K):
 `T·ν ≤ (j_t/(ℓ − 1))·Σ_{τ∈Φ}w(τ) + C·f·(n + 1)·S_E/(ℓ − 1) + T·R_w^{tot}/(ℓ − 1)`.
 (g3) *Odd conjugate type.* If every orbit is of type (O) and alternates between `Φ` and `cΦ` (`τ_s ∈ Φ` exactly for `s` of one
-parity): `T·ν ≤ Σ_{orbits}𝔉_ℓ(ℤ/n_c; n·w) + C·err`, `𝔉_ℓ(ℤ/n_c; ·)` the programme of
+parity), `T·R_w^{tot} ≤ C₁·f·(n + 1)·S_E` and `n_cp ≥ f·((i₀ + 1)n + 4r)`: `T·ν ≤ Σ_{orbits}𝔉_ℓ(ℤ/n_c; n·w) + C·err`, `𝔉_ℓ(ℤ/n_c; ·)` the programme of
 4.6 (f) on the `n_c` embeddings of `Φ` in the orbit with flows of odd length `< n_c`, each embedding once. (Type (O) does not imply
 the alternation: Check.)
 (g4) *Depth zero.* If every first row of `κ` is `≤ s(ℓ − 1)` for an integer `s ≥ 1` and `n_cp ≥ 4r·s·f`, then `ν ≤ 0`.
 
 *Route.* (o) The one-minor clause of 4.18 (c) bounds the factor depth; at an orbit disjoint from its conjugate, 4.19e (c) for the plan
 consisting of one character block, in copies of one side, identifies the depth of 4.8b with the value of the block, the polarisation
-factor being `1` there by isotropy. (a) 4.19e (c) on each orbit gives the row data, (RD7) and `ν ≤ ν_bl`; then 4.19d on each orbit, the
-values adding over disjoint copies (4.19c (iv)). (g2) At an orbit of type (K) a plan has no bi-block; with `y = 0` the value bound is
+factor being `1` there by isotropy. (a) 4.19e (c) on each orbit gives the row data, (RD7) and, at level `m = i₀`, `ν ≤ ν_bl(i₀)` on the `n_cp` copies (the depth
+does not increase with the number of copies, 4.8b, Check); then 4.19d on each orbit, the values adding over disjoint copies
+(4.19c (iv)). (g2) At an orbit of type (K) a plan has no bi-block; with `y = 0` the value bound is
 `Σ_aW(a)·j_t/(ℓ − 1) + R_w/(ℓ − 1)` (4.19, constant datum, rate of 4.19e (c); 4.19c (ii)–(iv), valid for `ℓ ≥ 3` without bi-blocks), and
 `T·W ≤ w + C₁S_E`, summed over the orbits (`Σn_o = f` over the orbits in `Φ`), give the bound with 4.19e (c). (g4) Monomial blocks spread
 over the copies so that every row exponent is `< ℓ` have value `0` (4.19c (iii), any `ℓ ≥ 3`); at orbits of types (A), (K), 4.19e (c)
@@ -964,9 +1016,11 @@ which does not alternate.
 
 *NEW* (as a statement). *Needs:* 4.6, 4.8b, 4.8c, 4.18, 4.19, 4.19c, 4.19d, 4.19e.
 
+*In [FormalProof]* (`Development/AbelianVarietyTheory/Definitions/Jets/DepthNumbersThresholdEq.lean`): (a) is InertBd, proved as GlobalTheory.T.inertPrimeDepthContentBound_proof; (g1) is PhiCBd, proved as GlobalTheory.T.complexConjFrobeniusDepthContentBound_proof; (g2) is SplitBd, a weaker form with an unspecified constant on the main term; (g4) is ZeroBd, proved as GlobalTheory.T.largePrime_packages_depth_nonpos (these proofs in `Development/AbelianVarietyTheory/Proofs/JetHarmonics/`); (g3) is UpperTheory.rowBound_le_Fnum_sum_add_error (`Development/AutomorphicArithmetic/OrbitLabellings/RowBoundLeFnumSumAddError.lean`). There (a), (g1), (g2) and (g3) assume `T·R_w^{tot} ≤ C₁·f·(n + 1)·S_E`, so that no remaining-degree term appears; (a) and (g2) are stated here without that hypothesis, with the term `T·R_w^{tot}/(ℓ − 1)` that their routes give. (o) is not stated there.
+
 ### Examples
 
-- `exp(T)` has `‖exp T‖_r ≤ 1` at `r = 1/(p−1)` and at no smaller radius, and the Lubin–Tate logarithm `Σ_e T^{p^{2e}}/p^e` has weight `≥ ρ_LT` at radius `ρ_LT`, with equality exactly at the monomials `T` and `T^{p²}` (4.1, Checks).
+- `exp(T)` has weight `≥ 0` at radius `1/(p−1)` and at no smaller radius, while Mathlib's Gauss norm of it at radius `0` is `0`, the real supremum of an unbounded family; and the Lubin–Tate logarithm `Σ_e T^{p^{2e}}/p^e` has weight `≥ ρ_LT` at radius `ρ_LT`, with equality exactly at the monomials `T` and `T^{p²}` (4.1, Checks).
 - `T^{p+1}/p` is the exceptional monomial of 4.2 and 4.3: `v_p = −1 ≤ −ρ_LT(p+1)`, and the conclusion `v_p ≥ 0` fails (4.2, Check).
 - For `n′ = 2`, `p = 3` the torus-invariant monomials `x₀^a x₁^b` are those with `a ≡ 3b (mod 8)`; in degree `4` both are bi-power, in degree `8` none is (4.3, Check). The coefficient `𝔠/p` of `xy^p` in `G_𝔠` attains the bound of 4.3 at the bi-power monomial `e₀ + pe₁` (4.4, Checks).
 - For `y² = 4x³ − 4x` at `p = 7` the coefficient `−G₈/8` of `z⁸` in `log σ(z)` has `v_7 = −1`, so the derivatives of `σ` at `0` are divisible only by `p^{ρ_LT·m − O(log m)}`: the one-letter rate of 4.5 is the true order (4.5, Check).
@@ -1026,11 +1080,11 @@ Not owned here: the Lubin–Tate logarithms `ℓ_𝔰` of height two are LubinTa
 
 ### From Mathlib
 
-- `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm` (coefficients and substitution), Legendre's formula for `padicValNat p n!`, `Algebra.traceForm`, `PowerSeries`, `MvPolynomial`, `Matrix.det`, multinomial coefficients, finite-dimensional linear programming (convexity), and modules over a discrete valuation ring (saturated submodules, bases), as named in the targets.
+- `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm` (coefficients and substitution), `MvPowerSeries.le_gaussNorm` and `MvPowerSeries.gaussNorm_mul_le` (`Mathlib/RingTheory/MvPowerSeries/GaussNorm.lean`: the product bound for two series that have a Gauss norm; a weight of 4.1 is a bound on the Gauss norm together with `HasGaussNorm`), Legendre's formula for `padicValNat p n!`, `Algebra.traceForm`, `PowerSeries`, `MvPolynomial`, `Matrix.det`, multinomial coefficients, finite-dimensional linear programming (convexity), and modules over a discrete valuation ring (saturated submodules, bases), as named in the targets.
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*; each such target names, after *In [FormalProof]*, the declarations that state it, with paths relative to the repository's `src` directory, and where its statement there is more or less general.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - J. Lubin and J. Tate (1965); T. Honda (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.1–4.8c, 4.19.
 - B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974): 4.19, 4.19a, 4.19e.
