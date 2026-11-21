@@ -937,7 +937,7 @@ the constant `C₁` of LocalGainOfThetaChains §4.10a with its
 constraint there (`C₁ = 1` serves); an exponent `c_TO > 352 + 1016ε₀` (the degree `T_O` below); `C_t > c_TO + 22 + 59ε₀` (`SizeT`; it implies
 `C_t ≥ 2A_max + 5/2`, ThetaChainsOnDefiniteUnitaryGroups §2.1); the constants `C_b`, `c_T` of BesselPoincareSeriesAndGramBounds §5.20 (a bound stated
 there for all `C_Δ > 4`, `C_b > 0`, `c_T > 0` with `c_T·C_b > 1`) with `c_T ≤ 16` (the lower bound for `log T(u)` of 9.4 (d)) and
-`c_T·C_b > 1`, and `C_T ≥ 25` (`SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8, the upper bound of 9.4 (d)); an exponent `C_Δ ≥ 40` of
+`c_T·C_b > 1`, and `C_T ≥ 25` (`SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8, the upper bound of 9.4 (d)); an exponent `C_Δ > 4` of
 BesselPoincareSeriesAndGramBounds §5.20 and its exponent `c_Θ = ½·min((C_Δ − 4)/2, (c_T·C_b − 1)/4)`; the constant `C_m` of
 BesselPoincareSeriesAndGramBounds §5.20a (c); then the constant `C_l` of BesselPoincareSeriesAndGramBounds §5.20a, chosen after
 `C_Δ`, `c_T`, `C_b` and the other constants of its list (St): at least `C_Δ`, at least the thresholds of
