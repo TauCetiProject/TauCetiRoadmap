@@ -162,9 +162,9 @@ section keeps its number.
   multiplicity with a uniform error, local kernels, archimedean Gram forms and the tower inequality,
   and their instances for the chain.
 - [**The seesaw for theta chains**](SeesawForThetaChains/README.md):
-  periods of unitary pairs (unfolding of Fourier–Jacobi periods, the passage between Bessel and
-  Fourier–Jacobi periods and the relation of their norms); the period pairing of the chain, its
-  unfolding, the local laws, the seesaw identity and its rationality.
+  periods of unitary pairs (unfolding of Fourier–Jacobi periods and the passage between Bessel and
+  Fourier–Jacobi periods); the period pairing of the chain, its unfolding, the local laws, the
+  seesaw identity and its rationality.
 - [**Uniform wild kernel bounds**](UniformWildKernelBounds/README.md):
   bounds, uniform in the field, for the logarithmic total of the groups `Ш¹(F, ℓ, e)` over families
   of host fields, with the windowed form consumed by the congruence modules.
