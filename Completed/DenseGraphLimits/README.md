@@ -256,7 +256,7 @@ graphon.
 The **forward counting lemma** `|t(F,U) − t(F,W)| ≤ e(F) · ‖U − W‖□` (in `Suggested.lean` the prefactor
 is `(F.edgeFinset.card : ℝ)`) and its **coupling / cut-distance form** `counting_lemma_coupling` (the
 cross-carrier engine); the descent of `t(F, ·)` to `GraphonSpace` (`homDensityOnSpace`); the
-**Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉+1}` — the proved migration baseline; the sharper `4^{⌈1/ε²⌉}` is a prospective improvement, not a migration-source result),
+**Frieze–Kannan weak regularity lemma** (`weak_regularity_frieze_kannan`, complexity `4^{⌈1/ε²⌉+1}` — the proved migration baseline; the sharper `4^{⌈1/ε²⌉}`, from the strict energy gain `> ε²` of each refinement step, is proved in Tau Ceti and is not a migration-source result),
 over a measurable `Finpartition` (the `Finpartition (Subtype MeasurableSet)` pattern with its thin measurable adapter). **`equitabilise` / `Finpartition` are reusable infrastructure**, but Mathlib's
 `Finpartition.energy` is the *finite* edge-density energy — a **proof template / alignment point, not
 a consumed theorem**. **Layer 2's public API is block-average based** — `stepGraphonAvg` and finite rectangle averages. So
