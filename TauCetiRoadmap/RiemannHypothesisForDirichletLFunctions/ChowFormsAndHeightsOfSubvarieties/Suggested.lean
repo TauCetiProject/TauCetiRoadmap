@@ -27,9 +27,10 @@ polynomial is a definition of SlopesOfHermitianVectorBundles §6.6, not of this 
   `Z` for the Fubini–Study metrics of `J̄` is `ht_J̄(F_Z) + ((d + 1)/2)·H_{N−1}·deg Z`. It lacks,
   besides these, the Hermitian vector bundle over `O_K`, the model `ℙ(M_J^∨)` with its metrised
   `𝒪(1)`, and the spherical height relative to `J̄`.
-* The height of the whole space (6.2 (a7)): `ℙ(J^∨)` has height
-  `deĝ_n(J̄) + ½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k`. It lacks the Hermitian vector bundle, its
-  normalised Arakelov degree, and the height of a cycle in `ℙ(J^∨)`.
+* The height of the whole space (6.2 (a7)): `ℙ(J^∨)` has height `deĝ_n(J̄)` plus the height of
+  `ℙ^{N−1}`, which is at most `(N/2)·log N`; the exact value `½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k` of
+  the height of `ℙ^{N−1}` is the published value of Bost, Gillet and Soulé. It lacks the Hermitian
+  vector bundle, its normalised Arakelov degree, and the height of a cycle in `ℙ(J^∨)`.
 
 At a `K`-rational point (`d = 0`) the left side of 6.1 is the logarithm of the Euclidean height of
 a coordinate vector, which Tau Ceti has as `TauCeti.height2`, and the right side is built from

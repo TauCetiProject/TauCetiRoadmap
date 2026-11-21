@@ -2,7 +2,7 @@
 
 **Summary.** Let `K` be a number field with ring of integers `O_K`. The Fubini–Study height of an effective `d`-cycle `Z` in `ℙ^n_K` is the arithmetic intersection number of `d + 1` copies of the metrised line bundle `Ō(1)` on the closure of `Z` over `O_K`, divided by `[K:ℚ]`. The Chow form `F_Z` of `Z` is a polynomial in `d + 1` groups of `n + 1` variables, homogeneous of degree `deg Z` in each group, that vanishes exactly at the tuples of hyperplanes that meet `Z`; its spherical height `ht(F_Z)` combines the Gauss norms of `F_Z` at the finite places with the integrals of `log |σ(F_Z)|` over products of unit spheres at the complex embeddings. This roadmap proves that the two heights differ by an explicit constant, the comparison of Bost, Gillet and Soulé, whose archimedean part is a theorem of Philippon, and proves its form for the projective space of a Hermitian vector bundle.
 
-The headline theorems are these. (1) For every effective `d`-cycle `Z` in `ℙ^n_K`, the Fubini–Study height of `Z` equals `ht(F_Z) + ((d + 1)/2)·H_n·deg Z`, where `H_n = Σ_{k=1}^{n} 1/k`. (2) Let `J̄` be a Hermitian vector bundle of rank `N ≥ 1` over `O_K`, `J` its generic fibre, and `Z` an effective `d`-cycle in the projective space `ℙ(J^∨)` of lines in the dual of `J`, whose line bundle `𝒪(1)` carries the Fubini–Study metrics of `J̄`. Then the height of `Z` equals `ht_J̄(F_Z) + ((d + 1)/2)·H_{N−1}·deg Z`, where `ht_J̄` is the spherical height relative to `J̄`, taken with Gauss norms in local bases of the lattice of `J̄` and with integrals over the unit spheres of its metrics; the constant depends on `d` and `N` only. (3) The height of the whole space `ℙ(J^∨)` is `deĝ_n(J̄) + ½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k`, the normalised Arakelov degree of `J̄` plus the height of `ℙ^{N−1}`.
+The headline theorems are these. (1) For every effective `d`-cycle `Z` in `ℙ^n_K`, the Fubini–Study height of `Z` equals `ht(F_Z) + ((d + 1)/2)·H_n·deg Z`, where `H_n = Σ_{k=1}^{n} 1/k`. (2) Let `J̄` be a Hermitian vector bundle of rank `N ≥ 1` over `O_K`, `J` its generic fibre, and `Z` an effective `d`-cycle in the projective space `ℙ(J^∨)` of lines in the dual of `J`, whose line bundle `𝒪(1)` carries the Fubini–Study metrics of `J̄`. Then the height of `Z` equals `ht_J̄(F_Z) + ((d + 1)/2)·H_{N−1}·deg Z`, where `ht_J̄` is the spherical height relative to `J̄`, taken with Gauss norms in local bases of the lattice of `J̄` and with integrals over the unit spheres of its metrics; the constant depends on `d` and `N` only. (3) The height of the whole space `ℙ(J^∨)` is `deĝ_n(J̄)`, the normalised Arakelov degree of `J̄`, plus the height of `ℙ^{N−1}`, which is at most `(N/2)·log N`; the exact value `½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k` of the height of `ℙ^{N−1}` is the published value of Bost, Gillet and Soulé.
 
 The roadmap extends HeightsRationalPointsAndObstructions, which defines the height of projective cycles and the arithmetic intersection numbers with their Cartier recursion; it adds to these numbers a formula for a change of metric. The Chow forms are those of [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md); Hermitian vector bundles and their Arakelov degree are those of [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md); the spherical heights of multiforms, the normalised spherical measure with its disintegration along a unit vector, and the heights relative to a Hermitian vector bundle are those of [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the comparison turns the explicit arithmetic Hilbert–Samuel inequalities of SlopesOfHermitianVectorBundles, stated with spherical heights of Chow forms, into bounds in terms of heights of varieties, in [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md); the height of the whole space gives the height of a projective bundle in [HeightsForLogSingularMetrics](../HeightsForLogSingularMetrics/README.md).
 
@@ -87,7 +87,8 @@ in `ℙ^n_{O_K}`, also prove the three local statements on which the identity re
   is a section of `𝒪(1)` over `𝒵 ⊗ O_{K,𝔭}` and `ord_W ≥ 0`; otherwise orders can be negative (for `Z = [1 : 0] ⊂ ℙ¹_ℚ`
   and `s = p^{−1}e_0`, `F_Z(s) = p^{−1}` and `e_p(s) = −1`). So the vertical part `Σ_𝔭 Σ_W ord_W(⟨s, ·⟩)·[W]` of the
   divisor of `⟨s, ·⟩` on `𝒵` is recorded by the content: if `F_Z` has content `1` at `𝔭`, then `F_Z(s, ·)` is
-  `π^{e_𝔭(s)}` (`π` a uniformiser at `𝔭`) times a Chow form of `Z·H_s` of content `1` at `𝔭`.
+  `π^{e_𝔭(s)}` (`π` a uniformiser at `𝔭`) times a Chow form of `Z·H_s` of content `1` at `𝔭`. The identity of this
+  section uses (ii) for `s ∈ O_K^{n+1}` only.
 - (iii) *Archimedean places.* For every `σ ∈ Σ_K`,
   `m_σ(F_Z) = m_σ(F_Z(s, ·)) − ∫_{Z_σ(ℂ)} log ‖s‖_σ·c_1(Ō(1))^d − ½·H_n·deg Z`, where `m_σ` is the integral of
   SlopesOfHermitianVectorBundles §6.6 (for `d = 0`, `m_σ` of a constant `a` is `log |σ(a)|`) and
@@ -235,15 +236,16 @@ gives `‖u‖_𝔭([ξ]) = |ξ(u)|_𝔭/‖ξ‖_𝔭`, where `‖ξ‖_𝔭 = 
 
 (a) *The height.* For an integral closed subvariety `Z ⊂ ℙ(J^∨)` of dimension `d` with closure `𝒵` in `ℙ(M_J^∨)`, put
 `projectiveCycleHeight_J̄(Z) = arithmeticIntersection(𝒵; Ō(1)_J̄, …, Ō(1)_J̄)/[K:ℚ]` with `d + 1` factors (HeightsRationalPointsAndObstructions §5.17a), and
-extend it additively to effective `d`-cycles. Prove: (a1) for `J̄ = Ō_K^{n+1}` it is `projectiveCycleHeight` of HeightsRationalPointsAndObstructions §5.9b; (a2)
+extend it additively to effective `d`-cycles. `projectiveCycleHeight_J̄` is divided by `[K:ℚ]` and by nothing else: not by
+`d + 1`, not by `deg Z`. Prove: (a1) for `J̄ = Ō_K^{n+1}` it is `projectiveCycleHeight` of HeightsRationalPointsAndObstructions §5.9b; (a2)
 an isometry `φ : J̄ → J̄′` induces an isomorphism `ℙ(J^∨) ≅ ℙ(J′^∨)` (through `(φ^∨)^{−1}`), and
 `projectiveCycleHeight_{J̄′}(φ_*Z) = projectiveCycleHeight_J̄(Z)`; (a3)
 `projectiveCycleHeight_{J̄_{O_L}}(Z_L) = projectiveCycleHeight_J̄(Z)` for every finite extension `L/K`, with `J̄_{O_L}` the
 base change (ArakelovGeometryAndAbelianHeights §1.2); (a4)
 `projectiveCycleHeight_{J̄(t)}(Z) = projectiveCycleHeight_J̄(Z) + (d + 1)·t·deg Z`, where `J̄(t)` has the metrics
 `e^{−t}‖·‖_σ` (ArakelovGeometryAndAbelianHeights §1.1); (a5) for a `K`-point `x = [ξ]`,
-`projectiveCycleHeight_J̄(x) = (1/[K:ℚ])·(Σ_𝔭 log ‖ξ‖_𝔭 + Σ_σ log ‖ξ‖^∨_σ)`, the normalised height of the vector `ξ` for the
-dual bundle `J̄^∨`; (a6) if `J̄′ = (M_J, (h′_σ)_σ)` has the same lattice, then, with `f_σ([ξ]) = log(‖ξ‖′^∨_σ/‖ξ‖^∨_σ)`,
+`projectiveCycleHeight_J̄(x) = (1/[K:ℚ])·(Σ_𝔭 log ‖ξ‖_𝔭 + Σ_σ log ‖ξ‖^∨_σ)`, the height of the vector `ξ` for the dual
+bundle `J̄^∨`, divided by `[K:ℚ]`; (a6) if `J̄′ = (M_J, (h′_σ)_σ)` has the same lattice, then, with `f_σ([ξ]) = log(‖ξ‖′^∨_σ/‖ξ‖^∨_σ)`,
 
 ```text
 projectiveCycleHeight_J̄′(Z) − projectiveCycleHeight_J̄(Z)
@@ -255,11 +257,15 @@ By (a1), (a2) and (a6), for an `O_K`-basis `e` of a free `M_J`, `projectiveCycle
 orthonormal to the `h_σ`. (a7) *The whole space:*
 
 ```text
-projectiveCycleHeight_J̄(ℙ(J^∨)) = deĝ_n(J̄) + ½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k,
+projectiveCycleHeight_J̄(ℙ(J^∨)) = deĝ_n(J̄) + projectiveCycleHeight(ℙ^{N−1}),
 ```
 
-with `deĝ_n(J̄) = deĝ(J̄)/[K:ℚ]` the normalised Arakelov degree (ArakelovGeometryAndAbelianHeights §1.3); the second term is
-the height of `ℙ^{N−1}`, the case `J̄ = Ō_K^N`. With (a5) this gives the height in the two extreme dimensions.
+with `deĝ_n(J̄) = deĝ(J̄)/[K:ℚ]` the normalised Arakelov degree (ArakelovGeometryAndAbelianHeights §1.3) and
+`projectiveCycleHeight(ℙ^{N−1})` the height of `ℙ^{N−1}`, the case `J̄ = Ō_K^N`, which does not depend on `K`. It
+satisfies `projectiveCycleHeight(ℙ^{N−1}) ≤ (N/2)·log N`; this bound is what HeightsForLogSingularMetrics uses (Downstream
+consumers). Its exact value is `½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k = (N/2)·(Σ_{k=1}^{N} 1/k − 1)`, the height of projective
+space of Bost, Gillet and Soulé (References), which is at most `(N/2)·log N`. With (a5) this gives the height in the two
+extreme dimensions.
 
 (b) *Comparison with the Chow form.* Let `Z` be an effective `d`-cycle in `ℙ(J^∨)` and `F_Z` its Chow form: the multiform on
 `J` in the sense of SlopesOfHermitianVectorBundles §6.7a, of degree `deg Z` in each of its `d + 1` arguments, that vanishes at
@@ -280,10 +286,13 @@ with the constant of 6.1. It depends on `d` and on the rank `N` of `J̄`, and on
 lattice or `K`); after division by `d + 1` it is `½·Σ_{k=1}^{N−1} 1/k`, which depends on `N` alone. Both sides are unchanged
 when `K` is replaced by a finite extension `L` (and `J̄`, `Z` by `J̄_{O_L}`, `Z_L`): (a3) and SlopesOfHermitianVectorBundles §6.7a (i). For `J̄ = Ō_K^{n+1}`
 the identity is 6.1. For `Z ≠ 0`, divided by `(d + 1)·deg Z`:
-`projectiveCycleHeight_J̄(Z)/((d + 1)·deg Z) = ht_J̄(F_Z)/((d + 1)·deg Z) + ½·Σ_{k=1}^{N−1} 1/k`.
+`projectiveCycleHeight_J̄(Z)/((d + 1)·deg Z) = ht_J̄(F_Z)/((d + 1)·deg Z) + ½·Σ_{k=1}^{N−1} 1/k`. For a free `M_J` with
+an `O_K`-basis this is the comparison of the height with the Chow form in the coordinates of that basis and with arbitrary
+Hermitian metrics, which is the form the family uses; the case of a lattice that is not free is reduced to it by a finite
+extension ((a3)).
 
-*Route.* (a1)–(a7) and (b) are proved here, by these routes; no published statement of them is cited, and the standard
-case on which (b) rests is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b. (a2): the induced isomorphism of models carries `Ō(1)_J̄` isometrically to
+*Route.* (a1)–(a7) and (b) are proved here, by these routes; no published statement of them is cited other than the
+exact value of the height of `ℙ^{N−1}` in (a7), and the standard case on which (b) rests is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b. (a2): the induced isomorphism of models carries `Ō(1)_J̄` isometrically to
 `Ō(1)_{J̄′}`. (a3): a flat `O_L`-scheme is the closure of its generic fibre, so the closure of `Z_L` is `𝒵 ⊗_{O_K} O_L`, and
 the intersection numbers of HeightsRationalPointsAndObstructions §5.17a scale by `[L:K]`. (a5): the closure of `x` is a section `ε` of `ℙ(M_J^∨)` over `O_K`, and
 `ε^*Ō(1)_J̄` is the fractional ideal `ξ(M_J)` with the metrics `|·|/‖ξ‖^∨_σ`, whose Arakelov degree
@@ -296,8 +305,8 @@ and after a finite extension `M_J` is free. Indeed `M_J` is a direct sum of `N` 
 linear form on `M_J` is a fractional ideal, which is projective, so it splits off; induct on the rank); a fractional ideal
 `𝔞` has a principal power `𝔞^m = aO_K` (the class group is finite), and `𝔞O_L = a^{1/m}O_L` in `L = K(a^{1/m})`, since both
 have `m`-th power `aO_L` and the group of fractional ideals of `O_L` is torsion-free; a compositum treats the `N` ideals at
-once. For `N = 1`, `ℙ(J^∨)` is the point `[ξ]` of any `0 ≠ ξ ∈ J^∨`, and (a5) gives the normalised height of `ξ` for the
-line `J̄^∨`, which is `−deĝ_n(J̄^∨) = deĝ_n(J̄)` (ArakelovGeometryAndAbelianHeights §§1.3, 1.5). For `N ≥ 2` let `u` be a
+once. For `N = 1`, `ℙ(J^∨)` is the point `[ξ]` of any `0 ≠ ξ ∈ J^∨`, and (a5) gives the height of `ξ` for the line
+`J̄^∨`, divided by `[K:ℚ]`, which is `−deĝ_n(J̄^∨) = deĝ_n(J̄)` (ArakelovGeometryAndAbelianHeights §§1.3, 1.5). For `N ≥ 2` let `u` be a
 vector of an `O_K`-basis of `M_J`. Its divisor on `ℙ(M_J^∨)` is `ℙ((M_J/O_Ku)^∨)`, with multiplicity one and no vertical
 component (`u` is nonzero modulo every prime), and `Ō(1)_J̄` restricts there to `Ō(1)_{J̄/u}` for the quotient bundle `J̄/u`
 with the quotient metrics (ArakelovGeometryAndAbelianHeights §1.2): a linear form that vanishes at `u` has the same dual norm and the same lattice norm
@@ -306,7 +315,9 @@ the unit sphere of `J_σ^∨` (both are probability measures invariant under the
 `∫ log(|ξ(u)|/‖ξ‖^∨_σ)·c_1^{N−1} = log ‖u‖_σ − ½·Σ_{k=1}^{N−1} 1/k` (SlopesOfHermitianVectorBundles §6.6 (vi)). The Cartier recursion of HeightsRationalPointsAndObstructions §5.17a gives
 `projectiveCycleHeight_J̄(ℙ(J^∨)) = projectiveCycleHeight_{J̄/u}(ℙ((J/Ku)^∨)) − (1/[K:ℚ])·Σ_σ log ‖u‖_σ + ½·Σ_{k=1}^{N−1} 1/k`,
 and `deĝ(J̄) = deĝ(J̄/u) − Σ_σ log ‖u‖_σ` (ArakelovGeometryAndAbelianHeights §§1.3, 1.5, for the sub-bundle `O_Ku` with the
-restricted metrics); induct on `N`.
+restricted metrics); induct on `N`. The bound: the points of `ℙ^{N−1}` whose coordinates are roots of unity are Zariski
+dense and have height at most `½·log N`, so the upper half of the successive-minima inequality
+(HeightsRationalPointsAndObstructions §5.17f) gives `projectiveCycleHeight(ℙ^{N−1}) ≤ N·½·log N`.
 
 (b) A change of structure, reduced to a change of the metrics at the complex embeddings, and the variation of both sides
 along a path of metrics. (1) *Reductions.* For `N = 1`, `ℙ(J^∨)` is a point `[ξ]`, `Z = (deg Z)·[ξ]`, `F_Z = ξ^{deg Z}`, and
@@ -349,7 +360,8 @@ carries `ν` to `ν_{σ,t}`, hyperplanes `H_u` to hyperplanes and the Fubini–S
 `d` independent `ν_{σ,t}`-distributed hyperplanes, `E[Σ_p φ([ξ_p])] = ∫_{Z_σ(ℂ)} φ·c_1(Ō(1)_{J̄_t,σ})^d` for every continuous
 `φ`. The standard case on which step (2) rests is 6.1.
 
-*Needs:* 6.1; 5.1 (the change-of-metric formula); HeightsRationalPointsAndObstructions §§5.9b, 5.17a; AlgebraicModuliForArithmeticGeometry
+*Needs:* 6.1; 5.1 (the change-of-metric formula); HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f (the upper
+half of the successive-minima inequality, for the bound of (a7)); AlgebraicModuliForArithmeticGeometry
 §1.6; ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6 (Hermitian vector bundles; duals, quotients and base change; the
 Arakelov degree, its additivity, its invariance under finite extension); SlopesOfHermitianVectorBundles §6.6 (the measure `ν`
 and its disintegration (vi)) and SlopesOfHermitianVectorBundles §6.7a (i) (`ht_J̄`: independence of the choices, multiplicativity, invariance under
@@ -411,12 +423,12 @@ For the point `[1:1] ∈ ℙ¹(ℚ)`, `projectiveCycleHeight = ½log 2` and `ht 
 
 ### Dependencies
 
-Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a; AlgebraicModuliForArithmeticGeometry §1.6; ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6; SlopesOfHermitianVectorBundles §§6.6, 6.7a; ComplexComparisonPartII C5.4; Mathlib `Polynomial.gaussNorm_mul`.
+Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f; AlgebraicModuliForArithmeticGeometry §1.6; ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6; SlopesOfHermitianVectorBundles §§6.6, 6.7a; ComplexComparisonPartII C5.4; Mathlib `Polynomial.gaussNorm_mul`.
 
 ## Downstream consumers
 
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (b) uses 6.1 for the comparison of the self-intersection of the metrised `O(1)` on the image of a component with its Chow height (the bound "volume `≤` height" of the slope argument). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18e (its preamble and (e3)) applies 6.2 (b) to the coordinate bundle `J̄` = the lattice of integral forms of weight `u₁` on a component `Z`, with its Petersson metrics (rank `N_Z`), and the image `X_Z` (`d = D`, degree `δ_Z`), divided by `(D + 1)·δ_Z`: `h(u₁, Z) = ht_J̄(f_Z)/((D + 1)·δ_Z) + ½·Σ_{k=1}^{N_Z−1} 1/k`, the form over a coordinate bundle in which SlopesOfHermitianVectorBundles §6.7a is stated; ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (b) uses the height of 6.2 (a) of `X_Z` for that bundle.
-- HeightsForLogSingularMetrics §4.3b (a), the height of the projective bundle of lines in a Hermitian vector bundle `Ē`, is 6.2 (a7) for `J̄ = Ē^∨` (the model `Proj Sym E^∨ = ℙ(M_J^∨)` and the metrised `O(1)` are the same).
+- HeightsForLogSingularMetrics §4.3b (a), the height of the projective bundle of lines in a Hermitian vector bundle `Ē`, is 6.2 (a7) for `J̄ = Ē^∨` (the model `Proj Sym E^∨ = ℙ(M_J^∨)` and the metrised `O(1)` are the same); HeightsForLogSingularMetrics §4.3b uses the bound `projectiveCycleHeight(ℙ^{N−1}) ≤ (N/2)·log N` of (a7).
 
 ## Scope and ownership
 
@@ -432,7 +444,7 @@ In the family, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties and He
 
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
 
-§5.9b: for a pure `d`-cycle `Z` in `ℙ^n_K`, `projectiveCycleHeight(Z) = arithmeticIntersection(Ō(1), …, Ō(1); Z)/[K:ℚ]` with `d + 1` factors, the Fubini–Study metric at infinity and the standard integral-model metrics at the finite places; its additivity in effective cycles; the height `½·log 5` of `[1:2]` over `ℚ` (used in 6.1 and 6.2). §5.17a: for `𝒳` flat and projective of relative dimension `d` over `O_K` and Hermitian line bundles `L̄_0, …, L̄_d` on it, the arithmetic intersection number `arithmeticIntersection(𝒳; L̄_0, …, L̄_d)`, symmetric and multilinear, with the Cartier recursion (for a section `s` of `L_0` whose divisor meets `𝒳` properly, the intersection on `div s` minus `Σ_σ ∫ log ‖s‖_σ·c_1(L̄_1) ∧ ⋯ ∧ c_1(L̄_d)`), its computation through a resolution of horizontal cycles, its scaling by `[K′:K]` under finite extension, the contribution `multiplicity·log N𝔭` of a vertical fibre, and its Check for a constant change of one metric at all embeddings (used in 5.1, 6.1 and 6.2).
+§5.9b: for a pure `d`-cycle `Z` in `ℙ^n_K`, `projectiveCycleHeight(Z) = arithmeticIntersection(Ō(1), …, Ō(1); Z)/[K:ℚ]` with `d + 1` factors, the Fubini–Study metric at infinity and the standard integral-model metrics at the finite places; its additivity in effective cycles; the height `½·log 5` of `[1:2]` over `ℚ` (used in 6.1 and 6.2). §5.17a: for `𝒳` flat and projective of relative dimension `d` over `O_K` and Hermitian line bundles `L̄_0, …, L̄_d` on it, the arithmetic intersection number `arithmeticIntersection(𝒳; L̄_0, …, L̄_d)`, symmetric and multilinear, with the Cartier recursion (for a section `s` of `L_0` whose divisor meets `𝒳` properly, the intersection on `div s` minus `Σ_σ ∫ log ‖s‖_σ·c_1(L̄_1) ∧ ⋯ ∧ c_1(L̄_d)`), its computation through a resolution of horizontal cycles, its scaling by `[K′:K]` under finite extension, the contribution `multiplicity·log N𝔭` of a vertical fibre, and its Check for a constant change of one metric at all embeddings (used in 5.1, 6.1 and 6.2). §5.17f: for an ample line bundle with a semipositive metric, the upper half `e₁ ≥ h_L(X)` of the successive-minima inequality, `e₁` the essential minimum (used for the bound of 6.2 (a7)).
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
@@ -456,6 +468,8 @@ C5.4: `AnalyticCycleIntegration`, the current of integration over a pure-dimensi
 
 ## References
 
-- J.-B. Bost, H. Gillet and C. Soulé, *Heights of projective varieties and positive Green forms*, J. Amer. Math. Soc. 7 (1994): the comparison theorem between the height and the Chow form (6.1), and through it the standard case on which 6.2 rests. The route of 6.1 proves it from the local statements (i)–(iii) and the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a.
+- J.-B. Bost, H. Gillet and C. Soulé, *Heights of projective varieties and positive Green forms*, J. Amer. Math. Soc. 7 (1994): the comparison theorem between the height and the Chow form (6.1), and through it the standard case on which 6.2 rests; the height of projective space (6.2 (a7)). The route of 6.1 proves it from the local statements (i)–(iii) and the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a.
 - P. Philippon, *Sur des hauteurs alternatives I*, Math. Ann. 289 (1991), Théorème 2, p. 256, restated as Corollaire 4, p. 272: the archimedean statement 6.1 (iii) for an irreducible subvariety of `ℙ^n(ℂ)` not contained in `H_{σ(s)}`, from which (iii) follows by additivity over the components of `Z_σ`.
 - H. Gillet and C. Soulé, *Arithmetic intersection theory*, Publ. Math. IHÉS 72 (1990), Theorem 4.2.3, p. 138 (the intersection product of arithmetic cycles on a regular arithmetic variety): the arithmetic intersection numbers of HeightsRationalPointsAndObstructions §5.17a, whose API 5.1 extends.
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 5.1; of 6.1 with (i), (iii), and (ii) for integral `s`; and of 6.2 (a4), (a6), the decomposition and the bound of (a7), and (b) for a free lattice, that the family uses.
+- **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
