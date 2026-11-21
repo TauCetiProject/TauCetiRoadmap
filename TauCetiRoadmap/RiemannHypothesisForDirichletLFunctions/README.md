@@ -6,9 +6,15 @@ every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s`
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
 of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
 Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
-roadmap of the family states and proves these theorems. The family follows a complete formal proof:
-each roadmap states as targets what that proof establishes, in the generality in which the
-statement holds, and says so where a route is not written out.
+roadmap of the family states these theorems. The family follows the formal Lean proof, by Levent
+Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced
+on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf); [source with a public verification
+setup](https://github.com/leanprover-community/riemann-hypothesis)). The theorems of that proof are
+the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
+Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
+them by published theorems and are not statements of the formal proof. Each roadmap states as
+targets what the proof establishes, in the generality in which the statement holds, with the
+published theory it rests on, and says so where a route is not written out.
 
 The route is analytic at both ends. For a positively weighted family of characters, a one-sided
 bound for the weighted sum of the Riesz-smoothed prime sums of its members, less their main terms,
@@ -25,16 +31,20 @@ representations and Selmer groups, and integral models of unitary Shimura variet
 
 Each subdirectory is a roadmap of its own, with a definitive `README.md` and a `Suggested.lean` of
 target signatures; this page is the index of the family. The roadmaps are listed in merge order:
-within the family, each roadmap cites only roadmaps listed above it.
+within the family, each roadmap cites only roadmaps listed above it. Citations between the roadmaps
+are by section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a
+section keeps its number.
 
 ## The roadmaps
 
 - [**Tensor induction and finite-group inputs**](TensorInductionAndFiniteGroupInputs/README.md):
-  tensor induction, virtual characters on cosets, Schur–Weyl statements, a theorem of Jordan on
-  primitive groups, and identities of quantum minors.
+  tensor induction in prime index, virtual characters of norm one on a coset, the decomposition of
+  polynomial functions on matrices under two general linear groups, a theorem of Jordan on primitive
+  permutation groups, and identities of minors of the Capelli matrix.
 - [**Positivity of Dirichlet series with kernels**](PositivityOfDirichletSeriesWithKernels/README.md):
-  positivity arguments for Dirichlet series with kernels, with the Laplace and stationary-phase
-  statements they use.
+  positivity arguments for Laplace transforms and Dirichlet series with kernels, a windowed form of
+  Landau's theorem, Laplace's method with non-vanishing, and stationary phase over the complex
+  numbers and over products of p-adic fields.
 - [**Statements of the Riemann hypotheses and their consequences**](RiemannHypothesisStatementsAndConsequences/README.md):
   Riesz sums and explicit formulas, the Riemann-hypothesis predicates for Dirichlet characters,
   Dedekind zeta functions and ray-class characters, and their consequences.
@@ -44,21 +54,14 @@ within the family, each roadmap cites only roadmaps listed above it.
   quadratic twists over primes in a progression, and the selection of auxiliary primes with
   zero-free boxes.
 - [**Adelic heights and successive minima**](AdelicHeightsAndSuccessiveMinima/README.md):
-  names for the adelic heights of vectors and subspaces of an adelic presentation, written out over
-  every finite extension, with their elementary properties, and Minkowski's second theorem over
-  number fields for balanced bodies.
+  adelic heights of vectors and subspaces for an adelic presentation, with their duality and
+  behaviour under extension, and successive minima over number fields for balanced bodies.
 - [**Orbit measures on adelic groups**](OrbitMeasuresOnAdelicGroups/README.md):
-  Tamagawa measures, Siegel sets and orbit measures on adelic groups, and centralisers of semisimple
-  elements.
+  Tamagawa measures on homogeneous spaces of adelic groups, Tamagawa numbers of semidirect products
+  and of quotients by central tori, and centralisers of semisimple elements.
 - [**Hodge–Tate lattices and Lubin–Tate logarithms**](HodgeTateLatticesAndLubinTateLogarithms/README.md):
   Hodge–Tate lattices and flag sequences with explicit cokernel bounds, and logarithms of Lubin–Tate
   formal group laws with sharp radii.
-- [**Hecke ideals and Taylor–Wiles relations**](HeckeIdealsAndTaylorWilesRelations/README.md):
-  Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
-  lattice coefficients.
-- [**Bernoulli bounds for class group eigenspaces**](BernoulliBoundsForClassGroupEigenspaces/README.md):
-  bounds for eigenspaces of class groups and K-groups by Bernoulli numbers, Stickelberger-type
-  annihilation, and the vanishing of Bloch–Kato groups.
 - [**Wach lattices over the cyclotomic tower**](WachLatticesOverTheCyclotomicTower/README.md):
   Wach lattices and crystalline lattices over the cyclotomic tower, with explicit exponents.
 - [**Selmer length bounds and local lifting**](SelmerLengthBoundsAndLocalLifting/README.md):
@@ -67,16 +70,13 @@ within the family, each roadmap cites only roadmaps listed above it.
 - [**Length bounds in p-adic families**](LengthBoundsInPadicFamilies/README.md):
   length bounds and eigensystems in `p`-adic families.
 - [**Reducibility ideals and ultrafilter patching**](ReducibilityIdealsAndUltrafilterPatching/README.md):
-  generalised matrix algebras, reducibility ideals, the numerical criterion, block types, and
-  patching with an ultrafilter.
-- [**Finite reductive groups and the characters of `GL_n(𝔽_q)`**](FiniteReductiveGroups/README.md):
-  Harish-Chandra induction and Deligne–Lusztig theory for the groups of rational points of connected
-  reductive groups over finite fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for
-  `GL_n` in prime degree.
+  the order of an element on a module over a discrete valuation ring, graded cotangent bounds at
+  smooth points, determinantal presentations and their reducibility ideals, and patching with an
+  ultrafilter up to an element.
 - [**Multiplier ideals of pairs and point separation**](MultiplierIdealsOfPairsAndPointSeparation/README.md):
-  discrepancies and klt and lc pairs, multiplier ideals of pairs, Nadel vanishing for pairs, and the
-  theorems on isolated non-klt centres, global generation and separation of points for adjoint
-  bundles.
+  discrepancies and klt and lc pairs, multiplier ideals of pairs, Nadel vanishing for pairs,
+  isolated non-klt centres, global generation and separation of points for adjoint bundles, Kollár's
+  two-point separation, and statements on common zeros of sections of a birational linear system.
 - [**Singular Hermitian metrics and L² methods**](SingularHermitianMetricsAndL2Methods/README.md):
   plurisubharmonic functions and Lelong numbers, singular Hermitian metrics, L² estimates and the
   Ohsawa–Takegoshi extension theorem, good metrics along a boundary, multiplier ideals,
@@ -91,9 +91,19 @@ within the family, each roadmap cites only roadmaps listed above it.
 - [**Local factors of twists and types**](LocalFactorsOfTwistsAndTypes/README.md):
   local factors and epsilon factors of twists, converse theorems, and smooth representations with
   their types.
+- [**Finite reductive groups and the characters of `GL_n(𝔽_q)`**](FiniteReductiveGroups/README.md):
+  Harish-Chandra induction and Deligne–Lusztig theory for the groups of rational points of connected
+  reductive groups over finite fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for
+  `GL_n` in prime degree.
 - [**Base change and Galois representations for unitary groups**](BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md):
   base change and inertial types of depth-zero representations, and the Galois representations
   attached to automorphic representations of unitary groups.
+- [**Hecke ideals and Taylor–Wiles relations**](HeckeIdealsAndTaylorWilesRelations/README.md):
+  Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
+  lattice coefficients.
+- [**Bernoulli bounds for class group eigenspaces**](BernoulliBoundsForClassGroupEigenspaces/README.md):
+  bounds for eigenspaces of class groups and K-groups by Bernoulli numbers, Stickelberger-type
+  annihilation, and the vanishing of Bloch–Kato groups.
 - [**Theta kernels for unitary dual pairs**](ThetaKernelsForUnitaryDualPairs/README.md):
   the Weil representation, splittings and theta kernels for unitary dual pairs, the local theta
   correspondence, convergence and unfolding.
@@ -104,14 +114,17 @@ within the family, each roadmap cites only roadmaps listed above it.
   archimedean place; also the maximal slopes of lattices of sections of an ample line bundle and an
   explicit arithmetic Hilbert–Samuel inequality.
 - [**Chow forms and heights of subvarieties**](ChowFormsAndHeightsOfSubvarieties/README.md):
-  Chow forms of projective subvarieties, spherical heights of multihomogeneous forms, and the
-  heights of subvarieties they define.
+  the change of metric in arithmetic intersection numbers, the comparison of the Fubini–Study height
+  of a projective cycle with the spherical height of its Chow form, and heights of cycles in the
+  projective space of a Hermitian vector bundle.
 - [**Heights for log-singular metrics**](HeightsForLogSingularMetrics/README.md):
   heights for log-singular metrics, heights on projective spaces and flag varieties, and slopes of
   Lie algebras of abelian schemes.
 - [**Projective models and period bounds on Shimura varieties**](ProjectiveModelsAndPeriodBoundsOnShimuraVarieties/README.md):
-  integral models of PEL type and their compactifications, Gram bounds for periods, ampleness,
-  Bertini over number fields, and descent.
+  seminegativity of Hodge bundles over curves with a growth bound, logarithmic periods over a
+  polydisc, conjugate data on a curve and their extension over global models, ampleness of twisted
+  Hodge lines, global normal projective models of PEL type with their cubical line bundle, and the
+  descent of a linearised line bundle to a quotient by a finite group.
 - [**Integral Weyl modules of general linear groups**](IntegralWeylModulesOfGeneralLinearGroups/README.md):
   the integral theory of `GL_N`: the bideterminant basis of the integral dual Weyl module with
   saturation, Weyl and dual Weyl modules in the closed lowest alcove, the exponent comparing their
