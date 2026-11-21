@@ -5,8 +5,8 @@ import Mathlib
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Two of the three
-headlines are commutative algebra over a discrete valuation ring and are stated below; the third is
-not statable at the pins, and nothing is stated in its place.
+headlines are commutative algebra over a discrete valuation ring and are stated below; the third
+needs constructions the pins do not have, listed below, and nothing is stated in its place.
 
 * The length bound for relative congruence modules (1.7a (4), (4′)): stated as
   `length_quot_annihilators_le_sum_rank_mul_relCongruence` and
@@ -27,18 +27,32 @@ not statable at the pins, and nothing is stated in its place.
   splits into blocks `ρ_b` with absolutely irreducible, pairwise non-isomorphic reductions, one of
   them a character `χ`, and a set `Z` containing every point at which `χ` occurs, if the cut
   cocycles satisfy local conditions `L_{b,v}`, then `length_O(O/c(π))` is at most the sum over the
-  blocks of the lengths of the Selmer groups `H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`. It lacks the class in
-  continuous `H¹` of an inhomogeneous continuous cocycle (Mathlib's `continuousCohomology` is the
-  cohomology of homogeneous cochains and is identified with explicit data only in degree `0`), the
-  Selmer group of a family of local conditions at closed subgroups with discrete coefficients
-  (SelmerIwasawaCohomology §§2.1–2.9), and determinants of dimension `n` on `A[G]` with their
-  characteristic coefficients (IntegralHeckeAndGaloisDeterminants §§0.5, 1.2).
+  blocks of the lengths of the Selmer groups `H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`. Its cohomology is at
+  the pins: Mathlib's `continuousCohomology` of a `TopRep` over `O` is an `O`-module, with the
+  restriction maps `ContinuousCohomology.map` along continuous homomorphisms; Tau Ceti has the
+  continuous inhomogeneous `1`-cocycles and their classes (`TauCeti.ContCohomology.Z1`,
+  `TauCeti.ContCohomology.H1`, `TauCeti.ContCohomology.H1pi`), identified with
+  `continuousCohomology` by `TauCeti.ContCohomology.explicitH1AddEquivContinuousCohomology` and,
+  for discrete coefficients over any scalars, by
+  `TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv`, and Selmer groups of local
+  conditions along compatible pairs as additive subgroups
+  (`TauCeti.ContCohomology.SelmerStructure.selmerGroup`). Its determinant is a Mathlib
+  `PolynomialLaw` satisfying Tau Ceti's `PolynomialLaw.IsMultiplicative` and
+  `PolynomialLaw.IsHomogeneousOfDegree`, though its specialisation along `λ_x : A → O` has no
+  carrier (the pins have no base change of polynomial laws). What the pins lack besides is the
+  coefficient module and the cocycles of the hypothesis. The coefficients `ρ_b ⊗ χ^{−1} ⊗ K/O` are not a `TopRep`: `K/O`, for
+  an abstract fraction field `K`, carries no topology, and Tau Ceti's `TauCeti.ofDiscreteModule`
+  takes the discrete topology and the action as instances. The cut cocycles are built from the
+  constructions of 1.8c (the algebra `𝒜` spanned by the `r(g)`, the block maps `ψ_b` of a
+  conjugation over `K`, an idempotent `E`, the module `Y_s`, and its homomorphisms into
+  `(K/O)^{d_b}` through `ψ_b`). Stating the headline would take a chain of definitions of this
+  roadmap's own constructions, not a few simple ones, so it is stated in the README only.
 
 The extension-module bound 1.8c (1), for an arbitrary group without topology, is algebra on finitely
 many matrices and statable in Mathlib; it is the step of the route to the third headline that
 precedes the passage to cohomology classes, not a headline, and it is not stated here. The bound
-with local defects 1.8e needs the same carriers as the third headline and local cup products into
-`H²(G_w, K/O(1))` besides.
+with local defects 1.8e refines the third headline, with the module with columns of 1.8e in place
+of `Y_s`, and needs the same constructions.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.LengthBoundsInPadicFamilies
