@@ -48,7 +48,8 @@ namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.TaylorBoundsAnd
 open Finset
 
 /-- A *dual radius vector* for the flow programme on `ℤ/n′` at `p` (4.6): a vector
-`σ ∈ [0, 1]^{ℤ/n′}` with `p^i·σ_s + σ_{s+i} ≥ 1` for every letter `s` and every odd `i < n′`. -/
+`σ ∈ [0, 1]^{ℤ/n′}` with `p^i·σ_s + σ_{s+i} ≥ 1` for every letter `s` and every odd `i < n′`.
+[FormalProof], `Formalism/IncomingBounds/IncomingBound.lean` (`Formalism.IncomingBounds.IsDual`). -/
 def IsDualRadiusVector (p n' : ℕ) (σ : ZMod n' → ℝ) : Prop :=
   (∀ s, 0 ≤ σ s ∧ σ s ≤ 1) ∧
     ∀ s, ∀ i ∈ (range n').filter Odd, 1 ≤ (p : ℝ) ^ i * σ s + σ (s + i)
@@ -77,7 +78,10 @@ theorem flowProgramme_duality (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 �
   sorry
 
 /-- The bounds of the flow programme (4.6 (b)): for `n′` even, a prime `p ≥ 3` and `D ≥ 0`,
-`ρ_LT·Σ_s D_s ≤ 𝔉_p(D) ≤ γ_LT·Σ_s D_s`, with `ρ_LT(p) = 1/(p² − 1)` and `γ_LT(p) = p/(p² − 1)`. -/
+`ρ_LT·Σ_s D_s ≤ 𝔉_p(D) ≤ γ_LT·Σ_s D_s`, with `ρ_LT(p) = 1/(p² − 1)` and `γ_LT(p) = p/(p² − 1)`.
+Follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/JetHarmonics/FlowProgrammeBoundsAndLowLevelOptimum.lean`
+(`GlobalTheory.FlowProgrammeFacts.main`). -/
 theorem flowProgramme_bounds (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 ≤ p)
     (hn' : Even n') (D : ZMod n' → ℝ) (hD : ∀ s, 0 ≤ D s) :
     1 / ((p : ℝ) ^ 2 - 1) * ∑ s, D s ≤ flowProgramme p n' D ∧
@@ -85,7 +89,12 @@ theorem flowProgramme_bounds (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 �
   sorry
 
 /-- The flow programme of a nearly constant vector (4.6 (c)): for `n′` even, a prime `p ≥ 3` and
-`D ≥ 0` with `max D ≤ p·min D`, `𝔉_p(D) = ρ_LT·Σ_s D_s`, with `ρ_LT(p) = 1/(p² − 1)`. -/
+`D ≥ 0` with `max D ≤ p·min D`, `𝔉_p(D) = ρ_LT·Σ_s D_s`, with `ρ_LT(p) = 1/(p² − 1)`.
+Follows from [FormalProof],
+`Development/AutomorphicArithmetic/OrbitLabellings/FnumEqRhoMulSumOfDemandRatioLe.lean`
+(`UpperTheory.fnum_eq_rho_mul_sum_of_demand_ratio_le`),
+`Formalism/LocalToGlobal/CharacterGerms/ValuationChoiceHypothesis.lean`
+(`Formalism.L2.FormalSeriesBounds.LemmaFe`). -/
 theorem flowProgramme_eq_of_max_le_mul_min (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 ≤ p)
     (hn' : Even n') (D : ZMod n' → ℝ) (hD : ∀ s, 0 ≤ D s)
     (hmax : ∀ s t, D s ≤ (p : ℝ) * D t) :
