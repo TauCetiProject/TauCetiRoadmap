@@ -86,7 +86,9 @@ of a given type under a parahoric subgroup of type `(a, b)`.
   `T₀` inside a rational Borel subgroup `B₀ = T₀U₀`, with the action of `F`, simple reflections `S` and
   length function `ℓ`. `N` is the number of positive roots.
 - **The sign `ε`.** For a rational maximal torus `T`, `F` acts on `X(T) ⊗ ℝ` as `q·φ_T` with `φ_T` of finite
-  order (ReductiveGroups 9E); put `r(T) = dim (X(T) ⊗ ℝ)^{φ_T}`. For a rational connected reductive
+  order (by ReductiveGroups 9E, `F^δ` restricted to `T` is the `q^δ`-Frobenius of an `𝔽_{q^δ}`-structure on `T`, so
+  `F^δ = q^δ·ρ` on `X(T)` with `ρ` of finite order; on the standard torus of the Chevalley carriers this is ChevalleyGroups
+  C5, *Steinberg endomorphisms*); put `r(T) = dim (X(T) ⊗ ℝ)^{φ_T}`. For a rational connected reductive
   subgroup `H`, `r(H) = r(T_H)` for a rational maximal torus `T_H` of `H` contained in a rational Borel
   subgroup of `H`, and `ε_H = (−1)^{r(H)}`. For the `q`-Frobenius of an `𝔽_q`-structure `r(H)` is the
   `𝔽_q`-rank of `H`, the dimension of a maximal `𝔽_q`-split torus, as in Deligne–Lusztig.
@@ -258,7 +260,8 @@ running over the `F`-orbits of simple roots, is nontrivial, `F` permuting the co
 particular `G^F` contains regular unipotent elements. (b) A regular unipotent element lies in exactly one
 Borel subgroup. (c) If a regular unipotent `u` lies in a parabolic subgroup `P = L ⋉ U_P`, its image in
 `P/U_P ≅ L` is regular unipotent in `L`. For `GL_n` the regular unipotent elements are those with one Jordan
-block, the class `u_{(n)}` of the Conventions.
+block, the class `u_{(n)}` of the Conventions. Over `ℂ` the Lie-algebra form of (a) and (b), for regular nilpotent elements
+(simple-component criterion in `𝔫`, unique Borel subalgebra), is FormalConnectionsOpers §4.3.
 
 *Route.* (a), (b) are Steinberg's theorems on regular elements (Steinberg 1965, §§3–4): for `u ∈ U₀` with all
 simple components nontrivial, on a Bruhat cell `U₀ẇB₀/B₀ ≅ U_{w}` (ReductiveGroups Layer 7) the commutator
@@ -572,7 +575,9 @@ whose restriction to `P_{2d}` is `(Φ⁺)^{d−1}Ψ⁺(σ)`. Hence `a_O = q^{d_O
 the `R_M^G(T_s^M)` for every simple reflection `s`.
 
 *Route.* (a) The finite-field version of Bernstein–Zelevinsky's theory (Gelfand–Kazhdan; Zelevinsky,
-Ch. III): the exact sequence `0 → Φ⁺Φ⁻ → 1 → Ψ⁺Ψ⁻ → 0` on representations of `P_n`, split because the groups
+Ch. III; the counterpart for `GL_n` of a local field, with the same functors and derivatives `Ψ⁻(Φ⁻)^{k−1}`, is
+SmoothRepresentationsOfLocalGroups SR.5.1 *mirabolic-derivatives*, *derivative-exactness*): the exact sequence
+`0 → Φ⁺Φ⁻ → 1 → Ψ⁺Ψ⁻ → 0` on representations of `P_n`, split because the groups
 are finite, from the decomposition of `τ|_{V_n}` into the `V_n`-invariants and the orbit of nontrivial
 characters of `V_n` under `GL_{n−1}`, which `GL_{n−1}(𝔽_q)` permutes transitively with stabiliser `P_{n−1}(𝔽_q)` of index
 `q^{n−1} − 1` (so that the stabiliser in `P_n(𝔽_q)` is `P_{n−1}V_n`), for `n ≥ 2`; iterate down to `P_1 = 1`, where `τ = Ψ⁺Ψ⁻τ`
@@ -870,7 +875,8 @@ integer. Equality for `g⁻¹` because a rational trace of a finite-order operat
 conjugate.
 
 *Needs:* EtaleCohomologyFoundations §§F.2.5, F.3, F.4.5, F.10.1, F.10.2b; InverseGaloisAndArithmeticFundamentalGroups
-§IG.0.T3; SchemeAndStackFoundations §1.1 (descent).
+§IG.0.T3; SchemeAndStackFoundations §1.24 (Galois descent of affine schemes, glued over `⟨g⟩`-stable affine opens as
+in 3.2 (c)).
 
 **Checks.**
 - `X = 𝔾_m`, `g = 1`: `L = 1 − 1 = 0`, and `|𝔾_m(𝔽_{q^m})| = q^m − 1` gives `R(t) = qt/(1−qt) − t/(1−t)`,
@@ -1017,7 +1023,7 @@ On `X = 𝔾_m` the identity has Lefschetz number `0`, and the inversion `x ↦ 
 
 ### Dependencies
 
-EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.2.4, F.2.5, F.2.7, F.3, F.4.5, F.10.1, F.10.2b and F.10.4; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §1.1.
+EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.2.4, F.2.5, F.2.7, F.3, F.4.5, F.10.1, F.10.2b and F.10.4; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §1.24.
 
 ## Layer 4: Deligne–Lusztig induction
 
@@ -1027,6 +1033,8 @@ EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.2.4, F.2.5, F.2.7, F.3, F.4.5
 `G^F`-torsor for left multiplication: `G^F`, the fixed-point subgroup scheme of `F`, is finite and étale (the constant group
 on the finite group `G^F`), and `(γ, x) ↦ (γx, x)` is an isomorphism `G^F × G → G ×_{L,G,L} G`. Consequently, for every
 locally closed subscheme `Y ⊂ G`, `L⁻¹(Y) → Y` is a `G^F`-torsor, and `L` identifies the quotient `G^F\L⁻¹(Y)` (3.2(c)) with `Y`.
+For a torus and the `q`-Frobenius the torsor statement of (a) is FourierDeligneTransform §2.1, written additively
+(`L = F − id`); (a) extends it to non-commutative `G` and to Steinberg endomorphisms.
 (b) Let `T` be a rational maximal torus, `B = TU ⊃ T` a Borel subgroup (not necessarily rational), and `w` the
 relative position of `B` and `F(B)`. The variety
 `Y_U = {gU ∈ G/U : g⁻¹F(g) ∈ U·F(U)}` is smooth, quasi-projective and of pure dimension `ℓ(w)`; `G^F` acts
@@ -1250,6 +1258,9 @@ rational Levi subgroup and `|J/F|` the number of `F`-orbits in `J`. Then:
 not semisimple;
 (c) `⟨R_T^G(1), St_G⟩ = ε_G ε_T` for every rational maximal torus `T`;
 (d) `1_{G^F} = |W|⁻¹ Σ_{w∈W} R_{T_w}^G(1)` and `St_G = |W|⁻¹ Σ_{w∈W} ε_G ε_{T_w} R_{T_w}^G(1)`.
+For split `G` and the `q`-Frobenius, (a) and `St_G(1) = q^N` are SmoothRepresentationsOfLocalGroupsPartII SRU.4.1
+*finite-steinberg* (with the alternating-sum identity of SRU.4.9), which also characterises `St_G` by the sign character of
+`End(Ind_{B^F}^{G^F}1)`; here they are stated for every Steinberg endomorphism.
 
 *Route,* in the order (a), (c), (d), (b). (a) `⟨St, St⟩ = Σ_{J,K}(−1)^{|J/F|+|K/F|}|P_J^F\G^F/P_K^F|` by the Mackey
 formula for Harish-Chandra functors (ReductiveGroups 7d). By 0.1 the rational double cosets `P_J^F\G^F/P_K^F` correspond
@@ -2387,7 +2398,8 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 
 | Use here | Section |
 |---|---|
-| descent of twisted forms; fpqc descent of quasi-coherent modules and of functions (used in 4.1(a)) | §1.1 |
+| fpqc descent of quasi-coherent modules and of functions (used in 4.1(a)) | §1.1 |
+| Galois descent of affine schemes, for the twisted forms of 3.1 | §1.24 |
 | torsors under a flat group scheme: the pseudo-torsor isomorphism and fppf-local sections (used in 4.1(a)) | §1.15 |
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
