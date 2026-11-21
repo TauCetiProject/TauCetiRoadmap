@@ -12,7 +12,7 @@ The layers carry the numbers of the layers they extend. Layer 6 treats degenerat
 
 Notation and conventions not restated here are those of ShimuraCompactifications (its Conventions and Layers 6–8), of PELModuli (Layers M0–M4) and of SchemeAndStackFoundations. In particular a semi-abelian scheme is that of ShimuraCompactifications §6.1, its Hodge bundle is `E = e^*Ω¹_{G/S}` and `ω = det E` its Hodge line; cone systems `Σ`, polarisation functions `pol`, boundary divisors `D_ρ`, lattice collections `J` with the singleton collection `J₀`, the minimal inputs `M̃^min_{H,J}` and the models `M̃^tor_{H,Σ,J}` are those of ShimuraCompactifications §§7.19, 7.20 and 7.31, and the good primes of a PEL datum and a level are the primes of the set `□` of the base of ShimuraCompactifications §7.3. Integral PEL data `(O, ⋆, L, ⟨·,·⟩, h)` are those of PELModuli §M0.5, and the similitude group scheme `G` over `ℤ`, with similitude character `ν`, is that of PELModuli §M0.7.
 
-`Ẑ = ∏_ℓ ℤ_ℓ`, `Ẑ^p = ∏_{ℓ≠p} ℤ_ℓ` and `𝔸_f = Ẑ ⊗ ℚ`. For a scheme in characteristic `p`, `Fr` is the absolute Frobenius and `Fr^*` the pull-back along it; the Verschiebung of a commutative group scheme is that of ShimuraCompactifications §6.18. For a rigidified line bundle `L` on a commutative group scheme with group law `m`, `Λ(L) = m^*L ⊗ pr₁^*L^{−1} ⊗ pr₂^*L^{−1}`; for a line bundle `M` on an abelian variety `B`, `K(M)` is the kernel of the map `B → B^∨`, `x ↦ t_x^*M ⊗ M^{−1}`. For an endomorphism `w` of `G`, `(1, w) : G → G ×_S G` is the morphism `x ↦ (x, wx)`, and `𝒫` is the Poincaré bundle on `A ×_S A^∨` for an abelian scheme `A`. Logarithms are natural. Internal references `k.n` name target `k.n` of this roadmap.
+`Ẑ = ∏_ℓ ℤ_ℓ`, `Ẑ^p = ∏_{ℓ≠p} ℤ_ℓ` and `𝔸_f = Ẑ ⊗ ℚ`. For a scheme in characteristic `p`, `Fr` is the absolute Frobenius and `Fr^*` the pull-back along it; the Verschiebung of a commutative group scheme is that of ShimuraCompactifications §6.18. For a rigidified line bundle `L` on a commutative group scheme with group law `m`, `Λ(L) = m^*L ⊗ pr₁^*L^{−1} ⊗ pr₂^*L^{−1}` ([FormalProof], `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SemiabelianSchemes/CubicalStructures/CubeSymmetricSwapFirst.lean` (`ReciprocityTheory.ChartRestriction.G.Semi.cubeLB`)), and on an abelian scheme `Λ(L) ≅ (1 × φ_L)^*𝒫` (AbelianSchemesAndArithmeticModuli A2.3); for a line bundle `M` on an abelian variety `B`, `K(M)` is the kernel of the map `B → B^∨`, `x ↦ t_x^*M ⊗ M^{−1}`. For an endomorphism `w` of `G`, `(1, w) : G → G ×_S G` is the morphism `x ↦ (x, wx)` ([FormalProof], `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/TwoWeightEqOneAddRoot.lean` (`ReciprocityTheory.ChartRestriction.G.Geo.Tor.SAB`)), and `𝒫` is the Poincaré bundle on `A ×_S A^∨` for an abelian scheme `A` (AbelianSchemesAndArithmeticModuli A2.2). Logarithms are natural. Internal references `k.n` name target `k.n` of this roadmap.
 
 *CM data.* 6.9a, 7.12a and 7.31a (b′) use a CM field `E` with complex conjugation `a ↦ ā`, whose ring of integers `𝒪_E` is unramified over that of its maximal totally real subfield and which contains a square root `√−d` of `−d` for a prime `d ≡ 7 (mod 16)`, and the element `w_0 := (1 + √−d)/2` of `𝒪_E`, so that `w_0 + w̄_0 = 1`; these are the data with which 7.31a (b′) opens. There, and in the form of the formal proof recorded at 6.7a, `E` names this field; elsewhere `E` is the Hodge bundle (6.2a), the alternating form of 6.7a (a) or, in some Checks, an elliptic curve.
 
@@ -39,7 +39,8 @@ Riemann form of `λ` (in an `H_λ`-orthonormal basis, `∫ iα ∧ ᾱ ∧ c₁(
 `G_x` being `√(deg λ)`); on the Siegel family with a principal `λ`, `h_λ(dz_i, dz_j) = (Im τ)_{ij}/π`, and for `g = 1`,
 `‖dz‖² = Im τ/π`. On the determinant, `det h_λ = π^{−g}·(deg λ)^{−1/2}·‖·‖²_Fal`, where `‖·‖_Fal` is the Faltings metric of
 ArakelovGeometryAndAbelianHeights §2.8 (`‖dz₁ ∧ ⋯ ∧ dz_g‖²_Fal = det Im τ` on the Siegel family; for `g = 1`, `‖dz‖² = Im τ`);
-equivalently `det h_λ = (deg λ)^{−1/2}·‖·‖²_Del` with Deligne's normalisation `‖α‖²_Del = (2π)^{−g}|∫α ∧ ᾱ|` of ArakelovGeometryAndAbelianHeights §2.1. So for
+equivalently `det h_λ = (deg λ)^{−1/2}·‖·‖²_Del` with Deligne's normalisation `‖α‖²_Del = (2π)^{−g}|∫α ∧ ᾱ|` of ArakelovGeometryAndAbelianHeights §2.1
+(`‖·‖²_Del = π^{−g}‖·‖²_Fal`, ArakelovGeometryAndAbelianHeights §2.7). So for
 a principal polarisation `h_λ` is Deligne's normalisation, and differs from Faltings' by the factor `π^{−g}` on `det E`. Then
 near every point of `D`, in a frame of `E` on a polydisc
 where `D = {x₁⋯x_a = 0}`, the Gram matrix `H` of `h_λ` satisfies `|H_{ij}| ≤ C·(1 + Σ_j|log|x_j||)` and `H ≥ c·Id` for
@@ -54,7 +55,14 @@ family shows (Gram matrix `≍ diag(t, t)`, `t = −log|q|`: squared norm `≍ t
 (b) let `k` be a field of characteristic zero, `C` a smooth projective geometrically connected curve over `k` and `G → C`
 a semi-abelian scheme (ShimuraCompactifications §6.1). Then every locally free subsheaf of `Lie(G/C)` has
 degree `≤ 0`; equivalently every locally free quotient of the Hodge bundle `E = e^*Ω¹_{G/C}` has degree `≥ 0` (`E` is
-nef). The characteristic-zero hypothesis enters through the Hodge metric.
+nef). The characteristic-zero hypothesis enters through the Hodge metric. (b) follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SemiAbelianLieSeminegativeBis.lean`
+(`GlobalTheory.Nef.semiAbelianLieSeminegative`), of the statement
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/InterNumDetNonposSplitTorus.lean`
+(`GlobalTheory.Published.SemiAbelianLieSeminegative`). For `Q = E`, `deg E = deg ω ≥ 0` holds over an
+algebraically closed field of every characteristic by ShimuraCompactifications §7.33 (a Hodge line of degree `≤ 0` on a
+smooth proper curve has degree `0`; for a principally polarised abelian generic fibre,
+ArakelovGeometryAndAbelianHeights §5.0b); (b) extends this to every locally free quotient of `E` in characteristic zero.
 
 *Scope.* (a) bounds the entries of the Gram matrix of `h_λ` and the Gram matrix from below, in frames of the extension `E`,
 over a smooth complex variety with a normal crossings divisor; it asserts nothing about derivatives of `H` (condition (ii) of
@@ -63,17 +71,24 @@ SingularHermitianMetricsAndL2Methods §5.3). [FormalProof] has, for a principal 
 (`e = exp(1)`) for the Gram matrix `Γ` of the Hodge form `π·H_λ` in a holomorphic frame of the Lie algebra (for a frame of
 the whole Lie algebra `Γ^{−1}` is the Gram matrix of `h_λ` in the dual frame of `E`), together with the bound
 `C·exp((e + Σ_{i≤a} log(1/|x_i|²))/2)` for the first derivatives of the entries of `Γ`
-(`GlobalTheory.T.period_gram_comparison_bound`, in `src/Development/AutomorphicSpectrum/Proofs/GeometryProofs/PeriodGramComparisonBoundStatement.lean`;
+(`GlobalTheory.T.period_gram_comparison_bound`, in `Development/AutomorphicSpectrum/Proofs/GeometryProofs/PeriodGramComparisonBoundStatement.lean`;
 on the compactified model, the field `logBound` of `GroundTheory.Heights₂.Heights.LowerBoundFree.HermMetric`, in
-`src/GroundTheory/HeightsAndTheta/Heights/HodgeLowerBound/CoordinateIdeals.lean`). The rest of (a) (an arbitrary degeneration and
+`GroundTheory/HeightsAndTheta/Heights/HodgeLowerBound/CoordinateIdeals.lean`). The normalisation of `h_λ` (the dual
+of `π·H_λ`) is that of [FormalProof], `Development/AutomorphicSpectrum/Definitions/GlobalGeometry/IsHodgeGram.lean`
+(`GlobalTheory.CompanionTheory.Ar.Fl.IsHodgeGram`), `Development/AutomorphicSpectrum/Proofs/GeometryProofs/ContDiffUncentre.lean`
+(`GlobalTheory.CompanionTheory.Ar.HodgeMetric.periodGram`). The rest of (a) (an arbitrary degeneration and
 polarisation, the comparison of two polarisations, the determinant identities, the quotient metrics and the sharpness of
-their exponents) is this roadmap's own statement and not a step of [FormalProof]. (b) is the statement of [FormalProof]
-`GlobalTheory.Published.SemiAbelianLieSeminegative` (in `src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/InterNumDetNonposSplitTorus.lean`,
+their exponents) is this roadmap's own statement and not a step of [FormalProof]. For `Q = E` the bounds on the norm
+of a frame of `det E` give, through `det h_λ = π^{−g}(deg λ)^{−1/2}‖·‖²_Fal`, ArakelovGeometryAndAbelianHeights §5.3 (the
+Faltings metric on `ω = det E` has logarithmic singularities along `D`) with the exponent made explicit; (a) extends that
+statement from `det E` to `E` and its quotients. (b) is the statement of [FormalProof]
+`GlobalTheory.Published.SemiAbelianLieSeminegative` (in `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/InterNumDetNonposSplitTorus.lean`,
 proved as `GlobalTheory.Nef.semiAbelianLieSeminegative`), with the same hypotheses. (b) has no hypothesis on the generic
 fibre: for a curve `C` mapping to a base `S̄` carrying `G` as in (a), it applies to the pull-back of `G` whether or not the
 image of `C` meets the open set where `G` is abelian, the curves inside a boundary stratum of positive toric rank of a
 toroidal compactification included (the pull-back to such a curve, or to its normalisation, has a nontrivial torus at the
-generic point; fourth Check). Nothing is asserted in positive or mixed characteristic.
+generic point; fourth Check). Nothing is asserted in positive or mixed characteristic; in positive characteristic the case
+`Q = E` is ShimuraCompactifications §7.33.
 
 *Route.* (a) Use the degeneration data near a boundary point (ShimuraCompactifications §§6.4–6.7). The periods live on the complement of `D` only (ShimuraCompactifications §6.4:
 there is no map from the period lattice to the torus extension over `D`): over `P ∖ D`, `P` the polydisc of the statement, and
@@ -117,7 +132,8 @@ sub-bundle; the class `c₁(λ)` is flat, so `k(u, v) = c_λ·∫_{G_x} i·u ∧
 nondegenerate hermitian form. It equals `h_λ` on `E = H^{1,0}`, is negative definite on `H^{0,1} = Ē` (`k(ᾱ, ᾱ) = −k(α, α)`;
 positivity of the Riemann form, AbelianSchemesAndArithmeticModuli A5.2), and `H^{0,1}` is the `k`-orthogonal of `E` (the integrand of `k(α, β̄)` has type
 `(g + 1, g − 1)`). SingularHermitianMetricsAndL2Methods §3.2a(b) then gives `θ_E(ξ ⊗ v) = |σ(ξ)v|² ≥ 0`, `σ` the second
-fundamental form (the Kodaira–Spencer map), and SingularHermitianMetricsAndL2Methods §3.2a (a) gives Griffiths semipositivity of every locally free quotient with
+fundamental form (the Kodaira–Spencer map of PELModuli M2.10, which agrees with the Gauss–Manin description of
+AbelianSchemesAndArithmeticModuli A4.3), and SingularHermitianMetricsAndL2Methods §3.2a (a) gives Griffiths semipositivity of every locally free quotient with
 its quotient metric. For a locally free quotient `Q` of `E` of rank `q ≥ 1`, the
 determinant of the quotient metric on `det Q` has `c₁ ≥ 0` on `U` (the trace of a Griffiths semipositive curvature), and by
 (a) the squared norm of a frame satisfies condition (ii) of SingularHermitianMetricsAndL2Methods §2.5 at the punctures (with
@@ -125,9 +141,9 @@ determinant of the quotient metric on `det Q` has `c₁ ≥ 0` on `U` (the trace
 `deg Q = deg det Q = ∫_U c₁(det Q, det h_Q) ≥ 0`. For a locally free subsheaf `F ⊂ Lie(G/C) = E^∨`, its saturation `F′` has
 `deg F ≤ deg F′`, and `F′^∨` is a locally free quotient of `E`, so `deg F ≤ −deg F′^∨ ≤ 0`.
 
-*Needs:* ShimuraCompactifications §§6.1, 6.2, 6.4–6.7; ArakelovGeometryAndAbelianHeights §§2.0, 2.1, 2.2, 2.8, 5.3; AbelianSchemesAndArithmeticModuli A4.3,
+*Needs:* ShimuraCompactifications §§6.1, 6.2, 6.4–6.7; ArakelovGeometryAndAbelianHeights §§2.0, 2.1, 2.2, 2.7, 2.8, 5.3; AbelianSchemesAndArithmeticModuli A4.3,
 A5.2, A5.6 (de Rham cohomology with its Hodge filtration and Gauss–Manin connection, Riemann forms, the comparison with the
-Betti local system); SingularHermitianMetricsAndL2Methods §§2.5, 3.2a, 5.3.
+Betti local system); PELModuli M2.10 (the Kodaira–Spencer map); SingularHermitianMetricsAndL2Methods §§2.5, 3.2a, 5.3.
 
 **Checks.**
 
@@ -152,11 +168,11 @@ Let `0 ≤ a ≤ n`, `𝔻^n` the open unit polydisc and `𝔻^n_a ⊂ 𝔻^n` t
 - (d) endomorphisms `T_i` of `Λ` (`i ≤ a`) with `P(w + 2πi·e_i) = P(w)∘T_i`;
 - (e) a subgroup `W ⊂ Λ` containing a nonzero multiple of every element orthogonal to `W`, such that for `x ∈ W` the vector `P(w)x` depends only on `u`, extends holomorphically to `𝔻^n`, and the values at `u = 0` span `ℂ^g`.
 
-*The form of the formal proof.* [FormalProof] has this statement for the charts of the moduli scheme of 7.31a (b′) (`GlobalTheory.T.boundary_chart_log_period_family`, in `src/Development/AutomorphicSpectrum/Proofs/GeometryProofs/BoundaryChartLogPeriodFamilyStatement.lean`; the chart is the structure `GlobalTheory.CompanionTheory.Ar.Flat.BdryChart` and the data (a)–(e) the structure `GlobalTheory.CompanionTheory.Ar.Flat.LogPeriods`): `G` carries the action of `𝒪_E` and `ℒ` its cubical structure, with the isomorphisms of 7.31a (b′) (ii), the restriction of `(G, ℒ)` to the open subscheme is the pull-back of the universal marked object by a morphism to `Sh`, and the points `ψ_u`, `u ∈ 𝔻^n_a`, map to complex points of `Sh` over an embedding in `ℂ` of its base field (7.31a (b′) (i)). The kernel clause of (b) is part of it, through a holomorphic family of exponential maps of the fibres over the polydisc of radius `ρ`. The statement for an arbitrary `(G, ℒ)` is this roadmap's own.
+*The form of the formal proof.* [FormalProof], `Development/AutomorphicSpectrum/Proofs/GeometryProofs/LogPeriodsRiemannFormStatement.lean` (`GlobalTheory.T.log_periods_riemann_form`), `Development/AutomorphicSpectrum/Definitions/MetricPeriods/ClopenCondOnto.lean` (`GlobalTheory.CompanionTheory.Ar.Flat.LogPeriods`), `Development/AutomorphicSpectrum/Definitions/GlobalGeometry/BdryChart.lean` (`GlobalTheory.CompanionTheory.Ar.Flat.BdryChart.IsRiem`), has this statement for the charts of the moduli scheme of 7.31a (b′) (`GlobalTheory.T.boundary_chart_log_period_family`, in `Development/AutomorphicSpectrum/Proofs/GeometryProofs/BoundaryChartLogPeriodFamilyStatement.lean`; the chart is the structure `GlobalTheory.CompanionTheory.Ar.Flat.BdryChart` and the data (a)–(e) the structure `GlobalTheory.CompanionTheory.Ar.Flat.LogPeriods`): `G` carries the action of `𝒪_E` and `ℒ` its cubical structure, with the isomorphisms of 7.31a (b′) (ii), the restriction of `(G, ℒ)` to the open subscheme is the pull-back of the universal marked object by a morphism to `Sh`, and the points `ψ_u`, `u ∈ 𝔻^n_a`, map to complex points of `Sh` over an embedding in `ℂ` of its base field (7.31a (b′) (i)). The kernel clause of (b) is part of it, through a holomorphic family of exponential maps of the fibres over the polydisc of radius `ρ`. The statement for an arbitrary `(G, ℒ)` is this roadmap's own. On the principal Siegel charts the multiplicative form of these periods is ArakelovGeometryAndAbelianHeights §5.0a, and (e) in one variable is the monodromy-invariant sublattice of ArakelovGeometryAndAbelianHeights §5.3.
 
-*Route.* Near `u = 0` there is a holomorphic family of exponential maps `ℂ^g → G(ψ_u)`. The kernel at `u = 0` is discrete and free, and spans `ℂ^g` because the fibre is an extension of an abelian variety by a torus; each of its elements continues to a holomorphic section of the kernels: this gives `W`. On `𝔻^n_a` the kernels form a local system of lattices of rank `2g` carrying the Riemann form of the principal polarisation; a flat frame on the logarithmic cover is `P`, the monodromy around `u_i = 0` is `T_i`, and `W` is co-isotropic by a count of ranks. The degeneration data near `u = 0` are those of ShimuraCompactifications §§6.4–6.7. The proofs of these steps (the family of exponential maps, the discreteness of the kernel at `u = 0` and the continuation of its elements, and the assembly of the local system with its monodromy) are not given here.
+*Route.* Near `u = 0` there is a holomorphic family of exponential maps `ℂ^g → G(ψ_u)`. The kernel at `u = 0` is discrete and free, and spans `ℂ^g` because the fibre is an extension of an abelian variety by a torus; each of its elements continues to a holomorphic section of the kernels: this gives `W`. On `𝔻^n_a` the kernels form a local system of lattices of rank `2g` (AbelianSchemesAndArithmeticModuli A5.6) carrying the Riemann form (AbelianSchemesAndArithmeticModuli A5.2) of the principal polarisation; a flat frame on the logarithmic cover is `P`, the monodromy around `u_i = 0` is `T_i`, and `W` is co-isotropic by a count of ranks. The degeneration data near `u = 0` are those of ShimuraCompactifications §§6.4–6.7. The proofs of these steps (the family of exponential maps, the discreteness of the kernel at `u = 0` and the continuation of its elements, and the assembly of the local system with its monodromy) are not given here.
 
-*Needs:* ShimuraCompactifications §§6.1, 6.4–6.7.
+*Needs:* ShimuraCompactifications §§6.1, 6.4–6.7; AbelianSchemesAndArithmeticModuli A5.2, A5.6.
 
 **Checks.**
 
@@ -164,13 +180,13 @@ Let `0 ≤ a ≤ n`, `𝔻^n` the open unit polydisc and `𝔻^n_a ⊂ 𝔻^n` t
 
 ### 6.9a Conjugate data on a curve in characteristic p
 
-Prove the following. Let `X_0` be a reduced locally noetherian scheme and `G_0 → X_0` a semi-abelian scheme of relative dimension `d`, abelian at the generic points of `X_0`, with a rigidified symmetric line bundle `L_0` carrying a cubical structure, and with an action of `O = 𝒪_E`, for `E` and `w_0` as in the Conventions (CM data), the involution `a ↦ ā` being complex conjugation, such that `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` for every `a ∈ O`, and with an isomorphism `L_0 ≅ (1, w_0)^*Λ(L_0)`, the pull-back by `x ↦ (x, w_0x)`. Let `p` be a prime, `C` a smooth projective curve over a field of characteristic `p`, `f : C → X_0` a morphism, `G = f^*G_0`, `Lie = Lie(G)`, `ω = Lie^∨`. Assume that at every closed point of `C` the geometric fibre of `G` is an extension `0 → T → G_s → B → 0` of an abelian variety by a torus on which `L_0` is the pull-back of a line bundle `M` on `B` with `K(M)` trivial. Then there are a vector bundle `H` on `C` of rank `2d` with an action of `O`, and exact sequences of vector bundles (a) `0 → ω → H → Lie → 0` and (b) `0 → Fr^*Lie →α H →β Fr^*ω → 0`, `O`-equivariant for the dual action composed with the involution on `ω`. The bundle constructed in the Route has moreover a perfect alternating pairing for which both subs are Lagrangian and `β` is the adjoint of `α`, and the composite `Fr^*Lie → H → Lie` is the differential of the Verschiebung. In coordinates of the formal completion along the unit section and a formal frame of `L_0`: `H = Lie ⊕ ω`, `α = (dV, a^T)` with `a` the coefficient of `x^py` in the trivialisation of `Λ(L_0)_{[p]x,y} ⊗ Λ(L_0)_{x,y}^{−p}` given by the first partial group law; a change of coordinates `φ` and of the trivialisation of `Λ(L_0)` by a unit `λ(x, y)` acts by `(y_1, y_2) ↦ (dφ·y_1, (dφ^{−1})^T(y_2 + Λ^Ty_1))`, `Λ` the matrix of the terms `x_iy_j` of `λ`. For a principally polarised abelian scheme over `C`, `H` may be taken to be the de Rham homology with its Hodge and conjugate filtrations; this comparison is this roadmap's own statement and not a step of [FormalProof]. `H` is not asserted to be canonical.
+Prove the following. Let `X_0` be a reduced locally noetherian scheme and `G_0 → X_0` a semi-abelian scheme of relative dimension `d`, abelian at the generic points of `X_0`, with a rigidified symmetric line bundle `L_0` carrying a cubical structure, and with an action of `O = 𝒪_E`, for `E` and `w_0` as in the Conventions (CM data), the involution `a ↦ ā` being complex conjugation, such that `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` for every `a ∈ O`, and with an isomorphism `L_0 ≅ (1, w_0)^*Λ(L_0)`, the pull-back by `x ↦ (x, w_0x)`. Let `p` be a prime, `C` a smooth projective curve over a field of characteristic `p`, `f : C → X_0` a morphism, `G = f^*G_0`, `Lie = Lie(G)`, `ω = Lie^∨`. Assume that at every closed point of `C` the geometric fibre of `G` is an extension `0 → T → G_s → B → 0` of an abelian variety by a torus on which `L_0` is the pull-back of a line bundle `M` on `B` with `K(M)` trivial. Then there are a vector bundle `H` on `C` of rank `2d` with an action of `O`, and exact sequences of vector bundles (a) `0 → ω → H → Lie → 0` and (b) `0 → Fr^*Lie →α H →β Fr^*ω → 0`, `O`-equivariant for the dual action composed with the involution on `ω`. This follows from [FormalProof], `Development/AutomorphicSpectrum/Proofs/GeometryProofs/CurveLieEigenDegreeStatement.lean` (`GlobalTheory.T.curve_lie_eigen_degree`), `Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/IsSplitGaussChars.lean` (`GlobalTheory.CompanionTheory.Ar.Crv.ConjData`), `Development/AutomorphicSpectrum/Definitions/GlobalGeometry/ToFirst.lean` (`GlobalTheory.CompanionTheory.Ar.Conj.PowFns`). The bundle constructed in the Route has moreover a perfect alternating pairing for which both subs are Lagrangian and `β` is the adjoint of `α`, and the composite `Fr^*Lie → H → Lie` is the differential of the Verschiebung (dual to the pull-back `V^* : ω → Fr^*ω` of invariant differentials of ShimuraCompactifications §6.15). In coordinates of the formal completion along the unit section and a formal frame of `L_0`: `H = Lie ⊕ ω`, `α = (dV, a^T)` with `a` the coefficient of `x^py` in the trivialisation of `Λ(L_0)_{[p]x,y} ⊗ Λ(L_0)_{x,y}^{−p}` given by the first partial group law; a change of coordinates `φ` and of the trivialisation of `Λ(L_0)` by a unit `λ(x, y)` acts by `(y_1, y_2) ↦ (dφ·y_1, (dφ^{−1})^T(y_2 + Λ^Ty_1))`, `Λ` the matrix of the terms `x_iy_j` of `λ`. These properties of the bundle follow from [FormalProof], `Development/AutomorphicSpectrum/Proofs/AlgebraProofs/AlphaBetaAdjointExact.lean` (`GlobalTheory.CompanionTheory.Ar.Conj.Isotropy.beta_comp_alpha`), `Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/GermComp1ZeroPointLeft.lean` (`GlobalTheory.CompanionTheory.Ar.Conj.dotProduct_beta`), `Development/AutomorphicSpectrum/Proofs/AlgebraProofs/FormalIsomorphismTransportStatement.lean` (`GlobalTheory.T.formal_isomorphism_transport`). For a principally polarised abelian scheme over `C`, `H` may be taken to be the de Rham homology with its Hodge and conjugate filtrations; this comparison is this roadmap's own statement and not a step of [FormalProof]. `H` is not asserted to be canonical.
 
-*The form of the formal proof.* [FormalProof] states this as `GlobalTheory.T.curve_lie_eigen_degree` (in `src/Development/AutomorphicSpectrum/Proofs/GeometryProofs/CurveLieEigenDegreeStatement.lean`), with `H`, the action and the two exact sequences recorded in the structure `GlobalTheory.CompanionTheory.Ar.Crv.ConjData` (in `src/Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/IsSplitGaussChars.lean`). There the curve is a field of characteristic `p` with a family of discrete valuations and weights satisfying the product formula (for a smooth projective curve, its function field with the valuations and degrees of its closed points), the vector bundles are lattices in the generic fibre, and in place of "reduced, locally noetherian, abelian at the generic points" it asks that the functions on the fibre powers of `G_0` come from `X_0`, which those three hypotheses imply (`GlobalTheory.T.powFns_of_abelian_generic`). The pairing and the identification of `Fr^*Lie → H → Lie` with the differential of the Verschiebung are not part of that form.
+*The form of the formal proof.* [FormalProof] states this as `GlobalTheory.T.curve_lie_eigen_degree` (in `Development/AutomorphicSpectrum/Proofs/GeometryProofs/CurveLieEigenDegreeStatement.lean`), with `H`, the action and the two exact sequences recorded in the structure `GlobalTheory.CompanionTheory.Ar.Crv.ConjData` (in `Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/IsSplitGaussChars.lean`). There the curve is a field of characteristic `p` with a family of discrete valuations and weights satisfying the product formula (for a smooth projective curve, its function field with the valuations and degrees of its closed points), the vector bundles are lattices in the generic fibre, and in place of "reduced, locally noetherian, abelian at the generic points" it asks that the functions on the fibre powers of `G_0` come from `X_0`, which those three hypotheses imply (`GlobalTheory.T.powFns_of_abelian_generic`). The pairing and the identification of `Fr^*Lie → H → Lie` with the differential of the Verschiebung are not part of that form.
 
 *Route.* (1) Near a point of `X_0` choose formal coordinates and a formal frame of `L_0`: a formal group law, the action, the two partial laws of `Λ(L_0)`, the symmetry and the adjunction series; their identities hold because a unit on the fibre cube of `G_0` that is `1` along the unit sections is `1` (functions on fibre powers come from the base, the generic fibres being abelian); two choices differ by a change of coordinates and of frame. (2) `H`, the pairing and the action for one choice at the generic point of `C`; at a closed point the lattice is the image of the standard lattice of a choice over the local ring. (3) The first power map is a function of `(x^{(p)}, y)` (its derivative in `x` vanishes), `[p] = V∘Fr`. (4) Isotropy: the symmetry law gives `b = Sh + a^T` for the coefficient `b` of `xy^p` in the second power map, the interchange law gives `ah = h^Tb` (`h = dV`), so `β∘α = 0`. (5) Over a local ring, a map `𝒪^d → 𝒪^{2d}` that is isotropic and injective on the closed fibre is a split injection onto a Lagrangian summand. (6) Injectivity on a geometric fibre (Cartier's criterion): if `α(w^{(p)}) = 0`, the jet `tw` of order `p` is killed by `p`, and the coefficient of `t^p` in the canonical generator of `(t_{tw}^*L ⊗ L^{−1})^{⊗p}` has zero differential, hence is a `p`-th power on the normal fibre; the top coefficients in two charts differ by the `p`-th power of the first-order transition function, so `t_w^*L ≅ L` to first order; this descends to `B`, where `K(M)` trivial gives that `w` is tangent to the torus, and there the `p`-th power of the jet is `w^{(p)}t^p ≠ 0`.
 
-*Needs:* ShimuraCompactifications §§6.1, 6.18 (semi-abelian schemes; Frobenius and Verschiebung of commutative group schemes).
+*Needs:* ShimuraCompactifications §§6.1, 6.15, 6.18 (semi-abelian schemes; the Verschiebung on invariant differentials; Frobenius and Verschiebung of commutative group schemes).
 
 **Checks.**
 
@@ -184,7 +200,7 @@ From the Checks of 6.2a: over the modular curve `X(N)`, `N ≥ 3`, the Hodge bun
 
 ### Dependencies
 
-ShimuraCompactifications §§6.1, 6.2, 6.4–6.7, 6.18; ArakelovGeometryAndAbelianHeights §§2.0, 2.1, 2.2, 2.8, 5.3; AbelianSchemesAndArithmeticModuli §§A4.3, A5.2, A5.6; SingularHermitianMetricsAndL2Methods §§2.5, 3.2a, 5.3.
+ShimuraCompactifications §§6.1, 6.2, 6.4–6.7, 6.15, 6.18; ArakelovGeometryAndAbelianHeights §§2.0, 2.1, 2.2, 2.7, 2.8, 5.3; AbelianSchemesAndArithmeticModuli §§A4.3, A5.2, A5.6; PELModuli §M2.10; SingularHermitianMetricsAndL2Methods §§2.5, 3.2a, 5.3.
 
 ## Layer 7: Global normal projective models and twisted Hodge lines
 
@@ -194,7 +210,7 @@ The statements of this layer concern the integral models of PEL-type Shimura var
 
 In the setting of 7.31a (b′), with `O = 𝒪_E` and `w_0 = (1 + √−d)/2`, prove that the scheme `Y` of 7.31a (b′) (ii), with its `G` and `ℒ_G`, can be chosen so that the following holds. For `X_0 = Y`, and for every reduced locally noetherian scheme `X_0 → Y` whose generic points map to `Sh_F`, with `G_0`, `L_0` the pull-backs of `G`, `ℒ_G`, the hypotheses of 6.9a hold: `G_0` is semi-abelian and abelian at the generic points; `L_0` is rigidified, symmetric, cubical, with `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` and `L_0 ≅ (1, w_0)^*Λ(L_0)`; and at every point `z` of `X_0` of positive residue characteristic, for every prime, the geometric fibre is an extension `0 → T → G_{z̄} →q B → 0` of an abelian variety by a torus with `L_0|_{G_{z̄}} ≅ q^*M` for a line bundle `M` on `B` with `K(M)` trivial. In particular 6.9a applies to every morphism from a smooth projective curve in characteristic `p` to `X_0`, the curves in the boundary included.
 
-*The form of the formal proof.* [FormalProof] has, for a global model dominating at every prime local models whose toric fibres split after a finite separable extension of the residue field and whose pull-backs to complete noetherian normal local domains of characteristic zero are uniformised (the local models of the Route), at a level good at every prime, that functions on the fibre powers of `G` come from `Y` and that the fibre condition holds at every point of positive residue characteristic (`GlobalTheory.T.global_model_power_free`, in `src/Development/AutomorphicSpectrum/Proofs/GeometryProofs/GlobalModelPowerFreeStatement.lean`), and that the fibre condition is invariant under pull-back (`GlobalTheory.T.fibre_power_free_pullback`, in the same folder); the passage to every reduced locally noetherian `X_0 → Y` combines these with `GlobalTheory.T.powFns_of_abelian_generic` (6.9a).
+*The form of the formal proof.* [FormalProof] has, for a global model dominating at every prime local models whose toric fibres split after a finite separable extension of the residue field and whose pull-backs to complete noetherian normal local domains of characteristic zero are uniformised (the local models of the Route), at a level good at every prime, that functions on the fibre powers of `G` come from `Y` and that the fibre condition holds at every point of positive residue characteristic (`GlobalTheory.T.global_model_power_free`, in `Development/AutomorphicSpectrum/Proofs/GeometryProofs/GlobalModelPowerFreeStatement.lean`), and that the fibre condition is invariant under pull-back (`GlobalTheory.T.fibre_power_free_pullback`, in the same folder); the passage to every reduced locally noetherian `X_0 → Y` combines these with `GlobalTheory.T.powFns_of_abelian_generic` (6.9a).
 
 *Route.* The bundle and its isomorphisms: 7.31a (b′). The model `Y` is chosen to dominate, at every prime, a local model whose toric fibres split after a finite separable extension of the residue field and whose pull-backs to complete noetherian normal local domains of characteristic zero with abelian generic point and split closed fibre have degeneration data; the existence of such local models and of a global model dominating them is part of the statement of [FormalProof] behind 7.31a (b′), and is not given here. The fibres: the condition is invariant under pull-back, so let `X_0 = Y`. Dominate the local ring of `z` by a complete discrete valuation ring `R` of characteristic zero whose generic point maps to `Sh_F`, with split closed fibre after a finite extension. The pull-back of `(G, ℒ_G)` to `R` has degeneration data (ShimuraCompactifications §§6.4–6.6): a Raynaud extension `0 → T → G̃ → B_R → 0` with the same closed fibre as `G`, on which the line bundle is the pull-back of an ample `M_R` on `B_R`; the polarisation of the generic fibre being principal, `K(M_R)` is trivial. Restrict to the closed fibre. The proofs that the fibre condition is invariant under pull-back and that the closed fibre of a uniformised semi-abelian scheme has this form are not given here, nor is the uniformisation of the pull-back at the primes that are bad for the datum and the level.
 
@@ -209,6 +225,8 @@ polarisation function `pol`.
 normalisation of ShimuraCompactifications §7.16 in the higher-level function field, ShimuraCompactifications §7.20 (c)), in particular on the smooth integral toroidal model of
 ShimuraCompactifications §7.3 for a smooth projective `Σ` at a good prime, and on their generic fibres: for every sufficiently divisible `d` there is
 `a₀(d)` such that `ω^{⊗a} ⊗ O(−Σ_ρ d·pol(ρ)D_ρ)` is ample relative to the base for all `a ≥ a₀(d)`, `ω` the Hodge line.
+Over `ℂ` the toroidal compactification for a projective `Σ` is projective by ShimuraCompactifications §2.7; on the generic
+fibre (a) names an ample line bundle on it.
 
 (b) On the model of ShimuraCompactifications §7.31 for an arbitrary collection `J`: if `𝓜` is an invertible sheaf on the minimal input `M̃^min_{H,J}`,
 ample relative to the base, and `𝓜^tor` its pull-back to `M̃^tor_{H,Σ,J}`, then for every sufficiently divisible `d` there is
@@ -225,7 +243,7 @@ fan, there are `d ≥ 1` and a normalised blow-up of the compactification along 
 exceptional divisor `Σ_ρ d·pol(ρ)D_ρ`, on which `𝓜^{⊗a} ⊗ O(−Σ_ρ d·pol(ρ)D_ρ)` is ample for all large `a`; there `d` is
 asserted to exist, not to be every sufficiently divisible integer, and the compactification is subject to a condition on
 theta functions that is not restated here (`GlobalTheory.Poinc.PoinSt`, in
-`src/Development/AbelianVarietyTheory/Definitions/Divisors/IsThetaCompact.lean`, proved as
+`Development/AbelianVarietyTheory/Definitions/Divisors/IsThetaCompact.lean`, proved as
 `GlobalTheory.T.normalisedBlowup_ampleDivisor_compactification`). (a) is this roadmap's own statement and not a step of [FormalProof]. (b) is
 this roadmap's own statement and not a step of [FormalProof].
 
@@ -237,7 +255,8 @@ of ShimuraCompactifications §§7.19–7.20 (c) the minimal input is finite over
 (b) is the same argument with `𝓜` in place of the descended power of `ω`. In both, a step of this route: over a
 quasi-compact base, a line bundle that is relatively ample for a morphism to a scheme over the base, twisted by a large
 power of the pull-back of a line bundle on that scheme ample relative to the base, is ample relative to the base (Stacks,
-Lemma 29.38.8, Tag 0C4K); ampleness relative to the base passes to the generic fibre (Stacks, Lemma 29.38.9, Tag 0893).
+Lemma 29.38.8, Tag 0C4K; no roadmap states it, and its proof is not given here); ampleness relative to the base passes
+to the generic fibre (Stacks, Lemma 29.38.9, Tag 0893).
 
 *Needs:* ShimuraCompactifications §§7.3, 7.16, 7.17, 7.19, 7.20, 7.31; StableReduction Layer 2 (relative ampleness).
 
@@ -275,7 +294,7 @@ need not be finite (ShimuraCompactifications §7.20), and an ample power of the 
 (b) (*global model*) For the datum and the level `K ⊆ G(Ẑ)` of the setting, there are a smooth projective toroidal
 compactification `Sh^tor_F` of `Sh_F` and a normal scheme `Y`, projective and flat over `O_F`, with generic fibre `Sh^tor_F`
 (so that `Sh_F` is a dense open subscheme of it), and a semi-abelian scheme `G → Y` extending `A`, abelian exactly over
-`Sh_F` in the generic fibre; the endomorphisms of `A` extend to `G` (ShimuraCompactifications §§6.8, 6.9). If moreover the lattice `L` of the datum is self-dual, so that the polarisation `λ` of `A` is principal, and `w_0 ∈ O` is an element with `w_0 + w̄_0 = 1`, let `ℒ_A := (1, λ∘w_0)^*𝒫` be the pull-back of the Poincaré bundle, a rigidified symmetric line bundle on `A` with `φ_{ℒ_A} = λ`, relatively ample, with `K(ℒ_A)` trivial, and with isomorphisms `(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` for `a ∈ O` and `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`, where `(1, w_0) : A → A ×_{Sh} A`. Then `ℒ_A` extends to a rigidified symmetric line bundle `ℒ_G` on `G` with a cubical structure, and these isomorphisms extend; the same holds on every `Y_L` below by pull-back. These two sentences are the roadmap's own form; the form proved in [FormalProof] is (b′). Over a dense open subset of `Spec O_F`, `Y` is
+`Sh_F` in the generic fibre; the endomorphisms of `A` extend to `G` (ShimuraCompactifications §§6.8, 6.9). If moreover the lattice `L` of the datum is self-dual, so that the polarisation `λ` of `A` is principal, and `w_0 ∈ O` is an element with `w_0 + w̄_0 = 1`, let `ℒ_A := (1, λ∘w_0)^*𝒫` be the pull-back of the Poincaré bundle, a rigidified symmetric line bundle on `A` with `φ_{ℒ_A} = λ`, relatively ample, with `K(ℒ_A)` trivial, and with isomorphisms `(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` for `a ∈ O` and `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`, where `(1, w_0) : A → A ×_{Sh} A`. Then `ℒ_A` extends to a rigidified symmetric line bundle `ℒ_G` on `G` with a cubical structure, and these isomorphisms extend; the same holds on every `Y_L` below by pull-back. These two sentences are the roadmap's own form; the form proved in [FormalProof] is (b′). `ℒ_A` is the analogue, with `w_0` in place of `1`, of the graph bundle `(1, λ)^*𝒫` of AbelianSchemesAndArithmeticModuli A2.6, which has `φ = 2λ`; here `φ_{ℒ_A} = λ∘w_0 + (λ∘w_0)^∨ = λ∘(w_0 + w̄_0) = λ` (AbelianSchemesAndArithmeticModuli A2.3, the Rosati involution of `λ` being `a ↦ ā` on `O`). Over a dense open subset of `Spec O_F`, `Y` is
 the integral toroidal model of ShimuraCompactifications §7.3. At the bad primes `Y` is built from the models of ShimuraCompactifications §7.31 for the singleton collection
 `J₀ = {(1, L, ⟨·,·⟩)}` of the datum's own lattice at level `K`, with the minimal input of (a) (Lan's theorem, proof not given
 here); no other level and no other collection is used. Moreover, for an
@@ -303,7 +322,8 @@ of `ℤ[w_0]`, with `𝔐·𝔐̄ = (M)` and `𝔐 + 𝔐̄ = (1)`, such that `M
 A *marked object* over a scheme `S` over `ℚ(ρ)` consists of: an abelian scheme `A → S` with an action of `𝒪_E` satisfying
 the determinant condition of signature `(p, q)` (at every geometric point `x̄` of `S`, for every ring homomorphism `τ` from
 `𝒪_E` to the residue field of `x̄`, the `τ`-eigenspace of `Lie A_{x̄}` has dimension `p` if `τ(√−d)` is the image of `ρ`,
-and `q` otherwise); a rigidified symmetric line bundle `ℒ_A` on `A` with a cubical structure, relatively ample and with
+and `q` otherwise: the signature type `Σ_{τ∈Φ}(p·τ + q·τ̄)` of PELModuli M1.3); a rigidified symmetric line bundle `ℒ_A`
+on `A` with a cubical structure, relatively ample and with
 `K(ℒ_A)` trivial, for which there are isomorphisms `(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` on `A ×_S A` for every `a ∈ 𝒪_E`
 and an isomorphism `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`; and a homomorphism of groups `η : L/𝔐L → A(S)`, the *marking*, such that at
 every geometric point `x̄` of `S` there are primitive `n`-th roots of unity `ζ_n` in the residue field with `ζ_{nm}^m = ζ_n`
@@ -312,13 +332,15 @@ and isomorphisms of `𝒪_E`-modules `ι_n : L/nL → A_{x̄}[n]` (`n ≥ 1`) wi
 `x̄` for every `x ∈ 𝔐̄L` (as `L = 𝔐L + 𝔐̄L`, this determines `η` at `x̄`). The roots of unity `ζ_n` are not prescribed: the
 similitude level is one. An isomorphism of marked objects is an isomorphism of abelian schemes that commutes with the
 actions and the markings and carries the line bundles to one another with their rigidifications and their cubical
-structures. On an abelian scheme a rigidified line bundle has exactly one cubical structure (classical), so the cubical
+structures. On an abelian scheme a rigidified line bundle has exactly one cubical structure
+(AbelianSchemesAndArithmeticModuli A1.5: the trivialisation of the cube bundle of a rigidified line bundle is canonical), so the cubical
 structure of `ℒ_A` is not an additional datum; it is part of the object because the extension `ℒ_G` below carries one.
 
 Prove the following.
 
 (i) (*the moduli scheme*) There are a scheme `Sh`, quasi-projective and smooth of relative dimension `([E:ℚ]/2)·p·q`
-over `ℚ(ρ)`, and a marked object `(A, ℒ_A, η)` over `Sh`, such that for every reduced scheme `S` over `ℚ(ρ)` and every
+(the dimension `Σ_{τ∈Φ} p_τq_τ` of a unitary datum of PELModuli M2.10, with `p_τ = p`, `q_τ = q`) over `ℚ(ρ)`,
+and a marked object `(A, ℒ_A, η)` over `Sh`, such that for every reduced scheme `S` over `ℚ(ρ)` and every
 marked object over `S` there is exactly one morphism `f : S → Sh` over `ℚ(ρ)` for which the object is isomorphic to the
 pull-back by `f` of `(A, ℒ_A, η)`. Moreover `Sh` is rigid on dual numbers: for a field `k` and a morphism
 `x : Spec k[ε]/(ε²) → Sh`, with `x_0` the composite `Spec k[ε]/(ε²) → Spec k → Spec k[ε]/(ε²) →x Sh` (the constant
@@ -338,6 +360,10 @@ only if the fibre of `G` over it is an abelian variety.
 with the properties of (ii) over the localisation `O_{F,(𝔭)}` in place of `O_F` such that, `π : G → Y_𝔭` being the
 structure morphism, `π_*ℒ_G` is an invertible sheaf on `Y_𝔭`, generated locally on `Y_𝔭` by a section of `ℒ_G` that
 vanishes identically on no fibre of `π`. `Y_𝔭` is not asserted to be the localisation of the `Y` of (ii).
+ArakelovGeometryAndAbelianHeights §5.8 has a pointwise form of (ii)–(iii) with more structure: for a principally
+polarised abelian variety over a number field with a symmetric line bundle, after a finite extension, a Moret–Bailly
+model over the ring of integers (a semistable group scheme with a cubist hermitian extension of the line bundle, torsion
+sections and locally free direct images); (ii)–(iii) are a version over the moduli scheme, without metrics or torsion data.
 
 *Scope.* The group is the similitude group scheme `G` of the integral PEL datum (PELModuli M0.7; for type A the unitary
 similitude group, for type C the symplectic similitude group), with similitude character `ν : G → G_m`, and the levels are
@@ -348,7 +374,13 @@ and `ν(a) = a² ≠ 1` for `a ≠ 1` (fourth Check); levels not contained in `G
 other groups between `G₁` and `G`. (b) gives models of `Sh_F` for the datum and the level `K`, of its components `Sh_F ∩ Y_c`,
 and of finite covers of these, with the semi-abelian scheme extending `A` or its pull-back; it does not identify a component
 or a finite cover with a Shimura variety of `G₁` at some level, nor the pulled-back family with a family of that variety. The
-primes are all primes of `O_F`, good and bad (at the bad ones through the named input (a)). (b′) has no similitude level:
+primes are all primes of `O_F`, good and bad (at the bad ones through the named input (a)). For a Hilbert datum,
+ShimuraCompactifications §§8.23, 8.28 and 8.30 give, at the primes not dividing the tame level, a proper toroidal model with
+a semi-abelian extension (projectivity not asserted; the minimal models are normal and projective,
+ShimuraCompactifications §8.34), and AutomorphicBundles §7.3 gives, over the ring of integers of a finite extension of
+`ℚ_p` at every prime `p`, those ramified in the totally real field included, smooth projective components of a toroidal
+splitting model with a semi-abelian extension; (b) gives, for a datum in its setting, a normal projective model over all
+of `O_F`. (b′) has no similitude level:
 its level is the marking of `L/𝔐L`, with no condition on the multiplier. [FormalProof] uses (b′); (a) and (b) are not
 inputs of it.
 
@@ -409,25 +441,32 @@ ring of the normal `Y_L`, so `Y_L` maps to `Spec O_{F_L}`.
 
 *The cubical line bundle.* Once `ℒ_A` is extended to a line bundle on `G`, its rigidification, its symmetry and its cubical
 structure extend with it over the normal locally noetherian `Y` ([FormalProof] `GlobalTheory.T.exists_cubical_rigidified_extension`,
-in `src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsCubicalRigidifiedExtensionStatement.lean`). The
+in `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsCubicalRigidifiedExtensionStatement.lean`). The
 extension of the line bundle itself, and of the two isomorphisms, is not given here, and no source is cited for it: over a
 regular base `G` is regular and the closure of a divisor of `ℒ_A` is Cartier, but `Y` is only known to be normal, and over a
 normal base that is not regular a Weil divisor on `G` need not be Cartier. [FormalProof] constructs the extension, with its isomorphisms, on its model of
 (b′) (`GlobalTheory.T.exists_rigidified_symmetric_cubicalBundle_extension`); the form with a marking is (b′).
 
 (b′) The statement of [FormalProof] in this form; its proof is not given here. There it is the proposition
-`ReciprocityTheory.ChartRestriction.G.Geo.Tor.PartI` (in `src/ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/UniformisationConclusion.lean`,
+`ReciprocityTheory.ChartRestriction.G.Geo.Tor.PartI` (in `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/UniformisationConclusion.lean`,
 proved as `GlobalTheory.CompanionTheory.Ar.Top.partI_holds`), at similitude level `A = 1` of its structure `Level`: the
 moduli scheme of (i) is the structure `Moduli` and the model of (ii) the structure `Model` (in `PushInvertible.lean` of the
 same folder), and their existence is stated by the clauses `N1ab` (in `HeckeKer.lean`) and `N6` (in `Clauses.lean`); (iii) is the condition
-`PushInvertible` of the local models in the clause `N2` (in `Clauses.lean`). If the marked problem is identified with
+`PushInvertible` of the local models in the clause `N2` (in `Clauses.lean`). (i) follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/ModuliProofs/ExistsModuliSchemePolarizedAbelianLevel.lean`
+(`GlobalTheory.Moduli.moduli_scheme_exists`), of the statement
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/HeckeKer.lean`
+(`ReciprocityTheory.ChartRestriction.G.Geo.Tor.N1ab`). If the marked problem is identified with
 the PEL moduli problem of (b) for the datum `(𝒪_E, ¯, L, ⟨·,·⟩, h)` at the level `K ⊆ G(Ẑ)` of the elements that act
 trivially on `L/𝔐L` and with multiplier in `Ẑ^×`, then (b′) (ii) is (b) for that level, with the line bundle of (b) in
 place of the datum `ℒ_A`; this identification (Lan's condition for the datum, the neatness of `K` away from each prime
 from `M/ℓ^{v_ℓ(M)} ≥ 3`, and the passage from polarisations up to similitude to a polarising line bundle) is not given
-here.
+here. Through this identification, (i) follows on the generic fibre from PELModuli M2.8 and M2.9 (at neat level a smooth
+separated algebraic space with a unique classifying map for every scheme, reduced or not, which gives the rigidity on dual
+numbers) and ShimuraCompactifications §7.18 (quasi-projectivity).
 
-*Needs:* 7.17a; ShimuraCompactifications §§0.15, 6.1, 6.8, 6.9, 7.3, 7.16, 7.19, 7.20, 7.31; PELModuli M0.5, M0.7, M4.5, M4.6; SchemeAndStackFoundations
+*Needs:* 7.17a; ShimuraCompactifications §§0.15, 6.1, 6.8, 6.9, 7.3, 7.16, 7.19, 7.20, 7.31; PELModuli M0.5, M0.7, M1.3, M2.10, M4.5, M4.6;
+AbelianSchemesAndArithmeticModuli A1.5, A2.2, A2.3 (the cube theorem, the Poincaré bundle, the Mumford map); SchemeAndStackFoundations
 §§0.8, 0.9, 0.20, 4.11, 4.12 (flatness over Dedekind bases, limits and spreading out, finiteness of normalisation,
 scheme-theoretic closure, Chow's lemma).
 
@@ -474,7 +513,7 @@ From the Check of 7.17a: on the fine modular curve the boundary twist is `O(−d
 
 ### Dependencies
 
-Layer 6 (6.9a, for 7.12a); ShimuraCompactifications §§0.15, 6.1, 6.4–6.6, 6.8, 6.9, 7.3, 7.16, 7.17, 7.19, 7.20, 7.31; PELModuli §§M0.5, M0.7, M4.5, M4.6; SchemeAndStackFoundations §§0.8, 0.9, 0.20, 4.11, 4.12; StableReduction Layer 2.
+Layer 6 (6.9a, for 7.12a); ShimuraCompactifications §§0.15, 6.1, 6.4–6.6, 6.8, 6.9, 7.3, 7.16, 7.17, 7.19, 7.20, 7.31; PELModuli §§M0.5, M0.7, M1.3, M2.10, M4.5, M4.6; AbelianSchemesAndArithmeticModuli §§A1.5, A2.2, A2.3; SchemeAndStackFoundations §§0.8, 0.9, 0.20, 4.11, 4.12; StableReduction Layer 2.
 
 ## Layer 9: Descent of linearised line bundles
 
@@ -482,11 +521,11 @@ This layer states one descent lemma for line bundles along quotients by finite g
 
 ### 9.1 Descent of a linearised line bundle to a quotient by a finite group
 
-Let `k` be a field of characteristic zero, `X` an integral projective `k`-scheme, `Γ` a finite group acting on `X` by `k`-automorphisms, and `π : X → W` its quotient: `π` is affine and `Γ`-invariant and `O_W → (π_*O_X)^Γ` is an isomorphism. Let `L` be a line bundle on `X` with a `Γ`-linearisation (isomorphisms `φ_γ : γ^*L ≅ L` with `φ_{γδ} = φ_δ∘δ^*φ_γ`) such that for every point `x` of `X` and every `γ` in the inertia group of `x` (`γx = x`, and `γ` acts trivially on the residue field `κ(x)`), `φ_γ` is the identity on the fibre `L ⊗ κ(x)`. Prove that there is a line bundle `N` on `W` with `π^*N ≅ L`.
+Let `k` be a field of characteristic zero, `X` an integral projective `k`-scheme, `Γ` a finite group acting on `X` by `k`-automorphisms, and `π : X → W` its quotient (SchemeAndStackFoundations §1.17 over `Spec k`): `π` is affine and `Γ`-invariant and `O_W → (π_*O_X)^Γ` is an isomorphism. Let `L` be a line bundle on `X` with a `Γ`-linearisation (EquivariantIntersectionTheory §1.1 for the constant group `Γ`: isomorphisms `φ_γ : γ^*L ≅ L` with `φ_{γδ} = φ_δ∘δ^*φ_γ`) such that for every point `x` of `X` and every `γ` in the inertia group of `x` (`γx = x`, and `γ` acts trivially on the residue field `κ(x)`), `φ_γ` is the identity on the fibre `L ⊗ κ(x)`. Prove that there is a line bundle `N` on `W` with `π^*N ≅ L`.
 
-*Route.* Write `L = O(D)` for a Cartier divisor `D`; the linearisation becomes rational functions `c(γ)` with `γ^*D = D + div c(γ)` and `c(γδ) = δ^*(c(γ))·c(δ)`. By the hypothesis at the generic point `c` is trivial on the elements acting trivially on `k(X)`, so Hilbert's Theorem 90 for `k(X)` over `k(X)^Γ` gives `f` with `c(γ) = γ^*f/f`, and `D′ = D + div f` is `Γ`-invariant. At every point `D′` has a local equation that is a `Γ`-invariant rational function (the inertia condition, and an average over the inertia group, which is where characteristic zero is used). Invariant rational functions are functions on `W`; the invariant local equations define a Cartier divisor `E` on `W` with `π^*E = D′`, and `N = O(E)`. This is Kempf's descent lemma ([DN], Théorème 2.3) for a finite group and a line bundle. The proof that `D′` has a `Γ`-invariant local equation at every point is not given here beyond this indication.
+*Route.* Write `L = O(D)` for a Cartier divisor `D`; the linearisation becomes rational functions `c(γ)` with `γ^*D = D + div c(γ)` and `c(γδ) = δ^*(c(γ))·c(δ)`. By the hypothesis at the generic point `c` is trivial on the elements acting trivially on `k(X)`, so Hilbert's Theorem 90 for `k(X)` over `k(X)^Γ` gives `f` with `c(γ) = γ^*f/f`, and `D′ = D + div f` is `Γ`-invariant. At every point `D′` has a local equation that is a `Γ`-invariant rational function (the inertia condition, and an average over the inertia group, which is where characteristic zero is used). Invariant rational functions are functions on `W`; the invariant local equations define a Cartier divisor `E` on `W` with `π^*E = D′`, and `N = O(E)`. This is Kempf's descent lemma ([DN], Théorème 2.3) for a finite group and a line bundle. The proof that `D′` has a `Γ`-invariant local equation at every point is not given here beyond this indication. SchemeAndStackFoundations §1.17 descends, for an ample `L`, a power of the norm `⊗_γγ^*L` over any noetherian base; 9.1 descends `L` itself when the inertia groups act trivially on its fibres. For a free action `π` is a `Γ`-torsor, the inertia groups are trivial, and 9.1 is the descent along it of EquivariantIntersectionTheory §1.4 (`Pic [X/Γ] ≅ Pic^Γ(X)`); 9.1 extends it to actions whose inertia groups act trivially on the fibres of `L`.
 
-*The form of the formal proof.* [FormalProof] has the statement over number fields, with the linearisation written as the cocycle `c` and the local equations of the Route (`GlobalTheory.T.exists_descent_linearised_lineBundle_finiteGroup_quotient`, in `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsDescentLinearisedLineBundleFiniteGroupQuotStatement.lean`). [DN] Théorème 2.3 is the case `k = ℂ`: it is stated there for a reductive group acting on an integral complex variety with a good quotient and a vector bundle, with the condition at the closed points whose orbit is closed; the orbits of a finite group are closed, and at a closed point of a complex variety the stabiliser is the inertia group. Over other fields of characteristic zero the statement rests on the Route.
+*The form of the formal proof.* [FormalProof] has the statement over number fields, with the linearisation written as the cocycle `c` and the local equations of the Route (`GlobalTheory.T.exists_descent_linearised_lineBundle_finiteGroup_quotient`, in `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsDescentLinearisedLineBundleFiniteGroupQuotStatement.lean`). [DN] Théorème 2.3 is the case `k = ℂ`: it is stated there for a reductive group acting on an integral complex variety with a good quotient and a vector bundle, with the condition at the closed points whose orbit is closed; the orbits of a finite group are closed, and at a closed point of a complex variety the stabiliser is the inertia group. Over other fields of characteristic zero the statement rests on the Route.
 
 **Checks.**
 
@@ -499,7 +538,7 @@ From the Checks of 9.1: for `X = ℙ¹` with `Γ = {±1}` acting by `t ↦ −t`
 
 ### Dependencies
 
-No earlier layer. Schemes, line bundles and their pull-backs are those of SchemeAndStackFoundations.
+No earlier layer. SchemeAndStackFoundations §1.17 (quotients of projective schemes by finite groups); EquivariantIntersectionTheory §1.1 (linearisations). Schemes, line bundles and their pull-backs are those of SchemeAndStackFoundations.
 
 ## Scope and ownership
 
@@ -507,7 +546,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns: the growth bounds for the Hodge metric of a semi-abelian degeneration over a smooth complex variety with a normal crossings divisor and the seminegativity of the Lie algebra of a semi-abelian scheme over a curve in characteristic zero (6.2a); the logarithmic periods of a semi-abelian scheme over a polydisc (6.7a); conjugate data on curves in characteristic `p` (6.9a) and their hypotheses on the global model and on the reduced schemes over it (7.12a); the ampleness of twisted Hodge lines on projective toroidal models (7.17a); the minimal input at every prime, the global normal projective models with semi-abelian extension and their normalisations in finite extensions, with the cubical line bundle of a principal polarisation (7.31a, with the marked form (b′)); and Kempf's descent of a linearised line bundle to a quotient by a finite group (9.1). The statements of Layers 6 and 7 extend [ShimuraCompactifications](../../ShimuraCompactifications/README.md) and carry the numbers of its layers, and 9.1 extends [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md).
 
-Not owned here. Semi-abelian schemes, degeneration data, Mumford's construction, the extension of homomorphisms and of PEL endomorphisms across the boundary, Frobenius and Verschiebung, the integral toroidal compactifications at good primes, the integral minimal compactification and the power of the Hodge line pulled back from it, finite normalisations at higher level, and normalised blow-ups of minimal compactifications are ShimuraCompactifications Layers 0, 6 and 7. Integral PEL data, similitude groups, the PEL moduli problem and normal integral models at higher level are [PELModuli](../../PELModuli/README.md) Layers M0–M4. Flatness over Dedekind bases, limits and spreading out, Nagata rings, scheme-theoretic closures and Chow's lemma are SchemeAndStackFoundations Layers 0 and 4, and relative ampleness is [StableReduction](../../StableReduction/README.md) Layer 2. The Faltings and Deligne normalisations of the metric on the Hodge bundle and the extension of homomorphisms of abelian schemes over a normal base are [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md) Layer 2, and the computation behind the logarithmic growth of the Faltings metric is ArakelovGeometryAndAbelianHeights §5.3. De Rham cohomology with its Hodge filtration and Gauss–Manin connection, Riemann forms and the comparison with the Betti local system are [AbelianSchemesAndArithmeticModuli](../../AbelianSchemesAndArithmeticModuli/README.md) Layers A4–A5. Degrees on curves for metrics of logarithmic growth, curvature of sub-bundles and quotient bundles, and good metrics along a boundary are [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md).
+Not owned here. Semi-abelian schemes, degeneration data, Mumford's construction, the extension of homomorphisms and of PEL endomorphisms across the boundary, Frobenius and Verschiebung, the integral toroidal compactifications at good primes, the integral minimal compactification and the power of the Hodge line pulled back from it, finite normalisations at higher level, and normalised blow-ups of minimal compactifications are ShimuraCompactifications Layers 0, 6 and 7. Integral PEL data, similitude groups, signature types, the PEL moduli problem, the Kodaira–Spencer map and normal integral models at higher level are [PELModuli](../../PELModuli/README.md) Layers M0–M4. Flatness over Dedekind bases, limits and spreading out, Nagata rings, quotients of projective schemes by finite groups, scheme-theoretic closures and Chow's lemma are SchemeAndStackFoundations Layers 0, 1 and 4, and relative ampleness is [StableReduction](../../StableReduction/README.md) Layer 2; the relative ampleness of a twisted relatively ample line bundle used in 7.17a is classical, and no roadmap states it. Linearised invertible sheaves are [EquivariantIntersectionTheory](../../EquivariantIntersectionTheory/README.md) Layer 1. The Faltings and Deligne normalisations of the metric on the Hodge bundle and the extension of homomorphisms of abelian schemes over a normal base are [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md) Layer 2, and the computation behind the logarithmic growth of the Faltings metric is ArakelovGeometryAndAbelianHeights §5.3. The theorem of the cube, the Poincaré bundle and the Mumford map, de Rham cohomology with its Hodge filtration and Gauss–Manin connection, Riemann forms and the comparison with the Betti local system are [AbelianSchemesAndArithmeticModuli](../../AbelianSchemesAndArithmeticModuli/README.md) Layers A1, A2, A4 and A5. Degrees on curves for metrics of logarithmic growth, curvature of sub-bundles and quotient bundles, and good metrics along a boundary are [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md).
 
 In this family, [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md) uses 6.2a, 6.7a, 6.9a, 7.12a, 7.17a (a), 7.31a (b) and 9.1; it takes the global model and the cubical line bundle of the principal polarisation from 7.31a (b). 7.31a (b) is stated for the similitude group `G` of the datum and levels `K ⊆ G(Ẑ)` neat away from every prime (its Scope). 7.31a (b′) has a marking and no similitude level; it is the form that 6.9a and 7.12a use for the cubical line bundle. This roadmap does not compare the two.
 
@@ -515,15 +554,15 @@ In this family, [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../
 
 ### From TauCetiRoadmap.ShimuraCompactifications
 
-§0.15: smooth projective refinements of cone systems. §6.1: semi-abelian schemes. §6.2: character sheaves and homomorphisms from tori. §§6.4–6.7: polarised degeneration data, Mumford's construction, the degeneration equivalence and the universal degeneration on a cusp chart; the periods live on the complement of the boundary (§6.4), and the invariant differential `du/u` at a modular cusp (the Check of §6.7). §§6.8, 6.9: extension of homomorphisms and of PEL endomorphisms across the boundary over a normal base, unique. §6.18: Frobenius and Verschiebung of commutative group schemes. §7.3: the integral toroidal compactification over the good primes, smooth over the base for a smooth cone system, with its semi-abelian family, its generic comparison and the set `□` of good primes. §7.16: the integral minimal compactification. §7.17: a power of the Hodge line is the pull-back of an ample invertible sheaf on the neat integral minimal compactification. §§7.19, 7.20: finite normalisations at higher `p`-level and the charts of normalised models, with the projections of collection models to singleton models, finite on the singleton setting and not finite in general. §7.31: normalised blow-ups of minimal compactifications in Lan's setting, with the minimal input, the models `M̃^tor_{H,Σ,J}`, their normalised blow-up ideals and their properties.
+§0.15: smooth projective refinements of cone systems. §6.1: semi-abelian schemes. §6.2: character sheaves and homomorphisms from tori. §§6.4–6.7: polarised degeneration data, Mumford's construction, the degeneration equivalence and the universal degeneration on a cusp chart; the periods live on the complement of the boundary (§6.4), and the invariant differential `du/u` at a modular cusp (the Check of §6.7). §§6.8, 6.9: extension of homomorphisms and of PEL endomorphisms across the boundary over a normal base, unique. §6.15: the pull-back `V^* : E → Frob^*E` of invariant differentials by the Verschiebung of a semi-abelian scheme. §6.18: Frobenius and Verschiebung of commutative group schemes. §7.3: the integral toroidal compactification over the good primes, smooth over the base for a smooth cone system, with its semi-abelian family, its generic comparison and the set `□` of good primes. §7.16: the integral minimal compactification. §7.17: a power of the Hodge line is the pull-back of an ample invertible sheaf on the neat integral minimal compactification. §§7.19, 7.20: finite normalisations at higher `p`-level and the charts of normalised models, with the projections of collection models to singleton models, finite on the singleton setting and not finite in general. §7.31: normalised blow-ups of minimal compactifications in Lan's setting, with the minimal input, the models `M̃^tor_{H,Σ,J}`, their normalised blow-up ideals and their properties.
 
 ### From TauCetiRoadmap.PELModuli
 
-§M0.5: integral PEL data. §M0.7: the similitude group scheme over `ℤ` and its similitude character. §§M4.5, M4.6: normal integral models at higher `p`-level, their finiteness, normality and flatness.
+§M0.5: integral PEL data. §M0.7: the similitude group scheme over `ℤ` and its similitude character. §M1.3: the signature type of an `O_F`-abelian scheme for a CM field `F`. §M2.10: the Kodaira–Spencer map of an abelian scheme, which agrees with the Gauss–Manin description on `H¹_dR`, and the relative dimension `Σ_{τ∈Φ} p_τq_τ` of a unitary datum. §§M4.5, M4.6: normal integral models at higher `p`-level, their finiteness, normality and flatness.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-§0.8: flatness over Dedekind bases (the scheme-theoretic closure of a reduced flat open subscheme is reduced and flat). §0.9: limits of schemes and spreading out: schemes, morphisms and the properties closed immersion, flat, smooth and isomorphism descend to a finite stage. §0.20: schemes of finite type over a ring of integers are Nagata, so normalisations are finite. §4.11: scheme-theoretic closures. §4.12: Chow's lemma.
+§0.8: flatness over Dedekind bases (the scheme-theoretic closure of a reduced flat open subscheme is reduced and flat). §0.9: limits of schemes and spreading out: schemes, morphisms and the properties closed immersion, flat, smooth and isomorphism descend to a finite stage. §0.20: schemes of finite type over a ring of integers are Nagata, so normalisations are finite. §1.17: the quotient of a projective scheme by a finite group (`finiteGroupQuotient_projective`): finite, surjective and invariant, with `O = (q_*O)^Γ`. §4.11: scheme-theoretic closures. §4.12: Chow's lemma.
 
 ### From TauCetiRoadmap.StableReduction
 
@@ -531,11 +570,15 @@ Layer 2: projective morphisms and relative ampleness of an invertible sheaf, the
 
 ### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
 
-§2.0: extension of homomorphisms of abelian schemes over a normal base. §§2.1, 2.2: Deligne's normalisation `‖α‖²_Del = (2π)^{−g}|∫α ∧ ᾱ|` and the Faltings norm `‖ω‖²_Fal = 2^{−g}·i^{g²}∫ ω ∧ ω̄` of a top form, which is a covolume. §2.8: the Faltings metric on families and on the Siegel space, `‖dz₁ ∧ ⋯ ∧ dz_g‖²_Fal = det Im τ`. §5.3: the computation of the Hodge metric near the boundary behind the logarithmic growth of the Faltings metric.
+§2.0: extension of homomorphisms of abelian schemes over a normal base. §§2.1, 2.2: Deligne's normalisation `‖α‖²_Del = (2π)^{−g}|∫α ∧ ᾱ|` and the Faltings norm `‖ω‖²_Fal = 2^{−g}·i^{g²}∫ ω ∧ ω̄` of a top form, which is a covolume. §2.7: `‖α‖²_Del = π^{−g}‖α‖²_Fal`. §2.8: the Faltings metric on families and on the Siegel space, `‖dz₁ ∧ ⋯ ∧ dz_g‖²_Fal = det Im τ`. §5.3: the computation of the Hodge metric near the boundary behind the logarithmic growth of the Faltings metric.
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
-§A4.3: first de Rham cohomology with its Hodge filtration and Gauss–Manin connection. §A5.2: Riemann forms and their positivity. §A5.6: analytic families and the comparison of de Rham cohomology with the Betti local system.
+§A1.5: the theorem of the cube: the trivialisation of the cube bundle of a rigidified line bundle is canonical. §A2.2: the dual abelian scheme and the Poincaré bundle. §A2.3: the Mumford map `φ_L`, with `m^*L ⊗ p₁^*L^{−1} ⊗ p₂^*L^{−1} ⊗ π²^*e^*L ≅ (1 × φ_L)^*𝒫` and `φ_{f^*L} = f^∨∘φ_L∘f`. §A4.3: first de Rham cohomology with its Hodge filtration and Gauss–Manin connection. §A5.2: Riemann forms and their positivity. §A5.6: analytic families (the quotient of the Lie bundle by a local system of lattices) and the comparison of de Rham cohomology with the Betti local system.
+
+### From TauCetiRoadmap.EquivariantIntersectionTheory
+
+§1.1: linearisations of invertible sheaves; for a finite constant group `Γ`, isomorphisms `φ_γ : γ^*L ≅ L` with the cocycle condition.
 
 ### From SingularHermitianMetricsAndL2Methods, a sub-roadmap of this family
 
