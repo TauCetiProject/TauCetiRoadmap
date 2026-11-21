@@ -17,9 +17,9 @@ the pins.
   the convexity of `𝔉_p` (4.6 (b)) are not stated.
 * The Taylor bound at weighted radii (4.5): for `p` odd, a series `β` in the letters satisfying
   the cocycle conditions (B1)–(B4) of 4.3, an integral series `U`, the compositional inverse `g` of
-  the letter logarithms, an integral matrix `M` compatible with the letters and radii `σ_i`
-  satisfying the bi-power condition up to `κ`,
-  `v_p(κ!·coeff_κ[U(g(My))·exp(±β_M(y))]) ≥ Σ_i κ_i(γ_LT − σ_i) − #ι·lg_p|κ|`. Mathlib has
+  the letter logarithms, an integral matrix `M` compatible with the letters, radii `σ_i`
+  satisfying the bi-power condition up to `κ` and an integer `a ≥ 1` bounding the entries of `κ`,
+  `v_p(κ!·coeff_κ[U(g(My))·exp(±β_M(y))]) ≥ Σ_i κ_i(γ_LT − σ_i) − #ι·(log_p a + 1)`. Mathlib has
   multivariate power series with substitution (`MvPowerSeries.subst`), the exponential series
   `PowerSeries.exp`, the Gauss norm `MvPowerSeries.gaussNorm` and one-dimensional formal group laws
   `FormalGroup`. It lacks the letter logarithms of a twisted system and the compositional inverse of
