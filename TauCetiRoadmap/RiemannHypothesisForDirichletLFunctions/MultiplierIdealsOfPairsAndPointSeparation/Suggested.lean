@@ -87,7 +87,9 @@ noncomputable def selfIntersection (K : Type u) [Field K] (X : Scheme.{u}) [X.Ov
 
 /-- The canonical bundle `det Ω_{X/k}` of a scheme `X` smooth of relative dimension `n` over a
 field `k`: the determinant of the locally free sheaf of relative differentials, of rank `n`. On a
-smooth variety it is `O_X(K_X)` (README 9.12c). -/
+smooth variety it is `O_X(K_X)` (README 9.12c). It is not Tau Ceti's
+`TauCeti.AlgebraicGeometry.InvertibleSheaf.canonicalBundle`, a line bundle on a curve built from
+the divisor of a Weil differential and not identified there with the Kähler differentials. -/
 noncomputable def canonicalBundle (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
     (n : ℕ) [SmoothOfRelativeDimension n (X ↘ Spec (.of k))] : InvertibleSheaf X :=
   haveI := SmoothOfRelativeDimension.smooth n (X ↘ Spec (.of k))
@@ -95,9 +97,10 @@ noncomputable def canonicalBundle (k : Type u) [Field k] (X : Scheme.{u}) [X.Ove
     ⟨FiniteLocallyFreeSheaf.relativeDifferentials k X,
       fun x ↦ FiniteLocallyFreeSheaf.rank_relativeDifferentials_apply k n x⟩
 
-/-- **Separation of points for adjoint bundles** (Angehrn–Siu; README 9.12c). Let `k` be an
-algebraically closed field of characteristic zero, `X` a smooth projective variety over `k` of
-dimension `n`, `L` an ample line bundle on `X` and `x_1, …, x_ℓ` distinct closed points of `X`. If
+/-- **Separation of points for adjoint bundles** (Angehrn–Siu 1995, Theorem 0.3; README 9.12c).
+Let `k` be an algebraically closed field of characteristic zero, `X` a smooth projective variety
+over `k` of dimension `n`, `L` an ample line bundle on `X` and `x_1, …, x_ℓ` distinct closed points
+of `X`. If
 `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every closed integral subscheme `Z` of `X` of dimension
 `d ≥ 1` (`Z = X` included), then for every `i` the adjoint bundle `K_X ⊗ L` has a global section
 that is nonzero at `x_i` and vanishes at every `x_j` with `j ≠ i`. As every residue field `k(x_i)`
