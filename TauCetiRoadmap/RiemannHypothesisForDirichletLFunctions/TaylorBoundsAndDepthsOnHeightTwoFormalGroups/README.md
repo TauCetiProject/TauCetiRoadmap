@@ -671,13 +671,17 @@ frame vectors of type `a` of side `g` in `n` copies, and the *value* of a produc
 `exp(linear form in X)`) with `v(Δ_{g,a}(D)^u(∏_ρχ_ρ(x_ρ))(0)) ≤ u·ϱ_ch`.
 *Plans and the block depth.* For a dominant weight let `W(a)` be its gap at the index `n` at the big position of `a` and `R_w` its
 remaining degree on the orbit. For an alternating datum a *plan* is a family of integers `y(a, i) ≥ 0` (`i` odd `< n_o`), `u(a) ≥ 0`
-with `W(a) = Σ_iℓ^iy(a, i) + Σ_iy(a − i, i) + u(a)`, every nonzero `y(a, i)` a value supplied by 4.19c (i), all levels `i` with
-`y(a, i) ≠ 0` being `< N`; its blocks are the bi-blocks for the `y(a, i)`, the character blocks `Δ_{g,a}^{u(a)}` and monomial blocks for
-the remaining degree, in disjoint copies; for a constant datum a plan has `y = 0`. Its *value bound* is
+with `W(a) = Σ_iℓ^iy(a, i) + Σ_iy(a − i, i) + u(a)` for every `a`; for a constant datum a plan has `y = 0`. Its blocks are the
+bi-blocks for the nonzero `y(a, i)`, the character blocks `Δ_{g,a}^{u(a)}` and monomial blocks for the remaining degree, in disjoint
+copies, and its *value bound* is
 `Σ_{(a,i) : y(a,i) ≠ 0}[n·y(a, i)((ℓ^i + 1)γ − 1) + n(log_ℓn + 1) + (i + 1)j_t(ℓ^i + 1)y(a, i)/(ℓ − 1)] + Σ_au(a)·ϱ_ch + R_w/(ℓ − 1)`
-(the fixed cost `n(log_ℓn + 1)` is charged only for the bi-blocks that occur),
-and the *block depth* `ν_bl` of the weight is the least value bound over the plans. For several orbits, one row datum each, the
-block depth is the sum over the orbits.
+(the fixed cost `n(log_ℓn + 1)` is charged only for the bi-blocks that occur). For big `(g, a)`, odd `i < n_o` and `y ≥ 0`, the
+bi-block of `(a, i, y)` *attains its cost* if there are integral germs `f_1, …, f_n` with
+`v(Δ_{g,a}(D)^{ℓ^iy}Δ_{1−g,a+i}(D)^{y}(∏_ρf_ρ(x_ρ)e^{h_{g,a,a+i}(x_ρ)})(0)) ≤ n·y·((ℓ^i + 1)γ − 1) + n(log_ℓn + 1) + (i + 1)j_t(ℓ^i + 1)y/(ℓ − 1)`;
+`𝒢(a, i)` denotes the set of these `y`, to which `0` is added. A plan is *admissible at level `N`* if `y(a, i) = 0` for `i ≥ N` and
+every nonzero `y(a, i)` lies in `𝒢(a, i)`. The *block depth* `ν_bl` of the weight is the least value bound over the admissible plans
+(the plan `y = 0` is admissible). For several orbits, one row datum each, the block depth is the sum over the orbits. A family of
+sets `G(a, i)` of nonnegative integers *has windows of length `S`* if `0 ∈ G(a, i)` and every interval `[Y₀, Y₀ + S)` meets `G(a, i)`.
 
 *Checks.* `n_o = 2`, `w` constant: the relaxed plan `y = W/(ℓ + 1)` at level `1` in both directions (a flow, not a plan unless
 `ℓ + 1` divides `W`; for `W = 1` it is fractional) realises the flow of 4.6 (c); the trivial
@@ -768,16 +772,14 @@ of positive valuation exactly when `y ≡ −1 (mod ℓ)`: the window is necessa
 
 Let a row datum (4.19) with `ℓ ≥ 5`
 and `j_t < n` be given; (ii), (iii) and (iv) for plans without bi-blocks (in particular for a constant datum) hold for every `ℓ ≥ 3`.
-(i) *Bi-blocks* (alternating datum). For big `(g, a)`, odd `i < n_o`, and every `Y₀ ≥ 0` there are `y ∈ [Y₀, Y₀ + S_int(ℓ, i, n))` and
-integral germs `f_1, …, f_n` with
-`v(Δ_{g,a}(D)^{ℓ^iy}Δ_{1−g,a+i}(D)^{y}(∏_ρf_ρ(x_ρ)e^{h_{g,a,a+i}(x_ρ)})(0)) ≤ n·y·((ℓ^i + 1)γ − 1) + n(log_ℓn + 1) + (i + 1)j_t(ℓ^i + 1)y/(ℓ − 1)`;
-`y = 0` is admissible, with bound `0`.
+(i) *Bi-blocks* (alternating datum). The sets `𝒢(a, i)` of 4.19 have windows of length `S_int(ℓ, i, n)`.
 (ii) *Character blocks.* Under (RD7), `Δ_{g,a}^u` has value `≤ u·ϱ_ch`.
 (iii) *Monomial blocks.* For a product `P` of powers of leading minors of one side, of degree `δ`, there are integral germs with
 `v(P(D)(∏f)(0)) ≤ δ/(ℓ − 1)`, and with value `0` when every row exponent is `< ℓ`.
 (iv) *Plans.* If the weight is read on at least `n_o·n·N + 2(n + j_t)` copies of the variables, the value of the product of the
-blocks of a plan (4.19), against the product of the germs of (i)–(iii) in disjoint copies, is at most its value bound (under (RD7));
-in particular the least such value is at most `ν_bl`. For several orbits, one row datum each in disjoint copies, the values add.
+blocks of an admissible plan (4.19), against the product of the germs of (i)–(iii) in disjoint copies, is at most its value bound
+(under (RD7)); in particular the least such value is at most `ν_bl`. For several orbits, one row datum each in disjoint copies, the
+values add.
 
 *Route.* (i) Complete `e_1, …, e_{n₀}` of 4.19a to a basis of the span of `U` and use `v′` (the minors change by units). In the copies
 `ρ > n₀` put the germ `t_ρ^{Ly}t′_ρ^{y}`: the operator has degree `Ly` (resp. `y`) in the variables of every copy and every column, so
@@ -806,19 +808,21 @@ is at most `n_o(n + 1)S_E/ℓ`. For several orbits the bounds add; the last term
 `R_w` summed over the orbits, which may be bounded in total (no bound orbit by orbit is needed).
 
 *Route.* By the identity `Σ_au(a) = ΣW − Σ_{a,i}(ℓ^i + 1)y(a, i)`, the value bound of a plan is `n(γΣW − Σy)` plus errors, so a plan is
-an integral flow (`x = n·y`, slack `n·u`). *Rounding:* let `W_θ := (1 − θ₀)w/T ≤ W`, `Y^{sup}(a, i)` the set of values supplied by
-4.19c (i) (it contains `0` and meets every interval of length `S_int`). Take a maximal flow `x` for `W_θ` with at most `n_o` nonzero
-coordinates and delete the levels `i ≥ i₀`, losing at most `ℓ^{−i₀}ΣW_θ` (4.6 (g)); let `y(a, i)` be the largest element of `Y^{sup}(a, i)`
-that is `≤ x(a, i)` (so `0 ≤ x − y < S_int`, and the capacities hold for `W_θ`, a fortiori for `W`); put
+an integral flow (`x = n·y`, slack `n·u`). *Rounding:* let `W_θ := (1 − θ₀)w/T ≤ W`, `Y^{sup}(a, i) := 𝒢(a, i)` (4.19), which contains
+`0` and meets every interval of length `S_int` (4.19c (i)); the rounding uses of these sets only that they have windows. Take a
+maximal flow `x` for `W_θ` and delete the levels `i ≥ i₀`, losing at most `ℓ^{−i₀}ΣW_θ` (4.6 (g)); let `y(a, i)` be the largest
+element of `Y^{sup}(a, i)` that is `≤ x(a, i)` (so `0 ≤ x − y < S_int`, and the capacities hold for `W_θ`, a fortiori for `W`); put
 `u(a) := W(a) − Σ_iℓ^iy(a, i) − Σ_iy(a − i, i) ≥ 0`. The value bound is then at most
-`𝔉_ℓ(nW_θ) + ℓ^{−i₀}nΣW_θ + nγΣ(W − W_θ) + i₀j_tΣW/(ℓ − 1) + n_o·n(S_int + log_ℓn + 1)`. Multiply by `T`:
-`T𝔉_ℓ(nW_θ) = (1 − θ₀)𝔉_ℓ(nw) ≤ 𝔉_ℓ(nw)` (homogeneity), the excess `T(W − W_θ) ≤ θ₀w + C₁S_E` is paid at the rate `nγ` with
-`nθ₀ ≤ 5j_t`, `T·i₀j_tΣW ≤ i₀j_t(Σw + C₁n_oS_E)` with `i₀ ≤ C·log(n + 1)` gives the first error term, the remaining degree
-contributes `T·R_w/(ℓ − 1)` (monomial blocks, 4.19c (iii)), and `S_int ≤ C·n²log(n + 1)` for the levels used gives the last term of
-`err`. The parity of `n_o` is not used.
+`𝔉_ℓ(nW_θ) + ℓ^{−i₀}nΣW_θ + nγΣ(W − W_θ) + j_tΣW/(ℓ − 1) + 2i₀·j_t·ΣW_θ/(ℓ − 1) + n_o·i₀·n(S_int + log_ℓn + 1)`
+(the character blocks cost `j_t/(ℓ − 1)` per unit of `Σu ≤ ΣW`; the bi-blocks, which carry the factor `i + 1 ≤ i₀`, are bounded
+through the capacities `W_θ`; the fixed cost of a bi-block is charged once for each of the at most `n_o·i₀` pairs `(a, i)` with
+`i < i₀`). Multiply by `T`: `T𝔉_ℓ(nW_θ) = (1 − θ₀)𝔉_ℓ(nw) ≤ 𝔉_ℓ(nw)` (homogeneity), the excess `T(W − W_θ) ≤ θ₀w + C₁S_E` is paid
+at the rate `nγ` with `nθ₀ ≤ 5j_t`; `T·2i₀j_tΣW_θ ≤ 2i₀j_tΣw` with `i₀ ≤ C·log(n + 1)` gives the first error term;
+`T·j_tΣW ≤ j_t(Σw + C₁n_oS_E)` is absorbed in it and, as `j_t ≤ n`, in `n_o(n + 1)S_E/ℓ`; the remaining degree contributes
+`T·R_w/(ℓ − 1)` (monomial blocks, 4.19c (iii)); and `i₀ ≤ C·log(n + 1)` together with `S_int ≤ C·n²log(n + 1)` for the levels used
+gives the last term `T·n_o·n³log²(n + 1)` of `err`. The parity of `n_o` is not used.
 
-*Checks.* `n_o = 2`, `w` constant: `𝔉_ℓ(n·w) = ρ_LT·n·Σw` (4.6 (c)). Without the term `log(n + 1)·j_t·n_o·S_E/ℓ` the route would need
-`j_t·log(n + 1) ≤ C(n + 1)`: the term `T·i₀j_tΣW/(ℓ − 1)` contains `i₀j_t·n_o·C₁S_E/(ℓ − 1)`.
+*Checks.* `n_o = 2`, `w` constant: `𝔉_ℓ(n·w) = ρ_LT·n·Σw` (4.6 (c)).
 
 *NEW* (the rounding of a maximal flow into a plan). *Needs:* 4.6, 4.19, 4.19c.
 
