@@ -3168,8 +3168,8 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 
 ## References
 
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. Its window bound on twisted wild kernels and its case analysis are reconstructed in Layers 1–7.
-- [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>. It describes the bound as the "weakening of Vandiver" of its argument.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. Its window bound on twisted wild kernels and its case analysis are reconstructed in Layers 1–7.
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>. It describes the bound as the "weakening of Vandiver" of its argument.
 - C. Soulé, *K-théorie des anneaux d'entiers de corps de nombres et cohomologie étale*, Invent. Math. 55 (1979): finiteness.
 - C. Soulé, *A bound for the torsion in the K-theory of algebraic integers*, Documenta Math., Extra Volume Kato (2003): the
   published K-theoretic bound, compared with ArithmeticKTheory Layer 9 and BernoulliBoundsForClassGroupEigenspaces Layer 9; the bound consumed in 1.6, 2.2 and 6.1 is
