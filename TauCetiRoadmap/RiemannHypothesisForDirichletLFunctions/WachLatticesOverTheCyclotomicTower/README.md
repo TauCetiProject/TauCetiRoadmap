@@ -127,7 +127,19 @@ Berger-Wach-2004, Proposition II.1.1, and, as the inputs of (6)–(7), Propositi
 `B^+_{rig,F} ⊗ N(V)`), Propositions II.3.1 and III.2.1 (the elementary divisors of that inclusion, products over `s ≥ 1`
 of powers of `φ^{s−1}(q)/p` with the weights as exponents), Proposition III.2.2 (the action of the subgroup of `Γ_F` fixing
 `F_s` on `N(V)/φ^{s−1}(q)N(V)`) and Theorem III.4.4 (the filtration); Berger-2008, Proposition II.2.5 with Théorème V.2.3 (2) (the
-`Fil⁰` form of the localisations); Wach 1996 (the criterion of (8)). *Needs:* PhiGammaModulesAndIwasawaCohomology §§6.0–6.1; PhiGammaModulesAndIwasawaCohomology §1.0 (integral étale realization and its reduction); PhiGammaModulesAndIwasawaCohomology §3.4 (the
+`Fil⁰` form of the localisations); Wach 1996 (the criterion of (8)); the facts on `π₀` and `X` follow from [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/DeltaInvariantLattices.lean` (`Formalism.MainNotions.DeltaInvariantLattices.p9`),
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/PowerSeriesOneAddConstMulXMulInv.lean`
+(`GlobalTheory.PhiGam.RingPG`); for the `Γ_F^{tor}`-invariant basis of (1), [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Saturated.lean` (`GlobalTheory.WachUse.InvBasis`); for (2),
+[FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Saturated.lean` (`GlobalTheory.WachUse.Heights`),
+`Formalism/SharpRestriction/LevelLetterCocycles/DeltaInvariantLattices.lean` (`Formalism.MainNotions.DeltaInvariantLattices.p5`);
+for (4), [FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Saturated.lean`
+(`GlobalTheory.WachUse.RankOne`); for the saturation in (5), [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Saturated.lean` (`GlobalTheory.WachUse.Saturated`); for `T` already
+known to be crystalline, the last conclusion of (8), `N = N(T)`, follows from [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/DeltaInvariantLattices.lean` (`Formalism.MainNotions.DeltaInvariantLattices.p10`).
+*Needs:* PhiGammaModulesAndIwasawaCohomology §§6.0–6.1; PhiGammaModulesAndIwasawaCohomology §1.0 (integral étale realization and its reduction); PhiGammaModulesAndIwasawaCohomology §3.4 (the
 prime-to-`p` torsion adapter); PadicHodgeTheory §1.5 (localisation maps at every level); PadicPeriodRings §§4.1–4.3.
 
 **API.**
@@ -214,7 +226,12 @@ eigenvalue `χ(γ)^m` on the part `t^{−k−u} ⊗ (line of weight u)`, `1 ≤ 
 weights at the embedding of each factor (`U_i` on the factor `i`); `ν` is triangular for the same filtration and acts on
 the graded piece of `m` by `c(m)`; the union over the factors gives `M⁻_y`. Sources: Berger-Wach-2004, Propositions III.2.1 and III.2.2 at the
 zeros of `q` (`γ` acts on `N(V)/qN(V)` semisimply with eigenvalues `χ(γ)^{−u}`, `u` running over the Hodge–Tate weights: the
-case `s = 1` of (1) after inverting `p`). *Needs:* 6.4; PhiGammaModulesAndIwasawaCohomology §6.0
+case `s = 1` of (1) after inverting `p`); for (1), [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/Saturated.lean` (`GlobalTheory.WachUse.SenOp`); (3) follows from
+[FormalProof], `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/EPolyBase.lean`
+(`GlobalTheory.BaseLatticeE.ePoly_base`),
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TwistedModelAdmissibleCocycles.lean` (`GlobalTheory.Models.EPoly`).
+*Needs:* 6.4; PhiGammaModulesAndIwasawaCohomology §6.0
 (filtered reduction).
 
 **API.**
@@ -260,7 +277,16 @@ the `m` graded pieces. (2) Let `m_i` be minimal with `X^{m_i}N_i ⊂ N′_i`. Th
 `X^{m_i+h_i}φ_i^*N_{i−1} ⊂ φ_i^*N′_{i−1}`; since `φ^*` multiplies the elementary divisors of a pair of lattices by `p`,
 `m_{i−1} ≤ ⌊(m_i + h_i)/p⌋`. With `S_i = Σ_{j≥0}h_{i+j+1}/p^{j+1}`, `pS_{i−1} = h_i + S_i`, so
 `m_{i−1} − S_{i−1} ≤ (m_i − S_i)/p`; the largest `m_i − S_i` is therefore `≤ 0`, and `m_i ≤ ⌊S_i⌋ = σ_i`.
-(3) `σ_{i−1} = ⌊(h_i + S_i)/p⌋`, so the integer `p(σ_{i−1}+1) − h_i` exceeds `S_i ≥ σ_i`. Sources: [FormalProof].
+(3) `σ_{i−1} = ⌊(h_i + S_i)/p⌋`, so the integer `p(σ_{i−1}+1) − h_i` exceeds `S_i ≥ σ_i`. Sources: [FormalProof]; for the
+definitions, [FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/PowerSeriesOneAddConstMulXMulInv.lean`
+(`GlobalTheory.PhiGam.RingPG`); for `σ_i`, [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/PowerSeriesOneAddConstMulXMulInv.lean` (`GlobalTheory.PhiGam.sg`),
+`Formalism/FrobeniusContraction/HighestWeightResidueAvoids.lean` (`Formalism.WachCohomologyFacts.V2.sgN`); for (1), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GenEigenMultiplicityLaurentShiftEqSumSen.lean`
+(`GlobalTheory.PhiGam.Range.qmult_sh_range`), `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NabBijectiveWindow.lean`
+(`GlobalTheory.PhiGam.Window.nab_bijective_window`); for (2), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/PhiGammaLatticeFamiliesShiftInclusionStatement.lean`
+(`GlobalTheory.T.phiGamma_lattice_families_shift_inclusion`).
 *Needs:* PhiGammaModulesAndIwasawaCohomology §0.1 (linearized Frobenius modules); Mathlib `PowerSeries`, `LaurentSeries`, `Module.End.maxGenEigenspace`.
 
 **API.**
@@ -346,7 +372,14 @@ so `x = X^{−1}φ(n₀) + ∇f` with `n₀ ∈ N₀`, `f ∈ F`. Writing `n₀`
 `∇` on the finite-dimensional `F/L` has dimension `≤ r`, and so has its kernel. It contains the image of `Z` and the generalized
 `0`-eigenspace of `∇` on `N/L` (semisimplicity makes it a kernel), of dimension `Σ_{0≤y≤v} sen(N)(y)` by 6.6 (1), and the
 first meets the second trivially modulo `N`. Sources: Herr 1998, §§2–4; Cherbonnier–Colmez 1999 (`ψ` and `γ − 1` on
-`ψ`-zero parts); [FormalProof]. *Needs:* 6.6; PhiGammaModulesAndIwasawaCohomology §§2.2, 2.4, 2.5, 3.1, 3.5.
+`ψ`-zero parts); [FormalProof]; for the Herr complex and Herr pairs, [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TwistedModelAdmissibleCocycles.lean` (`GlobalTheory.Models.herrB`),
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TwistedModelAdmissibleCocycles.lean` (`GlobalTheory.Models.InZZ`);
+(1) follows from [FormalProof], `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CoeSmulMem.lean`
+(`GlobalTheory.PhiGam.Gauge.main`); for (2), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GammaMinusOneDivVariablePolarKernelLeSenWeights.lean`
+(`GlobalTheory.PhiGam.PolarKernel.main`).
+*Needs:* 6.6; PhiGammaModulesAndIwasawaCohomology §§2.2, 2.4, 2.5, 3.1, 3.5.
 
 **API.**
 
@@ -388,7 +421,10 @@ for `N` is polar for every lattice family containing `N` with the same hypothese
 count, resp. 6.7 (4) with the high one (`1 ≤ v_i ≤ p − 7`), the classes of `(c_{a,i})_a` modulo `N_i` span a space of
 dimension `≤ d_i`. If `Σ_at_ac_{a,i} ∈ N_i` for every `i`, then `Σ_at_az′_a` has `b ∈ ∏N_i` and `g ∈ ∏X^{σ_i+3}N_i`, so it is
 a coboundary by 6.7 (1b), and `t = 0`. Hence `a ↦ (c_{a,i} mod N_i)_i` is injective on `k^s` and `s ≤ d`. Sources:
-[FormalProof]. *Needs:* 6.6–6.7.
+[FormalProof]; for the monotonicity of polarity, [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleCocyclesCardLeSumDims.lean`
+(`GlobalTheory.Models.AdmBound.inZZ_mono`).
+*Needs:* 6.6–6.7.
 
 **API.**
 
@@ -508,7 +544,34 @@ high type, both by (P2), and `η_i < p` by (P3). So `b ∈ ∏N_i` and `g ∈ �
 by the lattice `{(a, b) : a ≡ b (mod λ)}` in `χ_1 ⊕ χ_1μ` (`μ` unramified, `μ ≡ 1 (mod λ)`) inside the sum of the two full
 representations `ρ ⊕ χ_1 ⊕ ⋯ ⊕ χ_t` and `ρ ⊕ χ_1μ ⊕ χ_2 ⊕ ⋯ ⊕ χ_t`.
 
-Sources: [FormalProof]; Herr 1998 (the comparison of PhiGammaModulesAndIwasawaCohomology §3.6). *Needs:* 6.4–6.8; PhiGammaModulesAndIwasawaCohomology §§3.4, 3.6 (integral Herr comparison for
+Sources: [FormalProof]; Herr 1998 (the comparison of PhiGammaModulesAndIwasawaCohomology §3.6); for the position data,
+[FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MkMemAdmissibleAtIffCocycle.lean`
+(`GlobalTheory.AdmLoc.TopData`), `Formalism/SharpRestriction/LevelLetterCocycles/TableLineDegreeTwo.lean`
+(`Formalism.MainNotions.tableLineDegreeTwo.PositionHyps`); for the arithmetic consequences of being in position, [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleLetterDataWindowArithmetic.lean`
+(`GlobalTheory.WindowArith.windows`); for full representations and admissible modules, [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/TableLineDegreeTwo.lean` (`Formalism.MainNotions.tableLineDegreeTwo.IsFull`),
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MkMemAdmissibleAtIffCocycle.lean` (`GlobalTheory.AdmLoc.Full`); for
+models and the standard lattice, [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TwistedModelAdmissibleCocycles.lean`
+(`GlobalTheory.Models.IsModel`); for (1a), [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/ResBound.lean` (`GlobalTheory.TopSteps.TopSit.Real`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/MapAevalNab.lean` (`GlobalTheory.Models.EPolyModel.model_ePoly`); for
+(1b), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SenWeightSubquotientModelMemResiduesStatement.lean`
+(`GlobalTheory.T.senWeight_subquotient_model_mem_residues`); for (1c), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistedPhiGammaModelCharacterEqStandardStatement.lean`
+(`GlobalTheory.T.twistedPhiGammaModel_character_eq_standard`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HomToCharacterLineEqZeroStatement.lean`
+(`GlobalTheory.T.hom_to_characterLine_eq_zero`); for (2), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsLargestModel.lean` (`GlobalTheory.Models.exists_largest_model`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TwistedPhiGammaModelSenWeightCount.lean`
+(`GlobalTheory.ModelCount.count`); for (3), [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleCocyclesCardLeSumDims.lean`
+(`GlobalTheory.Models.AdmBound.main`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsIndependentAdmissibleCocyclesResidue.lean`
+(`GlobalTheory.ResidueBound.resBound_dsum`).
+*Needs:* 6.4–6.8; PhiGammaModulesAndIwasawaCohomology §§3.4, 3.6 (integral Herr comparison for
 finite `p`-primary modules); PadicPeriodRings §§4.1–4.3 (crystalline representations).
 
 **API.**
@@ -626,7 +689,27 @@ into `N`, by 6.5 (4) (the factor for `u + k = 0` is `δ` itself; further factors
 `c_Γπ₀R(δ)ω′` and `c_Γ(γ − 1)R₁(δ)ω′` in `im d¹`, so `R(0)c_Γω ∈ im d¹`, with `v_p(R(0)c_Γ) = Σ_{j∈J}v_p(j) + a + v_p(a!)`
 (`v_p(c(−j)) = v_p(j)`, `v_p(1 − u₁^i) = 1 + v_p(i)`); this is `e°_U`, and `e_U ≥ e°_U`. For `M = 0`, (i) with `a = 0` makes `d¹`
 onto (`1 − φ` is bijective on `π₀N`). Sources: Berger-Wach-2004, Proposition IV.1.3 (the induction of (2), for `X = π`) and
-the constant `α(r)` defined before Theorem IV.1.1 (equal to `cost(0, r)`, with the bound `rp/(p − 1)²`); [FormalProof].
+the constant `α(r)` defined before Theorem IV.1.1 (equal to `cost(0, r)`, with the bound `rp/(p − 1)²`); [FormalProof]; for the
+definitions, [FormalProof], `Formalism/SharpRestriction/LevelLetterCocycles/LiftingTheory.lean`
+(`Formalism.MainNotions.LiftingTheory.Hmax`), `Formalism/WachLatticeTwists/LagrangeExtensionCocycles/Statement.lean`
+(`Formalism.RepresentationBoundsCohomology.N2.cost`); for (1), [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/LiftingTheory.lean` (`Formalism.MainNotions.LiftingTheory.coreWX`); for the
+`γ`-descent of (2), [FormalProof], `Formalism/WachLatticeTwists/LagrangeExtensionCocycles/Statement.lean`
+(`Formalism.RepresentationBoundsCohomology.N2.StatDescentStep`); for the round bounds of (2), [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/LiftingTheory.lean`
+(`Formalism.MainNotions.LiftingTheory.WachQuotientAnnihilator`),
+`Formalism/WachLatticeTwists/LagrangeExtensionCocycles/Statement.lean`
+(`Formalism.RepresentationBoundsCohomology.N2.StatCostFormula`); the vanishing `p^{cost(j,s_i)}π^jC_i = 0` of (2) follows from
+[FormalProof], `Formalism/WachLatticeTwists/LagrangeExtensionCocycles/Statement.lean`
+(`Formalism.RepresentationBoundsCohomology.N2.StatCostKills`); the recursion of (3) follows from [FormalProof],
+`Formalism/WachLatticeTwists/LagrangeExtensionCocycles/Statement.lean` (`Formalism.RepresentationBoundsCohomology.N2.Stat2`),
+`Formalism/SharpRestriction/LevelLetterCocycles/LiftingTheory.lean` (`Formalism.MainNotions.LiftingTheory.WachExponentRecursion`);
+the bound on `s_i` in (3), from [FormalProof], `Formalism/WachLatticeTwists/LagrangeExtensionCocycles/Statement.lean`
+(`Formalism.RepresentationBoundsCohomology.N2.StatResCut`); the bounds on `r_i` in (3), from [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/LiftingTheory.lean` (`Formalism.MainNotions.LiftingTheory.coreWR`); (4), with the
+exponent `e_U`, follows from [FormalProof], `Formalism/SharpRestriction/LevelLetterCocycles/BaseChangePreservesUnitaryOf.lean`
+(`Formalism.MainNotions.LiftingTheory.lifta_core`), `Formalism/WachLatticeTwists/LagrangeExtensionCocycles/StatementTop.lean`
+(`Formalism.RepresentationBoundsCohomology.N2.eUA`).
 *Needs:* PhiGammaModulesAndIwasawaCohomology §6.0; 6.4, 6.5; 6.6 (2) (the modulo-`λ` comparison); PhiGammaModulesAndIwasawaCohomology §3.1 (Herr complexes);
 Mathlib `PowerSeries`, `Polynomial`.
 
