@@ -346,6 +346,7 @@ body:
         - QuadraticFormInvariantsPartII
         - QuantumEnvelopingAlgebras
         - QuantumGroups
+        - QuasiregularMaps
         - QuaternionArithmetic
         - QuaternionicAnalysis
         - QuiverRepresentationsPartII
