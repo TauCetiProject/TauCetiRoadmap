@@ -1296,9 +1296,16 @@ line bundles `E`, `L` with smooth metrics, sections `s_1, …, s_n ∈ H⁰(X, L
 `Z` is finite and transverse, `ψ = n·log Σ_k|s_k|²`, and `δ > 0` such that `iΘ(E) + α·i∂∂̄ψ ≥ 0` on `X ∖ Z` for every
 `α ∈ [1, 1 + δ]`, every function `f` on `Z` is the restriction of a section `F` of `K_X ⊗ E` with
 `∫_X |F|²e^{−ψ}/(1 + δ²ψ²) ≤ (34/δ)·c_n·Σ_{P∈Z}|f(P)|²/|det(ds)(P)|²`, `c_n` depending only on `n`. This is the case,
-with a finite transverse zero set, of the extension theorem for weights with log canonical singularities; its curvature
+with a finite transverse zero set, of the extension theorem for weights with log canonical singularities (Demailly 2015,
+Theorem 2.8, pp. 4–5, with `Y = Z`; as `ψ ≤ 0`, its weight `γ(δψ)` is `1/(1 + δ²ψ²)`); its curvature
 hypothesis does not imply the second hypothesis of 4.2, so it is not a case of 4.2. It is the form that [FormalProof]
-proves.
+proves: `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/L2ExtensionLogCanonical.lean`
+(`GlobalTheory.Published.L2ExtensionLogCanonical`), proved in
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/L2ExtensionLogCanonical.lean` (`GlobalTheory.l2ExtensionLogCanonical'`).
+*Route of the second form* (Demailly 2015, §5), proof not given here: on `X ∖ Z`, which carries complete Kähler metrics
+(3.3), solve `∂̄u_t = ∂̄(θ(ψ − t)F̃)` for a smooth extension `F̃` of `f`, the metric of `E` multiplied by `e^{−ψ}`, by a
+twisted estimate as in 3.2 with `η`, `λ` functions of `ψ` (`λ = π(1 + δ²ψ²)`), whose curvature term carries `i∂∂̄ψ` with
+a coefficient in `[1, 1 + δ]`, which is where the hypothesis enters; `F` is a weak limit of `θ(ψ − t)F̃ − u_t` as `t → −∞`.
 
 *Route.* A known theorem (Ohsawa–Takegoshi, Manivel; in this form Demailly's: [AMAG] Th. 13.6, pp. 125–126, stated there for
 `∂̄`-closed `(0,q)`-forms, of which this is the case `q = 0`), proof not given here. The standard
@@ -2232,7 +2239,8 @@ counts its stalk twice and the map is not onto: second Check.) ([AMAG] Cor. 5.12
 `K_X ⊗ L` separate the points `x_1, …, x_r`; if `J(h)_{x} ⊆ m_x^{s+1}` with `x` isolated, they generate all
 `s`-jets at `x` modulo `J(h)_x`. For a smooth positive `L`, 8.3 for `L^m ⊗ K_X^{−1}` with the weights
 `(n + 1)·log|z − x_i|²` cut off near one or two points gives, for `m` large independently of the points, the
-separation of points and first jets by `H⁰(X, L^m)` that GeometricQuantization §6.2 uses for the Kodaira embedding.
+separation of points and first jets by `H⁰(X, L^m)` that GeometricQuantization §6.2 proves by its own peak-section route
+for the Kodaira embedding.
 
 *Route.* The exact sequence `0 → K ⊗ L ⊗ J → K ⊗ L → K ⊗ L ⊗ O/J → 0` and `H¹(K ⊗ L ⊗ J) = 0` (8.2) make
 `H⁰(K ⊗ L) → H⁰(K ⊗ L ⊗ O/J)` surjective; `O/J` is supported on `Z`, and the stalks at the distinct isolated points
@@ -2651,6 +2659,8 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   author's manuscript): 7.4, 7.7.
 - J.-P. Demailly, *On the Ohsawa–Takegoshi–Manivel L² extension theorem*, Proceedings of the conference in honour
   of P. Lelong (2000): 3.2, 4.2.
+- J.-P. Demailly, *Extension of holomorphic functions defined on non reduced analytic subvarieties*, arXiv:1510.05230
+  (2015), Theorem 2.8 (located in arXiv v1): 4.2.
 - L. Hörmander, *An Introduction to Complex Analysis in Several Variables*, chapter IV: 3.1.
 - H. Skoda, *Sous-ensembles analytiques d'ordre fini ou infini dans ℂⁿ*, Bull. SMF 100 (1972): 1.2.
 - Y.-T. Siu, *Analyticity of sets associated to Lelong numbers and the extension of closed positive currents*,
