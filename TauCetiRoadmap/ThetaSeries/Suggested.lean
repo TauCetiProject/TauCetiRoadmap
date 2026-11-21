@@ -43,7 +43,7 @@ Every headline theorem of the roadmap is statable at the pins. Those whose state
 already proves (lattice Poisson summation, the transformation laws, the level-one theorem, the
 identification of the theta series of even unimodular lattices of rank `8`, `16` and `24` and of
 the Leech lattice, the rank-`16` pair, the Fricke identity) are not restated here; `README.md`
-names them under *Exact supplier contracts*.
+names them on the *In Tau Ceti:* lines of its layers.
 -/
 
 namespace TauCetiRoadmap.ThetaSeries

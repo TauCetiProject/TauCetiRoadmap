@@ -50,22 +50,12 @@ Fricke identities; Layer 8 identifies the classical theta series.
 ## How to read the build
 
 Each layer is a list of numbered sections `### k.n`, each stating its targets in prose with their
-hypotheses, the source at the claim, a *Needs:* line and, where they earn their place, Checks.
-Section numbers are fixed: §k.n is the `n`-th item of Layer `k`. Where the pinned Tau Ceti has the
-declarations that realise an item, the item ends with a line *In Tau Ceti:* naming them. Other
-roadmaps cite items of this roadmap by lettered labels: the label `kX` is §k.n, with `n` the
-position of the letter `X` in the alphabet.
-
-| Lettered labels | Sections |
-|---|---|
-| 1A, 1B, 1C, 1D, 1E, 1F | §§1.1–1.6, in that order |
-| 2A, 2B, 2C, 2D, 2E, 2F, 2G, 2H | §§2.1–2.8, in that order |
-| 3A, 3B, 3C, 3D, 3E | §§3.1–3.5, in that order |
-| 4A, 4B, 4C, 4D | §§4.1–4.4, in that order |
-| 5A, 5B, 5C, 5D | §§5.1–5.4, in that order |
-| 6A, 6B, 6C, 6D, 6E, 6F | §§6.1–6.6, in that order |
-| 7A, 7B, 7C, 7D, 7E, 7F | §§7.1–7.6, in that order |
-| 8A, 8B, 8C, 8D, 8E | §§8.1–8.5, in that order |
+hypotheses, the source at the claim where one is cited, a *Needs:* line and, where they earn their
+place, Checks. Section numbers are fixed: §k.n is the `n`-th item of Layer `k`. Where the pinned Tau
+Ceti has the declarations that realise an item, the item ends with a line *In Tau Ceti:* naming
+them. Each item also has a lettered id `kX`, `X` the `n`-th letter of the alphabet, which stands in
+parentheses at the end of its heading (§2.3 is 2C, §7.5 is 7E); other roadmaps cite items by these
+ids.
 
 Other roadmaps also cite targets by Lean names that this roadmap does not declare
 (*poissonSummation*, *dual_dual*, *kroneckerChar*, …). Each name below stands for its section, whose
@@ -268,7 +258,7 @@ outset: a dimension-`8` or dimension-`24` version would be useless to the other,
 sphere-packing formalization shows the cost of the specialized form (*Provenance*). It needs the dual
 lattice of Convention 4 and nothing else of Layer 2, and can proceed beside it.
 
-### 1.1 Poisson summation over a full lattice
+### 1.1 Poisson summation over a full lattice (1A)
 
 For a full lattice `L` in `E`, a Schwartz function `f : 𝓢(E, ℂ)` and `v : E`, prove
 
@@ -302,7 +292,7 @@ change of variables §1.3.
 *In Tau Ceti:* `SchwartzMap.tsum_eq_tsum_dual_fourier`, `SchwartzMap.tsum_eq_tsum_dual_fourier_neg`,
 `SchwartzMap.tsum_eq_tsum_dual_fourier_of_even`.
 
-### 1.2 The lattice of an orthonormal basis
+### 1.2 The lattice of an orthonormal basis (1B)
 
 For an orthonormal basis `o` of `E`, the lattice `ℤo` spanned by `o` (in coordinates,
 `ℤ^n ⊆ EuclideanSpace ℝ (Fin n)`) is its own dual, has covolume `1`, and satisfies Poisson summation
@@ -329,7 +319,7 @@ theorem needs partial Fourier transforms, which are AnalyticNumberTheoryPartII �
 `ZLattice.dual_span_orthonormalBasis`, `SchwartzMap.sliceRightCLM`,
 `SchwartzMap.seminorm_sliceRightCLM_le`, `ZLattice.summable_norm_poisson_left`.
 
-### 1.3 Fourier change of variables
+### 1.3 Fourier change of variables (1C)
 
 For a continuous linear automorphism `A : E ≃L[ℝ] E` of a finite-dimensional real inner product
 space, prove `𝓕 (f ∘ A) = |det A|⁻¹ • (𝓕 f) ∘ (A⁻¹)ᵀ`, where `(A⁻¹)ᵀ` is the adjoint of the inverse
@@ -342,7 +332,7 @@ change of variables for Haar measure under a linear map.
 
 *In Tau Ceti:* `ContinuousLinearEquiv.fourier_comp`.
 
-### 1.4 Dual-lattice transport
+### 1.4 Dual-lattice transport (1D)
 
 For `A : E ≃L[ℝ] E` and a full lattice `L`, prove that `A L` is a full lattice,
 `(A L)^∨ = (A⁻¹)ᵀ L^∨` and `covol (A L) = |det A| · covol L`; and that for every orthonormal basis
@@ -356,7 +346,7 @@ For `A : E ≃L[ℝ] E` and a full lattice `L`, prove that `A L` is a full latti
 *In Tau Ceti:* `ZLattice.dual_comap_continuousLinearEquiv`,
 `ZLattice.covolume_comap_continuousLinearEquiv`, `ZLattice.exists_comap_span_orthonormalBasis_eq`.
 
-### 1.5 Summability
+### 1.5 Summability (1E)
 
 For a Schwartz function `f` and `v : E`, prove that both sides of §1.1 are absolutely summable on
 their own: `ℓ ↦ f(v + ℓ)` over `L` and `m ↦ 𝓕 f m · e(⟪v, m⟫)` over `L^∨`, from Mathlib's decay
@@ -368,7 +358,7 @@ summability statements on their own, not only inside the equality.
 *In Tau Ceti:* `ZLattice.summable_poisson_left`, `ZLattice.summable_poisson_right`,
 `ZLattice.summable_norm_poisson_left`.
 
-### 1.6 Gaussians
+### 1.6 Gaussians (1F)
 
 Prove that `x ↦ exp(π i τ ‖x‖²)` is a Schwartz function for `Im τ > 0`, that its translates are
 Schwartz, and, from Mathlib's Fourier transform of the Gaussian on an inner product space, that for
@@ -409,7 +399,7 @@ of this roadmap.
 
 Everything downstream reads its hypotheses from this layer. Rank is arbitrary throughout the layer.
 
-### 2.1 Predicates and their equivalences
+### 2.1 Predicates and their equivalences (2A)
 
 Define integrality, evenness and unimodularity as in Convention 3. Prove: evenness implies
 integrality, by polarization; integrality is equivalent to `L ≤ L^∨` and to `⟪x, y⟫ ∈ ℤ` for all
@@ -430,7 +420,7 @@ an orthogonal sum `L ⊕ M` exactly when it holds for `L` and for `M`.
 `ZLattice.isEven_comap_iff`, `ZLattice.isIntegral_comap_iff`, `ZLattice.isUnimodular_comap_iff`,
 `ZLattice.isIntegral_orthSum_iff`, `ZLattice.isEven_orthSum_iff`, `ZLattice.isUnimodular_orthSum_iff`.
 
-### 2.2 Scaling
+### 2.2 Scaling (2B)
 
 For a real `c > 0`, prove that `c • L` is a full lattice, `(c • L)^∨ = c⁻¹ • L^∨`,
 `covol (c • L) = c^n covol L`, `det (c • L) = c^{2n} det L`, and `(-c) • L = c • L`. Prove the
@@ -453,7 +443,7 @@ none is stated or used; scaling down can create unimodularity (`(1/√2) • (�
 `ZLattice.det_sqrt_smul`, `ZLattice.IsIntegral.not_isUnimodular_sqrt_smul`,
 `ZLattice.IsIntegral.not_isUnimodular_smul`, `ZLattice.IsUnimodular.not_isUnimodular_smul`.
 
-### 2.3 Covolume, determinant, index
+### 2.3 Covolume, determinant, index (2C)
 
 Prove `covol L^∨ = (covol L)⁻¹`; that for integral `L` the determinant `det L = (covol L)²` is a
 positive integer; that for integral `L` the discriminant group `L^∨ ⧸ L` is finite of order
@@ -479,7 +469,7 @@ index of a sublattice.
 `ZLattice.IsIntegral.isUnimodular_iff_covolume_eq_one`,
 `ZLattice.IsIntegral.isUnimodular_iff_subsingleton_discriminantGroup`.
 
-### 2.4 The bridge to the rational model
+### 2.4 The bridge to the rational model (2D)
 
 For an integral `L ⊆ E`, the integer-valued form `⟪·,·⟫ : L × L → ℤ` is a symmetric bilinear form
 over `ℤ`, and Tau Ceti's rationalization `TauCeti.IntegralLattice.ofIntegralForm` turns it into a
@@ -495,9 +485,10 @@ mutually inverse up to isometry, and that a real linear isometry carrying `realM
 `realModel M'` induces an isometry of the rational lattices `M` and `M'`, so that non-isometry
 proved on the rational side transfers to the real model (§8.5). Prove that the invariants agree:
 rank; the determinant and the discriminant with `det`; evenness; unimodularity; the order of the
-discriminant group; shells with `vectorsOfNorm` (§2.7); and the level with the order of the
-discriminant quadratic map (§2.5). ⚠ This is the only place the two models are compared. After it,
-discriminant-form facts are quoted across it and never reproved in `E`.
+discriminant group; shells with `vectorsOfNorm` (§2.7); and the level with the level of the
+rational model, which for even `L` is the order of its discriminant quadratic map (§2.5). ⚠ This is
+the only place the two models are compared. After it, discriminant-form facts are quoted across it
+and never reproved in `E`.
 
 *Needs:* §§2.1, 2.3; Tau Ceti `TauCeti.IntegralLattice` with its dual, discriminant group,
 discriminant pairing, discriminant quadratic map, determinant, discriminant, level and
@@ -518,13 +509,14 @@ discriminant pairing, discriminant quadratic map, determinant, discriminant, lev
 `TauCeti.IntegralLattice.det_realModel`, `TauCeti.IntegralLattice.natCard_discriminantGroup_realModel`,
 `TauCeti.IntegralLattice.level_realModel`, `TauCeti.IntegralLattice.representationNumber_realModel`.
 
-### 2.5 The level
+### 2.5 The level (2E)
 
 Define the level as in Convention 7. For integral `L`, prove `0 < level L` and that the three
-characterizations agree: the least `N > 0` with `N ‖x‖²/2 ∈ ℤ` for every `x ∈ L^∨`; the order of
-the discriminant quadratic map of the rational model (§2.4); and the least `N > 0` for which
-`N · Gram(b)⁻¹` is an even integral matrix, for any `ℤ`-basis `b`. For even `L`, prove
-`level L = 1` exactly when `L` is unimodular. Prove that the level is invariant under isometry,
+characterizations agree: the least `N > 0` with `N ‖x‖²/2 ∈ ℤ` for every `x ∈ L^∨`; the level of
+the rational model (§2.4), which for even `L` is the order of its discriminant quadratic map; and
+the least `N > 0` for which `N · Gram(b)⁻¹` is an even integral matrix, for any `ℤ`-basis `b`. For
+even `L`, prove `level L = 1` exactly when `L` is unimodular. Prove that the level is invariant
+under isometry,
 that `level (L ⊕ M) = lcm (level L, level M)`, that the exponent of `L^∨/L` divides `level L`, that
 `level L` divides `2 det L`, that `N L^∨ ⊆ L` for `N = level L`, and hence `det L ∣ N^n`; and that
 every prime dividing `det L` divides `N`.
@@ -537,12 +529,13 @@ every prime dividing `det L` divides `N`.
   nor the determinant.
 
 *In Tau Ceti:* `ZLattice.level`, `ZLattice.level_dvd_iff`, `ZLattice.IsIntegral.level_pos`,
-`ZLattice.level_ratModel`, `ZLattice.level_dvd_iff_gram`, `ZLattice.isLeast_level`,
-`ZLattice.IsEven.level_eq_one_iff`, `ZLattice.level_comap`, `ZLattice.level_orthSum`,
-`ZLattice.exponent_discriminantGroup_dvd_level`, `ZLattice.level_dvd_two_mul_card_discriminantGroup`,
-`ZLattice.level_nsmul_mem`, `ZLattice.card_discriminantGroup_dvd_level_pow`, `ZLattice.prime_dvd_level`.
+`ZLattice.level_ratModel`, `TauCeti.IntegralLattice.IsEven.level_dvd_iff`,
+`ZLattice.level_dvd_iff_gram`, `ZLattice.isLeast_level`, `ZLattice.IsEven.level_eq_one_iff`,
+`ZLattice.level_comap`, `ZLattice.level_orthSum`, `ZLattice.exponent_discriminantGroup_dvd_level`,
+`ZLattice.level_dvd_two_mul_card_discriminantGroup`, `ZLattice.level_nsmul_mem`,
+`ZLattice.card_discriminantGroup_dvd_level_pow`, `ZLattice.prime_dvd_level`.
 
-### 2.6 The Fricke partner
+### 2.6 The Fricke partner (2F)
 
 For even `L` of level `N`, prove that `√N • L^∨` is again an even lattice, with
 `det (√N • L^∨) = N^n / det L`, and that its level divides `N`. Prove the exact value: with `c_L`
@@ -564,7 +557,7 @@ is false in general: `√2 • E₈` is even of level `2`, and `√2 • (√2 �
 `TauCeti.IntegralLattice.level_sqrt_two_smul_realModel_typeE₈RootLattice`,
 `TauCeti.IntegralLattice.level_sqrt_level_smul_dual_sqrt_two_smul_realModel_typeE₈RootLattice`.
 
-### 2.7 Shells and representation numbers
+### 2.7 Shells and representation numbers (2G)
 
 Define the shell `{v ∈ L | ‖v‖² = t}` and the representation number `r_L(t)`, its cardinality, and
 for `γ : E` the coset shell `{v ∈ L | ‖γ + v‖² = t}` with cardinality `r_{γ+L}(t)`. Prove each shell
@@ -593,7 +586,7 @@ coefficients of `Θ_L` is §3.3.
 `ZLattice.IsEven.representationNumber_orthSum`, `ZLattice.representationNumber_orthSum`,
 `ZLattice.representedNormsLE`, `ZLattice.shell_eq_image_vectorsOfNorm_ratModel`.
 
-### 2.8 The Kronecker symbol
+### 2.8 The Kronecker symbol (2H)
 
 Mathlib has `jacobiSym` for odd denominators only. Define the Kronecker symbol `(a / b)` for all
 integers `a`, `b`, extending it with the standard values at `2`, `-1` and `0`: `(a / 2)` is `0`
@@ -627,7 +620,7 @@ that needs the conductor theorem of §6.6, and `χ_L` is defined there.
 `TauCeti.kroneckerChar_isQuadratic`, `TauCeti.kroneckerChar_neg_one`,
 `ZLattice.IsEven.neg_one_pow_mul_card_discriminantGroup_modEq_zero_or_one`.
 
-### 2.9 The discriminant group of an orthogonal sum
+### 2.9 The discriminant group of an orthogonal sum (2I)
 
 For full lattices `L ⊆ E` and `M ⊆ F`, the dual of the orthogonal sum is the orthogonal sum of the
 duals (`ZLattice.dual_orthSum`). Prove that the induced map is an additive equivalence
@@ -687,7 +680,7 @@ Independent of Layer 1.
 
 Rank is arbitrary throughout this layer.
 
-### 3.1 Definitions and convergence
+### 3.1 Definitions and convergence (3A)
 
 Define the theta series `Θ_L` and the coset series `θ_{γ+L}`, for `γ : E`, as in Convention 9 (the
 hypothesis `γ ∈ L^∨` enters only where a statement needs it). Prove summability for every `τ ∈ ℍ`
@@ -705,7 +698,7 @@ analytic argument wants the former.
 `ZLattice.differentiableOn_thetaSeries`, `ZLattice.mdifferentiable_thetaSeries`,
 `ZLattice.mdifferentiable_thetaCoset`.
 
-### 3.2 Well-definedness on the discriminant group
+### 3.2 Well-definedness on the discriminant group (3B)
 
 Prove that `θ_{γ+L}` depends only on the class `γ + L`, and package the induced map from `L^∨/L` to
 functions on `ℍ` (this descent needs no hypothesis, since it quotients by elements of `L`); prove
@@ -722,7 +715,7 @@ never does so.
 `ZLattice.thetaCosetClass`, `ZLattice.thetaCosetClass_mk`, `ZLattice.thetaCosetClass_zero`,
 `ZLattice.thetaCoset_neg`, `ZLattice.thetaCosetClass_neg`, `ZLattice.IsIntegral.thetaSeries_dual_eq_sum`.
 
-### 3.3 The `q`-expansions
+### 3.3 The `q`-expansions (3C)
 
 For even `L`, prove `Θ_L(τ) = ∑_{m ≥ 0} r_L(2m) q^m` with `q = exp(2πiτ)`, as a convergent sum, and
 identify the `m`-th coefficient of the `q`-expansion of period `1` of `Θ_L` with `r_L(2m)` through the
@@ -745,7 +738,7 @@ the rank argument of §5.1 needs.
 `ZLattice.one_le_re_thetaSeries`, `ZLattice.thetaSeries_ne_zero_of_re_eq_zero`,
 `ZLattice.re_thetaCoset_pos`.
 
-### 3.4 Functoriality
+### 3.4 Functoriality (3D)
 
 For a linear isometry `e : F ≃ₗᵢ[ℝ] E`, prove that the theta series of the pulled-back lattice
 `e⁻¹ L` is `Θ_L` and that `θ_{γ + e⁻¹L} = θ_{eγ + L}` for `γ ∈ F`; and for a real `c > 0`, prove
@@ -783,7 +776,7 @@ instances making `ZLattice.orthSum L M` a full lattice, `ZLattice.summable_theta
 - For `√2 ℤ`, scaling gives `Θ_{√2 ℤ}(τ) = Θ_ℤ(2τ)`, which is `jacobiTheta(2τ)` (§3.5); the factor
   is `c² = 2`, not `c = √2`.
 
-### 3.5 The rank-one comparison
+### 3.5 The rank-one comparison (3E)
 
 Prove `Θ_ℤ = jacobiTheta` for `ℤ = span ℤ {1} ⊆ ℝ`, hence `Θ_{√2 ℤ}(τ) = jacobiTheta(2τ)`, and that the
 `q`-expansions agree termwise with `hasSum_nat_jacobiTheta`: the coefficient of `exp(πiτ)^m` in
@@ -817,7 +810,7 @@ Mathlib: `jacobiTheta`, `qExpansion`, the upper half-plane. Tau Ceti's orthogona
 
 From here on the rank is even, `n = 2k`, wherever an automorphy factor appears.
 
-### 4.1 Translation
+### 4.1 Translation (4A)
 
 For even `L` and `γ ∈ L^∨`, prove `θ_{γ+L}(τ + 1) = e(q_L(γ)) θ_{γ+L}(τ)`, where
 `e(q_L(γ)) = exp(π i ‖γ‖²)` is well defined on `L^∨/L` precisely because `L` is even. In particular
@@ -841,7 +834,7 @@ item.
 `ZLattice.IsEven.thetaSeries_slash_T`, `ZLattice.IsIntegral.thetaSeries_two_vadd`,
 `ZLattice.IsEven.thetaCoset_slash_T_zpow_eq_self`, `ZLattice.IsEven.cexp_pi_mul_I_mul_norm_add_sq`.
 
-### 4.2 Inversion, scalar form
+### 4.2 Inversion, scalar form (4B)
 
 For a full lattice `L` of rank `2k` (no integrality needed) and `τ ∈ ℍ`, prove
 
@@ -861,7 +854,7 @@ by §1.1 applied to the Gaussian of §1.6 at `v = 0`. In slash form,
 
 *In Tau Ceti:* `ZLattice.thetaSeries_S_smul`, `ZLattice.thetaSeries_slash_S`.
 
-### 4.3 Inversion at a general translate, and the vector-valued law
+### 4.3 Inversion at a general translate, and the vector-valued law (4C)
 
 For a full lattice `L` of rank `2k`, `v : E` and `τ ∈ ℍ`, prove
 
@@ -889,7 +882,7 @@ stated form is the one Poisson summation produces.
 `ZLattice.IsIntegral.inv_covolume_eq_inv_sqrt_card_discriminantGroup`,
 `ZLattice.IsIntegral.sum_discriminantPairingChar_neg`.
 
-### 4.4 Consistency checks
+### 4.4 Consistency checks (4D)
 
 Prove the following consistency statements rather than assume them. The vector-valued law of §4.3
 at `γ = 0`, compared with §4.2, returns `Θ_{L^∨} = ∑_{γ ∈ L^∨/L} θ_{γ+L}` for integral `L`. The
@@ -919,7 +912,7 @@ character `e(b_L)` of the vector-valued law. Mathlib: the modular group and the 
 
 ## Layer 5: level one — even unimodular lattices
 
-### 5.1 The rank is divisible by `8`
+### 5.1 The rank is divisible by `8` (5A)
 
 For `L` even and unimodular of rank `n`, prove `8 ∣ n`. Route of record, elementary and
 self-contained at this layer: replacing `L` by `L ⊕ L` or `L ⊕ L ⊕ L ⊕ L` (again even unimodular,
@@ -938,7 +931,7 @@ and the elementary one is not superseded.
 
 *In Tau Ceti:* `ZLattice.IsEven.eight_dvd_finrank`.
 
-### 5.2 The level-one theorem
+### 5.2 The level-one theorem (5B)
 
 For `L` even and unimodular of rank `n = 2k`, prove `Θ_L ∣[k] A = Θ_L` for every `A ∈ SL(2, ℤ)`, and
 that `Θ_L` is the underlying function of a modular form of weight `k` for `SL(2, ℤ)`, the theta form
@@ -952,7 +945,7 @@ from Layer 3. It is built the way Mathlib builds `CuspForm.discriminant`.
 
 *In Tau Ceti:* `ZLattice.thetaForm`, `ZLattice.coe_thetaForm`, `ZLattice.IsEven.thetaSeries_slash_S`.
 
-### 5.3 The basic API of the bundled form
+### 5.3 The basic API of the bundled form (5C)
 
 Let `L` be even and unimodular of rank `2k`, with theta form `ZLattice.thetaForm hL hU hk` of §5.2, a
 modular form of weight `k` for `SL(2, ℤ)` whose coercion is `Θ_L` (`ZLattice.coe_thetaForm`). The API
@@ -977,7 +970,7 @@ that the identifications of Layer 8 consume:
 - The constant coefficient of the theta form is `r_L(0) = 1`; so it is not zero, and it is not a
   cusp form. In rank zero the theta form is the constant `1` of weight `0`.
 
-### 5.4 The structural corollary
+### 5.4 The structural corollary (5D)
 
 Prove that the theta series of an even unimodular lattice of rank `2k` is
 `∑_{4a + 12b = k} c_{a,b} E₄^a Δ^b` for a unique family of coefficients `c_{a,b}`, which are
@@ -1013,7 +1006,7 @@ inversion law by the asymptotics of theta series; everything else is finite alge
 modulus. Nothing here classifies finite quadratic modules or uses Jordan splittings, and nothing
 touches the prime `2` beyond the residue of `D_L` modulo `4` and `8`.
 
-### 6.1 The Gauss sums and their elementary properties
+### 6.1 The Gauss sums and their elementary properties (6A)
 
 Define `G_L(a, c)` and the twisted sums `G_L(a, c; m)`, `m ∈ L^∨`, as in Convention 14, on the
 finite quotient `L ⧸ cL` of order `c^n`, with the evenness of `L` and the membership `m ∈ L^∨` as
@@ -1042,7 +1035,7 @@ needs, for `N ∣ c`:
 `ZLattice.gaussSum_eq_of_modEq`, `ZLattice.gaussSum_one`, `ZLattice.gaussSumTwisted_eq_zero`,
 `ZLattice.gaussSumTwisted_eq_of_mem`.
 
-### 6.2 Reciprocity
+### 6.2 Reciprocity (6B)
 
 For positive integers `a` and `c`, prove
 
@@ -1119,7 +1112,7 @@ and 7.
   side is `(1/√3) · i · (-9i√3) = 9`. A sum over the `3` classes of `L^∨/L` in place of `L^∨/3L`
   would give `1`.
 
-### 6.3 Milgram's formula
+### 6.3 Milgram's formula (6C)
 
 Prove, for `L` even of rank `2k`,
 
@@ -1138,10 +1131,11 @@ either being derived from the other.
 
 Deduce two corollaries. An even unimodular lattice has rank divisible by `8`: `|L^∨/L| = 1` forces
 `e(n/8) = 1` for even `n`, and for odd `n` the formula applied to `L ⊕ L`, of rank `2n`, gives
-`4 ∣ n`; this is a second proof of §5.1 beside the elementary one by the `S`- and `T`-laws, and both
-are wanted. And `k` is even (equivalently `4 ∣ n`) whenever `N ∣ 2`, since then every `e(q_L(γ))` is
-`±1` while `|L^∨/L|^{1/2} i^k` is real only for even `k`. The latter is what lets `−I`, which lies in
-`Γ(N)` exactly when `N ∣ 2`, act trivially on the coset series in §7.5.
+`4 ∣ n` and contradicts oddness; this is a second proof of §5.1 beside the elementary one by the
+`S`- and `T`-laws, and both are wanted. And `k` is even (equivalently `4 ∣ n`) whenever `N ∣ 2`,
+since then every `e(q_L(γ))` is `±1` while `|L^∨/L|^{1/2} i^k` is real only for even `k`. The
+latter is what lets `−I`, which lies in `Γ(N)` exactly when `N ∣ 2`, act trivially on the coset
+series in §7.5.
 
 *In Tau Ceti:* (the corollaries) `ZLattice.IsEven.eight_dvd_finrank`, `ZLattice.IsEven.even_of_level_dvd_two`, `ZLattice.IsEven.four_dvd_finrank_of_level_dvd_two`.
 
@@ -1157,7 +1151,7 @@ are wanted. And `k` is even (equivalently `4 ∣ n`) whenever `N ∣ 2`, since t
 - `E₈`: `1 = i⁴`. Read through the comparison of the two models, the formula agrees with Tau Ceti's
   Milgram's theorem at signature `(n, 0)`, `sign q_L = n mod 8`.
 
-### 6.4 Evaluation at an odd modulus
+### 6.4 Evaluation at an odd modulus (6D)
 
 For `a` odd and positive, `c` positive and prime to `a`, and `N ∣ c` (so that `a` is prime to `N` as
 well), prove that the sum on the right of §6.2 collapses:
@@ -1197,7 +1191,7 @@ modulo `a` and Jordan theory out of the proof.
 
 *In Tau Ceti:* `ZLattice.IsEven.dualGaussSum_eq_jacobiSym`.
 
-### 6.5 The closed form
+### 6.5 The closed form (6E)
 
 For `a` odd and positive, `c` positive and prime to `a`, and `N ∣ c`, prove
 
@@ -1219,7 +1213,7 @@ modulus `a` by §6.4, with `t = -c` a multiple of the level prime to `a`. ⚠ Co
 - `√2 ℤ²`, `a = 3`, `c = 12`, where `N ∣ c` but `gcd(a, c) = 3`: `G(3, 12) = (3(2 + 2i))² = 72i`,
   while the formula would give `12 · 2 · i · (-1) = -24i`.
 
-### 6.6 The conductor theorem and the nebentypus
+### 6.6 The conductor theorem and the nebentypus (6F)
 
 Prove that the conductor of the Kronecker character `(D_L / ·)` of modulus `|D_L|` divides `N`; in
 Lean this is `conductor_kroneckerChar_dvd_level` (Ebeling, Ch. 3). *Route:* by Tau Ceti's
@@ -1284,7 +1278,7 @@ The summit. The route of record is Schoeneberg's coset splitting (Schoeneberg, C
 group presentation and no representation, and it delivers the statement for the coset series by the
 same computation. `L` is even of rank `2k` and level `N` throughout.
 
-### 7.1 Reduction to `c > 0` and `a` odd and positive
+### 7.1 Reduction to `c > 0` and `a` odd and positive (7A)
 
 Prove the two reductions that the transformation laws below rest on.
 
@@ -1312,7 +1306,7 @@ Prove the two reductions that the transformation laws below rest on.
   lies in `Γ(3)` with `a = 7`, while `T · !![-2, -3; 3, 4] = !![1, 1; 3, 4]` does not lie in `Γ(3)`.
 - `!![-1, b; 0, -1] = (−I) · T^{-b}`, not `(−I) · T^{b}`.
 
-### 7.2 The coset splitting
+### 7.2 The coset splitting (7B)
 
 For `A = !![a, b; c, d] ∈ SL(2, ℤ)` with `c > 0` and every even `L` of rank `2k`, with no level
 condition, prove
@@ -1335,7 +1329,7 @@ and `σ = (cτ + d)/c` to each class.
 
 *In Tau Ceti:* `ZLattice.IsEven.thetaSeries_smul_eq_tsum_gaussSumTwisted`, `ZLattice.IsEven.thetaSeries_slash_eq_gaussSum_smul`.
 
-### 7.3 The Hecke–Schoeneberg theorem
+### 7.3 The Hecke–Schoeneberg theorem (7C)
 
 Prove that for every `A = !![a, b; c, d] ∈ Γ₀(N)`,
 
@@ -1364,7 +1358,7 @@ the case `N = 1`.
   weight `2`, for instance under `!![1, 0; 2, 1]` and `!![3, 1; 2, 1]`.
 - `A = −I`: `Θ_L ∣[k] (−I) = (-1)^k Θ_L`, and `χ_L(-1) = (-1)^k`; for `A₂` both are `-1`.
 
-### 7.4 The theta series as a modular form with character
+### 7.4 The theta series as a modular form with character (7D)
 
 Prove that for every `A ∈ SL(2, ℤ)` the slashes `Θ_L ∣[k] A` and `θ_{γ+L} ∣[k] A`, `γ ∈ L^∨`, are
 bounded at `i∞`: for `c > 0`, §7.2 writes `Θ_L ∣[k] A` as a finite combination of the coset series
@@ -1394,7 +1388,7 @@ level `1` is the theta form of §5.2 read on `Γ₁(1)`.
   unsigned `(3 / ·)`.
 - `E₈`: `N = 1`, the character is trivial, and the theta form of level `1` is `E₄`.
 
-### 7.5 The coset series on `Γ(N)`
+### 7.5 The coset series on `Γ(N)` (7E)
 
 Prove that for every `γ ∈ L^∨` and every `A ∈ Γ(N)`, `θ_{γ+L} ∣[k] A = θ_{γ+L}`, and that each
 `θ_{γ+L}` is the underlying function of a modular form of weight `k` on `Γ(N)`; in Lean these are
@@ -1425,7 +1419,7 @@ representation would deliver as its congruence-kernel theorem; here it is the co
 - `D₄` (`N = 2`, `k = 2`): `−I ∈ Γ(2)` acts trivially, as it must.
 - `√2 ℤ²` (`N = 4`, `k = 1`): `−I ∉ Γ(4)`; on `Γ(2)`, `−I` would act on `θ_γ` by `-1`.
 
-### 7.6 Consequences
+### 7.6 Consequences (7F)
 
 **The Fricke identities.** The Fricke matrix `W_N = !![0, -1; N, 0]` exchanges `Θ_L` and
 `Θ_{√N • L^∨}`, by §4.2 at `Nτ` and §3.4, and the constant depends on the normalization, which is
@@ -1486,7 +1480,7 @@ subgroups and the slash action.
 
 ## Layer 8: identification of the classical theta series
 
-### 8.1 Even unimodular lattices of rank `8` and `16`
+### 8.1 Even unimodular lattices of rank `8` and `16` (8A)
 
 Prove that for every even unimodular `L` of rank `8`, `Θ_L = E₄`, and for every one of rank `16`,
 `Θ_L = E₄² = E₈`, the Eisenstein series of weight `8`. *Route:* `dim M_4(SL(2,ℤ)) = 1` (Mathlib's
@@ -1500,7 +1494,7 @@ number is an input to either identity; both follow from `r_L(0) = 1`.
 `ZLattice.IsEven.thetaForm_eq_E₄_mul_E₄`, `ZLattice.IsEven.thetaSeries_eq_E₄_sq`,
 `ZLattice.IsEven.thetaForm_eq_E_eight`.
 
-### 8.2 `E₈`
+### 8.2 `E₈` (8B)
 
 Prove that for every even unimodular `L` of rank `8`, and in particular for `E₈`,
 `r_L(2m) = 240 σ₃(m)` for `m ≥ 1`, from §8.1 and the `q`-expansion of `E₄` with
@@ -1518,7 +1512,7 @@ connect its unimodularity to this roadmap's hypotheses, so that its facts can be
 
 *In Tau Ceti:* `ZLattice.IsEven.representationNumber_two_mul_of_finrank_eq_eight`, `ZLattice.IsEven.representationNumber_two_of_finrank_eq_eight`, `ZLattice.IsEven.thetaSeries_eq_E₄`, `TauCeti.IntegralLattice.isEven_realModel_iff`, `TauCeti.IntegralLattice.isUnimodular_realModel_iff`.
 
-### 8.3 Even unimodular lattices of rank `24`
+### 8.3 Even unimodular lattices of rank `24` (8C)
 
 `dim M_12(SL(2,ℤ)) = 2` with basis `E₄³, Δ`, and the Sturm bound at weight `12` is `1`, so a
 weight-`12` form is determined by its first two coefficients. Prove that for every even unimodular
@@ -1538,7 +1532,7 @@ case.
 
 *In Tau Ceti:* `ZLattice.IsEven.thetaForm_eq_E₄_cube_add_smul_discriminant`, `ZLattice.IsEven.thetaSeries_eq_E₄_cube_add_mul_discriminant`, `ZLattice.IsEven.thetaSeries_eq_E_twelve_add_mul_discriminant`, `ZLattice.IsEven.representationNumber_two_mul_of_finrank_eq_twenty_four`, `ZLattice.IsEven.representationNumber_four_add_twenty_four_mul`.
 
-### 8.4 The Leech lattice
+### 8.4 The Leech lattice (8D)
 
 Let `Λ` be the real model of Tau Ceti's Leech lattice `TauCeti.leechLattice`, even and unimodular of
 rank `24` with no vector of squared norm `2`. Prove `Θ_Λ = E₄³ - 720 Δ`, from §8.3 and `r_Λ(2) = 0`;
@@ -1553,7 +1547,7 @@ sphere-packing project's Leech lattice is a second model of the same lattice (*P
 
 *In Tau Ceti:* `TauCeti.IntegralLattice.thetaSeries_realModel_leechLattice_eq_E₄_cube_sub_mul_discriminant`, `TauCeti.IntegralLattice.thetaSeries_realModel_leechLattice_eq_E_twelve_sub_mul_discriminant`, `TauCeti.IntegralLattice.representationNumber_leechLattice_two_mul`, `ZLattice.IsEven.representationNumber_four_of_rootless`.
 
-### 8.5 The rank-16 pair
+### 8.5 The rank-16 pair (8E)
 
 `E₈ ⊕ E₈` and `D₁₆⁺` are both even unimodular of rank `16`, so both have theta series `E₄²` by
 §8.1; they are not isometric, so the theta series does not determine the lattice. Both lattices and
@@ -1580,7 +1574,7 @@ reader to conclude the second.
 
 *In Tau Ceti:* `TauCeti.IntegralLattice.thetaSeries_realModel_eq_E₄_sq`, `TauCeti.IntegralLattice.thetaSeries_realModel_e8PowLattice_two`, `TauCeti.IntegralLattice.thetaSeries_realModel_checkerboardPlusLattice_sixteen`, `TauCeti.IntegralLattice.not_forall_exists_map_eq_of_thetaSeries_eq`.
 
-### 8.6 The root lattices `A₂` and `D₄`
+### 8.6 The root lattices `A₂` and `D₄` (8F)
 
 Let `A₂` and `D₄` be the real models of Tau Ceti's `typeARootLattice 2` and `checkerboardLattice 4`:
 even lattices of rank `2` and `4`, levels `3` and `2`, determinants `3` and `4`, so `D = -3` and
@@ -1935,8 +1929,8 @@ by §8.6, where Tau Ceti's `TauCeti.EisensteinSeries.charE1MF` with its coeffici
 - A. Ogg, *Modular Forms and Dirichlet Series* (Benjamin, 1969), Ch. VI — the source Ebeling follows
   for the general-level transformation formula and the Gauss-sum evaluation.
 - B. Schoeneberg, *Elliptic Modular Functions: An Introduction*, Grundlehren 203 (Springer, 1974),
-  [DOI](https://doi.org/10.1007/978-3-642-65663-7). Ch. IX is the coset-splitting proof that Layer 7
-  follows, via the decomposition of a `Γ₀(N)` matrix in `SL(2, ℝ)`.
+  [DOI](https://doi.org/10.1007/978-3-642-65663-7). Ch. IX is the coset-splitting proof, via the
+  decomposition of a `Γ₀(N)` matrix in `SL(2, ℝ)`, that is Layer 7's route of record.
 - H. Iwaniec, *Topics in Classical Automorphic Forms*, GSM 17 (AMS, 1997),
   [DOI](https://doi.org/10.1090/gsm/017), Ch. 10 — theta functions attached to quadratic forms, the
   general transformation formula, and the Gauss sums, in the form closest to the Layer-6 computation.
