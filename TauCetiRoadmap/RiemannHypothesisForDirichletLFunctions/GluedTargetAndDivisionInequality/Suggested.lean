@@ -28,8 +28,8 @@ metrics, which do not give these lattices either.
   `c_𝕃`-semilinear functionals integral on the glued target. It lacks the source lattices of
   algebraic automorphic forms of the chain, the gain exponents, the target rows with their rational
   structure, the forms of the tuples of twists and the period pairing.
-* The height of the period pairing (8.9): under the size condition on the level prime and the gap
-  and depth conditions of the grid, `ht(B_u) ≤ h_u` for the explicit height `h_u`. It lacks, besides
+* The height of the period pairing (8.9): under the size condition on the level prime and the size
+  predicate of the grid at large scales, `ht(B_u) ≤ h_u` for the explicit height `h_u`. It lacks, besides
   these, the Petersson metrics on the source and target lattices, operator norms at every embedding
   of the field of places, the step operators of the chain, its top period, the Rallis eigenvalues
   and the CM period of the host.
