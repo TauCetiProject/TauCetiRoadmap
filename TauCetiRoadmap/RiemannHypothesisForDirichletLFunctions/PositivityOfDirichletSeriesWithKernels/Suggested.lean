@@ -209,10 +209,11 @@ theorem windowedLandau_mellin {θ A C κ : ℝ} (hθA : θ < A) (hκ : 1 < κ) {
 `t → ∞` for every `v`, and `|f_t(v)| ≤ (1 + c‖v‖²)^(−γt)` for all large `t`, uniformly in `v`, then
 `Re B(v, v) > 0` for every `v ≠ 0`; `f_t` is integrable for all large `t` and
 `t^(n/2) ∫ f_t dμ → ∫ e^(−B(v,v)) dμ(v)`; and `∫ f_t dμ ≠ 0` for all large `t`.
-It follows from [FormalProof],
+The integrability of `f_t` and `∫ f_t dμ ≠ 0` for all large `t` are [FormalProof],
 `ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/
 LaplaceFoundations/RaisingLoweringNormIdentities.lean`
-(`ReciprocityTheory.ChartRestriction.DS.Lap.Base.GaussianLimitHaar`). -/
+(`ReciprocityTheory.ChartRestriction.DS.Lap.Base.GaussianLimitHaar`); the positivity of
+`Re B(v, v)` and the limit are steps of its proof, not statements of it. -/
 theorem tendsto_integral_of_laplaceMethod {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E] (μ : Measure E)
     [μ.IsAddHaarMeasure] (B : E →ₗ[ℝ] E →ₗ[ℝ] ℂ) {c γ : ℝ} (hc : 0 < c) (hγ : 0 < γ)
@@ -239,10 +240,11 @@ of class `C^(2n+2)`, zero outside `B̄(x₀, r)`, with `‖D^j a(x)‖ ≤ S` fo
 `x`. The Hessian `H = (∂²g/∂x_i∂x_j (x₀))` has `det H ≠ 0` and, for every `t ≠ 0`,
 `‖∫ ψ_β(g(x)/t) a(x) dμ_β^n(x) − ψ_β(g(x₀)/t) (|t|^n/|det H|) a(x₀)‖ ≤ C S |t|^(n+1)`, where
 `ψ_β(w) = exp(i Re(βw))` and `μ_β^n` is `(|β|/2π)^n` times Lebesgue measure on `ℂ^n = ℝ^(2n)`.
-It follows from [FormalProof], `Formalism/HermitianCurvature/StatementG.lean`
+The estimate follows from [FormalProof], `Formalism/HermitianCurvature/StatementG.lean`
 (`Formalism.FourierDecayAlt.G.StationaryPhase`),
 `Formalism/HermitianCurvature/HermitianCurvatureProofs/StationaryPhaseModel.lean`
-(`Formalism.FourierDecayAlt.P.stationary_phase_holomorphic`). -/
+(`Formalism.FourierDecayAlt.P.stationary_phase_holomorphic`); `det H ≠ 0` is not part of
+that statement. -/
 theorem stationaryPhase_leadingTerm (n : ℕ) {β : ℂ} (hβ : β ≠ 0) {r Λ : ℝ} (hr : 0 < r)
     (hΛ : 0 < Λ) :
     ∃ C : ℝ, ∀ (x₀ : Fin n → ℂ) (g : (Fin n → ℂ) → ℂ),
