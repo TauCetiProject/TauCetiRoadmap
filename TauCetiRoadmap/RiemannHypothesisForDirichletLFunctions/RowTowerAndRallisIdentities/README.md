@@ -49,7 +49,8 @@ roadmaps of the chain, named under Downstream consumers below, use its target ro
 Below, 5.1–5.4 define the row spaces, the row steps with their descents and up-lifts, the rows with their labels and the
 good idempotent, and the descent with its section; 5.2a is the projector of an integrable discrete series. 5.5 computes
 the inner product of the up-lifts of a row step by the Rallis inner product formula, with the twist places and the
-independence of the tuple, and 5.6 composes the steps. 5.7 defines the model lifts and proves their Rallis identity.
+independence of the tuple, and 5.6 composes the steps (for the base tuple also without `Π_good`: the unprojected descent
+maps onto every level part of the rows). 5.7 defines the model lifts and proves their Rallis identity.
 5.8a–5.8e build the grid of complementary spaces, its squares, their constants and the dependence of these on the tuple,
 and the Bessel periods that separate the rows; 5.8 deduces the rational structure. 5.9 compares multiplicities on `U(Y_0)`
 and on the model groups; 5.10 writes the descent constant through the model eigenvalues; 5.10a and 5.11 give the model
@@ -166,7 +167,7 @@ that proof establishes. Where a route is not given, or not given in full, the ta
 | `x, ε, b, a, X′, b′, w″, X″` | scale, exponent, `e^{x^ε}`, `x·b`, `e^{x^{ε/3}}`, `a/X′`, `b′/(x\|A\|)`, `x\|A\|X′` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `𝔭` | finite place of `𝕃` | Conventions |
 | `Size(x, ε)` | conjunction of the host predicates `SizeA, SizeN, SizeD, SizeRd, SizeQD, SizeInert, SizeDep` and the parameter predicates `SizeM, SizeK, SizeW, SizeMf, SizeT, SizeTheta` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
-| `SizeQD, SizeInert` | `log q ≥ x^{ε/(6J)}` and `log d ≥ x^{19ε/(100J)}`; inert-free up to `max(12, x^{ε/(5J)})` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
+| `SizeQD, SizeInert` | `x^{19ε/(100J)} ≤ log q, log d ≤ x^{ε/5+ε/100}` and `\|(L′/L)(1, χ_K)\| ≤ x^ε`; inert-free up to `max(12, x^{ε/(5J)})` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `SizeSc, SizeGap, SizeSep, SizeG, SizeT_u` | size predicates of the words, the gaps, the separation, the type primes and the level primes | ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8 |
 | `X_j, X^h` | column spaces, hyperplane of `X_m` | ThetaChainsOnDefiniteUnitaryGroups §2.2 |
 | `Y_j, z_m, r_S` | row spaces; the negative vector of `Y_j` (`j` even); `r_S = m/2 − 1`, the number of hyperbolic planes of `Y_0` | ThetaChainsOnDefiniteUnitaryGroups §2.2 |
@@ -538,7 +539,9 @@ the `𝒟`-isotypic vectors realised on lowest-`K`-type vectors (5.2a, for `U(Y_
 on `L²`); composing with the level
 idempotent gives a projection whose range lies in the discrete spectrum of fixed level, `K`-type and infinitesimal
 character, hence is finite dimensional (AutomorphicSpectralTheory 4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1), and is cuspidal because the archimedean
-component is tempered (AutomorphicSpectralTheory 4.10). `𝟙_{(P,χ_P)} = 𝟙_{K^♮} ∗ e_{P,χ_P}` through `G₀`. A local component
+component is tempered (AutomorphicSpectralTheory 4.10). This step uses the discrete-spectrum clause of
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; [FormalProof] uses only its cuspidal clause.
+`𝟙_{(P,χ_P)} = 𝟙_{K^♮} ∗ e_{P,χ_P}` through `G₀`. A local component
 with `K(g)_v`-fixed vectors has depth zero, and its `K(g)_v`-invariants form one Harish-Chandra series of `GL_r(𝔽_{g_i})`
 (FiniteReductiveGroups §6.3); central idempotents of `ℂ[G₀]` commute with `G₀`. (iv) A
 representation in the Harish-Chandra series of a cuspidal datum with blocks of sizes `(d_c)` has a nonzero vector fixed
@@ -735,11 +738,35 @@ and every factor is an absolutely convergent Euler product with a positive value
 on `𝔼^♮`; `ι_ξ` maps `𝒰^♮_ξ ⊗ ℂ` onto `𝔼^♮` and `𝒰^{(P,χ_P)}_ξ` onto `𝔼_{(P,χ_P)}` for every level `(P, χ_P)`, in particular
 `ℋ^{rt}_ξ` onto `𝔼`; and for every `i ≤ m` the composite `Π_good ∘ io_1 ∘ ⋯ ∘ io_i` maps its source onto `𝔼^♮`.
 
-*Addition (this roadmap's own: the formal proof treats the good rows only).* The same induction on all rows gives
-`D_ξ D_ξ^* = 𝔫₀·∏_j L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` on `ℋ^♮[𝔥]`, so that `D_ξ` maps `𝒰^♮_ξ ⊗ ℂ` onto `ℋ^♮` and
-`e_{P,χ_P}(𝒰^♮_ξ ⊗ ℂ)` onto `ℋ_{(P,χ_P)}`: the step identity of 5.5 uses no goodness, every row has a family (5.1 (3)),
-and `D_ξD_ξ^*` preserves `ℋ^♮[𝔥]` (5.2 (3)). `D_ξD_ξ^*` commutes with `G₀` (5.4), hence with `Π_good`, and
-`ι_ξι_ξ^* = Π_good D_ξD_ξ^* Π_good`. No target of this roadmap uses the addition.
+*The unprojected descent of the base tuple.* Let `ξ = 1` and assume the hypotheses of 5.5 for every step `0 ≤ i < m`
+(Weil's condition, the Weil data unramified off `S(1)`, the places above `2` split in `E`, and the gap conditions
+(W1), (W3)); no eigensystem is fixed and no goodness is assumed. Then for every level `(P, χ_P)` at the type primes
+(`P` any subgroup of `G₀`, `χ_P` any character of `P`; `P = {1}` included) and every `0 ≤ i ≤ m`, the composite
+`io_1 ∘ ⋯ ∘ io_i` maps `e_{P,χ_P}𝒞_i(1)` onto `e_{P,χ_P}𝒞_0`: every row form of stage `0` and of level `(P, χ_P)` is the
+descent of a row form of stage `i` of the same level. For `i = m`: `D_1` maps `e_{P,χ_P}(𝒰^♮_1 ⊗ ℂ)` onto
+`e_{P,χ_P}𝒞_0`, which under the hypothesis of 5.3 is `ℋ_{(P,χ_P)}` (5.4); in particular `D_1` maps `𝒰^♮_1 ⊗ ℂ` onto
+`ℋ^♮` and the forms of row type level on `U(X^h)` onto `ℋ`. Neither `Π_good` nor an identity for `D_1D_1^*` enters, and
+(W1), (W3) are the only conditions on the parameters: the row gap of 5.3 serves only to identify `𝒞_0` with `ℋ^♮`,
+and the size conditions of 5.8e and 5.9 are not used. *Route.* Fix the level. Every stage space is finite
+dimensional with its Petersson product (5.1 (1), (2)), it is spanned by Hecke eigenforms away from `S(1)`, and
+eigenforms with different families are linearly independent (5.1 (3)); on the level parts the adjoint of `io_{i+1}` is
+the up-lift `Θ_{i+1}` (5.2 (2); both commute with `G₀`). Let `u ≠ 0` be an eigenform of stage `i` whose family is
+`B^{(i)}` for a family `B` of rank `r` with the bound of 5.1 (3). The `L`-value of the step is the product of the
+absolutely convergent `L^{S(1)}((t+1)/2, B × μ_{i+1}^{−1})` and of the Hecke factors of 5.5, hence finite and nonzero;
+the local zeta integrals of 5.5 are nonzero for suitable data (the nonvanishing criterion of
+MetaplecticAutomorphicForms §6.14 in its range; at the real places the Lemma of 5.5; at the type primes the zeta
+integral of a form of level `(P, χ_P)` against the vector of that level is its squared norm times the volume of the
+level group); so by the inner product formula of 5.5 some up-lift `Θ_{i+1}u` is nonzero, and it is an eigenform with
+family `B^{(i+1)}` (5.2 (3)). By induction the adjoint `Θ_i ∘ ⋯ ∘ Θ_1` of the composite maps every eigenform of stage
+`0` with family `B` to a nonzero eigenform with family `B^{(i)}`; `B ↦ B^{(i)}` is injective; so the adjoint is injective
+on the span of the eigenforms, which is the whole level part of `𝒞_0`, and the composite is onto.
+
+*Addition (this roadmap's own: for a twisted tuple, and for the identity below on the rows that are not good,
+[FormalProof] has no statement).* The induction of the Route below on all rows gives
+`D_ξ D_ξ^* = 𝔫₀·∏_j L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` on `ℋ^♮[𝔥]` for every tuple, so that also for `ξ ≠ 1` `D_ξ` maps
+`𝒰^♮_ξ ⊗ ℂ` onto `ℋ^♮` and `e_{P,χ_P}(𝒰^♮_ξ ⊗ ℂ)` onto `ℋ_{(P,χ_P)}`: the step identity of 5.5 uses no goodness, every row
+has a family (5.1 (3)), and `D_ξD_ξ^*` preserves `ℋ^♮[𝔥]` (5.2 (3)). `D_ξD_ξ^*` commutes with `G₀` (5.4), hence with
+`Π_good`, and `ι_ξι_ξ^* = Π_good D_ξD_ξ^* Π_good`. No target of the family uses the addition.
 
 *Route.* Induction on the steps with 5.5: the `i`-fold up-lifts of `u₁, u₂ ∈ 𝔼^♮[𝔥]` have inner product
 `∏_{j≤i} 𝔫_j L_j · ⟨u₁, u₂⟩`, and at the top the up-lift is `ι_ξ^*` (the `m`-fold up-lift of a good row); so
@@ -753,18 +780,14 @@ bound of 5.1 (3) and `t > r`. Surjectivity: `𝔼^♮` is the orthogonal sum of 
 and if `𝒯𝒯^*` is a nonzero scalar `s_c` on each summand of an orthogonal decomposition then `𝒯^*` is injective there and
 every `e` equals `𝒯(𝒯^*e)/s_c`; for `e ∈ 𝔼_{(P,χ_P)}`, `e = ι_ξ(ι_ξ^*e)/s_c` with
 `ι_ξ^*e ∈ 𝒰^{(P,χ_P)}_ξ` (5.4 (ii)). For `i ≤ m`, `ι_ξ = (Π_good io_1 ⋯ io_i)∘(io_{i+1} ⋯ io_m)`, so the image of
-`Π_good io_1 ⋯ io_i` contains that of `ι_ξ`, which is `𝔼^♮`. A second route to surjectivity: up-lifts of eigenforms are
-nonzero (the `L`-values and the local zeta integrals are nonzero, the nonvanishing criterion of MetaplecticAutomorphicForms
-§6.14 in its range; at the type primes the zeta integral of a form of
-level `(P, χ_P)` against the vector of that level is its squared norm times the volume of the level group), and the
-families `B^{(i)}` separate the parts.
+`Π_good io_1 ⋯ io_i` contains that of `ι_ξ`, which is `𝔼^♮`.
 
 *Check.* At a split place with `B_𝔥(w) = {β}`, `B_𝔥(w̄) = {β̄}` and `μ(ϖ_w) = u`, `|u| = 1`, the two factors multiply to
 `|1 − βū N w^{−s}|^{−2} > 0` for real `s`. A family with `B(w̄) = B(w)` instead would give
 `((1 − βū N w^{−s})(1 − βu N w^{−s}))^{−1}`, which need not be real.
 
 *NEW* (chain statement), *KNOWN* ingredients (Rallis; Hecke). *Needs:* 5.1, 5.2, 5.3, 5.4, 5.5; MetaplecticAutomorphicForms
-§6.14 (the second route).
+§6.14 (the unprojected descent of the base tuple).
 
 ### 5.7 Model lifts and their Rallis identity
 
@@ -979,7 +1002,8 @@ statements on the discriminant of `F` and on `#μ_E` are not given here.
 Let a grid (5.8a) be given, and assume:
 - (R1), (R2) of ThetaChainsOnDefiniteUnitaryGroups §2.1 (`m + 3 ≤ k`, `3m < t`), `SizeInert` of ThetaChainsOnDefiniteUnitaryGroups §2.1 and `HostSplitting E` (FrobeniusRestrictedRieszSums §0.3; ThetaChainsOnDefiniteUnitaryGroups §2.4(b) uses it). Then the *place
   conditions* hold: `E/ℚ` is Galois (an abelian host) and `E/F` is unramified at every finite place (the setting of Layer 2);
-  every finite place of `F` that is dyadic or divides the different of `F/ℚ` splits in `E` (ThetaChainsOnDefiniteUnitaryGroups §2.2(g));
+  every finite place of `F` that is dyadic, has residue field `𝔽_3` or divides the different of `F/ℚ` splits in `E`
+  (ThetaChainsOnDefiniteUnitaryGroups §2.2(g); for `𝔽_3` by `SizeInert`);
   the places of `S_□ ∪ Q(ξ)` are prime to the different of `F/ℚ` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b), ThetaChainsOnDefiniteUnitaryGroups §2.5 and 5.8a (p));
 - the *spacing of the centres*: for all `i, j < m` and `τ ∈ Φ`, `2e_j(τ) + 2c_{m−i}(τ) > rank V(i+1, j+1) + rank V(i, j)`.
   It holds for the centres of 5.8a: `e_j(τ) + v_0(τ) > 0` (interlacing of ThetaChainsOnDefiniteUnitaryGroups §2.3) and
@@ -990,13 +1014,15 @@ Then for every square `(i, j)` and every tuple `ξ` the triple with the characte
 (ThetaLiftsForDefiniteUnitaryGroups §6.1) satisfying hypotheses 1–4 of ThetaLiftsForDefiniteUnitaryGroups §6.11:
 1 one signature `(a − p, p)`, `(q, a′ − q)` at every real place; 2 `a ≡ a′ (mod 2)`, `ε_□ = (t + s)/2 > 2(p + q) + 1` and
 `a′ ≥ r > 2(p + q) + 1`; 3 `κ_v = m_{α,v} − m_{β,v} = −(2e_j(τ) + 2c_{m−i}(τ)) < −(a + a′)` at every real place `v`, read at the
-embedding `τ_v` of ThetaLiftsForDefiniteUnitaryGroups, which is `τ ∈ Φ` by 5.8a (s); 4 the place conditions (P1)–(P4) of
-ThetaLiftsForDefiniteUnitaryGroups §6.1 — `E/F` unramified at the finite places; the places not split in `E` odd, with the
-standard character unramified there; `α` and `β` each unramified outside the split set
+embedding `τ_v` of ThetaLiftsForDefiniteUnitaryGroups, which is `τ ∈ Φ` by 5.8a (s); 4 the place conditions (P0)–(P4) of
+ThetaLiftsForDefiniteUnitaryGroups §6.1 — `E` Galois over `ℚ`; `E/F` unramified at the finite places; the places not split
+in `E` odd, with residue fields of more than three elements and the standard character unramified there; `α` and `β` each
+unramified outside the split set
 `T = S_□ ∪ Q(ξ)`, at each place of which `ν` is ramified (5.8a (r)) and the standard character unramified; unimodular lattices in
 `M_v`, `M′_v` and a lattice of `(X ⊕ Y)_v` unimodular for `δ_Y⟨·,·⟩` (no compatibility and no condition on `δ_Y`). So matching data
 exist at every place, for the triple and for every smaller triple reached by removing adapted planes
-(ThetaLiftsForDefiniteUnitaryGroups §6.2; at the real places ThetaKernelsForUnitaryDualPairs §3.47b (o), (ii), (iv), under 3), and
+(ThetaLiftsForDefiniteUnitaryGroups §6.2 in the form of the formal proof, under hypotheses 1–4 of
+ThetaLiftsForDefiniteUnitaryGroups §6.11; at the real places ThetaKernelsForUnitaryDualPairs §3.47b (o), (ii), (iv), under 3), and
 ThetaLiftsForDefiniteUnitaryGroups §6.11 applies to every square.
 
 *Route.* The rank conditions are integer arithmetic: `a − a′ = t + s`, `p + q = m − j − 1`, so `(t + s)/2 > 2m − 1 ≥ 2(p + q) + 1`
@@ -1006,7 +1032,7 @@ interlacing of ThetaChainsOnDefiniteUnitaryGroups §2.3, so `2e_j + 2c_{m−i} >
 unramified elsewhere (5.8a (r)); the standard character is unramified at the places prime to the different; (P4) from the
 self-dual lattices of the grid (at an inert place `a + a′` is even, so `(X ⊕ Y)_v` contains a lattice unimodular for `δ_Y⟨·,·⟩`
 whatever the valuation of `δ_Y`, ThetaKernelsForUnitaryDualPairs §3.47a; at a split place one rescales one component). The local
-hypotheses of ThetaLiftsForDefiniteUnitaryGroups §5.3 at the definite pairs reached by the induction follow from (P1)–(P4)
+hypotheses of ThetaLiftsForDefiniteUnitaryGroups §5.3 at the definite pairs reached by the induction follow from (P0)–(P4)
 (ThetaLiftsForDefiniteUnitaryGroups §6.1). Matching data at the real places are those of ThetaKernelsForUnitaryDualPairs §3.47b (its
 Casimir-gap lemma (o) gives (ii), (iv) under 3); at the inert and split places ThetaKernelsForUnitaryDualPairs §§3.47a, 3.47 (through
 ThetaLiftsForDefiniteUnitaryGroups §6.2).
@@ -1039,8 +1065,12 @@ sum of the down pair `M′ → X` and of the right pair `(M′, Y)` read through
 `z = δ_1 − c·δ_ϖ` (rank one, `c = χ(ϖ)^{−1}q^{N/2} ≠ 1`) kills the low-rank strata; right invariance of the measure on the
 quotient gives `I(z·Φ) = deg(z)·I(Φ)` on matched data, and two regularisers commute; the auxiliary place may be taken
 outside any finite set, which makes the value independent of the regulariser; the regularised integral is the invariant
-extension of ThetaLiftsForDefiniteUnitaryGroups §6.3 (*Extension*; any two invariant extensions agree). (iii) ThetaLiftsForDefiniteUnitaryGroups §6.11
-by 5.8b.
+extension of ThetaLiftsForDefiniteUnitaryGroups §6.3 (*Extension*, at an auxiliary place with the properties of its place
+`v₁`: outside `T`, over a rational prime that splits completely in `E`, with `ν(ϖ) ≠ 1` there; any two invariant extensions
+agree). This step, and (iii) on matched pairs whose second vector (the side of `M′`) is not regular at that place, rest on
+that extension, which is that roadmap's own and not on the path of [FormalProof]; on matched pairs whose second vector is
+regular there the regularised integral is the convergent one, and (iii) there is ThetaLiftsForDefiniteUnitaryGroups §6.11 in
+the form of the formal proof. (iii) ThetaLiftsForDefiniteUnitaryGroups §6.11 by 5.8b.
 
 *NEW*. *Needs:* 5.8a, 5.8b; ThetaLiftsForDefiniteUnitaryGroups §§6.2, 6.3, 6.11; ThetaKernelsForUnitaryDualPairs §§5.7a, 5.7b and MetaplecticAutomorphicForms
 §§5.8, 6.4, 6.15.
@@ -1058,7 +1088,11 @@ quotients `u_l := u_l(ξ)/u_l(1)` of the step factors `u_l(ξ) = ν_ξ^{T(ξ)}(�
 `T(ξ) = S_□ ∪ Q(ξ)`, `ν_ξ^{T(ξ)}` the value of `ν_ξ` on the part prime to `T(ξ)` of the ideals `𝔟`, `𝔠` of the lattices of the step, `𝔠`
 that of the self-dual lattice for the character, and `c_{T,l}(ξ) = ∏_{v∈T(ξ)}c_v(ξ)` the constant of the step at `T(ξ)` for the matched
 data normalised as in ThetaLiftsForDefiniteUnitaryGroups §6.2, chosen for every tuple, the same at the places of `S_□` for all tuples; for the base
-tuple `T(1) = S_□`; each `u_l` is of the form `β·∏_{v∈S₀} g(v)/g′(v)` with `β ∈ 𝕃` a unit away from the twist primes of `ξ`
+tuple `T(1) = S_□`; every `T(ξ)` lies in the finite set `P` formed by `S_□` and the places below the sets `Q(ξ)` of the
+tuples considered (split places at which the standard character is unramified, 5.8b), with bases chosen once at every place
+of `P`, placed as in ThetaLiftsForDefiniteUnitaryGroups §6.5, and the lattice vectors there the indicator functions of the
+integral matrices in these bases, so that ThetaLiftsForDefiniteUnitaryGroups §6.12 gives one constant `C` for all the
+tuples; each `u_l` is of the form `β·∏_{v∈S₀} g(v)/g′(v)` with `β ∈ 𝕃` a unit away from the twist primes of `ξ`
 and `g(v), g′(v)` integers of `𝕃` dividing `N(v)^{c(v)}`, `c(v)` the conductor exponent at `v`),
 `r_{ij}(ξ)` is the product of `c0(ξ)/c0(1)`, of `p` values `ρ_ξ(s)` and of `q` inverse values `ρ_ξ(s)^{−1}` at
 consecutive integers. Moreover:
@@ -1098,7 +1132,8 @@ consecutive integers. Moreover:
   at a place `𝔭` above the residue characteristic of `v ∈ S_□`, `v_𝔭(N v^{−c·n}) = −c·n·v_𝔭(N v)` with `|n|` up to half the
   difference of the ranks of the square.
 
-*Route.* The tower recursion of ThetaLiftsForDefiniteUnitaryGroups §6.12 (under its hypotheses 1–4, given by 5.8b): `q` steps on
+*Route.* The tower recursion of ThetaLiftsForDefiniteUnitaryGroups §6.12 (under its hypotheses 1–4, given by 5.8b, with one
+constant `C` for all the sets `T(ξ) ⊆ P`, which therefore cancels in `r_{ij}(ξ)`): `q` steps on
 `M′` divide by `L`-values at `ε_□ + 1, …, ε_□ + q`, `p` steps on `M` multiply by `L`-values at `ε_□ + q, …, ε_□ + q − p + 1`, and
 since `q − p ∈ {0, 1}` they telescope to at most one factor; the lattice-change factor of ThetaLiftsForDefiniteUnitaryGroups §6.12 is `ν_w(ϖ_w)^{2k}`. *Constants at
 `T`:* the value of `c_v(ξ)` is the constant at `T` of ThetaLiftsForDefiniteUnitaryGroups §6.5, the local constant of the step
@@ -1198,7 +1233,8 @@ the added vector `z₀` (`X^c_0 = Y_0 ⊥ ⟨z₀⟩`); its main term is a posit
 one); the other terms, indexed by lattice points `z ≠ z₀` with `z − z₀ ∈ 𝔪_□Λ_x`, are each at most
 `e^{Q}|c|·(∏_τ‖z‖_{x,τ})^{−(2r+7)}` times the supremum, and by the Lemma (the depth pays) their sum is smaller than the main term.
 (C) *The core column is onto:* the composite of the theta descents `U(X⁺) → ⋯ → U(X^c_0)` maps the algebraic forms of level `K⁺`
-onto the cusp forms of the bottom type and level `𝔪_□`: this is the surjectivity of 5.5–5.6 for the chain of base rank `r + 1`,
+onto the cusp forms of the bottom type and level `𝔪_□`: this is the surjectivity of 5.5–5.6, in the form of the unprojected
+descent of the base tuple of 5.6, for the chain of base rank `r + 1`,
 step `s − 1` and `m` steps, with trivial level characters and no twist places; `s − 1 ≥ r + 3` puts the `L`-value of the base
 family in the range of absolute convergence, and the Hecke factors of the strings are values at `1, …, s − 1` of nontrivial
 unitary characters, as in 5.5. So `y` is a combination of bottoms of chains of descents starting from functions `⟨ℓ⁺, y′⟩`.
@@ -1530,7 +1566,10 @@ use nothing of these. SeesawForThetaChains writes the top period `P̃_ξ(φ, Υ)
 row form `Υ` of the relevant part `ℋ^{rt}_ξ` (5.4) through its period pairing `B_u(φ)(x)` (SeesawForThetaChains §6.1), which
 is linear in the column `φ` and conjugate-linear in the row `x ∈ 𝔼`: `P̃_ξ(φ, Υ) = ζ(u, ξ)·B_u(φ)(ι_ξΥ)` with a root of unity
 `ζ(u, ξ)` (SeesawForThetaChains §6.14), the steps of the descent of a tuple being normalised by the volume of its finite
-level group (5.4); the rationality of that pairing rests on 5.8. CongruenceModulesOfThetaLifts uses the good labels (5.3)
+level group (5.4); the rationality of that pairing rests on 5.8. SeesawForThetaChains §6.14 (a) uses the unprojected
+descent of the base tuple of 5.6 (the row of a nonzero Poincaré series is the descent of a form of row type level), on
+which the rest of SeesawForThetaChains §6.14 and SeesawForThetaChains §6.15 rest. CongruenceModulesOfThetaLifts uses the
+good labels (5.3)
 and the model lifts with their level vectors (5.7). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties uses the
 row spaces (5.1), the model lifts and their multiplicities (5.7, 5.9) and the rational lifts (5.11).
 GluedTargetAndDivisionInequality uses the determinant identity of the descent at every embedding for the base tuple
@@ -1619,13 +1658,15 @@ theta functions (5.4, 5.8, 5.10a).
   in 5.11.
 - 3.1 (doubling seesaw), 3.2 (absolute convergence, the Rallis operator), for pairs of totally definite spaces (the row pairs
   of Layer 5 use ThetaKernelsForUnitaryDualPairs §6.13a and LocalFactorsOfTwistsAndTypes §7.2 instead). Used in 5.8d.
-- 5.3 (nonvanishing and its local hypotheses), 6.1 (complementary triples; the place conditions (P1)–(P4)), 6.2 (matching
+- 5.3 (nonvanishing and its local hypotheses), 6.1 (complementary triples; the place conditions (P0)–(P4)), 6.2 (matching
   data, with integral bases fixed at the places of `T`; local matching a conclusion), 6.3 (*Extension*: the theta integral of
-  the smaller space as the invariant extension from regular data; used for 5.8c (ii)), 6.5 (the global descent, under
+  the smaller space as the invariant extension from regular data, that roadmap's own and not on the path of [FormalProof];
+  used for 5.8c (ii)), 6.5 (the global descent, under
   hypotheses 1–4 of 6.11, with the constant at `T` for bases placed as there), 6.10, 6.11 (the complementary-space identity
   under its hypotheses 1–4: one signature; `a ≡ a′ (mod 2)`, `2(p + q) + 1 < ε₀` and `2(p + q) + 1 < a′`; the infinity-type
   condition; the place conditions of 6.1), 6.12 (tower recursion of the constant, with `ν^T(𝔟𝔠)` and the constants `c_T(G)`
-  at `T` for the chosen bases, whose value is that of 6.5). Used in 5.8a, 5.8b, 5.8c, 5.8d.
+  at `T` for the chosen bases, whose value is that of 6.5, and one constant `C` for all the sets `T` inside a fixed finite
+  set `P` of split places). Used in 5.8a, 5.8b, 5.8c, 5.8d.
 
 ### From ThetaKernelsForUnitaryDualPairs, a sub-roadmap of this family
 
