@@ -48,8 +48,8 @@ build, Layer k being MSk, and own:
 - MS7: the equivalence between stability and positive Jacobi functions, Jacobi functions
   from Killing fields, the gradient estimate for positive Jacobi fields, the curvature
   estimate for stable surfaces, Bernstein's theorem, and limits of stable hypersurfaces;
-  stability and strict stability of a two-sided hypersurface tested by ambient functions across
-  the singular set of its closure, with the strict-stability criterion for cones (7.8).
+  stability and strict stability of a hypersurface tested by ambient functions across the
+  singular set of its closure, with the strict-stability criterion for cones (7.8).
 - MS8: the removable-singularity theorem for embedded minimal surfaces with quadratic area
   growth and finite total curvature.
 - MS9: compactness under bounded area and total curvature, multiplicity-one regularity, and
@@ -1663,14 +1663,14 @@ embedded minimal surfaces in U with locally bounded area have a subsequence conv
 and §3, pp. 6–8]; [Chodosh, Proposition 26.1, p. 64].
 
 Let U be an open subset of a Riemannian `(n+1)`-manifold `(N,g)`, `n ≥ 2`, and Σ ⊂ U a smooth
-embedded two-sided hypersurface without boundary, not necessarily closed in U, with unit normal
-ν and measure μ of the induced metric. Its singular set is `sing Σ = (Σ̄ ∩ U) ∖ Σ`, with the
-convention that every point of `Σ̄ ∩ U` near which `Σ̄` is a smooth embedded hypersurface
-without boundary lies in Σ (otherwise replace Σ by that regular part) [Simon23, p. 3]. Assume
-locally finite area, `μ(Σ ∩ K) < ∞` for every compact `K ⊂ U`. Σ need not be minimal. The
-test functions are `ζ ∈ C^∞_c(U)`, functions on the ambient set that need not vanish near
-`sing Σ`; ∇ζ is the gradient on Σ of the restriction of ζ. Then `∫_Σ |∇ζ|²` and
-`∫_Σ Ric_g(ν,ν)ζ²` are finite, while `∫_Σ |A|²ζ² ∈ [0,∞]`. Define:
+embedded hypersurface without boundary, not necessarily closed in U and not necessarily
+two-sided, with local unit normals ±ν and measure μ of the induced metric. Its singular set is
+`sing Σ = (Σ̄ ∩ U) ∖ Σ`, with the convention that every point of `Σ̄ ∩ U` near which `Σ̄` is a
+smooth embedded hypersurface without boundary lies in Σ (otherwise replace Σ by that regular
+part) [Simon23, p. 3]. Assume locally finite area, `μ(Σ ∩ K) < ∞` for every compact `K ⊂ U`.
+Σ need not be minimal. The test functions are `ζ ∈ C^∞_c(U)`, functions on the ambient set
+that need not vanish near `sing Σ`; ∇ζ is the gradient on Σ of the restriction of ζ. Then
+`∫_Σ |∇ζ|²` and `∫_Σ Ric_g(ν,ν)ζ²` are finite, while `∫_Σ |A|²ζ² ∈ [0,∞]`. Define:
 
 - Σ is *stable in U* if `∫_Σ |A|²ζ² dμ + ∫_Σ Ric_g(ν,ν)ζ² dμ ≤ ∫_Σ |∇ζ|² dμ` for every such
   ζ: this is `Q(ζ) ≥ 0` with the Q of this layer, read without `∞ − ∞`.
@@ -1684,14 +1684,15 @@ The Euclidean case, `Ric = 0` and μ the Hausdorff measure, is [Simon23, 1.2, pp
 weight `|x| + |ξ|` on `ℝ^p × ℝ^q × ℝ^ℓ`; there the hypersurface is minimal for a metric close to
 the Euclidean one, and the Euclidean inequality is what is asserted. For a cone with vertex 0 the
 weight is `|X|` [Simon21, 1.4, p. 2]. The forms involve ν only through `|A|²` and
-`Ric_g(ν,ν)`, so the inequalities make sense on a one-sided Σ as well, where they are stronger
-than the stability of 6.3 (Checks); the definitions therefore assume two-sidedness. Prove:
+`Ric_g(ν,ν)`, which do not depend on the sign of ν (6.3), so the definitions need no global
+normal; on a one-sided Σ they are stronger than the stability of 6.3 (Checks), and
+two-sidedness enters only in the variational meaning. Prove:
 
-- Variational meaning. If Σ is minimal and ζ vanishes near `sing Σ`, its restriction has compact
-  support in Σ and `Q(ζ)` is the second variation of area along ζν (this layer's opening, R5b).
-  When `sing Σ = ∅`, stability in U is the stability of this layer: every compactly supported
-  smooth function on Σ, now closed in U, extends to some `ζ ∈ C^∞_c(U)` through a tubular
-  neighbourhood.
+- Variational meaning, for Σ two-sided with global unit normal ν. If Σ is minimal and ζ
+  vanishes near `sing Σ`, its restriction has compact support in Σ and `Q(ζ)` is the second
+  variation of area along ζν (this layer's opening, R5b). When `sing Σ = ∅`, stability in U is
+  the stability of this layer: every compactly supported smooth function on Σ, now closed in U,
+  extends to some `ζ ∈ C^∞_c(U)` through a tubular neighbourhood.
 - Elementary properties. Strict stability implies stability. Test functions in `C¹_c(U)` are
   also admissible: approximate in C¹ with supports in one compact set, apply Fatou's lemma to the
   nonnegative terms and pass to the limit in the others. Comparable weights give the same notion:
@@ -1739,8 +1740,8 @@ than the stability of 6.3 (Checks); the definitions therefore assume two-sidedne
   one-dimensional Hardy inequality `∫_0^∞ φ²/x² ≤ 4∫_0^∞ φ′²` gives the strict inequality with
   `κ = 1/5` for every ζ vanishing near that line, while any ζ nonzero somewhere on the line makes
   `∫ x₂⁻²ζ² = ∞`: Σ is stable in U and not strictly stable with this weight.
-- One-sided: `ℝP² ⊂ ℝP³` is stable in the sense of 6.3 (6.5), but the scalar inequality fails
-  for ζ = 1, since `∫(|A|² + Ric(ν,ν)) dμ = 2 · 2π > 0 = ∫|∇1|² dμ`.
+- One-sided: `ℝP² ⊂ ℝP³`, with `U = ℝP³`, is stable in the sense of 6.3 (6.5) but not stable
+  in U: ζ = 1 gives `∫(|A|² + Ric(ν,ν)) dμ = 2 · 2π > 0 = ∫|∇1|² dμ`.
 
 *Needs:* this layer's Q and 6.3; R5b (the second variation); MS1 (a), on the link Γ; R5a.2 of
 the parent (the minimal-cone equivalence).
