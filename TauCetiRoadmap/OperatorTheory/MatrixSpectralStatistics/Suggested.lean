@@ -19,35 +19,36 @@ The headline theorems are:
 
 * the Gram characterization: a square matrix over `ℝ` or `ℂ` is positive semidefinite of rank at
   most `d` exactly when it is `Aᴴ * A` for a matrix `A` with `d` rows, and two such factors differ
-  by a unitary on the left (README §1.2 and §1.3);
+  by a unitary on the left (README, MSS-A07 and MSS-A09);
 * entrywise eigenvalue perturbation: if Hermitian `n × n` matrices have entries within `ε`, their
-  sorted eigenvalues are within `n * ε` (README §2.1);
+  sorted eigenvalues are within `n * ε` (README, MSS-B04);
 * measurability of spectral functions: for continuous `h`, and for the indicator of `[c, ∞)`,
   `A ↦ cfc h A` is Borel measurable on matrices, so spectral functions and fixed-threshold
-  spectral projectors of a measurable random matrix are measurable (README §2.2 and §2.3);
+  spectral projectors of a measurable random matrix are measurable (README, MSS-B10 and
+  MSS-B13);
 * eigenvalue concentration from entrywise second moments, and its consequence for the empirical
   second-moment matrix: every population eigenvalue at least `c` stays at least `c / 2` with
-  probability at least `1 - 4 d⁴ v / (r c²)` (README §3.4).
+  probability at least `1 - 4 d⁴ v / (r c²)` (README, MSS-C20 and MSS-C23).
 
 Every one of them is statable at the pins, and every one is proved in the pinned Tau Ceti library,
 so this file restates none of them. The `#check` lines below pin the Tau Ceti declarations that
-prove them, whose hypotheses the README records under its supplier contracts; the file fails to
-build if one of them is renamed or removed. A `#check` does not compare a declaration's statement
+prove them, whose hypotheses the README states at the items they realise; the file fails to build
+if one of them is renamed or removed. A `#check` does not compare a declaration's statement
 with the README's.
 -/
 
 namespace TauCetiRoadmap.MatrixSpectralStatistics
 
--- Layer 1: positive-semidefinite Gram factorization and its uniqueness.
+-- Part A: positive-semidefinite Gram factorization and its uniqueness.
 #check @Matrix.posSemidef_and_rank_le_iff_eq_conjTranspose_mul_self
 #check @TauCeti.conjTranspose_mul_self_eq_iff_exists_unitary_mul
 
--- Layer 2: entrywise eigenvalue perturbation and measurability of spectral functions.
+-- Part B: entrywise eigenvalue perturbation and measurability of spectral functions.
 #check @Matrix.IsHermitian.abs_eigenvalues₀_sub_le_of_entry_le
 #check @TauCeti.measurable_matrix_cfc
 #check @TauCeti.measurable_matrix_cfc_indicator
 
--- Layer 3: eigenvalue concentration and the empirical second-moment eigenvalue floor.
+-- Part C: eigenvalue concentration and the empirical second-moment eigenvalue floor.
 #check @TauCeti.one_sub_le_measure_forall_abs_eigenvalues₀_sub_le
 #check @TauCeti.one_sub_le_measure_forall_half_le_eigenvalues₀_sampleSecondMoment
 
