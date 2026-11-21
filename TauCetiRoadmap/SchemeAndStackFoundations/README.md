@@ -3859,7 +3859,9 @@ quasi-compact and quasi-separated, and *QCoh.pushforward* `f : Stacks.QCoh X ⥤
 preserves epimorphisms. As a right adjoint it is left exact, so the condition is exactness (Alper 2013,
 Definition 3.1, p. 2357, where quasi-separatedness is a standing convention; Alper–Hall–Rydh 2020,
 §1.5, p. 5, state it in the definition). Epimorphisms are those of the abelian category
-`Stacks.QCoh Y` (Stacks, Lemma 96.15.1 (06WV)); the inclusion of quasi-coherent modules into all
+`Stacks.QCoh Y` (Stacks, Lemma 96.15.1 (06WV)); §1.22 does not state that this category is
+abelian, and this section depends on that statement, which StackPointsAndResidualGerbes requests
+of §1.22 as gap:qcoh-stacks-abelian-tensor. The inclusion of quasi-coherent modules into all
 `O_Y`-modules of the big site is not exact, so exactness of the raw direct image on all modules is a
 different condition. An algebraic stack `X` is cohomologically affine when `X → Spec ℤ` is; prove
 *IsCohomologicallyAffine.iff_globalSections*: this holds iff `X` is quasi-compact and
@@ -3928,10 +3930,12 @@ isomorphic to `G`. Define *Groups.IsLinearlyReductive* `G`: `BG → S` is cohomo
 - *Groups.isLinearlyReductive_iff*: for a field `k` and an affine group scheme `G` of finite type
   over `k`, *Groups.IsLinearlyReductive* `G` iff Tau Ceti's
   `TauCeti.linearlyReductiveAffineGroupSchemeProperty k G` (every finite-dimensional comodule of the
-  coordinate Hopf algebra is completely reducible). Under §1.22's identification of
-  `Stacks.QCoh (BG)` with `O(G)`-comodules, pullback along `BG → Spec k` is the trivial-comodule
-  functor, so its right adjoint *QCoh.pushforward* is the invariants functor `V ↦ V^G`, and
-  epimorphisms are surjections. Tau Ceti's
+  coordinate Hopf algebra is completely reducible). §1.22's *QCoh.presentationEquiv* for
+  `BG = [Spec k/G]` identifies `Stacks.QCoh (BG)` with `O(G)`-comodules, since descent data on a
+  `k`-vector space `V` along `s = t : G → Spec k` are the `O(G)`-comodule structures on `V`. Under
+  it, pullback along `BG → Spec k` is the trivial-comodule functor, so its right adjoint
+  *QCoh.pushforward* is the invariants functor `V ↦ V^G`, and epimorphisms are surjections.
+  Tau Ceti's
   `TauCeti.Coalgebra.isLinearlyReductive_iff_forall_fixedMap_surjective_of_surjective` (surjections
   of finite-dimensional comodules) and `TauCeti.Comodule.Hom.fixedMap_surjective_of_isLinearlyReductive`
   (surjections of arbitrary comodules) give the two implications (Alper 2013, Proposition 12.6 and
@@ -3948,7 +3952,8 @@ of cohomological affineness with the vanishing of higher direct images, valid wh
 quasi-affine diagonal and `f` has affine diagonal (Alper–Hall–Rydh 2020, §1.5, p. 5), needs the
 higher direct images of quasi-coherent modules on algebraic stacks (Stacks, Proposition 103.11.1
 (077A)), which this roadmap does not construct; it is not a target here.
-*Needs:* §1.1, §1.9, §1.10, §1.11, §1.18–§1.22, §2.6; Mathlib `IsAffineHom`, `IsQuasiAffine`,
+*Needs:* §1.1, §1.9, §1.10, §1.11, §1.18–§1.22, §2.6; gap:qcoh-stacks-abelian-tensor (the abelian
+structure of `Stacks.QCoh`); Mathlib `IsAffineHom`, `IsQuasiAffine`,
 `Flat`, `LocallyOfFinitePresentation`, `Sheaf.H`; Tau Ceti `linearlyReductiveAffineGroupSchemeProperty`,
 `Coalgebra.isLinearlyReductive_iff_forall_fixedMap_surjective_of_surjective`,
 `Comodule.Hom.fixedMap_surjective_of_isLinearlyReductive`.
