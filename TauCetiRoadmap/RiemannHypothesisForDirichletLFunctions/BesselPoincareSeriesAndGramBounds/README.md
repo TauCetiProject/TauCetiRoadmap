@@ -519,7 +519,9 @@ the coordinates `(α, α′)` of a generic term at its row are a function of the
 *Needs:* 5.13b, 5.13c, 5.13, 5.14; RepresentationTheory/CompactGroups Layers 2, 4; HermitianFormsAndLattices §§5.1, 5.2 (genus,
 classes, stabilisers); AnalyticNumberTheoryPartII §5.3k (quotient measures, integration in stages, unfolding); Mathlib
 (Haar measure). *KNOWN* in kind (unfolding; geometric side of a relative trace formula of
-Bessel type), *NEW* (the classification for this pair, the pairs).
+Bessel type), *NEW* (the classification for this pair, the pairs). The expansion of (a) and the identity terms of (b): [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/PoincareConstantEq.lean` (`Formalism.L2.SG.Full.KExpansionC`,
+`Formalism.L2.SG.Full.AbsConvC`, `Formalism.L2.SG.Full.IdCellOffC`, `Formalism.L2.SG.Full.IdCellDiagC`).
 
 *Checks.*
 - `u = u′`, identity term only: `K(u, u)` restricted to the identity cell is `1`; with `c₀` omitting the factor
@@ -673,7 +675,11 @@ Chain instance: `𝟙_{K₂,χ₂}` is an admissible idempotent (ThetaChainsOnDe
 §4.4.14 (covering radius and dual minimum); AnalyticNumberTheoryPartI §2.15 (residue bound for Dedekind zeta functions).
 *KNOWN* in kind (limit multiplicities of
 discrete series: DeGeorge–Wallach for compact quotients, Clozel and Savin for non-compact ones; rapid decay of cusp
-forms), *NEW* (the error term uniform in rank, field, level and weight).
+forms), *NEW* (the error term uniform in rank, field, level and weight). The statement: [FormalProof],
+`Development/AbelianVarietyTheory/BlockTheory/SiegelWeilLocal/LatticeCountingTheorem.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.LatticeCountingTheorem.CountingTheorem`), with its hypotheses in
+`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/LayerProd.lean` (`GlobalTheory.Count.CountHyp`), and unbundled in
+`Development/AbelianVarietyTheory/Proofs/FlagMeasures/UnitaryAutomorphicCountingUnbundled.lean` (`GlobalTheory.CountBridge.count_unbundled`).
 
 *Checks.*
 - For a cocompact torsion-free lattice and an integrable discrete series the multiplicity equals `d(π)·covolume`
@@ -729,8 +735,8 @@ element of `𝔒`, and a unitary character `ψ` of `𝔎` with `{a : ψ(a𝔒) =
 nonarchimedean local field with its maximal order and a character for which that order is self-dual; and, for a local
 field `k` with uniformiser `ϖ`, the algebra `k × k` with the order `{x₁ ≡ x₂ (mod ϖ^c)}` and the character
 `ψ_k(ϖ^{−c}(x₁ − x₂))`, `ψ_k` of conductor `𝔬_k`; the chain uses `k = ℚ_{g_i}`, `c = 1`). `|x|` is the modulus of `x`
-on `𝔒`. A *local point* `w` is a list of blocks `(s_j, t_j)`, `t_j ∈ 𝔎^×`, `𝐏(w)` the block matrix with antidiagonal blocks
-`t_jw_{s_j}`. For an integral matrix `Z` with unit determinant the *decorated cokernel* is `𝔒^n/Z𝔒^n` with the class of the last
+on `𝔒`. A *local point* `w` is a list of blocks `(s_j, t_j)`, `t_j ∈ 𝔎^×`, its *level* the sum `Σs_j` of the block sizes (as in 5.19),
+`𝐏(w)` the block matrix with antidiagonal blocks `t_jw_{s_j}`. For an integral matrix `Z` with unit determinant the *decorated cokernel* is `𝔒^n/Z𝔒^n` with the class of the last
 basis vector and the linear form to `𝔎/𝔒` given by the last row of `Z^{−1}`. Put
 `K^{loc}(w, w′) = Σ#Iso(coker Z, coker Z′)·ψ(Z)·conj ψ(Z′)`, the sum over the integral matrices `Z`, `Z′` of the cells of `w`, `w′`
 modulo integral unipotent matrices (a finite sum; `ψ(Z)` the generic character of the unipotent coordinates, `Iso` the
@@ -739,10 +745,10 @@ isomorphisms of decorated modules), `N^{loc}(s; h, h′; t, t′) = |tt′|^{s(s
 of `w` modulo integral unipotent matrices, of `ψ(Z)` times the number `#Iso(coker Z, 𝒞)` of isomorphisms of decorated modules
 `coker Z → 𝒞` (each `Z` with `coker Z ≅ 𝒞` contributes `#Aut(𝒞)·ψ(Z)`). Then: (b-i)
 `K^{loc}(w, w′) = Σ_𝒞B^{loc}_w(𝒞)·conj B^{loc}_{w′}(𝒞)/#Aut(𝒞)`; `K^{loc}` and `N^{loc}(s; ·)` are positive semidefinite, and `K^{loc}(w, w′) ≠ 0` forces
-`|det 𝐏(w)| = |det 𝐏(w′)|` (used for `w, w′` of equal size).
-(b-ii) For heads `h, h′` of equal size and `s ≥ 1`, `N^{loc}(s; h, h′; t, t′) ≠ 0` forces
+`|det 𝐏(w)| = |det 𝐏(w′)|` (used for `w, w′` of the same level).
+(b-ii) For heads `h, h′` of the same level and `s ≥ 1`, `N^{loc}(s; h, h′; t, t′) ≠ 0` forces
 `t^{−1} − t′^{−1} ∈ 𝔒`, `det 𝐏(h)·t ∈ 𝔒` and `det 𝐏(h′)·t′ ∈ 𝔒`. (b-iii) `c ↦ N^{loc}(1; h, h′; c, c)` is `𝔒`-periodic with finite
-support modulo `𝔒` and `Σ_{c∈𝔎/𝔒}N^{loc}(1; h, h′; c, c) = 𝔰(h)𝔰(h′)·K^{loc}(h, h′)`. (b-iv) `K^{loc}(h, h′) = 1` for `h, h′` of equal size with
+support modulo `𝔒` and `Σ_{c∈𝔎/𝔒}N^{loc}(1; h, h′; c, c) = 𝔰(h)𝔰(h′)·K^{loc}(h, h′)`. (b-iv) `K^{loc}(h, h′) = 1` for `h, h′` of the same level with
 `𝐏(h), 𝐏(h′) ∈ GL(𝔒)`.
 
 *Route.* (b-i) Rearrangement by the class of the
@@ -796,7 +802,7 @@ neighbourhood `V` of `0` such that for units `t ∈ V`, `c` with `ct^ℓ ∈ Q` 
 `K^{loc}(h ⊕ (ℓ,t) ⊕ (1,c), w′) = |t|^{−ℓ²/2}Σ_{z^{ℓ+1} = (−t)^ℓc} γ(zt)·|ℓ + 1|^{−1/2}|z|^{ℓ²/2}·ψ((ℓ + 1)z/t)·K^{loc}(h ⊕ (ℓ+1,z), w′)`;
 exact for small pivots (the archimedean analogue, with the same phase, is the block statement 5.18d).
 (b-v) Assume every nonzero integer is invertible in `𝔎`. For every `s ≥ 1` and every finite set `𝔉`
-of points of one size there is a function `Θ` on `𝔎` with values in positive semidefinite matrices on `𝔉`, `𝔒`-periodic,
+of points of one level there is a function `Θ` on `𝔎` with values in positive semidefinite matrices on `𝔉`, `𝔒`-periodic,
 vanishing outside a compact open `𝔒`-submodule and between points with different `|det 𝐏|`, with `Θ(t) ≥ N^{loc}(s; ·; t, t)` for
 every unit `t` and `Σ_{𝔎/𝔒}Θ ≤ 𝔰(h)^s𝔰(h′)^sK^{loc}(h, h′)` (as matrices on `𝔉`); if all points of `𝔉` are unimodular,
 `Θ(x) ≤ 𝟙_𝔒(x)·K^{loc}`. For `s = 1`, `Θ(t) = N^{loc}(1; ·; t, t)` with equality in the sum, and no hypothesis on the integers.
@@ -1047,7 +1053,9 @@ the second commutator vanishes.
 
 *KNOWN* frameworks (Capelli identities; RTT presentation and quantum determinant of the Yangian of `𝔤𝔩₂`: Molev,
 Kulish–Reshetikhin–Sklyanin, Drinfeld; Lax matrices of Toda type: Sklyanin, Kharchev–Lebedev), *NEW* (the statements in this
-setting). *Needs:* 5.13a, 5.13b; ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`);
+setting). The exchange relation and the quantum determinant of (b): [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.RTTLevel`,
+`Formalism.FourierDecayAlt.Q.DetLevel`).
+*Needs:* 5.13a, 5.13b; ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`);
 ClassicalGroups §§6.3–6.6; TensorInductionAndFiniteGroupInputs §9.1 (b), (h) (the
 border expansions, for (a)), (e), (g), (j) (the quantum determinant, for (b)), (c) (the Capelli eigenvalue), (f) (the commutators
 with `𝔷`, `𝔷̄`), (i) (the adjointness of the entries); RepresentationTheory/LieHighestWeight Layer 7; RealSemisimpleLieGroups 3.3.
@@ -1081,7 +1089,10 @@ integrating a pivot is the site identity `T^*𝐑[𝐐_{i+1}]T = 𝐑[T^*𝐐_{i
 `𝐐_i(Y) = (T_i(Ȳ)⋯T_{r_S−1}(Ȳ))^*·𝐐(Y)·T_i(Y)⋯T_{r_S−1}(Y)`, `𝐐` the matrix of the start, 5.18a (c).
 
 *KNOWN* frameworks (Yang–Baxter equation, fusion and Gauss decomposition of the Yangian of `𝔤𝔩₂`: Molev, Drinfeld), *NEW*
-(the frames and positivity in this setting). *Needs:* 5.18a, 5.13b.
+(the frames and positivity in this setting). The letter steps of (d): [FormalProof], `Formalism/HermitianCurvature/StatementWd.lean`
+(`Formalism.FourierDecayAlt.Wd.LetterPlus`, `Formalism.FourierDecayAlt.Wd.LetterMinus`); the level forms of (e), their positivity and the
+passage between levels: [FormalProof], `Formalism/HermitianCurvature/CompositeFormulaLevelZero.lean` (`Formalism.FourierDecayAlt.P5.ThmPActual`).
+*Needs:* 5.18a, 5.13b.
 
 ### 5.18c Archimedean Fourier majorants
 
@@ -1149,7 +1160,8 @@ constants (`|t|^{d−1}|z|^{d−1}/d` from the Hessian determinant `d·z^{−(d�
 `(d−1) − 2(d−1) + d(d−1) = (d−1)²` for the exponents of `|t|` and `|z|`). Then Poisson summation over a coset and the lift bound
 for the block of size `s − 1`, inducting on `s`.
 
-*KNOWN* in kind (stationary phase; complex Gaussian integrals through Takagi's factorisation), *NEW* (this form). *Needs:*
+*KNOWN* in kind (stationary phase; complex Gaussian integrals through Takagi's factorisation), *NEW* (this form). The estimate of `O_blk` in (g):
+[FormalProof], `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.GermRate`). *Needs:*
 5.18b, 5.18c; PositivityOfDirichletSeriesWithKernels §8.1 (b), (c), (d) with `n = d − 1` (non-stationary phase, stationary phase
 at a nondegenerate critical point, the phase `Σx_k + D/∏x_k`); Mathlib (Poisson summation).
 
@@ -1245,6 +1257,7 @@ compactly supported approximants, both sides converging. Then `φ_{ε_c}(x) = χ
 and locality.
 
 *KNOWN* frameworks (A. Markov's inequality; Gelfand–Tsetlin branching: ClassicalGroups §6.1), *NEW* (the statements in this setting).
+The limit of the level-`0` form in (h): [FormalProof], `Formalism/HermitianCurvature/StatementMA.lean` (`Formalism.FourierDecayAlt.MA.LemmaEModel`).
 *Needs:* 5.18a, 5.18b, 5.13b; TensorInductionAndFiniteGroupInputs §9.1 (f) (commutator of the quantum determinant with a vector operator);
 ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`).
 
@@ -1617,7 +1630,11 @@ term by the last display, its partner by the `L²` bound, and the number of pair
 (terms) × (partners): the powers of `n` cancel, and the window for `u′` bounds `√(d_{u′}^{all}/D*)` by `√C₀·Γ₀·d_{u′}^{all}/D*`. Summed
 over the Gram classes the class contributes at most `C^fb^{Cm⁵f}Γ₀e^{Cm⁶f log b}(C·g^{−(2r_S+1)}k^{−r_S})^{kf/2}·d_u^{all}d_{u′}^{all}/D*`.
 
-*NEW*. *Needs:* 5.15, 5.17a, 5.17, 5.18, 5.20a, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§4.4, 4.10, 4.11, 5.5, 5.7, 5.9, 6.1a, 6.3,
+*NEW*. Follows from [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopsEv.lean`
+(`Formalism.L2.SG.LoopsEv.RowLoopsEv`), with the hypotheses `Formalism/SharpRestriction/CuspSpanNormBounds/CntPartners.lean`
+(`Formalism.MainNotions.S.Cnt.Hyp`).
+*Needs:* 5.15, 5.17a, 5.17, 5.18, 5.20a, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§4.4, 4.10, 4.11, 5.5, 5.7, 5.9, 6.1a, 6.3,
 6.4, 6.4b, 6.4c.
 
 ### 5.20c Non-generic pairs
@@ -1655,7 +1672,9 @@ nondegenerate since `Gr ≠ 0`). Then (a): the bad primes off `g₀g₁` are the
 quantity weighted in (a); that the factor `H(γ)^C` is bounded by a power of this quantity times the archimedean sizes weighted by
 `w(γ)` is used; its proof is not given here.
 
-*NEW*. (b): follows from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
+*NEW*. (a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmBUse.lean`
+(`Formalism.L2.SG.ThmBUse.JointNormBoundUniform`, `Formalism.L2.SG.ThmBUse.jointNormBoundUnrotated`).
+(b): follows from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
 (`Formalism.L2.SG.RowsPos.RowNGP`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsConc.lean`
 (`Formalism.L2.SG.RowsConc.epsNG`).
 *Needs:* 5.15, 5.15a, 5.17a, 5.17d, 5.18, 5.20a, 5.20b; HermitianFormsAndLattices §6.5.
@@ -1724,7 +1743,11 @@ exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, whic
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.15, 5.15a, 5.17a, 5.17d, 5.17, 5.18b, 5.18c, 5.18d, 5.18e, 5.18, 5.19, 5.20a, 5.20b, 5.20c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9,
 ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.5, 5.7, 6.0b, 6.2, 6.3, 6.4, 6.5 (d); AnalyticNumberTheoryPartII §5.3k
-(quotient measures, integration in stages); Mathlib (Poisson summation). *NEW*.
+(quotient measures, integration in stages); Mathlib (Poisson summation). *NEW*. The size hypotheses: [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/TheoremSRecursion.lean`
+(`Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt`), `Formalism/HermitianCurvature/StatementPB.lean`
+(`Formalism.FourierDecayAlt.PB.SizeNumbers`); the assembly of the bound with `η_off ≤ b^{−6}`: [FormalProof],
+`Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.PairBound`).
 
 ### 5.21 The Gram bound for equal words
 
