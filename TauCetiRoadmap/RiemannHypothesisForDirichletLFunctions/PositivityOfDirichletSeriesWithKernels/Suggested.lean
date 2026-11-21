@@ -17,9 +17,11 @@ and leading coefficients are Mathlib's `meromorphicOrderAt` and `meromorphicTrai
 pole of `Φ` is a point `ρ` with `meromorphicOrderAt Φ ρ < 0`.
 
 * Landau's theorem for a function bounded above (6.4 (c)): `rightmost_pole_real_of_le`.
-* The windowed Landau theorem (6.8): `windowedLandau`.
-* Its Mellin form with windows of scales (6.9 (a), (b)): the predicate `HasWindows` and
-  `windowedLandau_mellin`.
+* The windowed Landau theorem (6.8): `windowedLandau_simplePole` (the form of the formal proof)
+  and `windowedLandau` (the extension).
+* Its Mellin form with windows of scales (6.9 (a), (b)): the predicate `HasWindows`,
+  `windowedLandau_mellin_simplePole` (the form of the formal proof) and `windowedLandau_mellin`
+  (the extension).
 * Laplace's method in several variables with a uniform majorant (7.1 (a), (c), (d)):
   `tendsto_integral_of_laplaceMethod`.
 * Stationary phase at a nondegenerate critical point on `ℂ^n` (8.1 (c)):
@@ -68,12 +70,35 @@ theorem rightmost_pole_real_of_le {θ A C u₀ : ℝ} (hθA : θ < A) {g : ℝ �
           Integrable (fun u : ℝ ↦ Complex.exp (-s * u) * g u) (volume.restrict (Set.Ioi 0)) := by
   sorry
 
+/-- **The windowed Landau theorem, form of the formal proof** (6.8). Let `0 < θ < 1` and
+`δ > 0`, let `g : ℝ → ℝ` be measurable with `|g(u)| ≤ C₀ e^(2u)` for `u ≥ 0`, and let `Φ` be
+meromorphic on `Re s > 0` with `Φ s = ∫₀^∞ g(u) e^(−su) du` for `Re s > 2`, with simple poles only
+in `Re s > 0` and a positive real residue at every real pole there. Suppose that for every
+`η > 0` there are arbitrarily large `U` with `∫_U^((1+δ)U) max(g, 0)(u) e^(−θu) du ≤ e^(ηU)`.
+Then `Φ` has no pole in `Re s > θ`. -/
+theorem windowedLandau_simplePole {θ δ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ) {g : ℝ → ℝ}
+    (hg : Measurable g) (hgrowth : ∃ C₀ : ℝ, ∀ u : ℝ, 0 ≤ u → |g u| ≤ C₀ * Real.exp (2 * u))
+    {Φ : ℂ → ℂ} (hΦ : MeromorphicOn Φ {s : ℂ | 0 < s.re})
+    (hlap : ∀ s : ℂ, 2 < s.re →
+      Integrable (fun u : ℝ ↦ Complex.exp (-s * u) * g u) (volume.restrict (Set.Ioi 0)) ∧
+        ∫ u in Set.Ioi (0 : ℝ), Complex.exp (-s * u) * g u = Φ s)
+    (hsimple : ∀ ρ : ℂ, 0 < ρ.re → meromorphicOrderAt Φ ρ < 0 →
+      meromorphicOrderAt Φ ρ = ((-1 : ℤ) : WithTop ℤ))
+    (hres : ∀ β : ℝ, 0 < β → meromorphicOrderAt Φ β < 0 →
+      ∃ c : ℝ, 0 < c ∧ meromorphicTrailingCoeffAt Φ β = c)
+    (hwin : ∀ η : ℝ, 0 < η → ∀ U₀ : ℝ, ∃ U ≥ U₀,
+      ∫ u in U..(1 + δ) * U, max (g u) 0 * Real.exp (-(θ * u)) ≤ Real.exp (η * U)) :
+    ∀ ρ : ℂ, θ < ρ.re → ¬ meromorphicOrderAt Φ ρ < 0 := by
+  sorry
+
 /-- **The windowed Landau theorem** (6.8). Let `θ < A` and `δ > 0`, let `g : ℝ → ℝ` be measurable
 with transform `Φ s = ∫₀^∞ g(u) e^(−su) du`, absolutely convergent, for `Re s > A`, and let `Φ` be
 meromorphic on `Re s > θ`. Suppose that for every `η > 0` there are arbitrarily large `U` with
 `∫_U^((1+δ)U) max(g, 0)(u) e^(−θu) du ≤ e^(ηU)`. Then either `Φ` has no pole in `Re s > θ`, or
 `Φ` has a real pole `β > θ` whose leading coefficient is a negative real number, and every pole
-of `Φ` in `Re s > θ` has real part at most `β`. -/
+of `Φ` in `Re s > θ` has real part at most `β`.
+This is the roadmap's extension of `windowedLandau_simplePole`, not a statement of the formal
+proof. -/
 theorem windowedLandau {θ A δ : ℝ} (hθA : θ < A) (hδ : 0 < δ) {g : ℝ → ℝ} (hg : Measurable g)
     {Φ : ℂ → ℂ} (hΦ : MeromorphicOn Φ {s : ℂ | θ < s.re})
     (hlap : ∀ s : ℂ, A < s.re →
@@ -93,12 +118,32 @@ README), `HasWindows S κ` says that for every `Y₀` there is `Y ≥ max(Y₀, 
 def HasWindows (S : Set ℝ) (κ : ℝ) : Prop :=
   ∀ Y₀ : ℝ, ∃ Y ≥ max Y₀ 1, Set.Icc Y (Y ^ κ) ⊆ S
 
+/-- **The windowed Landau theorem, Mellin form, form of the formal proof** (6.9 (b)). Let
+`0 < θ < 1` and `κ > 1`, let `G : ℝ → ℝ` be measurable with `|G(y)| ≤ C₀ y²` for `y ≥ 1`, and let
+`Ψ` be meromorphic on `Re s > 0` with `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for `Re s > 2`, with simple
+poles only in `Re s > 0` and a positive real residue at every real pole there. If the set
+`{y ≥ 1 | G(y) ≤ C y^θ}` has windows of exponent `κ`, then `Ψ` has no pole in `Re s > θ`. -/
+theorem windowedLandau_mellin_simplePole {θ C κ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hκ : 1 < κ)
+    {G : ℝ → ℝ} (hG : Measurable G) (hgrowth : ∃ C₀ : ℝ, ∀ y : ℝ, 1 ≤ y → |G y| ≤ C₀ * y ^ 2)
+    {Ψ : ℂ → ℂ} (hΨ : MeromorphicOn Ψ {s : ℂ | 0 < s.re})
+    (hΨeq : ∀ s : ℂ, 2 < s.re →
+      ∫ y in Set.Ioi (1 : ℝ), (G y : ℂ) * (y : ℂ) ^ (-s - 1) = Ψ s)
+    (hsimple : ∀ ρ : ℂ, 0 < ρ.re → meromorphicOrderAt Ψ ρ < 0 →
+      meromorphicOrderAt Ψ ρ = ((-1 : ℤ) : WithTop ℤ))
+    (hres : ∀ β : ℝ, 0 < β → meromorphicOrderAt Ψ β < 0 →
+      ∃ c : ℝ, 0 < c ∧ meromorphicTrailingCoeffAt Ψ β = c)
+    (hwin : HasWindows {y : ℝ | 1 ≤ y ∧ G y ≤ C * y ^ θ} κ) :
+    ∀ ρ : ℂ, θ < ρ.re → ¬ meromorphicOrderAt Ψ ρ < 0 := by
+  sorry
+
 /-- **The windowed Landau theorem, Mellin form** (6.9 (b)). Let `θ < A` and `κ > 1`, let
 `G : ℝ → ℝ` be measurable with `∫₁^∞ |G(y)| y^(−σ−1) dy < ∞` for every real `σ > A`, and let `Ψ`
 be meromorphic on `Re s > θ` with `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for `Re s > A`. If the set
 `{y ≥ 1 | G(y) ≤ C y^θ}` has windows of exponent `κ`, then either `Ψ` has no pole in `Re s > θ`,
 or `Ψ` has a real pole `β > θ` whose leading coefficient is a negative real number, and every
-pole of `Ψ` in `Re s > θ` has real part at most `β`. -/
+pole of `Ψ` in `Re s > θ` has real part at most `β`.
+This is the roadmap's extension of `windowedLandau_mellin_simplePole`, not a statement of the
+formal proof. -/
 theorem windowedLandau_mellin {θ A C κ : ℝ} (hθA : θ < A) (hκ : 1 < κ) {G : ℝ → ℝ}
     (hG : Measurable G)
     (hint : ∀ σ : ℝ, A < σ → IntegrableOn (fun y : ℝ ↦ G y * y ^ (-σ - 1)) (Set.Ioi 1))
@@ -118,7 +163,7 @@ theorem windowedLandau_mellin {θ A C κ : ℝ} (hθA : θ < A) (hκ : 1 < κ) {
 `E` be a finite-dimensional real normed space of dimension `n` with a Haar measure `μ`, let
 `B : E × E → ℂ` be real-bilinear, let `c, γ > 0`, and let `(f_t)_{t ∈ ℕ}` be complex functions on
 `E`, almost everywhere strongly measurable for all large `t`. If `f_t(v/√t) → e^(−B(v,v))` as
-`t → ∞` for every `v`, and `|f_t(v)| ≤ (1 + c‖v‖²)^(−γt)` for every `v` and all large `t`, then
+`t → ∞` for every `v`, and `|f_t(v)| ≤ (1 + c‖v‖²)^(−γt)` for all large `t`, uniformly in `v`, then
 `Re B(v, v) > 0` for every `v ≠ 0`; `f_t` is integrable for all large `t` and
 `t^(n/2) ∫ f_t dμ → ∫ e^(−B(v,v)) dμ(v)`; and `∫ f_t dμ ≠ 0` for all large `t`. -/
 theorem tendsto_integral_of_laplaceMethod {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
