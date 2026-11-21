@@ -40,7 +40,7 @@ supplies potential isomorphisms and Karp's theorem, and on Tau Ceti's first-orde
 groups. It takes the proof calculus and its completeness theorem from
 SequentCalculusAndCutElimination, and the effective coding of formulas from RandomGraphs. It
 feeds the model theory of valued fields: AxKochenErshov uses saturation, back-and-forth families
-and the theory of `ℤ`-groups, and the planned roadmap PadicallyClosedFields uses the quantifier
+and the theory of `ℤ`-groups, and PadicallyClosedFields uses the quantifier
 elimination tests, model completeness and decidability.
 
 Layer 0 builds saturated structures and their existence. Layer 1 proves that back-and-forth
@@ -431,9 +431,9 @@ SequentCalculusAndCutElimination `LKDerivation`, `LKDerivation.cutRank`,
   Layer 1 (back-and-forth families give elementary equivalence and elementary embeddings), and
   Layer 3 (the theory of `ℤ`-groups, for the value group of `ℚ_p`), with Layer 4 for the
   decidability of `Th(ℚ_p)`.
-- **PadicallyClosedFields** (a planned roadmap on Macintyre's theorem and p-adically closed
-  fields). Layer 2 (the saturated extension test for Macintyre's elimination, model completeness
-  and Robinson's test) and Layer 4.
+- **PadicallyClosedFields.** Layer 0 (saturation, for its embedding theorem), Layer 2 (the
+  embedding criterion of 2.2 for its quantifier elimination, model completeness and Robinson's
+  test), Layer 3.3 (`ℤ`-groups) and Layer 4 (decidability).
 - **LogicAndDefinabilityInNumberTheory.** Its §4.31 takes `IsModelComplete` and Robinson's test
   from 2.5.
 
