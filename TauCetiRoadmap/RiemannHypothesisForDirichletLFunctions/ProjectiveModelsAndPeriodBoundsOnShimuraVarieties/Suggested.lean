@@ -21,9 +21,9 @@ absolute ampleness of a line-bundle class (`TauCeti.AlgebraicGeometry.LineBundle
 and normalisations; these are ambient carriers, and none of the headline objects is built from
 them.
 
-* Seminegativity over curves (6.2a): for a smooth projective connected curve `C` over an
-  algebraically closed field of characteristic zero and a semi-abelian scheme `G → C` whose generic
-  fibre is an abelian variety, every locally free subsheaf of `Lie(G/C)` has degree `≤ 0`, and the
+* Seminegativity over curves (6.2a): for a smooth projective geometrically connected curve `C`
+  over a field of characteristic zero and a semi-abelian scheme `G → C`, every locally free subsheaf
+  of `Lie(G/C)` has degree `≤ 0`, and the
   Hodge metric of a polarisation of a semi-abelian degeneration over a smooth complex variety with a
   normal crossings divisor has Gram matrix entries `O(1 + Σ_j|log|x_j||)` near the divisor and is
   bounded below there by a positive multiple of the identity. It lacks the semi-abelian scheme, its Lie algebra sheaf and Hodge bundle, the Hodge
@@ -41,8 +41,9 @@ them.
   every prime and a number field `F` containing the reflex field, the generic fibre `Sh_F` has a
   smooth projective toroidal compactification and a normal model projective and flat over `O_F`
   carrying a semi-abelian scheme that extends the universal abelian scheme with its endomorphisms
-  (and, for a self-dual lattice, the rigidified symmetric cubical line bundle of the principal
-  polarisation), and normalisations of its components in finite extensions are models of the same
+  (and, for the moduli problem with a polarising line bundle and a marking of 7.31a (b′), a
+  rigidified symmetric cubical line bundle extending it), and normalisations of its components in
+  finite extensions are models of the same
   kind. It lacks integral PEL data and their similitude group schemes over `ℤ`, neat open compact
   subgroups of `G(Ẑ)`, the PEL moduli space with its universal abelian scheme and its toroidal
   compactifications, semi-abelian schemes, and cubical structures on line bundles.

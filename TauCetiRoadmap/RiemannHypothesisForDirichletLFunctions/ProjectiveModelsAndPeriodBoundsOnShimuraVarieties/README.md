@@ -1,12 +1,12 @@
 # Roadmap: projective models and period bounds on Shimura varieties
 
-**Summary.** A semi-abelian scheme `G` over a base `S` is, fibre by fibre, an extension of an abelian variety by a torus; its Hodge bundle is `E = e^*Ω¹_{G/S}`, its Lie algebra `Lie(G/S) = E^∨`, and `ω = det E` is its Hodge line. Toroidal compactifications of PEL-type Shimura varieties carry such schemes, abelian on the interior and degenerating along the boundary. This roadmap proves, for these degenerating families and their models, the statements an arithmetic argument on unitary Shimura varieties needs beyond the existing theory of compactifications: growth bounds and positivity for the Hodge metric and the Hodge bundle; logarithmic periods over a polydisc; conjugate data in characteristic `p`, which play for a semi-abelian scheme on a curve the part of the de Rham homology of an abelian scheme with its two filtrations; ampleness of twisted Hodge lines on projective toroidal models; and normal projective models over the whole ring of integers of a number field, with a semi-abelian extension of the universal family at every prime and, for a principal polarisation, its cubical line bundle. It also states Kempf's descent of linearised line bundles to quotients by finite groups.
+**Summary.** A semi-abelian scheme `G` over a base `S` is, fibre by fibre, an extension of an abelian variety by a torus; its Hodge bundle is `E = e^*Ω¹_{G/S}`, its Lie algebra `Lie(G/S) = E^∨`, and `ω = det E` is its Hodge line. Toroidal compactifications of PEL-type Shimura varieties carry such schemes, abelian on the interior and degenerating along the boundary. This roadmap proves, for these degenerating families and their models, the statements an arithmetic argument on unitary Shimura varieties needs beyond the existing theory of compactifications: growth bounds and positivity for the Hodge metric and the Hodge bundle; logarithmic periods over a polydisc; conjugate data in characteristic `p`, which play for a semi-abelian scheme on a curve the part of the de Rham homology of an abelian scheme with its two filtrations; ampleness of twisted Hodge lines on projective toroidal models; and normal projective models over the whole ring of integers of a number field, with a semi-abelian extension of the universal family at every prime and, in the marked form, a cubical line bundle. It also states Kempf's descent of linearised line bundles to quotients by finite groups.
 
-The headline theorems are these. (1) *Seminegativity over curves* (6.2a). Let `C` be a smooth projective connected curve over an algebraically closed field of characteristic zero and `G → C` a semi-abelian scheme whose generic fibre is an abelian variety. Then every locally free subsheaf of `Lie(G/C)` has degree `≤ 0`; equivalently every locally free quotient of the Hodge bundle has degree `≥ 0`, so the Hodge bundle is nef. The analytic input is a growth bound: over a smooth complex variety with a normal crossings divisor `D`, for a semi-abelian scheme abelian off `D` and a polarisation of its restriction there, the Gram matrix `H` of the Hodge metric in a frame of the Hodge bundle on a polydisc where `D = {x₁⋯x_a = 0}` satisfies `|H_{ij}| ≤ C·(1 + Σ_j|log|x_j||)` and `H ≥ c·Id` with constants `C, c > 0`. (2) *Ampleness of twisted Hodge lines* (7.17a). On the projective toroidal models of normalised blow-ups of minimal compactifications in the good-prime singleton setting, in particular on the smooth integral toroidal model of a PEL datum at a good prime for a smooth projective cone system `Σ` with polarisation function `pol`, and on their generic fibres, for every sufficiently divisible `d` there is `a₀(d)` such that `ω^{⊗a} ⊗ O(−Σ_ρ d·pol(ρ)D_ρ)` is ample relative to the base for all `a ≥ a₀(d)`. (3) *Global normal projective models* (7.31a). Let `(O, ⋆, L, ⟨·,·⟩, h)` be an integral PEL datum of type A or C satisfying Lan's condition 1.4.3.10, `G` its similitude group scheme over `ℤ`, `K ⊆ G(Ẑ)` an open compact subgroup whose image in `G(Ẑ^p)` is neat for every prime `p`, and `F` a number field containing the reflex field and the values needed for the level. Then the generic fibre `Sh_F` over `F` of the PEL moduli space at level `K` has a smooth projective toroidal compactification `Sh^tor_F` and a normal scheme `Y`, projective and flat over `O_F`, with generic fibre `Sh^tor_F`, carrying a semi-abelian scheme that extends the universal abelian scheme, is abelian exactly over `Sh_F` in the generic fibre, receives the endomorphisms (and, when the lattice is self-dual, the cubical line bundle of the principal polarisation), and agrees with the integral toroidal model over a dense open subset of `Spec O_F`; the normalisation of a component of `Y` in a finite extension of its function field is again normal, projective and flat over `O_F`, a model of the corresponding finite cover with the pulled-back semi-abelian scheme.
+The headline theorems are these. (1) *Seminegativity over curves* (6.2a). Let `C` be a smooth projective geometrically connected curve over a field of characteristic zero and `G → C` a semi-abelian scheme. Then every locally free subsheaf of `Lie(G/C)` has degree `≤ 0`; equivalently every locally free quotient of the Hodge bundle has degree `≥ 0`, so the Hodge bundle is nef. The analytic input is a growth bound: over a smooth complex variety with a normal crossings divisor `D`, for a semi-abelian scheme abelian off `D` and a polarisation of its restriction there, the Gram matrix `H` of the Hodge metric in a frame of the Hodge bundle on a polydisc where `D = {x₁⋯x_a = 0}` satisfies `|H_{ij}| ≤ C·(1 + Σ_j|log|x_j||)` and `H ≥ c·Id` with constants `C, c > 0`. (2) *Ampleness of twisted Hodge lines* (7.17a). On the projective toroidal models of normalised blow-ups of minimal compactifications in the good-prime singleton setting, in particular on the smooth integral toroidal model of a PEL datum at a good prime for a smooth projective cone system `Σ` with polarisation function `pol`, and on their generic fibres, for every sufficiently divisible `d` there is `a₀(d)` such that `ω^{⊗a} ⊗ O(−Σ_ρ d·pol(ρ)D_ρ)` is ample relative to the base for all `a ≥ a₀(d)`. (3) *Global normal projective models* (7.31a). Let `(O, ⋆, L, ⟨·,·⟩, h)` be an integral PEL datum of type A or C satisfying Lan's condition 1.4.3.10, `G` its similitude group scheme over `ℤ`, `K ⊆ G(Ẑ)` an open compact subgroup whose image in `G(Ẑ^p)` is neat for every prime `p`, and `F` a number field containing the reflex field and the values needed for the level. Then the generic fibre `Sh_F` over `F` of the PEL moduli space at level `K` has a smooth projective toroidal compactification `Sh^tor_F` and a normal scheme `Y`, projective and flat over `O_F`, with generic fibre `Sh^tor_F`, carrying a semi-abelian scheme that extends the universal abelian scheme, is abelian exactly over `Sh_F` in the generic fibre, receives the endomorphisms (and, in the form with a polarising line bundle and a marking of 7.31a (b′), a cubical line bundle extending it), and agrees with the integral toroidal model over a dense open subset of `Spec O_F`; the normalisation of a component of `Y` in a finite extension of its function field is again normal, projective and flat over `O_F`, a model of the corresponding finite cover with the pulled-back semi-abelian scheme.
 
 The roadmap extends [ShimuraCompactifications](../../ShimuraCompactifications/README.md), whose degeneration data, integral toroidal and minimal compactifications and normalised blow-ups it uses throughout; it takes integral PEL data, similitude groups and PEL moduli schemes from [PELModuli](../../PELModuli/README.md), and spreading out, Nagata rings, scheme-theoretic closures, Chow's lemma and ampleness from [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md); the normalisations of the Hodge metric come from [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md) and the Gauss–Manin connection from [AbelianSchemesAndArithmeticModuli](../../AbelianSchemesAndArithmeticModuli/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the degree of a line bundle with a metric of logarithmic growth and the Griffiths semipositivity of quotient bundles come from [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md) and give (1); the statements of this roadmap are used by [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md), for short integral sections of powers of the Hodge bundle, nefness on the fibres of integral models and the descent of the Hodge line to quotients by finite groups.
 
-The layers carry the numbers of the layers they extend. Layer 6 treats degenerating families: the growth bound and the seminegativity over curves (6.2a), the logarithmic periods over a polydisc (6.7a) and conjugate data on curves in characteristic `p` (6.9a). Layer 7 treats global models: the hypotheses of 6.9a on the global model (7.12a), the ampleness of twisted Hodge lines (7.17a), and the minimal input at every prime with the global normal projective models, the cubical line bundle of a principal polarisation and their finite covers (7.31a). Layer 9 states Kempf's descent of a linearised line bundle to a quotient by a finite group (9.1).
+The layers carry the numbers of the layers they extend. Layer 6 treats degenerating families: the growth bound and the seminegativity over curves (6.2a), the logarithmic periods over a polydisc (6.7a) and conjugate data on curves in characteristic `p` (6.9a). Layer 7 treats global models: the hypotheses of 6.9a on the global model (7.12a), the ampleness of twisted Hodge lines (7.17a), and the minimal input at every prime with the global normal projective models, the cubical line bundle of the marked form and their finite covers (7.31a). Layer 9 states Kempf's descent of a linearised line bundle to a quotient by a finite group (9.1).
 
 ## Conventions
 
@@ -44,20 +44,22 @@ norm of a frame of `det Q` (the determinant of the Gram matrix of the quotient m
 exponents cannot be lowered, as the identity quotient of the Hodge bundle of a product of two copies of a degenerating elliptic
 family shows (Gram matrix `≍ diag(t, t)`, `t = −log|q|`: squared norm `≍ t²`, norm `≍ t`);
 
-(b) let `C` be a smooth projective connected curve over an algebraically closed field of characteristic zero and `G → C`
-a semi-abelian scheme (ShimuraCompactifications §6.1) whose generic fibre is an abelian variety. Then every locally free subsheaf of `Lie(G/C)` has
+(b) let `k` be a field of characteristic zero, `C` a smooth projective geometrically connected curve over `k` and `G → C`
+a semi-abelian scheme (ShimuraCompactifications §6.1). Then every locally free subsheaf of `Lie(G/C)` has
 degree `≤ 0`; equivalently every locally free quotient of the Hodge bundle `E = e^*Ω¹_{G/C}` has degree `≥ 0` (`E` is
 nef). The characteristic-zero hypothesis enters through the Hodge metric.
 
 *Scope.* (a) bounds the entries of the Gram matrix of `h_λ` and the Gram matrix from below, in frames of the extension `E`,
 over a smooth complex variety with a normal crossings divisor; it asserts nothing about derivatives of `H` (condition (ii) of
-SingularHermitianMetricsAndL2Methods §5.3). (b) covers exactly the curves over which the semi-abelian scheme has ABELIAN
-generic fibre: for a curve `C` mapping to a base `S̄` carrying `G` as in (a), it applies to the pull-back of `G` when the
-image of `C` meets the open set where `G` is abelian. It says nothing about curves on which `G` is generically not abelian,
-for instance the curves inside a boundary stratum of positive toric rank of a toroidal compactification (the pull-back to
-such a curve, or to its normalisation, has a nontrivial torus at the generic point; fourth Check); so (b) alone does not give
-nefness of a Hodge bundle on a compactification containing such curves. Nothing is asserted in positive or mixed
-characteristic.
+SingularHermitianMetricsAndL2Methods §5.3). [FormalProof] has, for a principal polarisation on the charts of the model of
+7.31a (b′), the same two bounds together with a bound `C·exp((e + Σ_{i≤a} log(1/|x_i|²))/2)` (`e = exp(1)`) for the first
+derivatives of the entries of the Gram matrix of a frame of the Lie algebra. The rest of (a) (an arbitrary degeneration and
+polarisation, the comparison of two polarisations, the determinant identities, the quotient metrics and the sharpness of
+their exponents) is this roadmap's own statement and not a step of [FormalProof]. (b) has no hypothesis on the generic
+fibre: for a curve `C` mapping to a base `S̄` carrying `G` as in (a), it applies to the pull-back of `G` whether or not the
+image of `C` meets the open set where `G` is abelian, the curves inside a boundary stratum of positive toric rank of a
+toroidal compactification included (the pull-back to such a curve, or to its normalisation, has a nontrivial torus at the
+generic point; fourth Check). Nothing is asserted in positive or mixed characteristic.
 
 *Route.* (a) Use the degeneration data near a boundary point (ShimuraCompactifications §§6.4–6.7). The periods live on the complement of `D` only (ShimuraCompactifications §6.4:
 there is no map from the period lattice to the torus extension over `D`): over `P ∖ D`, `P` the polydisc of the statement, and
@@ -88,7 +90,9 @@ kernel; in the image frame of `Q` the Gram matrix of the quotient metric is the 
 again `O(1 + Σ_j|log|x_j||)` and `≥ c·Id`, and its determinant, the squared norm of the frame of `det Q`, lies between
 `c^{rk Q}` (from the lower bound) and `C^{rk Q}(1 + Σ_j|log|x_j||)^{rk Q}` (Hadamard's inequality: the determinant of a positive
 definite matrix is at most the product of its diagonal entries). (b) Reduce to `k = ℂ` (Lefschetz principle: the statement descends to a finitely
-generated field of definition). Let `U ⊂ C` be the open set where `G` is abelian; a polarisation `λ` of the generic fibre
+generated field of definition). For a generic fibre that is not abelian one more step is needed: the Lie algebra is an
+extension of that of the abelian part by that of a torus with finite monodromy; this step is not given here, and what
+follows treats an abelian generic fibre. Let `U ⊂ C` be the open set where `G` is abelian; a polarisation `λ` of the generic fibre
 extends over `U` (extension of homomorphisms of abelian schemes over a normal base, ArakelovGeometryAndAbelianHeights
 §2.0). On `U` the Hodge metric `h_λ` is Griffiths semipositive. The flat structure: by AbelianSchemesAndArithmeticModuli
 A4.3 and A5.6, `V = H¹_dR(G_U/U) ⊗ O_U^{an} = R¹π_*ℂ ⊗ O_U^{an}` with the Gauss–Manin connection `∇` is a flat holomorphic
@@ -118,10 +122,9 @@ Betti local system); SingularHermitianMetricsAndL2Methods §§2.5, 3.2a, 5.3.
   of degree `≥ 0`; a quotient `O` of degree zero exists, so `E` is nef and not ample.
 - For `g ≥ 2` the formula `i^{g²}∫ ω ∧ ω̄` defines a metric on `det E` only: for a `1`-form `α`, `α ∧ ᾱ` is a `2`-form and
   cannot be integrated over the `g`-dimensional fibre; the factor `c₁(λ)^{g−1}` is what makes `h_λ` a metric on `E`.
-- Curves outside the scope of (b). On `X(N) × X(N)`, `N ≥ 3`, with `G` the product of the two universal generalised elliptic
+- Boundary curves. On `X(N) × X(N)`, `N ≥ 3`, with `G` the product of the two universal generalised elliptic
   curves (identity components of their smooth loci), the boundary curve `{c} × X(N)`, `c` a cusp, carries `G_m × E`, whose
-  generic fibre is not abelian, so (b) does not apply to it; its Hodge bundle `O ⊕ ω` happens to be nef, but that is not a
-  consequence of (b).
+  generic fibre is not abelian; (b) applies to it, and its Hodge bundle `O ⊕ ω` is nef, as (b) asserts.
 
 ### 6.7a Logarithmic periods of a semi-abelian scheme over a polydisc
 
@@ -133,6 +136,8 @@ Let `0 ≤ a ≤ n`, `𝔻^n` the open unit polydisc and `𝔻^n_a ⊂ 𝔻^n` t
 - (d) endomorphisms `T_i` of `Λ` (`i ≤ a`) with `P(w + 2πi·e_i) = P(w)∘T_i`;
 - (e) a subgroup `W ⊂ Λ` containing a nonzero multiple of every element orthogonal to `W`, such that for `x ∈ W` the vector `P(w)x` depends only on `u`, extends holomorphically to `𝔻^n`, and the values at `u = 0` span `ℂ^g`.
 
+*The form of the formal proof.* [FormalProof] has this statement for the charts of the moduli scheme of 7.31a (b′): `G` carries the action of `𝒪_E` and `ℒ` its cubical structure, with the isomorphisms of 7.31a (b′) (ii), the restriction of `(G, ℒ)` to the open subscheme is the pull-back of the universal marked object by a morphism to `Sh`, and the points `ψ_u`, `u ∈ 𝔻^n_a`, map to complex points of `Sh` over the inclusion in `ℂ` of its base field (7.31a (b′) (i)). The statement for an arbitrary `(G, ℒ)` is the classical one of the references.
+
 *Route.* Near `u = 0` there is a holomorphic family of exponential maps `ℂ^g → G(ψ_u)`. The kernel at `u = 0` is discrete and free, and spans `ℂ^g` because the fibre is an extension of an abelian variety by a torus; each of its elements continues to a holomorphic section of the kernels: this gives `W`. On `𝔻^n_a` the kernels form a local system of lattices of rank `2g` carrying the Riemann form of the principal polarisation; a flat frame on the logarithmic cover is `P`, the monodromy around `u_i = 0` is `T_i`, and `W` is co-isotropic by a count of ranks. The statement is classical (Mumford; Faltings–Chai; in weight one Schmid and Cattani–Kaplan–Schmid). The proofs of these steps (the family of exponential maps, the discreteness of the kernel at `u = 0` and the continuation of its elements, and the assembly of the local system with its monodromy) are not given here.
 
 *Needs:* ShimuraCompactifications §§6.1, 6.4–6.7.
@@ -143,7 +148,7 @@ Let `0 ≤ a ≤ n`, `𝔻^n` the open unit polydisc and `𝔻^n_a ⊂ 𝔻^n` t
 
 ### 6.9a Conjugate data on a curve in characteristic p
 
-Prove the following. Let `X_0` be a reduced locally noetherian scheme and `G_0 → X_0` a semi-abelian scheme of relative dimension `d`, abelian at the generic points of `X_0`, with a rigidified symmetric line bundle `L_0` carrying a cubical structure, and with an action of an order `O` with involution such that `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` for every `a ∈ O`, and with an isomorphism `L_0 ≅ (1, w_0)^*Λ(L_0)`, the pull-back by `x ↦ (x, w_0x)`, for an element `w_0 ∈ O` with `w_0 + w̄_0 = 1`. Let `p` be a prime, `C` a smooth projective curve over a field of characteristic `p`, `f : C → X_0` a morphism, `G = f^*G_0`, `Lie = Lie(G)`, `ω = Lie^∨`. Assume that at every closed point of `C` the geometric fibre of `G` is an extension `0 → T → G_s → B → 0` of an abelian variety by a torus on which `L_0` is the pull-back of a line bundle `M` on `B` with `K(M)` trivial. Then there are a vector bundle `H` on `C` of rank `2d` with an action of `O` and a perfect alternating pairing, and exact sequences of vector bundles (a) `0 → ω → H → Lie → 0` and (b) `0 → Fr^*Lie →α H →β Fr^*ω → 0`, each with Lagrangian sub, `O`-equivariant for the dual action composed with the involution on `ω`, such that the composite `Fr^*Lie → H → Lie` is the differential of the Verschiebung and `β` is the adjoint of `α`. In coordinates of the formal completion along the unit section and a formal frame of `L_0`: `H = Lie ⊕ ω`, `α = (dV, a^T)` with `a` the coefficient of `x^py` in the trivialisation of `Λ(L_0)_{[p]x,y} ⊗ Λ(L_0)_{x,y}^{−p}` given by the first partial group law; a change of coordinates `φ` and of the trivialisation of `Λ(L_0)` by a unit `λ(x, y)` acts by `(y_1, y_2) ↦ (dφ·y_1, (dφ^{−1})^T(y_2 + Λ^Ty_1))`, `Λ` the matrix of the terms `x_iy_j` of `λ`. For a principally polarised abelian scheme over `C`, `H` may be taken to be the de Rham homology with its Hodge and conjugate filtrations. `H` is not asserted to be canonical.
+Prove the following. Let `X_0` be a reduced locally noetherian scheme and `G_0 → X_0` a semi-abelian scheme of relative dimension `d`, abelian at the generic points of `X_0`, with a rigidified symmetric line bundle `L_0` carrying a cubical structure, and with an action of `O = 𝒪_E`, for `E` and `w_0` as in 7.31a (b′), the involution `a ↦ ā` being complex conjugation, such that `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` for every `a ∈ O`, and with an isomorphism `L_0 ≅ (1, w_0)^*Λ(L_0)`, the pull-back by `x ↦ (x, w_0x)`. Let `p` be a prime, `C` a smooth projective curve over a field of characteristic `p`, `f : C → X_0` a morphism, `G = f^*G_0`, `Lie = Lie(G)`, `ω = Lie^∨`. Assume that at every closed point of `C` the geometric fibre of `G` is an extension `0 → T → G_s → B → 0` of an abelian variety by a torus on which `L_0` is the pull-back of a line bundle `M` on `B` with `K(M)` trivial. Then there are a vector bundle `H` on `C` of rank `2d` with an action of `O`, and exact sequences of vector bundles (a) `0 → ω → H → Lie → 0` and (b) `0 → Fr^*Lie →α H →β Fr^*ω → 0`, `O`-equivariant for the dual action composed with the involution on `ω`. The bundle constructed in the Route has moreover a perfect alternating pairing for which both subs are Lagrangian and `β` is the adjoint of `α`, and the composite `Fr^*Lie → H → Lie` is the differential of the Verschiebung. In coordinates of the formal completion along the unit section and a formal frame of `L_0`: `H = Lie ⊕ ω`, `α = (dV, a^T)` with `a` the coefficient of `x^py` in the trivialisation of `Λ(L_0)_{[p]x,y} ⊗ Λ(L_0)_{x,y}^{−p}` given by the first partial group law; a change of coordinates `φ` and of the trivialisation of `Λ(L_0)` by a unit `λ(x, y)` acts by `(y_1, y_2) ↦ (dφ·y_1, (dφ^{−1})^T(y_2 + Λ^Ty_1))`, `Λ` the matrix of the terms `x_iy_j` of `λ`. For a principally polarised abelian scheme over `C`, `H` may be taken to be the de Rham homology with its Hodge and conjugate filtrations; this comparison is this roadmap's own statement and not a step of [FormalProof]. `H` is not asserted to be canonical.
 
 *Route.* (1) Near a point of `X_0` choose formal coordinates and a formal frame of `L_0`: a formal group law, the action, the two partial laws of `Λ(L_0)`, the symmetry and the adjunction series; their identities hold because a unit on the fibre cube of `G_0` that is `1` along the unit sections is `1` (functions on fibre powers come from the base, the generic fibres being abelian); two choices differ by a change of coordinates and of frame. (2) `H`, the pairing and the action for one choice at the generic point of `C`; at a closed point the lattice is the image of the standard lattice of a choice over the local ring. (3) The first power map is a function of `(x^{(p)}, y)` (its derivative in `x` vanishes), `[p] = V∘Fr`. (4) Isotropy: the symmetry law gives `b = Sh + a^T` for the coefficient `b` of `xy^p` in the second power map, the interchange law gives `ah = h^Tb` (`h = dV`), so `β∘α = 0`. (5) Over a local ring, a map `𝒪^d → 𝒪^{2d}` that is isotropic and injective on the closed fibre is a split injection onto a Lagrangian summand. (6) Injectivity on a geometric fibre (Cartier's criterion): if `α(w^{(p)}) = 0`, the jet `tw` of order `p` is killed by `p`, and the coefficient of `t^p` in the canonical generator of `(t_{tw}^*L ⊗ L^{−1})^{⊗p}` has zero differential, hence is a `p`-th power on the normal fibre; the top coefficients in two charts differ by the `p`-th power of the first-order transition function, so `t_w^*L ≅ L` to first order; this descends to `B`, where `K(M)` trivial gives that `w` is tangent to the torus, and there the `p`-th power of the jet is `w^{(p)}t^p ≠ 0`.
 
@@ -157,7 +162,7 @@ Prove the following. Let `X_0` be a reduced locally noetherian scheme and `G_0 �
 
 ### Examples
 
-From the Checks of 6.2a: over the modular curve `X(N)`, `N ≥ 3`, the Hodge bundle `ω` of the universal generalised elliptic curve has positive degree; a constant abelian scheme has trivial Hodge bundle, whose locally free quotients have degree `≥ 0` but not always `0` (over `ℙ¹` a constant abelian surface has `E = O²`, which maps onto `O(1)`); for `G = E₀ × E_t`, a constant elliptic curve times a degenerating family over `ℙ¹`, `E = O ⊕ ω_t` is nef and not ample. On `X(N) × X(N)` the boundary curve `{c} × X(N)` carries `G_m × E`, whose generic fibre is not abelian, so 6.2a (b) does not apply to it. From the Check of 6.7a: for the Tate curve over the disc with `q = u`, `Λ = ℤ²`, `P(w) = (1, w/2πi)`, `H = 2π/log(1/|u|)`, the monodromy is `T = (1 1; 0 1)`, and `W` is spanned by the first basis vector, with constant period `1`. From the Checks of 6.9a: for `G = 𝔾_m`, `H = 𝒪²` with `α = (1, 0)` and `β = (0, 1)`; for a supersingular elliptic curve `dV = 0` and `α = (0, a)` with `a ≠ 0`; for `L_0` trivial on an abelian variety `a = 0`, and `α` is not injective at a non-ordinary point.
+From the Checks of 6.2a: over the modular curve `X(N)`, `N ≥ 3`, the Hodge bundle `ω` of the universal generalised elliptic curve has positive degree; a constant abelian scheme has trivial Hodge bundle, whose locally free quotients have degree `≥ 0` but not always `0` (over `ℙ¹` a constant abelian surface has `E = O²`, which maps onto `O(1)`); for `G = E₀ × E_t`, a constant elliptic curve times a degenerating family over `ℙ¹`, `E = O ⊕ ω_t` is nef and not ample. On `X(N) × X(N)` the boundary curve `{c} × X(N)` carries `G_m × E`, whose generic fibre is not abelian; 6.2a (b) applies to it, and its Hodge bundle `O ⊕ ω` is nef. From the Check of 6.7a: for the Tate curve over the disc with `q = u`, `Λ = ℤ²`, `P(w) = (1, w/2πi)`, `H = 2π/log(1/|u|)`, the monodromy is `T = (1 1; 0 1)`, and `W` is spanned by the first basis vector, with constant period `1`. From the Checks of 6.9a: for `G = 𝔾_m`, `H = 𝒪²` with `α = (1, 0)` and `β = (0, 1)`; for a supersingular elliptic curve `dV = 0` and `α = (0, a)` with `a ≠ 0`; for `L_0` trivial on an abelian variety `a = 0`, and `α` is not injective at a non-ordinary point.
 
 ### Dependencies
 
@@ -169,11 +174,11 @@ The statements of this layer concern the integral models of PEL-type Shimura var
 
 ### 7.12a The hypotheses of 6.9a on the global model and on the schemes over it
 
-In the setting of 7.31a let `O = 𝒪_E` be the maximal order of a CM field with complex conjugation, the lattice of the datum self-dual, and `w_0 ∈ 𝒪_E` with `w_0 + w̄_0 = 1`; let `(Y, G, ℒ_G)` be the global model of 7.31a (b) with its cubical line bundle `ℒ_G`. Prove that for `X_0 = Y`, and for every reduced locally noetherian scheme `X_0 → Y` whose generic points map to `Sh_F`, with `G_0`, `L_0` the pull-backs of `G`, `ℒ_G`, the hypotheses of 6.9a hold: `G_0` is semi-abelian and abelian at the generic points; `L_0` is rigidified, symmetric, cubical, with `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` and `L_0 ≅ (1, w_0)^*Λ(L_0)`; and at every point `z` of `X_0` of positive residue characteristic, for every prime, the geometric fibre is an extension `0 → T → G_{z̄} →q B → 0` of an abelian variety by a torus with `L_0|_{G_{z̄}} ≅ q^*M` for a line bundle `M` on `B` with `K(M)` trivial. In particular 6.9a applies to every morphism from a smooth projective curve in characteristic `p` to `X_0`, the curves in the boundary included.
+In the setting of 7.31a (b′), with `O = 𝒪_E` and `w_0 = (1 + √−d)/2`, prove that the scheme `Y` of 7.31a (b′) (ii), with its `G` and `ℒ_G`, can be chosen so that the following holds. For `X_0 = Y`, and for every reduced locally noetherian scheme `X_0 → Y` whose generic points map to `Sh_F`, with `G_0`, `L_0` the pull-backs of `G`, `ℒ_G`, the hypotheses of 6.9a hold: `G_0` is semi-abelian and abelian at the generic points; `L_0` is rigidified, symmetric, cubical, with `(a × 1)^*Λ(L_0) ≅ (1 × ā)^*Λ(L_0)` and `L_0 ≅ (1, w_0)^*Λ(L_0)`; and at every point `z` of `X_0` of positive residue characteristic, for every prime, the geometric fibre is an extension `0 → T → G_{z̄} →q B → 0` of an abelian variety by a torus with `L_0|_{G_{z̄}} ≅ q^*M` for a line bundle `M` on `B` with `K(M)` trivial. In particular 6.9a applies to every morphism from a smooth projective curve in characteristic `p` to `X_0`, the curves in the boundary included.
 
-*Route.* The bundle and its isomorphisms: 7.31a (b). The fibres: the condition is invariant under pull-back, so let `X_0 = Y`. Dominate the local ring of `z` by a complete discrete valuation ring `R` of characteristic zero whose generic point maps to `Sh_F`, with split closed fibre after a finite extension. The pull-back of `(G, ℒ_G)` to `R` has degeneration data (ShimuraCompactifications §§6.4–6.6): a Raynaud extension `0 → T → G̃ → B_R → 0` with the same closed fibre as `G`, on which the line bundle is the pull-back of an ample `M_R` on `B_R`; the polarisation of the generic fibre being principal, `K(M_R)` is trivial. Restrict to the closed fibre. The proofs that the fibre condition is invariant under pull-back and that the closed fibre of a uniformised semi-abelian scheme has this form are not given here, nor is the uniformisation of the pull-back at the primes that are bad for the datum and the level.
+*Route.* The bundle and its isomorphisms: 7.31a (b′). The model `Y` is chosen to dominate, at every prime, a local model whose toric fibres split after a finite separable extension of the residue field and whose pull-backs to complete noetherian normal local domains of characteristic zero with abelian generic point and split closed fibre have degeneration data; the existence of such local models and of a global model dominating them is part of the statement of [FormalProof] behind 7.31a (b′), and is not given here. The fibres: the condition is invariant under pull-back, so let `X_0 = Y`. Dominate the local ring of `z` by a complete discrete valuation ring `R` of characteristic zero whose generic point maps to `Sh_F`, with split closed fibre after a finite extension. The pull-back of `(G, ℒ_G)` to `R` has degeneration data (ShimuraCompactifications §§6.4–6.6): a Raynaud extension `0 → T → G̃ → B_R → 0` with the same closed fibre as `G`, on which the line bundle is the pull-back of an ample `M_R` on `B_R`; the polarisation of the generic fibre being principal, `K(M_R)` is trivial. Restrict to the closed fibre. The proofs that the fibre condition is invariant under pull-back and that the closed fibre of a uniformised semi-abelian scheme has this form are not given here, nor is the uniformisation of the pull-back at the primes that are bad for the datum and the level.
 
-*Needs:* 6.9a, 7.31a (b) (the cubical line bundle `ℒ_G`); ShimuraCompactifications §§6.4–6.6.
+*Needs:* 6.9a, 7.31a (b′) (the cubical line bundle `ℒ_G`); ShimuraCompactifications §§6.4–6.6.
 
 ### 7.17a Ampleness of twisted Hodge lines on projective toroidal models
 
@@ -192,6 +197,15 @@ line of one of the `J`-indexed families need not be such a pull-back: when the p
 corresponding singleton model is not finite on the interior (ShimuraCompactifications §§7.20, 7.31), the Hodge line of that family, pulled back from
 the singleton model, has degree zero on a proper curve of the interior contracted by the projection, and so does the
 boundary twist, which is trivial on the interior; no power of their product is ample (second Check).
+
+[FormalProof] has a statement of the shape of (b) in the Siegel case: for the moduli scheme of principally polarised
+abelian schemes of dimension `g ≥ 1` with a structure of odd level `n ≥ 3` over `ℤ[ζ_n, 1/n]`, a normal projective
+compactification of it, an ample invertible sheaf `𝓜` on the compactification and the polarisation function `pol` of a
+fan, there are `d ≥ 1` and a normalised blow-up of the compactification along an ideal supported in the boundary, with
+exceptional divisor `Σ_ρ d·pol(ρ)D_ρ`, on which `𝓜^{⊗a} ⊗ O(−Σ_ρ d·pol(ρ)D_ρ)` is ample for all large `a`; there `d` is
+asserted to exist, not to be every sufficiently divisible integer, and the compactification is subject to a condition on
+theta functions that is not restated here. (a) is this roadmap's own statement and not a step of [FormalProof]. (b) is
+this roadmap's own statement and not a step of [FormalProof].
 
 *Route.* The twist `O(−Σ_ρ d·pol(ρ)D_ρ)` is the inverse image of the normalised blow-up ideal of ShimuraCompactifications §7.31 (ShimuraCompactifications §7.20 on the smooth
 good-level model), hence ample relative to the minimal model (the inverse image of a blown-up ideal is relatively ample
@@ -238,7 +252,7 @@ need not be finite (ShimuraCompactifications §7.20), and an ample power of the 
 (b) (*global model*) For the datum and the level `K ⊆ G(Ẑ)` of the setting, there are a smooth projective toroidal
 compactification `Sh^tor_F` of `Sh_F` and a normal scheme `Y`, projective and flat over `O_F`, with generic fibre `Sh^tor_F`
 (so that `Sh_F` is a dense open subscheme of it), and a semi-abelian scheme `G → Y` extending `A`, abelian exactly over
-`Sh_F` in the generic fibre; the endomorphisms of `A` extend to `G` (ShimuraCompactifications §§6.8, 6.9). If moreover the lattice `L` of the datum is self-dual, so that the polarisation `λ` of `A` is principal, and `w_0 ∈ O` is an element with `w_0 + w̄_0 = 1`, let `ℒ_A := (1, λ∘w_0)^*𝒫` be the pull-back of the Poincaré bundle, a rigidified symmetric line bundle on `A` with `φ_{ℒ_A} = λ`, relatively ample, with `K(ℒ_A)` trivial, and with isomorphisms `(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` for `a ∈ O` and `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`, where `(1, w_0) : A → A ×_{Sh} A`. Then `ℒ_A` extends to a rigidified symmetric line bundle `ℒ_G` on `G` with a cubical structure, and these isomorphisms extend; the same holds on every `Y_L` below by pull-back. Over a dense open subset of `Spec O_F`, `Y` is
+`Sh_F` in the generic fibre; the endomorphisms of `A` extend to `G` (ShimuraCompactifications §§6.8, 6.9). If moreover the lattice `L` of the datum is self-dual, so that the polarisation `λ` of `A` is principal, and `w_0 ∈ O` is an element with `w_0 + w̄_0 = 1`, let `ℒ_A := (1, λ∘w_0)^*𝒫` be the pull-back of the Poincaré bundle, a rigidified symmetric line bundle on `A` with `φ_{ℒ_A} = λ`, relatively ample, with `K(ℒ_A)` trivial, and with isomorphisms `(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` for `a ∈ O` and `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`, where `(1, w_0) : A → A ×_{Sh} A`. Then `ℒ_A` extends to a rigidified symmetric line bundle `ℒ_G` on `G` with a cubical structure, and these isomorphisms extend; the same holds on every `Y_L` below by pull-back. These two sentences are the roadmap's own form; the form proved in [FormalProof] is (b′). Over a dense open subset of `Spec O_F`, `Y` is
 the integral toroidal model of ShimuraCompactifications §7.3. At the bad primes `Y` is built from the models of ShimuraCompactifications §7.31 for the singleton collection
 `J₀ = {(1, L, ⟨·,·⟩)}` of the datum's own lattice at level `K`, with the minimal input of (a) (Lan's theorem, proof not given
 here); no other level and no other collection is used. Moreover, for an
@@ -253,20 +267,54 @@ a finite extension of `F` not contained in `K_c`), then `Y_L` is a scheme over `
 birational over `F` to that of `Y_c` (`F`-isomorphic function fields have `F`-isomorphic algebraic closures of `F`). A
 finite extension `F′ ⊆ L` with `F′ ⊆ K_c` changes nothing: for `L = K_c`, `Y_L = Y_c` (second Check).
 
-(b′) (*the marked form at similitude level one*) Let `E` be a CM field, unramified over its maximal totally real subfield,
-containing `√−d` for a prime `d ≡ 7 (mod 16)`, `w_0 := (1 + √−d)/2`; let `L` be a finitely generated projective `𝒪_E`-module
-of rank `p + q ≥ 1` with a perfect alternating `ℤ`-bilinear form `⟨·,·⟩` for which `𝒪_E` acts through its conjugation, of
-signature `(p, q)` at every embedding of the type induced from `ℚ(√−d)`; let `M ≥ 3` be odd and `𝔐` an ideal of `𝒪_E`
-generated by elements of `ℤ[w_0]` with `𝔐·𝔐̄ = (M)`, `𝔐 + 𝔐̄ = (1)`, such that `M/ℓ^{v_ℓ(M)} ≥ 3` for every prime `ℓ`.
-Consider the moduli problem of abelian schemes `A` with an action of `𝒪_E` satisfying the determinant condition of
-signature `(p, q)`, a rigidified symmetric relatively ample line bundle `ℒ_A` with `K(ℒ_A)` trivial, with isomorphisms
-`(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` for `a ∈ 𝒪_E` and `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`, and a marking `L/𝔐L → A` that is induced,
-at geometric points, by a symplectic identification (no condition on the multiplier: similitude level one). It is
-represented, on reduced schemes, by a smooth quasi-projective scheme `Sh` over `ℚ(√−d)`, and for every number field
-`F ⊂ ℂ` containing the conjugates of `E` and `μ_M` there is a normal scheme `Y`, projective and flat over `O_F`, containing
-`Sh_F` as a dense open subscheme of its generic fibre, with a semi-abelian scheme `G → Y` extending the universal `A`,
-abelian in the generic fibre exactly over `Sh_F`, to which the action of `𝒪_E` extends, and a rigidified symmetric line
-bundle `ℒ_G` on `G` with a cubical structure extending `ℒ_A`, to which the two families of isomorphisms extend.
+(b′) (*the marked form at similitude level one*) Let `E` be a CM field with complex conjugation `a ↦ ā`, whose ring of
+integers `𝒪_E` is unramified over that of its maximal totally real subfield, and which contains a square root `√−d` of
+`−d` for a prime `d ≡ 7 (mod 16)`; put `w_0 := (1 + √−d)/2 ∈ 𝒪_E`, so that `w_0 + w̄_0 = 1`. Fix a square root `ρ` of `−d`
+in `ℂ`, and let `Φ` be the set of the embeddings `τ : E → ℂ` with `τ(√−d) = ρ`. Let `L` be a finitely generated projective
+`𝒪_E`-module of rank `p + q ≥ 1` with a perfect alternating `ℤ`-bilinear form `⟨·,·⟩` such that `⟨ax, y⟩ = ⟨x, āy⟩` for
+`a ∈ 𝒪_E`, of signature `(p, q)` in this sense: `L ⊗ ℝ` has a complex structure `J` commuting with `𝒪_E`, with
+`⟨Jx, Jy⟩ = ⟨x, y⟩` and `⟨Jx, x⟩ > 0` for `x ≠ 0`, for which the trace of every `a ∈ 𝒪_E` on the complex vector space
+`(L ⊗ ℝ, J)` is `Σ_{τ∈Φ}(p·τ(a) + q·τ̄(a))`. Let `M ≥ 3` be an odd integer and `𝔐` an ideal of `𝒪_E` generated by elements
+of `ℤ[w_0]`, with `𝔐·𝔐̄ = (M)` and `𝔐 + 𝔐̄ = (1)`, such that `M/ℓ^{v_ℓ(M)} ≥ 3` for every prime `ℓ`.
+
+A *marked object* over a scheme `S` over `ℚ(ρ)` consists of: an abelian scheme `A → S` with an action of `𝒪_E` satisfying
+the determinant condition of signature `(p, q)` (at every geometric point `x̄` of `S`, for every ring homomorphism `τ` from
+`𝒪_E` to the residue field of `x̄`, the `τ`-eigenspace of `Lie A_{x̄}` has dimension `p` if `τ(√−d)` is the image of `ρ`,
+and `q` otherwise); a rigidified symmetric line bundle `ℒ_A` on `A` with a cubical structure, relatively ample and with
+`K(ℒ_A)` trivial, for which there are isomorphisms `(a × 1)^*Λ(ℒ_A) ≅ (1 × ā)^*Λ(ℒ_A)` on `A ×_S A` for every `a ∈ 𝒪_E`
+and an isomorphism `ℒ_A ≅ (1, w_0)^*Λ(ℒ_A)`; and a homomorphism of groups `η : L/𝔐L → A(S)`, the *marking*, such that at
+every geometric point `x̄` of `S` there are primitive `n`-th roots of unity `ζ_n` in the residue field with `ζ_{nm}^m = ζ_n`
+and isomorphisms of `𝒪_E`-modules `ι_n : L/nL → A_{x̄}[n]` (`n ≥ 1`) with `m·ι_{nm} = ι_n`, with
+`e_n(ι_n(x), ι_n(y)) = ζ_n^{⟨x,y⟩}` for the Weil pairing `e_n` on `A_{x̄}[n]` defined by `ℒ_A`, and with `η(x) = ι_M(x)` at
+`x̄` for every `x ∈ 𝔐̄L` (as `L = 𝔐L + 𝔐̄L`, this determines `η` at `x̄`). The roots of unity `ζ_n` are not prescribed: the
+similitude level is one. An isomorphism of marked objects is an isomorphism of abelian schemes that commutes with the
+actions and the markings and carries the line bundles to one another with their rigidifications and their cubical
+structures. On an abelian scheme a rigidified line bundle has exactly one cubical structure (classical), so the cubical
+structure of `ℒ_A` is not an additional datum; it is part of the object because the extension `ℒ_G` below carries one.
+
+Prove the following.
+
+(i) (*the moduli scheme*) There are a scheme `Sh`, quasi-projective and smooth of relative dimension `([E:ℚ]/2)·p·q`
+over `ℚ(ρ)`, and a marked object `(A, ℒ_A, η)` over `Sh`, such that for every reduced scheme `S` over `ℚ(ρ)` and every
+marked object over `S` there is exactly one morphism `f : S → Sh` over `ℚ(ρ)` for which the object is isomorphic to the
+pull-back by `f` of `(A, ℒ_A, η)`. Moreover `Sh` is rigid on dual numbers: for a field `k` and a morphism
+`x : Spec k[ε]/(ε²) → Sh`, with `x_0` the composite `Spec k[ε]/(ε²) → Spec k → Spec k[ε]/(ε²) →x Sh` (the constant
+morphism at the closed point of `x`), if the pull-backs of `(A, ℒ_A, η)` by `x` and by `x_0` are isomorphic marked
+objects, then `x = x_0`. (`Sh` is reduced, so the first property determines it up to a unique isomorphism.)
+
+(ii) (*the global model*) Let `F` be a subfield of `ℂ`, finite over `ℚ`, that contains `τ(E)` for every embedding
+`τ : E → ℂ` and the `M`-th roots of unity (hence `ρ`), and `Sh_F := Sh ⊗_{ℚ(ρ)} F`. There are a normal scheme `Y`,
+projective and flat over `O_F`, an open immersion of `Sh_F` into the generic fibre of `Y` with dense image, a semi-abelian
+scheme `G → Y` with an action of `𝒪_E`, and a rigidified symmetric line bundle `ℒ_G` on `G` with a cubical structure,
+such that: the restriction of `G` to `Sh_F`, with its action, is `A`, and that of `ℒ_G`, with its rigidification and its
+cubical structure, is `ℒ_A`; there are isomorphisms `(a × 1)^*Λ(ℒ_G) ≅ (1 × ā)^*Λ(ℒ_G)` on `G ×_Y G` for every
+`a ∈ 𝒪_E` and an isomorphism `ℒ_G ≅ (1, w_0)^*Λ(ℒ_G)`; and a point of the generic fibre of `Y` lies in `Sh_F` if and
+only if the fibre of `G` over it is an abelian variety.
+
+(iii) (*local models with invertible direct image*) For every nonzero prime `𝔭` of `O_F` there are `Y_𝔭`, `G`, `ℒ_G`
+with the properties of (ii) over the localisation `O_{F,(𝔭)}` in place of `O_F` such that, `π : G → Y_𝔭` being the
+structure morphism, `π_*ℒ_G` is an invertible sheaf on `Y_𝔭`, generated locally on `Y_𝔭` by a section of `ℒ_G` that
+vanishes identically on no fibre of `π`. `Y_𝔭` is not asserted to be the localisation of the `Y` of (ii).
 
 *Scope.* The group is the similitude group scheme `G` of the integral PEL datum (PELModuli M0.7; for type A the unitary
 similitude group, for type C the symplectic similitude group), with similitude character `ν : G → G_m`, and the levels are
@@ -278,7 +326,8 @@ other groups between `G₁` and `G`. (b) gives models of `Sh_F` for the datum an
 and of finite covers of these, with the semi-abelian scheme extending `A` or its pull-back; it does not identify a component
 or a finite cover with a Shimura variety of `G₁` at some level, nor the pulled-back family with a family of that variety. The
 primes are all primes of `O_F`, good and bad (at the bad ones through the named input (a)). (b′) has no similitude level:
-its level is the marking of `L/𝔐L`, with no condition on the multiplier.
+its level is the marking of `L/𝔐L`, with no condition on the multiplier. [FormalProof] uses (b′); (a) and (b) are not
+inputs of it.
 
 *Route.* (a) A theorem of Lan (the compactifications of PEL-type Shimura varieties in ramified characteristics, 2016; the
 properties ShimuraCompactifications §7.31 lists for its minimal input), proof not given here; its construction is not reproduced here.
@@ -335,13 +384,15 @@ semi-abelian scheme is semi-abelian, and it is abelian exactly over the preimage
 pull back. Constants: the ring of integers of `F_L` consists of elements of `L` integral over `ℤ`, hence lies in every local
 ring of the normal `Y_L`, so `Y_L` maps to `Spec O_{F_L}`.
 
-*The cubical line bundle.* The extension of `ℒ_A` to `G`, with its cubical structure and its isomorphisms, is not given here.
+*The cubical line bundle.* The extension of `ℒ_A` to `G`, with its cubical structure and its isomorphisms, is not given here;
+the form with a marking is (b′).
 
 (b′) The statement of [FormalProof] in this form; its proof is not given here. If the marked problem is identified with
 the PEL moduli problem of (b) for the datum `(𝒪_E, ¯, L, ⟨·,·⟩, h)` at the level `K ⊆ G(Ẑ)` of the elements that act
-trivially on `L/𝔐L` and with multiplier in `Ẑ^×`, (b′) is (b) for that level; this identification (Lan's condition for the
-datum, the neatness of `K` away from each prime from `M/ℓ^{v_ℓ(M)} ≥ 3`, and the passage from polarisations up to
-similitude to a polarising line bundle) is not given here.
+trivially on `L/𝔐L` and with multiplier in `Ẑ^×`, then (b′) (ii) is (b) for that level, with the line bundle of (b) in
+place of the datum `ℒ_A`; this identification (Lan's condition for the datum, the neatness of `K` away from each prime
+from `M/ℓ^{v_ℓ(M)} ≥ 3`, and the passage from polarisations up to similitude to a polarising line bundle) is not given
+here.
 
 *Needs:* 7.17a; ShimuraCompactifications §§0.15, 6.1, 6.8, 6.9, 7.3, 7.16, 7.19, 7.20, 7.31; PELModuli M0.5, M0.7, M4.5, M4.6; SchemeAndStackFoundations
 §§0.8, 0.9, 0.20, 4.11, 4.12 (flatness over Dedekind bases, limits and spreading out, finiteness of normalisation,
@@ -402,6 +453,8 @@ Let `k` be a field of characteristic zero, `X` an integral projective `k`-scheme
 
 *Route.* Write `L = O(D)` for a Cartier divisor `D`; the linearisation becomes rational functions `c(γ)` with `γ^*D = D + div c(γ)` and `c(γδ) = δ^*(c(γ))·c(δ)`. By the hypothesis at the generic point `c` is trivial on the elements acting trivially on `k(X)`, so Hilbert's Theorem 90 for `k(X)` over `k(X)^Γ` gives `f` with `c(γ) = γ^*f/f`, and `D′ = D + div f` is `Γ`-invariant. At every point `D′` has a local equation that is a `Γ`-invariant rational function (the inertia condition, and an average over the inertia group, which is where characteristic zero is used). Invariant rational functions are functions on `W`; the invariant local equations define a Cartier divisor `E` on `W` with `π^*E = D′`, and `N = O(E)`. This is Kempf's descent lemma ([DN]) for a finite group and a line bundle. The proof that `D′` has a `Γ`-invariant local equation at every point is not given here beyond this indication.
 
+*The form of the formal proof.* [FormalProof] has the statement over number fields; the general case is [DN].
+
 **Checks.**
 
 - `X = ℙ¹` with `Γ = {±1}` acting by `t ↦ −t`, `W = ℙ¹` with coordinate `t²`. For `L = O([0])` with its natural linearisation, `−1` acts by `−1` on the fibre at the fixed point `0` (the fibre is the tangent line), and `L` does not descend (pull-backs from `W` have even degree).
@@ -419,11 +472,11 @@ No earlier layer. Schemes, line bundles and their pull-backs are those of Scheme
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns: the growth bounds for the Hodge metric of a semi-abelian degeneration over a smooth complex variety with a normal crossings divisor and the seminegativity of the Lie algebra of a semi-abelian scheme with abelian generic fibre over a curve in characteristic zero (6.2a); the logarithmic periods of a semi-abelian scheme over a polydisc (6.7a); conjugate data on curves in characteristic `p` (6.9a) and their hypotheses on the global model and on the reduced schemes over it (7.12a); the ampleness of twisted Hodge lines on projective toroidal models (7.17a); the minimal input at every prime, the global normal projective models with semi-abelian extension and their normalisations in finite extensions, with the cubical line bundle of a principal polarisation (7.31a); and Kempf's descent of a linearised line bundle to a quotient by a finite group (9.1). The statements of Layers 6 and 7 extend [ShimuraCompactifications](../../ShimuraCompactifications/README.md) and carry the numbers of its layers, and 9.1 extends [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md).
+This roadmap owns: the growth bounds for the Hodge metric of a semi-abelian degeneration over a smooth complex variety with a normal crossings divisor and the seminegativity of the Lie algebra of a semi-abelian scheme over a curve in characteristic zero (6.2a); the logarithmic periods of a semi-abelian scheme over a polydisc (6.7a); conjugate data on curves in characteristic `p` (6.9a) and their hypotheses on the global model and on the reduced schemes over it (7.12a); the ampleness of twisted Hodge lines on projective toroidal models (7.17a); the minimal input at every prime, the global normal projective models with semi-abelian extension and their normalisations in finite extensions, with the cubical line bundle of a principal polarisation (7.31a, with the marked form (b′)); and Kempf's descent of a linearised line bundle to a quotient by a finite group (9.1). The statements of Layers 6 and 7 extend [ShimuraCompactifications](../../ShimuraCompactifications/README.md) and carry the numbers of its layers, and 9.1 extends [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md).
 
 Not owned here. Semi-abelian schemes, degeneration data, Mumford's construction, the extension of homomorphisms and of PEL endomorphisms across the boundary, Frobenius and Verschiebung, the integral toroidal compactifications at good primes, the integral minimal compactification and the power of the Hodge line pulled back from it, finite normalisations at higher level, and normalised blow-ups of minimal compactifications are ShimuraCompactifications Layers 0, 6 and 7. Integral PEL data, similitude groups, the PEL moduli problem and normal integral models at higher level are [PELModuli](../../PELModuli/README.md) Layers M0–M4. Flatness over Dedekind bases, limits and spreading out, Nagata rings, scheme-theoretic closures, Chow's lemma and relative ampleness are SchemeAndStackFoundations Layers 0, 2 and 4. The Faltings and Deligne normalisations of the metric on the Hodge bundle and the extension of homomorphisms of abelian schemes over a normal base are [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md) Layer 2, and the computation behind the logarithmic growth of the Faltings metric is ArakelovGeometryAndAbelianHeights §5.3. De Rham cohomology with its Hodge filtration and Gauss–Manin connection, Riemann forms and the comparison with the Betti local system are [AbelianSchemesAndArithmeticModuli](../../AbelianSchemesAndArithmeticModuli/README.md) Layers A4–A5. Degrees on curves for metrics of logarithmic growth, curvature of sub-bundles and quotient bundles, and good metrics along a boundary are [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md).
 
-In this family, [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md) uses 6.2a, 6.7a, 6.9a, 7.12a, 7.17a (a), 7.31a (b) and 9.1. 7.31a (b) is stated for the similitude group `G` of the datum and levels `K ⊆ G(Ẑ)` neat away from every prime (its Scope); a level open in the unitary group `ker ν`, or a similitude level outside `G(Ẑ)`, is not of this kind, and a use at such a level first passes to a level of the setting. The setting of its §§8.11–8.19 uses 7.31a (b′), the marked form at similitude level one.
+In this family, [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md) uses 6.2a, 6.7a, 6.9a, 7.12a, 7.17a (a), 7.31a (b′) and 9.1. 7.31a (b) is stated for the similitude group `G` of the datum and levels `K ⊆ G(Ẑ)` neat away from every prime (its Scope). 7.31a (b′) has a marking and no similitude level; it is the form that 6.9a, 7.12a and ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties use for the cubical line bundle. This roadmap does not compare the two.
 
 ## Exact supplier contracts
 
@@ -458,6 +511,6 @@ In this family, [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../
 - K.-W. Lan, *Compactifications of PEL-type Shimura varieties in ramified characteristics*, Forum Math. Sigma (2016): 7.31a.
 - K.-W. Lan, *Integral models of toroidal compactifications with projective cone decompositions*, IMRN (2017); G. Faltings and C.-L. Chai, *Degeneration of abelian varieties* (1990): 6.7a, 7.17a, 7.31a.
 - A. Grothendieck, *Éléments de géométrie algébrique* II (Chow's lemma): 7.31a (b).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The form of 7.31a (b′) is taken from it.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The forms of 6.2a (b), 6.9a, 7.12a and 7.31a (b′) are taken from it.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - [DN] J.-M. Drezet and M. S. Narasimhan, *Groupe de Picard des variétés de modules de fibrés semi-stables sur les courbes algébriques*, Invent. Math. 97 (1989): Kempf's descent lemma (a finite group and a line bundle), 9.1.
