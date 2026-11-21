@@ -23,7 +23,10 @@ on it.
   finite place, a unitary Hecke character of `E` restricting to `η_{E/F}^{n_η}` on `𝔸_F^×`, with
   prescribed restrictions to the units at the places above a finite set of split places of `F`,
   unramified elsewhere and of type `(z/|z|)^{m_τ}` at the places of a CM type `Φ`, exists exactly
-  when a product of these data is `1` on the elements of `E^×` whose ideal comes from `F`. Tau Ceti
+  when a product of these data is `1` on the elements of `E^×` whose ideal comes from `F`. The
+  criterion in this generality, with its "only if" direction, is the roadmap's own formulation; the
+  formal proof that the roadmap follows establishes the existence of the characters of 2.4 (b) for
+  the hosts of the chain, which is the case of the "if" direction used later. Tau Ceti
   has Hecke characters as continuous characters of the idele class group, their finite and complex
   components, the map of idele class groups induced by `𝔸_F^× ⊂ 𝔸_E^×`, the global Artin map and the
   quadratic character of a separable quadratic extension, from which `η_{E/F}` can be composed. It
