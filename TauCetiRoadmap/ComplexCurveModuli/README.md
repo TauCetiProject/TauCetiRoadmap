@@ -1321,7 +1321,7 @@ families, Schwarz–Pick, reflection); PDE §4.2 (coercive Dirichlet problems) a
   `log(1/ρ_a) = −log|a| + 2 log r`, and the error term `2 log r` is bounded exactly when r stays
   in a fixed interval `[c, C]` with `0 < c`; for a fixed radius it is constant in a. The radii
   `r = |a|^(1/4)`, which satisfy `|a| < r²` and are bounded above, give the error
-  `(1/2) log|a| → −∞`. A normalization that dropped the radii would make the error term depend on a.
+  `(1/2) log|a| → −∞`.
 
 ### 6.2 Hyperbolic collars and thick-core compactness
 
