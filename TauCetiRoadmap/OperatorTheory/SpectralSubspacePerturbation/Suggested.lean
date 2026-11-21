@@ -22,17 +22,17 @@ target, its API and its Checks.
 The headline theorems are:
 
 * the domain-aware `π / 2` Sylvester bound for self-adjoint operators, bounded or not, whose
-  spectra are `δ`-separated (README §2.16);
+  spectra are `δ`-separated (README §B.16);
 * Rosenblum's theorem: a bounded intertwiner of two self-adjoint operators with disjoint spectra
-  is zero (README §2.17);
-* the Davis–Kahan `tan Θ` theorem for a Ritz residual (README §3.28);
-* the Yu–Wang–Samworth aligned-basis and single-eigenvector theorems (README §4.17 and §4.18).
+  is zero (README §B.17);
+* the Davis–Kahan `tan Θ` theorem for a Ritz residual (README §C.28);
+* the Yu–Wang–Samworth aligned-basis and single-eigenvector theorems (README §D.17 and §D.18).
 
 The other headline theorems of the roadmap are declarations of the pinned Tau Ceti and are not
 restated here: the exterior Fourier identity and the mass `π / 2` of the Haagerup–Zsidó kernel,
 the finite-dimensional Sylvester bounds with constant one and with constant `π / 2`, the
 Davis–Kahan `sin Θ` and `sin 2Θ` theorems, and the Yu–Wang–Samworth `sin Θ` theorem. The README
-names them in its supplier contracts. Every headline theorem is statable at the pins.
+names them in the items they realise. Every headline theorem is statable at the pins.
 -/
 
 namespace TauCetiRoadmap.SpectralSubspacePerturbation
@@ -40,13 +40,13 @@ namespace TauCetiRoadmap.SpectralSubspacePerturbation
 open Module (finrank)
 open scoped InnerProductSpace
 
-/-! ## Layer 2: Sylvester equations and Rosenblum's theorem -/
+/-! ## Part B: Sylvester equations and the Rosenblum theorem -/
 
 /-- **The domain-aware `π / 2` Sylvester bound.** Let `A` and `B` be self-adjoint operators,
 possibly unbounded, on complex Hilbert spaces, whose real spectra are `δ`-separated with
 `δ > 0`. If bounded `X` and `C` satisfy `A X - X B = C` on the domain of `B`, with `X` mapping
 the domain of `B` into that of `A`, then `δ ‖X‖ ≤ (π / 2) ‖C‖` (Seelmann 2014, Theorem 3.1;
-Albeverio–Makarov–Motovilov 2003, Theorem 2.7, for weak solutions). README §2.16. -/
+Albeverio–Makarov–Motovilov 2003, Theorem 2.7, for weak solutions). README §B.16. -/
 theorem mul_norm_le_pi_div_two_mul_norm_of_sylvesterEquation
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
     {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
@@ -61,7 +61,7 @@ theorem mul_norm_le_pi_div_two_mul_norm_of_sylvesterEquation
 possibly unbounded, with disjoint spectra is zero: if `X` maps the domain of `B` into that of `A`
 and `A X y = X B y` for every `y` in the domain of `B` (Tau Ceti's `B.Intertwines A X`), then
 `X = 0`. For bounded `A` this is a theorem of Krein, Daleckii and Rosenblum
-(Albeverio–Makarov–Motovilov 2003, Lemma 2.5). README §2.17. -/
+(Albeverio–Makarov–Motovilov 2003, Lemma 2.5). README §B.17. -/
 theorem eq_zero_of_intertwines_of_disjoint_spectrum
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
     {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℂ F] [CompleteSpace F]
@@ -72,7 +72,7 @@ theorem eq_zero_of_intertwines_of_disjoint_spectrum
     X = 0 := by
   sorry
 
-/-! ## Layer 3: the Davis–Kahan theorems -/
+/-! ## Part C: the Davis–Kahan `sin Θ` theorems -/
 
 /-- **The Davis–Kahan `tan Θ` theorem, equal ranks.** Let `A` be symmetric on a
 finite-dimensional inner product space `E`, let `U` be `A`-invariant, and let `Z` be a subspace
@@ -81,7 +81,7 @@ Ritz residual, `ι` the inclusion of `Z`. If the eigenvalues of `M` lie in `[β,
 `A` on `Uᗮ` lie in `[α + δ, ∞)` with `δ > 0`, then every principal angle from `Z` to `U` is below
 `π / 2`, and the tangent map `Z.tanThetaMap U`, whose singular values are the principal tangents,
 satisfies `δ N (tan Θ) ≤ N R` in every unitarily invariant seminorm `N` on the maps `Z → E`
-(Davis–Kahan 1970, the `tan Θ` theorem). README §3.28. -/
+(Davis–Kahan 1970, the `tan Θ` theorem). README §C.28. -/
 theorem directedProjectionGap_lt_one_and_mul_map_tanThetaMap_le
     {𝕜 : Type*} [RCLike 𝕜]
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
@@ -98,7 +98,7 @@ theorem directedProjectionGap_lt_one_and_mul_map_tanThetaMap_le
           N ((A.sylvester (A.compression Z.subtypeL) Z.subtypeL : Z →L[𝕜] E) : Z →ₗ[𝕜] E) := by
   sorry
 
-/-! ## Layer 4: the Yu–Wang–Samworth variant -/
+/-! ## Part D: the Yu–Wang–Samworth statistical variant -/
 
 /-- **The Yu–Wang–Samworth aligned-basis theorem.** Let `A` (the population operator) and `B` be
 symmetric on a finite-dimensional inner product space, and let `U` and `V` be corresponding
@@ -106,7 +106,7 @@ rank-`d` eigenblocks of `A` and `B`, spanned by eigenvectors at the same sorted 
 If the eigenvalues of `A` on `U` are `Δ`-separated from those on `Uᗮ`, with `Δ > 0`, then `U` and
 `V` have orthonormal bases `u` and `v` with
 `(∑ᵢ ‖vᵢ - uᵢ‖²)^{1/2} ≤ 2√2 min(√d ‖B - A‖, ‖B - A‖_F) / Δ` (Yu–Wang–Samworth 2015,
-Theorem 2, inequality (3), for real matrices and consecutive indices). README §4.17. -/
+Theorem 2, inequality (3), for real matrices and consecutive indices). README §D.17. -/
 theorem yuWangSamworth_alignedBasis_le
     {𝕜 : Type*} [RCLike 𝕜]
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
@@ -127,7 +127,7 @@ the symmetric operators `A` and `B`, at the same sorted eigenvalue index, and le
 `c` of modulus one aligns `v` with `u`: `‖c v - u‖ ≤ 2√2 ‖B - A‖ / Δ` (Yu–Wang–Samworth 2015,
 Corollary 3). It is the case `d = 1` of `yuWangSamworth_alignedBasis_le` in the vector form
 statisticians use, kept as a check that the hypotheses of that theorem specialise to a single
-eigenvector. That `v` is an eigenvector of `B` is part of `hcorr`. README §4.18. -/
+eigenvector. That `v` is an eigenvector of `B` is part of `hcorr`. README §D.18. -/
 theorem yuWangSamworth_eigenvector_le
     {𝕜 : Type*} [RCLike 𝕜]
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]

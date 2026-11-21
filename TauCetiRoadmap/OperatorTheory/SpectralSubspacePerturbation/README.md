@@ -9,7 +9,7 @@ interval and the other outside its `δ`-neighbourhood gives `δ N(X) ≤ N(C)` i
 invariant norm `N`; spectra only `δ` apart pairwise give the sharp `δ N(X) ≤ (π/2) N(C)`.
 Bhatia, Davis and McIntosh proved the pairwise bound with a universal constant, the best one
 lying between `√(3/2)` and `2`; the sharp constant `π/2` is the least `L¹` norm of a function whose
-Fourier integral is `1/x` for `|x| ≥ 1`, and Layer 1 is an explicit kernel attaining it, which
+Fourier integral is `1/x` for `|x| ≥ 1`, and Part A builds an explicit kernel attaining it, which
 Tau Ceti calls the Haagerup–Zsidó kernel. Yu, Wang and Samworth give a variant for statistics
 with a gap in the unperturbed (population) operator alone.
 
@@ -31,42 +31,42 @@ The headline theorems:
   `Δ > 0` from its other eigenvalues, `U` and `V` have orthonormal bases `u`, `v` with
   `(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2} ≤ 2√2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ`.
 
-Tau Ceti's library supplies the finite-dimensional and bounded theory beneath these: the kernel,
-the Sylvester bounds, the residual, perturbation and `sin 2Θ` theorems, and the Yu–Wang–Samworth
-`sin Θ` theorem. [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) supplies the
-domain-aware Sylvester equation and the spectral measure that the first two theorems need. The
-`sin Θ` theorems are used by
+Beneath these the roadmap builds the finite-dimensional and bounded theory: the kernel's Fourier
+identity and mass, the Sylvester bounds with constants one and `π/2`, the residual, perturbation,
+`sin 2Θ` and `tan 2θ` theorems of Davis and Kahan, and the Yu–Wang–Samworth `sin Θ` theorem.
+[SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) supplies the domain-aware
+Sylvester equation and the spectral measure that the first two theorems need. The `sin Θ`
+theorems are used by
 [MathematicalStatisticsNonparametric](../../MathematicalStatisticsNonparametric/README.md) and
 [MathematicalStatisticsHighDimensional](../../MathematicalStatisticsHighDimensional/README.md), the
 Hermitian dilation by [RandomMatrices](../../RandomMatrices/README.md).
 
-The layers follow the theory: Layer 1, the Haagerup–Zsidó kernel; Layer 2, Sylvester equations,
-the `π/2` bounds and Rosenblum's theorem; Layer 3, the Davis–Kahan theorems; Layer 4, the
-Yu–Wang–Samworth variant.
+The build follows the theory: first the internal gap of one operator across a subspace, which the
+later Parts share; then Part A, the Haagerup–Zsidó kernel; Part B, Sylvester equations, the `π/2`
+bounds and Rosenblum's theorem; Part C, the Davis–Kahan theorems; Part D, the Yu–Wang–Samworth
+variant.
 
 ## How to read the build
 
-Section numbers are fixed: §k.n is item n of Layer k, and other roadmaps cite the items by the
-labels `SSP-S01` and `SSP-A01`–`SSP-D19`, where `SSP-S01` is §0.1, `SSP-An` is §1.n, `SSP-Bn` is
-§2.n, `SSP-Cn` is §3.n and `SSP-Dn` is §4.n. A number missing from a layer below is an item that
-Tau Ceti's library states; Scope and ownership lists each one with its declarations, and the
-supplier contracts state what is assumed of it. The shared internal gap §0.1 is Tau Ceti's, so
-there is no Layer 0, and there is no item 18 in Layer 2.
+Section numbers are fixed. §S.1 is the shared internal gap, and §X.n is item n of Part X. Other
+roadmaps cite the items by their labels: `SSP-S01` is §S.1, and `SSP-An`, `SSP-Bn`, `SSP-Cn` and
+`SSP-Dn` are §A.n, §B.n, §C.n and §D.n, for `SSP-A01`–`SSP-A26`, `SSP-B01`–`SSP-B17`, `SSP-B19`,
+`SSP-C01`–`SSP-C31` and `SSP-D01`–`SSP-D19`; there is no label `SSP-B18` and no §B.18. The
+milestones of each Part, runs of consecutive items, are listed under its heading.
 
-The layers keep what the library lacks. Layer 1 keeps the two-sided decay of `e^{−a|x|}`. Layer 2
-keeps the inverse bound for a coercive operator, the representation of the reciprocal multiplier
-by unitary actions, and the three statements about unbounded self-adjoint operators: the `π/2`
-bound, Rosenblum's theorem and its bounded case. Layer 3 keeps the `tan Θ` theorems and the
-quarter-acute bound. Layer 4 keeps the dilation form of the pairwise theorem, the aligned-basis
-and single-eigenvector theorems, and the left-singular-vector bound. Each *Needs:* line lists the
-inputs of a statement and of its route, so that a target proved by another route is not blocked
-behind an unrelated one.
+Where the pinned Tau Ceti proves an item, the item ends with an *In Tau Ceti:* line naming the
+declarations that realise it, and its proof route is at most a sentence; the statement above that
+line is the specification. An item the pinned Tau Ceti proves in part says on that line which part
+its declarations cover. A realising declaration may be more general than its item: it drops
+symmetry or `δ > 0` where the proof needs neither, and holds for every unitarily invariant
+seminorm where the item names one. Each *Needs:* line lists the inputs of a statement and of its
+route, so that a target proved by another route is not blocked behind an unrelated one.
 
 ## Conventions
 
 1. **Scalars and spaces.** `𝕜` is `ℝ` or `ℂ` (Mathlib's `RCLike 𝕜`). The finite-dimensional
    statements are over `𝕜`, on finite-dimensional inner product spaces. The statements about
-   unbounded operators, and §2.12, are over `ℂ`, on complete inner product spaces. Rectangular
+   unbounded operators, and §B.12, are over `ℂ`, on complete inner product spaces. Rectangular
    statements allow different source and target spaces.
 2. **Operators.** A bounded operator `A` is *symmetric* when `(A : E →ₗ[𝕜] E).IsSymmetric`; for
    bounded operators on a complete space this is self-adjointness. A partial operator is Mathlib's
@@ -78,7 +78,7 @@ behind an unrelated one.
    Ceti `IsSelfAdjoint.spectrum_subset_im_eq_zero`).
 3. **The Sylvester equation.** For `A` on `E`, `B` on `F` and `X, C : F → E`, the equation is
    `AX − XB = C`: `A` acts on the target of `X` and `B` on its source. For bounded operators the
-   map `X ↦ AX − XB` is Tau Ceti's `ContinuousLinearMap.sylvester`, written `A.sylvester B X`.
+   map `X ↦ AX − XB` is §B.1, Tau Ceti's `ContinuousLinearMap.sylvester`, written `A.sylvester B X`.
    For partial operators the *domain-aware* equation is Tau Ceti's
    `LinearPMap.SylvesterEquation A B X C`: `X` maps the domain of `B` into that of `A`, and
    `AXy − XBy = Cy` for every `y` in the domain of `B`. `X` solves it with `C = 0` exactly when
@@ -93,9 +93,8 @@ behind an unrelated one.
    *projection gap* is `‖P_U − P_V‖` and the *directed gap* `‖P_{V⊥} P_U‖` (Tau Ceti
    `Submodule.projectionGap`, `Submodule.directedProjectionGap`). For a map `X : F → E` and a
    subspace `V` of `E`, the *sine embedding* of `X` is `P_{V⊥} X` and its *cosine embedding*
-   `P_V X`; for the inclusion of a subspace `Z` the sine embedding is Tau Ceti's
-   `Submodule.sinThetaEmbedding Z V`, and for square maps the two are `Submodule.sinThetaMap` and
-   `Submodule.cosThetaMap`.
+   `P_V X` (§C.5, §C.6). The *point-spectral subspace* of `A` selected by `Ω ⊆ ℝ` is the span of
+   the eigenvectors of `A` with eigenvalues in `Ω` (Tau Ceti `Module.End.pointSpectralSubspace`).
 5. **Separation.** In finite dimension spectra are point spectra. The *restricted point spectrum*
    of `A` on `U` is the set of real `λ` with an eigenvector of `A` in `U` (Tau Ceti
    `Module.End.restrictedPointSpectrum`). With it, *pairwise separation* by `δ` asks
@@ -103,63 +102,250 @@ behind an unrelated one.
    (`Module.End.PointSpectraSeparated A U B V δ`); *ordered separation* asks `λ + δ ≤ μ`
    (`Module.End.PointOrderedGap`); *interval/exterior separation* asks the first set to lie in
    `[a, b]` and the second outside `(a − δ, b + δ)` (`Module.End.PointIntervalExteriorGap`). The
-   *internal gap* §0.1 is pairwise separation of one operator from itself across `U` and `U⊥`,
-   with `U` invariant (`Module.End.PointInternalGap A U δ`). For partial operators, separation of
-   real spectra is Tau Ceti's `LinearPMap.SpectralSetsSeparated A B s t δ`, over the real points
-   `LinearPMap.realSpectrum` of the two spectra.
+   *internal gap* §S.1 is pairwise separation of one operator from itself across `U` and `U⊥`,
+   with `U` invariant. For partial operators, separation of real spectra is Tau Ceti's
+   `LinearPMap.SpectralSetsSeparated A B s t δ`, over the real points `LinearPMap.realSpectrum` of
+   the two spectra.
 6. **Unitarily invariant norms.** `N` is a unitarily invariant seminorm on the linear maps
    `E → F` (Tau Ceti `TauCeti.UnitarilyInvariantSeminorm 𝕜 E F`): `N(UAV) = N(A)` for unitaries
    `U` of `F` and `V` of `E`, acting independently. The operator, Frobenius, Ky Fan and Schatten
    norms are Tau Ceti's `TauCeti.UnitarilyInvariantSeminorm.opNorm`, `.frobenius`, `.kyFan` and
-   `.schatten`; `‖·‖` is the operator norm and `‖·‖_F` the Frobenius norm.
+   `.schatten`; `‖·‖` is the operator norm, `‖·‖_F` the Frobenius norm and `K_k` the Ky Fan
+   `k`-norm, the sum of the `k` largest singular values.
 7. **The Haagerup–Zsidó kernel.** The weight is `w(y) = tanh(πy/2)`, its Laplace transform
    `L(t) = ∫_{y>0} w(y) e^{−|t|y} dy`, the real kernel `r(t) = (sin t / 2) L(t)` and the kernel
-   `k(t) = −i r(t)` (Tau Ceti `TauCeti.HaagerupZsido.weight`, `.weightLaplaceTransform`,
-   `.realKernel`, `.reciprocalKernel`). The integral defining `L` converges for `t ≠ 0`; at
-   `t = 0` it diverges and the library's value is `0`, the Bochner integral of a non-integrable
-   function, which affects no statement since `{0}` is a null set. Fourier identities are written
-   as the bare integral `∫_ℝ k(t) e^{itx} dt`; Mathlib's transform `𝓕 f (ξ) = ∫ e^{−2πitξ} f(t) dt`
+   `k(t) = −i r(t)` (§A.1–§A.4). The integral defining `L` converges for `t ≠ 0`; at `t = 0` it
+   diverges and the library's value is `0`, the Bochner integral of a non-integrable function,
+   which affects no statement since `{0}` is a null set. Fourier identities are written as the
+   bare integral `∫_ℝ k(t) e^{itx} dt`; Mathlib's transform `𝓕 f (ξ) = ∫ e^{−2πitξ} f(t) dt`
    differs by the substitution `x = −2πξ`.
-8. **Trial maps.** For bounded `A` on `E` and `X : F → E`, the *compression* is `X†AX` (Tau Ceti
-   `ContinuousLinearMap.compression`), the *residual* for a model operator `M` on `F` is
-   `R = AX − XM = A.sylvester M X`, and the *Ritz residual* of an isometric `X` takes `M = X†AX`.
+8. **Trial maps.** For bounded `A` on `E` and `X : F → E`, the *compression* is `X†AX` (§C.1), the
+   *residual* for a model operator `M` on `F` is `R = AX − XM = A.sylvester M X` (§C.2), and the
+   *Ritz residual* of an isometric `X` takes `M = X†AX` (§C.3).
 9. **The statistical layer.** `A` (the population operator) and `B` (the perturbed or sample
    operator) are symmetric on a finite-dimensional space of dimension `n`; their eigenvalues are
    listed in decreasing order with orthonormal eigenvector bases (Mathlib
-   `LinearMap.IsSymmetric.eigenvalues` and `.eigenvectorBasis`). *Corresponding eigenblocks* are
-   spans of eigenvectors of `A` and `B` at the same sorted indices (Tau Ceti
-   `LinearMap.IsSymmetric.CorrespondingEigenblocks`, with the eigenvectors chosen freely inside
-   repeated eigenspaces). The *residual columns* of a selected index set `s` are
-   `R_j = λ_j(A) v_j − A v_j` for `j ∈ s`, with `λ_j(A)` the `j`-th eigenvalue of `A` and `v_j`
-   the `j`-th eigenvector of `B`. The Frobenius sine distance is `‖sin Θ(U, V)‖_F = ‖P_{V⊥} P_U‖_F`
-   (Tau Ceti `Submodule.sinThetaFrobenius U V`), symmetric in `U` and `V` when their dimensions
-   agree.
-10. **Names.** The acceptance file `Suggested.lean` states the headline theorems in the namespace
-    `TauCetiRoadmap.SpectralSubspacePerturbation`. Other targets are named in prose.
+   `LinearMap.IsSymmetric.eigenvalues` and `.eigenvectorBasis`). *Corresponding eigenblocks*
+   (§D.1) are spans of eigenvectors of `A` and `B` at the same sorted indices, with the
+   eigenvectors chosen freely inside repeated eigenspaces. The *residual columns* (§D.3) of a
+   selected index set `s` are `R_j = λ_j(A) v_j − A v_j` for `j ∈ s`, with `λ_j(A)` the `j`-th
+   eigenvalue of `A` and `v_j` the `j`-th eigenvector of `B`. The Frobenius sine distance (§D.2)
+   is `‖sin Θ(U, V)‖_F = ‖P_{V⊥} P_U‖_F`, symmetric in `U` and `V` when their dimensions agree.
+10. **Names.** The acceptance file `Suggested.lean` states, in the namespace
+    `TauCetiRoadmap.SpectralSubspacePerturbation`, the headline theorems that the pinned Tau Ceti
+    does not prove. Other targets are named in prose.
 
-## Layer 1: the Haagerup–Zsidó kernel
+## The shared separation object
 
-The kernel, its Fourier and Laplace identities, its integrability and its exact mass `π/2` are
-Tau Ceti's (§1.1–§1.15, §1.17–§1.26 under Scope and ownership). One elementary input is not.
+The internal gap measures the separation between a selected spectral block and its complement
+inside one operator. It is the spectral hypothesis of the population-gap theorems of Part D, and
+the separation behind the double-angle and tangent estimates of Part C: for symmetric `A`, the
+two-block form bounds `b‖y‖² ≤ Re⟪Ay, y⟫` on `U` and `Re⟪Az, z⟫ ≤ a‖z‖²` on `U⊥` of §C.25,
+§C.27, §C.30 and §C.31 give an internal gap `b − a` at an `A`-invariant `U`.
 
-### 1.16 Two-sided exponential decay
+### S.1 The internal point-spectrum gap
+
+For an endomorphism `A` of an inner product space `E`, a subspace `U` and `δ : ℝ`, the *internal
+gap* of `A` at `U` of width `δ` holds when `U` is `A`-invariant and every eigenvalue of `A` with an
+eigenvector in `U` is at distance at least `δ` from every eigenvalue of `A` with an eigenvector in
+`U⊥`: the restricted point spectra of `A` on `U` and on `U⊥` are pairwise separated by `δ`
+(Convention 5). For symmetric `A` the complement `U⊥` is invariant as well, so in finite dimension
+these are the point spectra of the two restrictions. The perturbation estimates use it with
+`δ > 0`.
+
+- An internal gap of width `δ` is one of every width `δ′ ≤ δ`.
+- An `A`-invariant `U` whose eigenvalues all lie at least `δ` below those of `A` on `U⊥` (ordered
+  separation), or whose eigenvalues lie in a set `s` while those on `U⊥` lie in a set `t` with
+  `δ ≤ |a − b|` for `a ∈ s` and `b ∈ t`, has an internal gap `δ`.
+- For `Ω ⊆ ℝ`, the point-spectral subspace of `A` selected by `Ω` has an internal gap `δ` as soon
+  as every eigenvalue of `A` in `Ω` is at distance at least `δ` from every eigenvalue of `A`
+  outside `Ω`.
+
+**Checks.**
+- On `ℝ³` let `A = diag(0, 1, 3)` and `U = span e₃`. The eigenvalue on `U` is `3`, those on `U⊥`
+  are `0` and `1`, so the internal gap is `2`. A definition comparing the eigenvalues on `U` with
+  the whole spectrum of `A` would see `3` on both sides and give `0`.
+
+*Needs:* PrincipalAngles' restricted point spectrum and pairwise separation (Convention 5).
+*In Tau Ceti:* `Module.End.PointInternalGap`, `Module.End.PointInternalGap.mono_gap`, `Module.End.PointInternalGap.of_pointOrderedGap`, `Module.End.PointInternalGap.of_pointSpectrumIn`, `Module.End.pointInternalGap_pointSpectralSubspace`.
+
+**Milestone S1 — shared internal-gap vocabulary.** §S.1.
+
+## Part A: the Haagerup–Zsidó kernel and its Fourier transform
+
+Part A constructs an integrable kernel `k : ℝ → ℂ` whose Fourier integral is `1/x` on `1 ≤ |x|`
+and whose `L¹` mass is exactly `π/2` (Convention 7). The construction uses the hyperbolic weight,
+its one-sided Laplace transform, a real kernel and its rotation by `−i`; the Fourier, Laplace and
+integrability identities then evaluate the kernel's Fourier integral and its mass.
+
+**Milestone A1 — kernel construction and elementary calculus.** §A.1–§A.13.
+
+**Milestone A2 — Fourier, Laplace, and integrability identities.** §A.14–§A.22.
+
+**Milestone A3 — exterior identity, exact mass, and normalization.** §A.23–§A.25.
+
+**Milestone A4 — kernel-mass integral bound.** §A.26.
+
+### A.1 The hyperbolic weight
+
+Define the weight `w : ℝ → ℝ`, `w(y) = tanh(πy/2)`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.weight`, `TauCeti.HaagerupZsido.weight_def`.
+
+### A.2 The Laplace transform of the weight
+
+Define `L : ℝ → ℝ`, `L(t) = ∫_{y>0} w(y) e^{−|t|y} dy`. For `t ≠ 0` the integrand is integrable
+on `(0, ∞)`, being dominated by `e^{−|t|y}`; the value at `t = 0` is as in Convention 7.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.weightLaplaceTransform`, `TauCeti.HaagerupZsido.integrableOn_weight_mul_exp`.
+
+### A.3 The real kernel
+
+Define `r : ℝ → ℝ`, `r(t) = (sin t / 2) L(t)`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.realKernel`.
+
+### A.4 The reciprocal kernel
+
+Define `k : ℝ → ℂ`, `k(t) = −i r(t)`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.reciprocalKernel`.
+
+### A.5 The weight is nonnegative
+
+For `y ≥ 0`, `0 ≤ w(y)`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.weight_nonneg`.
+
+### A.6 The weight is continuous
+
+The function `w` is continuous on `ℝ`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.continuous_weight`.
+
+### A.7 The Laplace transform is nonnegative
+
+`0 ≤ L(t)` for every real `t`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.weightLaplaceTransform_nonneg`.
+
+### A.8 The Laplace transform is even
+
+`L(−t) = L(t)` for every real `t`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.weightLaplaceTransform_neg`.
+
+### A.9 The real kernel is measurable
+
+The function `r` is Borel measurable.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.measurable_realKernel`.
+
+### A.10 The reciprocal kernel is measurable
+
+The function `k` is Borel measurable.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.measurable_reciprocalKernel`.
+
+### A.11 The real kernel is odd
+
+`r(−t) = −r(t)` for every real `t`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.realKernel_neg`.
+
+### A.12 The reciprocal kernel is odd
+
+`k(−t) = −k(t)` for every real `t`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.reciprocalKernel_neg`.
+
+### A.13 The norm of the kernel
+
+`‖k(t)‖ = |r(t)|` for every real `t`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.norm_reciprocalKernel`.
+
+### A.14 The oscillatory two-sided Laplace integral
+
+For `y > 0` and real `x`, `∫_ℝ e^{−y|t|} e^{itx} dt = 2y/(y² + x²)`.
+*In Tau Ceti:* `TauCeti.integral_exp_mul_I_mul_exp_neg_mul_abs`.
+
+### A.15 The Fourier transform of a two-sided exponential
+
+In Mathlib's normalisation, for `y > 0` the Fourier transform of `t ↦ e^{−2πy|t|}` is
+`ξ ↦ y/(π(y² + ξ²))`, the Cauchy density of scale `y`; for a general rate `a > 0`, the transform
+of `t ↦ e^{−a|t|}` is `ξ ↦ 2a/(a² + (2πξ)²)`.
+*In Tau Ceti:* `TauCeti.fourier_exp_neg_mul_abs`, `TauCeti.Probability.fourier_exp_neg_mul_abs_eq_cauchyPDFReal_zero_loc`.
+
+### A.16 Two-sided exponential decay
 
 Prove that for `a > 0` and every real `s`, `e^{−a|x|} = o(|x|^s)` as `|x| → ∞`, that is, along
 Mathlib's `Filter.cocompact ℝ`: `(fun x ↦ Real.exp (-(a * |x|))) =o[cocompact ℝ] (fun x ↦ |x| ^ s)`.
 This is the decay hypothesis of Mathlib's Poisson summation formula
-`Real.tsum_eq_tsum_fourier_of_rpow_decay`, in the form the Cauchy-kernel lattice identity of the
-kernel's construction uses. Mathlib states only the one-sided limit `x → +∞` of `e^{−ax}`.
+`Real.tsum_eq_tsum_fourier_of_rpow_decay`, in the form the Cauchy-kernel lattice identity §A.18
+uses. Mathlib states only the one-sided limit `x → +∞` of `e^{−ax}`.
 Route: both functions are even, and on `[0, ∞)` the statement is Mathlib's
 `isLittleO_exp_neg_mul_rpow_atTop`.
 *Needs:* Mathlib `isLittleO_exp_neg_mul_rpow_atTop`, `Filter.cocompact`.
+
+### A.17 The Laplace transform of `|sin|`
+
+For `y > 0`, `∫_ℝ |sin t| e^{−y|t|} dt = 2(1 + e^{−πy})/((1 − e^{−πy})(1 + y²))`.
+*In Tau Ceti:* `TauCeti.integral_abs_sin_mul_exp_neg_mul_abs`.
+
+### A.18 Poisson summation for the Cauchy kernel
+
+For `y > 0`, the Cauchy kernel satisfies the Poisson summation identity
+`∑_{n∈ℤ} e^{−2πy|n|} = ∑_{n∈ℤ} y/(π(y² + n²))`, and summing the geometric series on the left,
+`∑_{n∈ℤ} (y² + n²)⁻¹ = (π/y)(1 + e^{−2πy})/(1 − e^{−2πy})`. Route: Poisson summation for
+`t ↦ e^{−2πy|t|}`, whose transform is §A.15, with the decay of §A.16.
+*In Tau Ceti:* `TauCeti.tsum_exp_neg_mul_abs_int_eq_tsum_div`, `TauCeti.tsum_int_inv_sq_add_sq`.
+
+### A.19 The odd-pole expansion of the weight
+
+For every real `y`, `∑_{n≥0} 2y/(y² + (2n + 1)²) = (π/2) tanh(πy/2)`; for `y > 0` this is
+`w(y)/y = (4/π) ∑_{n≥0} (y² + (2n + 1)²)⁻¹`.
+*In Tau Ceti:* `TauCeti.hasSum_pi_div_two_mul_tanh`.
+
+### A.20 The rational telescoping integral
+
+For `a ≥ 0`, the function `y ↦ w(y) y ((y² + a²)⁻¹ − (y² + (a + 2)²)⁻¹)` is integrable on
+`(0, ∞)` and `∫_{y>0} w(y) y ((y² + a²)⁻¹ − (y² + (a + 2)²)⁻¹) dy = 2/(a + 1)`: integrated against
+the difference of the adjacent Cauchy resolvents, the odd-pole expansion §A.19 telescopes.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.integral_weight_mul_mul_inv_sub_inv`, `TauCeti.HaagerupZsido.integrableOn_weight_mul_mul_inv_sub_inv`.
+
+### A.21 Integrability of the kernel integrand
+
+The function `(y, t) ↦ (sin t / 2) w(y) e^{−|t|y}` on `(0, ∞) × ℝ`, whose integral in `y` is
+`r(t)`, is integrable for the product of Lebesgue measures. It carries the exchanges of integrals in
+the mass and Fourier calculations.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.kernelIntegrand`, `TauCeti.HaagerupZsido.integral_kernelIntegrand`, `TauCeti.HaagerupZsido.integrable_kernelIntegrand`.
+
+### A.22 The kernel is integrable
+
+The kernels `k` and `r` are Bochner integrable on `ℝ`; indeed `|r(t)| ≤ π/(2(1 + t²))` for every
+real `t`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.integrable_reciprocalKernel`, `TauCeti.HaagerupZsido.integrable_realKernel`, `TauCeti.HaagerupZsido.abs_realKernel_le`.
+
+### A.23 The exterior Fourier identity
+
+If `1 ≤ |x|`, then `∫_ℝ k(t) e^{itx} dt = 1/x`; in real form, `∫_ℝ r(t) sin(xt) dt = 1/x`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.integral_exp_mul_I_mul_reciprocalKernel`, `TauCeti.HaagerupZsido.integral_realKernel_mul_sin`.
+
+### A.24 The exact mass
+
+`∫_ℝ ‖k(t)‖ dt = ∫_ℝ |r(t)| dt = π/2`. Route: Tonelli, with §A.17 and the definition of the
+weight, as in the Examples below.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.integral_norm_reciprocalKernel`, `TauCeti.HaagerupZsido.integral_abs_realKernel`.
+
+### A.25 The identity in Mathlib's normalisation
+
+If `1 ≤ 2π|ξ|`, then `𝓕 k (ξ) = −1/(2πξ)`: this is §A.23 at `x = −2πξ`, in Mathlib's
+normalisation of the Fourier transform.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.fourier_reciprocalKernel`.
+
+### A.26 The kernel-mass integral bound
+
+Let `G` be a complex normed space, `C` real, and `F : ℝ → G` with `‖F(t)‖ ≤ C` for almost every
+`t`. Then `‖∫_ℝ k(t) • F(t) dt‖ ≤ (π/2) C`, and if `F` is almost everywhere strongly measurable,
+`t ↦ k(t) • F(t)` is integrable. In particular, for `G` complete and `F` Bochner integrable with
+`‖F(t)‖ ≤ 1` almost everywhere, `t ↦ k(t) • F(t)` is integrable and
+`‖∫_ℝ k(t) • F(t) dt‖ ≤ π/2`.
+*In Tau Ceti:* `TauCeti.HaagerupZsido.norm_integral_reciprocalKernel_smul_le`, `TauCeti.HaagerupZsido.integrable_reciprocalKernel_smul`.
 
 ### Examples
 
 - The Fourier identity cannot reach far into `(−1, 1)`: `|∫ k(t) e^{itx} dt| ≤ ∫ |k| = π/2`, while
   `|1/x| > π/2` for `0 < |x| < 2/π`; at `x = 0` the integral is `0`, because `k` is odd and
-  integrable (Tau Ceti `TauCeti.HaagerupZsido.reciprocalKernel_neg`,
-  `TauCeti.HaagerupZsido.integrable_reciprocalKernel`). A kernel with this identity on all of
-  `ℝ ∖ {0}` would not be integrable.
+  integrable (§A.12, §A.22). A kernel with this identity on all of `ℝ ∖ {0}` would not be
+  integrable.
 - The mass `∫ |k(t)| dt = π/2` comes from Tonelli: integrating `|sin t| e^{−y|t|}` in `t` gives
   `2(1 + e^{−πy})/((1 − e^{−πy})(1 + y²))`, and multiplied by `tanh(πy/2)/2` this is
   `1/(1 + y²)`, whose integral over `(0, ∞)` is `π/2`. Dropping the factor `1/2` in `r` would
@@ -167,18 +353,62 @@ Route: both functions are even, and on `[0, ∞)` the statement is Mathlib's
 
 ### Dependencies
 
-Mathlib: asymptotics and the cocompact filter. Tau Ceti: the Haagerup–Zsidó kernel (supplier
-contracts).
+Mathlib: the Fourier transform and Poisson summation, the Bochner integral and Tonelli's theorem,
+asymptotics along the cocompact filter, hyperbolic and trigonometric functions. No other roadmap.
 
-## Layer 2: Sylvester equations and Rosenblum's theorem
+## Part B: Sylvester equations and the Rosenblum theorem
 
-The Sylvester operator, its finite-dimensional solution theory, and the dimension-free,
-interval/exterior, Ky Fan, Frobenius and pairwise `π/2` bounds in finite dimension are Tau Ceti's
-(§2.1–§2.4, §2.6–§2.11, §2.13–§2.15 under Scope and ownership). This layer adds the explicit inverse
-bound for a coercive operator, the unitary representation behind the `π/2` constant, and the
-statements for unbounded self-adjoint operators.
+Rosenblum's theorem gives uniqueness for disjoint spectra; the quantitative Sylvester estimates
+strengthen positive spectral separation into norm bounds for solutions. Coordinate division gives
+the finite-dimensional model (§B.1–§B.4) and coercivity the dimension-free operator-norm bounds
+(§B.5–§B.8). Interval/exterior separation gives constant-one bounds in every unitarily invariant
+norm (§B.9–§B.10); pairwise separation gives the constant `π/2` through the Part A kernel, Ky Fan
+prefixes and Fan dominance (§B.11–§B.14), and the coordinate equation gives the Frobenius bound
+with constant one (§B.15). The domain-aware statements §B.16, §B.17 and §B.19 carry the pairwise
+bound and uniqueness to self-adjoint operators, bounded or not. Finite-dimensional separation uses
+the predicates of PrincipalAngles (Convention 5); the unbounded statements consume the domain-aware
+Sylvester equation and the self-adjoint partial-operator spectrum of SelfAdjointSpectralTheory.
 
-### 2.5 Coercive invertibility with the inverse bound
+**Milestone B1 — finite Sylvester core.** §B.1–§B.5.
+
+**Milestone B2 — dimension-free and unitarily invariant bounds.** §B.6–§B.16.
+
+**Milestone B3 — Rosenblum theorem.** §B.17.
+
+**Milestone B4 — bounded/partial uniqueness bridge.** §B.19.
+
+### B.1 The Sylvester map
+
+For bounded operators `A` on `E` and `B` on `F`, define the continuous linear map `X ↦ AX − XB`
+on the bounded operators `F → E` (Convention 3). Its kernel consists of the intertwiners
+`AX = XB`.
+*In Tau Ceti:* `ContinuousLinearMap.sylvester`, `ContinuousLinearMap.sylvester_apply`.
+
+### B.2 Injectivity under spectral separation
+
+In finite dimension, let `A` on `E` and `B` on `F` be symmetric with disjoint spectra (equivalently,
+spectra at positive distance). Then `X ↦ AX − XB` is injective, and bijective: for every `C` the
+Sylvester equation `AX − XB = C` has exactly one solution.
+*In Tau Ceti:* `ContinuousLinearMap.sylvester_injective`, `ContinuousLinearMap.sylvester_bijective`.
+
+### B.3 The canonical eigenbasis solution
+
+Under the hypotheses of §B.2, let `(uᵢ)`, `(vⱼ)` be orthonormal eigenbases of `A` and `B` with
+eigenvalues `(αᵢ)`, `(βⱼ)`. The operator `X = ∑ᵢⱼ (αᵢ − βⱼ)⁻¹ ⟪uᵢ, C vⱼ⟫ uᵢ ⊗ vⱼ`, with
+`uᵢ ⊗ vⱼ` the rank-one map `x ↦ ⟪vⱼ, x⟫ uᵢ`, which divides each matrix coefficient of `C` by the
+corresponding eigenvalue difference, solves `AX − XB = C`, and it is the only solution.
+*In Tau Ceti:* `ContinuousLinearMap.sylvester_sum_eigenvectorBasis`, `ContinuousLinearMap.sylvester_apply_eq_iff`.
+
+### B.4 The coordinate Sylvester equation
+
+Let `A` on `E` and `B` on `F` be symmetric on finite-dimensional spaces with orthonormal
+eigenbases `(uᵢ)`, `(vⱼ)` and eigenvalues `(αᵢ)`, `(βⱼ)`. For every `X : F → E`,
+`⟪uᵢ, (AX − XB) vⱼ⟫ = (αᵢ − βⱼ) ⟪uᵢ, X vⱼ⟫`; so every solution of `AX − XB = C` satisfies
+`(αᵢ − βⱼ) Xᵢⱼ = Cᵢⱼ`. The identity holds in any dimension for an eigenvector `u` of a symmetric
+`A` with real eigenvalue `α` and an eigenvector `v` of `B` with eigenvalue `β`.
+*In Tau Ceti:* `ContinuousLinearMap.inner_sylvester_apply_eigenvectorBasis`, `ContinuousLinearMap.inner_sylvester_apply_of_apply_eq_smul`.
+
+### B.5 Coercive invertibility with the inverse bound
 
 Let `E` be a complete inner product space over `𝕜`, `T : E →L[𝕜] E`, and `c > 0` with
 `c‖x‖² ≤ Re⟪Tx, x⟫` for every `x`: the real bilinear form `(x, y) ↦ Re⟪Tx, y⟫` is coercive in the
@@ -202,29 +432,71 @@ form of Lax–Milgram is in `TauCeti/Analysis/InnerProductSpace/LaxMilgram.lean`
   not coercive, since `⟪Se₀, e₀⟫ = ⟪e₁, e₀⟫ = 0`. A version assuming only the lower bound
   `‖Tx‖ ≥ c‖x‖` would make `S` invertible.
 
-### 2.12 The reciprocal multiplier as a combination of unitary actions
+### B.6 The Lyapunov bound
+
+Let `A` on `E` and `B` on `F` be bounded operators on inner product spaces and `δ > 0` with
+`δ‖x‖² ≤ Re⟪Ax, x⟫` and `δ‖y‖² ≤ Re⟪By, y⟫` for all `x` and `y`. Every solution of `AX + XB = Y`
+satisfies `‖X‖ ≤ ‖Y‖/(2δ)`. More generally, lower bounds `α` and `β` of the two forms give
+`(α + β)‖X‖ ≤ ‖AX + XB‖` for every bounded `X`, with no symmetry, completeness or sign condition.
+*In Tau Ceti:* `ContinuousLinearMap.add_mul_norm_le_norm_comp_add_comp`.
+
+### B.7 The separated Sylvester bound
+
+Let `A` and `B` be bounded symmetric operators, `g > 0`, and `c` real with
+`(c + g)‖x‖² ≤ Re⟪Ax, x⟫` and `Re⟪By, y⟫ ≤ c‖y‖²` for all `x` and `y`. Every solution of
+`AX − XB = Y` satisfies `‖X‖ ≤ ‖Y‖/g` (the half-line case of Bhatia, *Matrix Analysis*,
+Theorem VII.2.3). Route: §B.6 for `A − c` and `c − B`.
+*In Tau Ceti:* `ContinuousLinearMap.mul_norm_le_norm_sylvester_apply_of_le_re_inner_of_re_inner_le`.
+
+### B.8 The reverse separated bound
+
+If instead `Re⟪Ax, x⟫ ≤ c‖x‖²` and `(c + g)‖y‖² ≤ Re⟪By, y⟫` for all `x` and `y`, every solution
+of `AX − XB = Y` satisfies `‖X‖ ≤ ‖Y‖/g`.
+*In Tau Ceti:* `ContinuousLinearMap.mul_norm_le_norm_sylvester_apply_of_re_inner_le_of_le_re_inner`.
+
+### B.9 The interval/exterior Sylvester bound
+
+Let `A` on `E` and `B` on `F` be symmetric on finite-dimensional inner product spaces and `δ > 0`,
+with the eigenvalues of `A` in `[a, b]` and those of `B` outside `(a − δ, b + δ)`. Every
+unitarily invariant seminorm `N` on the maps `F → E` satisfies `δ N(X) ≤ N(C)` whenever
+`AX − XB = C`. The same holds on invariant subspaces: for `S` `A`-invariant and `T` `B`-invariant,
+with the eigenvalues of `A` on `S` in `[a, b]` and those of `B` on `T` outside `(a − δ, b + δ)`,
+every `X` with values in `S` and vanishing on `T⊥` satisfies `δ N(X) ≤ N(AX − XB)`.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_map_sylvester_apply_of_pointIntervalExteriorGap`, `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_map_sylvester_apply_of_pointIntervalExteriorGap_of_mem`.
+
+### B.10 The reverse interval/exterior bound
+
+In the reversed orientation of §B.9, with the eigenvalues of `B` in `[a, b]` and those of `A`
+outside `(a − δ, b + δ)`, every unitarily invariant seminorm `N` satisfies `δ N(X) ≤ N(C)` for
+`AX − XB = C`, and the same holds on invariant subspaces.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_map_sylvester_apply_of_pointIntervalExteriorGap_swap`, `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_map_sylvester_apply_of_pointIntervalExteriorGap_swap_of_mem`.
+
+### B.11 The simultaneous Ky Fan estimate
+
+Let `A` on `E` and `B` on `F` be symmetric on finite-dimensional inner product spaces and `δ > 0`
+with `δ ≤ |αᵢ − βⱼ|` for every eigenvalue `αᵢ` of `A` and `βⱼ` of `B` (pairwise separation). Every
+solution of `AX − XB = C` satisfies `δ K_k(X) ≤ (π/2) K_k(C)` for all `k` simultaneously. Route:
+the Part A kernel, through the exterior identity §A.23 and the mass §A.24.
+*In Tau Ceti:* `ContinuousLinearMap.mul_kyFanSum_le_pi_div_two_mul_kyFanSum_sylvester_apply`.
+
+### B.12 The reciprocal multiplier as a combination of unitary actions
 
 Let `E` and `F` be finite-dimensional complex inner product spaces, `A` on `E` and `B` on `F`
 symmetric with orthonormal eigenvectors `uᵢ`, `vⱼ` and eigenvalues `αᵢ`, `βⱼ`, and `δ > 0` with
 `|αᵢ − βⱼ| ≥ δ` for all `i, j` (`Module.End.PointSpectraSeparated A ⊤ B ⊤ δ`). The
 *`δ`-normalised reciprocal multiplier* is the linear map `m_δ` on the maps `F → E` with
 `⟪uᵢ, m_δ(C) vⱼ⟫ = δ ⟪uᵢ, C vⱼ⟫ / (αᵢ − βⱼ)`; it sends `C` to `δ` times the unique solution of
-`AX − XB = C` (Tau Ceti `ContinuousLinearMap.sylvester_apply_eq_iff`). Prove that there are
-finitely many unitaries `Uₖ` of `E` and `Vₖ` of `F` and complex numbers `aₖ` with
-`∑ₖ |aₖ| ≤ π/2` such that `m_δ(C) = ∑ₖ aₖ Uₖ C Vₖ` for every `C`; the unitaries and the
-coefficients do not depend on `C`. Route: by the exterior Fourier identity,
+`AX − XB = C` (§B.3). Prove that there are finitely many unitaries `Uₖ` of `E` and `Vₖ` of `F` and
+complex numbers `aₖ` with `∑ₖ |aₖ| ≤ π/2` such that `m_δ(C) = ∑ₖ aₖ Uₖ C Vₖ` for every `C`; the
+unitaries and the coefficients do not depend on `C`. Route: by the exterior Fourier identity,
 `m_δ(C) = ∫ δ k(δt) e^{itA} C e^{−itB} dt` (the integral representation of Albeverio, Makarov and
 Motovilov 2003, Theorem 2.7, formula (2.12)), an integral of unitary actions with total mass
 `∫ |k| = π/2`; the maps `C ↦ λ U C V` with `|λ| = 1` form a compact set in finite dimension, so
 the normalised integral lies in its convex hull, and Carathéodory's theorem makes the combination
-finite. The statement is over `ℂ`; for real scalars the bound it
-implies, `δ N(X) ≤ (π/2) N(C)`, is Tau Ceti's
-`TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply`, proved through
-the orbit hull of §2.14.
-*Needs:* Tau Ceti `TauCeti.HaagerupZsido.integral_exp_mul_I_mul_reciprocalKernel`,
-`TauCeti.HaagerupZsido.integral_norm_reciprocalKernel`, `ContinuousLinearMap.sylvester_apply_eq_iff`,
-`TauCeti.UnitaryOrbitCertificate`; Mathlib `convexHull`, `NormedSpace.exp`, Carathéodory's theorem
-`convexHull_eq_union`.
+finite. The statement is over `ℂ`; for real scalars the bound it implies, `δ N(X) ≤ (π/2) N(C)`,
+is §B.13, proved through the orbit hull of §B.14.
+*Needs:* §A.23, §A.24, §B.3; Tau Ceti `TauCeti.UnitaryOrbitCertificate`; Mathlib `convexHull`,
+`NormedSpace.exp`, Carathéodory's theorem `convexHull_eq_union`.
 
 **Checks.**
 - For `A = ¼·1` and `B = 0` on `ℂ`, `δ = ¼` and `m_δ` is the identity, a combination of mass
@@ -235,7 +507,27 @@ the orbit hull of §2.14.
   least `δ = 1`, and the unitary `C = (1/√2)[[1, 1], [1, −1]]` has `m_δ(C) = (1/√2)[[−1, 1], [1, −1/3]]`,
   of operator norm `(2 + √10)/(3√2) ≈ 1.2168 > 1 = ‖C‖`.
 
-### 2.16 The domain-aware pairwise bound
+### B.13 The pairwise unitarily invariant Sylvester bound
+
+Under pairwise separation by `δ > 0` as in §B.11, every unitarily invariant seminorm `N` on the
+maps `F → E` satisfies `δ N(X) ≤ (π/2) N(C)` for `AX − XB = C`; the same holds on invariant
+subspaces, as in §B.9. Route: §B.11 and Fan dominance, through §B.14.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply`, `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply_of_mem`.
+
+### B.14 The unitary-orbit form
+
+Under pairwise separation by `δ ≥ 0` as in §B.11, `(2δ/π) X` lies in the convex hull of the
+two-sided unitary orbit `{U C V : U, V unitary}` of `C = AX − XB`: the scaled solution `δX` is a
+combination of the `U C V` with nonnegative coefficients of total mass `π/2`.
+*In Tau Ceti:* `ContinuousLinearMap.smul_mem_twoSidedUnitaryOrbitHull_sylvester_apply`.
+
+### B.15 The Frobenius bound with constant one
+
+Under pairwise separation by `δ > 0` as in §B.11, `δ‖X‖_F ≤ ‖C‖_F` for `AX − XB = C`. Route:
+the coordinate equation §B.4.
+*In Tau Ceti:* `ContinuousLinearMap.mul_frobenius_le_frobenius_sylvester_apply`.
+
+### B.16 The domain-aware pairwise bound
 
 Prove `mul_norm_le_pi_div_two_mul_norm_of_sylvesterEquation`: let `A` on `E` and `B` on `F` be
 self-adjoint partial operators on complex Hilbert spaces and `δ > 0` with `δ ≤ |a − b|` for every
@@ -254,14 +546,12 @@ with `X`, cut `A` and `B` down by the spectral projections of bounded intervals:
 they act as bounded self-adjoint operators with `δ`-separated spectra, the cut-down `X` solves the
 cut-down equation, and there the exterior Fourier identity, integrated against the spectral
 measures, gives `(λ − μ)⁻¹` where `AX − XB = C` gives `(λ − μ)` times `X`; the cutoffs converge
-strongly to the identity. Uniqueness of the solution is §2.17.
-*Needs:* Tau Ceti `LinearPMap.SylvesterEquation`, `LinearPMap.SpectralSetsSeparated`,
-`LinearPMap.spectrum`, `TauCeti.HaagerupZsido.integral_exp_mul_I_mul_reciprocalKernel`,
-`TauCeti.HaagerupZsido.norm_integral_reciprocalKernel_smul_le`,
-`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` (Stone's theorem);
-SelfAdjointSpectralTheory SA-E01 (the spectral measure), SA-E06 and SA-E07 (spectral projections
-commute with resolvents and preserve the domain), SA-E31 (strong convergence of interval cutoffs)
-and SA-E37 (spectral ranges of bounded sets lie in the domain).
+strongly to the identity. Uniqueness of the solution is §B.17.
+*Needs:* §A.23, §A.26; Tau Ceti `LinearPMap.SylvesterEquation`, `LinearPMap.SpectralSetsSeparated`,
+`LinearPMap.spectrum`, `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` (Stone's
+theorem); SelfAdjointSpectralTheory SA-E01 (the spectral measure), SA-E06 and SA-E07 (spectral
+projections commute with resolvents and preserve the domain), SA-E31 (strong convergence of
+interval cutoffs) and SA-E37 (spectral ranges of bounded sets lie in the domain).
 
 **Checks.**
 - Constant one fails under pairwise separation. For `A = diag(0, 2)` and `B = diag(1, −1)` on
@@ -274,7 +564,7 @@ and SA-E37 (spectral ranges of bounded sets lie in the domain).
   `{n + 1/(n + 2)}` are closed and disjoint at distance `0`. For `C_k = e_k ⊗ e_k`, of norm one,
   the solution is `X_k = −(k + 2) e_k ⊗ e_k`, of norm `k + 2`: no bound `‖X‖ ≤ K‖C‖` holds.
 
-### 2.17 Rosenblum's theorem
+### B.17 Rosenblum's theorem
 
 Prove `eq_zero_of_intertwines_of_disjoint_spectrum`: let `A` on `E` and `B` on `F` be
 self-adjoint partial operators on complex Hilbert spaces with disjoint spectra. A bounded
@@ -303,51 +593,275 @@ point) for the second route.
   self-adjoint with spectrum `[0, 1]` and no eigenvalue; with `A = B` equal to it, the point
   spectra are empty and disjoint, and `X = 1` intertwines them. A statement with eigenvalues in
   place of spectra, which suffices in finite dimension, is false.
-- For `A` and `B` the diagonal operators `n` and `n + 1/(n + 2)` of §2.16, the spectra are disjoint
+- For `A` and `B` the diagonal operators `n` and `n + 1/(n + 2)` of §B.16, the spectra are disjoint
   at distance `0`, and the theorem still applies: the only bounded intertwiner is `0`, since
   `(aₘ − bₙ) Xₘₙ = 0` with `aₘ ≠ bₙ` for every matrix entry.
 
-### 2.19 The bounded Rosenblum theorem
+### B.19 The bounded Rosenblum theorem
 
 Let `A` on `E` and `B` on `F` be bounded self-adjoint operators on complex Hilbert spaces whose
 spectra (Mathlib `spectrum ℂ`) are disjoint. Prove that every bounded `X : F → E` with `AX = XB`
 is zero (Rosenblum 1956; Albeverio, Makarov and Motovilov 2003, Lemma 2.5, which credits Krein
-first). Route: viewed as total partial operators, `A` and `B` are self-adjoint with the same
-spectra and `X` solves the domain-aware equation with `C = 0` (Tau Ceti
+first): the bounded/partial uniqueness bridge, which specialises §B.17 to bounded operators.
+Route: viewed as total partial operators, `A` and `B` are
+self-adjoint with the same spectra and `X` solves the domain-aware equation with `C = 0` (Tau Ceti
 `LinearPMap.isSelfAdjoint_toPMap_top`, `ContinuousLinearMap.spectrum_toPMap_top`,
-`LinearPMap.SylvesterEquation.ofBounded_iff`), so §2.17 applies. Directly, without §2.17: a
+`LinearPMap.SylvesterEquation.ofBounded_iff`), so §B.17 applies. Directly, without §B.17: a
 continuous function equal to `1` on the spectrum of `B` and `0` on that of `A`, which are disjoint
 compact sets, gives `X = X f(B) = f(A) X = 0` (Tau Ceti `ContinuousLinearMap.comp_cfc_eq_cfc_comp`).
 *Needs:* Tau Ceti `LinearPMap.isSelfAdjoint_toPMap_top`, `ContinuousLinearMap.spectrum_toPMap_top`,
-`LinearPMap.SylvesterEquation.ofBounded_iff`, and §2.17; or `ContinuousLinearMap.comp_cfc_eq_cfc_comp`
+`LinearPMap.SylvesterEquation.ofBounded_iff`, and §B.17; or `ContinuousLinearMap.comp_cfc_eq_cfc_comp`
 alone.
 
 ### Examples
 
 - In finite dimension the Sylvester equation is solved coordinatewise: in eigenbases,
-  `(αᵢ − βⱼ) Xᵢⱼ = Cᵢⱼ` (Tau Ceti `ContinuousLinearMap.inner_sylvester_apply_eigenvectorBasis`), so
-  the solution is unique exactly when no `αᵢ` equals a `βⱼ`, which is §2.19 for matrices.
-- The bounded instance of §2.16 for `A = diag(0, 2)` and `B = diag(1, −1)` is worked out in its
-  Checks; the finite-dimensional pairwise bound it illustrates is Tau Ceti's
-  `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply`.
+  `(αᵢ − βⱼ) Xᵢⱼ = Cᵢⱼ` (§B.4), so the solution is unique exactly when no `αᵢ` equals a `βⱼ`, which
+  is §B.2, and the bounded/partial uniqueness bridge §B.19 for matrices.
+- The bounded instance of §B.16 for `A = diag(0, 2)` and `B = diag(1, −1)` is worked out in its
+  Checks; it illustrates the finite-dimensional pairwise bound §B.13, and the same example shows
+  in §B.12 that a representation by unitary actions needs mass above `1`.
 
 ### Dependencies
 
-Layer 1 (the kernel, §2.12 and §2.16). SelfAdjointSpectralTheory Part E (the spectral measure of an
-unbounded self-adjoint operator, §2.16 and §2.17). Tau Ceti: the Sylvester operator, the
-`LinearPMap` resolvent, spectrum, separation, intertwining and Sylvester-equation API, the Cayley
-transform and its continuous functional calculus, Stone's theorem, coercive operators. Mathlib:
-`LinearPMap`, continuous functional calculus, convex hulls.
+Part A (the kernel, for §B.11–§B.14 and §B.16). PrincipalAngles (the separation predicates) and
+Majorization (unitarily invariant seminorms, Ky Fan sums, Fan dominance and orbit hulls).
+SelfAdjointSpectralTheory Part E (the spectral measure of an unbounded self-adjoint operator,
+§B.16 and §B.17). Tau Ceti: the `LinearPMap` resolvent, spectrum, separation, intertwining and
+Sylvester-equation API, the Cayley transform and its continuous functional calculus, Stone's
+theorem, coercive operators. Mathlib: `LinearPMap`, continuous functional calculus, convex hulls,
+eigenvector bases of symmetric operators.
 
-## Layer 3: the Davis–Kahan theorems
+## Part C: the Davis–Kahan `sin Θ` theorems
 
-Trial maps and residuals, the graph-subspace model, the dimension-free and finite `sin Θ`
-theorems in every unitarily invariant norm, the canonical spectral-subspace forms, the pairwise
-`π/2` theorem, the symmetric two-orientation theorem, and the `sin 2θ`, `sin 2Θ` and per-vector
-`tan 2θ` bounds are Tau Ceti's (§3.1–§3.27 and §3.30 under Scope and ownership). This layer adds
-the `tan Θ` theorems and the quarter-acute bound.
+The residual form controls the angle from an approximate invariant subspace through `R = AX − XM`;
+the perturbation form controls invariant subspaces of `A` and `B` through `B − A`. Trial
+compression and residuals turn approximate invariance into operator equations, and reduced
+extensions and graph subspaces give the geometric models that turn those equations into
+subspace-angle statements (§C.1–§C.14). The Sylvester bounds of Part B become directed sine bounds
+after projection onto complementary subspaces, and finite spectral and equal-rank bridges give the
+projector and unitarily invariant forms (§C.15–§C.24). Ordered two-block form separation gives the
+`sin 2Θ` estimate; Ritz compression with exterior separation gives the tangent estimate together
+with the transversality that keeps the principal tangents finite; and an off-diagonal perturbation
+sharpens the eigenvector product inequality to the `tan 2θ` form and the quarter-acute bound
+(§C.25–§C.31). The angle maps, spectral subspaces, separation predicates and equal-rank projector
+identities come from PrincipalAngles (Conventions 4 and 5).
 
-### 3.28 The Ritz-residual `tan Θ` theorem, equal ranks
+**Milestone C1 — trial maps, residuals, and graph subspaces.** §C.1–§C.14.
+
+**Milestone C2 — dimension-free and finite spectral `sin Θ` theory.** §C.15–§C.24.
+
+**Milestone C3 — double-angle and tangent theory.** §C.25–§C.31.
+
+### C.1 The compression
+
+For a bounded operator `A` on `E` and a trial map `X : F → E`, define the compression `X†AX` on
+`F`. For an isometry `X` it is `A` cut down to `range X`, in the coordinates of `F`.
+*In Tau Ceti:* `ContinuousLinearMap.compression`.
+
+### C.2 The residual
+
+For a trial map `X : F → E` and a model operator `M` on `F`, define the residual `R = AX − XM`,
+the Sylvester map §B.1 of `A` and `M` applied to `X`.
+*In Tau Ceti:* `ContinuousLinearMap.sylvester` (as `A.sylvester M X`).
+
+### C.3 The Ritz residual
+
+For an isometric trial map `X`, the Ritz residual is the residual §C.2 with `M = X†AX`. It is
+orthogonal to the trial range, `X†(AX − X X†AX) = 0`, and when `range X` has an orthogonal
+projection it equals `P_{(range X)⊥} A X`.
+*In Tau Ceti:* `ContinuousLinearMap.sylvester_compression`, `ContinuousLinearMap.adjoint_comp_sylvester_compression`.
+
+### C.4 Minimality of the Ritz residual
+
+Let `X : F → E` be an isometry between finite-dimensional inner product spaces. For every model
+`M` on `F`, `‖AX − XM‖_F² = ‖AX − X X†AX‖_F² + ‖X†AX − M‖_F²`, so among model operators on the
+trial space the Ritz choice `M = X†AX` minimises the Frobenius norm of the residual. It minimises
+`N(AX − XM)` for every unitarily invariant seminorm `N` on the maps `F → E` as well.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.sq_frobenius_sylvester_eq_sq_frobenius_sylvester_compression_add`, `TauCeti.UnitarilyInvariantSeminorm.map_sylvester_compression_le_map_sylvester`.
+
+### C.5 The sine embedding
+
+For a trial map `X : F → E` and a subspace `V` of `E` with an orthogonal projection, define the
+sine embedding `P_{V⊥} X`, the cross-complement map that measures the sine of the angle from the
+trial range to `V`. For the inclusion of a subspace `Z` it is the map `Z → E`, `z ↦ P_{V⊥} z`;
+for square maps it is the directed sine map `P_{V⊥} P_U` of Convention 4.
+*In Tau Ceti:* `Submodule.sinThetaEmbedding` (for the inclusion of a subspace), `Submodule.sinThetaMap` (the square form).
+
+### C.6 The cosine embedding
+
+For `X` and `V` as in §C.5, define the cosine embedding `P_V X`, the cross-projection map that
+measures the cosine of the same angle; for square maps it is `P_V P_U`.
+*In Tau Ceti:* `Submodule.cosThetaMap` (the square form).
+
+### C.7 The singular values of the sine embedding
+
+For an isometry `X : F → E` between finite-dimensional inner product spaces and a subspace `V` of
+`E`, the singular values of `P_{V⊥} X` are the principal sines from `range X` to `V`. For the
+inclusion of a subspace `Z`, the singular values of the sine embedding are the principal sines
+from `Z` to `V`, the zero tail included, with no equality of dimensions required.
+*In Tau Ceti:* `Submodule.principalSines_range_eq_singularValues`, `Submodule.singularValues_sinThetaEmbedding`.
+
+### C.8 The singular values of the cosine embedding
+
+For an isometry `X : F → E` between finite-dimensional inner product spaces and a subspace `V` of
+`E`, the singular values of `P_V X` are the principal cosines from `range X` to `V`.
+*In Tau Ceti:* `Submodule.principalCosines_range_eq_singularValues`.
+
+### C.9 The reduced extension
+
+For a bounded operator `A` on `E`, a subspace `U` with an orthogonal projection and a real scalar
+`κ`, define the reduced extension `A P_U + κ P_{U⊥}`, which agrees with `A` on `U` and is `κ` on
+`U⊥`. If `A` is symmetric and `U` is `A`-invariant, the reduced extension is symmetric.
+*In Tau Ceti:* `ContinuousLinearMap.reducedExtension`, `ContinuousLinearMap.isSymmetric_reducedExtension`.
+
+### C.10 The form bound of the reduced extension
+
+Let `A` be symmetric, `U` a finite-dimensional `A`-invariant subspace, `c` real and `A_κ` the
+reduced extension §C.9. If the eigenvalues of `A` on `U` lie in `(−∞, c]` and `κ ≤ c`, then
+`Re⟪A_κ x, x⟫ ≤ c‖x‖²` for every `x ∈ E`; if they lie in `[c, ∞)` and `κ ≥ c`, then
+`c‖x‖² ≤ Re⟪A_κ x, x⟫` for every `x ∈ E`.
+*In Tau Ceti:* `ContinuousLinearMap.re_inner_reducedExtension_self_le_of_pointSpectrumIn`, `ContinuousLinearMap.le_re_inner_reducedExtension_self_of_pointSpectrumIn`.
+
+### C.11 Angular operators
+
+For a subspace `U` with an orthogonal projection, an angular operator from `U` to `U⊥` is a
+bounded operator `X` on `E` with `X P_U = X` and `P_U X = 0`: it vanishes on `U⊥` and takes values
+in `U⊥`.
+*In Tau Ceti:* `Submodule.IsAngularOperator`.
+
+### C.12 The graph subspace
+
+For an angular operator `X`, define `graph(U, X) = {u + Xu : u ∈ U}`, the image of `U` under
+`1 + X`.
+*In Tau Ceti:* `Submodule.graphSubspace`.
+
+### C.13 The graph projection formula
+
+On a complete space, let `X` be an angular operator from `U` to `U⊥` whose graph has an orthogonal
+projection, and put `T = P_U + X`. Then `1 + X†X` is invertible and the orthogonal projection onto
+the graph is `P_graph = T(1 + X†X)⁻¹T†`.
+*In Tau Ceti:* `Submodule.IsAngularOperator.starProjection_graphSubspace`.
+
+### C.14 The exact graph gap
+
+For an angular operator `X` from `U` to `U⊥` whose graph has an orthogonal projection,
+`‖P_U − P_graph‖ = ‖X‖/√(1 + ‖X‖²)`; in particular the gap is less than `1`.
+*In Tau Ceti:* `Submodule.IsAngularOperator.projectionGap_graphSubspace`, `Submodule.IsAngularOperator.projectionGap_graphSubspace_lt_one`.
+
+### C.15 The dimension-free directed `sin Θ` bound
+
+Let `A` and `B` be bounded symmetric operators on an inner product space `E`, `U` an `A`-invariant
+and `W` a `B`-invariant subspace with orthogonal projections, `g > 0` and `c` real, with
+`(c + g)‖u‖² ≤ Re⟪Au, u⟫` for `u ∈ U` and `Re⟪Bw, w⟫ ≤ c‖w‖²` for `w ∈ W`. Then
+`‖P_W P_U‖ ≤ ‖B − A‖/g`, on arbitrary inner product spaces, with no completeness or finite
+dimension. Route: the reduced extensions §C.9–§C.10 and the separated bound §B.8.
+*In Tau Ceti:* `Submodule.mul_norm_starProjection_comp_starProjection_le_norm_sub`, `Submodule.norm_starProjection_comp_starProjection_le_norm_sub_div`.
+
+### C.16 The dimension-free projector-gap bounds
+
+Let `A` and `B` be bounded symmetric, `U` `A`-invariant and `V` `B`-invariant with orthogonal
+projections, and `g > 0`. If `(c + g)‖u‖² ≤ Re⟪Au, u⟫` on `U` and `Re⟪Bw, w⟫ ≤ c‖w‖²` on `V⊥`,
+the directed gap satisfies `‖P_{V⊥} P_U‖ ≤ ‖B − A‖/g` (§C.15 with `W = V⊥`). If moreover
+`(c′ + g)‖v‖² ≤ Re⟪Bv, v⟫` on `V` and `Re⟪Az, z⟫ ≤ c′‖z‖²` on `U⊥`, the reversed estimate holds
+too, both directed sine bounds hold, and `‖P_U − P_V‖ ≤ ‖B − A‖/g`.
+*In Tau Ceti:* `Submodule.mul_directedProjectionGap_le_norm_sub`, `Submodule.directedProjectionGap_le_norm_sub_div`, `Submodule.mul_projectionGap_le_norm_sub`, `Submodule.projectionGap_le_norm_sub_div`.
+
+### C.17 The residual `sin Θ` theorem
+
+Let `A` on `E` and `M` on `F` be symmetric operators on finite-dimensional inner product spaces
+over `𝕜`, `U` an `A`-invariant target subspace, `X : F → E` a linear isometry, and `R = AX − XM`.
+Suppose `a ≤ b`, `δ > 0`, the eigenvalues of `M` lie in `[a, b]`, and the eigenvalues of `A` on
+`U⊥` lie outside `(a − δ, b + δ)`. Every unitarily invariant seminorm `N` on the maps `F → E`
+then satisfies `δ N(P_{U⊥} X) ≤ N(R)`, and the singular values of `P_{U⊥} X` are the directed
+principal sines from `range X` to `U` (§C.7) (Davis and Kahan 1970, the `sin Θ` theorem). The
+inequality holds for every linear `X : F → E`; the isometry makes it a bound on angles.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`.
+
+### C.18 The perturbation `sin Θ` theorem
+
+Let `A` and `B` be symmetric on a finite-dimensional inner product space `E`, `U` `A`-invariant,
+`V` `B`-invariant and `δ > 0`. If the eigenvalues of `A` on `U` lie in `[a, b]` and those of `B` on
+`V⊥` outside `(a − δ, b + δ)`, or the eigenvalues of `B` on `V⊥` lie in `[a, b]` and those of `A`
+on `U` outside `(a − δ, b + δ)`, then every unitarily invariant seminorm `N` on the operators of
+`E` satisfies `δ N(P_{V⊥} P_U) ≤ N(B − A)` (Davis and Kahan 1970, the `sin Θ` theorem).
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_map_sub`, `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_map_sub_swap`, `Submodule.mul_norm_sinThetaMap_le_norm_sub_of_pointIntervalExteriorGap` (the operator norm).
+
+### C.19 The canonical spectral-subspace residual form
+
+For `Ω ⊆ ℝ`, let `U` be the point-spectral subspace of `A` selected by `Ω` (Convention 4). With `A`,
+`M` and `δ` as in §C.17, if the eigenvalues of `M` lie in `[a, b]` and those of `A` on the
+point-spectral subspace selected by `ℝ ∖ Ω` lie outside `(a − δ, b + δ)`, then
+`δ N(P_{U⊥} X) ≤ N(AX − XM)` for every linear `X : F → E` and every unitarily invariant seminorm
+`N`. For `Ω = (a − δ, b + δ)` the exterior hypothesis holds automatically.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_orthogonal_pointSpectralSubspace_comp_le_map_sylvester_apply`, `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_orthogonal_pointSpectralSubspace_Ioo_comp_le_map_sylvester_apply`.
+
+### C.20 The canonical eigenspace-projector bound
+
+Let `A` and `B` be symmetric on a finite-dimensional inner product space, `s, t ⊆ ℝ`, and `U` and
+`V` the point-spectral subspaces of `A` selected by `s` and of `B` selected by `t`, with
+`dim U = dim V`. If the eigenvalues of `A` on `U` lie in `[a, b]` and those of `B` on `V⊥` outside
+`(a − δ, b + δ)`, then `δ‖P_U − P_V‖ ≤ ‖B − A‖`. The same holds for any `A`-invariant `U` and
+`B`-invariant `V` of equal dimension. Route: §C.18 in the operator norm, with the equal-rank
+identity `‖P_U − P_V‖ = ‖P_{V⊥} P_U‖` of PrincipalAngles.
+*In Tau Ceti:* `Module.End.mul_norm_sub_starProjection_pointSpectralSubspace_le`, `Submodule.mul_projectionGap_le_norm_sub_of_pointIntervalExteriorGap`.
+
+### C.21 The Frobenius `sin Θ` corollary
+
+Under the hypotheses of §C.17, `δ‖P_{U⊥} X‖_F ≤ ‖AX − XM‖_F`; under those of §C.18,
+`δ‖P_{V⊥} P_U‖_F ≤ ‖B − A‖_F`.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_frobenius_starProjection_comp_le_frobenius_sylvester_apply`, `TauCeti.UnitarilyInvariantSeminorm.mul_frobenius_starProjection_comp_starProjection_le_frobenius_sub`.
+
+### C.22 The Ky Fan `sin Θ` corollary
+
+Under the hypotheses of §C.17, `δ K_k(P_{U⊥} X) ≤ K_k(AX − XM)` for every `k`; under those of
+§C.18, `δ K_k(P_{V⊥} P_U) ≤ K_k(B − A)` for every `k`.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_kyFan_starProjection_comp_le_kyFan_sylvester_apply`, `TauCeti.UnitarilyInvariantSeminorm.mul_kyFan_starProjection_comp_starProjection_le_kyFan_sub`.
+
+### C.23 The pairwise `π/2` perturbation theorem
+
+Let `A` and `B` be symmetric on a finite-dimensional inner product space `E`, `U` `A`-invariant,
+`V` `B`-invariant, and `δ > 0` with every eigenvalue of `A` on `U` at distance at least `δ` from
+every eigenvalue of `B` on `V⊥`. Then `δ N(P_{V⊥} P_U) ≤ (π/2) N(B − A)` for every unitarily
+invariant seminorm `N` on the operators of `E`. Route: §B.13 on invariant subspaces.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_pi_div_two_mul_map_sub`.
+
+### C.24 The symmetric two-orientation theorem with constant one
+
+Let `A` and `B` be symmetric on a finite-dimensional inner product space `E`, `U` `A`-invariant,
+`V` `B`-invariant and `δ > 0`. Suppose the interval/exterior gap holds in both orientations: the
+eigenvalues of `A` on `U` lie in `[a, b]` and those of `B` on `V⊥` outside `(a − δ, b + δ)`, and
+the eigenvalues of `B` on `V` lie in `[c, d]` and those of `A` on `U⊥` outside `(c − δ, d + δ)`.
+Then `δ N(P_U − P_V) ≤ N(B − A)` for every unitarily invariant seminorm `N`, and the same bound
+holds for the symmetric sine angle operator `|P_U − P_V|`. Unlike §C.18, both orientations are
+needed.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_sub_starProjection_le_map_sub`, `TauCeti.UnitarilyInvariantSeminorm.mul_map_sinAngleOperator_le_map_sub`.
+
+### C.25 The per-eigenvector `sin 2θ` product bound
+
+Let bounded symmetric `A` and `H` act on an inner product space over `𝕜`, let `U` be `A`-invariant
+with an orthogonal projection, let `a < b`, and assume `Re⟪Az, z⟫ ≤ a‖z‖²` on `U⊥` and
+`b‖y‖² ≤ Re⟪Ay, y⟫` on `U`. If `‖Hv‖ ≤ ε‖v‖` for every `v` and a unit vector `x` satisfies
+`(A + H)x = λx` with `λ` real, then `(b − a)‖P_U x‖‖P_{U⊥} x‖ ≤ ε` (Davis 1963, the `sin 2θ`
+theorem).
+*In Tau Ceti:* `LinearMap.IsSymmetric.sin_two_theta_le`.
+
+### C.26 The per-eigenvector angle form
+
+Under §C.25, put `θ = arccos ‖P_U x‖`, the angle between `x` and `U`. Then
+`(b − a) sin(2θ) ≤ 2ε`.
+*In Tau Ceti:* `LinearMap.IsSymmetric.sin_two_arccos_le`.
+
+### C.27 The finite-dimensional `sin 2Θ` perturbation theorem
+
+Let finite-dimensional symmetric `A` and `B` leave `U` and `V` invariant. If `a < b` and `A`
+satisfies the two-block form bounds `Re⟪Az, z⟫ ≤ a‖z‖²` on `U⊥` and `b‖y‖² ≤ Re⟪Ay, y⟫` on `U`,
+then every unitarily invariant seminorm `N` on the operators of the space satisfies
+`(b − a) N(2P_{U⊥} P_V P_U) ≤ 2N(B − A)` (Davis and Kahan 1970, the `sin 2Θ` theorem). No spectral
+hypothesis is placed on `B`.
+*In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.mul_map_sinTwoAngleOperator_le_two_mul_map_sub`, `Submodule.sinTwoAngleOperator`.
+
+### C.28 The Ritz-residual `tan Θ` theorem, equal ranks
 
 Prove `directedProjectionGap_lt_one_and_mul_map_tanThetaMap_le`: let `A` be symmetric on a
 finite-dimensional inner product space `E` over `𝕜`, `U` an `A`-invariant subspace, and `Z` a
@@ -360,17 +874,16 @@ sine embedding of `Z` by the diagonal values `tan θⱼ` followed by the inclusi
 `Submodule.tanThetaMap Z U`), whose singular values are the principal tangents, satisfies
 `δ N(T_{Z,U}) ≤ N(R)` for every unitarily invariant seminorm `N` on the maps `Z → E` (Davis and
 Kahan 1970, the `tan Θ` theorem). The hypotheses force `Z ∩ U⊥ = 0`: a unit `z` there would have
-`α + δ ≤ ⟪Az, z⟫ = ⟪Mz, z⟫ ≤ α`. Hence `dim Z ≤ dim U` always, and §3.28 and §3.29 together cover
+`α + δ ≤ ⟪Az, z⟫ = ⟪Mz, z⟫ ≤ α`. Hence `dim Z ≤ dim U` always, and §C.28 and §C.29 together cover
 every case. Route: the proof of Davis and Kahan, in which the transversality makes `Z` the graph
-of the tangent operator from `U` to `U⊥`, the Ritz residual is orthogonal to `Z` (Tau Ceti
-`ContinuousLinearMap.adjoint_comp_sylvester_compression`), and the one-sided position of the two
-spectra, the eigenvalues of `M` below those of `A` on `U⊥`, gives the constant one.
-*Needs:* Tau Ceti `ContinuousLinearMap.compression`, `ContinuousLinearMap.sylvester`,
-`ContinuousLinearMap.adjoint_comp_sylvester_compression`,
+of the tangent operator from `U` to `U⊥`, the Ritz residual is orthogonal to `Z` (§C.3), and the
+one-sided position of the two spectra, the eigenvalues of `M` below those of `A` on `U⊥`, gives
+the constant one.
+*Needs:* §C.1–§C.3, §C.5, §C.7, the separated Sylvester bounds §B.7–§B.10; Tau Ceti
 `Submodule.tanThetaMap`, `Submodule.singularValues_tanThetaMap`,
 `Submodule.directedProjectionGap_lt_one_iff`,
 `Submodule.forall_principalAngles_lt_pi_div_two_iff_directedProjectionGap_lt_one`,
-`TauCeti.UnitarilyInvariantSeminorm`, and the separated Sylvester bounds of Layer 2.
+`TauCeti.UnitarilyInvariantSeminorm`.
 
 **Checks.**
 - The constant is sharp. On `ℝ²` let `A = diag(0, 1)`, `U = span e₁` and `Z` the span of
@@ -379,24 +892,33 @@ spectra, the eigenvalues of `M` below those of `A` on `U⊥`, gives the constant
   from `Z` to `U` is `φ`, and `δ tan φ = sin φ cos φ = ‖R‖`: equality. At `φ = π/4` both sides
   are `1/2`, while `δ sin φ = √2/4`; a bound with a smaller constant than one is false.
 
-### 3.29 The Ritz-residual `tan Θ` theorem, lower rank
+### C.29 The Ritz-residual `tan Θ` theorem, lower rank
 
-Under the hypotheses of §3.28 with `dim Z < dim U` in place of `dim Z = dim U`, prove the same
+Under the hypotheses of §C.28 with `dim Z < dim U` in place of `dim Z = dim U`, prove the same
 two conclusions: the directed gap from `Z` to `U` is less than `1`, and the tangent map
 `T_{Z,U} : Z → E` of Tau Ceti's `Submodule.tanThetaMap Z U`, whose singular values are the
 principal tangents, satisfies `δ N(T_{Z,U}) ≤ N(R)` for every unitarily invariant seminorm `N` on
 the maps `Z → E` (Davis and Kahan 1970, the generalized `tan Θ` theorem). Route: a compression
-reduces it to §3.28. Put `U′ = P_U Z` and `E′ = U′ ⊕ U⊥`, and let `A′` be the compression of `A`
+reduces it to §C.28. Put `U′ = P_U Z` and `E′ = U′ ⊕ U⊥`, and let `A′` be the compression of `A`
 to `E′`, which is `P_{U′}A` on `U′` and `A` on `U⊥`: `U′` is `A′`-invariant with complement `U⊥`
 in `E′`, and `dim U′ = dim Z` because `Z ∩ U⊥ = 0`. Then `Z ⊆ E′`, the compression of `A′` to `Z`
 is `M`, its Ritz residual is `P_{E′}R`, and the sine embedding `P_{U⊥}` on `Z`, hence the directed
-gap and the tangent map, is unchanged. §3.28 for `A′`, `U′` and `Z`, with `N` restricted to the
+gap and the tangent map, is unchanged. §C.28 for `A′`, `U′` and `Z`, with `N` restricted to the
 maps into `E′` (still unitarily invariant, since unitaries of `E′` extend to `E`), gives
 `δ N(T_{Z,U}) ≤ N(P_{E′}R) ≤ N(R)`, the last step because `P_{E′} = (1 + S)/2` with the unitary
 `S = 2P_{E′} − 1`.
-*Needs:* §3.28; Tau Ceti `ContinuousLinearMap.compression`, `Submodule.tanThetaMap`.
+*Needs:* §C.28, §C.1; Tau Ceti `Submodule.tanThetaMap`.
 
-### 3.31 The quarter-acute bound for off-diagonal perturbations
+### C.30 The off-diagonal `tan 2θ` product bound
+
+Under the hypotheses of §C.25, with `x` an eigenvector of `A + H` that need not be a unit vector,
+assume further that both diagonal blocks of `H` relative to `U ⊕ U⊥` vanish: `⟪u, Hu′⟫ = 0` for
+`u, u′ ∈ U` and `⟪w, Hw′⟫ = 0` for `w, w′ ∈ U⊥`. Then
+`(b − a)‖P_U x‖‖P_{U⊥} x‖ ≤ |‖P_U x‖² − ‖P_{U⊥} x‖²| ε`. For a unit `x` at angle `θ` from `U`,
+away from `cos 2θ = 0`, this is `(b − a)|tan 2θ| ≤ 2ε`.
+*In Tau Ceti:* `LinearMap.IsSymmetric.tan_two_theta_le`.
+
+### C.31 The quarter-acute bound for off-diagonal perturbations
 
 Let `A` and `H` be bounded self-adjoint operators on a Hilbert space over `𝕜`, `U` a closed
 `A`-invariant subspace and `V` a closed `(A + H)`-invariant subspace, and `a < b`. Suppose `A`
@@ -412,13 +934,13 @@ graph: for `z = u + w` in `V` with `u ∈ U` and `w ∈ U⊥`,
 `b‖z‖² ≤ Re⟪(A + H)z, z⟫ ≤ ‖A‖‖u‖² + a‖w‖² + 2‖H‖‖u‖‖w‖`, so
 `(b − a)‖w‖² ≤ (‖A‖ − b)‖u‖² + 2‖H‖‖u‖‖w‖` and `‖w‖ ≤ c‖u‖` for a constant `c`. Hence `P_U` is
 bounded below on `V`, its image is closed, and `V⊥ ∩ U = 0` makes it all of `U`: `V` is the graph
-of a bounded angular operator `K` from `U` to `U⊥`; the Davis–Kahan `tan 2Θ` argument, of which Tau Ceti's per-vector
-`LinearMap.IsSymmetric.tan_two_theta_le` is the eigenvector case, gives
-`‖K‖ ≤ tan(½ arctan(2‖H‖/(b − a))) < 1`, and the exact graph gap `‖K‖/√(1 + ‖K‖²)` concludes. In
-finite dimension the two trivial intersections give `dim U = dim V`, so the projection gap equals
-the directed gap and Tau Ceti's `Submodule.forall_principalAngles_lt_pi_div_four_iff` converts it.
-*Needs:* Tau Ceti `Submodule.IsAngularOperator`, `Submodule.graphSubspace`,
-`Submodule.IsAngularOperator.projectionGap_graphSubspace`, `LinearMap.IsSymmetric.tan_two_theta_le`,
+of a bounded angular operator `K` from `U` to `U⊥` (§C.11, §C.12); the Davis–Kahan `tan 2Θ`
+argument, of which §C.30 is the eigenvector case, gives
+`‖K‖ ≤ tan(½ arctan(2‖H‖/(b − a))) < 1`, and the exact graph gap §C.14, `‖K‖/√(1 + ‖K‖²)`,
+concludes. In finite dimension the two trivial intersections give `dim U = dim V`, so the
+projection gap equals the directed gap and Tau Ceti's
+`Submodule.forall_principalAngles_lt_pi_div_four_iff` converts it.
+*Needs:* §C.11, §C.12, §C.14, §C.30; Tau Ceti
 `Submodule.projectionGap_eq_directedProjectionGap_of_finrank_eq`,
 `Submodule.forall_principalAngles_lt_pi_div_four_iff`.
 
@@ -433,47 +955,169 @@ the directed gap and Tau Ceti's `Submodule.forall_principalAngles_lt_pi_div_four
 
 ### Examples
 
-- The residual form of the `sin Θ` theorem is Tau Ceti's
-  `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`; in the
-  example of §3.28's Check it gives `δ sin φ ≤ ‖R‖`, the weaker `cos²φ sin φ ≤ sin φ cos φ`.
+- The residual form §C.17, in the example of §C.28's Check, gives `δ sin φ ≤ ‖R‖`, the weaker
+  `cos²φ sin φ ≤ sin φ cos φ`.
 - For `A = diag(1, 0)` and `B = [[1, ε], [ε, 0]]` with `ε = 2/3`, the perturbed top eigenline is
   at angle `θ` with `sin²θ = 1/5`, the gap from the top eigenvalue `1` of `A` to the lowest
-  eigenvalue `(1 − 5/3)/2 = −1/3` of `B` is `δ = 4/3`, and the perturbation form of the
-  `sin Θ` theorem (Tau Ceti
-  `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_map_sub`) reads
+  eigenvalue `(1 − 5/3)/2 = −1/3` of `B` is `δ = 4/3`, and the perturbation form §C.18 reads
   `(4/3)/√5 ≈ 0.596 ≤ ‖B − A‖ = 2/3`.
+- In the same example the double-angle and tangent bounds apply to `x = (2, 1)/√5`, the top unit
+  eigenvector of `B = A + H` with `H = B − A` off-diagonal, `a = 0`, `b = 1` and `ε = 2/3`: §C.25
+  reads `‖P_U x‖‖P_{U⊥} x‖ = 2/5 ≤ 2/3`, and §C.30 holds with equality,
+  `2/5 = |4/5 − 1/5| · (2/3)`, that is `tan 2θ = 4/3 = 2ε/(b − a)`.
 
 ### Dependencies
 
-Layer 2 (the separated Sylvester bounds, Tau Ceti's). Tau Ceti: compression and residuals, the
-graph-subspace model, principal angles and tangents, the per-vector double-angle bounds. Mathlib:
-orthogonal projections, singular values.
+Part B (the separated, interval/exterior and pairwise Sylvester bounds). PrincipalAngles:
+principal angles, sines, cosines and tangents, the projection gap and the directed gap,
+point-spectral subspaces, the separation predicates. Majorization: unitarily invariant seminorms
+and Ky Fan sums. Mathlib: orthogonal projections, singular values, eigenvector bases of symmetric
+operators, `Ring.inverse`.
 
-## Layer 4: the Yu–Wang–Samworth variant
+## Part D: the Yu–Wang–Samworth statistical variant
 
-Corresponding eigenblocks, the Frobenius sine distance, singular subspaces, the Hermitian dilation
-and its spectral transfer, the complement identity, the residual sandwich, the singular-subspace
-`sin Θ` transfer, the population-gap `sin Θ` theorem and the right-singular-vector bound are Tau
-Ceti's (§4.1–§4.14, §4.16 and the right half of §4.19 under Scope and ownership; the residual
-columns §4.3 are notation, Convention 9). This layer adds the dilation form of the pairwise
-theorem and the three vector forms.
+The population-gap formulation uses a deterministic gap in the population spectrum and produces
+the subspace error bound used by statistical applications. This Part selects corresponding
+eigenblocks by common ordered eigenvalue indices, measures their Frobenius sine distance, bounds it
+through the residual sandwich, and transfers the symmetric perturbation theorems to left and right
+singular subspaces through Gram operators and the Hermitian dilation. The aligned-family
+construction (the Procrustes alignment) and the Gram perturbation bounds are consumed from
+PrincipalAngles. Throughout, `A` is the population operator and `B` the perturbed or sample one
+(Convention 9).
 
-### 4.15 The dilation pairwise-gap bound
+**Milestone D1 — statistical subspace objects and transfer lemmas.** §D.1–§D.15.
+
+**Milestone D2 — population-gap theorems.** §D.16–§D.19.
+
+### D.1 Corresponding eigenblocks
+
+Let `A` and `B` be symmetric on a finite-dimensional inner product space of dimension `n`, with
+eigenvalues `λ_0 ≥ … ≥ λ_{n−1}` listed in decreasing order. For an injective selection `e` of `d`
+indices, subspaces `U` and `V` are corresponding eigenblocks when `U` is spanned by orthonormal
+vectors `wᵢ` with `A wᵢ = λ_{e(i)}(A) wᵢ` and `V` by orthonormal vectors `uᵢ` with
+`B uᵢ = λ_{e(i)}(B) uᵢ`: two ordered eigenframes at the same sorted indices. The eigenvectors may
+be chosen freely inside repeated eigenspaces; the spans of the canonical eigenbases at an index set
+`s` are an instance.
+*In Tau Ceti:* `LinearMap.IsSymmetric.CorrespondingEigenblocks`, `LinearMap.IsSymmetric.IsOrderedEigenframe`, `LinearMap.IsSymmetric.eigenvectorSpan`, `LinearMap.IsSymmetric.isOrderedEigenframe_eigenvectorBasis`.
+
+### D.2 The Frobenius sine distance
+
+For subspaces `U` and `V` of a finite-dimensional inner product space, define
+`‖sin Θ(U, V)‖_F` as the Frobenius norm of the directed sine map `P_{V⊥} P_U`. Its square is the
+sum of the squared principal sines from `U` to `V`, and it is symmetric in `U` and `V` when
+`dim U = dim V`.
+*In Tau Ceti:* `Submodule.sinThetaFrobenius`, `Submodule.sq_sinThetaFrobenius`, `Submodule.sinThetaFrobenius_comm`.
+
+### D.3 The population residual columns
+
+For a selected index set `s`, the residual columns are `R_j = λ_j(A) v_j − A v_j`, `j ∈ s`, with
+`λ_j(A)` the `j`-th eigenvalue of `A` and `v_j` the `j`-th vector of the eigenvector basis of `B`
+(Convention 9): the population eigenvalue applied to the sample eigenvector. `R_j = 0` exactly
+when `v_j` is an eigenvector of `A` for `λ_j(A)`. The residual columns of an arbitrary ordered
+eigenframe of `B` at the indices `e(i)` are defined in the same way, with `λ_{e(i)}(A)`.
+
+### D.4 The left singular subspace
+
+For a linear map `A : E → F` between finite-dimensional inner product spaces and a set `Ω ⊆ ℝ` of
+squared singular values, the left singular subspace of `A` selected by `Ω` is the point-spectral
+subspace of `AA†` selected by `Ω`, a subspace of `F`.
+*In Tau Ceti:* `LinearMap.leftSingularSubspace`.
+
+### D.5 The right singular subspace
+
+The right singular subspace of `A` selected by `Ω` is the point-spectral subspace of `A†A`
+selected by `Ω`, a subspace of `E`.
+*In Tau Ceti:* `LinearMap.rightSingularSubspace`.
+
+### D.6 The Hermitian dilation
+
+For `A : E → F` between finite-dimensional inner product spaces, the Hermitian dilation is the
+operator `D(A) = [[0, A†], [A, 0]]`, `(x, y) ↦ (A†y, Ax)`, on the Hilbert sum `E ⊕ F`; it is
+symmetric.
+*In Tau Ceti:* `LinearMap.hermitianDilation`, `LinearMap.isSymmetric_hermitianDilation`.
+
+### D.7 The complement identity
+
+For orthonormal bases `(a_k)` and `(b_j)` of a finite-dimensional inner product space and index
+sets `s` and `t`, `‖sin Θ(span b_t, span a_s)‖_F² = ∑_{j∈t} ∑_{k∉s} |⟪a_k, b_j⟫|²`. In
+particular, for equally indexed eigenblocks (`t = s`, `a` and `b` eigenbases of `A` and `B`), the
+squared Frobenius sine equals the cross-block sum of squared overlaps, and by §D.2 the order of
+the two blocks does not matter.
+*In Tau Ceti:* `OrthonormalBasis.sq_sinThetaFrobenius_spanIndices`, `Submodule.sinThetaFrobenius_comm`.
+
+### D.8 The residual lower sandwich
+
+Let `A` be symmetric on a finite-dimensional inner product space of dimension `n`, with eigenvector
+basis `(u_k)` and eigenvalues `λ_k(A)`, let `s` be an arbitrary index set, and `Δ ≥ 0` with
+`Δ ≤ |λ_j(A) − λ_k(A)|` for `j ∈ s` and `k ∉ s` (the population internal gap at the span of the
+`u_j`, `j ∈ s`). For every family `(w_j)`,
+`Δ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, w_j⟫|² ≤ ∑_{j∈s} ‖λ_j(A) w_j − A w_j‖²`; with `w_j = v_j` this is
+`Δ² · overlap ≤ ∑_{j∈s} ‖R_j‖²`.
+*In Tau Ceti:* `LinearMap.IsSymmetric.sq_mul_sum_sum_norm_inner_sq_le_sum_norm_smul_sub_apply_sq`.
+
+### D.9 The residual Frobenius upper sandwich
+
+For an arbitrary index set `s`, `∑_{j∈s} ‖R_j‖² ≤ 4‖B − A‖_F²`; the same bound holds for the
+residual columns of an arbitrary ordered eigenframe of `B`.
+*In Tau Ceti:* `LinearMap.IsSymmetric.sum_norm_smul_sub_apply_eigenvectorBasis_sq_le_four_mul_frobenius_sq`, `LinearMap.IsSymmetric.sum_sq_norm_frameResidual_le`.
+
+### D.10 The residual operator-norm upper sandwich
+
+If `‖(B − A)x‖ ≤ ε‖x‖` for every `x` (for instance `ε = ‖B − A‖`) and the selected index set `s`
+has cardinality `d`, then `∑_{j∈s} ‖R_j‖² ≤ 4dε²`; the same bound holds for an arbitrary ordered
+eigenframe of `B`.
+*In Tau Ceti:* `LinearMap.IsSymmetric.sum_norm_smul_sub_apply_eigenvectorBasis_sq_le_four_mul_card_mul_sq`, `LinearMap.IsSymmetric.sum_sq_norm_frameResidual_le_of_opNorm`.
+
+### D.11 The residual column decomposition
+
+For an eigenvector `v_j` of `B` with eigenvalue `λ_j(B)` and any real `c`,
+`c v_j − A v_j = (c − λ_j(B)) v_j + (B − A) v_j`: an eigenvalue-displacement term plus the direct
+perturbation term, so `‖c v_j − A v_j‖ ≤ |c − λ_j(B)| + ‖(B − A) v_j‖`. For `c = λ_j(A)` the
+displacement is controlled by Weyl's inequality `|λ_j(A) − λ_j(B)| ≤ ε` when
+`‖(B − A)x‖ ≤ ε‖x‖`, so `‖R_j‖ ≤ ε + ‖(B − A) v_j‖`.
+*In Tau Ceti:* `LinearMap.IsSymmetric.smul_sub_apply_eigenvectorBasis`, `LinearMap.IsSymmetric.norm_smul_sub_apply_eigenvectorBasis_le`.
+
+### D.12 The singular-subspace Gram transfer
+
+Let `A, Â : E → F` be linear maps between finite-dimensional inner product spaces, `s, t ⊆ ℝ`,
+`U_R` the right singular subspace of `A` selected by `s` and `Û_R` that of `Â` selected by `t`.
+If the eigenvalues of `A†A` on `U_R` lie in `[a, b]` and those of `Â†Â` on `Û_R⊥` outside
+`(a − δ, b + δ)`, then `δ‖P_{Û_R⊥} P_{U_R}‖ ≤ (‖Â‖ + ‖A‖)‖Â − A‖`. The analogous gap for `AA†` and
+`ÂÂ†` gives the same bound for the selected left singular subspaces. Route: §C.18 in the operator
+norm for the Gram operators, with `‖Â†Â − A†A‖ ≤ (‖Â‖ + ‖A‖)‖Â − A‖`.
+*In Tau Ceti:* `LinearMap.mul_norm_sinThetaMap_rightSingularSubspace_le`, `LinearMap.mul_norm_sinThetaMap_leftSingularSubspace_le`.
+
+### D.13 The Hermitian-dilation perturbation identity
+
+For `A, Â : E → F`, the operator norm of the difference of the Hermitian dilations equals that of
+the difference of the maps: `‖D(Â) − D(A)‖ = ‖Â − A‖`.
+*In Tau Ceti:* `LinearMap.norm_toContinuousLinearMap_hermitianDilation_sub`.
+
+### D.14 The Hermitian-dilation spectral transfer
+
+The singular values and the left and right singular subspaces of `A : E → F` are recovered from
+the positive and negative spectral blocks of `D(A)`. A real `μ ≠ 0` is an eigenvalue of `D(A)`
+exactly when `μ²` is an eigenvalue of `A†A`, that is when `|μ|` is a nonzero singular value of
+`A`, and the two eigenspaces have the same dimension. Every singular value `σᵢ` of `A` and its
+negative `−σᵢ` are eigenvalues of `D(A)`, with eigenvectors `(vᵢ, uᵢ)` and `(vᵢ, −uᵢ)` built from
+the right singular vector `vᵢ` and the left singular vector `uᵢ`. For `Ω ⊆ ℝ`, the projections onto
+`E` and onto `F` of the point-spectral subspace of `D(A)` selected by `Ω` are the right and the
+left singular subspaces of `A` selected by `{μ² : μ ∈ Ω}`.
+*In Tau Ceti:* `LinearMap.hasEigenvalue_hermitianDilation_iff`, `LinearMap.finrank_eigenspace_hermitianDilation_eq_adjoint_comp_self`, `LinearMap.hasEigenvalue_hermitianDilation_singularValues`, `LinearMap.hasEigenvalue_hermitianDilation_neg_singularValues`, `LinearMap.map_fstₗ_pointSpectralSubspace_hermitianDilation`, `LinearMap.map_sndₗ_pointSpectralSubspace_hermitianDilation`.
+
+### D.15 The dilation pairwise-gap bound
 
 Let `E` and `F` be finite-dimensional inner product spaces, `A, Â : E → F`, and `D(A)`, `D(Â)` their
-Hermitian dilations `[[0, A†], [A, 0]]` on `E ⊕ F` (Tau Ceti `LinearMap.hermitianDilation`). Let
-`Ω ⊆ ℝ`, write `E_D(Ω)` for the point-spectral subspace of `D` selected by `Ω` (Tau Ceti
-`Module.End.pointSpectralSubspace`), and let `δ > 0`. If every eigenvalue of `D(A)` on
+Hermitian dilations §D.6 on `E ⊕ F`. Let `Ω ⊆ ℝ`, write `E_D(Ω)` for the point-spectral subspace
+of `D` selected by `Ω` (Convention 4), and let `δ > 0`. If every eigenvalue of `D(A)` on
 `E_{D(A)}(Ω)` is at distance at least `δ` from every eigenvalue of `D(Â)` on `E_{D(Â)}(Ω)⊥`, prove
 `δ ‖P_{E_{D(Â)}(Ω)⊥} P_{E_{D(A)}(Ω)}‖ ≤ (π/2)‖D(Â) − D(A)‖`, and the right side equals
 `(π/2)‖Â − A‖` (the pairwise `π/2` `sin Θ` bound, Seelmann 2014, Proposition 2.4, applied to
-Hermitian dilations). Route: Tau Ceti's pairwise `sin Θ` theorem on `E ⊕ F`, with the dilations
+Hermitian dilations). Route: the pairwise `sin Θ` theorem §C.23 on `E ⊕ F`, with the dilations
 symmetric and the point-spectral subspaces invariant, in the operator norm, and the dilation
-isometry.
-*Needs:* Tau Ceti
-`TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_pi_div_two_mul_map_sub`,
-`TauCeti.UnitarilyInvariantSeminorm.opNorm`, `LinearMap.isSymmetric_hermitianDilation`,
-`Module.End.map_pointSpectralSubspace_le`, `LinearMap.norm_toContinuousLinearMap_hermitianDilation_sub`.
+identity §D.13.
+*Needs:* §C.23, §D.6, §D.13; Tau Ceti `TauCeti.UnitarilyInvariantSeminorm.opNorm`,
+`Module.End.map_pointSpectralSubspace_le`.
 
 **Checks.**
 - For `A = 1` and `Â = −1` on `ℂ` and `Ω = (0, ∞)`, `E_{D(A)}(Ω)` is the line of `(1, 1)` and
@@ -483,21 +1127,29 @@ isometry.
   both sides of the gap, `D(Â)` on `E_{D(Â)}(Ω)` in place of its complement, would compare `1`
   with `1` and have no gap at all.
 
-### 4.17 Aligned bases
+### D.16 The population-gap `sin Θ` theorem
+
+Let `A` (the population operator) and `B` be symmetric on a finite-dimensional inner product space
+of dimension `n`, and `U` and `V` corresponding eigenblocks of rank `d` (§D.1) at the indices
+`e(0), …, e(d − 1)`. Let `Δ > 0` with `Δ ≤ |λ_{e(i)}(A) − λ_k(A)|` for every `i` and every index
+`k` not selected, which is the internal gap §S.1 of `A` at `U`. Then
+`‖sin Θ(U, V)‖_F ≤ 2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ`. No gap is assumed in the spectrum of `B`
+(Yu, Wang and Samworth 2015, Theorem 1, proved there for real matrices and a run of consecutive
+indices). Route: the complement identity §D.7 and the residual sandwich §D.8–§D.10.
+*In Tau Ceti:* `LinearMap.IsSymmetric.sinThetaFrobenius_orderedEigenframe_le`, `LinearMap.IsSymmetric.sinThetaFrobenius_eigenvectorSpan_le`.
+
+### D.17 Aligned bases
 
 Prove `yuWangSamworth_alignedBasis_le`: let `A` and `B` be symmetric on a finite-dimensional inner
-product space of dimension `n`, `U` and `V` corresponding eigenblocks of rank `d` (Convention 9),
-and `Δ > 0` the internal gap of `A` at `U`, `Module.End.PointInternalGap A U Δ`. Then `U` and `V`
-have orthonormal bases `(uᵢ)` and `(vᵢ)`, `i < d`, with
-`(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2} ≤ 2√2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ` (Yu, Wang and Samworth 2015,
-Theorem 2, inequality (3), proved there for real matrices and a run of consecutive indices),
-`√2` times the bound of the population-gap `sin Θ` theorem. The discrepancy is the Frobenius
-norm `(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2}`, with `v` rotated inside `V`. Route: for eigenvectors spanning `U`
-the internal gap is the index gap of Tau Ceti's population-gap theorem; the Procrustes alignment
-gives a basis `v` of `V` with `∑ᵢ ‖vᵢ − uᵢ‖² ≤ 2 ‖sin Θ(U, V)‖_F²`.
-*Needs:* Tau Ceti `LinearMap.IsSymmetric.CorrespondingEigenblocks`, `Module.End.PointInternalGap`,
-`LinearMap.IsSymmetric.sinThetaFrobenius_orderedEigenframe_le`,
-`TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le`,
+product space of dimension `n`, `U` and `V` corresponding eigenblocks of rank `d` (§D.1), and
+`Δ > 0` the internal gap of `A` at `U` (§S.1). Then `U` and `V` have orthonormal bases `(uᵢ)` and
+`(vᵢ)`, `i < d`, with `(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2} ≤ 2√2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ` (Yu, Wang and
+Samworth 2015, Theorem 2, inequality (3), proved there for real matrices and a run of consecutive
+indices), `√2` times the bound of §D.16. The discrepancy is the Frobenius norm
+`(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2}`, with `v` rotated inside `V`. Route: for eigenvectors spanning `U` the
+internal gap is the index gap of §D.16; the Procrustes alignment gives a basis `v` of `V` with
+`∑ᵢ ‖vᵢ − uᵢ‖² ≤ 2 ‖sin Θ(U, V)‖_F²`.
+*Needs:* §S.1, §D.1, §D.16; Tau Ceti `TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le`,
 `Submodule.sq_sinThetaFrobenius_eq_sinThetaSq_of_orthonormal`.
 
 **Checks.**
@@ -506,16 +1158,16 @@ gives a basis `v` of `V` with `∑ᵢ ‖vᵢ − uᵢ‖² ≤ 2 ‖sin Θ(U, V
   `v = (e₂, e₁)` of the same subspace have discrepancy `2`. A statement for arbitrary bases is
   false.
 
-### 4.18 A single eigenvector
+### D.18 A single eigenvector
 
 Prove `yuWangSamworth_eigenvector_le`: let `A` and `B` be symmetric on a finite-dimensional inner
 product space, `u` and `v` unit eigenvectors of `A` and `B` at the same sorted index (their lines
 are corresponding eigenblocks), `λ` the eigenvalue of `u`, and `Δ > 0` with `Δ ≤ |λ − ν|` for
 every eigenvalue `ν` of `A` on `u⊥`. Then some scalar `c` with `|c| = 1` gives
 `‖cv − u‖ ≤ 2√2 ‖B − A‖/Δ`. Over `ℝ`, `c = ±1`, and this is Yu, Wang and Samworth 2015,
-Corollary 3, with `c` the sign that makes `⟪cv, u⟫ ≥ 0`. Route: §4.17 with `d = 1`, where
+Corollary 3, with `c` the sign that makes `⟪cv, u⟫ ≥ 0`. Route: §D.17 with `d = 1`, where
 `min(‖B − A‖, ‖B − A‖_F) = ‖B − A‖` and a unit vector of the line of `v` is `cv`.
-*Needs:* §4.17.
+*Needs:* §D.17.
 
 **Checks.**
 - The phase is needed. For `A = diag(1, 0)`, `B = [[1, ε], [ε, 0]]` with `ε = 2/3`, `u = e₁`,
@@ -523,59 +1175,61 @@ Corollary 3, with `c` the sign that makes `⟪cv, u⟫ ≥ 0`. Route: §4.17 wit
   `v = (2/√5, 1/√5)` gives `‖v − u‖ = (2 − 4/√5)^{1/2} ≈ 0.4595`, while `−v`, also a unit
   eigenvector, gives `(2 + 4/√5)^{1/2} ≈ 1.9465`, above the bound.
 
-### 4.19 Left singular vectors
+### D.19 Rectangular singular vectors
 
 Let `E` and `F` be finite-dimensional inner product spaces, `A, Â : E → F`, and `a, â, ε` with
-`â, ε ≥ 0`, `‖Ax‖ ≤ a‖x‖`, `‖Âx‖ ≤ â‖x‖` and `‖(Â − A)x‖ ≤ ε‖x‖` for every `x`. Let `(u_k)` and
-`(û_k)`, `k < dim F`, be the orthonormal eigenvector bases of `AA†` and `ÂÂ†` in decreasing
-eigenvalue order (Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis`), the *left singular
-vectors*, and let `s` be a set of indices with a squared-singular-value gap `Γ ≥ 0`:
-`Γ ≤ |λ_j(AA†) − λ_k(AA†)|` for `j ∈ s`, `k ∉ s`. Prove
-`Γ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, û_j⟫|² ≤ 4|s|((a + â)ε)²` (Yu, Wang and Samworth 2015, Theorem 4,
-the remark after it, and steps (10)–(11) of its proof, proved there for real matrices and a run of
-consecutive indices). The right form, with `A†A`, `Â†Â` and their eigenvector bases indexed by `k < dim E`, is Tau Ceti's
-`LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq`, which needs
-no sign condition. Route: the right form for `A†` and `Â†`, whose right Gram operators are `AA†`
-and `ÂÂ†`, with `‖A†‖ = ‖A‖` and the singular values of the adjoint.
-*Needs:* Tau Ceti `LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq`,
-`LinearMap.rightSingularBasis`, `LinearMap.singularValues_adjoint`, `LinearMap.norm_adjoint_apply_le`;
-Mathlib `LinearMap.isSymmetric_adjoint_comp_self`.
+`â, ε ≥ 0`, `‖Ax‖ ≤ a‖x‖`, `‖Âx‖ ≤ â‖x‖` and `‖(Â − A)x‖ ≤ ε‖x‖` for every `x`.
+
+- *Right singular vectors.* Let `(v_k)` and `(v̂_k)`, `k < dim E`, be the orthonormal eigenvector
+  bases of `A†A` and `Â†Â` in decreasing eigenvalue order (the right singular bases), and let `s`
+  be a set of indices with a squared-singular-value gap `Γ ≥ 0`: `Γ ≤ |σ_j(A)² − σ_k(A)²|` for
+  `j ∈ s`, `k ∉ s`. Then `Γ² ∑_{j∈s} ∑_{k∉s} |⟪v_k, v̂_j⟫|² ≤ 4|s|((a + â)ε)²`.
+- *Left singular vectors.* Let `(u_k)` and `(û_k)`, `k < dim F`, be the orthonormal eigenvector
+  bases of `AA†` and `ÂÂ†` in decreasing eigenvalue order (Mathlib's
+  `LinearMap.IsSymmetric.eigenvectorBasis`), the *left singular vectors*, and let `s` be a set of
+  indices with `Γ ≥ 0` and `Γ ≤ |λ_j(AA†) − λ_k(AA†)|` for `j ∈ s`, `k ∉ s`. Prove
+  `Γ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, û_j⟫|² ≤ 4|s|((a + â)ε)²`.
+
+Both are Yu, Wang and Samworth 2015, Theorem 4, the remark after it, and steps (10)–(11) of its
+proof, proved there for real matrices and a run of consecutive indices; the right form needs no
+sign condition on `a`. Route for the left form: the right form for `A†` and `Â†`, whose right Gram
+operators are `AA†` and `ÂÂ†`, with `‖A†‖ = ‖A‖` and the singular values of the adjoint.
+*Needs:* the right form; Tau Ceti `LinearMap.rightSingularBasis`, `LinearMap.singularValues_adjoint`,
+`LinearMap.norm_adjoint_apply_le`; Mathlib `LinearMap.isSymmetric_adjoint_comp_self`.
 
 **Checks.**
 - The left vectors are an eigenbasis of `AA†` indexed by `dim F`. For `A : ℂ → ℂ²`, `x ↦ (x, 0)`,
   `AA† = diag(1, 0)` has eigenbasis `(e₁, e₂)`, with `e₂` in the kernel of `A†`; the vectors
   `σᵢ⁻¹ A vᵢ`, `i < dim E = 1`, give only `e₁`, so a definition through them would not span `F`.
 
+*In Tau Ceti:* `LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq` (the right singular vectors).
+
 ### Examples
 
-- The worked population-gap example is §4.18's Check: there the `sin Θ` theorem gives
+- The worked population-gap example is §D.18's Check: there the `sin Θ` theorem §D.16 gives
   `sin θ ≤ 2‖B − A‖/Δ = 4/3`, and the true value is `sin θ = 1/√5 ≈ 0.447`.
 - The two-sided-gap comparison: when interval/exterior gaps `δ` hold in both orientations, between
   `A` on `U` and `B` on `V⊥` and between `B` on `V` and `A` on `U⊥`, the symmetric constant-one
-  theorem of Layer 3 (Tau Ceti `TauCeti.UnitarilyInvariantSeminorm.mul_map_sub_starProjection_le_map_sub`)
-  gives `δ N(P_U − P_V) ≤ N(B − A)`, without the factor `2` of the population-gap theorem and at
-  the price of a hypothesis on `B`. In the example above, with `U` and `V` the top eigenlines,
-  both gaps are `4/3` and the projector difference has operator norm `sin θ = 1/√5 ≤ (2/3)/(4/3)`.
+  theorem §C.24 gives `δ N(P_U − P_V) ≤ N(B − A)`, without the factor `2` of the population-gap
+  theorem and at the price of a hypothesis on `B`. In the example above, with `U` and `V` the top
+  eigenlines, both gaps are `4/3` and the projector difference has operator norm
+  `sin θ = 1/√5 ≤ (2/3)/(4/3)`.
 
 ### Dependencies
 
-Layer 3 (the pairwise `sin Θ` theorem and the symmetric theorem, Tau Ceti's). Tau Ceti: eigenframes
-and corresponding eigenblocks, the Frobenius sine distance, the Procrustes alignment, Hermitian
-dilations, singular subspaces and singular bases. Mathlib: eigenvector bases of symmetric operators,
-singular values.
+§S.1 and Part C (§C.18, §C.23 and §C.24). PrincipalAngles: the Procrustes alignment, the Gram
+perturbation bounds, Frobenius sines of orthonormal families. Tau Ceti: singular values and singular
+bases, Weyl's inequality. Mathlib: eigenvector bases of symmetric operators, singular values.
 
 ## Downstream consumers
 
 - [MathematicalStatisticsNonparametric](../../MathematicalStatisticsNonparametric/README.md) §8.6
-  uses `SSP-C16` (§3.16), the dimension-free projector bound, for functional principal components:
-  Tau Ceti `Submodule.mul_projectionGap_le_norm_sub` and `Submodule.projectionGap_le_norm_sub_div`,
-  resting on `SSP-C15` (§3.15).
+  uses `SSP-C16` (§C.16), the dimension-free projector bound, for functional principal components,
+  resting on `SSP-C15` (§C.15).
 - [MathematicalStatisticsHighDimensional](../../MathematicalStatisticsHighDimensional/README.md)
-  §8.1 uses `SSP-C17` (§3.17), the residual `sin Θ` theorem, for the leading eigenvector: Tau Ceti
-  `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`.
+  §8.1 uses `SSP-C17` (§C.17), the residual `sin Θ` theorem, for the leading eigenvector.
 - [RandomMatrices](../../RandomMatrices/README.md) §1.3 and §2.6 use `SSP-D06` and `SSP-D13`
-  (§4.6, §4.13), the Hermitian dilation and its operator-norm perturbation identity: Tau Ceti
-  `LinearMap.hermitianDilation` and `LinearMap.norm_toContinuousLinearMap_hermitianDilation_sub`.
+  (§D.6, §D.13), the Hermitian dilation and its operator-norm perturbation identity.
 - [ProbabilisticAndMetricNumberTheoryPartII](../../ProbabilisticAndMetricNumberTheoryPartII/README.md)
   draws its boundary with this roadmap: its Layer 4 perturbation theory assumes neither an inner
   product nor an adjoint.
@@ -583,7 +1237,7 @@ singular values.
 ## Provenance
 
 This section is secondary and prescribes nothing. An Apache-2.0 implementation of the material of
-all four layers exists in the
+all four Parts exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware, Inc.).
 That implementation adapted its Sylvester and `sin Θ` material from the Spectra Formalization
 Project (upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`); its kernel material is
@@ -592,89 +1246,27 @@ not adapted from it.
 ## Scope and ownership
 
 **This roadmap owns** the perturbation theory of spectral subspaces of self-adjoint operators:
-the Haagerup–Zsidó kernel, Sylvester equations with their bounds and Rosenblum's theorem, the
-Davis–Kahan `sin Θ`, `tan Θ`, `sin 2Θ` and `tan 2Θ` theorems, and the Yu–Wang–Samworth variant.
-Its targets above are §1.16, §2.5, §2.12, §2.16, §2.17, §2.19, §3.28, §3.29, §3.31, §4.15, §4.17,
-§4.18 and the left half of §4.19. The internal gap §0.1 is the member of the separation family with
-both spectra from one operator; it belongs here, and the other separation predicates belong to
-PrincipalAngles.
-
-**Stated by Tau Ceti.** Every other item of the plan is a declaration of the pinned Tau Ceti, in
-the form recorded here (paths under `TauCeti/Analysis/`; the supplier contracts give the
-hypotheses). Several are more general than the item: no symmetry or `δ > 0` where the proof needs
-none, any unitarily invariant seminorm where the item names one.
-
-| § (label) | Content | Tau Ceti declaration |
-|---|---|---|
-| 0.1 (`SSP-S01`) | internal point-spectrum gap | `Module.End.PointInternalGap` (`InnerProductSpace/PointSpectrum.lean`) |
-| 1.1–1.4 (`SSP-A01`–`A04`) | weight, Laplace transform, real kernel, kernel | `TauCeti.HaagerupZsido.weight`, `.weightLaplaceTransform`, `.realKernel`, `.reciprocalKernel` (`Fourier/HaagerupZsido/Basic.lean`) |
-| 1.5–1.8 (`A05`–`A08`) | weight positive and continuous; `L` positive and even | `TauCeti.HaagerupZsido.weight_nonneg`, `.continuous_weight`, `.weightLaplaceTransform_nonneg`, `.weightLaplaceTransform_neg` |
-| 1.9–1.13 (`A09`–`A13`) | measurability, oddness, the norm of `k` is the absolute value of `r` | `TauCeti.HaagerupZsido.measurable_realKernel`, `.measurable_reciprocalKernel`, `.realKernel_neg`, `.reciprocalKernel_neg`, `.norm_reciprocalKernel` |
-| 1.14 (`A14`) | oscillatory two-sided Laplace integral | `TauCeti.integral_exp_mul_I_mul_exp_neg_mul_abs` (`Fourier/ExpNegAbs.lean`) |
-| 1.15 (`A15`) | Fourier transform of the two-sided exponential | `TauCeti.fourier_exp_neg_mul_abs`; at rate `2πy`, `TauCeti.Probability.fourier_exp_neg_mul_abs_eq_cauchyPDFReal_zero_loc` |
-| 1.17 (`A17`) | Laplace transform of the absolute value of `sin` | `TauCeti.integral_abs_sin_mul_exp_neg_mul_abs` (`SpecialFunctions/Integrals/AbsSinExp.lean`) |
-| 1.18 (`A18`) | Poisson summation for the Cauchy kernel | `TauCeti.tsum_exp_neg_mul_abs_int_eq_tsum_div`, `TauCeti.tsum_int_inv_sq_add_sq` (`Fourier/Poisson/CauchyLattice.lean`) |
-| 1.19 (`A19`) | odd-pole expansion of the weight | `TauCeti.hasSum_pi_div_two_mul_tanh` (`SpecialFunctions/Trigonometric/TanhSeries.lean`) |
-| 1.20 (`A20`) | rational telescoping integral | `TauCeti.HaagerupZsido.integral_weight_mul_mul_inv_sub_inv` (`Fourier/HaagerupZsido/OddPole.lean`) |
-| 1.21–1.22 (`A21`–`A22`) | integrability | `TauCeti.HaagerupZsido.integrable_kernelIntegrand`, `.integrable_reciprocalKernel`, `.integrable_realKernel` |
-| 1.23 (`A23`) | exterior Fourier identity | `TauCeti.HaagerupZsido.integral_exp_mul_I_mul_reciprocalKernel`; real form `.integral_realKernel_mul_sin` |
-| 1.24 (`A24`) | mass `π/2` | `TauCeti.HaagerupZsido.integral_norm_reciprocalKernel`, `.integral_abs_realKernel` |
-| 1.25 (`A25`) | Mathlib's normalisation | `TauCeti.HaagerupZsido.fourier_reciprocalKernel` |
-| 1.26 (`A26`) | kernel-mass integral bound | `TauCeti.HaagerupZsido.norm_integral_reciprocalKernel_smul_le`, `.integrable_reciprocalKernel_smul` |
-| 2.1 (`B01`) | Sylvester map | `ContinuousLinearMap.sylvester` (`InnerProductSpace/Sylvester.lean`) |
-| 2.2–2.4 (`B02`–`B04`) | injectivity, canonical solution, coordinate equation | `ContinuousLinearMap.sylvester_injective`, `.sylvester_sum_eigenvectorBasis`, `.sylvester_bijective`, `.sylvester_apply_eq_iff`, `.inner_sylvester_apply_eigenvectorBasis`, `.inner_sylvester_apply_of_apply_eq_smul` |
-| 2.6 (`B06`) | Lyapunov bound | `ContinuousLinearMap.add_mul_norm_le_norm_comp_add_comp` |
-| 2.7–2.8 (`B07`–`B08`) | separated bounds | `ContinuousLinearMap.mul_norm_le_norm_sylvester_apply_of_le_re_inner_of_re_inner_le`, `.mul_norm_le_norm_sylvester_apply_of_re_inner_le_of_le_re_inner` |
-| 2.9–2.10 (`B09`–`B10`) | interval/exterior bounds, both orientations | `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_map_sylvester_apply_of_pointIntervalExteriorGap`, `…_swap` (`InnerProductSpace/UnitarilyInvariantSeminorm/Sylvester/Basic.lean`) |
-| 2.11 (`B11`) | Ky Fan prefixes | `ContinuousLinearMap.mul_kyFanSum_le_pi_div_two_mul_kyFanSum_sylvester_apply` (`…/Sylvester/Pairwise.lean`) |
-| 2.13 (`B13`) | pairwise `π/2` bound | `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply` |
-| 2.14 (`B14`) | orbit-hull form | `ContinuousLinearMap.smul_mem_twoSidedUnitaryOrbitHull_sylvester_apply` |
-| 2.15 (`B15`) | Frobenius bound | `ContinuousLinearMap.mul_frobenius_le_frobenius_sylvester_apply` |
-| 3.1 (`C01`) | compression | `ContinuousLinearMap.compression` (`InnerProductSpace/RayleighRitz.lean`) |
-| 3.2–3.3 (`C02`–`C03`) | residual, Ritz residual | `A.sylvester M X` and `A.sylvester (A.compression X) X`, with `ContinuousLinearMap.sylvester_compression` |
-| 3.4 (`C04`) | minimality of the Ritz residual | `TauCeti.UnitarilyInvariantSeminorm.map_sylvester_compression_le_map_sylvester`, `.sq_frobenius_sylvester_eq_sq_frobenius_sylvester_compression_add` |
-| 3.5–3.6 (`C05`–`C06`) | sine and cosine embeddings | Convention 4; `Submodule.sinThetaEmbedding`, `Submodule.sinThetaMap`, `Submodule.cosThetaMap` |
-| 3.7–3.8 (`C07`–`C08`) | their singular values | `Submodule.principalSines_range_eq_singularValues`, `.singularValues_sinThetaEmbedding`, `.principalCosines_range_eq_singularValues` |
-| 3.9–3.10 (`C09`–`C10`) | reduced extension and its form bounds | `ContinuousLinearMap.reducedExtension`, `.isSymmetric_reducedExtension`, `.re_inner_reducedExtension_self_le_of_pointSpectrumIn`, `.le_re_inner_reducedExtension_self_of_pointSpectrumIn` |
-| 3.11–3.14 (`C11`–`C14`) | angular operator, graph subspace, its projection, exact gap | `Submodule.IsAngularOperator`, `Submodule.graphSubspace`, `Submodule.IsAngularOperator.starProjection_graphSubspace`, `.projectionGap_graphSubspace` |
-| 3.15–3.16 (`C15`–`C16`) | dimension-free directed and projector bounds | `Submodule.mul_norm_starProjection_comp_starProjection_le_norm_sub`, `.norm_starProjection_comp_starProjection_le_norm_sub_div`, `.mul_directedProjectionGap_le_norm_sub`, `.mul_projectionGap_le_norm_sub`, `.projectionGap_le_norm_sub_div` |
-| 3.17 (`C17`) | residual `sin Θ` | `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply` |
-| 3.18 (`C18`) | perturbation `sin Θ` | `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_map_sub`, `…_swap` |
-| 3.19 (`C19`) | spectral-subspace residual form | `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_orthogonal_pointSpectralSubspace_comp_le_map_sylvester_apply` |
-| 3.20 (`C20`) | eigenspace-projector bound | `Module.End.mul_norm_sub_starProjection_pointSpectralSubspace_le`, `Submodule.mul_projectionGap_le_norm_sub_of_pointIntervalExteriorGap` |
-| 3.21–3.22 (`C21`–`C22`) | Frobenius and Ky Fan forms | `TauCeti.UnitarilyInvariantSeminorm.mul_frobenius_starProjection_comp_le_frobenius_sylvester_apply`, `.mul_frobenius_starProjection_comp_starProjection_le_frobenius_sub`, `.mul_kyFan_starProjection_comp_le_kyFan_sylvester_apply`, `.mul_kyFan_starProjection_comp_starProjection_le_kyFan_sub` |
-| 3.23 (`C23`) | pairwise `π/2` `sin Θ` | `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_pi_div_two_mul_map_sub` |
-| 3.24 (`C24`) | symmetric constant-one theorem | `TauCeti.UnitarilyInvariantSeminorm.mul_map_sub_starProjection_le_map_sub`, `.mul_map_sinAngleOperator_le_map_sub` |
-| 3.25–3.26 (`C25`–`C26`) | per-eigenvector `sin 2θ` | `LinearMap.IsSymmetric.sin_two_theta_le`, `.sin_two_arccos_le` (`InnerProductSpace/DoubleAngle/Vector.lean`) |
-| 3.27 (`C27`) | `sin 2Θ` | `TauCeti.UnitarilyInvariantSeminorm.mul_map_sinTwoAngleOperator_le_two_mul_map_sub` |
-| 3.30 (`C30`) | per-eigenvector `tan 2θ` | `LinearMap.IsSymmetric.tan_two_theta_le` |
-| 4.1 (`D01`) | corresponding eigenblocks | `LinearMap.IsSymmetric.CorrespondingEigenblocks` (`InnerProductSpace/Spectral/Eigenframe.lean`) |
-| 4.2 (`D02`) | Frobenius sine distance | `Submodule.sinThetaFrobenius` |
-| 4.3 (`D03`) | residual columns | Convention 9 |
-| 4.4–4.5 (`D04`–`D05`) | left and right singular subspaces | `LinearMap.leftSingularSubspace`, `LinearMap.rightSingularSubspace` |
-| 4.6 (`D06`) | Hermitian dilation | `LinearMap.hermitianDilation` |
-| 4.7 (`D07`) | complement identity | `OrthonormalBasis.sq_sinThetaFrobenius_spanIndices`, with `Submodule.sinThetaFrobenius_comm` |
-| 4.8–4.10 (`D08`–`D10`) | residual sandwich | `LinearMap.IsSymmetric.sq_mul_sum_sum_norm_inner_sq_le_sum_norm_smul_sub_apply_sq`, `.sum_norm_smul_sub_apply_eigenvectorBasis_sq_le_four_mul_frobenius_sq`, `.sum_norm_smul_sub_apply_eigenvectorBasis_sq_le_four_mul_card_mul_sq` |
-| 4.11 (`D11`) | residual decomposition | `LinearMap.IsSymmetric.smul_sub_apply_eigenvectorBasis`, `.norm_smul_sub_apply_eigenvectorBasis_le`, with Weyl's `.abs_eigenvalue_sub_eigenvalue_le` |
-| 4.12 (`D12`) | singular-subspace transfer | `LinearMap.mul_norm_sinThetaMap_rightSingularSubspace_le`, `.mul_norm_sinThetaMap_leftSingularSubspace_le` |
-| 4.13–4.14 (`D13`–`D14`) | dilation norm and spectrum | `LinearMap.norm_toContinuousLinearMap_hermitianDilation_sub`; `LinearMap.map_fstₗ_pointSpectralSubspace_hermitianDilation`, `.hasEigenvalue_hermitianDilation_iff` and their companions |
-| 4.16 (`D16`) | population-gap `sin Θ` | `LinearMap.IsSymmetric.sinThetaFrobenius_orderedEigenframe_le`, `.sinThetaFrobenius_eigenvectorSpan_le` |
-| 4.19, right half (`D19`) | right singular vectors | `LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq` |
+the internal gap §S.1, the Haagerup–Zsidó kernel (Part A), Sylvester equations with their bounds
+and Rosenblum's theorem (Part B), the Davis–Kahan `sin Θ`, `tan Θ`, `sin 2Θ` and `tan 2Θ` theorems
+(Part C), and the Yu–Wang–Samworth variant (Part D): every item above. The internal gap §S.1 is the
+member of the separation family with both spectra from one operator; it belongs here, and the
+other separation predicates belong to PrincipalAngles.
 
 **Owned elsewhere and consumed here.**
 
 - *The domain-aware Sylvester equation*, the `LinearPMap` resolvent and spectrum, the Cayley
   transform and the spectral measure of an unbounded self-adjoint operator:
   [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) (SA-C66, SA-D01–SA-D02,
-  SA-D24–SA-D34, Part E). Its solvability and its a priori estimates (§2.16, §2.17) belong here.
+  SA-D24–SA-D34, Part E). Its solvability and its a priori estimates (§B.16, §B.17) belong here.
 - *Unitarily invariant norms*, Ky Fan sums and Fan dominance:
   [Majorization](../Majorization/README.md), stated by Tau Ceti.
-- *Principal angles, the projection gap, point-spectral subspaces, the separation predicates and
-  the directed sine map*: [PrincipalAngles](../PrincipalAngles/README.md), stated by Tau Ceti.
+- *Principal angles, the projection gap, point-spectral subspaces, the separation predicates, the
+  directed sine map, the Procrustes alignment and the Gram perturbation bounds*:
+  [PrincipalAngles](../PrincipalAngles/README.md), stated by Tau Ceti.
 - *Singular values, the operator modulus and polar decomposition*:
   [PolarDecomposition](../PolarDecomposition/README.md).
 - Mathlib's `fuglede_putnam_rosenblum` is a different theorem of Rosenblum's (an intertwiner of
-  normal elements intertwines their adjoints) and is not §2.17.
+  normal elements intertwines their adjoints) and is not §B.17.
 
 ## Exact supplier contracts
 
@@ -694,19 +1286,18 @@ none, any unitarily invariant seminorm where the item names one.
 ### From Tau Ceti
 
 All declarations below are proved at the pin. Paths are under `TauCeti/Analysis/` unless they begin with `TauCeti/`. `𝕜` is
-`RCLike`; finite-dimensional statements carry `[FiniteDimensional 𝕜 E]` (and `F`).
+`RCLike`; finite-dimensional statements carry `[FiniteDimensional 𝕜 E]` (and `F`). The
+declarations that realise this roadmap's own items are named on the *In Tau Ceti:* lines of the
+items above and are not repeated here.
 
 *Separation and point spectra* (`InnerProductSpace/PointSpectrum.lean`):
 `Module.End.restrictedPointSpectrum A U` (the real `λ` with an eigenvector of `A` in `U`),
 `Module.End.PointSpectrumIn A U Ω`, `Module.End.pointSpectralSubspace A Ω` (the span of the
 eigenspaces for `λ ∈ Ω`), `Module.End.PointSpectraSeparated A U B V δ`,
 `Module.End.PointOrderedGap`, `Module.End.PointIntervalExteriorGap A U B V a b δ` (fields: `A` on
-`U` in `[a, b]`, `B` on `V` outside `(a − δ, b + δ)`), and `Module.End.PointInternalGap A U δ`
-(fields: `U` is `A`-invariant, and `Module.End.PointSpectraSeparated A U A U⊥ δ`; on any inner
-product space, no finite dimension), with `Module.End.PointInternalGap.mono_gap`,
-`Module.End.PointInternalGap.of_pointOrderedGap`, `Module.End.PointInternalGap.of_pointSpectrumIn`,
-`Module.End.pointInternalGap_pointSpectralSubspace`, `Module.End.pointSpectrumIn_pointSpectralSubspace`,
-`Module.End.map_pointSpectralSubspace_le`, `Module.End.PointSpectraSeparated.disjoint`.
+`U` in `[a, b]`, `B` on `V` outside `(a − δ, b + δ)`), with
+`Module.End.pointSpectrumIn_pointSpectralSubspace`, `Module.End.map_pointSpectralSubspace_le`,
+`Module.End.PointSpectraSeparated.disjoint`.
 
 *Unitarily invariant seminorms* (`InnerProductSpace/UnitarilyInvariantSeminorm/`, `KyFan.lean`,
 `FanDominance.lean`): `TauCeti.UnitarilyInvariantSeminorm 𝕜 E F` (a seminorm on `E →ₗ[𝕜] F` with
@@ -717,59 +1308,6 @@ orthonormal basis), `.kyFan k` (the sum of the `k` largest singular values,
 `TauCeti.UnitarilyInvariantSeminorm.schatten`; `LinearMap.twoSidedUnitaryOrbitHull`,
 `TauCeti.UnitaryOrbitCertificate` and `TauCeti.UnitarilyInvariantSeminorm.map_le_of_mem_twoSidedUnitaryOrbitHull`
 (`N X ≤ N C` on the hull); Fan dominance `TauCeti.UnitarilyInvariantSeminorm.map_le_of_kyFanSum_le`.
-
-*The Haagerup–Zsidó kernel* (`Fourier/HaagerupZsido/`, namespace `TauCeti.HaagerupZsido`): the
-definitions of Convention 7 and, for all real `t` unless stated, `weight_nonneg` (`y ≥ 0`),
-`continuous_weight`, `weightLaplaceTransform_nonneg`, `weightLaplaceTransform_neg`,
-`measurable_realKernel`, `measurable_reciprocalKernel`, `realKernel_neg`, `reciprocalKernel_neg`,
-`norm_reciprocalKernel` (`‖k(t)‖ = |r(t)|`), `abs_realKernel_le` (`|r(t)| ≤ π/(2(1 + t²))`),
-`integrable_realKernel`, `integrable_reciprocalKernel`; the product integrand `kernelIntegrand` on
-`(0, ∞) × ℝ` with `integrable_kernelIntegrand`; `integral_weight_mul_mul_inv_sub_inv` (for `a ≥ 0`,
-`∫_{y>0} w(y) y ((y² + a²)⁻¹ − (y² + (a + 2)²)⁻¹) dy = 2/(a + 1)`);
-`integral_exp_mul_I_mul_reciprocalKernel` (for `1 ≤ |x|`, `∫ e^{ixt} k(t) dt = 1/x`) and
-`integral_realKernel_mul_sin` (`∫ r(t) sin(xt) dt = 1/x`); `fourier_reciprocalKernel` (for
-`1 ≤ 2π|ξ|`, `𝓕 k (ξ) = −1/(2πξ)`); `integral_norm_reciprocalKernel` and `integral_abs_realKernel`
-(`π/2`); and, for `G` a complex normed space and `F : ℝ → G` with `‖F(t)‖ ≤ C` almost everywhere,
-`integrable_reciprocalKernel_smul` (when `F` is a.e. strongly measurable) and
-`norm_integral_reciprocalKernel_smul_le` (`‖∫ k(t) F(t) dt‖ ≤ (π/2) C`). The two-sided
-exponential: `TauCeti.integral_exp_mul_I_mul_exp_neg_mul_abs` (for `a > 0`,
-`∫ e^{ibx} e^{−a|x|} dx = 2a/(a² + b²)`), `TauCeti.fourier_exp_neg_mul_abs`
-(`𝓕 (e^{−a|x|}) (ξ) = 2a/(a² + (2πξ)²)`) and
-`TauCeti.Probability.fourier_exp_neg_mul_abs_eq_cauchyPDFReal_zero_loc` (the rate `2πγ`, with the
-Cauchy density `γ/(π(ξ² + γ²))`); `TauCeti.integral_abs_sin_mul_exp_neg_mul_abs` (for `a > 0`,
-`∫ |sin t| e^{−a|t|} dt = 2(1 + e^{−πa})/((1 − e^{−πa})(1 + a²))`); the Cauchy lattice
-`TauCeti.tsum_exp_neg_mul_abs_int_eq_tsum_div` (for `y > 0`,
-`∑_{n∈ℤ} e^{−2πy|n|} = ∑_{n∈ℤ} y/(π(y² + n²))`) and `TauCeti.tsum_int_inv_sq_add_sq`
-(`∑_{n∈ℤ} (y² + n²)⁻¹ = (π/y)(1 + e^{−2πy})/(1 − e^{−2πy})`); and the odd-pole expansion
-`TauCeti.hasSum_pi_div_two_mul_tanh` (for every real `y`,
-`∑_{n≥0} 2y/(y² + (2n + 1)²) = (π/2) tanh(πy/2)`, which for `y > 0` is
-`w(y)/y = (4/π) ∑_{n≥0} (y² + (2n + 1)²)⁻¹`).
-
-*The Sylvester operator* (`InnerProductSpace/Sylvester.lean`, `…/UnitarilyInvariantSeminorm/Sylvester/`):
-`ContinuousLinearMap.sylvester` (`X ↦ AX − XB`, over any normed field) with
-`ContinuousLinearMap.sylvester_apply`. In finite dimension, for symmetric `A` and `B` whose point
-spectra are disjoint: `ContinuousLinearMap.sylvester_injective`, `.sylvester_bijective`,
-`.sylvester_sum_eigenvectorBasis` and `.sylvester_apply_eq_iff` (the solution is
-`∑ᵢⱼ (αᵢ − βⱼ)⁻¹ ⟪uᵢ, C vⱼ⟫ uᵢ ⊗ vⱼ`); `.inner_sylvester_apply_eigenvectorBasis` and, for an
-eigenvector `u` of symmetric `A` and `v` of `B` in any dimension,
-`.inner_sylvester_apply_of_apply_eq_smul` (`⟪u, (AX − XB)v⟫ = (α − β)⟪u, Xv⟫`). On any inner
-product spaces, with `A`, `B` bounded and not necessarily symmetric:
-`.add_mul_norm_le_norm_comp_add_comp` (if `α‖x‖² ≤ Re⟪Ax, x⟫` and `β‖y‖² ≤ Re⟪By, y⟫`, then
-`(α + β)‖X‖ ≤ ‖AX + XB‖`; the Lyapunov bound is `α = β = δ`),
-`.mul_norm_le_norm_sylvester_apply_of_le_re_inner_of_re_inner_le` (if `(c + g)‖x‖² ≤ Re⟪Ax, x⟫` and
-`Re⟪By, y⟫ ≤ c‖y‖²`, then `g‖X‖ ≤ ‖AX − XB‖`) and
-`.mul_norm_le_norm_sylvester_apply_of_re_inner_le_of_le_re_inner` (the reverse). In finite
-dimension, for symmetric `A`, `B` and every unitarily invariant `N` on `F → E`:
-`TauCeti.UnitarilyInvariantSeminorm.mul_map_le_map_sylvester_apply_of_pointIntervalExteriorGap`
-(spectrum of `A` in `[a, b]`, of `B` outside `(a − δ, b + δ)`: `δ N(X) ≤ N(AX − XB)`) and its
-`_swap` (the roles exchanged), with subspace forms `_of_mem`;
-`ContinuousLinearMap.mul_kyFanSum_le_pi_div_two_mul_kyFanSum_sylvester_apply` (pairwise separation
-by `δ`: `δ K_k(X) ≤ (π/2) K_k(AX − XB)` for every `k`);
-`ContinuousLinearMap.smul_mem_twoSidedUnitaryOrbitHull_sylvester_apply` (for `δ ≥ 0`, `(2δ/π) X`
-lies in the convex hull of the two-sided unitary orbit of `AX − XB`);
-`TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply`
-(`δ N(X) ≤ (π/2) N(AX − XB)`); `ContinuousLinearMap.mul_frobenius_le_frobenius_sylvester_apply`
-(`δ ‖X‖_F ≤ ‖AX − XB‖_F`). None of these needs `δ > 0`.
 
 *Coercive operators* (`InnerProductSpace/Coercive.lean`, `Normed/Operator/Basic.lean`):
 `ContinuousLinearMap.mul_norm_le_norm_apply_of_coercive` (if `c‖z‖² ≤ Re⟪Nz, z⟫` for all `z`, then
@@ -796,117 +1334,28 @@ intertwines `f` of the Cayley transforms for every `f` continuous on their spect
 a self-adjoint `A` on a complex Hilbert space has exactly one unitary group with complex generator
 `iA`).
 
-*Trial maps, angles and graph subspaces* (`InnerProductSpace/RayleighRitz.lean`,
-`InnerProductSpace/Projection/`): `ContinuousLinearMap.compression` (complete spaces);
-`ContinuousLinearMap.sylvester_compression` (for an isometry `X` with a projection onto its range,
-the Ritz residual is `P_{(range X)⊥} A X`);
-`TauCeti.UnitarilyInvariantSeminorm.map_sylvester_compression_le_map_sylvester` (for an isometry
-`X`, the Ritz residual minimises `N(AX − XM)` over `M`, every `N`) and
-`.sq_frobenius_sylvester_eq_sq_frobenius_sylvester_compression_add` (the Pythagoras identity);
-`Submodule.sinThetaMap`, `Submodule.cosThetaMap`, `Submodule.sinThetaEmbedding`,
-`Submodule.principalSines`, `Submodule.principalCosines`, `Submodule.principalAngles`,
-`Submodule.principalTangents`, `Submodule.projectionGap`, `Submodule.directedProjectionGap`,
-`Submodule.projectionGap_eq_max`, `Submodule.projectionGap_eq_directedProjectionGap_of_finrank_eq`;
-`Submodule.principalSines_range_eq_singularValues` and
-`Submodule.principalCosines_range_eq_singularValues` (for an isometry `X` between
-finite-dimensional spaces, the principal sines and cosines from `range X` to `V` are the singular
-values of `P_{V⊥} X` and `P_V X`), `Submodule.singularValues_sinThetaEmbedding`;
+*Angles and tangents* (`InnerProductSpace/Projection/`): `Submodule.sinThetaMap`,
+`Submodule.cosThetaMap`, `Submodule.principalSines`, `Submodule.principalCosines`,
+`Submodule.principalAngles`, `Submodule.principalTangents`, `Submodule.projectionGap`,
+`Submodule.directedProjectionGap`, `Submodule.projectionGap_eq_max`,
+`Submodule.projectionGap_eq_directedProjectionGap_of_finrank_eq`;
 `Submodule.directedProjectionGap_lt_one_iff` (gap `< 1` iff `U ∩ V⊥ = 0`),
 `Submodule.forall_principalAngles_lt_pi_div_two_iff_directedProjectionGap_lt_one`,
 `Submodule.forall_principalAngles_lt_pi_div_four_iff` (all angles `< π/4` iff directed gap
-`< √2/2`); `Submodule.tanThetaMap Z U` (Convention: the tangent map of §3.28, a linear map
-`Z → E`) with `Submodule.singularValues_tanThetaMap` (when the directed gap from `Z` to `U` is
-below `1`, its singular values are the principal tangents); `ContinuousLinearMap.reducedExtension`
-(`A P_U + κ P_{U⊥}`), `ContinuousLinearMap.isSymmetric_reducedExtension`,
-`ContinuousLinearMap.re_inner_reducedExtension_self_le_of_pointSpectrumIn` and
-`ContinuousLinearMap.le_re_inner_reducedExtension_self_of_pointSpectrumIn` (for symmetric `T`, an
-invariant finite-dimensional block `W` with point spectrum in `(−∞, c]`, resp. `[c, ∞)`, and the
-scalar `κ` on the same side: the global form bound); `Submodule.IsAngularOperator`
-(`XP_U = X`, `P_U X = 0`), `Submodule.graphSubspace` (`{u + Xu : u ∈ U}`),
-`Submodule.IsAngularOperator.starProjection_graphSubspace` (on a complete space,
-`P_graph = (P_U + X)(1 + X†X)⁻¹(P_U + X)†`), `Submodule.IsAngularOperator.projectionGap_graphSubspace`
-(`‖P_U − P_graph‖ = ‖X‖/√(1 + ‖X‖²)`).
+`< √2/2`); `Submodule.tanThetaMap Z U` (the tangent map of §C.28, a linear map `Z → E`) with
+`Submodule.singularValues_tanThetaMap` (when the directed gap from `Z` to `U` is below `1`, its
+singular values are the principal tangents).
 
-*The `sin Θ` family* (`InnerProductSpace/Projection/SinTheta.lean`,
-`…/UnitarilyInvariantSeminorm/SinTheta/`, `…/Projection/SpectralPerturbation.lean`,
-`…/DoubleAngle/Vector.lean`): `Submodule.mul_norm_starProjection_comp_starProjection_le_norm_sub`
-and `.norm_starProjection_comp_starProjection_le_norm_sub_div` (on any inner product space, for
-`B` symmetric, `U` `A`-invariant and `W` `B`-invariant with projections, `(c + g)‖u‖² ≤ Re⟪Au, u⟫`
-on `U` and `Re⟪Bw, w⟫ ≤ c‖w‖²` on `W`: `g ‖P_W P_U‖ ≤ ‖B − A‖`);
-`Submodule.mul_directedProjectionGap_le_norm_sub` (the same with `W = V⊥`) and
-`Submodule.mul_projectionGap_le_norm_sub`, `Submodule.projectionGap_le_norm_sub_div` (both
-orientations, constants `c` and `c'`: `g ‖P_U − P_V‖ ≤ ‖B − A‖`); in finite dimension, for
-symmetric `A`, `B` and every unitarily invariant `N`:
-`TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply` (spectrum
-of `M` in `[a, b]`, of `A` on `U⊥` outside `(a − δ, b + δ)`, `U` `A`-invariant, any `X`:
-`δ N(P_{U⊥} X) ≤ N(AX − XM)`), `.mul_map_starProjection_comp_starProjection_le_map_sub` and `_swap`
-(interval/exterior separation of `A` on `U` from `B` on `V⊥`: `δ N(P_{V⊥} P_U) ≤ N(B − A)`),
-`.mul_map_starProjection_orthogonal_pointSpectralSubspace_comp_le_map_sylvester_apply` and its
-`_Ioo` form (the residual form for a point-spectral subspace),
-`Module.End.mul_norm_sub_starProjection_pointSpectralSubspace_le` and
-`Submodule.mul_projectionGap_le_norm_sub_of_pointIntervalExteriorGap` (equal ranks:
-`δ ‖P_U − P_V‖ ≤ ‖B − A‖`), `Submodule.mul_norm_sinThetaMap_le_norm_sub_of_pointIntervalExteriorGap`,
-the Frobenius and Ky Fan forms `TauCeti.UnitarilyInvariantSeminorm.mul_frobenius_starProjection_comp_le_frobenius_sylvester_apply`,
-`.mul_frobenius_starProjection_comp_starProjection_le_frobenius_sub`,
-`.mul_kyFan_starProjection_comp_le_kyFan_sylvester_apply`,
-`.mul_kyFan_starProjection_comp_starProjection_le_kyFan_sub`,
-`.mul_map_starProjection_comp_starProjection_le_pi_div_two_mul_map_sub` (pairwise separation of
-`A` on `U` from `B` on `V⊥`: `δ N(P_{V⊥} P_U) ≤ (π/2) N(B − A)`),
-`.mul_map_sub_starProjection_le_map_sub` and `.mul_map_sinAngleOperator_le_map_sub`
-(interval/exterior gaps in both orientations, with independent intervals and a common `δ`:
-`δ N(P_U − P_V) ≤ N(B − A)`), `.mul_map_sinTwoAngleOperator_le_two_mul_map_sub` (if
-`Re⟪Az, z⟫ ≤ a‖z‖²` on `U⊥` and `b‖y‖² ≤ Re⟪Ay, y⟫` on `U`, then
-`(b − a) N(2 P_{U⊥} P_V P_U) ≤ 2 N(B − A)`); on any inner product space, for symmetric `T`, `H`
-and `U` `T`-invariant with `b‖u‖² ≤ Re⟪Tu, u⟫` on `U`, `Re⟪Tw, w⟫ ≤ a‖w‖²` on `U⊥` and
-`‖Hv‖ ≤ ε‖v‖`, and `x` with `Tx + Hx = μx`: `LinearMap.IsSymmetric.sin_two_theta_le` (`‖x‖ = 1`:
-`(b − a)‖P_U x‖‖P_{U⊥} x‖ ≤ ε`), `.sin_two_arccos_le` (`(b − a) sin(2 arccos ‖P_U x‖) ≤ 2ε`) and
-`.tan_two_theta_le` (both diagonal blocks of `H` zero:
-`(b − a)‖P_U x‖‖P_{U⊥} x‖ ≤ |‖P_U x‖² − ‖P_{U⊥} x‖²| ε`).
-
-*Yu–Wang–Samworth* (`InnerProductSpace/Spectral/Eigenframe.lean`, `…/YuWangSamworth/`,
-`…/HermitianDilation/`, `…/SingularSubspace/`, `…/Orthonormal/`, `…/Projection/FrobeniusSine.lean`,
-`…/CourantFischer.lean`): `LinearMap.IsSymmetric.IsOrderedEigenframe` and
-`LinearMap.IsSymmetric.CorrespondingEigenblocks hA hB hn e U V` (for `e : ι ↪ Fin n`, `U` and `V`
-are spans of orthonormal eigenvectors of `A` and `B` with the eigenvalues at the indices `e i`);
-`LinearMap.IsSymmetric.eigenvectorSpan`; `Submodule.sinThetaFrobenius` (Convention 9) with
-`Submodule.sinThetaFrobenius_comm` (equal dimensions) and
-`Submodule.sq_sinThetaFrobenius_eq_sinThetaSq_of_orthonormal`;
-`OrthonormalBasis.sq_sinThetaFrobenius_spanIndices` (for orthonormal bases `a`, `b` and index sets
-`s`, `t`, `‖sin Θ(span b_t, span a_s)‖_F² = ∑_{j∈t} ∑_{k∉s} |⟪a_k, b_j⟫|²`);
-`LinearMap.IsSymmetric.sq_mul_sum_sum_norm_inner_sq_le_sum_norm_smul_sub_apply_sq` (for `Δ ≥ 0`
-and an index gap `Δ ≤ |λ_j(A) − λ_k(A)|`, `j ∈ s`, `k ∉ s`, and any vectors `w_j`:
-`Δ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, w_j⟫|² ≤ ∑_{j∈s} ‖λ_j(A) w_j − A w_j‖²`),
-`.sum_norm_smul_sub_apply_eigenvectorBasis_sq_le_four_mul_frobenius_sq`
-(`∑_{j∈s} ‖R_j‖² ≤ 4‖B − A‖_F²`) and `.sum_norm_smul_sub_apply_eigenvectorBasis_sq_le_four_mul_card_mul_sq` (with
-`‖(B − A)x‖ ≤ ε‖x‖`: `∑_{j∈s} ‖R_j‖² ≤ 4|s|ε²`), their frame forms
-`.sum_sq_norm_frameResidual_le` and `.sum_sq_norm_frameResidual_le_of_opNorm`;
-`.smul_sub_apply_eigenvectorBasis` and `.norm_smul_sub_apply_eigenvectorBasis_le` (the residual
-column splits into an eigenvalue-displacement term and `(B − A) v_j`) with Weyl's inequality
-`LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le`;
-`LinearMap.IsSymmetric.sinThetaFrobenius_orderedEigenframe_le` and
-`.sinThetaFrobenius_eigenvectorSpan_le` (for corresponding blocks of rank `d` and an index gap
-`δ > 0` of `A`: `‖sin Θ(U, V)‖_F ≤ 2 min(√d ‖B − A‖, ‖B − A‖_F)/δ`);
-`TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le` (Procrustes: orthonormal `u`, `v` admit an
-orthonormal `w` spanning the span of `v` with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 sin²_F Θ`, `TauCeti.sinThetaSq`);
-`LinearMap.leftSingularSubspace A Ω` and `LinearMap.rightSingularSubspace A Ω` (point-spectral
-subspaces of `AA†` and `A†A` for a set `Ω` of squared singular values);
-`LinearMap.mul_norm_sinThetaMap_rightSingularSubspace_le` and
-`LinearMap.mul_norm_sinThetaMap_leftSingularSubspace_le` (interval/exterior gap of `A†A` on
-`U_R` from `Â†Â` on `Û_R⊥`, resp. of `AA†`, `ÂÂ†`:
-`δ ‖sin Θ‖ ≤ (‖Â‖ + ‖A‖)‖Â − A‖`), with `ContinuousLinearMap.norm_adjoint_comp_self_sub_adjoint_comp_self_le`;
-`LinearMap.hermitianDilation` (`[[0, A†], [A, 0]]` on `WithLp 2 (E × F)`),
-`LinearMap.isSymmetric_hermitianDilation`,
-`LinearMap.norm_toContinuousLinearMap_hermitianDilation_sub`
-(`‖D(A) − D(B)‖ = ‖A − B‖`), `LinearMap.mem_eigenspace_hermitianDilation_iff`,
-`LinearMap.map_fstₗ_pointSpectralSubspace_hermitianDilation` (and the `sndₗ` form: the
-point-spectral subspace of `D(A)` for `Ω` projects onto the right, resp. left, singular subspace
-for the squares of `Ω`), `LinearMap.hasEigenvalue_hermitianDilation_iff` (for `μ ≠ 0`, `μ` is an
-eigenvalue of `D(A)` iff `μ²` is one of `A†A`), `LinearMap.finrank_eigenspace_hermitianDilation_eq_adjoint_comp_self`;
+*Eigenvalues, singular values and orthonormal families* (`InnerProductSpace/CourantFischer.lean`,
+`…/SingularValues.lean`, `…/Adjoint.lean`, `…/Gram/Perturbation.lean`, `…/Orthonormal/`): Weyl's
+inequality `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le` (for symmetric `A`, `B` with
+`‖(B − A)x‖ ≤ ε‖x‖`, `|λ_j(B) − λ_j(A)| ≤ ε`);
 `LinearMap.rightSingularBasis` (the eigenvector basis of `A†A`), `LinearMap.singularValues_adjoint`,
-`LinearMap.norm_adjoint_apply_le`, and
-`LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq` (for
-`‖Ax‖ ≤ a‖x‖`, `‖Âx‖ ≤ â‖x‖`, `‖(Â − A)x‖ ≤ ε‖x‖`, `Γ ≥ 0` and a gap
-`Γ ≤ |σ_j(A)² − σ_k(A)²|`: `Γ² ∑_{j∈s} ∑_{k∉s} |⟪v_k(A), v_j(Â)⟫|² ≤ 4|s|((a + â)ε)²`).
+`LinearMap.norm_adjoint_apply_le`; `ContinuousLinearMap.norm_adjoint_comp_self_sub_adjoint_comp_self_le`
+(`‖B†B − A†A‖ ≤ (‖B‖ + ‖A‖)‖B − A‖`); `Submodule.sq_sinThetaFrobenius_eq_sinThetaSq_of_orthonormal`
+and the Procrustes alignment `TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le` (orthonormal
+`u`, `v` admit an orthonormal `w` spanning the span of `v` with `∑ⱼ ‖wⱼ − uⱼ‖² ≤ 2 sin²_F Θ`,
+`TauCeti.sinThetaSq`).
 
 ### From TauCetiRoadmap.OperatorTheory.SelfAdjointSpectralTheory
 
@@ -917,7 +1366,7 @@ measure of the Cayley spectral measure charges the point `1`), SA-E05 (the resol
 resolvents and preserve the domain), SA-E08 (the spectral measure vanishes on Borel sets of
 resolvent points), SA-E31 (spectral projections of bounded intervals exhausting `ℝ` converge
 strongly to the identity) and SA-E37 (the range of the spectral projection of a bounded set lies
-in the domain, where `A` acts boundedly). §2.16 and §2.17 consume them.
+in the domain, where `A` acts boundedly). §B.16 and §B.17 consume them.
 
 ## References
 
@@ -936,8 +1385,8 @@ in the domain, where `A` acts boundedly). §2.16 and §2.17 consume them.
 - V. Kostrykin, K. A. Makarov, A. K. Motovilov, *A generalization of the tan 2Θ theorem*, Oper.
   Theory Adv. Appl. **149** (2004), 349–372; arXiv:math/0302020, whose version 1 fixes the
   numbering cited.
-- R. Bhatia, *Matrix Analysis*, GTM 169, Ch. VII.2 — the separated bound of Layer 2 (§2.7) is the
-  half-line case of Theorem VII.2.3, by an integral-free proof.
+- R. Bhatia, *Matrix Analysis*, GTM 169, Ch. VII.2 — the separated bound §B.7 is the half-line
+  case of Theorem VII.2.3, by an integral-free proof.
 - Y. Yu, T. Wang, R. J. Samworth, *A useful variant of the Davis–Kahan theorem for
   statisticians*, Biometrika **102** (2015), 315–323; arXiv:1405.0680, whose version 1 fixes the
   numbering cited.
