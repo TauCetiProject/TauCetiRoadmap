@@ -947,7 +947,8 @@ FrobeniusRestrictedRieszSums §0.8b for the thick letters along every Frobenius 
 SelmerLengthBoundsAndLocalLifting §4.10d (3) (i). Consecutive letters alternate between `Φ` and `cΦ` (FrobeniusRestrictedRieszSums §0.3, Lemma (a): `Frob_ℓ^i ∉ Φ` iff `i` is odd), so the
 directions alternate. The place of the letter `yFrob_ℓ^i` is read off FrobeniusRestrictedRieszSums §0.6(v): if `ℓ`
 splits in `ℚ(√−q)`, thick letters occur at positions of one parity only; if `ℓ` is inert in `ℚ(√−q)`, the place of
-`yFrob_ℓ^i` is `pl(y)·h_ℓ^i`, and FrobeniusRestrictedRieszSums §0.8b(d) (for `L_th ≥ 3`; the depth hypothesis at `ℓ = 11` gives `L_th ≥ 4`, as `ℓ_A > 1`) gives: no three consecutive letters thick and some letter not thick,
+`yFrob_ℓ^i` is `pl(y)·h_ℓ^i`, and FrobeniusRestrictedRieszSums §0.8b(d) (for `L_th ≥ 3`; the depth hypothesis at `ℓ = 11` gives
+`L_th ≥ 4`, because `ℓ_A = k·x^ε/(m·δ_th) ≥ x^ε > 1`, as `m ≤ k` and `δ_th ≤ 1`) gives: no three consecutive letters thick and some letter not thick,
 both when `ord h_ℓ ≥ L_th` and when `2 ≤ ord h_ℓ ≤ 4L_th`; if `h_ℓ = 1`, that is `Frob_ℓ = c` (`n_w = 2`), both letters of a
 place `w` have one place. So at every place `w | ℓ` the word of `w` satisfies one of two conditions. Either some letter is not
 thick, and SelmerLengthBoundsAndLocalLifting §4.10d (3) (i) applies (`20·max(w_max, η_s + t + 1, Sc) ≤ b`, ThetaChainsOnDefiniteUnitaryGroups §2.1). Or `Frob_ℓ = c` and the embedding of `w` in `Φ` is a
@@ -1049,9 +1050,11 @@ each one line from the ranks of ThetaChainsOnDefiniteUnitaryGroups §2.1 (`r = k
 `ℓ_A = k·L/(m·δ_th)`, ThetaChainsOnDefiniteUnitaryGroups §2.3c), with `(3 + log ℓ_A)² ≤ L` (`ℓ_A ≤ x^C`). The inert primes of row 4 below `ℓ_A` are, by the row
 predicate of 7.10a, those whose order in `(ℤ/2^{n+2})^×/{±1}` is at most `4L_th`, among them those with `Frob_ℓ = c`: they
 satisfy `ℓ^o ≡ ±1 (mod 2^{n+2})` for some `o ≤ 4L_th`, a congruence condition, summed as such. As that group is cyclic of order
-`2^n` (FrobeniusRestrictedRieszSums §0.4), the order is a power of two at most `4L_th`, so these primes are `≡ ±1` modulo a power of two at least
-`2^{n+2}/(4L_th)`, whence `Σ log ℓ/ℓ² ≪ log x·m/k`, using `k/m ≤ |A|²` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and `2^{n+2} ≥ 4|A|/o ≥ |A|·x^{−ε/100}`
-(FrobeniusRestrictedRieszSums §0.4(iii), for `x ≥ x₀(ψ, ε)`). The resonance terms of row 4: for a resonant `w` and its size `s ≥ w″`, `SizeThin` gives
+`2^n` (FrobeniusRestrictedRieszSums §0.4), the order is a power of two at most `4L_th`, so these primes are `≡ ±1` modulo a power of two
+`M_* ≥ 2^{n+2}/(4L_th) ≥ |A|/(o·L_th)` (as `2^{n+2} ≥ 4|A|/o`, FrobeniusRestrictedRieszSums §0.4(iii)); with `o ≤ x^{ε/100}` and
+`L_th ≤ C·log x`, `M_* ≥ |A|·x^{−ε/50}` for `x ≥ x₀(ψ, ε)`, and the sum of `log ℓ/ℓ²` over the primes `≡ ±1 (mod M_*)` is at most
+`C·log M_*/M_*²`; with `k/m ≤ |A|²` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and `r ≤ 2k` this gives
+`r·Σ log ℓ/ℓ² ≤ C·m·x^{ε/25}·log x ≤ C·m·L²`. The resonance terms of row 4: for a resonant `w` and its size `s ≥ w″`, `SizeThin` gives
 `C(η_s + t + Sc + L) ≤ s/2` for `x ≥ x₀`, so the resonance inequality gives `ℓs/2 ≤ (1 + C)b + Cs` and `ℓ ≤ C·b/w″`; these terms
 sum to at most `Σ_{ℓ≤Cb/w″} log ℓ·C·r·η_s·Σ_w(n_w + 1) ≤ C·f·r·η_s·b/w″ ≤ C·f·m·b·L²` (Chebyshev; `SizeThin`:
 `r·η_s ≤ m·w″/x`). Rows 5, 6 concern the primes dividing `2f_E`, with `(Σ_ℓ log ℓ)·(2 + max_ℓ v_ℓ(f_E)) ≤ 11x^ε` (ThetaChainsOnDefiniteUnitaryGroups §2.1); the
@@ -1262,7 +1265,8 @@ and `≤ C(n_V, 2)·log h` always; both are `≤ 2mbx^ε/ℓ` for `ℓ ≤ ℓ_�
 `Σ_ℓ ι_ℓ(τ)·log ℓ ≤ (Sc + 1)·log h`, because an integer `y − top_τ ∈ (0, h]`, `h < ℓ_𝔧²`, has at most one prime factor above
 `ℓ_𝔧`, so the primes with `ι_ℓ = 1` inject into the window; `Σ_ℓ D_ℓ(τ, q_τh)·log ℓ ≤ q_τh(1 + log h)·log h`, because `ℓ` divides
 `x_m − top_τ − d_ℓ ∈ (0, h]` when `D_ℓ ≠ 0`, so `ℓ ↦ d_ℓ` is injective and `Σ_d q_τh/d ≤ q_τh(1 + log h)`; and
-`Σ_ℓ (q_τh/ℓ)(1 + log(h/ℓ))·log ℓ ≤ q_τh(1 + log h)(log(3b) + log 4)`. With `q_τ + 2j_τ ≤ 2m` and `h ≤ 2b` the total is
+`Σ_ℓ (q_τh/ℓ)(1 + log(h/ℓ))·log ℓ ≤ q_τh(1 + log h)(log(3b) + log 4)`. With `q_τ + 2j_τ ≤ 2m` and `h ≤ 2b` the six sums
+over the primes `ℓ_𝔧 < ℓ ≤ h` outside `Exc_𝔧` are together
 `≤ 18mbx^{2ε} + 2k(Sc + 1)(x^ε + 2)` per thick place. *The primes of `Exc_𝔧`:* at most `Sc + η_s + t + 2k_max + 1` (each integer of
 the window is positive and `< ℓ_𝔧²`), each costing `≤ f·n_V²·x^ε`. The parameter inequalities used are `log(3h) ≤ 2x^ε`,
 `b/(4kt) ≤ ℓ_𝔧 ≤ b`, `3b < ℓ_𝔧²`, `x^εℓ* ≤ ℓ_𝔧`, and for `ℓ > ℓ_𝔧`: `ℓ − 1 ≥ ℓ*`, `κ ≤ 2b/ℓ*`, `t + 2κ`, `η_s + t + κ`, `n_V + 1`,
@@ -1271,7 +1275,8 @@ the window is positive and `< ℓ_𝔧²`), each costing `≤ f·n_V²·x^ε`. T
 places gives (b), and (c) is (3a).
 
 *Check.* If `ℓ > ⟨λ_τ + ρ, α^∨⟩` for every root `α` and every `τ`, then `∇(λ_τ) = Δ(λ_τ)`, `ex(τ, ℓ) = 0` and `𝔧 = 0`. The route
-bounds each thick place separately, by `20·m·b·x^{2ε} + 2k(Sc + 1)(x^ε + 2)`; no lower bound for `ex(τ, ℓ)` is asserted.
+bounds each thick place separately, by `20·m·b·x^{2ε} + 2k(Sc + 1)(x^ε + 2)` (`2mbx^{2ε}` from the primes `≤ ℓ_𝔧`,
+`18mbx^{2ε} + 2k(Sc + 1)(x^ε + 2)` from those above; statement (b) has `30` in place of `20`); no lower bound for `ex(τ, ℓ)` is asserted.
 
 *NEW* (Hida-type inclusion; the summation is elementary). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, RowTowerAndRallisIdentities §5.7, 7.1, 7.5,
 7.15, 7.16; BaseChangeAndGaloisRepresentationsForUnitaryGroups §§16.1 (the Galois representations of definite unitary groups), 15.2 (the weight symmetry);
@@ -1445,11 +1450,12 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
   (the basic lifting theorem with loss), 4.10d (2), (3) (i) (the cluster corollary and the theorem for alternating
   directions), 4.10e (0)–(3) (the lattices at level `s` and the ramified and tamely ramified variants), 4.10f (the tame-type
   variant), 4.10g (pushouts of finite classes under a lifting exponent). Used in 7.6, 7.7b, 7.7d, 7.8a, 7.10a, 7.10b.
-- §4.10d (4): alternating words of comparable sizes: for `ℓ ≥ 11`, `K/ℚ_ℓ` unramified of even degree, a surjection `T₁ ↠ T₂`
-  of lattices in crystalline representations whose weights at alternate letters lie in `[−η, η] ∪ [b_i, b_i + S]` resp.
-  `[−η, η] ∪ [−b_i − S, −b_i]`, at most `m` weights of `T₂` in `[−η, η]` at every letter, and the two size conditions (which hold
-  when every `b_i ∈ [b, b + η]`, `b ≥ 100`, `2η + S ≤ b/10`): the cokernel on `H¹_f` has length at most
-  `(n + 1)·rk T₂·e + 4n·m·e′ + (3/2)·n·(rk T₂·S + 2m·((H + 1)/(ℓ − 1) + 1))` times `length(O/ℓ)`,
+- §4.10d (4): alternating words of comparable sizes: for `ℓ ≥ 11`, `K/ℚ_ℓ` unramified of even degree `n`, coefficients
+  containing the embeddings of `K(μ_ℓ)`, a surjection `T₁ ↠ T₂` of lattices in crystalline representations whose weights at
+  alternate letters lie in `[−η, η] ∪ [b_i, b_i + S]` resp. `[−η, η] ∪ [−b_i − S, −b_i]`, at most `m` weights of `T₂` in `[−η, η]`
+  at every letter, and its two size conditions (which hold when every `b_i ∈ [b, b + η]`, `b ≥ 100`, `2η + S ≤ b/10`): with
+  `H := max_i b_i + S + η` and `e′` the round exponent of §4.10c (3) for `T₁`, the cokernel on `H¹_f` has length at most
+  `(n + 1)·rk T₂·e + 4n·m·e′ + (3/2)·n·(rk T₂·S + 2m·((H + 1)/(ℓ − 1) + 1))` times `length(O/ℓ)`, for an integer
   `e ≤ 32H/ℓ² + 4S + 10η/(ℓ − 1) + 25(1 + log_ℓ 2H)`. Used in 7.10a (row 4).
 
 ### From LengthBoundsInPadicFamilies, a sub-roadmap of this family
