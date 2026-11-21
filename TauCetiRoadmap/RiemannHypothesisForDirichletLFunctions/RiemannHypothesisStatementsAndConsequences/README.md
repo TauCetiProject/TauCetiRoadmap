@@ -237,7 +237,12 @@ it equals the remainder of the primitive ray-class character of `ℚ` attached t
   the sum of the residues of `Φ_ψ(s) y^s` at `s = 0` and at the trivial zeros, and
   `E_ψ(y) = A_ψ + B_ψ log y + O_ψ(1/y)` for `y ≥ 2`, where `B_ψ` is the order of `L_ψ` at `0` and
   `A_ψ` a constant.
-- Size: there is `C_ψ` with `‖rieszRemainder ψ y‖ ≤ C_ψ y` for `y ≥ 1`.
+- Size: there is `C_ψ` with `‖rieszRemainder ψ y‖ ≤ C_ψ y²` for `y ≥ 1`: each of the at most `y` terms of
+  the Riesz sum is at most `[K:ℚ] y` in absolute value, since `‖a_ψ(m)‖ ≤ [K:ℚ] Λ(m) ≤ [K:ℚ] m` and
+  `0 ≤ y/m − 1 ≤ y/m`, and the main terms are at most a constant times `y²`. This bound makes the Mellin
+  transform of the remainder converge absolutely on `Re s > 2`, and it is the only growth input of the
+  windowed Landau argument. The sharper bound `‖rieszRemainder ψ y‖ ≤ C_ψ y` for `y ≥ 1` also holds, by
+  the explicit formula (`‖y^ρ‖ ≤ y` on the closed strip).
 
 At `K = ℚ` and `ψ = 1`: `rieszRemainder 1 y = ∑_{n ≤ y} Λ(n)(y/n − 1) − y log y + (1 + γ) y` and
 `E(y) = log 2π − ∑_{k ≥ 1} y^(−2k)/(2k(2k + 1))`.
@@ -262,7 +267,7 @@ is continuous on `[1, 2]` and the formula holds at `y = 1`. The zero sum converg
 zero lies at `0` or `1` (ZerosOfLFunctions §6.5), finitely many have `|Im ρ| < 1`
 (ZerosOfLFunctions §4.5), and
 `|ρ(1 − ρ)| ≥ (1 + (Im ρ)²)/2` for `|Im ρ| ≥ 1` on the closed strip, so ZerosOfLFunctions §5.6a applies. The size
-bound: `‖y^ρ‖ ≤ y` on the closed strip.
+bounds: the first termwise, as stated; the sharper one from `‖y^ρ‖ ≤ y` on the closed strip.
 
 *Needs:* 10.3 (`PrimitiveDirichletCharacter`); 11.1 (*toPrimitiveRayClassCharacter*, the
 comparison of its L-functions, and of its cards up to the normal form of the completed function
