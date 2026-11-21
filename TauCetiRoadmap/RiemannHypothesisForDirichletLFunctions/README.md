@@ -1,0 +1,180 @@
+# Riemann hypothesis for Dirichlet L-functions
+
+A family of roadmaps whose end theorem is the Riemann hypothesis for Dirichlet L-functions: for
+every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s` with `Re s > 1/2`,
+`L(s, χ) ≠ 0` unless `χ` is principal and `s = 1`. For the trivial character this is the Riemann
+hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
+of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
+Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
+roadmap of the family states and proves these theorems. The family follows a complete formal proof:
+each roadmap states as targets what that proof establishes, in the generality in which the
+statement holds, and says so where a route is not written out.
+
+The route is analytic at both ends. For a positively weighted family of characters, a one-sided
+bound for the weighted sum of the Riesz-smoothed prime sums of its members, less their main terms,
+on windows `[Y, Y^λ]` at arbitrarily large scales `Y`, is equivalent to the Riemann hypothesis for
+every member of the family: this is a windowed form of Landau's theorem. For the cyclic family of a
+primitive Dirichlet character `ψ`, the primitive characters that induce the powers of `ψ`, such
+window bounds follow from an inequality between prime sums restricted by Frobenius over an abelian
+CM field and their main terms. That inequality is proved with chains of theta lifts between
+definite unitary groups, through the slopes of lattices of automorphic forms along the chain, the
+congruence modules of the lifts, and uniform bounds for wild kernels. The general roadmaps of the
+family supply the theory on which the chain rests: analytic number theory of Riesz sums and
+zero-free boxes, Hermitian lattices, slopes and metrics, theta kernels and local factors, Galois
+representations and Selmer groups, and integral models of unitary Shimura varieties.
+
+Each subdirectory is a roadmap of its own, with a definitive `README.md` and a `Suggested.lean` of
+target signatures; this page is the index of the family. The roadmaps are listed in merge order:
+within the family, each roadmap cites only roadmaps listed above it.
+
+## The roadmaps
+
+- [**Tensor induction and finite-group inputs**](TensorInductionAndFiniteGroupInputs/README.md):
+  tensor induction, virtual characters on cosets, Schur–Weyl statements, a theorem of Jordan on
+  primitive groups, and identities of quantum minors.
+- [**Positivity of Dirichlet series with kernels**](PositivityOfDirichletSeriesWithKernels/README.md):
+  positivity arguments for Dirichlet series with kernels, with the Laplace and stationary-phase
+  statements they use.
+- [**Statements of the Riemann hypotheses and their consequences**](RiemannHypothesisStatementsAndConsequences/README.md):
+  Riesz sums and explicit formulas, the Riemann-hypothesis predicates for Dirichlet characters,
+  Dedekind zeta functions and ray-class characters, and their consequences.
+- [**Riesz sums over primes and exceptional zeros**](RieszSumsOverPrimesAndExceptionalZeros/README.md):
+  Riesz-smoothed sums over primes, exceptional zeros and zero-density boxes, and class numbers.
+- [**Quadratic twists selected over primes**](QuadraticTwistSelectionOverPrimes/README.md):
+  quadratic twists over primes in a progression, and the selection of auxiliary primes with
+  zero-free boxes.
+- [**Adelic heights and successive minima**](AdelicHeightsAndSuccessiveMinima/README.md):
+  adelic heights of vectors and subspaces for an adelic presentation, with their duality and
+  behaviour under extension, and successive minima over number fields for balanced bodies.
+- [**Orbit measures on adelic groups**](OrbitMeasuresOnAdelicGroups/README.md):
+  Tamagawa measures, Siegel sets and orbit measures on adelic groups, and centralisers of semisimple
+  elements.
+- [**Hodge–Tate lattices and Lubin–Tate logarithms**](HodgeTateLatticesAndLubinTateLogarithms/README.md):
+  Hodge–Tate lattices and flag sequences with explicit cokernel bounds, and logarithms of Lubin–Tate
+  formal group laws with sharp radii.
+- [**Hecke ideals and Taylor–Wiles relations**](HeckeIdealsAndTaylorWilesRelations/README.md):
+  Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
+  lattice coefficients.
+- [**Bernoulli bounds for class group eigenspaces**](BernoulliBoundsForClassGroupEigenspaces/README.md):
+  bounds for eigenspaces of class groups and K-groups by Bernoulli numbers, Stickelberger-type
+  annihilation, and the vanishing of Bloch–Kato groups.
+- [**Wach lattices over the cyclotomic tower**](WachLatticesOverTheCyclotomicTower/README.md):
+  Wach lattices and crystalline lattices over the cyclotomic tower, with explicit exponents.
+- [**Selmer length bounds and local lifting**](SelmerLengthBoundsAndLocalLifting/README.md):
+  Selmer complexes in families, length bounds, local theorems at the places above the prime with
+  explicit constants, and lifting with loss.
+- [**Length bounds in p-adic families**](LengthBoundsInPadicFamilies/README.md):
+  length bounds and eigensystems in `p`-adic families.
+- [**Reducibility ideals and ultrafilter patching**](ReducibilityIdealsAndUltrafilterPatching/README.md):
+  generalised matrix algebras, reducibility ideals, the numerical criterion, block types, and
+  patching with an ultrafilter.
+- [**Finite reductive groups and the characters of `GL_n(𝔽_q)`**](FiniteReductiveGroups/README.md):
+  Harish-Chandra induction and Deligne–Lusztig theory for the groups of rational points of connected
+  reductive groups over finite fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for
+  `GL_n` in prime degree.
+- [**Multiplier ideals of pairs and point separation**](MultiplierIdealsOfPairsAndPointSeparation/README.md):
+  discrepancies and klt and lc pairs, multiplier ideals of pairs, Nadel vanishing for pairs, and the
+  theorems on isolated non-klt centres, global generation and separation of points for adjoint
+  bundles.
+- [**Singular Hermitian metrics and L² methods**](SingularHermitianMetricsAndL2Methods/README.md):
+  plurisubharmonic functions and Lelong numbers, singular Hermitian metrics, L² estimates and the
+  Ohsawa–Takegoshi extension theorem, good metrics along a boundary, multiplier ideals,
+  regularisation, and Bergman kernels.
+- [**Discrete series coefficients and automorphic metrics**](DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md):
+  matrix coefficients of discrete series, Poincaré series and trace-class statements, and invariant
+  metrics on automorphic bundles with proportionality.
+- [**Hermitian forms and lattices**](HermitianFormsAndLattices/README.md):
+  unitary groups and Hermitian forms over quadratic étale algebras with their local and global
+  classification; Hermitian lattices, genera and masses, Siegel's main theorem, and Hermitian theta
+  series.
+- [**Local factors of twists and types**](LocalFactorsOfTwistsAndTypes/README.md):
+  local factors and epsilon factors of twists, converse theorems, and smooth representations with
+  their types.
+- [**Base change and Galois representations for unitary groups**](BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md):
+  base change and inertial types of depth-zero representations, and the Galois representations
+  attached to automorphic representations of unitary groups.
+- [**Theta kernels for unitary dual pairs**](ThetaKernelsForUnitaryDualPairs/README.md):
+  the Weil representation, splittings and theta kernels for unitary dual pairs, the local theta
+  correspondence, convergence and unfolding.
+- [**Slopes of Hermitian vector bundles**](SlopesOfHermitianVectorBundles/README.md):
+  degrees, maximal and minimal slopes and the Harder–Narasimhan filtration of Hermitian vector
+  bundles over rings of integers, Bost's slope inequality, the comparison of slopes with successive
+  minima, and a slope inequality for families of maps whose images form a nearly tight frame at one
+  archimedean place; also the maximal slopes of lattices of sections of an ample line bundle and an
+  explicit arithmetic Hilbert–Samuel inequality.
+- [**Chow forms and heights of subvarieties**](ChowFormsAndHeightsOfSubvarieties/README.md):
+  Chow forms of projective subvarieties, spherical heights of multihomogeneous forms, and the
+  heights of subvarieties they define.
+- [**Heights for log-singular metrics**](HeightsForLogSingularMetrics/README.md):
+  heights for log-singular metrics, heights on projective spaces and flag varieties, and slopes of
+  Lie algebras of abelian schemes.
+- [**Projective models and period bounds on Shimura varieties**](ProjectiveModelsAndPeriodBoundsOnShimuraVarieties/README.md):
+  integral models of PEL type and their compactifications, Gram bounds for periods, ampleness,
+  Bertini over number fields, and descent.
+- [**Integral Weyl modules of general linear groups**](IntegralWeylModulesOfGeneralLinearGroups/README.md):
+  the integral theory of `GL_N`: the bideterminant basis of the integral dual Weyl module with
+  saturation, Weyl and dual Weyl modules in the closed lowest alcove, the exponent comparing their
+  integral forms, integral branching to `GL_{N−1}`, the linkage principle in multiset form and a
+  graded Pieri bound, Fischer norms of products of minors, and slopes of Weyl and dual Weyl
+  lattices.
+- [**Theta lifts for definite unitary groups**](ThetaLiftsForDefiniteUnitaryGroups/README.md):
+  one theta lift between definite unitary groups: Weil representations, lifts as operators on class
+  sets, weights and Satake parameters, the Rallis inner product formula, nonvanishing, the lift of
+  the trivial representation, and complementary spaces.
+- [**Frobenius-restricted Riesz sums**](FrobeniusRestrictedRieszSums/README.md):
+  abelian CM hosts and their Frobenius data, cyclic hosts and the cyclic family of a primitive
+  Dirichlet character, tops, thick sets and admissible pairs; Riesz sums restricted by Frobenius,
+  and the equivalence of the averaged inequality on a host with the window bound for the cyclic
+  family.
+- [**Theta chains on definite unitary groups**](ThetaChainsOnDefiniteUnitaryGroups/README.md):
+  the data of a chain of theta lifts (ranks, scales and size conditions, Hermitian spaces, weights
+  and words, Hecke, twisting and splitting characters, the coefficient field, type, auxiliary and
+  level primes, level structures and integral forms); the normal form of a step, the chain lift, the
+  operators at the level prime, the source lattices and the top period.
+- [**Taylor bounds and depths on height-two formal groups**](TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md):
+  Gauss norms of power series and quantisation, the biextension cocycle with its weight and
+  classification, weighted Taylor bounds in several variables, jet bounds and Gaussian jets; the
+  depth of a weight from character flags, and the row datum of an integral chart.
+- [**Local gain of theta chains**](LocalGainOfThetaChains/README.md):
+  the gain of a step and of the chain lift at a prime inert in the CM field; the local model of the
+  Hecke operators, Hecke commutation and refinement, the depth of Hecke images; the gain sublattice,
+  the operators at the level prime and the gain inequality.
+- [**The row tower and Rallis identities**](RowTowerAndRallisIdentities/README.md):
+  rows, the row step and its descent, target rows, Rallis steps and model lifts, the rational
+  structure of the grid with its determinant identities, multiplicity comparison and the
+  surjectivity of the descent.
+- [**Bessel–Poincaré series and Gram bounds**](BesselPoincareSeriesAndGramBounds/README.md):
+  Bessel models of discrete series of `U(p, q)`, Bessel–Poincaré series and their expansion, limit
+  multiplicity with a uniform error, local kernels, archimedean Gram forms and the tower inequality,
+  and their instances for the chain.
+- [**The seesaw for theta chains**](SeesawForThetaChains/README.md):
+  periods of unitary pairs (unfolding of Fourier–Jacobi periods, the passage between Bessel and
+  Fourier–Jacobi periods and the relation of their norms); the period pairing of the chain, its
+  unfolding, the local laws, the seesaw identity and its rationality.
+- [**Uniform wild kernel bounds**](UniformWildKernelBounds/README.md):
+  bounds, uniform in the field, for the logarithmic total of the groups `Ш¹(F, ℓ, e)` over families
+  of host fields, with the windowed form consumed by the congruence modules.
+- [**Congruence modules of theta lifts**](CongruenceModulesOfThetaLifts/README.md):
+  congruence lengths of a step, Hecke–Galois families on definite unitary groups, lifted
+  eigensystems and the local condition at `ℓ`, the congruence module bounded by a Selmer group,
+  class groups, wild kernels and local defects, good twists, the total congruence bound, and weight
+  elimination modulo `ℓ`.
+- [**Arithmetic volumes and integral forms on unitary Shimura varieties**](ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md):
+  CM periods and values (the class-mean Chowla–Selberg statement, denominators of CM values, toric
+  ratios and Hecke's toric sums); the flat line and slopes under change of weight; arithmetic
+  proportionality for flag bundles and the average volume; lattices of forms on deep covers, their
+  slopes, and the generation of integral forms by theta series.
+- [**The glued target and the division inequality**](GluedTargetAndDivisionInequality/README.md):
+  the pairing integral, the divided source and the target glued place by place; heights along the
+  chain, the step operator norm, the transported mean CM period, the Rallis eigenvalue and hook
+  bound; the theta conditions, the depth table, the slope of the target, the division inequality and
+  the cost of the type primes.
+- [**Theta chains and Frobenius prime sums**](ThetaChainsAndFrobeniusPrimeSums/README.md):
+  slopes of the source lattices, rank matching, the word code and the slope inequality of the chain;
+  chain data, the loss bound, the key identity, the Frobenius-restricted inequality and its budget,
+  and the windowed bound for the cyclic family of every primitive Dirichlet character.
+- [**The generalized Riemann hypothesis from window bounds**](GeneralizedRiemannHypothesisFromWindowBounds/README.md):
+  weighted families of characters and their Riesz remainders, Landau's theorem for families and its
+  windowed form, window bounds as a form of the generalized Riemann hypothesis, cyclic families, and
+  the Riemann hypothesis for Dirichlet L-functions in its standard forms, with the forms it gives of
+  conditional theorems of other roadmaps.
