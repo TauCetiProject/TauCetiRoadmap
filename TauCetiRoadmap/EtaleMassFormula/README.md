@@ -16,7 +16,24 @@ products of transitive pieces. The roadmap's own material is the model of étale
 **Galois sets** (finite sets with a continuous action of `Gal(K^sep/K)`), the decomposition of an
 extension by its unramified part, and the counting that turns Serre's formula into Bhargava's.
 
+It builds on the [mass formula roadmap](../MassFormula/README.md) (Serre's formula and the orbit
+count) and the [local fields and ramification
+roadmap](../../Completed/LocalFieldsRamification/README.md) (unramified extensions, residue degree
+and the discriminant exponent); the [`p`-adic extension families
+roadmap](../PadicExtensionFamilies/README.md) consumes its classification of extensions by their
+unramified part.
+
 Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
+
+## How to read the build
+
+Layer 0 builds the carrier: Galois sets, their weight, the mass, and the two bridges, to
+subextensions of `SeparableClosure K` and to étale algebras. Layer 1 classifies finite extensions
+by their unramified part and supplies the subfield form and the orbit count Layer 2 needs. Layer 2
+computes the transitive mass by residue degree from Serre's formula over `K_f`. Layer 3 assembles
+Bhargava's formulas. A target's `*Needs:*` line names the earlier subsections, supplier contracts
+and library declarations it rests on. `Suggested.lean` states the definitions and the headline
+theorems of every layer; the classification of §1.1 and the transport of §2.1 are README only.
 
 ## Conventions
 
@@ -45,16 +62,6 @@ Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
   convergence.
 - **Splitting symbols are `Multiset (ℕ × ℕ)`**, a pair `(f, e)` per orbit; partitions are Mathlib's
   `Nat.Partition`.
-
-## How to read the build
-
-Layer 0 builds the carrier: Galois sets, their weight, the mass, and the two bridges, to
-subextensions of `SeparableClosure K` and to étale algebras. Layer 1 classifies finite extensions
-by their unramified part and supplies the subfield form and the orbit count Layer 2 needs. Layer 2
-computes the transitive mass by residue degree from Serre's formula over `K_f`. Layer 3 assembles
-Bhargava's formulas. A target's `*Needs:*` line names the earlier subsections, supplier contracts
-and library declarations it rests on. `Suggested.lean` states the definitions and the headline
-theorems of every layer; the classification of §1.1 and the transport of §2.1 are README only.
 
 ## Layer 0: Galois sets, their weight, and the mass
 
@@ -142,13 +149,6 @@ the isomorphism classes, the stabilizer of a Galois set is `Aut_K(A)`, and orbit
 - `n = 2`, `K = ℚ_2`: `K × K` contributes `1/2`, `ℚ_4` contributes `1/2`, the six ramified fields
   `(2 · 2^{−2} + 4 · 2^{−3})/2 = 1/2`; total `3/2 = M_2(ℚ_2)`.
 
-### Examples
-
-- Over `ℚ_2` in degree `2`: the Galois sets of size `2` are the split one (`K × K`, mass `1/2`), the
-  unramified one (`ℚ_4`, mass `1/2`) and the ramified ones (the six ramified quadratic fields, mass
-  `1/2`), so `M_2(ℚ_2) = 3/2`.
-- `ℚ_2(i) × ℚ_2`: orbits of sizes `2` and `1`, weight `2 + 0 = 2`.
-
 ### Dependencies
 
 The MassFormula contract (invariance of the discriminant exponent); Mathlib's infinite Galois
@@ -227,12 +227,6 @@ the MassFormula contract (the general orbit count).
 - Orbit count: `ℚ_4` gives `1 · 2 = 2`; `ℚ_2(∜−3)` gives `2 · 2 = 4`, its class being
   `{ℚ_4(θ), ℚ_4(iθ)}`; the quartic subfield form counts `6 · 1 + 4 · 2 = 14 = #σ_{ℚ_4}(2)`.
 
-### Examples
-
-- `ℚ_4` has unramified part `K_2` and orbit count `1 · 2 = 2`; `ℚ_2(i)` has unramified part `⊥ = K_1`.
-- `ℚ_2(∜−3)` has orbit count `2 · 2 = 4`; the quartic subfield form over `ℚ_4` counts
-  `6 · 1 + 4 · 2 = 14 = #σ_{ℚ_4}(2)`.
-
 ### Dependencies
 
 Layer 0 for the carrier; the LocalFieldsRamification contract.
@@ -284,12 +278,6 @@ residue degree `f` and `0` elsewhere, followed by 2.2, gives mass
 - The trivial Galois set of size `n` has symbol `n · {(1, 1)}`.
 - `(f, e) = (2, 1)`: `(1/2!) · 1! · 1 = 1/2 = 1/(2 q^0)`, the mass of `ℚ_4`.
 - `(1, 2)` over `ℚ_2`: `(1/2) · 1 = 1/2 = 1/(1 · 2)`.
-
-### Examples
-
-- `(f, e) = (2, 1)`: transitive mass `1/2`, the mass of `ℚ_4`.
-- `(f, e) = (1, 2)` over `ℚ_2`: transitive mass `1/2 = q^{−1}`, the mass of the six ramified
-  quadratic fields.
 
 ### Dependencies
 
@@ -356,13 +344,6 @@ Bhargava's statement over étale algebras. *Needs:* 0.4, 3.2; Mathlib `Nat.Parti
 - `K = 𝔽_p((t))`, `n = p`: infinitely many Galois sets of size `p`, and `M_p(K)` is still the finite
   value of the formula.
 - `n = 0`: `M_0 = 1 = q(0, 0)`; summing only over `k < n` would give `0` here.
-
-### Examples
-
-- `M_1 = 1`, `M_2 = 1 + q^{−1}`, `M_3 = 1 + q^{−1} + q^{−2}`, `M_4 = 1 + q^{−1} + 2q^{−2} + q^{−3}`;
-  over `ℚ_2`, `M_2 = 3/2`, the value of Layer 0.
-- `n = 4`, `π = (1, 1)`: the symbols `{(1, 2), (1, 2)}` and `{(2, 2)}` give `1/2 + 1/2 = 1`, mass
-  `q^{−2}`.
 
 ### Dependencies
 
