@@ -1,897 +1,1655 @@
 # Roadmap: finiteness and simplicity of the groups on the CFSG list
 
-The [CFSGStatement roadmap](../CFSGStatement/README.md) constructs a group
-`CFSGIndex.Group` for every entry on its list and states that every finite simple group is
-isomorphic to one of them. This roadmap proves the complementary, concrete assertion: **every
-group on that list is finite and simple**. The endpoint is the pair of theorems
+**Summary.** The classification of finite simple groups lists the cyclic groups of prime order,
+the alternating groups of degree at least five, the groups of Lie type and twenty-six sporadic
+groups. [CFSGStatement](../CFSGStatement/README.md) turns that list into data: an index type whose
+entries carry explicit groups, and a proposition saying that every finite simple group is
+isomorphic to one of them. This roadmap proves the other, concrete half: every group on the list is
+finite and simple. The groups are taken exactly as the index defines them: `ℤ/p` written
+multiplicatively; the alternating group on `n ≥ 5` letters; for a Lie-type index, with ambient
+matrix group `G` over the algebraic closure of `𝔽_p` and Steinberg endomorphism `F`, the derived
+subgroup of the fixed-point group `G^F` modulo its own centre; and for a sporadic name, the group
+presented by the generators and relators recorded for it.
 
-```lean
-theorem CFSGIndex_finite (i : TauCeti.CFSGIndex) : Finite i.Group
-theorem CFSGIndex_isSimpleGroup (i : TauCeti.CFSGIndex) : IsSimpleGroup i.Group
-```
+The headline theorems are these.
 
-Here `i.Group` is *exactly* the carrier defined by CFSGStatement: `Multiplicative (ZMod p)`,
-Mathlib's alternating group, the derived central quotient of the Steinberg fixed points, or the
-group of the recorded sporadic presentation. An isomorphic group constructed for a proof must be
-connected back to that carrier by a proved `MulEquiv`. Neither the validity proof in a Lie index
-nor the word “sporadic” supplies a finiteness or simplicity hypothesis.
+- For every index `i` of the classification list, the group attached to `i` is finite and simple.
+- For every valid Lie-type index (ordinary, graph-twisted, Suzuki, Ree, and the Tits group, at every
+  field size the index admits), the group `[G^F, G^F] / Z([G^F, G^F])` is finite and simple.
+- For each of the twenty-six sporadic names, the presented group is finite, simple, and of the order
+  listed in the ATLAS. The upper bound on its order is proved from the presentation itself; a group
+  that merely satisfies the relators bounds it only from below.
+- The presented Monster has exactly two conjugacy classes of involutions, whose centralizers have
+  orders `2·|B|` and `2²⁵·|Co₁|`; it has an irreducible complex representation of degree 196883; it
+  has exactly 194 conjugacy classes, hence exactly 194 irreducible complex characters.
 
-The endpoint says every **listed** group has the two properties. It does not prove
-`ClassificationStatement`, which says every finite simple group **occurs** on the list. It also
-does not assert pairwise nonisomorphism or a unique index for each group.
+The roadmap proves neither the classification itself nor that the listed groups are pairwise
+nonisomorphic.
 
-The sporadic lane also develops the Monster's complete conjugacy structure in P2M:
-actual representative words, centralizers, power and fusion data, and the count 194 for both
-classes and irreducible complex characters. It reuses native conjugacy and character theory;
-no proof of the classification proposition or prior verification of the full Monster character
-table is a prerequisite. `Suggested.lean` is the acceptance test: it states the headline
-theorems named below against the pinned libraries (`CFSGIndex_finite`,
-`CFSGIndex_isSimpleGroup`, `validLieTypeIndex_finite`, `validLieTypeIndex_isSimpleGroup`,
-`sporadicName_finite`, `sporadicName_isSimpleGroup`, `sporadicName_card` against the order
-table `sporadicOrder`, and the four Monster statements of P2M); the full programme below
-remains definitive.
+CFSGStatement supplies the index, the carriers and the comparison of the explicit ambient matrix
+groups with the Chevalley–Demazure points. [ChevalleyGroups](../ChevalleyGroups/README.md)
+supplies root subgroups, the commutator formula, the Bruhat decomposition and the Frobenius, graph
+and exceptional endomorphisms of those points. [SporadicOrders](../SporadicOrders/README.md)
+supplies ten permutation models of sporadic groups, their orders and surjections onto them from
+the presented groups. The Leech lattice of
+[Rank24LatticeConstructions](../Rank24LatticeConstructions/README.md) and the extended Golay code
+of [AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md) are the inputs to the
+Conway groups and the Monster. From the Tau Ceti library come the cyclic and alternating cases,
+the finiteness of every Lie-type group, Tits's simplicity criterion for split BN-pairs, Iwasawa's
+criterion for central quotients, and the simplicity of the type-`A` and Suzuki families.
 
-The intended Tau Ceti home is `TauCeti/GroupTheory/SpecificGroups/CFSG/BasicProperties/` for
-family results, with reusable presentation, group-action, finite-field, and Tits-system theorems
-in their existing mathematical homes. The final assembly imports the family theorems; it does not
-recompute their proofs by unfolding the four-way index.
+Layer 1 sets up split Tits systems; Layers 2 and 3 build the root calculus of the Steinberg fixed
+points and prove the ordinary and graph-twisted groups simple. Layer 4 adds, to Tau Ceti's
+coset-table, covering and sifting theorems, the remaining soundness theorems for bounding,
+recognizing and proving simple presented groups. Layer 5 treats the Ree and Tits groups. Layers 6
+to 10 treat the sporadic groups: fourteen with existing permutation models, nine more by
+permutation or matrix models, the Conway groups through the Leech lattice, and the Monster and Baby
+Monster through the Griess algebra. Layer 11 classifies the conjugacy classes of the Monster, and
+Layer 12 assembles the list.
 
-## Starting points and ownership
+## Conventions
 
-- CFSGStatement owns `CFSGIndex`, its validity ranges, its seventeen Lie-type constructors,
-  `ValidLieTypeIndex.Group`, `SporadicName.presentation`, and `SporadicName.Group`. Every
-  Lie-type branch is the derived central quotient of the fixed points of its actual Steinberg
-  endomorphism `d.steinberg` on `d.AmbientGroup`. CFSGStatement L0 designates each family's
-  carrier: classical matrix groups and explicit spin, weight-module or short-root carriers
-  are admissible alongside the pinned construction. These carriers are not definitionally
-  the pinned Chevalley--Demazure points. L5 owns their root-subgroup-preserving comparison
-  with those points, intertwining the actual Steinberg maps. Consume that comparison when
-  transporting a theorem proved on the pinned carrier; a direct proof on the designated
-  explicit carrier does not wait for L5. CFSGStatement separately owns L4, identifying the
-  Suzuki branch with Tau Ceti's `suzukiGroup`; it can transport results but is not a prerequisite
-  for the basic-property theorems.
-- The [Chevalley groups roadmap](../ChevalleyGroups/README.md) owns the theory of the ambient
-  group: root subgroups for every root, the commutator formula, the Bruhat decomposition and Tits
-  system of the group over a field, its centre, Steinberg's presentation, generation of the points
-  over an algebraically closed field by root subgroups, and the Frobenius, graph, and exceptional
-  endomorphisms with their action on root subgroups (C2 to C5 there). Apply these results to
-  their actual carrier: on a different designated explicit carrier, either transport the
-  needed root calculus through a proved compatible equivalence or establish it directly as
-  part of T1/T3 below. L0's numbered simple-root data alone do not supply this full theory. The
-  [ReductiveGroups roadmap](../ReductiveGroups/README.md) owns abstract Borel, root-datum, and
-  Bruhat theory. The present roadmap owns the remaining structure theory of **finite fixed points**: the
-  finite-field descent of a Steinberg map, the twisted root groups, the BN-pair of the fixed-point
-  group, and the resulting simplicity theorem. Existing `TauCeti.TitsSystem` and its Bruhat-cell
-  API are the starting interface; extend them for the general group-theoretic theorems below. The
-  [Mathlib BN-pair work](https://github.com/leanprover-community/mathlib4/pull/40363) informs
-  names and structure, while Tau Ceti supplies what the endpoint needs regardless of its timing.
-- [Rank24LatticeConstructions, Layer 6][rank24] owns the canonical Construction-B-and-odd-shift
-  Leech lattice, its rational form and coordinate/congruence API. Consume that lattice; this
-  roadmap owns its sporadic automorphism groups and their representation comparisons, not a
-  second Leech construction. [AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md)
-  supplies the chosen Golay code and code theory, and excludes the Mathieu identification.
-- [SporadicOrders, Layers 0–2][sporadic-orders] owns the ten canonical ATLAS permutation
-  models listed in P1, their orders (its Layer 1) and the presentation surjections onto them
-  (its Layer 2). What it supplies to P0 is theorems, not a checker or a certificate format:
-  the stabilizer-chain order formula (its §0.1), the orbits of a generated permutation group
-  (§0.2) and the membership criterion along a base (§0.3). This roadmap owns the presentation
-  upper bounds, recognition and simplicity of those ten names, the four additional P1 models,
-  and the soundness of every permutation order or membership certificate P0 uses, proved as an
-  application of those three theorems. A permutation certificate never bounds an abstract
-  presented group.
-- CertifiedPermutationComputation, §§2.1–2.2, owns the shared signed-word, orbit-witness and
-  primitivity interfaces. Reuse or prove adapters between those formats and Mathlib actions.
-  Its Jordan recognition or randomized-search results are not sporadic simplicity theorems and
-  are not prerequisites for this programme.
-- Mathlib supplies prime-order cyclic groups (`isSimpleGroup_of_prime_card`), simplicity of
-  alternating groups (`alternatingGroup.isSimpleGroup`) and
-  `MulAction.IwasawaStructure.isSimpleGroup`. Tau Ceti supplies the carriers and Steinberg
-  maps, `fixedSubgroup`, `FixedPointCandidate` and `DerivedCentralQuotient` with their transport
-  along `fixedSubgroupCongr`, `FixedPointCandidate.congr` and `DerivedCentralQuotient.congr`,
-  the half-Frobenius square formula `steinberg_steinberg_of_usesHalfFrobenius`, the constructor
-  Frobenius formulas, `LieTypeIndex.one_lt_fieldOrder` and `card_fixedField`. At the pinned
-  revision it supplies no finiteness or simplicity theorem for any listed carrier.
-- E0, F0 and F1 below are this roadmap's targets: the elementary branches, the
-  finite-coordinate fixed-point criterion and the finiteness of every Lie-type carrier. Tau
-  Ceti revision `d7dad378` implements each of them under the names recorded in those sections
-  (its files `CFSG/BasicProperties/Elementary`, `GroupTheory/FixedSubgroup/MatrixCoordinates`,
-  `CFSG/BasicProperties/LieTypeFinite`, `CFSG/BasicProperties/TypeA` and
-  `CFSG/BasicProperties/TypeC`); an implementer working against that revision or a later one
-  consumes them, and otherwise proves them as stated here.
+1. **Exact carriers.** The group attached to an index is `TauCeti.CFSGIndex.Group`, and every
+   theorem is about that type: `Multiplicative (ZMod p)` for a prime `p`, Mathlib's
+   `alternatingGroup (Fin n)` for `n ≥ 5`, `TauCeti.ValidLieTypeIndex.Group` for a Lie-type index,
+   and `TauCeti.SporadicName.Group`, the `PresentedGroup` of the recorded relator set, for a
+   sporadic name. A group built for a proof (a finite matrix group, a permutation group, a quotient)
+   reaches the indexed group only through a proved `MulEquiv`. Equal orders or a shared name do not
+   identify two groups: `A₈` and `L₃(4)` both have order 20160 and are not isomorphic.
+2. **Lie-type notation.** For `d : TauCeti.ValidLieTypeIndex` write `p` for its characteristic,
+   `q` for its field order, `K` for the algebraic closure of `𝔽_p`, `G = d.AmbientGroup` for its
+   designated ambient group, `F = d.steinberg` for its Steinberg endomorphism, `Frob_q` for the
+   entrywise `q`-power map `d.frobenius`, and `H = d.FixedPoints = fixedSubgroup F`. Then
+   `d.Group = DerivedCentralQuotient H = [H, H] / Z([H, H])`; the centre is taken inside `[H, H]`,
+   never inside `H` or `G`. The designated ambient groups are Tau Ceti's explicit carriers: classical
+   matrix groups and explicit spin, weight-module and short-root carriers. They are not
+   definitionally the Chevalley–Demazure points `Gᶜ_d` of CFSGStatement Layer 1; the comparison of
+   the two, matching root subgroups and intertwining the Steinberg maps, is CFSGStatement §3.1, and
+   its effect on the fixed points and candidate groups is CFSGStatement §4.1.
+3. **Families.** The thirteen *ordinary and graph-twisted* constructors are the nine untwisted
+   families `A, B, C, D, E₆, E₇, E₈, F₄, G₂` and the four graph-twisted families `²A, ²D, ²E₆,
+   ³D₄`. The four *half-Frobenius* constructors are Suzuki `²B₂(2^(2m+1))`, Ree `²G₂(3^(2m+1))`,
+   Ree `²F₄(2^(2m+1))` for `m ≥ 1`, and the Tits index, which is `²F₄(2)` with `q = 2`.
+4. **What validity gives.** The validity predicate `TauCeti.LieTypeIndex.Valid` restricts parameters
+   (ranks, small fields, duplicate representatives). Neither it nor the word "sporadic" supplies a
+   finiteness or simplicity hypothesis. The excluded cases, such as `A₁(2)`, `A₁(3)` and `B₂(2)`, are
+   not proof cases; every retained case is, including the small fields.
+5. **Simplicity includes nontriviality.** Every proof of `IsSimpleGroup` establishes that the group
+   is nontrivial. No proof deduces that a quotient is simple because an assumed target is simple,
+   that a presented group is finite because a source calls it finite, or uses
+   `TauCeti.ClassificationStatement`.
+6. **Orders.** Orders are `Nat.card`. An order is a theorem about the carrier, never a constructor
+   field or an assumption.
+7. **Permutations and words.** Permutation products follow Mathlib, `(σ * τ) x = σ (τ x)`. A signed
+   word is evaluated by the left fold `acc * letter`. Conjugation by a word `w` is `w⁻¹ x w`, as in
+   Tau Ceti's `TauCeti.Relator.conj`, and the literature's commutator is `[t, u] = t⁻¹ u⁻¹ t u`.
+   Sources that compose left to right (GAP, Magma, the ATLAS, `tcenum`) are read through a proved
+   dictionary covering products, inverses and conjugation, never by reusing a source word
+   silently.
+8. **Certificates.** A certificate is finite data (words, straight-line programs, coset tables,
+   stabilizer chains, conjugating words) consumed by a soundness theorem of Layer 4, proved there
+   or cited there from Tau Ceti; every word equality and relation it uses is checked in Lean.
+   Running GAP, Magma or a script is a way to produce a certificate, not a proof of its soundness
+   or of its contents. No axiom, and no tactic whose kernel-checked result omits the mathematical
+   check, replaces a soundness theorem. No randomized algorithm and no Jordan-type recognition
+   theorem is part of any proof here.
+9. **Bounds.** A homomorphism from a presented group onto a finite group bounds the presented group
+   from below. Finiteness of a presented group needs an upper bound proved from its relators: a
+   finite index of a subgroup of bounded order, or a finite spanning set of words.
+10. **Milestone labels.** Other roadmaps cite this one by the labels E0, F0, F1, T0–T3, P0–P2, P2M
+    and A0. The layer headings below carry the labels T0 to A0; E0, F0 and F1 are the cyclic and
+    alternating branches, the finite-coordinate fixed-point criterion and the finiteness of the
+    Lie-type groups, recorded under Scope and ownership. P0 items 1–5 are §§4.1–4.5, and
+    *Starting points and ownership* is *Scope and ownership*.
+11. **Homes.** Family results live under `TauCeti/GroupTheory/SpecificGroups/CFSG/BasicProperties/`;
+    reusable presentation, group-action, finite-field and Tits-system theorems live in their
+    mathematical homes. The final assembly imports the family theorems and does not reprove them by
+    unfolding the four-way index. All carriers live in `Type`.
 
-Every proof of `IsSimpleGroup` must also establish the candidate is nontrivial. A proof that a
-quotient is simple because an assumed target is simple, or that a presentation is finite because
-the source calls it a finite group, does not discharge an item.
+## Layer 1: split Tits systems (T0)
 
-## Milestone graph
+Tau Ceti carries Tits systems (`TauCeti.TitsSystem`), their Bruhat decomposition with distinct
+cells, the classification of the subgroups containing `B` by the standard parabolics, and Tits's
+simplicity criterion for the normal closure of a solvable subgroup `U` normalized by `B`. This
+layer adds the split structure that the fixed-point groups of Layers 2, 3 and 5 carry, so that the
+criterion can be applied to them.
 
-| Item | Depends on | Deliverable |
-| --- | --- | --- |
-| E0: elementary branches | Mathlib prime-order and alternating simplicity | finiteness and simplicity of the exact cyclic and alternating carriers |
-| F0: fixed-point criterion | `fixedSubgroup`, `FixedPointCandidate`, Mathlib polynomial roots | the finite-coordinate criterion in its three forms and its transport to the derived central quotient |
-| F1: Lie-type finiteness | F0, Assembly/LieType branch formulas, CFSGStatement L0–L3 | `Finite d.FixedPoints` and `validLieTypeIndex_finite` on every designated carrier |
-| T0: abstract simplicity machinery | `TauCeti.TitsSystem`, Mathlib group actions | a normal-subgroup/simplicity criterion for a split BN-pair with root groups |
-| T1: fixed-point root calculus | T0, actual-carrier ambient calculus or compatible transport of Chevalley groups C2–C5, CFSGStatement L1–L3 | Steinberg descent, twisted root groups, BN-pairs, and root relations on the fixed points of the ordinary and graph-twisted families |
-| T2: ordinary and graph-twisted simplicity | T1, F1 | `IsSimpleGroup d.Group` on those thirteen constructors, including valid small fields |
-| P0: presentation and action certificate tools | native presentations and Schreier API, CFSGStatement S0, SporadicOrders §§0.1–0.3, CertifiedPermutationComputation §§2.1–2.2 | sound finite-index, normal-form, finite-action, and normal-closure certificate checkers |
-| T3: Suzuki, Ree, and Tits simplicity | T0, F1, P0, actual-carrier ambient calculus or compatible transport of Chevalley groups C2–C5, CFSGStatement L2–L3 | `IsSimpleGroup d.Group` on all four half-Frobenius constructors |
-| P1: externally constructed sporadics | P0, CFSGStatement S1, SporadicOrders O0–O2 for ten canonical models | proved recognition and basic properties for the fourteen names with existing Lean permutation models |
-| P2: remaining sporadics | P0, P1, T1–T3 as used by local groups, CFSGStatement S1, Rank24LatticeConstructions Layer 6, Golay code | explicit finite models, recognition, and simplicity for the other twelve presented groups |
-| P2M: Monster conjugacy structure | P0 conjugacy tools; P2 Monster model, local subgroups and recognition; native character theory | explicit complete class representatives, centralizers and power/fusion data for the exact Monster carrier; 194 classes and irreducible complex characters |
-| A0: assembly | E0, F1, T2, T3, P1, P2 | `CFSGIndex_finite` and `CFSGIndex_isSimpleGroup` |
+### 1.1 Split Tits systems
 
-The rows are mathematical dependencies, not a requirement for one PR per row. The finite-field,
-Lie-structure, and sporadic lanes can progress independently once their listed inputs exist.
+Define a *split Tits system* on a group `G` as a Tits system `(B, N, S)` on `G` together with a
+subgroup `U` such that `U ≤ B`, `U` is normal in `B`, `U` is solvable, `B = U · (B ∩ N)` and
+`U ∩ (B ∩ N) = 1`. This is the split BN-pair of the literature, with `B ∩ N` the complement of the
+normal subgroup `U` in `B` (Conrad's notes on Tits systems, the definition preceding Theorem 2.4),
+with `U` solvable as in that theorem. Write `Z = ⋂_{g ∈ G} g B g⁻¹` and `H⁺` for the normal
+closure of `U` in `G`.
 
-## E0: cyclic and alternating branches
+- A split Tits system satisfies the hypotheses of Tau Ceti's criterion: `B` normalizes `U`, and
+  `B ≤ U ⊔ (B ∩ N)`.
+- **Transport.** Along a `MulEquiv` `e : G' ≃* G`, a split Tits system on `G` pulls back to one on
+  `G'` whose `B`, `N` and `U` are the preimages, with the same Weyl group and simple reflections;
+  irreducibility of the Weyl group is preserved.
+- **Simplicity.** For a split Tits system with irreducible Weyl group, if `Z ∩ U = 1`, `H⁺ = [G, G]`
+  and `[G, G]` is perfect, then the centre of `[G, G]` is `Z ∩ [G, G]`, and
+  `DerivedCentralQuotient G` is simple as soon as it is nontrivial; it is nontrivial when `U ≠ 1`.
+- **Isomorphism invariance of the conclusion.** If `G' ≃* G`, then
+  `DerivedCentralQuotient G' ≃* DerivedCentralQuotient G`, so simplicity of either is simplicity of
+  the other.
 
-Prove, for every prime `p`, that the carrier `(CFSGIndex.cyclic p hp).Group`, which is
-`Multiplicative (ZMod p)`, has exactly `p` elements, is finite, and is simple by Mathlib's
-`isSimpleGroup_of_prime_card`; and, for every `n ≥ 5`, that `(CFSGIndex.alternating n hn).Group`,
-which is `alternatingGroup (Fin n)`, is simple by Mathlib's `alternatingGroup.isSimpleGroup`, its
-finiteness being an instance. These are statements about the exact indexed types; no new model
-is required. Tau Ceti revision `d7dad378` states them in `CFSG/BasicProperties/Elementary` as
-`CFSGIndex.natCard_cyclic`, `CFSGIndex.finite_cyclic`, `CFSGIndex.isSimpleGroup_cyclic` and
-`CFSGIndex.isSimpleGroup_alternating`.
+The simplicity statement is the split-BN-pair criterion of Conrad's notes on Tits systems,
+Theorem 2.4. Neither this criterion nor the group-action criterion of Iwasawa uses an order formula
+for the whole group. *Route.* The simplicity statement is Tau Ceti's
+`TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient` with its centre identification
+`TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf` and its nontriviality statement
+`TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`, applied to the split data; transport
+is `TauCeti.TitsSystem.comap` along `e` with `TauCeti.TitsSystem.IsIrreducible.of_mulEquiv`, and
+the quotient comparison is `TauCeti.DerivedCentralQuotient.congr`. *Needs:* Tau Ceti
+`TauCeti.TitsSystem`, `TauCeti.TitsSystem.comap`, `TauCeti.TitsSystem.IsIrreducible.of_mulEquiv`,
+`TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient`,
+`TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf`,
+`TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`,
+`TauCeti.DerivedCentralQuotient.congr`; Mathlib `IsSolvable`, `Subgroup.normalClosure`.
 
-## F0–F1: finiteness of the Lie-type carriers
+**Checks.**
+- In `SL₂(𝔽₅)` take `B` the upper triangular matrices (order 20), `N` the monomial matrices, and
+  `U` the upper unitriangular matrices (order 5). Then `B ∩ N` is the diagonal torus of order 4,
+  `B = U · (B ∩ N)` and `U ∩ (B ∩ N) = 1`. Taking `U = B` instead violates the intersection
+  equation, since `B ∩ (B ∩ N)` has order 4; it also gives `Z ∩ U = {±1} ≠ 1`.
+- `SL₂(𝔽₃)` with the same choices is split, with `|B| = 6`, `|U| = 3`, `B ∩ N = {±1}`,
+  `Z = {±1}` and `Z ∩ U = 1`; the normal closure of `U` is all of `SL₂(𝔽₃)`, of order 24. That
+  group is not perfect (its derived subgroup is the quaternion group of order 8), and its quotient
+  by `Z` is `PSL₂(3) ≅ A₄`, which is not simple: Conrad's form of the criterion, for
+  `H⁺ / (Z ∩ H⁺)`, would be false here without the perfectness hypothesis.
+- `GL₂(𝔽₃)`, with `B` the upper triangular matrices (order 12), `N` the monomial matrices and `U`
+  the upper unitriangular matrices, is split with `B ∩ N` the diagonal torus of order 4; `Z` is the
+  scalars `{±1}`, `Z ∩ U = 1`, and `H⁺ = [G, G] = SL₂(𝔽₃)`, whose centre `{±1}` is `Z ∩ [G, G]`.
+  Every hypothesis of the simplicity statement holds except perfectness, and
+  `DerivedCentralQuotient G = SL₂(𝔽₃)/{±1} ≅ A₄` is nontrivial and not simple, so that hypothesis
+  cannot be dropped.
 
-**F0: the finite-coordinate fixed-point criterion.** Let `G` be a group, `K` an integral
-domain, `n` a finite type with decidable equality and `ρ : G → Matrix n n K` injective; let
-`F : G →* G` be an endomorphism, `r` a natural number (zero allowed) and `m > 1`. Prove that if
-`ρ (F^[r] g) i j = (ρ g i j)^m` for all `g`, `i` and `j`, then `fixedSubgroup F` is finite:
-every coordinate of a fixed point is a root of `X^m − X`, which has finitely many roots in an
-integral domain. Derive the iterate form: if `Φ : G → G` raises every coordinate to the power
-`m` and `F^[r] = Φ^[k]` with `k ≠ 0`, then `fixedSubgroup F` is finite; state it also for a
-subgroup of `GL n K` with the entries as coordinates and for a faithful representation with a
-finite basis, the coordinates being those of `LinearMap.toMatrix`. No characteristic
-hypothesis and no positive power of `F` are required, but the Frobenius iterate number `k` must
-be nonzero: with `k = 0` the hypothesis only says `F^[r] = id`, which `F = id` satisfies on an
-infinite group. Then transport finiteness: `fixedSubgroup F` is finite exactly when
-`fixedSubgroup F'` is, for `F` and `F'` intertwined by a `MulEquiv` through `fixedSubgroupCongr`,
-and a finite `fixedSubgroup F` makes `FixedPointCandidate F` finite as a quotient of a subgroup
-of it. Tau Ceti revision `d7dad378` proves these as
-`TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow`,
-`TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate`,
-`Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate`,
-`Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow` (file
-`GroupTheory/FixedSubgroup/MatrixCoordinates`) and the instance `finiteFixedPointCandidate`.
+### Examples
 
-**F1: every Lie-type carrier is finite.** For every `d : ValidLieTypeIndex` prove
-`Finite d.FixedPoints` and then `validLieTypeIndex_finite`, that is `Finite d.Group`, including
-the Tits group and every retained small parameter. Route: on the four half-Frobenius
-constructors `steinberg_steinberg_of_usesHalfFrobenius` gives `d.steinberg^[2] = d.frobenius`;
-on the thirteen ordinary and graph-twisted constructors prove the twist-order iterate formula
-`d.steinberg^[t] = d.frobenius^[t]` with `t = GraphTwistedIndex.twistOrder`, which is positive
-by `GraphTwistedIndex.twistOrder_pos`, from the constructor Frobenius and graph-automorphism
-formulas. In both cases prove that the constructor's Frobenius raises every matrix coordinate of
-the designated carrier to the field order, which exceeds one by `LieTypeIndex.one_lt_fieldOrder`,
-so that F0 applies; `card_fixedField` identifies the finite field of the fixed points. Tau Ceti
-revision `d7dad378` proves these as
-`ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius` (in
-`Assembly/LieType`), `ValidLieTypeIndex.finite_fixedPoints` and `ValidLieTypeIndex.finite` (in
-`CFSG/BasicProperties/LieTypeFinite`). T2, T3 and A0 consume F1.
+`SL_n(k)` over a field, with `B` the upper triangular matrices, `N` the monomial matrices and `U`
+the upper unitriangular matrices, is split with irreducible Weyl group `S_n`. The Suzuki group
+`Sz(q)`, of order `q²(q² + 1)(q − 1)`, with `B` the stabilizer of a point in its doubly transitive
+action on `q² + 1` points, `U` the normal Sylow 2-subgroup of `B`, of order `q²`, and `B ∩ N` cyclic
+of order `q − 1`, is split of rank one.
 
-When T1 or T3 uses a different realization to establish root calculus or
-simplicity, that consuming milestone owns the needed comparison. For another
-algebraic-closure ambient with endomorphism `F'`, prove an intertwining
-`MulEquiv e` with `e (d.steinberg g) = F' (e g)`. Any new coordinate argument
-concerns `F'` on its own realization. For a finite-field model, compare it
-with the actual fixed points and then identify derived subgroups and centres
-to reach `d.Group`. Prove such a comparison for every family whose simplicity proof uses a
-finite-field model; Tau Ceti revision `d7dad378` gives the pattern for two families,
-`TypeALieIndex.specialLinearEquivFixedPoints` (in `CFSG/BasicProperties/TypeA`, with the
-special linear group over the fixed field) and `TypeCLieIndex.symplecticEquivFixedPoints` (in
-`CFSG/BasicProperties/TypeC`), composed with `DerivedCentralQuotient.congr`. Match ranks
-and validity ranges explicitly. CFSGStatement L5 is needed only when using
-its pinned-carrier comparison; designated-carrier finiteness itself needs no
-new comparison.
+### Dependencies
 
-## T0: a reusable simplicity criterion
+Tau Ceti's Tits-system library (`TauCeti/GroupTheory/TitsSystem/`) and
+`TauCeti.DerivedCentralQuotient`. No other layer and no other roadmap.
 
-Consume native `TauCeti.TitsSystem.bruhatCell_injective`, `disjoint_bruhatCell_iff`, and
-`existsUnique_mem_bruhatCell` from `TitsSystem/Bruhat/Uniqueness`; distinct generic Bruhat
-cells are already supplied. Prove the classification of the subgroups containing `B`: for a
-Tits system `(G, B, N, S)` the standard parabolic subgroups `P_J = B W_J B`, `J ⊆ S`, are
-exactly the subgroups between `B` and `G`, and `J ↦ P_J` is an order isomorphism from the
-subsets of `S` onto them. Tau Ceti revision `a9d0ba7b` proves it as
-`TauCeti.TitsSystem.standardParabolicOrderIso` in `TitsSystem/Parabolic/Classification`; an
-implementer working against that revision or a later one consumes it, and otherwise proves it
-here. Extend the remaining Coxeter/split-structure
-API needed here: specify `U ≤ B`, its normality and solvability, the complement `B ∩ N`, and
-the product and intersection equations of a split BN-pair.
-Prove the Tits normal-subgroup criterion in the following form. Put
-`Z = ⋂_{h : H} hBh⁻¹` and let `H⁺` be the normal closure in `H` of `U`.
-If `U` is solvable, the Coxeter graph is connected and nonempty, `Z ∩ U = 1`, and `H⁺` is
-perfect, then `Z ∩ H⁺` is its centre and `H⁺ / (Z ∩ H⁺)` is simple whenever nontrivial.
-Prove the normal-subgroup theorem behind this criterion, not merely its final typeclass
-instance. Supply transport across an isomorphism and a bridge from this quotient to
-`DerivedCentralQuotient H` whenever `H⁺ = [H,H]`. The application milestones must prove
-the hypotheses and this equality (or a direct quotient equivalence) for their fixed-point
-groups; a bare BN-pair on a larger group does not establish the desired type's simplicity.
-This is the split-BN-pair criterion in
-[Conrad's Tits-system notes](https://math.stanford.edu/~conrad/249BW16Page/handouts/titssystem.pdf),
-Theorem 2.4.
+## Layer 2: root calculus on the Steinberg fixed points (T1)
 
-Also provide the group-action route where it is shorter. Connect a faithful quasiprimitive
-action and conjugate commuting root subgroups to Mathlib's
-`MulAction.IwasawaStructure.isSimpleGroup`, with lemmas for passing to derived subgroups and
-central quotients. This is particularly useful for rank-one and small-field calculations.
-Neither criterion should require a separate order formula for the whole group.
+This layer builds, for the thirteen ordinary and graph-twisted constructors, the structure theory
+of the finite fixed-point group `H = G^F`: twisted root groups, a split Tits system on `H`, and the
+comparison of `H` with the finite matrix groups by which some families are studied. The ambient
+theory it starts from belongs to ChevalleyGroups (on the canonical points) and to
+ReductiveGroups Layer 7 (Borel subgroups, root data and the Bruhat decomposition of a connected
+reductive group); the theory of the finite fixed points belongs here.
 
-## T1–T2: ordinary and graph-twisted groups
+### 2.1 The ambient root calculus on the designated carrier
 
-Use the full ambient root-group calculus on the actual designated carrier: root subgroups
-for every root, Weyl representatives, the torus, the commutator formula, the Bruhat
-decomposition with distinct cells, a Tits system, and generation by root subgroups, together
-with the signed action of Frobenius and graph automorphisms on those root subgroups. These
-are C2 to C5 of the Chevalley groups roadmap on its carrier. Consume them through a proved
-root-subgroup-compatible `MulEquiv` intertwining the independently defined Steinberg maps,
-or construct and prove the needed calculus directly on the family's designated explicit
-carrier here. L0 to L3 acceptance supplies the carrier and its named simple-root equations,
-not an unproved full root family, Bruhat decomposition or BN-pair on it. The direct route
-does not wait for L5, and still proves all the listed ambient statements it uses.
-Build on that calculus the theory of the **Steinberg fixed points**: the finite-field root groups, the fact that the Steinberg map permutes the ambient root
-subgroups and preserves the Bruhat decomposition, fixed-point Bruhat descent including the
-factorization of invariant cells, and the generation of the finite fixed-point group by the
-resulting twisted root groups and torus. Establish the needed fixed-point factorization by direct
-root-subgroup arguments on that carrier, which need no Lang–Steinberg theorem: Steinberg,
-*Lectures on Chevalley Groups*, Chapter 11, Theorem 33, derives the Bruhat decomposition of the
-fixed points from the uniqueness in the ambient one. First construct a named
-`fixedWeylRepresentative` for every Weyl element invariant under the induced Steinberg action:
-an actual normalizer element over the algebraic closure, representing that Weyl element and
-fixed by the Steinberg map. Solve the required torus correction and prove existence; an
-arbitrary lift need not be fixed. Prove stability of the corresponding unipotent coordinate
-subgroup and equivariance of its unique `u n_w b` factorization before deducing the fixed-point
-Bruhat cells. These are explicit direct root/torus arguments, not a blanket Lang–Steinberg
-assumption or a consequence of cell-index uniqueness alone.
+For each of the thirteen constructors, establish on the designated carrier `G = d.AmbientGroup`
+over `K`: root subgroups `x_α : K → G` (additive parameter) for every root `α`, Weyl
+representatives, the torus, the Chevalley commutator formula, the Bruhat decomposition with
+distinct cells, a Tits system, generation of `G` by the root subgroups, and the action of
+`Frob_q` and of the graph automorphisms on the root subgroups, with its signs. These are
+ChevalleyGroups C2 to C5 on the canonical carrier. Either transport them to `G` through a proved
+`MulEquiv` that matches root subgroups and intertwines the two independently defined Steinberg
+maps, for which CFSGStatement §3.1 supplies the comparison `e_d`, or construct and prove the
+statements directly on `G`. The direct route does not wait for CFSGStatement Layer 3, and proves
+every listed statement it uses. The numbered simple-root subgroups of the carrier
+(`TauCeti.ValidLieTypeIndex.simpleRootSubgroup`) do not by themselves supply the full root family,
+the Bruhat decomposition or a Tits system.
+*Needs:* Tau Ceti `TauCeti.ValidLieTypeIndex.AmbientGroup`, `TauCeti.ValidLieTypeIndex.steinberg`,
+`TauCeti.ValidLieTypeIndex.frobenius`, `TauCeti.ValidLieTypeIndex.simpleRootSubgroup`; for the
+transport route ChevalleyGroups C2–C5 and CFSGStatement §3.1.
 
-For an ordinary group, take the finite-field root groups fixed by Frobenius. For a graph-twisted
-group, fold root orbits under the diagram–field map and prove the corresponding twisted root
-group relations. In both cases construct a split `TitsSystem` on the appropriate fixed-point
-group, prove its Weyl group and Bruhat cells agree with the root construction, and verify every
-hypothesis of T0. Prove that its root-generated subgroup is `[H,H]`, or give an explicit
-equivalence between T0's quotient and `DerivedCentralQuotient H`. Establish nontriviality and
-perfectness; identify the centre of `[H,H]` rather than silently replacing it by the centre of
-`H`.
+**Checks.**
+- In `SL₃(K)` with `x₁₂(a) = 1 + a E₁₂` and `x₂₃(b) = 1 + b E₂₃`, the commutator
+  `x₁₂(a) x₂₃(b) x₁₂(a)⁻¹ x₂₃(b)⁻¹` is `1 + ab E₁₃ = x₁₃(ab)`, while `x₁₂(a)` and `x₁₃(b)` commute
+  because `α₁ + (α₁ + α₂)` is not a root.
+- In type `A₂` the graph map is `g ↦ J g⁻ᵀ J⁻¹` with `J` antidiagonal with entries `1, −1, 1`; it
+  sends `x₁₂(u)` to `x₂₃(u)`. With the plain antidiagonal matrix (all entries `1`) it sends
+  `x₁₂(u)` to `x₂₃(−u)`; both maps are involutions, so the sign is invisible on the square and must
+  be fixed by the convention.
 
-The validity predicate handles the index range, not these proofs. The local calculations must
-cover field orders two and three at **arbitrary allowed rank**, as well as the infinite
-large-field ranges. State a lemma for each family with exactly its `LieTypeIndex.Valid`
-hypothesis; where a uniform commutator argument needs more field elements, prove the remaining
-small-field cases by explicit rank-one/rank-two or group-action arguments. In particular the
-retained cases include higher-rank groups over `𝔽₂`, `G₂(3)`, and `F₄(2)`; exclusions such as
-`A₁(2)`, `A₁(3)`, and `B₂(2)` are not proof cases. Conclude
-`IsSimpleGroup (d.Group)` on all thirteen ordinary or graph-twisted constructors.
+### 2.2 The Steinberg map on root subgroups, and fixed Weyl representatives
 
-## T3: Suzuki, Ree, and Tits groups
+Prove that `F` permutes the ambient root subgroups, `F(x_α(u)) = x_{ρ(α)}(ε_α u^{q_α})` for the
+permutation `ρ` of the roots induced by the graph part of `F`, signs `ε_α` and field powers `q_α`;
+that `F` preserves `B`, the torus `T` and its normalizer `N`, induces an automorphism of the Weyl
+group `W` permuting the simple reflections, and permutes the Bruhat cells,
+`F(BwB) = B F(w) B`. Then construct, for every Weyl element `w` invariant under the induced action,
+a *fixed Weyl representative*: an element of `N` over `K` that represents `w` and is fixed by `F`.
+Solve the required torus correction explicitly and prove existence; an arbitrary lift of `w` need
+not be fixed. *Needs:* §2.1.
 
-The exceptional isogenies exchange root lengths, so the ordinary fixed-root construction
-cannot simply be specialized to these branches. Build their finite twisted root groups,
-opposite groups, Weyl representatives, and Bruhat cells from the already defined
-half-Frobenius maps on the actual designated Suzuki, Ree and Tits carriers. Apply the same
-carrier/Steinberg intertwining rule as in F1/T1 before consuming pinned ambient results;
-otherwise prove the needed ambient root and Bruhat statements on these explicit carriers.
-Prove generation, the local commutator relations, nontriviality and
-perfectness, and discharge T0 or Mathlib's Iwasawa criterion for `suzuki m`, `reeG2 m`, and
-`reeF4 m` for **every** `m ≥ 1`. For a T0 proof, establish the same `H⁺`-to-`[H,H]`
-bridge as in T2.
+**Checks.**
+- In `SL₂(K)` with `F = Frob_q`, the lift `[[0, c], [−c⁻¹, 0]]` of the nontrivial Weyl element is
+  `F`-fixed exactly when `c^q = c`, that is `c ∈ 𝔽_q`; a lift with `c ∉ 𝔽_q` represents the same
+  Weyl element and is not fixed.
 
-Treat `.tits` at field order two as its own proof case. The split BN-pair on the full
-`²F₄(2)` fixed-point group does **not** give the required T0 bridge: its root-generated
-subgroup is the full group, whereas the candidate is the derived central quotient. Construct
-a concrete finite model of the latter using the
+### 2.3 The fixed-point Bruhat decomposition
+
+For `F`-invariant `w`, let `U_w` be the subgroup generated by the root subgroups of the positive
+roots that `w⁻¹` sends to negative roots. Prove that `U_w` is `F`-stable, that the unique
+factorization `g = u n_w b` (`u ∈ U_w`, `n_w` the fixed Weyl representative, `b ∈ B`) of an element
+of `BwB` is `F`-equivariant, and deduce `(BwB)^F = U_w^F n_w B^F` and the disjoint decomposition
+`H = ⨆_{w ∈ W^F} B^F n_w B^F`, where `W^F` is the group of `F`-invariant Weyl elements. The route
+is the direct root-subgroup argument from the uniqueness in the ambient decomposition (Steinberg,
+*Lectures on Chevalley Groups*, Chapter 11, Theorem 33); it needs no Lang–Steinberg theorem, and
+it is not a consequence of the uniqueness of cell indices alone. *Needs:* §§2.1–2.2.
+
+**Checks.**
+- For `SL₂(𝔽_q)`, `|B^F| = q(q − 1)` and `|B^F n B^F| = q²(q − 1)`, summing to `q(q² − 1)`; at
+  `q = 3` this is `6 + 18 = 24`. Counting `B^F n B^F` as `|B^F|²` would give `6 + 36`, more than
+  the group.
+
+### 2.4 Twisted root groups
+
+For an ordinary constructor the finite root groups are `x_α(𝔽_q)`, with the commutator formula
+restricted to `𝔽_q`. For a graph-twisted constructor, take the orbits of the diagram–field map on
+the roots; for each orbit, the `F`-fixed points of the group generated by its root subgroups form a
+twisted root group. Prove the twisted root-group relations (the rank-one shapes over `𝔽_q`,
+`𝔽_{q²}` and `𝔽_{q³}`, and the shape of `SU₃` for orbits of type `A₂`), and prove that `H` is
+generated by the twisted root groups and the torus `T^F`. *Needs:* §§2.1–2.3.
+
+**Checks.**
+- For `²A₂(q)` the orbit `{α₁, α₂, α₁ + α₂}` gives a nonabelian twisted root group of order `q³`,
+  a Sylow `p`-subgroup of `SU₃(q)`; at `q = 3` this is `27`, the full `3`-part of
+  `|SU₃(3)| = 6048 = 2⁵·3³·7`. Folding only the simple roots would give order `q² = 9`.
+
+### 2.5 The split Tits system on the fixed points
+
+Construct on `H` a split Tits system (§1.1) with `B_H = B^F`, `N_H = N^F` and `U_H = U^F`; prove that
+its Weyl group is `W^F`, with the reflections of the `F`-orbits of simple roots as simple
+reflections, that its Bruhat cells are those of §2.3, that its Weyl group is irreducible, and that
+`Z_H ∩ U_H = 1` for `Z_H = ⋂_{h ∈ H} h B_H h⁻¹`. *Needs:* §§1.1, 2.3–2.4.
+
+### 2.6 Comparisons with other realizations
+
+When a simplicity proof of Layer 3 or Layer 5 works in another realization, the consuming proof
+supplies the comparison. For another algebraic-closure ambient group with endomorphism `F'`, prove a
+`MulEquiv` `e` with `e (F g) = F' (e g)`; any new coordinate argument concerns `F'` on its own
+realization. For a finite-field model (`SL_n(𝔽_q)`, `Sp_{2n}(𝔽_q)`, `SU_n(q)`, an orthogonal group),
+prove a `MulEquiv` with `H`, then identify the derived subgroups and centres, through
+`TauCeti.DerivedCentralQuotient.congr`, to reach `d.Group`, matching ranks and validity ranges
+explicitly. Tau Ceti's `TauCeti.TypeALieIndex.specialLinearEquivFixedPoints`,
+`TauCeti.TypeCLieIndex.symplecticEquivFixedPoints`,
+`TauCeti.TypeB2LieIndex.symplecticEquivFixedPoints` and
+`TauCeti.TypeALieIndex.specialUnitaryEquivFixedPoints` are comparisons of this kind. CFSGStatement
+§3.1 is needed only by a proof that passes through the canonical carrier; finiteness on the
+designated carrier needs no comparison. *Needs:* Tau Ceti `TauCeti.fixedSubgroupCongr`,
+`TauCeti.FixedPointCandidate.congr`, `TauCeti.DerivedCentralQuotient.congr`.
+
+### Examples
+
+For `A₁(q)` the fixed points are `SL₂(𝔽_q)`, the twisted root groups are the two unitriangular
+groups of order `q`, and the split Tits system is the one of the Checks of §1.1. For `²A₂(q)` the
+fixed points are `SU₃(q)` and the Weyl group `W^F` has order 2.
+
+### Dependencies
+
+Layer 1; Tau Ceti's designated carriers and Steinberg maps; ChevalleyGroups C2–C5 and
+CFSGStatement §3.1 on the transport route of §2.1.
+
+## Layer 3: simplicity of the ordinary and graph-twisted groups (T2)
+
+### 3.1 The hypotheses of the criterion on the fixed points
+
+For each of the thirteen constructors, prove that the normal closure in `H` of `U_H` is `[H, H]`, or
+give an explicit `MulEquiv` between `H⁺ / (Z_H ∩ H⁺)` and `DerivedCentralQuotient H`; prove that
+`[H, H]` is perfect and that `U_H ≠ 1`; and identify the centre of `[H, H]` as `Z_H ∩ [H, H]`,
+rather than replacing it by the centre of `H`. A Tits system on a larger group does not establish
+these facts for `H`. *Needs:* §§1.1, 2.4–2.5.
+
+### 3.2 Small fields
+
+The validity predicate fixes the parameter range; the proofs must cover it. Prove, for each family,
+a lemma whose only hypothesis on the parameters is exactly its `TauCeti.LieTypeIndex.Valid`
+hypothesis. The local calculations cover field orders 2 and 3 at every allowed rank as well as the
+large fields. Where a uniform commutator argument needs more field elements, prove the remaining
+small-field cases by explicit rank-one or rank-two calculations or by a group-action argument. The
+retained cases include the higher-rank groups over `𝔽₂`, `G₂(3)` and `F₄(2)`. *Needs:* §3.1.
+
+**Checks.**
+- The excluded index `A₁(2)` has `H = SL₂(𝔽₂) ≅ S₃`, whose derived subgroup is cyclic of order 3
+  and equal to its own centre, so the candidate is trivial; the excluded `A₁(3)` has
+  `[H, H] = Q₈` with centre `{±1}`, so the candidate is the Klein four-group. A family lemma
+  without the validity hypothesis would assert that these are simple.
+- The retained `A₁(7)`: `SL₂(𝔽₇)` is perfect of order 336 with centre of order 2, so the candidate
+  has order 168.
+
+### 3.3 Simplicity
+
+Prove `IsSimpleGroup d.Group` for every valid index of each of the thirteen ordinary and
+graph-twisted constructors. The type-`A` constructor is Tau Ceti's
+`TauCeti.ValidLieTypeIndex.isSimpleGroup_A`. *Route.* Apply §1.1 to the split Tits system of §2.5
+with §3.1, or, where it is shorter, Iwasawa's criterion for central quotients
+(`MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient`, with the structure built from a
+commutative root subgroup and its conjugates by `MulAction.IwasawaStructure.ofConj`) on a
+finite-field model of §2.6: the projective symplectic group for `B₂`
+(`TauCeti.TypeB2LieIndex.projectiveSymplecticEquivGroup`, with `Sp₄(𝔽_q)` perfect by
+`TauCeti.TypeB2LieIndex.commutator_symplectic_eq_top`), the symplectic groups for `C`, the special
+unitary groups for `²A`. *Needs:* §§1.1, 2.5, 2.6, 3.1, 3.2; Tau Ceti
+`TauCeti.ValidLieTypeIndex.isSimpleGroup_A`, `MulAction.IwasawaStructure.ofConj`,
+`MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient`.
+
+### Examples
+
+`A₁(7)` gives `PSL₂(7)` of order 168; `²A₂(3)` gives `U₃(3)` of order 6048, with `SU₃(3)` perfect
+and centre of order `gcd(3, 4) = 1`; `F₄(2)` and `G₂(3)` are retained small-field cases.
+
+### Dependencies
+
+Layers 1–2; Tau Ceti's type-`A` theorem, Iwasawa criterion and finite-field comparisons.
+
+## Layer 4: proof-producing tools for presented groups (P0)
+
+`TauCeti.SporadicName.Group` is the `PresentedGroup` on the exact relator set of
+`TauCeti.SporadicName.presentation`, and a finite list of relators does not make a group finite.
+This layer collects the reusable soundness theorems by which the sporadic layers bound, recognize
+and prove simple their presented groups: those Tau Ceti proves are cited by name, and the others
+are proved here. Group-specific certificates live in Layers 5 to 11; their soundness theorems and
+group-action criteria live here.
+
+### 4.1 Maps and rewriting
+
+Words of a presentation are evaluated in an arbitrary group, and an assignment on which every
+relator evaluates to `1` gives a homomorphism out of the presented group (Mathlib
+`PresentedGroup.toGroup` with Tau Ceti `TauCeti.GroupPresentation.mem_relatorSet_iff`). Prove:
+
+- **Presentation dictionaries.** Given presentations `P` and `Q`, words for the generators of each in
+  the generators of the other, checks that the relators of each hold at those words, and checks
+  that the two composites fix every generator, the induced homomorphisms are inverse
+  `MulEquiv`s.
+- **Reidemeister–Schreier rewriting for an arbitrary Schreier transversal.** For a subgroup `L` of
+  the free group on `α` containing the normal closure of the relators, and a Schreier transversal
+  `T` of `L` (a prefix-closed set of reduced words, one in each right coset), the nontrivial Schreier
+  generators `t a (t a)‾⁻¹` form a free basis of `L`. With
+  `PresentedGroup.subgroupPresentationEquiv`, this gives the rewritten presentation of the image
+  of `L` in the presented group, with its rewriting map and its value on generators.
+- **Straight-line words.** A word given by a straight-line program (a sequence of products and
+  inverses of earlier entries) evaluates to the value of its expansion, in every group and along
+  every homomorphism; large certificates store words in this form.
+- **Transport.** Presentations, relator maps and quotient maps transport along `MulEquiv`s, and the
+  actions used along equivariant bijections, with round-trip lemmas for every dictionary.
+
+Generator elimination is Tau Ceti's `PresentedGroup.eliminateGenerators`, and the index-two
+rewriting for involutory sources is `TauCeti.IsSchreierIndexTwoSource.mulEquivKerParityHom`,
+`TauCeti.IsSchreierIndexTwoSource.mulEquivCommutator` and
+`TauCeti.GroupPresentation.mulEquivCommutator` under their even-relator and abelianization
+hypotheses. *Needs:* Mathlib `PresentedGroup.toGroup`, `PresentedGroup.toGroup.unique`; Tau Ceti
+`TauCeti.GroupPresentation.mem_relatorSet_iff`, `PresentedGroup.subgroupPresentationEquiv`,
+`PresentedGroup.eliminateGenerators`.
+
+### 4.2 Finite upper bounds
+
+Upper bounds are proved on the presented group itself. Tau Ceti proves three forms of them, for a
+group `G` generated by given elements, without assuming `G` finite:
+
+- **Coset tables.** If the generators satisfy the relators and given words lie in a subgroup `L`, a
+  coset table on `k` points whose deduction certificate checks gives `[G : L] ≤ k`, with `L` of
+  finite index, and `[G : L] = k` when the named cosets are distinct
+  (`TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex`,
+  `TauCeti.CosetTable.index_eq_of_check`).
+- **The covering bound.** If left multiplication by every generator maps `R · K` into itself, for a
+  finite nonempty set `R` and a finite subgroup `K`, then `G` is finite of order at most `|R| · |K|`
+  (`Subgroup.finite_closure_of_forall_mul_mem`, `Subgroup.natCard_closure_le_ncard_mul`). With
+  `K = 1` this is the normal-form bound; with `K` a word-defined subgroup whose order is already
+  bounded it is one step of a tower, along which `Subgroup.card_mul_index` and
+  `Nat.card_le_card_of_surjective` (Mathlib) also apply.
+- **Double-coset covers.** If `1` lies in one of finitely many double cosets `H w_i H`, and `s h w_i`
+  lies in one of them for every generator or inverse generator `s`, every `h ∈ H` and every `i`,
+  then they cover `G` (`Subgroup.exists_mem_doubleCoset_of_generator_transitions`). A cover whose
+  intersections `w_i H w_i⁻¹ ∩ H` have finite index in `H` gives `H` finite index in `G`
+  (`Subgroup.finiteIndex_of_doubleCoset_cover`), and then
+  `[G : H] ≤ ∑_i [H : w_i H w_i⁻¹ ∩ H]` (`Subgroup.index_le_sum_of_doubleCoset_cover`; for an
+  infinite index it holds with `Subgroup.index` equal to `0`, so by itself it gives no finiteness).
+
+Prove the coset cover with word witnesses: let `L` be the subgroup of `P.Group` generated by given
+words. If words `w₁ = 1, w₂, …, w_n` are such that for every `i` and every generator or inverse
+generator `x` there is `j` with `w_i x w_j⁻¹ ∈ L` in `P.Group`, each membership witnessed by an
+explicit word in the generators of `L` equal to it in `P.Group`, then the cosets `L w_i` cover
+`P.Group`, so `[P.Group : L] ≤ n`. A checked coset table is the instance in which every witness is a
+deduction from the relators.
+
+A permutation action on which the relators hold does not certify an index: its point stabilizer may
+contain an unaccounted kernel. *Needs:* §4.1; Mathlib `Subgroup.index`, `Nat.card`,
+`Subgroup.card_mul_index`, `Nat.card_le_card_of_surjective`; Tau Ceti `TauCeti.CosetTable`,
+`TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex`,
+`TauCeti.CosetTable.index_eq_of_check`, `Subgroup.finite_closure_of_forall_mul_mem`,
+`Subgroup.natCard_closure_le_ncard_mul`, `Subgroup.exists_mem_doubleCoset_of_generator_transitions`,
+`Subgroup.finiteIndex_of_doubleCoset_cover`, `Subgroup.index_le_sum_of_doubleCoset_cover`.
+
+**Checks.**
+- `⟨a | ⟩` is infinite and surjects onto every cyclic group, so a surjection onto a finite group
+  bounds nothing from above.
+- For `⟨a, b | a², b³, (ab)²⟩` the six words `1, b, b², a, ab, ab²` are closed under left
+  multiplication by `a` and `b` (using `ba = ab²`, which follows from `(ab)² = a² = 1`, and
+  `b³ = 1`: for instance `b · ab = ab³ = a` and `b · ab² = ab⁴ = ab`), so by the covering bound with
+  `K = 1` the group has order at most 6; the assignment `a ↦ (1 2)`, `b ↦ (1 2 3)` satisfies the
+  relators, since `(1 2)(1 2 3) = (2 3)` in Mathlib's convention, and generates `S₃`, so the group
+  is `S₃`.
+
+### 4.3 Lower bounds and recognition
+
+Generator images in a group that satisfy the relators of `P` induce a homomorphism
+`P.Group → M` whose range is the subgroup they generate (Tau Ceti's
+`TauCeti.GroupPresentation.homEquiv` and `TauCeti.GroupPresentation.range_homEquiv_symm`), so it
+is surjective when they generate `M`. Prove that if moreover `P.Group` is finite with
+`|P.Group| ≤ |M|` by §4.2, it is a `MulEquiv`. Prove the order and kernel lemmas used with
+word-defined subgroups: if `L` is finite and of finite index, `[P.Group : L] ≤ n`, `|L| ≤ m` and
+`|M| = n m`, the surjection is injective. Package the resulting `MulEquiv` into `P.Group`, so that
+recognition never depends on a database label. *Needs:* §4.2;
+Tau Ceti `TauCeti.GroupPresentation.homEquiv`, `TauCeti.GroupPresentation.range_homEquiv_symm`.
+
+### 4.4 Permutation-group and simplicity certificates
+
+The soundness of stabilizer-chain and sifting certificates is Tau Ceti's, for a subgroup `H` of a
+group acting on a type with base points `b_0, b_1, …`: the order formula along the stabilizer chain
+(`Subgroup.prod_ncard_orbit_mul_card_stabilizerChain`) and the membership criterion along it
+(`Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`); a successful sift writes the sifted
+element as a product of entries of the lists (`TauCeti.inv_mul_mem_closure_of_sift`); and nonempty
+lists `T_0, …, T_{k−1}` of elements of the successive members of the chain, with distinct images of
+`b_i` under `T_i`, generating a subgroup that contains `H`, such that every product `s r` with
+`r ∈ T_i`, `s ∈ T_j` and `i ≤ j` sifts through `T_i, …, T_{k−1}`, give `|H| = ∏_i |T_i|` and show
+that `b_0, …, b_{k−1}` is a base (`Subgroup.natCard_eq_prod_length_of_sift`,
+`Subgroup.stabilizerChain_eq_bot_of_sift`). Prove the action lemmas that the simplicity criteria
+need for concrete groups:
+transitivity from orbit witnesses (a signed word carrying a base point to each point, with an
+adapter to Mathlib's `MulAction.orbit`), primitivity from maximality of a point stabilizer (Mathlib
+`MulAction.isCoatom_stabilizer_iff_preprimitive`) or from another proved block criterion, and
+perfectness from expressions of the generators as products of commutators. No checker library is a
+supplier, and a finite-image chain is not an upper-bound certificate for a presented group.
+
+These feed two simplicity criteria. Mathlib's Iwasawa criterion
+`MulAction.IwasawaStructure.isSimpleGroup` applies to a nontrivial perfect group with a faithful
+quasiprimitive action and commutative subgroups attached to its points. The prime-order normal-generation criterion
+is Tau Ceti's: a nontrivial finite group in which every element of prime order is conjugate to an
+element that normally generates the group is simple
+(`IsMulTorsion.isSimpleGroup_of_isConj_of_normalClosure_eq_top`, since a nontrivial normal subgroup
+contains an element of prime order), in its Sylow-local form
+`TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`, with normal generation
+certified by `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_check`. A group-specific
+certificate proves both the coverage and the normal generation. *Needs:* Mathlib
+`MulAction.orbit`, `MulAction.stabilizer`, `MulAction.isCoatom_stabilizer_iff_preprimitive`,
+`MulAction.IwasawaStructure.isSimpleGroup`; Tau Ceti `Subgroup.stabilizerChain`,
+`Subgroup.prod_ncard_orbit_mul_card_stabilizerChain`,
+`Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`, `TauCeti.sift`,
+`TauCeti.inv_mul_mem_closure_of_sift`, `Subgroup.natCard_eq_prod_length_of_sift`,
+`Subgroup.stabilizerChain_eq_bot_of_sift`,
+`IsMulTorsion.isSimpleGroup_of_isConj_of_normalClosure_eq_top`,
+`TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`,
+`TauCeti.NormalClosureProgram`.
+
+**Checks.**
+- In Mathlib's convention `(1 2)(1 2 3) = (2 3)`, while composing left to right gives `(1 3)`; a
+  source word read without the dictionary of Conventions item 7 evaluates to a different
+  permutation.
+- In `A₅` the elements of order 5 form two conjugacy classes, those of `(1 2 3 4 5)` and of its
+  square `(1 3 5 2 4)`, so a coverage list with one representative per element order misses a
+  class. The list `(1 2)(3 4)`, `(1 2 3)`, `(1 2 3 4 5)`, `(1 3 5 2 4)` covers every element of prime
+  order. In `A₄` the normal closure of `(1 2)(3 4)` is the Klein four-group, so a normal-generation
+  certificate for it cannot exist.
+
+### 4.5 Complete conjugacy data
+
+Conjugacy data are Tau Ceti's `TauCeti.ClassData`: an actual list of representatives with a proof
+of pairwise nonconjugacy and a proof of coverage. The mass criterion
+`List.sum_index_centralizer_eq_card_iff` (a pairwise nonconjugate list of a finite group meets every
+class exactly when its centralizer indices sum to the group order) builds class data by
+`TauCeti.ClassData.ofSumIndexCentralizer`, and `TauCeti.ClassData.map` transports it along a
+`MulEquiv`, agreeing with `MulEquiv.conjClassesEquiv`, with the representatives, classes and class
+sizes, inverse classes and power classes compared by `TauCeti.ClassData.rep_map`,
+`TauCeti.ClassData.classOf_map`, `TauCeti.ClassData.classFinset_map`,
+`TauCeti.ClassData.index_map_inv` and `TauCeti.ClassData.index_map_pow`. Prove the remaining
+soundness theorems: compressed proofs of centralizer orders (a word-generated subgroup of the
+centralizer of certified order, together with a certified lower bound on the size of the class) and
+of pairwise nonconjugacy (a class invariant, such as element order, a power map or a representation
+value, that separates the two elements). Where a word-generated subgroup `H` of the centralizer of
+`x` has a certified coset table, Tau Ceti's `TauCeti.CosetTable.eq_centralizer_of_check` identifies
+`H` with the whole centralizer once every named coset representative commuting with `x` lies in
+`H`. Certify the group order and each centralizer order separately before applying the mass
+criterion. A class-data structure whose coverage is assumed, or a coverage of the prime-order
+elements only, is not a complete conjugacy classification. *Needs:* §4.2; Tau Ceti
+`TauCeti.ClassData`, `TauCeti.ClassData.ofSumIndexCentralizer`, `TauCeti.ClassData.map`,
+`List.sum_index_centralizer_eq_card_iff`, `TauCeti.CosetTable.eq_centralizer_of_check`.
+
+**Checks.**
+- In `S₃` the representatives `1, (1 2), (1 2 3)` have centralizer indices `1, 3, 2`, summing to
+  `6 = |S₃|`; the list `1, (1 2)` sums to `4 < 6` and misses the class of 3-cycles.
+
+### Examples
+
+The presentation `⟨a, b | a², b³, (ab)²⟩` of the Checks of §4.2 is recognized as `S₃` by §§4.2–4.3,
+and `S₃`'s class data come from §4.5. For `A₅`, the four representatives of the Checks of §4.4,
+each with a word expressing the generators `(1 2 3)` and `(3 4 5)` through its conjugates, certify
+simplicity by the prime-order criterion.
+
+### Dependencies
+
+Mathlib's presented groups and group actions; Tau Ceti's presentation, coset-table, covering,
+double-coset, stabilizer-chain, normal-generation, simplicity-certificate and class-data libraries.
+No other layer and no other roadmap.
+
+## Layer 5: Suzuki, Ree and Tits groups, and the Lie-type endpoint (T3)
+
+The exceptional isogenies exchange root lengths, so the ordinary fixed-root construction of Layer 2
+does not specialize to these branches. The Suzuki branch is Tau Ceti's
+`TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`; this layer treats Ree and Tits.
+
+### 5.1 The Ree groups
+
+For `²G₂(3^(2m+1))` and `²F₄(2^(2m+1))` with every `m ≥ 1`, build from the half-Frobenius maps
+on the designated short-root carriers (Tau Ceti's Steinberg maps) the finite twisted root groups, the opposite
+groups, the Weyl representatives and the Bruhat cells. Apply the carrier comparison rule of §§2.1
+and 2.6 before consuming ambient results proved on the canonical carrier; otherwise prove the
+needed ambient root and Bruhat statements on these carriers. Prove generation, the local commutator
+relations, nontriviality and perfectness, and conclude `IsSimpleGroup d.Group` by §1.1 (with the
+bridge from `H⁺` to `[H, H]` of §3.1) or by Iwasawa's criterion. *Needs:* §§1.1, 2.1, 2.6, 3.1;
+Tau Ceti `TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`; ChevalleyGroups
+C2–C5 and CFSGStatement §3.1 on the transport route.
+
+**Checks.**
+- At `m = 1`, `|²G₂(27)| = 27³ (27³ + 1)(27 − 1) = 10073444472` and
+  `|²F₄(8)| = 8¹² (8⁶ + 1)(8⁴ − 1)(8³ + 1)(8 − 1) = 264905352699586176614400`.
+- At `m = 0`, `²G₂(3) ≅ PΓL₂(8)` has order 1512 and is not perfect: its derived subgroup `L₂(8)`
+  has index 3, so the perfectness step fails there. The index excludes `m = 0`; the group `L₂(8)` is
+  on the list as `A₁(8)`.
+
+### 5.2 The Tits group
+
+Treat `.tits` at field order 2 as its own case: no general theorem requiring a larger field covers
+it. The split Tits system on the full fixed-point group `²F₄(2)` does not give the bridge of §3.1:
+its root-generated subgroup is the whole group, whereas the candidate is the derived central
+quotient `²F₄(2)′`, of index 2. Construct a finite model of the derived central quotient using the
 [ATLAS 1600-point representation](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/TF42G1-p1600B0)
-of `²F₄(2)'`. First prove that the ambient root relations give a complete presentation and
-that the commutator subgroup has index two. Derive its presentation by
-Reidemeister–Schreier rewriting, identify its central quotient, and prove a Tietze equivalence with the
-[ATLAS Tits presentation](https://brauer.maths.qmul.ac.uk/Atlas/v3/exc/TF42/).
-Give the root/Schreier-to-ATLAS generator dictionary: words for the ATLAS generators in the
-rewritten root generators, inverse words modulo the central quotient, the relator checks,
-and both composite identities. Match those specified generators to the 1600-point action.
-Use P0's finite-index and action certificates to compare the presentation's upper bound with
-the order of the generated permutation group, giving a `MulEquiv` from the **exact**
-`DerivedCentralQuotient`. Certify that model's order and simplicity by a normal-closure or
-primitive-action certificate. A general theorem requiring larger field order does not cover
-this entry. Conclude the four
-constructor-specific theorems and then, with T2, `validLieTypeIndex_isSimpleGroup` by cases
-on the constructor.
+of `²F₄(2)′`. First prove that the ambient root relations give a complete presentation of `²F₄(2)`
+and that its commutator subgroup has index two. Derive the presentation of the commutator subgroup
+by Reidemeister–Schreier rewriting (§4.1), identify its central quotient, and prove a Tietze
+equivalence with the [ATLAS Tits presentation](https://brauer.maths.qmul.ac.uk/Atlas/v3/exc/TF42/).
+Give the dictionary between the rewritten root generators and the ATLAS generators: words for the
+ATLAS generators in the rewritten generators, inverse words modulo the central quotient, the
+relator checks, and both composite identities. Match those generators to the 1600-point action.
+Compare the presentation's upper bound with the order of the generated permutation group by §§4.2
+and 4.4, giving a `MulEquiv` from the exact `DerivedCentralQuotient`. Prove the model's order and
+simplicity by a normal-closure or primitive-action certificate (§4.4). *Needs:* §§4.1–4.5; Tau Ceti
+`TauCeti.ValidLieTypeIndex.Group`, `TauCeti.DerivedCentralQuotient`.
 
-## P0: proof-producing tools for presented groups
+**Checks.**
+- `|²F₄(2)| = 2¹² (2⁶ + 1)(2⁴ − 1)(2³ + 1)(2 − 1) = 35942400`, twice
+  `|²F₄(2)′| = 17971200`, and `17971200 / 1600 = 11232 = |L₃(3):2|`, the order of a point
+  stabilizer of the 1600-point action. A candidate taken as the root-generated subgroup modulo its
+  centre would have order 35942400 and is not simple.
 
-`SporadicName.Group` is `PresentedGroup` on the exact relator set of
-`SporadicName.presentation`. A finite list of relators does not imply a finite group. Build
-reusable, kernel-checked interfaces for:
+### 5.3 The Lie-type endpoint
 
-1. **Maps and rewriting.** Evaluate presentation words in an arbitrary target group; derive a
-   homomorphism from a proof that each relator evaluates to one; prove sound Tietze and
-   Reidemeister–Schreier transformations beyond the native index-two interface, including
-   induced equivalences and subgroup identifications. Consume
-   `IsSchreierIndexTwoSource.mulEquivKerParityHom`, `.mulEquivCommutator`, and
-   `GroupPresentation.mulEquivCommutator` for involutory sources satisfying their even-relator
-   and abelianization/parity hypotheses; this does not cover arbitrary rewriting. Certificates
-   may be generated externally, but Lean checks every word equality and relation used.
-2. **Finite upper bounds.** Verify finite coset tables, subgroup towers, or finite normal-form
-   systems. The soundness theorem must yield a finite index or a finite spanning set of words
-   for the *actual presented group*. A surjective map **from** it onto a known finite group
-   gives only a lower bound and is not a finiteness proof. Keep compressed straight-line words
-   and subgroup-chain certificates as data so large cases need not list all elements.
-3. **Finite lower bounds and recognition.** Verify generator images in a concrete finite
-   permutation, matrix, or other finite group; prove generation of that model and compare its
-   order with the certified upper bound. Package the resulting `MulEquiv` back to
-   `P.Group`. Develop order and kernel lemmas so recognition does not depend on an unproved
-   database label.
-4. **Simplicity certificates.** Reuse Mathlib's Iwasawa criterion when a faithful primitive
-   action and abelian local subgroups exist. Supply verified stabilizer chains, transitivity,
-   primitivity/maximality, perfectness, and normal-closure lemmas needed for that criterion.
-   Also prove a reusable finite-group criterion: if certified conjugacy-class representatives
-   cover every element of prime order and each representative normally generates the group,
-   then the group is simple, once nontriviality is known. The proof uses Cauchy's theorem on
-   any nontrivial normal subgroup. Group-specific certificates must verify both coverage and
-   normal generation. Executing Magma, GAP, or a script is a way to *produce* a certificate,
-   not a proof of its soundness or of its contents.
+Prove `validLieTypeIndex_isSimpleGroup`: for every `d : TauCeti.ValidLieTypeIndex`,
+`IsSimpleGroup d.Group`, by cases on the constructor from §3.3 (ordinary and graph-twisted), Tau
+Ceti's Suzuki theorem, §5.1 (Ree) and §5.2 (Tits). Its finiteness companion, `Finite d.Group`
+for every valid index including the Tits group and every retained small parameter, is Tau Ceti's
+`TauCeti.ValidLieTypeIndex.finite`, proved through the finite-coordinate fixed-point criterion and
+the iterate formulas `F² = Frob_q` (half-Frobenius) and `F^t = Frob_q^t` with `t` the twist order
+(ordinary and graph-twisted). *Needs:* §§3.3, 5.1, 5.2;
+Tau Ceti `TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`, `TauCeti.ValidLieTypeIndex.finite`.
 
-5. **Complete conjugacy data.** Consume native `TauCeti.ClassData`, whose actual representative
-   list, pairwise nonconjugacy proof and coverage proof already give numbered classes, the
-   conjugacy criterion, and `numClasses_eq_card_conjClasses`. Do not create a second
-   conjugacy-class certificate carrier. Extend the presentation/action tools with sound
-   compressed proofs of centralizer orders and pairwise nonconjugacy. For a finite group and
-   a pairwise nonconjugate list, prove the useful exhaustion criterion: if the sum of the
-   actual centralizer indices of its representatives is the group order, their classes cover
-   the group. Derive it from orbit-stabilizer, disjointness and finite cardinalities; certify
-   the group order and each centralizer separately before applying it. Construct native
-   `ClassData` from these proofs and prove transport of its representative list across a
-   `MulEquiv`, agreeing with native `MulEquiv.conjClassesEquiv`. Supply representative,
-   class-size, inverse and power-map comparison lemmas. Counts attached to unverified rows,
-   or a class-data structure whose coverage field is assumed rather than proved, do not
-   certify a named example. The existing prime-order coverage in the simplicity checker is
-   weaker than a complete conjugacy classification and must not be reused as one.
+### Examples
 
-At the shared permutation interface retain Mathlib's `(σ * τ) x = σ (τ x)` convention.
-Use the signed-word left fold `acc * letter`; prove the source right-action/left-to-right
-dictionary, including inverse and conjugation conventions, rather than silently reusing a
-source word. Prove the soundness of the stabilizer-chain order and membership certificates that
-items 2–3 use for finite permutation groups from the SporadicOrders theorems: a certificate the
-checker accepts on a generating list yields the order of the generated permutation group (its
-§0.1 order formula along a base, with the basic orbits from §0.2) and the membership of a given
-permutation (its §0.3 criterion along a base); no kernel-checker library is a supplier. Reuse the
-shared orbit/primitivity word witnesses of CertifiedPermutationComputation §2.2. Additional
-matrix-local and presented-group normal-form,
-coset, Tietze and normal-generation checkers live here with explicit soundness proofs; a
-finite-image chain is not a presentation upper-bound certificate. No randomized complexity
-programme or Jordan theorem is required for these deterministic mathematical certificates.
+`Sz(8)` (order 29120), `²G₂(27)`, `²F₄(8)` and the Tits group `²F₄(2)′` are the smallest cases of
+the four half-Frobenius constructors.
 
-The verifier library should prove round-trip and transport lemmas for presentations, relator
-maps, quotient maps, and the actual actions used, agreeing with those shared interfaces. Avoid a private “sporadic certificate” axiom or a tactic whose
-kernel-visible result omits the mathematical check.
+### Dependencies
 
-## P1–P2: every sporadic presentation
+Layers 1–4; Tau Ceti's Suzuki theorem and Lie-type finiteness.
 
-For each name `s`, prove `Finite s.Group` and `IsSimpleGroup s.Group` for the *transcribed*
-presentation, and prove its standard [ATLAS](https://brauer.maths.qmul.ac.uk/Atlas/v3/spor/)
-order as an additional check on the presentation and recognition map. State the finite-order
-theorem by `Nat.card`; the order is not a constructor field or an assumption. The uniform
-statements are `sporadicName_finite`, `sporadicName_isSimpleGroup` and `sporadicName_card`, the
-last against the table `sporadicOrder` of the twenty-six ATLAS orders. Record an explicit
-certificate or a proved structural argument for each name in its own module, then assemble the
-uniform results by cases on `SporadicName`.
+## Layer 6: the fourteen sporadic groups with existing permutation models (P1)
 
-P1 covers the fourteen names `M11`, `M12`, `M22`, `M23`, `M24`, `J1`, `J2`, `HS`,
-`McL`, `Co2`, `Co3`, `Suz`, `Fi22`, and `He`. Split its model ownership as follows.
+### 6.1 The order table
 
-- For `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, consume the **canonical** named ATLAS
-  permutation carriers, orders and presentation-surjection/generation maps from
-  [SporadicOrders O1/O2][sporadic-orders]. Prove the additional upper bounds on the exact
-  presented groups and turn those particular surjections into `MulEquiv`s. Do not redefine
-  the ten carriers from a second set of ported generators.
-- For `Co2 Suz Fi22 He`, this roadmap owns the remaining permutation-model definitions,
-  orders, presentation maps/upper bounds and recognition. Select the defining permutation
-  data and constructive proofs of [FiniteSimpleGroups](https://github.com/KitaKen1/finite-simple-groups-lean),
-  with the source commit and numbering recorded in each module. Follow the
-  [porting and licence rules](../../README.md#porting-existing-work).
-- For all fourteen, port or rebuild the external constructive simplicity proof and supply
-  an explicit carrier equivalence to the selected canonical model. When its generators or
-  action differ, give forward and recovery words and the equivariant action comparison;
-  equal orders or a shared group name are insufficient. Transport simplicity only after
-  recognition. These inputs do not identify Golay automorphisms or Leech stabilizers without
-  the action-specific P2-L comparisons below.
+Define `sporadicOrder : TauCeti.SporadicName → ℕ` as the table of the twenty-six orders listed in
+the [ATLAS of Finite Group Representations](https://brauer.maths.qmul.ac.uk/Atlas/v3/spor/). For
+each name `s` the targets are `Finite s.Group`, `IsSimpleGroup s.Group` and
+`Nat.card s.Group = sporadicOrder s` for the transcribed presentation; the order is a check on the
+presentation and on the recognition map. Each name's certificate or structural argument lives in
+its own module, and the uniform theorems are assembled by cases in §10.5. *Needs:* Tau Ceti
+`TauCeti.SporadicName`.
 
-P2 covers the other twelve names, with the same `Finite`, `Nat.card`, and `IsSimpleGroup`
-deliverables: `J3`, `J4`, `Ru`, `ONan`, `Co1`, `Fi23`, `Fi24Prime`, `HN`, `Ly`, `Th`, `B`, and `M`.
+**Checks.**
+- Each entry equals its prime factorization: `|M₁₁| = 2⁴·3²·5·11 = 7920`,
+  `|J₄| = 2²¹·3³·5·7·11³·23·29·31·37·43`, `|B| = 2⁴¹·3¹³·5⁶·7²·11·13·17·19·23·31·47` and
+  `|M| = 2⁴⁶·3²⁰·5⁹·7⁶·11²·13³·17·19·23·29·31·41·47·59·71`; `41` divides `|M|` and not `|B|`.
+- The entry for `Fi24Prime` is `|Fi₂₄′| = 1255205709190661721292800`, half the order of the full
+  Fischer group `Fi₂₄`, which is the presented parent group of §7.7.
 
-For each name, construct a finite realization independently of its presentation, check the
-exact presentation-to-realization map, certify an upper bound for the presented group,
-and prove simplicity of the realization. Use P0's checked certificate interfaces, with
-compressed words and local structures for the large cases.
+### 6.2 The ten names with SporadicOrders models
 
-| P2 item | Depends on | Deliverable |
-| --- | --- | --- |
-| P2-N: nine presentation models | P0, P1, T1–T3 | the nine construction, recognition, and simplicity certificates below |
-| P2-L: Leech and Conway bridges | P0, P1 Mathieu/Co2 models, Rank24LatticeConstructions Layer 6, canonical Golay code | identified code and lattice actions, Co1 recognition, mod-two module and Co2 stabilizer |
-| P2-G: local Monster representations | P2-L | the specified local subgroups, their common representation, and triality |
-| P2-M: Monster and Baby Monster models | P2-G | finite models, actual axis stabilizers, orders, and simplicity |
-| P2-D: central-extension theorem | P2-M | no perfect central double cover of the constructed Monster |
-| P2-R: Monster and Baby Monster recognition | P0, P2-M, P2-D | equivalences from the two exact Tau Ceti presentations |
+For `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, consume the canonical ATLAS permutation carriers, their
+orders and the surjections from the presented groups of SporadicOrders Layers 1–2. Seven of these
+carriers are in Tau Ceti, built from the same ATLAS files, with their surjections:
+`TauCeti.Sporadic.exists_surjective_M11`, `TauCeti.Sporadic.exists_surjective_M12`,
+`TauCeti.Sporadic.exists_surjective_M24`, `TauCeti.Sporadic.exists_surjective_J1`,
+`TauCeti.Sporadic.exists_surjective_J2`, `TauCeti.Sporadic.exists_surjective_HS` and
+`TauCeti.Sporadic.exists_surjective_McL`; `TauCeti.Sporadic.card_M11` is the order 7920 of the
+`M11` carrier. Prove the upper bounds on the exact presented groups (§4.2) and turn those
+surjections into `MulEquiv`s (§4.3). The ten carriers are not redefined from a second set of
+generators. *Needs:* §§4.2–4.3; SporadicOrders §§1.1–1.2, 2.2; Tau Ceti the seven surjections above
+and `TauCeti.Sporadic.card_M11`.
 
-### P2-N: construction and recognition of the other nine sporadics
+### 6.3 The four further models
 
-For each row, let `P` be the **exact** Tau Ceti presentation named below and let `G` be the
-subgroup generated by the selected finite permutations or matrices. Prove an explicit `P.Group
-≃* G`, then transport finiteness, order, and simplicity. Representation data define finite
-candidates; their ATLAS names do not prove their orders or identify the abstract presentations.
-[C][src-c], [A][src-a]
+For `Co2 Suz Fi22 He`, define the permutation models, prove their orders, the presentation maps, the
+upper bounds and the recognition. Select the defining permutation data and the constructive proofs
+of [FiniteSimpleGroups](https://github.com/KitaKen1/finite-simple-groups-lean), recording the source
+commit and numbering in each module, under the
+[porting and licence rules](../../README.md#porting-existing-work). *Needs:* §§4.2–4.5.
 
-The construction has four separately checked parts:
+### 6.4 Simplicity of the fourteen
 
-1. Pin the representation files, their field and multiplication convention. Supply a word for
-   every presentation generator in the model generators and words recovering the model
-   generators. Check every recorded relator. This gives a surjection `P.Group → G`.
-2. Bound a **word-defined subgroup of `P.Group`** by a proved finite presentation or normal
-   form. Certify its index using deductions from the original relators. A permutation action
-   satisfying the relators does not certify this index: its point stabilizer may contain an
-   unaccounted kernel.
-3. Prove the model order independently with checked stabilizer chains or finite local structures
-   and orbit counts. Match this lower bound with the presentation upper bound.
-4. Prove nontriviality and the selected simplicity certificate described below. None of these
-   steps assumes CFSG or a database simplicity assertion.
+For all fourteen names, port or rebuild an external constructive simplicity proof and supply an
+explicit carrier equivalence to the selected model. When the generators or the action differ, give
+forward and recovery words and the equivariant comparison of the actions; equal orders or a shared
+group name are insufficient. Transport simplicity only after recognition. These inputs do not
+identify Golay automorphisms or Leech stabilizers; those comparisons are §§8.1 and 8.4. *Needs:*
+§§4.4, 6.2–6.3.
 
-| Carrier and exact presentation | Concrete finite realization and presentation bridge | Presentation upper-bound target |
-| --- | --- | --- |
-| **J3**, `j3Presentation`, eight relators on `a,b` | Generate `G ≤ Sym(6156)` with [J3G1-p6156B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/J3G1-p6156B0) standard permutations. Map the recorded `a,b` directly to these generators, checking the eight words in ATLAS `J3G1-P1.M`, including its source commutator convention. [J3][src-j3] | Put `K = ⟨ab⟩ ≤ P`. The recorded relation gives `\|K\| ≤ 19`. Check the published enumeration over **these exact words** with index at most **2,643,840**. Thus `\|P\| ≤ 50,232,960`. The 6,156-point model order is an independent stabilizer-chain certificate. This selects a documented bounded enumeration, without needing an unproved presentation of a maximal subgroup. [J3][src-j3] |
-| **J4**, `j4Presentation`, twelve relators on `x,y,t` | Generate `G ≤ GL(112,2)` with [J4G1-f2r112B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/J4G1-f2r112B0), convert its type-I pair to the source's type-II triple, and certify both directions of generation. Identify the subgroup on the source words `M2` below with `C_G(t)`. [J4][src-j4] | Bound the corresponding subgroup `H ≤ P` by **21,799,895,040**, using its `2^(1+12)·3·M22·2` structure, then prove `[P:H] ≤ 3,980,549,947`. The selected architecture is the source's involution-centralizer double-coset argument. Its required compressed transition certificate is specified below; its concrete double-coset data remain a separate construction target. [J4][src-j4] |
-| **Ru**, `ruPresentation`, twelve relators on `u,v,t` | Generate `G ≤ Sym(4060)` with [RuG1-p4060B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/RuG1-p4060B0). Supply the dictionary from Soicher's `u,v,t` to the standard pair, checking the exact `tcenum` words and implicit relations `v²=t²=1`. Use Bradley–Curtis–Malik's symmetric construction for the dictionary and subgroup presentation; prove the Tietze bridge to the exact artifact. [Ru][src-ru] | Use the subgroup specified in the artifact's third field, on `t,u,w` with `w` decoded below. Prove its order at most **35,942,400**, through a complete presentation of **the full `²F₄(2)`**, and certify index at most **4,060**. Derive all subgroup relators from the twelve Tau Ceti relators; do not replace `²F₄(2)` by its index-two Tits subgroup. The subgroup presentation and exact dictionary are construction targets. [Ru][src-ru], [A][src-a] |
-| **O’Nan**, `onanPresentation`, 29 relators on `a,…,g` | Generate `G ≤ Sym(122760)` with [ONG1-p122760aB0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/ONG1-p122760aB0). Construct seven words giving the GPL diagram generators, and recovery words for the standard pair. Check the Coxeter path `a3b3c8d3e3f` and all eight additional relations, including GPL's equality convention. [ON][src-on] | Put `H = ⟨a,b,c,d,e,f⟩ ≤ P`. Certify index at most **122,760** and derive a finite presentation bounding `H` by `L₃(7):2`, of order **3,753,792**. The bare six-generator Coxeter subpresentation does not supply this bound: the target includes all additional subgroup relators deduced using `g`. Include the subgroup-presentation derivation in this milestone. [ON][src-on] |
-| **Fi23**, `fi23Presentation`, 57 relators on `a,…,j` | Generate `G ≤ Sym(31671)` with [F23G1-p31671B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/F23G1-p31671B0). Construct the ten GPL involutions as words in the standard pair and recovery words. Check the Coxeter diagram and both appended words `(dcbdefdhi)^10`, `(abcdefh)^9`. [F23][src-f23] | Put `H = ⟨a,…,i⟩ ≤ P`; certify index at most **31,671**. Prove `\|H\| ≤ 129,123,503,308,800` from a complete presentation of the **double cover `2·Fi22`**, with a central subgroup of order at most two and quotient of order at most `\|Fi22\|`. A simplicity/order theorem for `Fi22` alone is insufficient. Construct the central word, prove centrality and its square relation, and prove the quotient-presentation bridge. [F23][src-f23] |
-| **Fi24′**, `fi24PrimePresentation`, eleven Schreier generators and 136 relators | Select `Q ≤ Sym(306936)` from the **parent** representation [F24d2G1-p306936B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/F24d2G1-p306936B0); set `G = [Q,Q]`. Construct the twelve parent involutions as words in its standard pair and prove generation. Recognize the 80-relator parent `P₀ = Fi24AutomorphismGroup` first. Transport commutator subgroups through `P₀ ≃* Q` and reuse `fi24PrimeGroupMulEquivCommutator`; retain `al`. [F24][src-f24], [C][src-c] | In `P₀`, use `M = ⟨a,b,c,d,e,f,g,h,i,j,l⟩`, index at most **306,936**. Prove `\|M\| ≤ 2\|Fi23\|` by the `Fi23 × C₂` decomposition described below. Then `\|P₀\| ≤ 2\|Fi24′\|`. Certify the model's parent order and derived index two; parity is already the commutator kernel of the abstract parent. This follows the subgroup named in Kim–Michler Lemma 6.2(a), rather than assuming faithfulness from `CosetAction`. [F24][src-f24] |
-| **HN**, `hnPresentation`, corrected nineteen relators on `a,b,c,d,t` | Generate `G ≤ GL(133,5)` with [HNG1-f5r133B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/HNG1-f5r133B0). Build the Bray–Curtis five-generator tuple in this model and recovery words. Check the **first** `HNpb.m` presentation, retaining `(ad)²`, the corrected twelfth relator. [HN][src-hn] | Put `H = ⟨a,b,c,d⟩ ≤ P`. Prove `\|H\| ≤ 177,408,000` through the `2·HS:2` presentation and central-extension argument in Bray–Curtis §§3–5. Certify `[P:H] ≤ 1,539,000` using the corrected five-generator presentation. Their published enumeration requires fewer than two million live cosets. Bound the central `C₂`, the `HS` quotient, and the outer factor separately; P1's `HS` theorem does not give the double cover automatically. [HN][src-hn] |
-| **Ly**, `Lyons.presentation`, Havas–Sims six-generator, 53-relator presentation | Generate `G ≤ GL(111,5)` with [LyG1-f5r111B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/LyG1-f5r111B0). Supply the Havas–Sims `a,b,c,d,e,z` as words in the model and recovery words. Certify auxiliary-word substitutions against relations (14.1)–(14.86), retaining `e` and the exact 53 surviving relators. [Ly][src-ly] | Put `H = ⟨a,b,c,d⟩ ≤ P`. Prove `\|H\| ≤ \|G₂(5)\| = 5,859,000,000` from the source's `z`-free presentation, then check index at most **8,835,156**. Prove `\|⟨a,b,c⟩\| ≤ 1,500,000` and its stated index **3,906** in `H`; these give the required upper bound for `H`. Identify `H` with the independently constructed `G₂(5)` model. The exact local-order derivation and matrix dictionary are construction targets. [Ly][src-ly] |
-| **Th**, `Thompson.presentation`, eight generators and 39 relators in six source blocks | Generate `G ≤ GL(248,2)` with [ThG1-f2r248B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/ThG1-f2r248B0). Construct the Havas–Soicher–Wilson eight-generator tuple by §4 and certify recovery of the standard pair. Check every equation, commutator and conjugation in source blocks (1)–(6). [Th][src-th] | Let `U=⟨a,b,c,d,e⟩`, `D=⟨U,s⟩`, `H=⟨D,t⟩`. Prove `\|U\| ≤ 12,096`, `[D:U] ≤ 17,472`, `[H:D] ≤ 3`, hence `\|H\| ≤ 634,023,936`. The source's exact global target is `[P:H] ≤ 143,127,000`. Its §5 supplies a successful explicit enumeration; a compact checked replay/normal-form representation of that computation is a separate target, without an assertion that a small certificate exists. [Th][src-th] |
+### Examples
 
-#### Centralizer and parent-group certificates
+`M₁₁`: the presented group maps onto the 11-point model of order 7920 by SporadicOrders §2.2, which
+Tau Ceti's `TauCeti.Sporadic.exists_surjective_M11` and `TauCeti.Sporadic.card_M11` supply; an upper
+bound `|P| ≤ 7920` from §4.2 makes that map a `MulEquiv`, and the model's simplicity transfers.
 
-For J4, use the source's exact subgroup words, evaluated both in `P` and in the matrix candidate:
+### Dependencies
+
+Layer 4; SporadicOrders Layers 1–2; FiniteSimpleGroups as a cited source.
+
+## Layer 7: nine sporadic groups by permutation and matrix models (P2-N)
+
+### 7.1 The construction scheme
+
+For each of `J3 J4 Ru ONan Fi23 Fi24Prime HN Ly Th`, let `P` be the exact Tau Ceti presentation named
+in its section and `G` the subgroup generated by the selected finite permutations or matrices. Prove
+an explicit `P.Group ≃* G` and transport finiteness, order and simplicity. Representation data
+define finite candidates; their ATLAS names do not prove their orders or identify the abstract
+presentations ([C][src-c], [A][src-a]). Each construction has four separately checked parts.
+
+1. Pin the representation files, their field and their multiplication convention. Supply a word for
+   every presentation generator in the model generators and words recovering the model generators.
+   Check every recorded relator. This gives a surjection `P.Group → G`.
+2. Bound a word-defined subgroup of `P.Group` by a proved finite presentation or normal form, and
+   certify its index by deductions from the original relators (§4.2).
+3. Prove the model order independently, by stabilizer chains or finite local structures and orbit
+   counts (§4.4), and match this lower bound with the presentation upper bound (§4.3).
+4. Prove nontriviality and the simplicity certificate of §7.11. None of these steps assumes CFSG or
+   a database simplicity assertion.
+
+*Needs:* Layer 4.
+
+### 7.2 J3
+
+`P = TauCeti.Sporadic.j3Presentation`, eight relators on `a, b`. Generate `G ≤ Sym(6156)` with the
+standard permutations of
+[J3G1-p6156B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/J3G1-p6156B0), mapping the recorded
+`a, b` to them and checking the eight words of ATLAS `J3G1-P1.M`, including its commutator
+convention. Put `K = ⟨ab⟩ ≤ P`; the recorded relation gives `|K| ≤ 19`. Check the published
+enumeration over these exact words with index at most 2,643,840, so `|P| ≤ 50,232,960`; the model
+order is an independent stabilizer-chain certificate. This uses a documented bounded enumeration and
+no unproved presentation of a maximal subgroup ([J3][src-j3]). *Needs:* §7.1.
+
+**Checks.**
+- `19 · 2643840 = 50232960 = |J₃|`.
+
+### 7.3 J4
+
+`P = TauCeti.Sporadic.j4Presentation`, twelve relators on `x, y, t`. Generate `G ≤ GL(112, 2)` with
+[J4G1-f2r112B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/J4G1-f2r112B0), convert its type-I
+pair to the source's type-II triple, and certify generation in both directions. The upper bound
+follows the source's involution-centralizer double-coset argument ([J4][src-j4]).
+
+Evaluate the source's subgroup words both in `P` and in `G`:
 
 ```text
 q = yxy (xy⁻¹)² (xy)³
 H = ⟨t, x, q, t^(xyxy⁻¹xy), t^(xyxy⁻¹)⟩.
 ```
 
-First prove `H ≤ C_P(t)`. Give an order bound through a normal subgroup `E` of order at most
-`2^13`, with extraspecial commutator form, and quotient of order at most `3·|M22|·2`; give the
-word maps and collection rules for the central triple cover and outer involution. Independently,
-in the matrix candidate, prove `t ≠ 1`, the corresponding subgroup has order **21,799,895,040**,
-and equals `C_G(t)`. A group of the expected shape elsewhere does not identify this centralizer.
-[J4][src-j4]
+First prove `H ≤ C_P(t)`. Bound `|H| ≤ 21,799,895,040` through its `2^(1+12)·3·M22·2` structure: a
+normal subgroup `E` of order at most `2^13` with extraspecial commutator form and quotient of order
+at most `3·|M22|·2`, with the word maps and collection rules for the central triple cover and the
+outer involution. Independently, in `G`, prove `t ≠ 1`, that the corresponding subgroup has order
+exactly 21,799,895,040, and that it equals `C_G(t)`; a group of the expected shape elsewhere does not
+identify this centralizer.
 
-The double-coset certificate must provide representatives `wᵢ`, intersections `H ∩ wᵢ⁻¹Hwᵢ`,
-their indices in `H`, and a rewrite for multiplication by each of `x,y,t` on each parametrized
-coset block. Every rewrite is justified from the twelve defining relations and the subgroup
-normal forms. Closure and inclusion of the identity must imply that the blocks cover **all words
-in `P`**, with total number of right cosets at most **3,980,549,947**. Counting double cosets in
-the matrix image proves only a lower-bound model fact. Construct the double-coset
-representatives and transition data, and prove the checker sound from the exact presentation.
+Then prove `[P : H] ≤ 3,980,549,947` by a double-coset cover: representatives `wᵢ`, the
+intersections `H ∩ wᵢ⁻¹ H wᵢ`, their indices in `H`, and a rewrite for multiplication by each of
+`x, y, t` on each parametrized block of cosets, each rewrite justified from the twelve relators and
+the subgroup normal forms. Closure and inclusion of the identity imply that the blocks cover all of
+`P`, with at most 3,980,549,947 right cosets. Counting double cosets in the matrix image proves only
+a lower bound. Construct the representatives and transition data and prove the cover sound from the
+exact presentation (Bolt–Bray–Curtis, §5). *Needs:* §§4.1–4.3, 7.1.
 
-For Ru, the third `tcenum` field is `t,u,((uvu)-tuvuvtv[t,u]2vtv)2`. Decode it with the pinned parser, producing
+**Checks.**
+- `2¹³ · 3 · 443520 · 2 = 21799895040` and `21799895040 · 3980549947 = |J₄|`.
+
+### 7.4 Ru
+
+`P = TauCeti.Sporadic.ruPresentation`, twelve relators on `u, v, t`. Generate `G ≤ Sym(4060)` with
+[RuG1-p4060B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/RuG1-p4060B0), and supply the
+dictionary from Soicher's `u, v, t` to the standard pair, checking the exact `tcenum` words and the
+implicit relations `v² = t² = 1`. Use the symmetric construction of Bradley–Curtis–Malik for the
+dictionary and the subgroup presentation, and prove the Tietze bridge to the exact artifact.
+
+The third `tcenum` field is `t,u,((uvu)-tuvuvtv[t,u]2vtv)2`; decoded with the pinned parser, it gives
+the subgroup generators (not extra relators)
 
 ```text
 w = ((uvu)⁻¹ t u v u v t v [t,u]² v t v)²,
 H = ⟨t,u,w⟩,       [t,u] = t⁻¹u⁻¹tu.
 ```
 
-These are subgroup generators, not extra relators. Prove the dictionary between this `H` and the
-`²F₄(2)` subgroup in the symmetric construction before using the index 4,060. [Ru][src-ru]
+Prove `|H| ≤ 35,942,400` through a complete presentation of the full `²F₄(2)`, every subgroup relator
+derived from the twelve relators of `P`, and certify `[P : H] ≤ 4,060`; the index-two Tits subgroup
+does not replace `²F₄(2)`. Prove the dictionary between this `H` and the `²F₄(2)` subgroup of the
+symmetric construction before using the index ([Ru][src-ru], [A][src-a]). *Needs:* §§4.1–4.3, 7.1.
 
-For Fi24, `l` commutes with each of `a,…,j`, and `l=(abcdefh)^9`. Set `A=al, B=bl, …, J=jl`.
-Construct a surjection from the **exact Fi23 presentation** to `⟨A,…,J⟩`: check every relation,
-particularly `(ABCDEFH)^9=1`. To obtain the remaining relation `(DCBDEFDHI)^10=1`, derive
-`(dcbdefdhi)^10=1` from the Fi24 parent relators; it is not among those relators literally.
-Prove that `M=⟨A,…,J,l⟩`, `l²=1`, and `l` centralizes `⟨A,…,J⟩`. This yields `|M|≤2|Fi23|`.
-Certify the index 306,936 using all eighty parent relators, including the order-seventeen word.
-[F23][src-f23], [F24][src-f24]
+**Checks.**
+- `35942400 · 4060 = 145926144000 = |Ru|`; with the Tits subgroup's order 17971200 the product is
+  half of `|Ru|`, below the model's order.
 
-The derived-carrier comparison uses the existing maps on `ab,ac,…,ak,al`, not a new presentation
-that silently eliminates `al`. Prove the model parity map corresponds to the abstract parity
-map, and identify its kernel with `[Q,Q]`. The required order is
-**1,255,205,709,190,661,721,292,800**. [F24][src-f24]
+### 7.5 O’Nan
 
-#### Simplicity certificates and local data
+`P = TauCeti.Sporadic.onanPresentation`, 29 relators on `a, …, g`. Generate `G ≤ Sym(122760)` with
+[ONG1-p122760aB0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/ONG1-p122760aB0); construct seven
+words giving the diagram generators of the Group Presentations Library and recovery words for the
+standard pair, and check the Coxeter path `a3b3c8d3e3f` and all eight additional relations,
+including that library's equality convention. Put `H = ⟨a, b, c, d, e, f⟩ ≤ P`; certify index at
+most 122,760 and derive a finite presentation bounding `H` by `L₃(7):2`, of order 3,753,792. The bare
+six-generator Coxeter subpresentation does not give this bound: the derivation includes the
+additional subgroup relators deduced using `g` ([ON][src-on]). *Needs:* §§4.1–4.3, 7.1.
 
-Select P0's **prime-order normal-generation criterion** for all nine finite candidates. Supply,
-for each prime `p` dividing the certified order, a word-generated subgroup `Sₚ ≤ G` with a
-checked normal form and order exactly `p^vₚ(|G|)`. Sylow conjugacy then reduces coverage to
-elements of order `p` inside these local subgroups. Partition those elements into explicitly
-parametrized local families and give conjugating words taking each family to named prime-order
-representatives. No ATLAS class label is accepted as a coverage proof.
+**Checks.**
+- `|L₃(7)| = 7³(7² − 1)(7³ − 1)/3 = 1876896`, so `|L₃(7):2| = 3753792`, and
+  `3753792 · 122760 = 460815505920 = |O’N|`.
 
-For every representative `r`, express every model generator as a product of conjugates of `r`
-and `r⁻¹`, checked in the finite model. These words certify that its normal closure is `G`.
-Together with nontriviality and Sylow coverage they prove simplicity. The local collection
-rules, coverage families, fusion words, and normal-generation words are distinct deliverables;
-merely running a simplicity command supplies none of them.
+### 7.6 Fi23
 
-| Candidate | Required Sylow primes | Local inputs to connect to the construction |
+`P = TauCeti.Sporadic.fi23Presentation`, 57 relators on `a, …, j`. Generate `G ≤ Sym(31671)` with
+[F23G1-p31671B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/F23G1-p31671B0); construct the ten
+involutions of the Group Presentations Library as words in the standard pair and recovery words, and
+check the Coxeter diagram and both appended words `(dcbdefdhi)^10` and `(abcdefh)^9`. Put
+`H = ⟨a, …, i⟩ ≤ P` and certify index at most 31,671. Prove `|H| ≤ 129,123,503,308,800` from a
+complete presentation of the double cover `2·Fi22`: construct the central word, prove that it is
+central with square `1`, and prove the bridge to a presentation of the quotient of order at most
+`|Fi22|`. An order or simplicity theorem for `Fi22` alone does not bound `H` ([F23][src-f23]).
+*Needs:* §§4.1–4.3, 6.3, 7.1.
+
+**Checks.**
+- `2 · |Fi₂₂| = 129123503308800` and `129123503308800 · 31671 = |Fi₂₃|`; bounding `H` by `|Fi₂₂|`
+  would give half of `|Fi₂₃|`, below the model's order.
+
+### 7.7 Fi24′
+
+`P = TauCeti.Sporadic.fi24PrimePresentation`, eleven Schreier generators and 136 relators, which Tau
+Ceti identifies with the commutator subgroup of the 80-relator parent
+`P₀ = TauCeti.Sporadic.Fi24AutomorphismGroup` by
+`TauCeti.Sporadic.fi24PrimeGroupMulEquivCommutator`. Select `Q ≤ Sym(306936)` from the parent
+representation
+[F24d2G1-p306936B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/permrep/F24d2G1-p306936B0) and set
+`G = [Q, Q]`. Construct the twelve parent involutions as words in its standard pair and prove
+generation. Recognize `P₀ ≃* Q` first, then transport commutator subgroups through it, retaining
+the generator `al`.
+
+In `P₀`, `l` commutes with each of `a, …, j`, and `l = (abcdefh)^9`. Set `A = al, B = bl, …, J = jl`.
+Construct a surjection from the exact Fi23 presentation onto `⟨A, …, J⟩`, checking every relation,
+in particular `(ABCDEFH)^9 = 1`; the relation `(DCBDEFDHI)^10 = 1` needs `(dcbdefdhi)^10 = 1`, which
+is derived from the parent relators and is not literally among them. Prove that
+`M = ⟨A, …, J, l⟩ = ⟨a, b, c, d, e, f, g, h, i, j, l⟩`, that `l² = 1` and that `l` centralizes
+`⟨A, …, J⟩`, so `|M| ≤ 2|Fi23|`. Certify `[P₀ : M] ≤ 306,936` using all eighty parent relators,
+including the order-seventeen word, so `|P₀| ≤ 2|Fi24′|`; this is the subgroup of Kim–Michler,
+Lemma 6.2(a), and no faithfulness of a coset action is assumed. Certify the model's parent order and
+its derived subgroup of index two; parity is the commutator kernel of the abstract parent. The
+comparison of the derived carriers uses the existing maps on `ab, ac, …, ak, al`, not a new
+presentation that eliminates `al`: prove that the model's parity map corresponds to the abstract
+parity map and identify its kernel with `[Q, Q]`. The order of `G` is
+1,255,205,709,190,661,721,292,800 ([F24][src-f24], [F23][src-f23], [C][src-c]). *Needs:* §§4.1–4.3,
+7.1, 7.6; Tau Ceti `TauCeti.Sporadic.Fi24AutomorphismGroup`,
+`TauCeti.Sporadic.fi24PrimeGroupMulEquivCommutator`.
+
+**Checks.**
+- `2 · |Fi₂₃| · 306936 = 2 · |Fi₂₄′|`, the order of the parent `Fi₂₄`.
+
+### 7.8 HN
+
+`P = TauCeti.Sporadic.hnPresentation`, the corrected nineteen relators on `a, b, c, d, t`. Generate
+`G ≤ GL(133, 5)` with [HNG1-f5r133B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/HNG1-f5r133B0),
+build the five-generator tuple of Bray–Curtis in this model and recovery words, and check the first
+presentation of `HNpb.m`, retaining `(ad)²`, the corrected twelfth relator. Put
+`H = ⟨a, b, c, d⟩ ≤ P`. Prove `|H| ≤ 177,408,000` through the `2·HS:2` presentation and the
+central-extension argument of Bray–Curtis §§3–5, bounding the central `C₂`, the `HS` quotient and the
+outer factor separately; the `HS` theorem of §6.4 does not give the double cover. Certify
+`[P : H] ≤ 1,539,000` with the corrected five-generator presentation; the published enumeration needs
+fewer than two million live cosets ([HN][src-hn]). *Needs:* §§4.1–4.3, 6.4, 7.1.
+
+**Checks.**
+- `4 · |HS| = 177408000` and `177408000 · 1539000 = 273030912000000 = |HN|`.
+
+### 7.9 Ly
+
+`P = TauCeti.Sporadic.Lyons.presentation`, the Havas–Sims six-generator presentation with 53
+relators. Generate `G ≤ GL(111, 5)` with
+[LyG1-f5r111B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/LyG1-f5r111B0); supply the
+Havas–Sims `a, b, c, d, e, z` as words in the model and recovery words, and certify the
+auxiliary-word substitutions against relations (14.1)–(14.86), retaining `e` and the exact 53
+surviving relators. Put `H = ⟨a, b, c, d⟩ ≤ P`. Prove `|⟨a, b, c⟩| ≤ 1,500,000` and its index at most
+3,906 in `H`, hence `|H| ≤ |G₂(5)| = 5,859,000,000` from the source's `z`-free presentation, and identify
+`H` with an independently constructed `G₂(5)` model; then check `[P : H] ≤ 8,835,156`
+([Ly][src-ly]). *Needs:* §§4.1–4.3, 7.1.
+
+**Checks.**
+- `1500000 · 3906 = 5859000000 = 5⁶(5⁶ − 1)(5² − 1) = |G₂(5)|` and
+  `5859000000 · 8835156 = 51765179004000000 = |Ly|`.
+
+### 7.10 Th
+
+`P = TauCeti.Sporadic.Thompson.presentation`, eight generators and 39 relators in six source blocks.
+Generate `G ≤ GL(248, 2)` with
+[ThG1-f2r248B0](https://brauer.maths.qmul.ac.uk/Atlas/v3/matrep/ThG1-f2r248B0); construct the
+eight-generator tuple of Havas–Soicher–Wilson by their §4 and certify recovery of the standard pair;
+check every equation, commutator and conjugation of source blocks (1)–(6). Let
+`U = ⟨a, b, c, d, e⟩`, `D = ⟨U, s⟩`, `H = ⟨D, t⟩`. Prove `|U| ≤ 12,096`, `[D : U] ≤ 17,472` and
+`[H : D] ≤ 3`, hence `|H| ≤ 634,023,936`. Prove `[P : H] ≤ 143,127,000`, the source's global target;
+its §5 records a successful explicit enumeration, and the proof needs a checked representation of
+that enumeration in the sense of §4.2, whatever its size ([Th][src-th]). *Needs:* §§4.1–4.3, 7.1.
+
+**Checks.**
+- `12096 · 17472 · 3 = 634023936 = 3 · |³D₄(2)|` and `634023936 · 143127000 = |Th|`.
+
+### 7.11 Simplicity certificates and local data
+
+Use the prime-order normal-generation criterion of §4.4 for all nine candidates. For each prime `p`
+dividing the certified order, supply a word-generated subgroup `S_p ≤ G` with a checked normal form
+and order exactly `p^{v_p(|G|)}`; Sylow conjugacy then reduces coverage to the elements of order `p`
+in these subgroups. Partition those elements into explicitly parametrized local families and give
+conjugating words taking each family to named prime-order representatives; no ATLAS class label is a
+coverage proof. For every representative `r`, express every model generator as a product of
+conjugates of `r` and `r⁻¹`, checked in the model; these words certify that the normal closure of
+`r` is `G`. The local collection rules, coverage families, fusion words and normal-generation words
+are separate deliverables; running a simplicity command supplies none of them. For the large matrix
+candidates, build these certificates through the named local groups and compressed words, never by
+enumerating the group.
+
+| Candidate | Sylow primes | Local inputs connected to the construction |
 | --- | --- | --- |
-| J3 | 2, 3, 5, 17, 19 | 6,156-point stabilizer chain; the source's explicit `C_G(a)` words and its `2^(1+4):A5` structure can supply the Sylow-2 data. [J3][src-j3] |
-| J4 | 2, 3, 5, 7, 11, 23, 29, 31, 37, 43 | The certified `C_G(t)` supplies Sylow-2 data; supply the missing prime-local groups, fusion and normal-generation certificates in the 112-dimensional model. [J4][src-j4], [A][src-a] |
-| Ru | 2, 3, 5, 7, 13, 29 | The identified full `²F₄(2)` point stabilizer, rank-three suborbits `1,1755,2304`, and the remaining prime-local subgroups. Primitivity of this action alone is not the selected simplicity proof. [Ru][src-ru], [A][src-a] |
-| O’Nan | 2, 3, 5, 7, 11, 19, 31 | The identified `L₃(7):2` point stabilizer and suborbits `1,5586,6384,52136,58653`; certify additional Sylow groups where its order lacks the full prime part. [ON][src-on] |
-| Fi23 | 2, 3, 5, 7, 11, 13, 17, 23 | The actual `2·Fi22` stabilizer, rank-three suborbits `1,3510,28160`, and Sylow groups of the full model. [F23][src-f23] |
-| Fi24′ | 2, 3, 5, 7, 11, 13, 17, 23, 29 | Perform coverage and normal generation in `[Q,Q]`, with conjugators in that subgroup; use the actual Fi23 stabilizer in its 306,936-point action. Parent-group fusion alone does not prove conjugacy inside the derived group. [F24][src-f24] |
-| HN | 2, 3, 5, 7, 11, 19 | The identified `2·HS:2` subgroup and the source's `A12=⟨a,b,d,d^(cbc),t⟩`, with certified embeddings into the chosen matrix model. [HN][src-hn] |
-| Ly | 2, 3, 5, 7, 11, 31, 37, 67 | The actual `G₂(5)` subgroup, plus Sylow and fusion data for prime parts not contained there. [Ly][src-ly], [A][src-a] |
-| Th | 2, 3, 5, 7, 13, 19, 31 | The source's `³D₄(2):3`, and `C_G(a)=⟨a,c,d,e,s,t,u⟩` of shape `2^(1+8)·A9`; its local proof includes the index 61,440 over `⟨d,e,s,t⟩≅L₂(8):3`. [Th][src-th] |
+| J3 | 2, 3, 5, 17, 19 | The 6,156-point stabilizer chain; the source's explicit `C_G(a)` words and its `2^(1+4):A5` structure can supply the Sylow-2 data. [J3][src-j3] |
+| J4 | 2, 3, 5, 7, 11, 23, 29, 31, 37, 43 | The certified `C_G(t)` of §7.3 supplies the Sylow-2 data; the other prime-local groups, fusion and normal-generation certificates are built in the 112-dimensional model. [J4][src-j4], [A][src-a] |
+| Ru | 2, 3, 5, 7, 13, 29 | The identified full `²F₄(2)` point stabilizer, the rank-three suborbits `1, 1755, 2304`, and the remaining prime-local subgroups; primitivity of this action alone is not the simplicity proof. [Ru][src-ru], [A][src-a] |
+| O’Nan | 2, 3, 5, 7, 11, 19, 31 | The identified `L₃(7):2` point stabilizer and suborbits `1, 5586, 6384, 52136, 58653`; additional Sylow groups where its order lacks the full prime part. [ON][src-on] |
+| Fi23 | 2, 3, 5, 7, 11, 13, 17, 23 | The actual `2·Fi22` stabilizer, rank-three suborbits `1, 3510, 28160`, and Sylow groups of the full model. [F23][src-f23] |
+| Fi24′ | 2, 3, 5, 7, 11, 13, 17, 23, 29 | Coverage and normal generation in `[Q, Q]`, with conjugators in that subgroup; the actual Fi23 stabilizer in the 306,936-point action. Fusion in the parent alone does not prove conjugacy in the derived group. [F24][src-f24] |
+| HN | 2, 3, 5, 7, 11, 19 | The identified `2·HS:2` subgroup and the source's `A12 = ⟨a, b, d, d^(cbc), t⟩`, with certified embeddings into the matrix model. [HN][src-hn] |
+| Ly | 2, 3, 5, 7, 11, 31, 37, 67 | The actual `G₂(5)` subgroup, with Sylow and fusion data for the prime parts it does not contain. [Ly][src-ly], [A][src-a] |
+| Th | 2, 3, 5, 7, 13, 19, 31 | The source's `³D₄(2):3`, and `C_G(a) = ⟨a, c, d, e, s, t, u⟩` of shape `2^(1+8)·A9`, whose local proof includes the index 61,440 over `⟨d, e, s, t⟩ ≅ L₂(8):3`. [Th][src-th] |
 
-The prime sets above specify the scope of the local certificates, not completed class or
-normal-generation data. For large matrix candidates, construct these certificates through the
-named local groups and compressed words; do not enumerate the ambient finite group.
+The prime sets fix the scope of the local certificates; the class and normal-generation data are
+constructed here. *Needs:* §4.4; §§7.2–7.10.
 
-### P2-L–P2-R: Conway, Monster, and Baby Monster
+**Checks.**
+- Each prime set is exactly the set of prime divisors of the corresponding order in §6.1; for
+  instance `|J₃| = 2⁷·3⁵·5·17·19`. A set omitting a prime divisor leaves its prime-order
+  elements uncovered.
 
-**P2-L: connect the Golay, Mathieu, and Conway actions.** Fix the extended binary Golay
-code `C` supplied by Layer 5 of
-[AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md), including its coordinate
-numbering. Prove an explicit equivalence between the P1 `M24` model and the full permutation
-automorphism group of `C`, compatible with their actions on the 24 coordinates. If the
-construction uses another Golay matrix, supply the coordinate permutation identifying the
-two codes. The coding roadmap explicitly excludes this Mathieu identification; neither its
-code construction nor P1's abstract order theorem supplies it.
+### Examples
 
-Consume the canonical Leech lattice `Λ` of [Rank24LatticeConstructions Layer 6][rank24],
-on `Ω = Fin 24`, with rational form `B(x,y) = (∑ i, x_i y_i)/2` and
-`Λ = K.ofIsotropicSubgroup(H_s)` from Construction B and its odd shift. Use its rank,
-positive-definiteness, evenness, unimodularity, minimum and congruence API. In particular,
-do not substitute the rootful Golay Construction-A lattice. For the Conway/Griess coordinates,
-construct the explicit coordinate equivalence and form-preserving comparison, including the
-normalization factor; a different displayed norm requires its proved scaling dictionary. Classify **all** minimal vectors from this actual congruence model. In its raw integer
-coordinates `x_i=a_i/2`, of norm `∑a_i²/8`, construct the three exhaustive families:
-two coordinates `±4`; octad-supported eight coordinates `±2` with the sum congruence;
-and one coordinate `±3` with the others `±1`, parametrized by a Golay word and a
-distinguished coordinate. Prove their disjoint counts `1104`, `97152`, `98304`, hence
-196560 minimal vectors. The count alone is also a corollary of the theta identity
-`Θ_Λ = E₄³ − 720Δ` ([ThetaSeries, Layer 8, item 8D](../ThetaSeries/README.md)); the explicit
-families with their sign and congruence data are what the Co0 action needs, and they are owned
-here together with the count they give. The code's weight/rank theorems supply the octad and
-codeword counts; the vector classification and sign/congruence checks belong here, not to the
-minimum-norm theorem alone. Prove the antipodal involution has no fixed point and its
-pair set has cardinality 98280 before using that permutation degree or any orbit count.
-Prove the minimal vectors span the rational ambient space, so that their faithful
-permutation action proves the lattice isometry group `Co0 := Aut(Λ)` finite. Construct
-`Co1 := Co0 / {±1}` and deduce its finiteness by quotient finiteness. The action on
-minimal **vectors** is the Co0 action; `−1` negates those vectors, so it does not descend to
-Co1. Construct the Co1 action on antipodal pairs and prove its kernel statement separately.
-Give the Conway generators of Co0, prove they generate the full lattice-isometry group by
-the lattice/minimal-vector reduction, and compute its order using that actual action.
+For `J3` the four parts are: the eight relators checked on the two 6156-point permutations, the
+bound `|P| ≤ 19 · 2643840`, the stabilizer-chain order `50232960` of the model, and the local
+certificates for the primes `2, 3, 5, 17, 19`.
 
-For Co1 recognition, select the Praeger–Soicher/GPL `Co1.1` eight-involution presentation
-used by native `co1Presentation`, retaining its nine additional relations and alphabetical
-renaming. Construct its generator dictionary with the antipodal-pair action of degree 98280.
-Build a word-defined subgroup of the abstract presentation mapping onto the specified Co2
-point stabilizer, derive a surjection from the **exact** recognized Co2 presentation onto
-that subgroup, and certify a complete right-coset/normal-form cover of index at most 98280.
-This bounds its order by `|Co2|`; the independent lattice orbit/stabilizer calculation gives
-the matching lower bound for Co1. Neither the finite-image stabilizer nor its order alone
-proves those abstract subgroup relations or the coset cover. Construct the subgroup words,
-relation deductions and all coset transitions as P0-checked certificates. Prove Co1
-simplicity by P0's prime-order normal-generation criterion, using local Sylow normal forms
-for primes `2,3,5,7,11,13,23`, complete prime-element coverage/fusion words, and witnesses
-normally generating every canonical model generator. Then transport to the exact presentation. Define the induced action on `V := Λ/2Λ`; prove the required kernel,
-faithfulness, and irreducibility statements for this action over `F₂`. For a specified short
-vector class `λ ∈ V` of type 2 in the Höhn–Seysen conventions, identify
-`Stab_Co1(λ)` with the P1 `Co2` model by an explicit
-`MulEquiv`. Construct the equivariant bijection from antipodal pairs of minimal vectors
-to type-2 classes in `Λ/2Λ`, sending `{v,−v}` to `v + 2Λ`. Prove independence of sign,
-injectivity using the minimum-norm bound, and surjectivity from the definition of type 2.
-Match the Co0 quotient action with the mod-two Co1 action under this bijection, and identify
-its actual stabilizers. An unrelated permutation group of the same order does not provide
-that interface.
+### Dependencies
 
-**P2-G: construct the local representations used by the Monster.** Follow
-[Höhn–Seysen, v1, §2.1](https://arxiv.org/html/2508.01037v1#S2.SS1) and its Conway
-construction to realize `G := Gx0` of shape `2^{1+24}_+.Co1` and `N := N0` of shape
-`2^{2+11+22}.(M24 × S3)` on the same rational Griess algebra. Specify their embeddings,
-their intersection `Nx0` of shape `2^{1+24+11}.M24`, and triality `τ`, with
-`N = ⟨Nx0, τ⟩`. Prove the extraspecial structure of `Q := Qx0`, identify its central
-involution `z`, and give an equivariant identification `Q/⟨z⟩ ≃ Λ/2Λ` for the actual
-`Co1` action from P2-L. Connect the code action to the Parker-loop and `M24` actions used
-in these representations, rather than importing a second, unidentified Mathieu model.
+Layer 4; Layer 6 for `Fi22` and `HS` inputs (§§7.6, 7.8).
 
-Assign the representation and character calculations consumed by §2.1 to this milestone.
-In particular, prove the fixed-space statement in Lemma 2.1, including the restriction of
-the 300-dimensional symmetric-square representation to the identified `Co2`, with
-constituent dimensions `1, 1, 23, 275`. Höhn–Seysen assumes Conway/Leech theory and
-character information for `Co1`, `Co2`, and `M24`; those are prerequisites to formalize for
-these representations, not consequences of P1's order and simplicity theorems.
+## Layer 8: Golay code, Leech lattice and the Conway groups (P2-L)
 
-**P2-M: count the constructed Monster through its actual stabilizers.** Define
-`M_alg := ⟨G, τ⟩`. Prove the axis–involution correspondence of §2.1 and
-`C_M_alg(z) = G` (Theorem 2.9). Choose the paper's short involution `β⁺`, put
-`β⁻ := β⁺ z`, and let `v⁺, v⁻` be their axes. The counting interface is
+### 8.1 The Golay code and M24
+
+Fix the extended binary Golay code `C` of AlgebraicCodingTheory Layer 5, with its coordinate
+numbering. Prove an explicit equivalence between the `M24` model of §6.2 and the full permutation
+automorphism group of `C`, compatible with their actions on the 24 coordinates; if the construction
+uses another Golay matrix, supply the coordinate permutation identifying the two codes. Neither the
+code construction nor the abstract order theorem of §6.2 supplies this identification.
+*Needs:* §6.2; AlgebraicCodingTheory Layer 5.
+
+### 8.2 Minimal vectors of the Leech lattice, Co0 and Co1
+
+Consume the Leech lattice `Λ` of Rank24LatticeConstructions Layer 6, which is Tau Ceti's
+`TauCeti.leechLattice`: on `Ω = Fin 24` with rational form `B(x, y) = (∑ i, x_i y_i)/2` and
+`Λ = K.ofIsotropicSubgroup(H_s)` from Construction B and its odd shift, with its rank,
+positive-definiteness, evenness, unimodularity, minimum and congruence model; the rootful Golay
+Construction-A lattice is not a substitute. For the Conway and Griess coordinates, construct the
+explicit coordinate equivalence and the form-preserving comparison, including the normalization
+factor; a different displayed norm needs its proved scaling dictionary.
+
+The minimal vectors are classified and counted in Tau Ceti. In the raw integer coordinates
+`x_i = a_i/2`, of norm `∑ a_i²/8`, they form three pairwise disjoint families: two coordinates `±4`
+(`TauCeti.leechPairVectors`, 1104 vectors); eight coordinates `±2` on an octad with an even number of
+minus signs (`TauCeti.leechOctadVectors`, 97152 vectors); and one coordinate `±3` with the others
+`±1`, parametrized by a Golay codeword and a distinguished coordinate (`TauCeti.leechOddVectors`,
+98304 vectors). A lattice vector has norm 4 exactly when it lies in one of them
+(`TauCeti.mem_vectorsOfNorm_four_leechLattice_iff`), so `Λ` has 196560 minimal vectors
+(`TauCeti.ncard_vectorsOfNorm_four_leechLattice`). These explicit families, with their sign and
+congruence data, are what the action of `Co0` below uses.
+
+The isometry group `Co0 := Aut(Λ)` is Tau Ceti's
+`TauCeti.IntegralLattice.Isometry TauCeti.leechLattice TauCeti.leechLattice`: the isometries of the
+ambient rational space that carry `Λ` onto itself, a group under composition. It is finite by
+`TauCeti.IntegralLattice.IsPosDef.finite_isometry` applied to `TauCeti.isPosDef_leechLattice`, and
+its element `−1` is `TauCeti.IntegralLattice.Isometry.neg TauCeti.leechLattice`.
+
+Prove that the antipodal involution `v ↦ −v` has no fixed minimal vector and that the set of
+antipodal pairs has 98280 elements, before that degree or any orbit count is used. Prove that the
+minimal vectors span the rational ambient space, so that the permutation action of `Co0` on them is
+faithful. Construct `Co1 := Co0 / {±1}`, finite as a quotient of `Co0`. The action on minimal
+vectors is the action of `Co0`; `−1` negates them, so it does not descend to `Co1`. Construct the
+action of `Co1` on antipodal pairs and prove its kernel statement. Give the Conway generators of
+`Co0`, prove that they generate the full isometry group by the lattice and minimal-vector reduction,
+and compute its order through that action. *Needs:* Rank24LatticeConstructions Layer 6;
+AlgebraicCodingTheory Layer 5; Tau Ceti `TauCeti.leechLattice`, `TauCeti.isPosDef_leechLattice`,
+`TauCeti.IntegralLattice.Isometry`, `TauCeti.IntegralLattice.Isometry.neg`,
+`TauCeti.IntegralLattice.IsPosDef.finite_isometry`, `TauCeti.leechPairVectors`,
+`TauCeti.leechOctadVectors`, `TauCeti.leechOddVectors`,
+`TauCeti.mem_vectorsOfNorm_four_leechLattice_iff`, `TauCeti.ncard_vectorsOfNorm_four_leechLattice`.
+
+**Checks.**
+- The three families have raw squared norms `16 + 16`, `8 · 4` and `9 + 23 · 1`, all `32`, that is
+  lattice norm 4. Their counts are `4 · C(24, 2) = 1104`, `759 · 2⁷ = 97152` (an even number of minus
+  signs on an octad) and `24 · 2¹² = 98304`, with sum 196560 and 98280 antipodal pairs.
+
+### 8.3 Recognition and simplicity of Co1
+
+Select the eight-involution presentation `Co1.1` of Praeger–Soicher and the Group Presentations
+Library used by Tau Ceti's `TauCeti.Sporadic.co1Presentation`, with its nine additional relations and
+its alphabetical renaming. Construct its generator dictionary with the action on the 98280 antipodal
+pairs. Build a word-defined subgroup of the abstract presentation mapping onto the point stabilizer
+`Co2`, derive a surjection from the exact recognized `Co2` presentation (§6.4) onto that subgroup,
+and certify a complete right-coset or normal-form cover of index at most 98280; this bounds the
+presented group by `|Co1|`, and the orbit–stabilizer calculation in the lattice gives the matching
+lower bound. Neither the finite-image stabilizer nor its order proves those abstract subgroup
+relations or the coset cover; the subgroup words, relation deductions and coset transitions are
+certificates in the sense of §4.2. Prove simplicity of `Co1` by the prime-order normal-generation
+criterion of §4.4, with local Sylow normal forms for the primes `2, 3, 5, 7, 11, 13, 23`, complete
+coverage and fusion words for the prime-order elements, and witnesses normally generating every
+model generator; then transport to the exact presentation. *Needs:* §§4.2–4.4, 6.4, 8.2.
+
+**Checks.**
+- `|Co₁| / |Co₂| = 98280`, the number of antipodal pairs of minimal vectors.
+
+### 8.4 The mod-two Leech lattice and the Co2 stabilizer
+
+Define the induced action of `Co1` on `V := Λ/2Λ` and prove its kernel, faithfulness and
+irreducibility statements over `𝔽₂`. For a specified short vector class `λ ∈ V` of type 2, in the
+conventions of Höhn–Seysen, identify `Stab_Co1(λ)` with the `Co2` model of §6.3 by an explicit
+`MulEquiv`. Construct the equivariant bijection from antipodal pairs of minimal vectors to the type-2
+classes in `Λ/2Λ`, sending `{v, −v}` to `v + 2Λ`: prove independence of the sign, injectivity from the
+minimum-norm bound, and surjectivity from the definition of type 2. Match the quotient action of
+`Co0` with the mod-two action of `Co1` under this bijection and identify its stabilizers. A
+permutation group of the same order does not provide this interface. *Needs:* §§6.4, 8.2–8.3.
+
+### Examples
+
+The vector `(4, 4, 0, …, 0)/2` (raw coordinates `a = (4, 4, 0, …, 0)`) is a minimal vector of the
+first family; its class in `Λ/2Λ` has type 2 and stabilizer `Co2` in `Co1`.
+
+### Dependencies
+
+Layers 4 and 6; Rank24LatticeConstructions Layer 6; AlgebraicCodingTheory Layer 5.
+
+## Layer 9: the Monster and the Baby Monster from the Griess algebra (P2-G, P2-M, P2-D)
+
+### 9.1 The local representations
+
+Follow [Höhn–Seysen, v1, §2.1](https://arxiv.org/html/2508.01037v1#S2.SS1) and its Conway
+construction to realize `G₀ := Gx0` of shape `2^{1+24}_+.Co1` and `N := N0` of shape
+`2^{2+11+22}.(M24 × S3)` on the same rational Griess algebra. Specify their embeddings, their
+intersection `Nx0` of shape `2^{1+24+11}.M24` and the triality element `τ`, with `N = ⟨Nx0, τ⟩`.
+Prove the extraspecial structure of `Q := Qx0`, identify its central involution `z`, and give an
+equivariant identification `Q/⟨z⟩ ≃ Λ/2Λ` for the action of `Co1` of §8.4. Connect the code action
+to the Parker-loop and `M24` actions of these representations, rather than importing a second,
+unidentified Mathieu model.
+
+The representation and character calculations consumed by §2.1 of Höhn–Seysen belong here; in
+particular prove the fixed-space statement of its Lemma 2.1, including the restriction of the
+300-dimensional symmetric-square representation to the identified `Co2`, with constituent
+dimensions `1, 1, 23, 275`. Höhn–Seysen assume Conway–Leech theory and character information for
+`Co1`, `Co2` and `M24`; these are proved here for those representations and are not consequences of
+the order and simplicity theorems of Layer 6. *Needs:* §§8.1–8.4.
+
+**Checks.**
+- `1 + 1 + 23 + 275 = 300`, and the summands of the Griess algebra under `G₀` have dimensions
+  300, 98280 (one for each antipodal pair of minimal vectors) and `24 · 2¹² = 98304`, with sum
+  196884; indexing the middle summand by the 196560 minimal vectors instead of their pairs would
+  overcount.
+
+### 9.2 The order of the constructed Monster
+
+Define `M_alg := ⟨G₀, τ⟩`. Prove the axis–involution correspondence of §2.1 of Höhn–Seysen and
+`C_{M_alg}(z) = G₀` (their Theorem 2.9). Choose their short involution `β⁺`, put `β⁻ := β⁺ z`, and
+let `v⁺, v⁻` be the axes of `β⁺, β⁻`. With
 
 ```text
 X⁺ = orbit M_alg v⁺
 K  = Stab_M_alg(v⁺) = C_M_alg(β⁺)
 X⁻ = orbit K v⁻
-S  = Stab_M_alg(v⁺, v⁻).
+S  = Stab_M_alg(v⁺, v⁻),
 ```
 
-Prove `S = C_G(β⁺)` using `β⁺β⁻ = z` and `C_M_alg(z) = G`. Prove that its map to
-`Stab_Co1(λ)` is surjective with kernel `C_Q(β⁺)` of order `2^24`. This identifies the
-actual two-axis stabilizer of shape `2^{1+23}.Co2` and gives
-`|S| = 2^24 · |Co2|` using the P2-L equivalence. The kernel here is not the extraspecial
-group `Q` of order `2^25`.
+prove `S = C_{G₀}(β⁺)` from `β⁺ β⁻ = z` and `C_{M_alg}(z) = G₀`, and prove that the map from `S` to
+`Stab_Co1(λ)` is surjective with kernel `C_Q(β⁺)` of order `2^24`. This identifies the two-axis
+stabilizer of shape `2^{1+23}.Co2` and gives `|S| = 2^24 · |Co2|` through §8.4; the kernel is not the
+extraspecial group `Q` of order `2^25`.
 
-Formalize the orbit certificates of §§3–4 and Appendix D: representative words, stabilizer
-generators, complete subgroup-orbit decompositions, and the triality transitions in Tables
-2 and 4. Prove the soundness of the action calculations and exhaustive coverage of both
-`X⁺` and the full `K`-orbit `X⁻`. For the latter, justify the passage from the local
-`H := K ∩ G` and triality calculations to the full stabilizer action; closure under a
-subgroup's generators alone does not prove this coverage. Justify any modular arithmetic
-used to certify equalities in the rational representation. Prove finiteness of `X⁺`, `X⁻`,
-and `S` first. Use the actual orbit/fibre equivalences to deduce `Finite K` from finite
-`X⁻` and `S`, then `Finite M_alg` from finite `X⁺` and `K`; neither application assumes
-that the group being proved finite is already finite. Only afterwards take cardinalities
-in these two equivalences to obtain
+Formalize the orbit certificates of §§3–4 and Appendix D of Höhn–Seysen: representative words,
+stabilizer generators, complete decompositions into subgroup orbits, and the triality transitions of
+their Tables 2 and 4. Prove the soundness of the action calculations and exhaustive coverage of both
+`X⁺` and the full `K`-orbit `X⁻`; for the latter, justify the passage from the local group
+`K ∩ G₀` and the triality calculations to the full stabilizer action, since closure under a
+subgroup's generators alone does not prove coverage. Justify any modular arithmetic used to certify
+equalities in the rational representation. Prove finiteness of `X⁺`, `X⁻` and `S` first; use the
+orbit and fibre equivalences to deduce `Finite K` from finite `X⁻` and `S`, then `Finite M_alg` from
+finite `X⁺` and `K`, so that neither step assumes the group being proved finite is finite. Only then
+take cardinalities to obtain `|M_alg| = |X⁺| · |X⁻| · |S|`. *Needs:* §§4.2, 4.4, 8.4, 9.1.
 
-```text
-|M_alg| = |X⁺| · |X⁻| · |S|.
-```
+**Checks.**
+- `|S| = 2²⁴ · |Co₂| = 709767191322427392000`, `|X⁻| = 2|B| / |S| = 11707448673375` and
+  `|X⁺| = |M| / 2|B| = 97239461142009186000`, with `|X⁺| · |X⁻| · |S| = |M|`. Taking the kernel to be
+  `Q` of order `2²⁵` would double `|S|` and give `2|M|`.
 
-Prove Monster simplicity through Lemmas 5.3–5.5 and Theorem 5.6. This includes the full
-normal-subgroup list `1, ⟨z⟩, Q, G` for `G`, using its extraspecial subgroup and the
-faithful irreducible `Co1` action on `Λ/2Λ`, and the explicit triality calculations that
-exclude each proper possibility for a normal subgroup's intersection with `G`.
+### 9.3 Simplicity of the constructed Monster
 
-Define `B_alg := K/⟨β⁺⟩` and obtain its finiteness and order
-`|B_alg| = |X⁻| · |S| / 2` as in Corollary 5.2. Use P0's prime-order normal-generation criterion separately for this quotient: construct
-its Sylow normal forms for primes `2,3,5,7,11,13,17,19,23,31,47`, the prime divisors of
-`|B| = 2^41·3^13·5^6·7^2·11·13·17·19·23·31·47` (the factorization displayed in Höhn–Seysen
-Corollary 5.2 carries a spurious factor `41`, which divides `|M|` but not the decimal value
-printed there), certify coverage of
-their prime-order elements up to quotient conjugacy, and give normal-generation words for
-each resulting representative and every quotient generator. Prove nontriviality and the
-quotient word-evaluation/central-kernel comparisons before applying that criterion. The Monster simplicity
-theorem and the Baby Monster order calculation do not discharge this target.
+Prove simplicity of `M_alg` through Lemmas 5.3–5.5 and Theorem 5.6 of Höhn–Seysen: the complete list
+`1, ⟨z⟩, Q, G₀` of normal subgroups of `G₀`, from its extraspecial subgroup and the faithful
+irreducible action of `Co1` on `Λ/2Λ`, and the explicit triality calculations excluding each proper
+possibility for the intersection of a normal subgroup with `G₀`. *Needs:* §§8.4, 9.1–9.2.
 
-**P2-D: prove the central-extension prerequisite.** Select the recorded Ivanov
-presentation route, with the no-proper-double-cover hypothesis attributed to Griess in
-[Breuer–Magaard–Wilson, v2, §3.1](https://arxiv.org/html/1902.07758v2). Prove this
-hypothesis for `M_alg` after P2-M and before Baby Monster presentation recognition.
-An explicit sufficient target is that no perfect group admits a surjection onto `M_alg`
-with central kernel of order two. This excludes a proper covering group, while allowing
-the split extension `C2 × M_alg`. Formalize the required part of Griess's
-*The Schur multipliers of the known finite simple groups, III* directly for this `M_alg`,
-carrying its concrete local-subgroup and construction hypotheses. Any comparison with
-Griess's construction must be proved from those earlier P2-L/G/M identifications,
-independently of P2-R, the `Y₄₄₃` recognition theorem and `ClassificationStatement`.
-Do not identify the two Monsters by the presentation theorem whose proof is being supplied.
-Computing the entire Schur multiplier is not a separate endpoint. Order and simplicity of
-`M_alg` alone do not imply this prerequisite.
+### 9.4 The constructed Baby Monster
 
-**P2-R: identify the exact two presentations.** Formalize the recorded presentation
-theorems, including their structural hypotheses and the maps to `M_alg` and `B_alg`.
-Construct the intermediate group `BiM := (M_alg × M_alg) ⋊ C₂` from the already
-constructed Monster, with the nontrivial `C₂` element swapping the two factors. Give the
-two factor inclusions, the projection onto `C₂` with its kernel, the swap element and its
-square/conjugation equations, and generation by those factors and the swap. This carrier
-does not depend on presentation recognition.
+Define `B_alg := K/⟨β⁺⟩` and prove its finiteness and its order `|B_alg| = |X⁻| · |S| / 2`, as in
+Corollary 5.2 of Höhn–Seysen. Prove its simplicity separately by the prime-order normal-generation
+criterion of §4.4: Sylow normal forms for the primes `2, 3, 5, 7, 11, 13, 17, 19, 23, 31, 47`, the
+prime divisors of `|B| = 2^41·3^13·5^6·7^2·11·13·17·19·23·31·47` (the factorization displayed in
+Höhn–Seysen, Corollary 5.2, carries a factor `41`, which divides `|M|` but not the decimal value
+printed there), coverage of their prime-order elements up to conjugacy in the quotient, and
+normal-generation words for each resulting representative and every quotient generator. Prove
+nontriviality and the comparisons of quotient word evaluation and of the central kernel before
+applying the criterion. Neither the simplicity of `M_alg` nor the order of `B_alg` gives this
+theorem. *Needs:* §§4.4, 9.2.
 
-For the Baby Monster select the `Y₅₅₅` presentation used in Ivanov's *Presenting the Baby
-Monster*, as invoked by Breuer–Magaard–Wilson §2. Transcribe its exact numbered generators
-and full source relator family, including the additional spider relation and any other
-relations actually required in that chosen source. Do not infer a presentation from the
-Coxeter diagram alone or add deflation relations from a different construction. Give the
-source-to-Lean numbering and generator dictionaries, check all relations and generation,
-and prove the resulting presented group is `MulEquiv` to this actual `BiM`. Then formalize
-the precise deduction of the `Y₄₃₃` central extension/quotient used below, with its actual
-subgroup maps and kernels and the independently proved P2-D hypothesis, before concluding
-Baby Monster presentation recognition. Neither this intermediate carrier nor its
-presentation theorem may be assumed through P2-R's final recognition conclusion.
-For the Monster use
-Ivanov's *Y-groups via Transitive Extension*, especially Lemma 3.2 and §3.9, carrying its
-transitive-extension and subgroup-identification arguments as proof obligations.
-These presentation-identification theorems must supply the upper bounds for the
-presented groups; checking relators in the constructed models supplies only maps out of
-them.
+**Checks.**
+- `|X⁻| · |S| / 2 = 4154781481226426191177580544000000 = |B|`, and `41` does not divide it.
 
-Account for the quotient conventions in the actual Lean definitions:
+### 9.5 No proper double cover of the Monster
+
+Select the presentation route of Ivanov, with the hypothesis that the Monster has no proper double
+cover attributed to Griess in [Breuer–Magaard–Wilson, v2, §3.1](https://arxiv.org/html/1902.07758v2).
+Prove that no perfect group admits a surjection onto `M_alg` with central kernel of order two; this
+excludes a proper covering group and allows the split extension `C₂ × M_alg`. Formalize the required
+part of Griess, *The Schur multipliers of the known finite simple groups, III*, directly for
+`M_alg`, carrying its concrete local-subgroup and construction hypotheses. Any comparison with
+Griess's construction is proved from the identifications of §§8.4 and 9.1–9.2, independently of
+Layer 10, of the `Y₄₄₃` recognition theorem and of `TauCeti.ClassificationStatement`; the two
+Monsters are not identified by the presentation theorem whose proof this supplies. Computing the
+entire Schur multiplier is not part of this target, and the order and simplicity of `M_alg` do not
+imply it. *Needs:* §§9.1–9.3.
+
+### Examples
+
+The involution `z` is central in `G₀` and of type `2B`; the short involution `β⁺` is of type `2A`,
+and its centralizer `K` is the double cover `2·B_alg`.
+
+### Dependencies
+
+Layers 4, 6 and 8.
+
+## Layer 10: recognition of the Monster and Baby Monster, and the sporadic endpoint (P2-R)
+
+Checking relators in a constructed model gives only maps out of a presented group; the
+presentation-identification theorems below supply the upper bounds.
+
+### 10.1 The Bimonster carrier
+
+Construct `BiM := (M_alg × M_alg) ⋊ C₂` from the constructed Monster, the nontrivial element of `C₂`
+swapping the factors. Give the two factor inclusions, the projection onto `C₂` with its kernel, the
+swap element with its square and conjugation equations, and generation by the factors and the swap.
+This carrier does not depend on any presentation recognition. *Needs:* §9.2.
+
+### 10.2 The Baby Monster presentation
+
+Select the `Y₅₅₅` presentation of Ivanov, *Presenting the Baby Monster*, as invoked by
+Breuer–Magaard–Wilson §2. Transcribe its numbered generators and its full relator family, including
+the additional spider relation and any other relation that source requires; a presentation is not
+inferred from the Coxeter diagram alone, and no deflation relation is taken from a different
+construction. Give the source-to-Lean numbering and generator dictionaries, check all relations and
+generation, and prove that the presented group is `MulEquiv` to `BiM`. Then formalize the deduction of
+the `Y₄₃₃` central extension and quotient used below, with its subgroup maps and kernels and the
+hypothesis of §9.5, before concluding recognition of the Baby Monster presentation. Neither this
+intermediate carrier nor its presentation theorem is assumed through the final recognition
+conclusion. *Needs:* §§4.1–4.3, 9.4, 9.5, 10.1.
+
+### 10.3 The Monster presentation
+
+Use Ivanov, *Y-groups via Transitive Extension*, especially Lemma 3.2 and §3.9, carrying its
+transitive-extension and subgroup-identification arguments as proof obligations, to identify the
+Coxeter-plus-spider group `Y₄₄₃` with `M_alg × C₂`. *Needs:* §§4.1–4.3, 9.2, 9.3, 10.1.
+
+### 10.4 Transport to the exact carriers
+
+Account for the quotient conventions of the Lean definitions.
 
 - `TauCeti.Sporadic.Monster.presentation` has the `Y₄₄₃` Coxeter relators followed by
-  `spiderRelator = (a b₁ c₁ a b₂ c₂ a b₃ c₃)^10` and
-  `centralInvolutionRelator = (a b₃ c₃ d₃ b₁ c₁ b₂)^9`, Ivanov's `f₃₁₂`.
-  Identify the Coxeter-plus-spider group with `M_alg × C2`, prove that `f₃₁₂` kills its
+  `TauCeti.Sporadic.Monster.spiderRelator = (a b₁ c₁ a b₂ c₂ a b₃ c₃)^10` and
+  `TauCeti.Sporadic.Monster.centralInvolutionRelator = (a b₃ c₃ d₃ b₁ c₁ b₂)^9`, Ivanov's `f₃₁₂`.
+  Identify the Coxeter-plus-spider group with `M_alg × C₂` (§10.3), prove that `f₃₁₂` kills its
   central factor, and identify the full 80-relator quotient with `M_alg`.
 - `TauCeti.Sporadic.BabyMonster.presentation` has the `Y₄₃₃` Coxeter relators followed by
-  `spiderRelator = (t₅ t₄ t₃ t₅ t₆ t₇ t₅ t₉ t₁₀)^10`,
-  `extraRelatorOne = (t₅ t₄ t₃ t₆ t₇ t₈ t₉)^9`, and
-  `extraRelatorTwo = (t₅ t₄ t₃ t₆ t₉ t₁₀ t₁₁)^9`.
-  Identify the Coxeter-plus-spider group `2 × 2·B` with `C2 × K`, including the
-  identification of the cover with this constructed centralizer. Prove that the normal
-  closure of the two extra relators is exactly the kernel of the map to
-  `K/⟨β⁺⟩ = B_alg`, so that the full 69-relator presentation gives `B_alg`.
+  `TauCeti.Sporadic.BabyMonster.spiderRelator = (t₅ t₄ t₃ t₅ t₆ t₇ t₅ t₉ t₁₀)^10`,
+  `TauCeti.Sporadic.BabyMonster.extraRelatorOne = (t₅ t₄ t₃ t₆ t₇ t₈ t₉)^9` and
+  `TauCeti.Sporadic.BabyMonster.extraRelatorTwo = (t₅ t₄ t₃ t₆ t₉ t₁₀ t₁₁)^9`. Identify the
+  Coxeter-plus-spider group `2 × 2·B` with `C₂ × K`, including the identification of the cover with
+  the constructed centralizer `K`, and prove that the normal closure of the two extra relators is
+  exactly the kernel of the map to `K/⟨β⁺⟩ = B_alg`, so that the full 69-relator presentation gives
+  `B_alg`.
 
-Give the numbered-generator dictionaries, verify generation, and transport the resulting
-`MulEquiv`s to the exact `SporadicName.Group` carriers. The existing
-`mulEquivPresentedGroupCoxeterAppend` declarations only identify the presentations with
-the corresponding Coxeter quotients; they do not recognize a finite simple group.
-Group-specific constructions and certificates live in P2, while their reusable soundness
-theorems and group-action criteria live in P0.
+Give the numbered-generator dictionaries, verify generation, and transport the resulting `MulEquiv`s
+to the exact `TauCeti.SporadicName.Group` carriers. The equivalences
+`TauCeti.Sporadic.Monster.mulEquivPresentedGroupCoxeterAppend` and
+`TauCeti.Sporadic.BabyMonster.mulEquivPresentedGroupCoxeterAppend` identify the presentations with
+the corresponding Coxeter quotients and recognize no finite simple group. *Needs:* §§10.2–10.3.
 
-For the involution-class input to P2M, select the finite local route of Höhn–Seysen
-Appendix E: prove the odd-index reduction from `M_alg` to `Gx0`, construct exhaustive local
-involution families in `Gx0`, and certify their fusion to `β⁺` or `z` by actual conjugating
-words. Prove those two representatives nonconjugate using their actual representation
-invariants. Supply the required Co1/local character facts from P2-L/G. The published
-computation is input to a soundness proof and checked certificate, not an imported theorem;
-do not use its alternative Monster-character-table calculation or require identification
-with the full Griess/VOA automorphism group. This places the two-involution proof after the
-order/local-action constructions and before the complete 194-class analysis.
+### 10.5 The uniform sporadic theorems
 
-## P2M: the Monster's conjugacy classes and character count
+Prove `sporadicName_finite` (`Finite s.Group`), `sporadicName_isSimpleGroup` (`IsSimpleGroup
+s.Group`) and `sporadicName_card` (`Nat.card s.Group = sporadicOrder s`) for every
+`s : TauCeti.SporadicName`, by cases on `s` from §§6.2–6.4, 7.2–7.11, 8.3, 9.3, 9.4 and 10.4. The order
+is that of the exact presented group, not of a model that merely satisfies its relators. *Needs:*
+§§6.1–6.4, Layer 7, §§8.3, 9.3–9.4, 10.4.
 
-Build the conjugacy structure of the concrete Monster from P2 and transport it across P2's
-proved recognition `MulEquiv` to **exactly** `SporadicName.M.Group`. Construct an explicit finite
-list of representative words in the recorded generators, evaluate those words in the actual
-model and presented group, and prove pairwise nonconjugacy and completeness. Deliver native
-`TauCeti.ClassData` with this very list, its label/representative round trips and the criterion
-that two elements have the same label exactly when they are conjugate. Prove each
-representative's element order, the order and stated structure of its actual centralizer, and
-its inverse and power-class labels. Check the subgroup-fusion maps used to identify the rows.
-The final class equivalence must send a label to the class of its specified representative;
-a bare equivalence chosen from the desired cardinality is not the construction.
+### Examples
 
-The group-specific proof must build all its inputs. In particular establish that there are
-exactly two classes of involutions, with actual representatives and the two nonconjugacy and
-coverage assertions (`monster_two_involution_classes`, which also records the centralizer
-orders `2·|B|` and `2^25·|Co1|`). Identify their actual centralizers: the central extension of the Baby
-Monster in the `2A` case, with the involution as its kernel, and the
-`2^{1+24}_+.Co1` local group in the `2B` case, with proved maps, kernels and quotients rather
-than an abstract group-shape label. These use the P2 Baby Monster quotient and Conway/Griess
-constructions; prove the required local group and character-table facts for those actual
-subgroups, or connect them by proved isomorphisms to their existing constructions. Construct
-the degree-196883 complex representation from the Griess module, identifying its fixed line
-and the complementary or quotient module in dimension 196884, and prove the resulting
-representation is irreducible independently of the Monster's full character table
-(`monster_exists_irreducible_196883`). Record
-which representation values, local centralizer calculations and fusion tests separate each
-remaining pair of candidate classes. These are explicit construction and theorem targets,
-not opaque hypothesis fields for a conditional Monster-count theorem.
+In `BiM` the swap `σ` satisfies `σ² = 1` and `σ (g, h) σ⁻¹ = (h, g)`; the diagonal
+`{(g, g)} ≅ M_alg` is its centralizer in `M_alg × M_alg`.
 
-Follow the class-verification argument of [Breuer, Magaard and Wilson, *Verification of the
-conjugacy classes and ordinary character table of the Monster*, §2 and §4.9 Proposition1](https://arxiv.org/html/2412.12182v1).
-Supply its individual local subgroup/table and representation prerequisites before the class
-count. In particular distinguish classes meeting the involution centralizers from the
-odd-order analysis and prove exhaustion over **all** element orders. Where the argument uses
-a power map or fusion test, prove its value on the actual elements; matching names in a
-printed table is not a fusion proof. P0's mass-exhaustion criterion is available when the
-independently certified group and centralizer orders give the complete class-size sum.
-Do not treat the finite axis-orbit certificate that gives the group order as a conjugacy
-classification of its elements.
+### Dependencies
 
-Prove that the resulting actual representative list has length 194 and deduce
-`Nat.card (ConjClasses SporadicName.M.Group) = 194` (`monster_card_conjClasses`) using native
-`ClassData` soundness. Then consume native `TauCeti.card_irreducibleCharacters` over `ℂ` to
-deduce that the Monster has 194 irreducible complex characters
-(`monster_card_irreducibleCharacters`) and that its ordinary character table has 194 rows and
-columns. The generic theorem requires a finite group, an algebraically closed field and
-invertible group order; P2 supplies finiteness and `ℂ` supplies the field conditions. Do not
-assume a complete 194-column character table to prove its own number of classes: the class
-verification precedes the final full-table verification. This milestone does not require
-that full table's construction as a prerequisite and does not duplicate CharacterTheory's
-generic irreducible/class-count theorem.
+Layers 4, 6–9.
 
-Prove the class-count and group-order statements separately. The exact ATLAS order belongs
-to P2's recognized group; neither that order, simplicity, nor `ClassificationStatement` alone
-supplies the class-count theorem.
+## Layer 11: the conjugacy classes of the Monster (P2M)
 
-## A0: assemble the list properties
+The conjugacy structure is built on the constructed Monster of Layer 9 and transported across the
+recognition `MulEquiv` of §10.4 to exactly `TauCeti.SporadicName.M.Group`. It reuses Tau Ceti's
+conjugacy and character theory; neither the classification proposition nor a prior verification of
+the full Monster character table is an input.
 
-Prove `CFSGIndex_finite` and `CFSGIndex_isSimpleGroup` by the four constructors, invoking E0,
-F1 and the T2/T3 simplicity results, and the P1/P2 sporadic results. Check a test theorem for
-one cyclic, one alternating, one ordinary Lie, one graph-twisted, each of Suzuki/Ree/Tits, and
-one P1 and one P2 sporadic entry; these are checks of the dispatcher, not replacements for
-the uniform proofs. Audit the endpoint's axioms and confirm that no case uses
-`ClassificationStatement` or assumes the corresponding basic property.
+### 11.1 The two classes of involutions
 
-## Existing formalizations and model comparisons
+Prove `monster_two_involution_classes`: the presented Monster contains elements `a` and `b` of order
+2 that are not conjugate, every element of order 2 is conjugate to `a` or to `b`, and the centralizers
+of `a` and `b` have orders `2·|B|` and `2^25·|Co1|`. Identify the centralizers themselves: the
+central extension of the Baby Monster of §9.4 in the `2A` case, with the involution as its kernel,
+and the local group `2^{1+24}_+.Co1` of §9.1 in the `2B` case, with proved maps, kernels and
+quotients, not a group-shape label. Prove the required local-group and character-table facts for
+these subgroups, or connect them by proved isomorphisms to their constructions in Layers 8 and 9.
+*Route.* The finite local route of Appendix E of Höhn–Seysen: prove the odd-index reduction from `M_alg` to `G₀`, construct exhaustive local involution families
+in `G₀`, and certify their fusion to `β⁺` or `z` by conjugating words; prove the two representatives
+nonconjugate by their representation invariants; supply the required local character facts of
+`Co1` from §§8.3–9.1. The published computation is input to a soundness proof and a checked
+certificate, not an imported theorem; its alternative calculation through the Monster's character
+table is not used, and no identification with the full automorphism group of the Griess algebra or
+the moonshine module is required. This places the two-involution theorem after the order and local
+action constructions and before the complete class analysis. *Needs:* §§4.5, 9.1–9.4, 10.4.
 
-The following are secondary proof sources for the specified endpoints. They do
-not change the ownership or the exact-carrier requirements above. Coordinate
-with the authors before adapting code, and express reusable lemmas through
-native presentation, character, action and Tits-system interfaces.
+**Checks.**
+- `|M| / (2·|B|) = 97239461142009186000 = |X⁺|`: the class `2A` is in bijection with the axes of
+  §9.2. The two centralizer orders are `8309562962452852382355161088000000` and
+  `139511839126336328171520000`.
 
-- Axiom's [sporadic converse theorem](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_sporadic_converse.lean)
-  proves finiteness and simplicity of each exact `TauCeti.SporadicName.Group`
-  at Tau Ceti revision `6e0c6acab5f4c6f42e5f5bab9bd5e4e84f74c380`.
-  Its presentation/model comparisons are proof sources for P1–P2; compare
-  current relators and generators before transport. Its
-  [Monster simplicity proof](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_M_simplicity.lean)
-  uses Feit–Thompson through the odd-order local bounds in
-  [`Monster/Existence/StdOdd/Seven`](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Monster/Existence/StdOdd/Seven.lean).
-  This source is not an alternative completion criterion: P2's selected
-  construction and recognition routes remain required, including P2-M's
-  `M_alg`, `Gx0`, `K` and `B_alg` consumed by P2M. FT-dependent proof
-  fragments must be replaced within those routes; importing the source's
-  final Monster theorem does not discharge them. This roadmap acquires no
-  new Feit–Thompson prerequisite from citing that source.
-- Its [finite simple Lie models](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/CAT_native_realization.lean)
-  and [`LieType/Catalog`](https://github.com/AxiomMath/CFSG/tree/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/LieType/Catalog)
-  supply material for T1–T3. The models in
-  [`Blueprint/Catalog`](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Blueprint/Catalog.lean)
-  are finite-field adjoint quotients, twisted derived central quotients, and
-  Ree/Suzuki matrix groups. Compare `d.Group` with the model by a proved
-  `MulEquiv`; a finite-field model need not have an ambient Steinberg map.
-  The comparison includes fixed-field descent, identification of the derived
-  subgroup with the appropriate root-generated group, and matching centres.
-  These are T1–T3 structure theorems, not consequences of finiteness alone.
-  Match `StatedLieAdmissible` with `LieTypeIndex.Valid`, including Tits versus
-  `²F₄(2)'` and the lower bound on the Suzuki parameter.
-- Ordinary character theory, including Burnside, Frobenius kernels,
-  irreducible expansions and Frobenius–Schur theory, is supplied by the native
-  `RepresentationTheory/CharacterTable` and `RepresentationTheory/FrobeniusGroup/Basic`
-  libraries. Compare a source's private character objects with these once.
+### 11.2 The representation of degree 196883
+
+Prove `monster_exists_irreducible_196883`: there is an irreducible complex representation of the
+presented Monster on `ℂ^196883`. Construct it from the Griess module: identify the fixed line and
+the complementary or quotient module of the 196884-dimensional representation, and prove
+irreducibility of the 196883-dimensional piece independently of the Monster's character table.
+*Needs:* §§9.1–9.3, 10.4; Mathlib `Representation.IsIrreducible`.
+
+### 11.3 The complete list of classes
+
+Construct an explicit finite list of representative words in the recorded generators, evaluate them
+in the constructed model and in the presented group, and prove pairwise nonconjugacy and coverage.
+Deliver Tau Ceti `TauCeti.ClassData` on this list, with its label and representative round trips
+and the criterion that two elements have the same label exactly when they are conjugate; the
+equivalence with `ConjClasses` sends a label to the class of its specified representative, and is
+not chosen from the desired cardinality. Prove each representative's element order, the order and
+stated structure of its centralizer, and its inverse and power classes, and check the subgroup
+fusion maps used to identify the rows. Follow the class-verification argument of
+[Breuer, Magaard and Wilson, *Verification of the conjugacy classes and ordinary character table of
+the Monster*, §2 and §4.9 Proposition 1](https://arxiv.org/html/2412.12182v1), supplying its
+individual local subgroup, table and representation inputs before the count: distinguish the classes
+meeting the involution centralizers from the odd-order analysis, and prove exhaustion over all
+element orders. Where the argument uses a power map or fusion test, prove its value on the actual
+elements; matching names in a printed table is not a fusion proof. The mass criterion of §4.5 applies
+once the group order and the centralizer orders are independently certified. The axis-orbit
+certificate of §9.2 is not a classification of the elements. Record which representation values,
+centralizer calculations and fusion tests separate each pair of candidate classes; these are
+constructions and theorems, not hypothesis fields of a conditional class-count theorem. Then prove
+`monster_card_conjClasses`: `Nat.card (ConjClasses M) = 194` for the presented Monster
+`M = TauCeti.SporadicName.M.Group`, from the list
+of length 194 through `TauCeti.ClassData.numClasses_eq_card_conjClasses`. The group order and the
+class count are proved separately: the order (§10.5), simplicity and the classification proposition
+do not give the count. *Needs:* §§4.5, 11.1–11.2; Tau Ceti `TauCeti.ClassData`,
+`TauCeti.ClassData.numClasses_eq_card_conjClasses`.
+
+### 11.4 The irreducible characters
+
+Prove `monster_card_irreducibleCharacters`: the presented Monster has exactly 194 irreducible
+complex characters, `Nat.card (TauCeti.irreducibleCharacters ℂ M) = 194`, from §11.3 and Tau Ceti's
+`TauCeti.card_irreducibleCharacters` (for a finite group over an algebraically closed field in which
+the group order is invertible; finiteness is §10.5, and `ℂ` supplies the field conditions). Hence the
+ordinary character table has 194 rows and columns. The class verification precedes any verification
+of the full table, which is not an input here; the generic theorem relating irreducible characters
+and classes is Tau Ceti's and is not reproved. *Needs:* §§10.5, 11.3; Tau Ceti
+`TauCeti.irreducibleCharacters`, `TauCeti.card_irreducibleCharacters`.
+
+### Examples
+
+The class `1A` is the identity, `2A` contains `β⁺`, `2B` contains `z`, and the 196883-dimensional
+character takes the value 196883 at `1A`.
+
+### Dependencies
+
+Layers 4, 9 and 10; Tau Ceti's class-data and character-table libraries.
+
+## Layer 12: assembly of the list (A0)
+
+### 12.1 The two uniform theorems
+
+Prove `CFSGIndex_finite`, `Finite i.Group`, and `CFSGIndex_isSimpleGroup`, `IsSimpleGroup i.Group`,
+for every `i : TauCeti.CFSGIndex`, by cases on the four constructors: the cyclic and alternating
+branches are Tau Ceti's (`TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`,
+`TauCeti.CFSGIndex.isSimpleGroup_alternating`, with finiteness of `alternatingGroup (Fin n)` an
+instance), the Lie-type branch is §5.3, and the sporadic branch is §10.5. No case uses
+`TauCeti.ClassificationStatement` or assumes the property being proved, and the endpoint depends on
+no axiom beyond Lean's standard ones. *Needs:* §§5.3, 10.5; Tau Ceti
+`TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`,
+`TauCeti.CFSGIndex.isSimpleGroup_alternating`.
+
+**Checks.**
+- The dispatcher on one index of each kind gives the expected group: the cyclic index `p = 7`, of
+  order 7; the alternating index `n = 5`, of order 60; the ordinary `A₁(7)`, of order 168; the
+  graph-twisted `²A₂(3)`, of order 6048; `Sz(8)`, of order 29120; `²G₂(27)` and `²F₄(8)` (§5.1); the
+  Tits group, of order 17971200; `M11`, of order 7920; and `J3`, of order 50232960. These test the
+  case split, not the uniform proofs.
+
+### Examples
+
+For `i = cyclic 2 _` the carrier is `Multiplicative (ZMod 2)`, simple of order 2; for
+`i = alternating 5 _` it is `A₅`.
+
+### Dependencies
+
+Layers 5 and 10; Tau Ceti's elementary branches.
+
+## Scope and ownership
+
+This roadmap owns the finiteness and simplicity of every group on the classification list, on the
+exact carriers of CFSGStatement, together with the structure theory of the finite Steinberg fixed
+points (split Tits systems, twisted root groups, fixed-point Bruhat decomposition), the soundness
+theorems for presented groups and permutation certificates that Tau Ceti lacks, the sporadic
+models, recognitions and simplicity proofs, the Leech-lattice and Griess-algebra constructions of
+the Conway groups, the Monster and the Baby Monster, and the conjugacy classes of the Monster. Each
+layer above states what it owns.
+
+**Already in the libraries at the pins and consumed by name above.**
+
+- The cyclic and alternating branches (E0): Tau Ceti's
+  `TauCeti.CFSGIndex.natCard_cyclic`, `TauCeti.CFSGIndex.finite_cyclic`,
+  `TauCeti.CFSGIndex.isSimpleGroup_cyclic` and `TauCeti.CFSGIndex.isSimpleGroup_alternating`.
+- The finite-coordinate fixed-point criterion and its transport (F0), and the finiteness of every
+  Lie-type carrier (F1): Tau Ceti's `TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow`,
+  `TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate`,
+  `Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate`,
+  `Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow`, `TauCeti.fixedSubgroupCongr`,
+  `TauCeti.finiteFixedPointCandidate`,
+  `TauCeti.ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius`,
+  `TauCeti.ValidLieTypeIndex.finite_fixedPoints` and `TauCeti.ValidLieTypeIndex.finite`.
+- Of T0: the Bruhat uniqueness theorems, the classification of overgroups of `B`
+  (`TauCeti.TitsSystem.standardParabolicOrderIso`), Tits's normal-subgroup theorem and simplicity
+  criterion for the normal closure of `U` with its bridge to the derived central quotient, and the
+  Iwasawa route for central quotients. Layer 1 adds the split structure.
+- Of T2 and T3: simplicity of the type-`A` constructor (`TauCeti.ValidLieTypeIndex.isSimpleGroup_A`)
+  and of the Suzuki constructor (`TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`), and the
+  fixed-point comparisons with `SL_{r+1}(𝔽_q)`, `Sp_{2r}(𝔽_q)`, `Sp₄(𝔽_q)` and `SU_{r+1}(q)`.
+- Of P0: generator elimination, the Reidemeister–Schreier kernel identification given a free basis,
+  the index-two rewriting, the homomorphism induced by a satisfying assignment and its range, the
+  coset-table, covering and double-coset upper bounds, the stabilizer-chain order formula and
+  membership criterion, the order of a permutation group from successful sifts, the recognition of
+  a centralizer from a coset table, normal-generation programs, the prime-order normal-generation
+  criterion and its Sylow-local form, class data, the mass criterion and the transport of class
+  data.
+- The twenty-six sporadic presentations (`TauCeti.SporadicName.presentation`), with the
+  Coxeter-quotient identifications of the Monster and Baby Monster presentations and the
+  commutator identification of `Fi24′`; the permutation models of `M11 M12 M24 J1 J2 HS McL` with
+  the surjections from their presented groups, and the order of the `M11` model (§6.2).
+- The Leech lattice of Rank24LatticeConstructions Layer 6 (`TauCeti.leechLattice`), the
+  classification and count of its minimal vectors, and its isometry group `Co0` with its finiteness
+  and its element `−1` (§8.2).
+
+**Left to other roadmaps.**
+
+- [CFSGStatement](../CFSGStatement/README.md) owns the index, the carriers, the canonical
+  Chevalley–Demazure carriers (its Layers 1–2), their comparison with the designated carriers (its
+  §3.1) and the induced candidate comparisons (its §4.1), the comparison of the Suzuki branch with
+  Tau Ceti's `TauCeti.suzukiGroup` (its §5.1, which can transport results but is not an input to
+  the theorems here), and the classification proposition. This roadmap proves neither `TauCeti.ClassificationStatement` nor pairwise nonisomorphism or uniqueness of
+  indices.
+- [ChevalleyGroups](../ChevalleyGroups/README.md) C2–C5 owns the ambient theory on the canonical
+  points: root subgroups for every root, the commutator formula, the Bruhat decomposition and Tits
+  system over a field, the centre, Steinberg's presentation, generation over an algebraically
+  closed field by root subgroups, and the Frobenius, graph and exceptional endomorphisms with their
+  action on root subgroups. [ReductiveGroups](../ReductiveGroups/README.md) Layer 7 owns abstract
+  Borel, root-datum and Bruhat theory. This roadmap owns the remaining structure theory of the finite
+  fixed points.
+- [Rank24LatticeConstructions](../Rank24LatticeConstructions/README.md) Layer 6 owns the Leech
+  lattice by Construction B and an odd shift, its rational form and its congruence model; this
+  roadmap owns the generators and order of its isometry group `Co0`, whose carrier and finiteness
+  are Tau Ceti's, and the quotient `Co1` with its actions and representation comparisons
+  (§§8.2–8.4), and builds no second Leech lattice.
+  [AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md) Layer 5 owns the
+  extended Golay code and its code theory and excludes the Mathieu identification, which is §8.1
+  here.
+- [SporadicOrders](../SporadicOrders/README.md) Layers 1–2 owns the ten canonical ATLAS permutation
+  models with their orders (Layer 1) and the surjections from the presented groups (Layer 2). It
+  supplies theorems, not a checker or a certificate format. This roadmap owns the upper bounds,
+  recognition and simplicity for those ten names, the four further models of §6.3, and the action
+  lemmas of §4.4; the soundness of stabilizer-chain and sifting certificates is Tau Ceti's (§4.4),
+  and a permutation certificate never bounds an abstract presented group.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `isSimpleGroup_of_prime_card`: a group of prime order is simple. `alternatingGroup.isSimpleGroup`:
+  `alternatingGroup α` is simple when `5 ≤ Nat.card α`.
+- `MulAction.IwasawaStructure` and `MulAction.IwasawaStructure.isSimpleGroup`: a nontrivial perfect
+  group with an Iwasawa structure on a faithful quasiprimitive action is simple.
+- `MulAction.IsPreprimitive` and `MulAction.isCoatom_stabilizer_iff_preprimitive`: a pretransitive
+  action on a nontrivial set is primitive exactly when a point stabilizer is a maximal subgroup.
+  `MulAction.orbit`, `MulAction.stabilizer`.
+- `PresentedGroup`, `PresentedGroup.toGroup` and `PresentedGroup.toGroup.unique`: an assignment on
+  which every relator evaluates to `1` gives the unique homomorphism with those generator values.
+- `IsSimpleGroup`, `IsSolvable`, `Subgroup.normalClosure`, `commutator`, `Subgroup.center`,
+  `Subgroup.centralizer`, `Subgroup.index`, `Nat.card`, `ConjClasses`, `IsConj`, `orderOf`,
+  `Representation` and `Representation.IsIrreducible`, `Equiv.Perm`, `alternatingGroup`, `ZMod`,
+  `Multiplicative`.
+
+### From Tau Ceti
+
+- **The list and its carriers** (`CFSG/Index.lean`, `CFSG/Classification.lean`,
+  `CFSG/Assembly/LieType.lean`, `CFSG/Sporadic/Presentation.lean`): `TauCeti.CFSGIndex`,
+  `TauCeti.CFSGIndex.Group`, `TauCeti.CFSGIndex.cyclic`, `TauCeti.CFSGIndex.alternating`,
+  `TauCeti.LieTypeIndex.Valid`, `TauCeti.ValidLieTypeIndex` with `AmbientGroup`, `steinberg`,
+  `frobenius`, `FixedPoints`, `Group` and `simpleRootSubgroup`, `TauCeti.SporadicName`,
+  `TauCeti.SporadicName.presentation`, `TauCeti.SporadicName.Group`, `TauCeti.GroupPresentation`
+  with `TauCeti.GroupPresentation.mem_relatorSet_iff`, `TauCeti.Relator`, and
+  `TauCeti.ClassificationStatement`. The carriers include no finiteness or simplicity condition.
+- **Elementary branches** (`CFSG/BasicProperties/Elementary.lean`):
+  `TauCeti.CFSGIndex.natCard_cyclic` (the cyclic carrier has `p` elements),
+  `TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`,
+  `TauCeti.CFSGIndex.isSimpleGroup_alternating`.
+- **Fixed points and finiteness** (`GroupTheory/FixedSubgroup.lean`,
+  `GroupTheory/FixedSubgroup/MatrixCoordinates.lean`, `GroupTheory/FixedPointCandidate.lean`,
+  `CFSG/BasicProperties/LieTypeFinite.lean`): `TauCeti.fixedSubgroup`, `TauCeti.fixedSubgroupCongr`
+  (fixed subgroups of endomorphisms intertwined by a `MulEquiv` are isomorphic),
+  `TauCeti.FixedPointCandidate`, `TauCeti.FixedPointCandidate.congr`,
+  `TauCeti.DerivedCentralQuotient`, `TauCeti.DerivedCentralQuotient.congr`,
+  `TauCeti.finiteFixedPointCandidate`; the finite-coordinate criterion
+  `TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow` (for `ρ : G → Matrix n n K` injective, `n`
+  finite, `K` an integral domain, `F` an endomorphism, `r` any natural number and `m > 1`: if
+  `ρ (F^[r] g) i j = (ρ g i j)^m` for all `g, i, j`, then `fixedSubgroup F` is finite), its iterate form
+  `TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate` (if `Φ` raises every coordinate to the power
+  `m` and `F^[r] = Φ^[k]` with `k ≠ 0`; with `k = 0` the hypothesis holds for `F = id` on an infinite
+  group), and its forms `Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate` for a subgroup of
+  `GL n K` and `Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow` for a faithful
+  representation with a finite basis; `TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`,
+  `TauCeti.ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius`,
+  the constructor Frobenius formulas (`TauCeti.ValidLieTypeIndex.frobenius_A` and its analogues),
+  `TauCeti.GraphTwistedIndex.twistOrder`, `TauCeti.GraphTwistedIndex.twistOrder_pos`,
+  `TauCeti.LieTypeIndex.one_lt_fieldOrder`, `TauCeti.ValidLieTypeIndex.card_fixedField`,
+  `TauCeti.ValidLieTypeIndex.finite_fixedPoints` and `TauCeti.ValidLieTypeIndex.finite`
+  (`Finite d.Group` for every valid index).
+- **Finite-field comparisons and family simplicity** (`CFSG/BasicProperties/TypeA.lean`,
+  `TypeC.lean`, `TypeB/Two.lean`, `TwistedA.lean`, `Suzuki.lean`, `CFSG/Suzuki/`):
+  `TauCeti.TypeALieIndex.specialLinearEquivFixedPoints`,
+  `TauCeti.TypeALieIndex.projectiveSpecialLinearEquivGroup`,
+  `TauCeti.ValidLieTypeIndex.isSimpleGroup_A` (the group of every valid `A_r(q)` is simple),
+  `TauCeti.TypeCLieIndex.symplecticEquivFixedPoints`,
+  `TauCeti.TypeB2LieIndex.symplecticEquivFixedPoints`,
+  `TauCeti.TypeB2LieIndex.projectiveSymplecticEquivGroup` (the group of `B₂(q)` is `PSp₄(𝔽_q)`),
+  `TauCeti.TypeB2LieIndex.commutator_symplectic_eq_top`,
+  `TauCeti.TypeALieIndex.specialUnitaryEquivFixedPoints`, `TauCeti.suzukiGroup`,
+  `TauCeti.Suzuki.titsSystem`, `TauCeti.SuzukiLieIndex.groupEquivSuzukiGroup` and
+  `TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki` (the group of every valid Suzuki index is simple).
+- **Tits systems** (`GroupTheory/TitsSystem/`): `TauCeti.TitsSystem`,
+  `TauCeti.TitsSystem.IsIrreducible`, `TauCeti.TitsSystem.IsIrreducible.of_mulEquiv`,
+  `TauCeti.TitsSystem.bruhatCell`, `TauCeti.TitsSystem.bruhatCell_injective`,
+  `TauCeti.TitsSystem.disjoint_bruhatCell_iff`, `TauCeti.TitsSystem.existsUnique_mem_bruhatCell`,
+  `TauCeti.TitsSystem.standardParabolic`, `TauCeti.TitsSystem.standardParabolicOrderIso` (the
+  subsets of `S` are order-isomorphic to the subgroups containing `B`), `TauCeti.TitsSystem.comap`,
+  `TauCeti.TitsSystem.le_normalCore_subgroupOf_or_eq_top_of_normal`,
+  `TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf`,
+  `TauCeti.TitsSystem.isSimpleGroup_quotient_normalCore_subgroupOf`,
+  `TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient` and
+  `TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`. The criterion assumes an
+  irreducible Weyl group, `U` solvable and normalized by `B` with `B ≤ U (B ∩ N)`, `Z ∩ U = 1`, the
+  normal closure of `U` equal to `[G, G]` and perfect, and concludes that
+  `DerivedCentralQuotient G` is simple whenever it is nontrivial.
+- **Iwasawa's criterion for central quotients** (`GroupTheory/GroupAction/Iwasawa.lean`):
+  `MulAction.IwasawaStructure.ofConj`, `MulAction.IwasawaStructure.isSimpleGroup_quotient_center`,
+  `MulAction.IwasawaStructure.mem_center_iff` and
+  `MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient` (a nontrivial perfect group
+  with an Iwasawa structure on a quasiprimitive action whose kernel is central has simple derived
+  central quotient).
+- **Presentations** (`GroupTheory/Presentation/`): `TauCeti.GroupPresentation.homEquiv`
+  (homomorphisms out of a presented group are the generator assignments satisfying its relators)
+  and `TauCeti.GroupPresentation.range_homEquiv_symm` (the range of the induced homomorphism is the
+  subgroup generated by the assigned values), `PresentedGroup.eliminateGenerators` (Tietze
+  elimination of defined generators), `PresentedGroup.subgroupPresentationEquiv`
+  (Reidemeister–Schreier, given a free basis and coset representatives),
+  `TauCeti.IsSchreierIndexTwoSource.mulEquivKerParityHom`,
+  `TauCeti.IsSchreierIndexTwoSource.mulEquivCommutator`,
+  `TauCeti.GroupPresentation.mulEquivCommutator`, `TauCeti.NormalClosureProgram`,
+  `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_eval_eq` and
+  `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_check` (a checked program recovering a
+  generating family proves normal generation).
+- **Upper bounds and permutation certificates** (`GroupTheory/Coset/Table.lean`,
+  `GroupTheory/Coset/Recognition.lean`, `Algebra/Group/Subgroup/Closure.lean`,
+  `GroupTheory/DoubleCoset/Cover.lean`, `GroupTheory/GroupAction/Stabilizer/Chain.lean`,
+  `GroupTheory/GroupAction/Stabilizer/Sift.lean`): `TauCeti.CosetTable` with
+  `TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex` and
+  `TauCeti.CosetTable.index_eq_of_check` (for generators satisfying the relators and subgroup words
+  in `L`, a coset table on `k` points whose deduction certificate checks gives `[G : L] ≤ k`, finite
+  index, and equality when the named cosets are distinct),
+  `TauCeti.CosetTable.eq_centralizer_of_check` (such a table for a subgroup of the centralizer of
+  `x` identifies it with the centralizer when every named representative commuting with `x` lies
+  in it),
+  `Subgroup.finite_closure_of_forall_mul_mem` and `Subgroup.natCard_closure_le_ncard_mul` (if left
+  multiplication by each element of `S` maps `R · K` into itself, for `R` finite and nonempty and `K`
+  a finite subgroup, the subgroup generated by `S` is finite of order at most `|R| · |K|`),
+  `Subgroup.exists_mem_doubleCoset_of_generator_transitions`,
+  `Subgroup.finiteIndex_of_doubleCoset_cover` and `Subgroup.index_le_sum_of_doubleCoset_cover`
+  (double cosets containing `1` and closed under the generator transitions cover the group; a
+  finite cover with intersections of finite index gives finite index, bounded by the sum of the
+  intersection indices), `Subgroup.stabilizerChain`,
+  `Subgroup.prod_ncard_orbit_mul_card_stabilizerChain` (the order is the product of the
+  basic-orbit lengths times the order of the last member, with no finiteness hypothesis),
+  `Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`, `TauCeti.sift`,
+  `TauCeti.inv_mul_mem_closure_of_sift`, `Subgroup.natCard_eq_prod_length_of_sift` and
+  `Subgroup.stabilizerChain_eq_bot_of_sift` (successful sifts give the order as a product of list
+  lengths, and a base). None of these assumes the ambient group finite.
+- **Simplicity certificates** (`GroupTheory/Subgroup/Simple.lean`, `GroupTheory/Sylow/Simple.lean`):
+  `IsMulTorsion.isSimpleGroup_of_isConj_of_normalClosure_eq_top` and
+  `TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`.
+- **Conjugacy classes and characters** (`GroupTheory/ClassEquation.lean`,
+  `RepresentationTheory/CharacterTable/Dixon/ClassData/Basic.lean`,
+  `RepresentationTheory/CharacterTable/Table.lean`, `Algebra/Group/Conj.lean`):
+  `List.sum_index_centralizer_eq_card_iff` (a pairwise nonconjugate list of a finite group meets
+  every conjugacy class exactly when the centralizer indices of its entries sum to the group
+  order), `TauCeti.ClassData` (a list of representatives with pairwise nonconjugacy and coverage),
+  `TauCeti.ClassData.ofSumIndexCentralizer`, `TauCeti.ClassData.map` with
+  `TauCeti.ClassData.rep_map`, `TauCeti.ClassData.classOf_map`, `TauCeti.ClassData.classFinset_map`,
+  `TauCeti.ClassData.index_map_inv` and `TauCeti.ClassData.index_map_pow`,
+  `TauCeti.ClassData.index_eq_index_iff` (two elements have the same label exactly when they are
+  conjugate), `TauCeti.ClassData.numClasses_eq_card_conjClasses`, `MulEquiv.conjClassesEquiv`,
+  `TauCeti.irreducibleCharacters` and `TauCeti.card_irreducibleCharacters` (for a finite group `G`
+  and an algebraically closed field `k` with `Nat.card G` invertible, the number of irreducible
+  characters is the number of conjugacy classes). The libraries
+  `RepresentationTheory/CharacterTable` and `RepresentationTheory/FrobeniusGroup/Basic` supply
+  ordinary character theory (Burnside, Frobenius kernels, irreducible expansions and
+  Frobenius–Schur theory); a source's private character objects are compared with them once.
+- **Sporadic presentations** (`CFSG/Sporadic/`): `TauCeti.Sporadic.j3Presentation`,
+  `TauCeti.Sporadic.j4Presentation`, `TauCeti.Sporadic.ruPresentation`,
+  `TauCeti.Sporadic.onanPresentation`, `TauCeti.Sporadic.fi23Presentation`,
+  `TauCeti.Sporadic.fi24PrimePresentation`, `TauCeti.Sporadic.Fi24AutomorphismGroup`,
+  `TauCeti.Sporadic.fi24PrimeGroupMulEquivCommutator`, `TauCeti.Sporadic.hnPresentation`,
+  `TauCeti.Sporadic.Lyons.presentation`, `TauCeti.Sporadic.Thompson.presentation`,
+  `TauCeti.Sporadic.co1Presentation`, `TauCeti.Sporadic.Monster.presentation`,
+  `TauCeti.Sporadic.Monster.spiderRelator`, `TauCeti.Sporadic.Monster.centralInvolutionRelator`,
+  `TauCeti.Sporadic.Monster.mulEquivPresentedGroupCoxeterAppend`,
+  `TauCeti.Sporadic.BabyMonster.presentation`, `TauCeti.Sporadic.BabyMonster.spiderRelator`,
+  `TauCeti.Sporadic.BabyMonster.extraRelatorOne`, `TauCeti.Sporadic.BabyMonster.extraRelatorTwo`
+  and `TauCeti.Sporadic.BabyMonster.mulEquivPresentedGroupCoxeterAppend`. These record presentation
+  data and Coxeter-quotient identifications; none states an order, finiteness or simplicity.
+- **Sporadic permutation models** (`GroupTheory/SpecificGroups/Sporadic/`,
+  `CFSG/Sporadic/Mathieu/TwentyFour/`, `CFSG/Sporadic/Janko/One/`): the subgroups
+  `TauCeti.Sporadic.M11`, `TauCeti.Sporadic.M12`, `TauCeti.Sporadic.M24`, `TauCeti.Sporadic.J1`,
+  `TauCeti.Sporadic.J2`, `TauCeti.Sporadic.HS` and `TauCeti.Sporadic.McL` of `Equiv.Perm (Fin n)`
+  generated by the two permutations of their ATLAS files, with
+  `TauCeti.Sporadic.exists_surjective_M11`, `TauCeti.Sporadic.exists_surjective_M12`,
+  `TauCeti.Sporadic.exists_surjective_M24`, `TauCeti.Sporadic.exists_surjective_J1`,
+  `TauCeti.Sporadic.exists_surjective_J2`, `TauCeti.Sporadic.exists_surjective_HS` and
+  `TauCeti.Sporadic.exists_surjective_McL` (a surjection from the presented group onto the model),
+  and `TauCeti.Sporadic.card_M11` (the `M11` model has 7920 elements).
+- **The Leech lattice** (`LinearAlgebra/IntegralLattice/Rank24/Leech/`): `TauCeti.leechLattice`
+  (the even overlattice of the Construction-B lattice glued along its odd shift, on `Fin 24 → ℚ`
+  with the halved dot product; even, unimodular, positive definite, of rank 24 and minimum 4),
+  `TauCeti.leechPairVectors`, `TauCeti.leechOctadVectors` and `TauCeti.leechOddVectors` (the three
+  families of §8.2 in raw coordinates `x = a/2`),
+  `TauCeti.intCast_div_two_mem_leechLattice_carrier_and_sum_sq_eq_iff` and
+  `TauCeti.mem_vectorsOfNorm_four_leechLattice_iff` (a lattice vector has norm 4 exactly when it is
+  half a vector of one of the families), `TauCeti.ncard_vectorsOfNorm_four_leechLattice` and
+  `TauCeti.kissingNumber_leechLattice` (196560 minimal vectors), and `TauCeti.isPosDef_leechLattice`
+  (`Λ` is positive definite).
+- **Lattice isometries** (`LinearAlgebra/IntegralLattice/Isometry/Basic.lean`,
+  `Isometry/Group.lean`, `PosDef/Finite.lean`): `TauCeti.IntegralLattice.Isometry L M` (isometries
+  of the ambient rational spaces carrying `L` onto `M`), a group under composition when `M = L`,
+  with `(f * g) x = f (g x)`; `TauCeti.IntegralLattice.Isometry.neg` (the isometry `−1`); and
+  `TauCeti.IntegralLattice.IsPosDef.finite_isometry` (there are finitely many isometries into a
+  positive definite lattice). With `L = M = TauCeti.leechLattice` these give `Co0` and its
+  finiteness (§8.2).
+
+### From TauCetiRoadmap.CFSGStatement
+
+Layer 1 (the canonical Chevalley–Demazure points `Gᶜ_d`), §3.1 (the equivalence `e_d` from the
+designated ambient group to `Gᶜ_d`, matching simple root subgroups and torus and intertwining the
+Steinberg maps), §4.1 (the induced comparison of fixed groups and candidates) and §5.1 (the Suzuki
+comparison). Consumed only on the transport routes of §§2.1, 2.6 and 5.1.
+
+### From TauCetiRoadmap.ChevalleyGroups
+
+C2–C5: root subgroups for every root, torus, commutator formula, Bruhat decomposition and Tits
+system over a field, centre, Steinberg's presentation, generation by root subgroups over an
+algebraically closed field, and the Frobenius, graph and exceptional endomorphisms with their
+action on root subgroups and characters. Consumed on the transport route of §2.1.
+
+### From TauCetiRoadmap.SporadicOrders
+
+Layers 1–2: the ten carriers `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, their orders, and the
+surjections from the presented groups onto them. Consumed in §6.2; seven of the carriers with their
+surjections, and the order of `M11`, are realized in Tau Ceti (above).
+
+### From TauCetiRoadmap.Rank24LatticeConstructions
+
+Layer 6: the Leech lattice `Λ = K.ofIsotropicSubgroup(H_s)` on `Fin 24 → ℚ` with
+`B(x, y) = (∑ i, x_i y_i)/2`, its rank, positive-definiteness, evenness, unimodularity, minimum 4 and
+congruence model `x_i = a_i/2`, realized as Tau Ceti's `TauCeti.leechLattice` (above). Consumed in
+§8.2.
+
+### From TauCetiRoadmap.AlgebraicCodingTheory
+
+Layer 5: the extended binary Golay code with its coordinate numbering, and its weight and rank
+theorems (octads and codeword counts). Consumed in §§8.1–8.2.
 
 ## References
 
-- R. W. Carter, *Simple Groups of Lie Type*, particularly the root-group, BN-pair, and
-  simplicity arguments; R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, for the
-  Steinberg fixed-point constructions.
-- J. Tits, the simplicity criterion for groups with a BN-pair; see also
+- R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, for the Steinberg fixed-point
+  constructions; R. Steinberg, *Lectures on Chevalley Groups*, Chapter 11, Theorem 33, for the
+  Bruhat decomposition of the fixed points.
+- J. Tits, the simplicity criterion for groups with a BN-pair; see
+  [Conrad's notes on Tits systems](https://math.stanford.edu/~conrad/249BW16Page/handouts/titssystem.pdf),
+  the definition of a split BN-pair preceding Theorem 2.4 and Theorem 2.4 itself, and
   [Conrad's notes on Tits systems and root groups](https://math.stanford.edu/~conrad/249BW16Page/handouts/roottits.pdf)
   for the group-theoretic interface.
-- [ATLAS of Finite Group Representations](https://brauer.maths.qmul.ac.uk/Atlas/v3/)
-  for named sporadic groups, presentations, finite representations, and orders.
+- [ATLAS of Finite Group Representations](https://brauer.maths.qmul.ac.uk/Atlas/v3/) for named
+  sporadic groups, presentations, finite representations and orders.
 - [Höhn–Seysen, *The Order of the Monster Finite Simple Group*](https://arxiv.org/abs/2508.01037)
-  for the Griess-algebra construction, Monster and Baby Monster order arguments, and
+  for the Griess-algebra construction, the Monster and Baby Monster order arguments, and the
   accompanying axis-orbit certificate data.
-- [Breuer, Magaard and Wilson, *Verification of the conjugacy classes and ordinary character
-  table of the Monster*, arXiv:2412.12182v1](https://arxiv.org/html/2412.12182v1),
-  particularly §2 and §4.9 Proposition1, for the local prerequisites and the complete
-  class-verification route; its full character-table verification follows the class count.
-- [Breuer–Magaard–Wilson, *Verification of the ordinary character table of the Baby
-  Monster*, arXiv:1902.07758v2](https://arxiv.org/abs/1902.07758v2), §§2–3.1 for the
-  presentation and its dependency on the Monster's having no proper double cover.
+- [Breuer, Magaard and Wilson, *Verification of the conjugacy classes and ordinary character table
+  of the Monster*, arXiv:2412.12182v1](https://arxiv.org/html/2412.12182v1), particularly §2 and
+  §4.9 Proposition 1, for the local prerequisites and the class-verification route; its full
+  character-table verification follows the class count.
+- [Breuer–Magaard–Wilson, *Verification of the ordinary character table of the Baby Monster*,
+  arXiv:1902.07758v2](https://arxiv.org/abs/1902.07758v2), §§2–3.1, for the presentation and its
+  dependence on the Monster's having no proper double cover.
 - [Ivanov, *Presenting the Baby Monster*, J. Algebra 163 (1994), 88–108](https://doi.org/10.1006/jabr.1994.1005),
   for the Baby Monster presentation theorem.
 - [Ivanov, *Y-groups via Transitive Extension*, J. Algebra 218 (1999), 412–435](https://doi.org/10.1006/jabr.1999.7882),
-  especially the definition on p. 413, Lemma 3.2, and §3.9, for the Monster
-  Coxeter-plus-spider group and its central quotient.
-- Griess, *The Schur multipliers of the known finite simple groups, III*, Proceedings of
-  the Rutgers Group Theory Year, 1983–1984 (1985), 69–80, for the central-extension
-  prerequisite cited by Breuer–Magaard–Wilson.
-- [FiniteSimpleGroups](https://github.com/KitaKen1/finite-simple-groups-lean) for independent
-  formal permutation models of the fourteen P1 groups; its results require a proved
-  presentation equivalence before they apply to Tau Ceti's carriers.
+  especially the definition on p. 413, Lemma 3.2 and §3.9, for the Monster Coxeter-plus-spider
+  group and its central quotient.
+- Griess, *The Schur multipliers of the known finite simple groups, III*, Proceedings of the
+  Rutgers Group Theory Year, 1983–1984 (1985), 69–80, for the central-extension prerequisite cited by
+  Breuer–Magaard–Wilson.
+- [FiniteSimpleGroups](https://github.com/KitaKen1/finite-simple-groups-lean) for independent formal
+  permutation models of the fourteen groups of Layer 6; its results apply to Tau Ceti's carriers only
+  through a proved presentation equivalence.
 
-The source labels in P2-N refer to these presentations and construction arguments:
+The source labels of Layer 7 refer to these presentations and construction arguments:
 
-- [C][src-c]: the exact Tau Ceti sporadic dispatcher and its imported presentations at
-  revision `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; [A][src-a]: the ATLAS representation
-  list. Each selected model is linked directly in the construction table.
-- [J3][src-j3] and [J4][src-j4]: the ATLAS Magma presentation artifacts, including their
-  subgroup words and index targets. For the J4 construction, see Bolt–Bray–Curtis,
+- [C][src-c]: the Tau Ceti sporadic dispatcher and its imported presentations at the pinned revision
+  `2fd255d997f47c0b5d834ee416c7015d55444ce5`; [A][src-a]: the ATLAS representation list. Each
+  selected model is linked in its section.
+- [J3][src-j3] and [J4][src-j4]: the ATLAS Magma presentation artifacts, with their subgroup words
+  and index targets. For the J4 construction, Bolt–Bray–Curtis,
   [*Symmetric presentation of the Janko group J4*](https://doi.org/10.1112/jlms/jdm086), §5.
-- [Ru][src-ru]: Soicher's pinned `tcenum` input. Its word conventions are defined by the
-  [parser at the same
-revision](https://raw.githubusercontent.com/lhsoicher/tcenum/fb9dd89130fca8ad7dc4a92537c96ce7b30b62f1/src/tcfrontend.c).
-  The construction source is Bradley–Curtis–Malik,
+- [Ru][src-ru]: Soicher's pinned `tcenum` input, whose word conventions are defined by the
+  [parser at the same revision](https://raw.githubusercontent.com/lhsoicher/tcenum/fb9dd89130fca8ad7dc4a92537c96ce7b30b62f1/src/tcfrontend.c);
+  the construction source is Bradley–Curtis–Malik,
   [*Symmetric generation of the Rudvalis group*](https://doi.org/10.1112/jlms/jdq039).
-- [ON][src-on] and [F23][src-f23]: records `GPLTable.ON.1` and `GPLTable.Fi23.1` of
-  Lindenbergh's Group Presentations Library, following Praeger–Soicher,
+- [ON][src-on] and [F23][src-f23]: records `GPLTable.ON.1` and `GPLTable.Fi23.1` of Lindenbergh's
+  Group Presentations Library, following Praeger–Soicher,
   [*Low Rank Representations and Graphs for Sporadic Groups*, Chapter 4](https://doi.org/10.1017/CBO9780511526039.005).
-- [F24][src-f24]: Kim–Michler, *Construction of Fischer's sporadic group Fi24′ inside
-  GL8671(13)*, Lemma 6.2(a)–(c) and Theorem 6.3 for the parent presentation and its
-  permutation action. P2-N assigns the presentation-kernel and stabilizer-order proofs
-  needed to certify that action.
-- [HN][src-hn]: Bray–Curtis, *The construction of the Harada–Norton group*, §§3–5;
-  use the first constructor in [the corrected `HNpb.m`](https://webspace.maths.qmul.ac.uk/j.n.bray/Papers/HN/HNpb.m)
+- [F24][src-f24]: Kim–Michler, *Construction of Fischer's sporadic group Fi24′ inside GL8671(13)*,
+  Lemma 6.2(a)–(c) and Theorem 6.3, for the parent presentation and its permutation action; §7.7
+  assigns the presentation-kernel and stabilizer-order proofs needed to certify that action.
+- [HN][src-hn]: Bray–Curtis, *The construction of the Harada–Norton group*, §§3–5; the first
+  constructor in [the corrected `HNpb.m`](https://webspace.maths.qmul.ac.uk/j.n.bray/Papers/HN/HNpb.m)
   and the [author's errata](https://webspace.maths.qmul.ac.uk/j.n.bray/Papers/HN/HN.html).
-- [Ly][src-ly]: Havas–Sims, *A presentation for the Lyons simple group*, §14.2,
-  relations (14.1)–(14.86), and §14.4 for the enumeration on the six retained generators.
-- [Th][src-th]: Havas–Soicher–Wilson, *A presentation for the Thompson sporadic simple
-  group*, Theorem 3.1 for the relators and subgroup tower, §4 for matrix generators,
-  and §5 for the global enumeration.
+- [Ly][src-ly]: Havas–Sims, *A presentation for the Lyons simple group*, §14.2, relations
+  (14.1)–(14.86), and §14.4 for the enumeration on the six retained generators.
+- [Th][src-th]: Havas–Soicher–Wilson, *A presentation for the Thompson sporadic simple group*,
+  Theorem 3.1 for the relators and subgroup tower, §4 for matrix generators, and §5 for the global
+  enumeration.
 
-[src-c]: https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/GroupTheory/SpecificGroups/CFSG/Sporadic/Presentation.lean
+[src-c]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/GroupTheory/SpecificGroups/CFSG/Sporadic/Presentation.lean
 [src-a]: https://brauer.maths.qmul.ac.uk/Atlas/v3/
 [src-j3]: https://brauer.maths.qmul.ac.uk/Atlas/spor/J3/mag/J3G1-P1.M
 [src-j4]: https://brauer.maths.qmul.ac.uk/Atlas/spor/J4/mag/J4G2-P1.M
@@ -903,5 +1661,31 @@ revision](https://raw.githubusercontent.com/lhsoicher/tcenum/fb9dd89130fca8ad7dc
 [src-ly]: https://doi.org/10.1007/978-3-0348-8716-8_14
 [src-th]: https://webspace.maths.qmul.ac.uk/r.a.wilson/pubs_files/Thpres2web.pdf
 
-[rank24]: ../Rank24LatticeConstructions/README.md#layer-6-the-leech-lattice-by-construction-b-and-an-odd-shift
-[sporadic-orders]: ../SporadicOrders/README.md
+### Existing formalizations
+
+These are secondary proof sources for the targets above; they change neither the ownership nor the
+exact-carrier requirements. Coordinate with their authors before adapting code, and express reusable
+lemmas through Tau Ceti's presentation, character, action and Tits-system interfaces.
+
+- Axiom's [sporadic converse theorem](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_sporadic_converse.lean)
+  proves finiteness and simplicity of each exact `TauCeti.SporadicName.Group` at Tau Ceti revision
+  `6e0c6acab5f4c6f42e5f5bab9bd5e4e84f74c380`. Its presentation and model comparisons are proof
+  sources for Layers 6–10, after comparing relators and generators with the pinned ones. Its
+  [Monster simplicity proof](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_M_simplicity.lean)
+  uses the Feit–Thompson theorem through the odd-order local bounds in
+  [`Monster/Existence/StdOdd/Seven`](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Monster/Existence/StdOdd/Seven.lean).
+  It is not an alternative completion criterion: the construction and recognition routes of Layers
+  9–10, including `M_alg`, `G₀`, `K` and `B_alg`, which Layer 11 consumes, are required, and
+  fragments depending on Feit–Thompson are replaced within those routes; importing its final Monster
+  theorem does not discharge them. Citing it adds no Feit–Thompson prerequisite.
+- Its [finite simple Lie models](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/CAT_native_realization.lean)
+  and [`LieType/Catalog`](https://github.com/AxiomMath/CFSG/tree/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/LieType/Catalog)
+  supply material for Layers 2, 3 and 5. The models in
+  [`Blueprint/Catalog`](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Blueprint/Catalog.lean)
+  are finite-field adjoint quotients, twisted derived central quotients, and Ree and Suzuki matrix
+  groups. Comparing `d.Group` with such a model is a proved `MulEquiv` (§2.6); a finite-field model
+  need not have an ambient Steinberg map, and the comparison includes fixed-field descent, the
+  identification of the derived subgroup with the appropriate root-generated group, and matching
+  centres, which are structure theorems of Layers 2, 3 and 5 and not consequences of finiteness.
+  Its admissibility predicate `StatedLieAdmissible` is matched with `TauCeti.LieTypeIndex.Valid`,
+  including the Tits group versus `²F₄(2)′` and the lower bound on the Suzuki parameter.
