@@ -1,0 +1,687 @@
+# The umbrella GRH for `tauceti work --roadmap-only GRH`: the roadmap family
+# RiemannHypothesisForDirichletLFunctions and the roadmaps it cites as suppliers.
+# A member is a top-level directory of TauCetiRoadmap/. weight: how many roadmaps of the family cite it.
+# sections: what the family cites there. A member that is not on main yet is skipped until it lands.
+# Generated from the family's READMEs; regenerate it rather than editing by hand.
+
+description = "The generalized Riemann hypothesis (GRH), the Riemann hypothesis for Dirichlet L-functions: the family RiemannHypothesisForDirichletLFunctions and the roadmaps it cites."
+
+[[area]]
+name = "RiemannHypothesisForDirichletLFunctions"
+weight = 43
+
+[[area]]
+name = "RepresentationTheory"
+weight = 43
+sections = ["ClassicalGroups §0.4", "ClassicalGroups §2.2", "ClassicalGroups §2.3", "ClassicalGroups Layer 3", "ClassicalGroups §3.1", "ClassicalGroups §3.3", "ClassicalGroups §4.1", "ClassicalGroups §4.2", "ClassicalGroups §4.3", "ClassicalGroups Layer 5", "ClassicalGroups §5.1", "ClassicalGroups §6.1", "ClassicalGroups §6.3", "ClassicalGroups §6.4", "ClassicalGroups §6.5", "ClassicalGroups §6.6", "CompactGroups Layer 0", "CompactGroups Layer 2", "CompactGroups Layer 4", "CompactGroups §4.1", "CompactGroups §4.2", "CompactGroups Layer 5", "LieHighestWeight Layer 3", "LieHighestWeight Layer 6", "LieHighestWeight Layer 7", "LieHighestWeight Layer 9", "LieHighestWeight §9.2", "SchurWeyl Layer 0", "SchurWeyl Layer 4", "SchurWeyl Layer 5", "SchurWeyl Layer 6", "SchurWeyl Layer 7", "SchurWeyl §7.5", "SchurWeyl §7.6", "SchurWeyl §7.7", "SchurWeyl Layer 8", "SchurWeyl §8.1", "SchurWeyl §8.2", "SchurWeyl §8.3", "InductionRestriction Layer 0", "InductionRestriction Layer 2", "InductionRestriction Layer 3", "InductionRestriction Layer 4", "InductionRestriction Layer 5", "InductionRestriction Layer 6", "InductionRestriction Layer 7", "CharacterTheory Layer 0", "CharacterTheory §0.2", "CharacterTheory Layer 2", "CharacterTheory Layer 3", "CharacterTheory §3.5", "CharacterTheory Layer 9", "CharacterTheory §9.2", "LieGroups Layer 9"]
+
+[[area]]
+name = "ClassFieldTheory"
+weight = 15
+sections = ["§C.6", "Layer 4", "Layer 5", "§5.1", "§6.1", "Layer 7", "§7.1", "Layer 8", "§8.1", "Layer 9", "Layer 10", "Layer 11", "§11.1", "Layer 12", "Layer 13", "§13.1", "Layer 14", "§W.5"]
+
+[[area]]
+name = "AnalyticNumberTheoryPartI"
+weight = 14
+sections = ["§0.1", "§0.2", "§0.6", "§0.11", "§0.11a", "§0.11b", "§0.12", "§0.16", "§0.17", "§0.18", "§0.28", "§0.30", "§0.30a", "§0.31b", "§0.32", "§0.34", "§0.34a", "§1.4", "§1.4c", "§1.4d", "§1.6", "§1.7", "§1.9", "§2.3a", "§2.7", "§2.9", "§2.9a", "§2.15", "§2.17a", "§2.18a", "§2.31d", "§2.31e", "§2.39b", "§2.41", "§2.42", "§2.43", "§2.49"]
+
+[[area]]
+name = "AutomorphicFormsOnReductiveGroups"
+weight = 14
+sections = ["§0.4", "§2.1", "§2.2", "§2.3a", "§2.3", "§2.4", "§2.7", "§4.1", "§4.2", "§4.3", "§5.2", "§5.4", "§5.5", "§6.1", "§6.8", "§7.4", "§7.5", "§7.6"]
+
+[[area]]
+name = "AdelicAlgebraicGroups"
+weight = 10
+sections = ["§0.3", "§1.1", "§1.4", "§1.5", "Layer 2", "§2.1", "§2.2", "§2.3", "§2.4", "§2.5", "§3.1", "§3.4", "§3.5", "§4.1", "§4.2", "§4.4", "§5.1"]
+
+[[area]]
+name = "MetaplecticAutomorphicForms"
+weight = 10
+sections = ["§0.1", "§0.15", "§0.17", "§0.18", "§1.1", "§1.2", "§1.3", "§2.1", "§2.4b", "§2.4c", "§2.5", "§2.6a", "§2.7", "§3.2a", "§3.3", "§3.3b", "§3.4", "§3.5", "§3.6", "§3.14", "§3.7", "§3.9", "§3.12", "§3.18", "§3.21", "§3.22", "§3.28", "§3.44", "§4.1", "§4.1a", "§4.2", "§4.3", "§4.4", "§4.5", "§5.1", "§5.2", "§5.5", "§5.6", "§5.7", "§5.8", "§6.1", "§6.2", "§6.3", "§6.4", "§6.5", "§6.6", "§6.7", "§6.10", "§6.10a", "§6.11", "§6.12", "§6.13", "§6.14", "§6.15", "§6.17"]
+
+[[area]]
+name = "ReductiveGroups"
+weight = 10
+sections = ["Layer 3", "Layer 3A", "§3A.5d", "§3A.5f", "Layer 4", "Layer 5", "Layer 6", "Layer 6A", "Layer 7", "Layer 7C", "Layer 7a", "Layer 7b", "Layer 7c", "Layer 7d", "Layer 7e", "Layer 7f", "Layer 9", "§9A", "Layer 9E", "§10A", "§10B", "§10D"]
+
+[[area]]
+name = "SmoothRepresentationsOfLocalGroups"
+weight = 10
+sections = ["Layer SR.0", "§SR.0.3", "§SR.0.4", "Layer SR.1", "§SR.1.2", "§SR.1.4", "Layer SR.0d", "Layer SR.2", "§SR.2.1", "§SR.2.2", "§SR.2.3", "Layer SR.3a", "§SR.3a.1", "§SR.3a.2", "Layer SR.3", "§SR.3.1", "§SR.3.2", "§SR.3.3", "§SR.3.4", "Layer SR.2a", "§SR.2a.1", "Layer SR.4", "§SR.4.1", "§SR.4.2", "§SR.4.3", "§SR.4.4", "Layer SR.5", "§SR.5.1", "§SR.5.2"]
+
+[[area]]
+name = "AbelianSchemesAndArithmeticModuli"
+weight = 9
+sections = ["§A1.3a", "§A1.5", "§A2.2", "§A2.3", "§A2.5", "§A2.6", "§A3.3", "§A3.7", "§A3.9", "§A4.3", "§A4.7a", "Layer A5", "§A5.1", "§A5.2", "§A5.3", "§A5.4", "§A5.6"]
+
+[[area]]
+name = "ArithmeticGaloisRepresentations"
+weight = 9
+sections = ["§1.7", "§1.8", "§2.3", "§2.4", "§2.5", "§2.5a", "§2.6", "§2.7", "§5.1", "§5.3", "§5.5", "§5.10", "§7.1", "§7.4", "§7.7", "§7.10"]
+
+[[area]]
+name = "AutomorphicLFunctionsAndLocalFactors"
+weight = 9
+sections = ["§AL.0.1.7", "Layer AL.1", "§AL.1.3.4", "Layer AL.2", "§AL.2.1.2", "§AL.2.1.3", "§AL.2.1.4", "§AL.2.1.5", "§AL.2.4.1", "Layer AL.3", "§AL.3.1.1", "§AL.3.1.2", "§AL.3.2", "§AL.3.2.1", "§AL.3.2.2", "§AL.3.2.3", "§AL.3.3", "§AL.3.3.1", "§AL.3.3.2", "§AL.3.3.8", "§AL.3.6.1", "§AL.3.6.2", "§AL.3.7.2", "§AL.3.10.5", "Layer AL.4", "§AL.4.1.1", "§AL.4.1.2"]
+
+[[area]]
+name = "LFunctions"
+weight = 8
+sections = ["Layer 0", "Layer 2", "Layer 3", "Layer 4", "Layer 5", "Layer 6", "Layer 7", "Layer 8"]
+
+[[area]]
+name = "SchemeAndStackFoundations"
+weight = 8
+sections = ["Layer 0", "§0.6", "§0.8", "§0.9", "§0.14", "§0.16", "§0.20", "§0.21", "Layer 1", "§1.1", "§1.15", "§1.17", "§1.24", "Layer 2", "§2.2", "§2.6", "§3.4", "§3.5", "Layer 4", "§4.11", "§4.12", "§4.13", "§4.17", "§4.18", "Layer 5", "§5.1", "§5.2", "§5.3", "§5.4"]
+
+[[area]]
+name = "AlgebraicModuliForArithmeticGeometry"
+weight = 7
+sections = ["§1.1", "§1.3", "§1.5", "§1.6", "§5.4", "Layer 9", "§9.10", "§9.11"]
+
+[[area]]
+name = "ArakelovGeometryAndAbelianHeights"
+weight = 7
+sections = ["Layer 1", "§1.1", "§1.2", "§1.3", "§1.4", "§1.5", "§1.6", "§1.10", "§1.12", "§1.13", "§1.14", "§2.0", "§2.1", "§2.2", "§2.7", "§2.8", "§2.9", "§4.6", "§4.7", "§4.8", "§5.0a", "§5.0b", "§5.1", "§5.3", "§5.8", "§6.5"]
+
+[[area]]
+name = "ArithmeticGaloisDuality"
+weight = 7
+sections = ["§R02.1.2", "§R02.1.3", "§R02.2.3", "§R02.3.0d", "§R02.3.3", "§R02.4.2", "§R02.4.3", "§R02.4.4", "§R02.4.6", "§D7.4", "§D7.6", "§D7.7", "§D7.7.1", "§D7.7.4", "§R02.5.1"]
+
+[[area]]
+name = "ClassicalArithmeticCompletion"
+weight = 7
+sections = ["§1.5", "§1.6", "§1.70", "§5.0", "§5.1b", "§5.1c", "§5.16a", "§6.18", "§6.20", "§6.40", "§7.5", "§7.12b"]
+
+[[area]]
+name = "EndoscopicTransferAndUnitaryTraceComparison"
+weight = 7
+sections = ["§1.3", "§2.3", "§2.10", "§2.16", "Layer 6", "§6.3", "§6.12", "§6.24", "§6.26", "§6.29", "Layer 10", "§10.1", "§10.18", "§10.20", "§10.21", "§10.22", "§10.23", "§10.24", "§10.25", "§10.26", "§10.27", "§10.28", "§10.29", "§10.30", "§13.1", "§13.4", "§13.6", "§13.8"]
+
+[[area]]
+name = "AnalyticNumberTheoryPartII"
+weight = 6
+sections = ["§4.5c", "§5.3f", "§5.3g", "§5.3h", "§5.3j", "§5.3k", "§5.7a", "§5.29"]
+
+[[area]]
+name = "ArithmeticLocallySymmetricSpaces"
+weight = 6
+sections = ["§ALS.F.6", "§ALS.F.7", "§ALS.1.5", "§ALS.2.4", "§ALS.5b.5", "§ALS.5b.6"]
+
+[[area]]
+name = "AutomorphicSpectralTheory"
+weight = 6
+sections = ["§0.8", "§0.9", "§1.1", "§1.2", "§1.3", "§1.4", "§2.4", "§2.4a", "§3.2", "§3.4", "§3.6c", "§4.4", "§4.5", "§4.10", "§6.4", "§6.17", "§6.18", "§6.22c", "§7.0a", "§7.0b"]
+
+[[area]]
+name = "GeometryOfNumbersAndQuadraticArithmetic"
+weight = 6
+sections = ["§0.3", "§2.2.3", "§2.2.4", "§2.2.5", "§2.4", "§2.5.2", "§2.5.3", "§2.5.4", "§2.7", "§2.7.1", "§2.7.2", "§2.7.3", "§2.8", "§2.9", "§2.9.1", "§2.9.2", "§3.1.3", "§3.2.1", "§3.2.2", "§3.2.4", "§3.3", "§3.3.4", "§4.4", "§4.4.13", "§4.4.14", "Layer 6"]
+
+[[area]]
+name = "PadicHodgeTheory"
+weight = 6
+sections = ["§1.5", "§3.1", "§3.5", "§3.6", "§4.4", "§5.1", "§5.2", "§5.3", "§6.2"]
+
+[[area]]
+name = "AutomorphicGaloisRepresentationsPartII"
+weight = 5
+sections = ["Layer AG2.0", "Layer AG2.1a", "Layer AG2.1b", "Layer AG2.2", "Layer AG2.3", "Layer AG2.4", "Layer AG2.5", "Layer AG2.6", "Layer AG2.7"]
+
+[[area]]
+name = "GlobalNumberFields"
+weight = 5
+
+[[area]]
+name = "IntegralIwasawaTheory"
+weight = 5
+sections = ["Layer 0", "§0.1", "§0.2", "§0.3", "§2.0", "§3.4", "§3.5", "§4.1a", "§5.6", "§6.0", "§9.6", "§10.4", "§10.5", "§12.1", "§12.2", "§12.3"]
+
+[[area]]
+name = "ProfiniteCohomology"
+weight = 5
+sections = ["Layer 1", "§2.1", "§2.3", "§2.4", "§3.2", "Layer 5", "§5.4", "§5.5", "Layer 6", "§6.2", "§6.3", "§7.2", "Layer 9", "§9.5", "§9.6", "Layer 11"]
+
+[[area]]
+name = "ResolutionOfSingularitiesCharacteristicZero"
+weight = 5
+sections = ["§5.1", "§5.2", "§5.5", "§5.6", "§6.2", "§7.7"]
+
+[[area]]
+name = "SelmerIwasawaCohomology"
+weight = 5
+sections = ["§2.1", "§2.2", "§2.3", "§2.4", "§2.5", "§2.6", "§2.7", "§2.8", "§2.8a", "§2.9", "§2.13", "§2.17", "§2.19", "§2.21", "§2.22", "§3.0", "§4.8", "§4.9", "§4.10", "§4.20"]
+
+[[area]]
+name = "ShimuraCompactifications"
+weight = 5
+sections = ["Layer 0", "§0.15", "§1.1", "§1.3", "Layer 2", "§2.3", "§2.6", "§2.7", "Layer 6", "§6.1", "§6.2", "§6.3", "§6.4", "§6.5", "§6.6", "§6.7", "§6.8", "§6.9", "§6.15", "§6.18", "Layer 7", "§7.3", "§7.12", "§7.13", "§7.16", "§7.17", "§7.18", "§7.19", "§7.20", "§7.22", "§7.31", "§7.33", "Layer 8", "§8.23", "§8.28", "§8.30", "§8.34"]
+
+[[area]]
+name = "ComplexComparisonPartII"
+weight = 4
+sections = ["§C-1.1", "§C-1.4", "Layer C0", "§C1.3", "§C1.4", "§C1.5", "§C1.9", "§C2.2", "§C5.4"]
+
+[[area]]
+name = "ComplexMultiplicationAndExplicitReciprocity"
+weight = 4
+
+[[area]]
+name = "ExplicitPrimeCounting"
+weight = 4
+sections = ["§0.2", "§0.3a", "§0.7", "§1.1", "§1.2", "§1.3", "§1.4", "§1.7", "§2.1", "§2.2", "§2.3", "§2.5", "§2.6", "§3.1", "§3.2", "§3.3", "§3.4", "§3.5", "§3.6", "§3.7", "§3.8", "§4.2", "§4.3", "§4.7", "§5.3", "§6.1", "§6.3", "§6.4", "§6.5", "§6.6", "§7.1", "§7.2", "§7.3", "§7.4", "§7.5"]
+
+[[area]]
+name = "IntegralHeckeAndGaloisDeterminants"
+weight = 4
+sections = ["Layer 0", "§0.2", "§0.5", "§3a.1", "Layer 1", "§1.1", "§1.2", "§1.3", "§1.4", "§4.1", "§5.1", "§6.1", "§6.7"]
+
+[[area]]
+name = "NoncommutativeAndEquivariantIwasawa"
+weight = 4
+sections = ["§6.1", "§F.6"]
+
+[[area]]
+name = "PadicFamilies"
+weight = 4
+sections = ["§1.7", "§1.8", "§1.8a", "§1.9", "§4.1"]
+
+[[area]]
+name = "PotentialAutomorphyInfrastructurePartII"
+weight = 4
+
+[[area]]
+name = "QuasiRiemannHypothesis"
+weight = 4
+
+[[area]]
+name = "ReductiveGroupsPartII"
+weight = 4
+sections = ["Layer RG2.0", "Layer RG2.0a", "§RG2.1.5", "§RG2.3.1", "§RG2.3.6", "§RG2.3.7", "Layer RG2.4"]
+
+[[area]]
+name = "VonNeumannAlgebras"
+weight = 4
+sections = ["Layer 9", "Layer 11"]
+
+[[area]]
+name = "ZerosOfLFunctions"
+weight = 4
+sections = ["Layer 0", "§1.4", "§1.4a", "§1.5", "§1.6", "Layer 2", "§2.1", "§2.2", "§3.3", "§3.4", "§4.3", "§4.4", "§4.5", "§5.4", "§5.5", "§5.6", "§5.6a", "§6.2", "§6.3", "§6.4", "§6.4a", "§6.5", "Layer 7", "§7.3", "§7.4", "§7.5", "§7.6", "§8.2", "§8.3", "§8.4", "§8.5", "§8.6", "§8.7", "§8.8", "Layer 9"]
+
+[[area]]
+name = "ArakelovGeometryAndAbelianHeightsPartII"
+weight = 3
+
+[[area]]
+name = "AutomorphicBundles"
+weight = 3
+
+[[area]]
+name = "AutomorphicLFunctionsAndLocalFactorsPartII"
+weight = 3
+sections = ["§1.1", "§1.3", "§2.2", "§2.3", "§3.1", "§3.4", "§4.4", "§10.2"]
+
+[[area]]
+name = "CyclotomicClassGroupsAndStickelberger"
+weight = 3
+sections = ["§0.1", "§2.1", "§2.3", "§2.5", "§3.1", "§3.2", "§3.4", "§4.1", "§4.2", "§4.3"]
+
+[[area]]
+name = "FiniteFlatGroupsAndIntegralPadicHodgeTheory"
+weight = 3
+sections = ["§R07.1.1", "§R07.1.3", "§R07.1.7", "§R07.1.17", "§R07.P5a", "§R07.P7.1", "§R07.P7.2", "§R07.1.24a", "§R07.1.27", "§R07.1.28", "§R07.4.6", "§R07.4.8", "§R07.4.12", "§R07.5.11"]
+
+[[area]]
+name = "FiniteGroupInvariants"
+weight = 3
+sections = ["§10.2"]
+
+[[area]]
+name = "GanGrossPrasadUnitaryGroups"
+weight = 3
+
+[[area]]
+name = "HeightsRationalPointsAndObstructions"
+weight = 3
+
+[[area]]
+name = "LubinTateFormalModulesAndQuasiCanonicalLifts"
+weight = 3
+
+[[area]]
+name = "ModularityAndLanglandsExtensions"
+weight = 3
+
+[[area]]
+name = "NeronModelsAndSemistableAbelianVarieties"
+weight = 3
+sections = ["§3.3", "§3.5", "§3.6", "§3.13", "§3.14"]
+
+[[area]]
+name = "PELModuli"
+weight = 3
+sections = ["Layer M0", "§M0.5", "§M0.7", "§M0.22", "§M0.27", "Layer M1", "§M1.3", "§M1.7", "Layer M2", "§M2.8", "§M2.9", "§M2.10", "Layer M3", "§M3.4", "§M3.5", "§M3.8", "Layer M4", "§M4.5", "§M4.6", "§M4.7", "§M6.1"]
+
+[[area]]
+name = "PhiGammaModulesAndIwasawaCohomology"
+weight = 3
+sections = ["§0.1", "§1.0", "§2.2", "§2.3", "§2.4", "§2.5", "§3.1", "§3.4", "§3.4a", "§3.5", "§3.6", "§5.6a", "§6.0", "§6.1", "§6.2", "§6.3", "§7.2a"]
+
+[[area]]
+name = "ShimuraVarieties"
+weight = 3
+sections = ["§2.1", "§4.4", "§4.12", "§5.1", "§5.9", "§6.7", "§7.0h"]
+
+[[area]]
+name = "AInfCohomology"
+weight = 2
+sections = ["§AI.1.3"]
+
+[[area]]
+name = "AlgebraicModularFormsAndSerreWeights"
+weight = 2
+sections = ["§1.2", "Layer 2", "§2.10", "§2.15", "§5.10"]
+
+[[area]]
+name = "AlgebraicModuliForArithmeticGeometryPartII"
+weight = 2
+sections = ["§0.7", "§1.5", "§1.6", "§1.7", "§3.3"]
+
+[[area]]
+name = "ArithmeticDirichletSeriesPartII"
+weight = 2
+sections = ["§0.1", "§0.2", "§4.1"]
+
+[[area]]
+name = "ArithmeticKTheory"
+weight = 2
+sections = ["§2.1", "§2.2", "§2.3", "Layer 3", "§3.1", "§3.2", "§3.4", "§6.1", "§6.3", "§6.7", "§6.8", "§6.9", "§7.3", "§7.4", "§7.5"]
+
+[[area]]
+name = "CharacteristicClasses"
+weight = 2
+sections = ["§C2.3", "§C2.5", "§C2.6", "§C4", "§4.1", "§4.2"]
+
+[[area]]
+name = "ComplexKahlerGeometry"
+weight = 2
+sections = ["§K2", "§K3", "§3.1", "§K4", "§K5a", "§6.1", "§7.2"]
+
+[[area]]
+name = "DeformationAndDerivedPatchingAlgebra"
+weight = 2
+sections = ["§1.3", "§1.4", "§1.5", "§1.9", "Layer 3", "§3.1", "§3.11", "§3.12", "§3.13", "Layer 4", "§4.2", "§5.3", "§5.4", "§5.5", "§5.6", "§5.7", "§5.8", "Layer 6", "§6.1", "§6.2", "§6.4", "§6.6", "§8.1"]
+
+[[area]]
+name = "DiophantineApproximationAndTranscendence"
+weight = 2
+sections = ["§0.0", "§0.2", "§1.3", "§2.5", "§2.8", "§3.7"]
+
+[[area]]
+name = "DirichletPadicLFunctions"
+weight = 2
+sections = ["§0.4", "§2.3", "§2.4"]
+
+[[area]]
+name = "ExplicitNumberFields"
+weight = 2
+
+[[area]]
+name = "ExplicitZetaBounds"
+weight = 2
+sections = ["§0.2", "§0.3", "§0.4", "§0.4a", "§0.4b", "§2.9", "§5.2", "§5.3", "§6.1a", "Layer 7", "§7.2", "§7.3", "§7.3a", "§7.4", "§7.5", "§7.6", "§7.9", "§7.10", "Layer 8", "§8.1", "§8.3", "§8.3a", "§8.4", "§8.5", "§9.3"]
+
+[[area]]
+name = "GlobalGaloisDeformations"
+weight = 2
+sections = ["§3.7", "§4.5", "§8.3", "§8.4", "§8.5"]
+
+[[area]]
+name = "HodgeTateAndCanonicalSubgroups"
+weight = 2
+
+[[area]]
+name = "ImaginaryQuadraticClassNumber"
+weight = 2
+sections = ["§H2.4", "§H3.1"]
+
+[[area]]
+name = "LocalGaloisDeformationRings"
+weight = 2
+sections = ["§F.0.2", "§F.2.1", "§F.2.2", "§F.2.3", "§F.2.6", "§F.2.11", "§F.3.1", "§1.3", "§1.4", "§1.6", "§1.7", "§1.9", "§1.13", "§2.26.2", "§6.11", "§7.1", "§7.4"]
+
+[[area]]
+name = "ModularCurvesPartII"
+weight = 2
+sections = ["§1.4a", "§5.6"]
+
+[[area]]
+name = "ModularForms"
+weight = 2
+sections = ["Layer 0", "§10D"]
+
+[[area]]
+name = "NashBlowups"
+weight = 2
+sections = ["§1.2", "§1.3", "§1.4", "§1.5"]
+
+[[area]]
+name = "NonordinaryCMSpecialValues"
+weight = 2
+
+[[area]]
+name = "OperatorTheory"
+weight = 2
+sections = ["OperatorIdeals §OI-B30", "OperatorIdeals §OI-B41"]
+
+[[area]]
+name = "PadicDifferentialEquationsAndRigidCohomology"
+weight = 2
+sections = ["§RD.0.30", "§RD.1.29", "§RD.5.116", "§RD.6.35"]
+
+[[area]]
+name = "PadicLocalLanglandsForGL2Qp"
+weight = 2
+sections = ["§0.2", "§0.5"]
+
+[[area]]
+name = "PadicMeasuresIwasawaAlgebras"
+weight = 2
+sections = ["§4.7", "§6.1", "§6.3", "§6.5", "§6.6"]
+
+[[area]]
+name = "PadicPeriodRings"
+weight = 2
+sections = ["§1.3", "§1.4", "§1.5", "§4.1", "§4.2", "§4.3"]
+
+[[area]]
+name = "Polylogarithms"
+weight = 2
+sections = ["§2.2", "§5.2", "§5.3"]
+
+[[area]]
+name = "SmoothRepresentationsOfLocalGroupsPartII"
+weight = 2
+
+[[area]]
+name = "SpecialFunctionsTheta"
+weight = 2
+sections = ["Layer 7"]
+
+[[area]]
+name = "StandardDistributions"
+weight = 2
+sections = ["§4.1", "§4.3", "§7.13", "§9.4"]
+
+[[area]]
+name = "SubspaceTheorem"
+weight = 2
+sections = ["§4.1", "§4.2", "§4.3"]
+
+[[area]]
+name = "AdicSpacesPartV"
+weight = 1
+sections = ["§6.5"]
+
+[[area]]
+name = "AlgebraicTopology"
+weight = 1
+sections = ["§8.3"]
+
+[[area]]
+name = "AnabelianGeometryAndNonabelianChabauty"
+weight = 1
+sections = ["§4.6"]
+
+[[area]]
+name = "AnalyticNumberTheoryPartIII"
+weight = 1
+sections = ["§8.1", "§8.3"]
+
+[[area]]
+name = "ArithmeticStatisticsPartIII"
+weight = 1
+sections = ["§2.1"]
+
+[[area]]
+name = "ArithmeticStatisticsPartIV"
+weight = 1
+sections = ["§3.2"]
+
+[[area]]
+name = "AutomorphicPadicLFunctionsPartII"
+weight = 1
+
+[[area]]
+name = "BanachSpaceTheory"
+weight = 1
+sections = ["§B7"]
+
+[[area]]
+name = "CharacterSumsOverFiniteFields"
+weight = 1
+sections = ["§1.4", "§7.1", "§7.5"]
+
+[[area]]
+name = "ComplexHessianEquations"
+weight = 1
+sections = ["§5.4", "Layer 7", "§7.1"]
+
+[[area]]
+name = "ComplexMultiplicationAndExplicitReciprocityPartII"
+weight = 1
+
+[[area]]
+name = "DerivedModuleAlgebra"
+weight = 1
+sections = ["§0.K.1"]
+
+[[area]]
+name = "DynamicalDegreesOfRationalMaps"
+weight = 1
+
+[[area]]
+name = "EllipticCohomology"
+weight = 1
+sections = ["Layer 1"]
+
+[[area]]
+name = "EllipticCurves"
+weight = 1
+sections = ["Layer 4"]
+
+[[area]]
+name = "EquivariantIntersectionTheory"
+weight = 1
+sections = ["§1.1", "§1.4"]
+
+[[area]]
+name = "ErdosProgressionPowers"
+weight = 1
+
+[[area]]
+name = "EtaleCohomologyFoundations"
+weight = 1
+sections = ["§F.0.2", "§0.8", "§F.2.4", "§F.2.5", "§F.3", "§F.2.7", "§F.10.1", "§F.4.5", "§F.10.2b", "§0.11", "§F.10.4"]
+
+[[area]]
+name = "ExplicitMultiplicativeFunctions"
+weight = 1
+sections = ["§0.7", "§1.9", "§8.1"]
+
+[[area]]
+name = "FourierDeligneTransform"
+weight = 1
+sections = ["§0.1", "§0.2", "§2.1"]
+
+[[area]]
+name = "GL2AutomorphicRepresentationsAndTransfer"
+weight = 1
+sections = ["§R16.0.1", "§R16.1.8", "§R16.3.8", "§R16.3.9", "§R17.4.13", "§R17.6.4"]
+
+[[area]]
+name = "GeneralAlgebraicKTheory"
+weight = 1
+sections = ["§13.8b", "§13.8c"]
+
+[[area]]
+name = "GeneralizedCohomology"
+weight = 1
+sections = ["§G2.7", "§G5.6"]
+
+[[area]]
+name = "GlobalQuadraticForms"
+weight = 1
+sections = ["§4.1", "§6.3"]
+
+[[area]]
+name = "GroebnerGeometry"
+weight = 1
+sections = ["§G5"]
+
+[[area]]
+name = "GrothendieckEulerForms"
+weight = 1
+sections = ["§5.1", "§5.2"]
+
+[[area]]
+name = "InverseGaloisAndArithmeticFundamentalGroups"
+weight = 1
+sections = ["§IG.0.T3"]
+
+[[area]]
+name = "JacobianChallenge"
+weight = 1
+sections = ["§C.1", "§C.2"]
+
+[[area]]
+name = "K3SurfacesAndSymplecticBoundedness"
+weight = 1
+sections = ["§4.5"]
+
+[[area]]
+name = "KTheoryFiniteLocalFields"
+weight = 1
+sections = ["§1.1", "§1.2"]
+
+[[area]]
+name = "KatoEulerSystems"
+weight = 1
+
+[[area]]
+name = "LatticePackingsAndPerfectForms"
+weight = 1
+sections = ["§1.7", "§1.8", "§4.1", "§4.4", "§4.9"]
+
+[[area]]
+name = "LefschetzPencilsAndVanishingCycles"
+weight = 1
+sections = ["§2.4"]
+
+[[area]]
+name = "LogicAndDefinabilityInNumberTheory"
+weight = 1
+
+[[area]]
+name = "MathematicalStatisticsHighDimensional"
+weight = 1
+sections = ["§1.4"]
+
+[[area]]
+name = "NewtonPolygons"
+weight = 1
+sections = ["§2.1", "§2.2", "§2.3"]
+
+[[area]]
+name = "PDE"
+weight = 1
+sections = ["§3.1", "§3.4"]
+
+[[area]]
+name = "PadicHodgeRegulators"
+weight = 1
+
+[[area]]
+name = "PotentialAutomorphyDworkMotivesPartII"
+weight = 1
+
+[[area]]
+name = "PotentialAutomorphyInfrastructure"
+weight = 1
+
+[[area]]
+name = "PrismaticCohomology"
+weight = 1
+sections = ["§0.61", "§0.76", "§0.77"]
+
+[[area]]
+name = "PrismaticCohomologyPartIII"
+weight = 1
+sections = ["§7.12", "§7.13", "§7.21", "§7.22", "§7.24", "§7.25"]
+
+[[area]]
+name = "QuadraticFormInvariants"
+weight = 1
+sections = ["Layer 0", "Layer 1"]
+
+[[area]]
+name = "RealAnalyticGeometry"
+weight = 1
+sections = ["§R3", "§R3.0", "§R3.1"]
+
+[[area]]
+name = "RealSemisimpleLieGroups"
+weight = 1
+sections = ["§3.2", "§3.3", "§4.2", "§4.3"]
+
+[[area]]
+name = "SchemeKTheoryOperations"
+weight = 1
+sections = ["§6.7"]
+
+[[area]]
+name = "SchubertGeometry"
+weight = 1
+sections = ["§S1.1", "§S2.1"]
+
+[[area]]
+name = "ShimuraData"
+weight = 1
+sections = ["Layer 2"]
+
+[[area]]
+name = "SieveMethodsAndPrimePatterns"
+weight = 1
+sections = ["§2.7", "§2.9", "Layer 3"]
+
+[[area]]
+name = "StableHomotopyKTheory"
+weight = 1
+sections = ["§3.12", "§3.18", "§3.20", "§3.35", "§4.21", "§4.22", "§4.23", "§4.24"]
+
+[[area]]
+name = "StableReduction"
+weight = 1
+sections = ["Layer 2"]
+
+[[area]]
+name = "SuccessiveMinima"
+weight = 1
+sections = ["§0.1"]
+
+[[area]]
+name = "ThetaSeries"
+weight = 1
+sections = ["§1A", "§3A"]
+
+[[area]]
+name = "TypeAHeckeAlgebras"
+weight = 1
+sections = ["§1.1", "§1.2", "§1.6"]
+
+[[area]]
+name = "WeilPositivityAndLiCriterion"
+weight = 1
