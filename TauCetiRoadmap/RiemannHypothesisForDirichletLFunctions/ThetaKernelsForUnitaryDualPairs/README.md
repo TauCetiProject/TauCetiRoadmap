@@ -59,7 +59,10 @@ scalar covers of `𝕎′`, `𝕎″` to that of `𝕎` is the tensor product of
 Both hold likewise with the roles of `V` and `W` exchanged. The conventions are those of this target: isometry groups
 acting on the left, `χ_V` governing `U(W)`, the Levi formula above.
 
-*Route.* The unipotent formula is the action of `Sp` on the Lagrangian `V ⊗ Y^*` in the Schrödinger model (MetaplecticAutomorphicForms §2.5), with
+*Route.* The unipotent formula is the action of `Sp` on the Lagrangian `V ⊗ Y^*` in the Schrödinger model
+(MetaplecticAutomorphicForms §2.5 at a finite place; at a real place the Levi and unipotent formulas are part of this
+target, proved from the covariance of MetaplecticAutomorphicForms §1.3 and the Schrödinger model of
+MetaplecticAutomorphicForms §0.15), with
 `B(x, (n(B) − 1)x)` computed from the Gram matrix; the Levi formula is the substitution `φ ↦ φ(m(A)⁻¹x) = φ(xA)` times the
 modulus and the character of the splitting of MetaplecticAutomorphicForms §3.3 on the Levi subgroup (Gan–Ichino §7.4, p. 35, the Levi formula of
 the splittings that Gan–Ichino §4.1, p. 12, fixes and MetaplecticAutomorphicForms §3.3 follows, read in the left-action convention: `det(m(A)|_Y) = det A⁻¹`, and `χ_V(det A⁻¹) = χ̃_V(det m(A))` for even `n`).
@@ -72,7 +75,8 @@ Kudla's construction of the splittings (S. Kudla,
 character, which factors through the determinants (the derived groups of split unitary groups of dimension `≥ 2` are their
 special unitary groups); for `Y = Y′ ⊕ Y″` the element `m(diag(A′, A″))` acts on `S(V ⊗ Y′) ⊗ S(V ⊗ Y″)` by the tensor product of
 the two Levi formulas, and `det m(A′) = det Ā′/det A′` exhausts the norm-one group, so the character is trivial. (a) for split
-`V` follows in the same way from the Levi formula of the exchanged pair.
+`V` follows in the same way from the Levi formula of the exchanged pair. The quaternionic analogue is
+MetaplecticAutomorphicForms §3.28.
 
 **Checks.**
 
@@ -91,7 +95,8 @@ the two Levi formulas, and `det m(A′) = det Ā′/det A′` exhausts the norm-
 
 ### 3.9a Unitary persistence, the stable range and bump vectors
 
-Prove persistence, the stable range and the existence of bump vectors for unitary pairs. Let `F` be a
+Prove persistence, the stable range and the existence of bump vectors for unitary pairs. This is the unitary analogue
+of MetaplecticAutomorphicForms §3.9 (orthogonal–symplectic pairs), with bump vectors added. Let `F` be a
 nonarchimedean local field of characteristic zero, `E/F` a quadratic field extension or `E = F × F`,
 `V` a nondegenerate Hermitian space of dimension `n`, `W₀` a nondegenerate skew-Hermitian space and
 `W_r = W₀ ⊕ H^r` its Witt tower, with splitting characters as in MetaplecticAutomorphicForms §3.3 (and MetaplecticAutomorphicForms §3.2a when `E` is split).
@@ -169,6 +174,7 @@ Let `ℋ`, `ℋ′` be the spherical Hecke algebras of `(U(V), K)` and `(U(W), K
 
 State the inert and the split case separately; the split case is the unramified case of the
 type-II correspondence of MetaplecticAutomorphicForms §3.14, and for `d = n` (and the data of Li–Liu 2021, Definition 6.8, pp. 30–31) (ii) is the Hecke map of MetaplecticAutomorphicForms §3.22.
+This is the unitary analogue of MetaplecticAutomorphicForms §3.21 (Rallis' parameters for orthogonal–symplectic pairs).
 
 *Route.* (i) is Howe's theorem on the generation of the spherical vectors of the oscillator (lattice
 model, MetaplecticAutomorphicForms §2.6a, in the inert case; route not given here; the statement is that the vectors fixed by the stabilisers of
@@ -245,7 +251,8 @@ Write `H(x, y) = ω(x, Jy) − iω(x, y)` for the Hermitian form of `(W, J)`, li
 
 *Route.* The Bargmann kernel and its unitarity from the Gaussian integral; the Heisenberg relations by
 completing squares (`U_wU_{w′} = e^{−πi Im H(w, w′)}U_{w+w′} = ψ_ℝ(½ω(w, w′))U_{w+w′}`, the law of MetaplecticAutomorphicForms §0.1, because
-`Im H = −ω`); `K`-finite vectors through the Hermite basis (OrthogonalL2Bases Part A, A2–A3), whose expansions of a Schwartz function
+`Im H = −ω`); `K`-finite vectors through the Hermite basis (OrthogonalL2Bases Part A, A2–A3, and Part D, the
+multidimensional Hermite basis), whose expansions of a Schwartz function
 converge in the Schwartz topology (the Hermite coefficients decay rapidly because the harmonic oscillator acts on
 `S(X)` by a positive operator with eigenvalues `k + N/2`), which gives the density; the action of `K`: the
 covariance `ω(k)U_wω(k)⁻¹ = U_{kw}` of MetaplecticAutomorphicForms §1.3 determines `ω(k)` up to a scalar (Schur's lemma for the irreducible
@@ -253,11 +260,12 @@ Fock model), and `G ↦ G ∘ k⁻¹` satisfies it because `H` is `k`-invariant,
 eigenvalue `−iN/2` (Check below, in each of `N` orthogonal coordinates); the Lie algebra action by
 differentiating the operator formulas of MetaplecticAutomorphicForms §2.5 on the generators and comparing on the Hermite span. (iv):
 `ϑ_T = Σ_κ conj(T(B⁻¹e_κ))e_κ` for the orthonormal basis `e_κ = (π^{|κ|}/κ!)^{1/2}z^κ`; the bound from
-`|B⁻¹e_κ|` and the growth of the Bargmann kernel; termwise integration against `e^{−πH(z,z)}`.
+`|B⁻¹e_κ|` and the growth of the Bargmann kernel; termwise integration against `e^{−πH(z,z)}`. For `W = V ⊗ ℝ²`, `V`
+quadratic, the identification of (ii)–(iii) is HodgeClassesForJacquetLanglands §4.2 in coordinates.
 
 (V. Bargmann, Comm. Pure Appl. Math. 14 (1961); R. Howe, *Transcending classical invariant theory*,
 J. Amer. Math. Soc. 2 (1989); M. Kashiwara, M. Vergne, Invent. Math. 44 (1978).) *Needs:* MetaplecticAutomorphicForms §§0.1, 0.15, 0.17,
-0.18, 2.4c, 2.5; OrthogonalL2Bases Part A (A2–A3).
+0.18, 2.4c, 2.5; OrthogonalL2Bases Part A (A2–A3) and Part D.
 
 **Checks.**
 
@@ -314,7 +322,8 @@ the polynomials of degree `k` are `Sym^k` of the dual of `ℂⁿ ⊗ ℂ^d`, and
 `det^{εd/2}` and `det^{εn/2}`. The splitting characters add `det^{m_W/2}` on `U(n)` and `det^{m_V/2}` on `U(d)` (MetaplecticAutomorphicForms §3.3).
 Apply the `(GL_n, GL_d)`-duality of TensorInductionAndFiniteGroupInputs §7.1, to `Sym^k(ℂⁿ ⊗ ℂ^d)` for `ε = +1` and to its
 dual for `ε = −1`; in the second case the minors, highest weight vectors for the action `P(ᵗgXh)`, are lowest
-weight vectors for `P(g⁻¹Xh^{−ᵗ})`.
+weight vectors for `P(g⁻¹Xh^{−ᵗ})`. The orthogonal–symplectic analogue of (i)–(ii) is ModularityAndLanglandsExtensions
+§3.1 (real `O(k) × Mp_{2n}`).
 
 (Kashiwara–Vergne 1978; Howe 1989; A. Paul, *Howe correspondence for real unitary groups*, J. Funct.
 Anal. 159 (1998).) *Needs:* 3.45; MetaplecticAutomorphicForms §§3.3, 3.7; TensorInductionAndFiniteGroupInputs §7.1; RepresentationTheory/CompactGroups
@@ -783,8 +792,9 @@ of `(V ⊗ W)_ℂ` equals `ω(z′)` for some `z′ ∈ Z(𝔤𝔩_a)`, with Har
 `y = (x + (m_{χ_V} − m_{χ_W})/2) ∪ (m_{χ_V}/2 + ((N − a − 1)/2, …, −(N − a − 1)/2))`. This is an identity in the Weyl
 algebra, which acts faithfully on every Fock model and is the same for every real form; it is read off the compact
 forms of 3.46(iii), where `U(a)` and `U(N)` act on the summand of `μ` with parameters `x`, `y` related in this way, for
-both signs `ε` (the Harish-Chandra isomorphism, AutomorphicFormsOnReductiveGroups §2.2, turns the equality of the
-scalars on every summand into the equality of the elements). On `Θ` the centre of `𝔲(V)` acts through the trivial
+both signs `ε` (the Harish-Chandra isomorphism of LieHighestWeight §9.2, with infinitesimal characters as in
+AutomorphicFormsOnReductiveGroups §2.2, turns the equality of the scalars on every summand into the equality of the
+elements). On `Θ` the centre of `𝔲(V)` acts through the trivial
 character, `x = ((a − 1)/2, …, −(a − 1)/2)`; with `m_{χ_V} = m_β`, `m_{χ_W} = −κ` this is the stated parameter, and for `Θ′`
 (`m_{χ_V} = m_α`, `m_{χ_W} = κ`, `a` and `a′` exchanged) the same set.
 (v) *Vogan–Zuckerman.* `Δ(𝔲 ∩ 𝔭)` consists of the weights of `Hom(V₊, V′₊)` and `Hom(V₋, V′₋)`, `f_j − e_i` (`f_j` a
@@ -803,7 +813,7 @@ invariant theory*, J. Amer. Math. Soc. 2 (1989), and *Remarks on classical invar
 313 (1989), for generation and the Capelli identity; D. Vogan, G. Zuckerman, *Unitary representations with nonzero
 cohomology*, Compositio Math. 53 (1984), Theorem 2.5 and Proposition 6.1, pp. 58 and 78, through
 AutomorphicFormsOnReductiveGroups §5.4; (o) is elementary.) *Needs:* 3.45, 3.46; MetaplecticAutomorphicForms §§3.3, 3.7;
-TensorInductionAndFiniteGroupInputs §7.1; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 5.4.
+TensorInductionAndFiniteGroupInputs §7.1; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 5.4; LieHighestWeight §9.2.
 
 **Checks.**
 
@@ -880,7 +890,7 @@ For `n = 0` the Weil representation is the character `χ̃_V ∘ det` of `U(W)` 
 
 ### Dependencies
 
-MetaplecticAutomorphicForms §§0.1, 0.15, 0.17, 0.18, 1.1, 1.3, 2.4c, 2.5, 2.6a, 3.2a, 3.3, 3.3b, 3.4, 3.6, 3.7, 3.12, 3.14, 3.18 (Layers 0–3); SmoothRepresentationsOfLocalGroups §§SR.2.1, SR.2.2, SR.3.1, SR.4.1–SR.4.4, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1; TensorInductionAndFiniteGroupInputs §7.1; AutomorphicLFunctionsAndLocalFactors §§AL.1, AL.2; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.4, 5.4; RepresentationTheory/CompactGroups Layers 4–5; OrthogonalL2Bases Part A.
+MetaplecticAutomorphicForms §§0.1, 0.15, 0.17, 0.18, 1.1, 1.3, 2.4c, 2.5, 2.6a, 3.2a, 3.3, 3.3b, 3.4, 3.6, 3.7, 3.12, 3.14, 3.18 (Layers 0–3); SmoothRepresentationsOfLocalGroups §§SR.2.1, SR.2.2, SR.3.1, SR.4.1–SR.4.4, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1; TensorInductionAndFiniteGroupInputs §7.1; AutomorphicLFunctionsAndLocalFactors §§AL.1, AL.2; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.4, 5.4; LieHighestWeight §9.2; RepresentationTheory/CompactGroups Layers 4–5; OrthogonalL2Bases Parts A, D.
 
 ## Layer 4: Global Weil representation of a unitary pair
 
@@ -935,7 +945,9 @@ rational points is a product of local Weil indices and character values, which i
 formula MetaplecticAutomorphicForms §4.3 and the triviality of `χ_V`, `χ_W` on `E^×`; continuity from the almost-everywhere
 triviality on integral points. Siegel parabolic: 3.3b, place by place. Split places: MetaplecticAutomorphicForms §3.2a identifies the
 split oscillator with the type-II model and its characters, and `φ(0)` is invariant under the substitution.
-Characterisation: by (1) and the irreducibility of the Heisenberg representation (Stone–von Neumann, MetaplecticAutomorphicForms §1.1),
+Characterisation: by (1) and the irreducibility of the Heisenberg representation (Stone–von Neumann,
+MetaplecticAutomorphicForms §§1.1–1.2, at each place; the commutant of the restricted tensor product of the irreducible
+local models over the adelic Heisenberg group is the scalars, which is part of this target),
 `ω′ = c · ω_{ψ, χ_V, χ_W}` for a function `c`, which is a character because both are representations, unitary by (3),
 continuous by (5): for a point `w` at which the theta function of `ω(g₀, h₀)φ` does not vanish, `c` is near `(g₀, h₀)` the
 quotient of the two theta functions at `w`, trivial on rational points because the nonzero theta functional is invariant under
@@ -951,7 +963,7 @@ holomorphy and nonvanishing of `L(s, μ)` at `s = 1` (LFunctions Layer 7). So `�
 
 (S. Kudla, *Splitting metaplectic covers of dual reductive pairs*, Israel J. Math. 87 (1994);
 M. Harris, S. Kudla, W. J. Sweet, J. Amer. Math. Soc. 9 (1996), §1; Gan–Ichino §4.1, p. 12, the source of MetaplecticAutomorphicForms §3.3's
-normalisation, and §7.4, p. 35, for its Levi formula.) *Needs:* 3.3b; MetaplecticAutomorphicForms §§1.1, 1.3, 2.5, 2.6a, 3.2a, 3.3, 3.14, 4.1–4.5;
+normalisation, and §7.4, p. 35, for its Levi formula.) *Needs:* 3.3b; MetaplecticAutomorphicForms §§1.1, 1.2, 1.3, 2.5, 2.6a, 3.2a, 3.3, 3.14, 4.1–4.5;
 AdelicAlgebraicGroups §4.2; LFunctions Layer 7.
 
 **Checks.**
@@ -978,7 +990,7 @@ For `V = 0` the global Weil representation is the character `χ̃_V ∘ det` of 
 
 ### Dependencies
 
-Layer 3 (3.3b); MetaplecticAutomorphicForms §§1.1, 1.3, 2.4b, 2.5, 2.6a, 3.2a, 3.3, 3.14, 4.1–4.5; AdelicAlgebraicGroups §4.2; LFunctions Layer 7.
+Layer 3 (3.3b); MetaplecticAutomorphicForms §§1.1, 1.2, 1.3, 2.4b, 2.5, 2.6a, 3.2a, 3.3, 3.14, 4.1–4.5; AdelicAlgebraicGroups §4.2; LFunctions Layer 7.
 
 ## Layer 5: Convergence, constant terms and cusp forms of theta integrals
 
@@ -1016,10 +1028,14 @@ dimension `i` with `V = C ⊕ V′ ⊕ C^∨`, a rapidly decreasing cusp form `f
 term of the theta integral of `f` to `U(V)` along the unipotent radical of the stabiliser of `C` is, at `g`, the volume
 of `[N_C]` times the theta integral of `f` to `U(V′)`, at `1`, for the datum obtained from `ω(g, 1)φ` by integrating over
 the coordinates of `C`; by (2) it vanishes, so the integrals to `U(V)` are cusp forms. (4) `B(P, v) := ∫θ(·, h; P ⊗ φ_f)F(v)(h)dh`
-converges by the rapid decay of cusp forms, is admissible at every `τ`, and takes values in the smooth cusp forms on
-`U(V)`, a unitarizable module by the Petersson product; by (R1) and (R2) it factors through `I` on `K`-finite vectors,
+converges by the rapid decay of cusp forms (ArithmeticLocallySymmetricSpaces §ALS.F.6 (iii)), is admissible at every
+`τ`, and takes values in the smooth cusp forms on `U(V)`, a unitarizable module by the Petersson product; by (R1) and
+(R2) it factors through `I` on `K`-finite vectors,
 and by continuity and averaging over the maximal compact subgroups on smooth vectors. (S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), §1, Theorem 1.1.1, p. 345, there for
 orthogonal–symplectic pairs, for (3).)
+
+*Needs:* 4.4a, 3.45, 3.46a; MetaplecticAutomorphicForms §§5.1, 5.2, 5.6; ArithmeticLocallySymmetricSpaces §ALS.F.6 (rapid
+decay of cusp forms); AutomorphicFormsOnReductiveGroups §§2.1, 4.2.
 
 **Checks.**
 
@@ -1175,11 +1191,12 @@ isotropic with `⟨x, y⟩_W = 1` for the skew-Hermitian form of `W` (so `δ⁻�
 (`t ∈ 𝔸_E^×` acting by `t` on `x` and `t̄⁻¹` on `y`, `h₁ ∈ U(W₁)(𝔸)`) and unipotent radical `N_x`. Use the mixed
 model attached to `𝕎 = (X ⊗ x) ⊕ (X ⊗ W₁) ⊕ (X ⊗ y)`: `S(X(𝔸)) ⊗̂ S(𝒳₁(𝔸))` with first variable `u ∈ X(𝔸)` the
 coordinate of `X ⊗ y` and `𝒳₁` a Lagrangian of `X ⊗ W₁`, reached from any Schrödinger model by a partial Fourier
-transform `Φ ↦ Φ^♯` (AutomorphicLFunctionsAndLocalFactors §AL.0). The splitting of `U(X)` is the product of those of
+transform `Φ ↦ Φ^♯` (AnalyticNumberTheoryPartII §§5.3g, 5.3h). The splitting of `U(X)` is the product of those of
 the pairs `(X, ⟨x, y⟩)`, with the trivial character, and `(X, W₁)`, with `χ_W` (MetaplecticAutomorphicForms §3.3; 3.3b, orthogonal sums (a)), so `U(X)` acts on the first
 variable by substitution. Define:
 
-- `e₀Φ = Φ^♯(0, ·) ∈ S(𝒳₁(𝔸))`, a Schwartz function for the pair `(X, W₁)`; `e₀` is onto.
+- `e₀Φ = Φ^♯(0, ·) ∈ S(𝒳₁(𝔸))`, a Schwartz function for the pair `(X, W₁)`; `e₀` is onto. `e₀` is the map of
+  MetaplecticAutomorphicForms §6.3 with the roles of the two members exchanged.
 - When `X` is isotropic: `u₀, u′₀ ∈ X` isotropic with `⟨u₀, u′₀⟩ = 1`, `X₁ = ⟨u₀, u′₀⟩^⊥`, `m_X(l)` (`l ∈ 𝔸_E^×`) the
   element acting by `l` on `u₀`, by `l̄⁻¹` on `u′₀` and trivially on `X₁`, `P′` the stabiliser of the line `Eu₀` in `U(X)`, and
   `K_X = ∏_v K_{X,v}` a compact subgroup of `U(X)(𝔸)` (the stabiliser of a fixed lattice at almost all places) with the
@@ -1277,8 +1294,9 @@ function of `t` with values in the Schwartz space, continuous in `k`, and the in
 their functional equation (AutomorphicLFunctionsAndLocalFactors §AL.1). (U): the Iwasawa decomposition writes every `g` as
 `u·m_X(l)g₁·k` with `u` in the adelic unipotent radical of `P′`, `g₁ ∈ U(X₁)(𝔸)`, `k ∈ K_X`; the rest (the Haar measure in these
 coordinates, `|l|_E^{1−n}` being the inverse modulus of `P′` on `m_X(l)`, and the passage from the absolute bound to the
-convergence of the orbit sum): route not given here; the statement is the unfolding of a sum over `P′(F)\U(X)(F)` against
-`[U(X)]`. (b): for `Re z` large and `ϕ` on `U(X)(F_v)`
+convergence of the orbit sum): the unfolding is the integration in stages of AdelicAlgebraicGroups §2.2
+(*quotient-measure*), first for `|f|` and then for `f`, in the Iwasawa coordinates of AdelicAlgebraicGroups §3.1.
+(b): for `Re z` large and `ϕ` on `U(X)(F_v)`
 with `ϕ(q·m_X(l)k) = |l|_E^{z₀−z}` (`q ∈ Stab(u₀)`), `J_ϕ(Φ) = ∫_{Stab(u₀)\U(X)} p₁(r₁(ω(g)Φ))ϕ(g) dġ` converges and, in the
 coordinates `g = q·m_X(l)k` given by the Iwasawa decomposition at `v` (measure `|l|_E^{1−n} d^×l dk`, the inverse modulus of the stabiliser of `Eu₀`), equals
 `p₁(cone_{χ_W⁻¹, z}Φ)` by (L) and `l ↦ l⁻¹`. Replacing `Φ` by `ω(g₀)Φ` replaces `ϕ` by its right translate, whose
@@ -1335,8 +1353,8 @@ it factors through the twisted coinvariants of the stratum of rank `n − 1`, wh
 and it is `C₀ I_{X,W₁}(φ₁) ≠ 0`.
 
 (S. Rallis, LNM 1245 (1987); S. Kudla, S. Rallis, Ann. of Math. 140 (1994); J. Tate's thesis for the cone integrals.)
-*Needs:* 3.3b, 3.45, 3.47, 5.7a, 5.7b; MetaplecticAutomorphicForms §§3.3, 5.1, 5.2, 5.5; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §3.1;
-AutomorphicLFunctionsAndLocalFactors §§AL.0, AL.1; AnalyticNumberTheoryPartII §5.3h.
+*Needs:* 3.3b, 3.45, 3.47, 5.7a, 5.7b; MetaplecticAutomorphicForms §§3.3, 5.1, 5.2, 5.5; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2, 3.1;
+AutomorphicLFunctionsAndLocalFactors §AL.1; AnalyticNumberTheoryPartII §§5.3g, 5.3h.
 
 **Checks.**
 
@@ -1542,8 +1560,8 @@ finite and nonzero under the condition on `z`. So on `S₀`, `ℓ ∘ cone^∨_{
 the other order: translations along `X ⊗ x` shift the variable of the dual cone, and a Fourier transform in that
 variable with the same identity of Tate brings it to the fibre argument.)
 
-(J. Tate's thesis for the local functional equation.) *Needs:* 3.45, 5.7c; AutomorphicLFunctionsAndLocalFactors §§AL.0,
-AL.1.
+(J. Tate's thesis for the local functional equation.) *Needs:* 3.45, 5.7c; AutomorphicLFunctionsAndLocalFactors §AL.1;
+AnalyticNumberTheoryPartII §5.3g.
 
 **Checks.**
 
@@ -1560,7 +1578,7 @@ For `U(1) × U(1, 1)` over `ℚ`, a cusp form on `U(1)` is a character `μ`, and
 
 ### Dependencies
 
-Layers 3–4; MetaplecticAutomorphicForms §§1.3, 3.2a, 3.3, 5.1, 5.2, 5.5, 5.7; AdelicAlgebraicGroups §§3.1, 3.4, 3.5; AutomorphicFormsOnReductiveGroups §4.1; AutomorphicLFunctionsAndLocalFactors §§AL.0, AL.1; AnalyticNumberTheoryPartII §5.3h; SmoothRepresentationsOfLocalGroups §§SR.2.1, SR.2.2, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1; ClassicalGroups §6.1; Mathlib's characteristic functions of finite measures.
+Layers 3–4; MetaplecticAutomorphicForms §§1.3, 3.2a, 3.3, 5.1, 5.2, 5.5, 5.6, 5.7; AdelicAlgebraicGroups §§2.2, 3.1, 3.4, 3.5; AutomorphicFormsOnReductiveGroups §§2.1, 4.1, 4.2; ArithmeticLocallySymmetricSpaces §ALS.F.6; AutomorphicLFunctionsAndLocalFactors §AL.1; AnalyticNumberTheoryPartII §§5.3g, 5.3h; SmoothRepresentationsOfLocalGroups §§SR.2.1, SR.2.2, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1; ClassicalGroups §6.1; Mathlib's characteristic functions of finite measures.
 
 ## Layer 6: Siegel–Weil, doubling integrals and the Rallis inner product
 
@@ -1580,8 +1598,9 @@ convergent range `d(n) < m ≤ 2d(n)`: Ichino's argument by the doubling seesaw 
 both sides; GQT credits Ichino 2007 with the Siegel–Weil formula in the convergent range (GQT §1.7, p. 3, and the proof
 of Proposition 11.1 (ii), p. 53), while GQT Theorem 7.1 (p. 33) is the anisotropic case `r = 0` only, which is
 MetaplecticAutomorphicForms §6.4. (A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math.
-113 (1965); A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007).) *Needs:* 5.7a; MetaplecticAutomorphicForms §§5.7, 6.1, 6.2, 6.4; AutomorphicSpectralTheory
-§§1.1–1.4, 2.4, 2.4a.
+113 (1965); A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007).) *Needs:* 5.7a; MetaplecticAutomorphicForms §§5.7, 6.1, 6.2, 6.4;
+AutomorphicLFunctionsAndLocalFactorsPartII §§1.1, 1.3 (for unitary pairs over a CM extension, the Siegel family of the
+sections of MetaplecticAutomorphicForms §6.2); AutomorphicSpectralTheory §§1.1–1.4, 2.4, 2.4a.
 
 **Checks.**
 
@@ -1609,7 +1628,9 @@ This target extends MetaplecticAutomorphicForms §6.11, whose local doubling zet
 - (a) *The spherical section on `G × 1`.* Let `E_v/F_v` be unramified quadratic (any residue characteristic), `Q` the
   residue cardinality of `E_v`, `V` Hermitian of dimension `n` with a self-dual lattice `Λ`, `V^□ = V ⊕ V(−1)` with the
   lattice `Λ ⊕ Λ`, `P` the stabiliser of the diagonal, `χ` an unramified character of `E_v^×`, and `Φ_s` the spherical section
-  of MetaplecticAutomorphicForms §6.10: `Φ_s(pk) = χ(det a(p))|det a(p)|_{E_v}^{s+n/2}` for `a(p)` the restriction of `p` to the diagonal and `k` in the
+  of MetaplecticAutomorphicForms §6.10a (with the induced family of MetaplecticAutomorphicForms §6.2; the same lattice
+  datum as AutomorphicLFunctionsAndLocalFactorsPartII §2.3): `Φ_s(pk) = χ(det a(p))|det a(p)|_{E_v}^{s+n/2}` for `a(p)` the
+  restriction of `p` to the diagonal and `k` in the
   stabiliser of `Λ ⊕ Λ`. Then `Φ_s(ι(g, 1)) = X^{ℓ(g)}` with `X = χ(ϖ)Q^{−(s+n/2)}` and `ℓ(g)` the length of `(Λ + gΛ)/Λ`.
 - (b) *Inert places.* For the zonal spherical function `ω_α` of `U(V)` for the stabiliser of `Λ`, with parameter
   `α ∈ (ℂ^×)^{⌊n/2⌋}` (base-change parameter `BC(α)`), the integral `∫_{U(V)} Φ_s(ι(g, 1))ω_α(g) dg` (volume one for the
@@ -1649,7 +1670,7 @@ pair `M ⊂ Λ`, `M ⊂ Λ′` of lattices factors uniquely through `N = Λ ∩ 
 so the left side times `∏_{i<n}(1 − Q^iX_1X_2)⁻¹` is `Σ_{M⊂Λ} X_1^{len(Λ/M)} Σ_{Λ′⊃M} X_2^{len(Λ′/M)}φ_α(Λ′)`; the inner sum is
 `φ_α(M)` times the eigenvalue `Σ_k X_2^kQ^{k(n−1)/2}h_k(α⁻¹)` of the superlattice operators, and the outer sum is then
 `Σ_m X_1^mQ^{m(n−1)/2}h_m(α)`, by the sublattice counts of the route of LocalFactorsOfTwistsAndTypes §3.4
-(i). *Needs:* MetaplecticAutomorphicForms §§6.10, 6.11; AutomorphicLFunctionsAndLocalFactorsPartII §2.3; LocalFactorsOfTwistsAndTypes §§3.3, 3.4;
+(i). *Needs:* MetaplecticAutomorphicForms §§6.2, 6.10a, 6.11; AutomorphicLFunctionsAndLocalFactorsPartII §2.3; LocalFactorsOfTwistsAndTypes §§3.3, 3.4;
 SmoothRepresentationsOfLocalGroups §SR.4.3 *gln-generators*; HermitianFormsAndLattices §§2.1, 4.2.
 
 **Checks.**
@@ -1658,7 +1679,7 @@ SmoothRepresentationsOfLocalGroups §SR.4.3 *gln-generators*; HermitianFormsAndL
   `L_{E_v}(s + ½, χ)/L_{F_v}(2s + 1, χ|_{F_v^×}) = 1` (the factor `1 − χ(ϖ)Q^{−(s+½)}` of the middle entry is `1 − χ(ϖ)q^{−(2s+1)}`).
 - `n = 2`, `π_v` trivial (`α = q`): the domain is `Re s + ½ > ½` for `|χ(ϖ)| = 1`, and the value has the factor
   `L_{E_v}(s + ½ − ½, χ) = L_{E_v}(s, χ)`, whose pole at `s = 0` (for `χ = 1`) is the boundary of the domain.
-- The normalisation of `Φ_s` must be that of MetaplecticAutomorphicForms §6.10: in the convention where `p` acts through its restriction to the
+- The normalisation of `Φ_s` must be that of MetaplecticAutomorphicForms §6.10a: in the convention where `p` acts through its restriction to the
   diagonal and the induction is normalised, `|X| < 1` for `Re s` large, as it must be.
 
 ### 6.13a The Rallis inner product formula in Weil's convergent range and for anisotropic targets
@@ -1839,7 +1860,7 @@ Split binary `V` (`m = 2`, `r = 1`, `n = 1`) is not in the range of 6.4a (`m −
 
 ### Dependencies
 
-Layer 5 (5.7a); MetaplecticAutomorphicForms §§5.6, 5.7, 6.1, 6.2, 6.4, 6.5, 6.10, 6.10a, 6.11, 6.12, 6.13; AutomorphicLFunctionsAndLocalFactorsPartII §2.3; AutomorphicSpectralTheory §§1.1–1.4, 2.4, 2.4a; HermitianFormsAndLattices §§2.1, 4.2, 6.5; LocalFactorsOfTwistsAndTypes §§3.3, 3.4; SmoothRepresentationsOfLocalGroups §§SR.4.3, SR.4.4.
+Layer 5 (5.7a); MetaplecticAutomorphicForms §§5.6, 5.7, 6.1, 6.2, 6.4, 6.5, 6.10, 6.10a, 6.11, 6.12, 6.13; AutomorphicLFunctionsAndLocalFactorsPartII §§1.1, 1.3, 2.3; AutomorphicSpectralTheory §§1.1–1.4, 2.4, 2.4a; HermitianFormsAndLattices §§2.1, 4.2, 6.5; LocalFactorsOfTwistsAndTypes §§3.3, 3.4; SmoothRepresentationsOfLocalGroups §§SR.4.3, SR.4.4.
 
 ## Downstream consumers
 
@@ -1853,13 +1874,13 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns, for unitary dual pairs: the left-action form of the Siegel-parabolic normalisation of the Weil representation and the compatibility of the splittings with orthogonal sums (3.3b); persistence, the stable range and bump vectors (3.9a); the unramified correspondence in the inert and the split case (3.21a); the Fock model, the Bargmann transform of tempered distributions and the infinitesimal Weil representation (3.45); the theta correspondence of compact dual pairs (3.46) and of discrete series with both members non-compact on an explicit Fock module of the determinant-square-root covers, with non-occurrence below first occurrence, multiplicity one, the zeta integral of the joint harmonic and, for an integrable lowest-type coefficient, its value and isometric occurrence (3.46a); local complementary data, local matching at split, unramified inert and real places, irreducibility of the theta quotients at split places and the Casimir gap lemma (3.47–3.47b); three lemmas on functionals at a split place (3.47c); the global Weil representation of a unitary pair with its Siegel-parabolic normalisation, its split law and its characterisation (4.4a); theta integrals of cusp forms of discrete-series type under three local hypotheses at the real places (5.6a); Weil's convergence criterion for unitary pairs with the matrix-coefficient majorant (5.7a); regularised convergence at a split place, archimedean vanishing and the invariant extension (5.7b); constant terms of theta integrals along an isotropic line, with the cone maps, their laws, unfolding, duality, unramified values and persistence of nonvanishing (5.7c); local multiplicity bounds along an adapted line (5.7d); the archimedean cone lemma (5.7e); the Siegel–Weil formula in Weil's convergent range with its corollary on Fourier coefficients (6.4a); the unramified doubling integral at inert and split places with its region of absolute convergence (6.11); the Rallis inner product formula in Weil's convergent range and for anisotropic targets (6.13a); the height of the doubled group, a flat family of integrals, the inner product formula under one integrability hypothesis, integrability at the real places and the support of Weil coefficients at a split place (6.13b); and the local doubling integral with a tame twist on a block (6.13c).
 
-Not owned here. The targets 3.3b and 6.11 extend MetaplecticAutomorphicForms §§3.3b and 6.11: the comparison of the Hermitian Weil operators of four sources with Layer 2 of that roadmap, and the local doubling zeta integral with its unramified value `L_v/d_v`, belong to that roadmap, the unramified value also to AutomorphicLFunctionsAndLocalFactorsPartII §2.3, and this roadmap owns only the statements it adds to them. [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) owns the theory these targets extend: Heisenberg groups and Schrödinger models (Layer 0), Stone–von Neumann and the oscillator normalizer (Layer 1), the metaplectic cover and the Weil representation with its local unramified splitting (Layer 2), the unitary dual-pair splittings, split étale Hermitian spaces, theta modules, the type-II input, Howe duality and the unramified parameters (Layer 3), the adelic cover and the adelic Weil representation (Layer 4), theta kernels, global theta lifts and Weil's criterion for split `W` (Layer 5), and the Siegel–Weil formula, the doubling method and the Rallis inner product formula in the ranges stated there (Layer 6). Smooth representations, induction, Jacquet functors, the geometric lemma, the Satake isomorphism and segments belong to [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md); the unitary doubling series, the Satake parameters of bounded spherical functions and the Zelevinsky classification to LocalFactorsOfTwistsAndTypes §§3.3, 3.4, 4.1; the `(GL_n, GL_m)`-duality on polynomials in matrices to TensorInductionAndFiniteGroupInputs §7.1; the local classification of Hermitian spaces, unimodular lattices and Siegel's main theorem to HermitianFormsAndLattices §§2.1, 4.2, 6.5; local Fourier analysis and the zeta integrals of Tate and of Godement–Jacquet to [AutomorphicLFunctionsAndLocalFactors](../../AutomorphicLFunctionsAndLocalFactors/README.md); reduction theory and strong approximation to [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md); Harish-Chandra modules, constant terms and the modules `A_𝔮(λ)` to [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md); Eisenstein series and their continuation to [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md); adelic Poisson summation to AnalyticNumberTheoryPartII §5.3h; the nonvanishing of Hecke `L`-functions at `s = 1` to [LFunctions](../../LFunctions/README.md) Layer 7; the Hermite basis to [OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md); the Peter–Weyl theorem and branching rules to [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) and [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md). The roadmaps of this family that use these statements are listed under Downstream consumers above.
+Not owned here. The targets 3.3b and 6.11 extend MetaplecticAutomorphicForms §§3.3b and 6.11: the comparison of the Hermitian Weil operators of four sources with Layer 2 of that roadmap, and the local doubling zeta integral with its unramified value `L_v/d_v`, belong to that roadmap, the unramified value also to AutomorphicLFunctionsAndLocalFactorsPartII §2.3, and this roadmap owns only the statements it adds to them. [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) owns the theory these targets extend: Heisenberg groups and Schrödinger models (Layer 0), Stone–von Neumann and the oscillator normalizer (Layer 1), the metaplectic cover and the Weil representation with its local unramified splitting (Layer 2), the unitary dual-pair splittings, split étale Hermitian spaces, theta modules, the type-II input, Howe duality and the unramified parameters (Layer 3), the adelic cover and the adelic Weil representation (Layer 4), theta kernels, global theta lifts and Weil's criterion for split `W` (Layer 5), and the Siegel–Weil formula, the doubling method and the Rallis inner product formula in the ranges stated there (Layer 6). Smooth representations, induction, Jacquet functors, the geometric lemma, the Satake isomorphism and segments belong to [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md); the unitary doubling series, the Satake parameters of bounded spherical functions and the Zelevinsky classification to LocalFactorsOfTwistsAndTypes §§3.3, 3.4, 4.1; the `(GL_n, GL_m)`-duality on polynomials in matrices to TensorInductionAndFiniteGroupInputs §7.1; the local classification of Hermitian spaces, unimodular lattices and Siegel's main theorem to HermitianFormsAndLattices §§2.1, 4.2, 6.5; the zeta integrals of Tate and of Godement–Jacquet to [AutomorphicLFunctionsAndLocalFactors](../../AutomorphicLFunctionsAndLocalFactors/README.md); reduction theory and strong approximation to [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md); Harish-Chandra modules, constant terms and the modules `A_𝔮(λ)` to [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md); Eisenstein series and their continuation to [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md); local Fourier inversion, partial Fourier transforms and adelic Poisson summation to AnalyticNumberTheoryPartII §§5.3g, 5.3h; the nonvanishing of Hecke `L`-functions at `s = 1` to [LFunctions](../../LFunctions/README.md) Layer 7; the Hermite basis to [OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md); the Peter–Weyl theorem and branching rules to [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) and [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md). The roadmaps of this family that use these statements are listed under Downstream consumers above.
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
-§0.1: the bilinear Heisenberg law. §0.15: the Schrödinger representation. §§0.17, 0.18: the Hilbert Schrödinger model and the smooth vectors of the oscillator model. §1.1: the smooth Stone–von Neumann theorem (irreducibility and uniqueness of the Heisenberg representation with a given central character). §1.3: the unitary normalizer extension and the covariance `ω(g)ρ(w)ω(g)⁻¹ = ρ(gw)`. §2.4b: the metaplectic double cover, with the connected preimage of the rotation group of `Sp_2(ℝ)`. §2.4c: the genuine Weil representation. §2.5: the Weil operators on generators. §2.6a: the local unramified compact splitting and the lattice vector. §3.2a: split étale Hermitian spaces and the comparison of the split oscillator with the type-II model and its characters. §3.3: the unitary dual-pair splittings attached to `χ_V`, `χ_W`, the character change and the Check for `V = 0`. §3.3b: the comparison of the Hermitian normalisations of four sources, extended by 3.3b. §3.4: the big theta module. §3.6: the finite length of theta modules. §3.7: Howe duality, in its archimedean form for Harish-Chandra modules (3.46, 3.46a, 3.47b). §3.12: Kudla's Jacquet filtration. §3.14: the type-II theta input. §3.18: the unitary equal and almost equal rank correspondence, for the conventions of the characters. §3.22: the unitary theta Hecke map. §§4.1–4.5: unramified compact splittings, the adelic metaplectic cover, the Weil product formula, the rational symplectic splitting and the adelic Weil representation. §§5.1, 5.2: the theta kernel, its smoothness and its growth. §5.5: metaplectic constant terms. §5.6: the global theta lift. §5.7: Weil's convergence criterion for split `W` in the datum of GQT. §§6.1, 6.2, 6.4, 6.5: the measure conventions, the Siegel–Weil section, the anisotropic Siegel–Weil formula and the regularised first-term identity. §§6.10, 6.10a: the doubling Schwartz map, the spherical section and the standard doubling factors. §6.11: the local doubling zeta integral and its unramified value `L_v/d_v`, extended by 6.11. §6.12: the factorization of theta pairings. §6.13: the Rallis inner product formula.
+§0.1: the bilinear Heisenberg law. §0.15: the Schrödinger representation. §§0.17, 0.18: the Hilbert Schrödinger model and the smooth vectors of the oscillator model. §1.1: the smooth Stone–von Neumann theorem (irreducibility and uniqueness of the Heisenberg representation with a given central character). §1.2: the unitary Stone–von Neumann theorem over `ℝ` (4.4a). §1.3: the unitary normalizer extension and the covariance `ω(g)ρ(w)ω(g)⁻¹ = ρ(gw)`. §2.4b: the metaplectic double cover, with the connected preimage of the rotation group of `Sp_2(ℝ)`. §2.4c: the genuine Weil representation. §2.5: the Weil operators on generators. §2.6a: the local unramified compact splitting and the lattice vector. §3.2a: split étale Hermitian spaces and the comparison of the split oscillator with the type-II model and its characters. §3.3: the unitary dual-pair splittings attached to `χ_V`, `χ_W`, the character change and the Check for `V = 0`. §3.3b: the comparison of the Hermitian normalisations of four sources, extended by 3.3b. §3.4: the big theta module. §3.6: the finite length of theta modules. §3.7: Howe duality, in its archimedean form for Harish-Chandra modules (3.46, 3.46a, 3.47b). §3.12: Kudla's Jacquet filtration. §3.14: the type-II theta input. §3.18: the unitary equal and almost equal rank correspondence, for the conventions of the characters. §3.22: the unitary theta Hecke map. §§4.1–4.5: unramified compact splittings, the adelic metaplectic cover, the Weil product formula, the rational symplectic splitting and the adelic Weil representation. §§5.1, 5.2: the theta kernel, its smoothness and its growth. §5.5: metaplectic constant terms. §5.6: the global theta lift. §5.7: Weil's convergence criterion for split `W` in the datum of GQT. §§6.1, 6.2, 6.4, 6.5: the measure conventions, the Siegel–Weil section, the anisotropic Siegel–Weil formula and the regularised first-term identity. §6.10: the doubling Schwartz map. §6.10a: the standard doubling factors and the standard spherical section (6.11). §6.11: the local doubling zeta integral and its unramified value `L_v/d_v`, extended by 6.11. §6.12: the factorization of theta pairings. §6.13: the Rallis inner product formula.
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
@@ -1879,27 +1900,31 @@ Not owned here. The targets 3.3b and 6.11 extend MetaplecticAutomorphicForms §�
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
-§AL.0: local Fourier inversion and partial Fourier transforms of Schwartz–Bruhat functions. §AL.1: Tate's local zeta integrals, their functional equation and the local `γ`-factors. §AL.2: Godement–Jacquet zeta integrals and the standard local `L`-factor.
+§AL.1: Tate's local zeta integrals, their functional equation and the local `γ`-factors. §AL.2: Godement–Jacquet zeta integrals and the standard local `L`-factor.
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactorsPartII
 
-§2.3: the unramified unitary doubling formula `d_n(s, χ⁻¹)Z_U = L_E(s + ½, BC(π^∨) ⊗ χ⁻¹)` in the right-action convention of that roadmap, compared with 6.11 (b), (c) above.
+§§1.1, 1.3: the unitary degenerate principal series and the continuation of the degenerate Siegel Eisenstein series over a CM extension, whose restriction to `U(W)` is the Siegel family of MetaplecticAutomorphicForms §6.2 (6.4a). §2.3: the unramified unitary doubling formula `d_n(s, χ⁻¹)Z_U = L_E(s + ½, BC(π^∨) ⊗ χ⁻¹)` in the right-action convention of that roadmap, compared with 6.11 (b), (c) above.
 
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
-§3.1: rational parabolics and Iwasawa integration. §3.4: adelic Siegel sets, the covering of `G(F)\G(𝔸)` by Siegel sets and the compactness of the arithmetic quotients of anisotropic groups. §3.5: algebraic heights. §4.2: strong approximation for simply connected groups.
+§2.2: the quotient measure on a coset space with its integration formula in stages (*quotient-measure*) (5.7c). §3.1: rational parabolics and Iwasawa integration. §3.4: adelic Siegel sets, the covering of `G(F)\G(𝔸)` by Siegel sets and the compactness of the arithmetic quotients of anisotropic groups. §3.5: algebraic heights. §4.2: strong approximation for simply connected groups.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
-§2.1: `K`-finite vectors and admissibility. §2.2: infinitesimal characters and the Harish-Chandra isomorphism. §2.4: discrete series. §4.1: constant terms. §5.4: the Vogan–Zuckerman modules `A_𝔮(λ)` and their characterisation.
+§2.1: `K`-finite vectors and admissibility. §2.2: infinitesimal characters. §2.4: discrete series. §4.1: constant terms. §4.2: smooth cusp forms and their cuspidal occurrences (5.6a). §5.4: the Vogan–Zuckerman modules `A_𝔮(λ)` and their characterisation.
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
 §§1.1–1.4: normalised induced families, Eisenstein series and intertwining integrals in the convergence chamber. §§2.4, 2.4a: meromorphic continuation and functional equations of Eisenstein series.
 
+### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
+
+§ALS.F.6: automorphic forms, constant terms and cusp forms; cusp forms are rapidly decreasing (5.6a).
+
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartII
 
-§5.3h: the adelic Schwartz–Bruhat space and Poisson summation.
+§5.3g: local characters, self-dual measures, Fourier inversion and partial Fourier transforms (5.7c, 5.7e). §5.3h: the adelic Schwartz–Bruhat space, partial Fourier transforms and Poisson summation.
 
 ### From TauCetiRoadmap.LFunctions
 
@@ -1907,7 +1932,7 @@ Layer 7: the `L`-function of a nontrivial Hecke character is holomorphic and non
 
 ### From TauCetiRoadmap.OrthogonalL2Bases
 
-Part A, A2–A3: the Hermite functions and the Hermite basis of `L²(ℝ)`.
+Part A, A2–A3: the Hermite functions and the Hermite basis of `L²(ℝ)`. Part D: the multidimensional Hermite basis of `L²(ℝ^d)` (3.45).
 
 ### From TauCetiRoadmap.RepresentationTheory.CompactGroups
 
@@ -1916,6 +1941,10 @@ Layers 4–5: Schur orthogonality and the Peter–Weyl theorem.
 ### From TauCetiRoadmap.RepresentationTheory.ClassicalGroups
 
 §6.1: the branching rule from `GL_n` to `GL_{n−1}`, used for `U(1) × U(P_W − 1) ⊂ U(P_W)` in 5.7d.
+
+### From TauCetiRoadmap.RepresentationTheory.LieHighestWeight
+
+§9.2: the Harish-Chandra isomorphism of a reductive Lie algebra, here `𝔤𝔩_N`, with its central-character evaluations (3.47b (iii)).
 
 ### From Mathlib
 
