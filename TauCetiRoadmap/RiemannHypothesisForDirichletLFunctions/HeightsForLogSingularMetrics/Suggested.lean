@@ -52,7 +52,7 @@ integral model.
   their induced metrics, and geometric intersection numbers on the generic fibre.
 * The logarithmic bound for the maximal slope of the Lie algebra (16.1 (a)): for every semi-abelian
   scheme `G` over the ring of integers `O_L` of a number field whose generic fibre `A` is a
-  principally polarised abelian variety of dimension `g`,
+  principally polarised abelian variety of dimension `g ≥ 1`,
   `μ̂_max(Lie Ḡ) ≤ C·log(2 + g + max(h(A), 0))` with an absolute constant `C`. It lacks
   semi-abelian schemes over rings of integers, their Lie algebras as `O_L`-lattices, principal
   polarisations with their Riemann forms at the complex embeddings, the Hodge inner product, the
