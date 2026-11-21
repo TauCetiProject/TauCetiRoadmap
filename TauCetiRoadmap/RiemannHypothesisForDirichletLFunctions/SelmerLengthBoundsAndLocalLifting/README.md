@@ -18,6 +18,11 @@ For a `G_K`-stable lattice `T` in a representation `V` of `G_K`, `K/ℚ_p` finit
 
 Layer 3 uses only a local condition above `p` given abstractly (a balanced saturated condition, 3.22), so it needs nothing from Layer 4; 4.9b shows that the Bloch–Kato condition of SelmerIwasawaCohomology §4.9 is one, under the hypothesis (H3) stated there. In 4.10a–4.10f the letters `M`, `Q`, `S`, `H`, `J`, `X`, `L` and `Λ_c` have the local meanings given there (weights, the elements `π₀ + p` and `φ^{s−1}(q)`, window sizes, sets of integers, the variables `π₀` and `φ^{s−1}(π)` or a finite module, an exponent, a product of distinguished polynomials), unrelated to Layer 3; the lattice maps there are written `f`.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 3: Selmer presentations over group rings and twist selection
 
 This layer works with the Selmer data of 3.22: a Galois lattice over a number field with a balanced saturated local condition above `p`, given abstractly. It presents the Selmer functor over a finite group ring by a square matrix, reads the lengths of twisted Selmer groups off the specialised determinant, places auxiliary primes in position, bounds the determinant from below, and selects one anticyclotomic twist that makes the Selmer groups of finitely many lattices small at once.
