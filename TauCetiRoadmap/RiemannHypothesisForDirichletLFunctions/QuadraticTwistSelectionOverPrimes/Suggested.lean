@@ -15,9 +15,10 @@ statable at the pins, and all five are stated below:
   case `F₁ = N₀`, `F₂(q) = N₀ q`), `twistSelection_two_of_conductorBound`, and its form with box
   width `1/400` (2.7d (ii′)), `twistSelection_two_of_conductorBound_fixedWidth`.
 
-`twistSelection` and `twistSelection_two_of_conductorBound` are this roadmap's generalisations; the
-two theorems with box width `1/400` are the forms that the formal proof proves and that the rest of
-the family uses.
+`twistSelection` and `twistSelection_two_of_conductorBound` are this roadmap's generalisations. The
+two theorems with box width `1/400` are the forms that the rest of the family uses: the formal proof
+proves `twistSelection_fixedWidth`, and `twistSelection_two_of_conductorBound_fixedWidth` at one pair
+of progressions (2.7d), its stated form following from 2.7c (a′)–(c′) by the route of 2.7d.
 
 The carriers are Mathlib's: `jacobiSym`, `Nat.Prime`, `Nat.ModEq`, `Nat.totient`,
 `ArithmeticFunction.vonMangoldt`, `DirichletCharacter`, `DirichletCharacter.IsPrimitive` and
@@ -203,9 +204,11 @@ theorem twistSelection_two_of_conductorBound (δ₀ : ℝ) (hδ₀ : 0 < δ₀) 
                   TwistBounds χ δ₀ ε (C₂ ε) (F₂ q * U₂) Y K τ := by
   sorry
 
-/-- **Twist selection in two steps with box width `1/400`** (2.7d (ii′)), the form of the formal
-proof. There is an absolute `C₂` such that for `ε₁, ε₂ ∈ (0, 1/4]`, `K ≥ 1`, `τ, η > 0` and a bound
-`R` on the number of characters there is `Y₀` with the following property for `Y ≥ Y₀`. Let
+/-- **Twist selection in two steps with box width `1/400`** (2.7d (ii′)). The formal proof proves
+it at one pair of progressions (2.7d); this form follows from 2.7c (a′)–(c′)
+(`twistSelection_fixedWidth`) by the route of 2.7d. There is an absolute `C₂` such that for
+`ε₁, ε₂ ∈ (0, 1/4]`, `K ≥ 1`, `τ, η > 0` and a bound `R` on the number of characters there is `Y₀`
+with the following property for `Y ≥ Y₀`. Let
 `N₀ ≥ 1`, let `ξ` be a family of at most `R` primitive characters of conductor `≤ N₀`, let
 `F₁ ≥ N₀` and let `(m₁, a₁, U₁, F₁)` satisfy the selection hypotheses with exponent `ε₁`; for each
 `q ∈ P(m₁, a₁; U₁)` let `F₂(q) ≥ N₀ q` and let `(m₂(q), a₂(q), U₂, F₂(q))` satisfy them with

@@ -4,7 +4,7 @@
 
 The headline theorems are these. (1) There are absolute `L, c, C` such that for `8 ∣ m₀`, `a₀` prime to `m₀` and every odd squarefree `s > 1` prime to `m₀` with `m₀s ≤ U^(1/L)`, `|Σ_{q∈P} (q/s)| ≤ C |P| (e^(−c log U/log(m₀s)) + e^(−c√log U))` and `|P| ≥ U/(3φ(m₀) log U)`; the form that keeps the term of a possible exceptional zero allows one exceptional modulus `s`. The exception-free form is this roadmap's own corollary, through the exclusion of Landau–Siegel zeros, and not a statement of [FormalProof]; the selection below uses only the form with one exceptional modulus. (2) Twist selection: fix `δ₀ ∈ (0, 1/12)`, `K ≥ 1`, `τ, η, ε > 0`, `R ∈ ℕ`, `0 < b < 1/4` and `0 ≤ a < 1/2`. There are `C₁, Y₀` depending only on `(δ₀, K, τ, η, R, a, b)` and `C₂` depending only on `(δ₀, ε)` such that, whenever `Y ≥ Y₀`, `C₁ log Y·(log m₀ + log Y) ≤ log U`, `1 ≤ F ≤ U^(1/2)`, `log(FU) ≤ Y^b` and at most `Y^a` primes `p ≤ Y^(K/δ₀)` divide `m₀`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − δ₀` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ ((2 + ε)/δ₀) log log(FU) + C₂`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3) Two-step selection: with the same constants, let `Ξ₀` be a set of primitive characters of conductor `≤ N₀`, let `(m₁, a₁, U₁)` satisfy the hypotheses of (2) with a conductor bound `F₁ ≥ N₀`, and for each `q ∈ P(m₁, a₁; U₁)` let `(m₂(q), a₂(q), U₂)` satisfy them with a conductor bound `F₂(q) ≥ N₀q`. Then a proportion at least `1 − η` of the `q`, and for each such `q` a proportion at least `1 − η` of the `d ∈ P(m₂(q), a₂(q); U₂)`, make every twist `ξ·(·/q)^i·(·/d)^j` with `ξ ∈ Ξ₀` and `(i, j) ≠ (0, 0)` satisfy the three conclusions of (2), with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`.
 
-Statements (2) and (3) are this roadmap's generalisations, proved from the published theorems that their routes cite. [FormalProof] proves them with fixed parameters, and this form is the one the rest of the family uses. (2′) There are absolute `C, C₂` such that for `0 < ε ≤ 1/4`, `K ≥ 1`, `τ, η > 0`, `R ∈ ℕ` and `Y ≥ Y₀(ε, K, τ, η, R)`, whenever `8 ∣ m₀`, `(1/4)(log Y)² log m₀ ≤ log U`, `Y^(ε/6) ≤ log U ≤ Y^(ε/5)(log Y)²`, every prime factor of `m₀` is `≤ Y^(ε/5)` or `> Y^(400K)`, `1 ≤ F ≤ U^(1/2)`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − 1/400` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ min(C log Y, 1000 log log(FU) + C₂)`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3′) The same for two primes chosen in succession, each step under these hypotheses, with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`; [FormalProof] proves it for one pair of progressions, `q ≡ 3 (mod 8)`, and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p ∣ d + 1`, where `z = Y^(ε/5)` and `0 < ε < 1/52`.
+Statements (2) and (3) are this roadmap's generalisations, proved by the routes below from the roadmap sections they cite. [FormalProof] proves them with fixed parameters, and this form is the one the rest of the family uses. (2′) There are absolute `C, C₂` such that for `0 < ε ≤ 1/4`, `K ≥ 1`, `τ, η > 0`, `R ∈ ℕ` and `Y ≥ Y₀(ε, K, τ, η, R)`, whenever `8 ∣ m₀`, `(1/4)(log Y)² log m₀ ≤ log U`, `Y^(ε/6) ≤ log U ≤ Y^(ε/5)(log Y)²`, every prime factor of `m₀` is `≤ Y^(ε/5)` or `> Y^(400K)`, `1 ≤ F ≤ U^(1/2)`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − 1/400` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ min(C log Y, 1000 log log(FU) + C₂)`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3′) The same for two primes chosen in succession, each step under these hypotheses, with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`; [FormalProof] proves it for one pair of progressions, `q ≡ 3 (mod 8)`, and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p ∣ d + 1`, where `z = Y^(ε/5)` and `0 < ε < 1/52`.
 
 The roadmap extends Layer 2 of [SieveMethodsAndPrimePatterns](../../SieveMethodsAndPrimePatterns/README.md), whose quadratic large sieve averages real characters over many moduli; here the average is over the primes of one residue class, and no large sieve is needed. Its analytic inputs are Mertens's theorem, the effective gap for real zeros, Page's theorem across moduli and the log-free zero-density estimate of [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md), and the prime number theorem in progressions in Linnik's range and the control of smoothed prime sums by zero-free boxes of [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the two-step selection provides the auxiliary primes of the cyclic hosts of ThetaChainsAndFrobeniusPrimeSums, a later roadmap of the family.
 
@@ -36,9 +36,10 @@ For `ε > 0`, `K ≥ 1` and a scale `Y`, *the size hypotheses with exponent `ε`
 ```
 *the selection hypotheses with exponent `ε`* on `(m₀, a₀, U, F)` are these together with `1 ≤ F ≤ U^(1/2)` and: every
 prime `p ∣ m₀` satisfies `p ≤ Y^(ε/5)` or `p > Y^(400K)`. They are the hypotheses of the forms that [FormalProof] proves
-(2.7a (iii′), 2.7b (ii′), (iv′), 2.7c (a′)–(c′), 2.7d (ii′)); `Suggested.lean` writes the selection hypotheses as
-`FixedWidthSelectionHypotheses ε Y K m₀ a₀ U F`. `SelectionHypotheses` is this roadmap's generalisation of them, the
-hypotheses of the general statement of 2.7c.
+(2.7a (iii′), 2.7b (ii′), (iv′), 2.7c (a′)–(c′)) and of 2.7d (ii′), which [FormalProof] proves at one pair of
+progressions and which follows in its stated form from 2.7c (a′)–(c′) by the route of 2.7d; `Suggested.lean` writes the
+selection hypotheses as `FixedWidthSelectionHypotheses ε Y K m₀ a₀ U F`. `SelectionHypotheses` is this roadmap's
+generalisation of them, the hypotheses of the general statement of 2.7c.
 
 Notation and conventions not restated here are those of the Conventions of SieveMethodsAndPrimePatterns and of AnalyticNumberTheoryPartI; exceptional pairs modulo `q` are those of the Convention of RieszSumsOverPrimesAndExceptionalZeros §1.7b.
 
@@ -111,7 +112,7 @@ the set `P = P(m₀, a₀; U)` satisfies
 - (β) there is an integer `s*` such that every odd squarefree `s ≠ s*` with `1 < s ≤ Y^A` and `gcd(s, m₀) = 1`
   satisfies `|Σ_{q∈P} (q/s)| ≤ Y^(−B) |P|`.
 
-The statement (iii) is this roadmap's generalisation, proved by the route below from the published theorems it cites;
+The statement (iii) is this roadmap's generalisation, proved by the route below from the roadmap sections it cites;
 [FormalProof] proves (iii′). (iii′) follows from (iii): for `Y` large in terms of `ε, A, B`, the range of `U` of (iii′)
 lies in that of (iii) (`C₁ log Y·log m₀ ≤ log U/2` once `log Y ≥ 8C₁`, and `C₁ (log Y)² ≤ Y^(ε/6)/2`), and
 `log m₀ ≤ 4 log U/(log Y)²` turns the bound `|P| ≥ c U/(m₀ φ(m₀) log U)` of (α) into `|P| ≥ U^(9/10)`.
@@ -241,8 +242,8 @@ with: for `Y ≥ Y₀`, `(m₀, a₀, U)` satisfying the size hypotheses with ex
 ```text
 Σ_{q∈P(m₀,a₀;U)} |S_{Y^(400K)}(y; q, κ)|² ≤ C · y log y · |P(m₀, a₀; U)| .
 ```
-The statement (ii) is this roadmap's generalisation, proved by the route below from the published theorems it cites;
-[FormalProof] proves (ii′). (ii′) follows from (ii) at `L₁ = 400K` and `a = 1/5`, with `C = C(1/5)`: for `Y` large in
+The statement (ii) is this roadmap's generalisation, proved by the route below from the roadmap sections and the Mathlib
+bound it cites; [FormalProof] proves (ii′). (ii′) follows from (ii) at `L₁ = 400K` and `a = 1/5`, with `C = C(1/5)`: for `Y` large in
 terms of `ε` and `K`, at most `Y^(ε/5)` primes `p ≤ Y^(400K)` divide `m₀`, and the size hypotheses give
 `C₁ log Y·(log m₀ + log Y) ≤ log U` as in 2.7a (iii′).
 
@@ -345,7 +346,7 @@ bound `C′ log Y` with an absolute `C′`, so `Suggested.lean` states the secon
 character with box height `H` are `TwistBounds χ (1/400) (1/2) C₂ H Y K τ`, the instance of `TwistBounds` at box width
 `1/400` and `ε = 1/2`, where its clause (b) reads `|(L′/L)(1, χ)| ≤ 1000 log log H + C₂`.
 
-The general statement above is this roadmap's generalisation, proved by the route below from the published theorems it
+The general statement above is this roadmap's generalisation, proved by the route below from the roadmap sections it
 cites; [FormalProof] proves (a′)–(c′). They follow from the general statement at `δ₀ = 1/400`, `a = b = 1/5` and with
 `1/2` for the `ε` of its (b): for `Y` large in terms of `ε` and `C₁`, the selection hypotheses give
 `log(FU) ≤ (3/2) log U ≤ Y^(1/5)`, at most `Y^(ε/5)` primes `p ≤ Y^(400K)` dividing `m₀`, and
@@ -420,7 +421,7 @@ with `z(log Y)² ≤ z′ ≤ K²z(log Y)²`, `F₂(q) = N₀U₁`, `ε₂ = 6ε
 characters modulo `N₀`. The selected primes are `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p ∣ d + 1`, and
 the box heights are `N₀U₁` and `N₀U₁U₂`.
 
-The statements (i) and (ii) are this roadmap's generalisation, proved by the route below from the published theorems it
+The statements (i) and (ii) are this roadmap's generalisation, proved by the route below from the roadmap sections it
 cites; [FormalProof] proves 2.7c (a′)–(c′) and (ii′) at this instance. (ii′) follows from 2.7c (a′)–(c′) by the route
 below, with (a′)–(c′) in place of the general statement of 2.7c.
 
