@@ -10,7 +10,7 @@ import TauCeti.Geometry.Lie.Subgroup.Torus
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
 and Tau Ceti, those headline theorems of the roadmap that can be stated there, each with `sorry`.
 
-Stated below (README Layer 2, §2.4 and §2.5), for a compact connected Lie group `G` with
+Stated below (README R2, §R2.4 and §R2.5), for a compact connected Lie group `G` with
 Lie algebra `𝔤`:
 
 * conjugate elements of the Lie algebra of a maximal torus are conjugate under its normalizer;
@@ -19,24 +19,24 @@ Lie algebra `𝔤`:
 The other headline theorems of the roadmap are not statable at the pins:
 
 * the regular reduction theorem of Marsden–Weinstein–Meyer, the shifting construction and
-  reduction in stages (§3.0a–§3.0c), and the cotangent reductions of Layer 4: the pinned libraries
+  reduction in stages (§R3.0a–§R3.0c), and the cotangent reductions of R4: the pinned libraries
   give no smooth manifold structure on the quotient of a manifold by a free and proper action of a
   Lie group that is not discrete, so the reduced space `μ⁻¹(c) / G_c` and `Q / G` are not
   carriers;
 * the flux theorem `1 → Ham → Symp₀ → H¹_dR(M) / Γ_ω → 0`, its topological form, its
-  compactly supported form and the torus flux group (Layer 1a): the pinned libraries have no
+  compactly supported form and the torus flux group (R1a): the pinned libraries have no
   flux homomorphism (the de Rham class of the time integral of a smooth family of closed
   one-forms), no theorem that time-dependent Hamiltonian flows on manifolds preserve the form, and
   no group of Hamiltonian diffeomorphisms;
-* the Kirillov–Kostant–Souriau theorem (§2.2): the pinned libraries give no manifold structure
+* the Kirillov–Kostant–Souriau theorem (§R2.2): the pinned libraries give no manifold structure
   on the homogeneous space `G / G_ν` for a closed subgroup that is not discrete;
 * the parametrization of the coadjoint orbits of a compact connected group by the closed chamber
-  `z(𝔤)* × 𝔱*_(ss,+)` (§2.5): the pinned libraries have no roots of a compact Lie group;
+  `z(𝔤)* × 𝔱*_(ss,+)` (§R2.5): the pinned libraries have no roots of a compact Lie group;
 * the Morse theory of height functions on compact coadjoint orbits and `χ(O_μ) = |W / W_μ|`
-  (Layer 2a): the orbit `O_μ` is not a manifold at the pins;
-* the local normal form of a proper Hamiltonian action (§3.1): the associated bundle
+  (R2a): the orbit `O_μ` is not a manifold at the pins;
+* the local normal form of a proper Hamiltonian action (§R3.1): the associated bundle
   `G ×_H (𝔪* × V)` is not a carrier;
-* the gauge-theoretic statements of Layer 5: the pinned libraries have no space of principal
+* the gauge-theoretic statements of R5: the pinned libraries have no space of principal
   connections, gauge group or Sobolev space of sections over a manifold.
 -/
 
@@ -45,7 +45,7 @@ namespace TauCetiRoadmap.HamiltonianReduction
 open TauCeti TauCeti.Lie
 open scoped Manifold ContDiff
 
-/-! ## Layer 2: coadjoint orbits and the Kirillov–Kostant–Souriau form -/
+/-! ## R2: coadjoint orbits and the Kirillov–Kostant–Souriau form -/
 
 /-- **Weyl-relatedness of conjugate torus elements.** Let `G` be a compact connected Lie group and
 `T` a maximal torus with Lie algebra `𝔱`. If `X, Y ∈ 𝔱` and `Ad_g X = Y` for some `g ∈ G`, then

@@ -36,9 +36,8 @@ The headline theorems are these.
   invariant complement of the Lie algebra of `G_p` in that of `G_ν`, `V` is the symplectic normal space
   of the orbit, and `μ_V` is the quadratic moment map of `G_p` on `V`.
 
-Tau Ceti's library supplies the starting point: Hamiltonian vector fields, moment maps and their
-equivariance defect, cotangent lifts, de Rham cohomology and the descent of forms.
-SmoothBundlesConnections supplies homogeneous spaces, free proper quotients, slices and connections;
+The roadmap starts from Tau Ceti's smooth differential forms, Hamiltonian vector fields, Poisson
+brackets and de Rham cohomology. SmoothBundlesConnections supplies homogeneous spaces, free proper quotients, slices and connections;
 LieGroups the conjugacy of maximal tori and the real root data of compact groups; LieGroupoidsPoisson
 the Lie–Poisson conventions, the cotangent groupoid and its isotropy quotients, with which this
 roadmap compares the KKS form and ordinary reduction. ConvexityToric consumes the chamber and the
@@ -46,27 +45,25 @@ orbifold reduced spaces.
 
 ## How to read the build
 
-Layer 1 adds to Tau Ceti's moment-map theory its group-level statements: stabilizers and orbit maps,
-restriction to subgroups, disconnected groups, and the model actions. Layer 1a integrates the
-infinitesimal flux sequence along paths of symplectomorphisms and proves the flux theorems, compact and
-compactly supported; it uses no other layer. Layer 2 builds coadjoint orbits and their KKS forms for an
+R1 builds the moment-map theory of a smooth action: fundamental vector fields, stabilizers and orbit
+maps, infinitesimal and group-level moment maps with their operations and uniqueness, the equivariance
+defect, restriction to subgroups and disconnected groups, the model actions, and the exact sequence of
+symplectic vector fields. R1a integrates that infinitesimal flux sequence along paths of
+symplectomorphisms and proves the flux theorems, compact and compactly supported; of the other layers
+it uses only that sequence. R2 builds coadjoint orbits and their KKS forms for an
 arbitrary Lie group, and the chamber classification and connected centralizers for compact connected
-groups. Layer 2a does the Morse theory of height functions on compact coadjoint orbits. Layer 3 proves
-regular reduction, the shifting construction and reduction in stages (§§3.0–3.0c), quotients by
-discrete groups (§3.0d), the orbifold presentation of locally free levels (§3.0e), the local normal
-form (§3.1) and singular reduction (§3.2). Layer 4 treats cotangent reduction and compares groupoid
-reduction with Layer 3. Layer 5 builds the gauge-theoretic moment map on the space of connections over
+groups. R2a does the Morse theory of height functions on compact coadjoint orbits. R3 proves
+regular reduction, the shifting construction and reduction in stages (§§R3.0–R3.0c), quotients by
+discrete groups (§R3.0d), the orbifold presentation of locally free levels (§R3.0e), the local normal
+form (§R3.1) and singular reduction (§R3.2). R4 treats cotangent reduction and compares groupoid
+reduction with R3. R5 builds the gauge-theoretic moment map on the space of connections over
 a closed surface and the local structure of the moduli of flat connections. Each *Needs:* line lists
 the inputs of its statement and route, so that a target proved another way is not blocked behind an
 unrelated section. Every result cited from another roadmap or from the library is used with its own
 hypotheses; a headline theorem of another roadmap is not a substitute for the interface cited. Every
-quotient test among the targets and Examples (§3.0c, §3.0e, §4.1, §5.10) verifies the pulled-back or
-descended form, not only the dimension or a bijection of sets.
-
-Other roadmaps cite the former numbering of this roadmap, in blocks R1–R5, which maps as follows. R1
-is Layer 1; R1a is Layer 1a and R1a.k is §1a.k; R2 is Layer 2; item k of R2a, also written R2a.k, is
-§2a.k; R3 is Layer 3, its text before R3.1 is §§3.0–3.0e, and R3.1 and R3.2 are §3.1 and §3.2; R4 is
-Layer 4; and R5 is Layer 5.
+quotient test among the targets and Examples (§R3.0c, §R3.0e, §R4.1, §R5.10) verifies the pulled-back or
+descended form, not only the dimension or a bijection of sets. An item that the pinned Tau Ceti
+realises ends with a line *In Tau Ceti:* naming the declarations that realise it.
 
 ## Conventions
 
@@ -78,18 +75,18 @@ Layer 4; and R5 is Layer 5.
    `[ξ, η]_M = −[ξ_M, η_M]`. A moment map satisfies `d⟨μ, ξ⟩ = ι_(ξ_M) ω`; the coadjoint action is
    `Ad*_g ν = ν ∘ Ad_(g⁻¹)` (`Lie.coadjointRepresentation`). Cannas da Silva and Bates–Lerman use
    these conventions; Meinrenken writes the generating vector field as `−ξ_M`, so his moment-map
-   equation `d⟨Φ, ξ⟩ = −ι(ξ_M) ω` is the same condition. The default circle period is `2π`; §1a.3
+   equation `d⟨Φ, ξ⟩ = −ι(ξ_M) ω` is the same condition. The default circle period is `2π`; §R1a.3
    uses period-1 coordinates and converts.
 2. **Manifolds, groups and actions.** Manifolds and Lie groups are real, smooth, finite-dimensional,
-   Hausdorff, second countable and without boundary, except for the space of connections of Layer 5 and
-   the orbifold presentations of §3.0e. Connectedness and compactness are assumed only where stated. A
+   Hausdorff, second countable and without boundary, except for the space of connections of R5 and
+   the orbifold presentations of §R3.0e. Connectedness and compactness are assumed only where stated. A
    *smooth symplectic action* is a `MulAction G M` with `ContMDiffSMul` such that every `g` satisfies
    `g* ω = ω` (`SmoothForm.mpullback (g • ·) ω = ω`), the hypotheses of Tau Ceti's equivariant moment map
    theorems. An infinitesimal moment map (`SmoothTwoForm.IsMomentMap`) carries no equivariance; a
    group-level moment map (`SmoothTwoForm.IsEquivariantMomentMap`) adds coadjoint equivariance as a
    separate condition. Moment maps take values in the algebraic dual `Module.Dual ℝ 𝔤`, which is the
    continuous dual `StrongDual ℝ 𝔤` in finite dimension (`LinearMap.toContinuousLinearMap`); a result
-   that needs a normed target, such as the regular level of §3.0a, reads `μ` there.
+   that needs a normed target, such as the regular level of §R3.0a, reads `μ` there.
 3. **Forms.** A two-form is Tau Ceti's `SmoothTwoForm I M`, which is by definition the generic smooth
    form `SmoothForm I M ℝ 2` of DifferentialGeometry §0.4; symplectic means `SmoothTwoForm.IsSymplectic`,
    closed and fibrewise nondegenerate. There is a single form carrier, and every evaluation, pullback and
@@ -97,33 +94,58 @@ Layer 4; and R5 is Layer 5.
 4. **Principal actions.** A left action `g • x` is converted to the principal right action
    `x · g = g⁻¹ • x`, as in SmoothBundlesConnections §B1.4.
 5. **Orbits.** The coadjoint orbit of a noncompact group carries the homogeneous manifold structure of
-   §2.1; its map into `𝔤*` is an injective immersion and is not assumed to be an embedding or to have
+   §R2.1; its map into `𝔤*` is an injective immersion and is not assumed to be an embedding or to have
    closed image.
-6. **Infinite dimension.** The theorems of Layer 5 have their own Fréchet and Sobolev hypotheses; no
-   finite-dimensional reduction theorem of Layer 3 is applied to them unchanged.
+6. **Infinite dimension.** The theorems of R5 have their own Fréchet and Sobolev hypotheses; no
+   finite-dimensional reduction theorem of R3 is applied to them unchanged.
 7. **Names.** The statable headline theorems are declared in `Suggested.lean` in the namespace
    `TauCetiRoadmap.HamiltonianReduction`; other targets are stated in prose. A backticked name is a
    declaration of Tau Ceti, of Mathlib or of `Suggested.lean`, except a carrier attributed in the same
    sentence to the roadmap that proposes it, such as ComplexKahlerGeometry's `BundleSobolev E s`.
 
-<a id="r1-smooth-actions-moment-maps-and-equivariance"></a>
+## R1: smooth actions, moment maps and equivariance
 
-## Layer 1: smooth actions, moment maps and equivariance
+This layer builds the moment-map theory of a smooth action of a Lie group on a symplectic manifold:
+the fundamental vector fields (§R1.1) and the stabilizers and orbit maps they determine (§R1.2),
+infinitesimal and group-level moment maps with their operations and uniqueness (§R1.3), the
+equivariance defect and its integration over connected groups (§R1.4), restriction to Lie subgroups,
+transport and the component condition for disconnected groups (§R1.5), the model actions (§R1.6),
+and the exact sequence of symplectic vector fields (§R1.7).
 
-Tau Ceti already proves the general theory this layer rests on. It has fundamental vector fields
-of a smooth left action and their bracket identity. It has infinitesimal and coadjoint-equivariant
-moment maps, with their restriction along Lie algebra homomorphisms, products, negation, shifts,
-transport and uniqueness. It has the equivariance defect with its cocycle law, its derivative and its
-integration over connected groups, the cotangent lift and its moment map, and the exact sequence of
-symplectic vector fields. The supplier contracts list these declarations. This layer adds the
-group-level statements Tau Ceti lacks: stabilizers and orbit maps, restriction to Lie subgroups, the
-component condition for disconnected groups, and the model actions at group level.
+### R1.1 Fundamental vector fields and the infinitesimal action
 
-### 1.1 Stabilizers, orbits and the orbit map
+Let a Lie group `G` with Lie algebra `𝔤 = GroupLieAlgebra I G` act on a manifold `M` by a
+`MulAction G M` that is jointly smooth (`ContMDiffSMul`). The fundamental vector field of `ξ ∈ 𝔤` is
+`ξ_M(x) = d_1(g ↦ g · x)(ξ)`, the derivative at the identity of the orbit map of `x` applied to `ξ`.
+Prove:
+
+- `ξ ↦ ξ_M` is linear: `(ξ + η)_M = ξ_M + η_M` and `(c ξ)_M = c ξ_M`;
+- if the action is `C^n` and `m + 1 ≤ n`, then `ξ_M` is a `C^m` vector field; in particular `ξ_M` is
+  smooth for a smooth action;
+- the negative bracket identity: for a `C²` action, `[ξ_M, η_M] = −[ξ, η]_M`, for the bracket of vector
+  fields `[X, Y] = DY · X − DX · Y` (Mathlib's `VectorField.mlieBracket`);
+- the exponential-flow formula: for every `x ∈ M`, the curve `t ↦ exp(t ξ) · x` is an integral curve of
+  `ξ_M`;
+- the fundamental vector fields of a smooth action form an infinitesimal action of `𝔤` on `M` in the
+  sense of Tau Ceti's `InfinitesimalAction`: a linear map from `𝔤` to the smooth vector fields with
+  `[ξ, η] ↦ −[ξ_M, η_M]`.
+
+*In Tau Ceti:* `TauCeti.fundamentalVectorField`, `TauCeti.fundamentalVectorField_add`, `TauCeti.fundamentalVectorField_smul`, `TauCeti.contMDiff_fundamentalVectorField`, `TauCeti.mlieBracket_fundamentalVectorField`, `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul`, `TauCeti.InfinitesimalAction.fundamental`.
+
+*Needs:* Mathlib `GroupLieAlgebra`, `ContMDiffSMul`, `VectorField.mlieBracket`; Tau Ceti
+`InfinitesimalAction` and the exponential map of a Lie group.
+
+**Checks.**
+- `SO(3)` acting on `ℝ³`, with `𝔰𝔬(3) ≅ ℝ³` through `ξ ↦ (v ↦ ξ × v)`, so that `[ξ, η] = ξ × η`:
+  `ξ_M(x) = ξ × x`, and `[ξ_M, η_M](x) = η × (ξ × x) − ξ × (η × x) = −(ξ × η) × x = −[ξ, η]_M(x)` by the
+  Jacobi identity for the cross product. The variant `[ξ_M, η_M] = [ξ, η]_M`, which holds for right
+  actions, fails here.
+
+### R1.2 Stabilizers, orbits and the orbit map
 
 Let a Lie group `G` act smoothly on the left on a manifold `M` modelled by `I'` (Conventions 2), with
-fundamental vector fields `ξ_M = TauCeti.fundamentalVectorField I' ξ` and infinitesimal action
-`InfinitesimalAction.fundamental`. For `x ∈ M` the stabilizer `G_x = MulAction.stabilizer G x` is
+fundamental vector fields `ξ_M` and infinitesimal action `InfinitesimalAction.fundamental` (§R1.1).
+For `x ∈ M` the stabilizer `G_x = MulAction.stabilizer G x` is
 closed, hence an embedded Lie subgroup by Tau Ceti's closed-subgroup theorem. Prove that its Lie
 algebra, transported to `𝔤` through Tau Ceti's `leftInvariantDerivationLieEquivGroupLieAlgebra`, is
 the isotropy algebra `(InfinitesimalAction.fundamental I G I' M).isotropy x`, the kernel of
@@ -133,11 +155,10 @@ prove that it has constant rank, equal at every `g` to the dimension of the orbi
 statement of Tau Ceti's `finrank_orbitTangent_add_finrank_isotropy` read at the group level
 (Cannas da Silva, §23.2, item 1, p. 142, and the proof of Theorem 23.4, p. 143).
 
-*Needs:* Tau Ceti `fundamentalVectorField`, `mfderiv_smul_fundamentalVectorField`,
+*Needs:* §R1.1; Tau Ceti `mfderiv_smul_fundamentalVectorField`,
 `InfinitesimalAction.isotropy`, `InfinitesimalAction.orbitTangent`,
 `finrank_orbitTangent_add_finrank_isotropy`, `Lie.isEmbeddedLieSubgroup_of_isClosed`,
-`Lie.lieSubalgebraOfSubgroup`, `Lie.mem_lieSubalgebraOfSubgroup`,
-`isMIntegralCurve_mulInvariantExp_smul_smul`; Mathlib `MulAction.stabilizer`.
+`Lie.lieSubalgebraOfSubgroup`, `Lie.mem_lieSubalgebraOfSubgroup`; Mathlib `MulAction.stabilizer`.
 
 **Checks.**
 - The circle `ℝ/2πℤ` acting on `S² ⊂ ℝ³` by rotation about the `z`-axis: at the poles the stabilizer is
@@ -148,35 +169,108 @@ statement of Tau Ceti's `finrank_orbitTangent_add_finrank_isotropy` read at the 
 - For `SO(3)` acting on `S²` every orbit map has rank 2, while for `SO(3)` acting on `ℝ³` the orbit map
   of the origin has rank 0: the rank is constant along each orbit, not on `M`.
 
-### 1.2 Restriction to subgroups, transport and disconnected groups
+### R1.3 Moment maps and their operations
+
+Let `ω` be a two-form on `M`. An infinitesimal moment map of an infinitesimal action `ξ ↦ ξ_M` of a
+Lie algebra `𝔤` on `M` is a map `μ : M → 𝔤*` whose components `μ_ξ = ⟨μ, ξ⟩` are smooth and satisfy
+`ι_(ξ_M) ω = dμ_ξ` (Tau Ceti's `SmoothTwoForm.IsMomentMap`); it carries no equivariance. For a smooth
+action of `G`, a group-level moment map is an infinitesimal moment map of the fundamental action of
+§R1.1 that is coadjoint-equivariant, `μ(g · x) = Ad*_g μ(x)` for every `g ∈ G` and `x ∈ M` (Cannas da
+Silva, Definition 22.1, pp. 133–134); equivariance is a condition separate from the infinitesimal
+one. Prove:
+
+- *Shifts.* For every constant `ν ∈ 𝔤*`, `μ + ν` is an infinitesimal moment map of the same action.
+- *The opposite form.* If `μ` is an infinitesimal or a group-level moment map for `ω`, then `−μ` is
+  one of the same kind, for the same action, for `−ω`.
+- *Restriction along Lie algebra homomorphisms.* For a Lie algebra homomorphism `f : 𝔥 → 𝔤`, such as
+  the inclusion of a Lie subalgebra, `x ↦ μ(x) ∘ f` is an infinitesimal moment map of the restricted
+  action `ζ ↦ f(ζ)_M`.
+- *Products.* If `μ` and `ν` are infinitesimal moment maps of actions of the same Lie algebra on
+  `(M, ω)` and on `(N, τ)`, then `(x, y) ↦ μ(x) + ν(y)` is an infinitesimal moment map of the diagonal
+  action on `M × N` for `pr₁* ω + pr₂* τ`; if `μ` and `ν` are group-level moment maps of actions of the
+  same group, so is their sum, for the diagonal action.
+- *Transport.* If a smooth map `φ : M' → M` relates infinitesimal actions of `𝔤`,
+  `dφ(ξ_(M')(x)) = ξ_M(φ(x))`, then `μ ∘ φ` is an infinitesimal moment map of the action on `M'` for
+  `φ* ω`; in particular an equivariant symplectomorphism carries moment maps to moment maps.
+- *Uniqueness.* If `M` is connected, the infinitesimal moment maps of an action are exactly the shifts
+  `μ + ν`, `ν ∈ 𝔤*`, of any one of them `μ`.
+- *Equivariant shifts.* If `M` is nonempty and `μ` is a group-level moment map, then `μ + ν` is a
+  group-level moment map exactly when `ν` is coadjoint-invariant; if `M` is connected, the group-level
+  moment maps of the action are exactly these shifts of `μ`.
+
+*In Tau Ceti:* `TauCeti.SmoothTwoForm.IsEquivariantMomentMap`, `TauCeti.SmoothTwoForm.IsMomentMap.add_const`, `TauCeti.SmoothTwoForm.IsMomentMap.neg`, `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.neg`, `TauCeti.SmoothTwoForm.IsMomentMap.comp`, `TauCeti.SmoothTwoForm.IsMomentMap.prod`, `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.prod`, `TauCeti.SmoothTwoForm.IsMomentMap.mpullback`, `TauCeti.SmoothTwoForm.IsMomentMap.isMomentMap_iff_exists_eq_add`, `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.add_const_iff`, `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.isEquivariantMomentMap_iff_exists_eq_add`.
+
+*Needs:* §R1.1; Tau Ceti `SmoothTwoForm`, `SmoothTwoForm.IsHamiltonianVectorField`,
+`SmoothTwoForm.IsMomentMap`, `SmoothForm.mpullback`, `Lie.coadjointRepresentation`.
+
+**Checks.**
+- The circle acting on two disjoint copies of `ℂ` by `e^(it) · z` on each, with `ω = dx ∧ dy` and
+  `μ = −½|z|²` on each copy (this layer's Example): the map equal to `μ` on the first copy and to
+  `μ + 1` on the second is a moment map but not a shift `μ + ν` by one constant, so connectedness
+  cannot be dropped from the uniqueness statement.
+
+### R1.4 The equivariance defect
+
+Let `G` act on `M` and let `μ : M → 𝔤*` be any map. Its equivariance defect is
+`θ(g, x) = μ(g · x) − Ad*_g μ(x)`. It vanishes identically exactly when `μ` is coadjoint-equivariant;
+it satisfies `θ(g h, x) = θ(g, h · x) + Ad*_g θ(h, x)`; and shifting `μ` by a constant `ν ∈ 𝔤*` adds the
+coboundary `ν − Ad*_g ν`, `θ_(μ+ν)(g, x) = θ_μ(g, x) + (ν − Ad*_g ν)`. Now let the action be smooth, `M`
+connected, `ω` a two-form with `g* ω = ω` for every `g ∈ G`, and `μ` an infinitesimal moment map of the
+fundamental action, with no equivariance assumed. Prove:
+
+- *Independence of the point.* `θ(g, x)` does not depend on `x`; write `θ(g)`.
+- *The cocycle law.* `θ(g h) = θ(g) + Ad*_g θ(h)`.
+- *Affine equivariance.* `μ(g · x) = Ad*_g μ(x) + θ(g)`: `μ` is equivariant for the affine action
+  `ν ↦ Ad*_g ν + θ(g)` of `G` on `𝔤*`.
+- *One point suffices.* `μ` is coadjoint-equivariant as soon as `μ(g · x₀) = Ad*_g μ(x₀)` for every `g`
+  at a single point `x₀`.
+- *The derivative is the cocycle.* For every `x`, `d_1(g ↦ θ(g, x)(ξ))(η) = c_μ(ξ, η)`, where
+  `c_μ(ξ, η) = ω(ξ_M(x), η_M(x)) − μ(x)([ξ, η])` is the moment cocycle (Tau Ceti's
+  `SmoothTwoForm.momentCocycle`).
+- *Integration over connected groups.* If `G` is connected and `c_μ` vanishes at one point, then `μ`
+  is coadjoint-equivariant (Meinrenken, Remark 7.13 (d), p. 84).
+
+The defect keeps global information that the cocycle loses: a vanishing cocycle says nothing about
+the components of a disconnected group (§R1.5), and no theorem integrating the central extension of
+`𝔤` defined by `c_μ` to a central extension of `G` is stated without separate global data.
+
+*In Tau Ceti:* `TauCeti.momentDefect`, `TauCeti.momentDefect_eq_zero_iff`, `TauCeti.momentDefect_mul`, `TauCeti.momentDefect_add_const`, `TauCeti.SmoothTwoForm.IsMomentMap.momentDefect_eq`, `TauCeti.SmoothTwoForm.IsMomentMap.momentDefect_mul_eq`, `TauCeti.SmoothTwoForm.IsMomentMap.apply_smul_eq_add_momentDefect`, `TauCeti.SmoothTwoForm.IsMomentMap.isEquivariantMomentMap_iff`, `TauCeti.SmoothTwoForm.IsMomentMap.mvfderiv_momentDefect_one`, `TauCeti.SmoothTwoForm.IsMomentMap.isEquivariantMomentMap_of_momentCocycle_eq_zero`.
+
+*Needs:* §R1.1, §R1.3; Tau Ceti `SmoothTwoForm.momentCocycle`, `Lie.coadjointRepresentation`.
+
+**Checks.**
+- `SO(3)` acting on `T*ℝ³` by the cotangent lift, with the moment map `μ(q, p) = q × p + ν` for a
+  constant `ν ≠ 0`, and `𝔰𝔬(3)* ≅ ℝ³` through the dot product, so that `Ad*_g` is the rotation `g`:
+  `θ(g) = ν − g ν`. For the rotation `g` by `π` about an axis orthogonal to `ν`, `g ν = −ν` and `g² = 1`;
+  the cocycle law gives `θ(g²) = θ(g) + g θ(g) = 2ν − 2ν = 0 = θ(1)`, while the additive variant
+  `θ(g) + θ(g) = 4ν` would not.
+
+### R1.5 Restriction to subgroups, transport and disconnected groups
 
 Throughout, `ω` is symplectic, the action is a smooth symplectic action (Conventions 2) and
-`μ : M → 𝔤*` is a group-level moment map, Tau Ceti's `SmoothTwoForm.IsEquivariantMomentMap`
-(Cannas da Silva, Definition 22.1, pp. 133–134). Restriction along a Lie group homomorphism and the
+`μ : M → 𝔤*` is a group-level moment map (§R1.3). Restriction along a Lie group homomorphism and the
 equivalence of group and infinitesimal equivariance for connected `G` are Meinrenken, Remarks 7.13 (c)
 and (d), p. 84.
 
 - *Restriction.* For a Lie subgroup `ι : H → G`, an injective immersive homomorphism of Lie groups,
   embedded or not, with Lie algebra inclusion `dι : 𝔥 → 𝔤`,
   prove that `(dι)* ∘ μ` is a group-level moment map of the restricted action. The infinitesimal part
-  is Tau Ceti's `SmoothTwoForm.IsMomentMap.comp`; the target is the comparison of the fundamental
-  fields of `H` with those of `G` along `dι` and the equivariance under `H`.
+  is the restriction along Lie algebra homomorphisms of §R1.3; the target is the comparison of the
+  fundamental fields of `H` with those of `G` along `dι` and the equivariance under `H`.
 - *Transport.* For a `G`-equivariant symplectomorphism `φ : (M', ω') → (M, ω)`, prove that `μ ∘ φ` is a
-  group-level moment map for `ω'`, from Tau Ceti's `SmoothTwoForm.IsMomentMap.mpullback` and the
-  equivariance of `φ`.
-- *Connected groups on any manifold.* Tau Ceti's
-  `IsMomentMap.isEquivariantMomentMap_of_momentCocycle_eq_zero` integrates infinitesimal equivariance
+  group-level moment map for `ω'`, from the transport of §R1.3 and the equivariance of `φ`.
+- *Connected groups on any manifold.* §R1.4 integrates infinitesimal equivariance
   for a connected group acting on a connected manifold. Prove it for a connected `G` and an arbitrary
   `M`: a moment map whose cocycle vanishes at every point is coadjoint-equivariant, because a connected
   group maps each connected component of `M` to itself, so the theorem applies component by component.
 - *Disconnected groups.* For a group with several components
   prove the component criterion: if `M` is connected, `μ` is a moment map whose cocycle vanishes, and
   `μ(g_i · x₀) = Ad*_(g_i) μ(x₀)` at one point `x₀` for one element `g_i` of each connected component of
-  `G`, then `μ` is coadjoint-equivariant. The route: the defect `θ` of Tau Ceti's `momentDefect` is independent of `x`,
+  `G`, then `μ` is coadjoint-equivariant. The route: the defect `θ` of §R1.4 is independent of `x`,
   satisfies `θ(gk) = θ(g) + Ad*_g θ(k)` and has derivative the cocycle at the identity, so it is locally
   constant on `G`, and it vanishes at the chosen representatives.
 
-*Needs:* §1.1; Tau Ceti `SmoothTwoForm.IsMomentMap`, `SmoothTwoForm.IsEquivariantMomentMap`,
+*Needs:* §R1.2, §R1.3, §R1.4; Tau Ceti `SmoothTwoForm.IsMomentMap`, `SmoothTwoForm.IsEquivariantMomentMap`,
 `IsMomentMap.comp`, `IsMomentMap.mpullback`, `momentDefect`, `IsMomentMap.momentDefect_eq`,
 `IsMomentMap.momentDefect_mul_eq`, `IsMomentMap.mvfderiv_momentDefect_one`,
 `IsMomentMap.isEquivariantMomentMap_of_momentCocycle_eq_zero`, `Lie.coadjointRepresentation`.
@@ -188,40 +282,50 @@ and (d), p. 84.
   cocycle and is equivariant under the identity component, but under a reflection
   `(μ + c)(r · x) = −p + c ≠ −p − c = Ad*_r((μ + c)(x))`: infinitesimal equivariance alone does not give
   equivariance for a disconnected group, and the component criterion is exactly what fails. It also
-  matches Tau Ceti's `IsEquivariantMomentMap.add_const_iff`: `c` is not invariant under `Ad*_r = −1`.
-- For a connected `G` the criterion needs only the identity element, and it reduces to Tau Ceti's
-  `isEquivariantMomentMap_of_momentCocycle_eq_zero`.
+  matches the equivariant shifts of §R1.3: `c` is not invariant under `Ad*_r = −1`.
+- For a connected `G` the criterion needs only the identity element, and it reduces to the
+  integration over connected groups of §R1.4.
 
-### 1.3 The model actions at group level
+### R1.6 The model actions at group level
 
-Tau Ceti proves the infinitesimal moment maps of these actions; this section states their
-group-level forms (Cannas da Silva, §22.4, pp. 137–138, for translations along a Lagrangian subspace
-and angular momentum; Meinrenken, Propositions 7.18 and 7.20, pp. 87–88, for invariant one-forms such
-as the Liouville form and for the linear symplectic group).
+These are the model actions of the layer (Cannas da Silva, §22.4, pp. 137–138, for translations along
+a Lagrangian subspace and angular momentum; Meinrenken, Propositions 7.18 and 7.20, pp. 87–88, for
+invariant one-forms such as the Liouville form and for the linear symplectic group). For each, the
+infinitesimal statement comes first and the group-level statement follows.
 
-- *Translations.* For a finite-dimensional symplectic vector space `(V, ω)`, the additive group `V`
-  acting on itself by translation has the moment map `μ(x)(Z) = ω(Z, x)` (Tau Ceti's
-  `SymplecticForm.translationMomentMap` with `τ = id`). Prove that its equivariance defect is the
-  homomorphism `θ(v)(Z) = ω(Z, v)`, that its derivative at zero is the Heisenberg cocycle
-  `c(ξ, η) = ω(ξ, η)` of Tau Ceti's `SymplecticForm.momentCocycle_translation`, and that `μ + ν` is
-  equivariant for no constant `ν` unless `ω = 0`.
-- *The linear symplectic group.* For `Sp(V, ω)` acting linearly, prove that `μ_A(v) = ½ ω(A v, v)`, Tau
-  Ceti's `SymplecticForm.linearMomentMap`, is coadjoint-equivariant at group level:
+- *Translations.* Let `(V, ω)` be a finite-dimensional symplectic vector space. An abelian Lie algebra
+  `𝔤` acting on `V` by the constant vector fields `x ↦ τ(Z)` of a linear map `τ : 𝔤 → V` has the
+  moment map `μ(x)(Z) = ω(τ Z, x)`, and the cocycle of every map `V → 𝔤*` for this action is the
+  Heisenberg cocycle `c(Z, Z') = ω(τ Z, τ Z')`.
+
+  *In Tau Ceti:* `TauCeti.SymplecticForm.translationMomentMap`, `TauCeti.SymplecticForm.isMomentMap_translationMomentMap`, `TauCeti.SymplecticForm.momentCocycle_translation`.
+
+  For the additive group `V` acting on itself by translation (`τ = id`), prove that the equivariance
+  defect of `μ(x)(Z) = ω(Z, x)` is the homomorphism `θ(v)(Z) = ω(Z, v)`, that its derivative at zero is
+  the Heisenberg cocycle `c(ξ, η) = ω(ξ, η)`, and that `μ + ν` is equivariant for no constant `ν` unless
+  `ω = 0`.
+- *The linear symplectic group.* The Lie algebra `𝔰𝔭(V, ω)` of `ω`-skew endomorphisms, acting linearly
+  on `V`, has the moment map `μ_A(v) = ½ ω(A v, v)`, and it is infinitesimally equivariant:
+  `{μ_A, μ_B} = μ_[A, B]`.
+
+  *In Tau Ceti:* `TauCeti.SymplecticForm.linearMomentMap`, `TauCeti.SymplecticForm.isMomentMap_linearMomentMap`, `TauCeti.SymplecticForm.poissonBracket_linearMomentMap`.
+
+  For `Sp(V, ω)` acting linearly, prove that `μ` is coadjoint-equivariant at group level:
   `μ(g v)(A) = μ(v)(g⁻¹ A g)` because `g` preserves `ω`.
 - *Lifted rotations.* For `SO(n)` acting on `ℝⁿ` and its cotangent lift to `T*ℝⁿ = ℝⁿ × (ℝⁿ)*`, the
   moment map is `⟨μ(q, p), ξ⟩ = p(ξ q)`; prove that it is the restriction of Tau Ceti's
-  `TauCeti.cotangentMomentMap` along `𝔰𝔬(n) → 𝔤𝔩(n)` and agrees with Tau Ceti's
-  `CotangentBundle.momentMap` for the manifold `ℝⁿ`. For `n = 3`, under `ξ ↦ (v ↦ ξ × v)` it is the
-  angular momentum `q × p`.
-- *The general cotangent lift.* For a smooth action of `G` on `Q`, the cotangent lift preserves the
-  Liouville form and `μ(q, p)(ξ) = p(ξ_Q(q))` is an equivariant moment map: these are Tau Ceti's
-  `CotangentBundle.mpullback_smul_liouvilleForm` and `CotangentBundle.isEquivariantMomentMap_momentMap`.
+  `TauCeti.cotangentMomentMap` along `𝔰𝔬(n) → 𝔤𝔩(n)` and agrees with the cotangent-lift moment map
+  below for the manifold `ℝⁿ`. For `n = 3`, under `ξ ↦ (v ↦ ξ × v)` it is the angular momentum `q × p`.
+- *The general cotangent lift.* For a smooth action of a Lie group `G` on a manifold `Q`, the
+  cotangent-lifted action of `G` on `T*Q` preserves the Liouville form `λ`, and
+  `μ(q, p)(ξ) = p(ξ_Q(q))` is a group-level moment map of the cotangent-lifted action for the
+  canonical form `ω = −dλ`.
 
-*Needs:* §1.2; Tau Ceti `SymplecticForm.translationMomentMap`,
-`SymplecticForm.momentCocycle_translation`, `SymplecticForm.linearMomentMap`,
-`TauCeti.cotangentMomentMap`, `CotangentBundle.momentMap`,
-`CotangentBundle.isEquivariantMomentMap_momentMap`, `momentDefect`;
-Tau Ceti's embedded Lie subgroup `Sp(V, ω)` (`TauCeti/Geometry/Lie/Subgroup/Symplectic.lean`).
+  *In Tau Ceti:* `TauCeti.CotangentBundle.mpullback_smul_liouvilleForm`, `TauCeti.CotangentBundle.momentMap`, `TauCeti.CotangentBundle.isEquivariantMomentMap_momentMap`.
+
+*Needs:* §R1.3, §R1.4; Tau Ceti `SymplecticForm`, `TauCeti.cotangentMomentMap`, `CotangentBundle.liouvilleForm`,
+`CotangentBundle.symplecticForm`; Tau Ceti's embedded Lie subgroup `Sp(V, ω)`
+(`TauCeti/Geometry/Lie/Subgroup/Symplectic.lean`).
 
 **Checks.**
 - For `V = ℝ²` with `ω = dx ∧ dy` and `Z = ∂_x`, `Z' = ∂_y`: `c(∂_x, ∂_y) = ω(∂_x, ∂_y) = 1 ≠ 0`, so the
@@ -231,39 +335,72 @@ Tau Ceti's embedded Lie subgroup `Sp(V, ω)` (`TauCeti/Geometry/Lie/Subgroup/Sym
   is `q × p`; the opposite pairing `q(ξ p)` would give `p × q`, the negative, which fails
   `d⟨μ, ξ⟩ = ι_(ξ_M) ω` with `ω = Σ dqᵢ ∧ dpᵢ`.
 
+### R1.7 Symplectic vector fields and the exact sequence
+
+Let `ω` be a two-form on a finite-dimensional manifold `M`. A symplectic vector field is a smooth
+vector field `X` whose contraction `ι_X ω` is a closed one-form; when `ω` is closed these are exactly
+the smooth vector fields with `L_X ω = 0`, by Cartan's formula. Sending a symplectic vector field `X`
+to the class `[ι_X ω] ∈ H¹_dR(M)` is a linear map. If `ω` is nondegenerate, every smooth function `f`
+has a smooth Hamiltonian vector field `X_f`, `ι_(X_f) ω = df`, and the maps `f ↦ −X_f` and
+`X ↦ [ι_X ω]` form the exact sequence
+
+`0 → H⁰_dR(M) → C^∞(M) → {X | ι_X ω closed} → H¹_dR(M) → 0`.
+
+Exactness at `C^∞(M)`: `−X_f = 0` exactly when `f` is locally constant, and the locally constant
+functions, one constant on each component, are `H⁰_dR(M)`. Exactness at the symplectic vector fields: `[ι_X ω] = 0` exactly
+when `X = −X_f` for a smooth `f`. Surjectivity onto `H¹_dR(M)`: a closed one-form `α` is `ι_X ω` for the
+vector field `X` obtained by inverting `ω` on `α`. If `ω` is moreover closed, then `X_({f,g}) = −[X_f, X_g]`
+for the bracket `{f, g} = df(X_g)`, so `f ↦ −X_f` is a homomorphism of Lie algebras. No closedness of
+`ω` is needed for the exactness. The sequence is finite-dimensional: nothing is asserted for Banach
+manifolds, where `ω♭` need not be onto the dual. The comparison of `X_f` with `π♯df` for the Poisson
+structure of `ω` is LieGroupoidsPoisson §G4.3's, and the sequence does not depend on it. R1a
+integrates this sequence along paths of symplectomorphisms.
+
+*In Tau Ceti:* `TauCeti.SmoothTwoForm.symplecticVectorFields`, `TauCeti.SmoothTwoForm.mem_symplecticVectorFields_iff_mlieDerivForm_eq_zero`, `TauCeti.SmoothTwoForm.interiorClass`, `TauCeti.SmoothTwoForm.IsNondegenerate.negHamiltonianₗ`, `TauCeti.SmoothTwoForm.IsNondegenerate.ker_negHamiltonianₗ`, `TauCeti.SmoothTwoForm.IsNondegenerate.exact_negHamiltonianₗ_interiorClass`, `TauCeti.SmoothTwoForm.IsNondegenerate.interiorClass_surjective`, `TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`.
+
+*Needs:* Tau Ceti `SmoothTwoForm.IsNondegenerate`, `SmoothTwoForm.hamiltonianVectorField`,
+`SmoothTwoForm.poissonBracket`, `TauCeti.deRhamCohomology`,
+`TauCeti.mlieDerivForm_eq_interior_mextDeriv_add` (Cartan's formula).
+
+**Checks.**
+- On `T² = (ℝ/ℤ)²` with `ω = dx ∧ dy`, the field `∂_x` is symplectic with `ι_(∂_x) ω = dy`, whose class
+  is nonzero (its period on the cycle `s ↦ (0, s)` is 1), so `∂_x` is not of the form `−X_f`. On `ℝ²` the
+  same field is `X_y`, and `H¹_dR(ℝ²) = 0`: the class in `H¹_dR` is exactly what separates the two.
+- On `M = M₁ ⊔ M₂` with `M₁` and `M₂` connected, the kernel of `f ↦ −X_f` is the two-dimensional space
+  of functions constant on each component, which is `H⁰_dR(M)`, not the line of globally constant
+  functions.
+
 ### Examples
 
 - The circle acting on `ℂ` by `e^(it) · z`, with `ω = (i/2) dz ∧ dz̄ = dx ∧ dy`: the moment map is
   `μ(z) = −½ |z|²` up to an invariant constant, the stabilizer of `0` is the circle and every other
-  stabilizer is trivial (§1.1).
-- `O(2)` on `T*S¹` (§1.2's Check) is the smallest example where the component criterion is needed.
+  stabilizer is trivial (§R1.2).
+- `O(2)` on `T*S¹` (§R1.5's Check) is the smallest example where the component criterion is needed.
 
 ### Dependencies
 
-Tau Ceti: fundamental vector fields and infinitesimal actions with isotropy and orbit tangent
-spaces, the closed-subgroup theorem and Lie algebras of subgroups, infinitesimal and group-level
-moment maps with their defect and cocycle, the translation, linear and cotangent moment maps.
-Mathlib: `MulAction.stabilizer`, `GroupLieAlgebra`.
+Tau Ceti: smooth two-forms, Hamiltonian vector fields and Poisson brackets, infinitesimal actions with
+isotropy and orbit tangent spaces, the moment cocycle, the closed-subgroup theorem and Lie algebras of
+subgroups, the exponential map, Cartan's formula, de Rham cohomology, cotangent bundles with their
+Liouville and canonical forms. Mathlib: `MulAction.stabilizer`, `GroupLieAlgebra`,
+`VectorField.mlieBracket`.
 
-## Layer 1a: global flux, the Hamiltonian kernel and the endpoint quotient
+## R1a: global flux, the Hamiltonian kernel and the endpoint quotient
 
-This layer integrates the infinitesimal flux sequence along paths of symplectomorphisms. That
-sequence, `0 → H⁰_dR(M) → C^∞(M) → {X | L_X ω = 0} → H¹_dR(M) → 0` with `f ↦ −X_f` and `X ↦ [ι_X ω]`, is
-Tau Ceti's, for a closed nondegenerate form on a finite-dimensional manifold
-(`SmoothTwoForm.IsNondegenerate.exact_negHamiltonianₗ_interiorClass`,
-`SmoothTwoForm.IsNondegenerate.interiorClass_surjective`,
-`SmoothTwoForm.IsNondegenerate.ker_negHamiltonianₗ`). The layer is independent of Layers 2 to 5. Its
-order is: the path calculus of §1a.0, which does not assume compactness; the compact endpoint theory of §1a.1 and §1a.2; the torus computation of §1a.3; and the
-common-compact-support theory of §1a.4, which reuses the path calculus with its own selector,
+This layer integrates the infinitesimal flux sequence of §R1.7,
+`0 → H⁰_dR(M) → C^∞(M) → {X | L_X ω = 0} → H¹_dR(M) → 0` with `f ↦ −X_f` and `X ↦ [ι_X ω]` for a closed
+nondegenerate form on a finite-dimensional manifold, along paths of symplectomorphisms. The layer is
+independent of R2 to R5. Its order is: the path calculus of §R1a.0, which does not assume compactness; the compact endpoint theory of §R1a.1 and §R1a.2; the torus computation of §R1a.3; and the
+common-compact-support theory of §R1a.4, which reuses the path calculus with its own selector,
 completeness and topology inputs. Throughout, `TauCeti.Diffeotopy` is Tau Ceti's carrier of smooth
 isotopies, `Diffeomorph.applyMulAction` the evaluation action of the diffeomorphism group, and
 `Diffeomorph.fixingSubgroup` the subgroup fixing a set pointwise. On a compact Hausdorff manifold
 modelled on a locally compact space, the topological-group facts `Diffeomorph.continuous_trans`,
 `Diffeomorph.continuous_symm`, `Diffeomorph.isTopologicalGroup` and
 `Diffeomorph.isClosed_fixingSubgroup` are consumed with their `IsManifold` hypotheses; on a
-noncompact manifold §1a.4 builds the topology it needs from `ContMDiffMap.manifoldWeakWhitneyTopology`.
+noncompact manifold §R1a.4 builds the topology it needs from `ContMDiffMap.manifoldWeakWhitneyTopology`.
 
-### 1a.0 Smooth symplectic paths and flux
+### R1a.0 Smooth symplectic paths and flux
 
 *The raw path calculus.* On any finite-dimensional symplectic manifold `(M, ω)`, compact or not,
 consider jointly smooth symplectic diffeotopies `φ_t` and two-parameter families `φ_(u,t)`, constant
@@ -272,10 +409,10 @@ field `X_t = (∂_t φ_t) ∘ φ_t⁻¹`, prove that the contraction `α_t = ι_
 depending jointly smoothly on `t`, and prove the product, inverse and pullback identities below and
 the two-parameter identity. Prove that integration over a compact parameter interval commutes with
 pullback and with the exterior derivative under compact bounds on the parameter domain and on the
-supports. This algebra assumes no compactness of `M`. Compactness enters only in §1a.1 to §1a.3, where
-it makes the inverse fields complete and the period coordinates finite-dimensional; in §1a.4 the
+supports. This algebra assumes no compactness of `M`. Compactness enters only in §R1a.1 to §R1a.3, where
+it makes the inverse fields complete and the period coordinates finite-dimensional; in §R1a.4 the
 common compact support, the relative periods and the complete support flows play that role. The
-ordered-flow correction of §1a.1 uses only these inputs and the fact that an isotopy acts trivially
+ordered-flow correction of §R1a.1 uses only these inputs and the fact that an isotopy acts trivially
 on the ordinary or compactly supported cohomology in question. The path calculus is proved before
 either endpoint theory.
 
@@ -294,7 +431,7 @@ point.
 in Tau Ceti's `deRhamCohomology I M 1`, and prove that it also equals `[∫₀¹ φ_t* α_t dt]`. The route
 specializes the time-dependent pullback derivative and the Cartan formula: for a smooth
 time-dependent symplectic field `Y_t` with flow `Ψ_t`, `∂_t (Ψ_t* ω) = Ψ_t* (L_(Y_t) ω) = 0` on the
-actual flow domain; the common-support constructions of §1a.4 use this specialization. For every
+actual flow domain; the common-support constructions of §R1a.4 use this specialization. For every
 smooth integral one-cycle `γ`, prove that `⟨Flux(φ), γ⟩` is the integral of `ω` over the swept
 two-chain `(t, s) ↦ φ_t(γ(s))`, oriented by `dt` followed by the orientation of the cycle. Flux as a
 homomorphism on path classes, its homotopy invariance and this swept-chain formula are Banyaga,
@@ -321,7 +458,7 @@ Integrating over the parameter square proves that `Flux` is invariant under endp
 homotopy, with the actual end conditions. Prove naturality of `Flux` under symplectomorphisms and
 products, including the orientation and normalization of the cycle pairings.
 
-*Needs:* Tau Ceti `SmoothTwoForm.interiorClass`, `TauCeti.deRhamCohomology`, `TauCeti.Diffeotopy`,
+*Needs:* §R1.7; Tau Ceti `SmoothTwoForm.interiorClass`, `TauCeti.deRhamCohomology`, `TauCeti.Diffeotopy`,
 `Diffeotopy.trans`, `Diffeotopy.symm`, `Diffeomorph.weakWhitneyTopology`, `Diffeomorph.isTopologicalGroup`,
 `SmoothTwoForm.IsSymplectic`, `TauCeti.mlieDerivForm_eq_interior_mextDeriv_add` (Cartan's formula);
 DifferentialGeometry §1.4 (Cartan calculus), §3.5 (time-dependent flows and two-time flows), §5.4
@@ -337,14 +474,14 @@ DifferentialGeometry §1.4 (Cartan calculus), §3.5 (time-dependent flows and tw
   `β_t = φ* dy = dy + u dx` and `β_u = −x dx`. Then `∂_u β_t − ∂_t β_u = dx = d_M(ω(X, Y) ∘ φ)`; the opposite
   sign would give `−dx`.
 
-### 1a.1 Smooth primitive selection and the Hamiltonian path kernel
+### R1a.1 Smooth primitive selection and the Hamiltonian path kernel
 
 This section uses the symplectic contraction, primitive and Moser calculus of HeegaardFloer §4.1
 (F2.1) in its stated scope. The degree-one primitive operator below is constructed here by fixed-path and
 radial integration; it needs neither a second good cover nor a degree-two loss estimate read as a
 degree-one theorem. It supplies arbitrary smooth finite-dimensional parameter families, including
 faces and collars, both for the compact kernel argument and for the componentwise compact part of
-§1a.4. Throughout, `M` is compact.
+§R1a.4. Throughout, `M` is compact.
 
 *Period coordinates.* Construct a finite smooth period-dual basis `θ_i` of `H¹_dR(M)`, closed one-forms
 dual to a basis of smooth integral one-cycles, and the continuous linear class-coordinate map on
@@ -385,7 +522,7 @@ symplectic path has zero flux exactly when it is endpoint-fixed homotopic to a H
 (Banyaga, Propositions II.3.1 and II.3.3 and the diagram after them, pp. 189–191).
 This is a statement about path classes; an instantaneous closed form `α_t` need not be exact merely because its time integral is.
 
-*Needs:* §1a.0; Tau Ceti `SmoothTwoForm.hamiltonianVectorField`, `TauCeti.deRhamCohomology`,
+*Needs:* §R1a.0; Tau Ceti `SmoothTwoForm.hamiltonianVectorField`, `TauCeti.deRhamCohomology`,
 `deRhamCohomology.period`, `TauCeti.deRhamCohomologyZeroEquiv`; HeegaardFloer §4.1 (F2.1) (contraction
 inverse, primitive and Moser calculus); DifferentialGeometry §§8.3–8.4 (integration over smooth chains),
 §1.4 (Cartan calculus), §3.5 (complete flows); AlgebraicTopology §6.1 (real universal coefficients).
@@ -400,9 +537,9 @@ inverse, primitive and Moser calculus); DifferentialGeometry §§8.3–8.4 (inte
   and flux `−[dx] ≠ 0`, so it is not endpoint-fixed homotopic to a Hamiltonian isotopy, although its
   endpoint, the identity, is Hamiltonian.
 
-### 1a.2 The endpoint quotient and its topology
+### R1a.2 The endpoint quotient and its topology
 
-`M` is compact and connected, as in §1a.0.
+`M` is compact and connected, as in §R1a.0.
 
 *Groups.* Define `Ham(M, ω)` as the set of time-one maps of smooth Hamiltonian isotopies from the
 identity with time-end collars and componentwise normalized generating functions, and prove that it
@@ -421,7 +558,7 @@ that
 
 is exact (Banyaga, the exact diagram on p. 191, with `Γ` and the endpoint flux defined on p. 184).
 Surjectivity uses the complete flow of the vector field obtained by inverting `ω` on a representative
-closed one-form; normality and the kernel come from §1a.0 and §1a.1. Prove that the continuous path
+closed one-form; normality and the kernel come from §R1a.0 and §R1a.1. Prove that the continuous path
 and homotopy versions of these groups agree with the smooth collar-fixed versions.
 
 *The diagonal chart.* Apply CotangentLagrangian §4.7's Weinstein neighbourhood theorem to the
@@ -437,7 +574,7 @@ the symplectic condition on such a graph is exactly closedness of the one-form. 
 sufficiently `C^∞`-close to the identity, prove that the inverse Weinstein image of `graph(h)`
 projects locally diffeomorphically to the zero section; it is homotopic to the identity and of degree
 one, so this projection is a diffeomorphism and the image is the graph of a unique one-form, written
-`θ_h` here to keep it apart from the basis forms `θ_i` of §1a.1. Prove `θ_h` closed because the
+`θ_h` here to keep it apart from the basis forms `θ_i` of §R1a.1. Prove `θ_h` closed because the
 graph is Lagrangian. With `ω_can = −dλ`, use `η_h = −θ_h` as the chart coordinate, and prove that the
 path of graphs of `−t η_h = t θ_h`, `t ∈ [0, 1]`, has flux `[η_h]`.
 
@@ -452,7 +589,7 @@ topological statements assume nothing about discreteness of `Γ_ω`; Hausdorffne
 a finite-dimensional Lie group structure on it are not conclusions, and hold only under the
 corresponding additional hypotheses on the subgroup.
 
-*Needs:* §1a.0, §1a.1; CotangentLagrangian §4.7 (Weinstein neighbourhood germ);
+*Needs:* §R1a.0, §R1a.1; CotangentLagrangian §4.7 (Weinstein neighbourhood germ);
 DifferentialGeometry Layer 10 (degree); Tau Ceti `Diffeomorph.isTopologicalGroup`,
 `Diffeomorph.continuous_trans`, `Diffeomorph.continuous_symm`, `CotangentBundle.symplecticForm`.
 
@@ -465,7 +602,7 @@ DifferentialGeometry Layer 10 (degree); Tau Ceti `Diffeomorph.isTopologicalGroup
 - For `M = S²` (or any closed `M` with `H¹_dR(M) = 0`) the exact sequence says
   `Ham(M, ω) = Symp₀(M, ω)`.
 
-### 1a.3 The area-normalized torus lattice
+### R1a.3 The area-normalized torus lattice
 
 Give `T² = (ℝ/ℤ)²` the product of Tau Ceti's analytic manifold and Lie group structures on the circle
 `AddCircle 1` (`AddCircle.instChartedSpace`, `AddCircle.instIsManifold`, `AddCircle.instLieAddGroup`,
@@ -482,7 +619,7 @@ angular coordinates `θ_x = 2πx`, `θ_y = 2πy` the form is `(A / 4π²) dθ_x 
 on both coordinate translation loops. The computation uses neither a deformation retraction of the
 whole symplectomorphism group nor a general discreteness theorem for flux groups.
 
-*Needs:* §1a.0, §1a.2; Tau Ceti `deRhamCohomology`, `AddCircle.instIsManifold`,
+*Needs:* §R1a.0, §R1a.2; Tau Ceti `deRhamCohomology`, `AddCircle.instIsManifold`,
 `AddCircle.instLieAddGroup`; Mathlib `IsManifold.prod`, `Prod.instLieAddGroup`.
 
 **Checks.**
@@ -492,7 +629,7 @@ whole symplectomorphism group nor a general discreteness theorem for flux groups
 - `Γ_ω` scales with `A`: for `A = 2` the class `[dy]` has period `1 ∉ 2ℤ` on the cycle `s ↦ (0, s)`, so it is
   not in `Γ_ω`; forgetting the area factor would give the integral lattice instead.
 
-### 1a.4 Common compact-support flux
+### R1a.4 Common compact-support flux
 
 *Groups and the algebraic sequence.* For noncompact `M` consider smooth symplectic paths and
 homotopies whose maps are the identity outside one common compact set, so that the forms `α_t` are
@@ -501,7 +638,7 @@ supported de Rham cohomology, and define `Ham_c(M, ω)` by Hamiltonians with com
 Prove that the forget-support map `H¹_c(M) → H¹_dR(M)` carries the compact-support flux to the
 ordinary flux. Define `Symp_(c,0)(M, ω)` as the set of endpoints of these common-support smooth
 symplectic paths; it is not the unrestricted identity component of the ambient symplectomorphism
-group in the weak topology. Prove the path-kernel theorem of §1a.1 in this setting and the exact
+group in the weak topology. Prove the path-kernel theorem of §R1a.1 in this setting and the exact
 sequence
 
 `1 → Ham_c(M, ω) → Symp_(c,0)(M, ω) → H¹_c(M) / Γ_(ω,c) → 0`,
@@ -517,7 +654,7 @@ give this kernel statement.
 GeometricTopology §1.1's product collars. Choose the stages cofinally so
 that every compact component of `M` meeting `K`, or meeting any of the finitely many chosen
 representatives or primitive witnesses below, is wholly contained in the final stage; a compact set
-meets only finitely many components. On such a component use the componentwise mean of §1a.1 on the
+meets only finitely many components. On such a component use the componentwise mean of §R1a.1 on the
 whole component before extending by zero; a bounded piece of a compact component is not treated as
 a closed component with its own mean. Set `V_r = int U_r`. Apply DifferentialGeometry §6.4's compactly
 supported de Rham theory and DeRhamCohomologyAndDuality Layer 3's relative de Rham theory on the
@@ -572,7 +709,7 @@ so that `d S α = α` and `supp S α ⊆ V_s`. Prove `C^k → C^(k+1)` estimates
 sectors, with constants depending on the chosen cycles, paths, witnesses and stages, and joint smooth
 finite-parameter and face laws from these formulas. The image-coordinate complement likewise
 produces smooth coefficients `a_i(t)` for the compactly supported inverse fields. Reuse the raw flux,
-two-parameter and ordered-flow algebra of §1a.0 and §1a.1, proving its compact-support inputs here:
+two-parameter and ordered-flow algebra of §R1a.0 and §R1a.1, proving its compact-support inputs here:
 the inverse fields and Hamiltonians have one enlarged compact support, their flows are complete, and
 the images of a compact set under a compact parameter family are compact. Thus products, inverses,
 zero-flux contractions and endpoint-fixed homotopies fit in one further enlarged stage. Prove that the
@@ -590,7 +727,7 @@ regular stage restrict to maps equal to the identity on a fixed outer collar and
 identity to `M`; prove the restriction, extension and overlap comparisons of the induced weak-Whitney
 topologies, and continuity of composition and inversion from the compact-stage APIs and the support
 control. No continuity theorem for the unrestricted noncompact diffeomorphism group is assumed.
-Construct the support-stage diagonal chart independently of the compact endpoint theorem of §1a.2:
+Construct the support-stage diagonal chart independently of the compact endpoint theorem of §R1a.2:
 choose buffers `K ⊆ int K₁ ⊆ int K₂ ⊆ V_r` with a fixed outer collar; from GeometricTopology §1.5's
 tubular neighbourhood of the diagonal, restricted over the compact buffer `K₂`, and CotangentLagrangian
 §4.1's fibre-homotopy construction, match
@@ -610,7 +747,7 @@ support enlargement. Convex supported closed-one-form coordinates give finite-di
 and relative smooth approximation of paths and homotopies, fixing data already smooth near the
 parameter faces and keeping common collars. Export the fixed-stage comparison with its induced
 ambient weak-Whitney topology; the common compact support is a hypothesis of this comparison. The
-inputs shared with §1a.2 are CotangentLagrangian Layer 4, the DifferentialGeometry, GeometricTopology
+inputs shared with §R1a.2 are CotangentLagrangian Layer 4, the DifferentialGeometry, GeometricTopology
 and degree inputs and the raw flux calculus, not either endpoint conclusion.
 
 *The compact-support group topology.* Construct a group topology on `Symp_(c,0)(M, ω)` from
@@ -633,7 +770,7 @@ and prove the class projection continuous and open; injectivity of the relative-
 used. In the support-stage diagonal chart define `θ_h` as the unique compactly supported closed
 one-form whose graph is the inverse chart image of `graph(h)`, using the global projection and inverse
 equations and the fixed support buffers; put `η_h = −θ_h` and prove that the path of graphs of `t θ_h`
-has flux `−[θ_h] = [η_h]`. This `θ_h` is defined by the support-stage chart, independently of §1a.2.
+has flux `−[θ_h] = [η_h]`. This `θ_h` is defined by the support-stage chart, independently of §R1a.2.
 Deduce that the endpoint flux is continuous and open for the compact-support group topology, and
 prove the quotient homeomorphism `Symp_(c,0)(M, ω) / Ham_c(M, ω) ≃ H¹_c(M) / Γ_(ω,c)`. The algebraic
 exact sequence holds independently of this topology. Neither discreteness of `Γ_(ω,c)`, nor
@@ -649,7 +786,7 @@ compactly supported primitive of its integrated contraction. So the endpoint flu
 on the union of the stages with the induced ambient weak topology. The fixed-stage theorem and the LF
 quotient theorem keep their own, distinct topologies.
 
-*Needs:* §1a.0, §1a.1, §1a.2 (only the raw path calculus, not its endpoint conclusions); Tau Ceti
+*Needs:* §R1a.0, §R1a.1, §R1a.2 (only the raw path calculus, not its endpoint conclusions); Tau Ceti
 `TauCeti.compactlySupportedDeRhamCohomology`, `compactlySupportedDeRhamCohomology.toDeRhamCohomology`,
 `Diffeomorph.fixingSubgroup`, `Diffeomorph.applyMulAction`, `ContMDiffMap.manifoldWeakWhitneyTopology`,
 `TauCeti.exists_contMDiffMap_isProperMap_nonneg`; DifferentialGeometry §6.4 (compact supports), §10.2
@@ -672,14 +809,14 @@ construction).
 ### Examples
 
 - On `(ℝ/ℤ)²` with `ω = A dx ∧ dy`, the two coordinate translation loops generate `Γ_ω = A · H¹(T²; ℤ)`
-  (§1a.3), and the shear paths `(x, y + t h(x))` with `∫₀¹ h = 0` are Hamiltonian isotopies.
+  (§R1a.3), and the shear paths `(x, y + t h(x))` with `∫₀¹ h = 0` are Hamiltonian isotopies.
 - On `S²` with an area form, `H¹_dR(S²) = 0`, so `Ham = Symp₀` and the flux is trivial.
-- The cylinder `ℝ × (ℝ/ℤ)` of §1a.4 separates the compact-support topology from the ambient weak
+- The cylinder `ℝ × (ℝ/ℤ)` of §R1a.4 separates the compact-support topology from the ambient weak
   topology.
 
 ### Dependencies
 
-No other layer of this roadmap. Tau Ceti: the exact sequence of symplectic vector fields, de Rham
+R1 (§R1.7, the exact sequence of symplectic vector fields) and no other layer. Tau Ceti: de Rham
 cohomology (ordinary, compactly supported, periods), diffeomorphism groups with their weak-Whitney
 topologies, diffeotopies, Cartan's formula, proper exhaustions, the circle `AddCircle p`. Mathlib:
 product manifolds and Lie groups. DifferentialGeometry §§1.4, 3.5, 5.4, 6.4, 8.3–8.4, 10.2 and
@@ -688,21 +825,24 @@ Layer 10. DeRhamCohomologyAndDuality §2.4 and Layer 3. HeegaardFloer §4.1 (F2.
 
 <a id="r2-coadjoint-orbits-and-kks"></a>
 
-## Layer 2: coadjoint orbits and the Kirillov–Kostant–Souriau form
+## R2: coadjoint orbits and the Kirillov–Kostant–Souriau form
 
-§2.1 and §2.2 hold for an arbitrary finite-dimensional Lie group. §2.3 to §2.5 specialize to compact
+§R2.1 and §R2.2 hold for an arbitrary finite-dimensional Lie group. §R2.3 to §R2.5 specialize to compact
 connected groups, where coadjoint orbits are classified by a closed chamber; that compact
 classification is not claimed for noncompact groups, whose orbits keep the homogeneous structure of
-§2.1 only.
+§R2.1 only.
 
-### 2.1 The coadjoint orbit as a homogeneous manifold
+### R2.1 The coadjoint orbit as a homogeneous manifold
 
-Let `G` be a Lie group with finite-dimensional Lie algebra `𝔤` and `ν ∈ 𝔤*`. Tau Ceti proves that the
-coadjoint stabilizer `G_ν = (Lie.coadjointRepresentation ℝ I G).stabilizer ν` is closed
-(`Lie.isClosed_stabilizer_coadjointRepresentation`), an embedded Lie subgroup
-(`Lie.isEmbeddedLieSubgroup_stabilizer_coadjointRepresentation`), with Lie algebra the annihilator
-`𝔤_ν = {ξ | ν([ξ, ·]) = 0}` (`Lie.lieSubalgebraOfSubgroup_stabilizer_coadjointRepresentation`). Apply
-SmoothBundlesConnections §B1.4's homogeneous quotient theorem at the closed subgroup `H = G_ν` to obtain
+*The coadjoint stabilizer.* Let `G` be a Lie group with finite-dimensional Lie algebra `𝔤` and
+`ν ∈ 𝔤*`. Prove that the coadjoint stabilizer `G_ν = {g ∈ G | ν ∘ Ad_(g⁻¹) = ν}` is closed, hence an
+embedded Lie subgroup by the closed-subgroup theorem, and that its Lie algebra, transported to `𝔤`
+through the identification of left-invariant derivations with `𝔤`, is the annihilator
+`𝔤_ν = {ξ ∈ 𝔤 | ν([ξ, η]) = 0 for every η ∈ 𝔤}`.
+
+*In Tau Ceti:* `TauCeti.Lie.isClosed_stabilizer_coadjointRepresentation`, `TauCeti.Lie.isEmbeddedLieSubgroup_stabilizer_coadjointRepresentation`, `TauCeti.Lie.lieSubalgebraOfSubgroup_stabilizer_coadjointRepresentation`.
+
+*The orbit.* Apply SmoothBundlesConnections §B1.4's homogeneous quotient theorem at the closed subgroup `H = G_ν` to obtain
 the manifold `O_ν = G / G_ν`, the principal `G_ν`-bundle `G → O_ν` and its local sections; this section
 constructs the orbit data, not another general theorem on `G / H`. Define the orbit map
 `ι_ν : O_ν → 𝔤*`, `[g] ↦ Ad*_g ν`, prove it smooth and injective (from the definition of `G_ν`), and
@@ -724,7 +864,7 @@ not be an embedding and its image need not be closed; nothing below assumes eith
   closure contains `0`, so the image of `ι_ν` is not closed in `𝔤*`, and closedness cannot be part of
   the construction.
 
-### 2.2 The Kirillov–Kostant–Souriau form and the orbit moment map
+### R2.2 The Kirillov–Kostant–Souriau form and the orbit moment map
 
 Write `ξ_O` for the fundamental vector field of `ξ ∈ 𝔤` on `O_ν` for the coadjoint action
 `ν ↦ ν ∘ Ad_(g⁻¹)`, so that `ξ_O(ν)(η) = −ν([ξ, η])`. Define the Kirillov–Kostant–Souriau form on
@@ -759,7 +899,7 @@ LieGroupoidsPoisson §G4.6B's theorem, built on its §G4.5 leaves without the KK
 `G̃ → G` with discrete central kernel the orbits and KKS forms of `G̃` and `G` agree under the
 identification of their Lie algebras.
 
-*Needs:* §2.1; Tau Ceti `Module.Dual.kksForm`, `Module.Dual.kksForm_nondegenerate`,
+*Needs:* §R2.1; Tau Ceti `Module.Dual.kksForm`, `Module.Dual.kksForm_nondegenerate`,
 `Module.Dual.kksForm_jacobi`, `Module.Dual.kksForm_mk_left`,
 `Module.Dual.even_finrank_quotient_lieAnnihilator`, `SmoothTwoForm.IsEquivariantMomentMap`,
 `SmoothTwoForm.IsSymplectic`; LieGroupoidsPoisson §G4.6A and Conventions (Lie–Poisson and sharp
@@ -777,7 +917,7 @@ signs).
 - With the sharp convention `β(π♯α) = π(α, β)`, `π♯ dℓ_ξ = −ξ_O`, so the comparison identity holds
   with no sign change, and `π♯ dℓ_ξ = −X_(ℓ_ξ)` agrees with LieGroupoidsPoisson §G4.3.
 
-### 2.3 Compact connected groups: the real root data
+### R2.3 Compact connected groups: the real root data
 
 Let `K` be a compact connected Lie group. Consume from LieGroups Layer 5A its `Ad`-invariant positive
 inner product `B` on `𝔨` and the orthogonal splitting `𝔨 = 𝔷(𝔨) ⊕ [𝔨, 𝔨]`, and from LieGroups Layer 6
@@ -804,7 +944,7 @@ system for a chosen base; its strict fundamental-domain theorem
   diagonal torus vanish on the centre. A chamber taken in all of `𝔱*` instead of `𝔱*_ss` would not be
   pointed: it contains the line `𝔷*`.
 
-### 2.4 Weyl-relatedness and dominant representatives
+### R2.4 Weyl-relatedness and dominant representatives
 
 For `X, Y ∈ 𝔱` with `Ad_g X = Y`, both `T` and `g T g⁻¹` lie in `Z_K(Y)⁰`, being connected and
 centralizing `Y`; they are maximal tori there, so conjugacy in that compact connected group gives
@@ -821,7 +961,7 @@ points are equal, and with dominant existence every coadjoint orbit contains exa
 closure of a Weyl chamber in `𝔱`, which contains the centre). No uniqueness argument for the open
 chamber replaces the closed-wall theorem.
 
-*Needs:* §2.3; LieGroups Layer 6 (maximal-torus conjugacy, conjugation into `𝔱`, Weyl comparison);
+*Needs:* §R2.3; LieGroups Layer 6 (maximal-torus conjugacy, conjugation into `𝔱`, Weyl comparison);
 Tau Ceti `Lie.Ad`, `Lie.lieSubalgebraOfSubgroup`, `TauCeti.existsUnique_mem_orbit_inter_dominantChamber`.
 
 **Checks.**
@@ -833,10 +973,10 @@ Tau Ceti `Lie.Ad`, `Lie.lieSubalgebraOfSubgroup`, `TauCeti.existsUnique_mem_orbi
   conjugates them, since `Ad(T)` is trivial on `𝔱`. A version of the statement with the conjugating
   element in `T` is therefore false, and the normalizer is needed.
 
-### 2.5 The chamber quotient and connected centralizers
+### R2.5 The chamber quotient and connected centralizers
 
 Construct the quotient homeomorphism `𝔨* / K ≃ 𝔷(𝔨)* × 𝔱*_(ss,+)`: the map from the chamber to the orbit
-space is a continuous bijection by §2.4, and it is proper, using the invariant norm, compactness of
+space is a continuous bijection by §R2.4, and it is proper, using the invariant norm, compactness of
 closed bounded subsets of the finite-dimensional chamber and Hausdorffness of the quotient of a space
 by a compact group. For dominant `X`, compute `Lie Z_K(X)` as `𝔱` plus the real root planes with
 `α(X) = 0`. Prove `isConnected_stabilizer_coadjointRepresentation`: for a compact connected Lie group
@@ -844,7 +984,7 @@ by a compact group. For dominant `X`, compute `Lie Z_K(X)` as `𝔱` plus the re
 pp. 83–84, for the adjoint stabilizer of an element of `𝔱`, which conjugation and `B` carry to every
 `ν`). Under `B` it is the centralizer `Z_K(X)`
 of `X` with `ν = B(X, ·)`, and one may take `X` dominant. For `g ∈ Z_K(X)`, conjugate `g T g⁻¹` to `T`
-inside `Z_K(X)⁰` as in §2.4; the resulting Weyl element fixes `X`, so by
+inside `Z_K(X)⁰` as in §R2.4; the resulting Weyl element fixes `X`, so by
 `TauCeti.stabilizer_eq_closure_wallReflections` it is a product of reflections in walls through `X`.
 Each such wall reflection has LieGroups Layer 6's rank-one representative in `Z_K(X)⁰`, since
 `α(X) = 0`, and with `T ⊆ Z_K(X)⁰` these representatives remove the residual Weyl element, so `g` lies in
@@ -855,7 +995,7 @@ theorems without reproving them; they precede ConvexityToric §3.1's cross-secti
 application. The regular orbit `K/T` and the singular partial flags are examples of these orbits, not
 definitions.
 
-*Needs:* §2.4; LieGroups Layer 6 (rank-one representatives); Tau Ceti
+*Needs:* §R2.4; LieGroups Layer 6 (rank-one representatives); Tau Ceti
 `TauCeti.stabilizer_eq_closure_wallReflections`, `Lie.isClosed_stabilizer_coadjointRepresentation`.
 
 **Checks.**
@@ -869,14 +1009,14 @@ definitions.
 - For the compact disconnected group `O(2)`, the stabilizer of `0 ∈ 𝔬(2)*` is all of `O(2)`, which is
   disconnected: connectedness of `K` cannot be dropped.
 
-### 2.6 Model orbits
+### R2.6 Model orbits
 
 - *`U(n)`.* Fix `⟨H, X⟩ = −i tr(HX)` for Hermitian `H` and skew-Hermitian `X`, so that the diagonal
   projection is the moment map of the maximal torus in the real coordinates `θ`. Compute the orbit
   orientation induced by `ω_ν` instead of assuming the standard complex orientation of the flag
   manifold.
 - *`SO(3)`.* Use `ξ ↦ (v ↦ ξ × v)`, `[ξ, η] = ξ × η`, and identify `ν` with its dot-product vector; the
-  sphere of radius `r > 0` has KKS area `4πr` (§2.2's Check).
+  sphere of radius `r > 0` has KKS area `4πr` (§R2.2's Check).
 - *`SU(2)`.* Use the basis `−iσ_a / 2` of `𝔰𝔲(2)`, which has the same cross-product bracket; the sphere
   formula stays `4πr`, but the maximal-torus generator `−iσ₃ / 2` has period `4π`, and passing to
   `SO(3) = SU(2)/{±1}` changes the weight lattice.
@@ -884,10 +1024,10 @@ definitions.
   with the product `(a, b, c)(x, y, z) = (a + x, b + y, c + z + a y)`, is an analytic Lie group: its
   product and its inversion `(x, y, z)⁻¹ = (−x, −y, −z + x y)` are polynomial. `TauCeti.Nil.toHeisenberg`
   identifies it with `TauCeti.HeisenbergGroup ℝ` as a group. Compute its coadjoint orbits and their forms
-  (§2.1's and §2.2's Checks) and contrast its odd-dimensional adjoint orbits, the affine lines
+  (§R2.1's and §R2.2's Checks) and contrast its odd-dimensional adjoint orbits, the affine lines
   `aX + bY + ℝZ` for `(a, b) ≠ (0, 0)`, with its even-dimensional coadjoint orbits.
 
-*Needs:* §2.2, §2.5; Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`,
+*Needs:* §R2.2, §R2.5; Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`,
 `Matrix.specialOrthogonalGroup`; Tau Ceti `TauCeti.Nil`, `TauCeti.Nil.toHeisenberg`.
 
 **Checks.**
@@ -902,7 +1042,7 @@ definitions.
   dimension `6 = 2 · 3` (three positive roots); the orbit through `diag(1, 0, 0)` is `ℂP²`, of dimension
   `4`.
 - The product of coadjoint orbits of `SU(2) × SU(2)` is a product of spheres with the sum of the KKS
-  forms (§2.2).
+  forms (§R2.2).
 
 ### Dependencies
 
@@ -911,14 +1051,14 @@ Lie–Poisson and sharp signs; §G4.3, §G4.5 and §G4.6B are compared with, not
 5A and 6. Tau Ceti: the coadjoint representation and its stabilizers, the linear KKS form, maximal
 tori and the Weyl group, and the closed-chamber theorems for root systems.
 
-## Layer 2a: compact orbit heights, root-plane Hessians and Morse attachments
+## R2a: compact orbit heights, root-plane Hessians and Morse attachments
 
-Work on the homogeneous coadjoint orbit `O_μ = K / K_μ` of §2.1 for a compact connected Lie group `K`,
-with the `Ad`-invariant positive inner product `B` of §2.3 and the identification `𝔨 ≃ 𝔨*` it gives.
+Work on the homogeneous coadjoint orbit `O_μ = K / K_μ` of §R2.1 for a compact connected Lie group `K`,
+with the `Ad`-invariant positive inner product `B` of §R2.3 and the identification `𝔨 ≃ 𝔨*` it gives.
 Choose a maximal torus `T`, the real root characters of LieGroups Layer 6 and a positive system. The
 label `μ` lies in the real closed chamber of `𝔱`; it need not be an integral weight. Roots and coroots
 concern the semisimple summand; keep the central summand and the actual torus lattice. The orbit
-carrier, its tangent quotient and its KKS form are those of Layer 2; this layer constructs no other
+carrier, its tangent quotient and its KKS form are those of R2; this layer constructs no other
 orbit carrier. The critical Hessian, nondegenerate critical points and the Morse index are Tau Ceti's
 (`TauCeti.criticalHessian`, `TauCeti.IsManifoldNondegenerateCriticalPoint`,
 `TauCeti.manifoldMorseIndex`); handles and finite CW models are MorseTheory §§2.3–2.4's, with Tau
@@ -926,24 +1066,24 @@ Ceti's level-by-level form `TauCeti.IsMorse.exists_relCWComplex_sublevel_deforma
 attachment along negative normal bundles is MorseTheory §5.1's. This layer constructs the orbit
 derivatives and Hessians and compares them with these interfaces.
 
-### 2a.1 Height functions and their critical sets
+### R2a.1 Height functions and their critical sets
 
 For `X ∈ 𝔱` put `f_X(p) = B(p, X)` on `O_μ`. Prove that `f_X` is smooth and that
-`ξ_O(p) = [ξ, p]`, `d f_X = ι_(X_O) ω` and `Crit(f_X) = {p ∈ O_μ | [X, p] = 0}`. These use Layer 1's
-left fundamental fields and Layer 2's coadjoint action `ν ↦ ν ∘ Ad_(g⁻¹)`. The convention
+`ξ_O(p) = [ξ, p]`, `d f_X = ι_(X_O) ω` and `Crit(f_X) = {p ∈ O_μ | [X, p] = 0}`. These use R1's
+left fundamental fields and R2's coadjoint action `ν ↦ ν ∘ Ad_(g⁻¹)`. The convention
 `⟨ξ · ν, η⟩ = ⟨ν, [ξ, η]⟩` found in the literature uses the opposite infinitesimal vector: construct the
 identity-on-the-orbit comparison `ξ_source = −ξ_O`, which preserves `ω` and changes the contraction
 equation to `ι_(ξ_source) ω = −d f_ξ`; do not negate the form or the moment component to identify the
 two equations. Fix the quotient derivative `q_p : A ↦ [A, p]` before computing second derivatives.
 
-*Needs:* §2.2, §2.3; Layer 1 (fundamental fields); Tau Ceti `fundamentalVectorField`.
+*Needs:* §R2.2, §R2.3; R1 (fundamental fields); Tau Ceti `fundamentalVectorField`.
 
 **Checks.**
-- On the `SO(3)`-orbit of radius `r` (§2.2's Check) with `X = a Z`, `a ≠ 0`, `f_X` is `a` times the height
+- On the `SO(3)`-orbit of radius `r` (§R2.2's Check) with `X = a Z`, `a ≠ 0`, `f_X` is `a` times the height
   `z`, and its critical points are the poles `±r Z`, where `[X, p] = a Z × p = 0`; for `a = 0` the function
-  is constant and every point is critical (§2a.5).
+  is constant and every point is critical (§R2a.5).
 
-### 2a.2 Root planes, the KKS form and the Hessian
+### R2a.2 Root planes, the KKS form and the Hessian
 
 For each pair `{α, −α}` of roots take its real plane `E_α` and construct its `B`-orthogonal rotation
 `J_α` with `J_α² = −Id` and `ad_H|E_α = α(H) J_α` for `H ∈ 𝔱`, with the normalization `dχ_α = iα`. At
@@ -965,7 +1105,7 @@ Tau Ceti's intrinsic `TauCeti.criticalHessian` and to the preferred-chart predic
 `TauCeti.IsManifoldNondegenerateCriticalPoint` and `TauCeti.manifoldMorseIndex`. A count of root-plane
 signatures without this chart and congruence comparison does not establish a manifold Morse statement.
 
-*Needs:* §2a.1; LieGroups Layer 6 (root characters); Tau Ceti `TauCeti.criticalHessian`,
+*Needs:* §R2a.1; LieGroups Layer 6 (root characters); Tau Ceti `TauCeti.criticalHessian`,
 `TauCeti.manifoldMorseIndex_eq_sigNeg_criticalHessian`, `TauCeti.IsManifoldNondegenerateCriticalPoint`,
 `TauCeti.manifoldMorseIndex`.
 
@@ -980,10 +1120,10 @@ signatures without this chart and congruence comparison does not establish a man
   `−1/2` on the tangent vector `A` and `−2` on the quotient coordinate `A`, the tangent vector `q_p A`;
   they differ by the factor `α(p)² = 4`.
 
-### 2a.3 Regular heights: Morse indices
+### R2a.3 Regular heights: Morse indices
 
 If `X` is regular, meaning `α(X) ≠ 0` for every root, prove `Crit(f_X) = O_μ ∩ 𝔱 = W μ`, using the
-centralizer and chamber theorems of §2.4 and §2.5. With `W_μ` the stabilizer of `μ`, identify the
+centralizer and chamber theorems of §R2.4 and §R2.5. With `W_μ` the stabilizer of `μ`, identify the
 critical points with `W / W_μ`, using minimal right-coset representatives and the parabolic subgroup
 generated by the simple roots vanishing on `μ`. For regular `μ` this is `W` once `μ` is chosen as base
 point; without that choice the full-flag indexing is a `W`-torsor. Prove that `f_X` is Morse with
@@ -1004,7 +1144,7 @@ generators in each open chamber by the torus character and density criterion, an
 set of their flow is the `T`-fixed set. Density is a sufficient hypothesis of that construction, not an
 extra hypothesis of the regular-`X` theorem.
 
-*Needs:* §2a.2, §2.4, §2.5; Tau Ceti `TauCeti.IsMorse`, `Lie.IsTorus.exists_closedZpowers_eq`
+*Needs:* §R2a.2, §R2.4, §R2.5; Tau Ceti `TauCeti.IsMorse`, `Lie.IsTorus.exists_closedZpowers_eq`
 (topological generators of tori).
 
 **Checks.**
@@ -1015,10 +1155,10 @@ extra hypothesis of the regular-`X` theorem.
 - For `U(3)` and regular `μ`, the indices of a positive regular height are `6 − 2ℓ(w)` for the six
   `w ∈ S₃`, that is `6, 4, 4, 2, 2, 0`, with Poincaré polynomial `1 + 2t² + 2t⁴ + t⁶`.
 
-### 2a.4 The CW model and the topology of `O_μ`
+### R2a.4 The CW model and the topology of `O_μ`
 
 Apply MorseTheory §§2.3–2.4's compact-band attachments and its cellular and singular comparisons to
-obtain a finite CW model of `O_μ` with one cell of the even index of §2a.3 at each critical point.
+obtain a finite CW model of `O_μ` with one cell of the even index of §R2a.3 at each critical point.
 Construct its comparison map to the orbit and label the orientation of each negative handle by its
 negative Hessian plane sum, with a fixed ordering of the roots. Deduce that the integral homology and
 cohomology of `O_μ` vanish in odd degrees and are free in even degrees with the critical cells as
@@ -1031,19 +1171,19 @@ SchubertGeometry §9.7 makes the comparison of characteristic maps and orientati
 cells; the gradient trajectories of an arbitrary invariant metric are not declared to be Schubert
 cells.
 
-*Needs:* §2a.3; MorseTheory §§2.3–2.4 (handles, CW exhaustion); Tau Ceti
+*Needs:* §R2a.3; MorseTheory §§2.3–2.4 (handles, CW exhaustion); Tau Ceti
 `TauCeti.IsMorse.exists_relCWComplex_sublevel_deformation`; AlgebraicTopology Layer 4 (cellular
 homology of CW pairs).
 
 **Checks.**
 - `χ(ℂP²) = 3 = |S₃ / (S₁ × S₂)|` for the orbit of `U(3)` through `diag(1, 0, 0)`; `χ(U(3)/T) = 6 = |S₃|`.
 
-### 2a.5 Degenerate heights and Morse–Bott attachments
+### R2a.5 Degenerate heights and Morse–Bott attachments
 
 For arbitrary `X ∈ 𝔱`, construct `Crit(f_X)` as the finite union of `K_X`-orbits indexed by
-`W_X \ W / W_μ`, where `K_X` is the connected centralizer of §2.5 and `W_X` its Weyl group. Prove that
+`W_X \ W / W_μ`, where `K_X` is the connected centralizer of §R2.5 and `W_X` its Weyl group. Prove that
 these are embedded critical submanifolds, that the kernel of the Hessian is their tangent space, and
-that on the remaining root planes the Hessian has the formula of §2a.2 with `α(X) α(p) ≠ 0`. Construct
+that on the remaining root planes the Hessian has the formula of §R2a.2 with `α(X) α(p) ≠ 0`. Construct
 the smooth positive and negative normal bundles and their complex orientations through an invariant
 compatible almost complex structure, and apply MorseTheory §5.1's attachment with these bundles. A
 central `X`, including `X = 0`, gives a constant function on `O_μ`, which is Morse only when the orbit is
@@ -1053,25 +1193,25 @@ roots and all its coadjoint orbits are points. Indices add over products, and ce
 a constant to `f_X`. Finite central coverings preserve these real orbit forms and indices while keeping
 their different integral character lattices.
 
-*Needs:* §2a.2, §2.5; MorseTheory §5.1 (critical normal bundles and attachments).
+*Needs:* §R2a.2, §R2.5; MorseTheory §5.1 (critical normal bundles and attachments).
 
 **Checks.**
 - On the full flag of `U(3)` with `X = diag(i, i, 0)` (not regular), the critical set is a union of
   `|W_X \ W| = |S₂ \ S₃| = 3` orbits of `K_X = U(2) × U(1)`, each a copy of `ℂP¹`; their Euler
   characteristics add to `3 · 2 = 6 = χ(U(3)/T)`.
 
-### 2a.6 Comparison with the group-theoretic route
+### R2a.6 Comparison with the group-theoretic route
 
 Give the topological and group-theoretic arguments of the literature as comparisons with the
 independently constructed outputs of LieGroups Layer 6, downstream of them. For a maximal torus `T₀`
 put `C = Z_K(T₀)`. Using the compact abelian exponential and character-density criterion, choose
 `μ ∈ Lie(T₀)` with the closure of `exp(ℝ μ)` equal to `T₀`, in an open chamber when roots occur. Prove
 `K_μ = Z_K(μ) = Z_K(T₀) = C`: if `Ad_g μ = μ` then `g` commutes with every `exp(tμ)`, hence with their
-closure `T₀`, and the converse follows by differentiation. Through `B` and the orbit map of §2.1
+closure `T₀`, and the converse follows by differentiation. Through `B` and the orbit map of §R2.1
 identify `O_μ = K / K_μ` with `K / C`, including its quotient projection and homogeneous smooth
 structure. Using only the weaker identity-component input `C⁰ = T₀`, from `Lie(C) = Lie(T₀)` (Tau Ceti's
 `Lie.IsMaximalTorus.lieSubalgebraOfSubgroup_centralizer`) and the classification of connected compact
-abelian groups, make `C / T₀` finite and construct the covering `K / T₀ → K / C`. Apply §2a.3 and §2a.4
+abelian groups, make `C / T₀` finite and construct the covering `K / T₀ → K / C`. Apply §R2a.3 and §R2a.4
 to this `O_μ`: its connected finite CW model has only even cells, hence one zero-cell and no one-cells,
 and cellular approximation makes it simply connected. Since `K / T₀` is connected, the covering has one
 sheet and `C = T₀`. This comparison assumes neither full self-centralization to identify the orbit nor
@@ -1082,14 +1222,14 @@ point, so `k` is conjugate into `T`. A dense cyclic generator of another maximal
 conjugacy of maximal tori. Use the local fixed-point index sum only under its isolated-fixed-point
 hypotheses. These comparisons add no dependency of LieGroups Layer 6 on this layer.
 
-*Needs:* §2a.3, §2a.4, §2.1; LieGroups Layer 6; MorseNovikov §6.4 (Lefschetz fixed-point formula);
+*Needs:* §R2a.3, §R2a.4, §R2.1; LieGroups Layer 6; MorseNovikov §6.4 (Lefschetz fixed-point formula);
 Tau Ceti `Lie.IsMaximalTorus.lieSubalgebraOfSubgroup_centralizer`, `Lie.IsTorus.exists_closedZpowers_eq`.
 
 **Checks.**
 - For `K = SU(2)`, `C = Z_K(T₀) = T₀`, `K / T₀ = S²` with `χ = 2 = |W|`, and left translation by any `k`
   has a fixed point `g T₀`, i.e. `g⁻¹ k g ∈ T₀`.
 
-### 2a.7 Model computations and range tests
+### R2a.7 Model computations and range tests
 
 - *Heisenberg.* In the real Heisenberg algebra with `[X, Y] = Z`, the adjoint orbit of `aX + bY + cZ`
   with `(a, b) ≠ (0, 0)` is the affine line `aX + bY + ℝZ`, and central elements have point orbits. In
@@ -1124,7 +1264,7 @@ Tau Ceti `Lie.IsMaximalTorus.lieSubalgebraOfSubgroup_centralizer`, `Lie.IsTorus.
   self-centralizing and maximal-torus statements. A common torus for every finite commuting family is
   not inferred from connectedness of the individual centralizers.
 
-*Needs:* §2.2, §2.6, §2a.2; SpinGeometry §1.1 (G1.1); Tau Ceti
+*Needs:* §R2.2, §R2.6, §R2a.2; SpinGeometry §1.1 (G1.1); Tau Ceti
 `CliffordAlgebra.simplyConnectedSpace_realCliffordSpinGroupZero`, `TauCeti.heisenberg`.
 
 **Checks.**
@@ -1141,47 +1281,66 @@ Tau Ceti `Lie.IsMaximalTorus.lieSubalgebraOfSubgroup_centralizer`, `Lie.IsTorus.
 
 - The orbit of `U(n)` through `diag(1, 0, …, 0)` is `ℂP^(n−1)`, with Morse indices `0, 2, …, 2n − 2`
   for a regular height and `χ = n`.
-- `SO(3)` and `SU(2)` have the same orbits and areas (§2a.7) and different torus periods.
+- `SO(3)` and `SU(2)` have the same orbits and areas (§R2a.7) and different torus periods.
 
 ### Dependencies
 
-Layer 2 (§§2.1–2.6). LieGroups Layers 5A and 6. MorseTheory §§2.3–2.4 and §5.1. MorseNovikov §6.4.
+R2 (§§R2.1–R2.6). LieGroups Layers 5A and 6. MorseTheory §§2.3–2.4 and §5.1. MorseNovikov §6.4.
 SpinGeometry §1.1. AlgebraicTopology Layer 4. Tau Ceti: critical Hessians, Morse indices and
 sublevel CW models, tori and their generators, the compact simply connected Spin carrier.
 SchubertGeometry §9.7 consumes this layer and is not an input.
 
-## Layer 3: regular reduction and its universal property
+## R3: regular reduction and its universal property
 
-The layer has three branches sharing the level data of §3.0: the free regular branch (§3.0a to
-§3.0c), with quotients by discrete groups in §3.0d; the locally free branch with finite isotropy
-(§3.0e); and the singular branch, built on the local normal form of §3.1 (§3.2). A singular level is
-not assumed regular or free anywhere. The sections before §3.1 are numbered `3.0` and `3.0a`–`3.0e` so
-that §3.1 and §3.2 keep their numbers. Throughout, `(M, ω)` is symplectic, `G` acts by a smooth
+The layer has three branches sharing the level data of §R3.0: the free regular branch (§R3.0a to
+§R3.0c), with quotients by discrete groups in §R3.0d; the locally free branch with finite isotropy
+(§R3.0e); and the singular branch, built on the local normal form of §R3.1 (§R3.2). A singular level is
+not assumed regular or free anywhere. The sections preceding §R3.1 are §R3.0 and §R3.0a–§R3.0e.
+Throughout, `(M, ω)` is symplectic, `G` acts by a smooth
 symplectic action (Conventions 2) and `μ : M → 𝔤*` is a group-level moment map,
 `SmoothTwoForm.IsEquivariantMomentMap` (Cannas da Silva, Definition 22.1, pp. 133–134).
 
-### 3.0 Shared level data
+### R3.0 Shared level data
 
-Tau Ceti proves the pointwise identities of a moment map: `⟨dμ_x(v), ξ⟩ = ω(ξ_M(x), v)`, so that
-`ker dμ_x = (𝔤 · x)^ω` (`SmoothTwoForm.IsMomentMap.ker_differential`) and, for a nondegenerate form in
-finite dimension, the image of `dμ_x` is the annihilator of the isotropy algebra
-(`SmoothTwoForm.IsMomentMap.range_differential`). Separate the level data from the quotient: for any
+*The moment-map differential identity.* For an infinitesimal moment map `μ` of a two-form `ω`, prove
+`⟨dμ_x(v), ξ⟩ = ω(ξ_M(x), v)` for every tangent vector `v` at `x`, so that `ker dμ_x = (𝔤 · x)^ω`; and, on
+a finite-dimensional manifold at a point where `ω` is nondegenerate, prove that the image of `dμ_x` is
+the annihilator `𝔤_x⁰` of the isotropy algebra, so that `dμ_x` is onto exactly when `𝔤_x = 0`.
+
+*In Tau Ceti:* `TauCeti.SmoothTwoForm.IsMomentMap.differential`, `TauCeti.SmoothTwoForm.IsMomentMap.differential_apply_eq_eval₂`, `TauCeti.SmoothTwoForm.IsMomentMap.ker_differential`, `TauCeti.SmoothTwoForm.IsMomentMap.range_differential`, `TauCeti.SmoothTwoForm.IsMomentMap.differential_surjective_iff`.
+
+*Level pieces.* Separate the level data from the quotient: for any
 smooth level, or orbit-type piece of a level, `S ⊆ μ⁻¹(c)` that is supplied with its tangent
 description `T_x S`, prove under the hypotheses of that piece the tangent and kernel formula
 `ker(i*ω)_x = T_x S ∩ (T_x S)^ω`, its value `ker dμ_x ∩ 𝔤 · x = 𝔤_c · x` when `T_x S = ker dμ_x` (by
 equivariance, `dμ_x(ξ_M(x)) = ξ · c`), the corresponding value for each orbit-type description, and that `i*ω` is invariant under the stabilizer `G_c` of `c` and vanishes
-on its orbit directions, hence is basic (Tau Ceti's `RoughForm.IsBasic`) for the orbit projection.
+on its orbit directions, hence is basic (below) for the orbit projection.
 The free regular branch, the locally free branch and the singular orbit-type branch instantiate this
 data separately.
 
-*Needs:* Layer 1; Tau Ceti `SmoothTwoForm.IsMomentMap.differential`, `IsMomentMap.ker_differential`,
-`IsMomentMap.range_differential`, `RoughForm.IsBasic`.
+*Generic form descent.* Let `p : X → Y` be a surjective smooth submersion whose source has no
+boundary. A form `α` on `X` is basic for `p` when `α_x(v₁, …, v_k) = α_y(w₁, …, w_k)` whenever
+`p(x) = p(y)` and `dp_x(vᵢ) = dp_y(wᵢ)` for every `i`. Prove that a smooth basic form `α` is the pullback
+`p* β` of a unique smooth form `β` on `Y`; that `β` is closed exactly when `α` is; and that for a basic
+two-form `σ` the descended form is symplectic exactly when `σ` is closed and `ker σ_x = ker dp_x` at
+every `x ∈ X`. So a surjective smooth submersion with a closed basic two-form whose kernel is exactly
+`ker dp` carries a unique descended symplectic form. This generic descent is the interface that
+§R3.0a, §R4.2 and LieGroupoidsPoisson §G7.2's isotropy quotients consume.
+
+*In Tau Ceti:* `TauCeti.RoughForm.IsBasic`, `TauCeti.SmoothForm.descendedForm`, `TauCeti.SmoothForm.mpullback_descendedForm`, `TauCeti.SmoothForm.eq_descendedForm_iff`, `TauCeti.SmoothForm.isClosed_descendedForm_iff`, `TauCeti.SmoothTwoForm.isSymplectic_descendedForm_iff`.
+
+*Needs:* R1 (§R1.3); Tau Ceti `SmoothForm.mpullback`, `SmoothTwoForm.IsSymplectic`; Mathlib
+`Manifold.IsSubmersion`.
 
 **Checks.**
-- For the circle acting on `ℂ` with `μ = −½|z|²` (Layer 1's Example) and `c = −½`, the level is the unit
+- For the circle acting on `ℂ` with `μ = −½|z|²` (R1's Example) and `c = −½`, the level is the unit
   circle, `T_x S = 𝔤 · x`, and `i*ω = 0`: the kernel is all of `T_x S`, equal to `𝔤_c · x`.
+- For `p : ℝ³ → ℝ²`, `(x, y, z) ↦ (x, y)`, the form `dx ∧ dy` is basic with kernel `ℝ ∂_z = ker dp` and
+  descends to the symplectic `dx ∧ dy`. The form `z dx ∧ dy` has `∂_z` in its kernel at every point but
+  is not basic, since its values at `(x, y, 0)` and `(x, y, 1)` differ: a definition of basic asking only
+  that the vertical vectors lie in the kernel would accept it, and it descends to no form on `ℝ²`.
 
-### 3.0a Regular reduction and the descended form
+### R3.0a Regular reduction and the descended form
 
 Let `c ∈ 𝔤*` be a regular value of `μ`, `Z = μ⁻¹(c)`, and `G_c` the coadjoint stabilizer of `c`, and
 assume that `G_c` acts freely and properly on `Z`. Give `Z` Tau Ceti's regular-level manifold
@@ -1191,23 +1350,21 @@ structure (`TauCeti.regularLevelChartedSpace`, `TauCeti.isManifold_regularLevel`
 bundle `π : Z → Q` and the inclusion `i : Z → M` by SmoothBundlesConnections §B1.4's free proper quotient
 theorem, using the principal right action `z · g = g⁻¹ z` of its conversion. Prove that freeness of the
 `G_c`-action implies regularity of `μ` at every point of `Z` (equivariance gives `G_x ⊆ G_c`, so
-`G_x = 1`, `𝔤_x = 0` by §1.1, and `dμ_x` is onto by `SmoothTwoForm.IsMomentMap.differential_surjective_iff`),
+`G_x = 1`, `𝔤_x = 0` by §R1.2, and `dμ_x` is onto by `SmoothTwoForm.IsMomentMap.differential_surjective_iff`),
 while keeping the explicit regular-value hypothesis in the statement of the quotient construction.
 Compute `T_x Z = ker dμ_x = (𝔤 · x)^ω` and `ker (i*ω)_x = 𝔤_c · x`. Prove that there is a unique smooth
 symplectic form `ω_red` on `Q` with `π* ω_red = i* ω` (the Marsden–Weinstein–Meyer theorem: Meinrenken,
 Theorem 8.3 with Remark 8.4, p. 101, at this generality; Cannas da Silva, Theorem 23.1, p. 141, is the
-case of a compact group at `c = 0`): by §3.0 the form `i*ω` is closed and basic with kernel
-exactly `ker dπ`, so Tau Ceti's `SmoothForm.descendedForm` applies, with uniqueness from
-`SmoothForm.eq_descendedForm_iff` and symplecticity from `SmoothTwoForm.isSymplectic_descendedForm_iff`.
+case of a compact group at `c = 0`): by §R3.0 the form `i*ω` is closed and basic with kernel
+exactly `ker dπ`, so the generic form descent of §R3.0 gives `ω_red`, its uniqueness and its
+symplecticity.
 The reduced dimension is `dim Q = dim M − dim 𝔤 − dim 𝔤_c`; at a coadjoint-fixed `c` it is
 `dim M − 2 dim G`. A level `Z` at a value `c` that is not coadjoint-fixed need not be coisotropic.
 
-*Needs:* §1.1, §3.0; SmoothBundlesConnections §B1.4 (the free proper quotient theorem and its principal bundle); Tau Ceti
-`TauCeti.regularLevelChartedSpace`, `TauCeti.isManifold_regularLevel`,
-`TauCeti.range_mfderiv_coe_regularLevel`, `TauCeti.isSmoothEmbedding_coe_regularLevel`,
-`IsMomentMap.differential_surjective_iff`, `IsMomentMap.ker_differential`, `SmoothForm.descendedForm`,
-`SmoothForm.eq_descendedForm_iff`, `SmoothTwoForm.isSymplectic_descendedForm_iff`,
-`Lie.isEmbeddedLieSubgroup_stabilizer_coadjointRepresentation`.
+*Needs:* §R1.2, §R2.1 (the coadjoint stabilizer), §R3.0; SmoothBundlesConnections §B1.4 (the free proper
+quotient theorem and its principal bundle); Tau Ceti `TauCeti.regularLevelChartedSpace`,
+`TauCeti.isManifold_regularLevel`, `TauCeti.range_mfderiv_coe_regularLevel`,
+`TauCeti.isSmoothEmbedding_coe_regularLevel`.
 
 **Checks.**
 - The circle acting on `ℂⁿ` by `e^(it) z` with `μ(z) = −½|z|²` and `c = −½`: `Z = S^(2n−1)`, the action is
@@ -1217,10 +1374,10 @@ The reduced dimension is `dim Q = dim M − dim 𝔤 − dim 𝔤_c`; at a coadj
   `dim Q = 6 − 3 − 1 = 2`. The level `Z` has dimension 3 and `TZ^ω = 𝔤 · x` is three-dimensional, but
   `dμ(ξ_M) = ξ × c ≠ 0` for `ξ` not parallel to `c`, so `TZ^ω ⊄ TZ`: the level is not coisotropic.
 
-### 3.0b Orbit reduction and the shifting construction
+### R3.0b Orbit reduction and the shifting construction
 
-Give `O = G / G_c` its homogeneous manifold structure (§2.1) and orbit map `ι_O([g]) = Ad*_g c`, an
-injective immersion by §2.1; its points are not treated as covectors. Equivariance and the regular-value
+Give `O = G / G_c` its homogeneous manifold structure (§R2.1) and orbit map `ι_O([g]) = Ad*_g c`, an
+injective immersion by §R2.1; its points are not treated as covectors. Equivariance and the regular-value
 hypothesis make `μ` a submersion at every point over `O`, so `μ` is transverse to `ι_O`. Use
 SmoothBundlesConnections §B1.0's transverse fibre product to build
 `W_O = {(m, o) ∈ M × O | μ(m) = ι_O(o)}` with its smooth structure and its projection to `M`, which is an
@@ -1253,19 +1410,19 @@ zero-level reduction map of `(M × O⁻, Ψ)` is `q_O = e ∘ π_W` and that its
 p. 102; Cannas da Silva, §24.4, pp. 149–150, for compact `G`); the form `ω − μ* ω_KKS` on `μ⁻¹(O)` is
 Bates–Lerman, Proposition 11 and the remark after it, p. 10.
 
-*Needs:* §2.1, §2.2, §3.0a; SmoothBundlesConnections §B1.0 (transverse fibre products) and §B1.4;
+*Needs:* §R2.1, §R2.2, §R3.0a; SmoothBundlesConnections §B1.0 (transverse fibre products) and §B1.4;
 Tau Ceti `SmoothTwoForm.IsEquivariantMomentMap.neg`, `SmoothTwoForm.IsEquivariantMomentMap.prod`,
 `TauCeti.regularLevelChartedSpace`.
 
 **Checks.**
-- For `SO(3)` on `T*ℝ³` at `c ≠ 0` (§3.0a's Check), `O` is the sphere of radius `|c|`, `M × O⁻` has
+- For `SO(3)` on `T*ℝ³` at `c ≠ 0` (§R3.0a's Check), `O` is the sphere of radius `|c|`, `M × O⁻` has
   dimension 8, `Ψ⁻¹(0)` dimension 5 and its quotient by the free `SO(3)`-action dimension 2, equal to
   `dim Z / G_c`.
 - For an abelian group the orbit `O = {c}` is a point and `Ψ = μ − c`. For the circle on `ℂⁿ` with
   `μ = −½|z|²` and `c = −½`, `Ψ⁻¹(0)` is the unit sphere. The other sign, `M × O` with `μ + ι_O` (a moment
   map for `ω + ω_KKS`), has zero level `μ⁻¹(−c) = μ⁻¹(½) = ∅`: it reduces at the orbit of `−c`, not of `c`.
 
-### 3.0c Reduced functions, symmetries and reduction in stages
+### R3.0c Reduced functions, symmetries and reduction in stages
 
 Consume SmoothBundlesConnections §B1.1's descent of invariant smooth maps along a principal quotient,
 and specialize it to invariant functions and to commuting symmetries. Prove that `G`-invariant
@@ -1280,7 +1437,7 @@ algebra `𝔤 / 𝔫` and the projection a Lie group homomorphism and submersion
 `𝔤 / 𝔫`, since `t ↦ n exp(tξ) n⁻¹ exp(−tξ)` lies in `N`.
 
 *Reduction in stages at zero.* Reduce by `N` first: `μ_N = μ|_𝔫` is a group-level moment map for `N`
-(§1.2). On `μ_N⁻¹(0)` the moment map `μ` takes values in `𝔫⁰ ≅ (𝔤/𝔫)*` (Mathlib's
+(§R1.5). On `μ_N⁻¹(0)` the moment map `μ` takes values in `𝔫⁰ ≅ (𝔤/𝔫)*` (Mathlib's
 `Submodule.dualQuotEquivDualAnnihilator`), and it induces the moment map of the residual `G/N`-action on
 `μ_N⁻¹(0) / N`. Assuming that the `N`-stage and the residual stage are regular, free and proper, prove
 that the reduction in two stages is symplectomorphic to the direct reduction at zero. For a product
@@ -1290,12 +1447,12 @@ extension without proof, the residual level is `μ̄⁻¹(0) = μ⁻¹(0) / N` f
 the bijection `(μ⁻¹(0) / N) / (G/N) → μ⁻¹(0) / G` carries one reduced form to the other, both pulling
 back to the restriction of `ω` to `μ⁻¹(0)`. For a
 coadjoint-invariant nonzero `c`, apply this to `μ − c`, with first-stage value `c|_𝔫` and residual value
-zero. For a value `c` that is not coadjoint-invariant, first apply the shifting construction of §3.0b on
+zero. For a value `c` that is not coadjoint-invariant, first apply the shifting construction of §R3.0b on
 `M × O_c⁻`, then reduce in stages at zero there and identify the final quotient with `Z / G_c`, with the
 regularity, freeness and properness assumptions of each stage spelled out. A subgroup that is not
 normal has no residual action, and no stages statement is made for it.
 
-*Needs:* §1.2, §3.0a, §3.0b; SmoothBundlesConnections §B1.1 and §B1.4; Mathlib
+*Needs:* §R1.5, §R3.0a, §R3.0b; SmoothBundlesConnections §B1.1 and §B1.4; Mathlib
 `Submodule.dualQuotEquivDualAnnihilator`; Tau Ceti `SmoothTwoForm.poissonBracket`,
 `SmoothTwoForm.hamiltonianVectorField`.
 
@@ -1308,7 +1465,7 @@ normal has no residual action, and no stages statement is made for it.
 - For the product torus `T² = S¹ × S¹` acting on `ℂ²` factorwise, reduction by the first circle at
   `−½` and then by the second at `−½` gives a point, as does direct reduction by `T²` at `(−½, −½)`.
 
-### 3.0d Quotients by discrete groups
+### R3.0d Quotients by discrete groups
 
 For a discrete group `Γ` acting freely and properly discontinuously by symplectomorphisms on a
 Hausdorff, second-countable finite-dimensional symplectic manifold `M`, construct the `MulAction`,
@@ -1332,7 +1489,7 @@ the general quotient APIs to the action and the form.
   area 1. The action of `ℤ/2` by `−1` on `ℝ²` is not free at the origin and is excluded: its quotient is a
   cone, not a manifold.
 
-### 3.0e Locally free levels: the orbifold presentation
+### R3.0e Locally free levels: the orbifold presentation
 
 Let `G` be compact, `c ∈ 𝔤*`, and suppose `G_c` acts locally freely on `Z = μ⁻¹(c)`. First prove the
 smooth level structure: `𝔤_x ⊆ 𝔤_c` by equivariance, local freeness gives `𝔤_x = 0`, and the moment-map
@@ -1353,16 +1510,16 @@ trivially on slices are kept; no free-action quotient theorem is applied to thei
 Build the basic smooth orbifold chart and gluing application from §B1.4's proper-action slices and from
 LieGroupoidsPoisson's Poisson and action data. On the locally free model, descend the level symplectic
 form to the slices and prove its arrow compatibility, closedness and nondegeneracy from the shared level
-and kernel data of §3.0. Identify it with Orbifolds O4.2's invariant-form carrier and consume that
+and kernel data of §R3.0. Identify it with Orbifolds O4.2's invariant-form carrier and consume that
 Morita comparison; the Hamiltonian restriction, the descent and the identification of the model are
-this roadmap's. Neither the free manifold reduction of §3.0a nor LieGroupoidsPoisson §G7.2's descent on a
+this roadmap's. Neither the free manifold reduction of §R3.0a nor LieGroupoidsPoisson §G7.2's descent on a
 manifold quotient is a premise. ConvexityToric §4.2 consumes this model, with the Orbifolds interfaces,
 for effective and ineffective applications. Weighted reduction of `S³`, including weights with a common
 factor and generic ineffective isotropy, is part of this section. Cannas da Silva, §24.5, pp. 150–151,
 treats a torus at a regular value, whose level has finite stabilizers and an orbifold quotient, and the
 weighted circle actions on `ℂ²` with weights `(k, 1)` and coprime `(k, l)`.
 
-*Needs:* §3.0; SmoothBundlesConnections §B1.0 and §B1.4; LieGroupoidsPoisson §§G0.0, G3.4, G3.5;
+*Needs:* §R3.0; SmoothBundlesConnections §B1.0 and §B1.4; LieGroupoidsPoisson §§G0.0, G3.4, G3.5;
 Orbifolds O1.4, O2, O4.2; Tau Ceti `IsMomentMap.differential_surjective_iff`,
 `TauCeti.regularLevelChartedSpace`.
 
@@ -1373,7 +1530,7 @@ Orbifolds O1.4, O2, O4.2; Tau Ceti `IsMomentMap.differential_surjective_iff`,
   weights `(2, 2)` every point has stabilizer `ℤ/2`: the isotropy is generically ineffective, and a
   presentation dropping the elements acting trivially on slices would lose it.
 
-### 3.1 Proper-orbit symplectic slice
+### R3.1 Proper-orbit symplectic slice
 
 *Averaging.* First prove the smooth averaging lemma for finite-dimensional tensor bundles over a smooth
 `L`-manifold, `L` a compact Lie group, possibly disconnected. Use Tau Ceti's Haar probability measure
@@ -1405,8 +1562,8 @@ tensor is
 
 `Ω((ξ, a, v), (ζ, b, w)) = b(ξ_𝔪) − a(ζ_𝔪) + ν([ξ_𝔮, ζ_𝔮]) + ω_V(v, w)`.
 
-The first summand pairs `𝔪` with `𝔪*`, the `𝔮`-summand is the nondegenerate KKS tensor on `𝔤/𝔨` (§2.2),
-and the last is `ω_V`. The coadjoint orbit `G/K` carries its homogeneous structure (§2.1) and may have
+The first summand pairs `𝔪` with `𝔪*`, the `𝔮`-summand is the nondegenerate KKS tensor on `𝔤/𝔨` (§R2.2),
+and the last is `ω_V`. The coadjoint orbit `G/K` carries its homogeneous structure (§R2.1) and may have
 only an immersed image in `𝔤*`. Prove nondegeneracy on a `G`-invariant neighbourhood of the zero orbit by
 choosing an `H`-invariant fibre neighbourhood at `[1, 0, 0]` and saturating it. Prove that the left
 `G`-action has the moment map `μ_Y([g, η, v]) = Ad*_g(ν + η + μ_V(v))`, with `d μ_Y^ξ = ι_(ξ_Y) Ω` and value
@@ -1456,7 +1613,7 @@ finite-dimensional proper-action theorem; nothing is extrapolated to infinite-di
 groups. Bates–Lerman prove it by the equivariant constant-rank embedding theorem (Theorem 9 and
 Corollary 10, p. 9) and the splitting of `T_p M` (Proposition 11 and Corollary 12, pp. 10–11).
 
-*Needs:* §1.1, §2.1, §2.2, §3.0; SmoothBundlesConnections §B1.4 (proper slices and tubes, homogeneous
+*Needs:* §R1.2, §R2.1, §R2.2, §R3.0; SmoothBundlesConnections §B1.4 (proper slices and tubes, homogeneous
 quotients) and §B2.1 (associated bundles); CotangentLagrangian §4.1 and §4.3 (tubular fibre-homotopy
 primitive with zero first jet);
 Tau Ceti `TauCeti.haarProb`, `TauCeti.haarAverage`, `SymplecticForm.exists_isSymplectomorphism_extend`,
@@ -1466,28 +1623,28 @@ Tau Ceti `TauCeti.haarProb`, `TauCeti.haarAverage`, `SymplecticForm.exists_isSym
 - For trivial `H` and `ν = 0`, `K = G`, `𝔪 = 𝔤`, `𝔮 = 0`, `V = 0`: `Y = G × 𝔤*` with `λ = ⟨η, θ_left⟩`, and at
   `(1, 0)`, for left-invariant extensions, `dλ((ξ, a), (ζ, b)) = a(ζ) − b(ξ) − η([ξ, ζ]) = a(ζ) − b(ξ)`, so
   `Ω = −dλ` gives `b(ξ) − a(ζ)`, the first summand. For `ν ≠ 0` the term `⟨ν, θ_left⟩` contributes
-  `−dλ(ξ, ζ) = ν([ξ, ζ])`, the KKS sign of §2.2.
+  `−dλ(ξ, ζ) = ν([ξ, ζ])`, the KKS sign of §R2.2.
 - At a fixed point `p` of a compact `G` (`H = K = G`, `𝔪 = 𝔮 = 0`), `Y = V` and `μ_Y = ν + μ_V`: the quadratic
-  model. For the circle acting on `V = ℂ` by `e^(it)`, `μ_V(z) = ½ ω(iz, z) = −½|z|²`, as in Layer 1's
+  model. For the circle acting on `V = ℂ` by `e^(it)`, `μ_V(z) = ½ ω(iz, z) = −½|z|²`, as in R1's
   Example.
 
-### 3.2 Singular and locally free applications
+### R3.2 Singular and locally free applications
 
-Instantiate the local form of §3.1 at torus orbits, at fixed points and at central and zero moment
+Instantiate the local form of §R3.1 at torus orbits, at fixed points and at central and zero moment
 values, with their actual `H`, `K` and `V`. The fixed-point case gives the quadratic weight model of a
 torus; general orbits keep the `𝔪*` and coadjoint directions. For a proper action of a Lie group `G`
 and a coadjoint orbit `O` that is locally closed in `𝔤*`, construct the orbit-type pieces of `μ⁻¹(O)`
 and the strata of the singular reduced space `μ⁻¹(O) / G` from this model, with
-their descended symplectic forms (§3.0) and their frontier and Poisson compatibility, and prove the
+their descended symplectic forms (§R3.0) and their frontier and Poisson compatibility, and prove the
 stratified charts and gluing without a smooth manifold structure on the whole singular quotient
 (Bates–Lerman, Theorem 7, Corollary 14 and Theorem 15, pp. 8–15); compact `G` at `O = {0}` is the
-special case. The shifting construction of §3.0b, reducing `M × O⁻` at zero, is another route when
+special case. The shifting construction of §R3.0b, reducing `M × O⁻` at zero, is another route when
 `O ≠ {0}`; local closedness of `O` is what identifies its zero level with `μ⁻¹(O)` (Bates–Lerman,
 p. 8). The locally free application with finite
-isotropy uses the Orbifolds interfaces of §3.0e. The free proper reduction theorems of §3.0a–§3.0c
-and the Fréchet and Sobolev hypotheses of Layer 5 keep their own scope.
+isotropy uses the Orbifolds interfaces of §R3.0e. The free proper reduction theorems of §R3.0a–§R3.0c
+and the Fréchet and Sobolev hypotheses of R5 keep their own scope.
 
-*Needs:* §3.0, §3.0b, §3.0e, §3.1; Orbifolds O1.4, O2.
+*Needs:* §R3.0, §R3.0b, §R3.0e, §R3.1; Orbifolds O1.4, O2.
 
 **Checks.**
 - The circle acting on `ℂ²` by `e^(it)(z₁, z₂)` with `μ = −½(|z₁|² + |z₂|²)` at the singular value `0`: the
@@ -1498,22 +1655,22 @@ and the Fréchet and Sobolev hypotheses of Layer 5 keep their own scope.
 
 ### Examples
 
-- The weighted projective line `ℙ(p, q)` (§3.0e) and reduction in stages for the product torus (§3.0c)
+- The weighted projective line `ℙ(p, q)` (§R3.0e) and reduction in stages for the product torus (§R3.0c)
   are the standard tests of this layer; every quotient test checks the pulled-back form, not only the
   dimension or a bijection of sets.
-- The nonabelian stages test on `T*U(2)` (§3.0c) compares with direct `U(2)` reduction at zero, including
+- The nonabelian stages test on `T*U(2)` (§R3.0c) compares with direct `U(2)` reduction at zero, including
   the descent of the tautological form.
 
 ### Dependencies
 
-Layers 1 and 2. SmoothBundlesConnections §§B1.0, B1.1, B1.4, B2.1. LieGroupoidsPoisson §§G0.0, G3.4,
+R1 and R2. SmoothBundlesConnections §§B1.0, B1.1, B1.4, B2.1. LieGroupoidsPoisson §§G0.0, G3.4,
 G3.5. Orbifolds O1.4, O2, O4.2. CotangentLagrangian §§4.1, 4.3. Tau Ceti: regular levels, form descent
-along submersions and along discrete quotients, discrete quotient manifolds, Haar averaging, linear Witt
+along discrete quotients, discrete quotient manifolds, Haar averaging, linear Witt
 extension. Mathlib: `Submodule.dualQuotEquivDualAnnihilator`, proper actions of discrete groups.
 
-## Layer 4: cotangent and groupoid reduction
+## R4: cotangent and groupoid reduction
 
-### 4.1 Cotangent reduction
+### R4.1 Cotangent reduction
 
 Let a Lie group `G` act freely and properly on `Q`, with the cotangent-lifted action on `T*Q`, its
 canonical form `ω_can = −dλ` and the moment map `μ(q, p)(ξ) = p(ξ_Q(q))` (Tau Ceti's
@@ -1539,9 +1696,9 @@ formulas, for the standard principal right action `q · g = g⁻¹ q` and connec
   fibre translation.
 - *Values that are not coadjoint-invariant.* Build the associated coadjoint-orbit bundle
   `Q ×_G O_c → Q/G`, pulled back to `T*(Q/G)`, with its Sternberg form, and identify the reduced space with
-  it through §3.0b's orbit model, rather than with a plain cotangent bundle.
+  it through §R3.0b's orbit model, rather than with a plain cotangent bundle.
 
-*Needs:* §3.0a, §3.0b; SmoothBundlesConnections §B1.4, §B2.1, §B2.5, §B3.1, §B4.1; Tau Ceti
+*Needs:* §R3.0a, §R3.0b; SmoothBundlesConnections §B1.4, §B2.1, §B2.5, §B3.1, §B4.1; Tau Ceti
 `TauCeti.CotangentBundle`, `CotangentBundle.liouvilleForm`, `CotangentBundle.symplecticForm`,
 `CotangentBundle.momentMap`, `CotangentBundle.isEquivariantMomentMap_momentMap`,
 `CotangentBundle.mpullback_smul_liouvilleForm`; Tau Ceti's fibrewise translation by a one-form
@@ -1557,7 +1714,7 @@ formulas, for the standard principal right action `q · g = g⁻¹ q` and connec
   `β_c` is `c` times the curvature of the Hopf connection, whose integral over `S²` is nonzero, so the
   magnetic term is not exact.
 
-### 4.2 Groupoid reduction
+### R4.2 Groupoid reduction
 
 Use LieGroupoidsPoisson's cotangent groupoid `T*G ⇉ 𝔤*` of §G6.3, left-trivialized with
 `s(g, ν) = ν` and `t(g, ν) = Ad*_g ν` where `Ad*_g ν = ν ∘ Ad_(g⁻¹)`, with the positive Lie–Poisson
@@ -1566,14 +1723,13 @@ Consume §G7.2's isotropy quotient of a level and its descended form, §G7.3's d
 Hamiltonian action as a cotangent-groupoid action with its regular-value identifications, and §G7.4's
 identification of the action groupoid `G ⋉ O` with the restriction `(T*G)|_O`, under §G7.2's
 regular-value and free proper isotropy-action hypotheses. With the orbit model `W_O`, `Φ` and `e` of
-§3.0b, prove that reduction at `ν` by the groupoid isotropy recovers reduction by `G_ν`: construct the
+§R3.0b, prove that reduction at `ν` by the groupoid isotropy recovers reduction by `G_ν`: construct the
 final quotient diffeomorphism and prove that §G7.2's descended form agrees with the reduced form of
-§3.0a. The abstract restriction and action groupoids and their smoothness are LieGroupoidsPoisson's;
-the generic descent of forms along submersions is Tau Ceti's (`SmoothForm.descendedForm`) and is not
-repeated.
+§R3.0a. The abstract restriction and action groupoids and their smoothness are LieGroupoidsPoisson's;
+the generic descent of forms along submersions is §R3.0's and is not repeated.
 
-*Needs:* §3.0a, §3.0b; LieGroupoidsPoisson §G4.6A, §G6.3, §G7.2, §G7.3, §G7.4; Tau Ceti
-`SmoothForm.descendedForm`.
+*Needs:* §R3.0 (generic form descent), §R3.0a, §R3.0b; LieGroupoidsPoisson §G4.6A, §G6.3, §G7.2, §G7.3,
+§G7.4.
 
 **Checks.**
 - `SO(3)` acting on `T*ℝ³` at `ν ≠ 0`: the groupoid orbit of `ν` is the sphere `O` of radius `|ν|`, its
@@ -1584,25 +1740,25 @@ repeated.
 ### Examples
 
 - `T*ℝⁿ` with `ℝ` acting by translation along `e₁`: `T*ℝⁿ //₀ ℝ = T*ℝ^(n−1)`.
-- The zero cotangent quotient and the nonabelian `T*U(2)` stages test of §3.0c.
+- The zero cotangent quotient and the nonabelian `T*U(2)` stages test of §R3.0c.
 
 ### Dependencies
 
-Layer 3 (§3.0a, §3.0b). SmoothBundlesConnections §§B1.4, B2.1, B2.5, B3.1, B4.1. LieGroupoidsPoisson
+R3 (§R3.0a, §R3.0b). SmoothBundlesConnections §§B1.4, B2.1, B2.5, B3.1, B4.1. LieGroupoidsPoisson
 §§G4.6A, G6.3, G7.2–G7.4. Tau Ceti: cotangent bundles, Liouville and canonical forms, cotangent lifts and
 their moment maps, fibrewise translations, form descent along submersions.
 
-## Layer 5: gauge actions over a surface
+## R5: gauge actions over a surface
 
 Throughout, `Σ` is a closed connected oriented smooth surface of genus `g`, `K` a compact Lie group with
 a fixed positive-definite `Ad`-invariant inner product `B` on `𝔨`, and `P → Σ` a smooth principal
-`K`-bundle. The finite-dimensional reduction theorems of Layer 3 are not applied unchanged to the
+`K`-bundle. The finite-dimensional reduction theorems of R3 are not applied unchanged to the
 infinite-dimensional space of connections; every statement here carries its own Fréchet or Sobolev
-hypotheses. The symplectic form and the curvature moment map of §5.1 are Atiyah and Bott's
-(Meinrenken, Theorem 7.46, p. 98, for the trivial bundle, with the gauge action of §5.1; Cannas da
+hypotheses. The symplectic form and the curvature moment map of §R5.1 are Atiyah and Bott's
+(Meinrenken, Theorem 7.46, p. 98, for the trivial bundle, with the gauge action of §R5.1; Cannas da
 Silva, §§25.3–25.4, pp. 158–159, for a principal bundle).
 
-### 5.1 The affine space of connections and its moment map
+### R5.1 The affine space of connections and its moment map
 
 Consume SmoothBundlesConnections §B2.5's adjoint bundle `ad P` and invariant pairings, §B3.1's affine
 space of principal connections, §B4.1's curvature identities and §B4.2's gauge group. Let `𝒜(P)` be
@@ -1614,7 +1770,7 @@ weakly nondegenerate and closed. Define the affine smooth gauge action with the 
 the curvature pairing `⟨μ(A), ξ⟩ = ∫_Σ B(F_A, ξ)`. Prove `ι_(ξ_A) Ω = dμ_ξ` through the integration by
 parts identity on the closed surface, and equivariance. The zero level of the curvature is the flat
 level. Tau Ceti's Hamiltonian API on manifolds modelled on normed spaces is used only after a
-compatible Sobolev model and its smoothness are established (§5.2).
+compatible Sobolev model and its smoothness are established (§R5.2).
 
 *Needs:* SmoothBundlesConnections §B2.5, §B3.1, §B4.1, §B4.2; DifferentialGeometry Layer 5
 (integration and Stokes' theorem).
@@ -1625,7 +1781,7 @@ compatible Sobolev model and its smoothness are established (§5.2).
   `Ω(ξ_A, a) = ∫ B(−d_A ξ ∧ a) = ∫ B(a ∧ d_A ξ)`: the two sides agree. With the right convention
   `g · A = g⁻¹ A g + g⁻¹ dg` the generator is `+d_A ξ` and the moment map changes sign.
 
-### 5.2 Sobolev completions and the Coulomb slice
+### R5.2 Sobolev completions and the Coulomb slice
 
 Use ComplexKahlerGeometry §5.4's carrier `BundleSobolev E s` with its localization, Hilbert-space and
 real–complex comparisons, and §5.7's smooth-coefficient bundle Laplace and regularity estimates; PDE
@@ -1643,13 +1799,13 @@ theorem for the Coulomb slice on complements to the stabilizer (Huebschmann, §2
 globalization over smooth bundles is
 ComplexKahlerGeometry's; the rough coefficients and these gauge applications are targets here.
 
-*Needs:* §5.1; ComplexKahlerGeometry §5.4 and §5.7; PDE Layers 4–5.
+*Needs:* §R5.1; ComplexKahlerGeometry §5.4 and §5.7; PDE Layers 4–5.
 
 **Checks.**
 - In dimension two, `H^s` is an algebra for `s > 1` (Sobolev embedding into continuous functions); at
   `s = 1` it is not, and the multiplication estimate fails, which is why `s > 1` is required.
 
-### 5.3 Regularity of weak flat connections and gauges
+### R5.3 Regularity of weak flat connections and gauges
 
 In a controlled slice relative to a smooth `A₀`, write `A = A₀ + a` with `d_(A₀)* a = 0` and
 `d_(A₀) a = −F_(A₀) − ½[a ∧ a]`. Since `H^s` is an algebra in dimension two for `s > 1`, the
@@ -1679,7 +1835,7 @@ smooth approximation alone does not control a slice radius that depends on the r
 `H^(s+1)` gauge between smooth connections satisfies its local first-order equation and bootstraps to a
 smooth gauge; prove the composition of bundles and gauges throughout.
 
-*Needs:* §5.2; ComplexKahlerGeometry §5.7 (compact Green operator, all-order regularity);
+*Needs:* §R5.2; ComplexKahlerGeometry §5.7 (compact Green operator, all-order regularity);
 GeometricTopology §1.5 (tubular neighbourhoods).
 
 **Checks.**
@@ -1687,11 +1843,11 @@ GeometricTopology §1.5 (tubular neighbourhoods).
   `f` constant; on the mean-zero functions it is invertible. On a disconnected sphere pair the kernel
   would be two-dimensional, which is why a fixed connected sphere is used.
 
-### 5.4 The flat quotients and holonomy
+### R5.4 The flat quotients and holonomy
 
 Define both quotients explicitly: smooth flat connections on the fixed `P` modulo smooth gauge, and
 weakly flat `H^s` connections modulo `H^(s+1)` gauge, each in a based version (gauge fixing a point of `P`
-over a base point of `Σ`) and an unbased version. The regularity of §5.3 gives their groupoid and set
+over a base point of `Σ`) and an unbased version. The regularity of §R5.3 gives their groupoid and set
 comparison; prove the topological and stratified comparison using continuous slices and uniform
 higher-order flat estimates, so that `H^s` convergence after slice gauges gives convergence in every
 smooth seminorm. Holonomy is continuous for these connections, by `H^s ⊆ C⁰` and the path equation with
@@ -1703,13 +1859,13 @@ Theorem 2.3 and Lemma 2.4, p. 6, which match stabilizers). Prove the local slice
 orbit-type comparisons; a bijection of sets
 alone is not enough.
 
-*Needs:* §5.3; SmoothBundlesConnections §B5.2 (holonomy and flat connections).
+*Needs:* §R5.3; SmoothBundlesConnections §B5.2 (holonomy and flat connections).
 
 **Checks.**
 - For `K = U(1)` and `P` trivial over the torus `T²`, the flat connections modulo gauge are
   `Hom(ℤ², U(1)) = U(1)²`, a two-torus, and `π₁T² = ℤ²` is abelian so conjugation is trivial.
 
-### 5.5 The deformation complex
+### R5.5 The deformation complex
 
 Construct the adjoint flat local system from SmoothBundlesConnections' parallel transport and prove its
 de Rham and local-system comparison on the surface, using local parallel frames, DifferentialGeometry's
@@ -1721,7 +1877,7 @@ AlgebraicTopology §6.4's twisted Poincaré duality for oriented surfaces then g
 `dim H¹_A = (2g − 2) dim 𝔨 + 2 dim H⁰_A`. These are statements about the full deformation complex;
 quotienting the gauge group by an ineffective subgroup does not delete any cohomology summand.
 
-*Needs:* §5.1; SmoothBundlesConnections §B5.2; DifferentialGeometry §6.2 (local Poincaré lemma) and
+*Needs:* §R5.1; SmoothBundlesConnections §B5.2; DifferentialGeometry §6.2 (local Poincaré lemma) and
 Layer 5 (integration); AlgebraicTopology §6.1 and §6.4.
 
 **Checks.**
@@ -1729,7 +1885,7 @@ Layer 5 (integration); AlgebraicTopology §6.1 and §6.4.
   `dim H² = dim H⁰` this gives `dim H¹_A = 2 dim H⁰_A + (2g − 2) dim 𝔨`. For `U(1)` this is `2g`; for an
   irreducible `SO(3)` connection, `H⁰_A = 0` and `dim H¹_A = 6g − 6`.
 
-### 5.6 The centre, its local system and the central-curvature level
+### R5.6 The centre, its local system and the central-curvature level
 
 For the full compact `K`, possibly disconnected, construct the `Ad(K)`-invariant orthogonal splitting
 `𝔨 = 𝔷 ⊕ 𝔨_ss` with `𝔨_ss = [𝔨, 𝔨]` and its associated bundles. Conjugation on `𝔷` factors through `π₀K`, so
@@ -1751,7 +1907,7 @@ action fixes the class and hence its unique harmonic representative. Keep these 
 disconnected components as well. Prove these statements and their Sobolev comparisons rather than
 replacing the full complex by a trace-free one without accounting for its central variables.
 
-*Needs:* §5.1, §5.5; LieGroups Layer 5A (the splitting `𝔨 = 𝔷 ⊕ [𝔨, 𝔨]` for the identity component `K⁰`;
+*Needs:* §R5.1, §R5.5; LieGroups Layer 5A (the splitting `𝔨 = 𝔷 ⊕ [𝔨, 𝔨]` for the identity component `K⁰`;
 its `Ad(K)`-invariance for disconnected `K` is proved here); SmoothBundlesConnections §B2.5.
 
 **Checks.**
@@ -1759,7 +1915,7 @@ its `Ad(K)`-invariance for disconnected `K` is proved here); SmoothBundlesConnec
   acts by `−1`; over a surface whose `O(2)`-bundle has nontrivial orientation character, `𝔷_P` is the
   corresponding nontrivial real line local system, with `H⁰(𝔷_P) = 0`.
 
-### 5.7 The ineffective kernel
+### R5.7 The ineffective kernel
 
 Define the global ineffective kernel `I_P = ker(Gauge(P) → Aut(𝒜(P)))`. Prove
 `C = ker(Ad : K → Aut(𝔨)) = C_K(K⁰)` and identify `I_P` with the parallel sections of the canonical flat
@@ -1773,37 +1929,37 @@ centralizer of the holonomy; its Lie algebra is `H⁰_A(ad P)` (Huebschmann, §1
 quotient by `I_P` has Lie algebra
 `H⁰_A(𝔨_ss, P)`.
 
-*Needs:* §5.4, §5.6; SmoothBundlesConnections §B4.2, §B5.2.
+*Needs:* §R5.4, §R5.6; SmoothBundlesConnections §B4.2, §B5.2.
 
 **Checks.**
 - For `K = O(2)`, `C = C_K(SO(2)) = SO(2)`: a reflection inverts rotations, so it is not in `C`.
 - For finite `K`, `𝔨 = 0`, `C = K` and `𝒜(P)` is a single point, so every gauge transformation acts trivially.
 
-### 5.8 The finite-dimensional local symplectic model
+### R5.8 The finite-dimensional local symplectic model
 
-At a flat `A`, and at the specified fixed central-curvature level (§5.6), construct a
+At a flat `A`, and at the specified fixed central-curvature level (§R5.6), construct a
 finite-dimensional, `Stab(A)`-invariant symplectic thickening inside the Coulomb slice. Identify its
 restricted form with the cup-product and integration pairing of the surface under the Kuranishi
 coordinates. Prove that the harmonic part of the residual curvature, shifted by the fixed central level
 and paired with `H⁰_A` through surface duality, is its equivariant moment map. Compare its zero-level
 stabilizer quotient with the local gauge quotient, preserving stabilizer types and the descended forms
 on every orbit-type stratum, and keep the full stabilizer and its ineffective kernel. This gives the
-finite-dimensional Hamiltonian presentation to which §3.2 applies, with §3.1 supplying its quadratic
+finite-dimensional Hamiltonian presentation to which §R3.2 applies, with §R3.1 supplying its quadratic
 tangent model. Follow Huebschmann, §§2.18–2.32, for this construction, and prove the stated
 comparisons, including their transport from Sobolev to smooth connections.
 
-*Needs:* §5.3–§5.7; §3.1, §3.2.
+*Needs:* §R5.3–§R5.7; §R3.1, §R3.2.
 
 **Checks.**
 - For `K = U(1)` and any flat `A`: `H⁰_A = ℝ`, `H¹_A = H¹(Σ; ℝ)` of dimension `2g` with the cup-product
   form, the moment map takes values in `(H⁰_A)* ≅ ℝ` and is the central curvature, constant at the fixed
   level, and the stabilizer `U(1)` is the ineffective kernel and acts trivially. The thickening is a
-  `2g`-dimensional symplectic chart of the moduli torus of §5.10; a model dropping the `H⁰` terms would
+  `2g`-dimensional symplectic chart of the moduli torus of §R5.10; a model dropping the `H⁰` terms would
   predict dimension `2g − 2`, the value of `(2g − 2) dim 𝔨` alone.
 
-### 5.9 The regular semisimple locus
+### R5.9 The regular semisimple locus
 
-On the locus `H⁰_A(𝔨_ss, P) = 0`, prove regularity of the curvature into the restricted codomain of §5.6,
+On the locus `H⁰_A(𝔨_ss, P) = 0`, prove regularity of the curvature into the restricted codomain of §R5.6,
 the local proper slice comparison and the resulting finite-dimensional symplectic local model. The full
 slice tangent is `H¹_A(ad P)` with its cup-product and integration form. The residual stabilizer
 `Stab(A)/I_P` is compact with zero Lie algebra, hence finite. A trivial residual action gives a manifold
@@ -1816,13 +1972,13 @@ this regular semisimple locus the dimension is `(2g − 2) dim 𝔨 + 2 dim H⁰
 `(2g − 2) dim 𝔨 + 2 dim 𝔷` for connected `K`. A tangent space of a coarse singular quotient is not
 identified with `H¹` without the local smoothness hypotheses.
 
-*Needs:* §5.5–§5.8; §3.0e.
+*Needs:* §R5.5–§R5.8; §R3.0e.
 
 **Checks.**
 - For `U(1)` and `g ≥ 1`, `𝔨_ss = 0`, so every flat connection is in the locus, and the dimension is
   `(2g − 2) + 2 = 2g`.
 
-### 5.10 The framed quotient and the tests
+### R5.10 The framed quotient and the tests
 
 For the framed (based) flat quotient fix a point of `P` over the base point of `Σ`, and compare its
 deformation tangent with the cocycles `Z¹(π₁Σ; 𝔨_(Ad ρ))`. Construct the exact sequence
@@ -1845,18 +2001,18 @@ The following are targets of this layer.
   as additional data. Prove the corresponding local theorem at that central level, whose adjoint
   connection is flat, with regularity on the locus where the trace-free obstruction vanishes and the
   central `H¹` variables kept unless the determinant connection is fixed; use the restricted affine
-  codomain of §5.6, and do not assert surjectivity onto the fixed harmonic central component. The
+  codomain of §R5.6, and do not assert surjectivity onto the fixed harmonic central component. The
   ordinary correspondence between flat connections and `K`-holonomy is not used for nonzero curvature.
 - *`SO(3)` in the class `w₂ ≠ 0`.* For `g ≥ 2`, the irreducible flat `SO(3)`-connections on the bundle with
-  `w₂ ≠ 0` form a space of dimension `6g − 6`, verified with the stabilizer checks of §5.7 and §5.9 and
+  `w₂ ≠ 0` form a space of dimension `6g − 6`, verified with the stabilizer checks of §R5.7 and §R5.9 and
   without assuming that every such connection has trivial finite stabilizer.
-- *Disconnected and finite groups.* The `O(2)` centre local system (§5.6) and the ineffective kernel of a
-  finite group (§5.7).
+- *Disconnected and finite groups.* The `O(2)` centre local system (§R5.6) and the ineffective kernel of a
+  finite group (§R5.7).
 
 No finite-dimensional free proper reduction theorem is applied unchanged to the full Fréchet space of
 connections.
 
-*Needs:* §5.4–§5.9; AlgebraicTopology §6.1 (group cohomology and local systems).
+*Needs:* §R5.4–§R5.9; AlgebraicTopology §6.1 (group cohomology and local systems).
 
 **Checks.**
 - The framed dimension: `dim H¹_A + dim 𝔨 − dim H⁰_A = (2g − 2) dim 𝔨 + 2 dim H⁰_A + dim 𝔨 − dim H⁰_A =
@@ -1867,64 +2023,57 @@ connections.
 ### Examples
 
 - `U(1)` flat connections over every closed oriented surface, including the torus, and the
-  `SO(3)`, `U(n)`, `O(2)` and finite-group tests of §5.10.
+  `SO(3)`, `U(n)`, `O(2)` and finite-group tests of §R5.10.
 
 ### Dependencies
 
-Layer 3 (§§3.0e, 3.1, 3.2) for the local model. SmoothBundlesConnections §§B2.5, B3.1, B4.1, B4.2, B5.2.
+R3 (§§R3.0e, R3.1, R3.2) for the local model. SmoothBundlesConnections §§B2.5, B3.1, B4.1, B4.2, B5.2.
 ComplexKahlerGeometry §§5.4, 5.7. PDE Layers 4–5. DifferentialGeometry §6.2 and Layer 5.
 AlgebraicTopology §§6.1, 6.4. GeometricTopology §1.5. LieGroups Layer 5A.
 
 ## Downstream consumers
 
-- ConvexityToric: §3.1 consumes the chamber quotient and centralizers of §2.5 for its cross-section and
-  convexity theorems; §4.2 consumes the orbifold presentation of §3.0e for reduced classes, effective and
-  ineffective; its §1.1 makes the integral refinements of the compact real data of §2.3.
-- SchubertGeometry §9.7 compares the Morse cells of §2a.4 with Schubert cells.
-- Orbifolds O7 compares the forms and classes of §3.0e with its other Hamiltonian carriers.
-- InstantonFloerTheory, YangMillsConnectionsAndCaloricGauge and GaugeQuiltFieldTheory use Layer 5's
+- ConvexityToric: §3.1 consumes the chamber quotient and centralizers of §R2.5 for its cross-section and
+  convexity theorems; §4.2 consumes the orbifold presentation of §R3.0e for reduced classes, effective and
+  ineffective; its §1.1 makes the integral refinements of the compact real data of §R2.3.
+- SchubertGeometry §9.7 compares the Morse cells of §R2a.4 with Schubert cells.
+- Orbifolds O7 compares the forms and classes of §R3.0e with its other Hamiltonian carriers.
+- InstantonFloerTheory, YangMillsConnectionsAndCaloricGauge and GaugeQuiltFieldTheory use R5's
   surface quotient, holonomy and Sobolev conventions.
-- GeometricQuantization uses Layers 1–3 (group-level moment maps, coadjoint orbits, reduction) and the
-  even-cell model of Layer 2a.
-- TensorProductCombinatorics uses Layers 1–2 (moment maps, the KKS normalization and the compact
+- GeometricQuantization uses R1–R3 (group-level moment maps, coadjoint orbits, reduction) and the
+  even-cell model of R2a.
+- TensorProductCombinatorics uses R1–R2 (moment maps, the KKS normalization and the compact
   chamber).
-- IntegrableSystems uses the moment maps of Layer 1 and the regular quotients of Layer 3.
+- IntegrableSystems uses the moment maps of R1 and the regular quotients of R3.
 
 ## Scope and ownership
 
-**This roadmap owns** the group-level stabilizer, restriction, transport and component statements and
-the group-level model actions (Layer 1); the flux homomorphism, the Hamiltonian kernel and the endpoint
-quotient, compact and compactly supported, with the torus flux group (Layer 1a); coadjoint orbits as
+**This roadmap owns** the fundamental vector fields of a smooth action and its infinitesimal action,
+stabilizers and orbit maps, infinitesimal and group-level moment maps with their operations and
+uniqueness, the equivariance defect and its integration over connected groups, the restriction,
+transport and component statements, the model actions and the exact sequence of symplectic vector
+fields (R1); the flux homomorphism, the Hamiltonian kernel and the endpoint quotient, compact and
+compactly supported, with the torus flux group (R1a); coadjoint stabilizers, coadjoint orbits as
 symplectic manifolds, the comparison of the KKS form with the linear Poisson structure, the coadjoint
-chamber classification and the connected centralizers of compact groups, and the model orbits (Layer 2);
-the Morse theory of height functions on compact coadjoint orbits (Layer 2a); regular, orbit, staged,
+chamber classification and the connected centralizers of compact groups, and the model orbits (R2);
+the Morse theory of height functions on compact coadjoint orbits (R2a); the moment-map differential
+identity, the generic descent of forms along surjective submersions, regular, orbit, staged,
 discrete, locally free and singular reduction, the gluing of symplectic forms on the orbifold charts of
-locally free levels, and the local normal form (Layer 3); cotangent reduction and its comparison with
-groupoid reduction (Layer 4); and the symplectic gauge theory of connections over a closed surface,
+locally free levels, and the local normal form (R3); cotangent reduction and its comparison with
+groupoid reduction (R4); and the symplectic gauge theory of connections over a closed surface,
 including its Sobolev completions, Coulomb slices, regularity, flat quotients, local models and
-deformation complex (Layer 5).
+deformation complex (R5). The declarations of the pinned Tau Ceti that realise items of this roadmap
+are named in those items above, on their *In Tau Ceti:* lines.
 
-**Already in the library.** The following are proved at the Tau Ceti pin and are consumed through the
-supplier contracts below; a citation of this roadmap for one of them resolves to these declarations.
-
-| Statement | Declarations at the pin |
-|---|---|
-| Fundamental vector fields: smoothness, linearity, `[ξ, η]_M = −[ξ_M, η_M]`, the exponential flow, the infinitesimal action | `TauCeti.fundamentalVectorField`, `TauCeti.contMDiff_fundamentalVectorField`, `TauCeti.mlieBracket_fundamentalVectorField`, `TauCeti.isMIntegralCurve_mulInvariantExp_smul_smul`, `TauCeti.InfinitesimalAction.fundamental` |
-| Infinitesimal moment maps: restriction along Lie algebra maps, products, negation, constant shifts, transport, uniqueness on connected `M`, the cocycle | `TauCeti.SmoothTwoForm.IsMomentMap` with `.comp`, `.prod`, `.neg`, `.add_const`, `.mpullback`, `.isMomentMap_iff_exists_eq_add`; `TauCeti.SmoothTwoForm.momentCocycle` |
-| Group-level moment maps, invariant shifts, integration over connected groups | `TauCeti.SmoothTwoForm.IsEquivariantMomentMap` with `.add_const_iff`, `.isEquivariantMomentMap_iff_exists_eq_add`, `.neg`, `.prod`; `IsMomentMap.isEquivariantMomentMap_of_momentCocycle_eq_zero` |
-| The group defect: independence of `x`, cocycle law, derivative equal to the cocycle, coboundaries, affine equivariance | `TauCeti.momentDefect`, `TauCeti.momentDefect_mul`, `TauCeti.momentDefect_add_const`, `IsMomentMap.momentDefect_eq`, `IsMomentMap.momentDefect_mul_eq`, `IsMomentMap.mvfderiv_momentDefect_one`, `IsMomentMap.apply_smul_eq_add_momentDefect` |
-| Translation (Heisenberg cocycle) and linear symplectic moment maps, infinitesimally | `TauCeti.SymplecticForm.translationMomentMap`, `TauCeti.SymplecticForm.momentCocycle_translation`, `TauCeti.SymplecticForm.linearMomentMap`, `TauCeti.SymplecticForm.isMomentMap_linearMomentMap` |
-| The cotangent lift preserves `λ`, and its moment map is equivariant | `TauCeti.CotangentBundle.mpullback_smul_liouvilleForm`, `TauCeti.CotangentBundle.isEquivariantMomentMap_momentMap` |
-| The exact sequence `0 → H⁰_dR → C^∞ → symplectic fields → H¹_dR → 0` | `TauCeti.SmoothTwoForm.symplecticVectorFields`, `TauCeti.SmoothTwoForm.interiorClass`; in `TauCeti.SmoothTwoForm.IsNondegenerate`: `negHamiltonianₗ`, `ker_negHamiltonianₗ`, `exact_negHamiltonianₗ_interiorClass`, `interiorClass_surjective` |
-| Generic descent of a closed basic form with vertical kernel to a unique symplectic form | `TauCeti.SmoothForm.descendedForm`, `TauCeti.SmoothForm.eq_descendedForm_iff`, `TauCeti.SmoothTwoForm.isSymplectic_descendedForm_iff` |
-| Closed coadjoint stabilizers and their Lie algebras | `TauCeti.Lie.isClosed_stabilizer_coadjointRepresentation`, `TauCeti.Lie.lieSubalgebraOfSubgroup_stabilizer_coadjointRepresentation` |
-| The regular-value level manifold with tangent `ker dμ` | `TauCeti.regularLevelChartedSpace`, `TauCeti.isManifold_regularLevel`, `TauCeti.range_mfderiv_coe_regularLevel` |
-| Quotients by discrete groups and the descent of invariant forms | `TauCeti.instIsManifoldQuotient`, `TauCeti.isLocalDiffeomorph_quotientMk`, `TauCeti.SmoothForm.descend` |
-
-The generic form descent is the interface that LieGroupoidsPoisson §G7.2's isotropy quotients and §3.0a
-both consume. The closed-wall fundamental-domain and wall-stabilizer theorems for Weyl groups are Tau
-Ceti's
-(`TauCeti.existsUnique_mem_orbit_inter_dominantChamber`, `TauCeti.stabilizer_eq_closure_wallReflections`).
+**Already in the library.** The following, which this roadmap does not own, are proved at the Tau
+Ceti pin and are consumed through the supplier contracts below: the manifold structure of a
+regular-value level with tangent space `ker dμ` (the regular-value API that §R3.0a and §R3.0e use:
+`TauCeti.regularLevelChartedSpace`, `TauCeti.isManifold_regularLevel`,
+`TauCeti.range_mfderiv_coe_regularLevel`); the manifold structure of the quotient by a free, properly
+discontinuous action and its local diffeomorphism property (`TauCeti.instIsManifoldQuotient`,
+`TauCeti.isLocalDiffeomorph_quotientMk`); and the closed-wall fundamental-domain and wall-stabilizer
+theorems for Weyl groups (`TauCeti.existsUnique_mem_orbit_inter_dominantChamber`,
+`TauCeti.stabilizer_eq_closure_wallReflections`).
 
 **Owned elsewhere and consumed here.**
 
@@ -1962,25 +2111,14 @@ Ceti's
 group is asserted without separate global data. No discreteness of `Γ_ω` or `Γ_(ω,c)`, Hausdorffness of
 the flux quotients or Lie structure on them is asserted.
 
-Other roadmaps cite sections of this roadmap by the labels of its former numbering:
-
-| Former label | Now |
-|---|---|
-| R1 | Layer 1 |
-| R1a | Layer 1a |
-| R2 | Layer 2 |
-| R2a | Layer 2a |
-| R3 | Layer 3 |
-| R3.1 | §3.1 |
-| R4 | Layer 4 |
-| R5 | Layer 5 |
-
 ## Exact supplier contracts
 
 ### From Mathlib
 
 - `GroupLieAlgebra`, `LieGroup`, `ContMDiffSMul`, `ContMDiffConstSMul`, `MulAction.stabilizer`,
   `Representation.stabilizer`, `MulAction.orbitRel.Quotient`, `Subgroup.normalizer`.
+- `VectorField.mlieBracket` (the bracket `[X, Y] = DY · X − DX · Y` of vector fields on a manifold) and
+  `Manifold.IsSubmersion` (smooth submersions).
 - `properlyDiscontinuousSMul_iff_properSMul` (a discrete group acts properly discontinuously iff
   properly, under `CompactlyCoherentSpace`) and `t2Space_quotient_mulAction_of_properSMul`.
 - `Submodule.dualQuotEquivDualAnnihilator`: `Module.Dual R (M ⧸ W) ≃ₗ[R] W.dualAnnihilator`.
@@ -1989,34 +2127,29 @@ Other roadmaps cite sections of this roadmap by the labels of its former numberi
 
 ### From Tau Ceti
 
-All are proved at the pin; paths are under `TauCeti/`.
+All are proved at the pin; paths are under `TauCeti/`. The declarations that realise this roadmap's own
+items are named in those items above; the list below is what the roadmap consumes.
 
 - *Forms and Hamiltonian fields* (`Geometry/Manifold/TwoForm/Basic.lean`,
   `Geometry/Symplectic/Manifold/TwoForm.lean`, `Geometry/Symplectic/Hamiltonian/Manifold.lean`,
   `…/Hamiltonian/Bracket.lean`): `TauCeti.SmoothTwoForm` (`= SmoothForm I M ℝ 2`),
   `SmoothTwoForm.IsSymplectic`, `SmoothTwoForm.IsNondegenerate`, `SmoothTwoForm.IsHamiltonianVectorField`
   (`ι_X σ = df`), `SmoothTwoForm.hamiltonianVectorField`, `SmoothTwoForm.poissonBracket` (`df(X_g)`),
-  `IsNondegenerate.hamiltonianVectorField_poissonBracket` (`X_({f,g}) = −[X_f, X_g]` for closed
-  nondegenerate `σ` on a finite-dimensional manifold), `TauCeti.mlieDerivForm_eq_interior_mextDeriv_add`
-  (Cartan's formula).
+  `TauCeti.mlieDerivForm_eq_interior_mextDeriv_add` (Cartan's formula).
 - *Actions and moment maps* (`Geometry/Lie/FundamentalVectorField.lean`,
   `Geometry/Manifold/VectorField/InfinitesimalAction.lean`, `Geometry/Symplectic/Hamiltonian/MomentMap.lean`,
-  `…/EquivariantMomentMap/Basic.lean`, `…/EquivariantMomentMap/Prod.lean`): the declarations of the
-  first five rows of the table above, with `TauCeti.InfinitesimalAction.isotropy`,
-  `TauCeti.InfinitesimalAction.orbitTangent`, `TauCeti.InfinitesimalAction.finrank_orbitTangent_add_finrank_isotropy`,
-  `TauCeti.mfderiv_smul_fundamentalVectorField`, `SmoothTwoForm.IsMomentMap.differential`,
-  `IsMomentMap.ker_differential` (`ker dμ_x = (𝔤 · x)^σ`), `IsMomentMap.range_differential` and
-  `IsMomentMap.differential_surjective_iff` (finite-dimensional, nondegenerate: `dμ_x` onto iff the
-  isotropy algebra is zero). The group-level statements assume a smooth action of a smooth Lie group on a
+  `…/EquivariantMomentMap/Basic.lean`, `…/EquivariantMomentMap/Prod.lean`): the carriers
+  `TauCeti.InfinitesimalAction` and `TauCeti.SmoothTwoForm.IsMomentMap` (`ι_(ξ_M) σ = dμ_ξ`, smooth
+  components), the moment cocycle `TauCeti.SmoothTwoForm.momentCocycle`,
+  `TauCeti.InfinitesimalAction.isotropy`, `TauCeti.InfinitesimalAction.orbitTangent`,
+  `TauCeti.InfinitesimalAction.finrank_orbitTangent_add_finrank_isotropy`,
+  `TauCeti.mfderiv_smul_fundamentalVectorField`. The group-level statements assume a smooth action of a smooth Lie group on a
   preconnected manifold by elements with `g* σ = σ`, as the hypotheses of each declaration state.
 - *Cotangent bundles* (`Geometry/Manifold/VectorBundle/Cotangent/Basic.lean`,
   `Geometry/Symplectic/Cotangent/Bundle/*.lean`, `Geometry/Symplectic/Cotangent/MomentMap.lean`):
   `TauCeti.CotangentBundle`, `CotangentBundle.liouvilleForm`, `CotangentBundle.symplecticForm` (`−dλ`),
-  `CotangentBundle.momentMap`, `CotangentBundle.mpullback_smul_liouvilleForm`,
-  `CotangentBundle.isEquivariantMomentMap_momentMap`, the fibrewise translation by a one-form
+  the fibrewise translation by a one-form
   (`Bundle/Fiberwise.lean`: `τ_α* ω = ω − π* dα`), `TauCeti.cotangentMomentMap`.
-- *Symplectic vector fields* (`Geometry/Symplectic/Hamiltonian/SymplecticVectorField.lean`): the
-  declarations of the table, for a nondegenerate form on a finite-dimensional manifold.
 - *de Rham cohomology* (`Geometry/Manifold/DeRham/*.lean`): `TauCeti.deRhamCohomology`,
   `TauCeti.deRhamCohomologyZeroEquiv`, `deRhamCohomology.period`,
   `TauCeti.compactlySupportedDeRhamCohomology`, `compactlySupportedDeRhamCohomology.toDeRhamCohomology`.
@@ -2031,22 +2164,17 @@ All are proved at the pin; paths are under `TauCeti/`.
 - *Circles* (`Geometry/Manifold/Instances/AddCircle.lean`): `AddCircle.instChartedSpace`,
   `AddCircle.instIsManifold` and `AddCircle.instLieAddGroup`, the analytic manifold and additive Lie
   group `AddCircle p` for every `p` with `Fact (0 < p)`.
-- *Regular levels and descent* (`Geometry/Manifold/RegularValue/Level.lean`,
-  `Geometry/Manifold/DifferentialForm/Pullback/Submersion.lean`, `Geometry/Symplectic/Manifold/Descent.lean`,
+- *Regular levels and discrete quotients* (`Geometry/Manifold/RegularValue/Level.lean`,
   `Geometry/Manifold/Instances/Quotient.lean`, `Geometry/Manifold/DifferentialForm/Quotient.lean`):
   `TauCeti.regularLevelChartedSpace`, `TauCeti.isManifold_regularLevel`,
   `TauCeti.isSmoothEmbedding_coe_regularLevel`, `TauCeti.range_mfderiv_coe_regularLevel`;
-  `RoughForm.IsBasic`, `SmoothForm.descendedForm`, `SmoothForm.eq_descendedForm_iff`,
-  `SmoothTwoForm.isSymplectic_descendedForm_iff` (for a surjective smooth submersion with boundaryless
-  source); `TauCeti.instIsManifoldQuotient`, `TauCeti.isLocalDiffeomorph_quotientMk`,
+  `TauCeti.instIsManifoldQuotient`, `TauCeti.isLocalDiffeomorph_quotientMk`,
   `SmoothForm.descend`, `SmoothForm.eq_descend_iff`, `SmoothForm.isClosed_descend_iff` (free, properly
   discontinuous actions on Hausdorff locally compact manifolds).
 - *Lie groups* (`Geometry/Lie/**`, `Algebra/Lie/Coadjoint.lean`, `Geometry/Symplectic/Coadjoint.lean`):
   `Lie.coadjointRepresentation`, `Lie.Ad`, `Lie.isEmbeddedLieSubgroup_of_isClosed`,
   `Lie.lieSubalgebraOfSubgroup`, `Lie.mem_lieSubalgebraOfSubgroup`,
-  `leftInvariantDerivationLieEquivGroupLieAlgebra`, `Lie.isClosed_stabilizer_coadjointRepresentation`,
-  `Lie.isEmbeddedLieSubgroup_stabilizer_coadjointRepresentation`,
-  `Lie.lieSubalgebraOfSubgroup_stabilizer_coadjointRepresentation`; `Module.Dual.kksForm`,
+  `leftInvariantDerivationLieEquivGroupLieAlgebra`; `Module.Dual.kksForm`,
   `Module.Dual.kksForm_nondegenerate`, `Module.Dual.kksForm_mk_left`, `Module.Dual.kksForm_jacobi`,
   `Module.Dual.coadjointTangentMap`, `Module.Dual.coadjointTangentMap_injective`,
   `Module.Dual.even_finrank_quotient_lieAnnihilator`; `Lie.IsTorus`, `Lie.IsMaximalTorus`,
