@@ -219,11 +219,11 @@ under isomorphism of the residue fields). **The orbit count for every finite sub
 (`ncard_isomorphic_mul_natCard_algEquiv_eq_finrank`): `L/K` separable of degree `n` has `n`
 embeddings into `SeparableClosure K`, and those with a given image form an `Aut_K(L)`-torsor. It is
 `IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed` with
-`Ω = SeparableClosure K`; reuse that theorem rather than prove it again. With it a sum over `K`-isomorphism classes weighted by
-`1/#Aut_K` is `1/n` times the sum over subextensions, and 1.2's identity becomes the subfield
+`Ω = SeparableClosure K`; reuse that theorem rather than prove it again. With it a sum over
+`K`-isomorphism classes weighted by `1/#Aut_K` is `1/n` times the sum over subextensions, and 1.2's identity becomes the subfield
 form. *Needs:* 1.1; the LocalFieldsRamification contract
 (`IntermediateField.le_maximalUnramifiedExtension_iff`, `TauCeti.existsUnique_isUnramified_finrank_eq`);
-the MassFormula contract (the general orbit count).
+the MassFormula contract (`IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed`).
 
 **Checks.**
 
@@ -369,8 +369,8 @@ no Artin conductor is needed.
 A **wreath Galois set** (`WreathGaloisSet K m n`) is a homomorphism
 `ρ : Gal(K^sep/K) →* Equiv.Perm (Fin n × Fin m)` with open kernel that maps fibres of `Prod.fst`
 to fibres; its image lies in `S_m ≀ S_n`, the stabilizer of the fibre partition. For `m ≥ 1` the
-**base action** on `Fin n` sends `i` to the fibre of `ρ(g)(i, 0)` (`WreathGaloisSet.baseMulAction`).
-It is an action because `ρ(g)` maps whole fibres to fibres. The **counting function** is
+**base action** on `Fin n` sends `i` to the fibre of `ρ(g)(i, 0)` (`WreathGaloisSet.baseMulAction`),
+beside the action on `Fin n × Fin m` itself (`WreathGaloisSet.mulAction`). It is an action because `ρ(g)` maps whole fibres to fibres. The **counting function** is
 `c(ρ) = d(X) − (m − 1) · d(Y)` for `X = Fin n × Fin m` and its base `Y = Fin n`
 (`WreathGaloisSet.conductor`, [Wood 2008, (4)–(5)]). Take one base orbit, with `L` the fixed field
 of a base stabilizer and `M/L` the étale algebra of degree `m` on its fibre. The tower law
@@ -423,8 +423,9 @@ over `(ρ₀, χ)` is determined by the labelling `α_j ∈ S_m` it gives the fi
 `ρ(g) = ρ₀(g) · (α_{ρ₀(g) j} χ(σ_{ρ₀(g) j}⁻¹ g σ_j) α_j⁻¹)_j`. Every choice of the `α_j` gives a
 homomorphism. Its kernel contains the normal core of `ker χ`, an intersection of finitely many
 conjugates of an open subgroup, so it is open. The fibre over `0` is preserved by
-`L.fixingSubgroup` because that is the stabilizer of `0` (open, hence closed, so the Galois
-correspondence applies). *Needs:* 0.2; Mathlib `IntermediateField.fixingSubgroup_fixedField`.
+`L.fixingSubgroup` because that is the stabilizer of `0` (open, hence closed by
+`Subgroup.isClosed_of_isOpen`, so the infinite Galois correspondence applies). *Needs:* 0.2; Mathlib
+`InfiniteGalois.fixingSubgroup_fixedField`, `Subgroup.isClosed_of_isOpen`.
 
 **Checks.**
 
@@ -434,6 +435,7 @@ correspondence applies). *Needs:* 0.2; Mathlib `IntermediateField.fixingSubgroup
 ### 4.4 the transitive wreath mass
 
 The base-transitive wreath Galois sets (`WreathGaloisSet.IsBaseTransitive`) have mass
+`T_{m,n}` (`wreathTransitiveMass`, the base-transitive part of `wreathMass`), and
 `T_{m,n} = ∑_{f ∣ n} (1/f) q^{−(n−f)} ∑_{k ≤ m} q(k, m − k) q^{−f k}` (`wreathTransitiveMass_eq`;
 [Kedlaya 2007, (8.5.2)] for `m = 2`, [Wood 2008, (7)]). Split the sum by the base `ρ₀` and the
 fibre action `χ` (4.3), where `c(ρ) = d(L/K) + (d_K(χ) − m · d(L/K))` by 4.1. Then:
@@ -473,8 +475,9 @@ product satisfies the recursion with the sum of the two `t`'s (Leibniz), and
 equal.
 
 **Wood's formula for `S_m ≀ S_n`** (`exists_wreathMass_eq_aeval`; [Wood 2008, Thm. 1.1]): `W_{m,n}` is
-a polynomial in `q^{−1}` with natural-number coefficients, the same for every non-archimedean local
-field. By 4.4 each `T_{m,k}` is `∑_f (1/f) · (a polynomial in q^{−1})`, and the recursion expresses
+a polynomial in `q^{−1}` with integer coefficients, the same for every non-archimedean local field.
+The coefficients are natural numbers, because the generating function below is a product of
+binomial series with natural-number coefficients. By 4.4 each `T_{m,k}` is `∑_f (1/f) · (a polynomial in q^{−1})`, and the recursion expresses
 `W_{m,n}` as the coefficient of `xⁿ` in `∏_{k<m} ∏_{e≥1} (1 − x^e q^{1−e−k})^{−q(k, m−k)}`, whose
 expansion has natural-number coefficients in `x` and `q^{−1}`. *Needs:* 3.3, 4.4; Mathlib
 `Nat.Partition.genFun`, `Polynomial.aeval`.
@@ -598,8 +601,10 @@ Layer 0 (residue degree and the structure adapters):
 ### From Mathlib
 
 - **Galois theory of `SeparableClosure K`**: `krullTopology`, `IntermediateField.fixedField`,
-  `IntermediateField.fixingSubgroup` and the infinite Galois correspondence
+  `IntermediateField.fixingSubgroup` and the infinite Galois correspondence, with
+  `InfiniteGalois.fixingSubgroup_fixedField` for a closed subgroup
   (`Mathlib/FieldTheory/KrullTopology.lean`, `Mathlib/FieldTheory/Galois/Infinite.lean`);
+  `Subgroup.isClosed_of_isOpen` (`Mathlib/Topology/Algebra/OpenSubgroup.lean`);
   `IsSepClosure` and `IsSepClosure.equiv`; `IntermediateField.extendScalars`.
 - **Group actions**: `MulAction.orbitRel.Quotient`, `MulAction.stabilizer`,
   `MulAction.index_stabilizer` (orbit–stabilizer for an infinite group), `MulAction.compHom`.
