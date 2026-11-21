@@ -36,12 +36,17 @@ classified in [RootSystems](../RepresentationTheory/RootSystems/README.md).
 groups, and [IntegralLattices](../IntegralLattices/README.md) separates the 24 lattices by their
 root systems.
 
-Layer 1, the component coordinates and coset minima, is Tau Ceti's and forms no layer here; the
-other layers keep their numbers. Layer 2 states the finite checks as single theorems over the
-table; Layer 3 the unimodularity, root theorem, names and eliminator of the 23 lattices; Layer 4
-the comparison of the `A₂¹²` row lattice with the ternary Golay code; Layer 5 the pattern and Golay
-symmetries as isometries of the row lattices; Layer 6 the discriminant group of the
-Construction-B lattice along which the Leech lattice is glued.
+The layers below are built in order. Layer 1 fixes the typed coordinates in which the table is
+written: the root lattice of each component, its alphabet of labelled discriminant classes, the
+glue words of an ordered list of components, the attained shortest norm of every class, and the
+patterns in which the table writes its generators. Layer 2 enters the Conway–Sloane table and
+proves its five finite checks, each a single theorem over the 23 rows. Layer 3 glues every row
+uniformly and proves the 23 lattices unimodular with the displayed root systems, with names and a
+finite eliminator. Layer 4 checks the long patterns against the binary and ternary Golay codes and
+the hexacode, and builds the mixed row `A₁₁ D₇ E₆` end to end. Layer 5 makes coordinate choices
+and pattern symmetries harmless by inducing isometries of the glued lattices. Layer 6 builds the
+Leech lattice from the Construction-B lattice of the binary Golay code and an odd shift, with its
+congruence model and the Golay proof of minimum 4.
 
 ## Conventions
 
@@ -57,13 +62,12 @@ Construction-B lattice along which the Leech lattice is glued.
 2. **Displayed norms.** Conway and Sloane record the norm of a shortest representative of a
    coset, not its half-norm. A glue word is quadratically isotropic exactly when half its
    displayed norm lies in `ℤ`, that is, when its displayed norm is even.
-3. **Components.** An ADE component is a Tau Ceti `DynkinType` that is valid and simply laced
-   (`DynkinType.Component`), with the positive Cartan matrix, roots of norm 2 and Bourbaki node
-   numbering. Its root lattice is spanned by the simple roots with Gram matrix the Cartan matrix
-   (`DynkinType.rootLattice`). A reducible root system is an **ordered** finite list of
-   components, and the order is part of the glue table: glue digits mean nothing without it.
-   Reordering is an explicit equivalence of coordinates together with a lattice isometry, never
-   an identification of function types.
+3. **Components.** An ADE component is a Tau Ceti `DynkinType` that is valid and simply laced,
+   with the positive Cartan matrix, roots of norm 2 and Bourbaki node numbering. Its root lattice
+   is spanned by the simple roots with Gram matrix the Cartan matrix (§1.1). A reducible root
+   system is an **ordered** finite list of components, and the order is part of the glue table:
+   glue digits mean nothing without it. Reordering is an explicit equivalence of coordinates
+   together with a lattice isometry, never an identification of function types.
 4. **Roots.** A root of an integral lattice `L` is a vector of `L` of norm 2, and the root
    sublattice is the `ℤ`-span of the roots in the ambient space. A lattice `N ⊇ R` *has root
    system* `R` when every root of `N` lies in the embedded carrier of `R` and the roots of `R` span
@@ -77,8 +81,7 @@ Construction-B lattice along which the Leech lattice is glued.
    shortest norms of the labels `1, 2, 3` are `n/4, 1, n/4`. The `E₆`, `E₇` and `E₈` alphabets are
    `ℤ/3`, `ℤ/2` and the trivial group, with nonzero shortest norms `4/3`, `3/2` and none. A word
    `w = (wᵢ)` over an ordered list has shortest norm `μ(w) = ∑ᵢ μ_{Tᵢ}(wᵢ)` and quadratic value
-   `μ(w)/2 mod ℤ`. Tau Ceti's glue alphabets (`DynkinType.glueAlphabet`, with labels
-   `DynkinType.glueLabelEquiv` and shortest norms `DynkinType.glueMinimum`) are these.
+   `μ(w)/2 mod ℤ`. These are the alphabets of §1.2 and the shortest norms of §1.4.
 6. **Patterns and span modes.** A bracketed digit string lists one label per component in the
    displayed order. In a pattern such as `[1(012)]` only the parenthesized block is rotated
    cyclically, and every rotation is a generator; `[even permutations of (0123)]` means the twelve
@@ -87,8 +90,8 @@ Construction-B lattice along which the Leech lattice is glued.
    alone it is `𝔽₄`-linear, with the `D₄` labels read in `𝔽₄ = {0, 1, ω, ω²}` as `0 ↦ 0`,
    `1 = s ↦ ω`, `2 = v ↦ 1`, `3 = c ↦ ω²`: each expanded word is replaced by its three nonzero
    scalar multiples, and then the additive closure is taken. In neither mode are the printed words
-   a minimal generating set. The expansion of a pattern is a definite finite set of words (Tau
-   Ceti's `GluePattern.expand`), not a choice.
+   a minimal generating set. The expansion of a pattern is a definite finite set of words (§1.5),
+   not a choice.
 7. **Finite checks.** Every finite statement is a theorem with a proof, over the decoded glue
    words and their generated subgroups; an unchecked native evaluation, a string parser, or a
    cardinality entered as a field of a row is not a theorem. Each check is one theorem quantified
@@ -103,16 +106,167 @@ Construction-B lattice along which the Leech lattice is glued.
    actual finite subobjects (`BinaryGolay.code`, `TernaryGolay.code`, `Hexacode.code ω`), never
    to a predicate asserting their parameters.
 
+## Layer 1: component glue coordinates and coset minima
+
+A typed coordinate language for glue words, built before the 23 rows are entered. Every glue
+digit of the table is read through it, and the shortest norms of §1.4 are what make the bound of
+§2.3 a statement about the glued lattices.
+
+### 1.1 Root lattices of the components
+
+For each ADE component `T` (Convention 3), define its positive root lattice `Q_T`: the integral
+lattice on `ℚ^{rank T}` whose standard basis vectors are the simple roots, in Bourbaki numbering,
+with Gram matrix the Cartan matrix of `T`. Prove that the simple roots form a `ℤ`-basis of `Q_T`
+with Gram matrix the Cartan matrix, so that `Q_T` has rank `rank T`; that `Q_T` is even and
+positive definite; and that a vector of `Q_T` has norm 2 exactly when it is a root of `T`, namely
+a root of Tau Ceti's simply-connected root datum of `T` written in simple-root coordinates, these
+vectors spanning `Q_T` (Conway–Sloane, *SPLAG*, Chapter 4 §§6–8). The route: the diagonal Cartan
+entries are 2, and the Cartan matrix of a simply-laced type is positive definite.
+
+*Needs:* Tau Ceti `DynkinType.cartanMatrix`, `DynkinType.simplyConnectedRootDatum`; the
+integral-lattices foundation.
+
+*In Tau Ceti:* `DynkinType.rootLattice`, `DynkinType.simpleRootBasis`, `DynkinType.gramMatrix_simpleRootBasis`, `DynkinType.finrank_rootLattice`, `DynkinType.isEven_rootLattice`, `DynkinType.isPosDef_rootLattice`, `DynkinType.rootLatticeRoot`, `DynkinType.norm_rootLattice_eq_two_iff`, `DynkinType.span_vectorsOfNorm_two_rootLattice`.
+
+### 1.2 Glue alphabets
+
+For each component `T`, define its glue alphabet, a finite quadratic module: `ℤ/(n+1)` for `Aₙ`,
+the Klein four group `ℤ/2 × ℤ/2` for `Dₙ` with `n` even, `ℤ/4` for `Dₙ` with `n` odd, `ℤ/3` for
+`E₆`, `ℤ/2` for `E₇` and the trivial group for `E₈`, with the Conway–Sloane labels of
+Convention 5 and the addition of labels they induce: the labels of `Dₙ` add by exclusive or of
+their binary digits when `n` is even (`[1] + [2] = [3]`) and modulo 4 when `n` is odd. For `T`
+valid, construct an isometry of finite quadratic modules, preserving the quadratic form and so the
+pairing, from the glue alphabet onto the discriminant quadratic module `A_{Q_T} = Q_T^∨/Q_T`,
+sending each label to the class of an explicit representative in `Q_T^∨`: the multiples of the
+first fundamental weight for `Aₙ`, the classes `s`, `v`, `c` for `Dₙ`, and the minuscule weights
+`ϖ₁` of `E₆` and `ϖ₇` of `E₇`. Prove that every glue alphabet is additively a product of cyclic
+groups of the orders of Convention 5, nondegenerate, and of order `|det|` of the Cartan matrix of
+`T` (Conway–Sloane, *SPLAG*, Chapter 4 §§6–8 and Chapter 16 §1). These refine the ADE
+discriminant calculations of the integral-lattices foundation; they are not a second computation
+with a disconnected quotient.
+
+*Needs:* §1.1; the ADE discriminant forms of the integral-lattices foundation.
+
+*In Tau Ceti:* `DynkinType.glueAlphabet`, `DynkinType.glueLabelEquiv`, `DynkinType.glueLabelAdd_D`, `DynkinType.glueAlphabetIsometry`, `DynkinType.nonempty_addEquiv_glueAlphabet`, `DynkinType.isNondegenerate_glueAlphabet`, `DynkinType.natCard_glueAlphabet`.
+
+**Checks.**
+
+- The `Dₙ` alphabets depend on the parity of `n`. In `D₇`, `[1] + [1] = [2]`: `2s − v` has
+  integer coordinates with even sum 6, so it lies in `D₇`. In `D₈`, `[1] + [1] = [0]` and
+  `[1] + [2] = [3]`. Reading every `Dₙ` alphabet as `ℤ/4` changes the generated subgroup in the
+  nine rows of the table with a `Dₙ` component of even rank (rows 1, 2, 5, 7, 9, 13, 14, 18, 19):
+  in row 1, `D₂₄`, it makes `[1]` of order 4, so that `[1]` generates all of `ℤ/4`. Reading every
+  one as the Klein group changes it in the three rows with a `Dₙ` component of odd rank, `A₁₅ D₉`,
+  `A₁₁ D₇ E₆` and `A₇² D₅²`.
+
+### 1.3 Ordered component lists
+
+For an ordered finite family of components `T₁, …, T_k`, form the orthogonal sum
+`R = Q_{T₁} ⊥ ⋯ ⊥ Q_{T_k}` and the module of glue words, the orthogonal sum of the glue
+alphabets, whose elements are the words `w = (w₁, …, w_k)` with one label per component.
+Construct the isometry of finite quadratic modules from the glue words onto `A_R`, acting on each
+component by the isometry of §1.2. Prove that it is natural: a componentwise family of isometries
+`Q_{Tᵢ} → Q_{Sᵢ}`, acting on labels by maps `gᵢ` compatible with the component isometries of
+§1.2, carries the class of `w` to the class of `(gᵢ(wᵢ))ᵢ`; and a permutation `σ` of the
+components carries the class of a word of the permuted components to the class of the permuted
+word, whose label in position `σ(k)` is the label of `w` in position `k`. Prove that the module of
+glue words is nondegenerate, of order `∏ᵢ |det|` of the Cartan matrices, and that the roots of `R`
+span `R` (Conway–Sloane, *SPLAG*, Chapter 4 §3; Ebeling, Chapter 1).
+
+*Needs:* §1.1, §1.2; the orthogonal sums of the integral-lattices foundation.
+
+*In Tau Ceti:* `DynkinType.Component`, `DynkinType.componentSumLattice`, `DynkinType.componentAlphabet`, `DynkinType.componentDiscriminantIsometry`, `DynkinType.componentSumIsometry`, `DynkinType.componentDiscriminantIsometry_natural`, `DynkinType.glueWordIsometry`, `DynkinType.discriminantQuadraticIsometry_pi_glueWordIsometry`, `DynkinType.discriminantQuadraticIsometry_piCongrLeft_glueWordIsometry`, `DynkinType.isNondegenerate_pi_glueAlphabet`, `DynkinType.natCard_pi_glueAlphabet`, `DynkinType.span_vectorsOfNorm_two_pi_rootLattice`.
+
+### 1.4 Coset minima
+
+For a component `T` and a label `a`, define the shortest norm `μ_T(a)` by the formulas of
+Convention 5: `i(n+1−i)/(n+1)` for the label `i` of `Aₙ`; `0, n/4, 1, n/4` for the labels
+`0, 1, 2, 3` of `Dₙ`; `4/3` for the nonzero labels of `E₆` and `3/2` for that of `E₇`; and `0`
+for the zero label and for `E₈`. Prove attainment and minimality, stated as `IsLeast`: for `T`
+valid, `μ_T(a)` is the least norm of a vector of `Q_T^∨` in the class labelled `a`, and some
+vector of that class has this norm. Deduce, for an ordered family of components and a word
+`w = (wᵢ)`, that `μ(w) = ∑ᵢ μ_{Tᵢ}(wᵢ)` is the least norm of a vector of `R^∨` in the class of
+`w`, again attained; and that the quadratic value of a label, and of a word, is half its shortest
+norm modulo `ℤ` (Conway–Sloane, *SPLAG*, Chapter 4 §§6–8).
+
+The integral-lattices foundation computes the discriminant form on chosen representatives; here
+every class needs its actual shortest vector, and without attainment the bound of §2.3 would say
+nothing about the glued lattices. The proof is family by family in the standard coordinate
+models: in `Aₙ = {x ∈ ℤ^{n+1} : ∑ xᵢ = 0}` the class `[i]` is minimised by the vectors with
+`n+1−i` coordinates `−i/(n+1)` and `i` coordinates `(n+1−i)/(n+1)`, by a rearrangement argument;
+in `Dₙ = {x ∈ ℤⁿ : ∑ xᵢ even}` the class `v` is minimised by the vectors `±eⱼ` and the two spinor
+classes by the `2^{n−1}` vectors with coordinates `±1/2` and the prescribed sign parity; the
+nonzero classes of `E₆` and `E₇` are minuscule, minimised by the 27, 27 and 56 minuscule weights
+of their Weyl orbits; `E₈` has trivial discriminant group.
+
+*Needs:* §1.2, §1.3; the Weyl-orbit description of the minuscule weights from Tau Ceti's root
+systems.
+
+*In Tau Ceti:* `DynkinType.glueMinimum`, `DynkinType.glueMinimum_A`, `DynkinType.glueMinimum_D_of_even`, `DynkinType.glueMinimum_D_of_odd`, `DynkinType.glueMinimum_E6`, `DynkinType.glueMinimum_E7`, `DynkinType.glueMinimum_E8`, `DynkinType.isLeast_glueMinimum`, `DynkinType.isLeast_sum_glueMinimum`, `DynkinType.quadratic_glueAlphabet_eq_glueMinimum_div_two`, `DynkinType.quadratic_pi_glueAlphabet_eq_sum_glueMinimum_div_two`.
+
+**Checks.**
+
+- `A₂₄`, label `[5]`: `μ = 5 · 20/25 = 4`, attained by the vector with twenty coordinates `−1/5`
+  and five coordinates `4/5`, of norm `20/25 + 80/25 = 4`. The representative `5ϖ₁` of the same
+  class has norm `25 · 24/25 = 24`: the norm of a fixed multiple of one weight is not the coset
+  minimum.
+
+### 1.5 Glue patterns and decoding
+
+Define the three kinds of glue pattern: a literal word; a word with one marked block, rotated
+cyclically while its prefix and suffix stay fixed; and a word expanded by all even permutations
+of its positions. Define the expansion of a pattern, the finite set of digit words it denotes:
+the word itself; the words prefix, rotation of the block, suffix, an empty block giving the
+single word prefix then suffix; and the words obtained by composing the seed with every even
+permutation of the positions. Define the symmetries of a pattern: only the identity for a literal
+word, the powers of the rotation of the marked block for a cyclic pattern, and the even
+permutations of the positions for an even-permutation pattern. Define the decoder: a digit word is
+valid for an ordered family of components when it has one digit per component and each digit is
+less than the number of labels of that component's alphabet; decoding sends a valid word to the
+glue word of its labels and an invalid word to nothing. Prove that the seed lies in its
+expansion, that the expansion of a cyclic pattern consists of the prefix–rotation–suffix words
+and that of an even-permutation pattern of the words `seed ∘ σ` for `σ` even, that a word is
+decoded exactly when it is valid, and that decoding is natural under a permutation `σ` of the
+components: reindexing the digits of a word by `σ` and decoding against the reindexed components
+gives the reindexed decoded word (Conway–Sloane, *SPLAG*, Chapter 16 §1).
+
+*Needs:* §1.2, §1.3; Mathlib `List.cyclicPermutations`, `alternatingGroup`.
+
+*In Tau Ceti:* `GluePattern`, `GluePattern.expand`, `GluePattern.expand_cyclic`, `GluePattern.mem_expand_evenPermutations_iff`, `GluePattern.seed_mem_expand_cyclic`, `GluePattern.seed_mem_expand_evenPermutations`, `GluePattern.symmetries`, `IsValidGlueWord`, `decodeGlueWord`, `decodeGlueWord_isSome_iff`, `GluePattern.decodedWords`, `decodeGlueWord_ofFn_comp`.
+
+**Checks.**
+
+- `E₆⁴`, `[1(012)]`: the expansion is `{[1012], [1120], [1201]}`, generating a subgroup of order
+  9. Rotating the whole word `(1012)` instead would add the word `[0121]`, whose shortest norm
+  `3 · 4/3 = 4` is even but which is not in that subgroup: a word `a · [1012] + b · [1120]` with
+  first label `0` and second label `1` has `b = 1`, `a = 2` and third label `1`, not `2`.
+
+### Examples
+
+- `A₁`: the root lattice is `ℤα` with `B(α, α) = 2`; the alphabet is `ℤ/2`, and the label `[1]` is
+  the class of `α/2`, of shortest norm `1/2` and quadratic value `1/4`. A word of `A₁²⁴` with `k`
+  labels `[1]` has shortest norm `k/2`.
+- `E₇`: the alphabet is `ℤ/2`; its nonzero class has shortest norm `3/2`, attained by the 56
+  minuscule weights, and quadratic value `3/4`.
+
+### Dependencies
+
+Tau Ceti: the Dynkin types with their Cartan matrices and simply-connected root data, and the
+integral lattices, orthogonal sums, discriminant quadratic modules and ADE discriminant forms of
+the integral-lattices foundation. No earlier layer of this roadmap and no other roadmap.
+
 ## Layer 2: the checked Conway–Sloane data table
 
-The rows of the table are the 23 constructors of `RootfulNiemeierType`, in the descending
-root-count order of Conway–Sloane, *SPLAG*, Table 16.1 and Conway–Sloane 1982, Table V. For a row
-`r` with ordered components `R = (T₁, …, T_k)`, the glue words form the product of the component
-alphabets (`RootfulNiemeierType.glueModule`, the discriminant quadratic module of `R` through
-`DynkinType.glueWordIsometry`), and `H_r` is the subgroup generated by the decoded words of the
-row's patterns under its span mode (`RootfulNiemeierType.glueSubgroup`). The data are the
-following; products such as `(ℤ/2)^4` are group structures, not only cardinalities, and the order
-of `H` is the expected order of the generated subgroup.
+Define the table: an index with exactly 23 constructors, the source-row identifiers, in the
+descending root-count order of Conway–Sloane, *SPLAG*, Table 16.1 and Conway–Sloane 1982,
+Table V, together with the data of each row `r`, given as functions on the index: the ordered list
+of components `R = (T₁, …, T_k)`, the common Coxeter number `h`, a presentation of `A_R` as a
+product of cyclic groups `∏ ℤ/dⱼ`, the glue patterns, the span mode, the expected order of `H`
+and the root count. The Lean data are the input; a parser for the typography below is not. For a
+row `r`, the glue words of `r` are the glue words of its ordered components (§1.3), and `H_r` is
+the subgroup generated by the decoded words (§1.5) of the row's patterns under its span mode
+(Convention 6). The data are the following; products such as `(ℤ/2)^4` are group structures, not
+only cardinalities, and the order of `H` is the expected order of the generated subgroup.
 
 | row | ordered root system `R` | `h` | `A_R` | glue generators | span | order of `H` | roots |
 | ---: | --- | ---: | --- | --- | --- | ---: | ---: |
@@ -140,17 +294,25 @@ of `H` is the expected order of the generated subgroup.
 | 22 | `A₂^12` | 3 | `(ℤ/3)^12` | `[2(11211122212)]` | additive | 729 | 72 |
 | 23 | `A₁^24` | 2 | `(ℤ/2)^24` | `[1(00000101001100110101111)]` | additive | 4096 | 48 |
 
-Each row has total rank 24, every component has the displayed Coxeter number `h` (its number of
-roots is its rank times `h`), `A_R` is additively the displayed product of cyclic groups, every
-expanded word is a valid word for the ordered components, the root count is the sum of the component
-counts `#Aₙ = n(n+1)`, `#Dₙ = 2n(n−1)`, `#E₆ = 72`, `#E₇ = 126`, `#E₈ = 240`, every `H_r` is
-isotropic, and the order of `H` squared is `|A_R|` (`RootfulNiemeierType.sum_rank_components`,
-`RootfulNiemeierType.numRoots_eq_rank_mul_coxeterNumber`,
-`RootfulNiemeierType.nonempty_addEquiv_discriminantGroup`,
-`RootfulNiemeierType.isValidGlueWord_of_mem_glueWords`,
-`RootfulNiemeierType.sum_numRoots_components`, `RootfulNiemeierType.isIsotropic_glueSubgroup`,
-`RootfulNiemeierType.glueOrder_sq_eq_natCard_glueModule`). The sections below complete the finite
-checks.
+Prove, each as one theorem over the index by finite calculation:
+
+- every row has total rank 24;
+- every component of a row has the displayed Coxeter number `h`: its number of roots is its rank
+  times `h`;
+- `A_R` is additively equivalent to the displayed product of cyclic groups, whose factors are those
+  of the component alphabets, concatenated in the component order;
+- every expanded word of a row is a valid glue word for its ordered components, so that decoding
+  discards no word of the table; and the `𝔽₄`-linear span mode is used exactly for the row `D₄⁶`,
+  all of whose components are `D₄`, so that the scalars of `𝔽₄` act on every label it reads;
+- the square of the displayed order of `H` is `|A_R|`.
+
+*In Tau Ceti:* `RootfulNiemeierType`, `RootfulNiemeierType.card`, `RootfulNiemeierType.components`, `RootfulNiemeierType.coxeterNumber`, `RootfulNiemeierType.discriminantFactors`, `RootfulNiemeierType.gluePatterns`, `GlueSpanMode`, `GlueSpanMode.scalarOrbit`, `RootfulNiemeierType.spanMode`, `RootfulNiemeierType.glueOrder`, `RootfulNiemeierType.rootCount`, `RootfulNiemeierType.glueWords`, `RootfulNiemeierType.glueModule`, `RootfulNiemeierType.glueGenerators`, `RootfulNiemeierType.glueSubgroup`, `RootfulNiemeierType.sum_rank_components`, `RootfulNiemeierType.numRoots_eq_rank_mul_coxeterNumber`, `RootfulNiemeierType.discriminantFactors_eq`, `RootfulNiemeierType.nonempty_addEquiv_discriminantGroup`, `RootfulNiemeierType.isValidGlueWord_of_mem_glueWords`, `RootfulNiemeierType.spanMode_eq_f4Linear_iff`, `RootfulNiemeierType.eq_D_four_of_spanMode_eq_f4Linear`, `RootfulNiemeierType.glueOrder_sq_eq_natCard_glueModule`.
+
+Every row has five finite checks, each one theorem over the index (Convention 7): (1) `H_r` has
+the displayed order (§2.1); (2) every word of `H_r` has quadratic value zero (§2.4); (3) `H_r` is
+Lagrangian, `H_r = H_r^⊥` (§2.2); (4) every nonzero word of `H_r` has shortest norm at least 4
+(§2.3); (5) the component root counts add up to the displayed root count (§2.5). The row `D₄⁶`
+has in addition the lemma of §2.6.
 
 ### 2.1 The order of each glue subgroup
 
@@ -186,10 +348,10 @@ row-by-row orders `RootfulNiemeierType.natCard_glueSubgroup_of_ne` (the 19 rows 
 Prove `isLagrangian_glueSubgroup`: for every row `r`, `H_r` is a quadratic Lagrangian of `A_R`:
 it is isotropic for the discriminant quadratic form and equals its orthogonal complement `H_r^⊥`
 for the discriminant bilinear form (Chenevier 2020, §5.1 (a), (c) and §5.3). The route: `H_r` is
-isotropic, `A_R` is nondegenerate, so `|H_r| · |H_r^⊥| = |A_R|`, and §2.1 with `|H|² = |A_R|`
-forces `H_r = H_r^⊥`.
+isotropic (§2.4), `A_R` is nondegenerate, so `|H_r| · |H_r^⊥| = |A_R|`, and §2.1 with
+`|H|² = |A_R|` forces `H_r = H_r^⊥`.
 
-*Needs:* §2.1; Tau Ceti `RootfulNiemeierType.isIsotropic_glueSubgroup`,
+*Needs:* §2.1, §2.4; Tau Ceti `RootfulNiemeierType.isIsotropic_glueSubgroup`,
 `RootfulNiemeierType.glueOrder_sq_eq_natCard_glueModule`,
 `DynkinType.isNondegenerate_pi_glueAlphabet`; or, row by row,
 `RootfulNiemeierType.isLagrangian_glueSubgroup_of_ne`,
@@ -209,11 +371,11 @@ forces `H_r = H_r^⊥`.
 Prove `four_le_sum_glueMinimum_of_mem_glueSubgroup`: for every row `r` and every nonzero
 `w ∈ H_r`, `μ(w) = ∑ᵢ μ_{Tᵢ}(wᵢ) ≥ 4` (Conway–Sloane, *SPLAG*, Chapter 16 §1, with the coset
 minima of Chapter 4 §§6–8). Since `μ(w)` is the least norm of a vector of `R^∨` in the class `w`,
-attained (`DynkinType.isLeast_sum_glueMinimum`), the statement says that every vector of `R^∨`
-whose class is a nonzero element of `H_r` has norm at least 4. Without attainment of the minima
-this bound would say nothing about the glued lattice.
+attained (§1.4, `DynkinType.isLeast_sum_glueMinimum`), the statement says that every vector of
+`R^∨` whose class is a nonzero element of `H_r` has norm at least 4. Without attainment of the
+minima this bound would say nothing about the glued lattice.
 
-*Needs:* Tau Ceti `DynkinType.glueMinimum`; the row-by-row bounds
+*Needs:* §1.4; Tau Ceti `DynkinType.glueMinimum`; the row-by-row bounds
 `RootfulNiemeierType.four_le_sum_glueMinimum_of_mem_glueSubgroup_of_ne`,
 `RootfulNiemeierType.four_le_sum_glueMinimum_of_mem_glueSubgroup_a1TwentyFourth`,
 `RootfulNiemeierType.four_le_sum_glueMinimum_of_mem_glueSubgroup_d4Sixth`,
@@ -231,35 +393,92 @@ this bound would say nothing about the glued lattice.
   here: `2 · [111] = [2 2 2]` has `μ = 20/12 + 1 + 4/3 = 4`, whereas a Klein reading of `D₇` would
   give `[2 0 2]` with `μ = 3`, which is not even.
 
+### 2.4 Isotropy of every glue subgroup
+
+Prove: for every row `r`, every word `w ∈ H_r` has quadratic value `q(w) = 0` for the discriminant
+quadratic form of `A_R`, that is, `H_r` is isotropic; equivalently, by §1.4 and Convention 2, the
+shortest norm `μ(w)` of every `w ∈ H_r` is an even integer (Conway–Sloane, *SPLAG*, Chapter 16 §1).
+It is a single theorem over the index. The route checks that the quadratic value vanishes on every
+generator and on the sum of every two generators; for a quadratic form this makes the polar
+pairing vanish on the generators, and so the form vanish on the subgroup they generate.
+
+*Needs:* §1.4, §1.5.
+
+*In Tau Ceti:* `RootfulNiemeierType.isIsotropic_glueSubgroup`.
+
+**Checks.**
+
+- Isotropic generators do not make an isotropic subgroup: in `D₆⁴` every permutation of `(0123)`
+  is a word of shortest norm `3/2 + 1 + 3/2 = 4`, but `[0123] + [1023] = [1100]` has shortest norm
+  3. The check is made on the generated subgroup, not on the list of generators.
+
+### 2.5 The displayed root counts
+
+Prove: for every row `r`, the sum over its components of their numbers of roots, given by the
+component formulae `#Aₙ = n(n+1)`, `#Dₙ = 2n(n−1)`, `#E₆ = 72`, `#E₇ = 126` and `#E₈ = 240`, is the
+displayed root count of the row (Conway–Sloane, *SPLAG*, Table 16.1; Conway–Sloane 1982, Table V).
+The root count is entered independently of the components, so this checks the transcription; the
+roots of `N_r` are determined in §3.2, not here.
+
+*In Tau Ceti:* `DynkinType.numRoots`, `RootfulNiemeierType.sum_numRoots_components`.
+
+**Checks.**
+
+- `A₁₁ D₇ E₆`: `11 · 12 + 2 · 7 · 6 + 72 = 132 + 84 + 72 = 288`, the displayed count. The count
+  `2n²` of `Bₙ` and `Cₙ` in place of `2n(n−1)` for `D₇` would give `302`.
+
+### 2.6 The row `D₄⁶`
+
+For the row `D₄⁶`, read the `D₄` labels in `𝔽₄` as in Convention 6: `0 ↦ 0`, `1 = s ↦ ω`,
+`2 = v ↦ 1`, `3 = c ↦ ω²`. Prove: the ordinary additive closure of the printed words `[111111]`
+and the five rotations of `[0(02332)]` has order 32 (binary rank 5) and is a proper subgroup of
+`H_{D₄⁶}`, so it is not the row subgroup; `H_{D₄⁶}`, the `𝔽₄`-linear span of the printed words, is
+the additive closure of the printed words together with `[222222] = ω² · [111111]`; this subgroup
+has order 64, is closed under multiplication by every scalar of `𝔽₄`, in particular by `ω`, and is
+carried onto the hexacode `Hexacode.code ω` by the coordinate scalings `[ω, ω, 1, ω², ω², 1]`
+(Conway–Sloane, *SPLAG*, Chapter 16 §1). This row-specific lemma is required in addition to the
+uniform checks.
+
+*Needs:* §1.2, §1.5; Tau Ceti `Hexacode.code`.
+
+*In Tau Ceti:* `natCard_closure_d4SixPrintedDigits`, `RootfulNiemeierType.closure_decodedWords_lt_glueSubgroup_d4Sixth`, `RootfulNiemeierType.replicate_two_mem_glueWords_d4Sixth`, `d4SixGlueSubgroup`, `d4SixGlueSubgroup_def`, `RootfulNiemeierType.map_glueSubgroup_d4Sixth`, `natCard_d4SixGlueSubgroup`, `d4SixQuaternaryIsometry_symm_smul_mem_d4SixGlueSubgroup`, `map_d4SixGlueSubgroup_d4SixHexacodeIsometry`.
+
 ### Examples
 
 - Row 3, `E₈³`: `A_R` and `H` are trivial and `N = R = E₈³`. Row 1, `D₂₄`, glues along the
   spinor class of the Klein alphabet of `D₂₄`, of shortest norm `24/4 = 6`. Row 4, `A₂₄`, glues
   along the proper subgroup of order 5 of the cyclic group `ℤ/25`. These three rows go through
   the same definitions as the others.
-- Row 19, `D₄⁶`: the `𝔽₄`-linear span of the printed words is carried onto the hexacode by the
-  coordinate scalings `[ω, ω, 1, ω², ω², 1]`, and it is closed under multiplication by `ω`, which
-  on `D₄` labels is the permutation `1 ↦ 3 ↦ 2 ↦ 1`.
+- Row 19, `D₄⁶`: multiplication by `ω` acts on the `D₄` labels as the permutation
+  `1 ↦ 3 ↦ 2 ↦ 1`, so that `ω · [111111] = [333333]` and `ω² · [111111] = [222222]`.
 
 ### Dependencies
 
-Tau Ceti: the table `RootfulNiemeierType` and its columns, glue patterns, glue words and their
-decoding, the glue alphabets with their labels and shortest norms, the row-by-row checks, and the
-finite quadratic modules of the integral-lattices foundation. No earlier layer of this roadmap
-and no other roadmap.
+Layer 1 (§1.2 and §1.3 for the glue words, §1.4 for §2.3 and §2.4, §1.5 for the decoded words).
+Tau Ceti: the finite quadratic modules of the integral-lattices foundation, the hexacode of the
+algebraic-coding foundation for §2.6, and the row-by-row checks named in §2.1–§2.3. No other
+roadmap.
 
 ## Layer 3: constructing the 23 rootful lattices
 
-For a row `r`, `R_r` is the orthogonal sum of the root lattices of its components
-(`RootfulNiemeierType.rootLattice`), and `N_r` is `RootfulNiemeierType.lattice r`, the lattice
-`R_r.ofIsotropicSubgroup(H_r)` obtained by transporting `H_r` through the discriminant isometry
-`DynkinType.glueWordIsometry` (`RootfulNiemeierType.lattice_def`). It satisfies
-`x ∈ N_r ↔ x ∈ R_r^∨ ∧ (x mod R_r) ∈ H_r` (`RootfulNiemeierType.mem_lattice_carrier_iff`), is
-spanned by `R_r` and representatives of the glue generators
-(`RootfulNiemeierType.lattice_carrier_eq_sup_span`), has discriminant module `H_r^⊥/H_r`
-(`DynkinType.gluedLatticeDiscriminantIsometry`), and is even, positive definite and of rank 24
-(`RootfulNiemeierType.isEven_lattice`, `RootfulNiemeierType.isPosDef_lattice`,
-`RootfulNiemeierType.finrank_lattice`).
+For a row `r`, let `R_r` be the orthogonal sum of the root lattices of its components (§1.3).
+Define `N_r = R_r.ofIsotropicSubgroup(H_r)`, the overlattice obtained by transporting the
+isotropic subgroup `H_r` (§2.4) through the inverse of the discriminant isometry of glue words
+(§1.3): `N_r = {x ∈ R_r^∨ : x + R_r ∈ H_r}`.
+
+- `N_r` is even, and its discriminant quadratic module is isometric to `H_r^⊥/H_r`, where `H_r^⊥`
+  is the orthogonal complement of `H_r` among the glue words.
+- `N_r` is positive definite, its form being that of `R_r`, and has rank 24, the total rank of
+  the components.
+- A vector lies in `N_r` exactly when it lies in `R_r^∨` and the glue word of its class lies in
+  `H_r`; `R_r` is a sublattice of `N_r` of index `|H_r|`.
+- If `rep(w) ∈ R_r^∨` represents the class of each glue generator `w`, then `N_r` is spanned by
+  `R_r` and the vectors `rep(w)`; the representatives can be chosen of norm `μ(w)`, so that every
+  row lattice has explicit generators.
+
+(Conway–Sloane, *SPLAG*, Chapter 16 §1; Ebeling, Chapter 1.)
+
+*In Tau Ceti:* `RootfulNiemeierType.rootLattice`, `RootfulNiemeierType.lattice`, `RootfulNiemeierType.lattice_def`, `RootfulNiemeierType.isEven_lattice`, `DynkinType.gluedLatticeDiscriminantIsometry`, `RootfulNiemeierType.isPosDef_lattice`, `RootfulNiemeierType.finrank_lattice`, `RootfulNiemeierType.mem_lattice_carrier_iff`, `RootfulNiemeierType.rootLattice_carrier_le_lattice_carrier`, `RootfulNiemeierType.relIndex_rootLattice_lattice`, `RootfulNiemeierType.lattice_carrier_eq_sup_span`, `RootfulNiemeierType.exists_lattice_carrier_eq_sup_span_glueMinimum`.
 
 ### 3.1 Unimodularity of the 23 lattices
 
@@ -316,6 +535,19 @@ constants.
 
 *Needs:* §3.1, §3.2; Tau Ceti `RootfulNiemeierType.lattice`.
 
+### 3.4 The displayed root systems are distinct
+
+Prove that the 23 displayed root systems are pairwise distinct as multisets of components, that
+is, up to reordering the components: two rows with the same multiset of components are the same
+row. This is a fact about the data of the table. It does not say that the lattices exhaust or
+classify any class of lattices, and on its own it does not separate the lattices `N_r` up to
+isometry, which uses the root theorem of §3.2 (see Downstream consumers). The route: the multiset
+of pairs (rank, number of roots) of the components already separates the 23 rows.
+
+*Needs:* the table of Layer 2.
+
+*In Tau Ceti:* `RootfulNiemeierType.components_multiset_injective`.
+
 ### Examples
 
 - `D₁₆ E₈`: `N = D₁₆⁺ ⊕ E₈`, where `D₁₆⁺` is `D₁₆` glued along its
@@ -325,38 +557,86 @@ constants.
 
 ### Dependencies
 
-Layer 2 (§2.1 for §3.1, §2.3 for §3.2). Tau Ceti: the row lattices and their gluing API, glued
-lattices of ADE root lattices with their root and unimodularity criteria. No other roadmap.
+Layer 1 (§1.3 for `R_r` and its glue words, §1.4 for §3.2), Layer 2 (§2.4 for the definition of
+`N_r`, §2.1 for §3.1, §2.3 for §3.2). Tau Ceti: glued lattices of ADE root lattices with their root
+and unimodularity criteria. No other roadmap.
 
 ## Layer 4: code identifications and mixed-component acceptance tests
 
-The comparison of the row `A₂¹²` with the extended ternary Golay code uses the destination-to-
-source permutation `p = [0, 4, 7, 10, 9, 5, 1, 8, 6, 11, 3, 2]` (`a2TwelfthDestinationToSource`)
-and the signs `ε = [1, 2, 2, 1, 1, 1, 1, 2, 2, 1, 2, 1]` in `ℤ/3` (`a2TwelfthSign`), in
-destination order. The glue isometry `a2TwelfthGolayIsometry` sends a word `w` in table
-coordinates to `(εⱼ · w_{p(j)})ⱼ` in Golay coordinates: source coordinate `p(j)` is scaled by the
-`j`-th sign and moved to `j`. It carries the glue of the pattern `[2(11211122212)]` onto
-`TernaryGolay.code` (`map_a2TwelfthGlueSubgroup_eq_ternaryGolay`). A comparison with a code
-displays its coordinate equivalence and proves that it preserves the quadratic form: "both are
-Golay codes", an unspecified additive equivalence or "isomorphic to the hexacode" is not an
-identification.
+The long digit patterns are cross-checked against independently constructed codes, and the mixed
+alphabets are exercised, through the same glue words and row lattices as the generic table
+theorems. A comparison with a code displays its coordinate equivalence and proves that it
+preserves the quadratic form: "both are Golay codes", an unspecified additive equivalence or
+"isomorphic to the hexacode" is not an identification.
 
-### 4.1 The row-`A₂¹²` lattice and the ternary Golay code
+### 4.1 The row `A₁²⁴` and binary Golay Construction A
+
+Let `p` be the destination-to-source permutation
+`p = [0, 1, 2, 6, 5, 13, 10, 15, 17, 4, 18, 19, 11, 7, 14, 12, 3, 8, 23, 20, 22, 9, 21, 16]`
+between the systematic coordinates `Fin 24` of the binary Golay code `C` (Convention 8) and the
+table order; all scalings are one. A word `w` in table coordinates goes to the word `(w_{p(j)})ⱼ`
+in Golay coordinates: the map is `monomialEquiv 1 p⁻¹`, which moves table coordinate `p(j)` to
+Golay coordinate `j`. Prove:
+
+1. read through the identification of the `A₁` alphabet with `ℤ/2` in every coordinate, this map
+   is an isometry of finite quadratic modules from the `A₁²⁴` glue words onto the coordinate power
+   `(ℤ/2)^24` of the `A₁` discriminant module, and it carries the subgroup generated by
+   `[1(00000101001100110101111)]`, that is `H_{A₁²⁴}`, exactly onto `C`;
+2. the isometry from the orthogonal sum `(A₁)^24` onto the Construction-A lattice of the zero code
+   that doubles the simple-root coordinates and moves table coordinate `p(j)` to `j` induces on
+   discriminant groups, the discriminant group of the zero-code lattice being read as `(ℤ/2)^24`,
+   exactly the isometry of item 1;
+3. the row lattice `N_{A₁²⁴}` is isometric to the Construction-A lattice of `C`, by the isometry
+   whose Golay coordinate `j` is twice the simple-root coordinate of the table component `p(j)`.
+
+That lattice is rootful, with root system `A₁²⁴`, and it is not the Leech lattice of Layer 6
+(Conway–Sloane, *SPLAG*, Chapter 16 §1; Ebeling, Chapter 3).
+
+*Needs:* Layer 3 (`N_r`); Tau Ceti `BinaryGolay.code`, `BinaryGolay.constructionALattice`,
+`monomialEquiv`.
+
+*In Tau Ceti:* `a1TableToGolayPerm`, `a1TableToGolayMonomial`, `a1TableToGolayIsometry`, `map_a1TwentyFourGlueSubgroup_a1TableToGolayIsometry`, `RootfulNiemeierType.map_glueSubgroup_a1TwentyFourth`, `RootfulNiemeierType.mem_glueSubgroup_a1TwentyFourth_iff`, `a1TableRootToZeroIsometry`, `discriminantEquiv_a1TableRootToZeroIsometry_glueWordIsometry`, `RootfulNiemeierType.a1TwentyFourthLatticeConstructionAIsometry`, `RootfulNiemeierType.a1TwentyFourthLatticeConstructionAIsometry_apply`.
+
+**Checks.**
+
+- A Golay word of the minimum weight 8 is a glue word with eight labels `[1]`, of shortest norm
+  `8 · 1/2 = 4`: the minimum distance 8 of `C` is the bound of §2.3 for this row. The
+  Construction-A lattice contains the 48 vectors `±2eᵢ`, of norm `4/2 = 2` under the form of
+  Convention 8; they are the roots of `A₁²⁴`, so the lattice is not rootless.
+
+### 4.2 The `A₂¹²` glue and the ternary Golay code
+
+Let `p = [0, 4, 7, 10, 9, 5, 1, 8, 6, 11, 3, 2]` and `ε = [1, 2, 2, 1, 1, 1, 1, 2, 2, 1, 2, 1]` in
+`ℤ/3`, both in destination (Golay) order. Prove that the map sending a word `w` in table
+coordinates to `(εⱼ · w_{p(j)})ⱼ` in Golay coordinates, which scales source coordinate `p(j)` by
+`εⱼ` and moves it to `j` (`monomialEquiv` scales a source coordinate before moving it), is an
+isometry of finite quadratic modules from the `A₂¹²` glue words onto the coordinate power of the
+`A₂` alphabet, and that it carries the subgroup generated by the pattern `[2(11211122212)]`, onto
+which the identity on glue words carries `H_{A₂¹²}`, exactly onto the extended ternary Golay code
+`TernaryGolay.code` (Conway–Sloane, *SPLAG*, Chapter 16 §1). The scalings are `±1`, units of
+square 1, so they preserve both the `A₂` half-norm and its polar pairing; a bare monomial
+equivalence of `(ℤ/3)^12` does not carry that proof.
+
+*Needs:* §1.2, §1.5, the table of Layer 2; Tau Ceti `TernaryGolay.code`, `monomialEquiv`.
+
+*In Tau Ceti:* `a2TwelfthDestinationToSource`, `a2TwelfthSign`, `a2TwelfthSign_values`, `a2TwelfthGolayIsometry`, `a2TwelfthGolayIsometry_apply`, `a2TwelfthGlueSubgroup`, `map_a2TwelfthGlueSubgroup_eq_ternaryGolay`, `RootfulNiemeierType.map_glueSubgroup_a2Twelfth`.
+
+### 4.3 The row-`A₂¹²` lattice and the ternary Golay code
 
 Prove that the row-22 lattice `N_{A₂¹²}` (`RootfulNiemeierType.lattice` at the row
 `RootfulNiemeierType.a2Twelfth`) is isometric to the overlattice of the twelfth coordinate power of
 the `A₂` root lattice attached to the ternary Golay code (`codeInTypeA2CoordinatePowerDiscriminant
 TernaryGolay.code.toAddSubgroup`), by an isometry that moves the `A₂` component in table position
-`p(j)` to position `j` and multiplies it by `εⱼ = ±1` (Conway–Sloane, *SPLAG*, Chapter 16 §1;
-Ebeling, Chapters 1 and 3). The signs are units of square 1, so they preserve both the `A₂`
-half-norm and its polar pairing; a bare monomial equivalence of `(ℤ/3)^12` carries neither a proof
-that it preserves the quadratic form nor a lift to the root lattices, so the statement is made for
-the lattice isometry. The route:
+`p(j)` to position `j` and multiplies it by `εⱼ = ±1`, with `p` and `ε` as in §4.2 (Conway–Sloane,
+*SPLAG*, Chapter 16 §1; Ebeling, Chapters 1 and 3). The signs are units of square 1, so they
+preserve both the `A₂` half-norm and its polar pairing; a bare monomial equivalence of `(ℤ/3)^12`
+carries neither a proof that it preserves the quadratic form nor a lift to the root lattices, so
+the statement is made for the lattice isometry. The route:
 `RootfulNiemeierType.map_glueSubgroup_a2Twelfth` and `DynkinType.gluedLatticeIsometryOfEq` identify
 `N_{A₂¹²}` with `a2TwelfthLattice`, and `a2TwelfthTernaryGolayIsometry` carries that lattice onto
 the code overlattice.
 
-*Needs:* Tau Ceti `RootfulNiemeierType.map_glueSubgroup_a2Twelfth`,
+*Needs:* §4.2; Tau Ceti `RootfulNiemeierType.map_glueSubgroup_a2Twelfth`,
 `DynkinType.gluedLatticeIsometryOfEq`, `a2TwelfthTernaryGolayIsometry`,
 `codeInTypeA2CoordinatePowerDiscriminant`.
 
@@ -367,36 +647,92 @@ the code overlattice.
   for this row, and a code of minimum distance 3 would give glue vectors of norm 2, that is, new
   roots.
 
+### 4.4 The `D₄⁶` glue and the hexacode
+
+Identify the `D₄` labels `0, 1, 2, 3` with `0, ω, 1, ω²` in the pinned `𝔽₄` (Convention 6). Prove
+that the map reading each label in `𝔽₄` and then multiplying the six coordinates by the
+destination scalings `[ω, ω, 1, ω², ω², 1]`, the coordinate order unchanged, is an isometry of
+finite quadratic modules from the `D₄⁶` glue words onto the sixth coordinate power of the `D₄`
+alphabet in its `𝔽₄` coordinates, whose polar pairing is the traced Hermitian form
+`∑ⱼ Tr(xⱼ yⱼ²)/2`; that it carries `H_{D₄⁶}`, the `𝔽₄`-linear span of the printed words
+`[111111]` and `[0(02332)]` (§2.6), exactly onto the hexacode `Hexacode.code ω`; and that
+`H_{D₄⁶}` is a quadratic Lagrangian (Conway–Sloane, *SPLAG*, Chapter 16 §1). Each nonzero scale `u` satisfies
+`u³ = 1`, so it preserves both the half-norm and the polar pairing; the isotropy is verified from
+this coordinate form, not from the Hermitian self-duality of the hexacode alone.
+
+*Needs:* §2.6; Tau Ceti `Hexacode.code`.
+
+*In Tau Ceti:* `typeD4GlueAlphabetQuaternaryIsometry_glueLabelEquiv`, `d4SixHexacodeIsometry`, `coe_d4SixHexacodeScaling`, `map_d4SixGlueSubgroup_d4SixHexacodeIsometry`, `RootfulNiemeierType.map_glueSubgroup_d4Sixth`, `isLagrangian_d4SixGlueSubgroup`, `RootfulNiemeierType.isLagrangian_glueSubgroup_d4Sixth`.
+
+### 4.5 The mixed row `A₁₁ D₇ E₆`
+
+Prove that the glue word `[111]` of `A₁₁ D₇ E₆`, over the alphabets `ℤ/12`, `ℤ/4` (the odd `D₇`)
+and `ℤ/3`, has order 12 and quadratic value 0, with `μ([111]) = 11/12 + 7/4 + 4/3 = 4`; that its
+cyclic subgroup has order 12, is Lagrangian, has every nonzero word of shortest norm at least 4,
+and is the table subgroup `H_{A₁₁ D₇ E₆}`; and construct the lattice glued along it end to end:
+even, unimodular, positive definite, of rank 24 and with root system `A₁₁ D₇ E₆`
+(Conway–Sloane, *SPLAG*, Chapter 16 §1). The three alphabets are not modules over one field, so
+this row exposes any assumption that they are.
+
+*Needs:* Layer 1; the table of Layer 2.
+
+*In Tau Ceti:* `addOrderOf_a11d7e6GlueWord`, `quadratic_a11d7e6GlueWord`, `natCard_a11d7e6GlueSubgroup`, `isLagrangian_a11d7e6GlueSubgroup`, `four_le_sum_glueMinimum_of_mem_a11d7e6GlueSubgroup`, `RootfulNiemeierType.map_glueSubgroup_a11d7e6`, `a11d7e6Lattice`, `isEven_a11d7e6Lattice`, `isUnimodular_a11d7e6Lattice`, `isPosDef_a11d7e6Lattice`, `finrank_a11d7e6Lattice`, `span_vectorsOfNorm_two_a11d7e6Lattice`.
+
 ### Examples
 
-- The row `A₁²⁴`: the destination-to-source permutation
-  `p = [0, 1, 2, 6, 5, 13, 10, 15, 17, 4, 18, 19, 11, 7, 14, 12, 3, 8, 23, 20, 22, 9, 21, 16]`,
-  with all scalings one, sends a table word `w` to the Golay word `(w_{p(j)})ⱼ`; it carries the
-  glue of `[1(00000101001100110101111)]` onto the binary Golay code, and the row lattice is
-  isometric to the Construction-A lattice of that code. That lattice is rootful, with the 48 roots
-  `±2eᵢ` in Convention 8's normalisation, and is not the Leech lattice.
-- The mixed row `A₁₁ D₇ E₆`: `[111]` has order 12 and quadratic value 0, its cyclic subgroup has
-  order 12, and its lattice is built end to end with alphabets `ℤ/12`, `ℤ/4` and `ℤ/3`, which are
-  not modules over one field.
+- `A₁²⁴`: a glue word with `k` labels `[1]` has shortest norm `k/2`, so the Golay weights
+  `0, 8, 12, 16, 24` give `μ = 0, 4, 6, 8, 12`: all even, and at least 4 off zero.
+- `A₂¹²`: a glue word with `k` nonzero labels has shortest norm `2k/3`, so the ternary Golay
+  weights `0, 6, 9, 12` give `μ = 0, 4, 6, 8`.
+- `A₁₁ D₇ E₆`: `4 · [111] = [4 0 1]`, with `μ = 4 · 8/12 + 0 + 4/3 = 4`.
 
 ### Dependencies
 
-Tau Ceti: the `A₂¹²` glue and lattice comparison with the ternary Golay code, the gluing
-isometry `DynkinType.gluedLatticeIsometryOfEq`, and the code overlattices of the algebraic-coding
-foundation. No earlier layer of this roadmap and no other roadmap.
+Layer 1, Layer 2 (the row subgroups; §2.6 for §4.4), Layer 3 (the row lattices, for §4.1 and
+§4.3). Tau Ceti: the binary and ternary Golay codes, the hexacode, Construction A and the code
+overlattices of the algebraic-coding foundation, `monomialEquiv`, and the gluing isometry
+`DynkinType.gluedLatticeIsometryOfEq`. No other roadmap.
 
 ## Layer 5: functoriality and the actions used by the table
 
-A componentwise isometry of root lattices together with a permutation of components of equal
-type induces an isometry of the orthogonal sums and of their discriminant modules, and if it
-carries `H` to `H'` it induces an isometry `R_H ≅ R'_{H'}` of the glued lattices
-(`DynkinType.gluedLatticeIsometry`, `DynkinType.gluedLatticePiIsometry`,
-`DynkinType.gluedLatticePiCongrLeftIsometry`). Expanding a pattern and then permuting positions
-by one of its symmetries gives the same decoded words as permuting first
-(`GluePattern.decodedWords_comp`). This layer uses only these actions and the concrete
-symmetries of the table; it does not determine full automorphism groups.
+This layer develops only the action API needed to make coordinate choices and pattern symmetries
+harmless: the isometries induced on glued lattices, the concrete symmetries of the table, and the
+code automorphisms of the three code rows. It does not identify full stabilizers with Mathieu,
+Conway or umbral groups and does not determine full automorphism groups.
 
-### 5.1 Pattern symmetries of the rows
+### 5.1 Isometries induced on glued lattices
+
+Prove: let `R` and `R'` be orthogonal sums of root lattices of valid ADE components, `H` and `H'`
+isotropic subgroups of their glue words, and `e : R → R'` an isometry acting on glue words by a map
+`φ`, in the sense that `e` carries the class of each glue word `w` to the class of `φ(w)`. If
+`φ(w) ∈ H'` exactly when `w ∈ H`, then `e` restricts to an isometry `R_H ≅ R'_{H'}` of the glued
+lattices. In particular, a componentwise family of root-lattice isometries, acting on labels by
+maps compatible with the glue isometries of §1.2, and a permutation of components of equal type
+induce isometries of the orthogonal sums, of their discriminant modules (§1.3) and, when they
+carry `H` onto `H'`, of the glued lattices (Ebeling, Chapter 1; Conway–Sloane, *SPLAG*,
+Chapter 16 §1).
+
+*Needs:* §1.3.
+
+*In Tau Ceti:* `DynkinType.componentSumIsometry`, `DynkinType.gluedLatticeIsometry`, `DynkinType.gluedLatticePiIsometry`, `DynkinType.gluedLatticePiCongrLeftIsometry`.
+
+### 5.2 Expansion commutes with the pattern symmetries
+
+Prove: let `p` be a glue pattern and `g` one of its symmetries (§1.5). Permuting the seed of `p`
+by `g` and then expanding gives the same set of words as expanding `p`: rotating the marked block
+of a cyclic pattern, or composing the seed of an even-permutation pattern with an even
+permutation, leaves the expansion unchanged. Decoding is natural for `g`: the glue words decoded
+from `p` for the components permuted by `g` are the words decoded for the original components,
+with their labels permuted by `g`. Consequently, when `g` moves only positions of components of
+one type, expanding `p` and then permuting the coordinates by `g` gives the same words, and so the
+same generated subgroup, as permuting the seed by `g` and then expanding (Conway–Sloane, *SPLAG*,
+Chapter 16 §1).
+
+*Needs:* §1.5.
+
+*In Tau Ceti:* `GluePattern.expand_cyclic_rotate`, `GluePattern.expand_evenPermutations_comp`, `GluePattern.decodedWords_comp`.
+
+### 5.3 Pattern symmetries of the rows
 
 For a row `r`, a cyclic pattern or an even-permutation pattern of `r` has a symmetry group
 (`GluePattern.symmetries`): the powers of the rotation of its marked block, or the even
@@ -417,7 +753,7 @@ permutations of its positions, acting on the positions of components of one type
 
 (Conway–Sloane, *SPLAG*, Chapter 16 §1 for the patterns; Ebeling, Chapters 1 and 3 for gluing.)
 
-*Needs:* Tau Ceti `GluePattern.symmetries`, `GluePattern.decodedWords_comp`,
+*Needs:* §5.1, §5.2; Tau Ceti `GluePattern.symmetries`, `GluePattern.decodedWords_comp`,
 `RootfulNiemeierType.glueSubgroup_def`, `DynkinType.gluedLatticePiCongrLeftIsometry`,
 `DynkinType.gluedLatticePiIsometry`, `DynkinType.typeD4ScalarIsometry` (for item 2),
 `RootfulNiemeierType.lattice_def`.
@@ -432,7 +768,7 @@ permutations of its positions, acting on the positions of components of one type
 - `D₆⁴`: the transposition of the first two components is not a symmetry: it carries
   `[0123] ∈ H` to `[1023]`, and `[1023] − [0123] = [1100]` has shortest norm 3, so `[1023] ∉ H`.
 
-### 5.2 Golay-code automorphisms
+### 5.4 Golay-code automorphisms
 
 Prove: for every permutation `σ` of `Fin 24` carrying `BinaryGolay.code` onto itself, there is an
 isometry of the row lattice `N_{A₁²⁴}` that permutes its `A₁` components, so preserves `R`, and
@@ -445,13 +781,31 @@ that `monomialEquiv u σ` carries `TernaryGolay.code` onto itself, there is an i
 `a2TwelfthGolayIsometry`, is `monomialEquiv u σ`; the coordinate permutations are the case `u ≡ 1`
 (Conway–Sloane, *SPLAG*, Chapter 16 §1; Ebeling, Chapter 3). The code
 automorphism, the permutation of components and the lattice isometry are distinct objects, and
-the statement is the compatibility between them. The `D₄⁶` analogue, for monomial
-automorphisms of the hexacode, is `d4SixHexacodeAutIsometry`.
+the statement is the compatibility between them. The `D₄⁶` analogue, for monomial automorphisms
+of the hexacode, is §5.5.
 
-*Needs:* Tau Ceti `a1TableToGolayIsometry`, `RootfulNiemeierType.map_glueSubgroup_a1TwentyFourth`,
+*Needs:* §5.1; §4.1 (for `A₁²⁴`), with Tau Ceti `a1TableToGolayIsometry`,
+`RootfulNiemeierType.map_glueSubgroup_a1TwentyFourth`,
 `RootfulNiemeierType.a1TwentyFourthLatticeConstructionAIsometry`,
-`ConstructionA.integralLatticeReindexEquiv` (for `A₁²⁴`); `monomialEquiv`,
-`a2TwelfthGolayIsometry`, `DynkinType.gluedLatticePiIsometry` and §4.1 (for `A₂¹²`).
+`ConstructionA.integralLatticeReindexEquiv`; §4.2 and §4.3 (for `A₂¹²`), with Tau Ceti
+`monomialEquiv`, `a2TwelfthGolayIsometry`, `DynkinType.gluedLatticePiIsometry`.
+
+### 5.5 Hexacode automorphisms of `D₄⁶`
+
+Prove: for every `u : Fin 6 → 𝔽₄ˣ` and every permutation `σ` of `Fin 6` such that the monomial map
+`monomialEquiv u σ`, which multiplies hexacode coordinate `a` by `u(a)` and moves it to `σ(a)`,
+carries `Hexacode.code ω` onto itself, there is an isometry, onto itself, of the lattice glued from
+six copies of the `D₄` root lattice along `H_{D₄⁶}` (§2.6) that applies to the `D₄` component in
+position `a` the power of triality realising the scalar `c(σ(a))⁻¹ · u(a) · c(a)`, for the scalings
+`c = [ω, ω, 1, ω², ω², 1]` of §4.4, and moves it to position `σ(a)`; read in the hexacode
+coordinates of §4.4, its action on glue words is `monomialEquiv u σ` (Conway–Sloane, *SPLAG*,
+Chapter 16 §1; Ebeling, Chapter 3). As in §5.4, the code automorphism, the permutation of
+components and the lattice isometry are distinct objects, and the statement is their
+compatibility.
+
+*Needs:* §4.4, §5.1; Tau Ceti `DynkinType.typeD4ScalarIsometry`, `monomialEquiv`.
+
+*In Tau Ceti:* `d4SixLattice`, `d4SixHexacodeAutIsometry`, `d4SixHexacodeAutIsometry_apply`, `d4SixHexacodeIsometry_conj_monomialEquiv`.
 
 ### Examples
 
@@ -462,30 +816,43 @@ automorphisms of the hexacode, is `d4SixHexacodeAutIsometry`.
 
 ### Dependencies
 
-§4.1 (for the `A₂¹²` half of §5.2). Tau Ceti: the gluing isometries, glue patterns and their
-symmetries, `D₄` triality, the `A₁²⁴` and `A₂¹²` code identifications, and the Construction-A
-naturality of the algebraic-coding foundation. No other roadmap.
+Layer 1 (§1.3, §1.5), Layer 2 (the row subgroups), Layer 3 (the row lattices), Layer 4 (§4.1,
+§4.2 and §4.3 for §5.4; §4.4 for §5.5). Tau Ceti: the `D₄` triality isometry, and the
+Construction-A naturality of the algebraic-coding foundation. No other roadmap.
 
 ## Layer 6: the Leech lattice by Construction B and an odd shift
 
-In the coordinates of Convention 8, let `C = BinaryGolay.code` and let `K` be the Construction-B
-lattice `BinaryGolay.constructionBLattice`: the vectors `x` of the Construction-A lattice
-`BinaryGolay.constructionALattice` (integer vectors with `x mod 2 ∈ C`) with `∑ xᵢ ≡ 0 (mod 4)`.
-Equivalently, writing `x = c + 2z` with `c` the 0/1 lift of `x mod 2`, the sum `∑ zᵢ` is even;
-the equivalence uses that `C` is doubly even (`ConstructionB.val_add_two_mul_mem_lattice_iff`).
-Half the coordinate sum is a surjection of the Construction-A lattice onto `ℤ/2` with kernel `K`
-(`ConstructionB.sumHalf`), so `K` has index 2 and discriminant 4, the Construction-A lattice
-being unimodular; `K` is even. The odd shift is `s = (−3/2, 1/2, …, 1/2)` (`leechShift`), with
-`B(s, s) = 4`, `B(s, K) ⊆ ℤ`, `2s ∈ K` and `s ∉ K`. Its class generates the subgroup
-`H_s = leechShiftSubgroup` of order 2, isotropic and hence Lagrangian since `|A_K| = 4`, and the
-Leech lattice is `Λ = K.ofIsotropicSubgroup(H_s)` (`leechLattice`), so that `Λ = K ∪ (s + K)`
-(Conway–Sloane, *SPLAG*, Chapter 7 §5 and Chapter 10; Wilson, §5.4). It is even, unimodular,
-positive definite and of rank 24. A vector `x : Ω → ℚ` lies in `Λ` exactly when `x = a/2` with
-`a = m·𝟙 + 2b`, `m ∈ {0, 1}`, `b mod 2 ∈ C` and `∑ aᵢ ≡ 4m (mod 8)`; then `B(x, x) = ∑ aᵢ²/8`, and
-`∑ aᵢ² ≥ 32` for `x ≠ 0` by the Golay weights alone, so `Λ` has minimum 4, attained by `s`, and no
-roots (`mem_leechLattice_carrier_iff_exists`, `BinaryGolay.thirtyTwo_le_sum_sq`,
-`minimum_leechLattice`, `vectorsOfNorm_two_leechLattice`). No theta series, sphere-packing bound
-or uniqueness of a rootless lattice enters.
+In the coordinates of Convention 8, let `C = BinaryGolay.code`, the extended binary Golay code on
+`Ω = Fin 24`, and work in `Ω → ℚ` with the form `B(x, y) = (∑ᵢ xᵢ yᵢ)/2`. The Construction-A
+lattice of `C`, `{x ∈ ℤ^Ω : x mod 2 ∈ C}`, is then the usual `2^(−1/2) P₂(C)` without adjoining
+`√2`, and it is unimodular. The constructions of this layer use the checked Golay code and its
+weight theorems from the algebraic-coding foundation; no theta-series coefficient, sphere-packing
+bound or uniqueness of a rootless lattice of rank 24 enters (Conway–Sloane, *SPLAG*, Chapter 7 §5
+and Chapter 10; Wilson, §5.4).
+
+Define the Construction-B lattice `K`: the sublattice of the Construction-A lattice of `C`
+consisting of its vectors whose coordinate sum is divisible by 4.
+
+- Writing `x = c + 2z` with `c` the 0/1 lift of a codeword and `z` an integer vector, `x ∈ K`
+  exactly when `∑ zᵢ` is even; this uses that `C` is doubly even.
+- Half the coordinate sum, taken modulo 2, is a surjective homomorphism from the Construction-A
+  lattice onto `ℤ/2` with kernel `K`; so `K` has index 2 in the unimodular Construction-A lattice,
+  and discriminant 4.
+- `K` is an even integral lattice, positive definite and of rank 24, and its discriminant group
+  `A_K = K^∨/K` has order 4; its structure is §6.1.
+
+*In Tau Ceti:* `ConstructionB.lattice`, `ConstructionB.mem_lattice`, `ConstructionB.lattice_le`, `ConstructionB.val_add_two_mul_mem_lattice_iff`, `ConstructionB.sumHalf`, `ConstructionB.ker_sumHalf`, `ConstructionB.sumHalf_surjective`, `BinaryGolay.constructionBLattice`, `BinaryGolay.constructionBLattice_carrier_le`, `BinaryGolay.relIndex_constructionBLattice`, `BinaryGolay.discriminant_constructionBLattice`, `BinaryGolay.isEven_constructionBLattice`, `BinaryGolay.isPosDef_constructionBLattice`, `BinaryGolay.finrank_constructionBLattice`, `BinaryGolay.natCard_discriminantGroup_constructionBLattice`.
+
+Define the odd shift `s ∈ Ω → ℚ` by `s_∞ = −3/2` and `sᵢ = 1/2` for `i ≠ ∞`.
+
+- `B(s, s) = 4`; `B(s, x) = (∑ xᵢ)/4 − x_∞ ∈ ℤ` for every `x ∈ K`, so `s ∈ K^∨`;
+  `2s = (−3, 1, …, 1) ∈ K`, its reduction being the all-ones word and its coordinate sum 20; and
+  `s ∉ K`, its coordinates not being integers.
+- The class of `s` in `A_K` is nonzero of order 2, and the subgroup `H_s` it generates has order
+  2, is quadratically isotropic, the half-norm `4/2` of `s` being an integer, and is Lagrangian,
+  since `|A_K| = 4`.
+
+*In Tau Ceti:* `leechShift`, `constructionBLattice_form_leechShift_left`, `constructionBLattice_form_leechShift_leechShift`, `leechShift_mem_constructionBLattice_dualCarrier`, `two_zsmul_leechShift_mem_constructionBLattice_carrier`, `leechShift_notMem_constructionBLattice_carrier`, `leechShiftClass`, `leechShiftClass_ne_zero`, `two_nsmul_leechShiftClass`, `addOrderOf_leechShiftClass`, `leechShiftSubgroup`, `natCard_leechShiftSubgroup`, `isIsotropic_leechShiftSubgroup`, `isLagrangian_leechShiftSubgroup`.
 
 ### 6.1 The discriminant group of the Construction-B lattice
 
@@ -497,7 +864,7 @@ the value `1/2` on their sum; and that the discriminant bilinear form pairs the 
 `1/2` (Conway–Sloane, *SPLAG*, Chapter 7 §5). Prove
 `isIsotropic_constructionBLattice_iff_of_natCard_eq_two`: consequently a subgroup of order 2 of
 `A_K` is isotropic if and only if it is `H_s` or the subgroup generated by the class of `2e_∞`.
-The class of `s` is the one the gluing above uses.
+The class of `s` is the one along which the Leech lattice is glued (§6.2).
 
 *Needs:* Tau Ceti `BinaryGolay.constructionBLattice`,
 `BinaryGolay.natCard_discriminantGroup_constructionBLattice`, `leechShiftClass`,
@@ -518,6 +885,56 @@ The class of `s` is the one the gluing above uses.
   of norm 2: it is rootful, as the `A₁²⁴` row lattice is, and only the class of `s` gives a
   rootless lattice.
 
+### 6.2 The Leech lattice
+
+Define the Leech lattice `Λ = K.ofIsotropicSubgroup(H_s)` by the gluing operation of the
+integral-lattices foundation. Prove the carrier decomposition `Λ = K ∪ (s + K)`: a vector `x`
+lies in `Λ` exactly when `x ∈ K` or `x − s ∈ K`; so `K` has index 2 in `Λ`, and `s ∈ Λ` has norm 4.
+Prove that `Λ` is even, unimodular, its glue subgroup being Lagrangian, of discriminant 1,
+positive definite and of rank 24 (Conway–Sloane, *SPLAG*, Chapter 7 §5 and Chapter 10; Wilson,
+§5.4).
+
+*Needs:* the definitions of `K`, `s` and `H_s` above; the gluing operation of the
+integral-lattices foundation.
+
+*In Tau Ceti:* `leechLattice`, `leechLattice_carrier`, `leechLattice_form`, `mem_leechLattice_carrier_iff`, `relIndex_constructionBLattice_leechLattice`, `leechShift_mem_leechLattice_carrier`, `leechLattice_form_leechShift_leechShift`, `isEven_leechLattice`, `isUnimodular_leechLattice`, `discriminant_leechLattice`, `isPosDef_leechLattice`, `finrank_leechLattice`.
+
+### 6.3 The congruence model
+
+Prove: a vector `x : Ω → ℚ` lies in `Λ` exactly when there are an integer `m ∈ {0, 1}` and
+integers `bᵢ` such that, with `aᵢ = m + 2bᵢ`,
+
+`xᵢ = aᵢ/2`,  `(bᵢ mod 2)ᵢ ∈ C`  and  `∑ aᵢ ≡ 4m (mod 8)`;
+
+and in these coordinates `B(x, x) = ∑ aᵢ²/8` (Wilson, §5.4; Conway–Sloane, *SPLAG*, Chapter 10).
+
+*Needs:* §6.2; Tau Ceti `BinaryGolay.isDoublyEven_code`.
+
+*In Tau Ceti:* `mem_leechLattice_carrier_iff_exists`, `leechLattice_norm_intCast_div_two`.
+
+### 6.4 Minimum four and no roots
+
+Prove, in the coordinates of §6.3, that `∑ aᵢ² ≥ 32` for every nonzero `x ∈ Λ`, by the following
+exhaustive cases:
+
+1. `m = 0` and the Golay word `b mod 2` is zero: every `aᵢ` is divisible by 4, and
+   `∑ aᵢ ≡ 0 (mod 8)` rules out a single coordinate `±4`;
+2. `m = 0` and the word is nonzero: at least eight coordinates are `2 mod 4`, by the Golay minimum
+   distance 8;
+3. `m = 1` and the word is zero: the only choice with every `|aᵢ| = 1` is `(1, …, 1)`, whose sum
+   is `24 ≡ 0`, not `4`, modulo 8, so some `|aᵢ| ≥ 3`;
+4. `m = 1` and the word `c` is nonzero: the only choice with every `|aᵢ| = 1` has sum
+   `24 − 2 wt(c) ≡ 0 (mod 8)`, the Golay weights being divisible by 4, so some `|aᵢ| ≥ 3`.
+
+In every case the least admissible value of `∑ aᵢ²` is at least 32, so every nonzero vector of `Λ`
+has norm at least 4. The shift `s` has norm 4; so the minimum of `Λ` is exactly 4, `Λ` has no
+vector of norm 2, and its root sublattice is zero (Wilson, §5.4; Conway–Sloane, *SPLAG*,
+Chapter 10).
+
+*Needs:* §6.3; Tau Ceti `BinaryGolay.eight_le_hammingNorm`, `BinaryGolay.isDoublyEven_code`.
+
+*In Tau Ceti:* `BinaryGolay.thirtyTwo_le_sum_sq`, `four_le_norm_leechLattice`, `minimum_leechLattice`, `vectorsOfNorm_two_leechLattice`, `span_vectorsOfNorm_two_leechLattice`.
+
 ### Examples
 
 - `s` itself: `a = (−3, 1, …, 1)`, `m = 1`, `b = (−2, 0, …, 0)` with `b mod 2 = 0 ∈ C`,
@@ -530,8 +947,9 @@ The class of `s` is the one the gluing above uses.
 
 ### Dependencies
 
-Tau Ceti: Construction A and Construction B of the binary Golay code, the odd shift and its
-class, and the Leech lattice. No earlier layer of this roadmap and no other roadmap.
+Tau Ceti: the binary Golay code with its weights and Construction A (the algebraic-coding
+foundation), and the integral lattices, discriminant modules and gluing operation (the
+integral-lattices foundation). No earlier layer of this roadmap and no other roadmap.
 
 ## Downstream consumers
 
@@ -546,40 +964,18 @@ class, and the Leech lattice. No earlier layer of this roadmap and no other road
 ## Scope and ownership
 
 This roadmap owns the Niemeier glue data and the explicit construction of the 23 rootful lattices
-and of the Leech lattice. Its targets are those of the layers above: the finite checks as single
-theorems over the table (§2.1–§2.3), the unimodularity and root theorem of the 23 lattices with
-their names and eliminator (§3.1–§3.3), the comparison of the `A₂¹²` row lattice with the ternary
-Golay code (§4.1), the pattern and Golay symmetries as lattice isometries (§5.1, §5.2) and the
-discriminant group of the Construction-B lattice (§6.1). Its end state is that every one of the 23
-rows has the five finite checks, its named glued lattice and its literal root-sublattice theorem,
-and that the Leech lattice has its congruence model and the Golay proof of minimum 4; a checked
-table without the glued lattices, the 23 unimodularity proofs without the exclusion of new roots,
-or a lattice called Leech without the rootlessness argument falls short of it.
-
-Everything else this roadmap plans is in Tau Ceti at the pin, under
-`TauCeti/LinearAlgebra/IntegralLattice/` unless another path is given:
-
-| Planned material | Tau Ceti declarations |
-| --- | --- |
-| root lattice of an ADE component from its Cartan matrix: Gram matrix, rank, evenness, positive definiteness, norm-2 vectors exactly the roots, which span | `DynkinType.rootLattice`, `DynkinType.gramMatrix_simpleRootBasis`, `DynkinType.finrank_rootLattice`, `DynkinType.isEven_rootLattice`, `DynkinType.isPosDef_rootLattice`, `DynkinType.norm_rootLattice_eq_two_iff`, `DynkinType.span_vectorsOfNorm_two_rootLattice` (`RootLattice/Dynkin.lean`, `RootLattice/Roots.lean`) |
-| glue alphabets with their labels, label addition for odd and even `Dₙ`, the isometry with the discriminant module, cyclic factors | `DynkinType.glueAlphabet`, `DynkinType.glueLabelEquiv`, `DynkinType.glueLabelAdd_D`, `DynkinType.glueAlphabetIsometry`, `DynkinType.nonempty_addEquiv_glueAlphabet` (`RootLattice/GlueAlphabet/`) |
-| ordered component lists: orthogonal sum, product of alphabets, discriminant isometry and its naturality under componentwise isometries and permutations | `DynkinType.Component`, `DynkinType.componentSumLattice`, `DynkinType.componentDiscriminantIsometry`, `DynkinType.componentDiscriminantIsometry_natural`, `DynkinType.glueWordIsometry`, `DynkinType.discriminantQuadraticIsometry_pi_glueWordIsometry`, `DynkinType.discriminantQuadraticIsometry_piCongrLeft_glueWordIsometry` (`RootLattice/ComponentList.lean`, `RootLattice/OrthogonalSum.lean`) |
-| attained shortest norms of labels and words, family by family | `DynkinType.glueMinimum`, `DynkinType.isLeast_glueMinimum`, `DynkinType.isLeast_sum_glueMinimum`, `DynkinType.quadratic_glueAlphabet_eq_glueMinimum_div_two` (`RootLattice/GlueAlphabet/CosetMinimum.lean`) |
-| pattern constructors, validated decoding, expansion and its naturality | `GluePattern`, `GluePattern.expand`, `IsValidGlueWord`, `decodeGlueWord`, `decodeGlueWord_ofFn_comp`, `GluePattern.decodedWords_comp`, `GluePattern.expand_cyclic_rotate`, `GluePattern.expand_evenPermutations_comp` (`Rank24/Glue/Pattern.lean`, `Rank24/GlueWord.lean`, `Rank24/Glue/Decode.lean`) |
-| the 23-row index and the columns of the table | `RootfulNiemeierType`, `RootfulNiemeierType.card`, `RootfulNiemeierType.components`, `RootfulNiemeierType.coxeterNumber`, `RootfulNiemeierType.rootCount`, `RootfulNiemeierType.gluePatterns`, `RootfulNiemeierType.spanMode`, `RootfulNiemeierType.glueOrder`, `RootfulNiemeierType.discriminantFactors` (`Rank24/RootSystems.lean`, `Rank24/Glue/Table.lean`, `Rank24/DiscriminantGroup.lean`) |
-| total rank, common Coxeter number, cyclic presentation of `A_R`, valid words, isotropy, the order of `H` squared is the order of `A_R`, root counts | `RootfulNiemeierType.sum_rank_components`, `RootfulNiemeierType.numRoots_eq_rank_mul_coxeterNumber`, `RootfulNiemeierType.nonempty_addEquiv_discriminantGroup`, `RootfulNiemeierType.isValidGlueWord_of_mem_glueWords`, `RootfulNiemeierType.eq_D_four_of_spanMode_eq_f4Linear`, `RootfulNiemeierType.isIsotropic_glueSubgroup`, `RootfulNiemeierType.glueOrder_sq_eq_natCard_glueModule`, `RootfulNiemeierType.sum_numRoots_components` |
-| the order, Lagrangian and shortest-norm checks row by row; for `A₂¹²` the shortest-norm bound is proved for `a2TwelfthGlueSubgroup`, onto which `H_r` is mapped | `RootfulNiemeierType.natCard_glueSubgroup_of_ne`, `RootfulNiemeierType.isLagrangian_glueSubgroup_of_ne`, `RootfulNiemeierType.four_le_sum_glueMinimum_of_mem_glueSubgroup_of_ne` (`Rank24/Glue/EnumeratedRows.lean`), the row theorems of `Rank24/Glue/IdentifiedRows.lean`, `four_le_sum_glueMinimum_of_mem_a2TwelfthGlueSubgroup` (`Rank24/A2Twelfth.lean`) |
-| the `D₄⁶` row: additive span of the printed words of order 32 and strictly smaller, adjoining `[222222]`, order 64, closure under `ω`, the hexacode | `natCard_closure_d4SixPrintedDigits`, `RootfulNiemeierType.closure_decodedWords_lt_glueSubgroup_d4Sixth`, `d4SixGlueSubgroup_def`, `RootfulNiemeierType.map_glueSubgroup_d4Sixth`, `natCard_d4SixGlueSubgroup`, `d4SixQuaternaryIsometry_symm_smul_mem_d4SixGlueSubgroup`, `map_d4SixGlueSubgroup_d4SixHexacodeIsometry` (`Rank24/D4Six/`) |
-| the lattice of each row, its carrier formula, generators, discriminant module, evenness, definiteness and rank; its unimodularity and root theorem for the 19 rows other than `A₁²⁴`, `A₂¹²`, `D₄⁶` and `A₁₁ D₇ E₆` | `RootfulNiemeierType.lattice`, `RootfulNiemeierType.mem_lattice_carrier_iff`, `RootfulNiemeierType.lattice_carrier_eq_sup_span`, `RootfulNiemeierType.exists_lattice_carrier_eq_sup_span_glueMinimum`, `DynkinType.gluedLatticeDiscriminantIsometry`, `RootfulNiemeierType.isEven_lattice`, `RootfulNiemeierType.isPosDef_lattice`, `RootfulNiemeierType.finrank_lattice`, `RootfulNiemeierType.isUnimodular_lattice_of_ne`, `RootfulNiemeierType.span_vectorsOfNorm_two_lattice_of_ne` (`Rank24/Niemeier.lean`) |
-| the 23 root systems are distinct up to reordering | `RootfulNiemeierType.components_multiset_injective` |
-| `A₁²⁴`: the permutation `p`, the monomial map, the glue isometry, the glue is the binary Golay code, the base-lattice discriminant isometry, the row lattice is Golay Construction A | `a1TableToGolayPerm`, `a1TableToGolayMonomial`, `a1TableToGolayIsometry`, `map_a1TwentyFourGlueSubgroup_a1TableToGolayIsometry`, `RootfulNiemeierType.map_glueSubgroup_a1TwentyFourth`, `a1TableRootToZeroIsometry`, `discriminantEquiv_a1TableRootToZeroIsometry_glueWordIsometry`, `RootfulNiemeierType.a1TwentyFourthLatticeConstructionAIsometry` (`Rank24/A1TwentyFour.lean`, `Rank24/TableRow/A1TwentyFour.lean`) |
-| `A₂¹²`: permutation and signs, the glue isometry, the glue is the ternary Golay code | `a2TwelfthDestinationToSource`, `a2TwelfthSign`, `a2TwelfthGolayIsometry`, `map_a2TwelfthGlueSubgroup_eq_ternaryGolay`, `a2TwelfthTernaryGolayIsometry` (`Rank24/A2Twelfth.lean`) |
-| `D₄⁶`: labels in `𝔽₄`, scalings `[ω, ω, 1, ω², ω², 1]`, the glue is the hexacode | `typeD4GlueAlphabetQuaternaryIsometry_glueLabelEquiv`, `d4SixHexacodeIsometry`, `map_d4SixGlueSubgroup_d4SixHexacodeIsometry`, `isLagrangian_d4SixGlueSubgroup` |
-| `A₁₁ D₇ E₆`: order and quadratic value of `[111]`, its cyclic subgroup of order 12, a separately glued model of the row lattice, unimodular with root system `A₁₁ D₇ E₆` | `addOrderOf_a11d7e6GlueWord`, `quadratic_a11d7e6GlueWord`, `natCard_a11d7e6GlueSubgroup`, `a11d7e6Lattice`, `isUnimodular_a11d7e6Lattice`, `span_vectorsOfNorm_two_a11d7e6Lattice` (`Rank24/A11D7E6.lean`) |
-| induced isometries of orthogonal sums, discriminant modules and glued lattices; hexacode automorphisms as isometries of the `D₄⁶` lattice | `DynkinType.componentSumIsometry`, `DynkinType.gluedLatticeIsometry`, `DynkinType.gluedLatticePiIsometry`, `DynkinType.gluedLatticeIsometryOfEq`, `DynkinType.gluedLatticePiCongrLeftIsometry`, `d4SixHexacodeAutIsometry` (`RootLattice/Glued.lean`, `Rank24/D4Six/CodeAutomorphism.lean`) |
-| Construction B: the half-lattice, its two descriptions, the half-sum map, index 2, discriminant 4, evenness | `ConstructionB.lattice`, `ConstructionB.mem_lattice`, `ConstructionB.val_add_two_mul_mem_lattice_iff`, `ConstructionB.sumHalf`, `ConstructionB.ker_sumHalf`, `ConstructionB.sumHalf_surjective`, `BinaryGolay.constructionBLattice`, `BinaryGolay.relIndex_constructionBLattice`, `BinaryGolay.discriminant_constructionBLattice`, `BinaryGolay.isEven_constructionBLattice` (`ConstructionB/`) |
-| the shift and the Leech lattice: `B(s, s) = 4`, `B(s, K) ⊆ ℤ`, `2s ∈ K`, `s ∉ K`, `H_s` of order 2 and isotropic, `Λ = K ∪ (s + K)`, even, unimodular, positive definite, rank 24 | `leechShift`, `constructionBLattice_form_leechShift_leechShift`, `leechShift_mem_constructionBLattice_dualCarrier`, `two_zsmul_leechShift_mem_constructionBLattice_carrier`, `leechShift_notMem_constructionBLattice_carrier`, `leechShiftSubgroup`, `natCard_leechShiftSubgroup`, `isIsotropic_leechShiftSubgroup`, `isLagrangian_leechShiftSubgroup`, `leechLattice`, `mem_leechLattice_carrier_iff`, `isEven_leechLattice`, `isUnimodular_leechLattice`, `isPosDef_leechLattice`, `finrank_leechLattice` (`Rank24/Leech/Basic.lean`) |
-| the congruence model, the norm formula, the four-case bound `∑ aᵢ² ≥ 32` from the Golay weights, minimum 4, no roots | `mem_leechLattice_carrier_iff_exists`, `leechLattice_norm_intCast_div_two`, `BinaryGolay.thirtyTwo_le_sum_sq`, `four_le_norm_leechLattice`, `minimum_leechLattice`, `vectorsOfNorm_two_leechLattice`, `span_vectorsOfNorm_two_leechLattice` (`Rank24/Leech/Minimum.lean`, `ConstructionB/Golay.lean`) |
+and of the Leech lattice: every layer above. That is the component coordinates and coset minima
+(Layer 1); the checked table with its five finite checks as single theorems over the index and
+the `D₄⁶` lemma (Layer 2); the 23 glued lattices with their unimodularity, root theorem, names,
+eliminator and distinct root systems (Layer 3); the identifications of the code rows with the
+binary and ternary Golay codes and the hexacode, and the mixed row `A₁₁ D₇ E₆` (Layer 4); the
+induced isometries, the pattern symmetries and the code automorphisms as lattice isometries
+(Layer 5); and the Construction-B lattice, the odd shift, the Leech lattice, its congruence model
+and its minimum (Layer 6). Its end state is that every one of the 23 rows has the five finite
+checks, its named glued lattice and its literal root-sublattice theorem, and that the Leech
+lattice has its congruence model and the Golay proof of minimum 4; a checked table without the
+glued lattices, the 23 unimodularity proofs without the exclusion of new roots, or a lattice
+called Leech without the rootlessness argument falls short of it.
 
 The integral lattices, their duals, discriminant quadratic modules, gluing along isotropic
 subgroups and the ADE discriminant forms are the
@@ -625,7 +1021,8 @@ programme. The `A₁²⁴` Golay overlattice is rootful and is not the Leech lat
 ### From Tau Ceti
 
 Paths are under `TauCeti/`. Every declaration below exists at the pin and every theorem among
-them is proved there; the declarations of the scope table above are part of this contract.
+them is proved there. The declarations that realise this roadmap's own items are named on the
+*In Tau Ceti:* lines of the layers above; this list is what the roadmap consumes besides them.
 
 - *Integral lattices* (`LinearAlgebra/IntegralLattice/`, the integral-lattices foundation):
   `IntegralLattice` with `carrier` and `form` (`Basic.lean`), `IntegralLattice.IsNondegenerate`,
@@ -645,32 +1042,29 @@ them is proved there; the declarations of the scope table above are part of this
 - *Dynkin types* (`LinearAlgebra/RootSystem/`): `DynkinType` with `DynkinType.Valid`,
   `DynkinType.IsSimplyLaced`, `DynkinType.rank`, `DynkinType.cartanMatrix`,
   `DynkinType.numRoots` (`NumberOfRoots.lean`) and the simply-connected root data
-  `DynkinType.simplyConnectedRootDatum`, whose coroots are the roots of the root lattice
-  (`DynkinType.rootLatticeRoot`). No root enumeration is copied and no second Dynkin type is made.
-- *Root lattices, glue alphabets, coset minima and gluing*
-  (`LinearAlgebra/IntegralLattice/RootLattice/`): the declarations of the first five rows of the
-  scope table, and `DynkinType.gluedLattice`, `DynkinType.isUnimodular_gluedLattice_iff`,
-  `DynkinType.isNondegenerate_pi_glueAlphabet`, `DynkinType.image_vectorsOfNorm_gluedLattice_eq` and
-  `DynkinType.span_vectorsOfNorm_two_gluedLattice` (`Glued.lean`, `GlueAlphabet/Roots.lean`; for an
-  isotropic `H` whose nonzero words have shortest norm at least `r`, the vectors of norm `n < r` of
-  the glued lattice are those of the root lattice, and for `r > 2` the vectors of norm 2 of the
-  glued lattice span the root lattice), `DynkinType.span_vectorsOfNorm_two_pi_rootLattice`
-  (`OrthogonalSum.lean`), and the `D₄` triality isometry `DynkinType.typeD4ScalarIsometry`
+  `DynkinType.simplyConnectedRootDatum`, whose coroots are the roots of the root lattice of §1.1.
+  No root enumeration is copied and no second Dynkin type is made.
+- *Gluing root lattices* (`LinearAlgebra/IntegralLattice/RootLattice/`): `DynkinType.gluedLattice`
+  (`Glued.lean`; the overlattice of an orthogonal sum of ADE root lattices along an isotropic
+  subgroup of glue words), `DynkinType.isUnimodular_gluedLattice_iff`,
+  `DynkinType.gluedLatticeIsometryOfEq` (the isometry between the lattices glued from equal
+  families of components, read off by position from a list or given explicitly),
+  `DynkinType.image_vectorsOfNorm_gluedLattice_eq` and
+  `DynkinType.span_vectorsOfNorm_two_gluedLattice` (`GlueAlphabet/Roots.lean`; for an isotropic
+  `H` whose nonzero words have shortest norm at least `r`, the vectors of norm `n < r` of the glued
+  lattice are those of the root lattice, and for `r > 2` the vectors of norm 2 of the glued lattice
+  span the root lattice), and the `D₄` triality isometry `DynkinType.typeD4ScalarIsometry`
   (`TypeD/Triality.lean`; it acts on the `D₄` alphabet, read in `𝔽₄`, as multiplication by the given
   unit).
-- *The table, the row lattices and the code rows* (`LinearAlgebra/IntegralLattice/Rank24/`): the
-  declarations of the scope table from the index onwards, with `RootfulNiemeierType.glueModule`,
-  `RootfulNiemeierType.glueSubgroup` (the additive closure of the decoded words of the row's
-  patterns under its span mode), `RootfulNiemeierType.glueSubgroup_def`,
+- *Row-by-row theorems and row accessors* (`LinearAlgebra/IntegralLattice/Rank24/`): the theorems
+  named in the *Needs:* lines of §2.1–§2.3, §3.1, §3.2, §4.3, §5.3 and §5.4, with
   `RootfulNiemeierType.componentType`, `RootfulNiemeierType.isSimplyLaced_componentType`,
-  `RootfulNiemeierType.rootLattice`, `RootfulNiemeierType.lattice_def`,
-  `RootfulNiemeierType.isUnimodular_lattice_iff` (unimodular iff the glue subgroup has the displayed
-  order), `RootfulNiemeierType.isIsotropic_glueSubgroup`,
-  `RootfulNiemeierType.glueOrder_sq_eq_natCard_glueModule`,
+  `RootfulNiemeierType.glueSubgroup_def`, `RootfulNiemeierType.isUnimodular_lattice_iff`
+  (unimodular iff the glue subgroup has the displayed order),
   `RootfulNiemeierType.le_sum_glueMinimum_of_map_glueModuleIsometry`,
-  `RootfulNiemeierType.map_glueSubgroup_a2Twelfth`,
   `RootfulNiemeierType.a2TwelfthGlueModuleIsometry`,
-  `RootfulNiemeierType.a1TwentyFourthGlueIsometry`, and `a2TwelfthLattice`.
+  `RootfulNiemeierType.a1TwentyFourthGlueIsometry`, `a2TwelfthLattice` and
+  `a2TwelfthTernaryGolayIsometry`.
 - *Codes and Construction A* (`InformationTheory/Coding/`,
   `LinearAlgebra/IntegralLattice/ConstructionA/`, the algebraic-coding foundation):
   `BinaryGolay.code` with `BinaryGolay.isDoublyEven_code` and `BinaryGolay.eight_le_hammingNorm`
@@ -680,11 +1074,6 @@ them is proved there; the declarations of the scope table above are part of this
   `BinaryGolay.constructionALattice` (`ConstructionA/Golay/Basic.lean`) and
   `ConstructionA.integralLatticeReindexEquiv` (`ConstructionA/Naturality.lean`; a coordinate
   permutation is an isometry between the Construction-A lattices of a code and of its reindexing).
-- *Construction B and the Leech lattice* (`LinearAlgebra/IntegralLattice/ConstructionB/`,
-  `LinearAlgebra/IntegralLattice/Rank24/Leech/`): the declarations of the last three rows of the
-  scope table, with `BinaryGolay.constructionBLattice_carrier_le`,
-  `BinaryGolay.natCard_discriminantGroup_constructionBLattice`, `leechShiftClass`,
-  `leechShiftClass_ne_zero` and `two_nsmul_leechShiftClass`.
 
 ### From Completed.IntegralLattices and Completed.AlgebraicCodingTheory
 
