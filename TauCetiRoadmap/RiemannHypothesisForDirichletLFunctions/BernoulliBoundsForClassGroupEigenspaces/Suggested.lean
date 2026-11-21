@@ -5,7 +5,7 @@ import Mathlib
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. One of them,
-Soulé's bound for the torsion in the homology of `GL_N(𝒪_L)` (9.4), is statable and is stated
+the bound for the torsion in the homology of `GL_N(𝒪_L)` (9.4), is statable and is stated
 below; the others are not statable at the pins, so nothing is stated in their place.
 
 The other headlines are statements about the Galois cohomology of number fields with
@@ -66,14 +66,15 @@ open NumberField
 
 /-! ## Layer 9: Explicit torsion bounds for K-groups -/
 
-/-- **Soulé's bound for the torsion in the homology of `GL_N(𝒪_L)`** (9.4). There is an absolute
+/-- **Torsion bound for the homology of `GL_N(𝒪_L)`** (9.4). There is an absolute
 constant `c₂` such that for every number field `L` of degree `n = [L : ℚ]` and discriminant `d_L`,
 every `N ≥ 1` and every `m ≥ 0`, the integral homology `H_m(GL_N(𝒪_L); ℤ)` (group homology with
 trivial coefficients `ℤ`) is a finitely generated abelian group, and its torsion subgroup satisfies
 `log log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ c₂ (m + 1) (n N)³ N log(2 |d_L| n N)`.
 
-Source: C. Soulé, *A bound for the torsion in the K-theory of algebraic integers* (2003), with
-*Perfect forms and the Vandiver conjecture* (1999). -/
+All primes are included. The route is that of README 9.2–9.4, by the method of C. Soulé, *Perfect
+forms and the Vandiver conjecture* (1999), §2, whose Theorem 1 bounds the torsion of
+`H_k(SL_N(ℤ); ℤ)` only modulo the primes `≤ N + 1`. -/
 theorem log_log_card_torsion_groupHomology_GL_le :
     ∃ c₂ : ℝ, ∀ (L : Type) [Field L] [NumberField L] (N m : ℕ), 1 ≤ N →
       Module.Finite ℤ (groupHomology (Rep.trivial ℤ (GL (Fin N) (𝓞 L)) ℤ) m) ∧
