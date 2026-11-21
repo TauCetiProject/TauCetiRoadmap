@@ -8,10 +8,12 @@ of the congruence module between lifted and other eigensystems, and by the expon
 forms, a Ribet-type argument with local defects at the places above `ℓ`, and an anticyclotomic twist chosen at every
 twisted place; it bounds the Weyl exponent by weight elimination.
 
-The headline theorems are these. (1) Under the size conditions of the chain, for a good twisting datum and a host field
-`E` whose twisted Tate–Shafarevich groups `Ш¹(E, ℓ, e)`, `0 < e < t`, are finite with total `V(E, t) ≤ κ_W·x^ε·B₀`, the
-weighted sum `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭)` over the twisted places is at most `d^Z_j·(C + κ_W)·x^ε·B₀`, where `d^Z_j` is the dimension of
-the good part of the forms on the model group `U(W_j)`. (2) At every twisted place `𝔭 | ℓ` and for every `ε′ > 0` there is an
+The headline theorems are these. (1) Under the size conditions of the chain, for a good twisting datum, a thick set of
+length `L_th ≤ C_L·log x` satisfying the depth hypothesis, and a host field `E` whose twisted Tate–Shafarevich groups
+`Ш¹(E, ℓ, e)`, `0 < e < t`, are finite with total `V(E, t) ≤ κ_W·x^ε·B₀`, the weighted sum `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭)` over the
+twisted places is at most `d^Z_j·(C + κ_W)·x^ε·B₀`, where `C` depends only on constants fixed before `ε` and `d^Z_j` is the
+dimension of the good part of the forms on the model group `U(W_j)`. (2) At every twisted place `𝔭 | ℓ` and for every
+`ε′ > 0` there is an
 anticyclotomic character `ψ` of `ℓ`-power order, ramified at a bounded number of places of degree one, such that for the
 `ℓ`-adic lattices `T_s` attached to the good eigenforms on `U(W_j)` every Bloch–Kato Selmer group of `T_s ⊗ ψ^{m′}`, `m′` prime
 to `ℓ`, has length at most `v_ℓ(w_{tr}(E)) + ε′`, the tame cost of `ψ` is at most `ε′`, and finitely many prescribed
@@ -117,8 +119,9 @@ The size conditions are named predicates: those of ThetaChainsOnDefiniteUnitaryG
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1" means `Size(x, ε)`; a target that uses a single predicate names it.
 
 **Constants.** Exponents, the bound `t ≤ x^{C_t}` and the budgets are parameters with their true constraints; the exponents
-written in the size predicates of ThetaChainsOnDefiniteUnitaryGroups §2.1 are fixed choices. `C` denotes absolute constants and `x₀` a threshold of
-the scale.
+written in the size predicates of ThetaChainsOnDefiniteUnitaryGroups §2.1 are fixed choices. `C` denotes absolute constants, except in
+row 5 of 7.10a and in 7.10b, 7.10c and 7.11, where `C` may depend on the constants fixed before `ε` (`C_t`, `A_max`, and `C_L`
+of 7.10c); `x₀` is a threshold of the scale.
 
 ### Table of symbols
 
@@ -145,6 +148,7 @@ the scale.
 | `Size(x, ε)` | conjunction of the host predicates `SizeA, SizeN, SizeD, SizeRd, SizeQD, SizeInert, SizeDep` and the parameter predicates `SizeM, SizeK, SizeW, SizeMf, SizeT, SizeTheta` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `SizeSc, SizeSep, SizeG, SizeT_u` | size predicates of the words, the separation, the type primes and the level primes | ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8 |
 | `C_t, A_max` | constants fixed before `ε`: of `SizeT`, the bound of the layer exponent | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
+| `C_L` | the constant of the length bound `L_th ≤ C_L·log x` of the thick set, fixed before `ε` | 7.10c |
 | `A_n` | the layer exponent of `SizeA` (`A_n ∈ [1, A_max]`), chosen after `ε` and before the scale | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `W_j, V_j` | model spaces: rank `r`, signature `(k+j−1, m−j)`; totally positive definite of rank `r + t` | ThetaChainsOnDefiniteUnitaryGroups §2.2 |
 | `v(τ), e′(τ), e(τ)` | Harish-Chandra data at `τ` shared by all words | ThetaChainsOnDefiniteUnitaryGroups §2.3 |
@@ -506,7 +510,11 @@ duality, Euler characteristic).
 (a) *Position of the weights.* Let the chain weight datum satisfy the separation (W7)
 and the size conditions `SizeSep` of ThetaChainsOnDefiniteUnitaryGroups §2.3c with the threshold `ℓ*` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, put `σ⁺ := ⌊2b/ℓ*⌋`, and assume the size predicate
 `SizeThin` (defined here; the targets that use it carry it as a hypothesis): `x·r·(Sc + 2η_s + 2σ⁺ + t + x^ε + 4) ≤ m·w″` (`w″` of ThetaChainsOnDefiniteUnitaryGroups §2.1, the least base size of
-ThetaChainsOnDefiniteUnitaryGroups §2.3b). For a step `j` and `τ ∈ Φ` the
+ThetaChainsOnDefiniteUnitaryGroups §2.3b). (`SizeThin` is a predicate of this roadmap. It is used three times: for the
+positivity of the windows below, for the sizes of the words in 7.10a, and for the resonance terms in 7.10c. [FormalProof] has
+no single condition of this shape: it carries separate inequalities on the same quantities, among them
+`100·(η_s + Sc + t + 2) ≤ w″`, `t·η_s ≤ w″/x` and `N_m·η_s ≤ δ_th·m·w″`; `SizeThin` neither implies all of them nor follows
+from them, and the three uses here need `SizeThin` only.) For a step `j` and `τ ∈ Φ` the
 Hodge–Tate weights of `χ_1^{−1}r_x` at `τ` (7.4(4), 7.5(1)) are the block `{0, …, t − 1}`, the `m` *lows*
 `(t − 1)/2 + w_j(τ) − e′_a(τ)` (`0 ≤ a < m`) and the `k − 1` *cloud weights* `(t − 1)/2 + w_j(τ) + v_a(τ)` (`0 ≤ a < k − 1`), and
 at `τ∘c` their images under `q ↦ t − 1 − q`. Let `Exc` be the set of primes `ℓ > ℓ*` dividing an integer `n` with
@@ -748,7 +756,8 @@ crystalline and `0` is not one of its Hodge–Tate weights at some embedding.
 
 ### 7.8 An anticyclotomic twist kills the Selmer group
 
-Let `𝔭 | ℓ` be a twisted place and `δ_ℓ` the auxiliary character of `ℓ`. For every step `j`,
+Let `𝔭 | ℓ` be a twisted place and `δ_ℓ` the auxiliary character of `ℓ`; assume `r ≥ 100` and `g₀, g₁ ≥ 2r` (both hold under
+`Size(x, ε)` for `x ≥ 32` and for the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7). For every step `j`,
 every Hecke eigensystem of good forms on `U(W_j)` away from the places of ThetaChainsOnDefiniteUnitaryGroups §2.9 (base change `Σ`, Galois representation
 `ρ_Σ` over `O`, normalised as in 7.5(1)) and each of `𝔭′ ∈ {𝔭, c_𝕃(𝔭)}`, let `T_s := ρ_Σ ⊗ χ_{1,s}^{−1}`, a stable `O`-lattice,
 where `χ_{1,s}` is the `ℓ`-adic character, read at `𝔭′`, of the algebraic Hecke character `μ_j(δ_ℓ)η̃^{−1}|·|_{𝔸_E}^{−r/2}` of the
@@ -757,8 +766,8 @@ together with `Σ(𝔭)`.
 1. Each `T_s` satisfies (H1), (H2) with the integer `t`, (H5) and (H6) of SelmerLengthBoundsAndLocalLifting §3.22 for `S`, with
    one element `z` common to all `s` in (H5); and (H3) of SelmerLengthBoundsAndLocalLifting §4.9b, so that the Bloch–Kato condition above `ℓ` is balanced; in
    particular `T_s^†∘c ≅ T_s ⊗ χ_cyc^{t}` integrally.
-2. *Twist selection.* (For the `s ∈ 𝒮` with `T̄_s ≅ T̄_s ⊗ χ̄_cyc^{t}`, that is every `s` when `ℓ = 2`, the order `ν_s` below is
-   finite because `tr ≠ 0`.) A *polynomial
+2. *Twist selection.* (The invariant `v_ℓ(w_{tr}(E))` is finite because `tr ≠ 0`, and it is the same for every `s`; it is `0`
+   exactly when `χ̄_cyc^{tr} ≠ 1` on `G_E`, and then the bound of (a) is `ε′`.) A *polynomial
    condition* (SelmerLengthBoundsAndLocalLifting §3.26, in its coset form) is relative to an open subgroup `H_𝒞 ⊂ G_E`, normal in `G_F`,
    modulo which the element `z` of (1) is central (`[h, z] ∈ H_𝒞` for `h ∈ G_E`; for instance the kernel of a character of `G_E`
    stable under `c`, also when the character is nontrivial at `z`), and a finite set
@@ -777,15 +786,16 @@ together with `Σ(𝔭)`.
    degree one over `ℚ`, above places of `F` split in `E` and split completely in the governing field
    `𝒢_M = E(μ_{2ℓ^M}, V_M^{1/ℓ^M})` of SelmerLengthBoundsAndLocalLifting §3.22 (1) (`R` independent of `ε′`, `A` and `𝒞`), disjoint from `S ∪ A`, trivial on the
    decomposition groups above `ℓ`, such that for every `s ∈ 𝒮` and every integer `m′` prime to `ℓ`:
-   (a) `length Sel_Q(T_s ⊗ ψ^{m′} ⊗ K_O/O) ≤ v_ℓ(w_{tr}(E)) + ε′`, and `≤ ε′` when `T̄_s ≇ T̄_s ⊗ χ̄_cyc^{t}` (Selmer groups: Bloch–Kato above
-   `ℓ`, no condition at the other places of `S` and at `Q`, unramified elsewhere);
+   (a) `length Sel_Q(T_s ⊗ ψ^{m′} ⊗ K_O/O) ≤ v_ℓ(w_{tr}(E)) + ε′` (Selmer groups: Bloch–Kato above `ℓ`, no condition at the other
+   places of `S` and at `Q`, unramified elsewhere);
    (b) `t·Σ_{v∈Q} v(ψ(ς_v) − 1) ≤ ε′` for tame inertia generators `ς_v`;
    (c) the polynomial `f` that each condition of `𝒞` attaches to the family of `Q`, of level `v₀`, has
    `f((u_q^{m′} − 1)_q) ≠ 0` and `v(f((u_q^{m′} − 1)_q)) ≤ v₀ + ε′` at the roots of unity `u_q` defining `ψ`.
    Here `Q = 𝔓 ∪ c𝔓` for a family `𝔓` in position at level `M` (SelmerLengthBoundsAndLocalLifting §3.24): its first-half places have Frobenius elements in
    `z·L_M` and its second-half places Frobenius elements in `L_M`, `L_M ⊂ ⋂_{𝒞}H_𝒞` the subgroup of SelmerLengthBoundsAndLocalLifting §3.26, so the family is
    seen by every condition of `𝒞`; the conclusions hold for `ψ^{m′}` for every `m′` prime to `ℓ`.
-   Such a `ψ` is an *`ε′`-good twist at `𝔭` (for `𝒞`)*.
+   Such a `ψ` is an *`ε′`-good twist at `𝔭` (for `𝒞`)*. The bound `4R` on the number of places of `Q` and their splitting in
+   `𝒢_M` are this roadmap's own, taken from SelmerLengthBoundsAndLocalLifting §3.26, not statements of [FormalProof].
 
 *Route.* (1) (H1) is 7.9(b)(1). (H2): at a split place `P` outside `S`, conjugate self-duality of the cuspidal constituent
 gives Satake parameters at `P̄` inverse to those at `P`; with `χ_c = χ_1χ_cyc^{−(c−1)}` this gives equal characteristic
@@ -835,7 +845,7 @@ of 7.7a and `E_{w,0}`, `s_w`, `K_w`, `f″_w` are those of 7.7b; `s_w = 1` and `
 `s_w ≤ 2 + log_ℓ n_w` and `v_ℓ(f″_w) ≤ log_ℓ n_w`, with `n_w ≤ [E:ℚ] = 4|A| ≤ 8x^{A_n}` (`SizeA`, ThetaChainsOnDefiniteUnitaryGroups §2.1). The *letters* of `w` are the
 embeddings of `E_w`, in Frobenius order, read through their places (FrobeniusRestrictedRieszSums §0.6(c)). Put
 `d^Z_j := dim 𝒞(W_j)^{good}`, which equals `d^Z_j(𝔭)` at every twisted `𝔭` (7.5b). `C` denotes absolute constants fixed with
-the lifting theorems.
+the lifting theorems, except where the Conventions (Constants) let it depend on `C_t`, `A_max` and `C_L`.
 
 *The character bound at the rows.* Under `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and the separation of ThetaChainsOnDefiniteUnitaryGroups §2.3c,
 for `x ≥ x₀`: at every twisted place `𝔭 | ℓ` with `ℓ ∉ {g₀, g₁}`, every place `w | ℓ` of `E` and every `π ∈ Z_good`, clause (TB)
@@ -939,17 +949,22 @@ every other letter is up or down of size between `η` and `w_max` (`w₀(τ) > �
 dual family with up and down exchanged, and the target lattice `T` of (Row) (the second lattice of the surjection in
 SelmerLengthBoundsAndLocalLifting §4.10d) has at most `m` weights in `[−η, η]` at every letter (the lows). Row 3: SelmerLengthBoundsAndLocalLifting §4.10d (2) for
 the depth `j′ = max(1, ⌈log_{ℓ−1} ℓ_A⌉)`, the least `j` with `(ℓ − 1)^j ≥ ℓ_A` (as `ℓ_A > 1`), for which the depth hypothesis
-gives `2j′ + 2 ≤ L_th`; `C(j′ + 1)(w_max + Sc + η + 1) ≤ b` holds for the constant of that theorem because `j′ ≤ L_th ≤ C·log x` and
+gives `2j′ + 2 ≤ L_th`; `C(j′ + 1)(w_max + Sc + η + 1) ≤ b` holds for the constant of that theorem because
+`j′ ≤ 1 + log_{10} ℓ_A ≤ C·log x` (`ℓ_A ≤ k·x^ε·|A|/m`, as `δ_th ≥ 1/|A|`) and
 `b/(w_max + Sc + η) ≥ X′/x²` (ThetaChainsOnDefiniteUnitaryGroups §2.1); its hypotheses on the word are `2j′ < n_w` and the `j′`-cluster property of
-FrobeniusRestrictedRieszSums §0.8b for the thick letters along every Frobenius orbit above `ℓ` (FrobeniusRestrictedRieszSums §0.8b(d) gives the latter when
-`2j′ + 1 ≤ L_th`, `2j′ < n_w` and `ord h_ℓ ≥ L_th` or `j′ < ord h_ℓ`). The passage from the row predicate (the order of `ℓ` in
-`(ℤ/2^{n+2})^×/{±1}` exceeds `4L_th`) to these two hypotheses is a step whose route is not given here. Row 4:
+FrobeniusRestrictedRieszSums §0.8b for the thick letters along every Frobenius orbit above `ℓ`. Both follow from the row
+predicate. The order of `ℓ` in `(ℤ/2^{n+2})^×/{±1}` is the order of the image of `h_ℓ` under `A ↠ Gal(ℚ_n/ℚ)`
+(FrobeniusRestrictedRieszSums §0.4 (iii), (iv)), and the order of an image divides the order; so `ord h_ℓ > 4L_th`. Then any
+`L_th` consecutive letters contain at most two thick ones (FrobeniusRestrictedRieszSums §0.8a (a), used for `ord h_ℓ > 4L_th`),
+and since `2j′ + 2 ≤ L_th` by the depth hypothesis this gives the `j′`-cluster property (FrobeniusRestrictedRieszSums §0.8b (c),
+(d), used for `ord h_ℓ > 4L_th` and `2j′ + 2 ≤ L_th`); and `n_w = ord Frob_ℓ ≥ ord h_ℓ > 4L_th > 2j′`. Row 4:
 SelmerLengthBoundsAndLocalLifting §4.10d (3) (i). Consecutive letters alternate between `Φ` and `cΦ` (FrobeniusRestrictedRieszSums §0.3, Lemma (a): `Frob_ℓ^i ∉ Φ` iff `i` is odd), so the
 directions alternate. The place of the letter `yFrob_ℓ^i` is read off FrobeniusRestrictedRieszSums §0.6(v): if `ℓ`
 splits in `ℚ(√−q)`, thick letters occur at positions of one parity only; if `ℓ` is inert in `ℚ(√−q)`, the place of
 `yFrob_ℓ^i` is `pl(y)·h_ℓ^i`, and FrobeniusRestrictedRieszSums §0.8b(d) (for `L_th ≥ 3`; the depth hypothesis at `ℓ = 11` gives
 `L_th ≥ 4`, because `ℓ_A = k·x^ε/(m·δ_th) ≥ x^ε > 1`, as `m ≤ k` and `δ_th ≤ 1`) gives: no three consecutive letters thick and some letter not thick,
-both when `ord h_ℓ ≥ L_th` and when `2 ≤ ord h_ℓ ≤ 4L_th`; if `h_ℓ = 1`, that is `Frob_ℓ = c` (`n_w = 2`), both letters of a
+both when `ord h_ℓ > 4L_th` (FrobeniusRestrictedRieszSums §0.8a (a)) and when `2 ≤ ord h_ℓ ≤ 4L_th`
+(FrobeniusRestrictedRieszSums §0.8a (b)); if `h_ℓ = 1`, that is `Frob_ℓ = c` (`n_w = 2`), both letters of a
 place `w` have one place. So at every place `w | ℓ` the word of `w` satisfies one of two conditions. Either some letter is not
 thick, and SelmerLengthBoundsAndLocalLifting §4.10d (3) (i) applies (`20·max(w_max, η_s + t + 1, Sc) ≤ b`, ThetaChainsOnDefiniteUnitaryGroups §2.1). Or `Frob_ℓ = c` and the embedding of `w` in `Φ` is a
 thick place: then `n_w = 2`, both letters are thick (FrobeniusRestrictedRieszSums §0.8b (d)), of sizes `b₀, b₁ ∈ [b, b + η]` with `S = Sc`, `η = η_s + t + 1` (the
@@ -1032,7 +1047,9 @@ LengthBoundsInPadicFamilies §§1.7a (4′), 1.8e(2); FiniteReductiveGroups §6.
 ### 7.10c The sum
 
 Under the hypotheses of 7.10a, among them the depth hypothesis on the thick set (for every prime `ℓ ≥ 11` some
-`j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`; it is the condition at `ℓ = 11`), for every step `j`:
+`j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`; it is the condition at `ℓ = 11`), and under the *length bound*
+`L_th ≤ C_L·log x` for a constant `C_L` fixed before `ε`: there are a constant `C`, depending only on `C_L`, `C_t` and
+`A_max`, and a threshold `x₀(ψ, ε, C_L)` such that for `x ≥ x₀` and every step `j`:
 
 `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭) ≤ d^Z_j·( C·f·m·b·L² + V(E, t) )`,
 
@@ -1051,8 +1068,9 @@ each one line from the ranks of ThetaChainsOnDefiniteUnitaryGroups §2.1 (`r = k
 predicate of 7.10a, those whose order in `(ℤ/2^{n+2})^×/{±1}` is at most `4L_th`, among them those with `Frob_ℓ = c`: they
 satisfy `ℓ^o ≡ ±1 (mod 2^{n+2})` for some `o ≤ 4L_th`, a congruence condition, summed as such. As that group is cyclic of order
 `2^n` (FrobeniusRestrictedRieszSums §0.4), the order is a power of two at most `4L_th`, so these primes are `≡ ±1` modulo a power of two
-`M_* ≥ 2^{n+2}/(4L_th) ≥ |A|/(o·L_th)` (as `2^{n+2} ≥ 4|A|/o`, FrobeniusRestrictedRieszSums §0.4(iii)); with `o ≤ x^{ε/100}` and
-`L_th ≤ C·log x`, `M_* ≥ |A|·x^{−ε/50}` for `x ≥ x₀(ψ, ε)`, and the sum of `log ℓ/ℓ²` over the primes `≡ ±1 (mod M_*)` is at most
+`M_* ≥ 2^{n+2}/(4L_th) ≥ |A|/(o·L_th)` (as `2^{n+2} ≥ 4|A|/o`: by FrobeniusRestrictedRieszSums §0.4 (iii) `A ≅ Gal(ℚ_nℚ(ψ)/ℚ)`,
+of order at most `[ℚ_n:ℚ]·[ℚ(ψ):ℚ] = 2^n·o`); with `o ≤ x^{ε/100}` (for `x ≥ x₀(ψ, ε)`) and the length bound
+`L_th ≤ C_L·log x`, `M_* ≥ |A|·x^{−ε/50}` for `x ≥ x₀(ψ, ε, C_L)`, and the sum of `log ℓ/ℓ²` over the primes `≡ ±1 (mod M_*)` is at most
 `C·log M_*/M_*²`; with `k/m ≤ |A|²` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and `r ≤ 2k` this gives
 `r·Σ log ℓ/ℓ² ≤ C·m·x^{ε/25}·log x ≤ C·m·L²`. The resonance terms of row 4: for a resonant `w` and its size `s ≥ w″`, `SizeThin` gives
 `C(η_s + t + Sc + L) ≤ s/2` for `x ≥ x₀`, so the resonance inequality gives `ℓs/2 ≤ (1 + C)b + Cs` and `ℓ ≤ C·b/w″`; these terms
@@ -1072,15 +1090,19 @@ twisted place can lie above a prime larger than `ℓ*` (ThetaChainsOnDefiniteUni
 group `Ш¹(E, ℓ, e)` of BernoulliBoundsForClassGroupEigenspaces §6.17 (`ℓ` any prime, `2` included, `0 < e < t`) is finite, and
 `V(E, t) = Σ_ℓ log ℓ · Σ_{0<e<t} length Ш¹(E, ℓ, e) ≤ κ_W·x^ε·B₀` (`B₀` of ThetaChainsOnDefiniteUnitaryGroups §2.1).
 
-There are `C` and `x₀` such that for `x ≥ x₀`, for a good twisting datum (7.10a) and a host with wild-kernel budget `κ_W`,
-with the chain data, the sizes and the depth hypothesis of 7.10a, for every step `j`
+There are `C`, depending only on `C_L`, `C_t` and `A_max`, and `x₀` such that for `x ≥ x₀`, for a good twisting datum
+(7.10a) and a host with wild-kernel budget `κ_W`, with the chain data, the sizes and the depth hypothesis of 7.10a and the
+length bound `L_th ≤ C_L·log x` of 7.10c, for every step `j`
 
 `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭) ≤ d^Z_j·(C + κ_W)·x^ε·B₀`.
 
 UniformWildKernelBounds §7.6 (stated for `0 < ε ≤ 2`), applied with its parameter `κ` equal to `C_t`, supplies the wild-kernel budget `κ_W = 1` on its windows, for
 the host fields `E_n(χ, {q, q′})`, every layer `n ≥ 2` with `2^n ≤ x^α` at each scale, and `t ≤ x^{C_t}` (the sum `V(E, t)` is monotone in `t`, and `exp(x^ε) = b ≤ B₀`).
 
-*Route.* 7.10c, with `f·m·b·L² = x^ε·B₀` and `V(E, t) ≤ κ_W·x^ε·B₀`.
+*Route.* 7.10c, with `f·m·b·L² = x^ε·B₀` and `V(E, t) ≤ κ_W·x^ε·B₀`. In [FormalProof] the bound of 7.10c carries the further
+nonnegative term `(log x)²·N_c` in the bracket, and the bound above reads `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭) ≤ d^Z_j·C·x^ε·(B₀ + N_c)` under
+`V(E, t) ≤ b` (`N_c` the budget of ThetaChainsOnDefiniteUnitaryGroups §2.1, `(log x)² ≤ x^ε`); that term is added only in its
+last step, so 7.10c without it is proved there, and the form above follows from it.
 
 *Check.* Without the budget the bound fails for no reason internal to this layer: the wild-kernel budget is the only input bounding the
 groups `Ш¹(E, ℓ, e)`, which enter every row of 7.10a with the same groups at every prime, `2` included.
@@ -1132,7 +1154,8 @@ weighted sum over the places above `ℓ` is `v_ℓ(D_j)·log ℓ` by the product
 with `𝔧 = 0`, `D = 1`. At odd `ℓ` both sides vanish. For `P_jM ⊊ (P_jM)^∨` the positive part vanishes while the signed index
 is negative: the two notions differ; a covolume comparison charges the signed one, which (b) also bounds.
 
-*NEW* form (elementary). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, 7.1; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a; HermitianFormsAndLattices §§4.0a, 5.2;
+*NEW* form (elementary; the bound for the positive part `ℐ^+_j(𝔭)` in (b) is this roadmap's own, not a statement of
+[FormalProof], which bounds the signed index `ℐ_j(𝔭)`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, 7.1; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a; HermitianFormsAndLattices §§4.0a, 5.2;
 ReductiveGroups Layer 10B (Weyl and dual Weyl lattices, the integral contravariant form).
 
 ### 7.16 Weight elimination
@@ -1221,9 +1244,12 @@ and all others lie below `x_m(τ)`; put `top_τ := bot_τ + t − 1`. For a prim
    Then `ℓ^𝔧·Forms(∇(λ))_𝔪 ⊂ Forms(Δ(λ))_𝔪` with `𝔧 = Σ_{τ∈Φ′} min(ex(τ, ℓ), c(τ)) + Σ_{τ∉Φ′} ex(τ, ℓ)`.
 3. *At the parameters.* For the forms on `U(V_j)` at step `j` (the weights of RowTowerAndRallisIdentities §5.7, normalised as in 7.16 with
    `h := ⌊b + Sc + η_s + t + 1⌋`, the parameter of 7.16, not the number `h` of 7.8a–7.11; the level of ThetaChainsOnDefiniteUnitaryGroups §2.9; `M`, `M′` of 7.15;
-   the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b; `κ₀ = k − 1`, `j_τ + q_τ = m`) put `ℓ_𝔧 := m·b·x^ε/(k·(m + t)·log(3h))` and `k_max := ⌊2b/ℓ*⌋`, and let
+   the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b; `κ₀ = k − 1`, `j_τ + q_τ = m`) put
+   `ℓ_𝔧 := m·b·x^ε/(k·(m + t)·log(3(b + Sc + η_s + t + 1)))` and `k_max := ⌊2b/ℓ*⌋`, and let
    `Exc_𝔧` be the set of the primes `ℓ > ℓ_𝔧` dividing an integer of `[b − (t − 1)/2 − k_max, b + Sc + η_s + 1 + (t − 1)/2 + k_max]`
-   (a set of its own: not the set `Exc` of 7.6). Define `𝔧_j(ℓ) := Σ_τ ex(τ, ℓ)` if `ℓ ≤ ℓ_𝔧` or `ℓ ∈ Exc_𝔧`, and
+   (a set of its own: not the set `Exc` of 7.6); the primes `q`, `d`, `p_δ`, `p′_δ` are at most `ℓ_𝔧` under these size
+   conditions (`q, d < ℓ*`, and `p_δ, p′_δ < X′` by ThetaChainsOnDefiniteUnitaryGroups §2.7 (b)); at a datum in which one of them
+   exceeds `ℓ_𝔧` it is to be counted with `Exc_𝔧` (trivial exponent). Define `𝔧_j(ℓ) := Σ_τ ex(τ, ℓ)` if `ℓ ≤ ℓ_𝔧` or `ℓ ∈ Exc_𝔧`, and
    `𝔧_j(ℓ) := Σ_{τ∈Φ_th} min(ex(τ, ℓ), ⌊c_W(τ, ℓ, q_τ·h)⌋) + Σ_{τ∉Φ_th} ex(τ, ℓ)` otherwise, `Φ_th := cσ_d u₀𝒯` the thick places of
    `u₀` (FrobeniusRestrictedRieszSums §0.6). Under `Size(x, ε)`, `SizeN` (ThetaChainsOnDefiniteUnitaryGroups §2.1), `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3c), `SizeG` (ThetaChainsOnDefiniteUnitaryGroups §2.7), `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), (W7) and
    `x ≥ x₀(ε)`:
@@ -1259,7 +1285,7 @@ the primes at `ℓ_𝔧`. *Places that are not thick:* the shifted weights lie i
 `ℓ > 2b′` and `ex(τ, ℓ) ≤ C(n_V, 2)·⌊log_ℓ(2b′)⌋` (ThetaChainsOnDefiniteUnitaryGroups §2.1 (c)), whence `Σ_ℓ ex(τ, ℓ)·log ℓ ≤ C(n_V, 2)·ψ(2b′) ≤ 2n_V²·b′` (Chebyshev).
 *Thick places, `ℓ ≤ ℓ_𝔧`:* cutting at the cloud (ThetaChainsOnDefiniteUnitaryGroups §2.1 (b)), `ex(τ, ℓ)·log ℓ ≤ k(m + t)log(3h) + k²log(Sc + k)` for `ℓ ≥ 2η_s + t`
 and `≤ C(n_V, 2)·log h` always; both are `≤ 2mbx^ε/ℓ` for `ℓ ≤ ℓ_𝔧` (the threshold is chosen for this:
-`2mbx^ε/ℓ_𝔧 = 2k(m + t)log(3h)`), and `Σ_{ℓ≤ℓ_𝔧} 1/ℓ ≤ log ℓ_𝔧 ≤ x^ε`: at most `2mbx^{2ε}`. *Thick places, `ℓ_𝔧 < ℓ ≤ h` outside
+`2mbx^ε/ℓ_𝔧 ≥ 2k(m + t)log(3h)`), and `Σ_{ℓ≤ℓ_𝔧} 1/ℓ ≤ log ℓ_𝔧 ≤ x^ε`: at most `2mbx^{2ε}`. *Thick places, `ℓ_𝔧 < ℓ ≤ h` outside
 `Exc_𝔧`:* `ex_cl = 0` (as `ℓ > Sc + k`) and `i_W = q_τh`; the terms of `c_W` are summed separately: `Σ log ℓ/(ℓ − 1)`,
 `Σ log ℓ/ℓ ≤ log(3b) + log 4` and `Σ_{ℓ ≤ 3b} log ℓ ≤ 3b·log 4` (Mertens and Chebyshev in elementary form);
 `Σ_ℓ ι_ℓ(τ)·log ℓ ≤ (Sc + 1)·log h`, because an integer `y − top_τ ∈ (0, h]`, `h < ℓ_𝔧²`, has at most one prime factor above
