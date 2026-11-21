@@ -121,10 +121,10 @@ within the family, each roadmap cites only roadmaps listed above it.
   descent of a linearised line bundle to a quotient by a finite group.
 - [**Integral Weyl modules of general linear groups**](IntegralWeylModulesOfGeneralLinearGroups/README.md):
   the integral theory of `GL_N`: the bideterminant basis of the integral dual Weyl module with
-  saturation, Weyl and dual Weyl modules in the closed lowest alcove, the exponent comparing their
-  integral forms, integral branching to `GL_{N−1}`, the linkage principle in multiset form and a
-  graded Pieri bound, Fischer norms of products of minors, and slopes of Weyl and dual Weyl
-  lattices.
+  saturation, Weyl and dual Weyl modules below the upper wall of the lowest alcove, the exponent
+  comparing their integral forms, integral branching to `GL_{N−1}`, the linkage principle in
+  multiset form and a graded Pieri bound, Fischer norms of products of minors, and slopes of Weyl
+  and dual Weyl lattices.
 - [**Theta lifts for definite unitary groups**](ThetaLiftsForDefiniteUnitaryGroups/README.md):
   one theta lift between definite unitary groups: Weil representations, lifts as operators on class
   sets, weights and Satake parameters, the Rallis inner product formula, nonvanishing, the lift of
