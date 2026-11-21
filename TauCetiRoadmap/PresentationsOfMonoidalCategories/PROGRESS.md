@@ -1,0 +1,12 @@
+# Progress log: PresentationsOfMonoidalCategories
+
+An append-only record of what landed on the PresentationsOfMonoidalCategories roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"e3b75cd024838589bc5db70144e8f9d88bfaeeaa","prs":["forgejo:https://git.taucetiproject.org/taucetiproject/tauceti@1#196"],"roadmap":"PresentationsOfMonoidalCategories","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+## PresentationsOfMonoidalCategories: 2026-11-18 to 2026-11-19 (`e3b75cd` to `b235000`)
+
+The roadmap's foundation landed in one pull request (https://git.taucetiproject.org/taucetiproject/tauceti/pulls/196): the finite data that presents a monoidal category, as purely algebraic objects over a commutative semiring. [Fusion rules](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Monoidal/FSymbols/Defs.html#TauCeti.FusionRules) record a unit index and the multiplicities `N_{ab}^c`; [F-symbols](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Monoidal/FSymbols/Defs.html#TauCeti.FSymbols) are invertible matrices `F^{abc}_d` satisfying the pentagon and triangle equations; and [R-symbols](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Monoidal/FSymbols/Defs.html#TauCeti.RSymbols) are invertible matrices `R^{ab}_c` satisfying the two hexagons. Both are determined by their matrices, since inverses are unique.
+
+The first consequences of invertibility are proved too. Over a nontrivial ring, F-symbols force [associativity of the fusion rules](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Monoidal/FSymbols/Basic.html#TauCeti.FSymbols.N_assoc), and R-symbols force [commutativity](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Monoidal/FSymbols/Basic.html#TauCeti.RSymbols.N_comm), in each case because an invertible matrix must be square. For the fusion rules of a finite monoid, the all-ones F-symbols [carry R-symbols exactly when the monoid is commutative](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Monoidal/FSymbols/Basic.html#TauCeti.RSymbols.nonempty_ofMul_iff). Smaller checks cover a single simple object, where the data is unique with every entry `1`, and the zero ring, where every set of fusion rules carries exactly one F-symbol and one R-symbol structure. Relabeling and base change, the rest of Layer 0, have not landed, and the constructed category of Layer 1 has not been started.

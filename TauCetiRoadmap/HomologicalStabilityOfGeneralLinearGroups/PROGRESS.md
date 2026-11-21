@@ -1,0 +1,12 @@
+# Progress log: HomologicalStabilityOfGeneralLinearGroups
+
+An append-only record of what landed on the HomologicalStabilityOfGeneralLinearGroups roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"0ef20cb45b8527cbb0ce8412669ecdaa24a1a146","prs":["forgejo:https://git.taucetiproject.org/taucetiproject/tauceti@1#665"],"roadmap":"HomologicalStabilityOfGeneralLinearGroups","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+## HomologicalStabilityOfGeneralLinearGroups: 2026-11-19 to 2026-11-19 (`0ef20cb` to `b235000`)
+
+The first piece of this roadmap is in: the affine group `A_{n,m}(R)`, the invertible block matrices `(g 0; u 1)` that fix the last `m` standard basis vectors, which is the group whose homology the Nesterenko–Suslin property of Layer 1.3 is about (https://git.taucetiproject.org/taucetiproject/tauceti/pulls/665). The [affine group](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Affine.html#TauCeti.affineGroup) is characterised as a [stabiliser](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Affine.html#TauCeti.affineGroup_eq_stabilizer) for the action of the general linear group on rectangular matrices, and it comes with the [inclusion](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Affine.html#TauCeti.affineInclusion) `g ↦ diag(g, 1)`, a [projection](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Affine.html#TauCeti.affineProjection) back to `GL_n(R)` that retracts it, and an [identification of the kernel](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Affine.html#TauCeti.affineTranslationEquivKer) with the additive group of `m × n` matrices, so the group is a split extension of `GL_n(R)` by translations.
+
+The step towards frames is also there: the stabiliser of the first `r` standard basis vectors in `GL_n(R)` is [isomorphic to `A_{n−r,r}(R)`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Affine.html#TauCeti.stabilizerCastLEEquivAffineGroup), with the inclusion matched to Tau Ceti's stabilization map. What is not yet there is the theorem all this is set up for, that over a semilocal ring with infinite residue fields the inclusion is an isomorphism on integral homology, and with it transitivity on frames and Suslin's spectral sequence.
