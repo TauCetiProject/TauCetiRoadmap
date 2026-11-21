@@ -22,7 +22,7 @@ Layer 4 here is the second part of the layer of that number (its first part is T
 
 **Periods.** The top period `P̃_ξ(φ, F)` (ThetaChainsOnDefiniteUnitaryGroups §3.9) is linear in the column `φ` and conjugate-linear in the row form `F`. The conjugation is that of the coefficients of the row form, never of the column or of the place at which the column is bounded: a bound for the period at a place `𝔭` of `𝕃` uses the column at `𝔭` and the row form at `c_𝕃(𝔭)` (ThetaChainsOnDefiniteUnitaryGroups §3.10). The cost of the level prime `T(u) = N(π_u)` sits at the places above `π_u` and is `0` at those above `π̄_u` (4.16).
 
-**Quantifier order and sizes.** Constants named before `ε` do not depend on `ε`; the scale `x` and everything chosen at it come after `ε`. Between them come the numbers that may depend on `ε`: the layer exponent `A_n` of `SizeA` (at most the constant `A_max`), which the size predicates of ThetaChainsOnDefiniteUnitaryGroups §2.1 take as an argument, the exponent `c_s > 0` of the inert-free bound of 4.17 (every prime inert in `K` exceeds `max(12, x^{c_s})`), and the exponents `c_Δ` of the letter step and `C_S` of `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §§2.3, 2.3b). The size conditions are named predicates: those of ThetaChainsOnDefiniteUnitaryGroups §2.1, grouped into the host predicates `SizeA`, `SizeN`, `SizeD`, `SizeRd`, `SizeQD`, `SizeInert`, `SizeDep` and the parameter predicates `SizeM`, `SizeK`, `SizeW`, `SizeMf`, `SizeT`, `SizeTheta`, with their conjunction `Size(x, ε)`; and `SizeSc` of ThetaChainsOnDefiniteUnitaryGroups §2.3b. "The size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1" means `Size(x, ε)`; a target that uses a single predicate names it.
+**Quantifier order and sizes.** Constants named before `ε` do not depend on `ε`; the scale `x` and everything chosen at it come after `ε`. Between them come the numbers that may depend on `ε`: the layer exponent `A_n` of `SizeA` (at most the constant `A_max`), which the size predicates of ThetaChainsOnDefiniteUnitaryGroups §2.1 take as an argument, the exponent `c_s > 0` of the inert-free bound of 4.17 (every prime inert in `K` exceeds `max(12, x^{c_s})`), the band constant `C_ρ` of 4.17, and the exponents `c_Δ` of the letter step and `C_S` of `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §§2.3, 2.3b). The size conditions are named predicates: those of ThetaChainsOnDefiniteUnitaryGroups §2.1, grouped into the host predicates `SizeA`, `SizeN`, `SizeD`, `SizeRd`, `SizeQD`, `SizeInert`, `SizeDep` and the parameter predicates `SizeM`, `SizeK`, `SizeW`, `SizeMf`, `SizeT`, `SizeTheta`, with their conjunction `Size(x, ε)`; and `SizeSc` of ThetaChainsOnDefiniteUnitaryGroups §2.3b. "The size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1" means `Size(x, ε)`; a target that uses a single predicate names it.
 
 ### Table of symbols
 
@@ -45,7 +45,7 @@ Layer 4 here is the second part of the layer of that number (its first part is T
 | `ϑ, B₀` | thick-weight width, the budget `B₀ = fmbx^ε` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `Size(x, ε)` | conjunction of the host predicates `SizeA, SizeN, SizeD, SizeRd, SizeQD, SizeInert, SizeDep` and the parameter predicates `SizeM, SizeK, SizeW, SizeMf, SizeT, SizeTheta` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `SizeSc` | size predicate of the words | ThetaChainsOnDefiniteUnitaryGroups §2.3b |
-| `A_n, c_s` | numbers that may depend on `ε`: the layer exponent of `SizeA` (`A_n ∈ [1, A_max]`), the exponent of the inert-free bound; chosen after `ε` and before the scale | ThetaChainsOnDefiniteUnitaryGroups §2.1, 4.17 |
+| `A_n, c_s, C_ρ` | numbers that may depend on `ε`: the layer exponent of `SizeA` (`A_n ∈ [1, A_max]`), the exponent of the inert-free bound, the band constant (`C_ρ ≥ 2C_H·C_N(ε, ω₀)`); chosen after `ε` and before the scale | ThetaChainsOnDefiniteUnitaryGroups §2.1, 4.17 |
 | `x₀` | threshold of the scale | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `X_j, X^h` | column spaces, hyperplane of `X_m` | ThetaChainsOnDefiniteUnitaryGroups §2.2 |
 | `𝔞₀` | `𝔞₀𝔞̄₀ = 𝔇_{E/K}^{−1}` | ThetaChainsOnDefiniteUnitaryGroups §2.2 |
@@ -1553,18 +1553,23 @@ stabilisers).
 
 ### 4.17 Definitions: the data of the gain inequality
 
-Fix, before `ε`, constants `A_w` (the constant of the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3), `c_io ≥ 1`,
-`C_ρ > 0` (large enough for the comparison `2δ_I ≤ ρ_B` below) and the minimum `ω₀ ∈ (0, 1]` of the coset profile of FrobeniusRestrictedRieszSums §0.7, and assume `InertFreeUpTo B_s` (FrobeniusRestrictedRieszSums §0.3: every prime inert
+Fix, before `ε`, constants `A_w` (the constant of the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3), `c_io ≥ 1`
+and the minimum `ω₀ ∈ (0, 1]` of the coset profile of FrobeniusRestrictedRieszSums §0.7. After `ε`, and before the scale,
+fix the band constant `C_ρ ≥ 2C_H·C_N`, where `C_H` is the constant of 4.14b and `C_N = C_N(ε, ω₀)` is a constant with
+`N₁ ≤ C_N·log x` for every `x ≥ 3` (`N₁` below); `C_ρ` depends on `ε`. Assume `InertFreeUpTo B_s` (FrobeniusRestrictedRieszSums §0.3: every prime inert
 in `K` exceeds `B_s`) with `B_s ≥ max(12, x^{c_s})` for some `c_s > 0` (which may depend on `ε` and on constants chosen with
 it): the small-prime theorem 4.15e is stated for `p ≥ 13`, and `L₁(p) ≤ C/c_s` for every prime inert in `K`, bounded
 independently of `x`; fix `L_b ≥ 1` with `L₂ ≤ L_b` (`L₂` below; such an `L_b` exists by that bound). Put `h_A := 2 + 8ε` and assume
 `x^{h_A} ≤ |A| ≤ 2x^{h_A}` (`SizeA` of ThetaChainsOnDefiniteUnitaryGroups §2.1 with `A_n = h_A`), so that every Frobenius orbit has length `≤ 2x^{h_A}` and `δ_top|A| ≥ x²`; hence both size
 hypotheses of FrobeniusRestrictedRieszSums §0.7 (i), `δ_top|A| ≥ 16o²/ω₀²` and (for its second sentence) `δ_top|A| ≥ 36o²/ω₀²`,
 hold for `x ≥ 6o/ω₀` (where `o = [A : A₀]` is the index of the subgroup `A₀ ⊂ A` on whose cosets the coset profile is
-defined: `A₀` is the kernel of the restriction to `A` of the character `ψ` of the cyclic host, FrobeniusRestrictedRieszSums §0.4); the thresholds `x₀` below depend only on `ψ` (fixed before `ε`; here through `o = ord ψ`, and `x ≥ 6o/ω₀` suffices for both, since `δ_top|A| ≥ x^{2+8ε−ε/8} ≥ x²`), `ε`, `c_s`, `ω₀`, `L_b` and the constants fixed before `ε`. At the scale
+defined: `A₀` is the kernel of the restriction to `A` of the character `ψ` of the cyclic host, FrobeniusRestrictedRieszSums §0.4); the thresholds `x₀` below depend only on `ψ` (fixed before `ε`; here through `o = ord ψ`, and `x ≥ 6o/ω₀` suffices for both, since `δ_top|A| ≥ x^{2+8ε−ε/8} ≥ x²`), `ε`, `c_s`, `ω₀`, `L_b`, `C_ρ` and the constants fixed before `ε`. At the scale
 `x`, put `δ_top := x^{−ε/8}` (the selection density of FrobeniusRestrictedRieszSums §0.7), `r_G := ⌈8(h_A + 2)/ε⌉ + 1`, `u := ⌈1/δ_top⌉`, the tile parameter
 `h_II := max(1, (5ω₀)^{−3r_G})·(h_A + 3) − 3` (`= h_A` when `ω₀ ≥ 1/5`, in particular for a uniform selection),
-`M₀ := ⌈10^{6r_G+1}(h_II + 3)log x⌉`, `G′ := (M₀ + 5)(6r_G + 1)u`, `N₁ := ⌈max(6e·G′δ_top, (h_II + 3)log₂x)⌉ + 1`, `s_max := N₁`,
+`M₀ := ⌈10^{6r_G+1}(h_II + 3)log x⌉`, `G′ := (M₀ + 5)(6r_G + 1)u`, `N₁ := ⌈max(6e·G′δ_top, (h_II + 3)log₂x)⌉ + 1`, `s_max := N₁`
+(so `N₁ ≤ C_N·log x` for every `x ≥ 3` with a constant `C_N` that depends only on `ε` and `ω₀`, because `u·δ_top ≤ 2` and
+`log x ≥ 1`; and `N₁ ≥ 6e·10^{6r_G+1}(h_II + 3)(6r_G + 1)·log x` with `r_G > 8(h_A + 2)/ε`, so no such bound holds with a
+constant independent of `ε`),
 `Λ_log := C·N₁²·log a`, `Y_I := x^{A_w/2}`, `Y_II := x^{A_w}`, `p₀ := k²Y_II`, `L₁(p) := ⌈4·log_p(k·Y_II)⌉`,
 `L₂ := 2·max{L₁(p) : p inert in K and in ℚ(√−q)}` (a maximum over all such primes; it is finite and at most `C/c_s`
 because every prime inert in `K` exceeds `B_s ≥ x^{c_s}`; `L₂ := 2` if there is no such prime), `ℓ(p) := ⌈log_p(k²Y_II³)⌉ + 1`,
@@ -1577,7 +1582,7 @@ each prime `p` and orbit length `n′` the integer `D_p := ⌈C·40n′δ_top·Y
 `e_p := max_u Σ_{τ∈Φ}(k(k−1)/2)·⌊log_p(Λ_0(τ)_0 − Λ_0(τ)_{k−1} + k − 1)⌋` (the maximum over the words; sandwich exponents by 4.9e (f);
 a number fixed by the weights, not in general the least sandwich exponent, and any sandwich exponent would serve in 4.16). Then, under `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and for `x ≥ x₀(ε)`, `Δ_b ≤ b′/2`, `Δ_b ≥ Y_b|𝔗_v|Λ_log·b′/k` at every good place (`|𝔗_v| ≤ 80fδ_top`), and
 `2δ_I ≤ ρ_B` (`δ_I` of 4.14b: `2δ_I = 4Δ_b/b′ + 2C_H·s_max·Λ_log/k`; the first terms are equal, and `2C_H·s_max ≤ C_ρ·log x`
-because `s_max = N₁ ≤ C·log x` for `x ≥ x₀`, once `C_ρ` is fixed large),
+because `s_max = N₁ ≤ C_N·log x` for `x ≥ 3` and `C_ρ ≥ 2C_H·C_N`),
 so the band excluded from the candidates contains the band of (H_I) (`X′ = a/b′`). Write `h_p := cFrob_p` (4.9, Checks) for a
 prime `p` inert in `K` and in `ℚ(√−q)`; its order is `n′_p` at split type, `1` at conjugate type and `n_cyc` at odd conjugate type.
 A prime `p < X′` of split type, inert in `K` and in `ℚ(√−q)`, is a *candidate* if `ord(h_p) ≥ x^{ε/4}` and, for `p ≥ p₀`,
@@ -1622,6 +1627,13 @@ attained exactly when `p ∤ n + 1`, and the sharper form with `dim V_λ = n + 1
 *NEW* (definitions). `Drop`: [FormalProof], `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.NoGain`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Cand`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.InBand`).
+The band `ρ_B`: [FormalProof], `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.rhoB`).
+The comparison `2δ_I ≤ ρ_B` follows from [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.rho_le_rhoB`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.CbLarge`); there the band constant
+is the product of two constants chosen after `ε`, the first at least `2C_H` and the second a constant `C_N` as above: [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean` (`Formalism.MainNotions.G.first_theorem_closed_form`);
+`Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean` (`Formalism.MainNotions.G.cb_closed`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, FrobeniusRestrictedRieszSums §0.7, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.9, 4.9e, 4.14b, 4.15, 4.15d, 4.15e, 4.15f, 4.16.
 
 ### 4.17a The gain inequality
@@ -1814,7 +1826,7 @@ ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9b and §§3.1–3.10 (the data o
 
 - GluedTargetAndDivisionInequality uses the ledger of 4.9e–4.9f (gains, bulks and costs, the net exponent `𝔊_u`), the step bound 4.10, the gain sublattice 4.16 and the column bound at the level prime 4.16b for the slope of the glued target and the division inequality.
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties uses the diagrams of step `j` of 4.9f (d): ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 identifies their total size `D^H_j` with `DF(λ^W_j)`.
-- ThetaChainsAndFrobeniusPrimeSums applies the data and statements of the gain inequality (4.17–4.17d), the ledger (4.9, 4.9e, 4.9f), the step bound 4.10, the gain sublattice 4.16, the statements at the level prime (4.16a–4.16c) and the depth theorems (4.15–4.15f); ThetaChainsAndFrobeniusPrimeSums §10.6 fixes the order of the constants (the layer exponent `A_n = 2 + 8ε`, the exponent `c_s = ε/(5J)` of the inert-free bound), and ThetaChainsAndFrobeniusPrimeSums §10.0 (H2) states the inert-free bound and the host condition `HostSplitting E` of chain data.
+- ThetaChainsAndFrobeniusPrimeSums applies the data and statements of the gain inequality (4.17–4.17d), the ledger (4.9, 4.9e, 4.9f), the step bound 4.10, the gain sublattice 4.16, the statements at the level prime (4.16a–4.16c) and the depth theorems (4.15–4.15f); ThetaChainsAndFrobeniusPrimeSums §10.6 fixes the order of the constants (the layer exponent `A_n = 2 + 8ε`, the exponent `c_s = ε/(5J)` of the inert-free bound, the band constant `C_ρ` of 4.17 after `ε`), and ThetaChainsAndFrobeniusPrimeSums §10.0 (H2) states the inert-free bound and the host condition `HostSplitting E` of chain data.
 
 ## Scope and ownership
 
