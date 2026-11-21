@@ -42,6 +42,8 @@ and every `k ∈ ℕ`, with `z = 2 + it` and `ℒ_t = log(q(|t| + 2))`:
 ```text
 | a_k(χ; z) − δ_χ (z − 1)^(−k−1) + Σ_{|w−z|≤3} m_w (z − w)^(−k−1) | ≤ C ℒ_t 2^(−k) .
 ```
+At `q = 1` and `k = 0`, (b) is AnalyticNumberTheoryPartI §0.30a's `riemannZeta_local_logDeriv` at `σ₀ = 2`, `r′ = 3`,
+at the point `s = z`.
 
 *Route.* Let `F(s) = L(s,χ)` for nonprincipal `χ`. For the principal one let `F` be the entire function equal to
 `(s − 1)L(s,χ)` for `s ≠ 1` and to its limit `φ(q)/q` at `s = 1` (the residue of `L(s,χ₀) = ζ(s)∏_{p∣q}(1 − p^(−s))`):
@@ -115,13 +117,17 @@ Dirichlet character `χ` modulo `q` (primitive or not), every `Q ≥ max(q, 2)` 
 `| (L′/L)(1, χ) + Σ_{n ≤ x^400} Λ(n) χ(n)/n | ≤ K′ x^(−1+400δ) (log Q)²`, with `K′` depending on `δ` only.
 
 (a), with a general width `δ₀`, is this roadmap's, by the route below; at `δ₀ = 1/400` it gives (a′).
+QuasiRiemannHypothesis §10.7 makes the box of every width `δ₀ ≤ 1/12` zero-free for every `χ` and every `Q`, so that
+(a′) holds for every nonprincipal `χ`.
 
 *Route.* `S̃_χ` is the Riesz sum of RiemannHypothesisStatementsAndConsequences §8.4a for the coefficients `Λ(n)χ(n)`, whose inversion gives
 `S̃_χ(y) = (2πi)^(−1) ∫_(c) −(L′/L)(w,χ) y^w dw/(w(w−1))`, `c = 2`, absolutely convergent; it rests on the kernel
 identity `(2πi)^(−1) ∫_(c) x^w dw/(w(w−1)) = max(x − 1, 0)` for `x > 0`, `c > 1`, the residues `x` at `1` and `−1` at
-`0`. Move the part `|Im w| ≤ Q/2` to `Re w = 1 − δ₀ + δ`; the only pole crossed is `w = 1`, with residue
-`−y (L′/L)(1,χ)`. Inside the box, AnalyticNumberTheoryPartI §0.30a's window expansion (for the primitive character; the deleted Euler factors
-add `O(log q)` on `Re w ≥ 1/2`) gives `|L′/L(w,χ)| ≤ K log Q` at distance `≥ δ` from every zero. The horizontal
+`0`. Move the part `|Im w| ≤ Q/2` to `Re w = 1 − δ₀ + δ` (AnalyticNumberTheoryPartIII 8.1, U-shaped form); the only
+pole crossed is `w = 1`, with residue `−y (L′/L)(1,χ)`. Inside the box, AnalyticNumberTheoryPartI §0.30a's window
+expansion (for the primitive character; the deleted Euler factors add `O(log q)` on `Re w ≥ 1/2`), or
+QuasiRiemannHypothesis §5.3 at `K = ℚ` for the primitive character, gives `|L′/L(w,χ)| ≤ K log Q` at distance `≥ δ`
+from every zero. The horizontal
 segments and the tails `|Im w| > Q/2` cost `O(log Q · y²/Q)`. On the vertical segment take the difference of the two
 endpoints: `|(z(1+η))^w − z^w| ≤ 2|w| η z^(Re w)`, and `∫ |L′/L|/|w − 1| ≪ log Q · log Q`. No sum over zeros appears.
 For the corollary, the elementary bound `|S̃_χ(z+h) − S̃_χ(z) − h Σ_{n≤z} Λ(n)χ(n)/n| ≤ h(h+1) log(z+h)/z` at `h = zη`,
@@ -136,7 +142,7 @@ For the corollary, the elementary bound `|S̃_χ(z+h) − S̃_χ(z) − h Σ_{n�
 - At `δ₀ = 1/2` the hypothesis is a zero-free half-plane `Re s > 1/2` up to height `Q`, and the corollary gives
   `L′/L(1,χ) = −Σ_{n≤x²} Λ(n)χ(n)/n + O(x^(−1+2δ) log²Q)`.
 
-*Needs:* AnalyticNumberTheoryPartI §0.30a; AnalyticNumberTheoryPartI §0.11b; RiemannHypothesisStatementsAndConsequences §8.4a; Mathlib `DirichletCharacter.LFunction_apply_one_ne_zero`.
+*Needs:* AnalyticNumberTheoryPartI §0.30a; AnalyticNumberTheoryPartI §0.11b; AnalyticNumberTheoryPartIII 8.1; QuasiRiemannHypothesis §5.3; RiemannHypothesisStatementsAndConsequences §8.4a; Mathlib `DirichletCharacter.LFunction_apply_one_ne_zero`.
 
 ### 1.4f `L′/L(1,χ)` under a zero-free box
 
@@ -176,6 +182,8 @@ real `2 ≤ T ≤ X` the following holds. Let `J ≥ 0` be the least integer wit
 ```
 and each kernel `(X^ρ − k_*^ρ)/ρ = ∫_{k_*}^X t^(ρ−1) dt` has absolute value at most `X^(Re ρ) log X`.
 *Status.* (a) is this roadmap's own statement, not a statement of the formal proof.
+Its non-uniform neighbour is ZerosOfLFunctions 8.6 at `K = ℚ`: the truncated formula for one fixed primitive `χ`, with
+the kernels `X^ρ/ρ` and constants depending on `χ`.
 
 **(b) The estimate with the exceptional term.** There are absolute
 `c, c₁ > 0` such that for every `χ` as above and every sufficiently large `X` (threshold absolute),
@@ -189,7 +197,9 @@ and the implied constant absolute). The constants here are asserted to exist, no
 its zero-free region from ZerosOfLFunctions 6.3–6.4, whose constant is existential and whose small conductors are settled
 by a minimum over finitely many characters (6.4 (4e)). *Status.* (b) is the published theorem cited above, not a
 statement of the formal proof, which uses two of its consequences: the Corollary below and the restriction of (b) to
-`log N ≤ c√(log X)`.
+`log N ≤ c√(log X)`. The estimate is owned by AnalyticNumberTheoryPartI §0.18 (`character_psi_le`), which states it
+without the exceptional term, through AnalyticNumberTheoryPartI §0.34; (b) and its Corollary are the forms that keep the
+exceptional zero.
 
 *Corollary (no exceptional zero).* For every `c₀ > 0` there are `c′, C′ > 0` such that if `χ` is as above and, when
 real, `L(s,χ)` has no zero in `(1 − c₀, 1)`, then `|Σ_{m≤X} χ(m)Λ(m)| ≤ C′ X exp(−c′ log X/(√(log X) + log N))(log N)^4`
@@ -327,7 +337,8 @@ threshold and `c₁` do not depend on `E`, `f_E` or the characters.
 the places of `α` and `1 − α`: for every `ε, A, c, c_ex > 0` there is `x₀` such that `|G_χ(y)| ≤ y exp(−c x^(ε/8))`
 for every `x ≥ x₀`, every `χ` as in (b′) with `log f_χ ≤ A x^(ε/5) (log x)²` and every `y ≥ exp(x^(ε/3))/3`. For
 every `α`, (b′) follows from (c′) below by the route of (b). (b), with a hypothesis on the exceptional zero alone and
-an absolute `c₁`, is this roadmap's, by (a), and implies (b′).
+an absolute `c₁`, is this roadmap's, by (a), and implies (b′). QuasiRiemannHypothesis §10.7, by which no Dirichlet
+`L`-function vanishes on `Re s > 11/12`, gives the hypotheses of (b) and (b′) at `c_ex = 1/12` for every character.
 
 *Route.* (a) *The prime sums.* 1.4g (b) gives, for `u` above its absolute threshold,
 `|ψ_χ(u) + δ u^β/β| ≤ C u (log 3f_χ)^4 exp(−c log u/(√(log u) + log f_χ))`, with `δ = 1` exactly when the term of
@@ -346,6 +357,8 @@ at `1` give `(L′/L)(1, χ) = −∫_1^∞ ψ_χ(u) u^(−2) du`. Since `y/n �
 ```text
 G_χ(y) = −y ∫_y^∞ ψ_χ(u) u^(−2) du        (y ≥ 1).
 ```
+This identity is also ExplicitPrimeCounting §0.7 with the closed form of `C(q, a)` of ExplicitPrimeCounting §0.2,
+summed against `χ(a)` over the units `a` modulo `q`.
 *Integration.* The term `−δu^β/β` gives exactly `(δy/β) ∫_y^∞ u^(β−2) du = δ y^β/(β(1 − β))`. For the error put
 `v = log u`, `V = log y`, `ℓ = log f_χ`: it is at most `C y (log 3f_χ)^4 ∫_V^∞ exp(−cv/(√v + ℓ)) dv`. On `v ≤ ℓ²`,
 `√v + ℓ ≤ 2ℓ` and `∫_V^∞ e^(−cv/(2ℓ)) dv = (2ℓ/c) e^(−cV/(2ℓ)) ≤ (2ℓ/c) e^(−(c/2)V/(√V + ℓ))`, which costs the fifth power
@@ -355,7 +368,8 @@ of `log 3f_χ`. On `v ≥ W = max(V, ℓ²)`, `√v + ℓ ≤ 2√v` and `∫_W^
 tends to `−γ − 1` as `s → 1⁺` (Mathlib `log_deriv_riemannZeta_add_inv_sub_sub_isBigO`); the prime number theorem
 `|ψ(u) − u| ≤ C u exp(−c√(log u))` (ZerosOfLFunctions 8.5 at `K = ℚ`, where `ζ` has no exceptional zero) gives the
 domination, so `∫_1^∞ (ψ(u) − u) u^(−2) du = −1 − γ`, and with `S̃_1(y) = y ∫_1^y ψ(u) u^(−2) du`,
-`G_1(y) = −y ∫_y^∞ (ψ(u) − u) u^(−2) du`, at most `C y ∫_{log y}^∞ e^(−c√v) dv ≤ C′ y e^(−(c/2)√(log y))`.
+`G_1(y) = −y ∫_y^∞ (ψ(u) − u) u^(−2) du` (the exact form of ExplicitPrimeCounting §4.2), at most
+`C y ∫_{log y}^∞ e^(−c√v) dv ≤ C′ y e^(−(c/2)√(log y))`.
 
 (b) For nonprincipal `χ`, put `V = log y ≥ 1` and `ℓ = log f_χ ≤ V^α`. As `α ≥ 1/2`, `√V + ℓ ≤ 2V^α`, so the exponent of
 (a) is at least `(c/2)V^(1−α)`, and `(log 3f_χ)^5 ≤ (2V)^5`; hence the error of (a) is at most `½ y exp(−(c/4)V^(1−α))`
@@ -413,7 +427,8 @@ bound for `G_1` is that of (a).
   `log D > ϑ(y)`; already at `y = 20`, `D = 193993801`.
 
 *Needs:* AnalyticNumberTheoryPartI §0.30; AnalyticNumberTheoryPartI §0.34 (for (c)); 1.4g; 1.4h (notation); ZerosOfLFunctions 6.3–6.4; ZerosOfLFunctions 8.5 (at
-`K = ℚ`); RiemannHypothesisStatementsAndConsequences §8.4a (b); ClassFieldTheory Layer 11 (the field form); Mathlib
+`K = ℚ`); ExplicitPrimeCounting §§0.2, 0.7, 4.2 (the integral representations);
+RiemannHypothesisStatementsAndConsequences §8.4a (b); ClassFieldTheory Layer 11 (the field form); Mathlib
 `LSeries_eq_mul_integral'`, `DirichletCharacter.LSeries_twist_vonMangoldt_eq`,
 `DirichletCharacter.LFunction_apply_one_ne_zero`, `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`,
 `log_deriv_riemannZeta_add_inv_sub_sub_isBigO`, `Chebyshev.psi_le`.
@@ -478,6 +493,7 @@ one character by that comparison (*IsExceptionalZero* holds for at most one `β`
 `1 − β₁ ≥ c_ε q^(−1/2−ε)`. *The form of the formal proof.* The route of (ii) needs only a polynomial gap; [FormalProof]
 uses `1 − β₁ ≥ c/(q² log q)`, which gives `π(x;a,q) ≥ c′x/(q³ log x)` in (iii) in place of the exponent `7/4`. The gap
 `c_ε q^(−1/2−ε)` is AnalyticNumberTheoryPartI §0.12's, not the formal proof's, and implies this one.
+AnalyticNumberTheoryPartI §0.31b gives the stronger effective gap `1 − β₁ ≥ c_LS/log q`.
 Prime counts use AnalyticNumberTheoryPartI §0.2's `π(x;a,q)` and
 `ψ(x;a,q)`, and `Li = TauCeti.Real.logIntegral`, `Li x = ∫_2^x dt/log t`, as in ZerosOfLFunctions 8.5.
 
@@ -505,7 +521,10 @@ modulus to Knapowski. The statement above is the form for one modulus, at every 
 
 This differs from the repulsion table of AnalyticNumberTheoryPartI §2.9a, which repels the zeros of a Dedekind zeta function `ζ_L` in the scale
 `log D_L` under `ZamanDigammaInput`: here the scale is `log(q(|γ| + 2))` for the characters of one modulus `q` (at
-`L = ℚ(ζ_q)` the scale `log D_L` is of order `φ(q) log q`), and no numerical hypothesis enters.
+`L = ℚ(ζ_q)` the scale `log D_L` is of order `φ(q) log q`), and no numerical hypothesis enters. ExplicitZetaBounds §8.4
+states the explicit log-free density with the factor `min(1, (1 − β₁) log Q)` for the primitive characters of
+conductor at most `Q` (for `σ ≥ 39/40`, given its numerical records), and ExplicitNumberFields §4.10 an explicit
+repulsion for the zeros of `ζ_K` in the scale `log d_K`.
 
 *Route.*
 1. *Positivity.* With the coefficients `a_k(χ; z)` of 0.30b, for every `k ≥ 0`,
@@ -611,7 +630,9 @@ the least prime `≡ 1 (mod M)` is at most `M^L`; for each `r ≥ 1` there are `
 
 The bound `q^L` for the least prime is Linnik's theorem (Linnik 1944 I, (2), p. 139, proved in Linnik 1944 II, Theorem,
 p. 347; Bombieri 1987, Théorème 13, p. 39). The lower bound for `π(x;a,q)`, with its factor `min(1, (1 − β₁) log x)`,
-is the consequence of (ii) drawn in the route.
+is the consequence of (ii) drawn in the route. Its analogues for Chebotarev classes, in the discriminant scale, are
+AnalyticNumberTheoryPartI §2.49 (iii) and §2.9 and ExplicitNumberFields §7.4; at `L = ℚ(ζ_q)` they give only
+`q^(O(φ(q)))`.
 
 *Route.* (ii) with `L` large: the relative error is `≤ 1/2`, and
 `E_π(x) ≥ (Li x − Li(x^(β₁)))/φ(q) ≥ x(1 − x^(β₁−1))/(φ(q) log x) ≥ min(1/2, (1 − β₁)(log x)/2) · x/(φ(q) log x)`, using
@@ -635,6 +656,9 @@ is the consequence of (ii) drawn in the route.
 *Status.* (iv) is this roadmap's own statement, not a statement of the formal proof: it rests on the exclusion of
 Landau–Siegel zeros of AnalyticNumberTheoryPartI §0.34, which the formal proof does not use. The forms with the
 exceptional term, (ii) and (iii), are the ones the rest of this family uses.
+(iv) extends AnalyticNumberTheoryPartI §0.32 (Siegel–Walfisz, `q ≤ (log x)^B`) to the range `x ≥ q^L`;
+ZerosOfLFunctions 8.7 at `K = ℚ` is its case of a fixed modulus, and ExplicitPrimeCounting §6.1 gives explicit constants
+for `x ≥ exp(c log² q)` at the moduli that are not *IsExceptionalModulus*.
 
 *Route.* By AnalyticNumberTheoryPartI §0.34 the exceptional pair of (ii), if it exists, has `(1 − β₁) log q ≥ (1 − β₁) log q′ ≥ c_LS`, where
 `q′ ≤ q` is the conductor of the primitive character inducing `χ₁` (the deleted Euler factors vanish only on
@@ -661,7 +685,7 @@ Théorème 13, p. 39).
 
 ### Dependencies
 
-Layer 0 (0.30b, for 1.7b (i)); AnalyticNumberTheoryPartI §§0.1, 0.2, 0.11, 0.11b, 0.12, 0.17, 0.30, 0.30a, 0.34, 0.34a, 1.4, 1.4c, 1.4d, 1.7; ZerosOfLFunctions 6.3–6.4, 8.3, 8.5; RiemannHypothesisStatementsAndConsequences §8.4a; ClassFieldTheory Layer 11; ArithmeticDirichletSeries Layer 6; Mathlib's Chebyshev bounds, partial summation of Dirichlet series, orthogonality of Dirichlet characters and the logarithmic derivative of `ζ` near `1`; Tau Ceti's logarithmic integral.
+Layer 0 (0.30b, for 1.7b (i)); AnalyticNumberTheoryPartI §§0.1, 0.2, 0.11, 0.11b, 0.12, 0.17, 0.30, 0.30a, 0.34, 0.34a, 1.4, 1.4c, 1.4d, 1.7; AnalyticNumberTheoryPartIII 8.1; ExplicitPrimeCounting §§0.2, 0.7, 4.2; QuasiRiemannHypothesis §5.3; ZerosOfLFunctions 6.3–6.4, 8.3, 8.5; RiemannHypothesisStatementsAndConsequences §8.4a; ClassFieldTheory Layer 11; ArithmeticDirichletSeries Layer 6; Mathlib's Chebyshev bounds, partial summation of Dirichlet series, orthogonality of Dirichlet characters and the logarithmic derivative of `ζ` near `1`; Tau Ceti's logarithmic integral.
 
 ## Layer 2: Prime ideals in short intervals and Artin L-functions
 
@@ -730,19 +754,23 @@ the term `ψ₁(𝒞) φ̃(β₁)` present only if the exceptional pair of (i) e
 `0 ≤ φ̃(β₁) ≤ X^(β₁−1) φ̃(1)`. The term `ψ₁(𝒞) φ̃(β₁)/h_𝔪` is the part, coming from zeros above `1 − c_n/log B`, of the
 smoothed exceptional term `h_𝔪^(−1) Σ_ψ Σ_{β : IsExceptionalZero ψ* β} Re ψ(𝒞) φ̃(β)` (ZerosOfLFunctions 8.7's
 *exceptionalRayClassTerm* with `φ̃(β)` in place of `x^β/β`); its other summands come from real zeros in
-`[1 − c/log q(ψ*, 0), 1 − c_n/log B]` and are part of `R`.
+`[1 − c/log q(ψ*, 0), 1 − c_n/log B]` and are part of `R`. The field-uniform long-interval analogue for the Frobenius
+classes of a Galois extension `L`, with the exceptional term, is AnalyticNumberTheoryPartI §2.49 (i), for
+`x ≥ exp(10n(log D_L)²)`, with explicit constants in ExplicitNumberFields §7.3.
 
 *Route.* Orthogonality on `Cl_𝔪` (the smoothed form of ZerosOfLFunctions 8.7's identity), then each `ψ` replaced by `ψ*`
 (prime powers of primes dividing `𝔪` in `[X, 2X]` contribute at most `log 𝔑𝔪` per character). For each `ψ*`, the Weil
 formula of ZerosOfLFunctions 8.4 (trivial character) or 8.6 (nontrivial) applied to `φ`. Since `φ(1) = 0` and
 `φ̌(y) = φ(1/y)/y` vanishes on norms `≥ 1`, the prime side is the smoothed sum. The pole terms of the trivial character
 are `φ̃(1)` and `φ̃(0)`, with `0 ≤ φ̃(0) ≤ log(1 + h) ≤ h`. The gamma term is an integral on `Re s = 2`, where `φ̃` has size
-`hX²`; move its contour to `Re s = −1/2`: it crosses only `s = 0`, where the gamma factor's logarithmic derivative has
+`hX²`; move its contour to `Re s = −1/2` (AnalyticNumberTheoryPartIII 8.1): it crosses only `s = 0`, where the gamma
+factor's logarithmic derivative has
 the residue `−(#{j : a_j = 0} + r₂)`, `a_j ∈ {0, 1}` the parity of `ψ*` at the `j`-th real place (`−(r₁ + r₂)` for
 `ζ_K`), at most `r₁ + r₂` in absolute value; this gives a term of absolute value at most `(r₁ + r₂)φ̃(0) ≤ nh`. The
 shifted integral is `O_n(X^(−1/2) log(2/h))` because `|φ̃(−1/2 + it)| ≤ C_Φ₀ hX^(−1/2) min(1, (h|t|)^(−2))` against a
 digamma bound `O(log(|t| + 2))` (ZerosOfLFunctions 1.4); its companion term with `φ̃(−1 − it)` is `O(X^(−1) log(2/h))`,
-since `|φ̃(−1 − it)| ≤ C_Φ₀ (h/X) min(1, (h|t|)^(−2))`. So the gamma term is `O_n(1)`. Integration by parts gives
+since `|φ̃(−1 − it)| ≤ C_Φ₀ (h/X) min(1, (h|t|)^(−2))`. So the gamma term is `O_n(1)`.
+Integration by parts (QuasiRiemannHypothesis §3.2, the pointwise Mellin bound at `N = 0, 2`) gives
 `|φ̃(β + iγ)| ≤ C_Φ₀ hX^β (1 + h|γ|)^(−2)`; here and below `C_Φ₀` depends on the fixed cutoff `Φ₀` only. The zeros:
 orthogonality weights each of the `h_𝔪` characters by `1/h_𝔪`, so it suffices to bound the zero sum of each `ψ*` by
 the target `hX e^(−cS)/h_𝔪`, `S = √(log X)`; since `h ≥ e^(−cS)` and `h_𝔪 ≤ 8^n B ≤ 8^n e^(cS)` (2.9b, class numbers), the target
@@ -755,7 +783,8 @@ sum below `T` is `O(X e^(−4cS) S)`, and every error (the two zero sums, the po
 bounded) are absorbed into `C`.
 
 *Needs:* (i); 2.9b (class numbers); ZerosOfLFunctions 4.4; ZerosOfLFunctions 6.3–6.4;
-ZerosOfLFunctions 8.4, 8.6, 8.7; ZerosOfLFunctions 1.4; GlobalNumberFields Layer 2 and
+ZerosOfLFunctions 8.4, 8.6, 8.7; ZerosOfLFunctions 1.4; AnalyticNumberTheoryPartIII 8.1; QuasiRiemannHypothesis §3.2;
+GlobalNumberFields Layer 2 and
 GlobalNumberFields Layer 9 (ray class groups and their finiteness).
 
 **(iii) The count of prime ideals, with the exceptional zero explicit.** For
@@ -793,7 +822,9 @@ near-one Dedekind zero"; Stark, Lemma 8, pp. 145–146), gives a quadratic field
 (AnalyticNumberTheoryPartI §2.7 for `F/ℚ`) and `ζ` has no zero in `(0, 1)`, `β` is a zero of the real primitive character `χ_F`, and AnalyticNumberTheoryPartI §0.12
 (through AnalyticNumberTheoryPartI §0.34a) gives `1 − β ≥ c_ε D_F^(−1/2−ε)` effectively. Since `D_F ≤ D_E^(1/[E:F])` (the discriminant tower
 formula, as in AnalyticNumberTheoryPartI §2.31d) and `[E:F] = d/2`, `D_F ≤ D_E^(2/d)`, which gives the bound. Only that interface of AnalyticNumberTheoryPartI §2.31e is
-used, not its residue bound.
+used, not its residue bound. AnalyticNumberTheoryPartI §0.31b in place of AnalyticNumberTheoryPartI §0.12 at the step
+for `F`, as in AnalyticNumberTheoryPartI §2.31e and AnalyticNumberTheoryPartII §5.7a, gives the stronger effective gap
+`1 − β ≥ min(1/(4d!), c_LS)/log D_E`.
 
 (b) For `n ≥ 1` and `ε > 0` there are `c, c′, X₀ > 0` such that for `K` of
 degree `n`, every `𝔪`, every class `𝒞`, every `X ≥ X₀` with `log B ≤ c√(log X)` and every `h` with
@@ -860,6 +891,8 @@ class groups of imaginary quadratic fields, units).
   (with room for the factor `S`). The conditions `c² ≤ c_n/12`, `c² ≤ c₂/(12(1 + 6n))` give at least `9cS` for large `X`;
   with `4` in place of `12` the guaranteed saving is just below `4cS`, and with `8` just below `8cS`: neither exceeds
   `8cS`.
+- At `n = 1`, (i) follows from AnalyticNumberTheoryPartI §0.6, which excludes every such zero once `c_n` is at most its
+  constant `c`.
 - At `K = ℚ`, (iv)(a) is AnalyticNumberTheoryPartI §0.12: for a nontrivial real `ψ`, `D_K = 1`, `n = 1`, `E` is the quadratic field of `ψ*` with
   `D_E = 𝔑𝔣_ψ`, and the bound reads `1 − β ≥ c_ε 𝔑𝔣_ψ^(−1/2−ε)`; for the trivial character `ζ` has no zero in
   `(1/2, 1)`.
@@ -897,6 +930,9 @@ roadmap's own, not statements of the formal proof.
   `1/2` except the trivial one at `1`, where the others have order `0`).
 
 The Brauer continuation and Brauer's induction theorem are cited as in AnalyticNumberTheoryPartI §2.18a.
+AnalyticNumberTheoryPartI §2.42 states the corresponding hypotheses for Dedekind zeta functions and primitive Hecke
+characters, and, for abelian `K/ℚ`, the factorization of `ζ_K` into Dirichlet `L`-functions that the bullet
+*Through an abelian quotient* uses for the regular representation.
 
 *Needs:* AnalyticNumberTheoryPartI §§2.18a, 2.41; RiemannHypothesisStatementsAndConsequences §§9.2, 9.4, 9.5, 11.1.
 
@@ -921,7 +957,7 @@ The Brauer continuation and Brauer's induction theorem are cited as in AnalyticN
 
 ### Dependencies
 
-AnalyticNumberTheoryPartI §§0.12, 0.34a, 2.7, 2.18a, 2.31d, 2.31e, 2.41, 2.43; ZerosOfLFunctions 1.4, 4.4, 6.3–6.4, 8.4, 8.6, 8.7; RiemannHypothesisStatementsAndConsequences §§9.2, 9.4, 9.5, 11.1; ClassFieldTheory Layers 11 and 13; GlobalNumberFields Layers 2 and 9; EffectiveBounds Layer 1.
+AnalyticNumberTheoryPartI §§0.12, 0.34a, 2.7, 2.18a, 2.31d, 2.31e, 2.41, 2.43; AnalyticNumberTheoryPartIII 8.1; QuasiRiemannHypothesis §3.2; ZerosOfLFunctions 1.4, 4.4, 6.3–6.4, 8.4, 8.6, 8.7; RiemannHypothesisStatementsAndConsequences §§9.2, 9.4, 9.5, 11.1; ClassFieldTheory Layers 11 and 13; GlobalNumberFields Layers 2 and 9; EffectiveBounds Layer 1.
 
 ## Scope and ownership
 
@@ -949,7 +985,7 @@ In this family, [QuadraticTwistSelectionOverPrimes](../QuadraticTwistSelectionOv
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartIII
 
-8.3: Landau's local logarithmic-derivative lemma: for `0 < r₁ < r₂ < 1` there is `C(r₁, r₂)` such that, if `f` is holomorphic near `|z − z₀| ≤ R`, `f(z₀) ≠ 0` and `|f| ≤ e^M |f(z₀)|` on that disc, then `|f′/f(z) − Σ_ρ m_ρ/(z − ρ)| ≤ C(r₁, r₂) M/R` for `|z − z₀| ≤ r₁R` with `f(z) ≠ 0`, the sum over the zeros with `|ρ − z₀| ≤ r₂R` (0.30b).
+8.1: the residue theorem for a rectangle with finitely many poles, `rectangle_boundary_integral_eq_residues`, and its U-shaped form (1.4e, 2.9b (ii)). 8.3: Landau's local logarithmic-derivative lemma: for `0 < r₁ < r₂ < 1` there is `C(r₁, r₂)` such that, if `f` is holomorphic near `|z − z₀| ≤ R`, `f(z₀) ≠ 0` and `|f| ≤ e^M |f(z₀)|` on that disc, then `|f′/f(z) − Σ_ρ m_ρ/(z − ρ)| ≤ C(r₁, r₂) M/R` for `|z − z₀| ≤ r₁R` with `f(z) ≠ 0`, the sum over the zeros with `|ρ − z₀| ≤ r₂R` (0.30b).
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -983,6 +1019,14 @@ Layer 6: partial summation, used to pass from `θ(t;a,q)` to `π(x;a,q)` (1.7b (
 ### From TauCetiRoadmap.EffectiveBounds
 
 Layer 1: the class-number bound `NumberField.classNumber_le_bound`, `h_K ≤ 4^n |d_K|` for a number field `K` of degree `n`. It rests on Mathlib's `NumberField.exists_ideal_in_class_of_norm_le` (in every ideal class, an integral ideal of norm at most the Minkowski bound `(4/π)^(r₂)(n!/n^n)√|d_K|`) and on that layer's explicit ideal count `NumberField.card_ideal_absNorm_le` (at most `2^n X²` integral ideals of norm `≤ X`, for `X ≥ 1`). The class-number bound of 2.9b takes it.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+§0.2: the logarithmic progression sum *logPsiAP* and the closed form of its Mertens constant `C(q, a)` through `(L′/L)(1, χ)`; §0.7: its exact transfer identity with `ψ(t; q, a) − t/φ(q)`; §4.2: the exact form of `Σ_{n≤x} Λ(n)/n` with `ψ(x) − x` (the integral representations of `G_χ` and `G_1` in 1.4i).
+
+### From TauCetiRoadmap.QuasiRiemannHypothesis
+
+§3.2: the pointwise Mellin bound, uniform for `σ` in a compact interval (2.9b (ii)). §5.3: the bound for `ℒ′/ℒ` in a zero-free disc, at `K = ℚ` (1.4e).
 
 ### From Mathlib
 
