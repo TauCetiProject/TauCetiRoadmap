@@ -17,7 +17,9 @@ fields (`NumberField.IsCMField`), the unitary group `Matrix.unitaryGroup` of mat
 ring and Schwartz functions on real vector spaces (`SchwartzMap`), but no unitary group of a
 Hermitian space over a number field as an algebraic group with its adelic points, no Haar measure
 on its rational quotient, no automorphic forms on it, no Schwartz–Bruhat functions on adelic
-vector spaces, no Weil representation and no theta series.
+vector spaces, no Weil representation and no theta kernel or theta functional of a dual pair
+(the classical theta functions `jacobiTheta` of Mathlib and `ZLattice.thetaSeries` of Tau Ceti are
+not of this kind).
 
 * The unfolding of Bessel periods of theta lifts (6.2a–6.2d, 6.2): for Hermitian spaces
   `V = V_A ⊥ ⟨ζ⟩ ⊕ ℍ^ρ` and `W = W₀ ⊕ ℍ^ρ` with `U(V_A)`, `U(W₀)` anisotropic and Weil data with
