@@ -109,8 +109,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   archimedean place; also the maximal slopes of lattices of sections of an ample line bundle and an
   explicit arithmetic Hilbert–Samuel inequality.
 - [**Chow forms and heights of subvarieties**](ChowFormsAndHeightsOfSubvarieties/README.md):
-  Chow forms of projective subvarieties, spherical heights of multihomogeneous forms, and the
-  heights of subvarieties they define.
+  the change of metric in arithmetic intersection numbers, the comparison of the Fubini–Study
+  height of a projective cycle with the spherical height of its Chow form, and heights of cycles in
+  the projective space of a Hermitian vector bundle.
 - [**Heights for log-singular metrics**](HeightsForLogSingularMetrics/README.md):
   heights for log-singular metrics, heights on projective spaces and flag varieties, and slopes of
   Lie algebras of abelian schemes.
