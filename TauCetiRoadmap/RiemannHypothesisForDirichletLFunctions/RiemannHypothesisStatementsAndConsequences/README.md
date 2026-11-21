@@ -185,14 +185,16 @@ shift of ZerosOfLFunctions §8.2 for the L-functions involved.
   `∫_1^∞ rieszSum a y · y^(−s−1) dy = LSeries a s/(s(s − 1))`.
 - Inversion: under the same hypothesis, for `c > 1` and `y > 0`,
   `rieszSum a y = (2πi)⁻¹ ∫_{c−i∞}^{c+i∞} LSeries a s · y^s/(s(s − 1)) ds`, the integral absolutely
-  convergent.
+  convergent. This is the case `j = 1` of ExplicitZetaBounds §6.1a, applied to the coefficients
+  `n ↦ a(n)/n` after the shift `s = w + 1`.
 - Ideal coefficients: for a coefficient function `b` on the nonzero ideals of `𝓞 K`,
   `∑_{𝔑𝔞 ≤ y} b(𝔞) (y/𝔑𝔞 − 1) = rieszSum (normCoeff b) y`; no second Riesz sum is defined.
 
-Route: termwise, from `∫_n^∞ (y/n − 1) y^(−s−1) dy = n^(−s)/(s(s − 1))` for `Re s > 1` and the
-kernel identity `(2πi)⁻¹ ∫_{(c)} u^s ds/(s(s − 1)) = max(u − 1, 0)` for `u > 0`, `c > 1` (shift the
-line right when `u < 1`; left when `u > 1`, collecting the residues `u` at `1` and `−1` at `0`),
-with Fubini justified by absolute convergence on `Re s = c`. The normalization:
+Route: termwise, from `∫_n^∞ (y/n − 1) y^(−s−1) dy = n^(−s)/(s(s − 1))` for `Re s > 1`. The
+inversion: with `b(n) = a(n)/n` and `s = w + 1`, `LSeries a s = LSeries b w`, the kernel is
+`y^{w+1}/(w(w + 1))`, and `b` is absolutely summable on `Re w > 0`, so ExplicitZetaBounds §6.1a at
+`j = 1`, `x = y` and the line `Re w = c − 1 > 0` gives `∑_{n ≤ y} b(n)(y − n) = rieszSum a y`.
+The normalization:
 `n a(n) (y/n − 1) = y a(n) (1 − n/y)`.
 
 **(b) The remainder of a primitive character.** Define the *Euler–Kronecker constant*
@@ -271,7 +273,8 @@ bounds: the first termwise, as stated; the sharper one from `‖y^ρ‖ ≤ y` o
 
 *Needs:* 10.3 (`PrimitiveDirichletCharacter`); 11.1 (*toPrimitiveRayClassCharacter*, the
 comparison of its L-functions, and of its cards up to the normal form of the completed function
-at conductor one); ZerosOfLFunctions §§8.2, 1.4, 1.4a, 4.5, 5.6, 5.6a, 6.5; LFunctions Layer 3
+at conductor one); ZerosOfLFunctions §§8.2, 1.4, 1.4a, 4.5, 5.6, 5.6a, 6.5; ExplicitZetaBounds §6.1a
+(the inversion of (a)); LFunctions Layer 3
 (`dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`), Layer 5 (`heckeLFunctionC_eq`),
 Layer 7 (`heckeLFunction_ne_zero_of_one_le_re`); ArithmeticDirichletSeries §2.3
 (`TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform`) and
@@ -468,7 +471,8 @@ admissible modulus, ClassFieldTheory Layer 13 with Tau Ceti
 
 ZerosOfLFunctions §§1.4, 1.4a, 4.5, 5.6, 5.6a, 6.5 and 8.2, and Layer 0 (*entireCompletion*);
 ZerosOfLFunctions §8.8 for 8.8 and 8.8a. 8.4a additionally ArithmeticDirichletSeries §2.3 (the
-coefficients of `−logDeriv` of a ray-class L-function), LFunctions Layers 3, 5 and 7, and 10.3
+coefficients of `−logDeriv` of a ray-class L-function), ExplicitZetaBounds §6.1a (the inversion of
+Riesz sums), LFunctions Layers 3, 5 and 7, and 10.3
 and 11.1 of Layers 10 and 11, which use nothing of this layer; 8.4b LFunctions Layer 8
 (`dedekindZeta_logDeriv_eq`) and ArithmeticDirichletSeries §2.3; 8.8 and 8.8a GlobalNumberFields
 `RayClassCharacter.induced`, `RayClassGroup.hom_ext` and `RayClassCharacter.conductor_dvd_iff`,
@@ -492,9 +496,11 @@ predicate on a character or a record lives in the namespace of the type it is re
 `RiemannHypothesis` inside the namespaces `DirichletCharacter` and `NumberField`. Dot notation reads
 the head of the type: for a character written as a composite such as `ψ.comp Φ`, whose type is a
 monoid hom and not `RayClassCharacter 𝔪`, write `RayClassCharacter.GeneralizedRiemannHypothesis (ψ.comp Φ)`.
-There is no predicate for a modulus, for all characters, or on the bundles
+This roadmap defines no predicate for a modulus, for all characters, or on the bundles
 `PrimitiveDirichletCharacter` and `PrimitiveRayClassCharacter`: the hypothesis of a bundle `ψ` is
-that of `ψ.character`.
+that of `ψ.character`. Through the second strip form of 9.4, the hypothesis for every character
+modulo `q` is `GRHMod q` of ExplicitNumberFields §0.5, and that for every Dirichlet character is
+`GRH` of AnalyticNumberTheoryPartI §1.6.
 
 ### 9.2 Zero-free half-planes
 
@@ -703,11 +709,17 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   `(∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.GeneralizedRiemannHypothesis) ↔
   ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive → χ.GeneralizedRiemannHypothesis`
   (`forall_generalizedRiemannHypothesis_iff_forall_isPrimitive`). The instance binder `[NeZero f]`
-  makes `χ.LFunction` well typed.
+  makes `χ.LFunction` well typed. Through the strip forms at `σ = 1/2`, the left side of the first
+  is `GRHMod q` of ExplicitNumberFields §0.5, and the first is the passage to imprimitive characters
+  of ExplicitZetaBounds §0.2 at unbounded height.
+- **Bridge.** `χ.GeneralizedRiemannHypothesis ↔ DirichletGRH χ` (AnalyticNumberTheoryPartI §1.6),
+  which is the second strip form: the two definitions read orders on `Re s > 1/2` here and values
+  on `Re s > 0`, the pole of the principal character excepted, there, and are equivalent.
 - **Consumer forms.** From the hypothesis, `1/2 < Re s` and `χ ≠ 1 ∨ s ≠ 1`,
   `χ.LFunction s ≠ 0`; from the hypothesis, `0 < Re s < 1` and `χ.LFunction s = 0`, `Re s = 1/2`.
 
-*Needs:* 9.2, 9.3, 10.2; QuasiRiemannHypothesis §1.1 (the Dirichlet clause);
+*Needs:* 9.2, 9.3, 10.2; QuasiRiemannHypothesis §1.1 (the Dirichlet clause); AnalyticNumberTheoryPartI
+§1.6 (`DirichletGRH`, for the bridge);
 CharacterSumsOverFiniteFields §7.1 (the instance `NeZero χ.conductor`); ZerosOfLFunctions §6.4a
 (completion comparisons); LFunctions Layer 4 (`dirichletData`, `dirichletData_dual`,
 `dirichletData_modOne`); Mathlib `DirichletCharacter.LFunction`, `DirichletCharacter.level_one`,
@@ -762,7 +774,13 @@ predicate names it.
   being regular and nonzero on `Re s > 0` (ZerosOfLFunctions §1.5), the inverse clause, and no
   zero on `Re s = 1` (ZerosOfLFunctions §6.5). In the open strip the functions are analytic, so the strip forms read values.
   The right sides of the first two forms are AnalyticNumberTheoryPartI §2.42's ERH(`K`) and its
-  GRH(`ψ`) of a primitive finite-order Hecke character.
+  GRH(`ψ`) of a primitive finite-order Hecke character. They are also `DedekindERH K` of
+  ClassicalArithmeticCompletion §5.0 and, for a character `χ` of the class group (a primitive
+  ray-class character of the modulus `1`), its `HeckeGRH χ`; so these forms are the bridges
+  `ExtendedRiemannHypothesis K ↔` ERH(`K`) `↔ DedekindERH K` and
+  `χ.GeneralizedRiemannHypothesis ↔ HeckeGRH χ`, the definitions reading orders on `Re s > 1/2`
+  here and the zeros in the open strip there. At `σ = 1/2` the inverse clause for such a `χ` is the
+  invariance of `HeckeGRH` under `χ ↦ χ⁻¹` of ClassicalArithmeticCompletion §5.0.
 - **Presented and primitive.** `χ.GeneralizedRiemannHypothesis ↔
   (PrimitiveRayClassCharacter.of χ).character.GeneralizedRiemannHypothesis` (the ray-class clause of
   QuasiRiemannHypothesis §1.1).
@@ -798,7 +816,8 @@ predicate names it.
   For a Grossencharacter of finite order it is the hypothesis of the ray-class character it
   presents.
 
-*Needs:* 9.2–9.4; QuasiRiemannHypothesis §1.1 (germs, the ray-class clause); ZerosOfLFunctions
+*Needs:* 9.2–9.4; QuasiRiemannHypothesis §1.1 (germs, the ray-class clause); AnalyticNumberTheoryPartI
+§2.42 and ClassicalArithmeticCompletion §5.0 (for the bridges); ZerosOfLFunctions
 §§6.5, 1.5, 1.6; LFunctions Layer 3 (`dedekindZetaC`,
 `analyticAt_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`, `dedekindZetaData`), Layer 5
 (`heckeLFunctionC_eq`, `heckeData`, `completedHeckeLFunction_one_sub`,
@@ -841,6 +860,10 @@ conductor norm at least `3` and an archimedean factor at least `3`; for `[K:ℚ]
 So a primitive character satisfying its hypothesis has no exceptional zero, and at `K = ℚ` the
 exceptional branch of `dirichletLFunction_zeroFreeRegion` does not occur for a Dirichlet character,
 primitive or not, satisfying its hypothesis (9.4, and the rational paragraph of ZerosOfLFunctions §6.4).
+Over `ℚ`, AnalyticNumberTheoryPartI §§0.1 and 0.34 show unconditionally that the exceptional
+predicate of AnalyticNumberTheoryPartI §0.1 holds for no real character at the widths `c ≤ c_LS`;
+(a) removes the exceptional zeros of ZerosOfLFunctions §6.3, at its width and for every `K`, under
+the hypothesis. Neither statement contains the other.
 
 (c) **The Riesz remainder.** Let `ψ` be primitive, `σ ∈ [1/2, 1)`, and
 `heckeLFunctionC ψ.character` zero-free right of `σ`. Then there is `C` with
@@ -1112,6 +1135,13 @@ zero-free right of `σ` for every character `ψ` of `Gal(L/K)`, then
 `frobeniusPsi C x = (#C/#G) x + O(x^σ log² x)` and
 `frobeniusPrimeCount C x = (#C/#G) Li x + O(x^σ log x)`.
 
+At `σ = 1/2` the prime counts of (iii), and that of (i) for `K ≠ ℚ` (the case `L = K`), also follow
+from AnalyticNumberTheoryPartI §2.49 (ii), which assumes ERH(`L`), holds for every Galois `L/K` and
+is uniform in `L`, and with explicit constants from ExplicitNumberFields §7.2, under `DedekindERH L`
+and further computational hypotheses; for abelian `L/K`, ERH(`L`) is the hypothesis of (iii) at
+`σ = 1/2` through the factorization of `ζ_L` over the characters of `Gal(L/K)`, which is not stated
+here.
+
 At `K = ℚ` and `𝔪 = 1`: if `riemannZeta` is zero-free right of `σ`, so is `dedekindZetaC ℚ`
 (9.5, rational bullet), which is the hypothesis of (i), and `Chebyshev.psi x − x` and
 `Chebyshev.theta x − x` are `O(x^σ log² x)` and `π(x) − Li x = O(x^σ log x)`, with an absolute
@@ -1121,6 +1151,17 @@ constant; under `RiemannHypothesis` the errors are `O(√x log² x)`
 same for the primes in a reduced class modulo a fixed `q`, under the same zero-free half-plane
 for every Dirichlet character modulo `q` (9.5, rational bullet), which is the hypothesis of (ii),
 `ratDirichletEquiv q hq` being a bijection of the characters.
+
+At `σ = 1/2` the bound for `ψ_K` in (i) is ClassicalArithmeticCompletion §5.16a (i), which gives it
+with explicit constants for `x ≥ 100` under `DedekindERH K`, that is `ExtendedRiemannHypothesis K`
+(9.5); at `K = ℚ` under `RiemannHypothesis` the bound for `Chebyshev.psi` follows from it. The
+bounds at `ℚ` sharpen AnalyticNumberTheoryPartI §1.9: its (i) is `O_ε(x^{1/2+ε})` for
+`Chebyshev.psi x − x` under `RiemannHypothesis`, and its (ii) the same exponent for the primes in a
+reduced class modulo `q` under `DirichletGRH χ` for every `χ` modulo `q`, which is the hypothesis at
+`(q)∞` above at `σ = 1/2` (the bridge of 9.4). QuasiRiemannHypothesis §10.7 proves every Dirichlet
+L-function, `riemannZeta` included, zero-free right of `11/12`, so the statements at `ℚ` and at
+`(q)∞` above hold unconditionally at `σ = 11/12`: for instance
+`Chebyshev.psi x − x = O(x^{11/12} log² x)`.
 
 Route: the truncated formulas of ZerosOfLFunctions §§8.3 and 8.6 at height `T = x`, whose truncation error is then
 `O(log² x)`; every zero in the sum has `Re ρ ≤ σ` (strip forms of 9.5), so the zero sum is at most
@@ -1133,7 +1174,7 @@ removed and the Abel identity is applied as in ZerosOfLFunctions §§8.5 and 8.7
 
 *Needs:* 9.2, 9.5; QuasiRiemannHypothesis §1.1 (the ray-class clause); ZerosOfLFunctions §§4.5,
 6.5, 8.3, 8.5–8.8; ArithmeticDirichletSeries §§5.2, 6.1–6.2 and 10.1–10.2, as in ZerosOfLFunctions
-§§8.5 and 8.7.
+§§8.5 and 8.7; ClassicalArithmeticCompletion §5.16a (i) for `ψ_K` at `σ = 1/2`.
 
 **Checks.**
 
@@ -1156,8 +1197,10 @@ removed and the Abel identity is applied as in ZerosOfLFunctions §§8.5 and 8.7
 
 Layers 3 and 8 (3.2a for 9.7; 8.4a and 8.4b for 9.6–9.8), and 10.2 and 11.1 of Layers 10 and 11,
 which use nothing of this layer. QuasiRiemannHypothesis §1.1 for the predicate `ZeroFreeRightOf`
-and its first properties; CharacterSumsOverFiniteFields §7.1 for the instance `NeZero χ.conductor`.
-ZerosOfLFunctions Layer 0 for *entireCompletion* and Layer 9 for *AllOnCriticalLine* and *GRH*;
+and its first properties; CharacterSumsOverFiniteFields §7.1 for the instance `NeZero χ.conductor`;
+AnalyticNumberTheoryPartI §§1.6 and 2.42 and ClassicalArithmeticCompletion §5.0 for the bridges of
+9.4 and 9.5; ClassicalArithmeticCompletion §5.16a for 9.9. ZerosOfLFunctions Layer 0 for
+*entireCompletion* and Layer 9 for *AllOnCriticalLine* and *GRH*;
 ZerosOfLFunctions §§1.4–1.6, 2.1–2.2, 3.4, 4.4–4.5, 5.5–5.6a, 6.2–6.5,
 7.3, 7.6 and 8.3–8.8 for 9.3–9.9. LFunctions Layers 0 and 3–8. Mathlib `RiemannHypothesis`,
 `meromorphicOrderAt`, `Complex.borelCaratheodory`, the continued Dirichlet L-functions and their
@@ -1177,7 +1220,9 @@ Prove that for `0 < Re s`,
 `Odd.gammaFactor_def`), and `Gammaℝ` has no zero and no pole on `Re s > 0`
 (`Complex.Gammaℝ_ne_zero_of_re_pos`). So on `Re s > 0` the zeros of `χ.LFunction` and of
 `χ.completedLFunction` coincide with multiplicity, through
-`LFunction_eq_completed_div_gammaFactor`.
+`LFunction_eq_completed_div_gammaFactor`. For primitive `χ ≠ 1` this multiplicity statement is the
+completion comparison of ZerosOfLFunctions §6.4a (for the record's completed function, which has
+the further nonzero factor `q^(s/2)`); 10.2 gives it for every `χ`.
 
 *Needs:* Mathlib `DirichletCharacter.gammaFactor`, `DirichletCharacter.Even.gammaFactor_def`,
 `DirichletCharacter.Odd.gammaFactor_def`, `DirichletCharacter.even_or_odd`,
@@ -1260,6 +1305,10 @@ Define *PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter*, an equivalenc
 `PrimitiveDirichletCharacter ≃ PrimitiveRayClassCharacter ℚ` sending `ψ` to
 `ψ_ℚ = PrimitiveRayClassCharacter.of ((ratDirichletEquiv ψ.level _).symm ψ.character)`.
 
+The conductor and parity of the image, its values and its L-function are those of the dictionary of
+AnalyticNumberTheoryPartI §0.30 at `q = ψ.level`, where `ψ` is primitive; the equivalence, the
+compatibility with the primitive sources and the cards are stated here.
+
 - The image `ψ_ℚ` has finite conductor `(ψ.level)` and contains the real place exactly when `ψ` is
   odd (`TauCeti.GlobalNumberFields.RayClassCharacter.conductor_finitePart_eq_span`,
   `TauCeti.GlobalNumberFields.RayClassCharacter.conductor_infinitePart_eq_empty_iff_even`); its
@@ -1290,14 +1339,16 @@ Define *PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter*, an equivalenc
   `ofSeries_eq_normalized` applied to `dirichletData`, whose hypotheses are its three card
   predicates, its regularity on `Re s > 1` and its nonzero value at `2`. For `ψ ≠ 1` the completed
   function of `dirichletData` is entire, hence its own normal form, and the two cards themselves
-  agree under `EqOffZero`. For `ψ = 1` they do not: `dirichletData` is then `riemannZetaData`
+  agree under `EqOffZero`: this is the comparison card of LFunctions Layer 8 for primitive Dirichlet
+  and primitive ray-class characters. For `ψ = 1` they do not: `dirichletData` is then `riemannZetaData`
   (`dirichletData_modOne`), whose completed function `completedRiemannZeta` takes Mathlib's
   nonzero value `(γ − log 4π)/2` at `1` and at `0`, where the normal form takes `0`; the
   comparison at conductor one is the normalized one, `ofSeries_riemannZetaData`. In every case
   the two completed functions agree off `{0, 1}` and have the same punctured germ at every point,
   hence the same orders, zeros and poles.
 
-*Needs:* 10.3 (`PrimitiveDirichletCharacter`); LFunctions Layer 0 `EqOffZero`, `ofSeries`, with Tau Ceti
+*Needs:* 10.3 (`PrimitiveDirichletCharacter`); AnalyticNumberTheoryPartI §0.30 (the rational
+dictionary); LFunctions Layer 0 `EqOffZero`, `ofSeries`, with Tau Ceti
 `TauCeti.LFunctions.AnalyticLFunctionData.ofSeries_eq_normalized` and
 `TauCeti.LFunctions.ofSeries_riemannZetaData`; Layer 3
 `eventuallyEq_of_meromorphic_of_eqOn_halfPlane`; Layer 4 `dirichletData`, with Tau Ceti
@@ -1308,7 +1359,8 @@ Define *PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter*, an equivalenc
 `PrimitiveRayClassCharacter`,
 `PrimitiveRayClassCharacter.of`, `heckeLFunctionC`, `heckeData`, with Tau Ceti
 `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced` (the primitive source does not depend
-on the presentation); GlobalNumberFields, in the namespace `TauCeti.GlobalNumberFields`:
+on the presentation); Layer 8 (the comparison cards); GlobalNumberFields, in the namespace
+`TauCeti.GlobalNumberFields`:
 `ratModulus`, `ratFiniteModulus`, `ratDirichletEquiv`, `ratDirichletEquiv_absNorm`,
 `ratDirichletEquiv_induced`, `ratModulus_dvd_ratModulus_iff`,
 `RayClassCharacter.conductor_finitePart_eq_span`,
@@ -1347,7 +1399,8 @@ on the presentation); GlobalNumberFields, in the namespace `TauCeti.GlobalNumber
 
 ### Dependencies
 
-Layer 10 (10.3); LFunctions Layers 0, 3, 4, 5 and 8; GlobalNumberFields (`ratModulus`,
+Layer 10 (10.3); AnalyticNumberTheoryPartI §0.30; LFunctions Layers 0, 3, 4, 5 and 8;
+GlobalNumberFields (`ratModulus`,
 `ratFiniteModulus`, `ratDirichletEquiv` and its lemmas); Tau Ceti
 `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced`; Mathlib `toMeromorphicNFOn`,
 `completedRiemannZeta_one`.
@@ -1366,9 +1419,11 @@ Layer 10 (10.3); LFunctions Layers 0, 3, 4, 5 and 8; GlobalNumberFields (`ratMod
   twists, and RieszSumsOverPrimesAndExceptionalZeros the inversion of the kernel `1/(w(w − 1))` of
   8.4a (a); RieszSumsOverPrimesAndExceptionalZeros §2.41a states the Riemann hypothesis of an Artin
   L-function as the predicate of 9.2 on its continuation.
-- On main, AnalyticNumberTheoryPartI (§§1.6, 1.9, 2.42, 2.49), ExplicitZetaBounds (§§0.2–0.4b, 2.9,
-  7.9), ExplicitPrimeCounting (§6.5) and ClassicalArithmeticCompletion (§§5.0–5.1c, 5.16a) can state
-  their hypotheses through 9.4 and 9.5; AnalyticNumberTheoryPartI §1.9 can take 9.7 and 9.9 at `ℚ`,
+- On main, the Riemann hypotheses of AnalyticNumberTheoryPartI §§1.6 and 2.42 and
+  ClassicalArithmeticCompletion §5.0, which AnalyticNumberTheoryPartI (§§1.9, 2.49),
+  ExplicitZetaBounds (§0.2), ExplicitPrimeCounting (§6.5) and ClassicalArithmeticCompletion
+  (§§5.1b–5.1c, 5.16a) carry as hypotheses, are equivalent to those of 9.4 and 9.5 by the bridges
+  stated there; AnalyticNumberTheoryPartI §1.9 can take 9.7 and 9.9 at `ℚ`,
   ExplicitZetaBounds §2.9 the bound 9.8 for `S(T)`, and ExplicitMultiplicativeFunctions the bound
   9.7 (i) for `1/ζ`.
 
@@ -1383,16 +1438,20 @@ logarithmic derivative (8.4b); the independence of the primitive characters from
 dictionary (8.8); the Riesz-smoothed character sums through a surjection of a ray class group and
 their Frobenius reading (8.8a); the limit form of monotonicity, the converse product clause, the
 symmetries and the change of level of the zero-free half-plane predicate (9.2); the
-Riemann hypothesis of an analytic record (9.3), of a Dirichlet character (9.4), of a Dedekind zeta
-function, of a ray-class character and of a Grossencharacter (9.5), each with its equivalent forms
-and, at `ℚ`, its bridge to Mathlib's `RiemannHypothesis`; the consequences of a zero-free half-plane
+Riemann hypothesis, read through orders, of an analytic record (9.3), of a Dirichlet character
+(9.4), of a Dedekind zeta function, of a ray-class character and of a Grossencharacter (9.5), each
+with its equivalent forms, its bridge to the predicate of the roadmap on main that names it where
+there is one, and, at `ℚ`, its bridge to Mathlib's `RiemannHypothesis`; the consequences of a zero-free half-plane
 `Re s > σ`, `σ ∈ [1/2, 1)`, the hypothesis being the case `σ = 1/2`: exceptional zeros and the
 Riesz remainder (9.6), growth, the Lindelöf bound, the bound `exp(C log 𝔮/log log 𝔮)` and
 Littlewood's bounds on `Re s = 1` (9.7), the argument along a horizontal segment and `S(T)` (9.8),
 and prime counts (9.9); the nonvanishing of the gamma factor of a Dirichlet character on
 `Re s > 0` (10.2); the bundled primitive Dirichlet character
 (10.3); and its equivalence with the primitive ray-class characters of `ℚ`, with the comparison of
-their L-functions and cards (11.1).
+their L-functions and cards (11.1). The rational dictionary at every level that 11.1 reads at the
+primitive level is AnalyticNumberTheoryPartI §0.30, the comparison cards, to which 11.1 adds the
+normalized comparison at conductor one, are LFunctions Layer 8, and the inversion of Riesz sums in
+8.4a (a) is a case of ExplicitZetaBounds §6.1a.
 
 The theory these statements extend is owned by roadmaps on main. Growth predicates and the entire
 completion, gamma factors and the continued L-function, the analytic conductor, convexity, zero
@@ -1425,7 +1484,7 @@ states *DirichletGRH* `χ` in the value form on `Re s > 0`, the right side of th
 of 9.4, and AnalyticNumberTheoryPartI §2.42 states ERH(`K`) and GRH(`χ`) of a primitive Hecke
 character in the strip form, the right sides of the strip forms of 9.5;
 ClassicalArithmeticCompletion §5.0 states the hypotheses for Dedekind zeta functions and class-group
-characters. These are equivalent forms of 9.4 and 9.5. AnalyticNumberTheoryPartI §1.9 (i) states
+characters. These are equivalent to 9.4 and 9.5 by the bridges stated there. AnalyticNumberTheoryPartI §1.9 (i) states
 `ψ(x) − x = O(x^{1/2+ε})` under `RiemannHypothesis`, which 9.9 sharpens to `O(√x log² x)`;
 ClassicalArithmeticCompletion §5.16a (i) states an explicit bound for `|ψ_K(x) − x|` under the
 extended Riemann hypothesis of `K`, and for `|ψ(x) − x|` under `RiemannHypothesis`, of which the
@@ -1445,7 +1504,9 @@ and of a standard or Rankin–Selberg automorphic L-function, which belong to th
 ZerosOfLFunctions §7.3, and the count `N(T)` under the Riemann hypothesis that they give with the
 bound 9.8;
 the Riemann hypothesis to a height, the numerical records of verified zeros, and every conditional
-bound with explicit constants (ExplicitZetaBounds, ExplicitPrimeCounting). This roadmap proves no
+bound with explicit constants (ExplicitZetaBounds §§0.2–0.4b; ExplicitPrimeCounting §2.2, whose
+Schoenfeld bounds are explicit forms of the `ℚ` corollaries of 9.9 under further computational
+hypotheses; ClassicalArithmeticCompletion §5.16a (i); ExplicitNumberFields §7.2). This roadmap proves no
 case of the Riemann hypothesis: GeneralizedRiemannHypothesisFromWindowBounds, in this family,
 proves it for every Dirichlet L-function, and so for `ζ`.
 
@@ -1486,6 +1547,23 @@ the agreement of a ray-class character with its primitive source (9.2–9.9).
 §7.1: the instance `instNeZeroConductor : NeZero χ.conductor` for `[NeZero N]` and a Dirichlet
 character `χ` over a commutative monoid with zero (9.2, 9.4, 10.3).
 
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+§0.30: the rational dictionary between Dirichlet characters and ray-class characters of `ℚ`, with
+conductors, parities, values and the comparison of the continued functions (11.1). §1.6:
+`DirichletGRH` (the bridge of 9.4). §2.42: ERH(`K`) and GRH(`χ`) of a primitive Hecke character, with
+ERH(`ℚ`) `↔ RiemannHypothesis` and the trivial-character clause (the bridges of 9.5).
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§5.0: `DedekindERH` and `HeckeGRH`, with the invariance under `χ ↦ χ⁻¹` (the bridges of 9.5).
+§5.16a (i): the explicit bound for `ψ_K` under `DedekindERH K`, and for `ψ` under `RiemannHypothesis`
+(9.9).
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+§6.1a: Landau's iterated Perron identity, at `j = 1` (8.4a).
+
 ### From TauCetiRoadmap.LFunctions
 
 - Layer 0: `AnalyticLFunctionData.dual_completed`, `HasMeromorphicContinuation`,
@@ -1503,8 +1581,9 @@ character `χ` over a commutative monoid with zero (9.2, 9.4, 10.3).
   (9.5).
 - Layer 7: `heckeLFunction_ne_zero_of_one_le_re` (8.4a).
 - Layer 8: `dedekindZeta_logDeriv_eq` (8.4b); Mertens' product
-  `tendsto_prod_one_sub_inv_absNorm_div_log` at `ℚ` (9.7); the comparison card of the odd character
-  modulo `4∞` (11.1).
+  `tendsto_prod_one_sub_inv_absNorm_div_log` at `ℚ` (9.7); the comparison cards of primitive
+  Dirichlet and primitive ray-class characters, with the card of the odd character modulo `4∞`
+  (11.1).
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 

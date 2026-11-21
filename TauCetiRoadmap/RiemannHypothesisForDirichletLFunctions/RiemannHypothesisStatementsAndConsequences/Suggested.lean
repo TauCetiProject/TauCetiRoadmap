@@ -78,7 +78,8 @@ theorem riemannHypothesis_iff_riemannZeta_ne_zero :
   sorry
 
 /-- The Riemann hypothesis for a Dirichlet character `χ` modulo `N ≥ 1`, primitive or not (9.4):
-its continued L-function has no zero right of `1/2`. -/
+its continued L-function has no zero right of `1/2`.
+Equivalent to `DirichletGRH χ` of AnalyticNumberTheoryPartI §1.6 (the strip forms of 9.4). -/
 def _root_.DirichletCharacter.GeneralizedRiemannHypothesis {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) : Prop :=
   ZeroFreeRightOf (1 / 2) χ.LFunction
@@ -118,7 +119,8 @@ instance _root_.DirichletCharacter.instNeZeroConductor {R : Type*} [CommMonoidWi
     [NeZero N] (χ : DirichletCharacter R N) : NeZero χ.conductor :=
   ⟨χ.conductor_ne_zero⟩
 
-/-- A Dirichlet character and its primitive character satisfy the hypothesis together (9.4). -/
+/-- A Dirichlet character and its primitive character satisfy the hypothesis together (9.4).
+The primitive induction of AnalyticNumberTheoryPartI §1.6, through the strip forms of 9.4. -/
 theorem generalizedRiemannHypothesis_primitiveCharacter_iff {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) :
     χ.primitiveCharacter.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis := by
@@ -187,7 +189,9 @@ theorem primePsi_primeCount_of_zeroFreeRightOf (K : Type*) [Field K] [NumberFiel
             C * x ^ σ * Real.log x := by
   sorry
 
-/-- Von Koch (9.9, at `ℚ`): under the Riemann hypothesis, `ψ(x) − x = O(√x log² x)`. -/
+/-- Von Koch (9.9, at `ℚ`): under the Riemann hypothesis, `ψ(x) − x = O(√x log² x)`.
+The case `K = ℚ` of ClassicalArithmeticCompletion §5.16a (i), which has explicit constants; it
+sharpens AnalyticNumberTheoryPartI §1.9 (i). -/
 theorem psi_sub_self_isBigO_sqrt_mul_log_sq_of_riemannHypothesis (h : RiemannHypothesis) :
     (fun x : ℝ ↦ Chebyshev.psi x - x) =O[atTop] fun x ↦ √x * Real.log x ^ 2 := by
   sorry
