@@ -2,10 +2,9 @@ module
 
 public import Mathlib
 public import TauCeti.RepresentationTheory.Continuous.Transport
-public import TauCeti.RepresentationTheory.Continuous.MatrixCoefficient
 public import TauCeti.RepresentationTheory.Continuous.TensorProduct
 public import TauCeti.RepresentationTheory.SU2.Exhaustion
-public import TauCeti.RepresentationTheory.Compact.PeterWeyl
+public import TauCeti.RepresentationTheory.Compact.SchurOrthogonality
 
 /-!
 # Clebsch–Gordan and Racah theory for SU(2), Hahn and Racah polynomials: suggested target signatures
@@ -103,7 +102,7 @@ def IsTriad (d₁ d₂ d : ℕ) : Prop :=
 instance (d₁ d₂ d : ℕ) : Decidable (IsTriad d₁ d₂ d) := by
   unfold IsTriad; infer_instance
 
-/-- Admissibility is symmetric in the first two spins. -/
+/-- Sanity check of the definition: admissibility is symmetric in the first two spins. -/
 theorem isTriad_comm (d₁ d₂ d : ℕ) : IsTriad d₁ d₂ d ↔ IsTriad d₂ d₁ d := by
   sorry
 
@@ -150,12 +149,14 @@ def triangleCoefficient (d₁ d₂ d₃ : ℕ) : ℝ :=
   Real.sqrt ((((d₁ + d₂ - d₃) / 2).factorial * ((d₁ + d₃ - d₂) / 2).factorial *
     ((d₂ + d₃ - d₁) / 2).factorial : ℕ) / (((d₁ + d₂ + d₃) / 2 + 1).factorial : ℕ))
 
-/-- **Selection rule:** the coefficient vanishes for an inadmissible triple. -/
+/-- Sanity check of the definition (**selection rule**): the coefficient vanishes for an
+inadmissible triple. -/
 theorem clebschGordan_eq_zero_of_not_isTriad {d₁ d₂ d : ℕ} (h : ¬ IsTriad d₁ d₂ d)
     (i₁ i₂ i : ℕ) : clebschGordan d₁ d₂ d i₁ i₂ i = 0 := by
   sorry
 
-/-- **Selection rule:** the coefficient vanishes unless `m = m₁ + m₂`. -/
+/-- Sanity check of the definition (**selection rule**): the coefficient vanishes unless
+`m = m₁ + m₂`. -/
 theorem clebschGordan_eq_zero_of_ne {d₁ d₂ d i₁ i₂ i : ℕ}
     (h : 2 * i + d₁ + d₂ ≠ 2 * i₁ + 2 * i₂ + d) : clebschGordan d₁ d₂ d i₁ i₂ i = 0 := by
   sorry
@@ -215,7 +216,7 @@ theorem eq_coupledVector_of_tprod {d₁ d₂ d : ℕ} (h : IsTriad d₁ d₂ d)
 
 /-- **Orthogonality in the coupled indices** (Edmonds (3.5.4)). -/
 theorem sum_clebschGordan_mul_clebschGordan {d₁ d₂ d d' i i' : ℕ} (h : IsTriad d₁ d₂ d)
-    (h' : IsTriad d₁ d₂ d') (hi : i ≤ d) (hi' : i' ≤ d') :
+    (hi : i ≤ d) :
     ∑ i₁ ∈ Finset.range (d₁ + 1), ∑ i₂ ∈ Finset.range (d₂ + 1),
         clebschGordan d₁ d₂ d i₁ i₂ i * clebschGordan d₁ d₂ d' i₁ i₂ i' =
       if d = d' ∧ i = i' then 1 else 0 := by
@@ -339,14 +340,15 @@ theorem threeJ_cycle (d₁ d₂ d₃ i₁ i₂ i₃ : ℕ) :
     threeJ d₁ d₂ d₃ i₁ i₂ i₃ = threeJ d₂ d₃ d₁ i₂ i₃ i₁ := by
   sorry
 
-/-- **Odd permutations** (Edmonds (3.7.5); DLMF 34.3.9): a factor `(-1)^{j₁ + j₂ + j₃}`. -/
-theorem threeJ_swap {d₁ d₂ d₃ : ℕ} (h : Even (d₁ + d₂ + d₃)) (i₁ i₂ i₃ : ℕ) :
+/-- **Odd permutations** (Edmonds (3.7.5); DLMF 34.3.9): a factor `(-1)^{j₁ + j₂ + j₃}`. For an
+odd sum of the doubled spins both sides are `0`. -/
+theorem threeJ_swap (d₁ d₂ d₃ i₁ i₂ i₃ : ℕ) :
     threeJ d₁ d₂ d₃ i₁ i₂ i₃ = (-1) ^ ((d₁ + d₂ + d₃) / 2) * threeJ d₂ d₁ d₃ i₂ i₁ i₃ := by
   sorry
 
-/-- **Reversal of the magnetic quantum numbers** (Edmonds (3.7.6); DLMF 34.3.10). -/
-theorem threeJ_reflect {d₁ d₂ d₃ i₁ i₂ i₃ : ℕ} (h : Even (d₁ + d₂ + d₃)) (h₁ : i₁ ≤ d₁)
-    (h₂ : i₂ ≤ d₂) (h₃ : i₃ ≤ d₃) :
+/-- **Reversal of the magnetic quantum numbers** (Edmonds (3.7.6); DLMF 34.3.10). For an odd sum
+of the doubled spins both sides are `0`. -/
+theorem threeJ_reflect {d₁ d₂ d₃ i₁ i₂ i₃ : ℕ} (h₁ : i₁ ≤ d₁) (h₂ : i₂ ≤ d₂) (h₃ : i₃ ≤ d₃) :
     threeJ d₁ d₂ d₃ i₁ i₂ i₃ =
       (-1) ^ ((d₁ + d₂ + d₃) / 2) * threeJ d₁ d₂ d₃ (d₁ - i₁) (d₂ - i₂) (d₃ - i₃) := by
   sorry
@@ -370,7 +372,9 @@ theorem sum_threeJ_mul_threeJ_right {d₁ d₂ i₁ i₂ i₁' i₂' : ℕ} (h�
 
 /-! ### 2.3 Special values -/
 
-/-- **Spin zero** (DLMF 34.3.1): `(j j 0; m -m 0) = (-1)^{j - m} / √(2j + 1)`. -/
+/-- Sanity check of the definition (**spin zero**, DLMF 34.3.1):
+`(j j 0; m -m 0) = (-1)^{j - m} / √(2j + 1)`; it is `clebschGordan_spin_zero` through the
+definition of `threeJ`. -/
 theorem threeJ_spin_zero {d i : ℕ} (h : i ≤ d) :
     threeJ d d 0 i (d - i) 0 = (-1) ^ (d - i) / Real.sqrt (d + 1) := by
   sorry
@@ -473,12 +477,13 @@ theorem clebschGordan_eq_hahn {N n x : ℕ} (a b : ℕ) (hn : n ≤ N) (hx : x �
 
 /-! ### 4.2 Orthogonality and reflection -/
 
-/-- **Hahn orthogonality** (DLMF Table 18.19.1), for `α, β > -1`, multiplied by
-`2n + α + β + 1`: with `w_x = (α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)`,
+/-- **Hahn orthogonality** (DLMF Table 18.19.1), multiplied by `2n + α + β + 1`, for real `α, β`
+with `(α + 1)_n ≠ 0` and `(α + 1)_m ≠ 0`; DLMF's range `α, β > -1` is one case. With
+`w_x = (α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)`,
 `(2n + α + β + 1) Σ_x w_x Q_n Q_m = δ_{nm} (-1)^n (n + α + β + 1)_{N+1} (β + 1)_n n! /
 ((α + 1)_n (-N)_n N!)`. -/
-theorem sum_hahn_mul_hahn {N n m : ℕ} (hn : n ≤ N) (hm : m ≤ N) {α β : ℝ} (hα : -1 < α)
-    (hβ : -1 < β) :
+theorem sum_hahn_mul_hahn {N n m : ℕ} (hn : n ≤ N) (hm : m ≤ N) {α β : ℝ}
+    (hα : (ascPochhammer ℝ n).eval (α + 1) ≠ 0) (hα' : (ascPochhammer ℝ m).eval (α + 1) ≠ 0) :
     (2 * n + α + β + 1) * ∑ x ∈ Finset.range (N + 1),
         (ascPochhammer ℝ x).eval (α + 1) * (ascPochhammer ℝ (N - x)).eval (β + 1) /
           (x.factorial * (N - x).factorial) * hahn N n α β x * hahn N m α β x =
