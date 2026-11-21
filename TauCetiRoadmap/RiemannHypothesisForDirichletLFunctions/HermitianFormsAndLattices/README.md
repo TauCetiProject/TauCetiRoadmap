@@ -444,6 +444,8 @@ Prove that the determinant class `det V ∈ F^×/N(E^×)` does not depend on the
 multiplicative under orthogonal sums, and changes by `N(det g)` under a change of basis `g`. For
 `E = F × F`, `N(E^×) = F^×`, every Hermitian space of dimension `n` is isometric to the standard
 one, its Witt index is `⌊n/2⌋`, and its anisotropic kernel is `0` for even `n` and `⟨1⟩` for odd `n`.
+In characteristic `≠ 2` the isometry of every split space with the standard one is the case `ε = 1` of
+MetaplecticAutomorphicForms §3.2a (every such space is `A ⊕ A^∨`); 1.4 holds in every characteristic.
 
 Route: `det(g^* H g) = N(det g) det H`. In the split case `N(a, b) = ab`, so `⟨c⟩ ≅ ⟨1⟩` for every
 `c ∈ F^×`; dual bases for the pairing `V_1 × V_2 → F` of 0.1 give the standard form; `⟨1, −1⟩ ≅ H`
@@ -481,7 +483,8 @@ to `aδ`, `a ∈ F^×`, multiplies the Hermitian form by `a^{−1}`. The local a
 of Layers 2–3 therefore apply to skew-Hermitian spaces, with the invariants of the Conventions.
 (b) For a skew-Hermitian `W` (resp. Hermitian `V` and trace-zero `δ`), `Tr ∘ w` (resp. `Tr(δ h)`)
 is a nondegenerate alternating `F`-bilinear form on the underlying `F`-space, and
-`U(W) ⊂ Sp(Tr ∘ w)`.
+`U(W) ⊂ Sp(Tr ∘ w)`. Over a CM field and integrally, for forms linear in the first variable (1.0), PELModuli M0.22
+(`HermitianSpace.traceSkewHermitian`) is the same construction `Tr(δh)`.
 
 Route: `σ(δ^{−1}w(x, y)) = δ̄^{−1}σ(w(x, y)) = (−δ)^{−1}(−w(y, x)) = δ^{−1}w(y, x)` because
 `δ̄ = −δ`, so `δ^{−1}w` is Hermitian; the inverse is `h ↦ δh`, and isometries, orthogonal sums and
@@ -560,7 +563,7 @@ determinant class; (b) for every `n ≥ 1` both classes of `F^×/N(E^×) ≅ {±
 and only if `η(−det V) = 1`; every binary space represents every `c ∈ F^×`. In characteristic zero
 these are [Kirschmer], Theorem 3.2.3 and Corollary 3.2.4, pp. 29–30.
 
-Route: `[F^× : N(E^×)] = 2` by local reciprocity (ClassFieldTheory Layer 6, for every nonarchimedean
+Route: `[F^× : N(E^×)] = 2` by local reciprocity (ClassFieldTheory §6.1, `localArtinEquiv`, for every nonarchimedean
 local field). The set `N(E^×) ∪ {0}` is not closed under addition. Suppose it were. Being closed in
 `F`, stable under multiplication and containing `1`, it would contain every `m·1` with `m ∈ ℕ` and
 hence, being closed, `−1 = lim_k (p^k − 1)·1` (`p` the residue characteristic); it would then be a
@@ -574,7 +577,7 @@ planes (1.2) until the dimension is at most two; a binary space represents `1` a
 `H^{r−1} ⊥ ⟨1, (−1)^{r−1} det V⟩` for `n = 2r`, according to `η((−1)^r det V)`. (b): `⟨1, …, 1, a⟩`
 with `a` in either class.
 
-*Needs:* 1.1, 1.2; ClassFieldTheory Layer 6.
+*Needs:* 1.1, 1.2; ClassFieldTheory §6.1 (`localArtinEquiv`).
 
 **Checks.**
 
@@ -683,7 +686,7 @@ Over `ℚ_3(i)/ℚ_3`, `⟨1, 1⟩` is hyperbolic and `⟨1, 3⟩` is anisotropi
 
 ### Dependencies
 
-Layers 0 and 1; ClassFieldTheory Layer 6; GlobalQuadraticForms 4.1 (2.4); AdelicAlgebraicGroups §4.2 and GlobalNumberFields Layer 1 (2.5); Mathlib's Hermitian and positive definite matrices.
+Layers 0 and 1; ClassFieldTheory §6.1; GlobalQuadraticForms 4.1 (2.4); AdelicAlgebraicGroups §4.2 and GlobalNumberFields Layer 1 (2.5); Mathlib's Hermitian and positive definite matrices.
 
 ## Layer 3: global classification
 
@@ -714,7 +717,7 @@ the Hasse–Minkowski theorem for isometry (GlobalQuadraticForms 6.3) gives `q_h
 The equivalent form: by 2.1–2.3 the local classes are determined by these invariants, and a class
 in `F^×/N(E^×)` trivial at every place is trivial (`cyclicHasseNorm`).
 
-*Needs:* 1.3, 1.7, 2.1, 2.2, 2.3; GlobalQuadraticForms 6.3; ClassFieldTheory Layer 13
+*Needs:* 1.3, 1.7, 2.1, 2.2, 2.3; GlobalQuadraticForms 6.3; ClassFieldTheory §13.1
 (`cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`).
 
 **Checks.**
@@ -793,6 +796,8 @@ with trivial determinant class, is *coherent* if it is the localization of a glo
 local space of dimension `n` with `η_w(det)` changed (at a finite `w` the other determinant class; at
 a real `w` a signature with `q_w` changed by one) gives a coherent collection, and changing an
 incoherent collection in this way at two places keeps it incoherent.
+For Hermitian collections the necessary direction is MetaplecticAutomorphicForms §6.7
+(`thetaSectionCollection_incoherent`), which leaves the converse to a separate statement.
 
 Route: 3.2 and 2.4.
 
@@ -836,7 +841,7 @@ Over `ℚ(i)/ℚ`, `⟨1, 1⟩ ≅ ⟨1, 2⟩`, while `⟨1, 1⟩` and `⟨1, 3�
 
 ### Dependencies
 
-Layers 1 and 2; GlobalQuadraticForms 4.1, 6.3; ClassFieldTheory Layer 13; GlobalNumberFields Layer 1; AdelicAlgebraicGroups §4.1.
+Layers 1 and 2; GlobalQuadraticForms 4.1, 6.3; ClassFieldTheory §13.1; GlobalNumberFields Layer 1; AdelicAlgebraicGroups §4.1.
 
 ## Layer 4: Hermitian lattices
 
@@ -1092,7 +1097,8 @@ orthogonal sum `L_1 ⊥ ⋯ ⊥ L_m` of `𝔓^{a_i}`-modular lattices with `a_1 
 nondyadic, a `𝔓^a`-modular lattice with `a` odd is an orthogonal sum of planes `Oe ⊕ Of` with
 `h(e, e) = h(f, f) = 0`, `h(e, f) = Π^a`, hence of even rank, and one with `a` even is `Π^{a/2}L_0`
 with `L_0` unimodular. In characteristic zero, (a) and (b) are [Kirschmer], Theorem 3.3.3, p. 32, and
-(c) is Proposition 3.3.5 (3), (5) there, pp. 32–33.
+(c) is Proposition 3.3.5 (3), (5) there, pp. 32–33. For symmetric bilinear forms over a discrete valuation ring, the
+quadratic counterpart of (a), (b) is IntegralLattices 3B.
 
 Route: choose `x, y` with `h(x, y)` generating `s(L)`; if some `h(x, x)` generates it, split off
 `O_E x`, otherwise split off the plane spanned by `x, y`; induct. Invariance of the type from the
@@ -1740,7 +1746,8 @@ For a lattice `L` in a Hermitian space `V` over a number field, define the genus
 class set `cls(L)`, the set of classes of the lattices of `gen(L)` (Conventions). Prove that
 `g ↦ [g·L]` is a bijection `U(V)(F)\U(V)(𝔸_f)/K_L ≃ cls(L)`, under which the stabilizer of
 `g·L` in `U(V)(F)` is `U(V)(F) ∩ gK_Lg^{−1}`. The same holds for lattices over an `O_F`-order
-`𝒪 ⊂ E` stable under conjugation, with `K_L` the stabilizer of `L`.
+`𝒪 ⊂ E` stable under conjugation, with `K_L` the stabilizer of `L`. For quadratic lattices over `ℤ`, the class set
+and its adelic double-coset description are IntegralLattices 4A, 4B.
 
 Route: 4.0(g) identifies `gen(L)` with `U(V)(𝔸_f)/K_L`; the class relation is the left action of
 `U(V)(F)`.
@@ -1861,7 +1868,7 @@ is a `w`-neighbour of `L` if `M_v = L_v` for finite `v ≠ w`, `M_w` is in the `
 neighbour of the next; (b) if `V` is totally definite and `n ≥ 2`, every class of the special genus
 of `L` contains a lattice reached from `L` by a finite chain of `w`-neighbours. Kneser's neighbours
 of a modular lattice and the chains of (a) are [Kirschmer], Definition 5.2.1 and Propositions 5.2.4,
-5.2.5, pp. 75–76.
+5.2.5, pp. 75–76. Kneser's `p`-neighbours of integral quadratic lattices over `ℤ` are IntegralLattices 4G.
 
 Route: (a) the orbit of `L_w` is the set of unimodular lattices of `V_w` (4.2(a)). At an inert `w`,
 by 4.7(a) two of them are `⊕(Oe_i ⊕ Of_i) ⊥ L_0` and `⊕(ϖ^{−a_i}Oe_i ⊕ ϖ^{a_i}Of_i) ⊥ L_0`; lowering one
@@ -1988,7 +1995,7 @@ every place, hence in one genus. (b) `det V` is a norm at every place: at inert 
 even power of `ϖ`, units being norms; at split places trivially; at real places positive; so it is a
 global norm (`cyclicHasseNorm`), and 3.1 with equal signatures gives `V ≅ ⟨1, …, 1⟩`; then (a).
 
-*Needs:* 3.1, 4.0, 4.2; ClassFieldTheory Layer 13.
+*Needs:* 3.1, 4.0, 4.2; ClassFieldTheory §13.1.
 
 **Checks.**
 
@@ -2043,7 +2050,7 @@ For `n = 1`, `E` imaginary quadratic and `L = O_E`, the class set is `Cl(E)` mod
 
 ### Dependencies
 
-Layers 0–4; AdelicAlgebraicGroups §§3.4, 4.4; AutomorphicFormsOnReductiveGroups 7.4, 7.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5c; FiniteGroupInvariants 10.2; ClassFieldTheory Layer 13; ClassicalGroups Layer 5; Mathlib's double cosets.
+Layers 0–4; AdelicAlgebraicGroups §§3.4, 4.4; AutomorphicFormsOnReductiveGroups 7.4, 7.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5c; FiniteGroupInvariants 10.2; ClassFieldTheory §13.1; ClassicalGroups Layer 5; Mathlib's double cosets.
 
 ## Layer 6: Tamagawa numbers, local densities, the mass formula and Siegel's main theorem
 
@@ -2464,6 +2471,8 @@ rank `n − 1` and `N` a `ϖ_v`-modular line, `β_v(L) = (q_v + 1)∏_{k=1}^{n�
 [Kirschmer], Definition 4.2.6, p. 53, larger by `q_v^{n/2}` for even `n` (its `a_p`), these are the
 values of its Lemma 4.2.9, pp. 55–56, at the dual `L_v^∨ = ΠL_{−1} ⊥ L_0` of `L_v = L_{−1} ⊥ L_0` (4.4(d)),
 which has the stabilizer of `L_v`.
+At an inert `v` the value of `α_v(L, T)` in (a) is the self-dual density `Den(⟨1⟩_n, ⟨1⟩_k)` of
+GeometryOfNumbersAndQuadraticArithmetic 3.2.4 (`normalizedSiegelPolynomial`).
 
 Route: (a) at an unramified place, smoothness of the Gram map at unimodular points, including dyadic
 places (GeometryOfNumbersAndQuadraticArithmetic `primitive_hermitian_smooth_count`), reduces the count
@@ -2693,7 +2702,9 @@ for the archimedean fibre measure on `U(V)(F_∞)` (6.1(f)), `U(M)` acting on `U
 `U(V)(F) ⊂ U(V)(F_∞)`; for totally definite `V`, `vol(U(M)\U(V)(F_∞)) = β_∞(L)/|U(M)|` and (b) is (a).
 For integral `L`, (a) is the mass formula of [Kirschmer], Theorem 4.2.3, p. 51, written there without
 the convergence factors `L_v(1, η_v)` and with `β_∞(L)` evaluated as in 6.3; its proof there refers to
-[GanYu], §10.
+[GanYu], §10. For `F = ℚ`, `E` imaginary quadratic of class number one and `L` unimodular, (a) is the mass formula
+that AbelianSchemesAndArithmeticModuliPartII F5.7 takes as an input, its local factors at the ramified places, dyadic
+ones included, being the densities of 6.1.
 
 (c) *The form of the formal proof: compact-dual normalisation.* Let `E/F` be a CM extension unramified at every finite
 place, `V` a Hermitian space of dimension `n ≥ 1` with the same signature `(p, q)` at every real place, and `L ⊂ V` a
@@ -3195,11 +3206,11 @@ is `∏ det(Z_τ/i)^{−n}` times the Gaussian of `−Z^{−1}`, proved for `Z =
 extended to `ℋ_k^Φ` by the identity theorem. The exponent `n` is an integer, so no branch of the
 determinant is chosen.
 
-*Needs:* 4.0; ThetaSeries Layers 1 (1A), 3.
+*Needs:* 4.0; ThetaSeries 1A, 3A.
 
 **Checks.**
 
-- `k = 1` and `Z_τ = z` for every `τ`: `θ_L^{(1)}(z)` is ThetaSeries' `thetaSeries` (Layer 3) of the
+- `k = 1` and `Z_τ = z` for every `τ`: `θ_L^{(1)}(z)` is ThetaSeries' `thetaSeries` (3A) of the
   real model of the `ℤ`-lattice `(L, Tr_{E/ℚ} ∘ h)` at `z`, since `e(z Tr_{F/ℚ} h(x, x)) =   exp(πiz·Tr_{E/ℚ}h(x, x))`.
 - `E = ℚ(i)`, `L = ℤ[i]` with `x̄y`, `k = 1`: `θ_L(z) = (Σ_{m ∈ ℤ} e(m² z))²`; `𝔇_{E/ℚ} = (2)`, so
   `L^# = (1/2)ℤ[i]` and the covolume is `2`. At `z = i`, (d) reads `θ_L(i) = θ_{L^#}(i)/2`, the square
@@ -3232,7 +3243,7 @@ For `E = ℚ(i)`, `L = ℤ[i]` and `k = 1`, `θ_L(z) = (Σ_{m ∈ ℤ} e(m²z))�
 
 ### Dependencies
 
-Layers 4–6; ThetaSeries Layers 1, 3.
+Layers 4–6; ThetaSeries 1A, 3A.
 
 ## Downstream consumers
 
@@ -3279,6 +3290,10 @@ Layers 4–6; ThetaSeries Layers 1, 3.
   with an undetermined constant `c_1` and the masses of standard lattices as numbers (6.3); the compact-dual
   normalisation (6.2(c)); the strict inequality `t(M_v) < n′` (6.4a); the exponent `(9s + 8 + 4l)/2` with cyclic
   discriminant modules (6.4c); and `2k < n` (6.5(a), (d)).
+- EndoscopicTransferAndUnitaryTraceComparisonPartII names two statements proved here as gaps: its
+  `gap:hermitian-field-classification` is 2.1(a), (b) (every characteristic, dyadic and ramified extensions included),
+  and its `gap:unramified-hermitian-lattice-orbits` is 4.1(a), (b) with 4.2(a) at an unramified place (diagonal Jordan
+  representatives `ϖ^λ`, unique, and every unimodular lattice with an orthonormal basis).
 
 ## Scope and ownership
 
@@ -3361,7 +3376,8 @@ as a theory on the Hermitian half-space: Layer 7 states theta series, their tran
 their genus averages only. The theta correspondence: Weil representations, adelic theta kernels and
 the identification of genus averages of theta series with Siegel Eisenstein series (the Siegel–Weil
 formula) belong to MetaplecticAutomorphicForms and ThetaLiftsForDefiniteUnitaryGroups. The comparison
-of the Hermitian spaces of PELModuli (linear in the first variable, over CM orders) with those here is
+of the Hermitian spaces of PELModuli M0.22 (`HermitianSpace`, `HermitianSpace.unitaryGroup`,
+`HermitianSpace.coordinate`; linear in the first variable, over CM orders) with those here is
 the flip of 1.0, stated by the roadmaps that use both. Hermitian K-theory and Witt groups of rings
 (GeometryOfNumbersAndQuadraticArithmetic Layer 6, HermitianKTheoryOfPoincareCategories). The mass of
 the unimodular positive-definite Hermitian lattices over an imaginary quadratic field of class number
@@ -3458,8 +3474,8 @@ Hasse–Minkowski theorem for isometry of regular quadratic forms over a number 
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
-Layer 6: local reciprocity, `[F^× : N_{E/F}(E^×)] = 2` for a separable quadratic extension of
-nonarchimedean local fields of any characteristic. Layer 13: `cyclicHasseNorm`,
+§6.1 (`localArtinEquiv`): local reciprocity, `[F^× : N_{E/F}(E^×)] = 2` for a separable quadratic extension of
+nonarchimedean local fields of any characteristic. §13.1: `cyclicHasseNorm`,
 `isGlobalNorm_iff_isLocalNormEverywhere`.
 
 ### From TauCetiRoadmap.GlobalNumberFields
@@ -3539,7 +3555,7 @@ Layer 5: the Weyl dimension formula for `GL_n`.
 
 ### From TauCetiRoadmap.ThetaSeries
 
-1A: Poisson summation for a full lattice in a finite-dimensional real inner product space. Layer 3:
+1A: Poisson summation for a full lattice in a finite-dimensional real inner product space. 3A:
 the theta series `thetaSeries L` of a lattice, for the Check of 7.1.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
