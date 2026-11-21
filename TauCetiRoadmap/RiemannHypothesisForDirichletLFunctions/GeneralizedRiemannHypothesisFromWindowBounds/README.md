@@ -138,6 +138,10 @@ them instead from the bounds that the Riemann hypothesis gives.
 - **No fixed constants.** Every exponent, window ratio and weight of a statement here is a
   parameter with its true constraint.
 
+**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider statement would need its own proof.
+
 ## Layer 0: weighted families and their Riesz remainders
 
 Over `ℚ`, for families of primitive Dirichlet characters, the transform of a family with its poles
