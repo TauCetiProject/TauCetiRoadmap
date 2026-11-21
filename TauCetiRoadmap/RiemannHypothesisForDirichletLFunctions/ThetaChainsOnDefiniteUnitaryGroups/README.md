@@ -329,7 +329,8 @@ quantity is defined (`SizeSc` in 2.3b, `SizeGap`, `SizeSep` in 2.3c, `SizeG` in 
 `ϑ` that the windows of 2.3b need is part of the hypotheses of 2.3a. The *standing size hypotheses* of the Gram bounds of
 the row spaces are, by name: `SizeMf` and `SizeRd` (here), `SizeG` (2.7: `g₀, g₁ ≤ b^{C_g}`), `SizeT_u` (2.8:
 `b^{16m} ≤ T*(u)` and `T(u) ≤ b^{C_T m}`; the Gram bounds need only `b^{c_T m} ≤ T(u)` for some constant `c_T > 0` fixed
-before `ε`), and the rank window of 2.8 for the dimension numbers `d_u` (a consequence of the
+before `ε`, together with nodes at least `k^{C_b}` for a constant `C_b` with `c_T·C_b > 1`; [FormalProof] takes `c_T = 1/2` and
+`C_b = 3`), and the rank window of 2.8 for the dimension numbers `d_u` (a consequence of the
 choice of `T(u)`, proved in 2.8 and 3.8, not an assumption). *What `SizeInert` gives:* every prime inert in `K` is at least
 `13` and at least `x^{ε/(5J)}`, so that the estimates of the chain at the inert primes (gains, depths of orbits,
 congruence lengths) may use these lower bounds. *What `SizeQD` gives:* `q, d > x^{2C_t+5}` (Lemma). *What `SizeDep`
