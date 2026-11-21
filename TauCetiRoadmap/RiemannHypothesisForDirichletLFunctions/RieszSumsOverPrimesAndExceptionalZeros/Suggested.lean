@@ -5,31 +5,24 @@ import Mathlib
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, with `sorry`
-proofs. Dirichlet `L`-functions are Mathlib's `DirichletCharacter.LFunction`, the von Mangoldt
-function is `ArithmeticFunction.vonMangoldt`, and a real character is a quadratic one
-(`MulChar.IsQuadratic`, values in `{0, 1, -1}`). The README requires several of the constants
-below to be effective; effectivity is not expressed here.
+proofs. Dirichlet `L`-functions are Mathlib's `DirichletCharacter.LFunction`, and `(L′/L)(1, χ)`
+is the quotient of its derivative at `1` by its value there; the von Mangoldt function is
+`ArithmeticFunction.vonMangoldt` and Euler's constant is `Real.eulerMascheroniConstant`. The
+README requires several of the constants below to be effective; effectivity is not expressed here.
 
-Three of the four headlines are stated: the prime number theorem for a primitive character with
-its exceptional term (1.4g (b)), the Deuring–Heilbronn repulsion and Linnik's theorem
-(1.7b (i), (iii)), and the count of primes that are norms of `α ≡ 1 (mod M)` from an imaginary
-quadratic field in short intervals (2.9b (iv) (c)). One is not statable at the pins:
+All three headlines are statable at the pins and are stated: the prime number theorem for the
+Riesz remainder in its exception-free form (1.4i (c)), Linnik's theorem (1.7b (iii)), and the
+count of primes that are norms of `α ≡ 1 (mod M)` from an imaginary quadratic field in short
+intervals (2.9b (iv) (c)). The form of 1.4i (a) with the exceptional term follows from 1.4i (c)
+with AnalyticNumberTheoryPartI §0.34, and the field form 1.4i (b) follows from 1.4i (c) in a few
+lines; neither is restated.
 
-* The Riesz remainder with the exceptional term (1.4i): for a primitive nonprincipal character `χ`
-  of conductor `f_χ` and `y ≥ 2`, `|G_χ(y) − y^β/(β(1 − β))|` is at most
-  `C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))`, the term present only if `χ` is real and
-  `L(s, χ)` has an exceptional zero `β`; and, for the characters of a finite abelian field `E`
-  whose exceptional zeros satisfy `1 − β ≥ c_ex`, `|G_{χ*}(y)| ≤ y exp(−c₁ (log y)^(1−α))` once
-  `log f_E ≤ (log y)^α` and `y ≥ y₀(α, c_ex)`. Its exceptional zero is the predicate
-  *IsExceptionalZero* of ZerosOfLFunctions 6.3: a real zero in the window
-  `1 − c/log q(χ, 0) ≤ β < 1`, where `c` is the degree-one zero-free constant of ZerosOfLFunctions
-  6.2–6.4 and `q(χ, 0)` the analytic conductor of its Layer 2. It lacks that constant, the analytic
-  conductor and the predicate; neither Mathlib nor Tau Ceti has them, and a window with a free
-  constant in their place would be a different statement.
-
-The bound for `L′/L(1, χ)` under a zero-free box (1.4f), the power-sum inequality (1.7a) and the
-bound for ray class numbers in 2.9b are statable as well; they are steps of the routes to the
-headlines or statements that are not headlines, and they are not stated here.
+The character prime number theorem with the exceptional term (1.4g (b)) and the Deuring–Heilbronn
+repulsion (1.7b (i)) are statable, but they are corollaries of AnalyticNumberTheoryPartI §§0.18
+and 0.34; they are steps of the routes and are not stated here. The bound for `L′/L(1, χ)` under a
+zero-free box (1.4f), the power-sum inequality (1.7a) and the bound for ray class numbers in 2.9b
+are statable as well; they are steps of the routes to the headlines or statements that are not
+headlines, and they are not stated here.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.RieszSumsOverPrimesAndExceptionalZeros
@@ -38,43 +31,25 @@ open ArithmeticFunction
 
 /-! ## Layer 1: Zero-free boxes, Riesz remainders, exceptional zeros and Linnik's theorem -/
 
-/-- The character prime number theorem with the exceptional term (1.4g (b)). There are absolute
-`c, c₁, C > 0` and a threshold `X₀` such that for every primitive nonprincipal Dirichlet character
-`χ` of conductor `N ≥ 3` and every `X ≥ X₀`,
-`Σ_{m ≤ X} χ(m) Λ(m) = −X^β₁/β₁ + O(X exp(−c log X/(√(log X) + log N)) (log N)^4)`,
-with implied constant `C`, where the term `X^β₁/β₁` is present only if `χ` is real and `L(s, χ)`
-has a real zero `β₁` in `(1 − c₁/log N, 1)`. -/
-theorem character_psi_eq_sub_exceptional :
-    ∃ c c₁ C X₀ : ℝ, 0 < c ∧ 0 < c₁ ∧ 0 < C ∧
-      ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), 3 ≤ N → χ.IsPrimitive → χ ≠ 1 →
-        ∀ X : ℝ, X₀ ≤ X →
-          (¬ (MulChar.IsQuadratic χ ∧
-                ∃ β : ℝ, 1 - c₁ / Real.log N < β ∧ β < 1 ∧ χ.LFunction β = 0) →
-            ‖∑ m ∈ Finset.Icc 1 ⌊X⌋₊, χ m * (Λ m : ℂ)‖ ≤
-              C * X * Real.exp (-(c * Real.log X) / (√(Real.log X) + Real.log N)) *
-                Real.log N ^ 4) ∧
-          (MulChar.IsQuadratic χ → ∀ β : ℝ, 1 - c₁ / Real.log N < β → β < 1 →
-            χ.LFunction β = 0 →
-            ‖∑ m ∈ Finset.Icc 1 ⌊X⌋₊, χ m * (Λ m : ℂ) + ((X ^ β / β : ℝ) : ℂ)‖ ≤
-              C * X * Real.exp (-(c * Real.log X) / (√(Real.log X) + Real.log N)) *
-                Real.log N ^ 4) := by
-  sorry
-
-/-- The Deuring–Heilbronn repulsion (1.7b (i)). There is an absolute `c > 0` with the following
-property. Let `q ≥ 3`, let `χ₁` be a real nonprincipal character modulo `q` and `β₁ ∈ [1/2, 1)` a
-zero of `L(s, χ₁)`. Let `χ` be any character modulo `q` and `ρ = β + iγ` a zero of `L(s, χ)` with
-`β ≥ 1/2`, other than `s = 1` (the pole of the principal character, where the value of Mathlib's
-total function is not a value of the `L`-function); if `χ = χ₁` and `ρ = β₁`, assume that `β₁` is
-a multiple zero, that is, `L′(β₁, χ₁) = 0`.
-Then `1 − β ≥ c log(c/((1 − β₁) ℒ))/ℒ` for every `ℒ ≥ log(q(|γ| + 2))`. -/
-theorem exceptional_zero_repulsion :
-    ∃ c : ℝ, 0 < c ∧
-      ∀ (q : ℕ) [NeZero q] (χ₁ : DirichletCharacter ℂ q), 3 ≤ q → χ₁ ≠ 1 → MulChar.IsQuadratic χ₁ →
-        ∀ β₁ : ℝ, 1 / 2 ≤ β₁ → β₁ < 1 → χ₁.LFunction β₁ = 0 →
-          ∀ (χ : DirichletCharacter ℂ q) (ρ : ℂ), χ.LFunction ρ = 0 → ρ ≠ 1 → 1 / 2 ≤ ρ.re →
-            (χ = χ₁ → ρ = β₁ → deriv χ₁.LFunction β₁ = 0) →
-            ∀ ℒ : ℝ, Real.log (q * (|ρ.im| + 2)) ≤ ℒ →
-              c * Real.log (c / ((1 - β₁) * ℒ)) / ℒ ≤ 1 - ρ.re := by
+/-- The prime number theorem for the Riesz remainder, in its exception-free form (1.4i (c)).
+There are absolute `C, c > 0` such that for every primitive nonprincipal Dirichlet character `χ`
+of conductor `N` and every `y ≥ 2` the Riesz remainder
+`G_χ(y) = Σ_{n ≤ y} Λ(n) χ(n) (y/n − 1) + y (L′/L)(1, χ)` satisfies
+`|G_χ(y)| ≤ C y (log 3N)^5 exp(−c log y/(√(log y) + log N))`, and the remainder
+`G_1(y) = Σ_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` of the trivial character satisfies
+`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. -/
+theorem norm_rieszRemainder_le :
+    ∃ C c : ℝ, 0 < C ∧ 0 < c ∧
+      (∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive → χ ≠ 1 →
+        ∀ y : ℝ, 2 ≤ y →
+          ‖(∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (Λ n : ℂ) * χ n * ((y / n - 1 : ℝ) : ℂ)) +
+              (y : ℂ) * (deriv χ.LFunction 1 / χ.LFunction 1)‖ ≤
+            C * y * Real.log (3 * N) ^ 5 *
+              Real.exp (-(c * Real.log y) / (√(Real.log y) + Real.log N))) ∧
+      ∀ y : ℝ, 2 ≤ y →
+        |(∑ n ∈ Finset.Icc 1 ⌊y⌋₊, Λ n * (y / n - 1)) - y * Real.log y +
+            (1 + Real.eulerMascheroniConstant) * y| ≤
+          C * y * Real.exp (-(c * √(Real.log y))) := by
   sorry
 
 /-- Linnik's theorem (1.7b (iii)): there is an absolute `L > 0` such that for every `q ≥ 3` and
