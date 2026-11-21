@@ -20,14 +20,18 @@ needs constructions the pins do not have, listed below, and nothing is stated in
 * The determinant lemma (1.8b (1)): stated as `length_quot_le_sum_length_blockSolutions`. The
   solution module `Sol_b` is the submodule of `((K/O)^{d_b})^g` cut out by the relations, with
   `K/O` the quotient of `K` by the image of `O`; lengths take values in `ℕ∞`, so infinite lengths
-  are allowed on the right, as in 1.8b.
+  are allowed on the right, as in 1.8b. Its form with one array over a residue field with more
+  than `g·Σ_b d_b` elements (1.8b (1′)), the form of the formal proof, is stated as
+  `length_quot_le_sum_length_blockSolutions_of_card_residueField`.
 * The Ribet-type bound by Selmer groups (1.8c (1), (3) with 1.8d (2), (3)): for a profinite group
   `G`, continuous representations `r_x : G → GL_n(O)` whose characteristic coefficients come from a
   determinant `A[G] → A` over a complete local split algebra `A`, a point `π` at which `r_π ⊗ K`
   splits into blocks `ρ_b` with absolutely irreducible, pairwise non-isomorphic reductions, one of
   them a character `χ`, and a set `Z` containing every point at which `χ` occurs, if the cut
   cocycles satisfy local conditions `L_{b,v}`, then `length_O(O/c(π))` is at most the sum over the
-  blocks of the lengths of the Selmer groups `H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`. Its cohomology is at
+  blocks of the lengths of the Selmer groups `H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)` (the formal proof
+  assumes there a residue field with more than `g·n` elements, `g` the number of generators of
+  the module `Y_s` of 1.8c). Its cohomology is at
   the pins: Mathlib's `continuousCohomology` of a `TopRep` over `O` is an `O`-module, with the
   restriction maps `ContinuousCohomology.map` along continuous homomorphisms; Tau Ceti has the
   continuous inhomogeneous `1`-cocycles and their classes (`TauCeti.ContCohomology.Z1`,
@@ -117,7 +121,9 @@ finitely many) surjective `O`-algebra homomorphisms, `g ≥ 1` and `Rel ⊆ 𝒜
 `∏_b det ψ_b(Σ_{k=1}^m X_k Θ_k) ∈ O[X_1, …, X_m]` for every `m` and all `g × g` arrays `Θ_k` over
 `𝒜` with rows in `Rel` (`ψ_b(Θ)` being the `g·d_b × g·d_b` matrix over `O`), then
 `length_O(O/J) ≤ Σ_b length_O Sol_b`, where
-`Sol_b = {u ∈ ((K/O)^{d_b})^g : Σ_q ψ_b(θ_q) u_q = 0 for all θ ∈ Rel}`. -/
+`Sol_b = {u ∈ ((K/O)^{d_b})^g : Σ_q ψ_b(θ_q) u_q = 0 for all θ ∈ Rel}`. This generic form is
+the roadmap's variant; the formal proof has the form with one array over a large residue field,
+stated next. -/
 theorem length_quot_le_sum_length_blockSolutions
     {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     {K : Type*} [Field K] [Algebra O K] [IsFractionRing O K]
@@ -129,6 +135,32 @@ theorem length_quot_le_sum_length_blockSolutions
       ∀ s, (∏ b, Matrix.det (Matrix.of
         fun (ri qj : Fin g × Fin (d b)) =>
           ∑ k, MvPolynomial.X k * MvPolynomial.C (ψ b (Θ k ri.1 qj.1) ri.2 qj.2))).coeff s ∈ J) :
+    Module.length O (O ⧸ J) ≤
+      ∑ b, Module.length O
+        (⨅ θ ∈ Rel, ⨅ i : Fin (d b), LinearMap.ker
+          (∑ q : Fin g, ∑ j : Fin (d b), ψ b (θ q) i j •
+            ((LinearMap.proj j : (Fin (d b) → K ⧸ LinearMap.range (Algebra.linearMap O K)) →ₗ[O]
+                K ⧸ LinearMap.range (Algebra.linearMap O K)) ∘ₗ
+              (LinearMap.proj q : (Fin g → Fin (d b) → K ⧸ LinearMap.range (Algebra.linearMap O K))
+                →ₗ[O] Fin (d b) → K ⧸ LinearMap.range (Algebra.linearMap O K)))) :
+          Submodule O (Fin g → Fin (d b) → K ⧸ LinearMap.range (Algebra.linearMap O K))) := by
+  sorry
+
+/-- **One array over a large residue field** (1.8b (1′)). In the setting of
+`length_quot_le_sum_length_blockSolutions`, if `Rel` is finitely generated and the residue field of
+`O` has more than `g·Σ_b d_b` elements, an ideal `J` containing `∏_b det ψ_b(Θ)` for every `g × g`
+array `Θ` over `𝒜` with rows in `Rel` satisfies `length_O(O/J) ≤ Σ_b length_O Sol_b`. -/
+theorem length_quot_le_sum_length_blockSolutions_of_card_residueField
+    {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    {K : Type*} [Field K] [Algebra O K] [IsFractionRing O K]
+    {𝒜 : Type*} [Ring 𝒜] [Algebra O 𝒜]
+    {B : Type*} [Fintype B] (d : B → ℕ)
+    (ψ : ∀ b, 𝒜 →ₐ[O] Matrix (Fin (d b)) (Fin (d b)) O) (hψ : ∀ b, Function.Surjective (ψ b))
+    (g : ℕ) (hg : 1 ≤ g) (Rel : Submodule 𝒜 (Fin g → 𝒜)) (hRel : Rel.FG) (J : Ideal O)
+    (hk : ((g * ∑ b, d b : ℕ) : Cardinal) < Cardinal.mk (IsLocalRing.ResidueField O))
+    (hJ : ∀ Θ : Fin g → Fin g → 𝒜, (∀ r, Θ r ∈ Rel) →
+      (∏ b, Matrix.det (Matrix.of
+        fun (ri qj : Fin g × Fin (d b)) => ψ b (Θ ri.1 qj.1) ri.2 qj.2)) ∈ J) :
     Module.length O (O ⧸ J) ≤
       ∑ b, Module.length O
         (⨅ θ ∈ Rel, ⨅ i : Fin (d b), LinearMap.ker

@@ -5,12 +5,12 @@
 The headline theorems are these.
 
 1. For `Z ⊆ X`, the length `η_Z(M)` of the congruence module of `M` along `Z` satisfies `η_Z(M) ≤ Σ_{π∈Z} mult(π)·v(cc_Z(π))`, where `mult(π)` is the dimension of the `π`-eigenspace of `M ⊗ K` and `cc_Z(π) = {f(π) : f ∈ A, f = 0 on X ∖ Z}` is the relative congruence ideal. More generally, if `S ⊆ X` and for every `π ∈ S` an `O`-linear endomorphism `α_π` of `M` commuting with `A` kills the eigenspaces of the points outside `S` and acts on the `π`-eigenspace by a nonzero scalar `a_π`, then `η_S(M) ≤ Σ_{π∈S} mult(π)·v(a_π)`.
-2. Let `𝒜` be an `O`-algebra, `ψ_b : 𝒜 → M_{d_b}(O)` (`b` in a finite set `B`) surjective `O`-algebra homomorphisms and `Rel ⊆ 𝒜^g` a left `𝒜`-submodule. If an ideal `J ⊆ O` contains every coefficient of the generic determinant `∏_b det ψ_b(Σ_k X_kΘ_k)` for all tuples of arrays `Θ_k` with rows in `Rel`, then `length_O(O/J) ≤ Σ_b length_O Sol_b`, where `Sol_b ⊆ ((K/O)^{d_b})^g` is the module of solutions of the relations through `ψ_b`.
-3. Let `O` be complete, `A` local, `G` a profinite group and `r_x : G → GL_n(O)` (`x ∈ X`) continuous representations whose determinants are the specialisations of a determinant `D : A[G] → A` of dimension `n`. Let `π ∈ X` be a point with `r_π ⊗ K ≅ ⊕_b ρ_b ⊗ K`, where the reductions of the `ρ_b : G → GL_{d_b}(O)` are absolutely irreducible and pairwise non-isomorphic and one block is a continuous character `χ`; let `Xs, Z ⊆ X` with `π ∈ Xs ∩ Z`, where `Z` contains every `x ∈ Xs` at which `χ` occurs in `r_x ⊗ K`, and put `c(π) = {f(π) : f ∈ A, f = 0 on Xs ∖ Z}`. If the cut cocycles of every block (cocycles of `G` with values in `ρ_b ⊗ χ^{−1} ⊗ K/O`, cut out by the family) satisfy local conditions `L_{b,v}` at closed subgroups `G_v`, then `length_O(O/c(π)) ≤ Σ_b length_O H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`, a sum of lengths of Selmer groups.
+2. Let `𝒜` be an `O`-algebra, `ψ_b : 𝒜 → M_{d_b}(O)` (`b` in a finite set `B`) surjective `O`-algebra homomorphisms and `Rel ⊆ 𝒜^g` a left `𝒜`-submodule. If an ideal `J ⊆ O` contains every coefficient of the generic determinant `∏_b det ψ_b(Σ_k X_kΘ_k)` for all tuples of arrays `Θ_k` with rows in `Rel`, then `length_O(O/J) ≤ Σ_b length_O Sol_b`, where `Sol_b ⊆ ((K/O)^{d_b})^g` is the module of solutions of the relations through `ψ_b`. When the residue field of `O` has more than `g·Σ_bd_b` elements, one array of relations suffices (1.8b (1′), the form of the formal proof; the generic form is this roadmap's).
+3. Let `O` be complete, `A` local, `G` a profinite group and `r_x : G → GL_n(O)` (`x ∈ X`) continuous representations whose determinants are the specialisations of a determinant `D : A[G] → A` of dimension `n`. Let `π ∈ X` be a point with `r_π ⊗ K ≅ ⊕_b ρ_b ⊗ K`, where the reductions of the `ρ_b : G → GL_{d_b}(O)` are absolutely irreducible and pairwise non-isomorphic and one block is a continuous character `χ`; let `Xs, Z ⊆ X` with `π ∈ Xs ∩ Z`, where `Z` contains every `x ∈ Xs` at which `χ` occurs in `r_x ⊗ K`, and put `c(π) = {f(π) : f ∈ A, f = 0 on Xs ∖ Z}`. If the cut cocycles of every block (cocycles of `G` with values in `ρ_b ⊗ χ^{−1} ⊗ K/O`, cut out by the family) satisfy local conditions `L_{b,v}` at closed subgroups `G_v`, then `length_O(O/c(π)) ≤ Σ_b length_O H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`, a sum of lengths of Selmer groups. The derivation of the hypotheses from `D` (1.8c (3)) and the bound over every residue field are this roadmap's; in [FormalProof] the residue field of `O` has more than `g·n` elements, `g` the number of generators of the module `Y_s` of 1.8c (1.8c, *The form of the formal proof*).
 
 The roadmap extends [PadicFamilies](../../PadicFamilies/README.md), whose congruence module and congruence ideal of one augmentation are the case of a single point. [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) provides determinants, Amitsur's formula, Henselian lifting of matrix units and generalized matrix algebras, from which the hypotheses of the third headline are derived; [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) and [ProfiniteCohomology](../../ProfiniteCohomology/README.md) provide Selmer structures and explicit continuous cocycles; and the sub-roadmap [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) of the family [RiemannHypothesisForDirichletLFunctions](../README.md) provides the duality of local defects and the lifting exponents at the places above `p`. In the family, these bounds measure the congruence modules of theta lifts in [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
 
-Layer 1, the only layer, defines the congruence module along a central idempotent, its symmetry and its form relative to a set of points of a split algebra, with the length bound by multiplicities (1.7a); proves the determinant lemma by a Morita reduction, the Smith normal form and Gauss's lemma (1.8b); bounds the congruence ideal at a reducible point by extension modules of the blocks, embeds them into cocycles, and derives the hypotheses from a residually multiplicity-free determinant and through finite free extensions (1.8c); passes to Selmer groups with local conditions, local defects and the coboundary terms of a non-unit `δ` (1.8d); and proves the general bound with local defects, for an absolutely irreducible block and characters, with the places split into rows and columns, the orthogonality of cut cocycles to a dual family, and an element `E` with `E² = δE` built from one group element (1.8e).
+Layer 1, the only layer, defines the congruence module along a central idempotent, its symmetry and its form relative to a set of points of a split algebra, with the length bound by multiplicities (1.7a); proves the determinant lemma by a Morita reduction, the Smith normal form and Gauss's lemma, and its form with one array over a large residue field (1.8b); bounds the congruence ideal at a reducible point by extension modules of the blocks, embeds them into cocycles, and derives the hypotheses from a residually multiplicity-free determinant and through finite free extensions (1.8c); passes to Selmer groups with local conditions, local defects and the coboundary terms of a non-unit `δ` (1.8d); and proves the general bound with local defects, for an absolutely irreducible block and characters, with the places split into rows and columns, the orthogonality of cut cocycles to a dual family, and an element `E` with `E² = δE` built from one group element (1.8e).
 
 ## Conventions
 
@@ -62,6 +62,8 @@ Prove:
 follows by localization. `Suggested.lean` states the last sentence of (4) as
 `length_quot_annihilators_le_sum_rank_mul_relCongruence` and (4′) as
 `length_quot_annihilators_le_sum_rank_mul_of_endomorphisms`, with `Ψ` in the form of (3).
+The congruence module along a central idempotent for a general finite `A`, with (1) and (2), is this roadmap's; [FormalProof]
+has the congruence module only relative to a set of points of a split algebra, the case of (3), which is the case used.
 
 *Route.* (1) For `m ∈ M`, `em ∈ M` exactly when `(1−e)m ∈ M`, and then `m = em + (1−e)m` with both summands in `M`; the map
 `M → eM` is onto, and `e` central makes everything `A`-linear. (2) `𝔞_e ⊗ K = e(A ⊗ K)`, so `m` is killed by `𝔞_e` exactly
@@ -106,9 +108,20 @@ rows lie in `Rel`. Prove:
 2. for one block (`#B = 1`) the ideal generated by the determinants `det ψ_b(Θ)` of arrays with rows in `Rel` already has
    colength `length Sol_b`.
 
-`Suggested.lean` states (1) as `length_quot_le_sum_length_blockSolutions`.
+   (1′) (*one array, large residue field*; *the form of the formal proof*) if `Rel` is finitely generated and the residue
+   field of `O` has more than `g·Σ_{b∈B}d_b` elements, there is one `g × g` array `Θ` with rows in `Rel` such that
+   `v(det ψ_b(Θ)) = length_O Sol_b` for every `b ∈ B` at once (both sides infinite together). Consequently, under these two
+   hypotheses, an ideal `J` containing `∏_{b∈B} det ψ_b(Θ)` for every `g × g` array `Θ` with rows in `Rel` satisfies
+   `length_O(O/J) ≤ Σ_b length_O Sol_b`. For one block (more than `g·d_b` elements) this is the form of the formal proof
+   of (2).
+
+`Suggested.lean` states (1) as `length_quot_le_sum_length_blockSolutions` and (1′) as
+`length_quot_le_sum_length_blockSolutions_of_card_residueField`.
 
 `O` any discrete valuation ring; the Dedekind version follows by localization. Infinite lengths are allowed on the right.
+The generic form (1) and the form (2) over every residue field are this roadmap's; for (2), an array whose `gd_b` rows form a
+basis of the lattice `R_b` of the route has `v(det ψ_b(Θ)) = length Sol_b`, and every array with rows in `Rel` has at least
+that, its rows lying in `R_b` (both are infinite when `R_b` has not full rank).
 
 *Route.* Three steps. (Morita) `ψ_b` is onto `M_{d_b}(O)` and `Rel` is a left `𝒜`-module, so `ψ_b(Rel)` is the set of
 `d_b × gd_b` matrices all of whose rows lie in one `O`-submodule `R_b ⊆ O^{gd_b}`; `Sol_b` is the Pontryagin dual of
@@ -118,8 +131,16 @@ rows lie in `Rel`. Prove:
 `F_b = det ψ_b(Σ_kX_kΘ_k)` as `c_b·G_b` with `c_b ∈ O` a generator of the ideal of the coefficients of `F_b` and `G_b` of unit
 content (some coefficient a unit); the reductions of the `G_b` modulo `ϖ` are nonzero in `k[X_1, …, X_m]`, which is a domain,
 so the product of the `G_b` has unit content, and some coefficient of `∏_bF_b` is `∏_bc_b` times a unit and lies in
-`J`; and `c_b` divides `F_b(e_b) = det ψ_b(Θ_b)`. A hypothesis on single arrays does not suffice: the array optimal for one
-block need not be optimal for another. *Needs:* Mathlib `Matrix.det`, `MvPolynomial.map` with `MvPolynomial.coeff_map` and the instance making
+`J`; and `c_b` divides `F_b(e_b) = det ψ_b(Θ_b)`. Over a small residue field a hypothesis on single arrays does not
+suffice, because no single array need be optimal for all blocks at once (third Check). Over a residue field with more than
+`g·Σ_bd_b` elements one array is optimal for all blocks: this is (1′), the form in which [FormalProof] states and uses the
+lemma. For it (the blocks with `Sol_b` of infinite length aside, where every determinant is `0`), the reduction modulo `ϖ` of
+`∏_bG_b` is a nonzero polynomial of degree at most `g·Σ_bd_b` in the variables `X_b`, so it has a non-root with coordinates
+in the residue field; for a lift `a ∈ O^B` of it and `Θ := Σ_ba_bΘ_b`, `det ψ_b(Θ) = c_b·G_b(a)` with `G_b(a)` a unit, so
+`v(det ψ_b(Θ)) = v(c_b) ≤ v(det ψ_b(Θ_b)) ≤ length Sol_b`, and no array with rows in `Rel` has a smaller valuation (the rows
+of its image under `ψ_b` lie in `R_b`). (1), with the generic array and no condition on the residue field, is this roadmap's
+variant; where (1′) applies, (1) follows from it, since `∏_b det ψ_b(Θ)` is the coefficient of `X_1^{gΣd_b}` of the generic
+determinant for `m = 1`. *Needs:* Mathlib `Matrix.det`, `MvPolynomial.map` with `MvPolynomial.coeff_map` and the instance making
 `MvPolynomial σ k` a domain over a domain `k` (the reduction modulo `ϖ` above), Smith normal form over a PID, `Module.length`.
 
 **Checks.**
@@ -128,7 +149,13 @@ block need not be optimal for another. *Needs:* Mathlib `Matrix.det`, `MvPolynom
   lengths are `n`.
 - `𝒜 = O × O` with the two projections, `g = 1`, `Rel = ϖ^aO × ϖ^bO`: the smallest admissible `J` is `ϖ^{a+b}O` and the
   two solution modules have lengths `a` and `b`; the bound adds the blocks. The array `(ϖ^a, 0)` alone has product of
-  determinants `0`, so a hypothesis on single arrays of one block would say nothing about the other.
+  determinants `0`, while the array `(ϖ^a, ϖ^b)` is optimal for both blocks.
+- (*single arrays over a small residue field*) `O = ℤ_2`, `𝒜 = {(a, b, c) ∈ O³ : a ≡ b ≡ c mod 2}` with its three
+  projections, `g = 1`, `Rel = 𝒜·(2, 0, 2) + 𝒜·(0, 2, 2)`: each `Sol_b` is `(K/O)[2]`, the generic determinant of the two
+  generators is `8X_1X_2(X_1 + X_2)` and the smallest admissible `J` is `8O`, of colength `3`. A single element of `Rel` is
+  `(2a_1, 2b_2, 2(a_3 + b_3))` with `a, b ∈ 𝒜`, and the three coordinates have valuation `1` only if `ā = 1`, `b̄ = 1` and
+  `ā + b̄ = 1` in `𝔽_2` (`ā`, `b̄` the common residues of the coordinates of `a`, `b`): the products of single arrays
+  generate `16O`, of colength `4 > 3`. Here `g·Σ_bd_b = 3 > 2 = #k`.
 
 ### 1.8c Congruence ideals at a reducible point are bounded by extension modules
 
@@ -170,6 +197,15 @@ the ratios `χ_bχ^{−1}`, which do not define an action of `𝒜`.
 `G` any group, no topology; continuity is added in 1.8d. `O` any discrete valuation ring in (1), (2), (4), (5). `Xs` is a
 parameter: on `Xs = X`, `c(π) = cc_Z(π)` of 1.7a; for smaller `Xs` it is the ideal relative to the points kept.
 
+*The form of the formal proof.* [FormalProof] proves (1) when the residue field of `O` has more than `g·n` elements, `g` the
+number of generators of the `𝒜`-module `Y_s` (as in the route), and with (P) in the form without variables (for every `m` and
+every `m × m` array `Θ` over `𝒜`, the function `x ↦ det Θ(x)` lies in `A`), through 1.8b (1′). The statement for every
+residue field, through (P) with variables and 1.8b (1), is this roadmap's variant. (3) and (4) are this roadmap's. In place of
+(3), [FormalProof] takes (P), (D), (N), the idempotents `e_B`, `e₁` and the element of 1.8e (4) as hypotheses and uses no
+idempotent `E` cutting out the `χ`-line, its characters being congruent to one another at small primes; (3) is the classical
+unit case ([Ribet76], [BC09]). In place of (4) it has: if for every `m` and all `a_1, …, a_m ∈ 𝒜` the coefficients of
+`x ↦ det(Σ_iX_ia_i(x))` lie in `A`, then (P) holds in the form without variables.
+
 *Route.* (1) Choose `γ_1, …, γ_g` with `Y = Σ_q𝒜y_{γ_q}` and let `Rel ⊆ 𝒜^g` be the relations among the `y_{γ_q}` on `Xs`, so
 that `𝒜^g/Rel ≅ Y_s`. Every coefficient of the generic determinant of an array of relations is a function in `A` by (P),
 and it vanishes at `x ∈ Xs ∖ Z`: by (E) and (N) some `y_γ(x)u ≠ 0`, so `(y_{γ_q}(x)u)_q` is a nonzero solution of every
@@ -199,7 +235,7 @@ rank one, in particular nonzero; at `π`, `ψ_b(E)` is an idempotent of `M_{d_b}
 for `b₀`, so `E(π)` is the projector onto the `χ`-line. (N) is the definition of `Z`. The hypotheses (D) and (E) say that `π`
 lies on the locus where the residually multiplicity-free determinant splits into the blocks `ρ_b`, which is the total
 reducibility locus of the generalized matrix algebra (IntegralHeckeAndGaloisDeterminants §§1.3–1.4); a constituent of
-`r_π ⊗ K` with reducible reduction, or `χ` not among the constituents, breaks (D). Sources: [Ribet76], §§2–4; [BC09], Sections 1.3–1.5; [FormalProof] for the length form with generic determinants. *Needs:* 1.7a, 1.8b;
+`r_π ⊗ K` with reducible reduction, or `χ` not among the constituents, breaks (D). Sources: [Ribet76], §§2–4; [BC09], Sections 1.3–1.5; [FormalProof] for (1) over a large residue field, (2) and (5). *Needs:* 1.7a, 1.8b;
 IntegralHeckeAndGaloisDeterminants §§0.5 (Amitsur's formula, characteristic coefficients), 1.2
 (determinants and semisimple reconstruction), 1.3 (Henselian lifting of matrix units), 1.4 (reducibility ideals);
 ProfiniteCohomology Layer 2 (explicit cocycles).
@@ -243,8 +279,13 @@ restriction to every `G_v` lies in `L_{b,v}`. Prove:
 3. `C_{b₀} = 0`; and if `E² = δ_A·E` for some `δ_A ∈ A` with `δ_A(π) ∈ O^×` (for instance `δ_A ∈ A^×`), then `C_b = 0` for
    every `b`;
 
-   (3′) (*a non-unit `δ`*) if `E² = δ_A·E` for some `δ_A ∈ A`, then `δ_A(π)·C_b = 0` for every `b`, so
-   `length_O C_b ≤ d_b·v(δ_A(π))`; and `δ_A(π)·H⁰(G, ρ_b ⊗ χ^{−1} ⊗ K/O) = 0` for `b ≠ b₀`.
+   (3′) (*a non-unit `δ`*; *the form of the formal proof*) if `E² = δ_A·E` for some `δ_A ∈ A`, then for every `b ≠ b₀` and
+   every vector `m ∈ O^{d_b} ⊗ K/O` whose coboundary `g ↦ (ψ_b(u_g) − 1)m` (`u_g := χ(g)^{−1}r(g)`) is a cut cocycle of the
+   block `b`, `δ_A(π)²·m = 0`. So `δ_A(π)²·C_b = 0`, `length_O C_b ≤ 2d_b·v(δ_A(π))`, and
+   `δ_A(π)²·H⁰(G, ρ_b ⊗ χ^{−1} ⊗ K/O) = 0` (the case of the zero cocycle). *Refinement* (this roadmap's): `δ_A(π)·C_b = 0`,
+   so `length_O C_b ≤ d_b·v(δ_A(π))`, and `δ_A(π)·H⁰(G, ρ_b ⊗ χ^{−1} ⊗ K/O) = 0` for `b ≠ b₀`; the two together give the
+   square on `m`. Both forms hold equally for the homomorphisms of `Y` and of the module with columns of 1.8e: the arguments
+   use only the restriction to the image of `Y`.
 
 The cocycles `γ ↦ φ(y_γ)`, `φ ∈ Hom_𝒜(Y_s, O^{d_b} ⊗ K/O)` (1.8c(2)), are the **cut cocycles** of the block `b`.
 
@@ -256,16 +297,21 @@ the ratios `χ_bχ^{−1}`. (3) is (3′) with `v(δ_A(π)) = 0`; under the supp
 kernel `C_b`, and its image lies in `H¹_𝒮` by hypothesis. (2′) The classes with restrictions in the `L̃_{b,v}` contain those
 with restrictions in the `L_{b,v}` with quotient injecting into the product `∏_vL̃_{b,v}/L_{b,v}`; when `Σ_vν_{b,v}` is finite only finitely
 many factors are nonzero, so the quotient has length at most `Σ_vν_{b,v}`, and when it is infinite there is nothing to prove. (3′) For `b₀` the coefficients are the
-trivial module, whose coboundaries are zero. Put `u_g := χ(g)^{−1}r(g)`. The `A`-span `I_χ` of the `u_g − 1` is a two-sided
-ideal of `𝒜`, equal to the left ideal they generate: `u_h(u_g − 1) = (u_{hg} − 1) − (u_h − 1)` and
-`(u_g − 1)u_h = (u_{gh} − 1) − (u_h − 1)`, and `A` is central. Let `b ≠ b₀` and `φ ∈ Hom_𝒜(Y_s, O^{d_b} ⊗ K/O)` with
-`φ(y_g) = (ψ_b(u_g) − 1)m` for all `g`. For `c = Σ_ga_g(u_g − 1) ∈ I_χ`, `cE = Σ_ga_gy_g ∈ Y` and `φ(cE) = ψ_b(c)m`. Take
+trivial module, whose coboundaries are zero. Put `u_g := χ(g)^{−1}r(g)`, and let `b ≠ b₀` and
+`φ ∈ Hom_𝒜(Y_s, O^{d_b} ⊗ K/O)` with `φ(y_g) = (ψ_b(u_g) − 1)m` for all `g`. (*The form with the square.*) Write
+`E = Σ_gt_gr(g)` (`t_g ∈ A`, a finite sum) and `τ := Σ_gt_gχ(g) ∈ A`. The element `y := Σ_gt_gχ(g)·y_g = (E − τ)E` of `Y` has
+`φ(y) = ψ_b(E)m − τ(π)m = −δ_A(π)m` (as `ψ_b(E) = 0` and `τ(π) = δ_A(π)`, the scalar by which `E(π)` acts on the `χ`-line)
+and `Ey = δ_Ay`; hence `0 = ψ_b(E)φ(y) = φ(Ey) = −δ_A(π)²m`. (*The refinement.*) The `A`-span `I_χ` of the `u_g − 1` is a
+two-sided ideal of `𝒜`, equal to the left ideal they generate: `u_h(u_g − 1) = (u_{hg} − 1) − (u_h − 1)` and
+`(u_g − 1)u_h = (u_{gh} − 1) − (u_h − 1)`, and `A` is central. For `c = Σ_ga_g(u_g − 1) ∈ I_χ`, `cE = Σ_ga_gy_g ∈ Y`
+and `φ(cE) = ψ_b(c)m`. Take
 `c = (u_γ − 1)E ∈ I_χ`: then `cE = (u_γ − 1)E² = δ_Ay_γ`, so `δ_A(π)·(ψ_b(u_γ) − 1)m = φ(cE) = ψ_b(u_γ − 1)ψ_b(E)m = 0`, because
 `ψ_b(E) = 0` for `b ≠ b₀` by (D) and (E). So every coboundary in `C_b` is killed by `δ_A(π)`; the coboundaries form a quotient
 of `O^{d_b} ⊗ K/O`, divisible of corank at most `d_b`, whose `δ_A(π)`-torsion has length at most `d_b·v(δ_A(π))`. For the last
-clause write `E = Σ_gt_gr(g)` (`t_g ∈ A`, a finite sum); on a vector `m` fixed by every `ψ_b(u_g)`,
+clause, on a vector `m` fixed by every `ψ_b(u_g)`,
 `ψ_b(E)m = Σ_gt_g(π)χ(g)·m`, and `Σ_gt_g(π)χ(g)` is the scalar by which `E(π)` acts on the `χ`-line, which is `δ_A(π)`; as
-`ψ_b(E) = 0` for `b ≠ b₀`, `δ_A(π)m = 0`. (3) is the case of a unit `δ_A(π)`. Sources: [FormalProof]. *Needs:* 1.8c; SelmerIwasawaCohomology §§2.1–2.9; ProfiniteCohomology
+`ψ_b(E) = 0` for `b ≠ b₀`, `δ_A(π)m = 0`. (3) is the case of a unit `δ_A(π)`. Sources: [FormalProof], except the refinement
+in (3′). *Needs:* 1.8c; SelmerIwasawaCohomology §§2.1–2.9; ProfiniteCohomology
 Layer 1 (continuous cohomology and restriction), Layer 2 and §3.2 (explicit cocycles and their classes).
 
 **Checks.**
@@ -276,7 +322,8 @@ Layer 1 (continuous cohomology and restriction), Layer 2 and §3.2 (explicit coc
   that the cut-out cocycles satisfy them is what carries the arithmetic.
 - (*(3′) is an upper bound depending on `E`*) If `E = ϖ^a·e` with `e ∈ 𝒜` an idempotent as in 1.8c(3), then
   `Y = ϖ^a·Y(e)` is isomorphic to the module of `e` and the cut cocycles are the same, so `C_b = 0` by (3) for `e`, while (3′)
-  for `E` gives only `length C_b ≤ d_b·a`. A choice of `E` with smaller `v(δ_A(π))` gives a better bound; (3′) is what is
+  for `E` gives only `length C_b ≤ d_b·a` by the refinement (`2d_b·a` in the form of the formal proof). A choice of `E`
+  with smaller `v(δ_A(π))` gives a better bound; (3′) is what is
   available when no `E` with a unit `δ_A(π)` exists (1.8e(4)).
 
 ### 1.8e The bound with local defects: columns, rows and a non-unit `δ`
@@ -305,7 +352,10 @@ subgroups `G_w`, `w ∈ Row ⊔ Col`, besides those of 1.8d, and write `h⁰_{b,
 
 The **module with columns** is
 `Y_c := (Y ⊕ ⊕_{w∈Col}(𝒜m_w ⊕ ⊕_{a≤j_w}𝒜q_{w,a} ⊕ 𝒜z_w))/(relations)`, the relations being, for `w ∈ Col`, `Em_w = 0`,
-`(1 − e₁)q_{w,a} = 0`, `(δ_A − E)z_w = 0` and, for `g ∈ G_w`, `y_g + (u_g − 1)m_w = δ_A·Σ_aK_{w,a}(g)q_{w,a} + δ_A·k_w(g)z_w`. The
+`(1 − e₁)q_{w,a} = 0`, `(δ_A − E)z_w = 0` and, for `g ∈ G_w`, `y_g + (u_g − 1)m_w = δ_A·Σ_aK_{w,a}(g)q_{w,a} + δ_A·k_w(g)z_w`.
+The module is built on `Y`, formed in `𝒜 ⊆ ∏_{x∈X}M_n(O)`. Applied to the restrictions of `A`, `𝒜` and the `r_x` to the
+points of `Xs` (a split algebra again, with the same ideal `c(π)`), `Y` becomes `Y_s`, and (1)–(3a) hold for the module with
+columns built on `Y_s`, which has fewer cut cocycles. The
 **cut cocycles** of the block `b` are the cocycles `g ↦ φ(y_g)`, `φ ∈ Hom_𝒜(Y_c, O^{d_b} ⊗ K/O)`, and
 `Ψ_b : Hom_𝒜(Y_c, O^{d_b} ⊗ K/O) → Z¹(G, ρ_b ⊗ χ^{−1} ⊗ K/O)` is `φ ↦ (g ↦ φ(y_g))`; the hypothesis of 1.8d(2) is assumed for
 them: at every `v ∈ 𝒱` they restrict into `L_{b,v}`. For the block `ρ_0` (resp. `χ`, resp. `χ_c`, `c ≥ 2`) let the local
@@ -346,6 +396,9 @@ these conditions at `Col`, of the `L_{b,w}` at `Row` and of the `L_{b,v}` at `�
    `s₀ ≥ 1` (`s₀ ≥ 2` if `p = 2`); at every point over `X`, `δ_{A′} ≠ 0` and `E′` has rank one; and the bounds of
    1.8c–1.8e over `A′` at `π′`, with `E′`, bound `length_O(O/c(π))`.
 
+The case `t = 1` of (4), with the product taken in the corner, is this roadmap's: [FormalProof] takes the product in the full
+matrix algebra, with `E′` of rank one at every point as a hypothesis, so it asserts nothing at `t = 1`, and needs only `t ≥ 2`.
+
 *Route.* (1) The first inequality is 1.8c(1) with `Y_c` in place of `Y_s`: `Y_c` is finitely generated, the coefficients of
 the generic determinants of arrays of its relations lie in `A` by (P), and it suffices that `Hom_𝒜(Y_c, V_x) ≠ 0` for
 `x ∈ Xs ∖ Z` (a nonzero homomorphism gives a nonzero vector killed by every array of relations at `x`); at `π` the value is
@@ -369,7 +422,9 @@ action; `E` acts by `δ_A(π)`, `e₁` by `0`): `ξ_a = 0`, `δ_A(π)μ = 0` (le
 `ϖ^{e′_w}δ_A(π)²β_wθ_w(g)·ζ = 0` for all `g`, with some `θ_w(g)` a unit (length `≤ e′_w + 2v_δ`). On `χ_c`, `c ≥ 2` (`E` and `e₁` act
 by `0`): `ξ_a = 0`, `δ_A(π)ζ = 0` (length `≤ v_δ`), and `μ` is fixed by `G_w` (length `h⁰_{c,w}`). (2) For each block,
 `length Hom_𝒜(Y_c, ·) = length ker Ψ_b + length(coboundaries in im Ψ_b) + length(image in H¹)`; the coboundaries have length at
-most `d_bv_δ` by 1.8d(3′), which uses only the part `Y`; the image in `H¹` lies in the Selmer group of the conditions at `Col`
+most `d_bv_δ` by the refinement of 1.8d(3′) (at most `2d_bv_δ` in the form of [FormalProof]), which uses only the part `Y`;
+with either value the kernels and coboundaries stay within the stated bound, since
+`#Col·(N + t)v_δ + 2(N + t)v_δ ≤ 4(N + t)(#Col + 1)v_δ`; the image in `H¹` lies in the Selmer group of the conditions at `Col`
 (by (1)), of `L̃_{b,w}` at `Row` and of `L_{b,v}` at `𝒱`, of length at most `length H¹_{𝒮_b} + Σ_{w∈Row}ν_{b,w}` (1.8d(2′)). The
 kernels and coboundaries add up to
 `Σ_{w∈Col}((1 + j_w)e′_w + (j_w + 2)v_δ + h⁰_{0,w} + Σ_{c≥2}h⁰_{c,w} + (N + t)v_δ) + (N + t)v_δ`, within the stated bound. (3) The
@@ -477,5 +532,5 @@ Layer 1: continuous cohomology `continuousCohomology` with discrete coefficients
 - **[Hida]** Haruzo Hida, *Iwasawa modules attached to congruences of cusp forms*, Annales Scientifiques de l'École Normale Supérieure (4) 19 (1986), 231–273: congruence modules of Hecke algebras (1.7a).
 - **[Ribet76]** Kenneth A. Ribet, *A modular construction of unramified p-extensions of ℚ(μ_p)*, Inventiones Mathematicae 34 (1976), 151–162 (1.8c).
 - **[BC09]** Joël Bellaïche and Gaëtan Chenevier, *Families of Galois representations and Selmer groups*, Astérisque 324 (2009), Chapter 1 (1.8c (3)).
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the relative congruence module bound and of the length form of the Ribet bound with generic determinants (1.7a, 1.8b–1.8d), and of the bound with local defects, the module with columns and the non-unit `δ` (1.8e).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the length bound for relative congruence modules in its family form (1.7a (4′)); of the determinant lemma in the form of one array over a large residue field (1.8b (1′)) and of the bound by extension modules deduced from it, with the passage to a finite cover (1.8c (1), (2), (5)); of the passage to Selmer groups with local defects and of the coboundary bound with the square of `δ` (1.8d (2), (2′), (3′)); and of the module with columns with its kernel counts, the bounds of the three kinds of block, the duality at the rows and the element `E` with `E² = δE` (1.8e). The congruence module along a central idempotent (1.7a (1), (2)), the generic form of the determinant lemma without a condition on the residue field (1.8b (1)), the supply of the hypotheses (1.8c (3), (4)) and the refinement of 1.8d (3′) are this roadmap's.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
