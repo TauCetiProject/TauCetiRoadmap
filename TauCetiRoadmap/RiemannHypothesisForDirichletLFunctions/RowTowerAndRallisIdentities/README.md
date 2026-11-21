@@ -212,6 +212,10 @@ that proof establishes. Where a route is not given, or not given in full, the ta
 | `𝔫` | the descent constant | 5.10 |
 | `j_σ` | the realisation of the rational structure at an embedding `σ` | 5.10a |
 
+**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider statement would need its own proof.
+
 ## Layer 5: The row tower and the Rallis identities
 
 Forms on the indefinite groups `U(Y_j)` with prescribed discrete series, the theta descents between them and their
