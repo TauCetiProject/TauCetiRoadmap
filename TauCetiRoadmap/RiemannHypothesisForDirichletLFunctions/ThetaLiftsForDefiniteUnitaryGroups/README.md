@@ -51,7 +51,7 @@ The main theorems are the following.
    on the `π`-isotypic forms whose level is the stabiliser of the lattices outside `S`, `θ_φ^* θ_φ` is the nonzero
    number `C · L^S(s₀ + ½, π × χ_W)/d^S(s₀)` times local operators at the places of `S`. Consequently, if `d ≥ 2n + 1`, the lift of `π` to
    `U(W)` is nonzero exactly when the weight of `π` occurs at every real place, and every constituent of the lift has
-   the predicted weights and local components at every place. This is the published stable-range theorem; the formal
+   the predicted weights and local components at every place. This roadmap proves it by its own routes; the formal
    proof gives the direction from the weights to a nonzero lift, for standard spaces and `d` beyond an unspecified
    threshold `d₀`, with local components at the split places only (4.3).
 4. *The trivial representation and complementary spaces.* The squared norm of the lift of the
@@ -1211,7 +1211,9 @@ Prove: let `π` be an irreducible automorphic representation of
 `U(V)` with `π_∞ ≅ ⊗_v σ_{λ_v}`, and suppose `d ≥ 2n + 1`. Then `Θ_W(π) ≠ 0` if and only if `λ_v` occurs (2.1) at every
 real place `v`.
 
-This is the published stable-range criterion (J.-S. Li, References). In the range `n < d ≤ 2n` (3.2, Check) the
+The route below proves it as stated; GQT §1.7 cites J.-S. Li (References) among the sources of the inner product formula
+in Weil's convergent range, which contains every definite pair (`W` is anisotropic). In the range `n < d ≤ 2n`
+(3.2, Check) the
 corresponding criterion, with the normalised local doubling functionals and the `L`-value in place of the occurrence of
 weights, is MetaplecticAutomorphicForms §6.14. *The form of the formal proof.* One direction, with an
 unspecified threshold, for the standard spaces described after 4.3: there is `d₀`, depending on `E` and `n`, such that for
@@ -1240,8 +1242,8 @@ there is an irreducible automorphic representation `Π` of `U(W)`, occurring in
 weak base change `BC(π)`, `Π` has the weak base change `BC(π)^∨ ⊗ (χ_V/χ_W) ⊞ (segment)` of 2.4. Every
 irreducible constituent of `Θ_W(π)` is isomorphic to `Π`.
 
-With 4.2 this is the published stable-range theorem (References: J.-S. Li for the criterion, J.-P. Labesse for the base
-change), proved here by the routes given. When `E/F` is unramified at every finite place and `V` is the standard positive
+With 4.2 this is proved here by the routes given, with J.-P. Labesse's weak base change (References) through 2.4. When
+`E/F` is unramified at every finite place and `V` is the standard positive
 definite space, as in the form below, the hypothesis that `π` has a weak base change holds for every `π` by
 PotentialAutomorphyInfrastructurePartII §3.5 (2), as in 2.4.
 
@@ -1253,7 +1255,7 @@ definite `W = δ·⟨1, …, 1⟩` of rank `d` with its standard lattice unimodu
 and every `π` whose weights occur at every real place, there is an irreducible automorphic `Π` on `U(W)` with the weights
 `Λ_v(λ_v)` and, at every place split in `E`, a nonzero `U(V)(F_v) × U(W)(F_v)`-equivariant pairing of the type-II Weil
 representation with `π_v` and `Π_v`. The threshold `2n + 1`, the converse and the components at the inert places are those
-of the published theorem.
+of 4.2 and of the statement above.
 
 Route: 4.2 gives `Θ_W(π) ≠ 0`; 1.5 decomposes it into irreducibles; 2.4 identifies each.
 
@@ -1586,9 +1588,11 @@ partners exist because `p′_v` is onto.
 ### 6.3 Theta integrals of a triple and the difference space
 
 Fix a finite place `v₁` of `F` outside `T`, lying over a rational prime that splits completely in `E`, with
-`ν_{w₁}(ϖ_{w₁}) ≠ 1` for `w₁ | v₁`. (Such places exist: `E` being Galois over `ℚ`, they are the places of `F` of degree one
-over an unramified rational prime that split in `E` and lie in `𝒮`, a set of Dirichlet density one among the places
-split in `E`.) Prove:
+`ν_{w₁}(ϖ_{w₁}) ≠ 1` for `w₁ | v₁`. (Under (P0) and `κ_v ≠ 0` at every real place, as under hypotheses 1–4 of 6.11, such
+places exist: a place of `F` split in `E` and of degree one over a rational prime unramified in `F` lies over a prime that
+splits completely in the Galois extension `E/ℚ`, and those of these places that lie in the set `𝒮` of 6.8 (good split
+places) and outside `T` have Dirichlet density one among the places split in `E`. With `α = β` and `a ≡ a′ (mod 2)`,
+`ν = 1` and there is none.) Prove:
 
 - *Convergence.* `I_V(Φ)` converges absolutely for every test vector `Φ` when `2p + a′ < a` at the real
   places (Weil's criterion, ThetaKernelsForUnitaryDualPairs §5.7a). For `Φ′` whose component at `v₁` is
@@ -2176,9 +2180,8 @@ adapted planes. Choose `v₁ ∈ 𝒮` (6.8) outside `T`, over a rational prime 
 Then `I_V(Φ)` converges for every test vector `Φ`; `I_{V′}(Φ′)` converges
 for `Φ′ ∈ S′_{reg}` and extends to all test vectors, independently of `v₁` (6.3), and it is square-integrable when `q = 0`;
 some `I_V(Φ)` and some `I_{V′}(Φ′)` are nonzero, and there is a unique `c` with `I_V(Φ) = c · I_{V′}(Φ′)` for every
-matched pair `(Φ, Φ′)` of test vectors; `c ≠ 0`. Moreover `I_V(Φ)` is square-integrable on `[U(W)]` for every `Φ`: by
-6.3 when `q ≥ 1` or `a′ > p`, and when `q = 0` by the identity, `Φ` having a partner `Φ′` (6.2) with `I_{V′}(Φ′)`
-square-integrable. When `p = q = 0` this is 6.10.
+matched pair `(Φ, Φ′)` of test vectors; `c ≠ 0`. Moreover `I_V(Φ)` is square-integrable on `[U(W)]` for every `Φ`, by
+6.3 (`ε₀ > p` and `p + q < a′`, from 2). When `p = q = 0` this is 6.10.
 
 What each hypothesis is used for: 1 by the induction, which removes hyperbolic planes globally (each
 removal lowers the defect at every real place at once) and must end in the compact case 6.10; 2 by
@@ -2751,7 +2754,7 @@ Boundaries:
   the Rallis inner product formula*, Invent. Math. 198 (2014), cited in the numbering of arXiv:1207.4709v3:
   Theorem 7.1, §7.1 (the Siegel–Weil formula for an anisotropic target, with the constant `c`): 3.1; Theorem 1.3 (the
   Rallis inner product formula for `n < m ≤ 2n`): 3.2; Theorem 1.2 (ii) (the second term identity): the boundary of
-  Layer 6.
+  Layer 6; §1.7 (the works cited for the inner product formula in Weil's convergent range): 4.2.
 - A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007): 3.1 (the anisotropic case for
   `n < d ≤ 2n`, as GQT §7.1 attributes it).
 - S. Yamana, *L-functions and theta correspondence for classical groups*, Invent. Math. 196 (2014):
