@@ -25,13 +25,13 @@ against the answers `TauCeti.Oracle.Single.Code.setAnswers` of a set, and the in
 computable relative to an oracle, the arithmetical pointclasses, and the stage machine of Sacks
 splitting.
 
-The headline theorems are `friedberg_muchnik` (Layer 7); `exists_simple_avoiding`,
+The headline theorems are `friedberg_muchnik` (L8); `exists_simple_avoiding`,
 `sacks_splitting` with its uniform form `sacks_splitting_uniform_indices`, `low_incomparable_split`
-and `low_halves_of_K` (Layer 8); `post_sigma` and `post_delta` (Layer 3); and `limitLemma`
-(Layer 4). Beside them stand the Modulus Lemma (Layer 4), the Kleene–Post theorem (Layer 5), and,
+and `low_halves_of_K` (L9); `post_sigma` and `post_delta` (L3.2); and `limitLemma`
+(L4.3). Beside them stand the Modulus Lemma (L4.2), the Kleene–Post theorem (L5.3), and,
 for the splitting construction, Soare's Lemma 1, the stabilization of the length of agreement and
-the specification of the constructed halves (Layer 8). Every headline theorem is statable at the
-pins.
+the specification of the constructed halves (L9). Every headline theorem is statable at the
+pins. The low simple set of L7 is proved in the pinned Tau Ceti and is not restated here.
 
 Reference: [S] R. I. Soare, *Recursively Enumerable Sets and Degrees*, Springer, 1987.
 -/
@@ -40,7 +40,7 @@ namespace TauCetiRoadmap.ComputabilityTheory
 
 open TauCeti.Oracle.Single TauCeti.Enumeration
 
-/-! ## Layer 1: c.e. sets and effective presentations of enumerations -/
+/-! ## L1: c.e. sets and effective presentations of enumerations -/
 
 /-- `p` is c.e. in `Z`: the partial function that halts, with no output, exactly where `p` holds is
 recursive in the oracle of `Z`. -/
@@ -52,7 +52,7 @@ def REPredIn (Z : Set ℕ) (p : ℕ → Prop) : Prop :=
 def ComputablePredIn (Z : Set ℕ) (p : ℕ → Prop) : Prop :=
   ∃ d : DecidablePred p, ComputableIn {Z.oracle} fun x => @decide (p x) (d x)
 
-/-! ## Layer 3: the jump, the arithmetical hierarchy and index sets -/
+/-! ## L3: the jump, the arithmetical hierarchy, and index sets -/
 
 /-- `Σ⁰ₙ(Z)` by number quantifiers over matrices computable in `Z`: `Σ⁰₀(Z)` is the class
 of predicates computable in `Z`, and `p ∈ Σ⁰ₙ₊₁(Z)` when `p x ↔ ∃ y, q ⟨x, y⟩` for some `q` whose
@@ -82,7 +82,7 @@ theorem post_delta (n : ℕ) (Z : Set ℕ) (p : ℕ → Prop) :
     DeltaIn (n + 1) Z p ↔ ComputablePredIn (Set.jump^[n] Z) p := by
   sorry
 
-/-! ## Layer 4: moduli, limit approximation and stabilization information -/
+/-! ## L4: moduli, limit approximation, and stabilization information -/
 
 /-- **The Limit Lemma**, relativized [S, III.3.3]: a total function is computable in `Z′` iff it is
 the pointwise eventually constant limit of an approximation `a s x`, stage first, computable in
@@ -100,7 +100,7 @@ theorem modulus_of_ce_oracle (Z : Set ℕ) (hZ : REPred (· ∈ Z)) (f : ℕ →
       TauCeti.Approximation.IsModulus a f m := by
   sorry
 
-/-! ## Layer 5: diagonalization, simple sets and the Kleene–Post construction -/
+/-! ## L5: diagonalization, simple sets, and finite-extension comparison -/
 
 /-- **Kleene–Post** [S, VI.1.2]: there are two sets, both Turing reducible to `∅′`, neither Turing
 reducible to the other. -/
@@ -110,7 +110,7 @@ theorem kleene_post :
       ¬ TuringReducible A.oracle B.oracle ∧ ¬ TuringReducible B.oracle A.oracle := by
   sorry
 
-/-! ## Layer 7: the original Friedberg–Muchnik construction -/
+/-! ## L8: the original Friedberg–Muchnik construction -/
 
 /-- **Friedberg–Muchnik** [S, VII.2.1]: there are two c.e. sets, neither Turing reducible to the
 other. -/
@@ -119,7 +119,7 @@ theorem friedberg_muchnik :
       ¬ TuringReducible A.oracle B.oracle ∧ ¬ TuringReducible B.oracle A.oracle := by
   sorry
 
-/-! ## Layer 8: agreement preservation and Sacks's constructions -/
+/-! ## L9: agreement preservation and low Sacks splitting -/
 
 /-- Stage agreement: the stage computation `Φ^A_{e,s}(x)`, Tau Ceti's stage evaluation
 of program number `e` against the answers of `A`, converges with output `C(x)`. -/
