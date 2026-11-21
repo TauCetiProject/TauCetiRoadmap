@@ -603,8 +603,19 @@ coefficients in `R`) and with it the invariance of the depth. (1) Formal coordin
 give the group law and the action with coefficients in `R`. *The polarisation series.* Let `s` be a section of `Λ(L)` over
 `𝒜̂ × 𝒜̂` with coefficients in `R` that is the rigidification on `𝒜̂ × 0` and on `0 × 𝒜̂`. In `s` the two partial group laws of
 the biextension and its symmetry `Λ(L)_{(x,x′)} ≅ Λ(L)_{(x′,x)}` are multiplications by units `e₁(x, x′; z)`, `e₂(x; z, z′)`,
-`e₃(x, x′)` with coefficients in `R`, equal to `1` when an argument is `0`. Over `K_R` the formal group law of `𝒜̂` has a
-logarithm `lg` (characteristic `0`), so its normalised symmetric 2-cocycles are coboundaries: `log e₁` is the coboundary in
+`e₃(x, x′)` with coefficients in `R`, equal to `1` when an argument is `0`. Two classical facts over a `ℚ`-algebra `Q` are
+used, both proved here. (L) *Logarithm:* a commutative formal group law `F` of dimension `g` over `Q` has a unique `g`-tuple `lg`
+of series without constant term, with identity linear part and `lg(x +_F x′) = lg(x) + lg(x′)`, and the series `φ` over `Q` with
+`φ(x +_F x′) = φ(x) + φ(x′)` are the linear forms in `lg`. Route: the invariant derivations of a commutative law commute, so its
+invariant differential forms are closed; over `Q` a closed formal 1-form is the differential of a series, and `lg` integrates
+them; a series additive for `x + x′` has constant gradient, so it is linear. (Z) *Symmetric 2-cocycles* (Lazard's lemma over a
+`ℚ`-algebra, in dimension `g`): a series `c(u, u′)` over `Q` with `c(u, 0) = c(0, u′) = 0`, `c(u, u′) = c(u′, u)` and
+`c(u, u′) + c(u + u′, u″) = c(u, u′ + u″) + c(u′, u″)` is `ψ(u) + ψ(u′) − ψ(u + u′)` for a series `ψ` over `Q`. Route:
+`(u, t)·(u′, t′) := (u + u′, t + t′ + c(u, u′))` is a commutative formal group law of dimension `g + 1` over `Q`; the last
+component of its logarithm (L) has derivative `1` in `t` (differentiate its additivity in `t′` and put `u′ = 0`, `t′ = 0`), so
+it is `t + ψ(u)`, and its additivity gives `c`. Over `K_R` let `lg` be the logarithm (L) of the formal group law of `𝒜̂`; by
+(Z) in the coordinates `u = lg(x)`, its normalised symmetric 2-cocycles with coefficients in `K_R[[z]]` are coboundaries:
+`log e₁` is the coboundary in
 `(x, x′)` of a series `h₁(x, z)`; the compatibility of the two partial laws makes `log e₂` minus the coboundary of `h₁` in
 `(z, z′)` additive in `x`, hence the coboundary in `(z, z′)` of a series linear in `lg(x)`; adding that series to `h₁` gives `h`
 whose first two series of 4.8b are `e₁` and `e₂`, and `h(x, 0) = h(0, x′) = 0` because `e₁`, `e₂` are `1` when an argument is
@@ -625,7 +636,9 @@ the trace gives `w₀`.
 embedding only (4.8b, Check).
 
 *NEW* (as stated; (3) elementary). *Needs:* 4.8b; AbelianSchemesAndArithmeticModuli A2.3;
-PadicDifferentialEquationsAndRigidCohomology §RD.0.30.
+PadicDifferentialEquationsAndRigidCohomology §RD.0.30; for (1), the logarithm of a commutative formal group law of dimension `g`
+over a `ℚ`-algebra and Lazard's lemma on symmetric 2-cocycles over a `ℚ`-algebra in dimension `g`, (L) and (Z) of the route,
+proved there.
 
 *In [FormalProof]:* (1) is intChart_exists (`Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/ExistsIntegralChartIntegralFramedPoint.lean`), for the fields of Host (4.8b), a narrower class than the one of (1); (2) is ChartIndep (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`), proved as chartIndep_holds (`Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/NuAlgLeOfCharts.lean`); (3) is ChartSaturated (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), proved as chart_saturated (`Formalism/LocalToGlobal/ProjectiveLattices/SatLeaves.lean`).
 
