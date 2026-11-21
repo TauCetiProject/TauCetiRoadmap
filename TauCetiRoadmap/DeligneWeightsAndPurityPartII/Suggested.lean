@@ -21,9 +21,15 @@ The following headlines are not statable at the pins:
 * Deligne's cohomological equal-characteristic theorem and its global-function-field
   consequence (§§1.1–1.2) lack the normalized lisse cohomology representation and its
   monodromy-graded weight interface.
-* The coordinate tilt of the completed Kummer tower and its marked Galois equivalence
-  (§§2.1–2.4) lack the tower completion, perfectoid-field and functorial tilt carriers
-  and comparison maps. Tilting transfer (§2.5) also lacks relative purity.
+* The marked Galois equivalence of the Kummer tower (§2.4) lacks the completed Kummer
+  tower as an object, the tilt of a perfectoid field as a normed field, the
+  Fontaine–Wintenberger comparison of Galois groups and the local monodromy data it
+  marks. The pinned `TauCeti.Perfectoid.IsPerfectoidField` and
+  `TauCeti.Perfectoid.uniformTilt` supply the perfectoid-field predicate and the
+  functorial tilt ring, not these. The perfectoidness and coordinate tilt of the
+  completed tower (§2.1) and the Galois and Tate-coordinate comparisons (§§2.2–2.3) are
+  preliminaries of §2.4, not headlines. Tilting transfer (§2.5) also lacks relative
+  purity.
 * Degreewise local constancy and punctured-disc Riemann existence (§§3.2–3.3) lack
   analytic étale sites, derived direct image, oc-quasi-constructibility and Kummer
   covers. Huber's characteristic-zero locally constant-sheaf neighbourhood theorem and
@@ -39,9 +45,8 @@ The following headlines are not statable at the pins:
 * The tilted approximation (§4.1) lacks the toric models, open projection and tube
   interfaces. The multiplicative equivariant comparison (§4.2), its top-degree
   isomorphism (§4.3) and the geometric stable summand (§4.5) lack that actual
-  comparison map and the normalized algebraic–adic cohomology comparisons,
-  including the continuous-field-automorphism naturality supplied by
-  ClassicalAdicEtaleCohomology.
+  comparison map, the normalized algebraic–adic cohomology comparisons and their
+  Galois-equivariance, which GaloisActionOnEtaleCohomology supplies.
 * Scholze's Theorem 9.6 and the projective-space/product complete-intersection
   corollaries (§§4.6–4.7) lack the fan-based toric scheme and embedding, set-theoretic
   complete-intersection and geometric weight–monodromy interfaces. The
