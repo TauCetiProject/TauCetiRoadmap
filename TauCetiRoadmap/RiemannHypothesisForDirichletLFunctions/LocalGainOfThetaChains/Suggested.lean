@@ -24,7 +24,8 @@ base.
 
 * The gain of a step and of the chain lift (4.10, 4.11): under the size conditions of 4.10, at a
   place `𝔭` of `𝕃` above a prime `p ≥ 5` inert in `K`, unramified in `E`, with `p ≤ X″` and of
-  split type, and for a tuple `ξ` unramified above `p`, every step maps `ℳ^{int}_{j−1}` into
+  split type, and for the base tuple or a tuple `ξ` used at some place, unramified above `p`,
+  every step maps `ℳ^{int}_{j−1}` into
   `p^{g⁰_j(𝔭) + F_j(𝔭) − E_{u,j}(𝔭) + [j=1]·v_p(D_Γ)}·ℳ^{int}_j` locally at `𝔭`, the chain lift
   gains the sum of these exponents plus `v_p(D_Γ)`, and, for the base tuple and the tuples used at
   some place, the periods of row forms have valuation at least
