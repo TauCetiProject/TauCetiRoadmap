@@ -97,8 +97,10 @@ theorem generalizedRiemannHypothesis_iff_LFunction_ne_zero {N : ℕ} [NeZero N]
   sorry
 
 /-- The strip form (9.4): every zero of `L(·, χ)` in the open critical strip lies on the critical
-line. It follows from [FormalProof],
-`Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.strip`). -/
+line. [FormalProof] has one direction for all characters at once:
+`Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.strip`) derives the strip
+form for every character from the value form for every character. The equivalence for one `χ` is
+this roadmap's own. -/
 theorem generalizedRiemannHypothesis_iff_re_eq_half {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) :
     χ.GeneralizedRiemannHypothesis ↔
@@ -106,8 +108,9 @@ theorem generalizedRiemannHypothesis_iff_re_eq_half {N : ℕ} [NeZero N]
   sorry
 
 /-- The hypothesis for the principal character modulo any `N ≥ 1` is `RiemannHypothesis` (9.4).
-It follows from [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean`
-(`UpperTheory.Top.imprimitive`). -/
+[FormalProof] has the direction from modulus one to `RiemannHypothesis`, in value form:
+`Formalism/GammaFactorNonvanishing/RhOfRight.lean` (`Formalism.VW.rh_of_right`). The converse, and
+the equivalence for every `N`, are this roadmap's own. -/
 theorem generalizedRiemannHypothesis_one_iff (N : ℕ) [NeZero N] :
     (1 : DirichletCharacter ℂ N).GeneralizedRiemannHypothesis ↔ RiemannHypothesis := by
   sorry
@@ -128,8 +131,10 @@ instance _root_.DirichletCharacter.instNeZeroConductor {R : Type*} [CommMonoidWi
 
 /-- A Dirichlet character and its primitive character satisfy the hypothesis together (9.4).
 The primitive induction of AnalyticNumberTheoryPartI §1.6, through the strip forms of 9.4.
-It follows from [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean`
-(`UpperTheory.Top.imprimitive`). -/
+[FormalProof] has it only for all characters at once:
+`Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean` (`UpperTheory.Top.imprimitive`)
+derives the value form for every character of every level from the nonvanishing of `L(s, ψ)` on
+`Re s > 1/2` for every primitive `ψ`. The equivalence for one `χ` is this roadmap's own. -/
 theorem generalizedRiemannHypothesis_primitiveCharacter_iff {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) :
     χ.primitiveCharacter.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis := by
@@ -138,9 +143,10 @@ theorem generalizedRiemannHypothesis_primitiveCharacter_iff {N : ℕ} [NeZero N]
 /-! ## Layer 10: Primitive Dirichlet characters, conductors and gamma factors -/
 
 /-- A primitive Dirichlet character bundled with its conductor (10.3): a level, a character of that
-level and a proof that it is primitive. The bundle is that of [FormalProof],
+level and a proof that it is primitive. It corresponds to [FormalProof],
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean`
-(`Formalism.HC.PChar`). -/
+(`Formalism.HC.PChar`), whose level is a natural number `N` with an instance `NeZero N` where the
+level here is in `ℕ+`. -/
 structure PrimitiveDirichletCharacter where
   /-- The level, which is the conductor. -/
   level : ℕ+
@@ -151,9 +157,10 @@ structure PrimitiveDirichletCharacter where
 
 /-- The Riesz remainder of a primitive Dirichlet character (8.4a (b)):
 `∑_{n ≤ y} Λ(n) χ(n) (y/n − 1) + y · L′/L(1, χ)` for `χ ≠ 1`, and
-`∑_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` at level `1`. It is [FormalProof],
+`∑_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` at level `1`. It agrees with [FormalProof],
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
-(`Formalism.HC.An.gChi`). -/
+(`Formalism.HC.An.gChi`) at its character; that function is defined for every character modulo
+`N`. -/
 noncomputable def PrimitiveDirichletCharacter.rieszRemainder (χ : PrimitiveDirichletCharacter)
     (y : ℝ) : ℂ :=
   if χ.level = 1 then
