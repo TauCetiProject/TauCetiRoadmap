@@ -28,7 +28,7 @@ Chern classes.
   Harish-Chandra parameters, and the formal degree of a square-integrable irreducible unitary
   representation.
 * The lowest-`K`-type coefficients of gapped discrete series of `U(p, q)` (2.4a (b), (c)): for
-  `n = p + q`, `q₀ = min(p, q)` and the discrete series `σ` of Harish-Chandra parameter `λ` whose
+  `p, q ≥ 1`, `n = p + q`, `q₀ = min(p, q)` and the discrete series `σ` of Harish-Chandra parameter `λ` whose
   entries of different signs are at least `h ≥ 120·n·q₀^{3/2}` apart, the compression of `σ` to its
   lowest `K`-type isotypic subspace `V_Λ` is, on `exp 𝔭`, the `K`-average of the explicit product
   `Φ_λ` of powers of leading principal minors, and
