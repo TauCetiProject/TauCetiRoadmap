@@ -172,7 +172,7 @@ Let `p ≥ 5` be inert in `K` and
 unramified in `E`, `𝔭 | p` a place of `𝕃`, `W` the ring of integers of the completion of the maximal unramified extension
 of `ℚ_p` (in `ℂ_p` through `𝔭`) with its Frobenius `σ`, `ℓ(T) := Σ_{j ≥ 0}T^{p^{2j}}/p^j` with its law `F` and the
 endomorphisms `[α] = ℓ^{−1}(α·ℓ)`, `α ∈ 𝒪_{K,p}` (LubinTateFormalModulesAndQuasiCanonicalLifts §4.3, sign `+`), and
-`θ(z) := σ_{Λ_K}(z)e^{−s₂z²/2}` the reduced theta function of `ℂ/Λ_K` (ThetaChainsOnDefiniteUnitaryGroups §3.1c, with `Λ_K` of ThetaChainsOnDefiniteUnitaryGroups §3.1a; `σ_{Λ_K}` the Weierstrass sigma function, `s₂` the
+`θ(z) := σ_{Λ_K}(z)e^{−s₂z²/2}` the reduced theta function of `ℂ/Λ_K` (ThetaChainsOnDefiniteUnitaryGroups §3.1c, with `Λ_K` of ThetaChainsOnDefiniteUnitaryGroups §3.1a; `σ_{Λ_K}` the Weierstrass sigma function, ModularCurvesPartII §1.4a, `s₂` the
 constant for which `|θ(z)|²e^{−π|z|²/area(Λ_K)}` is `Λ_K`-periodic). Then:
 (i) *model:* there are `g₂, g₃ ∈ W` with unit discriminant, the invariants of `ℂ/Λ_K` up to a homothety by a unit, and
 `c ∈ W^×` such that the algebraic parameter `t = −2℘/℘′` of that model, at `z = c·ℓ(T)`, is an integral series in `T`
@@ -184,9 +184,13 @@ unit at `p`; such bases exist), and every `p`-integral finite combination `G` of
 torsion points of order prime to `p`, the series `exp(Σ_iφ(T_i))·G(c·Σ_ib_iℓ(T_i))` in `T_1, …, T_n` is integral.
 
 *Route.* A formal consequence of four facts and one lemma. (Θ1) is (i): after a homothety by a unit the CM curve has a model over
-`W` with unit discriminant whose reduction over `𝔽_{p²}` has `p²`-power Frobenius `[−p]` (KNOWN: Deuring; the good model rests on
-class field theory for `K`, Artin reciprocity); by LubinTateFormalModulesAndQuasiCanonicalLifts §4.4 its formal group, in the
-parameter `t`, is the Lubin–Tate module of `−p`, strictly isomorphic over `W(𝔽_{p²})` to the law of `ℓ_{−1}` (LubinTateFormalModulesAndQuasiCanonicalLifts §4.3 (iii)); and
+`W` with unit discriminant whose reduction over `𝔽_{p²}` has `p²`-power Frobenius `[−p]` (KNOWN: Deuring; for `K = ℚ(√−d)`,
+`d > 3`, the canonical CM curve over the Hilbert class field `H` of `K` has good reduction above every `p ∤ d`,
+ComplexMultiplicationAndExplicitReciprocity §4.3, with `H ⊂ W[1/p]` since `p` splits completely in `H`, and supersingular reduction
+at the inert `p`, ComplexMultiplicationAndExplicitReciprocity §5.1; the Frobenius `[−p]` is NonordinaryCMSpecialValues §3.4); by
+LubinTateFormalModulesAndQuasiCanonicalLifts §4.4 (in this setting NonordinaryCMSpecialValues §3.5) its formal group, in the
+parameter `t`, is the Lubin–Tate module of `−p`, strictly isomorphic over `W(𝔽_{p²})` to the law of `ℓ_{−1}` (LubinTateFormalModulesAndQuasiCanonicalLifts §4.3 (iii));
+NonordinaryCMSpecialValues §§3.4, 3.5 are stated for `p ∤ h_K`, and do not cover the inert `p` dividing `h_K`; and
 `ℓ_{−1}(𝔲T) = 𝔲ℓ(T)` for a unit `𝔲 ∈ W(𝔽_{p⁴})` with `𝔲^{p²−1} = −1` passes to the sign `+` of `ℓ` (this is why `c` is a unit of `W`).
 Torsion points of order prime to `p` are integral. The other
 three facts are proved in the algebraic parameter `t` of the model and carried to `T` by the integral change of parameter of
@@ -195,7 +199,8 @@ translate of `θ` by a point of order two from which the family of ThetaChainsOn
 group, `(log U_sθ)″ = −(℘(z + s) + s₂)` is an integral series in `t`, the value `(U_sθ)(0)` is a unit, and for `p ∤ N` (`N` the order
 of `s`) `(t·U_sθ/θ)^N` is `(U_sθ)(0)^N` times a unit series, so `e^{φ}U_sθ ∈ (U_sθ)(0)·(1 + t𝒪[[t]])`; `s₂` is integral at `p` by
 `α(α − ᾱ)s₂ = Σ_{0≠P∈ker α}℘(P)` for an `α ∈ 𝒪_K` that is a unit at `p` with `α − ᾱ` a unit (such `α` exist for every `p ∤ d`).
-*Cube:* `β₀(x, y) := φ(x +_F y) − φ(x) − φ(y)` is biadditive up to `≃` (the theorem of the cube for `σ_{Λ_K}`: the cube expression
+*Cube:* `β₀(x, y) := φ(x +_F y) − φ(x) − φ(y)` is biadditive up to `≃` (the theorem of the cube for `σ_{Λ_K}`, AbelianSchemesAndArithmeticModuli §A1.5 over `W` for the
+bundle `O([0])` of the good model: the cube expression
 of `σ` is, by the Frobenius–Stickelberger formula, a unit series times `t(P₁+P₂+P₃)∏t(P_i)/∏_{i<j}t(P_i+P_j)`). (Θ3) *Norm
 relation:* `φ([α]T) − ασ(α)φ(T)` has integral exponential for every unit `α` of `𝒪_{K,p}`: for `α ∈ 𝒪_K` a unit at `p` with `Nα` odd,
 `exp(Nα·φ − φ∘[α]) = (αt/[α]t)·∏_{P∈S/±}t²(x(t) − x(P))`, `S = ker α ∖ {0}` (the isogeny formula; kernel points are integral because
@@ -216,7 +221,9 @@ unit discriminant (its formal logarithm in place of `ℓ`), as `Formalism.L2.Ker
 (`src/Formalism/LocalToGlobal/InertKernelTheory/StatementInt.lean`), proved as `Formalism.L2.KerInert.kernels_integral_inert` from the
 good model of (i) (`Formalism.L2.Th1.CM.CM2`), which it derives from global Artin reciprocity as
 `GlobalTheory.Corev.CmTwoClosing.cmGoodModel_of_globalArtinReciprocity`. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2;
-LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4 and HodgeTateLatticesAndLubinTateLogarithms §3.6.
+LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4 and HodgeTateLatticesAndLubinTateLogarithms §3.6;
+ComplexMultiplicationAndExplicitReciprocity §§4.3, 5.1; NonordinaryCMSpecialValues §§3.4, 3.5; AbelianSchemesAndArithmeticModuli §A1.5;
+ModularCurvesPartII §1.4a.
 
 ### 4.9b The hyperbolic shape at a place of split type
 
@@ -277,7 +284,8 @@ letters, of the cocycle `β₀` of 4.9b; 4.10 (ii′) uses only the shape.)
 *Route.* (1) The Hermitian form `(x, y) ↦ Tr(x·σ^i(y))` on `W(𝔽_{p^{2i}})` over `W(𝔽_{p²})` (`Tr := Σ_{k<i}σ^{2k}`; Hermitian because
 `i` is odd, so `σ^{i+1}` is a power of `σ²`) is unimodular, hence has an orthonormal basis `ω_1, …, ω_i`: a unimodular Hermitian
 lattice over the unramified quadratic extension `W(𝔽_{p²})/ℤ_p` has one (the norm `W(𝔽_{p²})^× → ℤ_p^×` is onto; Gram–Schmidt;
-KNOWN, the unramified case of the classification of Hermitian lattices over local fields). So the dual basis of `(ω_r)` for
+KNOWN, the unramified case of the classification of Hermitian lattices over local fields; modulo `p` this is
+PotentialAutomorphyDworkMotivesPartII §0.7 over `𝔽_{p²}/𝔽_p`, and an orthonormal basis of `L/pL` lifts). So the dual basis of `(ω_r)` for
 the trace form is `(σ^i(ω_r))`. (2) The matrix `γ_{k,(r,ρ,a,b)} := Σ_mσ^{2m}(ω_ρ)·g(h^{2m}r, a, b, k)`, with `g` the
 Frobenius-equivariant coordinates of the orthonormal basis of 4.9a, is integral, fixed by `σ²`, with `Σ_kσ(γ_{k,e})γ_{k,e′} = δ_{ee′}`,
 and carries the `p`-locally orthonormal coordinates of 4.9a to the letter forms `Σ_{s even}σ^{s+i}(ω_r)y_{h^sz}`. (3) The
@@ -288,7 +296,8 @@ odd-letter form with coefficient `ω_r` equals the even-letter form with coeffic
 relation at `α = 2`), and `2A ≃ 0` implies `A ≃ 0` for `p` odd; hence `Σ_rφ(x_r) ≃ ½β(L)`, which is the shape of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a with all signs
 `−1`. The existence of the Frobenius-equivariant coordinates `g` in (2) is not proved here.
 
-*NEW*. *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.3, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6.
+*NEW*. *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.3, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6;
+PotentialAutomorphyDworkMotivesPartII §0.7.
 
 ### 4.9e Definitions: the local exponents of a place, the gain and the colength data
 
@@ -443,7 +452,8 @@ translation points of order supported at the residue characteristics of `S(ξ)` 
 `c_τ` (generators of the axis ideals `𝔩_τ = τ(𝔞̄₀)^{−1}` of ThetaChainsOnDefiniteUnitaryGroups §3.1a) turn derivatives along `𝔞₀Hom(L_𝒸, L′_{𝒸′})` into derivatives in
 local bases, also at the primes dividing `N(𝔞₀)`; both ranks `N_{j−1}`, `N_j` are even (ThetaChainsOnDefiniteUnitaryGroups §2.1). (2) At a place `𝔭` as in (iv) the
 translation points have order prime to `p`, and a `p`-integral combination of such translates has `p`-integral jets along
-the lattice (ThetaChainsOnDefiniteUnitaryGroups §3.1d (d), ThetaChainsOnDefiniteUnitaryGroups §3.2 API (c)); with step (6) this is (iv) once the coefficients of the combination, the class factors
+the lattice (ThetaChainsOnDefiniteUnitaryGroups §3.1d (d), ThetaChainsOnDefiniteUnitaryGroups §3.2 API (c); in one variable, for
+values rather than jets, NonordinaryCMSpecialValues §4.2 gives the integral structure that such translates preserve); with step (6) this is (iv) once the coefficients of the combination, the class factors
 `ρ^ξ_jρ′^ξ_j` at the representatives included, are `𝔭`-integral. The same reading of the kernel, as a `p`-integral (resp.
 `d`-integral) combination of translates by points of order prime to `p` (resp. `d`), is used in (3)–(5) and in (iii).
 *The one point of this route not proved here*, shared with Layer 3 (ThetaChainsOnDefiniteUnitaryGroups §3.2 API (c)): that the coefficients of that reading are
@@ -561,7 +571,9 @@ the periods of the chain (the reading of the kernels at `g` as combinations of s
 steps, the pairing with the row forms and the bookkeeping of `C₁`) is not given here.
 
 *KNOWN* in kind (the asymmetry between the étale and the connected halves of the torsion, as in Katz's theory at ordinary
-primes; Bannai–Kobayashi), *NEW* for powers of the curve with level at half of the torsion. [FormalProof] states the jet bound of
+primes, and, for the Eisenstein–Kronecker theta class at an ordinary prime, a neighbouring theta object, in
+AutomorphicPadicLFunctionsPartII §§6.1, 6.3: integral at the torsion translates whose killing isogeny has étale dual;
+Bannai–Kobayashi), *NEW* for powers of the curve with level at half of the torsion. [FormalProof] states the jet bound of
 the route (a jet of order `|m|` has denominator at most `π̄^{|m|}ℓ^n`), for every prime `ℓ = ππ̄ ≥ 5` prime to `d` and unramified in `E`, as
 `Formalism.L2.AlgTh.SelfDualLatticeThetaPadicIntegrality` (`src/Formalism/LocalToGlobal/AlgebraicTheory/StatementD.lean`), proved as
 `Formalism.L2.AlgTh.split_place_scaled_bound`. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, 4.9f,
@@ -636,7 +648,8 @@ Consequently, with `𝔟_j := F_j(𝔭) − E_{u,j}(𝔭) + [j=1]v_p(D_Γ)` and 
 do not add; (c3) is (c) with a general `i₀`.)
 
 *Route.* (o) Strong approximation away from `p` and Gross's comparison of the rational and the level coefficient
-models (AutomorphicFormsOnReductiveGroups §7.4); the integral structures of ThetaChainsOnDefiniteUnitaryGroups §3.1 transported by `ρ(g_p)⁻¹`. (a) The
+models (AutomorphicFormsOnReductiveGroups §7.4; for the quasi-split standard Hermitian form, at a prime all of whose places
+split, with values in the integral dual Weyl lattices, this is PotentialAutomorphyInfrastructurePartII §3.2); the integral structures of ThetaChainsOnDefiniteUnitaryGroups §3.1 transported by `ρ(g_p)⁻¹`. (a) The
 kernel identity ThetaChainsOnDefiniteUnitaryGroups §3.3(iii) at the moved lattices: at a place split in `E` the lattice of the abelian variety is determined by
 `Hom(L_v, L′_v)` (the lattice model of the Weil representation of the pair `(GL_{N_{j−1}}, GL_{N_j})`). The one-step relation
 is the Hecke relation ThetaChainsOnDefiniteUnitaryGroups §3.3(iv) for the homomorphism pair (the image of an eigenform of parameter `α` has the parameter `α`,
@@ -1030,10 +1043,10 @@ by the dimension of that tensor product over `GL_k`, and the pairs landing in ke
 `∏_jDim_k(A_{0,j})/Dim_k(a_{x_j}) ≥ (1 − C(1/Y + kE_0/a))·Q^{−(k−1)}` over the segments. The tail estimate and the statement that the bounded
 pairs land in kept blocks are not proved here.
 
-*NEW* (the count); *KNOWN* (branching `GL_k ↓ GL_{k−1}`, Pieri, Weyl's dimension formula). [FormalProof] states the first two bounds as
+*NEW* (the count); *KNOWN* (branching `GL_k ↓ GL_{k−1}`, Pieri, Weyl's dimension formula, ClassicalGroups §5.1). [FormalProof] states the first two bounds as
 `Formalism.MainNotions.ColumnSystems.Pf.UpAt` and `Formalism.MainNotions.ColumnSystems.Pf.LowAt` (`src/Formalism/SharpRestriction/GrowthBounds/BinomialRatio/RankDefs.lean`). *Needs:* 4.14b; ReductiveGroups §10B
 (characters of the induced modules are the Weyl characters);
-ClassicalGroups §6.1 (branching).
+ClassicalGroups §5.1 (Weyl's dimension formula), ClassicalGroups §6.1 (branching).
 
 ### 4.14f′ Integral isotypic projectors on chains of letters
 
@@ -1255,7 +1268,8 @@ windows or tiles of three events. (A) A window of `L₂` positions with at least
 top, so at least `M₀ − 1` of them avoid it; these are independent (disjoint positions, `(M₀ + 1)(6r + 1)u ≤ n′`), and a tile is marked with probability at least
 `(1−δ)^{u(3r+1)}(⌊u/2⌋ω₀δ(1−δ)^{u−1})^{3r}` (no top in the `3r + 1` odd cells; in each even cell exactly one top, at one of its
 `⌊u/2⌋` even positions, every probability lying in `[ω₀δ, δ]`). (C) At least `N₁ − 1` further tops among at most `G′`
-positions: the count is dominated by `Bin(G′, δ)`. With `q` the probability that a tile is marked, (B) fails at a given tile with
+positions: the count is dominated by `Bin(G′, δ)` (StandardDistributions §9.4 for the law of the count, StandardDistributions §7.13
+for the stochastic order under convolution). With `q` the probability that a tile is marked, (B) fails at a given tile with
 probability at most `(1 − q)^{M₀−1} ≤ 2(1 − q)^{M₀}` (`q ≤ 1/2`), and the union is over at most `n′/((6r + 1)u) + 1 ≤ n′/2` tiles, which
 absorbs the factor `2`: the bound is the second term of `p_orb`.
 
@@ -1263,7 +1277,7 @@ absorbs the factor `2`: the bound is the second term of `p_orb`.
 [FormalProof], which reaches the bound of 4.17d on the bad tops by another route; it is used here only in the Route of
 4.17d. The source of [FormalProof] also proves, off that path, the case of equal probabilities `δ` (`ω₀ = 1`), with `u`,
 `G′`, `N₁` free: `Formalism.G0.TileConditionFailureProbBound`
-(`src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.choice_of_tops_refined_holds`. *Needs:*
+(`src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.choice_of_tops_refined_holds`. *Needs:* StandardDistributions §§7.13, 9.4;
 Mathlib probability (independent Bernoulli variables, binomial tails).
 
 ### 4.15e Theorem II (small primes)
@@ -1428,7 +1442,8 @@ and the commutation of `K_j` with the diamond operators (ThetaChainsOnDefiniteUn
 rests on the isogeny law of the normalised theta family), hence (2), and the relation with `FF_v` with the value of `c_{j,v}`. (3), (4): at a prime split in `K` the jets of the
 kernel of level `T` are the moments of a bounded measure carried by the lattice points (at `𝔭` above `π̄_u`), resp. by the
 dual support with the index `T^{−fN_{j−1}}` (at `𝔭` above `π_u`) (KNOWN in kind: `p`-adic measures of CM theta functions
-at split primes, Katz; the moment theorem reduces to a statement for one curve, whose proof is not given here); that a
+at split primes, Katz, and AutomorphicPadicLFunctionsPartII §§6.3, 7.1 for the Eisenstein–Kronecker theta class, a
+neighbouring theta object whose moments are those of a bounded measure; the moment theorem reduces to a statement for one curve, whose proof is not given here); that a
 table of moments of integral points is an integral map of the `∇`-lattices up to the determinants of the bases used,
 whose valuations give the displayed exponents, is likewise not proved here; and `Δ = ∇` locally at `T` because the
 weights lie below the upper wall of the lowest alcove, `Λ_j(τ)_0 − Λ_j(τ)_{N_j−1} + N_j − 1 < T` (implied by the hypothesis on `T`, which is stronger than needed): for such a weight the Weyl and dual Weyl lattices agree over every discrete valuation ring of residue characteristic `T`, and the induced module
@@ -1487,7 +1502,8 @@ is not given here). The length: in coordinates of bases of `L^♯_𝔡` and of `
 the classes of the Weyl lattice `Ω_W := ⊗_τΔ(ν(τ))` of the polynomial parts `ν := Λ_0 + a⁻·1` and `B_v` is the product of
 `T^{a⁻}g_c^{−1}Ω_W`, `g_c` a change of basis with `det g_c = T·unit` acting at `τ_v` only; reduced to `diag(1, …, 1, T)`, it
 multiplies a weight vector of weight `μ` by `T^{μ_k}`, and the mean of `μ_k` over a weight basis of the Weyl lattice is
-`|ν|/k` (the weight multiplicities are invariant under permutations of the coordinates), with `d^{all}_u = #classes·dim`
+`|ν|/k` (the weight multiplicities are invariant under permutations of the coordinates: the character is symmetric,
+ClassicalGroups §4.3, and it is the character of the integral Weyl lattice, ReductiveGroups §10B), with `d^{all}_u = #classes·dim`
 (trivial stabilisers, ThetaChainsOnDefiniteUnitaryGroups §3.8(a)). (b) `N_T(𝔭) = (∏_{v∈𝒫(𝔭)}T^{a⁻_{τ_v}}U_v)^m(M_u)`; each `g_v := T^{a⁻_{τ_v}}U_v` maps `M_u = S ∩ new`
 into itself (`T^{a⁻}S ⊂ B_v`, `U_v(B_v) ⊂ S`, `U_v` preserves new forms); 4.15a(b) with `ϖ^e = T^{k−1}` gives
 `length(M_u/g_vM_u) ≤ length(B_v/T^{a⁻}S) + e_𝔭(k − 1)d^{all}_u`, and 4.15a(c) adds over `v` and over the `m` powers.
@@ -1497,7 +1513,7 @@ the weights `2ϱ(𝔭)` (`Σ_{𝔭|π_u}ϱ(𝔭)e_𝔭 = ½log T(u)`, and `|𝒫
 between `S` and `B_v`, and the description of `B_v` in coordinates (surjectivity of the coordinate map for trivial
 stabilisers).
 
-*NEW* (the count), *KNOWN* in kind (symmetry of weight multiplicities). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, 4.15a, 4.16, 4.16a.
+*NEW* (the count), *KNOWN* in kind (symmetry of weight multiplicities). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, 4.15a, 4.16, 4.16a; ClassicalGroups §4.3; ReductiveGroups §10B.
 
 ### 4.17 Definitions: the data of the gain inequality
 
@@ -1741,7 +1757,7 @@ These examples are worked in the Checks above.
 
 ### Dependencies
 
-ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9b and §§3.1–3.10 (the data of the chain: ranks, weights, Hecke and twisting characters, the field `𝕃`, the type and level primes, the levels; the integral forms, the CM theta functions, the step operators, the chain lift, the stabiliser denominators, the operators at the level prime, the source lattices and the periods). TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c and §§4.18–4.19f, the first part of this layer (the Taylor bounds on height-two formal groups, the flow programme, the classification of biextension cocycles, the jet bound for a Gaussian, the depth of a weight and its bound by the bulk). FrobeniusRestrictedRieszSums §§0.3, 0.4, 0.6, 0.7 (host predicates, cyclic hosts, places and tops, the selection of the tops). IntegralWeylModulesOfGeneralLinearGroups §§0.1, 0.2, 0.3, 0.3a. ThetaLiftsForDefiniteUnitaryGroups §2.2. HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6. LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4. AnalyticNumberTheoryPartI §0.11. AutomorphicFormsOnReductiveGroups §§7.4, 7.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b. PotentialAutomorphyInfrastructurePartII §3.8. SmoothRepresentationsOfLocalGroups SR.4.3. ReductiveGroups §10B. ClassicalGroups §6.1. ArithmeticLocallySymmetricSpaces ALS.F.7. ArithmeticStatisticsPartIV §3.2. Mathlib: Smith normal form, `Module.length`, Gauss norms and roots of polynomials, binomial polynomials, exterior powers, Witt vectors, modules over a discrete valuation ring, Chebyshev bounds, and probability (independent Bernoulli variables, binomial tails).
+ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9b and §§3.1–3.10 (the data of the chain: ranks, weights, Hecke and twisting characters, the field `𝕃`, the type and level primes, the levels; the integral forms, the CM theta functions, the step operators, the chain lift, the stabiliser denominators, the operators at the level prime, the source lattices and the periods). TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c and §§4.18–4.19f, the first part of this layer (the Taylor bounds on height-two formal groups, the flow programme, the classification of biextension cocycles, the jet bound for a Gaussian, the depth of a weight and its bound by the bulk). FrobeniusRestrictedRieszSums §§0.3, 0.4, 0.6, 0.7 (host predicates, cyclic hosts, places and tops, the selection of the tops). IntegralWeylModulesOfGeneralLinearGroups §§0.1, 0.2, 0.3, 0.3a. ThetaLiftsForDefiniteUnitaryGroups §2.2. HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6. LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4. ComplexMultiplicationAndExplicitReciprocity §§4.3, 5.1. NonordinaryCMSpecialValues §§3.4, 3.5. AbelianSchemesAndArithmeticModuli §A1.5. ModularCurvesPartII §1.4a. PotentialAutomorphyDworkMotivesPartII §0.7. AnalyticNumberTheoryPartI §0.11. AutomorphicFormsOnReductiveGroups §§7.4, 7.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b. PotentialAutomorphyInfrastructurePartII §3.8. SmoothRepresentationsOfLocalGroups SR.4.3. ReductiveGroups §10B. ClassicalGroups §§4.3, 5.1, 6.1. ArithmeticLocallySymmetricSpaces ALS.F.7. ArithmeticStatisticsPartIV §3.2. StandardDistributions §§7.13, 9.4. Mathlib: Smith normal form, `Module.length`, Gauss norms and roots of polynomials, binomial polynomials, exterior powers, Witt vectors, modules over a discrete valuation ring, Chebyshev bounds, and probability (independent Bernoulli variables, binomial tails).
 
 ## Downstream consumers
 
@@ -1807,6 +1823,28 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 
 - §4.3 (the laws of `ℓ_s`, both signs), §4.4 (the supersingular elliptic comparison). Used in 4.9a, 4.9d.
 
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
+
+- §4.3 (good reduction of the canonical CM curve over the Hilbert class field above every prime not dividing the
+  discriminant), §5.1 (supersingular reduction of a CM elliptic curve at an inert prime). Used in 4.9a.
+
+### From TauCetiRoadmap.NonordinaryCMSpecialValues
+
+- §3.4 (the Frobenius `[−p]` of the reduction at an inert `p ≥ 5`), §3.5 (its formal group is the Lubin–Tate module of `−p`
+  over `W(𝔽_{p²})`), both for `p ∤ h_K`. Used in 4.9a.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+- §A1.5 (the theorem of the cube for a rigidified line bundle on an abelian scheme). Used in 4.9a.
+
+### From TauCetiRoadmap.ModularCurvesPartII
+
+- §1.4a (the sigma function of a lattice). Used in 4.9a.
+
+### From TauCetiRoadmap.PotentialAutomorphyDworkMotivesPartII
+
+- §0.7 (orthonormal bases of nondegenerate Hermitian forms over a quadratic extension of finite fields). Used in 4.9d.
+
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
 - §0.11: Mertens' first theorem. Used in 4.9f, 4.17b, 4.17d.
@@ -1830,11 +1868,13 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 
 ### From TauCetiRoadmap.ReductiveGroups
 
-- §10B: the induced and Weyl modules `∇(λ)`, `Δ(λ)` and their characters, the integral Weyl lattice, the top-normalised integral contravariant form and the perfect pairing `D_τΔ(λ) ≅ ∇(λ)`, read in the polynomial model of `GL_N`. Used in 4.14f (and through ThetaChainsOnDefiniteUnitaryGroups §3.1 in the targets that use the integral Weyl lattices).
+- §10B: the induced and Weyl modules `∇(λ)`, `Δ(λ)` and their characters, the integral Weyl lattice, the top-normalised integral contravariant form and the perfect pairing `D_τΔ(λ) ≅ ∇(λ)`, read in the polynomial model of `GL_N`. Used in 4.14f, 4.16c (and through ThetaChainsOnDefiniteUnitaryGroups §3.1 in the targets that use the integral Weyl lattices).
 
 ### From TauCetiRoadmap.ClassicalGroups
 
 - §6.1 (branching `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin). Used in 4.14f.
+- §5.1 (Weyl's dimension formula for `GL_n`). Used in 4.14f.
+- §4.3 (the character of `V_λ` is a symmetric Laurent polynomial). Used in 4.16c.
 
 ### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
 
@@ -1843,6 +1883,11 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 ### From TauCetiRoadmap.ArithmeticStatisticsPartIV
 
 - §3.2 (Gaussian binomial coefficients count subspaces over `𝔽_q`). Used in 4.14h, 4.15e.
+
+### From TauCetiRoadmap.StandardDistributions
+
+- §9.4 (the Poisson-binomial law of a sum of independent Bernoulli variables), §7.13 (the stochastic order, preserved under
+  convolution, with binomial laws increasing in the success probability). Used in 4.15d.
 
 ### From Mathlib
 
