@@ -101,7 +101,10 @@ dimension `n`, `L` an ample line bundle on `X` and `x_1, …, x_ℓ` distinct cl
 `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every closed integral subscheme `Z` of `X` of dimension
 `d ≥ 1` (`Z = X` included), then for every `i` the adjoint bundle `K_X ⊗ L` has a global section
 that is nonzero at `x_i` and vanishes at every `x_j` with `j ≠ i`. As every residue field `k(x_i)`
-is `k`, this is the surjectivity of `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L) ⊗ k(x_i)`. -/
+is `k`, this is the surjectivity of `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L) ⊗ k(x_i)`. This statement is
+not in the README's [FormalProof], which has only the case of two points over `ℂ` with the
+conclusion that some section vanishes at exactly one of them; the passage from `ℂ` to `k` is this
+roadmap's own, proved by the reduction in the route of README 9.12c. -/
 theorem adjoint_separates_points (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
     (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X] [X.IsProjectiveOver k]
     (n : ℕ) [SmoothOfRelativeDimension n (X ↘ Spec (.of k))]
