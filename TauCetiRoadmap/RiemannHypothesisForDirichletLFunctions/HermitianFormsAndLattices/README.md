@@ -419,7 +419,8 @@ of a nondegenerate plane, which splits off. Uniqueness of `r` and `V_an` by 1.1(
 
 For a separable quadratic field extension `E/F` with `char F ≠ 2`, to a Hermitian space `(V, h)`
 attach the quadratic form `q_h(x) = h(x, x)` on the `2n`-dimensional `F`-space `V`. Prove that `h ≅ h'` if and only if `q_h ≅ q_{h'}`; and for
-`E = F(√d)` and an orthogonal basis with `h(x_i, x_i) = a_i`, `q_h ≅ ⟨1, −d⟩ ⊗ ⟨a_1, …, a_n⟩`. In
+`E = F(√d)` and an orthogonal basis with `h(x_i, x_i) = a_i`, `q_h ≅ ⟨1, −d⟩ ⊗ ⟨a_1, …, a_n⟩`
+([Jacobson], §2, the Theorem and formula (7), p. 267). In
 particular `h` is isotropic if and only if `q_h` is.
 
 Route: `q_h` on `E x_i` is `a_i N(z) = a_i(z_1² − d z_2²)`, the diagonal form `⟨a_i, −d a_i⟩`
@@ -3649,7 +3650,8 @@ and 6.5.
 - [Landherr] W. Landherr, *Äquivalenz Hermitescher Formen über einem beliebigen algebraischen
   Zahlkörper*, Abh. Math. Sem. Univ. Hamburg 11 (1936). 3.1, 3.2, located through [Kirschmer],
   Theorem 2.4.1 and Remark 3.4.2 (3).
-- [Jacobson] N. Jacobson, *A note on hermitian forms*, Bull. Amer. Math. Soc. 46 (1940). 1.3.
+- [Jacobson] N. Jacobson, *A note on hermitian forms*, Bull. Amer. Math. Soc. 46 (1940). §2, the
+  Theorem and formula (7), p. 267 (1.3).
 - [Jacobowitz] R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962).
   Theorem 11.4, the classification of lattices at dyadic ramified places (4.3), as quoted in
   [Kirschmer], Theorem 3.3.18, p. 38.
