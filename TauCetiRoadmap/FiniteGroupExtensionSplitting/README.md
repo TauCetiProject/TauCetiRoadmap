@@ -1,50 +1,57 @@
 # Roadmap: Gaschütz splitting and complements to abelian normal subgroups
 
-**Summary.** This roadmap develops the splitting theory of a group `G` over an abelian normal
-subgroup `N`: the dictionary between complements of `N`, splittings of the quotient extension
-`N → G → G ⧸ N` and normalized crossed homomorphisms `G → N`; the crossed transfer of such a
-homomorphism from a subgroup `H ≥ N` of finite index to `G`, built from Tau Ceti's degree-one
-cochain corestriction; and the comparison with the class of the extension in `H²(G ⧸ N, N)`. The
-end theorems, for `G` finite, are **Gaschütz's splitting theorem** (`exists_isComplement'_of_coprime_index`): if `N`
-has a complement in a subgroup `H` whose index is coprime to `|N|`, then `N` has a complement in
-`G`; its **Sylow form** (`exists_isComplement'_iff_sylow`): an abelian normal `p`-subgroup has a
-complement in `G` if and only if it has one in a Sylow `p`-subgroup; and the **invariant-complement
-theorem** (`exists_invariant_complement`): under an action of a `q`-group with `q ≠ p`, such a
-complement can be chosen invariant. The statements concern actual subgroup complements, not the
-vanishing of an obstruction alone; the cohomological comparison
-(`exists_complement_iff_cohomologyClass_eq_zero`) is proved as a theorem about those complements.
+**Summary.** A normal subgroup `N` of a group `G` has a complement when some subgroup `D` meets
+`N` trivially and its product with `N` is all of `G`. Complements need not exist: the subgroup of
+order `2` in `C₄` has none. When the order of `N` is coprime to its index, the Schur–Zassenhaus
+theorem, already in Mathlib, provides one. This roadmap treats abelian `N` without that
+coprimality. Its subject is Gaschütz's theorem (1952): a complement in a suitable subgroup of
+index prime to `|N|`, such as a Sylow subgroup, yields one in `G`.
 
-## Scope and ownership
+Throughout, `N` is an abelian normal subgroup of `G`; `G` is assumed finite only where a
+transversal or a Sylow subgroup is used. Two dictionaries hold for every group. A complement is
+the same thing as a splitting of the extension `N → G → G ⧸ N`, that is, a homomorphism
+`G ⧸ N → G` that is a section of the quotient map. It is also the same thing as a normalized
+crossed homomorphism: a map `c : G → N` with `c (g * h) = (g • c h) * c g` for the conjugation
+action `g • n = g * n * g⁻¹`, and `c n = n` on `N`. The complement is the kernel of `c`, and `c`
+is the projection onto `N` along it.
 
-- **Owned here.** Local and global complements, their restriction and transport, and the
-  splitting–complement dictionary for the quotient extension (Layer 0, cited downstream as S0);
-  the conjugation action of `G` on `N`, its additive module, crossed projections of complements,
-  kernels of normalized crossed maps, their equivariance and restriction (Layer 1, S1); the crossed
-  transfer, its value on `N`, the inverse-exponent normalization, Gaschütz's theorem, the quotient
-  action of `G ⧸ N`, the quotient extension as a `GroupExtension`, the cohomological comparison and
-  the restriction formula for the extension class (Layer 2, S2); Sylow detection and invariant
-  complements in external and internal form (Layer 3, S3).
-- **Supplied by Mathlib at the pin.** Complements (`Subgroup.IsComplement'`), group extensions,
-  sections and splittings (`GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`),
-  semidirect products (`SemidirectProduct.mulEquivSubgroup`), the multiplicative cocycle and
-  coboundary predicates (`groupCohomology.IsMulCocycle₁`, `groupCohomology.IsMulCoboundary₁`),
-  Sylow theory and the Schur–Zassenhaus theorem (`Subgroup.exists_right_complement'_of_coprime`).
-  Schur–Zassenhaus is consumed where coprimality of `|N|` and `[G : N]` is available and is never
-  restated.
-- **Supplied by Tau Ceti at the pin.** The degree-one cochain corestriction and its formulas, the
-  transversal word, the transfer with arbitrary representatives, factor sets of sections, the
-  cohomology class of a factor set and its splitting criterion, corestriction on group cohomology
-  and the Sylow restriction criterion. Their exact names are in *Exact supplier contracts*. The
-  generator-lifting lemma of Gaschütz,
-  `MonoidHom.exists_comp_eq_and_closure_range_eq_top_of_surjective` in
-  `TauCeti/GroupTheory/Gaschutz.lean`, is a different theorem and is not developed here.
-- **Left to LocalFiniteGroupTheory.** Hall subgroups and the conjugacy of coprime complements (its
-  L1), coprime action and invariant Sylow subgroups under a coprime action (its L3). The
-  invariant-complement theorem of §3.2 assumes no coprimality of `|A|` and `|W|` and is proved from
-  §3.1 and Sylow conjugacy alone; nothing of that roadmap is consumed.
-- **Not in scope.** Non-abelian kernels (the theorem fails for them: §2.4 records Baer's
-  counterexample), profinite extensions, the classification of all complements up to conjugacy,
-  and the comparison of `H²(G ⧸ N, N)` with the cohomology of a topological group.
+The first main theorem is Gaschütz's. Let `G` be finite and `K` a subgroup that meets `N`
+trivially and together with `N` generates a subgroup `H`. If `[G : H]` is coprime to `|N|`, then
+`N` has a complement in `G`. Neither solvability, nor centrality of `N`, nor coprimality of `|N|`
+with `[G : N]` is assumed. Commutativity is needed: in Baer's central product `SL(2, 3) ∗ C₄`,
+the subgroup `Q₈` has a complement in the Sylow `2`-subgroup, of index `3`, but none in the
+whole group.
+
+The second is the Sylow form. If `N` is an abelian normal `p`-subgroup of a finite group `G` and
+`P` is a Sylow `p`-subgroup, then `N` has a complement in `G` if and only if it has one in `P`.
+For example, every subgroup of order `4` in `Q₈` contains `−1`, so the centre of `SL(2, 3)` has
+no complement in its Sylow `2`-subgroup `Q₈`, hence none in `SL(2, 3)`.
+
+The third chooses the complement compatibly with an action. Let a finite `q`-group `A` act by
+automorphisms on a finite group `W`, and let `N` be an abelian normal `p`-subgroup of `W`, mapped
+into itself by `A`, with `p ≠ q`. If `N` has a complement in a Sylow `p`-subgroup of `W`, then it
+has one in `W` that `A` maps into itself. The orders of `A` and `W` need not be coprime.
+
+The fourth holds for any group `G`. The quotient `G ⧸ N` acts on `N` by conjugation, and the
+factor set of a section `σ` of `G → G ⧸ N` with `σ 1 = 1` has a class in `H²(G ⧸ N, N)`,
+independent of `σ`. Then `N` has a complement exactly when this class is zero. It concerns
+actual complements, not only an obstruction.
+
+The roadmap builds on Mathlib's complements, group extensions and Sylow theory. From Tau Ceti it
+uses the degree-one corestriction of cochains, which carries a crossed homomorphism from `H` up to
+`G`, and the factor sets of extensions, whose class vanishes exactly when the extension splits.
+Hall subgroups and coprime action are left to the roadmap LocalFiniteGroupTheory; nothing from it
+is used. These theorems in turn supply complements for local finite group theory beyond the
+Schur–Zassenhaus range.
+
+Layer 0 sets up complements in `G` and in subgroups containing `N`, their restriction and
+transport, and the quotient extension with its splittings. Layer 1 builds the
+crossed-homomorphism dictionary and tracks kernels under conjugation and restriction. Layer 2
+transfers a normalized crossed homomorphism from `H` to `G`; the result sends `n` in `N` to
+`n ^ [G : H]`, and the kernel of a suitable power is Gaschütz's complement. The same layer
+proves the cohomological comparison and a restriction formula giving a second proof of
+Gaschütz's theorem. Layer 3 specialises to Sylow subgroups and derives the invariant-complement
+theorem in a semidirect product.
 
 ## Conventions
 
@@ -74,105 +81,6 @@ vanishing of an obstruction alone; the cohomological comparison
   corestriction convention `(cor¹_t f) γ = ∑ u, t u • f (lWord H t u γ)`.
 - A `q`-group acting on `W` acts by group automorphisms, `[MulDistribMulAction A W]`; a subgroup
   `D ≤ W` is `A`-stable when `a • d ∈ D` for all `a ∈ A` and `d ∈ D`.
-
-## Exact supplier contracts
-
-**From Mathlib** (`Mathlib/GroupTheory/Complement.lean`, `Mathlib/GroupTheory/GroupExtension/Defs.lean`,
-`Mathlib/GroupTheory/GroupExtension/Basic.lean`, `Mathlib/GroupTheory/SemidirectProduct.lean`,
-`Mathlib/GroupTheory/Sylow.lean`, `Mathlib/GroupTheory/Index.lean`,
-`Mathlib/GroupTheory/SchurZassenhaus.lean`,
-`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`,
-`Mathlib/RepresentationTheory/Rep/Basic.lean`, `Mathlib/GroupTheory/GroupAction/ConjAct.lean`,
-`Mathlib/Algebra/Group/Subgroup/Actions.lean`, `Mathlib/Algebra/Group/Submonoid/DistribMulAction.lean`,
-`Mathlib/GroupTheory/PGroup.lean`).
-
-- `Subgroup.IsComplement'`, `Subgroup.isComplement'_of_disjoint_and_mul_eq_univ`,
-  `Subgroup.IsComplement'.sup_eq_top`, `Subgroup.IsComplement'.disjoint`,
-  `Subgroup.IsComplement'.index_eq_card`, `Subgroup.IsComplement'.card_mul`,
-  `Subgroup.isComplement'_iff_card_mul_and_disjoint`: a complement is a subgroup meeting `N`
-  trivially whose product with `N` is `G`; `|N| * |D| = |G|` and `[G : N] = |D|`.
-- `GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`, `GroupExtension.Equiv`,
-  `GroupExtension.conjAct`, `GroupExtension.inl_conjAct_comm`, `GroupExtension.surjInvRightHom`:
-  an extension is a pair of homomorphisms `inl`, `rightHom` with `inl` injective, `rightHom`
-  surjective and `range inl = ker rightHom`; a splitting is a section that is a homomorphism;
-  `conjAct e` is conjugation by `e` read on the kernel.
-- `SemidirectProduct.mulEquivSubgroup`: for `N.IsComplement' D` with `N` normal, `N ⋊ D ≃* G`.
-- `IsPGroup.le_sylow_of_normal`, `Sylow.not_dvd_index`, `Sylow.card_eq_multiplicity`,
-  `IsPGroup.exists_le_sylow`, `MulAction.exists_smul_eq` for `Sylow p G`,
-  `IsPGroup.exists_card_eq`: a normal `p`-subgroup lies in every Sylow `p`-subgroup, `p` does
-  not divide `[G : P]`, every `p`-subgroup lies in a Sylow `p`-subgroup, Sylow `p`-subgroups are
-  conjugate, a finite `p`-group has order `p ^ j` for some `j`.
-- `Subgroup.index_map_eq`, `Subgroup.card_mul_index`, `Subgroup.finiteIndex_of_finite`,
-  `SemidirectProduct.card`: `[G' : f(H)] = [G : H]` for `f : G →* G'` surjective with
-  `ker f ≤ H`; `|H| * [G : H] = |G|`; every subgroup of a finite group has finite index;
-  `|W ⋊ A| = |W| * |A|`.
-- The restriction of a `MulDistribMulAction G M` to a subgroup `H`: the instance
-  `MulDistribMulAction ↥H M` of `Mathlib/Algebra/Group/Subgroup/Actions.lean` (the copy for
-  subgroups of `Submonoid.mulDistribMulAction`), with `Subgroup.smul_def`: `h • m = (h : G) • m`.
-- `Subgroup.exists_right_complement'_of_coprime`: Schur–Zassenhaus, a normal subgroup of order
-  coprime to its index has a complement.
-- `groupCohomology.IsMulCocycle₁ f`, which is `∀ g h, f (g * h) = g • f h * f g`, and
-  `groupCohomology.IsMulCoboundary₁ f`, which is `∃ x, ∀ g, g • x / x = f g`; `IsMulCoboundary₂`.
-- `Rep.ofMulDistribMulAction G M`: the `ℤ`-representation of `G` on `Additive M` with
-  `ρ g a = Additive.ofMul (g • Additive.toMul a)`.
-- `MulAut.conjNormal`, `MulAut.conjNormal_apply`, `MulDistribMulAction.compHom`,
-  `QuotientGroup.lift`, `QuotientGroup.mk'`, `Subgroup.normalizerMonoidHom`.
-
-**From Tau Ceti** (`TauCeti/RepresentationTheory/Homological/ContCohomology/Corestriction/Basic.lean`,
-`TauCeti/GroupTheory/TransversalWord.lean`, `TauCeti/GroupTheory/Transfer.lean`,
-`TauCeti/GroupTheory/GroupExtension/FactorSetOfSection.lean`,
-`TauCeti/GroupTheory/GroupExtension/Cohomology.lean`,
-`TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean`,
-`TauCeti/RepresentationTheory/Homological/GroupCohomology/Sylow.lean`,
-`TauCeti/GroupTheory/Perm/FinThree/Basic.lean`, `TauCeti/GroupTheory/GroupExtension/ZModFour.lean`).
-
-- `TauCeti.ContCohomology.cochainsCor1 G M U t ht`, for `U : Subgroup G` of finite index, an
-  additive `G`-module `M` with `[AddCommGroup M] [DistribMulAction G M]`, a transversal
-  `t : G ⧸ U → G` with `ht : ∀ u, ↑(t u) = u`; `cochainsCor1_apply` is the formula
-  `∑ u, t u • f (lWord U t u γ)`; `cochainsCor1_isCocycle₁` (a cocycle on `U` goes to a cocycle on
-  `G`), `cochainsCor1_d0` (coboundaries go to coboundaries), `cochainsCor1_changeTransversal`
-  (two transversals differ by an explicit coboundary), `cochainsCor1_res` (corestriction of a
-  restricted cocycle is `[G : U] • c` plus a coboundary). No topology and no representation
-  category enter the degree-one cochain section.
-- `TauCeti.lWord`, `TauCeti.lWord_def`, `TauCeti.lWord_mem`, `TauCeti.transversal_mul_lWord`,
-  `TauCeti.lWord_of_mem_of_normal` (for `γ ∈ U` with `U` normal, `lWord U t u γ = (t u)⁻¹ * γ * t u`).
-- `TauCeti.transfer_eq_prod_lWord`, `MonoidHom.transfer_eq_prod_of_bijective`,
-  `MonoidHom.transfer_comp`, `MonoidHom.transfer_transfer`: the transfer with arbitrary representatives,
-  its naturality and transitivity. They are consumed for the comparison of §2.1 with the
-  classical transfer when the action on `N` is trivial.
-- `TauCeti.GroupExtension.InducesAction S`, `TauCeti.GroupExtension.factorSet σ hσ hact`,
-  `TauCeti.GroupExtension.factorSetToGroupExtensionEquiv`,
-  `TauCeti.GroupExtension.cohomologyClass_factorSet_eq`,
-  `TauCeti.GroupExtension.inducesAction_iff_conjActOfSection_eq`,
-  `TauCeti.GroupExtension.conjActOfSection_apply`: for an extension of `G` by an abelian `M` whose
-  conjugation action is the given `MulDistribMulAction G M`, every normalized section has a factor
-  set, the extension is equivalent to the twisted product of that factor set, and the class of the
-  factor set does not depend on the section.
-- `TauCeti.FactorSet.cohomologyClass`, `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero`
-  (`α.groupExtension` splits iff `α.cohomologyClass = 0`),
-  `TauCeti.FactorSet.nsmul_cohomologyClass_eq_zero_iff` (`n • α.cohomologyClass = 0` iff the
-  pointwise `n`-th power of `α` is a `2`-coboundary); all for `G M : Type`.
-- `TauCeti.groupCohomology.map_subtype_id_comp_corestriction`,
-  `TauCeti.groupCohomology.index_nsmul_eq_zero_of_map_eq_zero`: restriction to a finite-index
-  subgroup `S` followed by corestriction is multiplication by `S.index`, so a class whose
-  restriction vanishes is killed by the index.
-- `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero`: a class killed by a
-  power of `p` whose restriction to a Sylow `p`-subgroup vanishes is zero.
-- `TauCeti.isComplement'_alternatingGroup_stabilizer_perm_fin_three`: the stabilizer of a point is
-  a complement of `A₃` in `S₃`. `TauCeti.isEmpty_splitting_zmodFourExtension`: the extension
-  `ZMod 2 → ZMod 4 → ZMod 2` has no splitting.
-
-## How to read the build
-
-Layer 0 fixes the vocabulary: local and global complements, their restriction and transport, and
-the quotient extension `N → G → G ⧸ N` with its splittings. Layer 1 turns a complement into a
-normalized crossed map `G → N` and back, and records how kernels move under conjugation,
-restriction and principal crossed maps. Layer 2 transfers a normalized crossed map from `H` to
-`G` with Tau Ceti's degree-one corestriction, computes its value on `N`, normalizes it by an
-inverse exponent and reads off Gaschütz's theorem; it then builds the quotient action and compares
-complements with the class of the extension in `H²(G ⧸ N, N)`, including the restriction formula
-that gives the cohomological proof of the same theorem. Layer 3 specialises to Sylow subgroups
-and derives the invariant-complement theorem in a semidirect product.
 
 ## Layer 0: complement and section dictionaries (S0)
 
@@ -716,6 +624,125 @@ The Gaschütz criterion (§2.4), its Sylow form (§3.1) and the invariant-comple
 Schur–Zassenhaus range, where `|N|` and `[G : N]` need not be coprime; the crossed-projection
 dictionary (§1.3) and the transport of splittings (§0.2) are reusable for any extension with
 abelian kernel.
+
+## Scope and ownership
+
+- **Owned here.** Local and global complements, their restriction and transport, and the
+  splitting–complement dictionary for the quotient extension (Layer 0, cited downstream as S0);
+  the conjugation action of `G` on `N`, its additive module, crossed projections of complements,
+  kernels of normalized crossed maps, their equivariance and restriction (Layer 1, S1); the crossed
+  transfer, its value on `N`, the inverse-exponent normalization, Gaschütz's theorem, the quotient
+  action of `G ⧸ N`, the quotient extension as a `GroupExtension`, the cohomological comparison and
+  the restriction formula for the extension class (Layer 2, S2); Sylow detection and invariant
+  complements in external and internal form (Layer 3, S3).
+- **Supplied by Mathlib at the pin.** Complements (`Subgroup.IsComplement'`), group extensions,
+  sections and splittings (`GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`),
+  semidirect products (`SemidirectProduct.mulEquivSubgroup`), the multiplicative cocycle and
+  coboundary predicates (`groupCohomology.IsMulCocycle₁`, `groupCohomology.IsMulCoboundary₁`),
+  Sylow theory and the Schur–Zassenhaus theorem (`Subgroup.exists_right_complement'_of_coprime`).
+  Schur–Zassenhaus is consumed where coprimality of `|N|` and `[G : N]` is available and is never
+  restated.
+- **Supplied by Tau Ceti at the pin.** The degree-one cochain corestriction and its formulas, the
+  transversal word, the transfer with arbitrary representatives, factor sets of sections, the
+  cohomology class of a factor set and its splitting criterion, corestriction on group cohomology
+  and the Sylow restriction criterion. Their exact names are in *Exact supplier contracts*. The
+  generator-lifting lemma of Gaschütz,
+  `MonoidHom.exists_comp_eq_and_closure_range_eq_top_of_surjective` in
+  `TauCeti/GroupTheory/Gaschutz.lean`, is a different theorem and is not developed here.
+- **Left to LocalFiniteGroupTheory.** Hall subgroups and the conjugacy of coprime complements (its
+  L1), coprime action and invariant Sylow subgroups under a coprime action (its L3). The
+  invariant-complement theorem of §3.2 assumes no coprimality of `|A|` and `|W|` and is proved from
+  §3.1 and Sylow conjugacy alone; nothing of that roadmap is consumed.
+- **Not in scope.** Non-abelian kernels (the theorem fails for them: §2.4 records Baer's
+  counterexample), profinite extensions, the classification of all complements up to conjugacy,
+  and the comparison of `H²(G ⧸ N, N)` with the cohomology of a topological group.
+
+## Exact supplier contracts
+
+**From Mathlib** (`Mathlib/GroupTheory/Complement.lean`, `Mathlib/GroupTheory/GroupExtension/Defs.lean`,
+`Mathlib/GroupTheory/GroupExtension/Basic.lean`, `Mathlib/GroupTheory/SemidirectProduct.lean`,
+`Mathlib/GroupTheory/Sylow.lean`, `Mathlib/GroupTheory/Index.lean`,
+`Mathlib/GroupTheory/SchurZassenhaus.lean`,
+`Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`,
+`Mathlib/RepresentationTheory/Rep/Basic.lean`, `Mathlib/GroupTheory/GroupAction/ConjAct.lean`,
+`Mathlib/Algebra/Group/Subgroup/Actions.lean`, `Mathlib/Algebra/Group/Submonoid/DistribMulAction.lean`,
+`Mathlib/GroupTheory/PGroup.lean`).
+
+- `Subgroup.IsComplement'`, `Subgroup.isComplement'_of_disjoint_and_mul_eq_univ`,
+  `Subgroup.IsComplement'.sup_eq_top`, `Subgroup.IsComplement'.disjoint`,
+  `Subgroup.IsComplement'.index_eq_card`, `Subgroup.IsComplement'.card_mul`,
+  `Subgroup.isComplement'_iff_card_mul_and_disjoint`: a complement is a subgroup meeting `N`
+  trivially whose product with `N` is `G`; `|N| * |D| = |G|` and `[G : N] = |D|`.
+- `GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`, `GroupExtension.Equiv`,
+  `GroupExtension.conjAct`, `GroupExtension.inl_conjAct_comm`, `GroupExtension.surjInvRightHom`:
+  an extension is a pair of homomorphisms `inl`, `rightHom` with `inl` injective, `rightHom`
+  surjective and `range inl = ker rightHom`; a splitting is a section that is a homomorphism;
+  `conjAct e` is conjugation by `e` read on the kernel.
+- `SemidirectProduct.mulEquivSubgroup`: for `N.IsComplement' D` with `N` normal, `N ⋊ D ≃* G`.
+- `IsPGroup.le_sylow_of_normal`, `Sylow.not_dvd_index`, `Sylow.card_eq_multiplicity`,
+  `IsPGroup.exists_le_sylow`, `MulAction.exists_smul_eq` for `Sylow p G`,
+  `IsPGroup.exists_card_eq`: a normal `p`-subgroup lies in every Sylow `p`-subgroup, `p` does
+  not divide `[G : P]`, every `p`-subgroup lies in a Sylow `p`-subgroup, Sylow `p`-subgroups are
+  conjugate, a finite `p`-group has order `p ^ j` for some `j`.
+- `Subgroup.index_map_eq`, `Subgroup.card_mul_index`, `Subgroup.finiteIndex_of_finite`,
+  `SemidirectProduct.card`: `[G' : f(H)] = [G : H]` for `f : G →* G'` surjective with
+  `ker f ≤ H`; `|H| * [G : H] = |G|`; every subgroup of a finite group has finite index;
+  `|W ⋊ A| = |W| * |A|`.
+- The restriction of a `MulDistribMulAction G M` to a subgroup `H`: the instance
+  `MulDistribMulAction ↥H M` of `Mathlib/Algebra/Group/Subgroup/Actions.lean` (the copy for
+  subgroups of `Submonoid.mulDistribMulAction`), with `Subgroup.smul_def`: `h • m = (h : G) • m`.
+- `Subgroup.exists_right_complement'_of_coprime`: Schur–Zassenhaus, a normal subgroup of order
+  coprime to its index has a complement.
+- `groupCohomology.IsMulCocycle₁ f`, which is `∀ g h, f (g * h) = g • f h * f g`, and
+  `groupCohomology.IsMulCoboundary₁ f`, which is `∃ x, ∀ g, g • x / x = f g`; `IsMulCoboundary₂`.
+- `Rep.ofMulDistribMulAction G M`: the `ℤ`-representation of `G` on `Additive M` with
+  `ρ g a = Additive.ofMul (g • Additive.toMul a)`.
+- `MulAut.conjNormal`, `MulAut.conjNormal_apply`, `MulDistribMulAction.compHom`,
+  `QuotientGroup.lift`, `QuotientGroup.mk'`, `Subgroup.normalizerMonoidHom`.
+
+**From Tau Ceti** (`TauCeti/RepresentationTheory/Homological/ContCohomology/Corestriction/Basic.lean`,
+`TauCeti/GroupTheory/TransversalWord.lean`, `TauCeti/GroupTheory/Transfer.lean`,
+`TauCeti/GroupTheory/GroupExtension/FactorSetOfSection.lean`,
+`TauCeti/GroupTheory/GroupExtension/Cohomology.lean`,
+`TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean`,
+`TauCeti/RepresentationTheory/Homological/GroupCohomology/Sylow.lean`,
+`TauCeti/GroupTheory/Perm/FinThree/Basic.lean`, `TauCeti/GroupTheory/GroupExtension/ZModFour.lean`).
+
+- `TauCeti.ContCohomology.cochainsCor1 G M U t ht`, for `U : Subgroup G` of finite index, an
+  additive `G`-module `M` with `[AddCommGroup M] [DistribMulAction G M]`, a transversal
+  `t : G ⧸ U → G` with `ht : ∀ u, ↑(t u) = u`; `cochainsCor1_apply` is the formula
+  `∑ u, t u • f (lWord U t u γ)`; `cochainsCor1_isCocycle₁` (a cocycle on `U` goes to a cocycle on
+  `G`), `cochainsCor1_d0` (coboundaries go to coboundaries), `cochainsCor1_changeTransversal`
+  (two transversals differ by an explicit coboundary), `cochainsCor1_res` (corestriction of a
+  restricted cocycle is `[G : U] • c` plus a coboundary). No topology and no representation
+  category enter the degree-one cochain section.
+- `TauCeti.lWord`, `TauCeti.lWord_def`, `TauCeti.lWord_mem`, `TauCeti.transversal_mul_lWord`,
+  `TauCeti.lWord_of_mem_of_normal` (for `γ ∈ U` with `U` normal, `lWord U t u γ = (t u)⁻¹ * γ * t u`).
+- `TauCeti.transfer_eq_prod_lWord`, `MonoidHom.transfer_eq_prod_of_bijective`,
+  `MonoidHom.transfer_comp`, `MonoidHom.transfer_transfer`: the transfer with arbitrary representatives,
+  its naturality and transitivity. They are consumed for the comparison of §2.1 with the
+  classical transfer when the action on `N` is trivial.
+- `TauCeti.GroupExtension.InducesAction S`, `TauCeti.GroupExtension.factorSet σ hσ hact`,
+  `TauCeti.GroupExtension.factorSetToGroupExtensionEquiv`,
+  `TauCeti.GroupExtension.cohomologyClass_factorSet_eq`,
+  `TauCeti.GroupExtension.inducesAction_iff_conjActOfSection_eq`,
+  `TauCeti.GroupExtension.conjActOfSection_apply`: for an extension of `G` by an abelian `M` whose
+  conjugation action is the given `MulDistribMulAction G M`, every normalized section has a factor
+  set, the extension is equivalent to the twisted product of that factor set, and the class of the
+  factor set does not depend on the section.
+- `TauCeti.FactorSet.cohomologyClass`, `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero`
+  (`α.groupExtension` splits iff `α.cohomologyClass = 0`),
+  `TauCeti.FactorSet.nsmul_cohomologyClass_eq_zero_iff` (`n • α.cohomologyClass = 0` iff the
+  pointwise `n`-th power of `α` is a `2`-coboundary); all for `G M : Type`.
+- `TauCeti.groupCohomology.map_subtype_id_comp_corestriction`,
+  `TauCeti.groupCohomology.index_nsmul_eq_zero_of_map_eq_zero`: restriction to a finite-index
+  subgroup `S` followed by corestriction is multiplication by `S.index`, so a class whose
+  restriction vanishes is killed by the index.
+- `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero`: a class killed by a
+  power of `p` whose restriction to a Sylow `p`-subgroup vanishes is zero.
+- `TauCeti.isComplement'_alternatingGroup_stabilizer_perm_fin_three`: the stabilizer of a point is
+  a complement of `A₃` in `S₃`. `TauCeti.isEmpty_splitting_zmodFourExtension`: the extension
+  `ZMod 2 → ZMod 4 → ZMod 2` has no splitting.
 
 ## References
 

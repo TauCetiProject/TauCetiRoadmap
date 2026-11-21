@@ -1,59 +1,54 @@
 # Roadmap: primitive prime divisors and the Bang–Zsigmondy theorem
 
-**Summary.** For coprime natural numbers `a > b > 0`, a primitive prime divisor of `a^n − b^n` is a
-prime dividing `a^n − b^n` and none of `a^k − b^k` for `0 < k < n`. This roadmap builds the
-two-variable cyclotomic values `Φ_n(a,b)` from Mathlib's cyclotomic polynomials and homogenization,
-with their factorization of `a^n − b^n`, their expansion identities and their size estimates
-(Birkhoff–Vandiver 1904, §1, pp. 173–177); the order criterion modulo a prime and the exact `p`-adic
-valuations of `a^k − b^k` and of `Φ_n(a,b)` (Birkhoff–Vandiver 1904, Theorems I–IV, pp. 174–177);
-and from these the Bang–Zsigmondy theorem with its exact exceptions (Zsigmondy 1892, p. 283;
-Birkhoff–Vandiver 1904, Theorem V, p. 178; Roitman 1997, Theorem 3, p. 1914): for coprime
-`a > b > 0` and `n ≥ 2`, `a^n − b^n` has a primitive prime divisor unless `n = 2` and `a + b` is a
-power of two, or `(a, b, n) = (2, 1, 6)`. The end theorems are `exists_prime_dvd_pow_sub_pow`, its
-characterization `exists_prime_dvd_pow_sub_pow_iff`, and the multiplicative-order corollaries
-`exists_prime_orderOf_div_eq`, `exists_prime_orderOf_eq`, `exists_prime_orderOf_two_eq` and
-`exists_prime_dvd_pow_add_pow` used in the theory of orders of finite linear groups. The theorem is
-arithmetic and has no dependency on finite simple groups. Mathlib has `Polynomial.cyclotomic`, its
-factorization of `X^n − 1`, `Polynomial.homogenize`, the real evaluation bounds on cyclotomic
-polynomials, lifting the exponent for `padicValNat`, `ZMod` and `orderOf`; it has no two-variable
-cyclotomic value, no primitive prime divisor and no Zsigmondy theorem.
+**Summary.** Let `a > b > 0` be coprime natural numbers. A prime dividing `a^n − b^n` may already
+divide an earlier term: `a − b` divides every term, so its prime factors divide all of them. A
+*primitive prime divisor* of `a^n − b^n` is a prime that divides `a^n − b^n` and none of the
+numbers `a^k − b^k` with `0 < k < n`. The Bang–Zsigmondy theorem says that such a prime almost
+always exists, and this roadmap proves it with its exact exceptions.
 
-| Layer | Title | What it delivers |
-|---|---|---|
-| [0](#layer-0-homogeneous-cyclotomic-arithmetic) | Homogeneous cyclotomic arithmetic | the integer value `Φ_n(a,b)`, its closed forms, the factorization `a^n − b^n = ∏ Φ_d(a,b)`, expansion identities, size estimates |
-| [1](#layer-1-multiplicative-orders-and-valuations) | Multiplicative orders and valuations | the order criterion modulo `p`, primitivity as an order condition, the nonprimitive prime divisors of `Φ_n(a,b)`, exact valuations |
-| [2](#layer-2-existence-and-the-exact-exceptions) | Existence and the exact exceptions | the estimate `Φ_n(a,b) > P(n)`, the Bang–Zsigmondy theorem, the converses, exponents one and two |
-| [3](#layer-3-corollaries) | Corollaries | the two-variable order form, the base-one specializations, orders `2n` and sums of powers, divisibility criteria for `q^k ± 1` |
+The main tool is the two-variable cyclotomic value `Φ_n(a,b)`: the `n`-th cyclotomic polynomial,
+made homogeneous of degree `φ(n)` and evaluated at `(a,b)`. For `n > 0` these integers factor the
+differences of powers: `a^n − b^n` is the product of the values `Φ_d(a,b)` over the divisors `d`
+of `n`.
 
-```text
-Mathlib → Layer 0 → Layer 1 → Layer 2 → Layer 3
-```
+In full: for coprime `a > b > 0` and `n ≥ 2`, the number `a^n − b^n` has a primitive prime divisor
+unless `n = 2` and `a + b` is a power of two, or `(a, b, n) = (2, 1, 6)`. Both exceptions are real:
+a primitive prime divisor exists exactly outside them. For instance `2^6 − 1 = 63 = 3² · 7`, where
+`3` already divides `2² − 1` and `7` already divides `2³ − 1`.
 
-## Scope and ownership
+The proof rests on a description of the prime divisors of `Φ_n(a,b)` that are not primitive. Take
+coprime `a > b > 0`, `n ≥ 3`, and a prime `p` dividing `Φ_n(a,b)` that also divides some
+`a^k − b^k` with `0 < k < n`. Then `p` divides `n`, every prime divisor of `n` is at most `p`, and
+`p` divides `Φ_n(a,b)` exactly once. For example `Φ_3(4,1) = 21 = 3 · 7`: the prime `3` divides
+`4 − 1` and occurs once, while `7` is primitive. Consequently, for `n ≥ 3`, if `a^n − b^n` has no primitive
+prime divisor, then `Φ_n(a,b)` equals the largest prime factor `P(n)` of `n`. A size estimate rules
+this out: `Φ_n(a,b) > P(n)` for `n ≥ 3`, except at `(2, 1, 6)`.
 
-**This roadmap owns** the integer-valued homogeneous cyclotomic value `Φ_n(a,b)` and its basic
-theory (closed forms, symmetry, transport along ring homomorphisms, positivity, the factorization
-of `a^n − b^n`, the homogenized expansion identities and the homogenized evaluation bounds); the
-order criterion `p ∣ a^k − b^k ↔ orderOf ((a : ZMod p) / b) ∣ k`; the description of the
-nonprimitive prime divisors of `Φ_n(a,b)` with their valuations; the exact `p`-adic valuations of
-`a^k − b^k` and `Φ_n(a,b)`; the Bang–Zsigmondy theorem for coprime `a > b > 0` with both exceptions
-and their converses; the exponent-one statement; and the corollaries on multiplicative orders in
-`ZMod p`, on primes of order `2n`, and on divisibility of `q^k − 1` and `q^k + 1`.
+Modulo a prime, primitivity is a statement about multiplicative orders. Outside the two exceptions,
+the theorem gives a prime `p` not dividing `ab` at which `a/b` has order exactly `n`, so that `n`
+divides `p − 1`. With `b = 1`: for `a ≥ 3` and `n ≥ 3` there is a prime modulo which `a` has order
+exactly `n`. For `n ≥ 2` with `n ≠ 6`, there is a prime modulo which `2` has order exactly `n`.
 
-**Owned elsewhere and consumed here.** Everything consumed is in Mathlib at the pinned revision and
-is listed in [Exact supplier contracts](#exact-supplier-contracts). No Tau Ceti module and no other
-roadmap is consumed.
+The roadmap builds on Mathlib alone and uses no other Tau Ceti roadmap. From Mathlib it takes
+cyclotomic polynomials, their homogenization and their bounds at real points. It also takes the
+lifting-the-exponent lemmas for `p`-adic valuations and orders of residues modulo `p`. The roadmap
+itself defines the two-variable cyclotomic value and proves the Zsigmondy theorem. The roadmap
+is meant for the study of orders of finite linear groups, where a prime modulo which `q` has order
+`n` is the standard input. Large Zsigmondy primes, which build on this roadmap, are left to a
+roadmap of their own.
 
-**Not in this roadmap.** The orders and recognition of finite groups of Lie type; large Zsigmondy
-primes in the sense of Feit (Roitman 1997, Theorem 6, p. 1915); primitive divisors of Lucas and
-Lehmer sequences beyond differences of powers; the greatest prime factor of `a^n − b^n` beyond the
-bound `P(a^n − b^n) ≥ n + 1` that Layers 1–2 give outside the exceptions. Each of these builds on
-this roadmap and is work for a roadmap in its own direction.
-
-**Relation to earlier formalizations.** Formal proofs of the base-two and base-at-least-three
-specializations of Layer 3 exist outside Tau Ceti (see [Provenance](#provenance)). This roadmap
-states the general coprime two-variable theorem and the general arithmetic library behind it, not
-a proof-specific interface for one base.
+[Layer 0](#layer-0-homogeneous-cyclotomic-arithmetic) defines `Φ_n(a,b)` and proves everything about
+it that is a polynomial identity or a real inequality. This includes the factorization of
+`a^n − b^n`, identities expressing `Φ_n(a^p, b^p)` through `Φ_{np}(a,b)` and `Φ_n(a,b)` for a
+prime `p`, and the bounds `(a − b)^φ(n) < Φ_n(a,b) ≤ (a + b)^φ(n)` for `0 < b < a` and `n ≥ 2`.
+[Layer 1](#layer-1-multiplicative-orders-and-valuations) passes to residues modulo a prime `p` not
+dividing `ab`, where the order of `a/b` decides which `a^k − b^k` the prime divides. It determines
+the nonprimitive prime divisors of `Φ_n(a,b)`, and lifting the exponent gives exact `p`-adic
+valuations. [Layer 2](#layer-2-existence-and-the-exact-exceptions) combines the estimate
+`Φ_n(a,b) > P(n)` with Layer 1 to prove existence, then proves nonexistence in the two exceptions
+and treats the exponents one and two. [Layer 3](#layer-3-corollaries) restates existence in terms
+of orders modulo `p`. It adds criteria, in terms of the order of `q` modulo `p`, for `p` to divide
+`q^k − 1` or `q^k + 1`. Each layer uses only the layers before it.
 
 ## Conventions
 
@@ -92,68 +87,6 @@ a proof-specific interface for one base.
 7. **Names.** Lean statements live in the namespace `TauCetiRoadmap.PrimitivePrimeDivisors`; the
    intended library home is `TauCeti/NumberTheory/PrimitivePrimeDivisors/`, with the polynomial
    lemmas of Layer 0 under `TauCeti/RingTheory/Polynomial/Cyclotomic/`.
-
-## Exact supplier contracts
-
-**From Mathlib** (pinned revision; file paths under `Mathlib/`).
-
-- *Cyclotomic polynomials* (`RingTheory/Polynomial/Cyclotomic/Basic.lean`): `Polynomial.cyclotomic`,
-  `cyclotomic_zero` (`= 1`), `cyclotomic_one` (`= X − 1`), `cyclotomic_two` (`= X + 1`),
-  `cyclotomic_three`, `cyclotomic_prime` (the geometric sum `Σ_{i<p} X^i`),
-  `cyclotomic_prime_pow_eq_geom_sum`, `natDegree_cyclotomic` (`= φ(n)` over a nontrivial ring),
-  `prod_cyclotomic_eq_X_pow_sub_one` (`∏_{d ∣ n} Φ_d = X^n − 1` for `0 < n`),
-  `cyclotomic_coeff_zero` (`= 1` for `1 < n`), `coprime_of_root_cyclotomic` and
-  `orderOf_root_cyclotomic_dvd` (a natural root of `Φ_n` over `ZMod p` is prime to `p` and its order
-  as a unit divides `n`); `cyclotomic_six` (`= X² − X + 1`) and the expansion identities
-  `cyclotomic_expand_eq_cyclotomic` (`expand p Φ_n = Φ_{n p}` for `p ∣ n`) and
-  `cyclotomic_expand_eq_cyclotomic_mul` (`expand p Φ_n = Φ_{n p} · Φ_n` for `p ∤ n`) and the root
-  criterion `isRoot_cyclotomic_prime_pow_mul_iff_of_charP` (over a domain of characteristic `p`
-  with `p ∤ m`, `μ` is a root of `Φ_{p^k m}` iff `μ` is a primitive `m`-th root of unity)
-  (`RingTheory/Polynomial/Cyclotomic/Expand.lean`).
-- *Real evaluation bounds* (`RingTheory/Polynomial/Cyclotomic/Eval.lean`): `cyclotomic_pos`
-  (`0 < Φ_n(x)` for `2 < n` and any `x`), `sub_one_pow_totient_lt_cyclotomic_eval`
-  (`(q − 1)^φ(n) < Φ_n(q)` for `2 ≤ n`, `1 < q` real), `cyclotomic_eval_lt_add_one_pow_totient`
-  (`Φ_n(q) < (q + 1)^φ(n)` for `3 ≤ n`, `1 < q`), `cyclotomic_eval_le_add_one_pow_totient` (the
-  non-strict bound for every `n`), `sub_one_pow_totient_lt_natAbs_cyclotomic_eval` and
-  `sub_one_lt_natAbs_cyclotomic_eval` (the natural-number forms at `b = 1`).
-- *Homogenization* (`Algebra/Polynomial/Homogenize.lean`): `Polynomial.homogenize` (for `p` and
-  `n ≥ natDegree p`, the homogeneous bivariate polynomial `Σ_{k+l=n} p.coeff k · X₀^k X₁^l`),
-  `homogenize_map` (transport along a ring homomorphism), `homogenize_mul` and
-  `homogenize_finsetProd` (multiplicativity with added degrees), `homogenize_X`, `homogenize_one`,
-  `homogenize_C`, `homogenize_add`, `homogenize_sub`, `isHomogeneous_homogenize`, and
-  `eval_homogenize` (over a semifield, for `natDegree p ≤ n` and `x 1 ≠ 0`:
-  `eval x (p.homogenize n) = p.eval (x 0 / x 1) * x 1 ^ n`).
-- *Lifting the exponent* (`NumberTheory/Multiplicity.lean`): `padicValNat.pow_sub_pow` (for an odd
-  prime `p`, `y < x`, `p ∣ x − y`, `p ∤ x`, `n ≠ 0`: `v_p(x^n − y^n) = v_p(x − y) + v_p(n)`),
-  `padicValNat.pow_two_sub_pow` (for `y < x`, `2 ∣ x − y`, `2 ∤ x`, `n ≠ 0` even:
-  `v₂(x^n − y^n) + 1 = v₂(x + y) + v₂(x − y) + v₂(n)`), `padicValNat.pow_add_pow`,
-  `Int.emultiplicity_pow_sub_pow` and `Nat.emultiplicity_pow_sub_pow`.
-- *Finite fields and orders* (`FieldTheory/Finite/Basic.lean`, `GroupTheory/OrderOfElement.lean`,
-  `Data/ZMod/Basic.lean`): `ZMod.pow_card_sub_one_eq_one`, `ZMod.orderOf_dvd_card_sub_one`,
-  `ZMod.orderOf_units_dvd_card_sub_one`, `orderOf_dvd_iff_pow_eq_one`, `orderOf_dvd_of_pow_eq_one`,
-  `orderOf_eq_iff`, `orderOf_eq_zero_iff'`, `pow_orderOf_eq_one`, `MulEquiv.orderOf_eq`,
-  `ZMod.natCast_eq_zero_iff` (`(a : ZMod b) = 0 ↔ b ∣ a`), `ZMod.intCast_zmod_eq_zero_iff_dvd`,
-  `ZMod.natCast_eq_natCast_iff`, `ZMod.unitOfCoprime`, `ZMod.inv`, `ZMod.mul_inv_of_unit`,
-  `ZMod.inv_coe_unit`, and the field instance on `ZMod p` for `[Fact p.Prime]`.
-- *Arithmetic* : `Nat.Coprime`, `Nat.divisors`, `Nat.totient`, `Nat.primeFactors`, `padicValNat`,
-  `padicValInt`, `Int.natAbs`, `Nat.cast_sub`, `Int.ModEq`, `Nat.ModEq`.
-
-**From Tau Ceti.** Nothing: no `TauCeti.*` module is consumed, and `Suggested.lean` imports only
-`Mathlib`.
-
-## How to read the build
-
-Layer 0 defines `Φ_n(a,b)` and proves everything about it that is polynomial identity or real
-inequality: closed forms, the factorization of `a^n − b^n`, the expansion identities, and the
-bounds `(a − b)^φ(n) < Φ_n(a,b) ≤ (a + b)^φ(n)`. Layer 1 passes to residues: the order of `a/b`
-modulo `p` decides which `a^k − b^k` a prime divides, primitivity becomes "the order is `n`", the
-nonprimitive prime divisors of `Φ_n(a,b)` are pinned down (for `n ≥ 3` only the largest prime
-factor of `n`, to the first power), and lifting the exponent gives the exact valuations. Layer 2
-combines the size estimate `Φ_n(a,b) > P(n)` (proved for `n ≥ 3` except at `(2,1,6)`) with Layer 1
-to prove existence, then proves nonexistence in the two exceptions and the exponent-one and
-exponent-two statements. Layer 3 restates existence as statements about `orderOf` in `ZMod p` and
-adds the divisibility criteria for `q^k ± 1`. Layers 1 and 2 use Layer 0; Layer 2 uses Layer 1;
-Layer 3 uses Layers 1 and 2.
 
 ## Layer 0: homogeneous cyclotomic arithmetic
 
@@ -635,6 +568,80 @@ The repository https://github.com/AxiomMath/CFSG (Lean 4, Mathlib) proves the ba
 specialization of §3.2 in `CFSG/LinearAlgebra/SL2MinimalFaithfulZsigmondy.lean` and the base-two
 specialization in `CFSG/Timmesfeld/Orders/Bang.lean`. Layers 0–3 specify the mathematics and its
 scope independently of those implementations.
+
+## Scope and ownership
+
+**This roadmap owns** the integer-valued homogeneous cyclotomic value `Φ_n(a,b)` and its basic
+theory (closed forms, symmetry, transport along ring homomorphisms, positivity, the factorization
+of `a^n − b^n`, the homogenized expansion identities and the homogenized evaluation bounds); the
+order criterion `p ∣ a^k − b^k ↔ orderOf ((a : ZMod p) / b) ∣ k`; the description of the
+nonprimitive prime divisors of `Φ_n(a,b)` with their valuations; the exact `p`-adic valuations of
+`a^k − b^k` and `Φ_n(a,b)`; the Bang–Zsigmondy theorem for coprime `a > b > 0` with both exceptions
+and their converses; the exponent-one statement; and the corollaries on multiplicative orders in
+`ZMod p`, on primes of order `2n`, and on divisibility of `q^k − 1` and `q^k + 1`.
+
+**Owned elsewhere and consumed here.** Everything consumed is in Mathlib at the pinned revision and
+is listed in [Exact supplier contracts](#exact-supplier-contracts). No Tau Ceti module and no other
+roadmap is consumed.
+
+**Not in this roadmap.** The orders and recognition of finite groups of Lie type; large Zsigmondy
+primes in the sense of Feit (Roitman 1997, Theorem 6, p. 1915); primitive divisors of Lucas and
+Lehmer sequences beyond differences of powers; the greatest prime factor of `a^n − b^n` beyond the
+bound `P(a^n − b^n) ≥ n + 1` that Layers 1–2 give outside the exceptions. Each of these builds on
+this roadmap and is work for a roadmap in its own direction.
+
+**Relation to earlier formalizations.** Formal proofs of the base-two and base-at-least-three
+specializations of Layer 3 exist outside Tau Ceti (see [Provenance](#provenance)). This roadmap
+states the general coprime two-variable theorem and the general arithmetic library behind it, not
+a proof-specific interface for one base.
+
+## Exact supplier contracts
+
+**From Mathlib** (pinned revision; file paths under `Mathlib/`).
+
+- *Cyclotomic polynomials* (`RingTheory/Polynomial/Cyclotomic/Basic.lean`): `Polynomial.cyclotomic`,
+  `cyclotomic_zero` (`= 1`), `cyclotomic_one` (`= X − 1`), `cyclotomic_two` (`= X + 1`),
+  `cyclotomic_three`, `cyclotomic_prime` (the geometric sum `Σ_{i<p} X^i`),
+  `cyclotomic_prime_pow_eq_geom_sum`, `natDegree_cyclotomic` (`= φ(n)` over a nontrivial ring),
+  `prod_cyclotomic_eq_X_pow_sub_one` (`∏_{d ∣ n} Φ_d = X^n − 1` for `0 < n`),
+  `cyclotomic_coeff_zero` (`= 1` for `1 < n`), `coprime_of_root_cyclotomic` and
+  `orderOf_root_cyclotomic_dvd` (a natural root of `Φ_n` over `ZMod p` is prime to `p` and its order
+  as a unit divides `n`); `cyclotomic_six` (`= X² − X + 1`) and the expansion identities
+  `cyclotomic_expand_eq_cyclotomic` (`expand p Φ_n = Φ_{n p}` for `p ∣ n`) and
+  `cyclotomic_expand_eq_cyclotomic_mul` (`expand p Φ_n = Φ_{n p} · Φ_n` for `p ∤ n`) and the root
+  criterion `isRoot_cyclotomic_prime_pow_mul_iff_of_charP` (over a domain of characteristic `p`
+  with `p ∤ m`, `μ` is a root of `Φ_{p^k m}` iff `μ` is a primitive `m`-th root of unity)
+  (`RingTheory/Polynomial/Cyclotomic/Expand.lean`).
+- *Real evaluation bounds* (`RingTheory/Polynomial/Cyclotomic/Eval.lean`): `cyclotomic_pos`
+  (`0 < Φ_n(x)` for `2 < n` and any `x`), `sub_one_pow_totient_lt_cyclotomic_eval`
+  (`(q − 1)^φ(n) < Φ_n(q)` for `2 ≤ n`, `1 < q` real), `cyclotomic_eval_lt_add_one_pow_totient`
+  (`Φ_n(q) < (q + 1)^φ(n)` for `3 ≤ n`, `1 < q`), `cyclotomic_eval_le_add_one_pow_totient` (the
+  non-strict bound for every `n`), `sub_one_pow_totient_lt_natAbs_cyclotomic_eval` and
+  `sub_one_lt_natAbs_cyclotomic_eval` (the natural-number forms at `b = 1`).
+- *Homogenization* (`Algebra/Polynomial/Homogenize.lean`): `Polynomial.homogenize` (for `p` and
+  `n ≥ natDegree p`, the homogeneous bivariate polynomial `Σ_{k+l=n} p.coeff k · X₀^k X₁^l`),
+  `homogenize_map` (transport along a ring homomorphism), `homogenize_mul` and
+  `homogenize_finsetProd` (multiplicativity with added degrees), `homogenize_X`, `homogenize_one`,
+  `homogenize_C`, `homogenize_add`, `homogenize_sub`, `isHomogeneous_homogenize`, and
+  `eval_homogenize` (over a semifield, for `natDegree p ≤ n` and `x 1 ≠ 0`:
+  `eval x (p.homogenize n) = p.eval (x 0 / x 1) * x 1 ^ n`).
+- *Lifting the exponent* (`NumberTheory/Multiplicity.lean`): `padicValNat.pow_sub_pow` (for an odd
+  prime `p`, `y < x`, `p ∣ x − y`, `p ∤ x`, `n ≠ 0`: `v_p(x^n − y^n) = v_p(x − y) + v_p(n)`),
+  `padicValNat.pow_two_sub_pow` (for `y < x`, `2 ∣ x − y`, `2 ∤ x`, `n ≠ 0` even:
+  `v₂(x^n − y^n) + 1 = v₂(x + y) + v₂(x − y) + v₂(n)`), `padicValNat.pow_add_pow`,
+  `Int.emultiplicity_pow_sub_pow` and `Nat.emultiplicity_pow_sub_pow`.
+- *Finite fields and orders* (`FieldTheory/Finite/Basic.lean`, `GroupTheory/OrderOfElement.lean`,
+  `Data/ZMod/Basic.lean`): `ZMod.pow_card_sub_one_eq_one`, `ZMod.orderOf_dvd_card_sub_one`,
+  `ZMod.orderOf_units_dvd_card_sub_one`, `orderOf_dvd_iff_pow_eq_one`, `orderOf_dvd_of_pow_eq_one`,
+  `orderOf_eq_iff`, `orderOf_eq_zero_iff'`, `pow_orderOf_eq_one`, `MulEquiv.orderOf_eq`,
+  `ZMod.natCast_eq_zero_iff` (`(a : ZMod b) = 0 ↔ b ∣ a`), `ZMod.intCast_zmod_eq_zero_iff_dvd`,
+  `ZMod.natCast_eq_natCast_iff`, `ZMod.unitOfCoprime`, `ZMod.inv`, `ZMod.mul_inv_of_unit`,
+  `ZMod.inv_coe_unit`, and the field instance on `ZMod p` for `[Fact p.Prime]`.
+- *Arithmetic* : `Nat.Coprime`, `Nat.divisors`, `Nat.totient`, `Nat.primeFactors`, `padicValNat`,
+  `padicValInt`, `Int.natAbs`, `Nat.cast_sub`, `Int.ModEq`, `Nat.ModEq`.
+
+**From Tau Ceti.** Nothing: no `TauCeti.*` module is consumed, and `Suggested.lean` imports only
+`Mathlib`.
 
 ## References
 

@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"RicciFlow","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"Sym2 subbundle and metric families, Ricci variation in terms of h, scalar and Laplacian variations, Lie derivative, scaling, normalization and solitons","state":"partial"},{"id":"Layer 2","state":"untouched"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","remaining":"curvature evolution equations, scalar and convex-bundle maximum principles, the Q-specific ODE API","state":"partial"},{"id":"Layer 5","remaining":"dimension count and Weyl splitting, curvature four-tensor of a metric, reaction tensor Q, all curvature cones","state":"partial"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"}],"readme_sha":"0377a23af7dadeeb9299c321ed16f01b909e8ed08796ef044816580f3c35116d","roadmap":"RicciFlow","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+# Status: RicciFlow
+
+This file documents the status of the RicciFlow roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Layer 1's variation calculus is now well advanced: it has the inverse-metric, connection, curvature and Ricci (Palatini) variations and the volume variation. Layer 4 has the abstract ODE invariance criterion, and Layer 5 has its first algebraic curvature objects. There is no Ricci flow yet. No parabolic theory, short-time existence, curvature evolution, curvature cones or sphere theorem has begun.
+
+### Named results
+
+- **Nagumo's criterion** — [`Convex.forall_mem_posTangentConeAt_iff_forall_mapsTo_Icc`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/ODE/ConvexInvariance.html#Convex.forall_mem_posTangentConeAt_iff_forall_mapsTo_Icc): for a locally Lipschitz autonomous field on a real Hilbert space, a closed convex set is invariant exactly when the field lies in its positive tangent cone at every point. This is the 4.3 milestone in abstract form.
+- **The Palatini identity** — [`hasDerivAt_ricciTensor_of_isLeviCivitaConnection`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/RicciVariation.html#TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.hasDerivAt_ricciTensor_of_isLeviCivitaConnection): for a smooth family of nondegenerate metrics, `∂ R_ij = ∇_k Γ'^k_ij − ∇_i Γ'^k_kj`. It is stated through the connection variation `Γ'`, not yet through `h = ∂g`.
+- **The first variation of curvature** — [`hasDerivAt_curvatureOperator_of_isLeviCivitaConnection`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/CurvatureVariation.html#TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.hasDerivAt_curvatureOperator_of_isLeviCivitaConnection): `∂R(X,Y)Z = (∇_X Γ')(Z,Y) − (∇_Y Γ')(Z,X)`. It also has a [four-tensor form](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/CurvatureVariation.html#TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.hasDerivAt_curvatureTensor_of_isLeviCivitaConnection).
+- **The variation of the Levi-Civita connection** — [`two_mul_apply_deriv_difference_eq_derivBilinearTensor`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/Variation.html#TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.two_mul_apply_deriv_difference_eq_derivBilinearTensor): `2g(Γ'(u,v),w)` is the usual combination of covariant derivatives of `h`. This is the invariant form of the Christoffel variation, and `Γ'` is a smooth tensor field.
+- **Volume along Ricci flow** — [`hasDerivWithinAt_chartVolumeDensity_of_ricciFlow`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Variation.html#TauCeti.hasDerivWithinAt_chartVolumeDensity_of_ricciFlow): `∂_t dμ = −Scal dμ`, stated pointwise for the chart density `√det G`. The [inverse-metric variation](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Manifold/VectorBundle/NondegenerateMetric/Variation.html#TauCeti.Manifold.ContMDiffNondegenerateMetric.hasDerivAt_inverse) `∂g⁻¹ = −g⁻¹ h g⁻¹` sits underneath.
+
+### Notable definitions and infrastructure
+
+- **Algebraic curvature tensors** — [`algebraicCurvatureSubmodule`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/AlgebraicCurvature/Basic.html#TauCeti.FourTensor.algebraicCurvatureSubmodule): the closed, pullback-stable submodule of four-tensors with the pair symmetries and the first Bianchi identity. It is the space in which Layers 4–7 will state cone conditions.
+- **Ricci contractions and Kulkarni–Nomizu products** — [`FourTensor.ricci`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/AlgebraicCurvature/Basic.html#TauCeti.FourTensor.ricci) and [`kulkarniNomizu`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/AlgebraicCurvature/Basic.html#TauCeti.FourTensor.kulkarniNomizu). Their trace identities are what the Weyl/Ricci splitting will need.
+- **The Palatini identity for families of connections** — [`hasDerivAt_ricciTensor_of_hasDerivAt_difference`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Variation.html#TauCeti.Manifold.hasDerivAt_ricciTensor_of_hasDerivAt_difference): it needs no metric, only a family of smooth connections whose base connection is torsion free at the point. The metric version is the special case of Levi-Civita connections.
+
+### Roadmap coverage
+
+Three layers are partial. **Layer 1** has the inverse-metric, volume, connection, curvature and Ricci variations of 1.2. It lacks the `Sym²T*M` subbundle and `IsSmoothMetricFamilyOn` (1.1), and from 1.2 it lacks the Ricci variation in terms of `h`, the scalar and Laplacian variations, and the Lie derivative and pullback formula. Scaling and normalization (1.3) and solitons (1.4) are also missing. **Layer 4** has only Nagumo's criterion and a Picard–Lindelöf existence lemma from 4.3. **Layer 5** has the 5.1 carrier with its contractions and the Kulkarni–Nomizu product, but not the dimension count, the Weyl decomposition, the curvature four-tensor of a metric, the reaction tensor (5.2) or any cone (5.3–5.6). **Layers 2, 3, 6, 7 and 8** are untouched.
+
+## The frontier
+
+- **The scalar-curvature variation (1.2)** — substitute the Christoffel variation into the Palatini identity to get `∂Ric` in terms of `h`. Then trace it to obtain `∂ Scal = −⟨h, Ric⟩ + div div h − L_g tr_g h`.
+- **The curvature four-tensor of a metric (5.1)** — send a smooth metric's native `curvatureTensor` at a point into `algebraicCurvatureSubmodule`, and identify its traces with `metricRicci` and `metricScalar`.
+- **The reaction tensor (5.2)** — define `Q` by an orthonormal-basis contraction, prove it is basis-independent, and show it preserves the Bianchi submodule. This is what applying Nagumo's criterion to curvature cones needs.
+- **The symmetric two-tensor bundle and metric families (1.1)** — `Sym²T*M`, jointly smooth metric families and the Ricci-flow predicate. Every flow statement in Layers 2–3 is stated on these.
+- **Parabolic foundations (Layer 2)** — not begun. It depends on the Hölder-space suppliers from PDE Lane F and PseudodifferentialOperators P5.

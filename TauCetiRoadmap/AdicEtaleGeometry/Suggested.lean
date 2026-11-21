@@ -143,11 +143,13 @@ theorem exists_isCompletedPushout {A B C : Type u} [CommRing A] [TopologicalSpac
     [IsTopologicalRing A] [IsHuberRing A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsHuberRing B] [CommRing C] [TopologicalSpace C] [IsTopologicalRing C] [IsHuberRing C]
     {S : Pair A} {T : Pair B} {U : Pair C} (f : Pair.Hom S T) (g : Pair.Hom S U)
-    [IsAdicHom f.toRingHom] [IsAdicHom g.toRingHom] :
+    [TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom f.toRingHom]
+    [TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom g.toRingHom] :
     ∃ (E : Type u) (_ : CommRing E) (_ : UniformSpace E) (_ : IsUniformAddGroup E)
       (_ : IsTopologicalRing E) (_ : IsHuberRing E) (_ : CompleteSpace E) (_ : T2Space E)
       (W : Pair E) (i : Pair.Hom T W) (j : Pair.Hom U W),
-      IsCompletedPushout f g i j ∧ IsAdicHom i.toRingHom ∧ IsAdicHom j.toRingHom ∧
+      IsCompletedPushout f g i j ∧ TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom i.toRingHom ∧
+        TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom j.toRingHom ∧
         Dense (Subring.closure (Set.range i.toRingHom ∪ Set.range j.toRingHom) : Set E) := sorry
 
 /-- Compatible points of complete Huber pairs over a complete Tate pair lift to any completed

@@ -1,118 +1,66 @@
 # Roadmap: Lie algebroids, Lie groupoids and Poisson geometry
 
-**Summary.** Build the differential geometry of Lie algebroids and their integrations, of
-Poisson manifolds and of symplectic groupoids, from the existing manifold, vector-bundle, Lie,
-category and differential-form libraries. The roadmap constructs Lie groupoids with possibly
-non-Hausdorff arrow manifolds, their algebroids, actions, representations, orbits, isotropy,
-restriction and Morita theory; Poisson bivectors, cotangent algebroids and symplectic leaves;
-`A`-paths, `A`-homotopies, the Weinstein groupoid and the monodromy groups; symplectic and
-cotangent groupoids. Its end theorems are the Crainic–Fernandes integrability criterion
-(§G5.5), Lie II with uniqueness (§G5.4), the nonintegrable central extension on `S² × S²`
-(§G5.6), the symplectic integration theorem for Poisson manifolds (§G6.4) and the comparison of
-groupoid reduction with ordinary Marsden–Weinstein reduction (§G7.4). Every construction comes
-with its basic API, functoriality, local formulas and examples.
+**Summary.** A Lie groupoid is a groupoid whose objects and arrows form smooth manifolds, with
+source and target submersions and smooth multiplication. Differentiating it at the units gives a
+Lie algebroid: a vector bundle `A → M` with a Lie bracket on its sections and a bundle map
+`ρ : A → TM`, the anchor, satisfying a Leibniz rule. Tangent bundles, Lie algebras and Poisson
+manifolds give algebroids. Unlike a Lie algebra, an algebroid need not come from a Lie groupoid.
+This roadmap builds the theory of Lie groupoids and Lie algebroids, decides when an algebroid can be
+integrated, and applies the answer to Poisson manifolds through symplectic groupoids.
 
-## Scope and ownership
+Real bases are finite-dimensional smooth boundaryless Hausdorff second-countable manifolds, and
+algebroid fibres have finite rank. Arrow manifolds need only be locally Hausdorff and
+second-countable, with Hausdorff source fibres: integrability does not imply a Hausdorff arrow
+manifold.
 
-The layers are numbered G0–G7 and the targets §Gk.n; other roadmaps cite them by these labels.
-The sub-items §G1.3a/§G1.3b, §G4.2a and §G4.6A/§G4.6B are targets of their own inside §G1.3,
-§G4.2 and §G4.6.
+The central result is the Crainic–Fernandes integrability criterion. One forms the Weinstein
+groupoid `Σ(A)`: paths in `A` whose image under the anchor is the velocity of their base path,
+modulo a homotopy relation built from the bracket. At a point `x`, the monodromy group consists of
+the central vectors of the isotropy Lie algebra `ker ρ_x` whose constant paths are homotopic to the
+zero path. The criterion says that `A` admits a Lie groupoid integration exactly when these groups
+are locally uniformly discrete: near each point, some neighbourhood of the zero section contains no
+nonzero monodromy vector. The integration is then `Σ(A)`, whose source fibres are connected, simply
+connected and Hausdorff. For a Lie algebra the monodromy vanishes, and the criterion recovers Lie's
+third theorem. Lie II comes with it: a morphism of integrable algebroids integrates uniquely to a
+groupoid morphism out of any integration with connected and simply connected source fibres.
 
-This roadmap owns: the topological groupoid layer (total-arrow and composable-pair topology,
-§G0.0); the comparison of Mathlib's normal-form submersion predicate with the split-derivative
-predicate, the finite-dimensional constant-rank theorem without a Hausdorff hypothesis, the
-generic finite-rank smooth-subbundle API and the naturality of the vector-field bracket under
-related maps (§G0.1); Lie groupoids on possibly non-Hausdorff arrow manifolds, their examples,
-bisections and isotropy Lie groups (§G0.2–§G0.4); Lie algebroids, their morphisms, pullbacks,
-Chevalley–Eilenberg complexes, isotropy algebras and complex Lie algebroids (G1); the Lie
-functor from groupoids to algebroids, the Atiyah algebroid bracket, the variable-rank orbit
-theorem and algebroid representations (G2); groupoid actions, isotropy quotients, the
-fundamental Lie groupoid, restriction and bibundles (G3); multivectors, the Schouten bracket,
-Poisson structures, cotangent algebroids, symplectic leaves and linear Poisson structures on
-algebroid duals (G4); `A`-paths, the path Banach manifold, the `A`-homotopy foliation,
-monodromy and the integrability criterion (G5); symplectic and cotangent groupoids and the
-symplectic integration theorem (G6); symplectic groupoid actions and their reduction data (G7).
+For a closed two-form `η` on a connected manifold `M`, the bundle `TM ⊕ ℝ` with a bracket twisted by
+`η` is an algebroid, integrable exactly when the periods of `η` over spheres form a discrete
+subgroup of `ℝ`. On `S² × S²`, take an area form of total area one on the first factor plus `λ`
+times one on the second. The periods are `ℤ + λℤ`, dense for irrational `λ`, so this algebroid has
+no integration.
 
-What this roadmap leaves to named roadmaps:
+A Poisson structure `π` on `M` makes `T*M` an algebroid with anchor `π♯`. A symplectic groupoid
+carries a closed nondegenerate two-form `Ω` on its arrows with `m*Ω = pr₁*Ω + pr₂*Ω`, and its base
+inherits a Poisson structure. The symplectic integration theorem says that a Poisson manifold has a
+symplectic integration with connected and simply connected source fibres exactly when its cotangent
+algebroid is integrable, and that this integration is unique up to isomorphism. An equivariant
+Hamiltonian action of a Lie group `G` with moment map `μ` induces a symplectic action of the
+cotangent groupoid `T*G ⇉ 𝔤*`, from which the Hamiltonian action is recovered.
 
-- [DifferentialGeometry](../DifferentialGeometry/README.md) owns alternating bundles and
-  differential forms (0.1–0.4), the exterior derivative, Lie derivative and Cartan identities,
-  flows, distributions and the constant-rank Frobenius theorem with its leaves (Layer 4),
-  smooth chains (8.3), regular points and values (10.1), the mapping degree (10.3–10.4),
-  integration and de Rham cohomology, and Riemannian metrics (12.1). Its 0.4 owns the generic
-  two-form carrier and the migration equivalence `legacySmoothTwoFormEquiv` from the pinned
-  `SmoothTwoForm`, with its evaluation law and `legacySmoothTwoFormEquiv_isClosed_iff`. This
-  roadmap owns multivector bundles, the Schouten bracket and the algebroid differential, which
-  are distinct constructions with an explicit tangent-algebroid comparison. Kept variant: the
-  orbit theorem of §G2.4 is for anchor distributions of variable rank, whereas DifferentialGeometry
-  Layer 4 is the constant-rank Frobenius theorem; §G2.4 consumes Layer 4 on each regular locus.
-- [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) owns, in B1.0, the regular
-  fibre of a smooth map (no Hausdorff hypothesis, possibly empty, the headline
-  `exists_regularFiber_smoothEmbedding`), the transverse fibre product of two smooth maps and
-  the kernel distribution of a submersion with its `ContMDiffVectorBundle` structure and smooth
-  pullback; in B1.1 the division map and invariant-map descent of principal bundles; in B1.4
-  the free proper quotient atlas and homogeneous spaces; in B2 complexification, exterior
-  powers and Hom bundles; in B3 principal connections and the Atiyah sequence; in B5.2 the
-  flat-bundle/parallel-transport dictionary and the countability of the fundamental group of a
-  connected second-countable manifold. This roadmap owns the Atiyah **algebroid bracket**, its
-  integration by the gauge groupoid, algebroid representations, the constant-rank theorem, the
-  bracket naturality for related fields and the smooth-subbundle API, as SmoothBundlesConnections
-  assigns them. Nothing of B1.0 or B5.2 is constructed here; every regular fibre, fibre product,
-  kernel bundle and countability statement below is consumed from them.
-- [HamiltonianSystems](../HamiltonianSystems/README.md) owns Layer 1's Hamiltonian vector
-  fields, the symplectic Poisson bracket and its laws, Layer 2's Hamiltonian flows and Layer 3's
-  infinitesimal actions, moment maps and cocycle, on Tau Ceti's pinned `SmoothTwoForm` carrier.
-  This roadmap extends the bracket to degenerate Poisson structures and proves the symplectic
-  identification through §G4.2a; it does not restate the shared Hamiltonian API.
-- [CotangentLagrangian](../SymplecticGeometry/CotangentLagrangian/README.md) C1 owns smooth
-  cotangent bundles, the tautological one-form and the canonical form `ω = −dθ`. This roadmap
-  owns the **groupoid** structures on `T*G` and `T*Γ`.
-- [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) is a consumer of
-  this roadmap (its R1 consumes §G4.2a and §G4.3, its R2 §G4.6A, its R3 the fibre-product
-  interfaces, its R4 §G7.2–§G7.4) and is therefore never a supplier here. It owns group moment
-  maps and the exact sequence of symplectic vector fields through `H¹_dR` (R1), the
-  Kirillov–Kostant–Souriau form on coadjoint orbits and its pointwise sharp identity (R2), the
-  generic descent of closed basic two-forms along surjective submersions, the ordinary reduced
-  space, the orbit model `W_O` and its diffeomorphism with `G ×_{G_ξ} μ⁻¹(ξ)` (R3), and the final
-  comparison of groupoid reduction with ordinary reduction (R4). Accordingly §G4.3 states only the
-  Poisson side of the Hamiltonian homomorphism, §G4.6B identifies leaves with coadjoint orbits
-  without the KKS form (the comparison of the leaf form of §G4.5 with KKS follows from R2's
-  pointwise identity and is R2's), §G7.2 constructs the reduced form `ω_red` on its isotropy
-  quotient directly from the kernel, closedness and basicness of the restricted form and the local
-  sections of the quotient submersion, without R3's generic descent interface, and leaves to R4
-  only the comparison of `ω_red` with R3's ordinary reduced form, and §G7.4 identifies the
-  groupoid-side data without transporting anything across R3's `W_O`.
-- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) is a consumer of this roadmap (its
-  K8 consumes §G1.3a) and is therefore never a supplier here. It owns complex tangent bundles,
-  the `(1,0)`/`(0,1)` eigenbundles of an almost-complex structure, the Nijenhuis tensor and the
-  Newlander–Nirenberg theorem (K1). §G1.6 states the subalgebroid/involutivity equivalence for
-  an arbitrary constant-rank complex subbundle of `TM ⊗ ℂ`; its specialisation to the `±i`
-  eigenbundles and the comparison with Newlander–Nirenberg are ComplexKahlerGeometry's, which may
-  consume the general statement.
-- [LieGroups](../RepresentationTheory/LieGroups/README.md) Layers 0–5 own the exponential map,
-  the adjoint representations, the closed-subgroup theorem, Lie's third theorem and the
-  simply-connected integration equivalence (Layer 4), and simply-connected covers (Layer 5).
-  [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 1 owns the fundamental groupoid and
-  path-homotopy infrastructure; [Completed/UniversalCovers](../../Completed/UniversalCovers/README.md)
-  owns covering classification; [Completed/HopfRinow](../../Completed/HopfRinow/README.md) Layer 1
-  owns the exponential map of a Riemannian metric.
-- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) P1.0 (smooth section
-  modules) owns the `C∞(M,ℝ)`-module structure on smooth sections of a finite-rank bundle, its
-  restriction and constant-scalar comparisons, `IsScalarTower` and `SMulCommClass`, and the
-  complex-scalar structure `(u + iv)·s = u·s + v·(Js)` on sections of a complex bundle over a real
-  base.
+Two foundational results are already stated in the companion Lean file. A smooth map between
+boundaryless finite-dimensional manifolds is a submersion in Mathlib's normal-form sense exactly when its
+derivative has a continuous linear right inverse at every point. On a Lie group, the bracket of the
+right-invariant fields extending `ξ` and `η` is minus the right-invariant field extending their
+bracket in Mathlib's Lie algebra.
 
-Kept variants, each differing from the library notion in one clause: the constant-rank theorem of
-§G0.1 is for an arbitrary locally constant rank on a possibly non-Hausdorff manifold, whereas
-SmoothBundlesConnections B1.0 is the regular (full-rank) case; the Banach split-regular-level
-theorem of §G5.2 is for a derivative kernel of infinite dimension, whereas Tau Ceti's
-`levelSetChartedSpace` and `isManifold_levelSet` are for Fredholm derivatives of finite index;
-the Chevalley–Eilenberg complex of §G1.3 is for a Lie algebroid over a manifold and, in the
-standalone Lie-algebra case, for all degrees, whereas Mathlib's `LieModule.Cohomology` carries the
-cochains and differentials `d₁₂`, `d₂₃` in degrees one and two only; the isotropy group of §G0.4 is
-the endpoint subtype with multiplication `gh = h ≫ g`, whereas Mathlib's `Groupoid.vertexGroup`
-multiplies in the opposite order.
+[SmoothBundlesConnections](../SmoothBundlesConnections/README.md) provides the regular fibres and
+fibre products on which the groupoid axioms are stated.
+[DifferentialGeometry](../DifferentialGeometry/README.md) provides differential forms and the
+mapping degree. The sign conventions follow
+[HamiltonianSystems](../HamiltonianSystems/README.md), and
+[LieGroups](../RepresentationTheory/LieGroups/README.md) provides Lie's third theorem.
+[HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) uses the
+last layer to compare groupoid reduction with ordinary Marsden–Weinstein reduction.
 
+The layers run in build order. Layer 0 defines topological and Lie groupoids and proves the smooth
+tools, such as a constant-rank theorem, that SmoothBundlesConnections lacks. Layer 1 defines Lie
+algebroids and their calculus. Layer 2 differentiates groupoids to algebroids and proves the orbit
+theorem. Layer 3 treats actions, restriction and Morita equivalence. Layer 4 builds Poisson geometry
+up to symplectic leaves. Layer 5 constructs the Banach manifold of algebroid paths and the monodromy
+groups, and proves the criterion. Layer 6 builds symplectic groupoids and proves the symplectic
+integration theorem. Layer 7 compares their actions with Hamiltonian actions. Each section's
+*Needs:* line lists what it uses.
 
 ## Conventions
 
@@ -160,101 +108,6 @@ computed witness in the Checks of the layer that introduces it.
 Composable pairs: the map `(s,t) : Γ → M × M` is not required to be transverse to the diagonal.
 It is `(g,h) ↦ (s(g),t(h))` on `Γ × Γ` that is transverse to the diagonal, by the submersion
 axioms; the unit groupoid on a positive-dimensional manifold separates the two statements.
-
-## Exact supplier contracts
-
-**From Mathlib.** `IsManifold`, `ContMDiffSection`, `ContMDiffVectorBundle`, `mfderiv`,
-`mvfderiv`, `VectorField.mlieBracket`, `VectorField.mpullback_mlieBracket`, `Manifold.IsSubmersion`
-and `Manifold.IsSubmersionAt` (the chart normal form `(u,v) ↦ u`), `Manifold.IsSmoothEmbedding`
-(an immersion that is a topological embedding), `IsDiffImmersionAt`,
-`ContinuousLinearMap.HasRightInverse` with `HasRightInverse.comp` and
-`HasRightInverse.of_surjective_of_finiteDimensional`, `LieRinehartRing` and `LieRinehartAlgebra`
-(the Leibniz and anchor-action laws on section spaces), `LieModule.Cohomology.oneCochain`,
-`twoCochain`, `d₁₂` and `d₂₃` (with `d₂₃` landing in all trilinear maps), `TrivialLieModule` and
-`TrivialLieModule.equiv`, `CategoryTheory.Groupoid`, `Groupoid.vertexGroup` (multiplication
-`x * y = x ≫ y`), `Groupoid.isoEquivHom`, `Subgroupoid.full`, `Subgroupoid.vertexSubgroup`,
-`SingleObj` with `SingleObj.comp_as_mul`, `Discrete`, `Codiscrete`, `CategoryTheory.ActionCategory`,
-`CategoryTheory.Arrow`, `FundamentalGroupoid`, `MulAction.orbitRel`, `MulAction.orbitRel.Quotient`,
-`IsEmbedding.subtypeVal`, `Derivation`, `GroupLieAlgebra` (the bracket is the value at `1` of the
-bracket of left-invariant fields) and `LieGroup`.
-
-**From Tau Ceti.** `TauCeti.SmoothTwoForm` (the pinned two-form carrier), `IsContMDiffDistribution`
-(a `C^∞` local frame of `k` fields near every point), maximal integral curves and their smooth
-flows, `mulRightInvariantVectorField v g = mfderiv I I (· * g) 1 v`, `mvfderiv_mlieBracket`
-(complete model space, `minSmoothness 𝕜 2 ≤ n`), `isLocalDiffeomorphAt_of_mfderiv_eq`,
-`extChartPartialDiffeomorph`, `leftInvariantDerivationLieEquivGroupLieAlgebra` (with its
-interior-point hypothesis), the adjoint action and the covering and fundamental-groupoid code.
-`levelSetChartedSpace` and `isManifold_levelSet` are for Fredholm derivatives and are not used for
-§G5.2.
-
-**From TauCetiRoadmap.DifferentialGeometry.** 0.1 (the wedge of alternating maps), 0.2 (the smooth
-alternating-map bundle `Alt^k(E)` of a smooth bundle `E`), 0.4 (`SmoothForm I M ℝ 2`,
-`legacySmoothTwoFormEquiv`, its tuple-evaluation law and `legacySmoothTwoFormEquiv_isClosed_iff`;
-a generic form is evaluated by coercing to `RoughForm I M ℝ 2` and applying it to `![v,w]`),
-Layer 4 (`IsContMDiffDistribution`, integral manifolds, the constant-rank Frobenius theorem and
-its leaves), 8.3 (smooth chains), 10.1 (`IsRegularPoint`, `IsRegularValue`), 10.3–10.4 (the
-degree formula `∫_M f*ω = deg(f) ∫_N ω`), 12.1 (`nonempty_contMDiffRiemannianMetric`).
-
-**From TauCetiRoadmap.SmoothBundlesConnections.** B1.0: the regular fibre
-`{x : X // f x = c}` of a smooth map between finite-dimensional boundaryless manifolds with a
-surjective derivative along the fibre, with its subspace topology, smooth atlas modelled on
-`Fin (dim X − dim N) → ℝ`, smooth-embedding inclusion and tangent image `ker(df)` (the headline
-`exists_regularFiber_smoothEmbedding`), its open-restriction, independence and universal
-properties; the transverse fibre product `{(x,y) // f x = g y}` with its atlas, projections,
-tangent space `ker(df − dg)`, universal property and the submersion law for either projection;
-the kernel distribution `x ↦ ker(df_x)` of a submersion as an `IsContMDiffDistribution` of rank
-`dim X − dim N`, its `ContMDiffVectorBundle` structure and smooth pullback. All three are stated
-without a Hausdorff hypothesis on the ambient manifold and are applied here to non-Hausdorff
-arrow manifolds. B1.1: the division map `P ×_M P → G` and smooth descent of invariant maps. B1.2:
-the conversion `x·h = h⁻¹·x` between left and right actions. B1.4: the free proper quotient atlas
-on a Hausdorff second-countable manifold with a Hausdorff second-countable structure group, its
-submersion property and homogeneous spaces. B2: complexification of real bundles, exterior powers
-and Hom bundles with their associated-bundle agreement. B3.2: the Atiyah sequence
-`0 → P ×_G 𝔤 → TP/G → TM → 0`, the injection `j([p,ξ]) = [−V_ξ(p)]`, the correspondence between
-principal connections and splittings `s`, and the identity `[s(X),s(Y)] − s([X,Y]) = j(F(X,Y))`.
-B5.2: the flat-bundle/parallel-transport dictionary, the right deck action
-`[a]·[γ] = [γ.trans a]` on the universal cover, and the countability of `π₁(M,m₀)` for a connected
-second-countable manifold.
-
-**From TauCetiRoadmap.HamiltonianSystems.** Layer 1: `IsHamiltonianVectorField ω F X`
-(`ι_{X_F}ω = dF`), `poissonBracket ω F G = dF(X_G)`, and `X_{ {F,G} } = −[X_F,X_G]`. Layer 2:
-Hamiltonian flows and symplectomorphisms. Layer 3: `InfinitesimalAction` with
-`(⁅Z,Z'⁆)_M = −[Z_M,Z'_M]`, `IsMomentMap ω a μ` with the sign `ι_{Z_M}ω = d⟨μ,Z⟩` for every `Z`
-(so `X_{⟨μ,Z⟩} = Z_M`, and the moment map of the cotangent lift of left translation is
-`μ(g,ν) = Coad_g ν` in §G7.3), and the cocycle.
-
-**From TauCetiRoadmap.CotangentLagrangian.** C1: the smooth cotangent bundle of a Hausdorff
-manifold, its local bundle charts, the tautological one-form `θ` and the canonical symplectic
-form `ω = −dθ` with its nondegeneracy.
-
-**From TauCetiRoadmap.LieGroups.** Layer 0 (exponential map), Layer 1 (`Ad`, `ad`), Layer 2
-(closed-subgroup theorem), Layer 4 (Frobenius, Lie's third theorem, the equivalence between
-simply-connected Lie groups and Lie algebras), Layer 5 (simply-connected covers).
-
-**From TauCetiRoadmap.AlgebraicTopology.** Stage 1: the fundamental groupoid and path-homotopy
-infrastructure. **From Completed/UniversalCovers:** classification of coverings. **From
-Completed/HopfRinow.** Layer 1: the exponential map of a Riemannian metric and its local
-diffeomorphism property.
-
-**From TauCetiRoadmap.PseudodifferentialOperators.** P1.0, smooth section modules: the
-`C∞(M,ℝ)`-module on `ContMDiffSection`, `(f • s)(x) = f(x) • s(x)`, restriction to opens, constant
-scalar comparison, `IsScalarTower ℝ C∞(M,ℝ) Γ∞(V)`, `SMulCommClass ℝ C∞(M,ℝ) Γ∞(V)`, and the
-complex scalar structure `(u + iv)·s = u·s + v·(Js)` on a complex bundle over a real base.
-
-## How to read the build
-
-Layer 0 fixes the topological and smooth foundations: the topological groupoid layer, the
-submersion comparisons and constant-rank theorem that SmoothBundlesConnections B1.0 does not cover,
-the subbundle API and bracket naturality, and Lie groupoids with their examples, bisections and
-isotropy groups. Layer 1 defines Lie algebroids and their calculus, Layer 2 differentiates
-groupoids to algebroids and proves the orbit theorem, Layer 3 treats actions, quotients,
-restriction and Morita theory. Layer 4 builds Poisson geometry up to symplectic leaves and
-linear structures. Layer 5 constructs `A`-paths, the path Banach manifold and its `A`-homotopy
-foliation, monodromy and the integrability criterion. Layer 6 adds symplectic and cotangent
-groupoids and proves the symplectic integration theorem. Layer 7 compares symplectic groupoid
-actions with Hamiltonian actions and supplies the groupoid side of the reduction comparison. The
-sections run in build order; every `*Needs:*` line names what the statement and the sketched route
-use, and an implementer taking another route is not blocked behind an unrelated layer.
 
 ## Layer 0: Topological groupoids and smooth foundations (G0)
 
@@ -2054,6 +1907,187 @@ QuantumFoundations consumes §G1.3a's coefficient comparison.
 Local formulas, restriction and naturality, identity and composition and evaluation lemmas
 accompany every new carrier; a kernel, quotient or existence predicate alone does not discharge its
 construction.
+
+## Scope and ownership
+
+The layers are numbered G0–G7 and the targets §Gk.n; other roadmaps cite them by these labels.
+The sub-items §G1.3a/§G1.3b, §G4.2a and §G4.6A/§G4.6B are targets of their own inside §G1.3,
+§G4.2 and §G4.6.
+
+This roadmap owns: the topological groupoid layer (total-arrow and composable-pair topology,
+§G0.0); the comparison of Mathlib's normal-form submersion predicate with the split-derivative
+predicate, the finite-dimensional constant-rank theorem without a Hausdorff hypothesis, the
+generic finite-rank smooth-subbundle API and the naturality of the vector-field bracket under
+related maps (§G0.1); Lie groupoids on possibly non-Hausdorff arrow manifolds, their examples,
+bisections and isotropy Lie groups (§G0.2–§G0.4); Lie algebroids, their morphisms, pullbacks,
+Chevalley–Eilenberg complexes, isotropy algebras and complex Lie algebroids (G1); the Lie
+functor from groupoids to algebroids, the Atiyah algebroid bracket, the variable-rank orbit
+theorem and algebroid representations (G2); groupoid actions, isotropy quotients, the
+fundamental Lie groupoid, restriction and bibundles (G3); multivectors, the Schouten bracket,
+Poisson structures, cotangent algebroids, symplectic leaves and linear Poisson structures on
+algebroid duals (G4); `A`-paths, the path Banach manifold, the `A`-homotopy foliation,
+monodromy and the integrability criterion (G5); symplectic and cotangent groupoids and the
+symplectic integration theorem (G6); symplectic groupoid actions and their reduction data (G7).
+
+What this roadmap leaves to named roadmaps:
+
+- [DifferentialGeometry](../DifferentialGeometry/README.md) owns alternating bundles and
+  differential forms (0.1–0.4), the exterior derivative, Lie derivative and Cartan identities,
+  flows, distributions and the constant-rank Frobenius theorem with its leaves (Layer 4),
+  smooth chains (8.3), regular points and values (10.1), the mapping degree (10.3–10.4),
+  integration and de Rham cohomology, and Riemannian metrics (12.1). Its 0.4 owns the generic
+  two-form carrier and the migration equivalence `legacySmoothTwoFormEquiv` from the pinned
+  `SmoothTwoForm`, with its evaluation law and `legacySmoothTwoFormEquiv_isClosed_iff`. This
+  roadmap owns multivector bundles, the Schouten bracket and the algebroid differential, which
+  are distinct constructions with an explicit tangent-algebroid comparison. Kept variant: the
+  orbit theorem of §G2.4 is for anchor distributions of variable rank, whereas DifferentialGeometry
+  Layer 4 is the constant-rank Frobenius theorem; §G2.4 consumes Layer 4 on each regular locus.
+- [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) owns, in B1.0, the regular
+  fibre of a smooth map (no Hausdorff hypothesis, possibly empty, the headline
+  `exists_regularFiber_smoothEmbedding`), the transverse fibre product of two smooth maps and
+  the kernel distribution of a submersion with its `ContMDiffVectorBundle` structure and smooth
+  pullback; in B1.1 the division map and invariant-map descent of principal bundles; in B1.4
+  the free proper quotient atlas and homogeneous spaces; in B2 complexification, exterior
+  powers and Hom bundles; in B3 principal connections and the Atiyah sequence; in B5.2 the
+  flat-bundle/parallel-transport dictionary and the countability of the fundamental group of a
+  connected second-countable manifold. This roadmap owns the Atiyah **algebroid bracket**, its
+  integration by the gauge groupoid, algebroid representations, the constant-rank theorem, the
+  bracket naturality for related fields and the smooth-subbundle API, as SmoothBundlesConnections
+  assigns them. Nothing of B1.0 or B5.2 is constructed here; every regular fibre, fibre product,
+  kernel bundle and countability statement above is consumed from them.
+- [HamiltonianSystems](../HamiltonianSystems/README.md) owns Layer 1's Hamiltonian vector
+  fields, the symplectic Poisson bracket and its laws, Layer 2's Hamiltonian flows and Layer 3's
+  infinitesimal actions, moment maps and cocycle, on Tau Ceti's pinned `SmoothTwoForm` carrier.
+  This roadmap extends the bracket to degenerate Poisson structures and proves the symplectic
+  identification through §G4.2a; it does not restate the shared Hamiltonian API.
+- [CotangentLagrangian](../SymplecticGeometry/CotangentLagrangian/README.md) C1 owns smooth
+  cotangent bundles, the tautological one-form and the canonical form `ω = −dθ`. This roadmap
+  owns the **groupoid** structures on `T*G` and `T*Γ`.
+- [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md) is a consumer of
+  this roadmap (its R1 consumes §G4.2a and §G4.3, its R2 §G4.6A, its R3 the fibre-product
+  interfaces, its R4 §G7.2–§G7.4) and is therefore never a supplier here. It owns group moment
+  maps and the exact sequence of symplectic vector fields through `H¹_dR` (R1), the
+  Kirillov–Kostant–Souriau form on coadjoint orbits and its pointwise sharp identity (R2), the
+  generic descent of closed basic two-forms along surjective submersions, the ordinary reduced
+  space, the orbit model `W_O` and its diffeomorphism with `G ×_{G_ξ} μ⁻¹(ξ)` (R3), and the final
+  comparison of groupoid reduction with ordinary reduction (R4). Accordingly §G4.3 states only the
+  Poisson side of the Hamiltonian homomorphism, §G4.6B identifies leaves with coadjoint orbits
+  without the KKS form (the comparison of the leaf form of §G4.5 with KKS follows from R2's
+  pointwise identity and is R2's), §G7.2 constructs the reduced form `ω_red` on its isotropy
+  quotient directly from the kernel, closedness and basicness of the restricted form and the local
+  sections of the quotient submersion, without R3's generic descent interface, and leaves to R4
+  only the comparison of `ω_red` with R3's ordinary reduced form, and §G7.4 identifies the
+  groupoid-side data without transporting anything across R3's `W_O`.
+- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) is a consumer of this roadmap (its
+  K8 consumes §G1.3a) and is therefore never a supplier here. It owns complex tangent bundles,
+  the `(1,0)`/`(0,1)` eigenbundles of an almost-complex structure, the Nijenhuis tensor and the
+  Newlander–Nirenberg theorem (K1). §G1.6 states the subalgebroid/involutivity equivalence for
+  an arbitrary constant-rank complex subbundle of `TM ⊗ ℂ`; its specialisation to the `±i`
+  eigenbundles and the comparison with Newlander–Nirenberg are ComplexKahlerGeometry's, which may
+  consume the general statement.
+- [LieGroups](../RepresentationTheory/LieGroups/README.md) Layers 0–5 own the exponential map,
+  the adjoint representations, the closed-subgroup theorem, Lie's third theorem and the
+  simply-connected integration equivalence (Layer 4), and simply-connected covers (Layer 5).
+  [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 1 owns the fundamental groupoid and
+  path-homotopy infrastructure; [Completed/UniversalCovers](../../Completed/UniversalCovers/README.md)
+  owns covering classification; [Completed/HopfRinow](../../Completed/HopfRinow/README.md) Layer 1
+  owns the exponential map of a Riemannian metric.
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) P1.0 (smooth section
+  modules) owns the `C∞(M,ℝ)`-module structure on smooth sections of a finite-rank bundle, its
+  restriction and constant-scalar comparisons, `IsScalarTower` and `SMulCommClass`, and the
+  complex-scalar structure `(u + iv)·s = u·s + v·(Js)` on sections of a complex bundle over a real
+  base.
+
+Kept variants, each differing from the library notion in one clause: the constant-rank theorem of
+§G0.1 is for an arbitrary locally constant rank on a possibly non-Hausdorff manifold, whereas
+SmoothBundlesConnections B1.0 is the regular (full-rank) case; the Banach split-regular-level
+theorem of §G5.2 is for a derivative kernel of infinite dimension, whereas Tau Ceti's
+`levelSetChartedSpace` and `isManifold_levelSet` are for Fredholm derivatives of finite index;
+the Chevalley–Eilenberg complex of §G1.3 is for a Lie algebroid over a manifold and, in the
+standalone Lie-algebra case, for all degrees, whereas Mathlib's `LieModule.Cohomology` carries the
+cochains and differentials `d₁₂`, `d₂₃` in degrees one and two only; the isotropy group of §G0.4 is
+the endpoint subtype with multiplication `gh = h ≫ g`, whereas Mathlib's `Groupoid.vertexGroup`
+multiplies in the opposite order.
+
+## Exact supplier contracts
+
+**From Mathlib.** `IsManifold`, `ContMDiffSection`, `ContMDiffVectorBundle`, `mfderiv`,
+`mvfderiv`, `VectorField.mlieBracket`, `VectorField.mpullback_mlieBracket`, `Manifold.IsSubmersion`
+and `Manifold.IsSubmersionAt` (the chart normal form `(u,v) ↦ u`), `Manifold.IsSmoothEmbedding`
+(an immersion that is a topological embedding), `IsDiffImmersionAt`,
+`ContinuousLinearMap.HasRightInverse` with `HasRightInverse.comp` and
+`HasRightInverse.of_surjective_of_finiteDimensional`, `LieRinehartRing` and `LieRinehartAlgebra`
+(the Leibniz and anchor-action laws on section spaces), `LieModule.Cohomology.oneCochain`,
+`twoCochain`, `d₁₂` and `d₂₃` (with `d₂₃` landing in all trilinear maps), `TrivialLieModule` and
+`TrivialLieModule.equiv`, `CategoryTheory.Groupoid`, `Groupoid.vertexGroup` (multiplication
+`x * y = x ≫ y`), `Groupoid.isoEquivHom`, `Subgroupoid.full`, `Subgroupoid.vertexSubgroup`,
+`SingleObj` with `SingleObj.comp_as_mul`, `Discrete`, `Codiscrete`, `CategoryTheory.ActionCategory`,
+`CategoryTheory.Arrow`, `FundamentalGroupoid`, `MulAction.orbitRel`, `MulAction.orbitRel.Quotient`,
+`IsEmbedding.subtypeVal`, `Derivation`, `GroupLieAlgebra` (the bracket is the value at `1` of the
+bracket of left-invariant fields) and `LieGroup`.
+
+**From Tau Ceti.** `TauCeti.SmoothTwoForm` (the pinned two-form carrier), `IsContMDiffDistribution`
+(a `C^∞` local frame of `k` fields near every point), maximal integral curves and their smooth
+flows, `mulRightInvariantVectorField v g = mfderiv I I (· * g) 1 v`, `mvfderiv_mlieBracket`
+(complete model space, `minSmoothness 𝕜 2 ≤ n`), `isLocalDiffeomorphAt_of_mfderiv_eq`,
+`extChartPartialDiffeomorph`, `leftInvariantDerivationLieEquivGroupLieAlgebra` (with its
+interior-point hypothesis), the adjoint action and the covering and fundamental-groupoid code.
+`levelSetChartedSpace` and `isManifold_levelSet` are for Fredholm derivatives and are not used for
+§G5.2.
+
+**From TauCetiRoadmap.DifferentialGeometry.** 0.1 (the wedge of alternating maps), 0.2 (the smooth
+alternating-map bundle `Alt^k(E)` of a smooth bundle `E`), 0.4 (`SmoothForm I M ℝ 2`,
+`legacySmoothTwoFormEquiv`, its tuple-evaluation law and `legacySmoothTwoFormEquiv_isClosed_iff`;
+a generic form is evaluated by coercing to `RoughForm I M ℝ 2` and applying it to `![v,w]`),
+Layer 4 (`IsContMDiffDistribution`, integral manifolds, the constant-rank Frobenius theorem and
+its leaves), 8.3 (smooth chains), 10.1 (`IsRegularPoint`, `IsRegularValue`), 10.3–10.4 (the
+degree formula `∫_M f*ω = deg(f) ∫_N ω`), 12.1 (`nonempty_contMDiffRiemannianMetric`).
+
+**From TauCetiRoadmap.SmoothBundlesConnections.** B1.0: the regular fibre
+`{x : X // f x = c}` of a smooth map between finite-dimensional boundaryless manifolds with a
+surjective derivative along the fibre, with its subspace topology, smooth atlas modelled on
+`Fin (dim X − dim N) → ℝ`, smooth-embedding inclusion and tangent image `ker(df)` (the headline
+`exists_regularFiber_smoothEmbedding`), its open-restriction, independence and universal
+properties; the transverse fibre product `{(x,y) // f x = g y}` with its atlas, projections,
+tangent space `ker(df − dg)`, universal property and the submersion law for either projection;
+the kernel distribution `x ↦ ker(df_x)` of a submersion as an `IsContMDiffDistribution` of rank
+`dim X − dim N`, its `ContMDiffVectorBundle` structure and smooth pullback. All three are stated
+without a Hausdorff hypothesis on the ambient manifold and are applied here to non-Hausdorff
+arrow manifolds. B1.1: the division map `P ×_M P → G` and smooth descent of invariant maps. B1.2:
+the conversion `x·h = h⁻¹·x` between left and right actions. B1.4: the free proper quotient atlas
+on a Hausdorff second-countable manifold with a Hausdorff second-countable structure group, its
+submersion property and homogeneous spaces. B2: complexification of real bundles, exterior powers
+and Hom bundles with their associated-bundle agreement. B3.2: the Atiyah sequence
+`0 → P ×_G 𝔤 → TP/G → TM → 0`, the injection `j([p,ξ]) = [−V_ξ(p)]`, the correspondence between
+principal connections and splittings `s`, and the identity `[s(X),s(Y)] − s([X,Y]) = j(F(X,Y))`.
+B5.2: the flat-bundle/parallel-transport dictionary, the right deck action
+`[a]·[γ] = [γ.trans a]` on the universal cover, and the countability of `π₁(M,m₀)` for a connected
+second-countable manifold.
+
+**From TauCetiRoadmap.HamiltonianSystems.** Layer 1: `IsHamiltonianVectorField ω F X`
+(`ι_{X_F}ω = dF`), `poissonBracket ω F G = dF(X_G)`, and `X_{ {F,G} } = −[X_F,X_G]`. Layer 2:
+Hamiltonian flows and symplectomorphisms. Layer 3: `InfinitesimalAction` with
+`(⁅Z,Z'⁆)_M = −[Z_M,Z'_M]`, `IsMomentMap ω a μ` with the sign `ι_{Z_M}ω = d⟨μ,Z⟩` for every `Z`
+(so `X_{⟨μ,Z⟩} = Z_M`, and the moment map of the cotangent lift of left translation is
+`μ(g,ν) = Coad_g ν` in §G7.3), and the cocycle.
+
+**From TauCetiRoadmap.CotangentLagrangian.** C1: the smooth cotangent bundle of a Hausdorff
+manifold, its local bundle charts, the tautological one-form `θ` and the canonical symplectic
+form `ω = −dθ` with its nondegeneracy.
+
+**From TauCetiRoadmap.LieGroups.** Layer 0 (exponential map), Layer 1 (`Ad`, `ad`), Layer 2
+(closed-subgroup theorem), Layer 4 (Frobenius, Lie's third theorem, the equivalence between
+simply-connected Lie groups and Lie algebras), Layer 5 (simply-connected covers).
+
+**From TauCetiRoadmap.AlgebraicTopology.** Stage 1: the fundamental groupoid and path-homotopy
+infrastructure. **From Completed/UniversalCovers:** classification of coverings. **From
+Completed/HopfRinow.** Layer 1: the exponential map of a Riemannian metric and its local
+diffeomorphism property.
+
+**From TauCetiRoadmap.PseudodifferentialOperators.** P1.0, smooth section modules: the
+`C∞(M,ℝ)`-module on `ContMDiffSection`, `(f • s)(x) = f(x) • s(x)`, restriction to opens, constant
+scalar comparison, `IsScalarTower ℝ C∞(M,ℝ) Γ∞(V)`, `SMulCommClass ℝ C∞(M,ℝ) Γ∞(V)`, and the
+complex scalar structure `(u + iv)·s = u·s + v·(Js)` on a complex bundle over a real base.
 
 ## References
 

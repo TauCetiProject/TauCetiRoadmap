@@ -1,9 +1,11 @@
-import Mathlib
-import TauCeti.NumberTheory.LocalField.Discriminant.Basic
-import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
-import TauCeti.NumberTheory.LocalField.InertiaDegree
-import TauCeti.NumberTheory.LocalField.Unramified.Existence
-import TauCeti.NumberTheory.LocalField.Unramified.Maximal
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.LocalField.Discriminant.Basic
+public import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
+public import TauCeti.NumberTheory.LocalField.InertiaDegree
+public import TauCeti.NumberTheory.LocalField.Unramified.Existence
+public import TauCeti.NumberTheory.LocalField.Unramified.Maximal
 
 /-!
 # Bhargava's mass formula for étale algebras over a local field: suggested signatures
@@ -33,6 +35,8 @@ not restated here.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
 -/
+
+@[expose] public section
 
 open ValuativeRel
 open scoped ENNReal Nat

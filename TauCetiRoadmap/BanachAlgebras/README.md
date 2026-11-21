@@ -1,36 +1,75 @@
 # Roadmap: banach algebras
 
-**Summary.** Build the spectral, module and cohomological theory of complex Banach algebras.
-The depth milestones are holomorphic functional calculus, Cohen–Hewitt
-factorization, automatic continuity for semisimple algebras, the equivalent
-diagonal characterizations of amenability, and Johnson's theorem relating
-amenability of a locally compact group to amenability of its group algebra. The finite-jet and compact-operator chapters
-connect spectral calculus with Lomonosov's invariant-subspace theorem.
+**Summary.** A Banach algebra is an algebra with a complete norm satisfying
+‖ab‖ ≤ ‖a‖‖b‖. Examples include algebras of bounded operators or of continuous
+functions, and the convolution algebra L¹(G) of a locally compact group. This roadmap
+builds the spectral, module and cohomological theory of complex Banach algebras.
+Throughout, algebras are associative over ℂ. A unit is assumed only where stated;
+nonunital algebras are handled through their unitization. Homomorphisms are complex linear and multiplicative;
+continuity and preservation of the unit are separate requirements.
 
-## Scope and ownership
+The first main theorem is the holomorphic functional calculus. Let a be an element of a
+nonzero unital complex Banach algebra A, and let f be holomorphic on an open neighbourhood
+U of the spectrum σ(a). Then f(a) is the Cauchy integral `(2πi)⁻¹ ∫Γ f(z) (z1 − a)⁻¹ dz`
+over a cycle Γ in U that winds once around every point of σ(a) and zero times around
+every point outside U. This is the unique unital algebra homomorphism from germs of such
+functions into A that sends the coordinate function to a and is continuous for
+uniform convergence on compact subsets of each such U. It satisfies the spectral
+mapping theorem σ(f(a)) = f(σ(a)). A splitting of σ(a) into finitely many disjoint nonempty compact pieces yields the Riesz idempotents, which are
+mutually orthogonal, sum to one and commute with a.
 
-This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
-bounded Hochschild cohomology and Johnson amenability. It does not own
-C*-representations, continuous functional calculus, C*-tensor norms, or
-nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
-criteria, and the isometric-calculus normality converse stated there; it consumes
-the native normal-operator calculus for the comparison, rather than
-constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
-[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
-belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
-Set-theoretic constructions of discontinuous homomorphisms and classification
-of radical valuation algebras are outside this scope.
+The second theme is that algebraic structure forces continuity. A Banach algebra is
+semisimple when its Jacobson radical, the intersection of its primitive ideals, is zero.
+Every homomorphism from a Banach algebra into a commutative semisimple Banach algebra is
+continuous. Every surjective homomorphism from a Banach algebra onto a semisimple Banach
+algebra is continuous; for a noncommutative target, surjectivity is required. Every
+derivation of a semisimple Banach algebra into itself is continuous. None of these maps
+is assumed continuous, and nonunital versions are included.
 
-The unital radical quotient is supplied by Mathlib's
-`Ring.jacobson_quotient_jacobson`; Layer 1 adds its nonunital Banach comparison.
-The forward integrated operator, its norm estimate and nondegeneracy are supplied
-by Tau Ceti's continuous-representation API. Layer 7 adds the localized
-noncommutative multiplicativity bridge and the inverse representation correspondence.
-Layer 3 owns the Banach character/unitization comparison, including its
-commutative C*-specialization. Layer 7 owns the faithful regular L² action,
-L¹ semisimplicity for abelian groups, and Fourier uniqueness for L¹ functions
-and finite regular complex measures. General C*-representation theory and
-Fourier inversion are outside this scope.
+The cohomological part concerns amenability. A Banach algebra A is amenable when, for
+every Banach A-bimodule E, every bounded derivation from A into the dual module E* is
+inner, that is, of the form a ↦ a·x − x·a. This is equivalent to the
+existence of a bounded approximate diagonal: a bounded net (mᵢ) in the completed
+projective tensor product A ⊗̂ A with a·mᵢ − mᵢ·a → 0 and a·Δ(mᵢ) → a for every a, where
+Δ(a ⊗ b) = ab. It is also equivalent to the vanishing of the bounded Hochschild
+cohomology Hⁿ(A, E*) for every Banach bimodule E and every n ≥ 1. Johnson's theorem
+says that a locally compact Hausdorff group G is amenable, meaning that it carries an
+invariant mean, if and only if its convolution algebra L¹(G) is amenable. No second
+countability or σ-finiteness is assumed.
+
+The last part turns to operators. Lomonosov's theorem says that if a bounded operator T
+on a complex Banach space is not a scalar multiple of the identity and commutes with a
+nonzero compact operator, then some nonzero proper closed subspace is invariant under
+every bounded operator commuting with T. The proof goes through Schauder's fixed-point
+theorem and Lomonosov's lemma on transitive algebras of operators.
+
+Mathlib already provides the spectrum and the spectral-radius formula, and the Gelfand
+transform of a commutative Banach algebra. The completed ContourIntegration roadmap
+supplies scalar contour integration, winding numbers and the homological Cauchy theorem,
+which this roadmap extends to Banach-valued functions.
+[BanachSpaceTheory](../BanachSpaceTheory/README.md) supplies dual quotients, weak
+compactness and completed projective tensor products.
+[AmenableGroups](../AmenableGroups/README.md) supplies invariant means and the
+foundations of Haar-measure convolution. The CStarAlgebras roadmap uses the multiplier,
+primitive-ideal and amenability results. General C*-representation theory
+and the general continuous functional calculus lie outside this roadmap.
+
+Layers 1 to 3 develop the radical, the holomorphic calculus, and characters with their
+function-algebra examples. Layer 4 treats Banach modules and proves the Cohen–Hewitt
+factorization theorem: if A has a left approximate identity bounded by C > 0 and x lies
+in the closed linear span of A·E for a Banach left module E, then x = a·y with ‖a‖ ≤ C
+and y arbitrarily close to x. Layers 5 and 6 contain automatic continuity and
+amenability, and Layer 7 proves Johnson's theorem. Layer 8, on compact operators and
+Lomonosov's theorem, needs only Layers 1 and 2 of this roadmap.
+
+## How to read the build
+
+Layers 1–3 build radical and spectral theory and its function-algebra examples;
+Layer 4 develops modules and tensors; Layers 5–6 establish automatic continuity
+and bounded cohomology. Layer 7 combines these with Haar convolution to reach
+Johnson's theorem. Layer 8 uses Layers 1–2 and finite-dimensional Brouwer to reach
+Lomonosov, independently of the tensor and approximation-property development.
+The symbols A1–A8 denote these same layers in supplier and consumer contracts.
 
 ## Conventions
 
@@ -65,120 +104,6 @@ A bimodule derivation is a complex-linear map with
 continuity. For A in universe u define amenability using test bimodules
 in universe u, then prove through the diagonal characterizations that
 the same property tests bimodules in every larger universe.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Ring.jacobson_quotient_jacobson` from `Mathlib/RingTheory/Jacobson/Radical.lean`
-for every unital ring: its quotient by the Jacobson radical has zero radical.
-Use the native normed algebra, unitization, spectrum, continuous linear map,
-Haar measure and Bochner integral APIs with their declared hypotheses.
-
-Use the general `UnitizationL1` norm, weak-dual character
-space, the spectral-radius formula and upper hemicontinuity of spectrum.
-Reuse `WeakDual.CharacterSpace.norm_le_norm_one`, the compactness
-instance for unital character spaces, the commutative-Banach-algebra
-part of `GelfandDuality` (including `mem_spectrum_iff_exists` and
-`spectrum.gelfandTransform_eq`), `spectrum.map_polynomial_aeval`,
-`Subalgebra.frontier_spectrum` and
-`Subalgebra.spectrum_eq_of_isPreconnected_compl`. Their stated
-hypotheses remain in force; the nonunital and homological extensions
-specified above are additional targets.
-For quotient-dual specialization use `exists_extension_norm_eq` from
-`Mathlib/Analysis/Normed/Module/HahnBanach.lean`, which extends a continuous
-linear functional from a subspace without increasing its norm.
-
-Use `MeasureTheory.Lp.compMeasurePreserving` from
-`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and
-`MeasureTheory.Lp.instContinuousSMulDomMulAct` from
-`Mathlib/MeasureTheory/Function/LpSpace/DomAct/Continuous.lean` for the
-continuous translation action on L² with regular locally finite Haar measure.
-Use `IsStarNormal.spectralRadius_eq_nnnorm` from
-`Mathlib/Analysis/CStarAlgebra/Spectrum.lean` for bounded normal operators
-in §7.5; its ambient algebra is a complex C*-algebra. Use
-`AlgHom.spectrum_apply_subset` from `Mathlib/Algebra/Algebra/Spectrum/Basic.lean`
-for the unital extension of the regular action; no commutativity of its
-target algebra is required.
-
-### From Tau Ceti
-
-In `TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`, consume
-`ContRepresentation.integratedOperatorL1`, `ContRepresentation.integratedOperatorL1_apply`,
-`ContRepresentation.norm_integratedOperatorL1_le`,
-`ContRepresentation.tendsto_integratedOperatorL1_apply` and
-`ContRepresentation.mem_closure_range_integratedOperatorL1_apply`.
-The input is a strongly continuous uniformly bounded representation on a complete
-normed space over an RCLike field, with the compatible real scalar action; the
-additive group carrier need not commute. Its Borel topology is R1 and the measure
-is inner regular on finite-measure sets. Nondegeneracy additionally uses positivity
-on nonempty open sets and local finiteness. Transport a multiplicative group
-through its additive wrapper. No global sigma-finiteness enters these results.
-The separate `ContRepresentation.integratedOperatorL1_convolution` assumes an
-abelian group, measurable addition and negation, an SFinite right-invariant measure,
-and `SecondCountableTopologyEither` for the group and representation space;
-it does not supply Layer 7's arbitrary-group localized multiplicativity.
-
-For Layer 8 use `IsCompactOperator.finiteDimensional_eigenspace` and
-`IsCompactOperator.finiteDimensional_genEigenspace_nat` from
-`TauCeti/Analysis/Normed/Operator/Compact/Eigenspace.lean`: the scalar is
-nonzero and the field is complete and nontrivially normed. Use
-`IsCompactOperator.isClosed_range_one_sub`,
-`IsCompactOperator.finiteDimensional_ker_one_sub` and
-`IsCompactOperator.finiteDimensional_quotient_range_one_sub` from
-`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean` for compact
-perturbations of the identity on a Banach space. Layer 8 asks additionally
-for simultaneous stabilization and the complementary decomposition.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-[Banach space theory](../BanachSpaceTheory/README.md), B1–B2 and B4–B5, supplies
-dual quotients, weak compactness, completed projective tensors and scalar measure
-representation.
-
-### From Completed.ContourIntegration
-
-The [completed contour integration roadmap](../../Completed/ContourIntegration/README.md)
-Layers 0–3 supply scalar contour integration, winding numbers and homological Cauchy
-theory; A2 extends its homology Cauchy theorem to Banach-valued functions.
-Its cycle integral is already Banach-valued. Mathlib supplies Bochner integration,
-Haar measure, continuous linear maps, algebraic simple modules and Jacobson
-density.
-
-### From TauCetiRoadmap.AmenableGroups
-
-The [AmenableGroups roadmap, Layers 1 and 7](../AmenableGroups/README.md)
-supplies invariant means and the Haar-measure convolution foundations used in A7.
-### From TauCetiRoadmap.AlgebraicTopology
-
-[AlgebraicTopology Stage 2, item 7](../AlgebraicTopology/README.md) supplies Brouwer on finite-dimensional
-convex spans for A8. Mathlib supplies the compact-operator Fredholm
-alternative.
-
-A1–A3 and A8 consume no B4 approximation/tensor targets;
-their compact, function and invariant-subspace layers are independent
-suppliers for B4. Other layers use the explicit Banach-space dependencies.
-
-This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
-bounded Hochschild cohomology and Johnson amenability. It does not own
-C*-representations, continuous functional calculus, C*-tensor norms, or
-nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
-criteria, and the isometric-calculus normality converse stated there; it consumes
-the native normal-operator calculus for the comparison, rather than
-constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
-[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
-belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
-Set-theoretic constructions of discontinuous homomorphisms and classification
-of radical valuation algebras are outside this scope.
-
-## How to read the build
-
-Layers 1–3 build radical and spectral theory and its function-algebra examples;
-Layer 4 develops modules and tensors; Layers 5–6 establish automatic continuity
-and bounded cohomology. Layer 7 combines these with Haar convolution to reach
-Johnson's theorem. Layer 8 uses Layers 1–2 and finite-dimensional Brouwer to reach
-Lomonosov, independently of the tensor and approximation-property development.
-The symbols A1–A8 denote these same layers in supplier and consumer contracts.
 
 ## Layer 1: Constructions, ideals and the radical
 
@@ -2050,6 +1975,136 @@ amenability comparisons. OperatorTheory/ToeplitzOperators T3 and T5 use the
 finite direct-sum spectral interfaces; OperatorTheory/SelfAdjointSpectralTheory
 SA-C86 uses Layer 8 compact spectral decomposition. BanachSpaceTheory B4 uses
 the spectral and invariant-subspace layers independently of its tensor inputs.
+
+## Scope and ownership
+
+This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
+bounded Hochschild cohomology and Johnson amenability. It does not own
+C*-representations, continuous functional calculus, C*-tensor norms, or
+nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
+criteria, and the isometric-calculus normality converse stated there; it consumes
+the native normal-operator calculus for the comparison, rather than
+constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
+[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
+belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
+Set-theoretic constructions of discontinuous homomorphisms and classification
+of radical valuation algebras are outside this scope.
+
+The unital radical quotient is supplied by Mathlib's
+`Ring.jacobson_quotient_jacobson`; Layer 1 adds its nonunital Banach comparison.
+The forward integrated operator, its norm estimate and nondegeneracy are supplied
+by Tau Ceti's continuous-representation API. Layer 7 adds the localized
+noncommutative multiplicativity bridge and the inverse representation correspondence.
+Layer 3 owns the Banach character/unitization comparison, including its
+commutative C*-specialization. Layer 7 owns the faithful regular L² action,
+L¹ semisimplicity for abelian groups, and Fourier uniqueness for L¹ functions
+and finite regular complex measures. General C*-representation theory and
+Fourier inversion are outside this scope.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Ring.jacobson_quotient_jacobson` from `Mathlib/RingTheory/Jacobson/Radical.lean`
+for every unital ring: its quotient by the Jacobson radical has zero radical.
+Use the native normed algebra, unitization, spectrum, continuous linear map,
+Haar measure and Bochner integral APIs with their declared hypotheses.
+
+Use the general `UnitizationL1` norm, weak-dual character
+space, the spectral-radius formula and upper hemicontinuity of spectrum.
+Reuse `WeakDual.CharacterSpace.norm_le_norm_one`, the compactness
+instance for unital character spaces, the commutative-Banach-algebra
+part of `GelfandDuality` (including `mem_spectrum_iff_exists` and
+`spectrum.gelfandTransform_eq`), `spectrum.map_polynomial_aeval`,
+`Subalgebra.frontier_spectrum` and
+`Subalgebra.spectrum_eq_of_isPreconnected_compl`. Their stated
+hypotheses remain in force; the nonunital and homological extensions
+specified above are additional targets.
+For quotient-dual specialization use `exists_extension_norm_eq` from
+`Mathlib/Analysis/Normed/Module/HahnBanach.lean`, which extends a continuous
+linear functional from a subspace without increasing its norm.
+
+Use `MeasureTheory.Lp.compMeasurePreserving` from
+`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and
+`MeasureTheory.Lp.instContinuousSMulDomMulAct` from
+`Mathlib/MeasureTheory/Function/LpSpace/DomAct/Continuous.lean` for the
+continuous translation action on L² with regular locally finite Haar measure.
+Use `IsStarNormal.spectralRadius_eq_nnnorm` from
+`Mathlib/Analysis/CStarAlgebra/Spectrum.lean` for bounded normal operators
+in §7.5; its ambient algebra is a complex C*-algebra. Use
+`AlgHom.spectrum_apply_subset` from `Mathlib/Algebra/Algebra/Spectrum/Basic.lean`
+for the unital extension of the regular action; no commutativity of its
+target algebra is required.
+
+### From Tau Ceti
+
+In `TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`, consume
+`ContRepresentation.integratedOperatorL1`, `ContRepresentation.integratedOperatorL1_apply`,
+`ContRepresentation.norm_integratedOperatorL1_le`,
+`ContRepresentation.tendsto_integratedOperatorL1_apply` and
+`ContRepresentation.mem_closure_range_integratedOperatorL1_apply`.
+The input is a strongly continuous uniformly bounded representation on a complete
+normed space over an RCLike field, with the compatible real scalar action; the
+additive group carrier need not commute. Its Borel topology is R1 and the measure
+is inner regular on finite-measure sets. Nondegeneracy additionally uses positivity
+on nonempty open sets and local finiteness. Transport a multiplicative group
+through its additive wrapper. No global sigma-finiteness enters these results.
+The separate `ContRepresentation.integratedOperatorL1_convolution` assumes an
+abelian group, measurable addition and negation, an SFinite right-invariant measure,
+and `SecondCountableTopologyEither` for the group and representation space;
+it does not supply Layer 7's arbitrary-group localized multiplicativity.
+
+For Layer 8 use `IsCompactOperator.finiteDimensional_eigenspace` and
+`IsCompactOperator.finiteDimensional_genEigenspace_nat` from
+`TauCeti/Analysis/Normed/Operator/Compact/Eigenspace.lean`: the scalar is
+nonzero and the field is complete and nontrivially normed. Use
+`IsCompactOperator.isClosed_range_one_sub`,
+`IsCompactOperator.finiteDimensional_ker_one_sub` and
+`IsCompactOperator.finiteDimensional_quotient_range_one_sub` from
+`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean` for compact
+perturbations of the identity on a Banach space. Layer 8 asks additionally
+for simultaneous stabilization and the complementary decomposition.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+[Banach space theory](../BanachSpaceTheory/README.md), B1–B2 and B4–B5, supplies
+dual quotients, weak compactness, completed projective tensors and scalar measure
+representation.
+
+### From Completed.ContourIntegration
+
+The [completed contour integration roadmap](../../Completed/ContourIntegration/README.md)
+Layers 0–3 supply scalar contour integration, winding numbers and homological Cauchy
+theory; A2 extends its homology Cauchy theorem to Banach-valued functions.
+Its cycle integral is already Banach-valued. Mathlib supplies Bochner integration,
+Haar measure, continuous linear maps, algebraic simple modules and Jacobson
+density.
+
+### From TauCetiRoadmap.AmenableGroups
+
+The [AmenableGroups roadmap, Layers 1 and 7](../AmenableGroups/README.md)
+supplies invariant means and the Haar-measure convolution foundations used in A7.
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology Stage 2, item 7](../AlgebraicTopology/README.md) supplies Brouwer on finite-dimensional
+convex spans for A8. Mathlib supplies the compact-operator Fredholm
+alternative.
+
+A1–A3 and A8 consume no B4 approximation/tensor targets;
+their compact, function and invariant-subspace layers are independent
+suppliers for B4. Other layers use the explicit Banach-space dependencies.
+
+This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
+bounded Hochschild cohomology and Johnson amenability. It does not own
+C*-representations, continuous functional calculus, C*-tensor norms, or
+nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
+criteria, and the isometric-calculus normality converse stated there; it consumes
+the native normal-operator calculus for the comparison, rather than
+constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
+[OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
+belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
+Set-theoretic constructions of discontinuous homomorphisms and classification
+of radical valuation algebras are outside this scope.
 
 ## References
 

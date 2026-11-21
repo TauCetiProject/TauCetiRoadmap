@@ -1,45 +1,56 @@
 # Roadmap: elliptic-curve factorization and Montgomery arithmetic
 
-**Summary.** This roadmap builds the algebraic theory behind Lenstra's elliptic-curve method
-(ECM) in Montgomery's form. It starts from Mathlib's `WeierstrassCurve` and its native point
-group `W.toAffine.Point`, defines the monic model of a Montgomery curve `B y² = x³ + A x² + x`,
-raw projective `x`-coordinate pairs and the Montgomery doubling and differential-addition
-formulas, and proves that these formulas compute the `x`-coordinates of `[2]P` and `P + Q` on
-the native group, with their exact exceptional sets. It then proves the scalar-multiple
-relations behind the Montgomery ladder, the stage-2 cross-difference criterion, Suyama's
-ellipticity criterion, and the comparison with arithmetic modulo a composite `n`: a prime
-divisor `p` of `n` divides `gcd(Z, n)` whenever the reduction of a coordinate pair modulo `p`
-represents a multiple of a point by a multiple of the group order. The end theorems are
-`double_coordinates`, `diffAdd_coordinates`, `coordinates_cross_eq_zero_iff`,
-`isElliptic_model_suyama_iff` and `prime_dvd_gcd_of_card_dvd`.
+**Summary.** Lenstra's elliptic-curve method (ECM) tries to split an integer `n` by computing a
+large multiple of a point on an elliptic curve modulo `n`. If, modulo a prime divisor `p` of `n`,
+the order of the point divides the multiplier, the multiple is the point at infinity modulo `p`,
+and `p` divides a gcd with `n`. Montgomery's form works on curves `B y² = x³ + A x² + x` and keeps
+only the `x`-coordinate, as a pair `(X, Z)` standing for `X/Z`. This roadmap builds the algebra
+behind that form. The procedure itself, running times and success probabilities are out of
+scope.
 
-## Scope and ownership
+The substitution `x' = Bx`, `y' = B²y` turns the Montgomery equation into the Weierstrass
+equation `y'² = x'³ + AB x'² + B² x'`, the monic model. Its native points are those of Mathlib's
+`WeierstrassCurve`, with Mathlib's group law: infinity and the nonsingular affine solutions. A
+native point has coordinate pair `(1, 0)` at infinity and `(x', B)` at an affine point. Two
+nonzero pairs represent the same point when `X₁ Z₂ = X₂ Z₁`; the pair `(0, 0)` represents
+nothing. When `B ≠ 0`, the affine point `(0, 0)` of the model has order `2` and is written `T₀`.
 
-This roadmap owns: the monic model of a Montgomery curve and its coefficient API; raw
-coordinate pairs and the coordinate pair of a native point; the Montgomery doubling and
-differential-addition formulas and their correctness on the native point group; the
-projective `x`-coordinate map into `Projectivization K (Fin 2 → K)` and its fibres; the
-scalar-multiple relations of the Montgomery ladder; Suyama's parametrization and its exceptional
-set; the stage-2 cross-difference criterion; and the comparison of all of these with arithmetic
-in `ZMod n` through reduction modulo a prime divisor, including the gcd classification of
-residues and its behaviour under finite products.
+The first main result says that Montgomery's formulas are correct. Doubling uses scalars `N, D`
+with `D ≠ 0` and `4N = (A + 2) D`. Over a field with `2 ≠ 0` and `B ≠ 0`, it sends the coordinate
+pair of any native point `P` to a nonzero pair representing the coordinate pair of `P + P`, with
+no hypothesis on `A`. Differential addition takes pairs for `P`, `Q` and `P − Q`. Under the same
+hypotheses, its output is nonzero exactly when `P − Q` is neither infinity nor `T₀`, and it then
+represents the coordinate pair of `P + Q`.
 
-It does not own, and does not restate:
+The second underlies the second stage of the method. Over a field with `B ≠ 0`, for a native
+point `Q` and integers `m, n`, the cross difference `X_m Z_n − X_n Z_m` of the coordinate pairs
+of `[m]Q` and `[n]Q` vanishes exactly when `[m − n]Q = 0` or `[m + n]Q = 0`.
 
-- abstract elliptic-curve theory, the Hasse bound and the quadratic degree form, which the
-  [elliptic-curves roadmap](../EllipticCurves/README.md) owns (its Layer 3 and Layer 1). No
-  target here needs them: the detection theorems are conditional on divisibility of the group
-  order and use only Lagrange's theorem;
-- the group law on `W.toAffine.Point`, divisibility of point orders, `Prime.dvd_prod_iff`,
-  `Finset.lcm` and the elementary theory of `ZMod`, all already in Mathlib (exact names under
-  supplier contracts);
-- `WeierstrassCurve.pointCount` and its comparison with `Nat.card W.toAffine.Point`, already in
-  Tau Ceti.
+The third concerns Suyama's family, in which `A` and `B` are rational functions of a parameter
+`σ`. Over a field with `2 ≠ 0`, for `σ ≠ 0` and `σ² ≠ 5`, the model is elliptic exactly when
+`(σ² − 1)(σ² − 9)(σ² − 25)(9σ² − 25)(σ² + 5) ≠ 0`.
 
-Out of scope altogether: running-time statements, smooth-number estimates, distributions of
-group orders, success probabilities, fast polynomial stage-2 continuations, and any procedure,
-search or implementation. The roadmap states mathematics about scalar multiples, coordinate
-pairs and finite products; the factoring method appears only as motivation.
+The fourth compares arithmetic modulo `n` with geometry modulo a prime `p ∣ n`. Let `P` be a
+native point over `ℤ/pℤ` and `m` a multiple of the number of native points. If a pair over `ℤ/nℤ`
+reduces modulo `p` to a pair representing the coordinate pair of `[m]P`, then `p` divides the gcd
+of `n` and the second coordinate of that pair. This gives divisibility by `p`, not necessarily a
+proper factor. Modulo `35`, with `A = 0`, `B = 1` and starting pair `(22, 1)`, the multipliers
+`2`, `3` and `4` give the gcds `5`, `1` and `35`.
+
+The roadmap builds on Mathlib's Weierstrass curves, projective lines and `ZMod`. From Tau Ceti it
+uses the point count of a Weierstrass curve over a field, which gives a form of the fourth result
+for elliptic models. The [elliptic-curves roadmap](../EllipticCurves/README.md) develops abstract
+elliptic-curve theory and the Hasse bound. Nothing here needs them: detection assumes that the
+group order divides the multiplier and uses only Lagrange's theorem. Work on factorization by
+elliptic curves or on Pollard-type `p − 1` methods can use Layers 3 and 4 and the results on gcds
+of finite products in Layer 6.
+
+Layer 1 sets up the monic model and its coefficients. Layer 2 introduces raw pairs, coordinate
+pairs and the projective `x`-coordinate. Layer 3 proves the formulas correct, with exact
+exceptional sets. Layer 4 derives from Layer 3 the relations behind Montgomery's ladder, and
+proves the cross-difference criterion from Layer 2 alone. Layer 5 treats Suyama's family and
+needs only Layer 1. Layer 6, built on Layers 2 to 4, reduces modulo prime divisors, studies gcds
+and their finite products, and proves the stage-1 and stage-2 detection theorems.
 
 ## Conventions
 
@@ -66,57 +77,6 @@ pairs and finite products; the factoring method appears only as motivation.
   most `B₁`.
 - A gcd `g = gcd(t, n)` has three outcomes: `g = 1`, a proper factor `1 < g < n`, and `g = n`.
   Only the second is a factor; nothing is concluded about primality from the other two.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `WeierstrassCurve` and its invariants `WeierstrassCurve.b₂`, `b₄`, `b₆`, `b₈`,
-  `WeierstrassCurve.Δ` (`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`), and
-  `WeierstrassCurve.IsElliptic`, which asks that `Δ` be a unit.
-- `WeierstrassCurve.map` for change of base ring.
-- `WeierstrassCurve.Affine.Point` with constructors `zero` and `some x y h`, `h` a proof of
-  `Nonsingular`; the `AddCommGroup` instance on it, which needs `DecidableEq` on the field and
-  no ellipticity; and `WeierstrassCurve.Affine.Point.X_eq_iff`: two affine points have equal
-  `x`-coordinate exactly when they are equal or negatives
-  (`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`).
-- `Projectivization`, `Projectivization.mk` (a nonzero vector) and
-  `Projectivization.mk_eq_mk_iff` (equality up to a unit multiple)
-  (`Mathlib/LinearAlgebra/Projectivization/Basic.lean`).
-- `ZMod.castHom` (needs `m ∣ n` and `CharP R m`), `ZMod.val`, `ZMod.val_natCast`,
-  `ZMod.natCast_eq_zero_iff`, `ZMod.intCast_zmod_eq_zero_iff_dvd`
-  (`Mathlib/Data/ZMod/Basic.lean`), and `Nat.gcd` with its divisibility lemmas.
-- `addOrderOf_dvd_iff_nsmul_eq_zero` (an additive monoid) and `addOrderOf_dvd_natCard`
-  (an additive group; `Nat.card` is `0` for an infinite group)
-  (`Mathlib/GroupTheory/OrderOfElement.lean`).
-- `Prime.dvd_prod_iff`: a prime divides a list product exactly when it divides some entry, in
-  any commutative monoid with zero, the empty list included (`Mathlib/Data/List/Prime.lean`).
-- `Finset.lcm` with its divisibility API (`Mathlib/Algebra/GCDMonoid/Finset.lean`) and
-  `Finset.lcm_eq_prod` for pairwise coprime natural-number entries
-  (`Mathlib/Algebra/GCDMonoid/FinsetLemmas.lean`).
-
-### From Tau Ceti
-
-- `WeierstrassCurve.pointCount`, the projective count over a field, singular point included,
-  and `WeierstrassCurve.pointCount_eq_card_point`, which identifies it with
-  `Nat.card W.toAffine.Point` when the solution set of the affine equation is finite and
-  `W.IsElliptic` holds (`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Over `ZMod p`
-  the finiteness is automatic.
-
-### From other roadmaps
-
-None. The [elliptic-curves roadmap](../EllipticCurves/README.md) is named under scope only.
-
-## How to read the build
-
-Layer 1 fixes the monic model and its coefficient API. Layer 2 introduces raw pairs, the
-coordinate pair of a native point and the projective `x`-coordinate map with its fibres.
-Layer 3 defines doubling and differential addition and proves their correctness, with exact
-exceptional sets, on the native point group. Layer 4 derives the ladder relations for scalar
-multiples and the stage-2 cross-difference criterion. Layer 5 treats Suyama's family and needs
-only Layer 1. Layer 6 compares everything with `ZMod n` through reduction modulo a prime divisor
-and proves the gcd classification, its behaviour under finite products, and the stage-1 and
-stage-2 detection theorems.
 
 ## Layer 1: Montgomery models
 
@@ -535,6 +495,74 @@ Any development of integer factorization by elliptic curves, of `x`-only arithme
 Montgomery curves over finite fields, or of Pollard-type `p − 1` methods consumes Layer 6.3
 (finite products and gcds), which uses no elliptic-curve hypothesis, and Layers 3–4 (correctness
 of `x`-only arithmetic on the native point group).
+
+## Scope and ownership
+
+This roadmap owns: the monic model of a Montgomery curve and its coefficient API; raw
+coordinate pairs and the coordinate pair of a native point; the Montgomery doubling and
+differential-addition formulas and their correctness on the native point group; the
+projective `x`-coordinate map into `Projectivization K (Fin 2 → K)` and its fibres; the
+scalar-multiple relations of the Montgomery ladder; Suyama's parametrization and its exceptional
+set; the stage-2 cross-difference criterion; and the comparison of all of these with arithmetic
+in `ZMod n` through reduction modulo a prime divisor, including the gcd classification of
+residues and its behaviour under finite products.
+
+It does not own, and does not restate:
+
+- abstract elliptic-curve theory, the Hasse bound and the quadratic degree form, which the
+  [elliptic-curves roadmap](../EllipticCurves/README.md) owns (its Layer 3 and Layer 1). No
+  target here needs them: the detection theorems are conditional on divisibility of the group
+  order and use only Lagrange's theorem;
+- the group law on `W.toAffine.Point`, divisibility of point orders, `Prime.dvd_prod_iff`,
+  `Finset.lcm` and the elementary theory of `ZMod`, all already in Mathlib (exact names under
+  supplier contracts);
+- `WeierstrassCurve.pointCount` and its comparison with `Nat.card W.toAffine.Point`, already in
+  Tau Ceti.
+
+Out of scope altogether: running-time statements, smooth-number estimates, distributions of
+group orders, success probabilities, fast polynomial stage-2 continuations, and any procedure,
+search or implementation. The roadmap states mathematics about scalar multiples, coordinate
+pairs and finite products; the factoring method appears only as motivation.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `WeierstrassCurve` and its invariants `WeierstrassCurve.b₂`, `b₄`, `b₆`, `b₈`,
+  `WeierstrassCurve.Δ` (`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`), and
+  `WeierstrassCurve.IsElliptic`, which asks that `Δ` be a unit.
+- `WeierstrassCurve.map` for change of base ring.
+- `WeierstrassCurve.Affine.Point` with constructors `zero` and `some x y h`, `h` a proof of
+  `Nonsingular`; the `AddCommGroup` instance on it, which needs `DecidableEq` on the field and
+  no ellipticity; and `WeierstrassCurve.Affine.Point.X_eq_iff`: two affine points have equal
+  `x`-coordinate exactly when they are equal or negatives
+  (`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`).
+- `Projectivization`, `Projectivization.mk` (a nonzero vector) and
+  `Projectivization.mk_eq_mk_iff` (equality up to a unit multiple)
+  (`Mathlib/LinearAlgebra/Projectivization/Basic.lean`).
+- `ZMod.castHom` (needs `m ∣ n` and `CharP R m`), `ZMod.val`, `ZMod.val_natCast`,
+  `ZMod.natCast_eq_zero_iff`, `ZMod.intCast_zmod_eq_zero_iff_dvd`
+  (`Mathlib/Data/ZMod/Basic.lean`), and `Nat.gcd` with its divisibility lemmas.
+- `addOrderOf_dvd_iff_nsmul_eq_zero` (an additive monoid) and `addOrderOf_dvd_natCard`
+  (an additive group; `Nat.card` is `0` for an infinite group)
+  (`Mathlib/GroupTheory/OrderOfElement.lean`).
+- `Prime.dvd_prod_iff`: a prime divides a list product exactly when it divides some entry, in
+  any commutative monoid with zero, the empty list included (`Mathlib/Data/List/Prime.lean`).
+- `Finset.lcm` with its divisibility API (`Mathlib/Algebra/GCDMonoid/Finset.lean`) and
+  `Finset.lcm_eq_prod` for pairwise coprime natural-number entries
+  (`Mathlib/Algebra/GCDMonoid/FinsetLemmas.lean`).
+
+### From Tau Ceti
+
+- `WeierstrassCurve.pointCount`, the projective count over a field, singular point included,
+  and `WeierstrassCurve.pointCount_eq_card_point`, which identifies it with
+  `Nat.card W.toAffine.Point` when the solution set of the affine equation is finite and
+  `W.IsElliptic` holds (`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Over `ZMod p`
+  the finiteness is automatic.
+
+### From other roadmaps
+
+None. The [elliptic-curves roadmap](../EllipticCurves/README.md) is named under scope only.
 
 ## References
 

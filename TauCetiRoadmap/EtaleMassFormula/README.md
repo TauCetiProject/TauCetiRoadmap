@@ -1,14 +1,14 @@
 # Roadmap: Bhargava's mass formula for étale algebras over a local field
 
-The [mass formula roadmap](../MassFormula/README.md) counts the totally ramified extensions of a
-non-archimedean local field `K`: Serre's formula `∑_{L ∈ σ_K(n)} q^{-c(L)} = n`. This roadmap
-removes the restriction to total ramification, and to fields. Its summit is the mass formula of
-[Bhargava 2007, Thm. 1.1]: summed over the isomorphism classes of étale `K`-algebras `A` of degree
-`n`, `∑_{[A]} 1/(#Aut_K(A) · q^{v(Disc A)}) = ∑_{k=0}^{n} q(k, n − k) · q^{−k}`, where `q` is the
-residue cardinality, `v(Disc A)` the valuation in `K` of the discriminant of `A`, and `q(k, m)` the
-number of partitions of `k` into at most `m` parts. Together with its refinements by splitting type
-and by ramification partition, it is the local input to Bhargava's heuristics for the density of
-number-field discriminants, and nothing like it is upstream.
+**Summary.** The [mass formula roadmap](../MassFormula/README.md) counts the totally ramified
+extensions of a non-archimedean local field `K`: Serre's formula `∑_{L ∈ σ_K(n)} q^{-c(L)} = n`.
+This roadmap removes the restriction to total ramification, and to fields. Its summit is the mass
+formula of [Bhargava 2007, Thm. 1.1]: summed over the isomorphism classes of étale `K`-algebras `A`
+of degree `n`, `∑_{[A]} 1/(#Aut_K(A) · q^{v(Disc A)}) = ∑_{k=0}^{n} q(k, n − k) · q^{−k}`, where `q`
+is the residue cardinality, `v(Disc A)` the valuation in `K` of the discriminant of `A`, and
+`q(k, m)` the number of partitions of `k` into at most `m` parts. Together with its refinements by
+splitting type and by ramification partition, it is the local input to Bhargava's heuristics for
+the density of number-field discriminants, and nothing like it is upstream.
 
 The proof is Serre's formula applied over each unramified extension `K_f` and assembled by
 combinatorics: the transitive pieces come from Serre over `K_f`, and the étale algebras are
@@ -16,35 +16,25 @@ products of transitive pieces. The roadmap's own material is the model of étale
 **Galois sets** (finite sets with a continuous action of `Gal(K^sep/K)`), the decomposition of an
 extension by its unramified part, and the counting that turns Serre's formula into Bhargava's.
 
+It builds on the [mass formula roadmap](../MassFormula/README.md) (Serre's formula and the orbit
+count) and the [local fields and ramification
+roadmap](../../Completed/LocalFieldsRamification/README.md) (unramified extensions, residue degree
+and the discriminant exponent); the [`p`-adic extension families
+roadmap](../PadicExtensionFamilies/README.md) consumes its classification of extensions by their
+unramified part.
+
 Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the **mass of étale algebras over a non-archimedean local field**: Galois sets
-and their discriminant weight; the bridges from Galois sets to étale algebras and to subextensions
-of `SeparableClosure K`; the classification of finite extensions by their unramified part, with its
-automorphism count; the transitive mass by residue degree; Bhargava's mass formulas by
-splitting type, by ramification partition, and in total; and the mass formulas of Kedlaya for
-`W(B_n)` and of Wood for the wreath products `S_m ≀ S_n`, with their discriminant counting
-function.
-
-It does not own:
-
-- **Serre's mass formula**, the wild exponent, `σ_K(n)` and its orbit count: the
-  [mass formula roadmap](../MassFormula/README.md).
-- **Unramified extensions, residue degree, ramification index, the discriminant exponent and its
-  tower law**: the
-  [local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md),
-  implemented in Tau Ceti.
-- **Krasner's count of totally ramified extensions by discriminant, Monge's count by ramification
-  polygon, and the families of Hou–Keating and Sinclair**: the `p`-adic extension families roadmap
-  (PadicExtensionFamilies).
-- **Density conjectures and theorems for number-field discriminants**, Bhargava's `n ≤ 5` counts,
-  and the archimedean mass: the arithmetic statistics roadmaps (ArithmeticStatistics and
-  ArithmeticStatisticsPartI to ArithmeticStatisticsPartV).
-- **Archimedean local fields**, which `IsNonarchimedeanLocalField` excludes; **Galois sets with
-  values in a subgroup of `GL_n(ℂ)` weighted by a general Artin conductor**; and **iterated wreath
-  and cross products** beyond `S_m ≀ S_n`. These are named under *Long horizon*.
+Layer 0 builds the carrier: Galois sets, their weight, the mass, and the two bridges, to
+subextensions of `SeparableClosure K` and to étale algebras. Layer 1 classifies finite extensions
+by their unramified part and supplies the subfield form and the orbit count Layer 2 needs. Layer 2
+computes the transitive mass by residue degree from Serre's formula over `K_f`. Layer 3 assembles
+Bhargava's formulas. Layer 4 applies them over each finite subextension to get the wreath-product
+masses of Kedlaya and Wood. A target's `*Needs:*` line names the earlier subsections, supplier contracts
+and library declarations it rests on. `Suggested.lean` states the definitions and the headline
+theorems of every layer; the classification of §1.1 and the transport of §2.1 are README only.
 
 ## Conventions
 
@@ -77,85 +67,6 @@ It does not own:
   `(i, 0)` that defines the base action.
 - **Splitting symbols are `Multiset (ℕ × ℕ)`**, a pair `(f, e)` per orbit; partitions are Mathlib's
   `Nat.Partition`.
-
-## Exact supplier contracts
-
-### From [MassFormula, layer 4 the mass formulas](../MassFormula/README.md#layer-4-the-mass-formulas)
-
-- **Serre's Theorem 1**, `∑_{L ∈ σ_K(n)} q^{−c(L)} = n` in `ℝ≥0∞` for every non-archimedean local
-  field and `0 < n`; Lean form `MassFormula.tsum_one_div_natCard_residueField_pow_wildExponent`.
-  Applied in §2.1 to each unramified extension `K_f`.
-- **The orbit count** for `σ_K(n)`, `MassFormula.ncard_isomorphic_mul_natCard_algEquiv`.
-- **The discriminant exponent of a subextension** and its invariance under `K`-isomorphism
-  (MassFormula Layer 0).
-
-In Tau Ceti these are `TauCeti.tsum_one_div_natCard_residueField_pow_wildExponent`
-(`TauCeti/NumberTheory/LocalField/MassFormula/Main.lean`), `TauCeti.ncard_isomorphic_mul_natCard_algEquiv`
-(`MassFormula/Orbit.lean`), `IntermediateField.discriminantExponent` and
-`IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`). Consume them by
-those names. The orbit count there is the totally ramified case of
-`IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed`
-(`TauCeti/FieldTheory/IntermediateField/Isomorphic.lean`), for any finite separable `E/K` inside a
-separably closed `Ω`; §1.3 consumes that one. `Suggested.lean` states `intermediateFieldDiscriminantExponent` with the body of the
-Tau Ceti declaration, and cites Theorem 1 from the README.
-
-### From [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md), implemented in Tau Ceti
-
-Layer 2 (unramified extensions and Frobenius):
-
-
-- **Unramified extensions**: `TauCeti.unramifiedExtension K Ω f`, the unique unramified
-  subextension of degree `f ≥ 1` of a separably closed `Ω` (`TauCeti.existsUnique_isUnramified_finrank_eq`,
-  `Unramified/Existence.lean`), Galois over `K` (`TauCeti.isGalois_unramifiedExtension`); and
-  `TauCeti.maximalUnramifiedExtension K Ω` with `IntermediateField.le_maximalUnramifiedExtension_iff`
-  (`Unramified/Maximal.lean`).
-- **The unramified–totally ramified factorization**: `TauCeti.eq_unramifiedExtension_inertiaDegree_iff`,
-  `TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree` and
-  `TauCeti.finrank_unramifiedExtension_inertiaDegree_eq_ramificationIndex`
-  (`Unramified/Factorization.lean`).
-
-Layer 3 (the discriminant):
-
-- **The discriminant tower law** `δ(M/K) = [M:L] δ(L/K) + f(L/K) δ(M/L)` for a separable tower:
-  `TauCeti.discriminantExponent_tower` (`Discriminant/Tower.lean`); its vanishing on unramified
-  extensions, `TauCeti.discriminantExponent_eq_zero_iff`; and its invariance,
-  `TauCeti.discriminantExponent_eq_of_algEquiv` (`Discriminant/Basic.lean`).
-
-Layer 0 (residue degree and the structure adapters):
-
-- **Residue degree**: `TauCeti.inertiaDegree` with `TauCeti.ramificationIndex_mul_inertiaDegree`
-  (`InertiaDegree.lean`).
-- **The structure adapters** `TauCeti.finiteIntermediateFieldValuativeRel`,
-  `TauCeti.finiteIntermediateFieldTopology`, `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`
-  and `TauCeti.finiteIntermediateField_valuativeExtension` (`FiniteExtension/IntermediateField.lean`).
-
-### From Mathlib
-
-- **Galois theory of `SeparableClosure K`**: `krullTopology`, `IntermediateField.fixedField`,
-  `IntermediateField.fixingSubgroup` and the infinite Galois correspondence
-  (`Mathlib/FieldTheory/KrullTopology.lean`, `Mathlib/FieldTheory/Galois/Infinite.lean`);
-  `IsSepClosure` and `IsSepClosure.equiv`; `IntermediateField.extendScalars`.
-- **Group actions**: `MulAction.orbitRel.Quotient`, `MulAction.stabilizer`,
-  `MulAction.index_stabilizer` (orbit–stabilizer for an infinite group), `MulAction.compHom`.
-- **Étale algebras over a field**: `Algebra.Etale`, and
-  `Algebra.FormallyEtale.iff_exists_algEquiv_prod` (`Mathlib/RingTheory/Etale/Field.lean`): an
-  étale algebra is a finite product of finite separable field extensions.
-- **Permutations and partitions**: `Equiv.Perm.cycleType`, `Equiv.Perm.card_of_cycleType`
-  (`Mathlib/GroupTheory/Perm/Centralizer.lean`), and `Nat.Partition`
-  (`Mathlib/Combinatorics/Enumerative/Partition/Basic.lean`); `Nat.Partition.genFun` and
-  `Nat.Partition.hasProd_genFun` (`Mathlib/Combinatorics/Enumerative/Partition/GenFun.lean`);
-  `Nat.divisors`; `Polynomial.aeval`.
-
-## How to read the build
-
-Layer 0 builds the carrier: Galois sets, their weight, the mass, and the two bridges, to
-subextensions of `SeparableClosure K` and to étale algebras. Layer 1 classifies finite extensions
-by their unramified part and supplies the subfield form and the orbit count Layer 2 needs. Layer 2
-computes the transitive mass by residue degree from Serre's formula over `K_f`. Layer 3 assembles
-Bhargava's formulas. Layer 4 applies them over each finite subextension to get the wreath-product
-masses of Kedlaya and Wood. A target's `*Needs:*` line names the earlier subsections, supplier contracts
-and library declarations it rests on. `Suggested.lean` states the definitions and the headline
-theorems of every layer; the classification of §1.1 and the transport of §2.1 are README only.
 
 ## Layer 0: Galois sets, their weight, and the mass
 
@@ -408,9 +319,9 @@ parts of `π` equal to `t ≥ 1` and `n_0 = n − k − (number of parts of π)`
 `π(σ) = π` correspond to the conjugacy classes of `S_{n_0} × S_{n_1} × ⋯ × S_{n_k}`: the cycle type of
 the `t`-th component lists the `f_i` of the factors with `e_i = t + 1`. Under this correspondence
 `#Aut(σ)` is the order of the centralizer, so the sum is the sum over conjugacy classes of
-`#class / ∏ n_t!`, which is `1` (`Equiv.Perm.card_of_cycleType`). ⚠ The unramified factors form the
-component `t = 0`. [Bhargava 2007] writes the product from `t = 1`; the statement needs `S_{n_0}`,
-and the case `π = ∅` is exactly the count of its conjugacy classes. *Needs:* 3.1;
+`#class / ∏ n_t!`, which is `1` (`Equiv.Perm.card_of_cycleType`). The unramified factors form the
+component `t = 0`: the statement needs `S_{n_0}`, and for `π = ∅` it is the count of its conjugacy
+classes. *Needs:* 3.1;
 Mathlib `Equiv.Perm.card_of_cycleType`.
 
 **Checks.**
@@ -591,8 +502,7 @@ and can be built first.
 
 The `p`-adic extension families roadmap (PadicExtensionFamilies) consumes Layer 1: the
 classification of 1.1, the automorphism count and weighted identity of 1.2, and the subfield form
-and orbit count of 1.3. The arithmetic statistics roadmaps use the masses of Layer 3 as the local
-factors of Bhargava's density constants.
+and orbit count of 1.3.
 
 ## Long horizon (a roadmap for a future roadmap; do not attempt it here)
 
@@ -605,6 +515,102 @@ counting functions on Galois sets over every finite subextension. [Wood–Yasuda
 2015, 2017] relate them to stringy invariants of quotient singularities, and [Yasuda 2025] gives
 motivic versions of Serre's and Bhargava's formulas over `k((t))`. They are named to mark the
 direction, not to be worked on under this roadmap.
+
+## Scope and ownership
+
+This roadmap owns the **mass of étale algebras over a non-archimedean local field**: Galois sets
+and their discriminant weight; the bridges from Galois sets to étale algebras and to subextensions
+of `SeparableClosure K`; the classification of finite extensions by their unramified part, with its
+automorphism count; the transitive mass by residue degree; Bhargava's mass formulas by
+splitting type, by ramification partition, and in total; and the mass formulas of Kedlaya for
+`W(B_n)` and of Wood for the wreath products `S_m ≀ S_n`, with their discriminant counting
+function.
+
+It does not own:
+
+- **Serre's mass formula**, the wild exponent, `σ_K(n)` and its orbit count: the
+  [mass formula roadmap](../MassFormula/README.md).
+- **Unramified extensions, residue degree, ramification index, the discriminant exponent and its
+  tower law**: the
+  [local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md),
+  implemented in Tau Ceti.
+- **Krasner's count of totally ramified extensions by discriminant, Monge's count by ramification
+  polygon, and the families of Hou–Keating and Sinclair**: the `p`-adic extension families roadmap
+  (PadicExtensionFamilies).
+- **Density conjectures and theorems for number-field discriminants**, Bhargava's `n ≤ 5` counts,
+  and the archimedean mass: the arithmetic statistics roadmaps (ArithmeticStatistics and
+  ArithmeticStatisticsPartI to ArithmeticStatisticsPartV).
+- **Archimedean local fields**, which `IsNonarchimedeanLocalField` excludes; **Galois sets with
+  values in a subgroup of `GL_n(ℂ)` weighted by a general Artin conductor**; and **iterated wreath
+  and cross products** beyond `S_m ≀ S_n`. These are named under *Long horizon*.
+
+## Exact supplier contracts
+
+### From [MassFormula, layer 4 the mass formulas](../MassFormula/README.md#layer-4-the-mass-formulas)
+
+- **Serre's Theorem 1**, `∑_{L ∈ σ_K(n)} q^{−c(L)} = n` in `ℝ≥0∞` for every non-archimedean local
+  field and `0 < n`; Lean form `MassFormula.tsum_one_div_natCard_residueField_pow_wildExponent`.
+  Applied in §2.1 to each unramified extension `K_f`.
+- **The orbit count** for `σ_K(n)`, `MassFormula.ncard_isomorphic_mul_natCard_algEquiv`.
+- **The discriminant exponent of a subextension** and its invariance under `K`-isomorphism
+  (MassFormula Layer 0).
+
+In Tau Ceti these are `TauCeti.tsum_one_div_natCard_residueField_pow_wildExponent`
+(`TauCeti/NumberTheory/LocalField/MassFormula/Main.lean`), `TauCeti.ncard_isomorphic_mul_natCard_algEquiv`
+(`MassFormula/Orbit.lean`), `IntermediateField.discriminantExponent` and
+`IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`). Consume them by
+those names. The orbit count there is the totally ramified case of
+`IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed`
+(`TauCeti/FieldTheory/IntermediateField/Isomorphic.lean`), for any finite separable `E/K` inside a
+separably closed `Ω`; §1.3 consumes that one. `Suggested.lean` states `intermediateFieldDiscriminantExponent` with the body of the
+Tau Ceti declaration, and cites Theorem 1 from the README.
+
+### From [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md), implemented in Tau Ceti
+
+Layer 2 (unramified extensions and Frobenius):
+
+
+- **Unramified extensions**: `TauCeti.unramifiedExtension K Ω f`, the unique unramified
+  subextension of degree `f ≥ 1` of a separably closed `Ω` (`TauCeti.existsUnique_isUnramified_finrank_eq`,
+  `Unramified/Existence.lean`), Galois over `K` (`TauCeti.isGalois_unramifiedExtension`); and
+  `TauCeti.maximalUnramifiedExtension K Ω` with `IntermediateField.le_maximalUnramifiedExtension_iff`
+  (`Unramified/Maximal.lean`).
+- **The unramified–totally ramified factorization**: `TauCeti.eq_unramifiedExtension_inertiaDegree_iff`,
+  `TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree` and
+  `TauCeti.finrank_unramifiedExtension_inertiaDegree_eq_ramificationIndex`
+  (`Unramified/Factorization.lean`).
+
+Layer 3 (the discriminant):
+
+- **The discriminant tower law** `δ(M/K) = [M:L] δ(L/K) + f(L/K) δ(M/L)` for a separable tower:
+  `TauCeti.discriminantExponent_tower` (`Discriminant/Tower.lean`); its vanishing on unramified
+  extensions, `TauCeti.discriminantExponent_eq_zero_iff`; and its invariance,
+  `TauCeti.discriminantExponent_eq_of_algEquiv` (`Discriminant/Basic.lean`).
+
+Layer 0 (residue degree and the structure adapters):
+
+- **Residue degree**: `TauCeti.inertiaDegree` with `TauCeti.ramificationIndex_mul_inertiaDegree`
+  (`InertiaDegree.lean`).
+- **The structure adapters** `TauCeti.finiteIntermediateFieldValuativeRel`,
+  `TauCeti.finiteIntermediateFieldTopology`, `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`
+  and `TauCeti.finiteIntermediateField_valuativeExtension` (`FiniteExtension/IntermediateField.lean`).
+
+### From Mathlib
+
+- **Galois theory of `SeparableClosure K`**: `krullTopology`, `IntermediateField.fixedField`,
+  `IntermediateField.fixingSubgroup` and the infinite Galois correspondence
+  (`Mathlib/FieldTheory/KrullTopology.lean`, `Mathlib/FieldTheory/Galois/Infinite.lean`);
+  `IsSepClosure` and `IsSepClosure.equiv`; `IntermediateField.extendScalars`.
+- **Group actions**: `MulAction.orbitRel.Quotient`, `MulAction.stabilizer`,
+  `MulAction.index_stabilizer` (orbit–stabilizer for an infinite group), `MulAction.compHom`.
+- **Étale algebras over a field**: `Algebra.Etale`, and
+  `Algebra.FormallyEtale.iff_exists_algEquiv_prod` (`Mathlib/RingTheory/Etale/Field.lean`): an
+  étale algebra is a finite product of finite separable field extensions.
+- **Permutations and partitions**: `Equiv.Perm.cycleType`, `Equiv.Perm.card_of_cycleType`
+  (`Mathlib/GroupTheory/Perm/Centralizer.lean`), and `Nat.Partition`
+  (`Mathlib/Combinatorics/Enumerative/Partition/Basic.lean`); `Nat.Partition.genFun` and
+  `Nat.Partition.hasProd_genFun` (`Mathlib/Combinatorics/Enumerative/Partition/GenFun.lean`);
+  `Nat.divisors`; `Polynomial.aeval`.
 
 ## References
 
