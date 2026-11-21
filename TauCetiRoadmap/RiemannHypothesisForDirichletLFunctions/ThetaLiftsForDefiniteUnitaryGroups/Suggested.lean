@@ -58,7 +58,9 @@ adelic unitary groups.
   is an absolutely convergent nonzero Euler product, `θ_φ^* θ_φ` acts on the `π`-isotypic forms of
   level `K = ∏_v K_v` (`K_v` the stabiliser of the lattice at the finite `v ∉ S`) as
   `C · L^S(s₀ + ½, π × χ_W)/d^S(s₀)` times `⊗_{v ∈ S} π_v(Z_v)`, and the lift of `π` is nonzero
-  exactly when the weight of `π` occurs at every real place. It lacks, besides these
+  exactly when the weight of `π` occurs at every real place (the published stable-range theorem;
+  the formal proof gives only the direction from the weights to a nonzero lift, for standard
+  spaces and `d` at least an unspecified `d₀`, 4.2–4.3). It lacks, besides these
   carriers, the standard `L`-function `L^S(s, π × χ_W)` of an
   automorphic representation of `U(V)`, the local doubling zeta integrals `Z_v` with their
   normalising factors `d_v`, and the Petersson inner product on `U(W)(F)\U(W)(𝔸_F)`.
