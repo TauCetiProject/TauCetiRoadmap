@@ -14,12 +14,12 @@ out the target rows `𝔼^♮` and the descent `ι_ξ = Π_good ∘ D_ξ`.
 The headline theorems are these. (1) *Rallis identities.* Let `𝔥` be a Hecke eigensystem away from the set `S(ξ)` of the
 places above `g₀g₁` or below the ramification of `ξ`. If the Weil data are unramified off `S(ξ)`, every place of `F` above
 `2` splits in `E`, the Witt indices satisfy Weil's condition and the parameters satisfy the gap conditions (W1), (W3) of
-the chain, then on the `𝔥`-part of `ℋ^♮`
+the chain, then on the `𝔥`-part of the good rows `𝔼^♮`
 
-`D_ξ D_ξ^* = 𝔫₀ · ∏_{j=1}^m L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})`,
+`ι_ξ ι_ξ^* = 𝔫₀ · ∏_{j=1}^m L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})`,
 
 where each factor is an absolutely convergent Euler product with a positive value and `𝔫₀ ≠ 0` depends neither on `𝔥` nor
-on `ξ`; so `D_ξ` and `ι_ξ` are onto. On the good part `ι_ξ ι_ξ^* = 𝔫 · ∏_j λ_j(ξ, 𝔥)`, where, for `t > r`,
+on `ξ`; so `ι_ξ` is onto `𝔼^♮`. This scalar is `𝔫 · ∏_j λ_j(ξ, 𝔥)`, where, for `t > r`,
 `λ_j(ξ, 𝔥) = a_j · L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` is the scalar by which `θ_jθ_j^*` acts for the model lift `θ_j` from a
 definite group `U(V_j)` to an inner form `U(W_j)` of `U(Y_0)`, positive wherever that part is nonzero.
 (2) *A rational structure.* For the grid of complementary spaces of the chain (5.8a), satisfying the rank, spacing and
@@ -29,8 +29,8 @@ algebraic numbers that 5.8 names and the hypotheses of (1) hold for every tuple 
 `G₀` and the Hecke operators away from `S(1)`; the constants of the squares of the grid satisfy
 `c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. (3) *The descent on rational coordinates.* If moreover consecutive entries of the row
 parameter are at least `100r⁴` apart and `𝕃` contains the eigenvalues of finitely many Hecke operators separating the
-eigensystems of `𝔼^♮`, then for every tuple `ξ` and every level `(H, χ_H)` at the type primes, `ι_ξ` maps the `𝕃`-rational
-points of `ι_ξ^*(𝔼_{(H,χ_H)})` injectively onto `e_{(H,χ_H)}𝔼_𝕃`, and on the part of each eigensystem
+eigensystems of `𝔼^♮`, then for every tuple `ξ` and every level `(H, χ_H)` at the type primes whose character has values in `𝕃`,
+`ι_ξ` maps the `𝕃`-rational points of `ι_ξ^*(𝔼_{(H,χ_H)})` injectively onto `e_{(H,χ_H)}𝔼_𝕃`, and on the part of each eigensystem
 `⟨ι_ξx, ι_ξy⟩ = |H| · 𝔫 · ∏_j λ_j(ξ, 𝔥) · X_ξ(x, y)` for the class-sum form `X_ξ` of the coordinates; for the base
 tuple the model eigenvalues are positive at every embedding of `𝕃`, which gives positive definite metrics at every
 embedding.
@@ -623,8 +623,9 @@ lattice stabiliser at every place outside `S(ξ)`, and for `u₁, u₂ ∈ 𝒞_
 
 `I_s(g) := ⟨ω(g, 1)(P ⊗ φ_{i+1}), P ⊗ φ_{i+1}⟩·H(g)^{s−t/2}·⟨R(g)u₁(v), u₂(v)⟩`.
 
-Then: (a) `z_∞(g) := ⟨ω_∞(g)P, P⟩·conj∏_τ⟨w_τ, 𝒟^{(i)}_τ(g_τ)w_τ⟩` satisfies `z_∞·H_∞^{s−t/2} ∈ L¹(U(Y_i)(F_∞))` for every real
-`s ≥ −n_i/2`, and `∫z_∞ ≠ 0`; (b) `I_s ∈ L¹(G^S_int)` for every real `s > t/2 − 1`; (c) for the Haar measure of `U(Y_i)(𝔸)` giving
+Then: (a) there is a real `s_∞ < t/2` such that `z_∞(g) := ⟨ω_∞(g)P, P⟩·conj∏_τ⟨w_τ, 𝒟^{(i)}_τ(g_τ)w_τ⟩` satisfies
+`z_∞·H_∞^{s−t/2} ∈ L¹(U(Y_i)(F_∞))` for every real `s ≥ s_∞`, and `∫z_∞ ≠ 0`; (b) `I_s ∈ L¹(G^S_int)` for every real
+`s > t/2 − 1` with `s ≥ s_∞`; (c) for the Haar measure of `U(Y_i)(𝔸)` giving
 the level group `K^{pr}_i(ξ)` volume `1`, `∫_{G^S_int}I_{t/2} = κ_i·∏_v‖Φ^Q_{i+1,v}‖²·loc_v(ξ)·(∫z_∞)·conj⟨u₁, u₂⟩`, the product over
 the places `v` of `F` below `Q(ξ)`, where `κ_i > 0` depends on `i`, the measures and the vectors at the type primes but not on
 `ξ`, `Φ^Q_{i+1,v}` is the test vector of ThetaChainsOnDefiniteUnitaryGroups §2.9c, and, with `w = w_v` of ThetaChainsOnDefiniteUnitaryGroups §2.9c and `c_a(w)` the value at `ϖ_w` of `μ_a(ξ)μ_{i+1}(ξ)^{−1}`,
@@ -650,14 +651,16 @@ continue `s ↦ ∫_{G^S_int}I_s` (holomorphic on `Re s > s₁` because `0 < H �
 product identity holds to `t/2`. The unramified doubling integral at the places off `S(ξ)` is that of MetaplecticAutomorphicForms
 §6.10a and ThetaKernelsForUnitaryDualPairs §6.11 (b), (c) (every residue characteristic, absolutely convergent for a bounded
 spherical coefficient); the
-places above `2` split, so no dyadic inert place occurs. The Lemma gives the hypothesis with `s₁ = (t − 1)/2`.
+places above `2` split, so no dyadic inert place occurs. The Lemma gives the hypothesis with any `s₁` such that
+`max(s_∞, t/2 − 1) < s₁ < t/2`.
 *Proof of the Lemma.* *Real places:* the Weil coefficient restricted to `(g, 1)` is a `K`-finite section of the degenerate
 principal series at `s₀ = t/2` of the doubled group, hence bounded by `C·H_∞^{n_{i+1}/2}` (ThetaKernelsForUnitaryDualPairs §6.13b (i) (c)); the lowest-`K_∞`-type
 coefficient of `𝒟^{(i)}_τ` is integrable (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (d), under its hypotheses
 `h > n_ip_iq_i + 1` and `h > 16√(2q₀)·n_i·q₀`, `q₀ = min(p_i, q_i)`, on the gap `h` between entries of different signs. They
 hold: `h ≥ t + 2N_m³ + 1` (ThetaChainsOnDefiniteUnitaryGroups §2.3, Lemma (h)), `n_i < N_m`, `p_iq_i ≤ n_i²/4`, `q₀ ≤ m/2`
 and `N_m > 3m²`, so `n_ip_iq_i + 1 < 2N_m³` and `16√(2q₀)·n_i·q₀ ≤ 16·N_m·m^{3/2} < 2N_m³`); `0 < H_∞ ≤ 1` and `n_{i+1} = n_i + t` give `|z_∞H_∞^{s−t/2}| ≤ C·|coefficient|` for
-`s ≥ −n_i/2`, which is (a); `∫z_∞` is a product over `τ` of local zeta integrals, each positive (ThetaKernelsForUnitaryDualPairs
+`s ≥ −n_i/2`, which is (a) with `s_∞ = −n_i/2` (this value is this roadmap's estimate: the formal proof gives only the
+existence of `s_∞`); `∫z_∞` is a product over `τ` of local zeta integrals, each positive (ThetaKernelsForUnitaryDualPairs
 §3.46a (d)). *Type primes:* the Weil coefficient of the principal-level vector vanishes unless the component of `g` lies in
 the level group (its support and its translate are disjoint otherwise, ThetaKernelsForUnitaryDualPairs §6.13b (v): the upper square block
 of the principal-level vector lies in one coset of the level group, 5.2), where the level characters of the vector
@@ -696,7 +699,7 @@ of absolute convergence, finite and nonzero only because `μ_i ≠ μ_{i+1}`: wi
 partial Dedekind zeta function.
 
 *Check (the twist places).* At `s = t/2 − 1` the factor `(1 − αN w^{−(s+½)})^{−1}` of the largest string parameter has
-`|αN w^{−(s+½)}| = 1`, so the range of (b) is sharp; at `s = (t − 1)/2` the ratio is `N w^{−1/2}`. For `i = 0`, `r = 1`, `t = 3`,
+`|αN w^{−(s+½)}| = 1`, so `t/2 − 1` in (b) is sharp; at `s = (t − 1)/2` the ratio is `N w^{−1/2}`. For `i = 0`, `r = 1`, `t = 3`,
 `q = 2`: `idx_v(1) = #ℙ³(𝔽_2) = 15`, `‖Φ^Q_{1,v}‖² = 1·2^{−1−3} = 1/16`, product `15/16 = 1 − 2^{−4}`, as the formula gives.
 
 *KNOWN* in kind (Rallis; Piatetski-Shapiro–Rallis; J.-S. Li; Ichino; Hecke), *NEW* (the twist places, the independence
@@ -708,26 +711,31 @@ ThetaKernelsForUnitaryDualPairs §§3.46a, 5.7a, 6.4a, 6.11, 6.13a, 6.13b, 6.13c
 ### 5.6 The adjoint identity of the descent
 
 Let `ξ` be a tuple, `𝔥` a Hecke eigensystem away from `S(ξ)`, and assume the
-hypotheses of 5.5 for every `i`. Then on `ℋ^♮[𝔥]`
+hypotheses of 5.5 for every `i`. Then on `𝔼^♮[𝔥]`
 
-`D_ξ D_ξ^* = 𝔫₀ · ∏_{j=1}^m L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})`,  `𝔫₀ = ∏_j 𝔫_j`,
+`ι_ξ ι_ξ^* = 𝔫₀ · ∏_{j=1}^m L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})`,  `𝔫₀ = ∏_j 𝔫_j`,
 
-and every factor is an absolutely convergent Euler product with a positive value; on `𝔼^♮[𝔥]` also `ι_ξι_ξ^*` is this
-scalar. Consequently `D_ξ^*` is injective; `D_ξ` maps `𝒰^♮_ξ ⊗ ℂ` onto `ℋ^♮` and `e_{P,χ_P}(𝒰^♮_ξ ⊗ ℂ)` onto `ℋ_{(P,χ_P)}` for every
-level `(P, χ_P)`; `ι_ξ` maps `𝒰^{(P,χ_P)}_ξ` onto `𝔼_{(P,χ_P)}`, in particular `ℋ^{rt}_ξ` onto `𝔼` and `Π_good·𝒰^♮_ξ` onto `𝔼^♮`; and for every
-`i ≤ m` the composite `Π_good ∘ io_1 ∘ ⋯ ∘ io_i` maps its source onto `𝔼^♮`.
+and every factor is an absolutely convergent Euler product with a positive value. Consequently `ι_ξ^*` is injective
+on `𝔼^♮`; `ι_ξ` maps `𝒰^♮_ξ ⊗ ℂ` onto `𝔼^♮` and `𝒰^{(P,χ_P)}_ξ` onto `𝔼_{(P,χ_P)}` for every level `(P, χ_P)`, in particular
+`ℋ^{rt}_ξ` onto `𝔼`; and for every `i ≤ m` the composite `Π_good ∘ io_1 ∘ ⋯ ∘ io_i` maps its source onto `𝔼^♮`.
 
-*Route.* Induction on the steps with 5.5: the `i`-fold up-lifts of `u₁, u₂ ∈ ℋ^♮[𝔥]` have inner product
-`∏_{j≤i} 𝔫_j L_j · ⟨u₁, u₂⟩`, and at the top the up-lift is `D_ξ^*`; so `⟨D_ξ^*u₁, D_ξ^*u₂⟩ = 𝔫₀∏_jL_j⟨u₁, u₂⟩`, and since
-`D_ξD_ξ^*` maps `ℋ^♮[𝔥]` into itself (Hecke equivariance away from `S(ξ)`, 5.2 (3)) it is that scalar there; it commutes with
-`G₀` (5.4), hence with `Π_good`, and `ι_ξι_ξ^* = Π_good D_ξD_ξ^* Π_good`. Positivity:
+*Addition (this roadmap's own: the formal proof treats the good rows only).* The same induction on all rows gives
+`D_ξ D_ξ^* = 𝔫₀·∏_j L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` on `ℋ^♮[𝔥]`, so that `D_ξ` maps `𝒰^♮_ξ ⊗ ℂ` onto `ℋ^♮` and
+`e_{P,χ_P}(𝒰^♮_ξ ⊗ ℂ)` onto `ℋ_{(P,χ_P)}`: the step identity of 5.5 uses no goodness, every row has a family (5.1 (3)),
+and `D_ξD_ξ^*` preserves `ℋ^♮[𝔥]` (5.2 (3)). `D_ξD_ξ^*` commutes with `G₀` (5.4), hence with `Π_good`, and
+`ι_ξι_ξ^* = Π_good D_ξD_ξ^* Π_good`. No target of this roadmap uses the addition.
+
+*Route.* Induction on the steps with 5.5: the `i`-fold up-lifts of `u₁, u₂ ∈ 𝔼^♮[𝔥]` have inner product
+`∏_{j≤i} 𝔫_j L_j · ⟨u₁, u₂⟩`, and at the top the up-lift is `ι_ξ^*` (the `m`-fold up-lift of a good row); so
+`⟨ι_ξ^*u₁, ι_ξ^*u₂⟩ = 𝔫₀∏_jL_j⟨u₁, u₂⟩`, and since `ι_ξι_ξ^*` maps `𝔼^♮[𝔥]` into itself (Hecke equivariance away from
+`S(ξ)`, 5.4 (i)) it is that scalar there. Positivity:
 the family of a cusp form on a unitary group is stable under conjugation, `B_𝔥(w̄) = conj B_𝔥(w)` at the two places above
 a split place and `conj B_𝔥(w) = B_𝔥(w)` at an inert one (the conjugate of a cuspidal representation of a unitary group
 is its contragredient); `μ_j(ξ)` is trivial on `𝔸_F^×` and unitary, so the Euler factors at `w` and `w̄` are complex
 conjugate and those at inert places are real and positive; the product converges absolutely at `(t+1)/2` by the
-bound of 5.1 (3) and `t > r`. Surjectivity: `ℋ^♮` is the orthogonal sum of the parts `ℋ^♮[𝔥]` (5.1 (3)), and if `𝒯𝒯^*` is a
-nonzero scalar `s_c` on each summand of an orthogonal decomposition then `𝒯^*` is injective there and every `e` equals
-`𝒯(𝒯^*e)/s_c`; for the level parts apply `e_{P,χ_P}` (5.4 (i)); for `e ∈ 𝔼_{(P,χ_P)}`, `e = ι_ξ(ι_ξ^*e)/s_c` with
+bound of 5.1 (3) and `t > r`. Surjectivity: `𝔼^♮` is the orthogonal sum of the parts `𝔼^♮[𝔥]` (5.1 (3), 5.3 (ii)),
+and if `𝒯𝒯^*` is a nonzero scalar `s_c` on each summand of an orthogonal decomposition then `𝒯^*` is injective there and
+every `e` equals `𝒯(𝒯^*e)/s_c`; for `e ∈ 𝔼_{(P,χ_P)}`, `e = ι_ξ(ι_ξ^*e)/s_c` with
 `ι_ξ^*e ∈ 𝒰^{(P,χ_P)}_ξ` (5.4 (ii)). For `i ≤ m`, `ι_ξ = (Π_good io_1 ⋯ io_i)∘(io_{i+1} ⋯ io_m)`, so the image of
 `Π_good io_1 ⋯ io_i` contains that of `ι_ξ`, which is `𝔼^♮`. A second route to surjectivity: up-lifts of eigenforms are
 nonzero (the `L`-values and the local zeta integrals are nonzero; at the type primes the zeta integral of a form of
@@ -738,7 +746,7 @@ families `B^{(i)}` separate the parts.
 `|1 − βū N w^{−s}|^{−2} > 0` for real `s`. A family with `B(w̄) = B(w)` instead would give
 `((1 − βū N w^{−s})(1 − βu N w^{−s}))^{−1}`, which need not be real.
 
-*NEW* (chain statement), *KNOWN* ingredients (Rallis; Hecke). *Needs:* 5.1, 5.2, 5.4, 5.5.
+*NEW* (chain statement), *KNOWN* ingredients (Rallis; Hecke). *Needs:* 5.1, 5.2, 5.3, 5.4, 5.5.
 
 ### 5.7 Model lifts and their Rallis identity
 
@@ -917,7 +925,7 @@ corners `X = V(i, j+1)`, `M = V(i+1, j+1)`, `M′ = V(i, j)`, `Y = V(i+1, j)`, a
 `δ_Y = −δ_T = 1/√−d` the skew element of 5.2, and the characters `β = χ_{m−i}η̃^{e}`, `α = μ_{j+1}(ξ)η̃^{e}` (`e` the parity of
 `rank V(i, j)`); `ν = α/β`, `a = rank M`, `a′ = rank M′`, `ε_□ = (a − a′)/2`, `p = ⌊(m − j − 1)/2⌋`, `q = ⌊(m − j)/2⌋`.
 
-*Statement.* (e) *Existence.* For every choice of centres and of `v_□` as above there are characters `χ_1, …, χ_m` with these
+*Statement.* (e) *Existence.* For every choice of `v_□` as above there are characters `χ_1, …, χ_m` with these
 properties; the spaces of the core column exist (formed as those of ThetaChainsOnDefiniteUnitaryGroups §2.2, from diagonal unit forms, ThetaChainsOnDefiniteUnitaryGroups §2.2 (d), (e)).
 The grid exists as soon as `g₀, g₁, p_δ, p′_δ ≡ 1 (mod N_E)`, `p_□ ∉ {g₀, g₁}` and no place of any `Q(ξ)` lies above `p_□`.
 (s) `Im τ(δ_Y) < 0` for every `τ ∈ Φ`. So for every square the embedding of ThetaLiftsForDefiniteUnitaryGroups at the
@@ -1420,7 +1428,9 @@ Assume the hypotheses of 5.6, of 5.8 and of 5.9, and that `𝕃` (ThetaChainsOnD
 the eigenvalues on `𝔼^♮` of finitely many Hecke operators away from `S(1)` that separate its eigensystems; such
 eigenvalues are algebraic, because by 5.9 the eigensystems of `𝔼^♮` are those of good algebraic forms on the definite
 `U(W_m)`, on which the Hecke operators are rational, so such an `𝕃` exists. For every tuple `ξ` and every level `(H, χ_H)`
-at the type primes (`H = {1}` included), let `Z_ξ` be the `𝕃`-rational points of `Q^{(H,χ_H)}_ξ = ι_ξ^*(𝔼_{(H,χ_H)})` (5.4, 5.8) and
+at the type primes whose character `χ_H` takes its values in `𝕃` (so that `e_{(H,χ_H)} ∈ 𝕃[G₀]`; this includes `H = {1}` and,
+by 5.8, the levels `(P_0, χ_{P_0})`, `(P_1, χ_{P_1})` of ThetaChainsOnDefiniteUnitaryGroups §2.9a), let `Z_ξ` be the
+`𝕃`-rational points of `Q^{(H,χ_H)}_ξ = ι_ξ^*(𝔼_{(H,χ_H)})` (5.4, 5.8) and
 `X_ξ` the `𝕃`-rational Hermitian form of the coordinates, the class-sum product of `𝒰^♮_ξ` on the level-`(H, χ_H)` part
 divided by `|H|`. Then `ι_ξ` maps `Z_ξ` injectively onto `e_{(H,χ_H)}𝔼_𝕃` (5.8), `ι_ξ(𝒰^{(H,χ_H)}_ξ) = ι_ξ(Q_ξ^{(H,χ_H)}) = 𝔼_{(H,χ_H)}`,
 and on the part `Z_ξ[𝔥]` of every eigensystem the Gram matrix is
