@@ -32,7 +32,7 @@ determinant is that of a sum of pairwise distinct characters, with the universal
 
 Let `L` be a CM field with `L/L⁺` unramified at every finite place, `l` an odd prime, `n ≥ 1`, `G` the definite unitary group in `n`
 variables for `L/L⁺` (PotentialAutomorphyInfrastructurePartII §3.1), and `S = S_l ∪ S_t ∪ {v₀}` a finite set of places of `L⁺` that split in `L`: `S_l` the places above `l`,
-`S_t` a set of places prime to `l`, and `v₀` of residue characteristic `p ∉ {2, l}` with `p` unramified in `L`. Let `O` be the ring of
+`S_t` a set of places prime to `l`, and `v₀` of prime norm `p ∉ {2, l}`, with `p` unramified in `L`. Let `O` be the ring of
 integers of a finite extension of `ℚ_l` containing the images of all embeddings of `𝒪_L`, with residue field `k`. Let
 `χ̄_1, …, χ̄_n : G_{L,S} → k^×` be **pairwise distinct** characters such that `⊕χ̄_i` is isomorphic to its conjugate dual twisted by
 `ε̄^{1−n}` (`ε` the cyclotomic character), and `ψ̄_{v,i}` characters of `G_{L_ṽ}` for `v ∈ S_l`.
@@ -73,14 +73,21 @@ pairwise distinct finite parts are Zariski dense; at such a point `D` is the det
 at each `v ∈ S_l` with characters `ψ_{v,i}`, which is potentially crystalline there.
 
 (d) (*arithmetic points*) at every arithmetic point of `V(J)`, `D` is the determinant of a continuous semisimple `ρ` whose
-characteristic polynomials are those of `⊕_i ⊕_{0≤j<m_i} ρ′_i ⊗ ε^{−j}`, the `ρ′_i` attached to cuspidal representations; if all
-`m_i = 1`, any two eigenvalues `z, z′` of `ρ(Frob_w)` satisfy `|z| < Nw·|z′|` (for every complex embedding) for almost all `w`.
+characteristic polynomials are those of `⊕_i ⊕_{0≤j<m_i} ρ′_i ⊗ ε^{−j}` for continuous representations `ρ′_i` of `G_L` (in the
+route below, those of the cuspidal constituents of the base change); if all `m_i = 1`, any two eigenvalues `z, z′` of
+`ρ(Frob_w)` satisfy `|z| < Nw·|z′|` (under the fixed isomorphism `ι : ℚ̄_l ≅ ℂ`) for almost all `w`.
 
 (e) (*classicality*) if `ρ` in (d) is irreducible, it is attached to a regular algebraic conjugate self-dual cuspidal
 representation of `GL_n(𝔸_L)`.
 
-(f) (*points*) an arithmetic point of `B` whose determinant is that of an automorphic `ρ` unramified at `v₀`, with a
-full flag at each `v ∈ S_l` with characters `ψ_{v,i}`, no two of which are in ratio `ε`, lies in `V(J)`.
+(f) (*points*) for `2 ≤ n ≤ 4`: an arithmetic point of `B` whose determinant is that of an automorphic `ρ` unramified at `v₀`,
+with a full flag at each `v ∈ S_l` with characters `ψ_{v,i}`, no two of which are in ratio `ε`, lies in `V(J)`. Here
+*automorphic* means: `ρ` is continuous and attached to a regular algebraic conjugate self-dual cuspidal representation of
+`GL_n(𝔸_L)`, and (w1) at each place above `l` at which `ρ` has a full flag with no two characters in ratio `ε`, it has a full
+flag with no two characters in ratio `ε` up to a character of finite order; (w2) for every regular algebraic cuspidal `Π′` to
+which `ρ` is attached there is a real `t` such that, at every finite place `w` of `L` which is prime to `l` or at which the
+conclusion of (w1) holds, `Π′_w` has cuspidal support made of characters `ξ` of `L_w^×`, each with
+`(Nw)^{t−1/2} < |ξ(ϖ_w)| < (Nw)^{t+1/2}`.
 
 (g) (*twists*) Let `γ : G_{L,S} → B^×` be a continuous character, `γ ≡ 1` modulo the maximal ideal, with `γ(cgc⁻¹)γ(g) = 1`, trivial on
 the inertia groups at `S_t` and at `v₀`, and trivial on the `l`-torsion of the `G_{L_ṽ}^{ab}`, `v ∈ S_l`, prescribed in (1) (for
@@ -122,11 +129,14 @@ there (AutomorphicGaloisRepresentationsPartII §AG2.6), so each step of the flag
 `dim H¹_g − dim H¹_f = dim D_cris(W^∨(1))^{φ=1}` (Bloch–Kato, as in the route of PotentialAutomorphyInfrastructurePartII §9.2)
 vanishes, the graded characters of `W^∨(1)` being nontrivial because no two characters of the flag are in ratio `ε`. Hence the
 cuspidal representation of `ρ` has level potentially prime to `l` (AutomorphicGaloisRepresentationsPartII §AG2.6) and is
-`ι`-ordinary (PotentialAutomorphyInfrastructurePartII §0.5, for every `n`). Its descent to `G` (PotentialAutomorphyInfrastructurePartII §3.5(1), for every `n`) gives a point of the big
+`ι`-ordinary (PotentialAutomorphyInfrastructurePartII §0.5). Its descent to `G` (PotentialAutomorphyInfrastructurePartII §3.5(1)) gives a point of the big
 ordinary Hecke algebra above an arithmetic prime (PotentialAutomorphyInfrastructurePartII §3.12, first Check), with the inertial type at `S_t` matched by the type and the
 flag matched by the characters. No hypothesis on the maximal ideal is used: the residual determinant may be reducible, and
 nothing in (a)–(e) uses that the `χ̄_i` are distinct except the definition of the tame types and of the torsion data and the
-second statement of (b). (g) (i) For `β` of finite `l`-power order with `β^c = β⁻¹`, trivial on those inertia groups, and a point
+second statement of (b). The range `2 ≤ n ≤ 4` of (f) is that of the statement of [FormalProof], in which the restriction is
+used at one step only, the descent of the cuspidal representation to `G`; the route above does not depend on `n`, but (f) for
+other `n` is not a statement of [FormalProof] and is not claimed here. Clauses (w1) and (w2) are hypotheses of [FormalProof].
+(g) (i) For `β` of finite `l`-power order with `β^c = β⁻¹`, trivial on those inertia groups, and a point
 `x` of `V(J)` as in (c): `x` comes from an automorphic representation `σ` of `G`; `β = μ/μ^c` (`β` has odd order); twisting `σ` by the
 character of `G(𝔸)` attached to `μ` gives an automorphic representation with the same weights, unramified where `σ` and `β` are,
 spherical at `v₀`, with the same tame types, ordinary at `S_l` with the characters `ψ_{v,i}β`; so the twisted point lies in `V(J)`.
@@ -187,22 +197,28 @@ Taylor–Wiles places.
 
 ### 4.2a Automorphic patching data at a reducible residual determinant
 
-In the setting of 3.13a, assume `μ_l ⊄ L`. A *Taylor–Wiles datum* consists of `q ≥ 0`, elements `σ_1, …, σ_q ∈ G_{L(μ_{l^∞})}`, fixed lifts
-`u_{j,i} ∈ O` of the `χ̄_i(σ_j)`, and for each `N ≥ 1` places `w_{N,1}, …, w_{N,q}` of `L`, split over `L⁺` and outside `S`, of norm
-`≡ 1 mod l^N`, with Frobenius elements `φ_{N,j}` converging to `σ_j` as `N` grows and generators `τ_{N,j}` of the `l`-part of tame
-inertia at `w_{N,j}`; such places exist for every choice of the `σ_j` (Chebotarev). Put `S_N = S ∪ {v_{N,1}, …, v_{N,q}}`, `v_{N,j}` the place of `L⁺` below `w_{N,j}`. Say that an
-ideal `J ⊂ B` has *automorphic patching data* if there is a `B`-module `M`, finite free over `Λ`, with `Supp_B M = V(J)`, such that for
-every Taylor–Wiles datum and every `N` there are:
+In the setting of 3.13a, assume `μ_l ⊄ L`. A *Taylor–Wiles datum* consists of `q ≥ 0`, elements `σ_1, …, σ_q ∈ G_{L(μ_{l^∞})}`, and
+for each `N ≥ 1` places `w_{N,1}, …, w_{N,q}` of `L`, above pairwise distinct places `v_{N,1}, …, v_{N,q}` of `L⁺` that split in `L`
+and lie outside `S`, of norm `≡ 1 mod l^N`, with Frobenius elements `φ_{N,j}` whose images in `G_{L,S}` satisfy
+`χ̄_i(φ_{N,j}) = χ̄_i(σ_j)` for all `i` and all `N` and converge to `σ_j`, as `N` grows, in the largest quotient of `G_{L⁺,S}` in
+which the common kernel of the `χ̄_i` and of `ε mod l` is pro-`l`, and generators `τ_{N,j}` of the `l`-part of tame inertia at
+`w_{N,j}`; such data exist for every choice of the `σ_j` (Chebotarev). Put `S_N = S ∪ {v_{N,1}, …, v_{N,q}}`. Say that an ideal
+`J ⊂ B` has *automorphic patching data* if for every Taylor–Wiles datum there are a `B`-module `M`, finite free over `Λ`, with
+`Supp_B M = V(J)`, lifts `u_{j,i} ∈ O` of the `χ̄_i(σ_j)`, an exponent `e`, and for every `N`:
 
-- the universal ordinary determinant ring `R_N` of 3.13a(1) for the same residual data and the ramification set `S_N` (no
-  condition at the `w_{N,j}`), with universal determinant `D_N`, a map `Λ[[x_{j,i}]] → R_N` (`qn` variables) compatible with
-  `Λ → B`, and elements `U_{j,i} ∈ R_N` lifting the `u_{j,i}`;
+- a complete local noetherian `O`-algebra `R_N` with residue field `k` carrying an ordinary determinant `(D_N, ψ_N)` in the
+  sense of 3.13a(1) for the same residual data and the ramification set `S_N` (no condition at the `w_{N,j}`), a map
+  `Λ[[x_{j,i}]] → R_N` (`qn` variables) whose restriction to `Λ` is the map given by the inertial characters of `ψ_N`, and
+  elements `U_{j,i} ∈ R_N` lifting the `u_{j,i}`; `R_N` is an algebra over the universal ordinary determinant ring for `S_N`,
+  not necessarily that ring;
 - an `R_N`-module `M_N`, free of finite rank (the rank may depend on `N`) over `Λ[[x_{j,i}]]/((1 + x_{j,i})^{l^{a_{N,j}}} − 1)` for some
   `a_{N,j} ≥ N`;
-- a homomorphism `R_N → Sp`, where `Sp = B[[X_{j,i}]]/(∏_i(X − u_{j,i} − X_{j,i}) = charpoly D(φ_{N,j}))` is `B` with ordered roots of
+- a homomorphism `R_N → Sp` carrying `(D_N, ψ_N)` to the pullback of the universal ordinary determinant of `B` along
+  `G_{L,S_N} → G_{L,S}` and the `x_{j,i}` to `0`, where
+  `Sp = B[[X_{j,i}]]/(∏_i(X − u_{j,i} − X_{j,i}) = charpoly D(φ_{N,j}))` is `B` with ordered roots of
   the characteristic polynomials of `D(φ_{N,j})` adjoined, sending `U_{j,i}` to `u_{j,i} + X_{j,i}`, and maps `Sp ⊗_B M ⇄ M_N/(x)M_N`
   whose two composites are multiplication by `f = ∏_j ∏_{i≠i′}(U_{j,i} − U_{j,i′})(U_{j,i} − Nw_{N,j}·U_{j,i′})`;
-- an exponent `e`, independent of `N` (one may take `e = n!`), such that `(f·tr_{D_N}(h·r))^e` kills `M_N` for every `h ∈ G_{L,S_N}` and
+- with the exponent `e` above, independent of `N` (one may take `e = n!`): `(f·tr_{D_N}(h·r))^e` kills `M_N` for every `h ∈ G_{L,S_N}` and
   each of the two kinds of elements `r = ∏_i(φ_{N,j} − U_{j,i})` and `r = ∏_{k≠i}(φ_{N,j} − U_{j,k})(τ_{N,j} − 1 − x_{j,i})`.
 
 Prove that the ideal `J` of 3.13a has automorphic patching data. This is a theorem of [FormalProof]. The route of the
@@ -236,7 +252,7 @@ IntegralHeckeAndGaloisDeterminants §1.3; Chebotarev Layer 10.
 
 - When the `χ̄_i(σ_j)` are pairwise distinct, `f` is a unit and the data are those of PotentialAutomorphyInfrastructurePartII §4.2 with a residual eigenspace; the
   factor `f` is what allows coinciding residual eigenvalues, the points used being those at which the eigenvalues differ.
-- The `U_{j,i}` lift fixed elements `u_{j,i}` of `O`, chosen once with the datum; `Sp` is finite over `B`, not étale, when the
+- The `U_{j,i}` lift elements `u_{j,i}` of `O` given once for each datum, independent of `N`; `Sp` is finite over `B`, not étale, when the
   `χ̄_i(σ_j)` coincide.
 
 ### Examples
@@ -268,23 +284,28 @@ representation of `Sp₄` composed with `ρ`.
 (c) Let `F` be imaginary quadratic with character `η_F` and `W : G_ℚ → GL₂(E)` with `det W = η_F` (times a power of the cyclotomic
 character), such that `W|_{G_F}` satisfies the hypotheses of (a) for `n = 2`. Prove `H¹_f(ℚ, ad W) = 0`.
 
+(a), (b) and (c) are statements of this roadmap, consequences of the theorem of Newton and Thorne [NT23]
+(ModularityAndLanglandsExtensions §4.1); they are not statements of [FormalProof].
+
 (d) (*a theorem of [FormalProof]*) Let `p` be odd, `L` a CM field with `L/L⁺` unramified at all finite places, `μ_p ⊄ L`, and every place of
 `L⁺` above `p` split in `L`; let `ρ = r|_{G_L}` be attached to a regular algebraic conjugate self-dual cuspidal representation of
-`GL_n(𝔸_L)`, `2 ≤ n ≤ 4`, ordinary at every place `w` of `L` above `p` with inertial characters `ε^{m_{w,i}}` up to finite order,
-`m_{w,1} > ⋯ > m_{w,n}` (the exponents may depend on `w`), with
+`GL_n(𝔸_L)`, `2 ≤ n ≤ 4`, automorphic in the sense of 3.13a (f) (with its clauses (w1), (w2)), ordinary at every place `w` of
+`L` above `p` with inertial characters `ε^{m_{w,i}}` up to finite order, `m_{w,1} > ⋯ > m_{w,n}` (the exponents may depend on `w`),
+with
 residual representation a sum of pairwise distinct characters; assume that `ρ` is unramified outside a finite set `S` of places
 split in `L`, trivial on every inertia element at the places of `S` prime to `p` at which all the residual characters are trivial,
 and unramified at an auxiliary place `v₀` as in 3.13a, of prime norm, at which the residual characters agree and are unramified
 and `Nv₀ ≢ 1 mod p`. Assume moreover: (i) at each place above `p` some element of the decomposition group in the kernel of `ε` has
 ordinary characters whose ratios have infinite order; (ii) `ρ|_{G_{L(μ_{p^∞})}}` is absolutely irreducible; (iii) every nonempty open
 subset of `G_{L(μ_{p^∞})}` contains an element at which `ρ` has separable characteristic polynomial. Prove `H¹_f(L⁺, ad r) = 0`. The
-hypothesis `μ_p ⊄ L` enters through 4.2a.
+hypothesis `μ_p ⊄ L` is a hypothesis of the statement of [FormalProof].
 
 (d′) Under the hypotheses of (d), let `Λ → B_det` be the weight algebra of the universal ordinary determinant ring of 3.13a(1)
 (a power series ring over `O`) and `J₀` the Hecke ideal, with `B_det/J₀` finite and torsion-free over `Λ`. If moreover the cyclotomic
 exponents of `ρ` at each place above `p` differ by at least `2`, then every point derivation of `B_det` at the point of `ρ` (a point
 of `V(J₀)` by 3.13a(f)) that vanishes on `Λ` is zero, and every prime of `B_det` contained in the kernel of that point contains
-`J₀`. This rests on (d).
+`J₀`. This rests on (d). (d′) in this generality is a statement of this roadmap and not a statement of [FormalProof], which
+has it in rank four only, at the seeds (Downstream consumers).
 
 *Route.* (a) If `ρ` is irreducible on every open subgroup of `G_F`, the identity component of the Zariski closure of its image
 acts irreducibly, hence so does its derived group, which lies in the Zariski closure of the image of every open subgroup
@@ -405,6 +426,12 @@ to `W = ℚ_p/ℤ_p(−e)`, `e ≠ 0`, at every finite `v ∤ p`, where `Frob_v`
 (f) *Functoriality.* Restriction and corestriction along finite extensions `F′/F`, and maps of lattices, preserve the
 kernels; the kernel of restriction `Ш¹_{S;Σ}(F, W) → Ш¹_{S′;Σ′}(F′, W)` (`S′, Σ′` the places above `S, Σ`) lies in
 `H¹(Gal(F′/F), W^{G_{F′}})` when `F′/F` is Galois.
+
+These definitions and (a)–(f), in this generality, are statements of this roadmap, classical consequences of Poitou–Tate
+duality (ArithmeticGaloisDuality §§R02.4.3, D7.6), and not statements of [FormalProof]. [FormalProof] has one instance only:
+`T = ℤ_p(e+1)` and `W = ℚ_p/ℤ_p(−e)` for an integer `e`, the ramification set formed by the places above `p` and the infinite
+places, vanishing imposed at the places above `p` only, and (b) as the equality of lengths when `p` is odd or `F` is totally
+complex, with no real place in either kernel.
 
 *Route.* (a) Filtered colimits are exact on discrete modules and `H¹(G_{F,S}, W) = colim_n H¹(G_{F,S}, W[p^n])`;
 inverse limits of finite groups are exact, and the Milnor sequence of ArithmeticGaloisDuality §D7.6 with finite finite-level groups gives
