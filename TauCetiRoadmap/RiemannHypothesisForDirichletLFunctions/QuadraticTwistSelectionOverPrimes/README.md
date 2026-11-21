@@ -2,7 +2,9 @@
 
 **Summary.** For `m₀ ≥ 1`, a residue `a₀` prime to `m₀` and `U ≥ 4`, let `P = P(m₀, a₀; U)` be the set of primes `q ≡ a₀ (mod m₀)` with `√U < q ≤ U`. This roadmap averages Jacobi symbols `(n/q)` over the primes `q ∈ P` against short moduli and uses the averages to select auxiliary primes. Quadratic reciprocity on the class turns `(n/q)`, for `8 ∣ m₀` and `q ∤ n`, into a fixed sign times `(q/s)`, where `s` is the product of the primes `p ∤ m₀` that divide `n` to an odd power, and the prime number theorem in progressions makes the characters `q ↦ (q/s)` nearly orthogonal on `P`. From this follow a mean square of quadratic twists of short weighted prime sums over the prime moduli `q ∈ P`, its maximal form on a whole window of scales, and the selection of the primes `q` whose quadratic twists have a zero-free box near `s = 1`, a bounded logarithmic derivative at `1` and square-root cancellation in their smoothed prime sums. For a nonprincipal Dirichlet character `χ` write `G_χ(y) = Σ_{n≤y} Λ(n) χ(n) (y/n − 1) + y (L′/L)(1, χ)`.
 
-The headline theorems are these. (1) There are absolute `L, c, C` such that for `8 ∣ m₀`, `a₀` prime to `m₀` and every odd squarefree `s > 1` prime to `m₀` with `m₀s ≤ U^(1/L)`, `|Σ_{q∈P} (q/s)| ≤ C |P| (e^(−c log U/log(m₀s)) + e^(−c√log U))` and `|P| ≥ U/(3φ(m₀) log U)`; the form that keeps the term of a possible exceptional zero allows one exceptional modulus `s`. (2) Twist selection: fix `δ₀ ∈ (0, 1/12)`, `K ≥ 1`, `τ, η, ε > 0`, `R ∈ ℕ`, `0 < b < 1/4` and `0 ≤ a < 1/2`. There are `C₁, Y₀` depending only on `(δ₀, K, τ, η, R, a, b)` and `C₂` depending only on `(δ₀, ε)` such that, whenever `Y ≥ Y₀`, `C₁ log Y·(log m₀ + log Y) ≤ log U`, `1 ≤ F ≤ U^(1/2)`, `log(FU) ≤ Y^b` and at most `Y^a` primes `p ≤ Y^(K/δ₀)` divide `m₀`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − δ₀` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ ((2 + ε)/δ₀) log log(FU) + C₂`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3) Two-step selection: with the same constants, let `Ξ₀` be a set of primitive characters of conductor `≤ N₀`, let `(m₁, a₁, U₁)` satisfy the hypotheses of (2) with a conductor bound `F₁ ≥ N₀`, and for each `q ∈ P(m₁, a₁; U₁)` let `(m₂(q), a₂(q), U₂)` satisfy them with a conductor bound `F₂(q) ≥ N₀q`. Then a proportion at least `1 − η` of the `q`, and for each such `q` a proportion at least `1 − η` of the `d ∈ P(m₂(q), a₂(q); U₂)`, make every twist `ξ·(·/q)^i·(·/d)^j` with `ξ ∈ Ξ₀` and `(i, j) ≠ (0, 0)` satisfy the three conclusions of (2), with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`.
+The headline theorems are these. (1) There are absolute `L, c, C` such that for `8 ∣ m₀`, `a₀` prime to `m₀` and every odd squarefree `s > 1` prime to `m₀` with `m₀s ≤ U^(1/L)`, `|Σ_{q∈P} (q/s)| ≤ C |P| (e^(−c log U/log(m₀s)) + e^(−c√log U))` and `|P| ≥ U/(3φ(m₀) log U)`; the form that keeps the term of a possible exceptional zero allows one exceptional modulus `s`. The exception-free form is this roadmap's own corollary, through the exclusion of Landau–Siegel zeros, and not a statement of [FormalProof]; the selection below uses only the form with one exceptional modulus. (2) Twist selection: fix `δ₀ ∈ (0, 1/12)`, `K ≥ 1`, `τ, η, ε > 0`, `R ∈ ℕ`, `0 < b < 1/4` and `0 ≤ a < 1/2`. There are `C₁, Y₀` depending only on `(δ₀, K, τ, η, R, a, b)` and `C₂` depending only on `(δ₀, ε)` such that, whenever `Y ≥ Y₀`, `C₁ log Y·(log m₀ + log Y) ≤ log U`, `1 ≤ F ≤ U^(1/2)`, `log(FU) ≤ Y^b` and at most `Y^a` primes `p ≤ Y^(K/δ₀)` divide `m₀`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − δ₀` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ ((2 + ε)/δ₀) log log(FU) + C₂`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3) Two-step selection: with the same constants, let `Ξ₀` be a set of primitive characters of conductor `≤ N₀`, let `(m₁, a₁, U₁)` satisfy the hypotheses of (2) with a conductor bound `F₁ ≥ N₀`, and for each `q ∈ P(m₁, a₁; U₁)` let `(m₂(q), a₂(q), U₂)` satisfy them with a conductor bound `F₂(q) ≥ N₀q`. Then a proportion at least `1 − η` of the `q`, and for each such `q` a proportion at least `1 − η` of the `d ∈ P(m₂(q), a₂(q); U₂)`, make every twist `ξ·(·/q)^i·(·/d)^j` with `ξ ∈ Ξ₀` and `(i, j) ≠ (0, 0)` satisfy the three conclusions of (2), with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`.
+
+Statements (2) and (3) are this roadmap's generalisations, proved from the published theorems that their routes cite. [FormalProof] proves them with fixed parameters, and this form is the one the rest of the family uses. (2′) There are absolute `C, C₂` such that for `0 < ε ≤ 1/4`, `K ≥ 1`, `τ, η > 0`, `R ∈ ℕ` and `Y ≥ Y₀(ε, K, τ, η, R)`, whenever `8 ∣ m₀`, `(1/4)(log Y)² log m₀ ≤ log U`, `Y^(ε/6) ≤ log U ≤ Y^(ε/5)(log Y)²`, every prime factor of `m₀` is `≤ Y^(ε/5)` or `> Y^(400K)`, `1 ≤ F ≤ U^(1/2)`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − 1/400` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ min(C log Y, 1000 log log(FU) + C₂)`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3′) The same for two primes chosen in succession, each step under these hypotheses, with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`; [FormalProof] proves it for one pair of progressions, `q ≡ 3 (mod 8)`, and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p ∣ d + 1`, where `z = Y^(ε/5)` and `0 < ε < 1/52`.
 
 The roadmap extends Layer 2 of [SieveMethodsAndPrimePatterns](../../SieveMethodsAndPrimePatterns/README.md), whose quadratic large sieve averages real characters over many moduli; here the average is over the primes of one residue class, and no large sieve is needed. Its analytic inputs are Mertens's theorem, the effective gap for real zeros, Page's theorem across moduli and the log-free zero-density estimate of [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md), and the prime number theorem in progressions in Linnik's range and the control of smoothed prime sums by zero-free boxes of [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the two-step selection provides the auxiliary primes of the cyclic hosts of ThetaChainsAndFrobeniusPrimeSums, a later roadmap of the family.
 
@@ -27,6 +29,17 @@ AnalyticNumberTheoryPartI §0.2's `primeCountAP` and `psiAP`, which that roadmap
 
 `Suggested.lean` writes `P(m₀, a₀; U)` as `primesInClass m₀ a₀ U` and `G_χ(y)` as `rieszRemainder χ y`; the hypotheses of 2.7c on `(m₀, a₀, U, F)` at the scale `Y` are `SelectionHypotheses`, and its conclusions (a)–(c) for one character, with box height `H` in (a) and in (b), are `TwistBounds`.
 
+For `ε > 0`, `K ≥ 1` and a scale `Y`, *the size hypotheses with exponent `ε`* on `(m₀, a₀, U)` are: `m₀ ≥ 1`,
+`8 ∣ m₀`, `gcd(a₀, m₀) = 1`, and
+```text
+(1/4)(log Y)² log m₀ ≤ log U ,        Y^(ε/6) ≤ log U ≤ Y^(ε/5) (log Y)² ;
+```
+*the selection hypotheses with exponent `ε`* on `(m₀, a₀, U, F)` are these together with `1 ≤ F ≤ U^(1/2)` and: every
+prime `p ∣ m₀` satisfies `p ≤ Y^(ε/5)` or `p > Y^(400K)`. They are the hypotheses of the forms that [FormalProof] proves
+(2.7a (iii′), 2.7b (ii′), (iv′), 2.7c (a′)–(c′), 2.7d (ii′)); `Suggested.lean` writes the selection hypotheses as
+`FixedWidthSelectionHypotheses ε Y K m₀ a₀ U F`. `SelectionHypotheses` is this roadmap's generalisation of them, the
+hypotheses of the general statement of 2.7c.
+
 Notation and conventions not restated here are those of the Conventions of SieveMethodsAndPrimePatterns and of AnalyticNumberTheoryPartI; exceptional pairs modulo `q` are those of the Convention of RieszSumsOverPrimesAndExceptionalZeros §1.7b.
 
 ## Layer 2: Quadratic twists over primes in a progression and twist selection
@@ -38,6 +51,10 @@ The sections 2.7a–2.7d average Jacobi symbols over the primes of one residue c
 **(i) Reciprocity on a residue class.** Let
 `8 ∣ m₀`, `gcd(a₀, m₀) = 1` and `n ≥ 1`. There is `ε = ε(m₀, a₀, n) ∈ {1, −1}` such that every prime
 `q ≡ a₀ (mod m₀)` with `q ∤ n` satisfies `(n/q) = ε · (q / s_{m₀}(n))`.
+
+**(i′) The form of the formal proof.** The same for the primes `q ≡ a₀ (mod m₀)` with `q > n`. The statement (i), for
+every prime `q ∤ n` of the class, is this roadmap's generalisation, proved by the sketch below; [FormalProof] proves
+(i′), and 2.7b (i) applies (i) only to primes `q > nn′`, that is in the form (i′).
 
 *Proof sketch.* Square factors of `n` contribute `1`. For `p = 2`, `(2/q)` depends on `q mod 8`, which is fixed.
 For an odd `p ∣ m₀`, `8p ∣ m₀`, and reciprocity makes `(p/q)` a function of `q mod 4p`, which is fixed. For an
@@ -74,6 +91,22 @@ the set `P = P(m₀, a₀; U)` satisfies
 
 The constant `c` is absolute and effective; `C₁` and `Y₀` depend only on `A, B`. No upper bound on `U` or `m₀` is
 needed.
+
+**(iii′) The form of the formal proof.** For `ε, A, B > 0` there is `Y₀`, depending only on `ε, A, B`, such that for
+every `Y ≥ Y₀`, every `m₀` with `8 ∣ m₀`, every `a₀` coprime to `m₀` and every `U` with
+```text
+(1/4)(log Y)² log m₀ ≤ log U ,        Y^(ε/6) ≤ log U ≤ Y^(ε/5) (log Y)² ,
+```
+the set `P = P(m₀, a₀; U)` satisfies
+
+- (α) `|P| ≥ U^(9/10)`;
+- (β) there is an integer `s*` such that every odd squarefree `s ≠ s*` with `1 < s ≤ Y^A` and `gcd(s, m₀) = 1`
+  satisfies `|Σ_{q∈P} (q/s)| ≤ Y^(−B) |P|`.
+
+The statement (iii) is this roadmap's generalisation, proved by the route below from the published theorems it cites;
+[FormalProof] proves (iii′). (iii′) follows from (iii): for `Y` large in terms of `ε, A, B`, the range of `U` of (iii′)
+lies in that of (iii) (`C₁ log Y·log m₀ ≤ log U/2` once `log Y ≥ 8C₁`, and `C₁ (log Y)² ≤ Y^(ε/6)/2`), and
+`log m₀ ≤ 4 log U/(log Y)²` turns the bound `|P| ≥ c U/(m₀ φ(m₀) log U)` of (α) into `|P| ≥ U^(9/10)`.
 
 *Proof sketch.* (α): RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii) for the modulus `m₀` at `U` and `√U` (Linnik's range, since
 `log U ≥ C₁ log Y log m₀`); the main term `(Li U − χ₁(a₀) Li(U^(β₁)))/φ(m₀)` is at least
@@ -134,6 +167,9 @@ that for `8 ∣ m₀`, `a₀` coprime to `m₀`, and every odd squarefree `s > 1
 ```text
 |Σ_{q∈P(m₀,a₀;U)} (q/s)| ≤ C |P(m₀,a₀;U)| (e^(−c log U/log(m₀s)) + e^(−c√log U)) ,     |P(m₀,a₀;U)| ≥ U/(3φ(m₀) log U) .
 ```
+This statement is this roadmap's own corollary, through the exclusion of Landau–Siegel zeros, and not a statement of
+[FormalProof]; 2.7b–2.7d use only the form with one exceptional modulus, (iii) and (iii′).
+
 *Proof sketch.* As (iii) with RieszSumsOverPrimesAndExceptionalZeros §1.7b (iv) in place of RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii): there is no exceptional term, so no `s*` and no
 depletion.
 
@@ -180,6 +216,18 @@ at most `2B² + 2B·RR`.
 ```text
 Σ_{q∈P(m₀,a₀;U)} |S_{Y^(L₁)}(y; q, κ)|² ≤ C · y log y · |P(m₀, a₀; U)| .
 ```
+
+**(ii′) The form of the formal proof.** There is an absolute `C` such that for `0 < ε ≤ 1` and `K ≥ 1` there is `Y₀`
+with: for `Y ≥ Y₀`, `(m₀, a₀, U)` satisfying the size hypotheses with exponent `ε` (Conventions), and every prime
+`p ∣ m₀` satisfying `p ≤ Y^(ε/5)` or `p > Y^(400K)`, every `y ∈ [Y, Y^K]` and every `κ` with `|κ| ≤ 1` satisfy
+```text
+Σ_{q∈P(m₀,a₀;U)} |S_{Y^(400K)}(y; q, κ)|² ≤ C · y log y · |P(m₀, a₀; U)| .
+```
+The statement (ii) is this roadmap's generalisation, proved by the route below from the published theorems it cites;
+[FormalProof] proves (ii′). (ii′) follows from (ii) at `L₁ = 400K` and `a = 1/5`, with `C = C(1/5)`: for `Y` large in
+terms of `ε` and `K`, at most `Y^(ε/5)` primes `p ≤ Y^(400K)` divide `m₀`, and the size hypotheses give
+`C₁ log Y·(log m₀ + log Y) ≤ log U` as in 2.7a (iii′).
+
 *Proof sketch.* (i) with `N = Z = Y^(L₁)` (every `q > √U ≥ Z²`), `c = c_y` restricted to `n ≤ Z`, and `η = Y^(−(K+1))`
 for all `s ≤ Z²` but one, from 2.7a (iii) (β) with `A = 2L₁`, `B = K + 1`. The five terms: `Σ_p sP(p)² ≪ y log y`
 (`sP(p) ≤ 3 log y`, and for `p > y`, `sP(p) ≤ 2y log p/p`); `RR ≪ √y + Y^a log y` (even powers contribute `O(√y)`,
@@ -197,6 +245,9 @@ Mertens, since `y ≤ Y^K`. The bound is uniform in `κ`; the trivial bound is `
 ```
 Then for every `τ > 0` the number of `q ∈ P` with `|f_q(y)| > y^(1/2+τ)/2` for some `y ∈ [Y, X]` is at most
 `C_τ M Y^(−τ) |P|`, with `C_τ` depending only on `τ`.
+
+This lemma is this roadmap's own formulation and not a statement of [FormalProof], which proves only its instance for
+the sums `S_Z(y; q, κ)` used in (iv) and (iv′).
 
 *Proof sketch.* Cover `[Y, X]` by blocks `[Y′, W]`, `Y′ = 2^i Y`, `W = min(2Y′, X)`. On a block,
 `|f_q(y)|² ≤ 2|f_q(Y′)|² + 2Y′∫_{Y′}^W |g_q|²` (the primitive form and Cauchy–Schwarz), so for any choice of points
@@ -217,6 +268,11 @@ with exponents `2, 2`, applied to `|g_q|` and `1`).
 **(iv) Maximal form for the twisted prime sums.** Under
 the hypotheses of (ii), for `τ, η > 0` and `Y ≥ Y₀(K, L₁, a, τ, η)`, at most `η|P(m₀, a₀; U)|` primes `q` have
 `|S_{Y^(L₁)}(y; q, κ)| > y^(1/2+τ)/2` for some `y ∈ [Y, Y^K]`.
+
+**(iv′) The form of the formal proof.** Under the hypotheses of (ii′), for `τ, η > 0` and `Y ≥ Y₀(ε, K, τ, η)`, at most
+`η|P(m₀, a₀; U)|` primes `q` have `|S_{Y^(400K)}(y; q, κ)| > y^(1/2+τ)/2` for some `y ∈ [Y, Y^K]`. The statement (iv) is
+this roadmap's generalisation, proved by the route below; [FormalProof] proves (iv′), which follows from (iv) at
+`L₁ = 400K` and `a = 1/5` as (ii′) follows from (ii).
 
 *Proof sketch.* `min(1, y/n) − min(1, Y/n) = ∫_Y^y 1_{v<n} dv/n`, so `y ↦ S_Z(y; q, κ)` has the primitive form of (iii)
 with `g_q(v) = D_q(v) = Σ_{v<n≤Z} Λ(n)κ(n)(n/q)/n`, a step function, and `v D_q(v) = S_Z(v; q, κ·1_{(v,∞)})` is a sum of
@@ -243,6 +299,36 @@ primitive character `χ` inducing `ξ·(·/q)` (of conductor `cond(ξ)·q`):
 - (c) `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`.
 
 The values `b = 1/5`, `a = 1/4` are one admissible choice.
+
+***The form of the formal proof.*** Prove `twistSelection_fixedWidth`. The box width is `1/400`. There are absolute
+constants `C > 0` and `C₂` such that for `0 < ε ≤ 1/4`, `K ≥ 1`, `τ > 0`, `η > 0` and `R ∈ ℕ` there is `Y₀`, depending
+only on `(ε, K, τ, η, R)`, with the following property. For every `Y ≥ Y₀`, every `m₀ ≥ 1` with `8 ∣ m₀`, every `a₀`
+coprime to `m₀`, every `U` and `F` with
+```text
+(1/4)(log Y)² log m₀ ≤ log U,     Y^(ε/6) ≤ log U ≤ Y^(ε/5)(log Y)²,     1 ≤ F ≤ U^(1/2),
+every prime p ∣ m₀ satisfies p ≤ Y^(ε/5) or p > Y^(400K)
+```
+(the selection hypotheses with exponent `ε`, Conventions), and every set `Ξ` of at most `R` primitive Dirichlet
+characters of conductor `≤ F`, the set `P = P(m₀, a₀; U)` is nonempty and all but at most `η|P|` primes `q ∈ P`
+satisfy, for every `ξ ∈ Ξ` and the primitive character `χ` inducing `ξ·(·/q)` (nonprincipal, of conductor
+`cond(ξ)·q ≤ FU`):
+
+- (a′) `L(s, χ) ≠ 0` for `Re s > 1 − 1/400` and `|Im s| ≤ FU`;
+- (b′) `|(L′/L)(1, χ)| ≤ C log Y`, and `|(L′/L)(1, χ)| ≤ 1000 log log(FU) + C₂`;
+- (c′) `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`.
+
+The second bound of (b′) is the consequence of (a′) through RieszSumsOverPrimesAndExceptionalZeros §1.4f at width
+`1/400`; it is the one a consumer needs for a specific constant: with `log(FU) ≤ (3/2)Y^(ε/5)(log Y)²` it gives
+`|(L′/L)(1, χ)| ≤ (200ε + o(1)) log Y`, hence `≤ 4 log Y` for `ε < 1/50` and large `Y`. For large `Y` it also implies a
+bound `C′ log Y` with an absolute `C′`, so `Suggested.lean` states the second bound only. There (a′)–(c′) for one
+character with box height `H` are `TwistBounds χ (1/400) (1/2) C₂ H Y K τ`, the instance of `TwistBounds` at box width
+`1/400` and `ε = 1/2`, where its clause (b) reads `|(L′/L)(1, χ)| ≤ 1000 log log H + C₂`.
+
+The general statement above is this roadmap's generalisation, proved by the route below from the published theorems it
+cites; [FormalProof] proves (a′)–(c′). They follow from the general statement at `δ₀ = 1/400`, `a = b = 1/5` and with
+`1/2` for the `ε` of its (b): for `Y` large in terms of `ε` and `C₁`, the selection hypotheses give
+`log(FU) ≤ (3/2) log U ≤ Y^(1/5)`, at most `Y^(ε/5)` primes `p ≤ Y^(400K)` dividing `m₀`, and
+`C₁ log Y·(log m₀ + log Y) ≤ log U` as in 2.7a (iii′).
 
 *Proof sketch.* First let `8 ∣ m₀`. For `0 < x ≤ Z`, `G_χ(x) = −Σ_{n≤Z} Λ(n) min(1, x/n) χ(n) − x T_Z(χ)` (expand
 `min(1, x/n)` and `(L′/L)(1,χ)`). Take `Z = Y^(K/δ₀)`; since `χ(n) = ξ(n)(n/q)` for every `n`, the sum is `S_Z(x; q, ξ)`.
@@ -296,6 +382,27 @@ with `F₁U₁`, `F₂(q)U₂` in place of `FU` in the bound (b) of 2.7c. In par
 for every `q` (as `q ≤ U₁`), give the height `N₀U₁U₂` for the twists with `j = 1`, whenever `N₀U₁ ≤ U₂^(1/2)` and
 `log(N₀U₁U₂) ≤ Y^b`.
 
+**(ii′) The form of the formal proof.** Prove `twistSelection_two_of_conductorBound_fixedWidth`. Let `C, C₂` be the
+constants of 2.7c (a′)–(c′). For `ε₁, ε₂ ∈ (0, 1/4]`, `K ≥ 1`, `τ, η > 0` and `R ∈ ℕ` there is `Y₀` such that the
+following holds for `Y ≥ Y₀`. Let `N₀ ≥ 1` and let `Ξ₀` be a set of at most `R` primitive characters of conductor
+`≤ N₀`. Let `F₁ ≥ N₀` and let `(m₁, a₁, U₁, F₁)` satisfy the selection hypotheses with exponent `ε₁`. For each
+`q ∈ P(m₁, a₁; U₁)` let `F₂(q) ≥ N₀q` and let `(m₂(q), a₂(q), U₂, F₂(q))` satisfy them with exponent `ε₂`. Then
+`P(m₁, a₁; U₁)` and every `P(m₂(q), a₂(q); U₂)` are nonempty, and a proportion at least `1 − η` of the
+`q ∈ P(m₁, a₁; U₁)`, and for each such `q` a proportion at least `1 − η` of the `d ∈ P(m₂(q), a₂(q); U₂)`, have the
+property: for every `ξ ∈ Ξ₀` and `(i, j) ∈ {0,1}² ∖ {(0,0)}`, the primitive character inducing `ξ·(·/q)^i·(·/d)^j`
+satisfies (a′)–(c′) of 2.7c, with `F₁U₁` in place of `FU` if `j = 0` and `F₂(q)U₂` if `j = 1`. Its case `F₁ = N₀`,
+`F₂(q) = N₀q` is the corresponding form of (i).
+
+*The instance of the formal proof.* `0 < ε < 1/52`, `z = Y^(ε/5)`; `(m₁, a₁, U₁, F₁) = (8, 3, e^z, N₀)`, `ε₁ = ε`;
+`m₂(q) = 16·q·∏_{3≤p≤z} p`, `a₂(q)` the class that is `7` modulo `16` and `−1` modulo `q∏_{3≤p≤z} p`, `U₂ = e^{z′}`
+with `z(log Y)² ≤ z′ ≤ K²z(log Y)²`, `F₂(q) = N₀U₁`, `ε₂ = 6ε/5`; `Ξ₀` the primitive characters inducing the
+characters modulo `N₀`. The selected primes are `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p ∣ d + 1`, and
+the box heights are `N₀U₁` and `N₀U₁U₂`.
+
+The statements (i) and (ii) are this roadmap's generalisation, proved by the route below from the published theorems it
+cites; [FormalProof] proves 2.7c (a′)–(c′) and (ii′) at this instance. (ii′) follows from 2.7c (a′)–(c′) by the route
+below, with (a′)–(c′) in place of the general statement of 2.7c.
+
 *Proof sketch.* 2.7c on `P(m₁, a₁; U₁)` with `Ξ = Ξ₀` gives the pairs `(i, j) = (1, 0)`. For a good `q`, 2.7c on
 `P(m₂(q), a₂(q); U₂)` with `Ξ = {primitive characters inducing ξ·(·/q)^a : ξ ∈ Ξ₀, a ∈ {0, 1}}` (at most `2|Ξ₀|`
 characters, conductor `≤ N₀q`) gives `(0, 1)` and `(1, 1)`. The threshold of 2.7c does not depend on the
@@ -321,6 +428,10 @@ constants do not depend on `F`. So the same two applications, with `F = F₁` an
   `log(N₀U₁U₂) ≤ log N₀ + z + z(log Y)² ≤ Y^(1/5)`. So its twists with `j = 1` are zero-free up to the height `N₀U₁U₂`,
   which is the same for every `q`, while (i) gives `N₀qU₂`, smaller by the factor `U₁/q`, up to `√U₁ = e^(z/2)` when
   `log U₁ = z`.
+- The instance of (ii′) satisfies its hypotheses for `Y` large in terms of `ε, K, N₀`: `log m₂(q) ≤ 4z`, so
+  `(1/4)(log Y)² log m₂(q) ≤ z(log Y)² ≤ log U₂`; `Y^(ε₂/6) = z ≤ log U₂ ≤ K²z(log Y)² ≤ Y^(ε₂/5)(log Y)²`; the primes
+  of `m₂(q)` are `2`, the odd `p ≤ z = Y^(ε/5)` and `q > e^{z/2} > Y^(400K)`; and `log(N₀U₁) = log N₀ + z ≤ z(log Y)²/2`.
+  With `z′ = z(log Y)²` the second step is also admissible at `ε₂ = ε`.
 
 *Needs:* 2.7c.
 
@@ -342,7 +453,8 @@ AnalyticNumberTheoryPartI §§0.11, 0.12, 0.17, 0.34a, 1.7; RiemannHypothesisSta
 
 ## Downstream consumers
 
-- ThetaChainsAndFrobeniusPrimeSums, a later roadmap of the family: the selection of auxiliary primes `q`, `d` whose quadratic twists are well behaved on a window (2.7c–2.7d). Its supply of hosts on windows (the auxiliary pair `(q, d)`) applies 2.7d (ii) with `F₁ = N₀`, `F₂(q) = N₀U₁` (box heights `N₀U₁` and `N₀U₁U₂`); the consumer fixes the progressions and sizes.
+- ThetaChainsAndFrobeniusPrimeSums, a later roadmap of the family: the selection of auxiliary primes `q`, `d` whose quadratic twists are well behaved on a window (2.7c–2.7d). Its supply of hosts on windows (the auxiliary pair `(q, d)`) applies 2.7d (ii) with `F₁ = N₀`, `F₂(q) = N₀U₁` (box heights `N₀U₁` and `N₀U₁U₂`); the consumer fixes the progressions and sizes. It uses the form of the formal proof: 2.7d (ii′) at its instance (box width `1/400`; `q ≡ 3 (mod 8)`, and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p ∣ d + 1`; `0 < ε < 1/52`), with the bound `|(L′/L)(1, χ)| ≤ 4 log Y` from the second bound of 2.7c (b′).
+- FrobeniusRestrictedRieszSums, a later roadmap of the family: the zero-free boxes and the bounds for `G_χ` and `(L′/L)(1, χ)` of the twists by the auxiliary pair, in the form of the formal proof, 2.7c (a′)–(c′) and 2.7d (ii′) at its instance (box width `1/400`; the pair of progressions above).
 
 ## Scope and ownership
 
@@ -350,7 +462,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns the Jacobi symbols over the primes of a residue class (2.7a–2.7d): reciprocity on the class, orthogonality for all but one short modulus, the mean square of quadratic twists of short weighted prime sums over prime moduli and its maximal form on a window, and the selection of primes whose twists have square-root cancellation on a window together with a zero-free box and a bound for `L′/L(1)`. Its sections extend Layer 2 of [SieveMethodsAndPrimePatterns](../../SieveMethodsAndPrimePatterns/README.md) and are numbered 2.7a–2.7d after that layer's §2.7 (quadratic large sieves and real-character means); these ids are this roadmap's own and name no section of SieveMethodsAndPrimePatterns.
 
-Not owned here. SieveMethodsAndPrimePatterns §2.7 owns Heath-Brown's quadratic large sieve and the Jutila, Smith and Koymans–Pagano means, which average a real character over many moduli or over a product of two prime sets with power savings; 2.7a–2.7d average Jacobi symbols over the primes of one residue class against short moduli, through the prime number theorem in progressions, and need no quadratic large sieve. The Bombieri–Vinogradov theorem of SieveMethodsAndPrimePatterns Layer 3 is a different average (over moduli, not over the primes of one class). [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) owns Mertens's theorem, the effective gap for real zeros and the identification of real primitive characters with field characters, Page's theorem across moduli, the uniform exclusion of Landau–Siegel zeros and the log-free zero-density estimate (AnalyticNumberTheoryPartI §§0.11, 0.12, 0.34a, 0.17, 0.34, 1.7). [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) owns the control of smoothed twisted prime sums and of `L′/L(1, χ)` by a zero-free box (RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f) and Gallagher's prime number theorem in progressions in Linnik's range with its exceptional pair (RieszSumsOverPrimesAndExceptionalZeros §1.7b). [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) owns the Riesz remainder of a primitive character (§8.4a (b)), which is `G_χ` here. Although AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly, 2.7a–2.7d are stated in the form with the exceptional term, which they take from RieszSumsOverPrimesAndExceptionalZeros §1.7b; 2.7a (iv) is the exception-free form through AnalyticNumberTheoryPartI §0.34. In this family, ThetaChainsAndFrobeniusPrimeSums uses 2.7c and 2.7d (ii) for the auxiliary primes of its cyclic hosts.
+Not owned here. SieveMethodsAndPrimePatterns §2.7 owns Heath-Brown's quadratic large sieve and the Jutila, Smith and Koymans–Pagano means, which average a real character over many moduli or over a product of two prime sets with power savings; 2.7a–2.7d average Jacobi symbols over the primes of one residue class against short moduli, through the prime number theorem in progressions, and need no quadratic large sieve. The Bombieri–Vinogradov theorem of SieveMethodsAndPrimePatterns Layer 3 is a different average (over moduli, not over the primes of one class). [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) owns Mertens's theorem, the effective gap for real zeros and the identification of real primitive characters with field characters, Page's theorem across moduli, the uniform exclusion of Landau–Siegel zeros and the log-free zero-density estimate (AnalyticNumberTheoryPartI §§0.11, 0.12, 0.34a, 0.17, 0.34, 1.7). [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) owns the control of smoothed twisted prime sums and of `L′/L(1, χ)` by a zero-free box (RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f) and Gallagher's prime number theorem in progressions in Linnik's range with its exceptional pair (RieszSumsOverPrimesAndExceptionalZeros §1.7b). [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) owns the Riesz remainder of a primitive character (§8.4a (b)), which is `G_χ` here. Although AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly, 2.7a–2.7d are stated in the form with the exceptional term, which they take from RieszSumsOverPrimesAndExceptionalZeros §1.7b; 2.7a (iv) is the exception-free form through AnalyticNumberTheoryPartI §0.34. In this family, ThetaChainsAndFrobeniusPrimeSums uses 2.7c and 2.7d (ii), in the forms 2.7c (a′)–(c′) and 2.7d (ii′) of the formal proof, for the auxiliary primes of its cyclic hosts.
 
 ## Exact supplier contracts
 
@@ -377,5 +489,5 @@ RieszSumsOverPrimesAndExceptionalZeros §1.4e and its corollary (a zero-free box
 ## References
 
 - P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339: the prime number theorem in progressions in Linnik's range, with relative error and the exceptional term, that 2.7a uses in the form of RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The route of the twist-selection theorem (2.7b–2.7d) is that of this formalization (mean square over prime moduli, maximal form on dyadic blocks, zero-free boxes); the statements of these targets, with their hypotheses and constants, are derived in their routes above from the sections those routes cite: `δ₀ < 1/12` makes the bound `C_ε′ (FU)^((8+2ε′)δ₀) ≤ C_ε′ U^((3/2)(8+2ε′)δ₀)` of AnalyticNumberTheoryPartI §1.7 for the primes with a zero in the box small against `|P| ≥ U^(1−o(1))` (2.7c); `b < 1/4` (one choice for every `τ > 0`) and `a < 1/2` are the constraints that the Checks of 2.7c derive from the tail in (c) and from 2.7b (ii); the factor `(2 + ε)/δ₀` in 2.7c (b) is that of RieszSumsOverPrimesAndExceptionalZeros §1.4f at `Q = FU`; and the box heights `F₁U₁` and `F₂(q)U₂` of 2.7d are those of its two applications of 2.7c, with `F = F₁` and `F = F₂(q)`.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It proves the forms stated here as 2.7a (i′), (iii′), 2.7b (ii′), (iv′), 2.7c (a′)–(c′) and 2.7d (ii′) at its instance (box width `1/400`, truncation `Y^(400K)`, size exponent `ε ≤ 1/4`, the bounds `C log Y` and `1000 log log(FU) + C₂`, and in two steps one pair of progressions), as well as 2.7a (ii) and 2.7b (i) (there for `c = c_y`), and the route of the twist-selection theorem (2.7b–2.7d) is that of this formalization (mean square over prime moduli, maximal form on dyadic blocks, zero-free boxes). The general statements of 2.7a (i), (iii), 2.7b (ii), (iv), 2.7c and 2.7d are this roadmap's generalisation of these forms, and 2.7a (iv) and 2.7b (iii) are this roadmap's own; their hypotheses and constants are derived in their routes above from the sections those routes cite: `δ₀ < 1/12` makes the bound `C_ε′ (FU)^((8+2ε′)δ₀) ≤ C_ε′ U^((3/2)(8+2ε′)δ₀)` of AnalyticNumberTheoryPartI §1.7 for the primes with a zero in the box small against `|P| ≥ U^(1−o(1))` (2.7c); `b < 1/4` (one choice for every `τ > 0`) and `a < 1/2` are the constraints that the Checks of 2.7c derive from the tail in (c) and from 2.7b (ii); the factor `(2 + ε)/δ₀` in 2.7c (b) is that of RieszSumsOverPrimesAndExceptionalZeros §1.4f at `Q = FU`; and the box heights `F₁U₁` and `F₂(q)U₂` of 2.7d are those of its two applications of 2.7c, with `F = F₁` and `F = F₂(q)`.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
