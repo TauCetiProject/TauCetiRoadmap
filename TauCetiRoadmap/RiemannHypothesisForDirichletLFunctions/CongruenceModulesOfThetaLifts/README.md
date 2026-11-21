@@ -178,6 +178,11 @@ of 7.10c); `x₀` is a threshold of the scale.
 | `𝔠_s` | the carries | 7.16 |
 | `κ_W` | the constant of the wild-kernel budget | 7.11 |
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 7: Congruence modules, twisting and weight elimination
 
 The lattice projected from the integral forms on a definite group `U(V_j)` onto the lifted subspace has a covolume that
