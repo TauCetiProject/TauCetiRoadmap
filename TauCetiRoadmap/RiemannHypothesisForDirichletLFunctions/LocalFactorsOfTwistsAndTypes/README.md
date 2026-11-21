@@ -4,7 +4,7 @@
 
 The headline theorems are these. (1) *The local converse theorem* (6.4). Let `ψ` be a nontrivial additive character of `F`, `n ≥ 2`, and `π₁`, `π₂` irreducible generic representations of `GL_n(F)` with the same central character. If `γ(s, π₁ × τ, ψ) = γ(s, π₂ × τ, ψ)` for every irreducible supercuspidal representation `τ` of `GL_r(F)` with `1 ≤ r ≤ n − 1`, then `π₁ ≅ π₂`, and the ranks `1 ≤ r ≤ ⌊n/2⌋` suffice. (2) *Uniqueness of local Langlands correspondences* (6.5). Let `F/ℚ_p` be finite. Call a family of bijections `r_n`, `n ≤ n₀`, from the irreducible smooth representations of `GL_n(F)` onto the `n`-dimensional Frobenius-semisimple Weil–Deligne representations over `ℂ` a local Langlands correspondence in ranks `≤ n₀` if it is given by reciprocity in rank one, sends supercuspidal representations to irreducible representations of the Weil group, matches central characters with determinants, obeys the segment rule, and matches the Rankin–Selberg `ε`-factors of pairs of supercuspidal representations with the Langlands–Deligne local constants; then there is at most one such correspondence. (3) *The exponent bound* (6.3). If `F` is a nonarchimedean local field and `π ≅ δ₁ν^{α₁} × ⋯ × δ_rν^{α_r}` is an irreducible unitary generic representation of `GL_n(F)`, with `δ_i` unitary square-integrable and `α_i` real, then `|α_i| < 1/2` for every `i`. (4) *Satake bounds* (3.4, 7.2). Let `K` be a nonarchimedean local field with residue cardinality `Q`. If a character of the spherical Hecke algebra of `GL_n(K)` has a bounded spherical function, for instance if it is the eigencharacter of a spherical vector of a unitarisable representation, its Satake parameters satisfy `Q^{−(n−1)/2} ≤ |α_i| ≤ Q^{(n−1)/2}`; the same holds for the unramified unitary group in `n` variables over an unramified quadratic extension `E/F`, with `Q` the residue cardinality of `E`. Consequently, for a quadratic extension `E/F` of number fields, an irreducible automorphic representation `π` of a unitary group `U(V)` occurring in `L²` and a unitary Hecke character `χ` of `E`, the partial standard `L`-function `L^S_E(z, BC(π) ⊗ χ)` outside a finite set `S` of places containing the archimedean places and the ramification converges absolutely and is nonzero for `Re z > (n + 1)/2`.
 
-In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the Satake bounds and the standard `L`-function of a one-dimensional representation of a unitary group serve the theta lifts between definite unitary groups, the converse theorem and the uniqueness of local Langlands correspondences serve the base change of depth-zero representations, and the depth-zero comparison of Layer 2 serves the finite reductive groups.
+In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the Satake bounds and the standard `L`-function of a one-dimensional representation of a unitary group serve the theta lifts between definite unitary groups, the converse theorem and the uniqueness of local Langlands correspondences serve the identification of the trace-defined correspondence with the classical one and a second route, in ranks at most three, to the base change of depth-zero supercuspidal representations (the first route, in every rank, is by unramified base change and does not use them), and the depth-zero comparison of Layer 2 serves the finite reductive groups.
 
 Layer 1 characterises the tempered representations of `GL_n` as the irreducible products of unitary square-integrable representations. Layer 2 identifies the depth-zero part of a Jacquet module with Harish-Chandra restriction on the finite reductive quotient of a parahoric subgroup, through the invertibility of a positive Hecke operator, which is proved with the Hecke algebras of depth-zero types. Layer 3 bounds Hecke eigenvalues by bounded coefficients, states the Macdonald formula for every residue cardinality, sums the unitary doubling series, and deduces the Satake bounds for bounded spherical functions. Layer 4 states the Zelevinsky classification and the properties of the classical correspondence that Layer 6 uses, with a Check that they do not determine it. Layer 5 defines the generalized Riemann hypothesis of a unitary cuspidal representation of `GL_n`. Layer 6 proves the convergence of the mirabolic self-pairing of a square-integrable representation near `s = 0`, the multiplicativity of `γ`-factors, the exponent bound, the local converse theorem and the uniqueness of local Langlands correspondences, and defines the generalized Riemann hypothesis of a Rankin–Selberg pair. Layer 7 computes the standard `L`-function of a one-dimensional representation of a unitary group and proves the Satake bounds for unitary unramified representations with the absolute convergence they give. The layers follow the order of the sections of the home roadmaps that they extend; Layer 1 uses the classification of Layer 4, which does not use Layer 1.
 
@@ -20,7 +20,8 @@ This layer extends SmoothRepresentationsOfLocalGroups §SR.3.3: for `GL_n` the t
 
 ### 1.1 Tempered representations of `GL_n` are irreducible products of unitary square-integrable representations
 
-For `GL_n` over any nonarchimedean `F`: an irreducible `π` is tempered iff `π ≅ δ₁ × ⋯ × δ_h` with `δ_i` unitary
+For `GL_n` over any nonarchimedean `F` (the family uses it for `F` of characteristic zero): an irreducible `π` is
+tempered iff `π ≅ δ₁ × ⋯ × δ_h` with `δ_i` unitary
 square-integrable, and every such product is irreducible; hence SmoothRepresentationsOfLocalGroups §SR.3.3 *harish-chandra-tempered-support* holds for `GL_n`
 and SmoothRepresentationsOfLocalGroups §SR.3.3 *langlands-classification* is unconditional for `GL_n`. *Route:* the irreducibility of the products is 4.1 (ii)
 (Zelevinsky 1980, Theorem 9.7 (a)): by 4.1 (v) a unitary square-integrable representation is `L([ρν^{−x}, …, ρν^{x}])` with `ρ`
@@ -59,6 +60,13 @@ Harish-Chandra restriction of the representation `π^{G_{x,0+}}` of the finite r
 `G_{x,0}/G_{x,0+}` to its Levi quotient `M_{x,0}/M_{x,0+}` is the depth-zero part of the Jacquet module. In particular,
 if `π` is supercuspidal, `π^{G_{x,0+}}` is a cuspidal representation of `G_{x,0}/G_{x,0+}`. For `G = GL_n`, `x` the vertex
 fixed by `GL_n(𝒪)` and `P` standard: `(π^{K₁})^{N(k)} ≅ (π_N)^{M∩K₁}` as `M(k)`-modules.
+
+The case that this family uses is `G = GL_n`, `x` the vertex fixed by `GL_n(𝒪)` and `P` a standard parabolic
+subgroup: there the map `(π^{K₁})^{N(k)} → (π_N)^{M∩K₁}` is injective for every smooth `π` and bijective for every
+admissible `π`, and an irreducible `π` has `π^{K₁} ≠ 0` if and only if every member of its supercuspidal support
+has nonzero invariants under the corresponding subgroup of its own group ("if" being used for `F` of
+characteristic zero). The statements (a)–(d) for a general `G`, a general point `x` and every smooth `π` go beyond
+that case; (c) and the injectivity in (d) are then this roadmap's, by the route below.
 
 *Route.* (a) "⇒": let `π ↪ i_P σ` with `σ` supercuspidal on `M` (SmoothRepresentationsOfLocalGroups §SR.3a.1 *jacquet-subrepresentation*), and `π^{G_{x,0+}} ≠ 0` for
 some `x`, which may be taken in the apartment of a maximal split torus `S ⊂ M`. Then `G = P·N_G(S)·G_{x,0}`: choose a
@@ -286,7 +294,13 @@ whose basis element `[K₀gK₀]` is `1_{K₀gK₀}`, and `θ` is a ring homomor
 and the Satake parameter is characterised by the eigenvalues `θ(T_r) = Q^{r(n−r)/2}e_r(α)`, `0 ≤ r ≤ n`, of the operators
 `T_r = [K₀ diag(ϖ, …, ϖ, 1, …, 1) K₀]` (`heckeT`, with `r` entries `ϖ`) of SmoothRepresentationsOfLocalGroups §SR.4.3
 *gln-generators*. The condition that `K₀` and `GL_n(K)` form a Hecke triple, which holds for every compact open subgroup, is
-a hypothesis of the statement.
+a hypothesis of the statement. For `K` of characteristic zero this statement follows from 3.1 and from the upper bound
+for the parameter of a `K₀`-fixed eigenvector with a bounded coefficient, applied to `θ` and to the character
+`h ↦ θ(h^∨)`, `h^∨(g) = h(g⁻¹)`, whose spherical function is `g ↦ ω_θ(g⁻¹)` and whose parameter is `α⁻¹`. For `K` of
+positive characteristic, and for a bounded spherical function that is not a coefficient of a unitarisable
+representation, it is this roadmap's statement, proved by the route below, which uses only Hermite normal forms over
+`𝒪_K` and SmoothRepresentationsOfLocalGroups §SR.4.3 *gln-generators*. The unitarisable case with the parameter read
+from the unramified principal series is 7.2 (i) and holds over every `K`.
 
 *Route.* By 3.1, `|θ(h)| ≤ ‖h‖₁` for every `h`. (i) Let `S_m ⊂ G/K₀` be the cosets of the
 integral matrices whose determinant has valuation `m` (the sublattices of index `Q^m` of `𝒪_K^n`); it is `K₀`-stable,
@@ -337,11 +351,16 @@ For `F` any nonarchimedean local field: (i) every irreducible `π` of `GL_n(F)` 
 `Δ_i` are pairwise unlinked; (iii) the Jacquet module of `Z(Δ)` along the partition `(d, …, d)` is
 `ρν^a ⊗ ⋯ ⊗ ρν^b` for `Δ = [ρν^a, …, ρν^b]`; (iv) `R = ⊕_n K₀(GL_n(F))` with the parabolic product is the
 polynomial ring `ℤ[X_Δ]` on segments, `X_Δ = [Z(Δ)]`; (v) an irreducible `π` is essentially square-integrable iff
-`π ≅ L(Δ)` for a segment `Δ`; (vi) if no member of the cuspidal support of `π₁` is `σ'ν^j` with `|j| ≤ 1` and `σ'`
+`π ≅ L(Δ)` for a segment `Δ`; (vi) if no member of the cuspidal support of `π₁` is `σ'ν^j` with `j ∈ {−1, 0, 1}` and `σ'`
 in the cuspidal support of `π₂`, then `π₁ × π₂` is irreducible; (vii) an irreducible `π` is generic iff
 `π ≅ L(Δ₁) × ⋯ × L(Δ_r)` for pairwise unlinked segments `Δ_i`, and the multisegment `Δ₁ + ⋯ + Δ_r` is then determined by
 `π`. For `F/ℚ_p`, (vii) is the case of complex coefficients of SmoothRepresentationsOfLocalGroups §SR.5.2
-*modular-generic-segments*. *Route:* Zelevinsky (Ann. Sci. ÉNS 1980) with Bernstein–Zelevinsky derivatives
+*modular-generic-segments*. Of these clauses the family uses (iii), (iv) and (vi) over every nonarchimedean local field,
+and (i) in the form `L(𝔪′)`, (v) and "generic ⇒ product" of (vii) over fields of characteristic zero. Of (ii) it uses
+three cases: a product of two irreducible unitarisable representations is irreducible; so is a product of two
+irreducible representations when no member of the supercuspidal support of one is an unramified twist of a member of
+the support of the other; and so is one under the hypothesis of (vi).
+*Route:* Zelevinsky (Ann. Sci. ÉNS 1980) with Bernstein–Zelevinsky derivatives
 (SmoothRepresentationsOfLocalGroups §SR.5.1 *mirabolic-derivatives*) and the geometric lemma: (i), in the form `Z(𝔪)`, is
 Theorem 6.1; (ii) is Theorems 4.2 and 9.7 (a); (iii) is Proposition 3.4; (iv) is Corollary 7.5; (v) is Bernstein's
 Theorem 9.3, of which Zelevinsky derives "`L(Δ)` is essentially square-integrable" from Casselman's criterion and states the
@@ -493,7 +512,9 @@ Let `F` be a nonarchimedean local field and `π` an irreducible unitary generic 
 an irreducible product `δ₁ν^{α₁} × ⋯ × δ_rν^{α_r}` with `δ_i` unitary square-integrable and `α_i` real (4.1 (v), (vii)). Then `|α_i| < 1/2` for every `i`. Part of the target: for a unitary square-integrable `δ`,
 `L(s, δ × δ^∨)` has a pole at `s = 0`. In particular, if every `δ_i` is supercuspidal, two members `δ_iν^{α_i}`,
 `δ_jν^{α_j}` of the supercuspidal support satisfy `|α_i − α_j| < 1`, and so do the characters `ν^{α_i}∘N_{L/F}` after any
-finite extension `L/F`.
+finite extension `L/F`. The family uses the bound for `F` of characteristic zero, where the exponents `α_i ≠ 0` moreover
+occur in pairs `±α` with the same `δ` (the complementary series); for `F` of positive characteristic the statement
+rests on the route below alone.
 
 *Route.* (1) The pole. Take `Φ = 1_{𝒪^n}`, the characteristic function of `𝒪^n`, and write the equal-rank integral
 `Ψ(s, W, W̃, Φ)` in the coordinates `g = z·p·k` (centre, mirabolic `P`, `K = GL_n(𝒪)`): the central characters of `δ` and `δ^∨`
@@ -533,6 +554,10 @@ last statements: `|α_i − α_j| ≤ |α_i| + |α_j|`, and `ν^α∘N_{L/F} = �
 Let `F` be a nonarchimedean local field, `ψ` nontrivial, `n ≥ 2`, and `π₁`, `π₂` irreducible generic
 representations of `GL_n(F)` with the same central character. If `γ(s, π₁ × τ, ψ) = γ(s, π₂ × τ, ψ)` for every
 irreducible supercuspidal `τ` of `GL_r(F)` with `1 ≤ r ≤ n − 1`, then `π₁ ≅ π₂`. The ranks `1 ≤ r ≤ ⌊n/2⌋` suffice.
+The special case with `π₁`, `π₂` supercuspidal, `F` of characteristic zero and `τ` running over all irreducible
+representations of `GL_{n−1}(F)` alone (where `γ = ε`, and no hypothesis on central characters is needed) is
+Henniart's Théorème 1.1 (Henniart 1993); the statement for generic `π_i`, the reduction to supercuspidal twists (6.2),
+the half range and positive characteristic rest on the sources cited in the route.
 
 *Route.* By 6.2 the hypothesis extends from supercuspidal to all irreducible generic `τ` of the same ranks.
 For `1 ≤ r ≤ n − 1`, Henniart's theorem (Henniart 1993, Théorème 1.1 and its corollary, recalled in Henniart 2002, §1.4,
@@ -578,7 +603,13 @@ SmoothRepresentationsOfLocalGroups §SR.5.2 *classical-llc-normalization*, trans
 correspondence in every rank. This is not a target of this roadmap: it is the input theorem of
 SmoothRepresentationsOfLocalGroups §SR.5.2 (the theorem of Harris–Taylor 2001 and Henniart 2000; Henniart 1993, corollary
 of Théorème 1.1, recalled in Henniart 2002, §1.4, pp. 589–590, for the characterisation by property 5), stated here because the pair factors of property 5 are defined here, and it does
-not follow from what SmoothRepresentationsOfLocalGroups §SR.5.2 states (property 5 cannot be stated there).
+not follow from what SmoothRepresentationsOfLocalGroups §SR.5.2 states (property 5 cannot be stated there). The
+family's base change of depth-zero representations does not use property 5 or the uniqueness. It uses, for a map from
+irreducible representations to Weil–Deligne representations in the geometric normalisation: property 1; property 2;
+the segment rule 4; compatibility with the twists `ν^s`, `s` real; the equality of dimensions; and, for the
+representations whose supercuspidal support consists of characters and of twists by characters of depth-zero
+supercuspidal representations, compatibility with twists by characters and with contragredients, property 3,
+injectivity, and tameness of the image when the representation has depth zero.
 
 *Route.* The restriction statement is the definition. The statement on `rec` is not proved here: read with this
 definition, 4.2 lists the bijection and properties 1–4 in the arithmetic normalisation, and property 5 is part of the
@@ -811,3 +842,5 @@ Layer 9: the Weil group and the local reciprocity map, with its normalisation, u
 - Hervé Jacquet and Baiying Liu, On the local converse theorem for `p`-adic `GL_n`, Amer. J. Math. 140, 2018: Theorem 1.3, proving Conjecture 1.1, numbered as in arXiv:1601.03656v3 (6.4).
 - Jingsong Chai, Bessel functions and local converse conjecture of Jacquet, J. Eur. Math. Soc. 21, 2019: Theorem 1.1, numbered as in arXiv:1601.05450v2 (6.4).
 - Michael Harris, Stephen S. Kudla and William J. Sweet, Theta dichotomy for unitary groups, J. Amer. Math. Soc. 9, 1996: §6, the standard `L`-function of the trivial representation in the Rallis inner product (7.1).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the Hecke eigenvalue bound from bounded coefficients (3.1 (a), (c)), of the unitary doubling series and its cell lemma (3.3), of the Satake bound for the unramified unitary group (3.4 (ii)), of the standard `L`-function of the trivial representation at an unramified inert place (7.1) and of the Satake bounds for unitary unramified representations with the absolute convergence they give (7.2); and it has the forms of the Macdonald formula (3.2), of 2.1 (a) for `GL_n`, of 4.1 (iii), (iv) and (vi) and, for `F` of characteristic zero, of the exponent bound (6.3) that the family uses.
+- **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
