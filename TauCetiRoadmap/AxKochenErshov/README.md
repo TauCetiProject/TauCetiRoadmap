@@ -236,9 +236,27 @@ Mathlib `ValuationSubring.valuation`, `HahnSeries`, `HahnSeries.addVal`, `Cardin
 
 ### 3.1 Hensel configurations
 
-`f, a` is in *Hensel configuration* when `f'(a) ≠ 0` and either `f(a) = 0` or `|f(a)| < |f'(a)|²`
-with the root bound of van den Dries Def. 4.19. In a henselian field, `f` then has a unique root in
-the corresponding ball (Lem. 4.20).
+For `f ∈ K[X]` and `a ∈ K`, write `f(a + X) = f(a) + f'(a)X + Σ_{i ≥ 2} f_i(a)Xⁱ`. The pair
+`f, a` is in *Hensel configuration* (van den Dries Def. 4.19) when `f'(a) ≠ 0` and either
+`f(a) = 0`, or `f(a) ≠ 0` and, with `γ = |f(a)/f'(a)|`,
+
+`|f_i(a)|·γⁱ < |f(a)|` for every `i ≥ 2`.
+
+In a henselian field, `f` then has a unique root `b` with `|b − a| ≤ γ`, and `|b − a| = γ`
+(Lem. 4.20); when `f(a) = 0` the root is `b = a`. The route: substituting `X = (f(a)/f'(a))·Y`
+and dividing by `f(a)` gives `g(Y) = 1 + Y + Σ_{i ≥ 2} cᵢYⁱ` with `|cᵢ| = |f_i(a)|γⁱ/|f(a)| < 1`,
+so `g ∈ V[Y]` reduces to `1 + Y`. Hensel's lemma lifts the simple residue root `−1` to the unique
+root of `g` in `V`, and that root is a unit. The roots of `g` in `V` are the `(b − a)f'(a)/f(a)`
+with `|b − a| ≤ γ`.
+
+**Checks.**
+
+- `f ∈ V[X]`, `a ∈ V`: then `|f_i(a)| ≤ 1`, so `|f(a)| < |f'(a)|²` gives `γ < 1` and
+  `|f_i(a)|γⁱ ≤ γ² < |f(a)|`. The classical Hensel inequality is a special case.
+- The inequality alone is not enough for `f ∉ V[X]`. Over `ℚ_p` take `f = p⁻²X² + X + p` and
+  `a = 0`: `|f(0)| = |p| < 1 = |f'(0)|²`, but `f` has no root in `ℚ_p`. Its Newton polygon is the
+  single segment from `(0, 1)` to `(2, −2)`, so both roots have valuation `3/2`. The condition
+  above fails, since `|f_2(0)|γ² = |p|⁻²|p|² = 1 ≮ |p|`.
 
 ### 3.2 Henselian is algebraically maximal
 
