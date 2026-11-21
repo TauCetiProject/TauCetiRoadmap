@@ -199,7 +199,8 @@ maximal tori to `F`-classes of `W` (`w ∼ v⁻¹wF(v)`); `N_{G^F}(T)/T^F ≅ {v
 
 Every `g ∈ G^F` is uniquely `g = su = us` with `s` semisimple of order prime to `p` and `u` unipotent of
 `p`-power order, both powers of `g`. For semisimple `s ∈ G^F`, `C_G(s)°` is a rational connected reductive
-subgroup containing every maximal torus through `s`; `s` is **regular** when `C_G(s)°` is a maximal torus.
+subgroup containing every maximal torus through `s`; `s` is **regular** when `C_G(s)°` is a maximal torus (Steinberg
+1965, 2.7 (a) and 2.11, p. 53, stated there for semisimple `G`).
 For `G = GL_n`, `C_G(s)` is connected; if the characteristic polynomial of `s` is `∏_f f^{m_f}` over
 monic irreducible `f ≠ X`, then `C_{G^F}(s) ≅ ∏_f GL_{m_f}(𝔽_{q^{deg f}})`; `s` is regular exactly when the
 characteristic polynomial is squarefree, and `C_{G^F}(s) ≅ 𝔽_{q^n}^×` (with `s` regular and its
@@ -264,7 +265,8 @@ Borel subgroup. (c) If a regular unipotent `u` lies in a parabolic subgroup `P =
 block, the class `u_{(n)}` of the Conventions. Over `ℂ` the Lie-algebra form of (a) and (b), for regular nilpotent elements
 (simple-component criterion in `𝔫`, unique Borel subalgebra), is FormalConnectionsOpers §4.3.
 
-*Route.* (a), (b) are Steinberg's theorems on regular elements (Steinberg 1965, §§3–4): for `u ∈ U₀` with all
+*Route.* (a), (b) are Steinberg's theorems on regular elements (Steinberg 1965, Lemma 3.2 and Theorem 3.3,
+pp. 54–55, stated there for semisimple `G`): for `u ∈ U₀` with all
 simple components nontrivial, on a Bruhat cell `U₀ẇB₀/B₀ ≅ U_{w}` (ReductiveGroups Layer 7) the commutator
 relations (Layers 7C, 9) show that `u` fixes a point only for `w = 1`, so `B₀` is the only Borel subgroup
 containing `u`; `C_G(u)` then lies in `B₀`, and the same commutator computation gives `dim C_{B₀}(u) = dim T₀`
@@ -595,8 +597,8 @@ cuspidal, let `(∏_{i≤r} GL_{n_i}, ⊠_i σ_i)`, `r ≥ 2`, be its cuspidal s
 `*R_{GL_{n−n_r}×GL_{n_r}}^{GL_n}(π)` has a constituent `τ ⊠ σ_r`, and `σ_r`, cuspidal of smaller rank, is
 generic by induction on `n`, so `π^{(n_r)} ≠ 0` with `n_r < n`. The degree count:
 `|P_n(𝔽_q)|/|U^F| = ψ_{n−1}(q)`.
-The degree bound for generic representations is in [FormalProof],
-`Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/GGMirabolic.lean` (`Formalism.L2.SG.GGMirabolic.MirabolicBound`).
+The degree bound for generic representations is stated in [FormalProof] as
+`Formalism.L2.SG.GGMirabolic.MirabolicBound` (`Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/GGMirabolic.lean`).
 (c) A unipotent element fixes a nonzero linear form, hence is conjugate into
 `P_n`, and by (b) `π|_{P_n} = ρ_n` with `ρ_k = (Φ⁺)^{k−1}Ψ⁺(1)` on `P_k`. Claim, by induction on `k`: the value
 of `ρ_k` at a unipotent `u ∈ P_k` with `ℓ` Jordan blocks (in `GL_k`) is `f_k(ℓ) = (−1)^{k−ℓ}∏_{i=1}^{ℓ−1}(q^i − 1)`;
@@ -824,10 +826,10 @@ The bounds concern the whole Harish-Chandra induced representation `R_L^G σ`, n
 (`GlobalTheory.T.degenerateWhittakerDim_parabolicInduction_cuspidal`),
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymmetricPositionCharMultiplicityParabolicInduct.lean`
 (`GlobalTheory.FinGL.nPos_parInd`);
-(b) follows from [FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/MultSharpOfPlaceBound.lean`
-(`GlobalTheory.FinGL.MultSharpPf.PlaceBound`),
+(b) follows from [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/SumNumBlockSetsMulGammaTwoSidedBounds.lean`
-(`GlobalTheory.FinGL.sum_numBlockSets_mul_gamma_two_sided_bounds`);
+(`GlobalTheory.FinGL.sum_numBlockSets_mul_gamma_two_sided_bounds`), and is stated there as
+`GlobalTheory.FinGL.MultSharpPf.PlaceBound` (`Development/AbelianVarietyTheory/Proofs/DivisorProofs/MultSharpOfPlaceBound.lean`);
 the product bounds of (c) follow from [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/MultSharpOfPlaceBound.lean`
 (`GlobalTheory.FinGL.MultSharpPf.levelMult_ofLocal`).
@@ -2056,8 +2058,7 @@ LocalFactorsOfTwistsAndTypes §2.1 (a) and (d), which Layer 6 imports. For an ad
 standard parabolic `P = MN`, `M = GL_{n₁} × ⋯ × GL_{n_r}`, the projection to the Jacquet module induces an
 isomorphism of `M(k)`-modules `(π^{K₁})^{N(k)} ≅ (π_N)^{M ∩ K₁}`, that is `*R_{M(k)}^{GL_n(k)}(π^{K₁}) ≅ (π_N)^{M∩K₁}`
 (injectivity for every smooth `π`). In particular a supercuspidal `π` has `π^{K₁}` cuspidal as a `GL_n(k)`-module, and an
-irreducible `π` has depth zero iff every member of its supercuspidal support does ("if" being used for `F` of
-characteristic zero).
+irreducible `π` has depth zero iff every member of its supercuspidal support does.
 
 *Reading.* The comparison is LocalFactorsOfTwistsAndTypes §2.1 (d) for `G = GL_n`, `x`
 the vertex fixed by `K` and `P` standard: there `J = K₁N(𝒪)`, so `π^J = (π^{K₁})^{N(k)}`, and `M_{x,0+} = M ∩ K₁`;
@@ -2142,6 +2143,17 @@ zero. If its supercuspidal support is `{π_{θ̃_1}, …, π_{θ̃_r}}`, with `�
 constituent of the `GL_n(k)`-module `π^{K₁}` lies in the Harish-Chandra series of `(∏_i GL_{n_i}(k), ⊠_i σ_{θ_i})`;
 equivalently its semisimple label (5.7) is the **label of `π`**, `m_π(O) = #{i : θ_i ∈ O}`. The label of
 `π ⊗ (χ∘det)` for tamely ramified `χ` is the translate of `m_π` by `χ|_{𝒪^×}`.
+In [FormalProof] these statements are made for complex representations, with depth zero taken to mean `π^{K₁} ≠ 0`: that a
+`K₁`-fixed vector of `π` gives one in every member of its supercuspidal support, for every nonarchimedean local field `F`;
+the converse, and the statement on labels, only for `F` of characteristic zero, the latter in this form: every member `x`
+of the support is supercuspidal of depth zero, the character of `x^{K₁}` is that of a `σ_θ` with `θ` regular, and the
+character of `π^{K₁}` has a nonzero inner product with the Harish-Chandra product of these characters (so some irreducible
+constituent of `π^{K₁}` lies in the series). The statement for every constituent, the converse and the labels in positive
+characteristic, and the rule for twists are this roadmap's, by the route below, which does not use the characteristic (the
+converse through LocalFactorsOfTwistsAndTypes §2.1 (a)). The first of these statements is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/DepthZeroSupport.lean`
+(`GlobalTheory.Published.DepthZeroSupport`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsContractNeZero.lean` (`GlobalTheory.SmGL.depthZeroSupport`).
 
 *Route.* The equivalences from 6.0 and 6.1. Labels: embed `π` in the normalised induction from its cuspidal
 support (SmoothRepresentationsOfLocalGroups SR.3.1); by the Iwasawa decomposition `GL_n(F) = P·K`, a
@@ -2167,6 +2179,14 @@ contains every irreducible representation whose supercuspidal support consists o
 stable under twisting by characters, contragredients, and the passage to subquotients of parabolic
 inductions of its members, and for `n = 1` consists of all characters. Its members `π` with `χ` tamely
 ramified throughout are exactly those of depth zero.
+In [FormalProof] the class has this form: every member of the supercuspidal support is a character of `F^×`, or `F` is
+isomorphic to a field `ℚ_p` and the member is `χ ⊗ π₀` with `π₀` of depth zero; members of rank at least two are thus
+admitted only over the fields `ℚ_p`. Its properties are stated there for complex representations and `F` of
+characteristic zero: a twist or the contragredient of a supercuspidal member of the class is in the class; a Langlands
+quotient is in the class if and only if the supercuspidal representations at the beginnings of its segments are; and for
+`π₀` irreducible of depth zero, `χ ⊗ π₀` has depth zero if and only if `χ` is tamely ramified. The class over every
+nonarchimedean local field, positive characteristic included, and its stability under subquotients of parabolic
+inductions, are this roadmap's, by the route below.
 
 *Route.* Definitions and SR.3.1 (supercuspidal support of subquotients and twists); 6.3 for the last
 statement.
@@ -2175,7 +2195,7 @@ statement.
 
 ### 6.5 The local type statement
 
-Let `F` be a nonarchimedean local field whose residue field `k` has prime order `p`, `a, b ≥ 1`, and
+Let `F` be a nonarchimedean local field with residue field `k ≅ 𝔽_q`, `a, b ≥ 1`, and
 `J ⊂ GL_{a+b}(𝒪_F)` the group of the matrices whose lower left `b × a` block is `≡ 0` and whose upper left `a × a` block is
 `≡ 1` modulo `ϖ`. Let `χ` be a tamely ramified character of `F^×` with reduction `α` on `k^×`, and `f` a label of degree `a`
 over `k` in which the orbit `{α}` does not occur (in the labelled form of 5.7, `P_O` does not divide `f` for `O = {α}`).
@@ -2184,9 +2204,9 @@ Let `π` be an irreducible smooth representation of `GL_{a+b}(F)` with a vector 
 does not kill `x`: `Σ_{g∈GL_a(k)} z_f(g)·π(g̃)x ≠ 0`, with `g̃ ∈ GL_a(𝒪_F)`, in the upper left block, a lift of `g`. Then
 `π ≅ π₁ × ((χ∘det) ⊗ π_sph)` (parabolic induction, irreducible), with `π_sph` an irreducible spherical representation of
 `GL_b(F)` and `π₁` an irreducible representation of `GL_a(F)` having a vector fixed by `1 + ϖM_a(𝒪_F)` that `z_f` does not
-kill; so `π₁` has depth zero and, by 6.3, label `f`. The label `f` need not be squarefree. This is the statement of
-[FormalProof], which has it for residue fields of prime order; for a general finite residue field it is not claimed
-here.
+kill; so `π₁` has depth zero and, by 6.3, label `f`. The label `f` need not be squarefree. [FormalProof] has this
+statement for residue fields of prime order (`q = p`); for every finite residue field it is this roadmap's own, by the
+route below, which nowhere uses that `q` is prime.
 
 *Route.* The Jacquet module of `π` along the parabolic subgroup of type `(a, b)` has an irreducible subquotient carrying the
 vector `x` with both block actions (injectivity of the Jacquet map on vectors of depth zero, 6.0). Hence at least `b`
@@ -2194,7 +2214,7 @@ members of the supercuspidal support of `π` are unramified twists of `χ`. If m
 would place one of them in the `GL_a` block, and `α` would occur in `f` (6.3). So exactly `b` are, and `π` is the product
 of a representation `π₁` of `GL_a(F)` and a representation `π₂` of `GL_b(F)` with disjoint, hence unlinked, supports:
 irreducible (Bernstein–Zelevinsky). `π₂ ⊗ χ^{−1}∘det` is spherical, and by the geometric lemma again the vector comes
-from `π₁`. *Status.* Statement of [FormalProof].
+from `π₁`. *Status.* For `q = p`, statement of [FormalProof].
 
 *Needs:* 6.0, 6.3; 5.7; SmoothRepresentationsOfLocalGroups SR.2.2 (Jacquet functors and parabolic induction), SR.3.1
 (supercuspidal support).
@@ -2228,9 +2248,6 @@ Layers 1 and 5; SmoothRepresentationsOfLocalGroups SR.2.1, SR.2.2, SR.3.1 and SR
   rank two the separation of cuspidal representations by their twisted Gauss sums), 5.11 (Shintani descent: the matching
   of functions inflated from the residue field and the lift of labels under unramified base change of prime degree, which
   give the inertial types of depth-zero supercuspidal representations in every rank), 1.1 and 6.1–6.4.
-- **LocalGaloisDeformationRings** §2.26.2 constructs the finite `GL` character induction and the level-zero virtual
-  classes from Deligne–Lusztig character formulas; the general finite-group part of that construction is 1.2–1.4,
-  4.2–4.7 and 5.2–5.6.
 - **The theta-chain roadmaps of this family** (ThetaChainsOnDefiniteUnitaryGroups, RowTowerAndRallisIdentities,
   BesselPoincareSeriesAndGramBounds, CongruenceModulesOfThetaLifts,
   ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties, GluedTargetAndDivisionInequality and
@@ -2321,6 +2338,10 @@ It does not own, and consumes by name:
   **SmoothRepresentationsOfLocalGroups**; the depth of the supercuspidal support and the depth-zero Jacquet comparison:
   **LocalFactorsOfTwistsAndTypes** §2.1, a sub-roadmap of this family;
   Moy–Prasad filtrations and the Cartan and Iwasawa decompositions: **ReductiveGroupsPartII**.
+
+LocalGaloisDeformationRings §2.26.2 constructs the finite `GL` character induction and the level-zero virtual classes
+from Deligne–Lusztig character formulas and keeps their degree, sign and restriction identities as part of that target;
+for those classes they are cases of the general statements 1.2–1.4, 4.2–4.7 and 5.2–5.6 above.
 
 The BN-pairs of the fixed-point groups on the explicit Chevalley carriers of the finite groups of Lie type are
 CFSGBasicProperties T1–T3's; 0.1 states the rational Bruhat decomposition for every `G^F`, and on those carriers
@@ -2464,7 +2485,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
   restriction of the Steinberg character to a Sylow `p`-subgroup).
 - L. Solomon, *The orders of the finite Chevalley groups*, J. Algebra 3 (1966): 4.6(a), (c) (the alternating sum
   over parabolic subgroups of a Coxeter group).
-- R. Steinberg, *Regular elements of semisimple algebraic groups*, Publ. Math. IHÉS 25 (1965): 0.5.
+- R. Steinberg, *Regular elements of semisimple algebraic groups*, Publ. Math. IHÉS 25 (1965): 0.3, 0.5.
 - J. A. Green, *The characters of the finite general linear groups*, Trans. AMS 80 (1955), 402–447: 5.2, 5.4–5.6 (with the
   basic characters of 5.6(b)).
 - T. Shintani, *Two remarks on irreducible characters of finite general linear groups*, J. Math. Soc. Japan 28 (1976):
@@ -2507,5 +2528,4 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
   characters in Harish-Chandra induced cuspidal representations and their near-constancy over several places), of the
   lower bound of 5.8 (c), of 5.11 (e) in the form stated (the lift of labels in prime degree), and of 6.5 (the local type
   statement, for residue fields of prime order).
-- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>. Cited
-  at 2.7(b) and 2.8.
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
