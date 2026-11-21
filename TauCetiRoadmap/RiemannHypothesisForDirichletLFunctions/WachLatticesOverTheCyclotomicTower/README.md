@@ -1,6 +1,6 @@
 # Roadmap: Wach lattices over the cyclotomic tower
 
-**Summary.** Let `p` be an odd prime, `F/ℚ_p` a finite unramified extension of degree `n`, and `E/ℚ_p` a finite extension with valuation ring `O_E`, uniformizer `λ` and residue field `k`, containing the images of the embeddings of `F`. A crystalline `E`-representation `V` of `G_F` with a `G_F`-stable `O_E`-lattice `T` has a Wach lattice `N(T)` over `O_E⊗W(k_F)[[π]]`, on which `Γ_F` acts trivially modulo `π` and Frobenius has bounded `q`-height, `q = φ(π)/π`. This roadmap reduces Wach lattices modulo `λ` and follows, with explicit exponents, what the reduction remembers when the Hodge–Tate weights are much larger than `p`, beyond the Fontaine–Laffaille range. On the invariants of the torsion subgroup `Γ_F^{tor}` of `Γ_F ≅ ℤ_p^×` the reduction becomes a family `N̄(T) = (N̄_i)_{i∈ℤ/n}` of `k[[X]]`-lattices, one for each embedding of `F`, in an étale `(φ,γ)`-module over `k((X))`, where `X` is the reduction of the trace of `π` under `Γ_F^{tor}`.
+**Summary.** Let `p` be an odd prime, `F/ℚ_p` a finite unramified extension of degree `n`, and `E/ℚ_p` a finite extension with valuation ring `O_E`, uniformizer `λ` and residue field `k`, containing the images of the embeddings of `F(ζ_p)`. A crystalline `E`-representation `V` of `G_F` with a `G_F`-stable `O_E`-lattice `T` has a Wach lattice `N(T)` over `O_E⊗W(k_F)[[π]]`, on which `Γ_F` acts trivially modulo `π` and Frobenius has bounded `q`-height, `q = φ(π)/π`. This roadmap reduces Wach lattices modulo `λ` and follows, with explicit exponents, what the reduction remembers when the Hodge–Tate weights are much larger than `p`, beyond the Fontaine–Laffaille range. On the invariants of the torsion subgroup `Γ_F^{tor}` of `Γ_F ≅ ℤ_p^×` the reduction becomes a family `N̄(T) = (N̄_i)_{i∈ℤ/n}` of `k[[X]]`-lattices, one for each embedding of `F`, in an étale `(φ,γ)`-module over `k((X))`, where `X` is the reduction of the trace of `π` under `Γ_F^{tor}`.
 
 The headline theorems are these. (1) If the Hodge–Tate weights `HT_i(V)` lie in `[−a_i, b_i]` with `a_i, b_i ≥ 0`, each `N̄_i` is free of rank `dim V` over `k[[X]]`, with `φ_i^*N̄_{i−1} ⊂ X^{−a_i}N̄_i`, `X^{b_i}N̄_i ⊂ φ_i^*N̄_{i−1}` and `(γ − 1)N̄_i ⊂ XN̄_i`, and the operator `X^{−1}(γ − 1)` on `N̄_i/XN̄_i` has characteristic polynomial `∏_{u∈HT_i(V)}(Y − ū)`. Conversely, if `T` is a stable lattice in any `E`-representation `V` and a finite free `O_E⊗A_F^+`-submodule `N` spanning `D(T)` satisfies `q^{a_i}e_iφ(N) ⊆ N`, `q^{b_i}e_iN ⊆ φ^*N` and `(g − 1)N ⊆ πN` for all `g ∈ Γ_F`, then `V` is crystalline with `HT_i(V) ⊂ [−a_i, b_i]` and `N = N(T)`. (2) Let `ρ` be crystalline of dimension `r` with weights `HT_i(ρ) = U_i` and a stable lattice `T₀`, and let `χ_c = χ_1χ_cyc^{−(c−1)}` (`1 ≤ c ≤ t`) be crystalline characters with `HT_i(χ_c) = {w_i + c − 1}`; call a finite `O_E[G_F]`-module admissible if it is isomorphic to `L₁/L₂` for stable lattices `L₂ ⊂ L₁` in a finite sum of crystalline representations with weights `U_i ⊔ {w_i, …, w_i + t − 1}` and with the characteristic polynomials of `ρ ⊕ χ_1 ⊕ ⋯ ⊕ χ_t` modulo `λ`. If the weights satisfy explicit position inequalities relative to `p` (which force `p ≥ 11` but allow weights far above `p`), the classes `z ∈ H¹(G_F, (T₀/λ)(χ̄_1^{−1}))` whose extension of `k(χ̄_1)` by `T₀/λ` is admissible form a subspace of dimension at most `d = Σ_i #{u ∈ U_i : u < w_i}`. (3) For a surjection `f : T₁ ↠ T₂` of stable lattices in crystalline representations with `HT_i(T₁) ⊂ [−M_i, h_i]`, `M_i, h_i ≥ 0`, and `H = max_i(M_i + h_i)`, every cokernel `e_iN(T₂)/f(e_iN(T₁))` is killed by `π^H` and by `p^{e_W}`, `e_W = ⌊Hp/(p − 1)² + 3 + log_p(H + 1)⌋`, and vanishes when `H ≤ p − 2`. (4) If `HT_i(V) = U_i ⊂ [0, h]` and `t ≥ 1` graded pieces of a filtration of `T/λT` by `G_F`-submodules are isomorphic to `k(χ̄_s)` for crystalline characters `χ_s` with `HT_i(χ_s) = {w_{i,s}} ⊂ [0, h]`, the lattices that `N̄(T)` induces on these pieces are `X^{c_s(i)}N̄(O_E(χ_s))_i` for unique integers `c_s(i)`, the carries, with `0 ≤ w_{i,s} + p·c_s(i − 1) − c_s(i) ≤ h` and `(p − 1)|c_s(i)| ≤ h`, and the sum of `w_{i,s} + p·c_s(i − 1) − c_s(i)` over the `t` pieces is at least the sum of the `t` smallest elements of `U_i`.
 
@@ -10,7 +10,7 @@ The roadmap has one layer, numbered 6 after the layer of PhiGammaModulesAndIwasa
 
 ## Conventions
 
-The setting of 6.4 is fixed throughout: `p` is an odd prime; `F/ℚ_p` is finite unramified of degree `n` with residue field `k_F`; `E/ℚ_p` is finite with valuation ring `O_E`, uniformizer `λ` and residue field `k`, and contains the images of the embeddings of `F`; the embeddings `emb_i : F → E` are indexed by `i ∈ ℤ/n` with `emb_{i+1}∘σ = emb_i` for the arithmetic Frobenius `σ`, and `e_i` is the idempotent of `O_E⊗_{ℤ_p}W(k_F)[[π]] = ∏_{i∈ℤ/n} O_E[[π]]` of the factor of `emb_i`. For a de Rham `E`-representation `V`, `HT_i(V)` is the multiset of Hodge–Tate weights at `emb_{i−1}`, and `ℚ_p(1)` has weight `−1`. `Γ_F^{tor}` is the torsion subgroup of `Γ_F ≅ ℤ_p^×`, cyclic of order `p − 1`; `γ ∈ Γ_F` is the element with `χ(γ) = 1 + p`; `π₀ = Σ_{δ∈Γ_F^{tor}} δ(π)`, and `X ∈ k[[π]]` is its reduction. Lattice families, their height and `Γ` conditions, the operator `∇ = X^{−1}(γ − 1)` and the Sen multiplicities `sen(N_i)` are defined in 6.6, with `σ_i = ⌊Σ_{j≥0} h_{i+j+1}/p^{j+1}⌋` (indices modulo `n`).
+The setting of 6.4 is fixed throughout: `p` is an odd prime; `F/ℚ_p` is finite unramified of degree `n` with residue field `k_F`; `E/ℚ_p` is finite with valuation ring `O_E`, uniformizer `λ` and residue field `k`, and contains the images of the embeddings of `F(ζ_p)`; the embeddings `emb_i : F → E` are indexed by `i ∈ ℤ/n` with `emb_{i+1}∘σ = emb_i` for the arithmetic Frobenius `σ`, and `e_i` is the idempotent of `O_E⊗_{ℤ_p}W(k_F)[[π]] = ∏_{i∈ℤ/n} O_E[[π]]` of the factor of `emb_i`. For a de Rham `E`-representation `V`, `HT_i(V)` is the multiset of Hodge–Tate weights at `emb_{i−1}` (the labelled multiset of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.1 at `emb_{i−1}`, negated: there `χ_p` has weight `+1`), and `ℚ_p(1)` has weight `−1`. `Γ_F^{tor}` is the torsion subgroup of `Γ_F ≅ ℤ_p^×`, cyclic of order `p − 1`; `γ ∈ Γ_F` is the element with `χ(γ) = 1 + p`; `π₀ = Σ_{δ∈Γ_F^{tor}} δ(π)`, and `X ∈ k[[π]]` is its reduction. Lattice families, their height and `Γ` conditions, the operator `∇ = X^{−1}(γ − 1)` and the Sen multiplicities `sen(N_i)` are defined in 6.6, with `σ_i = ⌊Σ_{j≥0} h_{i+j+1}/p^{j+1}⌋` (indices modulo `n`).
 
 Notation and conventions not restated here are those of [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md): its Conventions (the coordinate `π` with `φ(π) = (1+π)^p − 1` and `γ(π) = (1+π)^{χ(γ)} − 1`, the signed Herr complex, the Hodge–Tate convention), the integral étale realization `T ↦ D(T)` over `O_E⊗A_F` (PhiGammaModulesAndIwasawaCohomology §1.0), and the Wach modules `N(V)` over `E⊗B_F^+` and lattices `N(T) = N(V) ∩ D(T)` over `O_E⊗A_F^+` (PhiGammaModulesAndIwasawaCohomology §6.0), with `q = φ(π)/π`. Crystalline and de Rham representations, `D_cris` and `D_dR` are those of PadicPeriodRings §§4.1–4.2.
 
@@ -22,7 +22,9 @@ This layer continues PhiGammaModulesAndIwasawaCohomology §§6.0–6.3, which co
 
 **Setting (fixed for 6.4–6.9).** Let `p` be odd, `F/ℚ_p` finite unramified of degree `n` with residue field `k_F`,
 and `E/ℚ_p` finite with valuation ring `O_E`, uniformizer `λ` and residue field `k`, such that `E` contains the images of
-the embeddings of `F`. Index the embeddings `emb_i : F → E` by `i ∈ ℤ/n` so that `emb_{i+1}∘σ = emb_i`, `σ` the arithmetic
+the embeddings of `F(ζ_p)`, `ζ_p` a primitive `p`-th root of unity (so `E` contains the images of the embeddings of `F`
+and the `p`-th roots of unity; Checks with coefficients `ℤ_p` are read after this enlargement of `E`). Index the
+embeddings `emb_i : F → E` by `i ∈ ℤ/n` so that `emb_{i+1}∘σ = emb_i`, `σ` the arithmetic
 Frobenius. Then `O_E⊗_{ℤ_p}W(k_F)[[π]] = ∏_{i∈ℤ/n} O_E[[π]]`, with idempotents `e_i` (`e_i` the factor of `emb_i`), and `φ`
 carries the factor `i−1` to the factor `i`. **Labelling of Hodge–Tate data:** for a de Rham `E`-representation `V` of `G_F`
 write `HT_i(V)` for its multiset of Hodge–Tate weights at `emb_{i−1}`, the embedding of the *source* factor of the
@@ -79,7 +81,8 @@ crystalline character is free of rank one on a vector `e` with `φ(e_{i−1}e) =
 of PhiGammaModulesAndIwasawaCohomology §6.0, where the filtered reduction `Fil^jN(V) = {x : φ(x) ∈ q^jN(V)}` read componentwise (for `x ∈ e_{i−1}N(V)`,
 `φ(x) ∈ e_iN(V)`) puts the jump of the filtration on `e_{i−1}D_cris(V)`, the Hodge–Tate weight at `emb_{i−1}`, at the exponent
 of `q` in `φ(e_{i−1}e)`. (2) Twist by crystalline characters `ψ` of prescribed labelled weights (products of the conjugates
-`emb_j∘χ_LT` of a Lubin–Tate character of `F`, which exist since `E` contains the images of the embeddings), using the tensor
+`emb_j∘χ_LT` of a Lubin–Tate character of `F`, which exist since `E` contains the images of the embeddings
+(PadicLocalLanglandsForGL2Qp §0.2; weights there have the opposite sign)), using the tensor
 law of PhiGammaModulesAndIwasawaCohomology §6.0 and (4): if `HT_j(ψ) = {a_j}` for all `j`, then `V ⊗ ψ` has nonnegative weights, so `φ(N(V ⊗ ψ)) ⊂ N(V ⊗ ψ)`, and
 `N(V ⊗ ψ) = N(V) ⊗ N(ψ)` gives `q^{a_i}e_iφ(N(T)) ⊂ N(T)`; if `HT_j(ψ) = {m − b_j}` with `m ≥ max_j(a_j + b_j)`, the weights of
 `V ⊗ ψ` lie in `[0, m]`, and PhiGammaModulesAndIwasawaCohomology §6.0's bound `q^mN(V ⊗ ψ) ⊂ φ^*N(V ⊗ ψ)` reads `q^me_iN(T) ⊂ q^{m−b_i}e_iφ^*N(T)`, whence
@@ -97,7 +100,11 @@ unique and restricts to the étale `D(V₀)`, so every `n_k ∈ D(V₀)`, i.e. `
 with `D(T₀) ⊆ D(T₁)` gives `N(T₀) = N(T₁) ∩ D(T₀)`. Likewise `f(N(V₁))` is finitely generated and torsion-free over `B`, hence
 free, spans `D(V₂)`, and inherits the height and `Γ` conditions (`f(φ^*N) = φ^*f(N)`), so it is `N(V₂)`. (6) Berger's comparison: after inverting `t`, `N(V)` and `D_cris(V)` generate
 the same module over `B^+_{rig,F}`, and the filtration of PhiGammaModulesAndIwasawaCohomology §6.0 is recovered at the zeros of `q` through the maps
-`φ^{−n}` followed by evaluation at `ζ_{p^n}e^{t/p^n} − 1`; for `n = 1` this is `ι_1`, whose image is `Fil⁰`. The map
+`φ^{−n}` followed by evaluation at `ζ_{p^n}e^{t/p^n} − 1` (on scalars, the maps `ι_n` of PadicHodgeTheory §1.5); for
+`n = 1` this is `ι_1`, whose image is `Fil⁰`. This comparison is the open-disc, Wach-module counterpart of Berger's
+modification PadicHodgeTheory §5.2 and the cyclotomic counterpart of Kisin's module
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.6; for `F = ℚ_p`, `N(V) ⊗ B^+_{rig,F}` is the module `N_Wach,rig^+(V)` of
+PhiGammaModulesAndIwasawaCohomology §6.2. The map
 `σ^{−1}` on coefficients carries the idempotent `e_i` to `e_{i−1}`, hence the factor; `γ` acts on `F_1` through
 `Gal(F_1/F)` and on `t` by `χ(γ)`. (7) The same comparison for every `n = s` gives the first half; the second half follows
 from it: `N(V)` is free over `E⊗B_F^+`, a finite product of principal ideal domains, the zeros of `φ^{s−1}(q)` are maximal
@@ -107,14 +114,16 @@ them, which is `Fil⁰` by the first half. (8) Twist by a crystalline character 
 `φ`-stable finitely generated `O_E⊗A_F^+`-submodule of `D(T ⊗ ψ)` lies in `D^+(T ⊗ ψ)`: modulo `p` its coordinates in a basis
 of `T ⊗ ψ` have valuations bounded below, while `φ` multiplies negative valuations by `p`, and one climbs from `p` to `p^k`
 because `p·a ∈ A^+` implies `a ∈ A^+`. So `V ⊗ ψ` is of finite height, and a free `φ`- and `Γ_F`-stable lattice of finite
-`q`-height in `D^+` on which `Γ_F` acts trivially modulo `π` makes it crystalline (Wach's criterion); its weights are the jumps
+`q`-height in `D^+` on which `Γ_F` acts trivially modulo `π` makes it crystalline (Wach's criterion; this conclusion and the
+bound on the weights rest on the published criterion; [FormalProof] has the last conclusion, `N = N(T)`, for `T` already
+known to be crystalline); its weights are the jumps
 of the filtration of PhiGammaModulesAndIwasawaCohomology §6.0, in `[0, a_i + b_i]` at `i`. Uniqueness (PhiGammaModulesAndIwasawaCohomology §6.0) gives `N ⊗ N(ψ) = N(T ⊗ ψ)`; untwist. Sources:
 Berger-Wach-2004, Proposition II.1.1, and, as the inputs of (6)–(7), Proposition II.2.1 (the inclusion of `D_cris(V)` in
 `B^+_{rig,F} ⊗ N(V)`), Propositions II.3.1 and III.2.1 (the elementary divisors of that inclusion, products over `s ≥ 1`
 of powers of `φ^{s−1}(q)/p` with the weights as exponents), Proposition III.2.2 (the action of the subgroup of `Γ_F` fixing
 `F_s` on `N(V)/φ^{s−1}(q)N(V)`) and Theorem III.4.4 (the filtration); Berger-2008, Proposition II.2.5 with Théorème V.2.3 (2) (the
 `Fil⁰` form of the localisations); Wach 1996 (the criterion of (8)). *Needs:* PhiGammaModulesAndIwasawaCohomology §§6.0–6.1; PhiGammaModulesAndIwasawaCohomology §1.0 (integral étale realization and its reduction); PhiGammaModulesAndIwasawaCohomology §3.4 (the
-prime-to-`p` torsion adapter); PhiGammaModulesAndIwasawaCohomology §5.6a (cyclotomic localisations); PadicPeriodRings §§4.1–4.3.
+prime-to-`p` torsion adapter); PadicHodgeTheory §1.5 (localisation maps at every level); PadicPeriodRings §§4.1–4.3.
 
 **API.**
 
@@ -160,7 +169,10 @@ prime-to-`p` torsion adapter); PhiGammaModulesAndIwasawaCohomology §5.6a (cyclo
 ### 6.5 The Sen operator of a Wach lattice and Sen weights modulo `p`
 
 In the setting of 6.4, let `V` be crystalline and put `U_i := HT_i(V)`. Put `ν := π₀^{−1}(γ − 1)` and
-`c(a) := (1 − (1+p)^a)/p ∈ ℤ_p` for `a ∈ ℤ` (so `c(a) ≡ −a` modulo `p`, and `c` is injective). For `s ≥ 1` let
+`c(a) := (1 − (1+p)^a)/p ∈ ℤ_p` for `a ∈ ℤ` (so `c(a) ≡ −a` modulo `p`, and `c` is injective). The
+operator `ν` is a neighbour, on the Wach lattice at the zeros of `π₀ + p`, of the labelled Sen operator of
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.2 (`π₀^{−1}(γ − 1)` in place of `log γ / log χ(γ)`; signs opposite):
+(1) and (2) say that its eigenvalues reduce to the residues of the Hodge–Tate weights. For `s ≥ 1` let
 `M_{i,s} := {s′ − u : 0 ≤ s′ < s, u ∈ U_i} ⊂ ℤ`, a finite **set** (each value counted once). Prove:
 
 1. (*Sen clause*) `ν` maps `N(T)^{Γ_F^{tor}}` into itself; for every `s ≥ 1` the product over the distinct values
@@ -172,8 +184,11 @@ In the setting of 6.4, let `V` be crystalline and put `U_i := HT_i(V)`. Put `ν 
 3. (*semisimplicity at zero*) If `s ≥ 1` and every `u ∈ U_i` congruent modulo `p` to an integer of `[0, s)` is equal to
    it, then `f(Y) := ∏_{m∈M_{i,s}, m≠0}(Y + m̄) ∈ k[Y]` has `f(0) ≠ 0` and `∇f(∇)N̄_i ⊂ X^sN̄_i`: `0` is a semisimple
    eigenvalue of `∇` on `N̄_i/X^sN̄_i`.
-4. (*Sen clause with poles*) for every `y ≥ 1`, with `M⁻_{i,y} := {−(u + k) : u ∈ U_i, 1 ≤ k ≤ y}` (a set), the product
-   `∏_{m∈M⁻_{i,y}}(ν − c(m))` maps `e_i(π₀ + p)^{−y}N(T)^{Γ_F^{tor}}` into `e_iN(T)^{Γ_F^{tor}}`.
+4. (*Sen clause with poles*) for every `y ≥ 1`, with
+   `M⁻_y := {−(u + k) : u a Hodge–Tate weight of V at some embedding, 1 ≤ k ≤ y}` (a set), the product
+   `∏_{m∈M⁻_y}(ν − c(m))` maps `(π₀ + p)^{−y}N(T)^{Γ_F^{tor}}` (the `Γ_F^{tor}`-invariant `x` with `(π₀ + p)^yx ∈ N(T)`)
+   into `N(T)^{Γ_F^{tor}}`. (*A refinement, not a statement of [FormalProof]*) On the factor `i` the factors with
+   `u ∈ U_i` suffice.
 
 *Route of (1).* `π₀ + p` vanishes simply at the points `ζ − 1` (6.4), and `N(T)^{Γ_F^{tor}}/(π₀ + p)^s` is a free
 `O_E`-module (of rank `s·dim V` on each factor), so it suffices to work after inverting `p`. There, by 6.4 (6), the module
@@ -190,11 +205,12 @@ into `X^sN̄_i`, `ν − c(m)` reduces to `∇ + m̄`, and under the hypothesis 
 `p` (if it occurs at all); so `∏_{m∈M_{i,s}}(∇ + m̄)` equals `∇f(∇)` or `f(∇)` and kills `N̄_i/X^sN̄_i`, while
 `f(0) = ∏_{m≠0} m̄ ≠ 0`. *Route of (4).* As for (1): `(π₀ + p)^{−y}N(T)^{Γ_F^{tor}}/N(T)^{Γ_F^{tor}}` is `O_E`-free, and after
 inverting `p` it is, by 6.4 (6), the `Γ_F^{tor}`-invariant part of `t^{−y}Fil⁰/Fil⁰`, on which `γ` acts semisimply with
-eigenvalue `χ(γ)^m` on the part `t^{−k−u} ⊗ (line of weight u)`, `1 ≤ k ≤ y`, `m = −(u + k)`; `ν` is triangular for the same
-filtration and acts on the graded piece of `m` by `c(m)`. Sources: Berger-Wach-2004, Propositions III.2.1 and III.2.2 at the
+eigenvalue `χ(γ)^m` on the part `t^{−k−u} ⊗ (line of weight u)`, `1 ≤ k ≤ y`, `m = −(u + k)`, `u` running over the
+weights at the embedding of each factor (`U_i` on the factor `i`); `ν` is triangular for the same filtration and acts on
+the graded piece of `m` by `c(m)`; the union over the factors gives `M⁻_y`. Sources: Berger-Wach-2004, Propositions III.2.1 and III.2.2 at the
 zeros of `q` (`γ` acts on `N(V)/qN(V)` semisimply with eigenvalues `χ(γ)^{−u}`, `u` running over the Hodge–Tate weights: the
 case `s = 1` of (1) after inverting `p`). *Needs:* 6.4; PhiGammaModulesAndIwasawaCohomology §6.0
-(filtered reduction); PhiGammaModulesAndIwasawaCohomology §5.6a (de Rham differential-equation realization).
+(filtered reduction).
 
 **API.**
 
@@ -252,7 +268,9 @@ the `m` graded pieces. (2) Let `m_i` be minimal with `X^{m_i}N_i ⊂ N′_i`. Th
 
 - `n = 1`, rank one, `φ(e) = X^he`: the lattices `X^{−m}k[[X]]e`, `0 ≤ m ≤ ⌊h/(p−1)⌋`, all satisfy the height condition
   `(0, h)`, so the exponent `σ = ⌊h/(p−1)⌋` of (2) cannot be lowered; for `h ≤ p − 2` the lattice is unique (`σ = 0`), the
-  Fontaine–Laffaille range.
+  Fontaine–Laffaille range. In characteristic zero the corresponding lattices are unique (Wach lattices,
+  PhiGammaModulesAndIwasawaCohomology §6.0; lattices of finite `E`-height, FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  §R07.4.12 (1)); (2) is their substitute modulo `p`, without the `Γ` condition.
 - `N = k[[X]]` with `∇ = 0` on `N/XN`: `∇` acts on `X^aN/X^{a+1}N` by `−a`, so it is bijective there exactly when
   `p ∤ a`. Writing the shift with `+a` would get the sign of every margin in 6.9 wrong.
 - `n = 2`, `h_0 = h_1 = 60`, `p = 41`: `σ_0 = σ_1 = ⌊60/40⌋ = 1`, and (3) reads `2 ≤ 41·2 − 60`.
@@ -272,16 +290,17 @@ condition `(w, h − w)` (`0 ≤ w_i ≤ h_i`) and the `Γ` condition, and `σ` 
    `b_i ∈ N_i` for all `i`, then `(b, g) = d(m)` with `m ∈ ∏N_i`.
 2. (*polar kernel*) If `Z ⊂ X^{−w_i}N_i` is a `k`-subspace with `∇Z ⊂ N_i`, then
    `dim_k Z/(Z ∩ N_i) ≤ Σ_{0≤j<w_i} sen(N_i)(j − w_i)`, the sum over the integers `j`.
-3. (*`ψ` modulo `p`*) Let `p ≥ 3` and work over the ring of 6.4.
+3. (*`ψ` modulo `p`*) Let `p ≥ 5` and work over the ring of 6.4.
    (a) The `k`-linear map `ψ` of `k((π)) = ⊕_{j=0}^{p−1}(1+π)^jφ(k((π)))`, `ψ(Σ_j(1+π)^jφ(a_j)) = a_0`, commutes with
    `γ` and with `Γ_F^{tor}`, so it restricts to `k((X))`; on a cyclotomic étale family, writing
    `D_i ⊗ k((π)) = ⊕_j(1+π)^jφ_i(D_{i−1} ⊗ k((π)))` defines `ψ : D_i → D_{i−1}` with `ψ(aφ_i(x)) = ψ(a)x` and `ψγ = γψ`.
-   (b) `ψ(X^ak[[X]]) = k[[X]]` exactly for `2 − p ≤ a ≤ 1`; hence `ψ(X^aφ_i^*M) = M` for every lattice `M ⊂ D_{i−1}` and
-   `2 − p ≤ a ≤ 1`.
+   (b) `ψ(X^ak[[X]]) = k[[X]]` for `2 − p ≤ a ≤ 1` (the range is sharp, see the Checks); hence `ψ(X^aφ_i^*M) = M` for
+   every lattice `M ⊂ D_{i−1}` and `2 − p ≤ a ≤ 1`.
    (c) For a lattice `M ⊂ D_{i−1}` with the `Γ` condition and `2 − p ≤ a ≤ 0`, `γ − 1` maps `(X^aφ_i^*M)^{ψ=0}` onto
-   `(X^{a+1}φ_i^*M)^{ψ=0}`. More generally the map is bijective for every integer `a ≢ 1 (mod p)`; for `a ≡ 1 (mod p)` the modules
+   `(X^{a+1}φ_i^*M)^{ψ=0}`. (*Not statements of [FormalProof], which has the surjectivity in the range above; proved by
+   the route.*) More generally the map is bijective for every integer `a ≢ 1 (mod p)`; for `a ≡ 1 (mod p)` the modules
    `(X^aφ_i^*M)^{ψ=0}` and `(X^{a+1}φ_i^*M)^{ψ=0}` coincide, `γ − 1` is injective on them, and it is not onto when `M ≠ 0`.
-4. (*polar count*) Over the ring of 6.4, let `p ≥ 3`, `N₀ = N_{i−1}`, `N = N_i`, `1 ≤ v ≤ p − 2`,
+4. (*polar count*) Over the ring of 6.4, let `p ≥ 5`, `N₀ = N_{i−1}`, `N = N_i`, `1 ≤ v` and `v + 7 ≤ p`,
    `X^vN ⊂ φ^*N₀ ⊂ X^{−w_i}N`, `v + 2 ≤ p(σ_{i−1} + 3) − w_i`, `N₀` without Sen weights in `{0, …, σ_{i−1} + 1}`, and `0` a
    semisimple eigenvalue of `∇` on `N/X^{v+1}N`. If `Z ⊂ X^{−v}φ^*N₀` is a `k`-subspace with `(γ − 1)Z ⊂ X^{v+2}N`, then
    `dim_k Z/(Z ∩ N) + Σ_{0≤y≤v} sen(N)(y) ≤ r`.
@@ -311,8 +330,9 @@ nonzero invariant `ψ`-zero element (its components lie in the distinct summands
 `χ(δ)`, `δ ∈ Γ_F^{tor}`). Without the filtration, the bijectivity of `γ − 1` on `ψ`-zero parts is Herr's
 (modulo `p`) and Cherbonnier–Colmez's (PhiGammaModulesAndIwasawaCohomology §3.5 in characteristic zero). *Route of (4).* Put
 `F = X^{−v}φ^*N₀ ⊃ N ⊃ L = X^{v+1}N`. For `x ∈ F`, `ψ(Xx) ∈ ψ(X^{1−v}φ^*N₀) = N₀` by (3b) (`1 − v ≥ 3 − p`), and
-`Xx − φ(ψ(Xx)) ∈ (X^{1−v}φ^*N₀)^{ψ=0} = (γ − 1)F^{ψ=0}` by (3c) with `a = −v ∈ [2 − p, −1]` (these two ranges are where
-`1 ≤ v ≤ p − 2` enters); so `x = X^{−1}φ(n₀) + ∇f` with `n₀ ∈ N₀`, `f ∈ F`. Writing `n₀` in a `k[[X]]`-basis of `N₀`,
+`Xx − φ(ψ(Xx)) ∈ (X^{1−v}φ^*N₀)^{ψ=0} = (γ − 1)F^{ψ=0}` by (3c) with `a = −v ∈ [2 − p, −1]` (these two ranges need
+`1 ≤ v ≤ p − 2`; the statement asks `v + 7 ≤ p`, which holds in every application since `v_i ≤ η_i` and `η_i + 6 < p`);
+so `x = X^{−1}φ(n₀) + ∇f` with `n₀ ∈ N₀`, `f ∈ F`. Writing `n₀` in a `k[[X]]`-basis of `N₀`,
 `X^{−1}φ(n₀) ∈ S + X^{−1}φ(XN₀)` with `S = X^{−1}φ(k-span of the basis)`, `dim S ≤ r`. For `n ∈ N₀`: `∇` is bijective on
 `N₀/X^{σ_{i−1}+2}N₀` by 6.6 (1), because `N₀` has no Sen weight in `{0, …, σ_{i−1} + 1}`; so `n = ∇n′ + n″` with `n′ ∈ N₀`,
 `n″ ∈ X^{σ_{i−1}+2}N₀`, and `X^{−1}φ(Xn) = ∇φ(n′) + X^{−1}φ(X)φ(n″)`, where `φ(n′) ∈ φ^*N₀ ⊂ F` and
@@ -344,21 +364,23 @@ first meets the second trivially modulo `N`. Sources: Herr 1998, §§2–4; Cher
 
 ### 6.8 The counting theorem
 
-Work over the ring of 6.4 (`p ≥ 3`). Let `N` be a lattice family of rank `r` in a cyclotomic étale family `D` with the
-height condition `(w, h − w)`, `0 ≤ w_i ≤ h_i`, and the `Γ` condition. Give each `i` a **type**, low or high, and an integer
-`d_i ≥ 0`, and put `v_i := h_i − w_i`. Assume for every `i`: `N_i` has no Sen weight in `{0, …, σ_i + 1}`; if `i` is low,
-`Σ_{0≤j<w_i} sen(N_i)(j − w_i) ≤ d_i`; if `i` is high, `1 ≤ v_i ≤ p − 2`, `d_i + Σ_{0≤y≤v_i} sen(N_i)(y) ≥ r`, and `0` is a
-semisimple eigenvalue of `∇` on `N_i/X^{v_i+1}N_i`. Call a Herr pair `(b, g)` **polar for `N`** if for every `i`:
+Work over the ring of 6.4 (`p ≥ 3`). Let position data of rank `r` and block length `t` (6.9) be in position, with `σ_i`,
+`d_i` and `d = Σ_id_i` as there, and put `v_i := h_i − w_i`. Let `N` be a lattice family of rank `r` in a cyclotomic étale
+family `D` with the height condition `(w, h − w)` and the `Γ` condition. Assume for every `i`: `N_i` has no Sen weight in
+`{0, …, σ_i + 1}`; if `i` is low, `Σ_{0≤j<w_i} sen(N_i)(j − w_i) = d_i`; if `i` is high, `d_i + Σ_{0≤y≤v_i} sen(N_i)(y) = r`
+and `0` is a semisimple eigenvalue of `∇` on `N_i/X^{v_i+1}N_i`. Call a Herr pair `(b, g)` **polar for `N`** if for every `i`:
 `g_i ∈ XN_i`; `b_i ∈ X^{−w_i}N_i` if `i` is low; and, if `i` is high, `b_i ∈ X^{−v_i}φ_i^*N_{i−1}` and
 `g_i − (γ_i − 1)x_i ∈ X^{v_i+2}N_i` for some `x_i ∈ N_i`. Prove: **the polar Herr pairs span, modulo Herr coboundaries, a
-`k`-space of dimension at most `d = Σ_id_i`.** Polarity is monotone in `N`: a pair polar for `N` is polar for every lattice
-family containing `N` with the same hypotheses.
+`k`-space of dimension at most `d`.** (*A generalisation, not a statement of [FormalProof]*) The route uses the position
+hypotheses only through `σ_i + 1 ≤ p(σ_{i−1} + 1) − h_i` and, at the high indices, `1 ≤ v_i ≤ p − 7`, and the two Sen
+counts only as the inequalities `≤ d_i` and `≥ r`, for any integers `d_i ≥ 0`. Polarity is monotone in `N`: a pair polar
+for `N` is polar for every lattice family containing `N` with the same hypotheses.
 
 *Route.* Given polar pairs `z_a = (b_a, g_a)`, `a ≤ s`, apply the gauge lemma 6.7 (1a) to replace each by
 `z′_a = z_a − d(y_a)` with `y_a ∈ ∏N_i` and `g′_{a,i} ∈ X^{σ_i+3}N_i`. Put `c_{a,i} = b′_{a,i}` (low `i`) and
 `c_{a,i} = b′_{a,i} + x_{a,i} − y_{a,i}` (high `i`); then `c_{a,i} − b′_{a,i} ∈ N_i`, and `(γ − 1)c_{a,i}` lies in
 `XN_i` (low) or in `X^{v_i+2}N_i` (high), using 6.6 (3) for `p(σ_{i−1}+3) − w_i ≥ v_i + 2`. By 6.7 (2) with the low Sen
-count, resp. 6.7 (4) with the high one (`1 ≤ v_i ≤ p − 2`), the classes of `(c_{a,i})_a` modulo `N_i` span a space of
+count, resp. 6.7 (4) with the high one (`1 ≤ v_i ≤ p − 7`), the classes of `(c_{a,i})_a` modulo `N_i` span a space of
 dimension `≤ d_i`. If `Σ_at_ac_{a,i} ∈ N_i` for every `i`, then `Σ_at_az′_a` has `b ∈ ∏N_i` and `g ∈ ∏X^{σ_i+3}N_i`, so it is
 a coboundary by 6.7 (1b), and `t = 0`. Hence `a ↦ (c_{a,i} mod N_i)_i` is injective on `k^s` and `s ≤ d`. Sources:
 [FormalProof]. *Needs:* 6.6–6.7.
@@ -399,7 +421,10 @@ with `HT_i(ρ) = U_i`, and `χ_1, …, χ_t` crystalline characters with `χ_c =
 crystalline representation `W` is **full** if `HT_i(W) = U_i ⊔ B_i` for every `i` and
 `det(Y − W(g)) ≡ det(Y − ρ(g))·∏_c(Y − χ_c(g))` modulo `λ` for every `g ∈ G_F`; a finite `O_E[G_F]`-module is
 **admissible** if it is isomorphic to `L₁/L₂` for `G_F`-stable `O_E`-lattices `L₂ ⊂ L₁` in a finite direct sum of full
-representations. Admissible modules are closed under submodules, quotients and finite sums.
+representations. Admissible modules are closed under submodules, quotients and finite sums. They are torsion crystalline in
+the sense of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P5a (weights there have the opposite sign), with witnesses
+restricted to sums of full representations, and the admissible classes of (3) are the residual, weight-restricted
+analogue of the crystalline extension classes `H¹_ns` of SelmerIwasawaCohomology §4.8.
 
 **Models.** Let `A` be admissible and killed by `λ`. An **admissible presentation** of `A` is a `G_F`-stable lattice `L` in a
 finite sum of full representations, a `G_F`-submodule `A₁ ⊂ L/λL` and a `G_F`-surjection `A₁ ↠ A`. The **model** of
@@ -489,9 +514,13 @@ finite `p`-primary modules); PadicPeriodRings §§4.1–4.3 (crystalline represe
 
 **Checks.**
 
-- If every `h_i ≤ p − 2`, then `σ_i = 0`: this is the Fontaine–Laffaille range, where the residual bound is classical.
+- If every `h_i ≤ p − 2`, then `σ_i = 0`: this is the Fontaine–Laffaille range, where the residual bound is the count of
+  `Ext¹_MF` given, for multiplicity-free objects, by the exact sequence of LocalGaloisDeformationRings §1.13 (admissible
+  modules are then Fontaine–Laffaille, LocalGaloisDeformationRings §6.11, and `Ext¹_MF ↪ H¹` by LocalGaloisDeformationRings
+  §1.6).
   For `F = ℚ_p`, `r = t = 1`, weights `u ≠ w` with `|u − w| > 2`: the Fontaine–Laffaille extensions of `χ_1` by `ρ` form a
-  space of dimension `1` if `u < w` and `0` if `u > w`, which is `d`; (3) is sharp there.
+  space of dimension `1` if `u < w` and `0` if `u > w`, which is `d`; (3) is sharp there (characteristic-zero analogue:
+  SelmerIwasawaCohomology §§4.9–4.10).
 - `n = 2`, `h_0 = h_1 = 60`, `p = 41`: `σ_0 = σ_1 = 1` and (P3) allows windows with `η_i ≤ 30`, although `h_i` exceeds
   `p − 2 = 39`.
 - (*a failure outside the hypothesis*) `F = ℚ_p`, `p ≥ 13`, `r = t = 1`, `w = η = 1`, low type, `ρ = χ_1χ_cyc^{−(p−1)}`
@@ -522,7 +551,8 @@ so that `cost(j, s) = 0` when `s < p − 1`, and `cost(0, s) ≤ s·p/(p − 1)�
 generator of `ℤ_p^×` (`p` is odd); `γ` is as in 6.4 (a topological generator of the pro-`p` part of `Γ_F`). Prove:
 
 1. (*cokernel*) `f(N(T₁))[1/p] = N(T₂)[1/p]` (6.4 (5)), so every `C_i` has finite length, and `π^HC_i = 0`, so `s_i ≤ H`.
-   More generally, if `N′ ⊆ N` are families of `O_E[[π]]`-submodules `e_iN′ ⊆ e_iN` of one étale `φ`-module over `O_E⊗A_F` (`N′`
+   More generally (*the form in which the route proves it; [FormalProof] states the conclusion for Wach lattices*), if
+   `N′ ⊆ N` are families of `O_E[[π]]`-submodules `e_iN′ ⊆ e_iN` of one étale `φ`-module over `O_E⊗A_F` (`N′`
    not necessarily free) with `q^{M_i}φ(e_{i−1}N) ⊆ e_iN`, `q^{h_i}e_iN′ ⊆ O_E[[π]]·φ(e_{i−1}N′)` for all `i`, and `N/N′` killed by a
    power of `π`, then `π^HN ⊆ N′`;
 2. (*`γ`-descent*) let `R` be a `ℤ_p`-algebra with a `ℤ_p`-linear automorphism `γ′` and an element `X` with
@@ -538,11 +568,11 @@ generator of `ℤ_p^×` (`p` is odd); `γ` is as in 6.4 (a topological generator
 4. (*the truncated Herr complex*) for a lattice `T` as above with all its weights in `[−M, h]`, put `N := N(T)^{Γ_F^{tor}}`
    over `O_E[[π₀]]`, `Q := π₀ + p`, and consider
    `N →^{d⁰} Q^{−M}N ⊕ π₀N →^{d¹} π₀Q^{−M}N`, `d⁰x = ((φ − 1)x, (γ − 1)x)`, `d¹(y, z) = (γ − 1)y − (φ − 1)z`.
-   If `ω ∈ π₀Q^{−M}N` and `p^kω ∈ im d¹` for some `k`, then `p^{e°_U}ω ∈ im d¹`, where
-   `e°_U := Σ_{j∈J}v_p(j) + a + v_p(a!)`, `a := ⌊M/(p − 1)⌋` and
-   `J := ({w + k : w a Hodge–Tate weight of T, 1 ≤ k ≤ M} ∖ {0}) ∪ {1, …, M}`. In particular `e°_U = 0` when `M + h ≤ p − 2`
-   (then `a = 0` and `0 < |j| < p` for `j ∈ J`). As a round bound, the same holds with
-   `e_U := Σ_{j∈J}v_p(j) + a_A + v_p(a_A!) ≥ e°_U`, `a_A := a + 1`.
+   If `ω ∈ π₀Q^{−M}N` and `p^kω ∈ im d¹` for some `k`, then `p^{e_U}ω ∈ im d¹`, where
+   `e_U := Σ_{j∈J}v_p(j) + a_A + v_p(a_A!)`, `a_A := ⌊M/(p − 1)⌋ + 1` and
+   `J := ({w + k : w a Hodge–Tate weight of T, 1 ≤ k ≤ M} ∖ {0}) ∪ {1, …, M}`. (*A refinement, not a statement of
+   [FormalProof]*) The route gives the same with `e°_U := Σ_{j∈J}v_p(j) + a + v_p(a!) ≤ e_U`, `a := ⌊M/(p − 1)⌋`; in
+   particular `e°_U = 0` when `M + h ≤ p − 2` (then `a = 0` and `0 < |j| < p` for `j ∈ J`).
 
 The interval `[−M_i, h_i]` contains `0`; the statements are not invariant under twist.
 
@@ -606,15 +636,17 @@ Mathlib `PowerSeries`, `Polynomial`.
 **Checks.**
 
 - `T₁ = T₂`: every `C_i = 0`, and (1)–(3) are empty.
-- (*the Fontaine–Laffaille range*) If `H ≤ p − 2`, `cost(0, H) = 0` and (2) gives `C_i = 0`: `f(N(T₁)) = N(T₂)`. If moreover
-  `M + h ≤ p − 2`, then `e°_U = 0` and (4) says that `im d¹` is saturated in `π₀Q^{−M}N`.
+- (*the Fontaine–Laffaille range*) If `H ≤ p − 2`, `cost(0, H) = 0` and (2) gives `C_i = 0`: `f(N(T₁)) = N(T₂)` (this also
+  follows from PadicHodgeTheory §4.4, where in that range `T ↦ N(T)/πN(T)` is the Fontaine–Laffaille lattice
+  correspondence, which is exact by PadicHodgeTheory §6.2, and from Nakayama; weights there have the opposite sign). If moreover
+  `M + h ≤ p − 2`, then `e°_U = 0` and the refinement in (4) says that `im d¹` is saturated in `π₀Q^{−M}N`.
 - (*(1) and (2) are sharp*) `F = ℚ_p`, `m ≥ 1`, `c := (p − 1)p^{m−1}`,
   `T₁ := {(a, b) ∈ p^{−m}ℤ_p ⊕ ℤ_p(c) : p^ma ≡ b (mod p^m)}` (stable, as `χ^c ≡ 1 (mod p^m)`), `f(a, b) = b`, so `T₂ = ℤ_p(c)`,
   the kernel is `ℤ_p`, the weights are `{0, −c}`, `M = H = c`, `h = 0`. Then
   `N(T₁) = {(a/p^m, π^{−c}βe_c) : a, β ∈ ℤ_p[[π]], β ≡ π^ca (mod p^m)}`, and `C = N(T₂)/f(N(T₁)) ≅ ℤ_p[[π]]/(p^m, π^c)`:
   `π^H` is needed, and `p^aπ^{c−1}C = 0` exactly when `a ≥ m = cost(c − 1, c)`. For `m = 1` the cokernel is
   `ℤ_p[[π]]/(p, π^{p−1})`: `T ↦ N(T)` is not right exact on lattices at span `p − 1`.
-- (*`M = 0`*) `d¹` is onto (`1 − φ` is bijective on `π₀N`), matching `e°_U = 0`.
+- (*`M = 0`*) `d¹` is onto (`1 − φ` is bijective on `π₀N`), matching `e°_U = 0` in the refinement of (4).
 - Over the full ring with `γ` in place of `γ₀` (`u = 1 + p`), every factor `u^k − 1` costs `1 + v_p(k)`, and (2) would only give
   `p^{s_i + v_p(s_i!)}C_i = 0` (at `p = s_i = 3` the exponent is `4`): the generator `γ₀` is what saves a factor `p − 1`.
 - (*`N′` need not be free*) In the sharp example above with `m = 1`, the image of `N(T₁)` in the Wach line of `T₂` is the ideal
@@ -662,7 +694,9 @@ by (2), and (0) with `m′ = t` gives the inequality. Sources: [FormalProof]. *N
 **Checks.**
 
 - `T = ⊕_{s}O_E(χ_s)` with the filtration by partial sums: every carry is `0`.
-- `h ≤ p − 2`: every carry is `0` by (3), and (2) and (5) become statements about the weights.
+- `h ≤ p − 2`: every carry is `0` by (3), and (2) and (5) become statements about the weights (in this range
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.5.11 also determines, for a `ℤ_p`-lattice, the semisimplified
+  reduction restricted to inertia from the unlabelled weights).
 - (*a carry of size `h/(p − 1)`*) `F = ℚ_p`, `T := {(a, b) ∈ ℤ_p ⊕ ℤ_p(1 − p) : a ≡ b (mod p)}` (weights `0`, `p − 1`; `h = p − 1`),
   `v₁ := (1, 1)`, `v₂ := (p, 0)`. Then `N(T) = π^{p−1}ℤ_p[[π]]v₁ ⊕ ℤ_p[[π]]v₂` and `N̄(T) = Xk[[X]]v̄₁ ⊕ k[[X]]v̄₂`; `T/pT` has
   the sub `⟨v̄₂⟩` and the quotient `⟨v̄₁⟩`, both trivial. With `χ_{sub} = χ_cyc^{1−p}` (weight `p − 1`) and `χ_{quot} = 1`
@@ -676,11 +710,11 @@ For `F = ℚ_p` and `T = ℤ_p(−a)` with `a ≥ 0`, `N̄` is free on a vector 
 
 ### Dependencies
 
-PhiGammaModulesAndIwasawaCohomology §§0.1, 1.0, 2.2, 2.4, 2.5, 3.1, 3.4, 3.5, 3.6, 5.6a, 6.0 and 6.1; PadicPeriodRings §§4.1–4.3 for crystalline representations; Mathlib power series, Laurent series, polynomials, generalized eigenspaces, determinants and exterior powers.
+PhiGammaModulesAndIwasawaCohomology §§0.1, 1.0, 2.2, 2.4, 2.5, 3.1, 3.4, 3.5, 3.6, 6.0 and 6.1; PadicPeriodRings §§4.1–4.3 for crystalline representations; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.1 for labelled Hodge–Tate weights; PadicHodgeTheory §1.5 for the localisation maps; PadicLocalLanglandsForGL2Qp §0.2 for crystalline characters of prescribed labelled weights; Mathlib power series, Laurent series, polynomials, generalized eigenspaces, determinants and exterior powers.
 
 ## Downstream consumers
 
-In the family RiemannHypothesisForDirichletLFunctions, SelmerLengthBoundsAndLocalLifting §4.10a uses 6.4–6.9 to identify the torsion classes cut out of crystalline lattices with the Bloch–Kato finite ones beyond the Fontaine–Laffaille range (this final local theorem needs Bloch–Kato's `H¹_f` of a lattice, which is why it is stated there), and SelmerLengthBoundsAndLocalLifting §§4.10c–4.10e, the lifting theorems with loss, use the annihilators of 6.10, the exactness and crystallinity clauses 6.4 (5), (8), the localisation clause 6.4 (7) and the Sen clause with poles 6.5 (4); they cover surjections of crystalline lattices, unramified, ramified cyclotomic and tamely ramified bases, and potentially crystalline lattices of tame type (SelmerLengthBoundsAndLocalLifting §§4.10c–4.10f). The ramified cyclotomic and tame cases need lattices of the same kind over ramified bases: the values of prismatic `F`-crystals on cyclotomic prisms (SelmerLengthBoundsAndLocalLifting §4.10e (0)), and for the tame type their values on Breuil–Kisin prisms; both come from PrismaticCohomologyPartIII. SelmerLengthBoundsAndLocalLifting §4.10e (0) also states, at every finite level `s` of the cyclotomic tower and over subfields of `F(μ_{p^s})`, the uniqueness clause (U)_s whose case at level one and over `F` is 6.4 (8); there crystallinity is a hypothesis, here a conclusion. Through these, CongruenceModulesOfThetaLifts uses this roadmap for the local condition at `ℓ` (CongruenceModulesOfThetaLifts §7.6) and for the total congruence bound (CongruenceModulesOfThetaLifts §§7.10a–7.10c, also through LengthBoundsInPadicFamilies §1.8e). CongruenceModulesOfThetaLifts §7.16 (weight elimination) uses 6.4 and, directly, the Sen weights modulo `ℓ` of 6.5 (the Sen weights modulo `ℓ` of the Wach lattices of eigensystems of weight `μ` are the residues of `μ_a + N − 1 − a`) and the carries of 6.11 (1) of the residual characters of an eigensystem, with the arithmetic lemmas there.
+In the family RiemannHypothesisForDirichletLFunctions, SelmerLengthBoundsAndLocalLifting §4.10a uses 6.4–6.9 to identify the torsion classes cut out of crystalline lattices with the Bloch–Kato finite ones beyond the Fontaine–Laffaille range (this final local theorem needs Bloch–Kato's `H¹_f` of a lattice, which is why it is stated there), and SelmerLengthBoundsAndLocalLifting §§4.10c–4.10e, the lifting theorems with loss, use the annihilators of 6.10, the exactness and crystallinity clauses 6.4 (5), (8), the localisation clause 6.4 (7) and the Sen clause with poles 6.5 (4); they cover surjections of crystalline lattices, unramified, ramified cyclotomic and tamely ramified bases, and potentially crystalline lattices of tame type (SelmerLengthBoundsAndLocalLifting §§4.10c–4.10f). The ramified cyclotomic and tame cases need lattices of the same kind over ramified bases: the values of prismatic `F`-crystals on cyclotomic prisms (SelmerLengthBoundsAndLocalLifting §4.10e (0)), and for the tame type their values on Breuil–Kisin prisms (PrismaticCohomologyPartIII §§7.24–7.25); both are values of the prismatic `F`-crystal of a crystalline lattice, PrismaticCohomologyPartIII §7.21. SelmerLengthBoundsAndLocalLifting §4.10e (0) also states, at every finite level `s` of the cyclotomic tower and over subfields of `F(μ_{p^s})`, the uniqueness clause (U)_s whose case at level one and over `F` is 6.4 (8); there crystallinity is a hypothesis, here a conclusion. Through these, CongruenceModulesOfThetaLifts uses this roadmap for the local condition at `ℓ` (CongruenceModulesOfThetaLifts §7.6) and for the total congruence bound (CongruenceModulesOfThetaLifts §§7.10a–7.10c, also through LengthBoundsInPadicFamilies §1.8e). CongruenceModulesOfThetaLifts §7.16 (weight elimination) uses 6.4 and, directly, the Sen weights modulo `ℓ` of 6.5 (the Sen weights modulo `ℓ` of the Wach lattices of eigensystems of weight `μ` are the residues of `μ_a + N − 1 − a`) and the carries of 6.11 (1) of the residual characters of an eigensystem, with the arithmetic lemmas there.
 
 ## Scope and ownership
 
@@ -694,11 +728,23 @@ Not owned here. The theory these statements extend is owned by [PhiGammaModulesA
 
 ### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
 
-§6.0: for finite unramified `F/ℚ_p`, a crystalline `E`-representation `V` and a `G_F`-stable `O_E`-lattice `T`, the Wach module `N(V)` over `E⊗B_F^+` and the embedded lattice `N(T) = N(V) ∩ D(T)` over `O_E⊗A_F^+`, finite free, with trivial `Γ` action modulo `π` and the `q`-height bound; existence, uniqueness inside `D(V)` and `D(T)`, the tensor, dual and interval-twist laws, `N(T)[1/p] = N(V)`, and the filtered comparison `D_cris(V) ≅ N(V)/πN(V)` with `Fil^iN(V) = {x ∈ N(V) : φ(x) ∈ q^iN(V)}` (used in 6.4–6.11). §6.1: unramified base and coefficient change (the API of 6.5 and 6.10). §1.0: the integral étale realization `T ↦ D(T)` over `O_E⊗A_F` with its reduction and coefficient algebras, exact (6.4). §0.1: linearized Frobenius modules (6.6). §§2.2, 2.4, 2.5: the module `ψ` from a linearization, the `ψ`-zero projector and period coordinates (6.7). §3.1: native Herr complexes (6.7, 6.10). §3.4: generator change and the prime-to-`p` torsion adapter (6.4, 6.9). §3.5: invertibility of `γ − 1` on `ψ`-zero parts (6.7). §3.6: the integral Galois comparison of Herr cohomology for finite `p`-primary modules (6.9). §5.6a: the de Rham differential-equation realization and its cyclotomic localisations (6.4, 6.5).
+§6.0: for finite unramified `F/ℚ_p`, a crystalline `E`-representation `V` and a `G_F`-stable `O_E`-lattice `T`, the Wach module `N(V)` over `E⊗B_F^+` and the embedded lattice `N(T) = N(V) ∩ D(T)` over `O_E⊗A_F^+`, finite free, with trivial `Γ` action modulo `π` and the `q`-height bound; existence, uniqueness inside `D(V)` and `D(T)`, the tensor, dual and interval-twist laws, `N(T)[1/p] = N(V)`, and the filtered comparison `D_cris(V) ≅ N(V)/πN(V)` with `Fil^iN(V) = {x ∈ N(V) : φ(x) ∈ q^iN(V)}` (used in 6.4–6.11). §6.1: unramified base and coefficient change (the API of 6.5 and 6.10). §1.0: the integral étale realization `T ↦ D(T)` over `O_E⊗A_F` with its reduction and coefficient algebras, exact (6.4). §0.1: linearized Frobenius modules (6.6). §§2.2, 2.4, 2.5: the module `ψ` from a linearization, the `ψ`-zero projector and period coordinates (6.7). §3.1: native Herr complexes (6.7, 6.10). §3.4: generator change and the prime-to-`p` torsion adapter (6.4, 6.9). §3.5: invertibility of `γ − 1` on `ψ`-zero parts (6.7). §3.6: the integral Galois comparison of Herr cohomology for finite `p`-primary modules (6.9).
 
 ### From TauCetiRoadmap.PadicPeriodRings
 
-§§4.1–4.3: the period rings `B_cris` and `B_dR`, the functors `D_cris` and `D_dR` with the Hodge filtration, and the fixed-field identities, which define crystalline and de Rham representations and their Hodge–Tate weights (6.4–6.11).
+§§4.1–4.3: the period rings `B_cris` and `B_dR`, the functors `D_cris` and `D_dR` with the Hodge filtration, and the fixed-field identities, which define crystalline and de Rham representations (6.4–6.11).
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+§R07.P7.1: for `E` containing the embeddings of `F`, the labelled Hodge–Tate multisets `HT_τ(V)` from the splitting `F ⊗ E = ∏_τ E`, with `χ_p` of weight `+1`, and for crystalline `V` the interval identity between `HT_τ(V) ⊆ [a, b]` and the vanishing of the graded pieces of `e_τD_cris(V)` outside `[−b, −a]` (6.4–6.11, with weights negated).
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+§1.5: for every level `n ≥ 1`, the localisation map `ι_n` on `B^{†,r}_{rig,F}` (`r ≤ r_n`) to `F_n[[t]]`: a `σ^{−n}`-semilinear injective ring map with `π ↦ ζ_{p^n}exp(t/p^n) − 1`, `t ↦ t/p^n`, `ι_{n+1}φ = ι_n`, compatible with `Γ`, and evaluation with kernel `(φ^{n−1}(q))` (6.4 (6), (7)).
+
+### From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
+
+§0.2: for finite `K/ℚ_p` and coefficients containing its embeddings, the classification of crystalline characters by integral labelled weights; each embedded Lubin–Tate character has labelled weight `1` at its embedding and `0` at the others, with the opposite sign to ours (the routes of 6.4 (2), (5), (8) and 6.11 (0)).
 
 ### From Mathlib
 

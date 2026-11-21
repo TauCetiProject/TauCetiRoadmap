@@ -8,7 +8,8 @@ states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. 
 statable at the pins, so nothing is stated here.
 
 Every headline is a statement about crystalline `E`-representations `V` of the absolute Galois
-group `G_F` of a finite unramified extension `F/ℚ_p` (`p` odd), their Hodge–Tate weights labelled by
+group `G_F` of a finite unramified extension `F/ℚ_p` (`p` odd, `E` containing the images of the
+embeddings of `F(ζ_p)`), their Hodge–Tate weights labelled by
 the embeddings of `F` into `E`, and the Wach lattice `N(T)` of a `G_F`-stable `O_E`-lattice `T`
 inside Fontaine's étale `(φ,Γ)`-module `D(T)` over `O_E ⊗ A_F` (PadicPeriodRings §§4.1–4.2,
 PhiGammaModulesAndIwasawaCohomology §§1.0, 6.0). Neither Mathlib nor Tau Ceti has these carriers at
