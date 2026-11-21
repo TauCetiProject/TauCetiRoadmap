@@ -582,7 +582,7 @@ precompose with the isometries `U_u` (which change neither the frame operator no
 `a_u` and the weight by `|a_u|^{−2}` (which change neither): the size of `a_u` never enters. (b) `μ_min(R^∨) = −μ_max(R)`
 (SlopesOfHermitianVectorBundles §2.2), and `s̄ ≤ max_u(μ_max(N′_u) − h_u)`. By 9.2 (c) and 9.1 (d),
 `μ_max(N′_u) ≤ C|Φ_top|a·La + 𝒩 + F_tot − E_tot(u)`, where `𝒩 ≤ C·m|Φ_top|a·log X″` (the gains are at most `4|Φ_top|a/p` per place and
-lift, LocalGainOfThetaChains §4.17a (ii)), `F_tot` is at most a polynomial in `x` times `b` (LocalGainOfThetaChains §4.9f (d)) and `−E_tot(u) ≤ C·m·B₀` (GluedTargetAndDivisionInequality §8.23 (a)). In `−h_u` the term
+lift, LocalGainOfThetaChains §4.17a (ii), summed over `p ≤ X″` by Mertens' first theorem, AnalyticNumberTheoryPartI §0.11), `F_tot` is at most a polynomial in `x` times `b` (LocalGainOfThetaChains §4.9f (d)) and `−E_tot(u) ≤ C·m·B₀` (GluedTargetAndDivisionInequality §8.23 (a)). In `−h_u` the term
 `+log 𝔫` is added to `μ_max(R)`, and GluedTargetAndDivisionInequality §8.24 bounds the sum by `x^C·b` (its exponent `C` is
 chosen after `ε`, GluedTargetAndDivisionInequality §8.24 (a)); the other terms of `h_u` are bounded in
 absolute value by polynomials in `x` times `b` (GluedTargetAndDivisionInequality §8.9 with the top term `t_u` of GluedTargetAndDivisionInequality §8.7 (b), GluedTargetAndDivisionInequality §8.23 and the sizes of ThetaChainsOnDefiniteUnitaryGroups §2.1). Take `c_H⁰` one more
@@ -592,7 +592,7 @@ enter through `F_tot` and `h_u`), which is why `c_H` comes after `ε`. On the fr
 the smallness hypotheses above and `3√ϑ_T + 4√(2e_diag) ≤ x^{−c_H}` hold, and `(η_frame + 4√e_frame)·x^{c_H} ≤ 6`, for `x ≥ x₀(c_H)`.
 
 *NEW* (instance). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.8, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.17a, BesselPoincareSeriesAndGramBounds §5.14, BesselPoincareSeriesAndGramBounds §5.15, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, GluedTargetAndDivisionInequality §8.7, GluedTargetAndDivisionInequality §8.8, GluedTargetAndDivisionInequality §8.9, GluedTargetAndDivisionInequality §8.23, GluedTargetAndDivisionInequality §8.24, 9.1, 9.2,
-9.5; SlopesOfHermitianVectorBundles §§2.2, 5.5, 5.6, 5.7.
+9.5; SlopesOfHermitianVectorBundles §§2.2, 5.5, 5.6, 5.7; AnalyticNumberTheoryPartI §0.11.
 
 ### Examples
 
@@ -611,8 +611,8 @@ BesselPoincareSeriesAndGramBounds §§5.14, 5.15, 5.18a, 5.20, 5.21, 5.23; Seesa
 GluedTargetAndDivisionInequality §§7.13, 7.14, 8.7, 8.8, 8.9, 8.20, 8.21, 8.23, 8.24; IntegralWeylModulesOfGeneralLinearGroups
 §§3.2, 3.4; HermitianFormsAndLattices §§4.12, 6.0b, 6.1, 6.2, 6.3, 6.4; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1, 2.2,
 2.4, 5.5, 5.6, 5.7; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; AutomorphicFormsOnReductiveGroups §2.4;
-GeometryOfNumbersAndQuadraticArithmetic §4.4.13; AdelicAlgebraicGroups §2.4; ClassicalGroups §5.1; Mathlib's Chebyshev
-bound.
+GeometryOfNumbersAndQuadraticArithmetic §4.4.13; AdelicAlgebraicGroups §2.4; ClassicalGroups §5.1;
+AnalyticNumberTheoryPartI §0.11; Mathlib's Chebyshev bound.
 
 ## Layer 10: The Frobenius-restricted inequality and the windowed bound
 
@@ -793,8 +793,9 @@ every word.
 from the level prime, once per lift (the Chowla–Selberg period against the mass formula); what remains is
 `a(log a − 1 − γ + (L′/L)(1, χ_K) − mean log w_j)`.
 
-*Check.* Each constant of `𝔐` is forced: with constant weights `w`, 10.1's Check, `Σ_{n≤y}Λ(n)/n = log y − γ + o(1)`,
-`Σ_{n≤y}χ_K(n)Λ(n)/n = −(L′/L)(1, χ_K) + o(1)` and the prime number theorem give `ℛ(a, τ, w) = 𝔐(a, w) + o(a)`. Lowering any
+*Check.* Each constant of `𝔐` is forced: with constant weights `w`, 10.1's Check, `Σ_{n≤y}Λ(n)/n = log y − γ + o(1)`
+(ExplicitPrimeCounting §4.2), `Σ_{n≤y}χ_K(n)Λ(n)/n = −(L′/L)(1, χ_K) + o(1)` (ExplicitPrimeCounting §0.2: the closed form
+of `C(d, a)` summed against `χ_K`) and the prime number theorem give `ℛ(a, τ, w) = 𝔐(a, w) + o(a)`. Lowering any
 constant of `𝔐` by a fixed `δ > 0` would make 10.4 false for large `x` (its error is `o(m|Φ_top|a)`), and raising it would
 make 10.4 a consequence of the prime number theorem, carrying no information; `−1` comes from Stirling (GluedTargetAndDivisionInequality §8.10), `−γ` and
 `+(L′/L)(1, χ_K)` from the Chowla–Selberg period (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5), `−mean log w` from the level prime (9.4).
@@ -1050,7 +1051,8 @@ gives `|𝒯| ≥ x^{−ε}|A|`; (h3), (h4) give the inert bound of LocalGainOfT
 and `|log Ω| ≤ La` (GluedTargetAndDivisionInequality §8.22). `SizeDep` is the Lemma of ThetaChainsOnDefiniteUnitaryGroups §2.1 for the hosts of FrobeniusRestrictedRieszSums §0.4: `q` and `d` divide `f_E`, so
 `log(qd) ≤ log f_E ≤ 2x^{ε/5}log²x ≤ m` by (h2) and `m ≥ x^{1/2−ε/16}`; the primes of `S_small` (ThetaChainsOnDefiniteUnitaryGroups §2.1) divide `2f_ψ`, because
 `f_E = lcm(2^{n+2}, f_ψ)·q·d` (FrobeniusRestrictedRieszSums §0.4 API (c)); at such a prime `ℓ` the different exponent of `E` divided by the ramification index
-is the mean of the conductor exponents at `ℓ` of the characters of `G` (conductor–discriminant formula), at most
+is the mean of the conductor exponents at `ℓ` of the characters of `G` (ClassFieldTheory §13.1,
+`count_relDiscr_eq_finsum_abelianConductor_exponent`, with NumberFieldArithmetic §5.10), at most
 `v_ℓ(f_E) ≤ n + 2 + log₂f_ψ`, and `2^n ≤ |A| ≤ 2x^{A_n}`; so `(Σ_{ℓ∈S_small} log ℓ)·(2 + vd) ≤ log(2f_ψ)·(5 log x + log₂f_ψ + 4)`,
 which is at most `11x^ε` for `x ≥ x₀`. *The window `ϑ` and FrobeniusRestrictedRieszSums §1.7.* `ϑ = m·h₀ + |μ_E|` is polynomial in `x` (`h₀ ≤ 4x^{c_h}`;
 `φ(|μ_E|) ≤ 2f`), of a degree that depends on `c_h`, so `SizeTheta`, `ϑ ≤ w″/x` and the cost conditions of
@@ -1061,8 +1063,7 @@ disjointness `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` is possible because at most
 `𝔅(r, g₁)`, fewer than the primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (a) there; the hypothesis `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 (`16·m·x^ε ≤ log T*(u)`,
 `log T*(u) + 1 ≤ C_T·m·x^ε ≤ x`) is 9.4 (d), with `C_T ≥ 25`; `g_i ≡ 1 (mod f_E)` and `g_i ≤ 2(kb)^8 ≤ b⁹`.
 
-*NEW* (elementary). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.7, FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, 9.4, 10.6, 10.7; ClassFieldTheory Layer 13 (the
-conductor–discriminant formula).
+*NEW* (elementary). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.7, FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, 9.4, 10.6, 10.7; ClassFieldTheory §13.1; NumberFieldArithmetic §5.10.
 
 ### 10.6b The weight datum
 
@@ -1197,20 +1198,21 @@ they divide neither `f_E`, hence neither `q·d` nor a prime of `S_small`, which 
 `log(C·DF(w_L)) ≤ x^ε + C″ ≤ 2x^ε`, and `C·DF(w_L) > 1` as `DF(w_L) ≥ 3` (below). `k·b′ = k·x·b/X′ ≤ b`, `g_i ≤ 2(kb)^8 ≤ b⁹`, and the remaining conditions compare a
 polynomial in `x` with `b` or with `X″`, or the logarithm of one with `x^ε`. *(N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a at `T = T_O`.* The conditions on `T`
 alone (`T_O ≥ T₀(D_Y, n_W, r, f, p, q)`, `T_O ≥ P⁴D_Y³kf/(mδ₂)`, `T_O ≤ x^{C_deg}`, `P³T_O² ≤ b`, `R_E·P ≤ b`) compare polynomials in
-`x` (the lower bounds are those of the Check of 10.6) or `R_E` with `b`. With `R_E = rd_E^{C_R}`: `rd_E ≤ f_E` (conductor–discriminant
-formula), so `log R_E ≤ 2C_R·x^{ε/5}log²x` by (h2), and these are of kind (K3) for every fixed `C_R`. The conditions with
+`x` (the lower bounds are those of the Check of 10.6) or `R_E` with `b`. With `R_E = rd_E^{C_R}`: `rd_E ≤ f_E` (ClassFieldTheory
+§13.1, both halves), so `log R_E ≤ 2C_R·x^{ε/5}log²x` by (h2), and these are of kind (K3) for every fixed `C_R`. The conditions with
 `DF(w_L)` or `DF(κ)` are not comparisons of polynomials: by (N1), `DF(w_L) ≤ |w_L| ≤ C·k·f·b/T_O` and `DF(κ) ≤ |κ| ≤ C·k·f·b`, which
 exceed every power of `x` (at a thick place `T_O·W(τ) ≥ b/2` in the page conditions). They hold because they compare these
 with `q_* = min(g₀, g₁) > (kb)^8`: `R_E⁴P³DF(w_L)² ≤ q_*`, `T_O·γ₀·R_E·P·DF(w_L)² ≤ q_*`, `(D_Y + 4)·DF(w_L) ≤ q_* − 2`,
 `4·DF(w_L) + 4 ≤ q_*`, `2·DF(κ) + 2 < g_i`, `DF(w_L)·2√(2fm) < q_*`, and `c ≤ R_E·P·DF(w_L)²/q_* ≤ b^{−5}`, which gives
 `T_O·c·γ₀ ≤ 1` and `f·m³·R_E²·c ≤ ½`, all for `x ≥ x₀`. Also `k ≤ min(q, d) − 1`, because `q, d > x^{2C_t+5}` (10.6a) while
-`k ≤ 2x^{A_n+5/2+2ε}` and `A_n + 5/2 + 2ε < 2C_t + 5`. `f² ≤ rd_E` because `rd_E ≥ d^{1/2}` (the characters of `G` ramified at `d`
-are half of them) and `log d ≥ x^{19ε/(100J)}` by (h4), while `f ≤ 4x^{A_n}`; `r ≥ k ≥ 8`; `DF(w_L) ≥ f·k ≥ 3` because the entries
+`k ≤ 2x^{A_n+5/2+2ε}` and `A_n + 5/2 + 2ε < 2C_t + 5`. `f² ≤ rd_E` because `rd_E ≥ d^{1/2}` (ClassFieldTheory §13.1, first half: the characters of `G` ramified at `d`
+are half of them, each of exponent `1` there) and `log d ≥ x^{19ε/(100J)}` by (h4), while `f ≤ 4x^{A_n}`; `r ≥ k ≥ 8`; `DF(w_L) ≥ f·k ≥ 3` because the entries
 of `w_L` are weakly decreasing with positive last entries (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (N1)). *Size conditions of GluedTargetAndDivisionInequality §8.22.* `N_m ≤ x^{C_t+2}` is
 polynomial, `w″ = b/(X′|A|)` and `b′ = a/X′`, so `N_m²·w″ ≤ b` and `(N_m² + m·k)·b′ ≤ a`; the others are of the kinds
 (K1)–(K3); `r + 1 < g₀, g₁` and `24f·r ≤ min(g₀, g₁)` because `g_i > (kb)^8`. *9.2, 9.5, 9.6, 10.5.* `T(u) ≥ b^{16m} ≥ b³` (9.4 (d)); `τ_N` vanishes except at the served primes `p ≤ X″` outside `Drop`,
 and there the conclusion of LocalGainOfThetaChains §4.17a (ii), `D_ℛ(p) ≤ Σ_jΣ_{τ∉Φ_top(𝔭)}V_{j,τ}(p) + m|Φ_top|·ℒ(p) + m·ℒ_f(p)` with all `V_{j,τ}(p) ≥ 0`
-(10.1 (b)), gives `τ_N(p) ≤ Σ_j g^D_j(p) + m|Φ_top|·ℒ(p) + m·ℒ_f(p)`; with `g^D_j(p) ≤ 4|Φ_top|a/p` (LocalGainOfThetaChains §4.17a (ii)) and the sums of `ℒ`,
+(10.1 (b)), gives `τ_N(p) ≤ Σ_j g^D_j(p) + m|Φ_top|·ℒ(p) + m·ℒ_f(p)`; with `g^D_j(p) ≤ 4|Φ_top|a/p` (LocalGainOfThetaChains §4.17a (ii), summed over `p ≤ X″` by Mertens' first theorem,
+AnalyticNumberTheoryPartI §0.11) and the sums of `ℒ`,
 `ℒ_f` in the route of 10.2 (the sandwich exponent `e_p ≤ ℒ_f(p)` is inside), `Σ_𝔭 sz_𝔭(τ_N(𝔭)) = Σ_p 2 log p·τ_N(p) ≤ C·m|Φ_top|·(a·log X″ + b) + C·m·f·X″·(N_m²·log 2a + log²2a)`,
 which is at most `b²` for `x ≥ x₀`; 9.5 (b) holds under `SizeW` with `C_W ≥ 4C_Γ/log 2 + 1`;
 the conditions of 9.6 and `3√ϑ_T + 4√(2e_diag) ≤ x^{−c_H}` hold because `ϑ_T ≤ max_u δ_old(u) ≤ 2f/X′` and
@@ -1224,7 +1226,7 @@ parameters, and the choice of the witnesses
 `h₀`, `S_u`, `η_u` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (f) at the parameters.
 
 *NEW* (elementary). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.17a, RowTowerAndRallisIdentities §5.8e, CongruenceModulesOfThetaLifts §7.6, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.23, 9.2, 9.4, 9.5, 9.6, 10.1, 10.2,
-10.4, 10.5, 10.6, 10.6a, 10.6b, 10.6c; ClassFieldTheory Layer 13 (the conductor–discriminant formula).
+10.4, 10.5, 10.6, 10.6a, 10.6b, 10.6c; ClassFieldTheory §13.1; AnalyticNumberTheoryPartI §0.11.
 
 ### 10.7 Hosts at every scale, and on windows
 
@@ -1509,7 +1511,7 @@ GluedTargetAndDivisionInequality §§7.13, 7.14, 8.10, 8.19e, 8.20, 8.20b, 8.21,
 §7.6; QuadraticTwistSelectionOverPrimes §§2.7c, 2.7d; RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i, 1.7b, 2.9b;
 RiemannHypothesisStatementsAndConsequences §8.4a; PositivityOfDirichletSeriesWithKernels §6.9;
 BernoulliBoundsForClassGroupEigenspaces §6.17; FiniteReductiveGroups §§2.2, 5.7; AnalyticNumberTheoryPartI §0.11;
-ClassFieldTheory Layer 13; Mathlib's Chebyshev bound.
+ExplicitPrimeCounting §§0.2, 4.2; ClassFieldTheory §13.1; NumberFieldArithmetic §5.10; Mathlib's Chebyshev bound.
 
 ## Downstream consumers
 
@@ -1552,8 +1554,9 @@ RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i, 1.7b, 2.9b; the Riesz rem
 RiemannHypothesisStatementsAndConsequences §8.4a, and windows of scales are PositivityOfDirichletSeriesWithKernels §6.9.
 Mertens' theorem is AnalyticNumberTheoryPartI §0.11, Banaszczyk's transference theorem
 GeometryOfNumbersAndQuadraticArithmetic §4.4.13, gauge forms AdelicAlgebraicGroups §2.4, discrete series and their
-parameters AutomorphicFormsOnReductiveGroups §2.4, the Weyl dimension formula ClassicalGroups §5.1, and the
-conductor–discriminant formula ClassFieldTheory Layer 13.
+parameters AutomorphicFormsOnReductiveGroups §2.4, the Weyl dimension formula ClassicalGroups §5.1, the
+conductor–discriminant formula ClassFieldTheory §13.1 (with the discriminant valuation NumberFieldArithmetic §5.10), and the
+sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting §§0.2, 4.2.
 
 ## Exact supplier contracts
 
@@ -1567,7 +1570,12 @@ conductor–discriminant formula ClassFieldTheory Layer 13.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-- §0.11: Mertens' first theorem. Used in 10.2.
+- §0.11: Mertens' first theorem. Used in 9.6, 10.2, 10.6d.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+- §4.2: `Σ_{n≤x}Λ(n)/n = log x − γ + O*(1.833/log² x)` for `x > 1`. §0.2: the constants `C(q, a)` of the progression sums
+  `Σ_{n≤x, n≡a (q)}Λ(n)/n` and their closed form through the values `(L′/L)(1, χ)`. Used in 10.3 (Check).
 
 ### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
@@ -1589,8 +1597,12 @@ conductor–discriminant formula ClassFieldTheory Layer 13.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
-- Layer 13: Kronecker–Weber, the conductor–discriminant formula, the Hilbert class field and the principal ideal theorem.
-  Used in 10.6a, 10.6d.
+- §13.1: the global conductor–discriminant formula (`count_relDiscr_eq_finsum_abelianConductor_exponent`,
+  `abelianConductor_eq_lcm`). Used in 10.6a, 10.6d.
+
+### From TauCetiRoadmap.NumberFieldArithmetic
+
+- §5.10: the discriminant valuation as the residue-degree-weighted different exponent. Used in 10.6a.
 
 ### From PositivityOfDirichletSeriesWithKernels, a sub-roadmap of this family
 
