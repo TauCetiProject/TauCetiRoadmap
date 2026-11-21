@@ -1,6 +1,7 @@
 # Riemann hypothesis for Dirichlet L-functions
 
-A family of roadmaps whose end theorem is the Riemann hypothesis for Dirichlet L-functions: for
+A family of roadmaps whose end theorem is the generalized Riemann hypothesis (GRH), that is, the
+Riemann hypothesis for Dirichlet L-functions: for
 every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s` with `Re s > 1/2`,
 `L(s, χ) ≠ 0` unless `χ` is principal and `s = 1`. For the trivial character this is the Riemann
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
@@ -9,7 +10,9 @@ Riemann hypothesis for the Dedekind zeta function of every number field abelian 
 roadmap of the family states these theorems. The family follows the formal Lean proof, by Levent
 Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced
 on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf); [source with a public verification
-setup](https://github.com/leanprover-community/riemann-hypothesis)). The theorems of that proof are
+setup](https://github.com/leanprover-community/riemann-hypothesis)). That repository says of the
+proof that it belongs to its author and was published without a license, and that it is mirrored
+there unmodified, for verification only. The theorems of that proof are
 the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
 Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
 them by published theorems and are not statements of the formal proof. Each roadmap states as
