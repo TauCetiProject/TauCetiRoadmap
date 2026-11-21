@@ -1,0 +1,1876 @@
+# Roadmap: theta kernels for unitary dual pairs
+
+**Summary.** Let `E/F` be a quadratic extension of local or global fields, or the split algebra `F × F` at a place, `V` a Hermitian and `W` a skew-Hermitian space over `E`. The isometry groups `U(V)` and `U(W)` form a dual pair in the symplectic group of `V ⊗ W`, and a choice of splitting characters `χ_V`, `χ_W` lifts the pair to the metaplectic cover, so that the Weil representation `ω` becomes a representation of `U(V) × U(W)`. This roadmap develops the theta theory of these unitary dual pairs on which the theta lifts between definite unitary groups rest: the action of `ω` on a Siegel parabolic subgroup and on orthogonal sums; persistence, the stable range and bump vectors; the unramified correspondence; the Fock model, compact dual pairs and the archimedean correspondence of discrete series; local matching of the two theta quotients attached to a complementary datum `δ⁻¹W ≅ V ⊕ V′(−1)` at split, unramified inert and real places; the global Weil representation of a unitary pair and its characterisation; and, for theta integrals, Weil's convergence criterion, regularised convergence, constant terms along an isotropic line through cone maps, local multiplicity bounds, the Siegel–Weil and Rallis inner product formulas in Weil's convergent range, and the unramified doubling integral.
+
+The headline theorems are these. (1) *The unramified correspondence.* Let `F` be nonarchimedean, `dim V = n ≤ d = dim W`, `χ_V`, `χ_W` unramified, and either `E/F` unramified quadratic of odd residue characteristic, `ψ` of conductor `𝒪_F` and `V`, `W` with self-dual lattices, or `E = F × F`. If unramified representations `π` of `U(V)` and `π′` of `U(W)` satisfy `Hom_{U(V)×U(W)}(ω, π ⊗ π′) ≠ 0` and `π` has Satake parameter `(α_1, …, α_n)`, then `π′` has parameter `(cα_1, …, cα_n, χ_V(ϖ)q^{(d−n−1)/2}, χ_V(ϖ)q^{(d−n−3)/2}, …, χ_V(ϖ)q^{−(d−n−1)/2})` with `c = χ_V(ϖ)/χ_W(ϖ)`; and the small theta lift `θ(π)` of an unramified `π` is unramified whenever it is nonzero. (2) *Local matching at split places.* Let `F` be nonarchimedean, `E = F × F`, `V`, `V′` Hermitian of dimensions `a > a′`, `W` skew-Hermitian of dimension `N = a + a′` with `δ⁻¹W ≅ V ⊕ V′(−1)`, and `β`, `α` unitary characters with `β|_{F^×} = ω_{E/F}^a`, `α|_{F^×} = ω_{E/F}^{a′}`, `ν = α/β`. If `ν` is ramified, or unramified with `ν(ϖ) ≠ 1`, then the theta quotients `Θ` and `Θ′` of the trivial representations of `U(V)` and `U(V′)` are irreducible and both isomorphic to the normalised parabolic induction `α_w ∘ det_a × β_w ∘ det_{a′}` of `U(W) ≅ GL_N(F)`. (3) *Weil's criterion and Siegel–Weil.* For a unitary dual pair over a quadratic extension of number fields with `dim V = m` and `V` of Witt index `r`, if `r = 0` or `m − r > (dim W)/2`, then `∫_{[U(V)]} θ(g, h; φ) dg` converges absolutely for every Schwartz function `φ`, locally uniformly in `h`; and for `W` split of dimension `2n` in the setting of GQT, if `r > 0` and `m − r > d(n)`, the Siegel Eisenstein series `E(g, s, Φ_φ)` is holomorphic at `s₀` and `E(g, s₀, Φ_φ) = c · τ(U(V))⁻¹ ∫_{[U(V)]} θ(g, h; φ) dh` with an explicit constant `c`. (4) *The Rallis inner product formula for anisotropic targets.* Let `π` be a cuspidal automorphic representation of `U(V)`, `dim V = n`, `W′` anisotropic of dimension `m`, `χ` the splitting character attached to `W′`, `S` a finite set of places outside which all data are unramified, and `F₁, F₂ ∈ π`, `φ₁, φ₂` factorizable, spherical and lattice vectors outside `S`. Then `⟨θ(F₁, φ₁), θ(F₂, φ₂)⟩` is `[E : F]/c` (`c = 1` for `s₀ > 0`, `c = 2` for `s₀ ≤ 0`, Tamagawa measures) times the value at `s₀ = (m − n)/2` of `L^S(s + ½, BC(π) ⊗ χ⁻¹)/d^S(s) · ∏_{v ∈ S} Z_v(s)`, with `Z_v` the local doubling integrals of the data at `v` against the conjugated matrix coefficient, an expression holomorphic at `s₀`.
+
+The roadmap builds on [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md), which provides the Heisenberg groups and Schrödinger models, the Weil representation and the unitary splittings, theta modules, theta kernels and lifts, and the Siegel–Weil and Rallis identities that the targets here extend; on [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) and [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md) for Satake parameters, segments and the Zelevinsky classification; on [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) for reduction theory and strong approximation; and on [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) for unimodular lattices and Siegel's main theorem. In the family [RiemannHypothesisForDirichletLFunctions](../README.md) its statements are used by the theta lifts of [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) and by the theta-chain roadmaps.
+
+Layer 3 fixes the normalisations of the Weil representation on Siegel parabolic subgroups and orthogonal sums, proves persistence, bump vectors and the unramified correspondence, builds the Fock model, treats compact dual pairs and the archimedean correspondence of discrete series, and proves local matching for complementary data at split, inert and real places, with three lemmas on functionals at split places. Layer 4 constructs the global Weil representation of a unitary pair and characterises it. Layer 5 expresses theta integrals of cusp forms of discrete-series type, proves Weil's convergence criterion, regularised convergence and archimedean vanishing, the constant-term formula along an isotropic line with the cone maps, the local multiplicity bounds that let the cone maps descend to matching data, and the archimedean cone lemma. Layer 6 proves the Siegel–Weil formula in Weil's convergent range, the unramified doubling integral with its region of absolute convergence, the Rallis inner product formula in Weil's range and for anisotropic targets, the integrability statements of the doubling method, and a local doubling integral with a tame twist on a block.
+
+## Conventions
+
+Notation and conventions not restated here are those of MetaplecticAutomorphicForms: its Conventions, and, for the Heisenberg law and the Schrödinger model, split étale Hermitian spaces, unitary dual pairs and their splitting characters, the big theta module, the type-II model, the adelic Weil representation, the theta kernel, the global theta lift and the doubling method, MetaplecticAutomorphicForms §§0.1, 0.15, 3.2a, 3.3, 3.4, 3.14, 4.5, 5.1, 5.6, 6.10 and 6.11. Hermitian spaces and lattices are those of HermitianFormsAndLattices.
+
+`E/F` is a quadratic étale algebra over a local field or a number field: a quadratic field extension, or `E = F × F`. Its conjugation is `x ↦ x̄`, and `ω_{E/F}` (written `η` in the global statements) is the quadratic character attached to it. `V` is an ε-Hermitian and `W` a (−ε)-Hermitian space over `E`; in most statements `V` is Hermitian and `W` skew-Hermitian. Their isometry groups `U(V)` and `U(W)` act on the left, and `V ⊗ W` carries the trace-symplectic form of MetaplecticAutomorphicForms §3.3. For skew-Hermitian `W` and a trace-zero `δ ∈ E^×`, `W^♭ = δ⁻¹W` is the Hermitian space with the form `δ⁻¹⟨·,·⟩_W`. `H` is a hyperbolic plane and `W_r = W₀ ⊕ H^r` a Witt tower. `ψ` is a nontrivial unitary character of `F` (of `𝔸_F/F` in the global statements), and the measures on `F`, `E` and their adeles are self-dual.
+
+Splitting characters are those of MetaplecticAutomorphicForms §3.3: unitary characters `χ_V`, `χ_W` of `E^×` (Hecke characters of `𝔸_E^×/E^×` in the global statements) with `χ_V|_{F^×} = ω_{E/F}^{dim V}` and `χ_W|_{F^×} = ω_{E/F}^{dim W}`; `χ_V` governs the `U(W)`-factor and `χ_W` the `U(V)`-factor. For a character `χ` of `E^×` trivial on `F^×`, `χ̃` is the character of the norm-one group with `χ̃(x/x̄) = χ(x)`; for `V = 0` the oscillator line of `U(W)` is `h ↦ χ̃_V(det h)`, with `det h` the determinant of the left-acting isometry `h` of `W`. At a real place a splitting character is `z ↦ (z/|z|)^m`, and `m` is its infinity type. `ω` (or `ω_{ψ, χ_V, χ_W}`) is the Weil representation of `U(V) × U(W)` attached to `ψ`, `χ_V`, `χ_W`, `S(X)` the Schwartz(–Bruhat) space of a Lagrangian `X`, and `Θ(π)`, `θ(π)` the big and the small theta lift.
+
+In Layers 5–6 the parameters `m`, `n`, `r`, `d(n)` and `s₀` are those of GQT, as in the Conventions of MetaplecticAutomorphicForms; in 6.11 and 6.13a, as in MetaplecticAutomorphicForms §§6.10–6.14, `n` is the dimension of the undoubled space.
+
+## Layer 3: Fock model and local theta correspondence for unitary pairs
+
+This layer works over a local field. It fixes the action of the Weil representation of a unitary pair on a Siegel parabolic subgroup and on orthogonal sums, proves persistence, the stable range and the unramified correspondence, builds the Fock model with the theta correspondence of compact dual pairs and of discrete series, and proves local matching of the two theta quotients of a local complementary datum at split, unramified inert and real places.
+
+### 3.3b The left-action form of the Siegel-parabolic normalisation, and orthogonal sums
+
+This target extends MetaplecticAutomorphicForms §3.3b, which compares the Hermitian Weil operators of four sources with Layer 2 of that roadmap, by two statements: the left-action form of the Siegel-parabolic normalisation, and the compatibility of the splittings with orthogonal sums.
+
+*The left-action form of the Siegel-parabolic normalisation.* Prove the following. In
+the conventions of MetaplecticAutomorphicForms §3.3 (isometry groups acting on the left; `χ_V` the splitting character governing `U(W)`), let `W` be
+split over the local field with a basis `y_1, …, y_k, y^*_1, …, y^*_k`, `⟨y_i, y_j⟩_W = ⟨y^*_i, y^*_j⟩_W = 0`,
+`⟨y_i, y^*_j⟩_W = δ_{ij}`, `Y = span(y_i)`, `Y^* = span(y^*_j)`; for `A ∈ GL_k(E)` and Hermitian `B` let `m(A)`, `n(B)` be the
+isometries with `m(A)y_j = Σ_i (A⁻¹)_{ji} y_i`, `m(A)y^*_j = Σ_i Ā_{ij} y^*_i`, `n(B)y_j = y_j − Σ_i B_{ji} y^*_i`, `n(B)y^*_j = y^*_j`,
+which generate the stabiliser of `Y^*`. In the Schrödinger model of the polarisation `(V ⊗ Y) ⊕ (V ⊗ Y^*)`, on functions
+of `x = Σ_j x_j ⊗ y_j ∈ V ⊗ Y` with Gram matrix `T_x = (⟨x_i, x_j⟩_V)` and `n = dim V`,
+`ω(m(A))φ(x) = χ_V(det A)⁻¹ |det A|_E^{n/2} φ(xA)` and `ω(n(B))φ(x) = ψ(tr(B T_x)) φ(x)`.
+Intrinsically, a Levi element `h` acts by `χ_V(det(h|_Y))` times the modulus `|det(h|_Y)|_E^{−n/2}` times substitution.
+Since `det h = x/x̄` with `x = det(h|_Y)`, whenever `χ_V` is trivial on `F^×` (for even `n`, and for every `n` at a place
+split in `E`, where `ω_{E/F} = 1`) this character is `χ̃_V(det h)`, the character of the case `V = 0` (MetaplecticAutomorphicForms §3.3, Check) composed
+with the determinant of the acting isometry; for odd `n` at a place not split in `E` the character `χ̃_V` of the norm-one
+group is not defined (Check), and only `χ_V(det(h|_Y))` is. The intrinsic formula `χ_V(det(h|_Y))` holds in every case.
+*Dictionary to matrices acting on columns.* In the basis `(y^*_1, …, y^*_k, y_1, …, y_k)` the isometry `m(A)` has the matrix
+`diag(a, ᵗā⁻¹)` with `a = Ā`, and the formula reads `ω(m(a))φ(x) = χ_V(det a)|det a|_E^{n/2}φ(xā)`; a source whose matrices
+act on the right has, for the same matrix, the inverse operator `φ(x) ↦ χ_V(det a)⁻¹|det a|_E^{−n/2}φ(xā⁻¹)`: the character,
+the modulus and the substitution are all inverted.
+
+*Orthogonal sums.* Prove the compatibility of the splittings with orthogonal sums, in two forms. All splittings here are into the scalar covers of
+MetaplecticAutomorphicForms §3.3 (the circle extensions of MetaplecticAutomorphicForms §1.3), and for `𝕎 = 𝕎′ ⊕ 𝕎″` with Lagrangians `X = X′ ⊕ X″` the map from the product of the
+scalar covers of `𝕎′`, `𝕎″` to that of `𝕎` is the tensor product of operators on `S(X) = S(X′) ⊗ S(X″)`. Let `W = W′ ⊥ W″`.
+- (a) *The other member decomposed.* If `χ_{W′}`, `χ_{W″}` are splitting characters for `W′`, `W″` (restrictions
+  `η^{dim W′}`, `η^{dim W″}` to `F^×`), then `χ_{W′}χ_{W″}` is one for `W`, and the splitting of `U(V)` for `V ⊗ W` attached to
+  `χ_{W′}χ_{W″}` is the product of the splittings for `V ⊗ W′` and `V ⊗ W″` attached to `χ_{W′}` and `χ_{W″}`; so the Weil
+  representation of `(V, W)` restricted to `U(V)` is the tensor product of those of `(V, W′)` and `(V, W″)`.
+- (b) *The group's own space decomposed.* For a splitting character `χ_V` of `V`, the restriction to `U(W′) × U(W″) ⊂ U(W)`
+  of the splitting of `U(W)` for `V ⊗ W` attached to `χ_V` is the product of the splittings of `U(W′)` for `V ⊗ W′` and of
+  `U(W″)` for `V ⊗ W″` attached to the same `χ_V`: `ω_{V,W}(h′, h″) = ω_{V,W′}(h′) ⊗ ω_{V,W″}(h″)` on `S(X′) ⊗ S(X″)`.
+Both hold likewise with the roles of `V` and `W` exchanged. The conventions are those of this target: isometry groups
+acting on the left, `χ_V` governing `U(W)`, the Levi formula above.
+
+*Route.* The unipotent formula is the action of `Sp` on the Lagrangian `V ⊗ Y^*` in the Schrödinger model (MetaplecticAutomorphicForms §2.5), with
+`B(x, (n(B) − 1)x)` computed from the Gram matrix; the Levi formula is the substitution `φ ↦ φ(m(A)⁻¹x) = φ(xA)` times the
+modulus and the character of the splitting of MetaplecticAutomorphicForms §3.3 on the Levi subgroup (Gan–Ichino §4, the source of MetaplecticAutomorphicForms §3.3's
+normalisation, read in the left-action convention: `det(m(A)|_Y) = det A⁻¹`, and `χ_V(det A⁻¹) = χ̃_V(det m(A))` for even `n`).
+Orthogonal sums: route not given here; the statement is that the splitting of a product of unitary groups of orthogonal
+pieces is the product of the splittings of the pieces, with the characters as in (a) and (b). Both forms are part of
+Kudla's construction of the splittings (S. Kudla,
+*Splitting metaplectic covers of dual reductive pairs*, Israel J. Math. 87 (1994); Harris–Kudla–Sweet, J. Amer. Math. Soc. 9
+(1996), §1), to be read in the normalisation of MetaplecticAutomorphicForms §3.3 with the conventions just stated. The special case of (b) in which
+`W′` and `W″` are both split follows from the Levi formula: two continuous liftings of `U(W′) × U(W″)` differ by a continuous
+character, which factors through the determinants (the derived groups of split unitary groups of dimension `≥ 2` are their
+special unitary groups); for `Y = Y′ ⊕ Y″` the element `m(diag(A′, A″))` acts on `S(V ⊗ Y′) ⊗ S(V ⊗ Y″)` by the tensor product of
+the two Levi formulas, and `det m(A′) = det Ā′/det A′` exhausts the norm-one group, so the character is trivial. (a) for split
+`V` follows in the same way from the Levi formula of the exchanged pair.
+
+**Checks.**
+
+- `m(A)` and `n(B)` preserve `⟨·,·⟩_W` (`n(B)` exactly when `B` is Hermitian), and `tr(B T_x) ∈ F`; for `A` unitary at a real
+  place the character `χ_V(det A)⁻¹` equals `det(Ā)^{m_V}`, for even `n` the value of `χ̃_V ∘ det` on `m(A)`. Reading the
+  character as `χ_V(det A)` (the determinant of `A` instead of that of the isometry) would invert every splitting character.
+- Odd `n` at a real place: `χ_V(z) = (z/|z|)^{m_V}` with `m_V` odd, so `χ_V(−1) = −1 ≠ χ_V(1)` while `1` and `−1` have the same
+  image `1` under `x ↦ x/x̄`; no character `χ̃_V` of the norm-one group with `χ̃_V(x/x̄) = χ_V(x)` exists, and the Levi
+  character is `χ_V(det(h|_Y))`. At a split place, by contrast, `χ_V|_{F^×} = ω_{E/F}^n = 1` for odd `n` as well, and the Levi
+  character is `χ̃_V(det h)` (the split law of 4.4a).
+- (b) for split `W′ = Ey′ ⊕ Ey′^*`, `W″ = Ey″ ⊕ Ey″^*`: `m(diag(a′, a″))` acts on `φ′ ⊗ φ″` by
+  `χ_V(a′a″)⁻¹|a′a″|_E^{n/2}φ′(x′a′)φ″(x″a″)`, the product of the Levi formulas of `W′` and `W″` with the same `χ_V` on both
+  factors (in (a) it is the characters of the two pieces that multiply).
+- `k = 1`, `W = Ey ⊕ Ey^*`: for `g` fixing `V ⊗ y^*` pointwise, `gu = u + c(u)` and `ω(g)φ(u) = ψ(−½B(u, cu))φ(u)` (MetaplecticAutomorphicForms §§0.15,
+  1.3); with `B(x ⊗ y, −bx ⊗ y^*) = −2b⟨x, x⟩` this gives `ω(n(b))φ(x) = ψ(b⟨x, x⟩)φ(x)`, with no convention entering.
+
+### 3.9a Unitary persistence, the stable range and bump vectors
+
+Prove persistence, the stable range and the existence of bump vectors for unitary pairs. Let `F` be a
+nonarchimedean local field of characteristic zero, `E/F` a quadratic field extension or `E = F × F`,
+`V` a nondegenerate Hermitian space of dimension `n`, `W₀` a nondegenerate skew-Hermitian space and
+`W_r = W₀ ⊕ H^r` its Witt tower, with splitting characters as in MetaplecticAutomorphicForms §3.3 (and MetaplecticAutomorphicForms §3.2a when `E` is split).
+For an irreducible admissible `π` of `U(V)`:
+
+- (i) *Persistence.* If `Θ_{W_r}(π) ≠ 0` then `Θ_{W_{r+1}}(π) ≠ 0`.
+- (ii) *Stable range.* If `W_r` contains an isotropic subspace of dimension `n` (for `E = F × F`: if
+  `dim W_r ≥ n`), then `Θ_{W_r}(π) ≠ 0` for every `π`; the central characters match automatically
+  for unitary pairs.
+- (iii) *Bump vectors.* Under the hypothesis of (ii), for every open neighbourhood `H` of `1` in
+  `U(V)` there are an open subgroup `H₀ ⊂ H` and a vector `φ` of the Weil representation such that
+  the matrix coefficient `g ↦ ⟨ω(g)φ, φ⟩` on `U(V)` is nonnegative, supported in `H` and equal to
+  `‖φ‖² > 0` on `H₀`. Consequently, for every `v ∈ π` fixed by `H`,
+  `∫_{U(V)} ⟨ω(g)φ, φ⟩⟨π(g)v, v⟩ dg = c·‖v‖²` with `c = ∫_H ⟨ω(g)φ, φ⟩ dg ≥ vol(H₀)‖φ‖² > 0`, the
+  integral being over a compact set.
+
+*Route.* Choose `W_r = Y ⊕ W′ ⊕ Y*` with `Y` isotropic of dimension `n` and use the mixed model
+`S(V ⊗ Y*) ⊗ ω_{V,W′}`, in which `U(V)` acts on the first factor linearly, up to the character
+`χ_W(det)` and a modulus, and on the second through the Weil representation of the smaller pair.
+(iii): take `φ = 1_{x₀ + ϖ^k L} ⊗ φ′` with `x₀ : Y → V` an isomorphism onto `V` (so the stabiliser of
+`x₀` in `U(V)` is trivial), `L` a lattice and `φ′` fixed by a small open subgroup; shrinking `H` so that
+`χ_W(det g) = 1` and `φ′` is fixed on `H`, for `k` large the first factor of the matrix coefficient is the
+nonnegative volume `vol((x₀ + ϖ^kL) ∩ g(x₀ + ϖ^kL))`, supported in a small neighbourhood of `1` and constant
+on the principal congruence subgroup of level `k`, and the second factor is `‖φ′‖²` there. (ii) follows
+from (iii) and the nonvanishing of the integral, which gives a nonzero element of
+`Hom_{U(V)}(ω, π)`. (i) is Kudla's argument with the Jacquet filtration of MetaplecticAutomorphicForms §3.12 in its unitary form.
+For `E = F × F` use the type-II model of MetaplecticAutomorphicForms §3.2a, in which `GL_n` acts on `n × dim W` matrices and a
+full-rank `x₀` has trivial stabiliser.
+
+(Kudla96, III.4 Propositions 4.1, 4.3–4.5; J.-S. Li, *Singular unitary representations of classical
+groups*, Invent. Math. 97 (1989), and *Nonvanishing theorems for the cohomology of certain arithmetic
+quotients*, J. reine angew. Math. 428 (1992), §§3–5, for (iii).) *Needs:* MetaplecticAutomorphicForms §§3.2a, 3.3, 3.4, 3.6, 3.12;
+SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.3.1.
+
+**Checks.**
+
+- `n = 0`: (ii) says the oscillator character of `U(W_r)` is nonzero; (iii) is vacuous.
+- For `E` a field, `W` anisotropic of dimension `2` and `n = 1`, the hypothesis of (ii) fails for
+  `r = 0` (no isotropic line) and holds for `r = 1`.
+- In (iii) the stabiliser condition is needed: if `x₀` had a nontrivial stabiliser `S`, the matrix
+  coefficient would be supported on a neighbourhood of `S`, not of `1`.
+
+### 3.21a The unramified unitary theta correspondence
+
+Prove the unramified theta correspondence for unitary pairs. Let `F` be nonarchimedean, `V`, `W` of dimensions `n ≤ d` with unramified
+splitting characters `χ_V`, `χ_W`, and suppose one of the following:
+
+- (inert case) `E/F` is unramified quadratic, the residue characteristic is odd, `ψ` has conductor `𝒪_F`, `L ⊂ V`
+  and `M ⊂ W` are self-dual lattices (for the Hermitian form of `V` and the skew-Hermitian form of `W`),
+  `K = Stab(L)`, `K′ = Stab(M)` (hyperspecial), and `φ₀` is the lattice vector of `L ⊗ M` (MetaplecticAutomorphicForms §2.6a);
+- (split case) `E = F × F`, of any residue characteristic, and `ψ` of any conductor; through MetaplecticAutomorphicForms §3.2a,
+  `U(V) ≅ GL_n(F)`, `U(W) ≅ GL_d(F)` and the Weil representation is the type-II model on `S(M_{n×d}(F))` of
+  MetaplecticAutomorphicForms §3.14, written in bases of lattices `Λ ⊂ P`, `Λ′ ⊂ Q` (`V = P ⊕ P^∨`, `W = Q ⊕ Q^∨` as in MetaplecticAutomorphicForms §3.2a); `K = GL_n(𝒪_F)`,
+  `K′ = GL_d(𝒪_F)` (the stabilisers of the self-dual lattices `Λ ⊕ Λ^∨`, `Λ′ ⊕ Λ′^∨`), and `φ₀ = 1_{M_{n×d}(𝒪_F)}`,
+  which is the lattice vector of the `ψ`-self-dual lattice formed by `M_{n×d}(𝒪_F)` and its `ψ`-dual in the
+  complementary Lagrangian, for the lift `q(x + y) = ψ(−½B(x, y))` (no lift `q = 1` is needed, and MetaplecticAutomorphicForms §2.6a is not
+  used).
+
+Let `ℋ`, `ℋ′` be the spherical Hecke algebras of `(U(V), K)` and `(U(W), K′)`.
+
+- (i) The `K × K′`-fixed vectors of `ω` are `ℋ·φ₀ = ℋ′·φ₀`; moreover the `K`-fixed vectors of `ω` form the
+  `U(W)`-module generated by `φ₀`.
+- (ii) There is an algebra homomorphism `ξ : ℋ′ → ℋ` with `ω(1, T)φ₀ = ω(ξ(T)^∨, 1)φ₀`, where `T ↦ T^∨`
+  is the anti-involution induced by `g ↦ g⁻¹`.
+- (iii) In Satake terms (SmoothRepresentationsOfLocalGroups §§SR.4.3–SR.4.4, unitary normalisation,
+  base-change parameters at inert places), if `π` and `π′` are unramified with
+  `Hom_{U(V)×U(W)}(ω, π ⊗ π′) ≠ 0`, and `π` has parameter `(α_1, …, α_n)`, then `π′` has parameter
+  `(c α_1, …, c α_n, χ_V(ϖ) q^{(d−n−1)/2}, χ_V(ϖ) q^{(d−n−3)/2}, …, χ_V(ϖ) q^{−(d−n−1)/2})`,
+  `c = χ_V(ϖ)/χ_W(ϖ)`, with `q` the residue cardinality of `E` at the place (of `E_w` at a split
+  place) and `ϖ` a uniformiser there. Equivalently, `Sat(ξ(T))(β) = Sat(T)(cβ⁻¹, segment)`, the
+  inversion coming from `T ↦ T^∨` in (ii).
+- (iv) For every unramified `π` with `θ(π) ≠ 0`, `θ(π)` is unramified, so (iii) applies to it; when `W`
+  contains an isotropic subspace of dimension `n` (in particular for `d ≥ 2n + 1`), `θ(π) ≠ 0` for every
+  `π` by 3.9a(ii).
+
+State the inert and the split case separately; the split case is the unramified case of the
+type-II correspondence of MetaplecticAutomorphicForms §3.14, and for `d = n` (and the data of Li–Liu) (ii) is the Hecke map of MetaplecticAutomorphicForms §3.22.
+
+*Route.* (i) is Howe's theorem on the generation of the spherical vectors of the oscillator (lattice
+model, MetaplecticAutomorphicForms §2.6a, in the inert case; route not given here; the statement is that the vectors fixed by the stabilisers of
+the two self-dual lattices are the Hecke translates of the lattice vector and generate, over `U(W)`, the vectors fixed by
+the first stabiliser; R. Howe, *θ-series and invariant theory*, 1979). In the split case write `V = P ⊕ P^∨`, `W = Q ⊕ Q^∨` with `U(V) ≅ GL(P)`, `U(W) ≅ GL(Q)`
+through the components at one factor of `E = F × F` (MetaplecticAutomorphicForms §3.2a); on `S(P ⊗ Q) = S(M_{n×d}(F))` the pair acts by
+`φ ↦ φ(g⁻¹ · x · ᵗh⁻¹)` (on `S(P^∨ ⊗ Q^∨)` by `φ ↦ φ(ᵗg · x · h)`) times the unramified characters `χ_{W,w}(det g)χ_{V,w}(det h)`
+(components at the chosen factor `w`; this is `χ̃_W(det g)χ̃_V(det h)` for the isometries) of the split law (4.4a) and the
+moduli, with no dependence on `ψ` or on the residue characteristic. In rank one `(t, t⁻¹)` acts by
+`(χ_W/χ_V)(t)`, so a quotient `π ⊗ π′` has `π′ = π · χ_V/χ_W`, the parameter `cα` of (iii); the substitution `φ(g⁻¹xh)` would
+give `π′ = π⁻¹` up to the characters, which is the relation for the dual identification of one of the two groups. The
+`K × K′`-fixed vectors are the locally constant compactly supported functions on `M_{n×d}(F)` invariant under
+`GL_n(𝒪) × GL_d(𝒪)`: functions of the elementary divisors with bounded support that are constant near each matrix of lower
+rank (they are not finite combinations of indicators of double cosets: `1_{M_{n×d}(𝒪)}` meets the double cosets of all
+divisors `≥ 0` in every rank); (i)–(iii) are statements about these functions, proved by the same computation. (ii)–(iii) are Rallis' computation: the action of the generators of `ℋ′` on `φ₀`
+through the Siegel-type parabolic of the doubled or split model and the modulus of its Levi, read
+through the Satake transform; the parameter of `θ(π)` is that of MetaplecticAutomorphicForms §3.18 in its unramified form,
+`φ_π ⊗ χ_Vχ_W⁻¹ ⊕ χ_V ⊗ (segment)`, with no contragredient on `φ_π`. If `π ⊗ π′` is a quotient, taking
+`K × K′`-invariants (exact for compact groups) shows that the image of `φ₀` is nonzero, by (i). (iv): a
+nonzero `ω → π ⊗ θ(π)` restricts to a surjection `ω^K → π^K ⊗ θ(π)` of `U(W)`-modules; by the second
+clause of (i) its value at `φ₀` is nonzero, and `φ₀` is `K′`-fixed.
+
+(S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982);
+R. Howe, *θ-series and invariant theory*, Proc. Sympos. Pure Math. 33 (1979); Mínguez08 for the split
+case.) *Needs:* 3.9a; MetaplecticAutomorphicForms §§2.6a, 3.2a, 3.3, 3.14, 3.18 (conventions for the characters);
+SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4.
+
+**Checks.**
+
+- `n = 0`: `ω` is the character `χ̃_V ∘ det` of `U(W)` (`χ̃_V(x/x̄) = χ_V(x)`; at a split place `χ_{V,w} ∘ det` on `GL_d(F)`,
+  whereas `χ_V ∘ det` would be its square) and (iii) gives the segment alone, `χ_V(ϖ)(q^{(d−1)/2}, …, q^{−(d−1)/2})`, the
+  parameter of that character.
+- `n = d = 1`, split: a character `π` of parameter `α` pairs (`Hom(ω, π ⊗ π′) ≠ 0`) with `π′` of parameter
+  `cα`; a theta lift `∫ θ(g, h; φ)F(g) dg` linear in `F ∈ π` pairs `ω` with `π^∨ ⊗ π′`, so its parameter is
+  `cα⁻¹`. Placing the inversion in (iii) instead would contradict MetaplecticAutomorphicForms §3.18.
+- The segment `q^{(d−n−1)/2 − i}`, `0 ≤ i < d − n`, written in the arithmetic normalisation of `GL_d`
+  (shift by `(d − 1)/2`), has exponents `(d − n − 1)/2 − i + (d − 1)/2`; for `d = n + t` these are
+  `(n + 2t − 2)/2 − i`, `0 ≤ i < t`.
+- At a dyadic split place the lift `q = 1` of the lattice formed by `M_{n×d}(𝒪)` and its dual does not exist when
+  `½B` is not integral on it (`q = 1` is a lift only if `ψ(½B(a, a′)) = 1` on the lattice), while `1_{M_{n×d}(𝒪)}` is the
+  lattice vector for `q(x + y) = ψ(−½B(x, y))`; the split case of (i)–(iv) is stated with that vector.
+
+### 3.45 The Fock model and the infinitesimal Weil representation
+
+Construct the Fock model. Let `W` be a real symplectic space of dimension `2N` with a compatible complex
+structure `J` (`ω(Jx, Jy) = ω(x, y)`) that is positive, `ω(x, Jx) > 0` for `x ≠ 0`, and `ψ_ℝ(x) = e^{2πix}`.
+Write `H(x, y) = ω(x, Jy) − iω(x, y)` for the Hermitian form of `(W, J)`, linear in the first variable, with
+`H(x, x) = ω(x, Jx)` and `Im H = −ω`.
+
+- (i) The *Fock space* `𝓕(W, J)`: holomorphic functions on `(W, J)` square-integrable for the Gaussian
+  probability measure `e^{−π H(z,z)} dz`, with inner product `⟨F, G⟩_𝓕` conjugate-linear in `F`; the
+  *Bargmann transform* `B : L²(X) → 𝓕(W, J)` for a Lagrangian `X`, unitary and intertwining the
+  Schrödinger action of the Heisenberg group (MetaplecticAutomorphicForms §0.15, with the law of MetaplecticAutomorphicForms §0.1) with the action
+  `(t, w) ↦ ψ_ℝ(t)U_w`, `U_w G(z) = G(z + w) exp(−πH(z, w) − πH(w, w)/2)`, on `𝓕`.
+- (ii) The space `ℂ[W]_J ⊂ 𝓕` of holomorphic polynomials on `(W, J)` is the space of `K`-finite vectors for
+  `K = U(W, J)~` (the preimage in `Mp(W)` of the unitary group of `(W, J)`), and `k ∈ K` acts by
+  `G ↦ det_J(k)^{−1/2} · G ∘ k⁻¹`, where `det_J` is the determinant of `(W, J)` and `det_J^{−1/2}` the genuine
+  character of `K` whose square is `det_J⁻¹`: on the polynomials of degree `k` this is `det_J^{−1/2}` tensored with
+  `Sym^k` of the dual of `(W, J)`. In particular `exp(θJ)` acts on the polynomials of degree `k` by
+  `e^{−i(k + N/2)θ}`. The constant `1` is the *vacuum*, the image of the Gaussian, and `B(P · Gaussian)` is a
+  polynomial for every polynomial `P` on `X`. The *polynomial Fock vectors* `B⁻¹(ℂ[W]_J)`, the products of polynomials
+  on `X` with the Gaussian, are dense in the Schwartz space `S(X)` for its Fréchet topology.
+- (iii) The *infinitesimal Weil representation*: `𝔰𝔭(W)` acts on the Schwartz space `S(X)` by the
+  second-order operators attached to the quadratic Hamiltonians (Weyl quantisation), this action is
+  the derivative of the Weil representation of MetaplecticAutomorphicForms §2.4c on smooth vectors, and in the Fock model
+  `𝔨 = 𝔲(W, J)` acts by first-order operators `z_i ∂_j` plus scalars and `𝔭^±` by multiplication by
+  `z_iz_j` and by `∂_i∂_j`.
+- (iv) *Bargmann transforms of distributions and jets.* For a tempered distribution `T` on `X` there is a
+  unique entire function `ϑ_T` on `(W, J)` with `|ϑ_T(z)| ≤ C(1 + |z|)^M e^{πH(z,z)/2}` and
+  `T(B⁻¹G) = ⟨ϑ_T, G⟩_𝓕` for every polynomial `G`. In coordinates `z_j` orthonormal for `H`,
+  `⟨F, z^κ⟩_𝓕 = κ! π^{−|κ|} conj(f_κ)` for `F = Σ f_κ z^κ`, so for every polynomial `P`
+  `T(B⁻¹P) = conj((P^♮(π⁻¹∂_z)ϑ_T)(0))`, with `P^♮` the polynomial with conjugate coefficients. For
+  `T = ∫ f ·` with `f ∈ S(X)`, `ϑ_T = B(f̄)`.
+
+*Route.* The Bargmann kernel and its unitarity from the Gaussian integral; the Heisenberg relations by
+completing squares (`U_wU_{w′} = e^{−πi Im H(w, w′)}U_{w+w′} = ψ_ℝ(½ω(w, w′))U_{w+w′}`, the law of MetaplecticAutomorphicForms §0.1, because
+`Im H = −ω`); `K`-finite vectors through the Hermite basis (OrthogonalL2Bases Part A, A2–A3), whose expansions of a Schwartz function
+converge in the Schwartz topology (the Hermite coefficients decay rapidly because the harmonic oscillator acts on
+`S(X)` by a positive operator with eigenvalues `k + N/2`), which gives the density; the action of `K`: the
+covariance `ω(k)U_wω(k)⁻¹ = U_{kw}` of MetaplecticAutomorphicForms §1.3 determines `ω(k)` up to a scalar (Schur's lemma for the irreducible
+Fock model), and `G ↦ G ∘ k⁻¹` satisfies it because `H` is `k`-invariant, so `ω(k)G = c(k) · G ∘ k⁻¹`; `c = det_J^{−1/2}` because the vacuum is an eigenvector of `dω(J)` with
+eigenvalue `−iN/2` (Check below, in each of `N` orthogonal coordinates); the Lie algebra action by
+differentiating the operator formulas of MetaplecticAutomorphicForms §2.5 on the generators and comparing on the Hermite span. (iv):
+`ϑ_T = Σ_κ conj(T(B⁻¹e_κ))e_κ` for the orthonormal basis `e_κ = (π^{|κ|}/κ!)^{1/2}z^κ`; the bound from
+`|B⁻¹e_κ|` and the growth of the Bargmann kernel; termwise integration against `e^{−πH(z,z)}`.
+
+(V. Bargmann, Comm. Pure Appl. Math. 14 (1961); R. Howe, *Transcending classical invariant theory*,
+J. Amer. Math. Soc. 2 (1989); M. Kashiwara, M. Vergne, Invent. Math. 44 (1978).) *Needs:* MetaplecticAutomorphicForms §§0.1, 0.15, 0.17,
+0.18, 2.4c, 2.5; OrthogonalL2Bases Part A (A2–A3).
+
+**Checks.**
+
+- `N = 1`, `W = ℝe ⊕ ℝf`, `ω(e, f) = 1`, `X = ℝe`: the vacuum is `2^{1/4}e^{−πu²}`, the Heisenberg element
+  `ae + bf` acts by `U_{a + ib}`, the positive complex structure is `Je = f` (`ω(e, Je) = 1 > 0`), and the
+  Bargmann kernel is `2^{1/4}e^{2πuz − πu² − πz²/2}`.
+- *The sign of the action of `K`.* In the same example, MetaplecticAutomorphicForms §0.15 gives `dρ(e) = d/du` and `dρ(f) = 2πiu`. The Gaussian is
+  killed by `d/du + 2πu = dρ(e − if)`, and `e − if` spans the `+i`-eigenspace of `J`. The operator
+  `dω(J) = −i(−(1/4π)d²/du² + πu²)` satisfies `[dω(J), dρ(w)] = dρ(Jw)` and has eigenvalue `−i/2` on the Gaussian.
+  By covariance `exp(θJ)` multiplies the annihilation operator `dρ(e − if)` by `e^{iθ}` and the creation operator
+  `dρ(e + if)` by `e^{−iθ}`, so it acts on the Hermite function of degree `k` by `e^{−i(k + 1/2)θ}`, as (ii) says. An
+  action by `det_J^{1/2}` tensored with `Sym^k(W, J)` would give `e^{+i(k + 1/2)θ}`.
+- In (iv) the distribution matters: for `N = 1`, `T = δ_0` has `ϑ_T(z) = 2^{1/4}e^{−πz²/2}`, and for `P = z²`,
+  `T(B⁻¹P) = (B⁻¹z²)(0) = −2^{1/4}/π`, the nonzero value at `0` of the Hermite function of degree two,
+  which is `conj((π⁻²∂²ϑ_T)(0))`; the jet `(∂²1)(0) = 0` of the transform `1` of the Gaussian is not it.
+- The centre `±1` of `Mp` acts on degree-`k` polynomials by `±1` through `det_J^{−1/2}`, not trivially.
+
+### 3.46 Compact dual pairs `(U(n), U(p, q))`
+
+Prove the theta correspondence of compact dual pairs. Over `ℂ/ℝ`, let `V` be a definite Hermitian space of dimension `n` and `W` a
+skew-Hermitian space, with `W^♭ = δ⁻¹W` for `δ` with `δ⁻¹ ∈ iℝ_{>0}` of signature `(p, q)`; the symplectic
+form on `V ⊗ W` is `B(v ⊗ w, v′ ⊗ w′) = Tr_{ℂ/ℝ}(⟨v, v′⟩⟨w, w′⟩)`, the Fock model is that of 3.45 for the
+positive complex structure `J`, and the splitting characters have infinity types `m_V`, `m_W` (MetaplecticAutomorphicForms §3.3). The
+group `U(V)` is identified with `U(n)` through an orthonormal basis, and `σ_λ` has highest weight `λ`.
+
+- (i) The restriction of the Weil representation to `U(n) × U(p, q)` on the polynomial Fock space
+  decomposes discretely as `⊕_σ σ ⊗ θ(σ)` over the irreducible representations `σ` of `U(n)` that
+  occur, each `θ(σ)` an irreducible unitary `(𝔤, K)`-module, with `σ ↦ θ(σ)` injective (Howe).
+- (ii) The occurring `σ` and the lowest `K`-type of `θ(σ)` are given by the Kashiwara–Vergne formula,
+  with the determinant twists coming from `m_V`, `m_W`; the lowest `K`-type is spanned by the joint
+  harmonics of the corresponding degree. For `σ` the character by which `U(n)` acts on the vacuum, the lowest
+  `K`-type of `θ(σ)` is spanned by the vacuum; for another character of `U(n)` it is spanned by the vacuum times
+  powers of determinants of square blocks of the coordinates (3.47b).
+- (iii) *Both groups compact* (`W^♭` definite, `d = p + q` with `pq = 0`): let `ε = −sgn(V)·sgn(W^♭)`. Since
+  `B(x, ix) = −2 Im(δ)·h(x, x)` for the Hermitian form `h` of `V ⊗ W^♭` and `Im δ < 0`, the positive complex
+  structure is `J = −ε·i`: `ℂ` acts on `(V ⊗ W, J)` through the identity for `ε = −1` and through conjugation
+  for `ε = +1`. The polynomial Fock space is `ℂ[M_{n×d}]` in the coordinates that are holomorphic for `J` (the
+  matrix of coordinates of `V ⊗ W` in orthonormal bases for `ε = −1`, its complex conjugate for `ε = +1`), and
+  its degree-`k` part is `⊕_μ σ_{ι_ε(μ^{(n)} + a)} ⊗ σ_{ι_ε(μ^{(d)} + b)}` over partitions `μ` of `k` with at most `min(n, d)`
+  nonzero parts, `μ^{(m)}` denoting `μ` written with `m` entries (for `n ≤ d`: `σ_{ι_ε(μ + a)} ⊗ σ_{ι_ε((μ, 0^{d−n}) + b)}`), where
+  `a = (d + εm_W)/2`, `b = (n + εm_V)/2`, `ι_{+1}(λ) = λ` and `ι_{−1}(λ) = (−λ_n, …, −λ_1)`; each summand is irreducible and
+  the summands are pairwise non-isomorphic. The product of leading principal minors `∏_{i ≤ min(n,d)} Δ_i^{μ_i − μ_{i+1}}` of the
+  coordinate matrix is a joint highest weight
+  vector of the summand of `μ` for `ε = +1` and a joint lowest weight vector for `ε = −1`.
+
+*Route.* (i) Howe's theory of joint harmonics: the `U(𝔤′)`-module generated by the `U(n)`-harmonics is
+the whole polynomial Fock space (3.45(iii)). (ii) Kashiwara–Vergne's computation of the harmonics.
+(iii) By 3.45(ii), `U(n) × U(d)` acts on the polynomials by `G ↦ det_J^{−1/2} · G ∘ k⁻¹`. For `ε = −1` (`J = i`)
+the polynomials of degree `k` are `Sym^k` of the dual of `ℂⁿ ⊗ ℂ^d`, and `det_J^{−1/2}` restricts to `det^{−d/2}` on
+`U(n)` and `det^{−n/2}` on `U(d)`; for `ε = +1` (`J = −i`) the space `(V ⊗ W, J)` is the complex conjugate of
+`ℂⁿ ⊗ ℂ^d`, the polynomials are `Sym^k(ℂⁿ ⊗ ℂ^d)` and the twists are `det^{d/2}`, `det^{n/2}`: in both cases
+`det^{εd/2}` and `det^{εn/2}`. The splitting characters add `det^{m_W/2}` on `U(n)` and `det^{m_V/2}` on `U(d)` (MetaplecticAutomorphicForms §3.3).
+Apply the `(GL_n, GL_d)`-duality of TensorInductionAndFiniteGroupInputs §7.1, to `Sym^k(ℂⁿ ⊗ ℂ^d)` for `ε = +1` and to its
+dual for `ε = −1`; in the second case the minors, highest weight vectors for the action `P(ᵗgXh)`, are lowest
+weight vectors for `P(g⁻¹Xh^{−ᵗ})`.
+
+(Kashiwara–Vergne 1978; Howe 1989; A. Paul, *Howe correspondence for real unitary groups*, J. Funct.
+Anal. 159 (1998).) *Needs:* 3.45; MetaplecticAutomorphicForms §3.3; TensorInductionAndFiniteGroupInputs §7.1; RepresentationTheory/CompactGroups
+Layers 4–5; AutomorphicFormsOnReductiveGroups §§2.1, 2.4.
+
+**Checks.**
+
+- `n = 0`: the Fock space is a line on which `U(d)` acts by `det^{εb} = det^{m_V/2}`, the character
+  `χ̃_V ∘ det` of MetaplecticAutomorphicForms §3.3's Check `V = 0` (`χ_V ∘ det` would be `det^{m_V}`), for either sign.
+- `n = d = 1`, `V` and `W^♭` positive (`ε = −1`, `J = i`): `ℂ[z] = ⊕_k ℂ z^k`, `U(1) × U(1)` acting on `z^k` by
+  `(t, s) ↦ (ts)^{−1/2}(ts)^{−k}t^{m_W/2}s^{m_V/2} = t^{−k−a}s^{−k−b}`, `a = (1 − m_W)/2`, `b = (1 − m_V)/2`. With `V`
+  negative (`ε = +1`, `J = −i`, holomorphic coordinate `z̄`): `(t, s)` acts on `z̄^k` by `t^{k+a}s^{k+b}` with
+  `a = (1 + m_W)/2`, `b = (1 + m_V)/2`. In both cases the weight of the first factor determines `k`, hence the
+  weight of the second; this Check does not see the sign, the lifted weight `−w + (m_V − m_W)/2` of a weight `w`
+  being the same for both.
+- *Holomorphy detects the sign.* Let `V` be positive definite of dimension `n` and `W` of dimension `2` with
+  `W^♭ = ℓ₊ ⊕ ℓ₋` of signature `(1, 1)`. The vacuum of `(U(V), U(W))` is the tensor product of the vacua of the
+  compact pairs `(V, ℓ₊)` (`ε = −1`) and `(V, ℓ₋)` (`ε = +1`), so by (iii) with `d = 1`, `μ = 0`, the group
+  `U(ℓ₊) × U(ℓ₋)` acts on it by `k₊^{(m_V − n)/2}k₋^{(m_V + n)/2}`. Independently, write `W = Ey ⊕ Ey^*` with
+  `⟨y, y^*⟩ = 1`, `n(X)y = y − Xy^*`, `m_t y = ty`, use the Schrödinger model on `V ⊗ y` and the Gaussian
+  `e^{−π⟨u, u⟩}` (the vacuum for the positive line `E(y − (i/2)y^*)`): for a lattice `L ⊂ V`,
+  `Σ_{x ∈ L} ω(n(X)m_t)φ(x) = (t/|t|)^{m_V}|t|^{−n} ϑ(Z)` with `ϑ(Z) = Σ_{x ∈ L} e^{2πiZ⟨x, x⟩}`, `Z = X + i/(2|t|²)`,
+  `E(y − Zy^*)` the image of the base line. The factor is `det(g)^{(m_V + n)/2}J(g)^{−n}` with `J(g)` the scalar by
+  which `g` maps `y − Z₀y^*` to a multiple of `y − (gZ₀)y^*`, holomorphic in `Z` and equal to `k₊` on `U(ℓ₊) × U(ℓ₋)`;
+  since `ϑ` is a holomorphic modular form of weight `n`, the type is `det^{(m_V + n)/2}k₊^{−n} = k₊^{(m_V − n)/2}k₋^{(m_V + n)/2}`,
+  as found. With `ε = +sgn(V)sgn(W^♭)` the type would be `k₊^{(m_V + n)/2}k₋^{(m_V − n)/2}`, for which the same holomorphic
+  `ϑ` would have to be modular for the antiholomorphic factor.
+- In the arithmetic form, for `ε = +1`: `2λ′_k = 2λ_k − d − m_W + n + m_V` for `k < n` and `2λ′_k = n + m_V`
+  for `n ≤ k < d`, where `λ = μ + a`, `λ′ = (μ, 0) + b`.
+
+### 3.46a Archimedean theta correspondence of discrete series, both members non-compact
+
+*Setting.* Let `p, q, r, s ≥ 0` with `n = p + q ≥ 1` and `n′ = r + s = n + t`, `t ≥ 1`. Let `G = U(p, q)` be the unitary
+group of `diag(1_p, −1_q)`, `G̃ = {(g, z) : z² = det g}` its determinant-square-root cover, `K̃` the preimage of
+`U(p) × U(q)`, `𝔤_ℂ = 𝔤𝔩_n(ℂ)` with matrix units `E_{ab}`, `a, b ∈ I = I₊ ⊔ I₋` (`|I₊| = p`, `|I₋| = q`), and `𝔭_ℂ` the span of
+the `E_{ab}` with `a`, `b` of different signs; likewise `G′ = U(r, s)`, `G̃′`, `K̃′`, `I′ = I′₊ ⊔ I′₋`. A pair
+`(a, c) ∈ I × I′` is *even* if `a` and `c` have the same sign and *odd* otherwise. The *Fock module* `𝒫 = 𝒫(p, q; r, s)` is
+`ℂ[z_{ac} : a ∈ I, c ∈ I′]` with the inner product for which the monomials are orthogonal and `‖z^κ‖² = κ!`, and with the
+commuting actions
+
+`E_{ab} ↦ Σ_{c ∈ I′} R_{ac}L_{bc} + (n′/2)δ_{ab}` of `𝔤𝔩_n(ℂ)`, `E_{cd} ↦ Σ_{a ∈ I} R_{ac}L_{ad} + (n/2)δ_{cd}` of `𝔤𝔩_{n′}(ℂ)`,
+
+where `R_{ac} = z_{ac}`, `L_{ac} = ∂/∂z_{ac}` for even and `R_{ac} = −∂/∂z_{ac}`, `L_{ac} = z_{ac}` for odd `(a, c)`. It is the
+space of `K̃ × K̃′`-finite vectors of a unitary representation `ω` of `G̃ × G̃′` on the completion `𝓕` of `𝒫`: the restriction
+of an oscillator representation of the determinant-square-root cover of `U(pr + qs, ps + qr)` (the square root on the
+image of `(g, h)` being `z_g^{n′}z_h^{n}`), whose polynomial Fock vectors (3.45) are `𝒫`; the vacuum `1` has weight
+`(r − s)/2` on `I₊` and `(s − r)/2` on `I₋`, and the variables of even pairs have positive weights (the paragraph *Other
+normalisations* below relates this to 3.45–3.46). A *module* of `G̃` is a `𝔤𝔩_n(ℂ)`-module that is locally finite under
+`𝔤𝔩_p × 𝔤𝔩_q` and a sum of weight spaces for the diagonal matrices with rational weights; it is *unitarizable* if it has a
+positive definite Hermitian form for which `𝔲(p, q)` acts by skew-Hermitian operators. Highest weights are taken for
+the upper triangular matrices of each block (`E_{ab}`, `a` before `b` in the same block, are the raising operators),
+with each of `I₊`, `I₋` ordered.
+
+A *parameter* of `G̃` is `λ = (λ_a)_{a ∈ I}` with pairwise distinct entries in `½ℤ` and integral differences, written
+`(λ₊ | λ₋)` with each block decreasing; `π_λ` is the discrete series of `G̃` with Harish-Chandra parameter `λ`, `d(π_λ)`
+its formal degree, `π_λ^{K}` its Harish-Chandra module and `Λ(λ) = λ + ρ_n − ρ_c` the highest weight of its lowest
+`K̃`-type (`ρ_n`, `ρ_c` the half-sums of the noncompact and of the compact roots that are positive on `λ`).
+
+*Data.* Four strictly decreasing sequences `α, γ` of positive and `β, δ` of negative numbers, pairwise distinct, all in
+`(t + 1)/2 + ℤ` and of absolute value at least `(t + 1)/2`, with `|α| + |β| = p`, `|γ| + |δ| = q`. Put
+`σ_t = ((t − 1)/2, (t − 3)/2, …, −(t − 1)/2)`, `λ = (α, β | γ, δ)`, and
+
+- case (+): `(r, s) = (|α| + |δ| + t, |γ| + |β|)`, `λ′ = (α, σ_t, δ | γ, β)`;
+- case (−): `(r, s) = (|α| + |δ|, |γ| + |β| + t)`, `λ′ = (α, δ | γ, σ_t, β)`.
+
+(The positive entries of `λ` keep their block, the negative ones change block, and the string `σ_t` is inserted in one
+block.) *Gap hypothesis* (G): any two entries of `λ` in different blocks differ by more than `(n + t)³` and by at least
+`120·n·min(p, q)^{3/2}`, and any two entries of `λ′` in different blocks differ by more than `(n + t)³`.
+
+Prove that, under (G), in both cases:
+
+- (a) *From the larger to the smaller member.* For every unitarizable module `M` of `G̃` and every nonzero
+  `(𝔤 ⊕ 𝔤′)`-equivariant map `f : 𝒫 → M ⊗ π_{λ′}^{K′}` there is a submodule `N ⊂ M` isomorphic to `π_λ^{K}` with
+  `f(𝒫) = N ⊗ π_{λ′}^{K′}`; `f(Φ) ≠ 0` for the joint harmonic `Φ` of (d); and an equivariant `f′ : 𝒫 → M ⊗ π_{λ′}^{K′}` with
+  `f′(Φ) = f(Φ)` is equal to `f`.
+- (b) *From the smaller to the larger member.* The same with the two groups exchanged: for every unitarizable module
+  `M′` of `G̃′` and every nonzero equivariant `f : 𝒫 → π_λ^{K} ⊗ M′` there is `N′ ⊂ M′`, `N′ ≅ π_{λ′}^{K′}`, with
+  `f(𝒫) = π_λ^{K} ⊗ N′`; `f(Φ) ≠ 0`; and `f` is determined by `f(Φ)`.
+- (c) *Non-occurrence below first occurrence.* (c1) For `1 ≤ i ≤ min(r, s)` and every module `M′` of the cover of
+  `U(r − i, s − i)`, every equivariant map `𝒫(p, q; r − i, s − i) → π_λ^{K} ⊗ M′` is zero. (c2) If `(t + 1)/2` and
+  `−(t + 1)/2` are not both entries of `λ`: for `1 ≤ i ≤ min(p, q)` and every module `M` of the cover of `U(p − i, q − i)`,
+  every equivariant map `𝒫(p − i, q − i; r, s) → M ⊗ π_{λ′}^{K′}` is zero. Neither part needs (G).
+- (d) *The joint harmonic and its zeta integral.* Up to a scalar of modulus one there is exactly one `Φ ∈ 𝒫` of norm
+  one that is annihilated by the degree-lowering components of the operators of `𝔭_ℂ` and `𝔭′_ℂ` and is a highest weight
+  vector of weight `Λ(λ)` for `𝔨_ℂ` and `Λ(λ′)` for `𝔨′_ℂ`. For a unit highest weight vector `v` of the lowest `K̃`-type of
+  `π_λ`, the function `g ↦ ⟨ω(g, 1)Φ, Φ⟩·conj⟨π_λ(g)v, v⟩` is integrable on `G̃` and
+  `∫_{G̃} ⟨ω(g, 1)Φ, Φ⟩·conj⟨π_λ(g)v, v⟩ dg = ‖P_vΦ‖²/d(π_λ) > 0`, where
+  `P_v := ∫_{G̃} d(π_λ)·conj⟨π_λ(g)v, v⟩·ω(g, 1) dg` is the orthogonal projection of `𝓕` onto the closure of the span of
+  the vectors `T(v)`, `T ∈ Hom_{G̃}(π_λ, 𝓕)`. If `G′` is compact (`rs = 0`), then `P_vΦ = Φ` and the integral is `1/d(π_λ)`.
+- (e) *Multiplicity one.* The equivariant maps `𝒫 → π_λ^{K} ⊗ π_{λ′}^{K′}` form a line.
+- (f) *Occurrence.* There is a `G̃ × G̃′`-equivariant isometric embedding of the Hilbert tensor product `π_λ ⊗ π_{λ′}`
+  into `𝓕` whose image is not orthogonal to `Φ`.
+
+*Other normalisations.* Complex conjugation of polynomials carries `𝒫` to the module `𝒫̄` with all weights negated,
+and `π_λ` to `π_{−λ}` (entries negated, each block reordered); it preserves every notion above, so (a)–(f) hold for
+`𝒫̄` with `(−λ, −λ′)` in place of `(λ, λ′)`: there the entries below `0` keep their block. In the normalisation of 3.45
+and 3.46 (`ψ_ℝ(x) = e^{2πix}`; for `V` of signature `(p, q)` and `W^♭` of signature `(r, s)`) the polynomial Fock space of
+the pair `(U(V), U(W))` with splitting characters of infinity types `m_V`, `m_W` is `𝒫̄` twisted by `det^{m_W/2}` on `U(V)`
+and `det^{m_V/2}` on `U(W)`; so there the statements hold for the discrete series of `U(V)(ℝ)` and `U(W)(ℝ)` with
+parameters `−λ + m_W/2` and `−λ′ + m_V/2`: the parameter of `U(W)` is that of `U(V)` shifted by `(m_V − m_W)/2`, with the
+string of length `t` centred at `m_V/2` inserted, the entries of the parameter of `U(V)` below `m_W/2` keeping their
+block and those above `m_W/2` changing block.
+
+*Route.* (1) *The Fock module:* `𝔨_ℂ`, `𝔨′_ℂ` preserve the degree and `𝔭_ℂ`, `𝔭′_ℂ` have components of degree `±2`, adjoint to
+each other up to sign; a `K̃`-type of highest weight `μ` occurs only in degrees at least `Σ_{a ∈ I₊}|μ_a − (r − s)/2| + Σ_{a ∈ I₋}|μ_a + (r − s)/2|`; the joint harmonics contain a pair of types `(μ, μ′)` at most once, exactly when
+`μ − ((r − s)/2 | (s − r)/2) = (a, 0, b | c, 0, d)` and `μ′ − ((p − q)/2 | (q − p)/2) = (a, 0, d | c, 0, b)` for sequences of
+integers `a, c > 0 > b, d`; and `𝒫` is generated by the harmonics under the degree-raising operators (3.46 for the
+compact case; Kashiwara–Vergne, Howe). (2) *The discrete series:* Blattner's formula (the lowest type has multiplicity
+one and every `K̃`-type is `Λ(λ)` plus a sum of noncompact roots positive on `λ`) and the Casimir eigenvalue
+`|λ|² − |ρ|²`; consequently the lowest type has least degree in the sense of (1). The pairs `(Λ(λ), Λ(λ′))` of the data
+are of the shape of (1), and `|λ′|² − |ρ_{n′}|² = |λ|² − |ρ_n|² − nn′(n′ − n)/4`, the relation between the two Casimir
+operators on `𝒫`. (3) *(d):* the lowest-type coefficient of `π_λ` is integrable under (G), so `P_v` is the projector of the
+statement and the integral is `⟨P_vΦ, Φ⟩/d(π_λ)`; `P_vΦ ≠ 0` because both coefficients are nonnegative on `exp(𝔭)` and
+positive at `1`. (4) *(f):* `P_vΦ` is a `K̃′`-highest weight vector of weight `Λ(λ′)` in the `π_λ`-isotypic part of `𝓕`, on
+which the Casimir operator of `𝔤′` acts by the eigenvalue of `π_{λ′}`; under (G) a unitary representation generated by
+such a vector contains `π_{λ′}`. (5) *(a), (b), (e):* a nonzero equivariant map is nonzero on a joint harmonic carrying a
+type of least degree of the discrete series, hence on `Φ`; `f(Φ)` is a pure tensor whose first factor generates, in the
+unitarizable `M`, a module with the lowest type and the Casimir eigenvalue of `π_λ`, which under (G) is `π_λ^{K}`;
+uniqueness by applying this to `f′ − f`. (6) *(c):* an equivariant map from the Fock module of the lowered pair would
+be nonzero on a joint harmonic carrying the lowest type of the discrete series, but that type is not the member of a
+pair of the shape of (1) for the lowered pair; for (c2) this is where the hypothesis enters. Steps (3), (4) and (5)
+are outlines: the proofs of the integrability and the value of the zeta integral in (3), of the embedding in (4) and
+of the uniqueness in (5) are not given here.
+
+*Remark.* The correspondence of discrete series is classical without (G) and for the full theta quotient (J.-S. Li
+1990; A. Paul 1998); (G) is a hypothesis of the route above, which uses the Casimir operator in place of the
+infinitesimal character.
+
+**Checks.**
+
+- `U(1) × U(1, 1)`, `t = 1`: `𝒫 = ℂ[z₁, z₂]` (`z₁` even, `z₂` odd); `U(1)` acts on `z₁^iz₂^j` with weight `i − j`, the torus of
+  `U(1, 1)` with weights `(i + ½ | −j − ½)`, and `𝔭′_ℂ` by `z₁z₂` and `−∂₁∂₂`. For `k ≥ 1` the weight-`k` part is spanned by the
+  `z₁^{k+j}z₂^j`; it is the irreducible lowest weight module generated by the harmonic `Φ = z₁^k/√(k!)` of type
+  `(k + ½ | −½) = Λ((k | 0))`: this is case (−) with `α = (k)`, `λ′ = (k | 0)`. For `k ≤ −1` the harmonic is
+  `z₂^{|k|}/√(|k|!)` of type `(½ | k − ½) = Λ((0 | k))`: case (+) with `β = (k)`, `λ′ = (0 | k)`, the negative entry having
+  changed block. `k = 0` is excluded by `|k| ≥ (t + 1)/2`. In (d), `G̃` is compact, `P_vΦ = Φ` and the integral is the
+  volume of `G̃`, which is `1/d`. In (c1), `𝒫(1, 0; 0, 0) = ℂ` has `U(1)`-weight `0 ≠ k`. (G) asks `|k| > 8`: it is not
+  necessary.
+- *The hypothesis of (c2) is needed.* `t = 1`, `λ = (1 | −1)` on `U(1, 1)`, case (+): `(r, s) = (3, 0)` and
+  `λ′ = (1, 0, −1 | ∅) = ρ`, the trivial representation of `U(3)`. The lowered pair is `U(0, 0) × U(3)`, whose Fock module
+  is the trivial line; so a nonzero map exists. Here both `(t + 1)/2 = 1` and `−1` are entries of `λ`. (The lowest type
+  of `π_λ` is `(3/2 | −3/2)`, the weight of the vacuum of `𝒫(1, 1; 3, 0)`, as it must be by 3.46.)
+- *Both members compact* (`q = s = 0`): `λ = α`, `λ′ = (α, σ_t)`; with `α_k = μ_k + (t + 1)/2 + n − k` for a partition `μ`
+  these are the parameters of the summand of `μ` in 3.46 (iii) for `ε = −1` after negation, and (d) gives `1/d(π_λ)`,
+  Schur orthogonality on `U(n)`.
+- (a) does not say that the coinvariants of `𝒫 ⊗ (π_{λ′}^{K′})^∨` under `𝔤′` are irreducible: it identifies their
+  unitarizable quotients.
+
+### 3.47 Local complementary data and local matching at split places
+
+Define a *local complementary datum*. Over a local field `F` of characteristic zero and a quadratic étale
+`E/F`: Hermitian spaces `V`, `V′` of dimensions `a > a′`, a skew-Hermitian `W` of dimension `N = a + a′` with
+an isometry `δ⁻¹W ≅ V ⊕ V′(−1)`, unitary characters `β`, `α` of `E^×` with `β|_{F^×} = ω_{E/F}^a`,
+`α|_{F^×} = ω_{E/F}^{a′}`, the Weil representations `ω` of `U(V) × U(W)` with splitting data `(β, β/α)` and
+`ω′` of `U(V′) × U(W)` with `(α, α/β)` (MetaplecticAutomorphicForms §3.3, §3.2a), and `ν = α/β`. The *theta quotients* are
+`Θ = ω_{U(V)}` and `Θ′ = ω′_{U(V′)}` (coinvariants, MetaplecticAutomorphicForms §3.4 for the trivial representation) at a finite place,
+and at a real place the coinvariants of the polynomial Fock spaces (3.45) under `(𝔲(V), K_V)` and
+`(𝔲(V′), K_{V′})`, as `(𝔲(W), K_W)`-modules. *Local matching data* `(Π, p, p′)`: a nonzero irreducible
+`U(W)`-module (a `(𝔲(W), K_W)`-module at a real place) `Π` with only scalar endomorphisms and surjections
+`p : Θ → Π`, `p′ : Θ′ → Π`, such that `Θ` (resp. `Θ′`) has a unique maximal proper submodule, namely `ker p` (resp.
+`ker p′`). Then `p` and `p′` are unique up to scalars, every nonzero map from `Θ` or `Θ′` to `Π` is a multiple of
+them, and every semisimple quotient of `Θ` or `Θ′` is a quotient of `Π`.
+
+Prove local matching at split places: let `E = F × F`, so that `U(W) ≅ GL_N(F)` and `Θ`, `Θ′` are the coinvariants of the
+type-II Weil representations of `(GL_a, GL_N)` and `(GL_{a′}, GL_N)` on `S(M_{a×N}(F))`, `S(M_{a′×N}(F))`,
+twisted by the splitting characters (MetaplecticAutomorphicForms §§3.2a, 3.14). Then:
+
+- if `α`, `β` are unramified (any `ψ`, any residue characteristic), local matching data exist, `Π` is the spherical
+  constituent common to `Θ` and `Θ′`, `Θ` and `Θ′` are generated by their spherical lines, which are
+  one-dimensional and spanned by the images of the lattice vectors `1_{M_{a×N}(𝒪)}`, `1_{M_{a′×N}(𝒪)}` of 3.21a (split
+  case), and these vectors correspond;
+- if `ν` is ramified and `ψ` is unramified, local matching data exist with `p`, `p′` realised by two zeta integrals of
+  Godement–Jacquet type, in the following models. Write `V = R ⊕ R^∨`, `V′ = R′ ⊕ R′^∨`, `W = Q ⊕ Q^∨` (MetaplecticAutomorphicForms §3.2a), with
+  `U(V) ≅ GL(R)`, `U(V′) ≅ GL(R′)`, `U(W) ≅ GL(Q) = GL_N(F)` through the components at one factor `w` of `E = F × F`, and
+  `α_w`, `β_w`, `ν_w` the components of the characters there (so `χ̃(det h) = χ_w(det(h|_Q))`). Realise `ω` on
+  `S(R ⊗ Q) = S(M_{a×N}(F))` and `ω′` on `S(R′^∨ ⊗ Q^∨) = S(M_{a′×N}(F))`, in a basis of `Q`, its dual basis of `Q^∨` and
+  bases of `R` and `R′^∨` (the pairs act on these Lagrangians by `x ↦ gxᵗh` and `y ↦ ᵗg′⁻¹yh⁻¹`); by MetaplecticAutomorphicForms §3.2a (the evaluation at `0`
+  transforms by `χ̃_W(det g)χ̃_V(det h)` times a positive factor, the split law restated in 4.4a),
+  `(ω(g, h)Φ)(x) = ν_w(det g)⁻¹β_w(det h)|det g|^{−N/2}|det h|^{−a/2}Φ(g⁻¹xᵗh⁻¹)` and
+  `(ω′(g′, h)Φ′)(y) = ν_w(det g′)α_w(det h)|det g′|^{N/2}|det h|^{a′/2}Φ′(ᵗg′yh)`. With `X₀ = [1_a | 0]` and `Y₀ = [0 | 1_{a′}]`
+  (the row space of `Y₀` in `Q^∨` is the annihilator of that of `X₀` in `Q`), put
+  `P(Φ)(h) = Σ_{m ∈ ℤ} ∫_{val det g = m} (ω(1, h)Φ)(gX₀) ν_w(det g)|det g|^{N/2} dg` over `GL_a(F)`, with the Haar measure `dg`
+  giving `GL_a(𝒪_F)` volume one (a finite sum of shell
+  integrals: the shells with `m` very negative miss the support, and those with `m` large vanish because `ν` is
+  ramified; it is the value of the continuation in the exponent, the integral itself not converging absolutely since
+  `N/2 < a − 1` when `a − a′ ≥ 4`), and `P′(Φ′)(h) = ∫_{GL_{a′}(F)} (ω′(1, h)Φ′)(gY₀) ν_w(det g)|det g|^{N/2} dg` (absolutely
+  convergent, `N/2 > a′ − 1`), with the Haar measure giving `GL_{a′}(𝒪_F)` volume one. Then `P` is `U(V)`-invariant, `P′` is `U(V′)`-invariant, both intertwine `ω(1, h)`, `ω′(1, h)`
+  with right translation, and for `p = [[A, B], [0, D]]` in the parabolic subgroup `P_{(a,a′)}` (blocks `a`, `a′`) both
+  satisfy `f(ph) = α_w(det A)|det A|^{a′/2}β_w(det D)|det D|^{−a/2}f(h)`: they factor through `Θ`, `Θ′` and are nonzero
+  `U(W)`-maps into the normalised induction `α_w ∘ det_a × β_w ∘ det_{a′}`, hence isomorphisms of `Θ` and of `Θ′` onto it
+  (*irreducibility*), and
+  `(Φ, Φ′)` match exactly when `P(Φ) = P′(Φ′)`;
+- *dependence of the zeta integrals on the data*: replacing `Y₀` by `g₀Y₀`, `g₀ ∈ GL_{a′}(F)`, multiplies `P′` by
+  `ν_w(det g₀)⁻¹|det g₀|^{−N/2}`, and replacing `X₀` by `g₁X₀`, `g₁ ∈ GL_a(F)`, multiplies `P` by `ν_w(det g₁)⁻¹|det g₁|^{−N/2}`;
+  changing the basis of `R` by `k₁ ∈ GL_a(F)` multiplies `P` by `ν_w(det k₁)⁻¹|det k₁|^{−N/2}`, changing that of `R′` by
+  `k′ ∈ GL_{a′}(F)` (and the dual basis of `R′^∨` with it) multiplies `P′` by `ν_w(det k′)|det k′|^{N/2}`, and changing the
+  basis of `Q` by `k ∈ GL_N(F)` (and the dual basis of `Q^∨` with it, `X₀`, `Y₀` kept as matrices) replaces `P` and `P′` by
+  `β_w(det k)|det k|^{−a/2}` and `α_w(det k)|det k|^{a′/2}` times their translates by `k⁻¹`, which multiplies the matching
+  relation by `ν_w(det k)|det k|^{N/2}`. The two Haar measures are part of the data: rescaling the measure of `GL_{a′}(F)`
+  alone rescales `P′` alone, with all bases fixed, and changes the matching relation by that factor; this is why they are
+  fixed above. So if the models are written in `𝒪_F`-bases of lattices `Λ ⊂ R`, `Λ′ ⊂ R′`, `Λ_W ⊂ Q` (and the dual bases),
+  with `X₀`, `Y₀` and the measures as above, another such choice changes the matching relation by an element of the finite
+  group `ν(𝒪_E^×) = ν_w(𝒪_F^×)` (`ν` is trivial on `F^×`; all the moduli `|det|` are `1` for integral changes). With the same action of `GL_N(F)` on both models, or with row spaces that
+  do not annihilate each other, the two functions are equivariant under parabolic subgroups of different types and do
+  not define a matching (Check);
+- *self-dual lattices for every conductor of `ψ`* (for the maps of 5.7c): for `c ∈ F^×`, `(V, V′, cW)` is again a local
+  complementary datum (at a split place every Hermitian space is determined by its dimension), with the same groups, and the
+  Weil representations of `(𝕎, cB)` for `ψ` and of `(𝕎, B)` for `ψ(c ·)` are the same representation (the Heisenberg groups are
+  identified by `(t, w) ↦ (t/c, w)`); the maps of 5.7c for the pair `(x, y)` of `W` and for the pair `(x, cy)` of `c⁻¹W` differ
+  by nonzero scalars depending on `c`, the character and the exponent (the coordinate along the line is divided by `c`, and
+  the self-dual measure is rescaled). No identification of the maps is needed: 5.7c(d) holds for a lattice of `W` self-dual
+  for `ψ ∘ Tr ∘ ⟨·,·⟩_W` and a hyperbolic pair adapted to it, for every conductor of `ψ` at a split place, in the form "the cone
+  and the dual cone carry the lattice vector to a nonzero multiple of the lattice vector of `(X₁, W₁)`, and `e₀` likewise";
+  the multiple is the unramified Tate value times a value of `μ` on the ideal of the line and a power of the residue
+  cardinality;
+- *irreducibility*: if `ν` is ramified, or unramified with `ν(ϖ) ≠ 1`, then
+  `Θ` and `Θ′` are irreducible and both isomorphic to the normalised parabolic induction
+  `α_w ∘ det_a × β_w ∘ det_{a′}` from the parabolic subgroup of type `(a, a′)` of `GL_N(F)` (`α_w`, `β_w` the
+  components of `α`, `β` at the factor of `E = F × F` that the identification `U(W) ≅ GL_N(F)` selects); the twisted
+  coinvariants of the functions of full rank are this induced representation and map isomorphically onto `Θ`, resp. `Θ′`;
+  so `Π = Θ = Θ′`, and every `U(W)`-equivariant linear map out of `Θ` or `Θ′` factors through `Π`.
+
+*Route.* Compute both coinvariant modules through the filtration of the type-II model by the orbits of
+`GL_a × GL_N` on `a × N` matrices (functions on an orbit as sections over a homogeneous space,
+SmoothRepresentationsOfLocalGroups §SR.2.1 *l-sheaf-model*, and the geometric lemma, §SR.2.2 *geometric-lemma*):
+each is a quotient of a representation induced from a character of a maximal parabolic. *Nonvanishing:* `Θ ≠ 0` and
+`Θ′ ≠ 0` by 3.9a(ii) (split case, `N ≥ a > a′`). When `α`, `β` are unramified, each is generated by the image of its
+lattice vector (3.21a(i), split case: averaging over `K = GL_a(𝒪)` maps `ω` onto `ω^K` without changing images in the
+coinvariants, and `ω^K` is the `U(W)`-module generated by `φ₀`), so that image is nonzero; the `K′`-fixed vectors of the
+coinvariants are the images of `ℋ′·φ₀`, on which the Hecke algebra of `GL_a` acts through its trivial character, so they
+form a line; a proper submodule contains no nonzero `K′`-fixed vector, and neither does the sum of all proper submodules
+(taking `K′`-invariants commutes with sums), which is therefore the unique maximal proper submodule; the two spherical
+quotients have the same Satake parameter by 3.21a(iii). In the ramified case: `U(V)`-invariance of `P` by `g ↦ g′g`, of `P′`
+by `g ↦ ᵗg′⁻¹g`; the left law of `P` from `X₀ · ᵗp⁻¹ = ᵗA⁻¹X₀` and the substitution `g ↦ gᵗA` (factor `ν_w(det A)|det A|^{N/2}`,
+which turns `β_w(det p)|det p|^{−a/2}` into the law above), that of `P′` from `Y₀p = DY₀` and `g ↦ gD⁻¹` (factor
+`ν_w(det D)⁻¹|det D|^{−N/2}`, turning `α_w(det p)|det p|^{a′/2}` into the same law; `α/ν = β`); the shells of `P` are finite
+in number by Godement–Jacquet's theory for the ramified character `ν_w ∘ det` (its `L`-factor is `1`, so the zeta integral is
+a Laurent polynomial in `q^{−s}`; AutomorphicLFunctionsAndLocalFactors §§AL.1, AL.2); `P(Φ)(1) ≠ 0` and `P′(Φ′)(1) ≠ 0` for `Φ`,
+`Φ′` supported near `X₀`, `Y₀`. The dependence on the data: the substitutions `g ↦ gg₀⁻¹`, `g ↦ gg₁⁻¹`; a change of basis
+of `R` or `R′` is `ω(k₁⁻¹, 1)` or `ω′(k′⁻¹, 1)` up to the displayed factor, and `P`, `P′` are invariant; a change of basis of `Q`
+writes `h` as `k⁻¹hk` and the arguments as `X₀ᵗ(k⁻¹h)⁻¹`, `Y₀k⁻¹h`. Irreducibility: the stratum of matrices of
+rank `r < a` is a homogeneous space of `GL_a × GL_N`, and its twisted `GL_a`-coinvariants are induced from the stabiliser
+of the point `[1_r 0; 0 0]`; the subgroup `diag(1_r, g₂)`, `g₂ ∈ GL_{a−r}`, of that stabiliser fixes the point (not the stratum)
+and acts on the fibre through `ν⁻¹(det g₂)|det g₂|^{s}` with `s` real (the Weil twist and the relative modulus); this
+character is nontrivial when `ν` is not of the form `|·|^{s}`, which for unitary `ν` means `ν` ramified or `ν(ϖ) ≠ 1`, and a
+nontrivial character of a group acting trivially on the point leaves no coinvariants in the fibre, so the stratum has
+zero twisted coinvariants (the argument of 5.7b(ii)). The open stratum of matrices of full rank is
+one `GL_a × GL_N`-orbit, `GL_a\{rank a} = P_{(a,a′)}\GL_N` (`x = gX₀ᵗh⁻¹`), and its twisted `GL_a`-coinvariants are the
+induced representation above, the coinvariant map being `P`; so `Θ`, which is nonzero, is a quotient of it, isomorphic to
+it once it is irreducible. That induced representation is the product `Z(Δ_α) × Z(Δ_β)` of
+the characters `α_w ∘ det_a = Z(Δ_α)`, `β_w ∘ det_{a′} = Z(Δ_β)` of the segments `Δ_α = {α_w|·|^{(a−1)/2 − i}}` and
+`Δ_β = {β_w|·|^{(a′−1)/2 − j}}` (SmoothRepresentationsOfLocalGroups *segment-representations*), and it is irreducible
+because the two segments are not linked, `α_w/β_w` not being a real power of `|·|` (Zelevinsky's criterion,
+LocalFactorsOfTwistsAndTypes §4.1 (ii)). The same for `Θ′` in the model on
+`S(R′^∨ ⊗ Q^∨)`: the full-rank matrices are `GL_{a′}Y₀GL_N`, the stabiliser of the row space of `Y₀` is `P_{(a,a′)}`, and the
+twisted coinvariants of the open stratum are, by the law of `P′`, the same induced representation. (In the model on
+`S(R′ ⊗ Q)` the open stratum gives `Z(Δ_β) × Z(Δ_α)`, isomorphic to it: the two irreducible products have the same image in
+the commutative Grothendieck ring, LocalFactorsOfTwistsAndTypes §4.1 (iv).)
+
+(Mínguez08; R. Godement, H. Jacquet, LNM 260 (1972); A. Zelevinsky, Ann. Sci. ÉNS 13 (1980), for products of
+segments.) *Needs:* 3.9a, 3.21a; MetaplecticAutomorphicForms §§3.2a, 3.4, 3.14; SmoothRepresentationsOfLocalGroups §SR.2.1 *l-sheaf-model*, §SR.2.2
+*geometric-lemma*, §SR.3.1, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1 (ii), (iv);
+AutomorphicLFunctionsAndLocalFactors §§AL.1, AL.2.
+
+**Checks.**
+
+- When `ν` is unramified with `ν(ϖ) ≠ 1`, `Θ = Θ′ = Π` and every nonzero map out of `Θ′` is a multiple of `p′`, so a zeta
+  integral, where defined and nonzero, gives the matching of the first case up to a scalar; the statement uses the zeta
+  integrals only for ramified `ν`.
+- `a = 2`, `a′ = 1`, `N = 3`, and the same action `x ↦ xᵗh⁻¹` of `GL_3` on both models: `P(Φ)` is left equivariant under the
+  stabiliser of the plane spanned by the rows of `X₀`, while `∫Φ′(gY₀ᵗh⁻¹)…` is equivariant under that of a line, the
+  transposed parabolic subgroup; the two functions live on dual projective planes, the two parabolic subgroups generate
+  `GL_3`, and the images meet in at most the line of a character of `GL_3`, so no `Φ` with `P(Φ) ≠ 0` has a partner. With
+  `β_w(det h)` in place of `α_w(det h)` in `ω′(1, h)`, the image of `P′` has central character `β_w^{a+2a′}α_w^{−a′}` instead of
+  `α_w^aβ_w^{a′}`, the two differing by `ν_w^{−N}`.
+- The moduli in the change of basis of `Q`: for `k = diag(ϖ, 1, …, 1)` the factors are `β_w(ϖ)q^{a/2}` on `P` and
+  `α_w(ϖ)q^{−a′/2}` on `P′`, not `β_w(ϖ)`, `α_w(ϖ)`; the matching relation changes by `ν_w(ϖ)q^{−N/2}`, not an element of
+  `ν_w(𝒪^×)`. Only changes of integral bases of the same lattices give the finite ambiguity.
+- The exponent of the first zeta integral: `a − 1 − N/2 = ε₀ − 1` with `ε₀ = (a − a′)/2`, positive for `ε₀ ≥ 2`,
+  so absolute convergence fails there and the shell sum is needed.
+- The hypothesis on `ν` is used only for the strata of rank `< a`. For `ν` trivial the induced representation is
+  still irreducible (the two segments have the same centre, so they are nested when `a ≡ a′ (mod 2)` and lie in
+  different cosets of `ℤ` otherwise), and when `α`, `β` are unramified `Π` is that representation (both are spherical
+  with the parameter of 3.21a(iii)); the *irreducibility* bullet concerns `ν` ramified or `ν(ϖ) ≠ 1` only, and for
+  `ν(ϖ) = 1` the lower strata can contribute to `Θ`.
+
+### 3.47a Local matching at unramified inert places
+
+Prove local matching at unramified inert places: in a local complementary datum (3.47) with `N = a + a′` even, `E/F` unramified quadratic,
+residue field of odd characteristic, `ψ`, `α`, `β` unramified, and `V`, `V′`,
+`W` containing self-dual lattices `L`, `L′`, `M` (for the forms of `V`, `V′` and the skew-Hermitian form of `W`; no
+compatibility of `M` with `L ⊕ L′` under the isometry `δ⁻¹W ≅ V ⊕ V′(−1)` is required), `Θ` and `Θ′` are nonzero, local
+matching data exist, `Π` is the unramified constituent common to `Θ` and `Θ′`, `Θ` and `Θ′` are generated by the images of
+the lattice vectors of `L ⊗ M` and `L′ ⊗ M`, which are nonzero and span their `K′`-fixed lines (`K′ = Stab(M)`), and these
+vectors correspond.
+
+*Route.* *Nonvanishing.* `W` is split (`N` even, Check), and `M = (M ∩ Y) ⊕ (M ∩ Y^*)` for a polarisation `W = Y ⊕ Y^*` (a
+unimodular lattice of a split space over the unramified `E` has a hyperbolic basis). In the Schrödinger model of
+`(V ⊗ Y) ⊕ (V ⊗ Y^*)` the group `U(V)` preserves both Lagrangians, so it acts by a character `μ` of `U(V)` times substitution
+(Stone–von Neumann, MetaplecticAutomorphicForms §1.1; `|det| = 1` on `U(V)`), and the lattice vector of `L ⊗ M` is the indicator of `L ⊗ (M ∩ Y^*)`, fixed
+by `K = Stab(L)` (MetaplecticAutomorphicForms §2.6a); so `μ` is trivial on `K`, and on the diagonal elements `diag(ϖ^m, ϖ^{−m})` of the hyperbolic planes of
+`V`, which lie in their special unitary groups `≅ SL_2(F)`, a perfect group; by the Cartan decomposition `μ = 1`. Hence
+`φ ↦ φ(0)` is a nonzero `U(V)`-invariant functional, nonzero on the lattice vector, and `Θ ≠ 0`; the same for `Θ′` with
+`L′`. The two sides are computed separately, `Θ` with `L ⊗ M` and `Θ′` with `L′ ⊗ M`. The `K′`-fixed vectors of
+each coinvariant module are spanned by the images of the translates of the lattice vector under the spherical Hecke
+algebra (3.21a(i)), on which the Hecke algebra of `U(V)` (resp. `U(V′)`) acts through its trivial character; so they
+form a line, nonzero by the nonvanishing just shown, which generates (second clause of 3.21a(i)), and as in 3.47 each
+module has a unique maximal proper submodule with a spherical quotient. The evaluation functional along the Lagrangian of a Siegel-type parabolic
+transforms by `β(det)|det|^{a/2}`, resp. `α(det)|det|^{a′/2}`, and a relative-index computation of the moduli of the two
+parabolics shows that the two spherical quotients have the same Satake parameter, which 3.21a(iii) computes on
+each side: `(α(ϖ)q^{(a−1)/2 − i})_{i<a} ∪ (β(ϖ)q^{(a′−1)/2 − j})_{j<a′}` in base-change coordinates, for both (`q`
+the residue cardinality of `E`, as in 3.21a(iii)).
+
+(Howe 1979; Rallis 1982.) *Needs:* 3.21a; MetaplecticAutomorphicForms §§1.1, 2.6a; SmoothRepresentationsOfLocalGroups §SR.4.4.
+
+**Checks.**
+
+- No condition on `δ` is needed for `M` to exist when `N` is even: the Hermitian space `δ⁻¹W ≅ V ⊕ V′(−1)` has a
+  unimodular lattice, so its determinant is a norm class and, `N` being even, it is split; a split Hermitian space
+  over the unramified `E` contains `ϖ^k`-modular lattices for every `k`, and `M` is unimodular for `⟨·,·⟩_W = δ·(δ⁻¹⟨·,·⟩_W)`
+  exactly when it is `ϖ^{−val(δ)}`-modular for `δ⁻¹⟨·,·⟩_W`. When `δ` is a unit, `M` may be taken to be the image of
+  `L ⊕ L′`.
+- Nonvanishing is not formal: generation by the image of the lattice vector and the Hecke relations bound the
+  `K′`-fixed line of `Θ` by one dimension, and the image could be `0`; 3.9a(ii) gives `Θ′ ≠ 0` (`W` contains an isotropic
+  subspace of dimension `N/2 ≥ a′`) but not `Θ ≠ 0` (`a > N/2`), which the evaluation at `0` provides.
+
+### 3.47b Local matching at real places
+
+Prove local matching at real places. Let `F = ℝ`, `E = ℂ`, `δ` with `δ⁻¹ ∈ iℝ_{>0}`, the form `B = Tr_{ℂ/ℝ}(⟨·,·⟩_V⟨·,·⟩_W)`
+and `ψ(x) = e^{2πix}`, and let a local complementary datum (3.47) have signatures `(P, Q)` for `V` and `(P′, Q′)` for
+`V′`, with positive and negative parts `V = V₊ ⊕ V₋`, `V′ = V′₊ ⊕ V′₋`. Then `W^♭ = δ⁻¹W ≅ V ⊕ V′(−1)` has the positive
+part `W₊ = V′₋ ⊕ V₊` and the negative part `W₋ = V′₊ ⊕ V₋`, of dimensions `P_W = P + Q′` and `Q_W = Q + P′`, and
+`K_W = U(W₊) × U(W₋)`; write `e_1, …, e_{P_W}` and `f_1, …, f_{Q_W}` for the coordinates of its highest weights in bases
+adapted to these decompositions, in the order written (first `V′₋`, then `V₊`; first `V′₊`, then `V₋`). Let `m_α`, `m_β`
+be the infinity types and `κ = m_α − m_β` (so `κ ≡ a + a′ (mod 2)`), and assume `a′ ≥ 1` and
+
+`−κ > |P − Q| + |P′ − Q′|`  (for instance `κ < −(a + a′)`, which is the same condition when `V` and `V′` are definite).
+
+Put `L₊ = (−κ − (P_W − Q_W))/2` and `L₋ = (−κ + (P_W − Q_W))/2`, positive integers (`κ ≡ a + a′ ≡ P_W − Q_W (mod 2)`, and
+`|P_W − Q_W| = |(P − Q) − (P′ − Q′)| < −κ`), and let `La` be the `K_W`-type of highest weight
+
+`(0^{Q′}, (−L₊)^P) + ((Q − P + m_β)/2)·(1, …, 1)` on `U(P_W)`,  `(0^{P′}, (−L₋)^Q) + ((P − Q + m_β)/2)·(1, …, 1)` on `U(Q_W)`;
+
+equivalently `(L₊^{Q′}, 0^P) + ((Q′ − P′ + m_α)/2)·(1, …, 1)` and `(L₋^{P′}, 0^Q) + ((P′ − Q′ + m_α)/2)·(1, …, 1)`. Here `Θ`
+and `Θ′` are the theta quotients of 3.47, the coinvariants of the polynomial Fock spaces of `ω` and `ω′` under
+`(𝔲(V), K_V)` and `(𝔲(V′), K_{V′})`, as `(𝔲(W), K_W)`-modules through `ω` and `ω′`.
+
+- (i) *Spectrum.* `Θ` and `Θ′` are `K_W`-multiplicity free, with the same `K_W`-types: the types of highest weight
+  `La + Σ_i c_i(f_i − e_{P_W+1−i}) + Σ_j b_j(e_j − f_{Q_W+1−j})` for partitions `c` with `ℓ(c) ≤ min(P, P′)` and `b` with
+  `ℓ(b) ≤ min(Q, Q′)`. In particular `La` occurs once in each, and it generates `Θ` (resp. `Θ′`).
+- (ii) *Unique quotients.* Each of `Θ`, `Θ′` has a unique irreducible quotient, in which `La` occurs once.
+- (iii) *Infinitesimal character.* `Θ` and `Θ′` have the infinitesimal character with Harish-Chandra parameter
+  `{m_α/2 + (a − 1)/2 − i}_{0 ≤ i < a} ∪ {m_β/2 + (a′ − 1)/2 − j}_{0 ≤ j < a′}`.
+- (iv) *Matching.* The two irreducible quotients are isomorphic: with `Π` their common class and `p`, `p′` the quotient
+  maps, `(Π, p, p′)` is local matching data.
+- (v) *Identification.* Assume moreover `κ ≤ −(a + a′)`. Let `𝔮 = 𝔩 ⊕ 𝔲` be the `θ`-stable parabolic subalgebra of
+  `𝔲(W)_ℂ` with Levi subgroup `L = U(V) × U(V′)` (through `W ≅ V ⊕ V′`) and `𝔲 = Hom(V, V′)`, and `λ` the character
+  `det_V^{(m_α + a′)/2} ⊗ det_{V′}^{(m_β − a)/2}` of `L`, admissible since `κ ≤ −(a + a′)`. Then `Π` is isomorphic to the
+  module `A_𝔮(λ)` of AutomorphicFormsOnReductiveGroups §5.4.
+
+The hypothesis is used as follows: `L_± > 0` (for (i)) is `−κ > |(P − Q) − (P′ − Q′)|`, and the Casimir gap below (for (ii)
+and (iv)) is `−κ > |(P − Q) + (P′ − Q′)|`; together they are the displayed condition.
+
+The route of (ii) and (iv) is the following lemma, stated for any pair `𝔤 = 𝔨 ⊕ 𝔭` of complex Lie algebras with
+`[𝔭, 𝔭] ⊂ 𝔨`, `𝔨` the complexification of a compact Lie algebra acting on `𝔭` unitarily for a positive Hermitian form,
+and `Ω = Σ_k e_k e_k^* ∈ U(𝔨)` a Casimir element (for a basis `(e_k)` of `𝔨` and the adjoint of the compact form) acting on
+`𝔭` by a scalar `d`:
+
+- (o) *Casimir gap.* Let `M` be a `𝔤`-module generated by a finite-dimensional
+  `𝔨`-submodule `V`, unitary for the compact form, on which `Ω` acts by `c₀`, and suppose that `Ω` has no eigenvalue
+  `≤ c₀ + d` on `𝔭·V`. Then the generalised `c₀`-eigenspace of `Ω` in `M` is `V`. If `V` is irreducible, `M` has a unique
+  maximal proper submodule; and two such modules `M`, `M′` with `𝔨`-isomorphic `V`, `V′` have isomorphic irreducible
+  quotients.
+
+*Route.* (i) *Seesaw.* `V ⊗ W = (V ⊗ W₊) ⊕ (V ⊗ W₋)`, a symplectically orthogonal sum on which the positive complex
+structure of the pair restricts to those of the compact pairs `(U(W₊), U(V))` and `(U(W₋), U(V))`; so the polynomial
+Fock space of `(V, W)` is the tensor product of theirs, with `U(V)` acting diagonally. By 3.46(i)–(ii) each factor is
+`⊕_σ σ ⊗ L_±(σ)`, with `L_±(σ)` irreducible unitary `(𝔲(V), K_V)`-modules; by 3.45(ii) the polynomials of the two factors
+are `Sym((V₊ ⊗ W₊)^∨) ⊗ Sym(V₋ ⊗ W₊)` and `Sym(V₊ ⊗ W₋) ⊗ Sym((V₋ ⊗ W₋)^∨)`, so the `K_V`-types of `L₊(σ)` are its lowest
+type plus weights of `Sym(V₊^∨ ⊗ V₋)` and those of `L₋(σ)^∨` likewise: `L₊(σ₊)` and `L₋(σ₋)^∨` are unitary lowest weight
+modules for the same `𝔭^+`, each determined by its lowest `K_V`-type. By the Kashiwara–Vergne parametrisation (3.46(ii),
+with the twists of 3.45(ii)), `σ₊` of highest weight `(B, 0, −A^{rev}) + (Q − P)/2` (partitions, `ℓ(A) ≤ P`, `ℓ(B) ≤ Q`,
+`ℓ(A) + ℓ(B) ≤ P_W`) has lowest `K_V`-type `((−A)^{rev} − P_W/2) ⊗ (B + P_W/2)` on `U(V₊) × U(V₋)`, and `σ₋` of highest weight
+`(C, 0, −D^{rev}) + (P − Q)/2` (`ℓ(C) ≤ P`, `ℓ(D) ≤ Q`, `ℓ(C) + ℓ(D) ≤ Q_W`) has `(C + Q_W/2) ⊗ ((−D)^{rev} − Q_W/2)`. The splitting
+characters make `U(V)` act through `det^{−κ/2}` (`χ_W = β/α`) and `U(W)` through `det^{m_β/2}` (`χ_V = β`). Hence the
+`σ₊ ⊗ σ₋`-isotypic part of `Θ` is `σ₊ ⊗ σ₋ ⊗ (L₊(σ₊) ⊗ L₋(σ₋) ⊗ det^{−κ/2})_{𝔲(V), K_V}`, whose dual is
+`Hom_{(𝔲(V), K_V)}(L₊(σ₊), L₋(σ₋)^∨ ⊗ det^{κ/2})`: of dimension `0` or `1`, and `1` exactly when the lowest types agree, that
+is `A = C + L₊·(1^P)` and `D = B + L₋·(1^Q)`. Since `L_± > 0`, this forces `ℓ(A) = P` and `ℓ(D) = Q`, hence `ℓ(B) ≤ min(Q, Q′)`
+and `ℓ(C) ≤ min(P, P′)`, and the highest weights become those listed (`c = C`, `b = B`); `C = B = 0` gives `La`, the type
+of the vacuum times `Δ₊^{L₊}Δ₋^{L₋}`, with `Δ₊` the determinant of the `V₊ × V₊`-block of the coordinates of `V₊ ⊗ W₊`
+and `Δ₋` that of the `V₋ × V₋`-block of the coordinates of `V₋ ⊗ W₋`. The same computation for `(V′, W)` (`U(V′)` through
+`det^{κ/2}`, `U(W)` through `det^{m_α/2}`) gives `C′ = A′ + L₋·(1^{P′})`, `B′ = D′ + L₊·(1^{Q′})` and the same set of types
+(`c = A′`, `b = D′`). *Generation.* The Fock space is generated over `U(𝔲(W))` by the `K_V`-harmonics
+`ℋ(U(V₊)) ⊗ ℋ(U(V₋))` (Howe: from the generation for the compact pairs `(U(V_±), U(W))` of 3.46(i), by induction on the
+degree in the second factor, since an element of `𝔲(W)_ℂ` raises the degree in one factor and lowers it in the other).
+`K_V`-coinvariants are `K_V`-invariants, and the `K_V`-type that is trivial in `ω` occurs among these harmonics only once,
+paired with `La` (Kashiwara–Vergne for `(U(V₊), U(W))`: the character `det^{−L₊}` of `U(V₊)` pairs only with `Δ₊^{L₊}`;
+likewise for `V₋`). So `Θ` is generated by the image of `La`, which is nonzero because `La` occurs in `Θ`.
+(o) Filter `M` by the spans `F_n` of the words of length `≤ n` in elements of `𝔭` applied to `V`; they are finite-dimensional
+and `𝔨`-stable, and permuting the letters of a word changes it by an element of `F_{n−1}` (`[𝔭, 𝔭] ⊂ 𝔨`). The surjection
+`m_n : V ⊗ 𝔭^{⊗n} → F_n/F_{n−1}` is `𝔨`-equivariant, so `Ω ∘ m_n = m_n ∘ Ω_n`, where `Ω_n` is the Casimir of the unitary
+`𝔨`-module `V ⊗ 𝔭^{⊗n}`. Expanding `Σ_k (R_k + A_k)(R_k + A_k)^*` (`R_k` on `V`, `A_k = Σ_s A_k^{(s)}` on the `n` slots) gives
+`Ω_n = Ω_V + Σ_{s=1}^{n} (Ω_{V ⊗ 𝔭_s} − Ω_V − d) + Ω_{𝔭^{⊗n}}`, with `Ω_{V ⊗ 𝔭_s}` the Casimir of `V` tensor the `s`-th slot;
+the cross terms between two slots, which can be negative, are not estimated separately but are part of
+`Ω_{𝔭^{⊗n}} = Σ_k A_kA_k^* ≥ 0`. Let `φ` be a linear form on `F_n/F_{n−1}` vanishing on `(Ω − c₀)(F_n/F_{n−1})`, and
+`Ψ ∈ V ⊗ 𝔭^{⊗n}` the vector representing `φ ∘ m_n`; then `(Ω_n − c₀)Ψ = 0`. Since letters commute modulo `F_{n−1}`, each
+restriction of `Ψ` to one slot (the other slots fixed) is orthogonal to the kernel of `m₁ : V ⊗ 𝔭 → 𝔭·V`, so lies in a
+`𝔨`-module isomorphic to `𝔭·V`, where `Ω_{V ⊗ 𝔭} − c₀ − d > 0` by the gap. Hence
+`0 = ⟨(Ω_n − c₀)Ψ, Ψ⟩ = Σ_s ⟨(Ω_{V ⊗ 𝔭_s} − c₀ − d)Ψ, Ψ⟩ + ⟨Ω_{𝔭^{⊗n}}Ψ, Ψ⟩` forces `Ψ = 0`. So `Ω − c₀` is invertible on
+every `F_n/F_{n−1}`, `n ≥ 1`, and the generalised `c₀`-eigenspace is `F_0 = V`. A submodule `S` is the sum of its
+generalised eigenspaces (`Ω` is locally finite); if `S ∩ V ≠ 0` then `S ⊃ V` and `S = M`; so the proper submodules lie
+in the sum of the generalised eigenspaces for eigenvalues `≠ c₀`, and so does their sum. For two modules, apply this to
+the submodule of `M ⊕ M′` generated by the graph of the isomorphism `V ≅ V′`, which maps onto `M` and onto `M′`.
+(ii) and (iv): apply (o) to `𝔤 = 𝔲(W)_ℂ`, `𝔨 = Lie(K_W)_ℂ`, `Ω = Σ_{a,b}E_{ab}E_{ba}` over the two blocks (eigenvalue
+`Σ_i μ_i(μ_i + n + 1 − 2i)` on the type of highest weight `μ` of `U(n)`, and `d = P_W + Q_W = N` on `𝔭`), `V` the `La`-part. By
+(i), `𝔭·La` lies in the types of `Θ` (resp. `Θ′`) that occur in `La ⊗ 𝔭`, namely `La + β₁`, `β₁ = f_1 − e_{P_W}` (if
+`min(P, P′) ≥ 1`), and `La + β₂`, `β₂ = e_1 − f_{Q_W}` (if `min(Q, Q′) ≥ 1`). From the coordinates of `La`,
+`Ω(La + β₁) − Ω(La) = N + (−κ + P + P′ − Q − Q′)` and `Ω(La + β₂) − Ω(La) = N + (−κ + Q + Q′ − P − P′)`, both `> N` since
+`−κ > |(P − Q) + (P′ − Q′)|`. So (o) gives (ii) for `Θ` and `Θ′`, and (iv) for the pair, the `La`-parts being isomorphic
+by (i).
+(iii) *Capelli.* For `z ∈ Z(𝔤𝔩_N)` (centre of the enveloping algebra of `𝔲(W)_ℂ`) the image `ω(z)` in the Weyl algebra
+of `(V ⊗ W)_ℂ` equals `ω(z′)` for some `z′ ∈ Z(𝔤𝔩_a)`, with Harish-Chandra parameters related by
+`y = (x + (m_{χ_V} − m_{χ_W})/2) ∪ (m_{χ_V}/2 + ((N − a − 1)/2, …, −(N − a − 1)/2))`. This is an identity in the Weyl
+algebra, which acts faithfully on every Fock model and is the same for every real form; it is read off the compact
+forms of 3.46(iii), where `U(a)` and `U(N)` act on the summand of `μ` with parameters `x`, `y` related in this way, for
+both signs `ε` (the Harish-Chandra isomorphism, AutomorphicFormsOnReductiveGroups §2.2, turns the equality of the
+scalars on every summand into the equality of the elements). On `Θ` the centre of `𝔲(V)` acts through the trivial
+character, `x = ((a − 1)/2, …, −(a − 1)/2)`; with `m_{χ_V} = m_β`, `m_{χ_W} = −κ` this is the stated parameter, and for `Θ′`
+(`m_{χ_V} = m_α`, `m_{χ_W} = κ`, `a` and `a′` exchanged) the same set.
+(v) *Vogan–Zuckerman.* `Δ(𝔲 ∩ 𝔭)` consists of the weights of `Hom(V₊, V′₊)` and `Hom(V₋, V′₋)`, `f_j − e_i` (`f_j` a
+`V′₊`-coordinate, `e_i` a `V₊`-coordinate) and `e_j − f_i` (`e_j` a `V′₋`-coordinate, `f_i` a `V₋`-coordinate); in the
+coordinates above `2ρ(𝔲 ∩ 𝔭) = (Q^{Q′}, (−P′)^P; P^{P′}, (−Q′)^Q)`, so `λ + 2ρ(𝔲 ∩ 𝔭) = La`, and `λ + ρ` is the parameter of
+(iii). `λ` is admissible: on the roots `α` of `𝔲`, `⟨α, λ⟩ = (m_β − a)/2 − (m_α + a′)/2 = −(κ + a + a′)/2 ≥ 0`. The
+`K_W`-types of (i) are `La` plus nonnegative integral combinations of roots of `𝔲 ∩ 𝔭` (`f_i − e_{P_W+1−i}` and
+`e_j − f_{Q_W+1−j}` are such roots), and every one other than `La` has larger norm of `μ + 2ρ_c`, because
+`⟨La + 2ρ_c, α⟩ ≥ ⟨2ρ(𝔲) + 2ρ(𝔩 ∩ 𝔨), α⟩ ≥ (a + a′) − (a − 1) − (a′ − 1) > 0` for the roots `α` of `𝔲`. So each irreducible
+quotient has lowest `K_W`-type `λ + 2ρ(𝔲 ∩ 𝔭)`, infinitesimal character `λ + ρ` and compact weights in
+`λ + 2ρ(𝔲 ∩ 𝔭) + ℕ·Δ(𝔲 ∩ 𝔭)`, and the characterisation of AutomorphicFormsOnReductiveGroups §5.4 identifies it with
+`A_𝔮(λ)`. (This gives (iv) a second time.)
+
+(M. Kashiwara, M. Vergne, Invent. Math. 44 (1978), for the parametrisation in (i); R. Howe, *Transcending classical
+invariant theory*, J. Amer. Math. Soc. 2 (1989), and *Remarks on classical invariant theory*, Trans. Amer. Math. Soc.
+313 (1989), for generation and the Capelli identity; D. Vogan, G. Zuckerman, *Unitary representations with nonzero
+cohomology*, Compositio Math. 53 (1984), through AutomorphicFormsOnReductiveGroups §5.4; (o) is elementary.) *Needs:* 3.45, 3.46; MetaplecticAutomorphicForms §3.3;
+TensorInductionAndFiniteGroupInputs §7.1; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 5.4.
+
+**Checks.**
+
+- `p = q = 0` (`V` positive, `V′` negative): `P_W = N`, `Q_W = 0`, `U(W)` is compact, `min(P, P′) = min(Q, Q′) = 0`, and (i)
+  leaves the single type `La`, of highest weight `(0^{a′}, (−L₊)^a) − ((a − m_β)/2)·(1, …, 1)` with `L₊ = (−κ − N)/2`: this
+  is the type `ι_{−1}((μ, 0^{a′}) + b)` of 3.46(iii) for the definite pair `(V, W)` (`ε = −1`, `a = (N + κ)/2 ≤ 0`,
+  `μ = ((−κ − N)/2)^a`, `b = (a − m_β)/2`). `Θ`, `Θ′` are irreducible and (iv) holds by (i) alone.
+- The two readings of `La` agree: on `U(P_W)` their difference is `L₊ + (Q′ − P′ − Q + P + κ)/2 = 0`, since
+  `P_W − Q_W = P + Q′ − Q − P′`; on `U(Q_W)` it is `L₋ + (P′ − Q′ − P + Q + κ)/2 = 0`.
+- A numerical case: `a = 3`, `a′ = 1`, `(P, Q) = (2, 1)`, `(P′, Q′) = (1, 0)`, `m_β = 1`, `m_α = −5` (`κ = −6 < −4`): `P_W = Q_W = 2`,
+  `L₊ = L₋ = 3`, `La = (−3, −3) ⊗ (1, −2)`; `λ = det_V^{−2} ⊗ det_{V′}^{−1}`, `λ + 2ρ(𝔲 ∩ 𝔭) = (−2 − 1, −2 − 1; −1 + 2, −2 − 0) = La`,
+  and `λ + ρ = (½, −3/2, −5/2, −7/2)`, which is `{m_α/2 + 1 − i} ∪ {m_β/2}`. The gap of (o): only `β₁` occurs
+  (`min(Q, Q′) = 0`), `La + β₁ = (−3, −4) ⊗ (2, −2)`, and `Ω` takes the values `18 + 8 = 26` on `La` and `26 + 12 = 38` on
+  `La + β₁` (`Ω = μ₁(μ₁ + 1) + μ₂(μ₂ − 1)` on `U(2)`): the difference `12 = N + (−κ + P + P′ − Q − Q′)` exceeds `N = 4`.
+- *The general range.* In the same signatures `|P − Q| + |P′ − Q′| = 2 < N = 4`, so (i)–(iv) hold also for `κ = −4`, which
+  `κ < −(a + a′)` excludes; (v) holds there as well (`κ ≤ −(a + a′)`). For `m_β = 1`, `m_α = −3`: `L₊ = L₋ = 2`,
+  `La = (−2, −2) ⊗ (1, −1)`, `Ω(La) = 8 + 4 = 12`, `La + β₁ = (−2, −3) ⊗ (2, −1)`, `Ω(La + β₁) = 14 + 8 = 22`, and the
+  difference `10 = N + (−κ + P + P′ − Q − Q′)` exceeds `4`. For signatures `(a − p, p)` of `V` and `(q, a′ − q)` of `V′`
+  with `2p ≤ a`, `2q ≤ a′`, the bound is `|P − Q| + |P′ − Q′| = N − 2(p + q)`, which does not change when a hyperbolic plane
+  is removed from `V` or `V′` and from `W`.
+- The sign of `κ` matters: for `κ > a + a′` the determinant powers that make `K_V` act trivially would have to come from
+  the blocks `V₊ ⊗ W₋` and `V₋ ⊗ W₊`; for `p = q = 0` there is no such block (`W₋ = 0`), `Θ = 0`, and this is the
+  vanishing of the trivial type of 3.46(iii) for `(V, W)` when `−m_{χ_W} = κ > N`.
+
+### 3.47c Three local lemmas at a split place
+
+Prove the following three lemmas. Let `F` be nonarchimedean, `E = F × F`, `q` the residue cardinality, and work in the type-II models
+`S(M_{n×N}(F))`.
+
+1. *Uniqueness of the zeta distribution.* Let `ξ` be an unramified
+   quasi-character of `F^×` with `ξ(ϖ)` not a positive real number, and `l` a linear functional
+   on `S(M_{n×N}(F))` with `l(φ(· h)) = ξ(det h) l(φ)` for `h ∈ GL_N(F)`. If `n < N` then `l = 0`;
+   if `n = N` then also `l(φ(g ·)) = ξ(det g) l(φ)` for `g ∈ GL_N(F)`.
+2. *No degenerate Whittaker functional of type `(3, 1, …, 1)`.*
+   Let `l` be a linear functional on `S(M_{n×N}(F))` transforming on the left under `GL_n(F)` by an
+   unramified character of the determinant, and for three distinct column indices `i₀, i₁, i₂`:
+   adding `ρ_i` times column `i₀` to column `i` for all `i ≠ i₀` multiplies `l` by `ψ(ρ_{i₁})`, and
+   adding `ρ_i` times column `i₁` to column `i` for all `i ∉ {i₀, i₁}` multiplies `l` by `ψ(ρ_{i₂})`.
+   Then `l = 0`. Equivalently, the theta quotient of the trivial representation of `GL_n` in `GL_N`
+   carries no functional that is generic on a `GL₃`-block of a Levi subgroup and trivial on the
+   corresponding unipotent radical.
+3. *Growth of `GL₂`-block Whittaker functionals.* Let `l` have left
+   law `ξ ∘ det` (`ξ` unramified) and the first column law of 2, with `ψ` of conductor exponent `c`,
+   and put `r = ξ(ϖ) q^{n−N}`. Then there is `x ∈ ℂ` with
+   `l(1_{M_{n×N}(O)}(Y · diag_{i₀,i₁}(ϖ^j, ϖ^{−j}))) = x · (q r)^{−j} · Σ_{i=0}^{2j−c} r^i` for every
+   `j ≥ c`, where `diag_{i₀,i₁}(ϖ^j, ϖ^{−j})` acts on the columns `i₀`, `i₁`.
+
+*Route.* 1, the orbits of `GL_N` on `n × N` matrices of rank `< N` carry no `ξ ∘ det`-equivariant
+distribution unless `ξ` is a real power of `|·|`, and on the open orbit (`n = N`) the equivariant
+distribution is `ξ⁻¹(det z) d^×z`, unique and equivariant on both sides. 2, by the first column law
+and the left law `l` is supported where column `i₁` is a multiple `λ` of column `i₀ ≠ 0` (on the
+locus where they are independent a unipotent of the mirabolic subgroup of column `i₀` realises the
+column operation up to a nontrivial factor of `ψ`); likewise column `i₂ = μ` times column `i₁`; the
+first column law with `ρ` supported in position `i₂` must then act trivially but shifts `μ` by
+`ρ_{i₂}/λ`, on which `l` is equivariant by `ψ`: a contradiction. 3, decompose by the valuation `e` of column
+`i₀`, `−j ≤ e ≤ j − c`; the `e`-th term is a constant times the `e`-th power of one number.
+
+*Needs:* MetaplecticAutomorphicForms §§3.2a, 3.14; SmoothRepresentationsOfLocalGroups §§SR.2.1–SR.2.2.
+
+**Checks.**
+
+- In 1 the hypothesis on `ξ(ϖ)` is needed: for `ξ = 1` the evaluation `φ ↦ φ(0)` is a nonzero right
+  invariant functional for every `n < N`.
+- In 3 with `|r| > 1` the right side has absolute value of order `(|r|/q)^j`. For the two theta quotients of
+  a complementary datum the parameters are `r_V = ν(ϖ) q^{ε₀}` and `r_{V′} = r_V⁻¹` (the left laws include the
+  modulus characters of the Weil action), and the two sequences agree up to the factor `r_V^c`;
+  `|r_V|/q = q^{ε₀ − 1}`, so the sequence is unbounded exactly when `ε₀ ≥ 2` and stays bounded at `ε₀ = 1`.
+
+### Examples
+
+For `n = 0` the Weil representation is the character `χ̃_V ∘ det` of `U(W)` (at a split place `χ_{V,w} ∘ det` on `GL_d(F)`), and the unramified correspondence gives the segment `χ_V(ϖ)(q^{(d−1)/2}, …, q^{−(d−1)/2})` alone, the parameter of that character (3.21a). For `N = 1`, `W = ℝe ⊕ ℝf` with `ω(e, f) = 1` and `X = ℝe`, the vacuum is `2^{1/4}e^{−πu²}`, the positive complex structure is `Je = f`, the Bargmann kernel is `2^{1/4}e^{2πuz − πu² − πz²/2}`, and `exp(θJ)` acts on the Hermite function of degree `k` by `e^{−i(k + 1/2)θ}` (3.45). For `n = d = 1` with `V` and `W^♭` positive, `U(1) × U(1)` acts on `z^k` by `t^{−k−a}s^{−k−b}`, `a = (1 − m_W)/2`, `b = (1 − m_V)/2` (3.46). For `a = 3`, `a′ = 1`, `(P, Q) = (2, 1)`, `(P′, Q′) = (1, 0)`, `m_β = 1`, `m_α = −5`, the generating type is `La = (−3, −3) ⊗ (1, −2)`, the Casimir takes the values `26` on `La` and `38` on `La + β₁`, and the infinitesimal character is `(½, −3/2, −5/2, −7/2)` (3.47b). For `U(1) × U(1, 1)` and `t = 1` the Fock module is `ℂ[z₁, z₂]`; for `k ≥ 1` its part of `U(1)`-weight `k` is the irreducible lowest weight module generated by the joint harmonic `z₁^k/√(k!)` of type `Λ((k | 0))`, case (−) with `α = (k)`, and for `k ≤ −1` the harmonic is `z₂^{|k|}/√(|k|!)`, case (+) with `β = (k)`; the hypothesis of (c2) is needed, since for `λ = (1 | −1)` on `U(1, 1)` in case (+) the larger member is the trivial representation of `U(3)` and the Fock module of the lowered pair `U(0, 0) × U(3)` is the trivial line (3.46a). In the uniqueness of the zeta distribution the hypothesis on `ξ(ϖ)` is needed: for `ξ = 1` the evaluation `φ ↦ φ(0)` is a nonzero right invariant functional for every `n < N` (3.47c).
+
+### Dependencies
+
+MetaplecticAutomorphicForms §§0.1, 0.15, 0.17, 0.18, 1.1, 1.3, 2.4c, 2.5, 2.6a, 3.2a, 3.3, 3.3b, 3.4, 3.6, 3.12, 3.14, 3.18 (Layers 0–3); SmoothRepresentationsOfLocalGroups §§SR.2.1, SR.2.2, SR.3.1, SR.4.1–SR.4.4, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1; TensorInductionAndFiniteGroupInputs §7.1; AutomorphicLFunctionsAndLocalFactors §§AL.1, AL.2; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.4, 5.4; RepresentationTheory/CompactGroups Layers 4–5; OrthogonalL2Bases Part A.
+
+## Layer 4: Global Weil representation of a unitary pair
+
+The local splittings of MetaplecticAutomorphicForms §3.3, normalised on Siegel parabolic subgroups as in 3.3b, assemble into a global Weil representation of a unitary pair, characterised by five properties.
+
+### 4.4a The global Weil representation of a unitary pair
+
+Construct the global Weil representation of a unitary pair. Let `E/F` be a quadratic extension of number fields, `V` ε-Hermitian,
+`W` (−ε)-Hermitian, and `χ_V`, `χ_W` unitary Hecke characters of `𝔸_E^×/E^×` with
+`χ_V|_{𝔸_F^×} = η^{dim V}`, `χ_W|_{𝔸_F^×} = η^{dim W}`.
+
+- The local splittings of MetaplecticAutomorphicForms §3.3 (and MetaplecticAutomorphicForms §3.2a at split places) are trivial on `U(V)(𝒪_v) × U(W)(𝒪_v)` for
+  almost all `v`, where they fix the lattice vector of MetaplecticAutomorphicForms §2.6a.
+- Their restricted product defines a continuous homomorphism
+  `ι : U(V)(𝔸) × U(W)(𝔸) → Mp(V ⊗ W)(𝔸) ×_{μ₂} ℂ^1` over the inclusion into `Sp(𝔸)`, into the adelic scalar cover (the
+  push-out of the double cover of MetaplecticAutomorphicForms §4.2 along `μ₂ ⊂ ℂ^1`, on which the representation of MetaplecticAutomorphicForms §4.5 extends with `ℂ^1` acting by
+  scalars), and `ι` agrees with the rational splitting of MetaplecticAutomorphicForms §4.4, composed with the push-out map, on `U(V)(F) × U(W)(F)`. The
+  local splittings of MetaplecticAutomorphicForms §3.3 are into scalar covers; into the double cover there is in general none: for two definite
+  lines at a real place the image of `U(1) × U(1)` is the rotation group of `Sp_2(ℝ)`, whose inverse image in the double
+  cover is connected (MetaplecticAutomorphicForms §2.4b, Check).
+- Hence a global Weil representation `ω_{ψ, χ_V, χ_W}` of `U(V)(𝔸) × U(W)(𝔸)` on `S(X(𝔸))` for any
+  rational polarisation, unitary and extending to a strongly continuous representation on `L²(X(𝔸))`, with theta
+  functional invariant under `U(V)(F) × U(W)(F)`, compatible with
+  change of polarisation and with the character changes of MetaplecticAutomorphicForms §3.3.
+- *Normalisation on a Siegel parabolic.* At every place `v` where `W_v` is split, the local components act on the
+  Schrödinger model of `(V ⊗ Y) ⊕ (V ⊗ Y^*)` by the formulas of 3.3b in its left-action form:
+  `ω(m(A))φ(x) = χ_{V,v}(det A)⁻¹ |det A|_{E_v}^{n/2} φ(xA)`,
+  `ω(n(B))φ(x) = ψ_v(tr(B T_x)) φ(x)`.
+- *Split places.* At a place `v` split in `E`, in the type-II model of MetaplecticAutomorphicForms §§3.2a, 3.14, in every
+  residue characteristic and for every conductor of `ψ_v`, the functional `φ ↦ φ(0)` satisfies
+  `(ω_v(g, h)φ)(0) = r(g, h) · χ̃_W(det g) · χ̃_V(det h) · φ(0)` for `g ∈ U(V)(F_v)`, `h ∈ U(W)(F_v)`, with `r(g, h) > 0`
+  (a product of powers of the absolute values of the two determinants) and `det` the determinant of the acting
+  isometry (of `V`, resp. `W`; `χ̃` is defined at a split place, where `η_v = 1`). This is the known description of the
+  split unitary Weil representation as the type-II model twisted by the splitting characters; it agrees with the
+  previous bullet on the common Levi elements (for `h = m(A)`, `χ̃_V(det m(A)) = χ_V(det A)⁻¹`).
+- *Characterisation.* Let `dim V, dim W ≥ 1`, and let `ω′` be a representation of
+  `U(V)(𝔸) × U(W)(𝔸)` on `S(X(𝔸))` with: (1) `ω′(g, h) ρ(w) ω′(g, h)⁻¹ = ρ((g, h)w)` for the Heisenberg operators `ρ(w)`,
+  `w ∈ 𝕎(𝔸)` (MetaplecticAutomorphicForms §1.3); (2) the theta functional `φ ↦ Σ_{ξ ∈ X(F)} φ(ξ)` is invariant under `U(V)(F) × U(W)(F)`; (3) `ω′` is
+  unitary for the `L²` inner product of `S(X(𝔸)) ⊂ L²(X(𝔸))`; (4) at every place `v` split in `E`, the functional
+  `φ ↦ φ(0)` of the type-II model at `v` transforms under `U(V)(F_v) × U(W)(F_v)` by a positive multiple of
+  `χ̃_W(det g)χ̃_V(det h)`; (5) *continuity*: for every `φ ∈ S(X(𝔸))` the orbit map `(g, h) ↦ ω′(g, h)φ` is continuous from
+  `U(V)(𝔸) × U(W)(𝔸)`, with its adelic topology, to `L²(X(𝔸))` with its norm topology (equivalently, by (3) and the
+  density of `S(X(𝔸))`, `ω′` extends to a strongly continuous unitary representation on `L²(X(𝔸))`). Then
+  `ω′ = ω_{ψ, χ_V, χ_W}`.
+
+*Route.* The product formula for the local splitting cocycles: the global cocycle restricted to
+rational points is a product of local Weil indices and character values, which is `1` by the product
+formula MetaplecticAutomorphicForms §4.3 and the triviality of `χ_V`, `χ_W` on `E^×`; continuity from the almost-everywhere
+triviality on integral points. Siegel parabolic: 3.3b, place by place. Split places: MetaplecticAutomorphicForms §3.2a identifies the
+split oscillator with the type-II model and its characters, and `φ(0)` is invariant under the substitution.
+Characterisation: by (1) and the irreducibility of the Heisenberg representation (Stone–von Neumann, MetaplecticAutomorphicForms §1.1),
+`ω′ = c · ω_{ψ, χ_V, χ_W}` for a function `c`, which is a character because both are representations, unitary by (3),
+continuous by (5) and the continuity of `ω_{ψ, χ_V, χ_W}` (first bullets: `c(g, h) = ⟨ω′(g, h)φ, ω(g, h)φ⟩/‖φ‖²`, an inner
+product of two continuous orbit maps), trivial on rational points because the nonzero theta functional is invariant under
+them for `ω′` (by (2)) and for `ω` (above), and positive, hence trivial, on `U(V)(F_v) × U(W)(F_v)` at every split `v` by (4)
+and the split law. On `U(W)(𝔸)`, `c` is trivial on `SU(W)(F)` and on `SU(W)(F_{v₀})` for a split `v₀`, where
+`SU(W)(F_{v₀}) ≅ SL_d(F_{v₀})` is not compact for `d ≥ 2`; by strong approximation for the simply connected `SU(W)`
+(AdelicAlgebraicGroups §4.2) `SU(W)(F)·SU(W)(F_{v₀})` is dense in `SU(W)(𝔸)`, so the continuous `c` is trivial on `SU(W)(𝔸)`,
+and `c = μ̃ ∘ det` for a continuous character `μ̃` of `𝔸_E^1/E^1` (`det : U(W)(𝔸) → 𝔸_E^1` is onto and open) trivial on
+`E_v^1` at every split `v` (for `d = 1` directly). Then `μ(x) = μ̃(x/x̄)` is a Hecke character of `E`, trivial on `𝔸_F^×` (hence of algebraic infinity
+type) and at every place of `E` above a split place of `F`; these places carry all but a set of Dirichlet density
+zero of the primes of `E` counted by norm, so `Σ_𝔓 μ(𝔓)N𝔓^{−s} ~ log(1/(s − 1))`, which for `μ ≠ 1` contradicts the
+holomorphy and nonvanishing of `L(s, μ)` at `s = 1` (LFunctions Layer 7). So `μ = 1`; likewise on `U(V)(𝔸)`.
+
+(S. Kudla, *Splitting metaplectic covers of dual reductive pairs*, Israel J. Math. 87 (1994);
+M. Harris, S. Kudla, W. J. Sweet, J. Amer. Math. Soc. 9 (1996), §1; Gan–Ichino §4, the source of MetaplecticAutomorphicForms §3.3's
+normalisation.) *Needs:* 3.3b; MetaplecticAutomorphicForms §§1.1, 1.3, 2.5, 2.6a, 3.2a, 3.3, 3.14, 4.1–4.5;
+AdelicAlgebraicGroups §4.2; LFunctions Layer 7.
+
+**Checks.**
+
+- `V = 0`: `ω` is the character `χ̃_V ∘ det` of `U(W)(𝔸)`, trivial on `U(W)(F)` because the determinant of a rational
+  element is `x/x̄` for some `x ∈ E^×` (Hilbert's theorem 90) and `χ_V` is trivial on `E^×`.
+- Replacing `χ_V` by `χ_V μ` with `μ|_{𝔸_F^×} = 1` multiplies the action of `U(W)(𝔸)` by `μ̃ ∘ det`,
+  globally, with `μ̃(x/x̄) = μ(x)`.
+- Characterisation, the role of (4): a representation `c · ω` with `c = μ̃ ∘ det` for a continuous character `μ̃` of
+  `𝔸_E^1/E^1` satisfies (1)–(3) and (5); it satisfies (4) only if `μ̃` is trivial at every split place.
+- Characterisation, the role of (5): let `H ⊂ 𝔸_E^1` be the subgroup generated by `E^1` and the `E_v^1`, `v` split. An
+  element `≠ 1` of `E_v^1`, `v` inert, is not in `H` (an element of `E^1` equal to `1` at a real place is `1`), so `𝔸_E^1/H ≠ 1`,
+  and since the circle is divisible there is a homomorphism `c : 𝔸_E^1 → ℂ^1`, trivial on `H` and not trivial. Then
+  `(c ∘ det h)·ω(g, h)` satisfies (1)–(4) and is not `ω`; it violates (5), because a continuous `c` trivial on `H` is
+  trivial (the argument of the route), so this `c` is not continuous, and `h ↦ c(det h) = ⟨ω′(1, h)φ, ω(1, h)φ⟩/‖φ‖²`
+  would be continuous under (5).
+- For the pair `(V, W) = (X₁^*, δ′X₂)` (`X₁^* = Hom_E(X₁, E)` with the dual Hermitian form, on which `g ∈ U(X₁)` acts by
+  `ℓ ↦ ℓ ∘ g⁻¹`; `X₂` with the skew-Hermitian form `δ′h₂`), realised on `Hom_E(X₁, X₂)` with `(g, h)x = hxg⁻¹`, the
+  determinant of `g` acting on `X₁^*` is `det(g)⁻¹`, so (4) reads `r · χ̃_W(det g)⁻¹ χ̃_V(det h)` with `det g` taken on `X₁`.
+
+### Examples
+
+For `V = 0` the global Weil representation is the character `χ̃_V ∘ det` of `U(W)(𝔸)`, trivial on `U(W)(F)` because the determinant of a rational element is `x/x̄` for some `x ∈ E^×` (Hilbert's theorem 90); replacing `χ_V` by `χ_Vμ` with `μ|_{𝔸_F^×} = 1` multiplies the action of `U(W)(𝔸)` by `μ̃ ∘ det` (4.4a).
+
+### Dependencies
+
+Layer 3 (3.3b); MetaplecticAutomorphicForms §§1.1, 1.3, 2.4b, 2.5, 2.6a, 3.2a, 3.3, 3.14, 4.1–4.5; AdelicAlgebraicGroups §4.2; LFunctions Layer 7.
+
+## Layer 5: Convergence, constant terms and cusp forms of theta integrals
+
+Theta integrals of unitary pairs: theta integrals of cusp forms of discrete-series type, convergence in Weil's range and for regular data at a split place, archimedean vanishing, constant terms along an isotropic line through the cone maps, the local multiplicity bounds that let the cone maps descend to local matching data, and the archimedean cone lemma.
+
+### 5.6a Theta integrals of cusp forms of discrete-series type
+
+Let `E/F` be a CM extension, `(U(V), U(W))` a unitary dual pair over it with splitting characters, `ω` its global Weil
+representation (4.4a) and `θ(g, h; φ)` its theta kernel. For each real place `τ` let `𝒫_τ` be the polynomial Fock space
+of the pair at `τ` (3.45) and `𝒟_{V,τ}`, `𝒟_{W,τ}` discrete series of `U(V)(F_τ)`, `U(W)(F_τ)`, with Harish-Chandra modules
+`𝒟^{K}`. Call a bilinear map `B : 𝒫_τ × 𝒟_{W,τ}^{K} → M` into a `(𝔲(V)_τ, K_{V,τ})`-module *admissible for the pair* if
+`B(XP, v) = X·B(P, v)` for `X ∈ 𝔲(V)_τ` and `B(YP, v) + B(P, Yv) = 0` for `Y ∈ 𝔲(W)_τ`. Assume, at every `τ`:
+
+- (R1) for unitarizable `M`, the span of the values of a nonzero admissible `B` is a submodule isomorphic to `𝒟_{V,τ}^{K}`;
+- (R2) the admissible maps into `𝒟_{V,τ}^{K}` form a line, spanned by `I_τ`;
+- (R3) for every `i ≥ 1` and every Hermitian space `V′_τ` whose signature is that of `V_τ` lowered by `(i, i)`, every
+  admissible map from the Fock space of `(V′_τ, W_τ)` (same splitting characters) into any module is zero.
+
+(For a pair of 3.46a these are its clauses (a) or (b), (e) and (c), applied to `𝒟_{V,τ}` and the contragredient of
+`𝒟_{W,τ}`; (c2) is the clause used when `W` is the larger space.) Let `𝒟_V^∞`, `𝒟_W^∞` be the smooth vectors of the
+tensor products over the real places and `I = ⊗_τ I_τ`, extended to `𝒫_∞ × 𝒟_W^∞ → 𝒟_V^∞`.
+
+Prove that for every continuous `U(W)(F_∞)`-equivariant linear map `F` from `𝒟_W^∞` to the smooth cusp forms on `U(W)`
+and every Schwartz–Bruhat function `φ_f` at the finite places there is a continuous `U(V)(F_∞)`-equivariant linear map
+`F′` from `𝒟_V^∞` to the smooth cusp forms on `U(V)` such that, for all polynomial Fock vectors `P` at the real places,
+all `v ∈ 𝒟_W^∞` and all `g ∈ U(V)(𝔸)`, the integral `∫_{[U(W)]} θ(g, h; P ⊗ φ_f)·F(v)(h) dh` converges absolutely and equals
+`F′(I(P, v))(g)`.
+
+*Route.* (1) For a space `V′` over `E` with the signature of `V` lowered by `(i, i)` at every real place, `i ≥ 1`, the
+theta integral of `F(v)` to `U(V′)` against polynomial Fock data is, as a function of the polynomial and of `v`, an
+admissible map at each `τ`, hence zero by (R3). (2) Polynomial Fock data over a vacuum are dense, for Sobolev norms,
+among the Schwartz data of a fixed level, and the theta integral of a rapidly decreasing form is continuous for them;
+so the integrals to `U(V′)` vanish for all data. (3) *Rallis's tower property:* for an isotropic subspace `C ⊂ V` of
+dimension `i` with `V = C ⊕ V′ ⊕ C^∨`, a rapidly decreasing cusp form `f` on `U(W)` and a Schwartz datum `φ`, the constant
+term of the theta integral of `f` to `U(V)` along the unipotent radical of the stabiliser of `C` is, at `g`, the volume
+of `[N_C]` times the theta integral of `f` to `U(V′)`, at `1`, for the datum obtained from `ω(g, 1)φ` by integrating over
+the coordinates of `C`; by (2) it vanishes, so the integrals to `U(V)` are cusp forms. (4) `B(P, v) := ∫θ(·, h; P ⊗ φ_f)F(v)(h)dh`
+converges by the rapid decay of cusp forms, is admissible at every `τ`, and takes values in the smooth cusp forms on
+`U(V)`, a unitarizable module by the Petersson product; by (R1) and (R2) it factors through `I` on `K`-finite vectors,
+and by continuity and averaging over the maximal compact subgroups on smooth vectors. (S. Rallis 1984 for (3).)
+
+**Checks.**
+
+- `V` anisotropic: (3) is empty and (R3) is not used; the statement is then (R1), (R2) and the convergence.
+- `U(1) × U(1, 1)` over `F = ℚ`, `W` of dimension one: a cusp form on `U(1)` is a character `μ` of the compact group
+  `[U(1)]`, and its theta integral to `U(1, 1)` has, at the real place, the lowest weight module of the first Check of
+  3.46a for the weight determined by `μ_∞`; by (R3) (`𝒫(1, 0; 0, 0) = ℂ` has weight `0`, which is excluded) its constant
+  term vanishes: the integral is a holomorphic or antiholomorphic cusp form, as the classical theta series with a
+  character of nonzero weight are.
+
+### 5.7a Weil's convergence criterion for unitary pairs
+
+Prove Weil's convergence criterion for unitary pairs. For a unitary dual pair `(U(V), U(W))` over a quadratic
+extension of number fields, with `W` arbitrary (not necessarily split), `dim V = m` and `r` the Witt
+index of `V`: if `r = 0` or `m − r > (dim W)/2`, then for every Schwartz `φ` the integral
+`∫_{[U(V)]} θ(g, h; φ) dg` converges absolutely, locally uniformly in `h`, with a bound polynomial in
+the height of `h`. More precisely, in the Schrödinger model of a rational polarisation `(V ⊗ Y ⊕ 𝕏₀) ⊕ (V ⊗ Y^* ⊕ 𝕏₀^*)`
+adapted to a maximal isotropic subspace `Y` of `W` (`Y^*` a dual isotropic subspace, `𝕏₀` a Lagrangian of `V ⊗ W₀`,
+`W₀ = (Y ⊕ Y^*)^⊥`), `∫_𝔖 Σ_{ξ ∈ (V ⊗ Y ⊕ 𝕏₀)(F)} |(ω(g, h)φ)(ξ)| dg` is finite for a Siegel domain `𝔖` of `U(V)` (a finite
+union of translates of Siegel sets mapping onto `[U(V)]`; the absolute sum is a function on `U(V)(𝔸)`, not on the quotient,
+since rational elements outside the stabiliser of the polarisation act through Fourier transforms, which keep the theta sum
+but not the sum of absolute values), and for a fixed finite component `φ_f` it is at most a continuous seminorm of the
+archimedean component `φ_∞` times a polynomial in the height of `h`; since `|θ(g, h; φ)|` is at most the absolute sum, this
+bounds `∫_{[U(V)]} |θ(g, h; φ)| dg`.
+At `h = 1` the bound holds as well for `φ_∞ = φ₁ ⊗ φ₂` with `φ₂` Schwartz on `𝕏₀(F ⊗ ℝ)` and `φ₁` replaced by any continuous
+majorant on `(V ⊗ Y)(F ⊗ ℝ)` with `|φ₁(ξ)| ≤ C(1 + ‖ξ‖)^{−M}`, `M` large enough (on these coordinates `U(V)` acts by
+substitution, so the majorant is moved by substitution), the bound being `C` times a continuous seminorm of `φ₂` (for fixed
+finite components). For another `h` the majorant must be taken for `ω(1, h)φ`, not for `φ`: a
+pointwise majorant of `φ₁` does not control `ω(1, h)φ` when `h` acts by a partial Fourier transform (Check).
+*(Matrix-coefficient majorant.)* For Schwartz functions `Φ₁`, `Φ₂` in a Schrödinger model of `𝕎(𝔸)`, `𝕎 = V ⊗ W`, let
+`M_{Φ₁,Φ₂}(w) = ⟨ρ(w)Φ₁, Φ₂⟩`, `w ∈ 𝕎(𝔸)`, be the matrix coefficient of the Heisenberg operators. (i)
+`|θ(g, h; Φ₁)|·|θ(g, h; Φ₂)| ≤ c·Σ_{ξ ∈ 𝕎(F)} |M_{Φ₁,Φ₂}((g, h)⁻¹ξ)|`, `c` depending only on the measures, and
+`M_{ω(g,h)Φ₁, ω(g,h)Φ₂}(w) = M_{Φ₁,Φ₂}((g, h)⁻¹w)` for the linear action of `U(V) × U(W)` on `𝕎`. (ii) For `Φ_i = f_i ⊗ φ_i`
+(`f_i` Schwartz on the product of the real places, `φ_i` Schwartz–Bruhat on the finite adeles) and `N ≥ 0` there are a
+continuous seminorm `p` and a compact `C ⊂ 𝕎(𝔸_f)`, depending on `φ₁`, `φ₂`, `N`, with
+`|M_{Φ₁,Φ₂}(w)| ≤ p(f₁)p(f₂)(1 + ‖w_∞‖)^{−N}1_C(w_f)`. (iii) At a place `v₁` split in `E`, in the type-II model, if the component
+of `Φ₁` at `v₁` is supported in a small enough neighbourhood of a matrix of rank `dim V` and `Φ₂ = Φ₁(−·)`, then
+`M_{Φ₁,Φ₂}(w) = 0` unless the component of `w` at `v₁` in the Lagrangian of the model has rank `dim V`.
+
+*Route.* Reduction theory on Siegel sets of `U(V)` (AdelicAlgebraicGroups §§3.4–3.5) and Weil's estimate
+of the theta sum on a Siegel set by a power of the torus coordinate determined by `dim W`; for split
+`W` this is MetaplecticAutomorphicForms §5.7. At `h = 1` the estimate uses only that `|φ_∞|` is dominated by `C(1 + ‖ξ‖)^{−M}` with `M` large, the
+constant `C` being a Schwartz seminorm of `φ_∞`; for general `h` it is applied to `ω(1, h)φ`, whose Schwartz seminorms are
+bounded by seminorms of `φ` times a polynomial in the height of `h`. Weil's estimate is made in a model adapted to `V`; in the model adapted to `Y` the
+absolute sum is, up to unitary characters, `Σ_{ξ ∈ (V ⊗ Y)(F)} |φ₁(g⁻¹ξ)|` times the absolute theta sum of `(V, W₀)` at
+`g`: on a Siegel set of `U(V)` the first factor counts the points of `g⁻¹(V ⊗ Y)(F)` in a box and the second is Weil's
+estimate for `(V, W₀)`; in rank one, with torus coordinate `l` acting by `l` on an isotropic line of `V`, their product
+grows like `|l|_E^{(dim W)/2}`, against the measure `|l|_E^{−(m−1)}d^×l` of the Siegel set, which is integrable exactly
+under Weil's condition `m − 1 > (dim W)/2`. (Weil65, §§V–VI.) Matrix-coefficient majorant: (i) Poisson summation in one of
+the two variables of `X(F) × X(F)` in `θ(Φ₁)·conj θ(Φ₂)`, and the covariance from the unitarity of `ω` and
+`ω(γ)ρ(w)ω(γ)⁻¹ = ρ(γw)` (MetaplecticAutomorphicForms §1.3); (ii) route not given here; the statement is a Schwartz estimate for the coefficient,
+through a seminorm of the archimedean components, with compact support at the finite places; (iii) the coefficient at
+`w` vanishes unless the translation component of `w` lies in the difference of the supports of `Φ₁` and `Φ₂`, here near
+twice a matrix of rank `dim V`. *Needs:* MetaplecticAutomorphicForms §§1.3, 5.1, 5.2, 5.7; AdelicAlgebraicGroups §§3.4, 3.5.
+
+**Checks.**
+
+- `V` anisotropic: always convergent, the quotient being compact.
+- For split `W` of dimension `2n` the condition is `m − r > n = d(n)`, that of MetaplecticAutomorphicForms §5.7.
+- The majorant clause is for `h = 1`: take `F = ℚ`, `V` a definite Hermitian line, `W` a hyperbolic plane, `h` the Weyl element
+  at the real place (the Fourier transform on `(V ⊗ Y)(ℝ) = ℝ²`) and `φ₁ = f_T`, `f_T(x) = e^{−π(1 − iT)|x|²}`. Every `f_T` has the
+  majorant `e^{−π|x|²}`, while `|f̂_T(ξ)| = (1 + T²)^{−1/2}e^{−π|ξ|²/(1 + T²)}`, whose sum over a fixed lattice of `ℝ²` grows like `T`;
+  `U(V)(ℝ) = U(1)` preserves these radial functions and an open subgroup of the finite components preserves the lattice, so
+  integrating over `[U(V)]` does not remove the growth. The Schwartz-seminorm form of the bound, which sees derivatives, is
+  not affected.
+
+### 5.7b Regularised convergence at a split place and archimedean vanishing
+
+Prove regularised convergence at a split place and archimedean vanishing. Let `(U(X), U(W))` be a
+unitary dual pair over a CM extension `E/F`, `dim X = n ≤ dim W = d`, with splitting characters `(χ_X, χ_W)`.
+
+- (i) Let `v₁` be a finite place split in `E`, so that the Weil representation at `v₁` is the type-II model on
+  `S(M_{n×d}(F_{v₁}))` (MetaplecticAutomorphicForms §3.2a). Let `Y_X` be a maximal isotropic subspace of `X` over `F`, of dimension `r`, `X₀` the
+  anisotropic complement of `Y_X ⊕ Y_X^*`, and use the Schrödinger model *adapted to `Y_X`*: functions of `(w; ξ₀)`,
+  `w ∈ (Y_X ⊗ W)(𝔸) ≅ W(𝔸)^r`, `ξ₀` in a Lagrangian of `X₀ ⊗ W`. If `Φ_{v₁}` is supported on matrices of rank `n`
+  (*regular* data), the absolute theta sum `g ↦ Σ_{(w;ξ₀)} |(ω(g, h)Φ)(w; ξ₀)|` in this model decays rapidly on the Siegel
+  sets of `U(X)` for the stabiliser of a maximal isotropic subspace `Y_X^*` dual to `Y_X` (torus elements `m(t)` acting on
+  `Y_X` by `t^{−1}`, `|t_1|_E ≥ ⋯ ≥ |t_r|_E ≥ c`), uniformly for `h` in compact sets and polynomially in the height of `h`, with constants that, for fixed finite components, are continuous seminorms of the
+  archimedean component. Hence the theta kernel `θ(g, h; Φ)`, which is the same in every model and is bounded by that
+  sum, decays rapidly on these Siegel sets, `∫_{[U(X)]} |θ(g, h; Φ)| dg` is at most such a seminorm, and `I_{X,W}(Φ)`
+  converges absolutely, has moderate growth, and depends continuously on the archimedean component. In other models the
+  absolute sum need not decay (Check).
+- (ii) If `χ_W` is nontrivial at `v₁`, then for every `k < n` the twisted `U(X)(F_{v₁})`-coinvariants of the Schwartz
+  space of the matrices of rank exactly `k` vanish; hence modulo the `U(X)(F_{v₁})`-coinvariants every Schwartz function
+  at `v₁` is equivalent to one supported on matrices of full rank.
+- (iii) *Archimedean vanishing.* If at a real place `v` the space `X` has signature `(r, s)`, `W^♭` has signature
+  `(r′, s′)`, the infinity type `m_{W,v}` of `χ_W` satisfies `|m_{W,v}| > d` and `min(r′, s′) < min(r, s)`, then
+  `I_{X,W}(Φ) = 0` for every `Φ` for which it converges and for every `Φ` as in (i).
+- (iv) *Invariant extension.* Suppose, in addition to the hypothesis of (ii), that the twisted
+  `U(X)(F_{v₁})`-coinvariants of the Schwartz space of the matrices of full rank at `v₁` form an irreducible
+  `U(W)(F_{v₁})`-module and that the coinvariants of the whole Schwartz space at `v₁` are nonzero (for the two pairs
+  `(V, W)`, `(V′, W)` of a local complementary datum at a split place with `ν` ramified or `ν(ϖ) ≠ 1`, both hold by 3.47,
+  irreducibility). Then the regular test vectors modulo their own coinvariant relations map isomorphically onto the
+  coinvariants of all test vectors at `v₁`, and `I_{X,W}` extends uniquely from the regular test vectors to a
+  `U(X)(F_{v₁})`-invariant linear map on all test vectors:
+  `I_{X,W}(Φ) := I_{X,W}(Φ_{reg})` for any regular `Φ_{reg}` with `Φ − Φ_{reg}` in the span of the `ω(g, 1)Ψ − Ψ`,
+  `g ∈ U(X)(F_{v₁})`. The extension intertwines `ω(1, h)` with right translation, its values are automorphic functions of
+  moderate growth, and wherever the integral converges for all test vectors (for instance `X` anisotropic) it is the
+  integral.
+
+*Route.* (i): on the Siegel set `ω(m(t), h)Φ(w; ξ₀)` is a unitary character times `|det t|_E^{d/2}` times
+`(ω(1, h)Φ)(t_1w_1, …, t_rw_r; ξ₀)` (3.3b for the exchanged pair; `m(t)` acts on `Y_X` by `t^{−1}` and trivially on `X₀`); at `v₁` the passage from the type-II model to the adapted model is a partial Fourier transform in the rows
+of the type-II matrix dual to `Y_X`, so a regular `Φ_{v₁}` vanishes at `(w; ξ₀)` unless the components of `w_1, …, w_r` in the
+first factor of `W_{v₁}` are linearly independent. So every rational point `(w; ξ₀)` that contributes has all `w_i ≠ 0`, and
+summing the Schwartz function over the lattice points `w_i ≠ 0` scaled by `t_i` gives `O(∏_i|t_i|_E^{−M})` for every `M`,
+with constants that are seminorms of the archimedean component; the factor of `ξ₀` is the absolute theta sum of the
+anisotropic pair `(X₀, W)`, bounded on compact sets, and the compact parts of the Siegel set are absorbed in finitely many
+such bounds (AdelicAlgebraicGroups §§3.4–3.5). (ii): a functional on `S(M_{n×d})` killing the
+coinvariant relations and supported on matrices of rank `< n` would be equivariant for a character of the
+stabilisers that the nontriviality of `χ_W` excludes; the matrices of rank exactly `k` form a union of orbits fibred over
+a Grassmannian, the stabiliser of `[1_k 0; 0 0]` contains `diag(1_k, g₂)`, `g₂ ∈ GL_{n−k}`, which fixes the point and acts
+through `χ_{W,v₁}(det g₂)` times a real power of `|det g₂|`, a nontrivial character, so the coinvariants vanish fibre by
+fibre. (iv): the matrices of full rank form one orbit of `U(X)(F_{v₁}) × U(W)(F_{v₁})` on which `U(X)(F_{v₁})` acts freely,
+so the twisted coinvariants of their Schwartz space are an induced representation, irreducible by hypothesis; by (ii) it
+maps onto the coinvariants of the whole space, which are nonzero, so the map is injective. Hence a regular `Φ_{reg}` with
+`Φ − Φ_{reg}` in the relations exists (ii), and two such differ by a relation among regular vectors, on which the
+convergent integral vanishes (it is invariant under `U(X)(𝔸)`); any invariant extension agrees with this one. (iii): the integral is invariant under `U(X)(F_v)`, so it vanishes
+when no polynomial Fock vector at `v` is fixed in `ω` by `K_{X_v} = U(X₊) × U(X₋)`. By 3.45(ii) the vacuum has
+`U(X₊)`-weight `(s′ − r′ + m_{W,v})/2` and `U(X₋)`-weight `(r′ − s′ + m_{W,v})/2`, both of the sign of `m_{W,v}` since
+`|m_{W,v}| > d ≥ |r′ − s′|`. In `Sym((X₊ ⊗ W₊)^∨) ⊗ Sym(X₊ ⊗ W₋)` a vector of `U(X₊)`-weight `det^{−ℓ}`, `ℓ > 0`, needs
+`r ≤ r′`, and one of weight `det^{ℓ}` needs `r ≤ s′`; likewise for `X₋` (the computation of 3.47b(i)). So a fixed vector
+needs `r ≤ r′` and `s ≤ s′` when `m_{W,v} > d`, and `r ≤ s′` and `s ≤ r′` when `m_{W,v} < −d`; `min(r′, s′) < min(r, s)`
+excludes both.
+
+*Needs:* 3.45, 3.46, 3.47b, 5.7a; MetaplecticAutomorphicForms §§3.2a, 5.1, 5.2; AdelicAlgebraicGroups §§3.4, 3.5.
+
+**Checks.**
+
+- (iii) for `X` definite (`min(r, s) = 0`) is empty, as it must be: definite `X` has nonzero theta integrals when
+  the weight occurs.
+- `n = 1`, `d = 2`: the full-rank condition at `v₁` says that `Φ_{v₁}` vanishes near `0 ∈ F_{v₁}²`; the theta
+  integral of the indicator of a neighbourhood of `0` is the one that needs (ii).
+- (i) is a statement about the adapted model. In the mixed model of 5.7c (first variable `u ∈ X(𝔸)`, the coordinate of
+  `X ⊗ y`), for `X` a hyperbolic plane the terms `u = 0` alone sum to `θ_{X,W₁}(g; e₀Φ)`, which on the Siegel set is
+  `χ_W(l)|l|_E^{(d−2)/2}·r₁^{(0)}(ω(k)Φ)` up to a rapidly decreasing term, and `r₁^{(0)}` does not vanish on regular data
+  (5.7c, Checks): there the sum of absolute values grows, and only the signed kernel decays (Poisson summation along the
+  line, `r̂₁^{(0)} = 0` on regular data).
+
+### 5.7c Constant terms of theta integrals along an isotropic line
+
+Prove the constant-term formula of theta integrals along an isotropic line, with the cone maps. Let `(U(X), U(W))` be a
+unitary dual pair over a quadratic extension of number fields, `X` Hermitian of dimension `n`, `W` skew-Hermitian of
+dimension `d`, with splitting characters `(χ_X, χ_W)` (`χ_X` governing `U(W)`), and suppose the theta integral
+`I_{X,W}(Φ)(h) = ∫_{[U(X)]} θ(g, h; Φ) dg` converges for the `Φ` considered (5.7a, 5.7b). Let `x, y ∈ W` be
+isotropic with `⟨x, y⟩_W = 1` for the skew-Hermitian form of `W` (so `δ⁻¹⟨x, δy⟩_W = 1` for the Hermitian form
+`δ⁻¹⟨·,·⟩_W` of `W^♭`), `W₁ = ⟨x, y⟩^⊥`, `P_x` the stabiliser of `Ex` with Levi elements `m(t, h₁)`
+(`t ∈ 𝔸_E^×` acting by `t` on `x` and `t̄⁻¹` on `y`, `h₁ ∈ U(W₁)(𝔸)`) and unipotent radical `N_x`. Use the mixed
+model attached to `𝕎 = (X ⊗ x) ⊕ (X ⊗ W₁) ⊕ (X ⊗ y)`: `S(X(𝔸)) ⊗̂ S(𝒳₁(𝔸))` with first variable `u ∈ X(𝔸)` the
+coordinate of `X ⊗ y` and `𝒳₁` a Lagrangian of `X ⊗ W₁`, reached from any Schrödinger model by a partial Fourier
+transform `Φ ↦ Φ^♯` (AutomorphicLFunctionsAndLocalFactors §AL.0). The splitting of `U(X)` is the product of those of
+the pairs `(X, ⟨x, y⟩)`, with the trivial character, and `(X, W₁)`, with `χ_W` (MetaplecticAutomorphicForms §3.3; 3.3b, orthogonal sums (a)), so `U(X)` acts on the first
+variable by substitution. Define:
+
+- `e₀Φ = Φ^♯(0, ·) ∈ S(𝒳₁(𝔸))`, a Schwartz function for the pair `(X, W₁)`; `e₀` is onto.
+- When `X` is isotropic: `u₀, u′₀ ∈ X` isotropic with `⟨u₀, u′₀⟩ = 1`, `X₁ = ⟨u₀, u′₀⟩^⊥`, `m_X(l)` (`l ∈ 𝔸_E^×`) the
+  element acting by `l` on `u₀`, by `l̄⁻¹` on `u′₀` and trivially on `X₁`, `P′` the stabiliser of the line `Eu₀` in `U(X)`, and
+  `K_X = ∏_v K_{X,v}` a compact subgroup of `U(X)(𝔸)` (the stabiliser of a fixed lattice at almost all places) with the
+  *Iwasawa decomposition* `U(X)(F_v) = P′(F_v)·K_{X,v}` at every place, and in good position at the real places: there the
+  plane `⟨u₀, u′₀⟩` is spanned by a positive and a negative line for the Cartan involution of `K_{X,v}` (then `m_X(l) ∈ K_X`
+  for `|l| = 1` and `K_X ∩ Stab(u₀) = K_{X₁}`), and likewise `⟨x, y⟩` for that of `K_W`. The decomposition holds at a real
+  place for a maximal compact subgroup, and at a finite place where `E_v/F_v` is unramified or split for the stabiliser of a
+  self-dual lattice; it can fail for a maximal compact subgroup that is not special (Check). Write the second factor in
+  the model of `X ⊗ W₁ = (u₀ ⊗ W₁) ⊕ (X₁ ⊗ W₁) ⊕ (u′₀ ⊗ W₁)` with Lagrangian
+  `(u′₀ ⊗ W₁) ⊕ 𝒳′₁`, `𝒳′₁` a Lagrangian of `X₁ ⊗ W₁`. For `c ∈ 𝔸_E` let `r₁^{(c)}` be the map into `S(𝒳′₁(𝔸))`, the
+  Schrödinger model of `(X₁, W₁)`, that evaluates the first variable at `c·u₀` and the `u′₀ ⊗ W₁`-coordinate at `0`;
+  `r₁ = r₁^{(1)}`; and let `r̂₁^{(s)}Ψ = ∫_{𝔸_E} r₁^{(t)}(Ψ) ψ(Tr_{E/F}(ts)) dt` (self-dual measure) be its Fourier transform
+  along the line `Eu₀`. For a unitary character `μ` of `𝔸_E^×/E^×` and `z ∈ ℂ` the *cone* and the *dual cone* are
+  `cone_{μ,z}Φ = ∫_{K_X}∫_{𝔸_E^×} r₁^{(l)}(ω(k, 1)Φ) μ(l)|l|_E^z d^×l dk` and
+  `cone^∨_{μ,z}Φ = ∫_{K_X}∫_{𝔸_E^×} r̂₁^{(l)}(ω(k, 1)Φ) μ(l)|l|_E^z d^×l dk`:
+  Tate integrals over the Heisenberg translates of the point of evaluation along the line; no Weil operator of a Levi
+  element enters. The local maps `e₀,v`, `cone_v`, `cone^∨_v` are defined in the same way at each place; on pure
+  tensors `e₀` is the tensor product of the `e₀,v`, and the global cones are the global Tate factor of `μ` times the
+  tensor product of the local cones (normalised by their values on the lattice vectors, (d)).
+
+Prove:
+
+- (L) *Laws.* `r₁^{(c)}(ω(m_X(l), 1)Ψ) = χ_W(l)|l|_E^{(d−2)/2}·r₁^{(cl⁻¹)}(Ψ)`;
+  `r₁^{(c)}(ω(1, u·m(t, h₁))Ψ) = χ_X(t)|t|_E^{n/2}·ω₁(h₁)r₁^{(t̄c)}(Ψ)` for `u ∈ N_x`; `r₁^{(c)}` commutes with `U(X₁)` and
+  is invariant under the unipotent radical of the stabiliser of `Eu₀` in `U(X)`. Hence, with `μ^c(t) = μ(t̄)`,
+  `cone_{μ,z}∘ω(1, u·m(t, h₁)) = (χ_X(μ^c)⁻¹)(t)|t|_E^{n/2−z}·ω₁(h₁)∘cone_{μ,z}` and
+  `cone^∨_{μ,z}∘ω(1, u·m(t, h₁)) = (χ_Xμ^c)(t)|t|_E^{n/2−1+z}·ω₁(h₁)∘cone^∨_{μ,z}`; both cones are invariant under `ω(K_X, 1)`
+  and their images are fixed by `K_{X₁}`. The map `e₀` commutes with `U(X)` and
+  `e₀(ω(1, u·m(t, h₁))Ψ) = χ_X(t)|t|_E^{n/2}·ω₁(h₁)e₀(Ψ)` for `u ∈ N_x`.
+- (U) *Unfolding.* With such a `K_X` there is `κ > 0` such that, for `f` continuous on `U(X)(𝔸)`, left invariant under the
+  adelic unipotent radical of `P′` and under the rational stabiliser of `u₀`, with
+  `∫_{K_X}∫_{𝔸_E^×}∫_{[U(X₁)]}|f(m_X(l)g₁k)| dg₁ |l|_E^{1−n} d^×l dk < ∞`: the sum of `f(γg)` over `γ ∈ Stab(u₀)(F)\U(X)(F)`
+  converges for almost every `g`, is integrable over `[U(X)]`, and its integral is `κ` times the same triple integral without absolute
+  values.
+- (a) *Convergence and duality.* The local cones converge absolutely for `Re z > 0`, the global ones for `Re z > 1`, and
+  both continue meromorphically in `z`, with the poles of `L(z, μ)`. Tate's functional equation applied to `t ↦ r₁^{(t)}Ψ`
+  gives `cone^∨_{μ,z} = cone_{μ⁻¹,1−z}` globally and `cone^∨_{μ,z} = γ(1 − z, μ⁻¹, ψ)·cone_{μ⁻¹,1−z}` locally (continued in
+  `z`), `γ` Tate's local `γ`-factor.
+- (b) *Invariance at the unfolding parameters.* Put `z₀ = n − d/2`. Let `p₁` be a linear map out of the Schrödinger
+  space of `(X₁, W₁)` at a finite place `v`, invariant under `U(X₁)(F_v)` (at a real place: a continuous linear functional
+  invariant under `U(X₁)(ℝ)`). If `L(z₀, χ_{W,v}⁻¹)` is finite, then `p₁ ∘ cone_{χ_W⁻¹, z}` at `z = z₀` is invariant under
+  `U(X)(F_v)`; for `z₀ > 0` it is `Φ ↦ ∫_{Stab(u₀)\U(X)(F_v)} p₁(r₁(ω(g, 1)Φ)) dġ`. If moreover `γ(z₀, χ_{W,v}⁻¹, ψ_v)` is
+  finite and nonzero, the same holds for `p₁ ∘ cone^∨_{χ_W, 1−z₀}`. At a finite place the conditions hold whenever
+  `z₀ ≠ 0, 1`.
+- (c) *Real places.* With the two hyperbolic pairs in good position and `Re z > 0`, the local cone and dual cone are
+  continuous maps between the Schwartz spaces, and they carry polynomial Fock vectors (3.45) of `(X, W)` to polynomial
+  Fock vectors of `(X₁, W₁)`.
+- (d) *Unramified values.* At a finite place where `E/F`, `μ`, `χ_X`, `χ_W` and `ψ` are unramified (or `E` is split and
+  `μ`, `χ_X`, `χ_W` are unramified), with self-dual lattices of `X` and `W` to which `(u₀, u′₀)` and `(x, y)` are adapted,
+  the local cone and dual cone (`Re z > 0`) carry the lattice vector to `L(z, μ)` times a nonzero constant (a value of `μ`
+  and a power of the residue cardinality, fixed by the ideal of the line `Eu₀` in the lattice) times the lattice vector
+  of `(X₁, W₁)`; and `e₀` carries the lattice vector of `(X, W)` to a nonzero multiple of the lattice vector of `(X, W₁)`,
+  for the lattice of `W₁` that is the orthogonal complement of the plane in the lattice of `W`.
+- (i) *Constant term, first range.* If `X` is anisotropic, or `z₀ = n − d/2 ≥ 1 + r_∞` with `r_∞` the largest Witt index of
+  `X` at the real places, then for `Φ` finite under `K_X` at the real places
+  `∫_{N_x(F)\N_x(𝔸)} I_{X,W}(Φ)(n h) dn = A₀ + A₁`, where `A₀` transforms under `t` by `χ_X(t)|t|_E^{n/2}` and equals
+  `C₀ · I_{X,W₁}(e₀ ω(1, h)Φ)` on the Levi, and `A₁` transforms by `(χ_X/χ_W)(t)|t|_E^{(d−n)/2}`, is `0` if `X` is
+  anisotropic, and otherwise equals `C₁ · I_{X₁,W₁}(cone_{χ_W⁻¹, z₀} ω(1, h)Φ)`; all these integrals converge absolutely.
+- (ii) *Constant term, second range, regular data.* Let `X` be isotropic, `1 − z₀ = 1 + d/2 − n ≥ 2`, `v₁` a finite place
+  split in `E` with `χ_{W,v₁}` nontrivial, and `Φ` regular at `v₁` (5.7b(i)). Then the constant term is `A₀ + A₁`, with
+  the same two laws, where:
+  - `A₁ = C₁ · I_{X₁,W₁}(cone^∨_{χ_W, 1−z₀} ω(1, h)Φ)`, an absolutely convergent integral: the dual cone of a regular `Φ` is
+    regular at `v₁` for the pair `(X₁, W₁)` (so is the cone, where it converges), and its Tate integral converges
+    absolutely because `1 − z₀ > 1`;
+  - `A₀ = C₀ · ∫_{[U(X)]} (θ_{X,W₁}(g; e₀ω(1, h)Φ) − E(g)) dg` on the Levi, where `P′` is the stabiliser of `Eu₀` in `U(X)` and
+    `E(g) = Σ_{γ ∈ P′(F)\U(X)(F)} θ_{X₁,W₁}(r₁^{(0)}(ω(γg, h)Φ))`: this Eisenstein series converges absolutely for almost every
+    `g`, and the integrand is integrable over `[U(X)]`. The vector `e₀Φ` need not be regular at `v₁` for `(X, W₁)`, and
+    `θ_{X,W₁}(·; e₀ω(1, h)Φ)` alone need not be integrable;
+  - if the pair `(X, W₁)` satisfies the hypotheses of 5.7b(iv) at `v₁`, then `A₀ = C₀ · I_{X,W₁}(e₀ω(1, h)Φ)` on the Levi,
+    `I_{X,W₁}` being the invariant extension of 5.7b(iv).
+
+  In (i) and (ii), `C₀`, `C₁` are nonzero and depend only on the normalisations of measures. For the two pairs of a
+  complementary datum (3.47; `ν = α/β`, `ε₀ = (a − a′)/2`): `(V, W)` has `χ_W = ν⁻¹` and `z₀ = ε₀`, and in the first range
+  its second part is `cone_{ν, ε₀}` (the character relation `χ_Wμ = 1`); `(V′, W)` has `χ_W = ν` and `1 − z₀ = ε₀ + 1`, so
+  it is in the second range when `V′` is isotropic, its second part is `cone^∨_{ν, ε₀+1}` (the relation `χ_W = μ`), and, when
+  `ε₀ ≥ 2` and `ν` is unramified at `v₁` with `ν(ϖ) ≠ 1`, the pair `(V′, W₁)` satisfies the hypotheses of 5.7b(iv) at `v₁`
+  (it is the pair of `V′` in the local complementary datum `(V₁, V′, W₁)` at `v₁`, `dim V₁ = a − 2 > a′`), so that
+  `A₀ = C₀ · I_{V′,W₁}(e₀ω(1, h)Φ)` with the extended integral.
+- (iii) *Persistence of nonvanishing.* If the two laws in (i) are distinct, `I_{X,W₁}` converges and
+  `I_{X,W₁}(φ₁) ≠ 0` for some `φ₁`, then `I_{X,W}(Φ) ≠ 0` for some `Φ`.
+
+*Route.* (L): on the first variable `m_X(l)` acts by substitution, so evaluation at `c·u₀` becomes evaluation at
+`cl⁻¹·u₀`; on the second factor `m_X(l)` preserves the `u′₀ ⊗ W₁`-coordinate and acts there by `l̄⁻¹`, so by 3.3b in its
+left-action form, for the exchanged pair (`χ_W` governing `U(X)`), evaluation at `0` of that coordinate picks up
+`χ_W(l̄⁻¹)|l|_E^{(d−2)/2} = χ_W(l)|l|_E^{(d−2)/2}` (`χ_W` is trivial on norms; 3.3b, orthogonal sums (b), for
+`m_X(l) ∈ U(⟨u₀, u′₀⟩) × 1` acting on the model of `(X, W₁)`). `m(t, h₁) ∈ U(⟨x, y⟩) × U(W₁)` acts, by 3.3b, orthogonal sums (b), as
+the product of its two factors: on the first variable by `χ_X(t)|t|_E^{n/2}` and the substitution `u ↦ t̄u` (3.3b for the plane
+`⟨x, y⟩`), and through `ω₁(h₁)` on the second;
+`N_x` acts at a point `u` of the line `Eu₀` by Heisenberg translations along `u ⊗ W₁`, which are characters of the
+`u′₀ ⊗ W₁`-coordinate, trivial at `0`. The laws of the cones follow by the substitution `l ↦ t̄⁻¹l` (for the dual cone
+with the scaling of the Fourier transform), `K_X`-invariance from the invariance of `dk`, and `K_{X₁}`-invariance of
+the images because `K_{X₁}` fixes `u₀` and commutes with the `m_X(l)`. (a): `t ↦ r₁^{(t)}(ω(k)Ψ)` is a Schwartz–Bruhat
+function of `t` with values in the Schwartz space, continuous in `k`, and the integrals are Tate's zeta integrals with
+their functional equation (AutomorphicLFunctionsAndLocalFactors §AL.1). (U): the Iwasawa decomposition writes every `g` as
+`u·m_X(l)g₁·k` with `u` in the adelic unipotent radical of `P′`, `g₁ ∈ U(X₁)(𝔸)`, `k ∈ K_X`; the rest (the Haar measure in these
+coordinates, `|l|_E^{1−n}` being the inverse modulus of `P′` on `m_X(l)`, and the passage from the absolute bound to the
+convergence of the orbit sum): route not given here; the statement is the unfolding of a sum over `P′(F)\U(X)(F)` against
+`[U(X)]`. (b): for `Re z` large and `ϕ` on `U(X)(F_v)`
+with `ϕ(q·m_X(l)k) = |l|_E^{z₀−z}` (`q ∈ Stab(u₀)`), `J_ϕ(Φ) = ∫_{Stab(u₀)\U(X)} p₁(r₁(ω(g)Φ))ϕ(g) dġ` converges and, in the
+coordinates `g = q·m_X(l)k` given by the Iwasawa decomposition at `v` (measure `|l|_E^{1−n} d^×l dk`, the inverse modulus of the stabiliser of `Eu₀`), equals
+`p₁(cone_{χ_W⁻¹, z}Φ)` by (L) and `l ↦ l⁻¹`. Replacing `Φ` by `ω(g₀)Φ` replaces `ϕ` by its right translate, whose
+restriction to `K_X` is `k ↦ |l(kg₀⁻¹)|_E^{z₀−z}`, entire in `z`; both sides continue meromorphically with the poles of
+`L(z, χ_W⁻¹)`, and at `z = z₀` the translate of `ϕ = 1` is `1`. For `z₀ > 0` no continuation is needed. The dual cone by
+(a). (c): in good position the vacuum of `(X, W)` is the product of the vacua of the orthogonal blocks; `r₁^{(l)}` of a
+polynomial times the vacuum is `e^{−πc|l|²}`, `c > 0`, times a polynomial in `l`, `l̄` whose coefficients are polynomial
+Fock vectors of `(X₁, W₁)`, and `∫ l^a l̄^b e^{−πc|l|²} μ(l)|l|^z d^×l` is a value of the Gamma function (or `0`); the Fourier
+transform along the line keeps polynomials times Gaussians, and the average over `K_X` keeps the degree. Continuity:
+the Schwartz seminorms of `r₁^{(l)}(ω(k)Φ)` are bounded by seminorms of `Φ` uniformly in `k`, with rapid decay in `l`.
+(d): `K_X` fixes the lattice vector up to an unramified character, `r₁^{(t)}` of it is the indicator of the lattice of the
+line `Eu₀`, as a function of `t`, times the lattice vector of `(X₁, W₁)`, and Tate's unramified computation gives
+`L(z, μ)` (for the dual cone, with the Fourier transform of that indicator). (i): Rallis' unfolding (the tower formula
+of Kudla–Rallis): the constant term along `N_x` keeps the terms whose first coordinate `u ∈ X(F)` is isotropic; `u = 0`
+gives the theta integral of `e₀Φ` for `(X, W₁)`; the nonzero isotropic `u` form one `U(X)(F)`-orbit (Witt), whose sum
+unfolds to an integral over `Stab(u₀)(F)\U(X)(𝔸)` (U); the integral over `U(X₁)(F)\U(X₁)(𝔸)` is `I_{X₁,W₁}`, and the remaining
+integral is, as in (b), `cone_{χ_W⁻¹, z₀}`, absolutely convergent in the first range. (ii): write the constant term of the
+kernel along `N_x` as `θ₀ + θ₁`, `θ₀(g) = θ_{X,W₁}(g; e₀ω(1, h)Φ)` the term `u = 0` and `θ₁` the sum over the nonzero isotropic
+`u`. For regular `Φ` the kernel decays rapidly in `g` (5.7b(i)), so `θ₀ + θ₁` is integrable over `[U(X)]` with integral
+the constant term. As in (i), `θ₁(g) = Σ_{γ∈P′(F)\U(X)(F)} F(γg)` with `F(g) = Σ_{c∈E^×} θ_{X₁,W₁}(r₁^{(c)}(ω(g, h)Φ))`,
+absolutely: `Σ_γ Σ_c |θ_{X₁,W₁}(r₁^{(c)}(ω(γg, h)Φ))|` is bounded by the integral over `[N_x]` of the absolute theta series.
+*Poisson summation along the line before unfolding*: `(t, ξ) ↦ r₁^{(t)}(ω(g, h)Φ)(ξ)` is a Schwartz–Bruhat function, and
+Poisson summation in `t ∈ 𝔸_E` over `E` (AnalyticNumberTheoryPartII §5.3h) gives `F = D + θ_{X₁,W₁}(r̂₁^{(0)}(ω(g, h)Φ)) − φ`,
+`D(g) = Σ_{s∈E^×} θ_{X₁,W₁}(r̂₁^{(s)}(ω(g, h)Φ))`, `φ(g) = θ_{X₁,W₁}(r₁^{(0)}(ω(g, h)Φ))`. *The key point*: `r̂₁^{(0)}` vanishes on
+regular data. In type-II coordinates at `v₁` (rows along `Fp₀ ⊕ Fp′₀ ⊕ P₁`, `u₀ = (p₀, λ₀)`, `u′₀ = (p′₀, λ′₀)`, `λ₀` dual to
+`p′₀`; columns along `Fx₁ ⊕ Fy₁ ⊕ Q₁`; the mixed model is the partial Fourier transform in the column `x₁`),
+`r̂₁^{(s)}Φ(C₁) = ∫ Φ(a, t, A₁ ; −s₂, 0, 0 ; c, 0, C₁) ψ(ts₁) da dc dA₁ dt` (`s = (s₁, s₂)`), so for `s₂ = 0` the row `p′₀`
+vanishes and a regular `Φ` gives `0`; this persists for `ω(g, h)Φ`. The same formula proves the support statement: for
+`s₂ ≠ 0` a nonzero value needs a matrix of rank `n` with row `p′₀` equal to `(−s₂, 0, 0)`; a relation among the rows of `C₁`
+would give a combination of the rows `(c, 0, C₁)` equal to a multiple of that row, so `C₁` has rank `n − 2`, and the
+supports in `C₁` of all the `r̂₁^{(s)}(ω(k)Φ)`, `s ∈ E_{v₁}`, `k ∈ K_{X,v₁}`, lie in one compact subset of the full-rank
+locus (projections of the compact supports of the `ω(k)Φ`, `K_X` acting at `v₁` by row operations); so the local dual cone
+at `v₁` is regular. For the cone the row `p′₀` is `(b, 0, 0)` with `b ≠ 0` on the support. *The dual sum unfolds*:
+by (L) and the Fourier transform, `r̂₁^{(s)}(ω(m_X(l))Ψ) = χ_W(l)|l|_E^{d/2}·r̂₁^{(sl)}(Ψ)`, so `Σ_γ D(γg)` is a sum over
+`Stab(u₀)(F)\U(X)(F)`, whose integral over `[U(X)]`, with the measure `|l|_E^{1−n}d^×l dk` (U), is
+`C₁ · I_{X₁,W₁}(cone^∨_{χ_W, 1−z₀} ω(1, h)Φ)`; the same computation with absolute values (for regular data of `(X₁, W₁)`,
+`∫_{[U(X₁)]}|θ_{X₁,W₁}(g₁; Ψ)|dg₁` is at most a seminorm of the archimedean component of `Ψ` for fixed finite components,
+5.7b(i); the finite components of `r̂₁^{(l)}(ω(k, h)Φ)` take finitely many values, `s ↦ r̂₁^{(s)}Φ_f` being locally constant with
+compact support and `K_{X,f}` acting through a finite quotient, so the bound applies under the integral over `l`, where the
+seminorms decay rapidly in `l_∞`; and Tate's integral of a Schwartz–Bruhat majorant converges for exponent `1 − z₀ > 1`) shows that `Σ_γ Σ_s |θ_{X₁,W₁}(r̂₁^{(s)}(ω(γg, h)Φ))|` is
+integrable, hence finite for almost every `g`. *The Eisenstein series*: termwise `φ(γg) = D(γg) − F(γg)`, so
+`Σ_γ |φ(γg)| ≤ Σ_γ |D(γg)| + Σ_γ |F(γg)| < ∞` for almost every `g`: `E` converges absolutely there, `θ₁ = Σ_γ D(γ ·) − E`, and
+`θ₀ − E = (θ₀ + θ₁) − Σ_γ D(γ ·)` is integrable; this gives `A₀` and `A₁`, with no continuation in `z`. *Identification
+with the extension*: `J(Ψ) = ∫_{[U(X)]}(θ_{X,W₁}(g; Ψ) − E_Ψ(g)) dg` (`E_Ψ` the series above built from `Ψ`) is defined for
+`Ψ = e₀Φ`, `Φ` regular, and for `Ψ` regular at `v₁` for `(X, W₁)`, where `E_Ψ = 0` (`r₁^{(0)}` of full-rank data vanishes)
+and `J = I_{X,W₁}`; it is linear and `U(X)(F_{v₁})`-invariant (both terms are right equivariant). At `v₁` these vectors are
+the Schwartz functions on the matrices of rank `≥ n − 1` of the pair `(X, W₁)`: `e₀Φ(M₁) = ∫Φ(m | 0 | M₁) dm` vanishes unless
+`M₁` has rank `≥ n − 1`, and restriction to the matrices of rank exactly `n − 1` is onto from the `e₀Φ` (take `Φ` supported
+near `(m⁰ | 0 | M₁⁰)` with `m⁰` outside the column space of `M₁⁰`). So, with the components away from `v₁` and `h` fixed,
+`J − I_{X,W₁}` (the extension of 5.7b(iv)) is an invariant linear form on this space vanishing on the full-rank functions;
+it factors through the twisted coinvariants of the stratum of rank `n − 1`, which vanish (5.7b(ii)); so `J = I_{X,W₁}`.
+(iii): choose `Φ` with
+`e₀Φ = φ₁` (`e₀` is onto); the part `A₀` is recovered from the constant term by a torus translate when the laws differ,
+and it is `C₀ I_{X,W₁}(φ₁) ≠ 0`.
+
+(S. Rallis, LNM 1245 (1987); S. Kudla, S. Rallis, Ann. of Math. 140 (1994); J. Tate's thesis for the cone integrals.)
+*Needs:* 3.3b, 3.45, 3.47, 5.7a, 5.7b; MetaplecticAutomorphicForms §§3.3, 5.1, 5.2, 5.5; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §3.1;
+AutomorphicLFunctionsAndLocalFactors §§AL.0, AL.1; AnalyticNumberTheoryPartII §5.3h.
+
+**Checks.**
+
+- `X` anisotropic (for instance definite): only `A₀` occurs, and (iii) applies whenever `n/2` and `(d − n)/2`
+  differ or `χ_W` is nontrivial.
+- In (ii) the two pieces of `A₀` are not separately integrable: for `X` a hyperbolic plane (`X₁ = 0`) and `dim W₁ ≥ 4`, on the
+  Siegel set `|l|_E ≥ c` of `U(X)` the function `θ_{X,W₁}(m_X(l)k; e₀Φ)` is `χ_W(l)|l|_E^{(d−2)/2}·r₁^{(0)}(ω(k)Φ)` up to a
+  rapidly decreasing term, against the measure `|l|_E^{−1}d^×l`, and `r₁^{(0)}` need not vanish on regular data (in the
+  coordinates of the route, `r₁^{(0)}Φ = ∫Φ(a, 0, A₁ ; b, 0, 0 ; c, 0, C₁)` and the matrix has rank `n` when `b ≠ 0`); nor does
+  the orbit integral converge, its integrand tending to `I_{X₁,W₁}(r₁^{(0)}(ω(k, h)Φ))|l|_E^{z₀}` as `l → 0`.
+- At the unfolding parameters the laws of (L) are the law of `A₁`: for `μ = χ_W⁻¹`, `(μ^c)⁻¹ = χ_W⁻¹` and
+  `n/2 − z₀ = (d − n)/2`; for the dual cone at `(χ_W, 1 − z₀)`, `μ^c = χ_W⁻¹` and `n/2 − 1 + (1 − z₀) = (d − n)/2`.
+- For a complementary datum the four parts have laws `β|t|^{a/2}` (first term of `I_V`), `α|t|^{a′/2}` (cone of `I_V`),
+  `α|t|^{a′/2}` (first term of `I_{V′}`) and `β|t|^{a/2}` (dual cone of `I_{V′}`): `χ_X/χ_W = α` for `(V, W)` and `β` for
+  `(V′, W)`. The exponents are `ε₀ = a − N/2` and `ε₀ + 1 = 1 − (a′ − N/2)`.
+- *The Weil operator in place of the translation.* With the integrand `r₁(ω(m_X(l)k, 1)Φ)` against `μ(l)|l|_E^z`, the
+  unfolded integral of (i) arises only for `μ = 1` and `z = 1 − n` (the inverse modulus), and that integrand does not
+  decay as `|l| → ∞`, its point of evaluation `l⁻¹u₀` tending to `0`; by (L) it is `cone_{χ_W⁻¹, z₀}` after `l ↦ l⁻¹`.
+- Averaging over `m_X(ζ) ∈ K_X`, that is `|ζ| = 1` at a real place and `ζ ∈ 𝒪_{E_v}^×` at a finite place (where `K_X` is the
+  stabiliser of a lattice to which `(u₀, u′₀)` is adapted): by (L), `cone_{μ,z} = (μχ_W)(ζ)·cone_{μ,z}` and
+  `cone^∨_{μ,z} = (χ_Wμ⁻¹)(ζ)·cone^∨_{μ,z}`, so the local cone vanishes identically unless `μχ_W` is trivial on these `ζ`
+  (the unit circle at a real place, the units at a finite place), and the dual cone unless `μ = χ_W` there: the character
+  relations of (i) are forced on these `ζ` only (for the global cones: `μχ_W`, resp. `χ_Wμ⁻¹`, unramified at every finite place
+  and trivial on the unit circles at the real places). At a split finite place
+  `|ζ|_E = 1` does not put `m_X(ζ)` in `K_X`: `ζ = (ϖ, ϖ⁻¹)` has `|ζ|_E = 1`, and for `χ_W = 1` (even dimension) and an unramified
+  `μ = (λ, λ⁻¹)` with `λ(ϖ)² ≠ 1` one has `μ(ζ) ≠ 1` while the cone of the lattice vector is `L(z, μ)` times a nonzero
+  constant (d).
+- At a split place, the law `β(t)|t|_E^{a/2}` of the first term of `I_V`, normalised by the modulus `|·|^{(N−1)/2}` of
+  the parabolic of type `(1, N − 2, 1)` of `GL_N`, has exponent `a/2 − (N − 1)/2 = −(a′ − 1)/2`: an end of the segment
+  `{β|·|^{(a′−1)/2 − j}}` of 3.47.
+- The Iwasawa decomposition is needed at the finite places: in the unramified `U(2, 2)` with hyperbolic pairs `(e₁, f₁)`,
+  `(e₂, f₂)`, the stabiliser of the lattice `L = 𝒪e₁ + 𝒪f₁ + 𝒪e₂ + ϖ𝒪f₂` (not self-dual) is a maximal compact subgroup that
+  preserves `ϖL^# ⊂ L`; a primitive generator of `Ee₂` lies in `ϖL^#` and one of `Ee₁` does not, so the two lines lie in
+  different orbits of this subgroup. With `W` a hyperbolic plane (`W₁ = 0`), `χ_W = 1` and `u₀ = e₁`, the cone built with
+  this subgroup is a distribution in the first variable supported on the orbit of `E^×e₁`; an isometry exchanging the two
+  hyperbolic planes of `X` moves that support, so the cone is not invariant under `U(X)(F_v)`, and (b) fails for it.
+
+### 5.7d Local multiplicity bounds along an adapted line
+
+Prove the local multiplicity bounds and the descent conclusions below. Let `F` be a local field and `D = (V, V′, W, α, β)` a local complementary datum (3.47)
+with local matching data `(Π, p, p′)`. Let `(x, y)` be a hyperbolic pair of `W` (`⟨x, y⟩_W = 1`), `W₁ = ⟨x, y⟩^⊥`, and
+`(u₀, u′₀)` a hyperbolic pair of `V′`, `V′₁ = ⟨u₀, u′₀⟩^⊥`; by Witt cancellation `δ⁻¹W₁ ≅ V ⊕ V′₁(−1)`, so that
+`D₁ = (V, V′₁, W₁, α, β)` is a local complementary datum; let `(Π₁, p₁, p′₁)` be local matching data for `D₁`. Let
+`e₀ : ω → ω_{V,W₁}` and `cone^∨_{ν, ε₀+1} : ω′ → ω′_{V′₁,W₁}` (`ε₀ = (a − a′)/2`) be the local maps of 5.7c, both
+`P_x`-equivariant with the law `χ_β(t) = β(t)|t|_E^{a/2}` on the line (5.7c, (L) and Checks), and put `A = p₁ ∘ e₀` and
+`B = p′₁ ∘ cone^∨_{ν, ε₀+1}`, maps into `Π₁ ⊗ χ_β`. `A` factors through `Θ`; at a finite place `B` factors through `Θ′`
+(5.7c(b): `z₀ = −ε₀`). At a real place everything is on polynomial Fock vectors (5.7c(c)), as maps of
+`(𝔭_x, K_W ∩ M_x)`-modules, `M_x` the Levi subgroup of `P_x`; there `Hom_{P_x}` below means `Hom_{(𝔭_x, K_W ∩ M_x)}`, and
+the hyperbolic pairs are in good position. The *descent conclusion* for `D` and the two pairs is: there is `c ∈ ℂ^×` with
+`A(Φ) = c · B(Φ′)` for all `Φ ∈ ω`, `Φ′ ∈ ω′` with `p(Φ) = p′(Φ′)`. When `a − 2 > a′`, the same is defined for hyperbolic
+pairs of `W` and of `V`, with the local complementary datum `D₁ = (V₁, V′, W₁, α, β)`, the maps
+`cone_{ν, ε₀} : ω → ω_{V₁,W₁}` and `e′₀ : ω′ → ω′_{V′,W₁}`, the law `χ_α(t) = α(t)|t|_E^{a′/2}`, `A = p₁ ∘ cone_{ν, ε₀}` and
+`B = p′₁ ∘ e′₀`; every statement below holds for it with the two sides exchanged (`χ_α` for `χ_β`).
+
+Then:
+
+- (R) *Reduction.* The descent conclusion holds as soon as `A ≠ 0`, `B ≠ 0`, and either `B` factors through `p′` and
+  `dim Hom_{P_x}(Θ, Π₁ ⊗ χ_β) ≤ 1`, or `A` factors through `p`, `B` factors through `Θ′` and
+  `dim Hom_{P_x}(Θ′, Π₁ ⊗ χ_β) ≤ 1`. Conversely, if `A ≠ 0`,
+  the descent conclusion implies that `A` and `B` factor through `p` and `p′` and that `Hom_{P_x}(Π, Π₁ ⊗ χ_β) ≠ 0`.
+- (a) *Split places, `ν` ramified.* If `F` is nonarchimedean, `E = F × F`, `ψ` is unramified, `ν` is ramified and `a′ ≥ 2`,
+  the descent conclusion holds.
+- (b) *Split places, unramified characters.* If `F` is nonarchimedean, `E = F × F`, `α` and `β` are unramified (any `ν`,
+  any residue characteristic, any conductor of `ψ`), `a′ ≥ 2`, `V`, `V′` contain unimodular lattices `L`, `L′` and `W` a
+  lattice `M` self-dual for `ψ ∘ Tr_{E/F} ∘ ⟨·,·⟩_W`, and `(x, y)` is adapted to `M` and `(u₀, u′₀)` to `L′` (each lattice
+  the orthogonal sum of its intersections with the plane and with its complement; no compatibility of `M` with
+  `L ⊕ L′` is required), the descent conclusion holds. With `p`, `p′`, `p₁`, `p′₁` normalised by the lattice vectors (3.47),
+  `A` and `B` carry the two lattice vectors, which match, to `a₀s₁` and `b₀s₁`, `s₁` the spherical vector of `Π₁`, where
+  `a₀ ≠ 0` is the multiple by which `e₀` moves the lattice vector and `b₀` the value of the local dual cone on it, an
+  unramified Tate integral, `L(ε₀ + 1, ν)` times a nonzero constant (5.7c(d)); so `c = a₀/b₀`, and `B = c⁻¹A` on matched
+  pairs. (For the pairs of `V`: `a₀` is the value of the cone, `L(ε₀, ν)` times a nonzero constant, and `b₀` the multiple of
+  `e′₀`.)
+- (c) *Unramified inert places.* If `E/F` is unramified quadratic of odd residue characteristic, `α`, `β`, `ψ` are
+  unramified, and the lattices and pairs are as in (b) (`M` unimodular for
+  `⟨·,·⟩_W`), then `A ≠ 0`, `B ≠ 0` and `dim Hom_{P_x}(X, Π₁ ⊗ χ_β) ≤ 1` for `X = Θ, Θ′, Π`.
+- (d) *Real places.* If `F = ℝ`, `a′ ≥ 3` (for the pairs of `V`: `a′ ≥ 1`) and `−κ > |P − Q| + |P′ − Q′|` (the hypothesis of
+  3.47b for `D`, which then holds for `D₁` with the same bound), then `A ≠ 0` and `dim Hom_{P_x}(X, Π₁ ⊗ χ_β) ≤ 1` for
+  `X = Θ, Θ′, Π`.
+
+*Route.* (R): if `B = b ∘ p′` with `b ≠ 0`, then `b ∘ p` is a nonzero element of the line `Hom_{P_x}(Θ, Π₁ ⊗ χ_β)`, which
+contains `A ≠ 0`, so `A = c · b ∘ p` with `c ≠ 0`, and `A(Φ) = c · b(p(Φ)) = c · b(p′(Φ′)) = c · B(Φ′)` on matched pairs;
+symmetrically in the other case. Conversely, the conclusion forces `A` to vanish on `ker p` (a `Φ` with `p(Φ) = 0` is
+matched with `Φ′ = 0`), and `A ≠ 0` then induces a nonzero element of `Hom_{P_x}(Π, Π₁ ⊗ χ_β)`; `B` vanishes on `ker p′`
+likewise.
+*Nonvanishing at finite places.* `e₀` and `p₁` are onto, so `A ≠ 0`. For `B`, take `Φ′` whose first variable in the
+mixed model of 5.7c is supported near `u₀` (away from `0`); on such `Φ′` the dual cone is a nonzero multiple of the cone at
+`(ν⁻¹, −ε₀)` (5.7c(a): the local `γ`-factor is finite and nonzero), whose integral is supported near the stabiliser of
+`u₀` in `K_X × E^×`, so `cone^∨(Φ′)` is a nonzero multiple of a vector that `r₁` makes arbitrary; `p′₁` is onto. At
+the places of (b) and (c), moreover, the local dual cone maps the lattice vector to a nonzero multiple of the lattice
+vector of `D₁` (5.7c(d)).
+*(a), and (b) when `ν(ϖ) ≠ 1`.* `Θ = Θ′ = Π` and `Θ₁ = Θ′₁ = Π₁` by the irreducibility statement of 3.47 (the same `ν` for
+`D₁`), so both factorisations hold. For the multiplicity, Frobenius reciprocity and the geometric lemma
+(SmoothRepresentationsOfLocalGroups §SR.2.2 *geometric-lemma*) bound `dim Hom_{P_x}(Π, Π₁ ⊗ χ_β)` by the sum, over the
+double cosets of the parabolic subgroup of type `(1, N − 2, 1)` and that of type `(a, a′)`, of the dimensions of the Hom
+spaces from the subquotients of the Jacquet module of `Z(Δ_α) × Z(Δ_β)` (notation of §3.47). By the Jacquet modules of
+segment representations (LocalFactorsOfTwistsAndTypes §4.1 (iii)) each subquotient carries on the two factors `GL₁`
+an end character of one of the two segments; these ends `α_w|·|^{±(a−1)/2}`, `β_w|·|^{±(a′−1)/2}` are pairwise distinct
+(`α_w/β_w` is not a real power of `|·|`, and `a′ ≥ 2`), so exactly one subquotient carries `χ_β` (the two ends of the
+`β`-segment, 5.7c, Check), and its `GL_{N−2}`-part is `Z(Δ_α) × Z(Δ_β^−) = Π₁`, `Δ_β^−` the segment shortened at both ends,
+which is irreducible: the bound is `1`, and (R) applies.
+*(b) and (c), multiplicity.* `Θ`, `Θ′` and `Π` are generated by their `K′`-fixed lines (`K′ = Stab(M)`; 3.47, 3.47a)
+and `U(W) = P_x K′` (`x` adapted to `M`), so a `P_x`-equivariant map out of one of them is determined by the image of
+the `K′`-fixed vector, which is fixed by `K′ ∩ M_x`, a hyperspecial subgroup of the Levi subgroup, and so lies in the
+spherical line of `Π₁ ⊗ χ_β` (`χ_β` is unramified). This gives the bound `1` for `X = Θ, Θ′, Π`. In (b) moreover
+`Hom_{P_x}(Π, Π₁ ⊗ χ_β) ≠ 0`: `Π = Z(Δ_α) × Z(Δ_β)` (3.47, last Check); `Z(Δ_β)` embeds into the product of its two end
+characters and `Z(Δ_β^−)`, in the order in which the trivial character of `GL₂` embeds into `|·|^{−1/2} × |·|^{1/2}`
+(Frobenius reciprocity applied to LocalFactorsOfTwistsAndTypes §4.1 (iii)); the product of `Z(Δ_α)` with either end character
+is irreducible (that end lies in the segment `Δ_α` of length `a > a′`, or in another coset of `ℤ` or of the unramified
+characters, so the two segments are not linked; LocalFactorsOfTwistsAndTypes §4.1 (ii)), so these factors commute
+(LocalFactorsOfTwistsAndTypes §4.1 (iv)); hence `Π` embeds into the representation induced from `χ_β ⊗ Π₁`, and the nonzero
+element `b` composed with `p′` spans the line containing `B`, which gives the conclusion by (R). When `ψ` is ramified,
+`M` is replaced by a lattice self-dual for `ψ ∘ Tr ∘ ⟨·,·⟩_W` (a multiple of `M`, with the same stabiliser), for which
+5.7c(d) holds (3.47, the bullet on self-dual lattices for every conductor of `ψ`).
+*(d).* `Θ` and `Θ′` are generated by their `K_W`-type `La` (3.47b(i)), and `𝔤 = 𝔭_x + 𝔨_W`, so `U(𝔤) = U(𝔭_x)U(𝔨_W)` and `Θ`,
+`Θ′`, `Π` are generated by `La` over `𝔭_x`; a map out of one of them is therefore determined by its restriction to the
+`La`-part, an element of `Hom_{K_W ∩ M_x}(La, Π₁ ⊗ χ_β)`. With the plane spanned by a positive and a negative line of
+`W^♭`, `K_W ∩ M_x = U(1) × U(P_W − 1) × U(Q_W − 1)`, the `U(1)` acting by one scalar on both lines. On `U(P_W)` the
+highest weight of `La` is `(s^{Q′}, (s − L₊)^P)`, `s = (Q − P + m_β)/2`, which restricts to `U(1) × U(P_W − 1)` as the sum,
+each once, of the types `(s^{Q′−1}, c, (s − L₊)^{P−1})`, `s − L₊ ≤ c ≤ s`, with `U(1)`-weight `2s − L₊ − c` (the branching
+rule, ClassicalGroups §6.1); likewise on `U(Q_W)` with `s′ = (P − Q + m_β)/2`, `L₋` and `c′`. By
+3.47b(i) for `D₁` (the same `L_±`, `s`, `s′`, with `P′ − 1`, `Q′ − 1` in place of `P′`, `Q′`), the `K_{W₁}`-types of `Π₁` are
+`La₁ + Σ_i c̃_i(f_i − e_{P_W−i}) + Σ_j b̃_j(e_j − f_{Q_W−j})`, each once, with
+`La₁ = (s^{Q′−1}, (s − L₊)^P) ⊗ (s′^{P′−1}, (s′ − L₋)^Q)`; comparing entries, `b̃ = 0` (the first `Q′ − 1` entries on `U(P_W − 1)`)
+and `c̃ = 0` (the last `P` entries), so the only common type is `La₁`, reached for `c = s − L₊`, `c′ = s′ − L₋`, with
+`U(1)`-weight `s + s′ = m_β`, the weight of `χ_β`. So the Hom space has dimension at most one for `X = Θ, Θ′, Π`. (For the
+pairs of `V`: `c = s`, `c′ = s′`, weight `s + s′ − L₊ − L₋ = m_α`.) When a block of `La` is empty the displayed lists are
+replaced by their endpoint: for the pairs of `V′` (`P′, Q′ ≥ 1`) the block of `V₋` is empty when `Q = 0` (for instance
+`p = 0`), the `U(Q_W)`-part of `La` is the determinant character `(s′^{P′})`, and its restriction is the single type
+`s′^{P′−1}` with `U(1)`-weight `s′`, the value `2s′ − L₋ − c′` of the general formula at the required `c′ = s′ − L₋`; for the pairs
+of `V` (`P, Q ≥ 1`) the block of `V′₊` is empty when `P′ = 0` (for instance `q = 0`), the `U(Q_W)`-part is `((s′ − L₋)^Q)`, with the
+single restricted weight `s′ − L₋`, the value of the formula at the required `c′ = s′`; likewise on `U(P_W)` when `P = 0` or
+`Q′ = 0`. The comparison and the bound are unchanged. The bound for `X = Π` also follows without the
+branching rule: `Π` is generated by a vector of the extreme weight killed by the positive compact root vectors, the
+vectors of the restricted weight with the same property form a line in `Π₁`, and a map killing the generator is zero.
+`A ≠ 0`: with this plane the polynomial Fock space of `(V, W)` is that of `V ⊗ ⟨x, y⟩` tensor that of `(V, W₁)`, and `e₀`
+sends the vacuum of the first factor tensor `P₁` to a nonzero multiple of `P₁`; so `e₀` is onto the polynomial Fock
+vectors of `(V, W₁)`, and `p₁` is onto.
+
+*Remarks.* (1) At an inert place, by (c) and (R), the descent conclusion is equivalent to the Jacquet condition
+`Hom_{P_x}(Π, Π₁ ⊗ χ_β) ≠ 0`; for the local components of global complementary triples this condition, and the
+conclusion, are obtained by a global argument, not from a local computation. (2) No statement
+here asks whether `Θ` or `Θ′` is irreducible at a real place. (3) At a real place `B ≠ 0` is not proved locally; the
+archimedean cone lemma 5.7e is the local input of the global argument that gives it.
+
+(Kudla–Rallis 1994 and Rallis 1987 for the maps; A. Zelevinsky, *Induced representations of reductive p-adic groups
+II*, Ann. Sci. ÉNS 13 (1980), for the products of segments.) *Needs:* 3.21a, 3.46, 3.47, 3.47a, 3.47b, 5.7c;
+SmoothRepresentationsOfLocalGroups §SR.2.1, §SR.2.2 *geometric-lemma*, *segment-representations*;
+LocalFactorsOfTwistsAndTypes §4.1 (ii)–(iv); ClassicalGroups §6.1.
+
+**Checks.**
+
+- `a′ = 2`, `D₁ = (V, 0, W₁)` at a finite place: `Π₁` is the representation of 3.47 for the datum with `V′₁ = 0`, on which
+  `ω′_{0,W₁}` is the character `α̃ ∘ det` of `U(W₁)` (`α̃(x/x̄) = α(x)`; at a split place `α ∘ det` is its square, as on
+  `(t, t⁻¹)`), and `B` is the dual cone map onto that character.
+- The constant `c` depends on the normalisations of `p`, `p′`, `p₁`, `p′₁`; rescaling `p₁`, `p′₁` by the same scalar leaves
+  it unchanged.
+- Orientation in (b): at a split place with `ν = 1`, `ε₀ = 2`, unit ideals and standard measures, `a₀ = 1` and
+  `b₀ = L(3, ν) = (1 − q^{−3})^{−2}`, so `c = (1 − q^{−3})²`; the value of the dual cone itself is `c⁻¹`.
+- (R) needs the multiplicity bound on one side only: if `Θ′ = Π` and `dim Hom_{P_x}(Θ, Π₁ ⊗ χ_β) ≤ 1`, then `B ∘ p′⁻¹ ∘ p`
+  spans the line that contains `A`.
+- In (R) the converse needs `A ≠ 0`: for `A = B = 0` the conclusion holds with every `c`.
+- (c) holds without `a ≡ a′ (mod 2)`.
+
+### 5.7e The archimedean cone lemma
+
+Prove the archimedean cone lemma. Let `F_v = ℝ`, `E_v = ℂ`, `(X, W)` a unitary pair with `X` isotropic and splitting
+character `χ_W` of `U(X)`, `(x, y)` and `(u₀, u′₀)` hyperbolic pairs of `W` and `X` in good position (5.7c), `X₁`, `W₁` their
+complements, and `cone_{μ,z}`, `cone^∨_{μ,z}` the local cones of 5.7c. Let `ℓ` be a nonzero continuous linear functional
+on the Schwartz space of `(X₁, W₁)`, invariant under `K_{X₁}` (for instance under `U(X₁)(ℝ)`), `μ` the character
+`μ(l) = (l/|l|)^m` of `ℂ^×` (every splitting character at a real place, and every quotient of two of them, has this form,
+being trivial on `ℝ_{>0}`), and `Re z > 0`.
+
+- (A) If `μχ_W = 1` on the unit circle, then `ℓ ∘ cone_{μ,z} ≠ 0`; it is already nonzero on the Schwartz functions whose
+  first variable vanishes near `0`.
+- (B) If `μ = χ_W` on the unit circle and `1 − z + |m|/2` is not an integer `≤ 0` (for real `z`: if `2(z − 1) < |m|` this
+  holds), then `ℓ ∘ cone^∨_{μ,z} ≠ 0`.
+
+For the two pairs of a complementary datum with `κ = m_α − m_β`, (A) is the pair `(V, W)` with `(μ, z) = (ν, ε₀)` and (B) the
+pair `(V′, W)` with `(ν, ε₀ + 1)`, where the condition reads `2ε₀ < |κ|`, implied by `|κ| > a + a′`. The same holds over
+`F ⊗ ℝ` (all real places together), by freezing the variables at the other places one at a time.
+
+*Route.* (A). Let `S₀` be the Schwartz functions whose first variable vanishes near `0`; it is stable under `ω(K_X, 1)` and
+under the Heisenberg operators `ρ(v ⊗ x)`, `v ∈ X`, which multiply the first variable `u` by the character
+`ψ(c₀ Re⟨u, v⟩)` for a fixed real `c₀ ≠ 0`. Suppose `ℓ ∘ cone_{μ,z} = 0` on `S₀`. For `Φ ∈ S₀` put
+`F_Φ(k, l) = ℓ(r₁^{(l)}(ω(k)Φ))μ(l)|l|^z` on `G = K_X × ℂ^×`: continuous, zero for `|l|` small, rapidly decreasing in `|l|`,
+so integrable. Since `ω(k)ρ(v ⊗ x) = ρ(kv ⊗ x)ω(k)`, `ℓ(cone_{μ,z}(ρ(v ⊗ x)Φ)) = ∫_G ψ(c₀ Re⟨π(k, l), v⟩)F_Φ(k, l)` with
+`π(k, l) = k⁻¹l·u₀`. So the Fourier transform of the finite complex measure `π_*(F_Φ dk d^×l)` on the real vector space `X`
+vanishes, and the measure is `0` (Fourier uniqueness: the transforms of its real and imaginary parts vanish, by the
+symmetry `t ↦ −t`, and Mathlib's `MeasureTheory.Measure.ext_of_charFun` applied to the positive and negative parts of each,
+finite measures on a real inner product space, identifies them). The map `π` is the orbit map of `u₀` for the right action `v·(k, l) = k⁻¹lv` of `G`, whose
+orbit is the cone of nonzero isotropic vectors (`K_X` is transitive on pairs of vectors of given lengths in the positive and
+negative parts, and `u₀` is the sum of two such vectors of equal length); its stabiliser `H = {(m_X(ζ)k₁, ζ) : |ζ| = 1, k₁ ∈ K_{X₁}}` is compact. The push-forward has the continuous density `g ↦ ∫_H F_Φ(hg) dh` on `H\G`, which therefore
+vanishes, in particular at `g = 1`. On `H`, by the law (L) of 5.7c and the `K_{X₁}`-invariance of `ℓ`,
+`F_Φ(m_X(ζ)k₁, ζ) = (μχ_W)(ζ)·ℓ(r₁(Φ)) = ℓ(r₁(Φ))`. Hence `vol(H)·ℓ(r₁Φ) = 0` for every `Φ ∈ S₀`; but `r₁` maps `S₀` onto the
+Schwartz space of `(X₁, W₁)` (take the first variable supported near `u₀`), so `ℓ = 0`.
+(B). For `Φ ∈ S₀` the function `t ↦ ℓ(r₁^{(t)}(ω(k)Φ))` is a Schwartz function on `ℂ` vanishing near `0`, so Tate's local
+functional equation at the complex place, `∫ f̂(t)μ(t)|t|^z d^×t = γ(1 − z, μ⁻¹, ψ)·∫ f(t)μ⁻¹(t)|t|^{1−z} d^×t`, holds with
+both integrals absolutely convergent, and `γ(1 − z, μ⁻¹, ψ) = ε·L(z, μ)/L(1 − z, μ⁻¹)`, `L(s, μ^{±1}) = Γ_ℂ(s + |m|/2)`, is
+finite and nonzero under the condition on `z`. So on `S₀`, `ℓ ∘ cone^∨_{μ,z} = γ·ℓ ∘ cone_{μ⁻¹, 1−z}`, and (A) applies to
+`(μ⁻¹, 1 − z)` on `S₀` (where no condition on `Re(1 − z)` is needed): `μ⁻¹χ_W = 1` on the unit circle. (Equivalently, in
+the other order: translations along `X ⊗ x` shift the variable of the dual cone, and a Fourier transform in that
+variable with the same identity of Tate brings it to the fibre argument.)
+
+(J. Tate's thesis for the local functional equation.) *Needs:* 3.45, 5.7c; AutomorphicLFunctionsAndLocalFactors §§AL.0,
+AL.1.
+
+**Checks.**
+
+- The character conditions are necessary (5.7c, Checks): without them the cone, resp. the dual cone, vanishes
+  identically, and so does `ℓ ∘ cone`.
+- `X` a hyperbolic plane (`X₁ = 0`): the Schwartz space of `(0, W₁)` is `ℂ`, `ℓ` is a nonzero scalar, and (A) says that the
+  scalar `cone_{μ,z}Φ` is not zero for some `Φ`; with the first variable supported near `u₀` the integrand is concentrated
+  near `H`, where it is the constant `r₁(Φ)`.
+- In a complementary datum `|κ| > a + a′` gives `|κ| > 2ε₀ = a − a′`; the bound is used only in case (B).
+
+### Examples
+
+For `U(1) × U(1, 1)` over `ℚ`, a cusp form on `U(1)` is a character `μ`, and its theta integral to `U(1, 1)` is a holomorphic or antiholomorphic cusp form, its constant term vanishing by (R3) (5.6a). For `V` anisotropic the theta integral always converges, the quotient being compact, and for split `W` of dimension `2n` Weil's condition is `m − r > n = d(n)`, that of MetaplecticAutomorphicForms §5.7 (5.7a). For `n = 1`, `d = 2`, the full-rank condition at the split place `v₁` says that `Φ_{v₁}` vanishes near `0 ∈ F_{v₁}²` (5.7b). For the two pairs of a complementary datum the four parts of the constant terms have the laws `β|t|^{a/2}` (first term of `I_V`), `α|t|^{a′/2}` (cone of `I_V`), `α|t|^{a′/2}` (first term of `I_{V′}`) and `β|t|^{a/2}` (dual cone of `I_{V′}`) (5.7c). At a split place with `ν = 1`, `ε₀ = 2`, unit ideals and standard measures, `a₀ = 1` and `b₀ = L(3, ν) = (1 − q^{−3})^{−2}`, so `c = (1 − q^{−3})²` (5.7d).
+
+### Dependencies
+
+Layers 3–4; MetaplecticAutomorphicForms §§1.3, 3.2a, 3.3, 5.1, 5.2, 5.5, 5.7; AdelicAlgebraicGroups §§3.1, 3.4, 3.5; AutomorphicFormsOnReductiveGroups §4.1; AutomorphicLFunctionsAndLocalFactors §§AL.0, AL.1; AnalyticNumberTheoryPartII §5.3h; SmoothRepresentationsOfLocalGroups §§SR.2.1, SR.2.2, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1; ClassicalGroups §6.1; Mathlib's characteristic functions of finite measures.
+
+## Layer 6: Siegel–Weil, doubling integrals and the Rallis inner product
+
+The Siegel–Weil formula and the Rallis inner product formula in Weil's convergent range, the unramified doubling integral with its region of absolute convergence, the integrability statements of the doubling method with the inner product formula under one integrability hypothesis, and a local doubling integral with a tame twist on a block.
+
+### 6.4a The Siegel–Weil formula in Weil's convergent range
+
+Prove the Siegel–Weil formula in Weil's convergent range. In the GQT datum of MetaplecticAutomorphicForms §5.7 with `r > 0` and `m − r > d(n)` (the theta
+integral converges by MetaplecticAutomorphicForms §5.7), the Siegel Eisenstein series `E(g, s, Φ_φ)` is holomorphic at `s₀`, and
+`E(g, s₀, Φ_φ) = c · τ(H)⁻¹ ∫_{[H]} θ(g, h; φ) dh` with the constant and measures of MetaplecticAutomorphicForms §6.4. When
+moreover `m > 2d(n)` (Weil's range) the Eisenstein series converges absolutely at `s₀`; for
+`d(n) < m ≤ 2d(n)` it is the value of the continuation.
+
+*Route.* Weil's range: compare the two sides as functions of moderate growth with the same Fourier
+coefficients, the nondegenerate ones being products of local Siegel densities (Weil65). The remaining
+convergent range: Ichino's argument by the doubling seesaw and the analytic continuation of both
+sides, or GQT Theorem 7.1 in its range `r > 0`. (A. Weil, *Sur la formule de Siegel dans la théorie
+des groupes classiques*, Acta Math. 113 (1965); A. Ichino, *On the Siegel–Weil formula for unitary
+groups*, Math. Z. 255 (2007); GQT §7.) *Needs:* 5.7a; MetaplecticAutomorphicForms §§5.7, 6.1, 6.2, 6.4; AutomorphicSpectralTheory
+§§1.1–1.4, 2.4, 2.4a.
+
+**Checks.**
+
+- For `r = 0` this is MetaplecticAutomorphicForms §6.4.
+- Split binary `V` (`m = 2`, `r = 1`, `n = 1`) is not in the range (`m − r = 1 = d(1)`): the
+  regularised MetaplecticAutomorphicForms §6.5 applies instead.
+
+**Corollary.** Let `W_n = Y_n ⊕ Y_n^*` be split skew-Hermitian of dimension
+`2n` over a quadratic extension `E/F` of number fields, with trivial splitting character, and `V` Hermitian of
+dimension `m` and Witt index `r` with `m − r > n` (`r = 0` allowed). For a Schwartz–Bruhat function `φ` on `V(𝔸)^n`
+in the Schrödinger model of the polarisation `(V ⊗ Y_n) ⊕ (V ⊗ Y_n^*)`,
+`τ(U(V))⁻¹ ∫_{[U(V)]} θ(g, h; φ) dh = E(g, s₀, Φ_φ)` (the constant is `1`, since `s₀ > 0`; MetaplecticAutomorphicForms §6.4 for `r = 0`). For
+nondegenerate `T ∈ Herm_n(E)`, the `T`-th Fourier coefficient of both sides at `g = 1` along the unipotent radical of
+the Siegel parabolic subgroup (for the character by which that radical acts on the vectors of the Schrödinger
+model supported on `{X : T_X = T}`) is `∫_{X_T(F_∞)} φ_∞ dμ_{T,∞} · ∏_{v<∞} ∫_{X_T(F_v)} φ_v dμ_{T,v}`, with the orbital
+integrals of HermitianFormsAndLattices §6.5(a). *Route:* in the Schrödinger model the unipotent radical acts on the
+term of `X` in the theta series by a character of `T_X`, so the `T`-th coefficient of the theta integral is
+`τ(U(V))⁻¹ ∫_{[U(V)]} Σ_{X ∈ X_T(F)} φ(h⁻¹X) dh`, the mean value of HermitianFormsAndLattices §6.5(a); the identity of
+functions is the theorem above. *Needs:* the theorem above, MetaplecticAutomorphicForms §6.4; HermitianFormsAndLattices §6.5(a).
+
+### 6.11 The unramified doubling integral and its region of absolute convergence
+
+This target extends MetaplecticAutomorphicForms §6.11, whose local doubling zeta integral takes the value `L_v/d_v` on the designated spherical data, by the value of the spherical section on `G × 1` and by the unramified doubling integral at inert and at split places, with its region of absolute convergence. Prove:
+
+- (a) *The spherical section on `G × 1`.* Let `E_v/F_v` be unramified quadratic (any residue characteristic), `Q` the
+  residue cardinality of `E_v`, `V` Hermitian of dimension `n` with a self-dual lattice `Λ`, `V^□ = V ⊕ V(−1)` with the
+  lattice `Λ ⊕ Λ`, `P` the stabiliser of the diagonal, `χ` an unramified character of `E_v^×`, and `Φ_s` the spherical section
+  of MetaplecticAutomorphicForms §6.10: `Φ_s(pk) = χ(det a(p))|det a(p)|_{E_v}^{s+n/2}` for `a(p)` the restriction of `p` to the diagonal and `k` in the
+  stabiliser of `Λ ⊕ Λ`. Then `Φ_s(ι(g, 1)) = X^{ℓ(g)}` with `X = χ(ϖ)Q^{−(s+n/2)}` and `ℓ(g)` the length of `(Λ + gΛ)/Λ`.
+- (b) *Inert places.* For the zonal spherical function `ω_α` of `U(V)` for the stabiliser of `Λ`, with parameter
+  `α ∈ (ℂ^×)^{⌊n/2⌋}` (base-change parameter `BC(α)`), the integral `∫_{U(V)} Φ_s(ι(g, 1))ω_α(g) dg` (volume one for the
+  stabiliser of `Λ`) converges absolutely when `|χ(ϖ)|Q^{−(Re s+½)}·max(1, |α_i|, |α_i|⁻¹) < 1` for all `i`, that is, for
+  `|χ(ϖ)| = 1`, when `Re s + ½ > max(0, max_i|log_Q|α_i||)`, and there it equals
+  `L_{E_v}(s + ½, BC(α) ⊗ χ) / ∏_{j=0}^{n−1} L_{F_v}(2s + n − j, χ|_{F_v^×}η^j)`. For a unitary `π_v` with a vector fixed by the
+  stabiliser of `Λ` and `|χ(ϖ)| = 1` the domain contains `Re s > (n − 2)/2`. No condition on the residue characteristic.
+- (c) *Split places.* For `GL_n(F_v)`, residue cardinality `Q`, `Λ = 𝒪^n` and `ω_α` the spherical function of parameter `α`:
+  `Σ_{g ∈ GL_n(F_v)/GL_n(𝒪)} X_1^{len(Λ/(Λ∩gΛ))}X_2^{len(gΛ/(Λ∩gΛ))}ω_α(g) = ∏_{i<n}(1 − Q^iX_1X_2) / ∏_i(1 − Q^{(n−1)/2}α_iX_1)(1 − Q^{(n−1)/2}α_i⁻¹X_2)`, absolutely convergent when
+  `Q^{(n−1)/2}|X_1||α_i| < 1` and `Q^{(n−1)/2}|X_2||α_i|⁻¹ < 1` for all `i`; with `X_j = χ_j(ϖ)Q^{−(s+n/2)}`, `χ = (χ_1, χ_2)` on
+  `E_v^× = F_v^× × F_v^×`, this is the unramified doubling integral at a split place, absolutely convergent for
+  `Re s + ½ > max_i|log_Q|α_i||` when `|χ_j(ϖ)| = 1`, with the value
+  `L(s + ½, π ⊗ χ_1)L(s + ½, π^∨ ⊗ χ_2)/∏_{i<n}L(2s + n − i, χ_1χ_2)` (`π` of parameter `α`). Which of the two lattice indices
+  carries `χ_1` depends on the identification of the unitary group at the split place with `GL_n` (through one or the other
+  factor of `E_v`); the other identification exchanges `X_1` and `X_2`.
+
+*Route.* (a) `{(y, gy) : y ∈ Λ ∩ g⁻¹Λ}` is the intersection of the graph of `g` with `Λ ⊕ Λ`, a saturated totally isotropic
+sublattice of rank `n` of the unimodular lattice `Λ ⊕ Λ` (form `h ⊕ −h`). A saturated Lagrangian of a unimodular lattice
+has a Lagrangian complement (lift a dual basis and correct it by elements of the Lagrangian, using that the trace
+`𝒪_{E_v} → 𝒪_{F_v}` is onto), so every isomorphism between two saturated Lagrangians extends to an integral isometry;
+hence `ι(g, 1)k` preserves the diagonal for some `k` in the stabiliser of `Λ ⊕ Λ`, mapping its lattice onto that of
+`Λ ∩ gΛ`, and the value of `Φ_s` is read off the index. (b) Integrals of right-invariant functions are sums over
+`U(V)/Stab(Λ)`; after identifying `(V, Λ)` with the standard space and lattice of SmoothRepresentationsOfLocalGroups §SR.4.4
+(HermitianFormsAndLattices §§2.1 (a), 4.2 (a)), LocalFactorsOfTwistsAndTypes §3.3 (b) with
+`X = χ(ϖ)Q^{−(s+n/2)}` gives the convergence and the value: `y = q^{n−1}X = χ(ϖ)Q^{−(s+½)}`, the factors `1 − yα_i^{±1}` (and
+`1 − y` for odd `n`) are those of `L_{E_v}(s + ½, BC(α) ⊗ χ)⁻¹`, and `1 − (−q)^jX = L_{F_v}(2s + n − j, χ|_{F_v^×}η^j)⁻¹`
+because `η(ϖ) = −1`. For a unitary `π_v`, LocalFactorsOfTwistsAndTypes §3.4 (ii) gives
+`|log_Q|α_i|| ≤ (n − 1)/2`. (c) Replace `ω_α` by the Borel-spherical function `φ_α` (same sums over double cosets). Every
+pair `M ⊂ Λ`, `M ⊂ Λ′` of lattices factors uniquely through `N = Λ ∩ Λ′ ⊃ M`, and `Σ_{M ⊂ N} Y^{len(N/M)} = ∏_{i<n}(1 − Q^iY)⁻¹`;
+so the left side times `∏_{i<n}(1 − Q^iX_1X_2)⁻¹` is `Σ_{M⊂Λ} X_1^{len(Λ/M)} Σ_{Λ′⊃M} X_2^{len(Λ′/M)}φ_α(Λ′)`; the inner sum is
+`φ_α(M)` times the eigenvalue `Σ_k X_2^kQ^{k(n−1)/2}h_k(α⁻¹)` of the superlattice operators, and the outer sum is then
+`Σ_m X_1^mQ^{m(n−1)/2}h_m(α)`, by the sublattice counts of the route of LocalFactorsOfTwistsAndTypes §3.4
+(i). *Needs:* MetaplecticAutomorphicForms §§6.10, 6.11; LocalFactorsOfTwistsAndTypes §§3.3, 3.4;
+SmoothRepresentationsOfLocalGroups §SR.4.3 *gln-generators*; HermitianFormsAndLattices §§2.1, 4.2.
+
+**Checks.**
+
+- `n = 1`: `U(V) = U(1)` is compact, `ℓ = 0`, the integral is `1`, and the right side is
+  `L_{E_v}(s + ½, χ)/L_{F_v}(2s + 1, χ|_{F_v^×}) = 1` (the factor `1 − χ(ϖ)Q^{−(s+½)}` of the middle entry is `1 − χ(ϖ)q^{−(2s+1)}`).
+- `n = 2`, `π_v` trivial (`α = q`): the domain is `Re s + ½ > ½` for `|χ(ϖ)| = 1`, and the value has the factor
+  `L_{E_v}(s + ½ − ½, χ) = L_{E_v}(s, χ)`, whose pole at `s = 0` (for `χ = 1`) is the boundary of the domain.
+- The normalisation of `Φ_s` must be that of MetaplecticAutomorphicForms §6.10: in the convention where `p` acts through its restriction to the
+  diagonal and the induction is normalised, `|X| < 1` for `Re s` large, as it must be.
+
+### 6.13a The Rallis inner product formula in Weil's convergent range and for anisotropic targets
+
+Prove the Rallis inner product formula in Weil's convergent range and for anisotropic targets. Let `U(V)` (dimension `n`) and `U(W′)` (dimension `m`, Witt
+index `r`) form a unitary dual pair over a quadratic extension of number fields, with either `r = 0` (any `m ≥ 1`)
+or `m − r > n` (Weil's criterion 5.7a for the theta integral over `[U(W′)]` of the doubled pair). Let `π` be a
+cuspidal automorphic representation of `U(V)`, `S` a finite set of places outside which all data are unramified,
+`F₁, F₂ ∈ π` factorizable and spherical outside `S`, and `φ₁, φ₂` factorizable with lattice vectors outside `S`.
+Put `s₀ = (m − n)/2`, let `χ` be the splitting character attached to `W′` (governing `U(V)`), and let
+`θ(F, φ)` be the lift of MetaplecticAutomorphicForms §5.6, `θ(F, φ)(h) = ∫_{[U(V)]} θ(g, h; φ) conj(F(g)) dg`. Write
+`L^S(z, BC(π) ⊗ χ⁻¹) = ∏_{w ∉ S} det(1 − α_w(π)χ_w(ϖ_w)⁻¹q_w^{−z})⁻¹` (base-change parameters, places `w` of the
+quadratic extension; conjugating the places of the quadratic extension, it equals `L^S(z, BC(π^∨) ⊗ χ)`, since
+`BC(π)^c = BC(π)^∨ = BC(π^∨)` and `(χ⁻¹)^c = χ`: it is the doubling function of MetaplecticAutomorphicForms §6.10a for `π^∨` and `χ`, while the function for
+`π` and `χ` is `L^S(z, BC(π) ⊗ χ) = L^S(z, BC(π^∨) ⊗ χ⁻¹)`).
+
+- (i) *Anisotropic target, every range.* If `r = 0`, then
+  `⟨θ(F₁, φ₁), θ(F₂, φ₂)⟩ = C · [L^S(s + ½, BC(π) ⊗ χ⁻¹)/d^S(s) · ∏_{v ∈ S} Z_v^{conj}(s)]_{s = s₀}`, the bracket
+  being holomorphic at `s₀`, where `Z_v^{conj}(s)` is the local doubling integral of MetaplecticAutomorphicForms §6.11 for the section of
+  `δ(φ_{1,v} ⊗ φ̄_{2,v})` with the matrix coefficient `conj⟨π_v(g)F_{1,v}, F_{2,v}⟩`, and `C = [E : F]/c`, `c = 1` for
+  `s₀ > 0` and `c = 2` for `s₀ ≤ 0`, for Tamagawa measures.
+- (ii) *Weil's convergent range.* If `m − r > n`, `F₁` is a Hecke eigenform outside `S`, and for some `s₁ < s₀` the
+  function `g ↦ ⟨ω(g)φ₁, φ₂⟩ conj⟨π(g)F₁, F₂⟩ · a(g)^{s₁ − s₀}` is integrable over the elements of `U(V)(𝔸)`
+  integral outside `S` (`a` the height of the doubling embedding), then the two theta lifts converge, and for
+  every value `l` of a holomorphic continuation of `s ↦ L^S(s + ½, BC(π) ⊗ χ⁻¹)` to `s₀`,
+  `⟨θ(F₁, φ₁), θ(F₂, φ₂)⟩ = C · l / d^S(s₀) · ∫ ⟨ω(g)φ₁, φ₂⟩ conj⟨π(g)F₁, F₂⟩ dg`,
+  the integral over the elements integral outside `S`, with `C` the constant of MetaplecticAutomorphicForms §§6.1, 6.4 and of 6.4a.
+- For the linear lift `F ↦ θ(F̄, φ)` the same statements hold with `π^∨` in place of `π`:
+  `L^S(s + ½, BC(π) ⊗ χ)` and the matrix coefficient `⟨π(g)F₁, F₂⟩`.
+
+*Route.* The doubling seesaw identifies the inner product with the doubling integral of the theta
+integral of the doubled pair, which is the Siegel Eisenstein value by MetaplecticAutomorphicForms §6.4 (anisotropic `W′`, every range) or
+6.4a; unfold (MetaplecticAutomorphicForms §6.12) on a right half-plane, evaluate the unramified places by 6.11 (for the conjugate-linear
+lift the matrix coefficient is conjugated, which replaces `π` by `π^∨` in the unramified computation). In (i) the
+left side, an integral over `[U(V)]²` of cusp forms against the continued Eisenstein series, is meromorphic in `s`
+and holomorphic at `s₀` (the Eisenstein series is holomorphic there by MetaplecticAutomorphicForms §6.4), so uniqueness of continuation gives
+the identity at `s₀`. In (ii) the integrability hypothesis gives holomorphy of the `S`-part on `Re s > s₁`, and
+continuation identifies the global `L`-factor with `l` at `s₀`.
+
+(Rallis 1984; Piatetski-Shapiro–Rallis, LNM 1254 (1987); Ichino 2007; GQT §11.) *Needs:* 5.7a, 6.4a, 6.11; MetaplecticAutomorphicForms §§5.6,
+6.4, 6.10, 6.10a, 6.11, 6.12.
+
+**Corollary.** In either setting, if the `L`-value is finite and nonzero, `d^S(s₀)` is finite and the
+`S`-integrals are nonzero for some data, then `θ(F₁, φ₁) ≠ 0`.
+
+**Checks.**
+
+- `n = 1`: `π = μ` a character of `U(1)`, `BC(π) = μ̃`; the lift of MetaplecticAutomorphicForms §5.6 has `L^S(s + ½, μ̃χ⁻¹)` and the linear
+  lift `L^S(s + ½, μ̃χ)`; at `s₀` (`s₀ + ½ = m/2`) these are `L^S(m/2, μ̃χ^{∓1})`, the central values `L^S(½, μ̃χ^{∓1})` exactly
+  when `m = 1`; they have different absolute values in general (`L(m/2, μ̃χ⁻¹)` is the conjugate of `L(m/2, μ̃⁻¹χ)`, not of
+  `L(m/2, μ̃χ)`).
+- The identification by conjugation, at a split place in rank one with first components `α_w(π) = χ_w(ϖ) = i` (second
+  components their inverses): `BC(π) ⊗ χ⁻¹` and `BC(π^∨) ⊗ χ` have Euler denominator `(1 − X)²`, while `BC(π^∨) ⊗ χ⁻¹` has
+  `(1 + X)²`.
+- For `m > 2n` and `π` with unramified parameters bounded by `q_w^{(n−1)/2}`, the `L`-value is an
+  absolutely convergent Euler product and `l` is its value.
+- For `n < m ≤ 2n` and `r = 0` the formula is the instance of MetaplecticAutomorphicForms §6.13 with an empty first-occurrence
+  condition; MetaplecticAutomorphicForms §6.13's `L(s + ½, π ⊗ χ_V)` and matrix coefficient are to be read for the lift of MetaplecticAutomorphicForms §5.6 in this form.
+
+### 6.13b Doubling integrability
+
+Notation for this target. `E/F` is a CM extension, `A`, `B` Hermitian spaces of ranks `n ≥ 1` and `n + t`, `t ≥ 1`, with
+splitting characters `χ_A`, `χ_B` (`χ_B` governs `U(A)`), `s₀ = t/2`. `A^□ = A ⊕ A(−1)`, `P` the stabiliser of the diagonal in
+`U(A^□)`, `ι : U(A) × U(A) → U(A^□)`. For a self-dual lattice `L` of `A` let `K^□` be the product of the stabilisers of `L ⊕ L`
+at the finite places and of maximal compact subgroups at the real places stable under the Cartan involution of
+`U(A) × U(A)`; the *height* is `h(pk) = |det(p | diagonal)|_{𝔸_E}` (`p ∈ P(𝔸)`, `k ∈ K^□`) and `H(g) := h(ι(g, 1))` for
+`g ∈ U(A)(𝔸)`; `H_∞` is the product of the local heights at the real places. For a finite set `S` of places containing
+the real ones, `G^S_int` is the set of `g ∈ U(A)(𝔸)` whose component at every place outside `S` stabilises `L`. For cusp
+forms `u` on `U(A)` and data `Φ`: `Θu(h) := ∫_{[U(A)]} θ(g, h; Φ)u(g) dg` (linear in `u`), `⟨·,·⟩` the Petersson products
+(conjugate-linear in the second variable), `R(g)` right translation, and
+`I_s(g) := ⟨ω(g, 1)Φ₁, Φ₂⟩·H(g)^{s − s₀}·⟨R(g)u₁, u₂⟩`.
+
+Prove:
+
+- (i) *Height and sections.* (a) Every `K^□`-finite section `Φ` of the degenerate principal series `I(s, χ)` of `U(A^□)`
+  satisfies `|Φ(x)| ≤ C·h(x)^{Re s + n/2}`. (b) `H` is continuous, `0 < H ≤ 1`, `G^S_int` is open, and on `G^S_int` the height
+  `H` is the product of the local heights at the places of `S`. (c) For polynomial Fock vectors `P`, `Q` at the real
+  places there is `C` with `|⟨ω(g, 1)P, Q⟩| ≤ C·H_∞(g)^{(n + t)/2}` for `g ∈ U(A)(F_∞)`.
+- (ii) *A flat family.* Let `(X, μ)` be a measure space, `f : X → ℂ` and `a : X → (0, 1]` measurable, `s₀, s₁ ∈ ℂ`. If
+  `f·a^{s₁ − s₀}` is integrable, then `f·a^{s − s₀}` is integrable for `Re s ≥ Re s₁`, with integrals converging absolutely
+  and locally uniformly there, and `s ↦ ∫f·a^{s − s₀} dμ` is holomorphic on `Re s > Re s₁` and continuous on `Re s ≥ Re s₁`.
+- (iii) *The inner product formula with one integrability hypothesis.* This is 6.13a (ii) for the linear lift, in the
+  following form. Let the Witt index of `B` be `0` or less than `t`; let `L_A`, `L_B` be self-dual lattices and `S` a finite
+  set of places containing the real ones such that every place outside `S` above `2` splits in `E`, `χ_B` is unramified
+  outside `S` and `Φ₁`, `Φ₂` are polynomial Fock vectors at the real places and the lattice vectors of `L_A ⊗ L_B` outside
+  `S`; let `u₁`, `u₂` be cusp forms on `U(A)`, finite under the maximal compact subgroup at the real places, `u₁` a Hecke
+  eigenform outside `S` generating `π`, `u₂` fixed by the stabilisers of `L_A` outside `S`. If `I_{s₁}` is integrable on
+  `G^S_int` for one real `s₁ < s₀`, then both theta integrals converge absolutely, `Θu₁` and `Θu₂` are square-integrable on
+  `[U(B)]`, `g ↦ ⟨ω(g, 1)Φ₁, Φ₂⟩⟨R(g)u₁, u₂⟩` is integrable on `G^S_int`, and for every value `l` at `s₀` of a holomorphic
+  continuation of `s ↦ L^S(s + ½, BC(π) ⊗ χ_B)`:
+  `⟨Θu₁, Θu₂⟩ = vol([U(B)])·(l/d^S(s₀))·∫_{G^S_int} ⟨ω(g, 1)Φ₁, Φ₂⟩·⟨R(g)u₁, u₂⟩ dg`,
+  where `d^S(s) = ∏_{v ∉ S} ∏_{i=0}^{n−1} L_v(2s + n − i, η^{n+t+i})`, the measures on `U(A)(𝔸)` and `U(B)(𝔸)` are arbitrary Haar
+  measures, the inner product on the left and `vol([U(B)])` are taken for the second, and the inner product of the data
+  is that of 6.13a.
+- (iv) *The real places.* If `c` is an integrable function on `U(A)(F_∞)` and `P`, `Q` are polynomial Fock vectors, then
+  `g ↦ ⟨ω(g, 1)P, Q⟩·c(g)·H_∞(g)^{s − s₀}` is integrable on `U(A)(F_∞)` for every real `s ≥ −n/2`.
+- (v) *Support at a split place.* Let `v` be a finite place split in `E`, so that the Weil representation at `v` is the
+  type-II model on `S(M_{(n+t)×n}(F_v))` with `U(A)(F_v) ≅ GL_n(F_v)` acting by substitution `x ↦ xg` up to a character and a
+  modulus (3.21a). If `φ` is supported on matrices whose upper `n × n` block lies in one coset `hK₁` of an open subgroup
+  `K₁ ⊂ GL_n(F_v)`, then `⟨ω(g, 1)φ, φ⟩ = 0` for `g ∉ K₁`.
+
+*Route.* (i): (a) from the Iwasawa decomposition `U(A^□)(𝔸) = P(𝔸)K^□` and the compactness of `K^□`; (b) at a finite place
+the local height of `ι(g, 1)` is `Q^{−ℓ(g)}`, `ℓ(g)` the length of `(L + gL)/L` (6.11 (a)), which is `1` exactly on the
+stabiliser of `L`; the bound `≤ 1` at the real places is not routed here; (c) the
+function `g ↦ ⟨ω(g, 1)P, Q⟩` is the restriction to `ι(g, 1)` of the Siegel–Weil section of `P ⊗ conj Q`, a `K^□`-finite
+section at `s₀`, and `s₀ + n/2 = (n + t)/2`. (ii): dominated convergence, with `a^{Re s − Re s₁} ≤ 1`; holomorphy by
+differentiation under the integral on `Re s > Re s₁`, where `a^{δ}|log a|` is bounded. (iii): 6.13a (ii), whose route
+supplies, on `Re s > n + 1`, `∫_{U(A)(𝔸)} I_s = L^S(s + ½, BC(π) ⊗ χ_B)/d^S(s)·∫_{G^S_int} I_s` (6.11 for bounded spherical
+coefficients) and the value of the left side at `s₀` by continuation; (ii) continues the right-hand integral to
+`Re s > s₁`. (iv): by (i)(c), `|⟨ω(g, 1)P, Q⟩|·H_∞^{s − s₀} ≤ C·H_∞^{s + n/2} ≤ C`. (v): the coefficient is a scalar times
+`∫φ(xg)·conj φ(x) dx`; if `x` and `xg` both lie in the support then `g ∈ (hK₁)⁻¹hK₁ = K₁`. (Piatetski-Shapiro–Rallis 1987;
+Rallis 1984; J.-S. Li 1992; Ichino 2004, 2007; Yamana 2014.)
+
+**Checks.**
+
+- `n = 1`: `U(A) = U(1)` is compact, `H = 1` on the lattice stabilisers, and (iii) for `u₁ = u₂ = μ` reads
+  `‖Θμ‖² = vol([U(B)])·L^S((1 + t)/2, μ̃χ_B)/L^S(1 + t, η^{t+1})·∫_{G^S_int} ⟨ω(g, 1)Φ₁, Φ₂⟩μ(g) dg`, the instance `n = 1` of
+  6.13a; at a split place the local integral is Tate's.
+- (ii) with `X` a point: `s ↦ f·a^{s − s₀}` is entire; with `a = 1`: the statement is that `∫f` exists.
+- (iv) at `s = s₀ − t/2 − n/2 = −n/2`: the bound of (i)(c) is exactly cancelled, and the integrand is dominated by `C|c|`.
+- (v) for `n = 1`, `φ = 1_{(1 + 𝔭^c) × 𝔭^c × ⋯ × 𝔭^c}`: `x₁ ∈ 1 + 𝔭^c` and `x₁g ∈ 1 + 𝔭^c` force `g ∈ 1 + 𝔭^c`.
+
+### 6.13c Local doubling integral with a tame twist on a block
+
+Let `k` be a nonarchimedean local field of characteristic `0`, `𝔭` its maximal ideal, `q` its residue cardinality, `ϖ` a
+uniformiser. Let `r, l, t ≥ 0`, `N = l·t`, `a = r + N`, `b = r + N + t`, and write matrices of `G = GL_a(k)` in blocks of sizes `(r, N)`.
+Let `𝒫 = {j ∈ GL_a(𝒪) : j₂₁ ≡ 0 mod 𝔭}`, with the Haar measure of `G` for which `vol(𝒫) = 1`. Let `ξ` be a unitary character
+of `k^×` that is trivial on `1 + 𝔭` and nontrivial on `𝒪^×` (tamely ramified and ramified: conductor exponent one), `μ₀`
+a unitary unramified character, and let `GL_a(k)` act on `S(M_{b×a}(k))` by the type-II Weil representation with the
+character `μ₀ξ`: `ω(g)Φ(x) = (μ₀ξ)(det g)|det g|^{b/2}Φ(xg)`. The *test vector* is `φ_ξ(x) = ξ(det x₁₁)⁻¹` for integral `x`
+whose upper-left `r × r` block `x₁₁` is invertible over `𝒪` and whose lower-left block (below `x₁₁`) is `≡ 0 mod 𝔭`, and
+`φ_ξ(x) = 0` otherwise; `c(g) := ∫ω(g)φ_ξ·conj φ_ξ` for the measure giving `M_{b×a}(𝒪)` volume one. Let `H` be the function
+on `G` that is bi-invariant under `GL_a(𝒪)` with `H(diag(ϖ^{e_1}, …, ϖ^{e_a})) = q^{−Σ|e_i|}`. For a representation `π` of `G`
+on a complex vector space, a vector `x` is *generic with parameters* `α = (α_1, …, α_N) ∈ (ℂ^×)^N` if `π(j)x = ξ(det j₂₂)x`
+for `j ∈ 𝒫` and, for `0 ≤ m ≤ N` and `d_m = diag(1_{a−m}, ϖ1_m)`,
+`Σ_j ξ(det j₂₂)⁻¹π(j d_m)x = q^{(rm + m(N − m))/2}·(μ₀ξ)(ϖ)^m·e_m(α)·x`, the sum over representatives `j` of `𝒫/(𝒫 ∩ d_m𝒫d_m⁻¹)`
+(and likewise for every diagonal matrix with `m` entries `ϖ` in the lower block); a linear form `ℓ` has the *cotype* if
+`ℓ(π(j)y) = ξ(det j₂₂)ℓ(y)` for `j ∈ 𝒫` and all `y`.
+
+Prove that `c(1) ≠ 0` and that the function `ζ` on `G` defined by
+`ζ = q^{−((r + b)/2)Σ|e_i|}·ω_α(ϖ^e)` on `𝒫·diag(1_r, ϖ^{e_1}, …, ϖ^{e_N})·𝒫`, `e_1 ≥ ⋯ ≥ e_N`, and `ζ = 0` elsewhere, where `ω_α` is the
+zonal spherical function of `GL_N(k)` with Satake parameters `α`, has the following properties:
+
+- (i) `conj c(g)·ℓ(π(g)x) = conj c(1)·ζ(g)·ℓ(x)` for all `g ∈ G`, every `π`, every `x` generic with parameters `α` and every
+  `ℓ` of the cotype; and `ζ = 1` on `𝒫`;
+- (ii) if `q^{−ρ} ≤ |α_j| ≤ q^{ρ}` for all `j`, then `ζ·H^{s − t/2} ∈ L¹(G)` for `Re s > ρ − ½` and
+  `∫_G ζ·H^{s − t/2} dg = ∏_{j}(1 − α_jq^{−(s+½)})⁻¹·∏_{j}(1 − α_j⁻¹q^{−(s+½)})⁻¹·∏_{i=1}^{N}(1 − q^{−(2s+i)})`.
+
+*Route.* (1) `c(jgj′) = ξ(det j₂₂)ξ(det j′₂₂)c(g)` for `j, j′ ∈ 𝒫`, from the transformation of `φ_ξ`; `c(1) = ‖φ_ξ‖² > 0`. (2) `c`
+vanishes outside the double cosets `𝒫·diag(1_r, ϖ^e)·𝒫`: on the support the upper block of `g` is a unit matrix up to
+`𝒫`, because `ξ` is trivial on `1 + 𝔭` and nontrivial on `𝒪^×`. (3) `c(diag(1_r, ϖ^e)) = (μ₀ξ)(ϖ)^{Σe_i}·c(1)·q^{−(b/2)Σ|e_i|}`.
+(4) For `x` generic and `ℓ` of the cotype, `m ↦ ξ(det m)⁻¹ℓ(π(diag(1_r, m))x)·H(diag(1_r, m))^{−r/2}` is bi-invariant under
+`GL_N(𝒪)` and an eigenfunction of the spherical Hecke algebra of `GL_N(k)`, hence its value at `1` times the zonal
+spherical function of parameters `α·μ₀(ϖ)` (the twisted Hecke operators of `x` are the Hecke operators of `x` in
+`π ⊗ ξ⁻¹∘det₂₂`, which divides the parameters `α·(μ₀ξ)(ϖ)` by `ξ(ϖ)`); so
+`ℓ(π(diag(1_r, ϖ^e))x) = (μ₀ξ)(ϖ)^{Σe_i}·q^{−(r/2)Σ|e_i|}·ω_α(ϖ^e)·ℓ(x)`, and with (3) and `|μ₀ξ| = 1` this gives (i). (5) `ζ·H^{s − t/2}` is bi-invariant under `𝒫`,
+`vol(𝒫·diag(1_r, ϖ^e)·𝒫) = q^{rΣ|e_i|}·vol(GL_N(𝒪)ϖ^eGL_N(𝒪))`, and the exponents add up to
+`r − (r + b)/2 − (s − t/2) = −(N/2 + s)`: the integral is `Σ_e vol(GL_N(𝒪)ϖ^eGL_N(𝒪))·q^{−(N/2 + s)Σ|e_i|}·ω_α(ϖ^e)`, the unramified
+doubling integral of `GL_N(k)` (6.11 (c) with `χ₁ = χ₂ = 1`), absolutely convergent for `Re s > ρ − ½`.
+
+*Remark.* The statement is made for `N = l·t`; the form of the formula for a general `N` is not claimed here.
+
+**Checks.**
+
+- `N = 0`: `ζ = 1_𝒫`, the integral is `vol(𝒫) = 1`, and the right side is the empty product: the Satake parameters of
+  the upper block never enter.
+- `r = 0`: `𝒫 = GL_N(𝒪)`, `φ_ξ = 1_{M_{b×N}(𝒪)}`, a generic `x` is a spherical vector of `π ⊗ ξ⁻¹∘det` with Satake parameters
+  `α·μ₀(ϖ)`, `ζ(ϖ^e) = q^{−(b/2)Σ|e_i|}ω_α(ϖ^e)`, and (ii) is 6.11 (c) for `χ₁ = χ₂ = 1`, the factor
+  `H^{s − t/2}·q^{−(b/2)Σ|e_i|} = q^{−(s + N/2)Σ|e_i|}` being the spherical section; the unitary characters have cancelled
+  between `conj c` and `ℓ(π(·)x)`.
+- `N = 1` (`l = t = 1`), `α = q^{ρ}`: the series is `Σ_{e ∈ ℤ} q^{−(½ + s)|e|}α^{e}`, convergent exactly for `Re s > ρ − ½`, with sum
+  `(1 − q^{−(2s+1)})/((1 − αq^{−(s+½)})(1 − α⁻¹q^{−(s+½)}))`: the range of (ii) is sharp.
+
+### Examples
+
+Split binary `V` (`m = 2`, `r = 1`, `n = 1`) is not in the range of 6.4a (`m − r = 1 = d(1)`); the regularised MetaplecticAutomorphicForms §6.5 applies instead (6.4a). For `n = 1` the group `U(V) = U(1)` is compact and the unramified doubling integral is `1`, as is `L_{E_v}(s + ½, χ)/L_{F_v}(2s + 1, χ|_{F_v^×})`; for `n = 2` and `π_v` trivial the domain of absolute convergence is `Re s + ½ > ½` when `|χ(ϖ)| = 1`, and the pole of `L_{E_v}(s, χ)` at `s = 0` (for `χ = 1`) is its boundary (6.11). For `n = 1` and `u₁ = u₂ = μ` the inner product formula of 6.13b (iii) reads `‖Θμ‖² = vol([U(B)])·L^S((1 + t)/2, μ̃χ_B)/L^S(1 + t, η^{t+1})·∫_{G^S_int} ⟨ω(g, 1)Φ₁, Φ₂⟩μ(g) dg` (6.13b). For `N = 1` (`l = t = 1`) and `α = q^{ρ}` the series of 6.13c (ii) is `Σ_{e ∈ ℤ} q^{−(½ + s)|e|}α^{e}`, convergent exactly for `Re s > ρ − ½`, with sum `(1 − q^{−(2s+1)})/((1 − αq^{−(s+½)})(1 − α⁻¹q^{−(s+½)}))`, and for `N = 0` the integral is `vol(𝒫) = 1` (6.13c). For `n = 1` and `π = μ` a character of `U(1)`, the lift has `L^S(s + ½, μ̃χ⁻¹)`, whose value at `s₀` is `L^S(m/2, μ̃χ⁻¹)`, a central value exactly when `m = 1` (6.13a).
+
+### Dependencies
+
+Layer 5 (5.7a); MetaplecticAutomorphicForms §§5.6, 5.7, 6.1, 6.2, 6.4, 6.5, 6.10, 6.10a, 6.11, 6.12, 6.13; AutomorphicSpectralTheory §§1.1–1.4, 2.4, 2.4a; HermitianFormsAndLattices §§2.1, 4.2, 6.5; LocalFactorsOfTwistsAndTypes §§3.3, 3.4; SmoothRepresentationsOfLocalGroups §§SR.4.3, SR.4.4.
+
+## Downstream consumers
+
+The theta lifts between definite unitary groups of [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) rest on these statements: bump vectors, the unramified correspondence, the Fock model and compact dual pairs, local matching and its descent along adapted lines, the global Weil representation, convergence and constant terms of theta integrals, the Siegel–Weil formula and the unramified doubling integral.
+
+The theta-chain roadmaps of this family use them as well. [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) uses the global Weil representation 4.4a for the homomorphism pair of a step, and reads that pair at a real place as a pair of 3.46a in the normalisation of its paragraph *Other normalisations*, with the passage to the dual space and to the contragredient of the integrated member stated there. [RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md) exhibits, for consecutive members of its row tower at each real place, the data of 3.46a (the lists, the case and the gap hypothesis) and uses 3.46a (a), (c2) and (e) for descents and (b), (c1) and (e) for up-lifts, with the joint harmonic of 3.46a (d); 5.6a for the type and cuspidality of descents and up-lifts; the inner product formula 6.13a (ii) with 6.13b (i), (ii), (iv) and (v) for its bounds, its continuation and the support of its vectors at the split places; and 6.13c at the places of a tame twist, with `N` a multiple of the difference of ranks `t`. [SeesawForThetaChains](../SeesawForThetaChains/README.md), [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) and [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md) use statements of Layers 3–6 as well.
+
+## Scope and ownership
+
+This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
+
+This roadmap owns, for unitary dual pairs: the left-action form of the Siegel-parabolic normalisation of the Weil representation and the compatibility of the splittings with orthogonal sums (3.3b); persistence, the stable range and bump vectors (3.9a); the unramified correspondence in the inert and the split case (3.21a); the Fock model, the Bargmann transform of tempered distributions and the infinitesimal Weil representation (3.45); the theta correspondence of compact dual pairs (3.46) and, under a gap hypothesis, of discrete series with both members non-compact on an explicit Fock module of the determinant-square-root covers, with non-occurrence below first occurrence, the zeta integral of the joint harmonic, multiplicity one and isometric occurrence (3.46a); local complementary data, local matching at split, unramified inert and real places, irreducibility of the theta quotients at split places and the Casimir gap lemma (3.47–3.47b); three lemmas on functionals at a split place (3.47c); the global Weil representation of a unitary pair with its Siegel-parabolic normalisation, its split law and its characterisation (4.4a); theta integrals of cusp forms of discrete-series type under three local hypotheses at the real places (5.6a); Weil's convergence criterion for unitary pairs with the matrix-coefficient majorant (5.7a); regularised convergence at a split place, archimedean vanishing and the invariant extension (5.7b); constant terms of theta integrals along an isotropic line, with the cone maps, their laws, unfolding, duality, unramified values and persistence of nonvanishing (5.7c); local multiplicity bounds along an adapted line (5.7d); the archimedean cone lemma (5.7e); the Siegel–Weil formula in Weil's convergent range with its corollary on Fourier coefficients (6.4a); the unramified doubling integral at inert and split places with its region of absolute convergence (6.11); the Rallis inner product formula in Weil's convergent range and for anisotropic targets (6.13a); the height of the doubled group, a flat family of integrals, the inner product formula under one integrability hypothesis, integrability at the real places and the support of Weil coefficients at a split place (6.13b); and the local doubling integral with a tame twist on a block of size `N = l·t` (6.13c).
+
+Not owned here. The targets 3.3b and 6.11 extend MetaplecticAutomorphicForms §§3.3b and 6.11: the comparison of the Hermitian Weil operators of four sources with Layer 2 of that roadmap, and the local doubling zeta integral with its unramified value `L_v/d_v`, belong to that roadmap, and this roadmap owns only the statements it adds to them. [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) owns the theory these targets extend: Heisenberg groups and Schrödinger models (Layer 0), Stone–von Neumann and the oscillator normalizer (Layer 1), the metaplectic cover and the Weil representation with its local unramified splitting (Layer 2), the unitary dual-pair splittings, split étale Hermitian spaces, theta modules, the type-II input, Howe duality and the unramified parameters (Layer 3), the adelic cover and the adelic Weil representation (Layer 4), theta kernels, global theta lifts and Weil's criterion for split `W` (Layer 5), and the Siegel–Weil formula, the doubling method and the Rallis inner product formula in the ranges stated there (Layer 6). Smooth representations, induction, Jacquet functors, the geometric lemma, the Satake isomorphism and segments belong to [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md); the unitary doubling series, the Satake parameters of bounded spherical functions and the Zelevinsky classification to LocalFactorsOfTwistsAndTypes §§3.3, 3.4, 4.1; the `(GL_n, GL_m)`-duality on polynomials in matrices to TensorInductionAndFiniteGroupInputs §7.1; the local classification of Hermitian spaces, unimodular lattices and Siegel's main theorem to HermitianFormsAndLattices §§2.1, 4.2, 6.5; local Fourier analysis and the zeta integrals of Tate and of Godement–Jacquet to [AutomorphicLFunctionsAndLocalFactors](../../AutomorphicLFunctionsAndLocalFactors/README.md); reduction theory and strong approximation to [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md); Harish-Chandra modules, constant terms and the modules `A_𝔮(λ)` to [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md); Eisenstein series and their continuation to [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md); adelic Poisson summation to AnalyticNumberTheoryPartII §5.3h; the nonvanishing of Hecke `L`-functions at `s = 1` to [LFunctions](../../LFunctions/README.md) Layer 7; the Hermite basis to [OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md); the Peter–Weyl theorem and branching rules to [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) and [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md). The roadmaps of this family that use these statements are listed under Downstream consumers above.
+
+## Exact supplier contracts
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+§0.1: the bilinear Heisenberg law. §0.15: the Schrödinger representation. §§0.17, 0.18: the Hilbert Schrödinger model and the smooth vectors of the oscillator model. §1.1: the smooth Stone–von Neumann theorem (irreducibility and uniqueness of the Heisenberg representation with a given central character). §1.3: the unitary normalizer extension and the covariance `ω(g)ρ(w)ω(g)⁻¹ = ρ(gw)`. §2.4b: the metaplectic double cover, with the connected preimage of the rotation group of `Sp_2(ℝ)`. §2.4c: the genuine Weil representation. §2.5: the Weil operators on generators. §2.6a: the local unramified compact splitting and the lattice vector. §3.2a: split étale Hermitian spaces and the comparison of the split oscillator with the type-II model and its characters. §3.3: the unitary dual-pair splittings attached to `χ_V`, `χ_W`, the character change and the Check for `V = 0`. §3.3b: the comparison of the Hermitian normalisations of four sources, extended by 3.3b. §3.4: the big theta module. §3.6: the finite length of theta modules. §3.12: Kudla's Jacquet filtration. §3.14: the type-II theta input. §3.18: the unitary equal and almost equal rank correspondence, for the conventions of the characters. §3.22: the unitary theta Hecke map. §§4.1–4.5: unramified compact splittings, the adelic metaplectic cover, the Weil product formula, the rational symplectic splitting and the adelic Weil representation. §§5.1, 5.2: the theta kernel, its smoothness and its growth. §5.5: metaplectic constant terms. §5.6: the global theta lift. §5.7: Weil's convergence criterion for split `W` in the datum of GQT. §§6.1, 6.2, 6.4, 6.5: the measure conventions, the Siegel–Weil section, the anisotropic Siegel–Weil formula and the regularised first-term identity. §§6.10, 6.10a: the doubling Schwartz map, the spherical section and the standard doubling factors. §6.11: the local doubling zeta integral and its unramified value `L_v/d_v`, extended by 6.11. §6.12: the factorization of theta pairings. §6.13: the Rallis inner product formula.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+§SR.2.1: smooth and compact induction, with induced representations as sections over `H\G` (*l-sheaf-model*). §SR.2.2: Jacquet functors, parabolic induction and the geometric lemma (*geometric-lemma*). §SR.3.1: cuspidal support and finite length. §§SR.4.1–SR.4.4: the Satake transform and spherical parameters, the explicit spherical generators of `GL_n` (*gln-generators*, §SR.4.3), and the unramified unitary groups of §SR.4.4 with their standard Hermitian space and lattice, in the unitary normalisation with base-change parameters at inert places. *segment-representations*: segments and their representations `Z(Δ)`, `L(Δ)`.
+
+### From LocalFactorsOfTwistsAndTypes, a sub-roadmap of this family
+
+§3.3 (b): the unitary doubling series, its domain of absolute convergence and its value. §3.4 (i), (ii): the Satake parameters of a bounded spherical function satisfy `Q^{−(n−1)/2} ≤ |α_i| ≤ Q^{(n−1)/2}`, with the sublattice counts of its route. §4.1 (ii)–(iv): products of segment representations are irreducible exactly when the segments are pairwise unlinked; the Jacquet modules of `Z(Δ)`; the Grothendieck ring of the representations of all `GL_n(F)` is the polynomial ring on the segments.
+
+### From TensorInductionAndFiniteGroupInputs, a sub-roadmap of this family
+
+§7.1: the `(GL_n, GL_m)`-duality on polynomials in `n × m` matrices, `k[M_{n×m}]_d ≅ ⊕_λ S^λ(kⁿ) ⊗ S^λ(k^m)`, with the products of leading principal minors as joint highest weight vectors, also for `U(n) × U(m)` on complex polynomials.
+
+### From HermitianFormsAndLattices, a sub-roadmap of this family
+
+§2.1 (a): Hermitian spaces over a nonarchimedean local field are classified by dimension and determinant class. §4.2 (a): unimodular lattices at split and unramified places, unique up to `U(V_v)`. §6.5 (a): Siegel's main theorem in Weil's form, the mean value over `[U(V)]` of an orbit sum as a product of local orbital integrals.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+§AL.0: local Fourier inversion and partial Fourier transforms of Schwartz–Bruhat functions. §AL.1: Tate's local zeta integrals, their functional equation and the local `γ`-factors. §AL.2: Godement–Jacquet zeta integrals and the standard local `L`-factor.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+§3.1: rational parabolics and Iwasawa integration. §3.4: adelic Siegel sets, the covering of `G(F)\G(𝔸)` by Siegel sets and the compactness of the arithmetic quotients of anisotropic groups. §3.5: algebraic heights. §4.2: strong approximation for simply connected groups.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+§2.1: `K`-finite vectors and admissibility. §2.2: infinitesimal characters and the Harish-Chandra isomorphism. §2.4: discrete series. §4.1: constant terms. §5.4: the Vogan–Zuckerman modules `A_𝔮(λ)` and their characterisation.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+§§1.1–1.4: normalised induced families, Eisenstein series and intertwining integrals in the convergence chamber. §§2.4, 2.4a: meromorphic continuation and functional equations of Eisenstein series.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartII
+
+§5.3h: the adelic Schwartz–Bruhat space and Poisson summation.
+
+### From TauCetiRoadmap.LFunctions
+
+Layer 7: the `L`-function of a nontrivial Hecke character is holomorphic and nonzero at `s = 1`.
+
+### From TauCetiRoadmap.OrthogonalL2Bases
+
+Part A, A2–A3: the Hermite functions and the Hermite basis of `L²(ℝ)`.
+
+### From TauCetiRoadmap.RepresentationTheory.CompactGroups
+
+Layers 4–5: Schur orthogonality and the Peter–Weyl theorem.
+
+### From TauCetiRoadmap.RepresentationTheory.ClassicalGroups
+
+§6.1: the branching rule from `GL_n` to `GL_{n−1}`, used for `U(1) × U(P_W − 1) ⊂ U(P_W)` in 5.7d.
+
+### From Mathlib
+
+`MeasureTheory.Measure.ext_of_charFun`: two finite measures on a complete second-countable real inner product space with the same characteristic function are equal (5.7e).
+
+## References
+
+- GQT: Wee Teck Gan, Yannan Qiu and Shuichiro Takeda, The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula, arXiv:1207.4709: the parameters of Layers 5–6, the convergent range of the Siegel–Weil formula (6.4a) and the Rallis inner product formula (6.13a).
+- Gan–Ichino: Wee Teck Gan and Atsushi Ichino, The Gross–Prasad conjecture and local theta correspondence, arXiv:1409.6824, §4: the normalisation of the splittings (3.3b, 4.4a).
+- Kudla96: Stephen S. Kudla, Notes on the local theta correspondence, 1996: persistence and the stable range (3.9a).
+- Stephen S. Kudla, Splitting metaplectic covers of dual reductive pairs, Israel J. Math. 87 (1994): the splittings and orthogonal sums (3.3b, 4.4a).
+- Michael Harris, Stephen S. Kudla and William J. Sweet, Theta dichotomy for unitary groups, J. Amer. Math. Soc. 9 (1996), §1: the splittings (3.3b, 4.4a).
+- Jian-Shu Li, Singular unitary representations of classical groups, Invent. Math. 97 (1989), and Nonvanishing theorems for the cohomology of certain arithmetic quotients, J. reine angew. Math. 428 (1992): bump vectors (3.9a) and the convergent range of the inner product formula (6.13b).
+- Jian-Shu Li, Theta lifting for unitary representations with nonzero cohomology, Duke Math. J. 61 (1990): the correspondence of discrete series without the gap hypothesis (the remark of 3.46a).
+- Stephen Rallis, Langlands' functoriality and the Weil representation, Amer. J. Math. 104 (1982): the unramified correspondence (3.21a, 3.47a).
+- Roger Howe, θ-series and invariant theory, Proc. Sympos. Pure Math. 33 (1979): spherical vectors of the oscillator representation (3.21a, 3.47a).
+- Roger Howe, Transcending classical invariant theory, J. Amer. Math. Soc. 2 (1989), and Remarks on classical invariant theory, Trans. Amer. Math. Soc. 313 (1989): the Fock model, joint harmonics and the Capelli identity (3.45, 3.46, 3.47b).
+- Mínguez08: Alberto Mínguez, Correspondance de Howe explicite : paires duales de type II, Ann. Sci. ÉNS (4) 41 (2008): the split case (3.21a, 3.47).
+- Chao Li and Yifeng Liu, Chow groups and L-derivatives of automorphic motives for unitary groups, Ann. of Math. 194 (2021): the data of the Hecke map in 3.21a.
+- Valentine Bargmann, Comm. Pure Appl. Math. 14 (1961): the Bargmann transform (3.45).
+- Masaki Kashiwara and Michèle Vergne, On the Segal–Shale–Weil representations and harmonic polynomials, Invent. Math. 44 (1978): the Fock model and compact dual pairs (3.45, 3.46, 3.47b).
+- Annegret Paul, Howe correspondence for real unitary groups, J. Funct. Anal. 159 (1998): compact dual pairs (3.46) and the correspondence of discrete series without the gap hypothesis (the remark of 3.46a).
+- Roger Godement and Hervé Jacquet, Zeta functions of simple algebras, Lecture Notes in Math. 260 (1972): the zeta integrals of 3.47.
+- Andrei Zelevinsky, Induced representations of reductive p-adic groups II, Ann. Sci. ÉNS 13 (1980): products of segments (3.47, 5.7d).
+- David Vogan and Gregg Zuckerman, Unitary representations with nonzero cohomology, Compositio Math. 53 (1984): the identification with `A_𝔮(λ)` (3.47b).
+- Weil65: André Weil, Sur la formule de Siegel dans la théorie des groupes classiques, Acta Math. 113 (1965), §§V–VI: the convergence criterion and the Siegel–Weil formula in Weil's range (5.7a, 6.4a).
+- Stephen Rallis, L-functions and the oscillator representation, Lecture Notes in Math. 1245 (1987): constant terms and the tower property (5.7c, 5.7d).
+- Stephen S. Kudla and Stephen Rallis, A regularized Siegel–Weil formula: the first term identity, Ann. of Math. 140 (1994): the tower formula and the maps of 5.7c and 5.7d.
+- John Tate, Fourier analysis in number fields and Hecke's zeta-functions (thesis, 1950): the cone integrals and their functional equation (5.7c, 5.7e).
+- Atsushi Ichino, On the Siegel–Weil formula for unitary groups, Math. Z. 255 (2007): the convergent range of the Siegel–Weil formula (6.4a) and the Rallis inner product formula (6.13a, 6.13b).
+- Stephen Rallis, On the Howe duality conjecture, Compositio Math. 51 (1984): the tower property (5.6a).
+- Stephen Rallis, Injectivity properties of liftings associated to Weil representations, Compositio Math. 52 (1984): the Rallis inner product formula (6.13a, 6.13b).
+- Atsushi Ichino, A regularized Siegel–Weil formula for unitary groups, Math. Z. 247 (2004): the inner product formula (6.13b).
+- Ilya Piatetski-Shapiro and Stephen Rallis, L-functions for the classical groups, Lecture Notes in Math. 1254 (1987): the doubling method (6.13a, 6.13b).
+- Shunsuke Yamana, L-functions and theta correspondence for classical groups, Invent. Math. 196 (2014): doubling integrability (6.13b).
