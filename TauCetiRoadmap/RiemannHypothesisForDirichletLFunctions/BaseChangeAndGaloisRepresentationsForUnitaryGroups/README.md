@@ -524,11 +524,12 @@ EndoscopicTransferAndUnitaryTraceComparison §§2.16, 6.12, 6.24, 10.1, 10.20–
 
 ## Layer 13: Cuspidal multiplicities of inner forms of unitary groups
 
-Two unitary groups in an odd number of variables that are isomorphic at every finite place have the same cuspidal multiplicities for matching discrete series at the real places and finite parts that are unramified outside a nonempty set of split places and carry a jointly cuspidal family of types there.
+Over the hosts of the chain (FrobeniusRestrictedRieszSums §0.4), two unitary groups in an odd number of variables that are isomorphic at every finite place have the same cuspidal multiplicities for matching discrete series at the real places and finite parts that are unramified outside a nonempty set of split places and carry a jointly cuspidal family of types there.
 
 ### 13.8a Equal cuspidal multiplicities of inner forms in an odd number of variables
 
-Let `E/F` be a CM extension unramified at every finite place, `r` odd, `V`, `V′` nondegenerate Hermitian spaces of
+Let `E` be a host of the chain (FrobeniusRestrictedRieszSums §0.4), `F` its maximal totally real subfield (so `E/F` is a CM
+extension unramified at every finite place), `r` odd, `V`, `V′` nondegenerate Hermitian spaces of
 dimension `r` over `E`, `L ⊂ V`, `L′ ⊂ V′` self-dual `𝒪_E`-lattices, and for every finite place `v` of `F` an isometry
 `a_v : V_v → V′_v` with `a_v(L_v) = L′_v`. Put `G = U(V)`, `G′ = U(V′)`, `K_v = Stab_{G(F_v)}(L_v)`, and let `Φ : G(𝔸_f) → G′(𝔸_f)` be the
 isomorphism of topological groups with components `g ↦ a_vga_v^{−1}`.
@@ -555,6 +556,8 @@ Prove that for every jointly cuspidal family of types on `S` and every irreducib
 `m_cusp(π_∞ ⊗ σ) = m_cusp(π′_∞ ⊗ σ∘Φ^{−1})`,
 where `m_cusp(π_∞ ⊗ σ)` is the dimension, which is finite, of the space of `G(𝔸)`-homomorphisms from `π_∞ ⊗ σ` to the
 cuspidal subspace of `L²(G(F)\G(𝔸))`.
+This is the statement of [FormalProof]; its type vectors are those of [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Divisors/HasTypeVec.lean` (`GlobalTheory.TrMult.HasTypeVec`).
 
 *Route.* A comparison of two simple trace formulas. (1) *Test functions* `f = ⊗_τf_τ ⊗ ⊗_vf_v` on `G(𝔸)`: `f_τ` a
 pseudo-coefficient of `π_τ` (smooth of compact support and `K`-finite, of trace `1` on `π_τ` and `0` on every other
@@ -605,7 +608,8 @@ EndoscopicTransferAndUnitaryTraceComparison §2.3 and DiscreteSeriesCoefficients
 SmoothRepresentationsOfLocalGroups SR.2.2 (*geometric-lemma*), SR.5.2 (*segment-representations*);
 ClassFieldTheory Layer 13 (Hasse's norm theorem for quadratic extensions) and Layer 11 (elements with prescribed norm
 residue symbols: an idele of the base field whose local norm residue symbols have product one lies in the kernel of the
-global Artin map of the quadratic extension, which is the base field's multiplicative group times the norms of ideles); HermitianFormsAndLattices §3.1 (the Hasse principle for Hermitian forms).
+global Artin map of the quadratic extension, which is the base field's multiplicative group times the norms of ideles); HermitianFormsAndLattices §3.1 (the Hasse principle for Hermitian forms);
+FrobeniusRestrictedRieszSums §0.4 (the hosts).
 
 **Checks.**
 
@@ -627,7 +631,7 @@ Two instances, stated without proof. For `V′ = V`, isometries the identity and
 
 ### Dependencies
 
-AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §§4.5, 6.18, EndoscopicTransferAndUnitaryTraceComparison §2.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups SR.2.2 (*geometric-lemma*), SR.5.2 (*segment-representations*); ClassFieldTheory Layers 11 and 13; HermitianFormsAndLattices §3.1.
+AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §§4.5, 6.18, EndoscopicTransferAndUnitaryTraceComparison §2.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups SR.2.2 (*geometric-lemma*), SR.5.2 (*segment-representations*); ClassFieldTheory Layers 11 and 13; HermitianFormsAndLattices §3.1; FrobeniusRestrictedRieszSums §0.4.
 
 ## Layer 14: Local–global compatibility away from the coefficient prime
 
@@ -967,7 +971,7 @@ Layer 14 (14.1); AutomorphicGaloisRepresentationsPartII AG2.0, AG2.2, AG2.3, AG2
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns: the existence of splitting characters for every quadratic extension of number fields (6.3a); the explicit threshold on the Weil side in the highly ramified argument, with `c_χ` fixed on a specified ideal (10.27); local automorphic induction from unramified extensions (10.33a); characters of depth-zero supercuspidal representations at very regular elements (10.33b); the matching of functions inflated from the residue field (10.33c); the labels of depth-zero representations under unramified base change of prime degree (10.33d); the explicit parameters, `ε`-factors and conductors of depth-zero supercuspidal representations (10.34); the correspondence on representations of depth zero up to twist (10.35); the equality of cuspidal multiplicities of inner forms in an odd number of variables (13.8a); the depth-zero away-prime comparison (14.2); routes for the polarized away-prime comparison (14.1) and for the trivial-monodromy comparison at the coefficient prime for parameters induced from unramified extensions (15.1) that avoid the irreducibility input of AutomorphicGaloisRepresentationsPartII AG2.6; the weight symmetry (15.2); and the Galois representations of definite unitary groups (16.1).
+This roadmap owns: the existence of splitting characters for every quadratic extension of number fields (6.3a); the explicit threshold on the Weil side in the highly ramified argument, with `c_χ` fixed on a specified ideal (10.27); local automorphic induction from unramified extensions (10.33a); characters of depth-zero supercuspidal representations at very regular elements (10.33b); the matching of functions inflated from the residue field (10.33c); the labels of depth-zero representations under unramified base change of prime degree (10.33d); the explicit parameters, `ε`-factors and conductors of depth-zero supercuspidal representations (10.34); the correspondence on representations of depth zero up to twist (10.35); the equality of cuspidal multiplicities of inner forms in an odd number of variables over the hosts of the chain (13.8a); the depth-zero away-prime comparison (14.2); routes for the polarized away-prime comparison (14.1) and for the trivial-monodromy comparison at the coefficient prime for parameters induced from unramified extensions (15.1) that avoid the irreducibility input of AutomorphicGaloisRepresentationsPartII AG2.6; the weight symmetry (15.2); and the Galois representations of definite unitary groups (16.1).
 
 The theory these statements extend is owned by [EndoscopicTransferAndUnitaryTraceComparison](../../EndoscopicTransferAndUnitaryTraceComparison/README.md) and [AutomorphicGaloisRepresentationsPartII](../../AutomorphicGaloisRepresentationsPartII/README.md). EndoscopicTransferAndUnitaryTraceComparison owns the trace-defined correspondence and its compatibilities (its Layer 10), the Hecke character extending the quadratic character of a CM extension of an imaginary quadratic field (EndoscopicTransferAndUnitaryTraceComparison §6.3), local and global cyclic base change (EndoscopicTransferAndUnitaryTraceComparison §§6.12, 6.24) and weak base change from unitary groups (EndoscopicTransferAndUnitaryTraceComparison §6.29 and its Layer 13); 10.27 above adds a clause to EndoscopicTransferAndUnitaryTraceComparison §10.27, which keeps its other clauses, and 10.29a and 10.30 restate EndoscopicTransferAndUnitaryTraceComparison §§10.20–10.30 in the terms of LocalFactorsOfTwistsAndTypes §6.5. AutomorphicGaloisRepresentationsPartII owns the existence and the properties of the attached Galois representations (Layers AG2.0–AG2.7), among them the full polarized comparison at `ℓ` with monodromy of AG2.6 *Full polarized local–global compatibility at `ℓ`*, which takes an irreducibility input that ModularityAndLanglandsExtensions §2.43 proves in every rank `m ≥ 2`; 15.1 is a case of that comparison and 14.1 the away-from-`ℓ` part of AG2.7 *Polarized Hodge and Weil–Deligne export*, each with an alternative route here that does not use that input. The representations of `GL_n` over finite fields, their Gauss sums and Shintani lifts, and the depth-zero representations of `GL_n(F)` with their labels are owned by [FiniteReductiveGroups](../FiniteReductiveGroups/README.md). The characterisation of local Langlands correspondences by `ε`-factors of pairs and its uniqueness, the local converse theorem and the exponent bound for unitary generic representations are owned by [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md). The Galois representations attached to automorphic representations of the definite unitary group of PotentialAutomorphyInfrastructurePartII §3.1 are owned by its §3.6; 16.1 agrees with them on that group, for the primes `ℓ` that §3.6 admits, and states the general case. The classical correspondence is owned by SmoothRepresentationsOfLocalGroups SR.5.2. Fields of positive characteristic (Laumon–Rapoport–Stuhler) are not treated.
 
@@ -1002,6 +1006,10 @@ AG2.0: *The `l`-adic character `r_{l,ι}(χ)`* (with its local compatibility at 
 ### From HermitianFormsAndLattices, a sub-roadmap of this family
 
 §3.1: Landherr's theorem, the Hasse principle for Hermitian forms over a quadratic extension of number fields (13.8a).
+
+### From FrobeniusRestrictedRieszSums, a sub-roadmap of this family
+
+§0.4: the cyclic hosts, CM fields `E` with `E/E⁺` unramified at every finite place (13.8a).
 
 ### From LocalFactorsOfTwistsAndTypes, a sub-roadmap of this family
 
@@ -1082,5 +1090,5 @@ Layer 7a: Lang's theorem.
 - Jean-Pierre Labesse, Changement de base CM et séries discrètes, in On the stabilization of the trace formula, International Press, 2011: the hypothesis `[E⁺:ℚ] ≥ 2` (16.1).
 - [CS] Ana Caraiani and Peter Scholze, On the generic part of the cohomology of compact unitary Shimura varieties, Ann. of Math. 186 (2017), Corollary 5.5.5 in the published numbering, the locator of AutomorphicGaloisRepresentationsPartII AG2.7 (16.1).
 - [HLTT] Michael Harris, Kai-Wen Lan, Richard Taylor and Jack Thorne, On the rigid cohomology of certain Shimura varieties, Res. Math. Sci. 3 (2016) (16.1).
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the matching of functions inflated from the residue field (10.33c), and it has the forms of the splitting characters (6.3a), of properties 1–4, the duals and the twist rule (10.29a), of the global form 10.33d (b), of 10.34 (i), (iii), (iv) and the tameness in (ii), of 10.35 (a)–(c) and the depth-zero criterion in (d), and of 14.1, 14.2, 15.1, 15.2 and 16.1 that the family uses.
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the matching of functions inflated from the residue field (10.33c) and of the equality of cuspidal multiplicities of inner forms over the hosts (13.8a), and it has the forms of the splitting characters (6.3a), of properties 1–4, the duals and the twist rule (10.29a), of the global form 10.33d (b), of 10.34 (i), (iii), (iv) and the tameness in (ii), of 10.35 (a)–(c) and the depth-zero criterion in (d), and of 14.1, 14.2, 15.1, 15.2 and 16.1 that the family uses.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
