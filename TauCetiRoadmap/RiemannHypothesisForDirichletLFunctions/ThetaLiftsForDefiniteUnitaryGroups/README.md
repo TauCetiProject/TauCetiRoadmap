@@ -2573,7 +2573,7 @@ Boundaries:
 
 ## References
 
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the routes of 1.2 (class-set form of the lift), 1.7–1.9 (the kernel of the lattice vacuum read through a CM
   theta function), 4.2–4.3 (the inner-product route to nonvanishing in large dimension), 5.2–5.3 and Layer 6
@@ -2581,7 +2581,7 @@ Boundaries:
   constant-term induction, the global descent of matching through factorisation, constant terms and injectivity, the
   archimedean cone lemma, square-integrability of the theta integrals through the square of the theta kernel, and the
   explicit tower recursion with the value of its constants at the ramified places).
-- [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>.
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - A. Weil, *Sur certains groupes d'opérateurs unitaires*, Acta Math. 111 (1964): 0.3, 0.4, 1.8 (the
   unitarity of the theta functional).
 - D. Mumford, *Tata lectures on theta I*, Progress in Math. 28, Birkhäuser (1983), and *On the
