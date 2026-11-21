@@ -31,11 +31,12 @@ functoriality and unit-filtration reciprocity; on PadicPeriodRings, which suppli
 action on `ℂ_p`, Ax–Sen–Tate and Tate's computation of `ℂ_p(i)^{G_K}`; and on
 FiniteFlatGroupsAndIntegralPadicHodgeTheory, which supplies Hodge–Tate weights and the local
 character criterion. AnabelianGeometryAndNonabelianChabauty supplies centre-freeness of `G_K` and
-owns the anabelian geometry of curves.
+owns the anabelian geometry of curves. ColemanIntegration supplies the product law of the
+logarithm on principal units.
 
 Layer 0 builds the tools: a model of `G_K` inside `Gal(ℚ̄_p/ℚ_p)`, the continuous transfer and
-its reciprocity form, the images of the unit filtration in `G_K^ab`, the logarithm on principal
-units and the spanning lemma for open subgroups of units. Layers 1–3 recover the numerical
+its reciprocity form, the images of the unit filtration in `G_K^ab`, the kernel and image of the
+logarithm on principal units and the spanning lemma for open subgroups of units. Layers 1–3 recover the numerical
 invariants, the cyclotomic character and inertia without the filtration. Layers 4–5 recover the
 additive module `K^m`, its integers and its completion. Layer 6 recovers the Hodge–Tate numbers and
 Layer 7 the uniformizing characters. Layer 8 proves the theorems.
@@ -45,8 +46,8 @@ Layer 7 the uniformizing characters. Layer 8 proves the theorems.
 - **Fields.** `K` is a nonarchimedean local field that is a finite extension of `ℚ_p`:
   `(p : ℕ) [Fact p.Prime] [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsNonarchimedeanLocalField K] [FinitePadicExtension K p]`. Tau Ceti's `FinitePadicExtension`
-  supplies `Algebra ℚ_[p] K` and `Module.Finite ℚ_[p] K`, the hypotheses of ClassFieldTheory's
-  `injective_artinMap`, and is what `deepUnitExpLogEquiv` takes. Every statement carries these
+  supplies `Algebra ℚ_[p] K` and `Module.Finite ℚ_[p] K`, hence `CharZero K`, the hypothesis of
+  ClassFieldTheory's `injective_artinMap`, and is what `deepUnitExpLogEquiv` takes. Every statement carries these
   binders, including statements whose conclusion does not mention `p`; local fields of positive
   characteristic are never in scope. A second field `K'` carries the same structure for a prime
   `p'`; that `p = p'` is a theorem (Layer 1), so statements comparing `K` and `K'` take two primes
@@ -95,8 +96,9 @@ Suggested home: `TauCeti/NumberTheory/LocalField/Anabelian/`.
 
 Nothing in Mathlib or Tau Ceti identifies `Field.absoluteGaloisGroup K` with a subgroup of
 `Gal(PadicAlgCl p/ℚ_p)`, descends the transfer to topological abelianizations, states the transfer
-square for the absolute Artin map, or makes the logarithm on `U(K,1)` a homomorphism. This layer
-builds them.
+square for the absolute Artin map, or describes the kernel and image of the logarithm on `U(K,1)`.
+This layer builds them; the product law of the logarithm on `U(K,1)` comes from ColemanIntegration
+L0.13.
 
 ### 0.1 The `p`-adic model
 
@@ -192,11 +194,16 @@ The torsion subgroup of `G_K^ab` is `Art_K(μ(K))`, `μ(K)` the roots of unity o
 
 ### 0.5 The logarithm on principal units
 
-`log : U(K,1) → K` is a continuous homomorphism (`log_mul_of_mem_unitFiltration_one`): for `u` in
-`U(K,1)` some `u^{p^k}` is deep, so `log u = p^{−k} log(u^{p^k})` and the deep case is
-`log_mul_of_mem_unitFiltration`. Its kernel is the group of `p`-power roots of unity of `K`
+`log : U(K,1) → K` is a continuous homomorphism that vanishes on roots of unity: this is
+ColemanIntegration L0.13, for `K` with the norm extending `|·|_p`, which induces the valuative
+topology of `K`. This roadmap keeps only what L0.13 does not give. First, its reading on Tau Ceti's
+`unitFiltration K 1` and valuative carrier (`log_mul_of_mem_unitFiltration_one`), which can also be
+proved without a norm: for `u` in `U(K,1)` some `u^{p^k}` is deep, so `log u = p^{−k} log(u^{p^k})`
+and the deep case is `log_mul_of_mem_unitFiltration`. Second, the converse to vanishing on roots of
+unity: the kernel is the group of `p`-power roots of unity of `K`
 (`log_eq_zero_iff`), and it induces a `ℚ_p`-linear isomorphism `U(K,1) ⊗_{ℤ_p} ℚ_p ≃ K`
-(`deepUnitExpLogEquiv` and `exists_mem_unitFiltration_log_eq_smul`). Here and below an abelian
+(`deepUnitExpLogEquiv` and `exists_mem_unitFiltration_log_eq_smul`). Third, the `ℤ_p`-module
+structure: here and below an abelian
 pro-`p` group `A` is a `ℤ_p`-module by `x ↦ x ^ᶻ a` through the `ℤ_p`-component of `Ẑ`
 (`zpowHat_eq_padicPow_component`); this `Module ℤ_[p] (Additive A)` structure is a target, with
 continuity of the action and naturality in continuous homomorphisms. For `L/K` finite, `log`
@@ -209,7 +216,7 @@ commutes with `K ⊆ L` and with the Galois action.
 - For `p` odd and `K = ℚ_p`, `log(1 + pℤ_p) = pℤ_p`, so the image of `U(ℚ_p, 1)` spans `ℚ_p` and
   `U(ℚ_p,1) ⊗_{ℤ_p} ℚ_p` is one-dimensional.
 
-*Needs:* Tau Ceti `log_mul_of_mem_unitFiltration`, `deepUnitExpLogEquiv`,
+*Needs:* ColemanIntegration L0.13; Tau Ceti `log_mul_of_mem_unitFiltration`, `deepUnitExpLogEquiv`,
 `exists_mem_unitFiltration_log_eq_smul`, `hasSum_log_of_mem_unitFiltration_one`,
 `zpowHat_eq_padicPow_component`.
 
@@ -219,11 +226,15 @@ For an open subgroup `I` of `𝒪_K^×`, the `ℚ_p`-span of `I` in `K` is `K` (
 [Mochizuki 1997, Lem. 4.1; Hyeon 2025, Lem. 6.1]: `I` contains `1 + p^n 𝒪_K` for some `n`, so its
 span contains `p^n 𝒪_K`. Consequently two `ℚ_p`-algebra homomorphisms `K → Ω` that agree on `I`
 are equal (`algHom_ext_of_eqOn_units`). Every ring homomorphism between finite extensions of `ℚ_p`
-is `ℚ_p`-linear and continuous (`algebraMap_comp_ringHom`): it is `ℚ`-linear, and `x ∈ ℤ_p`
-exactly when `1 + p x` has an `n`-th root for every `n` prime to `p`, a condition preserved by ring
-homomorphisms and forcing the image of `1 + p x` to be a unit; so it maps `ℤ_p` into `p⁻¹𝒪`, a
-bounded set, hence is continuous on `ℚ_p`, hence fixes it, and a `ℚ_p`-linear map of
-finite-dimensional spaces is continuous.
+is `ℚ_p`-linear and continuous (`algebraMap_comp_ringHom`). Let `f : K →+* K'`; it is injective
+and `ℚ`-linear. For `x ∈ ℤ_p` the unit `1 + p x` of `ℤ_p` has an `n`-th root in `ℚ_p` for every
+`n` prime to `p` (Hensel's lemma, `X^n − (1 + p x)` being separable modulo `p`), so
+`f(1 + p x) ∈ K'^×` has an `n`-th root in `K'` for every such `n`. Its valuation in the normalized
+valuation of `K'` is then divisible by every `n` prime to `p`, hence is `0`: `f(1 + p x)` is a unit
+of `𝒪_{K'}`, and `f(x) = p⁻¹(f(1 + p x) − 1) ∈ p⁻¹𝒪_{K'}`. So `f` maps `ℤ_p` into the bounded set
+`p⁻¹𝒪_{K'}`, and by `ℚ`-linearity `p^k ℤ_p` into `p^{k−1}𝒪_{K'}`: `f` is continuous on `ℚ_p`, so
+agrees there with `algebraMap ℚ_[p] K'`, both being continuous and equal on the dense `ℚ`. A
+`ℚ_p`-linear map of finite-dimensional spaces is continuous.
 
 **Checks.**
 
@@ -286,7 +297,7 @@ A continuous isomorphism `G_K^ab ≃ₜ* G_{K'}^ab`, no filtration, forces `p = 
 
 ### Examples
 
-Example 2 of Layer 3 shows that this is all that `G^ab` recovers without the filtration: there is a
+Example 1 of Layer 3 shows that this is all that `G^ab` recovers without the filtration: there is a
 continuous automorphism of `G_{ℚ_p}^ab` moving the image of inertia.
 
 ### Dependencies
@@ -381,7 +392,7 @@ itself this is Tau Ceti's `eq_subgroupOf_wildInertiaSubgroup_of_isProPSylow`.
 - For `K = ℚ_p`, `p` odd, `P(G) ≠ I(G)`: their quotient is the image of `μ_{p−1}`. For `K = ℚ_2`
   the image of inertia in `G^ab` is pro-`2`, but `I(G) ≠ P(G)` in `G_{ℚ_2}^{m+1}`, `m ≥ 1`, since
   tame inertia `∏_{ℓ ≠ 2} ℤ_ℓ(1)` survives in `G^{m+1}`.
-- At `m = 0` no construction from the topological group gives inertia: example 2 below.
+- At `m = 0` no construction from the topological group gives inertia: example 1 below.
 
 *Needs:* Layer 1; FilteredLocalGaloisGroups Layer 0; Tau Ceti `IsProPSylow`,
 `IsProPSylow.eq_of_normal`, `isProPSylow_wildInertiaSubgroup`,
@@ -487,8 +498,8 @@ filtration on `H` is the upper filtration of `G_L` (FilteredLocalGaloisGroups §
   depth-one group `ℤ_2^×` contains `−1 ∈ ker log`, and `2^{−1}·log(ℤ_2^×) = 2ℤ_2 ≠ ℤ_2`.
 - `K = ℚ_3(μ_3)`: `e = 2`, and at depth `2` `log(1 + 3𝒪_K) = 3𝒪_K`, scaled to `𝒪_K`. At depth `1`
   the logarithm is not injective, `μ_3 ⊆ U^(1)`: the depth is `ε e`, not `ε`.
-- `(ℂ_{k^m})_+(G_K^{m+1}) ≠ (k^m)_+(G_K^{m+1})` for `m ≥ 1`: `K^1 ⊇ K(μ_{p^∞})`, which is not
-  complete (PadicPeriodRings §1.2 Checks).
+- `(ℂ_{k^m})_+(G_K^{m+1}) ≠ (k^m)_+(G_K^{m+1})` for `m ≥ 1`: `K^m` is not complete, having
+  countably infinite dimension over `ℚ_p` (the argument of PadicPeriodRings §1.2 Checks).
 
 *Needs:* Layer 4; 0.4–0.5; FilteredLocalGaloisGroups Layer 1 and §2.2; PadicPeriodRings §1.2;
 Tau Ceti `deepUnitExpLogEquiv`.
@@ -612,9 +623,11 @@ inclusion.
 
 **Checks.**
 
-- For `K = E = ℚ_p` the character sends `Art(u)` to `u` on `ℤ_p^×` and `Art(p)` to `1`, so it is
-  `χ_cyc⁻¹`: the two agree on the dense image of `Art` (`denseRange_artinMap`,
-  `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_padic_uniformizer`).
+- For `K = E = ℚ_p` and the uniformizer `p`, the character sends `Art(u)` to `u` on `ℤ_p^×` and
+  `Art(p)` to `1`, so it is `χ_cyc⁻¹`: the two agree on the dense image of `Art` (`denseRange_artinMap`,
+  `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_padic_uniformizer`). For the uniformizer `ϖ = p v`,
+  `v ∈ ℤ_p^×`, it sends `Art(p) = Art(ϖ)·Art(v⁻¹)` to `v⁻¹`: it is `χ_cyc⁻¹` times an unramified
+  character.
 
 *Needs:* 7.1; 0.2–0.4; FilteredLocalGaloisGroups §3.1.
 
@@ -629,7 +642,8 @@ locally algebraic, and 6.2 leaves exactly one `τ` with `HT_τ = −1` and all o
 
 **Checks.**
 
-- The sign, computed on `K = E = ℚ_p`: the character of 7.2 is `ρ = χ_cyc⁻¹` (7.2 Check), so
+- The sign, computed on `K = E = ℚ_p`: the character of 7.2 for the uniformizer `p` is `ρ = χ_cyc⁻¹` (7.2 Check;
+  for another uniformizer it is an unramified twist, with the same Hodge–Tate numbers), so
   `ℂ_p ⊗ ρ(χ_cyc^{−i}) = ℂ_p(−1 − i)`, which has nonzero `G_{ℚ_p}`-invariants exactly for
   `i = −1` (`tateSen_H0`): `d^{−1}_{ℚ_p}(ρ) = 1` and `d^1_{ℚ_p}(ρ) = d^0_{ℚ_p}(ρ) = 0`, matching
   the criterion with `[E : K] = [K : ℚ_p] = 1`. The non-uniformizing `χ_cyc` has `d^1 = 1` and
@@ -703,8 +717,8 @@ an open subgroup of units of each `L`, by naturality of the transfer and `artinM
 `K ≃+* K'` to `Out_Filt(G_K, G_{K'}; S)`, is bijective for `S = (0, ∞)` and for `S = [0, ∞)`.
 Injective: as in 8.2, an automorphism of `K` inducing an inner automorphism of `G_K` acts trivially
 on `G_K^ab`, so is the identity. Surjective: a filtered `α` induces filtered `α_{m+3}` for every
-`m`; 8.3 gives `θ_{m+1}`, compatible in `m` by 8.2 (`m ≥ 1`), which glue to an automorphism `θ` of
-`AlgebraicClosure K = ⋃_m K^m` with `α = θ (·) θ⁻¹` on every `G_K^{m+1}`, hence on `G_K`
+`m`; 8.3 gives `θ_{m+1}`, compatible in `m` by 8.2 (`m ≥ 1`), which glue to an isomorphism
+`θ : AlgebraicClosure K = ⋃_m K^m → AlgebraicClosure K' = ⋃_m K'^m` with `α = θ (·) θ⁻¹` on every `G_K^{m+1}`, hence on `G_K`
 (prosolvability). So the class of `α` is the image of `θ|_K`, and every filtered isomorphism is
 itself, not only up to inner automorphisms, conjugation by a field isomorphism of the algebraic
 closures. That field isomorphism is unique: the quotient of two of them commutes with `G_K`, so
@@ -733,7 +747,8 @@ This roadmap owns:
 
 - the `p`-adic model of `G_K`, the continuous transfer `G^ab → H^ab` of an open subgroup, its
   reciprocity form, the comparison of the unit filtration with the upper filtration in `G_K^ab`,
-  the logarithm on principal units as a homomorphism, and the spanning lemma for open subgroups of
+  the kernel, image and `ℤ_p`-module structure of the logarithm on principal units (its product
+  law is ColemanIntegration L0.13), and the spanning lemma for open subgroups of
   units (Layer 0);
 - the reconstruction, stated as invariance under isomorphisms, of the numerical invariants, the
   cyclotomic character, inertia, the additive module `K^m`, the ring of integers and completion of
@@ -786,7 +801,7 @@ It does not own:
 
 [ClassFieldTheory](../ClassFieldTheory/README.md), implemented in Tau Ceti:
 `TauCeti.ClassFieldTheory.artinMap`, `artinMap_restrict`, `artinMap_norm`, `artinMap_congr`,
-`continuous_artinMap`, `denseRange_artinMap`, `unramifiedCoordinate_artinMap`,
+`continuous_artinMap`, `denseRange_artinMap`, `injective_artinMap` (Layer 8, under `CharZero K`), `unramifiedCoordinate_artinMap`,
 `map_artinMap_unitFiltration_zero`, `localCyclotomicCharacter_artinMap_padic`,
 `localCyclotomicCharacter_artinMap_padic_uniformizer`,
 `abelianizedLocalCyclotomicCharacter_artinMap_norm`, and the finite-level transfer square
@@ -795,8 +810,16 @@ It does not own:
 `cyclotomicCharacter_artinMap` (Layer 7, the unit normalization for every finite `ℚ_p`-algebra
 structure); **absolute unit-filtration reciprocity** `map_artinMap_unitFiltration_eq_upper`
 (Layer 7): for a nonarchimedean local field `K` and every integer `n ≥ 0`, the image of `U(K,n)`
-under `artinMap` is the image of `localAbsoluteUpperRamificationGroup K n` in `G_K^ab`;
-and `injective_artinMap` (Layer 8, characteristic `0`).
+under `artinMap` is the image of `localAbsoluteUpperRamificationGroup K n` in `G_K^ab`.
+
+### From ColemanIntegration
+
+[ColemanIntegration](../ColemanIntegration/README.md) L0.13, with L0.10 for the convergence it uses:
+for `K` complete, nontrivially normed, ultrametric and of characteristic zero (a finite extension of
+`ℚ_p` with the norm extending `|·|_p` is one), `log(1 + u) + log(1 + v) = log((1 + u)(1 + v))` for
+`‖u‖, ‖v‖ < 1`, so `u ↦ log u` is a continuous group homomorphism `1 + 𝓂_K → (K, +)` vanishing on
+the roots of unity in `1 + 𝓂_K`. A README target, with no declaration in its `Suggested.lean`; the
+kernel being exactly `μ_{p^∞}(K)` is not part of it.
 
 ### From PadicPeriodRings
 

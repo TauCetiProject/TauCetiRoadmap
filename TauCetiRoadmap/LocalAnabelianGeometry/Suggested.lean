@@ -50,8 +50,9 @@ variable {p : ℕ} [Fact p.Prime] {K : Type*} [Field K] [ValuativeRel K] [Topolo
 
 include hK
 
-/-- **The logarithm is a homomorphism on `U(K,1)`**, reduced to the deep case
-`log_mul_of_mem_unitFiltration` by a `p`-power. -/
+/-- **The logarithm is a homomorphism on `U(K,1)`**, on Tau Ceti's valuative carrier: an adapter
+to the product law of ColemanIntegration L0.13, which is stated for a normed field. It also follows
+from the deep case `log_mul_of_mem_unitFiltration` by a `p`-power. -/
 theorem log_mul_of_mem_unitFiltration_one {u w : Kˣ} (hu : u ∈ unitFiltration K 1)
     (hw : w ∈ unitFiltration K 1) :
     log ((u : K) * w) = log (u : K) + log (w : K) :=
@@ -111,6 +112,8 @@ theorem map_inertiaSubgroup (α : Field.absoluteGaloisGroup K ≃ₜ* Field.abso
     (inertiaSubgroup K).map α.toMulEquiv.toMonoidHom = inertiaSubgroup K' :=
   sorry
 
+/-- **Wild inertia is recovered from `G_K`**, as the unique Sylow pro-`p` subgroup of the
+recovered inertia, through the `m`-step form [Hyeon 2025, Lem. 4.1]. -/
 theorem map_wildInertiaSubgroup
     (α : Field.absoluteGaloisGroup K ≃ₜ* Field.absoluteGaloisGroup K') :
     (wildInertiaSubgroup K).map α.toMulEquiv.toMonoidHom = wildInertiaSubgroup K' :=
