@@ -44,8 +44,11 @@ on the Cartier index used to pull back; for a non-exceptional `E` (a prime divis
 divisor; one exists by ResolutionOfSingularitiesCharacteristicZero §§5.5–5.6 with §5.1: resolve `X`, then principalise the
 ideal of the exceptional locus together with the strict transform of `Supp Δ`, or by §7.7's total-transform form), then `(X, Δ)` is klt (resp. lc) iff every coefficient
 of `K_Y − f^*(K_X + Δ)` is `> −1` (resp. `≥ −1`), and `Nklt(X, Δ)` is the image of the union of the components with
-coefficient `≤ −1`, a closed subset; (c) a smooth `X` with `Δ = 0` is klt; klt and lc are invariant under étale
-morphisms and under extension of the base field.
+coefficient `≤ −1`, a closed subset; (c) a smooth `X` with `Δ = 0` is klt; if `g : X′ → X` is an étale morphism from a
+normal variety `X′` (so `K_{X′} + g^*Δ = g^*(K_X + Δ)`), then `Nklt(X′, g^*Δ) = g^{−1}Nklt(X, Δ)`, and `(X′, g^*Δ)` is klt
+(resp. lc) iff the restriction of `(X, Δ)` to the open set `g(X′)` is; for a field extension `k′/k`, `X_{k′}` is normal,
+and for each connected component `X′` of `X_{k′}` (a normal variety over `k′`) and the pullback `Δ′` of `Δ` to it,
+`(X′, Δ′)` is klt (resp. lc) iff `(X, Δ)` is.
 The form of the definitions that the family uses is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
 (`GlobalTheory.Discrepancy.discrep`, `GlobalTheory.Discrepancy.KltAt`, `GlobalTheory.Discrepancy.LcAt`). There
@@ -69,9 +72,12 @@ Cartier-to-Weil map of the normal `X` is injective (AlgebraicModuliForArithmetic
 `f` is an isomorphism over the generic point of every prime divisor of `X`, where `O_X` is a discrete valuation ring, which
 gives `f_*f^*D = D`. Two models are dominated by a third, where the discrepancy of the strict transform of `E` is the same
 coefficient. (b) Define `Δ_Y` by `K_Y + Δ_Y = f^*(K_X + Δ)`; then `a(E; X, Δ) = a(E; Y, Δ_Y)` for every divisor
-`E` over `Y`, and for a smooth `Y` with a simple normal crossings `Δ_Y` of coefficients `≤ 1` (resp. `< 1`) every
-divisor over `Y` has discrepancy `≥ −1` (resp. `> −1`), by induction on blow-ups of strata (Kollár–Mori 2.31). (c) On smooth
-`X` the pullback of a local generator of `ω_X` vanishes along every exceptional divisor.
+`E` over `Y` (Kollár 1997, Lemma 3.10, p. 18), and for a smooth `Y` with a simple normal crossings `Δ_Y` of coefficients
+`≤ 1` (resp. `< 1`) every divisor over `Y` has discrepancy `≥ −1` (resp. `> −1`), by a computation in local coordinates in
+which the components of `Δ_Y` are coordinate hyperplanes (Kollár 1997, Lemma 3.11 and Corollary 3.12, pp. 18–19). (c) On
+smooth `X` the pullback of a local generator of `ω_X` vanishes along every exceptional divisor. An étale `g`, and the
+extension of the base field, carry a log resolution of `(X, Δ)` to log resolutions (of `(X′, g^*Δ)`, of each component
+`(X′, Δ′)`) whose divisors have the coefficients of the divisors they lie over, and (b) applies.
 
 *Needs:* ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7; AlgebraicModuliForArithmeticGeometryPartII §0.7
 (`ℚ`-Cartier Weil divisors, injectivity of the Cartier-to-Weil map on normal schemes); SchemeAndStackFoundations §3.4
@@ -140,8 +146,8 @@ The form that the family uses is [FormalProof],
 
 *Route.* On a log resolution `f`, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with `A = f^*(L − K_X − Δ)` nef and big
 and with simple normal crossings fractional part; `algebraicAdjointVanishing` (AlgebraicModuliForArithmeticGeometry §9.10) gives `H^i(Y, K_Y + ⌈A⌉) = 0`; local
-vanishing and the projection formula identify it with `H^i(X, O_X(L) ⊗ J(X, Δ))` by Leray (Lazarsfeld 9.4.17,
-Kollár–Mori 2.70).
+vanishing and the projection formula identify it with `H^i(X, O_X(L) ⊗ J(X, Δ))` by Leray (Lazarsfeld 9.4.17;
+Kollár 1997, Theorem 2.16 and its proof, p. 13, where `J` is this push-forward).
 
 *Needs:* 9.10b; AlgebraicModuliForArithmeticGeometry §9.10 (`algebraicAdjointVanishing`).
 
@@ -189,14 +195,14 @@ intersections, positivity for ample sheaves); DynamicalDegreesOfRationalMaps §2
 
 ### 9.12 Isolated non-klt centres
 
-Let `(X, Δ)` be a projective klt pair with `Δ` effective, `N` a nef `ℚ`-Cartier divisor, `x ∈ X` a closed point, and
-`c_1, …, c_n > 0` rationals with `Σ_{d=1}^{n} d/c_d ≤ 1` such that `(N^d · Z) > c_d^d` for every subvariety `Z ∋ x` of
+Let `(X, Δ)` be a projective klt pair of dimension `n ≥ 1` with `Δ` effective, `N` a nef `ℚ`-Cartier divisor, `x ∈ X` a
+closed point, and `c_1, …, c_n > 0` rationals with `Σ_{d=1}^{n} d/c_d ≤ 1` such that `(N^d · Z) > c_d^d` for every subvariety `Z ∋ x` of
 dimension `d`. Then there is an effective `ℚ`-Cartier divisor `D` numerically equivalent to `λN` for some `0 < λ < 1` such that
 `(X, Δ + D)` is lc in a neighbourhood of `x`, klt on a punctured neighbourhood of `x`, and not klt at `x`. By 9.10b the last two conditions say that `x` is an isolated point of the cosupport of `J(X, Δ + D)`;
 the first (lc near `x`) is a separate conclusion, not expressed by the multiplier ideal. Moreover `D` may be taken
 numerically equivalent to `N` itself (Kollár 1997, Theorem 6.4, p. 35; the form with `λ < 1` is that theorem for `(1 − ε)N`,
-as in the proof of Kollár 1997, Theorem 5.8). The form of this last statement that the family uses, with real `c_d`, `N`
-nef and big and `n ≥ 1`, is [FormalProof],
+as in the proof of Kollár 1997, Theorem 5.8). The form of this last statement that the family uses, with real `c_d` and `N`
+nef and big, is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
 (`GlobalTheory.Published.IsolatedNonKltDivisor`), proved in
 `Development/WeilBound/CoreStatements/AutomorphicKernels/NadelVanishing/TopIsolated.lean`
@@ -297,7 +303,7 @@ bundle and `m > ½n(n + 1)`:
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/EffectiveGenerationCanonicalNefNumberField.lean`
 (`GlobalTheory.EffGen.core_gen`).
 
-*Route.* 9.12 (after replacing each `c_d` by a slightly larger rational, possible because the values `(N^d · Z)` lie in
+*Route.* For `n = 0`, `X` is a point and `M ≅ O_X`. For `n ≥ 1`, 9.12 (after replacing each `c_d` by a slightly larger rational, possible because the values `(N^d · Z)` lie in
 `r^{−d}ℤ` for `rN` Cartier) gives `D ≡ λN`, `λ < 1`, with `x` isolated in the cosupport of `J(X, Δ + D)`; 9.10c for
 `M − (K_X + Δ + D) ≡ (1 − λ)N` nef and big (big because `(N^n · X) > 0`) gives `H¹(X, M ⊗ J(X, Δ + D)) = 0`, so sections
 of `M` surject onto the skyscraper summand at `x`.
@@ -318,8 +324,9 @@ of `M` surject onto the skyscraper summand at `x`.
 
 Let `X` be a smooth projective variety, `L` an ample line bundle, and `x_1, …, x_ℓ ∈ X` distinct closed points. If
 `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every subvariety `Z` of dimension `d ≥ 1`, then the restriction
-`H⁰(X, K_X + L) → ⊕_i (K_X + L) ⊗ k(x_i)` is surjective (the published origin is Angehrn and Siu 1995; see also
-Kollár 1997). Each `k(x_i)` is `k`, so the conclusion says that for
+`H⁰(X, K_X + L) → ⊕_i (K_X + L) ⊗ k(x_i)` is surjective (Angehrn and Siu 1995, Theorem 0.3, p. 291, over `ℂ`, with the
+hypothesis `(L^d · Z)^{1/d} ≥ ½n(n + 2ℓ − 1) + κ` for one `κ > 0`, which is the same condition because the numbers
+`(L^d · Z)` are integers; for `ℓ ≤ 2` also Kollár 1997, Theorems 5.8 and 5.9, as in 5.10). Each `k(x_i)` is `k`, so the conclusion says that for
 every `i` some section of `K_X + L` is nonzero at `x_i` and vanishes at the other points: this is
 `adjoint_separates_points`, with `O_X(K_X) = det Ω_{X/k}` (`canonicalBundle`) and `(L^d · Z)` computed by
 `selfIntersection` (Conventions).
@@ -345,8 +352,8 @@ passes from `X_{k₁}` to `X_ℂ`: a subvariety `Z′ ⊆ X_ℂ` of dimension `d
 `𝒵 ⊆ X_{k₁} × Spec A` for a finitely generated `k₁`-algebra `A ⊆ ℂ`, flat over `Spec A` after inverting an element of `A`;
 the fibre `𝒵_t` at a `k₁`-point `t` has the Hilbert polynomial of `Z′`, so it has dimension `d` and
 `(L^d · 𝒵_t) = (L^d · Z′)`, and `(L^d · 𝒵_t) = Σ_i m_i (L^d · Z_i)` with `m_i ≥ 1` over the components `Z_i` of
-dimension `d` (Stacks, Lemma 33.45.6 (0BES)), each term `> (½n(n + 2ℓ − 1))^d`. *Over `ℂ`*, Angehrn–Siu, by induction
-on `ℓ`. The concentration of multiplicity of 9.12, carried out
+dimension `d` (Stacks, Lemma 33.45.6 (0BES)), each term `> (½n(n + 2ℓ − 1))^d`. *Over `ℂ`*, for `n = 0`, `X` is a point, `ℓ ≤ 1` and `K_X + L ≅ O_X`. For `n ≥ 1`,
+Angehrn–Siu, by induction on `ℓ`. The concentration of multiplicity of 9.12, carried out
 at the `ℓ` points simultaneously (the constant `½n(n + 2ℓ − 1)` pays for the `ℓ` points in the first step), gives a
 `ℚ`-divisor `D ≡ λL`, `λ < 1`, whose non-klt locus contains all the `x_i` and has at least one of them, say `x_1`, as an
 isolated point. 9.10c for the Cartier divisor `K_X + L` and `Δ = D`, with
@@ -554,11 +561,10 @@ Layer 5: Chow groups, proper pushforward and degrees of zero-cycles (§5.2), the
 
 ## References
 
-- J. Kollár and S. Mori, *Birational Geometry of Algebraic Varieties*, Cambridge Tracts in Mathematics 134, Cambridge University Press, 1998, §2.3: discrepancies, klt and lc pairs (9.10a, 9.10b, 9.10c).
 - R. Lazarsfeld, *Positivity in Algebraic Geometry II*, Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 49, Springer, 2004, Chapter 9: multiplier ideals of pairs, local vanishing and Nadel vanishing (9.10a, 9.10b, 9.10c).
-- U. Angehrn and Y.-T. Siu, *Effective freeness and point separation for adjoint bundles*, Invent. Math. 122 (1995), 291–308: 9.12–9.12c.
-- J. Kollár, *Singularities of pairs*, Proc. Sympos. Pure Math. 62 (1997), arXiv:alg-geom/9601026 (numbers and pages as in the arXiv version), §§5–6 (Theorems 5.8, 5.9, 6.4, 6.5 and Steps 6.6–6.10): 9.12–9.12c.
+- U. Angehrn and Y.-T. Siu, *Effective freeness and point separation for adjoint bundles*, Invent. Math. 122 (1995), 291–308, Theorem 0.3 (p. 291): 9.12c, and the method of 9.12–9.12b.
+- J. Kollár, *Singularities of pairs*, Proc. Sympos. Pure Math. 62 (1997), arXiv:alg-geom/9601026 (numbers and pages as in the arXiv version), Theorem 2.16 (9.10c), Lemmas 3.10–3.11 and Corollary 3.12 (9.10a), and §§5–6 (Theorems 5.8, 5.9, 6.4, 6.5 and Steps 6.6–6.10): 9.12–9.12c.
 - H. Esnault and E. Viehweg, *Lectures on Vanishing Theorems*, DMV Seminar, Birkhäuser, 1992 (the authors' web edition, p. 44), Properties 5.4 d): Kodaira's lemma (9.10d).
 - The Stacks Project, Divisors, Definition 31.14.12 (01WV) and Lemma 31.14.13 (02OO): pullback of effective Cartier divisors (9.10a); Varieties, Definition 33.45.3 (0BEP), Lemma 33.45.6 (0BES) and Proposition 33.45.13 (0BJ8): numerical intersections, their additivity over the components of top dimension, and asymptotic Riemann–Roch (Conventions, 9.10d, 9.12c).
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 9.10a–9.10c (for projective `X`), 9.12, 9.12a, 9.12b (for smooth `X` and `Δ = 0`), 9.13 and 9.13a (over number fields) and 9.13b that the family uses, each recorded at its target.
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 9.10a–9.10c (for projective `X`), 9.12, 9.12a, 9.12b (for smooth `X` and `Δ = 0`), 9.12c (for two points over `ℂ`, with a section vanishing at exactly one of them), 9.13 and 9.13a (over number fields) and 9.13b that the family uses, each recorded at its target.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
