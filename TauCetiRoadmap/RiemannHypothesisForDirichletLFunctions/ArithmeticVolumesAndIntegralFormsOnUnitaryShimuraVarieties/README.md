@@ -95,6 +95,11 @@ lattice of integral cusp forms of weight `λ` with the Petersson metric of the c
 `ht` are those of the conventions (`μ = 2μ̂`). For a component `Z` of `Sh` (geometrically connected, defined over a finite
 extension of `F′`) the same objects restricted to `Z` carry the subscript `Z`.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 8: CM periods, arithmetic volumes and lattices of integral forms
 
 This layer bounds the slopes of the lattices of integral cusp forms on the unitary Shimura varieties of the spaces `W_j` and supplies the CM values that enter the slope test of the chain. The CM period `Ω` of the Conventions is the class mean of the Chowla–Selberg periods (8.5) and the arithmetic degree of the flat line (8.11), whose twists move slopes by an explicit amount (8.12); the definite step is computed at CM points (8.13), and a change of weight by a short section of a power of the Hodge line passes between weights at a controlled loss (8.14). The flag bundles of the Shimura varieties carry models with mixed integral structure (8.14a–8.15), on which arithmetic proportionality holds up to two constants (8.15b–8.16); this gives the average arithmetic volume theorem (8.17). On deep covers the cusp forms are spanned by short theta series (8.17a), the heights of the images of the flag bundles bound the volumes (8.18), and an explicit arithmetic Hilbert–Samuel inequality over the coordinate bundle gives a uniform lower bound for slopes (8.18a–8.18f); descent to the base level gives the slope of the step lattices (8.19). Theta series generate the integral forms uniformly on subspaces (8.19a–8.19a‴). Finally 8.19b–8.19d bound the denominators of CM values at every prime and give the Galois equivariance of toric ratios and Hecke's formula for toric sums with its Euler-factor relation.
