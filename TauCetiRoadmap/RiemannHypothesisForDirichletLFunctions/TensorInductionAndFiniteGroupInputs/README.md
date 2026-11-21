@@ -101,8 +101,8 @@ addition, proved by the route below.
 
 In `Suggested.lean`, (b) and (c) are `exists_rootOfUnity_mul_extension_eq_on_coset`; (b′) is part of that declaration.
 
-*Route.* (a) Clifford theory (InductionRestriction Layer 5) with `H` normal and `Ĝ/H` cyclic of prime order: the inertia group of an irreducible
-`χ′` is `H` or `Ĝ`; in the first case `Ind_H^Ĝ χ′` is irreducible (InductionRestriction Layer 4's criterion) and vanishes off `H`. In the second, let
+*Route.* (a) Clifford theory (InductionRestriction Layer 5, *The Clifford correspondence*) with `H` normal and `Ĝ/H` cyclic of prime order: the inertia group of an irreducible
+`χ′` is `H` or `Ĝ`; in the first case `Ind_H^Ĝ χ′` is irreducible (InductionRestriction Layer 4, *Representative and normal-subgroup forms*) and vanishes off `H`. In the second, let
 `(V, ρ)` afford `χ′`; as `ρ∘F ≅ ρ` there is `A ∈ GL(V)` with `Aρ(h)A⁻¹ = ρ(F(h))` for all `h ∈ H`. Then `ρ(x^l)⁻¹A^l` commutes with
 `ρ(H)` (both `A^l` and `ρ(x^l)` implement `h ↦ x^lhx^{−l}`), so it is a scalar `c` (Schur's lemma); replacing `A` by `c^{−1/l}A`
 (any `l`-th root) gives `A^l = ρ(x^l)`, and `ρ̃(hx^j) = ρ(h)A^j` (`0 ≤ j < l`) is a representation of `Ĝ` extending `ρ` (the products
@@ -132,10 +132,16 @@ Mathlib `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`). (c)
 - For `l = 2` the roots of unity of `ℚ(ζ) = ℚ` are `±1`; for odd `l` they are the `±ζ^j`.
 - (a) without a splitting: `Ĝ = ℤ/4`, `H = 2ℤ/4`, `x = 1`, `χ′` the nontrivial character of `H`. With `A = 1`,
   `ρ(x²)⁻¹A² = −1 = c`, and `A = c^{−1/2}·1 = ±i` gives the two extensions `x ↦ ±i`, although `Ĝ → Ĝ/H` does not split.
+- The existence of the extension in (a) is the case `Ĝ/H ≅ ℤ/l` of the scalar Clifford obstruction of InductionRestriction
+  Layer 7 (*Layer7.ScalarObstruction*), whose class lies in `H²(ℤ/l, ℂˣ) = 0` (`ℂˣ` is divisible); the route of (a) makes
+  this vanishing explicit.
+- For `l = 2` the count of extensions in (a) agrees with the Asai representation of ArithmeticGaloisRepresentations §7.1:
+  for `K/F` quadratic and `ρ ⊗ ρ^σ` absolutely irreducible, the extensions from `G_K` to `G_F` form the two classes `As(ρ)`
+  and `As(ρ) ⊗ η_{K/F}` (coefficients of characteristic not `2`).
 
 *Needs:* InductionRestriction Layers 0, 2, 4, 5 (the projection formula; Frobenius reciprocity; the Mackey irreducibility criterion; Clifford
 theory over a normal subgroup); the virtual-character lattice of InductionRestriction Layer 6; the orthogonality relations of the irreducible
-characters (Mathlib's `FDRep.char_orthonormal`); Mathlib's Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
+characters (CharacterTheory §0.2, the Hermitian form of Mathlib's `FDRep.char_orthonormal`); Mathlib's Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
 
 ### Examples
 
@@ -144,7 +150,7 @@ characters (Mathlib's `FDRep.char_orthonormal`); Mathlib's Schur lemma, `IsPrimi
 
 ### Dependencies
 
-InductionRestriction Layers 0, 2, 4, 5 and 6 (the projection formula; induced characters and Frobenius reciprocity; the Mackey irreducibility criterion; Clifford theory over a normal subgroup; the virtual-character lattice); ArithmeticGaloisRepresentations §7.1 (the trace formula for tensor induction); Tau Ceti's `Subgroup.tensorInducedRepresentation`; Mathlib's orthogonality relations `FDRep.char_orthonormal`, Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
+InductionRestriction Layers 0, 2, 4, 5 and 6 (the projection formula; induced characters and Frobenius reciprocity; the Mackey irreducibility criterion; Clifford theory over a normal subgroup; the virtual-character lattice); ArithmeticGaloisRepresentations §7.1 (the trace formula for tensor induction); Tau Ceti's `Subgroup.tensorInducedRepresentation`; CharacterTheory §0.2 (the orthogonality relations in the Hermitian form); Mathlib's orthogonality relations `FDRep.char_orthonormal`, Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
 
 ## Layer 7: Polynomial duality for pairs of general linear groups
 
@@ -156,7 +162,7 @@ Let `n, m ≥ 1`, and let
 `GL_n(ℂ) × GL_m(ℂ)` act on the polynomial functions `ℂ[M_{n×m}]` by `((g, h) · P)(X) = P(ᵗg X h)`. Then for
 every `d ≥ 0` the homogeneous part of degree `d` decomposes as
 `ℂ[M_{n×m}]_d ≅ ⊕_{λ ⊢ d, ℓ(λ) ≤ min(n, m)} S^λ(ℂⁿ) ⊗ S^λ(ℂ^m)`,
-with `S^λ` the Schur functor (SchurWeyl §8.2, ClassicalGroups Layer 2): each summand is irreducible for
+with `S^λ` the Schur functor (SchurWeyl §8.2, ClassicalGroups §2.2): each summand is irreducible for
 `GL_n(ℂ) × GL_m(ℂ)`, the summands are pairwise non-isomorphic, more precisely, the representations `S^λ(ℂⁿ)`,
 `ℓ(λ) ≤ min(n, m)`, of `GL_n(ℂ)` are irreducible and pairwise non-isomorphic, and so are the `S^λ(ℂ^m)` for `GL_m(ℂ)`,
 so that `λ` sets up a bijection between the representations of the two groups that occur; and the decomposition, the
@@ -178,7 +184,7 @@ polynomial in the entries of `g` and `h`, and a polynomial function of `(g, h)` 
 
 (R. Howe, *Remarks on classical invariant theory*, Trans. Amer. Math. Soc. 313 (1989), and
 *Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1.) *Needs:* SchurWeyl §§8.1–8.3,
-Layer 6; ClassicalGroups Layers 2–3; Tau Ceti `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`
+Layer 6; ClassicalGroups §§2.2, 2.3, 3.1 and 3.3; Tau Ceti `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`
 (the Zariski density of the unitary group).
 
 **Checks.**
@@ -194,7 +200,7 @@ Layer 6; ClassicalGroups Layers 2–3; Tau Ceti `TauCeti.Matrix.GeneralLinearGro
 
 ### Dependencies
 
-SchurWeyl §§8.1–8.3 and Layer 6; ClassicalGroups Layers 2–3; Tau Ceti's Zariski density of the unitary group, `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`.
+SchurWeyl §§8.1–8.3 and Layer 6; ClassicalGroups §§2.2, 2.3, 3.1 and 3.3; Tau Ceti's Zariski density of the unitary group, `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`.
 
 ## Layer 9: Quantum minors and the Capelli generators
 
@@ -301,6 +307,9 @@ in (i), or (j).
 
 - `n = 2`: `qdet(u) = (u + E_{11})(u − 1 + E_{22}) − E_{21}E_{12}`. Centrality against `E_{12}`: both `[(u + E_{11})(u − 1 + E_{22}), E_{12}]` and
   `[E_{21}E_{12}, E_{12}]` equal `E_{12}E_{22} − E_{12}E_{11} − 2E_{12}`. On a highest weight vector, `qdet(u)v = (u + ν₁)(u − 1 + ν₂)v`.
+- ClassicalGroups §6.6 has the eigenvalue of (c) on the rational Weyl module `V_λ`: `A_n(u)` acts by `∏_k(u + λ_k − k + 1)` (for
+  `λ = (2, 1)`, `u(u + 2)`); this is the case `ν = λ` of (c), which holds for every vector with `E_{aa}v = ν_av` and
+  `E_{ab}v = 0` for `a < b`.
 - `n = 2`, (d) with `i = l = 1`: `(u + E_{22})(u − 1 + E_{11}) − E_{12}E_{21} = qdet(u)`, the difference being
   `(E_{11} − E_{22}) − [E_{12}, E_{21}] = 0`; with `i = 1`, `l = 2`: `(u + E_{22})E_{12} − E_{12}(u − 1 + E_{22}) = [E_{22}, E_{12}] + E_{12} = 0`.
 - `n = 2`, (e) with `(i, q, j, p) = (1, 2, 1, 2)`: `(u + 1 + E_{22})(u + E_{11}) − E_{12}E_{21} = qdet(u + 1)`, by the same computation.
@@ -343,11 +352,15 @@ Layer 0: the projection formula (6.2 (a)). Layer 2: induction from a subgroup of
 
 ### From TauCetiRoadmap.ClassicalGroups
 
-Layer 2: the Schur functor `S^λ V`, the image of the Young symmetrizer of shape `λ` on `V^{⊗d}`, and the decomposition of `V^{⊗d}`. Layer 3: the maximal torus, weights and the highest-weight classification (7.1). §6.6: the column-ordered determinant `A_k(u)` in `U(𝔤𝔩_k)[u]` and the Capelli generators, its coefficients, with their centrality in `U(𝔤𝔩_k)`; `qdet(u)` of 9.1 is the image of `A_n(u)` (9.1 (c)).
+§2.2: the Schur functor `S^λ V`, the image of the Young symmetrizer of shape `λ` on `V^{⊗d}`; §2.3: the decomposition of `V^{⊗d}`. §§3.1, 3.3: the maximal torus, weights and the highest-weight classification (7.1). §6.6: the column-ordered determinant `A_k(u)` in `U(𝔤𝔩_k)[u]` and the Capelli generators, its coefficients, with their centrality in `U(𝔤𝔩_k)`; `qdet(u)` of 9.1 is the image of `A_n(u)` (9.1 (c)).
 
 ### From TauCetiRoadmap.ArithmeticGaloisRepresentations
 
 §7.1: the trace formula for tensor induction. For an open subgroup `H` of finite index of a profinite group `Γ`, a transversal `t` and a representation `ρ` of `H` on a free module of finite rank, the trace of the tensor-induced representation (Tau Ceti's `Subgroup.tensorInducedRepresentation`) at `g` is the product, over the cycles of `g` on `Γ/H`, of `tr ρ(t_i⁻¹g^kt_i)`, `t_i` the representative of a coset of the cycle and `k` its length. It is used for a finite group with the discrete topology and complex coefficients (6.1 (a)).
+
+### From TauCetiRoadmap.CharacterTheory
+
+§0.2: the pairing of class functions, in which `FDRep.char_orthonormal` reads `⟨χ_i, χ_j⟩ = δ_{ij}` on the irreducible characters, and over `ℂ` its Hermitian form `|G|⁻¹ Σ_g f₁(g)·conj(f₂(g))` on virtual characters (6.2 (a)).
 
 ### From Mathlib
 
