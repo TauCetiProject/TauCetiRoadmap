@@ -515,9 +515,10 @@ It is count-scaled: it lies between `0` and `n²`. The normalized analytic cut n
 For every finite graph `G` and every `ε > 0` there is a partition `P` of `V` into at most
 `4^⌈1/ε²⌉` parts such that, for all sets `A` and `B` of vertices,
 `|e(A, B) − steppedCount G P A B| ≤ ε |V|²` (Frieze–Kannan, *Quick approximation to matrices and
-applications*). Equivalently, the cut discrepancy of `P` is at most `ε |V|²`. In the refining form,
-every partition `P₀` is refined by a partition with at most `4^⌈1/ε²⌉ · #P₀` parts and cut
-discrepancy at most `ε |V|²`. The layer has no graphon import and no analytic prerequisite.
+applications*; Zhao, Theorem 4.6.3). Equivalently, the cut discrepancy of `P` is at most
+`ε |V|²`. In the refining form, every partition `P₀` is refined by a partition with at most
+`4^⌈1/ε²⌉ · #P₀` parts and cut discrepancy at most `ε |V|²`. The layer has no graphon import and no
+analytic prerequisite.
 
 *Route.* If the cut discrepancy of `P` exceeds `ε |V|²`, cutting the parts of `P` along a
 witnessing rectangle gives a refinement with at most four times as many parts and energy more than
@@ -592,10 +593,11 @@ is a pair of partitions `Q ≤ P` with: `P` and `Q` equipartitions; `P` `ε`-uni
 started from `nestedRefinementBound ε (max l₀ ⌈2 l₀ / ε⌉)`; it is at least `l₀` and does not depend
 on the graph.
 
-Strong graph regularity (Tao, *Szemerédi's regularity lemma revisited*; Zhao, ch. 2): let `ε > 0`,
-let `F` be positive, let `P₀` be an equipartition of the vertices of a finite graph `G`, and let
-`l ≤ |V|`. Then there is a strong regularity witness `(P, Q)` at `(ε, F, max l #P₀)` whose coarse
-partition `P` almost refines `P₀` up to `ε` and has at least `l` parts.
+Strong graph regularity (Tao, *Szemerédi's regularity lemma revisited*, Theorem 2.11, in a
+probabilistic form; Zhao, Theorem 2.8.3 and Remark 2.8.6): let `ε > 0`, let `F` be positive, let
+`P₀` be an equipartition of the vertices of a finite graph `G`, and let `l ≤ |V|`. Then there is a
+strong regularity witness `(P, Q)` at `(ε, F, max l #P₀)` whose coarse partition `P` almost refines
+`P₀` up to `ε` and has at least `l` parts.
 
 *Route.* Start from the second statement of §4.1 with at least `l` parts, refine exactly at `min(ε, F(#P))` by §4.1, and
 replace the coarse partition by the fine one while the energy gap exceeds `ε`. The energy lies in
@@ -969,10 +971,11 @@ lower skeleton, whose three pair graphs lie in those of `P`.
 
 - The worked example below computes the threshold `δ ≥ 1/2` of `(δ, 1)`-top regularity over one
   polyad.
-- A cell `A` with `2 ≤ |A|` and `ε |A| ≤ 1`, paired with itself: the box `{u} × {u}` passes the size
-  thresholds of pair regularity but has no distinct pair, so pair regularity on `(A, A)` fails as
-  soon as some color has positive density on `(A, A)`; vertex-box regularity, which measures boxes
-  by their distinct pairs, does not test this box.
+- A cell `A` with `2 ≤ |A|` and `0 < ε |A| ≤ 1`, paired with itself: the box `{u} × {u}` passes the
+  size thresholds of pair regularity but has no distinct pair, so pair regularity on `(A, A)` fails
+  as soon as some color has density greater than `ε` on `(A, A)`, for instance when there is a
+  single pair color; vertex-box regularity, which measures boxes by their distinct pairs, does not
+  test this box.
 
 ### Dependencies
 
@@ -1273,10 +1276,10 @@ vertices and an error `ε`:
   per-route budget of Convention 8.
 
 The first, second and fourth are positive for `ε > 0`; the third is positive for `ε > 0` and
-`k ≥ 2`, and is `0` for `k ≤ 1`. The schedule is antitone in `n`. Their charges: for `ε ≥ 0`,
-`k³ · inducedCountingParameter3 k ε ≤ ε/6`; `m^(k choose 2) · routeBudget3 C k ε ≤ ε`, so the
-per-route budgets times the cell-size products, summed over all placements and routes, are at most
-`ε |V|^k`; and at every `n ≥ m`, `(k choose j) · inducedCountingSchedule3 k ε n` is at most
+`k ≥ 2`, and is `0` for `k ≤ 1`. For `ε ≥ 0` the schedule is antitone in `n`. Their charges: for
+`ε ≥ 0`, `k³ · inducedCountingParameter3 k ε ≤ ε/6`; `m^(k choose 2) · routeBudget3 C k ε ≤ ε`, so
+the per-route budgets times the cell-size products, summed over all placements and routes, are at
+most `ε |V|^k`; and at every `n ≥ m`, `(k choose j) · inducedCountingSchedule3 k ε n` is at most
 `routeBudget3 C k (ε/12)` for `1 ≤ j ≤ 3`, while
 `m^(k choose 2) · (k choose 2) · inducedCountingSchedule3 k ε n ≤ ε/12`, the slack of the predicted
 lower routes. These calibrations hold for every complex, with no hypothesis on a regularity bound.
@@ -1636,12 +1639,18 @@ layers above. Besides them, the roadmap consumes:
 ## References
 
 - E. Szemerédi, *Regular partitions of graphs* (1978).
-- A. Frieze, R. Kannan, *Quick approximation to matrices and applications*, Combinatorica 19 (1999).
+- A. Frieze, R. Kannan, *Quick approximation to matrices and applications*, Combinatorica 19 (1999),
+  175–220: the weak regularity lemma of §3.2, in the form of Zhao, Theorem 4.6.3.
 - L. Lovász, B. Szegedy, *Szemerédi's Lemma for the Analyst*, GAFA 17 (2007).
-- T. Tao, *Szemerédi's regularity lemma revisited*, Contrib. Discrete Math. 1 (2006): the
-  strong-regularity (energy-gap stopping) iteration of §4.2.
+- T. Tao, *Szemerédi's regularity lemma revisited*, Contrib. Discrete Math. 1 (2006)
+  ([arXiv:math/0504472v2](https://arxiv.org/abs/math/0504472v2)): Theorem 2.11 (p. 8), a
+  probabilistic form of strong regularity with a growth function, and its proof in §3, the
+  energy-gap stopping iteration of §4.2.
 - Y. Zhao, *Graph Theory and Additive Combinatorics* (2023), ch. 2: graph regularity, counting, and
-  the strong-regularity exposition.
+  the strong-regularity exposition; Theorem 2.8.3 (strong regularity, with Remark 2.8.6 for
+  equitable parts) for §4.2 and Theorem 4.6.3 (weak regularity of graphs) for §3.2. The numbers are
+  those of the author's version posted on the book's web page, whose pagination differs from the
+  printed book.
 - V. Rödl, M. Schacht, *Regular Partitions of Hypergraphs: Regularity Lemmas*, Combin. Probab.
   Comput. 16(6) (2007), 833–885 (Definition 15 for Convention 9; Theorems 14 and 17 and Lemma 25
   for §8.1–§8.2). The companion *Regular Partitions of Hypergraphs: Counting Lemmas* is ibid.,
