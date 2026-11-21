@@ -47,8 +47,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   adelic heights of vectors and subspaces for an adelic presentation, with their duality and
   behaviour under extension, and successive minima over number fields for balanced bodies.
 - [**Orbit measures on adelic groups**](OrbitMeasuresOnAdelicGroups/README.md):
-  Tamagawa measures, Siegel sets and orbit measures on adelic groups, and centralisers of semisimple
-  elements.
+  measures of top forms on smooth varieties over local fields and orbit measures on homogeneous
+  spaces, Tamagawa numbers of `G_m`, of groups with a unipotent radical and of quotients by central
+  induced tori, and centralisers of semisimple elements.
 - [**Hodge–Tate lattices and Lubin–Tate logarithms**](HodgeTateLatticesAndLubinTateLogarithms/README.md):
   Hodge–Tate lattices and flag sequences with explicit cokernel bounds, and logarithms of Lubin–Tate
   formal group laws with sharp radii.

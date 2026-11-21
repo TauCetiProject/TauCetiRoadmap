@@ -96,7 +96,9 @@ an algebraically closed field `k`, with coordinate Hopf algebra `H`, whose deriv
 connected, and let `s ∈ G(k)` be semisimple. Then the centraliser `C_G(s)` is connected. Here the
 derived group is the scheme-theoretic derived subgroup, which is semisimple, and `C_G(s)` is the
 closed subgroup of `G` cut out by the functions vanishing at every element of `G(k)` that commutes
-with `s` (Steinberg, *Endomorphisms of linear algebraic groups*, Theorem 8.1). -/
+with `s`. Writing `s = zs′` with `z` in the connected centre `Z°` and `s′` in the derived group,
+`C_G(s) = Z°·C_{G^der}(s′)`, and `C_{G^der}(s′)` is connected by Steinberg's theorem for simply
+connected semisimple groups (Steinberg, *Endomorphisms of linear algebraic groups*, Theorem 8.1). -/
 theorem geometricallyConnected_centralizer_of_simplyConnected {k : Type u} [Field k]
     [IsAlgClosed k] (H : FiniteTypeCommHopfAlgCat.{u, u} k)
     (hH : reductiveCommHopfAlgProperty k H)
