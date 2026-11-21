@@ -16,15 +16,15 @@ as in 0.2 and 0.4 (e). The Riesz remainder `G_κ` is that of the Conventions, wi
 `DirichletCharacter.LFunction` and `Real.eulerMascheroniConstant`.
 
 * The difference of the Frobenius-restricted Riesz sum and its main term is the character
-  average (1.2): `frobRieszSum_sub_main`.
-* The averaged Frobenius-restricted inequality on a cyclic host at the scale `x` and the
-  square-root bound for the weighted family sum at `x` are equivalent up to factors `x^{O(ε)}`
-  (1.9, 1.10): `frobeniusInequality_iff_cyclicBound` (both directions, with one threshold `x₁`
-  chosen before the host, the tops, the thick set, the weights and the constant `C`) and
-  `frobeniusInequality_of_cyclicBound` (the consequence stated in 1.10). The cyclic host is the
+  average on a host with split ramification (1.2): `frobRieszSum_sub_main`.
+* The Frobenius-restricted inequality at every translate on a cyclic host at the scale `x`
+  implies the square-root bound at `x` for the family sum
+  `G_1(x) + (3o + 1)⁻¹ Σ_{κ≠1} Re G_κ(x)` (1.9): `cyclicBound_of_frobeniusInequality`, with the
+  exponent constant `C` chosen before the threshold `x₁`. The cyclic host is the
   fixed field of the subgroup `H_n(ψ, {q, d})` of 0.4; its places, the subgroups `A` and `A₀`,
   the thick places and the kept characters are those of 0.4–0.6, the inertia group `I_d` being
-  `{1, σ_d}` under the hypotheses; a coset law is a function on the cosets of `A₀`.
+  `{1, σ_d}` under the hypotheses; the tops have the coset law `ν₀` of 1.7, read on the cosets
+  of `A₀`.
 * Sets of integers with no relation of length `L` and nearly linear size exist (0.8):
   `exists_noRelation`.
 
@@ -120,10 +120,10 @@ section CyclicHost
 variable {f : ℕ} (ψ : DirichletCharacter ℂ f) (n q d : ℕ)
 
 /-- The hypotheses of 0.4 on an auxiliary pair `(q, d)` for a character of conductor `f`: primes
-`q ≠ d` with `q ≡ 3 (mod 4)`, `d ≡ 7 (mod 8)`, `q, d ∤ f`, `(−d/q) = 1` and `(−d/ℓ) = 1` for every
+`q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, `q, d ∤ f`, `(−d/q) = 1` and `(−d/ℓ) = 1` for every
 odd prime `ℓ ∣ f`. -/
 def IsAuxiliaryPair (f q d : ℕ) : Prop :=
-  q.Prime ∧ d.Prime ∧ q ≠ d ∧ q % 4 = 3 ∧ d % 8 = 7 ∧ ¬ q ∣ f ∧ ¬ d ∣ f ∧
+  q.Prime ∧ d.Prime ∧ q ≠ d ∧ q % 8 = 3 ∧ d % 16 = 7 ∧ ¬ q ∣ f ∧ ¬ d ∣ f ∧
     jacobiSym (-d) q = 1 ∧ ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ 2 → ℓ ∣ f → jacobiSym (-d) ℓ = 1
 
 /-- The subgroup `H_n(ψ, {q, d})` of `(ℤ/N)ˣ`, `N = N_n(ψ, {q, d})`, of the `a` with
@@ -212,12 +212,18 @@ noncomputable def frobRieszCharAverage (N : ℕ) [NeZero N] {L : Type*} [Field L
       rieszRemainder (primitiveChar N χ) (a / w (artinMap N E (-1) * g * τ))
 
 /-- The difference of the Frobenius-restricted Riesz sum and its main term is the character
-average (1.2): for every abelian CM host `E ⊃ K` (`K` imaginary quadratic, `Φ = Gal(E/K)`), every
-`a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`, `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. -/
+average (1.2): for every abelian CM host `E ⊃ K` (`K` imaginary quadratic, `Φ = Gal(E/K)`) with
+`SplitRamification d` (0.3; `hsplit`: a prime `p ≠ d` with nontrivial inertia has its Frobenius
+coset, hence its inertia group, in `Φ`; `hId`: `I_d` has order `2` and is not contained in `Φ`),
+every `a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`, `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. -/
 theorem frobRieszSum_sub_main (N : ℕ) [NeZero N] {L : Type*} [Field L] [NumberField L]
     [IsCyclotomicExtension {N} ℚ L] (E : IntermediateField ℚ L)
     (K : IntermediateField ℚ E) (hK : Module.finrank ℚ K = 2) [NumberField.IsTotallyComplex K]
-    (χK : Gal(E/ℚ) →* ℂˣ) (hχK : χK.ker = K.fixingSubgroup) {a : ℝ} (ha : 0 < a)
+    (χK : Gal(E/ℚ) →* ℂˣ) (hχK : χK.ker = K.fixingSubgroup) {d : ℕ} (hd : d.Prime)
+    (hsplit : ∀ p : ℕ, p.Prime → p ≠ d → (inertia N E p).card ≠ 1 →
+      ∀ g ∈ frobCoset N E p, g ∈ K.fixingSubgroup)
+    (hId : (inertia N E d).card = 2 ∧ ∃ σ ∈ inertia N E d, σ ∉ K.fixingSubgroup)
+    {a : ℝ} (ha : 0 < a)
     {τ : Gal(E/ℚ)} (hτ : τ ∈ K.fixingSubgroup) {w : Gal(E/ℚ) → ℝ}
     (hw : ∀ τ' ∈ K.fixingSubgroup, 0 < w τ') :
     (frobRieszSum N E K.fixingSubgroup a τ w : ℂ) - frobRieszMain N K.fixingSubgroup χK a w =
@@ -230,17 +236,16 @@ variable {f : ℕ} {ψ : DirichletCharacter ℂ f} {n q d : ℕ} [NeZero (hostLe
   {L : Type*} [Field L] [NumberField L] [IsCyclotomicExtension {hostLevel f n q d} ℚ L]
 
 variable (ψ n q d L) in
-/-- Cyclic host data at the scale `x` (1.7): a nonempty set of tops `Φ_top ⊂ A` with a symmetric
-coset law `ν` (a probability on the cosets of `A₀` in `A`) and precision `η_top` (0.7); a thick
-set `𝒯 ⊂ A₀`; reals `b, b′, X′, ϑ, s_th > 0` with `b′X′ ≤ xb`; an integer `m ≥ 1`; top weights
-`a_τ > 0` with `|a_τ/b − x| ≤ 1`; for every translate `u₀ ∈ A₀` and `1 ≤ j ≤ m` a weight
-`w_{u₀,j}`, positive on `Φ`, in `[b, b + ϑ + 1]` at the thick places of `u₀` and at most `2b′` at
-the other places; and the prime number theorem with saving `s_th` beyond `X′/3`. -/
+/-- Cyclic host data at the scale `x` (1.7): a nonempty set of tops `Φ_top ⊂ A` with the coset
+law `ν₀` (the share `4/(3o + 1)` on `A₀` and `3/(3o + 1)` on each other coset of `A₀` in `A`, `o`
+the order of `ψ`) and precision `η_top` (0.7); a thick set `𝒯 ⊂ A₀`; reals `b, b′, X′ > 0` and
+`ϑ, s_th ≥ 0` with `b′X′ ≤ xb`; an integer `m ≥ 1`; top weights `a_τ > 0` with `|a_τ/b − x| ≤ 1`;
+for every translate `u₀ ∈ A₀` and `1 ≤ j ≤ m` a weight `w_{u₀,j}`, positive on `Φ`, in
+`[b, b + ϑ + 1]` at the thick places of `u₀` and at most `2b′` at the other places; and the prime
+number theorem with saving `s_th` beyond `X′/3`. -/
 structure ScaleData (x : ℝ) where
   /-- The tops `Φ_top`. -/
   tops : Finset Gal(cyclicHost ψ n q d L/ℚ)
-  /-- The coset law `ν`, read on the cosets of `A₀`. -/
-  ν : Gal(cyclicHost ψ n q d L/ℚ) ⧸ cyclicHostA₀ ψ n q d L → ℝ
   /-- The precision `η_top`. -/
   ηtop : ℝ
   /-- The thick set `𝒯`. -/
@@ -264,18 +269,16 @@ structure ScaleData (x : ℝ) where
   three_le_x : 3 ≤ x
   tops_nonempty : tops.Nonempty
   tops_subset : ∀ τ ∈ tops, τ ∈ cyclicHostA ψ n q d L
-  ν_nonneg : ∀ ξ, 0 ≤ ν ξ
-  ν_sum : haveI := Classical.decEq (Gal(cyclicHost ψ n q d L/ℚ) ⧸ cyclicHostA₀ ψ n q d L)
-    haveI := Classical.decPred (· ∈ cyclicHostA ψ n q d L)
-    ∑ ξ ∈ (Finset.univ.filter (· ∈ cyclicHostA ψ n q d L)).image (QuotientGroup.mk ·), ν ξ = 1
-  ν_symm : ∀ α ∈ cyclicHostA ψ n q d L, ν (QuotientGroup.mk α⁻¹) = ν (QuotientGroup.mk α)
   ηtop_nonneg : 0 ≤ ηtop
   hasCosetLaw : ∀ α ∈ cyclicHostA ψ n q d L,
     haveI := Classical.decEq (Gal(cyclicHost ψ n q d L/ℚ) ⧸ cyclicHostA₀ ψ n q d L)
+    haveI := Classical.decPred (· ∈ cyclicHostA₀ ψ n q d L)
     |((tops.filter fun τ => (QuotientGroup.mk τ : _ ⧸ cyclicHostA₀ ψ n q d L) =
-      QuotientGroup.mk α).card : ℝ) - ν (QuotientGroup.mk α) * tops.card| ≤ ηtop * tops.card
+      QuotientGroup.mk α).card : ℝ) -
+        (if α ∈ cyclicHostA₀ ψ n q d L then 4 else 3) / (3 * (orderOf ψ : ℝ) + 1) * tops.card| ≤
+      ηtop * tops.card
   thick_subset : ∀ s ∈ thick, s ∈ cyclicHostA₀ ψ n q d L
-  pos : 0 < b ∧ 0 < b' ∧ 0 < X' ∧ 0 < ϑ ∧ 0 < sth
+  pos : 0 < b ∧ 0 < b' ∧ 0 < X' ∧ 0 ≤ ϑ ∧ 0 ≤ sth
   b'X'_le : b' * X' ≤ x * b
   one_le_m : 1 ≤ m
   aTop_spec : ∀ τ ∈ tops, 0 < aTop τ ∧ |aTop τ / b - x| ≤ 1
@@ -290,93 +293,70 @@ structure ScaleData (x : ℝ) where
 
 variable {x : ℝ}
 
-/-- The averaged sum of the `m` differences (1.7)
-`𝔄 = mean_{u₀∈A₀} Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j})`, with `χ_K = χ_{−d}` the
-character with kernel `Φ`. -/
-noncomputable def ScaleData.averagedSum (D : ScaleData ψ n q d L x)
-    (χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ) : ℝ :=
-  haveI := Classical.decPred (· ∈ cyclicHostA₀ ψ n q d L)
-  (Nat.card (cyclicHostA₀ ψ n q d L) : ℝ)⁻¹ *
-    ∑ u₀ ∈ Finset.univ.filter (· ∈ cyclicHostA₀ ψ n q d L), ∑ τ ∈ D.tops,
-    ∑ j ∈ Finset.Icc 1 D.m,
-      ((frobRieszSum (hostLevel f n q d) _ (cyclicHostPlaces ψ n q d L) (D.aTop τ) τ
-          (D.w u₀ j) : ℂ) -
-        frobRieszMain (hostLevel f n q d) (cyclicHostPlaces ψ n q d L) χK (D.aTop τ)
-          (D.w u₀ j)).re
+/-- The sum of the `m` differences at the translate `u₀` (1.7)
+`Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j})`, with `χ_K = χ_{−d}` the character with
+kernel `Φ`. -/
+noncomputable def ScaleData.translateSum (D : ScaleData ψ n q d L x)
+    (χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ) (u₀ : Gal(cyclicHost ψ n q d L/ℚ)) : ℝ :=
+  ∑ τ ∈ D.tops, ∑ j ∈ Finset.Icc 1 D.m,
+    ((frobRieszSum (hostLevel f n q d) _ (cyclicHostPlaces ψ n q d L) (D.aTop τ) τ
+        (D.w u₀ j) : ℂ) -
+      frobRieszMain (hostLevel f n q d) (cyclicHostPlaces ψ n q d L) χK (D.aTop τ)
+        (D.w u₀ j)).re
 
-/-- The coefficient `ν̂(χ) = Σ_{αA₀ ∈ A/A₀} ν(αA₀)·χ(α)` of a character trivial on `A₀` (1.6). -/
-noncomputable def ScaleData.cosetLawCoeff (D : ScaleData ψ n q d L x)
-    (χ : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ) : ℂ :=
-  haveI := Classical.decPred (· ∈ cyclicHostA ψ n q d L)
-  (Nat.card (cyclicHostA₀ ψ n q d L) : ℂ)⁻¹ *
-    ∑ α ∈ Finset.univ.filter (· ∈ cyclicHostA ψ n q d L), (D.ν (QuotientGroup.mk α) : ℂ) * χ α
-
-/-- The weighted family sum `𝔜_ν(x) = Σ_{κ∈𝒦(ψ)} ν̂(κ)·Re G_κ(x)` (1.7), written over the kept
-characters `χ_κ` (0.5 (iii)); `ν̂` is real for a symmetric coset law. -/
-noncomputable def ScaleData.familySum (D : ScaleData ψ n q d L x) : ℝ :=
-  ∑ᶠ (χ) (_ : χ ∈ keptCharacters ψ n q d L), (D.cosetLawCoeff χ).re *
-    (rieszRemainder (primitiveChar (hostLevel f n q d) χ) x).re
+/-- The family sum `𝔜_{ν₀}(x) = G_1(x) + (3o + 1)⁻¹ Σ_{κ∈𝒦(ψ), κ≠1} Re G_κ(x)` (1.7), written
+over the kept characters `χ_κ` (0.5 (iii)): the weights are the Fourier coefficients `1` and
+`1/(3o + 1)` of the coset law `ν₀` of the tops (1.6). -/
+noncomputable def ScaleData.familySum (_D : ScaleData ψ n q d L x) : ℝ :=
+  haveI := Classical.decEq (Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ)
+  ∑ᶠ (χ) (_ : χ ∈ keptCharacters ψ n q d L),
+    (if χ = 1 then 1 else (3 * (orderOf ψ : ℝ) + 1)⁻¹) *
+      (rieszRemainder (primitiveChar (hostLevel f n q d) χ) x).re
 
 /-- The hypotheses of 1.9 other than (i), for parameters `k, a, B₀, N_c`, `ε` and `C′`: the
-precision `η_top ≤ x^{−1/2}`; 1.8 (i)–(v) with `A` the subgroup `A` of the host; the cost condition
-`2f·(3(x + 1)(ϑ + 1) + (x + 1)b·s_th) ≤ b`, `f = |Φ|`; and (ii): `|G_{χ*}(x)| ≤ x^{1/2+ε}` and
-`|(L′/L)(1, χ*)| ≤ C′ log x` for every non-kept character `χ` trivial on `A₀`. -/
-def ScaleData.BoundHyp (D : ScaleData ψ n q d L x) (ε C' : ℝ) (k : ℕ) (a B₀ Nc : ℝ) : Prop :=
-  D.ηtop ≤ x ^ (-(1 / 2 : ℝ)) ∧ 0 < a ∧ 0 < B₀ ∧ 0 < Nc ∧ 1 ≤ k ∧
-    x ^ (1 / 2 - ε) ≤ D.m ∧ (D.m : ℝ) ≤ x ^ (1 / 2 + ε) ∧
-    x * D.m ≤ k ∧ (k : ℝ) ≤ (Nat.card (cyclicHostA ψ n q d L) : ℝ) ^ 2 * x ^ (1 / 2 + ε) ∧
-    x ^ (-ε) * Nat.card (cyclicHostA ψ n q d L) ≤ D.tops.card ∧
+precision `η_top ≤ x^{−1+ε}`; 1.8 (i)–(iv) with `A` the subgroup `A` of the host; the bounds
+`B₀ ≤ 2|A|·m·b·x^ε` and `N_c ≤ |𝒯|·k·b·x^{2ε}/|A|²`; the cost conditions
+`2f(x + 1)·s_th ≤ 1/x` and `6f(x + 1)(ϑ + 1) ≤ b/x`, `f = |Φ|`; and (ii): `|G_{χ*}(x)| ≤ x^{1/2+ε}`
+and `|(L′/L)(1, χ*)| ≤ C′ log x` for every non-kept character `χ` trivial on `A₀`. -/
+def ScaleData.BoundHyp (D : ScaleData ψ n q d L x) (ε C' k a B₀ Nc : ℝ) : Prop :=
+  D.ηtop ≤ x ^ (-1 + ε) ∧ 0 ≤ a ∧
+    x ^ (1 / 2 - ε) ≤ D.m ∧ (D.m : ℝ) ≤ x ^ (1 / 2 + ε / 2) ∧
+    x * D.m ≤ k ∧ k ≤ (Nat.card (cyclicHostA ψ n q d L) : ℝ) ^ 2 * x ^ (1 / 2 - ε) ∧
+    x ^ (-(ε / 8)) * Nat.card (cyclicHostA ψ n q d L) / 2 ≤ D.tops.card ∧
     x ^ (-ε) * Nat.card (cyclicHostA ψ n q d L) ≤ D.thick.card ∧
     a ≤ 2 * x * D.b ∧ B₀ ≤ 2 * Nat.card (cyclicHostA ψ n q d L) * D.m * D.b * x ^ ε ∧
     Nc ≤ D.thick.card * k * D.b * x ^ (2 * ε) / (Nat.card (cyclicHostA ψ n q d L) : ℝ) ^ 2 ∧
-    2 * Nat.card (cyclicHostPlaces ψ n q d L) *
-      (3 * (x + 1) * (D.ϑ + 1) + (x + 1) * D.b * D.sth) ≤ D.b ∧
+    2 * Nat.card (cyclicHostPlaces ψ n q d L) * (x + 1) * D.sth ≤ 1 / x ∧
+    6 * Nat.card (cyclicHostPlaces ψ n q d L) * (x + 1) * (D.ϑ + 1) ≤ D.b / x ∧
     ∀ χ : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ, cyclicHostA₀ ψ n q d L ≤ χ.ker →
       χ ∉ keptCharacters ψ n q d L →
       ‖rieszRemainder (primitiveChar (hostLevel f n q d) χ) x‖ ≤ x ^ (1 / 2 + ε) ∧
         ‖logDerivLAtOne (primitiveChar (hostLevel f n q d) χ)‖ ≤ C' * Real.log x
 
-/-- The averaged Frobenius-restricted inequality (1.9 (i)) with exponent constant `C`:
-`𝔄 ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`. -/
+/-- The Frobenius-restricted inequality at every translate (1.9 (i), with the parameters `B₀`,
+`N_c`) with exponent constant `C`: for every `u₀ ∈ A₀`,
+`Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`. -/
 def ScaleData.FrobeniusInequality (D : ScaleData ψ n q d L x)
-    (χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ) (C ε : ℝ) (k : ℕ) (a B₀ Nc : ℝ) : Prop :=
-  D.averagedSum χK ≤
+    (χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ) (C ε k a B₀ Nc : ℝ) : Prop :=
+  ∀ u₀ ∈ cyclicHostA₀ ψ n q d L, D.translateSum χK u₀ ≤
     x ^ (C * ε) * (D.tops.card * a * (1 + (D.m : ℝ) ^ 2 / k) + D.m * (B₀ + Nc))
 
 end CyclicHost
 
-/-- The averaged inequality and the window bound are equivalent (1.9, 1.10). Let `ψ` be a
-primitive Dirichlet character of order `o`, `C′ ≥ 0` and `ε ∈ (0, 1]`. There is `x₁ ≥ 3` such
-that for every `x ≥ x₁`, every cyclic host of `ψ` (0.4) and all cyclic host data at `x` (1.7)
-satisfying the hypotheses of 1.9 other than (i): if the averaged inequality (i) holds with some
-`C ≥ 0`, then `𝔜_ν(x) ≤ x^{1/2+(C+6)ε}` (1.9); and always
-`𝔄 ≤ m b (δ_th/2)|Φ_top|·max(0, 𝔜_ν(x)) + (3o + 3)·m b|Φ_top|·x^{1/2+ε}` (1.10). -/
-theorem frobeniusInequality_iff_cyclicBound {f : ℕ} (ψ : DirichletCharacter ℂ f)
-    (hψ : ψ.IsPrimitive) {C' ε : ℝ} (hC' : 0 ≤ C') (hε₀ : 0 < ε) (hε₁ : ε ≤ 1) :
+/-- The square-root bound for the cyclic family from the Frobenius-restricted inequality (1.9).
+Let `ψ` be a primitive Dirichlet character of order `o`, `C ≥ 0`, `C′` real and `ε > 0`. There is
+`x₁ ≥ 3` such that for every `x ≥ x₁`, every cyclic host of `ψ` (0.4, layer `n ≥ 2`) and all
+cyclic host data at `x` (1.7) satisfying the hypotheses of 1.9 other than (i): if the
+Frobenius-restricted inequality (i) holds at every translate `u₀ ∈ A₀` with the constant `C`, then
+`G_1(x) + (3o + 1)⁻¹ Σ_{κ≠1} Re G_κ(x) ≤ x^{1/2+(C+4)ε}`. -/
+theorem cyclicBound_of_frobeniusInequality {f : ℕ} (ψ : DirichletCharacter ℂ f)
+    (hψ : ψ.IsPrimitive) {C C' ε : ℝ} (hC : 0 ≤ C) (hε₀ : 0 < ε) :
     ∃ x₁ : ℝ, 3 ≤ x₁ ∧ ∀ x ≥ x₁, ∀ (n q d : ℕ) [NeZero (hostLevel f n q d)] (L : Type)
       [Field L] [NumberField L] [IsCyclotomicExtension {hostLevel f n q d} ℚ L],
-      IsAuxiliaryPair f q d → ∀ χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ,
-      χK.ker = cyclicHostPlaces ψ n q d L → ∀ (D : ScaleData ψ n q d L x) (k : ℕ) (a B₀ Nc : ℝ),
-      D.BoundHyp ε C' k a B₀ Nc →
-      (∀ C : ℝ, 0 ≤ C → D.FrobeniusInequality χK C ε k a B₀ Nc →
-        D.familySum ≤ x ^ (1 / 2 + (C + 6) * ε)) ∧
-      D.averagedSum χK ≤ D.m * D.b * ((D.thick.card / Nat.card (cyclicHostA ψ n q d L) : ℝ) / 2) *
-          D.tops.card * max 0 D.familySum +
-        (3 * orderOf ψ + 3) * D.m * D.b * D.tops.card * x ^ (1 / 2 + ε) := by
-  sorry
-
-/-- The averaged inequality from the window bound (1.10, consequence): under the hypotheses of
-1.9 other than (i), if moreover `a ≥ xb/2` and `𝔜_ν(x) ≤ x^{1/2+C″ε}` with `C″ ≥ 1`, then (i) of
-1.9 holds with `C = C″ + 2`, for `x ≥ x₁′(ψ, C′, C″, ε)`. -/
-theorem frobeniusInequality_of_cyclicBound {f : ℕ} (ψ : DirichletCharacter ℂ f)
-    (hψ : ψ.IsPrimitive) {C' C'' ε : ℝ} (hC' : 0 ≤ C') (hC'' : 1 ≤ C'') (hε₀ : 0 < ε)
-    (hε₁ : ε ≤ 1) :
-    ∃ x₁' : ℝ, ∀ x ≥ x₁', ∀ (n q d : ℕ) [NeZero (hostLevel f n q d)] (L : Type)
-      [Field L] [NumberField L] [IsCyclotomicExtension {hostLevel f n q d} ℚ L],
-      IsAuxiliaryPair f q d → ∀ χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ,
-      χK.ker = cyclicHostPlaces ψ n q d L → ∀ (D : ScaleData ψ n q d L x) (k : ℕ) (a B₀ Nc : ℝ),
-      D.BoundHyp ε C' k a B₀ Nc → x * D.b / 2 ≤ a → D.familySum ≤ x ^ (1 / 2 + C'' * ε) →
-      D.FrobeniusInequality χK (C'' + 2) ε k a B₀ Nc := by
+      IsAuxiliaryPair f q d → 2 ≤ n → ∀ χK : Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ,
+      χK.ker = cyclicHostPlaces ψ n q d L → ∀ (D : ScaleData ψ n q d L x) (k a B₀ Nc : ℝ),
+      D.BoundHyp ε C' k a B₀ Nc → D.FrobeniusInequality χK C ε k a B₀ Nc →
+      D.familySum ≤ x ^ (1 / 2 + (C + 4) * ε) := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.FrobeniusRestrictedRieszSums

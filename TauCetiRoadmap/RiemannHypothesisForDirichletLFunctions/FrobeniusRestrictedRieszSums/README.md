@@ -10,20 +10,22 @@ a place `τ` and a weight `w : Φ → (0, ∞)`, the Frobenius-restricted Riesz 
 powers `p^i` of `log p` times the mean, over the Frobenius coset of `p^i`, of `2·(a/p^i − w(cgτ))₊` for the elements
 `g` outside `Φ`. No automorphic form enters: this is the analytic side of the Frobenius-restricted inequality.
 
-The headline theorems are these. (1) For every abelian CM host, every `a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`, the sum
+The headline theorems are these. (1) For every abelian CM host with split ramification (0.3), every `a > 0`, `τ ∈ Φ` and
+`w : Φ → (0, ∞)`, the sum
 `ℛ(a, τ, w)` minus the main term `a·(log a − 1 − γ + (L′/L)(1, χ_K) − mean_{τ′∈Φ} log w(τ′))` is the average, over
 the classes `g ∉ Φ` and the characters `χ` of `G`, of `conj χ(g)·w(cgτ)·G_{χ*}(a/w(cgτ))`, where `χ_K` is the quadratic
 character of `K` and `G_{χ*}` the Riesz remainder of the primitive Dirichlet character of `χ` (1.2). (2) Let `ψ` be a
-primitive Dirichlet character of order `o`, `C′ ≥ 0` and `ε ∈ (0, 1]`. There is `x₁(ψ, C′, ε)` such that for every
+primitive Dirichlet character of order `o`, `C ≥ 0`, `C′` real and `ε > 0`. There is `x₁(ψ, C, C′, ε)` such that for every
 `x ≥ x₁`, on every cyclic host of `ψ` with tops `Φ_top`, a thick set of density `δ_th` and weights at the scale `x`
-subject to explicit size conditions, and provided the characters of the host that are trivial on its subgroup `A₀`
-but do not come from `𝒦(ψ)` satisfy `|G_{χ*}(x)| ≤ x^{1/2+ε}` and `|(L′/L)(1, χ*)| ≤ C′ log x`: the averaged
-inequality `𝔄 ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))` for the mean `𝔄` of `m` differences `ℛ − 𝔐` implies
-`Σ_{κ∈𝒦(ψ)} ν̂(κ)·Re G_κ(x) ≤ x^{1/2+(C+6)ε}`, and conversely
-`𝔄 ≤ m b(δ_th/2)|Φ_top|·max(0, Σ_κ ν̂(κ)·Re G_κ(x)) + (3o + 3)·m b|Φ_top|·x^{1/2+ε}` (1.9, 1.10). The weights `ν̂(κ)`
-are the Fourier coefficients of the coset law of the tops, all positive for the selection law of 0.7. So the averaged
-inequality at the scale `x` is, up to factors `x^{O(ε)}`, the square-root bound at `x` for the weighted Riesz
-remainders of the cyclic family. (3) There is an absolute constant `C` such that for all integers `M, L ≥ 2` some
+subject to explicit size conditions, where the tops have the coset law with shares `4 : 3` between `A₀` and the other
+cosets, whose Fourier coefficients are `1` and `1/(3o + 1)`, and provided the characters of the host that are trivial
+on its subgroup `A₀` but do not come from `𝒦(ψ)` satisfy `|G_{χ*}(x)| ≤ x^{1/2+ε}` and `|(L′/L)(1, χ*)| ≤ C′ log x`:
+the Frobenius-restricted inequality at every translate, with exponent constant `C`, for the sums of `m` differences
+`ℛ − 𝔐` implies `G_1(x) + (3o + 1)^{−1}Σ_{κ≠1} Re G_κ(x) ≤ x^{1/2+(C+4)ε}` (1.9). The weights `ν̂(κ)` are the Fourier
+coefficients of the coset law of the tops; for the selection of 0.7 with the profile `ω = 1` on `A₀` and `ω = ω₀ < 1`
+on the other cosets they are `1` and `(1 − ω₀)/(1 + ω₀(o − 1))`, all positive. So the Frobenius-restricted inequality
+at the scale `x` gives, up to factors `x^{O(ε)}`, the square-root bound at `x` for the weighted Riesz remainders of the
+cyclic family. (3) There is an absolute constant `C` such that for all integers `M, L ≥ 2` some
 nonempty `T ⊂ [0, M/(4L)) ∩ ℤ` with `|T| ≥ M·exp(−C·(log M · log L)^{1/2})/L` contains no pairwise distinct
 `s₁, s₂, s₃` with `j(s₂ − s₁) = i(s₃ − s₁)` for integers `i ≠ j`, `0 < |i|, |j| ≤ L` (0.8); the thick sets are built
 from such sets.
@@ -35,8 +37,8 @@ group, of which 1.2 is the instance for an abelian host; on
 [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) for the Lipschitz and
 size bounds of the remainders and the prime number theorem with the exceptional term; and on Mathlib's Galois theory of
 cyclotomic fields, its Dirichlet characters and Behrend's construction. In the family
-[RiemannHypothesisForDirichletLFunctions](../README.md) the hosts, the tops, the thick sets and the equivalence of
-1.9–1.10 are the analytic frame of the chain of theta lifts, whose output is the averaged inequality.
+[RiemannHypothesisForDirichletLFunctions](../README.md) the hosts, the tops, the thick sets and the implication 1.9 are
+the analytic frame of the chain of theta lifts, whose output is the Frobenius-restricted inequality.
 
 Layer 0 defines abelian CM hosts and their Frobenius data, the predicates of split ramification, inert-freeness and
 host splitting, the dyadic host fields and the cyclic hosts with their Galois groups and characters, the cyclic family
@@ -44,20 +46,20 @@ and the kept characters, the places of a cyclic host (tops, thick and thin place
 a prescribed coset law, sets with no short relation and the thick sets built from them with their marks along Frobenius
 orbits, and admissible auxiliary pairs. Layer 1 defines the Frobenius-restricted Riesz sum and its main term, writes
 their difference as an average of Riesz remainders, gives the cyclic hosts a saving at the thin scales, averages over
-the translates of a thick set and over the tops, and proves the equivalence of the averaged inequality with the
-square-root bound for the cyclic family.
+the translates of a thick set and over the tops, and derives the square-root bound for the cyclic family from the
+Frobenius-restricted inequality at every translate.
 
 ## Conventions
 
 **Groups and indices.** Galois groups are written multiplicatively: for `g ∈ G` and subsets `S, S′ ⊂ G`,
 `gS = {gs : s ∈ S}`, `SS′ = {ss′ : s ∈ S, s′ ∈ S′}`, and the orbit of `y` under `h` is `{yh^i : i ∈ ℤ}`. Places of
 `Φ` and tops are written `τ`; powers of a Dirichlet character are `ψ^l`; the layer of the cyclotomic `ℤ₂`-tower is `n`;
-the index `j` runs over the steps `1, …, m` of an averaged sum (1.7), and `k` is an integer parameter (1.8).
+the index `j` runs over the steps `1, …, m` of an averaged sum (1.7), and `k` is a real parameter (1.8).
 
 **Fields.** `E` is the host (0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its
 maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G` complex conjugation; `χ_K` the quadratic character of `K`; `f_E` the
 conductor of `E` (the conductor of a primitive character `χ` is `f_χ`). Under `SplitRamification d` (0.3) `K` is
-ramified only at the prime `d`; on the cyclic hosts (0.4) `d ≡ 7 (mod 8)`, `K = ℚ(√−d)`, and a second imaginary
+ramified only at the prime `d`; on the cyclic hosts (0.4) `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, `K = ℚ(√−d)`, and a second imaginary
 quadratic field `ℚ(√−q) ⊂ E` is used; `(q, d)` is the *auxiliary pair*.
 
 **CM type, places and Frobenius elements.** An embedding `ι₀ : E ↪ ℂ` is fixed; `Φ = Gal(E/K)` is identified with the CM
@@ -89,18 +91,18 @@ constraints stated where they enter; the values of particular constructions appe
 | `ψ, o, f_ψ, 𝒦(ψ)` | primitive Dirichlet character, its order and conductor, its cyclic family (`χ_κ`, `κ ∈ 𝒦(ψ)`, are the kept characters) | 0.4, 0.5 |
 | `E_n(M, Q), N_n(M, Q), H_n(M, Q), ℚ_n` | dyadic host field, its modulus and its subgroup of `(ℤ/N_n(M, Q))^×`; the `n`-th layer of the cyclotomic `ℤ₂`-extension | 0.4 |
 | `(q, d), n` | auxiliary pair, layer of the cyclotomic `ℤ₂`-tower of a cyclic host | 0.4 |
-| `𝔛_n, χ_{−q}, χ_{−d}, c(ψ)` | even characters of conductor dividing `2^{n+2}`; the characters of `ℚ(√−q)` and `ℚ(√−d)`; the divisor of `o` with `\|A\| = c(ψ)·2^n` for `n + 2 ≥ v₂(f_ψ)` | 0.4 |
+| `𝔛_n, χ_{−q}, χ_{−d}, c(ψ), n₀(ψ)` | even characters of conductor dividing `2^{n+2}`; the characters of `ℚ(√−q)` and `ℚ(√−d)`; the integer `1 ≤ c(ψ) ≤ o` and the layer with `\|A\| = c(ψ)·2^n` for `n ≥ n₀(ψ)` | 0.4 |
 | `A, A₀` | `Gal(E/ℚ(√−q, √−d)) ⊂ Φ`; `A₀ = ker(ψ\|_A)`, `[A:A₀] = o` | 0.4 |
 | `g_A, ε(g)` | the components of `g ∈ G = A × ⟨c⟩ × ⟨σ_d⟩` in `A` and in `{1, c, σ_d, cσ_d}` | 0.4 |
 | `par_τ, pl(g)` | partner bijection `G∖Φ → Φ`, `g ↦ cgτ`; the place of a letter `g` (`g` or `cg`) | 0.6 |
 | `Φ_top, 𝒯, δ_th, u₀` | tops `Φ_top ⊂ A`, thick set `𝒯 ⊂ A₀`, `\|𝒯\|/\|A\|`, a translate (thick places `cσ_d u₀𝒯`, thick letters `cσ_d u₀𝒯 ⊔ σ_d u₀𝒯`) | 0.6, 0.8a |
-| `ν, ω, ω₀, δ_top, η_top` | coset law, coset profile and its lower bound, selection density, precision of the coset law of the tops | 0.7, 1.7 |
+| `ν, ν₀, ω, ω₀, δ_top, η_top` | coset law, the coset law with shares `4 : 3` of the tops of 1.7, coset profile and its lower bound, selection density, precision of the coset law of the tops | 0.7, 1.7 |
 | `ℛ, 𝔐, ℭ` | Frobenius-restricted Riesz sum, its main term, the character average | 1.1, 1.2 |
 | `γ` | Euler's constant | Conventions |
 | `G_χ, G_1` | Riesz remainders of a primitive `χ ≠ 1` and of the trivial character | Conventions |
 | `c_ex, c_box` | a gap for the exceptional zeros of the real characters of a cyclic host; the gap of the thin-scale box hypothesis | 1.4 |
 | `C_Λ, s_th, ν̂` | Lipschitz constant of the remainders (RieszSumsOverPrimesAndExceptionalZeros §1.4h), thin-scale saving, Fourier coefficients of `ν` | 1.7, 1.4, 1.6 |
-| `𝔄, 𝔜_ν(x), 𝔔_x, x₁` | averaged sum of the `m` differences, the weighted family sum `Σ_κ ν̂(κ)·Re G_κ(x)`, the logarithmic size of 1.7, the threshold of 1.9 | 1.7, 1.9 |
+| `𝔄, 𝔜_{ν₀}(x), 𝔔_x, x₁` | averaged sum of the `m` differences, the family sum `G_1(x) + (3o + 1)^{−1}Σ_{κ≠1} Re G_κ(x)`, the logarithmic size of 1.7, the threshold of 1.9 | 1.7, 1.9 |
 
 ## Layer 0: Abelian CM hosts and their Frobenius data
 
@@ -151,7 +153,8 @@ Hilbert reciprocity gives `(−1)^f = 1`.
   `E`, and the inertia groups at `3` and `7` have order `2` and do not contain `c`), as (iv) requires. For
   `E = K = ℚ(i)`, `f = 1` is odd and `E/F` is ramified at `2`.
 
-*KNOWN* (elementary; Hilbert reciprocity). *Needs:* Mathlib `NumberField.IsCMField`,
+*KNOWN* (elementary; Hilbert reciprocity; (iv) is this roadmap's own, not a statement of [FormalProof]).
+*Needs:* Mathlib `NumberField.IsCMField`,
 `NumberField.IsCMField.of_isAbelianGalois`; ClassFieldTheory Layer 7 (`mem_inertiaSubgroup_of_mk_eq_artinMap`,
 `ker_artinMap_eq_iInf`: units are norms from unramified extensions), Layer 14 (`hilbertProductFormula`,
 `TauCeti.hilbertSymbol_productFormula`).
@@ -274,8 +277,8 @@ divides `N_n(M, Q)`, with equality for `n ≥ 1`, and `[E_n(M, Q) : ℚ]` divide
 is imaginary, `E_n(M, Q)` is a CM field with complex conjugation `σ_{−1}|_E = art_N(−1)`. (f) The characters of
 `Gal(E_n(M, Q)/ℚ)`, read through `art_N`, are the Dirichlet characters modulo `N` trivial on `H_n(M, Q)`.
 
-*Statement (cyclic hosts).* Let `ψ` be a primitive Dirichlet character of conductor `f_ψ` and order `o`, `n ≥ 0` an
-integer, and `q ≠ d` primes with `q ≡ d ≡ 3 (mod 4)`, `q, d ∤ f_ψ`, `d ≡ 7 (mod 8)`, `(−d/q) = 1`, and `(−d/ℓ) = 1` for
+*Statement (cyclic hosts).* Let `ψ` be a primitive Dirichlet character of conductor `f_ψ` and order `o`, `n ≥ 2` an
+integer, and `q`, `d` primes with `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, `q, d ∤ f_ψ`, `(−d/q) = 1`, and `(−d/ℓ) = 1` for
 every odd prime `ℓ | f_ψ`; `(q, d)` is the *auxiliary pair*. Let `E = E_n(ψ, {q, d}) = ℚ_n·ℚ(ψ)·ℚ(√−q)·ℚ(√−d)` and
 `K = ℚ(√−d)`. Write `χ_{−q} = (·/q)` and `χ_{−d} = (·/d)` (Legendre symbols, the quadratic characters of
 `ℚ(√−q)` and `ℚ(√−d)`), `𝔛_n` for the cyclic group of order `2^n` of even Dirichlet characters of conductor dividing
@@ -288,11 +291,9 @@ finite place and `f` is even.
 `⟨χ_{−q}, χ_{−d}⟩ ∩ 𝔛_n⟨ψ⟩ = 1`. `Φ = ker χ_{−d}`, `A = ker χ_{−q} ∩ ker χ_{−d} ⊂ Φ`, `G/A ≅ (ℤ/2)²` is generated by
 the images of `c` and `σ_d`, and `Φ = A ⊔ cσ_d A`.
 (iii) Restriction is an isomorphism `A ≅ Gal(ℚ_n ℚ(ψ)/ℚ)`; `[A : A₀] = o`; `A₀` is cyclic and restriction maps it
-injectively into `Gal(ℚ_n/ℚ)`;
-`|A| = 2^n·o / #{l ∈ ℤ/o : ψ^l is even of conductor dividing 2^{n+2}}`;
-for `n + 2 ≥ v₂(f_ψ)` this is `c(ψ)·2^n` with `c(ψ) = o/#{l ∈ ℤ/o : ψ^l is even of 2-power conductor}`, a divisor of
-`o` that does not depend on `n`; `2^n` divides `|A|`, and `f = 2|A|`. For `n ≥ 1` the conductor is
-`f_E = lcm(2^{n+2}, f_ψ)·q·d`, and its `2`-part `2^e` satisfies `2^e ≥ 2^{n+2} ≥ 4|A|/o`.
+injectively into `Gal(ℚ_n/ℚ)`; there are an integer `c(ψ)` with `1 ≤ c(ψ) ≤ o` and a layer `n₀(ψ)` such that
+`|A| = c(ψ)·2^n` for every `n ≥ n₀(ψ)`; `2^n` divides `|A|`, and `f = 2|A|`. The conductor `f_E` is at most
+`2^{n+2}·f_ψ·q·d`.
 (iv) `σ_d` acts trivially on `ℚ_n ℚ(ψ) ℚ(√−q)`, so every character of `G` unramified at `d` (every power of `ψ`,
 every element of `𝔛_n`, and `χ_{−q}`) is trivial on `σ_d`; and `c ∉ A`, `σ_d ∉ A`, `cσ_d ∈ Φ ∖ A`. Moreover
 `G = A × ⟨c⟩ × ⟨σ_d⟩`: every `g ∈ G` is uniquely `g = g_A·ε(g)` with `g_A ∈ A` and `ε(g) ∈ {1, c, σ_d, cσ_d}`, and
@@ -300,8 +301,11 @@ every element of `𝔛_n`, and `χ_{−q}`) is trivial on `σ_d`; and `c ∉ A`,
 (v) *Small primes.* The primes `2`, `q` and the odd primes dividing `f_ψ` split in `K`, and every place of `F` above
 them splits in `E` (in particular every place of `F` above `2`); so every prime inert in `K` is odd and prime to
 `qf_ψ`. For real `B`, the host is inert-free up to `B` (0.3) iff `(−d/p) = 1` for every odd prime `p ≤ B` other than `d`.
-(vi) *Splitting above `d`.* If `n ≥ v₂(d + 1) − 1` (so `n ≥ 2`), the places of `F` above `d` split in `E`; then every
+(vi) *Splitting above `d`.* Since `n ≥ 2 = v₂(d + 1) − 1`, the places of `F` above `d` split in `E`; then every
 place of `F` above a prime dividing `f_E` splits in `E`, `4 | f`, and the host satisfies `HostSplitting E` (0.3).
+Clauses (i)–(v) hold with the same route for every `n ≥ 0` and for `q ≡ 3 (mod 4)`, `d ≡ 7 (mod 8)`, and (vi) from the
+layer `n ≥ v₂(d + 1) − 1` on; [FormalProof] treats the hosts with `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)` and `n ≥ 2`, for
+which `v₂(d + 1) − 1 = 2`.
 
 In `Suggested.lean`, `hostLevel` is `N_n(ψ, {q, d})`, `cyclicHostSubgroup` is `H_n(ψ, {q, d})` (with `residueSquares` for the conditions `(a/q) = (a/d) = 1`), `cyclicHost` is `E_n(ψ, {q, d})`, `cyclicHostPlaces`, `cyclicHostA` and `cyclicHostA₀` are `Φ`, `A` and `A₀`, and `IsAuxiliaryPair` collects the hypotheses on `(q, d)`.
 
@@ -347,14 +351,15 @@ so `φ^k` is nontrivial on `ℚ_n` for odd `k`. The other primes dividing `f_E` 
   `A₀ = A`, `o = 1` and `f = 8`; every prime `≤ 19` splits in `K` (`2` as `d ≡ 7 (mod 8)`; `3, 5, 7, 11, 19` divide
   `d + 1`; `(−d/13) = (3/13) = 1`, `(−d/17) = (15/17) = 1`) and `23` is inert (`(−d/23) = (21/23) = −1`), so this host is
   inert-free up to `22`; and `n = 2 = v₂(d + 1) − 1`, so (vi) applies.
-- `ψ = 1`, `n = 1`, `(q, d) = (3, 71)`: the hypotheses hold (`(−71/3) = 1`), `E = ℚ(√2, √−3, √−71)` has conductor
+- `ψ = 1`, `n = 1`, `(q, d) = (3, 71)`, a layer below the range `n ≥ 2`: the conditions on the pair hold
+  (`(−71/3) = 1`), `E = ℚ(√2, √−3, √−71)` has conductor
   `1704`, `|G| = 8`, `|A| = 2` and `f = 4`; the primes `3` and `5` split in `K` and `7` is inert, so this host is
   inert-free up to `6` but not up to `7`. Here `n = 1 < v₂(72) − 1`, and the conclusion of (vi) fails: `Frob_{71}` is
   trivial on `ℚ(√2)` (`(2/71) = 1`) and nontrivial on `ℚ(√−3)` (`(71/3) = −1`), as `c` is, so `c ∈ D_{71}` and the places of
-  `F` above `71` are inert in `E`. The pair `(11, 7)` also satisfies the hypotheses (`(−7/11) = 1`), but `3` and `5` are
-  inert in `ℚ(√−7)`: the host `ℚ(√2, √−11, √−7)` exists and is not inert-free up to `3`.
-- `ψ = 1`, `(q, d) = (3, 47)` (`v₂(48) = 4`): `c ∈ D_{47}` at the layers `n = 1, 2` and `c ∉ D_{47}` from `n = 3 = v₂(48) − 1`
-  on, as (vi) says.
+  `F` above `71` are inert in `E`. The pair `(11, 7)` also satisfies the conditions on the pair (`(−7/11) = 1`), but `3` and
+  `5` are inert in `ℚ(√−7)`: its hosts exist and are not inert-free up to `3`.
+- `ψ = 1`, `(q, d) = (3, 47)` (`v₂(48) = 4`, so `d ≡ 15 (mod 16)`, in the wider classes after (vi)): `c ∈ D_{47}` at the
+  layers `n = 1, 2` and `c ∉ D_{47}` from `n = 3 = v₂(48) − 1` on, as stated after (vi).
 - `ψ` of order `4` modulo `5` (an odd character), `n = 2`, `(q, d) = (19, 526679)`: the hypotheses hold (`19` and `5`
   divide `d + 1`, so `(−d/19) = (−d/5) = 1`), `|G| = 64`, `|A| = 16` (`c(ψ) = 4`, and `|A| = 4·2^n` for every `n`, as
   `v₂(f_ψ) = 0`) and `|A₀| = 4`. With `(q, d) = (3, 23)` the hypothesis at `ℓ = 5` fails (`(−23/5) = −1`), and so does
@@ -368,7 +373,9 @@ so `φ^k` is nontrivial on `ℚ_n` for odd `k`. The other primes dividing `f_E` 
   from `n = 3 = v₂(32) − 2` on.
 - (iv) on the first host: `|G| = 16 = 4·|A|`, and the four elements `1, c, σ_d, cσ_d` represent `G/A`.
 
-*KNOWN* (Galois theory of cyclotomic fields; quadratic reciprocity). *Needs:* 0.1–0.3; IntegralIwasawaTheory §0.2;
+*KNOWN* (Galois theory of cyclotomic fields; quadratic reciprocity; the dyadic host fields `E_n(M, Q)` for a general
+`(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof]).
+*Needs:* 0.1–0.3; IntegralIwasawaTheory §0.2;
 ClassFieldTheory Layer 13 (`kroneckerWeber`, with conductor); Mathlib `IsCyclotomicExtension`,
 `IntermediateField.fixedField`, `DirichletCharacter`, `NumberField.IsCMField`, `jacobiSym.quadratic_reciprocity`,
 `jacobiSym.at_two`, `jacobiSym.at_neg_one`, `IsCyclotomicExtension.Rat.mem_intermediateFieldEquivSubgroupChar_iff_conductor_dvd`.
@@ -468,7 +475,8 @@ law of the selection) and let `n_top := δ_top|A₀|·Σ_{α′A₀∈A/A₀} ω
 `ω₀δ_top|A| ≤ n_top ≤ δ_top|A|`. Let `I` be a finite index set with weights `λ_i ≥ 0` (`i ∈ I`), and `(B_{α,i})_{α∈A, i∈I}` events
 with `P(α ∈ Φ_top and B_{α,i}) ≤ p_bad·P(α ∈ Φ_top)` for all `α` and `i` (they may depend on the whole selection). If
 `δ_top|A| ≥ 16o²/ω₀²`, then with probability at least `1/2`:
-(i) `n_top/2 ≤ |Φ_top| ≤ 3n_top/2`; in particular `ω₀ δ_top|A|/2 ≤ |Φ_top| ≤ 2δ_top|A|`;
+(i) `n_top/2 ≤ |Φ_top| ≤ 3n_top/2`; in particular `ω₀ δ_top|A|/2 ≤ |Φ_top| ≤ 2δ_top|A|`. If moreover `ω₀ ≥ 3/4` and
+`δ_top|A| ≥ 36o²/ω₀²`, then `|Φ_top| ≥ 2n_top/3 ≥ δ_top|A|/2`;
 (ii) `Φ_top` has coset law `ν` with precision `4(1 + ω₀)ω₀^{−2}(δ_top|A|)^{−1/2}`;
 (iii′) (*weighted count of bad events*) `Σ_{i∈I} λ_i·#{α ∈ Φ_top : B_{α,i}} ≤ 4p_bad·n_top·Σ_{i∈I} λ_i ≤ 8p_bad·|Φ_top|·Σ_{i∈I} λ_i`.
 For one index (`I` a point, weight `1`, events `B_α`), (iii′) is (iii), the count of bad tops: `#{α ∈ Φ_top : B_α} ≤ 8p_bad|Φ_top|`.
@@ -478,7 +486,8 @@ In particular a set with (i), (ii) and (iii′) exists.
 `δ_top ω(αA₀)`, with variance at most `|A₀|δ_top`. Chebyshev's inequality at the deviation `2(δ_top|A|)^{1/2}` and a
 union bound over the `o` cosets give `|#(Φ_top ∩ αA₀) − |A₀|δ_top ω(αA₀)| ≤ 2(δ_top|A|)^{1/2}` for all cosets with
 probability at least `3/4`; then `|Φ_top|` differs from `n_top ≥ ω₀δ_top|A|` by at most `2o(δ_top|A|)^{1/2}`, which is at
-most `n_top/2` by the hypothesis, and (i), (ii) follow from `ν(αA₀)·n_top = |A₀|δ_top ω(αA₀)` and `ν(αA₀) ≤ 1/(oω₀)`.
+most `n_top/2` by the hypothesis (at most `n_top/3` when `δ_top|A| ≥ 36o²/ω₀²`, and then `n_top ≥ 3δ_top|A|/4` if
+`ω₀ ≥ 3/4`), and (i), (ii) follow from `ν(αA₀)·n_top = |A₀|δ_top ω(αA₀)` and `ν(αA₀) ≤ 1/(oω₀)`.
 (iii′) By linearity of expectation, whatever the dependence of the events on the selection, the expectation of
 `Σ_i λ_i·#{α ∈ Φ_top : B_{α,i}}` is `Σ_i λ_i Σ_α P(α ∈ Φ_top and B_{α,i}) ≤ p_bad·n_top·Σ_i λ_i`; Markov's inequality, applied
 once to this weighted sum, bounds it by `4p_bad·n_top·Σ_i λ_i` with probability at least `3/4`; on the event of (i),
@@ -542,14 +551,14 @@ with generator `α₀`, and `L ≥ 2`. A *thick set of length `L`* is `𝒯 = {�
 of 0.8 for `M` and `L`; so `|𝒯| = |T|`, and `4L·|𝒯| ≤ M ≤ |A|` when `M ≥ 4L`; on a host of 0.4 (`A₀` cyclic by
 0.4 (iii)) its density is `δ_th = |𝒯|/|A| ≤ 1/(4L)` when `M ≥ 4L`.
 *Statement.* For a thick set `𝒯` of length `L` and arbitrary elements `h, y, u₀ ∈ A` (not only of `A₀`):
-(a) if `ord h ≥ L`, any `L` consecutive points `yh^{i₀}, yh^{i₀+1}, …, yh^{i₀+L−1}` of the orbit of `y` include at
+(a) if `ord h > 4L`, any `L` consecutive points `yh^{i₀}, yh^{i₀+1}, …, yh^{i₀+L−1}` of the orbit of `y` include at
 most two points of `u₀𝒯`;
 (b) if `ord h ≤ 4L`, the orbit `y⟨h⟩` contains at most one point of `u₀𝒯`.
 
 *Route.* (a) Three such points `u₀α₀^{s_k} = yh^{i_k}` (`k = 1, 2, 3`) give `h^{i_k − i₁} = α₀^{s_k − s₁}`, hence
 `α₀^{(i₃−i₁)(s₂−s₁)} = h^{(i₂−i₁)(i₃−i₁)} = α₀^{(i₂−i₁)(s₃−s₁)}` and `(i₃ − i₁)(s₂ − s₁) ≡ (i₂ − i₁)(s₃ − s₁) (mod M)`, both
 sides of absolute value `< L·M/(4L) = M/4`, hence equality in `ℤ`; the `s_k` are distinct because
-`0 < |i_k − i_{k′}| < L ≤ ord h` makes the three points distinct; this is a relation of length `L`. (b) Two points
+`0 < |i_k − i_{k′}| < L < ord h` makes the three points distinct; this is a relation of length `L`. (b) Two points
 `u₀α₀^s = yh^i`, `u₀α₀^{s′} = yh^{i′}` give `α₀^{s−s′} ∈ ⟨h⟩`, so `M` divides `ord(h)·(s − s′)`, and `s ≠ s′` would force
 `|s − s′| ≥ M/ord h ≥ M/(4L)`, against `|s − s′| < M/(4L)`.
 
@@ -566,9 +575,9 @@ sides of absolute value `< L·M/(4L) = M/4`, hence equality in `ℤ`; the `s_k` 
 *`j′`-cluster property* if every mark has either no mark among the `j′` positions before it, or exactly one, at a
 distance `e ≤ j′`, and then no other mark among the `e + j′` positions before it.
 *Statement.* Let `A`, `A₀`, `M`, `L` and a thick set `𝒯` of length `L` be as in 0.8a, and `h, y, u₀ ∈ A`.
-(c) (*Words.*) For a multiple `N` of `ord h`, mark the positions `i ∈ ℤ/N` with `yh^i ∈ u₀𝒯`. If `ord h ≥ L`, any `L`
+(c) (*Words.*) For a multiple `N` of `ord h`, mark the positions `i ∈ ℤ/N` with `yh^i ∈ u₀𝒯`. If `ord h > 4L`, any `L`
 consecutive positions carry at most two marks; hence, if `L ≥ 3`, no three consecutive positions are marked and some
-position is unmarked, and the marks have the `j′`-cluster property for every `j′ ≥ 1` with `2j′ + 1 ≤ L`. If
+position is unmarked, and the marks have the `j′`-cluster property for every `j′ ≥ 1` with `2j′ + 2 ≤ L`. If
 `ord h ≤ 4L`, the marked positions are congruent modulo `ord h`; in particular, if `h ≠ 1`, no two adjacent positions
 are marked, and the marks have the `j′`-cluster property for every `j′ < ord h` with `2j′ < N`. Every subset of the
 marks keeps each of these properties.
@@ -579,20 +588,20 @@ of `ord h`, and the marks are among the marks of (c) for `y_A`, `h`, `u₀`: all
 and `pl(y) ∈ cσ_dA`, none when `ℓ` is inert in `ℚ(√−q)` and `pl(y) ∈ A`, and only marks of one parity when `ℓ` splits
 in `ℚ(√−q)`. Consequently, unless `φ = c` and `pl(y)` is a thick place of `u₀`, no three consecutive positions are
 marked and some position is unmarked, and the marks have the `j′`-cluster property for every `j′ ≥ 1` with
-`2j′ + 1 ≤ L`, `2j′ < N` and either `ord h ≥ L` or `j′ < ord h`. If `φ = c` and `pl(y)` is a thick place of `u₀`, then
+`2j′ + 2 ≤ L`, `2j′ < N` and either `ord h > 4L` or `j′ < ord h`. If `φ = c` and `pl(y)` is a thick place of `u₀`, then
 `N = 2` and both positions are marked.
 
-*Route.* (c) Positions that differ by a multiple of `ord h` give the same point, and `L ≤ ord h` consecutive positions
+*Route.* (c) Positions that differ by a multiple of `ord h` give the same point, and `L < ord h` consecutive positions
 give distinct points, so the first sentence is 0.8a (a). For `L ≥ 3`, three consecutive positions lie in a window of
 `L`, which also contains an unmarked position (`N ≥ L`); a mark with two marks among the `j′` positions before it, or
 with a mark at distance `e ≤ j′` and another among the `e + j′` positions before it, gives three marks in at most
-`2j′ + 1 ≤ L` consecutive positions, against 0.8a (a); and `2j′ < L ≤ N`. The short case is 0.8a (b): a marked position
+`2j′ + 1 < L` consecutive positions, against 0.8a (a); and `2j′ < L ≤ N`. The short case is 0.8a (b): a marked position
 marks the single point of the orbit in `u₀𝒯`, and adjacent positions carry the different points `yh^i ≠ yh^{i+1}` when
 `h ≠ 1`; marks spaced by multiples of `ord h > j′` have no other mark among the `j′` positions before them. Each property
 is a condition on the marks before a given mark or inside a window, so it passes to subsets. (d) `φ = h·ε(φ)` with
 `ε(φ)` of order `2` commuting with `h`, so `h^N = 1`; the rest is 0.6 (v) with `ε(Frob_ℓ) = σ_d` iff `ℓ` splits in
 `ℚ(√−q)`: for `ε(φ) = σ_d` the marks lie at one parity of the even `N`, so no two are adjacent and some position is
-unmarked; for `ε(φ) = c` and `φ ≠ c` (so `h ≠ 1`), (c) applies with `ord h ≥ L` or `2 ≤ ord h ≤ 4L`; for `φ = c`,
+unmarked; for `ε(φ) = c` and `φ ≠ c` (so `h ≠ 1`), (c) applies with `ord h > 4L` or `2 ≤ ord h ≤ 4L`; for `φ = c`,
 `N = 2` and `pl(y) = pl(yc)`.
 
 *Checks.*
@@ -608,15 +617,16 @@ unmarked; for `ε(φ) = c` and `φ ≠ c` (so `h ≠ 1`), (c) applies with `ord 
 
 *Definition.* For real `B ≥ 3` and an integer `a ≥ 3`, a *`(B, a)`-admissible pair* is a pair of
 primes `(q, d)` with `q ≡ 3 (mod 4)`, `d ≡ 7 (mod 8)`, `v₂(q + 1) ≤ a` and `v₂(d + 1) ≤ a`, `q | d + 1`, and `p | d + 1` for
-every odd prime `p ≤ B`. A *`B`-admissible pair* is a `(B, 3)`-admissible pair: `q ≡ 3 (mod 4)` with `v₂(q + 1) ≤ 3`,
-`d ≡ 7 (mod 16)`, `q | d + 1`, and `p | d + 1` for every odd prime `p ≤ B`.
+every odd prime `p ≤ B`. A *`B`-admissible pair* is a pair of primes `(q, d)` with `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`,
+`q | d + 1`, and `p | d + 1` for every odd prime `p ≤ B`; it is a `(B, 3)`-admissible pair with `v₂(q + 1) = 2`.
 *Lemma.* For a `(B, a)`-admissible pair: (i) `(−d/q) = 1` and `(−d/p) = 1` for every odd prime `p ≤ B`, so `q` and
 these `p` split in `ℚ(√−d)`; `2` splits in `ℚ(√−d)`. (ii) `d > B`, and `d ≥ 23`. (iii) Every prime inert in `ℚ(√−d)`
 exceeds `B`; so every host of 0.4 with this auxiliary pair is inert-free up to `B` (0.3). (iv) If every odd prime
-dividing `f_ψ` is at most `B` and `q ∤ f_ψ`, then `(q, d)` satisfies the hypotheses of 0.4 for `ψ`. (v)
-`2 ≤ v₂(q + 1) ≤ a` and `3 ≤ v₂(d + 1) ≤ a`; for a `B`-admissible pair `v₂(q + 1) ∈ {2, 3}` and `v₂(d + 1) = 3`. (vi) Under
-(iv), the host of 0.4 with this pair and any layer `n ≥ a − 1` satisfies `HostSplitting E` (0.3), and `16qd` divides its
-conductor `f_E`; for a `B`-admissible pair this holds from the layer `n = 2` on.
+dividing `f_ψ` is at most `B` and `q ∤ f_ψ`, then `(q, d)` satisfies the hypotheses of 0.4 on the pair for `ψ`, with
+`q ≡ 3 (mod 4)`, `d ≡ 7 (mod 8)` in place of `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)` unless the pair is `B`-admissible. (v)
+`2 ≤ v₂(q + 1) ≤ a` and `3 ≤ v₂(d + 1) ≤ a`; for a `B`-admissible pair `v₂(q + 1) = 2` and `v₂(d + 1) = 3`. (vi) Under
+(iv), the host of 0.4 (in the classes of (iv)) with this pair and any layer `n ≥ a − 1` satisfies `HostSplitting E`
+(0.3), and `16qd` divides its conductor `f_E`; for a `B`-admissible pair this holds from the layer `n = 2` on.
 Each condition has a use in Layer 0: `q ≡ d ≡ 3 (mod 4)` makes `χ_{−q}`, `χ_{−d}` odd and the host CM (0.4);
 `d ≡ 7 (mod 8)` splits `2` in `K` (0.4); the bound `v₂(d + 1) ≤ a` fixes the layer from which (vi) holds; `q | d + 1` splits
 the ramified prime `q` in `K` (0.4); the odd primes `p ≤ B` dividing `d + 1` split the odd primes of `f_ψ` in `K` (iv) and
@@ -626,9 +636,11 @@ leave no prime `≤ B` inert in `K` (iii).
 `−d ≡ 1 (mod 8)`, so `2` splits. (ii) By Bertrand's postulate there is an odd prime `p ∈ (B/2, B]`, and `8p | d + 1`
 since `8 | d + 1`; so `d + 1 ≥ 8p > 4B`. Also `3 | d + 1` (as `3 ≤ B`), so `24 | d + 1` and `d ≥ 23`.
 (iii) By (ii) every prime `p ≤ B` is `2` or odd and different from `d`, and (i) splits it. (iv) `q ≡ d ≡ 3 (mod 4)`;
-`q ≠ d` because `q | d + 1`; `d ∤ f_ψ` because `d > B` is larger than every odd prime of `f_ψ`; `d ≡ 7 (mod 8)`; and (i).
-(v) `q ≡ 3 (mod 4)` gives `v₂(q + 1) ≥ 2`, and `d ≡ 7 (mod 8)` gives `v₂(d + 1) ≥ 3`. (vi) 0.4 (vi) with
-`v₂(d + 1) − 1 ≤ a − 1 ≤ n`, and 0.4 (iii): `f_E = lcm(2^{n+2}, f_ψ)·q·d` with `16 | 2^{n+2}` (`n ≥ a − 1 ≥ 2`) and
+`q ≠ d` because `q | d + 1`; `d ∤ f_ψ` because `d > B` is larger than every odd prime of `f_ψ`; `d ≡ 7 (mod 8)`; and (i);
+a `B`-admissible pair has `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` by definition.
+(v) `q ≡ 3 (mod 4)` gives `v₂(q + 1) ≥ 2`, and `d ≡ 7 (mod 8)` gives `v₂(d + 1) ≥ 3`; `q ≡ 3 (mod 8)` and
+`d ≡ 7 (mod 16)` give `v₂(q + 1) = 2` and `v₂(d + 1) = 3`. (vi) 0.4 (vi) and the sentence after it, with
+`v₂(d + 1) − 1 ≤ a − 1 ≤ n`, and 0.4 (c): `f_E = lcm(2^{n+2}, f_ψ)·q·d` with `16 | 2^{n+2}` (`n ≥ a − 1 ≥ 2`) and
 `q, d ∤ f_ψ`.
 
 *Checks.*
@@ -689,10 +701,10 @@ provided the real characters of the host have no zero near `1` and the conductor
 (`log f_E ≤ (log X)^α`, 1.4): the first is a property of the auxiliary pair, the second a bound on the layer and on the
 sizes of `q` and `d`; the thick places see every character at the single scale `x`; and averaging over the translates of
 the thick set by `A₀` keeps exactly the characters trivial on `A₀` (1.5–1.7). The averaged sum of `m` such differences
-is `m` times a fixed multiple of the weighted family sum at `x`, up to errors; an upper bound for it whose error,
-divided by that multiple of `m`, is `x^{O(ε)}(x/m + m)` (1.8) is then equivalent at `m ≈ √x`, up to factors `x^{O(ε)}`
-and two side inputs (bounds at the scale `x` for the characters that are not kept, and the thin-scale saving), to a
-square-root bound at the scale `x` for the weighted sum of the Riesz remainders of the cyclic family (1.9, 1.10).
+is `m` times a fixed multiple of the weighted family sum at `x`, up to errors; an upper bound for it at every translate
+whose error, divided by that multiple of `m`, is `x^{O(ε)}(x/m + m)` (1.8) then gives at `m ≈ √x`, up to factors `x^{O(ε)}`
+and two side inputs (bounds at the scale `x` for the characters that are not kept, and the thin-scale saving), a
+square-root bound at the scale `x` for the weighted sum of the Riesz remainders of the cyclic family (1.9).
 
 ### 1.1 The Frobenius-restricted Riesz sum and its main term
 
@@ -738,8 +750,10 @@ then `(a/n − w₀)₊ = w₀(y/n − 1)₊` and the definitions of `G_1`, `G_�
 
 `ℭ(a, τ, w) = |Φ|^{−1} Σ_{g ∈ G∖Φ} Σ_{χ ∈ Ĝ} conj χ(g)·w(par_τ g)·G_{χ*}(a/w(par_τ g))`,
 
-with `G_{χ*} = G_1` for the trivial character. *Theorem.* For every abelian CM host, `a > 0`, `τ ∈ Φ` and
-`w : Φ → (0, ∞)`: `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`.
+with `G_{χ*} = G_1` for the trivial character. *Theorem.* For every abelian CM host with `SplitRamification d` (0.3),
+`a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`: `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. The identity holds for every abelian CM
+host by the same orthogonality argument (RiemannHypothesisStatementsAndConsequences §8.8a); the case of split
+ramification is the one [FormalProof] states.
 
 In `Suggested.lean`, `ℭ` is `frobRieszCharAverage` and the theorem is `frobRieszSum_sub_main`.
 
@@ -800,8 +814,8 @@ the gap `c_ex` of (a); the bound `exp(−c₁(log y)^{1−α})` decreases in `y`
 *Checks.*
 - An instance of (b): for `ε > 0`, `X = e^{x^{ε/3}}/3` and `log f_E ≤ 2x^{ε/5} log² x`, (b) with `α = 31/50` gives
   the saving `s = e^{−x^{ε/8}}` beyond `X` for `x ≥ x₀(ε, c_ex)`, since `31/150 > 1/5` and `19/150 > 1/8`.
-- On the host of 0.4 for `ψ = 1`, `n = 1`, `(q, d) = (3, 71)`, the eight characters of `G` are all real:
-  `ρ ∈ {1, (2/·)}` times `(·/3)^i(·/71)^j`. The twists of `ρ = 1` alone would leave out `(2/·)(·/3)`, `(2/·)(·/71)`
+- On the host of 0.4 for `ψ = 1`, `n = 2`, `(q, d) = (3, 71)`, the real characters of `G` are the eight
+  `ρ·(·/3)^i(·/71)^j` with `ρ ∈ {1, (2/·)}`. The twists of `ρ = 1` alone would leave out `(2/·)(·/3)`, `(2/·)(·/71)`
   and `(2/·)(·/3)(·/71)`.
 
 *KNOWN* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20). *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
@@ -833,8 +847,6 @@ symmetric, with `ν̂(1) = 1`. If `S ⊂ A` has coset law `ν` with precision `�
 `|Σ_{τ∈S} χ(τ) − ν̂(χ)·|S|| ≤ o·η·|S|` for every character `χ` of `A` trivial on `A₀`. For a host of 0.4 and
 `κ ∈ 𝒦(ψ)` write `ν̂(κ) = ν̂(χ_κ|_A)` (0.5(iii)).
 
-In `Suggested.lean`, `ν̂` is `ScaleData.cosetLawCoeff`.
-
 *Route.* Group the elements of `S` by cosets: `Σ_{τ∈S} χ(τ) = Σ_{αA₀} χ(α)·#(S ∩ αA₀)`.
 
 *Checks.*
@@ -847,8 +859,9 @@ In `Suggested.lean`, `ν̂` is `ScaleData.cosetLawCoeff`.
 ### 1.7 Cyclic host data at a scale
 
 *Cyclic host data at a scale.* A host of 0.4 for `ψ`; a nonempty set of tops
-`Φ_top ⊂ A` with a symmetric coset law `ν` and precision `η_top` (0.7, 1.6); a thick set `𝒯 ⊂ A₀`; reals `x ≥ 3` and
-`b, b′, X′, ϑ, s_th > 0` with `b′X′ ≤ xb`; an integer `m ≥ 1`; top weights `a_τ > 0` (`τ ∈ Φ_top`) with
+`Φ_top ⊂ A` with the coset law `ν₀`, `ν₀(A₀) = 4/(3o + 1)` and `ν₀(αA₀) = 3/(3o + 1)` on the other cosets, and precision
+`η_top` (0.7, 1.6); a thick set `𝒯 ⊂ A₀`; reals `x ≥ 3`, `b, b′, X′ > 0` and `ϑ, s_th ≥ 0` with `b′X′ ≤ xb`; an integer
+`m ≥ 1`; top weights `a_τ > 0` (`τ ∈ Φ_top`) with
 `|a_τ/b − x| ≤ 1`; and for every translate `u₀ ∈ A₀` and `1 ≤ j ≤ m` a weight `w_{u₀,j} : Φ → (0, ∞)` with
 `w_{u₀,j}(τ′) ∈ [b, b + ϑ + 1]` at the thick places `τ′ ∈ cσ_d u₀𝒯` of `u₀` and `w_{u₀,j}(τ′) ≤ 2b′` at every other
 place. Assume that `E` satisfies the prime number theorem with saving `s_th` beyond `X′/3` (the *thin-scale saving*;
@@ -856,18 +869,23 @@ definition in 1.4 (b), which derives it on a host of 0.4 from the thin-scale box
 `X′/3 ≥ y₀(α, c_ex)` and `log f_E ≤ (log(X′/3))^α` for some `α ∈ [1/2, 1)`, with `s_th = exp(−c₁(log(X′/3))^{1−α})`).
 Put
 
-`𝔄 = mean_{u₀∈A₀} Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j})`, `𝔜_ν(x) = Σ_{κ∈𝒦(ψ)} ν̂(κ)·Re G_κ(x)`,
+`𝔄 = mean_{u₀∈A₀} Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j})`,
+`𝔜_{ν₀}(x) = Σ_{κ∈𝒦(ψ)} ν̂₀(κ)·Re G_κ(x) = G_1(x) + (3o + 1)^{−1} Σ_{κ∈𝒦(ψ), κ≠1} Re G_κ(x)` (by 1.6, `ν̂₀(1) = 1` and
+`ν̂₀(κ) = 1/(3o + 1)` for `κ ≠ 1`),
 
 `𝔔_x = log(x + 1) + C_Λ + max{|(L′/L)(1, χ*)| : 1 ≠ χ ∈ Ĝ, χ|_{A₀} = 1}`, `C_Λ` the absolute constant of
 RieszSumsOverPrimesAndExceptionalZeros §1.4h.
 
-*Theorem.*
+*Theorem.* Let `ε > 0`, and let `C′`, `k` and `Err` be real. Assume `η_top ≤ x^{−1+ε}`, `m ≤ x^{1/2+ε/2}`, `xm ≤ k`, the
+*cost conditions* `2f(x + 1)·s_th ≤ 1/x` and `6f(x + 1)(ϑ + 1) ≤ b/x`, and `|(L′/L)(1, χ*)| ≤ C′ log x` for the
+non-kept `χ` trivial on `A₀`. For `x ≥ x₁(ψ, C′, ε)`: if `Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ Err` for
+every `u₀ ∈ A₀`, then
 
-`|𝔄 − m b (δ_th/2)|Φ_top|·𝔜_ν(x)| ≤ m b (δ_th/2)|Φ_top|·(Σ_χ |G_{χ*}(x)| + (4o + o²η_top x)·𝔔_x) + 2f m|Φ_top|·(3(x + 1)(ϑ + 1) + (x + 1)b·s_th)`,
+`|Φ_top|·m·b·(δ_th/2)·(𝔜_{ν₀}(x) − Σ_χ |G_{χ*}(x)| − 4x^{1/2+ε}) ≤ Err + 2|Φ_top|·m·b/x`,
 
 the sum over the `3o` non-kept characters trivial on `A₀` (0.5(iv)).
 
-In `Suggested.lean` the data are the structure `ScaleData` (the coset law read as a function on the cosets of `A₀`), and `𝔄` and `𝔜_ν(x)` are `ScaleData.averagedSum` and `ScaleData.familySum`.
+In `Suggested.lean` the data are the structure `ScaleData` (the coset law `ν₀` read on the cosets of `A₀`), and the sum of the hypothesis at `u₀` and `𝔜_{ν₀}(x)` are `ScaleData.translateSum` and `ScaleData.familySum`.
 
 *Route.* By 1.2 each term of `𝔄` is `Re ℭ(a_τ, τ, w_{u₀,j})` (`ℛ` and `𝔐` are real). In `ℭ`, the `g` with
 `par_τ(g)` a thick place of `u₀` are `g = σ_d u₀ s τ^{−1}`, `s ∈ 𝒯` (0.6(iii)); replacing their weight by `b` costs
@@ -877,13 +895,18 @@ weight `|Φ|^{−1}·|Φ|·|G| = 2f`. What remains, the thick part
 `|Φ|^{−1} Σ_{s∈𝒯} Σ_χ conj χ(σ_d u₀ s τ^{−1})·b·G_{χ*}(a_τ/b)`, does not depend on `j`, and by 1.5 and `|Φ| = 2|A|`
 its mean over `u₀ ∈ A₀` is `b(δ_th/2) Σ_{χ|A₀=1} conj χ(σ_d)χ(τ)G_{χ*}(a_τ/b)`. Sum over `τ ∈ Φ_top`: for a kept
 `χ = χ_κ` (`χ(σ_d) = 1`, 0.5(iii)) move `a_τ/b` to `x` at cost `𝔔_x` per top (RieszSumsOverPrimesAndExceptionalZeros §1.4h (b)) and replace `Σ_τ χ(τ)` by
-`ν̂(κ)|Φ_top|` at cost `oη_top|Φ_top|·|G_κ(x)| ≤ oη_top|Φ_top|·x𝔔_x` (1.6, RieszSumsOverPrimesAndExceptionalZeros §1.4h (c)); `ν̂(κ)` is real. A non-kept `χ`
-contributes at most `|Φ_top|·(|G_{χ*}(x)| + 𝔔_x)`. Every step is an estimate of a modulus, so the bound is two-sided.
+`ν̂₀(κ)|Φ_top|` at cost `oη_top|Φ_top|·|G_κ(x)| ≤ oη_top|Φ_top|·x𝔔_x` (1.6, RieszSumsOverPrimesAndExceptionalZeros §1.4h (c)); `ν̂₀(κ)` is real. A non-kept `χ`
+contributes at most `|Φ_top|·(|G_{χ*}(x)| + 𝔔_x)`. So `𝔄`, the mean over `u₀ ∈ A₀` of the sums of the hypothesis, is at
+most `Err` and at least
+`m b(δ_th/2)|Φ_top|·(𝔜_{ν₀}(x) − Σ_χ |G_{χ*}(x)| − (4o + o²η_top x)𝔔_x) − 2f m|Φ_top|·(3(x + 1)(ϑ + 1) + (x + 1)b·s_th)`.
+With `η_top ≤ x^{−1+ε}` and `𝔔_x ≤ log(x + 1) + C_Λ + K_ψ + |C′| log x`,
+`K_ψ = max({0} ∪ {|(L′/L)(1, κ)| : 1 ≠ κ ∈ 𝒦(ψ)})`, the factor `(4o + o²η_top x)𝔔_x` is at most `4x^{1/2+ε}` for
+`x ≥ x₁(ψ, C′, ε)`; the cost conditions bound the last term by `2|Φ_top|·m·b/x`.
 
 *Checks.*
-- Degenerate case `𝒯 = ∅`: there are no thick places, every weight is at most `2b′`, `δ_th = 0`, and the bound
-  reads `|𝔄| ≤ 2fm|Φ_top|·(3(x + 1)(ϑ + 1) + (x + 1)b·s_th)`: without thick places the averaged sum carries no
-  information on the family. In general `δ_th/2 = |𝒯|/|Φ|` is the proportion of the classes `g ∈ G ∖ Φ` whose
+- Degenerate case `𝒯 = ∅`: there are no thick places, every weight is at most `2b′`, `δ_th = 0`, and the conclusion
+  reads `Err ≥ −2|Φ_top|·m·b/x`: without thick places the hypothesis carries no information on the family. In general
+  `δ_th/2 = |𝒯|/|Φ|` is the proportion of the classes `g ∈ G ∖ Φ` whose
   partner from a given top is a thick place, and the `m` steps contribute `m` identical copies of the thick part.
 
 *NEW* (combination of classical estimates; [FormalProof]). *Needs:* 0.5, 0.6, 1.2, 1.4, 1.5, 1.6;
@@ -891,96 +914,80 @@ RieszSumsOverPrimesAndExceptionalZeros §1.4h.
 
 ### 1.8 The error bracket
 
-Let `ε ∈ (0, 1]`, `x ≥ 1`, `C ≥ 0`, `A` a finite group with subsets `Φ_top`
-and `𝒯`, `δ_th = |𝒯|/|A|`, integers `m, k ≥ 1` and reals `a, b, B₀, N_c > 0` with:
-(i) `x^{1/2−ε} ≤ m ≤ x^{1/2+ε}`; (ii) `xm ≤ k ≤ |A|²x^{1/2+ε}`; (iii) `|Φ_top| ≥ x^{−ε}|A|` and `|𝒯| ≥ x^{−ε}|A|`;
-(iv) `a ≤ 2xb`; (v) `B₀ ≤ 2|A|·m·b·x^ε` and `N_c ≤ |𝒯|·k·b·x^{2ε}/|A|²`. Then
+Let `ε > 0`, `C ≥ 0`, `x ≥ 3` with `x^{3ε/8} ≥ 26`, `A` a finite group with subsets `Φ_top` and `𝒯`, `δ_th = |𝒯|/|A|`, an
+integer `m`, and reals `b > 0`, `a ≥ 0`, `k` with: (i) `x^{1/2−ε} ≤ m ≤ x^{1/2+ε/2}`; (ii) `xm ≤ k ≤ |A|²x^{1/2−ε}`;
+(iii) `|Φ_top| ≥ x^{−ε/8}|A|/2` and `|𝒯| ≥ x^{−ε}|A|`; (iv) `a ≤ 2xb`. If a real `Y` satisfies
 
-`x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c)) ≤ 14·x^{1/2+(C+5)ε}·m b (δ_th/2)|Φ_top|`.
+`|Φ_top|·m·b·(δ_th/2)·(Y − 4x^{1/2+ε}) ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(2|A|·m·b·x^ε + |𝒯|·k·b·x^{2ε}/|A|²)) + 2|Φ_top|·m·b/x`,
 
-*Route.* Divided by `|Φ_top|mb`, the four terms are at most `a/(mb) ≤ 2x/m ≤ 2x^{1/2+ε}`, `am/(kb) ≤ 2xm/k ≤ 2`,
-`B₀/(|Φ_top|b) ≤ 2|A|mx^ε/|Φ_top| ≤ 2x^{1/2+3ε}` and
-`N_c/(|Φ_top|b) ≤ |𝒯|kx^{2ε}/(|A|²|Φ_top|) ≤ kx^{3ε}/|A|² ≤ x^{1/2+4ε}` (using `|𝒯| ≤ |A|`); their sum is at most
-`7x^{1/2+4ε}`, and `2/δ_th ≤ 2x^ε`.
+then `Y ≤ x^{1/2+(C+3)ε}`.
+
+*Route.* Divide by `|Φ_top|·m·b·(δ_th/2)`; by (iii), `2/δ_th ≤ 2x^ε`. Divided by `|Φ_top|·m·b`, the four terms of the
+bracket are at most `a/(mb) ≤ 2x/m ≤ 2x^{1/2+ε}`, `am/(kb) ≤ 2xm/k ≤ 2`, `2|A|·m·x^ε/|Φ_top| ≤ 4x^{1/2+13ε/8}` and
+`|𝒯|·k·x^{2ε}/(|A|²|Φ_top|) ≤ 2x^{1/2+9ε/8}` (using `|𝒯| ≤ |A|`), and the last term gives `2/x`. So
+`Y ≤ 4x^{1/2+ε} + 2x^ε·(x^{Cε}(2x^{1/2+ε} + 2 + 4x^{1/2+13ε/8} + 2x^{1/2+9ε/8}) + 2/x)`, which is at most
+`x^{1/2+(C+21/8)ε}·(8 + 20x^{−ε/2})`, and `8 + 20x^{−ε/2} ≤ 9 ≤ x^{3ε/8}`.
 
 *Checks.*
 - The balance: the first term is of relative size `a/(mb)` and the third of size `m·|A|/|Φ_top|` up to `x^{O(ε)}`
-  (`B₀ = f·m·b·x^ε` in the construction of the chain); at the construction's `a = xb` the first is `x/m`, and their sum is least
-  at `m ≈ √x`, where it is `x^{1/2+O(ε)}`. With `a = xb` and `m = x^{1/3}` the first term alone is `x^{2/3}·mb|Φ_top|`,
+  (the third term is `m·2|A|·m·b·x^ε`, and `2|A| = f` on a host of 0.4); at the construction's `a = xb` the first is
+  `x/m`, and their sum is least at `m ≈ √x`, where it is `x^{1/2+O(ε)}`. With `a = xb` and `m = x^{1/3}` the first term alone is `x^{2/3}·mb|Φ_top|`,
   and no square-root bound can follow from 1.9. (Under (iv) alone `a/(mb)` is only bounded above, by `2x/m`.)
 
 *NEW* (elementary; [FormalProof]). *Needs:* none beyond the definitions.
 
-### 1.9 The square-root bound for the cyclic family from the averaged inequality
+### 1.9 The square-root bound for the cyclic family from the Frobenius-restricted inequality
 
-Let `ψ` be a primitive Dirichlet character of order `o`, and
-`C, C′ ≥ 0`, `ε ∈ (0, 1]`. There is `x₁ = x₁(ψ, C′, ε) ≥ 3` such that the following holds for every `x ≥ x₁` and all
-cyclic host data at `x` as in 1.7 (on any host of 0.4 for `ψ`) with `η_top ≤ x^{−1/2}`, parameters `k, a, B₀, N_c`
-satisfying 1.8(i)–(v), and the *cost condition* `2f·(3(x + 1)(ϑ + 1) + (x + 1)b·s_th) ≤ b`. If
-(i) `𝔄 ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`, and
+Let `ψ` be a primitive Dirichlet character of order `o`, `C ≥ 0`, `C′` real and `ε > 0`. There is
+`x₁ = x₁(ψ, C, C′, ε) ≥ 3` such that the following holds for every `x ≥ x₁` and all cyclic host data at `x` as in 1.7
+(on any host of 0.4 for `ψ`) whose tops have the coset law `ν₀` of 1.7 with precision `x^{−1+ε}`, with parameters
+`k, a` satisfying 1.8 (i)–(iv) and the cost conditions of 1.7. If
+(i) for every `u₀ ∈ A₀`:
+`Σ_{τ∈Φ_top} Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(2|A|·m·b·x^ε + |𝒯|·k·b·x^{2ε}/|A|²))`, and
 (ii) `|G_{χ*}(x)| ≤ x^{1/2+ε}` and `|(L′/L)(1, χ*)| ≤ C′ log x` for every non-kept `χ` trivial on `A₀`,
 then
 
-`𝔜_ν(x) = Σ_{κ∈𝒦(ψ)} ν̂(κ)·Re G_κ(x) ≤ x^{1/2+(C+6)ε}`.
+`G_1(x) + (3o + 1)^{−1} Σ_{κ∈𝒦(ψ), κ≠1} Re G_κ(x) ≤ x^{1/2+(C+3)ε} + 4o·x^{1/2+ε} ≤ x^{1/2+(C+4)ε}`.
 
-The threshold `x₁` is chosen before the host, the tops, the thick set and the weights, and does not depend on `C`.
-Hypothesis (i) is asked on average over the translates `u₀ ∈ A₀`; a bound for every `u₀ ∈ A₀` implies it, and a bound on
-average over `A` would not suffice (1.5, Checks). Hypothesis (ii) and the saving `s_th` of 1.7 concern other characters
+With parameters `B₀ ≤ 2|A|·m·b·x^ε` and `N_c ≤ |𝒯|·k·b·x^{2ε}/|A|²`, the inequality
+`… ≤ x^{Cε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))` for every `u₀ ∈ A₀` implies (i).
+
+The threshold `x₁` is chosen before the host, the tops, the thick set and the weights. The argument uses (i) only through
+its mean over `u₀ ∈ A₀`, and its threshold does not involve `C`; a mean over `A` would not suffice (1.5, Checks).
+Hypothesis (ii) and the saving `s_th` of 1.7 concern other characters
 or other scales than the conclusion. They are not consequences of 1.4 alone: on a host of 0.4, (ii) is a property of the
 auxiliary pair, and the saving follows from 1.4 (b) under the thin-scale box hypothesis of 1.4 (a), a further property
 of the pair, and the bound `log f_E ≤ (log(X′/3))^α`, which bounds the layer and the sizes of `q` and `d` against the
-thin scale (`f_E = lcm(2^{n+2}, f_ψ)·q·d` for `n ≥ 1`, 0.4 (iii)). The twist selection of QuadraticTwistSelectionOverPrimes
+thin scale (`f_E = lcm(2^{n+2}, f_ψ)·q·d`, 0.4 (c)). The twist selection of QuadraticTwistSelectionOverPrimes
 §§2.7c–2.7d supplies (ii) and the box hypothesis when it is run for a set of characters containing the members of `𝒦(ψ)`
 and every real primitive character of conductor dividing `8f_ψ`, for instance the primitive characters inducing the
 characters modulo `8f_ψ`; the bound on `f_E` is a condition on the choice of the layer and of the sizes of the pair.
 
-In `Suggested.lean` the hypotheses other than (i) are `ScaleData.BoundHyp`, (i) is `ScaleData.FrobeniusInequality`, and the theorem is the first half of `frobeniusInequality_iff_cyclicBound`.
+In `Suggested.lean` the hypotheses other than (i), with the parameters `B₀` and `N_c`, are `ScaleData.BoundHyp`, (i) in the form with `B₀` and `N_c` is `ScaleData.FrobeniusInequality`, and the theorem is `cyclicBound_of_frobeniusInequality`.
 
-*Route.* 1.7 with the cost condition gives
-`m b(δ_th/2)|Φ_top|·𝔜_ν(x) ≤ 𝔄 + m b(δ_th/2)|Φ_top|·(Σ_χ |G_{χ*}(x)| + (4o + o²η_top x)𝔔_x) + m|Φ_top|b`. Divide by
-`m b(δ_th/2)|Φ_top|`: by (i) and 1.8, `𝔄` contributes at most `14x^{1/2+(C+5)ε}`; by (ii) the non-kept characters at
-most `3o·x^{1/2+ε}`; `(4o + o²x^{1/2})𝔔_x ≤ (4o + o²x^{1/2})(log(x + 1) + C_Λ + K_ψ + C′ log x)` with
-`K_ψ = max({0} ∪ {|(L′/L)(1, κ)| : 1 ≠ κ ∈ 𝒦(ψ)})` (`K_1 = 0`); and the cost at most `2/δ_th ≤ 2x^ε`. For
-`x ≥ x₁(ψ, C′, ε)` the sum is at most `x^{1/2+(C+6)ε}`.
+*Route.* For `x ≥ x₁`, 1.7 applies with `Err` the right side of (i) (its hypothesis on `(L′/L)(1, χ*)` is part of (ii)):
+`|Φ_top|·m·b·(δ_th/2)·(Y − 4x^{1/2+ε}) ≤ Err + 2|Φ_top|·m·b/x` for `Y = 𝔜_{ν₀}(x) − Σ_χ |G_{χ*}(x)|`, the sum over the
+`3o` non-kept characters trivial on `A₀`. This is the hypothesis of 1.8 (`x^{3ε/8} ≥ 26` for `x ≥ x₁`), so
+`Y ≤ x^{1/2+(C+3)ε}`; by (ii), `Σ_χ |G_{χ*}(x)| ≤ 3o·x^{1/2+ε}`, and `𝔜_{ν₀}(x)` is the left side (1.7). The last
+inequality holds once `x^ε ≥ 1 + 4o`. The threshold of 1.7, `x^{3ε/8} ≥ 26` and `x^ε ≥ 1 + 4o` involve `ψ`, `C′` and
+`ε` only.
 
 *Checks.*
-- `ψ = 1`: `o = 1`, `𝒦(ψ) = {1}`, `ν̂(1) = 1`, and the conclusion is `G_1(x) ≤ x^{1/2+(C+6)ε}`.
-- With the selection law of 0.7 (`ω = 1` on `A₀`, `ω₀` elsewhere, `0 < ω₀ < 1`) the weights are `1` at `κ = 1` and
-  `(1 − ω₀)/(1 + ω₀(o − 1))` at the other members of the family (`1/(3o + 1)` at `ω₀ = 3/4`), all positive; with the
-  uniform law (`ω₀ = 1`) the conclusion would concern `G_1` alone.
+- `ψ = 1`: `o = 1`, `𝒦(ψ) = {1}`, and the conclusion is `G_1(x) ≤ x^{1/2+(C+3)ε} + 4x^{1/2+ε} ≤ x^{1/2+(C+4)ε}`.
+- The law `ν₀` is the coset law of the selection of 0.7 with `ω = 1` on `A₀` and `ω₀ = 3/4` elsewhere (0.7, Checks);
+  its weights `1` and `1/(3o + 1)` are positive. With the uniform law (`ω₀ = 1`) the conclusion would concern `G_1`
+  alone.
 
 *NEW* ([FormalProof]). *Needs:* 0.5, 1.6, 1.7, 1.8.
-
-### 1.10 The averaged inequality from the square-root bound
-
-Under the hypotheses of 1.9 other than (i), for `x ≥ x₁(ψ, C′, ε)`:
-
-`𝔄 ≤ m b (δ_th/2)|Φ_top|·max(0, 𝔜_ν(x)) + (3o + 3)·m b|Φ_top|·x^{1/2+ε}`.
-
-Consequently, if moreover `a ≥ xb/2` and `𝔜_ν(x) ≤ x^{1/2+C″ε}` with `C″ ≥ 1`, then (i) of 1.9 holds with `C = C″ + 2`
-for `x ≥ x₁′(ψ, C′, C″, ε)`. With 1.9: on a cyclic host at the scale `x`, the averaged Frobenius-restricted inequality
-(i) and the square-root bound for `𝔜_ν(x)` are equivalent up to factors `x^{O(ε)}`. So (i) at the scale `x` is, up to
-`x^{O(ε)}`, the square-root bound for the weighted family sum at that scale. Its content is the balance of 1.8: the main
-term of `𝔄` is proportional to `m`, while the right side of (i), divided by `m b (δ_th/2)|Φ_top|`, is
-`x^{O(ε)}(x/m + m)` when `a ≍ xb` (the term `|Φ_top|·a` gives `x/m`, and `m·B₀` a term of order `m`, as `B₀ = f·m·b·x^ε`
-in the construction of the chain), which is `x^{1/2+O(ε)}` for `m` in the range 1.8 (i).
-
-In `Suggested.lean` the two-sided bound is the second half of `frobeniusInequality_iff_cyclicBound`, with the threshold `x₁` of 1.9, and the consequence is `frobeniusInequality_of_cyclicBound`.
-
-*Route.* The other half of the two-sided bound of 1.7, with `Σ_χ |G_{χ*}(x)| ≤ 3o x^{1/2+ε}`,
-`(4o + o²η_top x)𝔔_x ≤ x^{1/2+ε}` for `x ≥ x₁` and the cost at most `m|Φ_top|b`. For the consequence:
-`m ≤ x^{1/2+ε}` and `xb ≤ 2a` give `m b x^{1/2+C″ε} ≤ 2x^{(C″+1)ε}a`, and `|Φ_top|a` is at most the bracket of (i).
-
-*NEW* (elementary). *Needs:* 1.7, 1.8, 1.9.
 
 ### Examples
 
 - For `E = K` (one place) and for constant weights `w ≡ w₀`, `ℛ − 𝔐 = ℭ = w₀·(G_1 − G_{χ_K})(a/w₀)` (1.1, 1.2).
-- On the cyclic host of `ψ = 1`, `n = 1`, `(q, d) = (3, 71)` the eight characters are real: `ρ·(·/3)^i(·/71)^j` with
+- On the cyclic host of `ψ = 1`, `n = 2`, `(q, d) = (3, 71)` the real characters are the eight `ρ·(·/3)^i(·/71)^j` with
   `ρ ∈ {1, (2/·)}` (1.4).
 - For the coset law with `ω = 1` on `A₀` and `ω = ω₀` elsewhere, `ν̂(χ) = (1 − ω₀)/(1 + ω₀(o − 1))` for `χ ≠ 1`, which
   is `1/(3o + 1)` at `ω₀ = 3/4` (1.6).
-- For `ψ = 1` the conclusion of 1.9 is `G_1(x) ≤ x^{1/2+(C+6)ε}` (1.9).
+- For `ψ = 1` the conclusion of 1.9 is `G_1(x) ≤ x^{1/2+(C+4)ε}` (1.9).
 
 ### Dependencies
 
@@ -1002,7 +1009,7 @@ GluedTargetAndDivisionInequality use the hosts and their predicates (0.1, 0.3, 0
 UniformWildKernelBounds bounds wild kernels over the dyadic host fields of 0.4. ThetaChainsAndFrobeniusPrimeSums fixes
 the constants that are parameters here (among them the gap `c_box` of 1.4, chosen in `[ε₀/8, 1/12)`, the share
 `δ_top` of the tops and the length of the thick set) in ThetaChainsAndFrobeniusPrimeSums §10.6, takes the admissible
-pairs, the tops and the thick set from 0.9, 0.7 and 0.8a in ThetaChainsAndFrobeniusPrimeSums §10.7, and applies 1.9 to the averaged inequality of its chain to obtain the windowed
+pairs, the tops and the thick set from 0.9, 0.7 and 0.8a in ThetaChainsAndFrobeniusPrimeSums §10.7, and applies 1.9 to the inequality of its chain at every translate to obtain the windowed
 bound for the cyclic family. GeneralizedRiemannHypothesisFromWindowBounds uses the cyclic family of 0.5.
 
 ## Scope and ownership
@@ -1018,7 +1025,8 @@ Dirichlet character and the kept characters; the partner map, tops, thick and th
 the selection of tops with a coset law, sets with no relation of length `L`, thick sets and the cluster property of
 their marks along Frobenius orbits; admissible auxiliary pairs; the Frobenius-restricted Riesz sum, its main term and
 the character average with the identity 1.2; the thin-scale saving of cyclic hosts; the averaging statements 1.5 and
-1.6; the bound for the averaged sum at a scale (1.7), the error bracket (1.8) and the equivalence 1.9–1.10.
+1.6; the bound for the averaged sum at a scale (1.7), the error bracket (1.8) and the square-root bound for the cyclic
+family from the Frobenius-restricted inequality (1.9).
 
 Not owned here. The theorem of Kronecker and Weber with conductor, the inertia statements of local class field theory
 and Hilbert reciprocity are ClassFieldTheory Layers 7, 13 and 14; the primitive character attached to a character of
