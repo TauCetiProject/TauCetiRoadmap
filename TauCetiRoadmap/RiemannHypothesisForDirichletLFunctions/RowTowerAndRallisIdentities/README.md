@@ -279,7 +279,8 @@ the `(𝔤, K_∞)`-equivariant maps from the Harish-Chandra module of `𝒟^{(j
 elsewhere). The *Petersson product* is `⟨F₁, F₂⟩ := Σ_i ∫_{[U(Y_j)]} conj F₁(e_i)(g)·F₂(e_i)(g) dg` (conjugate-linear in the first variable, as in the
 Conventions) over an orthonormal basis `(e_i)` of `τ_j`, for a Haar measure on `U(Y_j)(𝔸)` (that of the conventions for `j = 0`; 5.2 fixes those of the stages of a
 tuple). For `j = m` the row space is the space of algebraic forms on the
-definite group `U(X^h)` of ThetaChainsOnDefiniteUnitaryGroups §3.1 (principal level at the type primes) with its class-sum product.
+definite group `U(X^h)` of ThetaChainsOnDefiniteUnitaryGroups §3.1 (principal level at the type primes) with its class-sum product
+(read as `(𝔤, K_∞)`-maps into automorphic forms, and as class sums, by AutomorphicFormsOnReductiveGroups §7.5).
 
 Prove:
 1. `𝒞_j` is finite-dimensional, and every `F(v)`, `v ∈ 𝒟^{(j)}`, is rapidly decreasing on a Siegel set.
@@ -291,7 +292,9 @@ Prove:
    satisfy `N w^{−(n_j−1)/2} ≤ |β| ≤ N w^{(n_j−1)/2}`.
 
 *Route.* (1) Harish-Chandra's finiteness theorem for cusp forms with given `K_∞`-type and infinitesimal character, and
-the rapid decay of cusp forms. (2) `(v, v′) ↦ ∫ conj F(v)·F(v′)` is a `K_∞`-invariant Hermitian form on the irreducible
+the rapid decay of cusp forms (ArithmeticLocallySymmetricSpaces ALS.F.6 (i), finiteness, and (iii), rapid decay;
+AutomorphicSpectralTheory §4.5 for the discrete spectrum).
+(2) `(v, v′) ↦ ∫ conj F(v)·F(v′)` is a `K_∞`-invariant Hermitian form on the irreducible
 `τ_j`, hence a multiple of its inner product (Schur's lemma); taking traces gives the factor `dim τ_j`. (3) The local
 spherical Hecke algebras are commutative (Satake) and act at places prime to the type primes, the adjoint formula is
 unimodularity, and the bound on the Satake parameters is the trivial bound for unitary unramified representations
@@ -315,8 +318,8 @@ by every Euler product of this layer.
   `μ_jη̃^{−1}` (odd rank) and `μ_j` (even rank) is `(P + ½) ∪ S(−w_j, t)` for `j` even and `(P ∪ S(−w_j, t)) − ½` for `j` odd.
 
 *KNOWN* (Harish-Chandra; Godement; Casselman–Wallach). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; AutomorphicFormsOnReductiveGroups
-§§2.2, 2.4, 4.2; AutomorphicSpectralTheory §4.5; SmoothRepresentationsOfLocalGroups Layer SR.4;
-LocalFactorsOfTwistsAndTypes §7.2.
+§§2.2, 2.4, 4.2, 7.5; ArithmeticLocallySymmetricSpaces ALS.F.6 (i), (iii); AutomorphicSpectralTheory §4.5;
+SmoothRepresentationsOfLocalGroups §§SR.4.1, SR.4.3, SR.4.4; LocalFactorsOfTwistsAndTypes §7.2.
 
 ### 5.2 The row step, its descent and its up-lift
 
@@ -376,8 +379,9 @@ Prove:
 3. *Parameters.* `io_j(ξ)` and `Θ_j` commute with the Hecke operators away from `S(ξ)` through the unramified correspondence. If
    `u ∈ 𝒞_0(ξ)` has family `B`, every nonzero `i`-fold up-lift `x = Θ_i ⋯ Θ_1u` has family `B^{(i)}`.
 
-*Route.* (1), (2): rapid decay of cusp forms and the growth of the theta kernel give convergence (MetaplecticAutomorphicForms
-§5.6). Both directions are instances of one statement for a pair `(V, W)` and discrete series `(𝒟_V, 𝒟_W)` matched by the
+*Route.* (1), (2): rapid decay of cusp forms (ArithmeticLocallySymmetricSpaces ALS.F.6 (iii)) and the growth of the theta
+kernel give convergence (MetaplecticAutomorphicForms §5.6).
+Both directions are instances of one statement for a pair `(V, W)` and discrete series `(𝒟_V, 𝒟_W)` matched by the
 correspondence at every real place (ThetaKernelsForUnitaryDualPairs §5.6a, under its hypotheses (R1)–(R3) at every real
 place): the theta integral to `U(V)` of a cusp form on `U(W)` of type `𝒟_W` is a cusp form of type `𝒟_V`; it applies to the
 row steps under the gap conditions (W1) and (W3) of ThetaChainsOnDefiniteUnitaryGroups §2.3. *Type:* (R1)–(R3) are the
@@ -434,7 +438,7 @@ source.
 
 *KNOWN* (Howe; Rallis; Kudla; J.-S. Li; A. Paul). *Needs:* 5.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.3 (with Lemma (h)), ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9c, ThetaChainsOnDefiniteUnitaryGroups §3.2; MetaplecticAutomorphicForms §§3.3, 5.6, 6.15 and
 ThetaKernelsForUnitaryDualPairs §§3.21a, 3.45, 3.46a, 4.4a, 5.6a; EndoscopicTransferAndUnitaryTraceComparison §6.3 and BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a;
-AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.7.
+AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.7, 7.5; ArithmeticLocallySymmetricSpaces ALS.F.6 (iii).
 
 ### 5.2a Projectors of integrable discrete series
 
@@ -447,16 +451,19 @@ representation `(ρ, H)` of `𝐆`, `ρ(e_σ) = ∫_𝐆 e_σ(g)ρ(g) dg` is the
 
 *Route.* Schur orthogonality for square-integrable representations gives `e_σ ∗ e_σ = e_σ` and `e_σ^* = e_σ`, so `ρ(e_σ)` is an
 orthogonal projection (bounded, since `e_σ ∈ L¹`); for `T ∈ Hom_𝐆(σ, ρ)`, `ρ(e_σ)T(w) = T(σ(e_σ)w) = T(w)`. Conversely, for `x` in the
-range the function of positive type `c(g) = ⟨ρ(g)x, x⟩` satisfies `c = e_σ ∗ c ∗ e_σ`; by Godement's theorem on integrable
+range the function of positive type `c(g) = ⟨ρ(g)x, x⟩` (`g ↦ c(g^{−1})` is the positive-type coefficient of
+SmoothRepresentationsOfLocalGroupsPartII §0.4) satisfies `c = e_σ ∗ c ∗ e_σ`; by Godement's theorem on integrable
 square-integrable representations such a function is a coefficient of a multiple of `σ`, so the cyclic representation
-generated by `x` is a multiple of `σ` and `x` is a limit of sums `Σ T_i(w)`.
+generated by `x` (by SmoothRepresentationsOfLocalGroupsPartII §0.5, the GNS representation of that coefficient) is a
+multiple of `σ` and `x` is a limit of sums `Σ T_i(w)`.
 
 *Check.* `𝐆` compact: `e_σ` is `d(σ)` times a coefficient, `ρ(e_σ)` is the projection onto the `w`-line of the `σ`-isotypic
 part, and integrability is automatic. For `SL₂(ℝ)` the holomorphic discrete series of weight `2` is square-integrable but
 not integrable, and the statement is not claimed there.
 
 *KNOWN* (Godement; Harish-Chandra). *Needs:* Mathlib (Haar measure, Bochner integral); VonNeumannAlgebras Layer 9
-(coefficient maps, Schur orthogonality for square-integrable representations, formal degree).
+(coefficient maps, Schur orthogonality for square-integrable representations, formal degree);
+SmoothRepresentationsOfLocalGroupsPartII §§0.4, 0.5 (positive-type coefficients, the GNS construction).
 
 ### 5.3 The rows and the target rows
 
@@ -644,7 +651,8 @@ the left side for `i = m − 1` being the product of `𝒰^♮_ξ`; the `L`-valu
 `s ↦ L^{S(ξ)}(s + ½, B_𝔥 × μ_{i+1}(ξ)^{−1})`, an absolutely convergent Euler product because `t > r`.
 
 *Route.* The doubling seesaw writes the inner product of two theta integrals `Θ_{i+1}u₁`, `Θ_{i+1}u₂` as the doubling integral of
-the theta integral of `(U(Y_i)^□, U(Y_{i+1}))`, which converges by Weil's criterion. The Rallis inner product formula is used in
+the theta integral of `(U(Y_i)^□, U(Y_{i+1}))`, which converges by Weil's criterion (MetaplecticAutomorphicForms §5.7 for
+the split doubled space of rank `2n_i`, whose condition is Weil's condition above). The Rallis inner product formula is used in
 the form with the `L`-value by continuation (ThetaKernelsForUnitaryDualPairs §6.13a (ii) for the linear lift, in the form of ThetaKernelsForUnitaryDualPairs
 §6.13b (iii), with ThetaKernelsForUnitaryDualPairs §6.4a): if `I_{s₁} ∈ L¹(G^S_int)`
 for one real `s₁ < t/2`, then `⟨Θu₁, Θu₂⟩ = vol([U(Y_{i+1})])·(L^{S(ξ)}(s + ½, B_𝔥^{(i)} × (μ_{i+1}(ξ)η̃^{−ε_i})^{−1})/d^{S(ξ)}(s))|_{s=t/2}·∫_{G^S_int}I_{t/2}`,
@@ -700,14 +708,17 @@ in `𝒞_{i+1}(ξ)` by 5.2 (2), independently of this target.
 where the `L`-value is an absolutely convergent Euler product. For `i ≥ 1`, `dim Y_{i+1} ≤ 2 dim Y_i` and the value is
 that of the continuation; the string of step `i` contributes at `s₀` the factor `L^{S(ξ)}(1, μ_iμ_{i+1}^{−1})` on the edge
 of absolute convergence, finite and nonzero only because `μ_i ≠ μ_{i+1}`: with `μ_i = μ_{i+1}` it would be the pole of a
-partial Dedekind zeta function.
+partial Dedekind zeta function. For `i ≥ 1` the step lies in the range `n_i < n_{i+1} ≤ 2n_i` of the Rallis inner product
+formula of MetaplecticAutomorphicForms §6.13 (Witt index of `Y_{i+1}` at most `n_i`, lower lifts vanishing by the route of
+5.2), whose identity with the value at `s = t/2` of `L(s + ½, ·)` the statement here makes explicit, with the constant
+`𝔫_{i+1}`, the twist places and the independence of `ξ`; for `i = 0` the step lies outside that range.
 
 *Check (the twist places).* At `s = t/2 − 1` the factor `(1 − αN w^{−(s+½)})^{−1}` of the largest string parameter has
 `|αN w^{−(s+½)}| = 1`, so `t/2 − 1` in (b) is sharp; at `s = (t − 1)/2` the ratio is `N w^{−1/2}`. For `i = 0`, `r = 1`, `t = 3`,
 `q = 2`: `idx_v(1) = #ℙ³(𝔽_2) = 15`, `‖Φ^Q_{1,v}‖² = 1·2^{−1−3} = 1/16`, product `15/16 = 1 − 2^{−4}`, as the formula gives.
 
 *KNOWN* in kind (Rallis; Piatetski-Shapiro–Rallis; J.-S. Li; Ichino; Hecke), *NEW* (the twist places, the independence
-of the tuple). *Needs:* 5.1, 5.2, 5.4, ThetaChainsOnDefiniteUnitaryGroups §2.3 (with Lemma (h)), ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9c, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§6.10a, 6.11, 6.12;
+of the tuple). *Needs:* 5.1, 5.2, 5.4, ThetaChainsOnDefiniteUnitaryGroups §2.3 (with Lemma (h)), ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9c, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.7, 6.10a, 6.11, 6.12;
 ThetaKernelsForUnitaryDualPairs §§3.46a, 5.7a, 6.4a, 6.11, 6.13a, 6.13b, 6.13c; DiscreteSeriesCoefficientsAndAutomorphicMetrics
 §2.4a; LFunctions Layer 6 and Layer 7 (nonvanishing of Hecke `L`-functions on
 `Re s = 1`); AnalyticNumberTheoryPartI §2.3a.
@@ -742,7 +753,8 @@ and if `𝒯𝒯^*` is a nonzero scalar `s_c` on each summand of an orthogonal d
 every `e` equals `𝒯(𝒯^*e)/s_c`; for `e ∈ 𝔼_{(P,χ_P)}`, `e = ι_ξ(ι_ξ^*e)/s_c` with
 `ι_ξ^*e ∈ 𝒰^{(P,χ_P)}_ξ` (5.4 (ii)). For `i ≤ m`, `ι_ξ = (Π_good io_1 ⋯ io_i)∘(io_{i+1} ⋯ io_m)`, so the image of
 `Π_good io_1 ⋯ io_i` contains that of `ι_ξ`, which is `𝔼^♮`. A second route to surjectivity: up-lifts of eigenforms are
-nonzero (the `L`-values and the local zeta integrals are nonzero; at the type primes the zeta integral of a form of
+nonzero (the `L`-values and the local zeta integrals are nonzero, the nonvanishing criterion of MetaplecticAutomorphicForms
+§6.14 in its range; at the type primes the zeta integral of a form of
 level `(P, χ_P)` against the vector of that level is its squared norm times the volume of the level group), and the
 families `B^{(i)}` separate the parts.
 
@@ -750,7 +762,8 @@ families `B^{(i)}` separate the parts.
 `|1 − βū N w^{−s}|^{−2} > 0` for real `s`. A family with `B(w̄) = B(w)` instead would give
 `((1 − βū N w^{−s})(1 − βu N w^{−s}))^{−1}`, which need not be real.
 
-*NEW* (chain statement), *KNOWN* ingredients (Rallis; Hecke). *Needs:* 5.1, 5.2, 5.3, 5.4, 5.5.
+*NEW* (chain statement), *KNOWN* ingredients (Rallis; Hecke). *Needs:* 5.1, 5.2, 5.3, 5.4, 5.5; MetaplecticAutomorphicForms
+§6.14 (the second route).
 
 ### 5.7 Model lifts and their Rallis identity
 
@@ -831,7 +844,7 @@ space contains `ξ′` and is central there, so the constant term along that rad
 `Z_{ξ′}`. (i) *Cuspidality from the level vector.* `V_j` is anisotropic and `dim W_j = r ≤ r + t = dim V_j`; at a type prime
 the level vector is supported on maps whose reduction has rank `r`, so the lemma kills every constant term; a function of
 uniform moderate growth with vanishing constant terms is cuspidal, hence rapidly decreasing
-(AutomorphicFormsOnReductiveGroups §4.2). The lowering operators
+(ArithmeticLocallySymmetricSpaces ALS.F.6 (iii)). The lowering operators
 kill `Δ_j`, so the lift at the extremal vector is a bounded holomorphic form, which generates the holomorphic discrete
 series (DiscreteSeriesCoefficientsAndAutomorphicMetrics §6.8); so the lift lies in `𝒞(W_j)`. Equivariance from that of the datum.
 (ii) The Rallis inner product formula in Weil's range `dim V_j = r + t > 2r = 2 dim W_j` (ThetaKernelsForUnitaryDualPairs
@@ -873,8 +886,8 @@ which ThetaChainsOnDefiniteUnitaryGroups §2.9c writes `Φ^Q_{j,v}`) is not deci
 
 *KNOWN* (Rallis; J.-S. Li; Kashiwara–Vergne; Harish-Chandra; Piatetski-Shapiro–Rallis), *NEW* (the exact constant in
 this setting; cuspidality through the level vector). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9c, 5.1, 5.4; MetaplecticAutomorphicForms §§6.4, 6.10a,
-6.11; ThetaKernelsForUnitaryDualPairs §§3.45, 4.4a, 6.11, 6.13a; AutomorphicFormsOnReductiveGroups §§2.4, 4.2;
-DiscreteSeriesCoefficientsAndAutomorphicMetrics §§6.8, 8.3;
+6.11; ThetaKernelsForUnitaryDualPairs §§3.45, 4.4a, 6.11, 6.13a; AutomorphicFormsOnReductiveGroups §§2.4, 7.5;
+ArithmeticLocallySymmetricSpaces ALS.F.6 (iii); DiscreteSeriesCoefficientsAndAutomorphicMetrics §§6.8, 8.3;
 HermitianFormsAndLattices §§4.5, 5.5.
 
 ### 5.8a The grid of the chain
@@ -1061,14 +1074,17 @@ consecutive integers. Moreover:
   `v_w(γ) ≤ v_w(N_big(ξ)) + v_w(N_small(1)) + 6δ_w` at the places `w` of `𝕃` prime to the twist primes, `δ_w ≥ 0` an explicit integer
   attached to `w`;
 - *(reflection)* `Λ(s, ν_ξ)Λ(1 − s, ν_1) = ϵ·Λ(1 − s, ν_ξ)Λ(s, ν_1)` for `1 − e_□ ≤ s ≤ 0`, `ϵ` a unit away from the twist
-  primes (the functional equation in ratio form).
+  primes (the functional equation in ratio form, AnalyticNumberTheoryPartI §2.3a, whose root numbers are products of
+  Tate's local constants, ArithmeticGaloisRepresentations §2.7).
 - *(constants at `T`)* for every square, every step of its tower recursion, every tuple `ξ` and every `v ∈ T(ξ)`, with
   the bases at `v` placed as in ThetaLiftsForDefiniteUnitaryGroups §6.5 (*The constant at `T`*: the vectors of the removed
   plane first and last),
   `c_v(ξ) = ν_{ξ,w}(−1)·N v^{−c·n}·ν_{ξ,w}(ϖ_v)^{c}·G(ψ_v, ν_{ξ,w})`, `G(ψ_v, ν) := Σ_{y∈(𝒪_v/ϖ_v^c)^×}ν(y)^{−1}ψ_v(y/ϖ_v^c)`,
   where `w | v` is the place of the model, `c ≥ 1` the conductor exponent of `ν_{ξ,w}` (5.8a (r)), `ψ_v` the standard (unramified)
   character, `n = −e` for a step removing a plane from `M′` and `n = 1 − e` for a step removing a plane from `M`, `e` half the
-  difference of the two ranks before the step (Tate's local constant of `ν_{ξ,w}` at the integer `n`); for another placement
+  difference of the two ranks before the step (Tate's local constant of `ν_{ξ,w}` at the integer `n`,
+  ArithmeticGaloisRepresentations §2.7, *Arithmetic character constants*, for the additive character `y ↦ ψ_v(−y)`);
+  for another placement
   of the plane vectors in the bases `c_v(ξ)` is multiplied by `ν_{ξ,w}(sgn σ)`, `σ` the permutation relating the bases. Under
   the conditions (L1), (L3) of 5.8 the constants `c_v(ξ)` lie in `𝕃`, and so do the step quotients. Hence `c_v(ξ)·ν_{ξ,w}(ϖ_v)^{−c}` is a unit at every place of `𝕃(μ_{p_v^c})` not above the residue characteristic `p_v`
   of `v`, and `|v_𝔭(c_v(ξ)ν_{ξ,w}(ϖ_v)^{−c})| ≤ c(|n| + 1)·v_𝔭(N v)` at the places `𝔭` above it. For the *quotients* between a tuple and
@@ -1087,7 +1103,8 @@ since `q − p ∈ {0, 1}` they telescope to at most one factor; the lattice-cha
 `T`:* the value of `c_v(ξ)` is the constant at `T` of ThetaLiftsForDefiniteUnitaryGroups §6.5, the local constant of the step
 of ThetaLiftsForDefiniteUnitaryGroups §6.12 for the matched data normalised as in ThetaLiftsForDefiniteUnitaryGroups §6.2; the
 other assertions of the clause follow from that value. A Gauss sum `G` of a character of conductor exponent `c` at a place of norm `N` is an algebraic
-integer with `G·G(ψ_v, ν^{−1}) = ν(−1)N^{c}`, so `0 ≤ v_𝔭(G) ≤ c·v_𝔭(N)` and `G` is a unit away from the residue characteristic;
+integer with `G·G(ψ_v, ν^{−1}) = ν(−1)N^{c}` (the duality of ArithmeticGaloisRepresentations §2.7;
+AutomorphicLFunctionsAndLocalFactors §AL.1.3.4), so `0 ≤ v_𝔭(G) ≤ c·v_𝔭(N)` and `G` is a unit away from the residue characteristic;
 `N v^{−c·n}` contributes `−c·n·v_𝔭(N v)`. At `v ∈ S_□` not below `Q(ξ)` the characters `ν_ξ` and `ν_1` differ by a character unramified
 at `w` of finite order, so they have the same restriction to the units (the same `G` and the same `c`), and the quotient is
 the value of that character at `ϖ_w^c`; at `v ∈ S₀` below `Q(ξ)` the powers of `N v` cancel and the ratio of the values at `ϖ_w^c`
@@ -1112,7 +1129,8 @@ integrality of coordinates and norms.
 *NEW*. *Needs:* 5.8a, 5.8c, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6; ThetaLiftsForDefiniteUnitaryGroups §§3.1, 3.2, 6.2, 6.5, 6.12; 
 AutomorphicPadicLFunctionsPartII §§5.7–5.9 (integrality away from explicit primes; Katz–Shimura algebraicity; Deligne's period comparison) and
 ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2 (the Serre tensor construction; the explicit reciprocity law), for the
-ratios of critical values of Hecke `L`-functions of `E` under finite-order twists.
+ratios of critical values of Hecke `L`-functions of `E` under finite-order twists; ArithmeticGaloisRepresentations §2.7 and
+AutomorphicLFunctionsAndLocalFactors §AL.1.3.4 (Tate's local constants and Gauss sums); AnalyticNumberTheoryPartI §2.3a.
 
 ### 5.8e Bessel periods separate the rows
 
@@ -1239,8 +1257,9 @@ above `S_□`.
 
 Let `𝕃` also contain the values of the irreducible characters of `G₀`
 and those of the characters of the levels of ThetaChainsOnDefiniteUnitaryGroups §2.9a at the type primes (so that `Π_good` and every `e_{P,χ_P}` lie in `𝕃[G₀]`).
-Every number in (L1)–(L6) is algebraic ((L6) by the algebraicity of ratios of critical values of Hecke `L`-functions of
-`E` under finite-order twists), and so are the quotients of (L7) for suitable `Ω`, `Ω′`; the set is finite once the
+Every number in (L1)–(L6) is algebraic ((L6) by AutomorphicPadicLFunctionsPartII §5.8: `ν_ξ` and `ν_1` differ by a character
+of finite order, so they have the same infinity type, critical at these `s`, and their periods cancel in the ratio),
+and so are the quotients of (L7) for suitable `Ω`, `Ω′`; the set is finite once the
 tuples are fixed, and `𝕃` is chosen after the twisting datum (ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). Not
 given here: the existence of `Ω`, `Ω′` in (L7) (it belongs to the rationality of the theta integrals of definite
 triples, ThetaChainsOnDefiniteUnitaryGroups §3.3), and the explicit form of the term attached to a step point in (L5).
@@ -1286,7 +1305,8 @@ with `ι_ξ`.
 transcendental `α` no nonzero point has both coordinates in `𝕃`; the spanning by the rational images `ι_1(x)` is what 5.6
 supplies.
 
-*NEW*. *Needs:* 5.2, 5.3, 5.4, 5.6, 5.8a, 5.8b, 5.8c, 5.8d, 5.8e, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.8, 6.4, 6.15.
+*NEW*. *Needs:* 5.2, 5.3, 5.4, 5.6, 5.8a, 5.8b, 5.8c, 5.8d, 5.8e, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.8, 6.4, 6.15;
+AutomorphicPadicLFunctionsPartII §5.8.
 
 ### 5.9 Multiplicities on the row group and on the model groups
 
@@ -1330,7 +1350,8 @@ and `χ_{v,j}^{−1}`, the others are invariant under `𝔣 ↦` its reciprocal;
 *KNOWN* in kind (Clozel; Labesse; Arthur), *NEW* in this form. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, 5.1, 5.3, 5.4, 5.7;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a (equality of cuspidal multiplicities for inner forms in an odd number of
 variables isometric at every finite place), with its inputs AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2,
-AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1, SmoothRepresentationsOfLocalGroups (geometric lemma, segment representations);
+AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1, SmoothRepresentationsOfLocalGroups §§SR.2.2
+(the geometric lemma), SR.5.2 (segment representations);
 FiniteReductiveGroups §§1.2, 5.2, 5.5, 5.7 (for 5.3 (iv)).
 
 ### 5.10 The descent constant through the model eigenvalues
@@ -1361,12 +1382,15 @@ same `L`-value, and no local factor is compared place by place. What 5.9 adds is
 induced from `K` and `W_j` has the same signature `(k + j − 1, m − j)`, `k + j − 1 ≠ m − j`, at every `τ ∈ Φ`, the
 Shimura datum of `U(W_j)` has reflex field `K`. Evaluation at the extremal vector of the lowest `K_∞`-type of the
 holomorphic discrete series `D_{W_j}` (5.7) identifies `𝒞(W_j)` with the space of cuspidal sections of an automorphic
-vector bundle on the Shimura variety of `U(W_j)` of the level of 5.7 (AutomorphicBundles 3.1, 3.2), and the canonical
-models over `K` give `𝒞(W_j)` an `𝕃`-structure `𝒞(W_j)_𝕃` (sections over `𝕃`, read through `σ₀`), stable under `G₀` and
+vector bundle on the Shimura variety of `U(W_j)` of the level of 5.7 (AutomorphicBundles §§3.1, 3.2, 11.2,
+11.9, 11.18: the bundle, cusp forms as sections of its subcanonical extension, their comparison with analytic forms and
+their rational structure), and the canonical models over `K` give `𝒞(W_j)` an `𝕃`-structure `𝒞(W_j)_𝕃` (sections over `𝕃`, read
+through `σ₀`), stable under `G₀` and
 the Hecke operators away from `S(1)`. For an embedding `σ : 𝕃 → ℂ` the *realisation* `j_σ` of `𝒞(W_j)_𝕃` is the base
 change along `σ`: if `σ|_K = ι₀|_K`, an automorphism of `ℂ` extending `σ∘σ₀^{−1}` fixes `K`, permutes `Φ`, leaves the
 Hermitian space unchanged, and the conjugate datum is that of `W_j` with the places of `Φ` relabelled (AutomorphicBundles
-2.7, 4.3), so `j_σ` takes values in the row space of `U(W_j)` for the holomorphic discrete series of the relabelled
+§§2.7, 4.3, and §6.4 for the subcanonical section spaces), so `j_σ` takes values in the row space of `U(W_j)`
+for the holomorphic discrete series of the relabelled
 parameter; if `σ|_K ≠ ι₀|_K`, then `σ̄ := c∘σ` restricts to `ι₀|_K` and `j_σ(y) := conj j_{σ̄}(y)`, with values in the
 complex conjugates of those forms (antiholomorphic discrete series). `j_{σ₀}` is the inclusion. For `j = m` (`W_m`
 definite), `𝒞(W_m)_𝕃` is the space of `𝕃`-valued algebraic forms (ThetaChainsOnDefiniteUnitaryGroups §3.1) and `j_σ` applies `σ` to the values.
@@ -1376,11 +1400,12 @@ Petersson products of the realisations define Hermitian forms `⟨j_σ y, j_σ y
 `⟨j_σ y, j_σ y′⟩ = conj⟨j_{σ̄} y, j_{σ̄} y′⟩` when `σ|_K ≠ ι₀|_K`.
 
 *Route.* Canonical models of unitary Shimura varieties and of their automorphic vector bundles, and the conjugation of
-these models by automorphisms of `ℂ` (AutomorphicBundles 2.7, 3.1, 3.2, 4.3; ShimuraVarieties Layer 4); the reflex field
+these models by automorphisms of `ℂ` (AutomorphicBundles §§2.7, 3.1, 3.2, 4.3, 6.1, 6.4, 11.2, 11.9, 11.18; ShimuraVarieties
+§§4.4, 4.12, 6.7: canonical models over the reflex field, their uniqueness, their existence in abelian type); the reflex field
 from the equal signatures along a CM type induced from `K`; the antiholomorphic case is the complex conjugate manifold.
 
-*KNOWN* (Shimura; Deligne; Milne; M. Harris). *Needs:* 5.7, 5.8, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1; AutomorphicBundles 2.7, 3.1, 3.2, 4.3;
-ShimuraVarieties Layer 4.
+*KNOWN* (Shimura; Deligne; Milne; M. Harris). *Needs:* 5.7, 5.8, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1; AutomorphicBundles §§2.7, 3.1, 3.2, 4.3,
+6.1, 6.4, 11.2, 11.9, 11.18; ShimuraVarieties §§4.4, 4.12, 6.7.
 
 ### 5.11 Positivity of the model eigenvalues at every embedding
 
@@ -1406,8 +1431,9 @@ Consequently `λ_j(1, 𝔥, σ) > 0` for every `σ`, its main term (the hook pro
 embedding, and, under the hypotheses of 5.6, `𝔫 > 0` as soon as `𝔼^♮ ≠ 0`.
 
 *Route.* (Rational lift.) The lift from a definite group is a finite class sum of theta functions of the lattices of the
-classes, and on the moduli space of abelian varieties with `𝒪_E`-multiplication these are algebraic theta values; this
-gives the class-sum description over a number field. (Conjugation.) Both sides are the same classical class sum of theta
+classes, and on the moduli space of abelian varieties with `𝒪_E`-multiplication these are algebraic theta values (their
+algebraicity is not given here); this gives the class-sum description over a number field.
+(Conjugation.) Both sides are the same classical class sum of theta
 values with characteristics, evaluated at the complex fibre of the moduli space over the embedding; no reciprocity law
 is used. An automorphism fixing `K` permutes `Φ` and leaves the Hermitian space unchanged (5.10a); `σ` acts on the
 coefficients, on the roots of unity of the level and on the characteristics by a dilation `q ↦ m·q` with `m` prime to
@@ -1424,7 +1450,8 @@ complex conjugates of the forms at `σ̄` (5.10a). The hook sum is unchanged bec
 
 *NEW* (conjugation statement), *KNOWN* ingredients (Shimura; Deligne; Milne–Shih; M. Harris). *Needs:* 5.6, 5.7, 5.10, 5.10a,
 ThetaChainsOnDefiniteUnitaryGroups §2.6; MetaplecticAutomorphicForms §§3.44, 5.6; ThetaLiftsForDefiniteUnitaryGroups §§1.2, 1.6, 1.7–1.9;
-AbelianSchemesAndArithmeticModuli A5.3–A5.4 (algebraic theta functions).
+AbelianSchemesAndArithmeticModuli A5.3–A5.4 (algebraizability of complex tori with a positive Riemann form; the line of
+theta functions of a principal polarisation).
 
 ### 5.12 Surjectivity of the descent and its Gram matrix
 
@@ -1483,12 +1510,14 @@ and column steps of the chain); ThetaLiftsForDefiniteUnitaryGroups §§0.1, 1.2,
 5.6a, 5.7a, 5.7b, 6.4a, 6.11, 6.13a, 6.13b, 6.13c; HermitianFormsAndLattices §§4.5, 5.5, 5.6, 5.7; FiniteReductiveGroups
 §§1.2, 1.3, 1.4, 2.2, 2.7, 2.8, 5.2, 5.5, 5.7, 6.3; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 6.8, 8.3, 9.1;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§6.3a, 13.8a; LocalFactorsOfTwistsAndTypes §7.2;
-MetaplecticAutomorphicForms §§3.3, 3.44, 5.6, 5.8, 6.4, 6.10a, 6.11, 6.12, 6.15; AutomorphicFormsOnReductiveGroups §§2.1, 2.2,
-2.4, 2.7, 4.2, 7.4; AutomorphicSpectralTheory §§4.5, 4.10; SmoothRepresentationsOfLocalGroups Layer SR.4;
-EndoscopicTransferAndUnitaryTraceComparison §6.3; VonNeumannAlgebras Layer 9; AnalyticNumberTheoryPartI §2.3a; LFunctions
-Layers 6 and 7; ShimuraVarieties Layer 4; AbelianSchemesAndArithmeticModuli A5.3–A5.4; AutomorphicBundles §§2.7, 3.1, 3.2,
-4.3; GanGrossPrasadUnitaryGroups §§2.6, 4.1; AutomorphicPadicLFunctionsPartII §§5.7–5.9; ComplexMultiplicationAndExplicitReciprocity
-§§1.2, 2.2.
+MetaplecticAutomorphicForms §§3.3, 3.44, 5.6, 5.7, 5.8, 6.4, 6.10a, 6.11, 6.12, 6.14, 6.15; AutomorphicFormsOnReductiveGroups
+§§2.1, 2.2, 2.4, 2.7, 4.2, 7.4, 7.5; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§4.5, 4.10;
+SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.4.1, SR.4.3, SR.4.4, SR.5.2; SmoothRepresentationsOfLocalGroupsPartII §§0.4, 0.5;
+EndoscopicTransferAndUnitaryTraceComparison §6.3; VonNeumannAlgebras Layer 9; AnalyticNumberTheoryPartI §2.3a;
+ArithmeticGaloisRepresentations §2.7; AutomorphicLFunctionsAndLocalFactors §AL.1.3.4; LFunctions
+Layers 6 and 7; ShimuraVarieties §§4.4, 4.12, 6.7; AbelianSchemesAndArithmeticModuli A5.3–A5.4; AutomorphicBundles §§2.7, 3.1, 3.2,
+4.3, 6.1, 6.4, 11.2, 11.9, 11.18; GanGrossPrasadUnitaryGroups §§2.6, 4.1; AutomorphicPadicLFunctionsPartII §§5.7–5.9;
+ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2.
 
 ## Downstream consumers
 
@@ -1531,8 +1560,10 @@ hosts and their predicates are [FrobeniusRestrictedRieszSums](../FrobeniusRestri
 representations of unitary pairs, theta kernels and lifts, the Fock model, the archimedean theta correspondence of
 discrete series, theta integrals of cusp forms, Weil's convergence criterion, local matching data, the Siegel–Weil
 formula, doubling integrals and the Rallis inner product formula are
-[MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) and, for the statements the family adds to
-it, [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md). Definite dual pairs and their
+[MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) (MetaplecticAutomorphicForms
+§§5.7, 6.4, 6.10a, 6.11, 6.13: Weil's criterion, the anisotropic Siegel–Weil formula, doubling integrals, the Rallis inner
+product formula) and, for the statements the family adds to it, [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md).
+Definite dual pairs and their
 class-set lifts, complementary triples, the complementary-space identity and the recursion of its constant, with the
 constant at `T`, are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md). Hermitian
 lattices and masses are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md); Harish-Chandra series,
@@ -1548,7 +1579,8 @@ algebraic modular forms are [AutomorphicFormsOnReductiveGroups](../../Automorphi
 discrete spectrum and Wallach's cuspidality criterion are [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md);
 Bessel periods and the multiplicity one of Bessel models are GanGrossPrasadUnitaryGroups; canonical models of automorphic
 vector bundles and their conjugation are AutomorphicBundles and [ShimuraVarieties](../../ShimuraVarieties/README.md);
-algebraic theta functions are [AbelianSchemesAndArithmeticModuli](../../AbelianSchemesAndArithmeticModuli/README.md); the
+the algebraizability of complex tori and the theta functions of a polarisation are
+[AbelianSchemesAndArithmeticModuli](../../AbelianSchemesAndArithmeticModuli/README.md); the
 integrality and algebraicity of critical values of Hecke `L`-functions and the main theorem of complex multiplication are
 AutomorphicPadicLFunctionsPartII and ComplexMultiplicationAndExplicitReciprocity. The rest of Layer 5 and the later layers
 of the chain belong to the roadmaps named under Downstream consumers above.
@@ -1659,15 +1691,23 @@ theta functions (5.4, 5.8, 5.10a).
 - §§3.3 (unitary dual-pair splittings, with the rule `χ_V|_{𝔸_F^×} = η_{E/F}^{dim V}`), 3.44 (rationality of local theta
   lifting). Used in 5.2, 5.11.
 - §§5.6, 5.8: global theta lifts and the regularised theta integral. Used in 5.2, 5.8c, 5.8.
+- §5.7: Weil's convergence criterion, for the split doubled space of a row step. Used in 5.5.
 - §§6.4 (the Siegel–Weil formula), 6.10a, 6.11 (the local doubling zeta integral), 6.12 (factorisation of theta pairings),
   6.15 (global seesaw). Used in 5.2, 5.5, 5.7, 5.8c, 5.8.
+- §6.14: the global theta nonvanishing criterion. Used in 5.6.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
-- §§2.1, 2.2, 2.7, 4.2: `K`-finite vectors, infinitesimal characters and Harish-Chandra finiteness, Casselman–Wallach
-  globalisation, moderate growth and rapid decay. Used in 5.1, 5.2, 5.7, 5.9.
+- §§2.1, 2.2, 2.7, 4.2: `K`-finite vectors, infinitesimal characters and the local Harish-Chandra finiteness,
+  Casselman–Wallach globalisation, cuspidal globalisation. Used in 5.1, 5.2, 5.9.
 - §2.4: discrete series and their parameters. Used in 5.1, 5.3, 5.7, 5.9.
 - §7.4: algebraic modular forms in Gross's models. Used in 5.4.
+- §7.5: algebraic forms as class sums and as `(𝔤, K_∞)`-maps into automorphic forms. Used in 5.1, 5.2, 5.7.
+
+### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
+
+- ALS.F.6 (i) (finite dimension of the automorphic forms of a given type and level), (iii) (cusp forms are rapidly
+  decreasing). Used in 5.1, 5.2, 5.7.
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
@@ -1676,8 +1716,14 @@ theta functions (5.4, 5.8, 5.10a).
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
-- SR.4.3 (Satake transform of `T_i`; spherical representations of `GL_n`), Layer SR.4, the geometric lemma and the segment
-  representations. Used in 5.1, 5.9.
+- §§SR.4.1 (the Satake isomorphism), SR.4.3 (Satake transform of `T_i`; spherical representations of `GL_n`), SR.4.4
+  (unramified unitary groups). Used in 5.1.
+- §§SR.2.2 (the geometric lemma), SR.5.2 (segment representations). Used in 5.9.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroupsPartII
+
+- §§0.4 (positive-type coefficients of unitary representations), 0.5 (the GNS construction, and the GNS representation
+  of a coefficient as the cyclic subrepresentation it generates). Used in 5.2a.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
@@ -1685,7 +1731,16 @@ theta functions (5.4, 5.8, 5.10a).
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-- §2.3a: continuation and functional equation of Hecke `L`-functions. Used in 5.5.
+- §2.3a: continuation and functional equation of Hecke `L`-functions. Used in 5.5, 5.8d.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+- §2.7: Tate's local constant by finite Gauss sums (*Arithmetic character constants*), its duality and additive-character
+  scaling, and the root number as a product of local constants. Used in 5.8d.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+- §AL.1.3.4: the local Gauss sum `𝔤(ω, ψ)`, with `𝔤·conj 𝔤 = 1`. Used in 5.8d.
 
 ### From TauCetiRoadmap.LFunctions
 
@@ -1698,15 +1753,21 @@ theta functions (5.4, 5.8, 5.10a).
 
 ### From TauCetiRoadmap.ShimuraVarieties
 
-- Layer 4: conjugation of Shimura data and canonical models. Used in 5.10a.
+- §§4.4, 4.12, 6.7: canonical models over the reflex field, their uniqueness and their existence for data of abelian
+  type. Used in 5.10a.
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
 - 2.7, 3.1, 3.2, 4.3: canonical models of automorphic vector bundles and their conjugation. Used in 5.10a.
+- §§6.1, 6.4: the subcanonical extension for general data with its rationality, and the compatibility of its section
+  spaces with normalized conjugation. Used in 5.10a.
+- §§11.2, 11.9, 11.18: cusp forms as sections of the subcanonical extension on a toroidal model, their comparison with
+  analytic forms, and their rational structure under field base change. Used in 5.10a.
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
-- A5.3–A5.4: the line of theta functions of a principal polarisation; algebraic theta functions. Used in 5.11.
+- A5.3–A5.4: the Appell–Humbert theorem and the algebraizability of a complex torus with a positive Riemann form; the
+  line of theta functions of a principal polarisation. Used in 5.11.
 
 ### From TauCetiRoadmap.GanGrossPrasadUnitaryGroups
 
@@ -1716,7 +1777,7 @@ theta functions (5.4, 5.8, 5.10a).
 ### From TauCetiRoadmap.AutomorphicPadicLFunctionsPartII
 
 - §§5.7–5.9: integrality of normalised critical Hecke values away from explicit primes, Katz–Shimura algebraicity,
-  Deligne's period comparison. Used in 5.8d.
+  Deligne's period comparison. Used in 5.8d; §5.8 also in 5.8.
 
 ### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
 
