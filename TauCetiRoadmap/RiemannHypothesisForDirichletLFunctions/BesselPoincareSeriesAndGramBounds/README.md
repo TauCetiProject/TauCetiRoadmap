@@ -74,6 +74,11 @@ Notation and conventions not restated here are those of HermitianFormsAndLattice
 | `c_Θ` | `½·min((C_Δ − 4)/2, (c_T·C_b − 1)/4)`, the exponent of the bound `Θ ≥ k^{c_Θ}` | 5.20 |
 | `wt_v, W^{bd}` | Gelfand–Graev share of a series; the bound of the discarded share | 5.22, 5.23 |
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 5: Bessel–Poincaré series and the Gram bounds
 
 The rows are forms on `U(Y_0)` of the row type level (RowTowerAndRallisIdentities §5.3). For each word a Bessel–Poincaré series maps the source forms into them, and the unfolded Gram operators are nearly those of subspaces in general position, which makes the images a nearly tight frame and the series nonzero (5.13–5.23).
