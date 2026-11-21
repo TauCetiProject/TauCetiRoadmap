@@ -81,8 +81,9 @@ local cubic convergence of Rayleigh quotient iteration, which uses 2.3 and 3.1.
   2.2 is written through the directed gap, multiplied out, so that this junk value does not
   enter.
 - **Iterates.** The iterates are left unnormalized: `Tᵏ v`, `Tᵏ W` (the image `W.map (T ^ k)`),
-  and in 3.3 `x_{k+1} = (T − R(x_k))⁻¹ x_k`. Every quantity in the statements is invariant under
-  nonzero scaling, so a normalized iteration has the same angles and Rayleigh quotients.
+  and in 3.3 `x_{k+1} = (T − R(x_k))⁻¹ x_k`. The angles, gaps and Rayleigh quotients in the
+  statements are invariant under nonzero scaling, so a normalized iteration has the same ones;
+  1.2 is the exception, as it fixes the scaling by `λ⁻ᵏ`.
 - **Junk values.** `(T − σ)⁻¹` is Mathlib's `Ring.inverse`, equal to `0` when `T − σ` is not
   invertible, that is when `σ` is an eigenvalue; the Rayleigh quotient of `0` is `0`, and division
   by zero gives `0`. In 3.3, if a shift `R(x_k)` equals `λ` the next iterate is `0` and all later
@@ -258,8 +259,10 @@ if every eigenvalue has modulus at least `α`, then `U = E` and both sides are `
 - Equality: `T = diag(2, 1, 1/2)`, `α = 2`, `ρ = 1/2`, `W` the line of `e₁ + e₂`. Then
   `Tᵏ W` is the line of `(2ᵏ, 1, 0)`, `s(Tᵏ W) = 1/√(1 + 4ᵏ)`, which is `0.7071`, `0.4472`,
   `0.2425`, `0.1240` for `k = 0, …, 3`, with tangents `1, 1/2, 1/4, 1/8`, and both sides agree.
-- If `dim W > dim U`, then `W` meets `U⊥`, `s(W) = 1`, and the statement gives nothing: subspace
-  iteration with more vectors than the dominant subspace has dimensions does not converge to it.
+- If `dim W > dim U`, then `W` meets `U⊥`, `s(W) = 1`, and the statement gives nothing. When `T`
+  is invertible, `dim Tᵏ W = dim W > dim U`, so `s(Tᵏ W) = 1` for every `k`: subspace iteration
+  with more vectors than `U` has dimensions does not converge to `U`. For a singular `T` it can:
+  for `T = diag(1, 0)` on `𝕜²`, `α = 1`, `ρ = 0` and `W = 𝕜²`, `Tᵏ W = U` for every `k ≥ 1`.
 
 *Needs:* 1.1; Mathlib `Submodule.map`, `Submodule.starProjection`, `OrthonormalBasis`;
 Tau Ceti `Submodule.directedProjectionGap`, `Submodule.IsAngularOperator`,
@@ -329,6 +332,8 @@ modulus is at most `c ‖z‖²`.
   line of `e₁`) and `1`, `λ = 0`, `c = 1` and `x = (1, t)`, `‖x‖² rayleigh T x = t + t²`, which is
   linear in the angle: for `t = 1/2` it is `3/4`, above `c ‖x − P x‖² = 1/4`.
 - For `x = 0` both sides are `0`.
+- *The order of the inner product.* For `T = i` on `ℂ` and `x = 1`, `rayleigh T x = ⟪1, i⟫ = i`;
+  the variant `⟪T x, x⟫ / ‖x‖²` gives `−i`, and 3.1 with `λ = i` and `c = 0` would then fail.
 
 *Needs:* Mathlib `inner`, `OrthonormalBasis.sum_repr`, `OrthonormalBasis.repr`,
 `Submodule.starProjection`, `ContinuousLinearMap.rayleighQuotient` (for the comparison).
@@ -427,9 +432,10 @@ Already in the libraries and therefore not targets:
   and angular operators and graph subspaces with the exact gap of a graph subspace (Tau Ceti). The
   gaps are PrincipalAngles PA-C08 and PA-C09 (Part C, projection blocks and gaps), and angular
   operators are SpectralSubspacePerturbation's graph-subspace objects (Part C, SSP-C11 to
-  SSP-C14; 3.11 to 3.14 in the sectioned numbering); both are used as defined there. When the
-  directed gap from `W` to `U` is less than `1`, the tangent that 2.2 bounds is the largest of Tau
-  Ceti's principal tangents from `W` to `U` (`Submodule.principalTangents`).
+  SSP-C14; 3.11 to 3.14 in the sectioned numbering of its template update); both are used as
+  defined there. When the directed gap from `W` to `U` is less than `1`, the tangent that 2.2
+  bounds is the largest of Tau Ceti's principal tangents from `W` to `U`
+  (`Submodule.principalTangents`).
 - Courant–Fischer and the Rayleigh–Ritz compression in Tau Ceti
   (`LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner`, `ContinuousLinearMap.compression`);
   nothing here uses them.
@@ -458,11 +464,11 @@ Left to other roadmaps:
   1.2 and 1.3 here use Gelfand's formula from Mathlib directly and do not depend on that roadmap.
   Krylov-space eigenvalue methods (Lanczos, Arnoldi) are not treated here.
 - MarkovChainsAndRenewal Layer 3, total variation and convergence (item 5; 3.5 in the sectioned
-  numbering), owns the convergence of the laws of an irreducible aperiodic chain, and
-  MarkovChainMixing 2.3 the spectral bounds on mixing; Tau Ceti's Perron–Frobenius files own the
-  dominant eigenvalue of a nonnegative matrix. 1.2 is a statement about an arbitrary complex
-  operator that is assumed to have a semisimple dominant eigenvalue; nothing here is about
-  nonnegative or stochastic matrices.
+  numbering of its template update), owns the convergence of the laws of an irreducible aperiodic
+  chain, and MarkovChainMixing 2.3 the spectral bounds on mixing; Tau Ceti's Perron–Frobenius
+  files own the dominant eigenvalue of a nonnegative matrix. 1.2 is a statement about an
+  arbitrary complex operator that is assumed to have a semisimple dominant eigenvalue; nothing
+  here is about nonnegative or stochastic matrices.
 
 Not treated here: residual bounds that are not quadratic, such as `|λ − R| ≤ ‖r‖` for a Hermitian
 matrix and the Bauer–Fike theorem, and the perturbation of a simple eigenvalue.

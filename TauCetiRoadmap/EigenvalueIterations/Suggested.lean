@@ -6,7 +6,7 @@ import TauCeti.Analysis.InnerProductSpace.Projection.Gap
 
 The roadmap is `README.md` in this folder; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
-four definitions they need. Every headline theorem of the README is statable at the pins and is
+five definitions they need. Every headline theorem of the README is statable at the pins and is
 stated here:
 
 * 1.2, power iteration for an operator on a finite-dimensional complex normed space with a
