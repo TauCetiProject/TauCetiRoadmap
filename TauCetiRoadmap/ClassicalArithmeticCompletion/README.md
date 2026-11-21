@@ -17094,7 +17094,7 @@ Jakub Byszewski, Jakub Konieczny. [Automatic sequences and generalised polynomia
 
 ### Paul-Jean Cahen and Jean-Luc Chabert — What You Should Know About Integer-Valued Polynomials
 
-Paul-Jean Cahen and Jean-Luc Chabert. [What You Should Know About Integer-Valued Polynomials](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Cahen-Chabert.pdf). The American Mathematical Monthly 123 (2016), no. 4, 311–337, doi:10.4169/amer.math.monthly.123.4.311; publisher PDF as posted on a University of Rochester page.
+Paul-Jean Cahen and Jean-Luc Chabert. What You Should Know About Integer-Valued Polynomials. The American Mathematical Monthly 123 (2016), no. 4, 311–337, doi:10.4169/amer.math.monthly.123.4.311; publisher PDF as posted on a University of Rochester page.
 
 ### Frank Calegari and David Geraghty — Minimal modularity lifting for nonregular symplectic representations
 
@@ -17386,7 +17386,7 @@ Alexander Smith. [Algebraic integers with conjugates in a prescribed distributio
 
 ### C. J. Smyth — On the Product of the Conjugates outside the unit circle of an Algebraic Integer
 
-C. J. Smyth. [On the Product of the Conjugates outside the unit circle of an Algebraic Integer](https://www.researchgate.net/profile/Christopher-Smyth-2/publication/247044379_On_the_Product_of_the_Conjugates_outside_the_unit_circle_of_an_Algebraic_Integer/links/542c18260cf277d58e8ac7ac/On-the-Product-of-the-Conjugates-outside-the-unit-circle-of-an-Algebraic-Integer.pdf). Bulletin of the London Mathematical Society 3 (1971), 169–175; published article in an author-uploaded scan (2014).
+C. J. Smyth. On the Product of the Conjugates outside the unit circle of an Algebraic Integer. Bulletin of the London Mathematical Society 3 (1971), 169–175; published article in an author-uploaded scan (2014).
 
 ### Chris Smyth — The Mahler measure of algebraic numbers: a survey
 

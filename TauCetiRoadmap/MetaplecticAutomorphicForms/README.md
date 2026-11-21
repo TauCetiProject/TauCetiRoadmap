@@ -3542,7 +3542,7 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **Z21.** Wei Zhang, [Weil representation and Arithmetic Fundamental Lemma](https://doi.org/10.4007/annals.2021.193.3.5). Annals of Mathematics 193 (2021), no. 3, 863–978; preprint arXiv:1909.02697.
 
-**YZZ11.** Xinyi Yuan; Shou-Wu Zhang; Wei Zhang, [The Gross–Zagier Formula on Shimura Curves](https://www.researchgate.net/profile/Xinyi-Yuan-11/publication/267551160_Gross-Zagier_Formula_On_Shimura_Curves/links/548e842c0cf225bf66a5ff13/Gross-Zagier-Formula-On-Shimura-Curves.pdf?origin=publication_detail). Author draft dated 6 November 2011, 266 PDF pages; author-uploaded public copy. Distinct from the 2013 published book.
+**YZZ11.** Xinyi Yuan; Shou-Wu Zhang; Wei Zhang, The Gross–Zagier Formula on Shimura Curves. Author draft dated 6 November 2011, 266 PDF pages; author-uploaded public copy. Distinct from the 2013 published book.
 
 **Duke88.** William Duke, [Hyperbolic distribution problems and half-integral weight Maass forms](https://www.math.ucla.edu/~wdduke/preprints/hyperbolic.pdf). Inventiones Mathematicae 92 (1988), 73–90; public scan on the author’s UCLA page.
 

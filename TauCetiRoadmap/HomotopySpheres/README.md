@@ -3504,7 +3504,7 @@ In its proof, the homotopy equivalence makes `M` connected with
 
 - Stephen Smale, [*Generalized Poincare's Conjecture in Dimensions Greater Than
   Four*](https://doi.org/10.2307/1970239), Annals of Mathematics 74 (1961), 391--406.
-- John Milnor, [*Lectures on the h-Cobordism Theorem*](https://webhomes.maths.ed.ac.uk/~v1ranick/surgery/hcobord.pdf),
+- John Milnor, *Lectures on the h-Cobordism Theorem*,
   Princeton University Press, 1965: Theorem 3.4, p.21; Theorem 8.1, p.100; Theorem 9.1,
   Definition 9.2 and the remark after it, pp.107–108; Proposition B of §9, p.109, and its proof,
   p.110.

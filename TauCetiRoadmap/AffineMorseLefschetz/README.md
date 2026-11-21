@@ -1548,7 +1548,7 @@ proper-family applications.
 
 ## References
 
-- Milnor, [Morse Theory](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnmors.pdf),
+- Milnor, Morse Theory,
   §6, pp. 32–38 (normal endpoints and distance Morse functions);
   Theorems 7.1–7.2, p. 39 and proof pp. 39–41 (affine/CW bounds);
   Corollary 7.3, p. 41 and Theorem 7.4, pp. 41–42 (weak Lefschetz).
