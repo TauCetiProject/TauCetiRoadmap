@@ -119,6 +119,7 @@ body:
         - DeformationAndDerivedPatchingAlgebra
         - DeformationAndDerivedPatchingAlgebraPartII
         - DeligneWeightsAndPurity
+        - DeligneWeightsAndPurityPartII
         - DenoisingDiffusion
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
