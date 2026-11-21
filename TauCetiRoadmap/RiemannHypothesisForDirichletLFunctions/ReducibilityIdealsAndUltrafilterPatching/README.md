@@ -62,7 +62,9 @@ This description is classical and is this roadmap's own; [FormalProof] defines `
 *Route.* Finiteness: admissibility puts a power of `m_B` on the relevant graded pieces for large `d`, and each piece of a
 finite graded module over a standard graded algebra is finite over `B`. (1) and (2) are the long exact sequences of the
 Koszul complex and the symmetry of the Koszul complex; (3) is the vanishing of `(0 :_M s)`; (4) the Koszul complex depends
-on the action on `M`. (5) by induction on the number of sections and dévissage of `M` to graded quotients `R/𝔭` by
+on the action on `M` ([FormalProof],
+`Formalism/SharpRestriction/ValuationFrobeniusEpsilon/LeastPrimeTwists/QuotientShiftIrreducible/NoetherianQuotientCalc/RuleCong.lean` (`Formalism.MainNotions.V.Pf.V2.Calc.Cong.chi_cong`)).
+(5) by induction on the number of sections and dévissage of `M` to graded quotients `R/𝔭` by
 homogeneous relevant primes: if `s ∉ 𝔭` use (3); if `s ∈ 𝔭`, then
 `χ((δ, s) :: ts; R/𝔭) = χ(ts; R/𝔭) − χ(ts; (R/𝔭)(−δ)) = χ(ts; (R/𝔭)/σ)` for any `σ ∈ R_δ ∖ 𝔭`, by (1) on
 `0 → (R/𝔭)(−δ) → R/𝔭 → (R/𝔭)/σ → 0`; such `σ` exists because `𝔭` is relevant and `R` is generated in the degrees `e_i`
@@ -73,7 +75,10 @@ defect terms (`(0 :_M β)/s(0 :_M βs)` in both), so the classes of `M/βsM − 
 Admissibility passes because `(βs) ⊆ (β) ∩ (s)`. (9) By induction on the list: `0 → (0 :_M s)(−δ) → M(−δ) → M → M/sM → 0`
 gives `H_{M/sM} − H_{(0:_Ms)(−δ)} = Δ_δH_M`. (10) (8) and (3): `χ((0, β^a) :: ts; M) = χ(ts; M/β^aM) = a·χ(ts; M/βM)` (filter
 `M/β^aM` by the `β^jM/β^{j+1}M ≅ M/βM` and use (1)), which is `a·Δ_{ts}H_{M/βM}` by (9). (11) Peel the powers one section
-at a time with (10) and (2) (peeling does not change the degrees), then drop the last term by (5). This is Serre's
+at a time with (10) and (2) (peeling does not change the degrees), then drop the last term by (5);
+for equal degrees this is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/LaDifPerm.lean` (`UpperTheory.V.Alg.M.la_holds`).
+This is Serre's
 multiplicity symbol in multigraded form over a local base (Serre, Ch. IV; mixed multiplicities in the sense of Teissier and
 Bhattacharya); in geometric terms, intersection numbers of Cartier divisors on a scheme proper over `Spec B` whose common
 zero locus lies over the closed point. *Needs:* DeformationAndDerivedPatchingAlgebra §§1.3–1.5, 3.11–3.13; DerivedModuleAlgebra §0.K.1 (Koszul complexes);
@@ -181,7 +186,9 @@ the substitution of the weight-`0` variables by the unique solution `g` of `φ(Z
 
 *Route.* (1) from finite generation of `A` over the Noetherian `A_0` (each `A_j` is a finite `A_0`-module) and the chart's
 linear parts, which embed `cot_{−1}(x)` in `E^{n_{−1}}` with image of full rank (the same argument applies in every weight).
-(2) A product `A_{−2}A_2` of weight `0` is nonzero
+(2) follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/SignHolds.lean` (`UpperTheory.V.Alg.M.sign_holds`).
+A product `A_{−2}A_2` of weight `0` is nonzero
 at `ξ` exactly when `ξ` is nonzero in both signs, a weight-`±1` coordinate entering through its square. (3) An `O`-valued
 point derivation kills `(ker x)²`, hence `sat(x)` (its target is torsion-free), so `D` is an `O`-linear injection of `M` into
 `Hom_O(cot_j(x)/span F, O/c)`; and `Hom_O(N, O/c)` has length at most that of a finitely generated `O`-module `N`
@@ -189,7 +196,10 @@ point derivation kills `(ker x)²`, hence `sat(x)` (its target is torsion-free),
 `M` embeds in the finite set `Hom_O(cot_j(x)/span F, O/c)`, and for finite `O`-modules the cardinality determines the length;
 this is the form of [FormalProof]. For `D` `O`-linear the argument above needs no finiteness; this form is the roadmap's own.
 With `D` only additive and `k` infinite of characteristic `p` the bound fails: `k²` embeds additively in
-`Hom_O(O/π, O/π) = k`. (4) The formal
+`Hom_O(O/π, O/π) = k`. (4) is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/IftSubstLow.lean` (`UpperTheory.V.Alg.M.ift_holds`), applied in
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/CutHolds.lean` (`UpperTheory.V.Alg.M.cut_holds`).
+The formal
 implicit function theorem over `E`: the equations `φ(Z_l) = 0` in `E[[s, u]]`
 (`s` the weight-`0` variables, `u` the others) have invertible linear part in `s`, so successive approximation gives a
 unique `g ∈ E[[u]]^m`, `g(0) = 0`, with `φ(Z)(g(u), u) = 0`. The torus acts on `E[[s, u]]` by scaling the variables by their
@@ -262,13 +272,17 @@ point have length at most `1` (the quotient is reduced there and each weight pie
 of `T` and every `v(σ(a)) ≥ 0`. The finiteness of `M_d` over `O` is needed: admissibility after cutting by `a` gives only finite
 length of the cut (for `B = O[[z]]`, `M = B/πB`, `a = z`, the cut has length one and `M[a] = 0`, but `M` is not finite over `O` and
 has no point in characteristic `0`). (g1) beyond the admissibility argument of (e), (g2), and the bound `1` in (g3) are statements
-of [FormalProof] whose proofs are not given here. (h) The lower bound: the ideal `𝔮` of leading forms along the fibre over `x` (elements whose
+of [FormalProof] ((g1):
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/EventuallyMQGrFiniteAnnihilator.lean` (`UpperTheory.V.Alg.M.eventually_mQ_gr_finite_annihilator`))
+whose proofs are not given here. (h) The lower bound: the ideal `𝔮` of leading forms along the fibre over `x` (elements whose
 coefficient of `T^μ` has order at least `2μ₀ + 4μ₂ + 1` in the negative variables) contains `J` and `a`, `π` is a
 nonzerodivisor on `R/𝔮`, and modulo `𝔮` the first `r` sections are `π^{2c_i}y_i²` (3.16(4)). `(R/𝔮)_μ` is a free
 `O`-module on the monomials of negative order exactly `2μ₀ + 4μ₂` and positive order `2μ₁ + 2μ₂` (each is the only leading monomial of some
 element of `A_{−2}^{μ₀+2μ₂}A_2^{μ₁+μ₂}`, by the chart), so `H_{(R/𝔮)/π} = H` of (2). Since `R/𝔮` is a quotient of `(R/J)/a`,
 3.16(6), then (11) with `β = π`, and (2) give `χ(ts; (R/J)/a) ≥ χ(ts; R/𝔮) ≥ (Σ_i2c_i)·2^{r+r′−1}`. Combining,
-`(Σ_ic_i)·2^{r+r′} ≤ 2^{r+1+r′}·Σ_ξ v(ξ(a))`. *Route of (2).* On even arguments `N₋` and `N₊` are polynomials with leading terms `n^{r+s−1}/((r+s−1)!·2^s)` and
+`(Σ_ic_i)·2^{r+r′} ≤ 2^{r+1+r′}·Σ_ξ v(ξ(a))`. *Route of (2).* (2) is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/FrobeniusInclusionXEqMulQ.lean` (`UpperTheory.V.Alg.M.num_holds`).
+On even arguments `N₋` and `N₊` are polynomials with leading terms `n^{r+s−1}/((r+s−1)!·2^s)` and
 `n^{r′+s′+1}/((r′+s′+1)!·2^{s′+1})`; the difference of total order `(r+s−1) + (r′+s′+1)` is the corresponding derivative of
 the leading form of `H`; `Δ_{e_2}` produces two terms, of which `Δ_{e_0}^{r+s−1}` kills the one of degree `r + s − 2` in `μ₀`,
 and the result is `2^{r+s+r′+s′}/(2^s·2^{s′+1}) = 2^{r+r′−1}`. *Needs:* 3.16, 3.17, 4.8; DeformationAndDerivedPatchingAlgebra §3.11 (Hilbert functions); Mathlib
@@ -317,7 +331,10 @@ Smith normal form over a PID.
 - (*the extra equation*) Dropping `F_1` leaves the two-signed locus `bc = πⁿ` with `d` free: a two-parameter family, so the
   orbits are not finitely many, and (M2) and (M4) fail. The `(r + 1)`-st equation of weight `−1` is what cuts the locus down to orbits.
 
-See [FormalProof] for the statement and its proof; Wiles 1995 (appendix) and Lenstra 1995 for the complete-intersection
+See [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/OrbitVanishingLocal.lean` (`UpperTheory.V.Alg.LemmaM`) and
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/GradedModulesLength/MainCotSpan.lean` (`UpperTheory.V.Alg.M.main_holds`),
+for the statement and its proof; Wiles 1995 (appendix) and Lenstra 1995 for the complete-intersection
 equality it is compared with; Iyengar–Khare–Manning for congruence modules in higher codimension.
 
 ### Examples
@@ -338,7 +355,8 @@ Let `R₀` be a complete Noetherian local domain and `g ≥ 0`. In `S := R₀[[m
 `(g + 1) × (g + 1)` matrix and `y` for the generic column. An ideal `J` of a Noetherian local ring `R` is *chained in dimension
 `D`* if `c(R/J) ≥ D` (DeformationAndDerivedPatchingAlgebra §6.6) and every minimal prime `P` of `J` has `dim R/P ≥ D + 1`. By the component-partition definition of
 `c`, `c(R/J) ≥ D` says that `dim R/J ≥ D` and that any two minimal primes of `J` are joined by a chain of minimal primes of `J`
-in which consecutive `P, P′` have `dim R/(P + P′) ≥ D`. Prove:
+in which consecutive `P, P′` have `dim R/(P + P′) ≥ D` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/Integral.lean` (`UpperTheory.V.Fr.Chained`)). Prove:
 
 1. (*the generic locus*) the radical of `(m·y, det m)` in `S` is a prime ideal of height at most `g + 1` (*the form of the
    formal proof*, which holds over any Noetherian domain `R₀`); its height is `g + 1`, and `V(m·y, det m)` is the closure of
@@ -421,7 +439,9 @@ modulo `Z` the relations become `Σ_j(λ_{ij}(X) − c_{ij})m̄_j = 0` with `c_{
 `det(λ(X) − c)·(N/ZN) = 0`, where the determinant is nonzero (modulo `π` its lowest form is the determinant of `g²` linearly
 independent linear forms); so `N_Z = 0` by Nakayama, against `Ann_B N ⊆ Z`. So the hypothesis `Ann_B N ⊆ Z` and the
 hypothesis `ired(N) ⊄ Z` of [FormalProof] select the same primes.
-(2) Complete Nakayama makes `O[[X]] → B` surjective, so `dim B ≤ 1 + D₀`; if
+(2) follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/SelmerScaling/PresOut0.lean` (`UpperTheory.V.Pa.presOut0`).
+Complete Nakayama makes `O[[X]] → B` surjective, so `dim B ≤ 1 + D₀`; if
 `dim B/Z ≥ 1 + D₀ = dim O[[X]]`, the kernel of `O[[X]] → B/Z` is a prime of the domain `O[[X]]` of full coheight, hence `0`. *Needs:*
 DeformationAndDerivedPatchingAlgebra §1.9; 6.10 (1); dimension under finite extensions (lying over, equality of dimensions); Mathlib `Matrix.adjugate`.
 
@@ -460,7 +480,11 @@ and `(P2)`, for the pro-modular primes of `R_𝒟`), by PotentialAutomorphyInfra
 pro-automorphic minimal primes, with adjacency from the bound on `c(R₁)`) and by GL2ModularityLifting §§10.3 and 10.12 (Pan's
 good components, by the partition argument of (2)).
 
-*Route.* (1) For a component `Q` let `Inv(Q)` say: `Q ∈ TI` implies `Q` good, and either `Q` is good and in `TI`, or `Q` is thick and
+*Route.* (1) is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/FlipTwoThree.lean` (`UpperTheory.V.Pr.LocProp`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/LocProp.lean` (`UpperTheory.V.Pr.locProp`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/FlipTwoThree.lean` (`UpperTheory.V.Pr.LocData.Concl`).
+For a component `Q` let `Inv(Q)` say: `Q ∈ TI` implies `Q` good, and either `Q` is good and in `TI`, or `Q` is thick and
 lies in a nice prime of `TE` reached by a chain of links from a nice prime of `TE` with a good generization in `TI`. *Start:* let
 `Q₀` be a minimal prime of `R` below the given good prime `𝔭₀`; it is in `TI`, hence a component; `𝔭₀` lies in a nice prime `n`,
 good by specialization; if `n ∈ TI`, (P1) makes `Q₀` good, and if `n ∈ TE`, (P23) with `p = q = n` (a chain of length zero; `𝔭₀` is
@@ -471,7 +495,11 @@ lies in a nice prime of `TE`; if `n ∈ TE`, (P23) with `p = q = n` and the good
 `TI` good. If `Q` is thick and lies in a nice `n₁ ∈ TE` reached from `n₀`, then `𝔮` contains the thick `Q`, so lies in a nice
 `n ∈ TE`, linked to `n₁` through `Q`, and (P23) along the extended chain makes every generization of `n` in `TI` good. In each case
 `Inv(Q′)` follows (with the nice prime found as the witness when `Q′` is thick). *End:* the chain hypothesis reaches every
-component from `Q₀`, and every minimal prime of `R` in `TI` is a component with `Inv`, hence good. (2) The unions `𝒜`, `ℬ` of the
+component from `Q₀`, and every minimal prime of `R` in `TI` is a component with `Inv`, hence good. (2) is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/FlipTwoThree.lean` (`UpperTheory.V.Pr.GlobProp`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/GlobProp.lean` (`UpperTheory.V.Pr.globProp`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/FlipTwoThree.lean` (`UpperTheory.V.Pr.GlobData.Ok`).
+The unions `𝒜`, `ℬ` of the
 components meeting `TI` that are, resp. are not, contained in `Good` are closed (there are finitely many components) and contain
 `Cl ∖ EE`, hence its closure, hence `Core`. If `ℬ ≠ ∅`, both meet `Core`, preconnectedness gives a point of `Core` on both, and the
 closed set `𝒜 ∩ ℬ`, meeting `Core`, meets `Cl` at a point `x` on a component in `Good` meeting `TI` and on one not in `Good`, against
@@ -524,12 +552,18 @@ Prove:
    in every `N_k` is zero (Stacks, Tags 09B8, 05GG and 031D).
 
 Clause (2) is stated in `Suggested.lean` as `exists_patched_module_up_to_element`, with the weakly regular form of
-quasi-regularity. HilbertModularVarietiesAndShimuraCurves §R18.4.29 is the neighbouring construction without an inverted
+quasi-regularity. It follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/AnnihilatorBaseChange/PmodEx.lean` (`UpperTheory.V.Pa.Core.pmodEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/Patched.lean` (`UpperTheory.V.AlgebraTools.exists_patched_module`) and
+`Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/IsWeaklyRegularIffIsQuasiRegularSeqOfIsLocalRing.lean` (`GlobalTheory.IsQuasiRegularSeq.isWeaklyRegular`).
+HilbertModularVarietiesAndShimuraCurves §R18.4.29 is the neighbouring construction without an inverted
 element: over the integers of a finite extension of `ℚ_l`, it patches finitely generated modules with uniformly bounded
 numbers of generators into `lim_a ∏_𝒰(M_n/aM_n)` and proves finite freeness for systems free of fixed rank; (2) allows
 unbounded ranks and maps that are inverse only up to `f`, and concludes quasi-regularity, not freeness.
 
-*Route.* (1) For each open normal `V` the subgroups `ker(π_N)V/V` of the finite group `Ph/V` take finitely many values, so one of
+*Route.* (1) The clause on `K_∞` follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/ProfDefs.lean` (`UpperTheory.V.AlgebraTools.limKer`).
+For each open normal `V` the subgroups `ker(π_N)V/V` of the finite group `Ph/V` take finitely many values, so one of
 them, `K_V/V`, occurs for `𝒰`-almost all `N` (finite germ evaluation, DeformationAndDerivedPatchingAlgebra §8.1, for the finite
 set of subgroups of `Ph/V`); for `V′ ⊆ V`, `K_{V′}V = K_V` (two sets of `𝒰` meet). Put `K_∞ := ⋂_VK_V`; then
 `K_∞V = K_V`: for `x ∈ K_V` the closed sets `xV ∩ K_{V′}`, `V′ ⊆ V`, are nonempty and directed, so by compactness
@@ -559,7 +593,11 @@ localization. If for every `k` some `f^er` maps `M_N` into `I_{k,j}M_N` for all 
 killed by `𝔪_R^c` because `R` is local; for `N` with maps `φ, ψ` modulo `I_{1,j}` and `φψ = f`, `f·b·y ≡ φ(b·ψ(y)) = 0` for `b ∈ 𝔪_R^c`,
 so `f𝔪_R^cM_N ⊆ I_{1,j}M_N`, and iterating, `f^k𝔪_R^{ck}M_N ⊆ I_{k,j}M_N`. The relation on `M_N` is used modulo `𝔪_R^{c(j)k}`:
 `(ft)^n ≡ a` modulo `𝔪_R^{ck}` with `aM_N = 0` gives `f^k(ft)^nM_N ⊆ I_{k,j}M_N`, and (iii) gives `(ft)^n𝕄 = 0`; so `t^n` kills `𝕄`,
-`f` being a unit in `𝔹`, and `𝔦𝔹 ⊆ √(Ann_𝔹 𝕄)`. `𝔹` is Noetherian as a completion of the Noetherian `R[1/f]`. (3) (dim) Put
+`f` being a unit in `𝔹`, and `𝔦𝔹 ⊆ √(Ann_𝔹 𝕄)`. `𝔹` is Noetherian as a completion of the Noetherian `R[1/f]`. (3) is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/AnnihilatorBaseChange/PmDimQuot.lean` (`UpperTheory.V.Pa.Core.pmDim`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/AutomorphicDetection/AnnBc.lean` (`UpperTheory.V.Pa.s5`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/PatchedSupportCompletions.lean` (`UpperTheory.V.Pa.S5`).
+(dim) Put
 `𝕄_i := 𝔹_i ⊗_𝔹 𝕄`, a finite `𝔹_i`-module on which `σ₁, …, σ_s` is a regular sequence (quasi-regular, finite over a Noetherian local
 ring); `𝕄_i/(σ)𝕄_i` is the completion of `𝒳` at `q_i`, a direct factor of the free module `Λ̂ ⊗_Λ 𝒳`, `Λ̂` the completion of `Λ` at
 `q_i ∩ Λ` (`R/Ann_R 𝒳` is finite over `Λ`), hence free over `Λ̂`, Cohen–Macaulay of dimension `δ`. So `𝕄_i` is Cohen–Macaulay of
@@ -569,7 +607,9 @@ dimension `δ + s`, and all its associated primes, in particular the minimal pri
 module). (move) `z := Z ∩ 𝔹` lies in `Supp_𝔹 𝕄` (`𝔹 → 𝔹_i` is flat) and in `Q ∩ 𝔹`; primes of `𝔹` containing `(σ)` correspond to primes
 of `R[1/f]` containing `(σ)`, compatibly with inclusion, so `Q ∩ 𝔹 ⊆ q_{i′}𝔹`; `𝔹_{i′}` is faithfully flat over the localisation of `𝔹`
 at `q_{i′}𝔹`, so a prime `Z′` of `𝔹_{i′}` lies over `z`; it is in the support of `𝔹_{i′} ⊗ 𝕄`, that is `Z′ ⊇ S_{i′}`, and
-`Z′ ∩ R = Z ∩ R`; it contains `𝔦` because `𝔦` acts nilpotently on `𝕄`. (4) `N := lim_kN_k` is `𝔶`-adically complete with
+`Z′ ∩ R = Z ∩ R`; it contains `𝔦` because `𝔦` acts nilpotently on `𝕄`. (4) is [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/TowerCompl.lean` (`UpperTheory.V.AlgebraTools.exists_tower_limit_completion`).
+`N := lim_kN_k` is `𝔶`-adically complete with
 `N/𝔶^kN = N_k` (Tag 09B8), so an element dying in every `N_k` lies in `⋂_k𝔶^kN = 0`; the completion `Ŝ` is `𝔶Ŝ`-adically complete
 with `Ŝ/𝔶Ŝ = S/𝔶` (Tag 05GG), `N` is an `Ŝ`-module as a limit of `S/𝔶^k`-modules, and `N/𝔶ŜN = N₁` is finite, so `N` is finite over
 `Ŝ` (Tag 031D). *Needs:* DeformationAndDerivedPatchingAlgebra §§3.1, 5.3, 6.1, 6.2, 8.1 (finite germ evaluation);
@@ -604,7 +644,9 @@ every homomorphism `f : R → R′` to a coefficient ring and every homomorphism
 `f′(e_s) = t(w_s)f(e_s)` for all `s`. Prove: finitely many `e_s` give a surjection `O[[x₁, …, x_n]] → R` with kernel stable under
 taking weight components, and every `e_s` lies in the image of the power series of weight `w_s`.
 
-*Route.* (sep) on `k[ε]` shows that the `e_s` span the relative cotangent space, so finitely many of them give a surjection
+*Route.* This is a theorem of [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/CoordGrading.lean` (`UpperTheory.V.Alg.coord_grading`).
+(sep) on `k[ε]` shows that the `e_s` span the relative cotangent space, so finitely many of them give a surjection
 `π : O[[x₁, …, x_n]] → R` (DeformationAndDerivedPatchingAlgebra §1.9). Apply (tor) to `R → R[[u₁, …, u_ρ]]`, `ρ` the rank of `X`, and `t(w) = ∏(1 + u_i)^{w_i}`: for
 `p = Σ_w p_w`, `f′(π(p)) = Σ_w t(w)π(p_w)`. Modulo `𝔪_R^N` only finitely many `w` contribute (a monomial of degree `≥ N` maps into
 `𝔪_R^N`), and the `t(w)`, `w ∈ X` distinct, are linearly independent over `R/𝔪_R^N` (they are the monomials in the `T_i = 1 + u_i`).
@@ -621,7 +663,9 @@ coefficient ring whose maximal ideal is generated by `𝔪_O` and finitely many 
 `R_0`-module; `⊕_w R_w` is generated over `R_0` by the variables; and a homomorphism from `⊕_w R_w` to a coefficient ring is
 determined by the images of the variables.
 
-*Route.* This is a theorem of [FormalProof]. The route is not given here.
+*Route.* This is a theorem of [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/AdicExtensionMatrices/SxExtA.lean` (`UpperTheory.V.Ws.sxExtA`).
+The route is not given here.
 
 ### 6.16 Rescaling an artinian coefficient ring
 
@@ -630,7 +674,9 @@ coefficient ring `C` and `c ≥ 0`, prove: `S = C + T·C[[T]] + Σ_{n≥1} T^{�
 coefficient ring whose maximal ideal contains `T^nC` for `n > 0` and `T^n𝔪_C` for `−c ≤ n ≤ 0`, and for every `n` the coefficient
 of `T^n` vanishes on a power of `𝔪_S`.
 
-*Route.* This is a theorem of [FormalProof]. The route is not given here.
+*Route.* This follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/AdicExtensionMatrices/NearOfAdjoin.lean` (`UpperTheory.V.Ws.sxLaur`).
+The route is not given here.
 
 ### Examples
 

@@ -49,7 +49,8 @@ as it is the normalized valuation of `d` (`Ring.ord_eq_addVal`), this is
 `length_O(M/aM) − length_O M[a] = v(det_E(a | M ⊗_O E))` (Fulton, *Intersection theory*,
 Appendix A).
 
-This classical statement is not on the path of the formal proof cited in the README as [FormalProof]. -/
+This classical statement is not on the path of the formal proof cited in the README as
+[FormalProof]. -/
 theorem length_quot_eq_length_ker_add_valuation_det
     (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     (E : Type*) [Field E] [Algebra O E] [IsFractionRing O E]
@@ -120,7 +121,12 @@ completion `𝔹` of `R[1/f]` is Noetherian, and there is a finite `𝔹`-module
 
 The README states quasi-regularity of `σ_1, …, σ_s` on `𝕄`; as `(σ)𝔹` lies in the Jacobson
 radical of the Noetherian ring `𝔹` and `𝕄` is finite, this is the same condition (Stacks,
-Tags 00LN, 061R, 061S, the last with Tag 00IQ (2) in place of Krull's intersection theorem). -/
+Tags 00LN, 061R, 061S, the last with Tag 00IQ (2) in place of Krull's intersection theorem).
+
+It follows from the formal proof cited in the README as [FormalProof]:
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/AnnihilatorBaseChange/PmodEx.lean` (`UpperTheory.V.Pa.Core.pmodEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/Patched.lean` (`UpperTheory.V.AlgebraTools.exists_patched_module`),
+`Development/AbelianVarietyTheory/Proofs/CoherentCohomologyProofs/IsWeaklyRegularIffIsQuasiRegularSeqOfIsLocalRing.lean` (`GlobalTheory.IsQuasiRegularSeq.isWeaklyRegular`). -/
 theorem exists_patched_module_up_to_element
     (𝒰 : Ultrafilter ℕ) (h𝒰 : ∀ n : ℕ, (𝒰 : Filter ℕ) ≠ pure n)
     (Λ : Type u) [CommRing Λ] [IsNoetherianRing Λ] [IsLocalRing Λ]
