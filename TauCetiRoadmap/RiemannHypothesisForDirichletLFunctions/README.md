@@ -1,6 +1,7 @@
 # Riemann hypothesis for Dirichlet L-functions
 
-A family of roadmaps whose end theorem is the Riemann hypothesis for Dirichlet L-functions: for
+A family of roadmaps whose end theorem is the generalized Riemann hypothesis (GRH), that is, the
+Riemann hypothesis for Dirichlet L-functions: for
 every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s` with `Re s > 1/2`,
 `L(s, χ) ≠ 0` unless `χ` is principal and `s = 1`. For the trivial character this is the Riemann
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
