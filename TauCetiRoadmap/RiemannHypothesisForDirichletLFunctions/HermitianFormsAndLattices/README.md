@@ -178,7 +178,8 @@ argument.
 
 **Genus, class, mass.** Lattices are compared inside one fixed space `V`. `M` is in the genus of `L`
 if `M_v = g_v L_v` with `g_v ∈ U(V)(F_v)` at every finite `v`, and in the class of `L` if `M = gL`
-with `g ∈ U(V)(F)`. For totally definite `V` and a compact open `K ⊂ U(V)(𝔸_f)`, `mass(K)` is the
+with `g ∈ U(V)(F)`. By 2.5(f), `M` is in the genus of `L` if and only if, at every finite `v`, `M_v = (gL)_v` for
+some `g ∈ U(V)(F)` depending on `v`. For totally definite `V` and a compact open `K ⊂ U(V)(𝔸_f)`, `mass(K)` is the
 mass `Σ_{g ∈ U(V)(F)\U(V)(𝔸_f)/K} 1/|U(V)(F) ∩ gKg^{−1}|` of the level `K` for the group
 `U(V)` (DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a), and `mass(L) = mass(K_L)`. Mass is never defined
 before the class set is proved finite.
@@ -649,21 +650,39 @@ Prove, for `n ≥ 1`: (a) at a finite place
 `v`, `U(V)(F_v)` is compact if and only if `v` is nonsplit and `V_v` is anisotropic, which forces
 `n ≤ 2` (2.4); (b) at an archimedean place, `U(V)(F_v)` is compact if and only if `v` is real,
 inert in `E`, and `V_v` is definite; (c) `U(V)(F ⊗ ℝ)` is compact if and only if `V` is totally
-definite (Conventions; the sign may depend on the place); (d) for `n ≥ 2` and a finite set `S` of
-places containing the archimedean ones, `SU(V)` has strong approximation with respect to `S`
-whenever `SU(V)(F_v)` is noncompact for some `v ∈ S`, that is, whenever some `v ∈ S` is split in
-`E`, complex, or has `V_v` isotropic; (e) for `c ∈ F^×`, `(V, ch)` has the same unitary group and
+definite (Conventions; the sign may depend on the place); (d) for `n ≥ 2` and a nonempty finite set `S`
+of places of `F`, archimedean or not (`S` need not contain the archimedean places), `SU(V)` has strong
+approximation with respect to `S`, that is, `SU(V)(F)·SU(V)(F_S)` is dense in `SU(V)(𝔸_F)`, the full adele
+group, whenever `SU(V)(F_v)` is noncompact for some `v ∈ S`, that is, whenever some `v ∈ S` is split in
+`E`, complex, or has `V_v` isotropic; in particular for `S = {v}` with `v` a finite place split in `E`;
+(e) for `c ∈ F^×`, `(V, ch)` has the same unitary group and
 the same subspaces as `(V, h)`; if `V` is totally definite there is `c ∈ F^×` whose sign at every
-real place is that of `V_v`, and `(V, ch)` is then totally positive definite.
+real place is that of `V_v`, and `(V, ch)` is then totally positive definite; (f) *weak approximation*
+(classical): for a finite set `T` of finite places of `F`, `U(V)(F)` is dense in `∏_{v ∈ T} U(V)(F_v)`.
+Consequently, for lattices `L, M ⊂ V` and a finite place `v`, `M_v = g_vL_v` for some `g_v ∈ U(V)(F_v)` if and
+only if `(gL)_v = M_v` for some `g ∈ U(V)(F)`; and the same holds for the isometries of `V` fixing a nondegenerate
+subspace `W` pointwise (the group `U(W^⊥)`). *The form of the formal proof:* for a lattice `L`, an adelic point `g`
+of `U(V)` and integers `N, D ≥ 1` there is `γ ∈ U(V)(F)` with `γg` congruent to the identity on `L` at the primes
+dividing `N`, to the precision `D`.
 
 Route: (a) an isotropic vector gives a hyperbolic plane (1.2) and the noncompact torus
 `diag(ϖ, ϖ^{−1})`; at a split place `U(V)(F_v) = GL_n(F_v)` (2.3); if `V_v` is anisotropic,
 `x ↦ h(x, x)` is an anisotropic quadratic form on the `F_v`-space `V_v`, so `{x : |h(x, x)| ≤ 1}`
 is compact, spans `V_v` and is preserved by `U(V)(F_v)`. (b) Sylvester (2.2): `U(p, q)` is compact
 exactly when `pq = 0`, and complex or split real places give `GL_n(ℂ)` or `GL_n(ℝ)`. (c) from (a),
-(b). (d) is AdelicAlgebraicGroups §4.2 *strong-approximation-sufficiency* applied to `SU(V)` (0.2).
+(b). (d) for `S` containing the archimedean places is AdelicAlgebraicGroups §4.2 *strong-approximation-sufficiency*
+applied to `SU(V)` (0.2); for the other `S`, `S = {v}` among them, it is the classical theorem in this generality
+(Kneser, Platonov), not given here.
 (e) `h` and `ch` have the same isometries; the signs by weak approximation
-(`TauCeti.GlobalNumberFields.weakApproximation_denseRange`).
+(`TauCeti.GlobalNumberFields.weakApproximation_denseRange`). (f) The Cayley transform `c(X) = (1 − X)(1 + X)^{−1}`, over
+`F` and over every `F_v`, maps the `X ∈ End_E(V)` with `h(Xx, y) = −h(x, Xy)` and `1 + X` invertible bijectively onto
+the `g ∈ U(V)` with `1 + g` invertible, with inverse `g ↦ (1 − g)(1 + g)^{−1}`
+(`h((1 − X)u, (1 − X)w) = h(u, w) + h(Xu, Xw) = h((1 + X)u, (1 + X)w)`). These `X` form an open subset of a
+finite-dimensional `F`-vector space, where weak approximation holds coordinatewise (`weakApproximation_denseRange`),
+and these `g` are dense in `U(V)(F_v)`: for `g ∈ U(V)(F_v)`, `1 + ζg` is invertible for every `ζ ∈ E_v^1` close to `1`
+outside a finite set. The consequence: `U(L_v) = U(V)(F_v) ∩ GL(L_v)` is open, so `g_vU(L_v)` contains some
+`g ∈ U(V)(F)`; for `W`, the same with `U(W^⊥)`. The form of the formal proof is the density at the places dividing
+`N`, the condition on `γ` being open and satisfied by `g_v^{−1}` there.
 
 *Needs:* 0.2, 1.2, 2.1, 2.2, 2.3, 2.4; AdelicAlgebraicGroups §4.2; GlobalNumberFields Layer 1.
 
@@ -1100,11 +1119,20 @@ with `L_0` unimodular. In characteristic zero, (a) and (b) are [Kirschmer], Theo
 (c) is Proposition 3.3.5 (3), (5) there, pp. 32–33. For symmetric bilinear forms over a discrete valuation ring, the
 quadratic counterpart of (a), (b) is IntegralLattices 3B.
 
+*The form of the formal proof* of (a), (b). Let `E/F` be unramified at every finite place, `X ⊆ V` a subspace on which
+`h` is nondegenerate, `L` an integral lattice of `X` and `𝔭` a prime of `F`, inert or split. There are an orthogonal
+basis `b_1, …, b_m` of `X` and `a_i ∈ O_F ∖ 0` with `h(b_i, b_i) = a_i` and `Σ O_E b_i = L` after localisation at `𝔭`.
+For every such basis `v_𝔭(𝔳(L)) = Σ_i v_𝔭(a_i)` and `t(L_𝔭) = #{i : v_𝔭(a_i) > 0}`; and if the discriminant modules at
+`𝔭` of two such lattices are isomorphic, then `Σ_i min(v_𝔭(a_i), j) = Σ_i min(v_𝔭(a′_i), j)` for every `j ≥ 0`.
+
 Route: choose `x, y` with `h(x, y)` generating `s(L)`; if some `h(x, x)` generates it, split off
 `O_E x`, otherwise split off the plane spanned by `x, y`; induct. Invariance of the type from the
 dimensions of `𝔓^j L^∨ ∩ L` modulo `𝔓`, as for quadratic lattices (O'Meara §91). (c): for `a` odd,
 `Π̄^a = −Π^a`, so `Π^{−a}h` reduces to a nondegenerate alternating form on `L/𝔓L`, whose symplectic
-basis lifts; for `a` even, `L_0 = Π^{−a/2}L` is unimodular by 4.0(a), (d).
+basis lifts; for `a` even, `L_0 = Π^{−a/2}L` is unimodular by 4.0(a), (d). The form of the formal proof: at a split or
+unramified `𝔭` the splitting above is into lines (`Tr` is onto, so some `h(x, x)` generates `s(L)`); Gram–Schmidt over
+`E` on vectors of `L` close to such a basis of `L_𝔭`, scaled by elements of `O_F ∖ 𝔭` to lie in `L`, gives the `b_i`;
+the volume, `t(L_𝔭)` and the sums `Σ_i min(v_𝔭(a_i), j)` are read off `A_{L_𝔭} ≅ ⊕_i O_E/a_iO_E` (localised at `𝔭`).
 
 *Needs:* 4.0; GeometryOfNumbersAndQuadraticArithmetic 2.5.2, 2.7.3.
 
@@ -1516,18 +1544,27 @@ anti-isometric, and empty otherwise. When the residue fields of `R` are finite, 
 finite (finite length, 4.8(a)), and the number of these lattices is `#O(A_{M′}) = #O(A_M)` or `0`; over a
 Dedekind domain with an infinite residue field these groups can be infinite (Checks). An isometry
 `g_U ⊕ g_{U′}` of `U ⊥ U′` with `g_UM = M`, `g_{U′}M′ = M′` maps `Λ_γ` to
-`Λ_{ρ_{M′}(g_{U′})∘γ∘ρ_M(g_U)^{−1}}`.
+`Λ_{ρ_{M′}(g_{U′})∘γ∘ρ_M(g_U)^{−1}}`. *The form of the formal proof* of (c): it uses (c) in the form: the number of these
+lattices at a place is `0` or `#O(A_{M′})`; if it is not `0`, then `A_M ≅ A_{M′}` as modules; and it does not change
+when `M′` is replaced by `gM′` for an isometry `g` of `V` fixing `U` pointwise. (c) implies it.
 (d) *Global form.* For Hermitian lattices over a number field (`R = O_E`, `c = σ`, `ε = 1`),
 `Λ ↦ (Λ_v)_v` is a bijection from the set of unimodular lattices `Λ` of the fixed space `V` with
 `Λ ∩ U = M` and `Λ ∩ U′ = M′` onto the product, over the finite places, of the corresponding local
 sets; at every `v` at which `M_v` and `M′_v` are unimodular the local set is `{M_v ⊥ M′_v}`. So the
 number of these lattices (lattices, not classes) is the finite product of the local numbers:
 `∏_v #O(A_{M′_v})` if `A_{M_v}` and `A_{M′_v}` are anti-isometric at every `v`, and `0` otherwise.
+*The form of the formal proof* of (d): for `E/F` a CM extension unramified at every finite place, it uses (d) for `U′`
+totally positive definite and when some unimodular `Λ_0` has `Λ_0 ∩ U = M`; then all the local numbers are nonzero if
+and only if `M′` and `Λ_0 ∩ U′` are, at every prime, carried into one another by an isometry of `V` fixing `U`
+pointwise. (a), (c), (d), 4.8(c) and 2.5(f) imply it.
 (e) *Existence at split and unramified places.* Let `v` be split or unramified, `M_v ⊂ U_v` integral
 and `n′ = dim U′_v`. There are a lattice `M′_v ⊂ U′_v` and a unimodular `Λ_v ⊂ V_v` with
 `Λ_v ∩ U_v = M_v` and `Λ_v ∩ U′_v = M′_v` if and only if `t(M_v) ≤ n′` and `V_v` contains a unimodular
 lattice; `M′_v` is then unique up to `U(U′_v)`: its constituents of positive scale are those of `M_v`,
-and its unimodular constituent has rank `n′ − t(M_v)`.
+and its unimodular constituent has rank `n′ − t(M_v)`. *The form of the formal proof* of (e) is global and is the
+sufficiency only, with the strict `t(M_v) < n′` and a unimodular lattice of `V`: for `E/F` a CM extension unramified at
+every finite place, `U′` totally positive definite and `M ⊂ U` integral, if `V` contains a unimodular lattice and
+`t(M_v) < n′` at every finite `v`, some unimodular `Λ ⊂ V` has `Λ ∩ U = M`. The existence criterion of 6.4a(b) implies it.
 At ramified places, dyadic ones included, (a)–(d) hold as stated; (e) does not (Checks).
 
 *Comparison with the quadratic case.* For `R = ℤ`, `c = id`, `ε = 1`, statements (a)–(c) for even `M`,
@@ -1573,7 +1610,7 @@ of `U(U′_v)`). The comparison: for `R = ℤ`, `M ⊥ M′` and its overlattice
 rational space, the subgroup `Λ/(M ⊕ M′)` of the native discriminant group of `M ⊥ M′` is the graph of
 (a), and (b) is the native correspondence applied to that graph.
 
-*Needs:* 2.1, 2.3, 4.0, 4.0a, 4.2, 4.8; Tau Ceti `TauCeti.IntegralLattice.glueAlongDiscriminant`,
+*Needs:* 2.1, 2.3, 2.5, 4.0, 4.0a, 4.2, 4.8; Tau Ceti `TauCeti.IntegralLattice.glueAlongDiscriminant`,
 `exists_eq_glueAlongDiscriminant`, `integralIntermediateCarrierOrderIsoIsotropicSubgroup` (the case
 `R = ℤ`).
 
@@ -1604,9 +1641,10 @@ rational space, the subgroup `Λ/(M ⊕ M′)` of the native discriminant group 
 Prove:
 (a) let `O` be a discrete valuation ring with residue field of `q` elements and `j ≥ 1`; the number of
 `O`-submodules of `O^j` of colength `e` (index `q^e`) is the Gaussian binomial coefficient
-`[e + j − 1 choose j − 1]_q`, which is at most `q^{ej}`;
+`[e + j − 1 choose j − 1]_q`, which is at most `q^{ej}` and at most `(e + 1)^j·q^{e(j−1)}` (it is the sum of
+`q^{Σ_i (i−1)c_i}` over the `(c_1, …, c_j)` with `Σ c_i = e`);
 (b) for a number field `K` of degree `d`, the number of ideals of `O_K` of norm `m` is at most
-`m^{log₂ d}`;
+`m^{log₂ d}`; more precisely it is at most `d^{Ω(m)}`, `Ω(m)` the number of prime factors of `m` with multiplicity;
 (c) let `E` be a number field and `L` an `O_E`-lattice of rank `j ≥ 1` (a finitely generated projective
 `O_E`-module of rank `j`). For an integer `i ≥ 1`, the number `s_j(i)` of `O_E`-submodules `N ⊆ L` with
 `#(L/N) = i` depends only on `j` and `i`: it is the sum, over the ideals `∏_𝔓 𝔓^{e_𝔓}` of `O_E` of norm `i`,
@@ -1774,7 +1812,8 @@ action on the `ℤ`-lattice `L` of rank `n[E : ℚ]`. (d) Small levels: let `K �
 and `v` a finite place above a rational prime `p`, and suppose that either (i) `p ≥ 3` and the
 projection `K_v` acts trivially on `L_v/pL_v`, or (ii) for a prime `𝔓` of `E` above `v`, with
 ramification index `e(𝔓|p)` over `p`, `p > n·e(𝔓|p) + 1` and `K_v` acts on `L_v/𝔓L_v` through
-unipotent elements. The numerical condition of (ii) holds whenever `p > n[E : ℚ] + 1` (as
+unipotent elements, or (iii) (`p = 2` allowed) for some `m ≥ 2`, `K_v` acts trivially on `L_v/p^mL_v`.
+The numerical condition of (ii) holds whenever `p > n[E : ℚ] + 1` (as
 `e(𝔓|p) ≤ [E : ℚ]`), and whenever `p > n + 1` if `p` is unramified in `E`; the unipotence of the action
 of `K_v` modulo `𝔓` is a separate hypothesis in every case (it holds, for instance, when `K_v` acts
 trivially on `L_v/𝔓L_v`). Then `K` is sufficiently
@@ -1805,8 +1844,12 @@ acting unipotently modulo `𝔓` has `p`-power order. If it is not `1`, a power 
 `GL(V_i) ≅ GL_n(F_v)` with `F_v = E_𝔓`, faithfully. Some eigenvalue of `γ` is a primitive `p`-th root of
 unity `ζ_p`, so `[E_𝔓(ζ_p) : E_𝔓] ≤ n`. But `ℚ_p(ζ_p)/ℚ_p` is totally ramified of degree `p − 1`, so
 the ramification index of `E_𝔓(ζ_p)/ℚ_p` is at least `p − 1`, and
-`[E_𝔓(ζ_p) : E_𝔓] ≥ (p − 1)/e(𝔓|p) > n`, a contradiction. In both cases AutomorphicFormsOnReductiveGroups
-7.5 (`stabilizer_trivial`) concludes. (e) An element of order `ℓ` has minimal polynomial dividing
+`[E_𝔓(ζ_p) : E_𝔓] ≥ (p − 1)/e(𝔓|p) > n`, a contradiction. (iii) A torsion element of `GL_N(R)` congruent to `1`
+modulo `p^m`, `m ≥ 2`, is `1`, for every discrete valuation ring `R` of characteristic zero in which `p` is not a unit:
+for an element `1 + y ≠ 1` of prime order `ℓ` with `y ≡ 0 mod p^m`, the term `ℓy` of `(1 + y)^ℓ − 1` has strictly
+smaller valuation than the others (for `ℓ = p` because `(p − 1)·v(y) ≥ 2v(p) > v(p)`); apply it as in (i), with
+`R = O_v`. In all three cases AutomorphicFormsOnReductiveGroups 7.5 (`stabilizer_trivial`) concludes.
+(e) An element of order `ℓ` has minimal polynomial dividing
 `(X − 1)Φ_ℓ`, of degree `≤ n < ℓ − 1`; `Φ_ℓ` is irreducible over `E` (`ℚ(ζ_ℓ)` is totally ramified at
 `ℓ`, and `E` is unramified there), so the minimal polynomial is `X − 1`; Cauchy's theorem gives the
 statement on finite subgroups.
@@ -1870,6 +1913,14 @@ of `L` contains a lattice reached from `L` by a finite chain of `w`-neighbours. 
 of a modular lattice and the chains of (a) are [Kirschmer], Definition 5.2.1 and Propositions 5.2.4,
 5.2.5, pp. 75–76. Kneser's `p`-neighbours of integral quadratic lattices over `ℤ` are IntegralLattices 4G.
 
+*The form of the formal proof: metric form.* Let `L_0 ≠ L` be unimodular lattices of `V`, with `E/F` unramified at the
+places where they differ. There are a prime `𝔓` of `E` and `x ∈ L_0` with `x ∉ L`, `𝔓x ⊆ L` and `h(x, x) ∈ O_E` such that
+the neighbour `L(x) = {y ∈ L : h(x, y) ∈ O_E} + O_E x` of `L` satisfies
+`length(L_0/(L_0 ∩ L(x))) = length(L_0/(L_0 ∩ L)) − 1`; hence `L_0` and `L` are joined by a chain of exactly
+`length_{O_E}(L_0/(L_0 ∩ L))` neighbours. At a prime `𝔓 ≠ 𝔓̄` of `E` of prime norm `q`, a unimodular `Λ` has
+`(q^n − 1)/(q − 1)` unimodular neighbours `Λ′ ⊇ 𝔓Λ` with `[Λ : Λ ∩ Λ′] = q`, exactly one for each `Λ_0` with
+`𝔓Λ ⊆ Λ_0 ⊆ Λ` of index `q`, and `Λ′` is such a neighbour of `Λ` for `𝔓` if and only if `Λ` is one of `Λ′` for `𝔓̄`.
+
 Route: (a) the orbit of `L_w` is the set of unimodular lattices of `V_w` (4.2(a)). At an inert `w`,
 by 4.7(a) two of them are `⊕(Oe_i ⊕ Of_i) ⊥ L_0` and `⊕(ϖ^{−a_i}Oe_i ⊕ ϖ^{a_i}Of_i) ⊥ L_0`; lowering one
 `a_i` by one changes the lattice by a quotient `≅ k_{E_w}`, a neighbour step. At a split `w`, by
@@ -1877,9 +1928,15 @@ by 4.7(a) two of them are `⊕(Oe_i ⊕ Of_i) ⊥ L_0` and `⊕(ϖ^{−a_i}Oe_i 
 towards `0` replaces `Λ′` by a sublattice or a superlattice of colength one, and then
 `L/(L ∩ M)` is `k_w × 0` or `0 × k_w`, a neighbour step. (b) at these places and `n ≥ 2`,
 `SU(V)(F_w)` is noncompact (`SL_n` at a split place; at an unramified place `V_w ≅ ⟨1, …, 1⟩` by
-4.2(a), and `⟨1, 1⟩ ≅ H` since `−1` is a unit, hence a norm); then 5.3(c) and (a).
+4.2(a), and `⟨1, 1⟩ ≅ H` since `−1` is a unit, hence a norm); then 5.3(c) and (a). The metric form: `L_0 ⊄ L` (else
+`L = L^∨ ⊆ L_0^∨ = L_0`), so `(L_0 + L)/L` has a simple submodule, which gives `𝔓` and `x ∈ L_0 ∖ L` with `𝔓x ⊆ L`, at a
+place where `L_0` and `L` differ; `h(x, x) ∈ O_E` as `L_0` is integral. `L(x)` is integral, `L ∩ L(x)` is
+`{y ∈ L : h(x, y) ∈ O_E}`, of index `N𝔓` in `L` (`y ↦ h(x, y)` maps `L` onto `𝔓̄^{−1}/O_E`) and in `L(x)` (`O_Ex ∩ L = 𝔓x`), so
+`L(x)` is unimodular; and `L_0 ∩ L(x) = (L_0 ∩ L) + O_Ex` contains `L_0 ∩ L` with a simple quotient. At a split `𝔓` with
+`Λ_v = (Γ, Γ^*)` (2.3), `𝔓` acting on the first component, the `Λ′` are the `(Γ′, Γ′^*)` with `ϖ_vΓ ⊆ Γ′ ⊆ Γ` of index
+`q`, and `Λ ∩ Λ′ = (Γ′, Γ^*)`.
 
-*Needs:* 4.2, 4.7, 5.3.
+*Needs:* 2.3, 4.2, 4.7, 5.3.
 
 **Checks.**
 
@@ -2453,7 +2510,8 @@ Prove, over a nonarchimedean local field of
 characteristic `≠ 2`:
 (a) if `E_v/F_v` is unramified or split and `L_v` is unimodular (every residue characteristic),
 `β_v(L) = β_v^⋆ = ∏_{k=1}^{n} L_v(k, η_v^k)^{−1}`, and for unimodular `T` of size `k ≤ n`,
-`α_v(L, T) = ∏_{i=n−k+1}^{n} L_v(i, η_v^i)^{−1}`;
+`α_v(L, T) = ∏_{i=n−k+1}^{n} L_v(i, η_v^i)^{−1}`; for `k = 1`, `L_v` unimodular of rank `n ≥ 1` and `ν ∈ O_v ∖ 0` of
+valuation `a`, `α_v(L, ν) = (1 − η_v^n q_v^{−n})·Σ_{l=0}^{a}(η_v^n q_v^{1−n})^l`;
 (b) if `E_v/F_v` is ramified, `v` nondyadic and `L_v` unimodular, `β_v(L) = q_v^{−n(n−1)/2}· |O(L_v/𝔓L_v)(k_v)|`, with `O` the orthogonal group of the residue form of 4.2(b). Explicitly
 `β_v = 2∏_{j=1}^{r}(1 − q_v^{−2j})` for `n = 2r + 1`, and `β_v = 2(1 − χ_v q_v^{−r}) ∏_{j=1}^{r−1}(1 − q_v^{−2j})` for `n = 2r` with `r ≥ 1` (for `n = 0`, `β_v = 1`, the value of the first
 formula), where `χ_v = χ_v(L) = 1` if the residue form is split
@@ -2486,7 +2544,10 @@ differential `(Y_1, Y_2) ↦ X_2^tY_1 + Y_2^tX_1` is onto `M_k(O_v)`, so each so
 `X_1`, and for each the `X_2` form an affine space of dimension `nk − k²`: in all
 `|GL_n(k_v)|/|GL_{n−k}(k_v)|` solutions (the orbit of one under `GL_n(k_v)`, with stabilizer
 `GL_{n−k}(k_v)`), and `q_v^{−(2nk−k²)}|GL_n(k_v)|/|GL_{n−k}(k_v)| = ∏_{i=n−k+1}^{n}(1 − q_v^{−i})`, the
-stated value, as `L_v(i, η_v^i) = (1 − q_v^{−i})^{−1}` at a split place for every `i`. (b) the
+stated value, as `L_v(i, η_v^i) = (1 − q_v^{−i})^{−1}` at a split place for every `i`. For `k = 1` and `v(ν) = a`, write
+a solution as `ϖ_v^lx′` with `x′ ∉ ϖ_vL_v` and `2l ≤ a`; the Gram map is smooth at `x′`, and the residue counts of the
+nonzero `x′` (normalized: `1 − η_v^nq_v^{−n}` for a unit value, `(1 − η_v^nq_v^{−n})(1 + η_v^nq_v^{1−n})` for the value
+`0`), weighted by `q_v^{2l(1−n)}`, sum to the stated value. (b) the
 differential `Z ↦ Z + Z^*` of `X ↦ X^*HX` is onto `Herm_n(O_{E_v})` because `2` is a unit; the stabilizer scheme `X^*HX = H` is smooth, with
 special fibre an extension of the orthogonal group of the residue form by a vector group of dimension
 `n(n+1)/2` (`n² = n(n−1)/2 + n(n+1)/2`), as in [GanYu], Theorem 7.3 (quoted in [Kirschmer],
@@ -3264,7 +3325,7 @@ Layers 4–6; ThetaSeries 1A, 3A.
 - The roadmaps of this family on chains of theta lifts: local and global classification and existence with prescribed
   invariants (2.1, 2.3, 3.1, 3.2); gluing of lattices from local data in module form (4.0(g));
   unimodular lattices and compact open subgroups (4.2, 4.5); class sets, finiteness, stabilizers,
-  Minkowski's bound and small levels (5.1, 5.2, 5.2(d)(ii)); masses, the index formula and the
+  Minkowski's bound and small levels (5.1, 5.2, 5.2(d)(ii)); neighbours (5.4); masses, the index formula and the
   dimension of spaces of algebraic modular forms (5.5–5.7); the Tamagawa number (6.0b); local
   densities (6.1, 6.1a) and the archimedean fibre measure on `U(V)(F_∞)` (6.1(f), in
   ThetaChainsAndFrobeniusPrimeSums §9.4); the
@@ -3288,7 +3349,8 @@ Layers 4–6; ThetaSeries 1A, 3A.
   theorem for CM fields (3.1); the signed index (4.0a(c)), the inequality of 4.0b(a) and the descent lemma through it;
   the bound `n^{1 + log₂[E : ℚ]}` for the orbits (5.9) and `(n·nN_0)^{2s+1}` for the fibres (4.11); the mass formula
   with an undetermined constant `c_1` and the masses of standard lattices as numbers (6.3); the compact-dual
-  normalisation (6.2(c)); the strict inequality `t(M_v) < n′` (6.4a); the exponent `(9s + 8 + 4l)/2` with cyclic
+  normalisation (6.2(c)); the gluing counts of 4.9(c), (d); the metric neighbour chain (5.4); the strict inequality
+  `t(M_v) < n′` (4.9(e), 6.4a); the exponent `(9s + 8 + 4l)/2` with cyclic
   discriminant modules (6.4c); and `2k < n` (6.5(a), (d)).
 - EndoscopicTransferAndUnitaryTraceComparisonPartII names two statements proved here as gaps: its
   `gap:hermitian-field-classification` is 2.1(a), (b) (every characteristic, dyadic and ramified extensions included),
@@ -3481,7 +3543,7 @@ nonarchimedean local fields of any characteristic. §13.1: `cyclicHasseNorm`,
 ### From TauCetiRoadmap.GlobalNumberFields
 
 Layer 1: `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (signs at real places and finite
-places prescribed simultaneously), used in 2.5(e) and 3.2. Layer 6:
+places prescribed simultaneously), used in 2.5(e), (f) and 3.2. Layer 6:
 `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap` (additive strong approximation), used in
 4.7(b).
 
