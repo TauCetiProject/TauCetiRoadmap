@@ -25,9 +25,9 @@ The headline theorems are these.
 - *Kakeya sets over finite fields (Dvir).* A set of points of `Fⁿ`, `F` a field with `q`
   elements, that contains a full line in every direction has at least `(q + n − 1 choose n)`
   points, which is at least `qⁿ / n!`.
-- *Joints (Guth–Katz, Kaplan–Sharir–Shustin, Quilodrán).* If `d ≥ 2` and `L` is a finite family
-  of lines in `Kᵈ`, `K` a field of characteristic zero, the points through which the lines of `L`
-  run in `d` independent directions number at most `(4ᵈ d!)^(1/(d−1)) |L|^(d/(d−1))`.
+- *Joints (Guth–Katz, Kaplan–Sharir–Shustin, Quilodrán, Carbery–Iliopoulou).* If `d ≥ 2` and
+  `L` is a finite family of lines in `Kᵈ`, `K` any field, the points through which the lines of
+  `L` run in `d` independent directions number at most `(4ᵈ d!)^(1/(d−1)) |L|^(d/(d−1))`.
 
 The roadmap builds on Mathlib's Combinatorial Nullstellensatz, its Schwartz–Zippel lemma and its
 multivariate polynomials with their homogeneous components and partial derivatives, and on Tau
@@ -438,15 +438,16 @@ Layer 3 (3.1, 3.2, 3.3). Mathlib `MvPolynomial.homogeneousComponent`,
 
 ### 5.1 The joints theorem
 
-Let `K` be a field of characteristic zero and `d ≥ 2`. Define `IsJoint L x` for a finite family
+Let `K` be a field and `d ≥ 2`. Define `IsJoint L x` for a finite family
 `L` of affine subspaces of `Kᵈ` and a point `x`: the directions of the members of `L` through `x`
 span `Kᵈ`. For lines this says that `x` lies on at least `d` lines of `L` not all parallel to a
 common hyperplane. Prove `card_pow_le_of_isJoint`: if every member of `L` is a line, every finite
 set `J` of joints of `L` has `|J|^(d−1) ≤ 4ᵈ d! |L|ᵈ`, that is
 `|J| ≤ (4ᵈ d!)^(1/(d−1)) |L|^(d/(d−1))` (Kaplan–Sharir–Shustin, Theorem 1, p. 1, with proof on
-pp. 2–3, over `ℝ` and for `d ≥ 3`; their proof applies unchanged to `d = 2`, and uses of the reals
-only that the characteristic is zero; Guth and Katz for `d = 3`, and Quilodrán independently,
-attributed in prose).
+pp. 2–3, over `ℝ` and for `d ≥ 3`; their proof applies unchanged to `d = 2`; over every field,
+Carbery–Iliopoulou, Theorem 1.1, pp. 1–2, for `d ≥ 3` with an unspecified constant, whose key step
+Proposition 3.1, pp. 5–6, ends the route below; Guth and Katz for `d = 3`, and Quilodrán
+independently, attributed in prose).
 
 Route: let `n = |L| ≥ 1` (with no lines there are no joints) and `m = |J|`, and suppose
 `m^(d−1) > 4ᵈ d! nᵈ`. Remove repeatedly a line carrying fewer than `m/(2n)` points of the
@@ -454,13 +455,22 @@ current `J`, with its points; fewer than `m/2` points go, and every remaining po
 joint of the remaining lines, each of which carries at least `m/(2n)` remaining points. Let `b`
 be least with `(b + d choose d) > m`; then `b ≤ ⌈(d! m)^(1/d)⌉ ≤ 2(d! m)^(1/d)`, and the assumption
 on `m` is exactly `m/(2n) > 2(d! m)^(1/d)`, so every remaining line carries more than `b` points.
-By 3.1 a nonzero `P` of degree at most `b` vanishes on the remaining points, and by 3.3 on the
-remaining lines. At a remaining point `x` on a line `x + K • v`, the coefficient of `t` in
-`P(x + t • v)` is `∑ vᵢ ∂ᵢP(x)`, so it vanishes; as the directions at `x` span `Kᵈ`, every
-`∂ᵢP` (`MvPolynomial.pderiv`) vanishes at `x`. Each `∂ᵢP` has degree at most `b − 1` and so
-vanishes on the remaining lines by 3.3; by induction every iterated partial derivative of `P`
-vanishes on them. In characteristic zero, the partial derivative of `P` along the exponent of a
-monomial of greatest degree is a nonzero constant, a contradiction. The source (p. 3) writes the
+Take `P ≠ 0` of least total degree vanishing on the remaining points; by 3.1 its degree is at most
+`b`, so by 3.3 it vanishes on the remaining lines. At a remaining point `x` on a line
+`x + K • v`, the coefficient of `t` in `P(x + t • v)` is `∑ vᵢ ∂ᵢP(x)`, so it vanishes; as the
+directions at `x` span `Kᵈ`, every `∂ᵢP` (`MvPolynomial.pderiv`) vanishes at `x`. A nonzero `∂ᵢP`
+would be a polynomial of smaller degree vanishing on the remaining points, so `∂ᵢP = 0` for every
+`i` (Carbery–Iliopoulou, proof of Proposition 3.1, pp. 5–6). In characteristic zero `P` is then
+constant. In characteristic `p`, the coefficient of `x^(a − eᵢ)` in `∂ᵢP` is `aᵢ` times that of
+`x^a` in `P`, so every exponent of `P` is a multiple of `p`, and over an algebraic closure `E` of
+`K` (a perfect closure suffices) `P = Q^p` with `deg Q = deg P / p` (Carbery–Iliopoulou,
+Lemma 2.4, pp. 4–5); `Q` vanishes on the remaining points. A nonzero polynomial of degree at most
+`c` vanishes on a finite set of `Kᵈ` exactly when the matrix of the values of the monomials of
+degree at most `c` at its points, whose entries lie in `K`, has rank below its number of columns,
+and this rank is the same over `E`; so the least such degree is the same over `K` and over `E`,
+`deg P ≤ deg Q`, and `P` is constant again. A nonzero constant does not vanish on the nonempty set
+of remaining points, a contradiction. (The source instead passes to an algebraic closure at the
+start, p. 5, which keeps the lines, the joints and their counts.) The source (p. 3) writes the
 condition `m/(2n) > 2(d! m)^(1/d)` as `m > (2^(d+1) d!)^(1/(d−1)) n`; solved for `m` it reads
 `m^(d−1) > 4ᵈ d! nᵈ`, which gives the constant `(4ᵈ d!)^(1/(d−1))` used here.
 
@@ -476,6 +486,14 @@ condition `m/(2n) > 2(d! m)^(1/d)` as `m > (2^(d+1) d!)^(1/(d−1)) n`; solved f
   every point of that line is a joint, and `J` can be arbitrarily large.
 - The step from the assumption on `m` to `m > 2nb` was checked for `2 ≤ d ≤ 6`, `n < 60` and the
   fifty smallest admissible `m` in each case.
+- Positive characteristic: over `𝔽₂` the `28` lines of `𝔽₂³` make all `8` points joints, and
+  `8² = 64 ≤ 4³ · 6 · 28³ = 8429568`. The polynomial `x₁^p` over `𝔽_p` has every first partial
+  derivative zero and is not constant, which is why the route takes `P` of least degree. The
+  statement was checked against the definitions for every set of lines of `𝔽₂²`, `𝔽₃²` and
+  `𝔽₄²`, every set of at most `8` lines of `𝔽₂³` and of at most `6` lines of `𝔽₅²`; and the step
+  of the route that no nonzero polynomial of degree below `m` vanishes on a set `S` whose points
+  are joints of lines each carrying at least `m` points of `S`, for every set `S` of points of
+  `𝔽₂²`, `𝔽₃²`, `𝔽₄²`, `𝔽₂³` and `𝔽₂⁴` (exhaustive search).
 
 *Needs:* 3.1, 3.3; Mathlib `AffineSubspace`, `AffineSubspace.direction`, `Module.finrank`,
 `MvPolynomial.pderiv`. (Proved here, following the cited proof.)
@@ -498,7 +516,7 @@ prime and the theorem of Dias da Silva and Hamidoune, with the Erdős–Heilbron
 `s = 2`; the theorem of Alon and Füredi for grids over any field; the theorem of Alon, Friedland
 and Kalai for prime powers; low-degree and homogeneous polynomials vanishing on a finite set and
 vanishing along a line; Dvir's bounds for Kakeya sets and for sets meeting many lines in many
-points; joints and the joints theorem over fields of characteristic zero.
+points; joints and the joints theorem over every field.
 
 Already in the library and therefore not targets:
 
@@ -540,8 +558,8 @@ equations; Alon's Theorem 4.5 for unequal sets, the condition `ab ≠ 1` of his 
 the theorem of Eliahou and Kervaire on sums in vector spaces over `𝔽_p`; list colouring and the
 Alon–Tarsi theorem; the permanent lemma; the regular-subgraph question for integers that are not
 prime powers; the bound of Dvir, Kopparty, Saraf and Sudan for Kakeya sets with multiplicities;
-joints over fields of positive characteristic, joints of curves and the incidences of lines with
-joints; polynomial partitioning, the Szemerédi–Trotter theorem and the distinct distances problem.
+joints of curves and the incidences of lines with joints; polynomial partitioning, the
+Szemerédi–Trotter theorem and the distinct distances problem.
 
 ## Exact supplier contracts
 
@@ -600,6 +618,8 @@ joints; polynomial partitioning, the Szemerédi–Trotter theorem and the distin
 - Zeev Dvir, *On the size of Kakeya sets in finite fields*, J. Amer. Math. Soc. 22 (2009),
   1093–1097; arXiv:0803.2336, version 3 (the theorem numbers and pages above are those of the
   arXiv version).
+- Anthony Carbery and Marina Iliopoulou, *Counting joints in vector spaces over arbitrary
+  fields*, arXiv:1403.6438, version 2 (theorem numbers and pages of the arXiv version).
 - Haim Kaplan, Micha Sharir and Eugenii Shustin, *On lines and joints*, Discrete Comput. Geom.
   44 (2010), 838–843; arXiv:0906.0558, version 1 (theorem numbers and pages of the arXiv version).
 - Attributions made in prose without a locator (years as Alon's text and reference list give

@@ -157,10 +157,10 @@ def IsJoint {K : Type*} [Field K] {d : ℕ} (L : Finset (AffineSubspace K (Fin d
   (⨆ ℓ ∈ L, ⨆ (_ : x ∈ ℓ), ℓ.direction) = ⊤
 
 /-- 5.1 The joints theorem (Guth–Katz for `d = 3`; Kaplan–Sharir–Shustin and Quilodrán in
-general), over any field of characteristic zero: for `d ≥ 2` and a finite family `L` of lines in
-`Kᵈ`, every finite set `J` of joints of `L` satisfies `#J ^ (d - 1) ≤ 4 ^ d * d! * #L ^ d`, that is
-`#J ≤ (4ᵈ d!)^(1/(d-1)) #L^(d/(d-1))`. -/
-theorem card_pow_le_of_isJoint {K : Type*} [Field K] [CharZero K] {d : ℕ} (hd : 2 ≤ d)
+general; Carbery–Iliopoulou over every field), over any field: for `d ≥ 2` and a finite family
+`L` of lines in `Kᵈ`, every finite set `J` of joints of `L` satisfies
+`#J ^ (d - 1) ≤ 4 ^ d * d! * #L ^ d`, that is `#J ≤ (4ᵈ d!)^(1/(d-1)) #L^(d/(d-1))`. -/
+theorem card_pow_le_of_isJoint {K : Type*} [Field K] {d : ℕ} (hd : 2 ≤ d)
     (L : Finset (AffineSubspace K (Fin d → K)))
     (hL : ∀ ℓ ∈ L, Module.finrank K ℓ.direction = 1)
     (J : Finset (Fin d → K)) (hJ : ∀ x ∈ J, IsJoint L x) :
