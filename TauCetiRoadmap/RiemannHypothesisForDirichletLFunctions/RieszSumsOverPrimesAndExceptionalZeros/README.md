@@ -674,7 +674,10 @@ and use `Li x ≥ (x − 2)/log x`.
 
 *Needs:* (ii); AnalyticNumberTheoryPartI §0.34.
 
-*Effectivity.* The constant `c` of (i) is effective: its route uses 0.30b and 1.7a and no zero-free region. The constants
+*Effectivity.* The constant `c` of (i) is effective: (i) follows from Bombieri 1987, Théorème 16, p. 41, taken at
+`T = e^ℒ` with the Landau–Page lemma of p. 39, and Théorème 16 follows in one line from Théorème 14, p. 40, whose
+constants, like those of the lemma, Bombieri states to be effectively computable. The constant of 0.30b, on which the
+route above rests, is asserted only to exist. The constants
 of (ii)–(iv) are asserted to exist, not to be effective. Their routes take the zero-free region and the width `c_cmp`
 from ZerosOfLFunctions 6.3–6.4, whose constant is existential and whose small conductors are settled by a minimum over
 finitely many characters (6.4 (4e)), as in 2.9b (iv) below. The published proofs give an effective `L` (Bombieri 1987,
@@ -1046,7 +1049,7 @@ Layer 1: the class-number bound `NumberField.classNumber_le_bound`, `h_K ≤ 4^n
 - P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339 (Gallagher 1970): Theorem 7, (29), p. 337, the prime sums over short intervals for the primitive characters of all moduli up to `Q`, with the remark after (29) on an exceptional zero (1.7b (ii)); (26)–(27), p. 336, the Landau–Page region and its widening near an exceptional zero (1.7b (i)).
 - U. V. Linnik, *On the least prime in an arithmetic progression. I. The basic theorem*, Rec. Math. (Mat. Sbornik) N.S. 15(57) (1944), 139–178 (Linnik 1944 I): (2), p. 139, the bound for the least prime (1.7b (iii)); *II. The Deuring–Heilbronn phenomenon*, the same volume, 347–368 (Linnik 1944 II): the Theorem, p. 347, that bound for every residue class (1.7b (iii)), and §3, the second basic theorem, p. 348, the repulsion (1.7b (i)).
 - S. Knapowski, *On Linnik's theorem concerning exceptional L-zeros*, Publ. Math. Debrecen 9 (1962), 168–178: the repulsion for the characters of one modulus, the form of 1.7b (i), as Gallagher 1970, p. 337, credits it.
-- Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987) (Bombieri 1987): §6, Théorème 13, p. 39, Linnik's theorem with an effectively computable constant (1.7b (iii)); Théorème 16, p. 41, the Deuring–Heilbronn phenomenon for the primitive characters of moduli up to `T` (1.7b (i)).
+- Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987) (Bombieri 1987): §6, Théorème 13, p. 39, Linnik's theorem with an effectively computable constant (1.7b (iii)); Théorème 14, p. 40, the zero-density estimate with effectively computable constants (the effectivity of 1.7b (i)); Théorème 16, p. 41, the Deuring–Heilbronn phenomenon for the primitive characters of moduli up to `T` (1.7b (i)).
 - H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 (2004): Theorem 5.27 (1.4g (b)); Chapter 18, a textbook account of the results of 1.7b.
 - Michael A. Bennett and Samir Siksek, *A conjecture of Erdős, supersingular primes and short character sums*, Ann. of Math. 191 (2020), read as arXiv:1709.01022v1: Theorem 5, (26), p. 17, the character prime number theorem with the exceptional term, there quoted as Iwaniec–Kowalski Theorem 5.27 (1.4g (b)).
 - Harold Davenport, *Multiplicative Number Theory*, 2nd ed., revised by Hugh L. Montgomery, Graduate Texts in Mathematics 74, Springer, 1980; Chapters 18–20: the prime number theorem for a character with its exceptional term, whose partial summation gives 1.4i.

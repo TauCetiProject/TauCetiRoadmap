@@ -8,8 +8,9 @@ This file is not the roadmap. The definitive document for this folder is `README
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, with `sorry`
 proofs. Dirichlet `L`-functions are Mathlib's `DirichletCharacter.LFunction`, and `(L′/L)(1, χ)`
 is the quotient of its derivative at `1` by its value there; the von Mangoldt function is
-`ArithmeticFunction.vonMangoldt` and Euler's constant is `Real.eulerMascheroniConstant`. As in the
-README, the constants below are asserted to exist; none of them is claimed to be effective.
+`ArithmeticFunction.vonMangoldt` and Euler's constant is `Real.eulerMascheroniConstant`. The
+constants below are asserted to exist; none of them is claimed to be effective here, and the README
+says which are.
 
 All three headlines are statable at the pins and are stated: the prime number theorem for the
 Riesz remainder in its exception-free form (1.4i (c)), Linnik's theorem (1.7b (iii)), and the
@@ -64,7 +65,9 @@ form of the formal proof. For every `c₀ > 0` there are `C, c > 0` such that fo
 nonprincipal Dirichlet character `χ` of conductor `N` for which, when `χ` is real, `L(s, χ)` has
 no real zero in `(1 − c₀, 1)`, and every `y ≥ 2`,
 `|G_χ(y)| ≤ C y (log 3N)^5 exp(−c log y/(√(log y) + log N))`; and
-`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. -/
+`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. As stated, it follows from
+`norm_rieszRemainder_le` by discarding the zero-free hypothesis; the target is its proof by the
+route of 1.4i (c′), from 1.4i (a), without AnalyticNumberTheoryPartI §0.34. -/
 theorem norm_rieszRemainder_le_of_no_real_zero (c₀ : ℝ) (hc₀ : 0 < c₀) :
     ∃ C c : ℝ, 0 < C ∧ 0 < c ∧
       (∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive → χ ≠ 1 →
