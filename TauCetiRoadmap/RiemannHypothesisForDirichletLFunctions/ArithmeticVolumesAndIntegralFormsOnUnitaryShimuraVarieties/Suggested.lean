@@ -20,14 +20,15 @@ these carriers at the pins. Mathlib and Tau Ceti have modular forms for congruen
 gives abelian schemes, moduli schemes of PEL type, their integral models, metrised line bundles on
 arithmetic varieties with their arithmetic degrees, or slopes of Hermitian vector bundles.
 
-* The flat line (8.11): on a geometrically connected component of the unitary Shimura variety of
-  signature `(p, q)` at a level that is good at every prime, the line
+* The flat line (8.11): for `|disc K| > 4`, on a geometrically connected component of the unitary
+  Shimura variety of signature `(p, q)` at a level that is good at every prime, the line
   `det Lie_τ ⊗ (det Lie_{cτ})^{−1}` with the Hodge metric and the integral structure of the
   eigen-submodules has a section without zeros or poles, of constant norm and constant valuations,
   and its arithmetic degree is `((p − q)/2)·log Ω`. It lacks the moduli scheme and its integral
   model, the Lie algebra of the universal semi-abelian scheme with its eigen-decomposition, the
   Hodge metric and the arithmetic degree of a metrised line bundle.
-* The average arithmetic volume theorem (8.17): under a transitive symmetry of the CM type,
+* The average arithmetic volume theorem (8.17): for `K = ℚ(√−d)` with `d` a prime `≡ 7 (mod 16)`
+  and `E` unramified over `E⁺` at every finite place, under a transitive symmetry of the CM type,
   `|Φ| ≥ 2`, `p, q ≥ 1`, `3q + 1 ≤ N` and at most `4|Φ|N²` primes dividing `2·disc(E)` and the
   level, the mean over the components of the volume slopes of the forms of a dominant weight `u`
   with strictly decreasing entries and gap `g` in the block of the last `q` indices is at least
