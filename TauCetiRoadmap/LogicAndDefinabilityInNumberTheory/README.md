@@ -1243,9 +1243,9 @@ The effective zero-cycle theorem and the Brauer computations are §4.29; a gener
 
 ### 4.31 Existential closure and model completeness
 
-For a first-order language L and an embedding M↪N of L-structures, M is existentially closed in N if every existential L-formula with parameters from M true in N is true in M; for rings L is the ring language. Define it using native BoundedFormula.IsExistential and parameters from the smaller structure; reuse that existing syntax fragment instead of defining another one. A theory T is model complete when every embedding between models of T is elementary; by Robinson’s test (TauCetiRoadmap.SaturationAndQuantifierElimination §2.5), T is model complete iff every embedding between models of T is existentially closed, iff every formula is equivalent modulo T to an existential formula. Keep existential closure, embedding and elementary embedding as distinct native notions.
+For a first-order language L and an embedding M↪N of L-structures, M is existentially closed in N if every existential L-formula with parameters from M true in N is true in M; for rings L is the ring language. Define it using native BoundedFormula.IsExistential and parameters from the smaller structure; reuse that existing syntax fragment instead of defining another one. In this section a model of a theory T is nonempty, as are the carriers of Mathlib `FirstOrder.Language.Theory.ModelType`, over which equivalence modulo T (Mathlib `FirstOrder.Language.Theory.Iff`) quantifies. A theory T is model complete when every embedding between models of T is elementary; by Robinson’s test (TauCetiRoadmap.SaturationAndQuantifierElimination §2.5), T is model complete iff every embedding between models of T is existentially closed, iff every formula is equivalent modulo T to an existential formula. Keep existential closure, embedding and elementary embedding as distinct native notions.
 
-This section proves the existential preservation criterion for one formula: for a theory T in L and an L-formula φ(x) in finitely many free variables, φ is equivalent modulo T to an existential formula iff, for every embedding f:M↪N of models of T and every tuple a from M, M⊨φ(a) implies N⊨φ(f(a)). The forward direction of the criterion is Mathlib `FirstOrder.Language.BoundedFormula.IsExistential.realize_embedding`.
+This section proves the existential preservation criterion for one formula: for a theory T in L and an L-formula φ(x) in finitely many free variables, φ is equivalent modulo T to an existential formula iff, for every embedding f:M↪N of nonempty models of T and every tuple a from M, M⊨φ(a) implies N⊨φ(f(a)). The forward direction follows from Mathlib `FirstOrder.Language.BoundedFormula.IsExistential.realize_embedding` applied to an existential equivalent of φ, which agrees with φ in M and in N because both are nonempty models of T.
 
 The basic interface must include:
 
@@ -1260,10 +1260,11 @@ The basic interface must include:
 - Existential closure only descends existential truths; it does not assert arbitrary elementary equivalence.
 - The theory of fields is not model complete: ℚ⊂ℚ(√2) is an embedding of fields and ∃x, x²=2 is false in ℚ and true in ℚ(√2), so the embedding is not existentially closed, hence not elementary.
 - The theory of algebraically closed fields is model complete (every embedding of algebraically closed fields is elementary, by quantifier elimination) but not complete: 1+1=0 holds in an algebraic closure of 𝔽₂ and fails in ℂ. Reading model completeness as completeness would reverse this verdict.
+- The criterion fails once the empty structure counts as a model. In the empty language with T empty, the sentence ∀x ⊥ is false in every nonempty structure, so it is equivalent modulo T to ⊥, which is existential; yet it holds in the empty structure and fails in a one-point structure, into which the empty structure embeds.
 
 Prove the converse direction of the criterion by the native compactness/diagram argument, retaining all parameters from the smaller model. A new syntax for existential formulas is unnecessary.
 
-([Jochen Koenigsmann, *Defining Z in Q*](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p02-p.pdf), §4, preservation criterion before Proposition 23, p.91; Remark 24, p.92.)
+([Jochen Koenigsmann, *Defining Z in Q*](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p02-p.pdf), §4, p.91, before Proposition 23: the instance of the criterion for ℤ in ℚ, which the source derives from a general lemma of a textbook it cites; Remark 24, p.92.)
 
 *Needs:* [0.2 Semantics and composition of interpretations](#02-semantics-and-composition-of-interpretations); Mathlib `FirstOrder.Language.BoundedFormula.IsExistential`; Mathlib `FirstOrder.Language.BoundedFormula.IsExistential.realize_embedding`; TauCetiRoadmap.SaturationAndQuantifierElimination §2.5 for model completeness in the Checks.
 
@@ -1955,7 +1956,7 @@ Use Layers 5 and 10 for cyclic algebras, local Brauer invariants and their globa
 
 ### From TauCetiRoadmap.SaturationAndQuantifierElimination
 
-Use §2.5: a theory T in a first-order language is model complete when every embedding between models of T is elementary, and Robinson’s test: T is model complete iff, for every embedding M↪N of models of T, every existential formula with parameters from M that holds in N holds in M, iff every formula is equivalent modulo T to an existential formula. Section 4.32 applies the last form to show that Th(ℚ) is not model complete.
+Use §2.5, with models of a theory nonempty, as are the carriers of Mathlib `FirstOrder.Language.Theory.ModelType`, over which that roadmap's equivalence modulo T quantifies: a theory T in a first-order language is model complete when every embedding between models of T is elementary, and Robinson’s test: T is model complete iff, for every embedding M↪N of models of T, every existential formula with parameters from M that holds in N holds in M, iff every formula is equivalent modulo T to an existential formula. Section 4.32 applies the last form to show that Th(ℚ) is not model complete.
 
 ### Input hypotheses of Layer 7
 
