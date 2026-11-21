@@ -214,6 +214,7 @@ body:
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HeightsRationalPointsAndObstructions
         - HermitianKTheoryOfPoincareCategories
         - HilbertModularVarietiesAndShimuraCurves
         - HilbertModules
