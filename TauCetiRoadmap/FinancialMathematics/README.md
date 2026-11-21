@@ -32,11 +32,15 @@ constant-coefficient change of measure, simple strategies and their arbitrage th
 Black–Scholes closed forms with their Greeks and limits. The sub-roadmap MarketImpact builds
 feedback pricing on this foundation.
 
-Layer 1 sets up the asset and self-financing strategies. Layer 2 proves representation under the
-risk-neutral measure, completeness, pricing, absence of arbitrage and the static-claim argument,
-for constant and then progressive coefficients. Layer 3 derives the pricing equation, gives a
-sufficient admissibility criterion, and proves existence of prices for general coefficients.
-Layer 4 proves replication and uniqueness for the Black–Scholes call and put.
+The build has four milestones, M0.1–M0.4, the labels by which MarketImpact and StochasticCalculus
+cite it; subsection k.n below belongs to milestone M0.k. M0.1 sets up the bond, the asset and
+self-financing strategies. M0.2 constructs the risk-neutral measure and proves representation under
+it, completeness, pricing, absence of arbitrage and the static-claim argument, for constant and
+then progressive coefficients. M0.3 derives the pricing equation, gives a sufficient admissibility
+criterion, and proves existence of prices for general coefficients and identifies them with the
+replication price. M0.4 states the Black–Scholes closed forms and their analytic theory (the
+equation, parity, the risk-neutral expectation, boundary and far-field values, the Greeks and their
+limits at maturity) and proves replication and uniqueness for the call and put.
 
 ## Conventions
 
@@ -81,14 +85,17 @@ Layer 4 proves replication and uniqueness for the Black–Scholes call and put.
 9. **Lean names.** The acceptance file `Suggested.lean` states its theorems in the namespace
    `TauCetiRoadmap.FinancialMathematics`.
 
-<a id="m01-assets-and-trading"></a>
-
-## Layer 1: assets and trading (M0.1)
+## M0.1: assets and trading
 
 ### 1.1 The asset price
 
-Let r be deterministic and continuous on [0, T] and let β be the bond `TauCeti.Finance.bondPrice r β₀`,
-β₀ > 0, which solves β' = rβ (`TauCeti.Finance.hasDerivAt_bondPrice`). Let μ and σ be progressively
+Let r be deterministic and continuous on [0, T] and β₀ > 0. The **bond** is
+`β_t = β₀ exp(∫₀ᵗ r_u du)`. It is positive, it solves β' = rβ with β(0) = β₀, and for a constant
+rate it is β_t = β₀ e^(rt).
+
+*In Tau Ceti:* `TauCeti.Finance.bondPrice`, `TauCeti.Finance.bondPrice_pos`, `TauCeti.Finance.bondPrice_zero`, `TauCeti.Finance.hasDerivWithinAt_bondPrice`, `TauCeti.Finance.hasDerivAt_bondPrice`, `TauCeti.Finance.bondPrice_const`.
+
+Let β be this bond, `TauCeti.Finance.bondPrice r β₀`. Let μ and σ be progressively
 measurable real processes with `∫₀ᵀ (|μ_t| + σ_t²) dt < ∞` almost surely, and S₀ a positive
 F₀-measurable random variable. Define the asset price S as the unique continuous adapted solution, up
 to indistinguishability, of `dS_t = μ_t S_t dt + σ_t S_t dW_t` with initial value S₀, the
@@ -141,16 +148,22 @@ simultaneously in t ∈ [0, T], the stochastic integral taken in its continuous 
 integral as the pathwise integral `∫₀ᵗ b_u r_u β_u du`. Negative holdings are allowed (Convention 3).
 
 - If (a, b) and (a', b') are self-financing and c, c' are real, then (ca + c'a', cb + c'b') is
-  self-financing, with initial cost cV₀ + c'V₀' and terminal payoff cV_T + c'V_T'.
+  self-financing, with initial cost cV₀ + c'V₀' and terminal payoff cV_T + c'V_T'. For simple
+  strategies this is Tau Ceti's `TauCeti.Finance.IsSelfFinancing.add` and
+  `TauCeti.Finance.IsSelfFinancing.smul`.
 - A strategy with F₀-measurable constant holdings (buy and hold) is self-financing.
 - *Simple strategies.* For dates 0 = t₀ < t₁ < ⋯ < t_n = T and holdings a_j, b_j measurable at
-  time t_j, held on (t_j, t_(j+1)] (and (a₀, b₀) at time 0), the stochastic integral of the simple holding is the
-  elementary sum of Tau Ceti's `TauCeti.Finance.simpleGains`, so the strategy is self-financing in
-  the sense above exactly when the rebalancing identity of `TauCeti.Finance.IsSelfFinancing` (each
-  rebalancing is paid for by the old position) holds for P-almost every ω; the predicate itself
-  asks it for every ω. The simple-strategy formula is Tau Ceti's
-  `TauCeti.Finance.isSelfFinancing_iff_forall_mem_Ioc`, and the simple holding is predictable by
-  `TauCeti.Finance.isStronglyPredictable_simpleHolding`.
+  time t_j, held on (t_j, t_(j+1)] (and (a₀, b₀) at time 0), so that
+  `a_t = Σ_j a_j 1_(t_j, t_(j+1)](t)` with a_j chosen at the start t_j of its interval, the simple
+  holding is predictable and its stochastic integral against S is the elementary sum
+  `∫₀ᵗ a dS = Σ_j a_j (S_(t_(j+1) ∧ t) − S_(t_j ∧ t))`, and likewise against β, where it equals
+  `∫₀ᵗ b_u r_u β_u du`. The **simple-strategy formula**: the wealth satisfies
+  `V_t = V₀ + ∫₀ᵗ a dS + ∫₀ᵗ b dβ` throughout (t₀, t_n], with these elementary integrals, exactly
+  when each rebalancing is paid for by the old position,
+  `a_j S_(t_(j+1)) + b_j β_(t_(j+1)) = a_(j+1) S_(t_(j+1)) + b_(j+1) β_(t_(j+1))` for every j + 1 < n.
+  The strategy is therefore self-financing in the sense above exactly when this rebalancing
+  identity holds for P-almost every ω; the library's predicate asks it for every ω.
+  *In Tau Ceti:* `TauCeti.Finance.simpleHolding`, `TauCeti.Finance.simpleGains`, `TauCeti.Finance.IsSelfFinancing`, `TauCeti.Finance.isSelfFinancing_iff_forall_mem_Ioc`, `TauCeti.Finance.isStronglyPredictable_simpleHolding`, `TauCeti.Finance.simpleGains_bondPrice`.
 - *Discounted form.* A strategy is self-financing if and only if its discounted wealth satisfies
   `V_t/β_t = V₀/β₀ + ∫₀ᵗ a_u d(S/β)_u` simultaneously in t. *Route:* Itô's product rule with the
   continuous finite-variation process 1/β. For simple strategies this is Tau Ceti's
@@ -195,32 +208,43 @@ StochasticCalculus §3.2–§3.4, §5.1 and §9.4. Tau Ceti: the bond and its de
 Brownian motion, simple strategies and their self-financing API. Mathlib: filtrations and
 predictable processes.
 
-## Layer 2: equivalent measure, completeness and no arbitrage (M0.2)
+## M0.2: equivalent measure, completeness and no arbitrage
 
-In §2.1–§2.3 the coefficients r, μ and σ ≠ 0 are constants, β_t = e^(rt) (the bond with β₀ = 1,
+In §2.0–§2.3 the coefficients r, μ and σ ≠ 0 are constants, β_t = e^(rt) (the bond with β₀ = 1,
 `TauCeti.Finance.bondPrice_const`), and F is the augmented natural filtration of W. Put
 κ = (μ − r)/σ and
 
 `Z_t = exp(−κW_t − κ²t/2)`,   `dQ = Z_T dP`,   `W^Q_t = W_t + κt`.
 
-The facts about this change of measure are in Tau Ceti and Mathlib. Z is the exponential martingale
-`TauCeti.Probability.exponentialMartingale (-κ) W`, positive and a true martingale
-(`TauCeti.Probability.exponentialMartingale_pos`,
-`TauCeti.Probability.IsFilteredPreBrownianReal.martingale_exponentialMartingale`). Q is the tilted
-measure `P.tilted (fun ω => -κ * W T ω)`, which has density Z_T
-(`ProbabilityTheory.IsPreBrownianReal.tilted_mul_eval_eq_withDensity`), is a probability measure and
-is equivalent to P (`MeasureTheory.isProbabilityMeasure_tilted`,
-`MeasureTheory.tilted_absolutelyContinuous`, `MeasureTheory.absolutelyContinuous_tilted`). W^Q is a
-Brownian motion under Q on [0, T]
-(`TauCeti.Probability.IsFilteredPreBrownianReal.sub_mul_min_tilted_mul_eval`,
-`TauCeti.Probability.IsFilteredPreBrownianReal.isBrownianReal_sub_mul_min_tilted_mul_eval`). The
-augmented natural filtration of W^Q under Q is F, because translation of paths by the deterministic
-function κt is invertible and P and Q have the same null sets
-(`ProbabilityTheory.IsPreBrownianReal.rightCont_nullAugment_natural_add_drift_tilted`). Under Q the
-asset is the geometric Brownian motion with drift r driven by W^Q
-(`TauCeti.Probability.geometricBrownianMotion_eq_riskNeutral`), and the discounted asset S/β is a
-Q-martingale on [0, T]
-(`TauCeti.Probability.IsFilteredPreBrownianReal.condExp_discounted_geometricBrownianMotion_tilted`).
+### 2.0 The risk-neutral measure for constant coefficients
+
+Prove that Z is a strictly positive martingale relative to F with E Z_T = 1, so that Q is a
+probability measure; that Q and P have the same null sets; that W^Q, t ∈ [0, T], is a Brownian
+motion relative to F under Q (Girsanov's theorem, Shreve 2004, §5.2.1); and that the augmented
+natural filtration of W^Q under Q is F, the augmented natural filtration of W under P. Prove
+further that, up to the horizon T, the asset with drift μ driven by W is the geometric Brownian
+motion with drift r driven by W^Q, and that the discounted asset S_t/β_t, t ∈ [0, T], is a
+Q-martingale relative to F (Shreve 2004, §5.2.2).
+*Route:* Z is the exponential martingale of W with parameter −κ, and Q is the measure P tilted by
+−κW_T, whose density is Z_T; Girsanov's theorem for a constant drift is checked on the
+finite-dimensional laws and the independence of increments from the past. The filtrations agree
+because translation of paths by the deterministic function κt is invertible and P and Q have the
+same null sets. In the library, Q is `P.tilted (fun ω => -κ * W T ω)` and its equivalence to P is
+Mathlib's `MeasureTheory.tilted_absolutelyContinuous` and `MeasureTheory.absolutelyContinuous_tilted`.
+
+**Checks.**
+
+- Under Q the process W has drift −κ: `E_Q W_T = −κT`, which is what makes W^Q = W + κt centred.
+  Tilting by +κW_T instead would give `E_Q W_T = κT` and leave W + κt with mean 2κT.
+- A density without the term −κ²T/2 would have mean `E exp(−κW_T) = e^(κ²T/2) > 1` for κ ≠ 0, and
+  would not define a probability measure.
+
+*In Tau Ceti:* `TauCeti.Probability.exponentialMartingale`, `TauCeti.Probability.exponentialMartingale_pos`, `TauCeti.Probability.IsFilteredPreBrownianReal.martingale_exponentialMartingale`, `ProbabilityTheory.IsPreBrownianReal.tilted_mul_eval_eq_withDensity`, `TauCeti.Probability.IsFilteredPreBrownianReal.sub_mul_min_tilted_mul_eval`, `TauCeti.Probability.IsFilteredPreBrownianReal.isBrownianReal_sub_mul_min_tilted_mul_eval`, `ProbabilityTheory.IsPreBrownianReal.rightCont_nullAugment_natural_add_drift_tilted`, `TauCeti.Probability.geometricBrownianMotion_eq_riskNeutral`, `TauCeti.Probability.IsFilteredPreBrownianReal.condExp_discounted_geometricBrownianMotion_tilted`.
+
+*Needs:* Tau Ceti `TauCeti.Probability.IsFilteredPreBrownianReal`,
+`TauCeti.Probability.geometricBrownianMotion`; Mathlib `MeasureTheory.Measure.tilted`,
+`MeasureTheory.isProbabilityMeasure_tilted`, `MeasureTheory.Filtration.natural`,
+`MeasureTheory.Filtration.rightCont`, `MeasureTheory.Martingale`.
 
 ### 2.1 Brownian representation under the risk-neutral measure
 
@@ -232,7 +256,7 @@ for a predictable h with `E_Q ∫₀ᵀ h_t² dt < ∞`, unique up to dt × Q-nu
 square-integrable (F, Q)-martingale on [0, T] has a continuous version `M_t = M₀ + ∫₀ᵗ h dW^Q`.
 *Route:* apply the L² martingale representation theorem in the usual natural Brownian filtration
 (StochasticCalculus §6.1) to the Q-Brownian motion W^Q, whose augmented natural filtration under Q
-is F by the Tau Ceti identity above. The theorem is about F: a larger filtration relative to which
+is F by §2.0. The theorem is about F: a larger filtration relative to which
 W is a Brownian motion is not asserted to have the representation property, and the market on it is
 not asserted to be complete.
 
@@ -243,7 +267,7 @@ not asserted to be complete.
   against the Q-Brownian motion.
 - ξ = (W^Q_T)² has E_Q ξ = T and integrand h_t = 2W^Q_t, by Itô's formula for the square.
 
-*Needs:* StochasticCalculus §6.1 (augmentation of the natural Brownian filtration and L² martingale
+*Needs:* §2.0; StochasticCalculus §6.1 (augmentation of the natural Brownian filtration and L² martingale
 representation) and §3.2–§3.4; Tau Ceti
 `ProbabilityTheory.IsPreBrownianReal.rightCont_nullAugment_natural_add_drift_tilted`,
 `TauCeti.Probability.IsFilteredPreBrownianReal.isBrownianReal_sub_mul_min_tilted_mul_eval`; Mathlib
@@ -286,20 +310,27 @@ have indistinguishable wealth processes, in particular the same initial cost.
   a_t = e^(−rt) instead of 1.
 - The claim H = 1 has value e^(−r(T−t)), replicated by a = 0 and b = e^(−rT).
 
-*Needs:* §1.2, §2.1; StochasticCalculus §3.2–§3.4 and §5.1; Tau Ceti
+*Needs:* §1.2, §2.0, §2.1; StochasticCalculus §3.2–§3.4 and §5.1; Tau Ceti
 `TauCeti.Probability.IsFilteredPreBrownianReal.condExp_discounted_geometricBrownianMotion_tilted`;
 Mathlib `MeasureTheory.Martingale`, `MeasureTheory.MemLp`.
 
 ### 2.3 Arbitrage and static claims
 
 An **arbitrage** is a strategy whose initial cost is 0 almost surely, whose terminal payoff is
-nonnegative almost surely, and whose terminal payoff is positive with positive probability: Tau
-Ceti's `TauCeti.Finance.IsArbitrage P V₀ V_T`, which depends only on the null sets of P
-(`TauCeti.Finance.isArbitrage_iff_of_absolutelyContinuous`). Prove that **no admissible strategy is
-an arbitrage** (Shreve 2004, §5.4.3). *Route:* the discounted wealth is a Q-martingale, so
-`E_Q[V_T/β_T] = V₀ = 0`, and a nonnegative variable with Q-mean zero vanishes Q-almost surely,
-hence P-almost surely. For simple strategies trading at finitely many dates the statement is Tau
-Ceti's `TauCeti.Probability.IsFilteredPreBrownianReal.not_isArbitrage_geometricBrownianMotion`.
+nonnegative almost surely, and whose terminal payoff is positive with positive probability. Whether
+a trade is an arbitrage depends only on the null sets of P, so it is the same under P and under any
+equivalent measure, in particular Q.
+
+*In Tau Ceti:* `TauCeti.Finance.IsArbitrage`, `TauCeti.Finance.isArbitrage_iff_of_absolutelyContinuous`.
+
+Prove that **no admissible strategy is an arbitrage** (Shreve 2004, §5.4.3). *Route:* the
+discounted wealth is a Q-martingale, so `E_Q[V_T/β_T] = V₀ = 0`, and a nonnegative variable with
+Q-mean zero vanishes Q-almost surely, hence P-almost surely. For simple strategies trading at
+finitely many dates of [0, T], with holdings chosen at the start of each interval and integrable
+discounted gains under Q, the statement is Tau Ceti's
+`TauCeti.Probability.IsFilteredPreBrownianReal.not_isArbitrage_geometricBrownianMotion`, an instance
+of `TauCeti.Finance.IsSelfFinancing.not_isArbitrage` (no simple arbitrage when the discounted asset
+is a martingale under an equivalent measure).
 
 Prove the **static-claim extension**. Let H be a claim replicated by an admissible strategy (a, b)
 of initial cost q, and suppose that H can also be bought or sold at time 0 at a price p, held to
@@ -309,11 +340,11 @@ c(q − p)β_T/β₀ = |q − p| β_T/β₀ > 0 at T almost surely: an arbitrage
 claim. One such trade yields only that fixed surplus. If every integer number N of claims, of
 either sign, may be held, a scaling premise stated as a hypothesis, the N-fold trades yield sure
 profits N|q − p|β_T/β₀, unbounded in N. The claim is held statically: the extended market does not
-assume that the discounted price of the mispriced claim is a Q-martingale. For simple replicating
-strategies the cash-flow identities are Tau Ceti's
-`TauCeti.Finance.IsSelfFinancing.staticClaim_offset`, `TauCeti.Finance.staticClaim_offset_initial_cost`,
-`TauCeti.Finance.staticClaim_offset_terminal_payoff`, `TauCeti.Finance.exists_staticClaim_payoff` and
-`TauCeti.Finance.exists_staticClaim_profit_gt`.
+assume that the discounted price of the mispriced claim is a Q-martingale. For a replication by a
+simple self-financing strategy, the statements (the offset trade is self-financing, costs 0, pays
+the financed surplus; the sign choice; unbounded profit under integer scaling) are in the library.
+
+*In Tau Ceti:* `TauCeti.Finance.IsSelfFinancing.staticClaim_offset`, `TauCeti.Finance.staticClaim_offset_initial_cost`, `TauCeti.Finance.staticClaim_offset_terminal_payoff`, `TauCeti.Finance.exists_staticClaim_payoff`, `TauCeti.Finance.exists_staticClaim_profit_gt` (for simple replicating strategies).
 
 **Checks.**
 
@@ -362,7 +393,7 @@ true-martingale property of its density and the integrability of its holdings be
 
 **Checks.**
 
-- Constant κ recovers §2.1–§2.3: Z is then `TauCeti.Probability.exponentialMartingale (-κ) W` and
+- Constant κ recovers §2.0–§2.3: Z is then `TauCeti.Probability.exponentialMartingale (-κ) W` and
   W^Q_t = W_t + κt.
 - For deterministic κ_t = t on [0, 1], `∫₀¹ κ dW` is Gaussian with variance v = 1/3, and
   `E exp(−∫κ dW − ½∫κ²) = exp(v/2 − v/2) = 1`. With the normalization −∫κ² in place of −½∫κ² the
@@ -384,12 +415,12 @@ and the Bayes formula) and §7.4 (Girsanov's theorem on a finite horizon); Tau C
 
 ### Dependencies
 
-Layer 1. StochasticCalculus §3.2–§3.4, §5.1, §5.4, §6.1, §7.3 and §7.4. Tau Ceti: the exponential
+M0.1. StochasticCalculus §3.2–§3.4, §5.1, §5.4, §6.1, §7.3 and §7.4. Tau Ceti: the exponential
 martingale, the tilted measure and Girsanov's theorem for constant drift, the identity of augmented
 natural filtrations, the discounted geometric Brownian motion as a martingale, and arbitrage with
 simple strategies. Mathlib: tilted measures, martingales and Lᵖ spaces.
 
-## Layer 3: classical price and the self-financing PDE (M0.3)
+## M0.3: classical price and the self-financing PDE
 
 In §3.1 and §3.2 the coefficients are deterministic continuous Markov coefficients μ(s, t) and
 σ(s, t) on (0, ∞) × [0, T] and a deterministic continuous rate r(t). Assume that from every
@@ -418,10 +449,17 @@ operator is continuous on D, the solution from (s₀, t₀) has continuous paths
 the almost-everywhere identity for t near t₀ gives its value at (s₀, t₀). Replication from a single
 start gives only the statement along that solution.
 
-For a prescribed delta strategy, a = ∂C/∂s, the drift identity holds wherever C solves the
-equation, including where σ vanishes. Where σ = 0 a replicating strategy is not forced to hold
-∂C/∂s shares, and replication does not by itself force the equation; no necessity statement is made
-there. The deterministic asset with σ = 0 and the bond are the cases of §1.1.
+For a prescribed delta strategy the drift identity holds wherever C solves the equation, including
+where σ vanishes: at a point (s, t) with s > 0, for every drift μ, volatility σ and rate r (σ = 0
+included) and every bond price β ≠ 0, the Itô drift `C_t + μ s C_s + (σ²s²/2) C_ss` of C(S_t, t)
+equals the drift `μ s a + r β b` of the delta hedge `a = C_s`, `b = (C − s C_s)/β` exactly when the
+Black–Scholes operator of C vanishes at (s, t).
+
+*In Tau Ceti:* `TauCeti.BlackScholes.itoDrift_eq_hedgeDrift_iff_pde`, `TauCeti.BlackScholes.hedgeBondHolding`, `TauCeti.BlackScholes.mul_deriv_add_mul_hedgeBondHolding`.
+
+Where σ = 0 a replicating strategy is not forced to hold ∂C/∂s shares, and replication does not by
+itself force the equation; no necessity statement is made there. The deterministic asset with σ = 0
+and the bond are the cases of §1.1.
 
 **Checks.**
 
@@ -443,7 +481,7 @@ decomposition of a continuous semimartingale); Tau Ceti
 ### 3.2 The price-admissibility criterion
 
 Let the coefficient processes μ(S_t, t), σ(S_t, t) and r(t) along the solutions above satisfy the
-hypotheses of §2.4 (of §2.1 when they are constant), so that the measure Q of §2.4 exists on the
+hypotheses of §2.4 (those of §2.0–§2.3 when they are constant), so that the measure Q of §2.4 exists on the
 declared filtration, with its true density and its predictable representation. Let C be of class
 C^(2,1) on D and solve the Black–Scholes equation there, and let h be a real function on (0, ∞).
 For a start (s₀, t₀), assume:
@@ -470,7 +508,7 @@ from the boundedness of σ and κ and the continuity of the paths. With constant
 p = 1 the maximal moment holds for geometric Brownian motion by Doob's inequality, because the
 discounted asset is a Q-martingale with moments of every order
 (`ProbabilityTheory.IsPreBrownianReal.memLp_geometricBrownianMotion`); this covers the call and the
-put of Layer 4.
+put of M0.4.
 
 **Checks.**
 
@@ -506,17 +544,49 @@ equation for u into `v_t + a v_yy + b v_y + c v = 0` for v = u/w, with `a = σ²
 and parabolically α-Hölder, and a ≥ δ/2, so the backward terminal-data isomorphism of PDE §6.6 gives
 existence; uniqueness in the unweighted class is also Tau Ceti's
 `TauCeti.ParabolicC2HolderSpace.eq_of_euclideanBackwardParabolicOperatorL_eq`, on
-`EuclideanSpace ℝ (Fin 1)`. The call and put theorems of Layer 4 have an independent direct proof
+`EuclideanSpace ℝ (Fin 1)`. The call and put theorems of M0.4 have an independent direct proof
 and do not use this theorem, whose hypothesis on h excludes their kinked payoffs.
+
+The coefficient adapter of the route is the **log-spot form of the operator**: let s > 0, let σ and
+r be any reals (the values σ(s, t) and r(t)), and let C(s, t) = u(log s, t) with u(·, t)
+differentiable near log s and its derivative differentiable at log s. Then the Black–Scholes
+operator `C_t + (σ²s²/2) C_ss + r(s C_s − C)` at (s, t) equals the log-spot operator
+`u_t + (σ²/2) u_yy + (r − σ²/2) u_y − r u` at (log s, t); and, read the other way, for
+u(y, t) = C(e^y, t) with C(·, t) differentiable near e^y and its derivative differentiable at e^y,
+the log-spot operator of u at (y, t) equals the Black–Scholes operator of C at (e^y, t).
+
+*In Tau Ceti:* `TauCeti.Finance.pde_comp_log`, `TauCeti.Finance.pde_comp_exp`.
+
+The growth adapter identifies the solution with the price. Let C = (1 + s) v be the solution above,
+and let μ(s, t) be a drift such that the standing hypotheses of this milestone hold for μ and this σ
+and the market price of risk (μ − r)/σ is bounded on (0, ∞) × [0, T], with F the augmented natural
+filtration of W. Prove that C satisfies the growth bound of §3.2 with p = 1, namely
+`|C(s, t)| + |s ∂C/∂s(s, t)| ≤ (2‖v‖ + ‖v_y‖)(1 + s)` with sup norms on the slab, extends
+continuously to t = T with C(s, T) = h(s), and that from every start (s₀, t₀) with s₀ > 0 and
+0 < t₀ < T the asset has `E_Q[sup_(t₀≤t≤T) S_t²] < ∞`. Consequently, by §3.2, the delta strategy
+of C replicates h(S_T) from every such start and `C(S_t, t) = β_t E_Q[h(S_T)/β_T | F_t]` for
+t ∈ [t₀, T]: the solution of this section is the price of §2.4 (a Feynman–Kac representation).
+*Route:* at y = log s, `s ∂C/∂s = s v + (1 + s) v_y`; v is continuous on the closed slab with
+v(y, T) = h(e^y)/(1 + e^y). Under Q the discounted asset is
+`S_t/β_t = (s₀/β_(t₀)) exp(∫_(t₀)^t σ dW^Q − ½∫_(t₀)^t σ² du)` with σ² ≤ Λ, so its square is at most
+`(s₀/β_(t₀))² e^(Λ(T − t₀))` times the stochastic exponential of `∫ 2σ dW^Q`, a true martingale by
+Novikov's criterion; hence S/β is a square-integrable Q-martingale, and Doob's inequality and the
+boundedness of β on [0, T] give the maximal moment. The stopped Itô argument that identifies the
+local martingale `C(S_t, t)/β_t` with its terminal value is the localization of §3.2.
 
 **Checks.**
 
 - For constant coefficients and h(s) = s the solution is C(s, t) = s, and `C(e^y, t)/(1 + e^y)` is
   the sigmoid `e^y/(1 + e^y)`, bounded with bounded Hölder derivatives of every order, so it lies in
   the class. Without the weight, C(e^y, t) = e^y is unbounded and lies in no bounded Hölder class.
+  The identification then reads `S_t = β_t E_Q[S_T/β_T | F_t]`, the martingale property of the
+  discounted asset.
 - For the call payoff, `(e^y − K)⁺/(1 + e^y)` has one-sided derivatives 0 and K/(1 + K) at
   y = log K, so it is not in `C_b^(2+α)(ℝ)`: the call is outside this theorem and is treated in
-  Layer 4.
+  M0.4.
+- For u(y, t) = e^y, that is C(s, t) = s, the log-spot operator is `(σ²/2)e^y + (r − σ²/2)e^y − r e^y = 0`,
+  as the Black–Scholes operator of the stock is. Without the drift correction −σ²/2 in the
+  first-order coefficient it would be `(σ²/2)e^y`, not 0 for σ ≠ 0.
 
 *Needs:* for the statement, Convention 8 (the operator), Tau Ceti
 `TauCeti.ParabolicSpaceTime.slab`, `TauCeti.CkHolderSpace`, `TauCeti.ParabolicC2HolderSpace`,
@@ -524,7 +594,9 @@ and do not use this theorem, whose hypothesis on h excludes their kinked payoffs
 route, PDE §6.6 (variable coefficients and backward problems) and §6.9 (spatial weights) and Tau
 Ceti `TauCeti.Finance.pde_comp_log`, `TauCeti.Finance.pde_comp_exp`,
 `Real.iteratedDeriv_succ_log_one_add_exp`, `Real.memHolder_iteratedDeriv_sigmoid`,
-`TauCeti.ParabolicC2HolderSpace.eq_of_euclideanBackwardParabolicOperatorL_eq`.
+`TauCeti.ParabolicC2HolderSpace.eq_of_euclideanBackwardParabolicOperatorL_eq`. The identification
+with the price needs in addition §2.4 and §3.2, and StochasticCalculus §2.2 (Doob's inequality) and
+§5.4 (Novikov's criterion).
 
 ### Examples
 
@@ -536,63 +608,82 @@ Ceti `TauCeti.Finance.pde_comp_log`, `TauCeti.Finance.pde_comp_exp`,
 
 ### Dependencies
 
-Layers 1 and 2. StochasticCalculus §2.2, §4.1, §4.3, §5.1 and §9.1. PDE §6.6 and §6.9. Tau Ceti:
+M0.1 and M0.2. StochasticCalculus §2.2, §4.1, §4.3, §5.1, §5.4 and §9.1. PDE §6.6 and §6.9. Tau Ceti:
 the drift identity of the delta hedge, the log-spot form of the pricing operator, the derivatives
 of the sigmoid, the moments of geometric Brownian motion, the parabolic Hölder spaces and uniqueness
 for the backward terminal-value problem.
 
-## Layer 4: Black–Scholes calls and puts (M0.4)
+## M0.4: Black–Scholes calls, puts and analytic API
 
-In this layer r ∈ ℝ, σ > 0, K > 0 and T > 0 are constants, μ ∈ ℝ, the market is that of §2.1–§2.3
-with F the augmented natural filtration of W, the asset is
+In this milestone r ∈ ℝ, σ > 0, K > 0 and T > 0 are constants, μ ∈ ℝ, the market is that of
+§2.0–§2.3 with F the augmented natural filtration of W, the asset is
 `TauCeti.Probability.geometricBrownianMotion s μ σ W` for a deterministic s > 0, and β_t = e^(rt).
-The calendar-time call and put prices are
+The remaining maturity is τ = T − t.
 
-`C(s, t) = callValue s r σ K (T − t)`,   `P(s, t) = putValue s r σ K (T − t)`,
+### 4.0 The closed forms and their analytic theory
 
-Tau Ceti's extensions of the closed forms `s Φ(d₊) − K e^(−rτ) Φ(d₋)` and
-`K e^(−rτ) Φ(−d₋) − s Φ(−d₊)` (`TauCeti.BlackScholes.callPrice`, `TauCeti.BlackScholes.putPrice`)
-to τ = 0 by the payoffs and to s = 0 by `C = 0` and `P = K e^(−rτ)`. Their analytic theory is in
-Tau Ceti and is used here by name:
+**Gaussian functions.** Let φ(z) = (2π)^(−1/2) e^(−z²/2), the density of the standard Gaussian
+measure `gaussianReal 0 1`, and Φ(z) = ∫_(−∞)^z φ(u) du, its distribution function
+`cdf (gaussianReal 0 1)` (Convention 7). Then ∫φ = 1, Φ is differentiable with Φ' = φ,
+Φ(−z) = 1 − Φ(z) for every real z, and Φ(z) → 0 as z → −∞ and Φ(z) → 1 as z → +∞. The
+normalization and the tails are Mathlib's `ProbabilityTheory.integral_gaussianPDFReal_eq_one`,
+`ProbabilityTheory.tendsto_cdf_atBot` and `ProbabilityTheory.tendsto_cdf_atTop`; the further analytic
+theory of Φ belongs to StandardDistributions.
 
-- the Gaussian identities (normalization, derivative Φ' = φ, symmetry Φ(−x) = 1 − Φ(x), tails):
-  Mathlib's `ProbabilityTheory.integral_gaussianPDFReal_eq_one`, `ProbabilityTheory.tendsto_cdf_atBot`,
-  `ProbabilityTheory.tendsto_cdf_atTop`, and Tau Ceti's `TauCeti.Probability.hasDerivAt_cdf_gaussianReal`,
-  `TauCeti.Probability.cdf_gaussianReal_zero_one_neg`;
-- the risk-neutral payoff expectations `TauCeti.BlackScholes.riskNeutralPrice_call`,
-  `TauCeti.BlackScholes.riskNeutralPrice_put`, `TauCeti.BlackScholes.riskNeutralPrice_call_eq_callValue`,
-  `ProbabilityTheory.IsPreBrownianReal.callPrice_eq_integral_geometricBrownianMotion`, and the
-  conditional prices
-  `TauCeti.Probability.IsFilteredPreBrownianReal.callValue_eq_condExp_tilted_geometricBrownianMotion`,
-  `TauCeti.Probability.IsFilteredPreBrownianReal.putValue_eq_condExp_tilted_geometricBrownianMotion`;
-- the Black–Scholes equation `TauCeti.BlackScholes.callValue_pde`, `TauCeti.BlackScholes.putValue_pde`
-  and put–call parity `TauCeti.BlackScholes.callValue_sub_putValue`;
-- continuity on the closed domain `TauCeti.BlackScholes.continuous_callValue`,
-  `TauCeti.BlackScholes.continuous_putValue`, the terminal values
-  `TauCeti.BlackScholes.callValue_maturity_zero`, `TauCeti.BlackScholes.putValue_maturity_zero`, the
-  boundary values `TauCeti.BlackScholes.callValue_spot_zero`, `TauCeti.BlackScholes.putValue_spot_zero`,
-  the far-field limits `TauCeti.BlackScholes.tendsto_callPrice_sub_spot_atTop`,
-  `TauCeti.BlackScholes.tendsto_putPrice_spot_atTop`, and the bounds
-  `TauCeti.BlackScholes.callValue_nonneg`, `TauCeti.BlackScholes.callValue_le`,
-  `TauCeti.BlackScholes.putValue_nonneg`, `TauCeti.BlackScholes.putValue_le`;
-- the deltas `TauCeti.BlackScholes.deriv_callPrice_spot` (Φ(d₊)) and
-  `TauCeti.BlackScholes.deriv_callPrice_spot_mem_Ioo`, `TauCeti.BlackScholes.deriv_putPrice_spot`
-  (−Φ(−d₊)) and `TauCeti.BlackScholes.deriv_putPrice_spot_mem_Ioo`, and the bond holdings of the
-  hedges `TauCeti.BlackScholes.hedgeBondHolding_callPrice` (−K e^(−rτ) Φ(d₋)/β),
-  `TauCeti.BlackScholes.hedgeBondHolding_callPrice_neg`,
-  `TauCeti.BlackScholes.hedgeBondHolding_putPrice` (K e^(−rτ) Φ(−d₋)/β),
-  `TauCeti.BlackScholes.hedgeBondHolding_putPrice_pos`;
-- gamma φ(d₊)/(sσ√τ) and vega s φ(d₊)√τ with their signs,
-  `TauCeti.BlackScholes.hasDerivAt_deriv_callPrice_spot`,
-  `TauCeti.BlackScholes.deriv_deriv_callPrice_spot_pos`,
-  `TauCeti.BlackScholes.deriv_deriv_putPrice_spot`, `TauCeti.BlackScholes.hasDerivAt_callPrice_volatility`,
-  `TauCeti.BlackScholes.deriv_callPrice_volatility_pos`, `TauCeti.BlackScholes.deriv_putPrice_volatility_pos`;
-- the terminal behaviour of the Greeks: gamma tends to 0 as τ ↓ 0 at a fixed spot s ≠ K
-  (`TauCeti.BlackScholes.tendsto_deriv_deriv_callPrice_spot_maturity_zero`), while at s = K it tends
-  to +∞ with `√τ · gamma(K) → 1/(Kσ√(2π))`, so it has no finite terminal value there
-  (`TauCeti.BlackScholes.tendsto_deriv_deriv_callPrice_spot_strike_atTop`,
-  `TauCeti.BlackScholes.tendsto_sqrt_mul_deriv_deriv_callPrice_spot_strike`); vega tends to 0
-  (`TauCeti.BlackScholes.tendsto_deriv_callPrice_volatility_maturity_zero`); and the put analogues.
+*In Tau Ceti:* `TauCeti.Probability.hasDerivAt_cdf_gaussianReal`, `TauCeti.Probability.cdf_gaussianReal_zero_one_neg`.
+
+**The closed forms.** For s > 0 and τ > 0 put
+
+`d₊ = (log(s/K) + (r + σ²/2)τ)/(σ√τ)`,   `d₋ = d₊ − σ√τ`,
+
+`C(s, t) = s Φ(d₊) − K e^(−rτ) Φ(d₋)`,   `P(s, t) = K e^(−rτ) Φ(−d₋) − s Φ(−d₊)`,
+
+the Black–Scholes call and put prices (Black–Scholes 1973; Shreve 2004, §4.5). Prove that they
+extend continuously to the closed domain s ≥ 0, 0 ≤ t ≤ T, by the payoffs C(s, T) = (s − K)⁺ and
+P(s, T) = (K − s)⁺ at maturity and by C(0, t) = 0 and P(0, t) = K e^(−rτ) at zero spot: as
+(s, τ) → (s₀, 0⁺) with s₀ > 0 the closed forms tend to the payoffs at s₀. In the library the
+extensions are `callValue s r σ K τ` and `putValue s r σ K τ`, equal to the closed forms for s > 0,
+τ > 0 and to the discounted intrinsic values `(s − K e^(−rτ))⁺` and `(K e^(−rτ) − s)⁺` elsewhere,
+jointly continuous in (s, τ); the calendar-time prices are
+`C(s, t) = callValue s r σ K (T − t)` and `P(s, t) = putValue s r σ K (T − t)`.
+
+*In Tau Ceti:* `TauCeti.BlackScholes.dPlus`, `TauCeti.BlackScholes.dMinus`, `TauCeti.BlackScholes.callPrice`, `TauCeti.BlackScholes.putPrice`, `TauCeti.BlackScholes.callValue`, `TauCeti.BlackScholes.putValue`, `TauCeti.BlackScholes.callValue_maturity_zero`, `TauCeti.BlackScholes.putValue_maturity_zero`, `TauCeti.BlackScholes.continuous_callValue`, `TauCeti.BlackScholes.continuous_putValue`, `TauCeti.BlackScholes.tendsto_callPrice_terminal`, `TauCeti.BlackScholes.tendsto_putPrice_terminal`.
+
+**The Black–Scholes equation.** For s > 0 and t < T, C and P solve
+`V_t + (σ²s²/2) V_ss + r(s V_s − V) = 0` (Shreve 2004, §4.5); σ ≠ 0 suffices for this identity.
+
+*In Tau Ceti:* `TauCeti.BlackScholes.callPrice_pde`, `TauCeti.BlackScholes.putPrice_pde`, `TauCeti.BlackScholes.callValue_pde`, `TauCeti.BlackScholes.putValue_pde`.
+
+**Put–call parity.** `C(s, t) − P(s, t) = s − K e^(−r(T−t))` for all s ≥ 0 and t ≤ T, the extended
+prices included.
+
+*In Tau Ceti:* `TauCeti.BlackScholes.callPrice_sub_putPrice`, `TauCeti.BlackScholes.callValue_sub_putValue`.
+
+**Risk-neutral payoff expectation.** For s > 0 and τ ≥ 0, let
+`S_τ = s exp((r − σ²/2)τ + σ√τ Z)` with Z standard Gaussian. Then
+`e^(−rτ) E[(S_τ − K)⁺] = C(s, T − τ)` and `e^(−rτ) E[(K − S_τ)⁺] = P(s, T − τ)` (Shreve 2004,
+§5.2.5); for τ > 0 the same holds with S_τ the geometric Brownian motion with drift r started at s
+and driven by any Brownian motion. In the market of this milestone the prices are conditional
+expectations under Q: for 0 ≤ u ≤ T,
+`C(S_u, u) = e^(−r(T−u)) E_Q[(S_T − K)⁺ | F_u]` and `P(S_u, u) = e^(−r(T−u)) E_Q[(K − S_T)⁺ | F_u]`,
+Q-almost surely.
+
+*In Tau Ceti:* `TauCeti.BlackScholes.riskNeutralPrice_call`, `TauCeti.BlackScholes.riskNeutralPrice_put`, `TauCeti.BlackScholes.riskNeutralPrice_call_eq_callValue`, `TauCeti.BlackScholes.riskNeutralPrice_put_eq_putValue`, `ProbabilityTheory.IsPreBrownianReal.callPrice_eq_integral_geometricBrownianMotion`, `ProbabilityTheory.IsPreBrownianReal.putPrice_eq_integral_geometricBrownianMotion`, `TauCeti.Probability.IsFilteredPreBrownianReal.callValue_eq_condExp_tilted_geometricBrownianMotion`, `TauCeti.Probability.IsFilteredPreBrownianReal.putValue_eq_condExp_tilted_geometricBrownianMotion`.
+
+**Checks.**
+
+- At s = K = 100, r = 0.05, σ = 0.2 and τ = 1: d₊ = 0.35 and d₋ = 0.15, so C ≈ 10.4506 and
+  P ≈ 5.5735. Writing the put with Φ(d₋) and Φ(d₊) in place of Φ(−d₋) and Φ(−d₊) would give
+  `95.1229 · 0.5596 − 100 · 0.6368 ≈ −10.45`, a negative price that fails parity.
+- The put at zero spot is K e^(−rτ), not the payoff K: as s → 0⁺ both d₊ and d₋ tend to −∞, so
+  Φ(−d₋) → 1 and P → K e^(−rτ). Extending the put by (K − s)⁺ at s = 0 for τ > 0 would make it
+  discontinuous there whenever r ≠ 0.
+
+*Needs:* Mathlib `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.gaussianPDFReal`,
+`ProbabilityTheory.cdf`, `ProbabilityTheory.integral_gaussianPDFReal_eq_one`,
+`ProbabilityTheory.tendsto_cdf_atBot`, `ProbabilityTheory.tendsto_cdf_atTop`, `posPart`; for the
+conditional form, §2.0 and Tau Ceti `TauCeti.Probability.IsFilteredPreBrownianReal`,
+`TauCeti.Probability.geometricBrownianMotion`.
 
 ### 4.1 Replication of calls and puts
 
@@ -605,7 +696,7 @@ cost is `TauCeti.BlackScholes.callPrice s r σ K T` (Shreve 2004, §4.5). Prove 
 with `a_t = −Φ(−d₊(S_t, T − t))`, `b_t = K e^(−r(T−t)) Φ(−d₋(S_t, T − t))/β_t` for t < T,
 `a_T = −1{S_T < K}`, `b_T = K 1{S_T < K}/β_T`, wealth P(S_t, t) and payoff (K − S_T)⁺.
 *Route:* the growth criterion of §3.2 with p = 1, whose inputs are in Tau Ceti: the equation
-(`TauCeti.BlackScholes.callValue_pde`), the bounds on the price and the delta, the martingale
+(§4.0, `TauCeti.BlackScholes.callValue_pde`), the bounds on the price and the delta (§4.3), the martingale
 property and the square integrability of the discounted price under Q
 (`TauCeti.Probability.IsFilteredPreBrownianReal.martingale_discounted_callValue_tilted`,
 `TauCeti.Probability.IsFilteredPreBrownianReal.memLp_discounted_callValue_tilted` and the put
@@ -694,6 +785,50 @@ StochasticCalculus §5.1 (Itô's formula), §2.2 (Doob's inequality, uniform int
 (moments of geometric Brownian motion), and Tau Ceti
 `ProbabilityTheory.IsPreBrownianReal.memLp_geometricBrownianMotion`.
 
+### 4.3 Boundary values, the Greeks and their limits at maturity
+
+Throughout, s > 0 and τ = T − t > 0 unless said otherwise, and the Greeks are derivatives of the
+closed forms of §4.0 (Shreve 2004, §4.5).
+
+- **Boundary at zero spot.** C(0, t) = 0 and P(0, t) = K e^(−rτ), and the closed forms tend to these
+  values as s → 0⁺.
+  *In Tau Ceti:* `TauCeti.BlackScholes.callValue_spot_zero`, `TauCeti.BlackScholes.putValue_spot_zero`, `TauCeti.BlackScholes.tendsto_callPrice_spot_zero`, `TauCeti.BlackScholes.tendsto_putPrice_spot_zero`.
+- **Far field.** As s → ∞, `C(s, t) − s + K e^(−rτ) → 0` and P(s, t) → 0.
+  *In Tau Ceti:* `TauCeti.BlackScholes.tendsto_callPrice_sub_spot_atTop`, `TauCeti.BlackScholes.tendsto_putPrice_spot_atTop`.
+- **Bounds.** On the closed domain s ≥ 0, 0 ≤ t ≤ T, `0 ≤ C(s, t) ≤ s` and
+  `0 ≤ P(s, t) ≤ K e^(−r(T−t))`.
+  *In Tau Ceti:* `TauCeti.BlackScholes.callValue_nonneg`, `TauCeti.BlackScholes.callValue_le`, `TauCeti.BlackScholes.putValue_nonneg`, `TauCeti.BlackScholes.putValue_le`.
+- **Deltas.** `∂C/∂s = Φ(d₊)`, with 0 < ∂C/∂s < 1, and `∂P/∂s = −Φ(−d₊)`, with −1 < ∂P/∂s < 0.
+  *In Tau Ceti:* `TauCeti.BlackScholes.hasDerivAt_callPrice_spot`, `TauCeti.BlackScholes.deriv_callPrice_spot`, `TauCeti.BlackScholes.deriv_callPrice_spot_mem_Ioo`, `TauCeti.BlackScholes.hasDerivAt_putPrice_spot`, `TauCeti.BlackScholes.deriv_putPrice_spot`, `TauCeti.BlackScholes.deriv_putPrice_spot_mem_Ioo`.
+- **Bond holdings.** For a bond price β > 0, the bond holding `(C − s ∂C/∂s)/β` of the call's delta
+  hedge is `−K e^(−rτ) Φ(d₋)/β < 0`, and that of the put, `(P − s ∂P/∂s)/β`, is
+  `K e^(−rτ) Φ(−d₋)/β > 0`.
+  *In Tau Ceti:* `TauCeti.BlackScholes.hedgeBondHolding_callPrice`, `TauCeti.BlackScholes.hedgeBondHolding_callPrice_neg`, `TauCeti.BlackScholes.hedgeBondHolding_putPrice`, `TauCeti.BlackScholes.hedgeBondHolding_putPrice_pos`.
+- **Gamma and vega.** `∂²C/∂s² = ∂²P/∂s² = φ(d₊)/(sσ√τ) > 0` and, as functions of the volatility,
+  `∂C/∂σ = ∂P/∂σ = s φ(d₊) √τ > 0`.
+  *In Tau Ceti:* `TauCeti.BlackScholes.hasDerivAt_deriv_callPrice_spot`, `TauCeti.BlackScholes.deriv_deriv_callPrice_spot_pos`, `TauCeti.BlackScholes.hasDerivAt_deriv_putPrice_spot`, `TauCeti.BlackScholes.deriv_deriv_putPrice_spot`, `TauCeti.BlackScholes.deriv_deriv_putPrice_spot_pos`, `TauCeti.BlackScholes.hasDerivAt_callPrice_volatility`, `TauCeti.BlackScholes.deriv_callPrice_volatility_pos`, `TauCeti.BlackScholes.hasDerivAt_putPrice_volatility`, `TauCeti.BlackScholes.deriv_putPrice_volatility_pos`.
+- **Limits at maturity.** Fix s > 0 and let τ ↓ 0. The call delta tends to 1 if s > K, to 0 if
+  s < K and to 1/2 at s = K; the put delta tends to 0, −1 and −1/2 respectively. For s ≠ K the call
+  and put gamma tend to 0. At s = K the gamma tends to +∞, with
+  `√τ · ∂²C/∂s²(K, T − τ) → 1/(Kσ√(2π))`, so it has no finite pointwise terminal value at the
+  strike; the same holds for the put. The call and put vega tend to 0 at every s > 0.
+  *In Tau Ceti:* `TauCeti.BlackScholes.tendsto_deriv_callPrice_spot_maturity_zero_of_strike_lt`, `TauCeti.BlackScholes.tendsto_deriv_callPrice_spot_maturity_zero_of_lt_strike`, `TauCeti.BlackScholes.tendsto_deriv_callPrice_spot_strike`, `TauCeti.BlackScholes.tendsto_deriv_putPrice_spot_maturity_zero_of_lt_strike`, `TauCeti.BlackScholes.tendsto_deriv_putPrice_spot_maturity_zero_of_strike_lt`, `TauCeti.BlackScholes.tendsto_deriv_putPrice_spot_strike`, `TauCeti.BlackScholes.tendsto_deriv_deriv_callPrice_spot_maturity_zero`, `TauCeti.BlackScholes.tendsto_deriv_deriv_callPrice_spot_strike_atTop`, `TauCeti.BlackScholes.tendsto_sqrt_mul_deriv_deriv_callPrice_spot_strike`, `TauCeti.BlackScholes.tendsto_deriv_deriv_putPrice_spot_maturity_zero`, `TauCeti.BlackScholes.tendsto_deriv_deriv_putPrice_spot_strike_atTop`, `TauCeti.BlackScholes.tendsto_sqrt_mul_deriv_deriv_putPrice_spot_strike`, `TauCeti.BlackScholes.tendsto_deriv_callPrice_volatility_maturity_zero`, `TauCeti.BlackScholes.tendsto_deriv_putPrice_volatility_maturity_zero`.
+
+Substituting zero feedback into MarketImpact's pricing equations returns the equation of §4.0
+algebraically; a limit in the feedback parameter needs in addition MarketImpact's
+solution-dependence theorem.
+
+**Checks.**
+
+- At s = K = 100, r = 0.05, σ = 0.2 and τ = 1, φ(0.35) ≈ 0.3752, so gamma ≈ 0.3752/20 ≈ 0.01876 and
+  vega ≈ 100 · 0.3752 ≈ 37.52. Writing gamma with φ(d₋) = φ(0.15) ≈ 0.3945 in place of φ(d₊) gives
+  ≈ 0.01972, which is not the second derivative; the correct identity relating the two is
+  `s φ(d₊) = K e^(−rτ) φ(d₋)`, here `37.52 ≈ 95.12 · 0.3945`.
+- The deltas differ by one, `∂C/∂s − ∂P/∂s = Φ(d₊) + Φ(−d₊) = 1`, the derivative of parity; the
+  bond holdings differ by `−K e^(−rτ)/β`, the bond leg of the forward.
+
+*Needs:* §4.0; Mathlib `deriv`, `HasDerivAt`, `Filter.Tendsto`, `ProbabilityTheory.gaussianPDFReal`.
+
 ### Examples
 
 - At s = K = 100, r = 0.05, σ = 0.2 and T = 1 the call hedge at time 0 holds Φ(0.35) ≈ 0.6368
@@ -704,48 +839,42 @@ StochasticCalculus §5.1 (Itô's formula), §2.2 (Doob's inequality, uniform int
 
 ### Dependencies
 
-Layers 1–3. StochasticCalculus §2.2, §5.1 and §9.4. Tau Ceti: the Black–Scholes closed forms, their
+M0.1–M0.3. StochasticCalculus §2.2, §5.1 and §9.4. Tau Ceti: the Black–Scholes closed forms, their
 extensions, Greeks, limits, conditional prices and value processes, the Gaussian distribution
-function, and uniqueness for the Cauchy problem on the whole space. Mathlib: derivatives and
-continuity.
+function, and uniqueness for the Cauchy problem on the whole space. Mathlib: the standard Gaussian
+measure and its distribution function, derivatives and continuity.
 
 ## Downstream consumers
 
 - [MarketImpact](MarketImpact/README.md), a sub-roadmap of this one, consumes the asset model and
-  self-financing strategies of Layer 1, the density and representation contracts of Layer 2, and
-  the price-admissibility criterion of §3.2, and takes the baseline call, put, gamma and vega from
-  Tau Ceti.
+  self-financing strategies of M0.1, the density and representation contracts of M0.2, the
+  price-admissibility criterion of §3.2, and the baseline call, put, gamma and vega of §4.0 and
+  §4.3.
 - [StochasticCalculus](../StochasticCalculus/README.md) names this roadmap as the consumer of its
   progressive-coefficient linear equation (§9.4) for the asset model of §1.1.
 
 ## Scope and ownership
 
-**This roadmap owns** the asset model built on the linear equation and continuous-time
-self-financing strategies (Layer 1); predictable representation under the risk-neutral measure, the
-admissible class, completeness and pricing, the law of one price, absence of arbitrage and the
-static-claim extension, for constant and for progressive coefficients (Layer 2); the pricing
-equation as a necessary condition, the price-admissibility and growth criteria, and existence and
-uniqueness of prices in the weighted Hölder class (Layer 3); and replication and uniqueness for the
-Black–Scholes call and put (Layer 4). Trading, self-financing and admissibility are this roadmap's
-contracts, not StochasticCalculus's. MarketImpact and StochasticCalculus cite Layers 1–4 by the
-labels M0.1–M0.4 carried in the layer headings.
+**This roadmap owns** the bond, the asset model built on the linear equation and continuous-time
+self-financing strategies, with the simple-strategy formula (M0.1); the risk-neutral measure for
+constant coefficients, predictable representation under it, the admissible class, completeness and
+pricing, the law of one price, arbitrage and its absence, and the static-claim extension, for
+constant and for progressive coefficients (M0.2); the pricing equation as a necessary condition and
+the drift identity of the delta hedge, the price-admissibility and growth criteria, existence and
+uniqueness of prices in the weighted Hölder class, the log-spot form of the operator and the
+identification of these prices with the replication price (M0.3); and the Black–Scholes closed
+forms with their analytic theory, replication and uniqueness for the call and put (M0.4). Trading,
+self-financing and admissibility are this roadmap's contracts, not StochasticCalculus's.
+MarketImpact and StochasticCalculus cite the milestones by the labels M0.1–M0.4.
 
 **Already in the library and used above by name.**
 
-- Tau Ceti: the bond `TauCeti.Finance.bondPrice` and its calculus; geometric Brownian motion, its
-  law and moments, and the martingale property of its discounted value; Brownian motion relative to
-  a filtration; the exponential martingale, the constant-drift tilted measure, Girsanov's theorem for
-  constant drift and the identity of the augmented natural filtrations of W under P and of W + κt
-  under Q; simple strategies, their self-financing formula, their discounted form and their
-  arbitrage theory, including absence of arbitrage for simple strategies in the Black–Scholes market
-  and the static-claim cash flows; the log-spot form of the pricing operator and the drift identity
-  of the delta hedge; the parabolic Hölder spaces on a slab, the bounded `C^(2,α)` spaces of the
-  terminal data and uniqueness for the backward terminal-value problem in the parabolic Hölder class;
-  uniqueness for the Cauchy problem on the whole space among classical solutions with bounded
-  difference; and the Black–Scholes closed forms with their extension to the closed domain,
-  risk-neutral and conditional pricing identities, equation, put–call parity, bounds, boundary and
-  far-field limits, deltas, bond holdings, gammas, vegas and terminal limits, listed at the head of
-  Layer 4.
+- Tau Ceti: the declarations realising this roadmap's own items are named in the milestones above.
+  Besides them it uses Brownian motion relative to a filtration; geometric Brownian motion, its law
+  and moments; the derivatives of the sigmoid; the parabolic Hölder spaces on a slab, the bounded
+  `C^(2,α)` spaces of the terminal data and uniqueness for the backward terminal-value problem in
+  the parabolic Hölder class; and uniqueness for the Cauchy problem on the whole space among
+  classical solutions with bounded difference.
 - Mathlib: Brownian motion as a predicate on laws and with continuous paths, natural filtrations
   and their right-continuous regularization, predictable processes, martingales, tilted measures,
   the standard Gaussian density and distribution function, Hölder functions.
@@ -797,22 +926,12 @@ labels M0.1–M0.4 carried in the layer headings.
 
 ### From Tau Ceti
 
-- `TauCeti/Probability/Finance/Bond.lean`: `TauCeti.Finance.bondPrice` (β₀ exp ∫₀ᵗ r), with
-  `TauCeti.Finance.bondPrice_const`, `TauCeti.Finance.hasDerivAt_bondPrice` (for continuous r) and
-  `TauCeti.Finance.simpleGains_bondPrice`.
-- `TauCeti/Probability/Finance/SimpleStrategy.lean`: `TauCeti.Finance.simpleHolding`,
-  `TauCeti.Finance.simpleGains`, `TauCeti.Finance.IsSelfFinancing`,
-  `TauCeti.Finance.isStronglyPredictable_simpleHolding`,
-  `TauCeti.Finance.isSelfFinancing_iff_forall_mem_Ioc` (strictly increasing dates),
-  `TauCeti.Finance.isSelfFinancing_iff_discounted` (bond price nonvanishing on the trading interval).
-- `TauCeti/Probability/Finance/Arbitrage.lean`: `TauCeti.Finance.IsArbitrage`,
-  `TauCeti.Finance.isArbitrage_iff_of_absolutelyContinuous`.
-- `TauCeti/Probability/Finance/StaticClaim.lean`: `TauCeti.Finance.IsSelfFinancing.staticClaim_offset`,
-  `TauCeti.Finance.staticClaim_offset_initial_cost`, `TauCeti.Finance.staticClaim_offset_terminal_payoff`,
-  `TauCeti.Finance.exists_staticClaim_payoff`, `TauCeti.Finance.exists_staticClaim_profit_gt` (with
-  its explicit scaling hypothesis).
-- `TauCeti/Probability/Finance/LogSpot.lean`: `TauCeti.Finance.pde_comp_log`,
-  `TauCeti.Finance.pde_comp_exp` (pointwise, for local differentiability of the price).
+- The declarations that realise this roadmap's own items (the bond, simple strategies and their
+  self-financing formula, arbitrage and the static-claim cash flows, the constant-drift change of
+  measure, the drift identity of the delta hedge, the log-spot form of the operator, and the
+  Black–Scholes closed forms with their analytic theory, conditional prices and value processes)
+  are named in the milestones above, on their *In Tau Ceti* lines and in the routes of §1.2, §2.3,
+  §4.1 and §4.2. The declarations below are consumed as stated.
 - `TauCeti/Analysis/SpecialFunctions/Sigmoid.lean`: `Real.iteratedDeriv_succ_log_one_add_exp`,
   `Real.memHolder_iteratedDeriv_sigmoid`.
 - `TauCeti/Analysis/PDE/Parabolic/SpaceTime/Basic.lean`: `TauCeti.ParabolicSpaceTime.slab`, the slab
@@ -833,32 +952,9 @@ labels M0.1–M0.4 carried in the layer headings.
 - `TauCeti/Probability/BrownianMotion/Filtered.lean`: `TauCeti.Probability.IsFilteredPreBrownianReal`
   (pre-Brownian, adapted, increments independent of the past).
 - `TauCeti/Probability/BrownianMotion/Geometric.lean`: `TauCeti.Probability.geometricBrownianMotion`,
-  `TauCeti.Probability.geometricBrownianMotion_eq_riskNeutral` (σ ≠ 0, up to the horizon),
   `ProbabilityTheory.IsPreBrownianReal.memLp_geometricBrownianMotion` (every finite p).
-- `TauCeti/Probability/BrownianMotion/ExponentialMartingale.lean`:
-  `TauCeti.Probability.exponentialMartingale`, `TauCeti.Probability.exponentialMartingale_pos`,
-  `TauCeti.Probability.IsFilteredPreBrownianReal.martingale_exponentialMartingale`,
-  `ProbabilityTheory.IsPreBrownianReal.tilted_mul_eval_eq_withDensity`.
-- `TauCeti/Probability/BrownianMotion/Girsanov.lean`:
-  `TauCeti.Probability.IsFilteredPreBrownianReal.sub_mul_min_tilted_mul_eval`,
-  `TauCeti.Probability.IsFilteredPreBrownianReal.isBrownianReal_sub_mul_min_tilted_mul_eval` (for
-  almost surely continuous W).
-- `TauCeti/Probability/BrownianMotion/NaturalFiltration.lean`:
-  `ProbabilityTheory.IsPreBrownianReal.rightCont_nullAugment_natural_add_drift_tilted`, with
-  `MeasureTheory.Filtration.nullAugment` from `TauCeti/Probability/Process/Filtration/NullAugmentation.lean`.
-- `TauCeti/Probability/Distributions/Gaussian/Cdf.lean`:
-  `TauCeti.Probability.hasDerivAt_cdf_gaussianReal`, `TauCeti.Probability.cdf_gaussianReal_zero_one_neg`.
-- `TauCeti/Probability/Finance/BlackScholes/`: in `Basic.lean`, `TauCeti.BlackScholes.dPlus`,
-  `TauCeti.BlackScholes.dMinus`, `TauCeti.BlackScholes.callPrice`, `TauCeti.BlackScholes.putPrice`,
-  `TauCeti.BlackScholes.riskNeutralPrice_call`, `TauCeti.BlackScholes.riskNeutralPrice_put` (s, σ, K,
-  τ > 0); in `Extension.lean`, `TauCeti.BlackScholes.callValue`, `TauCeti.BlackScholes.putValue` and
-  the statements listed at the head of Layer 4 (σ > 0, K > 0); in `Greeks.lean`, `Hedge.lean` and
-  `Limits.lean`, the derivatives, bond holdings, drift identity and limits listed there and in §3.1;
-  in `GeometricBrownianMotion.lean`, `ConditionalPrice.lean`, `NoArbitrage.lean` and
-  `ValueProcess.lean`, the expectation, conditional-price, simple no-arbitrage and value-process
-  statements listed in the preamble of Layer 2, §2.3, the head of Layer 4 and §4.1, for W a Brownian
-  motion relative to the filtration and the risk-neutral measure
-  `P.tilted (fun ω => -((μ - r) / σ) * W T ω)`.
+- `TauCeti/Probability/Process/Filtration/NullAugmentation.lean`: `MeasureTheory.Filtration.nullAugment`
+  (Convention 4).
 
 ### From TauCetiRoadmap.StochasticCalculus
 
