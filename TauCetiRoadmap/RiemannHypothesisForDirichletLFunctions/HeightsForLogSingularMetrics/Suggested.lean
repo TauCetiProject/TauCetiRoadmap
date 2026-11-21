@@ -33,27 +33,35 @@ integral model.
   and arithmetic intersection numbers of hermitian line bundles.
 * The absolute Siegel lemma (4.3b (b)): for a Hermitian vector bundle `Ē` of rank `n` over `O_K`
   and every `η > 0`, some nonzero `x ∈ E ⊗ O_L` over a finite extension `L/K` has
-  `mean_σ log‖x‖_σ ≤ −μ̂(Ē) + ½(H_n − 1) + η`. It is deduced from the height
-  `Ō(1)^n = [K:ℚ]·n·(−μ̂(Ē) + ½(H_n − 1))` of the scheme of lines in `E` (4.3b (a)), which is
-  ChowFormsAndHeightsOfSubvarieties §6.2 (a7) for the dual of `Ē` and is not a headline of this
-  roadmap. It lacks the Hermitian vector bundle over `O_K` with its Arakelov degree and slope, and
+  `mean_σ log‖x‖_σ ≤ −μ̂(Ē) + ½·log n + η` (`½(H_n − 1)` in place of `½·log n` with the exact
+  height of `ℙ^{n−1}`). It is deduced from the bound `Ō(1)^n ≤ [K:ℚ]·n·(−μ̂(Ē) + ½·log n)` for
+  the scheme of lines in `E` (4.3b (a)), which follows from `Ō(1)^n = −deĝ(Ē) + [K:ℚ]·h(ℙ^{n−1})`
+  and `h(ℙ^{n−1}) ≤ (n/2)·log n`; with the value of `h(ℙ^{n−1})` it is the identity
+  `Ō(1)^n = [K:ℚ]·n·(−μ̂(Ē) + ½(H_n − 1))`, ChowFormsAndHeightsOfSubvarieties §6.2 (a7) for the
+  dual of `Ē`, which is not a headline of this roadmap. It lacks the Hermitian vector bundle
+  over `O_K` with its Arakelov degree and slope, and
   the vectors of `E ⊗ O_L` with their norms at the complex embeddings of every finite extension
   `L/K`; its proof also needs the projective bundle over `Spec O_K` with the induced metric on
   `O(1)` and arithmetic intersection numbers.
 * The reflection formula (14.1 (a), (c)): for a Hermitian vector bundle `V̄` of rank two on a
   projective arithmetic variety `Z`, `π : ℙ(V) → Z` with relative tangent bundle `Ξ̄` and a
   hermitian `ℚ`-line bundle `M̄` on `Z`, `(Ξ̄^{2k}·π^*M̄^{D+1−2k}) = 2κ(k)·deg(Ξ^{2k−1}·π^*M^{D+1−2k})`,
-  also for the limit numbers of log-log integrable metrics that are round on almost every fibre. It
-  lacks, besides the carriers of the first two bullets, Hermitian vector bundles on arithmetic
+  also for the limit numbers of log-log integrable metrics that are round on almost every fibre
+  and whose log-log singular semipositive pieces have close `C²` regularisations. It lacks,
+  besides the carriers of the first two bullets, Hermitian vector bundles on arithmetic
   varieties, the projective bundle `ℙ(V)` with its tautological and relative tangent bundles and
   their induced metrics, and geometric intersection numbers on the generic fibre.
-* The logarithmic bound for the maximal slope of the Lie algebra (16.1): for every semi-abelian
-  scheme `G` over `O_L` whose generic fibre `A` is a principally polarised abelian variety of
-  dimension `g`, `μ̂_max(Lie Ḡ) ≤ C·log(2 + g + max(h(A), 0))` with an absolute constant `C`. It
-  lacks semi-abelian schemes over rings of integers and their Lie algebras as `O_L`-lattices,
-  principal polarisations with their Riemann forms at the complex embeddings, the Hodge inner
-  product, the Hermitian vector bundle structure, the maximal slope, and the Faltings height in
-  Deligne's normalisation.
+* The logarithmic bound for the maximal slope of the Lie algebra (16.1): for every CM field `E`
+  of the family (it contains a square root of `−d` for a prime `d ≡ 7 (mod 16)`, and `O_E` is
+  unramified over the integers of its maximal real subfield) and every semi-abelian scheme `G`
+  over `O_L` with an action of `O_E` and a symmetric rigidified cubical line bundle `ℒ` on `G`
+  for which the adjoint of `a ∈ O_E` is its complex conjugate, such that the generic fibre `A` is
+  an abelian variety of dimension `g` on which `ℒ` is ample and defines a principal polarisation,
+  `μ̂_max(Lie Ḡ) ≤ C·log(2 + g + max(h(A), 0))` with an absolute constant `C`. It lacks
+  semi-abelian schemes over rings of integers with the action of `O_E` and cubical line bundles,
+  their Lie algebras as `O_L`-lattices, principal polarisations with their Riemann forms at the
+  complex embeddings, the Hodge inner product, the Hermitian vector bundle structure, the maximal
+  slope, and the Faltings height in Deligne's normalisation.
 
 Over `ℚ` a Hermitian vector bundle is a Euclidean lattice, for which Mathlib has `ZLattice` and
 `ZLattice.covolume`; the absolute Siegel lemma for `K = ℚ` still needs vectors over every finite
