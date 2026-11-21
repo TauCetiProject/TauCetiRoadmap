@@ -400,7 +400,8 @@ that acts by `a_O` on `π_− ⊠ σ'` and by `−1` on `π_+ ⊠ σ'`; it is su
 `End(R_L^G σ)` has a basis `T_w`, `w ∈ ∏_O S_{m_O}`, with `T_w` supported on the double coset `P^F ẇ P^F`,
 `T_w T_{w'} = T_{ww'}` when lengths add, and `(T_s − a_O)(T_s + 1) = 0` for each simple reflection `s` of the factor
 `S_{m_O}`; each `T_s` is `±R_M^G(T_s^M)`, and `T_s = R_M^G(T_s^M)` for every `s` when `a_O ≠ 1` (the relation then
-singles out one multiple of the operators supported on `P^F ṡ P^F`). Thus `End(R_L^G σ) ≅ ⊗_O H_{m_O}(a_O)`, where
+singles out one multiple of the operators supported on `P^F ṡ P^F`). The two constituents and the presentation by the `T_w` are
+Howlett–Lehrer 1980, Theorems 3.18 (i) and 4.14 (pp. 48, 56–57); `L = GL_d^m` is their Example 4.15 (pp. 57–58). Thus `End(R_L^G σ) ≅ ⊗_O H_{m_O}(a_O)`, where
 `H_m(a)` is the Iwahori–Hecke algebra of `S_m` with these
 relations, the algebra of TypeAHeckeAlgebras §1.1 at the parameter `√a` after the substitution `T_s ↦ √a·T_s`; it
 is split semisimple, and by 1.3 the constituents of `R_L^G σ` correspond to its simple modules, with
@@ -570,7 +571,8 @@ non-isomorphic, and exhaust the irreducible representations of `P_n(𝔽_q)`.
 (b) For a representation `π` of `GL_n(𝔽_q)` put `π^{(k)} = (π|_{P_n})^{(k)}`. Then `π^{(k)}` is the space of
 `(U_k, ψ)`-coinvariants, on the second factor, of `*R_{GL_{n−k}×GL_k}^{GL_n}(π)`, as a representation of
 `GL_{n−k}(𝔽_q)`. For irreducible `π`: `π` is generic iff `π^{(n)} ≠ 0`, and then `π^{(n)}` is
-one-dimensional; `π` is cuspidal iff `π|_{P_n} ≅ (Φ⁺)^{n−1}Ψ⁺(1) = Ind_{U^F}^{P_n(𝔽_q)} ψ`. In particular
+one-dimensional; `π` is cuspidal iff `π|_{P_n} ≅ (Φ⁺)^{n−1}Ψ⁺(1) = Ind_{U^F}^{P_n(𝔽_q)} ψ` (S. I. Gelfand 1970, Proposition 1.3,
+Theorem 2.3 with its Corollary 1, and Theorem 3.3, pp. 20–23 of the original). In particular
 every cuspidal representation is generic and has degree `ψ_{n−1}(q) = ∏_{i=1}^{n−1}(q^i − 1)`, and every
 generic representation has degree at least `ψ_{n−1}(q)`.
 (c) Every unipotent element of `GL_n(𝔽_q)` is conjugate into `P_n(𝔽_q)`, and for a cuspidal `π` and `u`
@@ -2139,7 +2141,7 @@ character of `GL_n(k)` is some `σ_θ`).
 ### 6.3 Labels of depth-zero representations
 
 An irreducible `π` has depth zero iff `π^{K₁} ≠ 0`, iff every member of its supercuspidal support has depth
-zero. If its supercuspidal support is `{π_{θ̃_1}, …, π_{θ̃_r}}`, with `θ_i` of degree `n_i`, then every irreducible
+zero (the second equivalence: Moy–Prasad 1996, Theorem 5.2 (1), p. 110). If its supercuspidal support is `{π_{θ̃_1}, …, π_{θ̃_r}}`, with `θ_i` of degree `n_i`, then every irreducible
 constituent of the `GL_n(k)`-module `π^{K₁}` lies in the Harish-Chandra series of `(∏_i GL_{n_i}(k), ⊠_i σ_{θ_i})`;
 equivalently its semisimple label (5.7) is the **label of `π`**, `m_π(O) = #{i : θ_i ∈ O}`. The label of
 `π ⊗ (χ∘det)` for tamely ramified `χ` is the translate of `m_π` by `χ|_{𝒪^×}`.
@@ -2154,6 +2156,13 @@ converse through LocalFactorsOfTwistsAndTypes §2.1 (a)). The first of these sta
 `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/DepthZeroSupport.lean`
 (`GlobalTheory.Published.DepthZeroSupport`),
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsContractNeZero.lean` (`GlobalTheory.SmGL.depthZeroSupport`).
+The converse is stated there as `GlobalTheory.Published.DepthZeroInduction`
+(`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/DepthZeroInduction.lean`), which
+`GlobalTheory.DepthZeroPass.depthZeroInduction` (`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FixedNeBotOfIsSubquotient.lean`)
+derives from the statements `GlobalTheory.Published.GeometricLemma`, `GlobalTheory.Published.BernsteinZelevinskyFiniteness` and
+`GlobalTheory.Published.ZelevinskyPolynomialRing`; the statement on labels is
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/RegularSemisimpleFibres/ResEmbCompat.lean`
+(`UpperTheory.Gal.InertialTypesAlt.LblOf`), proved in `TypeOfLblHolds.lean` of the same folder (`UpperTheory.Gal.InertialTypesAlt.lblOf_holds`).
 
 *Route.* The equivalences from 6.0 and 6.1. Labels: embed `π` in the normalised induction from its cuspidal
 support (SmoothRepresentationsOfLocalGroups SR.3.1); by the Iwasawa decomposition `GL_n(F) = P·K`, a
@@ -2184,7 +2193,12 @@ isomorphic to a field `ℚ_p` and the member is `χ ⊗ π₀` with `π₀` of d
 admitted only over the fields `ℚ_p`. Its properties are stated there for complex representations and `F` of
 characteristic zero: a twist or the contragredient of a supercuspidal member of the class is in the class; a Langlands
 quotient is in the class if and only if the supercuspidal representations at the beginnings of its segments are; and for
-`π₀` irreducible of depth zero, `χ ⊗ π₀` has depth zero if and only if `χ` is tamely ramified. The class over every
+`π₀` irreducible of depth zero, `χ ⊗ π₀` has depth zero if and only if `χ` is tamely ramified. The class is
+`UpperTheory.Zero.LLC.GoodCusp` and `UpperTheory.Zero.LLC.Good` (`Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean`);
+the three properties are stated in `UpperTheory.Zero.LLC.ClBasic`, `UpperTheory.Zero.LLC.GoodSeg` and `UpperTheory.Zero.LLC.TwTame`
+(`Development/AutomorphicArithmetic/Foundations/LocalLanglands/RecTTransport.lean`), and proved as `UpperTheory.Zero.LLC.clBasic`,
+`UpperTheory.Zero.LLC.goodSeg` and `UpperTheory.Zero.LLC.twTame` (`ClBasic.lean`, `GoodSeg.lean` and `TwTame.lean` in
+`Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/`). The class over every
 nonarchimedean local field, positive characteristic included, and its stability under subquotients of parabolic
 inductions, are this roadmap's, by the route below.
 
@@ -2492,7 +2506,8 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
   5.11 (Shintani descent).
 - I. M. Gelfand, M. I. Graev, *Construction of irreducible representations of simple algebraic groups over a
   finite field*, Dokl. Akad. Nauk SSSR 147 (1962): 2.2.
-- S. I. Gelfand, *Representations of the full linear group over a finite field*, Math. USSR Sb. 12 (1970): 2.4
+- S. I. Gelfand, *Representations of the full linear group over a finite field*, Mat. Sb. 83(125) (1970), 15–41;
+  Math. USSR Sb. 12 (1970), 13–39: 2.4
   (cuspidal representations restricted to the mirabolic subgroup).
 - R. Steinberg, *Lectures on Chevalley groups*, Yale (1967): 2.2 (multiplicity one for every `G`, cited); *Endomorphisms of linear algebraic groups*,
   Mem. AMS 80 (1968): Steinberg endomorphisms, 0.1.
