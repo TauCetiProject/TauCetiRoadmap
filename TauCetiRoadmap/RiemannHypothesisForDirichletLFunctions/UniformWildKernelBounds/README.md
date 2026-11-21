@@ -2174,10 +2174,17 @@ weight `−1` and one coordinate more than equations in weights `1` and `2`;
 conditions of `𝒟`; two points whose representations have isomorphic restrictions to `G_K` lie in one `𝔾_m`-orbit;
 
 (tangent) the hypothesis of 3.4 holds for `𝒮` the restriction to `G_K` of `Ш_{ψ,e}` (injective, as `[K : ℚ] = 2` is prime to
-`ℓ`) and the root vector of weight `−1` carrying `Ψ⁻¹`. In [FormalProof] (model), (tangent), the first two clauses of (points)
-and (strong irreducibility) are stated for data in general position, that is under the hypotheses of 4.2, and the first two
-clauses of (points) moreover under the finiteness of 4.2(a); for other data, and without 4.2(a), they are the roadmap's own, by
-the route below;
+`ℓ`) and the root vector of weight `−1` carrying `Ψ⁻¹`. In [FormalProof] (model), (tangent) and the first two clauses of (points)
+are stated for data in general position, that is under the hypotheses of 4.2, and the first two clauses of (points) moreover
+under the finiteness of 4.2(a); for other data, and without 4.2(a), they are the roadmap's own, by the route below. Of (strong
+irreducibility) [FormalProof] states two clauses, both for data in general position: a type I point with values in the ring of
+integers of a finite extension of `Φ` is irreducible on every open subgroup of `G_K` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/MatIrrOpenGd.lean`
+(`UpperTheory.V.Pr.matIrr_open_gd`)); and at a type II point `W` is irreducible on `G_{K(μ_{ℓ^∞})}` (on this group itself;
+[FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/ExistsUnitPowNe.lean`
+(`UpperTheory.V.U3.typeII_irr_cyc`)), `W` being irreducible on `G_K` by the definition of type II. The other clauses are the
+roadmap's own, by the route below: type I points on `G_{K(μ_{ℓ^∞})}` and on its open subgroups, `W` on the open subgroups of
+`G_K` and of `G_{K(μ_{ℓ^∞})}`, and every clause for data that are not in general position;
 
 (shape) every two-signed point is of *type I* (`ρ_ξ` irreducible) or of *type II*: `ρ_ξ ≅ W|_{G_K} ⊕ μ` on the coordinates
 `{1, 3}` and `{2}`, for a character `μ` of `G_K` and a two-dimensional representation `W` of `G_ℚ` with `det W = η_K` and
@@ -2372,7 +2379,24 @@ and `ℓ ∤ h_K` are hypotheses of 4.2; the line just found is stable under the
 characters on it and on the quotient are `Ψ` and `Ψ⁻¹`, that is `χ_ℓ^{e}comp_ℓψ` and `χ_ℓ^{−e}comp_ℓψ` (4.1 (points) and the
 remark of 4.1 (local chart): `η_K` is unramified at `ℓ`, and `(comp_ℓψ)² = 1` by 4.2), with `comp_ℓψ` of conductor dividing `ℓ`
 (a character of order at most `2`, `ℓ` odd); and `W`, hence `V_λ(f)`, is irreducible on `G_{K(μ_{ℓ^∞})}` (4.1 (strong
-irreducibility)). The hypothesis that the level is even and prime to `d_K` is not verified here. (iv) By 4.1
+irreducibility)). The last hypothesis of that instance is not on the level of `f`. It asks for an integer `N ≥ 1`, even and
+prime to `d_K`, such that `ψ` is a character modulo `N` and `W` has level `N|d_K|` with exponents `(e, −e)`: at every prime
+`p ≠ ℓ` the inertia group acts on `W` through two characters that are trivial on `G_{ℚ(μ_{N|d_K|})}`, and at `ℓ` the two
+characters of the flag are, on inertia, `χ_ℓ^{e}` and `χ_ℓ^{−e}` times characters trivial on `G_{ℚ(μ_{N|d_K|})}`, and either they
+are not in ratio `χ_ℓ` on the decomposition group or `W` is potentially crystalline at `ℓ`. Here `N` is the integer of 4.2, even
+and prime to `d_K` by hypothesis; so `d_K` is odd and `η_K` is trivial on `G_{ℚ(μ_{|d_K|})}`. Away from `ℓ`: by the condition
+of `𝒟` there, the inertia group at `p` acts on `ρ` through a finite quotient of order prime to `ℓ`, hence on `I_p ∩ G_K` through
+a conjugate of `diag(Ψ, 1, Ψ⁻¹)`, with `Ψ = ψ` there; `W` is the corner on the coordinates `{1, 3}` extended through `c`, so the
+inertia group at `p` acts on it through two characters that are trivial wherever `ψ` and `η_K` both are. At `ℓ`: the characters
+of the flag are `χ_ℓ^{e}ψ` and `χ_ℓ^{−e}ψ⁻¹` on inertia, and their ratio, of cyclotomic exponent `2e` up to a character of finite
+order, is not `χ_ℓ` (the first alternative holds). The instance also asks that `det W = η_K`, that `tr W = Ψ + Ψ⁻¹` on inertia
+at `ℓ`, and that `tr W ≡ η_KΨ + Ψ⁻¹` residually; these hold by 4.1 (shape) and (points). [FormalProof] establishes every
+hypothesis of the instance at the type II points of data in general position, from the hypotheses of 4.2 and the conditions of
+`𝒟` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/KatoUsedOf.lean`
+(`UpperTheory.V.Z.Kato.used_of_alt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/KatoQuadraticCharacters/KatoTwoOfUseN.lean`
+(`UpperTheory.V.Z.Kato.Used`)). (iv) By 4.1
 (points) a point derivation at `ξ` is a first-order deformation of `ρ_ξ` of type `𝒟`; modulo the torus direction it is a class
 in `H¹(G_ℚ, ad r)`. Away from `ℓ` it is a coboundary on inertia: the deformation is trivial on the inertia elements at which `r̄`
 is trivial, and the quotient by them is finite of order prime to `ℓ` (as `ℓ ∤ o_ψ`). At `ℓ` the deformation is a point of `R_ℓ`
@@ -2764,6 +2788,21 @@ irreducible point of `𝒟_sp` arises); and these representations are irreducibl
 `ℓ`; and for every point `x₁ ≠ x` of `A/(F, E, Z)` that is both negative-zero and positive-zero, the points of `A/(F, E, Z)` with
 the same restriction to `A₀` are all negative-zero or all positive-zero, and they can be of both kinds over different
 points of `Spec A₀` only if `Ψ̄` is trivial on the decomposition group at `ℓ`.
+In [FormalProof] the irreducibility clauses of (a) and (b) are these: in (a), a type I point is irreducible on every open
+subgroup of `G_K`, and at a type II point `W` is irreducible on `G_K` and on `G_{K(μ_{ℓ^∞})}` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/MatIrrOpenGd.lean`
+(`UpperTheory.V.Pr.matIrr_open_gd`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/ExistsUnitPowNe.lean`
+(`UpperTheory.V.U3.typeII_irr_cyc`)); in (b), every two-signed point is of type I, irreducible on every open subgroup of
+`G_{ℚ(i)}` and on `G_{ℚ(i, μ_{ℓ^∞})}` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/TypeIOfTwoSigned.lean`
+(`UpperTheory.V.UnitaryThreeInertia.typeI_of_twoSigned`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/IrrOpen.lean`
+(`UpperTheory.V.UnitaryThreeInertia.matIrr_open`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/IrrCyc.lean`
+(`UpperTheory.V.UnitaryThreeInertia.matIrr_cyc`)). The clauses on the open subgroups of `G_{K(μ_{ℓ^∞})}` and of
+`G_{ℚ(i, μ_{ℓ^∞})}`, on `G_{K(μ_{ℓ^∞})}` for the type I points of (a), and on the open subgroups of `G_K` for `W`, are the
+roadmap's own, by the route of 4.1 (strong irreducibility).
 The route of (c) uses, through 4.4(a′) and 4.4 (points), 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 through 3.19(a), and HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d), whose routes are not given in full (see there).
 
 *Route.* (a) 4.1 (shape) and (strong irreducibility). (b) 4.5(d) and (strong irreducibility). (c) Scale the point to a point
