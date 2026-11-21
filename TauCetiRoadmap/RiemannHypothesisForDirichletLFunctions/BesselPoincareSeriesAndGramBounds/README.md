@@ -117,7 +117,8 @@ put `c_l = D_l/D_{l−1}`, `𝔷 = D_{r_S+1}/D_{r_S}`, `Gr(x) = |D_{r_S+1}|² �
 `(−1)^{r_S+1}` times the Gram determinant of `F ∪ xF′`); `D_l`, `Gr` are invariant under `S_{z′} × S_{z″}`; every `x`
 with all `D_l(x) ≠ 0` and `Gr(x) > 0` lies in `S_{z′}·h(c, 𝔷)·S_{z″}` for an explicit section `h` of the big cell; and
 Haar measure disintegrates as `∫_{G_τ} φ = C∫ wt(c, 𝔷)∫_{S_{z′}}∫_{S_{z″}} φ(s·h(c,𝔷)·s′^{−1}) d²c d²𝔷` with
-`wt(c, 𝔷) = ∏_{a=1}^{r_S} |c_a|^{2(M_{a−1} − 2)}·(|𝔷|² − T·T′)^{k−1}` and `C` explicit.
+`wt(c, 𝔷) = ∏_{a=1}^{r_S} |c_a|^{2(M_{a−1} − 2)}·(|𝔷|² − T·T′)^{k−1}` (the integral over `c ∈ ℂ^{r_S}` and `|𝔷|² ≥ T·T′`), for a
+constant `C > 0` that is uniquely determined by the Haar measures of `G_τ`, `N_S`, `U_{z′}`, `U_{z″}`; its value is not needed.
 
 *Route.* Bruhat decomposition relative to the maximal parabolic of each line `ℂe_l` (Witt's theorem), iterated
 over the planes, with the rank-one case `U(k, 1)` on the hyperboloid `|𝔷|² > T·T′`.
@@ -130,14 +131,17 @@ Cartan, Iwasawa, and KAK decompositions".
 In the setting of 5.13a:
 (b) *Bessel integral and pairing.* For `F : G_τ → Hom(V_{π″}, V_{π′})` with all derivatives of order `≤ 5` decaying like
 `‖x‖^{−A}`, `A ≥ 2p(r_S+1) + 1`, the Bessel integral `𝒥F(x) = ∫∫ ψ_{z′}(n)conj ψ_{z″}(n′)π′(h)F(s^{−1}xs′)π″(h′)^{−1}`
-over `s = nh ∈ S_{z′}`, `s′ = n′h′ ∈ S_{z″}` is defined by a regularisation (integration by parts along the torus
-that scales `ψ`), the pairing `β(F, F′) = ∫ wt·⟨𝒥F, 𝒥F′⟩_HS(h(c, 𝔷)) d²c d²𝔷` is finite and continuous, and
-`β(ΘF, F′) = β(F, Θ^*F′)` for every differential operator `Θ = Σ_Tc_T·X_T` (smooth coefficients times words in invariant
+over `s = nh ∈ S_{z′}`, `s′ = n′h′ ∈ S_{z″}` converges absolutely at almost every point `h(c, 𝔷)` of the big cell; the pairing
+`β(F, F′) = ∫ wt·⟨𝒥F, 𝒥F′⟩_HS(h(c, 𝔷)) d²c d²𝔷` is finite and continuous (`|β(F, F′)| ≤ C·c·c′` when the derivatives of order
+`≤ 4` of `F`, `F′` are bounded by `c‖x‖^{−A}`, `c′‖x‖^{−A}`), and it is a constant multiple (by the constant of 5.13a (a)) of the
+regularised pairing `β^∞` obtained by two integrations by parts in each of the two dilation parameters of the torus that scales `ψ`;
+and `β(ΘF, F′) = β(F, Θ^*F′)` for every differential operator `Θ = Σ_Tc_T·X_T` (smooth coefficients times words in invariant
 vector fields) on an open set `U ⊂ {Gr > 0}` stable under `S_{z′} × S_{z″}` and commuting with their action, `Θ^*` its formal
 adjoint for Haar measure, and all `F, F′` of class `C^{ord Θ + 5}` supported in `U` such that `F, F′, ΘF, Θ^*F′` are in the
 class above and every product that arises when the derivatives of a word `X_T` are moved one at a time from a translate
-of `F` to `c̄_TF′` is integrable on `G_τ` (for instance: supports in `{Gr ≥ ε_c}`, the `c_T` and their derivatives up to order
-`ord Θ` bounded there by `C‖x‖^d`, and the derivatives of `F, F′` up to order `ord Θ + 5` decaying like `‖x‖^{−A−d}`).
+of `F` to `c̄_TF′` is integrable on `G_τ` (for instance: `U = {Gr > 0}`, supports in `{Gr ≥ ε_c}`, the `c_T`, their adjoints
+and their derivatives up to order `ord Θ + 5` bounded there by `C‖x‖^d`, and the derivatives of `F, F′` up to order
+`ord Θ + 5` decaying like `‖x‖^{−A−d}`).
 (b′) *Majorant.* For an isotropic frame `φ_0, …, φ_{r_S}` opposite to the flag (its span, a maximal isotropic subspace, meets
 `⟨e_1, …, e_{r_S}⟩^⊥` in a line only: the frame of the coordinates of the route) and exponents `s_l` slightly below `2` (`l < r_S`) and below `k`
 (`l = r_S`), the function `Ξ(x) = ∏_lΔ_l(x)^{−s_l}`, `Δ_l(x)²` the Euclidean Gram determinant of `xφ_0, …, xφ_l`, satisfies
@@ -161,7 +165,9 @@ with `L_l² = 1 + Σ_{j<l}|a_j|²`, `ρ_l² = L_p² + |w|² + Σ_{j≥l}|a′_j|
 and `s⁰ = (2, …, 2, k)`. *(T1) Tail integrals.* For real `ν_0, …, ν_p` with partial sums `σ_l = Σ_{j≤l}ν_j`:
 the integral `∫∏_lΔ_l^{−(s⁰_l+ν_l)}` is finite exactly when `σ_l > 0` for all `l` and `2σ_p − σ_l > 0` for `l < p`, and then it equals
 `∏_{l<p}(2π/σ_l)(2π/(2σ_p − σ_l))·∫_{ℂ^{k−1}×ℝ}|1 + |w|²/2 + iτ|^{−(k+σ_p)}`; otherwise it is `+∞` (outside this cone the product can be
-negative or finite while the integral diverges: `p = 1`, `ν_0 = −1`, `ν_1 = 2`). Proof by induction on `p`: `Δ_0² = L_1²|a′_0 − a_0b_1/L_1²|² + Δ_1²/L_1²`, so the
+negative or finite while the integral diverges: `p = 1`, `ν_0 = −1`, `ν_1 = 2`). Only the finiteness inside the cone is used:
+it is what the path of [FormalProof] states and uses; the converse, the value and the example are this roadmap's own.
+Proof by induction on `p`: `Δ_0² = L_1²|a′_0 − a_0b_1/L_1²|² + Δ_1²/L_1²`, so the
 integral over `a′_0` is `(2π/ν_0)L_1^{−2+ν_0}Δ_1^{−ν_0}`; the substitution `a_j = L_1ã_j`, `a′_j = L_1ã′_j` (`j ≥ 1`), `w = L_1w̃`, `τ = L_1²τ̃`
 gives `Δ_l = L_1²Δ̃_{l−1}` for `l ≥ 1` and leaves `∫_ℂ(1 + |a_0|²)^{−(2+ν_0+2Σ_{j>0}ν_j)/2}d²a_0 = 2π/(ν_0 + 2Σ_{j>0}ν_j)` times the
 integral with one plane less and exponents `(ν_0 + ν_1, ν_2, …)`; for `p = 0`, `Δ_0 = |1 + |w|²/2 + iτ|` is the square of the gauge
@@ -236,7 +242,8 @@ Equivalently, for every nonzero lowest-`K`-type vector `w` the function `x ↦ l
 identically zero, i.e. `be(D(x)w, D(x′)w) ≠ 0` for some `x, x′`. (For `r_S ≥ 1` the restriction of `l` to the lowest `K`-type
 has a kernel, and `x ↦ be(D(x)w, w)` vanishes identically for `w` in it.)
 (g) *Transfer coefficients.* Assume in addition that consecutive entries of `hc` differ by at least `2` and that (G) holds
-for `h`; let `D_s` be the discrete series with parameter `hc − e_s` and the same signs, so that, on smooth vectors,
+for `h − 1` (so that `D` and every constituent `D_s` have a gap with (G));
+let `D_s` be the discrete series with parameter `hc − e_s` and the same signs, so that, on smooth vectors,
 `D^∞ ⊗ (ℂ^r)^∨ = ⊕_sD_s^∞` with continuous equivariant projections `P_s` (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b), whose gap
 hypotheses the gaps assumed here imply); let `a ∈ (ℂ^r)^∨` be the `S_{z′}`-invariant functional `⟨·, e_1⟩` (`⟨·, z′⟩` if `r_S = 0`) and `ev_a` the
 contraction with `a` through the invariant form. Then for every Bessel map `l` of `D` for the character `ψ_{z′}` with `κ_a = 1`
@@ -261,7 +268,7 @@ reached from a ray by admissible steps: *Base.* On the ray of parameters
 `N_S` whose coefficients are proportional to `t`: Schur orthogonality on `U(k)` reduces the Bessel form on
 highest-weight vectors to `(dim π)^{−1}∫_{N_S}⟨w, D_t(n)w⟩conj ψ_t(n)dn`; in exponential coordinates the integrand is `f_t(Y)`
 with `f_t(Y/√t) → e^{−B(Y,Y)}` (coherent-state asymptotics of the lowest-`K`-type vector, the linear term being cancelled
-by the character) and `|f_t(Y)| ≤ (1 + ‖Y‖²)^{−ct}` (decay of the coefficient) for every `Y ∈ Lie N_S` and all large `t`; `f_t` is
+by the character) and `|f_t(Y)| ≤ (1 + ‖Y‖²)^{−ct}` (decay of the coefficient) for all large `t` and all `Y ∈ Lie N_S`; `f_t` is
 continuous for large `t`, and `exp` carries Lebesgue measure on `Lie N_S` to the Haar measure of `N_S`. These are the hypotheses
 of PositivityOfDirichletSeriesWithKernels §7.1 on `E = Lie N_S`, the parameter running over the positive integers (`B` is
 real-bilinear with complex values; the positivity of its real part is PositivityOfDirichletSeriesWithKernels §7.1 (a)), so the
@@ -306,12 +313,15 @@ In the setting of 5.13a:
 `W(sx) = ψ_{z′}(s)π(s)W(x)` on `S_{z′}`, `R(e_D)W = W` (`e_D := d(D)·conj⟨w, D(·)w⟩`, `R(f)W(x) := ∫_{G_τ}f(h)W(xh)dh`, the right action
 integrated as in RowTowerAndRallisIdentities §5.2a; not the group convolution `W ∗ e_D = R(ě_D)W`, `ě_D(h) = e_D(h^{−1})`, which vanishes when the central
 character `ω` of `D` has `ω² ≠ 1`) and `∫_{S_{z′}\G_τ}‖W‖² = 1`, namely a multiple of
-`x ↦ l(D(x)w)`. It is reproduced by a compactly supported smooth kernel, `‖W(x)‖ ≤ C∫_{S_{z′}}|⟨w, D(x₀^{−1}sx)w⟩| ds`, and
+`x ↦ l(D(x)w)`. It is reproduced by a bounded measurable kernel with compact support (`W(x) = ∫α(z)W(xz)dz`),
+`‖W(x)‖ ≤ C∫_{S_{z′}}|⟨w, D(x₀^{−1}sx)w⟩| ds`, and
 `∫_{S_{z′}\G_τ}‖W‖·ν^N < ∞` for `ν(x) = inf_{s∈S_{z′}}‖sx‖` and every `N` with `8√(2q_S)(N + 2rq_S) < h` and
 `rpq_S + 1 < h`.
 *Chain instance.* Assume (W5) of ThetaChainsOnDefiniteUnitaryGroups §2.3 with `h_gap ≥ max(120r³, h_nv(r, q_S))`, `h_gap > 8√(2q_S)(N₁ + 2rq_S)`,
 `h_gap > rpq_S + 1` and (G) for `h_gap/4`, where `N₁ = 4r²√(2q_S)` (all implied by `SizeGap` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, whose main term
-`C_gap·r^{19}` with `C_gap ≥ 120` exceeds each of them). Then for every word `u` and every `τ`, `(𝒟_τ, V_{λ_u(τ)})`
+`C_gap·r^{19}` with `C_gap ≥ 120` exceeds each of them). The chain instance below, and that of 5.15a, are used for
+`r ≥ 1801` and consecutive nodes of the row parameter at least `16r^{19}` apart, which the chain supplies for large `x`; this
+is the form in which they are established. Then for every word `u` and every `τ`, `(𝒟_τ, V_{λ_u(τ)})`
 satisfies the hypotheses of 5.13a, with the sign pattern of RowTowerAndRallisIdentities §5.3, the gap between entries of different signs of `hc(τ)` being
 at least `h_gap` by (W5) and `0 ≤ v_l(τ) ≤ Sc` (ThetaChainsOnDefiniteUnitaryGroups §2.3), and `W_u = ⊗_τ W_{u,τ} : U(Y_0)(F_∞) → V_{λ_u}` is the *Bessel function
 of `u`*, unique up to a scalar of modulus `1`, with
@@ -497,13 +507,15 @@ many components. For `r_S = 0` two independent negative vectors of `U(k, 1)` hav
 roadmap's own, not on the path of [FormalProof].) If the gap of `𝒟_τ`
 satisfies (G) of 5.13a, there is equality for coefficients in the following form: if `F = Σ_i⟨x_i, 𝒟_τ(·)y_i⟩X_i` with `x_i, y_i`
 in the span of the translates of `K`-finite vectors and `s(F) = Σ_i⟨l(x_i), X_i l′(y_i)⟩`, then `β(F, F) = c·|s(F)|²/d(𝒟_τ)`,
-with `c` depending only on the normalisation of the measures. Moreover the Bessel integral of such an `F` converges
+with `c > 0` depending only on the local Bessel data (the two vectors, the two types and the Haar measures), not on
+`𝒟_τ` nor on `F`. Moreover the Bessel integral of such an `F` converges
 absolutely at every regular point and equals `s(F)` times a function `𝔅_{𝒟_τ}` that does not depend on `F`.
 
 *Route.* Truncate the distribution vectors of `W, W′` along Følner sets of `S`, `S′`; Schur orthogonality on `𝐆` for the
 truncated vectors gives the inequality with `1/d` for the truncations; pass to the limit by Fatou's lemma and the
 disintegration of Haar measure (the hypothesis on `h`). In the chain instance `S_u = N_S ⋊ U(k)` is amenable, and the integrability hypotheses come
-from 5.13c (d) and 5.13 (f). The equality for coefficients: `β = β^∞` (5.13b (b)); for integrable coefficients `β^∞` is the
+from 5.13c (d) and 5.13 (f). The equality for coefficients:
+`β` is the constant of 5.13a (a) times `β^∞` (5.13b (b)); for integrable coefficients `β^∞` is the
 absolutely convergent integral of `𝒫` against the two characters, then Schur orthogonality on `G_τ` and the rank-one form of
 the Bessel forms (5.13c (d)); the convergence of `𝒥` on such coefficients and the norm formula are where (G) is used. The last
 statement: integrate over `S_{z′}` first, then over `S_{z″}` first, and use the rank-one form on each side.
@@ -656,7 +668,8 @@ isomorphisms of decorated modules), `N^{loc}(s; h, h′; t, t′) = |tt′|^{s(s
 of `w` modulo integral unipotent matrices, of `ψ(Z)` times the number `#Iso(coker Z, 𝒞)` of isomorphisms of decorated modules
 `coker Z → 𝒞` (each `Z` with `coker Z ≅ 𝒞` contributes `#Aut(𝒞)·ψ(Z)`). Then: (b-i)
 `K^{loc}(w, w′) = Σ_𝒞B^{loc}_w(𝒞)·conj B^{loc}_{w′}(𝒞)/#Aut(𝒞)`; `K^{loc}` and `N^{loc}(s; ·)` are positive semidefinite, and `K^{loc}(w, w′) ≠ 0` forces
-`|det 𝐏(w)| = |det 𝐏(w′)|`. (b-ii) For heads `h, h′` of equal size and `s ≥ 1`, `N^{loc}(s; h, h′; t, t′) ≠ 0` forces
+`|det 𝐏(w)| = |det 𝐏(w′)|` (used for `w, w′` of equal size).
+(b-ii) For heads `h, h′` of equal size and `s ≥ 1`, `N^{loc}(s; h, h′; t, t′) ≠ 0` forces
 `t^{−1} − t′^{−1} ∈ 𝔒`, `det 𝐏(h)·t ∈ 𝔒` and `det 𝐏(h′)·t′ ∈ 𝔒`. (b-iii) `c ↦ N^{loc}(1; h, h′; c, c)` is `𝔒`-periodic with finite
 support modulo `𝔒` and `Σ_{c∈𝔎/𝔒}N^{loc}(1; h, h′; c, c) = 𝔰(h)𝔰(h′)·K^{loc}(h, h′)`. (b-iv) `K^{loc}(h, h′) = 1` for `h, h′` of equal size with
 `𝐏(h), 𝐏(h′) ∈ GL(𝔒)`.
@@ -690,6 +703,8 @@ In the setting of 5.17b: a local datum in which every nonzero integer is inverti
 fields `ℚ_p` with a compact open subring that is its own orthogonal for `ψ`: an Artinian reduced ring is a finite product of
 fields, each factor is here a nondiscrete locally compact field of characteristic zero containing a compact open subring, hence
 non-archimedean. So PositivityOfDirichletSeriesWithKernels §8.2 applies to every such datum, and (b1), (b-v) hold for all of them.
+This classification is this roadmap's own: the path of [FormalProof] states and uses (b1) and (b-v) for the abstract local
+datum, and does not use it.
 (b1) *Germ identity.* Assume every nonzero integer is invertible in `𝔎`, and let `ℓ ≥ 1`, `H_ℓ(a) = a^{−1}(1 + 𝟙𝟙^t)`. Call a
 compact open subgroup `L ⊂ 𝔎` *admissible* for `a` if `ψ(½y^tH_ℓ(a)^{−1}y) = 1` for all `y ∈ (L^⊥)^ℓ`. There is a *Gauss factor*
 `γ : 𝔎^× → S¹` with `γ(ab²) = γ(a)` and `∫_{L^ℓ}ψ(½ξ^tH_ℓ(a)ξ)dξ = γ(a)|ℓ + 1|^{−1/2}|a|^{ℓ/2}` for every `L` admissible for `a` (`γ`
@@ -1136,15 +1151,17 @@ and locality.
 
 In the setting of 5.18a:
 (i) *Pointwise bound.*
-(i₀) *Eigenfunctions.* Let `f` be smooth with all derivatives decaying like `‖x‖^{−A₀}`,
-`A₀ − (2r_S+2)p₀ − n₀(r_S+1) ≥ C(r_S+1)⁴(3(r_S+1)r² + r³)`, with Capelli parameter `λ′`
+(i₀) *Eigenfunctions.* For all `C, C₃ ≥ 0` there are constants `C₄` and `C_c` with the following property. Let `f` be
+smooth with all derivatives decaying like `‖x‖^{−A₀}`,
+`A₀ − (2r_S+2)p₀ − n₀(r_S+1) ≥ C_c(r_S+1)⁴(3(r_S+1)r² + r³)`, with Capelli parameter `λ′`
 (`C_0(Y + (r−1)/2)f = ∏_s(Y + λ′_s)f`); let `λ` be a reference parameter interlaced by `u` and `u′` with margins `½`,
 `|λ_s|, |u_i|, |u′_i| ≤ b`, `λ_s − λ_t ≥ 2c` for `s < t`, `|λ′_s − λ_s| + (2r_S+2)p₀ + n₀(r_S+1) ≤ c − 1`; `b^{−C(r_S+1)} ≤ T, T′`;
 `3(r_S+1) ≤ 2p₀ ≤ C(r_S+1)²`; `k ≥ 2`; and either `n₀ = 0` and `|u_l − u′_l| ≥ 30(r_S+1)² + 6` for some `l`, or
 `n₀ = 30(r_S+1)² + 6`, `u = u′` and `u_l − u_{l+1} ≥ 2n₀ + 1` for some `l < k`. Assume the *weighted norm bound*
 `∫|det Ẑ|^{2a}·n·‖𝒥f‖²_HS ≤ b^{2C₃(2r_S+2)²a}·‖f‖²_𝒥` for `a ≤ 2p₀ + n₀`, the integral over the big cell, `Ẑ` the pairing matrix
 of 5.13a (a) and `n` the Jacobian of the orbit coordinates. Then at every `γ` with `Gr(γ) > 0`:
-`n(γ)·‖𝒥f(γ)‖²_HS ≤ b^{C₄(r_S+1)⁴}·Gr(γ)^{−(2p₀+n₀)}·‖f‖²_𝒥` (`‖f‖²_𝒥 = β(f, f)`, 5.13b (b)), `C₄` depending on `C₃` and `C`.
+`n(γ)·‖𝒥f(γ)‖²_HS ≤ b^{C₄(r_S+1)⁴}·Gr(γ)^{−(2p₀+n₀)}·‖f‖²_𝒥` (`‖f‖²_𝒥 = β(f, f)`, 5.13b (b)),
+`C₄` and `C_c` depending on `C₃` and `C` only.
 (i₁) *Weighted norm bound for discrete series.* Let `C ≥ 0` and let `λ` be a Harish-Chandra parameter of `G_τ` with:
 half-integrality and interlacing with `u` and with `u′`; the `k − 1` interlaced entries in `[0, B/8]` and pairwise at least
 `g_c` apart, the other entries in `[−2B, −B]`, `B ≥ 10⁶r⁷`; entries of different signs at least `h` apart, where `h/4`
@@ -1485,16 +1502,21 @@ over the Gram classes the class contributes at most `C^fb^{Cm⁵f}Γ₀e^{Cm⁶f
 ### 5.20c Non-generic pairs
 
 Let `u, u′` be words, equal or not, with the hypotheses of 5.20b, and let `C₄ ≥ 0` be a constant depending on the constants
-of (St) (it comes from the bound of 5.18 (i) through 5.20a (c)). (a) *Global sum.* For the discrete series `𝒟_τ` themselves,
-`Σ_γw(γ)n(γ)N(γ)^{A(r_S+1)²}∏_τ‖O_τ(γ)‖² ≤ e^{C₄m⁵f log b}/∏_τd(𝒟_τ)`, the sum over the integral Bruhat points `γ` with `Gr ≠ 0`, where
+of (St) (it comes from the bound of 5.18 (i) through 5.20a (c), and it is at least the constant `C_b` of (a)).
+(a) *Global sum.* For every `A ≥ 0` there are `C_b` and `C_{g,0}`, depending on `A` and on the constants of (St), such that when
+all differences of the entries of the parameters are at least `C_gm⁴` with `C_g ≥ C_{g,0}`: for the coefficients `f_τ` of 5.15 (c)
+of the discrete series `𝒟_τ` themselves,
+`Σ_γw(γ)n(γ)N(γ)^{A(r_S+1)²}∏_τ‖O_τ(γ)‖² ≤ e^{C_bm⁵f log b}·∏_τ‖f_τ‖²_𝒥`, the sum over the integral Bruhat points `γ` with
+`Gr ≠ 0`, where
 `w(γ) = ∏_{block ends l}∏_v(1 + |D_l(γ)|²_v)²`, `N(γ) = N(Gr(γ))∏_{block ends l}N(D_l(γ))` (the minors at the block ends, nonzero at a
 Bruhat point; a minor inside a block can vanish: for the block `[[0, t], [t, 0]]`, `D_1 = 0` and `D_2 = −t²`, and a product over all
-leading minors would make the summand `0`) and `O_τ(γ)` is the orbital integral of 5.15a. (b) *Non-generic
+leading minors would make the summand `0`) and `O_τ(γ)` is the orbital integral of 5.15a; by 5.15a, `‖f_τ‖²_𝒥 = c/d(𝒟_τ)` with
+the constant `c` of 5.15a. (b) *Non-generic
 pairs.* The non-generic pairs of corank one contribute, in the notation of 5.20b, at most `ε_N·d_u^{all}d_{u′}^{all}/D*`,
 `ε_N = 2^{−(k−2r_S−5)}e^{C₄m⁵f log b}`. The bound of (b) needs, of the hypotheses of 5.20b, only (St), the data of the chain
 and the conditions of 5.17d on `(T(u), T(u′), g₀, g₁)`.
 
-*Route.* (a) At one place, `(∏_l(1 + |D_l|²)^{N_l})²·n‖O(γ)‖² ≤ b^{C(m⁴+m²ΣN_l)}max(1, 1/Gr)^{Cm²}/d(𝒟_τ)` by expanding the product,
+*Route.* (a) At one place, `(∏_l(1 + |D_l|²)^{N_l})²·n‖O(γ)‖² ≤ b^{C(m⁴+m²ΣN_l)}max(1, 1/Gr)^{Cm²}·‖f_τ‖²_𝒥` by expanding the product,
 removing each factor `D_l` or `D̄_l` by the minor expansion of 5.18 (i₁) and applying 5.18 (i) to the shifted coefficients; the
 exponents `N_l ≤ C(1 + A)m²` are chosen so that the left side dominates
 `w_v²·(Gr_v∏_l|D_l|²_v)^{A(r_S+1)²}·(1 + |D_{r_S+1}|²_v)^{⌈Cm²⌉}·n‖O‖²`; the product over the places of
@@ -1633,7 +1655,7 @@ The equality for irreducible labels, the bound `3/g` and the upper bound with `�
 on the path of [FormalProof], whose form is the lower bound for every label and `wt_v(𝔣) ≤ (1 + 1/g)^r·wt_GG(𝔣)` for
 squarefree `𝔣`; only the lower bound is used.
 (b) *Count.* For every set `S` of label tuples at `g_i`: `dim Π_S·ℋ = (1 ± ε_C)·D*·Σ_{t∈S}∏_{v|g_i} wt_v(t_v)`, under the
-hypotheses of the chain instance of 5.16.
+hypotheses of the chain instance of 5.16 and `g₁ > 4r` (for `i = 0` the route applies 5.16 with `g′ = g₁`).
 
 *Route.* (a) `wt_v(𝔣)` is `(e_{B,ψ_B}·Π_𝔣)(1)/e_{B,ψ_B}(1)`, which is the share `wt_H` of FiniteReductiveGroups
 §5.8 (c) for `(H_{r_S}, ϕ_{r_S})`, `q = g`, `n = r`. That statement gives the lower bound `(1 − q^{−1})·wt(𝔣)`, the formula
@@ -1669,7 +1691,7 @@ Nothing below uses the upper bound of (a).
 ### 5.23 Good rows
 
 (i) With `W_i = Σ_{t bad at g_i}∏_{v|g_i} wt_v(t_v)` (bad: not good, RowTowerAndRallisIdentities §5.3 (iii)),
-`δ_bad ≤ ((1 + ε_C)/(1 − ε_C))·(W_0 + W_1)` under the hypotheses of the chain instance of 5.16.
+`δ_bad ≤ ((1 + ε_C)/(1 − ε_C))·(W_0 + W_1)` under the hypotheses of the chain instance of 5.16 and `g₁ > 4r`.
 (ii) Let `g = g_i` (a prime), the type characters `χ_{v,j}` (`m` at each place `v | g`, ThetaChainsOnDefiniteUnitaryGroups §2.4(b)) read in `𝔽_g^×`, bad meaning not
 good in the sense of RowTowerAndRallisIdentities §5.3 (iii), and assume `r ≥ 100` (ThetaChainsOnDefiniteUnitaryGroups §2.1), `g ≥ 2^{12}`, `q ≠ d` odd primes with `max(q, d) ≥ 16` (the primes of
 the two auxiliary imaginary quadratic fields of the host, Conventions), and `16qd | g − 1` (ThetaChainsOnDefiniteUnitaryGroups §2.7 gives `16qd | g_i − 1` and
@@ -1682,9 +1704,11 @@ tuples at `g_i` that are bad, of the products of the Gelfand–Graev weights `wt
 `ε′ = ε/J`) and `r, m, f ≤ x^C`, then
 for `x ≥ x₀(ε′, C)`:
 `δ_bad ≤ e^{−x^{ε′/7}}`, and `D_rows ≥ (1 − δ_bad)D_all ≥ (1 − δ_bad)(1 − ε_C)D* > 0`.
-(iv) *Bad part of a type space.* Let `Γ` be a finite group with a split surjection
-`π : Γ → G₀ = ∏_{i∈{0,1}}∏_{v|g_i} GL_r(𝔽_{g_i})`, `ρ` a representation of `Γ`, `(P, λ)` a Whittaker datum of `G₀` (upper unitriangular groups, a
-nondegenerate character), `type = Hom_{π^{−1}P}(λ, ρ)` and `bad = type ∩ ker Π_good`. If for `i ∈ {0, 1}` the restriction
+(iv) *Bad part of a type space.* Let `Γ` be a finite group with a surjection
+`π : Γ → G₀ = ∏_{i∈{0,1}}∏_{v|g_i} GL_r(𝔽_{g_i})` and a homomorphism `ι : G₀ → Γ` such that `π∘ι = 1` and `ι(G₀)` commutes with
+`ker π` (so `Γ = ker π × ι(G₀)`), `ρ` a representation of `Γ`, `(P, λ)` a Whittaker datum of `G₀` (upper unitriangular groups, a
+nondegenerate character), `type = Hom_{π^{−1}P}(λ, ρ)` and `bad = type ∩ ker Π_good`,
+`Π_good` acting on `ρ` through `ι`. If for `i ∈ {0, 1}` the restriction
 of `ρ` to `π^{−1}(H_i)` (`H_i` the elements unitriangular at the places not above `g_i`) embeds in `n_i` copies of its
 regular representation with `n_i·|π^{−1}H_i| ≤ c·|π^{−1}P|·dim(type)`, then
 `dim(bad) ≤ c·(W_0^{GG} + W_1^{GG})·dim(type)`; under the hypotheses of (ii), `W_i^{GG} ≤ W^{bd}(f, m, r, g_i)`.
