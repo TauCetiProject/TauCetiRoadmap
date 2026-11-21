@@ -143,6 +143,7 @@ body:
         - EllipticKTheory
         - EllipticLegendreCharacterInterfaces
         - EndoscopicTransferAndUnitaryTraceComparison
+        - EndoscopicTransferAndUnitaryTraceComparisonPartII
         - EnhancedDerivedSheaves
         - EnriquesSurfaces
         - EnriquesSurfacesAndIntegralNonexistence
@@ -165,6 +166,7 @@ body:
         - FinancialMathematics
         - FiniteAffineBoundTightening
         - FiniteFlatGroupsAndIntegralPadicHodgeTheory
+        - FiniteFlatGroupsAndIntegralPadicHodgeTheoryPartII
         - FiniteGroupExtensionSplitting
         - FiniteGroupInvariants
         - FiniteSamplingDiscrepancy
@@ -266,10 +268,12 @@ body:
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - MetaplecticAutomorphicForms
+        - MixedHodgeModulesAndIrregularHodgeTheory
         - ModularCharactersAndBlocksPartII
         - ModularCurves
         - ModularCurvesPartII
         - ModularForms
+        - ModularFormsPartII
         - ModularSymbolsPadicLFunctions
         - MorseNovikov
         - MorseTheory
