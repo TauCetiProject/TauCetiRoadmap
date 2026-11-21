@@ -20,13 +20,13 @@ spaces (`TauCeti.OperatorIdealFamily.traceClass`). Neither has reductive groups 
 their real or adelic points, Harish-Chandra parameters, discrete series, Shimura varieties or
 Chern classes.
 
-* The formal degree of a discrete series (8.3): for a connected real reductive group with a Cartan
-  subgroup compact modulo its split centre `A_G`, and the Haar measure on `G/A_G` normalised by the
-  Haar probability measure of the compact dual, the discrete series of regular Harish-Chandra
-  parameter `λ` has formal degree `∏_{α>0} |⟨λ, α^∨⟩| / ∏_{α>0} ⟨ρ, α^∨⟩`. It lacks real reductive
-  groups with their Cartan decomposition and compact dual, the discrete series with their
-  Harish-Chandra parameters, and the formal degree of a square-integrable irreducible unitary
-  representation.
+* The formal degree of a discrete series (8.3): for a connected real reductive group with a maximal
+  compact subgroup `K` and a Cartan subgroup compact modulo its split centre `A_G`, and the Haar
+  measure on `G/A_G` normalised by the Haar probability measure of the compact dual containing `K`,
+  the discrete series of regular Harish-Chandra parameter `λ` has formal degree
+  `∏_{α>0} |⟨λ, α^∨⟩| / ∏_{α>0} ⟨ρ, α^∨⟩`. It lacks real reductive groups with their Cartan
+  decomposition and compact dual, the discrete series with their Harish-Chandra parameters, and the
+  formal degree of a square-integrable irreducible unitary representation.
 * The lowest-`K`-type coefficients of gapped discrete series of `U(p, q)` (2.4a (b), (c)): for
   `p, q ≥ 1`, `n = p + q`, `q₀ = min(p, q)` and the discrete series `σ` of Harish-Chandra parameter `λ` whose
   entries of different signs are at least `h ≥ 120·n·q₀^{3/2}` apart, the compression of `σ` to its
