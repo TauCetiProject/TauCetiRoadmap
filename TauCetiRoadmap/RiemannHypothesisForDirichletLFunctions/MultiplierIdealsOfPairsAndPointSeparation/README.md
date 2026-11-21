@@ -12,7 +12,7 @@ The roadmap has one layer, Layer 9, numbered as the layer of AlgebraicModuliForA
 
 Every target names its base field. 9.12, 9.12a and 9.12b are stated over `ℂ`; in 9.12c, `k` is algebraically closed of characteristic zero; in 9.12–9.12c, `n = dim X`, and "subvariety" means a closed integral subvariety of positive dimension. In 9.12–9.12c the boundary `Δ` of a pair `(X, Δ)` is effective. `K_X` is the canonical divisor of `X`, `≡` is numerical equivalence, and `h⁰(Λ)` is the dimension of the space of global sections of `Λ`. For invertible sheaves `L_1, …, L_d` on a proper `k`-scheme and a closed subscheme `Z` of dimension `d`, `(L_1 ⋯ L_d · Z)` is the degree of `c_1(L_1) ∩ ⋯ ∩ c_1(L_d) ∩ [Z]` (SchemeAndStackFoundations §§5.2–5.3, the intersection number of AlgebraicModuliForArithmeticGeometryPartII §1.7), written `(L^d · Z)` when every `L_i` is `L`, and `(B · L^{d−1})`, `(L^d)` when `Z` is the whole integral projective scheme; for a `ℚ`-Cartier divisor `N` with `rN` Cartier, `(N^d · Z) = r^{−d}(O_X(rN)^d · Z)` (also written `N^d·Z`). This number is the numerical intersection of CyclotomicClassGroupsAndStickelberger §4.3 (DynamicalDegreesOfRationalMaps §2.2): `m ↦ χ(Z, L^m)` is a polynomial of degree at most `d` whose coefficient of `m^d` is `(L^d · Z)/d!`, so `(L^d · Z) = Σ_{j=0}^{d} (−1)^{d−j} binom(d, j) χ(Z, L^j)`, the form in which `selfIntersection` computes it. For a real number `t`, `⌈t⌉` is its round-up, applied coefficientwise to divisors.
 
-Notation and conventions not restated here are those of AlgebraicModuliForArithmeticGeometry §9.10 (smooth projective varieties over a field of characteristic zero, simple normal crossings divisors, Kawamata–Viehweg vanishing `algebraicAdjointVanishing` and the multiplier ideal `algebraicMultiplierIdeal` of a nonzero coherent ideal on a smooth variety) and §1.6 (big line bundles, `bigLineBundle`), of AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors and numerical equivalence), §1.5 (nef `ℚ`-Cartier divisors) and §1.6 (bigness on integral proper schemes), and of SchemeAndStackFoundations Layer 5 (intersection theory) and §4.17 (simple normal crossings divisors).
+Notation and conventions not restated here are those of AlgebraicModuliForArithmeticGeometry §9.10 (smooth projective varieties over a field of characteristic zero, simple normal crossings divisors, Kawamata–Viehweg vanishing `algebraicAdjointVanishing` and the multiplier ideal `algebraicMultiplierIdeal` of a nonzero coherent ideal on a smooth variety) and §1.6 (big line bundles, `bigLineBundle`), of AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors and numerical equivalence), §1.5 (nef `ℚ`-Cartier divisors), §1.6 (bigness on integral proper schemes) and §1.7 (ample `ℚ`-Cartier divisors), and of SchemeAndStackFoundations Layer 5 (intersection theory) and §4.17 (simple normal crossings divisors).
 
 ## Layer 9: Pairs, multiplier ideals, point separation and Bertini
 
@@ -52,8 +52,9 @@ divisor over `Y` has discrepancy `≥ −1` (resp. `> −1`), by induction on bl
 `X` the pullback of a local generator of `ω_X` vanishes along every exceptional divisor.
 
 *Needs:* ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7; AlgebraicModuliForArithmeticGeometryPartII §0.7
-(`ℚ`-Cartier Weil divisors, injectivity of the Cartier-to-Weil map on normal schemes); SchemeAndStackFoundations §4.17 (simple
-normal crossings); Tau Ceti `SchemeWeilDivisor`, `Scheme.CartierDivisor`.
+(`ℚ`-Cartier Weil divisors, injectivity of the Cartier-to-Weil map on normal schemes); SchemeAndStackFoundations §3.4
+(`picardToClassGroup`: the Weil divisor of a rational section, here of the canonical sheaf of the smooth locus) and §4.17
+(simple normal crossings); Tau Ceti `SchemeWeilDivisor`, `Scheme.CartierDivisor`.
 
 **Checks.**
 
@@ -71,6 +72,10 @@ direct images `R^i f_*O_Y(⌈K_Y − f^*(K_X + Δ)⌉)` vanish for `i > 0` (loca
 is klt; the cosupport of `J(X, Δ)` is `Nklt(X, Δ)`; `J(X, Δ) ⊆ J(X, Δ′)` when `Δ′ ≤ Δ`; and for smooth `X` and an
 effective Cartier divisor `D` with ideal `O(−D)`, `J(X, c·D) = algebraicMultiplierIdeal (O(−D)) c`, the multiplier ideal of
 AlgebraicModuliForArithmeticGeometry §9.10.
+For smooth `X` and `Δ = c·D` as in the last clause, the independence of `f` and the local vanishing are
+`algebraicMultiplierIdeal.resolutionIndependent` and `algebraicMultiplierIdeal.localVanishing` of
+AlgebraicModuliForArithmeticGeometry §9.10, on a log resolution, which is a principalisation of `O(−D)`; the form here
+adds normal `X`.
 
 *Route.* Independence: compare two log resolutions through a common one and use that the round-up of an
 `f`-exceptional divisor with simple normal crossings support pushes forward to `O_X` (Lazarsfeld 9.2.19). Local
@@ -82,8 +87,8 @@ the pullback of a sufficiently ample divisor on `X` and using Serre vanishing an
 resolution.
 
 *Needs:* 9.10a; AlgebraicModuliForArithmeticGeometry §9.10 (`algebraicAdjointVanishing`, `algebraicMultiplierIdeal`);
-ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7; SchemeAndStackFoundations Layer 2 (Leray, Serre
-vanishing).
+ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7; SchemeAndStackFoundations §2.2 (`leray_spectral_sequence`)
+and §2.6 (`ample_serre_vanishing`).
 
 **Checks.**
 
@@ -97,6 +102,9 @@ vanishing).
 Let `X` be a normal projective variety over a field of characteristic zero, `Δ` an effective `ℚ`-Weil divisor with
 `K_X + Δ` `ℚ`-Cartier, and `L` a Cartier divisor such that `L − (K_X + Δ)` is nef and big. Then
 `H^i(X, O_X(L) ⊗ J(X, Δ)) = 0` for every `i > 0`.
+For smooth `X` this is the case `a = O_X(−qΔ)` (`q ≥ 1` with `qΔ` integral), `c = 1/q`, `M = O_X(qΔ)`, with `L − K_X` in
+place of `L`, of the vanishing clause of `algebraicMultiplierIdeal` (AlgebraicModuliForArithmeticGeometry §9.10), through
+the comparison of 9.10b; the form here adds normal `X`.
 
 *Route.* On a log resolution `f`, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with `A = f^*(L − K_X − Δ)` nef and big
 and with simple normal crossings fractional part; `algebraicAdjointVanishing` (AlgebraicModuliForArithmeticGeometry §9.10) gives `H^i(Y, K_Y + ⌈A⌉) = 0`; local
@@ -175,7 +183,8 @@ stays below `Σ_d d/c_d ≤ 1`. The induction gives `D′ ≡ λN − μA` with 
 near `x`, gives `D ≡ λ′N`.
 
 *Needs:* 9.10a, 9.10b, 9.10d; AlgebraicModuliForArithmeticGeometryPartII §§1.5–1.7 (nef `ℚ`-Cartier divisors, bigness of a nef
-divisor with positive top intersection, Kleiman's nonnegativity); SchemeAndStackFoundations Layer 2 (Serre vanishing).
+divisor with positive top intersection, Kleiman's nonnegativity, and §1.7 (v): a nef plus an ample `ℚ`-Cartier divisor is
+ample, and ampleness is numerical); SchemeAndStackFoundations Layer 2 (Serre vanishing).
 
 ### 9.12a Kollár's two-point separation for klt pairs
 
@@ -219,7 +228,8 @@ The result is `D ≡ dN`, `d < 1`, with one of the points an isolated point of t
 `H¹(X, M ⊗ J(X, Δ + D)) = 0`; lift the section of `M ⊗ O/J` that generates at the isolated point and vanishes elsewhere.
 
 *Needs:* 9.10a, 9.10b, 9.10c, 9.10d; AlgebraicModuliForArithmeticGeometryPartII §§1.5–1.7 (nef and big `ℚ`-Cartier
-divisors, Kleiman's nonnegativity); SchemeAndStackFoundations Layer 2 (Serre vanishing); ResolutionOfSingularitiesCharacteristicZero
+divisors, Kleiman's nonnegativity, and §1.7 (v): a nef plus an ample `ℚ`-Cartier divisor is ample, and ampleness is
+numerical); SchemeAndStackFoundations Layer 2 (Serre vanishing); ResolutionOfSingularitiesCharacteristicZero
 (log resolutions).
 
 **Checks.**
@@ -243,7 +253,8 @@ numerically equivalent to `K_X + Δ + N`, `x ∈ X` a closed point, and `c_1, �
 `M − (K_X + Δ + D) ≡ (1 − λ)N` nef and big (big because `(N^n · X) > 0`) gives `H¹(X, M ⊗ J(X, Δ + D)) = 0`, so sections
 of `M` surject onto the skyscraper summand at `x`.
 
-*Needs:* 9.12, 9.10c; AlgebraicModuliForArithmeticGeometryPartII §§1.5–1.6 (nefness and bigness are numerical).
+*Needs:* 9.12, 9.10c; AlgebraicModuliForArithmeticGeometryPartII §§1.5–1.6 (nefness and bigness are numerical) and §3.3
+(the pointwise criterion for global generation).
 
 **Checks.**
 
@@ -263,6 +274,9 @@ replaced by `L^m`, Kollár 1997, Theorem 5.5 and its proof in 5.10). Each `k(x_i
 every `i` some section of `K_X + L` is nonzero at `x_i` and vanishes at the other points: this is
 `adjoint_separates_points`, with `O_X(K_X) = det Ω_{X/k}` (`canonicalBundle`) and `(L^d · Z)` computed by
 `selfIntersection` (Conventions).
+AlgebraicModuliForArithmeticGeometry §9.10 `uniformAdjointVeryAmpleness` is a neighbouring form, proved through the same
+multiplier-ideal vanishing: on a smooth projective `X` with `L` ample, `m(K_X + (n + 2)L) + G` is very ample for `m ≥ λ_n` and
+`G` nef, with no numerical hypothesis on `L`; neither statement contains the other.
 
 *Route.* Angehrn–Siu, by induction on `ℓ`. The concentration of multiplicity of 9.12, carried out
 at the `ℓ` points simultaneously (the constant `½n(n + 2ℓ − 1)` pays for the `ℓ` points in the first step), gives a
@@ -275,7 +289,7 @@ surjective, and `O/J(X, D)` has a direct summand supported at `x_1`; lifting the
 value at `x_1` (a triangular system). The constant grows with `ℓ` because the first divisor must pass through all the
 points.
 
-*Needs:* 9.12, 9.10c.
+*Needs:* 9.12, 9.10c; AlgebraicModuliForArithmeticGeometryPartII §1.7 (v) (ampleness of `ℚ`-Cartier divisors is numerical).
 
 **Checks.**
 
@@ -298,6 +312,8 @@ a nonzero polynomial `Q` on `V^D`, with coefficients in `k`, depending on `(R, V
 (ii) `φ_V` is injective on the `δ` geometric points of `Z(s)`;
 (iii) `f_X(s_1, …, s_D, ξ) = c·∏_y ξ(y)` for `ξ ∈ V`, the product over the geometric points `y` of `Z(s)`, `ξ(y)` the value in
 a trivialisation of `L` at `y`, and `c ≠ 0`.
+When `φ_V` is an immersion, SchemeAndStackFoundations §4.13 `bertini_smoothness`, applied to one section at a time, gives
+the étaleness in (i); the form here adds birational systems, the open set `U`, the degree, (ii) and (iii).
 
 *Route.* `δ = (L^D)`: the Hilbert polynomial of the image of a birational base-point-free system has leading coefficient
 `(L^D)/D!`, and the degree of the Chow form is the degree of the image. Choose a form `g₁` not vanishing identically on `X`
@@ -309,8 +325,9 @@ inside `U`; `f_X(s, ξ)` vanishes exactly when `ξ` vanishes at the image of a p
 of `δ` distinct linear forms; `Z(s)` has length `(L^D) = δ` and at least `δ` geometric points, hence is étale with exactly
 `δ` points, in bijection with the linear factors.
 
-*Needs:* SchemeAndStackFoundations Layer 5 (intersection numbers as lengths of proper intersections); AlgebraicModuliForArithmeticGeometry
-§1.5 (`hilbertPolynomial`) and §1.6 (`chowParameters`, the Chow form).
+*Needs:* SchemeAndStackFoundations §5.3 (`proper_pushforward`, `eq_cartier_divisor`) and §5.6 (`proper_intersection`; that the
+multiplicity of a proper intersection of Cartier divisors on the smooth `R` is a length is used without a supplier);
+AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`) and §1.6 (`chowParameters`, the Chow form).
 
 **Check.** `R = ℙ¹`, `L = O(d)`, `V` all binary forms of degree `d`, `U` the complement of the point `[1 : 0]`: `X` is the
 rational normal curve, `δ = d = deg L`, `f_X(s, ξ)` is the resultant of `s` and `ξ`, and `Q(s)` = (discriminant of `s`)·(the
@@ -388,7 +405,7 @@ On `X = 𝔸²` with `Δ = c·L` for a line `L`, the pair is klt iff `c < 1` and
 
 ### Dependencies
 
-AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`), §1.6 (`bigLineBundle`, `chowParameters`) and §9.10 (`algebraicAdjointVanishing`, `algebraicMultiplierIdeal`); AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors), §1.5 (nefness), §1.6 (bigness) and §1.7 (intersection numbers, Kleiman's nonnegativity); CyclotomicClassGroupsAndStickelberger §4.3 (numerical intersections); DynamicalDegreesOfRationalMaps §2.2 (their agreement with Chow degrees); ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7 (log resolutions); SchemeAndStackFoundations Layer 2 (the Leray spectral sequence, Serre vanishing), Layer 5 (intersection theory, intersection numbers as lengths of proper intersections) and §4.17 (simple normal crossings divisors); Tau Ceti's Weil and Cartier divisors of schemes (`SchemeWeilDivisor`, `Scheme.CartierDivisor`).
+AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`), §1.6 (`bigLineBundle`, `chowParameters`) and §9.10 (`algebraicAdjointVanishing`, `algebraicMultiplierIdeal`); AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors), §1.5 (nefness), §1.6 (bigness), §1.7 (intersection numbers, Kleiman's nonnegativity, ample `ℚ`-Cartier divisors) and §3.3 (the pointwise criterion for global generation); CyclotomicClassGroupsAndStickelberger §4.3 (numerical intersections); DynamicalDegreesOfRationalMaps §2.2 (their agreement with Chow degrees); ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7 (log resolutions); SchemeAndStackFoundations §2.2 (`leray_spectral_sequence`), §2.6 (`ample_serre_vanishing`), §3.4 (`picardToClassGroup`), Layer 5 (intersection theory; `proper_pushforward` and `eq_cartier_divisor` of §5.3, `proper_intersection` of §5.6) and §4.17 (simple normal crossings divisors); Tau Ceti's Weil and Cartier divisors of schemes (`SchemeWeilDivisor`, `Scheme.CartierDivisor`).
 
 ## Downstream consumers
 
@@ -412,7 +429,7 @@ Not owned here. [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForA
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometryPartII
 
-§0.7: `ℚ`-Cartier Weil divisors on a normal Noetherian integral scheme, the injectivity of the Cartier-to-Weil map there, and numerical equivalence (9.10a, 9.12b). §1.5: nef `ℚ`-Cartier divisors, nefness being invariant under numerical equivalence (9.12–9.12b, 9.13b). §1.6: bigness on integral proper schemes, and for a nef sheaf on an integral proper scheme of dimension `n`, bigness iff `(L^n) > 0` (9.10d, 9.12, 9.12b). §1.7: the intersection numbers `(L_1 ⋯ L_d · V)` and Kleiman's nonnegativity (ii) for nef `L_i` (9.12, 9.12a, 9.13b).
+§0.7: `ℚ`-Cartier Weil divisors on a normal Noetherian integral scheme, the injectivity of the Cartier-to-Weil map there, and numerical equivalence (9.10a, 9.12b). §1.5: nef `ℚ`-Cartier divisors, nefness being invariant under numerical equivalence (9.12–9.12b, 9.13b). §1.6: bigness on integral proper schemes, and for a nef sheaf on an integral proper scheme of dimension `n`, bigness iff `(L^n) > 0` (9.10d, 9.12, 9.12b). §1.7: the intersection numbers `(L_1 ⋯ L_d · V)` and Kleiman's nonnegativity (ii) for nef `L_i` (9.12, 9.12a, 9.13b), and (v): a nef `ℚ`-Cartier Weil divisor plus an ample one is ample, and ampleness of `ℚ`-Cartier divisors depends only on the numerical class (9.12, 9.12a, 9.12c). §3.3: the pointwise criterion for global generation: a global section of an invertible sheaf generates it at `x` iff its value in the fibre at `x` is nonzero (9.12b).
 
 ### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
 
@@ -428,7 +445,7 @@ Not owned here. [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForA
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-Layer 5: Chow groups, proper pushforward and degrees of zero-cycles (§5.2), the first Chern class on schemes algebraic over `k` with `c_1(O(D)) ∩ [V] = [D ∩ V]` (§5.3), hence the intersection numbers of the Conventions, and intersection numbers as lengths of proper intersections (9.13, 9.13b). Layer 2: the Leray spectral sequence and Serre vanishing (9.10b, 9.10d, 9.12, 9.12a). §4.17: strict normal crossings divisors (9.10a).
+Layer 5: Chow groups, proper pushforward and degrees of zero-cycles (§5.2), the first Chern class on schemes algebraic over `k` with the projection formula `proper_pushforward` and `c_1(O(D)) ∩ [V] = [D ∩ V]` (`eq_cartier_divisor`) (§5.3), hence the intersection numbers of the Conventions, and the intersection multiplicities of proper intersections on smooth varieties, `proper_intersection` (§5.6) (9.13, 9.13b). Layer 2: the Leray spectral sequence `leray_spectral_sequence` (§2.2) and Serre vanishing `ample_serre_vanishing` (§2.6) (9.10b, 9.10d, 9.12, 9.12a). §3.4: `picardToClassGroup`, through the Weil divisor of a rational section of an invertible sheaf on a normal integral locally Noetherian scheme (9.10a). §4.17: strict normal crossings divisors (9.10a).
 
 ### From Tau Ceti
 
