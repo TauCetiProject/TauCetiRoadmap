@@ -1,61 +1,44 @@
-import Mathlib
-import TauCeti.NumberTheory.LocalField.Herbrand.Basic
-import TauCeti.NumberTheory.LocalField.RamificationIndex
-import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Extension
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.LocalField.Herbrand.Basic
+public import TauCeti.NumberTheory.LocalField.RamificationIndex
 
 /-!
-# The field of norms: suggested signatures
+# The field of norms: target signatures
 
-These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
-specification.
+The roadmap is `README.md`; this file is not the roadmap, and it is not exhaustive. These are
+suggested forms. The README carries every target and Check.
 
-The file states the fixing-subgroup model of the absolute Galois group of an infinite separable
-subextension (Layer 0.0), and pins the carrier of the field of norms (Layer 1): the norm-compatible families
-`(α_E)_E` over the finite subextensions `E` of `L/K`, as a submonoid `fieldOfNorms K L` of the
-product `∏_E E` under termwise multiplication, with zero the only family having a zero
-coordinate. It states, at finite level against the pinned Tau Ceti, the norm estimate that drives
-the construction (Layer 1.3), in the Galois case, and the norm identity behind the cyclotomic
-worked example.
+Stated here:
 
-The rest is stated in `README.md` only. Arithmetically profinite extensions, `ψ_{L/K}` and the
-additive structure of `X_K(L)` are defined through the absolute upper filtration of
-TauCetiProject/TauCetiRoadmap#1410 §4a.1 and the filtered groups of the filtered local Galois
-groups roadmap (TauCetiProject/TauCetiRoadmap#1795), which have no declaration at the pins.
+* the carrier of the field of norms (README 1.1): the finite subextensions `FiniteSubextension K L`
+  of `L/K`, the predicate `IsNormCompatible` on families `(α_E)_E` with `α_E ∈ E`, and the
+  submonoid `fieldOfNorms K L` of `∏_E E` of norm-compatible families under termwise
+  multiplication, with zero the only family having a zero coordinate;
+* the norm estimates that drive the construction (README 1.3), at finite level and in the Galois
+  case, against the pinned Tau Ceti upper ramification groups.
+
+Not statable at the pins, with the carrier each lacks:
+
+* the fixing-subgroup model `G_L ≃ₜ* L.fixingSubgroup` for infinite algebraic `L` (README 0.0) is
+  data, and is not stated with `sorry`;
+* APF extensions and their Herbrand functions (README 0.1–0.6) need the absolute upper filtration
+  `G_K^u` of RamificationOfCompleteDiscretelyValuedFields §4a.1 and the filtered groups of
+  FilteredLocalGaloisGroups Layers 1–2;
+* the field-of-norms isomorphism `ι_{L/K} : G_L ≃ₜ* G_{X_K(L)}` (README 2.2) needs `X_K(L)` as a
+  field, whose addition is README 1.5;
+* the reading of the upper filtration above `L` (README 3.3) needs `G_K^u` and `ι_{L/K}`;
+* full faithfulness and the lifting of isomorphisms (README 4.2–4.3) need the categories `ΓEXT`
+  and `ΓAUT` of README 4.1, built on the field `X_K(L)`;
+* the comparison with tilting (README 5.2–5.4) needs the embedding `Λ_{L/K}` of README 5.1.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/FieldOfNorms/`.
 -/
 
+@[expose] public section
+
 namespace TauCetiRoadmap.FieldOfNorms
-
-/-! ## Layer 0.0: the fixing-subgroup model -/
-
-section FixingSubgroup
-
-open TauCeti
-
-variable (K : Type*) [Field K] (L : IntermediateField K (AlgebraicClosure K))
-  [Algebra.IsSeparable K L]
-
-/-- **The absolute Galois group of a separable algebraic subextension is its fixing subgroup**, as
-topological groups, with no finiteness hypothesis: the composite of
-`absoluteGaloisGroupRestrictEquiv L`, `absoluteGaloisGroupEquivFixingSubgroup K L σ` for the
-inclusion `σ` of `L` into `SeparableClosure K`, and `absoluteGaloisGroupRestrictEquiv K`. -/
-noncomputable def absoluteGaloisGroupEquivFixingSubgroupOfSeparable :
-    Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup :=
-  sorry
-
-/-- The model is the separable-closure isomorphism `absoluteGaloisGroupEquivFixingSubgroup`,
-read through `absoluteGaloisGroupRestrictEquiv` on both sides. For finite `L` it is
-`absoluteGaloisGroupExtend K L σ`. -/
-theorem absoluteGaloisGroupRestrictEquiv_absoluteGaloisGroupEquivFixingSubgroupOfSeparable
-    (σ : L →ₐ[K] SeparableClosure K)
-    (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x)
-    (τ : Field.absoluteGaloisGroup L) :
-    absoluteGaloisGroupRestrictEquiv K (absoluteGaloisGroupEquivFixingSubgroupOfSeparable K L τ).1 =
-      (absoluteGaloisGroupEquivFixingSubgroup K L σ (absoluteGaloisGroupRestrictEquiv L τ)).1 :=
-  sorry
-
-end FixingSubgroup
 
 /-! ## Layer 1.1: the carrier -/
 
@@ -80,8 +63,11 @@ def IsNormCompatible (α : ∀ E : FiniteSubextension K L, E.1) : Prop :=
 norm-compatible families under termwise multiplication. Its additive structure is Layer 1.5. -/
 def fieldOfNorms : Submonoid (∀ E : FiniteSubextension K L, E.1) where
   carrier := {α | IsNormCompatible K L α}
-  mul_mem' := sorry
-  one_mem' := sorry
+  mul_mem' {a b} ha hb E E' h := by
+    have := congrArg₂ (· * ·) (ha E E' h) (hb E E' h)
+    rw [← map_mul] at this
+    exact this
+  one_mem' E E' h := map_one (Algebra.norm E.1)
 
 /-- **Zero is the only family with a zero coordinate**: `X_K(L) = X_K(L)^* ∪ {0}`, where
 `X_K(L)^* = lim E^*`. -/
@@ -122,15 +108,5 @@ theorem exists_norm_sub_mem (hp : CharP (ResidueField 𝒪[K]) p) (r : ℕ)
   sorry
 
 end NormEstimate
-
-/-! ## Worked example: the cyclotomic norm identity -/
-
-/-- If `x` generates `E'/E` with minimal polynomial `X^n - a`, then `N_{E'/E}(1 - x) = 1 - a`.
-With `x = ζ_{p^{n+1}}` and `a = ζ_{p^n}`, the family `(1 - ζ_{p^n})_n` is norm-compatible. -/
-theorem norm_one_sub_of_minpoly_eq {E E' : Type*} [Field E] [Field E'] [Algebra E E'] (n : ℕ)
-    (x : E') (a : E) (hx : IntermediateField.adjoin E {x} = ⊤)
-    (hmin : minpoly E x = Polynomial.X ^ n - Polynomial.C a) :
-    Algebra.norm E (1 - x) = 1 - a :=
-  sorry
 
 end TauCetiRoadmap.FieldOfNorms
