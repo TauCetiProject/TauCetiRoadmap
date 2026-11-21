@@ -22,6 +22,11 @@ Layer 0 sets up the polynomial model over a domain with its standard bidetermina
 
 *Slopes.* Hermitian lattices over the integers of a number field and their slopes `μ̂`, `μ̂_max` are those of SlopesOfHermitianVectorBundles. This roadmap writes `μ := 2μ̂` and `μ_max := 2μ̂_max` ([FormalProof], `Formalism/HarderNarasimhan/StatementPl.lean` (`Formalism.HN.muMaxDef`)), so that a `ℤ`-lattice of rank `r` with Gram matrix `G` has `μ = −(1/r)·log det G`, and the standard lattice `O_K^n` with the standard metrics has `μ = 0`. Hermitian spaces and lattices over a CM field are those of HermitianFormsAndLattices §4.0.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: The polynomial model and the sandwich exponent
 
 This layer gives the polynomial model its integral basis, proves a denominator bound for the projector onto the invariants of a `U_ℤ`-stable lattice in any finite-dimensional representation, and deduces the sandwich exponent between `∇` and `Δ`, with its local and global forms, and the agreement of the two lattices below the upper wall of the lowest alcove.
