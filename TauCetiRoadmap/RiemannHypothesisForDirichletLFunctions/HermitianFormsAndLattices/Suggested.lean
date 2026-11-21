@@ -79,10 +79,11 @@ theorem hermitian_congr_iff_forall_place {F E : Type*} [Field F] [NumberField F]
             H'.map (algebraMap E (E ⊗[F] w.Completion))) := by
   sorry
 
-/-- **Landherr's theorem, the Hasse principle, for CM extensions** (README 3.1, the form of the
-formal proof). The case of `hermitian_congr_iff_forall_place` for a CM extension of number fields
-(`F` totally real, `E` totally complex), the setting in which the formal proof that the family
-follows has the theorem; it follows from the classical statement. -/
+/-- **Landherr's theorem, the Hasse principle, for CM extensions** (README 3.1). The case of
+`hermitian_congr_iff_forall_place` for a CM extension of number fields (`F` totally real, `E`
+totally complex), the setting in which the formal proof that the family follows has the theorem;
+it is a corollary of the classical statement, not the form of the formal proof that README 3.1
+displays. -/
 theorem hermitian_congr_iff_forall_place_of_cm {F E : Type*} [Field F] [NumberField F] [Field E]
     [NumberField E] [Algebra F E] [Algebra.IsQuadraticExtension F E]
     [IsTotallyReal F] [IsTotallyComplex E]

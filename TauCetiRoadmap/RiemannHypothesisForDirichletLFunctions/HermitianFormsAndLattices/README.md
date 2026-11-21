@@ -211,8 +211,8 @@ on `U(V)(F_∞)` is the product over the real places of the Haar measure `μ^c_{
 `μ^c_{n,0}` is the probability measure of `U(n)`, and `μ^c_{p,q}` and `μ^c_{n,0}` have the same density at the identity
 with respect to the Haar measures `λ` of the Lie algebras `𝔲(p, q)`, `𝔲(n) ⊂ M_n(ℂ)` for which `(a, b) ↦ a + ib`
 carries `λ ⊗ λ` to Lebesgue measure of `M_n(ℂ)`. This is the archimedean normalisation of the formal proof (6.2(c)).
-`μ^c` and the archimedean fibre measure are Haar measures of `U(V)(F_∞)`, so they differ by a positive constant
-factor; that factor is not computed here.
+`μ^c` and the archimedean fibre measure normalized by a lattice `L` are Haar measures of `U(V)(F_∞)`, and the second
+is `β_∞(L)·μ^c`, with `β_∞(L)` the value of the formula of 6.1b, for every `(p, q)` (route of 6.2(c)).
 
 **L-values.** `ζ_K` is Mathlib's `NumberField.dedekindZeta K` and `κ_K` its residue at `s = 1`,
 Mathlib's `NumberField.dedekindZeta_residue K`. `L(s, η) = ζ_E(s)/ζ_F(s)` for `Re s > 1`, and
@@ -672,7 +672,8 @@ is compact, spans `V_v` and is preserved by `U(V)(F_v)`. (b) Sylvester (2.2): `U
 exactly when `pq = 0`, and complex or split real places give `GL_n(ℂ)` or `GL_n(ℝ)`. (c) from (a),
 (b). (d) for `S` containing the archimedean places is AdelicAlgebraicGroups §4.2 *strong-approximation-sufficiency*
 applied to `SU(V)` (0.2); for the other `S`, `S = {v}` among them, it is the classical theorem in this generality
-(Kneser, Platonov), not given here.
+(Kneser, Platonov), stated for a simply connected absolutely almost simple group and any finite set of places in
+[Rapinchuk], Theorem 2.3, p. 12, and applied to `SU(V)` (0.2); its proof is not given here.
 (e) `h` and `ch` have the same isometries; the signs by weak approximation
 (`TauCeti.GlobalNumberFields.weakApproximation_denseRange`). (f) The Cayley transform `c(X) = (1 − X)(1 + X)^{−1}`, over
 `F` and over every `F_v`, maps the `X ∈ End_E(V)` with `h(Xx, y) = −h(x, Xy)` and `1 + X` invertible bijectively onto
@@ -726,7 +727,8 @@ proof.
 congruent over `ℂ` (`τ(H′) = Q^*τ(H)Q` with `Q ∈ GL_n(ℂ)`), and `det H′/det H` is a norm from `E ⊗_F F_v` at every
 finite place `v` of `F` (equivalently, by the Hasse norm theorem, a norm from `E`), then `H′ = σ(P)^T H P` for some
 `P ∈ GL_n(E)`. This is the equivalent form above (dimension, determinant class and signatures) for CM extensions, and
-follows from the statement above; `hermitian_congr_iff_forall_place_of_cm` is the Gram-matrix form for CM extensions.
+follows from the statement above. `hermitian_congr_iff_forall_place_of_cm` is not this form: it is the Gram-matrix
+equivalence above restricted to CM extensions, a corollary of `hermitian_congr_iff_forall_place`.
 
 Route: an isometry `V_v ≅ V'_v` of Hermitian spaces over `E_v` is in particular an `F_v`-linear isometry
 of the quadratic forms `q_{h,v}(x) = h(x, x)` and `q_{h',v}`, at every place, split places included
@@ -2763,17 +2765,16 @@ for the archimedean fibre measure on `U(V)(F_∞)` (6.1(f)), `U(M)` acting on `U
 `U(V)(F) ⊂ U(V)(F_∞)`; for totally definite `V`, `vol(U(M)\U(V)(F_∞)) = β_∞(L)/|U(M)|` and (b) is (a).
 For integral `L`, (a) is the mass formula of [Kirschmer], Theorem 4.2.3, p. 51, written there without
 the convergence factors `L_v(1, η_v)` and with `β_∞(L)` evaluated as in 6.3; its proof there refers to
-[GanYu], §10. For `F = ℚ`, `E` imaginary quadratic of class number one and `L` unimodular, (a) is the mass formula
-that AbelianSchemesAndArithmeticModuliPartII F5.7 takes as an input, its local factors at the ramified places, dyadic
-ones included, being the densities of 6.1.
+[GanYu], §10. For `F = ℚ`, `E` imaginary quadratic of class number one and `L` unimodular, (a) contains the mass
+formula that AbelianSchemesAndArithmeticModuliPartII F5.7 states for that case, with its local factors at the ramified
+places, dyadic ones included, in the normalisation of 6.1.
 
 (c) *The form of the formal proof: compact-dual normalisation.* Let `E/F` be a CM extension unramified at every finite
 place, `V` a Hermitian space of dimension `n ≥ 1` with the same signature `(p, q)` at every real place, and `L ⊂ V` a
 unimodular lattice. Then `Σ_{[M] ∈ cls(L)} μ^c(U(M)\U(V)(F_∞)) = mass(O_E^n)` for the compact-dual measure `μ^c` of the
 Conventions, `mass(O_E^n)` being the mass of the unimodular lattices of rank `n` of 6.3(c); in particular the left side
 does not depend on `(p, q)`. The formal proof has (c) in place of (b), and (a) in the form given in 6.3. The fibre
-measure of (b) and `μ^c` differ by a positive constant factor, which is not computed here; so (c) is not derived from
-(b) here.
+measure of (b) is `β_∞(L)·μ^c`, with `β_∞(L)` the value of the formula of 6.1b, so (c) follows from (b) and (a).
 
 Route: (a) by 5.5, `τ(U(V)) = mass(L)·vol(U(V)(F_∞) × K_L)` for the Tamagawa measure. The lattice
 normalized measures on `End(V)_𝔸` and `Herm(V)_𝔸` are the Tamagawa measures of these vector groups
@@ -2788,7 +2789,15 @@ value on `U(V)(F_∞) × K_L` is `L(1, η)^{−1}β_∞(L)∏_v L_v(1, η_v)β_v
 `⊔_{[g]} Γ_g\U(V)(F_∞) ≅ U(V)(F)\U(V)(𝔸)/K_L` over the finite class set (AdelicAlgebraicGroups §3.4,
 with 5.1 and 5.2(a)), `Γ_g = U(V)(F) ∩ gK_Lg^{−1} = U(g·L)` acting freely on `U(V)(F_∞)`, gives
 `vol(U(V)(F)\U(V)(𝔸)) = Σ_{[g]} vol(Γ_g\U(V)(F_∞))·vol(K_L)` for every Haar measure; with the
-Tamagawa measure written as in (a) and `τ(U(V)) = 2` this is the formula. (c): not given here.
+Tamagawa measure written as in (a) and `τ(U(V)) = 2` this is the formula. (c): both measures are Haar measures, and
+the lattice normalizations depend on `L` only through `𝔳(L)` (route of 6.1b), in the same way for every `(p, q)`. At a
+real place, in a basis with Gram matrix `H = I_{p,q}`, the differential of `X ↦ X^*HX` at `1` vanishes on `𝔲(p, q)`
+and is `Z ↦ 2HZ` on `i𝔲(p, q)`; left multiplication by `H` preserves Lebesgue measure of `M_n(ℂ)`, commutes with `i`
+and carries `𝔲(p, q)` onto `𝔲(n)` and `i𝔲(p, q)` onto `Herm_n`, so it carries `λ` to `λ`, and the density at `1` of the
+fibre measure with respect to `λ` is the same for every `(p, q)`. In the definite case `μ^c` has mass one, so the
+fibre measure is `β_∞(L)·μ^c` for every `(p, q)`, and the left side of (c) is the right side of (b) divided by
+`β_∞(L)`. For unimodular `L`, `𝔳(L) = O_F` and `L_v(1, η_v)β_v(L) = ∏_{k=2}^{n} L_v(k, η_v^k)^{−1}` at every finite
+`v` (6.1a(a)), as for `O_E^n ⊂ ⟨1, …, 1⟩`; so this quotient is the right side of (a) for `O_E^n`, `mass(O_E^n)`.
 
 *Needs:* 5.1, 5.2, 5.5, 5.6, 6.0b, 6.1, 6.1a, 6.1b; AdelicAlgebraicGroups §§2.2, 2.4 and OrbitMeasuresOnAdelicGroups §2.6
 (*homogeneous-gauge-measure*), 3.4.
@@ -3687,6 +3696,8 @@ and 6.5.
   over the rings of imaginary quadratic fields*, Tôhoku Math. J. 41 (1989). Checks of 6.3.
 - [Feit] W. Feit, *Some lattices over Q(√−3)*, J. Algebra 52 (1978). The second and fourth Checks of
   6.3.
+- [Rapinchuk] A. S. Rapinchuk, *On strong approximation for algebraic groups*, arXiv:1207.4425v1 (2012).
+  Theorem 2.3, p. 12, the strong approximation theorem of Kneser and Platonov for any finite set of places (2.5(d)).
 - [Kneser] M. Kneser, *Klassenzahlen definiter quadratischer Formen*, Arch. Math. 8 (1957). 5.4, the
   neighbour method, in the Hermitian form of [Kirschmer], Proposition 5.2.5, p. 76.
 - [Schiemann] A. Schiemann, *Classification of Hermitian forms with the neighbour method*, J.
