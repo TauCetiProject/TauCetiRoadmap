@@ -24,6 +24,11 @@ Local notation (Layer 10 and the local statements of Layers 14–15). `F` is a f
 
 Global notation (Layers 14–16). `E` is a CM field with complex conjugation `c`; `(π, χ)` is a regular algebraic polarized cuspidal representation of `GL_n(𝔸_E)` of weight `a ∈ (ℤⁿ)_w`; `ℓ` is a prime, `ι : ℚ̄_ℓ ≅ ℂ`, and `r_{ℓ,ι}(π)` is the attached Galois representation. As in AutomorphicGaloisRepresentationsPartII, Frobenius elements are geometric, the cyclotomic character `ε_ℓ` has Hodge–Tate weight `−1`, the labelled Hodge–Tate weights of the weight `a` are `a_{τ,i} + n − i`, `rec^T(π_w) = rec(π_w ⊗ |det|^{(1−n)/2})` (the twist of [FormalProof], `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GaloisRepOfPolarizedCuspidal.lean` (`GlobalTheory.GalOfCusp.algNorm`)), and `P_w(π_w; X)` is the good-place polynomial. `WD` is the Weil–Deligne representation of a representation of `G_{E_w}` for `w ∤ ℓ`, or of its `D_pst` for `w ∣ ℓ`, and `F-ss` denotes Frobenius semisimplification. In Layers 14–16 `rec` is the correspondence in the geometric normalisation, `rec(χ) = χ∘Art⁻¹` with `Art` sending uniformisers to geometric Frobenius elements: it is `rec_n = LLC_WD` of Layer 10 (10.29a). The classical correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 that 10.30 calls `rec` is in the arithmetic normalisation and goes from parameters to representations; the two are related by `LLC_WD(π) = (rec⁻¹(π))^∨` (10.30).
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 6: Splitting characters of quadratic extensions
 
 The quadratic character of a CM extension extends to a unitary Hecke character only under a parity condition at the real places; this layer constructs such characters for every quadratic extension of number fields, with prescribed infinity types.
