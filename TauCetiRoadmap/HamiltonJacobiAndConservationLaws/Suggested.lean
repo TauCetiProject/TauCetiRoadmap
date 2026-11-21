@@ -18,7 +18,7 @@ noncharacteristic data (§2.2); for the pinned `TauCeti.hopfLax`, the Lipschitz 
 semigroup property, the equation at points of differentiability and the uniqueness of
 semiconcave weak solutions (§3.1–§3.3); viscosity sub- and supersolutions of a first-order
 equation with their differential characterization (§4.1), the comparison principle and
-uniqueness for the Cauchy problem (§4.3), and the eikonal equation for the distance to the
+uniqueness for the Cauchy problem (§4.3) with existence of its solution (§4.5), and the eikonal equation for the distance to the
 complement (§4.7); integral solutions in one space dimension with Oleinik's uniqueness theorem
 and the existence theorem (§5.1–§5.3); and Kružkov entropy solutions with the `L¹`
 contraction and the existence theorem (§6.1, §6.2, §6.4).
@@ -215,6 +215,20 @@ theorem eqOn_of_isViscositySolution_evolutionEquation
     (hus : IsViscositySolution (evolutionEquation H) (Ioo 0 T ×ˢ univ) (Function.uncurry u))
     (hvs : IsViscositySolution (evolutionEquation H) (Ioo 0 T ×ˢ univ) (Function.uncurry v))
     (h₀ : u 0 = v 0) : ∀ t ∈ Ico 0 T, u t = v t := by
+  sorry
+
+/-- **Existence for the Cauchy problem** (§4.5): for bounded uniformly continuous data there is
+a continuous viscosity solution, bounded on every finite time interval. With the uniqueness
+theorem above this is the well-posedness of the Cauchy problem. -/
+theorem exists_isViscositySolution_evolutionEquation
+    [FiniteDimensional ℝ E] {H : E → E → ℝ} (hH : Continuous (Function.uncurry H)) {ω : ℝ → ℝ}
+    (hω : Tendsto ω (𝓝[>] 0) (𝓝 0))
+    (hHx : ∀ x y p, |H x p - H y p| ≤ ω (‖x - y‖ * (1 + ‖p‖))) {N : ℝ}
+    (hHp : ∀ x p q, |H x p - H x q| ≤ N * ‖p - q‖) {C₀ : ℝ} (hH₀ : ∀ x, |H x 0| ≤ C₀)
+    {g : E → ℝ} (hg : UniformContinuous g) {M : ℝ} (hgb : ∀ x, |g x| ≤ M) :
+    ∃ u : ℝ → E → ℝ, ContinuousOn (Function.uncurry u) (Ici 0 ×ˢ univ) ∧
+      (∀ T : ℝ, ∃ C : ℝ, ∀ t ∈ Icc 0 T, ∀ x, |u t x| ≤ C) ∧ u 0 = g ∧
+      IsViscositySolution (evolutionEquation H) (Ioi 0 ×ˢ univ) (Function.uncurry u) := by
   sorry
 
 /-- **The distance to the complement solves the eikonal equation** in the viscosity sense

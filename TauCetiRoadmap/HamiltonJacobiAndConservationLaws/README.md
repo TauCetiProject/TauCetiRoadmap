@@ -17,22 +17,22 @@ The headline theorems are these. For a `C²` equation `F(x, u, ∇u) = 0` and `C
 hypersurface that is noncharacteristic at a point, there is a `C²` solution near that point,
 unique among `C²` solutions with the prescribed gradient there. For a convex superlinear
 Hamiltonian `H` and Lipschitz `g`, the Hopf–Lax formula `u(t,x) = min_y {t L((x−y)/t) + g(y)}`,
-with `L` the Legendre transform of `H`, is Lipschitz, satisfies the equation almost everywhere,
-and is the only such solution that is semiconcave in the sense of Evans. For a Hamiltonian
+with `L` the Legendre transform of `H`, is Lipschitz and satisfies the equation almost
+everywhere; when `g` is semiconcave or `H` is uniformly convex it is semiconcave in the sense of
+Evans, and for `H` of class `C²` it is the only such solution that is. For a Hamiltonian
 `H(x,p)` with the standard structure conditions, a bounded upper semicontinuous viscosity
 subsolution lies below a bounded lower semicontinuous viscosity supersolution whenever it does
-so initially (Crandall–Lions), and the Cauchy problem with bounded uniformly continuous data
-has exactly one bounded continuous viscosity solution (Ishii's form of Perron's method); the
-value function of a finite-horizon optimal control problem is that solution for the
+so initially (Crandall–Lions), and the Cauchy problem with bounded uniformly continuous data has
+exactly one bounded continuous viscosity solution (Ishii's form of Perron's method); the value
+function of a finite-horizon optimal control problem is that solution for the
 Hamilton–Jacobi–Bellman equation, and the distance to the boundary is the viscosity solution of
 the eikonal equation. For a uniformly convex flux in one space dimension and bounded data, the
-Lax–Oleinik formula gives an integral solution satisfying Oleinik's one-sided inequality, and
-it is the only one (Oleinik); the Riemann problem is solved by a shock or a rarefaction wave,
-and for a `C³` flux solutions with compactly supported data converge in `L¹` to an N-wave at
-rate `t^{−1/2}`.
-For a locally Lipschitz flux in any dimension and bounded data, entropy solutions exist, are
-unique, propagate at finite speed and contract in `L¹` (Kružkov), and for a `C²` flux they are
-the limits of the solutions of `∂ₜu + div f(u) = εΔu` as `ε → 0`.
+Lax–Oleinik formula gives an integral solution satisfying Oleinik's one-sided inequality, and it
+is the only one (Oleinik); the Riemann problem is solved by a shock or a rarefaction wave, and
+for a `C³` flux solutions with compactly supported data converge in `L¹` to an N-wave at rate
+`t^{−1/2}`. For a locally Lipschitz flux in any dimension and bounded data, entropy solutions
+exist, are unique, propagate at finite speed and contract in `L¹` (Kružkov), and for a `C²` flux
+they are the limits of the solutions of `∂ₜu + div f(u) = εΔu` as `ε → 0`.
 
 The roadmap builds on five areas of Tau Ceti and Mathlib. From **OptimalTransport** it takes
 convex duality: the Legendre–Fenchel conjugate, the convex subdifferential, the conjugate of a
@@ -350,10 +350,10 @@ with constant `K`. The object is the pinned `TauCeti.hopfLax L g t x` for `t > 0
 
 `u(t,x) = inf_y {g(y) + t L((x − y)/t)}`,
 
-extended by `u(0, ·) = g`. The pinned lemmas assume `g` bounded below. This layer assumes `g`
-Lipschitz and not bounded below: then `y ↦ g(y) + t L((x − y)/t)` is still bounded below and
-tends to `+∞` at infinity, by superlinearity of `L`, and the pinned lemmas apply as stated only
-when `g` is also bounded below.
+extended by `u(0, ·) = g`. The pinned lemmas assume `g` bounded below. This layer assumes only
+that `g` is Lipschitz; it need not be bounded below. Then `y ↦ g(y) + t L((x − y)/t)` is still
+bounded below and tends to `+∞` at infinity, by superlinearity of `L`, and the pinned lemmas
+apply as stated only when `g` is also bounded below.
 
 ### 3.1 The formula as a semigroup
 
@@ -427,6 +427,11 @@ when `g` is also bounded below.
   almost everywhere; the Hopf–Lax function is `0`, and `ũ(t, ·)` has a convex kink at `x = 0`
   and is not semiconcave.
 - `H = ‖p‖²/2`, `g = −‖x‖`: `u(t, ·) = −‖x‖ − t/2` is concave; its kink persists for all time.
+- The alternative in the existence bullet cannot be dropped. For `d = 1`, `H(p) = p⁴` and
+  `g(x) = |x|`, with `H` convex, superlinear and `C²` and `g` Lipschitz, `L(q) = 3(|q|/4)^{4/3}`
+  and `u(t,x) = 3t(|x|/(4t))^{4/3}` for `|x| ≤ 4t`, so
+  `u(t,z) − 2u(t,0) + u(t,−z) = 6t(|z|/(4t))^{4/3}` is not at most `C(1 + 1/t)z²` for small `z`:
+  the Hopf–Lax function is not a semiconcave weak solution.
 - `H = ‖p‖²/2`, `g = ‖x‖`: `u(t, ·)` is `C¹` for `t > 0` and semiconcave with constant `1/t`,
   the constant `1/(θt)` with `θ = 1`.
 
@@ -544,7 +549,8 @@ for all `x, y, p, q`. Prove, by doubling the variables:
 - **The whole space** (Bardi–Capuzzo-Dolcetta, Theorem II.3.5). Let `λ > 0` and `H` satisfy
   `(S1)` and `(S2)`. If `u` is a bounded upper semicontinuous subsolution and `v` a bounded
   lower semicontinuous supersolution of `λu + H(x, ∇u) = 0` in `E`, then `u ≤ v`.
-- **The Cauchy problem** (Evans, §10.2, Theorem 1; Crandall–Lions). Let `H` satisfy `(S1)` and
+- **The Cauchy problem** (Evans, §10.2, Theorem 1, there for bounded uniformly continuous
+  solutions; Crandall–Lions). Let `H` satisfy `(S1)` and
   be Lipschitz in `p` uniformly in `x`. If `u` is bounded and upper semicontinuous on
   `[0,T) × E` and a subsolution of `∂ₜu + H(x, ∇u) = 0` in `(0,T) × E`, `v` is bounded and
   lower semicontinuous on `[0,T) × E` and a supersolution, and `u(0, ·) ≤ v(0, ·)`, then
@@ -821,10 +827,10 @@ Let `f ∈ C²` be uniformly convex with constant `θ`, and `u` the Lax–Oleini
 
 - Decay (Evans, §3.4.5, Theorem 5): if `u₀ ∈ L¹ ∩ L^∞` then
   `|u(t,x)| ≤ C t^{−1/2}` for `t > 0`, with `C` depending only on `f` and `‖u₀‖₁`.
-- N-waves (Evans, §3.4.5, Theorem 6): if `f ∈ C³` and `u₀` is bounded with compact support, put
-  `σ = f'(0)`, `κ = f''(0)`, `p = −2 min_y ∫_{−∞}^y u₀` and `q = 2 max_y ∫_y^∞ u₀`, and
-  `N(t,x) = (x/t − σ)/κ` for `−√(pκt) < x − σt < √(qκt)`, `0` otherwise. Then
-  `∫ |u(t,x) − N(t,x)| dx ≤ C t^{−1/2}` for `t > 0`.
+- N-waves (Evans, §3.4.5, Theorem 6, there for `p, q > 0`): if `f ∈ C³` and `u₀` is bounded with
+  compact support, put `σ = f'(0)`, `κ = f''(0)`, `p = −2 min_y ∫_{−∞}^y u₀` and
+  `q = 2 max_y ∫_y^∞ u₀`, and `N(t,x) = (x/t − σ)/κ` for `−√(pκt) < x − σt < √(qκt)`, `0`
+  otherwise. Then `∫ |u(t,x) − N(t,x)| dx ≤ C t^{−1/2}` for `t > 0`.
 - Conservation of mass: `∫ u(t,x) dx = ∫ u₀` for `u₀ ∈ L¹ ∩ L^∞`.
 
 **Checks.**
@@ -863,8 +869,9 @@ A function `u` as in the Conventions is an *entropy solution* on `(0,T)` when fo
 - An entropy solution is a weak solution: the identity
   `∫₀ᵀ∫ (u ∂ₜφ + ⟪f(u), ∇φ⟫) + ∫ u₀ φ(0, ·) = 0` holds for every test function.
 - Entropy pairs: `u` is an entropy solution exactly when, for every convex `η ∈ C¹(ℝ)` and
-  `q : ℝ → E` with `q' = η' f'` almost everywhere, the same inequality holds with `|u − k|`
-  replaced by `η(u)`, `sign(u − k)(f(u) − f(k))` by `q(u)` and `|u₀ − k|` by `η(u₀)`.
+  `q : ℝ → E` locally Lipschitz with `q' = η' f'` almost everywhere, the same inequality holds
+  with `|u − k|` replaced by `η(u)`, `sign(u − k)(f(u) − f(k))` by `q(u)` and `|u₀ − k|` by
+  `η(u₀)`.
 - Kružkov's form: `u` is an entropy solution exactly when the inequality without the initial
   term holds for nonnegative test functions supported in `(0,T) × E`, and
   `∫_{‖x‖ ≤ R} |u(t,x) − u₀(x)| dx → 0` as `t → 0⁺` outside a null set of times, for every `R`.
