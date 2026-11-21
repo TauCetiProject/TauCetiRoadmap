@@ -75,7 +75,9 @@ element `g ∈ G`, read through its place `pl(g)` (0.6), is a *letter*.
 **Riesz remainders.** `G_χ` is the Riesz remainder of a primitive Dirichlet character (RiemannHypothesisStatementsAndConsequences §8.4a (b)):
 `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y·(L′/L)(1, χ)` for `χ ≠ 1`, and
 `G_1(y) = Σ_{n≤y} Λ(n)(y/n − 1) − y log y + (1+γ)y` for the trivial character; `γ` is Euler's constant. In
-`Suggested.lean`, `G_χ` is `rieszRemainder` and `(L′/L)(1, χ)` is `logDerivLAtOne`.
+`Suggested.lean`, `G_χ` is `rieszRemainder` and `(L′/L)(1, χ)` is `logDerivLAtOne`. These definitions are those of
+[FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.An.gChi`,
+`Formalism.HC.An.G`, `Formalism.HC.An.logDerivativeAtOne`).
 
 **Constants.** Exponents, densities, shares of the tops and the admissible range of `ε` are parameters, with their
 constraints stated where they enter; the values of particular constructions appear only in Checks.
@@ -227,7 +229,9 @@ conductor of every `χ*` in (iv) (ClassFieldTheory Layer 13, `abelianConductor_e
   conductor dividing `5`; `χ₋₄` is not one of them, as `ℚ(i) ⊄ ℚ(ζ₅)`.
 
 *KNOWN* (Kronecker–Weber with conductor: Washington, *Introduction to Cyclotomic Fields*, ch. 14; characters of
-abelian fields: ibid., ch. 3). *Needs:* 0.1; ClassFieldTheory Layer 13 (`kroneckerWeber`, `abelianConductor_eq_lcm`);
+abelian fields: ibid., ch. 3; (ii), (iii): [FormalProof],
+`Development/AutomorphicArithmetic/PrimitiveCosets/PrimRead.lean` (`UpperTheory.Comparison₂.prim_read`)).
+*Needs:* 0.1; ClassFieldTheory Layer 13 (`kroneckerWeber`, `abelianConductor_eq_lcm`);
 ArithmeticGaloisRepresentations §2.3 (`dirichletCharacterToGalois`); QuasiRiemannHypothesis §5.4;
 AnalyticNumberTheoryPartI §§0.30, 2.18a; Mathlib `IsCyclotomicExtension.Rat.galEquivZMod`,
 `IsCyclotomicExtension.Rat.galEquivZMod_stabilizer`, `IsCyclotomicExtension.Rat.inertiaDegIn_eq`,
@@ -278,7 +282,9 @@ decomposition group of `E/F` at a place above `p` is `D_p ∩ {1, c}`. Under `Sp
 - `E = K = ℚ(i)` satisfies `SplitRamification 2` (`I_2 = G = {1, c}`, `c ∉ Φ = {1}`), and `σ_2 = c`: `E/F` is
   ramified at `2`, as (c) says. It is inert-free up to `2` but not up to `3` (`3` is inert in `ℚ(i)`).
 
-*KNOWN* (elementary). *Needs:* 0.1, 0.2; AnalyticNumberTheoryPartI §0.34a.
+*KNOWN* (elementary; the definitions: [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/SplitInertia.lean` (`Deduction.CH.HostFactsS`)).
+*Needs:* 0.1, 0.2; AnalyticNumberTheoryPartI §0.34a.
 
 ### 0.4 Dyadic host fields and cyclic hosts
 
@@ -397,7 +403,11 @@ so `φ^k` is nontrivial on `ℚ_n` for odd `k`. The other primes dividing `f_E` 
 - (iv) on the first host: `|G| = 16 = 4·|A|`, and the four elements `1, c, σ_d, cσ_d` represent `G/A`.
 
 *KNOWN* (Galois theory of cyclotomic fields; quadratic reciprocity; the dyadic host fields `E_n(M, Q)` for a general
-`(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof]).
+`(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof]; the cyclic hosts: [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean` (`UpperTheory.Top.IsChiField`),
+`Development/AutomorphicArithmetic/CharacterBoxes/TwistForm.lean` (`UpperTheory.Top.KerChi`); (iv): [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean`
+(`Formalism.HC.Frame.iod`, `Formalism.HC.Frame.placeOf`)).
 *Needs:* 0.1–0.3; IntegralIwasawaTheory §0.2;
 ClassFieldTheory Layer 13 (`kroneckerWeber`, `isLeast_absNorm_abelianConductor_finitePart`, `abelianConductor_eq_lcm`);
 Multiquadratic Layer 1; Mathlib `IsCyclotomicExtension`,
@@ -437,7 +447,14 @@ gives triviality on `σ_d`; 0.2 (iv) (injectivity) identifies the kept character
 - Triviality on `σ_d` does not single out the kept characters: `ψ^l χ_{−q}` is trivial on `σ_d` as well, but it is
   ramified at `q`.
 
-*KNOWN* (elementary). *Needs:* 0.2, 0.4; RiemannHypothesisStatementsAndConsequences §10.3 (`PrimitiveDirichletCharacter`); Mathlib
+*KNOWN* (elementary; [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
+(`Formalism.HC.Level.cyc`, `Formalism.HC.Level.ofSub`),
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.HostRaw.Bounded`); (iii)
+follows from [FormalProof], `Development/AutomorphicArithmetic/PrimitiveCosets/CoreAtH.lean`
+(`UpperTheory.Comparison₂.keptA`), `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
+(`Formalism.HC.HostRaw.Kept`)).
+*Needs:* 0.2, 0.4; RiemannHypothesisStatementsAndConsequences §10.3 (`PrimitiveDirichletCharacter`); Mathlib
 `DirichletCharacter.primitiveCharacter`.
 
 ### 0.6 The partner map, tops, thick places and letters
@@ -486,7 +503,9 @@ and `g_A ∈ u₀𝒯`. `φ ∉ Φ` means `ε(φ) ∈ {c, σ_d}`, and `(yφ^i)_A
   For `ε(φ) = c` and `h = s′s^{−1}` with `s ≠ s′` in `𝒯`, the letters `y = cσ_du₀s` and `yφ` are both thick
   (`pl(yφ) = cσ_du₀s′`), so consecutive thick letters occur at primes inert in `K` and in `ℚ(√−q)`.
 
-*KNOWN* (definitions). *Needs:* 0.1, 0.3, 0.4; Multiquadratic Layer 1.
+*KNOWN* (definitions; (c): [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean`
+(`Formalism.HC.Frame.placeOf`)). *Needs:* 0.1, 0.3, 0.4; Multiquadratic Layer 1.
 
 ### 0.7 Tops with a prescribed coset law
 
@@ -566,7 +585,8 @@ cost of a factor `2`.
   `[0, M/(4L))` of that size contains about `|T|³L/M` three-term progressions, far more than one.
 
 *KNOWN* in kind (Behrend 1946 for progressions; Ruzsa 1993 for invariant linear equations; the bound uniform in `L`
-is not a quotation of either). *Needs:* Mathlib `Behrend.sphere`, `Behrend.map`, `Behrend.map_injOn`,
+is not a quotation of either; the predicate: [FormalProof], `Formalism/FrobeniusOrbits/HostThickExists.lean`
+(`Formalism.FrobeniusOrbits.NoRel`)). *Needs:* Mathlib `Behrend.sphere`, `Behrend.map`, `Behrend.map_injOn`,
 `Behrend.exists_large_sphere`, `Behrend.threeAPFree_sphere`, `ThreeAPFree`, `norm_combo_lt_of_ne`.
 
 ### 0.8a Thick sets
@@ -854,7 +874,10 @@ real zeros in `(1 − c_ex, 1)` that (a) states.
   absolute constant in place of `c₁` and `y₀` depending on `α` alone; the form with the box hypothesis is the one
   [FormalProof] uses.
 
-*KNOWN* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20). *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
+*KNOWN* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20; [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`),
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
+(`Formalism.HC.HostRaw.ChebyshevCharacterBound`)). *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
 §1.4i; ZerosOfLFunctions §6.3 and RiemannHypothesisStatementsAndConsequences §8.4a; AnalyticNumberTheoryPartI §0.34a.
 
 ### 1.5 Averaging characters over a subgroup
@@ -890,7 +913,8 @@ symmetric, with `ν̂(1) = 1`. If `S ⊂ A` has coset law `ν` with precision `�
   this is `1/(3o + 1)`. The uniform law (`ω₀ = 1`) gives `ν̂(χ) = 0` for every `χ ≠ 1`: tops spread uniformly over the
   cosets of `A₀` would see no character of the family but the trivial one.
 
-*KNOWN* (elementary). *Needs:* 0.5, 0.7.
+*KNOWN* (elementary; [FormalProof], `Development/AutomorphicArithmetic/PrimitiveCosets/TopsSum.lean`
+(`UpperTheory.Comparison₂.tops_sum`)). *Needs:* 0.5, 0.7.
 
 ### 1.7 Cyclic host data at a scale
 

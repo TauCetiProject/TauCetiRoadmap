@@ -74,7 +74,9 @@ noncomputable def primitiveChar (N : ℕ) [NeZero N] {L : Type*} [Field L] [Numb
   DirichletCharacter.primitiveCharacter (MulChar.ofUnitHom (χ.comp (artinMap N E)))
 
 /-- `(L′/L)(1, κ)` for a Dirichlet character `κ` of nonzero level; the value `0` at level `0` is
-never used, conductors of characters of nonzero level being nonzero. -/
+never used, conductors of characters of nonzero level being nonzero. As in [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
+(`Formalism.HC.An.logDerivativeAtOne`). -/
 noncomputable def logDerivLAtOne {m : ℕ} (κ : DirichletCharacter ℂ m) : ℂ :=
   if h : m = 0 then 0 else
     haveI : NeZero m := ⟨h⟩
@@ -82,7 +84,10 @@ noncomputable def logDerivLAtOne {m : ℕ} (κ : DirichletCharacter ℂ m) : ℂ
 
 /-- The Riesz remainder of a primitive Dirichlet character `κ` (Conventions):
 `G_κ(y) = Σ_{n ≤ y} Λ(n) κ(n) (y/n − 1) + y·(L′/L)(1, κ)` for `κ ≠ 1`, and
-`G_1(y) = Σ_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` for the character modulo `1`. -/
+`G_1(y) = Σ_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` for the character modulo `1`.
+As in [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
+(`Formalism.HC.An.gChi`, `Formalism.HC.An.G`), `Formalism/StatementOC.lean` (`Formalism.Gz`). -/
 noncomputable def rieszRemainder {m : ℕ} (κ : DirichletCharacter ℂ m) (y : ℝ) : ℂ :=
   if m = 1 then
     (∑ n ∈ Finset.Icc 1 ⌊y⌋₊, ((ArithmeticFunction.vonMangoldt n * (y / n - 1) : ℝ) : ℂ)) -
@@ -92,7 +97,8 @@ noncomputable def rieszRemainder {m : ℕ} (κ : DirichletCharacter ℂ m) (y : 
       (ArithmeticFunction.vonMangoldt n : ℂ) * κ n * ((y / n - 1 : ℝ) : ℂ)) + y * logDerivLAtOne κ
 
 /-- Sets of integers with no relation of length `L` (0.8): no pairwise distinct `s₁, s₂, s₃ ∈ T`
-and integers `i ≠ j` with `0 < |i|, |j| ≤ L` and `j(s₂ − s₁) = i(s₃ − s₁)`. -/
+and integers `i ≠ j` with `0 < |i|, |j| ≤ L` and `j(s₂ − s₁) = i(s₃ − s₁)`. As in [FormalProof],
+`Formalism/FrobeniusOrbits/HostThickExists.lean` (`Formalism.FrobeniusOrbits.NoRel`). -/
 def NoRelation (L : ℕ) (T : Set ℤ) : Prop :=
   ∀ s₁ ∈ T, ∀ s₂ ∈ T, ∀ s₃ ∈ T, s₁ ≠ s₂ → s₁ ≠ s₃ → s₂ ≠ s₃ → ∀ i j : ℤ, i ≠ j →
     0 < |i| → |i| ≤ L → 0 < |j| → |j| ≤ L → j * (s₂ - s₁) ≠ i * (s₃ - s₁)
@@ -127,7 +133,8 @@ def IsAuxiliaryPair (f q d : ℕ) : Prop :=
     jacobiSym (-d) q = 1 ∧ ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ 2 → ℓ ∣ f → jacobiSym (-d) ℓ = 1
 
 /-- The subgroup `H_n(ψ, {q, d})` of `(ℤ/N)ˣ`, `N = N_n(ψ, {q, d})`, of the `a` with
-`a ≡ ±1 (mod 2^{n+2})`, `ψ(a) = 1`, `(a/q) = 1` and `(a/d) = 1` (0.4). -/
+`a ≡ ±1 (mod 2^{n+2})`, `ψ(a) = 1`, `(a/q) = 1` and `(a/d) = 1` (0.4). As in [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/TwistForm.lean` (`UpperTheory.Top.KerChi`). -/
 noncomputable def cyclicHostSubgroup : Subgroup (ZMod (hostLevel f n q d))ˣ :=
   (Subgroup.zpowers (-1 : (ZMod (2 ^ (n + 2)))ˣ)).comap
       (ZMod.unitsMap (((Nat.dvd_lcm_left _ _).mul_right q).mul_right d)) ⊓
@@ -139,7 +146,9 @@ variable [NeZero (hostLevel f n q d)] (L : Type*) [Field L] [NumberField L]
   [IsCyclotomicExtension {hostLevel f n q d} ℚ L]
 
 /-- The cyclic host `E = E_n(ψ, {q, d}) = ℚ_n·ℚ(ψ)·ℚ(√−q)·ℚ(√−d)`, the fixed field of
-`H_n(ψ, {q, d})` in `ℚ(ζ_N)` (0.4). -/
+`H_n(ψ, {q, d})` in `ℚ(ζ_N)` (0.4). As in [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`
+(`UpperTheory.Top.IsChiField`). -/
 noncomputable def cyclicHost : IntermediateField ℚ L :=
   IntermediateField.fixedField
     ((cyclicHostSubgroup ψ n q d).map (galEquivZMod (hostLevel f n q d) L).symm.toMonoidHom)
@@ -170,7 +179,11 @@ def thickPlaces (𝒯 : Finset Gal(cyclicHost ψ n q d L/ℚ)) (u₀ : Gal(cycli
     g = artinMap (hostLevel f n q d) (cyclicHost ψ n q d L) (-1) * σ * u₀ * s}
 
 /-- The kept characters (0.5 (iii)): the characters of `Gal(E/ℚ)` trivial on `A₀`, on `I_q` and
-on `I_d`; `χ ↦ χ*` maps them bijectively onto the cyclic family `𝒦(ψ)`. -/
+on `I_d`; `χ ↦ χ*` maps them bijectively onto the cyclic family `𝒦(ψ)`. This follows from
+[FormalProof], `Development/AutomorphicArithmetic/PrimitiveCosets/CoreAtH.lean`
+(`UpperTheory.Comparison₂.keptA`),
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
+(`Formalism.HC.HostRaw.Kept`). -/
 def keptCharacters : Set (Gal(cyclicHost ψ n q d L/ℚ) →* ℂˣ) :=
   {χ | cyclicHostA₀ ψ n q d L ≤ χ.ker ∧
     (∀ σ ∈ inertia (hostLevel f n q d) (cyclicHost ψ n q d L) q, χ σ = 1) ∧
