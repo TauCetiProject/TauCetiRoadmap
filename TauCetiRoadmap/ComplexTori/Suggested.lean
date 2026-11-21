@@ -17,45 +17,45 @@ import TauCeti.RepresentationTheory.Homological.GroupCohomology.CyclicAutomorphi
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`. One headline is stated here:
 a period family is holomorphically locally trivial over every open set on which its periods vary
-by complex-linear automorphisms (Layer 2, §2.3). Several of the other headlines are already proved
+by complex-linear automorphisms (Milestone 2, §2.3). Several of the other headlines are already proved
 at the Tau Ceti pin, where the README cites them by name; the `#check` lines below pin those
 declarations. The rest are not statable at the pins.
 
 Headlines proved at the pin:
 
 * a lattice quotient `E/L` is a complex Lie group, compact, with integral homology the exterior
-  algebra on `L` (Layer 1): `Submodule.instLieAddGroupOrbitRelQuotient`,
+  algebra on `L` (Milestone 1): `Submodule.instLieAddGroupOrbitRelQuotient`,
   `Submodule.instCompactSpaceOrbitRelQuotient`, `Submodule.orbitRelQuotientHomologyEquiv`; the
   component group of the kernel of an induced homomorphism,
   `Submodule.orbitRelQuotientComapQuotientEquiv`;
 * the family `(Y × E)/Λ` of a period map is a complex manifold, its orbit map a covering map and
   a local biholomorphism, its projection a holomorphic submersion, smoothly trivial with fibre
-  `ℝ^d/ℤ^d`, with a canonical marking of trivial monodromy (Layer 2):
+  `ℝ^d/ℤ^d`, with a canonical marking of trivial monodromy (Milestone 2):
   `TauCeti.isManifold_torusFamily`, `TauCeti.isAddQuotientCoveringMap_torusFamily_mk`,
   `TauCeti.isLocalDiffeomorph_torusFamily_mk`,
   `TauCeti.isSubmersionOfComplement_torusFamilyProjection`, `TauCeti.torusFamilyDiffeomorphProd`,
   `TauCeti.torusFamilyMarking_loopClass_eq_of_homotopy`;
 * an affine action of a group on the family is free exactly when no nonidentity element of a base
-  stabilizer has a fixed point on its fibre (Layer 3):
+  stabilizer has a fixed point on its fibre (Milestone 3):
   `TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff`;
 * the fixed-point and exact-order criteria for `x ↦ A x + t`, the classification of
   translation-conjugacy classes by `H¹(C_m, T)`, and the integral connecting isomorphism
-  `H¹(C_m, T) ≃ H²(C_m, Λ)` with `δ[t] = [N(t̃)]` (Layer 4):
+  `H¹(C_m, T) ≃ H²(C_m, Λ)` with `δ[t] = [N(t̃)]` (Milestone 4):
   `AddEquiv.exists_affineEquiv_iterate_apply_eq_self_iff`, `AddEquiv.orderOf_affineEquiv_eq_iff`,
   `AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff_exists_conj_affineEquiv`,
   `TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one`, `TauCeti.cyclicConnectingEquiv`;
 * a cyclic affine action over the rotated disc is free exactly when it is free on the central
-  torus, and it has exact order `m` (Layer 5):
+  torus, and it has exact order `m` (Milestone 5):
   `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff`,
   `TauCeti.orderOf_toPerm_torusFamilyAffineMulAction_rootsOfUnityBall`.
 
 Headlines not statable at the pins:
 
-* the monodromy of the descended family over `Y/Γ` is `ρ(g⁻¹)` on the marking (Layer 3, §3.4):
+* the monodromy of the descended family over `Y/Γ` is `ρ(g⁻¹)` on the marking (Milestone 3, §3.4):
   the descended projection from the second quotient to `Y/Γ` is not defined at the pins, and fibre
   transport on homology exists there only for a Hurewicz fibration given with a lifting function;
 * the central fibre of the cyclic quotient `Q = X/C_m` is a complex hypersurface of multiplicity
-  `m` (Layer 5, §§5.2–5.3): the order of vanishing of a holomorphic function along a hypersurface
+  `m` (Milestone 5, §§5.2–5.3): the order of vanishing of a holomorphic function along a hypersurface
   of a complex manifold is not a carrier at the pins (Mathlib's `analyticOrderAt` and
   `meromorphicOrderAt` are for functions of one variable), and neither is the complex-manifold
   structure of a closed complex submanifold of a complex manifold (Tau Ceti's
@@ -63,13 +63,13 @@ Headlines not statable at the pins:
   since the rotated disc `TauCeti.rootsOfUnityBall m r` carries no atlas there and the map
   `Q → D_t` descended from `z ↦ z^m` is not defined;
 * the normal bundle of the central fibre has character `ζ`, and adjunction
-  `K_F ≅ K_Q|_F ⊗ N_{F/Q}` holds (Layer 5, §§5.4–5.5): the holomorphic normal and canonical line
+  `K_F ≅ K_Q|_F ⊗ N_{F/Q}` holds (Milestone 5, §§5.4–5.5): the holomorphic normal and canonical line
   bundles of a complex submanifold are not carriers at the pins;
 * the logarithmic gauge `Q* ≃ Y*` over the punctured disc and the covering identification
-  `X* ≃ β_m^* Q*` (Layer 6, §§6.1–6.3): they need `Q` above, and an atlas on the literal pullback
+  `X* ≃ β_m^* Q*` (Milestone 6, §§6.1–6.3): they need `Q` above, and an atlas on the literal pullback
   over the punctured disc, which is not a carrier at the pins;
 * the reglued manifold, its independence of choices and its fundamental group and first homology
-  (Layer 6, §§6.4–6.6): they need `Q` and open gluing of complex manifolds, which is not a carrier
+  (Milestone 6, §§6.4–6.6): they need `Q` and open gluing of complex manifolds, which is not a carrier
   at the pins.
 -/
 

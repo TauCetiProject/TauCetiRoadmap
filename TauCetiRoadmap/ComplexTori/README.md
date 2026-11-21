@@ -39,24 +39,24 @@ the logarithmic transform is reglued. AbelianSchemesAndArithmeticModuli and
 BallQuotientsAndComplexHyperbolicLattices build on the tori and families here, and
 GeometryOfNumbersAndQuadraticArithmetic on the period-two norm and difference maps.
 
-Layer 1 treats a fixed torus `E/L`, Layer 2 families with varying periods, Layer 3 their
-quotients by groups acting on the base with linear or affine lifts and the monodromy of the
-result, and Layer 4 the algebra and cohomology of a cyclic group acting on an abelian group by
-affine maps. Layer 5 combines Layers 3 and 4 over a disc to build multiple fibres, and Layer 6
-builds the logarithmic gauge and reglues.
+Milestone 1 treats a fixed torus `E/L`, Milestone 2 families with varying periods, Milestone 3
+their quotients by groups acting on the base with linear or affine lifts and the monodromy of the
+result, and Milestone 4 the algebra and cohomology of a cyclic group acting on an abelian group by
+affine maps. Milestone 5 combines Milestones 3 and 4 over a disc to build multiple fibres, and
+Milestone 6 builds the logarithmic gauge and reglues.
 
 ## How to read the build
 
-Layers 1, 2 and 3 build on each other in order. Layer 4 is algebra and depends on no other layer,
-except that the base change of §4.6 uses Layer 2.
-Layer 5 uses Layers 2–4 with the holomorphic line bundles of ComplexManifolds, and Layer 6 uses
-Layer 5 with the open gluing of ComplexManifolds and the collars of GeometricTopology. Each
-section's *Needs:* line lists what its statements and their route use, so that a target proved
-another way is not blocked behind an unrelated section.
+Milestones 1, 2 and 3 build on each other in order. Milestone 4 is algebra and depends on no other
+milestone, except that the base change of §4.6 uses Milestone 2. Milestone 5 uses Milestones 2–4
+with the holomorphic line bundles of ComplexManifolds, and Milestone 6 uses Milestone 5 with the
+open gluing of ComplexManifolds and the collars of GeometricTopology.
 
-Other roadmaps cite these layers as Milestones 1–6: Milestone `k` is Layer `k`, and its item `n`
-is §`k.n`. Milestone 4's "Torus-level affine algebra" is §§4.1–4.4 and its "Integral connecting
-class", items 5–6, is §§4.5–4.6.
+Item `n` of Milestone `k` is §`k.n`, which other roadmaps also cite as Milestone `k.n`.
+Milestone 4's torus-level affine algebra is §§4.1–4.4 and its integral connecting class §§4.5–4.6.
+Each section's *Needs:* line lists what its statements and their route use, so that a target proved
+another way is not blocked behind an unrelated section. Where the pinned Tau Ceti has the
+declarations that realise an item, an *In Tau Ceti:* line after its statement names them.
 
 ## Conventions
 
@@ -82,17 +82,17 @@ class", items 5–6, is §§4.5–4.6.
 4. **Monodromy** acts on the single lattice `Λ`; its action on the homology of the fibres is
    derived functorially, through exterior powers. A basis of `Λ` gives coordinate statements,
    never a second matrix-valued representation.
-5. **Linear parts.** The cyclic algebra of Layer 4 takes an additive automorphism `A : T ≃+ T` of
-   an abelian group and assumes no holomorphy. The analytic constructions of Layers 3 and 5 take
-   complex-linear equivalences of `E` preserving the lattice in both directions, and the
+5. **Linear parts.** The cyclic algebra of Milestone 4 takes an additive automorphism `A : T ≃+ T`
+   of an abelian group and assumes no holomorphy. The analytic constructions of Milestones 3 and 5
+   take complex-linear equivalences of `E` preserving the lattice in both directions, and the
    automorphism they induce on a torus is biholomorphic; an additive torus automorphism is
    accepted there only together with the holomorphy of it and of its inverse. A lattice
    automorphism alone is not analytic input.
 6. **Orders and cyclic groups.** An affine map is *`m`-periodic*, or *of order dividing `m`*, when
    its `m`-th power is the identity, and *of exact order `m`* when moreover no smaller positive
    power is the identity. `T[m]` is the `m`-torsion subgroup `AddSubgroup.torsionBy T m`, not the
-   set of elements of exact order `m`. In Layer 4, `C_m` is `Multiplicative (ZMod m)` with
-   generator `ofAdd 1`; in Layers 5–6 the group acting on a disc is `rootsOfUnity m ℂ` acting by
+   set of elements of exact order `m`. In Milestone 4, `C_m` is `Multiplicative (ZMod m)` with
+   generator `ofAdd 1`; in Milestones 5–6 the group acting on a disc is `rootsOfUnity m ℂ` acting by
    rotation, identified with `C_m` by sending `ζ = exp(2πi/m)` to `ofAdd 1`.
 7. **Meridians.** The meridian of a punctured disc `{0 < ‖z‖ < R}` is the counterclockwise loop
    `s ↦ ρ·exp(2πis)` for a radius `0 < ρ < R`; its free homotopy class does not depend on `ρ`.
@@ -100,26 +100,24 @@ class", items 5–6, is §§4.5–4.6.
 8. **Varying lattices are kept.** A cyclic quotient or a logarithmic transform is built on the
    varying period family; a product with one fixed torus is never an intermediate construction.
 
-## Layer 1: fixed complex tori
+## Milestone 1: fixed complex tori
 
-Let `L : Submodule ℤ E` be a lattice (Convention 1). The layer treats every compact complex torus,
-with no polarization and no algebraicity hypothesis (Birkenhake–Lange, Chapter 1, for the
+Let `L : Submodule ℤ E` be a lattice (Convention 1). The milestone treats every compact complex
+torus, with no polarization and no algebraicity hypothesis (Birkenhake–Lange, Chapter 1, for the
 quotient, its morphisms and the period lattice).
 
 ### 1.1 The translation quotient
 
-Translation by `L` on `E` is free and properly discontinuous
-(`Submodule.properlyDiscontinuousVAdd_of_discreteTopology`), so the orbit quotient `E/L` carries
-Mathlib's quotient atlas `AddAction.instChartedSpaceQuotient`, it is a complex manifold
-(`TauCeti.instIsManifoldAddQuotient`), the orbit map `E → E/L` is a local biholomorphism
-(`TauCeti.isLocalDiffeomorph_addQuotientMk`), these being the specialisations to the model
-`𝓘(ℂ, E)` of the quotient theorem of ComplexManifolds Milestone 4, and the orbit map is a covering
-map (`isAddQuotientCoveringMap_quotientMk_of_properlyDiscontinuousVAdd`). This section fixes
-these objects and has no further target.
-*Needs:* Tau Ceti `Submodule.properlyDiscontinuousVAdd_of_discreteTopology`,
-`TauCeti.instIsManifoldAddQuotient`, `TauCeti.isLocalDiffeomorph_addQuotientMk`; Mathlib
+Prove that translation by `L` on `E` is free and properly discontinuous, and use the orbit
+quotient `E/L` with Mathlib's quotient atlas `AddAction.instChartedSpaceQuotient`. Apply the
+complex quotient theorem of ComplexManifolds Milestone 4, in its specialisation to the model
+`𝓘(ℂ, E)`, to prove that `E/L` is a complex manifold and that the orbit map `E → E/L` is a local
+biholomorphism. The orbit map is moreover a covering map, by Mathlib's
+`isAddQuotientCoveringMap_quotientMk_of_properlyDiscontinuousVAdd`.
+*Needs:* Convention 1; ComplexManifolds Milestone 4; Mathlib
 `AddAction.instChartedSpaceQuotient`,
 `isAddQuotientCoveringMap_quotientMk_of_properlyDiscontinuousVAdd`.
+*In Tau Ceti:* `Submodule.properlyDiscontinuousVAdd_of_discreteTopology`, `TauCeti.instIsManifoldAddQuotient`, `TauCeti.isLocalDiffeomorph_addQuotientMk`.
 
 **Checks.**
 - For `E = ℂ` and `L = ℤ`, `IsZLattice ℝ L` fails, since `L` spans only `ℝ`, and `ℂ/ℤ` is not
@@ -130,52 +128,38 @@ these objects and has no further target.
 
 ### 1.2 The Lie group
 
-The group structure of `E/L`, descended from `E`, is `Submodule.instAddCommGroupOrbitRelQuotient`,
-and `Submodule.instLieAddGroupOrbitRelQuotient` makes `E/L` a complex Lie group for the model
-`𝓘(ℂ, E)`, at every smoothness and in particular holomorphically. The torus is compact
-(`Submodule.instCompactSpaceOrbitRelQuotient`, from a fundamental domain of `L`), connected
-(`Quotient.instConnectedSpace`), Hausdorff (`t2Space_of_properlyDiscontinuousVAdd_of_t2Space`)
-and second countable (`Submodule.instSecondCountableTopologyOrbitRelQuotient`), and a basis of `L`
-identifies it with `(ℝ/ℤ)^d` as a topological group
-(`Module.Basis.orbitRelQuotientLatticeEquiv`). This section fixes these structures and has no
-further target.
-*Needs:* Tau Ceti `Submodule.instAddCommGroupOrbitRelQuotient`,
-`Submodule.instLieAddGroupOrbitRelQuotient`, `Submodule.instCompactSpaceOrbitRelQuotient`,
-`Submodule.instSecondCountableTopologyOrbitRelQuotient`,
-`Module.Basis.orbitRelQuotientLatticeEquiv`; Mathlib `Quotient.instConnectedSpace`,
-`t2Space_of_properlyDiscontinuousVAdd_of_t2Space`.
+Descend addition, negation and zero from `E` to `E/L` and prove the Lie group laws: `E/L` is a
+complex Lie group for the model `𝓘(ℂ, E)`, a `C^n` Lie group for every `n` and in particular a
+holomorphic one. Prove that `E/L` is compact, from a fundamental domain of `L`, connected,
+Hausdorff and second countable, and that a basis of `L` identifies it with `(ℝ/ℤ)^d` as a
+topological group. Connectedness and the Hausdorff property are Mathlib's
+`Quotient.instConnectedSpace` and `t2Space_of_properlyDiscontinuousVAdd_of_t2Space`.
+*Needs:* §1.1; Mathlib `Quotient.instConnectedSpace`,
+`t2Space_of_properlyDiscontinuousVAdd_of_t2Space`, `IsZLattice`.
+*In Tau Ceti:* `Submodule.instAddCommGroupOrbitRelQuotient`, `Submodule.instLieAddGroupOrbitRelQuotient`, `Submodule.instCompactSpaceOrbitRelQuotient`, `Submodule.instSecondCountableTopologyOrbitRelQuotient`, `Module.Basis.orbitRelQuotientLatticeEquiv`.
 
 ### 1.3 Induced homomorphisms
 
 Let `L ⊆ E` and `L' ⊆ E'` be lattices and `f : E →ₗ[ℂ] E'` complex-linear with
-`L.map (f.restrictScalars ℤ) ≤ L'`. The induced homomorphism `[v] ↦ [f v]` is
-`Submodule.orbitRelQuotientMap`. It is holomorphic (`Submodule.contMDiff_orbitRelQuotientMap`),
-compatible with identities and composites (`Submodule.orbitRelQuotientMap_id`,
-`Submodule.orbitRelQuotientMap_comp`) and with products
-(`Submodule.orbitRelQuotientProdAddEquiv_orbitRelQuotientMap_prodMap`,
-`Submodule.orbitRelQuotientProdDiffeomorph`). Its kernel is `f⁻¹(L')/L`
-(`Submodule.ker_orbitRelQuotientMap`), a closed subgroup
-(`Submodule.isClosed_orbitRelQuotient_mk_image_preimage`). The intersection `L ∩ ker f` is a
-lattice in `ker f` (`ZLattice.isZLattice_comap_ker_subtype`), the induced map
-`ker f/(L ∩ ker f) → E/L` is a closed embedding
-(`Submodule.isClosedEmbedding_orbitRelQuotientMap_subtype`) onto the identity component of the
-kernel (`Submodule.range_orbitRelQuotientMap_ker_subtype`), and the group of components of the
-kernel is `(L' ∩ range f)/f(L)` (`Submodule.orbitRelQuotientComapQuotientEquiv`). For a
-continuous complex-linear equivalence `e : E ≃L[ℂ] E'` with `e(L) ⊆ L'`, the induced map is
-bijective if and only if `e(L) = L'` (`Submodule.orbitRelQuotientMap_bijective_iff`), and it is
-then a biholomorphic isomorphism whose inverse is induced by `e⁻¹`
-(`Submodule.orbitRelQuotientDiffeomorph`).
+`L.map (f.restrictScalars ℤ) ≤ L'`. Construct the induced homomorphism `[v] ↦ [f v]` from `E/L` to
+`E'/L'`, and prove that it is holomorphic and compatible with identities, composites and
+products.
 
-Prove that the kernel is a closed complex Lie subgroup of `E/L`: the closed embedding
-`ker f/(L ∩ ker f) → E/L` is a holomorphic immersion, so the identity component of the kernel is
-an embedded complex submanifold and a complex Lie group for the induced structure, and the
-kernel, the finite union of the translates of its identity component by representatives of
-`(L' ∩ range f)/f(L)`, is a closed embedded complex submanifold.
-*Needs:* Tau Ceti `Submodule.orbitRelQuotientMap`, `Submodule.contMDiff_orbitRelQuotientMap`,
-`Submodule.ker_orbitRelQuotientMap`, `Submodule.isClosed_orbitRelQuotient_mk_image_preimage`,
-`ZLattice.isZLattice_comap_ker_subtype`, `Submodule.isClosedEmbedding_orbitRelQuotientMap_subtype`,
-`Submodule.range_orbitRelQuotientMap_ker_subtype`, `Submodule.orbitRelQuotientComapQuotientEquiv`,
-`Submodule.instLieAddGroupOrbitRelQuotient`.
+Prove that its kernel is `f⁻¹(L')/L`, a closed subgroup of `E/L`, and that it is a closed complex
+Lie subgroup: `L ∩ ker f` is a lattice in `ker f`; the induced map `ker f/(L ∩ ker f) → E/L` is a
+closed embedding onto the identity component of the kernel and a holomorphic immersion, so that
+this identity component is an embedded complex submanifold and a complex Lie group for the
+induced structure; the group of components of the kernel is `(L' ∩ range f)/f(L)`; and the
+kernel, the finite union of the translates of its identity component by representatives of that
+group, is a closed embedded complex submanifold. The component group is computed in the form
+`(f⁻¹(L')/L)/(image of ker f) ≃ (L' ∩ range f)/(L' ∩ f(L))`, which needs no hypothesis
+`f(L) ⊆ L'`; under that hypothesis `L' ∩ f(L) = f(L)`.
+
+For a continuous complex-linear equivalence `e : E ≃L[ℂ] E'` with `e(L) ⊆ L'`, prove that the
+induced map is bijective if and only if `e(L) = L'`, and that it is then a biholomorphic
+isomorphism whose inverse is induced by `e⁻¹`.
+*Needs:* §§1.1–1.2; Mathlib `Manifold.IsImmersion`.
+*In Tau Ceti:* `Submodule.orbitRelQuotientMap`, `Submodule.contMDiff_orbitRelQuotientMap`, `Submodule.orbitRelQuotientMap_id`, `Submodule.orbitRelQuotientMap_comp`, `Submodule.orbitRelQuotientProdAddEquiv_orbitRelQuotientMap_prodMap`, `Submodule.orbitRelQuotientProdDiffeomorph`, `Submodule.ker_orbitRelQuotientMap`, `Submodule.isClosed_orbitRelQuotient_mk_image_preimage`, `ZLattice.isZLattice_comap_ker_subtype`, `Submodule.isClosedEmbedding_orbitRelQuotientMap_subtype`, `Submodule.range_orbitRelQuotientMap_ker_subtype`, `Submodule.orbitRelQuotientComapQuotientEquiv`, `Submodule.orbitRelQuotientMap_bijective_iff`, `Submodule.orbitRelQuotientDiffeomorph`.
 
 **Checks.**
 - For `f(z, w) = 2z` from `ℂ²` to `ℂ`, with `L = ℤ[i]²` and `L' = ℤ[i]`, the kernel is
@@ -189,23 +173,20 @@ kernel, the finite union of the translates of its identity component by represen
 
 ### 1.4 Universal cover, fundamental group and homology
 
-The orbit map `E → E/L` is a covering by the simply connected space `E`, with deck group `L`
-acting by translations (`AddSubgroup.orbitRelQuotientDeckMulEquiv`). The fundamental group of
-`E/L` is `L`, through the displacement of lifted loops
-(`AddSubgroup.orbitRelQuotientFundamentalGroupEquiv`, natural in induced maps), and so is
-`H₁(E/L; ℤ)` (`AddSubgroup.orbitRelQuotientFirstHomologyEquiv`, with the displacement formula
-`AddSubgroup.orbitRelQuotientFirstHomologyEquiv_loopClass`). For every `k`,
-`H_k(E/L; ℤ) ≅ ⋀^k L` (`Submodule.orbitRelQuotientHomologyEquiv`), naturally in the maps of §1.3
-(`Submodule.orbitRelQuotientHomologyEquiv_singularHomologyMap`), and in degree one this is the
-previous identification.
-
-Prove that `E → E/L`, pointed at `0`, is isomorphic over `E/L` to the universal cover
-`TauCeti.UniversalCover` of `E/L` based at `0`, compatibly with the deck actions, by the
-uniqueness of simply connected covers (`IsCoveringMap.exists_homeomorph_comp_eq_of_simplyConnectedSpace`).
-*Needs:* Tau Ceti `AddSubgroup.isAddQuotientCoveringMap_quotientMk`,
-`AddSubgroup.orbitRelQuotientDeckMulEquiv`, `TauCeti.UniversalCover`,
+The orbit map `E → E/L` is a covering by the simply connected space `E` (§1.1). Prove that its
+deck group is `L`, acting by translations, and that `E → E/L`, pointed at `0`, is isomorphic over
+`E/L` to the universal cover `TauCeti.UniversalCover` of `E/L` based at `0`, compatibly with the
+deck actions; the route is the uniqueness of pointed simply connected covers. Identify the
+fundamental group of `E/L` with `L` through the displacement of lifted loops, naturally in the
+induced maps of §1.3, and `H₁(E/L; ℤ)` with `L` by the displacement `Γ 1 − Γ 0` of a lift `Γ` of a
+loop. For every `k`, identify `H_k(E/L; ℤ)` with `⋀^k L`, naturally in the maps of §1.3, so that
+the integral homology of `E/L` is the exterior algebra on `L`; in degree one this is the previous
+identification.
+*Needs:* §§1.1, 1.3; the completed UniversalCovers roadmap (Tau Ceti `TauCeti.UniversalCover`,
 `TauCeti.UniversalCover.isCoveringMap`,
-`IsCoveringMap.exists_homeomorph_comp_eq_of_simplyConnectedSpace`.
+`IsCoveringMap.exists_homeomorph_comp_eq_of_simplyConnectedSpace`); AlgebraicTopology §5.4 for the
+homology of tori.
+*In Tau Ceti:* `AddSubgroup.isAddQuotientCoveringMap_quotientMk`, `AddSubgroup.orbitRelQuotientDeckMulEquiv`, `AddSubgroup.orbitRelQuotientFundamentalGroupEquiv`, `AddSubgroup.orbitRelQuotientFundamentalGroupEquiv_map`, `AddSubgroup.orbitRelQuotientFirstHomologyEquiv`, `AddSubgroup.orbitRelQuotientFirstHomologyEquiv_loopClass`, `Submodule.orbitRelQuotientHomologyEquiv`, `Submodule.orbitRelQuotientHomologyEquiv_singularHomologyMap`.
 
 **Checks.**
 - Multiplication by `α ∈ ℤ[i]` on `ℂ/ℤ[i]` induces multiplication by `α` on `H₁ ≅ ℤ[i]` and
@@ -224,13 +205,12 @@ uniqueness of simply connected covers (`IsCoveringMap.exists_homeomorph_comp_eq_
 
 ### Dependencies
 
-Tau Ceti's lattice quotients, their induced maps, their deck group, fundamental group and
-homology, and its universal cover (supplier contracts). ComplexManifolds Milestone 4 for the
-complex quotient theorem; the completed UniversalCovers roadmap for the universal cover;
-AlgebraicTopology §5.4 for the homology of tori. Mathlib's quotient atlas, covering maps and
-`IsZLattice`.
+Tau Ceti's quotient-manifold theorems and its universal cover (supplier contracts).
+ComplexManifolds Milestone 4 for the complex quotient theorem; the completed UniversalCovers
+roadmap for the universal cover; AlgebraicTopology §5.4 for the homology of tori. Mathlib's
+quotient atlas, covering maps and `IsZLattice`.
 
-## Layer 2: holomorphic families from varying periods
+## Milestone 2: holomorphic families from varying periods
 
 Fix a period family `Π : Y → (Λ →ₗ[ℤ] E)` with the hypotheses of Convention 2. Since every `Π y`
 is injective with image a lattice, `Λ` has rank `d = 2 dim_ℂ E`. For families of this kind over
@@ -239,22 +219,16 @@ those of ComplexManifolds.
 
 ### 2.1 The period action
 
-The period action is `TauCeti.periodAddAction`, `λ +ᵥ (y, v) = (y, v + Π y λ)`. It is free
-(`TauCeti.isCancelVAdd_periodAddAction`) and properly discontinuous
-(`TauCeti.properlyDiscontinuousVAdd_periodAddAction`). The route is uniform period separation:
-for every compact `K ⊆ Y` there is `c > 0` with `c ≤ ‖Π y λ‖` for all `y ∈ K` and `λ ≠ 0`
-(`TauCeti.exists_pos_le_norm_period_of_isCompact`); equivalently, after a choice of basis of
-`Λ`, the inverse period frames `E → ℝ^d` are bounded uniformly on `K`
-(`TauCeti.exists_pos_mul_norm_le_norm_sum_smul_period_of_isCompact`). From the estimate, only
-finitely many periods of bounded norm occur over `K`
-(`TauCeti.finite_setOf_exists_norm_period_le`), which gives bounded fundamental representatives
-and the local finiteness of orbits. Pointwise discreteness of each `range (Π y)` alone does not
-give the estimate. This section fixes these statements and has no further target.
-*Needs:* Tau Ceti `TauCeti.periodAddAction`, `TauCeti.isCancelVAdd_periodAddAction`,
-`TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
-`TauCeti.exists_pos_le_norm_period_of_isCompact`,
-`TauCeti.exists_pos_mul_norm_le_norm_sum_smul_period_of_isCompact`,
-`TauCeti.finite_setOf_exists_norm_period_le`.
+Prove that the period translation `λ +ᵥ (y, v) = (y, v + Π y λ)` is an additive action of `Λ` on
+`Y × E` by homeomorphisms, and that it is free and properly discontinuous. First prove uniform
+period separation: for every compact `K ⊆ Y` there is `c > 0` with `c ≤ ‖Π y λ‖` for all `y ∈ K`
+and all `λ ≠ 0`; equivalently, after a choice of basis of `Λ`, the inverse period frames
+`E → ℝ^d` are bounded uniformly on `K`. Deduce that for every `R` only finitely many `λ` have
+`‖Π y λ‖ ≤ R` at some `y ∈ K`, and from this construct bounded fundamental representatives and
+prove the local finiteness of orbits. Pointwise discreteness of each `range (Π y)` alone does not
+give the estimate.
+*Needs:* Convention 2.
+*In Tau Ceti:* `TauCeti.periodAddAction`, `TauCeti.continuousConstVAdd_periodAddAction`, `TauCeti.isCancelVAdd_periodAddAction`, `TauCeti.properlyDiscontinuousVAdd_periodAddAction`, `TauCeti.exists_pos_le_norm_period_of_isCompact`, `TauCeti.exists_pos_mul_norm_le_norm_sum_smul_period_of_isCompact`, `TauCeti.finite_setOf_exists_norm_period_le`.
 
 **Checks.**
 - On the upper half-plane `ℍ` with `Λ = ℤ²` and `Π(τ)(a, b) = a + bτ`, a nonzero period has norm
@@ -264,35 +238,29 @@ give the estimate. This section fixes these statements and has no further target
 
 ### 2.2 The total space
 
-The orbit quotient `(Y × E)/Λ` carries the quotient atlas `TauCeti.torusFamilyChartedSpace` and
-is a complex manifold (`TauCeti.isManifold_torusFamily`); `q` is a covering map
-(`TauCeti.isAddQuotientCoveringMap_torusFamily_mk`) and a local biholomorphism
-(`TauCeti.isLocalDiffeomorph_torusFamily_mk`). This section fixes these objects and has no
-further target.
-*Needs:* Tau Ceti `TauCeti.torusFamilyChartedSpace`, `TauCeti.isManifold_torusFamily`,
-`TauCeti.isAddQuotientCoveringMap_torusFamily_mk`, `TauCeti.isLocalDiffeomorph_torusFamily_mk`.
+Give the orbit quotient `(Y × E)/Λ` the quotient atlas, and prove that it is a complex manifold
+and that `q` is a covering map and a local biholomorphism.
+*Needs:* §2.1; ComplexManifolds Milestone 4 (Tau Ceti `TauCeti.instIsManifoldAddQuotient`,
+`TauCeti.isLocalDiffeomorph_addQuotientMk`); Mathlib `AddAction.instChartedSpaceQuotient`,
+`isAddQuotientCoveringMap_quotientMk_of_properlyDiscontinuousVAdd`.
+*In Tau Ceti:* `TauCeti.torusFamilyChartedSpace`, `TauCeti.isManifold_torusFamily`, `TauCeti.isAddQuotientCoveringMap_torusFamily_mk`, `TauCeti.isLocalDiffeomorph_torusFamily_mk`.
 
 ### 2.3 The projection, its fibres and the smooth trivialisation
 
-The projection `p` is `TauCeti.torusFamilyProjection`, with `p ∘ q = Prod.fst`
-(`TauCeti.torusFamilyProjection_mk`); it is a holomorphic submersion, with submersion coordinates
-at every point of the total space (`TauCeti.isSubmersionOfComplement_torusFamilyProjection`). The
-fibre over `y` is homeomorphic to `E/LinearMap.range (Π y)` by `[v] ↦ [y, v]`
-(`TauCeti.torusFamilyFiberHomeomorph`), and the fibre inclusion
-`TauCeti.torusFamilyFiberMap` is holomorphic (`TauCeti.contMDiff_torusFamilyFiberMap`). Choosing a
-basis `λ_1, …, λ_d` of `Λ` inside proofs, the real-linear period frame `F_y : ℝ^d ≃ E`, which
-sends `e_i` to `Π y λ_i`, is an isomorphism by injectivity and `IsZLattice`
-(`TauCeti.periodBasis`); `F_y` and its inverse depend smoothly on `y`
-(`TauCeti.contMDiff_periodBasis_equivFunL_symm`, `TauCeti.contMDiff_periodBasis_equivFunL`), and
-`[y, v] ↦ (y, [F_y⁻¹ v])` is a global smooth trivialisation `(Y × E)/Λ ≃ Y × ℝ^d/ℤ^d` over `Y`
-(`TauCeti.torusFamilyDiffeomorphProd`), stated for a real manifold `Y` and applied to the
-underlying real manifold of a complex one (ComplexManifolds Milestone 1). A change of basis
-changes it by the integral change of coordinates on `ℝ^d/ℤ^d`
-(`TauCeti.torusFamilyDiffeomorphProd_eq_prodMap_torusCoordChange`). This trivialisation is
-real-linear on fibres and is not holomorphic.
+Descend `Prod.fst` to the projection `p : (Y × E)/Λ → Y`, so that `p ∘ q = Prod.fst`. Prove that
+`p` is a holomorphic submersion, and construct submersion coordinates at every point of the total
+space. Prove that the fibre inclusion `[v] ↦ [y, v]` from `E/LinearMap.range (Π y)` to
+`(Y × E)/Λ` is holomorphic and a homeomorphism onto `p⁻¹(y)`, and that it is a holomorphic
+immersion, so that `p⁻¹(y)` is a closed embedded complex submanifold biholomorphic to
+`E/LinearMap.range (Π y)`.
 
-Prove that the fibre inclusion `TauCeti.torusFamilyFiberMap` is a holomorphic immersion, so that
-`p⁻¹(y)` is a closed embedded complex submanifold biholomorphic to `E/LinearMap.range (Π y)`.
+Choosing a basis `λ_1, …, λ_d` of `Λ` inside proofs, prove that the real-linear period frame
+`F_y : ℝ^d ≃ E`, which sends `e_i` to `Π y λ_i`, is an isomorphism, by injectivity and
+`IsZLattice`; that `F_y` and its inverse depend smoothly on `y`; and that `[y, v] ↦ (y, [F_y⁻¹ v])`
+is a global smooth trivialisation `(Y × E)/Λ ≃ Y × ℝ^d/ℤ^d` over `Y`, for a real manifold `Y` and
+so for the underlying real manifold of a complex one (ComplexManifolds Milestone 1). Prove that a
+change of basis changes it by the integral change of coordinates on `ℝ^d/ℤ^d`. This
+trivialisation is real-linear on fibres and is not holomorphic.
 
 Prove that the family is holomorphically locally trivial with one fixed fibre wherever its periods
 vary by complex-linear automorphisms (`exists_diffeomorph_torusFamily_of_periods_eq`): for `Y`
@@ -301,15 +269,12 @@ Hausdorff and locally compact and `(Y × E)/Λ` with Mathlib's quotient atlas, i
 `(y, [w]) ↦ [y, g(y) w]` is a biholomorphism from `U × E/LinearMap.range (Π y₀)` onto
 `p⁻¹(U) = q(U × E)`, over `U`. Its inverse is `[y, v] ↦ (y, [g(y)⁻¹ v])`, well defined because
 `g(y)⁻¹(v + Π y λ) = g(y)⁻¹ v + Π y₀ λ`. Isotriviality is taken in this form, on the periods.
-Without such a hypothesis no holomorphic trivialisation with a fixed fibre is asserted, and the
-Checks give a family with none.
-*Needs:* Tau Ceti `TauCeti.torusFamilyProjection`,
-`TauCeti.isSubmersionOfComplement_torusFamilyProjection`, `TauCeti.torusFamilyFiberHomeomorph`,
-`TauCeti.contMDiff_torusFamilyFiberMap`, `TauCeti.isLocalDiffeomorph_torusFamily_mk`,
-`TauCeti.continuousConstVAdd_periodAddAction`, `TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
-`TauCeti.isCancelVAdd_periodAddAction`, `TauCeti.isLocalDiffeomorph_addQuotientMk`; Mathlib
-`AddAction.instChartedSpaceQuotient`, `isOpenMap_quotient_mk'_add`, `Manifold.IsImmersion`,
-`Diffeomorph`.
+Without such a hypothesis no holomorphic trivialisation with a fixed fibre is asserted: a varying
+`τ` in `ℂ/(ℤ + τ(y)ℤ)` must not satisfy that conclusion, and the Checks give a family with none.
+*Needs:* §§2.1–2.2; ComplexManifolds Milestone 1 for the underlying real manifold of `Y`; Tau Ceti
+`TauCeti.isLocalDiffeomorph_addQuotientMk`; Mathlib `AddAction.instChartedSpaceQuotient`,
+`isOpenMap_quotient_mk'_add`, `Manifold.IsImmersion`, `Diffeomorph`.
+*In Tau Ceti:* `TauCeti.torusFamilyProjection`, `TauCeti.torusFamilyProjection_mk`, `TauCeti.isSubmersionOfComplement_torusFamilyProjection`, `TauCeti.torusFamilyFiberMap`, `TauCeti.contMDiff_torusFamilyFiberMap`, `TauCeti.torusFamilyFiberHomeomorph`, `TauCeti.periodBasis`, `TauCeti.contMDiff_periodBasis_equivFunL`, `TauCeti.contMDiff_periodBasis_equivFunL_symm`, `TauCeti.torusFamilyDiffeomorphProd`, `TauCeti.torusFamilyDiffeomorphProd_eq_prodMap_torusCoordChange`.
 
 **Checks.**
 - On `ℍ` with `Π(τ)(a, b) = a + bτ`, the fibres over `τ` and `τ'` are biholomorphic only when
@@ -322,36 +287,32 @@ Checks give a family with none.
 
 ### 2.4 Topology, the zero section and base change
 
-From the explicit hypotheses on `Y` and `Π`, the projection is proper, so its fibres are compact
-(`TauCeti.isProperMap_torusFamilyProjection`); the total space is Hausdorff
-(`TauCeti.t2Space_torusFamily`) and second countable
-(`TauCeti.secondCountableTopology_torusFamily`); and the zero section `y ↦ [y, 0]` is holomorphic
-(`TauCeti.contMDiff_torusFamily_mk_zero`). For a holomorphic `f : Y' → Y`, `Π ∘ f` is a period
-family, and `[y', v] ↦ [f y', v]` (`TauCeti.torusFamilyBaseChangeMap`) is holomorphic
-(`TauCeti.contMDiff_torusFamilyBaseChangeMap`), functorial
-(`TauCeti.torusFamilyBaseChangeMap_id`, `TauCeti.torusFamilyBaseChangeMap_comp`), and with the
-projection a homeomorphism onto the literal pullback
-(`TauCeti.torusFamilyBaseChangeHomeomorph`), with the universal property of the pullback for
-holomorphic maps (`TauCeti.contMDiff_torusFamilyBaseChange_iff`). This section fixes these
-statements and has no further target.
-*Needs:* the Tau Ceti declarations named in this section.
+From the explicit Hausdorff, second-countability, continuity and coordinatewise-holomorphy
+hypotheses on `Y` and `Π`, prove that the projection is proper, so that its fibres are compact;
+that the total space is Hausdorff and second countable; and that the zero section `y ↦ [y, 0]` is
+holomorphic. For a holomorphic `f : Y' → Y`, `Π ∘ f` is a period family; prove that the base
+change map `[y', v] ↦ [f y', v]` is holomorphic and functorial (it sends identities to identities
+and composites to composites), that together with the projection it is a homeomorphism from the
+family of `Π ∘ f` onto the literal pullback of `p` along `f`, and that it has the universal
+property of the pullback for holomorphic maps: a map into the family of `Π ∘ f` is holomorphic
+exactly when its projection to `Y'` and its composite with the base change map are.
+*Needs:* §§2.1–2.3.
+*In Tau Ceti:* `TauCeti.isProperMap_torusFamilyProjection`, `TauCeti.t2Space_torusFamily`, `TauCeti.secondCountableTopology_torusFamily`, `TauCeti.contMDiff_torusFamily_mk_zero`, `TauCeti.torusFamilyBaseChangeMap`, `TauCeti.contMDiff_torusFamilyBaseChangeMap`, `TauCeti.torusFamilyBaseChangeMap_id`, `TauCeti.torusFamilyBaseChangeMap_comp`, `TauCeti.torusFamilyBaseChangeHomeomorph`, `TauCeti.contMDiff_torusFamilyBaseChange_iff`.
 
 ### 2.5 The canonical marking
 
-The canonical marking `H₁(T_y; ℤ) ≅ Λ` is `TauCeti.torusFamilyMarking`: a loop in the fibre over
-`y` lifts to a path in `E` whose displacement is `Π y λ` for a unique `λ`
-(`TauCeti.torusFamilyMarking_loopClass`). It is compatible with the fibre identification of §2.3
-(`TauCeti.torusFamilyMarking_singularHomologyMap`), and loops in two fibres that are freely
-homotopic in the total space have the same marking
-(`TauCeti.torusFamilyMarking_loopClass_eq_of_homotopy`): the globally marked family has trivial
-monodromy, and the marking is natural in `y`.
+Construct the canonical marking `H₁(T_y; ℤ) ≅ Λ`, for `T_y = p⁻¹(y)`, by lifting loops to `E` and
+taking their period displacement: a loop in the fibre over `y` lifts to a path in `E` whose
+displacement is `Π y λ` for a unique `λ`, and the marking sends its class to `λ`. Prove that it is
+compatible with the fibre identification of §2.3, and that loops in two fibres that are freely
+homotopic in the total space have the same marking: the marking is natural in `y`, and the
+globally marked family has trivial monodromy.
 
 Describe the change of an arbitrary marking by the automorphisms of `Λ`: every isomorphism
 `H₁(T_y; ℤ) ≅ Λ` is the canonical marking followed by a unique automorphism of `Λ`, and changing
 the marking by `φ ∈ Aut(Λ)` conjugates every monodromy representation by `φ`.
-*Needs:* Tau Ceti `TauCeti.torusFamilyMarking`, `TauCeti.torusFamilyMarking_loopClass`,
-`TauCeti.torusFamilyMarking_loopClass_eq_of_homotopy`; AlgebraicTopology §2.6 for local systems
-and §5.5 for fibre transport.
+*Needs:* §§1.4, 2.3; AlgebraicTopology §2.6 for local systems and §5.5 for fibre transport.
+*In Tau Ceti:* `TauCeti.torusFamilyMarking`, `TauCeti.torusFamilyMarking_loopClass`, `TauCeti.torusFamilyMarking_singularHomologyMap`, `TauCeti.torusFamilyMarking_loopClass_eq_of_homotopy`.
 
 **Checks.**
 - On `ℍ` with `Π(τ)(a, b) = a + bτ`, the loop `s ↦ [s]` in the fibre over `τ` lifts to the path
@@ -370,67 +331,60 @@ and §5.5 for fibre transport.
 
 ### Dependencies
 
-Layer 1 for the fibres. Tau Ceti's period action, family atlas, projection, fibre maps, period
-frames, trivialisation, base change and marking (supplier contracts). ComplexManifolds Milestone 1
-for the underlying real manifold of `Y`; AlgebraicTopology §§2.6 and 5.5 for local systems and
-fibre transport. Mathlib's quotient atlas and `Manifold.IsImmersion`.
+Milestone 1 for the fibres. Tau Ceti's quotient-manifold theorems (supplier contracts).
+ComplexManifolds Milestone 1 for the underlying real manifold of `Y` and Milestone 4 for the
+complex quotient theorem; AlgebraicTopology §§2.6 and 5.5 for local systems and fibre transport.
+Mathlib's quotient atlas and `Manifold.IsImmersion`.
 
-## Layer 3: equivariant descent and monodromy
+## Milestone 3: equivariant descent and monodromy
 
 A discrete group `Γ` acts properly discontinuously on `Y` by biholomorphisms. The data are a
 representation `ρ : Representation ℤ Γ Λ` and complex-linear equivalences `R_g(y)` of `E`,
 holomorphic in `(y, v) ↦ R_g(y)v`, with the cocycle law `R_1(y) = 1`,
 `R_(gh)(y) = R_g(h·y) ∘ R_h(y)` and the period-equivariance law
 `Π(g·y)(ρ(g)λ) = R_g(y)(Π(y)λ)`. Tau Ceti takes `R_g(y)` as an additive map `E →+ E`; holomorphy in
-`v` makes it complex-linear, and the cocycle law makes it invertible
-(`TauCeti.linearCocycle_apply_inv_apply`). There are two constructors, with different inputs and
-conclusions.
+`v` makes it complex-linear, and the cocycle law makes it invertible. There are two constructors,
+with different inputs and conclusions.
 
 ### 3.1 The linear constructor
 
-The lift `g·(y, v) = (g·y, R_g(y)v)` is `TauCeti.linearCocycleMulAction`; its group law is the
-cocycle law, and it normalises the period action, `g·(λ +ᵥ x) = ρ(g)λ +ᵥ g·x`
-(`TauCeti.linearCocycleMulAction_smul_vadd`). The descended action on `(Y × E)/Λ` is
-`TauCeti.torusFamilyLinearMulAction`. It fixes the zero section over every fixed point of the base
-(`TauCeti.torusFamilyLinearMulAction_stabilizer_mk_zero`), so it is free if and only if `Γ` acts
-freely on `Y` (`TauCeti.isCancelSMul_torusFamilyLinearMulAction_iff`); this constructor does not
-remove a base stabilizer. This section fixes these objects and has no further target.
-*Needs:* the Tau Ceti declarations named in this section.
+The linear constructor lifts the action to `Y × E` by `g·(y, v) = (g·y, R_g(y)v)`. Prove the group
+law from the cocycle law, and prove that the lift normalises the period action,
+`g·(λ +ᵥ x) = ρ(g)λ +ᵥ g·x`, from the period-equivariance law, so that it descends to an action on
+`(Y × E)/Λ`. Prove that the descended action fixes the zero section over every fixed point of the
+base, so that it is free if and only if `Γ` acts freely on `Y`: this constructor is not used to
+remove a base stabilizer.
+*Needs:* §2.1.
+*In Tau Ceti:* `TauCeti.linearCocycle_apply_inv_apply`, `TauCeti.linearCocycleMulAction`, `TauCeti.linearCocycleMulAction_smul_vadd`, `TauCeti.torusFamilyLinearMulAction`, `TauCeti.torusFamilyLinearMulAction_stabilizer_mk_zero`, `TauCeti.isCancelSMul_torusFamilyLinearMulAction_iff`.
 
 ### 3.2 The affine constructor
 
 The affine constructor also takes, for each `g`, a holomorphic section `b_g` of the pulled-back
 torus family, `b_g(y) ∈ T_(g·y)`, with `b_1 = 0` and `b_(gh)(y) = b_g(h·y) + R_g(h·y)(b_h(y))`.
-The affine maps `g·[y, v] = R_g(y)v +ᵥ b_g(y)`, the point `b_g(y)` of the fibre over `g·y`
-translated by the vector `R_g(y)v`, are `TauCeti.torusFamilyAffineMap`, and the action
-they define is `TauCeti.torusFamilyAffineMulAction`, with its inverse formula
-(`TauCeti.torusFamilyAffineMulAction_inv_smul_mk`); it recovers the linear action when `b = 0`
-(`TauCeti.torusFamilyAffineMap_zero_translation`). Each affine map is holomorphic
-(`TauCeti.contMDiff_torusFamilyAffineMap`), so the action is by biholomorphisms
-(`TauCeti.contMDiffConstSMul_torusFamilyAffineMulAction`). The translation is a section of the
-torus family, not of `E`: no global lift to the vector space is required. This section fixes these
-objects and has no further target.
-*Needs:* the Tau Ceti declarations named in this section.
+Define the affine maps `g·[y, v] = R_g(y)v +ᵥ b_g(y)` of the torus family, the point `b_g(y)` of
+the fibre over `g·y` translated by the vector `R_g(y)v`, well defined on the period quotient.
+Prove the action law and the inverse formula, that the action recovers the linear action of §3.1
+when `b = 0`, and that each affine map is holomorphic, so that the action is by biholomorphisms.
+The translation is a section of the torus family, not of `E`: no global lift to the vector space
+is required.
+*Needs:* §§2.2, 3.1.
+*In Tau Ceti:* `TauCeti.torusFamilyAffineMap`, `TauCeti.torusFamilyAffineMulAction`, `TauCeti.torusFamilyAffineMulAction_inv_smul_mk`, `TauCeti.torusFamilyAffineMap_zero_translation`, `TauCeti.contMDiff_torusFamilyAffineMap`, `TauCeti.contMDiffConstSMul_torusFamilyAffineMulAction`.
 
 ### 3.3 Descent and total-space freeness
 
-Both descended actions are properly discontinuous whenever `Γ` acts properly discontinuously on
-`Y` (`TauCeti.properlyDiscontinuousSMul_torusFamilyLinearMulAction`,
-`TauCeti.properlyDiscontinuousSMul_torusFamilyAffineMulAction`). For the affine constructor,
-freeness is a statement about the action on the total space. For `g·y = y`, `g` acts on `T_y` by
-`x ↦ Ax + t`, with linear part `TauCeti.torusFamilyFiberLinearPart` and translation part
-`TauCeti.torusFamilyFiberTranslationPart` (`TauCeti.torusFamilyAffineMap_fiberMap`); such a map
-has a fixed point exactly when `t ∈ (1 − A)T_y`. The action on `(Y × E)/Λ` is free if and only if,
-for every `y` and every `g ≠ 1` with `g·y = y`, the translation part does not lie in
-`(1 − A)T_y` (`TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff`); when stabilizers are
-cyclic, every nonidentity power of a generator is tested
-(`TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff_of_stabilizer_le_zpowers`). The orbit
-quotient by the total action is formed only under this criterion, and is then a complex manifold
-(`TauCeti.instIsManifoldQuotient`). The affine constructor covers elliptic base points, whose
-stabilizers act on the fibre by fixed-point-free affine maps. This section fixes these
-statements and has no further target.
-*Needs:* the Tau Ceti declarations named in this section; `TauCeti.t2Space_torusFamily` for the
-Hausdorff hypothesis of the quotient.
+Prove that both descended actions are properly discontinuous whenever `Γ` acts properly
+discontinuously on `Y`. For the affine constructor, state freeness for the action on the total
+space `(Y × E)/Λ`, not merely on the base. For `g·y = y`, `g` acts on `T_y` by an affine map
+`x ↦ Ax + t`, with linear part induced by `R_g(y)` and translation part `b_g(y)`, and such a map
+has a fixed point exactly when `t ∈ (1 − A)T_y`. Prove that the action on `(Y × E)/Λ` is free if
+and only if, for every `y` and every `g ≠ 1` with `g·y = y`, the translation part does not lie in
+`(1 − A)T_y`, and that when the stabilizers are cyclic it suffices to test every nonidentity power
+of a generator. Form the orbit quotient by the total action only under this criterion, and prove
+that it is then a complex manifold. The affine constructor covers elliptic base points, whose
+stabilizers act on the fibre by fixed-point-free affine maps.
+*Needs:* §§2.4, 3.1–3.2; ComplexManifolds Milestone 4 (Tau Ceti `TauCeti.instIsManifoldQuotient`),
+with §2.4 for the Hausdorff hypothesis of the quotient.
+*In Tau Ceti:* `TauCeti.properlyDiscontinuousSMul_torusFamilyLinearMulAction`, `TauCeti.properlyDiscontinuousSMul_torusFamilyAffineMulAction`, `TauCeti.torusFamilyFiberLinearPart`, `TauCeti.torusFamilyFiberTranslationPart`, `TauCeti.torusFamilyAffineMap_fiberMap`, `TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff`, `TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff_of_stabilizer_le_zpowers`.
 
 **Checks.**
 - Let `C_2 = {±1}` act on `ℂ` by `z ↦ −z`, with constant periods `ℤ[i]`, `R = 1` and constant
@@ -448,10 +402,9 @@ to `g·y`, identify the fibre over the endpoint with the fibre over `y` by the a
 transport on the canonical marking of §2.5 is `ρ(g⁻¹)`. Equivalently, a lift ending at `g⁻¹·y`
 has monodromy `ρ(g)`. This convention is this roadmap's normalisation, fixed by the Check below.
 Derive the action on `H_k` of the fibres as the `k`-th exterior power of the action on `Λ`.
-*Needs:* §§2.3, 2.5, 3.2–3.3; Tau Ceti `TauCeti.freeLocus.instIsManifold`,
-`TauCeti.contMDiff_orbitRelQuotientMap`, `Submodule.orbitRelQuotientHomologyEquiv`, and path
-lifting for the covering `Y → Y/Γ` over the free locus; AlgebraicTopology §5.5 for fibre
-transport.
+*Needs:* §§1.4, 2.3, 2.5, 3.2–3.3; Tau Ceti `TauCeti.freeLocus.instIsManifold`,
+`TauCeti.contMDiff_orbitRelQuotientMap`, and path lifting for the covering `Y → Y/Γ` over the free
+locus; AlgebraicTopology §5.5 for fibre transport.
 
 **Checks.**
 - Let `Γ = ℤ` act on `Y = ℂ` by `z ↦ z + n`, with constant periods `ℤ[i] ⊂ E = ℂ`, `R_n = iⁿ` and
@@ -471,22 +424,22 @@ monodromy, and that reversing the orientation of a loop inverts its monodromy.
 
 - The free involution `(z, x) ↦ (−z, x + ½)` of `ℂ × ℂ/ℤ[i]` of the Check of §3.3 has as quotient a
   family over `ℂ/{±1} ≅ ℂ` whose fibre over the image of `0` is `(ℂ/ℤ[i])/⟨½⟩`, an elliptic curve.
-- With `Γ = SL₂(ℤ)` acting on `ℍ` and the family `ℂ/(ℤ + τℤ)` of the Examples of Layer 2, the
+- With `Γ = SL₂(ℤ)` acting on `ℍ` and the family `ℂ/(ℤ + τℤ)` of the Examples of Milestone 2, the
   linear constructor with `R_g(τ)` multiplication by `(γτ + δ)⁻¹` for `g = (α, β; γ, δ)`, and `ρ`
   the induced action on `ℤ²`, gives an action that is not free: `−1` fixes every `τ` and acts on
   the fibre by `x ↦ −x`, fixing the zero section, as §3.1 says.
 
 ### Dependencies
 
-Layer 2. Tau Ceti's linear and affine actions, their regularity, proper discontinuity and
-stabilizer criteria, the quotient manifold and its free locus (supplier contracts).
+Milestone 2. Tau Ceti's quotient manifolds, their free locus and the descent of maps between them
+(supplier contracts). ComplexManifolds Milestone 4 for the complex quotient theorem;
 AlgebraicTopology §5.5 for fibre transport, and the completed UniversalCovers roadmap for path
 lifting.
 
-## Layer 4: cyclic affine algebra on a torus
+## Milestone 4: cyclic affine algebra on a torus
 
 Let `T` be an additive commutative group, in the applications a torus `E/Λ`, let `A : T ≃+ T` be
-an additive automorphism, and fix `m > 0`. The layer is additive algebra: `A` is not assumed
+an additive automorphism, and fix `m > 0`. The milestone is additive algebra: `A` is not assumed
 holomorphic. The translation parameter is `t : T`; an element of `Λ` is zero in `T` and cannot
 parametrise the affine geometry. Period, exact-order and freeness conditions are hypotheses of
 theorems, never fields of a structure whose consequences are assumed. Sections 4.1–4.4 are the
@@ -499,13 +452,11 @@ Mathlib's `Rep ℤ` requires.
 
 ### 4.1 Affine maps and the iterate formula
 
-The affine permutation `x ↦ Ax + t` is `AddEquiv.affineEquiv A t`, the partial norm
-`N_{A,k}(t) = ∑_{i<k} A^i t` is `AddEquiv.partialNorm A k t` for every `k`
-(`AddEquiv.partialNorm_def`), and its additive form is `AddEquiv.cyclicNormHom A k`. The iterate
-formula `affine(A, t)^k (x) = A^k x + N_{A,k}(t)` is `AddEquiv.affineEquiv_iterate_apply`. This
-section fixes these objects and has no further target.
-*Needs:* Tau Ceti `AddEquiv.affineEquiv`, `AddEquiv.partialNorm`, `AddEquiv.partialNorm_def`,
-`AddEquiv.cyclicNormHom`, `AddEquiv.affineEquiv_iterate_apply`.
+Define the affine permutation `affine(A, t)` of `T`, `x ↦ Ax + t`, and for every `k` the partial
+norm `N_{A,k}(t) = ∑_{i<k} A^i t`, together with its additive form `t ↦ N_{A,k}(t)`, a homomorphism
+`T →+ T`. Prove the iterate formula `affine(A, t)^k (x) = A^k x + N_{A,k}(t)` for every `k`.
+*Needs:* Mathlib's sums over `Finset.range`.
+*In Tau Ceti:* `AddEquiv.affineEquiv`, `AddEquiv.partialNorm`, `AddEquiv.partialNorm_def`, `AddEquiv.cyclicNormHom`, `AddEquiv.affineEquiv_iterate_apply`.
 
 **Checks.**
 - For `A = −1`, `N_{A,2}(t) = t − t = 0`, so every map `x ↦ −x + t` is an involution. A partial
@@ -514,20 +465,14 @@ section fixes these objects and has no further target.
 
 ### 4.2 Period and exact order
 
-The affine map has `m`-th power the identity exactly when `A^m = 1` and `N_{A,m}(t) = 0`
-(`AddEquiv.affineEquiv_pow_eq_one_iff`); under `A^m = 1` this is `N_{A,m}(t) = 0`
-(`AddEquiv.affineEquiv_pow_eq_one_iff_of_iterate_eq_id`), which is order dividing `m`
-(`AddEquiv.orderOf_affineEquiv_dvd_iff`). Under `A^m = 1` it has exact order `m` exactly when,
-moreover, for every `0 < k < m`, `A^k ≠ 1` or `N_{A,k}(t) ≠ 0`
-(`AddEquiv.orderOf_affineEquiv_eq_iff`). Periodicity gives the action of `ZMod m` on `T` by
-iterates, `AddEquiv.affineAddAction`, which takes the norm equation as a hypothesis and is not
-asserted to be faithful: it is faithful exactly when the affine map has exact order `m`
-(`AddEquiv.faithfulVAdd_affineAddAction_iff`). This section fixes these statements and has no
-further target.
-*Needs:* Tau Ceti `AddEquiv.affineEquiv_pow_eq_one_iff`,
-`AddEquiv.affineEquiv_pow_eq_one_iff_of_iterate_eq_id`, `AddEquiv.orderOf_affineEquiv_dvd_iff`,
-`AddEquiv.orderOf_affineEquiv_eq_iff`, `AddEquiv.affineAddAction`,
-`AddEquiv.faithfulVAdd_affineAddAction_iff`.
+Prove that the affine map has `m`-th power the identity exactly when `A^m = 1` and
+`N_{A,m}(t) = 0`; so under `A^m = 1` it is `m`-periodic, of order dividing `m`, exactly when
+`N_{A,m}(t) = 0`. Prove that under `A^m = 1` it has exact order `m` exactly when, moreover, for
+every `0 < k < m`, `A^k ≠ 1` or `N_{A,k}(t) ≠ 0`. From periodicity derive the action of `ZMod m`
+on `T` by iterates, which takes the norm equation as a hypothesis and is not asserted to be
+faithful, and prove that it is faithful exactly when the affine map has exact order `m`.
+*Needs:* §4.1.
+*In Tau Ceti:* `AddEquiv.affineEquiv_pow_eq_one_iff`, `AddEquiv.affineEquiv_pow_eq_one_iff_of_iterate_eq_id`, `AddEquiv.orderOf_affineEquiv_dvd_iff`, `AddEquiv.orderOf_affineEquiv_eq_iff`, `AddEquiv.affineAddAction`, `AddEquiv.faithfulVAdd_affineAddAction_iff`.
 
 **Checks.**
 - On `T = ℂ/ℤ[i]` with `A = 1`, `m = 2` and `t = ⅓`, `A² = 1` but `N_{A,2}(t) = ⅔ ≠ 0`: translation
@@ -539,34 +484,28 @@ further target.
 
 ### 4.3 Translation conjugacy and the first cohomology
 
-Conjugating by the translation `x ↦ x + b` sends the translation part `t` to `t + (b − Ab)`
-(`AddEquiv.conj_addRight_affineEquiv`). For `A^m = 1`, the representation of `C_m` on `T` in which
-`ofAdd 1` acts by `A` is `AddEquiv.cyclicRepresentation`, as an object of `Rep ℤ C_m`
-`AddEquiv.cyclicRep`. Mathlib's `Representation.norm` of it is the ordered sum of powers
-(`AddEquiv.cyclicRepresentation_norm_apply`, `AddEquiv.cyclicRepresentation_norm_eq_partialNorm`),
-and the range of `ρ(ofAdd 1) − 1` is the range of `1 − A`
-(`AddEquiv.mem_range_cyclicRep_applyAsHom_sub_iff`). Mathlib's finite-cyclic class map
+Prove that conjugating by the translation `x ↦ x + b` sends the translation part `t` to
+`t + (b − Ab)`. For `A^m = 1`, construct the representation of `C_m` on `T` in which `ofAdd 1` acts
+by `A`, and the corresponding object of `Rep ℤ C_m`. Prove that Mathlib's `Representation.norm` of
+it is the ordered sum of powers `N_{A,m}`, and that the range of `ρ(ofAdd 1) − 1` is the range of
+`1 − A`, by negation. Prove that Mathlib's finite-cyclic class map
 `Rep.FiniteCyclicGroup.groupCohomologyπOdd` sends the kernel of the norm onto `H¹(C_m, T)`, and
-two affine maps with norm-zero translation parts have the same class exactly when they are
-conjugate by a translation
-(`AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff_exists_conj_affineEquiv`,
-`AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff`). So the translation-conjugacy classes of
+that two affine maps with linear part `A` and norm-zero translation parts have the same class
+exactly when they are conjugate by a translation. So the translation-conjugacy classes of
 `m`-periodic affine maps with linear part `A` form Mathlib's `groupCohomology` in degree one,
 computed as `ker N_A / range(1 − A)`, with no second `H¹` carrier; the partial norms `N_{A,k}` for
 every `k` stay available for the iterate and fixed-point formulas.
 
-For period two, with `σ : T ≃+ T` and `σ² = 1`, the norm is `id + σ`
-(`AddEquiv.cyclicNormHom_two`), the difference `1 − σ` is `AddEquiv.oneSubPow σ 1`
-(`AddEquiv.oneSubPow_one`), and both composites of the two vanish
-(`AddEquiv.oneSubPow_comp_cyclicNormHom`, `AddEquiv.cyclicNormHom_comp_oneSubPow`). Mathlib's
-short complexes `Rep.FiniteCyclicGroup.normHomCompSub` and `Rep.FiniteCyclicGroup.subCompNormHom`
-use `σ − 1`; their isomorphisms with the complexes built from `1 − σ` negate one end
-(`AddEquiv.normHomCompSubCyclicRepIso`, `AddEquiv.subCompNormHomCyclicRepIso`). All of this holds
-over every additive commutative group, including groups with `2`-torsion, and divides by
-nothing. This section fixes these statements and has no further target.
-*Needs:* the Tau Ceti declarations named in this section; Mathlib
-`Rep.FiniteCyclicGroup.groupCohomologyπOdd`, `Rep.FiniteCyclicGroup.groupCohomologyπOdd_eq_iff`,
-`Representation.norm`.
+For period two, with `σ : T ≃+ T` and `σ² = 1`, prove that the norm `N_{σ,2}` is `id + σ`, that the
+difference `1 − σ` is the map `1 − σ^k` at `k = 1`, and that both composites of the two vanish.
+Mathlib's short complexes `Rep.FiniteCyclicGroup.normHomCompSub` and
+`Rep.FiniteCyclicGroup.subCompNormHom` use `σ − 1`; construct their isomorphisms with the complexes
+built from `1 − σ`, which negate one end. All of this holds over every additive commutative group,
+including groups with `2`-torsion, and divides by nothing.
+*Needs:* §4.1; Mathlib `Rep.FiniteCyclicGroup.groupCohomologyπOdd`,
+`Rep.FiniteCyclicGroup.groupCohomologyπOdd_eq_iff`, `Rep.FiniteCyclicGroup.normHomCompSub`,
+`Rep.FiniteCyclicGroup.subCompNormHom`, `Representation.norm`.
+*In Tau Ceti:* `AddEquiv.conj_addRight_affineEquiv`, `AddEquiv.cyclicRepresentation`, `AddEquiv.cyclicRep`, `AddEquiv.cyclicRepresentation_norm_apply`, `AddEquiv.cyclicRepresentation_norm_eq_partialNorm`, `AddEquiv.mem_range_cyclicRep_applyAsHom_sub_iff`, `AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff`, `AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff_exists_conj_affineEquiv`, `AddEquiv.cyclicNormHom_two`, `AddEquiv.oneSubPow`, `AddEquiv.oneSubPow_one`, `AddEquiv.oneSubPow_comp_cyclicNormHom`, `AddEquiv.cyclicNormHom_comp_oneSubPow`, `AddEquiv.normHomCompSubCyclicRepIso`, `AddEquiv.subCompNormHomCyclicRepIso`.
 
 **Checks.**
 - On `ZMod 2` with `σ = id`, the norm `id + σ` is `x ↦ 2x = 0` and the difference is `0`, so both
@@ -578,17 +517,14 @@ nothing. This section fixes these statements and has no further target.
 
 ### 4.4 Fixed points and freeness
 
-The `k`-th iterate of `x ↦ Ax + t` has a fixed point if and only if some `b` satisfies
-`b − A^k b = N_{A,k}(t)`, that is `N_{A,k}(t) ∈ range(1 − A^k)`
-(`AddEquiv.exists_affineEquiv_iterate_apply_eq_self_iff`, with `AddEquiv.oneSubPow_apply` for the
-map `1 − A^k`). Hence, under `A^m = 1` and `N_{A,m}(t) = 0`, the action of §4.2 is free exactly
-when this membership fails for every `0 < k < m` (`AddEquiv.isCancelVAdd_affineAddAction_iff`).
-For `m` prime the generator decides: the action is free exactly when `t ∉ range(1 − A)`
-(`AddEquiv.isCancelVAdd_affineAddAction_iff_of_prime`). For composite `m` every nonidentity power
-is checked. This section fixes these statements and has no further target.
-*Needs:* Tau Ceti `AddEquiv.exists_affineEquiv_iterate_apply_eq_self_iff`,
-`AddEquiv.oneSubPow_apply`, `AddEquiv.isCancelVAdd_affineAddAction_iff`,
-`AddEquiv.isCancelVAdd_affineAddAction_iff_of_prime`.
+Prove that the `k`-th iterate of `x ↦ Ax + t` has a fixed point if and only if some `b` satisfies
+`b − A^k b = N_{A,k}(t)`, that is `N_{A,k}(t) ∈ range(1 − A^k : T → T)`. Hence, under `A^m = 1` and
+`N_{A,m}(t) = 0`, prove that the action of §4.2 is free exactly when this membership fails for
+every `0 < k < m`. State the prime-order simplification: for `m` prime the generator decides, and
+the action is free exactly when `t ∉ range(1 − A)`. For composite `m` every nonidentity power is
+checked.
+*Needs:* §§4.1–4.2.
+*In Tau Ceti:* `AddEquiv.oneSubPow`, `AddEquiv.oneSubPow_apply`, `AddEquiv.exists_affineEquiv_iterate_apply_eq_self_iff`, `AddEquiv.isCancelVAdd_affineAddAction_iff`, `AddEquiv.isCancelVAdd_affineAddAction_iff_of_prime`.
 
 **Checks.**
 - On `T = ℂ²/ℤ[i]²` with `A = diag(1, i)`, `m = 4` and `t = (½, 0)`: `A⁴ = 1` and
@@ -600,30 +536,28 @@ is checked. This section fixes these statements and has no further target.
 
 ### 4.5 The integral connecting class
 
-The equivariant short exact sequence `0 → Λ → E → T → 0` in `Rep ℤ C_m`, given by automorphisms
-`A_Λ`, `A_E`, `A_T` with `m`-th powers `1` and equivariant additive maps `i : Λ → E` and
-`p : E → T` with `p ∘ i = 0`, is `AddMonoidHom.cyclicRepShortComplex`; it is short exact when `i`
-is injective, `p` surjective and `ker p = range i`
-(`AddMonoidHom.shortExact_cyclicRepShortComplex`). In the applications `E` is a real vector space,
-`A_E` is real-linear and `T = E/Λ`. For a lift `t̃ ∈ E` of `t` with `N_{A,m}(t) = 0`, the norm
-`N_A(t̃)` is the image of a fixed point of `A_Λ`
-(`AddMonoidHom.exists_apply_eq_sum_range_iterate`), and changing the lift by `λ ∈ Λ` adds
-`N_A(λ)` (`AddMonoidHom.sum_range_iterate_add_apply`). The connecting map
-`H¹(C_m, T) → H²(C_m, Λ)` is Mathlib's `groupCohomology.δ`, and `H²(C_m, Λ) = Λ^A / N_A Λ` through
-Mathlib's `Rep.FiniteCyclicGroup.groupCohomologyπEven`. With the generator `ofAdd 1` and the
-cocycle given by its value `t`, `δ[t] = [N_A(t̃)]`
-(`TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one`), and in particular `δ[v/m] = [v]` for
-`v ∈ Λ^A` when multiplication by `m` is injective on `E`
-(`TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one_of_nsmul_eq`), with this positive sign.
-When multiplication by `m` is bijective on `E`, as on a real vector space, `H¹` and `H²` of `E`
-vanish (`groupCohomology.subsingleton_of_bijective_nsmul`, proved for every finite group whose
-order acts bijectively; for `C_m` the periodic complex with division by `m` gives the same
-directly), and `δ` is an isomorphism, with underlying linear equivalence
-`TauCeti.cyclicConnectingEquiv`; Mathlib's `groupCohomology.isIso_δ_of_isZero` gives the same from
-the two vanishing statements. This section fixes these statements and has no further target.
-*Needs:* the Tau Ceti declarations named in this section; Mathlib `groupCohomology.δ`,
-`groupCohomology.δ_apply`, `groupCohomology.isIso_δ_of_isZero`,
-`Rep.FiniteCyclicGroup.groupCohomologyπEven`.
+Fix the equivariant short exact sequence `0 → Λ → E → T → 0` in `Rep ℤ C_m`. Its input consists
+of automorphisms `A_Λ`, `A_E`, `A_T` with `m`-th powers `1` and equivariant additive maps
+`i : Λ → E` and `p : E → T` with `p ∘ i = 0`; construct the short complex of representations from
+these data and prove that it is short exact when `i` is injective, `p` surjective and
+`ker p = range i`. In the applications `E` is a real vector space, `A_E` is real-linear and
+`T = E/Λ`. For a lift `t̃ ∈ E` of `t` with `N_{A,m}(t) = 0`, prove that the norm `N_A(t̃)` is the
+image of a fixed point of `A_Λ`, and that changing the lift by `λ ∈ Λ` adds `N_A(λ)`. The
+connecting map `H¹(C_m, T) → H²(C_m, Λ)` is Mathlib's `groupCohomology.δ`, and
+`H²(C_m, Λ) = Λ^A / N_A Λ` through Mathlib's `Rep.FiniteCyclicGroup.groupCohomologyπEven`. With the
+generator `ofAdd 1` and the cocycle given by its value `t`, prove against `groupCohomology.δ_apply`
+that `δ[t] = [N_A(t̃)]`, and in particular that `δ[v/m] = [v]` for `v ∈ Λ^A` when multiplication by
+`m` is injective on `E`, with this positive sign.
+
+Prove that `H¹` and `H²` of `E` vanish when multiplication by `m` is bijective on `E`, as on a real
+vector space, so that `δ` is an isomorphism, and construct its underlying additive equivalence
+`H¹(C_m, T) ≃ H²(C_m, Λ)`. The vanishing holds for every finite group whose order acts bijectively
+on the coefficients; for `C_m` the periodic complex with division by `m` gives it directly, and
+Mathlib's `groupCohomology.isIso_δ_of_isZero` turns the two vanishing statements into the
+isomorphism.
+*Needs:* §§4.1, 4.3; Mathlib `groupCohomology.δ`, `groupCohomology.δ_apply`,
+`groupCohomology.isIso_δ_of_isZero`, `Rep.FiniteCyclicGroup.groupCohomologyπEven`.
+*In Tau Ceti:* `AddMonoidHom.cyclicRepShortComplex`, `AddMonoidHom.shortExact_cyclicRepShortComplex`, `AddMonoidHom.exists_apply_eq_sum_range_iterate`, `AddMonoidHom.sum_range_iterate_add_apply`, `TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one`, `TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one_of_nsmul_eq`, `groupCohomology.subsingleton_of_bijective_nsmul`, `TauCeti.cyclicConnectingEquiv`.
 
 **Checks.**
 - With all actions trivial, `Λ = ℤ[i] ⊂ E = ℂ` and `m = 3`, the class of `t = ⅓` maps to the
@@ -635,26 +569,22 @@ the two vanishing statements. This section fixes these statements and has no fur
 
 ### 4.6 Naturality and the trivial action
 
-The connecting map is natural under morphisms of equivariant short exact sequences
-(`TauCeti.map_δ_cyclicRepShortComplex`, an instance of Mathlib's `groupCohomology.δ_naturality`
-along `groupCohomology.map`). When all three actions are trivial, `H¹(C_m, T) ≃ T[m]`
-(`TauCeti.groupCohomologyOddEquivTorsionBy`, with `T[m]` written `Submodule.torsionBy ℤ T m`, the
-subgroup `AddSubgroup.torsionBy T m`), `H²(C_m, Λ) ≃ Λ/mΛ`
-(`TauCeti.groupCohomologyEvenEquivQuotSMulTop`), and, when multiplication by `m` is bijective on
-`E`, the composite `T[m] ≃ Λ/mΛ` is the snake isomorphism of `0 → Λ → E → T → 0`
-(`TauCeti.torsionByδEquiv_eq_trans_cyclicConnectingEquiv`). Exact order still needs the
-criterion of §4.2: not every point of `T[m]` has exact order `m`.
+Prove that the connecting map is natural under morphisms of equivariant short exact sequences,
+under products of equivariant short exact sequences, and under restriction along homomorphisms of
+finite cyclic groups `C_n → C_m`, through `groupCohomology.map` and `groupCohomology.δ_naturality`.
+For a period family over `Y` carrying on every fibre a cyclic action as in §4.5, varying
+holomorphically in `y`, base change along a holomorphic `f : Y' → Y` pulls back the marked lattice,
+the vector space and the torus families with their short exact sequence: construct the induced
+fibrewise comparisons of `H¹(C_m, T_y)` and `H²(C_m, Λ)` and prove that `δ` commutes with them.
 
-Prove that `δ` commutes with products of equivariant short exact sequences, and with restriction
-along homomorphisms of finite cyclic groups `C_n → C_m`, through `groupCohomology.map` and
-`groupCohomology.δ_naturality`. For a period family over `Y` carrying on every fibre a cyclic
-action as in §4.5, varying holomorphically in `y`, base change along a holomorphic `f : Y' → Y`
-pulls back the marked lattice, the vector space and the torus families with their short exact
-sequence: construct the induced fibrewise comparisons of `H¹(C_m, T_y)` and `H²(C_m, Λ)` and
-prove that `δ` commutes with them.
-*Needs:* §4.5; §2.4 for base change of period families and §2.5 for the marked lattice; Tau Ceti
-`TauCeti.map_δ_cyclicRepShortComplex`; Mathlib `groupCohomology.map`,
-`groupCohomology.δ_naturality`.
+When all three actions are trivial, prove `H¹(C_m, T) ≃ T[m]`, with
+`T[m] = AddSubgroup.torsionBy T m` (written `Submodule.torsionBy ℤ T m` in Tau Ceti), and
+`H²(C_m, Λ) ≃ Λ/mΛ`, and, when multiplication by `m` is bijective on `E`, that the composite
+`T[m] ≃ Λ/mΛ` through `δ` is the snake isomorphism of `0 → Λ → E → T → 0`. Exact order still needs the criterion of §4.2: not every
+point of `T[m]` has exact order `m`.
+*Needs:* §4.5; §2.4 for base change of period families and §2.5 for the marked lattice; Mathlib
+`groupCohomology.map`, `groupCohomology.δ_naturality`.
+*In Tau Ceti:* `TauCeti.map_δ_cyclicRepShortComplex`, `TauCeti.groupCohomologyOddEquivTorsionBy`, `TauCeti.groupCohomologyEvenEquivQuotSMulTop`, `TauCeti.torsionByδEquiv_eq_trans_cyclicConnectingEquiv`.
 
 **Checks.**
 - For trivial actions, `Λ = ℤ[i]` and `m = 2`, `T[2]` and `Λ/2Λ` both have order `4`; a version of
@@ -671,20 +601,20 @@ prove that `δ` commutes with them.
 
 ### Dependencies
 
-Tau Ceti's cyclic affine algebra, cyclic representations, finite-cyclic cohomology and its
-connecting maps (supplier contracts); Mathlib's `groupCohomology`, its finite-cyclic isomorphisms
-and its long exact sequence. §4.6's base change uses §§2.4–2.5.
+No other milestone, except that §4.6's base change uses §§2.4–2.5. Mathlib's `groupCohomology`,
+its finite-cyclic isomorphisms and its long exact sequence (supplier contracts).
 
-## Layer 5: cyclic quotients and multiple fibres
+## Milestone 5: cyclic quotients and multiple fibres
 
 Let `m > 0`, `ζ = exp(2πi/m)` and `r > 0`. The disc `D_z = {‖z‖ < r}`, with `rootsOfUnity m ℂ`
-acting by rotation, is `TauCeti.rootsOfUnityBall m r`. Let `X → D_z` be a period family (Layer 2,
-base `D_z`) carrying a holomorphic cyclic affine cocycle of Layer 3 over the rotation: linear
-parts `R_g(z)` and translation sections `b_g(z)` with the period-equivariance and action laws. In
-the constant-linear-part case the generator has `R_ζ(z) = A_E`, and the period-equivariance law
-reads `A_E(Π(z)λ) = Π(ζz)(A_Λ λ)`. The translation law is the full orbit sum of sections along
-`z, ζz, …`, not a norm equation in one fixed fibre. Over the fixed point `0` the generator acts on
-`T_0` with linear part `R_ζ(0)` and translation part `b_ζ(0)`, so Layer 4 applies there
+acting by rotation, is `TauCeti.rootsOfUnityBall m r`. Let `X → D_z` be a period family
+(Milestone 2, base `D_z`) carrying a holomorphic cyclic affine cocycle of Milestone 3 over the
+rotation: linear parts `R_g(z)` and translation sections `b_g(z)` with the period-equivariance and
+action laws. In the constant-linear-part case the generator has `R_ζ(z) = A_E`, and the
+period-equivariance law reads `A_E(Π(z)λ) = Π(ζz)(A_Λ λ)`. The translation law is the full orbit
+sum of sections along `z, ζz, …`, not a norm equation in one fixed fibre. Over the fixed point `0`
+the generator acts on `T_0` with linear part `R_ζ(0)` and translation part `b_ζ(0)`, so
+Milestone 4 applies there
 (Barth–Hulek–Peters–Van de Ven, Chapter V, the section "Logarithmic Transformations", beginning
 on p. 216, for the local cyclic-quotient model; the statements here allow torus fibres of any
 dimension). The multiplicity of §5.3 and the characters of §§5.4–5.5 are computed here in that
@@ -692,16 +622,14 @@ model, with the associated-bundle convention of §5.4 as this roadmap's normalis
 
 ### 5.1 The total action
 
-The action of `rootsOfUnity m ℂ` on `X` is the affine action of §3.2. Away from `z = 0` the
-rotations act freely. The action on `X` is free if and only if, for every `0 < k < m`, the `k`-th
-power of the generator has no fixed point on `T_0`, that is `N_{A,k}(t) ∉ range(1 − A^k)` for
-`x ↦ Ax + t` the action of `ζ` on `T_0`
-(`TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff`); when `R_ζ(0) = 1` this
-says that `b_ζ(0)` has exact order `m`
-(`TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_eq`). The action
-has exact order `m` (`TauCeti.orderOf_toPerm_torusFamilyAffineMulAction_rootsOfUnityBall`). This
-section fixes these statements and has no further target.
-*Needs:* the Tau Ceti declarations named in this section.
+Construct the biholomorphic action of `rootsOfUnity m ℂ` on `X` as the affine action of §3.2.
+Away from `z = 0` the rotations act freely. Prove that the action on `X` is free if and only if,
+for every `0 < k < m`, the `k`-th power of the generator has no fixed point on `T_0`, that is
+`N_{A,k}(t) ∉ range(1 − A^k)` for `x ↦ Ax + t` the action of `ζ` on `T_0` (§4.4), and that when
+`R_ζ(0) = 1` this says that `b_ζ(0)` has exact order `m`. Prove that the action has exact order `m`
+whenever `r > 0`. These statements are algebraic: they use no topology on the disc.
+*Needs:* §§3.2–3.3, 4.4; Tau Ceti `TauCeti.rootsOfUnityBall`.
+*In Tau Ceti:* `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff`, `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_eq`, `TauCeti.orderOf_toPerm_torusFamilyAffineMulAction_rootsOfUnityBall`.
 
 ### 5.2 The quotient and its map to the disc
 
@@ -764,28 +692,29 @@ bundles.
 
 ### Dependencies
 
-Layers 2–4. Tau Ceti's rotated-disc freeness criteria, its quotient manifolds and holomorphic
+Milestones 2–4. Tau Ceti's rotated disc and its quotient, its quotient manifolds and holomorphic
 descent (supplier contracts). ComplexManifolds Milestone 4 for descent and Milestone 7 for
 holomorphic line bundles: normal bundles of hypersurfaces (7.4), canonical bundles (7.5) and line
 bundles of characters (7.6).
 
-## Layer 6: logarithmic gauges and regluing
+## Milestone 6: logarithmic gauges and regluing
 
-Write `D_z` and `D_t` for discs as in Layer 5, `D_z*` and `D_t*` for their punctured subspaces,
-and `β_m : D_z* → D_t*`, `β_m(z) = z^m`. In this layer `Y → D_t` denotes a marked period family
-over `D_t` with period map `Π_Y`; its pullback `X = β_m^*Y → D_z` is the period family with periods
-`z ↦ Π_Y(z^m)`, and `Q = X/C_m → D_t` is the quotient of Layer 5 for a free equivariant cyclic
-affine action on `X` over the rotation. The logarithmic transform uses trivial linear part;
-general linear cocycles stay in Layer 5. The meridian is that of Convention 7.
+Write `D_z` and `D_t` for discs as in Milestone 5, `D_z*` and `D_t*` for their punctured
+subspaces, and `β_m : D_z* → D_t*`, `β_m(z) = z^m`. In this milestone `Y → D_t` denotes a marked
+period family over `D_t` with period map `Π_Y`; its pullback `X = β_m^*Y → D_z` is the period
+family with periods `z ↦ Π_Y(z^m)`, and `Q = X/C_m → D_t` is the quotient of Milestone 5 for a
+free equivariant cyclic affine action on `X` over the rotation. The logarithmic transform uses
+trivial linear part; general linear cocycles stay in Milestone 5. The meridian is that of
+Convention 7.
 (Barth–Hulek–Peters–Van de Ven, Chapter V, "Logarithmic Transformations", for the construction;
 Bogomolov–Tschinkel, §3, pp. 3–4, recall Kodaira's construction for elliptic fibrations, and
 §§6.2–6.4 cite its pages.)
 
 ### 6.1 The covering identification
 
-For any free equivariant family `X → D_z` of Layer 5, prove the canonical covering identification
-`X* ≃ β_m^*Q*` over `D_z*`, with forward map `x ↦ (p_X(x), [x])`: give its inverse, both
-projection equations and holomorphy. The pullback is the literal subtype of the product,
+For any free equivariant family `X → D_z` of Milestone 5, prove the canonical covering
+identification `X* ≃ β_m^*Q*` over `D_z*`, with forward map `x ↦ (p_X(x), [x])`: give its
+inverse, both projection equations and holomorphy. The pullback is the literal subtype of the product,
 `{(z, q) : D_z* × Q* // β_m(z) = p_Q(q)}`, with the inherited topology; its atlas is obtained by
 lifting the atlas of `Q*` through the local inverse branches of `β_m`, and its second projection
 is a local biholomorphism. An independently supplied charted space or manifold structure on the
@@ -793,7 +722,7 @@ pullback is not an input of the theorem, and the theorem uses no logarithm.
 *Needs:* §§5.1–5.2; Tau Ceti `TauCeti.puncturedDiscPow`, `TauCeti.isCoveringMap_puncturedDiscPow`,
 `TauCeti.puncturedDiscPowDeckMulEquiv`, which treat `z ↦ z^m` on the punctured unit disc and apply
 to `β_m` through the homotheties `z ↦ z/r` of `D_z*` and `t ↦ t/r^m` of `D_t*`, since
-`(z/r)^m = z^m/r^m`; `TauCeti.torusFamilyBaseChangeHomeomorph`.
+`(z/r)^m = z^m/r^m`; §2.4 for the base change of a period family as a literal pullback.
 
 **Checks.**
 - For `m = 1`, `β_1` is the identity and the identification is `X* ≃ Q*`; with the literal
@@ -804,28 +733,25 @@ to `β_m` through the homotheties `z ↦ z/r` of `D_z*` and `t ↦ t/r^m` of `D_
 
 Let the generator act with trivial linear part, `(z, x) ↦ (ζz, x + b(z))`, with `b` a holomorphic
 section of the torus family. Lift `b` to a holomorphic `b̃ : D_z → E` through the period covering of
-the simply connected disc (`TauCeti.exists_contMDiff_lift_torusFamily`). The action law gives a
-constant `λ ∈ Λ` with `∑_{j<m} b̃(ζ^j z) = Π_Y(z^m)λ` (`TauCeti.exists_birkhoffSum_translation_eq_period`).
-Put `f(z) = b̃(z) − Π_Y(z^m)λ/m` and `c(z) = −(1/m) ∑_{j<m} j f(ζ^j z)`, which is
-`TauCeti.cyclicCorrection` of `f`; then `c(ζz) − c(z) = −f(z)`
-(`TauCeti.add_cyclicCorrection_apply_sub`), `c` is holomorphic
-(`TauCeti.contMDiff_cyclicCorrection`), and the change of fibre coordinate `x ↦ x + c(z)` turns
-the translation into `Π_Y(z^m)λ/m`.
+the simply connected disc: every holomorphic map from a simply connected, locally path-connected
+manifold into the family has a holomorphic lift to `E`. Prove that the action law gives a constant
+`λ ∈ Λ` with `∑_{j<m} b̃(ζ^j z) = Π_Y(z^m)λ`; over a connected base the orbit sum of a continuous
+lift of a pure translation of order dividing `m` is one constant period. Put
+`f(z) = b̃(z) − Π_Y(z^m)λ/m` and define the cyclic correction `c(z) = −(1/m) ∑_{j<m} j f(ζ^j z)`.
+Prove that `c(ζz) − c(z) = −f(z)` and that `c` is holomorphic, so that the change of fibre
+coordinate `x ↦ x + c(z)` turns the translation into `Π_Y(z^m)λ/m`.
 
 Prove that the invariant `λ mod mΛ` corresponds to `b(0) ∈ T_0[m]` under the snake isomorphism
 `T_0[m] ≃ Λ/mΛ` and to the class of `b(0)` in `H¹(C_m, T_0)` for the trivial action (§4.6), so that
-the action is free on the central fibre exactly when this class has exact order `m`
-(`TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_mk_eq`). A
-different lift `b̃` changes `λ` by an element of `mΛ` (`TauCeti.exists_eq_add_period_of_mk_eq_mk`):
-prove the corresponding comparison of the normalisations and of the overlap identifications of
-§6.4, so that no representative `λ` is treated as canonical. Bogomolov–Tschinkel, §3, p. 4, start
-from a translation already of the normalised form, a period divided by `m`; the reduction to it by
-the weighted correction `c` is this roadmap's normalisation.
-*Needs:* §§4.6, 5.1; Tau Ceti `TauCeti.exists_contMDiff_lift_torusFamily`,
-`TauCeti.exists_eq_add_period_of_mk_eq_mk`, `TauCeti.exists_birkhoffSum_translation_eq_period`,
-`TauCeti.cyclicCorrection`, `TauCeti.add_cyclicCorrection_apply_sub`,
-`TauCeti.contMDiff_cyclicCorrection`,
-`TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_mk_eq`.
+the action is free on the central fibre exactly when this class has exact order `m`. A different
+lift `b̃` changes `λ` by an element of `mΛ`, since two continuous lifts over a connected base differ
+by one constant period: prove the corresponding comparison of the normalisations and of the
+overlap identifications of §6.4, so that no representative `λ` is treated as canonical.
+Bogomolov–Tschinkel, §3, p. 4, start from a translation already of the normalised form, a period
+divided by `m`; the reduction to it by the weighted correction `c` is this roadmap's
+normalisation.
+*Needs:* §§2.2, 4.6, 5.1.
+*In Tau Ceti:* `TauCeti.exists_contMDiff_lift_torusFamily`, `TauCeti.exists_eq_add_period_of_mk_eq_mk`, `TauCeti.exists_birkhoffSum_translation_eq_period`, `TauCeti.cyclicCorrection`, `TauCeti.add_cyclicCorrection_apply_sub`, `TauCeti.contMDiff_cyclicCorrection`, `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_mk_eq`.
 
 **Checks.**
 - For `m = 2`, `∑_{j<2} f(ζ^j z) = 0` says `f(−z) = −f(z)`, and `c(z) = −½ f(−z) = ½ f(z)`, so
@@ -871,6 +797,8 @@ Prove that the reglued manifold does not depend, up to the induced isotopies and
 biholomorphisms, on the radius, the collar width, the local logarithm, the lift `b̃` and the
 linearising coordinate, when `M`, the marked family `Y`, the class `λ mod mΛ` (equivalently
 the corresponding class in `H¹(C_m, T_0)`, §6.2) and the overlap identification are held fixed.
+State the effect of changing this class: it is read off the induced maps on `π₁` and `H₁` computed
+in §6.6, where the class enters as the image `λ/m` of the meridian.
 *Needs:* §§6.2–6.4.
 
 ### 6.6 Fundamental group and first homology
@@ -886,11 +814,13 @@ class `λ` (Bogomolov–Tschinkel, §3, p. 4, observe that in the transform this
 nonzero homology class carried by the new central fibre). The annular overlaps of §6.4 include into `Y*` by isomorphisms on
 `π₁`, so this is also the map induced by the collar maps. Reversing the meridian sends its class
 to `−λ/m`, and it negates the twist class: replacing the generator `ζ` by `ζ⁻¹` sends
-`λ mod mΛ` to `−λ mod mΛ` and the class in `H¹(C_m, T_0)` to its negative. These maps are
-derived from the actual quotient, bundle and collar maps, ready for
-use by geometric constructions, and are not recorded as fields of a construction-specific
-structure.
-*Needs:* §§5.3, 6.2–6.5; Layer 1 §1.4 and §2.5 for the lattice generators; AlgebraicTopology for
+`λ mod mΛ` to `−λ mod mΛ` and the class in `H¹(C_m, T_0)` to its negative. This is the effect of
+changing the class (§6.5): `π₁(Q) = Λ + ℤ·λ/m` depends on `λ mod mΛ` only through the cyclic
+subgroup of `Λ/mΛ` that it generates, and the image `λ/m` of the meridian, taken modulo the image
+of `Λ`, recovers `λ mod mΛ`. These maps are derived from the actual quotient, bundle and collar
+maps, ready for use by geometric constructions, and are not recorded as fields of a
+construction-specific structure.
+*Needs:* §§5.3, 6.2–6.5; §1.4 and §2.5 for the lattice generators; AlgebraicTopology for
 fundamental groups and singular homology.
 
 ### Examples
@@ -907,19 +837,19 @@ fundamental groups and singular homology.
 
 ### Dependencies
 
-Layer 5, and Layers 2 and 4 through it. Tau Ceti's punctured-disc covering, its lifting and
-period-sum results for torus families and its cyclic correction (supplier contracts).
+Milestone 5, and Milestones 2 and 4 through it. Tau Ceti's punctured-disc covering (supplier
+contracts).
 ComplexManifolds Milestones 5–6 for open gluing; GeometricTopology §§1.1 and 1.3 for collars and
 gluing along the boundary; AlgebraicTopology for the fundamental group and homology computations.
 
 ## Downstream consumers
 
 - [AbelianSchemesAndArithmeticModuli](../AbelianSchemesAndArithmeticModuli/README.md) A5.1, A5.6
-  and A5.8 use Layer 1 (the lattice quotient, its Lie group structure and induced maps), Layers
-  2–3 (period families and their equivariant actions) and §4.6 (the trivial-action formula
-  `T[n] ≃ Λ/nΛ`).
+  and A5.8 use Milestone 1 (the lattice quotient, its Lie group structure and induced maps),
+  Milestones 2–3 (period families and their equivariant actions) and §4.6 (the trivial-action
+  formula `T[n] ≃ Λ/nΛ`).
 - [BallQuotientsAndComplexHyperbolicLattices](../BallQuotientsAndComplexHyperbolicLattices/README.md)
-  §8.2 uses Layer 1 for the boundary tori of its toroidal compactification.
+  §8.2 uses Milestone 1 for the boundary tori of its toroidal compactification.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) uses §§1.3–1.4 for complex tori.
 - [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md)
   §6.1a uses the period-two norm and difference maps of §4.3 and Mathlib's short complexes, with
@@ -929,22 +859,13 @@ gluing along the boundary; AlgebraicTopology for the fundamental group and homol
 
 **This roadmap owns** complex-torus quotients and their maps, varying period families, their
 equivariant descent and monodromy, cyclic affine actions on tori and their cohomology, cyclic
-quotients with multiple fibres, and analytic logarithmic transforms. The targets left to prove
-are those of §§1.3–1.4, 2.3, 2.5, 3.4–3.5, 4.6, 5.2–5.5 and 6.1–6.6.
-
-**Already in the library.** Tau Ceti proves the statements that §§1.1–1.4, 2.1–2.5, 3.1–3.3,
-4.1–4.6, 5.1 and 6.2 attribute to named declarations: the lattice quotient as a compact Lie group
-with its induced maps, kernels, deck group, fundamental group and homology; the period family as a
-complex manifold with its covering, submersion, trivialisation, base change and marking; the
-linear and affine actions with their proper discontinuity and freeness criteria; the whole cyclic
-affine algebra with its first cohomology and integral connecting isomorphism; the freeness and
-exact order of cyclic actions over the rotated disc; and the lift, constant orbit sum and cyclic
-correction used by the normalisation. Of the remaining targets, the holomorphic local triviality
-of §2.3 is the one headline statable at the pins, and `Suggested.lean` states it; its module
-docstring names the headlines proved at the pin and says what each other remaining headline lacks
-at the pins. Mathlib owns the shape of its quotient, manifold, lattice, bundle and group-cohomology
-APIs; Tau Ceti implements the missing results at the dependency pin rather than waiting for another
-repository.
+quotients with multiple fibres, and analytic logarithmic transforms: every item of Milestones 1–6
+above. The pinned Tau Ceti declarations that realise its items are named on their *In Tau Ceti:*
+lines. `Suggested.lean` states the holomorphic local triviality of §2.3, and its module docstring
+says, for each other headline, which pinned declaration realises it or which carrier it needs that
+the pins lack. Mathlib owns the shape of its quotient, manifold, lattice, bundle and
+group-cohomology APIs; Tau Ceti implements the missing results at the dependency pin rather than
+waiting for another repository.
 
 **Owned elsewhere.**
 - [ComplexManifolds](../ComplexManifolds/README.md) owns realification, free properly discontinuous smooth and complex quotients,
@@ -964,7 +885,7 @@ repository.
   this roadmap treats smooth period-lattice families and finite cyclic multiple fibres.
 - [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) owns orbifold bases and their quotient uniformization. A torus family over an
   orbifold base is given by its period representation on the uniformizing base, and then uses the
-  equivariant descent of Layer 3.
+  equivariant descent of Milestone 3.
 - The vanishing of §4.5 is the finite cyclic case of the derived invariants of
   [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md) SR.0d.2 at
   invertible pro-order; the vanishing used here is Tau Ceti's and does not use that roadmap.
@@ -1011,13 +932,16 @@ the existing modules under `TauCeti/Algebra/Module/ZLattice/Family/` and
 
 ### From Tau Ceti
 
-All declarations below are proved at the pin. Unless stated, the period-family declarations take
-`Λ` finite free, `E` a finite-dimensional real normed space that is also a normed space over the
-field of the regularity statements (no compatibility between the two structures is assumed),
-`[∀ y, DiscreteTopology (LinearMap.range (Π y))]`, `[∀ y, IsZLattice ℝ (LinearMap.range (Π y))]`,
-injectivity of every `Π y` as an explicit hypothesis, `Y` Hausdorff and locally compact, and
-coordinatewise `C^n` periods for the regularity statements, over any nontrivially normed field
-(`ℂ` for the holomorphic statements).
+All declarations named in this roadmap are proved at the pin. Those that realise its own items are
+named on the *In Tau Ceti:* lines of the milestones above. Unless stated there, the period-family
+declarations among them take `Λ` finite free, `E` a finite-dimensional real normed space that is
+also a normed space over the field of the regularity statements (no compatibility between the two
+structures is assumed), `[∀ y, DiscreteTopology (LinearMap.range (Π y))]`,
+`[∀ y, IsZLattice ℝ (LinearMap.range (Π y))]`, injectivity of every `Π y` as an explicit
+hypothesis, `Y` Hausdorff and locally compact, and coordinatewise `C^n` periods for the regularity
+statements, over any nontrivially normed field (`ℂ` for the holomorphic statements). The homology
+of a lattice quotient takes `E : Type`, the marking takes `Y` and `E` in `Type`, and the cyclic
+cohomology takes `T`, `Λ` and `E` in `Type`. Besides these, the roadmap consumes:
 
 - *Quotient manifolds* (`TauCeti.Geometry.Manifold.Instances.Quotient`): for a free, properly
   discontinuous action by `C^n` maps on a Hausdorff, locally compact `C^n` manifold,
@@ -1025,141 +949,21 @@ coordinatewise `C^n` periods for the regularity statements, over any nontriviall
   `C^n` manifold for the installed quotient atlas), `TauCeti.isLocalDiffeomorph_addQuotientMk`
   (the orbit map is a `C^n` local diffeomorphism), and `TauCeti.freeLocus.instIsManifold` (the free
   locus of a properly discontinuous action is an open `C^n` submanifold);
-  `TauCeti.contMDiff_orbitRelQuotientLift_iff` (`TauCeti.Geometry.Manifold.Quotient.Descent`: an
-  invariant map descends to a `C^m` map exactly when it is `C^m`, for `m ≤ n`).
-- *Lattice quotients*: `Submodule.properlyDiscontinuousVAdd_of_discreteTopology` (a discrete
-  submodule acts properly discontinuously); `Submodule.instAddCommGroupOrbitRelQuotient`,
-  `Submodule.orbitRelQuotientMap` (the additive map induced by `f` with `L ≤ L'.comap f`),
-  `Submodule.orbitRelQuotientMap_id`, `Submodule.orbitRelQuotientMap_comp`,
-  `Submodule.ker_orbitRelQuotientMap` (the kernel is `f⁻¹(L')/L`),
-  `Submodule.orbitRelQuotientMap_bijective_iff` (for an equivalence `e`, bijective iff
-  `L.map e = L'`), `Submodule.orbitRelQuotientComapQuotientEquiv` (the component group
-  `(f⁻¹(L')/L)/(image of ker f) ≃ (L' ∩ range f)/(L' ∩ f(L))`, with no hypothesis `f(L) ⊆ L'`),
-  `Submodule.orbitRelQuotientProdAddEquiv_orbitRelQuotientMap_prodMap`
-  (`TauCeti.Algebra.Module.Submodule.OrbitRelQuotient`);
-  `Submodule.instLieAddGroupOrbitRelQuotient` (for a discrete submodule of a locally compact
-  normed space, the quotient is a `C^n` additive Lie group for every `n`),
-  `Submodule.contMDiff_orbitRelQuotientMap` (the induced map of a `C^n` semilinear map is `C^n`),
-  `Submodule.orbitRelQuotientDiffeomorph` (an equivalence carrying `L` onto `L'` induces a
-  diffeomorphism, with inverse induced by its inverse), `Submodule.orbitRelQuotientProdDiffeomorph`
-  (`TauCeti.Geometry.Manifold.Algebra.Quotient`); `Submodule.instCompactSpaceOrbitRelQuotient`
-  (for `IsZLattice ℝ L` in a finite-dimensional real space), `Module.Basis.orbitRelQuotientLatticeEquiv`
-  (a basis gives `E/L ≃ₜ+ (ℝ/ℤ)^ι`), `Submodule.isClosedEmbedding_orbitRelQuotientMap_subtype`
-  (for a subspace `V` with `L ∩ V` a lattice in `V`, `V/(L ∩ V) → E/L` is a closed embedding)
-  (`TauCeti.Algebra.Module.ZLattice.Quotient`); `ZLattice.isZLattice_comap_ker_subtype` (if `f`
-  carries `L` into a discrete `L'`, `L ∩ ker f` is a lattice in `ker f`;
-  `TauCeti.Algebra.Module.ZLattice.Ker`); `Submodule.isClosed_orbitRelQuotient_mk_image_preimage`
-  and `Submodule.range_orbitRelQuotientMap_ker_subtype` (the kernel is closed, and
-  `ker f/(L ∩ ker f)` maps onto its identity component, for continuous `f` and discrete `L'`;
-  `TauCeti.Topology.Algebra.Module.DiscretePreimage`);
-  `Submodule.instSecondCountableTopologyOrbitRelQuotient`
-  (`TauCeti.Topology.Algebra.Module.Quotient`).
-- *Covers and homology of lattice quotients* (for `E` simply connected, `L` discrete):
-  `AddSubgroup.isAddQuotientCoveringMap_quotientMk`, `AddSubgroup.orbitRelQuotientDeckMulEquiv`
-  (`L ≃ deck` of the orbit map), `AddSubgroup.orbitRelQuotientFundamentalGroupEquiv`
-  (`π₁(E/L, x) ≃ L`, natural in induced maps), `AddSubgroup.orbitRelQuotientFirstHomologyEquiv`
-  and `AddSubgroup.orbitRelQuotientFirstHomologyEquiv_loopClass` (`H₁(E/L; ℤ) ≃ L`, by the
-  displacement `Γ 1 − Γ 0` of a lift); and, for `E : Type` finite-dimensional real and
-  `IsZLattice ℝ L`, `Submodule.orbitRelQuotientHomologyEquiv` (`H_n(E/L; ℤ) ≃ ⋀^n L`) with its
-  naturality `Submodule.orbitRelQuotientHomologyEquiv_singularHomologyMap`; the universal cover
-  `TauCeti.UniversalCover`, `TauCeti.UniversalCover.isCoveringMap`, and the uniqueness of pointed
-  simply connected, locally path-connected covers
-  `IsCoveringMap.exists_homeomorph_comp_eq_of_simplyConnectedSpace`.
-- *Period families* (`TauCeti.Algebra.Module.ZLattice.Family.*`): `TauCeti.periodAddAction`,
-  `TauCeti.continuousConstVAdd_periodAddAction`, `TauCeti.isCancelVAdd_periodAddAction`,
-  `TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
-  `TauCeti.exists_pos_le_norm_period_of_isCompact` (for continuous periods and compact `K`, one
-  `c > 0` bounds every nonzero period over `K` from below),
-  `TauCeti.exists_pos_mul_norm_le_norm_sum_smul_period_of_isCompact`,
-  `TauCeti.finite_setOf_exists_norm_period_le`, `TauCeti.isAddQuotientCoveringMap_torusFamily_mk`;
-  `TauCeti.torusFamilyProjection` with `TauCeti.torusFamilyProjection_mk`;
-  `TauCeti.torusFamilyChartedSpace`, `TauCeti.isManifold_torusFamily`,
-  `TauCeti.isLocalDiffeomorph_torusFamily_mk`,
-  `TauCeti.isSubmersionOfComplement_torusFamilyProjection` (a `C^n` submersion with complement
-  `E`), `TauCeti.contMDiff_torusFamily_mk_zero`, `TauCeti.contMDiff_torusFamilyFiberMap`;
-  `TauCeti.torusFamilyFiberMap` and `TauCeti.torusFamilyFiberHomeomorph` (the fibre over `y` is
-  homeomorphic to `E/LinearMap.range (Π y)`, for continuous periods only);
-  `TauCeti.periodBasis`, `TauCeti.contMDiff_periodBasis_equivFunL`,
-  `TauCeti.contMDiff_periodBasis_equivFunL_symm`, `TauCeti.torusFamilyDiffeomorphProd` (over a
-  real manifold `Y`, a `C^n` diffeomorphism `(Y × E)/Λ ≃ Y × ℝ^ι/ℤ^ι` over `Y` for a basis of
-  `Λ`) and `TauCeti.torusFamilyDiffeomorphProd_eq_prodMap_torusCoordChange`;
-  `TauCeti.isProperMap_torusFamilyProjection`, `TauCeti.t2Space_torusFamily`,
-  `TauCeti.secondCountableTopology_torusFamily`; `TauCeti.torusFamilyBaseChangeMap`,
-  `TauCeti.torusFamilyBaseChangeMap_id`, `TauCeti.torusFamilyBaseChangeMap_comp`,
-  `TauCeti.torusFamilyBaseChangeHomeomorph` (the family of `Π ∘ f` is homeomorphic to the literal
-  pullback), `TauCeti.contMDiff_torusFamilyBaseChangeMap`,
-  `TauCeti.contMDiff_torusFamilyBaseChange_iff`; `TauCeti.exists_contMDiff_lift_torusFamily` (a
-  `C^n` map from a simply connected, locally path-connected manifold into the family has a `C^n`
-  lift to `E`), `TauCeti.exists_eq_add_period_of_mk_eq_mk` (two continuous lifts over a
-  preconnected space differ by one constant period).
-- *The marking* (`TauCeti.AlgebraicTopology.Singular.Torus.Family`, with `Y` and `E` in `Type`):
-  `TauCeti.torusFamilyMarking` (`H₁(p⁻¹(y); ℤ) ≃ Λ`), `TauCeti.torusFamilyMarking_loopClass`,
-  `TauCeti.torusFamilyMarking_singularHomologyMap`,
-  `TauCeti.torusFamilyMarking_loopClass_eq_of_homotopy` (freely homotopic loops in two fibres
-  have the same marking).
-- *Equivariant actions* (`R g y : E →+ E` with `R 1 = 1`, the cocycle law, `ρ` and the
-  period-equivariance law; `b g y` in the fibre over `g·y` with `b 1 = 0` and the affine cocycle
-  law): `TauCeti.linearCocycleMulAction`, `TauCeti.linearCocycleMulAction_smul_vadd`,
-  `TauCeti.linearCocycle_apply_inv_apply`, `TauCeti.torusFamilyLinearMulAction`,
-  `TauCeti.torusFamilyLinearMulAction_stabilizer_mk_zero`,
-  `TauCeti.isCancelSMul_torusFamilyLinearMulAction_iff` (free iff the base action is free),
-  `TauCeti.properlyDiscontinuousSMul_torusFamilyLinearMulAction`; `TauCeti.torusFamilyAffineMap`,
-  `TauCeti.torusFamilyAffineMulAction`, `TauCeti.torusFamilyAffineMulAction_inv_smul_mk`,
-  `TauCeti.torusFamilyAffineMap_zero_translation`,
-  `TauCeti.properlyDiscontinuousSMul_torusFamilyAffineMulAction` (properly discontinuous when the
-  base action is), `TauCeti.contMDiff_torusFamilyAffineMap`,
-  `TauCeti.contMDiffConstSMul_torusFamilyAffineMulAction` (the action is by `C^n` maps when
-  `(y, v) ↦ R g y v` and each `b g` are `C^n`); `TauCeti.torusFamilyFiberLinearPart`,
-  `TauCeti.torusFamilyFiberTranslationPart`, `TauCeti.torusFamilyAffineMap_fiberMap`,
-  `TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff` (free iff no nonidentity element of a base
-  stabilizer has a fixed point on the fibre), and
-  `TauCeti.isCancelSMul_torusFamilyAffineMulAction_iff_of_stabilizer_le_zpowers`;
-  `TauCeti.exists_birkhoffSum_translation_eq_period` (over a preconnected base, for a pure
-  translation `g` with `g^m = 1` and a continuous lift `β` of `b g`, the orbit sum of `β` is one
-  constant period).
-- *The rotated disc*: `TauCeti.rootsOfUnityBall` and `TauCeti.rootsOfUnityBallQuotientHomeomorph`
-  (the disc of radius `r` modulo `rootsOfUnity m ℂ` is the disc of radius `r^m` by `z ↦ z^m`;
-  `TauCeti.Analysis.Complex.RootsOfUnity.Quotient`);
-  `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff`,
-  `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_eq`,
-  `TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_mk_eq` and
-  `TauCeti.orderOf_toPerm_torusFamilyAffineMulAction_rootsOfUnityBall` (purely algebraic: no
-  topology on the disc is used); `TauCeti.puncturedDiscPow`, `TauCeti.isCoveringMap_puncturedDiscPow`,
+  `TauCeti.contMDiff_orbitRelQuotientLift_iff` and `TauCeti.contMDiff_orbitRelQuotientMap`
+  (`TauCeti.Geometry.Manifold.Quotient.Descent`: an invariant map descends to a `C^m` map exactly
+  when it is `C^m`, and a `C^m` equivariant map between two such actions induces a `C^m` map of
+  orbit spaces, for `m ≤ n`). These specialise the quotient theorem of ComplexManifolds
+  Milestone 4 to the orbit quotients here.
+- *Universal covers*: the universal cover `TauCeti.UniversalCover`,
+  `TauCeti.UniversalCover.isCoveringMap`, and the uniqueness of pointed simply connected, locally
+  path-connected covers `IsCoveringMap.exists_homeomorph_comp_eq_of_simplyConnectedSpace` (the
+  completed UniversalCovers roadmap), for §1.4.
+- *The rotated and punctured discs*: `TauCeti.rootsOfUnityBall` and
+  `TauCeti.rootsOfUnityBallQuotientHomeomorph` (the disc of radius `r` modulo `rootsOfUnity m ℂ`
+  is the disc of radius `r^m` by `z ↦ z^m`; `TauCeti.Analysis.Complex.RootsOfUnity.Quotient`), for
+  Milestone 5; `TauCeti.puncturedDiscPow`, `TauCeti.isCoveringMap_puncturedDiscPow` and
   `TauCeti.puncturedDiscPowDeckMulEquiv` (`z ↦ z^e` on the punctured unit disc is a covering with
-  deck group `rootsOfUnity e ℂ`; `TauCeti.Topology.Covering.PuncturedDisc`);
-  `TauCeti.cyclicCorrection`, `TauCeti.add_cyclicCorrection_apply_sub` (for `x` periodic of period
-  `m` under `r`, `m` invertible and orbit sum `m • a`, `b x + c(r x) − c(x) = a`) and
-  `TauCeti.contMDiff_cyclicCorrection`.
-- *Cyclic affine algebra* (`TauCeti.RepresentationTheory.Cyclic.Affine` and
-  `…Cyclic.Automorphism`, over any additive commutative group): `AddEquiv.affineEquiv`,
-  `AddEquiv.partialNorm`, `AddEquiv.partialNorm_def`, `AddEquiv.cyclicNormHom`,
-  `AddEquiv.oneSubPow`, `AddEquiv.oneSubPow_apply`, `AddEquiv.affineEquiv_iterate_apply`,
-  `AddEquiv.conj_addRight_affineEquiv`, `AddEquiv.affineEquiv_pow_eq_one_iff`,
-  `AddEquiv.affineEquiv_pow_eq_one_iff_of_iterate_eq_id`, `AddEquiv.orderOf_affineEquiv_dvd_iff`,
-  `AddEquiv.orderOf_affineEquiv_eq_iff`, `AddEquiv.affineAddAction` (for `A^m = 1` and
-  `N_{A,m}(t) = 0`), `AddEquiv.faithfulVAdd_affineAddAction_iff`,
-  `AddEquiv.exists_affineEquiv_iterate_apply_eq_self_iff`,
-  `AddEquiv.isCancelVAdd_affineAddAction_iff`, `AddEquiv.isCancelVAdd_affineAddAction_iff_of_prime`,
-  `AddEquiv.cyclicNormHom_two`, `AddEquiv.oneSubPow_one`, `AddEquiv.oneSubPow_comp_cyclicNormHom`,
-  `AddEquiv.cyclicNormHom_comp_oneSubPow`; `AddEquiv.cyclicRepresentation`, `AddEquiv.cyclicRep`,
-  `AddEquiv.cyclicRepresentation_norm_apply`, `AddEquiv.cyclicRepresentation_norm_eq_partialNorm`,
-  `AddEquiv.mem_range_cyclicRep_applyAsHom_sub_iff`, `AddMonoidHom.exists_apply_eq_sum_range_iterate`,
-  `AddMonoidHom.sum_range_iterate_add_apply`.
-- *Cyclic cohomology* (`TauCeti.RepresentationTheory.Homological.GroupCohomology.CyclicAutomorphism`
-  and `…FiniteCyclic.Automorphism`, with `T`, `Λ`, `E` in `Type`):
-  `AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff`,
-  `AddEquiv.groupCohomologyπOdd_cyclicRep_eq_iff_exists_conj_affineEquiv`,
-  `AddMonoidHom.cyclicRepShortComplex`, `AddMonoidHom.shortExact_cyclicRepShortComplex`,
-  `TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one`,
-  `TauCeti.δ_cyclicRepShortComplex_groupCohomologyπOdd_one_of_nsmul_eq`,
-  `TauCeti.cyclicConnectingEquiv` (for multiplication by `m` bijective on `E`),
-  `TauCeti.map_δ_cyclicRepShortComplex`, `TauCeti.groupCohomologyOddEquivTorsionBy`,
-  `TauCeti.groupCohomologyEvenEquivQuotSMulTop`,
-  `TauCeti.torsionByδEquiv_eq_trans_cyclicConnectingEquiv`,
-  `AddEquiv.normHomCompSubCyclicRepIso`, `AddEquiv.subCompNormHomCyclicRepIso`;
-  `groupCohomology.subsingleton_of_bijective_nsmul` (positive-degree cohomology vanishes when
-  multiplication by the group order is bijective;
-  `TauCeti.RepresentationTheory.Homological.GroupCohomology.Corestriction`).
+  deck group `rootsOfUnity e ℂ`; `TauCeti.Topology.Covering.PuncturedDisc`), for §6.1.
 
 ### From TauCetiRoadmap.ComplexManifolds
 
