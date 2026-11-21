@@ -6,12 +6,15 @@ every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s`
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
 of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
 Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
-roadmap of the family states and proves these theorems. The family follows the formal Lean proof of
-these theorems by Levent Alpöge, announced on 20 November 2026
-([announcement](https://alpo.ge/remark.pdf); [source with a public verification
-setup](https://github.com/leanprover-community/riemann-hypothesis)): each roadmap states as targets
-what that proof establishes, in the generality in which the statement holds, and says so where a
-route is not written out.
+roadmap of the family states these theorems. The family follows the formal Lean proof, by Levent
+Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced
+on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf); [source with a public verification
+setup](https://github.com/leanprover-community/riemann-hypothesis)). The theorems of that proof are
+the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
+Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
+them by published theorems and are not statements of the formal proof. Each roadmap states as
+targets what the proof establishes, in the generality in which the statement holds, with the
+published theory it rests on, and says so where a route is not written out.
 
 The route is analytic at both ends. For a positively weighted family of characters, a one-sided
 bound for the weighted sum of the Riesz-smoothed prime sums of its members, less their main terms,
@@ -28,14 +31,16 @@ representations and Selmer groups, and integral models of unitary Shimura variet
 
 Each subdirectory is a roadmap of its own, with a definitive `README.md` and a `Suggested.lean` of
 target signatures; this page is the index of the family. The roadmaps are listed in merge order:
-within the family, each roadmap cites only roadmaps listed above it.
+within the family, each roadmap cites only roadmaps listed above it. Citations between the roadmaps
+are by section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a
+section keeps its number.
 
 ## The roadmaps
 
 - [**Tensor induction and finite-group inputs**](TensorInductionAndFiniteGroupInputs/README.md):
   tensor induction in prime index, virtual characters of norm one on a coset, the decomposition of
-  polynomial functions on matrices under two general linear groups, a theorem of Jordan on primitive
-  permutation groups, and identities of minors of the Capelli matrix.
+  polynomial functions on matrices under two general linear groups, and identities of minors of the
+  Capelli matrix.
 - [**Positivity of Dirichlet series with kernels**](PositivityOfDirichletSeriesWithKernels/README.md):
   positivity arguments for Laplace transforms and Dirichlet series with kernels, a windowed form of
   Landau's theorem, Laplace's method with non-vanishing, and stationary phase over the complex
@@ -52,8 +57,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   adelic heights of vectors and subspaces for an adelic presentation, with their duality and
   behaviour under extension, and successive minima over number fields for balanced bodies.
 - [**Orbit measures on adelic groups**](OrbitMeasuresOnAdelicGroups/README.md):
-  Tamagawa measures on homogeneous spaces of adelic groups, Tamagawa numbers of semidirect products
-  and of quotients by central tori, and centralisers of semisimple elements.
+  measures of top forms over local fields and Tamagawa measures on homogeneous spaces of adelic
+  groups, the Tamagawa numbers of `G_m`, of groups with a unipotent radical and of quotients by
+  central induced tori, and centralisers of semisimple elements.
 - [**Hodge–Tate lattices and Lubin–Tate logarithms**](HodgeTateLatticesAndLubinTateLogarithms/README.md):
   Hodge–Tate lattices and flag sequences with explicit cokernel bounds, and logarithms of Lubin–Tate
   formal group laws with sharp radii.
@@ -109,8 +115,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   archimedean place; also the maximal slopes of lattices of sections of an ample line bundle and an
   explicit arithmetic Hilbert–Samuel inequality.
 - [**Chow forms and heights of subvarieties**](ChowFormsAndHeightsOfSubvarieties/README.md):
-  Chow forms of projective subvarieties, spherical heights of multihomogeneous forms, and the
-  heights of subvarieties they define.
+  the change of metric in arithmetic intersection numbers, the comparison of the Fubini–Study height
+  of a projective cycle with the spherical height of its Chow form, and heights of cycles in the
+  projective space of a Hermitian vector bundle.
 - [**Heights for log-singular metrics**](HeightsForLogSingularMetrics/README.md):
   heights for log-singular metrics, heights on projective spaces and flag varieties, and slopes of
   Lie algebras of abelian schemes.
@@ -156,9 +163,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   multiplicity with a uniform error, local kernels, archimedean Gram forms and the tower inequality,
   and their instances for the chain.
 - [**The seesaw for theta chains**](SeesawForThetaChains/README.md):
-  periods of unitary pairs (unfolding of Fourier–Jacobi periods, the passage between Bessel and
-  Fourier–Jacobi periods and the relation of their norms); the period pairing of the chain, its
-  unfolding, the local laws, the seesaw identity and its rationality.
+  periods of unitary pairs (unfolding of Fourier–Jacobi periods and the passage between Bessel and
+  Fourier–Jacobi periods); the period pairing of the chain, its unfolding, the local laws, the
+  seesaw identity and its rationality.
 - [**Uniform wild kernel bounds**](UniformWildKernelBounds/README.md):
   bounds, uniform in the field, for the logarithmic total of the groups `Ш¹(F, ℓ, e)` over families
   of host fields, with the windowed form consumed by the congruence modules.
