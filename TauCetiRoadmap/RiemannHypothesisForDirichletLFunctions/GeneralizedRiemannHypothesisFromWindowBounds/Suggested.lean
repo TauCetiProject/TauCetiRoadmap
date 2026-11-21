@@ -91,7 +91,11 @@ only if for every `ε > 0` there are a ratio `λ > 1` and arbitrarily large `Y` 
 `G(y) = Σ_{n ≤ y} Λ(n) (y/n - 1) - y log y + (1 + γ) y` is the Riesz remainder of the trivial
 character of `ℚ` (RiemannHypothesisStatementsAndConsequences §8.4a (b)). The window condition is
 the predicate `HasWindows` of PositivityOfDirichletSeriesWithKernels §6.9 (a), unfolded; the ratio
-may depend on `ε`. -/
+may depend on `ε`. The implication from the window bounds follows from [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean`
+(`Deduction.zeroFree_of_rpow_window`) and `Formalism/GammaFactorNonvanishing/RhOfRight.lean`
+(`Formalism.VW.rh_of_right`), with `G` as in
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.G`). -/
 theorem riemannHypothesis_iff_forall_exists_windows :
     RiemannHypothesis ↔
       ∀ ε : ℝ, 0 < ε → ∃ lam : ℝ, 1 < lam ∧ ∀ Y₀ : ℝ, ∃ Y : ℝ, max Y₀ 1 ≤ Y ∧
@@ -107,7 +111,8 @@ theorem riemannHypothesis_iff_forall_exists_windows :
 order at most `0` at every `s` with `1/2 < Re s`: it has no zero there, and its only pole, at
 `s = 1` for the trivial character, is allowed. This is the predicate
 `χ.GeneralizedRiemannHypothesis` of RiemannHypothesisStatementsAndConsequences §9.4, that is
-`ZeroFreeRightOf (1/2) χ.LFunction` (§9.2), unfolded. -/
+`ZeroFreeRightOf (1/2) χ.LFunction` (§9.2), unfolded. It follows from [FormalProof],
+`Supplements/Kernels/MainTheorems.lean` (`allChi`). -/
 theorem meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) {s : ℂ} (hs : 1 / 2 < s.re) :
     meromorphicOrderAt (DirichletCharacter.LFunction χ) s ≤ 0 := by
@@ -116,13 +121,15 @@ theorem meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re {N : ℕ} [NeZero 
 /-- **The Riemann hypothesis** (5.2), in Mathlib's form: every zero of `riemannZeta` other than the
 trivial zeros `-2, -4, …` and the point `s = 1` has real part `1/2`. The zeta bridge of
 RiemannHypothesisStatementsAndConsequences §9.3 (`riemannHypothesis_iff_zeroFreeRightOf`,
-`riemannHypothesis_iff_riemannZeta_ne_zero`) identifies it with the forms below. -/
+`riemannHypothesis_iff_riemannZeta_ne_zero`) identifies it with the forms below. It is a theorem
+of [FormalProof], `Supplements/Kernels/MainTheorems.lean` (`rhOfAll`). -/
 theorem riemannHypothesis : RiemannHypothesis := by
   sorry
 
 /-- **Nonvanishing right of the critical line** (5.3). For every Dirichlet character `χ` modulo
 `N ≥ 1` and every `s` with `1/2 < Re s`, `χ.LFunction s ≠ 0`, unless `χ` is the trivial character
-and `s = 1`, where Mathlib's function has its pole and an assigned value. -/
+and `s = 1`, where Mathlib's function has its pole and an assigned value. It is a theorem of
+[FormalProof], `Supplements/Kernels/MainTheorems.lean` (`allChi`). -/
 theorem LFunction_ne_zero_of_one_half_lt_re {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N)
     {s : ℂ} (hs : 1 / 2 < s.re) (hχs : χ ≠ 1 ∨ s ≠ 1) :
     DirichletCharacter.LFunction χ s ≠ 0 := by
@@ -130,7 +137,9 @@ theorem LFunction_ne_zero_of_one_half_lt_re {N : ℕ} [NeZero N] (χ : Dirichlet
 
 /-- **Zeros in the critical strip** (5.3). Every zero `s` of the L-function of a Dirichlet character
 modulo `N ≥ 1`, primitive or not, with `0 < Re s < 1` has `Re s = 1/2`. The strip is open: the
-principal character modulo `2` has zeros on `Re s = 0`. -/
+principal character modulo `2` has zeros on `Re s = 0`. It is a theorem of [FormalProof],
+`Supplements/Kernels/MainTheorems.lean` (`claimAll`), and for primitive `χ`
+`Supplements/Kernels/MainTheorems.lean` (`critAll`). -/
 theorem re_eq_half_of_LFunction_eq_zero {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) {s : ℂ}
     (hs₀ : 0 < s.re) (hs₁ : s.re < 1) (hs : DirichletCharacter.LFunction χ s = 0) :
     s.re = 1 / 2 := by
@@ -138,7 +147,8 @@ theorem re_eq_half_of_LFunction_eq_zero {N : ℕ} [NeZero N] (χ : DirichletChar
 
 /-- **The Riemann zeta function right of the critical line** (5.3). `riemannZeta s ≠ 0` for every
 `s` with `1/2 < Re s`, the point `s = 1` included, where Mathlib's value is
-`(γ - log (4π)) / 2`. -/
+`(γ - log (4π)) / 2`. It follows from [FormalProof], `Supplements/Kernels/MainTheorems.lean`
+(`allChi`). -/
 theorem riemannZeta_ne_zero_of_one_half_lt_re {s : ℂ} (hs : 1 / 2 < s.re) :
     riemannZeta s ≠ 0 := by
   sorry

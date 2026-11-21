@@ -125,7 +125,8 @@ them instead from the bounds that the Riemann hypothesis gives.
   §6.9(a)'s predicate: for every `Y₀` there is `Y ≥ max(Y₀, 1)` with `[Y, Y^λ] ⊆ S`. Under `y = e^u`
   a window `[Y, Y^λ]` is the window `[U, λU]`, `U = log Y`, of the Laplace variable: windows have
   fixed ratio `λ` in `log y`. `λ` is always existential and may depend on every quantity fixed
-  before it.
+  before it. The predicate is equivalent to that of [FormalProof],
+  `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows`).
 - **Quantifier order.** Uniformity is a quantifier order: a constant chosen before `ε` does not
   depend on `ε`; a window set chosen after `ε` may.
 - **The hypotheses.** The predicates are those of RiemannHypothesisStatementsAndConsequences §§9.3–9.5:
@@ -160,7 +161,8 @@ extension: the same argument, applied to the pole structure of 0.6.
 A *weighted family* of characters of `K` is a finitely supported function
 `w : PrimitiveRayClassCharacter K →₀ ℝ` with `0 ≤ w`; its *members* are the characters of
 `w.support`, those of positive weight. No new type is introduced: the operations on families are
-those of `Finsupp`, and each of them preserves `0 ≤ w`.
+those of `Finsupp`, and each of them preserves `0 ≤ w`. Over `ℚ` a weighted family is a case of the families of
+[FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.CharFamily`).
 
 - Union is `w + w′`, whose members are those of `w` and of `w′`; scaling by `c ≥ 0` is `c • w`;
   restriction to a set `S` of characters is `w.filter (· ∈ S)`.
@@ -198,7 +200,9 @@ set of characters of `ℚ`, and, for weights `w : PrimitiveDirichletCharacter �
 `w_ℚ = (Finsupp.indicator 𝒦(ψ) fun κ _ ↦ w κ).mapDomain toPrimitiveRayClassCharacter`, the
 finitely supported function on the characters of `ℚ` with
 `w_ℚ(toPrimitiveRayClassCharacter κ) = w(κ)` for `κ ∈ 𝒦(ψ)` and `0` elsewhere
-(`Finsupp.mapDomain_apply_of_injective`, `Finsupp.indicator_apply`).
+(`Finsupp.mapDomain_apply_of_injective`, `Finsupp.indicator_apply`). As a set of characters, `𝒦(ψ)` is that of [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
+(`Formalism.HC.Level.cyc`, `Formalism.HC.Level.ofSub`, `Formalism.HC.Level.mem_cyc`).
 
 - `#𝒦_ℚ(ψ) = o`; `𝒦_ℚ(ψ)` contains the trivial character of `ℚ` and the image of `ψ`, and is closed
   under inversion, the equivalence commuting with `1` and `⁻¹`.
@@ -227,7 +231,10 @@ compatibility with `1` and `⁻¹`); Mathlib `Finsupp.indicator`, `Finsupp.indic
 
 For a finitely supported `w : PrimitiveRayClassCharacter K →₀ ℝ` define its *remainder*
 `G_w(y) = Σ_ψ w(ψ) Re G_ψ(y)`, that is `w.sum fun ψ c ↦ c * (ψ.rieszRemainder y).re`; a real function
-of `y`.
+of `y`. Over `ℚ` it is the remainder of a family of [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.Gm`, `Deduction.Gchi`), and the
+conjugation `G_{ψ⁻¹} = conj G_ψ` below is
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiConj.lean` (`Deduction.Gchi_conj`).
 
 - `G_{w+w′} = G_w + G_{w′}` and `G_{c•w} = c G_w`.
 - `Re G_ψ = (G_ψ + G_{ψ⁻¹})/2`, by the conjugation clause of
@@ -302,7 +309,10 @@ PositivityOfDirichletSeriesWithKernels §6.9(b).
 ### 0.6 Poles and residues of the transform
 
 Let `w` be a weighted family and let `Z(w)` be the set of `ρ` with `Re ρ > 0` such that
-`L(·, ψ)` has positive order at `ρ` or at `ρ̄` for some member `ψ`.
+`L(·, ψ)` has positive order at `ρ` or at `ρ̄` for some member `ψ`. Over `ℚ` the statements below follow from
+[FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean`
+(`Deduction.poleData`, `Deduction.poleData_char`), with `Z(w)` the set
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean` (`Deduction.zeroSet`).
 
 - In `Re s > 0` the poles of `Φ_w` are exactly the points of `Z(w)`. Every pole is simple, with
   residue `S_w(ρ)/(ρ(1 − ρ))`, where
@@ -497,6 +507,9 @@ consequences, not statements of [FormalProof].
 Let `w` be a weighted family of characters of `K`, `0 < θ < 1`,
 `C` real and `λ > 1`. If `HasWindows {y | G_w(y) ≤ C y^θ} λ`, then every member `ψ` satisfies
 `ZeroFreeRightOf θ (heckeLFunctionC ψ.character)`. The ratio `λ` may be any number above `1`.
+Over `ℚ` it follows from [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean`
+(`Deduction.zeroFree_of_rpow_window`).
 
 Route: PositivityOfDirichletSeriesWithKernels §6.9(b) in the form of the formal proof, with `G = G_w`, measurable
 with `|G_w(y)| ≤ C_w y²` for `y ≥ 1` by 0.4, and `Ψ = Φ_w`, meromorphic on `ℂ`, hence on `Re s > 0`, and the
@@ -519,7 +532,9 @@ RiemannHypothesisStatementsAndConsequences §9.2.
 
 Let `w` be a weighted family, `0 < θ < 1` and `λ > 1`. If for
 every `η > 0` there are arbitrarily large `Y` with `∫_Y^{Y^λ} G_w(y)⁺ y^{−θ−1} dy ≤ Y^η`, the
-conclusion of 2.1 holds.
+conclusion of 2.1 holds. Over `ℚ` it follows from [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean` (`Deduction.lemmaL`), with its
+hypothesis `Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.WindowHyp`).
 
 Route: this is the mean hypothesis of PositivityOfDirichletSeriesWithKernels §6.9(b), in the form of the formal proof,
 for `G = G_w`; the rest is 2.1's.
@@ -607,7 +622,8 @@ Let `w : PrimitiveRayClassCharacter K →₀ ℝ` be finitely supported and `λ 
 - If `HasWindows {y | G_w(y) ≤ C y^θ} λ` for
   some real `C`, then `HasWindows {y | G_w(y) ≤ y^{θ′}} λ` for every `θ′ > θ`, with the same `λ`,
   because `C y^θ ≤ y^{θ′}` for large `y` and windows of a set that contains `S ∩ [y₀, ∞)` exist when
-  those of `S` do.
+  those of `S` do (this follows from [FormalProof],
+  `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows.mono`)).
 - The sets are unchanged under inversion and symmetrization of `w`, `G_{w^∨} = G_{w^s} = G_w`
   (0.3); scaling by `c > 0` multiplies `G_w` by `c`, and the previous item moves the bound to every
   `θ′ > θ`.
@@ -640,7 +656,10 @@ window ratio `λ` may depend on `ε`. A single exponent does not suffice: the wi
 `θ ∈ (σ, 1)` gives zero-freeness right of `θ` (2.1), not right of `σ`.
 Of this equivalence, the implication from the window bounds to the hypothesis is the step of
 [FormalProof]; the converse is classical, by the bound of 3.2 for the remainder under a zero-free
-half-plane, and is not part of that proof.
+half-plane, and is not part of that proof. Over `ℚ` the implication from the window bounds follows from
+[FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean`
+(`Deduction.zeroFree_of_rpow_window`); at `σ = 1/2` it is the step
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean` (`Formalism.HC.level_of_tiedWin`).
 
 Route: (←) 3.2. (→) for `0 < ε < 1 − σ`, 2.1 at `θ = σ + ε` gives zero-freeness right of
 `σ + ε`, and the monotonicity clause of RiemannHypothesisStatementsAndConsequences §9.2 (zero-free
@@ -663,6 +682,10 @@ right of `σ` exactly when zero-free right of every `σ′ > σ`) gives it right
 The hypothesis for every Dirichlet character reduces to cyclic families:
 `(∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.GeneralizedRiemannHypothesis) ↔
 ∀ ψ : PrimitiveDirichletCharacter, ∀ κ ∈ 𝒦(ψ), κ.character.GeneralizedRiemannHypothesis`.
+The implication (←) follows from [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean` (`UpperTheory.Top.imprimitive`) and
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
+(`Formalism.HC.zeroFreeOn_of_levels`, `Formalism.HC.Level.mem_cyc`).
 
 Route: (→) every member of `𝒦(ψ)` is a primitive Dirichlet character. (←) `ψ ∈ 𝒦(ψ)`
 (FrobeniusRestrictedRieszSums §0.5); for `χ` modulo `N` the bundle
@@ -685,7 +708,11 @@ character is real, so `G` is real-valued (the conjugation clause of
 RiemannHypothesisStatementsAndConsequences §8.4a(b)) and `Re G = G`.
 Of this equivalence, the implication from the window bounds to the hypothesis is the step of
 [FormalProof]; the converse is classical, by the bound of 3.2 for the remainder under a zero-free
-half-plane, and is not part of that proof.
+half-plane, and is not part of that proof. The implication from the window bounds follows from [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean`
+(`Deduction.zeroFree_of_rpow_window`) and `Formalism/GammaFactorNonvanishing/RhOfRight.lean`
+(`Formalism.VW.rh_of_right`), with `G` as in
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.G`).
 
 Route: 3.3 at `σ = 1/2` for `w = single 1 1` over `ℚ`, for which `G_w = Re G`. The L-function of
 the trivial character is `dedekindZetaC ℚ` (RiemannHypothesisStatementsAndConsequences §9.5, trivial
@@ -721,6 +748,8 @@ Let `ψ` be a character of `K`. If for every
 `ε ∈ (0, 1/2)` there are a weighted family `w_ε` of characters of `K` with `w_ε(ψ) > 0` and a ratio
 `λ_ε > 1` with `HasWindows {y | G_{w_ε}(y) ≤ y^{1/2+ε}} λ_ε`, then
 `ψ.character.GeneralizedRiemannHypothesis`. The families and the window ratios may depend on `ε`.
+Over `ℚ`, for one fixed family and ratio, this is the step of [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean` (`Formalism.HC.level_of_tiedWin`).
 
 Route: 2.1 at `θ = 1/2 + ε`, `C = 1`, for `w_ε`, of which `ψ` is a member, gives
 `ZeroFreeRightOf (1/2 + ε) (heckeLFunctionC ψ.character)` for every `ε ∈ (0, 1/2)`; then the
@@ -747,7 +776,12 @@ ThetaChainsAndFrobeniusPrimeSums §10.11. Further, (i) for every primitive Diric
 is equivalent to the generalized Riemann hypothesis for every Dirichlet character (3.4).
 Of the equivalence of (i) and (ii), the implication from the window bounds to the hypothesis is
 the step of [FormalProof]; the converse is classical, by the bound of 3.2 for the remainder under a
-zero-free half-plane, and is not part of that proof.
+zero-free half-plane, and is not part of that proof. That step is [FormalProof],
+`Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean` (`UpperTheory.Comparison₂.formB`). [FormalProof]
+has statement (i), with one fixed weight system and a fixed ratio, in the proof of
+`Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean` (`UpperTheory.Top.zeroFreeAll_of_topG`),
+through `Development/AutomorphicArithmetic/PrimitiveCosets/LevelGmLeOnFamilyScales.lean`
+(`UpperTheory.Comparison₂.level_gm_le_on_family_scales`).
 
 Route: by 0.3 the sum in (i) is `G_{w_ℚ}`, and `w_ℚ` is a weighted family whose members form
 `𝒦_ℚ(ψ)` (0.2). The hypothesis of the image of `κ` is that of `κ.character`:
@@ -789,6 +823,7 @@ ThetaChainsAndFrobeniusPrimeSums §10.11, for the sentence of 4.2 on statement (
 `ZeroFreeRightOf (1/2) χ.LFunction`: `meromorphicOrderAt χ.LFunction s ≤ 0` for every `s` with
 `Re s > 1/2`. Hence
 `∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.GeneralizedRiemannHypothesis`.
+It follows from [FormalProof], `Supplements/Kernels/MainTheorems.lean` (`allChi`).
 The theorem gives `DirichletGRH χ` of AnalyticNumberTheoryPartI §1.6 for every `χ`, that predicate
 being the second strip form of RiemannHypothesisStatementsAndConsequences §9.4, hence `GRH` of
 AnalyticNumberTheoryPartI §1.6 and `GRHMod q` of ExplicitNumberFields §0.5 (`DirichletGRH χ` for
@@ -808,10 +843,11 @@ RiemannHypothesisStatementsAndConsequences §§9.4,
 
 ### 5.2 The Riemann hypothesis
 
-`riemannHypothesis`: `RiemannHypothesis`.
+`riemannHypothesis`: `RiemannHypothesis`, a theorem of [FormalProof], `Supplements/Kernels/MainTheorems.lean` (`rhOfAll`).
 
 Route: 5.1 at modulus one, and the clause "modulus one and the principal character" of
-RiemannHypothesisStatementsAndConsequences §9.4.
+RiemannHypothesisStatementsAndConsequences §9.4, as in [FormalProof],
+`Formalism/GammaFactorNonvanishing/CritLine.lean` (`Formalism.VW.rh_of_every`).
 The route uses the window bounds at the trivial character only, whose cyclic family is `{1}`
 (ThetaChainsAndFrobeniusPrimeSums §10.11 at `ψ = 1`).
 
@@ -823,17 +859,22 @@ For every `N ≥ 1` and `χ : DirichletCharacter ℂ N`:
 
 - the hypothesis holds for `χ`, for `χ⁻¹` and for `χ.primitiveCharacter` (5.1);
 - `LFunction_ne_zero_of_one_half_lt_re`: if `1/2 < Re s` and (`χ ≠ 1` or
-  `s ≠ 1`), then `χ.LFunction s ≠ 0`;
+  `s ≠ 1`), then `χ.LFunction s ≠ 0`, a theorem of [FormalProof], `Supplements/Kernels/MainTheorems.lean` (`allChi`);
 - `re_eq_half_of_LFunction_eq_zero`: if `0 < Re s < 1` and
-  `χ.LFunction s = 0`, then `Re s = 1/2`, imprimitive characters included;
+  `χ.LFunction s = 0`, then `Re s = 1/2`, imprimitive characters included, a theorem of [FormalProof],
+  `Supplements/Kernels/MainTheorems.lean` (`claimAll`), and for primitive `χ`
+  `Supplements/Kernels/MainTheorems.lean` (`critAll`);
 - `riemannZeta_ne_zero_of_one_half_lt_re`: `riemannZeta s ≠ 0` whenever `1/2 < Re s` (at `s = 1`
   Mathlib's value `(γ − log 4π)/2` is not `0`); and every zero of `riemannZeta` with
   `0 < Re s < 1` has `Re s = 1/2`, the case `N = 1` of the strip form
-  (`DirichletCharacter.LFunction_modOne_eq`).
+  (`DirichletCharacter.LFunction_modOne_eq`). The first follows from [FormalProof],
+  `Supplements/Kernels/MainTheorems.lean` (`allChi`), the second from
+  `Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.zeta`).
 
 Route: 5.1 with RiemannHypothesisStatementsAndConsequences §9.4's consumer forms, which rest on its
 value form (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`) and its strip form
-(`generalizedRiemannHypothesis_iff_re_eq_half`) for every character, primitive or not; 5.2 with
+(`generalizedRiemannHypothesis_iff_re_eq_half`) for every character, primitive or not (the strip form as in
+[FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.strip`)); 5.2 with
 RiemannHypothesisStatementsAndConsequences §9.3's `riemannHypothesis_iff_riemannZeta_ne_zero`.
 
 *Needs:* 5.1, 5.2; RiemannHypothesisStatementsAndConsequences §§9.3, 9.4.
