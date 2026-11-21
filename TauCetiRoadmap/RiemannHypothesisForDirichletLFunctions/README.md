@@ -44,8 +44,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   quadratic twists over primes in a progression, and the selection of auxiliary primes with
   zero-free boxes.
 - [**Adelic heights and successive minima**](AdelicHeightsAndSuccessiveMinima/README.md):
-  adelic heights of vectors and subspaces for an adelic presentation, with their duality and
-  behaviour under extension, and successive minima over number fields for balanced bodies.
+  names for the adelic heights of vectors and subspaces of an adelic presentation, written out over
+  every finite extension, with their elementary properties, and Minkowski's second theorem over
+  number fields for balanced bodies.
 - [**Orbit measures on adelic groups**](OrbitMeasuresOnAdelicGroups/README.md):
   Tamagawa measures, Siegel sets and orbit measures on adelic groups, and centralisers of semisimple
   elements.
