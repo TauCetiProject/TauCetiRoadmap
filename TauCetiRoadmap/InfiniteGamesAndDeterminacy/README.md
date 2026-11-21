@@ -65,8 +65,17 @@ property of Baire; it uses the definitions of Layer 1 and no theorem of Layers 1
   existence of a set that is not determined uses it essentially (Moschovakis, §7F, p. 341).
 - **Pointclasses.** Countable unions of closed sets (`Σ⁰₂`) are written `⋃ i, F i` with each
   `F i` closed; countable intersections of open sets (`Π⁰₂`) are Mathlib's `IsGδ`. When `X` is
-  uncountable, `ℕ → X` is not separable and an open set need not be a countable union of closed
-  sets (Moschovakis, p. 220), so the two classes are stated separately.
+  uncountable, `ℕ → X` is not separable (Moschovakis, p. 220), since the cylinders of length `1`
+  are uncountably many disjoint nonempty open sets; so it is not one of the book's product
+  spaces, and the two classes are named here directly by their definitions, as Moschovakis,
+  p. 220, does for every `ℕ → X`. For every `X`, an open set `U` is still the union of the
+  clopen sets `Fₙ` of the `x` with `PiNat.cylinder x n ⊆ U`, so it is a countable union of closed
+  sets; the remark in parentheses on p. 220, that an open set need not be one, does not hold in
+  `ℕ → X`. Hence 3.1 contains 1.2 (a constant family) and the open determinacy of 1.3, and so
+  does 3.2, which is reached from 3.1 through the shift lemma of 1.3 (a closed set is the
+  intersection of the open complements of the `Fₙ` for its complement). The statements of
+  Layer 1 stay targets of their own: 1.2 is a step of the route of 3.1, the shift lemma one of
+  the route of 3.2, and open determinacy follows from 1.2 and the shift lemma with no ordinals.
 - **Category.** Meagre sets are Mathlib's `IsMeagre` (the complement lies in the filter
   `residual`), and a set with the property of Baire is Mathlib's `BaireMeasurableSet`, which by
   `BaireMeasurableSet.iff_residualEq_isOpen` differs from an open set by a meagre set. The space
