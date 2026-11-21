@@ -34,6 +34,11 @@ There is one layer, numbered `4` as in the family's core. It sets up Gauss norms
 | integral charts | existence, chart-independence of the depth, saturated frames | 4.8b′ |
 | `ν_y(κ; n, m_L), ν_𝔩(κ; n, m_L)` | depth of a weight at a framed point and at a place, with multiplier `m_L` (the level when not written) | 4.8b |
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 4: Taylor bounds on height-two formal groups and depths of weights
 
 The layer is local theory on formal groups: formal groups of height two, and polarised formal groups with an unramified action at the points of a unitary PEL moduli problem. It uses no target of the earlier core roadmaps of the family (FrobeniusRestrictedRieszSums, ThetaChainsOnDefiniteUnitaryGroups).
