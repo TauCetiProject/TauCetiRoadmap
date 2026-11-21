@@ -3825,8 +3825,12 @@ Define `Stacks.QCoh X` for a stack in groupoids: quasi-coherent modules on the r
 isomorphisms satisfying the cocycle condition (Stacks, Definition 96.11.1 (06WG)). API:
 *QCoh.pullback*, *QCoh.presentationEquiv* (for `X = [U/R]`, quasi-coherent modules on `U` with
 descent data; Proposition 96.14.3 (06WT)), *QCoh.ofSpaceEquiv* (agreement with §1.11 for spaces).
-For a quasi-compact quasi-separated morphism `f : X → Y` of algebraic stacks, construct
-*QCoh.pushforward* as the quasi-coherent right adjoint to *QCoh.pullback* `f`, with
+Prove that `Stacks.QCoh X` is abelian for an algebraic stack `X`, with kernels and cokernels
+computed on `U` under *QCoh.presentationEquiv* for a presentation `[U/R] ≃ X` with `s, t` flat,
+such as §1.20's smooth groupoid presentation (Stacks, Lemma 96.15.1 (1)–(2) (06WV); Groupoids in
+Spaces, Lemma 78.12.6 (06VZ)). For a quasi-compact quasi-separated morphism `f : X → Y` of
+algebraic stacks, construct *QCoh.pushforward* as the quasi-coherent right adjoint to
+*QCoh.pullback* `f`, with
 *QCoh.pullbackPushforwardAdjunction* and its natural Hom equivalence. Under *QCoh.ofSpaceEquiv*
 it agrees with the quasi-coherent pushforward for algebraic spaces of §1.11.
 Prove the flat-test comparison: for every flat test morphism `y : T → Y`, evaluation of
@@ -3834,7 +3838,7 @@ this right adjoint at `y` agrees naturally with the ordinary big-fppf-site direc
 The right adjoint is obtained by applying the quasi-coherent replacement to that direct image;
 ordinary big-site direct image need not preserve quasi-coherence (Stacks, Proposition 103.11.1
 (077A), Lemma 103.11.2 (0GQQ), Section 103.11 (070A)). *Needs:* §1.1, §1.11, §1.18,
-§1.21; Mathlib `CoGrothendieck`.
+§1.20, §1.21; Mathlib `CoGrothendieck`.
 
 **Checks.**
 - On a scheme the stack construction recovers its quasi-coherent modules. For an
@@ -3859,11 +3863,10 @@ quasi-compact and quasi-separated, and *QCoh.pushforward* `f : Stacks.QCoh X ⥤
 preserves epimorphisms. As a right adjoint it is left exact, so the condition is exactness (Alper 2013,
 Definition 3.1, p. 2357, where quasi-separatedness is a standing convention; Alper–Hall–Rydh 2020,
 §1.5, p. 5, state it in the definition). Epimorphisms are those of the abelian category
-`Stacks.QCoh Y` (Stacks, Lemma 96.15.1 (06WV)); §1.22 does not state that this category is
-abelian, and this section depends on that statement, which StackPointsAndResidualGerbes requests
-of §1.22 as gap:qcoh-stacks-abelian-tensor. The inclusion of quasi-coherent modules into all
-`O_Y`-modules of the big site is not exact, so exactness of the raw direct image on all modules is a
-different condition. An algebraic stack `X` is cohomologically affine when `X → Spec ℤ` is; prove
+`Stacks.QCoh Y` (§1.22; Stacks, Lemma 96.15.1 (06WV)). The inclusion of quasi-coherent modules
+into all `O_Y`-modules of the big site is not exact, so exactness of the raw direct image on all
+modules is a different condition. An algebraic stack `X` is cohomologically affine when
+`X → Spec ℤ` is; prove
 *IsCohomologicallyAffine.iff_globalSections*: this holds iff `X` is quasi-compact and
 quasi-separated and `Γ(X, −) : Stacks.QCoh X → Ab` is exact (Alper 2013, Definition 3.7 and
 Remark 3.8, p. 2358).
@@ -3952,8 +3955,7 @@ of cohomological affineness with the vanishing of higher direct images, valid wh
 quasi-affine diagonal and `f` has affine diagonal (Alper–Hall–Rydh 2020, §1.5, p. 5), needs the
 higher direct images of quasi-coherent modules on algebraic stacks (Stacks, Proposition 103.11.1
 (077A)), which this roadmap does not construct; it is not a target here.
-*Needs:* §1.1, §1.9, §1.10, §1.11, §1.18–§1.22, §2.6; gap:qcoh-stacks-abelian-tensor (the abelian
-structure of `Stacks.QCoh`); Mathlib `IsAffineHom`, `IsQuasiAffine`,
+*Needs:* §1.1, §1.9, §1.10, §1.11, §1.18–§1.22, §2.6; Mathlib `IsAffineHom`, `IsQuasiAffine`,
 `Flat`, `LocallyOfFinitePresentation`, `Sheaf.H`; Tau Ceti `linearlyReductiveAffineGroupSchemeProperty`,
 `Coalgebra.isLinearlyReductive_iff_forall_fixedMap_surjective_of_surjective`,
 `Comodule.Hom.fixedMap_surjective_of_isLinearlyReductive`.
