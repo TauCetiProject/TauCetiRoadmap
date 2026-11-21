@@ -16,10 +16,11 @@ The file pins the carriers of Layers 0 and 1, which are group theory with no ari
 the closed derived series `closedDerivedSeries` and the solvable quotients `SolvableQuotient`,
 filtrations `GroupFiltration` with filtered isomorphisms `IsFiltered` relative to an index set and
 outer filtered isomorphisms `FilteredOut`, quotient filtrations, and the Herbrand functions and
-restriction of a filtration to an open subgroup. It states the open-subgroup model of Layer 2.0
-and the headline theorems of Layer 3 against the pinned Tau Ceti: the coordinates
-`artinCoordinateHom` on the abelianized absolute Galois group, the centre of `G_K^{m+1}`, and
-centre-freeness of `G_K^m` for `m ≥ 2`, for finite extensions `K` of `ℚ_p`.
+restriction of a filtration to an open subgroup. It states the open-subgroup model of Layer 2.0,
+reduced to one equality of subgroups by Tau Ceti's `absoluteGaloisGroupExtendEquiv`, and the
+headline theorems of Layer 3 against the pinned Tau Ceti: the coordinates `artinCoordinateHom`
+on the abelianized absolute Galois group, the centre of `G_K^{m+1}`, and centre-freeness
+of `G_K^m` for `m ≥ 2`, for finite extensions `K` of `ℚ_p`.
 
 The absolute upper filtration on a nonarchimedean local field is ClassFieldTheory Layer 7's
 `localAbsoluteUpperRamificationGroup`, which has no declaration at the Tau Ceti pin, so 2.1–2.4
@@ -56,6 +57,7 @@ theorem closedDerivedSeries_succ (n : ℕ) :
       (⁅closedDerivedSeries G n, closedDerivedSeries G n⁆).topologicalClosure :=
   sorry
 
+/-- The closed derived series is decreasing. -/
 theorem closedDerivedSeries_antitone : Antitone (closedDerivedSeries G) :=
   sorry
 
@@ -71,7 +73,7 @@ abbrev SolvableQuotient (n : ℕ) : Type _ :=
   G ⧸ closedDerivedSeries G n
 
 /-- The image of `G^[m]` in `G^{m+n}` is the `m`-th closed derived subgroup of `G^{m+n}`. -/
-theorem map_closedDerivedSeries_solvableQuotient [CompactSpace G] [T2Space G] (m n : ℕ) :
+theorem map_closedDerivedSeries_solvableQuotient [CompactSpace G] (m n : ℕ) :
     (closedDerivedSeries G m).map (QuotientGroup.mk' (closedDerivedSeries G (m + n))) =
       closedDerivedSeries (SolvableQuotient G (m + n)) m :=
   sorry
@@ -83,11 +85,11 @@ theorem closedDerivedSeries_add_le (H : Subgroup G) (hH : IsClosed (H : Set G)) 
     closedDerivedSeries G (m + n) ≤ (closedDerivedSeries H n).map H.subtype :=
   sorry
 
-/-- **The closed commutator subgroup of an intersection**: for a closed normal `N` of a profinite
+/-- **The closed commutator subgroup of an intersection**: for a subgroup `N` of a profinite
 group, `closure ⁅N, N⁆` is the intersection of the `closure ⁅N·U, N·U⁆` over the open normal
 subgroups `U`. -/
 theorem topologicalClosure_commutator_eq_iInf [CompactSpace G] [TotallyDisconnectedSpace G]
-    (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G)) :
+    (N : Subgroup G) :
     (⁅N, N⁆).topologicalClosure =
       ⨅ U : OpenNormalSubgroup G, (⁅N ⊔ U.toSubgroup, N ⊔ U.toSubgroup⁆).topologicalClosure :=
   sorry
@@ -180,10 +182,12 @@ noncomputable def GroupFiltration.herbrandPsi (F : GroupFiltration G) (H : Subgr
   if u ≤ 0 then u
   else (∫ t in (0 : ℝ)..u, ((F.step t ⊔ H).index : ℝ)) / ((F.step 0 ⊔ H).index : ℝ)
 
+/-- `ψ_H` is strictly increasing for `H` open. -/
 theorem GroupFiltration.strictMono_herbrandPsi [CompactSpace G] (F : GroupFiltration G)
     {H : Subgroup G} (hH : IsOpen (H : Set G)) : StrictMono (F.herbrandPsi H) :=
   sorry
 
+/-- `ψ_H` is surjective for `H` open. -/
 theorem GroupFiltration.surjective_herbrandPsi [CompactSpace G] (F : GroupFiltration G)
     {H : Subgroup G} (hH : IsOpen (H : Set G)) : Function.Surjective (F.herbrandPsi H) :=
   sorry
@@ -230,15 +234,24 @@ open TauCeti
 variable (K : Type*) [Field K] (L : IntermediateField K (AlgebraicClosure K))
   [FiniteDimensional K L] [Algebra.IsSeparable K L]
 
-/-- **The absolute Galois group of a finite separable subextension is its fixing subgroup**, as
-topological groups (Layer 2.0): `absoluteGaloisGroupExtend K L σ`, for the embedding `σ` of `L`
-into the separable closure induced by the inclusion, is a continuous isomorphism onto
+/-- **The image of `G_L` is the fixing subgroup** (Layer 2.0): for the embedding `σ` of `L` into
+the separable closure induced by the inclusion, the range of `absoluteGaloisGroupExtend K L σ` is
 `L.fixingSubgroup`. -/
+theorem range_absoluteGaloisGroupExtend_eq_fixingSubgroup (σ : L →ₐ[K] SeparableClosure K)
+    (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x) :
+    (absoluteGaloisGroupExtend K L σ).range = L.fixingSubgroup :=
+  sorry
+
+/-- **The absolute Galois group of a finite separable subextension is its fixing subgroup**, as
+topological groups (Layer 2.0): Tau Ceti's `absoluteGaloisGroupExtendEquiv` applied to
+`range_absoluteGaloisGroupExtend_eq_fixingSubgroup`. -/
 theorem exists_continuousMulEquiv_fixingSubgroup (σ : L →ₐ[K] SeparableClosure K)
     (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x) :
     ∃ e : Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup,
       ∀ τ, (e τ).1 = absoluteGaloisGroupExtend K L σ τ :=
-  sorry
+  ⟨absoluteGaloisGroupExtendEquiv K L σ
+      (range_absoluteGaloisGroupExtend_eq_fixingSubgroup K L σ hσ),
+    coe_absoluteGaloisGroupExtendEquiv_apply K L σ _⟩
 
 end Layer2
 
@@ -248,6 +261,7 @@ section Layer3
 
 open ValuativeRel TauCeti TauCeti.ClassFieldTheory
 
+-- `K : Type` because `TauCeti.ClassFieldTheory.artinMap` is stated in `Type`, with `zHat.{0}`.
 variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
 /-- The **coordinates** `𝒪_K^× × Ẑ → G_K^ab`, `(u, a) ↦ Art_K(u) · Art_K(ϖ)^ᶻ a`. -/
