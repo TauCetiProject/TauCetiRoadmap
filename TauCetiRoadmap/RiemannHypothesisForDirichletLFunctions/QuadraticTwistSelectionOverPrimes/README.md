@@ -42,6 +42,10 @@ hypotheses of the general statement of 2.7c.
 
 Notation and conventions not restated here are those of the Conventions of SieveMethodsAndPrimePatterns and of AnalyticNumberTheoryPartI; exceptional pairs modulo `q` are those of the Convention of RieszSumsOverPrimesAndExceptionalZeros §1.7b.
 
+**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider statement would need its own proof.
+
 ## Layer 2: Quadratic twists over primes in a progression and twist selection
 
 The sections 2.7a–2.7d average Jacobi symbols over the primes of one residue class: reciprocity on the class and the prime number theorem in progressions give orthogonality, the mean square of short twisted prime sums follows, a Sobolev inequality on dyadic blocks passes from one point to a whole window, and the zero-free boxes of a zero-density estimate complete the selection.
