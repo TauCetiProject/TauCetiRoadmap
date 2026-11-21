@@ -99,7 +99,8 @@ For a vector `z′ ∈ X_0 ⊕ ⟨z⟩` of negative norm let `N_S` be the unipot
 `⟨e_1⟩ ⊂ ⋯ ⊂ ⟨e_1, …, e_{r_S}⟩`, `U_{z′}` the pointwise stabiliser of all `e_a, f_a` and `z′` (a compact group `U(k)`),
 `S_{z′} = N_S ⋊ U_{z′}`, and `ψ_{z′}(n) = ψ_τ(Σ_{a<r_S}⟨f_a, n e_{a+1}⟩ + ⟨f_{r_S}, n z′⟩)`, where `ψ_τ` is the component at `τ` of
 `x ↦ ψ_E(g^{−1}x)` (`g = g₀g₁`) for a fixed nontrivial character `ψ_E` of `𝔸_E/E` trivial on `𝔸_F` (any nontrivial
-character of `ℂ` trivial on `ℝ` gives a datum conjugate under the torus centralising `U_{z′}`): the Bessel datum of
+character of `ℂ` trivial on `ℝ` gives a datum conjugate under the torus centralising `U_{z′}`, GanGrossPrasadUnitaryGroups §1.3):
+the Bessel datum of
 GanGrossPrasadUnitaryGroups 1.2 for the pair `z′^⊥ ∩ (X_0 ⊕ ⟨z⟩) ⊂ Y_0`. For the word `u` the datum is
 `(S_u, ψ_u) := (S_{z_u}, ψ_{z_u})`. Let `D` be a discrete series of `G_τ` with Harish-Chandra parameter
 `hc = (hc_1 > ⋯ > hc_{k−1}; hc′_1 > ⋯ > hc′_m)` with the signs of RowTowerAndRallisIdentities §5.3, and `π` an irreducible representation of `U_{z′}`
@@ -123,8 +124,9 @@ constant `C > 0` that is uniquely determined by the Haar measures of `G_τ`, `N_
 *Route.* Bruhat decomposition relative to the maximal parabolic of each line `ℂe_l` (Witt's theorem), iterated
 over the planes, with the rank-one case `U(k, 1)` on the hyperboloid `|𝔷|² > T·T′`.
 
-*KNOWN* in kind (Bruhat decomposition). *Needs:* RowTowerAndRallisIdentities §5.3; GanGrossPrasadUnitaryGroups 1.2; RepresentationTheory/LieGroups, "Layer 9: the
-Cartan, Iwasawa, and KAK decompositions".
+*KNOWN* in kind (Bruhat decomposition: RealSemisimpleLieGroups §3.3). *Needs:* RowTowerAndRallisIdentities §5.3; GanGrossPrasadUnitaryGroups 1.2,
+GanGrossPrasadUnitaryGroups §1.3 (transport of Bessel data); RealSemisimpleLieGroups §§3.2, 3.3, 4.2 (open big cell, Bruhat decomposition,
+parabolic double cosets); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa, and KAK decompositions".
 
 ### 5.13b Bessel integral, pairing and majorant
 
@@ -210,6 +212,9 @@ That these Bessel maps form a space of dimension at most one is multiplicity one
 Bessel map `B` is the element `v ⊗ λ ↦ λ(B(v))` of the Bessel model of `D ⊗ π^∨` (GanGrossPrasadUnitaryGroups §2.6). What (d)
 adds is the rank-one form of `be` and that `be` detects the Bessel maps: a nonzero one exists exactly when `be ≠ 0`, and it is
 then a multiple of `l`. Neither clause uses the interlacing or the signs of RowTowerAndRallisIdentities §5.3.
+GanGrossPrasadUnitaryGroups §3.3 gives the corresponding statements for the regularised Bessel form of every irreducible tempered
+pair, here `D ⊠ π^∨` (rank at most one, nonzero exactly when the Bessel model is); (d) adds, for gapped `D`, the absolute
+convergence of `be` on lowest-`K`-type vectors and its explicit rank-one form, and its route does not use that statement.
 
 *Route.* (c) Write
 `𝔤 = Lie(U_{z′}) + Lie(N_S) + 𝔮`; every `x` is `h·n·Γ·t·κ` with `t` in a torus and `κ` unitary (Iwasawa, Langlands and Cartan
@@ -228,7 +233,7 @@ GanGrossPrasadUnitaryGroups §2.6 also gives `B ∈ ℂl`; the reproducing formu
 Jiang–Sun–Zhu, Theorem A, for the Bessel subgroups of `U(p, q)`; decay of generalised Whittaker functions: Jacquet, Wallach), *NEW*
 (the elementary proofs for gapped discrete series, the identification with the Bessel integral of coefficients). *Needs:*
 5.13a, 5.13b; GanGrossPrasadUnitaryGroups §2.6 (multiplicity one); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa,
-and KAK decompositions"; VonNeumannAlgebras Layer 9 (Schur orthogonality for square-integrable representations).
+and KAK decompositions"; RealSemisimpleLieGroups §4.3 (Langlands decomposition); VonNeumannAlgebras Layer 9 (Schur orthogonality for square-integrable representations).
 
 ### 5.13d Nonvanishing of Bessel maps and transfer coefficients
 
@@ -272,7 +277,8 @@ by the character) and `|f_t(Y)| ≤ (1 + ‖Y‖²)^{−ct}` (decay of the coeff
 continuous for large `t`, and `exp` carries Lebesgue measure on `Lie N_S` to the Haar measure of `N_S`. These are the hypotheses
 of PositivityOfDirichletSeriesWithKernels §7.1 on `E = Lie N_S`, the parameter running over the positive integers (`B` is
 real-bilinear with complex values; the positivity of its real part is PositivityOfDirichletSeriesWithKernels §7.1 (a)), so the
-integral is nonzero for large `t` by the non-vanishing clause PositivityOfDirichletSeriesWithKernels §7.1 (d). This gives `l ≠ 0` for one datum. All data are conjugate to it: the torus of the frame centralises
+integral is nonzero for large `t` by the non-vanishing clause PositivityOfDirichletSeriesWithKernels §7.1 (d). This gives `l ≠ 0` for one datum. All data are conjugate to it (GanGrossPrasadUnitaryGroups §1.3: transport of Bessel data under isometries
+of framed pairs and changes of the generic character): the torus of the frame centralises
 `U_{z′}` and is transitive on the generic characters of `N_S`, `U(X_0 ⊕ ⟨z⟩)` normalises `N_S` and is transitive on vectors of
 a given negative norm, and a positive multiple of `z′` changes only the character. Every nonzero vector is cyclic and `l`
 is continuous, which gives the statement for every lowest-`K`-type vector. *Translation.* The Bessel period of
@@ -298,7 +304,7 @@ for `D` and for `D_s`; no uniqueness statement is used).
 *KNOWN* in kind (existence: GanGrossPrasadUnitaryGroups §3.9, from Xue, Theorem 2.2, with Beuzart-Plessis, Theorem 12.4.1, for
 exactly one member with `m = 1` in each tempered Vogan packet; for `r_S = 0` under interlacing: He, Theorem 0.1), *NEW* (the elementary proof for
 gapped discrete series, the transfer coefficients (g)). *Needs:* 5.13a, 5.13c; GanGrossPrasadUnitaryGroups §3.9 (the real
-tempered theorem); DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b) (tensor
+tempered theorem); GanGrossPrasadUnitaryGroups §1.3 (transport of Bessel data); DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b) (tensor
 products of gapped discrete series with the standard representation and its dual, on smooth vectors);
 ClassicalGroups §6.6 (Capelli generators); TensorInductionAndFiniteGroupInputs §9.1 (b), (d), (f) (Laplace
 expansions of quantum minors, the comatrix identity, vector operators through quantum minors); RepresentationTheory/LieHighestWeight
@@ -331,12 +337,14 @@ of `u`*, unique up to a scalar of modulus `1`, with
 (`W = l(D(·)w)`, normalised); uniqueness from 5.13c (d) and Frobenius reciprocity; the domination from `W = c·l(D(·)w)` and the
 explicit lowest-`K`-type coefficient with its decay `|⟨w, D(x)w⟩| ≤ C‖x‖_HS^{−A}`, `A = h/(8√(2q_S))`, `C = r^{A/2}e^{A/√(2q_S)}`, valid for
 `h ≥ 120·r·q_S^{3/2}` (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (c); the chain instance has `h_gap ≥ 120r³`, which
-covers it); the weighted bound by `ν(x) ≤ ‖sx‖`, the quotient integral formula and the weighted integrability of the coefficient
+covers it); the weighted bound by `ν(x) ≤ ‖sx‖`, the quotient integral formula (AnalyticNumberTheoryPartII §5.3k) and the
+weighted integrability of the coefficient
 (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (d), whose hypotheses are the two inequalities for `N` in (f)).
 
 *KNOWN* in kind (decay of generalised Whittaker functions: Jacquet, Wallach), *NEW* (the explicit decay). *Needs:* 5.13c, 5.13d,
 ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, RowTowerAndRallisIdentities §5.3; AutomorphicFormsOnReductiveGroups §2.4 (discrete series); DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (b)–(d) (explicit
-lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their decay and their weighted integrability).
+lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their decay and their weighted integrability);
+AnalyticNumberTheoryPartII §5.3k (quotient measures on `S_{z′}\G_τ`).
 
 *Checks.*
 - Half-integrality is automatic: Harish-Chandra parameters of `U(n)` lie in `((n − 1)/2 + ℤ)^n`, and `r − k = 2r_S + 1`
@@ -408,7 +416,8 @@ the stabiliser of the lattice (any compact open subgroup of it). Then
 `(K₂, χ₂)`-equivariance give `R(e_𝒟 ⊗ 𝟙_{K₂,χ₂})P_uT = P_uT`; unfolding gives the adjoint.
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.13, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.8; GanGrossPrasadUnitaryGroups 1.2, 4.1; AdelicAlgebraicGroups §2.3 (rational quotients),
-§3.5 (algebraic heights); SlopesOfHermitianVectorBundles §3.2. *KNOWN* method (Poincaré series of integrable functions; Petersson, Godement), *NEW* in this form.
+§3.5 (algebraic heights); AnalyticNumberTheoryPartII §5.3k (quotient measures, integration in stages, unfolding);
+SlopesOfHermitianVectorBundles §3.2. *KNOWN* method (Poincaré series of integrable functions; Petersson, Godement), *NEW* in this form.
 
 ### 5.15 Geometric expansion of the Gram operators
 
@@ -469,7 +478,8 @@ relation are read off the two flags: `β` is determined on `X′^⊥` modulo `X�
 the coordinates `(α, α′)` of a generic term at its row are a function of the pair of flags.
 
 *Needs:* 5.13b, 5.13c, 5.13, 5.14; RepresentationTheory/CompactGroups Layers 2, 4; HermitianFormsAndLattices §§5.1, 5.2 (genus,
-classes, stabilisers); Mathlib (Haar measure). *KNOWN* in kind (unfolding; geometric side of a relative trace formula of
+classes, stabilisers); AnalyticNumberTheoryPartII §5.3k (quotient measures, integration in stages, unfolding); Mathlib
+(Haar measure). *KNOWN* in kind (unfolding; geometric side of a relative trace formula of
 Bessel type), *NEW* (the classification for this pair, the pairs).
 
 *Checks.*
@@ -486,7 +496,8 @@ Let `𝐆` be a unimodular second-countable locally compact group, `σ` an irred
 square-integrable unitary representation of formal degree `d`, `w` a unit vector and `e_σ = d·conj⟨w, σ(·)w⟩`; `S, S′ ⊂ 𝐆` closed
 unimodular amenable subgroups with Følner sequences; `(κ, V)`, `(κ′, V′)` finite-dimensional unitary representations of `S`, `S′`;
 and `W : 𝐆 → V`, `W′ : 𝐆 → V′` continuous, with `W(sx) = κ(s)W(x)`, `W′(s′x) = κ′(s′)W′(x)`, `R(e_σ)W = W`, `R(e_σ)W′ = W′` (`R` the integrated right action of 5.13 (f)),
-`∫_{S\𝐆}‖W‖ < ∞`, `∫_{S′\𝐆}‖W′‖ < ∞` and `∫_{S\𝐆}‖W‖² = ∫_{S′\𝐆}‖W′‖² = 1`. Let `(C, m)` be a measure space and `h : C → 𝐆`
+`∫_{S\𝐆}‖W‖ < ∞`, `∫_{S′\𝐆}‖W′‖ < ∞` and `∫_{S\𝐆}‖W‖² = ∫_{S′\𝐆}‖W′‖² = 1` (the quotient measures of
+AnalyticNumberTheoryPartII §5.3k, `S`, `S′` and `𝐆` being unimodular). Let `(C, m)` be a measure space and `h : C → 𝐆`
 a measurable map with `∫_𝐆 φ = ∫_C∫_S∫_{S′}φ(s·h(c)·s′^{−1}) ds′ ds dm(c)` for every measurable `φ ≥ 0` (a parametrisation of
 almost all double cosets; `dγ` denotes the image of `m`). Assume that for every `c ∈ C`, with `γ = h(c)`: (i) the integral
 `O(γ) := ∫_𝐆 W(x) ⊗ conj W′(γ^{−1}x) dx ∈ V ⊗ V̄′` converges absolutely; (ii)
@@ -527,8 +538,8 @@ Schur orthogonality); by Schur orthogonality `O(γ) = ⟨b, σ(γ)b′⟩`, and 
 `n ≠ 0`, `w = b = 1`, it sends `x ↦ e^{−inx}` to `0`. Amenability is used for the truncation only.
 
 *KNOWN* in kind (Schur orthogonality; relative characters), *NEW* (this form). *Needs:* 5.13a, 5.13b, 5.13c, 5.13, 5.15;
-VonNeumannAlgebras Layer 9 (coefficient maps, Schur orthogonality, formal degree); Mathlib (`IsFoelner`, Haar measure,
-Fatou's lemma).
+VonNeumannAlgebras Layer 9 (coefficient maps, Schur orthogonality, formal degree); AnalyticNumberTheoryPartII §5.3k
+(quotient measures on `S\𝐆`); Mathlib (`IsFoelner`, Haar measure, Fatou's lemma).
 
 ### 5.16 Limit multiplicity with a uniform error
 
@@ -550,14 +561,16 @@ modulo `g′ = g₀`, which splits completely in `E`), and assume `r ≥ n₀`, 
 `log log b ≤ c·rf log r`, `g₀g₁ ≤ b^{C_ϕ}`, `g₀ > 4r`, (W6) of ThetaChainsOnDefiniteUnitaryGroups §2.3, and (W5) with `h_gap ≥ C·r^{19}f^5·log(b·rd_E)`. Then
 `|D_all − D*| ≤ ε_C·D*` with `ε_C = exp(−c·rf log r)`.
 
-*Route.* (a) `R(e_{π_∞} ⊗ ϕ)` is a projection onto cusp forms (RowTowerAndRallisIdentities §5.3), so `m(π_∞, ϕ) = ∫_𝔉 Σ_{γ∈U(V)(F)} (e_{π_∞} ⊗ ϕ)(x^{−1}γx) dx`
+*Route.* (a) `R(e_{π_∞} ⊗ ϕ)` is a projection onto cusp forms (RowTowerAndRallisIdentities §5.3; the criterion
+AutomorphicSpectralTheory §4.10 is stated for semisimple groups, and its reduction for the centre of `U(V)` is not given here), so `m(π_∞, ϕ) = ∫_𝔉 Σ_{γ∈U(V)(F)} (e_{π_∞} ⊗ ϕ)(x^{−1}γx) dx`
 over a fundamental domain `𝔉`, the kernel on the diagonal being `Σ_i|F_i(x)|²` for an orthonormal basis of the range;
 the term `γ = 1` integrates to `D*(π_∞, ϕ)`. (b) For `x ∈ U(V)(𝔸)` let `Λ_x` be the Hermitian lattice `x_fL` with the
 metrics `x_∞`; its canonical filtration (SlopesOfHermitianVectorBundles §3.2) gives `least(x)`, the least normalised size
 of a nonzero sublattice; split `𝔉` into the *moderate* part `least(x) ≥ τ*` (`τ* = (nf·rd_E·g_ϕ·b)^{−Cq_V}`) and the *deep*
 part. (c) *Short flags are rare:* the measure of `{least < ½}` is at most `exp(−nf log n/3)·vol(𝔉)` when `q_V² ≤ n`, by
 unfolding over the parabolic of the flag (Iwasawa integration, covolumes of unipotent radicals, volumes of `GL_j(E)`,
-mass ratios of unitary groups of smaller rank, and a bound for the residue of `ζ_E` at `1`); the flag constant of a flag
+mass ratios of unitary groups of smaller rank, and the residue bound AnalyticNumberTheoryPartI §2.15,
+`Res_{s=1}ζ_E ≤ (e·log rd_E)^{2f−1} ≤ e^{(n+1)(2f−1)}` under `log rd_E ≤ e^n`); the flag constant of a flag
 of total rank `J` with blocks `j_i` is
 `κ(E; p, q; j) = v^{−f·d_N/2}·2^{−f(nJ − J² + J/2)}·(S(p)S(q)/(S(p−J)S(q−J)∏_iS(j_i)))^f·(Res_{s=1}ζ_E)^{a}·∏_i∏_{l=2}^{j_i}ζ_E(l)/∏_{M=n−2J+1}^{n}L(M, η^M)`,
 `v = rd_E/2`, `d_N = 2Jn − 2J² − Σj_i²`, `S(i) = ∏_{l=1}^{i}2π^l/(l−1)!`, `a` the number of blocks (the powers of `2` are those of
@@ -605,7 +618,8 @@ Chain instance: `𝟙_{K₂,χ₂}` is an admissible idempotent (ThetaChainsOnDe
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.14, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; AutomorphicSpectralTheory §4.5 (finite multiplicity), §4.10 (Wallach's cuspidality criterion); DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1 (trace class),
 §2.4a (c) (explicit lowest-`K`-type coefficients of gapped discrete series and their decay); SlopesOfHermitianVectorBundles §3.2; HermitianFormsAndLattices §§6.0b,
 5.5, 6.4, 6.5; AdelicAlgebraicGroups §3.1 (Iwasawa integration), §3.4 (adelic reduction, finite covolume); GeometryOfNumbersAndQuadraticArithmetic
-§4.4.14 (covering radius and dual minimum). *KNOWN* in kind (limit multiplicities of
+§4.4.14 (covering radius and dual minimum); AnalyticNumberTheoryPartI §2.15 (residue bound for Dedekind zeta functions).
+*KNOWN* in kind (limit multiplicities of
 discrete series: DeGeorge–Wallach for compact quotients, Clozel and Savin for non-compact ones; rapid decay of cusp
 forms), *NEW* (the error term uniform in rank, field, level and weight).
 
@@ -614,6 +628,9 @@ forms), *NEW* (the error term uniform in rank, field, level and weight).
   exactly (Langlands 1966): no near, far or deep terms. The error term here is the price of the non-compact quotient.
 - The unipotent support at one prime is needed: without it the elements of finite order of the level group give
   near terms with `γ ≠ 1` that do not vanish.
+- ShimuraVarieties §7.0h is Clozel's lower bound `liminf m/[Γ_0 : Γ_i] > 0` for the holomorphic discrete series along a
+  congruence tower with a fixed supercuspidal place, for simply connected almost simple groups; the bound here is two-sided,
+  with an error uniform in rank, field, level and weight, and neither statement contains the other.
 
 ### 5.17a The Gelfand–Graev expansion at the type primes
 
@@ -950,7 +967,8 @@ the second commutator vanishes.
 
 *KNOWN* frameworks (Capelli identities; RTT presentation and quantum determinant of the Yangian of `𝔤𝔩₂`: Molev,
 Kulish–Reshetikhin–Sklyanin, Drinfeld; Lax matrices of Toda type: Sklyanin, Kharchev–Lebedev), *NEW* (the statements in this
-setting). *Needs:* 5.13a, 5.13b; ClassicalGroups §§6.3–6.6; TensorInductionAndFiniteGroupInputs §9.1 (b), (h) (the
+setting). *Needs:* 5.13a, 5.13b; ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`);
+ClassicalGroups §§6.3–6.6; TensorInductionAndFiniteGroupInputs §9.1 (b), (h) (the
 border expansions, for (a)), (e), (g), (j) (the quantum determinant, for (b)), (c) (the Capelli eigenvalue), (f) (the commutators
 with `𝔷`, `𝔷̄`), (i) (the adjointness of the entries); RepresentationTheory/LieHighestWeight Layer 7; RealSemisimpleLieGroups 3.3.
 
@@ -1144,8 +1162,9 @@ compactly supported approximants, both sides converging. Then `φ_{ε_c}(x) = χ
 `ε_c`, so the top densities are dominated by `C·n·Gr^{2p₀−L}(Σ_t‖𝒥(Θ_tf)‖)²`, integrable when `L ≤ 2p₀`; dominated convergence
 and locality.
 
-*KNOWN* frameworks (A. Markov's inequality; Gelfand–Tsetlin branching), *NEW* (the statements in this setting). *Needs:* 5.18a,
-5.18b, 5.13b; TensorInductionAndFiniteGroupInputs §9.1 (f) (commutator of the quantum determinant with a vector operator).
+*KNOWN* frameworks (A. Markov's inequality; Gelfand–Tsetlin branching: ClassicalGroups §6.1), *NEW* (the statements in this setting).
+*Needs:* 5.18a, 5.18b, 5.13b; TensorInductionAndFiniteGroupInputs §9.1 (f) (commutator of the quantum determinant with a vector operator);
+ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`).
 
 ### 5.18 Archimedean Gram forms: the pointwise bound
 
@@ -1597,7 +1616,8 @@ Combine by the triangle inequality; `η_off ≤ b^{−6}` because `ε_L, ε_N �
 exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, which is `≤ −14L` for `m ≥ C_m`.
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.15, 5.15a, 5.17a, 5.17d, 5.17, 5.18b, 5.18c, 5.18d, 5.18e, 5.18, 5.19, 5.20a, 5.20b, 5.20c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9,
-ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.5, 5.7, 6.0b, 6.2, 6.3, 6.4, 6.5 (d); Mathlib (Poisson summation). *NEW*.
+ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.5, 5.7, 6.0b, 6.2, 6.3, 6.4, 6.5 (d); AnalyticNumberTheoryPartII §5.3k
+(quotient measures, integration in stages); Mathlib (Poisson summation). *NEW*.
 
 ### 5.21 The Gram bound for equal words
 
@@ -1784,7 +1804,7 @@ These instances are worked in the Checks of the targets cited.
 
 ### Dependencies
 
-ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.8 (the data of the chain); RowTowerAndRallisIdentities §§5.1, 5.2a, 5.3, 5.9 (the row spaces); FrobeniusRestrictedRieszSums §§0.1, 0.4, 0.9 (the hosts and the auxiliary pair); HermitianFormsAndLattices §§4.1, 4.4, 4.8–4.11, 5.1, 5.2, 5.5–5.7, 5.9, 6.0b, 6.1, 6.1a, 6.1d, 6.2–6.5; SlopesOfHermitianVectorBundles §3.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 2.4b, 8.3, 9.1; TensorInductionAndFiniteGroupInputs §9.1; PositivityOfDirichletSeriesWithKernels §§7.1, 8.1, 8.2; FiniteReductiveGroups §§2.2, 2.4–2.7, 5.7, 5.8. On main: AutomorphicFormsOnReductiveGroups §2.4; AutomorphicSpectralTheory §§4.5, 4.10; VonNeumannAlgebras Layer 9; RealSemisimpleLieGroups §§3.3, 4.3; AdelicAlgebraicGroups §§2.3, 3.1, 3.4, 3.5; GeometryOfNumbersAndQuadraticArithmetic §4.4; RepresentationTheory/LieGroups Layer 9; ClassicalGroups §§6.3–6.6; RepresentationTheory/CompactGroups Layers 2 and 4; RepresentationTheory/LieHighestWeight Layer 7. Also GanGrossPrasadUnitaryGroups 1.2, 2.6, 3.9 and 4.1, Mathlib and Tau Ceti.
+ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.8 (the data of the chain); RowTowerAndRallisIdentities §§5.1, 5.2a, 5.3, 5.9 (the row spaces); FrobeniusRestrictedRieszSums §§0.1, 0.4, 0.9 (the hosts and the auxiliary pair); HermitianFormsAndLattices §§4.1, 4.4, 4.8–4.11, 5.1, 5.2, 5.5–5.7, 5.9, 6.0b, 6.1, 6.1a, 6.1d, 6.2–6.5; SlopesOfHermitianVectorBundles §3.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 2.4b, 8.3, 9.1; TensorInductionAndFiniteGroupInputs §9.1; PositivityOfDirichletSeriesWithKernels §§7.1, 8.1, 8.2; FiniteReductiveGroups §§2.2, 2.4–2.7, 5.7, 5.8. On main: AutomorphicFormsOnReductiveGroups §2.4; AutomorphicSpectralTheory §§4.5, 4.10; VonNeumannAlgebras Layer 9; RealSemisimpleLieGroups §§3.2, 3.3, 4.2, 4.3; AdelicAlgebraicGroups §§2.3, 3.1, 3.4, 3.5; GeometryOfNumbersAndQuadraticArithmetic §4.4; AnalyticNumberTheoryPartI §2.15; AnalyticNumberTheoryPartII §5.3k; RepresentationTheory/LieGroups Layer 9; ClassicalGroups §§6.1, 6.3–6.6; RepresentationTheory/CompactGroups Layers 2 and 4; RepresentationTheory/LieHighestWeight Layer 7. Also GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1, Mathlib and Tau Ceti.
 
 ## Downstream consumers
 
@@ -1798,7 +1818,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns the targets 5.13a–5.23 of Layer 5 of the family: the Bessel theory of gapped discrete series of `U(p, q_S)` at a real place (the big cell, the Bessel integral and its pairing, the majorant, bounded Bessel maps, rank one of the Bessel form and its detection of the Bessel maps, existence of Bessel maps for gapped parameters in the interlacing pattern (the case of GanGrossPrasadUnitaryGroups §3.9 made explicit in Harish-Chandra parameters), the transfer coefficients and the Bessel function of a word); the Bessel–Poincaré series and the geometric expansion of their Gram operators; relative Schur orthogonality; limit multiplicity of discrete series with an error uniform in rank, field, level and weight; the Gelfand–Graev expansion at the type primes, the local kernels of decorated cokernels with their germ identity and periodic majorants, the local model of the chain and the mean value formula for the rows; the archimedean transfer matrices of Capelli operators, the level forms, the Fourier majorants, the blocks, level zero and the pointwise bound for the orbital integrals; the tower inequality; the Gram bounds for distinct and for equal words; and the equidistribution of the row labels with the share of the good rows.
 
-Not owned here. The targets of Layer 5 before these (the row spaces, the row tower, the Rallis identities and the rational structure of the rows) are RowTowerAndRallisIdentities §§5.1–5.12 ([RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md)); the data of the chain (sizes, words and types, type and level primes, levels, source lattices) are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3; the hosts and the auxiliary pair are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Hermitian lattices, genera, masses, local densities, Siegel's main theorem, the volumes of stabilisers and the volume identity `vol([U(V)]) = mass(𝒪_E^n)` in the compact-dual normalisation (§6.2 (c), used for `Y_0` in the Conventions and in 5.20a (a)) are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 4–6; the canonical filtration is [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) §3.2; the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their tensor products with the standard representation, the formal degree and trace class on the cuspidal spectrum are [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§2.4a, 2.4b, 8.3, 9.1; the identities of quantum minors are [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md) §9.1; Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings are [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md) §§7.1, 8.1, 8.2; Gelfand–Graev representations, Bessel-type induced representations and the weights of labels of `GL_n(𝔽_q)` are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) Layers 2 and 5. On main: discrete series of real reductive groups are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §2.4; finite multiplicity in the discrete spectrum and Wallach's cuspidality criterion are [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md) §§4.5, 4.10; coefficient maps, Schur orthogonality and the formal degree of square-integrable representations are [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9; the Bruhat and Langlands decompositions are [RealSemisimpleLieGroups](../../RealSemisimpleLieGroups/README.md) §§3.3, 4.3; the Cartan, Iwasawa and `KAK` decompositions are [RepresentationTheory/LieGroups](../../RepresentationTheory/LieGroups/README.md) Layer 9; Gelfand–Tsetlin patterns and the Capelli generators are [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §§6.3–6.6; Schur orthogonality for `U(k)` is [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) Layers 2 and 4; the Harish-Chandra isomorphism is [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) Layer 7; rational quotients, Iwasawa integration, adelic reduction and algebraic heights are [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) §§2.3, 3.1, 3.4, 3.5; the transference bound for the covering radius is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) §4.4. The Bessel data of a pair of unitary groups, multiplicity one of Bessel models over a local field, the real tempered theorem of the local Gan–Gross–Prasad conjecture and the global Bessel periods are GanGrossPrasadUnitaryGroups 1.2, 2.6, 3.9 and 4.1.
+Not owned here. The targets of Layer 5 before these (the row spaces, the row tower, the Rallis identities and the rational structure of the rows) are RowTowerAndRallisIdentities §§5.1–5.12 ([RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md)); the data of the chain (sizes, words and types, type and level primes, levels, source lattices) are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3; the hosts and the auxiliary pair are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Hermitian lattices, genera, masses, local densities, Siegel's main theorem, the volumes of stabilisers and the volume identity `vol([U(V)]) = mass(𝒪_E^n)` in the compact-dual normalisation (§6.2 (c), used for `Y_0` in the Conventions and in 5.20a (a)) are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 4–6; the canonical filtration is [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) §3.2; the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their tensor products with the standard representation, the formal degree and trace class on the cuspidal spectrum are [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§2.4a, 2.4b, 8.3, 9.1; the identities of quantum minors are [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md) §9.1; Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings are [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md) §§7.1, 8.1, 8.2; Gelfand–Graev representations, Bessel-type induced representations and the weights of labels of `GL_n(𝔽_q)` are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) Layers 2 and 5. On main: discrete series of real reductive groups are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §2.4; finite multiplicity in the discrete spectrum and Wallach's cuspidality criterion are [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md) §§4.5, 4.10; coefficient maps, Schur orthogonality and the formal degree of square-integrable representations are [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9; the open big cell, the Bruhat decomposition, the parabolic double cosets and the Langlands decomposition are [RealSemisimpleLieGroups](../../RealSemisimpleLieGroups/README.md) §§3.2, 3.3, 4.2, 4.3; the Cartan, Iwasawa and `KAK` decompositions are [RepresentationTheory/LieGroups](../../RepresentationTheory/LieGroups/README.md) Layer 9; the branching rule `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin patterns and the Capelli generators are [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §§6.1, 6.3–6.6; Schur orthogonality for `U(k)` is [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) Layers 2 and 4; the Harish-Chandra isomorphism is [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) Layer 7; rational quotients, Iwasawa integration, adelic reduction and algebraic heights are [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) §§2.3, 3.1, 3.4, 3.5; the transference bound for the covering radius is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) §4.4; the residue bound for Dedekind zeta functions is [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §2.15; quotient measures, integration in stages and unfolding are [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) §5.3k. The Bessel data of a pair of unitary groups and their transport, multiplicity one of Bessel models over a local field, the real tempered theorem of the local Gan–Gross–Prasad conjecture and the global Bessel periods are GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1.
 
 ## Exact supplier contracts
 
@@ -1868,12 +1888,14 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 
 ### From TauCetiRoadmap.RealSemisimpleLieGroups
 
-- §3.3 (the Tits system and the Bruhat decomposition), §4.3 (Levi subgroups and the Langlands decomposition). Used in 5.13b, 5.18a, 5.18.
+- §3.3 (the Tits system and the Bruhat decomposition), §4.3 (Levi subgroups and the Langlands decomposition). Used in 5.13a, 5.13b, 5.13c, 5.18a, 5.18.
+- §3.2 (the open big cell `N⁻ × M × A × N → G`), §4.2 (standard parabolic subgroups and their double cosets). Used in 5.13a.
 
 ### From TauCetiRoadmap.RepresentationTheory
 
 - RepresentationTheory/LieGroups Layer 9 (the Cartan, Iwasawa and `KAK` decompositions). Used in 5.13a, 5.13b, 5.13c.
 - ClassicalGroups §§6.3–6.6 (Gelfand–Tsetlin patterns, a fixed Gelfand–Tsetlin basis and its action, the dimension formula, the Capelli generators). Used in 5.13d, 5.18a.
+- ClassicalGroups §6.1 (the branching rule: the restriction of `V_λ` from `GL_n` to `GL_{n−1}` is the multiplicity-free sum of the `V_μ`, `μ` interlacing `λ`; here for `U(k) ↓ U(k−1)`). Used in 5.18a, 5.18e.
 - RepresentationTheory/CompactGroups Layers 2, 4 (Schur orthogonality for `U(k)`). Used in 5.13d, 5.15.
 - RepresentationTheory/LieHighestWeight Layer 7 (the Harish-Chandra isomorphism). Used in 5.13d, 5.18a.
 
@@ -1885,9 +1907,18 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 
 - §4.4 (4.4.14): `μ(L)·λ_1(L^*) ≤ n` for the covering radius `μ(L)` of a full lattice of rank `n`. Used in 5.16.
 
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §2.15: for a number field `K` of degree `d > 1`, the residue `κ_K` of `ζ_K` at `1` is at most `(e·log D_K/(2(d − 1)))^{d−1}`. Used in 5.16, with `K = E`, `d = 2f`.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartII
+
+- §5.3k: for a closed subgroup `H` of a second countable locally compact group `G` with the same modular character, the unique invariant quotient measure on `H\G` with `∫_G f = ∫_{H\G}∫_H f(hg)`, for nonnegative Borel and for integrable `f`; composition in stages; unfolding over a countable discrete subgroup of a unimodular group. Used in 5.13, 5.14, 5.15, 5.15a, 5.20, for unimodular subgroups of unimodular groups.
+
 ### From TauCetiRoadmap.GanGrossPrasadUnitaryGroups
 
-- 1.2 (Bessel data), 4.1 (global Bessel periods, for rapidly decreasing functions against an anisotropic group). Used in 5.13a, 5.14.
+- 1.2 (Bessel data), 4.1 (global Bessel periods: absolute convergence, continuity and the character law of the period of every cusp form on `U(V) × U(W)`; here `U(W)` is the unitary group of a totally definite space, on which every automorphic form is cuspidal). Used in 5.13a, 5.14.
+- §1.3 (transport of Bessel data: an isometry of framed pairs, a change of the flag, of the line generator or of the generic additive character gives a conjugate Bessel datum). Used in 5.13a, 5.13d.
 - 2.6 (multiplicity one: for a relevant pair of odd codimension over a local field of characteristic zero, here `ℂ/ℝ` with Casselman–Wallach representations, the Bessel model of an irreducible pair has dimension at most one). Used in 5.13c.
 - 3.9 (the real tempered theorem: for `ℂ/ℝ`, every relevant odd codimension and both line signs, `m(π_V, π_W) = 1` exactly when the labels of the tempered pair are the root numbers named there, and exactly one pair over the relevant pure inner forms has `m = 1`). Used in 5.13d.
 
