@@ -2500,12 +2500,12 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   K. Kodaira, 1969) (inequalities of the kind of 7.8(a)); V. Guedj and A. Zeriahi, *The weighted Monge–Ampère energy of
   quasiplurisubharmonic functions*, J. Funct. Anal. 250 (2007), and S. Boucksom, P. Eyssidieux, V. Guedj and A. Zeriahi,
   *Monge–Ampère equations in big cohomology classes*, Acta Math. 205 (2010) (non-pluripolar products and full mass): 7.8.
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. Its analytic part proves 7.8 (the energy inequality,
   the boundary mass bound uniformly for mixed measures with independent parameters, and the convergence statements)
   in this form, and constructs the almost monotone regularisations of the second route of 7.7 (b)–(c).
-- [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>.
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - J.-P. Demailly, *Regularization of closed positive currents and intersection theory*, J. Algebraic Geom. 1
   (1992): 7.3, 7.4, 7.7.
 - J.-P. Demailly, *On the Ohsawa–Takegoshi–Manivel L² extension theorem*, Proceedings of the conference in honour
