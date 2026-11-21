@@ -3,10 +3,11 @@ module
 public import Mathlib
 
 /-!
-# Higher local class field theory: suggested signatures
+# Higher local class field theory: target signatures
 
-These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
-specification.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. This file states the roadmap's headline theorems against the pinned APIs; discharging
+them finishes neither a layer nor the roadmap.
 
 The file states Layer 0 on Mathlib's valuative relations: the predicate `IsHigherLocalField n F`,
 the uniqueness of the valuative relation on the residue field, the comparison with

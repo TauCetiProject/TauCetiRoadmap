@@ -33,11 +33,13 @@ whose Frobenius convention it follows. FormalLaurentPuiseux supplies derivatives
 of Laurent series for Parshin's formula.
 
 Layer 0 defines higher local fields and their extensions. Layer 1 builds the topologies on `F`
-and on `Fˣ`. Layer 2 builds `K_n^top(F)`, its structure and its norms, and proves that the open
-subgroups of finite index separate its points. Layer 3 proves Fesenko's class field axioms for
-`K_n^top`. Layer 4 constructs the reciprocity map at finite level, in mixed characteristic
-through Artin–Schreier trees, and passes to the limit. Layer 5 builds the three pairings and
-proves the existence theorem and injectivity.
+and on `Fˣ`. Layer 2 builds `K_n^top(F)`, its generators and structure, the residue pairings of
+Parshin and Vostokov defined by their formulas, Fesenko's identification of the neighbourhood
+intersection, and norms, and proves that the open subgroups of finite index separate its points.
+Layer 3 proves Fesenko's class field axioms for `K_n^top`. Layer 4 constructs the reciprocity
+map at finite level, in mixed characteristic through Artin–Schreier trees, and passes to the
+limit. Layer 5 identifies the three pairings with the reciprocity map and proves the existence
+theorem and injectivity.
 
 ## Conventions
 
@@ -162,7 +164,9 @@ Local parameters exist. They define the rank-`n` valuation `𝐯 = (v_1, …, v_
 read on the residue of `x t_n^{−v_n(x)} ⋯` in `K_i` [Zhukov 2000, §1.1]. `𝐯(t_i)` is the `i`-th
 basis vector. `𝐯` depends on the parameters, its equivalence class does not, and so neither do
 `𝒪_F = {𝐯 ≥ 0}`, `𝓂_F = {𝐯 > 0}` and the principal units `V_F = 1 + 𝓂_F`. When
-`char K_{n−1} = p` the Teichmüller representatives form a field `R ≅ K_0` inside `𝒪_F`, and
+`char K_{n−1} = p`, `R ⊂ 𝒪_F` is the set of multiplicative (Teichmüller) representatives of
+`K_0`: it is closed under multiplication, `Rˣ = μ_{q−1}(F) ≅ K_0ˣ`, and it is a subfield exactly
+when `char F = p` (for `F = ℚ_p`, `R = {0} ∪ μ_{p−1}` and `1 + 1 = 2 ∉ R`). Then
 `Fˣ = ⟨t_1⟩ × ⋯ × ⟨t_n⟩ × Rˣ × V_F` [Zhukov 2000, §§1.1, 1.4.2].
 
 Provide the following API.
@@ -171,7 +175,8 @@ Provide the following API.
 - `𝐯` as a valuation of rank `n`, its dependence on the parameters only up to equivalence.
 - The filtration `U_{𝐢} = 1 + {x : 𝐯(x) ≥ 𝐢}`, `𝐢 > 0`, of `V_F` and its graded pieces
   `u_{𝐢} = U_{𝐢}/U_{𝐢+(1,0,…,0)} ≅ K_0` [Fesenko 2000a, §6.8.1].
-- The decomposition of `Fˣ` under the class field hypothesis.
+- The set `R` with `Rˣ = μ_{q−1}(F)`, and the decomposition of `Fˣ` under the class field
+  hypothesis.
 
 **Checks.**
 
@@ -208,8 +213,13 @@ Provide the following API.
 
 ### 0.5 Finite extensions
 
-A finite extension `L` of an `n`-dimensional local field `F` is one: the valuation extends
-uniquely, `L` is complete, and `𝓀[L]` is a finite extension of `𝓀[F]`, so induction applies.
+A finite extension `L` of an `n`-dimensional local field `F`, separable or not, is one. For a
+finite extension `L` of a complete discretely valued field `K`, the valuation of `K` prolongs
+uniquely to `L`, the integral closure of the valuation ring is a discrete valuation ring, free of
+rank `[L : K]`, and `L` is complete [Serre, *Local Fields*, II §2, Proposition 3]; uniqueness of
+the prolongation is Mathlib's `spectralNorm_unique`. So `𝓀[L]` is a finite extension of
+`𝓀[F]`, and induction applies. Inseparable extensions occur: in the Check, and among the residue
+extensions in the induction.
 With `e_i(L/F) = e(L_i/K_i)` and `f(L/F) = [L_0 : K_0]`,
 `[L : F] = f(L/F) ∏_i e_i(L/F)`, and the `e_i` do not depend on the parameters
 [Zhukov 2000, §1.2].
@@ -218,8 +228,8 @@ With `e_i(L/F) = e(L_i/K_i)` and `f(L/F) = [L_0 : K_0]`,
 
 - `𝔽_p((t₁))(t₁^{1/ℓ})((t₂))` over `𝔽_p((t₁))((t₂))` has `e_1 = ℓ`, `e_2 = 1`, `f = 1`.
 
-*Needs:* 0.1–0.3; RamificationOfCompleteDiscretelyValuedFields §3a.1 (the unique prolongation
-of the valuation to a finite extension of a complete discretely valued field).
+*Needs:* 0.1–0.3; Mathlib `spectralNorm_unique`, `IsIntegralClosure`,
+`IsDiscreteValuationRing`.
 
 ### 0.6 Purely unramified extensions
 
@@ -241,8 +251,8 @@ axiom (A1) [Fesenko 2000c, §10.1].
 
 ### Dependencies
 
-Mathlib valuative relations, Laurent series and Witt vectors; Tau Ceti `TauCeti.zHat`;
-RamificationOfCompleteDiscretelyValuedFields §3a.1.
+Mathlib valuative relations, Laurent series, Witt vectors and spectral norms; Tau Ceti
+`TauCeti.zHat`.
 
 ## Layer 1: topologies
 
@@ -315,7 +325,7 @@ it is not a topological group.
 same convergent sequences. `λ` on `F` and `λ_*` on `Fˣ` are the sequential saturations of 1.1 and
 1.2, and the `∗`-product topology on `X_1 × ⋯ × X_j` is the sequential saturation of the product
 topology. Theorems, the properties (1)–(7) of the source: subtraction and division are
-sequentially continuous; `α_i^{p^i} → 1` for every sequence of units; every fundamental sequence
+sequentially continuous; `α_i^{p^i} → 1` for every sequence of principal units `α_i ∈ V_F`; every fundamental sequence
 converges; `V_F` and `F^{×m}` are closed in `Fˣ`; and the intersection of the open subgroups of
 finite index containing a closed subgroup `H` is `H`. For finite `L/F`, `N_{L/F} : Lˣ → Fˣ` and
 the trace are sequentially continuous.
@@ -346,24 +356,190 @@ symbol map `(Fˣ)^m → K_m(F)`, `(Fˣ)^m` with the `∗`-product of `λ_*`, are
 continuous. `Λ_m(F)` is the intersection of the `λ_m`-neighbourhoods of `0`; it is a closed
 subgroup contained in `VK_m(F) = ⟨{V_F}·K_{m−1}(F)⟩`. The **topological Milnor K-group** is
 `K_m^top(F) = K_m(F)/Λ_m(F)` with the quotient topology, and `VK_m^top(F)` is the image of
-`VK_m(F)`. `K_1^top(F) = Fˣ` with `λ_*`.
+`VK_m(F)`. `K_1^top(F) = Fˣ` with `λ_*`. A sequentially continuous symbolic map from `(Fˣ)^m` to
+a discrete group has a kernel on `K_m(F)` that is open for `λ_m`, so it factors through
+`K_m^top(F)`.
 
 Provide the following API.
 
 - `λ_m`, `Λ_m(F)`, `K_m^top(F)` with its topology, and its functoriality in field embeddings.
 - `Λ_m(F)` closed, `Λ_m(F) ⊆ VK_m(F)`, `K_1^top(F) = Fˣ`.
-- `K_m^top(F) = 0` for `m ≥ n + 2` [Fesenko 2000a, §6.5].
+- The factorization of sequentially continuous symbolic maps to discrete groups.
 
 **Checks.**
 
 - `K_1^top(F) = Fˣ`. Outside the hypothesis this fails: if `char K_{n−1} = 0` the uniquely
   divisible group `1 + 𝓂_{K_n}` lies in `Λ_1` [Fesenko 2000a, §6.3].
 - For a one-dimensional `F`, `K_3(F)` is a nonzero uniquely divisible group
-  [Fesenko 2000a, §6.1] while `K_3^top(F) = 0`: `Λ_3(F)` is all of `K_3(F)`.
+  [Fesenko 2000a, §6.1] while `K_3^top(F) = 0` (2.3): `Λ_3(F)` is all of `K_3(F)`.
 
 *Needs:* 1.3; K2SymbolsBrauer §5.4.
 
-### 2.2a Bloch–Kato's graded quotients of `K_m(F)/p`
+### 2.2 The degree map
+
+[Fesenko 2000a, §6.4.1]. `v_F` kills `Λ_n(F)`, descends to `K_n^top(F)`, is onto, satisfies
+`v_F{t_1, …, t_n} = 1`, is continuous for the discrete topology on `ℤ`, and does not depend on
+the parameters. This is the valuation of Fesenko's axiom (A2) [Fesenko 2000c, §10.1].
+
+**Checks.**
+
+- `v_F{t_2, t_1} = −1` for `n = 2`: the order of the entries matters.
+- `v_F{θ, t_2, …, t_n} = 0` for `θ ∈ Rˣ`.
+
+*Needs:* 2.1; K2SymbolsBrauer §§9.11, 9.16.
+
+### 2.3 Generators and structure
+
+[Fesenko 2000a, §§6.5, 6.7.1; Fesenko 2001, §§4.2–4.3, 4.7].
+
+- **Generators** [Fesenko 2001, §4.2]. For `α_1 ∈ V_F` and `α_2, …, α_m ∈ Fˣ`, the symbol `{α_1, …, α_m}` is, modulo
+  `Λ_m(F)`, a convergent sum `∑_J {β_J, t_{j_1}, …, t_{j_{m−1}}}` with `β_J ∈ V_F` depending
+  sequentially continuously on the `α_i`, `J` running over the `(m − 1)`-subsets of
+  `{1, …, n}`. So `VK_m^top(F)` is topologically generated by the symbols
+  `{1 + θ t_n^{i_n} ⋯ t_1^{i_1}, t_{j_1}, …, t_{j_{m−1}}}`, `θ ∈ R`, and `K_m^top(F) = 0` for
+  `m ≥ n + 2`.
+- **Structure.** Through `v_F` and the composite residues `∂^{(m)}` of K2SymbolsBrauer §9.11,
+  `K_m^top(F) ≅ VK_m^top(F) ⊕ ℤ^{a(m)} ⊕ (ℤ/(q − 1))^{b(m)}`, the free part spanned by the
+  symbols `{t_{j_1}, …, t_{j_m}}`, `j_1 < ⋯ < j_m`, and the torsion part by symbols with one
+  entry `θ ∈ Rˣ`. In degree `n`: `K_n^top(F) = ℤ{t_1, …, t_n} ⊕ (ℤ/(q − 1))^n ⊕ VK_n^top(F)`,
+  and the kernel of `v_F` on `K_n^top(F)` is `VK_n^top(F) ⊕ (ℤ/(q − 1))^n`.
+- **Away from `p`.** For a prime `ℓ ≠ p`, `V_F` is `ℓ`-divisible, so
+  `K_m(F)/ℓ = K_m^top(F)/ℓ ≅ (ℤ/ℓ)^{a(m)} ⊕ (ℤ/d)^{b(m)}`, `d = gcd(q − 1, ℓ)`.
+- **Divisible elements are in `Λ`.** `⋂_{l ≥ 1} lK_m(F) ⊆ Λ_m(F)` [Fesenko 2000a, §6.5, Lemma]:
+  write `x ∈ VK_m(F)` as `∑ {α_J, t_{j_1}, …}` modulo `Λ_m(F)` and apply property (3) of 1.3.
+- **Torsion prime to `p`.** If a primitive `l`-th root of unity `ζ_l` lies in `F` and `p ∤ l`,
+  the `l`-torsion of `K_m^top(F)` is `{ζ_l}·K_{m−1}^top(F)` [Fesenko 2000a, §6.6, proof of
+  Theorem 3; Fesenko 2001, §4.7, proof of (ii)], from the structure above and the previous
+  bullet.
+
+**Checks.**
+
+- For `ℓ ∣ q − 1`, `K_2^top(𝔽_q((t₁))((t₂)))/ℓ ≅ (ℤ/ℓ)^3`, spanned by `{t_1, t_2}`, `{θ, t_2}`,
+  `{t_1, θ}`.
+- For `ℓ ∤ q(q − 1)`, `K_n^top(F)/ℓ ≅ ℤ/ℓ` through `v_F`.
+- `{θ, t_2, …, t_n}` with `θ` a generator of `Rˣ` has order `q − 1`, matching
+  `{ζ_{q−1}}·K_{n−1}^top(F)`.
+
+*Needs:* 2.1–2.2, 0.3, 1.3 (property (3)); K2SymbolsBrauer §§9.11, 9.17.
+
+### 2.4 Separation
+
+[Fesenko 2000a, §6.6, Theorem 1 and Corollary; Fesenko 2001, §4.6, Theorem]. Under the class
+field hypothesis, the homomorphism
+`g : ∏_J V_F → VK_m(F)`, `(β_J) ↦ ∑_J {β_J, t_{j_1}, …, t_{j_{m−1}}}`, `J` running over the
+`(m − 1)`-subsets of `{1, …, n}`, induces a homeomorphism of `∏_J V_F/g^{−1}(Λ_m(F))`, with the
+quotient of the `∗`-product topology, onto `VK_m^top(F)`, and `g^{−1}(Λ_m(F))` is closed.
+Consequently `Λ_m(F)` is the intersection of the open subgroups of finite index of `K_m(F)`:
+the open subgroups of finite index of `K_m^top(F)` have zero intersection.
+
+**Checks.**
+
+- For `n = 1`, this says that the open subgroups of finite index of `Fˣ` have trivial
+  intersection.
+- `ℓ^r K_n^top(F)` is open of finite index for `ℓ ≠ p`, and contains `VK_n^top(F)`; these alone
+  do not separate `VK_n^top(F)`, so the `p`-part of the theorem is not formal.
+
+*Needs:* 2.1, 2.3, 1.3 (property (7)).
+
+### 2.5 Parshin's residue pairing in characteristic `p`
+
+[Parshin 1984; Fesenko 2000a, §6.4.3; Fesenko 2001, §3.1]. Let `char F = p` and fix an
+isomorphism `F ≅ 𝔽_q⸨t_1⸩⋯⸨t_n⸩` of 0.4, the `t_i` local parameters. Let
+`A_r = W_r(𝔽_q)⸨t_1⸩⋯⸨t_n⸩`, the iterated Laurent series ring over `W_r(𝔽_q)` (Mathlib
+`LaurentSeries` over a commutative ring). Modulo `℘W_r(F)`, every class of `W_r(F)` is a
+convergent `ℤ/p^r`-combination of Teichmüller monomials `[c t_1^{i_1} ⋯ t_n^{i_n}]`, `c ∈ 𝔽_q`,
+since `V x ≡ Fr(V x) = p x` modulo `℘`, `Fr` the Witt vector Frobenius. Its lift `w̃ ∈ A_r` replaces each `[c t^𝐢]` by
+`[c] t^𝐢`; for `b ∈ Fˣ` written `t^𝐚 θ ∏(1 + θ_𝐢 t^𝐢)` with `θ, θ_𝐢 ∈ R` (1.1), its lift `b̃`
+puts `[·]` on the coefficients. **Parshin's pairing** is
+
+`P_r(w, {b_1, …, b_n}) = Tr_{W_r(𝔽_q)/(ℤ/p^r)} Res(w̃ · dlog b̃_1 ∧ ⋯ ∧ dlog b̃_n) ∈ ℤ/p^r`,
+
+where `Res` takes the coefficient of `t_1^{−1} ⋯ t_n^{−1}` in front of
+`dt_1 ∧ ⋯ ∧ dt_n`. At `r = 1` it reads
+`P_1(a, {b_1, …, b_n}) = Tr_{𝔽_q/𝔽_p} res(a · det(∂b_i/∂t_j)/(b_1 ⋯ b_n))`, and for `n = 1` it is
+the residue formula of FunctionFieldArithmetic §4.3. A Witt vector of characteristic `p` is not
+determined by its ghost components, so the value at length `r` is computed on these lifts and
+not through ghost components in `F`. Two targets make the formula statable:
+
+- **coefficientwise derivations**: a derivation `D` of a commutative ring `A` extends to
+  `LaurentSeries A` by `D(∑ a_i X^i) = ∑ D(a_i)X^i`. It is a derivation, continuous for the
+  higher topology when `A` is a field, and commutes with the outer `LaurentSeries.derivative`.
+  Starting from `LaurentSeries.derivative` on the innermost variable and extending outward gives
+  the partial derivatives `∂/∂t_j` on `A_r` and on `LaurentField (⋯ (LaurentField 𝔽_q))`;
+- **the iterated residue**: the coefficient of `t_1^{−1} ⋯ t_n^{−1}`, `coeff_{−1}` taken from the
+  outermost variable inward. It is `W_r(𝔽_q)`-linear and kills the partial derivatives `∂f/∂t_j`.
+
+Targets: `P_r` does not depend on the isomorphism, the representative or the lifts; it kills
+`℘W_r(F)` and is additive in `w`; it is multilinear and symbolic in the `b_i` and sequentially
+continuous in each, so it induces `P_r : W_r(F)/℘ × K_n^top(F)/p^r → ℤ/p^r` (2.1); and it has
+properties (1)–(3) of [Fesenko 2000a, §6.4.3]:
+`P_r(Vw, α) = V P_{r−1}(w, α)`, compatibility with the restriction `W_{r+1} → W_r`, and the
+triangular values `P_1(θ_0, {t_1, …, t_n}) = Tr θ_0` and
+`P_1(θ_0 θ^{−1} i_l^{−1} t_1^{−i_1} ⋯ t_n^{−i_n}, {1 + θ t_n^{i_n} ⋯ t_1^{i_1}, t_1, …, t̂_l, …, t_n}) = (−1)^{l−1} Tr θ_0`
+for `p ∤ i_l`, the sign coming from moving `dt_l/t_l` into place.
+
+**Checks.**
+
+- For `a ∈ 𝔽_q`, `P_1(a, α) = v_F(α) · Tr_{𝔽_q/𝔽_p}(a)`.
+- On `𝔽_p((t₁))((t₂))`, `P_1(t_1^{−1}, {1 − t_1, t_2}) = −1`, the residue of
+  `−t_1^{−1}(1 − t_1)^{−1} dt_1 ∧ dt_2/t_2`; and `P_1(t_1^{−1}t_2^{−1}, {t_1, t_2}) = 0`.
+- At `r = 2`, `w = (0, a) = V[a]` with `Tr_{𝔽_q/𝔽_p}(a) ≠ 0` has both ghost components `0` in
+  characteristic `p`, while `w̃ = p[a]` gives `P_2(w, {t_1, …, t_n}) = p·Tr(a) ≠ 0` in `ℤ/p^2`.
+- Swapping two entries of `{b_1, …, b_n}` changes the sign of the determinant, matching
+  `v_F{t_2, t_1} = −1`.
+
+*Needs:* 0.4, 1.1–1.3, 2.1–2.2; FunctionFieldArithmetic §3.1; FormalLaurentPuiseux L2–L3;
+Mathlib `WittVector`, `LaurentSeries`.
+
+### 2.6 Vostokov's map in mixed characteristic
+
+[Vostokov 1985; Vostokov 2000, §8.3, Theorem 1; Fesenko 2001, §3.2]. Let `F` be of mixed
+characteristic, `p > 2` and `μ_{p^r} ⊂ F`. Vostokov's map
+`V(·,·)_r : (Fˣ)^{n+1} → μ_{p^r}`, defined by the residue formula of §8.3 on lifts to
+`k_0{{X_1}}⋯{{X_n}}`, is well defined, independent of the lifts and of the parameters,
+multilinear and symbolic, and sequentially continuous, so it induces
+`V(·,·)_r : K_n^top(F)/p^r × Fˣ/F^{×p^r} → μ_{p^r}` (2.1), which is nondegenerate. The
+Shafarevich basis `t_1, …, t_n`, `ε_J = 1 + θ t_n^{j_n} ⋯ t_1^{j_1}` (`p ∤ gcd(𝐣)`,
+`0 < 𝐣 < p𝐞/(p − 1)`) and `ω = ω(a)` computes it: `V({t_1, …, t_n}, ε_J)_r = 1`,
+`V({t_1, …, t_n}, ω)_r = ζ_{p^r}`, and for every `θ ∈ Rˣ` there is `θ' ∈ Rˣ` with
+`V({1 + θ t_n^{i_n} ⋯ t_1^{i_1}, t_1, …, t̂_l, …, t_n}, 1 + θ' t_n^{pe_n/(p−1) − i_n} ⋯ t_1^{pe_1/(p−1) − i_1})_r = ζ_{p^r}`
+for `p ∤ i_l`, `0 < 𝐢 < p𝐞/(p − 1)`. Vostokov's primary elements `E(χ)`, principal units with
+prescribed values `V({t_1, …, t_n}, E(χ))_r`, are part of this target [Fesenko 2001, §3.2].
+
+**Checks.**
+
+- `V({t_1, …, t_n}, t_i)_r = 1`: `{t_1, …, t_n, t_i}` is `±{…, −1, …}` by `{t_i, t_i} = {t_i, −1}`,
+  so it is `2`-torsion, and `p` is odd. A formula that is not symbolic fails this.
+
+*Needs:* 0.3–0.4, 1.1–1.3, 2.1; Mathlib `WittVector`, `PowerSeries.exp`.
+
+### 2.7 The groups `K_n^top(F)/p`
+
+[Fesenko 2000a, §§6.4, 6.7.2; Fesenko 2000b, §7.2; Fesenko 2001, §§4.3, 4.5]. By the method of
+§6.4 (a pairing whose values on the generators are triangular), `K_n^top(F)/p` has the following
+topological bases. In characteristic `p`, from the triangular values of 2.5: the symbols
+`{1 + θ t_n^{i_n} ⋯ t_1^{i_1}, t_n, …, t̂_l, …, t_1}` with `p ∤ gcd(i_1, …, i_n)`,
+`l = min{k : p ∤ i_k}`, `θ` in an `𝔽_p`-basis of `K_0`, together with `{t_1, …, t_n}`. In mixed characteristic with `ζ_p ∈ F`, from 2.6: the same symbols with
+`0 < 𝐢 < p𝐞/(p − 1)`, `𝐞 = 𝐯(p)`, together with the symbols `ω_*(j)` of §6.7.2. If `ζ_p ∉ F`,
+pass to `F(ζ_p)`, of degree prime to `p`, and back. Vostokov's map is defined for `p > 2`
+(2.6); §6.7.2 states the bases without restriction on `p`, and this target is that statement.
+
+In characteristic `p` this refines to Parshin's structure theorem [Fesenko 2000b, §7.2, Theorem
+1; Fesenko 2001, §4.5]: for the subgroups `E_J ⊆ V_F` generated by the `1 + θ t^𝐢`,
+`p ∤ gcd(𝐢)`, whose smallest index `l` with `p ∤ i_l` is not in `J`, `∏_J E_J → VK_m^top(F)` is
+an isomorphism and a homeomorphism. So `K_m^top(F)` has no `p`-torsion in characteristic `p`
+[Fesenko 2000b, §7.2, Corollary].
+
+**Checks.**
+
+- In characteristic `p`, `K_n^top(F)/p` is not finitely generated, unlike `K_n^top(F)/ℓ` for
+  `ℓ ≠ p`.
+- On `𝔽_p((t₁))((t₂))`, `{1 − t_1, t_2} ∉ pK_2^top(F)`, since `P_1(t_1^{−1}, {1 − t_1, t_2}) = −1`
+  (2.5).
+
+*Needs:* 0.3, 2.3–2.6.
+
+### 2.8 Bloch–Kato's graded quotients of `K_m(F)/p`
 
 [Bloch–Kato 1986, §4, (4.3)–(4.8), pp. 121–123, and §5, (5.1)–(5.3), pp. 124–126]. Let `F` be
 of mixed characteristic, `k = K_{n−1}` its residue field, so `[k : k^p] = p^{n−1}`, `π` a
@@ -402,7 +578,7 @@ Theorem 2], as Bloch and Kato cite it.
   `𝔽_p`-dimension at most one; classically it is nonzero exactly when `μ_p ⊂ F`.
 - `F = ℚ_p{{t}}`, `p` odd, `q = 2`, `m = 1`: `e' = p/(p − 1)` is not an integer, `p ∤ 1`, and
   `gr^1 k_2(F) ≅ Ω^1_{𝔽_p((t))}`, the one-dimensional `k`-space `k·dt`, infinite over
-  `𝔽_p`, spanned by the classes `{1 + p x, t}`. So 2.2 needs the topology, not finiteness.
+  `𝔽_p`, spanned by the classes `{1 + p x, t}`. So 2.9 needs the topology, not finiteness.
 - The second summand is not redundant when `p | m < e'`, which needs `e ≥ p`, as for
   `F = ℚ_p(μ_{p²}){{t}}` (`e' = p²`, `m = p`): for `q = 2` it is `k/Z^0_1 = k/k^p ≠ 0`, the class
   of `{1 + π^m x̃, π}` for `x ∉ k^p`. A description by `Ω^{q−1}` alone would lose it.
@@ -411,141 +587,124 @@ Theorem 2], as Bloch and Kato cite it.
 and §3.0a (the norm residue isomorphism, for injectivity); ProfiniteCohomology Layer 12 (the
 graded cup product).
 
-### 2.2 Fesenko's theorem: characteristic `p` and the first step
+### 2.9 Fesenko's theorem
 
-[Fesenko 2000a, §6.5 Lemma and §6.6 Theorems 2–3; Fesenko 2001, Theorems 4.5 and 4.7].
-For every `F` under the class field hypothesis, `⋂_{l ≥ 1} lK_m(F) ⊆ Λ_m(F)` (the lemma of §6.5).
+[Fesenko 2000a, §6.6, Theorems 2–3; Fesenko 2001, §4.5, Theorem, and §4.7, Theorem]. For every
+`F` under the class field hypothesis, `Λ_m(F) = ⋂_{l ≥ 1} lK_m(F)`, and it is a divisible group,
+so `K_m^top(F)` has no nonzero infinitely divisible elements. In characteristic `p`,
+`K_m^top(F)` has no `p`-torsion (2.7). In mixed characteristic, if `ζ_{p^r} ∈ F`, the
+`p^r`-torsion of `K_m^top(F)` is `{ζ_{p^r}}·K_{m−1}^top(F)`. One inclusion is the third bullet
+of 2.3.
 
-- **Characteristic `p`** [Fesenko 2000a, §6.6, Theorem 2; Fesenko 2001, Theorem 4.5].
-  `Λ_m(F) = ⋂_{l ≥ 1} l K_m(F)`, and it is a divisible group, so `K_m^top(F)` has no nonzero
-  infinitely divisible elements. `K_m^top(F)` has no `p`-torsion [Fesenko 2000b, §7.2,
-  Corollary]. The reverse inclusion uses the injectivity of the differential symbol
-  `K_m(F)/p → Ω^m_F` and the Hausdorff topology of `Ω^m_F`.
+- **Characteristic `p`** [Fesenko 2000a, §6.6, Theorem 2]. The differential symbol
+  `K_m(F)/p → Ω^m_F` is injective and continuous, and `Ω^m_F` is Hausdorff, so
+  `Λ_m(F) ⊆ pK_m(F)`. Since `K_m^top(F)` has no `p`-torsion (2.7), `Λ_m(F) = pΛ_m(F)`.
 - **Mixed characteristic, first step** [Fesenko 2000a, §6.6, proof of Theorem 3, case `r = 1`].
-  `Λ_m(F) ⊆ pVK_m(F)`. After adjoining `μ_p` (its degree is prime to
-  `p`, and `VK_m(F)` is `l`-divisible for `l` prime to `p`), the intersection of the open
-  subgroups of `VK_m(F)` containing `pVK_m(F)` is `pVK_m(F)`. This is because the graded
-  pieces of 2.2a are quotients of `Ω^j_{K_{n−1}}`, finite-dimensional over `K_{n−1}^p`, on
-  which the topology induced from `K_{n−1}` is Hausdorff. The full theorem in mixed
-  characteristic is 5.4a: its induction on `r` in `p^r` uses the Hilbert pairing.
-- **Torsion prime to `p`.** If a primitive `l`-th root of unity `ζ_l` lies in `F` and `p ∤ l`,
-  the `l`-torsion of `K_m^top(F)` is `{ζ_l}·K_{m−1}^top(F)`.
+  `Λ_m(F) ⊆ pVK_m(F)`. After adjoining `μ_p` (its degree is prime to `p`, and `VK_m(F)` is
+  `l`-divisible for `l` prime to `p`), the intersection of the open subgroups of `VK_m(F)`
+  containing `pVK_m(F)` is `pVK_m(F)`. This is because the graded pieces of 2.8 are quotients of
+  `Ω^j_{K_{n−1}}`, finite-dimensional over `K_{n−1}^p`, on which the topology induced from
+  `K_{n−1}` is Hausdorff.
+- **Mixed characteristic, induction on `r`** [Fesenko 2001, §4.7, proof of the Theorem]. The
+  claim is that `p^r VK_m(F)` is the intersection of the open subgroups of `VK_m(F)` that contain
+  it. Use the pairing
+  `(α, χ)_r : K_m(F)/p^r × H^{n+1−m}(F, μ_{p^r}^{⊗(n−m)}) → H^{n+1}(F, μ_{p^r}^{⊗n})`: the norm
+  residue symbol `K_m(F)/p^r → H^m(F, μ_{p^r}^{⊗m})` followed by the cup product. The symbol is
+  KTheoryFiniteLocalFields §3.0a (in characteristic `0`, `p` is invertible in `F`; Bloch and
+  Kato's Theorem (5.12) is this case), and the cup product is ProfiniteCohomology Layer 12. An
+  element `α` of the intersection lies in `A_χ = {α : (α, χ)_r = 0}` for every `χ`. Take
+  `L = F(μ_{p^r})` with `[L : F] = p^s`. By induction `α = N_{L/F} β` with `β ∈ VK_m(L)`, so `β`
+  is orthogonal to `res H^{n+1−m}(F)`. Over `L`, `K_{n+1}(L)/p^r = K_{n+1}^top(L)/p^r ≅ μ_{p^r}`
+  through `V(·,·)_r`, by induction on `r` with the primary elements of 2.6, and with the norm
+  residue isomorphism in degree `n + 1` this identifies `(·,·)_{r,L}` with `V(·,·)_r` up to these
+  identifications. So `β` is annihilated by `i_{F/L}K_{n+1−m}(F)` under `V(·,·)_r`,
+  hence `β ∈ (σ − 1)K_m(L) + p^{r−s} i_{F/L}K_m(F) + p^r K_m(L)` for a generator `σ` of
+  `Gal(L/F)`, and `α ∈ p^r K_m(F)`. As `K_m(F)/VK_m(F)` has no `p`-torsion (2.3),
+  `α ∈ p^r VK_m(F)`.
+- **The torsion.** The coefficient sequence `0 → μ_{p^s}^{⊗m} → μ_{p^{s+1}}^{⊗m} → μ_p^{⊗m} → 0`,
+  compared with the symbol, gives `px ∈ Λ_m(F) ⇒ px ∈ ⋂_r p^r K_m(F)`, so
+  `x = {ζ_p}·a_r + p^{r−1}b_r`; the `a_r` form a Cauchy sequence in a complete quotient of
+  `K_{m−1}^top(F)`, whose limit gives `x = {ζ_p}·y` [Fesenko 2001, §4.7, proof of (ii)].
+
+This target builds four things:
+
+- that `A_χ` is open [Fesenko 2001, §4.7, Lemma];
+- the projection formula `(N_{L/F} β, χ)_{r,F} = (β, res χ)_{r,L}`, from §3.0a's compatibility of
+  the symbol with norms and corestriction and Layer 12's projection formula;
+- the identification `K_{n+1}(L)/p^r ≅ μ_{p^r}` through `V(·,·)_r` for `μ_{p^r} ⊂ L`;
+- the annihilator of `i_{F/L}K_{n+1−m}^top(F)` under `V(·,·)_r` on `K_m^top(L)/p^r`, which is
+  `(σ − 1)K_m^top(L) + p^{r−s} i_{F/L}K_m^top(F) + p^r K_m^top(L)` [Fesenko 2001, §4.3, Lemma].
+
+The proof in [Fesenko 2001] runs through `V(·,·)_r`, which §3.2 there defines for odd `p`; the
+statement of [Fesenko 2001, §4.7, Theorem] is made for every `p`, and this target is the
+statement for every `p`.
 
 **Checks.**
 
-- For `n = 1`, `Λ_1(F) = 1`: `Fˣ` has no nonzero infinitely divisible elements.
-- `K_n^top(F)` has torsion prime to `p`: `{θ, t_2, …, t_n}` with `θ` a generator of `Rˣ` has
-  order `q − 1` (2.4), matching `{ζ_{q−1}}·K_{n−1}^top(F)`; in characteristic `p` there is no
-  `p`-torsion.
+- For `n = 1`, `Λ_1(F) = 1`: `Fˣ` has no nonzero infinitely divisible elements; and the
+  `p^r`-torsion of `Fˣ` is `μ_{p^r}`, which is `{ζ_{p^r}}` times `K_0^top(F) = ℤ`.
 
-*Needs:* 2.1, 2.2a, 1.3; KTheoryFiniteLocalFields §3.0 (the differential symbol in characteristic
-`p`).
+*Needs:* 2.1, 2.3–2.4, 2.6–2.8; K2SymbolsBrauer §10.24; KTheoryFiniteLocalFields §3.0 (the differential symbol in
+characteristic `p`) and §3.0a (the norm residue symbol and its norm compatibility);
+ProfiniteCohomology Layers 10 and 12 (cup product and projection formula).
 
-### 2.3 The degree map
+### 2.10 Norms
 
-[Fesenko 2000a, §6.4.1]. `v_F` kills `Λ_n(F)`, descends to `K_n^top(F)`, is onto, satisfies
-`v_F{t_1, …, t_n} = 1`, is continuous for the discrete topology on `ℤ`, and does not depend on
-the parameters. Its kernel is `VK_n^top(F)` plus the torsion of 2.4. This is the valuation of
-Fesenko's axiom (A2) [Fesenko 2000c, §10.1].
-
-**Checks.**
-
-- `v_F{t_2, t_1} = −1` for `n = 2`: the order of the entries matters.
-- `v_F{θ, t_2, …, t_n} = 0` for `θ ∈ Rˣ`.
-
-*Needs:* 2.1; K2SymbolsBrauer §§9.11, 9.16.
-
-### 2.4 Generators and structure
-
-[Fesenko 2000a, §§6.5, 6.7]. `VK_m^top(F)` is topologically generated by the symbols
-`{1 + θ t_n^{i_n} ⋯ t_1^{i_1}, t_{j_1}, …, t_{j_{m−1}}}`, `θ ∈ R`, and
-`K_m^top(F) ≅ VK_m^top(F) ⊕ ℤ^{a(m)} ⊕ (ℤ/(q − 1))^{b(m)}`, the free part spanned by the symbols
-`{t_{j_1}, …, t_{j_m}}`, `j_1 < ⋯ < j_m`, and the torsion part by symbols with one entry `θ`.
-In degree `n`: `K_n^top(F) = ℤ{t_1, …, t_n} ⊕ (ℤ/(q − 1))^n ⊕ VK_n^top(F)`. For a prime
-`ℓ ≠ p`, `V_F` is `ℓ`-divisible, so `K_m(F)/ℓ = K_m^top(F)/ℓ ≅ (ℤ/ℓ)^{a(m)} ⊕ (ℤ/d)^{b(m)}`,
-`d = gcd(q − 1, ℓ)`. For `ℓ = p`, `K_n^top(F)/p` has the topological bases of §6.7.2: in
-characteristic `p` the symbols `{1 + θ t_n^{i_n} ⋯ t_1^{i_1}, t_n, …, t̂_l, …, t_1}` with
-`p ∤ gcd(i_1, …, i_n)`, `l = min{k : p ∤ i_k}`, `θ` in an `𝔽_p`-basis of `K_0`; in mixed
-characteristic the same with `0 < 𝐢 < p𝐞/(p − 1)`, `𝐞 = 𝐯(p)`, together with the symbols
-`ω_*(j)` when `ζ_p ∈ F`.
-
-**Checks.**
-
-- For `ℓ ∣ q − 1`, `K_2^top(𝔽_q((t₁))((t₂)))/ℓ ≅ (ℤ/ℓ)^3`, spanned by `{t_1, t_2}`, `{θ, t_2}`,
-  `{t_1, θ}`.
-- For `ℓ ∤ q(q − 1)`, `K_n^top(F)/ℓ ≅ ℤ/ℓ` through `v_F`.
-- In characteristic `p`, `K_n^top(F)/p` is not finitely generated, unlike `K_n^top(F)/ℓ` for
-  `ℓ ≠ p`.
-
-*Needs:* 2.1–2.3, 0.3; K2SymbolsBrauer §9.17.
-
-### 2.5 Norms
-
-[Fesenko 2000a, §6.8]. For finite `L/F`, Kato's norm `N_{L/F} : K_n(L) → K_n(F)`
-(K2SymbolsBrauer §10.24) maps `Λ_n(L)` into `Λ_n(F)` and descends to
-`N_{L/F} : K_n^top(L) → K_n^top(F)`. It is continuous and transitive, and
-`v_F ∘ N_{L/F} = f(L/F) · v_L` (K2SymbolsBrauer §10.26 along the chain), which is the formula
+[Fesenko 2000a, §6.8; Fesenko 2001, §4.8]. For finite `L/F`, Kato's norm
+`N_{L/F} : K_n(L) → K_n(F)` (K2SymbolsBrauer §10.24) maps `Λ_n(L) = ⋂ lK_n(L)` into
+`Λ_n(F) = ⋂ lK_n(F)` (2.9) and descends to `N_{L/F} : K_n^top(L) → K_n^top(F)`. It is transitive,
+and `v_F ∘ N_{L/F} = f(L/F) · v_L` (K2SymbolsBrauer §10.26 along the chain), which is the formula
 `v(N_{L/F}K_n^top(L)) = |L ∩ F^pur : F| v(K_n^top(F))` of axiom (A2). The inclusion
 `i_{F/L} : K_n^top(F) → K_n^top(L)` is induced by `F ⊆ L`, and `N_{L/F} ∘ i_{F/L} = [L : F]`.
-Preimages of closed subgroups under `N_{L/F}` are closed and of open subgroups are open
-[Fesenko 2000a, §6.8.2, Corollary 2]. The norm group `N_{L/F}K_n^top(L)` is open of finite index for finite
-separable `L`. `Gal(L/F)` acts on `K_n^top(L)` for Galois `L/F`, compatibly with norms.
+`Gal(L/F)` acts on `K_n^top(L)` for Galois `L/F`, compatibly with norms.
+
+- **Norms of units** [Fesenko 2000a, §6.8.1, Proposition]. Let `L/F` be cyclic of prime degree
+  `ℓ` with `f(L/F) = 1`. Then `L = F(t_{s,L})` for some `s` and a local parameter `t_{s,L}` of
+  `L` replacing `t_s`. If `ℓ = p` and `σt_{s,L}/t_{s,L} = 1 + θ_0 t_n^{r_n} ⋯ t_{s,L}^{r_s} ⋯ t_1^{r_1} + ⋯`,
+  the field norm on the graded pieces `u_𝐢` of the rank-`n` unit filtration (0.3) is: below `𝐫`,
+  `θ ↦ θ^p` onto `u_{(pi_1, …, i_s, …, pi_n)}`; at `𝐫`, `θ ↦ θ^p − θθ_0^{p−1}`; above `𝐫`,
+  `θ ↦ −θθ_0^{p−1}`, from `u_{(j_1 + r_1, …, pj_s + r_s, …, j_n + r_n)}` to
+  `u_{(j_1 + pr_1, …, j_s + r_s, …, j_n + pr_n)}`.
+- **Openness** [Fesenko 2000a, §6.8.2, Corollary 2; Fesenko 2001, §4.8, (1)–(2)]. Under
+  `N_{L/F}`, images of closed subgroups are closed, preimages of open subgroups are open, and
+  images of open subgroups are open; so `N_{L/F}K_n^top(L)` is open. The proof reduces to prime degree and uses
+  the previous bullet and 2.4.
 
 **Checks.**
 
 - In degree one `N_{L/F}` is the field norm.
 - `v_F ∘ N_{F_d/F} = d · v_{F_d}`, so `{t_1, …, t_n}` is not a norm from `F_d` for `d ≥ 2`.
 
-*Needs:* 2.1–2.3, 1.3; K2SymbolsBrauer §§10.24, 10.26.
-
-### 2.6 Separation
-
-[Fesenko 2000a, §6.6, Theorem 1 and Corollary; Fesenko 2001, Theorem 4.6]. Under the class
-field hypothesis, the homomorphism
-`g : ∏_J V_F → VK_m(F)`, `(β_J) ↦ ∑_J {β_J, t_{j_1}, …, t_{j_{m−1}}}`, `J` running over the
-`(m − 1)`-subsets of `{1, …, n}`, induces a homeomorphism of `∏_J V_F/g^{−1}(Λ_m(F))`, with the
-quotient of the `∗`-product topology, onto `VK_m^top(F)`, and `g^{−1}(Λ_m(F))` is closed.
-Consequently `Λ_m(F)` is the intersection of the open subgroups of finite index of `K_m(F)`:
-the open subgroups of finite index of `K_m^top(F)` have zero intersection. In characteristic `p`
-this refines to Parshin's structure theorem: `∏_J E_J → VK_m^top(F)` is a homeomorphism for the
-subgroups `E_J ⊆ V_F` of [Fesenko 2000b, §7.2, Theorem 1].
-
-**Checks.**
-
-- For `n = 1`, this says that the open subgroups of finite index of `Fˣ` have trivial
-  intersection.
-- `ℓ^r K_n^top(F)` is open of finite index for `ℓ ≠ p`, and contains `VK_n^top(F)`; these alone
-  do not separate `VK_n^top(F)`, so the `p`-part of the theorem is not formal.
-
-*Needs:* 2.1, 2.4, 1.3 (property (7)).
+*Needs:* 0.3, 0.5, 1.3, 2.2, 2.4, 2.9; K2SymbolsBrauer §§10.24, 10.26.
 
 ### Examples
 
-For `F = 𝔽_p((t₁))((t₂))` and `ℓ ∣ p − 1`, `K_2^top(F)/ℓ ≅ (ℤ/ℓ)^3` (2.4), and
-`{1 − t_1, t_2} ∉ pK_2^top(F)`, detected by the Artin–Schreier–Witt pairing (5.2).
+For `F = 𝔽_p((t₁))((t₂))` and `ℓ ∣ p − 1`, `K_2^top(F)/ℓ ≅ (ℤ/ℓ)^3` (2.3), and
+`{1 − t_1, t_2} ∉ pK_2^top(F)`, detected by Parshin's pairing (2.5, 2.7).
 
 ### Dependencies
 
 Layers 0–1; K2SymbolsBrauer §§5.4, 9.11, 9.16, 9.17, 10.24, 10.26; KTheoryFiniteLocalFields §§3.0,
-3.0a; ProfiniteCohomology Layer 12.
+3.0a; ProfiniteCohomology Layers 10 and 12; FunctionFieldArithmetic §3.1; FormalLaurentPuiseux
+L2–L3.
 
 ## Layer 3: the class field axioms
 
 Fesenko's axioms [Fesenko 2000c, §10.1] for the pair `F^pur/F` and `F ↦ K_n^top(F)`: (A1) is
-0.6, (A2) is 2.3 with 2.5, and this layer proves (A3) and (A4).
+0.6, (A2) is 2.2 with 2.10, and this layer proves (A3) and (A4).
 
 ### 3.1 Purely unramified extensions
 
 For `L = F_d` with generator `σ = Frob_F`:
 
 - (A3a) `|K_n^top(F) : N_{L/F}K_n^top(L)| = d`, and `N_{L/F}K_n^top(L) = {α : d ∣ v_F(α)}`;
-- (A3c) the sequence `K_n^top(L) →(1−σ) K_n^top(L) →(N_{L/F}) K_n^top(F)` is exact;
 - (A3b) in characteristic `p`, the sequence `0 → K_n^top(F) →(i_{F/L}) K_n^top(L) →(1−σ) K_n^top(L)`
   is exact [Fesenko 2000c, §10.2, Theorem 1; Fesenko 2000b, §7.5 for `p`-extensions;
   Fesenko 1991b, Theorem 3.3 for degree prime to `p`].
 
-(A3c) is the case `L = F_d` of 3.2(b). Every element of `VK_n^top(F)` is a norm from
-`VK_n^top(F_d)`, so the norm group is the preimage of `dℤ` under `v_F`.
+Every element of `VK_n^top(F)` is a norm from `VK_n^top(F_d)`, so the norm group is the
+preimage of `dℤ` under `v_F`. Axiom (A3c), the exactness of
+`K_n^top(L) →(1−σ) K_n^top(L) →(N_{L/F}) K_n^top(F)`, is the case `L = F_d` of 3.2(b).
 
 **Checks.**
 
@@ -556,25 +715,28 @@ For `L = F_d` with generator `σ = Frob_F`:
   another route in mixed characteristic.
 - `{t_1, …, t_n}` generates `K_n^top(F)/N_{F_d/F}K_n^top(F_d) ≅ ℤ/d`.
 
-*Needs:* 0.6, 2.3–2.5, 3.2.
+*Needs:* 0.6, 2.2–2.3, 2.10.
 
 ### 3.2 Cyclic extensions of prime degree
 
-[Fesenko 2000a, §6.8]. Let `L/F` be cyclic of prime degree `ℓ` with generator `σ`.
+[Fesenko 2000a, §6.8; Fesenko 2001, §4.8]. Let `L/F` be cyclic with generator `σ`; in (a), (c)
+and the first half of (b) its degree is a prime `ℓ`.
 
 - (a) `K_n^top(L) = {Lˣ}·i_{F/L}K_{n−1}^top(F)` [§6.8.2].
-- (b) (A4a) `K_n^top(L) →(1−σ) K_n^top(L) →(N_{L/F}) K_n^top(F)` is exact, and more precisely
+- (b) For prime degree `ℓ`,
   `K_n^top(F)/ℓ ⊕ K_n^top(L)/ℓ →(i_{F/L} ⊕ (1−σ)) K_n^top(L)/ℓ →(N_{L/F}) K_n^top(F)/ℓ` is exact
-  [§6.8.3, Theorem 4 and Corollary; Fesenko 1991a, §4; Fesenko 1991b, §3].
+  [§6.8.3, Theorem 4; Fesenko 2001, §4.8, Theorem], by explicit calculation in the bases of
+  2.3 (`ℓ ≠ p`) and 2.7 (`ℓ = p`), adjoining `ζ_ℓ` if necessary. For every cyclic `L/F`,
+  (A4a) `K_n^top(L) →(1−σ) K_n^top(L) →(N_{L/F}) K_n^top(F)` is exact [§6.8.3, Corollary;
+  Fesenko 2001, §4.8], from the sequence modulo `ℓ` along a tower of prime-degree steps and the
+  description of the torsion of `K_n^top` (2.3 away from `p`, 2.9 at `p`).
 - (c) (A4b) `|K_n^top(F) : N_{L/F}K_n^top(L)| = ℓ` [§6.8.2, Corollary 1]. If `f(L/F) = ℓ`, `L` is
   `F_ℓ` and 3.1 applies, with generator `{t_1, …, t_n}`. If `f(L/F) = 1` and `ℓ ≠ p`, a generator
   is `{θ_*, t_1, …, t̂_s, …, t_n}` with `θ_* ∈ μ_{q−1} ∖ μ_{q−1}^ℓ`. If `f(L/F) = 1` and `ℓ = p`,
   then `L = F(t_{s,L})` for a local parameter `t_{s,L}` of `L` replacing `t_s`, and
   `σt_{s,L}/t_{s,L} = 1 + θ_0 t_n^{r_n} ⋯ t_{s,L}^{r_s} ⋯ t_1^{r_1} + ⋯`. The norm on the graded
-  pieces `u_𝐢` of the rank-`n` unit filtration (0.3) is given by the three cases of the
-  Proposition of §6.8.1 [Fesenko 1991a, Proposition 4.1; Fesenko 1991b, Proposition 3.1]:
-  below `𝐫` it is `θ ↦ θ^p` onto `u_{(pi_1, …, i_s, …, pi_n)}`; at `𝐫` it is `θ ↦ θ^p − θθ_0^{p−1}`;
-  above `𝐫` it is `θ ↦ −θθ_0^{p−1}`. The class of
+  pieces `u_𝐢` of the rank-`n` unit filtration is given by the three cases of 2.10
+  [Fesenko 1991a, Proposition 4.1; Fesenko 1991b, Proposition 3.1]. The class of
   `{1 + θ_* t_n^{pr_n} ⋯ t_s^{r_s} ⋯ t_1^{pr_1}, t_1, …, t̂_s, …, t_n}`, with `θ̄_*` outside the image
   of `θ ↦ θ^p − θθ_0^{p−1}` on `K_0`, generates the quotient.
 
@@ -585,7 +747,7 @@ For `L = F_d` with generator `σ = Frob_F`:
 - The filtration by powers of `t_n𝒪_F` cannot carry the computation for `ℓ = p`: by the Check
   of 0.3 it does not separate the generators `1 + θ t_n^{i_n} ⋯ t_1^{i_1}` of `V_F`.
 
-*Needs:* 0.3, 2.4–2.5.
+*Needs:* 0.3, 2.3, 2.7, 2.9–2.10, 3.1.
 
 ### 3.3 Norm groups determine cyclic extensions in characteristic `p`
 
@@ -604,7 +766,7 @@ Proposition of §6.8.1; Fesenko 1991b, pp. 1118–1119].
 
 [Fesenko 2000c, §10.3.1]. For `F` of mixed characteristic, `VK_n^top(F) = ⋂_{(l,p)=1} lK_n^top(F)`,
 and the axioms (A1)–(A4), including (A3b), hold for `K'_n(F) = K_n^top(F)/VK_n^top(F)` and the
-extensions of degree prime to `p`. `K'_n(F) ≅ ℤ ⊕ (ℤ/(q − 1))^n` by 2.4, and the axioms are
+extensions of degree prime to `p`. `K'_n(F) ≅ ℤ ⊕ (ℤ/(q − 1))^n` by 2.3, and the axioms are
 computed in this basis and with the tame symbol.
 
 **Checks.**
@@ -612,7 +774,7 @@ computed in this basis and with the tame symbol.
 - `K'_n(F)/ℓ = K_n^top(F)/ℓ` for every prime `ℓ ≠ p`, and `K'_n(F)/p ≅ ℤ/p` through `v_F`: the
   quotient keeps exactly the prime-to-`p` information.
 
-*Needs:* 2.4–2.5, 3.1–3.2.
+*Needs:* 2.3, 2.10, 3.1–3.2.
 
 ### Examples
 
@@ -642,15 +804,14 @@ depend on `Π_Σ`, since `ΣL/Σ` is purely unramified and
 - With `σ̃ = Frob_F^{1+d}` instead, `Σ = F_{1+d}` and `N_{Σ/F}{t_1, …, t_n} = (1 + d){t_1, …, t_n}`,
   the same class modulo `N_{F_d/F}K_n^top(F_d) = v_F^{−1}(dℤ)`.
 
-*Needs:* 0.6, 2.5, 3.1.
+*Needs:* 0.6, 2.10, 3.1.
 
 ### 4.2 Reciprocity by the class field axioms
 
 [Fesenko 2000c, §§10.1–10.2]. If (A1)–(A3) hold, `Υ_{L/F}` is a homomorphism; if moreover (A4)
 holds, it induces an isomorphism `Υ^ab_{L/F} : Gal(L/F)^ab → K_n^top(F)/N_{L/F}K_n^top(L)` for
 every finite Galois `L/F`. The proof defines, after Hazewinkel, an explicit inverse
-`Ψ_{L/F} : K_n^top(F)/N_{L/F}K_n^top(L) → Gal(L/F)^ab` and shows `Ψ_{L/F} ∘ Υ^ab_{L/F} = id`
-[Fesenko 1991b]. In characteristic `p` all axioms hold (Layer 3; [§10.2, Theorem 1]); in mixed
+`Ψ_{L/F} : K_n^top(F)/N_{L/F}K_n^top(L) → Gal(L/F)^ab` and shows `Ψ_{L/F} ∘ Υ^ab_{L/F} = id`. In characteristic `p` all axioms hold (Layer 3; [§10.2, Theorem 1]); in mixed
 characteristic they hold for `K'_n` and extensions of degree prime to `p` (3.4).
 
 **Checks.**
@@ -693,7 +854,7 @@ totally ramified if `L ∩ F^pur = F`. Targets:
 - `Ψ_{L/F}` cannot be defined for Artin–Schreier trees that are not strong; the example of 3.1 is
   the obstruction [§10.4.2, Remark].
 
-*Needs:* 4.1, 3.1–3.2, 2.5.
+*Needs:* 4.1, 3.1–3.2, 2.10.
 
 ### 4.4 Reciprocity at finite level
 
@@ -701,7 +862,7 @@ For every finite Galois `L/F`, `Υ^ab_{L/F} : Gal(L/F)^ab → K_n^top(F)/N_{L/F}
 isomorphism. In characteristic `p` this is 4.2. In mixed characteristic, 4.2 for `K'_n` gives it
 for `ℓ`-extensions with `ℓ ≠ p`, and 4.3 for `p`-extensions; the general case follows by
 restriction to the Sylow fixed fields `L_ℓ` of `L`, through the norm compatibility of 4.1 and
-`N_{L_ℓ/F} ∘ i_{F/L_ℓ} = [L_ℓ : F]`, prime to `ℓ` [Fesenko 1991a]. Consequences:
+`N_{L_ℓ/F} ∘ i_{F/L_ℓ} = [L_ℓ : F]`, prime to `ℓ`. Consequences:
 
 - **norm limitation**: `N_{L/F}K_n^top(L) = N_{L'/F}K_n^top(L')` for `L'` the largest abelian
   subextension of `L/F`;
@@ -709,6 +870,8 @@ restriction to the Sylow fixed fields `L_ℓ` of `L`, through the norm compatibi
   with restriction for `L ⊆ L'`;
 - `L ↦ N_{L/F}K_n^top(L)` is injective and inclusion-reversing on finite abelian extensions, and
   `N_{LL'/F} = N_{L/F} ∩ N_{L'/F}`, `N_{L∩L'/F} = N_{L/F} + N_{L'/F}`;
+- for finite separable `M/F`, `N_{M/F}K_n^top(M)` is open (2.10) of finite index, as it contains
+  the norm group of the Galois closure;
 - every subgroup of `K_n^top(F)` containing `N_{M/F}K_n^top(M)` for a finite separable `M/F` is
   `N_{L/F}K_n^top(L)` for a unique finite abelian `L/F`.
 
@@ -717,13 +880,13 @@ restriction to the Sylow fixed fields `L_ℓ` of `L`, through the norm compatibi
 - `|K_n^top(F) : N_{L/F}K_n^top(L)| = [L : F]` for abelian `L/F`; for `L = F(μ_3, t_1^{1/3})`
   with `q ≡ 2 mod 3`, `Gal(L/F) ≅ S_3` and the index is `2`, that of `F_2 = F(μ_3)`.
 
-*Needs:* 4.1–4.3.
+*Needs:* 4.1–4.3, 2.10.
 
 ### 4.5 The absolute map
 
-`Ψ_F : K_n^top(F) → Gal(F^ab/F)` is the limit of the `Ψ_{L/F}`: for a lift `σ` of `Ψ_F(α)`,
-`α ∈ N_{L/F}K_n^top(L)` exactly when `σ` is trivial on `L`, and every element of `Gal(L/F)` is
-such a restriction. `Ψ_F` is continuous, with dense image [Fesenko 2000c, §10.4].
+`Ψ_F : K_n^top(F) → Gal(F^ab/F)` is the limit of the `Ψ_{L/F}`: for every finite abelian `L/F`,
+`α ∈ N_{L/F}K_n^top(L)` exactly when `Ψ_F(α)` is trivial on `L`, and every element of
+`Gal(L/F)` is such a restriction. `Ψ_F` is continuous, with dense image [Fesenko 2000c, §10.4].
 
 **Checks.**
 
@@ -742,16 +905,20 @@ the extensions of `F` unramified for its discrete valuation [Fesenko 2000c, §10
 **Checks.**
 
 - `Ψ_F({t_1, …, t_n})|_{F^pur} = Frob_F`, and `Ψ_F({t_2, t_1})|_{F^pur} = Frob_F^{−1}` for `n = 2`.
-- `Ψ_F({t_1, …, t_n})` fixes `F_d` only for `d = 1`, matching 2.5.
+- `Ψ_F({t_1, …, t_n})` fixes `F_d` only for `d = 1`, matching 2.10.
 
-*Needs:* 4.5, 2.3, 2.5; K2SymbolsBrauer §9.11.
+*Needs:* 4.5, 2.2, 2.10; K2SymbolsBrauer §9.11.
 
 ### 4.7 Dimension one
 
 For `n = 1`, `Ψ_F({x}) = TauCeti.ClassFieldTheory.artinMap F x`. Both are homomorphisms
 `r : Fˣ → G_F^ab` such that `r(π)` lifts arithmetic Frobenius for every uniformizer `π`
 (`isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`) and, for every finite abelian `L`, `r(x)`
-is trivial on `L` exactly when `x ∈ N_{L/F}Lˣ` (`exists_artinMap_mem_iff`). Two such maps agree:
+is trivial on `L` exactly when `x ∈ N_{L/F}Lˣ`. For `artinMap` this is
+`exists_openSubgroup_artinMap_mem_iff` at the open normal subgroup `V` with `classField F V = L`,
+whose statement gives some open `U`. The argument needs `U` to be the kernel of
+`G_F^ab → Gal(L/F)^ab`, which is the `U` its proof constructs (its docstring says so); stating
+that identification is part of this target. Two such maps agree:
 uniformizers generate `Fˣ`, and for `L` finite abelian and `d` divisible by `[L : F]`, let `M` be
 the fixed field of `r(π)` in `LF_d`. The order of `r(π)` on `LF_d` is the least common multiple
 of its order on `L`, which divides `[L : F]`, and its order `d` on `F_d`, so it is `d`. Then
@@ -784,7 +951,7 @@ the composite of the residues, and `μ_{ℓ^r}(K_0)` is identified with `μ_{ℓ
 The source gives the Hilbert symbol as this power of the tame symbol up to sign
 [Vostokov 2000, §8.3, Remark]; the conventions fix the sign, as the Checks show. The pairing
 `Fˣ/ℓ^r × K_n^top(F)/ℓ^r → μ_{ℓ^r}` is perfect, both sides being finite of order `ℓ^{r(n+1)}`
-(2.4). Fesenko's explicit formula for the tame symbol in terms of the matrix `(v_i(α_j))` is part
+(2.3). Fesenko's explicit formula for the tame symbol in terms of the matrix `(v_i(α_j))` is part
 of this target.
 
 **Checks.**
@@ -795,65 +962,43 @@ of this target.
   invert the first value.
 - In dimension one this is the tame Hilbert symbol `(u, π)_ℓ = ū^{(q−1)/ℓ}`.
 
-*Needs:* 2.4, 4.6; K2SymbolsBrauer §§9.11, 9.16.
+*Needs:* 2.3, 4.6; K2SymbolsBrauer §§9.11, 9.16.
 
 ### 5.2 The Artin–Schreier–Witt pairing and Parshin's formula
 
 [Parshin 1984; Fesenko 2000a, §6.4.3; Fesenko 2000b, §§7.2–7.3]. In characteristic `p`,
-`[w, α)_r` for `w ∈ W_r(F)/℘W_r(F)` (`aswQuotient`, FunctionFieldArithmetic §3.1). **Parshin's
-formula** at length one: under an isomorphism `F ≅ 𝔽_q⸨X⸩⋯` of 0.4 with variables
-`t_1, …, t_n`, `[a, {b_1, …, b_n})_1 = Tr_{𝔽_q/𝔽_p} res(a · det(∂b_i/∂t_j)/(b_1 ⋯ b_n))`; for
-`n = 1` this is the residue formula of FunctionFieldArithmetic §4.3. At length `r` the ghost
-components are given by the same residue of `w^{(i)} dlog b_1 ∧ ⋯ ∧ dlog b_n` [§6.4.3]. Two
-targets make the formula statable:
-
-- **coefficientwise derivations**: a derivation `D` of `K` extends to `LaurentField K` by
-  `D(∑ a_i X^i) = ∑ D(a_i)X^i`. It is a derivation, continuous for the higher topology, and
-  commutes with the outer `LaurentSeries.derivative`. Starting from `LaurentSeries.derivative` on
-  the innermost variable and extending outward gives the partial derivatives `∂/∂t_j` on
-  `LaurentField (⋯ (LaurentField 𝔽_q))`;
-- **the iterated residue**: the coefficient of `t_1^{−1} ⋯ t_n^{−1}`, `coeff_{−1}` taken from the
-  outermost variable inward. It is `𝔽_q`-linear, kills the partial derivatives `∂f/∂t_j`, and
-  its value on `a · det(∂b_i/∂t_j)/(b_1 ⋯ b_n)` does not depend on the choice of local
-  parameters as variables.
-
-The pairing `W_r(F)/℘ × K_n^top(F)/p^r → ℤ/p^r` is nondegenerate on both sides, the symbols of
-2.4 form a topological basis of `VK_n^top(F)` over `ℤ_p` [§7.2], and the annihilators of finite
-subgroups of `W_r(F)/℘` are exactly the open subgroups of `K_n^top(F)` containing
-`p^rK_n^top(F)`.
+`[w, α)_r` for `w ∈ W_r(F)/℘W_r(F)` (`aswQuotient`, FunctionFieldArithmetic §3.1).
+**Parshin's formula**: `[w, α)_r = P_r(w, α)`, the residue pairing of 2.5. In dimension one this
+is the residue formula of FunctionFieldArithmetic §4.3. The pairing
+`W_r(F)/℘ × K_n^top(F)/p^r → ℤ/p^r` is nondegenerate on both sides, and the annihilators of
+finite subgroups of `W_r(F)/℘` are exactly the open subgroups of finite index of `K_n^top(F)`
+containing `p^rK_n^top(F)`.
 
 **Checks.**
 
-- For `a ∈ 𝔽_q`, `[a, α)_1 = v_F(α) · Tr_{𝔽_q/𝔽_p}(a)`, both from Parshin's formula and from
-  `Frob_F(y) − y = Tr(a)` for `y^p − y = a`.
+- For `a ∈ 𝔽_q`, `[a, α)_1 = v_F(α) · Tr_{𝔽_q/𝔽_p}(a)`, both from Parshin's formula (2.5) and
+  from `Frob_F(y) − y = Tr(a)` for `y^p − y = a`.
 - On `𝔽_p((t₁))((t₂))`, `[t_1^{−1}, {1 − t_1, t_2})_1 = −1`, the two-dimensional reading of the
-  Schmid–Witt value `[t^{−1}, 1 − t) = −1` through `∂{1 − t_1, t_2} = 1 − t_1`; and
-  `[t_1^{−1}t_2^{−1}, {t_1, t_2})_1 = 0`.
-- Swapping two entries of `{b_1, …, b_n}` changes the sign of the determinant, matching
-  `v_F{t_2, t_1} = −1`.
+  Schmid–Witt value `[t^{−1}, 1 − t) = −1` through `∂{1 − t_1, t_2} = 1 − t_1`.
+- "Open" alone does not suffice for `n ≥ 2`: on `𝔽_p((t₁))((t₂))` the annihilator of all
+  `t_1^k t_2^{−1}`, `k ≥ 1`, is open and contains `pK_2^top(F)`, but has infinite index, since
+  `t_1^k t_2^{−1}` takes the value `−k` on `{1 + t_2 t_1^{−k}, t_2}` and `0` on
+  `{1 + t_2 t_1^{−k'}, t_2}` for `k' ≠ k`.
 
-*Needs:* 2.4, 2.6, 4.5; FunctionFieldArithmetic §§3.1, 4.3; FormalLaurentPuiseux L2–L3.
+*Needs:* 2.4–2.5, 2.7, 4.5–4.6; FunctionFieldArithmetic §§3.1, 4.3.
 
 ### 5.3 The Hilbert pairing for `p > 2`
 
-[Vostokov 1985; Vostokov 2000, §8.3, Theorems 1–2; Fesenko 2000a, §6.4.4]. Let `F` be of mixed
-characteristic, `p > 2` and `μ_{p^r} ⊂ F`. Vostokov's map
-`V(·,·)_r : (Fˣ)^{n+1} → μ_{p^r}`, defined by the residue formula of §8.3 on lifts to
-`k_0{{X_1}}⋯{{X_n}}`, is well defined, multilinear and symbolic, sequentially continuous, and
-induces a nondegenerate pairing `K_n^top(F)/p^r × Fˣ/F^{×p^r} → μ_{p^r}`; the Shafarevich basis
-`t_1, …, t_n`, `ε_J = 1 + θ t_n^{j_n} ⋯ t_1^{j_1}` (`p ∤ gcd(𝐣)`, `0 < 𝐣 < p𝐞/(p − 1)`) and `ω(a)`
-computes it. Every open subgroup of finite index of `K_n^top(F)` containing `p^rK_n^top(F)` is
-the annihilator of a subgroup of `Fˣ/F^{×p^r}` (Theorem 2). The Hilbert pairing of the
-conventions is `(a, α)_{p^r} = V(α, a)_r^{ε}` for a sign `ε ∈ {±1}` depending only on `n`
-[§8.3, Remark]; the target determines `ε`.
+[Vostokov 1985; Vostokov 2000, §8.3, Theorem 2 and Remark; Fesenko 2000a, §6.4.4]. Let `F` be
+of mixed characteristic, `p > 2` and `μ_{p^r} ⊂ F`. Every open subgroup of finite index of
+`K_n^top(F)` containing `p^rK_n^top(F)` is the annihilator under Vostokov's map (2.6) of a
+subgroup of `Fˣ/F^{×p^r}` [§8.3, Theorem 2]. The Hilbert pairing of the conventions is
+`(a, α)_{p^r} = V(α, a)_r^{ε}` for a sign `ε ∈ {±1}`; the source states the agreement up to
+sign [§8.3, Remark]. The target determines `ε` by evaluating both sides on
+`(ω, {t_1, …, t_n})`: `V({t_1, …, t_n}, ω)_r = ζ_{p^r}` (2.6), against
+`(ω, {t_1, …, t_n})_{p^r} = Ψ_F({t_1, …, t_n})(ω^{1/p^r})/ω^{1/p^r}`.
 
-**Checks.**
-
-- `V({t_1, …, t_n}, ε_J)_r = 1` and `V({t_1, …, t_n}, ω)_r = ζ_{p^r}`: the Shafarevich basis
-  property (2) of §8.3.
-- The source restricts to `p > 2`, and 5.4 covers `p = 2`.
-
-*Needs:* 2.4, 4.5; Mathlib `WittVector`, `PowerSeries.exp`.
+*Needs:* 2.6–2.7, 4.5–4.6.
 
 ### 5.4 Index-two subgroups in mixed characteristic at `p = 2`
 
@@ -865,42 +1010,7 @@ Let `F` be of mixed characteristic with `p = 2`. Every open subgroup of index `2
 
 - For `n = 1` this is the nondegeneracy of the quadratic Hilbert symbol on `Fˣ/F^{×2}`.
 
-*Needs:* 2.4, 2.6, 4.5.
-
-### 5.4a Fesenko's theorem in mixed characteristic
-
-[Fesenko 2000a, §6.6, Theorem 3 and its proof; Fesenko 2001, Theorem 4.7 and Lemma 4.7]. Let `F`
-be of mixed characteristic. Then `Λ_m(F) = ⋂_{l ≥ 1} lK_m(F)`, and it is a divisible group. If
-`ζ_{p^r} ∈ F`, the `p^r`-torsion of `K_m^top(F)` is `{ζ_{p^r}}·K_{m−1}^top(F)`.
-
-The proof shows that `p^r VK_m(F)` is the intersection of the open subgroups of `VK_m(F)` that
-contain it, by induction on `r`. The case `r = 1` is 2.2. For the step, use the pairing
-`(α, χ)_r : K_m(F)/p^r × H^{n+1−m}(F, μ_{p^r}^{⊗(n−m)}) → H^{n+1}(F, μ_{p^r}^{⊗n})`: the norm
-residue symbol `K_m(F)/p^r → H^m(F, μ_{p^r}^{⊗m})` followed by the cup product. The pairing is
-not built here. The symbol is KTheoryFiniteLocalFields §3.0a (in characteristic `0`, `p` is
-invertible in `F`; Bloch and Kato's Theorem (5.12) is this case), and the cup product is
-ProfiniteCohomology Layer 12. This target builds two things:
-
-- that `A_χ = {α : (α, χ)_r = 0}` is open [Fesenko 2001, Lemma 4.7];
-- the projection formula `(N_{L/F} β, χ)_{r,F} = (β, res χ)_{r,L}`, from §3.0a's compatibility of
-  the symbol with norms and corestriction and Layer 12's projection formula.
-
-An element `α` of the intersection lies in `A_χ` for every `χ`. Take `L = F(μ_{p^r})` with
-`[L : F] = p^s`. By induction `α = N_{L/F} β` with `β ∈ VK_m(L)`, so `β` is orthogonal to
-`res H^{n+1−m}(F)`. When `p > 2`, the pairing over `L` is identified with Vostokov's pairing of
-5.3 up to sign, and explicit calculation with it gives
-`β ∈ (σ − 1)K_m(L) + p^{r−s} res K_m(F) + p^r K_m(L)`, so `α ∈ p^r K_m(F)`. When `p = 2`, the
-explicit step is cited to [Fesenko 2001, Theorem 4.7] at paper level. The torsion statement
-comes from the coefficient sequence `0 → μ_{p^s}^{⊗n} → μ_{p^{s+1}}^{⊗n} → μ_p^{⊗n} → 0`,
-compared with the symbol.
-
-**Checks.**
-
-- For `n = 1`, `Λ_1(F) = 1` and the `p^r`-torsion of `Fˣ` is `μ_{p^r}`, which is `{ζ_{p^r}}`
-  times `K_0^top(F) = ℤ`.
-
-*Needs:* 2.1, 2.2, 2.2a, 5.3; KTheoryFiniteLocalFields §3.0a (the norm residue symbol and
-its norm compatibility); ProfiniteCohomology Layer 12 (cup product and projection formula).
+*Needs:* 2.4, 2.7, 4.5.
 
 ### 5.5 The existence theorem
 
@@ -908,7 +1018,7 @@ its norm compatibility); ProfiniteCohomology Layer 12 (cup product and projectio
 inclusion-reversing bijection from the finite abelian extensions of `F` in `AlgebraicClosure F`
 to the open subgroups of finite index of `K_n^top(F)`. Let `N` be open of prime index `ℓ`.
 
-- If `ℓ ∤ q(q − 1)`, then `K_n^top(F)/ℓ ≅ ℤ/ℓ` through `v_F` (2.4) and `N` is the norm group of
+- If `ℓ ∤ q(q − 1)`, then `K_n^top(F)/ℓ ≅ ℤ/ℓ` through `v_F` (2.3) and `N` is the norm group of
   `F_ℓ` (3.1).
 - If `ℓ ∣ q − 1`, `N` is the annihilator of some `⟨a⟩` under the tame pairing (5.1).
 - If `char F = p = ℓ`, `N` is the annihilator of some `⟨w⟩` under `[·,·)_1` (5.2).
@@ -920,30 +1030,31 @@ to the open subgroups of finite index of `K_n^top(F)`. Let `N` be open of prime 
 By Kummer theory (`TauCeti.kummerMap`) or Artin–Schreier theory (FunctionFieldArithmetic §3.1),
 and 4.4, such an annihilator is `N_{L/F}K_n^top(L)` for a cyclic `L/F` of degree `ℓ`. A general
 `N` of finite index lies in an open subgroup `N_1 = N_{L/F}K_n^top(L)` of prime index; the
-preimage of `N` under `N_{L/F}` is open (2.5) of smaller index in `K_n^top(L)`, hence by
+preimage of `N` under `N_{L/F}` is open (2.10) of smaller index in `K_n^top(L)`, hence by
 induction a norm group from some `M/L`, so `N` contains `N_{M/F}K_n^top(M)` and is an abelian
 norm group by 4.4.
 
 **Checks.**
 
-- `ℓ^rK_n^top(F)` is the norm group of the maximal abelian extension of exponent `ℓ^r`.
+- For `ℓ ≠ p`, `ℓ^rK_n^top(F)` is the norm group of the maximal abelian extension of exponent
+  `ℓ^r`.
 - `v_F^{−1}(dℤ)` is the norm group of `F_d`.
 
-*Needs:* 4.4, 5.1–5.4, 2.4–2.5; Tau Ceti `TauCeti.kummerMap`; FunctionFieldArithmetic §3.1.
+*Needs:* 4.4, 5.1–5.4, 2.3, 2.10; Tau Ceti `TauCeti.kummerMap`; FunctionFieldArithmetic §3.1.
 
 ### 5.6 Injectivity
 
 [Fesenko 2000c, §10.5, Corollary 1]. For `n ≥ 2` and `char K_{n−1} = p`, `Ψ_F` is injective. By
 4.5 its kernel is the intersection of the norm groups of the finite abelian extensions, which by
 5.5 is the intersection of the open subgroups of finite index of `K_n^top(F)`, which is zero by
-2.6. With 2.2 and 5.4a, the kernel of `K_n(F) → Gal(F^ab/F)` is `⋂_{l ≥ 1} lK_n(F)`.
+2.4. With 2.9, the kernel of `K_n(F) → Gal(F^ab/F)` is `⋂_{l ≥ 1} lK_n(F)`.
 
 **Checks.**
 
 - `{1 − t_1, t_2} ≠ 0` in `K_2^top(𝔽_p((t₁))((t₂)))` and `Ψ_F` moves a root of
   `y^p − y = t_1^{−1}` (5.2).
 
-*Needs:* 2.2, 2.6, 4.5, 5.4a, 5.5.
+*Needs:* 2.4, 2.9, 4.5, 5.5.
 
 ### Examples
 
@@ -952,8 +1063,7 @@ On `ℚ_p{{t}}`, `(u, {t, p})_ℓ = u^{(p−1)/ℓ}` for `u ∈ μ_{p−1}` and 
 
 ### Dependencies
 
-Layers 0–4; FunctionFieldArithmetic §§3.1, 4.3; FormalLaurentPuiseux L2–L3; KTheoryFiniteLocalFields
-§3.0a and ProfiniteCohomology Layer 12 (for 5.4a); Tau Ceti `TauCeti.kummerMap`.
+Layers 0–4; FunctionFieldArithmetic §§3.1, 4.3; Tau Ceti `TauCeti.kummerMap`.
 
 ## Scope and ownership
 
@@ -1001,18 +1111,12 @@ It does not own:
 - §10.24: Kato's norm `N_{E/F}` for every finite `E/F`, transitive, the field norm in degree
   one; §10.26: the norm–residue square `∂_F ∘ N_{E/F} = N_{l/k} ∘ ∂_E` for `F` complete.
 
-### From RamificationOfCompleteDiscretelyValuedFields
-
-- §3a.1: for a finite extension `L` of a complete discretely valued field `K`, the integral
-  closure of the valuation ring is a complete discrete valuation ring, free of finite rank, and
-  the valuation of `K` prolongs uniquely to `L`.
-
 ### From KTheoryFiniteLocalFields
 
 - §3.0a: for `l` invertible in a field `F`, the norm residue isomorphism
   `K_m(F)/l ≅ H^m(F, μ_l^{⊗m})`, sending `{a_1, …, a_m}` to `κ(a_1) ∪ ⋯ ∪ κ(a_m)`, with its
-  compatibility with restriction and with norms and corestriction along finite extensions (2.2a,
-  5.4a).
+  compatibility with restriction and with norms and corestriction along finite extensions (2.8,
+  2.9).
 - §3.0: for a field of characteristic `p`, `dlog : K_m(F)/p ≅ ν_F(m) ⊆ Ω^m_F`, in particular the
   injectivity of the differential symbol.
 
@@ -1020,7 +1124,7 @@ It does not own:
 
 - Layer 12: the graded cup product on continuous cohomology in all degrees, its compatibility with
   connecting maps, and (with Layer 10) the projection formula `cor(res(x) ∪ y) = x ∪ cor(y)`
-  (2.2a, 5.4a).
+  (2.8, 2.9).
 
 ### From FunctionFieldArithmetic
 
@@ -1028,13 +1132,13 @@ It does not own:
   additive Hilbert 90 and `artinSchreierWitt_galois`, the perfect pairing
   `Gal(F^ab/F)/p^r × W_r(F)/℘W_r(F) → ℤ/p^r` for every field of characteristic `p`.
 - §4.2: local existence and injectivity in equal characteristic, dimension one.
-- §4.3: the Schmid–Witt symbol and its residue formula, the dimension-one case of 5.2.
+- §4.3: the Schmid–Witt symbol and its residue formula, the dimension-one case of 2.5 and 5.2.
 
 ### From ClassFieldTheory and Tau Ceti
 
 - `TauCeti.ClassFieldTheory.artinMap`, `denseRange_artinMap`, `continuous_artinMap`,
-  `exists_artinMap_mem_iff`, and `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`; the
-  Frobenius convention, Conventions C.6.
+  `classField`, `exists_openSubgroup_artinMap_mem_iff`, and
+  `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`; the Frobenius convention, Conventions C.6.
 - `TauCeti.kummerMap`, Kummer theory over any field; `TauCeti.zHat`.
 
 ### From FormalLaurentPuiseux
@@ -1046,7 +1150,7 @@ It does not own:
 
 - `ValuativeRel` with `valuation`, `IsDiscrete`, `IsNontrivial`, `IsRankLeOne`, `𝒪[F]`, `𝓀[F]`,
   `Valued.mk'`; `IsNonarchimedeanLocalField`; `LaurentSeries` with `LaurentSeries.valued`;
-  `WittVector`; `GaloisField`; `SeqContinuous`; `Field.absoluteGaloisGroup`,
+  `WittVector`; `spectralNorm_unique`; `GaloisField`; `SeqContinuous`; `Field.absoluteGaloisGroup`,
   `Field.absoluteGaloisGroupAbelianization`, `AlgEquiv.restrictNormal`, `IntermediateField`,
   `IsGalois`.
 
@@ -1079,4 +1183,4 @@ It does not own:
     [Vostokov 2000];
   - I. Fesenko, *Explicit higher local class field theory*, section 10, pp. 95–101
     [Fesenko 2000c].
-- J.-P. Serre, *Local Fields*, GTM 67, XIV.
+- J.-P. Serre, *Local Fields*, GTM 67: II §2 and XIV [Serre, *Local Fields*].
