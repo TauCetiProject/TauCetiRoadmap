@@ -183,9 +183,13 @@ theorem exists_cuspidal_of_regular [Finite K] {n : ℕ} (hn : 0 < n) (L : Type*)
 every irreducible cuspidal complex representation of `GL_n(K)` has the values of `HasCuspidalValues` for a character
 `θ` of `Lˣ` whose `n` Frobenius conjugates are distinct; as these values determine a class function on `GL_n(K)`, the
 representation is `σ_θ`.
-For `K` a prime field and the values at elements with irreducible characteristic polynomial: [FormalProof],
-`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean` (`GlobalTheory.GLq.Green`),
-`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean` (`GlobalTheory.GreenBridge.green_of_regular`). -/
+For `K` a prime field and the values at elements with irreducible characteristic polynomial, stated
+in [FormalProof] as `GlobalTheory.GLq.Green`
+(`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean`), which
+`GlobalTheory.GreenBridge.green_of_regular`
+(`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean`) derives from
+the hypothesis `GlobalTheory.Published.GreenRegularCharacters`
+(`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean`). -/
 theorem exists_regular_of_isCuspidal [Finite K] {n : ℕ} (hn : 0 < n) (L : Type*) [Field L] [Finite L]
     [Algebra K L]
     (hL : Module.finrank K L = n) (V : FDRep ℂ (GL (Fin n) K)) (hV : Representation.IsIrreducible V.ρ)
