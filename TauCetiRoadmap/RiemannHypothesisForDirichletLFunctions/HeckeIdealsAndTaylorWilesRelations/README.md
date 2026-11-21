@@ -23,6 +23,11 @@ Notation and conventions not restated here are those of PotentialAutomorphyInfra
 - Determinants `D`, their traces `tr_D`, characteristic polynomials `charpoly D(g)` and Cayley–Hamilton quotients are those of IntegralHeckeAndGaloisDeterminants Layers 0–1. For an ideal `J` of a ring `B`, `V(J)` is the closed subset of `Spec B` it defines.
 - In Layer 10 the prime is `p`, `T^D = Hom(T, ℚ_p/ℤ_p)(1)` for a lattice `T`, `A^∨` is the Pontryagin dual of `A`, and cohomology is the continuous cohomology of ArithmeticGaloisDuality §D7.6.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 3: Big ordinary Hecke algebras at a reducible residual determinant
 
 This layer compares the big ordinary Hecke algebra of a definite unitary group, localized at a maximal ideal whose residual
