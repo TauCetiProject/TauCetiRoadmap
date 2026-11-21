@@ -22,7 +22,7 @@ Notation and conventions not restated here are those of EndoscopicTransferAndUni
 
 Local notation (Layer 10 and the local statements of Layers 14–15). `F` is a finite extension of `ℚ_p` with ring of integers `𝒪`, maximal ideal `𝔭`, uniformiser `ϖ`, normalised valuation `v` and residue field `k ≅ 𝔽_q`; `F_n/F` is unramified of degree `n`, with residue field `k_n` and Frobenius generator `φ` of `Gal(F_n/F)`. `W_F ⊃ I_F` are the Weil group and inertia, and `Art_geo = Art_{geo,F}` is the reciprocity map sending uniformisers to geometric Frobenius. `rec_n = LLC_WD` is the trace-defined correspondence of EndoscopicTransferAndUnitaryTraceComparison §10.26, from irreducible smooth complex representations of `GL_n(F)` to Frobenius-semisimple `n`-dimensional Weil–Deligne representations `(ρ, N)`, and `σ_ss` its semisimple Weil parameter. `ψ` is a nontrivial additive character of `F`, `a(χ)` the conductor exponent of a character `χ` of `F^×`, and `ν = |det|`; `χ_1 × ⋯ × χ_n` is normalised parabolic induction, and two characters are linked when their quotient is `ν^{±1}`. `K = GL_n(𝒪)`. The tame characters `t_n : I_F → k_n^×` are defined in 10.34. Depth zero, depth zero up to twist, the label `m_π` of a representation of depth zero and its lift `m_π^{(l)}`, the representations `π(σ, c)` and `π_θ̃`, the Gauss sums `G_n` and `w`, and the Shintani lift `Sh_d` are those of FiniteReductiveGroups §§5.10, 5.11 and 6.1–6.4. Base change along an unramified cyclic extension of prime degree is that of EndoscopicTransferAndUnitaryTraceComparison §6.12 with AutomorphicSpectralTheory §7.0b.
 
-Global notation (Layers 14–16). `E` is a CM field with complex conjugation `c`; `(π, χ)` is a regular algebraic polarized cuspidal representation of `GL_n(𝔸_E)` of weight `a ∈ (ℤⁿ)_w`; `ℓ` is a prime, `ι : ℚ̄_ℓ ≅ ℂ`, and `r_{ℓ,ι}(π)` is the attached Galois representation. As in AutomorphicGaloisRepresentationsPartII, Frobenius elements are geometric, the cyclotomic character `ε_ℓ` has Hodge–Tate weight `−1`, the labelled Hodge–Tate weights of the weight `a` are `a_{τ,i} + n − i`, `rec^T(π_w) = rec(π_w ⊗ |det|^{(1−n)/2})`, and `P_w(π_w; X)` is the good-place polynomial. `WD` is the Weil–Deligne representation of a representation of `G_{E_w}` for `w ∤ ℓ`, or of its `D_pst` for `w ∣ ℓ`, and `F-ss` denotes Frobenius semisimplification. In Layers 14–16 `rec` is the correspondence in the geometric normalisation, `rec(χ) = χ∘Art⁻¹` with `Art` sending uniformisers to geometric Frobenius elements: it is `rec_n = LLC_WD` of Layer 10 (10.29a). The classical correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 that 10.30 calls `rec` is in the arithmetic normalisation and goes from parameters to representations; the two are related by `LLC_WD(π) = (rec⁻¹(π))^∨` (10.30).
+Global notation (Layers 14–16). `E` is a CM field with complex conjugation `c`; `(π, χ)` is a regular algebraic polarized cuspidal representation of `GL_n(𝔸_E)` of weight `a ∈ (ℤⁿ)_w`; `ℓ` is a prime, `ι : ℚ̄_ℓ ≅ ℂ`, and `r_{ℓ,ι}(π)` is the attached Galois representation. As in AutomorphicGaloisRepresentationsPartII, Frobenius elements are geometric, the cyclotomic character `ε_ℓ` has Hodge–Tate weight `−1`, the labelled Hodge–Tate weights of the weight `a` are `a_{τ,i} + n − i`, `rec^T(π_w) = rec(π_w ⊗ |det|^{(1−n)/2})` (the twist of [FormalProof], `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GaloisRepOfPolarizedCuspidal.lean` (`GlobalTheory.GalOfCusp.algNorm`)), and `P_w(π_w; X)` is the good-place polynomial. `WD` is the Weil–Deligne representation of a representation of `G_{E_w}` for `w ∤ ℓ`, or of its `D_pst` for `w ∣ ℓ`, and `F-ss` denotes Frobenius semisimplification. In Layers 14–16 `rec` is the correspondence in the geometric normalisation, `rec(χ) = χ∘Art⁻¹` with `Art` sending uniformisers to geometric Frobenius elements: it is `rec_n = LLC_WD` of Layer 10 (10.29a). The classical correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 that 10.30 calls `rec` is in the arithmetic normalisation and goes from parameters to representations; the two are related by `LLC_WD(π) = (rec⁻¹(π))^∨` (10.30).
 
 ## Layer 6: Splitting characters of quadratic extensions
 
@@ -65,7 +65,10 @@ ramification there, constructed the same way with prescribed restriction to the 
 
 (H. Hecke, *Eine neue Art von Zetafunktionen*, 1918–20, for characters with infinity type;
 S. Kudla, Israel J. Math. 87 (1994), §1, for the splitting conditions; Harris–Kudla–Sweet, J. Amer.
-Math. Soc. 9 (1996), §1.) *Needs:* GlobalNumberFields Layer 8 (idele classes, norms and the Galois
+Math. Soc. 9 (1996), §1.) The form that the family uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/IdeleNormCharacters/AbsFactsAlt.lean`
+(`UpperTheory.Gal.TP.Chr.ChrEx`), with `Development/AbelianVarietyTheory/Definitions/Divisors/HilbertNinetyQuotientHomEqIff.lean`
+(`GlobalTheory.WeilM.ResEtaPow`). *Needs:* GlobalNumberFields Layer 8 (idele classes, norms and the Galois
 action), Layer 9 (Hecke characters), Layer 10 (infinity types); VonNeumannAlgebras Layer 11 (the Pontryagin
 duality theorem, with V11.DoubleDualEmbedding for the separation of points); Mathlib
 `groupCohomology.exists_div_of_norm_eq_one` (Hilbert's theorem 90) and `MonoidHom.isOpenMap_of_sigmaCompact`
@@ -130,7 +133,10 @@ EndoscopicTransferAndUnitaryTraceComparison §10.26 through the adapter of Endos
 property 5, `ε`-factors of supercuspidal pairs, is EndoscopicTransferAndUnitaryTraceComparison §10.28; the duals, the twist rule
 and the factors of all pairs are EndoscopicTransferAndUnitaryTraceComparison §10.30. Uniqueness is LocalFactorsOfTwistsAndTypes §6.5.
 [FormalProof] does not use property 5, the factors of pairs, bijectivity or uniqueness; what it uses of the correspondence
-is listed at LocalFactorsOfTwistsAndTypes §6.5.
+is listed at LocalFactorsOfTwistsAndTypes §6.5. The form that the family uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean` (`UpperTheory.Zero.LLC.RecTExists`), with
+`Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/HasExponentZeroIff.lean`
+(`GlobalTheory.LocLanglands.IsLocalArtin`).
 
 *Route.* The citations above. The route here obtains the duals and the twist rule without the classical theorem of
 SmoothRepresentationsOfLocalGroups SR.5.2, from which EndoscopicTransferAndUnitaryTraceComparison §10.30 transports them: the duals
@@ -223,6 +229,10 @@ measure on both, `TO_{δ,σ}(φ′_f) = O_γ(φ_f)`, where `TO_{δ,σ}(φ) = ∫
 (b) `O_γ(φ_f) = 0` for every regular semisimple `γ ∈ GL_n(F)` that is not conjugate to a norm.
 For `d` prime, `φ′_f` and `φ_f` are therefore matching functions in the sense of AutomorphicSpectralTheory §7.0b, with the
 measures of AutomorphicSpectralTheory §7.0a.
+The orbital-integral identity of (a) and the vanishing (b) are the two clauses of [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Divisors/IntersectionFamilySymmetric.lean` (`GlobalTheory.DZA.InflMatching`), with
+`Development/AbelianVarietyTheory/Definitions/Divisors/SimpleTwistedTraceFormulaStable.lean` (`GlobalTheory.BCT.twOrb`) and
+`Development/AbelianVarietyTheory/Definitions/Divisors/IntersectionFamilySymmetric.lean` (`GlobalTheory.DZA.infl`).
 
 *Route.* `σ(Nδ) = δ⁻¹(Nδ)δ`, so the characteristic polynomial of `Nδ` has coefficients in `F`; a regular semisimple matrix is
 conjugate over its field of coefficients to its companion matrix, which gives `γ`. *The `σ`-centraliser, for every `δ`.*
@@ -280,6 +290,9 @@ unitary tamely ramified characters of `F_f^×` whose restrictions to `𝒪_{F_f}
 `GL_n(𝔸_E)` with cuspidal base change `Π`, and a finite place `w` of `E`, inert and unramified in `E′`, at which `π_w` has depth
 zero, `Π_{w′}` (`w′ | w`) has depth zero and label `m_{π_w}^{(l)}`.
 The global form (b) is the one [FormalProof] has, for totally complex fields; the local statement and (a) are this roadmap's.
+For (b) the form that the family uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/RegularSemisimpleFibres/PStepInert.lean`
+(`UpperTheory.Gal.InertialTypesAlt.stepInert`).
 
 *Route.* *Essentially tempered `π`.* Let `χ` be the character of the Harish-Chandra product of cuspidal representations of
 `GL_n(k)` of label `m_π`. Every constituent of `π^{K₁}` lies in that series (FiniteReductiveGroups §6.3) and is a constituent of
@@ -420,7 +433,9 @@ The argument by twists by characters does not extend to every rank: in ranks `5`
 separate depth-zero supercuspidal representations (Checks). The conclusion of (iii)–(iv) is the explicit local Langlands
 correspondence at depth zero of the literature (Henniart, 1992, for the unramified case; C. J. Bushnell, G. Henniart, *The
 essentially tame local Langlands correspondence, I*, J. Amer. Math. Soc. 18 (2005), for essentially tame representations;
-for the unramified extension of degree `n` the rectifier is unramified with value `(−1)^{n−1}` at `ϖ`).
+for the unramified extension of degree `n` the rectifier is unramified with value `(−1)^{n−1}` at `ϖ`). For (iii) the form that
+the family uses is [FormalProof], `Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean`
+(`UpperTheory.Zero.LLC.TypeLaw`).
 
 *Needs:* 10.27 (the explicit threshold), 10.29a, 10.33a, 10.33b, 10.33d; EndoscopicTransferAndUnitaryTraceComparison §§6.12, 10.20, 10.21, 10.26, 10.27, 10.28, 10.30; AutomorphicSpectralTheory §7.0b;
 FiniteReductiveGroups §§1.1, 5.2, 5.10, 5.11, 6.1–6.3; AutomorphicLFunctionsAndLocalFactors AL.2.1.2–AL.2.1.5, LocalFactorsOfTwistsAndTypes
@@ -485,7 +500,9 @@ depth-zero character is trivial; 10.34 (ii) is stated for ranks `≥ 2` only); t
 because an irreducible tame Weil representation of dimension `n` is induced from a tame character of `F_n^×` regular on
 `k_n^×` (Clifford theory for the tame quotient, as in 10.34), hence by 10.34 (iv) in rank `n` and bijectivity the
 parameter of a depth-zero supercuspidal representation up to unramified twist, and depth is read off the supercuspidal
-support (FiniteReductiveGroups §6.3).
+support (FiniteReductiveGroups §6.3). For supercuspidal `π` over `ℚ_p` the form of this converse that the family uses is
+[FormalProof], `Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/InertCharpoly/CharPolOfInert.lean`
+(`UpperTheory.Gal.Int.Row.dz_of_cusp`).
 
 *Needs:* 10.29a, 10.34; EndoscopicTransferAndUnitaryTraceComparison §10.26; SmoothRepresentationsOfLocalGroups SR.4.3; FiniteReductiveGroups §§6.3–6.4;
 InductionRestriction Layer 5.
@@ -624,7 +641,10 @@ particular (by AutomorphicGaloisRepresentationsPartII AG2.5 *Comparison of the e
 `r_{ℓ,ι}(π)` is unramified at every `w ∤ ℓ` at which `π_w` is unramified, with
 `ι det(X − r(Frob_w)) = P_w(π_w; X)`.
 This is the away-from-`ℓ` part of AutomorphicGaloisRepresentationsPartII AG2.7 *Polarized Hodge and Weil–Deligne export*, whose
-irreducibility premise for `n ≥ 2` is proved by ModularityAndLanglandsExtensions §2.43.
+irreducibility premise for `n ≥ 2` is proved by ModularityAndLanglandsExtensions §2.43. The form that the family uses is
+[FormalProof], `Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean`
+(`UpperTheory.GalStar.Row0b`), with
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/WeightsConj.lean` (`UpperTheory.GalS.PairUAlt`).
 
 *Route.* AutomorphicGaloisRepresentationsPartII AG2.7 *Polarized Hodge and Weil–Deligne export* with ModularityAndLanglandsExtensions
 §2.43; what follows is an alternative route that does not use that irreducibility input.
@@ -664,7 +684,10 @@ isomorphism `ι⁻¹` applied to the whole complex-valued character of `I_w` (th
 [FormalProof] has the case in which `π_w` has depth zero and either its supercuspidal support consists of pairwise
 unlinked characters, or `E_w ≅ ℚ_p` and the members of rank at least two of the support are pairwise not unramified twists
 of one another; it states the conclusion as `N = 0` together with the characteristic polynomial of every element of
-inertia.
+inertia. The form that the family uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/SphericalGaloisCompatibility/PAdicSplitting/LocalGlobalCompatAtIwahoriFixedPlaces.lean`
+(`UpperTheory.Gal.ToralGalois.R2.LocalGlobalCompatAtIwahoriFixedPlaces`), with
+`Development/AbelianVarietyTheory/Definitions/GaloisGeometry/CyclicStrongAtCusp.lean` (`GlobalTheory.RoadU.PlainTor`).
 
 *Route.* 14.1 and 10.35 (c) (through 10.34 (i), (iii) in each rank `n_i`); the
 twist by `|det|^{(1−n)/2}` in `rec^T` is unramified.
@@ -897,7 +920,11 @@ the ones above. 16.1 adds every Hermitian space definite at every infinite place
 `w ∤ ℓ` at which `BC(Π)_w` is unramified, not only at the split ones, and the comparison at every `w ∣ ℓ`.
 [FormalProof] has the case of the standard Hermitian form over a CM field unramified over its totally real subfield at
 every finite place: crystalline with these weights when `Π` is unramified at every place above `ℓ`, and the polynomial
-`P_w(BC(Π)_w; X)` at the split places `w ∤ ℓ` at which `Π` is unramified.
+`P_w(BC(Π)_w; X)` at the split places `w ∤ ℓ` at which `Π` is unramified. The form that the family uses is [FormalProof],
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/GaloisRepDefiniteUnitary.lean`
+(`GlobalTheory.GalAut.galoisRep_definiteUnitary_tyz`), with
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/HasString.lean` (`GlobalTheory.GalDef.FrobSat`) and
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/HasString.lean` (`GlobalTheory.GalDef.jumpsOf`).
 
 *Route.* Each block by AutomorphicGaloisRepresentationsPartII AG2.3 *Arbitrary regular conjugate-self-dual existence* with AutomorphicGaloisRepresentationsPartII AG2.2 *Twisting an essentially self-dual form into unitary type* and the uniqueness of a semisimple attached representation in AutomorphicGaloisRepresentationsPartII AG2.0 *A Galois representation attached to `π` at the good places* (existence, continuity, semisimplicity, uniqueness), 14.1 at every unramified `w ∤ ℓ` (with AutomorphicGaloisRepresentationsPartII AG2.5 *Comparison of the early polynomial with normalized local Langlands*), and AutomorphicGaloisRepresentationsPartII AG2.6 *Polarized admissibility at the coefficient prime*; the Frobenius eigenvalues of the block
 `(i, j)` are `q_w^{(n_i−1)/2}·α·q_w^{−s_{ij}} = q_w^{(n−1)/2}·α·q_w^{−(d_i−1)/2+j}` for the Satake parameters `α` of `π_{i,w}`,
