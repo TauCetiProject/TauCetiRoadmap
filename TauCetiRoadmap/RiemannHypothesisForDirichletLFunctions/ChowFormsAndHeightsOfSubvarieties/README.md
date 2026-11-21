@@ -18,6 +18,11 @@ For `s, x ∈ K^{n+1}`, `⟨s, x⟩ = Σ_k s_kx_k`, and `H_s = {⟨s, x⟩ = 0}`
 
 Notation and conventions not restated here are those of HeightsRationalPointsAndObstructions (its Conventions and §§5.9b, 5.17a), SlopesOfHermitianVectorBundles (its Conventions and §§6.6, 6.7a) and ArakelovGeometryAndAbelianHeights (§§1.1–1.3).
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 5: Arithmetic intersection numbers under change of metric
 
 ### 5.1 Change of metric in arithmetic intersection numbers
