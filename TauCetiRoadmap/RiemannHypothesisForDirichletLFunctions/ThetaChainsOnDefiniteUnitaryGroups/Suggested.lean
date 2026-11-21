@@ -33,7 +33,7 @@ on it.
   are read; stating the criterion would need an ad hoc encoding of both.
 * The step is a theta lift (3.3, 3.4): the step operator, a class sum of jets of theta functions of
   CM abelian varieties, maps forms of weight `Λ_{j−1}` on `U(X_{j−1})` to forms of weight `Λ_j` on
-  `U(X_j)`, is up to an explicit constant the class-set theta lift of the homomorphism pair
+  `U(X_j)`, is up to a nonzero constant the class-set theta lift of the homomorphism pair
   `(X_{j−1}^∨, δ_T X_j)`, and intertwines the Hecke operators at the split places with the Satake
   relation without inversion. It lacks, besides the carriers above, the global Weil representation
   of a unitary dual pair and its theta kernel, theta functions of CM abelian varieties with their
@@ -42,9 +42,11 @@ on it.
   of the orders of the stabilisers of the classes divides `minkowskiBound(2fN_m)` of
   FiniteGroupInvariants §10.2, `D_Γ^m` times the chain lift preserves the forms with values in the
   Weyl lattices at every finite place of the field of places at which the kernels are integral, and
-  the top period has valuation at least `−e_𝔭·v_{p(𝔭)}(D_Γ)`. It lacks, besides the carriers above,
-  the Weyl and dual Weyl lattices `Δ_ℤ(λ) ⊂ ∇_ℤ(λ)` of `GL_N` with their contravariant form, the
-  branching map to `GL_{N−1}`, and the function `minkowskiBound` on ranks.
+  the top period has valuation at least `−e_𝔭·v_{p(𝔭)}(D_Γ)` at every finite place `𝔭` for the base
+  tuple, and for a twisted tuple at every `𝔭` whose residue characteristic lies below no twist place.
+  It lacks, besides the carriers above, the Weyl and dual Weyl lattices `Δ_ℤ(λ) ⊂ ∇_ℤ(λ)` of `GL_N`
+  with their contravariant form, the branching map to `GL_{N−1}`, and the function `minkowskiBound`
+  on ranks.
 * Source lattices (3.8): if `2fk + 1 < g₀`, the classes of the column level of a word have trivial
   stabilisers, the lattice of integral new forms has rank `d*_u·(T(u)^k − 1)^f·((T(u) − 2)/(T(u) − 1))^f`
   and its slope is that of the lattice of all integral forms minus `f·log(T(u) − 1)/(T(u) − 2)`. It
