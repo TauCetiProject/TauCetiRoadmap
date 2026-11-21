@@ -38,22 +38,24 @@ The roadmap sits between two others. [AffineLieAlgebras](../AffineLieAlgebras/RE
 the deformation of the level. [FormalConnectionsOpers](../FormalConnectionsOpers/README.md) supplies
 opers, their evaluation characters, the isomonodromy groupoid with its Lie algebroid, and the theorem
 that every local system on the punctured disc carries an oper structure. The Tau Ceti library
-supplies categorical group actions, the bicategory of equivariant lifts, strict central-character
-fibres and the self-extensions of modules along derivations.
+supplies, in generic form, the discrete and smooth module categories, their strict
+central-character fibres and the completed enveloping algebra on which these constructions are made.
 
 ## How to read the build
 
-Layer 1 fixes the categorical vocabulary: actions of a group on a category, their pseudofunctors,
-equivariant functors and invariant full subcategories, and objectwise congruence invariance. Layer 2
-makes the twisting actions on module categories and on their central-character fibres coherent, and
-fixes the cells of the rank-one critical fibres. Layer 3 builds the critical family `Ccrit(p)` with
-its loop-group and coordinate symmetries, and separates coherent weak equivariance from rational
-integration. Layer 4 treats coherent transport along a parameter groupoid, compares it with
-normalized data and states the categorical-lift conjecture. Layer 5 descends lifts to local systems,
-builds the infinitesimal bridge `θ` with its extension classes, and states the relative refinement
-over finite Artinian coefficient algebras. Each subsection's *Needs:* line lists its inputs, so that a
-target proved by another route is not blocked behind an unrelated section. Citations of this roadmap
-by the labels R1, R2, R3, R4 and R5 resolve to Layers 1 to 5, and R5.1, R5.2 and R5.3 to §§5.1–5.3.
+The layers below are R1 to R5. R1 fixes the categorical vocabulary: actions of a group on a category,
+their pseudofunctors, equivariant functors and invariant full subcategories, and objectwise
+congruence invariance. R2 makes the twisting actions on module categories and on their
+central-character fibres coherent, and fixes the cells of the rank-one critical fibres. R3 builds the
+critical family `Ccrit(p)` with its loop-group and coordinate symmetries, and separates coherent weak
+equivariance from rational integration. R4 treats coherent transport along a parameter groupoid,
+compares it with normalized data and states the categorical-lift conjecture. R5 descends lifts to
+local systems (R5.1), builds the infinitesimal bridge `θ` with its extension classes (R5.2), and
+states the relative refinement over finite Artinian coefficient algebras (R5.3). Sections are
+numbered within their layer: §2.3 is the third section of R2, and §§5.1–5.3 are R5.1–R5.3. Each
+section's *Needs:* line lists its inputs, so that a target proved by another route is not blocked
+behind an unrelated section. An item that the pinned Tau Ceti library proves ends with a line that
+names the declarations realising it.
 
 ## Conventions
 
@@ -99,45 +101,45 @@ by the labels R1, R2, R3, R4 and R5 resolve to Layers 1 to 5, and R5.1, R5.2 and
    `CategoryTheory` are written without that prefix. The targets of this roadmap are named in prose,
    and `Suggested.lean` explains which headline results are statable at the pinned libraries.
 
-## Layer 1: categorical actions and invariant full subcategories
+## R1: categorical actions and invariant full subcategories
 
 This layer fixes the categorical vocabulary of the roadmap: actions of a group on a category, their
 presentation as pseudofunctors, equivariant functors and transformations, restriction to invariant
 full subcategories and transport along equivalences, and the objectwise congruence condition. Every
-item is used below by the names given here, and the Checks pin the conventions.
+item is used below by the names given here, and the Checks pin the conventions. Each of these
+interfaces comes with its complete API: constructors, extensionality on components, identity and
+product simplifications, the inverse-action comparison, naturality of the inclusions, invariance
+under equivalence and the associated coherence lemmas.
 
 ### 1.1 Actions and their classifying pseudofunctors
 
 An action of a group `H` on a category `C` is `MonoidalLeftAction (Discrete H) C`; write `T_h` for
-its action functor at `h`. The isomorphism `MonoidalLeftAction.actionLeftTensorIso` identifies the
-action functor of a product `g h` with `T_h ⋙ T_g`, with components the associator;
-`MonoidalLeftAction.actionLeftEquivalence` makes `T_g` an equivalence with inverse `T_(g⁻¹)`; and
-`MonoidalLeftAction.actionHomLeft_eq_eqToHom` says that the morphisms of `Discrete H` act by
-`eqToHom`. An action is the same datum as a pseudofunctor
-`LocallyDiscrete (SingleObj H) ⥤ᵖ Cat` whose value at the unique object is `C`
-(`MonoidalLeftAction.pseudofunctor`, sending `g` to `T_g`, with unit comparison the left unitor and
-composition comparison at `g ≫ h` the associator `T_(h*g) ≅ T_g ⋙ T_h`). Conversely
-`Pseudofunctor.monoidalLeftAction` reads an action off a pseudofunctor, and both round trips are
-equalities that include the unitor and the associator (`MonoidalLeftAction.monoidalLeftAction_pseudofunctor`,
-`Pseudofunctor.pseudofunctor_monoidalLeftAction`, `MonoidalLeftAction.pseudofunctorEquiv`): the
-comparison transports the unit and associativity coherence, rather than merely matching action
-functors. The curried form is the monoidal functor `MonoidalLeftAction.curriedActionMop` into the
-monoidal opposite of the endofunctors, with `MonoidalLeftAction.curriedActionMopMonoidal`. The
-trivial action is `TauCeti.trivialAction`. An action of the group of complex points, by functors
+its action functor at `h`. Prove the formulas for units, products, inverses and morphisms: the
+action functor of a product `g h` is isomorphic to `T_h ⋙ T_g`, with components the associator;
+`T_g` is an equivalence with inverse `T_(g⁻¹)`; and the morphisms of `Discrete H` act by
+`eqToHom`. Construct the comparison of an action with a pseudofunctor
+`LocallyDiscrete (SingleObj H) ⥤ᵖ Cat` whose value at the unique object is `C`, sending `g` to
+`T_g`, with unit comparison the left unitor and composition comparison at `g ≫ h` the associator
+`T_(h*g) ≅ T_g ⋙ T_h`; conversely, read an action off such a pseudofunctor, and prove that both round
+trips are equalities that include the unitor and the associator, so that the comparison is a
+bijection between actions on `C` and pseudofunctors with value `C`. The comparison transports the
+unit and associativity coherence, rather than merely matching action functors. The curried form is
+the monoidal functor `MonoidalLeftAction.curriedActionMop` into the monoidal opposite of the
+endofunctors, with `MonoidalLeftAction.curriedActionMopMonoidal`. The trivial action of `H` on `C`
+has every `T_h` the identity functor and identity cells. An action of the group of complex points, by functors
 `F_g` with isomorphisms `F_(gh) ≅ F_g ∘ F_h` satisfying the cocycle identity, is that of Frenkel,
 §1.3.3, p. 25 (there `F_1` is the identity functor; here it comes with a unit isomorphism
 `F_1 ≅ Id`); Frenkel–Gaitsgory, §20.1, pp. 120–121, give the algebraic form for an affine group
 scheme, with its unit and associativity constraints. Pseudofunctors, strong transformations and
 modifications are those of Johnson–Yau, Definitions 4.1.2, 4.2.1 and 4.4.1, pp. 103–104, 117–118
 and 126–127. *Needs:* Mathlib `MonoidalLeftAction`,
-`MonoidalLeftAction.curriedActionMop`, `SingleObj`, `LocallyDiscrete`, `Cat`; Tau Ceti
-`MonoidalLeftAction.actionLeftTensorIso`, `MonoidalLeftAction.actionLeftEquivalence`,
-`MonoidalLeftAction.pseudofunctor`, `Pseudofunctor.monoidalLeftAction`,
-`MonoidalLeftAction.pseudofunctorEquiv`, `TauCeti.trivialAction`.
+`MonoidalLeftAction.curriedActionMop`, `SingleObj`, `LocallyDiscrete`, `Cat`, `Pseudofunctor`.
+
+*In Tau Ceti:* `MonoidalLeftAction.actionLeftTensorIso`, `MonoidalLeftAction.actionLeftEquivalence`, `MonoidalLeftAction.actionHomLeft_eq_eqToHom`, `MonoidalLeftAction.pseudofunctor`, `Pseudofunctor.monoidalLeftAction`, `MonoidalLeftAction.monoidalLeftAction_pseudofunctor`, `Pseudofunctor.pseudofunctor_monoidalLeftAction`, `MonoidalLeftAction.pseudofunctorEquiv`, `TauCeti.trivialAction`.
 
 **Checks.**
 - For `H = (ℤ/2)²` acting on finite-dimensional complex vector spaces, the trivial action and the
-  pseudofunctor `TauCeti.centralCocyclePseudofunctor` of the bicharacter
+  cocycle pseudofunctor of §4.5 for the bicharacter
   `c((a, b), (a′, b′)) = (−1)^(b a′)` have the same action functors, all identities, and different
   composition cells: `c` takes the value `−1` at `((0, 1), (1, 0))`. A comparison of actions and
   pseudofunctors that matched only the action functors would identify them; they are not even
@@ -147,37 +149,32 @@ and 126–127. *Needs:* Mathlib `MonoidalLeftAction`,
 
 An equivariant functor between categories with actions is a functor `F` with a structure
 `Functor.LeftLinear (Discrete H)`; it carries natural isomorphisms `T_g^C ⋙ F ≅ F ⋙ T_g^D`
-(`Functor.commActionLeftIso`) satisfying the unit and product diagrams. Identities and composites
-are equivariant (`Functor.LeftLinear.comp`), and equivariant natural transformations are
-`NatTrans.IsLeftLinear`. Equivariant functors are exactly the strong transformations between the
-classifying pseudofunctors (`MonoidalLeftAction.strongTrans`, `MonoidalLeftAction.functorOfStrongTrans`,
-`MonoidalLeftAction.strongTransEquiv`), and equivariant natural transformations exactly the
-modifications (`MonoidalLeftAction.modification`, `MonoidalLeftAction.modificationEquiv`, with the
-identity and composite comparisons `MonoidalLeftAction.strongTransIdIso` and
-`MonoidalLeftAction.strongTransCompIso`).
+satisfying the unit and product diagrams. Prove that identities and composites of equivariant
+functors are equivariant, and define equivariant natural transformations as those compatible with
+these isomorphisms. Prove that equivariant functors `C → D` are exactly the strong transformations
+between the classifying pseudofunctors of §1.1, by mutually inverse constructions, and that
+equivariant natural transformations are exactly the modifications between the corresponding strong
+transformations, compatibly with identities and composites.
 
-For an object property `P` stable under the action (`ObjectProperty.IsStableUnderLeftAction`), the
-action restricts to `P.FullSubcategory` (`ObjectProperty.fullSubcategoryMonoidalLeftAction`); the
-fully faithful inclusion is equivariant with identity lineators (`ObjectProperty.leftLinearι`); for
-`P ≤ Q` the inclusion is equivariant (`ObjectProperty.leftLinearιOfLE`); restricting first by `P` and
-then by `Q` is equivariantly equivalent to restricting by `P ⊓ Q`, with equivariant unit and counit
-(`ObjectProperty.iteratedFullSubcategoryEquivalence` and
-`ObjectProperty.iteratedFullSubcategoryEquivalenceFunctorLeftLinear`); and lifts of equivariant
-functors are equivariant (`ObjectProperty.leftLinearLift`). An action transports along an equivalence
-`e : D ≌ D′` (`Equivalence.transportMonoidalLeftAction`), making `e.functor` equivariant
-(`Equivalence.functorLeftLinearOfTransport`) and its inverse equivariant
-(`Equivalence.inverseLeftLinear`). On linear categories the restricted and transported action functors
-stay additive and scalar-linear (the instances of the full-subcategory action and
-`Equivalence.linear_actionLeft_transport`). If `D` is abelian and `P` contains zero and is closed
-under finite products, kernels and cokernels, then `P.FullSubcategory` is abelian (Mathlib's instance
-on such full subcategories), and an action of `D` by exact functors restricts to an action by exact
-functors of the inherited abelian structure (`ObjectProperty.preservesFiniteLimits_actionLeft`,
-`ObjectProperty.preservesFiniteColimits_actionLeft`). For the strict central-character fibres of Layer 2
-these closure properties follow from the scalar equation; no closure under arbitrary ambient
-extensions is inferred. *Needs:* Mathlib `Functor.LeftLinear`, `ObjectProperty.FullSubcategory`,
-`ObjectProperty.ι`, `ObjectProperty.ιOfLE`, `ObjectProperty.lift`, `Pseudofunctor.StrongTrans`,
-`Functor.Linear`, the abelian structure on full subcategories; Tau Ceti `NatTrans.IsLeftLinear` and
-the declarations named above; §1.1.
+For an object property `P` stable under the action, in the sense that every `T_h` carries objects
+with `P` to objects with `P`, prove that the action restricts to `P.FullSubcategory`; that the fully
+faithful inclusion is equivariant with identity lineators; that for `P ≤ Q` the inclusion of
+`P.FullSubcategory` into `Q.FullSubcategory` is equivariant; that restricting first by `P` and then
+by `Q` is equivariantly equivalent to restricting by `P ⊓ Q`, with equivariant unit and counit; and
+that the lift through `P.FullSubcategory` of an equivariant functor landing in `P` is equivariant.
+An action transports along an equivalence `e : D ≌ D′`: prove that `e.functor` is then equivariant
+and that the inverse of an equivariant equivalence is equivariant. On linear categories the restricted
+and transported action functors stay additive and scalar-linear. If `D` is abelian and `P` contains
+zero and is closed under finite products, kernels and cokernels, then `P.FullSubcategory` is abelian
+(Mathlib's instance on such full subcategories); prove that an action of `D` by exact functors
+restricts to an action by exact functors of the inherited abelian structure, preserving its kernels
+and cokernels. For the strict central-character fibres of R2 these closure properties follow from
+the scalar equation; no closure under arbitrary ambient extensions is inferred. *Needs:* Mathlib
+`Functor.LeftLinear`, `ObjectProperty.FullSubcategory`, `ObjectProperty.ι`, `ObjectProperty.ιOfLE`,
+`ObjectProperty.lift`, `Pseudofunctor.StrongTrans`, `Functor.Linear`, the abelian structure on full
+subcategories; §1.1.
+
+*In Tau Ceti:* `Functor.commActionLeftIso`, `Functor.LeftLinear.comp`, `NatTrans.IsLeftLinear`, `MonoidalLeftAction.strongTrans`, `MonoidalLeftAction.functorOfStrongTrans`, `MonoidalLeftAction.strongTransEquiv`, `MonoidalLeftAction.modification`, `MonoidalLeftAction.modificationEquiv`, `MonoidalLeftAction.strongTransIdIso`, `MonoidalLeftAction.strongTransCompIso`, `ObjectProperty.IsStableUnderLeftAction`, `ObjectProperty.fullSubcategoryMonoidalLeftAction`, `ObjectProperty.leftLinearι`, `ObjectProperty.leftLinearιOfLE`, `ObjectProperty.iteratedFullSubcategoryEquivalence`, `ObjectProperty.iteratedFullSubcategoryEquivalenceFunctorLeftLinear`, `ObjectProperty.leftLinearLift`, `Equivalence.transportMonoidalLeftAction`, `Equivalence.functorLeftLinearOfTransport`, `Equivalence.inverseLeftLinear`, `Equivalence.linear_actionLeft_transport`, `ObjectProperty.preservesFiniteLimits_actionLeft`, `ObjectProperty.preservesFiniteColimits_actionLeft`.
 
 **Checks.**
 - Over `ℂ[x]`, the modules on which `x` acts by a fixed scalar `λ` form a full subcategory containing
@@ -188,15 +185,15 @@ the declarations named above; §1.1.
 
 ### 1.3 Objectwise congruence invariance
 
-For a family `K : ℕ → Subgroup H`, `TauCeti.congruenceInvariant K` is the property of an object `M`
-that some `K N` with `N > 0` fixes it up to isomorphism, `∀ g ∈ K N, Nonempty (T_g M ≅ M)`, and
-`TauCeti.IsObjectwiseCongruenceInvariant K C` asks this of every object, with `N` depending on the
-object. This is the objectwise stability of Frenkel, §1.3.4, pp. 26–27. It is invariant under
-equivariant equivalence (`TauCeti.isObjectwiseCongruenceInvariant_iff_of_equivalence`) and restricts
-to invariant full subcategories (`TauCeti.IsObjectwiseCongruenceInvariant.fullSubcategory`). The
-predicate asks only for objectwise isomorphisms; coherent rational integration with a prescribed Lie
-derivative is separate data (§3.5). *Needs:* Tau Ceti `TauCeti.congruenceInvariant`,
-`TauCeti.IsObjectwiseCongruenceInvariant` and the two invariance results; §1.2.
+For a family `K : ℕ → Subgroup H`, define the *congruence-invariant* objects as those `M` that some
+`K N` with `N > 0` fixes up to isomorphism, `∀ g ∈ K N, Nonempty (T_g M ≅ M)`, and call the action
+*objectwise congruence invariant* if every object is congruence invariant, with `N` depending on the
+object. This is the objectwise stability of Frenkel, §1.3.4, pp. 26–27. Prove that objectwise
+congruence invariance is invariant under equivariant equivalence and passes to invariant full
+subcategories. The predicate asks only for objectwise isomorphisms; coherent rational integration
+with a prescribed Lie derivative is separate data (§3.5). *Needs:* Mathlib `Subgroup`; §1.2.
+
+*In Tau Ceti:* `TauCeti.congruenceInvariant`, `TauCeti.IsObjectwiseCongruenceInvariant`, `TauCeti.isObjectwiseCongruenceInvariant_iff_of_equivalence`, `TauCeti.IsObjectwiseCongruenceInvariant.fullSubcategory`.
 
 **Checks.**
 - In the cocycle action of `(ℤ/2)²` of §1.1, every object is fixed by every element, so the
@@ -210,8 +207,8 @@ derivative is separate data (§3.5). *Needs:* Tau Ceti `TauCeti.congruenceInvari
 
 - Twisting a category of modules by algebra automorphisms, with unit and composition cells the
   comparison isomorphisms of restriction of scalars.
-- The trivial action `TauCeti.trivialAction` and the cocycle actions `TauCeti.centralCocyclePseudofunctor`,
-  which share action functors and differ in their cells.
+- The trivial action and the cocycle actions of `(ℤ/2)²` of §4.5, which share action functors and
+  differ in their cells.
 - Modules on which a central subalgebra acts by a fixed character: an invariant full subcategory, for
   a centre-fixing action, with inherited abelian structure.
 
@@ -219,42 +216,44 @@ derivative is separate data (§3.5). *Needs:* Tau Ceti `TauCeti.congruenceInvari
 
 Mathlib: monoidal left actions and their curried form, `SingleObj`, locally discrete bicategories,
 pseudofunctors, strong transformations and modifications, full subcategories and their abelian
-structure, linear functors. Tau Ceti: the action/pseudofunctor comparison, equivariant functors and
-transformations as strong transformations and modifications, restriction, iterated restriction and
-transport of actions, exactness of restricted actions, and objectwise congruence invariance.
+structure, linear functors.
 
-## Layer 2: coherent twists on module categories
+## R2: coherent twists on the supplied module categories
 
 Twisting a module by an algebra automorphism defines a categorical action of any group acting on the
 algebra, and that action restricts to the discrete modules and to their strict central-character
-fibres. This layer fixes those actions with their cells, and specializes them to the rank-one
-critical fibres, where the cells are pinned exactly.
+fibres. The categories themselves, their closure properties, the central-character categories,
+their quotient presentations and the twist functor of a single automorphism have one owner,
+AffineLieAlgebras A5; this layer builds the categorical coherence of the twists on those supplied
+categories. It fixes the actions with their cells, and specializes them to the rank-one critical
+fibres, where the cells are pinned exactly.
 
 ### 2.1 Twisting actions on module categories
 
-For a monoid homomorphism `a : H →* RingAut A`, the twisting action is
-`MonoidHom.restrictScalarsMonoidalLeftAction a`: `T_h` is restriction of scalars
-`ModuleCat.restrictScalars` along `(a h)⁻¹`, so the twisted module has the same underlying group with
-`x` acting as `(a h)⁻¹ x`. The identity `(a (g h))⁻¹ = (a h)⁻¹ ∘ (a g)⁻¹` gives `T_(gh) = T_g ∘ T_h`.
-Its unit and associator are exactly `ModuleCat.restrictScalarsId'` and `ModuleCat.restrictScalarsComp'`,
-whose underlying linear maps are identities, in both directions
-(`MonoidHom.actionUnitNatIso_restrictScalarsMonoidalLeftAction`,
-`MonoidHom.actionLeftTensorIso_restrictScalarsMonoidalLeftAction`): the hom and inverse components are
-these maps, not scalar multiples of them. For a group acting by continuous algebra automorphisms of a
-`ℂ`-algebra, the action is given through `MulSemiringAction.toRingEquiv`, its action functors are
-additive equivalences and `ℂ`-linear (`MonoidHom.linear_actionLeft_restrictScalarsMonoidalLeftAction`),
-and its classifying pseudofunctor is that of §1.1. The discrete modules of a topological algebra are
-stable when each `a h` is a homeomorphism (`MonoidHom.isStableUnderLeftAction_discreteModules`), and the
-smooth modules for a family of left ideals are stable when each twist preserves the family up to
-cofinality (`MonoidHom.isStableUnderLeftAction_smoothModules`). Restriction of scalars along a ring
-homomorphism intertwining two such actions is equivariant with identity lineators
-(`RingHom.leftLinearRestrictScalars`). For a monoid acting on `A` and on a set `X` of parameters, the
-same twists form a pseudofunctor out of the action category, `TauCeti.actionCategoryTwist`. The
-twisting action of the loop group on smooth modules is Frenkel, §1.3.4–1.3.5, pp. 26–27; the weak
-action of an affine group scheme on the discrete modules over a topological algebra it acts on is
-Frenkel–Gaitsgory, §20.1, p. 121. *Needs:*
-Mathlib `ModuleCat.restrictScalars`, `ModuleCat.restrictScalarsId'`, `ModuleCat.restrictScalarsComp'`,
-`MulSemiringAction.toRingEquiv`; Tau Ceti the declarations named above; §1.1.
+For a monoid homomorphism `a : H →* RingAut A`, construct the twisting action of `H` on
+`ModuleCat A`: `T_h` is restriction of scalars `ModuleCat.restrictScalars` along `(a h)⁻¹`, so the
+twisted module has the same underlying group with `x` acting as `(a h)⁻¹ x`. The identity
+`(a (g h))⁻¹ = (a h)⁻¹ ∘ (a g)⁻¹` gives `T_(gh) = T_g ∘ T_h`. Prove that its unit and associator are
+exactly `ModuleCat.restrictScalarsId'` and `ModuleCat.restrictScalarsComp'`, whose underlying linear
+maps are identities, in both directions: the hom and inverse components are these maps, not scalar
+multiples of them. For a group acting by continuous algebra automorphisms of a `ℂ`-algebra, the
+action is given through `MulSemiringAction.toRingEquiv`; prove that its action functors are additive
+equivalences and `ℂ`-linear. Its classifying pseudofunctor is that of §1.1, so its associativity and
+identity coherence, its inverse equivalences and its naturality are those of §1.1. The discrete
+modules of a topological algebra are stable when each `a h` is a homeomorphism, and the smooth
+modules for a family of left ideals are stable when each twist preserves the family up to cofinality
+(AffineLieAlgebras A5.3; in Tau Ceti `MonoidHom.isStableUnderLeftAction_discreteModules` and
+`MonoidHom.isStableUnderLeftAction_smoothModules`), so the action restricts to them by §1.2. Prove
+that restriction of scalars along a ring homomorphism intertwining two such actions is equivariant
+with identity lineators. For a monoid acting on `A` and on a set `X` of parameters, construct the
+pseudofunctor out of the action category formed by the same twists, with the same unit and
+composition cells. The twisting action of the loop group on smooth modules is Frenkel,
+§1.3.4–1.3.5, pp. 26–27; the weak action of an affine group scheme on the discrete modules over a
+topological algebra it acts on is Frenkel–Gaitsgory, §20.1, p. 121. *Needs:* Mathlib
+`ModuleCat.restrictScalars`, `ModuleCat.restrictScalarsId'`, `ModuleCat.restrictScalarsComp'`,
+`MulSemiringAction.toRingEquiv`, `ActionCategory`; AffineLieAlgebras A5.3; §§1.1–1.2.
+
+*In Tau Ceti:* `MonoidHom.restrictScalarsMonoidalLeftAction`, `MonoidHom.actionUnitNatIso_restrictScalarsMonoidalLeftAction`, `MonoidHom.actionLeftTensorIso_restrictScalarsMonoidalLeftAction`, `MonoidHom.linear_actionLeft_restrictScalarsMonoidalLeftAction`, `RingHom.leftLinearRestrictScalars`, `TauCeti.actionCategoryTwist`.
 
 **Checks.**
 - On `A = ℂ[x]`, let `g` and `h` be the automorphisms `x ↦ 2x` and `x ↦ x + 1`, so that `g h` is
@@ -266,7 +265,8 @@ Mathlib `ModuleCat.restrictScalars`, `ModuleCat.restrictScalarsId'`, `ModuleCat.
 
 ### 2.2 Discrete modules, strict character fibres and their twists
 
-For a topological algebra `A`, `TauCeti.discreteModules A` is the property that every orbit map
+AffineLieAlgebras A5.1–A5.3 supplies the categories, in the following generic forms of the Tau Ceti
+library. For a topological algebra `A`, `TauCeti.discreteModules A` is the property that every orbit map
 `a ↦ a · v` is continuous into the discrete module, equivalently that annihilators of vectors are open
 (`TauCeti.discreteModules_iff_isOpen`); for a decreasing family of left ideals `J_N`,
 `TauCeti.smoothModules J` asks each vector to be killed by some `J_N`, and the two agree when the `J_N`
@@ -280,26 +280,25 @@ subcategories are abelian, closed under subobjects, quotients and finite limits,
 equation alone. An algebra isomorphism `e` with continuous inverse carries the fibre of `χ` to the
 fibre of `χ` precomposed with the inverse of `e` on the centres (`TauCeti.discreteCentralCharacterTwist`).
 
-For a monoid homomorphism `a : H →* (A ≃ₐ[ℂ] A)` with continuous inverses fixing the centre
-pointwise, every strict fibre is stable
-(`MonoidHom.isStableUnderLeftAction_discreteCentralCharacterModules_of_centerFixed`), and the fibre
-carries the coherent action `MonoidHom.discreteCentralCharacterMonoidalLeftAction`, whose unit and
+Let `a : H →* (A ≃ₐ[ℂ] A)` be a monoid homomorphism by algebra automorphisms with continuous
+inverses fixing the centre pointwise. By A5.3's centre-fixing theorem every strict fibre is stable
+(in Tau Ceti `MonoidHom.isStableUnderLeftAction_discreteCentralCharacterModules_of_centerFixed`).
+Construct the fibrewise coherent action of `H` on each strict fibre, and prove that its unit and
 associator are the restrictions of `ModuleCat.restrictScalarsId'App` and
-`ModuleCat.restrictScalarsComp'App` (`MonoidHom.discreteCentralCharacterMonoidalLeftAction_unit`,
-`MonoidHom.discreteCentralCharacterMonoidalLeftAction_assoc`, with the target `T_h ⋙ T_g` at `g * h`).
-Its inclusion into all modules is equivariant with identity lineators
-(`MonoidHom.leftLinearInclusionDiscreteCentralCharacterMonoidalLeftAction`) and its twists are
-`ℂ`-linear. The presentation of the fibre as discrete modules over the quotient by the closed ideal
-generated by the kernel of `χ` (`AlgHom.discreteCentralCharacterQuotientEquivalence`) is equivariant
-in both directions with identity lineators
-(`MonoidHom.leftLinearDiscreteCentralCharacterQuotientEquivalenceFunctor`,
-`MonoidHom.leftLinearDiscreteCentralCharacterQuotientEquivalenceInverse`), and the restriction in two
-steps, first to discrete modules and then to the fibre, is compared by §1.2. When automorphisms move
-the characters, the twists form a pseudofunctor over the action category of the parameters,
-`TauCeti.discreteCentralCharacterFamily`, whose inclusion into all modules is the strong
-transformation `TauCeti.discreteCentralCharacterFamilyι` with identity naturality isomorphisms. The
-fibres are those of Frenkel, §10.1, p. 308, and AffineLieAlgebras A5.3. *Needs:* Tau Ceti the
-declarations named above; Mathlib `Subalgebra.center`, `ActionCategory`; §§1.2, 2.1.
+`ModuleCat.restrictScalarsComp'App`, the associator at `g * h` having target `T_h ⋙ T_g`. Prove
+that its inclusion into all modules is equivariant with identity lineators and that its twists are
+`ℂ`-linear. Prove that A5.3's presentation of the fibre as discrete modules over the quotient by the
+closed ideal generated by the kernel of `χ` (in Tau Ceti
+`AlgHom.discreteCentralCharacterQuotientEquivalence`) is equivariant in both directions with
+identity lineators; the restriction in two steps, first to discrete modules and then to the fibre,
+is compared by §1.2. When automorphisms move the characters, A5.3's twist functor carries the fibre
+of `χ` to that of `χ ∘ a_h⁻¹`; construct the pseudofunctor over the action category of the
+parameters formed by these twists, restricting the pseudofunctor of §2.1, and its inclusion into all
+modules as a strong transformation with identity naturality isomorphisms. The fibres are those of
+Frenkel, §10.1, p. 308, and AffineLieAlgebras A5.3. *Needs:* AffineLieAlgebras A5.1–A5.3; Mathlib
+`Subalgebra.center`, `ActionCategory`; §§1.2, 2.1.
+
+*In Tau Ceti:* `MonoidHom.discreteCentralCharacterMonoidalLeftAction`, `MonoidHom.discreteCentralCharacterMonoidalLeftAction_unit`, `MonoidHom.discreteCentralCharacterMonoidalLeftAction_assoc`, `MonoidHom.leftLinearInclusionDiscreteCentralCharacterMonoidalLeftAction`, `MonoidHom.linear_actionLeft_discreteCentralCharacterMonoidalLeftAction`, `MonoidHom.leftLinearDiscreteCentralCharacterQuotientEquivalenceFunctor`, `MonoidHom.leftLinearDiscreteCentralCharacterQuotientEquivalenceInverse`, `TauCeti.discreteCentralCharacterObjectProperty`, `TauCeti.discreteCentralCharacterFamily`, `TauCeti.discreteCentralCharacterFamilyι`.
 
 **Checks.**
 - On the discrete algebra `ℂ[y]` (its own centre), let `χ(y) = 1` and `a : y ↦ y + 1`. On a module of
@@ -342,12 +341,12 @@ their hom and inverse components. Equality of action functors alone would not sp
 
 ### Dependencies
 
-Layer 1. Mathlib: restriction of scalars and its comparison isomorphisms, centres, action categories.
-Tau Ceti: twisting actions, discrete and smooth modules, strict central-character fibres, their twists,
-fibrewise actions, quotient presentations and the family over an action category. AffineLieAlgebras
-A2.3, A4.2, A5.4, A8.3; FormalConnectionsOpers §5.2.
+R1. Mathlib: restriction of scalars and its comparison isomorphisms, centres, action categories.
+Tau Ceti: the generic forms of AffineLieAlgebras A5.1–A5.3, namely discrete and smooth modules, strict
+central-character fibres, their twists, stability and quotient presentations. AffineLieAlgebras A2.3,
+A4.2, A5.1–A5.4, A8.3; FormalConnectionsOpers §5.2.
 
-## Layer 3: the critical representation family
+## R3: the critical representation family
 
 This layer builds the categories `Ccrit(p)` and their symmetries: the loop group within each fibre,
 the formal coordinate changes between fibres, and the semidirect product that combines them. It
@@ -365,7 +364,9 @@ AffineLieAlgebras A8.1 and A8.3 followed by evaluation at `p` (FormalConnections
 (Frenkel–Gaitsgory, §5.1, pp. 47–48, with Theorem 5.1.1; Frenkel, §10.1, p. 308). In rank one this is
 the rank-one fibre of §2.3. Prove that A5.4's comparison of the Lie-module and completed-module
 presentations is equivariant for the twisting actions of §2.1 and restricts to the fibres, so that
-the fibres and their twists may be computed in either presentation. *Needs:* AffineLieAlgebras A3.1,
+the fibres and their twists may be computed in either presentation, and that this comparison and
+the twist functors on `Ccrit` and on each `Ccrit(p)` preserve kernels, cokernels and arbitrary
+direct sums. *Needs:* AffineLieAlgebras A3.1,
 A4.1, A5.4, A8.1, A8.3; FormalConnectionsOpers §5.2; Tau Ceti
 `TauCeti.CurrentAlgebra.CompletedEnveloping`, `TauCeti.discreteModules`,
 `TauCeti.discreteCentralCharacterModules`; §§2.1–2.2.
@@ -407,7 +408,11 @@ changes on opers (FormalConnectionsOpers §§1.2, 5.1) is the left action `σφ 
 AffineLieAlgebras A8.3 pinned as `aσ(F) = F ∘ σ⁻¹` on oper functions. The coordinate character
 equation `χ_(σ·p) = χp ∘ aσ⁻¹` is A8.3's `eval_(σp) = eval_p ∘ a_σ⁻¹` with `χp` for `eval_p`, and
 A8.3's pullback along `aσ⁻¹` from the fibre at `p` to the fibre at `σ·p` is, on the strict fibres,
-the functor `Ccrit(p) → Ccrit(σ·p)` of `TauCeti.discreteCentralCharacterTwist`. *Needs:*
+the functor `Ccrit(p) → Ccrit(σ·p)` of `TauCeti.discreteCentralCharacterTwist`. For the rescaling
+`φ(t) = at` with `a ∈ ℂ^×` in rank one, prove that `aσ` multiplies the quadratic current mode `S_n` by
+`a^n`, `aσ(S_n) = a^n S_n`, whereas the oper coefficient `L_n = Res(t^(n+1) q dt)` is multiplied by
+`a^(−n)`, `L_n(p^φ) = a^(−n) L_n(p)`, and that both sides of the coordinate character equation then
+take the value `a^(−n) L_n(p)` at `S_n`. *Needs:*
 AffineLieAlgebras A2.3, A4.2, A8.3; FormalConnectionsOpers §§1.2, 5.1, 5.2; Tau Ceti
 `TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`, `TauCeti.discreteCentralCharacterTwist`;
 §3.1.
@@ -458,7 +463,9 @@ subgroups into the Laurent loops
 `Matrix.SpecialLinearGroup (Fin 2) (LaurentSeries ℂ)` through the coefficient inclusion and
 AffineLieAlgebras A8.3's Hopf and matrix dictionary, and prove that this map is injective and that the
 resulting family of subgroups of Laurent loops is antitone. The predicate is instantiated on the
-rank-one action of §2.3, which is also the action read off the rank-one pseudofunctor (§2.3).
+action read off the rank-one pseudofunctor by the comparison of §1.1, which by §2.3 is the rank-one
+action itself, with the same action functors, unit and associator, all data compared and not only
+the action functors.
 
 Also apply AffineLieAlgebras A3.1's family `Q_M = Uκ/Uκ · t^M 𝔤[[t]]`, at the level `κ` of that
 section and in particular at `κc`. Prove that coefficientwise conjugation by `G(ℂ[[t]])` normalizes
@@ -493,13 +500,12 @@ prescribed Lie derivative. *Needs:* AffineLieAlgebras A2.4, A3.1, A3.2, A8.3; Fo
 
 ### Dependencies
 
-Layers 1 and 2. AffineLieAlgebras A2.3, A2.4, A3.1, A3.2, A4.1, A4.2, A5.4, A8.1, A8.3;
+R1 and R2. AffineLieAlgebras A2.3, A2.4, A3.1, A3.2, A4.1, A4.2, A5.4, A8.1, A8.3;
 FormalConnectionsOpers §§1.2, 3.1, 5.1, 5.2. Mathlib: semidirect products, action categories, special
 linear groups over Laurent series. Tau Ceti: the completed enveloping algebra and its coordinate
-automorphisms, discrete modules, strict character fibres with their actions and twists, the family over
-an action category, objectwise congruence invariance.
+automorphisms, discrete modules and strict character fibres with their twists.
 
-## Layer 4: equivariant groupoid transport and the categorical-lift conjecture
+## R4: equivariant groupoid transport and the categorical-lift conjecture
 
 This layer fixes coherent equivariant transport of a family of categories with actions along a
 parameter groupoid, compares it with normalized transport data on the prescribed fibres, and states
@@ -508,40 +514,38 @@ the critical categorical-lift conjecture.
 ### 4.1 Lift packages and their transport
 
 For a category `Γ` (a groupoid in the applications), a group `H` and actions
-`actions p : LocallyDiscrete (SingleObj H) ⥤ᵖ Cat` for `p : Γ`, coherent equivariant transport is
-`TauCeti.EquivariantGroupoidLift Γ actions`: a pseudofunctor
-`F : LocallyDiscrete (Γ × SingleObj H) ⥤ᵖ Cat` together with, for each `p`, a strong transformation
-from the restriction of `F` to `{p} × SingleObj H` (`Pseudofunctor.restrictFiber`, by Mathlib's
-`Prod.sectR` and `Functor.toPseudofunctor`) to `actions p`, whose component is an equivalence. This
-fixes the fibres and their actions up to equivariant equivalence and keeps all isotropy of `Γ`. The
-transport functors on the prescribed fibres are `TauCeti.EquivariantGroupoidLift.transport`,
-`E_g = e_p⁻¹ ⋙ F(g, 1) ⋙ e_q`, with unit isomorphisms `transportId`, composition isomorphisms
-`transportComp`, `E_g ⋙ E_h ≅ E_(g ≫ h)`, which are associative and unital
-(`transportComp_associativity` and its unit companions), and commuting isomorphisms
-`transportCommIso`, `T_a ⋙ E_g ≅ E_g ⋙ T_a`, which satisfy the mixed unit, associativity and product
-diagrams (`transportCommIso_comp`, `transportCommIso_actComp` and their unit companions). The mixed
-diagrams come from the two factorizations `(𝟙 p, a) ≫ (g, 1) = (g, a) = (g, 1) ≫ (𝟙 q, a)` in the
-product category. For an isomorphism `g`, `E_g` is an equivalence with inverse `E_(g⁻¹)`
-(`transportEquivalence`); transport is a pseudofunctor on `Γ` (`transportPseudofunctor`), and the
-automorphism group of each object acts on its fibre (`endAction`). The normalized form of the data is
-`TauCeti.EquivariantGroupoidLift.NormalizedTransport`: transport functors `E_g : C_p ⥤ C_q` on the
-prescribed fibres, unit isomorphisms, composition isomorphisms and commuting isomorphisms subject to
-all unit, associativity and mixed diagrams. A lift has normalized data (`normalizedTransport`), which
-conjugates the joint functors by chosen inverses of the fibre comparisons, and normalized data
-reconstruct a lift with identity fibre comparisons (`NormalizedTransport.toLift`, with
-`NormalizedTransport.toLiftTransportIso`, `toLiftTransportHom` and `toLiftTransportInv` comparing the
-transports). Morphisms of lifts are strong transformations of the joint pseudofunctors with invertible
-modifications to the fibre comparisons (`TauCeti.EquivariantGroupoidLift.Hom`), their 2-morphisms are
-the compatible modifications (`Hom.Hom₂`, `Hom.isoMk`), a morphism induces isomorphisms of transport
-functors (`Hom.transportIso`), and lifts form a bicategory (`instBicategory`). Independent choices of
-an equivalence for each arrow are not assumed to admit coherent composition. The shape of these data,
-with `E_Id = Id` and composition isomorphisms satisfying the cocycle condition, is Frenkel,
-Conjecture 10.3.10, p. 335. *Needs:* Mathlib `Pseudofunctor`, `Pseudofunctor.StrongTrans`,
-`Prod.sectR`, `Functor.toPseudofunctor`; Tau Ceti the declarations named above; §1.1.
+`actions p : LocallyDiscrete (SingleObj H) ⥤ᵖ Cat` for `p : Γ`, define a *lift package* (coherent
+equivariant transport) as a pseudofunctor `F : LocallyDiscrete (Γ × SingleObj H) ⥤ᵖ Cat` together
+with, for each `p`, a strong transformation from the restriction of `F` to `{p} × SingleObj H`, by
+Mathlib's `Prod.sectR` and `Functor.toPseudofunctor`, to `actions p`, whose component `e_p` is an
+equivalence. This fixes the fibres and their actions up to equivariant equivalence and keeps all
+isotropy of `Γ`. Construct the transport functors on the prescribed fibres,
+`E_g = e_p⁻¹ ⋙ F(g, 1) ⋙ e_q`, with unit isomorphisms, composition isomorphisms
+`E_g ⋙ E_h ≅ E_(g ≫ h)` and commuting isomorphisms `T_a ⋙ E_g ≅ E_g ⋙ T_a`, and prove that the
+composition isomorphisms are associative and unital and that the commuting isomorphisms satisfy the
+mixed unit, associativity and product diagrams. The mixed diagrams come from the two factorizations
+`(𝟙 p, a) ≫ (g, 1) = (g, a) = (g, 1) ≫ (𝟙 q, a)` in the product category. Prove that for an
+isomorphism `g` the functor `E_g` is an equivalence with inverse `E_(g⁻¹)`, that transport is a
+pseudofunctor on `Γ`, and that the automorphism group of each object acts on its fibre. Define
+*normalized transport data* on the prescribed fibres `C_p`: transport functors `E_g : C_p ⥤ C_q`,
+unit isomorphisms, composition isomorphisms and commuting isomorphisms subject to all unit,
+associativity and mixed diagrams. Construct the normalized data of a lift, conjugating the joint
+functors by chosen inverses of the fibre comparisons, and the lift reconstructed from normalized
+data with identity fibre comparisons, with isomorphisms comparing the transports of the
+reconstruction with the given ones. Define morphisms of lifts as strong transformations of the
+joint pseudofunctors with invertible modifications to the fibre comparisons, and their 2-morphisms
+as the compatible modifications; prove that a morphism induces isomorphisms of transport functors,
+with their component formulas, and that lifts, their morphisms and 2-morphisms form a bicategory.
+Independent choices of an equivalence for each arrow are not assumed to admit coherent composition.
+The shape of these data, with `E_Id = Id` and composition isomorphisms satisfying the cocycle
+condition, is Frenkel, Conjecture 10.3.10, p. 335. *Needs:* Mathlib `Pseudofunctor`,
+`Pseudofunctor.StrongTrans`, `Prod.sectR`, `Functor.toPseudofunctor`; §1.1.
+
+*In Tau Ceti:* `TauCeti.EquivariantGroupoidLift`, `Pseudofunctor.restrictFiber`, `TauCeti.EquivariantGroupoidLift.fiber`, `TauCeti.EquivariantGroupoidLift.transport`, `TauCeti.EquivariantGroupoidLift.transportId`, `TauCeti.EquivariantGroupoidLift.transportComp`, `TauCeti.EquivariantGroupoidLift.transportComp_associativity`, `TauCeti.EquivariantGroupoidLift.transportComp_left_unitality`, `TauCeti.EquivariantGroupoidLift.transportComp_right_unitality`, `TauCeti.EquivariantGroupoidLift.transportCommIso`, `TauCeti.EquivariantGroupoidLift.transportCommIso_comp`, `TauCeti.EquivariantGroupoidLift.transportCommIso_id`, `TauCeti.EquivariantGroupoidLift.transportCommIso_actComp`, `TauCeti.EquivariantGroupoidLift.transportCommIso_actId`, `TauCeti.EquivariantGroupoidLift.transportEquivalence`, `TauCeti.EquivariantGroupoidLift.transportPseudofunctor`, `TauCeti.EquivariantGroupoidLift.endAction`, `TauCeti.EquivariantGroupoidLift.NormalizedTransport`, `TauCeti.EquivariantGroupoidLift.normalizedTransport`, `TauCeti.EquivariantGroupoidLift.NormalizedTransport.joint`, `TauCeti.EquivariantGroupoidLift.NormalizedTransport.toLift`, `TauCeti.EquivariantGroupoidLift.NormalizedTransport.toLiftTransportIso`, `TauCeti.EquivariantGroupoidLift.NormalizedTransport.toLiftTransportHom`, `TauCeti.EquivariantGroupoidLift.NormalizedTransport.toLiftTransportInv`, `TauCeti.EquivariantGroupoidLift.Hom`, `TauCeti.EquivariantGroupoidLift.Hom.Hom₂`, `TauCeti.EquivariantGroupoidLift.Hom.isoMk`, `TauCeti.EquivariantGroupoidLift.Hom.transportIso`, `TauCeti.EquivariantGroupoidLift.instBicategory`.
 
 **Checks.**
 - For `Γ` the one-object groupoid of a group `Π` and `H` trivial, a lift makes `Π` act on the fibre
-  through `endAction`; a family that records one equivalence for each pair of isomorphic parameters
+  through its isotropy action; a family that records one equivalence for each pair of isomorphic parameters
   records a single autoequivalence of the fibre here and loses that action.
 
 ### 4.2 The biequivalence with normalized transport data
@@ -567,23 +571,23 @@ not an equivalence of the raw package types. *Needs:* Mathlib `Bicategory.Equiva
 
 ### 4.3 Linear refinement and exactness
 
-For complex-linear fibres, linearity is imposed on the actual transported functors after the fibre
-comparisons, `TauCeti.EquivariantGroupoidLift.IsLinear ℂ L`, using Mathlib's `Functor.Linear`; it is
-invariant under a strong transformation of transport pseudofunctors with linear equivalence components
-(`TauCeti.EquivariantGroupoidLift.isLinear_iff_of_strongTrans`) and under pullback
-(`TauCeti.EquivariantGroupoidLift.isLinear_pullback`), and it makes each `transportEquivalence` linear.
+For complex-linear fibres, define the *linear lifts* by imposing `ℂ`-linearity, Mathlib's
+`Functor.Linear`, on the actual transported functors `E_g` after the fibre comparisons. Prove that
+linearity is invariant under a strong transformation of transport pseudofunctors with linear
+equivalence components and under pullback, and that it makes each transport equivalence linear.
 Equivalences of the abelian fibre categories preserve their exact structures, since an equivalence
 creates limits and colimits (`Functor.createsLimitsOfIsEquivalence`,
 `Functor.createsColimitsOfIsEquivalence`). The critical conjecture uses this linear refinement, not
 arbitrary semilinear functors between the fibres. *Needs:* Mathlib `Functor.Linear`,
-`Functor.createsLimitsOfIsEquivalence`, `Functor.createsColimitsOfIsEquivalence`; Tau Ceti the
-declarations named above; §4.1.
+`Functor.createsLimitsOfIsEquivalence`, `Functor.createsColimitsOfIsEquivalence`; §4.1.
+
+*In Tau Ceti:* `TauCeti.EquivariantGroupoidLift.IsLinear`, `TauCeti.EquivariantGroupoidLift.isLinear_iff_of_strongTrans`, `TauCeti.EquivariantGroupoidLift.isLinear_pullback`, `TauCeti.EquivariantGroupoidLift.linear_transportEquivalence_functor`.
 
 **Checks.**
 - Complex conjugation `V ↦ V̄` (the same abelian group with `λ` acting as `λ̄`) is an additive
   autoequivalence of complex vector spaces sending `λ f` to `λ̄ F(f)`; it is not `ℂ`-linear, as
   `F(i f) = −i F(f)` for `f ≠ 0`. A lift transporting along an arrow by conjugation satisfies the
-  unrefined definition and fails `IsLinear ℂ`.
+  unrefined definition and is not a linear lift.
 
 ### 4.4 The critical categorical-lift conjecture
 
@@ -614,18 +618,20 @@ Langlands theorem is not this conjecture. *Needs:* FormalConnectionsOpers §8.1;
 
 ### 4.5 Trivial groups and the cocycle obstruction
 
-For the trivial group, a pseudofunctor `F` on `Γ` gives the lift of the trivial actions
-`Pseudofunctor.toEquivariantGroupoidLift`, whose transport pseudofunctor is equivalent to `F`
-(`Pseudofunctor.toEquivariantGroupoidLiftTransportHom`, `toEquivariantGroupoidLiftTransportInv` and
-the invertible modifications between their composites and identities). In the one-object scalar case,
-with identity transport functors and compositors among the central units of the category
-(`TauCeti.centralUnitIso` of units of `CatCenter C`, the scalar-central-automorphism hypothesis), a
-chosen compositor is a unit-valued 2-cochain; associativity is the 2-cocycle equation
-(`TauCeti.centralUnitIso_associativity_iff`, with the pseudofunctor `TauCeti.centralCocyclePseudofunctor`),
-and a change of trivializations acts by the corresponding coboundary
-(`TauCeti.centralUnitIso_naturality_comp_iff`, `TauCeti.centralCocycleStrongTrans`). This shows that
-the coherence condition has mathematical content. Transport along a groupoid equivalence is §5.1.
-*Needs:* Mathlib `CatCenter`; Tau Ceti the declarations named above; §4.1.
+For the trivial group, construct the lift of the trivial actions given by a pseudofunctor `F` on
+`Γ`, and prove that its transport pseudofunctor is equivalent to `F`, by strong transformations in
+both directions with invertible modifications between their composites and the identities. In the
+one-object scalar case, with identity transport functors and compositors among the central units of
+the category, the units of `CatCenter C` (the scalar-central-automorphism hypothesis), a chosen
+compositor is a unit-valued 2-cochain: prove that associativity of the compositors is the 2-cocycle
+equation, construct the pseudofunctor of a 2-cocycle, and prove that a change of trivializations
+acts by the corresponding coboundary: between the pseudofunctors of two cocycles `c` and `c′`, the
+identity components with naturality cells the central units `b(g)` form a strong transformation
+exactly when `c′` is `c` multiplied by the coboundary of `b`. This shows that the coherence condition
+has mathematical content. Transport along a groupoid equivalence is R5.1. *Needs:* Mathlib
+`CatCenter`; §4.1.
+
+*In Tau Ceti:* `Pseudofunctor.toEquivariantGroupoidLift`, `Pseudofunctor.toEquivariantGroupoidLiftTransportIso`, `Pseudofunctor.toEquivariantGroupoidLiftTransportHom`, `Pseudofunctor.toEquivariantGroupoidLiftTransportInv`, `Pseudofunctor.toEquivariantGroupoidLiftTransportHomInvIso`, `Pseudofunctor.toEquivariantGroupoidLiftTransportInvHomIso`, `TauCeti.centralUnitIso`, `TauCeti.centralUnitIso_associativity_iff`, `TauCeti.centralCocyclePseudofunctor`, `TauCeti.centralUnitIso_naturality_comp_iff`, `TauCeti.centralCocycleStrongTrans`.
 
 **Checks.**
 - On `ℤ/2 = {1, s}`, the cochain with `c(s, s) = −1` and `c = 1` otherwise is a cocycle, and the
@@ -643,17 +649,16 @@ the coherence condition has mathematical content. Transport along a groupoid equ
 
 ### Dependencies
 
-Layers 1 and 3. Mathlib: pseudofunctors, strong transformations, modifications, equivalences in a
-bicategory, linear functors, creation of limits by equivalences, the centre of a category. Tau Ceti:
-equivariant groupoid lifts, their transport, normalized data, morphisms and bicategory, the linear
-refinement, the trivial-group comparison and the central cocycle pseudofunctors. FormalConnectionsOpers
-§8.1.
+R1 and R3. Mathlib: pseudofunctors, strong transformations, modifications, equivalences in a
+bicategory, linear functors, creation of limits by equivalences, the centre of a category.
+FormalConnectionsOpers §8.1.
 
-## Layer 5: descent, outer derivations and relative transport
+## R5: descent, outer derivations and relative transport
 
-This layer descends lifts from opers to local systems, builds the unconditional infinitesimal bridge
-from the cotangent algebroid of the centre to outer derivations and self-extensions, and states the
-relative refinement of the conjecture over finite Artinian coefficient algebras.
+This layer descends lifts from opers to local systems (R5.1, §5.1), builds the unconditional
+infinitesimal bridge from the cotangent algebroid of the centre to outer derivations and
+self-extensions (R5.2, §5.2), and states the relative refinement of the conjecture over finite
+Artinian coefficient algebras (R5.3, §5.3).
 
 ### 5.1 Complex-point descent
 
@@ -696,17 +701,18 @@ Put `A = Ûκc` and `Z = Subalgebra.center ℂ A`. Consume AffineLieAlgebras A6.
 `ℂ[[ℏ]]`-deformation `A_ℏ` at `κc + ℏκ0`, for A2.2's root-normalized `κ0`, its compatible truncations
 modulo `ℏ^r`, and the central Poisson bracket `{z, w} = ([z̃, w̃]/ℏ) mod ℏ`. Derivations of `A` are
 `TauCeti.derivationLieAlgebra ℂ A`, a Lie subalgebra of `Module.End ℂ A` with the associative Leibniz
-equation; Mathlib's commutative `Derivation` is used only on `Z`. The continuous derivations are
-`TauCeti.continuousDerivationLieAlgebra ℂ A`, with the topology of pointwise convergence induced from
-`A^A`; the actual image of the inner derivations is a Lie ideal of it
-(`TauCeti.continuousInnerDerivation_isIdealMorphism`), and `OutDer_cont(A)` is
-`TauCeti.ContinuousOuterDerivation ℂ A`, the quotient by that image with the quotient topology, not by
-its closure: the inner natural isomorphisms below use actual elements of `A`. Two continuous
-derivations have the same class exactly when they differ by `ad_b` with `b ∈ A`
-(`TauCeti.ContinuousOuterDerivation.mkQ_eq_mkQ_iff`), `OutDer_cont(A)` is a `Z`-module, and every
-derivation preserves `Z` with inner derivations restricting to zero there
-(`TauCeti.ContinuousOuterDerivation.restrictCenter`). The source of this subsection is
-Frenkel–Gaitsgory, §7.4, Lemma 7.4.1, Theorem 7.4.2 and the map (7.2), pp. 54–55.
+equation; Mathlib's commutative `Derivation` is used only on `Z`. Define the continuous derivations
+as the Lie subalgebra of derivations whose underlying map is continuous, with the topology of
+pointwise convergence induced from `A^A`; prove that the actual image of the inner derivations is a
+Lie ideal of it, and define `OutDer_cont(A)` as the quotient by that image with the quotient
+topology, not by its closure: the inner natural isomorphisms below use actual elements of `A`.
+Prove that two continuous derivations have the same class exactly when they differ by `ad_b` with
+`b ∈ A`, that `OutDer_cont(A)` is a `Z`-module, and that every derivation preserves `Z`, with inner
+derivations restricting to zero there, so that restriction to the centre is a Lie homomorphism from
+`OutDer_cont(A)` to the derivations of `Z`. The source of this subsection is Frenkel–Gaitsgory, §7.4,
+Lemma 7.4.1, Theorem 7.4.2 and the map (7.2), pp. 54–55.
+
+*In Tau Ceti:* `TauCeti.continuousDerivationLieAlgebra`, `TauCeti.continuousInnerDerivation`, `TauCeti.continuousInnerDerivation_isIdealMorphism`, `TauCeti.ContinuousOuterDerivation`, `TauCeti.ContinuousOuterDerivation.mkQ_eq_mkQ_iff`, `TauCeti.ContinuousOuterDerivation.instModuleCenter`, `TauCeti.ContinuousOuterDerivation.restrictCenter`.
 
 *The map `θ`.* Consume A6.3's continuous coefficient-linear ordered-PBW specialization section
 `s : A → A_ℏ`, its compatibility with the stage kernels, its division-by-`ℏ` estimates and its
@@ -753,43 +759,44 @@ identification with the source-fixed dual-gauge Lie algebroid are FormalConnecti
 §8.2, not constructed again here; §8.2's sign is kept: the Hamiltonian cotangent label `dH_x`
 corresponds to the left-gauge label `−x`.
 
-*Self-extensions and their classes.* For a derivation `δ` and an `A`-module `M`, the self-extension
-`E_δ(M) = M ⊕ M` with `a · (u, v) = (a · u + δ(a) · v, a · v)` is `TauCeti.DerivationExtension δ M`,
-with injection `u ↦ (u, 0)` (`TauCeti.DerivationExtension.inlHom`), projection `(u, v) ↦ v`
-(`TauCeti.DerivationExtension.sndHom`) and the short exact sequence `0 → M → E_δ(M) → M → 0`
-(`TauCeti.DerivationExtension.shortExact_shortComplex`). For `δ′ = δ + ad_b`, `(u, v) ↦ (u + b · v, v)`
-is the natural extension isomorphism `E_δ(M) ≅ E_δ′(M)` (`TauCeti.DerivationExtension.innerEquiv`,
-`TauCeti.DerivationExtension.functorInnerIso`). For `δ` continuous and `M` discrete, `E_δ(M)` is
-discrete (`TauCeti.discreteModules_derivationExtension`), the actual short complex, both maps included,
-lifts to the discrete category through `ObjectProperty.homMk`
-(`TauCeti.DerivationExtension.discreteShortComplex`) and is short exact there
-(`TauCeti.DerivationExtension.shortExact_discreteShortComplex`). Its class
-`TauCeti.DerivationExtension.extClass` is `ShortComplex.ShortExact.extClass` in the discrete category,
-in the module universe `max u w` of `TauCeti.hasExt_discreteModules`; an ambient `ModuleCat` sequence
-alone does not define that class. For any abelian category with `Ext`, the pullback-pushout Baer sum
-`ShortComplex.baerSum` has the sum of the classes (`ShortComplex.ShortExact.extClass_baerSum`); the
-Baer sum of `E_δ` and `E_η` has the class of `E_(δ+η)` (`TauCeti.DerivationExtension.extClass_baerSum`,
-`TauCeti.DerivationExtension.extClass_add`). The class is linear for central scalars
-(`TauCeti.DerivationExtension.extClass_center_smul`), unchanged by inner changes
-(`TauCeti.DerivationExtension.extClass_eq_of_inner`), and natural: for `f : M → M′`, pushforward of the
-class of `M` equals pullback of the class of `M′` in `Ext¹(M, M′)`
-(`TauCeti.DerivationExtension.extClass_naturality`). It descends to `OutDer_cont(A)`
-(`TauCeti.DerivationExtension.outerExtClass`, natural by
-`TauCeti.DerivationExtension.outerExtClass_naturality`). Prove that the composite
+*Self-extensions and their classes.* For a derivation `δ` and an `A`-module `M`, construct the
+self-extension `E_δ(M) = M ⊕ M` with `a · (u, v) = (a · u + δ(a) · v, a · v)`, with injection
+`u ↦ (u, 0)`, projection `(u, v) ↦ v`, and prove that `0 → M → E_δ(M) → M → 0` is short exact. For
+`δ′ = δ + ad_b`, prove that `(u, v) ↦ (u + b · v, v)` is a natural isomorphism of extensions
+`E_δ(M) ≅ E_δ′(M)`. For `δ` continuous and `M` discrete, prove that `E_δ(M)` is discrete, lift the
+actual short complex, both maps included, to the discrete category through `ObjectProperty.homMk`,
+and prove that it is short exact there. Define the class of `E_δ(M)` as
+`ShortComplex.ShortExact.extClass` in the discrete category, in the module universe `max u w` of
+AffineLieAlgebras A5.2's `Ext` (in Tau Ceti `TauCeti.hasExt_discreteModules`, from enough injectives
+by Mathlib's `hasExt_of_enoughInjectives`); an ambient `ModuleCat` sequence alone does not define
+that class. For any abelian category with `Ext`, prove that the pullback-pushout Baer sum of two
+short exact sequences has the sum of their classes; prove that the Baer sum of `E_δ` and `E_η` has
+the class of `E_(δ+η)`, so that the class is additive in `δ`. Prove that the class is linear for
+central scalars, unchanged by inner changes, and natural: for `f : M → M′`, pushforward of the class
+of `M` equals pullback of the class of `M′` in `Ext¹(M, M′)`. It therefore descends to a `Z`-linear
+map `OutDer_cont(A) → Ext¹(M, M)`, natural in `M`.
+
+*In Tau Ceti:* `TauCeti.DerivationExtension`, `TauCeti.DerivationExtension.inlHom`, `TauCeti.DerivationExtension.sndHom`, `TauCeti.DerivationExtension.shortComplex`, `TauCeti.DerivationExtension.shortExact_shortComplex`, `TauCeti.DerivationExtension.innerEquiv`, `TauCeti.DerivationExtension.innerEquiv_trans`, `TauCeti.DerivationExtension.functorInnerIso`, `TauCeti.discreteModules_derivationExtension`, `TauCeti.DerivationExtension.discreteShortComplex`, `TauCeti.DerivationExtension.shortExact_discreteShortComplex`, `TauCeti.DerivationExtension.extClass`, `ShortComplex.baerSum`, `ShortComplex.ShortExact.extClass_baerSum`, `TauCeti.DerivationExtension.extClass_baerSum`, `TauCeti.DerivationExtension.extClass_add`, `TauCeti.DerivationExtension.extClass_center_smul`, `TauCeti.DerivationExtension.extClass_smul`, `TauCeti.DerivationExtension.extClass_eq_of_inner`, `TauCeti.DerivationExtension.extClass_eq_zero_iff`, `TauCeti.DerivationExtension.extClass_naturality`, `TauCeti.DerivationExtension.outerExtClass`, `TauCeti.DerivationExtension.outerExtClass_naturality`.
+
+*The extension classes of `θ`.* Prove that the composite
 `Ω¹_cont(Z) → OutDer_cont(A) → Ext¹_Ccrit(M, M)` of `θ` with this class map is `Z`-linear and natural
 in `M`, which is the map (7.2) of Frenkel–Gaitsgory.
 
-*The character.* For `M ∈ Ccrit(p)`, a central `z` acts on `E_δ(M)` by the block matrix
-`[[χp(z), χp(δz)], [0, χp(z)]]` (`TauCeti.DerivationExtension.center_smul`); with `ε(u, v) = (v, 0)` this
-is the dual-number character `χp + ε (χp ∘ δ|Z)`
-(`TauCeti.derivationLieAlgebra.characterDeformation`). It is an ambient smooth extension and a
-first-order motion of the character, generally not an extension inside the fixed strict-character
-category (`TauCeti.DerivationExtension.center_smul_eq_iff`). Prove that for `δ` representing `θ(ξ)` the
-first-order motion `χp ∘ δ|Z` is the anchor of `ξ` evaluated at `p`. These constructions give the
-infinitesimal extension class; they are not a theorem integrating an action of outer derivations to
-groupoid transport. *Needs:* AffineLieAlgebras A2.2, A6.3, A8.1, A8.3; FormalConnectionsOpers §§5.2,
-7.1, 7.2, 8.2; Mathlib `Derivation`, `ShortComplex.ShortExact.extClass`, `ObjectProperty.homMk`; Tau Ceti
-the declarations named above; §§2.2, 3.1.
+*The character.* For `M ∈ Ccrit(p)`, prove that a central `z` acts on `E_δ(M)` by the block matrix
+`[[χp(z), χp(δz)], [0, χp(z)]]`; with `ε(u, v) = (v, 0)` this is the dual-number character
+`χp + ε (χp ∘ δ|Z)`. It is an ambient smooth extension and a first-order motion of the character:
+prove that `E_δ(M)` lies in the fixed strict-character category exactly when every scalar
+`χp(δz)`, `z ∈ Z`, annihilates `M`, so that it is generally not an extension inside that category.
+
+*In Tau Ceti:* `TauCeti.DerivationExtension.center_smul`, `TauCeti.derivationLieAlgebra.characterDeformation`, `TauCeti.DerivationExtension.center_smul_eq_iff`.
+
+*The character and the anchor.* Prove that for `δ` representing `θ(ξ)` the first-order motion
+`χp ∘ δ|Z` is the anchor of `ξ` evaluated at `p`. These constructions give the infinitesimal
+extension class; they are not a theorem integrating an action of outer derivations to groupoid
+transport. *Needs:* AffineLieAlgebras A2.2, A5.2, A6.3, A8.1, A8.3; FormalConnectionsOpers §§5.2,
+7.1, 7.2, 8.2; Mathlib `Derivation`, `ShortComplex.ShortExact.extClass`, `hasExt_of_enoughInjectives`,
+`ObjectProperty.homMk`; Tau Ceti `TauCeti.derivationLieAlgebra`, `TauCeti.hasExt_discreteModules`;
+§§2.2, 3.1.
 
 **Checks.**
 - Replacing the lift `z_ℏ` by `z_ℏ + ℏ b_ℏ` changes `[z_ℏ, a_ℏ]/ℏ` by `[b_ℏ, a_ℏ]`, whose reduction is
@@ -912,60 +919,53 @@ A2.3, A4, A5, A6.3, A8, A8.3; FormalConnectionsOpers §§5.2, 8.1, 8.2; Tau Ceti
 
 ### Dependencies
 
-Layers 2–4. Mathlib: equivalences of categories and their products, derivations, short exact sequences
-and their `Ext` classes. Tau Ceti: precomposition and pullback of pseudofunctors, pullback of lifts,
-continuous and outer derivations with the anchor to the centre, derivation self-extensions with their
-classes, Baer sums, scalar linearity and characters. AffineLieAlgebras A2.2, A2.3, A4, A5, A6.3, A8.1,
-A8.3; FormalConnectionsOpers §§3.4, 5.2, 6.1, 7.1, 7.2, 8.1, 8.2.
+R2–R4. Mathlib: equivalences of categories and their products, derivations, short exact sequences
+and their `Ext` classes. Tau Ceti: precomposition of pseudofunctors and the equivalences induced by
+natural isomorphisms, derivations of associative algebras, `Ext` of discrete modules.
+AffineLieAlgebras A2.2, A2.3, A4, A5, A6.3, A8.1, A8.3; FormalConnectionsOpers §§3.4, 5.2, 6.1, 7.1,
+7.2, 8.1, 8.2.
 
 ## Scope and ownership
 
-**This roadmap owns** the coherence of the critical family: the cells of the rank-one fibres (§2.3);
-the critical category, its fibres `Ccrit(p)`, the coherent loop-group action on each fibre and the
-pseudofunctor over the action groupoid of `H ⋊ S` (§§3.1–3.4);
-objectwise congruence invariance of finitely generated critical modules and the coherent weak
-equivariance of the family `Q_M` (§3.5); the biequivalence of lifts with normalized transport data
-(§4.2); the statement of the critical categorical-lift conjecture and its consequences (§4.4);
-descent of lifts along equivalences of parameter groupoids and along `IsomOp → Loc_(G∨)(D×)` (§5.1);
-the map `θ`, its representatives and ordered lift, its anchor and Lie–Rinehart identities, and the
-map `Ω¹_cont(Z) → Ext¹(M, M)` (§5.2); and the finite-Artinian scalar-extension adapters, the relative
-fibres and base-change functors, the relative lift type and the formal refinement question (§5.3). The
-coherent categorical actions, fibres and descent over opers, the outer-derivation comparison with
-`Ext¹` and the finite-Artinian adapters are assigned to this roadmap by AffineLieAlgebras.
+**This roadmap owns** R1 to R5 above: the categorical actions, their pseudofunctors, equivariant
+functors, invariant full subcategories, transport along equivalences and objectwise congruence
+invariance (R1); the coherent twisting actions on the supplied module categories and their
+central-character fibres, their equivariant inclusions and quotient presentations, the family over
+an action category and the cells of the rank-one fibres (R2); the critical category, its fibres
+`Ccrit(p)`, the coherent loop-group action on each fibre, the pseudofunctor over the action groupoid
+of `H ⋊ S`, objectwise congruence invariance of finitely generated critical modules and the coherent
+weak equivariance of the family `Q_M` (R3); lift packages, their transport, normalized data,
+morphisms and bicategory, the biequivalence with normalized transport data, the linear refinement,
+the statement of the critical categorical-lift conjecture and its consequences, and the trivial-group
+comparison with the cocycle obstruction (R4); descent of lifts along equivalences of parameter
+groupoids and along `IsomOp → Loc_(G∨)(D×)` (R5.1); continuous outer derivations, the map `θ`, its
+representatives and ordered lift, its anchor and Lie–Rinehart identities, the self-extensions
+`E_δ(M)` with their classes and the map `Ω¹_cont(Z) → Ext¹(M, M)` (R5.2); and the finite-Artinian
+scalar-extension adapters, the relative fibres and base-change functors, the relative lift type and
+the formal refinement question (R5.3). The declarations of the Tau Ceti library that realise these
+items are named in the items above. The coherent categorical actions, fibres and descent over opers,
+the outer-derivation comparison with `Ext¹` and the finite-Artinian adapters are assigned to this
+roadmap by AffineLieAlgebras.
 
 **Already in the libraries and consumed here.** Each object has one owner; the exact declarations are
 listed under the supplier contracts.
 
-- *Categorical actions* (Layer 1): the Tau Ceti library has the comparison between actions of a
-  discrete monoid and pseudofunctors out of its one-object bicategory, with both round trips, the
-  composition and inverse formulas, equivariant functors and natural transformations as strong
-  transformations and modifications, restriction to invariant full subcategories and in two steps,
-  transport along equivalences, linearity and exactness of restricted actions, and objectwise
-  congruence invariance with its invariance properties; Mathlib has the abelian structure on full
-  subcategories closed under kernels, cokernels and finite products. Layer 1 fixes the notation and
-  conventions for them.
-- *Twisting actions and strict character fibres* (Layer 2): the Tau Ceti library has the twisting
-  action on module categories with the restriction-of-scalars cells, discrete and smooth modules with
-  their closure properties, coinduction, enough injectives and `Ext`, strict character fibres with their
-  twists and fibrewise actions, the equivariant central-quotient presentation, and the family over an
-  action category. These are the generic forms of AffineLieAlgebras A5.1–A5.3, which owns the affine
+- *Discrete and smooth modules, strict character fibres and their twists* (R2, R3, R5.2): the Tau Ceti
+  library has discrete and smooth modules with their closure properties, coinduction, enough
+  injectives and `Ext`, the strict character fibres, the twist of a fibre by one automorphism, the
+  stability of the fibres under centre-fixing automorphisms and the central-quotient presentation.
+  These are the generic forms of AffineLieAlgebras A5.1–A5.3, which owns them and their affine
   instances.
-- *Equivariant groupoid lifts* (Layer 4): the Tau Ceti library has the lift packages, their transport
-  functors with all unit, associativity and mixed coherence, transport equivalences and isotropy
-  actions, normalized data with normalization and reconstruction, morphisms, 2-morphisms and the
-  bicategory of lifts, the linear refinement, the trivial-group comparison and the central-cocycle
-  obstruction. §4.2's biequivalence is not in the library.
-- *Precomposition and pullback* (§5.1): the Tau Ceti library has precomposition of pseudofunctors as a
-  pseudofunctor, the equivalences induced by natural isomorphisms, and pullback of lifts along
-  functors.
-- *Derivations and self-extensions* (§5.2): the Tau Ceti library has derivations of associative
-  algebras, continuous derivations, continuous outer derivations by the actual inner image with the
-  anchor to the centre, the self-extensions `E_δ(M)` with their inner comparisons, discreteness and
-  short exactness, their native `Ext¹` classes, the general Baer sum comparison, additivity, central
-  linearity, naturality, the class map on outer derivations, and the dual-number character.
-- *The completed enveloping algebra and its coordinate automorphisms*: the Tau Ceti library has the
-  left-ideal completion of the level enveloping algebra, its centre and its coordinate automorphisms;
-  AffineLieAlgebras owns them as A4.1, A4.2 and A5.4.
+- *The completed enveloping algebra and its coordinate automorphisms* (R3): the Tau Ceti library has
+  the left-ideal completion of the level enveloping algebra, its centre and its coordinate
+  automorphisms; AffineLieAlgebras owns them as A4.1, A4.2 and A5.4.
+- *Precomposition of pseudofunctors* (R5.1): the Tau Ceti library has precomposition of
+  pseudofunctors as a pseudofunctor and the equivalences induced by natural isomorphisms, from which
+  R5.1 builds its biequivalence.
+- *Derivations of associative algebras* (R5.2): the Tau Ceti library has the Lie algebra of
+  derivations of an associative algebra, inside its linear endomorphisms, and inner derivations;
+  Mathlib has abelian categories with `Ext` and the abelian structure on full subcategories closed
+  under kernels, cokernels and finite products.
 
 **Owned elsewhere and consumed here.** AffineLieAlgebras owns the smooth and completed module
 categories and their equivalence, the loop and coordinate lifts, rational integration to `K_N`, the
@@ -1013,90 +1013,30 @@ types and never asserted.
 ### From Tau Ceti
 
 Each is assumed as stated at the pinned library. Names in the namespace `CategoryTheory` are written
-without that prefix.
+without that prefix. The declarations of the library that realise this roadmap's own items are named
+in those items, on their *In Tau Ceti:* lines, and are not repeated here.
 
-- Actions and pseudofunctors (`CategoryTheory/Monoidal/Action/Basic.lean`, `Pseudofunctor.lean`):
-  `MonoidalLeftAction.actionLeftTensorIso` (the action functor of `g h` is `T_h ⋙ T_g`),
-  `MonoidalLeftAction.actionLeftEquivalence`, `MonoidalLeftAction.actionHomLeft_eq_eqToHom`,
-  `MonoidalLeftAction.pseudofunctor`, `Pseudofunctor.monoidalLeftAction`, the round trips
-  `MonoidalLeftAction.monoidalLeftAction_pseudofunctor` and
-  `Pseudofunctor.pseudofunctor_monoidalLeftAction` (equalities including unitor and associator),
-  `MonoidalLeftAction.pseudofunctorEquiv`, `TauCeti.trivialAction`.
-- Equivariant functors and transformations (`StrongTrans.lean`, `Modification.lean`,
-  `LinearFunctor.lean`): `Functor.commActionLeftIso`, `MonoidalLeftAction.strongTrans`,
-  `MonoidalLeftAction.functorOfStrongTrans`, `MonoidalLeftAction.strongTransEquiv`,
-  `MonoidalLeftAction.modification`, `MonoidalLeftAction.modificationEquiv`,
-  `MonoidalLeftAction.strongTransIdIso`, `MonoidalLeftAction.strongTransCompIso`,
-  `Functor.LeftLinear.comp`, `NatTrans.IsLeftLinear`.
-- Restriction, transport and exactness (`FullSubcategory.lean`, `IteratedRestriction.lean`,
-  `Transport.lean`, `Exact.lean`, and `CategoryTheory/ObjectProperty/FullSubcategory.lean`):
-  `ObjectProperty.IsStableUnderLeftAction`, `ObjectProperty.fullSubcategoryMonoidalLeftAction`,
-  `ObjectProperty.leftLinearι`, `ObjectProperty.leftLinearιOfLE`, `ObjectProperty.leftLinearLift`,
-  `ObjectProperty.iteratedFullSubcategoryEquivalence`,
-  `ObjectProperty.iteratedFullSubcategoryEquivalenceFunctorLeftLinear`,
-  `Equivalence.transportMonoidalLeftAction`, `Equivalence.functorLeftLinearOfTransport`,
-  `Equivalence.inverseLeftLinear`, `Equivalence.linear_actionLeft_transport`,
-  `ObjectProperty.preservesFiniteLimits_actionLeft`, `ObjectProperty.preservesFiniteColimits_actionLeft`.
-- Congruence invariance (`Congruence.lean`): `TauCeti.congruenceInvariant`,
-  `TauCeti.IsObjectwiseCongruenceInvariant` (for `K : ℕ → Subgroup H`, some `K N` with `N > 0` fixes
-  each object up to isomorphism), `TauCeti.isObjectwiseCongruenceInvariant_iff_of_equivalence`,
-  `TauCeti.IsObjectwiseCongruenceInvariant.fullSubcategory`.
-- Equivariant groupoid lifts (`CategoryTheory/Bicategory/Functor/EquivariantGroupoidLift/`):
-  `Pseudofunctor.restrictFiber`, `TauCeti.EquivariantGroupoidLift` (joint pseudofunctor, fibre
-  comparisons, equivalence of their components), and in its namespace `fiber`, `transport`,
-  `transportId`, `transportComp`, `transportComp_associativity`, `transportCommIso`,
-  `transportCommIso_comp`, `transportCommIso_actComp`, `transportEquivalence`,
-  `transportPseudofunctor`, `endAction`, `Hom`, `Hom.Hom₂`, `Hom.isoMk`, `Hom.transportIso`,
-  `instBicategory`, `NormalizedTransport`, `normalizedTransport`, `NormalizedTransport.joint`,
-  `NormalizedTransport.toLift`, `NormalizedTransport.toLiftTransportIso`,
-  `NormalizedTransport.toLiftTransportHom`, `NormalizedTransport.toLiftTransportInv`, `IsLinear`,
-  `isLinear_iff_of_strongTrans`, `isLinear_pullback`, `pullback`, `pullback_transport`;
-  `Pseudofunctor.toEquivariantGroupoidLift`, `Pseudofunctor.toEquivariantGroupoidLiftTransportHom`,
-  `Pseudofunctor.toEquivariantGroupoidLiftTransportInv`.
-- Central cocycles (`CategoryTheory/Bicategory/Functor/CentralCocycle.lean`): `TauCeti.centralUnitIso`,
-  `TauCeti.centralUnitIso_associativity_iff`, `TauCeti.centralCocyclePseudofunctor`,
-  `TauCeti.centralUnitIso_naturality_comp_iff`, `TauCeti.centralCocycleStrongTrans`.
-- Precomposition (`CategoryTheory/Bicategory/FunctorBicategory/`,
-  `CategoryTheory/Bicategory/NaturalTransformation/LocallyDiscrete.lean`): `Pseudofunctor.precomp`,
-  `Pseudofunctor.precompNatIso`, `Pseudofunctor.mapNatIso`, `Pseudofunctor.whiskerLeft`.
-- Twisting actions (`Algebra/Category/ModuleCat/Twist.lean`): `MonoidHom.restrictScalarsMonoidalLeftAction`,
-  `MonoidHom.actionUnitNatIso_restrictScalarsMonoidalLeftAction`,
-  `MonoidHom.actionLeftTensorIso_restrictScalarsMonoidalLeftAction`,
-  `MonoidHom.linear_actionLeft_restrictScalarsMonoidalLeftAction`,
-  `MonoidHom.isStableUnderLeftAction_discreteModules`, `MonoidHom.isStableUnderLeftAction_smoothModules`,
-  `RingHom.leftLinearRestrictScalars`, `TauCeti.actionCategoryTwist`.
-- Discrete and smooth modules (`Algebra/Category/ModuleCat/Smooth/`): `TauCeti.smoothModules`,
-  `TauCeti.discreteModules`, `TauCeti.discreteModules_iff_isOpen`, `TauCeti.discreteModules_eq_smoothModules`,
+- Discrete and smooth modules (`Algebra/Category/ModuleCat/Smooth/`), the generic forms of
+  AffineLieAlgebras A5.1–A5.2: `TauCeti.smoothModules`, `TauCeti.discreteModules`,
+  `TauCeti.discreteModules_iff_isOpen`, `TauCeti.discreteModules_eq_smoothModules`,
   `TauCeti.smoothModules_directSum`, `TauCeti.smoothPartFunctor`, `TauCeti.coinduction`,
   `TauCeti.enoughInjectives_smoothModules`, `TauCeti.hasExt_discreteModules` (`Ext` in the module
   universe `max u w` over `A : Type u`), `Ideal.discreteQuotientEquivalence`.
-- Strict character fibres (`Algebra/Category/ModuleCat/CentralCharacter/`): `TauCeti.centralCharacterModules`,
+- Strict character fibres and the twist of one automorphism
+  (`Algebra/Category/ModuleCat/CentralCharacter/`, `Algebra/Category/ModuleCat/Twist.lean`), the generic
+  forms of AffineLieAlgebras A5.3: `TauCeti.centralCharacterModules`,
   `TauCeti.discreteCentralCharacterModules`, `TauCeti.centerCongr`, `TauCeti.discreteCentralCharacterTwist`,
-  `MonoidHom.discreteCentralCharacterMonoidalLeftAction` with
-  `MonoidHom.discreteCentralCharacterMonoidalLeftAction_unit` and
-  `MonoidHom.discreteCentralCharacterMonoidalLeftAction_assoc`,
   `MonoidHom.isStableUnderLeftAction_discreteCentralCharacterModules_of_centerFixed`,
-  `MonoidHom.leftLinearInclusionDiscreteCentralCharacterMonoidalLeftAction`,
-  `AlgHom.discreteCentralCharacterQuotientEquivalence`,
-  `MonoidHom.leftLinearDiscreteCentralCharacterQuotientEquivalenceFunctor`,
-  `MonoidHom.leftLinearDiscreteCentralCharacterQuotientEquivalenceInverse`,
-  `TauCeti.discreteCentralCharacterObjectProperty`, `TauCeti.discreteCentralCharacterFamily`,
-  `TauCeti.discreteCentralCharacterFamilyι`.
-- Derivations (`Algebra/Lie/Derivation/`): `TauCeti.derivationLieAlgebra`, `TauCeti.innerDerivation`,
-  `TauCeti.continuousDerivationLieAlgebra`, `TauCeti.continuousInnerDerivation`,
-  `TauCeti.continuousInnerDerivation_isIdealMorphism`, `TauCeti.ContinuousOuterDerivation`,
-  `TauCeti.ContinuousOuterDerivation.mkQ_eq_mkQ_iff`, `TauCeti.ContinuousOuterDerivation.instModuleCenter`,
-  `TauCeti.ContinuousOuterDerivation.restrictCenter`.
-- Self-extensions (`Algebra/Category/ModuleCat/DerivationExtension/`, `Algebra/Homology/Ext/BaerSum.lean`):
-  `TauCeti.DerivationExtension`, and in its namespace `inlHom`, `sndHom`, `innerEquiv`, `innerEquiv_trans`,
-  `shortComplex`, `shortExact_shortComplex`, `functorInnerIso`, `discreteShortComplex`,
-  `shortExact_discreteShortComplex`, `extClass`, `extClass_naturality`, `extClass_eq_of_inner`,
-  `extClass_eq_zero_iff`, `extClass_add`, `extClass_baerSum`, `extClass_center_smul`, `extClass_smul`,
-  `outerExtClass`, `outerExtClass_naturality`, `center_smul`, `center_smul_eq_iff`;
-  `TauCeti.discreteModules_derivationExtension`, `TauCeti.derivationLieAlgebra.characterDeformation`,
-  `ShortComplex.baerSum`, `ShortComplex.ShortExact.extClass_baerSum`.
-- Currents (`Algebra/Lie/Current/`): `TauCeti.CurrentAlgebra.CompletedEnveloping` (the completion
-  `lim_N U/I_N` at a central value, a topological ring), `TauCeti.CurrentAlgebra.centerOrderIdeal`,
+  `MonoidHom.isStableUnderLeftAction_discreteModules`, `MonoidHom.isStableUnderLeftAction_smoothModules`,
+  `AlgHom.discreteCentralCharacterQuotientEquivalence`.
+- Precomposition (`CategoryTheory/Bicategory/FunctorBicategory/`,
+  `CategoryTheory/Bicategory/NaturalTransformation/LocallyDiscrete.lean`): `Pseudofunctor.precomp`,
+  `Pseudofunctor.precompNatIso`, `Pseudofunctor.mapNatIso`, `Pseudofunctor.whiskerLeft`.
+- Derivations of associative algebras (`Algebra/Lie/Derivation/`): `TauCeti.derivationLieAlgebra`,
+  `TauCeti.innerDerivation`.
+- Currents (`Algebra/Lie/Current/`), the generic forms of AffineLieAlgebras A4.1–A4.2:
+  `TauCeti.CurrentAlgebra.CompletedEnveloping` (the completion `lim_N U/I_N` at a central value, a
+  topological ring), `TauCeti.CurrentAlgebra.centerOrderIdeal`,
   `TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`,
   `TauCeti.CurrentAlgebra.smoothModules_iff_exists_surjective_pi_orderQuotient`.
 
