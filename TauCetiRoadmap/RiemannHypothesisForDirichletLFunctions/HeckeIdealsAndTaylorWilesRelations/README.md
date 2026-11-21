@@ -83,7 +83,8 @@ route below, those of the cuspidal constituents of the base change); if all `m_i
 `ρ(Frob_w)` satisfy `|z| < Nw·|z′|` (under the fixed isomorphism `ι : ℚ̄_l ≅ ℂ`) for almost all `w`.
 
 (e) (*classicality*) if `ρ` in (d) is irreducible, it is attached to a regular algebraic conjugate self-dual cuspidal
-representation of `GL_n(𝔸_L)`.
+representation of `GL_n(𝔸_L)`. [FormalProof] gives moreover clauses (w1) and (w2) of (f) for this representation,
+(w2) at the places not above `v₀`.
 
 (f) (*points*) an arithmetic point of `B` whose determinant is that of a continuous `ρ` attached to a regular algebraic
 conjugate self-dual cuspidal representation of `GL_n(𝔸_L)`, unramified at `v₀`, with a full flag at each `v ∈ S_l` with
@@ -102,6 +103,8 @@ instance a character with values in `1 + 𝔪_O` factoring through a quotient of
 with `γγ^c = 1`). Then `(D ⊗ γ, (ψ_{v,i}γ))` is an ordinary determinant, the endomorphism `τ_γ` of `B` classifying it is the unique
 one twisting `D` and the `ψ_{v,i}` by `γ`, and `τ_γ(J) ⊆ J`; for `γ` with values in `1 + 𝔪_O`, `τ_γ` is an automorphism and
 `τ_γ(J) = J`.
+
+(1) and (a)–(e), (g) are statements of [FormalProof] or follow from its statements, in the form given here.
 
 For `D = det ρ` with `ρ` absolutely irreducible over a field, the relations of (1), with the characteristic-polynomial identity of
 (b), are the determinant-ordinary equations of LocalGaloisDeformationRings §7.1 on each `G_{L_ṽ}`. For Schur residual data,
@@ -124,7 +127,14 @@ PotentialAutomorphyInfrastructurePartII §3.6, whose Speh shape with explicit tw
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1 (which agrees with PotentialAutomorphyInfrastructurePartII §3.6 in
 this setting; its hypothesis `[L⁺ : ℚ] ≥ 2` holds, since `L/L⁺` unramified at
 every finite place forces `[L⁺ : ℚ]` to be even), and the bound of (d) is the Jacquet–Shalika bound for each cuspidal piece
-(AutomorphicLFunctionsAndLocalFactors §AL.3.3.8). At a classical point where the local components above `l` are principal series
+(AutomorphicLFunctionsAndLocalFactors §AL.3.3.8). In the notation of BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1,
+the weight of a point of 3.13a is the base-changed weight `a_{ι∘τ} = −w₀λ_{ι∘τ}` (the weight of
+PotentialAutomorphyInfrastructurePartII §3.6), not the weight `λ_{ι∘τ}` of the automorphic representation of `G`: at an
+arithmetic point of weight `(a_τ)`, `a_{τ,1} ≥ ⋯ ≥ a_{τ,n}` for each `τ : L → ℚ̄_l`, the `i`-th coordinate of the weight
+character is, up to a character of finite order, `u ↦ ∏_τ τ(u)^{a_{τ,n+1−i}}` over the `τ` inducing `ṽ`, and `ψ_{v,i}` has the
+labelled weight `i − 1 + a_{τ,n+1−i} = i − 1 − λ_{ι∘τ,i}` at each such `τ`: strictly increasing in `i`, the subrepresentation
+`ψ_{v,1}` having the smallest weight; the weights at `v` are labelled by the embeddings inducing the chosen place `ṽ` only.
+At a classical point where the local components above `l` are principal series
 of characters distinct on units, the Galois representation is de Rham with the weights of the point
 (PotentialAutomorphyInfrastructurePartII §3.6 (v)) and abelian Weil–Deligne
 representation with `N = 0` (AutomorphicGaloisRepresentationsPartII §AG2.6, *Full polarized local–global compatibility at `l`*,
@@ -234,7 +244,9 @@ and lie outside `S`, of norm `≡ 1 mod l^N`, with Frobenius elements `φ_{N,j}`
 `χ̄_i(φ_{N,j}) = χ̄_i(σ_j)` for all `i` and all `N` and converge to `σ_j`, as `N` grows, in the largest quotient of `G_{L⁺,S}` in
 which the common kernel of the `χ̄_i` and of `ε mod l` is pro-`l`, and generators `τ_{N,j}` of the `l`-part of tame inertia at
 `w_{N,j}`; such data exist for every choice of the `σ_j` (Chebotarev). Put `S_N = S ∪ {v_{N,1}, …, v_{N,q}}`. Say that an ideal
-`J ⊂ B` has *automorphic patching data* if for every Taylor–Wiles datum there are a `B`-module `M`, finite free over `Λ`, with
+`J ⊂ B` has *automorphic patching data* if for every Taylor–Wiles datum there are a `B`-module `M`, finite free over `Λ` (in
+the statement of [FormalProof], finite free over a power series ring over `O` in `n[L⁺:ℚ]` variables acting through the values
+of the `ψ_{v,i}` at chosen elements; in its construction these elements are inertial and the ring is `Λ`), with
 `Supp_B M = V(J)`, lifts `u_{j,i} ∈ O` of the `χ̄_i(σ_j)`, an exponent `e`, and for every `N`:
 
 - a complete local noetherian `O`-algebra `R_N` with residue field `k` carrying an ordinary determinant `(D_N, ψ_N)` in the
@@ -354,7 +366,17 @@ hypothesis `μ_p ⊄ L` is a hypothesis of the statement of [FormalProof].
 exponents of `ρ` at each place above `p` differ by at least `2`, then every point derivation of `B_det` at the point of `ρ` (a point
 of `V(J₀)` by 3.13a(f)) that vanishes on `Λ` is zero, and every prime of `B_det` contained in the kernel of that point contains
 `J₀`. This rests on (d). (d′) in this generality is a statement of this roadmap and not a statement of [FormalProof], which
-has it in rank four only, at the seeds (Downstream consumers). The first conclusion is the analogue, for the ordinary
+has, in rank four, the second conclusion under other hypotheses. *The form of the formal proof:* in the setting of (d) with
+`n = 4`, let the determinant of `ρ` be a point of `V(J₀)`, with `ρ` automorphic in the sense of 3.13a (f), unramified at `v₀`,
+`ρ|_{G_{L(μ_{p^∞})}}` irreducible, and a full flag at each place `w` above `p` whose characters are `ε^{m_{w,i}}` up to finite
+order on inertia with `m_{w,i} ≥ m_{w,j} + 2` for `i < j`; assume that the only character `η` of `G_L` with `η² = 1`, trivial on
+the kernel of `ε̄`, such that multiplication by `η` permutes the `χ̄_i`, is `η = 1`, and that `(χ̄_i/χ̄_j)^m ≠ 1` for some `i, j`
+and `m = 1, 2, 3, 4`. Then every prime of `B_det` contained in the kernel of the point contains `J₀`. Hypotheses (i) and (iii)
+of (d) are not assumed there. [FormalProof] has the same conclusion at the seeds of the links of UniformWildKernelBounds, and
+it has the last step of the route below as a statement: for a complete local noetherian `O`-algebra `B`, a homomorphism to `B`
+from a power series ring `Λ′` over `O` and an ideal `J` with `B/J` finite and torsion-free over `Λ′`, if every point derivation
+at a `ℚ̄_p`-point of `V(J)` that vanishes on `Λ′` is zero, then every prime contained in the kernel of the point contains `J`.
+The first conclusion is the analogue, for the ordinary
 determinant ring, of the injectivity in the second statement of PotentialAutomorphyInfrastructurePartII §9.8 (with the exponent
 gap in place of genericity; compare PotentialAutomorphyInfrastructurePartII §9.7), and the second has the shape of the conclusion
 of PotentialAutomorphyInfrastructurePartII §7.19, at a characteristic-zero point.
@@ -553,8 +575,10 @@ ArithmeticGaloisDuality §§R02.1.2, R02.4.2, R02.4.3, R02.4.4, D7.6; ProfiniteC
 - UniformWildKernelBounds §4.3 uses 9.9 (a) at type I points and 9.9 (c) at the rank-two block of type II points;
   UniformWildKernelBounds §4.7 uses 9.9 (b) at points absolutely irreducible on every open subgroup and 9.9 (d) over the tower field at the
   other irreducible points. These consumers use 3.13a (f) in the range `2 ≤ n ≤ 4`.
-- BernoulliBoundsForClassGroupEigenspaces §6.17 uses 10.1 for the groups `Ш¹(F, ℓ, e) = Ш¹_{S;S_ℓ}(F, ℚ_ℓ/ℤ_ℓ(−e))`,
-  `S = S_ℓ ∪ S_∞`, and their duality with étale wild kernels.
+- BernoulliBoundsForClassGroupEigenspaces §6.17 uses 10.1 for the groups `Ш¹(F, ℓ, e) = Ш¹_{S;S_ℓ}(F, ℚ_ℓ/ℤ_ℓ(−e))` and
+  `Ш¹_S(F, ℚ_ℓ/ℤ_ℓ(−e))`, `S = S_ℓ ∪ S_∞`: by 10.1 (b) the second is dual to an étale wild kernel, by 10.1 (d) the two
+  coincide when `ℓ` is odd (and, as that roadmap shows, when `e` is odd or `F` is totally imaginary), and the equality of
+  lengths for `Ш¹(F, ℓ, e)` is used under the hypothesis "`ℓ` odd or `F` totally imaginary" only.
 - CongruenceModulesOfThetaLifts §7.7b uses 10.1.
 
 ## Scope and ownership
@@ -567,7 +591,7 @@ It owns 3.13a, 4.2a, 9.9 and 10.1. The theory they extend is owned by PotentialA
 - 10.1 is not in ArithmeticGaloisDuality. ArithmeticGaloisDuality §R02.3.0d defines `Ш^i_S(K, A)` for finite `A` with vanishing imposed outside `S`; ArithmeticGaloisDuality §R02.4.2 defines `Ш^r_S(K, M) = ker(H^r(G_S, M) → P^r_S(K, M))` for finite `M`, with vanishing imposed at every place of the ramification set `S`, archimedean places included; ArithmeticGaloisDuality §D7.6 has the Poitou–Tate sequences for a lattice `T` and for `V/T`, but no kernel for divisible coefficients, no length, and no kernel in which the ramification set and the set of places where vanishing is imposed differ. 10.1 gives these, for instance for classes unramified outside `p` (ramification set `S_p ∪ S_∞`) that vanish at the places above `p` only.
 - The automorphy statements for residually reducible deformation rings whose routes pass through 3.13a, 4.2a and 9.9, and the machinery of those routes, are not stated here: their residual representations have constituents exchanged by the polarization, there is no Steinberg place, and the functors are representable only after framing. They belong to UniformWildKernelBounds, which uses these targets. PotentialAutomorphyInfrastructurePartII §§7.6–7.19 and 8.1–8.16 state the published analogues under Schur, primitivity and Steinberg hypotheses.
 
-[FormalProof] states 4.2a, 9.9 (d), 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 9.9 (d′) in rank four at the seeds, and an instance of 10.1, each in the form recorded at its target. Of these, the existence of the level modules and comparison maps of 4.2a, and 9.9 (d), rest here on [FormalProof] alone: their routes are outlined at the targets, and the steps not written out are said there to be not given here.
+[FormalProof] states 3.13a (1) and (a)–(e), (g) or statements from which they follow, 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 4.2a, 9.9 (d), the second conclusion of 9.9 (d′) in rank four under other hypotheses, and an instance of 10.1, each in the form recorded at its target. Of these, the existence of the level modules and comparison maps of 4.2a, and 9.9 (d), rest here on [FormalProof] alone: their routes are outlined at the targets, and the steps not written out are said there to be not given here.
 
 The users of these targets in this family are UniformWildKernelBounds, BernoulliBoundsForClassGroupEigenspaces and CongruenceModulesOfThetaLifts (Downstream consumers, above).
 
@@ -672,7 +696,7 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It states 4.2a, 9.9 (d), 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 9.9 (d′) in rank four, and an instance of 10.1, each recorded at its target.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It states 3.13a (1) and (a)–(e), (g) or statements from which they follow, 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 4.2a, 9.9 (d), the second conclusion of 9.9 (d′) in rank four under other hypotheses, and an instance of 10.1, each recorded at its target.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - [BZ77] I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Annales scientifiques de l'École Normale Supérieure 10 (1977), 441–472, [Numdam](http://archive.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf). The bound `n!` in the route of 4.2a.
 - [Che14] G. Chenevier, *The p-adic analytic space of pseudocharacters of a profinite group and pseudorepresentations over arbitrary rings*, in Automorphic Forms and Galois Representations, vol. 1, LMS Lecture Note Series 414 (2014), 221–285; arXiv:0809.0415v2. [Open preprint](https://arxiv.org/abs/0809.0415v2). Noetherianity of the universal ring of determinants under Mazur's finiteness condition, in the route of 3.13a.
