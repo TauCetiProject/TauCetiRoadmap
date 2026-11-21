@@ -27,10 +27,11 @@ vector spaces, no Weil representation and no theta series.
   integral of Bessel periods one hyperbolic plane down. It lacks the adelic unitary groups with
   their Haar measures, automorphic forms and rapid decay on them, the Weil representation and
   theta functional of a unitary pair, the mixed models, and the Bessel and Fourier–Jacobi periods.
-* The seesaw identity (6.14): for `m ≥ 4` even, the data of the chain with the separation of
-  parameters and the hypotheses of the row steps, and a Bessel–Poincaré series `P_u` nonzero on
-  the new forms `M_u`, the top period kills the kernel of the descent, factors through the descent
-  for every twisting tuple up to a root of unity, and equals `a_u·⟨V x, P_u(U_u φ)⟩` with
+* The seesaw identity (6.14): for `m ≥ 4` even, the data of the chain with the gap size `SizeGap`
+  of the row gap and the hypotheses of the row steps, and Bessel–Poincaré series `P_u` nonzero on
+  the new forms `M_u` for every word `u`, the top period kills the kernel of the descent,
+  factors through the descent for every twisting tuple up to a root of unity, and equals
+  `a_u·⟨V x, P_u(U_u φ)⟩` with
   `a_u ≠ 0`. It lacks, besides these, the data of the chain (ThetaChainsOnDefiniteUnitaryGroups
   Layers 2–3: definite unitary groups of the column spaces, levels at the bad places, twisting
   tuples, the step operators, the source lattices and the top period), the rows of the row tower
