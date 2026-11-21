@@ -176,18 +176,21 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
   products the Tamagawa measures of the vector groups (`A(F)\A(𝔸)` and `B(F)\B(𝔸)` of volume one, so
   `∏_v c_v = |d_F|^{−dim A/2}` and `∏_v c′_v = |d_F|^{−dim B/2}`, with `c_v = c′_v = 1` for almost all `v`; the form that
   the family uses is [FormalProof],
-  `Development/AbelianVarietyTheory/Proofs/DivisorProofs/TamagawaAdelicHaarEqMapProductMeasureStatement.lean`
+  `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/TamagawaAdelicHaarEqMapProductMeasureStatement.lean`
   (`GlobalTheory.T.tamagawa_adelicHaar_eq_map_product_measure`),
-  `Development/AbelianVarietyTheory/Definitions/Divisors/IsWeilFormulas.lean` (`GlobalTheory.SWLit.IsTamagawa`),
-  `Development/AbelianVarietyTheory/Definitions/GlobalTwisting/DecayZero.lean` (`GlobalTheory.SWQ.IsCov1`)); then the
-  local fibre measures on `X(F_v)` are `(c_v/c′_v)|ω_X|_v`, with `∏_v c_v/c′_v = |d_F|^{−dim X/2}`. Consequently, if
+  `src/Development/AbelianVarietyTheory/Definitions/Divisors/IsWeilFormulas.lean` (`GlobalTheory.SWLit.IsTamagawa`),
+  `src/Development/AbelianVarietyTheory/Definitions/GlobalTwisting/DecayZero.lean` (`GlobalTheory.SWQ.IsCov1`): for
+  every number field `F` and finite set `κ`, a Haar measure on `𝔸_F^κ` for which `F^κ` has a fundamental domain of
+  mass one is the product measure `ν^κ` for every Haar measure `ν` on `𝔸_F` for which `F` has a measurable fundamental
+  domain of mass one); then the local fibre measures on `X(F_v)` are `(c_v/c′_v)|ω_X|_v`, with
+  `∏_v c_v/c′_v = |d_F|^{−dim X/2}`. Consequently, if
   moreover `X = G·x` for an `x ∈ X(F)` with the hypotheses of (iii), the quotient `μ_X` of `τ_G` by `τ_H` on
   `H(𝔸)\G(𝔸)` is the restricted product of the local fibre measures on the local orbits `H(F_v)\G(F_v) ⊆ X(F_v)`:
   `μ_X(∏_v C_v) = ∏_v (c_v/c′_v)|ω_X|_v(C_v)` for the boxes of (iii).
   ([Weil], Chapter II, Section 2.4: gauge forms on the group, on the subgroup and on the homogeneous space matching
-  algebraically, and the comparison of the Tamagawa measures; [Weil 1965] for the residue form `dx/dQ` of a quadratic
-  form, of which (iv) is this roadmap's generalization through the fibre formula of *top-form-measure*; the quadratic case
-  `Φ = Q` in rank `m > 4`, with the continuity in the level, is GeometryOfNumbersAndQuadraticArithmetic §3.3
+  algebraically, and the comparison of the Tamagawa measures; [Weil 1965], Proposition 6, §37, p. 54, and §§42–43,
+  pp. 60–62, for the residue form `dx/dQ` of a quadratic form, of which (iv) is this roadmap's generalization through
+  the fibre formula of *top-form-measure*; the quadratic case `Φ = Q` in rank `m > 4`, with the continuity in the level, is GeometryOfNumbersAndQuadraticArithmetic §3.3
   `quadraticFiberDistribution`.)
 
   *Route.* (i) The `G`-invariant top forms on `X` correspond to their values at `x`, which must be fixed by `H`; for
@@ -291,12 +294,16 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
   `t^{[F : ℚ]}`, so `d|x|/|x| = [F : ℚ]·dt/t`. This `μ^1` is the measure induced by `d^×x` and the Lebesgue measure on
   `a_{G_m}` normalized by the lattice `Hom(X^*_F(G_m), ℤ) = ℤ`, the logarithm being `H_{G_m}(x) = log|x|`. Then
   `μ^1(F^×\𝔸_F^1) = κ_F`.
-  ([Tate]: the volume `κ_F` of the norm-one idele classes, for the measure with `dt/t` in the coordinate `t = |x|`, and
-  the residue of the zeta integral; [Oesterlé], Chapter I, Example 5.14 (2), p. 25, for the reading `τ(G_m) = 1`. For
-  totally complex `F` the form that the family uses is [FormalProof],
-  `Development/AbelianVarietyTheory/Proofs/FlagMeasures/GenLinTamagawaVolumeStatement.lean` (`GlobalTheory.T.genLin_tamagawa_volume`),
-  `Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean` (`GlobalTheory.FlagMeas.GenLinVolume`),
-  `Development/AbelianVarietyTheory/Definitions/SemilocalFrames/DefClassNum.lean` (`GlobalTheory.FlagMeas.glVol`).)
+  ([Tate], §4.3: the volume `κ_F` of the norm-one idele classes, for the measure with `dt/t` in the coordinate
+  `t = |x|`; §4.4: the residue of the zeta integral; [Oesterlé], Chapter I, Example 5.14 (2), p. 25, for the reading
+  `τ(G_m) = 1`. For totally complex `F` the form that the family uses is [FormalProof],
+  `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/GenLinTamagawaVolumeStatement.lean` (`GlobalTheory.T.genLin_tamagawa_volume`),
+  `src/Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean` (`GlobalTheory.FlagMeas.GenLinVolume`),
+  `src/Development/AbelianVarietyTheory/Definitions/SemilocalFrames/DefClassNum.lean` (`GlobalTheory.FlagMeas.glVol`):
+  with `r_2` the number of complex places of `F` and every `j ≥ 1`, the sum over the `GL_j(F)`-classes of the
+  `𝒪_F`-lattices `Λ` spanning `F^j` of the covolumes of the images of `Aut(Λ)` in `∏_w GL_j(ℂ)` acting on the slab
+  `1 ≤ ∏_w |det x_w|_ℂ < e`, for the Lebesgue measure of `∏_w M_j(ℂ)` divided by `(∏_w |det x_w|_ℂ)^j`, is
+  `κ_F·(2^{−r_2}|d_F|^{1/2})^{j²}·∏_{l=2}^{j} ζ_F(l)`; its case `j = 1` amounts to `μ^1(F^×\𝔸_F^1) = κ_F`.)
 
   *Route.* Take `f = ⊗_v f_v ∈ S(𝔸_F)` (AnalyticNumberTheoryPartII §5.3h) with `f_v ≥ 0`, `f_v = 1_{𝒪_v}` for almost
   all `v`, and `f̂(0) = ∫_{𝔸_F} f ≠ 0` for the self-dual measure (for instance the standard Gaussians at the archimedean
@@ -438,9 +445,10 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
   **Checks.**
   - `GL_n → PGL_n`, `T_1 = G_m`: the determinant restricts to `t ↦ t^n`, so `i = n` and `τ(PGL_n) = n·τ(GL_n)/τ(G_m)`,
     which is `n` given `τ(GL_n) = 1` (Weil; not a target of this roadmap; for totally complex `F` the form that the family
-    uses is [FormalProof], `Development/AbelianVarietyTheory/Proofs/FlagMeasures/GenLinTamagawaVolumeStatement.lean`
-    (`GlobalTheory.T.genLin_tamagawa_volume`), `Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean`
-    (`GlobalTheory.FlagMeas.GenLinVolume`)) and *tamagawa-multiplicative-group*.
+    uses is [FormalProof], `src/Development/AbelianVarietyTheory/Proofs/FlagMeasures/GenLinTamagawaVolumeStatement.lean`
+    (`GlobalTheory.T.genLin_tamagawa_volume`), `src/Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean`
+    (`GlobalTheory.FlagMeas.GenLinVolume`), the case `j = n` of the volume formula recorded at
+    *tamagawa-multiplicative-group*) and *tamagawa-multiplicative-group*.
   - `τ(PGL_1(D)) = 2τ(GL_1(D))/τ(G_m)` for a quaternion algebra `D`: `G_2 = GL_1(D)`, `T_1 = G_m`, and `i = 2` because
     the reduced norm restricts to `t ↦ t²`. GeometryOfNumbersAndQuadraticArithmetic §3.3 `quaternionAdjointTamagawa`
     (`τ(PGL₁(D)) = 2`) is this case, with its own `τ(GL₁(D)) = 1`.
@@ -608,7 +616,7 @@ RG2.0 (*smooth-group-analytic-charts* and its analytic change of variables): 2.6
 - **Platonov–Rapinchuk–Rapinchuk**: V. Platonov, A. Rapinchuk and I. Rapinchuk, *Algebraic Groups and Number Theory*, Volume I, second edition, Cambridge Studies in Advanced Mathematics 205, Cambridge University Press, 2023. Locators use printed pages.
 - **Weil**: André Weil, *Adeles and Algebraic Groups*. Institute for Advanced Study (1961); Progress in Mathematics 23, Birkhäuser (1982).
 - **Weil 1965**: André Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*. Acta Mathematica 113 (1965), 1–87.
-- **Tate**: John Tate, *Fourier analysis in number fields and Hecke's zeta-functions*. Thesis (1950); in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press (1967).
+- **Tate**: John Tate, *Fourier analysis in number fields and Hecke's zeta-functions*. Thesis (1950); in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press (1967), pp. 305–347; sections are those of this printing.
 - **Sansuc**: Jean-Jacques Sansuc, *Groupe de Brauer et arithmétique des groupes algébriques linéaires sur un corps de nombres*. Journal für die reine und angewandte Mathematik 327 (1981), 12–80.
 - **Oesterlé**: J. Oesterlé, *Nombres de Tamagawa et groupes unipotents en caractéristique p*. Inventiones Mathematicae 78 (1984).
 - **Steinberg**: Robert Steinberg, *Endomorphisms of linear algebraic groups*. Memoirs of the American Mathematical Society 80 (1968).
