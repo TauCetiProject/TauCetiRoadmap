@@ -485,15 +485,90 @@ EndoscopicTransferAndUnitaryTraceComparison §§2.16, 6.12, 6.24, 10.1, 10.16, 1
 
 ## Layer 13: Cuspidal multiplicities of inner forms of unitary groups
 
-Two unitary groups in an odd number of variables that are isomorphic at every finite place have the same cuspidal multiplicities for matching discrete series at the real places and jointly cuspidal types at a nonempty set of split places.
+Two unitary groups in an odd number of variables that are isomorphic at every finite place have the same cuspidal multiplicities for matching discrete series at the real places and finite parts that are unramified outside a nonempty set of split places and carry a jointly cuspidal family of types there.
 
 ### 13.8a Equal cuspidal multiplicities of inner forms in an odd number of variables
 
-Let `E/F` be CM, unramified at every finite place, `V`, `V′` Hermitian spaces of odd dimension `r`, isometric at every finite place through isometries carrying a self-dual lattice to a self-dual lattice, and `Φ` the induced isomorphism `U(V)(𝔸_f) ≅ U(V′)(𝔸_f)`. At each real place `τ` let `π_τ`, `π′_τ` be discrete series in the same packet with Harish-Chandra parameter in `ℤ^r`, consecutive entries at least `100r⁴` apart, and let `S` be a nonempty finite set of places split in `E`, with a jointly cuspidal type at each `v ∈ S`. Prove that `m_cusp(π_∞ ⊗ σ) = m_cusp(π′_∞ ⊗ σ∘Φ^{−1})` for every irreducible admissible representation `σ` of `U(V)(𝔸_f)` containing the type at every `v ∈ S`.
+Let `E/F` be a CM extension unramified at every finite place, `r` odd, `V`, `V′` nondegenerate Hermitian spaces of
+dimension `r` over `E`, `L ⊂ V`, `L′ ⊂ V′` self-dual `𝒪_E`-lattices, and for every finite place `v` of `F` an isometry
+`a_v : V_v → V′_v` with `a_v(L_v) = L′_v`. Put `G = U(V)`, `G′ = U(V′)`, `K_v = Stab_{G(F_v)}(L_v)`, and let `Φ : G(𝔸_f) → G′(𝔸_f)` be the
+isomorphism of topological groups with components `g ↦ a_vga_v^{−1}`.
 
-*Route.* A comparison of simple trace formulas, with pseudo-coefficients of the discrete series at the real places and the cuspidal types at `S`. Its inputs are Harish-Chandra's classification of discrete series with their lowest `K`-types, the rapid decay of cusp forms, Harish-Chandra's finiteness theorem, the Dixmier–Malliavin factorisation with control of supports, the trace class property of `R(f)` on the cuspidal spectrum for smooth compactly supported `f`, the Bernstein–Zelevinsky geometric lemma and Zelevinsky's classification by segments. The remaining steps of the route are not given here.
+*Real places.* For every real place `τ` of `F` let `λ_τ = (λ_{τ,1}, …, λ_{τ,r}) ∈ ℤ^r` with `λ_{τ,i} − λ_{τ,i+1} ≥ 100r⁴` for `1 ≤ i < r`,
+and let `π_τ`, `π′_τ` be discrete series representations of `G(F_τ)`, `G′(F_τ)` with Harish-Chandra parameter `λ_τ` (any
+members of the two packets; the signatures of `V` and `V′` at `τ` need not agree). Put `π_∞ = ⊗_τπ_τ`, `π′_∞ = ⊗_τπ′_τ`.
 
-*Needs:* AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups (the geometric lemma, segment representations).
+*Types.* Let `S` be a finite set of finite places of `F` that split in `E`. For `v ∈ S` choose a place `w` of `E` above `v`;
+then `V_v = V_w ⊕ V_{w̄}`, restriction to `V_w` is an isomorphism `G(F_v) ≅ GL(V_w)`, the component `L_w` of `L_v` is an
+`𝒪_v`-lattice with `K_v = GL(L_w)`, and reduction modulo `v` is a surjection `red_v : K_v → GL(L_w/𝔭_vL_w) ≅ GL_r(k_v)`, `k_v` the
+residue field. A *family of types on `S`* is a family `(τ_v)_{v∈S}` of irreducible complex representations `τ_v` of
+`GL_r(k_v)`. For `0 < a < r` let `N_a(k) ⊂ GL_r(k)` be the group of the matrices `[[1_a, ∗], [0, 1_{r−a}]]`, the unipotent radical
+of the standard parabolic subgroup with blocks of sizes `(a, r − a)`. The family is *jointly cuspidal* if `S` is
+nonempty and for every `0 < a < r` there is `v ∈ S` such that `τ_v` has no nonzero vector fixed by `N_a(k_v)`. (The
+condition does not depend on the bases nor on the choices of `w`: the other place replaces `τ_v` by `g ↦ τ_v(^tg^{−1})`
+and `N_a` by a conjugate of `N_{r−a}`. One cuspidal `τ_v` makes the family jointly cuspidal; no member need be cuspidal.)
+An irreducible admissible representation `σ` of `G(𝔸_f)` *has a type vector* for `(τ_v)_{v∈S}` if its space contains a
+nonzero vector that is fixed by `K_v` for every finite place `v ∉ S` and that lies, for every `v ∈ S`, in the
+`τ_v∘red_v`-isotypic subspace of the restriction of `σ` to `K_v`.
+
+Prove that for every jointly cuspidal family of types on `S` and every irreducible admissible representation `σ` of
+`G(𝔸_f)` with a type vector for it,
+`m_cusp(π_∞ ⊗ σ) = m_cusp(π′_∞ ⊗ σ∘Φ^{−1})`,
+where `m_cusp(π_∞ ⊗ σ)` is the dimension, which is finite, of the space of `G(𝔸)`-homomorphisms from `π_∞ ⊗ σ` to the
+cuspidal subspace of `L²(G(F)\G(𝔸))`.
+
+*Route.* A comparison of two simple trace formulas. (1) *Test functions* `f = ⊗_τf_τ ⊗ ⊗_vf_v` on `G(𝔸)`: `f_τ` a
+pseudo-coefficient of `π_τ` (smooth of compact support and `K`-finite, of trace `1` on `π_τ` and `0` on every other
+irreducible unitary representation, with orbital integral `0` at the regular semisimple elements with non-compact
+centraliser and `conj Θ_{π_τ}/vol` at the regular elliptic ones; its existence uses the gap, between entries of `λ_τ` of
+different sign); `f_v = e_v ∗ h ∗ e_v` at `v ∈ S`, `e_v` the idempotent of `τ_v∘red_v` on `K_v` and `h` arbitrary; at one further
+split place `u ∉ S` the indicator of an Iwahori double coset of `diag(ϖ^{a_1}, …, ϖ^{a_r})`, `a_1 > ⋯ > a_r`; at the other places
+bi-`K_v`-invariant of compact support, `1_{K_v}` for almost all `v`. (2) A proper parabolic subgroup over `F` stabilises an
+isotropic flag; at `v ∈ S` its unipotent radical contains a conjugate of `N_a(F_v)`, `a` the dimension of the first step,
+and the integral of `e_v ∗ h ∗ e_v` over the cosets of `N_a(F_v)` vanishes when `τ_v` has no `N_a(k_v)`-fixed vector. By joint
+cuspidality all constant terms of `f` vanish: `R(f)` is of trace class with image in the cusp forms, and its trace is
+the integral of the diagonal kernel. (3) *Spectral side:* `tr R(f) = Σ_σ m_cusp(π_∞ ⊗ σ)·tr σ(f^∞)`, a finite sum (the
+pseudo-coefficients select `π_∞`; finiteness of the cuspidal spectrum of given level and infinity type). (4)
+*Geometric side:* by the place `u` only regular semisimple classes meet the support (Newton polygon of the
+characteristic polynomial), finitely many, each with an integrable class kernel (reduction theory and the decay
+of functions with vanishing constant terms). A class with reducible characteristic polynomial contributes `0`: if
+its centraliser is anisotropic, the local orbital integral vanishes at a place `v ∈ S` where `τ_v` has no `N_a`-fixed
+vector, `a` the degree of a factor (descent to the Levi subgroup `GL_a × GL_{r−a}`); otherwise the class lies in a proper
+Levi subgroup over `F`, its centraliser is not compact at the real places, the orbital integral of the
+pseudo-coefficient vanishes, and an invariant functional carried by one orbit vanishes with the orbital integral.
+(5) For an irreducible characteristic polynomial `P`, with the norm-one torus `T_P` of the quadratic extension it
+defines, the classes over `F` correspond to the families of local classes in `V` (Hasse's norm theorem for that
+quadratic extension, the Hasse principle for Hermitian forms, existence of elements with prescribed norm residue
+symbols), so the class contributes `vol([T_P])` times the product of the STABLE local orbital integrals. (6) At a real
+place the stable orbital integral of `f_τ` is `0` if `T_P(F_τ)` is not compact and
+`conj s_{λ_τ−ρ}(roots of P)/vol(T_P(F_τ))` otherwise, `s` the Weyl character of `GL_r` and `ρ = ((r − 1)/2, …, −(r − 1)/2)`: the sum
+of the discrete series characters over the conjugates of a torus point is `(−1)^{pq}` times the alternating sum over
+`S_r`, and `pq` is even and `ρ` integral because `r` is odd. It depends on `P` and `λ_τ` only, not on the signature. (7) The
+finite stable orbital integrals are carried to each other by the isometries `a_v`, so `tr R_G(f) = tr R_{G′}(f′)` for
+`f′ = f′_∞ ⊗ Φ_*(f^∞)`. (8) *Separation:* for a finite list of pairwise inequivalent `σ_i` containing every finite part
+that occurs on either side at the level of the admitted functions, `Σ_i(m_G(σ_i) − m_{G′}(σ_i∘Φ^{−1}))·tr σ_i(f^∞) = 0` for all
+admitted `f^∞`. With the idempotents `e_v` this is a relation between the functions `g ↦ tr(P_iσ_i(g)P_i)`, `P_i` the
+projector onto the type vectors, with coefficients the traces of the Iwahori coset functions at `u`; these traces
+separate the irreducible representations of `GL_r(F_u)` with Iwahori-fixed vectors (their Jacquet modules along the
+Borel subgroup; the geometric lemma and the classification by segments), and projected characters of pairwise
+inequivalent irreducible representations are linearly independent. So the coefficient of every `σ_i` with a type
+vector vanishes. The following steps are not given here: the bound for the class kernel on a Siegel set; the existence of the weight in the vanishing argument for classes in a Levi subgroup; the family of test functions realising `g ↦ P_iσ_i(g)P_i`; the local statement that the Iwahori coset functions of strictly dominant elements are supported on regular elements with eigenvalues of distinct valuations; and the construction of the pseudo-coefficients (through the Dirac-type index).
+
+*Needs:* AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §4.5 and
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups (the geometric lemma, segment
+representations); ClassFieldTheory Layer 13 (Hasse's norm theorem for quadratic extensions) and ClassFieldTheory (elements with prescribed norm
+residue symbols); HermitianFormsAndLattices §3.1 (the Hasse principle for Hermitian forms).
+
+**Checks.**
+
+- `r = 3`, `S = {v}` with `k_v = 𝔽_2`: `GL_3(𝔽_2)` has order `168` and irreducible representations of degrees `1, 3, 3, 6, 7, 8`. In
+  its group algebra the functions `φ` with `Σ_{n ∈ N_1(𝔽_2)} φ(xny) = 0` for all `x, y` form a two-sided ideal of dimension
+  `18 = 3² + 3²` (the same for `N_2`): the two representations of degree `3` are the only ones without nonzero
+  `N_1`-fixed vectors, and without nonzero `N_2`-fixed vectors. Each of them alone is a jointly cuspidal family. The
+  dimensions of the `N_1`-fixed vectors are `1, 0, 0, 3, 1, 2`, in agreement with `1·1 + 6·3 + 7·1 + 8·2 = 42 = 168/4` and with
+  the `15 = 1 + 9 + 1 + 4` double cosets of `N_1(𝔽_2)`.
+- `r = 1`: there is no `a`, the condition is `S ≠ ∅`, both groups are the norm-one torus of `E/F`, `Φ` is the identity, the
+  packets are singletons, and both sides are the multiplicity, `0` or `1`, of the same character.
 
 ### Examples
 
@@ -501,7 +576,7 @@ Two instances, stated without proof. For `V′ = V`, isometries the identity and
 
 ### Dependencies
 
-AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups (the geometric lemma and segment representations).
+AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups (the geometric lemma and segment representations); ClassFieldTheory Layer 13 and the elements with prescribed norm residue symbols; HermitianFormsAndLattices §3.1.
 
 ## Layer 14: Local–global compatibility away from the coefficient prime
 
@@ -533,7 +608,7 @@ unitary type*; AutomorphicGaloisRepresentationsPartII AG2.0 *The `l`-adic charac
   semisimplicity of `WD(r|_{G_{E_w}})` itself: an unramified representation with Frobenius `[[1, 1], [0, 1]]` has `N = 0`
   and semisimplification `1 ⊕ 1`, and is not a sum of characters).
 - `n = 1`: the rank-one dictionary at `w ∤ ℓ` (AutomorphicGaloisRepresentationsPartII AG2.0 *The `l`-adic character `r_{l,ι}(χ)`*).
-- `n = 2`, `π_w` the depth-zero supercuspidal attached to a regular `θ` of `k_{w,2}^×`: `r|_{I_w} ≅ θ∘t₂ ⊕ θ^q∘t₂` (with
+- `n = 2`, `π_w` the depth-zero supercuspidal attached to a regular `θ` of `k_{w,2}^×`: `r|_{I_w} ≅ ι⁻¹∘(θ∘t₂) ⊕ ι⁻¹∘(θ^q∘t₂)` (with
   `t₂` as in 14.2), irreducible over the decomposition group and reducible over inertia.
 
 ### 14.2 Depth-zero away-prime comparison
@@ -796,6 +871,10 @@ AG2.0: *The `l`-adic character `r_{l,ι}(χ)`* (with `AlgHeckeChar.galoisChar_lo
 
 §1.1 (Harish-Chandra restriction and cuspidality), §5.2 (the cuspidal representations `σ_θ` of `GL_n(k)` and their characters at regular elliptic elements, `σ_θ^∨ = σ_{θ⁻¹}`), §5.4 (Harish-Chandra series and products), §5.10 (the Gauss sums `G_n` and `w`, with (a) their relation and (b) the comparison of regular characters with the same restriction to `k^×`), §5.11 (norm classes, the Shintani lift `Sh_d` and the lift `m^{(l)}` of labels, with (e) its detection by twisted characters), §§6.1–6.4 (the depth-zero supercuspidal representations `π(σ, c)` and `π_θ̃`, their twists and central characters, labels of depth-zero representations, depth zero up to twist).
 
+### From HermitianFormsAndLattices, a sub-roadmap of this family
+
+§3.1: Landherr's theorem, the Hasse principle for Hermitian forms over a quadratic extension of number fields (13.8a).
+
 ### From LocalFactorsOfTwistsAndTypes, a sub-roadmap of this family
 
 §4.2: the properties of the classical correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 (twists, duals, central characters, the segment rule) (10.30). §6.3: the exponent bound `|α_i| < 1/2` for the supercuspidal support of a unitary generic representation. §6.4: the local converse theorem with twists in its half range, in characteristic zero. §6.5: local Langlands correspondences, their characterisation by `ε`-factors of pairs, and uniqueness.
@@ -830,7 +909,7 @@ Layers 8–10: idele classes and norms, Hecke characters, infinity types.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
-Layer 9: local reciprocity and the Weil group, norm compatibility of the local Artin maps. Layer 11: global Artin reciprocity.
+Layer 9: local reciprocity and the Weil group, norm compatibility of the local Artin maps. Layer 11: global Artin reciprocity. Layer 13: the cyclic Hasse norm theorem (13.8a). Elements of a number field with prescribed norm residue symbols (13.8a).
 
 ### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
