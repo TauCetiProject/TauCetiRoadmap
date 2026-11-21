@@ -4,10 +4,13 @@ import Mathlib
 # Reducibility ideals and ultrafilter patching: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Two of the four
+states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Three of the four
 headlines are statable at the pins and are stated below: the order of an element on a module
-finite over a discrete valuation ring (3.17) and the containment of primes for a finite
-`ℤ/2`-graded algebra with a determinantal presentation (6.11). The other two are not statable.
+finite over a discrete valuation ring (3.17), the containment of primes for a finite
+`ℤ/2`-graded algebra with a determinantal presentation (6.11), and patching up to an element
+(6.13 (2)), where quasi-regularity of `σ_1, …, σ_s` on the patched module is stated as Mathlib's
+weakly regular sequence (`RingTheory.Sequence.IsWeaklyRegular`), the same condition in that
+setting. The fourth is not statable.
 
 * The graded cotangent bound (4.9): for a `ℤ`-graded algebra `A` over a complete discrete
   valuation ring `O` with `E` of characteristic `0`, with `A_0` complete Noetherian local, with a
@@ -21,16 +24,6 @@ finite over a discrete valuation ring (3.17) and the containment of primes for a
   cotangent lattices `cot_j(x)` with their lengths, the two-signed points and their
   `𝔾_m`-orbits, and point derivations at points with values in an algebraic closure. Encoding
   them here would be a long ad hoc encoding of a theory that is a target of the roadmap.
-* Patching up to an element (6.13 (2)): for a nonprincipal ultrafilter on `ℕ`, a complete
-  Noetherian local `Λ` with finite residue field, `S_∞ = Λ[[σ_1, …, σ_s]]`, a Noetherian local
-  `S_∞`-algebra `R`, `f ∈ R` and modules `M_N` that are free modulo `(𝔪_Λ^j, (σ)^k)` and related
-  to `𝒳` up to multiplication by `f`, the `(σ)`-adic completion `𝔹` of `R[1/f]` is Noetherian
-  and carries a finite module `𝕄` on which `σ_1, …, σ_s` is quasi-regular, with
-  `𝕄/(σ)𝕄 ≅ 𝔹 ⊗_R 𝒳` and the ideal `𝔦` acting nilpotently. Mathlib has `Ultrafilter`,
-  `MvPowerSeries`, `Localization.Away`, `AdicCompletion` and freeness over quotients, but it lacks
-  quasi-regular sequences on a module (the comparison of `(𝕄/(σ)𝕄)[T_1, …, T_s]` with the
-  associated graded module of the `(σ)`-adic filtration); it has weakly regular and regular
-  sequences (`RingTheory.Sequence.IsWeaklyRegular`), which are not the notion stated.
 
 Statable ingredients that are not headlines are not stated: the existence and uniqueness of the
 limit kernel `K_∞` in 6.13 (1), for profinite groups (Mathlib's `OpenNormalSubgroup`); the
@@ -38,6 +31,8 @@ combinatorial propagation 6.12 (2) on a Noetherian topological space; the clause
 the dimensions of minimal primes; and the expressions of the order by primes and by embeddings
 in 3.17 (1), (2). Each is a step of a route or a variant, and the README states it.
 -/
+
+universe u
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.ReducibilityIdealsAndUltrafilterPatching
 
@@ -49,9 +44,10 @@ Let `O` be a discrete valuation ring with fraction field `E`, `B` a commutative 
 a `B`-module that is finitely generated over `O`, and `a ∈ B`, acting on `M` by the `O`-linear
 map `f`, such that `a` acts injectively on `E ⊗_O M`. Then `M/aM` and `M[a] = ker f` have finite
 length over `O`, the determinant of `a` on `E ⊗_O M` is the image of some `d ∈ O`, and
-`length_O(M/aM) = length_O M[a] + length_O(O/dO)`; as `length_O(O/dO)` is the normalized
-valuation of `d`, this is `length_O(M/aM) − length_O M[a] = v(det_E(a | M ⊗_O E))`
-(Fulton, *Intersection theory*, Appendix A). -/
+`length_O(M/aM) = length_O M[a] + length_O(O/dO)`, the last term being Mathlib's `Ring.ord O d`;
+as it is the normalized valuation of `d` (`Ring.ord_eq_addVal`), this is
+`length_O(M/aM) − length_O M[a] = v(det_E(a | M ⊗_O E))` (Fulton, *Intersection theory*,
+Appendix A). -/
 theorem length_quot_eq_length_ker_add_valuation_det
     (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     (E : Type*) [Field E] [Algebra O E] [IsFractionRing O E]
@@ -62,7 +58,7 @@ theorem length_quot_eq_length_ker_add_valuation_det
     Module.length O (M ⧸ LinearMap.range f) < ⊤ ∧ Module.length O (LinearMap.ker f) < ⊤ ∧
       ∃ d : O, algebraMap O E d = LinearMap.det (f.baseChange E) ∧
         Module.length O (M ⧸ LinearMap.range f) =
-          Module.length O (LinearMap.ker f) + Module.length O (O ⧸ Ideal.span {d}) := by
+          Module.length O (LinearMap.ker f) + Ring.ord O d := by
   sorry
 
 /-! ## Layer 6: Determinantal sections, propagation and patching up to an element -/
@@ -105,6 +101,68 @@ theorem le_of_determinantalPresentation
     (hZ : (𝒜 1).annihilator ≤ Z) (hQ : (𝒜 1).annihilator ≤ Q)
     (hdim : ((1 + D₀ : ℕ) : WithBot ℕ∞) ≤ ringKrullDim (B ⧸ Z)) :
     Z ≤ Q := by
+  sorry
+
+/-- **Patching up to an element** (6.13 (2)).
+
+Let `𝒰` be a nonprincipal ultrafilter on `ℕ`, `Λ` a complete Noetherian local ring with finite
+residue field, `S_∞ = Λ[[σ_1, …, σ_s]]`, `R` a Noetherian local ring with a ring map `S_∞ → R`,
+`f ∈ R`, `𝔦` an ideal of `R`, `𝒳` an `R`-module finite over `Λ` and killed by the `σ_i`, and `M_N`
+`R`-modules such that: for all `j, k ≥ 1` and `𝒰`-almost all `N`, `M_N/(𝔪_Λ^j, (σ)^k)M_N` is free
+of finite rank over `S_∞/(𝔪_Λ^j, (σ)^k)`; for every `j ≥ 1` and `𝒰`-almost all `N` there are
+`R`-linear maps `𝒳/𝔪_Λ^j𝒳 ⇄ M_N/((σ), 𝔪_Λ^j)M_N` whose two composites are multiplication by `f`;
+and for some `n` and some generating set of `𝔦`, for every generator `t`, every `j` and
+`𝒰`-almost all `N`, some `a ∈ R` with `(ft)^n − a ∈ 𝔪_R^j` kills `M_N`. Then the `(σ)`-adic
+completion `𝔹` of `R[1/f]` is Noetherian, and there is a finite `𝔹`-module `𝕄` on which
+`σ_1, …, σ_s` is a weakly regular sequence, with `𝕄/(σ)𝕄 ≅ 𝔹 ⊗_R 𝒳` and `𝔦𝔹 ⊆ √(Ann_𝔹 𝕄)`.
+
+The README states quasi-regularity of `σ_1, …, σ_s` on `𝕄`; as `(σ)𝔹` lies in the Jacobson
+radical of the Noetherian ring `𝔹` and `𝕄` is finite, this is the same condition (Stacks,
+Tags 00LN, 061R, 061S, the last with Tag 00IQ (2) in place of Krull's intersection theorem). -/
+theorem exists_patched_module_up_to_element
+    (𝒰 : Ultrafilter ℕ) (h𝒰 : ∀ n : ℕ, (𝒰 : Filter ℕ) ≠ pure n)
+    (Λ : Type u) [CommRing Λ] [IsNoetherianRing Λ] [IsLocalRing Λ]
+    [IsAdicComplete (IsLocalRing.maximalIdeal Λ) Λ] [Finite (IsLocalRing.ResidueField Λ)]
+    (s : ℕ) (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] [Algebra Λ R]
+    [Algebra (MvPowerSeries (Fin s) Λ) R] [IsScalarTower Λ (MvPowerSeries (Fin s) Λ) R]
+    (f : R) (𝔦 : Ideal R)
+    (𝒳 : Type u) [AddCommGroup 𝒳] [Module R 𝒳] [Module Λ 𝒳] [IsScalarTower Λ R 𝒳]
+    [Module.Finite Λ 𝒳]
+    (h𝒳 : ∀ (i : Fin s) (x : 𝒳),
+      algebraMap (MvPowerSeries (Fin s) Λ) R (MvPowerSeries.X i) • x = 0)
+    (M : ℕ → Type u) [∀ N, AddCommGroup (M N)] [∀ N, Module R (M N)]
+    [∀ N, Module (MvPowerSeries (Fin s) Λ) (M N)]
+    [∀ N, IsScalarTower (MvPowerSeries (Fin s) Λ) R (M N)]
+    (hfree : ∀ j k : ℕ, 1 ≤ j → 1 ≤ k → ∀ᶠ N in (𝒰 : Filter ℕ),
+      let J : Ideal (MvPowerSeries (Fin s) Λ) :=
+        (IsLocalRing.maximalIdeal Λ).map (algebraMap Λ (MvPowerSeries (Fin s) Λ)) ^ j ⊔
+          Ideal.span (Set.range (MvPowerSeries.X (σ := Fin s) (R := Λ))) ^ k
+      Module.Free (MvPowerSeries (Fin s) Λ ⧸ J)
+          (M N ⧸ J • (⊤ : Submodule (MvPowerSeries (Fin s) Λ) (M N))) ∧
+        Module.Finite (MvPowerSeries (Fin s) Λ ⧸ J)
+          (M N ⧸ J • (⊤ : Submodule (MvPowerSeries (Fin s) Λ) (M N))))
+    (hmaps : ∀ j : ℕ, 1 ≤ j → ∀ᶠ N in (𝒰 : Filter ℕ),
+      let Jx : Ideal R := (IsLocalRing.maximalIdeal Λ).map (algebraMap Λ R) ^ j
+      let JM : Ideal R := Jx ⊔ (Ideal.span (Set.range
+        (MvPowerSeries.X (σ := Fin s) (R := Λ)))).map (algebraMap (MvPowerSeries (Fin s) Λ) R)
+      ∃ (φ : (𝒳 ⧸ Jx • (⊤ : Submodule R 𝒳)) →ₗ[R] (M N ⧸ JM • (⊤ : Submodule R (M N))))
+        (ψ : (M N ⧸ JM • (⊤ : Submodule R (M N))) →ₗ[R] (𝒳 ⧸ Jx • (⊤ : Submodule R 𝒳))),
+        (∀ x, ψ (φ x) = f • x) ∧ ∀ y, φ (ψ y) = f • y)
+    (hkill : ∃ (n : ℕ) (T : Set R), Ideal.span T = 𝔦 ∧ ∀ t ∈ T, ∀ j : ℕ,
+      ∀ᶠ N in (𝒰 : Filter ℕ), ∃ a : R, (f * t) ^ n - a ∈ IsLocalRing.maximalIdeal R ^ j ∧
+        ∀ m : M N, a • m = 0) :
+    let σB : Ideal (Localization.Away f) :=
+      ((Ideal.span (Set.range (MvPowerSeries.X (σ := Fin s) (R := Λ)))).map
+        (algebraMap (MvPowerSeries (Fin s) Λ) R)).map (algebraMap R (Localization.Away f))
+    let 𝔹 := AdicCompletion σB (Localization.Away f)
+    IsNoetherianRing 𝔹 ∧
+      ∃ (𝕄 : Type u) (_ : AddCommGroup 𝕄) (_ : Module 𝔹 𝕄),
+        Module.Finite 𝔹 𝕄 ∧
+        RingTheory.Sequence.IsWeaklyRegular 𝕄 (List.ofFn fun i : Fin s =>
+          algebraMap R 𝔹 (algebraMap (MvPowerSeries (Fin s) Λ) R (MvPowerSeries.X i))) ∧
+        Nonempty ((𝕄 ⧸ σB.map (algebraMap (Localization.Away f) 𝔹) • (⊤ : Submodule 𝔹 𝕄))
+          ≃ₗ[𝔹] TensorProduct R 𝔹 𝒳) ∧
+        𝔦.map (algebraMap R 𝔹) ≤ (Module.annihilator 𝔹 𝕄).radical := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.ReducibilityIdealsAndUltrafilterPatching
