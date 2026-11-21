@@ -287,6 +287,10 @@ there is `M` with `|a_k(z) − c (z − ρ)^(−k−1)| ≤ M r′^(−k)` for a
 with `|a_k(z)| ≥ ½ |c| d^(−k−1)` for `k ≥ k₀`; if moreover `z`, `ρ` are real, `z > ρ` and `Re c > 0`, then
 `Re a_k(z) ≥ ½ (Re c) d^(−k−1)` for `k ≥ k₀`.
 
+(b) is the meromorphic case of Darboux's method, AsymptoticExpansions §13.6 (2.10.29), with the principal part as
+comparison function and the pole strictly inside the disc of analyticity, so that the error is `O(r′^(−k))` for every
+`r′ < r` where Darboux's method, with the singularity on the circle of radius `d`, gives `o(d^(−k))`.
+
 *Proof sketch.* (a) is `norm_cauchyPowerSeries_le` on the circle of radius `r′`. (b): `Φ` minus its
 principal part extends analytically to `B(z, r)` (removable singularity); apply (a). The `k`-th
 coefficient of `(s − ρ)^(−j)` at `z` is `(−1)^k (d/ds)^k (s − ρ)^(−j)/k! = C(k+j−1, j−1)(z − ρ)^(−k−j)`.
@@ -690,7 +694,9 @@ functions (`ContDiffBump`), `integrable_one_add_norm`, the Gaussian integral wit
 
 Let `(K, 𝔒, ψ)` be as in the Conventions; every nonzero integer is invertible in `K`, and nothing is assumed about the
 residue characteristics or about `𝔒` being a maximal order. For every lattice `L`, `L^⊥` is a lattice,
-`L^(⊥⊥) = L` and `vol(L) vol(L^⊥) = 1`, so `dx` is the Haar measure self-dual for `ψ`. For `m ≥ 1` and `D ∈ K^×` let
+`L^(⊥⊥) = L` and `vol(L) vol(L^⊥) = 1` (AnalyticNumberTheoryPartII §5.3g at `F = ℚ`, `v = p`, `V = K_(p)` the product of the
+factors of `K` over `p`, `B(x, y) = λ(xy)` with `ψ = ψ_(ℚ_p)∘λ` on `K_(p)`; a lattice is the product of its parts in the
+`K_(p)`), so `dx` is the Haar measure self-dual for `ψ`. For `m ≥ 1` and `D ∈ K^×` let
 `g_D(x) = Σ_{k=1}^m x_k + D/∏_{k=1}^m x_k` on `(K^×)^m`; its critical points are the points `(z, …, z)` with `z^(m+1) = D`, finitely
 many, with `g_D(z, …, z) = (m + 1)z`. An *amplitude of type `(L₀, Λ₁)`*, for lattices `L₀`, `Λ₁`, is a function `A : K^m → ℂ` that
 vanishes unless every `x_k` is a unit with `x_k ∈ L₀` and `x_k^(−1) ∈ L₀`, and that is invariant under translation by `Λ₁^m`.
@@ -756,9 +762,9 @@ small (otherwise Hensel's lemma for `(m + 1)`-th roots, as in their Lemma 1.20, 
 sum of the character over the ball vanishes. (d) Split `K^m` into the balls `(z, …, z) + B^m` and the rest, for a small `𝔒`-module `B`; use (c) on
 the rest; on a ball `A` is constant, (b) turns the phase into `(m + 1)z/t + ½ ξᵀH_m(zt)ξ` by a measure-preserving
 bijection, and (a) evaluates the Gaussian integral over `B^m`, `B` being admissible for `H_m(zt)` when `t` is small.
-The duality of lattices (`L^⊥` a lattice, `L^(⊥⊥) = L`, `vol(L) vol(L^⊥) = 1`) is used as stated and its proof is not
-given here.
-*Needs:* MetaplecticAutomorphicForms §2.1 (the Weil index, with `weilIndex_norm`, `weilIndex_isometry` and
+The duality of lattices (`L^⊥` a lattice, `L^(⊥⊥) = L`, `vol(L) vol(L^⊥) = 1`) is AnalyticNumberTheoryPartII §5.3g, as
+cited above.
+*Needs:* AnalyticNumberTheoryPartII §5.3g (the duality of lattices); MetaplecticAutomorphicForms §2.1 (the Weil index, with `weilIndex_norm`, `weilIndex_isometry` and
 `weilIndex_gaussSum`); Mathlib additive characters (`AddChar`), Haar measure on locally compact groups, indices of
 subgroups, orthogonality of characters of finite abelian groups.
 
@@ -766,11 +772,15 @@ subgroups, orthogonality of characters of finite abelian groups.
 
 - (a) for `K = ℚ_3`, `𝔒 = ℤ_3`, `ψ(x) = e^(2πi{x})`, `m = 1`, `M = (2/3)`, so `½ ξᵀMξ = ξ²/3` and `|det M|^(−1/2) = 3^(−1/2)`: the
   lattices `ℤ_3` and `3^(−1)ℤ_3` are admissible and both give `(1/3)(1 + 2e^(2πi/3)) = i/√3`, so `γ_ψ(M) = i`; the lattice `3ℤ_3`
-  is not admissible and gives `1/3`.
+  is not admissible and gives `1/3`. Here `1 + 2e^(2πi/3) = i√3` is the quadratic Gauss sum `Σ_{r mod 3} e^(2πi r²/3)` of
+  CharacterSumsOverFiniteFields §1.4.
 - (d) for `K = ℚ_3`, `m = 1`, `D = 1`, `t = 9`, `A` the indicator of `ℤ_3^×`: the left side is
   `(1/9) Σ_{x ∈ (ℤ/9)^×} e^(2πi(x + x^(−1))/9) = (2/3) cos(4π/9)`; on the right `z = ±1`, `γ(±9) = 1` (as `Σ_{ξ mod 9} e^(2πiξ²/9) = 3`),
   and the sum is `(1/3)(e^(4πi/9) + e^(−4πi/9)) = (2/3) cos(4π/9)`. At `t = 3` the two sides are `−1/3` and `1`: the
-  neighbourhood `V` is needed.
+  neighbourhood `V` is needed. For `K = ℚ_p` with `p` odd, `m = 1`, `A` the indicator of `ℤ_p^×`, `D ∈ ℤ_p^×` and `t = p^k`,
+  the left side of (d) is `p^(−k)` times the Kloosterman sum `S(1, D; p^k)`, and (d) is Salié's evaluation of
+  CharacterSumsOverFiniteFields §7.5 with the Gauss factor left as `γ`, for the `k` with `p^k ∈ V`, while that evaluation
+  allows every `k ≥ 2`; at `p = 3`, `k = 2`, `D = 1` it gives the value `(2/3) cos(4π/9)` above.
 - (b) for `m = 1`: `x + z²/x = 2z + ξ²/z` with `x = z(1 + y)` and `ξ = z y (1 + y)^(−1/2)`, since `y + (1 + y)^(−1) − 1 = y²/(1 + y)`.
 
 ### Examples
@@ -784,7 +794,7 @@ subgroups, orthogonality of characters of finite abelian groups.
 
 ### Dependencies
 
-No earlier layer. MetaplecticAutomorphicForms §2.1, the Weil index (8.2). Mathlib Bochner integration, Cauchy estimates for holomorphic functions of several variables, smooth bump functions, the Gaussian integral with complex parameter and the spectral theorem (8.1); additive characters, Haar measure on locally compact groups, indices of subgroups and orthogonality of characters of finite abelian groups (8.2).
+No earlier layer. AnalyticNumberTheoryPartII §5.3g, the duality of lattices, and MetaplecticAutomorphicForms §2.1, the Weil index (8.2). Mathlib Bochner integration, Cauchy estimates for holomorphic functions of several variables, smooth bump functions, the Gaussian integral with complex parameter and the spectral theorem (8.1); additive characters, Haar measure on locally compact groups, indices of subgroups and orthogonality of characters of finite abelian groups (8.2).
 
 ## Downstream consumers
 
@@ -825,6 +835,7 @@ Not owned here:
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartII
 
 - §4.5c, the complex Gamma–Laplace adapter: the model transforms `k!/(s − a)^(k+1)` of `e^(au) u^k` in the Examples of Layer 6.
+- §5.3g, local characters, self-dual measures and Fourier inversion, at `F = ℚ` and a finite place `p`, for `V = K_(p)` with `B(x, y) = λ(xy)`: the annihilator `L^⊥` of a lattice is a lattice, `L^(⊥⊥) = L` and `vol(L) vol(L^⊥) = 1`, used in 8.2.
 
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
