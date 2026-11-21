@@ -774,7 +774,7 @@ It does not own:
   the commutator of an intersection, prosolvability `iInf_closedDerivedSeries_eq_bot`.
 - **Layer 1.** `GroupFiltration`, `IsFiltered`, `FilteredOut`, `GroupFiltration.quotient`,
   `GroupFiltration.restrict`, the Herbrand functions `ψ_H`, and `exists_isFiltered_restrict`.
-- **Layer 2.** The open-subgroup model `absoluteGaloisGroupEquivFixingSubgroup'` (§2.0), the upper
+- **Layer 2.** The open-subgroup model `exists_continuousMulEquiv_fixingSubgroup` (§2.0), the upper
   filtration on `G_K` and `G_K^m` (§2.1), its restriction to open subgroups (§2.2), the descent of
   filtered isomorphisms of `G_K^{m+n}` to `G_L^n` for `L` lying in `K^m` (§2.3), and the map from
   continuous field isomorphisms to `Out_Filt` (§2.4).
