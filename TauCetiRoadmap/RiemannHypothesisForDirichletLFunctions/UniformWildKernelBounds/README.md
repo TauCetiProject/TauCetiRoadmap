@@ -3572,7 +3572,7 @@ Additions to DeformationAndDerivedPatchingAlgebra: §4.8: graded local algebras 
 
 ### From TauCetiRoadmap.ModularityAndLanglandsExtensions
 
-§2.43 (irreducibility of `r_{ℓ,ι}(π)` for a density-one set of `ℓ`, which proves AutomorphicGaloisRepresentationsPartII AG2.6's `ExtremelyRegularIrreducibility n` for every `n ≥ 2`), in 3.20(f), 4.2(d), 4.4 and 4.8.
+§2.43 (irreducibility of `r_{ℓ,ι}(π)` for a density-one set of `ℓ`, for `π` a regular algebraic polarizable cuspidal representation of `GL_n` over a CM field, of extremely regular weight, which proves AutomorphicGaloisRepresentationsPartII AG2.6's `ExtremelyRegularIrreducibility n` for every `n ≥ 2`), in 3.20(f), 4.2(d), 4.4 and 4.8.
 
 ### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
 
@@ -3734,7 +3734,8 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 - T. Saito, *Modular forms and p-adic Hodge theory*, Invent. Math. 129 (1997): compatibility at `ℓ` for newforms, the classical
   form of the comparison used in 4.8(a).
 - T. Barnet-Lamb, T. Gee, D. Geraghty and R. Taylor, *Potential automorphy and change of weight*, Ann. of Math. 179 (2014),
-  Theorem 5.5.2: irreducibility for a density-one set of primes, the input of the comparisons at `ℓ` in 3.20(f), 4.2(d), 4.4 and 4.8.
+  Theorem 5.5.2: irreducibility for a density-one set of primes, for `π` regular algebraic, polarizable and cuspidal over a CM
+  field, of extremely regular weight, the input of the comparisons at `ℓ` in 3.20(f), 4.2(d), 4.4 and 4.8.
 - A. Caraiani, *Local–global compatibility and the action of monodromy on nearby cycles*, Duke Math. J. 161 (2012), and
   T. Barnet-Lamb, T. Gee, D. Geraghty and R. Taylor, *Local–global compatibility for l = p, II*, Ann. Sci. ÉNS 47 (2014):
   the comparisons used in 4.3, 4.7 and 4.8.
