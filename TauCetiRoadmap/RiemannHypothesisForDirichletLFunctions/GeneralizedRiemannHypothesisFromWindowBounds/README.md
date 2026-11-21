@@ -8,6 +8,16 @@ every number field abelian over `ℚ`, and the Riemann hypothesis for every Heck
 a field whose class field is abelian over `ℚ`. It then proves the theorems of other roadmaps that
 assume one of these statements, with that assumption removed.
 
+The formal proof [FormalProof] states five theorems: `RiemannHypothesis`, and the same statement
+written out; for every modulus `N ≥ 1` and every Dirichlet character `χ` modulo `N`, `L(s, χ) ≠ 0`
+for `Re s > 1/2` unless `χ` is principal and `s = 1`; and every zero of `L(s, χ)` with
+`0 < Re s < 1` has `Re s = 1/2`, for every `χ` and in particular for primitive `χ`. These are 5.2
+and the value and strip forms of 5.3. The forms through orders and through completed L-functions
+(5.1, 5.4) follow from them by Mathlib's continuation, functional equation and nonvanishing on
+`Re s ≥ 1`. The statements on Dedekind zeta functions and Hecke characters (5.5, 5.6) and those of
+Layer 6 are consequences drawn here from 5.1 by the published theorems cited with each; they are
+not statements of the formal proof.
+
 The analytic objects are Riesz-smoothed prime sums with their main terms removed. For a primitive
 finite-order ray-class character `ψ` of a number field `K`, `G_ψ(y)` is the Riesz sum
 `Σ_{𝔑𝔞 ≤ y} Λ_K(𝔞) ψ(𝔞)(y/𝔑𝔞 − 1)` plus the term that removes the pole of its Mellin transform at
@@ -129,6 +139,13 @@ them instead from the bounds that the Riemann hypothesis gives.
   parameter with its true constraint.
 
 ## Layer 0: weighted families and their Riesz remainders
+
+Over `ℚ`, for families of primitive Dirichlet characters, the transform of a family with its poles
+(0.5, 0.6) and the windowed theorem (2.1, 2.2) are statements of [FormalProof], there with the
+transform identified on `Re s > 2` and continued to `Re s > 0`, with the bound `C y²` for the
+remainders, and for `0 < θ < 1`. For a general number field `K`, and in the sharper forms stated
+here (the bound `C y`, the half-plane `Re s > 1`, meromorphy on `ℂ`), they are this roadmap's
+extension: the same argument, applied to the pole structure of 0.6.
 
 ### 0.1 Weighted families
 
@@ -602,6 +619,9 @@ Let `w` be a weighted family and
 At `σ = 1/2` the right side is `ψ.character.GeneralizedRiemannHypothesis` for every member. The
 window ratio `λ` may depend on `ε`. A single exponent does not suffice: the window bound at one
 `θ ∈ (σ, 1)` gives zero-freeness right of `θ` (2.1), not right of `σ`.
+Of this equivalence, the implication from the window bounds to the hypothesis is the step of
+[FormalProof]; the converse is classical, by the bound of 3.2 for the remainder under a zero-free
+half-plane, and is not part of that proof.
 
 Route: (←) 3.2. (→) for `0 < ε < 1 − σ`, 2.1 at `θ = σ + ε` gives zero-freeness right of
 `σ + ε`, and the monotonicity clause of RiemannHypothesisStatementsAndConsequences §9.2 (zero-free
@@ -644,6 +664,9 @@ RiemannHypothesisStatementsAndConsequences §9.4's
 §8.4a(b)). The trivial
 character is real, so `G` is real-valued (the conjugation clause of
 RiemannHypothesisStatementsAndConsequences §8.4a(b)) and `Re G = G`.
+Of this equivalence, the implication from the window bounds to the hypothesis is the step of
+[FormalProof]; the converse is classical, by the bound of 3.2 for the remainder under a zero-free
+half-plane, and is not part of that proof.
 
 Route: 3.3 at `σ = 1/2` for `w = single 1 1` over `ℚ`, for which `G_w = Re G`. The L-function of
 the trivial character is `dedekindZetaC ℚ` (RiemannHypothesisStatementsAndConsequences §9.5, trivial
@@ -703,6 +726,9 @@ character. The following are equivalent:
 Statement (i) holds for every primitive Dirichlet character `ψ`, by
 ThetaChainsAndFrobeniusPrimeSums §10.11. Further, (i) for every primitive Dirichlet character `ψ`
 is equivalent to the generalized Riemann hypothesis for every Dirichlet character (3.4).
+Of the equivalence of (i) and (ii), the implication from the window bounds to the hypothesis is
+the step of [FormalProof]; the converse is classical, by the bound of 3.2 for the remainder under a
+zero-free half-plane, and is not part of that proof.
 
 Route: by 0.3 the sum in (i) is `G_{w_ℚ}`, and `w_ℚ` is a weighted family whose members form
 `𝒦_ℚ(ψ)` (0.2). The hypothesis of the image of `κ` is that of `κ.character`:
@@ -2600,9 +2626,10 @@ nothing here uses them.
   Dirichlet L-functions announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the route of
   this roadmap: of the transform of a family with its positive residues
-  (0.5, 0.6), of the windowed Landau theorem for families (Layer 2, through
-  PositivityOfDirichletSeriesWithKernels §6.8), and of the passage from the window bounds for cyclic
-  families to the hypothesis (Layer 4, 5.1).
+  (0.5, 0.6), of the windowed Landau theorem for families in its upper-bound forms (2.1–2.3, through
+  PositivityOfDirichletSeriesWithKernels §6.8; the lower-bound form 2.4 and the form 2.5 for
+  `ψ_K(x) − x` are drawn here from the dichotomy of that §6.8), and of the passage from the window
+  bounds for cyclic families to the hypothesis (Layer 4, 5.1).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026:
   <https://alpo.ge/remark.pdf> (Layers 4–5).
 - E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905): Landau's theorem on Laplace

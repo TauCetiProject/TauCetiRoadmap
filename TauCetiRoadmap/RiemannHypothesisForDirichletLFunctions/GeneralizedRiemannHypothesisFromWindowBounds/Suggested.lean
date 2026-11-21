@@ -13,6 +13,16 @@ Dedekind zeta functions of fields abelian over `ℚ` and the Riemann hypothesis 
 characters of such fields that come from abelian extensions of `ℚ` (5.5, 5.6), and the prime
 number theorem in progressions with the square-root error term (6.5).
 
+Of the statements below, `riemannHypothesis`, `LFunction_ne_zero_of_one_half_lt_re` and
+`re_eq_half_of_LFunction_eq_zero` are, binder for binder, theorems of the formal proof
+[FormalProof]. `meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re`, the two statements on
+`riemannZeta` and `re_eq_half_of_meromorphicOrderAt_completedLFunction_pos` follow from them by
+Mathlib alone, and so does the implication from the window bounds to `RiemannHypothesis` in
+`riemannHypothesis_iff_forall_exists_windows`, given the windowed theorem of that proof. The
+converse implication there, the two statements on Dedekind zeta functions and Hecke L-functions,
+and `psiAP_isBigO` are consequences by the published theorems that the README cites; the formal
+proof does not state them.
+
 The predicates through which the README states these theorems are declarations of other
 roadmaps, and every statement below unfolds them into Mathlib and Tau Ceti terms:
 `ZeroFreeRightOf σ f` (RiemannHypothesisStatementsAndConsequences §9.2) is
