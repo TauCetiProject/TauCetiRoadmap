@@ -542,8 +542,9 @@ theorem wreathMass_two (n : ℕ) :
   sorry
 
 /-- **Wood's mass formula for `S_m ≀ S_n`** ([Wood 2008, Thm. 1.1], for one wreath product of
-symmetric groups): the wreath mass is a polynomial in `q^{-1}` with natural-number coefficients,
-independent of the local field. -/
+symmetric groups): the wreath mass is a polynomial in `q^{-1}` independent of the local field. Wood
+states integer coefficients; they are natural numbers because the generating function is a product
+of binomial series with natural-number coefficients. -/
 theorem exists_wreathMass_eq_aeval (m n : ℕ) [NeZero m] :
     ∃ P : Polynomial ℕ, ∀ (F : Type u) [Field F] [ValuativeRel F] [TopologicalSpace F]
       [IsNonarchimedeanLocalField F],
