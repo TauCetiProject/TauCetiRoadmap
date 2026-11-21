@@ -31,12 +31,15 @@ integral model.
   projective arithmetic varieties with their complex points, log-smooth models and simple normal
   crossings boundaries, hermitian metrics and their weights and curvature forms, regularisations,
   and arithmetic intersection numbers of hermitian line bundles.
-* The height of a projective bundle and the absolute Siegel lemma (4.3b (a)–(b)): for a Hermitian
-  vector bundle `Ē` of rank `n` over `O_K`, `Ō(1)^n = [K:ℚ]·n·(−μ̂(Ē) + ½(H_n − 1))` on the scheme of
-  lines in `E`, and for every `η > 0` some nonzero `x ∈ E ⊗ O_L` over a finite extension `L/K` has
-  `mean_σ log‖x‖_σ ≤ −μ̂(Ē) + ½(H_n − 1) + η`. It lacks the Hermitian vector bundle over `O_K` with
-  its Arakelov degree and slope, the projective bundle over `Spec O_K` with the induced metric on
-  `O(1)`, and arithmetic intersection numbers.
+* The absolute Siegel lemma (4.3b (b)): for a Hermitian vector bundle `Ē` of rank `n` over `O_K`
+  and every `η > 0`, some nonzero `x ∈ E ⊗ O_L` over a finite extension `L/K` has
+  `mean_σ log‖x‖_σ ≤ −μ̂(Ē) + ½(H_n − 1) + η`. It is deduced from the height
+  `Ō(1)^n = [K:ℚ]·n·(−μ̂(Ē) + ½(H_n − 1))` of the scheme of lines in `E` (4.3b (a)), which is
+  ChowFormsAndHeightsOfSubvarieties §6.2 (a7) for the dual of `Ē` and is not a headline of this
+  roadmap. It lacks the Hermitian vector bundle over `O_K` with its Arakelov degree and slope, and
+  the vectors of `E ⊗ O_L` with their norms at the complex embeddings of every finite extension
+  `L/K`; its proof also needs the projective bundle over `Spec O_K` with the induced metric on
+  `O(1)` and arithmetic intersection numbers.
 * The reflection formula (14.1 (a), (c)): for a Hermitian vector bundle `V̄` of rank two on a
   projective arithmetic variety `Z`, `π : ℙ(V) → Z` with relative tangent bundle `Ξ̄` and a
   hermitian `ℚ`-line bundle `M̄` on `Z`, `(Ξ̄^{2k}·π^*M̄^{D+1−2k}) = 2κ(k)·deg(Ξ^{2k−1}·π^*M^{D+1−2k})`,
@@ -53,9 +56,8 @@ integral model.
   Deligne's normalisation.
 
 Over `ℚ` a Hermitian vector bundle is a Euclidean lattice, for which Mathlib has `ZLattice` and
-`ZLattice.covolume`; the projective-bundle height and the absolute Siegel lemma for `K = ℚ` still
-need the arithmetic intersection number on `ℙ^{n−1}_ℤ` and vectors over every finite extension of
-`ℚ`, and they are a weaker case of the headline, so they are not stated either.
+`ZLattice.covolume`; the absolute Siegel lemma for `K = ℚ` still needs vectors over every finite
+extension of `ℚ`, and it is a special case of the headline, so it is not stated either.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.HeightsForLogSingularMetrics
