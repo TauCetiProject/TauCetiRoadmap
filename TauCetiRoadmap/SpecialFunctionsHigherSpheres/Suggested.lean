@@ -2,6 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.RingTheory.MvPolynomial.Harmonic
+public import TauCeti.RingTheory.MvPolynomial.Harmonic.Orthogonal
 public import TauCeti.Analysis.MvPolynomial.Sphere
 public import TauCeti.Topology.Algebra.UnitaryGroup
 public import TauCeti.RepresentationTheory.Compact.Haar
@@ -15,11 +16,9 @@ acceptance test: the other targets of the README have the same standing, stated 
 Discharging this file finishes neither a layer nor the roadmap.
 
 Bold headlines of the README that are not stated here, and what each lacks:
-* the inequivalence of the `H_l` for distinct `l` (README 2.2) and the irreducibility and
-  inequivalence of the `H^{p,q}` under `U(n)` (README 6.2) need the harmonic spaces as Tau Ceti
-  representations of `SO(n)` and `U(n)`; Tau Ceti's orthogonal-group action on harmonic
-  polynomials lives in a module outside this file's imports, and the invariance used here is
-  stated pointwise;
+* the decomposition, irreducibility and inequivalence of the `H^{p,q}` under `U(n)` (README 6.2)
+  need an action of `U(n)` on polynomials in `z, z̄`, which neither Mathlib nor Tau Ceti has at
+  the pin; the invariance used in 6.4 is stated pointwise;
 * the Gel'fand–Tsetlin basis and the associated spherical functions (README 5.2) iterate
   `branchHarmonic` down a chain of dimensions and are stated in prose.
 
@@ -32,13 +31,14 @@ R8), the Gegenbauer orthogonality (LaguerreJacobi §6.2), the small-`|z|` genera
 Local copies, each with a docstring naming its owner: `gegenbauer` (LaguerreJacobi §6.2,
 `Polynomial.gegenbauer`) and `jacobi` (LaguerreJacobi §3.2, `Polynomial.jacobi`), verbatim;
 `IsBiInvariant`, `conv`, `IsGelfandPair` and `IsSphericalFunction` (SpecialFunctionsGroupModels
-§§5.1–5.2) and `SOn`, `rotE`, `rotE_mul`, `rotE_one` (its §0.3), verbatim. The action of `SOn n`
-on `ℝⁿ` through `rotE`, and everything else, is owned here.
+§§5.1–5.2) and `SOn` (its §0.3), verbatim. Everything else is owned here.
 
-Six declarations are supporting lemmas, not targets: `smul_def`, `smul_def_unitary`,
-`zonalPolynomial_def`, `diskPolynomial_def`, `eval_linearForm` and `branchHarmonic_apply`.
-Theorems are stated with `sorry`. Section numbers in docstrings are
-those of the README.
+The actions of `SOn n` on `ℝⁿ` and of `UnitaryMatrixGroup n` on `ℂⁿ`, and the measurable
+structures of both groups, are Mathlib's: the action of a submonoid of matrices on
+`EuclideanSpace`, for which `g • x = Matrix.toEuclideanLin g.1 x` holds by `rfl` (so it agrees
+with `rotE` of SpecialFunctionsGroupModels §0.3), and the subtype Borel structure.
+
+Theorems are stated with `sorry`. Section numbers in docstrings are those of the README.
 -/
 
 @[expose] public section
@@ -108,35 +108,7 @@ open Matrix
 of Mathlib. -/
 abbrev SOn (n : ℕ) := Matrix.specialOrthogonalGroup (Fin n) ℝ
 
-/-- Local copy of SpecialFunctionsGroupModels §0.3. A matrix of `SO(n)` acting on `ℝⁿ`. -/
-def rotE {n : ℕ} (k : SOn n) (a : EuclideanSpace ℝ (Fin n)) : EuclideanSpace ℝ (Fin n) :=
-  Matrix.toEuclideanLin k.1 a
-
-/-- Local copy of SpecialFunctionsGroupModels §0.3. -/
-theorem rotE_mul {n : ℕ} (k k' : SOn n) (a : EuclideanSpace ℝ (Fin n)) :
-    rotE (k * k') a = rotE k (rotE k' a) := by
-  simp only [rotE, Submonoid.coe_mul, toEuclideanLin_eq_toLin_orthonormal]
-  rw [Matrix.toLin_mul _ (EuclideanSpace.basisFun (Fin n) ℝ).toBasis]
-  rfl
-
-/-- Local copy of SpecialFunctionsGroupModels §0.3. -/
-theorem rotE_one {n : ℕ} (a : EuclideanSpace ℝ (Fin n)) : rotE (1 : SOn n) a = a := by
-  simp [rotE]
-
 end GroupModelsCopy
-
-instance (n : ℕ) : MeasurableSpace (SOn n) := borel (SOn n)
-
-instance (n : ℕ) : BorelSpace (SOn n) := ⟨rfl⟩
-
-/-- README 1.1. `SO(n)` acts on `ℝⁿ` through `rotE`. -/
-instance (n : ℕ) : MulAction (SOn n) (EuclideanSpace ℝ (Fin n)) where
-  smul := rotE
-  one_smul := rotE_one
-  mul_smul := rotE_mul
-
-/-- The action of `SO(n)` on `ℝⁿ` is `rotE`. -/
-theorem smul_def {n : ℕ} (k : SOn n) (a : EuclideanSpace ℝ (Fin n)) : k • a = rotE k a := rfl
 
 /-- README 1.1. The stabilizer `K_η` of a vector `η` (`MulAction.stabilizer`); for a unit vector
 it is a copy of `SO(n - 1)`. -/
@@ -205,6 +177,19 @@ theorem finrank_harmonicSubmodule_mul {n : ℕ} (hn : 3 ≤ n) (l : ℕ) :
       (2 * l + n - 2) * (l + n - 3)! := by
   sorry
 
+/-- README 2.2. **Inequivalence.** For `n ≥ 2` and `l ≠ l'`, no linear isomorphism
+`H_l ≃ H_{l'}` intertwines the actions of `SO(n)` through Tau Ceti's representation
+`MvPolynomial.harmonicRep` of the orthogonal group. -/
+theorem not_exists_linearEquiv_harmonicRep {n : ℕ} (hn : 2 ≤ n) {l l' : ℕ} (hll' : l ≠ l') :
+    ¬ ∃ e : MvPolynomial.harmonicSubmodule (Fin n) ℝ l ≃ₗ[ℝ]
+        MvPolynomial.harmonicSubmodule (Fin n) ℝ l',
+      ∀ g : SOn n, ∀ p,
+        e (MvPolynomial.harmonicRep (Fin n) ℝ l
+            ⟨g.1, Matrix.specialUnitaryGroup_le_unitaryGroup g.2⟩ p) =
+          MvPolynomial.harmonicRep (Fin n) ℝ l'
+            ⟨g.1, Matrix.specialUnitaryGroup_le_unitaryGroup g.2⟩ (e p) := by
+  sorry
+
 /-! ## Layer 3: zonal polynomials and Gegenbauer polynomials -/
 
 /-- README 3.1. The **normalized zonal polynomial** `ω_{n,l}(t) = ₂F₁(-l, l + n - 2; (n - 1)/2;
@@ -216,15 +201,7 @@ def zonalPolynomial (n l : ℕ) : ℝ[X] :=
     C ((ascPochhammer ℝ k).eval (-(l : ℝ)) * (ascPochhammer ℝ k).eval ((l : ℝ) + n - 2) /
       ((ascPochhammer ℝ k).eval (((n : ℝ) - 1) / 2) * k !)) * (C (1 / 2) * (1 - X)) ^ k
 
-/-- The zonal polynomial is a finite sum in the radial coordinate with its specified dimension and
-degree normalization. -/
-theorem zonalPolynomial_def (n l : ℕ) :
-    zonalPolynomial n l = ∑ k ∈ Finset.range (l + 1),
-      C ((ascPochhammer ℝ k).eval (-(l : ℝ)) * (ascPochhammer ℝ k).eval ((l : ℝ) + n - 2) /
-        ((ascPochhammer ℝ k).eval (((n : ℝ) - 1) / 2) * k !)) * (C (1 / 2) * (1 - X)) ^ k :=
-  rfl
-
-/-- README 3.1. `ω_{n,l}(1) = 1`. -/
+/-- Sanity check of the definition: README 3.1, `ω_{n,l}(1) = 1`. -/
 theorem zonalPolynomial_eval_one (n l : ℕ) : (zonalPolynomial n l).eval 1 = 1 := by
   sorry
 
@@ -238,9 +215,10 @@ theorem natDegree_zonalPolynomial {n : ℕ} (hn : 2 ≤ n) (l : ℕ) :
     (zonalPolynomial n l).natDegree = l := by
   sorry
 
-/-- README 3.1. **Gegenbauer form.** For `n ≥ 3` and `λ = (n - 2)/2`,
-`C_l^{(λ)} = C_l^{(λ)}(1) ω_{n,l}` with `C_l^{(λ)}(1) = (2λ)_l / l! ≠ 0`. -/
-theorem gegenbauer_eq_zonalPolynomial {n : ℕ} (hn : 3 ≤ n) (l : ℕ) :
+/-- README 3.1. **Gegenbauer form.** For `n ≥ 2` and `λ = (n - 2)/2`,
+`C_l^{(λ)} = C_l^{(λ)}(1) ω_{n,l}` with `C_l^{(λ)}(1) = (2λ)_l / l!`, which is nonzero for
+`n ≥ 3`; at `n = 2` both sides are `1` for `l = 0` and `0` for `l ≥ 1`. -/
+theorem gegenbauer_eq_zonalPolynomial {n : ℕ} (hn : 2 ≤ n) (l : ℕ) :
     gegenbauer (((n : ℝ) - 2) / 2) l =
       C ((ascPochhammer ℝ l).eval ((n : ℝ) - 2) / l !) * zonalPolynomial n l := by
   sorry
@@ -293,11 +271,6 @@ theorem zonalPolynomial_ode {n : ℕ} (hn : 2 ≤ n) (l : ℕ) :
 /-- README 3.3. The linear form `x ↦ ⟪η, x⟫` as a polynomial. -/
 def linearForm {n : ℕ} (η : EuclideanSpace ℝ (Fin n)) : MvPolynomial (Fin n) ℝ :=
   ∑ i, MvPolynomial.C (η i) * MvPolynomial.X i
-
-/-- Evaluation of the linear form gives the real inner product with the pole. -/
-theorem eval_linearForm {n : ℕ} (η x : EuclideanSpace ℝ (Fin n)) :
-    MvPolynomial.eval (fun i => x i) (linearForm η) = ⟪η, x⟫_ℝ := by
-  simp [linearForm, PiLp.inner_apply, mul_comm]
 
 /-- README 3.3. The **zonal harmonic** `Z_{l,η}(x) = |x|ˡ ω_{n,l}(⟪η, x⟫ / |x|)`: the
 homogenization of `ω_{n,l}` in `⟪η, x⟫` and `|x|²`. Only the coefficients of the parity of `l`
@@ -437,11 +410,12 @@ theorem zonalPolynomial_eval_cos_mul_eval_cos {n : ℕ} (hn : 3 ≤ n) (l : ℕ)
           sin ψ ^ (n - 3) := by
   sorry
 
-/-- README 4.5. **Gegenbauer addition theorem.** For `λ > 1/2`,
+/-- README 4.5. **Gegenbauer addition theorem.** For `λ > 0`, `λ ≠ 1/2`,
 `C_l^{(λ)}(cos θ cos ϕ + sin θ sin ϕ cos ψ) = Γ(2λ - 1)/Γ(λ)² ∑_{m ≤ l} 2^{2m} Γ(λ + m)²
 (l - m)! (2λ + 2m - 1)/Γ(2λ + l + m) (sin θ sin ϕ)^m C_{l-m}^{(λ+m)}(cos θ)
 C_{l-m}^{(λ+m)}(cos ϕ) C_m^{(λ-1/2)}(cos ψ)`. -/
-theorem gegenbauer_addition {lam : ℝ} (hlam : 1 / 2 < lam) (l : ℕ) (θ ϕ ψ : ℝ) :
+theorem gegenbauer_addition {lam : ℝ} (hlam : 0 < lam) (hlam' : lam ≠ 1 / 2) (l : ℕ)
+    (θ ϕ ψ : ℝ) :
     (gegenbauer lam l).eval (cos θ * cos ϕ + sin θ * sin ϕ * cos ψ) =
       Gamma (2 * lam - 1) / Gamma lam ^ 2 *
         ∑ m ∈ Finset.range (l + 1),
@@ -465,7 +439,9 @@ theorem integral_cexp_mul_zonalPolynomial {n : ℕ} (hn : 2 ≤ n) (l : ℕ) {r 
 
 /-- README 4.6. **Plane-wave expansion in `ℝⁿ`, `n ≥ 4`.** For `L²(σ)`-orthonormal bases `Y l` of
 the `H_l`, unit `η`, `x` and `r > 0`,
-`e^{ir⟪η, x⟫} = ∑_l iˡ Γ(n/2) (2/r)^{n/2-1} J_{l+n/2-1}(r) ∑ᵢ Y_{l,i}(η) Y_{l,i}(x)`. -/
+`e^{ir⟪η, x⟫} = ∑_l iˡ Γ(n/2) (2/r)^{n/2-1} J_{l+n/2-1}(r) ∑ᵢ Y_{l,i}(η) Y_{l,i}(x)`.
+The bound `n ≥ 4` is an ownership boundary, not a hypothesis the proof needs: the identity also
+holds for `n = 2, 3` (README 4.6). -/
 theorem hasSum_cexp_inner_sphereEval {n : ℕ} (hn : 4 ≤ n)
     (Y : ∀ l : ℕ, Fin (Module.finrank ℝ (MvPolynomial.harmonicSubmodule (Fin n) ℝ l)) →
       MvPolynomial.harmonicSubmodule (Fin n) ℝ l)
@@ -484,7 +460,8 @@ theorem hasSum_cexp_inner_sphereEval {n : ℕ} (hn : 4 ≤ n)
 
 /-- README 4.6. **Bochner's theorem.** For `n ≥ 2`, `l ≥ 1`, `p ∈ H_l`, `ϕ` with
 `∫₀^∞ |ϕ(r)| r^{n-1} dr < ∞` and `ξ ≠ 0`, the Fourier transform of `ϕ(|x|) p(x/|x|)` is
-`2π (-i)ˡ |ξ|^{1-n/2} p(ξ/|ξ|) ∫₀^∞ ϕ(r) J_{l+n/2-1}(2π|ξ| r) r^{n/2} dr`. -/
+`2π (-i)ˡ |ξ|^{1-n/2} p(ξ/|ξ|) ∫₀^∞ ϕ(r) J_{l+n/2-1}(2π|ξ| r) r^{n/2} dr`.
+The bound `l ≥ 1` is an ownership boundary: the formula also holds for `l = 0` (README 4.6). -/
 theorem fourier_mul_eval_div_norm {n : ℕ} (hn : 2 ≤ n) {l : ℕ} (hl : 1 ≤ l)
     {p : MvPolynomial (Fin n) ℝ} (hp : p ∈ MvPolynomial.harmonicSubmodule (Fin n) ℝ l)
     (ϕ : ℝ → ℂ) (hϕ : IntegrableOn (fun r => ϕ r * r ^ (n - 1)) (Ioi 0))
@@ -513,11 +490,6 @@ polynomials on `ℝᵐ` to polynomials on `ℝ^{m+1}`. -/
 def branchHarmonic (m l k : ℕ) :
     MvPolynomial (Fin m) ℝ →ₗ[ℝ] MvPolynomial (Fin (m + 1)) ℝ :=
   LinearMap.mulLeft ℝ (branchFactor m l k) ∘ₗ (MvPolynomial.rename Fin.castSucc).toLinearMap
-
-/-- A branch polynomial is the renamed lower-dimensional harmonic multiplied by its branching
-factor. -/
-theorem branchHarmonic_apply (m l k : ℕ) (h : MvPolynomial (Fin m) ℝ) :
-    branchHarmonic m l k h = branchFactor m l k * MvPolynomial.rename Fin.castSucc h := rfl
 
 /-- README 5.1. **Branching harmonics are harmonic.** For `m ≥ 1`, `k ≤ l` and `h ∈ H_k(ℝᵐ)`,
 `branchHarmonic m l k h ∈ H_l(ℝ^{m+1})`. -/
@@ -566,27 +538,6 @@ theorem integral_sphereEval_branchHarmonic_sq {m l k : ℕ} (hm : 1 ≤ m) (hkl 
 
 /-- README 6.1. `U(n)` as the unitary matrices of Mathlib (`Matrix.unitaryGroup`). -/
 abbrev UnitaryMatrixGroup (n : ℕ) := Matrix.unitaryGroup (Fin n) ℂ
-
-instance (n : ℕ) : MeasurableSpace (UnitaryMatrixGroup n) := borel (UnitaryMatrixGroup n)
-
-instance (n : ℕ) : BorelSpace (UnitaryMatrixGroup n) := ⟨rfl⟩
-
-/-- README 6.1. `U(n)` acts on `ℂⁿ` by matrix multiplication. -/
-instance (n : ℕ) : MulAction (UnitaryMatrixGroup n) (EuclideanSpace ℂ (Fin n)) where
-  smul k a := Matrix.toEuclideanLin k.1 a
-  one_smul a := by
-    show Matrix.toEuclideanLin (1 : UnitaryMatrixGroup n).1 a = a
-    simp
-  mul_smul k k' a := by
-    show Matrix.toEuclideanLin (k * k').1 a =
-      Matrix.toEuclideanLin k.1 (Matrix.toEuclideanLin k'.1 a)
-    simp only [Submonoid.coe_mul, Matrix.toEuclideanLin_eq_toLin_orthonormal]
-    rw [Matrix.toLin_mul _ (EuclideanSpace.basisFun (Fin n) ℂ).toBasis]
-    rfl
-
-/-- The complex sphere action is evaluation of the underlying unitary matrix. -/
-theorem smul_def_unitary {n : ℕ} (k : UnitaryMatrixGroup n) (a : EuclideanSpace ℂ (Fin n)) :
-    k • a = Matrix.toEuclideanLin k.1 a := rfl
 
 /-- README 6.1. The stabilizer `K_η` of `η` in `U(n)`; for a unit vector it is a copy of
 `U(n - 1)`. -/
@@ -668,15 +619,7 @@ def diskPolynomial (α : ℝ) (p q : ℕ) (w : ℂ) : ℂ :=
     (((-1) ^ i * (p.choose i * q.choose i * i ! : ℝ) / (ascPochhammer ℝ i).eval (α + 1) : ℝ) : ℂ) *
       ((1 - ‖w‖ ^ 2 : ℝ) : ℂ) ^ i * w ^ (p - i) * conj w ^ (q - i)
 
-/-- The disk polynomial is the finite sum in the coordinate, its conjugate, and the radial factors.
--/
-theorem diskPolynomial_def (α : ℝ) (p q : ℕ) (w : ℂ) :
-    diskPolynomial α p q w = ∑ i ∈ Finset.range (min p q + 1),
-      (((-1) ^ i * (p.choose i * q.choose i * i ! : ℝ) / (ascPochhammer ℝ i).eval (α + 1) : ℝ) :
-        ℂ) * ((1 - ‖w‖ ^ 2 : ℝ) : ℂ) ^ i * w ^ (p - i) * conj w ^ (q - i) :=
-  rfl
-
-/-- README 6.3. `R^α_{p,q}(1) = 1`. -/
+/-- Sanity check of the definition: README 6.3, `R^α_{p,q}(1) = 1`. -/
 theorem diskPolynomial_one (α : ℝ) (p q : ℕ) : diskPolynomial α p q 1 = 1 := by
   sorry
 
@@ -799,6 +742,7 @@ theorem zonalPolynomial_eq_sum_diskPolynomial {n : ℕ} (hn : 2 ≤ n) (m : ℕ)
 #check @MvPolynomial.normSq
 #check @MvPolynomial.sphereEval
 #check @MvPolynomial.harmonicSphereRestriction_injective
+#check @MvPolynomial.harmonicRep
 #check @TauCeti.haarProb
 #check @MeasureTheory.Measure.toSphere
 #check @Matrix.specialOrthogonalGroup

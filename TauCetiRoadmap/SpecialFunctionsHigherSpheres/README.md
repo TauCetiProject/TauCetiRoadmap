@@ -74,6 +74,10 @@ addition theorem of 4.5 needs the branching of Layer 5 for its proof. Layer 6 re
 for `U(n)`, with harmonics of bidegree `(p, q)` in place of degree `l`; its last subsection
 connects the two halves.
 
+Some proof routes point forward in this order, without a cycle between targets: 2.2 and 2.3 use
+the zonal objects of Layer 3; the Gegenbauer addition theorem of 4.5 uses the branching of 5.1,
+whose norm uses 4.2; 5.2 uses 4.1; and the irreducibility in 6.2 uses 6.4 and 6.5.
+
 The harder material is the uniqueness of the invariant harmonic (2.3 and 6.4), the
 classifications (4.4 and 6.5), which need Peter–Weyl, and the branching decomposition with its
 norm constant (5.1).
@@ -87,8 +91,10 @@ norm constant (5.1).
 - **Base point.** A unit vector `η` replaces the sources' north pole `e_n`, and
   `K_η = rotationStabilizer η` (or `unitaryStabilizer η`) is its stabilizer. Every statement
   holds for every unit `η`.
-- **Actions.** Groups act on the left: `g • x = g x` (`rotE`, through `Matrix.toEuclideanLin`),
-  and on functions by `(g · f)(x) = f(g⁻¹ x)`, as in Tau Ceti and in Vilenkin–Klimyk §11.2.2.
+- **Actions.** Groups act on the left by Mathlib's action of a group of matrices on
+  `EuclideanSpace`, `g • x = Matrix.toEuclideanLin g x`, which is the rotation map of
+  SpecialFunctionsGroupModels §0.3; they act on functions by `(g · f)(x) = f(g⁻¹ x)`, as in Tau
+  Ceti and in Vilenkin–Klimyk §11.2.2.
 - **Inner products** are conjugate-linear in the first argument, as in Mathlib:
   `⟪y, x⟫ = ∑ conj(yᵢ) xᵢ`. The complex variable of a disk polynomial is `w = ⟪η, ξ⟫`, which is
   holomorphic in `ξ`.
@@ -120,7 +126,7 @@ Sources: Vilenkin–Klimyk §9.1.9 (1)–(6), p. 22 (the sphere as `SO(n)/SO(n -
 coordinates); Wawrzyńczyk §9.1, p. 323 (the pair `(SO(n), K)` and the sphere `SO(n)/K`);
 Dieudonné §7, p. 22 (the `K`-orbits on the sphere are the parallel spheres).
 
-`SO(n)` acts on `ℝⁿ` by `rotE` (`smul_def`), `Sphere n` is the unit sphere, and
+`SO(n)` acts on `ℝⁿ` by Mathlib's action (Conventions), `Sphere n` is the unit sphere, and
 `rotationStabilizer η` is the stabilizer `K_η` of `η` (`MulAction.stabilizer`). Prove:
 - **Transitivity** (`exists_smul_eq`): for `n ≥ 2`, every unit vector is `g η` for some
   `g ∈ SO(n)`;
@@ -195,8 +201,9 @@ the group `SO(n)` is abelian. For `η` not a unit vector, `K_η` is `K_{η/|η|}
 
 ### 2.1 Dimension
 
-Sources: Vilenkin–Klimyk §9.2.3 (4)–(5), p. 30 (with erratum E09.2.01 of the project's errata
-file for the printed dimension of the homogeneous polynomials); Wawrzyńczyk §9.4, p. 335 (the
+Sources: Vilenkin–Klimyk §9.2.3 (4)–(5), p. 30 (p. 30 prints the dimension of the homogeneous
+polynomials of degree `l` in `n` variables as `(n - l - 1)!/((n - 1)! l!)`; the correct value is
+`(n + l - 1)!/((n - 1)! l!)`, from which their (4) follows); Wawrzyńczyk §9.4, p. 335 (the
 dimension of `H^l_n`, in the text); Dieudonné §7, (99), p. 23.
 
 Prove:
@@ -219,35 +226,42 @@ Sources: Vilenkin–Klimyk §9.2.6 (2′), pp. 35–36 (the decomposition of `L�
 quasi-regular representation); Wawrzyńczyk §9.1, p. 323 (`L²(S^{n-1}) = ⊕ H^l` with pairwise
 non-equivalent representations); Dieudonné §7, (100)–(102), pp. 23–24.
 
-The restriction to `SO(n)` of Tau Ceti's orthogonal-group action on harmonic polynomials acts on
-`H_l`, and by 1.2 it is unitary for the `L²(sphereMeasure n)` inner product of the restrictions.
-Prove:
-- **Inequivalence**: for `n ≥ 3` the representations on `H_l` for distinct `l` are pairwise
-  inequivalent;
+The restriction to `SO(n)` of Tau Ceti's representation `MvPolynomial.harmonicRep` of the
+orthogonal group acts on `H_l`, and by 1.2 it is unitary for the `L²(sphereMeasure n)` inner
+product of the restrictions. Prove:
+- **Inequivalence** (`not_exists_linearEquiv_harmonicRep`): for `n ≥ 2` and `l ≠ l'`, no linear
+  isomorphism `H_l ≃ H_{l'}` intertwines the actions of `SO(n)`;
 - `L²(S^{n-1})` is the orthogonal Hilbert sum of the restrictions of the `H_l` (R8.2), and every
   irreducible subrepresentation of the quasi-regular representation is one of them.
 
-Route: `H_l` is irreducible (R8.3); for `l ≠ l'` the `K_η`-invariant vectors (2.3) are the zonal
-harmonics, whose spherical functions `ω_{n,l}` and `ω_{n,l'}` differ (3.1), so the
-representations differ. Alternatively the eigenvalues `l(l + n - 2)` of R8.1 differ. An
+Route: for `n ≥ 3`, `dim H_l` is strictly increasing in `l` (2.1), so `H_l` and `H_{l'}` are not
+even isomorphic as vector spaces. For `n = 2`, `dim H_0 = 1` and `dim H_l = 2` for `l ≥ 1`, and
+the rotation by `θ` acts on `H_l` with trace `2 cos lθ`; at `θ = π/(l + l')` the traces of `H_l`
+and `H_{l'}` are opposite and nonzero. Alternatively, for `n ≥ 3`, the spherical functions
+`ω_{n,l}` and `ω_{n,l'}` of the zonal harmonics (2.3, 3.1), or the eigenvalues `l(l + n - 2)` of
+R8.1, differ. An
 irreducible subrepresentation `V` of `L²(S^{n-1})` has a nonzero orthogonal projection to some
 `H_l`, which intertwines and is an isomorphism by Schur's lemma (CompactGroups §2.3).
 
 **Checks.**
 - For `n = 3` the representation on `H_1` is the defining representation of `SO(3)` and that on
   `H_2` is the five-dimensional representation on traceless symmetric matrices.
-- Negative control: for `n = 2` and `l ≥ 1`, `H_l` is the sum of the characters `e^{± ilθ}` and
-  is not irreducible; the statements are for `n ≥ 3`.
+- For `n = 2` and `l ≥ 1`, `SO(2)` acts on the real plane `H_l` by the rotation through `lθ`,
+  which has no invariant line, so `H_l` is irreducible over `ℝ`; its complexification
+  `H_l ⊗ ℂ` is the sum of the characters `e^{± ilθ}`, so the irreducibility of R8.3 over `ℂ` is
+  for `n ≥ 3`.
+- Negative control: for `n = 1`, `SO(1)` is trivial and `H_0`, `H_1` are both one-dimensional
+  (spanned by `1` and `x₁`), hence equivalent; inequivalence needs `n ≥ 2`.
 - For `n = 3`, `H_1` and `H_2` are inequivalent although both are irreducible: their dimensions
   `3` and `5` differ, and so do their spherical functions `t` and `(3t² - 1)/2`.
 
 ### 2.3 Class one: the invariant harmonic
 
-Sources: Vilenkin–Klimyk §10.2.1, Lemma, p. 173 (with erratum E10.2.01 of the project's errata
-file: the denominator is `C_l^{(n-2)/2}(1)`); Vilenkin–Klimyk §9.2.6, pp. 35–36 (the
-representations of class one); Dieudonné §7, p. 23 (uniqueness of the zonal function);
-Wawrzyńczyk Theorem 9.2.4, pp. 326–327 (the spherical representations of `(SO(n), K)`) and
-(9.2.10)–(9.2.11), p. 330.
+Sources: Vilenkin–Klimyk §10.2.1, Lemma, p. 173 (the second display prints the denominator
+`C_l^{(n-1)/2}(1)`; the correct denominator is `C_l^{(n-2)/2}(1)`); Vilenkin–Klimyk §9.2.6,
+pp. 35–36 (the representations of class one); Dieudonné §7, p. 23 (uniqueness of the zonal
+function); Wawrzyńczyk Theorem 9.2.4, pp. 326–327 (the spherical representations of `(SO(n), K)`)
+and (9.2.10)–(9.2.11), p. 330.
 
 Prove:
 - **Uniqueness of the zonal harmonic** (`eq_smul_zonalHarmonic`): for `n ≥ 3` and unit `η`, a
@@ -280,14 +294,15 @@ hypergeometric function and as a normalized Gegenbauer polynomial); Wawrzyńczyk
 p. 330; Klimyk–Vilenkin Part II, Chapter 2, §2.4, (25), p. 180; Dieudonné §7, (103), p. 24.
 
 `zonalPolynomial n l` is the terminating sum
-`∑_{k ≤ l} (-l)_k (l + n - 2)_k / (((n - 1)/2)_k k!) ((1 - t)/2)^k` (`zonalPolynomial_def`).
+`∑_{k ≤ l} (-l)_k (l + n - 2)_k / (((n - 1)/2)_k k!) ((1 - t)/2)^k`.
 For `n ≤ 1` the lower parameter `(n - 1)/2` is not positive, a denominator may vanish and the
 value is junk; every theorem except the value at one assumes `n ≥ 2` or fixes `n`. Prove:
 - **Value at one** (`zonalPolynomial_eval_one`): `ω_{n,l}(1) = 1`;
 - **Parity** (`zonalPolynomial_comp_neg`): `ω_{n,l}(-t) = (-1)^l ω_{n,l}(t)` for `n ≥ 2`;
 - **Degree** (`natDegree_zonalPolynomial`): `ω_{n,l}` has degree exactly `l` for `n ≥ 2`;
-- **Gegenbauer form** (`gegenbauer_eq_zonalPolynomial`): for `n ≥ 3` and `λ = (n - 2)/2`,
-  `C_l^{(λ)} = ((n - 2)_l / l!) ω_{n,l}`;
+- **Gegenbauer form** (`gegenbauer_eq_zonalPolynomial`): for `n ≥ 2` and `λ = (n - 2)/2`,
+  `C_l^{(λ)} = ((n - 2)_l / l!) ω_{n,l}`; at `n = 2` both sides are `1` for `l = 0` and `0` for
+  `l ≥ 1`, since LaguerreJacobi's `C_l^{(0)}` vanishes for `l ≥ 1`;
 - **Chebyshev** (`zonalPolynomial_two`): `ω_{2,l} = T_l`;
 - **Legendre** (`zonalPolynomial_three`): `ω_{3,l} = P_l = P_l^{(0,0)}`;
 - **Chebyshev of the second kind** (`zonalPolynomial_four`): `(l + 1) ω_{4,l} = U_l`.
@@ -313,8 +328,8 @@ the same differential equation and the value at one.
 Sources: Vilenkin–Klimyk §9.3.7 (1)–(2), pp. 59–60 (generating function), with the value
 `C_k^{(p)}(1) = Γ(2p + k)/(k! Γ(2p))` in the text of p. 60; Wawrzyńczyk (9.2.9), p. 330 (the
 generating series) and (9.3.1)–(9.3.2), p. 331 (the differential equation and the derivative
-`d/dt C_m^{(α)} = 2α C_{m-1}^{(α+1)}`, with erratum W84-E09.3.01 of the project's errata file for
-the eigenvalue in the display before (9.3.1)); Dieudonné §7, (103), p. 24 (the differential
+`d/dt C_m^{(α)} = 2α C_{m-1}^{(α+1)}`; the display before (9.3.1) prints the eigenvalue `l(2p + 1)`,
+and the correct value is `l(2p + l)`, as in (9.3.1)); Dieudonné §7, (103), p. 24 (the differential
 equation).
 
 Prove:
@@ -350,7 +365,7 @@ zonal harmonics.
 Sources: Vilenkin–Klimyk §9.2.3 (3), p. 30 (the harmonic projection) and §10.2.1, Lemma,
 p. 173; Wawrzyńczyk (9.2.10)–(9.2.11), p. 330; Dieudonné §7, p. 23.
 
-`linearForm η` is the polynomial `x ↦ ⟪η, x⟫` (`eval_linearForm`), and `zonalHarmonic n l η` is
+`linearForm η` is the polynomial `x ↦ ⟪η, x⟫`, and `zonalHarmonic n l η` is
 `∑_j c_j ⟪η, x⟫^j |x|^{l-j}` over `j ≡ l (mod 2)`, where `c_j` are the coefficients of
 `ω_{n,l}` and `|x|²` is `MvPolynomial.normSq`. Prove:
 - **The zonal harmonic is harmonic** (`zonalHarmonic_mem_harmonicSubmodule`): for `n ≥ 2` and a
@@ -376,8 +391,8 @@ recurrence is that of the differential equation of 3.2.
 
 ### 3.4 The Laplace integral
 
-Sources: Vilenkin–Klimyk §9.3.2 (2), p. 47; Wawrzyńczyk (9.4.5), p. 334 (with erratum
-W84-E09.4.01 of the project's errata file: the printed constant lacks the factor `1/√π`).
+Sources: Vilenkin–Klimyk §9.3.2 (2), p. 47; Wawrzyńczyk (9.4.5), p. 334 (the printed constant is
+`Γ((n - 1)/2)/Γ((n - 2)/2)`; the correct constant has the further factor `1/√π`).
 
 Prove:
 - **Laplace integral** (`zonalPolynomial_eval_cos_eq_integral`): for `n ≥ 3`,
@@ -477,11 +492,13 @@ replaced by its average over `K_η`, which is `p(η) Z_{l,η}` by 2.3; the integ
 
 ### 4.4 Zonal spherical functions
 
-Sources: Vilenkin–Klimyk §9.3.2 (4), p. 47 (the zonal spherical function) and §9.4.5 (1), p. 76
-(the product formula for associated functions; the case here is its zonal case);
-Wawrzyńczyk (9.5.1)–(9.5.2), p. 337 (the functional equation and the product formula, with
-W84-E09.5.01 of the project's errata file, which corrects the derivation and confirms the
-formula) and Theorem 9.2.4, pp. 326–327; Klimyk–Vilenkin Part II, Chapter 2, §2.4, (25), p. 180.
+Sources: Vilenkin–Klimyk §9.3.2 (4), p. 47 (the zonal spherical function) and §9.4.5 (1), p. 76 (the
+product formula for associated functions; the case here is its zonal case); Wawrzyńczyk
+(9.5.1)–(9.5.2), p. 337 (the functional equation and the product formula; the text before (9.5.2)
+describes the `K`-orbit of `x = (0, …, sin θ, cos θ)` as the vectors `(s, sin θ)` with
+`|s| = cos θ`, while it is `{(s, cos θ) : |s| = sin θ}`, and `g` is the rotation in the
+`(x_{n-1}, x_n)`-plane; the formula (9.5.2) itself is correct) and Theorem 9.2.4, pp. 326–327;
+Klimyk–Vilenkin Part II, Chapter 2, §2.4, (25), p. 180.
 
 `zonalSpherical n l η g = ω_{n,l}(⟪η, g η⟫)`. Prove:
 - **Zonal spherical functions** (`isSphericalFunction_zonalSpherical`): for `n ≥ 3`, unit `η`
@@ -516,12 +533,14 @@ a plane through `η`), with the integral over `K_η` reduced to `ψ` by the dens
 
 ### 4.5 The Gegenbauer addition theorem
 
-Sources: Vilenkin–Klimyk §9.4.3 (1)–(5), p. 71 (with erratum E09.4.01 of the project's errata
-file for the three-angle relation (2)); Klimyk–Vilenkin Part II, Chapter 3, §1.3, (14), p. 186.
+Sources: Vilenkin–Klimyk §9.4.3 (1)–(5), p. 71 (the three-angle relation (2) is printed as
+`cos β sin γ = sin θ sin ψ`; the correct relation is `sin β sin γ = sin θ sin ψ`); DLMF 18.18.8,
+which states the theorem for `λ > 0`, `λ ≠ 1/2`; Klimyk–Vilenkin Part II, Chapter 3, §1.3, (14),
+p. 186.
 
 Prove:
-- **Gegenbauer addition theorem** (`gegenbauer_addition`): for `λ > 1/2` the identity displayed
-  below holds for all real `θ`, `φ`, `ψ`;
+- **Gegenbauer addition theorem** (`gegenbauer_addition`): for `λ > 0`, `λ ≠ 1/2`, the identity
+  displayed below holds for all real `θ`, `φ`, `ψ`;
 - the case `λ = (n - 2)/2` is the addition theorem of 4.1 for the matrix elements of
   `SO(n)` between the Gel'fand–Tsetlin vectors of 5.2 of the second level.
 
@@ -534,18 +553,19 @@ C_l^(λ)(cos θ cos φ + sin θ sin φ cos ψ)
 Route: expand `Z_{l,η}(g x)` in the branching basis of 5.1 for the chain
 `SO(n) ⊃ SO(n - 1)`, with the norm constant of 5.1; the coefficients are associated spherical
 functions `sin^m θ C_{l-m}^{(λ+m)}(cos θ)`, and the remaining zonal function of `SO(n - 1)` is
-`C_m^{(λ-1/2)}`. The identity then extends from `λ = (n - 2)/2`, `n ≥ 4`, to real `λ > 1/2`: after
-multiplication by `Γ(λ)²/Γ(2λ - 1)` each coefficient is a rational function of `λ`, so for fixed
-`θ`, `φ`, `ψ` both sides are rational in `λ` and agree on infinitely many points.
+`C_m^{(λ-1/2)}`. The identity then extends from `λ = (n - 2)/2`, `n ≥ 4`, to real `λ > 0`,
+`λ ≠ 1/2`: the coefficient `Γ(2λ - 1) Γ(λ + m)²/(Γ(λ)² Γ(2λ + l + m))` is the rational function
+`(λ)_m²/(2λ - 1)_{l+m+1}`, which has no pole there, so for fixed `θ`, `φ`, `ψ` both sides are
+rational in `λ` and agree on infinitely many points.
 
 **Checks.**
 - At `l = 4`, `θ = 0.6`, `φ = 1.3`, `ψ = 2.2`: both sides `1.61944 86134` for `λ = 3/2`,
   `0.88298 12104` for `λ = 1`, `3.61090 91337` for `λ = 5/2`, and `0.64131 08772` for
-  `λ = 0.8`, which is not of the form `(n - 2)/2`.
+  `λ = 0.8`, which is not of the form `(n - 2)/2`, and `0.17746 48150` for `λ = 0.3 < 1/2`.
 - `l = 0`: both sides are `1`, since `Γ(2λ - 1)(2λ - 1)/Γ(2λ) = 1`.
 - Negative control: at `λ = 1/2` the factor `Γ(2λ - 1)` has a pole and `C_m^{(0)} = 0` for
   `m ≥ 1`; the Legendre case needs the limit form with `C_m^{(0)}` replaced by `(2/m) T_m`, and
-  the hypothesis `λ > 1/2` excludes it.
+  the hypothesis `λ ≠ 1/2` excludes it.
 
 ### 4.6 Plane waves and Bochner's theorem
 
@@ -567,9 +587,13 @@ Prove, with `ν = n/2 - 1`:
   `𝓕F(ξ) = 2π (-i)ˡ |ξ|^{1-n/2} p(ξ/|ξ|) ∫₀^∞ φ(r) J_{l+ν}(2π|ξ| r) r^{n/2} dr`, a Hankel
   transform of order `l + n/2 - 1`.
 
-The degree `l = 0` of Bochner's theorem, the radial Fourier transform, and the plane-wave
-expansion for `n = 3` in the spherical harmonics `Y_{l,m}` are not targets here (Scope and
-ownership).
+The bounds `n ≥ 4` and `l ≥ 1` are ownership boundaries (Scope and ownership), not hypotheses the
+proofs need. The plane-wave expansion also holds for `n = 3`, where the roadmap on Euclidean
+motion groups and Bessel functions of the same project states it in the spherical harmonics
+`Y_{l,m}` (its §6.3), and for `n = 2`, where it is the Jacobi–Anger expansion of
+[SpecialFunctionsBessel §4.1](../SpecialFunctionsBessel/README.md). Bochner's theorem also holds
+for `l = 0`, where it is the Fourier transform of a radial function, stated in the motion-group
+roadmap's §5.3.
 
 Route: for `n ≥ 3` the expansion is DLMF 10.23.9 of SpecialFunctionsBessel §4.3 at `ν = n/2 - 1`,
 `α` the angle of `⟪η, x⟫`; by 3.1 and 2.1, `Γ(ν)(ν + l) C_l^{(ν)} = Γ(ν + 1) dim H_l ω_{n,l}`, and
@@ -587,18 +611,20 @@ imaginary parts of `t ↦ e^{-2πi r|ξ| t}`) and the multiplier at `-2πr|ξ|`,
 - Multiplier at `r = 1.7`: `0.33145 75792 i` for `n = 4`, `l = 1`; `-0.08514 99269 i` for `n = 2`,
   `l = 3` (`i³ J_3(1.7)`); `0.73928 38087` for `n = 5`, `l = 0`.
 - Plane-wave expansion at `n = 4` and `n = 5`, `r = 2.3`, `⟪η, x⟫ = 0.4`: forty terms give
-  `0.60582 01566 + 0.79560 16200 i = e^{0.92 i}`; at `l = 1` the inner sum is `n ⟪η, x⟫`
+  `0.60582 01566 + 0.79560 16200 i = e^{0.92 i}`, and the same series gives the same value at
+  `n = 2` and `n = 3`, outside the target's range; at `l = 1` the inner sum is `n ⟪η, x⟫`
   (`Y_i = √n xᵢ`).
 - Negative control: without the factor `iˡ` the series sums to the conjugate
   `0.60582 01566 - 0.79560 16200 i`.
 - Bochner at `ξ = (0.42, 0.56, 0, …)`, `|ξ| = 0.7`, for `n = 2, 3, 4, 5`: `F(x) = x₁ e^{-π|x|²}`
   (`l = 1`, `φ(r) = r e^{-πr²}`) gives `-i ξ₁ e^{-0.49π} = -0.09009 58687 i` on both sides, and
-  `F(x) = x₁x₂ e^{-π|x|²}` (`l = 2`) gives `-ξ₁ξ₂ e^{-0.49π} = -0.05045 36865`.
+  `F(x) = x₁x₂ e^{-π|x|²}` (`l = 2`) gives `-ξ₁ξ₂ e^{-0.49π} = -0.05045 36865`; at `l = 0`,
+  outside the target's range, `F(x) = e^{-π|x|²}` gives `e^{-0.49π} = 0.21451 39731` on both sides.
 - Negative control: the factor `iˡ` in place of `(-i)ˡ` gives `+0.09009 58687 i` at `l = 1`, the
   transform for the kernel `e^{+2πi⟨x, ξ⟩}`; the order `n/2 - 1` of the radial case in place of
   `l + n/2 - 1` gives `-0.03162 14280 i` at `n = 3`.
-- Negative control: the plane-wave route needs `ν ≠ 0`; at `n = 2` the zonal form 10.23.9 has
-  `Γ(0)`, and the expansion there is the Jacobi–Anger expansion in `cos lθ`, `sin lθ`.
+- The route through the zonal form 10.23.9 is for `n ≥ 3`: at `n = 2` it has `ν = 0` and the
+  factor `Γ(0)`, and the expansion there is the Jacobi–Anger expansion in `cos lθ`, `sin lθ`.
 
 ## Layer 5: branching `SO(m + 1) ↓ SO(m)`
 
@@ -609,7 +635,7 @@ built from Gegenbauer polynomials); Klimyk–Vilenkin Part II, Chapter 2, §2.4,
 matrix elements `t^l_{m0}` as `sin^m θ C_{l-m}^{(m+(n-1)/2)}(cos θ)`, in their `n`).
 
 `branchFactor m l k` is `|x|^{l-k} ω_{m+1+2k,l-k}(x_{m+1}/|x|)` on `ℝ^{m+1}`, and
-`branchHarmonic m l k h = branchFactor m l k · h(x₁, …, x_m)` (`branchHarmonic_apply`). Prove:
+`branchHarmonic m l k h = branchFactor m l k · h(x₁, …, x_m)`. Prove:
 - **Branching harmonics are harmonic** (`branchHarmonic_mem_harmonicSubmodule`): for `m ≥ 1`,
   `k ≤ l` and `h ∈ H_k(ℝᵐ)`, `branchHarmonic m l k h ∈ H_l(ℝ^{m+1})`;
 - **Branching decomposition** (`harmonicSubmodule_eq_iSup_map_branchHarmonic`,
@@ -650,7 +676,7 @@ Sources: Vilenkin–Klimyk §9.3.1 (1)–(5), pp. 44–46; Klimyk–Vilenkin Par
 Prove:
 - **Gel'fand–Tsetlin basis**: iterating 5.1 along `ℝⁿ ⊃ ℝ^{n-1} ⊃ … ⊃ ℝ²` gives, for every
   chain `l = l_{n-1} ≥ l_{n-2} ≥ … ≥ l_1 ≥ 0` and sign `±` of the last step, an element of `H_l`
-  that is a product of factors `sin^{l_{j-1}} θ_j ω_{j+2l_{j-1}, l_j - l_{j-1}}(cos θ_j)` in the
+  that is a product of factors `sin^{l_{j-1}} θ_j ω_{j+1+2l_{j-1}, l_j - l_{j-1}}(cos θ_j)` in the
   spherical coordinates of Vilenkin–Klimyk §9.1.9 (6); after division by the square root of the
   product of the constants `κ` of 5.1 these form an orthonormal basis of `H_l` in
   `L²(sphereMeasure n)`;
@@ -667,6 +693,9 @@ associated functions by the reproducing property of 4.1 applied to `branchHarmon
 - The number of chains with `l_{n-1} = l` is `dim H_l(ℝⁿ)` (5.1, iterated).
 - Negative control: omitting the factor `sin^{l_{j-1}} θ_j` destroys harmonicity: for `n = 3`,
   `l = 1`, `m = 1`, `cos φ` alone is not the restriction of a harmonic polynomial of degree `1`.
+- Negative control: the dimension index `j + 2l_{j-1}` in place of `j + 1 + 2l_{j-1}` gives, for
+  `n = 3`, `l = 3`, `m = 1`, the restriction of `x₁(4x₃² - |x|²)/3`, of Laplacian `-2x₁/3`, while
+  `ω_{5,2}` gives `x₁(5x₃² - |x|²)/4`, of Laplacian `0`.
 
 ## Layer 6: the complex sphere and `U(n)`
 
@@ -676,8 +705,8 @@ Sources: Vilenkin–Klimyk §11.1.8 (1)–(3), p. 291 (the image of the sphere m
 `ξ ↦ ⟪η, ξ⟫` and its density on the disc); Vilenkin–Klimyk §11.2.2, p. 295 (the action
 `f(g⁻¹ z)` and the subgroup `U(n - 1)`); Klimyk–Vilenkin Part II, Chapter 2, §2.8, p. 182.
 
-`U(n)` (`UnitaryMatrixGroup n`) acts on `ℂⁿ` (`smul_def_unitary`), `ComplexSphere n` is the unit
-sphere `S^{2n-1}`, `unitaryStabilizer η` is the stabilizer and `complexSphereMeasure n` the
+`U(n)` (`UnitaryMatrixGroup n`) acts on `ℂⁿ` by Mathlib's action (Conventions), `ComplexSphere n` is
+the unit sphere `S^{2n-1}`, `unitaryStabilizer η` is the stabilizer and `complexSphereMeasure n` the
 normalized surface measure. Prove:
 - **Transitivity** (`exists_smul_eq_unitary`): for every `n`, `U(n)` acts transitively on each
   sphere `|ξ| = r` of `ℂⁿ`;
@@ -760,12 +789,12 @@ the raising operators; inequivalence because the highest weights differ.
 ### 6.3 Disk polynomials
 
 Sources: Vilenkin–Klimyk §11.3.2 (4)–(6), p. 309 (the zonal functions of `U(n)` as `₂F₁` and Jacobi
-polynomials) and §11.4.5, p. 345 (the disk polynomials `R^α_{mn}`; the coefficient of (28) is
-erratum E11.4.10 of the project's errata file); Klimyk–Vilenkin Part II, Chapter 2, §2.8, (34),
+polynomials) and §11.4.5, p. 345 (the disk polynomials `R^α_{mn}`; the coefficient printed in (28)
+is incorrect, and the roadmap does not use (28)); Klimyk–Vilenkin Part II, Chapter 2, §2.8, (34),
 p. 182.
 
 `diskPolynomial α p q w` is the sum over `i ≤ min(p, q)` of
-`(-1)ⁱ C(p, i) C(q, i) i!/(α + 1)ᵢ · (1 - |w|²)ⁱ w^{p-i} w̄^{q-i}` (`diskPolynomial_def`), a
+`(-1)ⁱ C(p, i) C(q, i) i!/(α + 1)ᵢ · (1 - |w|²)ⁱ w^{p-i} w̄^{q-i}`, a
 form symmetric in `p` and `q`. For `α ∈ {-1, -2, …}` a denominator vanishes and the value is
 junk; the theorems assume `-1 < α` or `α = n - 2`, `n ≥ 2`. Prove:
 - **Value at one** (`diskPolynomial_one`): `R^α_{p,q}(1) = 1`;
@@ -911,7 +940,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 1. **The sphere and the rotation group** (1.1–1.3).
 2. **Spherical harmonics** (2.1–2.3).
 3. **Zonal polynomials and Gegenbauer polynomials** (3.1–3.4).
-4. **Addition theorem, Funk–Hecke, spherical functions** (4.1–4.5).
+4. **Addition theorem, Funk–Hecke, spherical functions** (4.1–4.6).
 5. **Branching** (5.1–5.2).
 6. **The complex sphere and `U(n)`** (6.1–6.6).
 
@@ -919,8 +948,8 @@ The numbers are those of the layers above, and `k.n` names subsection `n` of Lay
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other headlines and the
 plain bullets of each subsection are targets of the same standing, stated in prose. The
-`**Checks.**` of each subsection are statements to prove; they test the conventions on explicit
-values.
+`**Checks.**` are sanity checks: they test the conventions and hypotheses on explicit values and
+are not further targets.
 
 **Boundary with Tau Ceti and RiemannianGeometry R8.** Tau Ceti owns the harmonic polynomials:
 the Laplacian, the Fischer decomposition, the dimension of `H_l` as a difference of binomial
@@ -961,22 +990,25 @@ explicit harmonic polynomials that realize the branching (5.1), the basis they g
 the irreducibility, highest weights and branching dimensions of the `H^{p,q}` for the compact
 group `U(n)` (6.2), proved from the uniqueness of the fixed vector (6.4).
 
-**Boundary with the roadmaps of the same project.** SpecialFunctionsGroupModels owns Gel'fand
-pairs, spherical functions and the spherical transform for a general locally compact group (its
-§§5.1–5.3), and `SO(n)` with its action on `ℝⁿ` (its §0.3); this roadmap instantiates the first
-for `(SO(n), K_η)` and `(U(n), K_η)` and copies its definitions verbatim, and owns the `MulAction`
-instance built from its `rotE`. SpecialFunctionsLegendre owns the spherical harmonics `Y_{l,m}` of
-`S²` and their addition theorem (its §3.2), and SpecialFunctionsSU2MatrixElements owns their group
-proof (its §6.3) and the Gel'fand pair `(SU(2), T)` (its §6.4); the case `n = 3` here agrees with
-them (1.3 and 4.1 Checks). The roadmap on Euclidean motion groups and Bessel functions of the same
-project owns the plane-wave expansion in `ℝ³` in the spherical harmonics `Y_{l,m}`, the
-statement of the zonal form DLMF 10.23.9 for general `n` (owned by SpecialFunctionsBessel §4.3),
-the Hankel transform and the Fourier transform of radial functions on `ℝⁿ` (degree `0`), and
-the spherical functions of `(M(n), SO(n))`. This roadmap owns the plane-wave expansion in `ℝⁿ`,
-`n ≥ 4`, in harmonics of `S^{n-1}`, the Funk–Hecke multiplier of a plane wave, and Bochner's
-theorem for degree `l ≥ 1` (4.6), so the two do not overlap. The roadmap on rank-one symmetric
-spaces of the same project owns the hyperboloids, the groups `SO₀(n, 1)` and `U(n, 1)`, and the
-Jacobi functions.
+**Boundary with the roadmaps of the same project.** SpecialFunctionsGroupModels owns Gel'fand pairs,
+spherical functions and the spherical transform for a general locally compact group (its §§5.1–5.3),
+and `SO(n)` with its rotation map on `ℝⁿ` (its §0.3); this roadmap instantiates the first for
+`(SO(n), K_η)` and `(U(n), K_η)` and copies its definitions verbatim. The actions of `SO(n)` on `ℝⁿ`
+and of `U(n)` on `ℂⁿ` are Mathlib's, and agree with the rotation map of its §0.3.
+SpecialFunctionsLegendre owns the spherical harmonics `Y_{l,m}` of `S²` and their addition theorem
+(its §3.2), and SpecialFunctionsSU2MatrixElements owns their group proof (its §6.3) and the Gel'fand
+pair `(SU(2), T)` (its §6.4); the case `n = 3` here agrees with them (1.3 and 4.1 Checks). The
+roadmap on Euclidean motion groups and Bessel functions of the same project owns the plane-wave
+expansion in `ℝ³` in the spherical harmonics `Y_{l,m}`, the statement of the zonal form DLMF 10.23.9
+for general `n` (owned by SpecialFunctionsBessel §4.3), the Hankel transform and the Fourier
+transform of radial functions on `ℝⁿ` (degree `0`), and the spherical functions of `(M(n), SO(n))`.
+This roadmap owns the plane-wave expansion in `ℝⁿ`, `n ≥ 4`, in harmonics of `S^{n-1}`, the
+Funk–Hecke multiplier of a plane wave, and Bochner's theorem for degree `l ≥ 1` (4.6), so the two do
+not overlap. These bounds are ownership boundaries: the excluded cases are true and are stated there
+(`ℝ³` in its §6.3, the radial case `l = 0` in its §5.3), and the case `n = 2` of the expansion is
+the Jacobi–Anger expansion of [SpecialFunctionsBessel §4.1](../SpecialFunctionsBessel/README.md).
+The roadmap on rank-one symmetric spaces of the same project owns the hyperboloids, the groups
+`SO₀(n, 1)` and `U(n, 1)`, and the Jacobi functions.
 
 **Not owned here.** Spherical harmonics on hyperboloids and the groups `SO₀(n - 1, 1)` and
 `U(n - 1, 1)`, Gegenbauer functions of noncomplex or nonintegral degree, and harmonic analysis on
@@ -987,8 +1019,7 @@ Stiefel and Grassmann manifolds (see Beyond).
 `Suggested.lean` imports only Mathlib and Tau Ceti; it carries local verbatim copies of the
 Gegenbauer and Jacobi polynomials of LaguerreJacobi (`gegenbauer`, `jacobi`) and of the
 definitions of SpecialFunctionsGroupModels (`IsBiInvariant`, `conv`, `IsGelfandPair`,
-`IsSphericalFunction`, `SOn`, `rotE` with `rotE_mul` and `rotE_one`), each with a docstring naming
-its owner and section.
+`IsSphericalFunction`, `SOn`), each with a docstring naming its owner and section.
 
 ### From Tau Ceti
 
@@ -998,8 +1029,9 @@ its owner and section.
 - `MvPolynomial.sphereEval` and `MvPolynomial.harmonicSphereRestriction_injective`
   (`TauCeti/Analysis/MvPolynomial/Sphere.lean`): restriction of a real polynomial to the unit
   sphere, injective on harmonic homogeneous polynomials.
-- The action of the orthogonal group on harmonic polynomials
-  (`TauCeti/RingTheory/MvPolynomial/Harmonic/Orthogonal.lean`), for 2.2.
+- `MvPolynomial.harmonicRep` (`TauCeti/RingTheory/MvPolynomial/Harmonic/Orthogonal.lean`): the
+  representation of the orthogonal group on harmonic polynomials by `(g · p)(x) = p(g⁻¹ x)`, for
+  2.2.
 - The topological-group instances and compactness of `Matrix.specialOrthogonalGroup` and
   `Matrix.unitaryGroup` (`TauCeti/Topology/Algebra/UnitaryGroup.lean`).
 - `TauCeti.haarProb` (`TauCeti/RepresentationTheory/Compact/Haar.lean`): the Haar probability
@@ -1010,7 +1042,9 @@ its owner and section.
 - `MeasureTheory.Measure.toSphere`, the surface measure on the unit sphere of a
   finite-dimensional inner product space. Used in 1.2 and 6.1.
 - `Matrix.specialOrthogonalGroup`, `Matrix.unitaryGroup`, `Matrix.toEuclideanLin`,
-  `MulAction.stabilizer`. Used in 1.1 and 6.1.
+  `MulAction.stabilizer`, the action of a submonoid of matrices on `EuclideanSpace` (for which
+  `g • x = Matrix.toEuclideanLin g x` holds by definition), and the Borel structure of a subtype of
+  matrices, which makes both groups Borel spaces. Used in 1.1, 1.2 and 6.1.
 - `MvPolynomial.pderiv`, `MvPolynomial.weightedHomogeneousSubmodule`, `ascPochhammer`. Used in
   Layers 3 and 6.
 - `Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.U` and the Gamma function. Used in 3.1, 3.4
@@ -1047,7 +1081,7 @@ its owner and section.
 
 ### From SpecialFunctionsGroupModels
 
-- §0.3: `SO(n)` and its action (`SOn`, `rotE`, `rotE_mul`, `rotE_one`), copied verbatim.
+- §0.3: `SO(n)` (`SOn`), copied verbatim; its rotation map agrees with Mathlib's action.
 - §5.1: `IsBiInvariant`, `conv`, `IsGelfandPair` and Gel'fand's criterion, for 1.3 and 6.1.
 - §5.2: `IsSphericalFunction`, for 4.4 and 6.5.
 - §5.3: the spherical function of a representation with a fixed vector, and multiplicity one, for
@@ -1064,7 +1098,8 @@ The following material lies outside this roadmap. It is recorded only to fix the
 Contributors should not attempt it under this roadmap.
 
 - **Koornwinder's addition formula for disk polynomials** (Vilenkin–Klimyk §11.4.5 (28), p. 345,
-  with erratum E11.4.10 of the project's errata file) and the product formula of disk
+  whose printed coefficient is incorrect; the correct one follows by rewriting §11.4.2 (4) with
+  `x = sin θ₁`, `y = sin θ₂`, `r = cos φ`) and the product formula of disk
   polynomials; they need the branching of `U(n) ↓ U(n - 1)` in full, not only its dimension.
 - **Spherical harmonics on hyperboloids** and the representations of `SO₀(n - 1, 1)` and
   `U(n - 1, 1)` of class one (Vilenkin–Klimyk §§9.2.9–9.2.10 and Chapter 10); Gegenbauer and
@@ -1077,20 +1112,21 @@ Contributors should not attempt it under this roadmap.
 
 ## Prior formalization
 
-[lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap,
-proves the following targets without `sorry`, against Tau Ceti and the lean-DLMF Gegenbauer,
-Legendre and Jacobi polynomials. Its definitions are in `SFVK/Spheres/Basic/Sphere.lean`,
-`SFVK/Spheres/Basic/Zonal.lean` and `SFVK/Spheres/Basic/Disk.lean`. It writes the action of the
-matrix groups through its own rotation maps, names the groups and stabilizers in its own way, and
-states the Gel'fand pairs with its own predicate; otherwise it uses the names of this roadmap. The
-roadmap reuses its conventions and names; its modules are a cited source, not the specification.
+[lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap, at
+commit `2a512fe` proves the following targets without `sorry`, against Tau Ceti and the lean-DLMF
+Gegenbauer, Legendre and Jacobi polynomials. Its definitions are in
+`SFVK/Spheres/Basic/Sphere.lean`, `SFVK/Spheres/Basic/Zonal.lean` and
+`SFVK/Spheres/Basic/Disk.lean`. It writes the action of the matrix groups through its own rotation
+maps, names the groups and stabilizers in its own way, and states the Gel'fand pairs with its own
+predicate; otherwise it uses the names of this roadmap. The roadmap reuses its conventions and
+names; its modules are a cited source, not the specification.
 
 - §§1.1–1.3: `exists_smul_eq`, `exists_mul_mul_eq_iff_inner`, the closedness of `K_η`,
   `integral_smul_sphereMeasure`, `integral_haarProb_smul`, `integral_inner_sphereMeasure` and
   `isGelfandPair_SOn` (`SFVK/Spheres/SphereMeasure.lean`).
 - §2.1 and Layer 3: `finrank_harmonicSubmodule_mul`, `zonalPolynomial_comp_neg`,
   `natDegree_zonalPolynomial`, `zonalPolynomial_two`, `zonalPolynomial_three`,
-  `zonalPolynomial_four`, the Gegenbauer form in lean-DLMF's normalization,
+  `zonalPolynomial_four`, the Gegenbauer form for `n ≥ 3` in lean-DLMF's normalization,
   `derivative_zonalPolynomial`, `zonalPolynomial_ode`, `zonalHarmonic_mem_harmonicSubmodule`,
   `eval_zonalHarmonic`, `eval_smul_zonalHarmonic` and `zonalPolynomial_eval_cos_eq_integral`
   (`SFVK/Spheres/Zonal.lean`), and `zonalPolynomial_eval_one`
@@ -1122,7 +1158,6 @@ roadmap reuses its conventions and names; its modules are a cited source, not th
   normalizations, the generating function), cited through LaguerreJacobi and
   SpecialFunctionsBessel.
 
-The project's errata files record the misprints of [Vilenkin–Klimyk] and [Wawrzyńczyk] corrected
-wherever the README uses those formulas: E09.2.01 (§9.2.3, p. 30), E09.4.01 (§9.4.3 (2), p. 71),
-E10.2.01 (§10.2.1, p. 173) and E11.4.10 (§11.4.5 (28), p. 345) of Vilenkin–Klimyk, and
-W84-E09.3.01 (p. 331), W84-E09.4.01 ((9.4.5), p. 334) and W84-E09.5.01 (p. 337) of Wawrzyńczyk.
+The misprints of Vilenkin–Klimyk and Wawrzyńczyk that bear on the formulas used here are corrected
+where they are cited, each with its printed and its corrected form (2.1, 2.3, 3.2, 3.4, 4.4, 4.5,
+6.3 and Beyond).
