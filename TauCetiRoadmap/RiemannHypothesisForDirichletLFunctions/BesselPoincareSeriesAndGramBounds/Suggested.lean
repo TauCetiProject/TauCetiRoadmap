@@ -28,7 +28,8 @@ Hermitian space over a number field with its adelic points.
   transform under `S`, `S′` by finite-dimensional unitary representations, are fixed by the
   projector of `σ`, and are integrable and of norm one on `S\G` and `S′\G`, the orbital integrals
   `O(γ) = ∫ W(x) ⊗ conj W′(γ⁻¹x) dx` satisfy `∫_{S\G/S′} ‖O(γ)‖²_HS dγ ≤ 1/d`, when they converge
-  absolutely almost everywhere and almost every orbit has a compact stabiliser. It lacks square
+  absolutely and the three integrability conditions of 5.15a hold, for a measurable
+  parametrisation of the double cosets that disintegrates Haar measure. It lacks square
   integrability and the formal degree of a unitary representation, the integrated action `R(f)`
   of `L¹(G)` for a non-commutative `G` (Tau Ceti integrates strongly continuous representations of
   additive monoids only), and the quotient measures on `S\G` and on `S\G/S′`.
@@ -36,18 +37,19 @@ Hermitian space over a number field with its adelic points.
   over a CM extension `E/F` with a self-dual lattice and one signature `(p_V, q_V)` at every real
   place, `q_V² ≤ n`, `log rd_E ≤ e^n`, `log f ≤ √n`, a discrete series `π_∞` of `U(V)(F_∞)` with
   parameters of size at most `b²` and gap at least `C·n^19·f^5·log(b·rd_E)`, and an admissible
-  idempotent `ϕ` of level at most `b^(C_ϕ)` supported on elements unipotent modulo an integer
-  `g′ > 3n` with `g′𝒪_E` radical, the multiplicity of `π_∞` at level `ϕ` differs from
+  idempotent `ϕ` of level at most `b^(C_ϕ)` supported on elements unipotent modulo a prime
+  `g′ > 4n` that splits completely in `E`, the multiplicity of `π_∞` at level `ϕ` differs from
   `∏_τ d(π_τ)·vol([U(V)])·ϕ(1)` by at most `exp(−c·nf log n)` times that number. It lacks, besides
   these, the unitary group of a Hermitian space over `E` as a group over `F` with its adelic
   points and the volume of `U(V)(F)\U(V)(𝔸)`, the discrete series of `U(p, q)`, the space of
   cusp forms on `U(V)(F)\U(V)(𝔸)` with the right regular representation, and the rank of
   `R(e_{π_∞} ⊗ ϕ)` on it.
-* The Gram bounds (5.20, 5.21): for `E/F` unramified at every finite place, under the standing
-  conditions (St) of 5.20a with `m ≥ C_m`, the hypotheses of 5.20b (among them `r_S ≥ 1`,
-  `g₀ ≠ g₁`, and level primes `T(u), T(u′) ≥ 3` that split completely in `E`, are prime to `g₀g₁`
-  and are congruent modulo `g₀g₁`), the remaining hypotheses of 5.20 and the rank window for both
-  words, the Gram operators of the Bessel–Poincaré series of two words whose types differ by
+* The Gram bounds (5.20, 5.21): for the data of the chain at a large scale `x`, with `E/F`
+  unramified at every finite place, under the standing conditions (St) of 5.20a with `m ≥ C_m`,
+  the hypotheses of 5.20b (among them `r_S ≥ 1`, `g₀ ≠ g₁`, and level primes `T(u), T(u′) ≥ 3`
+  that split completely in `E`, are prime to `g₀g₁` and are congruent modulo `(g₀g₁)²`), the
+  remaining hypotheses of 5.20 and the rank window for both words, the Gram operators of the
+  Bessel–Poincaré series of two words whose types differ by
   exactly `Δ_w` at one letter at every real place have squared Hilbert–Schmidt norm at most
   `(1 + η_off)·d_u^all·d_u′^all/D*` with `η_off ≤ b^(−6)`; and for one word, under the hypotheses of
   5.21, `‖K(u, u) − 1‖²_HS ≤ e_diag·d_u^all`, so that the series is nonzero on the forms new at the

@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap builds the analysis that makes the Bessel–Poincaré series of a chain of theta lifts nearly orthogonal. It works on the unitary group `U(Y_0)` of a Hermitian space over a CM extension `E/F`, of signature `(k + r_S, r_S + 1)` at every real place, with its forms of the row type level at two type primes `g₀, g₁`. At a real place it studies Bessel models of discrete series of `U(p, q_S)`: Bessel integrals of matrix coefficients and their pairing, bounded Bessel maps and the rank-one Bessel form that detects them, their existence for gapped discrete series in the interlacing pattern, and the Bessel function `W_u` of a word `u` with an explicit decay. Globally it averages `W_u` against algebraic modular forms on the definite group `U(X_0)` into a Bessel–Poincaré series `P_u`, unfolds the normalised Gram operators `K(u, u′)` of these series into sums over pairs of lattices, and bounds them.
 
-The headline theorems are these. (1) *Relative Schur orthogonality* (5.15a): let `σ` be an irreducible square-integrable unitary representation of formal degree `d` of a unimodular second-countable locally compact group `𝐆`, `S, S′` closed unimodular amenable subgroups, and `W, W′` continuous functions on `𝐆`, fixed by the projector `R(e_σ)`, transforming on the left under `S`, `S′` by finite-dimensional unitary representations, integrable and of norm one in `L²` on `S\𝐆` and `S′\𝐆`; if the orbital integrals `O(γ) = ∫_𝐆 W(x) ⊗ conj W′(γ^{−1}x) dx` converge absolutely for almost every `γ` and almost every `S × S′`-orbit has compact stabiliser, then `∫_{S\𝐆/S′} ‖O(γ)‖²_HS dγ ≤ 1/d`. (2) *Limit multiplicity with a uniform error* (5.16): for every `C_ϕ ≥ 0` there are `n₀`, `C`, `c > 0` such that for a Hermitian space `V` of dimension `n ≥ n₀` over a CM extension `E/F`, with a self-dual lattice and one signature `(p_V, q_V)` at every real place, `q_V² ≤ n`, `log rd_E ≤ e^n`, `log f ≤ √n`, every `b ≥ 2` with `log log b ≤ c·nf log n`, every discrete series `π_∞` of `U(V)(F_∞)` with parameters of size at most `b²` whose entries of different signs differ by at least `C·n^{19}f⁵·log(b·rd_E)`, and every admissible idempotent `ϕ` of level at most `b^{C_ϕ}` supported on elements unipotent modulo an integer `g′ > 3n` with `g′𝒪_E` radical, the multiplicity `m(π_∞, ϕ)` differs from `D*(π_∞, ϕ) = ∏_τ d(π_τ)·vol([U(V)])·ϕ(1)` by at most `exp(−c·nf log n)·D*(π_∞, ϕ)`. (3) *The Gram bounds* (5.20, 5.21): let `E/F` be unramified at every finite place, let the standing size conditions (St) of 5.20a hold with `m ≥ C_m`, let `r_S ≥ 1` and `g₀ ≠ g₁`, let the level primes `T(u)`, `T(u′)` be primes `≥ 3` that split completely in `E`, are prime to `g₀g₁` and are congruent modulo `g₀g₁`, let the remaining hypotheses of 5.20b and 5.20 hold, and let the rank window `C₀^{−1} ≤ d_w^{all}Γ₀²/D* ≤ C₀` hold for `w = u` and `w = u′`. If the types of two words `u ≠ u′` differ by exactly `Δ_w` at one letter at every real place, then `‖K(u, u′)‖²_HS ≤ (1 + η_off)·d_u^{all}d_{u′}^{all}/D*` with `η_off ≤ b^{−6}`; and for one word, under the hypotheses of 5.21 (those of 5.20b for the pair `(u, u)` and two further size conditions), `‖K(u, u) − 1‖²_HS ≤ e_diag·d_u^{all}`, so that `P_u` is nonzero on the forms that are new at the level prime `T(u)` as soon as `e_diag < ((T(u) − 2)/(T(u) − 1))^f`.
+The headline theorems are these. (1) *Relative Schur orthogonality* (5.15a): let `σ` be an irreducible square-integrable unitary representation of formal degree `d` of a unimodular second-countable locally compact group `𝐆`, `S, S′` closed unimodular amenable subgroups, and `W, W′` continuous functions on `𝐆`, fixed by the projector `R(e_σ)`, transforming on the left under `S`, `S′` by finite-dimensional unitary representations, integrable and of norm one in `L²` on `S\𝐆` and `S′\𝐆`; if the orbital integrals `O(γ) = ∫_𝐆 W(x) ⊗ conj W′(γ^{−1}x) dx` and the three integrals of 5.15a that majorise the coefficient of `σ` along `S`, `S′` and `S × S′` converge, then `∫_{S\𝐆/S′} ‖O(γ)‖²_HS dγ ≤ 1/d`. (2) *Limit multiplicity with a uniform error* (5.16): for every `C_ϕ ≥ 0` there are `n₀`, `C`, `c > 0` such that for a Hermitian space `V` of dimension `n ≥ n₀` over a CM extension `E/F`, with a self-dual lattice and one signature `(p_V, q_V)` at every real place, `q_V² ≤ n`, `log rd_E ≤ e^n`, `log f ≤ √n`, every `b ≥ 2` with `log log b ≤ c·nf log n`, every discrete series `π_∞` of `U(V)(F_∞)` with parameters of size at most `b²` whose entries of different signs differ by at least `C·n^{19}f⁵·log(b·rd_E)`, and every admissible idempotent `ϕ` of level at most `b^{C_ϕ}` supported on elements unipotent modulo a prime `g′ > 4n` splitting completely in `E`, the multiplicity `m(π_∞, ϕ)` differs from `D*(π_∞, ϕ) = ∏_τ d(π_τ)·vol([U(V)])·ϕ(1)` by at most `exp(−c·nf log n)·D*(π_∞, ϕ)`. (3) *The Gram bounds* (5.20, 5.21): for the data of the chain at a scale `x ≥ x₀`, let `E/F` be unramified at every finite place, let the standing size conditions (St) of 5.20a hold with `m ≥ C_m`, let `r_S ≥ 1` and `g₀ ≠ g₁`, let the level primes `T(u)`, `T(u′)` be primes `≥ 3` that split completely in `E`, are prime to `g₀g₁` and are congruent modulo `(g₀g₁)²`, let the remaining hypotheses of 5.20b and 5.20 hold, and let the rank window `C₀^{−1} ≤ d_w^{all}Γ₀²/D* ≤ C₀` hold for `w = u` and `w = u′`. If the types of two words `u ≠ u′` differ by exactly `Δ_w` at one letter at every real place, then `‖K(u, u′)‖²_HS ≤ (1 + η_off)·d_u^{all}d_{u′}^{all}/D*` with `η_off ≤ b^{−6}`; and for one word, under the hypotheses of 5.21 (those of 5.20b for the pair `(u, u)` and two further size conditions), `‖K(u, u) − 1‖²_HS ≤ e_diag·d_u^{all}`, so that `P_u` is nonzero on the forms that are new at the level prime `T(u)` as soon as `e_diag < ((T(u) − 2)/(T(u) − 1))^f`.
 
 The roadmap takes the data of the chain (words, types, type and level primes, levels) from [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) and the row spaces from [RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md); Hermitian lattices, masses and Siegel's theorem from [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md); the coefficients of gapped discrete series and their tensor products from [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md); Laplace's method and stationary phase from [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md); quantum minors from [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md); and Gelfand–Graev theory from [FiniteReductiveGroups](../FiniteReductiveGroups/README.md). It is a sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md).
 
@@ -38,7 +38,7 @@ Notation and conventions not restated here are those of HermitianFormsAndLattice
 | `x, ε, b, a, X′, b′, w″, X″` | scale, exponent, `e^{x^ε}`, `x·b`, `e^{x^{ε/3}}`, `a/X′`, `b′/(x\|A\|)`, `x\|A\|X′` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `ϑ, B₀, N_c, Γ₀, H` | thick-weight width, the two budgets `B₀ = fmbx^ε`, `N_c = \|𝒯\|kbx^{2ε}/\|A\|²`, redundancy factor, slope range `x^{c_H}b` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `Size(x, ε)` | conjunction of the host predicates `SizeA, SizeN, SizeD, SizeRd, SizeQD, SizeInert, SizeDep` and the parameter predicates `SizeM, SizeK, SizeW, SizeMf, SizeT, SizeTheta` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
-| `SizeQD, SizeInert` | `log q ≥ x^{ε/(6J)}` and `log d ≥ x^{19ε/(100J)}`; inert-free up to `max(12, x^{ε/(5J)})` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
+| `SizeQD, SizeInert` | `x^{ε/(6J)} ≤ log q`, `x^{19ε/(100J)} ≤ log q, log d ≤ x^{ε/5+ε/100}` and `\|(L′/L)(1, χ_K)\| ≤ x^ε`; inert-free up to `max(12, x^{ε/(5J)})` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `SizeSc, SizeGap, SizeSep, SizeG, SizeT_u` | size predicates of the words, the gaps, the separation, the type primes and the level primes | ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8 |
 | `C_t, C_W, C_Γ, A_max, C_dep` | constants fixed before `ε`: of `SizeT`, of `SizeW`, of `Γ₀`, the bound of the layer exponent, the constant of `SizeDep` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `J` | the window constant, a number that may depend on `ε`, chosen after `ε` and before the scale | Conventions, ThetaChainsOnDefiniteUnitaryGroups §2.1 |
@@ -219,7 +219,9 @@ and KAK decompositions"; VonNeumannAlgebras Layer 9 (Schur orthogonality for squ
 ### 5.13d Nonvanishing of Bessel maps and transfer coefficients
 
 In the setting of 5.13a, with the Bessel map `l` of 5.13c (d):
-(e) *Nonvanishing.* `l ≠ 0`. Equivalently, for every nonzero lowest-`K`-type vector `w` the function `x ↦ l(D(x)w)` is not
+(e) *Nonvanishing.* `l ≠ 0`. The argument of this layer proves it when the gap `h` of 5.13a satisfies
+`h > max(3 + r·p·q_S, 16r·q_S + 8√(2q_S) + 2, 8√(2q_S)(4·max(2r·q_S, 2(q_S − 1)r²) + 1))`; (G) for `h/4` implies this.
+Equivalently, for every nonzero lowest-`K`-type vector `w` the function `x ↦ l(D(x)w)` is not
 identically zero, i.e. `be(D(x)w, D(x′)w) ≠ 0` for some `x, x′`. (For `r_S ≥ 1` the restriction of `l` to the lowest `K`-type
 has a kernel, and `x ↦ be(D(x)w, w)` vanishes identically for `w` in it.)
 (g) *Transfer coefficients.* Assume in addition that consecutive entries of `hc` differ by at least `2` and that (G) holds
@@ -265,7 +267,8 @@ when `l ≠ 0` and no `u_j` equals `hc_s − ½` (resp. `hc_s + ½`); this route
 through interlacing parameters keeping the gap reaches `hc` from the ray by unit steps (half-integrality); a step from `hc` to
 `hc ∓ e_s` is admissible when no `u_j` equals `hc_s ∓ ½`. Interlacing does not exclude these values (`u_{s+1} = hc_s − ½` is
 allowed by strict interlacing, and a zero bit of ThetaChainsOnDefiniteUnitaryGroups §2.3 gives such an adjacent pair), so the walk must avoid the blocked
-steps; that an admissible walk from the ray exists for every parameter with (G) is not proved here, and (e) rests on
+steps; for a gap above the threshold of the statement an admissible walk from the ray exists; its construction is not
+given here. Below that threshold (e) rests on
 GanGrossPrasadUnitaryGroups §3.9 with the step above. (g) The equivariance of `l` under `N_S` and `U_{z′}`,
 differentiated, gives the two laws of a functional of Whittaker type in a frame adapted to `z′`; the component of a
 vector in the `s`-th constituent is a column of the Capelli comatrix (TensorInductionAndFiniteGroupInputs §9.1 (d)) at the root `(r − 1)/2 − hc_s`, divided by
@@ -461,19 +464,25 @@ Let `𝐆` be a unimodular second-countable locally compact group, `σ` an irred
 square-integrable unitary representation of formal degree `d`, `w` a unit vector and `e_σ = d·conj⟨w, σ(·)w⟩`; `S, S′ ⊂ 𝐆` closed
 unimodular amenable subgroups with Følner sequences; `(κ, V)`, `(κ′, V′)` finite-dimensional unitary representations of `S`, `S′`;
 and `W : 𝐆 → V`, `W′ : 𝐆 → V′` continuous, with `W(sx) = κ(s)W(x)`, `W′(s′x) = κ′(s′)W′(x)`, `R(e_σ)W = W`, `R(e_σ)W′ = W′` (`R` the integrated right action of 5.13 (f)),
-`∫_{S\𝐆}‖W‖ < ∞`, `∫_{S′\𝐆}‖W′‖ < ∞` and `∫_{S\𝐆}‖W‖² = ∫_{S′\𝐆}‖W′‖² = 1`. Assume that for almost every `γ` the integral
-`O(γ) := ∫_𝐆 W(x) ⊗ conj W′(γ^{−1}x) dx ∈ V ⊗ V̄′` converges absolutely, that almost every `S × S′`-orbit in `𝐆` has compact
-stabiliser, and let `dγ` be the measure on `S\𝐆/S′` with `∫_𝐆 φ = ∫_{S\𝐆/S′}∫_S∫_{S′}φ(sγs′) ds ds′ dγ` (with compact stabilisers this
-defines `dγ`, the volume of the stabiliser of the orbit being absorbed into it). Then
-`∫_{S\𝐆/S′}‖O(γ)‖²_HS dγ ≤ 1/d`.
+`∫_{S\𝐆}‖W‖ < ∞`, `∫_{S′\𝐆}‖W′‖ < ∞` and `∫_{S\𝐆}‖W‖² = ∫_{S′\𝐆}‖W′‖² = 1`. Let `(C, m)` be a measure space and `h : C → 𝐆`
+a measurable map with `∫_𝐆 φ = ∫_C∫_S∫_{S′}φ(s·h(c)·s′^{−1}) ds′ ds dm(c)` for every measurable `φ ≥ 0` (a parametrisation of
+almost all double cosets; `dγ` denotes the image of `m`). Assume that for every `c ∈ C`, with `γ = h(c)`: (i) the integral
+`O(γ) := ∫_𝐆 W(x) ⊗ conj W′(γ^{−1}x) dx ∈ V ⊗ V̄′` converges absolutely; (ii)
+`∫_{S\𝐆}∫_{S′\𝐆}∫_S∫_{S′}|⟨σ(z)w, σ(sγs′^{−1})σ(z′)w⟩|·‖W(z)‖·‖W′(z′)‖ ds′ ds dz′ dz < ∞`; and that (iii)
+`∫_{S\𝐆}∫_{S\𝐆}∫_S|⟨σ(z)w, σ(s)σ(z′)w⟩|·‖W(z)‖·‖W(z′)‖ ds dz′ dz < ∞`, and the same with `(S′, W′)` in place of `(S, W)`.
+Then `∫_C‖O(h(c))‖²_HS dm(c) ≤ 1/d`. (When almost every `S × S′`-orbit in `𝐆` has compact stabiliser such a parametrisation
+exists, the volume of the stabiliser of the orbit being absorbed into `dγ`; this remark is this roadmap's own, not on the path
+of [FormalProof], and nothing uses it.)
 
 *Chain instance and the equality for coefficients.* For `𝐆 = G_τ = U(Y_0)(F_τ)`, `σ = 𝒟_τ`, `S = S_u`, `S′ = S_{u′}`, `W = W_{u,τ}`,
 `W′ = W_{u′,τ}` (5.13), with `O(γ) = ∫_{U(Y_0)(F_∞)} W_u(x) ⊗ conj W_{u′}(γ^{−1}x) dx`:
-`∫_{S_u\U(Y_0)(F_∞)/S_{u′}} ‖O(γ)‖²_HS dγ ≤ 1/∏_τ d(𝒟_τ)`, the quotient measure being that of 5.13a (a). (The stabiliser of a regular
+`∫_{S_u\U(Y_0)(F_∞)/S_{u′}} ‖O(γ)‖²_HS dγ ≤ 1/∏_τ d(𝒟_τ)`, the quotient measure being that of 5.13a (a); the parametrisation is
+the big cell of 5.13a (a), and (i)–(iii) hold by 5.13c (d) and 5.13 (f). (The stabiliser of a regular
 point is not trivial but compact: it contains the unitary group of the positive definite orthogonal complement of the span
 of the two frames, of dimension `(k − 1)²`; the dimension count `dim G_τ = 2·dim S_u + 2(r_S + 1) − (k − 1)²` of the disintegration
 of 5.13a (a), with `dim S_u = r_S(2r_S + 2k + 1) + k²`, makes it the identity component, and a real algebraic group has finitely
-many components. For `r_S = 0` two independent negative vectors of `U(k, 1)` have joint stabiliser `U(k − 1)`.) If the gap of `𝒟_τ`
+many components. For `r_S = 0` two independent negative vectors of `U(k, 1)` have joint stabiliser `U(k − 1)`. This remark is this
+roadmap's own, not on the path of [FormalProof].) If the gap of `𝒟_τ`
 satisfies (G) of 5.13a, there is equality for coefficients in the following form: if `F = Σ_i⟨x_i, 𝒟_τ(·)y_i⟩X_i` with `x_i, y_i`
 in the span of the translates of `K`-finite vectors and `s(F) = Σ_i⟨l(x_i), X_i l′(y_i)⟩`, then `β(F, F) = c·|s(F)|²/d(𝒟_τ)`,
 with `c` depending only on the normalisation of the measures. Moreover the Bessel integral of such an `F` converges
@@ -481,8 +490,7 @@ absolutely at every regular point and equals `s(F)` times a function `𝔅_{𝒟
 
 *Route.* Truncate the distribution vectors of `W, W′` along Følner sets of `S`, `S′`; Schur orthogonality on `𝐆` for the
 truncated vectors gives the inequality with `1/d` for the truncations; pass to the limit by Fatou's lemma and the
-disintegration of Haar measure (the only use of the stabilisers: with compact stabilisers the disintegration holds with
-`dγ` as defined, and the truncation argument is unchanged). In the chain instance `S_u = N_S ⋊ U(k)` is amenable, and the integrability hypotheses come
+disintegration of Haar measure (the hypothesis on `h`). In the chain instance `S_u = N_S ⋊ U(k)` is amenable, and the integrability hypotheses come
 from 5.13c (d) and 5.13 (f). The equality for coefficients: `β = β^∞` (5.13b (b)); for integrable coefficients `β^∞` is the
 absolutely convergent integral of `𝒫` against the two characters, then Schur orthogonality on `G_τ` and the rank-one form of
 the Bessel forms (5.13c (d)); the convergence of `𝒥` on such coefficients and the norm formula are where (G) is used. The last
@@ -500,7 +508,7 @@ Fatou's lemma).
 
 ### 5.16 Limit multiplicity with a uniform error
 
-For every `C_ϕ ≥ 0` there are `n₀` and `C, c > 0` with the following property. Let
+For every `C_ϕ ≥ 0` there is `n₀` with the following property, with `c = 1/16` and `C = 8·10¹⁴(C_ϕ + 4)`. Let
 `E/F` be a CM extension, `f = [F:ℚ]`, `V` a nondegenerate Hermitian space over `E` of dimension `n ≥ n₀` with a self-dual
 lattice `L`, of the same signature `(p_V, q_V)` at every real place with `q_V² ≤ n`, and `log rd_E ≤ e^n`, `log f ≤ √n`. Let
 `b ≥ 2` with `log log b ≤ c·nf log n`, `π_∞ = ⊗_τ π_τ` a discrete series of `U(V)(F_∞)` with Harish-Chandra parameters of
@@ -508,14 +516,14 @@ size `≤ b²` whose entries of different signs differ by at least `C·n^{19}f^5
 `e_{π_∞} = ∏_τ d(π_τ)conj⟨w_τ, π_τ(·)w_τ⟩` on lowest-`K`-type unit vectors, and `ϕ` an *admissible idempotent* on
 `U(V)(𝔸_f)`: locally constant, `ϕ ∗ ϕ = ϕ`, `ϕ(x^{−1}) = conj ϕ(x)`, of positive type, supported in the stabiliser of `L`,
 bi-invariant under its principal congruence subgroup of some level `g_ϕ ≤ b^{C_ϕ}`, and supported on elements unipotent
-modulo an integer `g′ > 3n` (unipotent on `L/g′L`) such that `g′𝒪_E` is a radical ideal (for a prime `g′`: unramified in `E`). Then
+modulo a prime `g′ > 4n` that splits completely in `E` (unipotent on `L/g′L`: `(x − 1)^n L ⊂ g′L`). Then
 `m(π_∞, ϕ) := rank R(e_{π_∞} ⊗ ϕ)` is finite and
 
 `|m(π_∞, ϕ) − D*(π_∞, ϕ)| ≤ exp(−c·nf log n)·D*(π_∞, ϕ)`,  `D*(π_∞, ϕ) = ∏_τ d(π_τ)·vol([U(V)])·ϕ(1)`.
 
 *Chain instance.* Let `V = Y_0` (`n = r`, `q_V = r_S + 1`), `π_∞ = ⊗𝒟_τ` and `ϕ = 𝟙_{K₂,χ₂}` (supported on elements unipotent
 modulo `g′ = g₀`, which splits completely in `E`), and assume `r ≥ n₀`, `(r_S + 1)² ≤ r`, `log rd_E ≤ e^r`, `log f ≤ √r`,
-`log log b ≤ c·rf log r`, `g₀g₁ ≤ b^{C_ϕ}`, `g₀ > 3r`, (W6) of ThetaChainsOnDefiniteUnitaryGroups §2.3, and (W5) with `h_gap ≥ C·r^{19}f^5·log(b·rd_E)`. Then
+`log log b ≤ c·rf log r`, `g₀g₁ ≤ b^{C_ϕ}`, `g₀ > 4r`, (W6) of ThetaChainsOnDefiniteUnitaryGroups §2.3, and (W5) with `h_gap ≥ C·r^{19}f^5·log(b·rd_E)`. Then
 `|D_all − D*| ≤ ε_C·D*` with `ε_C = exp(−c·rf log r)`.
 
 *Route.* (a) `R(e_{π_∞} ⊗ ϕ)` is a projection onto cusp forms (RowTowerAndRallisIdentities §5.3), so `m(π_∞, ϕ) = ∫_𝔉 Σ_{γ∈U(V)(F)} (e_{π_∞} ⊗ ϕ)(x^{−1}γx) dx`
@@ -536,7 +544,9 @@ unipotent:* if `x^{−1}γx` lies in the support and within Cartan distance `c·
 subgroup at every real place, then `|tr(γ^j) − n| ≤ 3n` at every embedding and `tr(γ^j) ≡ n (mod g′𝒪_E)` (the reduction
 modulo `g′` is to a reduced ring, which is where radicality is used; no other step uses `g′`), so `tr(γ^j) = n` for
 `j ≤ n` (an element of `g′𝒪_E` all of whose conjugates have absolute value `≤ 3n < g′` is `0`) and `γ` is unipotent
-(Newton's identities); if `least(x) ≥ ½` the only near element is `1`; at a point whose canonical flag has graded pieces
+(Newton's identities); the argument uses of `g′` only that `g′𝒪_E` is radical and `g′ > 3n`; the statement is made for a
+prime `g′ > 4n` splitting completely, which is what the chain supplies;
+if `least(x) ≥ ½` the only near element is `1`; at a point whose canonical flag has graded pieces
 with size ratios `λ`, the near elements lie in the unipotent radical of the stabiliser of the canonical flag (a near element
 maps the step of sizes `≤ t` into the step of smaller sizes) and are counted block by block: between the graded pieces
 `p > q` the differences form a lattice of least size `≥ t_q/t_p`, so the block contributes at most `(1 + 4δt_p/t_q)^{dim}`;
@@ -725,7 +735,8 @@ representatives modulo `gΛ`, and the character is `χ_N`: this is where the row
 block of size `s` at position `a` is sent to `δ_𝔭^{−ν}t` up to a `𝔭`-unit, `ν = 2r_S + 3 − 2a − s` (with the sign `(−1)^s` in
 the second coordinate and the factor `g_i^{−1}` at `𝔭 | g_i`), and at `𝔭 | g_i` the last pivot of a top block of size one is
 shifted by `(−T(u), T(u′))/g_i`. Assume: `T(u), T(u′)` primes `≥ 3` splitting completely in `E`, prime to `g₀g₁`, with
-`T(u) ≡ T(u′) (mod g₀g₁)` (ThetaChainsOnDefiniteUnitaryGroups §2.8 gives it); `g₀, g₁` split completely in `E`. *Kernels.* `Kr_i` (on the points of level `i`,
+`T(u) ≡ T(u′) (mod (g₀g₁)²)` (ThetaChainsOnDefiniteUnitaryGroups §2.8 gives it: `T(u) ≡ 1 (mod f_E(g₀g₁)²)`);
+`g₀, g₁` split completely in `E`. *Kernels.* `Kr_i` (on the points of level `i`,
 the Bruhat data of the first `i` columns of the pairing matrix) is the product over `𝔭` of the kernels of 5.17b at these local points, divided by `φ_i(x)φ_i(y)`,
 `φ_i = ∏_{blocks}(g^{−2f}rd_E^{−2fν}|N_{E/ℚ}t|)^{s(i−a−s+1) + s(s−1)/2}`; at level `r_S + 1` it is set to `0` unless the two points
 have the same ratio `D_{r_S+1}/D_{r_S}` of leading minors. The kernels are positive semidefinite, almost all local factors
@@ -778,7 +789,8 @@ the coefficient vectors
 of the pairing matrix of a representative of `t` congruent to `F` modulo `g`, with `L` lower and `U` upper unitriangular over `E`,
 and `v(t) > 0` is the volume of the term relative to its point: the orbital operator of `t` is `v(t)` times the orbital operator at
 the point for the reference measure of 5.13a (a); `φ(t)` does not depend on the choices, `v(t)` is well defined, and `v(t) = 1`
-when all blocks of `x` have size one), `d_sup·Kr_{r_S+1} − Σ_ρc_ρ ⊗ conj c_ρ` is positive semidefinite on finite sets. All of this is
+when all blocks of `x` have size one), for `u ≠ u′`, `g₀, g₁ ≥ 3` and `2r_S + 7 + f ≤ k`:
+`d_sup·Kr_{r_S+1} − Σ_ρc_ρ ⊗ conj c_ρ` is positive semidefinite on finite sets. All of this is
 at the row type level `(K₂, χ₂)`.
 
 *Route.* *One genus:*
@@ -800,7 +812,8 @@ densities by discriminant forms (HermitianFormsAndLattices §6.1d) the mass form
 form of HermitianFormsAndLattices §6.4a (c), with `t(M_{Z,𝔭}) = c_𝔭(Z)`:
 `mass(k−1)·n(M_Z)^{k−1}·∏_𝔭α_𝔭(k−1)/α_𝔭(k − 1 − c_𝔭(Z))`, `n(M_Z) = |d_F|^{−2r_S(r_S+1)}|N_{E/ℚ}(Gr(Z)/g^m)|^{1/2}`; and
 `∏_𝔭α_𝔭(k−1)/α_𝔭(r) = ∏_{i=k}^{r}L(i, η^i)`. The glue is possible because `c_𝔭(Z) ≤ m < k − 1` and `Y_0` contains a unimodular
-lattice (ThetaChainsOnDefiniteUnitaryGroups §2.2 (d)). `T(u) ≡ T(u′) (mod g₀g₁)` makes the local Gram matrix integral at the primes above `g₀g₁`, and
+lattice (ThetaChainsOnDefiniteUnitaryGroups §2.2 (d)). `T(u) ≡ T(u′) (mod g₀g₁)` makes the local Gram matrix integral at the primes above `g₀g₁` (the
+statement is made under the congruence modulo `(g₀g₁)²` of 5.17d), and
 `(g₀g₁, T(u)T(u′)) = 1` gives representatives of the terms normalised modulo `g₀g₁` (Chinese remainder theorem). No hypothesis on roots of unity is needed: for `T ≥ 3` a root of unity `ζ` with
 `ζ ≡ 1 (mod T)` is `1`, because `(ζ − 1)/T` is an algebraic integer all of whose conjugates have absolute value `≤ 2/3`. *Rows:*
 attach to each term its family `θ` of local classes of decorated cokernels and let `B_θ(x)` be the product over `𝔭` of the
@@ -1272,8 +1285,10 @@ geometric terms, proved along a flag one pivot at a time).
 ### 5.20a Standing conditions, dimension formula and critical level
 
 *Standing conditions.* *(St)* with `L = log b` and absolute constants
-`C′, C_l, C_g, C_u, c_b, C_T` (`C′`, `C_l` larger than absolute bounds, `C_l ≥ 40`): `8C_Γ ≤ C′`, `C′m⁵fL ≤ k`, `m⁴ ≤ f ≤ k` (`SizeMf`),
-`log f ≤ √r_S`, `C_l L ≤ f·log k`, `C_l m²L ≤ k`, `C_l m k Δ_w ≤ e′_j(τ)` ((W4) of ThetaChainsOnDefiniteUnitaryGroups §2.3 gives it when `C_b > 3C_Δ + 5`),
+`C′, C_l, C_g, C_u, c_b, C_T` (`C′`, `C_l` larger than bounds that depend on the other constants of (St), on `C₀` and, in
+5.20b, on `A`; `C_l ≥ 40`): `8C_Γ ≤ C′`, `C′m⁵fL ≤ k`, `m⁴ ≤ f ≤ k` (`SizeMf`),
+`log f ≤ √r_S`, `C_l L ≤ f·log k`, `C_l m²L ≤ k`, `C_l m k Δ_w ≤ e′_j(τ)` (ThetaChainsOnDefiniteUnitaryGroups §2.3b gives it for `x ≥ x₀`:
+`e′_j(τ) ≥ w_1(τ) − ϑ ≥ w″/2` by `SizeTheta`, `4kΔ_w = Sc ≤ w″/x` by its Lemma (f), and `m ≤ x^{1/2}` by `SizeM`),
 `C_l m·log(rd_E/2) ≤ k`, `C_l m³L·log rd_E ≤ k·log²k`, `log rd_E ≤ L/C_l` (`SizeRd` with its lemma, ThetaChainsOnDefiniteUnitaryGroups §2.1), `(kb)^8 ≤ g₀, g₁ ≤ b^{C_g}`
 (`SizeG`, ThetaChainsOnDefiniteUnitaryGroups §2.7), `max(k^{C_l}, b^{c_b}) ≤ e′_j(τ) ≤ b²`, `e′_{m−1}(τ) ≤ 2e′_0(τ)`, `u_1(τ) ≤ b^{C_u}` (entries numbered from `1`, 5.13a;
 ThetaChainsOnDefiniteUnitaryGroups §2.3b (f) bounds every entry of `u(τ)` by `b²`), `(kfL)^{C_l} ≤ Δ_w`, `C_l r^{19}f⁵L ≤ e′_{j+1}(τ) − e′_j(τ)`, all consecutive gaps of
@@ -1327,7 +1342,7 @@ power of `g₀g₁` up to factors `∏(1 − g_i^{−j})`; the error factor is t
 `u_1 − u_j ≤ a_eff(1 + j/k)` and `∏_{j>1}(u_1 − u_j) ≤ a_eff^{k−1}e^{k/2}`; the other differences are `u_i − u_j = (4(j − i) + b_j − b_i)Δ_w`
 with bits `b_l ∈ {0, 1}` (ThetaChainsOnDefiniteUnitaryGroups §2.3), whose product divided by `vand(v)` is at most `2^{k/4}` (a harmonic-sum estimate); the missing
 factor `∏_je′_j` costs only its `k`-th root, `≤ e^{2mL/k} ≤ 10/9` because `C_lm²L ≤ k`; this gives the constant `1/5` (the same
-computation at a top place, with `a_eff` as defined there). `a_eff ≤ e′_0b^{C_u}`: off the top places `a_eff ≤ 8kΔ_w ≤ e′_0`, at a
+computation at a top place, with `a_eff` as defined there). `a_eff ≤ e′_0b^{C_u}`: off the top places `a_eff ≤ u_1 ≤ b^{C_u}` (`v_0 ≥ 0`), at a
 top place `a_eff ≤ u_1·(−u_k) ≤ b^{C_u}e′_0`. The second form: `b^{C_u} ≤ k^{m−1}` (`C_u log b ≤ m − 1`), `e′_j ≥ k^{C_l} ≥ k⁴` for
 `j ≥ 1`, `m − 1 = 2r_S + 1`, `v_E ≥ 1` (`rd_E ≥ 2`, Minkowski's bound for a totally complex field of degree `≥ 4`) and `k ≥ 32`. (c)
 Clause by clause: `hc(τ)` is strictly decreasing by the gaps and integral because `k` is even (`(r − 1)/2 = r_S + k/2`);
@@ -1345,11 +1360,14 @@ contradiction) is not used.
 
 ### 5.20b Loops and non-scalar pairs
 
-*Lemma (loops and non-scalar pairs).* Let `u, u′` be words, equal or not. Assume (St) of 5.20a; the hypotheses of 5.17d for
-`(T(u), T(u′))` (primes `≥ 3` splitting completely in `E`, prime to `g₀g₁`, congruent modulo `g₀g₁`); `r_S ≥ 1`; `g₀ ≠ g₁`; `T(u)/T(u′)`
+*Lemma (loops and non-scalar pairs).* Let `A ≥ 1` be a constant fixed with the constants of the chain (it may depend on `C₀`;
+it does not depend on `x`, `k` or the words). There is `ε₁ > 0` such that for `ε ≤ ε₁` and the data of the chain at a scale
+`x ≥ x₀` (`x₀` depending on `ε`, on `A` and on the constants of (St)), with `C′, C_l` above thresholds depending on
+`C_g, c_b, C_u, c_T, C_T, C₀` and `A`: let `u, u′` be words, equal or not, and assume (St) of 5.20a; the hypotheses of 5.17d for
+`(T(u), T(u′))` (primes `≥ 3` splitting completely in `E`, prime to `g₀g₁`, congruent modulo `(g₀g₁)²`); `r_S ≥ 1`; `g₀ ≠ g₁`; `T(u)/T(u′)`
 and `T(u′)/T(u)` at most `A`; the Vandermonde products of the two types within `A^k` of each other at every `τ`;
 `C_lm⁶ log b ≤ k log k`; `(log f)² ≤ Am² log b`; `log f ≤ Ar_S²`; `C_u log b ≤ m − 1`, `m ≥ C_m`; and the window
-`C₀^{−1} ≤ d_{u′}^{all}Γ₀²/D* ≤ C₀` for `u′`, for an absolute constant `A`. Then, in the notation of 5.17a and 5.15 (e),
+`C₀^{−1} ≤ d_w^{all}Γ₀²/D* ≤ C₀` for the words `w` of the chain. Then, in the notation of 5.17a and 5.15 (e),
 
 `γ_GG(1)·Σ|⟨𝐯_t, 𝐯_{t′}⟩| ≤ ε_L·d_u^{all}d_{u′}^{all}/D*`,  `ε_L = e^{−kf log k/3}`,
 
@@ -1448,14 +1466,15 @@ over the Gram classes the class contributes at most `C^fb^{Cm⁵f}Γ₀e^{Cm⁶f
 
 ### 5.20c Non-generic pairs
 
-Let `u, u′` be words, equal or not, with the hypotheses of 5.20b, and let `C₄` be the constant of
-5.18 (i). (a) *Global sum.* For the discrete series `𝒟_τ` themselves,
+Let `u, u′` be words, equal or not, with the hypotheses of 5.20b, and let `C₄ ≥ 0` be a constant depending on the constants
+of (St) (it comes from the bound of 5.18 (i) through 5.20a (c)). (a) *Global sum.* For the discrete series `𝒟_τ` themselves,
 `Σ_γw(γ)n(γ)N(γ)^{A(r_S+1)²}∏_τ‖O_τ(γ)‖² ≤ e^{C₄m⁵f log b}/∏_τd(𝒟_τ)`, the sum over the integral Bruhat points `γ` with `Gr ≠ 0`, where
 `w(γ) = ∏_{block ends l}∏_v(1 + |D_l(γ)|²_v)²`, `N(γ) = N(Gr(γ))∏_{block ends l}N(D_l(γ))` (the minors at the block ends, nonzero at a
 Bruhat point; a minor inside a block can vanish: for the block `[[0, t], [t, 0]]`, `D_1 = 0` and `D_2 = −t²`, and a product over all
 leading minors would make the summand `0`) and `O_τ(γ)` is the orbital integral of 5.15a. (b) *Non-generic
 pairs.* The non-generic pairs of corank one contribute, in the notation of 5.20b, at most `ε_N·d_u^{all}d_{u′}^{all}/D*`,
-`ε_N = 2^{−(k−2r_S−5)}e^{C₄m⁵f log b}`.
+`ε_N = 2^{−(k−2r_S−5)}e^{C₄m⁵f log b}`. The bound of (b) needs, of the hypotheses of 5.20b, only (St), the data of the chain
+and the conditions of 5.17d on `(T(u), T(u′), g₀, g₁)`.
 
 *Route.* (a) At one place, `(∏_l(1 + |D_l|²)^{N_l})²·n‖O(γ)‖² ≤ b^{C(m⁴+m²ΣN_l)}max(1, 1/Gr)^{Cm²}/d(𝒟_τ)` by expanding the product,
 removing each factor `D_l` or `D̄_l` by the minor expansion of 5.18 (i₁) and applying 5.18 (i) to the shifted coefficients; the
@@ -1487,15 +1506,16 @@ the half-cut `{5/2 ≤ v_l + Y ≤ Δ_w/2}` of 5.18a at that entry (of length `(
 `8C_n m⁵ f log b ≤ k` (`SizeW` of ThetaChainsOnDefiniteUnitaryGroups §2.1 gives it when `C_W ≥ 16C_n`), `g₀, g₁ ≥ (kb)^8`, the nodes of the parameters of ThetaChainsOnDefiniteUnitaryGroups §2.3 at least
 `k^{C_b}`, `Δ_w ≥ (kf log b)^{C_Δ}`, `T(u), T(u′) ≥ b^{c_T m}`, `E/F` unramified at all finite places; the hypotheses of 5.20b for
 `(u, u′)`; and the window `C₀^{−1} ≤ d_w^{all}Γ₀²/D* ≤ C₀` for `w = u` and `w = u′` (the rank window of ThetaChainsOnDefiniteUnitaryGroups §2.8 with ThetaChainsOnDefiniteUnitaryGroups §3.8,
-`d_w^{all} = ď_w^{all}`, gives it with `C₀ = 3` when `T*(w) ≥ 4f + 1`). Then
+`d_w^{all} = ď_w^{all}`, gives it with `C₀ = 3` when `T*(w) ≥ 4f + 1`); and `k ≥ k₀` and `c_Θ·C_l ≥ 16` (`k₀`, `c_Θ` below). Then
 
 `‖K(u, u′)‖²_HS ≤ (1 + η_off)·d_u^{all}d_{u′}^{all}/D*`,
 
 with `η_off = (√(P_g((1+δ_tw)e₁ + 2ε_L)) + √(P_g(ε_L + ε_N)))² − 1`, `P_g = ∏_{v|g₀g₁}(1 + 3/N v)`, `δ_tw := C(r_S + 1)(C/Θ)^f` with `C` of
 5.19 for `L = r_S` and `Θ` defined by `Θ^{−f} =` the largest, over the block starts and sizes, of the products over the real places
 of the scales of 5.18c multiplied by the covolumes of the lattices of pivots; `Θ ≥ k^{c_Θ}` with `c_Θ := ½·min((C_Δ − 4)/2, (c_T·C_b − 1)/4)`
-for `k ≥ k₀(C_Δ, c_T, C_b)` and the constants of 5.19, and `r_S(C/Θ)^f ≤ 1`, `δ_tw ≤ b^{−7}` when `c_Θ·C_l ≥ 16`; `e₁ = max(d_sup, 1)` (5.17d), `ε_L` of 5.20b and `ε_N` of 5.20c; under the hypotheses
-`η_off ≤ b^{−6}` for `m ≥ C_m`, `C_m` depending on `C_g` and on the margin `8C_n log 2 − C₄ > 0`. The operator `K(u, u′)` maps columns of
+for `k ≥ k₀`, `k₀` depending on `C_Δ, c_T, C_b`, `C₀`, `C_Γ` and the constants of 5.19, and `r_S(C/Θ)^f ≤ 1`, `δ_tw ≤ b^{−7}`;
+`e₁ = max(d_sup, 1)` (5.17d), `ε_L` of 5.20b and `ε_N` of 5.20c; under the hypotheses
+`η_off ≤ b^{−6}` for `m ≥ C_m` and `x ≥ x₀`, `C_m` depending on `C_g` and on the margin `8C_n log 2 − C₄ > 0`. The operator `K(u, u′)` maps columns of
 level `K_{u′}` to columns of level `K_u`; the counts are of terms of the row type level `(K₂, χ₂)`, and `D*` is formed with `K₂`.
 
 *Route.* By 5.15 (b) the identity and degenerate terms contribute `0`, so `K = P_gen + P_ng`. 5.17a bounds `‖P_𝒮‖²` by `P_g` times a
@@ -1532,8 +1552,9 @@ the Haar measure of `N_S(𝔸)` is the one with `vol([N_S]) = 1`; the measure of
 `r = k + m − 1`, `m = 2r_S + 2` and `k ≥ m + 3`); the measure of `S_u(𝔸_f)` is the product of those of `N_S(𝔸_f)` and `U(X_0)(𝔸_f)`.
 The measure of `U(X_0)(𝔸)` used for the covolumes is this orbit-compatible one, not the one of the Conventions (total volume the
 mass); the three identities are ratios and hold for either.
-Combine by the triangle inequality; `η_off ≤ b^{−6}` because `ε_N ≤ b^{−13}`: with `k − 2r_S − 5 = k − m − 3` and `8C_nm⁵fL ≤ k` the
-exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, which is `≤ −13L` for `m ≥ C_m`.
+Combine by the triangle inequality; `η_off ≤ b^{−6}` because `ε_L, ε_N ≤ b^{−14}`, `P_g ≤ exp(6b^{−7})` and
+`(1 + δ_tw)e₁ ≤ (1 + b^{−7})exp(b^{−14})`: with `k − 2r_S − 5 = k − m − 3` and `8C_nm⁵fL ≤ k` the
+exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, which is `≤ −14L` for `m ≥ C_m`.
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.15, 5.15a, 5.17a, 5.17d, 5.17, 5.18b, 5.18c, 5.18d, 5.18e, 5.18, 5.19, 5.20a, 5.20b, 5.20c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9,
 ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.5, 5.7, 6.0b, 6.2, 6.3, 6.4, 6.5 (d); Mathlib (Poisson summation). *NEW*.
@@ -1544,10 +1565,10 @@ Let `u` be a word, `K″(u, u)` the sum of the degenerate non-identity terms of 
 `Γ₀ = exp(C_Γm⁵f log b)` the factor of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `C_Γ ≥ max(C_B, C₄) + 1`, `C₄` the constant of 5.18 (i) and `C_B` that of
 the crude bound of the route). Assume the hypotheses of 5.20b for the pair `(u, u)` ((St) of 5.20a with `C_l ≥ 40`,
 `C_u·log b ≤ m − 1`, `m ≥ C_m`, the window `C₀^{−1} ≤ d_u^{all}Γ₀²/D* ≤ C₀`, `r_S ≥ 1`, `g₀ ≠ g₁`, `C_l m⁶·log b ≤ k·log k`,
-`(log f)² ≤ A m²·log b` and `log f ≤ A r_S²` for an absolute constant `A`, and `T(u)` a prime `≥ 3` split completely in `E` and prime
+`(log f)² ≤ A m²·log b` and `log f ≤ A r_S²` for the constant `A` of 5.20b, and `T(u)` a prime `≥ 3` split completely in `E` and prime
 to `g₀g₁`; the conditions on the ratio of the norms and of the Vandermonde products hold with `A = 1`), and: all pairwise
 differences of the row parameter `> C_l k m³`; `log f ≤ r_S²`. Then:
-(i) `‖K(u, u) − 1 − K″(u, u)‖²_HS ≤ Γ₀·(d_u^{all})²/D*`; (ii) `‖K″(u, u)‖²_HS ≤ d_u^{all}·e^{−kf log k}`; (iii) hence
+(i) for `x ≥ x₀`, `‖K(u, u) − 1 − K″(u, u)‖²_HS ≤ Γ₀·(d_u^{all})²/D*`; (ii) `‖K″(u, u)‖²_HS ≤ d_u^{all}·e^{−kf log k}`; (iii) hence
 `‖K(u, u) − 1‖²_HS ≤ e_diag·d_u^{all}` with `e_diag = 2C₀/Γ₀ + 2e^{−kf log k}`; (iv) `D_all ≤ (1 + η_dim)D*` with `η_dim = ε_C` under
 the hypotheses of the chain instance of 5.16; (v) `dim ker P_u ≤ ‖K(u, u) − 1‖²_HS`; so if `e_diag < 1 − δ_old(u)`, where
 `1 − δ_old(u) = ((T(u) − 2)/(T(u) − 1))^f` is the share of the `T(u)`-new forms `ℳ_0^{new}(u)` of ThetaChainsOnDefiniteUnitaryGroups §3.8, then
@@ -1590,6 +1611,9 @@ FiniteReductiveGroups §2.7 (b) for `n = r` and the same `k` (RowTowerAndRallisI
 `Ind_{H_{r_S}}^{GL_r(𝔽_g)}ϕ_{r_S}` (FiniteReductiveGroups §5.8 (c)). Hence for every label `𝔣`,
 `wt_v(𝔣) ≥ (1 − 1/g)·wt_GG(𝔣)`, with equality for every irreducible `𝔣`; the labels that are not squarefree have total
 weight `≤ 3/g`; and `wt_v(𝔣) ≤ ∏_j(1 + g^{−d_j})·wt_GG(𝔣)` for squarefree `𝔣` with factors of degrees `d_j`.
+The equality for irreducible labels, the bound `3/g` and the upper bound with `∏_j(1 + g^{−d_j})` are this roadmap's own, not
+on the path of [FormalProof], whose form is the lower bound for every label and `wt_v(𝔣) ≤ (1 + 1/g)^r·wt_GG(𝔣)` for
+squarefree `𝔣`; only the lower bound is used.
 (b) *Count.* For every set `S` of label tuples at `g_i`: `dim Π_S·ℋ = (1 ± ε_C)·D*·Σ_{t∈S}∏_{v|g_i} wt_v(t_v)`, under the
 hypotheses of the chain instance of 5.16.
 
@@ -1739,7 +1763,7 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 ### From ThetaChainsOnDefiniteUnitaryGroups, a sub-roadmap of this family
 
 - §§2.1, 2.3, 2.3b, 2.3c: the size conditions, the words with their types, the parameters `v(τ)`, `e′(τ)`, the conditions (W1)–(W6), `h_gap`, `SizeGap` and the tops. Used in 5.13, 5.16, 5.20a, 5.20, 5.21.
-- §§2.2, 2.4, 2.7, 2.8: the spaces `X_0`, `Y_0` with a unimodular lattice, the type characters, the type primes, the level primes `T(u)` with their congruence modulo `g₀g₁` and the rank window. Used in 5.17d, 5.17, 5.20a, 5.20b, 5.20, 5.21, 5.23.
+- §§2.2, 2.4, 2.7, 2.8: the spaces `X_0`, `Y_0` with a unimodular lattice, the type characters, the type primes, the level primes `T(u)` with their congruence modulo `(g₀g₁)²` and the rank window. Used in 5.17d, 5.17, 5.20a, 5.20b, 5.20, 5.21, 5.23.
 - §§2.9, 2.9a, 2.9b: the levels at the bad places, the finite group `G₀`, the row type level `(K₂, χ₂)` with `ψ_g`, `χ_N`, `χ_L`, the elements `x_u` and the column levels `K_u`. Used in 5.14, 5.16, 5.17a, 5.17d, 5.17, 5.20a, 5.20b, 5.22, 5.23.
 - §3.8: the spaces `ℳ_0(u)`, their dimensions `d_u^{all}`, `d_u` and the forms new at `T(u)`. Used in 5.14, 5.20a, 5.20b, 5.20, 5.21.
 
