@@ -6,8 +6,8 @@ import Mathlib
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. One of them,
 integrality after division (7.12), is a statement about number fields, their finite places and
-lattices in finite-dimensional vector spaces, and is stated below. The others are not statable at
-the pins.
+modules over their rings of integers inside vector spaces, and is stated below. The others are not
+statable at the pins.
 
 They are statements about the chain of theta lifts between definite unitary groups of
 ThetaChainsOnDefiniteUnitaryGroups: its words, the lattices of algebraic automorphic forms on the
@@ -23,16 +23,20 @@ points, its algebraic automorphic forms, theta lifts or Weil representations. Ta
 of points and the height `TauCeti.subspaceHeight` of a subspace of `K^n` for the standard
 metrics, which do not give these lattices either.
 
-* Integrality after division for the chain (7.13, 7.14): for every word `u`, the period pairing
-  `B_u` maps the source lattice divided by the ideal of the gain exponents into the lattice of
-  `c_𝕃`-semilinear functionals integral on the glued target. It lacks the source lattices of
-  algebraic automorphic forms of the chain, the gain exponents, the target rows with their rational
-  structure, the forms of the tuples of twists and the period pairing.
-* The height of the period pairing (8.9): under the size condition on the level prime and the size
-  predicate of the grid at large scales, `ht(B_u) ≤ h_u` for the explicit height `h_u`. It lacks, besides
-  these, the Petersson metrics on the source and target lattices, operator norms at every embedding
-  of the field of places, the step operators of the chain, its top period, the Rallis eigenvalues
-  and the CM period of the host.
+* Integrality after division for the chain (7.13, 7.14): for every word `u`, under the hypotheses
+  of the gain bounds, of the rational structure of the rows and of the seesaw identity of
+  SeesawForThetaChains §6.14 (among them that the Bessel–Poincaré series of `u` is nonzero on its
+  new forms), the period pairing `B_u` maps the source lattice divided by the ideal of the gain
+  exponents into the lattice of `c_𝕃`-semilinear functionals integral on the glued target. It lacks
+  the source lattices of algebraic automorphic forms of the chain, the gain exponents, the target
+  rows with their rational structure, the forms of the tuples of twists and the period pairing.
+* The height of the period pairing (8.9): under the size conditions of the chain (among them those
+  on the level prime and of the grid at large scales, and `|(L′/L)(1, χ_K)| ≤ x^ε`) and the
+  hypotheses of the seesaw identity (among them that the Bessel–Poincaré series of `u` is nonzero
+  on its new forms), if `B_u ≠ 0` then `ht(B_u) ≤ h_u` for the explicit height `h_u`. It lacks,
+  besides these, the Petersson metrics on the source and target lattices, operator norms at every
+  embedding of the field of places, the step operators of the chain, its top period, the Rallis
+  eigenvalues and the CM period of the host.
 * The division inequality (8.22), with the slope of the target (8.21) and its maximal slope (8.24):
   for a good twisting datum with the support condition, a host with wild-kernel budget `1`,
   `[F:ℚ] ≥ 2` and the size conditions of the chain, `μ(R^∨) + h_u − F_tot` is at most the sum over
@@ -55,27 +59,26 @@ namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.GluedTargetAndD
 /-! ## Layer 7: Division of the source and the glued target -/
 
 /-- **Integrality after division** (README 7.12). Let `L` be a number field, `c` an automorphism of
-`L`, `V`, `W` finite-dimensional `L`-spaces and `B : V × W → L` linear in `V` and `c`-semilinear in
-`W`; let `N ⊂ V` and `R ⊂ W` be lattices (finitely generated `𝓞 L`-submodules spanning over `L`).
-Suppose that for every finite place `𝔭` of `L` there are an `L`-space `U 𝔭` with a lattice `M 𝔭`,
-an `L`-linear map `j 𝔭 : U 𝔭 → W` with `R ⊂ 𝒪_(c⁻¹(𝔭))·j 𝔭 (M 𝔭)` (every `x ∈ R` has a multiple
-`d • x ∈ j 𝔭 (M 𝔭)` by some `d ∈ 𝓞 L` with `c d ∉ 𝔭`), a map `P 𝔭 : V × U 𝔭 → L` and a `𝔭`-unit
+`L`, `V`, `W` `L`-vector spaces and `B : V × W → L` linear in `V` and `c`-semilinear in `W`; let
+`N ⊂ V` and `R ⊂ W` be `𝓞 L`-submodules (no finiteness is needed; in README 7.14 they are lattices).
+Suppose that for every finite place `𝔭` of `L` there are an `L`-space `U 𝔭` with an
+`𝓞 L`-submodule `M 𝔭`, an `L`-linear map `j 𝔭 : U 𝔭 → W` with `R ⊂ 𝒪_(c⁻¹(𝔭))·j 𝔭 (M 𝔭)` (every
+`x ∈ R` has a multiple `d • x ∈ j 𝔭 (M 𝔭)` by some `d ∈ 𝓞 L` with `c d ∉ 𝔭`), a map
+`P 𝔭 : V × U 𝔭 → L` and a `𝔭`-unit
 `ζ 𝔭` with `P 𝔭 φ Υ = ζ 𝔭 * B φ (j 𝔭 Υ)`, and a real `σ 𝔭` such that for `φ ∈ N`, `Υ ∈ M 𝔭` either
 `P 𝔭 φ Υ = 0` or `v_𝔭(P 𝔭 φ Υ) ≥ σ 𝔭`. Let `τ 𝔭 ∈ ℤ`, zero for almost all `𝔭`, with
 `τ 𝔭 ≤ ⌈σ 𝔭⌉`, and `N′ := (∏_𝔭 𝔭^(-τ 𝔭))·N`. Then `B(N′, R) ⊂ 𝓞 L`. -/
 theorem pairing_integral_of_localDivision
     {L : Type*} [Field L] [NumberField L] (c : L ≃+* L)
-    {V W : Type*} [AddCommGroup V] [Module L V] [FiniteDimensional L V]
+    {V W : Type*} [AddCommGroup V] [Module L V]
     [Module (𝓞 L) V] [IsScalarTower (𝓞 L) L V]
-    [AddCommGroup W] [Module L W] [FiniteDimensional L W]
+    [AddCommGroup W] [Module L W]
     [Module (𝓞 L) W] [IsScalarTower (𝓞 L) L W]
     (B : V →ₗ[L] W →ₛₗ[(c : L →+* L)] L)
-    (N : Submodule (𝓞 L) V) (hN : N.FG) (hNspan : Submodule.span L (N : Set V) = ⊤)
-    (R : Submodule (𝓞 L) W) (hR : R.FG) (hRspan : Submodule.span L (R : Set W) = ⊤)
+    (N : Submodule (𝓞 L) V) (R : Submodule (𝓞 L) W)
     (U : HeightOneSpectrum (𝓞 L) → Type*) [∀ 𝔭, AddCommGroup (U 𝔭)] [∀ 𝔭, Module L (U 𝔭)]
     [∀ 𝔭, Module (𝓞 L) (U 𝔭)] [∀ 𝔭, IsScalarTower (𝓞 L) L (U 𝔭)]
-    (M : ∀ 𝔭, Submodule (𝓞 L) (U 𝔭)) (hM : ∀ 𝔭, (M 𝔭).FG)
-    (hMspan : ∀ 𝔭, Submodule.span L (M 𝔭 : Set (U 𝔭)) = ⊤)
+    (M : ∀ 𝔭, Submodule (𝓞 L) (U 𝔭))
     (j : ∀ 𝔭, U 𝔭 →ₗ[L] W)
     (hRloc : ∀ 𝔭 : HeightOneSpectrum (𝓞 L), ∀ x ∈ R, ∃ d : 𝓞 L, 𝔭.valuation L (c (d : L)) = 1 ∧
       d • x ∈ (M 𝔭).map ((j 𝔭).restrictScalars (𝓞 L)))
