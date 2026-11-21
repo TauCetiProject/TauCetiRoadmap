@@ -8,10 +8,12 @@ import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Reciprocit
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti: the Riemann
 hypothesis, and the Riemann hypothesis for Dirichlet L-functions in its standard forms (Layer 5),
-the window-bound form of the Riemann hypothesis (3.5), the extended Riemann hypothesis for the
-Dedekind zeta functions of fields abelian over `ℚ` and the Riemann hypothesis for the Hecke
-characters of such fields that come from abelian extensions of `ℚ` (5.5, 5.6), and the prime
-number theorem in progressions with the square-root error term (6.5).
+the window-bound form of the Riemann hypothesis (3.5), the equivalence of window bounds for the
+cyclic family of a primitive Dirichlet character with the Riemann hypothesis for its members (4.2),
+the extended Riemann hypothesis for the Dedekind zeta functions of fields abelian over `ℚ` and the
+Riemann hypothesis for the Hecke characters of such fields that come from abelian extensions of
+`ℚ` (5.5, 5.6), and the prime number theorem in progressions with the square-root error term
+(6.5).
 
 Of the statements below, `riemannHypothesis`, `LFunction_ne_zero_of_one_half_lt_re` and
 `re_eq_half_of_LFunction_eq_zero` are, binder for binder, theorems of the formal proof
@@ -19,10 +21,11 @@ Of the statements below, `riemannHypothesis`, `LFunction_ne_zero_of_one_half_lt_
 `riemannZeta_ne_zero_of_one_half_lt_re` and
 `re_eq_half_of_meromorphicOrderAt_completedLFunction_pos` follow from them by
 Mathlib alone, and so does the implication from the window bounds to `RiemannHypothesis` in
-`riemannHypothesis_iff_forall_exists_windows`, given the windowed theorem of that proof. The
-converse implication there, the two statements on Dedekind zeta functions and Hecke L-functions,
-and `psiAP_isBigO` are consequences by the published theorems that the README cites; the formal
-proof does not state them.
+`riemannHypothesis_iff_forall_exists_windows`, given the windowed theorem of that proof; in
+`forall_exists_windows_cyclicFamily_iff` the implication from the window bounds is the step of that
+proof. The converse implications there, the two statements on Dedekind zeta functions and Hecke
+L-functions, and `psiAP_isBigO` are consequences by the published theorems that the README cites;
+the formal proof does not state them.
 
 The predicates through which the README states these theorems are declarations of other
 roadmaps, and every statement below unfolds them into Mathlib and Tau Ceti terms:
@@ -36,7 +39,12 @@ function being the L-function of the trivial primitive character); the hypothesi
 of a primitive Dirichlet character (§9.3, with the record of LFunctions Layer 4) is the statement
 on the points of positive order of Mathlib's `DirichletCharacter.completedLFunction`; the
 predicate `HasWindows S λ` (PositivityOfDirichletSeriesWithKernels §6.9 (a)) is
-`∀ Y₀, ∃ Y, max Y₀ 1 ≤ Y ∧ Set.Icc Y (Y ^ λ) ⊆ S`.
+`∀ Y₀, ∃ Y, max Y₀ 1 ≤ Y ∧ Set.Icc Y (Y ^ λ) ⊆ S`. The statement of 4.2 needs three pieces of
+data of other roadmaps, which this file writes out with the definitions those roadmaps give: the
+bundled primitive Dirichlet character `PrimitiveDirichletCharacter`
+(RiemannHypothesisStatementsAndConsequences §10.3), its Riesz remainder
+`PrimitiveDirichletCharacter.rieszRemainder` (§8.4a (b)) and its cyclic family
+`PrimitiveDirichletCharacter.cyclicFamily` (FrobeniusRestrictedRieszSums §0.5).
 
 Mathlib assigns values to its L-functions at their poles. `riemannZeta 1 = (γ - log (4π)) / 2`
 (`riemannZeta_one`), which is not `0` (`riemannZeta_one_ne_zero`); so `riemannZeta s ≠ 0` holds on
@@ -63,11 +71,6 @@ place.
   `σ ∈ [1/2, 1)`, every member is zero-free right of `σ` exactly when the window bound holds at
   every exponent `σ + ε`. It lacks the same remainder. Its case over `ℚ` for the trivial
   character, whose remainder is explicit, is 3.5 and is stated below.
-* Cyclic families (4.2): for a primitive Dirichlet character `ψ`, window bounds with positive
-  weights for its cyclic family at every exponent `1/2 + ε` hold exactly when every member
-  satisfies the Riemann hypothesis. It lacks the cyclic family (FrobeniusRestrictedRieszSums §0.5),
-  the bundled primitive Dirichlet character (RiemannHypothesisStatementsAndConsequences §10.3) and
-  its Riesz remainder (§8.4a (b)).
 * The least prime in a progression (6.23): for `q > 3` and a unit `a` modulo `q` there is a prime
   `p ≡ a (mod q)` with `p ≤ (φ(q) log q)²`, given the finite records under which the README states
   it. It lacks these records (of ExplicitPrimeCounting and ExplicitZetaBounds) as propositions:
@@ -102,6 +105,67 @@ theorem riemannHypothesis_iff_forall_exists_windows :
         ∀ y ∈ Set.Icc Y (Y ^ lam),
           (∑ n ∈ Finset.Iic ⌊y⌋₊, ArithmeticFunction.vonMangoldt n * (y / n - 1)) -
               y * Real.log y + (1 + Real.eulerMascheroniConstant) * y ≤ y ^ (1 / 2 + ε) := by
+  sorry
+
+/-! ## Layer 4: cyclic families and the Riemann hypothesis -/
+
+/-- A primitive Dirichlet character bundled with its conductor: a level, a character of that level
+and a proof that it is primitive. This is the bundle of RiemannHypothesisStatementsAndConsequences
+§10.3, written out with the same fields. -/
+structure PrimitiveDirichletCharacter where
+  /-- The level, which is the conductor. -/
+  level : ℕ+
+  /-- The character. -/
+  character : DirichletCharacter ℂ level
+  /-- The character is primitive. -/
+  isPrimitive : character.IsPrimitive
+
+namespace PrimitiveDirichletCharacter
+
+/-- The Riesz remainder `G_χ` of a primitive Dirichlet character
+(RiemannHypothesisStatementsAndConsequences §8.4a (b), with its Riesz sum unfolded):
+`Σ_{1 ≤ n ≤ y} Λ(n) χ(n) (y/n − 1) + y · L′/L(1, χ)` for `χ ≠ 1`, and
+`Σ_{1 ≤ n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` for the trivial character, the only one of
+level `1`. -/
+noncomputable def rieszRemainder (χ : PrimitiveDirichletCharacter) (y : ℝ) : ℂ :=
+  if χ.level = 1 then
+    ∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (ArithmeticFunction.vonMangoldt n : ℂ) * ((y : ℂ) / n - 1)
+      - y * Real.log y + (1 + Real.eulerMascheroniConstant) * y
+  else
+    ∑ n ∈ Finset.Icc 1 ⌊y⌋₊,
+        (ArithmeticFunction.vonMangoldt n : ℂ) * χ.character n * ((y : ℂ) / n - 1)
+      + y * logDeriv (DirichletCharacter.LFunction χ.character) 1
+
+/-- The cyclic family `𝒦(ψ)` of a primitive Dirichlet character `ψ` of order `o`
+(FrobeniusRestrictedRieszSums §0.5): the primitive characters `(ψ^l)*` inducing the powers `ψ^l`,
+`0 ≤ l < o`, as a finite set of bundles. -/
+noncomputable def cyclicFamily (ψ : PrimitiveDirichletCharacter) :
+    Finset PrimitiveDirichletCharacter := by
+  classical
+  exact (Finset.range (orderOf ψ.character)).image fun l ↦
+    { level := ⟨(ψ.character ^ l).conductor,
+        Nat.pos_of_ne_zero (DirichletCharacter.conductor_ne_zero _)⟩
+      character := (ψ.character ^ l).primitiveCharacter
+      isPrimitive := DirichletCharacter.primitiveCharacter_isPrimitive _ }
+
+end PrimitiveDirichletCharacter
+
+/-- **Cyclic families of Dirichlet characters** (4.2). For a primitive Dirichlet character `ψ`, the
+following are equivalent: for every `ε > 0` there are positive weights `w(κ)`, `κ ∈ 𝒦(ψ)`, and a
+ratio `λ > 1` such that `Σ_{κ ∈ 𝒦(ψ)} w(κ) Re G_κ(y) ≤ y ^ (1/2 + ε)` on windows `[Y, Y ^ λ]` with
+`Y` arbitrarily large; and every member `κ` of `𝒦(ψ)` satisfies
+`κ.character.GeneralizedRiemannHypothesis` (RiemannHypothesisStatementsAndConsequences §9.4),
+unfolded: its L-function has order at most `0` at every `s` with `1/2 < Re s`. The window condition
+is the predicate `HasWindows` of PositivityOfDirichletSeriesWithKernels §6.9 (a), unfolded; the
+weights and the ratio may depend on `ε`. The left side holds for every `ψ` by
+ThetaChainsAndFrobeniusPrimeSums §10.11. -/
+theorem forall_exists_windows_cyclicFamily_iff (ψ : PrimitiveDirichletCharacter) :
+    (∀ ε : ℝ, 0 < ε → ∃ w : PrimitiveDirichletCharacter → ℝ,
+        (∀ κ ∈ ψ.cyclicFamily, 0 < w κ) ∧ ∃ lam : ℝ, 1 < lam ∧ ∀ Y₀ : ℝ, ∃ Y : ℝ,
+          max Y₀ 1 ≤ Y ∧ ∀ y ∈ Set.Icc Y (Y ^ lam),
+            ∑ κ ∈ ψ.cyclicFamily, w κ * (κ.rieszRemainder y).re ≤ y ^ (1 / 2 + ε)) ↔
+      ∀ κ ∈ ψ.cyclicFamily, ∀ s : ℂ, 1 / 2 < s.re →
+        meromorphicOrderAt (DirichletCharacter.LFunction κ.character) s ≤ 0 := by
   sorry
 
 /-! ## Layer 5: the headline theorems -/
