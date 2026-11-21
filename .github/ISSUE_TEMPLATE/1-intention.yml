@@ -62,6 +62,7 @@ body:
         - ArithmeticStatisticsPartIII
         - ArithmeticStatisticsPartIV
         - ArithmeticStatisticsPartV
+        - ArithmeticStatisticsPartVI
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentations
@@ -142,6 +143,7 @@ body:
         - DysonBrownianMotion
         - ECM
         - EffectiveBoundsPartII
+        - EffectiveDiophantineMethods
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
@@ -163,6 +165,7 @@ body:
         - EulerSystemsCyclotomicMainConjecture
         - ExplicitCharacterSumsAndSieves
         - ExplicitMultiplicativeFunctions
+        - ExplicitNumberFields
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
@@ -187,6 +190,7 @@ body:
         - FuchsianOrbifoldsPartII
         - FukayaTheory
         - GL2AutomorphicRepresentationsAndTransfer
+        - GL2ModularityLifting
         - GaloisActionOnEtaleCohomology
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
@@ -307,6 +311,7 @@ body:
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
+        - OrdinaryAutomorphicFormsAndModularityLifting
         - OrthogonalTamagawaAndLatticeMass
         - PCurvature
         - PDE
