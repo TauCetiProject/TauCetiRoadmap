@@ -10,7 +10,7 @@ a place `τ` and a weight `w : Φ → (0, ∞)`, the Frobenius-restricted Riesz 
 powers `p^i` of `log p` times the mean, over the Frobenius coset of `p^i`, of `2·(a/p^i − w(cgτ))₊` for the elements
 `g` outside `Φ`. No automorphic form enters: this is the analytic side of the Frobenius-restricted inequality.
 
-The headline theorems are these. (1) For every abelian CM host with split ramification (0.3), every `a > 0`, `τ ∈ Φ` and
+The headline theorems are these. (1) For every abelian CM host, every `a > 0`, `τ ∈ Φ` and
 `w : Φ → (0, ∞)`, the sum
 `ℛ(a, τ, w)` minus the main term `a·(log a − 1 − γ + (L′/L)(1, χ_K) − mean_{τ′∈Φ} log w(τ′))` is the average, over
 the classes `g ∉ Φ` and the characters `χ` of `G`, of `conj χ(g)·w(cgτ)·G_{χ*}(a/w(cgτ))`, where `χ_K` is the quadratic
@@ -80,7 +80,9 @@ element `g ∈ G`, read through its place `pl(g)` (0.6), is a *letter*.
 `Formalism.HC.An.G`, `Formalism.HC.An.logDerivativeAtOne`).
 
 **Constants.** Exponents, densities, shares of the tops and the admissible range of `ε` are parameters, with their
-constraints stated where they enter; the values of particular constructions appear only in Checks.
+constraints stated where they enter; the values of particular constructions appear only in Checks, except the coset
+law of the tops in 1.7 and 1.9, which is the fixed law `ν₀` with shares `4 : 3`, the form of [FormalProof] (see
+*Statements of the formal proof* below).
 
 ### Table of symbols
 
@@ -680,10 +682,13 @@ dividing `f_ψ` is at most `B` and `q ∤ f_ψ`, then `(q, d)` satisfies the hyp
 `2 ≤ v₂(q + 1) ≤ a` and `3 ≤ v₂(d + 1) ≤ a`; for a `B`-admissible pair `v₂(q + 1) = 2` and `v₂(d + 1) = 3`. (vi) Under
 (iv), the host of 0.4 (in the classes of (iv)) with this pair and any layer `n ≥ a − 1` satisfies `HostSplitting E`
 (0.3), and `16qd` divides its conductor `f_E`; for a `B`-admissible pair this holds from the layer `n = 2` on.
-Each condition has a use in Layer 0: `q ≡ d ≡ 3 (mod 4)` makes `χ_{−q}`, `χ_{−d}` odd and the host CM (0.4);
+Each condition except `v₂(q + 1) ≤ a` has a use in Layer 0: `q ≡ d ≡ 3 (mod 4)` makes `χ_{−q}`, `χ_{−d}` odd and the host CM (0.4);
 `d ≡ 7 (mod 8)` splits `2` in `K` (0.4); the bound `v₂(d + 1) ≤ a` fixes the layer from which (vi) holds; `q | d + 1` splits
 the ramified prime `q` in `K` (0.4); the odd primes `p ≤ B` dividing `d + 1` split the odd primes of `f_ψ` in `K` (iv) and
-leave no prime `≤ B` inert in `K` (iii).
+leave no prime `≤ B` inert in `K` (iii). The bound `v₂(q + 1) ≤ a` bounds by `2^{a−1}` the number `2^{v₂(q+1)−1}` of
+places above `q` in `ℚ(μ_{2^∞})` (the decomposition group of `q` in `Gal(ℚ(μ_{2^∞})/ℚ) ≅ ℤ₂^×` is the closure of
+`⟨q⟩`, of that index), a number on which the bounds for wild kernels over the host fields depend (Downstream
+consumers).
 
 *Route.* `q | d + 1` gives `−d ≡ 1 (mod q)`, and likewise modulo each odd `p ≤ B`, so these primes split in `ℚ(√−d)`
 (Multiquadratic Layer 1); `d ≡ 7 (mod 8)` gives
@@ -799,7 +804,10 @@ then `(a/n − w₀)₊ = w₀(y/n − 1)₊` and the definitions of `G_1`, `G_�
 - At an unramified prime power `n`, `Λ(n)·𝟙[Fr(n) = {h}]` is the coefficient `Λ_{{h}}(n)` of Chebotarev Layer 11.1 for
   `E/ℚ`; Chebotarev has no term at the ramified prime powers, which `ℛ` keeps through the inertia means of 0.2 (iii).
 
-*NEW* (definition; [FormalProof]). *Needs:* 0.2, 0.3, 0.6; RiemannHypothesisStatementsAndConsequences §8.4a.
+*NEW* (definition; [FormalProof], `Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean`
+(`Formalism.LFunctionChainParameters.characterSumData.ASK`, in the form (iv), and
+`Formalism.LFunctionChainParameters.characterSumData.MAIN`)). *Needs:* 0.2, 0.3, 0.6;
+RiemannHypothesisStatementsAndConsequences §8.4a.
 
 ### 1.2 The difference as an average of Riesz remainders
 
@@ -807,10 +815,9 @@ then `(a/n − w₀)₊ = w₀(y/n − 1)₊` and the definitions of `G_1`, `G_�
 
 `ℭ(a, τ, w) = |Φ|^{−1} Σ_{g ∈ G∖Φ} Σ_{χ ∈ Ĝ} conj χ(g)·w(par_τ g)·G_{χ*}(a/w(par_τ g))`,
 
-with `G_{χ*} = G_1` for the trivial character. *Theorem.* For every abelian CM host with `SplitRamification d` (0.3),
-`a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`: `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. The identity holds for every abelian CM
-host by the same orthogonality argument (RiemannHypothesisStatementsAndConsequences §8.8a); the case of split
-ramification is the one [FormalProof] states.
+with `G_{χ*} = G_1` for the trivial character. *Theorem.* For every abelian CM host, `a > 0`, `τ ∈ Φ` and
+`w : Φ → (0, ∞)`: `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. [FormalProof] states the case of a host with
+`SplitRamification d` (0.3); the route below uses no hypothesis on ramification.
 
 In `Suggested.lean`, `ℭ` is `frobRieszCharAverage` and the theorem is `frobRieszSum_sub_main`.
 
@@ -838,15 +845,18 @@ partner bijection 0.6(i) turns the mean of `log w(par_τ g)` over `G ∖ Φ` int
   contains the odd powers of `3` (`Frob_3 = c`), which 0.2(iii) reads as the indicator of `Frob_3^i = g`; they are terms
   of the left side, not of a ramified correction. With `N = f_E` the primes of `D_f` are exactly the ramified ones.
 
-*KNOWN* in kind (orthogonality of characters, RiemannHypothesisStatementsAndConsequences §8.8a; [FormalProof] for the instance). *Needs:* 0.2,
+*KNOWN* in kind (orthogonality of characters, RiemannHypothesisStatementsAndConsequences §8.8a; [FormalProof] for the
+case of split ramification, `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChBalance.lean`
+(`Deduction.ch_balance`), with `ℭ` the `Formalism.LFunctionChainParameters.characterSumData.De` of the file cited
+in 1.1). *Needs:* 0.2,
 0.6, 1.1; RiemannHypothesisStatementsAndConsequences §§8.4a, 8.8a.
 
 ### 1.4 Cyclic hosts at the thin scales
 
 *Cyclic hosts at the thin scales.* Let `E` be a host of 0.4
 for `ψ`.
-(a) The real characters of `G` are the `χ` with `χ* = ρ·(·/q)^i·(·/d)^j`, `i, j ∈ {0, 1}`, `ρ` a real primitive
-character of conductor dividing `8f_ψ` (a real element of `𝔛_n⟨ψ⟩`). Let `c_ex(ψ) ∈ (0, 1/2]` be such that no `L(s, ρ)`,
+(a) The real characters of `G` are the `χ` with `χ* = ρ·(·/q)^i·(·/d)^j`, `i, j ∈ {0, 1}`, `ρ` a real element
+of `𝔛_n⟨ψ⟩` (its conductor divides `8f_ψ`). Let `c_ex(ψ) ∈ (0, 1/2]` be such that no `L(s, ρ)`,
 `ρ` real primitive of conductor dividing `8f_ψ`, has a zero in `(1 − c_ex(ψ), 1)`; it exists and depends on `ψ` alone
 (finitely many characters, none with a zero at `1`). The auxiliary pair satisfies the *thin-scale box hypothesis with
 gap `c_box`* if for every real primitive `ρ` of conductor dividing `8f_ψ` and every `(i, j) ∈ {0, 1}² ∖ {(0, 0)}`,
@@ -977,7 +987,11 @@ With `η_top ≤ x^{−1+ε}` and `𝔔_x ≤ log(x + 1) + C_Λ + K_ψ + |C′| 
   `δ_th/2 = |𝒯|/|Φ|` is the proportion of the classes `g ∈ G ∖ Φ` whose
   partner from a given top is a thick place, and the `m` steps contribute `m` identical copies of the thick part.
 
-*NEW* (combination of classical estimates; [FormalProof]). *Needs:* 0.5, 0.6, 1.2, 1.4, 1.5, 1.6;
+*NEW* (combination of classical estimates; [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`
+(`Deduction.CharacterBalanceMoves.core`, `Deduction.CharacterBalanceMoves.one_char`); the law `ν₀`:
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
+(`Formalism.HC.Frame.lam`, `Formalism.HC.Frame.Shares`)). *Needs:* 0.5, 0.6, 1.2, 1.4, 1.5, 1.6;
 RieszSumsOverPrimesAndExceptionalZeros §1.4h.
 
 ### 1.8 The error bracket
@@ -1002,7 +1016,8 @@ bracket are at most `a/(mb) ≤ 2x/m ≤ 2x^{1/2+ε}`, `am/(kb) ≤ 2xm/k ≤ 2`
   `x/m`, and their sum is least at `m ≈ √x`, where it is `x^{1/2+O(ε)}`. With `a = xb` and `m = x^{1/3}` the first term alone is `x^{2/3}·mb|Φ_top|`,
   and no square-root bound can follow from 1.9. (Under (iv) alone `a/(mb)` is only bounded above, by `2x/m`.)
 
-*NEW* (elementary; [FormalProof]). *Needs:* none beyond the definitions.
+*NEW* (elementary; [FormalProof], `Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean`
+(`Formalism.LFunctionChainParameters.ThickSetMeanBounds.proposition_size_bound`)). *Needs:* none beyond the definitions.
 
 ### 1.9 The square-root bound for the cyclic family from the Frobenius-restricted inequality
 
@@ -1047,7 +1062,10 @@ inequality holds once `x^ε ≥ 1 + 4o`. The threshold of 1.7, `x^{3ε/8} ≥ 26
   its weights `1` and `1/(3o + 1)` are positive. With the uniform law (`ω₀ = 1`) the conclusion would concern `G_1`
   alone.
 
-*NEW* ([FormalProof]). *Needs:* 0.5, 1.6, 1.7, 1.8.
+*NEW* ([FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`
+(`Deduction.ch_core`), `Development/AutomorphicArithmetic/PrimitiveCosets/SigALe.lean` (`UpperTheory.Comparison₂.sigA_le`),
+`Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean` (`UpperTheory.Comparison₂.core_gm`)). *Needs:* 0.5, 1.6,
+1.7, 1.8.
 
 ### Examples
 
@@ -1076,7 +1094,9 @@ varieties over `F` that use Koecher's principle need `f ≥ 2`, which this gives
 (0.6 (v), 0.8a, 0.8b); TaylorBoundsAndDepthsOnHeightTwoFormalGroups, RowTowerAndRallisIdentities,
 BesselPoincareSeriesAndGramBounds, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties and
 GluedTargetAndDivisionInequality use the hosts and their predicates (0.1, 0.3, 0.4) and the admissible pairs (0.9);
-UniformWildKernelBounds bounds wild kernels over the dyadic host fields of 0.4. ThetaChainsAndFrobeniusPrimeSums fixes
+UniformWildKernelBounds bounds wild kernels over the dyadic host fields of 0.4, with rank bounds that grow with the
+number of places above the primes of `Q` in `ℚ(μ_{2^∞})` (UniformWildKernelBounds §2.3), which the bounds on
+`v₂(q + 1)` and `v₂(d + 1)` of 0.9 bound. ThetaChainsAndFrobeniusPrimeSums fixes
 the constants that are parameters here (among them the gap `c_box` of 1.4, chosen in `[ε₀/8, 1/12)`, the share
 `δ_top` of the tops and the length of the thick set) in ThetaChainsAndFrobeniusPrimeSums §10.6, takes the admissible
 pairs, the tops and the thick set from 0.9, 0.7 and 0.8a in ThetaChainsAndFrobeniusPrimeSums §10.7, and applies 1.9 to the inequality of its chain at every translate to obtain the windowed

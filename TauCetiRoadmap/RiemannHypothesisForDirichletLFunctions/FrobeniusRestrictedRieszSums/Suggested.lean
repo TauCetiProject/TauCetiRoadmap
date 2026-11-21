@@ -16,7 +16,7 @@ as in 0.2 and 0.4 (e). The Riesz remainder `G_κ` is that of the Conventions, wi
 `DirichletCharacter.LFunction` and `Real.eulerMascheroniConstant`.
 
 * The difference of the Frobenius-restricted Riesz sum and its main term is the character
-  average on a host with split ramification (1.2): `frobRieszSum_sub_main`.
+  average on every abelian CM host (1.2): `frobRieszSum_sub_main`.
 * The Frobenius-restricted inequality at every translate on a cyclic host at the scale `x`
   implies the square-root bound at `x` for the family sum
   `G_1(x) + (3o + 1)⁻¹ Σ_{κ≠1} Re G_κ(x)` (1.9): `cyclicBound_of_frobeniusInequality`, with the
@@ -225,17 +225,14 @@ noncomputable def frobRieszCharAverage (N : ℕ) [NeZero N] {L : Type*} [Field L
       rieszRemainder (primitiveChar N χ) (a / w (artinMap N E (-1) * g * τ))
 
 /-- The difference of the Frobenius-restricted Riesz sum and its main term is the character
-average (1.2): for every abelian CM host `E ⊃ K` (`K` imaginary quadratic, `Φ = Gal(E/K)`) with
-`SplitRamification d` (0.3; `hsplit`: a prime `p ≠ d` with nontrivial inertia has its Frobenius
-coset, hence its inertia group, in `Φ`; `hId`: `I_d` has order `2` and is not contained in `Φ`),
-every `a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`, `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. -/
+average (1.2): for every abelian CM host `E ⊃ K` (`K` imaginary quadratic, `Φ = Gal(E/K)`,
+`χ_K` the character of `Gal(E/ℚ)` with kernel `Φ`), every `a > 0`, `τ ∈ Φ` and
+`w : Φ → (0, ∞)`, `ℛ(a, τ, w) − 𝔐(a, w) = ℭ(a, τ, w)`. [FormalProof] states the case of a host
+with split ramification (0.3). -/
 theorem frobRieszSum_sub_main (N : ℕ) [NeZero N] {L : Type*} [Field L] [NumberField L]
     [IsCyclotomicExtension {N} ℚ L] (E : IntermediateField ℚ L)
     (K : IntermediateField ℚ E) (hK : Module.finrank ℚ K = 2) [NumberField.IsTotallyComplex K]
-    (χK : Gal(E/ℚ) →* ℂˣ) (hχK : χK.ker = K.fixingSubgroup) {d : ℕ} (hd : d.Prime)
-    (hsplit : ∀ p : ℕ, p.Prime → p ≠ d → (inertia N E p).card ≠ 1 →
-      ∀ g ∈ frobCoset N E p, g ∈ K.fixingSubgroup)
-    (hId : (inertia N E d).card = 2 ∧ ∃ σ ∈ inertia N E d, σ ∉ K.fixingSubgroup)
+    (χK : Gal(E/ℚ) →* ℂˣ) (hχK : χK.ker = K.fixingSubgroup)
     {a : ℝ} (ha : 0 < a)
     {τ : Gal(E/ℚ)} (hτ : τ ∈ K.fixingSubgroup) {w : Gal(E/ℚ) → ℝ}
     (hw : ∀ τ' ∈ K.fixingSubgroup, 0 < w τ') :
