@@ -22,7 +22,10 @@ the Bloch–Kato finite classes, or congruence modules of Hecke modules.
   the size conditions, with a good twisting datum, a thick set of length at most `C_L·log x`
   satisfying the depth hypothesis and a host with wild-kernel budget `κ_W`, the weighted sum over the
   twisted places of the congruence lengths `η_j(𝔭)` is at most `d^Z_j·(C + κ_W)·x^ε·B₀`, with `C`
-  depending only on constants fixed before `ε`. It lacks the lattices of algebraic modular forms on
+  depending only on constants fixed before `ε`. For the parts of a level at the type primes the
+  same bound holds with the congruence lengths and the dimension of the level parts; at the base
+  level the factor is the dimension `D_0` of the base-level row space, and this is the form of
+  [FormalProof]. It lacks the lattices of algebraic modular forms on
   the definite groups of the chain, their Hecke algebras and lifted eigensystems, the congruence
   modules along a set of eigensystems, the twisted Tate–Shafarevich groups `Ш¹(E, ℓ, e)`, and the
   chain data (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3).

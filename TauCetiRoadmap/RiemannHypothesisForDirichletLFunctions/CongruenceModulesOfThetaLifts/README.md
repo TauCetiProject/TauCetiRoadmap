@@ -12,7 +12,9 @@ The headline theorems are these. (1) Under the size conditions of the chain, for
 length `L_th ≤ C_L·log x` satisfying the depth hypothesis, and a host field `E` whose twisted Tate–Shafarevich groups
 `Ш¹(E, ℓ, e)`, `0 < e < t`, are finite with total `V(E, t) ≤ κ_W·x^ε·B₀`, the weighted sum `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭)` over the
 twisted places is at most `d^Z_j·(C + κ_W)·x^ε·B₀`, where `C` depends only on constants fixed before `ε` and `d^Z_j` is the
-dimension of the good part of the forms on the model group `U(W_j)`. (2) At every twisted place `𝔭 | ℓ` and for every
+dimension of the good part of the forms on the model group `U(W_j)`. For the parts of a level at the type primes the same
+bound holds with the congruence lengths and the dimension of the level parts; at the base level the factor is the
+dimension `D_0` of the base-level row space, and this is the form of [FormalProof]. (2) At every twisted place `𝔭 | ℓ` and for every
 `ε′ > 0` there is an
 anticyclotomic character `ψ` of `ℓ`-power order, ramified at a bounded number of places of degree one, such that for the
 `ℓ`-adic lattices `T_s` attached to the good eigenforms on `U(W_j)` every Bloch–Kato Selmer group of `T_s ⊗ ψ^{m′}`, `m′` prime
@@ -168,6 +170,7 @@ of 7.10c); `x₀` is a threshold of the scale.
 | `G₀` | finite group of the type primes | ThetaChainsOnDefiniteUnitaryGroups §2.9a |
 | `θ_j` | model lift of step `j` | RowTowerAndRallisIdentities §5.7 |
 | `η_j(𝔭), Z_good, V_good, d^Z_j` | congruence length, lifted good eigensystems, the lifted subspace, its dimension | 7.1, 7.5b, 7.10a |
+| `M_j(𝔭)^P, V_good^P, mult^P, d^{Z,P}_j(𝔭), η^P_j(𝔭), d^{Z,P}_j; D_0` | the same for the level-`(P, χ_P)` parts; the dimension of the base-level row space | Layer 7, 7.1 (4), 7.8a |
 | `X_s(π), c′(π)` | the cut by the label tuple of `π`, its congruence ideal | 7.1 |
 | `ς, ς₀, ς_v, ς_w` | generators of tame inertia | Layer 7 |
 | `Σ(𝔭), Exc` | the places above the type primes that are not above `ℓ`, together with `A(ℓ)`; the exceptional primes | Layer 7, 7.6 |
@@ -237,6 +240,14 @@ eigensystems (after extending `O`, `𝕋 ⊂ O^X` separates the points of `X`), 
   good for `χ` and for `χ^{−1}` (RowTowerAndRallisIdentities §5.3(iii));
 - `V_good := ⊕_{x∈Z_good} V_x`, the *lifted subspace*, and `d^Z_j(𝔭) := dim V_good`.
 
+*Level parts.* The finite group `G₀` of the type primes (7.1 (2)) acts on `M_j(𝔭)` and commutes with `𝕋`. For a level
+`(P, χ_P)` at the type primes (ThetaChainsOnDefiniteUnitaryGroups §2.9a) write `M_j(𝔭)^P`, `V_x^P`, `V_good^P` for the
+intersections of `M_j(𝔭)`, `V_x`, `V_good` with the level-`(P, χ_P)` part of `M_j(𝔭) ⊗ K_O` (intersections, not
+projections; they are stable under `𝕋`), `mult^P(x) := dim V_x^P` and
+`d^{Z,P}_j(𝔭) := dim V_good^P = Σ_{x∈Z_good} mult^P(x)`. For `P = 1` these are `M_j(𝔭)`, `V_x`, `V_good`, `mult(x)` and
+`d^Z_j(𝔭)`. The *base level* is `(P_0, χ_{P_0})`, read on `U(V_j)` in the convention in which the model lift `θ_j(ξ_𝔭)`
+carries the level part into the level-`(P_0, χ_{P_0})` part of `𝒞(W_j)`.
+
 `w_{tr}(E)` is the largest integer `N` with `χ_cyc^{tr} ≡ 1 (mod N)` on `G_E`; its `ℓ`-adic valuation `v_ℓ(w_{tr}(E))` is the
 invariant of the twist theorem.
 
@@ -267,6 +278,10 @@ specific to the chain:
    `x ∈ X_s(π)` is the eigensystem of a representation in whose level-fixed vectors, at each type place `v`, the series of
    `s_π(v)` occurs; so `Z ∩ X_s(π) ⊂ Z_good`; and
    `η_j(𝔭) ≤ Σ_{π∈Z_good} mult(π)·(v(c′(π)) + v_ℓ(|G₀|))`, `c′(π) := {f(π) : f ∈ 𝕋_𝔪, f = 0 on X_s(π) ∩ X_𝔪 ∖ Z}`.
+4. *Level parts.* For a level `(P, χ_P)` put `η^P_j(𝔭) := Σ_𝔪 η_{Z_good ∩ X_𝔪}((M_j(𝔭)^P)_𝔪)` at a twisted place and `0`
+   elsewhere. Then `e_𝔭·η^P_j(𝔭) = length_𝔭(pr M_P/(M ∩ Z_j^P))` in the notation of 7.15 (c′), and
+   `η^P_j(𝔭) ≤ Σ_{π∈Z_good} mult^P(π)·(v(c(π)) + v_ℓ(|G₀|))`, and the same with `c′(π)`, with the ideals `c(π)`, `c′(π)` of
+   (2), (3). For `P = 1` this is (1)–(3).
 
 *Route.* (1) Lengths are additive over the localisations of a module over the semilocal `𝕋`, and `e_{Z_good}` is the
 orthogonal projection to `V_good` because the Hecke operators are normal; the Hecke operators and the good idempotent are
@@ -282,7 +297,11 @@ a property of the label tuple, so a point of `Z` at which the series of the `s_�
 the family form LengthBoundsInPadicFamilies §1.7a(4′), with one endomorphism for each `π`: take `f_π ∈ 𝕋` vanishing on `X_s(π) ∖ Z` with
 `f_π(π)` a generator of `c′(π)`, and `α′_π := f_π·α_π`; it commutes with the Hecke algebra, acts on `V_π` by
 `|G₀|·f_π(π)`, and vanishes on `V_x` for every `x ∉ Z_good` (off `X_s(π)` by `α_π`, on `X_s(π) ∖ Z` by `f_π`, and
-`X_s(π) ∩ Z ⊂ Z_good`). The cuts for different `π` need not be disjoint.
+`X_s(π) ∩ Z ⊂ Z_good`). The cuts for different `π` need not be disjoint. (4) `α` and the `α_π` are central in `O[G₀]`, so
+they preserve the level parts, and (1)–(3) apply to the `𝕋`-module `M_j(𝔭)^P`. Its Hecke algebra is a quotient of `𝕋` and
+its points are points of `X`; an element of `𝕋_𝔪` vanishing on `X_s ∩ X_𝔪 ∖ Z` maps to an element of the quotient
+vanishing at its points there, with the same value at `π`; so the ideal formed with the quotient as in (2) contains
+`c(π)`, and its valuation is at most `v(c(π))`; likewise for `c′(π)`.
 
 *Check.* For `𝕋 = M = {(a, b) ∈ O² : a ≡ b (mod ℓ^n)}` acting on itself and `Z_good` the first point, `η = n`; if
 `M = (M ∩ V_good) ⊕ (M ∩ V_good^c)`, then `η = 0`.
@@ -318,8 +337,14 @@ that:
 2. `r_x` is unramified outside `Σ(𝔭) ∪ Q(ψ_𝔭)` and the places above `ℓ`;
 3. at a place `w ∤ ℓ` in `Σ(𝔭) ∪ Q(ψ_𝔭)`, where the parameter of `BC(Π)_w` is tame with `N = 0`: `N(r_x|_w) = 0` and the
    restriction of `r_x` to inertia is that of the parameter of `BC(Π)_w`;
-4. at `w | ℓ` with `ℓ ∉ {g₀, g₁}`: `r_x` is crystalline with Hodge–Tate weights `{λ_{τ,a} + (r + t) − a}` given by the
-   highest weight of `𝒲_j` (RowTowerAndRallisIdentities §5.7), the same for all `x`; at `w | ℓ` with `ℓ ∈ {g₀, g₁}`, where the parameter of `BC(Π)_w`
+4. at `w | ℓ` with `ℓ ∉ {g₀, g₁}`: `r_x` is crystalline, and at an embedding `τ : E → ℚ̄_ℓ` inducing `w` its Hodge–Tate
+   weights are `{i − 1 − λ_{ι∘τ,i} : 1 ≤ i ≤ r + t}`, where for `σ : E → ℂ` the weight
+   `λ_σ = (λ_{σ,1} ≥ ⋯ ≥ λ_{σ,r+t})` is the one for which the infinitesimal character of `BC(Π)` at `σ` is `λ_σ + ρ`
+   (BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1); they are the same for all `x`. Equivalently they are
+   `{κ_{ι∘τ,a} + (r + t) − a : 1 ≤ a ≤ r + t}`, `κ_σ = −w₀λ_σ` being the highest weight at `σ` of the representation in
+   which the forms of `M_j(𝔭)` take values (its contragredient is the archimedean component of `Π` at `σ`): in the
+   notation of this layer, `𝒲_j` at `σ`. (RowTowerAndRallisIdentities §5.7 does not give the highest weight of `𝒲_j`;
+   the weights are made explicit in 7.6 (a).) At `w | ℓ` with `ℓ ∈ {g₀, g₁}`, where the parameter of `BC(Π)_w`
    is tame with `N = 0`: potentially crystalline, with `N = 0` and the inertial type of the parameter of `BC(Π)_w` on
    `WD(D_pst)`;
 5. the Hodge–Tate weights at `τ∘c` are `w₀ − (those at τ)` for one integer `w₀`;
@@ -358,7 +383,8 @@ those operators, which makes the family a determinant in Chenevier's sense (Inte
 set; uniqueness by IntegralHeckeAndGaloisDeterminants §4.1 *Uniqueness from Frobenius density*). (2) and (3) are obtained block
 by block, for the cuspidal constituents, from the away-prime comparison (BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.1, with the monodromy), and the second half of
 (4) from the comparison at the coefficient prime for parameters induced from unramified extensions (BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.1): at a type place
-the local components have depth zero, so their parameters are tame (BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.34(ii))
+the local components have depth zero, so their parameters are tame (BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.35 (d): the
+parameter of an irreducible representation is trivial on wild inertia exactly when the representation has depth zero, in every rank)
 and every irreducible constituent is induced from a tame character of an unramified extension (Clifford theory); the
 matching of the weak base change at split places is EndoscopicTransferAndUnitaryTraceComparison §6.29. The explicit
 inertial type in terms of labels (BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.2) is not used here; 7.9 uses it. The first half of (4): `BC(Π)_w` is unramified at `w | ℓ` because `ℓ`
@@ -415,7 +441,7 @@ Conventions; with uniformizers sent to arithmetic Frobenius elements the root wo
 AutomorphicGaloisRepresentationsPartII AG2.0, AG2.5 *Unramifiedness and the good-prime polynomial*, AG2.6 *Polarized
 admissibility at the coefficient prime*; BaseChangeAndGaloisRepresentationsForUnitaryGroups §§16.1 (the Galois representations of definite unitary groups), 14.1 (the
 away-prime comparison), 15.2 (the weight symmetry), 15.1 (the comparison at the coefficient prime for parameters induced
-from unramified extensions), 10.34 (ii), (iii), 10.35; EndoscopicTransferAndUnitaryTraceComparison §§6.29, 13.1, 13.4;
+from unramified extensions), 10.34 (iii), 10.35; EndoscopicTransferAndUnitaryTraceComparison §§6.29, 13.1, 13.4;
 FiniteReductiveGroups §§5.7, 6.3, 6.5 (the local type statement); AutomorphicLFunctionsAndLocalFactors AL.3.3.8; IntegralHeckeAndGaloisDeterminants
 §§4.1, 5.1; SmoothRepresentationsOfLocalGroups SR.2.2, SR.2.3, SR.3.2, SR.4.3; ArithmeticGaloisRepresentations §5.1;
 Chebotarev (Completed).
@@ -536,6 +562,9 @@ hypotheses of 7.5a: for `x ∈ Z_good` with rank-`r` part `Σ`,
 `θ_j(ξ_𝔭)^*` maps the part of `𝒞(W_j)` with parameter `Σ`
 isomorphically onto `V_x`; hence it maps the good part `𝒞(W_j)^{good}` (RowTowerAndRallisIdentities §5.3, through the isometry `W_j ≅ Y_0` at the type
 primes) isomorphically onto `V_good`, and `Σ_{π∈Z_good} mult(π) = d^Z_j(𝔭) = dim 𝒞(W_j)^{good}`.
+The lift commutes with `G₀`; so for every level `(P, χ_P)` it maps the level part of `𝒞(W_j)^{good}` isomorphically onto
+`V_good^P`, and `Σ_{π∈Z_good} mult^P(π) = d^{Z,P}_j(𝔭)` is the dimension of that level part. *The form of the formal
+proof* is the one at the base level (7.8a).
 
 *Route.* A dimension count: the lift is injective on each part (RowTowerAndRallisIdentities §5.7(ii)) and maps the part of parameter `Σ` into `V_x` (the
 parameter of a lift, 7.5(1), and strong multiplicity one, AutomorphicLFunctionsAndLocalFactors AL.3.7.2); the descent maps
@@ -865,7 +894,9 @@ characters `χ_cχ_1^{−1}` have the single weight `c − 1 ≥ 0`). (ii) Lengt
 above `ℓ` and `ν_{b,w}` the given lengths (its constant `4(N + t)(#Col + 1)v_δ` at `#Col = 0`, `N = r`), the module built on the
 points over `X_s`; the Selmer groups of the blocks as in (i); the finite classes of `(K_O/O)(−e)` over a finite extension of
 `ℚ_ℓ` are zero for `e > 0` and the unramified classes for `e = 0` (SelmerIwasawaCohomology §4.9), so for the character blocks
-"modulo the finite classes" is "modulo the unramified homomorphisms" for `c = 1` and "modulo zero" for `c ≥ 2`. (i) is the
+"modulo the finite classes" is "modulo the unramified homomorphisms" for `c = 1` and "modulo zero" for `c ≥ 2`.
+([FormalProof] carries this description of the finite classes of the character blocks as a hypothesis of its
+statement and verifies it where it applies the bound.) (i) is the
 case `ν_ρ(w) = ν_w`, `ν_χ(w) = (n_w + 2)c_B` at the rows, with columns. The character terms: for `g ∈ G_{E_w}` with
 `χ_cyc(g) = 1 + ℓ^{s_w}`, `v_ℓ(χ_cyc(g)^{−e} − 1) = s_w + v_ℓ(e)`.
 
@@ -1028,14 +1059,20 @@ ArithmeticGaloisRepresentations §§1.8, 5.1, 5.10; Chebotarev (Completed).
 of 7.7a and `E_{w,0}`, `s_w`, `K_w`, `f″_w` are those of 7.7b; `s_w = 1` and `K_w = E_{w,0}` when `E_w` is unramified, and in general
 `s_w ≤ 2 + log_ℓ n_w` and `v_ℓ(f″_w) ≤ log_ℓ n_w`, with `n_w ≤ [E:ℚ] = 4|A| ≤ 8x^{A_n}` (`SizeA`, ThetaChainsOnDefiniteUnitaryGroups §2.1). The *letters* of `w` are the
 embeddings of `E_w`, in Frobenius order, read through their places (FrobeniusRestrictedRieszSums §0.6(c)). Put
-`d^Z_j := dim 𝒞(W_j)^{good}`, which equals `d^Z_j(𝔭)` at every twisted `𝔭` (7.5b) and the dimension of the lifted
-subspace for the base tuple (the same argument with `ξ = 1`). `C` denotes absolute constants fixed with
+`d^Z_j := dim 𝒞(W_j)^{good}`, which equals `d^Z_j(𝔭)` at every twisted `𝔭` (7.5b); and for a level `(P, χ_P)` let
+`d^{Z,P}_j` be the dimension of the level-`(P, χ_P)` part of `𝒞(W_j)^{good}`, which equals `d^{Z,P}_j(𝔭)` at every twisted
+`𝔭` (7.5b). At the base level `d^{Z,P_0}_j = D_0`, the dimension of the base-level row space
+(RowTowerAndRallisIdentities §5.9, for the level parts). ([FormalProof] has `D_0` as the dimension of the base-level
+lifted subspace of the base tuple, and proves that the base-level lifted subspace has the same dimension at every
+twisted place.) `C` denotes absolute constants fixed with
 the lifting theorems, except where the Conventions (Constants) let it depend on `C_t`, `A_max` and `C_L`.
 
 *The character bound at the rows.* Under `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and the separation of ThetaChainsOnDefiniteUnitaryGroups §2.3c,
 for `x ≥ x₀`: at every twisted place `𝔭 | ℓ` with `ℓ ∉ {g₀, g₁}`, every place `w | ℓ` of `E` and every `π ∈ Z_good`, clause (TB)
 of 7.7b(i) holds at `w` with `c_B ≤ C_B·t·[E:ℚ]·(r + t)·(1 + log_ℓ(4b))`, `C_B` an absolute constant. At the type primes
-clause (TB) is not used: every block is treated by 7.7b(ii).
+clause (TB) is not used: every block is treated by 7.7b(ii). At `ℓ ∈ {2, 3}`, `ℓ | f_E` and `ℓ ∈ {q, d}` the local
+statement applied is the same (it holds for every `K₀ ⊆ K ⊆ K₀(μ_{ℓ^s})`, `ℓ = 2` with `s ≥ 2` included), and the bound
+for `c_B` there is this roadmap's: [FormalProof] states it at the primes of rows 2–4 and bounds rows 5 and 6 as wholes.
 
 *Route.* Let `0 → Y′ → Ỹ → O → 0`, `ỹ`, `ϕ` and `0 ≤ e < t` be as in (TB), and `E′_w := E_wK_w` (7.7b; its maximal unramified
 subfield is `K_w`, `K_w ⊆ E′_w ⊆ K_w(μ_{ℓ^{s_w}})` and `[E′_w : E_w] = f″_w`). SelmerLengthBoundsAndLocalLifting §4.9c (1) applies with `K = E′_w`,
@@ -1064,7 +1101,7 @@ finite sum of the `χ_1^{−1}r_x`. SelmerLengthBoundsAndLocalLifting §4.9c doe
 *NEW* (instance). At the primes of rows 2–4 of 7.10a: follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/LocalSituation.lean` (`Formalism.MainNotions.LocalSituation.TBat`),
 `Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean` (`Formalism.MainNotions.N.KillingConditions.InvariantsBoundsWithCoarseColumnConstant`).
-*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, 7.4, 7.6, 7.7a, 7.7b; SelmerLengthBoundsAndLocalLifting §4.9c; ClassFieldTheory §5.1
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, RowTowerAndRallisIdentities §5.9, 7.4, 7.6, 7.7a, 7.7b; SelmerLengthBoundsAndLocalLifting §4.9c; ClassFieldTheory §5.1
 (local Euler characteristic); ArithmeticGaloisDuality R02.2.3 (corestriction).
 
 ### 7.10a The congruence bound at one prime: the rows
@@ -1239,6 +1276,9 @@ finite; chain data as in 7.10a. For
 
 `Σ_{𝔭|ℓ} ϱ(𝔭)e_𝔭η_j(𝔭) ≤ log ℓ·d^Z_j·( C·x^C·η_s + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + 2ℓ^{−2} )`.
 
+For every level `(P, χ_P)` the same holds with `η^P_j`, `d^{Z,P}_j` in place of `η_j`, `d^Z_j` (7.1 (4)). *The form of the
+formal proof* is the one at the base level, where `d^{Z,P_0}_j = D_0` (7.8a).
+
 *Route.* Let `i″` be the other index. 7.7b(ii) with the cuts of 7.1(3): for each `π ∈ Z_good` take `X_s = X_s(π) ∩ X_𝔪`;
 `v_ℓ(|G₀|) ≤ f·r(r − 1)/2 + f·Σ_{a≤r}v_ℓ(g_{i″}^a − 1) ≤ 2fr²`, since `g_{i″} ≤ g_i²` (ThetaChainsOnDefiniteUnitaryGroups §2.7: both lie in `(Y, 2Y]`). (R) holds for
 the points of `X_s(π)` with `Σ(𝔭)` the places above `g_{i″}` together with `A(ℓ)` (as in 7.10a, with 7.4(7) for the points of
@@ -1284,7 +1324,15 @@ Under the hypotheses of 7.10a, among them the depth hypothesis on the thick set 
 
 and `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)`.
 
-*Route.* Sum 7.10a (with 7.1(2) and 7.5b for the multiplicities) and 7.10b over the twisted places.
+*At a level.* For every level `(P, χ_P)` at the type primes the same holds for the level parts:
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^P_j(𝔭) ≤ d^{Z,P}_j·( C·f·m·b·L² + V(E, t) )`. *The form of the formal proof.* At the base level this is
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·f·m·b·L² + V(E, t) )`, the form in which [FormalProof] states the sum: its congruence
+lengths are those of the base-level lattice and its factor is `D_0`. The form with `d^Z_j` (the whole lattice, `P = 1`)
+is this roadmap's, by the same route.
+
+*Route.* Sum 7.10a (with 7.1(2) and 7.5b for the multiplicities) and 7.10b over the twisted places. At a level
+`(P, χ_P)`: the same sum with 7.1 (4), the ideals `c(π)`, `c′(π)` and their bounds being unchanged and the multiplicities
+being `mult^P`.
 `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)`, `log h_E` and `log|G₀|` (ThetaChainsOnDefiniteUnitaryGroups §2.9a), and the sums over `Exc` (7.6(a)) and over the type primes are bounded by a power
 of `x·e^{x^{ε/4}}`, hence by `b`; `Σ_{ℓ≤ℓ*} log ℓ·B ≤ 1.1ℓ*·B ≤ C·f·m·b` by the definition of `ℓ*`;
 `Σ_{ℓ≤ℓ*} log ℓ·Σ_w(2n_wm + 1)·h/ℓ ≤ C·f·m·b·log ℓ*` (by `Σ_{ℓ≤y} log ℓ/ℓ ≤ log y + C`,
@@ -1330,13 +1378,18 @@ length bound `L_th ≤ C_L·log x` of 7.10c, for every step `j`
 
 `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭) ≤ d^Z_j·(C + κ_W)·x^ε·B₀`.
 
+For every level `(P, χ_P)` the same holds with `η^P_j`, `d^{Z,P}_j`. *The form of the formal proof.* At the base level,
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·(C + κ_W)·x^ε·B₀`, the form that GluedTargetAndDivisionInequality consumes (Downstream
+consumers).
+
 UniformWildKernelBounds §7.6 (stated for `0 < ε ≤ 2`), applied with its parameter `κ` equal to `C_t`, supplies the wild-kernel budget `κ_W = 1` on its windows, for
 the host fields `E_n(χ, {q, q′})` with `q ≡ 3 (mod 8)`, `q′ ≡ 7 (mod 16)`,
 every layer `n ≥ 2` with `2^n ≤ x^α` at each scale, and `t ≤ x^{C_t}` (the sum `V(E, t)` is monotone in `t`, and `exp(x^ε) = b ≤ B₀`).
 
 *Route.* 7.10c, with `f·m·b·L² = x^ε·B₀` and `V(E, t) ≤ κ_W·x^ε·B₀`. In [FormalProof] the bound of 7.10c carries the further
-nonnegative term `(log x)²·N_c` in the bracket, and the bound above reads `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭) ≤ d^Z_j·C·x^ε·(B₀ + N_c)` under
-`V(E, t) ≤ b` (`N_c` the budget of ThetaChainsOnDefiniteUnitaryGroups §2.1, `(log x)² ≤ x^ε`); that term is added only in its
+nonnegative term `(log x)²·N_c` in the bracket, and its bound reads
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·C·x^ε·(B₀ + N_c)` under `V(E, t) ≤ b`, for the base-level lengths (`N_c` the budget of
+ThetaChainsOnDefiniteUnitaryGroups §2.1, `(log x)² ≤ x^ε`); that term is added only in its
 last step, so 7.10c without it is proved there, and the form above follows from it.
 
 The wild-kernel budget is the only input of this layer that bounds the groups `Ш¹(E, ℓ, e)`, which enter every row of
@@ -1374,10 +1427,14 @@ product divided by `|P|`, and `𝔧 ≥ 0` any integer with `ℓ^𝔧·(M ∩ Z_
 
 `[pr M_P : (pr M_P)^∨]_𝔭 ≤ length_𝔭(pr M_P/(M ∩ Z_j^P)) + dim Z_j^P·e_𝔭·(𝔧 + v_ℓ(|P|·D_V))`;
 
-for the class-set product itself the same holds with `v_ℓ(D_V)`. For `P = 1` this is (b) with (c). [FormalProof] uses the
-bound in this form at the base level `(P_0, χ_{P_0})`, where `dim Z_j^{P_0}` is the dimension `D_0` of the base-level row
-space and the length is the congruence length at the base level; there `D_V` is formed for the tuple `ξ_𝔭`, and in sums
-over the twisted places one integer divisible by the `D_V` of all steps and all tuples is used.
+for the class-set product itself the same holds with `v_ℓ(D_V)`. For `P = 1` this is (b) with (c). *Normalisation.* (b)
+and (c) are stated for the class-set product itself, where any positive multiple of `D_j` serves and `D_V` is one; (c′)
+for the product divided by `|P|`, where the integer is `|P|·D_V`, the factor `|P|` coming only from the division.
+[FormalProof] states and uses (c′), at the base level `(P_0, χ_{P_0})`: there `dim Z_j^{P_0} = d^{Z,P_0}_j(𝔭) = D_0`, the
+length is `e_𝔭η^{P_0}_j(𝔭)` (7.1 (4)), and `D_V` is formed for the tuple `ξ_𝔭`. Its statement has a further term
+`e_𝔭·v_ℓ(s)` for an integer `s > 0` with `s·∇^∨ ⊂ Δ` and `s·Δ ⊂ ∇^∨` for the coefficient lattices; here `s = 1`, the
+Weyl and dual Weyl lattices being dual. In sums over the twisted places it uses one integer divisible by `|P_0|·D_V` for
+all steps and all tuples.
 
 *Route.* (a) is HermitianFormsAndLattices §4.0a (b) for `R = 𝒪_𝕃`, `c = c_𝕃` and the class-set product. (b) is HermitianFormsAndLattices §4.0a (c) with the
 ideal `𝔞 = D_j·ℓ^{𝔧_j(𝔭)}`: by the definitions `D_jℓ^{𝔧_j(𝔭)}(M ∩ Z_j) ⊂ D_jM′ ∩ Z_j ⊂ M^∨ ∩ Z_j` at `𝔭`, and
@@ -1395,8 +1452,11 @@ are finite subgroups of `U(V_j)(F) ⊂ GL_{2f(r+t)}(ℚ)`, whose orders divide t
 `𝒜_j^P` (HermitianFormsAndLattices §4.0a (b), (c)).
 
 Consequently the dual index of the projected lattice is the congruence module plus a defect of self-duality: the
-congruence lengths of 7.1, bounded in 7.10a–7.11, control `ℐ_j(𝔭)` up to `𝔧_j(𝔭)` (bounded by 7.16a (3)) and `v_ℓ(D_j)`, whose
-weighted sum over the places above `ℓ` is `v_ℓ(D_j)·log ℓ` by the product formula.
+congruence lengths of 7.1, bounded in 7.10a–7.11 (for the whole lattice and for every level part, 7.1 (4)), control
+the dual index up to the Weyl exponent (bounded by 7.16a (3)) and the valuation of the integer. The integer of (b)
+depends on the tuple `ξ_𝔭`, hence on the place; if `N` is a positive integer divisible by the `D_V` of every step and of
+every tuple that occurs (the Minkowski number of (c) is one), the weighted sum of `e_𝔭·v_ℓ(N)` over the places above `ℓ`
+is `v_ℓ(N)·log ℓ` by the product formula, and for the divided product of (c′) the same holds with `|P|·N`.
 
 *Check.* `M = 𝒪²` with the standard form at a place above `ℓ = 2`, unramified, `Z` the diagonal line, `M′ = M`:
 `PM = 𝒪 · (1,1)/2`, `M ∩ Z = 𝒪 · (1,1)`, so `e_𝔭η = 1`; `(PM)^∨ = 𝒪 · (1,1) = M^∨ ∩ Z`, and `ℐ = ℐ^+ = 1`: the bound is attained
@@ -1622,8 +1682,8 @@ Chebotarev (Completed) Layer 10; Tau Ceti `TauCeti.alternatingGroup_le_of_isPrep
 
 ## Downstream consumers
 
-GluedTargetAndDivisionInequality consumes the congruence lengths and their bounds (7.1, 7.10a–7.11), the dual index of the
-projected lattice (7.15, at the base level by its clause (c′)) and the Weyl exponent at the parameters (7.16a (3)): at each place `𝔭` the period is divisible by
+GluedTargetAndDivisionInequality consumes the congruence lengths and their bounds at the base level (7.1 (4), 7.10a–7.11),
+the dual index of the projected lattice at the base level (7.15 (c′)) and the Weyl exponent at the parameters (7.16a (3)): at each place `𝔭` the period is divisible by
 the accumulated gain for the tuple `ξ_𝔭` used there, the target lattice is glued place by place from the images of the
 integral forms of those tuples, and the divided source lattice pairs integrally with its dual (GluedTargetAndDivisionInequality §§7.12–7.14, through
 which the hypotheses of RowTowerAndRallisIdentities §5.8 enter); its theta conditions are polynomial conditions in the
@@ -1688,8 +1748,9 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 ### From RowTowerAndRallisIdentities, a sub-roadmap of this family
 
 - §5.3 (good label tuples, the good idempotent and the good part `𝒞(W_j)^{good}`, goodness clause (iii)), §5.7 (the model lift
-  `θ_j`, its level vector and its injectivity on the parts, the coefficient representation `𝒲_j`), §5.9, §5.11 (rationality of
-  the Hecke operators and of the good idempotent). Used in 7.1, 7.4, 7.5, 7.5a, 7.5b, 7.6, 7.9, 7.16a.
+  `θ_j`, its level vector, its commutation with `G₀` and its injectivity on the parts, the coefficient representation `𝒲_j`),
+  §5.9 (with the level parts), §5.11 (rationality of the Hecke operators and of the good idempotent). Used in 7.1, 7.4, 7.5,
+  7.5a, 7.5b, 7.6, 7.8a, 7.9, 7.16a.
 
 ### From FrobeniusRestrictedRieszSums, a sub-roadmap of this family
 
@@ -1714,7 +1775,7 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 
 - §§10.33c, 10.33d (matching of functions inflated from the residue field; labels of depth-zero representations under
   unramified base change of prime degree). Used in 7.9 (the tame labelled form).
-- §10.34 (ii), (iii) in every rank and §10.35 (b)–(d) (explicit parameters of depth-zero supercuspidal representations and the
+- §10.34 (iii) in every rank and §10.35 (b)–(d) (explicit parameters of depth-zero supercuspidal representations and the
   correspondence up to twist). Used in 7.4, 7.9.
 - §14.1 (the polarized away-prime comparison), §14.2 (its depth-zero case), §15.1 (the comparison at the coefficient prime for
   parameters induced from unramified extensions), §15.2 (weight symmetry), §16.1 (the Galois representations of definite
