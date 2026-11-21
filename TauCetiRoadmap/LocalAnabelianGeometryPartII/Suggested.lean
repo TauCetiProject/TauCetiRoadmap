@@ -21,7 +21,8 @@ Stated here, against the pinned Mathlib and Tau Ceti:
 * **Theorem A** [Abrashkin 2010] (README 5.4 and 6.4): a filtered isomorphism of maximal pro-`p`
   quotients `Γ_K(p) ≃ₜ* Γ_{K'}(p)` is induced by conjugation with an isomorphism of algebraic
   closures carrying `K` onto `K'`, for every `p`, in both characteristics;
-* **Theorem A′** [Abrashkin 2000] (README 9.3): the same for `G_K ≃ₜ* G_{K'}`, for `p ≠ 2`;
+* **the absolute form** (README 6.5; [Abrashkin 2000, Thm. A′] for `p ≠ 2`): the same for
+  `G_K ≃ₜ* G_{K'}`, for every `p`;
 * the class-two Campbell–Hausdorff law `x ∘ y = x + y + ½⁅x, y⁆` (README 0.3), with its
   associativity proved as a check on the definition;
 * `cd_p Γ_K(p) ≤ 1` for a field of characteristic `p` (README 1.1), from which Tau Ceti's pointed
@@ -39,7 +40,7 @@ Not stated here:
   quotients of it;
 * the liftings `O_M(L)` and the Magnus embedding `ψ_f` (README 1.2–1.6), which need the
   profinite Magnus algebra over `O(K(p))`;
-* the field of norms (Layer 6 and README 9.2), which FieldOfNorms owns and which has no
+* the field of norms (Layer 6), which FieldOfNorms owns and which has no
   declaration at the pins;
 * Deligne's triples, the categories `(ext F)^e` and `(ext Tr_e F)^e` and the equivalence of
   [Deligne 1984, Thm. 2.8] (README Layer 10), and Theorem B of [Abrashkin 2000] (Layer 11): their
@@ -80,7 +81,7 @@ noncomputable def localAbsoluteUpperRamificationGroup
 
 end Filtration
 
-/-! ## Layers 5, 6 and 9: Theorems A and A′ -/
+/-! ## Layers 5 and 6: Theorem A and its absolute form -/
 
 section TheoremA
 
@@ -113,11 +114,13 @@ theorem exists_ringEquiv_conj_of_filtered_absoluteGaloisGroupProP
         g (absoluteGaloisGroupProPQuotientMap p K τ) = absoluteGaloisGroupProPQuotientMap p K' τ' :=
   sorry
 
-/-- **Theorem A′** [Abrashkin 2000, Thm. A′, p. 139] (README 9.3). For `p ≠ 2` and local fields
-`K`, `K'` of residue characteristic `p`, every isomorphism `G : G_K ≃ₜ* G_{K'}` carrying `G_K(v)`
-onto `G_{K'}(v)` for every `v ≥ 0` is `τ ↦ e ∘ τ ∘ e⁻¹` for a ring isomorphism `e : K̄ ≃ K̄'`
-that restricts to a continuous isomorphism `K ≃ K'`. -/
-theorem exists_ringEquiv_conj_of_filtered_absoluteGaloisGroup (hp : p ≠ 2)
+/-- **The absolute form of Theorem A** (README 6.5, 9.2). For every prime `p`, `p = 2` included,
+and local fields `K`, `K'` of residue characteristic `p`, every isomorphism
+`G : G_K ≃ₜ* G_{K'}` carrying `G_K(v)` onto `G_{K'}(v)` for every `v ≥ 0` is `τ ↦ e ∘ τ ∘ e⁻¹`
+for a ring isomorphism `e : K̄ ≃ K̄'` that restricts to a continuous isomorphism `K ≃ K'`.
+[Abrashkin 2000, Thm. A′, p. 139] proves it for `p ≠ 2`; the README deduces it from Theorem A
+and the uniqueness of README 5.5. -/
+theorem exists_ringEquiv_conj_of_filtered_absoluteGaloisGroup
     (G : Field.absoluteGaloisGroup K ≃ₜ* Field.absoluteGaloisGroup K')
     (hG : ∀ v : LocalFieldsRamification.RamificationIndexDomain, 0 ≤ (v : ℝ) →
       (localAbsoluteUpperRamificationGroup K v).map G.toMulEquiv.toMonoidHom =
@@ -160,8 +163,9 @@ section Witt
 /-- **Witt's theorem** [Serre, *Galois Cohomology*, II §2.2]: for a field `K` of characteristic
 `p`, the maximal pro-`p` quotient `Γ_K(p)` of `G_K` has `p`-cohomological dimension at most `1`.
 With Tau Ceti's pointed Serre theorem
-`exists_convergesToOne_continuousMulEquiv_presentation_of_cohomologicalDimensionAt_le_one` this
-makes `Γ_K(p)` free pro-`p` on a basis converging to `1` [Abrashkin 2010, proof of Prop. 1.2]. -/
+`IsProP.exists_convergesToOne_continuousMulEquiv_presentation_of_cohomologicalDimensionAt_le_one`
+this makes `Γ_K(p)` free pro-`p` on a basis converging to `1` [Abrashkin 2010, proof of
+Prop. 1.2]. -/
 theorem cohomologicalDimensionAt_absoluteGaloisGroupProP_le_one_of_charP (p : ℕ) [Fact p.Prime]
     (K : Type) [Field K] [CharP K p] :
     cohomologicalDimensionAt.{0} p (absoluteGaloisGroupProP p K) ≤ 1 :=
