@@ -197,7 +197,7 @@ real span (Soulé 1999, Lemma 1, p. 5), since the Euclidean norm is at most the 
 
 *Route.* Choose a maximal linearly independent subfamily of `Λ₀` and complete it by unit vectors to a basis of `ℚ^ι`; the index of
 the lattice it spans is `|det| ≤` the product of the `ℓ¹`-norms of its members `≤ b^{#ι}`, and the torsion of `ℤ^ι/⟨Λ₀⟩` has at most as many
-elements as the quotient by that lattice (the saturation of `⟨Λ₀⟩` modulo `⟨Λ₀⟩` embeds in it and maps onto the torsion). *Needs:* Mathlib `Matrix.det`, `LinearIndependent`.
+elements as the quotient by that lattice (the saturation of `⟨Λ₀⟩` modulo the span of the subfamily embeds in it and maps onto the torsion). *Needs:* Mathlib `Matrix.det`, `LinearIndependent`.
 
 **Checks.**
 
@@ -282,7 +282,7 @@ p. 4) instead of the nerve of (c).
 There is an absolute `c₂` such that for every number field `L`, `N ≥ 1` and `m ≥ 0`:
 `log log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ c₂(m + 1)(nN)³N · log(2|d_L| n N)`; in particular `log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ (2|d_L|)^{(nN(m+1))^{c₃}}`
 for an absolute `c₃`, and `H_m(GL_N(𝒪_L); ℤ)` is finitely generated. All primes are included. The first bound, with the finite generation, is
-`log_log_card_torsion_groupHomology_GL_le` in `Suggested.lean` for totally complex `L`.
+`log_log_card_torsion_groupHomology_GL_le` in `Suggested.lean`.
 The published bounds of this kind discard small torsion:
 Soulé 1999, Theorem 1, p. 7, bounds the torsion of `H_k(SL_N(ℤ); ℤ)`, `k ≤ N(N − 1)/2`, modulo the primes `≤ N + 1` by a
 double exponential in `N`; for rings of integers of fields `L ≠ ℚ`, BFEH 2014, Corollary 2.3 and §§3.1–3.4, pp. 4–6, bound the torsion of the
@@ -311,7 +311,10 @@ The module `B` is the point: for `B = ℤ/ℓ^ν` the bound is empty as soon as 
 product of copies of `ℤ/ℓ^ν` indexed by primes. For `L` totally complex and `j < r₂(L)` the bound holds with `r₂(L)` in place
 of `ρ_j` without Borel's theorem; this is the case 9.7 uses. [FormalProof] states it in that case, with `n = 2j + 4`, as
 `UpperTheory.V.ZK.SUpper` (`AV/ModularityArgument/ClassCounting/LemmaKOfSteps.lean`), proved through `UpperTheory.V.ZK.sUpperOf`
-(`AV/ModularityArgument/ClassCounting/SUpperOf.lean`).
+(`AV/ModularityArgument/ClassCounting/SUpperOf.lean`) from the chain identities `UpperTheory.V.ZK.SChain` and the rank bound
+`UpperTheory.V.ZK.BOdd` (the image of `H_j(GL_n(𝒪_L); ℤ)` under the operator `∏_{t<j−1}(ψ^ℓ − ℓ^{t+2})` of the route
+below has rank at most `r₂(L)`), which it proves as `UpperTheory.V.ZK.sChain` (`AV/ModularityArgument/ClassCounting/SChain.lean`)
+and `UpperTheory.V.ZK.bOdd` (`AV/ModularityArgument/ClassCounting/BOdd.lean`).
 
 *Route.* A Bockstein identifies the obstruction to lifting a mod-`ℓ^ν` cycle with torsion in degree `j − 1`; on liftable cycles `Φ`
 descends to a homomorphism on integral homology; `Φ` is primitive, so `ℓ^{j−1}Φ` factors through the primitive part, of rank `ρ_j` (ArithmeticKTheory §3.4) modulo torsion: `∏_{t<j−1}(ψ^ℓ − ℓ^{t+2})` projects onto
@@ -410,7 +413,7 @@ the bound being [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVar
 (`UpperTheory.V.kBound`),
 and proves `∃ C_K, LemmaK C_K` by the first route below as `UpperTheory.V.ZK.lemmaK`
 (`AV/ModularityArgument/ClassCounting/LemmaKOfLitN.lean`), from Poitou–Tate duality, local finiteness and local Tate duality
-taken as hypotheses. The corestriction form is this roadmap's.
+taken as hypotheses and from the rank bound `UpperTheory.V.ZK.BOdd` of 9.5, which it proves as `UpperTheory.V.ZK.bOdd`. The corestriction form is this roadmap's.
 
 *Route.* (1) `length H² ≤ length Ш¹ + Σ_{v|ℓ} length H⁰(L_v, ℚ_ℓ/ℤ_ℓ(−E))` (6.17(c)), the local terms being small since `ℓ ≤ n + 1`.
 (2) Enlarge `L` inside its cyclotomic `ℤ_ℓ`-tower to `L′` with `2E + 1 < ℓ^{c′} ≤ 2[L′:ℚ]`; restriction `Ш¹(L, ℓ, E) → Ш¹(L′, ℓ, E)` is
@@ -550,7 +553,8 @@ Let `A` be an algebraic extension of `ℚ` containing the cyclotomic `ℤ_p`-ext
 `p = 2` (so that "unramified" imposes no condition at real places), `A′/A` a cyclic
 extension of degree `p` ramified only at a finite set `P` of places of `A` not above `p`, and `X(A)` the Galois group of the
 maximal unramified abelian pro-`p` extension of `A`, with `rank_p X(A) = dim_{𝔽_p} X(A)/p ∈ ℕ∞`. Prove
-`rank_p X(A′) ≤ p (rank_p X(A) + #P)`. Iterating along a chain `A_0 ⊂ A_1 ⊂ ⋯ ⊂ A_r` of cyclic extensions of degree `p`, `A_j/A_{j−1}`
+`rank_p X(A′) ≤ p (rank_p X(A) + #P)`. The route below does not use that `A` contains a cyclotomic `ℤ_p`-extension; that
+hypothesis is the setting in which [FormalProof] and UniformWildKernelBounds use the bound. Iterating along a chain `A_0 ⊂ A_1 ⊂ ⋯ ⊂ A_r` of cyclic extensions of degree `p`, `A_j/A_{j−1}`
 ramified only at a finite set `P_j` of places not above `p`: `rank_p X(A_r) ≤ p^r rank_p X(A_0) + Σ_{j=1}^{r} p^{r−j+1} #P_j`.
 For `p = 2` this is the statement of [FormalProof], which UniformWildKernelBounds uses for two quadratic steps; for odd `p` it
 is this roadmap's, by the route below.
@@ -695,7 +699,9 @@ character `χ` of conductor dividing `p`; and `V_λ(f)` is irreducible on `G_{K(
 admissibility, the conditions `GlobalTheory.Ord2.admitted` (`Development/AbelianVarietyTheory/Definitions/Foundations/FinalTheorems.lean`)
 and `GlobalTheory.Ord2.SrcL` (an ordinary newform of level prime to `p`), as `GlobalTheory.Ord2.VanishOrdL`
 (`Development/AbelianVarietyTheory/Definitions/Foundations/VanishOrdL.lean`); it proves this as
-`GlobalTheory.Ord2.vanishOrdL_of_zetaUr` (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`)
+`GlobalTheory.Ord2.vanishOrdL_of_zetaUr` (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`),
+from `GlobalTheory.Mem.LiteralAutomorphy.LitCoh` (`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/Brauer.lean`)
+and `GlobalTheory.Ord2.ZetaUr` (`Development/AbelianVarietyTheory/Statements/CuspidalUnitaryTwists/ZetaUr.lean`) taken as hypotheses,
 through an Euler system, not through the finiteness of Selmer groups. The statement for every abelian `K`, every `k` and `r`
 and every admissible pair is this roadmap's.
 
