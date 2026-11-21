@@ -27,8 +27,8 @@ place conditions of 5.8b, under the size predicate `Size_□` of 5.8e, if the fi
 algebraic numbers that 5.8 names and the hypotheses of (1) hold for every tuple considered, then Bessel periods define an
 `𝕃`-structure `𝔼_𝕃` of `𝔼^♮` that contains `ι_ξ(x)` for every tuple `ξ` and every `𝕃`-rational form `x` and is stable under
 `G₀` and the Hecke operators away from `S(1)`; the constants of the squares of the grid satisfy
-`c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. (3) *The descent on rational coordinates.* If moreover consecutive entries of the row
-parameter are at least `100r⁴` apart and `𝕃` contains the eigenvalues of finitely many Hecke operators separating the
+`c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. (3) *The descent on rational coordinates.* If moreover `E` is one of the cyclic hosts on
+which the chain is built, consecutive entries of the row parameter are at least `100r⁴` apart and `𝕃` contains the eigenvalues of finitely many Hecke operators separating the
 eigensystems of `𝔼^♮`, then for every tuple `ξ` and every level `(H, χ_H)` at the type primes whose character has values in `𝕃`,
 `ι_ξ` maps the `𝕃`-rational points of `ι_ξ^*(𝔼_{(H,χ_H)})` injectively onto `e_{(H,χ_H)}𝔼_𝕃`, and on the part of each eigensystem
 `⟨ι_ξx, ι_ξy⟩ = |H| · 𝔫 · ∏_j λ_j(ξ, 𝔥) · X_ξ(x, y)` for the class-sum form `X_ξ` of the coordinates; for the base
@@ -154,6 +154,11 @@ conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1" means `Size(x, ε)`; a t
 **Routes.** The mathematics of this roadmap follows a complete formal proof ([FormalProof]); every target states what
 that proof establishes. Where a route is not given, or not given in full, the target says so in its route.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ### Table of symbols
 
 | Symbol | Meaning | Defined |
@@ -212,11 +217,6 @@ that proof establishes. Where a route is not given, or not given in full, the ta
 | `(L1)–(L7), T_w(ξ), d(w)` | the condition on `𝕃`; the places of `E` it concerns for a tuple `ξ`; the exponent of `𝔪_□` at `w` | 5.8 |
 | `𝔫` | the descent constant | 5.10 |
 | `j_σ` | the realisation of the rational structure at an embedding `σ` | 5.10a |
-
-**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
-hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
-[FormalProof].
 
 ## Layer 5: The row tower and the Rallis identities
 
@@ -759,7 +759,8 @@ integral of a form of level `(P, χ_P)` against the vector of that level is its 
 level group); so by the inner product formula of 5.5 some up-lift `Θ_{i+1}u` is nonzero, and it is an eigenform with
 family `B^{(i+1)}` (5.2 (3)). By induction the adjoint `Θ_i ∘ ⋯ ∘ Θ_1` of the composite maps every eigenform of stage
 `0` with family `B` to a nonzero eigenform with family `B^{(i)}`; `B ↦ B^{(i)}` is injective; so the adjoint is injective
-on the span of the eigenforms, which is the whole level part of `𝒞_0`, and the composite is onto.
+on the span of the eigenforms, which is the whole level part of `𝒞_0`, and the composite is onto ([FormalProof]:
+`GlobalTheory.ChainOnto.OntoAll`, `Development/AbelianVarietyTheory/Definitions/LatticeFrames/ChainParSucc.lean`).
 
 *Addition (this roadmap's own: for a twisted tuple, and for the identity below on the rows that are not good,
 [FormalProof] has no statement).* The induction of the Route below on all rows gives
@@ -859,8 +860,12 @@ function of `F` for even `n`). (ii′) With the level vector of a level `(H, χ_
 holds on the level-`(H, χ_H)` part of `𝒞(W_j)[𝔥]` with `a_j` multiplied by `|H|`. (iii) `λ_j(ξ, 𝔥) > 0` whenever
 `𝒞(W_j)[𝔥] ≠ 0`.
 
-*Route.* The irreducibility of the coefficient representation `𝒲_j` and the existence of the intertwiner are not given
-here. *Lemma.* In the mixed model adapted to `W = ⟨ξ′⟩ ⊕ W₀ ⊕ ⟨ξ′^∨⟩` the transvections act on
+*Route.* The irreducibility of the coefficient representation `𝒲_j` and the existence of the intertwiner are not proved
+here: [FormalProof] carries an irreducible coefficient representation in its model records (`Formalism.IndefR.Links.CoefA.Is`,
+`Formalism/LocalToGlobal/IndefiniteReal/LinksDefs.lean`, a field of `Formalism.IndefR.Links.RealDat.IsModels`,
+`Formalism/LocalToGlobal/IndefiniteReal/LinksChar.lean`) and proves from them the intertwiner, in the form
+`Formalism.IndefR.Links.IsIoW` of the same file (`GlobalTheory.T.exists_lowestKType_coeffSpace_fockMap`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/ExistsLowestKTypeCoeffSpaceFockMapStatement.lean`). *Lemma.* In the mixed model adapted to `W = ⟨ξ′⟩ ⊕ W₀ ⊕ ⟨ξ′^∨⟩` the transvections act on
 `φ(x, y)`, `x ∈ V ⊗ ξ′^∨`, by `ψ(s⟨x, x⟩)`, so the constant term along `Z_{ξ′}` keeps the rational `x` with `⟨x, x⟩ = 0`, that is
 `x = 0` (`V` anisotropic); at the split place this term is an integral of `φ_v` over the maps killing `ξ′`, which are not
 injective, so it vanishes. `Z_{ξ′}` lies in the unipotent radical of the stabiliser of any isotropic flag whose first
@@ -980,7 +985,9 @@ outside `S_□ ∪ Q(ξ)`. (p) *The auxiliary prime.* `p_□` is prime to `N_E` 
 `2` above `S₀`: the obstruction `(★)` is a character of `μ_{E/F}`, and at `v_□` the tame characters of `𝔽_{p_□}^×` with a
 prescribed restriction to the image of `μ_{E/F}` form a coset of size `(p_□ − 1)/#μ_{E/F} ≥ 2`, which contains a nontrivial
 one (the other units of `E` are, up to index `2`, units of `F`, on which every prescribed component is trivial). The
-existence of the places `w(v)` under the conditions of the last sentence of (e) is not given here. (s)
+existence of the places `w(v)` under the conditions of the last sentence of (e) is not proved here; [FormalProof] proves it
+for type and auxiliary primes split in `K` (`GlobalTheory.RowEx.GridExPf.exists_places_of_cls`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/GridExistenceOfFunctoriality.lean`). (s)
 `Im τ(δ_T) > 0` for `τ ∈ Φ` (ThetaChainsOnDefiniteUnitaryGroups §3.2) and `δ_Y = −δ_T`. The signatures of the grid spaces and the infinity types of the characters
 are read at the same embeddings `τ ∈ Φ`, and the triple of a square carries the skew form `δ_Y⟨·,·⟩` on `X ⊕ Y`, so the
 embedding of ThetaLiftsForDefiniteUnitaryGroups is `τ`; at `τ` the infinity types are `(z/z̄)^{−e_j(τ)}` for `μ_{j+1}` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b),
@@ -993,7 +1000,11 @@ has conductor exponent exactly `2`, so it is nontrivial on the principal units, 
 there (ThetaChainsOnDefiniteUnitaryGroups §2.4(b), ThetaChainsOnDefiniteUnitaryGroups §2.5), hence trivial on them. At the other places of `Q(ξ)`: `ξ` is ramified, `χ_{m−i}` and `μ_{j+1}` are not.
 Elsewhere `η̃` and `μ_{j+1}` are unramified outside `S₀` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b)), `μ_{j+1}(ξ)` outside `S₀ ∪ Q(ξ)` (ThetaChainsOnDefiniteUnitaryGroups §2.5), `χ_{m−i}` outside `S_□`.
 (p) `r′ | p_□ − 1` and `r′ ∤ (p_δ − 1)(p′_δ − 1)` give `p_□ ≠ p_δ, p′_δ`; the congruence gives the coprimality to `N_E`. The
-statements on the discriminant of `F` and on `#μ_E` are not given here.
+statements on the discriminant of `F` and on `#μ_E` are not proved here; [FormalProof] proves them
+(`GlobalTheory.DifferentAtBasePlace.leastSplitAuxiliaryPrime_not_dvd_discr_base`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/AuxiliaryPlaceNotDvdDifferentBaseField.lean`;
+`GlobalTheory.GridChars.torsion_order_lt_auxiliary_prime`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsPrimeOfMemChiGridBadPlaces.lean`).
 
 *NEW* (the grid). *Needs:* 5.2, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.2, FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5.
 
@@ -1023,7 +1034,8 @@ unramified outside the split set
 exist at every place, for the triple and for every smaller triple reached by removing adapted planes
 (ThetaLiftsForDefiniteUnitaryGroups §6.2 in the form of the formal proof, under hypotheses 1–4 of
 ThetaLiftsForDefiniteUnitaryGroups §6.11; at the real places ThetaKernelsForUnitaryDualPairs §3.47b (o), (ii), (iv), under 3), and
-ThetaLiftsForDefiniteUnitaryGroups §6.11 applies to every square.
+ThetaLiftsForDefiniteUnitaryGroups §6.11 applies to every square ([FormalProof]: `GlobalTheory.FunObj.SquareTriple`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SquareTriple.lean`).
 
 *Route.* The rank conditions are integer arithmetic: `a − a′ = t + s`, `p + q = m − j − 1`, so `(t + s)/2 > 2m − 1 ≥ 2(p + q) + 1`
 by `t ≥ 3m + 1` and `s = r + 6 > m`; `a′ ≥ r = k + m − 1 ≥ 2m + 2`; `a + a′ ≡ t + s ≡ 0`. These are the only uses of (R1), (R2). The
@@ -1057,7 +1069,14 @@ identification `Hom(S, T) ≅ Hom(T, S)` (conjugate-linear, it turns `Tr(−δ_T
 theta integral over `[U(M′)]` converges absolutely, and `I(z·Φ)/deg z` does not depend on `z`. (iii) *The square constant:*
 there is a unique `c = c(i, j, ξ) ≠ 0` with `∫_{[U(M)]} K_{X→M→Y} = c·∫^{reg}_{[U(M′)]} K_{X→M′→Y}` on matched data normalised as in
 ThetaLiftsForDefiniteUnitaryGroups §6.2 (at the places of `T` the constant depends on the normalisation of the two local zeta
-integrals there, which ThetaLiftsForDefiniteUnitaryGroups §6.2 fixes for every tuple in the same way).
+integrals there, which ThetaLiftsForDefiniteUnitaryGroups §6.2 fixes for every tuple in the same way). [FormalProof] has
+(iii) as `GlobalTheory.FunObj.IsSquareConst` (`Development/AbelianVarietyTheory/Definitions/Divisors/ExistsNotRelZero.lean`),
+and (i) for the route through `M′` with an explicit factor, a function of the point of `U(X)` times one of the point of
+`U(Y)` (`GlobalTheory.T.smallRoute_kernel_eq_char_mul_thetaKernel`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/SmallRouteKernelEqCharMulThetaKernelStatement.lean`), but for the
+route through `M` only with a nonzero factor depending on the two points (`GlobalTheory.T.big_route_kernel_eq_const_mul_theta`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/BigRouteKernelEqConstMulThetaStatement.lean`); that this factor is a
+unitary character is this roadmap's own, by the seesaw identity of the Route.
 
 *Route.* (i) The seesaw identity of the Weil representations: on `Hom(M, X ⊕ Y)` the Hom form of `(M(−1), X ⊕ Y)` is the sum of
 those of the right pair `(X, M)` on `Hom(M(−1), X)` and of the down pair `Y → M` read through the adjoint; on `Hom(M′, X ⊕ Y)` the
@@ -1090,9 +1109,11 @@ that of the self-dual lattice for the character, and `c_{T,l}(ξ) = ∏_{v∈T(�
 data normalised as in ThetaLiftsForDefiniteUnitaryGroups §6.2, chosen for every tuple, the same at the places of `S_□` for all tuples; for the base
 tuple `T(1) = S_□`; every `T(ξ)` lies in the finite set `P` formed by `S_□` and the places below the sets `Q(ξ)` of the
 tuples considered (split places at which the standard character is unramified, 5.8b), with bases chosen once at every place
-of `P`, placed as in ThetaLiftsForDefiniteUnitaryGroups §6.5, and the lattice vectors there the indicator functions of the
-integral matrices in these bases, so that ThetaLiftsForDefiniteUnitaryGroups §6.12 gives one constant `C` for all the
-tuples; each `u_l` is of the form `β·∏_{v∈S₀} g(v)/g′(v)` with `β ∈ 𝕃` a unit away from the twist primes of `ξ`
+of `P`, placed as in ThetaLiftsForDefiniteUnitaryGroups §6.5, the lattice vectors there the indicator functions of the
+integral matrices in these bases, and the place `v₁` of ThetaLiftsForDefiniteUnitaryGroups §6.3 chosen once for all the
+tuples considered, outside `P` and over a rational prime that splits completely in `E` (every square satisfies hypotheses
+1–4 of ThetaLiftsForDefiniteUnitaryGroups §6.11 by 5.8b, and under them §6.3 gives `ν_{ξ,w₁}(ϖ_{w₁}) ≠ 1` at every such place, `w₁ | v₁`),
+so that ThetaLiftsForDefiniteUnitaryGroups §6.12 gives one constant `C` for all the tuples; each `u_l` is of the form `β·∏_{v∈S₀} g(v)/g′(v)` with `β ∈ 𝕃` a unit away from the twist primes of `ξ`
 and `g(v), g′(v)` integers of `𝕃` dividing `N(v)^{c(v)}`, `c(v)` the conductor exponent at `v`),
 `r_{ij}(ξ)` is the product of `c0(ξ)/c0(1)`, of `p` values `ρ_ξ(s)` and of `q` inverse values `ρ_ξ(s)^{−1}` at
 consecutive integers. Moreover:
@@ -1132,8 +1153,8 @@ consecutive integers. Moreover:
   at a place `𝔭` above the residue characteristic of `v ∈ S_□`, `v_𝔭(N v^{−c·n}) = −c·n·v_𝔭(N v)` with `|n|` up to half the
   difference of the ranks of the square.
 
-*Route.* The tower recursion of ThetaLiftsForDefiniteUnitaryGroups §6.12 (under its hypotheses 1–4, given by 5.8b, with one
-constant `C` for all the sets `T(ξ) ⊆ P`, which therefore cancels in `r_{ij}(ξ)`): `q` steps on
+*Route.* The tower recursion of ThetaLiftsForDefiniteUnitaryGroups §6.12 (under its hypotheses 1–4, given by 5.8b, with the
+place `v₁` fixed outside `P` and one constant `C` for all the sets `T(ξ) ⊆ P`, which therefore cancels in `r_{ij}(ξ)`): `q` steps on
 `M′` divide by `L`-values at `ε_□ + 1, …, ε_□ + q`, `p` steps on `M` multiply by `L`-values at `ε_□ + q, …, ε_□ + q − p + 1`, and
 since `q − p ∈ {0, 1}` they telescope to at most one factor; the lattice-change factor of ThetaLiftsForDefiniteUnitaryGroups §6.12 is `ν_w(ϖ_w)^{2k}`. *Constants at
 `T`:* the value of `c_v(ξ)` is the constant at `T` of ThetaLiftsForDefiniteUnitaryGroups §6.5, the local constant of the step
@@ -1187,11 +1208,22 @@ smooth vector `w` of `𝒟^{(0)}` and to `(𝐩, ℓ⁺)` consists of the functi
 indexed by (coset data) × `Cl⁺` × (basis of `V_{Λ⁺}(𝕃)`); their number is
 `N(𝔪_□)^{Σ_{i<m}(r+is)(r+(i+1)s)}·#Cl⁺·dim V_{Λ⁺}` (the first factor is the number of coset data, `∏_i#(Hom(Λ_{i+1,0}, Λ_{i,0})/𝔪_□)`).
 
-*The size predicate `Size_□`.* (o) The weight datum is that of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and the standing
-size predicates of the chain hold at its parameters (not given here: their list); (i) `m⁴ ≤ f` and `m ≥ 44`;
+*The size predicate `Size_□`.* (o) The weight datum is that of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and the
+parameters of the chain satisfy the standing size conditions of [FormalProof]: the conjunction `SizesAt` of its
+twenty-three named bounds on the ranks, the scale, the host, the weights, the primes and the words, with `11 ≤ B` for
+the bound `B` of its host record up to which every odd prime splits in `K` (`Formalism.MainNotions.SizesAt`,
+`Formalism/SharpRestriction/ElevenLe.lean`), and the existence of its records of auxiliary constants with the
+constant `CnW = 10` (`Formalism.BasicNotions.ParameterChoice'`, `Formalism/LocalRingCardinality/DataParams.lean`;
+`Formalism.BasicNotions.ParamsT`, `Formalism/LocalRingCardinality/DataParamsT.lean`). ThetaChainsOnDefiniteUnitaryGroups
+§2.1 packages part of these bounds as `Size(x, ε)` and lists further ones, without naming them all; (i) `m⁴ ≤ f` and `m ≥ 44`;
 (ii) `x²·m³·L·log rd_E ≤ k`; (iii) `m·f·N_m²·d ≤ b`; (iv) `f·m ≤ (r+1)³`; (v) `log g_i ≤ 9L + 1` (`i = 0, 1`) and
 `log p_□ ≤ L`; (vi) `log rd_E ≤ log N_E ≤ L/100`; (vii) `Sc + (m+1)·h_c + ½ ≤ b`; (viii) `e′_l(τ) > 0` and `e_l(τ) ≤ 4b`
-for all `l`, `τ`. Here `L = x^ε = log b`.
+for all `l`, `τ`. Here `L = x^ε = log b`. [FormalProof] collects (o)–(viii) in its predicate
+`GlobalTheory.IndefiniteRowSideFullHecke.LevelPlusSubgroup.SizeRows`
+(`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/LevelPlusSubgroup.lean`) with one more clause, that the ideal
+`ccK` of `𝒪_K` in its host record is `𝒪_K`; that clause is the normal form of the Conventions, since the purely imaginary
+element of that record is `−1/(N(ccK)·√−d)` (`Formalism/LocalRingCardinality/DataHost.lean`), which is `δ_T` exactly when
+`ccK = 𝒪_K`.
 
 *Statement (the separation).* For every `ε` and every `C_F ≥ 6510` there is `x₀` such that the following holds for every
 chain at a scale `(x, ε)` with `x ≥ x₀` and `Size_□`, with the grid of the chain (5.8a, for this `C_F`; its row `0` is the
@@ -1201,9 +1233,15 @@ Teichmüller characters of the chain), and the following measures: on `U(V(i, 0)
 normalised for the principal congruence subgroup of level `𝔪_□` of the lattice stabiliser, on `U(X⁺)(𝔸)` the one
 normalised for `K⁺`, and on `N⁺(𝔸)` the Haar measure with `vol([N⁺]) = 1`. For every nonzero smooth vector `w` of
 `𝒟^{(0)}` there are Fock data `𝐩` and a linear form `ℓ⁺` such that all the integrals defining the `ℬ_a` converge
-absolutely on all of `ℋ^♮` and the `ℬ_a` are jointly injective there. In particular they separate the points of `𝔼^♮`.
-Under `Size_□`, `p_□ < g₀` and `p_□ ≠ g₁`, so the grid exists (5.8a (e)). (Not given here: the normalisation "for a
-level" of these measures in terms of the conventions of 5.2.)
+absolutely on all of `ℋ^♮` and the `ℬ_a` are jointly injective there. In particular they separate the points of `𝔼^♮`. ([FormalProof] states the separation of `𝔼^♮`, with `Size_□` as its
+`SizeRows`: `GlobalTheory.IndefiniteRowSideFullHecke.LevelPlusSubgroup.FunctionalsSeparate`,
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/LevelPlusSubgroup.lean`; the steps (E), (F) of its route below are
+stated for all rows.)
+Under `Size_□`, `p_□ < g₀` and `p_□ ≠ g₁`, so the grid exists (5.8a (e)). (A Haar measure *normalised for* a compact
+open subgroup of the finite adelic points gives that subgroup volume `1`; at the real places it is the probability
+measure for the definite `U(X⁺)` and a Haar measure of `U(p, q)` fixed once for the indefinite `U(V(i, 0))`. Other Haar
+measures multiply every `ℬ_a` by one and the same positive constant, so neither the convergence nor the joint
+injectivity depends on these normalisations.)
 
 *Lemma (the depth pays).* Under `Size_□`, for every `C ≥ 0` and `x ≥ C + 1` there is `0 < σ ≤ ½` with
 `e^{Q}·r²·f·g₀g₁·|d_E|^{1/[E:ℚ]}·(2σ)^{1/m} ≤ ½` and `2e^{Q+(6r+15)f} ≤ σ^f·√N(𝔪_□)`, `Q = C·f(r+1)⁴·log b`. Route:
@@ -1213,13 +1251,18 @@ level" of these measures in terms of the conventions of 5.2.)
 
 *Lemma (the level is not too deep).* Under `Size_□`, `d_□ + 2 ≤ (50C_F + 3)·t⁹·L`, and
 `8N_□·log((p_□g₀g₁p_δp′_δ)^{d_□+2}) ≤ 1840(50C_F + 3)·b·log b`: the size condition into which `N(𝔪_□)` enters (the
-count of the terms of the coset expansions of 5.8). Its route is not given here.
+count of the terms of the coset expansions of 5.8). Its route is not given here; [FormalProof] has the second bound as
+the private theorem `size_le` of `Development/AbelianVarietyTheory/Proofs/DivisorProofs/PureTensorCountBoundOfCosetDepthBound.lean`
+(namespace `GlobalTheory.SumCount.Pure`), and the first as a step of its proof.
 
 *Lemma (the gaps of the grid).* For the grid of the chain, the entries of different signs of the Harish-Chandra
 parameter of the top stage `V(m, 0)` of column `0` are at least `120(r + ms)³` apart, and those of `Y_0` and of
 `X^c_0` at least `1000(r + 1)³` apart. Route: for `Y_0`, ThetaChainsOnDefiniteUnitaryGroups §2.3c (*Gaps of the row
 parameter*); for the stages that contain strings of the grid, the spacing `h_c > 2N_□³` of the centres; the
-verification is not given here.
+verification is not given here. [FormalProof] proves the bound at `V(m, 0)` under `Size_□` (`UpperTheory.Lit.Bur.Gap.fit_gap`,
+`Development/AutomorphicArithmetic/ThetaCorrespondence/BesselModels/GapArith.lean`) and those at `Y_0` and `X^c_0` for
+`x ≥ x₀` (`GlobalTheory.SepPer.realInputPar`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/BranchingHypothesesGridParametersLargeScale.lean`).
 
 *Route* (an outline: the steps are statements with no target here, and their proofs are not given here except as indicated):
 (A) *Column `0` is a tower:* each right step is an up-lift, so by the pair statement of 5.2 (ThetaKernelsForUnitaryDualPairs
@@ -1248,8 +1291,14 @@ family because Fock polynomials times coset indicators span the data of depth `�
 be fixed:* by (A), the tensor structure of `V_{Λ⁺}^∨` over the real places and the uniqueness of Bessel functionals of gapped
 discrete series at each real place (GanGrossPrasadUnitaryGroups 2.6), `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(e(w))) = a_w(𝐩, ℓ⁺)·l(e, y, 𝐜)`; one
 `(𝐩, ℓ⁺)` with `a_w(𝐩, ℓ⁺) ≠ 0` serves every `e`. (G) Linearity in `y` and the basis `y_{κ,i}` (the level `K⁺` is neat) give the
-finite family. The remaining steps of the route are not given here. The route of `p_□ < g₀` and `p_□ ≠ g₁` under `Size_□` is
-not given here.
+finite family. The remaining steps of the route are not given here: [FormalProof] states (B)–(E) as `GlobalTheory.SepRows.PeriodNe`,
+`CoreOnto`, `Ascent` and `WeakSep` (`Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/OffQOfSizeRows.lean`),
+and (F), (G) as `UpperTheory.Lit.Bur.factor_gap` and `UpperTheory.Lit.Bur.separate_of_burGapPos`
+(`Development/AutomorphicArithmetic/ThetaCorrespondence/BesselModels/SepGap.lean`). The route of `p_□ < g₀` and `p_□ ≠ g₁`
+under `Size_□` is not given here; [FormalProof] proves them (`GlobalTheory.GridJoin.auxiliaryPrime_lt_firstTypePrime_of_sizeRows`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/AuxiliaryPrimeLtFirstTypePrimeOfSizes.lean`;
+`GlobalTheory.RowEx.GridExPf.leastSplitAuxiliaryPrime_ne_typePrime_of_sizes`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/GridExistenceOfFunctoriality.lean`).
 
 *Check.* A totally definite subspace of `V(m, 0)` of rank `r` would have a complement of rank `ms`, which is not a Bessel
 datum for the signature of `V(m, 0)` (`m/2` negative directions): the subspace of the separation has codimension `m − 1`.
@@ -1266,8 +1315,9 @@ exponent of the modulus `𝔪_□` at `w` (`d(w) = 2` above `S₀`, `d_□` at `
 above `S_□`.
 - (L1) Every value of every local component, at every finite place of `E`, of `μ_j` (`1 ≤ j ≤ m`), of the twisting
   characters of the tuples and of `χ_1, …, χ_m`; the values `η̃(ϖ_v)·N v^{−1/2}` at the places where `η̃` is
-  unramified; the values at their unramified places of `δ`, `δ′` and of the character of `E` that the chain attaches
-  to `ψ` (not given here: its definition).
+  unramified; the values at their unramified places of `δ`, `δ′` and of `η̃²`, the unramified character of `E` trivial on
+  `𝔸_F^×` and of type `z/z̄` at every `τ ∈ Φ` that [FormalProof] lists beside `η̃` (its values
+  `η̃²(ϖ_v) = N v·(η̃(ϖ_v)·N v^{−1/2})²` follow from the previous clause).
 - (L2) The eighth roots of unity.
 - (L3) The roots of unity of order `N(w)^{d(w)}` for every `w ∈ T_w(ξ)`.
 - (L4) `√N(w)` for every `w ∈ T_w(ξ)`, and for every `w` in a set `P_𝔡` fixed with the grid: one place of `E` above
@@ -1276,9 +1326,12 @@ above `S_□`.
   ThetaChainsOnDefiniteUnitaryGroups §2.2 (g)).
 - (L5) *Phases.* For every `ξ`, every `w ∈ T_w(ξ)` and every local argument at `w` at which the local term of a coset
   expansion of 5.8 and the transported local datum are both nonzero, the value `ψ_w(φ)` of the additive character of
-  the Weil datum at `w` at the *phase* `φ` of the argument: the sum, over the steps `j` of the column, of a term
-  attached to the step point of the argument and, when `m − 2 − j` is even, of the pairing
-  `Σ_r (row variable)_{j+1,r}·(column variable)_{j,r}`. (For arguments with denominators at most `ϖ_w^{d(w)}` these are
+  the Weil datum at `w` at the *phase* `φ` of the argument: the sum, over the steps `0 ≤ j < m − 1` of the column, of the
+  sum of the entries at the positions `(i, i + 1)`, `0 ≤ i < m − 2 − j`, of the block of the step point of the argument
+  formed by its `m − 2 − j` added rows and its `m − 1 − j` added columns, and, when `m − 2 − j` is even, of the pairing
+  `Σ_r (row variable)_{j+1,r}·(column variable)_{j,r}` ([FormalProof]: `GlobalTheory.FunObj.phase`,
+  `Development/AbelianVarietyTheory/Definitions/Divisors/FlatTensorVacuum.lean`, in the condition
+  `GlobalTheory.RowTest.PhasesIn`, `Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/MemHalfCosetSelf.lean`). (For arguments with denominators at most `ϖ_w^{d(w)}` these are
   `N(w)^{d(w)}`-th roots of unity and (L5) follows from (L3).) *Jets.* For every `ξ`, every pure tensor of the coset
   expansions of 5.8 and every class of the class set: the entries, in the fixed `𝕃`-bases of the coefficient spaces, of
   the class-set theta kernels (ThetaChainsOnDefiniteUnitaryGroups §3.3) of the `2m` definite pairs at the definite
@@ -1297,9 +1350,13 @@ and those of the characters of the levels of ThetaChainsOnDefiniteUnitaryGroups 
 Every number in (L1)–(L6) is algebraic ((L6) by AutomorphicPadicLFunctionsPartII §5.8: `ν_ξ` and `ν_1` differ by a character
 of finite order, so they have the same infinity type, critical at these `s`, and their periods cancel in the ratio),
 and so are the quotients of (L7) for suitable `Ω`, `Ω′`; the set is finite once the
-tuples are fixed, and `𝕃` is chosen after the twisting datum (ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). Not
-given here: the existence of `Ω`, `Ω′` in (L7) (it belongs to the rationality of the theta integrals of definite
-triples, ThetaChainsOnDefiniteUnitaryGroups §3.3), and the explicit form of the term attached to a step point in (L5).
+tuples are fixed, and `𝕃` is chosen after the twisting datum (ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). The
+existence of `Ω`, `Ω′` in (L7) is not proved here (it belongs to the rationality of the theta integrals of definite
+triples, ThetaChainsOnDefiniteUnitaryGroups §3.3); [FormalProof] proves it, with the quotients in a number field, from the
+algebraicity of the periods of the bottom triangle (`GlobalTheory.RowEx.BotField.sumsIn_bottom`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/NormalFormBottom.lean`;
+`GlobalTheory.T.bottom_triangle_period_algebraic`,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/BottomTrianglePeriodAlgebraicStatement.lean`).
 Let `x ≥ x₀` and `Size_□` hold, for the grid of the chain (5.8e), take the functionals `ℬ_a` of 5.8e for a vector `w` and data `(𝐩, ℓ⁺)`
 chosen once (jointly injective by 5.8e), and assume the hypotheses of 5.6 for the base tuple and for every tuple `ξ`
 considered. There are a constant `κ_G ≠ 0` and, for every tuple `ξ`, a
@@ -1333,8 +1390,8 @@ unity (L2). Then `ℬ_a(ι_ξ x)` is a
 `(ϱ_ξ c_tot(ξ)/c_tot(1))^{−1}`-multiple of an element of `𝕃`. *The `𝕃`-structure.* `𝔼_𝕃` is an `𝕃`-subspace containing `ι_1(x)` for every
 rational `x`; these span `𝔼^♮` over `ℂ` because `ι_1` maps `Π_good·𝒰^♮_1 ⊗ ℂ` onto `𝔼^♮` (5.6) and `𝒰^♮_1` has the `𝕃`-structure of its
 rational forms; and `𝕃`-independent elements of `𝔼_𝕃` are `ℂ`-independent, because `e ↦ (ℬ_a(e))_a` is injective by 5.8e with
-values in `σ₀(𝕃)^A` on `𝔼_𝕃` up to the common factor. So `𝔼_𝕃 ⊗_𝕃 ℂ = 𝔼^♮`. For every `ξ`, `ι_ξ` is onto (5.6), so the lattice
-`ι_ξ(proj_{Q_ξ}(M̃_ξ ∩ ℋ^{rt}_ξ))` spans `𝔼_𝕃` and is finitely generated over the integers of `𝕃`: any two are commensurable. The
+values in `σ₀(𝕃)^A` on `𝔼_𝕃` up to the common factor. So `𝔼_𝕃 ⊗_𝕃 ℂ = 𝔼^♮`. For every `ξ`, `ι_ξ` maps `ℋ^{rt}_ξ` onto `𝔼 = 𝔼_1` (5.6), so the lattice
+`ι_ξ(proj_{Q_ξ}(M̃_ξ ∩ ℋ^{rt}_ξ))` spans `𝔼_{1,𝕃}` and is finitely generated over the integers of `𝕃`: any two are commensurable. The
 Hecke and `G₀`-stability because these operators act on the rational forms of `𝒰^♮_ξ` by `𝕃`-rational matrices and commute
 with `ι_ξ`.
 
@@ -1347,8 +1404,8 @@ AutomorphicPadicLFunctionsPartII §5.8.
 
 ### 5.9 Multiplicities on the row group and on the model groups
 
-Assume that consecutive entries of the row parameter `(v(τ); −e′(τ))` differ by at
-least `100r⁴` at every `τ ∈ Φ` (a size condition on the parameters, not an open statement: for the words of ThetaChainsOnDefiniteUnitaryGroups §2.3 it means
+Let `E` be a host of the chain, a cyclic host of FrobeniusRestrictedRieszSums §0.4, and assume that consecutive entries
+of the row parameter `(v(τ); −e′(τ))` differ by at least `100r⁴` at every `τ ∈ Φ` (a size condition on the parameters, not an open statement: for the words of ThetaChainsOnDefiniteUnitaryGroups §2.3 it means
 `4Δ_w ≥ 100r⁴`, `h_gap ≥ 100r⁴` in (W5) and `v_{k−2}(τ) + e′_0(τ) ≥ 100r⁴`, which `SizeGap` (ThetaChainsOnDefiniteUnitaryGroups §2.3c) and the range of `Δ_w` (ThetaChainsOnDefiniteUnitaryGroups §2.3b) give).
 Then for every step `j`, every tuple `ξ` and every Hecke eigensystem `𝔥` away from `S(ξ)`:
 `dim 𝔼^♮[𝔥] = dim 𝒞(W_j)^{good}[𝔥]`, where `𝒞(W_j)^{good} := Π_good·𝒞(W_j)` is the image of the good idempotent of 5.3
@@ -1362,7 +1419,7 @@ finite place, isomorphic at every finite place through isometries of self-dual l
 and `D_{W_j}` are discrete series with the same Harish-Chandra parameter, members of the same packet; the good types at
 the places above `g₀` are jointly cuspidal (5.3 (iv)). The equality of cuspidal multiplicities for two such inner forms
 (BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a, equality of cuspidal multiplicities for inner forms in an odd
-number of variables: isometric at every finite place through isometries carrying lattice to lattice, Harish-Chandra
+number of variables over a host of the chain: isometric at every finite place through isometries carrying lattice to lattice, Harish-Chandra
 parameters in `ℤ^r` with consecutive entries at least `100r⁴` apart and any members of the packets at the real places, a
 jointly cuspidal family of types on a NONEMPTY finite set `S` of split places, finite parts unramified outside `S`) gives
 `m_cusp(𝒟^{(0)} ⊗ σ) = m_cusp(D_{W_j} ⊗ σ∘Φ^{−1})` for every irreducible admissible `σ` of `U(Y_0)(𝔸_f)` with a type vector for
@@ -1381,15 +1438,17 @@ field enters only through the joint cuspidality of the good types (5.3 (iv)). De
 groups as (discrete series) ⊗ (finite part), taking the vectors of principal level at the type primes (where `Φ`
 identifies the two `G₀`-modules `σ^{K(g)}`), applying `Π_good` and the level idempotents and taking Hecke eigen-parts gives
 the equality of dimensions; the parts on both sides are those on which the Hecke operators act by `𝔥`, and the same `σ`
-occurs on both groups. (The set of good tuples is also stable under duality: condition (3) of 5.3 is symmetric in `χ_{v,j}`
+occurs on both groups ([FormalProof]: `GlobalTheory.CuspMult.MultEq`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinRepApply.lean`, over the host of its records). (The set of good
+tuples is also stable under duality: condition (3) of 5.3 is symmetric in `χ_{v,j}`
 and `χ_{v,j}^{−1}`, the others are invariant under `𝔣 ↦` its reciprocal; this is not used.)
 
 *KNOWN* in kind (Clozel; Labesse; Arthur), *NEW* in this form. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, 5.1, 5.3, 5.4, 5.7;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a (equality of cuspidal multiplicities for inner forms in an odd number of
-variables isometric at every finite place), with its inputs AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2,
+variables over a host of the chain, isometric at every finite place), with its inputs AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2,
 AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1, SmoothRepresentationsOfLocalGroups §§SR.2.2
 (the geometric lemma), SR.5.2 (segment representations);
-FiniteReductiveGroups §§1.2, 5.2, 5.5, 5.7 (for 5.3 (iv)).
+FiniteReductiveGroups §§1.2, 5.2, 5.5, 5.7 (for 5.3 (iv)); FrobeniusRestrictedRieszSums §0.4 (the hosts).
 
 ### 5.10 The descent constant through the model eigenvalues
 
@@ -1401,7 +1460,7 @@ Under the hypotheses of 5.6, for every tuple `ξ` and every eigensystem `𝔥` a
 `𝔫` independent of `𝔥` and `ξ`; the same holds on each level part `𝔼_b[𝔥]`. Here `ι_ξ^*` is the adjoint for the class-sum
 product of `𝒰^♮_ξ` and the Petersson product of 5.1 on `𝔼^♮`; on a level-`(H, χ_H)` part it is equally the adjoint for the form
 `X_ξ` (the class-sum product of `𝒰^♮_ξ` on that part divided by `|H|`) and the Petersson product divided by `|H|`. If
-`𝔼^♮[𝔥] ≠ 0`, then, under the hypothesis of 5.9, every `𝒞(W_j)[𝔥]` is nonzero and `λ_j(ξ, 𝔥)` is the eigenvalue of `θ_jθ_j^*`
+`𝔼^♮[𝔥] ≠ 0`, then, under the hypotheses of 5.9, every `𝒞(W_j)[𝔥]` is nonzero and `λ_j(ξ, 𝔥)` is the eigenvalue of `θ_jθ_j^*`
 there.
 
 *Route.* By the definition `λ_j(ξ, 𝔥) := a_j L_j` in 5.7 (ii), with `L_j = L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` the `L`-value
@@ -1409,7 +1468,12 @@ of 5.6, the identity is 5.6 rewritten: the chain's factor of step `j` and the mo
 same `L`-value, and no local factor is compared place by place. What 5.9 adds is that `λ_j(ξ, 𝔥)` is an eigenvalue of
 `θ_jθ_j^*` on a nonzero space (5.9 compares the parts on which the Hecke operators act by `𝔥` on both groups).
 
-*Check.* `m = 1`: `𝔫 = 𝔫_1/a_1`, and both sides are `𝔫_1 L_1`.
+*Check (the normalisation of the stages).* Replace `𝔪_j` by `c𝔪_j`, `c > 0`, for one `1 ≤ j < m` (5.2). The descent `io_j`
+integrates over `[U(Y_j)]` and is multiplied by `c^{−1}`; no other step and neither of the products of `𝔼^♮` and of
+`𝒰^♮_ξ` involves `𝔪_j`, so `ι_ξ` and its adjoint are each multiplied by `c^{−1}` and `ι_ξι_ξ^*` by `c^{−2}`. In 5.5, `𝔫_j`
+and `𝔫_{j+1}` are each multiplied by `c^{−1}`, so `𝔫₀` and `𝔫` are multiplied by `c^{−2}`, while every `λ_j(ξ, 𝔥)`, a
+constant of the model groups `U(V_j)`, `U(W_j)`, is unchanged: the identity is consistent only because `𝔫` carries the
+normalisations of the intermediate stages.
 
 *NEW*. *Needs:* 5.6, 5.7, 5.9.
 
@@ -1434,7 +1498,8 @@ definite), `𝒞(W_m)_𝕃` is the space of `𝕃`-valued algebraic forms (Theta
 
 API: `j_σ` is injective, `σ`-semilinear, `G₀`-equivariant and Hecke-equivariant with `σ` applied to the eigenvalues; the
 Petersson products of the realisations define Hermitian forms `⟨j_σ y, j_σ y′⟩` on `𝒞(W_j)_𝕃`, and
-`⟨j_σ y, j_σ y′⟩ = conj⟨j_{σ̄} y, j_{σ̄} y′⟩` when `σ|_K ≠ ι₀|_K`.
+`⟨j_σ y, j_σ y′⟩ = conj⟨j_{σ̄} y, j_{σ̄} y′⟩` when `σ|_K ≠ ι₀|_K`. ([FormalProof] has the realisations as
+`Formalism.IndefR.FWT.JEvExists`, `Formalism/LocalToGlobal/IndefiniteReal/FWExist.lean`.)
 
 *Route.* Canonical models of unitary Shimura varieties and of their automorphic vector bundles, and the conjugation of
 these models by automorphisms of `ℂ` (AutomorphicBundles §§2.7, 3.1, 3.2, 4.3, 6.1, 6.4, 11.2, 11.9, 11.18; ShimuraVarieties
@@ -1469,7 +1534,9 @@ embedding, and, under the hypotheses of 5.6, `𝔫 > 0` as soon as `𝔼^♮ ≠
 
 *Route.* (Rational lift.) The lift from a definite group is a finite class sum of theta functions of the lattices of the
 classes, and on the moduli space of abelian varieties with `𝒪_E`-multiplication these are algebraic theta values (their
-algebraicity is not given here); this gives the class-sum description over a number field.
+algebraicity is not proved here; [FormalProof] has the Lemma as `Formalism.IndefR.FWT.phase_of_oneMap`,
+`Formalism/LocalToGlobal/IndefiniteReal/FWCentral.lean`: a phase of absolute value `1` with which the lift of every
+rational form lies in the rational structure); this gives the class-sum description over a number field.
 (Conjugation.) Both sides are the same classical class sum of theta
 values with characteristics, evaluated at the complex fibre of the moduli space over the embedding; no reciprocity law
 is used. An automorphism fixing `K` permutes `Φ` and leaves the Hermitian space unchanged (5.10a); `σ` acts on the
@@ -1534,9 +1601,9 @@ These are instances worked in the Checks above. For `r = 1` (the Check of the no
 but not (4), since `4 = 1 + 3 = 2 + 2`; for `r = 7` the interval `(3.5, 4]` of (5) contains no prime, so no tuple is good and
 `𝔼^♮ = 0`. In 5.5, at a twist place with `i = 0`, `r = 1`, `t = 3` and `q = 2`: `idx_v(1) = #ℙ³(𝔽_2) = 15` and
 `‖Φ^Q_{1,v}‖² = 1/16`, whose product is `15/16 = 1 − 2^{−4}`. In 5.6, at a split place with `B_𝔥(w) = {β}`, `B_𝔥(w̄) = {β̄}`
-and `μ(ϖ_w) = u`, `|u| = 1`, the two Euler factors multiply to `|1 − βū N w^{−s}|^{−2} > 0` for real `s`. In 5.10, for `m = 1`,
-`𝔫 = 𝔫_1/a_1` and both sides are `𝔫_1 L_1`. In 5.2a, for a compact group `𝐆` the operator `ρ(e_σ)` is the projection onto the
-`w`-line of the `σ`-isotypic part.
+and `μ(ϖ_w) = u`, `|u| = 1`, the two Euler factors multiply to `|1 − βū N w^{−s}|^{−2} > 0` for real `s`. In 5.10,
+replacing `𝔪_j` by `c𝔪_j` for one `1 ≤ j < m` multiplies `ι_ξι_ξ^*` and `𝔫` by `c^{−2}` and leaves every `λ_j` unchanged.
+In 5.2a, for a compact group `𝐆` the operator `ρ(e_σ)` is the projection onto the `w`-line of the `σ`-isotypic part.
 
 ### Dependencies
 
@@ -1612,7 +1679,7 @@ Gelfand–Graev and Bessel-type representations and the labels of `GL_n(𝔽_q)`
 discrete series as lowest-weight modules, formal degrees and the trace class on the cuspidal spectrum are
 [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md); the
 splitting characters of a quadratic extension and the equality of cuspidal multiplicities of inner forms in an odd number
-of variables are [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md);
+of variables over the hosts of the chain are [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md);
 the Satake bounds for unitary unramified representations are
 [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md). Automorphic forms on reductive groups and
 algebraic modular forms are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md); the
@@ -1631,7 +1698,7 @@ of the chain belong to the roadmaps named under Downstream consumers above.
 
 §0.1: the abelian CM host `E`, with `K`, `F` and the CM type `Φ` (Conventions). §0.3: the host predicates
 `SplitRamification d` and `HostSplitting E` (Conventions, 5.8a, 5.8b). §0.4: the cyclic hosts, on which `d ≡ 7 (mod 8)`
-(Conventions), and the modulus of the host, which the conductor `f_E` divides (5.8a).
+(Conventions) and over which 5.9 is stated; and the modulus of the host, which the conductor `f_E` divides (5.8a).
 §0.9: the hosts of an admissible pair, on which `2` splits in `K` (5.5, 5.8).
 
 ### From ThetaChainsOnDefiniteUnitaryGroups, a sub-roadmap of this family
@@ -1665,8 +1732,8 @@ theta functions (5.4, 5.8, 5.10a).
   hypotheses 1–4 of 6.11, with the constant at `T` for bases placed as there), 6.10, 6.11 (the complementary-space identity
   under its hypotheses 1–4: one signature; `a ≡ a′ (mod 2)`, `2(p + q) + 1 < ε₀` and `2(p + q) + 1 < a′`; the infinity-type
   condition; the place conditions of 6.1), 6.12 (tower recursion of the constant, with `ν^T(𝔟𝔠)` and the constants `c_T(G)`
-  at `T` for the chosen bases, whose value is that of 6.5, and one constant `C` for all the sets `T` inside a fixed finite
-  set `P` of split places). Used in 5.8a, 5.8b, 5.8c, 5.8d.
+  at `T` for the chosen bases, whose value is that of 6.5, and, for the place `v₁` of 6.3 fixed outside a fixed finite set
+  `P` of split places, one constant `C` for all the sets `T` inside `P`). Used in 5.8a, 5.8b, 5.8c, 5.8d.
 
 ### From ThetaKernelsForUnitaryDualPairs, a sub-roadmap of this family
 
@@ -1717,8 +1784,8 @@ theta functions (5.4, 5.8, 5.10a).
 ### From BaseChangeAndGaloisRepresentationsForUnitaryGroups, a sub-roadmap of this family
 
 - 6.3a: splitting characters for a quadratic extension. Used in 5.2.
-- 13.8a: the equality of cuspidal multiplicities `m_cusp(π_∞ ⊗ σ) = m_cusp(π′_∞ ⊗ σ∘Φ^{−1})` for two inner forms of a
-  unitary group in an odd number of variables, isometric at every finite place by isometries carrying the given
+- 13.8a: over a host of the chain (FrobeniusRestrictedRieszSums §0.4), the equality of cuspidal multiplicities
+  `m_cusp(π_∞ ⊗ σ) = m_cusp(π′_∞ ⊗ σ∘Φ^{−1})` for two inner forms of a unitary group in an odd number of variables, isometric at every finite place by isometries carrying the given
   self-dual lattices to each other, for discrete series with the same integral Harish-Chandra parameter (consecutive
   entries at least `100r⁴` apart) and every `σ` with a type vector for a jointly cuspidal family of types on a nonempty
   finite set of split places. Used in 5.3, 5.9.
@@ -1834,7 +1901,8 @@ theta functions (5.4, 5.8, 5.10a).
 
 - S. Rallis (1982); S. Kudla (1986, 1994): 5.5–5.7.
 - S. Kudla, *On the local theta-correspondence*, Invent. Math. 83 (1986); S. Rallis, *Injectivity properties of liftings
-  associated to Weil representations*, Compositio Math. 52 (1984); I. Piatetski-Shapiro and S. Rallis, *L-functions for the
+  associated to Weil representations*, Compositio Math. 52 (1984), §1, Proposition 1.1, pp. 149–150 (the inner product
+  formula, for orthogonal–symplectic pairs in Weil's convergent range); I. Piatetski-Shapiro and S. Rallis, *L-functions for the
   classical groups*, LNM 1254 (1987); J.-S. Li, *Nonvanishing theorems for the cohomology of certain arithmetic quotients*,
   J. reine angew. Math. 428 (1992); A. Ichino, *A regularized Siegel–Weil formula for unitary groups*, Math. Z. 247 (2004):
   5.5–5.7. J. Arthur and L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula* (1989);
@@ -1844,13 +1912,20 @@ theta functions (5.4, 5.8, 5.10a).
   interpolation of real analytic Eisenstein series*, Ann. of Math. 104 (1976); D. Blasius: 5.8.
 - Harish-Chandra, *Discrete series for semisimple Lie groups II*, Acta Math. 116 (1966): 5.3. J. A. Green, *The characters
   of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and M. Graev; I. N. Bernstein and
-  A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977).
+  A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977), 2.12 (the
+  geometrical lemma), p. 448: 5.9.
 - R. Godement (square-integrable representations): 5.1, 5.2a, 5.3. A. Paul (theta correspondence for unitary dual
-  pairs over `ℝ`); S. Rallis (the tower property): 5.2. H. Petersson (Poincaré series).
-- W. T. Gan, B. Gross and D. Prasad (2012); S. Kudla, *Seesaw dual reductive pairs* (1984). W. Casselman; N. Wallach: 5.1,
+  pairs over `ℝ`); S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), §1.1, Theorem 1.1.1, p. 345,
+  and its Corollary, p. 351 (the constant term of a theta lift along a maximal parabolic subgroup is a lift in fewer
+  variables, and the cuspidality criterion it gives, for orthogonal–symplectic pairs): 5.2. H. Petersson (Poincaré series).
+- W. T. Gan, B. Gross and D. Prasad, *Symplectic local root numbers, central critical L-values, and restriction problems
+  in the representation theory of classical groups*, Astérisque 346 (2012), cited in the numbering of arXiv:0909.2999v1:
+  §12, p. 43 (the data of Bessel models), Corollary 15.2, p. 63 (their multiplicity one over a non-archimedean field) and
+  §23, p. 86 (global Bessel periods): 5.8e. S. Kudla, *Seesaw dual reductive pairs* (1984). W. Casselman; N. Wallach: 5.1,
   5.2.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. This roadmap specifies its mathematics; it is the reference
-  of every *NEW* target.
+  of every *NEW* target, and a target whose route is not given in full names the declarations of it, with their files,
+  that state the missing steps.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
