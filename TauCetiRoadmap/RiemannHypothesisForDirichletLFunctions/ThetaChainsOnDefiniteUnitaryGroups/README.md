@@ -636,9 +636,12 @@ with tops `Φ_top` and a translate `u₀` (FrobeniusRestrictedRieszSums §0.6), 
   *top window* `a ≤ a_τ ≤ a(1 + θ_a)`, where `θ_a := 1/(k·x^{A_w/2})` with a constant `A_w ≥ 2` fixed before `ε` (so `θ_a ≤ 1/k`,
   and `θ_a ≤ x^{−2}` under `SizeK` and `SizeM`), and the *bottom window* `b′ ≤ a⁻_τ ≤ 3b′/2` (in the construction
   `a⁻_τ ≤ b′(1 + 2|A|x^{−ε/8}·x^{2ε+ε/100}/k)`, so `a⁻_τ = b′(1 + o(1))`), the first node satisfies
-  `e′_0(τ) − a⁻_τ > (k − 1)/2 + 3`, and the other entries of `u(τ)` lie in `[0, Sc]`;
+  `e′_0(τ) − a⁻_τ > (k − 1)/2 + 3`, the first entry satisfies the cloud gap `u_0(τ) − v_0(τ) ≥ Sc`, the last entry satisfies
+  `e′_0(τ)/2 ≤ −u_{k−1}(τ) ≤ e′_0(τ) − 3` (the upper bound follows from the condition on the first node), and the other
+  entries of `u(τ)` lie in `[0, Sc]`;
 - at every other place the entries `u_l(τ)`, `1 ≤ l ≤ k − 2`, lie in `[0, Sc]`, the first entry satisfies the *cloud gap*
-  `Sc ≤ u_0(τ) − v_0(τ) ≤ C_c·Sc`, with a constant `C_c ≥ 1` fixed before `ε` (`C_c = 2` in the construction), and
+  `Sc ≤ u_0(τ) − v_0(τ) ≤ C_c·Sc`, with a constant `C_c ≥ 1` fixed before `ε` (`C_c = 2` in the construction and in the
+  standing data of the Gram bounds of the row spaces), and
   `−Sc ≤ u_{k−1}(τ) < v_{k−2}(τ)` (in the construction, and in the standing data of the Gram bounds of the row spaces,
   `u_{k−1}(τ) = v_{k−2}(τ) − ½`);
 - at every place the entries of `v(τ)` lie in `[0, Sc]`, and the nodes satisfy `e′_0(τ) ≥ 8·Sc` and `e′_{m−1}(τ) ≤ 2e′_0(τ)`
@@ -650,7 +653,9 @@ with tops `Φ_top` and a translate `u₀` (FrobeniusRestrictedRieszSums §0.6), 
 - the parameters stay near the step weights: `e′_0(τ) ≥ w_1(τ) − ϑ`, and `ϑ ≤ b′/4`;
 - the unit conditions `(U_j)` hold for `1 ≤ j ≤ m`;
 - `SizeSc`: `Sc ≤ x^{C_S}`, where the exponent `C_S` may depend on `ε` (it is chosen after `ε`, with `c_Δ`, and before the
-  scale).
+  scale). This form is this roadmap's, not a predicate of [FormalProof], whose conditions on `Sc` are `Sc ≤ e^{x^{ε/4}}`,
+  `k·Sc ≤ w″` and `4Sc ≤ Λ_log·b′/k` (`Λ_log` the log-size parameter of the local gains of the chain); `SizeSc` holds at
+  the values of [FormalProof] (`Sc = 4k⌈x^{c_Δ}⌉`) with `C_S` chosen after `c_Δ`.
 
 The *window* is `η_w := t + max_τ(e_{m−1}(τ) − e′_0(τ))`.
 
@@ -686,6 +691,11 @@ dividing `f_E` is `< ℓ*` under `SizeN`. Let `η_s` be a number with
 `h_gap > r·p_S·q_S + 1` and `h_gap > 8√(2q_S)(4r²√(2q_S) + 2r q_S)`, `h_gap ≥ 100r⁴`, and, for `h := h_gap/4`, with
 `a(h) := h/(8√(2q_S))` and `d_N := r_S(2r_S + 2k + 1)`: `a(h) ≥ 4(r_S² + r_S + 1)((r − 1)d_N + 4p_Sq_S) + 4p_Sq_S + 3` and
 `a(h) ≥ 9q_Sr² + 12p_Sq_S + 3` (the right sides are at most `21r⁵` and `24r³`, while `a(h_gap/4) ≥ 120r^{19}/(32√(2r)) > 2.6r^{18.5}`).
+Together with (W5), `SizeW` and `SizeMf`, `SizeGap` gives the two hypotheses under which the chain instances of the
+Bessel functions and of the relative Schur orthogonality of the row spaces are established: the node gaps
+`e′_{i+1}(τ) − e′_i(τ) ≥ 16r^{19}f⁵·log b ≥ 16r^{19}` (the clause `C_lr^{19}f⁵L ≤ e′_{j+1}(τ) − e′_j(τ)` of the standing
+conditions of the Gram bounds, with `C_l = 16` and `L = log b`), and `r ≥ 1801`, since `SizeW` gives `29m⁵f·log b ≤ k`
+for `x ≥ x₀(ε)` (the clause `C′m⁵fL ≤ k` there, with `C′ = 29`) and so `r ≥ k ≥ 29·2⁵·2⁴ > 1801` (`m ≥ 2`, `f ≥ m⁴`).
 *Gaps of the row parameter.* For an adapted datum (2.3b) with (W5) for an `h_gap` with `SizeGap`, and under `SizeMf` (2.1),
 consecutive entries of the row parameter `(v(τ); −e′(τ))` of `Y_0` differ by at least `100r⁴` (so by more than `1000(r + 1)³`
 when `r ≥ 13`), by more than `k m⁴ + r m^{10}`, and, for every integer `0 ≤ s ≤ 2r`, by more than `120(r + m·s)³`. Indeed the
@@ -718,7 +728,10 @@ Route: (W1) and (W7): `e_i − e′_i = e′_{i+1} − e_i = h₀/2` and `|e′_
 (W5) at `i = 0`, (W6) and `e′_0 ≥ 8·Sc` because `b₁(τ) ≥ w″ ≥ x·ϑ ≥ x·h_gap`, `w″` exceeds every fixed power of `x` (so `k^{C_b}`
 and `Sc`); `e′_{m−1} = b₁ + (m − 1)h₀ ≤ 2b₁` because `(m − 1)h₀ ≤ ϑ ≤ w″`; `v_l = (k − 2 − l)·4Δ_w ∈ [0, Sc]`; the cloud gap:
 `u_0(τ) − v_0(τ) = Sc + ½ ∈ [Sc, 2Sc]` off the tops; and `b₁(τ) > a⁻_τ + b′/x − 1 > a⁻_τ + (k − 1)/2 + 3` at the tops, and
-`w_1(τ) = b₁(τ) + h₀/2 ≥ a⁻_τ + b′/x`; the windows: `w_1 = b₁ + h₀/2` and `w_m = b₁ + (m − ½)h₀`, and
+`w_1(τ) = b₁(τ) + h₀/2 ≥ a⁻_τ + b′/x`; at the tops the cloud gap holds, `u_0(τ) − v_0(τ) ≥ a − Sc ≥ Sc` as
+`a = x·b ≥ 2w″ ≥ 2Sc`; at the tops the bounds for the last entry hold, `e′_0(τ)/2 ≤ a⁻_τ < −u_{k−1}(τ) < e′_0(τ) − 3`, as
+`e′_0(τ) = b₁(τ) ≤ a⁻_τ + b′/x ≤ 2a⁻_τ` and `−u_{k−1}(τ) = a⁻_τ + (k − 1)/2`;
+the windows: `w_1 = b₁ + h₀/2` and `w_m = b₁ + (m − ½)h₀`, and
 `b₁(τ) ≤ w₀(τ) + h₀/2` at every place (at a thick place because `|μ_E| ≤ 8f² ≤ h₀/2`, by an argument of this roadmap:
 `φ(|μ_E|)` divides `[E:ℚ] = 2f` and `φ(n) ≥ √(n/2)`, while `h₀ ≥ h_gap ≥ 120r^{19}` and `r ≥ f`), so the width `ϑ ≥ m·h₀`
 suffices at every kind of place, `e′_0 = w_1 − h₀/2 ≥ w_1 − ϑ`, and `ϑ ≤ w″/x < b′/4`; `SizeSep` with
@@ -1058,7 +1071,7 @@ while `log Y ≥ 8x^ε`), and then
 from `d`, and under `SizeN` they are `< X′` (so `< X″`) and smaller than the type primes for `x ≥ x₀(ε)`.
 
 Route: (a) is RieszSumsOverPrimesAndExceptionalZeros §2.9b(iv)(c′) at `h = 1` for the modulus `M` (`B = dM²`, the count
-`c₂hX/(B^{A_gap} log X)` for `X ≥ X₀`): it counts primes `p = N(α)`, `α ≡ 1 (mod M𝒪_K)`, in `(Y, 2Y]` with the
+`c₂hX/(B^{A_gap} log X)` for `X ≥ 1`): it counts primes `p = N(α)`, `α ≡ 1 (mod M𝒪_K)`, in `(Y, 2Y]` with the
 polynomial bound for a possible exceptional zero. `π ≡ 1 (mod M𝒪_K)` gives `ππ̄ ≡ 1 (mod M𝒪_K ∩ ℤ = Mℤ)`; a prime `≡ 1 (mod f_E)`
 splits completely in `ℚ(ζ_{f_E}) ⊃ E`. Disjointness: for each `e` the primes `ℓ` with `ℓ^{4v_ℓ(g′^e − 1)} > g′^e` have
 `ℓ^{v_ℓ} > g′^{e/4}` and their product divides `g′^e − 1`, so there are at most three; for `ℓ ∈ 𝔅(N, g′)` a prime `g ≠ ℓ` with
