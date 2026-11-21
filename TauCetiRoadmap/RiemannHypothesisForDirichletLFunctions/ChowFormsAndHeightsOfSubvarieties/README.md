@@ -35,7 +35,12 @@ arithmeticIntersection(𝒳; L̄_0(f), L̄_1, …, L̄_d)
 
 By symmetry the same holds for any one factor; changing several factors one after the other gives a sum of such terms with
 mixed Chern forms (6.2 (a6) is an instance). The Check of HeightsRationalPointsAndObstructions §5.17a, a constant change of one metric at all
-embeddings, is the case `f = t`.
+embeddings, is the case `f = t`. For `d = 0` the formula is the metric-change clause of ArakelovGeometryAndAbelianHeights
+§1.12 and the identity `(a(φ), C) = ½·Σ_y φ(y)` of ArakelovGeometryAndAbelianHeights §1.10 (with `φ = 2f`);
+HeightsRationalPointsAndObstructions §5.17b (`adelicIntersection_uniformBound`) is an inequality form of it for continuous
+metrics with semipositive other factors (metrics at distance at most `ε` change the normalised number by at most `ε` times
+the mixed degree of the other factors), and the first-order expansion in the route of HeightsRationalPointsAndObstructions
+§5.17g follows from it.
 
 *Route.* The formula is proved here, by this route; no published statement of it is cited. By multilinearity write `L_0` as a difference of generated bundles and put the change of metric on the first. For
 a section `s` of a generated bundle whose divisor meets `𝒳` properly, the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a is the intersection on
@@ -72,7 +77,9 @@ in each of `d + 1` groups of `n + 1` variables. Let `ht(F_Z)` be its spherical h
 SlopesOfHermitianVectorBundles §6.6 for `N = n + 1` variables per group (Gauss norms at the finite places, integrals of
 `log|σ(F_Z)|` over the product of the unit spheres of `ℂ^{n+1}` for the normalised spherical measure `ν` at the complex
 embeddings, divided by `[K:ℚ]`). Prove `projectiveCycleHeight(Z) = ht(F_Z) + c(d, n)·deg(Z)` with
-`c(d, n) = ((d + 1)/2)·H_n`, `H_n = Σ_{k=1}^{n} 1/k`.
+`c(d, n) = ((d + 1)/2)·H_n`, `H_n = Σ_{k=1}^{n} 1/k`. This sharpens the coefficient-height comparison of
+HeightsRationalPointsAndObstructions §5.9b, which compares `projectiveCycleHeight(Z)` with the height of the coefficients
+of `F_Z` up to an error controlled by the degree, into an identity for the spherical height.
 
 Write `⟨s, x⟩ = Σ_k s_kx_k` and `H_s = {⟨s, x⟩ = 0}` for `0 ≠ s ∈ K^{n+1}`, and `F_Z(s, ·)` for the multiform in `d`
 arguments obtained by putting `s` in the first argument of `F_Z`. For `Z` integral with `Z ⊄ H_s`, and `𝒵` the closure of `Z`
@@ -111,7 +118,9 @@ the first argument `w`, `F_Z(w, u) = Φ·∏_p ⟨w, x_p⟩`, where the `[x_p]` 
 that vanishes exactly on these `deg Z` hyperplanes is their product up to a constant); content `1` and Gauss's lemma (Mathlib
 `Polynomial.gaussNorm_mul`, after a Kronecker substitution) give `v(Φ) = 0`. Hence the valuation of the content of
 `F_Z(s, ·)` is `v(F_Z(s, u)) = Σ_p v(⟨s, x_p⟩)`, which is the valuation of the norm from `𝒞` to `R′` of `f = ⟨s, ·⟩/t`, that
-is `length_{R′}(O_𝒞/f)`, for a linear form `t` over `R′` vanishing at no closed point of `𝒞` (the residue field is
+is `length_{R′}(O_𝒞/f)` (SchemeAndStackFoundations §3.5, `sectionNorm`: the divisor of the norm is the pushforward of
+`div(f)`, with the residue-degree weights of the proper pushforward of SchemeAndStackFoundations §5.2),
+for a linear form `t` over `R′` vanishing at no closed point of `𝒞` (the residue field is
 infinite). The closed points of `𝒞` are the generic points `y_W` of the preimages in `𝒴` of the components `W` of `𝒵_𝔭`,
 with `[k(y_W) : k(𝔭)(u)] = deg W`; as `𝒴 → 𝒵` is smooth and `y_W` is the generic point of its fibre over the generic point
 of `W`, the local homomorphism `O_{𝒵,W} → O_{𝒴,y_W}` is flat and carries the maximal ideal onto the maximal ideal, so it
@@ -120,13 +129,16 @@ for `f = π` gives `Σ_W ord_W(π)·deg W = length_{R′}(O_𝒞/π) = deg Z`, a
 uniformiser of `R′`: the fibre cycle `Σ_W ord_W(π)·[W]` of `𝒵` at `𝔭` has degree `deg Z`. For general `s ∈ K^{n+1}`
 choose `a ≥ 0` with `π^as ∈ R^{n+1}`. As `F_Z` is homogeneous of degree `deg Z` in its first argument,
 `F_Z(π^as, ·) = π^{a·deg Z}·F_Z(s, ·)`, so the left side of (ii) for `π^as` is the left side for `s` minus
-`a·deg Z·log N𝔭`; as `ord_W` is additive on fractions (lengths are additive along `0 → O/b → O/ab → O/a → 0`),
+`a·deg Z·log N𝔭`; as `ord_W` is additive on fractions (lengths are additive along `0 → O/b → O/ab → O/a → 0`;
+SchemeAndStackFoundations §5.1, `AlgebraicCycle.div`, `div_mul`),
 `ord_W(π^a⟨s, ·⟩) = ord_W(⟨s, ·⟩) + a·ord_W(π)`, so `e_𝔭(π^as) = e_𝔭(s) + a·deg Z` and the right side for `π^as` is the
 right side for `s` minus the same amount. Subtracting, (ii) for `π^as` gives (ii) for `s`.
 
 (i) Over `K̄`, `F_Z(s, u_1, …, u_d)` vanishes exactly when `Z ∩ H_s ∩ H_{u_1} ∩ ⋯ ∩ H_{u_d} ≠ ∅`
-(AlgebraicModuliForArithmeticGeometry §1.6: a Chow form vanishes exactly at the tuples of hyperplanes that meet the support
-of its cycle). With `Z·H_s = Σ_j m_jY_j`, and the `F_{Y_j}` irreducible and pairwise non-proportional (AlgebraicModuliForArithmeticGeometry §1.6),
+(Polylogarithms §5.3, `tautologicalChowCycle`: the divisor of a Chow form is the incidence divisor of its cycle, so a Chow
+form vanishes exactly at the tuples of hyperplanes that meet the support of its cycle). With `Z·H_s = Σ_j m_jY_j`, and the
+`F_{Y_j}` irreducible and pairwise non-proportional (AlgebraicModuliForArithmeticGeometry §1.6: irreducibility in the route
+of `boundedSupportParameters`, non-proportionality by `chowParameters`),
 `F_Z(s, ·) = λ·∏_j F_{Y_j}^{a_j}` with `λ ∈ K̄^×` and `a_j ≥ 1`. Then `a_j = m_j` by the computation of (ii), with `Z` in
 place of `𝒵` and, in place of `R′`, the discrete valuation ring of the space of `d`-tuples `u` at the generic point `η_j` of
 `{F_{Y_j} = 0}`: there `F_Z(·, u)` keeps content `1` (the `u` for which `Z ∩ H_{u_1} ∩ ⋯ ∩ H_{u_d}` is infinite form a set of
@@ -140,16 +152,18 @@ points `[x_p]`, `‖x_p‖ = 1`, and `σ(F_Z)(w, u′) = Φ(u′)·∏_p ⟨w, x
 `log |σ(F_Z)(w, u′)| = log |Φ(u′)| + Σ_p log ‖w‖([x_p])` for every `w ∈ ℂ^{n+1}`. *Crofton formula:*
 `E[Σ_p φ([x_p])] = ∫_{Z_σ(ℂ)} φ·c_1(Ō(1))^d` for every continuous `φ`. Indeed, for a cycle `Y` of positive dimension and `u`
 with law `ν`, average the Poincaré–Lelong formula `δ_{Y·H_u} = δ_Y ∧ (c_1(Ō(1)) + dd^c log ‖u‖²)` (ComplexComparisonPartII C5.4, on a
-resolution of `Y`, as in HeightsRationalPointsAndObstructions §5.17a) over `u`: `∫ log ‖u‖([x]) dν(u) = −½·H_n` does not depend on `[x]` (SlopesOfHermitianVectorBundles §6.6 (vi); for `n = 0` the integrand is `0`),
+resolution `ρ : Y′ → Y` (ResolutionOfSingularitiesCharacteristicZero §5.2), with `[Y] = ρ_*[Y′]` (Polylogarithms §5.2,
+`analyticCycleCurrent_resolution`)) over `u`: `∫ log ‖u‖([x]) dν(u) = −½·H_n` does not depend on `[x]` (SlopesOfHermitianVectorBundles §6.6 (vi); for `n = 0` the integrand is `0`),
 and the mean and `dd^c` commute by Fubini, since `∫ |log ‖u‖([x])| dν(u)` is bounded in `[x]`; so the mean of `Y·H_u` is
 `Y ∧ c_1(Ō(1))`, and `d` iterations give the formula. By monotone convergence through `max(φ, −M)` it extends to
 `φ = log ‖w‖`, which is upper semicontinuous with values in `[−∞, log |w|]`. Hence
 `∫ log |σ(F_Z)(w, u′)| dν^{⊗d}(u′) = C + ∫_{Z_σ(ℂ)} log ‖w‖·c_1(Ō(1))^d` for every `w`, with `C = ∫ log |Φ| dν^{⊗d}`, which
 is finite (average over `w` with law `ν` as well: Tonelli for the nonpositive terms). At `w = σ(s)` the left side is
 `m_σ(F_Z(s, ·))`; averaged over `w` with law `ν`, the left side is `m_σ(F_Z)` and the right side `C − ½·H_n·deg Z` (Tonelli
-and SlopesOfHermitianVectorBundles §6.6 (vi) again). Subtract.
+and SlopesOfHermitianVectorBundles §6.6 (vi) again; `∫_{Z_σ(ℂ)} c_1(Ō(1))^d = deg Z` by ComplexComparisonPartII C5.4,
+`chernFubiniStudyIntersection`). Subtract.
 
-*The identity.* Both sides are additive in `Z` (HeightsRationalPointsAndObstructions §5.9b; `F_{Z+Z′} = F_Z·F_{Z′}` and SlopesOfHermitianVectorBundles §6.6 (ii)), so let `Z` be integral, and
+*The identity.* Both sides are additive in `Z` (HeightsRationalPointsAndObstructions §5.9b; `F_{Z+Z′} = F_Z·F_{Z′}` (Polylogarithms §5.3) and SlopesOfHermitianVectorBundles §6.6 (ii)), so let `Z` be integral, and
 choose `s ∈ O_K^{n+1}` with `Z ⊄ H_s` (the linear forms vanishing on `Z` form a proper subspace). The divisor of `⟨s, ·⟩` on
 `𝒵` is the closure of `Z·H_s` (for `d > 0` a cycle of degree `deg Z`; for `d = 0` it is `0`, the point `Z` lying outside
 `H_s`) plus the vertical cycle of (ii), effective as `s` is integral, whose component `W` over `𝔭` contributes
@@ -167,16 +181,21 @@ holds with `Z·H_s = 0`: the recursion has no horizontal term, and the constant 
 formula. Induction on `d` gives the constant `(d + 1)·½·H_n = c(d, n)`.
 
 *Needs:* HeightsRationalPointsAndObstructions §§5.9b, 5.17a (the Cartier recursion and the contribution of vertical fibres); AlgebraicModuliForArithmeticGeometry
-§1.6 (Chow forms: zero set, irreducibility, uniqueness up to scalar); SlopesOfHermitianVectorBundles §6.6 ((i) scaling,
+§1.6 (Chow forms: irreducibility, uniqueness up to scalar); Polylogarithms §5.3 (the zero set of a Chow form, with
+multiplicities, and `F_{Z+Z′} = F_Z·F_{Z′}`); SchemeAndStackFoundations §§3.5, 5.1, 5.2 (the norm of a section and its
+divisor, for (ii)); SlopesOfHermitianVectorBundles §6.6 ((i) scaling,
 (ii) multiplicativity, (vi) the disintegration of `ν`); ComplexComparisonPartII C5.4 (the Poincaré–Lelong formula and
-integration over analytic cycles, for the Crofton formula of (iii)); Mathlib `Polynomial.gaussNorm_mul`.
+integration over analytic cycles, for the Crofton formula of (iii), and `chernFubiniStudyIntersection`), with
+ResolutionOfSingularitiesCharacteristicZero §5.2 and Polylogarithms §5.2 (a resolution of `Y` and its integration
+current); Mathlib `Polynomial.gaussNorm_mul`.
 
 **Checks.**
 
 - `d = 0`, `Z` a `K`-rational point `x`: `F_Z = Σ_i x_iu_i`, and `∫_{S^{2n+1}} log|u_0| dν = −½·H_n` (for `n ≥ 1` the law of
   `|u_0|²` is `Beta(1, n)`, SlopesOfHermitianVectorBundles §6.6 (vi); for `n = 0`, `|u_0| = 1`), so `c(0, n) = ½·H_n`. For `[1:1] ∈ ℙ¹(ℚ)`:
   `projectiveCycleHeight = ½log 2`, `ht = ½log 2 − ½`, `c(0, 1) = ½`. The torus Mahler measure of `u_0 + u_1` is `0`, which
-  would give a difference `½log 2` depending on the point: the sphere, not the torus, makes the constant independent of `Z`.
+  would give a difference `½log 2` depending on the point: the sphere, not the torus, makes the constant independent of `Z`
+  (for the sup metric the torus measure is the right one: the Mahler formula of ArithmeticDynamics §4.29, with constant `0`).
 - *A closed point of degree two.* The form `Σ_i x_iu_i` needs a `K`-rational point; for a closed point of degree `e` the
   Chow form is the product of the linear forms of its `e` geometric points. For `Z = [1 : i]` over `ℚ` (the point
   `X_0² + X_1² = 0`, `deg Z = 2`), `F_Z = (u_0 + iu_1)(u_0 − iu_1) = u_0² + u_1²`, of content `1`. The closure of `Z` is
@@ -228,7 +247,9 @@ integration over analytic cycles, for the Crofton formula of (iii)); Mathlib `Po
 Let `K` be a number field and `J̄ = (M_J, (h_σ)_{σ∈Σ_K})` a Hermitian vector bundle of rank `N ≥ 1` over `O_K`
 (ArakelovGeometryAndAbelianHeights §1.1), `J = M_J ⊗ K`, `J_σ = M_J ⊗_σ ℂ`. Let `ℙ(J^∨)` be the projective space of lines in
 the dual space `J^∨`, so that `J = H⁰(ℙ(J^∨), 𝒪(1))`: `u ∈ J` is the section `[ξ] ↦ ξ(u)`, whose zero set is the hyperplane
-`H_u = {ξ(u) = 0}`. Its model over `O_K` is `ℙ(M_J^∨) = Proj Sym M_J`, and `Ō(1)_J̄` is `𝒪(1)` on this model with, at every
+`H_u = {ξ(u) = 0}`. Its model over `O_K` is `ℙ(M_J^∨) = Proj Sym M_J` (AlgebraicModuliForArithmeticGeometry §1.1,
+`ProjectiveBundles.projectiveBundle`, quotient convention, with its `𝒪(1)` of `integerTwists`),
+and `Ō(1)_J̄` is `𝒪(1)` on this model with, at every
 `σ ∈ Σ_K` (real or not), the Fubini–Study metric of `h_σ`: `‖u‖_σ([ξ]) = |ξ(u)|/‖ξ‖^∨_σ` for `0 ≠ ξ ∈ J_σ^∨`, where `‖·‖^∨_σ`
 is the norm dual to `h_σ` (equivalently, the quotient metric of `h_σ` under `J_σ → 𝒪(1)_{[ξ]}`). At a finite place the model
 gives `‖u‖_𝔭([ξ]) = |ξ(u)|_𝔭/‖ξ‖_𝔭`, where `‖ξ‖_𝔭 = max{|ξ(v)|_𝔭 : v ∈ M_J ⊗ O_𝔭}` is the lattice norm of `ξ` in
@@ -237,7 +258,10 @@ gives `‖u‖_𝔭([ξ]) = |ξ(u)|_𝔭/‖ξ‖_𝔭`, where `‖ξ‖_𝔭 = 
 (a) *The height.* For an integral closed subvariety `Z ⊂ ℙ(J^∨)` of dimension `d` with closure `𝒵` in `ℙ(M_J^∨)`, put
 `projectiveCycleHeight_J̄(Z) = arithmeticIntersection(𝒵; Ō(1)_J̄, …, Ō(1)_J̄)/[K:ℚ]` with `d + 1` factors (HeightsRationalPointsAndObstructions §5.17a), and
 extend it additively to effective `d`-cycles. `projectiveCycleHeight_J̄` is divided by `[K:ℚ]` and by nothing else: not by
-`d + 1`, not by `deg Z`. Prove: (a1) for `J̄ = Ō_K^{n+1}` it is `projectiveCycleHeight` of HeightsRationalPointsAndObstructions §5.9b; (a2)
+`d + 1`, not by `deg Z`. For `Z ≠ 0` it is `(d + 1)·deg Z·adelicCycleHeight(Ō(1)_J̄, Z)` of
+HeightsRationalPointsAndObstructions §5.17b, for the semipositive adelic bundle `Ō(1)_J̄`; (a3) is its extension
+invariance, (a5) makes its point agreement explicit, and (a6) refines its Lipschitz bound to an identity.
+Prove: (a1) for `J̄ = Ō_K^{n+1}` it is `projectiveCycleHeight` of HeightsRationalPointsAndObstructions §5.9b; (a2)
 an isometry `φ : J̄ → J̄′` induces an isomorphism `ℙ(J^∨) ≅ ℙ(J′^∨)` (through `(φ^∨)^{−1}`), and
 `projectiveCycleHeight_{J̄′}(φ_*Z) = projectiveCycleHeight_J̄(Z)`; (a3)
 `projectiveCycleHeight_{J̄_{O_L}}(Z_L) = projectiveCycleHeight_J̄(Z)` for every finite extension `L/K`, with `J̄_{O_L}` the
@@ -293,25 +317,36 @@ extension ((a3)).
 
 *Route.* (a1)–(a7) and (b) are proved here, by these routes; no published statement of them is cited other than the
 exact value of the height of `ℙ^{N−1}` in (a7), and the standard case on which (b) rests is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b. (a2): the induced isomorphism of models carries `Ō(1)_J̄` isometrically to
-`Ō(1)_{J̄′}`. (a3): a flat `O_L`-scheme is the closure of its generic fibre, so the closure of `Z_L` is `𝒵 ⊗_{O_K} O_L`, and
-the intersection numbers of HeightsRationalPointsAndObstructions §5.17a scale by `[L:K]`. (a5): the closure of `x` is a section `ε` of `ℙ(M_J^∨)` over `O_K`, and
+`Ō(1)_{J̄′}`. (a3): a flat `O_L`-scheme is the closure of its generic fibre, so the closure of `Z_L` is `𝒵 ⊗_{O_K} O_L` (the
+base change of AlgebraicModuliForArithmeticGeometry §1.1), and
+the intersection numbers of HeightsRationalPointsAndObstructions §5.17a scale by `[L:K]`. (a5): the closure of `x` is a section `ε` of `ℙ(M_J^∨)` over `O_K`,
+on which the arithmetic intersection number is the Arakelov degree of `ε^*Ō(1)_J̄` (ArakelovGeometryAndAbelianHeights
+§1.10, the horizontal case), and
 `ε^*Ō(1)_J̄` is the fractional ideal `ξ(M_J)` with the metrics `|·|/‖ξ‖^∨_σ`, whose Arakelov degree
-(ArakelovGeometryAndAbelianHeights §1.3, with the section `1`) is the stated sum. (a6): `Ō(1)_{J̄′}` is `Ō(1)_J̄` with the
+(ArakelovGeometryAndAbelianHeights §1.3, with the section `1`) is the stated sum. So `projectiveCycleHeight_J̄(x)` is the
+point height `h_{Ō(1)_J̄}(x)` of ArakelovGeometryAndAbelianHeights §1.12, and for `J̄ = Ō_K^{n+1}` it is
+`TauCeti.arakelovLogHeight x/[K:ℚ]`, the Fubini–Study clause of ArakelovGeometryAndAbelianHeights §1.14 divided by `[K:ℚ]`.
+(a6): `Ō(1)_{J̄′}` is `Ō(1)_J̄` with the
 norms `e^{−f}‖·‖`, `f = (f_σ)_σ`, which is invariant under complex conjugation by the conjugation condition on `h` and `h′`;
 apply the change-of-metric formula 5.1 to the `d + 1` factors in turn, the `j`-th time with `j`
 factors already changed. (a4) is (a6) with `f = t` at every `σ`: the dual norms of `J̄(t)` are `e^{t}‖·‖^∨_σ`, and the forms
-`c_1` do not change. (a7): both sides are invariant under finite extension ((a3); ArakelovGeometryAndAbelianHeights §1.6),
+`c_1` do not change (and `∫_{Z_σ(ℂ)} c_1^d = deg Z`, ComplexComparisonPartII C5.4, `chernFubiniStudyIntersection`); for
+`J̄ = Ō_K^{n+1}` it is the rescaling Check of HeightsRationalPointsAndObstructions §5.9b.
+(a7): both sides are invariant under finite extension ((a3); ArakelovGeometryAndAbelianHeights §1.6),
 and after a finite extension `M_J` is free. Indeed `M_J` is a direct sum of `N` fractional ideals (the image of a nonzero
 linear form on `M_J` is a fractional ideal, which is projective, so it splits off; induct on the rank); a fractional ideal
 `𝔞` has a principal power `𝔞^m = aO_K` (the class group is finite), and `𝔞O_L = a^{1/m}O_L` in `L = K(a^{1/m})`, since both
 have `m`-th power `aO_L` and the group of fractional ideals of `O_L` is torsion-free; a compositum treats the `N` ideals at
-once. For `N = 1`, `ℙ(J^∨)` is the point `[ξ]` of any `0 ≠ ξ ∈ J^∨`, and (a5) gives the height of `ξ` for the line
+once (alternatively, ClassFieldTheory §13.1, `isPrincipal_map_hilbertClassField`, with `L` the Hilbert class field).
+For `N = 1`, `ℙ(J^∨)` is the point `[ξ]` of any `0 ≠ ξ ∈ J^∨`, and (a5) gives the height of `ξ` for the line
 `J̄^∨`, divided by `[K:ℚ]`, which is `−deĝ_n(J̄^∨) = deĝ_n(J̄)` (ArakelovGeometryAndAbelianHeights §§1.3, 1.5). For `N ≥ 2` let `u` be a
-vector of an `O_K`-basis of `M_J`. Its divisor on `ℙ(M_J^∨)` is `ℙ((M_J/O_Ku)^∨)`, with multiplicity one and no vertical
+vector of an `O_K`-basis of `M_J`. Its divisor on `ℙ(M_J^∨)` is `ℙ((M_J/O_Ku)^∨)` (the projective bundle of the quotient,
+AlgebraicModuliForArithmeticGeometry §1.1), with multiplicity one and no vertical
 component (`u` is nonzero modulo every prime), and `Ō(1)_J̄` restricts there to `Ō(1)_{J̄/u}` for the quotient bundle `J̄/u`
 with the quotient metrics (ArakelovGeometryAndAbelianHeights §1.2): a linear form that vanishes at `u` has the same dual norm and the same lattice norm
 on `J` and on `J/Ku`. The measure `c_1(Ō(1)_{J̄,σ})^{N−1}` on `ℙ(J_σ^∨)` is the image of the normalised spherical measure of
-the unit sphere of `J_σ^∨` (both are probability measures invariant under the unitary group of `‖·‖^∨_σ`), so
+the unit sphere of `J_σ^∨` (both are probability measures invariant under the unitary group of `‖·‖^∨_σ`, which acts
+transitively: ComplexKahlerGeometry K7.2, the normalisation and unitary invariance of the Fubini–Study form), so
 `∫ log(|ξ(u)|/‖ξ‖^∨_σ)·c_1^{N−1} = log ‖u‖_σ − ½·Σ_{k=1}^{N−1} 1/k` (SlopesOfHermitianVectorBundles §6.6 (vi)). The Cartier recursion of HeightsRationalPointsAndObstructions §5.17a gives
 `projectiveCycleHeight_J̄(ℙ(J^∨)) = projectiveCycleHeight_{J̄/u}(ℙ((J/Ku)^∨)) − (1/[K:ℚ])·Σ_σ log ‖u‖_σ + ½·Σ_{k=1}^{N−1} 1/k`,
 and `deĝ(J̄) = deĝ(J̄/u) − Σ_σ log ‖u‖_σ` (ArakelovGeometryAndAbelianHeights §§1.3, 1.5, for the sub-bundle `O_Ku` with the
@@ -356,17 +391,23 @@ last terms to `0`. So the `i`-th argument contributes to `∫ g_t dν^{⊗(d+1)}
 `d + 1` arguments and over `σ`, `(1/[K:ℚ])·Σ_σ ∫ g_{σ,t} dν^{⊗(d+1)}` is the derivative of
 `projectiveCycleHeight_{J̄_t}(Z)` of step (3) for every `t`, and integrating over `[0, 1]` gives `G(1) = G(0)`. (5) *Crofton
 formula.* The Crofton formula of the route of 6.1 (iii), transported by an isometry `ℂ^N → J_σ` for `h_{σ,t}` (which
-carries `ν` to `ν_{σ,t}`, hyperplanes `H_u` to hyperplanes and the Fubini–Study form of `ℂ^N` to `c_1(Ō(1)_{J̄_t,σ})`): for
+carries `ν` to `ν_{σ,t}`, hyperplanes `H_u` to hyperplanes and the Fubini–Study form of `ℂ^N` (ComplexKahlerGeometry K7.2) to
+`c_1(Ō(1)_{J̄_t,σ})`): for
 `d` independent `ν_{σ,t}`-distributed hyperplanes, `E[Σ_p φ([ξ_p])] = ∫_{Z_σ(ℂ)} φ·c_1(Ō(1)_{J̄_t,σ})^d` for every continuous
 `φ`. The standard case on which step (2) rests is 6.1.
 
 *Needs:* 6.1; 5.1 (the change-of-metric formula); HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f (the upper
 half of the successive-minima inequality, for the bound of (a7)); AlgebraicModuliForArithmeticGeometry
-§1.6; ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6 (Hermitian vector bundles; duals, quotients and base change; the
-Arakelov degree, its additivity, its invariance under finite extension); SlopesOfHermitianVectorBundles §6.6 (the measure `ν`
+§§1.1, 1.6 (the projective bundle `Proj Sym M_J` with its `𝒪(1)` and base change; Chow forms); Polylogarithms §5.3 (the
+zero set of a Chow form);
+ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6, 1.10 (Hermitian vector bundles; duals, quotients and base change; the
+Arakelov degree, its additivity, its invariance under finite extension; the arithmetic degree on a horizontal curve);
+SlopesOfHermitianVectorBundles §6.6 (the measure `ν`
 and its disintegration (vi)) and SlopesOfHermitianVectorBundles §6.7a (i) (`ht_J̄`: independence of the choices, multiplicativity, invariance under
 isometries and finite extension, the case `Ō_K^N`, the determinant); ComplexComparisonPartII C5.4 (the Poincaré–Lelong
-formula, for the Crofton formula of step (5)).
+formula, for the Crofton formula of step (5), with ResolutionOfSingularitiesCharacteristicZero §5.2 and Polylogarithms
+§5.2; `chernFubiniStudyIntersection`); ComplexKahlerGeometry K7.2 (the normalised Fubini–Study form and its unitary
+invariance).
 
 **Checks.**
 
@@ -423,7 +464,7 @@ For the point `[1:1] ∈ ℙ¹(ℚ)`, `projectiveCycleHeight = ½log 2` and `ht 
 
 ### Dependencies
 
-Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f; AlgebraicModuliForArithmeticGeometry §1.6; ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6; SlopesOfHermitianVectorBundles §§6.6, 6.7a; ComplexComparisonPartII C5.4; Mathlib `Polynomial.gaussNorm_mul`.
+Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f; AlgebraicModuliForArithmeticGeometry §§1.1, 1.6; ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5, 1.6, 1.10; SlopesOfHermitianVectorBundles §§6.6, 6.7a; ComplexComparisonPartII C5.4; ComplexKahlerGeometry K7.2; Polylogarithms §§5.2, 5.3; SchemeAndStackFoundations §§3.5, 5.1, 5.2; ResolutionOfSingularitiesCharacteristicZero §5.2; Mathlib `Polynomial.gaussNorm_mul`.
 
 ## Downstream consumers
 
@@ -436,7 +477,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns the change-of-metric formula for arithmetic intersection numbers (5.1); the comparison of the Fubini–Study height of an effective cycle in `ℙ^n_K` with the spherical height of its Chow form, with the three local statements on a hyperplane section on which it rests and the Crofton formula of its route (6.1); and the height of cycles in the projective space `ℙ(J^∨)` of a Hermitian vector bundle `J̄`, with its normalisation, its invariance under isometries and finite extension, its rescaling, its value on points, its change under a change of metrics with the same lattice, its value on the whole space, and its comparison with the spherical height of the Chow form relative to `J̄` (6.2).
 
-Not owned here. The theory these statements extend is HeightsRationalPointsAndObstructions: the height `projectiveCycleHeight` of projective cycles with its additivity, projection and arithmetic Bézout (§5.9b), and the arithmetic intersection numbers `arithmeticIntersection` with their symmetry, multilinearity, Cartier recursion and the contribution of vertical fibres (§5.17a), whose API 5.1 extends. Chow forms over an algebraically closed field are AlgebraicModuliForArithmeticGeometry §1.6 ([AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md)). Hermitian vector bundles, their operations, the Arakelov degree, its additivity and its invariance under finite extension are ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5 and 1.6 ([ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md)). The spherical height of a multiform, the normalised spherical measure `ν` with its disintegration along a unit vector, and the spherical height relative to a Hermitian vector bundle are SlopesOfHermitianVectorBundles §§6.6 and 6.7a ([SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md)).
+Not owned here. The theory these statements extend is HeightsRationalPointsAndObstructions: the height `projectiveCycleHeight` of projective cycles with its additivity, projection and arithmetic Bézout (§5.9b), and the arithmetic intersection numbers `arithmeticIntersection` with their symmetry, multilinearity, Cartier recursion and the contribution of vertical fibres (§5.17a), whose API 5.1 extends. Chow forms over an algebraically closed field are AlgebraicModuliForArithmeticGeometry §1.6 ([AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md)) and Polylogarithms §5.3 ([Polylogarithms](../../Polylogarithms/README.md)). Hermitian vector bundles, their operations, the Arakelov degree, its additivity and its invariance under finite extension are ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5 and 1.6 ([ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md)). The spherical height of a multiform, the normalised spherical measure `ν` with its disintegration along a unit vector, and the spherical height relative to a Hermitian vector bundle are SlopesOfHermitianVectorBundles §§6.6 and 6.7a ([SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md)).
 
 In the family, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties and HeightsForLogSingularMetrics use these statements, as Downstream consumers above says.
 
@@ -448,11 +489,11 @@ In the family, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties and He
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
-§1.6: `chowParameters`, the Chow form of an effective pure cycle in `ℙ^n` over an algebraically closed field of characteristic zero: its zero set (it vanishes exactly at the tuples of hyperplanes that meet the support of the cycle), the irreducibility of the Chow form of an integral cycle, and its uniqueness up to a scalar (used in 6.1 and 6.2 (b)).
+§1.1: `ProjectiveBundles.projectiveBundle`, `P_S(E) = Proj_S Sym(E)` with the quotient convention, its tautological quotient and its base change, and `integerTwists` (the model `ℙ(M_J^∨) = Proj Sym M_J` with its `𝒪(1)`, used in 6.2). §1.6: `chowParameters`, the Chow form of an effective pure cycle in `ℙ^n` over an algebraically closed field of characteristic zero: the bijection between Chow parameters and effective pure cycles with multiplicities, and the uniqueness of the Chow form up to a scalar; and, in the route of `boundedSupportParameters`, the irreducibility of the Chow form of an integral cycle (used in 6.1 and 6.2 (b)).
 
 ### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
 
-§1.1: Hermitian vector bundles `J̄ = (M_J, (h_σ)_σ)` over `O_K` with the conjugation condition, isometries, `Ō_K^N`, and the rescaling `J̄(t)` with the metrics `e^{−t}‖·‖_σ`. §1.2: duals, sub-bundles with the restricted metrics, quotients with the quotient metrics, and base change along `O_K → O_L`. §1.3: the Arakelov degree `deĝ`, computed for a Hermitian line bundle by any nonzero section, `deĝ(Ē) = deĝ(det Ē)`, and the normalised degree `deĝ_n = deĝ/[K:ℚ]`. §1.5: additivity of the degree along `0 → F̄ → Ē → Q̄ → 0` with the restricted and quotient metrics. §1.6: `deĝ(Ē_{O_L}) = [L:K]·deĝ(Ē)` for a finite extension `L/K` (all used in 6.2).
+§1.1: Hermitian vector bundles `J̄ = (M_J, (h_σ)_σ)` over `O_K` with the conjugation condition, isometries, `Ō_K`, and the rescaling `J̄(t)` with the metrics `e^{−t}‖·‖_σ`. §1.2: orthogonal sums (so `Ō_K^N`), duals, sub-bundles with the restricted metrics, quotients with the quotient metrics, and base change along `O_K → O_L`. §1.3: the Arakelov degree `deĝ`, computed for a Hermitian line bundle by any nonzero section, `deĝ(Ē) = deĝ(det Ē)`, and the normalised degree `deĝ_n = deĝ/[K:ℚ]`. §1.5: additivity of the degree along `0 → F̄ → Ē → Q̄ → 0` with the restricted and quotient metrics. §1.6: `deĝ(Ē_{O_L}) = [L:K]·deĝ(Ē)` for a finite extension `L/K`. §1.10: on a horizontal curve with normalization `ν`, the arithmetic degree is `deĝ` of the pulled-back Hermitian line bundle (all used in 6.2).
 
 ### From SlopesOfHermitianVectorBundles, a sub-roadmap of this family
 
@@ -460,7 +501,23 @@ In the family, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties and He
 
 ### From TauCetiRoadmap.ComplexComparisonPartII
 
-C5.4: `AnalyticCycleIntegration`, the current of integration over a pure-dimensional analytic cycle of a complex manifold, additive in the multiplicities; `lelongPoincareSection`, for a meromorphic section `s` of a Hermitian holomorphic line bundle `L̄` on a complex manifold, vanishing identically on no connected component: `log ‖s‖` is locally integrable and `(i/π)∂∂̄ log ‖s‖ = [div s] − c_1(L̄)` as currents, that is `dd^c log ‖s‖² = [div s] − c_1(L̄)` with `dd^c = (i/2π)∂∂̄`, the normalisation used above (used in the Crofton formula of the route of 6.1 (iii) and in step (5) of the route of 6.2 (b)).
+C5.4: `AnalyticCycleIntegration`, the current of integration over a pure-dimensional analytic cycle of a complex manifold, additive in the multiplicities; `lelongPoincareSection`, for a meromorphic section `s` of a Hermitian holomorphic line bundle `L̄` on a complex manifold, vanishing identically on no connected component: `log ‖s‖` is locally integrable and `(i/π)∂∂̄ log ‖s‖ = [div s] − c_1(L̄)` as currents, that is `dd^c log ‖s‖² = [div s] − c_1(L̄)` with `dd^c = (i/2π)∂∂̄`, the normalisation used above (used in the Crofton formula of the route of 6.1 (iii) and in step (5) of the route of 6.2 (b)); `chernFubiniStudyIntersection`, `∫_Z c_1(L, h)^d = (c_1(L)^d · Z)` for a projective `d`-dimensional cycle `Z`, with mixed degrees (in particular `∫_{Z_σ(ℂ)} c_1(Ō(1))^d = deg Z`; used in 6.1 (iii) and 6.2 (a4)).
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+K7.2: the normalised Fubini–Study form `ω_FS = (i/2π)∂∂̄ log ‖z‖²` of `𝒪(1)`, with `∫_{ℂℙ^n} ω_FS^n = 1`, `U^*ω_FS = ω_FS` for unitary `U`, and the transitive action of the projective unitary group (used in the routes of 6.2 (a7) and (b)).
+
+### From TauCetiRoadmap.Polylogarithms
+
+§5.2: `analyticCycleCurrent_resolution`, for a proper algebraic resolution that is generically an isomorphism on every reduced component, the pushforward of the integration current with the cycle's multiplicities is the integration current of the cycle (used in the Crofton formula of the route of 6.1 (iii)). §5.3: `tautologicalChowCycle`, the Chow-form transform, which sends a cycle to its incidence divisor on the product of dual projective spaces (so a Chow form vanishes exactly at the tuples of hyperplanes that meet the support of its cycle, with multiplicities), is injective and carries a sum of cycles to the sum of their incidence cycles (used in 6.1 and 6.2 (b)).
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§3.5: `sectionNorm`, for `π` finite locally free and a regular section `s`, `div(Norm(s)) = π_*(div(s))`. §5.1: `AlgebraicCycle.div` with `div_mul`. §5.2: `Chow.properPushforward`, with the residue-degree weights `f_*[V] = [K(V) : K(f(V))][f(V)]` (used in the route of 6.1 (ii)).
+
+### From TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
+
+§5.2: embedded resolution of a reduced scheme of finite type in characteristic zero, an isomorphism over its regular locus (used in the Crofton formula of the route of 6.1 (iii)).
 
 ### From Mathlib
 
