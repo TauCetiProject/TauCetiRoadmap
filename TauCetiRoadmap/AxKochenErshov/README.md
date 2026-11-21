@@ -239,14 +239,14 @@ Mathlib `ValuationSubring.valuation`, `HahnSeries`, `HahnSeries.addVal`, `Cardin
 ### 3.1 Hensel configurations
 
 For `f ∈ K[X]` and `a ∈ K`, write `f(a + X) = f(a) + f'(a)X + Σ_{i ≥ 2} f_i(a)Xⁱ`. The pair
-`f, a` is in *Hensel configuration* (van den Dries Def. 4.19) when `f'(a) ≠ 0` and either
+`f, a` is in *Hensel configuration* (van den Dries Def. 4.19, p. 108) when `f'(a) ≠ 0` and either
 `f(a) = 0`, or `f(a) ≠ 0` and, with `γ = |f(a)/f'(a)|`,
 
 `|f_i(a)|·γⁱ < |f(a)|` for every `i ≥ 2`.
 
 In a henselian field, `f` then has a unique root `b` with `|b − a| ≤ γ`, and `|b − a| = γ`
-(Lem. 4.20); when `f(a) = 0` the root is `b = a`. The route: substituting `X = (f(a)/f'(a))·Y`
-and dividing by `f(a)` gives `g(Y) = 1 + Y + Σ_{i ≥ 2} cᵢYⁱ` with `|cᵢ| = |f_i(a)|γⁱ/|f(a)| < 1`,
+(Lem. 4.20, p. 109); when `f(a) = 0` the root is `b = a`. The route: substituting
+`X = (f(a)/f'(a))·Y` and dividing by `f(a)` gives `g(Y) = 1 + Y + Σ_{i ≥ 2} cᵢYⁱ` with `|cᵢ| = |f_i(a)|γⁱ/|f(a)| < 1`,
 so `g ∈ V[Y]` reduces to `1 + Y`. Hensel's lemma lifts the simple residue root `−1` to the unique
 root of `g` in `V`, and that root is a unit. The roots of `g` in `V` are the `(b − a)f'(a)/f(a)`
 with `|b − a| ≤ γ`.
@@ -304,8 +304,8 @@ The same holds when `Γ` is a free abelian group, for any `k`.
   sequence in it with no limit there.
 - Let `k` be algebraically closed of characteristic `p` and `K` the perfect hull of `k(t)` with
   the `t`-adic valuation. A root of `X^p − X − 1/t` generates an immediate extension of `K` of
-  degree `p` with a unique prolongation (Kuhlmann 2010, Example 4.16). Unique prolongation makes it
-  linearly disjoint from the henselization `Kʰ`, and the compositum is immediate over `Kʰ`. So
+  degree `p` with a unique prolongation (Kuhlmann 2010, Example 4.16, p. 434). Unique prolongation
+  makes it linearly disjoint from the henselization `Kʰ`, and the compositum is immediate over `Kʰ`. So
   `Kʰ` is henselian and not algebraically maximal, and the hypothesis of 3.2 cannot be dropped.
 
 ### Dependencies
@@ -513,8 +513,8 @@ if and only if `k ≅[Language.ring] k'`. If `Th(k)` is decidable, so is `Th(Fra
   second only. Equicharacteristic `p` and mixed characteristic are not comparable by these
   theorems.
 - `ℂ((t))` and `ℚᵃˡᵍ((t))` are elementarily equivalent by 6.2. `ℂ[[t₁, t₂]]` and
-  `ℚᵃˡᵍ[[t₁, t₂]]` are not (van den Dries, Introduction). AKE is a statement about valuation
-  rings.
+  `ℚᵃˡᵍ[[t₁, t₂]]` are not (van den Dries, Introduction, p. 57, stated there without proof). AKE
+  is a statement about valuation rings.
 - In the definition of `ℤ_p` for odd `p`, `x = p⁻¹` gives `1 + p⁻¹`, of odd valuation `−1`, hence
   not a square.
 
@@ -628,4 +628,4 @@ valuation subring, with the exact sequence of value groups.
 - S. A. Basarab, Some model theory for henselian valued fields, *J. Algebra* 55 (1978), 191–212.
   Cited: §1, Thm. 2.3.1, Lemmas 2.4.2–2.4.3, Thm. 3.1, Cor. 3.2.
 - F.-V. Kuhlmann, A classification of Artin–Schreier defect extensions and characterizations of
-  defectless fields, *Illinois J. Math.* 54 (2010), 397–448. Cited: Example 4.16.
+  defectless fields, *Illinois J. Math.* 54 (2010), 397–448. Cited: Example 4.16 (p. 434).
