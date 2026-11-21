@@ -4,8 +4,9 @@ import Mathlib
 # Positivity of Dirichlet series with kernels: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. All four are
-statable with Mathlib alone, and all four are stated below.
+states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. The five listed
+below are statable with Mathlib alone, and are stated; the sixth, the non-archimedean
+stationary-phase formula 8.2 (d), is not statable at the pins (see the end of this docstring).
 
 The one-sided Laplace transform of ArithmeticDirichletSeriesPartII §0.1 (the predicate
 `HasLaplace`) is not in Mathlib or Tau Ceti at the pins. The statements below write it out: for a
@@ -21,14 +22,24 @@ pole of `Φ` is a point `ρ` with `meromorphicOrderAt Φ ρ < 0`.
   `windowedLandau_mellin`.
 * Laplace's method in several variables with a uniform majorant (7.1 (a), (c), (d)):
   `tendsto_integral_of_laplaceMethod`.
+* Stationary phase at a nondegenerate critical point on `ℂ^n` (8.1 (c)):
+  `stationaryPhase_leadingTerm`.
 
 The classical theorem 6.3, the positive-coefficient form 6.4 (b), the Dirichlet-series form
 6.9 (c) and the agreement 6.10 are statable too; they are steps to the headlines or special cases
-of them and are not stated here. Neither is the Gaussian integral 7.1 (b), a step of 7.1. The
-stationary-phase targets 8.1 and 8.2 are not headlines of the roadmap and are not stated here.
+of them and are not stated here. Neither is the Gaussian integral 7.1 (b), a step of 7.1. In
+Layer 8 the complex Gaussian integrals 8.1 (a), the non-stationary bound 8.1 (b), the critical data
+of the phase `Σ x_k + D/∏ x_k` 8.1 (d), and the lattice Gaussian integrals, the Morse lemma and the
+vanishing away from the critical points 8.2 (a)–(c) are the steps and computations around the two
+stationary-phase formulas and are not stated here. The stationary-phase formula 8.2 (d) over a
+finite product of finite extensions of the fields `ℚ_p` is not statable at the pins: its
+coefficients are Weil indices of quadratic forms over local fields (MetaplecticAutomorphicForms
+§2.1), which neither Mathlib nor Tau Ceti has.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.PositivityOfDirichletSeriesWithKernels
+
+universe u
 
 open MeasureTheory Filter Topology
 
@@ -122,6 +133,42 @@ theorem tendsto_integral_of_laplaceMethod {E : Type*} [NormedAddCommGroup E] [No
       Tendsto (fun t : ℕ ↦ (((t : ℝ) ^ ((Module.finrank ℝ E : ℝ) / 2) : ℝ) : ℂ) * ∫ v, f t v ∂μ)
         atTop (𝓝 (∫ v, Complex.exp (-B v v) ∂μ)) ∧
       ∀ᶠ t in atTop, ∫ v, f t v ∂μ ≠ 0 := by
+  sorry
+
+/-! ## Layer 8: Stationary phase over `ℂ^n` and over non-archimedean rings -/
+
+/-- **Stationary phase at a nondegenerate critical point on `ℂ^n`** (8.1 (c); the case `k = n + 1`
+of Hörmander, *The Analysis of Linear Partial Differential Operators I*, Theorem 7.7.5, in the
+`2n` real coordinates). Let `β ≠ 0` and `r, Λ > 0`. There is a constant `C` such that the
+following holds for every `x₀ ∈ ℂ^n` and every `g` holomorphic on the polydisc `B(x₀, 2r)` with
+`|g| ≤ Λ` there, `∇g(x₀) = 0` and `‖x − x₀‖ ≤ Λ ‖∇g(x)‖` on the closed polydisc `B̄(x₀, r)`
+(sup norms, `∇g = (∂g/∂x_k)_k`), and for every complex Banach space `V` and every `a : ℂ^n → V`
+of class `C^(2n+2)`, zero outside `B̄(x₀, r)`, with `‖D^j a(x)‖ ≤ S` for `j ≤ 2n + 2` and all
+`x`. The Hessian `H = (∂²g/∂x_i∂x_j (x₀))` has `det H ≠ 0` and, for every `t ≠ 0`,
+`‖∫ ψ_β(g(x)/t) a(x) dμ_β^n(x) − ψ_β(g(x₀)/t) (|t|^n/|det H|) a(x₀)‖ ≤ C S |t|^(n+1)`, where
+`ψ_β(w) = exp(i Re(βw))` and `μ_β^n` is `(|β|/2π)^n` times Lebesgue measure on `ℂ^n = ℝ^(2n)`. -/
+theorem stationaryPhase_leadingTerm (n : ℕ) {β : ℂ} (hβ : β ≠ 0) {r Λ : ℝ} (hr : 0 < r)
+    (hΛ : 0 < Λ) :
+    ∃ C : ℝ, ∀ (x₀ : Fin n → ℂ) (g : (Fin n → ℂ) → ℂ),
+      DifferentiableOn ℂ g (Metric.ball x₀ (2 * r)) →
+      (∀ x ∈ Metric.ball x₀ (2 * r), ‖g x‖ ≤ Λ) →
+      fderiv ℂ g x₀ = 0 →
+      (∀ x ∈ Metric.closedBall x₀ r,
+        ‖x - x₀‖ ≤ Λ * ‖fun k : Fin n ↦ fderiv ℂ g x (Pi.single k 1)‖) →
+      ∀ (V : Type u) [NormedAddCommGroup V] [NormedSpace ℂ V] [CompleteSpace V]
+        (a : (Fin n → ℂ) → V) (S : ℝ),
+        ContDiff ℝ (2 * n + 2) a →
+        (∀ x, x ∉ Metric.closedBall x₀ r → a x = 0) →
+        (∀ j ≤ 2 * n + 2, ∀ x, ‖iteratedFDeriv ℝ j a x‖ ≤ S) →
+        (Matrix.of fun i j : Fin n ↦
+            iteratedFDeriv ℂ 2 g x₀ ![Pi.single i 1, Pi.single j 1]).det ≠ 0 ∧
+        ∀ t : ℂ, t ≠ 0 →
+          ‖((‖β‖ / (2 * Real.pi)) ^ n : ℝ) •
+                (∫ x, Complex.exp (Complex.I * ((β * (g x / t)).re : ℂ)) • a x) -
+              (Complex.exp (Complex.I * ((β * (g x₀ / t)).re : ℂ)) *
+                ((‖t‖ ^ n / ‖(Matrix.of fun i j : Fin n ↦
+                    iteratedFDeriv ℂ 2 g x₀ ![Pi.single i 1, Pi.single j 1]).det‖ : ℝ) : ℂ)) •
+                a x₀‖ ≤ C * S * ‖t‖ ^ (n + 1) := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.PositivityOfDirichletSeriesWithKernels
