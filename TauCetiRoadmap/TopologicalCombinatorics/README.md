@@ -226,7 +226,7 @@ of some `H d` with `d < n`, then some member of `H n` has two distinct vertices 
 `lab u = −lab w`. (Prescott–Su, Theorem 2, p. 6, for a centrally symmetric triangulation of
 `Sⁿ` aligned with a flag of hemispheres, defined on p. 2, where `H d` is the set of simplices
 lying in the `d`-th hemisphere; the hypotheses here are the facts about the flag that their
-proof of Theorem 1, pp. 3–5, uses, two of them stated there without argument; the statement,
+proof of Theorem 1, pp. 4–5, uses, two of them stated there without argument; the statement,
 which needs no ambient sphere, is proved here.)
 
 The families are `Finset (Finset V)`, not Mathlib's `PreAbstractSimplicialComplex`, whose faces
@@ -420,9 +420,9 @@ being needed only on the boundary sphere. The hypotheses on the flag are proved 
   along the `q`'s only if the double step is `e_(i−1) + e_i`, as every coordinate is stepped once
   and `h_i` changes at a step that touches exactly one of `z_(i−1)`, `z_i`. In the second case
   `qₙ + e_c` fails only if `h_(c+1) (qₙ) = 0` and `q₁ − e_c` only if `h_c (q₁) = 0`; as no step
-  touches `z_c`, `h_(c+1)` increases and `h_c` decreases along the chain, so these say that
-  `h_(c+1)`, respectively `h_c`, vanishes on `ρ`, and these are the only `h_i` that can be
-  constant on `ρ`. Both cannot vanish: then no step would touch `z_(c−1)` or `z_(c+1)`, forcing
+  touches `z_c`, `h_(c+1)` never decreases and `h_c` never increases along the chain, so these
+  say that `h_(c+1)`, respectively `h_c`, vanishes on `ρ`, and these are the only `h_i` that can
+  be constant on `ρ`. Both cannot vanish: then no step would touch `z_(c−1)` or `z_(c+1)`, forcing
   `n = 1` and `m = h₀ + h₁ = 0`. So, with `m ≥ 1`, at most one `h_i` vanishes on `ρ`; if none does,
   both candidates lie in `Δ`, and if one does, exactly one. An `n`-simplex of `T` lies in exactly
   one closed orthant, since no `h_i` is constant on its `z`-points, while `ρ` lies in `2ᵏ` closed
