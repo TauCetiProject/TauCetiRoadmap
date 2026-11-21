@@ -1,5 +1,9 @@
-import Mathlib
-import Completed.LocalFieldsRamification.Suggested
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.LocalField.RamificationIndex
+public import TauCeti.NumberTheory.LocalField.Discriminant.Basic
+public import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 
 /-!
 # Totally ramified extensions of a local field: target signatures
@@ -24,8 +28,9 @@ ultimate target — **no** mass formula counting the totally ramified extensions
 ⚠ **The ramification-theoretic substrate is consumed, not built here.** Total ramification,
 Eisenstein generators, monogenicity, the different and the discriminant, the exponent `d`, and
 the tame criterion are targets of the *local fields and ramification* roadmap
-(`../../Completed/LocalFieldsRamification/README.md`), imported above and used by exact name:
-`LocalFieldsRamification.IsTotallyRamified` (with `isTotallyRamified_iff_inertiaDegree_eq_one`
+(`../../Completed/LocalFieldsRamification/README.md`), implemented in Tau Ceti; this file imports
+the Tau Ceti modules and uses the Tau Ceti declarations by exact name:
+`TauCeti.IsTotallyRamified` (with `isTotallyRamified_iff_inertiaDegree_eq_one`
 and `isTotallyRamified_iff_exists_eisenstein_generator`), `exists_integerRing_adjoin_eq_top`,
 `differentExponent` and `discriminantExponent` with their invariance theorems
 `differentExponent_eq_of_algEquiv` and `discriminantExponent_eq_of_algEquiv`,
@@ -56,6 +61,8 @@ beside Mathlib's `AddSubgroup.index_eq_natAbs_det`). Everything else, including 
 `TauCeti/NumberTheory/LocalField/MassFormula/`.
 -/
 
+@[expose] public section
+
 open ValuativeRel
 open scoped ENNReal
 
@@ -67,8 +74,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [UniformSpace K] [IsUniformAddGr
 /-! ## Layer 0: the counting invariants
 
 The ramification-theoretic substrate is imported (see the header): total ramification and the
-discriminant exponent are `LocalFieldsRamification.IsTotallyRamified` and
-`LocalFieldsRamification.discriminantExponent`. The wrappers
+discriminant exponent are `TauCeti.IsTotallyRamified` and
+`TauCeti.discriminantExponent`. The wrappers
 `intermediateFieldIsTotallyRamified` and `intermediateFieldDiscriminantExponent` totalize them
 over arbitrary subextensions by installing the consumed `finiteIntermediateField*` adapters, and
 each carries the comparison theorem the consumer contract requires. `totallyRamifiedOfDegree`,
@@ -77,7 +84,7 @@ each carries the comparison theorem the consumer contract requires. `totallyRami
 variable {K}
 
 /-- Total ramification for a subextension `L` of `SeparableClosure K` / `K`: the consumed
-`LocalFieldsRamification.IsTotallyRamified`, totalized over an arbitrary `L` by existentially
+`TauCeti.IsTotallyRamified`, totalized over an arbitrary `L` by existentially
 quantifying finiteness and installing the consumed `finiteIntermediateField*` structures. For `L`
 infinite over `K` this is `False` — junk in the direction the count tolerates. No independent
 total-ramification predicate is defined here; the residue-degree and Eisenstein characterizations
@@ -87,15 +94,15 @@ def intermediateFieldIsTotallyRamified (L : IntermediateField K (SeparableClosur
   ∃ hfin : Module.Finite K ↥L,
     haveI := hfin
     letI : ValuativeRel ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+      TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
     letI : TopologicalSpace ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+      TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
     haveI : IsNonarchimedeanLocalField ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+      TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K
         (SeparableClosure K) L
     haveI : ValuativeExtension K ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
-    LocalFieldsRamification.IsTotallyRamified K ↥L
+      TauCeti.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+    TauCeti.IsTotallyRamified K ↥L
 
 omit [IsUniformAddGroup K] in
 /-- The comparison theorem the consumer contract requires: on a finite subextension the wrapper
@@ -104,16 +111,16 @@ theorem intermediateFieldIsTotallyRamified_iff (L : IntermediateField K (Separab
     [hfin : Module.Finite K ↥L] :
     intermediateFieldIsTotallyRamified L ↔
       (letI : ValuativeRel ↥L :=
-        LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+        TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
       letI : TopologicalSpace ↥L :=
-        LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+        TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
       haveI : IsNonarchimedeanLocalField ↥L :=
-        LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+        TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K
           (SeparableClosure K) L
       haveI : ValuativeExtension K ↥L :=
-        LocalFieldsRamification.finiteIntermediateField_valuativeExtension K
+        TauCeti.finiteIntermediateField_valuativeExtension K
           (SeparableClosure K) L
-      LocalFieldsRamification.IsTotallyRamified K ↥L) :=
+      TauCeti.IsTotallyRamified K ↥L) :=
   ⟨fun ⟨_, h⟩ => h, fun h => ⟨hfin, h⟩⟩
 
 variable (K)
@@ -127,7 +134,7 @@ variable {K}
 
 open scoped Classical in
 /-- The discriminant exponent `d L` of a subextension: the consumed
-`LocalFieldsRamification.discriminantExponent`, totalized over an arbitrary `L` by installing the
+`TauCeti.discriminantExponent`, totalized over an arbitrary `L` by installing the
 consumed `finiteIntermediateField*` structures on the finite branch, with junk value `0` for `L`
 infinite over `K`. No independent different, discriminant ideal, or exponent is defined here; the
 consumed `localDiscriminantIdeal`, `differentExponent` and
@@ -138,15 +145,15 @@ noncomputable def intermediateFieldDiscriminantExponent
   if hfin : Module.Finite K ↥L then
     haveI := hfin
     letI : ValuativeRel ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+      TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
     letI : TopologicalSpace ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+      TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
     haveI : IsNonarchimedeanLocalField ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+      TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K
         (SeparableClosure K) L
     haveI : ValuativeExtension K ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
-    LocalFieldsRamification.discriminantExponent K ↥L
+      TauCeti.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+    TauCeti.discriminantExponent K ↥L
   else 0
 
 omit [IsUniformAddGroup K] in
@@ -156,16 +163,16 @@ theorem intermediateFieldDiscriminantExponent_eq (L : IntermediateField K (Separ
     [hfin : Module.Finite K ↥L] :
     intermediateFieldDiscriminantExponent L =
       (letI : ValuativeRel ↥L :=
-        LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+        TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
       letI : TopologicalSpace ↥L :=
-        LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+        TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
       haveI : IsNonarchimedeanLocalField ↥L :=
-        LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+        TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K
           (SeparableClosure K) L
       haveI : ValuativeExtension K ↥L :=
-        LocalFieldsRamification.finiteIntermediateField_valuativeExtension K
+        TauCeti.finiteIntermediateField_valuativeExtension K
           (SeparableClosure K) L
-      LocalFieldsRamification.discriminantExponent K ↥L) :=
+      TauCeti.discriminantExponent K ↥L) :=
   dite_eq_left hfin
 
 /-- The wild exponent `c L = d L − n + 1`, in the truncation-safe form `d L + 1 − n`, over the
@@ -266,14 +273,14 @@ structures. -/
 theorem le_addVal_sum_eisenstein_powerBasis_iff (L : IntermediateField K (SeparableClosure K))
     [Module.Finite K ↥L] :
     letI : ValuativeRel ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
+      TauCeti.finiteIntermediateFieldValuativeRel K (SeparableClosure K) L
     letI : TopologicalSpace ↥L :=
-      LocalFieldsRamification.finiteIntermediateFieldTopology K (SeparableClosure K) L
+      TauCeti.finiteIntermediateFieldTopology K (SeparableClosure K) L
     haveI : IsNonarchimedeanLocalField ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_isNonarchimedeanLocalField K
+      TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K
         (SeparableClosure K) L
     haveI : ValuativeExtension K ↥L :=
-      LocalFieldsRamification.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
+      TauCeti.finiteIntermediateField_valuativeExtension K (SeparableClosure K) L
     ∀ (f : Polynomial ↥𝒪[K]), f.IsEisensteinAt 𝓂[K] → ∀ ξ : ↥𝒪[↥L],
       (f.map (algebraMap ↥𝒪[K] ↥𝒪[↥L])).IsRoot ξ → Algebra.adjoin ↥𝒪[K] {ξ} = ⊤ →
       ∀ (c : Fin f.natDegree → ↥𝒪[K]) (r : ℕ),
