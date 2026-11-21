@@ -212,9 +212,10 @@ that proof establishes. Where a route is not given, or not given in full, the ta
 | `𝔫` | the descent constant | 5.10 |
 | `j_σ` | the realisation of the rational structure at an embedding `σ` | 5.10a |
 
-**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider statement would need its own proof.
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
 
 ## Layer 5: The row tower and the Rallis identities
 
