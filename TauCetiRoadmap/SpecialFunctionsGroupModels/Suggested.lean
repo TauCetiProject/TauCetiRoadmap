@@ -6,6 +6,7 @@ public import TauCeti.RepresentationTheory.Continuous.MatrixCoefficient
 public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 public import TauCeti.RepresentationTheory.Continuous.LeftRegular
 public import TauCeti.RepresentationTheory.Continuous.OneParameter
+public import TauCeti.RepresentationTheory.Continuous.Invariants
 
 /-!
 # Function-space models of noncompact groups: target signatures
@@ -17,8 +18,8 @@ Discharging this file finishes neither a layer nor the roadmap.
 
 Every bold headline of the README that carries a Lean name is stated here. Some statements
 (`multiplierRep_unique`, `matrixElement_eq_conj_matrixCoeff`, `continuous_matrixElement`,
-`matrixElement_one`) are sanity checks of the definitions rather than targets of substance; their
-docstrings say so.
+`matrixElement_one`, `SU11.coe_rotation_two_pi`) are sanity checks of the definitions rather
+than targets of substance; their docstrings say so.
 
 Prose bullets of the README that name results owned by other roadmaps are not stated either:
 the irreducibility, equivalences, invariant forms, Hilbert completions and Casimir values of the
@@ -734,7 +735,7 @@ theorem principalSeries_rotation (τ : ℂ) (e : Fin 2) (n : ℤ) (α : ℝ) :
       Complex.exp (((n : ℂ) - (e : ℂ) / 2) * α * Complex.I) • fourierLp (T := 2 * π) 2 n := by
   sorry
 
-/-- README 2.1. `k_{2π} = -1`. -/
+/-- README 2.1. `k_{2π} = -1`, a sanity check of the coordinates (the Check of 0.1). -/
 theorem coe_rotation_two_pi : (rotation (2 * π)).1.1 = -1 := by
   sorry
 
@@ -1055,16 +1056,21 @@ def weightSpace (U : ContRepresentation ℂ G H) (κ : Circle →* G) (j : ℤ) 
     exact smul_comm _ _ _
 
 /-- README 3.3. **Weight decomposition.** For a unitary representation whose restriction to the
-circle subgroup has continuous orbits, `H` is the Hilbert sum of the weight spaces; a matrix
-element between weight vectors of weights `j_m`, `j_n` transforms by
-`D_{mn}(κ u₁ g κ u₂) = u₁^{j_m} u₂^{j_n} D_{mn}(g)`. -/
+circle subgroup has continuous orbits, `H` is the Hilbert sum of the weight spaces. -/
 theorem isHilbertSum_weightSpace (U : ContRepresentation ℂ G H) (hU : U.IsUnitary)
-    (κ : Circle →* G) (hκ : ∀ v, Continuous fun u => U (κ u) v) (e : HilbertBasis ι ℂ H)
+    (κ : Circle →* G) (hκ : ∀ v, Continuous fun u => U (κ u) v) :
+    IsHilbertSum ℂ (fun j : ℤ => weightSpace U κ j) (fun j => (weightSpace U κ j).subtypeₗᵢ) := by
+  sorry
+
+/-- README 3.3. **Weight law of matrix elements.** A matrix element between basis vectors that
+are weight vectors of weights `j_m`, `j_n` transforms by
+`D_{mn}(κ u₁ g κ u₂) = u₁^{j_m} u₂^{j_n} D_{mn}(g)`. -/
+theorem matrixElement_weightSpace (U : ContRepresentation ℂ G H) (hU : U.IsUnitary)
+    (κ : Circle →* G) (e : HilbertBasis ι ℂ H)
     (m n : ι) (jm jn : ℤ) (hm : e m ∈ weightSpace U κ jm) (hn : e n ∈ weightSpace U κ jn)
     (u₁ u₂ : Circle) (g : G) :
-    IsHilbertSum ℂ (fun j : ℤ => weightSpace U κ j) (fun j => (weightSpace U κ j).subtypeₗᵢ) ∧
-      matrixElement U e m n (κ u₁ * g * κ u₂) =
-        (u₁ : ℂ) ^ jm * (u₂ : ℂ) ^ jn * matrixElement U e m n g := by
+    matrixElement U e m n (κ u₁ * g * κ u₂) =
+      (u₁ : ℂ) ^ jm * (u₂ : ℂ) ^ jn * matrixElement U e m n g := by
   sorry
 
 end MatrixElements
@@ -1218,29 +1224,17 @@ theorem bounded_sphericalFunction_iff_character [IsTopologicalGroup G] [LocallyC
         ∀ f, Integrable f μ → IsBiInvariant K f → χ f = sphericalTransform μ φ f := by
   sorry
 
-/-- README 5.3. The subspace of `K`-fixed vectors. -/
-def fixedSubmodule {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
-    (U : ContRepresentation ℂ G H) (K : Subgroup G) : Submodule ℂ H where
-  carrier := {v | ∀ k ∈ K, U k v = v}
-  add_mem' := by
-    intro v w hv hw k hk
-    simp only [map_add, hv k hk, hw k hk]
-  zero_mem' := by
-    intro k _
-    simp
-  smul_mem' := by
-    intro c v hv k hk
-    simp only [map_smul, hv k hk]
-
 /-- README 5.3. **Spherical functions from representations.** If the `K`-fixed vectors of a
 strongly continuous unitary representation are the line through a unit vector `v`, then
-`g ↦ ⟪v, U(g) v⟫` is a positive-definite spherical function. -/
+`g ↦ ⟪v, U(g) v⟫` is a positive-definite spherical function. The `K`-fixed vectors are the
+invariants `(U.restrict K.subtype).invariants` of the restriction to `K`; membership is
+`ContRepresentation.mem_invariants_restrict`. -/
 theorem isSphericalFunction_inner [IsTopologicalGroup G] [BorelSpace G] {H : Type*}
     [NormedAddCommGroup H]
     [InnerProductSpace ℂ H] [CompleteSpace H] (U : ContRepresentation ℂ G H) (hU : U.IsUnitary)
     (hc : ∀ w, Continuous fun g => U g w) {K : Subgroup G} (hK : IsCompact (K : Set G))
     (ν : Measure K) [IsProbabilityMeasure ν] [ν.IsMulLeftInvariant] [ν.IsMulRightInvariant]
-    (v : H) (hv : ‖v‖ = 1) (hfix : fixedSubmodule U K = Submodule.span ℂ {v}) :
+    (v : H) (hv : ‖v‖ = 1) (hfix : (U.restrict K.subtype).invariants = Submodule.span ℂ {v}) :
     IsSphericalFunction K ν (fun g => ⟪v, U g v⟫_ℂ) ∧
       (Matrix.of fun g h : G => ⟪v, U (g⁻¹ * h) v⟫_ℂ).PosSemidef := by
   sorry
@@ -1255,7 +1249,7 @@ theorem rank_fixedSubmodule_le_one [IsTopologicalGroup G] [LocallyCompactSpace G
     (hc : ∀ w, Continuous fun g => U g w)
     (hirr : ∀ W : Submodule ℂ H, IsClosed (W : Set H) → (∀ g, ∀ w ∈ W, U g w ∈ W) →
       W = ⊥ ∨ W = ⊤) :
-    Module.rank ℂ (fixedSubmodule U K) ≤ 1 := by
+    Module.rank ℂ (U.restrict K.subtype).invariants ≤ 1 := by
   sorry
 
 end Gelfand
@@ -1272,7 +1266,7 @@ theorem exists_isUnitary_of_sphericalFunction {G : Type u} [Group G] [Topologica
     (hpos : (Matrix.of fun g h : G => φ (g⁻¹ * h)).PosSemidef) :
     ∃ (V : Type u) (_ : NormedAddCommGroup V) (_ : InnerProductSpace ℂ V) (_ : CompleteSpace V)
       (U : ContRepresentation ℂ G V) (v : V), U.IsUnitary ∧ (∀ w, Continuous fun g => U g w) ∧
-        ‖v‖ = 1 ∧ v ∈ fixedSubmodule U K ∧ ∀ g, φ g = ⟪v, U g v⟫_ℂ := by
+        ‖v‖ = 1 ∧ v ∈ (U.restrict K.subtype).invariants ∧ ∀ g, φ g = ⟪v, U g v⟫_ℂ := by
   sorry
 
 /-- README 5.4. **`(SU(1,1), K)` is a Gel'fand pair**, by Gel'fand's criterion with the transpose
@@ -1344,6 +1338,9 @@ end TauCetiRoadmap.SpecialFunctionsGroupModels
 #check @HilbertBasis.hasSum_inner_mul_inner
 #check @ContRepresentation.IsUnitary
 #check @ContRepresentation.matrixCoeff
+#check @ContRepresentation.invariants
+#check @ContRepresentation.restrict
+#check @ContRepresentation.mem_invariants_restrict
 #check @ContRepresentation.toStronglyContinuousGroup
 #check @MeasureTheory.Measure.leftRegular
 #check @MeasureTheory.Measure.isUnitary_leftRegular

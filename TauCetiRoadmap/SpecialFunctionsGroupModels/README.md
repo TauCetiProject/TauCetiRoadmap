@@ -493,9 +493,10 @@ angles, `SU11.principalAction τ e g f θ = principalMultiplier τ e g θ · f(c
   when `Re τ = −1/2`;
 - **Hermitian adjoint** (`SU11.inner_principalSeries`):
   `⟪T_{(τ,ε)}(g) f, h⟫ = ⟪f, T_{(−conj τ − 1, ε)}(g⁻¹) h⟫`;
-- **Weights** (`SU11.principalSeries_rotation`, `SU11.coe_rotation_two_pi`):
-  `T(k_α) e_m = e^{imα} e_m` for `e_m = e^{inθ}`, `m = n − ε`, and `k_{2π} = −1`, which therefore
-  acts by `(−1)^{2ε}`;
+- **Weights** (`SU11.principalSeries_rotation`): `T(k_α) e_m = e^{imα} e_m` for `e_m = e^{inθ}`,
+  `m = n − ε`;
+- `k_{2π} = −1`, a sanity check of the coordinates (`SU11.coe_rotation_two_pi`, the Check of 0.1),
+  so that by the weights `k_{2π}` acts by `(−1)^{2ε}`;
 - **The fixed conjugacy `SL(2, ℝ) → SU(1,1)`** (`SU11.ofSL2R_spec`): `SU11.ofSL2R` is a
   homomorphism, it is conjugation by NoncompactQuantumSymmetry M4's `C₀`, and it maps `k_t`
   (`SU11.rotationSL2R t`) to `k_{2t}`; it is bijective by that roadmap's
@@ -611,7 +612,8 @@ For `k ≥ 2`, `bergmanMeasure k = ((k − 1)/π) (1 − |z|²)^{k−2} dA` on t
   weights `±(k + 2j)`, those of `D_k^±`. Through `ofSL2R` and the lowest-weight vector `1`,
   `A²_k` is M4's `D_k^+` and `conj(A²_k)` its `D_k^−`; their irreducibility and the comparison
   with the Fourier–Laplace and upper half-plane models of M6.A (in M6's subsection on two
-  spacelike inputs) are consumed from NoncompactQuantumSymmetry.
+  spacelike inputs) are consumed from NoncompactQuantumSymmetry. The upper half-plane model of
+  even weight with its formal degree is VonNeumannAlgebras Layer 9's (Scope and ownership).
 
 **Checks.**
 - `bergmanMeasure k` is a probability measure (`j = 0`).
@@ -811,8 +813,10 @@ Sources: Vilenkin–Klimyk §6.5.1 (1)–(4), p. 311, §6.5.2 (1)–(5), pp. 312
 
 For `κ : Circle →* G`, `weightSpace U κ j = {v | ∀ u, U(κ u) v = uʲ v}`. Prove:
 - **Weight decomposition** (`isHilbertSum_weightSpace`): for unitary `U` with continuous orbits on
-  the circle, `H` is the Hilbert sum of the weight spaces, and matrix elements between weight
-  vectors of weights `j'`, `j` satisfy `D_{m'm}(κ u₁ g κ u₂) = u₁^{j'} u₂^{j} D_{m'm}(g)`;
+  the circle, `H` is the Hilbert sum of the weight spaces;
+- **Weight law of matrix elements** (`matrixElement_weightSpace`): for unitary `U` and a Hilbert
+  basis whose members `e_{m'}`, `e_m` are weight vectors of weights `j'`, `j`,
+  `D_{m'm}(κ u₁ g κ u₂) = u₁^{j'} u₂^{j} D_{m'm}(g)`;
 - the `κ`-finite vectors (finite sums of weight vectors) are dense, and for a strongly continuous
   Banach representation of `G` they are dense in the smooth vectors (CompactGroups'
   `gap:banach-gfinite-density`);
@@ -825,8 +829,11 @@ For `κ : Circle →* G`, `weightSpace U κ j = {v | ∀ u, U(κ u) v = uʲ v}`.
   `b_β` (Vilenkin–Klimyk §6.5.2 (1), p. 312, in the labels of Conventions).
 
 **Checks.**
-- For the regular representation of the circle on `L²(haarAddCircle)`, `weightSpace j` is the line
-  of `fourierLp 2 j`.
+- For the left regular representation `f ↦ f(u⁻¹ ·)` of the circle on `L²(haarAddCircle)`, with
+  `κ` the identity, `weightSpace j` is the line of `fourierLp 2 (-j)`: translating `e^{inθ}` by
+  `−φ` multiplies it by `e^{−inφ}`.
+- Negative control: `fourierLp 2 1` lies in `weightSpace (-1)`, not in `weightSpace 1`; the two
+  readings agree only at `j = 0`.
 - Negative control: in `principalSeries τ 1` every `m` lies in `ℤ + 1/2`, so every weight `2m` is
   odd, no vector is fixed by `κ`, and the `K`-fixed space is `0`.
 - `D_{m'm}(k_α) = δ_{m'm} e^{imα}` in the trigonometric basis.
@@ -1017,7 +1024,9 @@ and `φ(x) φ(1) = ∫ φ(x k) dk = φ(x)`.
 Sources: Wawrzyńczyk §5.2, Theorem 5.2.1, pp. 218–220, §5.3, Theorem 5.3.1, pp. 222–223;
 Dieudonné §9 (110), p. 30.
 
-`fixedSubmodule U K` is the space of `K`-fixed vectors. Prove:
+The space of `K`-fixed vectors is Mathlib's `ContRepresentation.invariants` of the restriction,
+`(U.restrict K.subtype).invariants`, whose members are characterized by Tau Ceti's
+`ContRepresentation.mem_invariants_restrict`. Prove:
 - **Spherical functions from representations** (`isSphericalFunction_inner`): if the `K`-fixed
   vectors of a strongly continuous unitary representation are the line through a unit vector `v`,
   then `g ↦ ⟪v, U(g) v⟫` is a positive-definite spherical function;
@@ -1040,7 +1049,7 @@ Dieudonné §9 (110), p. 30.
 **Checks.**
 - For `principalSeries (−1/2 + iρ) 0` the `K`-fixed space is the constant functions.
 - Negative control: for `principalSeries τ 1` it is `0` (3.3), so no spherical function arises.
-- For the trivial representation, `fixedSubmodule` is everything and `φ ≡ 1`.
+- For the trivial representation, the `K`-fixed space is everything and `φ ≡ 1`.
 
 *Needs:* 5.1–5.2; FactorRigidity §4.1 (positive-definite functions as coefficients);
 CStarAlgebras §2.2 (irreducibility and scalar commutant).
@@ -1099,7 +1108,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 4. **Infinitesimal operators of the circle models** (4.1–4.3).
 5. **Gel'fand pairs and spherical functions** (5.1–5.4).
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other headlines and the
 plain bullets of each subsection are targets of the same standing, stated in prose. The
@@ -1187,6 +1196,14 @@ Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates non
   [BallQuotientsAndComplexHyperbolicLattices §1.6](../BallQuotientsAndComplexHyperbolicLattices/README.md)
   owns the Cayley isomorphism `PU(1,1) ≅ PSL(2,ℝ)` and its action on the disc and the upper
   half-plane, which this roadmap does not restate.
+- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) Layer 9 owns the holomorphic discrete
+  series of `PSL₂(ℝ)` on the upper half-plane for even weight `n ≥ 2`: its weighted Bergman
+  spaces, their reproducing kernels, unitarity, square integrability and formal degree. 2.3 is
+  the disc model for every integer `k ≥ 2`. The Cayley map `z = (w − i)/(w + i)` with the factor
+  `(w + i)^{−k}` carries `A²_k` onto the holomorphic `F` on the half-plane with
+  `∫ |F|² y^{k−2} dx dy` finite, and multiplies the squared norm by `4^{1−k} π/(k − 1)`, because
+  `(1 − |z|²)^{k−2} dA(z) = 4^{k−1} y^{k−2} |w + i|^{−2k} dA(w)`. This roadmap states neither that
+  map nor the half-plane spaces.
 - [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md) owns the Schrödinger
   representation of the Heisenberg group of a symplectic space over a local field (its 0.15 and,
   on `L²`, 0.17) and the Stone–von Neumann theorem in its smooth and unitary forms, with the
@@ -1216,7 +1233,7 @@ Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates non
   functions (Legendre and Jacobi functions for `SU(1,1)`, Bessel functions for the motion groups,
   Laguerre and Hermite functions for the Heisenberg and oscillator groups), the decomposition of
   specific quasi-regular representations and the resulting integral transforms are not targets of
-  this roadmap. The Checks below compare with those functions numerically.
+  this roadmap. The Checks of the layers compare with those functions numerically.
 
 **Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
 - the left regular representation on `L²(G)`, its unitarity and strong continuity:
@@ -1243,6 +1260,10 @@ Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates non
   (`TauCeti/RepresentationTheory/Continuous/LeftRegular.lean`): left translation
   `f ↦ f(g⁻¹ ·)` on `Lᵖ(G, μ)` for left-invariant `μ`, unitary for `p = 2`, with continuous
   orbits for `p < ∞` and locally finite `μ`. Used in 1.3.
+- `ContRepresentation.mem_invariants_restrict`
+  (`TauCeti/RepresentationTheory/Continuous/Invariants.lean`): `v` lies in the invariants of the
+  restriction `π.restrict S.subtype` exactly when `π s v = v` for all `s ∈ S`. Used in 5.3 for the
+  `K`-fixed vectors.
 - `ContRepresentation.toStronglyContinuousGroup`
   (`TauCeti/RepresentationTheory/Continuous/OneParameter.lean`): a representation of `ℝ` with
   continuous orbits as a strongly continuous group. Used in 4.1 for the one-parameter subgroups.
@@ -1265,6 +1286,8 @@ Gel'fand-pair theory of which `(SU(2), T)` is an instance (5.4). It restates non
 - `MeasureTheory.Measure.toSphere`: the surface measure on the unit sphere. Used in 2.6.
 - `Matrix.SpecialLinearGroup` with its topology and `IsTopologicalGroup` instance, and
   `Matrix.specialOrthogonalGroup`. Used in 0.1 and 0.3.
+- `ContRepresentation.restrict`, `ContRepresentation.invariants`: the restriction of a continuous
+  representation along a homomorphism and its submodule of invariant vectors. Used in 5.3.
 - `Real.Gamma`: in 2.2. `Complex.besselJ`: in the Checks of 2.6 and 4.3.
 
 ### From other roadmaps
