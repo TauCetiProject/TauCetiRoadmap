@@ -23,6 +23,11 @@ Notation and conventions not restated here are those of ArithmeticDirichletSerie
 | characters and measures on `ℂ` (8.1) | For `β ∈ ℂ^×`, `ψ_β(w) = exp(i Re(βw))`; these are the nontrivial continuous characters of `ℂ`. `μ_β = (|β|/2π) ·` Lebesgue measure on `ℂ = ℝ²` is the Haar measure self-dual for `ψ_β`; `ℂ^n` carries the product measure `μ_β^n` and the sup norm `‖x‖ = max_k |x_k|`, and `B(x₀, r)`, `B̄(x₀, r)` are the open and closed polydiscs. For a function on `ℂ^n = ℝ^(2n)`, `D^j` is its `j`-th real Fréchet derivative with the operator norm; for a holomorphic `g`, `∇g = (∂g/∂x_k)_k` (with the sup norm) and `D_ℂ^j g` is its `j`-th complex derivative. |
 | the non-archimedean ring (8.2) | `K` is a finite product of finite extensions of fields `ℚ_p`, `𝔒 ⊂ K` a compact open subring, and `ψ : K → S¹` an additive character with `{a ∈ K : ψ(a𝔒) = 1} = 𝔒`. A *lattice* is a compact open subgroup of `(K, +)`; `L^⊥ = {a ∈ K : ψ(aL) = 1}`; `dx` is the Haar measure on `K` with `vol(𝔒) = 1`; `|a|` is the module of `a ∈ K^×`, `d(ax) = |a| dx`. Integrals over `K^m` are of locally constant functions with compact support. `𝟙` is the all-ones vector and `H_m(a) = a^(−1)(1 + 𝟙𝟙ᵀ) ∈ M_m(K)` for `a ∈ K^×`. |
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 6: Landau's theorem for Laplace transforms, classical and windowed
 
 Landau's theorem says that the real abscissa of convergence of the transform of an eventually
