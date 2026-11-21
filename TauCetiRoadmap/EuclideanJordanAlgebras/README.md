@@ -888,15 +888,16 @@ The modules `Peirce` and `TraceForm` are Tau Ceti commits `9dee29bbef` and `cd51
 
 ## Provenance
 
-Two existing formalizations cover parts of this roadmap. They are sources to compare with and to
-reuse where their licences and authors allow; the specification is the text above.
+Two existing formalizations cover parts of this roadmap. The specification is the text above.
 
-- [euclidean-jordan](https://github.com/ehrlich-b/euclidean-jordan) (Bryan Ehrlich): §1.1–1.3,
+- [euclidean-jordan](https://github.com/ehrlich-b/euclidean-jordan) (Bryan Ehrlich, Apache-2.0), a source to compare
+  with and to reuse: §1.1–1.3,
   §2.1–2.2, Koecher's theorem of §4.3 and the order-unit structure of §4.1 for `Herm_n(ℝ)` and
   `Herm_n(ℂ)`.
 - [jordanalgebra](https://github.com/cobord/jordanalgebra) (Ammar Husain): spin factors, Hermitian
   matrix algebras and an Albert algebra over the octonions, with a bundled Jordan-algebra class
-  that differs from Mathlib's `IsCommJordan`.
+  that differs from Mathlib's `IsCommJordan`. It states no licence; it is cited as prior work
+  only, and none of its code is to be reused without its author's permission.
 
 ## References
 
