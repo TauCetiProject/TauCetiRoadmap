@@ -142,7 +142,7 @@ of a given type under a parahoric subgroup of type `(a, b)`.
   `F_n/F` is the unramified extension of degree `n` with residue field `k_n`; representations are smooth
   and complex, in the categories of SmoothRepresentationsOfLocalGroups SR.0.
 
-**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+**Statements of the formal proof.** Where a target or a clause names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
@@ -1971,7 +1971,8 @@ by `X_a = b̂_a − Σ_{c<a} Ind_{P̂_c}^{Ĝ_a}(X_c ⊠ 1)`, where `P̂_c = P_{(
 `Ind_{P̂_c}(Z)(δF) = |P_c(k′)|⁻¹ Σ_{y : y⁻¹δF(y) ∈ P_c(k′)} Z(pr(y⁻¹δF(y))F)`, `pr` the projection of `P_c(k′)` onto `(GL_c × GL_{a−c})(k′)`, so by (c) (with `Sh_l(1) = 1`) and by induction on `a`,
 `X_a(δF) = Sh_l(β_a)(δ)`, `β_a = R_{T_{(a)}}(θ̃|_{𝔽_{q^a}^×})` (5.6(b)). As `β_m = (−1)^{m−1}σ_θ` (5.6(b), `θ` regular),
 `X = (−1)^{m−1}X_m` has `X(δF) = Sh_l(χ_{σ_θ})(δ)`, and by (b) `|GL_m(k′)|⁻¹ Σ_δ |X(δF)|² = 1`. By TensorInductionAndFiniteGroupInputs §6.2,
-`X` is on the coset `GL_m(k′)F` a root of unity of `ℚ(e^{2πi/l})`, hence
+`X` is on the coset `GL_m(k′)F` a root of unity of `ℚ(e^{2πi/l})` (TensorInductionAndFiniteGroupInputs §6.2 (b′), which is
+that roadmap's addition to the form of the formal proof), hence
 `±e^{2πij/l}`, times one extension `τ̃₀` of an `F`-stable irreducible `τ₀`, and `τ₀` occurs in every `F`-stable character `Y` with
 `l ∤ ⟨X|_{GL_m(k′)}, Y⟩`; with `A = e^{2πij/l}τ̃₀(F)` this is the asserted form for `τ₀`. It remains to see that `τ` is `F`-stable and
 that `l ∤ ⟨X|_{GL_m(k′)}, τ⟩`; then `τ₀ = τ`. By Mackey (`Ĝ_m = GL_m(k′)·P̂_c`, `GL_m(k′) ∩ P̂_c = P_c(k′)`),
@@ -2009,7 +2010,7 @@ is the lift of the orbit of `θ_i`: one orbit of size `m_i` over `k′` if `l �
 the label is `m^{(l)}`.
 
 *Needs:* 0.4, 1.0, 1.2, 4.4, 4.5, 5.1, 5.2, 5.4, 5.6, 5.7; ReductiveGroups 7a, 7b, 7c; InductionRestriction
-Layer 2; TensorInductionAndFiniteGroupInputs §§6.1, 6.2; RepresentationTheory/CharacterTheory
+Layer 2; TensorInductionAndFiniteGroupInputs §§6.1, 6.2 (with (b′)); RepresentationTheory/CharacterTheory
 Layer 3.
 
 **Checks.**
@@ -2051,10 +2052,12 @@ Layers 0, 1, 2 and 4; ReductiveGroups Layers 7a, 7b, 7c and 7d; RepresentationTh
 ### 6.0 `K₁`-invariants and Jacquet modules
 
 This item is not a target of this roadmap: it records, in the form 6.1–6.5 use, the case `G = GL_n` of
-LocalFactorsOfTwistsAndTypes §2.1 (a) and (d), which Layer 6 imports. For a smooth representation `π` of `GL_n(F)` and a
+LocalFactorsOfTwistsAndTypes §2.1 (a) and (d), which Layer 6 imports. For an admissible representation `π` of `GL_n(F)` and a
 standard parabolic `P = MN`, `M = GL_{n₁} × ⋯ × GL_{n_r}`, the projection to the Jacquet module induces an
-isomorphism of `M(k)`-modules `(π^{K₁})^{N(k)} ≅ (π_N)^{M ∩ K₁}`, that is `*R_{M(k)}^{GL_n(k)}(π^{K₁}) ≅ (π_N)^{M∩K₁}`.
-In particular a supercuspidal `π` has `π^{K₁}` cuspidal as a `GL_n(k)`-module, and an irreducible `π` has depth zero iff every member of its supercuspidal support does.
+isomorphism of `M(k)`-modules `(π^{K₁})^{N(k)} ≅ (π_N)^{M ∩ K₁}`, that is `*R_{M(k)}^{GL_n(k)}(π^{K₁}) ≅ (π_N)^{M∩K₁}`
+(injectivity for every smooth `π`). In particular a supercuspidal `π` has `π^{K₁}` cuspidal as a `GL_n(k)`-module, and an
+irreducible `π` has depth zero iff every member of its supercuspidal support does ("if" being used for `F` of
+characteristic zero).
 
 *Reading.* The comparison is LocalFactorsOfTwistsAndTypes §2.1 (d) for `G = GL_n`, `x`
 the vertex fixed by `K` and `P` standard: there `J = K₁N(𝒪)`, so `π^J = (π^{K₁})^{N(k)}`, and `M_{x,0+} = M ∩ K₁`;
@@ -2387,7 +2390,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 | Use here | Section |
 |---|---|
 | tensor induction to an overgroup `Ĝ ⊃ H` of prime index `l`: for a virtual character `ψ` of `H`, the class function equal to `∏_{i<l}ψ(x^ihx^{−i})` on `H` and to `ψ(g^l)` off `H` is a virtual character of `Ĝ` (used in 5.11(d)) | §6.1 |
-| a virtual character of `Ĝ` of norm one on the coset `Hx` is there a root of unity times one extension of an `x`-stable irreducible character `τ₀` of `H`, and `τ₀` occurs in every `x`-stable character `Y` of `H` with `l ∤ ⟨X|_H, Y⟩`; the restrictions to `Hx` of the extensions of distinct `x`-stable irreducible characters are orthonormal (used in 5.11(d), (e)) | §6.2 |
+| a virtual character of `Ĝ` of norm one on the coset `Hx` is there a complex number `b` of absolute value one times one extension of an `x`-stable irreducible character `τ₀` of `H`, and `τ₀` occurs in every `x`-stable character `Y` of `H` with `l ∤ ⟨X|_H, Y⟩`; by (b′), `b` is a root of unity of `ℚ(e^{2πi/l})`, `±1` for `l = 2` and `±e^{2πij/l}` for odd `l`; the restrictions to `Hx` of the extensions of distinct `x`-stable irreducible characters are orthonormal (used in 5.11(d), (e)) | §6.2, with (b′) |
 
 ### From TauCetiRoadmap.RepresentationTheory.SchurWeyl
 
@@ -2445,7 +2448,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 
 | Use here | Section |
 |---|---|
-| the depth of the supercuspidal support (a); the invertibility of the contracting Hecke operator (c) and the depth-zero Jacquet comparison `(π^{G_{x,0+}})^{N∩G_{x,0}} ≅ (π_N)^{M_{x,0+}}` for every smooth `π` (d) | §2.1 |
+| the depth of the supercuspidal support (a); the invertibility of the contracting Hecke operator (c) and the depth-zero Jacquet comparison `(π^{G_{x,0+}})^{N∩G_{x,0}} ≅ (π_N)^{M_{x,0+}}` for every admissible `π`, injective for every smooth `π` (d) | §2.1 |
 
 ## References
 
