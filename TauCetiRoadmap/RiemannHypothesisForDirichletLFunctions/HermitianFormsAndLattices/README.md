@@ -82,7 +82,7 @@ of unitary groups (through Weil's rank-one identity) and local densities, expres
 lattices through their discriminant forms where the trace is onto, proves the mass formula, counts
 the unimodular lattices meeting a subspace in a given lattice, bounds the total mass of the integral
 lattices of given discriminant and a weighted count of subspaces, and proves Siegel's main theorem,
-with Weil's mean value theorem for an isotropic frame and one anisotropic vector.
+with the volumes of stabilisers.
 Layer 7 treats Hermitian theta series of definite lattices.
 
 ## Conventions
@@ -1628,13 +1628,35 @@ over `E`. For (b), the trace dual of `L^∨` is `𝔇_E^{−1}L`, and `⟨L, L�
 
 ### 4.13 Short generators from a short spanning family
 
-Let `K` be a number field of degree `n` with root discriminant `rd(K) = |d_K|^{1/n}`, `V` a `K`-vector
-space of dimension `ρ` with seminorms `N_σ`, `σ` running over the embeddings `K → ℂ`, and `M ⊂ V` a
-finitely generated `O_K`-submodule containing a family that spans `V` and has `N_σ ≤ B` for every `σ`.
-Prove that `M` is generated over `ℤ` by at most `2nρ` elements with `N_σ ≤ max(1, n⁴ρ·rd(K)·B)` for
-every `σ`. The route is not given here.
+Let `K` be a number field of degree `n` with root discriminant `rd(K) = |d_K|^{1/n}`, and `V` a `K`-vector space of
+finite dimension `ρ`. For every field embedding `σ : K → ℂ` (all `n` of them) let `N_σ : V → ℝ_{≥0}` be a seminorm for
+the absolute value `|σ(·)|` of `K`: `N_σ(x + y) ≤ N_σ(x) + N_σ(y)` and `N_σ(ax) = |σ(a)|·N_σ(x)` for all `a ∈ K` and
+`x, y ∈ V`. Let `M ⊂ V` be a finitely generated `𝒪_K`-submodule containing a family that spans `V` over `K` and whose
+members `y` satisfy `N_σ(y) ≤ B` for every `σ`. Prove that `M` is generated as a `ℤ`-module by at most `2nρ` elements `w`
+with `N_σ(w) ≤ n⁴·ρ·rd(K)·B` for every `σ`.
 
-*Needs:* 4.0.
+Route: (1) *Short independent integers.* For `ε = ±1` let `φ_ε : K → ℝⁿ`, `x ↦ (Re σ(x) + ε·Im σ(x))_σ`. Then
+`⟨φ_1(x), φ_{−1}(y)⟩ = Tr_{K/ℚ}(xy)` and `|φ_ε(x)|² = Σ_σ|σ(x)|²`, so the lattices `φ_{−1}(𝔇_K^{−1})` and `φ_1(𝒪_K)` are dual to
+each other. A nonzero `x ∈ 𝔇_K^{−1}` has `|N_{K/ℚ}(x)| ≥ |d_K|^{−1}`, hence `Σ_σ|σ(x)|² ≥ n·|d_K|^{−2/n}` by the inequality of
+arithmetic and geometric means. Transference (GeometryOfNumbersAndQuadraticArithmetic 4.4.13) gives `n` vectors of
+`φ_1(𝒪_K)`, linearly independent over `ℝ`, of length at most `√n·rd(K)`: elements `ω_1, …, ω_n ∈ 𝒪_K`, linearly
+independent over `ℚ`, with `|σ(ω_k)| ≤ √n·rd(K)` for every `σ`. (2) Choose `y_1, …, y_ρ` in the family, a basis of `V`
+over `K`. The `nρ` products `ω_ky_j` lie in `M`, are a basis of `V` over `ℚ`, and have `N_σ(ω_ky_j) = |σ(ω_k)|·N_σ(y_j) ≤ √n·rd(K)·B`.
+(3) For `x ∈ V` let `red(x)` be the combination of the `ω_ky_j` with the fractional parts of the coordinates of `x`;
+`x − red(x)` is an integral combination of the `ω_ky_j`, and `N_σ(red(x)) ≤ nρ·√n·rd(K)·B`. (4) `M` is free over `ℤ` of
+rank at most `nρ`; for a `ℤ`-basis `(b_i)`, the `ω_ky_j` and the `red(b_i)` lie in `M` and generate it, and all have
+`N_σ ≤ n^{3/2}·ρ·rd(K)·B ≤ n⁴·ρ·rd(K)·B`.
+
+*Needs:* 4.0; GeometryOfNumbersAndQuadraticArithmetic 4.4.13.
+
+**Checks.**
+
+- `K = ℚ(√−5)` (`n = 2`, `rd(K) = √20`), `V = K`, `N_σ(x) = |σ(x)|`, `M = (2, 1 + √−5)`, which is not free over `𝒪_K`, the family
+  `{2}` and `B = 2`: with `ω = (1, √−5)` the route gives the generators `2`, `2√−5` and `red(1 + √−5) = 1 + √−5` (`red(2) = 0`),
+  of sizes `2`, `2√5`, `√6`, against the bound `2⁴·√20·2 ≈ 143.1`; `2` and `1 + √−5` are a `ℤ`-basis of `M`.
+- The compatibility with `K` cannot be dropped: on `V = K = ℚ(i)` the function `N(x + iy) = |x| + 1000|y|` (`x, y ∈ ℚ`) is
+  subadditive and homogeneous for rational scalars, `M = ℤ[i]` contains the spanning family `{1}` with `B = 1`, the
+  bound is `32`, and every set of generators of `ℤ[i]` contains an element with `y ≠ 0`, of size at least `1000`.
 
 ### Examples
 
@@ -2922,15 +2944,23 @@ of the isometric embeddings `U ⊗_F F_∞ → V ⊗_F F_∞`, both normalized b
 `(1/mass(L))·Σ_{[M] ∈ cls(L)} s^*(M, γ)/|U(M)| = mass(γ)·α_∞(L, N)·∏_{v<∞} α_v^*(L, N)`,
 with `mass(γ) = Σ_{[N′] ∈ cls(N)} 1/|U(N′)|`; at every finite place at which `L_v` and `N_v` are
 unimodular and `E_v/F_v` is unramified or split, `α_v^*(L, N) = α_v(L, N) = ∏_{i=n−k+1}^{n} L_v(i, η_v^i)^{−1}`.
-(d) *Weil's mean value theorem for an isotropic frame and one anisotropic vector.* Let `E/F` be a
-quadratic extension of number fields, `V` a nondegenerate Hermitian space of dimension `n`, `a ≥ 1`
-with `4a + 3 ≤ n`, and `T ∈ F^×`. Consider the frames `(x_1, …, x_a, z)` with the `x_i` linearly
-independent and spanning an isotropic subspace `X`, `z ⊥ X` and `h(z, z) = −T` (Gram matrix
-`diag(0_a, −T)`), and the group `S = N_X ⋊ U(W)` stabilizing the flag of `X` and `z` modulo `X`, with
-`W` the orthogonal complement of `X ⊕ X^∨ ⊕ Ez` for an isotropic `X^∨` in duality with `X`. Prove that
-the volume of `[S]` relative to `[U(V)]` is the product of the local orbital volumes (Tamagawa measures;
-`τ(N_X) = 1`, `τ(U(W)) = τ(U(V)) = 2`); equivalently, the mean value over `[U(V)]` of the orbit sum of
-a Schwartz–Bruhat function is its integral over the adelic orbit, which converges absolutely.
+(d) *Volumes of stabilisers.* In the setting of (a), assume `X_T(F) ≠ ∅`, fix `X_0 ∈ X_T(F)`, let `H ⊂ U(V)` be the
+pointwise stabiliser of `X_0`, the unitary group of the orthogonal complement `W` of the span of `X_0`, and let `dg` be a
+Haar measure on `U(V)(𝔸)`. Prove that `X_T(𝔸) = U(V)(𝔸)·X_0`; that there is exactly one Haar measure `dh` on `H(𝔸)` with
+`∫_{U(V)(𝔸)} f(g) dg = ∫_{X_T(𝔸)} ∫_{H(𝔸)} f(g_Yh) dh dμ_T(Y)` for every measurable `f ≥ 0`, where `g_Y` is any element of
+`U(V)(𝔸)` with `g_YX_0 = Y`; and that for this `dh`
+`vol(H(F)\H(𝔸), dh) = vol(U(V)(F)\U(V)(𝔸), dg)`,
+both sides finite. Hence the stabilisers of two tuples with nondegenerate Gram matrices, of sizes at most `n − 1`,
+each with its measure `dh`, have the same covolume.
+*The stabiliser of a flag and an anisotropic vector.* Let `e_1, …, e_a, f_1, …, f_a, z ∈ V` with
+`h(e_i, e_j) = h(f_i, f_j) = 0`, `h(e_i, f_j) = δ_{ij}`, `z` orthogonal to all `e_i`, `f_j`, `h(z, z) ≠ 0` and `2a + 1 ≤ n − 1`; put
+`X = ⟨e_1, …, e_a⟩`. Let `N ⊂ U(V)` be the unipotent radical of the stabiliser of the flag `⟨e_1⟩ ⊂ ⟨e_1, e_2⟩ ⊂ ⋯ ⊂ X`, the
+group of `g` with `ge_b − e_b ∈ ⟨e_c : c < b⟩` for all `b` and `gv − v ∈ X` for all `v ⊥ X`; let `H` be the pointwise stabiliser
+of the tuple `(e_1, …, e_a, z, f_1, …, f_a)`, whose Gram matrix is nondegenerate; and let `S` be the group of `g ∈ U(V)` with
+`ge_b − e_b ∈ ⟨e_c : c < b⟩` for all `b` and `gz − z ∈ X`. Prove that `S = N ⋊ H`; that conjugation by `H(F_v)` preserves the
+Haar measures of `N(F_v)` at every place, so that the image of a product of Haar measures of `N` and `H` under
+`(n, h) ↦ nh` is a Haar measure of `S`, over `F_v`, over `𝔸_f` and over `𝔸`; and that `N(F)\N(𝔸)` is compact, so that `N(𝔸)`
+has exactly one Haar measure with `vol(N(F)\N(𝔸)) = 1`.
 
 Route: Weil's mean-value identity. If `X_T(F) = ∅`, then `X_T(F_v) = ∅` for some `v` (3.5(a)) and both
 sides vanish. Otherwise `X_T(F)` is one `U(V)(F)`-orbit and `X_T(F_v)` one `U(V)(F_v)`-orbit at every
@@ -2973,7 +3003,19 @@ sublattices of `M` isometric to `N` are the images of the primitive representati
 acts freely; the classes of `γ` are the isometry classes of lattices in `γ` (an isometry between
 lattices spanning `U` extends to `U`), and the densities depend only on `γ` (they are local, and
 `N(𝔳)` is constant on `γ`), so summing `r^*(M, N′)/|U(N′)|` over the classes `N′` of `γ` gives the second
-identity. At the places outside `S` the value is 6.1a(a). The route of (d) is not given here.
+identity. At the places outside `S` the value is 6.1a(a).
+
+Route of (d): by Witt's theorem `X_T(F)` is one `U(V)(F)`-orbit and `X_T(F_v)` one `U(V)(F_v)`-orbit at every place, and at
+almost all places `U(L_v)` is transitive on `X_T(F_v) ∩ L_v^k` (route of (a)), so the orbit map identifies
+`U(V)(𝔸)/H(𝔸)` with `X_T(𝔸)`; `μ_T` is invariant under `U(V)(𝔸)`, which preserves the self-dual measures and the map
+`X ↦ T_X`, and `U(V)(𝔸)`, `H(𝔸)` are unimodular, so `μ_T` is the quotient of `dg` by exactly one `dh`. For `Φ ≥ 0` as in (a)
+with `0 < ∫_{X_T(𝔸)}Φ dμ_T < ∞`, unfolding over the single rational orbit gives
+`∫_{[U(V)]} Σ_{X ∈ X_T(F)} Φ(g^{−1}X) dg = vol(H(F)\H(𝔸))·∫_{X_T(𝔸)}Φ dμ_T`, and by (a) the left side is
+`vol(U(V)(F)\U(V)(𝔸))·∫_{X_T(𝔸)}Φ dμ_T`. For the flag: an element of `S` acts on `X` by a unitriangular matrix and fixes the
+class of `z` in `X^⊥/X`, so it acts on the orthogonal complement of that class through an element `h` of `H`, and
+`gh^{−1} ∈ N`; `H` fixes the `e_b`, so it normalises `N`, and it acts on the Lie algebra of `N` through its action on `W`,
+with a determinant of norm one. `N(F)\N(𝔸)` is compact by induction along a central series of `N` with vector group
+quotients, from the compactness of `F\𝔸`.
 
 *Needs:* 1.1, 3.5, 4.2, 5.1, 5.5, 6.0a, 6.0b, 6.1, 6.1a, 6.1b; AdelicAlgebraicGroups §§2.2, 2.4 and OrbitMeasuresOnAdelicGroups §2.6
 (*homogeneous-gauge-measure*); AnalyticNumberTheoryPartII §§5.3g, 5.3h.
@@ -2993,6 +3035,11 @@ identity. At the places outside `S` the value is 6.1a(a). The route of (d) is no
   the inert prime `2`, `α_2^*(L, N) = 9/8` (the nine nonzero isotropic vectors of `⟨1, 1⟩` over `𝔽_4`,
   divided by `2³`), while `α_2(L, ⟨4⟩) = 9/8 + 2^{−2}·α_2(L, ⟨1⟩) = 9/8 + 3/16 = 21/16`; the other local
   factors and `α_∞` are those of `T = 4` in (b), whose product is `64`, and `64·9/8 = 72`, `64·21/16 = 84`.
+- `E = ℚ(√−3)`, `L = O_E²`, `k = 1`, `T = 1`, `X_0 = (1, 0)`, `H = U(1)` on the second
+  coordinate. With `dg` giving `Stab(L̂)·U(V)(ℝ)` the volume `1`, `vol([U(V)]) = mass(L) = 1/72`. The set of `Y ∈ X_T(𝔸)` with
+  all finite components in `L_v` is one orbit of `Stab(L̂)·U(V)(ℝ)` and has `μ_T`-measure `12`, the product of the local
+  densities of the first Check; so `dh` gives `U(1)(Ẑ)·U(1)(ℝ)` the volume `1/12`. `[U(1)]` is one class (the class
+  number of `E` is one) with `6` units, so `vol([H]) = (1/12)·(1/6) = 1/72`.
 
 ### Examples
 
@@ -3097,7 +3144,7 @@ Layers 4–6; ThetaSeries Layers 1, 3.
   the total mass of the integral lattices of given discriminant and the weighted count of subspaces
   (4.10, 4.11, 5.9, 6.4b, 6.4c), for their mean count of pairs of rows; Siegel's main theorem in
   Weil's form for one nondegenerate Gram matrix in an indefinite space (6.5(a)), for their row
-  statements, and Weil's mean value theorem for an isotropic frame and one anisotropic vector (6.5 (d));
+  statements, and the volumes of stabilisers (6.5 (d));
   the primes that divide the order of no finite unitary stabilizer (5.2 (e)); short vectors of duals and
   short generators (4.12 (b), 4.13); and, in their lattice arguments, projection–intersection duality
   and the dual index of a projected lattice (4.0a(b), (c), in CongruenceModulesOfThetaLifts §7.15 and
@@ -3135,8 +3182,7 @@ places where the trace is onto (6.1d), the total weight of the unimodular lattic
 a given lattice (6.4a), the mass formula for every signature and its closed forms, the bound for the
 total mass of the integral lattices of given discriminant and the weighted count of subspaces (6.4b,
 6.4c), Siegel's main theorem in Weil's form for every space, in the lattice form for definite spaces and
-for primitive representations, and Weil's mean value theorem for an isotropic frame and one anisotropic
-vector (Layer 6); Hermitian theta series of definite lattices, their
+for primitive representations, and the volumes of stabilisers (Layer 6); Hermitian theta series of definite lattices, their
 transformation laws and their genus averages (Layer 7).
 
 **Consumed, not restated.**
