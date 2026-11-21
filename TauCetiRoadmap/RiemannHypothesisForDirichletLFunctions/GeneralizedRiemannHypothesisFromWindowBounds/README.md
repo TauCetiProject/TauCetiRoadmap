@@ -770,6 +770,10 @@ ThetaChainsAndFrobeniusPrimeSums §10.11, for the sentence of 4.2 on statement (
 `ZeroFreeRightOf (1/2) χ.LFunction`: `meromorphicOrderAt χ.LFunction s ≤ 0` for every `s` with
 `Re s > 1/2`. Hence
 `∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.GeneralizedRiemannHypothesis`.
+The theorem gives `DirichletGRH χ` of AnalyticNumberTheoryPartI §1.6 for every `χ`, that predicate
+being the second strip form of RiemannHypothesisStatementsAndConsequences §9.4, hence `GRH` of
+AnalyticNumberTheoryPartI §1.6 and `GRHMod q` of ExplicitNumberFields §0.5 (`DirichletGRH χ` for
+every `χ` modulo `q`) for every `q ≥ 1`.
 
 Route: let `ψ = PrimitiveDirichletCharacter.of χ`. Statement (i) of 4.2 holds at `ψ` by
 ThetaChainsAndFrobeniusPrimeSums §10.11, so by 4.2 every member of `𝒦(ψ)` satisfies the
@@ -843,16 +847,20 @@ the `ζ` bridge of its §9.3.
 `meromorphicOrderAt_dedekindZeta_nonpos_of_isAbelianGalois`: for every number field `K` with
 `IsAbelianGalois ℚ K`, `NumberField.ExtendedRiemannHypothesis K`. In particular
 `NumberField.ExtendedRiemannHypothesis (CyclotomicField q ℚ)` for every `q ≥ 1`.
+The theorem gives ERH(`K`) of AnalyticNumberTheoryPartI §2.42, which ExplicitNumberFields writes
+`DedekindERH K`, and `DedekindERH K` of ClassicalArithmeticCompletion §5.0: both are the strip form
+of RiemannHypothesisStatementsAndConsequences §9.5 for `dedekindZetaC K`.
 
 Route: by Kronecker–Weber (ClassFieldTheory Layer 13, `kroneckerWeber`) `K` embeds in `ℚ(ζ_f)` for
-some `f ≥ 1`, and AnalyticNumberTheoryPartI §2.42 for that `f` (its abelian equivalence of the
-extended Riemann hypothesis of `K` with the hypothesis for the characters of the product
-`ζ_K = ∏_χ L(s, χ*)`, and its corollary for the
-hypothesis of every Dirichlet character) gives `NumberField.ExtendedRiemannHypothesis K` from the
-hypothesis for the Dirichlet characters modulo `f`, which 5.1 supplies. The cyclotomic case is the
+some `f ≥ 1`, and AnalyticNumberTheoryPartI §2.42 for that `f` (its abelian equivalence of ERH(`K`)
+with `RiemannHypothesis` and `DirichletGRH χ` for the nontrivial characters `χ` of the product
+`ζ_K = ∏_χ L(s, χ*)`) gives ERH(`K`) from 5.2 and from 5.1 in the form `DirichletGRH χ`; the strip
+form of RiemannHypothesisStatementsAndConsequences §9.5 turns it into
+`NumberField.ExtendedRiemannHypothesis K`. The cyclotomic case is the
 case `K = ℚ(ζ_q)`, `f = q`.
 
-*Needs:* 5.1; AnalyticNumberTheoryPartI §2.42; ClassFieldTheory Layer 13.
+*Needs:* 5.1, 5.2; AnalyticNumberTheoryPartI §§1.6, 2.42; RiemannHypothesisStatementsAndConsequences
+§§9.4, 9.5; ClassFieldTheory Layer 13.
 
 **Checks.**
 
@@ -866,10 +874,12 @@ case `K = ℚ(ζ_q)`, `f = q`.
 `meromorphicOrderAt_heckeLFunctionC_nonpos_of_isAbelianGalois`: let `K ⊆ L` be
 number fields with `L/ℚ` abelian, so that `L/K` is abelian, let `φ : Gal(L/K) →* ℂˣ`
 and let `φ̃ = PrimitiveRayClassCharacter.of (φ.comp Φ_{L/K})` (Conventions). Then
-`φ̃.character.GeneralizedRiemannHypothesis`.
+`φ̃.character.GeneralizedRiemannHypothesis`. This gives GRH(`φ̃`) of AnalyticNumberTheoryPartI §2.42,
+the strip form of the same hypothesis (RiemannHypothesisStatementsAndConsequences §9.5).
 
 - *The norm-composed characters.* `K` is abelian over `ℚ`, being contained in `L`. As `L` and `φ`
   vary, the characters `φ̃` of `K` so obtained are exactly the primitive characters inducing the
+  norm-composed characters `χ ∘ N_{K/ℚ}` of QuasiRiemannHypothesis §5.4, the
   ray-class characters `𝔞 ↦ χ(N_{K/ℚ} 𝔞)` of the modulus `m𝒪_K` times the real places, `χ` a
   Dirichlet character modulo `m`, `m ≥ 1`.
 
@@ -903,7 +913,7 @@ Conversely, the class field of `χ ∘ N_{K/ℚ}` lies in `K(ζ_m)`, which is ab
 primitive character is the `φ̃` of a character `φ` of `Gal(K(ζ_m)/K)`.
 
 *Needs:* 5.5; AnalyticNumberTheoryPartI §§2.18a, 2.41 and RieszSumsOverPrimesAndExceptionalZeros
-§2.41a; ZerosOfLFunctions §8.8;
+§2.41a; ZerosOfLFunctions §8.8; QuasiRiemannHypothesis §5.4;
 RiemannHypothesisStatementsAndConsequences §§8.8, 9.2, 9.5;
 ClassFieldTheory C.6, Layers 12, 13; LFunctions Layer 5 (`PrimitiveRayClassCharacter.of_induced`);
 Tau Ceti `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`,
@@ -944,9 +954,10 @@ and the nontrivial character `φ` of `Gal(L/K)`, `φ̃` is `(·/3) ∘ N`, of mo
 
 Layer 4; FrobeniusRestrictedRieszSums §0.5; ThetaChainsAndFrobeniusPrimeSums §10.11;
 RiemannHypothesisStatementsAndConsequences §§8.8, 9.2–9.5, 10.3, 11.1;
-RieszSumsOverPrimesAndExceptionalZeros §2.41a; AnalyticNumberTheoryPartI §§2.18a, 2.41, 2.42;
-ZerosOfLFunctions §8.8; ClassFieldTheory C.6, Layers 12 and 13; LFunctions Layers 4 and 5; Tau
-Ceti's ray-class characters, their induction and the meromorphic identity theorem on half-planes.
+RieszSumsOverPrimesAndExceptionalZeros §2.41a; AnalyticNumberTheoryPartI §§1.6, 2.18a, 2.41, 2.42;
+ZerosOfLFunctions §8.8; QuasiRiemannHypothesis §5.4; ClassFieldTheory C.6, Layers 12 and 13;
+LFunctions Layers 4 and 5; Tau Ceti's ray-class characters, their induction and the meromorphic
+identity theorem on half-planes.
 
 ## Layer 6: consequences for the conditional theorems of other roadmaps
 
@@ -961,9 +972,9 @@ for primes in a short interval, the target states its instances, the bounds that
 roadmap quotes, as consequences of the bounds of 6.17 and 6.18 with the finite records
 those need, and not the estimate itself (6.19, 6.20, 6.24); in the same way 6.23 derives the
 cyclotomic least-prime bound from its headline, with the headline's records. The statements are
-those of the cited sections, with the predicates of RiemannHypothesisStatementsAndConsequences
-§§9.2–9.5 as those roadmaps
-write them. Each hypothesis list after
+those of the cited sections, with the removed hypotheses read in the predicates of
+RiemannHypothesisStatementsAndConsequences §§9.2–9.5; 5.1, 5.5, 5.6, 6.1 and 6.10 name the
+predicates in which the cited roadmaps write them. Each hypothesis list after
 "given" below is the cited statement's own hypothesis list with the removed hypotheses taken out,
 together with every named proposition that the cited statement's route uses and its list does
 not name; such an addition says where the route uses it. Where the cited roadmap states the
@@ -1095,7 +1106,10 @@ character or a character `φ̃` of 5.6 of a field `K` abelian over `ℚ`.
   `(heckeData ψ).GeneralizedRiemannHypothesis` for every
   `ψ` above. With `riemannZetaData` and `dirichletData χ hχ` for primitive `χ` (5.4):
   `zeroCount d.completed univ R = 0` for each of these four records
-  `d` and every bounded `R` disjoint from the line `Re s = 1/2`.
+  `d` and every bounded `R` disjoint from the line `Re s = 1/2`. The hypotheses of
+  `dedekindZetaData K` and `heckeData ψ` are *GRH* of ZerosOfLFunctions Layer 9 for these records
+  (every point of positive divisor of the completed function has real part `1/2`), by the divisor
+  form of RiemannHypothesisStatementsAndConsequences §9.3.
 
 Route: (a) is §9.6(a) at `σ = 1/2 < 3/4`, and (b) is §9.6(c) at `σ = 1/2`, their hypothesis given by
 5.1 (through §9.5's rational bullet), 5.5 and 5.6; (c) is 5.4 and §9.5's record clause with 5.5 and
@@ -1142,12 +1156,16 @@ Route: §9.8(i) with 5.2; §9.8(ii) at `σ₀ = 1/2` with 5.1 (through §9.5's r
 ### 6.4 Prime counts (RiemannHypothesisStatementsAndConsequences §9.9)
 
 - `ψ(x) − x = O(√x log² x)`; `θ(x) − x = O(√x log² x)`; and `π(x) − Li x = O(√x log x)` (von Koch).
+  The first strengthens AnalyticNumberTheoryPartI §1.9(i) (`psi_sub_self_isBigO_of_riemannHypothesis`,
+  `ψ(x) − x = O_ε(x^{1/2+ε})` under `RiemannHypothesis`), whose conclusion therefore holds with no
+  hypothesis.
 - For every `q ≥ 1`, the primes in a reduced class modulo
   `q` number `Li x/φ(q) + O_q(√x log x)`.
 - For `K` abelian over `ℚ`: `ψ_K(x) = x + O_K(√x log² x)`, and `π_K(x) = Li x + O_K(√x log x)`.
 - For `L/K` with `L/ℚ` abelian and a reciprocity dictionary `Φ` at a modulus (ZerosOfLFunctions
   §8.8): `frobeniusPsi C x = (#C/#G) x + O(√x log² x)`,
-  and `frobeniusPrimeCount C x = (#C/#G) Li x + O(√x log x)`.
+  and `frobeniusPrimeCount C x = (#C/#G) Li x + O(√x log x)`. This sharpens ZerosOfLFunctions §8.8
+  for these `L/K`, whose *exceptionalChebotarevTerm* vanishes by 6.1(a).
 
 Route: §9.9 at `σ = 1/2`: (i) with 5.2 at `ℚ` and 5.5 for `K`; its rational case at `(q)∞` with 5.1;
 (iii) with 5.6, the primitive character of each `ψ ∘ Φ` being the `ψ̃` of 5.6, since it does not
@@ -1177,7 +1195,8 @@ from `log² x ≤ C_ε x^ε` for `x ≥ 2`.
 There is an absolute `c > 0` with
 `h(D) ≥ c √|D|/log log |D|` for every fundamental discriminant `D < −4`, `h(D)` the class number of
 the imaginary quadratic field of discriminant `D`. It is the lower bound for `L(1, χ)` of
-Littlewood's bounds in 6.2(ii) read through the class number formula.
+Littlewood's bounds in 6.2(ii) read through the class number formula. The bound implies
+ImaginaryQuadraticClassNumber H2.4 (`imaginary_classNumber_lower_bound`, `h(D) ≥ C_ε |D|^{1/2−ε}`).
 
 Route: let `K` be the imaginary quadratic field of discriminant `D` and `χ_D` its quadratic
 character, primitive of conductor `|D| ≥ 7` (Tau Ceti
@@ -1222,7 +1241,7 @@ the error of §2.49(ii) is `O(x^{1/2} log(D x^n))` for
 `x ≫ (log D)²`; and some unramified
 degree-one prime of `F` with Frobenius class `C` has norm `≪ (log D)²` (§2.49(iii)).
 
-Route: §2.49(ii)–(iii) with `NumberField.ExtendedRiemannHypothesis L` by 5.5.
+Route: §2.49(ii)–(iii) with their hypothesis ERH(`L`) by 5.5.
 
 *Needs:* 5.5; AnalyticNumberTheoryPartI §2.49.
 
@@ -1237,7 +1256,7 @@ For every `K` abelian over `ℚ`, with `n = [K:ℚ]` and `Δ_K = |d_K|`:
 `|ψ_K(x) − x| ≤ √x((log x/(2π) + 2) log Δ_K + (log² x/(8π) + 2) n)`
 for every `x ≥ 100` (§5.16a(i)); and `|log κ_K − S_K(T)| ≤ ε_K(T)` for every `T ≥ 100` (§5.16a(ii)).
 
-Route: §5.16a(i)–(ii) with `NumberField.ExtendedRiemannHypothesis K` by 5.5 and `RiemannHypothesis`
+Route: §5.16a(i)–(ii) with `DedekindERH K` (§5.0) by 5.5 and `RiemannHypothesis`
 by 5.2.
 
 *Needs:* 5.2, 5.5; ClassicalArithmeticCompletion §5.16a.
@@ -1266,7 +1285,9 @@ then `χ = φ.comp Φ_{H/K}`, so `PrimitiveRayClassCharacter.of χ` is the `φ̃
 with no comparison of dictionaries. 5.6 gives its hypothesis, and
 RiemannHypothesisStatementsAndConsequences §9.5's
 presented-versus-primitive clause gives `χ.GeneralizedRiemannHypothesis`. `K ⊆ H` is abelian over
-`ℚ`, so 5.5 gives the hypothesis for `ζ_K`. These are the premises of §§5.1b and 5.1c.
+`ℚ`, so 5.5 gives the hypothesis for `ζ_K`. These are the premises of §§5.1b and 5.1c, which §5.0
+writes as `HeckeGRH χ` for the characters `χ` of `Cl(K)` and `DedekindERH K`, each the strip form
+of the hypothesis here (RiemannHypothesisStatementsAndConsequences §9.5).
 
 *Needs:* 5.5, 5.6; ClassFieldTheory Layers 12–13 (`abelianConductor`,
 `isAdmissibleModulus_iff_abelianConductor_dvd`, `rayClassField`, `isAdmissibleModulus_rayClassField`,
@@ -1422,6 +1443,11 @@ Mathlib `riemannZeta_ne_zero_of_one_le_re`.
 
 *HasLandauSiegelGap* `c ∞` for every `c ≤ (log 3)/2`; in particular its
 instances `(1/5) 10¹⁰` and `(3.0·10⁻³) ∞` hold without `LuZamanZhaoRecord`.
+This makes the constant of AnalyticNumberTheoryPartI §0.34 (`landau_siegel_exclusion`) explicit:
+`c_LS = (log 3)/2`. *HasLandauSiegelGap* is *RealZeroGap* of ExplicitPrimeCounting §1.7, so the
+premise *RealZeroGap* `c ∞` of its §6.7(a) holds with `c = (log 3)/2 > 1/6.50 > 1/9.645908801`, for
+the regions of Kadiri and of McCurley (6.22 shows directly that no modulus is exceptional for
+either).
 
 Route: §7.9's implication from the hypothesis for every real primitive character of conductor
 `q ≥ 3` to *HasLandauSiegelGap* `((log 3)/2) ∞`, with 5.1; antitonicity in `c`.
@@ -2023,6 +2049,9 @@ prime `p`. The Hecke analogue of §11.2 at `θ = 1/2`, for
 every field `K` abelian over `ℚ`, every modulus `𝔪` of `K` and every nontrivial
 `η : RayClassCharacter 𝔪` whose primitive character is a `φ̃` of 5.6: some nonzero prime ideal `𝔭`
 with `η(𝔭) ∉ {0, 1}` has `N𝔭 ≤ C_K (log N𝔪₀ + 2)²`, `𝔪₀` the finite part of `𝔪`.
+The bound for `leastNonresidue` implies `SieveApplications.linnik_exceptional` of
+SieveMethodsAndPrimePatterns §2.9: for each `ε > 0` only finitely many odd primes `p` have
+`leastNonresidue p > p^ε`.
 
 Route: §11.2 at `θ = 1/2` with 5.1, and with 5.6 for the Hecke analogue; the least nonresidue as in
 §11.3 with the exponent `1/(1 − θ) = 2`.
@@ -2038,10 +2067,10 @@ For every prime `p ≥ 10⁹`,
 `ĝ(p) < √p − 2` for every prime `p > 2791`, and
 `g(p) < √p − 2` for every prime `p > 409`.
 
-Route: the hypothesis of §6.4, `χ.GeneralizedRiemannHypothesis` for every
-`χ : DirichletCharacter ℂ p`, is 5.1.
+Route: the hypothesis of §6.4, `GRHMod p` (§0.5), is given by 5.1, which gives
+`DirichletGRH χ` for every `χ : DirichletCharacter ℂ p`.
 
-*Needs:* 5.1; ExplicitNumberFields 6.4.
+*Needs:* 5.1; ExplicitNumberFields §0.5, 6.4.
 
 ### 6.28 Quadratic zero gaps and small fields (ExplicitNumberFields §0.5)
 
@@ -2126,7 +2155,7 @@ the hypotheses under which 6.21 states its bound for `Σ_{p ≤ x} 1/p` (`ButheV
 - The explicit Duke short-sum theorem (§3.5), given the Mertens hypotheses,
   for the record of every primitive Dirichlet character of conductor at least `3` (nontrivial, so
   its completion is entire) and for the quotient record `𝒬_K` of every `K` abelian over `ℚ` with
-  `n ≥ 2`, whose hypothesis §3.5 derives from `NumberField.ExtendedRiemannHypothesis K` (the
+  `n ≥ 2`, whose *GRH* (ZerosOfLFunctions Layer 9) §3.5 derives from `DedekindERH K` (the
   Dedekind conjecture
   holding for Galois `K`).
 - The von Mangoldt–log sum of §3.6, given
@@ -2135,8 +2164,9 @@ the hypotheses under which 6.21 states its bound for `Σ_{p ≤ x} 1/p` (`ButheV
 - Garcia–Lee's two-sided bound for `κ_K` (§3.6), for every
   `K` abelian over `ℚ` with `n ≥ 2`, given the Mertens hypotheses.
 
-Route: 5.2 for `RiemannHypothesis`; 5.4 for the Dirichlet records; for abelian `K`,
-`NumberField.ExtendedRiemannHypothesis K` by 5.5 and *DedekindConjecture* `K` because `K` is Galois
+Route: 5.2 for `RiemannHypothesis`; 5.4 for the Dirichlet records, read as their *GRH* through the
+divisor form of RiemannHypothesisStatementsAndConsequences §9.3; for abelian `K`,
+`DedekindERH K` by 5.5 and *DedekindConjecture* `K` because `K` is Galois
 (ExplicitNumberFields §0.5). Schoenfeld's estimate: for `x ≥ 24.4`, 6.21 bounds the left side by
 `3 log x/(8π√x)`, which is less than `(3 log x + 4)/(8π√x)`; on `[13.5, 24.4)` it is
 *SchoenfeldMertensSmallRange*. ExplicitNumberFields 3.5 proves Garcia–Lee's Mertens lemma, the bound
@@ -2146,7 +2176,8 @@ under the Mertens hypotheses. The short-sum theorem uses the lemma in its route,
 two-sided bound uses the short-sum theorem at `𝒬_K` and the lemma at `(log d_K)^{1/2}`; the von
 Mangoldt–log sum uses neither.
 
-*Needs:* 5.2, 5.4, 5.5, 6.16, 6.21; ExplicitNumberFields §§0.5, 3.5, 3.6; Tau Ceti
+*Needs:* 5.2, 5.4, 5.5, 6.16, 6.21; ExplicitNumberFields §§0.5, 3.5, 3.6;
+RiemannHypothesisStatementsAndConsequences §9.3; Tau Ceti
 `TauCeti.LFunctions.mertensConstant`.
 
 **Checks.**
@@ -2172,8 +2203,8 @@ abelian over `ℚ`. And, for `L ≠ ℚ`,
 Bach–Sorenson's prime `𝔭` of `K` with Frobenius class `C`,
 unramified in `L`, of rational prime norm `N𝔭 ≤ (4 log d_L + 2.5 n_L + 5)²` (§7.4).
 
-Route: §§7.2 and 7.4 with `NumberField.ExtendedRiemannHypothesis L` by 5.5. §7.4 states its
-hypothesis as the generalized Riemann hypothesis for the Hecke L-functions; read as the
+Route: §§7.2 and 7.4 with `DedekindERH L` by 5.5. §7.4 states its
+hypothesis as *GRH* (ZerosOfLFunctions Layer 9) for the Hecke L-functions; read as the
 hypothesis for the Hecke characters of the abelian extensions `L/E`, `K ⊆ E ⊆ L`, that the
 argument uses, it is 5.6 for each `L/E`, `L` being abelian over `ℚ`. Either reading is covered.
 
@@ -2193,12 +2224,13 @@ argument uses, it is 5.6 for each `L/E`, `L` being abelian over `ℚ`. Either re
   `e^{−ε_RH(x)} < e^γ (log x) ∏_{p ≤ x} (1 − 1/p) < e^{ε_RH(x) + 1/(x − 1)}` and its reciprocal
   form for every real `x ≥ 24.4`, `ε_RH(x) = 3 log x/(8π √x)`, given the estimate of
   ExplicitPrimeCounting §4.7, which 6.21 supplies with its records.
-- `moebiusSum x = O(x^{1/2+ε})` for every `ε > 0` (the Mertens equivalence
-  after §1.10).
+- `moebiusSum x = O(x^{1/2+ε})` for every `ε > 0`, for the Mertens function `moebiusSum` of
+  §0.1 (Littlewood's theorem that the Riemann hypothesis gives this bound).
 
-Route: 6.11 for `RH(T)` and `RH(H₀)`; 5.2 for §8.1 and for the equivalence.
+Route: 6.11 for `RH(T)` and `RH(H₀)`; 5.2 for §8.1 and, through Littlewood's theorem, for
+`moebiusSum`.
 
-*Needs:* 5.2, 6.11, 6.21; ExplicitMultiplicativeFunctions §§0.7, 1.9, 1.10, 8.1.
+*Needs:* 5.2, 6.11, 6.21; ExplicitMultiplicativeFunctions §§0.1, 0.7, 1.9, 8.1.
 
 ### 6.32 Li and Weil positivity (WeilPositivityAndLiCriterion §§3.2, 4.2, 5.2)
 
@@ -2256,7 +2288,7 @@ Ramaré–Saouter, which is why that row starts at `10 726 905 041` (6.24).
 ### Dependencies
 
 Layers 4 and 5; RiemannHypothesisStatementsAndConsequences §§8.8, 9.3–9.9; ZerosOfLFunctions §§6.3,
-8.8; AnalyticNumberTheoryPartI; ClassicalArithmeticCompletion; ExplicitZetaBounds;
+8.8 and Layer 9; AnalyticNumberTheoryPartI; ClassicalArithmeticCompletion; ExplicitZetaBounds;
 ExplicitPrimeCounting; ErdosProgressionPowers; QuasiRiemannHypothesis; SieveMethodsAndPrimePatterns;
 ExplicitNumberFields; ExplicitMultiplicativeFunctions; WeilPositivityAndLiCriterion;
 ClassFieldTheory Layers 12 and 13; Tau Ceti's class-group equivalence, moduli, Mertens constant and
@@ -2414,7 +2446,8 @@ nothing here uses them.
 
 - §6.3: *IsExceptionalZero* (for 6.1); §6.5: the orders of `ζ_K` on `Re s = 1`, `0` off `1` and
   `−1` at `1` (for 0.6); Layer 7: infinitely many zeros in the critical strip (for the Checks of
-  3.3); §8.8: the reciprocity dictionary (Conventions, for 5.6 and 6.4).
+  3.3); §8.8: the reciprocity dictionary (Conventions, for 5.6 and 6.4); Layer 9: *GRH* for the
+  records (6.1, 6.29, 6.30).
 
 ### From RiemannHypothesisStatementsAndConsequences, a sub-roadmap of this family
 
@@ -2432,14 +2465,15 @@ nothing here uses them.
 - §9.3: `AnalyticLFunctionData.GeneralizedRiemannHypothesis`, its half-plane form, the `ζ` bridge
   (`riemannHypothesis_iff_zeroFreeRightOf`, `riemannHypothesis_iff_riemannZeta_ne_zero`,
   `riemannZetaData.GeneralizedRiemannHypothesis ↔ RiemannHypothesis`), the invariance of the zero
-  set of a completed function under `ρ ↦ 1 − ρ̄`.
+  set of a completed function under `ρ ↦ 1 − ρ̄`, the divisor form (6.1, 6.29).
 - §9.4: `DirichletCharacter.GeneralizedRiemannHypothesis`; its value form
   (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`), strip forms
   (`generalizedRiemannHypothesis_iff_re_eq_half`), inverse, change of level and primitive character
   (`generalizedRiemannHypothesis_primitiveCharacter_iff`), completed-function clause, modulus one
   (`generalizedRiemannHypothesis_modOne_iff`), quantified forms and consumer forms.
 - §9.5: `NumberField.ExtendedRiemannHypothesis`, `RayClassCharacter.GeneralizedRiemannHypothesis`;
-  the inverse clause; presented and primitive; the trivial character; the records; the rational
+  the inverse clause; the strip forms (5.5, 5.6, 6.10); presented and primitive; the trivial
+  character; the records; the rational
   bullet, at every threshold `σ`: `ZeroFreeRightOf σ (dedekindZetaC ℚ) ↔ ZeroFreeRightOf σ riemannZeta`
   and
   `ZeroFreeRightOf σ (heckeLFunctionC ((ratDirichletEquiv q hq).symm χ)) ↔ ZeroFreeRightOf σ χ.LFunction`,
@@ -2511,9 +2545,10 @@ nothing here uses them.
 - §2.41: Artin holomorphy, and that a one-dimensional representation satisfies it (for 5.6).
 - §2.42: for `K ⊆ ℚ(ζ_f)` abelian, `ζ_K = ∏_χ L(s, χ*)` as meromorphic functions over the
   characters modulo `f` trivial on the subgroup fixing `K`, and the equivalence of
-  `NumberField.ExtendedRiemannHypothesis K` with the hypothesis for these characters
-  (for 5.5).
-- §§0.16, 1.9(ii), 2.49: discharged in 6.7, 6.5 and 6.8.
+  ERH(`K`), every zero of `ζ_K` with `0 < Re s < 1` on `Re s = 1/2`, with `RiemannHypothesis` and
+  `DirichletGRH χ` for the nontrivial ones (for 5.5).
+- §1.6: `DirichletGRH χ` (for 5.5, through the equivalence of §2.42).
+- §§0.16, 1.9(i), 1.9(ii), 2.49: discharged in 6.7, 6.4, 6.5 and 6.8.
 
 ### From RieszSumsOverPrimesAndExceptionalZeros, a sub-roadmap of this family
 
@@ -2583,7 +2618,8 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
-- §§5.0, 5.1b, 5.1c, 5.16a: the statements discharged in 6.9, 6.10.
+- §§5.0, 5.1b, 5.1c, 5.16a: the statements discharged in 6.9, 6.10, and the predicates
+  `DedekindERH K` and `HeckeGRH χ` of §5.0 in which they are stated.
 
 ### From TauCetiRoadmap.ErdosProgressionPowers
 
@@ -2592,7 +2628,7 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.QuasiRiemannHypothesis
 
-- §5.4: the norm-composed character `χ ∘ N_{K/ℚ}` (6.25); §§11.2, 11.3: discharged in 6.26.
+- §5.4: the norm-composed character `χ ∘ N_{K/ℚ}` (5.6, 6.25); §§11.2, 11.3: discharged in 6.26.
 
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
 
@@ -2600,7 +2636,7 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.ExplicitNumberFields
 
-- §§0.5 (*QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*, the
+- §§0.5 (`GRHMod`, *QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*, the
   Dedekind conjecture for Galois fields), 3.5, 3.6, 4.7, 4.9, 6.4, 7.2, 7.4, and *DGLSWSmallFieldGRH*
   of its list of computational hypotheses before §0.1: the statements discharged in 6.27–6.30; of 4.7 also its consequence at `c₈ = π/6`,
   `κ_K > 0.0014480/(n · t_K · d_K^{1/n})` (6.28).
@@ -2609,7 +2645,7 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.ExplicitMultiplicativeFunctions
 
-- §§0.7, 1.9, 1.10 (the Mertens equivalence), 8.1: discharged in 6.31.
+- §§0.7, 1.9, 8.1: discharged in 6.31; §0.1: `moebiusSum` (6.31).
 
 ### From TauCetiRoadmap.WeilPositivityAndLiCriterion
 
