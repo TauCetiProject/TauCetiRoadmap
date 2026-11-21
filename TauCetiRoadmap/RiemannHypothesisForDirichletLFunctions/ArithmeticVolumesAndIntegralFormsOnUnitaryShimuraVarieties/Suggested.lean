@@ -28,7 +28,7 @@ arithmetic varieties with their arithmetic degrees, or slopes of Hermitian vecto
   model, the Lie algebra of the universal semi-abelian scheme with its eigen-decomposition, the
   Hodge metric and the arithmetic degree of a metrised line bundle.
 * The average arithmetic volume theorem (8.17): under a transitive symmetry of the CM type,
-  `q ≥ 1`, `N ≥ 3` and `3·min(p, q) + 1 ≤ N`, the mean over the components of the volume slopes of
+  `p, q ≥ 1`, `N ≥ 3` and `3·min(p, q) + 1 ≤ N`, the mean over the components of the volume slopes of
   the forms of a dominant weight `u` with strictly decreasing entries and gap `g` in the smaller
   block is at least `−C·[(log B(u, g) + log rd_E + |(L′/L)(1, χ_K)|)·|u|₁ + q·spread(u)]`. It lacks,
   besides these, the flag bundles of the automorphic vector bundles, log-log singular metrics,
