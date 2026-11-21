@@ -169,7 +169,12 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
   `μ_b = |dx/Φ^*dS|` on `Φ^{−1}(b) ∩ A°(k)` for every `b`. Over a
   number field `F`, let local Haar measures `dx_v = c_v|dx|_v` on `A(F_v)` and `dS_v = c′_v|dS|_v` on `B(F_v)` have as
   products the Tamagawa measures of the vector groups (`A(F)\A(𝔸)` and `B(F)\B(𝔸)` of volume one, so
-  `∏_v c_v = |d_F|^{−dim A/2}` and `∏_v c′_v = |d_F|^{−dim B/2}`, with `c_v = c′_v = 1` for almost all `v`); then the
+  `∏_v c_v = |d_F|^{−dim A/2}` and `∏_v c′_v = |d_F|^{−dim B/2}`, with `c_v = c′_v = 1` for almost all `v`; the form that
+  the family uses is [FormalProof],
+  `Development/AbelianVarietyTheory/Proofs/DivisorProofs/TamagawaAdelicHaarEqMapProductMeasureStatement.lean`
+  (`GlobalTheory.T.tamagawa_adelicHaar_eq_map_product_measure`),
+  `Development/AbelianVarietyTheory/Definitions/Divisors/IsWeilFormulas.lean` (`GlobalTheory.SWLit.IsTamagawa`),
+  `Development/AbelianVarietyTheory/Definitions/GlobalTwisting/DecayZero.lean` (`GlobalTheory.SWQ.IsCov1`)); then the
   local fibre measures on `X(F_v)` are `(c_v/c′_v)|ω_X|_v`, with `∏_v c_v/c′_v = |d_F|^{−dim X/2}`. Consequently, if
   moreover `X = G·x` for an `x ∈ X(F)` with the hypotheses of (iii), the quotient `μ_X` of `τ_G` by `τ_H` on
   `H(𝔸)\G(𝔸)` is the restricted product of the local fibre measures on the local orbits `H(F_v)\G(F_v) ⊆ X(F_v)`:
@@ -282,7 +287,11 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
   `a_{G_m}` normalized by the lattice `Hom(X^*_F(G_m), ℤ) = ℤ`, the logarithm being `H_{G_m}(x) = log|x|`. Then
   `μ^1(F^×\𝔸_F^1) = κ_F`.
   ([Tate]: the volume `κ_F` of the norm-one idele classes, for the measure with `dt/t` in the coordinate `t = |x|`, and
-  the residue of the zeta integral; [Oesterlé], Chapter I, Example 5.14 (2), p. 25, for the reading `τ(G_m) = 1`.)
+  the residue of the zeta integral; [Oesterlé], Chapter I, Example 5.14 (2), p. 25, for the reading `τ(G_m) = 1`. For
+  totally complex `F` the form that the family uses is [FormalProof],
+  `Development/AbelianVarietyTheory/Proofs/FlagMeasures/GenLinTamagawaVolumeStatement.lean` (`GlobalTheory.T.genLin_tamagawa_volume`),
+  `Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean` (`GlobalTheory.FlagMeas.GenLinVolume`),
+  `Development/AbelianVarietyTheory/Definitions/SemilocalFrames/DefClassNum.lean` (`GlobalTheory.FlagMeas.glVol`).)
 
   *Route.* Take `f = ⊗_v f_v ∈ S(𝔸_F)` (AnalyticNumberTheoryPartII §5.3h) with `f_v ≥ 0`, `f_v = 1_{𝒪_v}` for almost
   all `v`, and `f̂(0) = ∫_{𝔸_F} f ≠ 0` for the self-dual measure (for instance the standard Gaussians at the archimedean
@@ -423,7 +432,10 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
 
   **Checks.**
   - `GL_n → PGL_n`, `T_1 = G_m`: the determinant restricts to `t ↦ t^n`, so `i = n` and `τ(PGL_n) = n·τ(GL_n)/τ(G_m)`,
-    which is `n` given `τ(GL_n) = 1` (Weil; not a target of this roadmap) and *tamagawa-multiplicative-group*.
+    which is `n` given `τ(GL_n) = 1` (Weil; not a target of this roadmap; for totally complex `F` the form that the family
+    uses is [FormalProof], `Development/AbelianVarietyTheory/Proofs/FlagMeasures/GenLinTamagawaVolumeStatement.lean`
+    (`GlobalTheory.T.genLin_tamagawa_volume`), `Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean`
+    (`GlobalTheory.FlagMeas.GenLinVolume`)) and *tamagawa-multiplicative-group*.
   - `τ(PGL_1(D)) = 2τ(GL_1(D))/τ(G_m)` for a quaternion algebra `D`: `G_2 = GL_1(D)`, `T_1 = G_m`, and `i = 2` because
     the reduced norm restricts to `t ↦ t²`. GeometryOfNumbersAndQuadraticArithmetic §3.3 `quaternionAdjointTamagawa`
     (`τ(PGL₁(D)) = 2`) is this case, with its own `τ(GL₁(D)) = 1`.
