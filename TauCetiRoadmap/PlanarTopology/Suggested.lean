@@ -1,0 +1,479 @@
+module
+
+public import Mathlib
+public import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
+public import TauCeti.Geometry.Diffeomorphism.Diffeotopy.Basic
+public import TauCeti.Geometry.Manifold.Instances.ClosedBall
+public import TauCeti.Geometry.Manifold.LocallyFlat.Basic
+public import TauCeti.Geometry.Manifold.LocallyFlat.Bicollar
+public import TauCeti.Topology.FilledHull
+public import TauCeti.Topology.JordanCurve.Basic
+public import TauCeti.Topology.MappingTorus
+public import TauCeti.Topology.Homotopy.Isotopy.Basic
+public import TauCeti.Topology.PL.Map
+public import TauCeti.Topology.Triangulable
+
+/-!
+# Planar topology and the PL structure of surfaces: target signatures
+
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
+library: these are targets, not completed proofs.
+
+The roadmap has two interacting tracks. Layers 0--2 build the planar separation engine
+(Jordan curves, polygonal crosscuts, polygonal accessibility, Brouwer's fixed-point theorem, and two-dimensional
+invariance of domain). Layers 3--6 build the simplicial/PL engine (subdivision, PL
+approximation, Radó, the two-dimensional Hauptvermutung, Pachner's theorem, Euler
+characteristic, and orientability). Layer 7 proves Schoenflies and automatic tameness in
+dimension two, followed by the arbitrary-crosscut theorem; layer 8 identifies the topological, PL, and smooth categories for compact
+surfaces.
+
+The guiding philosophy is classical geometric and combinatorial surface topology: curves,
+triangles, subdivisions, and elementary moves. Later PL, isotopy, and smoothing theorems
+complete the agreement of topological, PL, and compatible smooth structures, at the level
+of surface classifications and isotopy classes of homeomorphisms. Euler characteristic
+is computed by `V - E + F` and proved invariant by finite cell counts. The companion
+roadmap's classical homology comes from finite boundary matrices and equivalence of
+triangulations; singular homology is not a prerequisite. These results supply
+`SurfaceTopology`'s elementary classification and `GeometricTopology`'s surface input.
+
+A surface is a type carrying `[TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M]
+[T2Space M] [SecondCountableTopology M]`, as the README's conventions fix it, and the
+compiled statements below spell the instances out. Closed means `(𝓡∂ 2).boundary M = ∅`. The
+piecewise-linear notion on the plane is Tau Ceti's `TauCeti.IsPLOn`.
+
+The closed-disc charts and boundary identification are imported from
+`TauCeti.Geometry.Manifold.Instances.ClosedBall` (`instChartedSpaceClosedBall` and
+`boundary_closedBall`). No private admitted disc atlas is used.
+
+The README also requires the following headlines whose input carriers are absent at
+the library pin: polygonal ears need the ear API; Radó's combinatorial form, the
+Hauptvermutung and Pachner need IsCombinatorialSurface and support-aware heterogeneous
+Subdivides; orientation transport needs the simplicial orientation double cover and
+its realization comparisons, including the local side-return test of layer 7;
+Euler characteristic needs those finite invariance results; the PL category comparison needs PL structures and jointly PL time-prism
+maps. The smooth relations below use the native Diffeotopy total-map carrier;
+smoothing existence and compatibility still need the README vocabulary. These
+remain full README targets. The closed and boundary-relative topological Epstein headlines use native
+homotopy and isotopy carriers and are stated below.
+
+The README specifies the full polygonal arithmetic, helper APIs and mathematical checks.
+The definitions below support the selected geometric headlines.
+
+Only declarations whose input vocabulary is already meaningful at the current Tau Ceti
+pin are compiled below. In particular, do **not** introduce a vacuous `Prop := sorry` for
+`Subdivides`, `IsCombinatorialSurface`, relative PL approximation, or `PLStructure`.
+Their intended shapes are recorded as comments and should become compiled targets once
+the prerequisite vocabulary is pinned. This follows the roadmap convention that a
+condition which cannot yet be stated is omitted rather than replaced by an empty predicate.
+-/
+
+@[expose] public section
+
+noncomputable section
+
+namespace TauCetiRoadmap.PlanarTopology
+
+open Complex Set Topology
+open scoped Manifold ContDiff
+
+/-! ## Layer 0: conventions and plane transport -/
+
+/-- Transport into the common half-space surface family, with empty boundary.
+The construction is a prerequisite target, not an admitted chart atlas. -/
+theorem exists_boundaryless_transport (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 2)) M] :
+    ∃ c : ChartedSpace (EuclideanHalfSpace 2) M,
+      letI := c
+      (𝓡∂ 2).boundary M = ∅ := by
+  sorry
+
+/-- Alexander's trick, extension form. The README specifies the radial extension and
+its norm and PL properties; this headline asserts extension of every sphere homeomorphism. -/
+theorem exists_coneExtension {n : ℕ}
+    (h : Metric.sphere (0 : EuclideanSpace ℝ (Fin n)) 1 ≃ₜ
+      Metric.sphere (0 : EuclideanSpace ℝ (Fin n)) 1) :
+    ∃ F : Metric.closedBall (0 : EuclideanSpace ℝ (Fin n)) 1 ≃ₜ
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin n)) 1,
+      ∀ (z : Metric.closedBall (0 : EuclideanSpace ℝ (Fin n)) 1)
+        (hz : (z : EuclideanSpace ℝ (Fin n)) ∈ Metric.sphere 0 1),
+        (F z : EuclideanSpace ℝ (Fin n)) = h ⟨z, hz⟩ := by
+  sorry
+
+/-- A space-filling curve: continuity does not give a curve of dimension one. -/
+theorem exists_spaceFillingCurve : ∃ f : C(unitInterval, Metric.closedBall (0 : ℂ) 1), Function.Surjective f := by
+  sorry
+
+/-- A non-rectifiable Jordan curve: no parametrization has bounded variation. -/
+theorem exists_jordanCurve_not_rectifiable : ∃ J : Set ℂ, TauCeti.IsJordanCurve J ∧
+    ∀ γ : C(unitInterval, ℂ), Set.range γ = J → ¬ BoundedVariationOn γ Set.univ := by
+  sorry
+
+/-- An Osgood curve: a Jordan curve of positive area. -/
+theorem exists_osgoodCurve : ∃ J : Set ℂ, TauCeti.IsJordanCurve J ∧ 0 < MeasureTheory.volume J := by
+  sorry
+
+/-! ## Layer 1: polygonal foundations -/
+
+/-- A polygonal chain: finitely many vertices joined in order by segments. The geometric
+carrier and the simplicity API are predicates on this object, not fields. -/
+structure PolygonalChain where
+  vertices : List ℂ
+  ne_nil : vertices ≠ []
+
+/-- A polygonal loop: a chain closed up from its last vertex back to its first. -/
+structure PolygonalLoop where
+  vertices : List ℂ
+  ne_nil : vertices ≠ []
+
+/-- The carrier of a polygonal chain: the union of the segments between consecutive vertices. -/
+noncomputable def PolygonalChain.carrier (P : PolygonalChain) : Set ℂ :=
+  Set.range (fun i : Fin P.vertices.length => P.vertices.get i) ∪
+    ⋃ i : Fin (P.vertices.length - 1),
+      segment ℝ (P.vertices.get ⟨i.val, by omega⟩)
+        (P.vertices.get ⟨i.val + 1, by omega⟩)
+
+/-- The `i`-th side of a loop: the segment from vertex `i` to the cyclically next vertex. -/
+noncomputable def PolygonalLoop.side (P : PolygonalLoop) (i : Fin P.vertices.length) : Set ℂ :=
+  segment ℝ (P.vertices.get i) (P.vertices.get (finRotate _ i))
+
+/-- The carrier of a polygonal loop: the union of its sides, including the closing one. -/
+noncomputable def PolygonalLoop.carrier (P : PolygonalLoop) : Set ℂ :=
+  ⋃ i, P.side i
+
+/-- Simplicity is a condition on the vertex presentation, not on the carrier: at least three
+vertices, no vertex repeated, consecutive sides meeting only in their shared vertex, and
+non-consecutive sides disjoint. The list `[A, B, C, A, B, C]` has the triangle as its carrier and
+is not simple; a ray from an interior point crosses it twice, so the carrier cannot be what
+crossing parity is computed on. That the carrier of a simple loop is a Jordan curve is a layer 1
+theorem, and a Jordan polygonal set has a simple presentation by renormalization. -/
+def PolygonalLoop.IsSimple (P : PolygonalLoop) : Prop :=
+  3 ≤ P.vertices.length ∧ P.vertices.Nodup ∧
+    ∀ i j, i ≠ j →
+      (finRotate _ i = j → P.side i ∩ P.side j = {P.vertices.get j}) ∧
+      (finRotate _ i ≠ j → finRotate _ j ≠ i → Disjoint (P.side i) (P.side j))
+
+/-- The carrier of a simple loop is a Jordan curve. -/
+theorem PolygonalLoop.isJordanCurve_carrier (P : PolygonalLoop) (hP : P.IsSimple) : TauCeti.IsJordanCurve P.carrier := by
+  sorry
+
+/-- Renormalization: a polygonal set that is a Jordan curve has a simple presentation. -/
+theorem PolygonalLoop.exists_simple_presentation (P : PolygonalLoop) (h : TauCeti.IsJordanCurve P.carrier) :
+    ∃ Q : PolygonalLoop, Q.IsSimple ∧ Q.carrier = P.carrier := by
+  sorry
+
+/-- Polygonal Jordan separation. -/
+theorem polygonal_jordan_separation (P : PolygonalLoop) (hP : P.IsSimple) :
+    Nat.card (ConnectedComponents ((P.carrier)ᶜ : Set ℂ)) = 2 := by
+  sorry
+
+/-- Polygonal Schoenflies, with an explicit reference triangle. Both the map and its
+inverse are PL, and the homeomorphism is defined on the whole plane. -/
+theorem polygonal_schoenflies (P : PolygonalLoop) (hP : P.IsSimple) :
+    ∃ h : ℂ ≃ₜ ℂ, TauCeti.IsPLOn h Set.univ ∧ TauCeti.IsPLOn h.symm Set.univ ∧
+      h '' P.carrier = segment ℝ (0 : ℂ) 1 ∪ segment ℝ (1 : ℂ) Complex.I ∪
+        segment ℝ Complex.I 0 := by
+  sorry
+
+/-! ## Layer 2: Jordan separation, polygonal crosscuts, Brouwer, and invariance of domain -/
+
+namespace IsJordanCurve
+
+/-- A closed embedded arc with distinct endpoints on `J` and all other points on its inside. -/
+def IsCrosscut (J P : Set ℂ) : Prop :=
+  ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ Set.range γ = P ∧
+    γ 0 ∈ J ∧ γ 1 ∈ J ∧ γ 0 ≠ γ 1 ∧
+    ∀ t : unitInterval, t ≠ 0 → t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J
+
+/-- A boundary point reached by an embedded arc whose other points all lie on the inside. -/
+def Accessible (J : Set ℂ) (p : ℂ) : Prop :=
+  p ∈ J ∧ ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 1 = p ∧
+    ∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J
+
+/-- A crosscut whose carrier is a finite polygonal chain. The Jordan boundary itself
+can be arbitrary. -/
+def IsPolygonalCrosscut (J P : Set ℂ) : Prop :=
+  IsCrosscut J P ∧ ∃ Q : PolygonalChain, Q.carrier = P
+
+/-- Accessibility through an embedded approach arc with a finite polygonal carrier. -/
+def PolygonallyAccessible (J : Set ℂ) (p : ℂ) : Prop :=
+  p ∈ J ∧ ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 1 = p ∧
+    (∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J) ∧
+    ∃ Q : PolygonalChain, Q.carrier = Set.range γ
+
+/-- The inside of a Jordan curve is a Jordan domain, supplying the four hypotheses of
+Carathéodory's boundary-correspondence theorem. -/
+theorem isJordanDomain_inside {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+    TauCeti.IsJordanDomain (TauCeti.filledHull J \ J) := by
+  sorry
+
+/-- The dense polygonally accessible boundary points used by the matched-cellulation
+construction. The approach arcs are finite polygonal chains. -/
+theorem closure_polygonallyAccessible {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+    closure {p | PolygonallyAccessible J p} = J := by
+  sorry
+
+/-- Join any interior point to a polygonally accessible boundary point by an embedded
+polygonal approach arc, with every other point in the inside. -/
+theorem PolygonallyAccessible.exists_approach_from {J : Set ℂ}
+    (hJ : TauCeti.IsJordanCurve J) {p q : ℂ} (hp : PolygonallyAccessible J p)
+    (hq : q ∈ TauCeti.filledHull J \ J) :
+    ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 0 = q ∧ γ 1 = p ∧
+      (∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J) ∧
+      ∃ Q : PolygonalChain, Q.carrier = Set.range γ := by
+  sorry
+
+/-- Accessible boundary points have ambient closure exactly equal to the Jordan curve. -/
+theorem closure_accessible {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+    closure {p | Accessible J p} = J := by
+  sorry
+
+/-- Polygonal-crosscut splitting for an arbitrary Jordan boundary, proved in layer 2. -/
+theorem polygonal_crosscut {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ)
+    (hP : IsPolygonalCrosscut J P) :
+    ∃ J₁ J₂ : Set ℂ, TauCeti.IsJordanCurve J₁ ∧ TauCeti.IsJordanCurve J₂ ∧
+      J₁ ∩ J₂ = P ∧ J₁ ∪ J₂ = J ∪ P ∧
+      (TauCeti.filledHull J \ J) \ P =
+        (TauCeti.filledHull J₁ \ J₁) ∪ (TauCeti.filledHull J₂ \ J₂) ∧
+      Disjoint (TauCeti.filledHull J₁ \ J₁) (TauCeti.filledHull J₂ \ J₂) := by
+  sorry
+
+end IsJordanCurve
+
+/-- Jordan separation in the component-count form, the shape
+[lean-eval](https://github.com/leanprover/lean-eval) states, as a corollary of the stronger
+Jordan separation and frontier package. -/
+theorem jordan_separation (hJ : TauCeti.IsJordanCurve J) :
+    Nat.card (ConnectedComponents ((J : Set ℂ)ᶜ : Set ℂ)) = 2 := by
+  sorry
+
+/-- No retraction of the disc onto its circle: the winding number of the identity of the circle
+is one, and would be zero if a retraction existed. -/
+theorem no_retraction_disc_circle :
+    ¬ ∃ r : C(Metric.closedBall (0 : ℂ) 1, Metric.sphere (0 : ℂ) 1),
+      ∀ z : Metric.closedBall (0 : ℂ) 1, (z : ℂ) ∈ Metric.sphere (0 : ℂ) 1 → (r z : ℂ) = z := by
+  sorry
+
+/-- Brouwer's fixed-point theorem in dimension two. -/
+theorem brouwer_fixedPoint₂ (f : C(Metric.closedBall (0 : ℂ) 1, Metric.closedBall (0 : ℂ) 1)) : ∃ z, f z = z := by
+  sorry
+
+/-- Two-dimensional invariance of domain, derived from Brouwer. It needs nothing from the
+Jordan curve theorem, and it is the input that makes manifold boundary chart-independent. -/
+theorem invarianceOfDomain₂ {U : Set ℂ} (hU : IsOpen U) (f : C(U, ℂ)) (hf : Function.Injective f) :
+    IsOpen (Set.range f) ∧ IsOpenMap f := by
+  sorry
+
+section Boundary
+
+variable {M N : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
+  [TopologicalSpace N] [ChartedSpace (EuclideanHalfSpace 2) N] [T2Space N]
+
+/-- Homeomorphisms of surfaces preserve the boundary: chart-independence of `∂M`. -/
+theorem image_boundary (e : M ≃ₜ N) : e '' (𝓡∂ 2).boundary M = (𝓡∂ 2).boundary N := by
+  sorry
+
+/-- The number of boundary components, a homeomorphism invariant by the preceding statement. -/
+noncomputable def boundaryComponentCount (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] : ℕ :=
+  Nat.card (ConnectedComponents ((𝓡∂ 2).boundary M))
+
+theorem boundaryComponentCount_homeomorph (e : M ≃ₜ N) : boundaryComponentCount M = boundaryComponentCount N := by
+  sorry
+
+end Boundary
+
+/-! ## Layer 4: PL approximation -/
+
+/-!
+The local forms already use the existing `OpenPartialHomeomorph` and `TauCeti.IsPLOn` APIs.
+The error function has a positive lower bound on a neighbourhood within the source at each
+source point; it need not be continuous or have a positive global lower bound. The half-plane
+form preserves both the half-plane and its boundary line. Extend boundary-preserving maps
+between relative-open subsets of the half-plane by reflection first, and restrict the
+approximation back afterwards. These are the local forms Radó consumes.
+
+The compact and relative forms use the layer 3 subdivision, realization-metric, and simplicial
+map APIs. Present a subcomplex by an injective simplicial map `iA : SimplicialMap KA K`.
+Carry `hK`, `hL`, and `f : Realization K ≃ₜ Realization L` explicitly; require
+`IsPLMap (f ∘ iA.realizationMap)` and conclude agreement on every `iA.realizationMap a`.
+The corresponding relative isotopy fixes `Set.range iA.realizationMap`.
+Include local relative versions fixing a closed, locally finite polyhedral subcomplex on
+which `f` is PL, with the same error condition, including the boundary-line gluing case.
+-/
+
+section LocalApproximation
+
+local notation "E" => EuclideanSpace ℝ (Fin 2)
+local notation "H" => (fun x : E => 0 ≤ x 0)
+local notation "B" => (fun x : E => x 0 = 0)
+
+/-- Local plane approximation with an explicitly locally positive error bound. -/
+theorem exists_pl_approximation_open
+    (f : OpenPartialHomeomorph E E) (φ : E → ℝ)
+    (hφ : ∀ x ∈ f.source, ∃ c : ℝ, 0 < c ∧ ∀ᶠ y in 𝓝[f.source] x, c ≤ φ y) :
+    ∃ g : OpenPartialHomeomorph E E,
+      g.source = f.source ∧ g.target = f.target ∧
+      TauCeti.IsPLOn g g.source ∧ TauCeti.IsPLOn g.symm g.target ∧
+      ∀ x ∈ f.source, dist (f x) (g x) < φ x := by
+  sorry
+
+/-- The half-plane approximation preserves its boundary line as well as the half-plane. -/
+theorem exists_pl_approximation_halfPlane
+    (f : OpenPartialHomeomorph E E)
+    (hH : f '' (f.source ∩ H) = f.target ∩ H)
+    (hB : f '' (f.source ∩ B) = f.target ∩ B)
+    (φ : E → ℝ)
+    (hφ : ∀ x ∈ f.source, ∃ c : ℝ, 0 < c ∧ ∀ᶠ y in 𝓝[f.source] x, c ≤ φ y) :
+    ∃ g : OpenPartialHomeomorph E E,
+      g.source = f.source ∧ g.target = f.target ∧
+      TauCeti.IsPLOn g g.source ∧ TauCeti.IsPLOn g.symm g.target ∧
+      g '' (g.source ∩ H) = g.target ∩ H ∧
+      g '' (g.source ∩ B) = g.target ∩ B ∧
+      ∀ x ∈ f.source, dist (f x) (g x) < φ x := by
+  sorry
+
+end LocalApproximation
+
+/-! ## Layer 5: Radó, the two-dimensional Hauptvermutung, and Pachner's theorem -/
+
+/-- **Radó's theorem**, in the weak form Tau Ceti's `IsTriangulable` can state: a corollary of
+the combinatorial-surface form below, which is the actual target. -/
+theorem isTriangulable_of_compactSurface (M : Type*) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
+    [CompactSpace M] : TauCeti.IsTriangulable M := by
+  sorry
+
+/-! ## Layer 7: Schoenflies and tameness -/
+
+/-- **Schoenflies theorem**, ambient planar form. -/
+theorem schoenflies_plane {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+    ∃ h : ℂ ≃ₜ ℂ, h '' J = Metric.sphere 0 1 := by
+  sorry
+
+/-- Schoenflies for the closed inside: the bounded side together with the curve is a
+closed disc. -/
+theorem schoenflies_closure {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+    Nonempty (closure (TauCeti.filledHull J \ J) ≃ₜ Metric.closedBall (0 : ℂ) 1) := by
+  sorry
+
+local notation "S²" => Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1
+
+/-- Spherical Schoenflies, with the coordinate equator as its reference circle. -/
+theorem schoenflies_sphere {J : Set S²} (hJ : TauCeti.IsJordanCurve J) :
+    ∃ h : S² ≃ₜ S², h '' J = {p | (p : EuclideanSpace ℝ (Fin 3)) 2 = 0} := by
+  sorry
+
+/-- Every prescribed homeomorphism between planar Jordan curves extends pointwise
+on its domain to a homeomorphism of the plane. -/
+theorem schoenflies_extend {J K : Set ℂ}
+    (hJ : TauCeti.IsJordanCurve J) (hK : TauCeti.IsJordanCurve K) (e : J ≃ₜ K) :
+    ∃ h : ℂ ≃ₜ ℂ, ∀ z : J, h z = (e z : ℂ) := by
+  sorry
+
+/-!
+The Schoenflies proof follows the elementary crosscut and matched-cellulation route.
+The conformal application and its simple-connectivity consequence are supplied in Layer 2.
+-/
+
+section Tameness
+
+variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
+
+/-- The open Möbius band, using the native topological mapping-torus quotient. -/
+abbrev OpenMobiusBand := TauCeti.MappingTorus (Homeomorph.neg ℝ)
+
+/-- An open Möbius neighbourhood with its central circle marked pointwise. -/
+def HasMobiusNeighborhood (J : Set M) : Prop :=
+  ∃ (c : UnitAddCircle ≃ₜ J) (b : OpenMobiusBand → M),
+    IsOpenEmbedding b ∧ Set.range b ⊆ (𝓡∂ 2).interior M ∧
+      ∀ t : ℝ, b (TauCeti.MappingTorus.mk (Homeomorph.neg ℝ) 0 t) = (c (t : UnitAddCircle) : M)
+
+/-- A reversing side-return model cannot also have a product bicollar. -/
+theorem HasMobiusNeighborhood.not_isBicollared {J : Set M} (hJ : HasMobiusNeighborhood J) :
+    ¬ TauCeti.IsBicollared ((↑) : J → M) := by
+  sorry
+
+/-- Tameness of simple closed curves in the interior of a surface, stated on the embedding with
+its model factors: charts of `M` valued in `F × F'` carry the image onto `F × {0}`. -/
+theorem isLocallyFlat_circle (f : Circle → M) (hf : IsEmbedding f) (hint : Set.range f ⊆ (𝓡∂ 2).interior M) :
+    TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 1)) ℝ f := by
+  sorry
+
+/-- Tameness of arcs. The ambient model stays the plane; it is the slice that becomes the
+half-line, so that one statement covers the endpoints and the interior points. -/
+theorem isSliceEmbedding_arc (f : unitInterval → M) (hf : IsEmbedding f)
+    (hint : Set.range f ⊆ (𝓡∂ 2).interior M) :
+    TauCeti.IsSliceEmbedding (Set.Ici (0 : ℝ) ×ˢ ({0} : Set ℝ)) f := by
+  sorry
+
+end Tameness
+
+namespace IsJordanCurve
+
+/-- The plane form of arc straightening, established after Schoenflies and tameness.
+The image remains a crosscut and has a finite polygonal carrier. -/
+theorem exists_polygonal_image_of_crosscut {J P : Set ℂ}
+    (hJ : TauCeti.IsJordanCurve J) (hP : IsCrosscut J P) :
+    ∃ h : ℂ ≃ₜ ℂ, IsPolygonalCrosscut (h '' J) (h '' P) := by
+  sorry
+
+/-- Arbitrary-crosscut splitting, proved after straightening by the layer 2 polygonal
+theorem and transport along the ambient homeomorphism. -/
+theorem crosscut {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ)
+    (hP : IsCrosscut J P) :
+    ∃ J₁ J₂ : Set ℂ, TauCeti.IsJordanCurve J₁ ∧ TauCeti.IsJordanCurve J₂ ∧
+      J₁ ∩ J₂ = P ∧ J₁ ∪ J₂ = J ∪ P ∧
+      (TauCeti.filledHull J \ J) \ P =
+        (TauCeti.filledHull J₁ \ J₁) ∪ (TauCeti.filledHull J₂ \ J₂) ∧
+      Disjoint (TauCeti.filledHull J₁ \ J₁) (TauCeti.filledHull J₂ \ J₂) := by
+  sorry
+
+
+end IsJordanCurve
+
+/-! ## Layer 8: smooth relations and isotopy of homeomorphisms -/
+
+section SmoothIsotopy
+
+variable {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+  [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+
+/-- Smooth isotopy between surface diffeomorphisms, using a jointly smooth native
+ambient motion of the target and its jointly smooth inverse. -/
+def SmoothIsotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N) : Prop :=
+  ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N, ∀ x, Φ.final (φ x) = ψ x
+
+/-- At every time, the isotopy agrees with its initial map on the prescribed set. -/
+def SmoothIsotopicRel (A : Set M) (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N) : Prop :=
+  ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N,
+    (∀ x, Φ.final (φ x) = ψ x) ∧ ∀ r a, a ∈ A → Φ (r, φ a) = φ a
+
+end SmoothIsotopy
+
+
+/-- Epstein's closed-surface headline. Compactness and empty manifold boundary give
+the closed case; the README separately requires the boundary-relative theorem. -/
+theorem isotopic_of_homotopic_closedSurface
+    {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+    [T2Space M] [T2Space N] [CompactSpace M]
+    (hclosed : (𝓡∂ 2).boundary M = ∅) (f g : M ≃ₜ N)
+    (h : ContinuousMap.Homotopic (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩) :
+    TauCeti.Isotopic (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩ := by
+  sorry
+
+/-- Epstein's boundary-relative headline, using the native isotopy carrier and an
+explicit fixed-boundary law. The boundary value at every time is the initial map's. -/
+theorem isotopicRel_of_homotopicRel_compactSurface
+    {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+    [T2Space M] [T2Space N] [CompactSpace M] (f g : M ≃ₜ N)
+    (h : ContinuousMap.HomotopicRel (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩
+      ((𝓡∂ 2).boundary M)) :
+    ∃ F : TauCeti.Isotopy (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩,
+      ∀ (t : unitInterval) (x : M), x ∈ (𝓡∂ 2).boundary M → F (t, x) = f x := by
+  sorry
+
+end TauCetiRoadmap.PlanarTopology
