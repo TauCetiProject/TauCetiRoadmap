@@ -18,7 +18,7 @@ Layer 1, the only layer, defines the congruence module along a central idempoten
 
 In the split case (1.7a), `X` is a finite set, `A ⊆ O^X` an `O`-subalgebra separating the points, `λ_x : A → O` evaluation at `x`, `V_x` the `x`-eigenspace of `M_K = M ⊗ K`, `mult(x) = dim_K V_x`, and `𝔞_Y = {f ∈ A : f|_Y = 0}` for `Y ⊆ X`; 1.7a fixes the rest of this notation, and 1.8c–1.8e use it with the notation `𝒜`, `y_γ`, `Y`, `Y_s`, `ψ_b` and `c(π)` that 1.8c introduces.
 
-For a profinite group `G` and a discrete `O`-module with a continuous action, `H^i` is continuous cohomology (ProfiniteCohomology Layer 1), with explicit cocycles and coboundaries in degrees `1` and `2` as in ProfiniteCohomology Layer 2, compared with it in ProfiniteCohomology §3.2; for the lattice coefficients of 1.8e (Col) and (3a), continuous cochains into inverse limits are those of ArithmeticGaloisDuality §R02.1.2. Selmer groups of local conditions are those of SelmerIwasawaCohomology §§2.1–2.9.
+For a profinite group `G` and a discrete `O`-module with a continuous action, `H^i` is continuous cohomology (ProfiniteCohomology Layer 1), with explicit cocycles and coboundaries in degrees `1` and `2` as in ProfiniteCohomology §2.1, compared with it in ProfiniteCohomology §3.2; for the lattice coefficients of 1.8e (Col) and (3a), continuous cochains into inverse limits are those of ArithmeticGaloisDuality §R02.1.2. Selmer groups of local conditions are those of SelmerIwasawaCohomology §§2.1–2.9.
 
 Notation and conventions not restated here are those of PadicFamilies, its Conventions and §§1.7–1.8 (the raw congruence module `Ψ_λ(M)` and the congruence ideal `η_λ` of an augmentation `λ : A → O`).
 
@@ -86,6 +86,8 @@ filtration proof; [Hida], §0 and §6, for congruence modules of Hecke algebras.
   instead would give `0 × O`.
 - `A = {(a, b) ∈ O² : a ≡ b mod ϖⁿ}`, `M = A`, `Z = Y = {1}`: `cc_Z(1) = ϖⁿO`, `η_Y(A) = n`, and the bound is an equality.
 - The multiplicity is needed: for the same `A` and `M = A^m`, `η_{{1}}(M) = mn = mult(1)·v(cc(1))` with `mult(1) = m`.
+  For this free `M`, SerreWeightAndLevelOptimisation §1.3 gives the same length for its congruence functor, `(O/η_λ)^m`
+  with `η_λ = ϖⁿO`.
 - `Ψ_Y(M)` depends on `M`, not only on `A`: for `M = O^X` (with `A` acting coordinatewise) `Ψ_Y(M) = 0` for every `Y`,
   although `cc_Y(1) = ϖⁿO`; the bound is an inequality.
 - (*an algebra not given inside `O^X`*) `A = O[t]/(t² − ϖ^{2n})`, `e = (1 + t/ϖⁿ)/2` (residue characteristic odd), `M = A`: `Ψ_e(A) ≅ O/ϖⁿ`,
@@ -125,7 +127,7 @@ that, its rows lying in `R_b` (both are infinite when `R_b` has not full rank).
 
 *Route.* Three steps. (Morita) `ψ_b` is onto `M_{d_b}(O)` and `Rel` is a left `𝒜`-module, so `ψ_b(Rel)` is the set of
 `d_b × gd_b` matrices all of whose rows lie in one `O`-submodule `R_b ⊆ O^{gd_b}`; `Sol_b` is the Pontryagin dual of
-`O^{gd_b}/R_b`. (Smith normal form) If `R_b` has full rank there is one array `Θ_b` with rows in `Rel` and
+`O^{gd_b}/R_b`. (Smith normal form; AInfCohomology §AI.1.3) If `R_b` has full rank there is one array `Θ_b` with rows in `Rel` and
 `v(det ψ_b(Θ_b)) ≤ length Sol_b`: choose `gd_b` vectors of `R_b` spanning a sublattice of the same index and group them in
 `g` rows of `d_b`; otherwise `Sol_b` has infinite length. (Gauss's lemma in `O[X_1, …, X_m]`) For the generic array `Σ_bX_bΘ_b`, write each
 `F_b = det ψ_b(Σ_kX_kΘ_k)` as `c_b·G_b` with `c_b ∈ O` a generator of the ideal of the coefficients of `F_b` and `G_b` of unit
@@ -141,7 +143,8 @@ in the residue field; for a lift `a ∈ O^B` of it and `Θ := Σ_ba_bΘ_b`, `det
 of its image under `ψ_b` lie in `R_b`). (1), with the generic array and no condition on the residue field, is this roadmap's
 variant; where (1′) applies, (1) follows from it, since `∏_b det ψ_b(Θ)` is the coefficient of `X_1^{gΣd_b}` of the generic
 determinant for `m = 1`. *Needs:* Mathlib `Matrix.det`, `MvPolynomial.map` with `MvPolynomial.coeff_map` and the instance making
-`MvPolynomial σ k` a domain over a domain `k` (the reduction modulo `ϖ` above), Smith normal form over a PID, `Module.length`.
+`MvPolynomial σ k` a domain over a domain `k` (the reduction modulo `ϖ` above), Smith normal form over a PID, `Module.length`;
+AInfCohomology §AI.1.3 (diagonal form and `Fitt₀` over a valuation ring).
 
 **Checks.**
 
@@ -218,14 +221,17 @@ polynomial, independent of `x`, in the characteristic coefficients of words of l
 `B = E_{ij} ⊗ a_{ijg}(x)r_x(g)`. A word is `0` or `E_{ab} ⊗ (∏a)(x)·r_x(g_1⋯g_l)`; its characteristic polynomial is trivial if
 `a ≠ b` (it is nilpotent) and is that of `(∏a)(x)·r_x(g_1⋯g_l)` in dimension `n` if `a = b`. So `det Θ(x)` is the value at `x`
 of a polynomial with coefficients in `A[X_1, …, X_k]` in the coefficients of the characteristic polynomials of the `r(g)`.
-Under `D`, these are the characteristic coefficients of `g` (IntegralHeckeAndGaloisDeterminants §0.5), which lie in `A`.
+Under `D`, these are the characteristic coefficients of `g` (IntegralHeckeAndGaloisDeterminants §0.2), which lie in `A`.
+For `m = 1` (4) is also the descent of IntegralHeckeAndGaloisDeterminants §0.5 (*A determinant descends to the subring of
+its coefficients*), applied to the `O^X`-valued determinant `det∘r`.
 (5) Lift `f ∈ A′` to `Σ_{i<k}f_iT^i`, `f_i ∈ A`. If `f` vanishes at the `k` points over `x ∈ Xs ∖ Z`, the Vandermonde matrix
 of the distinct roots of `P_x` is invertible over `K`, so every `f_i(x) = 0`; hence `f_i(π) ∈ c(π)` and `f(π′) ∈ c(π)`. The
 hypothesis (P) over `A′` holds by (4): the coefficients of the characteristic polynomials of the `r(g)`, as functions on `X′`, lie in
 the image of `A` in `A′`.
 (3) (P) is (4). (D): since `r_π ⊗ K = ⊕ρ_b ⊗ K`,
 the compression to the block `b` of an element of `𝒜(π)` is an algebra map, with image the `O`-span of `ρ_b(G)` (`A` acts at
-`π` through `λ_π`), which is `M_{d_b}(O)` because `ρ̄_b(G)` spans `M_{d_b}(k)` (Burnside) and by Nakayama. (E): `𝒜` is finite
+`π` through `λ_π`), which is `M_{d_b}(O)` because `ρ̄_b(G)` spans `M_{d_b}(k)` (ArithmeticGaloisRepresentations §1.7,
+*Absolute irreducibility*) and by Nakayama. (E): `𝒜` is finite
 over the complete local `A`; every `r̄_x` has semisimplification `⊕_bρ̄_b`, because the residual determinant `D ⊗ k`
 determines it (IntegralHeckeAndGaloisDeterminants §1.2) and is the same for all `x` (`A` is local); the simple
 `𝒜`-modules are therefore the `ρ̄_b`, and `𝒜/Rad(𝒜) ≅ ∏_bM_{d_b}(k)`. The idempotent of the factor of `χ̄` lifts to an
@@ -235,10 +241,18 @@ rank one, in particular nonzero; at `π`, `ψ_b(E)` is an idempotent of `M_{d_b}
 for `b₀`, so `E(π)` is the projector onto the `χ`-line. (N) is the definition of `Z`. The hypotheses (D) and (E) say that `π`
 lies on the locus where the residually multiplicity-free determinant splits into the blocks `ρ_b`, which is the total
 reducibility locus of the generalized matrix algebra (IntegralHeckeAndGaloisDeterminants §§1.3–1.4); a constituent of
-`r_π ⊗ K` with reducible reduction, or `χ` not among the constituents, breaks (D). Sources: [Ribet76], §§2–4; [BC09], Sections 1.3–1.5; [FormalProof] for (1) over a large residue field, (2) and (5). *Needs:* 1.7a, 1.8b;
-IntegralHeckeAndGaloisDeterminants §§0.5 (Amitsur's formula, characteristic coefficients), 1.2
+`r_π ⊗ K` with reducible reduction, or `χ` not among the constituents, breaks (D). Sources: [Ribet76], §§2–4; [BC09], Sections 1.3–1.5; [FormalProof] for (1) over a large residue field, (2) and (5).
+(2) is a neighbouring form, with cocycles and `K/O` coefficients at one point, of the injection of extension modules into
+extensions of IntegralHeckeAndGaloisDeterminants §1.4 (*GMA extension module*, *Off-diagonal extension injection*; [BC09],
+Section 1.5), whose qualitative rank-two case is *Classical Ribet lattice* in the same section. The two-dimensional
+integral Ribet theorems with Fitting ideals over the family ring are IntegralHeckeAndGaloisDeterminants §§6.1, 6.7 and,
+with local conditions, IntegralIwasawaTheory §9.6; neither they nor (1) contain the other. The polarized three-block form of the method
+(Skinner–Urban), in which the polarization and the vanishing of the abelian term isolate the Selmer group of the middle
+block, is AutomorphicCongruences §0.7; 1.8c–1.8d are the unpolarized form, with the lengths of all blocks summed.
+*Needs:* 1.7a, 1.8b;
+IntegralHeckeAndGaloisDeterminants §§0.2 (characteristic coefficients), 0.5 (Amitsur's formula, descent), 1.2
 (determinants and semisimple reconstruction), 1.3 (Henselian lifting of matrix units), 1.4 (reducibility ideals);
-ProfiniteCohomology Layer 2 (explicit cocycles).
+ArithmeticGaloisRepresentations §1.7 (absolute irreducibility); ProfiniteCohomology §2.1 (explicit cocycles).
 
 **Checks.**
 
@@ -295,9 +309,11 @@ the ratios `χ_bχ^{−1}`. (3) is (3′) with `v(δ_A(π)) = 0`; under the supp
 
 *Route.* (1) The `r_x` are continuous and `Y_s` is generated by finitely many `y_γ`. (2) The map from cocycles to classes has
 kernel `C_b`, and its image lies in `H¹_𝒮` by hypothesis. (2′) The classes with restrictions in the `L̃_{b,v}` contain those
-with restrictions in the `L_{b,v}` with quotient injecting into the product `∏_vL̃_{b,v}/L_{b,v}`; when `Σ_vν_{b,v}` is finite only finitely
+with restrictions in the `L_{b,v}` with quotient injecting into the product `∏_vL̃_{b,v}/L_{b,v}`
+(SelmerIwasawaCohomology §2.3); when `Σ_vν_{b,v}` is finite only finitely
 many factors are nonzero, so the quotient has length at most `Σ_vν_{b,v}`, and when it is infinite there is nothing to prove. (3′) For `b₀` the coefficients are the
-trivial module, whose coboundaries are zero. Put `u_g := χ(g)^{−1}r(g)`, and let `b ≠ b₀` and
+trivial module, whose coboundaries are zero (`B¹ = 0` for the trivial action, ProfiniteCohomology §2.1). Put
+`u_g := χ(g)^{−1}r(g)`, and let `b ≠ b₀` and
 `φ ∈ Hom_𝒜(Y_s, O^{d_b} ⊗ K/O)` with `φ(y_g) = (ψ_b(u_g) − 1)m` for all `g`. (*The form with the square.*) Write
 `E = Σ_gt_gr(g)` (`t_g ∈ A`, a finite sum) and `τ := Σ_gt_gχ(g) ∈ A`. The element `y := Σ_gt_gχ(g)·y_g = (E − τ)E` of `Y` has
 `φ(y) = ψ_b(E)m − τ(π)m = −δ_A(π)m` (as `ψ_b(E) = 0` and `τ(π) = δ_A(π)`, the scalar by which `E(π)` acts on the `χ`-line)
@@ -312,12 +328,13 @@ clause, on a vector `m` fixed by every `ψ_b(u_g)`,
 `ψ_b(E)m = Σ_gt_g(π)χ(g)·m`, and `Σ_gt_g(π)χ(g)` is the scalar by which `E(π)` acts on the `χ`-line, which is `δ_A(π)`; as
 `ψ_b(E) = 0` for `b ≠ b₀`, `δ_A(π)m = 0`. (3) is the case of a unit `δ_A(π)`. Sources: [FormalProof], except the refinement
 in (3′). *Needs:* 1.8c; SelmerIwasawaCohomology §§2.1–2.9; ProfiniteCohomology
-Layer 1 (continuous cohomology and restriction), Layer 2 and §3.2 (explicit cocycles and their classes).
+Layer 1 (continuous cohomology and restriction), §§2.1, 2.3 and 3.2 (explicit cocycles, their restriction and their classes).
 
 **Checks.**
 
 - For a number field `F`, `p` odd, `G = G_F`, `O = ℤ_p` and the unramified condition at every place, the term of the block `b₀`
-  is `length Hom(Cl_F, ℚ_p/ℤ_p) = v_p(#Cl_F)` by class field theory: the class-number term of a Ribet bound.
+  is `length Hom(Cl_F, ℚ_p/ℤ_p) = v_p(#Cl_F)` (ClassFieldTheory §13.1, the Hilbert class field, with the unramified condition
+  of SelmerIwasawaCohomology §2.7): the class-number term of a Ribet bound.
 - With `𝒱 = ∅` the bound is 1.8c(1) up to the coboundary terms; adding conditions can only lower `H¹_𝒮`, so the hypothesis
   that the cut-out cocycles satisfy them is what carries the arithmetic.
 - (*(3′) is an upper bound depending on `E`*) If `E = ϖ^a·e` with `e ∈ 𝒜` an idempotent as in 1.8c(3), then
@@ -428,16 +445,19 @@ with either value the kernels and coboundaries stay within the stated bound, sin
 (by (1)), of `L̃_{b,w}` at `Row` and of `L_{b,v}` at `𝒱`, of length at most `length H¹_{𝒮_b} + Σ_{w∈Row}ν_{b,w}` (1.8d(2′)). The
 kernels and coboundaries add up to
 `Σ_{w∈Col}((1 + j_w)e′_w + (j_w + 2)v_δ + h⁰_{0,w} + Σ_{c≥2}h⁰_{c,w} + (N + t)v_δ) + (N + t)v_δ`, within the stated bound. (3) The
-annihilator of `I` contains that of `F′`, which is `L_{b,w}`, with quotient the Pontryagin dual of `F′/I`. (3a) As `a` is a
+annihilator of `I` contains that of `F′`, which is `L_{b,w}`, with quotient the Pontryagin dual of `F′/I` (the annihilator
+calculus of ArithmeticGaloisDuality §D7.7.1 when `O` is finite over `ℤ_p`). (3a) As `a` is a
 cocycle and `y_h = (u_h − 1)E`, the `2`-cocycle `(g, h) ↦ a_gu_gy_h` is the coboundary of `f(g) := −a_gu_gE` in `𝒜E(1)`:
 `ε(g)f(h) − f(gh) + f(g) = a_gu_g(u_h − 1)E`, using `a_{gh}u_{gh} = a_gu_gu_h + ε(g)a_hu_h`. Since `Y ⊆ 𝒜E` are finitely generated
-`O`-modules on which `G_w` acts through `ε` alone, and `H²(G_w, M(1)) ≅ M ⊗_O H²(G_w, O(1)) = M` functorially for such `M` (the
-local invariant, ArithmeticGaloisDuality §R02.4.2, and right exactness of `H²`, `G_w` having `p`-cohomological dimension `2`),
+`O`-modules on which `G_w` acts through `ε` alone, and `H²(G_w, M(1)) ≅ M ⊗_O H²(G_w, O(1)) = M` functorially for such `M`
+(ArithmeticGaloisDuality §D7.4, *The local invariant map as a quasi-isomorphism*: `inv_w : H²(G_w, M(1)) ≅ M` for a finitely
+generated `M` with trivial action, from the local invariant of §R02.4.2 and `cd_p(G_w) = 2`, ClassFieldTheory §6.1),
 `H²(G_w, Y(1)) → H²(G_w, 𝒜E(1))` is injective, so the `2`-cocycle is a coboundary in `Y(1)`. Applying `ϑ∘φ`, which is
 `G_w`-equivariant from `Y(1)` to `K/O(1)` and turns `a_gu_gy_h` into `ϑ(ψ_b(a_g)·ψ_b(u_g)φ(y_h))` (`φ` is `𝒜`-linear), gives the
 vanishing of the cup product. (4) *Separability by a correction.* At `x ≠ π` the corner `e_B(x)·K[r_x(G)]·e_B(x)` is a product of
-matrix algebras of total degree `t` (Burnside and Jacobson density for the pairwise non-isomorphic absolutely irreducible
-summands), so it contains an element with separable characteristic polynomial on the image of `e_B(x)`; multiplying by
+matrix algebras of total degree `t` (ArithmeticGaloisRepresentations §5.5, *Independence of characters*, for the pairwise
+non-isomorphic absolutely irreducible summands), so it contains an element with separable characteristic polynomial on the
+image of `e_B(x)`; multiplying by
 `f − f(π)` for an `f ∈ A` with `f(x) ≠ f(π)` and by a power of `ϖ`, it is a nonzero multiple of the value at `x` of an admissible
 `s = Σ_kc_kj_ke_Ba_ke_B` (`c_k ∈ O`). The discriminant of the characteristic polynomial of `R(x)` is a polynomial in the
 `c_k`, nonzero at `x ≠ π` (its top coefficient in a scaling of `s` is the discriminant for `s(x)` alone) and constant `≠ 0` at
@@ -448,11 +468,14 @@ polynomial over the infinite domain `O` has a non-root at which all of finitely 
 equal at `π` to the projector onto the `χ`-line; the empty product taken in `𝒜 ⊗ A′` instead of the corner would be `1`, of rank
 `N + 1` at `π`. `R(π) = e_Br_π(g)e_B` acts on the `χ_c`-line by `χ_c(g)`, so `E′(π′)` kills the lines
 `c ≥ 2` and the block `ρ_0` and acts on the `χ`-line by `∏_{c≥2}χ(g)(1 − ε(g)^{−(c−1)})`, of valuation
-`Σ_{0<i<t}v(1 − ε(g)^{−i})`; for `ε(g) = 1 + p^{s₀}u` this is `Σ_{0<i<t}v_p((1 + p^{s₀}u)^{−i} − 1) = Σ_{0<i<t}(s₀ + v_p(i))`. At every point the roots are distinct, so `E′` is `δ_{A′}` times the
+`Σ_{0<i<t}v(1 − ε(g)^{−i})`; for `ε(g) = 1 + p^{s₀}u` this is `Σ_{0<i<t}v_p((1 + p^{s₀}u)^{−i} − 1) = Σ_{0<i<t}(s₀ + v_p(i))`
+(for an integer in place of `p^{s₀}u` and a positive exponent, this valuation is the last clause of
+DiophantineApproximationAndTranscendence §3.7). At every point the roots are distinct, so `E′` is `δ_{A′}` times the
 projector onto the `α_1`-eigenline of `R`, of rank one. The coefficients of `P` lie in `A` by (P); 1.8c(5) applied `t − 1`
 times passes from `A′` back to `A`. Sources: [FormalProof]; [Ribet76] and [BC09] for the unit case.
 *Needs:* 1.8c, 1.8d; IntegralHeckeAndGaloisDeterminants §§0.5, 1.3; SelmerIwasawaCohomology §§2.1–2.9 and SelmerLengthBoundsAndLocalLifting §4.10b;
-ArithmeticGaloisDuality §§R02.1.2 (lattice coefficients), R02.4.2; ProfiniteCohomology Layer 2; Mathlib `Polynomial.SplittingField` (or the universal
+ArithmeticGaloisDuality §§R02.1.2 (lattice coefficients), R02.4.2, D7.4, D7.7.1; ClassFieldTheory §6.1;
+ArithmeticGaloisRepresentations §5.5; ProfiniteCohomology §2.1; Mathlib `Polynomial.SplittingField` (or the universal
 splitting algebra), `Matrix.aeval_self_charpoly`, `Polynomial.discr`.
 
 **Checks.**
@@ -483,7 +506,7 @@ splitting algebra), `Matrix.aeval_self_charpoly`, `Polynomial.discr`.
 
 ### Dependencies
 
-PadicFamilies §§1.7, 1.8; IntegralHeckeAndGaloisDeterminants §§0.5, 1.2, 1.3, 1.4; ProfiniteCohomology Layers 1, 2 and §3.2; ArithmeticGaloisDuality §§R02.1.2, R02.4.2; SelmerIwasawaCohomology §§2.1–2.9; SelmerLengthBoundsAndLocalLifting §§4.10b, 4.10c, 4.10d, 4.10e, 4.10f; Mathlib's lengths of modules, idempotents, determinants, multivariate polynomials over a domain, characteristic polynomials and discriminants.
+PadicFamilies §§1.7, 1.8; IntegralHeckeAndGaloisDeterminants §§0.2, 0.5, 1.2, 1.3, 1.4; ProfiniteCohomology Layer 1 and §§2.1, 2.3, 3.2; ArithmeticGaloisDuality §§R02.1.2, R02.4.2, D7.4, D7.7.1; ArithmeticGaloisRepresentations §§1.7, 5.5; ClassFieldTheory §§6.1, 13.1; AInfCohomology §AI.1.3; SelmerIwasawaCohomology §§2.1–2.9; SelmerLengthBoundsAndLocalLifting §§4.10b, 4.10c, 4.10d, 4.10e, 4.10f; Mathlib's lengths of modules, idempotents, determinants, multivariate polynomials over a domain, characteristic polynomials and discriminants.
 
 ## Downstream consumers
 
@@ -495,7 +518,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns congruence modules along a central idempotent and relative to a set of points of a split finite flat algebra, with their length bound (1.7a); the generic-determinant length lemma (1.8b); the bound of the congruence ideal at a reducible point by extension and Selmer modules of its blocks, with the derivation of its hypotheses from a residually multiplicity-free determinant (1.8c–1.8d); and the general bound with local defects for a partition of the places into rows and columns, the orthogonality of the cut cocycles to the classes of a dual family, and an element `E` with `E² = δE`, `δ` not a unit, built from one group element with a correction that separates the roots at every point (1.8e). These statements extend Layer 1 of [PadicFamilies](../../PadicFamilies/README.md), which they follow in its notation.
 
-Not owned here. The raw congruence module and the congruence ideal of one augmentation are PadicFamilies §§1.7–1.8. Determinants and their characteristic coefficients, Amitsur's formula, semisimple reconstruction, Henselian lifting of matrix units, generalized matrix algebras and reducibility ideals are [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) §§0.5, 1.2–1.4; the two-dimensional integral Ribet theorem with Fitting ideals, a different statement, belongs to IntegralHeckeAndGaloisDeterminants Layer 6. Continuous cohomology with discrete coefficients is [ProfiniteCohomology](../../ProfiniteCohomology/README.md) Layer 1, its explicit low-degree cocycles ProfiniteCohomology Layer 2 and §3.2, continuous cochains into inverse limits (the lattice coefficients of 1.8e) [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) §R02.1.2, and the local invariant of a local field ArithmeticGaloisDuality §R02.4.2. Selmer structures and Selmer groups with discrete coefficients are [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) §§2.1–2.9. The defect of a class under local duality and the lifting of finite classes with loss are [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) §§4.10b–4.10f. The congruence modules of theta lifts to which these bounds are applied belong to [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
+Not owned here. The raw congruence module and the congruence ideal of one augmentation are PadicFamilies §§1.7–1.8. Determinants and their characteristic coefficients, Amitsur's formula, semisimple reconstruction, Henselian lifting of matrix units, generalized matrix algebras and reducibility ideals are [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) §§0.2, 0.5, 1.2–1.4; the two-dimensional integral Ribet theorems with Fitting ideals over the family ring, different statements, are IntegralHeckeAndGaloisDeterminants §6.1 (*Ribet theory for distinct residual characters*) and §6.7 (*Ribet extension with all local conditions*, *Ribet extension without residual distinctness*), and, with local conditions, IntegralIwasawaTheory §9.6; the polarized three-block form of the lattice method is AutomorphicCongruences §0.7. Continuous cohomology with discrete coefficients is [ProfiniteCohomology](../../ProfiniteCohomology/README.md) Layer 1, its explicit low-degree cocycles ProfiniteCohomology §§2.1, 2.3 and 3.2, continuous cochains into inverse limits (the lattice coefficients of 1.8e) [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) §R02.1.2, and the local invariant of a local field ArithmeticGaloisDuality §R02.4.2. Selmer structures and Selmer groups with discrete coefficients are [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) §§2.1–2.9. The defect of a class under local duality and the lifting of finite classes with loss are [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) §§4.10b–4.10f. The congruence modules of theta lifts to which these bounds are applied belong to [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
 
 ## Exact supplier contracts
 
@@ -505,7 +528,7 @@ Not owned here. The raw congruence module and the congruence ideal of one augmen
 
 ### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
 
-§0.5: characteristic coefficients of a determinant (the characteristic polynomial of every element of `R ⊗ B` under `D`, compatible with specialisation), and Amitsur's formula for determinants. §1.2: determinants and semisimple reconstruction (the residual determinant determines the semisimplification). §1.3: Henselian lifting of matrix units in an algebra integral over a henselian local ring, and generalized matrix algebras for a residually multiplicity-free determinant. §1.4: reducibility ideals. Used in 1.8c (3), (4) and 1.8e (4).
+§0.2: the characteristic polynomial and coefficients of a determinant, their scalar extension (compatibility with specialisation), and `det∘ρ` for a matrix representation. §0.5: Amitsur's formula for determinants, and the descent of a determinant to the subring of its coefficients. §1.2: determinants and semisimple reconstruction (the residual determinant determines the semisimplification). §1.3: Henselian lifting of matrix units in an algebra integral over a henselian local ring, and generalized matrix algebras for a residually multiplicity-free determinant. §1.4: reducibility ideals. Used in 1.8c (3), (4) and 1.8e (4).
 
 ### From TauCetiRoadmap.SelmerIwasawaCohomology
 
@@ -513,11 +536,23 @@ Not owned here. The raw congruence module and the congruence ideal of one augmen
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
-Layer 1: continuous cohomology `continuousCohomology` with discrete coefficients and its functoriality along continuous homomorphisms, in particular restriction to closed subgroups (§§1.4–1.5), used in 1.8d and 1.8e. Layer 2: the explicit continuous cocycles and coboundaries, used in 1.8c–1.8e. §3.2: the classes of explicit cocycles in continuous cohomology in degrees `1` and `2`, used in 1.8d.
+Layer 1: continuous cohomology `continuousCohomology` with discrete coefficients and its functoriality along continuous homomorphisms, in particular restriction to closed subgroups (§§1.4–1.5), used in 1.8d and 1.8e. §2.1: the explicit continuous cocycles and coboundaries, with `B¹ = 0` for the trivial action, used in 1.8c–1.8e; §2.3: their restriction to a subgroup, used in 1.8d. §3.2: the classes of explicit cocycles in continuous cohomology in degrees `1` and `2`, used in 1.8d.
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
-§R02.1.2: continuous cochains into inverse limits and their comparison with continuous cohomology for compact coefficients, used for the lattice coefficients of 1.8e (Col) and (3a). §R02.4.2: the local invariant `H²(G_w, μ_{p^n}) ≅ ℤ/p^n` of a local field, used in 1.8e (3a).
+§R02.1.2: continuous cochains into inverse limits and their comparison with continuous cohomology for compact coefficients, used for the lattice coefficients of 1.8e (Col) and (3a). §R02.4.2: the local invariant `H²(G_w, μ_{p^n}) ≅ ℤ/p^n` of a local field, used in 1.8e (3a). §D7.4: the local invariant `H²(G_w, M(1)) ≅ M` for a finitely generated `M` with trivial action, used in 1.8e (3a). §D7.7.1: annihilators under perfect pairings, used in 1.8e (3) when `O` is finite over `ℤ_p`.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§1.7: absolute irreducibility in Burnside's form, used in 1.8c (3). §5.5: independence of characters (the surjection of `k[Γ]` onto the product of the endomorphism algebras of pairwise non-isomorphic absolutely irreducible representations), used in 1.8e (4).
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+§6.1: `cd_ℓ G_K = 2` for a nonarchimedean local field `K` of characteristic zero, used in 1.8e (3a). §13.1: the Hilbert class field and the class group as its Galois group, used in the first Check of 1.8d.
+
+### From TauCetiRoadmap.AInfCohomology
+
+§AI.1.3: the diagonal form of a finitely presented module over a valuation ring and its zeroth Fitting ideal, used in 1.8b.
 
 ### From SelmerLengthBoundsAndLocalLifting, a sub-roadmap of this family
 
