@@ -10,9 +10,9 @@ The headline theorems are these.
 
 (3) Let `E` be a CM field, `(π, χ)` a regular algebraic polarized cuspidal representation of `GL_n(𝔸_E)`, `ℓ` a prime, `ι : ℚ̄_ℓ ≅ ℂ` and `r = r_{ℓ,ι}(π)`. At every finite place `w ∤ ℓ`, `WD(r|_{G_{E_w}})^{F-ss} ≅ ι⁻¹rec^T(π_w)`, monodromy included (14.1); if `π_w` is of depth zero up to twist with pairwise unlinked supercuspidal support `{χ_i ⊗ π_{θ̃_i}}`, then `r` has `N = 0` at `w` and `r|_{I_w} ≅ ⊕_i ⊕_{j<n_i} ι⁻¹∘((χ_i∘Art⁻¹|_{I_w})·(θ_i^{q^j}∘t_{n_i}))` (14.2). At a place `w ∣ ℓ` where `rec^T(π_w)` has `N = 0` and each of its irreducible constituents is induced from a character of the Weil group of an unramified extension, `r|_{G_{E_w}}` is potentially crystalline, `WD(D_pst(r|_{G_{E_w}}))` has `N = 0`, and its Frobenius semisimplification agrees with `ι⁻¹rec^T(π_w)` on the Weil group of an unramified extension of `E_w`, and on all of `W_{E_w}` when `rec^T(π_w)` is a sum of characters or irreducible (15.1).
 
-(4) Let `E/E⁺` be a CM extension with `[E⁺:ℚ] ≥ 2`, `V` a Hermitian space over `E` of dimension `n`, definite at every infinite place, and `Π` an automorphic representation of `U(V)(𝔸_{E⁺})` whose archimedean component is the algebraic representation of dominant weight `λ`, with weak base change `⊞_i Speh(π_i, d_i)` to `GL_n(𝔸_E)`. Then for every `ℓ` and `ι` the representation `⊕_i ⊕_{0≤j<d_i} r_{ℓ,ι}(π_i ⊗ |det|^{s_{ij}})`, `s_{ij} = (d_i − 1)/2 − j − (n − n_i)/2`, is continuous and semisimple, unramified with Frobenius polynomial `P_w(BC(Π)_w; X)` at every `w ∤ ℓ` at which the base change is unramified, and de Rham at every `w ∣ ℓ` with the labelled weights of the base-changed weight of `λ` (16.1).
+(4) Let `E/E⁺` be a CM extension with `[E⁺:ℚ] ≥ 2`, `V` a Hermitian space over `E` of dimension `n`, definite at every infinite place, and `Π` an automorphic representation of `U(V)(𝔸_{E⁺})` whose archimedean component is algebraic, of dominant highest weight `λ_τ` on `V ⊗_{E,τ} ℂ` for each embedding `τ : E → ℂ`, with weak base change `⊞_i Speh(π_i, d_i)` to `GL_n(𝔸_E)`. Then for every `ℓ` and `ι` the representation `⊕_i ⊕_{0≤j<d_i} r_{ℓ,ι}(π_i ⊗ |det|^{s_{ij}})`, `s_{ij} = (d_i − 1)/2 − j − (n − n_i)/2`, is continuous and semisimple, unramified with Frobenius polynomial `P_w(BC(Π)_w; X)` at every `w ∤ ℓ` at which the base change is unramified, and de Rham at every `w ∣ ℓ` with `τ`-labelled Hodge–Tate weights `{j − 1 − λ_{τ,j} : 1 ≤ j ≤ n}`, the labels read through `ι` (16.1).
 
-The statements extend two roadmaps and rest on two others of this family. [EndoscopicTransferAndUnitaryTraceComparison](../../EndoscopicTransferAndUnitaryTraceComparison/README.md) gives the trace-defined correspondence with its compatibilities, local and global cyclic base change, and weak base change from unitary groups; [AutomorphicGaloisRepresentationsPartII](../../AutomorphicGaloisRepresentationsPartII/README.md) gives the attached Galois representations, the away-prime comparison and admissibility at the coefficient prime. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) gives the cuspidal representations of `GL_n(k)`, their Gauss sums, the Shintani lift and the labels of depth-zero representations, and [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md) the characterisation of local Langlands correspondences by `ε`-factors of pairs, the local converse theorem and the exponent bound for unitary generic representations.
+The statements extend two roadmaps and rest on two others of this family. Headline (1) restates, clause by clause and with the same hypotheses, what EndoscopicTransferAndUnitaryTraceComparison proves of its trace-defined correspondence, in the terms of the characterisation of LocalFactorsOfTwistsAndTypes; in (3), the comparisons 14.1 and 15.1 are cases of those of AutomorphicGaloisRepresentationsPartII, for which this roadmap adds routes that do not use their irreducibility input. [EndoscopicTransferAndUnitaryTraceComparison](../../EndoscopicTransferAndUnitaryTraceComparison/README.md) gives the trace-defined correspondence with its compatibilities, local and global cyclic base change, and weak base change from unitary groups; [AutomorphicGaloisRepresentationsPartII](../../AutomorphicGaloisRepresentationsPartII/README.md) gives the attached Galois representations, the away-prime comparison and admissibility at the coefficient prime. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) gives the cuspidal representations of `GL_n(k)`, their Gauss sums, the Shintani lift and the labels of depth-zero representations, and [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md) the characterisation of local Langlands correspondences by `ε`-factors of pairs, the local converse theorem and the exponent bound for unitary generic representations.
 
 The layers below carry the numbers of the layers they extend. Layer 6 constructs splitting characters for quadratic extensions of number fields. Layer 10 identifies the trace-defined correspondence with the local Langlands and the classical correspondences and computes it at depth zero, through local automorphic induction, characters at very regular elements and the lift of labels under unramified base change of prime degree. Layer 13 compares the cuspidal multiplicities of two inner forms of a unitary group in an odd number of variables. Layers 14–16 extend Layers AG2.5–AG2.7 of AutomorphicGaloisRepresentationsPartII.
 
@@ -280,12 +280,12 @@ zero, `Π_{w′}` (`w′ | w`) has depth zero and label `m_{π_w}^{(l)}`.
 
 *Route.* *Essentially tempered `π`.* Let `χ` be the character of the Harish-Chandra product of cuspidal representations of
 `GL_n(k)` of label `m_π`. Every constituent of `π^{K₁}` lies in that series (FiniteReductiveGroups §6.3) and is a constituent of
-the product (FiniteReductiveGroups §5.4 (d)); `π(φ_{\bar χ})` maps `π` into `π^{K₁}` and acts there as `|GL_n(k)|⁻¹ Σ_x \overline{χ(x)}π^{K₁}(x)`, so
-`tr π(φ_{\bar χ}) = ⟨tr π^{K₁}, χ⟩_{GL_n(k)} > 0` (`π^{K₁} ≠ 0`). By 10.33c with `d = l`, `φ′_{\bar χ}` and `φ_{\bar χ}` match, and the
-character identity of AutomorphicSpectralTheory §7.0b gives `tr(Π(φ′_{\bar χ})A_Π) = tr π(φ_{\bar χ}) ≠ 0`. The operator `Π(φ′_{\bar χ})`
+the product (FiniteReductiveGroups §5.4 (d)); `π(φ_{conj χ})` maps `π` into `π^{K₁}` and acts there as `|GL_n(k)|⁻¹ Σ_x conj χ(x)·π^{K₁}(x)`, so
+`tr π(φ_{conj χ}) = ⟨tr π^{K₁}, χ⟩_{GL_n(k)} > 0` (`π^{K₁} ≠ 0`). By 10.33c with `d = l`, `φ′_{conj χ}` and `φ_{conj χ}` match, and the
+character identity of AutomorphicSpectralTheory §7.0b gives `tr(Π(φ′_{conj χ})A_Π) = tr π(φ_{conj χ}) ≠ 0`. The operator `Π(φ′_{conj χ})`
 maps `Π` into the invariants of the first congruence subgroup `K₁′` of `GL_n(𝒪_{F_l})` and acts there as
-`|GL_n(k_l)|⁻¹ Σ_δ \overline{Sh_l χ(δ)}Π^{K₁′}(δ)`, and `A_Π` preserves `Π^{K₁′}` (`σ(K₁′) = K₁′`); so
-`Σ_δ \overline{Sh_l χ(δ)}Π^{K₁′}(δ) ≠ 0`. By FiniteReductiveGroups §5.11 (e), `Π^{K₁′}` has a constituent of label `m_π^{(l)}`; so `Π` has
+`|GL_n(k_l)|⁻¹ Σ_δ conj Sh_l χ(δ)·Π^{K₁′}(δ)`, and `A_Π` preserves `Π^{K₁′}` (`σ(K₁′) = K₁′`); so
+`Σ_δ conj Sh_l χ(δ)·Π^{K₁′}(δ) ≠ 0`. By FiniteReductiveGroups §5.11 (e), `Π^{K₁′}` has a constituent of label `m_π^{(l)}`; so `Π` has
 depth zero and, by FiniteReductiveGroups §6.3, label `m_π^{(l)}`. *General `π`.* `π` is the Langlands quotient of a product of essentially tempered
 representations `π_i`, of depth zero (FiniteReductiveGroups §6.3: the members of the supercuspidal support have depth zero); `Π` is the Langlands
 quotient of the product of their lifts, whose supercuspidal supports together form that of `Π`; labels are additive over
@@ -448,7 +448,7 @@ InductionRestriction Layer 5; ClassFieldTheory Layer 9.
   `π_{θ̃} ≇ π_{θ̃′}` (FiniteReductiveGroups §6.2) with the same central character and the same `ε(s, π × χ, ψ)` for every
   character `χ` of `F^×`: for tame `χ` by (ii), the twisted Gauss sums
   `G_5(θ⁻¹·β∘N)` and `G_5(θ⁻²·β∘N)` being equal for every `β`. Indeed, `ψ₀` takes the values `±1` in characteristic `2`, so
-  `G_5(θ⁻¹·β∘N) = \overline{G_5(θ·β⁻¹∘N)}` and `G_5(θ⁻²·β∘N) = \overline{G_5(θ²·β⁻¹∘N)}`, conjugation inverting the twist as well, and
+  `G_5(θ⁻¹·β∘N) = conj G_5(θ·β⁻¹∘N)` and `G_5(θ⁻²·β∘N) = conj G_5(θ²·β⁻¹∘N)`, conjugation inverting the twist as well, and
   the twisted sums of `θ` and `θ²` agree for every twist and every `ψ₀` (FiniteReductiveGroups §5.10, Checks). The reindexing
   `β ↦ β⁻¹` matters: for `ψ₀(x) = (−1)^{Tr_{k/𝔽₂}(ax)}` with `a` a generator of `k^× = 𝔽₄^×` and `β(a) = e^{2πi/3}`, `G_5(θ·β∘N)` and
   `G_5(θ⁻¹·β∘N)` both equal `32e^{2πi/3}` (by computation), so the second is not the conjugate of the first. For the other `χ` by (i),
@@ -540,7 +540,7 @@ cuspidal subspace of `L²(G(F)\G(𝔸))`.
 pseudo-coefficient of `π_τ` (smooth of compact support and `K`-finite, of trace `1` on `π_τ` and `0` on every other
 irreducible unitary representation, with orbital integral `0` at the regular semisimple elements with non-compact
 centraliser and `conj Θ_{π_τ}/vol` at the regular elliptic ones: AutomorphicSpectralTheory §6.18, with trace `0` on every other
-tempered representation, and EndoscopicTransferAndUnitaryTraceComparison §2.10 for the orbital integrals; the vanishing on the
+tempered representation; the orbital integrals are among the steps not given below; the vanishing on the
 other unitary representations uses the gap, between entries of `λ_τ` of different sign); `f_v = e_v ∗ h ∗ e_v` at `v ∈ S`,
 `e_v` the idempotent of `τ_v∘red_v` on `K_v` and `h` arbitrary; at one further
 split place `u ∉ S` the indicator of an Iwahori double coset of `diag(ϖ^{a_1}, …, ϖ^{a_r})`, `a_1 > ⋯ > a_r`; at the other places
@@ -564,8 +564,9 @@ symbols), so the class contributes `vol([T_P])` times the product of the STABLE 
 place the stable orbital integral of `f_τ` is `0` if `T_P(F_τ)` is not compact and
 `conj s_{λ_τ−ρ}(roots of P)/vol(T_P(F_τ))` otherwise, `s` the Weyl character of `GL_r` and `ρ = ((r − 1)/2, …, −(r − 1)/2)`: the sum
 of the discrete series characters over the conjugates of a torus point is `(−1)^{pq}` times the alternating sum over
-`S_r` (EndoscopicTransferAndUnitaryTraceComparison §2.10), and `pq` is even and `ρ` integral because `r` is odd. It depends on
-`P` and `λ_τ` only, not on the signature. (7) The
+`S_r`, `(p, q)` the signature at `τ` (Harish-Chandra's formula `Θ_π = (−1)^{pq}Σ_{w ∈ W_K} ε(w)e^{wλ_τ}/Δ` on the compact Cartan,
+`W_K = S_p × S_q`, EndoscopicTransferAndUnitaryTraceComparison §2.3(c), summed over the cosets of `W_K` in `S_r`), and `pq` is
+even and `ρ` integral because `r` is odd. It depends on `P` and `λ_τ` only, not on the signature. (7) The
 finite stable orbital integrals are carried to each other by the isometries `a_v`, so `tr R_G(f) = tr R_{G′}(f′)` for
 `f′ = f′_∞ ⊗ Φ_*(f^∞)`. (8) *Separation:* for a finite list of pairwise inequivalent `σ_i` containing every finite part
 that occurs on either side at the level of the admitted functions, `Σ_i(m_G(σ_i) − m_{G′}(σ_i∘Φ^{−1}))·tr σ_i(f^∞) = 0` for all
@@ -574,10 +575,13 @@ projector onto the type vectors, with coefficients the traces of the Iwahori cos
 separate the irreducible representations of `GL_r(F_u)` with Iwahori-fixed vectors (their Jacquet modules along the
 Borel subgroup; the geometric lemma and the classification by segments), and projected characters of pairwise
 inequivalent irreducible representations are linearly independent. So the coefficient of every `σ_i` with a type
-vector vanishes. The following steps are not given here: the bound for the class kernel on a Siegel set; the existence of the weight in the vanishing argument for classes in a Levi subgroup; the family of test functions realising `g ↦ P_iσ_i(g)P_i`; the local statement that the Iwahori coset functions of strictly dominant elements are supported on regular elements with eigenvalues of distinct valuations; and the vanishing of the trace of the pseudo-coefficients on the non-tempered unitary representations (through the gap).
+vector vanishes. The following steps are not given here: the bound for the class kernel on a Siegel set; the existence of the weight in the vanishing argument for classes in a Levi subgroup; the family of test functions realising `g ↦ P_iσ_i(g)P_i`; the local statement that the Iwahori coset functions of strictly dominant elements are supported on regular elements with eigenvalues of distinct valuations; the orbital integrals of the pseudo-coefficient of one discrete series representation (`0` at regular elements with
+non-compact centraliser, `conj Θ_{π_τ}/vol` at regular elliptic ones), which EndoscopicTransferAndUnitaryTraceComparison §2.10
+states for the average over the packet and derives for one member only inside its route; and the vanishing of the trace
+of the pseudo-coefficients on the non-tempered unitary representations (through the gap).
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §§4.5, 6.18,
-EndoscopicTransferAndUnitaryTraceComparison §2.10 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1;
+EndoscopicTransferAndUnitaryTraceComparison §2.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1;
 SmoothRepresentationsOfLocalGroups SR.2.2 (*geometric-lemma*), SR.5.2 (*segment-representations*);
 ClassFieldTheory Layer 13 (Hasse's norm theorem for quadratic extensions) and Layer 11 (elements with prescribed norm
 residue symbols: an idele of the base field whose local norm residue symbols have product one lies in the kernel of the
@@ -603,7 +607,7 @@ Two instances, stated without proof. For `V′ = V`, isometries the identity and
 
 ### Dependencies
 
-AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §§4.5, 6.18, EndoscopicTransferAndUnitaryTraceComparison §2.10 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups SR.2.2 (*geometric-lemma*), SR.5.2 (*segment-representations*); ClassFieldTheory Layers 11 and 13; HermitianFormsAndLattices §3.1.
+AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2; AutomorphicSpectralTheory §§4.5, 6.18, EndoscopicTransferAndUnitaryTraceComparison §2.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1; SmoothRepresentationsOfLocalGroups SR.2.2 (*geometric-lemma*), SR.5.2 (*segment-representations*); ClassFieldTheory Layers 11 and 13; HermitianFormsAndLattices §3.1.
 
 ## Layer 14: Local–global compatibility away from the coefficient prime
 
@@ -849,18 +853,23 @@ This statement extends Layer AG2.7 of AutomorphicGaloisRepresentationsPartII to 
 
 Let `E/E⁺` be a CM extension with `[E⁺:ℚ] ≥ 2`, `V` a Hermitian space over `E`
 of dimension `n`, definite at every infinite place, and `Π` an automorphic representation of `U(V)(𝔸_{E⁺})` whose
-archimedean component is the algebraic representation of dominant weight `λ`. Let
+archimedean component is algebraic: for every embedding `τ : E → ℂ`, with `v` the place of `E⁺` below it, `Π_v` is the
+restriction to `U(V)(E⁺_v) ⊂ GL(V ⊗_{E,τ} ℂ) ≅ GL_n(ℂ)` of the irreducible algebraic representation of dominant highest weight
+`λ_τ ∈ ℤⁿ`. Then `λ_{τ∘c} = −w₀λ_τ`, where `w₀λ = (λ_n, …, λ_1)` (on `U(V)(E⁺_v)` the two embeddings above `v` give complex
+conjugate, hence dual, representations). Let
 `BC(Π) = ⊞_i Speh(π_i, d_i)` be its weak base change to `GL_n(𝔸_E)` (EndoscopicTransferAndUnitaryTraceComparison
 §6.29), with `π_i` conjugate self-dual cuspidal of `GL_{n_i}`, `Σ n_i d_i = n`. Then for every `ℓ` and `ι` the
 representation
 `r_{ℓ,ι}(Π) = ⊕_i ⊕_{j=0}^{d_i−1} r_{ℓ,ι}(π_i ⊗ |det|^{s_{ij}})`, `s_{ij} = (d_i − 1)/2 − j − (n − n_i)/2`,
 where `π_i ⊗ |det|^{s_{ij}}` is regular algebraic (the `j`-th block `π_i ⊗ |det|^{(d_i−1)/2−j}` of the Speh segment has as
-infinitesimal character a sub-multiset of that of `BC(Π)_∞`, which is `λ + ρ`, regular, with entries in `ℤ + (n − 1)/2`;
+infinitesimal character a sub-multiset of that of `BC(Π)_∞`, which at `τ` is `λ_τ + ρ`, regular, with entries in `ℤ + (n − 1)/2`;
 moving it from the normalisation of `GL_n` to that of `GL_{n_i}`, the twist by `|det|^{−(n−n_i)/2}`, shifts that sub-multiset
 by `−(n − n_i)/2`, so the infinitesimal character of `π_i ⊗ |det|^{s_{ij}}` has distinct entries in `ℤ + (n_i − 1)/2`), is
 continuous and semisimple, unramified at every place `w ∤ ℓ` at which `BC(Π)_w` is
 unramified, with `ι det(X − r(Frob_w)) = P_w(BC(Π)_w; X)`, de Rham at every `w ∣ ℓ` with labelled weights
-`{a_{τ,i} + n − i}` for the base-changed weight `a` of `λ`, and crystalline at `w ∣ ℓ` where `BC(Π)_w` is unramified.
+`{a_{τ,i} + n − i} = {j − 1 − λ_{τ,j} : 1 ≤ j ≤ n}`, and crystalline at `w ∣ ℓ` where `BC(Π)_w` is unramified. Here `a` is the
+weight of `BC(Π)` in the sense of AutomorphicGaloisRepresentationsPartII AG2.0 (the infinitesimal character of `BC(Π)_∞` at `τ`
+is that of `Ξ_a^∨`): `a_τ = −w₀λ_τ = (−λ_{τ,n}, …, −λ_{τ,1})`, equivalently `a_τ = λ_{τ∘c}`, so that `a ∈ (ℤⁿ)_0`.
 It differs from AutomorphicGaloisRepresentationsPartII AG2.7 *Unitary discrete-parameter export*, which concerns the quasi-split unitary datum of [CS],
 Corollary 5.5.5 with two blocks and no comparison at `ℓ`: here the group is compact at infinity, any number of
 Speh blocks occurs with all their twists, and the comparison at `ℓ` (de Rham with the labelled weights, AutomorphicGaloisRepresentationsPartII AG2.6 *Polarized admissibility at the coefficient prime*) holds for every block.
@@ -868,7 +877,9 @@ For the definite unitary group of PotentialAutomorphyInfrastructurePartII §3.1 
 Hermitian form over a CM extension unramified at every finite place) and `ℓ` odd with every place of `E⁺` above it
 split in `E`, `r_{ℓ,ι}(Π)` is the representation that §3.6 of that roadmap attaches to the finite part of `Π`, built by
 the same route (both are semisimple with the same characteristic polynomials of Frobenius at the split places at which
-`BC(Π)` is unramified); 16.1 adds every Hermitian space definite at every infinite place over every CM extension with
+`BC(Π)` is unramified). §3.6 takes `Π_∞ ≅ ξ_{ιλ}^∨`, the dual of the representation of highest weight `λ`, so its `λ` at an
+embedding `τ` of its `Ĩ_l` is `−w₀λ_{ι∘τ} = a_{ι∘τ}` in the notation here, and its labelled weights `{λ_{τ,j} + n − j}` are
+the ones above. 16.1 adds every Hermitian space definite at every infinite place over every CM extension with
 `[E⁺:ℚ] ≥ 2`, every `ℓ`, the explicit twists `s_{ij}` of the Speh blocks, the polynomial `P_w(BC(Π)_w; X)` at every
 `w ∤ ℓ` at which `BC(Π)_w` is unramified, not only at the split ones, and the comparison at every `w ∣ ℓ`.
 
@@ -887,6 +898,12 @@ coefficient prime*; EndoscopicTransferAndUnitaryTraceComparison §6.29; Automorp
   `P_w = (X − q)(X − 1)`, and `r = 1 ⊕ ε_ℓ^{−1}`, with labelled weights `{0, 1}` (`HT(ε_ℓ^{−1}) = 1`). The
   representation `1 ⊕ ε_ℓ` would have polynomial `(X − 1)(X − q⁻¹)`.
 - One copy per Speh block instead of `d_i` twisted copies gives the wrong dimension.
+- `n = 1`, `U(V)` the norm-one torus of `E/E⁺`, and `Π_v(z) = τ(z)^m` on `U(V)(E⁺_v) = {z ∈ E_v^× : zz^c = 1}` for `τ` above `v`,
+  so `λ_τ = m` and `λ_{τ∘c} = −m` (`(τ∘c)(z) = τ(z)⁻¹` there): `BC(Π)(x) = Π(x/x^c)` has archimedean component
+  `τ(x)^m (τ∘c)(x)^{−m}`, of weight `a_τ = −m`, `a_{τ∘c} = m` (AutomorphicGaloisRepresentationsPartII AG2.0: weight `a` for the
+  infinity type `∏_σ σ(x)^{−a_σ}`), so `HT_τ = {−m}` and `HT_{τ∘c} = {m}`, as the formula above gives. Reading `a_τ = λ_τ`
+  would give the dual weights `{m}` and `{−m}`, and base change of weights by restriction of embeddings would give
+  `a_τ = a_{τ∘c} = m`, outside `(ℤ¹)_0` for `m ≠ 0`, although `BC(Π)` is conjugate self-dual.
 - `λ = 0` is not regular, while `λ + ρ` is: the regularity used is that of the infinitesimal character.
 - The shift in the trivial example: `λ + ρ = {1/2, −1/2}`, the blocks before the shift are `|·|^{1/2}`, `|·|^{−1/2}` (entries
   `1/2`, `−1/2`), and after it `s_{10} = 0`, `s_{11} = −1`: the trivial character and `|·|^{−1}` of `GL_1`, with integral
@@ -920,7 +937,7 @@ In this family, ThetaLiftsForDefiniteUnitaryGroups uses 6.3a for the splitting d
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
-§2.10: the orbital integrals of pseudo-coefficients of discrete series and the sum of the discrete series characters of a packet on the compact Cartan (13.8a). §2.16: local constancy of the Harish-Chandra character near regular semisimple elements. §6.3: a Hecke character of an imaginary quadratic field extending the quadratic character of that field over `ℚ`, the case of the first Check of 6.3a. §6.12: local cyclic base change of prime degree, with the lift of a supercuspidal representation supercuspidal or the induction of the orbit of its distinct conjugates of lower rank, and its Checks for unramified principal series. §6.24: all-place compatibility of global cyclic base change of prime degree, with its self-twist alternative. §6.29: weak base change from unitary groups to isobaric sums of Speh blocks, for `[E⁺:ℚ] ≥ 2`. §10.1: the normalisation. §10.20: functoriality of `σ_ss` (restriction under base change, additivity over normalised induction, rank one). §10.21: a unique supercuspidal representation with given irreducible semisimple parameter of finite inertia image. §10.23: the segment rule. §10.25: special-block factors and conductors. §10.26: `LLC_WD`, a bijection onto Frobenius-semisimple Weil–Deligne classes, equal to `σ_ss` with `N = 0` on supercuspidal representations. §10.27: the Deligne–Henniart twist formula on the Weil side. §10.28: central characters, duals and pair factors on supercuspidal representations. §10.29: factors through Langlands data. §10.30: the identification `LLC_WD = C_geo` (10.30), with the dual, twist and determinant properties it gives `LLC_WD` (10.29a), the identities of standard and pair factors and conductors, and the compatibility of `rec` with twists.
+§2.3(c): Harish-Chandra's formula for the characters of discrete series on the compact Cartan (13.8a). §2.16: local constancy of the Harish-Chandra character near regular semisimple elements. §6.3: a Hecke character of an imaginary quadratic field extending the quadratic character of that field over `ℚ`, the case of the first Check of 6.3a. §6.12: local cyclic base change of prime degree, with the lift of a supercuspidal representation supercuspidal or the induction of the orbit of its distinct conjugates of lower rank, and its Checks for unramified principal series. §6.24: all-place compatibility of global cyclic base change of prime degree, with its self-twist alternative. §6.29: weak base change from unitary groups to isobaric sums of Speh blocks, for `[E⁺:ℚ] ≥ 2`. §10.1: the normalisation. §10.20: functoriality of `σ_ss` (restriction under base change, additivity over normalised induction, rank one). §10.21: a unique supercuspidal representation with given irreducible semisimple parameter of finite inertia image. §10.23: the segment rule. §10.25: special-block factors and conductors. §10.26: `LLC_WD`, a bijection onto Frobenius-semisimple Weil–Deligne classes, equal to `σ_ss` with `N = 0` on supercuspidal representations. §10.27: the Deligne–Henniart twist formula on the Weil side. §10.28: central characters, duals and pair factors on supercuspidal representations. §10.29: factors through Langlands data. §10.30: the identification `LLC_WD = C_geo` (10.30), with the dual, twist and determinant properties it gives `LLC_WD` (10.29a), the identities of standard and pair factors and conductors, and the compatibility of `rec` with twists.
 
 ### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
 
