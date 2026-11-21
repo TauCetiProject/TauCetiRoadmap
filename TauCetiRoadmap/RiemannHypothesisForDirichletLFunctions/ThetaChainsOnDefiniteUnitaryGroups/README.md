@@ -451,7 +451,11 @@ above `3`, which is its own conjugate, and no `𝔟` as in (f) exists.
 
 *KNOWN* (construction). The spaces and the lemma: [FormalProof], `Formalism/LocalRingCardinality/DataSpaces.lean`
 (`Formalism.BasicNotions.Spaces`), `Formalism/LocalRingCardinality/Params.lean` (`Formalism.BasicNotions.Ranks.sigY0`),
-`Formalism/LocalRingCardinality/DataHost.lean` (`Formalism.BasicNotions.Host.xi0`).
+`Formalism/LocalRingCardinality/DataHost.lean` (`Formalism.BasicNotions.Host.xi0`). There the skew element is
+`−1/(N(𝔠)·√−d)` for a nonzero ideal `𝔠` of `𝒪_K` carried by the host, and the identity of (f) holds for it with `𝔠𝒪_E·𝔞₀` in
+place of `𝔞₀`; the construction takes `𝔠 = 𝒪_K`
+(`Development/AbelianVarietyTheory/Definitions/GlobalTwisting/PairRowIffQdRows.lean` (`GlobalTheory.EX.HostVal`)), which
+gives `δ_T` and `𝔞₀` of (f), and a general `𝔠` gives the skew element `δ_T/N(𝔠) ∈ ℚ_{>0}·δ_T` that 2.2a allows.
 *Needs:* FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, 2.1; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2;
 NumberFieldArithmetic (Completed; the different in towers).
 
@@ -1480,7 +1484,7 @@ Forms of the weights of 2.3 on the definite groups `U(X_j)`, written as function
 functions of CM abelian varieties attached to pairs of self-dual lattices; the step operators, defined as class sums of
 jets of these theta functions, and identified with class-set theta lifts for a definite pair in the homomorphism model;
 the chain lift, its level structure at `T(u)`, its integral structures and its period against forms on `U(X^h)`.
-Throughout, `𝕎_j := Hom_E(X_{j−1}, X_j)`, `𝕃` is the coefficient field of 2.6 read in `ℂ` through `σ₀`, Hermitian
+Throughout, `𝕎_j := Hom_E(X_{j−1}, X_j)`, `𝕃` is the field of places of 2.6 read in `ℂ` through `σ₀`, Hermitian
 products are conjugate-linear in the first variable, and the host satisfies the hypotheses of Layer 2. Classes of the
 definite groups are written `𝒸, 𝒸′`, with representatives `t_𝒸`, stabilisers `Γ_𝒸` and class lattices `L_𝒸`.
 
