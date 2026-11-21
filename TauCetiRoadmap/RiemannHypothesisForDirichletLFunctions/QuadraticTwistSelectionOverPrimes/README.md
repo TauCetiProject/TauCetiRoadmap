@@ -51,6 +51,8 @@ The sections 2.7a–2.7d average Jacobi symbols over the primes of one residue c
 **(i) Reciprocity on a residue class.** Let
 `8 ∣ m₀`, `gcd(a₀, m₀) = 1` and `n ≥ 1`. There is `ε = ε(m₀, a₀, n) ∈ {1, −1}` such that every prime
 `q ≡ a₀ (mod m₀)` with `q ∤ n` satisfies `(n/q) = ε · (q / s_{m₀}(n))`.
+ClassicalArithmeticCompletion §1.70 at `K = ℚ` gives the neighbouring fact that `(n/q)` depends only on `q` modulo
+`8n`; (i) makes this dependence explicit on a class modulo `m₀`.
 
 **(i′) The form of the formal proof.** The same for the primes `q ≡ a₀ (mod m₀)` with `q > n`. The statement (i), for
 every prime `q ∤ n` of the class, is this roadmap's generalisation, proved by the sketch below; [FormalProof] proves
@@ -90,7 +92,9 @@ the set `P = P(m₀, a₀; U)` satisfies
   `|Σ_{q∈P} (q/s)| ≤ Y^(−B) |P|`; equivalently, there is an integer `s*` such that every such `s ≠ s*` satisfies it.
 
 The constant `c` is absolute and effective; `C₁` and `Y₀` depend only on `A, B`. No upper bound on `U` or `m₀` is
-needed.
+needed. (β) is a pointwise analogue, for `X₂ = P`, of the Koymans–Pagano normalized row mean of
+SieveMethodsAndPrimePatterns §2.7: for the set `X₁` of odd primes `p ≤ Y^A` prime to `m₀`, reciprocity (`q mod 4` is
+fixed on `P`) turns (β) into `Σ_{p∈X₁} |Σ_{q∈P} (p/q)| ≤ |P| (1 + |X₁| Y^(−B))`.
 
 **(iii′) The form of the formal proof.** For `ε, A, B > 0` there is `Y₀`, depending only on `ε, A, B`, such that for
 every `Y ≥ Y₀`, every `m₀` with `8 ∣ m₀`, every `a₀` coprime to `m₀` and every `U` with
@@ -129,7 +133,8 @@ for `Y ≥ Y₀` (by the hypothesis on `U`, `log U/log M ≥ C₁ log Y/max(A, 1
 
 *The surviving exceptional term.* Let `χ₁` equal `(·/s)` on the class of `1`. If `1 − β₁ ≥ c₀/log(m₀Y^A)`, the bound
 `Li(U^β) ≤ 3 U^(β−1) Li U` for `β ≥ 1/2` and `U ≥ U₀` (from `Li(U^β) ≤ (1 + o(1)) U^β/(β log U)` and
-`Li U ≥ U/log U − O(1)`) bounds the surviving term by
+`Li U ≥ U/log U − O(1)`, both by the bounds for `Li x − x/log x` of ExplicitPrimeCounting §0.3a) bounds the surviving
+term by
 `3 e^(−c₀ log U/log(m₀Y^A)) Li U/φ(m₀) ≤ 3 Y^(−c₀C₁/max(A,1)) Li U/φ(m₀)`, which non-depletion puts below `Y^(−B)|P|/2`
 once `C₁` is large. Call `s` bad in the remaining case, `1 − β₁ < c₀/log(m₀Y^A)`. Two bad `s₁, s₂` have exceptional
 characters with zeros above `1 − c₀/log(m₀Y^A)`, so by AnalyticNumberTheoryPartI §0.17 (Page's theorem across moduli, `c₀ ≤ 3c_star/2`) they are
@@ -160,7 +165,8 @@ The relative form of the error is what allows `|P|` itself to be small.
   `Li U ≤ 3 Li U`; at `β = 1/2`, `Li(√U) ∼ 2√U/log U` against `3U^(−1/2) Li U ∼ 3√U/log U`. The leading terms have the
   ratio `1/(3β)`, so no constant below `2` would do.
 
-*Needs:* 2.7a (i)–(ii); RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii); AnalyticNumberTheoryPartI §§0.12, 0.17, 0.34a.
+*Needs:* 2.7a (i)–(ii); RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii); AnalyticNumberTheoryPartI §§0.12, 0.17, 0.34a;
+ExplicitPrimeCounting §0.3a.
 
 **(iv) Exception-free form.** Prove `abs_sum_jacobiSym_primes_le`. There are absolute `L, c, C` such
 that for `8 ∣ m₀`, `a₀` coprime to `m₀`, and every odd squarefree `s > 1` coprime to `m₀` with `m₀s ≤ U^(1/L)`,
@@ -168,16 +174,21 @@ that for `8 ∣ m₀`, `a₀` coprime to `m₀`, and every odd squarefree `s > 1
 |Σ_{q∈P(m₀,a₀;U)} (q/s)| ≤ C |P(m₀,a₀;U)| (e^(−c log U/log(m₀s)) + e^(−c√log U)) ,     |P(m₀,a₀;U)| ≥ U/(3φ(m₀) log U) .
 ```
 This statement is this roadmap's own corollary, through the exclusion of Landau–Siegel zeros, and not a statement of
-[FormalProof]; 2.7b–2.7d use only the form with one exceptional modulus, (iii) and (iii′).
+[FormalProof]; 2.7b–2.7d use only the form with one exceptional modulus, (iii) and (iii′). For `m₀ = 8` the sum over the
+four classes modulo `8` is the sum of AnalyticNumberTheoryPartI §0.28 for `D = (−1)^((s−1)/2) s` over the primes of
+`(√U, U]`, which that target bounds over all primes of an interval, with an absolute error and no condition on the
+conductor, while (iv) restricts it to one class modulo `m₀` with a relative error; for `m₀s ≤ (log U)^B` the weaker
+saving `(log U)^(−A)` already follows from AnalyticNumberTheoryPartI §0.32.
 
 *Proof sketch.* As (iii) with RieszSumsOverPrimesAndExceptionalZeros §1.7b (iv) in place of RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii): there is no exceptional term, so no `s*` and no
 depletion.
 
 **Checks.**
 
-- The saving must contain `e^(−c√log U)`: for `m₀ = 8` and `s = 3` a bound `e^(−c log U/log(m₀s))` alone would be a
-  power saving `U^(−c′)` for `Σ_{q≤U, q≡a₀(8)} (q/3)`, which would need a zero-free strip for the characters
-  modulo `24`.
+- Without a zero-free strip the saving must contain `e^(−c√log U)`: for `m₀ = 8` and `s = 3` a bound
+  `e^(−c log U/log(m₀s))` alone would be a power saving `U^(−c′)` for `Σ_{q≤U, q≡a₀(8)} (q/3)`, which would need a
+  zero-free strip for the characters modulo `24`; such a strip is stated in QuasiRiemannHypothesis §10.7 and is not
+  used here.
 
 *Needs:* 2.7a (i)–(ii); RieszSumsOverPrimesAndExceptionalZeros §1.7b (iv) (which rests on AnalyticNumberTheoryPartI §0.34).
 
@@ -216,6 +227,9 @@ at most `2B² + 2B·RR`.
 ```text
 Σ_{q∈P(m₀,a₀;U)} |S_{Y^(L₁)}(y; q, κ)|² ≤ C · y log y · |P(m₀, a₀; U)| .
 ```
+AnalyticNumberTheoryPartII §5.29 (Heath-Brown's quadratic large sieve, in its square-pair form), restricted to the
+moduli `q ∈ P(m₀, a₀; U)`, gives this bound up to a factor `U^ε·U/|P(m₀, a₀; U)|`; on the primes of one class (ii)
+has no such loss.
 
 **(ii′) The form of the formal proof.** There is an absolute `C` such that for `0 < ε ≤ 1` and `K ≥ 1` there is `Y₀`
 with: for `Y ≥ Y₀`, `(m₀, a₀, U)` satisfying the size hypotheses with exponent `ε` (Conventions), and every prime
@@ -235,7 +249,7 @@ each prime dividing `m₀` at most `3 log y`, and there are at most `Y^a ≤ y^a
 `2a < 1`; `B² ≪ log² y`; `B·RR ≪ √y log y + y^a log² y`; and `η(Σ_{n≤Z} c_y(n))² ≤ Y^(−(K+1))(C y L₁ log Y)² ≪ y` by
 Mertens, since `y ≤ Y^K`. The bound is uniform in `κ`; the trivial bound is `(y log Z)² |P|`.
 
-*Needs:* 2.7b (i), 2.7a (iii); AnalyticNumberTheoryPartI §0.11; Mathlib `Chebyshev.psi_le_const_mul_self`.
+*Needs:* 2.7b (i), 2.7a (iii); AnalyticNumberTheoryPartI §§0.11–0.11a; Mathlib `Chebyshev.psi_le_const_mul_self`.
 
 **(iii) From one point to a window.** Let `P` be a finite set,
 `2 ≤ Y ≤ X`, `M ≥ 0`, and for `q ∈ P` let `f_q, g_q : [Y, X] → ℂ` with `g_q` integrable and
@@ -292,13 +306,16 @@ coprime to `m₀`, every `U` and `F`, and every set `Ξ` of at most `R` primitiv
 C₁ log Y · (log m₀ + log Y) ≤ log U,     1 ≤ F ≤ U^(1/2),     log(FU) ≤ Y^b,     #{p ∣ m₀ prime : p ≤ Y^(K/δ₀)} ≤ Y^a,
 ```
 then `P = P(m₀, a₀; U)` is nonempty and all but at most `η|P|` primes `q ∈ P` satisfy, for every `ξ ∈ Ξ` and the
-primitive character `χ` inducing `ξ·(·/q)` (of conductor `cond(ξ)·q`):
+primitive character `χ` inducing `ξ·(·/q)` (of conductor `cond(ξ)·q` by ClassicalArithmeticCompletion §§1.5–1.6, as
+`q > F ≥ cond(ξ)`):
 
 - (a) `L(s, χ) ≠ 0` for `Re s > 1 − δ₀` and `|Im s| ≤ FU`;
 - (b) `|(L′/L)(1, χ)| ≤ ((2 + ε)/δ₀) log log(FU) + C₂`;
 - (c) `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`.
 
-The values `b = 1/5`, `a = 1/4` are one admissible choice.
+The values `b = 1/5`, `a = 1/4` are one admissible choice. Clause (a), and (a′) below, also hold for every `q ∈ P` and
+every `ξ ∈ Ξ` by QuasiRiemannHypothesis §10.7 (no Dirichlet `L`-function vanishes in `Re s > 11/12`, and
+`1 − δ₀ > 11/12`); the route below does not use it.
 
 ***The form of the formal proof.*** Prove `twistSelection_fixedWidth`. The box width is `1/400`. There are absolute
 constants `C > 0` and `C₂` such that for `0 < ε ≤ 1/4`, `K ≥ 1`, `τ > 0`, `η > 0` and `R ∈ ℕ` there is `Y₀`, depending
@@ -361,7 +378,7 @@ count); apply the case `8 ∣ m₀` to each and add.
   `b = 0.299` leaves the room `0.002`, `b = 0.301` none). The constraint `a < 1/2` is what the route needs: 2.7b (ii)
   needs `(Y^a log y)² ≪ y log y` on `[Y, Y^K]`, which fails at `y = Y` for `a = 1/2` by a factor `log Y`.
 
-*Needs:* 2.7a (iii), 2.7b (iv); RiemannHypothesisStatementsAndConsequences §8.4a (b) (the remainder `G_χ` of (c)); RieszSumsOverPrimesAndExceptionalZeros §1.4e (with its corollary), RieszSumsOverPrimesAndExceptionalZeros §1.4f; AnalyticNumberTheoryPartI §§0.11, 1.7.
+*Needs:* 2.7a (iii), 2.7b (iv); RiemannHypothesisStatementsAndConsequences §8.4a (b) (the remainder `G_χ` of (c)); RieszSumsOverPrimesAndExceptionalZeros §1.4e (with its corollary), RieszSumsOverPrimesAndExceptionalZeros §1.4f; AnalyticNumberTheoryPartI §§0.11–0.11a, 1.7; ClassicalArithmeticCompletion §§1.5–1.6.
 
 ### 2.7d Twisting by two primes chosen in succession
 
@@ -405,7 +422,8 @@ below, with (a′)–(c′) in place of the general statement of 2.7c.
 
 *Proof sketch.* 2.7c on `P(m₁, a₁; U₁)` with `Ξ = Ξ₀` gives the pairs `(i, j) = (1, 0)`. For a good `q`, 2.7c on
 `P(m₂(q), a₂(q); U₂)` with `Ξ = {primitive characters inducing ξ·(·/q)^a : ξ ∈ Ξ₀, a ∈ {0, 1}}` (at most `2|Ξ₀|`
-characters, conductor `≤ N₀q`) gives `(0, 1)` and `(1, 1)`. The threshold of 2.7c does not depend on the
+characters, conductor `≤ N₀q` by ClassicalArithmeticCompletion §§1.5–1.6, as `q > √U₁ ≥ N₀`) gives `(0, 1)` and
+`(1, 1)`. The threshold of 2.7c does not depend on the
 progression, so it is uniform in `q`. For (ii), 2.7c asks of its characters only that their conductors be at most `F`
 (this is where `d > √U₂ ≥ F` makes `d` the largest prime factor of each twisted conductor): those of the first step
 have conductor `≤ N₀ ≤ F₁`, those of the second `≤ N₀q ≤ F₂(q)`; its conclusion (a) has the height `FU`, and its
@@ -433,13 +451,14 @@ constants do not depend on `F`. So the same two applications, with `F = F₁` an
   of `m₂(q)` are `2`, the odd `p ≤ z = Y^(ε/5)` and `q > e^{z/2} > Y^(400K)`; and `log(N₀U₁) = log N₀ + z ≤ z(log Y)²/2`.
   With `z′ = z(log Y)²` the second step is also admissible at `ε₂ = ε`.
 
-*Needs:* 2.7c.
+*Needs:* 2.7c; ClassicalArithmeticCompletion §§1.5–1.6.
 
 ### Analytic requirements
 
 2.7a (iii) uses the prime number theorem in progressions in its relative form, with the exceptional term and both
 exponentials `e^(−c log U/log M) + e^(−c√log U)`; a bound with the first exponential alone would be a power saving
-for a fixed modulus, which needs a zero-free strip for the characters of that modulus, and is not available. The
+for a fixed modulus, which needs a zero-free strip for the characters of that modulus; such a strip is stated in
+QuasiRiemannHypothesis §10.7 and is not used here. The
 window passage of 2.7b (iii) needs the mean square of the derivative, hence the mean square of 2.7b (ii) for all
 coefficient sequences bounded by `1`, not only for one.
 
@@ -449,7 +468,7 @@ These are worked in the Checks above. At `m₀ = 8`, `a₀ = 3`: for `n = 2`, `s
 
 ### Dependencies
 
-AnalyticNumberTheoryPartI §§0.11, 0.12, 0.17, 0.34a, 1.7; RiemannHypothesisStatementsAndConsequences §8.4a (b); RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f; RieszSumsOverPrimesAndExceptionalZeros §1.7b; Mathlib's Jacobi and Legendre symbols with quadratic reciprocity, the Chinese remainder theorem, Chebyshev's bound, interval integrals and Hölder's inequality, and Dirichlet `L`-functions; Tau Ceti's logarithmic integral.
+AnalyticNumberTheoryPartI §§0.11–0.11a, 0.12, 0.17, 0.34a, 1.7; ClassicalArithmeticCompletion §§1.5–1.6; ExplicitPrimeCounting §0.3a; RiemannHypothesisStatementsAndConsequences §8.4a (b); RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f; RieszSumsOverPrimesAndExceptionalZeros §1.7b; Mathlib's Jacobi and Legendre symbols with quadratic reciprocity, the Chinese remainder theorem, Chebyshev's bound, interval integrals and Hölder's inequality, and Dirichlet `L`-functions; Tau Ceti's logarithmic integral.
 
 ## Downstream consumers
 
@@ -462,13 +481,21 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns the Jacobi symbols over the primes of a residue class (2.7a–2.7d): reciprocity on the class, orthogonality for all but one short modulus, the mean square of quadratic twists of short weighted prime sums over prime moduli and its maximal form on a window, and the selection of primes whose twists have square-root cancellation on a window together with a zero-free box and a bound for `L′/L(1)`. Its sections extend Layer 2 of [SieveMethodsAndPrimePatterns](../../SieveMethodsAndPrimePatterns/README.md) and are numbered 2.7a–2.7d after that layer's §2.7 (quadratic large sieves and real-character means); these ids are this roadmap's own and name no section of SieveMethodsAndPrimePatterns.
 
-Not owned here. SieveMethodsAndPrimePatterns §2.7 owns Heath-Brown's quadratic large sieve and the Jutila, Smith and Koymans–Pagano means, which average a real character over many moduli or over a product of two prime sets with power savings; 2.7a–2.7d average Jacobi symbols over the primes of one residue class against short moduli, through the prime number theorem in progressions, and need no quadratic large sieve. The Bombieri–Vinogradov theorem of SieveMethodsAndPrimePatterns Layer 3 is a different average (over moduli, not over the primes of one class). [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) owns Mertens's theorem, the effective gap for real zeros and the identification of real primitive characters with field characters, Page's theorem across moduli, the uniform exclusion of Landau–Siegel zeros and the log-free zero-density estimate (AnalyticNumberTheoryPartI §§0.11, 0.12, 0.34a, 0.17, 0.34, 1.7). [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) owns the control of smoothed twisted prime sums and of `L′/L(1, χ)` by a zero-free box (RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f) and Gallagher's prime number theorem in progressions in Linnik's range with its exceptional pair (RieszSumsOverPrimesAndExceptionalZeros §1.7b). [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) owns the Riesz remainder of a primitive character (§8.4a (b)), which is `G_χ` here. Although AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly, 2.7a–2.7d are stated in the form with the exceptional term, which they take from RieszSumsOverPrimesAndExceptionalZeros §1.7b; 2.7a (iv) is the exception-free form through AnalyticNumberTheoryPartI §0.34. In this family, ThetaChainsAndFrobeniusPrimeSums uses 2.7c and 2.7d (ii), in the forms 2.7c (a′)–(c′) and 2.7d (ii′) of the formal proof, for the auxiliary primes of its cyclic hosts.
+Not owned here. [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) owns Heath-Brown's quadratic large sieve (AnalyticNumberTheoryPartII §5.29); SieveMethodsAndPrimePatterns §2.7 owns its bilinear corollary and the Jutila mean value lemma, Smith's prime Legendre-symbol estimate and the Koymans–Pagano normalized row mean, which average a real character over many moduli or over a product of two prime sets with power savings; 2.7a–2.7d average Jacobi symbols over the primes of one residue class against short moduli, through the prime number theorem in progressions, and need no quadratic large sieve. The Bombieri–Vinogradov theorem of SieveMethodsAndPrimePatterns Layer 3 is a different average (over moduli, not over the primes of one class). [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) owns Mertens's theorem, the effective gap for real zeros and the identification of real primitive characters with field characters, Page's theorem across moduli, the uniform exclusion of Landau–Siegel zeros and the log-free zero-density estimate (AnalyticNumberTheoryPartI §§0.11–0.11a, 0.12, 0.34a, 0.17, 0.34, 1.7). [ClassicalArithmeticCompletion](../../ClassicalArithmeticCompletion/README.md) owns the primitivity of the Legendre character and of a product of primitive characters of coprime levels (ClassicalArithmeticCompletion §§1.5–1.6), and [ExplicitPrimeCounting](../../ExplicitPrimeCounting/README.md) the bounds for `Li x − x/log x` (ExplicitPrimeCounting §0.3a). [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) owns the control of smoothed twisted prime sums and of `L′/L(1, χ)` by a zero-free box (RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f) and Gallagher's prime number theorem in progressions in Linnik's range with its exceptional pair (RieszSumsOverPrimesAndExceptionalZeros §1.7b). [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) owns the Riesz remainder of a primitive character (§8.4a (b)), which is `G_χ` here. Although AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly, 2.7a–2.7d are stated in the form with the exceptional term, which they take from RieszSumsOverPrimesAndExceptionalZeros §1.7b; 2.7a (iv) is the exception-free form through AnalyticNumberTheoryPartI §0.34. In this family, ThetaChainsAndFrobeniusPrimeSums uses 2.7c and 2.7d (ii), in the forms 2.7c (a′)–(c′) and 2.7d (ii′) of the formal proof, for the auxiliary primes of its cyclic hosts.
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-§0.2: the prime counts in progressions `primeCountAP` and `psiAP`, written `π(x;q,a)` and `ψ(x;q,a)` here (Conventions). §0.11 (Mertens: `Σ_{n≤x} Λ(n)/n = log x + O(1)`), for the size of the truncated prime sums in 2.7b and for 2.7c (b). §0.12 with §0.34a (the effective gap `1 − β ≥ c_ε q^(−1/2−ε)` for a real zero `β ∈ (1/2, 1)` of a real primitive character of conductor `q`, through the identification of such characters with field characters), for the lower bound of `|P|` in 2.7a. §0.17 (two distinct real primitive characters of conductors `N₁, N₂` cannot both have a real zero above `1 − 3c_star/log(N₁N₂)`), as Page's theorem across moduli in 2.7a. §1.7 (log-free zero density `Σ_{q≤Q}Σ*_χ N(σ,T,χ) ≤ C_ε(Q^(5+ε)T^(3+ε))^(1−σ)`), in 2.7c at `σ = 1 − δ₀`, `T = Q`.
+§0.2: the prime counts in progressions `primeCountAP` and `psiAP`, written `π(x;q,a)` and `ψ(x;q,a)` here (Conventions). §§0.11–0.11a (Mertens: `Σ_{n≤x} Λ(n)/n = log x + O(1)`), for the size of the truncated prime sums in 2.7b and for 2.7c (b). §0.12 with §0.34a (the effective gap `1 − β ≥ c_ε q^(−1/2−ε)` for a real zero `β ∈ (1/2, 1)` of a real primitive character of conductor `q`, through the identification of such characters with field characters), for the lower bound of `|P|` in 2.7a. §0.17 (two distinct real primitive characters of conductors `N₁, N₂` cannot both have a real zero above `1 − 3c_star/log(N₁N₂)`), as Page's theorem across moduli in 2.7a. §1.7 (log-free zero density `Σ_{q≤Q}Σ*_χ N(σ,T,χ) ≤ C_ε(Q^(5+ε)T^(3+ε))^(1−σ)`), in 2.7c at `σ = 1 − δ₀`, `T = Q`.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§1.5 (for an odd prime `p` the Legendre character, `quadraticChar (ZMod p)` as a Dirichlet character of level `p`, is primitive) and §1.6 (the product of primitive characters of coprime levels `m`, `n` is primitive of level `mn`), for the conductor `cond(ξ)·q` of the twist `ξ·(·/q)` in 2.7c and for the conductors of the second step in 2.7d.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+§0.3a (for `x ≥ 2`, `x/log² x − 2/log 2 − 2/log² 2 ≤ Li x − x/log x < x/log² x + 2√x/log³ 2 + 16 x/log³ x − 2/log 2`, with `Li` Tau Ceti's `TauCeti.Real.logIntegral`), for the bound `Li(U^β) ≤ 3 U^(β−1) Li U` in the route of 2.7a (iii).
 
 ### From RiemannHypothesisStatementsAndConsequences, a sub-roadmap of this family
 
