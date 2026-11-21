@@ -2,7 +2,7 @@
 
 **Summary.** Fix a prime `p` and the ring of integers `O` of a finite extension `E` of `ℚ_p`, with uniformizer `λ` and residue field `k`. This roadmap bounds the Selmer groups of the twists of a Galois lattice over a number field by characters of `p`-power order, and proves local theorems at the places above `p` with explicit exponents. Its global objects are a number field `F` (with `p` odd or `F` without real places), a free `O`-module `T` of rank `r ≥ 1` with a continuous action of the Galois group of `F` unramified outside a finite set `S` of places containing those above `p` and `∞`, and a local condition above `p` given abstractly: saturated submodules `ℒ_v ⊆ H¹(F_v, T)` containing the torsion, called *balanced* when the ranks `rank ℒ_v − rank H⁰(F_v, T)` over the places above `p` add up to the sum of the ranks `rank H⁰(F_v, T)` over the infinite places. Its local objects are lattices in crystalline representations of `G_K`, for finite extensions `K` of `ℚ_p`, with their Bloch–Kato finite classes `H¹_f`.
 
-The headline theorems are these. (1) If `ℒ` is balanced and neither `T/λT` nor its Tate dual has nonzero invariants under `G_F`, then for finitely many characters `d_j : G_F → ℤ/p^M` trivial on the decomposition groups above `p` and unramified outside a finite set `Q` of places disjoint from `S`, the Selmer groups of the twists of `T` over the group ring `Λ = O[(ℤ/p^M)^J]` (the image of `ℒ_v` above `p`, no condition at the other places of `Q ∪ S`, unramified elsewhere) are the kernels of one square matrix `Φ` with entries in the maximal ideal of `Λ`, naturally in the coefficients; and for every `u ∈ μ_{p^M}(O′)^J`, `O′` the integers of a finite extension `E′` of `E` containing `μ_{p^M}`, the Selmer group of `T ⊗ ψ_u^{−1} ⊗ E′/O′`, `ψ_u = ∏_j u_j^{d_j}`, has length equal to the valuation of a lift of `det Φ` at `(u_j − 1)_j`, both sides infinite when that value is `0`. (2) Let `F` be a CM field and `T_s` finitely many such lattices with balanced conditions, each with `T_s/λT_s` absolutely irreducible, conjugate self-dual up to a power `χ_cyc^{t_s}` of the cyclotomic character, with no invariants of the residual Tate dual at the finite places of `S` not above `p`, and such that one element of `G_{F(μ_{p^∞})}` acts on every `T_s/λT_s` by a scalar `ϑ_s` with `ϑ_s² ≠ 1`. Then for every `ε′ > 0` there is an anticyclotomic character `ψ` of `p`-power order, ramified exactly at a set `Q` of places whose size is bounded independently of `ε′`, such that for every `m` prime to `p` each Selmer group of `T_s ⊗ ψ^m ⊗ E′/O′` has length at most `(ν_s + ε′)·length(O′/p)`, `ν_s` the largest `ν` with `χ_cyc^{t_s·rank T_s} ≡ 1 (mod p^ν)` on `G_F`, and at most `ε′·length(O′/p)` when `T_s/λT_s` is not isomorphic to its twist by `χ̄_cyc^{t_s}`. (3) Let `K₀/ℚ_p` be finite unramified, `K₀ ⊆ K ⊆ K₀(μ_{p^s})` (`s ≥ 2` if `p = 2`), `E` containing the images of the embeddings of `K₀(μ_{p^s})`, and `V` an `E`-representation of `G_K`, crystalline over `K₀(μ_{p^s})`, with all its Hodge–Tate weights in `[−M₀, h₀]` and with `0` not a weight at some embedding `τ` of `K`. Then `p^c·H⁰(K, V/T) = 0` for every stable lattice `T`, where `c = 2 + Σ_u(2s + n₀ + 1 + v_p(u))` over the distinct weights `u` at `τ` and `n₀` is the least integer with `M₀ + h₀ ≤ p^{n₀}(p − 1)`. (4) Let `f : T₁ ↠ T₂` be a surjection of stable lattices in crystalline representations of `G_K`, with `E` containing the images of the embeddings of `K`. If `p` is odd, `K/ℚ_p` is unramified and the weights of `T₁` at the embedding `i` lie in `[−M_i, h_i]` with `M_i, h_i ≥ 0`, then `p^{e°}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with an explicit `e° ≤ 23(2 + H/p + log_p(H + 1))`, `H = max_i(M_i + h_i)`, and `e° = 0` when `max_i M_i + max_i h_i ≤ p − 2`. If `K` lies in `ℚ_p(μ_{lcm(p,N)})` (`4 | N` if `p = 2`), `E ⊇ μ_{lcm(p,N)}`, and the weights of `T₁` lie in `[−h, h]`, the same holds with the exponent `32(2h·s_N + 1) + s_N + ⌊log_p 2h⌋ + ⌊log_p N⌋ + 1`, `s_N = max(1, v_p(N))`.
+The headline theorems are these. (1) If `ℒ` is balanced and neither `T/λT` nor its Tate dual has nonzero invariants under `G_F`, then for finitely many characters `d_j : G_F → ℤ/p^M` trivial on the decomposition groups above `p` and unramified outside a finite set `Q` of places disjoint from `S`, the Selmer groups of the twists of `T` over the group ring `Λ = O[(ℤ/p^M)^J]` (the image of `ℒ_v` above `p`, no condition at the other places of `Q ∪ S`, unramified elsewhere) are the kernels of one square matrix `Φ` with entries in the maximal ideal of `Λ`, naturally in the coefficients; and for every `u ∈ μ_{p^M}(O′)^J`, `O′` the integers of a finite extension `E′` of `E` containing `μ_{p^M}`, the Selmer group of `T ⊗ ψ_u^{−1} ⊗ E′/O′`, `ψ_u = ∏_j u_j^{d_j}`, has length equal to the valuation of a lift of `det Φ` at `(u_j − 1)_j`, both sides infinite when that value is `0`. (2) Let `F` be a CM field and `T_s` finitely many such lattices with balanced conditions, each with `T_s/λT_s` absolutely irreducible, conjugate self-dual up to a power `χ_cyc^{t_s}` of the cyclotomic character, with no invariants of the residual Tate dual at the finite places of `S` not above `p`, and such that one element of `G_{F(μ_{p^∞})}` acts on every `T_s/λT_s` by a scalar `ϑ_s` with `ϑ_s² ≠ 1`. Then for every `ε′ > 0` there is an anticyclotomic character `ψ` of `p`-power order, ramified exactly at a set `Q` of places whose size is bounded independently of `ε′`, such that for every `m` prime to `p` each Selmer group of `T_s ⊗ ψ^m ⊗ E′/O′` has length at most `(ν_s + ε′)·length(O′/p)`, `ν_s` the largest `ν` with `χ_cyc^{t_s·rank T_s} ≡ 1 (mod p^ν)` on `G_F`, in particular at most `ε′·length(O′/p)` when `χ̄_cyc^{t_s·rank T_s} ≠ 1` on `G_F`. (3) Let `K₀/ℚ_p` be finite unramified, `K₀ ⊆ K ⊆ K₀(μ_{p^s})` (`s ≥ 2` if `p = 2`), `E` containing the images of the embeddings of `K₀(μ_{p^s})`, and `V` an `E`-representation of `G_K`, crystalline over `K₀(μ_{p^s})`, with all its Hodge–Tate weights in `[−M₀, h₀]` and with `0` not a weight at some embedding `τ` of `K`. Then `p^c·H⁰(K, V/T) = 0` for every stable lattice `T`, where `c = 2 + Σ_u(2s + n₀ + 1 + v_p(u))` over the distinct weights `u` at `τ` and `n₀` is the least integer with `M₀ + h₀ ≤ p^{n₀}(p − 1)`. (4) Let `f : T₁ ↠ T₂` be a surjection of stable lattices in crystalline representations of `G_K`, with `E` containing the images of the embeddings of `K`. If `p` is odd, `K/ℚ_p` is unramified and the weights of `T₁` at the embedding `i` lie in `[−M_i, h_i]` with `M_i, h_i ≥ 0`, then `p^{e}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with an explicit `e ≤ 23(2 + H/p + log_p(H + 1))`, `H = max_i(M_i + h_i)`. If `K` lies in `ℚ_p(μ_{lcm(p,N)})` (`4 | N` if `p = 2`), `E ⊇ μ_{lcm(p,N)}`, and the weights of `T₁` lie in `[−h, h]`, the same holds with the exponent `32(2h·s_N + 1) + s_N + ⌊log_p 2h⌋ + ⌊log_p N⌋ + 1`, `s_N = max(1, v_p(N))`.
 
 The roadmap extends [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md), which supplies Selmer structures, Selmer complexes, Iwasawa algebras and the Bloch–Kato local condition; it rests on [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md) for Wach lattices and the Herr complex, on [WachLatticesOverTheCyclotomicTower](../WachLatticesOverTheCyclotomicTower/README.md) for the annihilators of the cokernels of Wach lattices, on [PrismaticCohomologyPartIII](../../PrismaticCohomologyPartIII/README.md) for prismatic `F`-crystals, and on [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) for local and global duality and the Greenberg–Wiles formula. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the twist selection and the local bounds feed the congruence bounds of [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md), and the lifting theorems feed the bound with local defects of [LengthBoundsInPadicFamilies](../LengthBoundsInPadicFamilies/README.md).
 
@@ -12,7 +12,7 @@ Layer 3 presents Selmer functors over finite group rings by square matrices, rea
 
 Notation and conventions not restated here are those of [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) (its Conventions and Layers 2–4) and, for Wach lattices and `(φ, Γ)`-modules, those of PhiGammaModulesAndIwasawaCohomology §6.0 and WachLatticesOverTheCyclotomicTower §§6.4–6.10.
 
-`p` is a prime and `O ⊂ E` are the coefficients: `E` is a finite extension of `ℚ_p`, `O` its ring of integers, `λ` a uniformizer and `k` the residue field. `F` is a number field and `S` a finite set of places of `F` containing the places above `p` and `∞`. Condition `(P)` is that of the Conventions of SelmerIwasawaCohomology: `p` is odd or `F` has no real places. For a lattice `T`, `T̄ = T/λT` and `T^† = Hom_O(T, O)(1)`. `χ_cyc` is the `p`-adic cyclotomic character; in the local sections `χ` is the cyclotomic character of `Γ_K`, and `v_p` is the valuation with `v_p(p) = 1`. Hodge–Tate weights are normalised so that `ℚ_p(1)` has weight `−1`. Lengths are lengths of modules over `O`, or over the ring named, and may be infinite.
+`p` is a prime and `O ⊂ E` are the coefficients: `E` is a finite extension of `ℚ_p`, `O` its ring of integers, `λ` a uniformizer and `k` the residue field. `F` is a number field and `S` a finite set of places of `F` containing the places above `p` and `∞`. Condition `(P)` is that of the Conventions of SelmerIwasawaCohomology: `p` is odd or `F` has no real places. For a lattice `T`, `T̄ = T/λT` and `T^† = Hom_O(T, O)(1)` (the lattice Tate dual of EulerSystemsAndKolyvaginSystems §0.2). `χ_cyc` is the `p`-adic cyclotomic character; in the local sections `χ` is the cyclotomic character of `Γ_K`, and `v_p` is the valuation with `v_p(p) = 1`. Hodge–Tate weights are normalised so that `ℚ_p(1)` has weight `−1`. Lengths are lengths of modules over `O`, or over the ring named, and may be infinite.
 
 For a `G_K`-stable lattice `T` in a representation `V` of `G_K`, `K/ℚ_p` finite, `H¹_f(K, V)` is the Bloch–Kato subgroup of SelmerIwasawaCohomology §4.9, `H¹_f(K, T)` is its preimage in `H¹(K, T)` and `H¹_f(K, V/T)` its image in `H¹(K, V/T)` (the `T`- and `W`-conditions of that section).
 
@@ -77,7 +77,9 @@ For `M ≥ 1` put `V_M := {x ∈ F^× : v(x) ≡ 0 (mod p^M) for every finite pl
    `F⁺`, and abelian of exponent dividing `p^M` over `F(μ_{2p^M})`; so `H_M` is open and normal in `G_{F⁺}`, and `z ∈ H_M` by
    (c). Every place `𝔭` of `F` of degree one over `ℚ` and split over `F⁺` (`c𝔭 ≠ 𝔭`), not above `p`, that splits completely
    in `𝒢_M` (hence has `N(𝔭) ≡ 1 (mod 2p^M)`) carries a continuous anticyclotomic `d_𝔭 : G_F → ℤ/p^M`, trivial on the
-   decomposition groups above `p`, unramified outside `{𝔭, c𝔭}` and surjective on the inertia groups at `𝔭` and at `c𝔭`;
+   decomposition groups above `p`, unramified outside `{𝔭, c𝔭}` and surjective on the inertia groups at `𝔭` and at `c𝔭`
+   ([FormalProof] states the existence of such characters at the split places whose decomposition group lies in some open
+   normal subgroup; the governing field is the choice of the route);
 2. (*presentation*) if `ℒ` is balanced and `H⁰(G_F, T̄) = 0 = H⁰(G_F, T̄^†)`, there is a square matrix `Φ ∈ M_{n_Q}(𝔪_Λ)`,
    `n_Q = dim_k Sel_Q(T̄)`, with `Sel_Q(T ⊗ κ^{−1} ⊗ B) ≅ ker(Φ : B^{n_Q} → B^{n_Q})` naturally in `B`; `det Φ` generates the
    zeroth Fitting ideal of `𝔐_Q := Λ^{n_Q}/(rows of Φ)`, so it is determined by the functor up to a unit of `Λ`. Moreover the
@@ -99,7 +101,8 @@ Let `𝔭` split completely in `𝒢_M`. The map `k_𝔭^×/p^M → C/p^M`, `C =
 injective: an element of the kernel is, up to a `p^M`-th power, the image of some `x ∈ V_M`, which is a `p^M`-th power at
 `𝔭` because `x^{1/p^M} ∈ 𝒢_M`. Since `k_𝔭^×/p^M` is cyclic of order `p^M` and `ℤ/p^M` is self-injective, its image is a direct
 summand of `C/p^M`; class field theory (ClassFieldTheory Layer 13) gives `χ′ : G_F → ℤ/p^M` unramified outside `𝔭`,
-trivial on the decomposition groups above `p` and surjective on `I_𝔭`. Put `d_𝔭 := χ′ − χ′∘c`; as `𝔭` is split over `F⁺`,
+trivial on the decomposition groups above `p` and surjective on `I_𝔭` (it factors through the `p`-ray extension `F(𝔭)/F` of
+EulerSystemsAndKolyvaginSystems §1.1, totally ramified at `𝔭` over `F(1)`). Put `d_𝔭 := χ′ − χ′∘c`; as `𝔭` is split over `F⁺`,
 `c𝔭 ≠ 𝔭`, so `d_𝔭` restricts to `χ′` on `I_𝔭` and to `−χ′∘c` on `I_{c𝔭}`. (3) Left exactness and the finiteness
 condition make `𝔉` pro-representable on torsion modules, `𝔉 = Hom_{Λ′}(𝔐, −)` with `𝔐` generated by `n_𝔉` elements; the
 number of relations of a minimal presentation of `𝔐` is `dim Ext¹(𝔐, k′)`, which is the cokernel of `𝔉(I) → 𝔉(I/k′)` for an
@@ -124,8 +127,9 @@ injective (`Z¹_ℒ ⊗ B → C¹ ⊗ B` is, by the same torsion-freeness), so S
 Selmer group (`H⁰(G_F, T ⊗ B) = 0`), and the long exact sequence puts `coker(𝔉(B) → 𝔉(B″))` inside the obstruction space
 over `k`, of dimension `dim Sel_Q(T̄) = dim_k 𝔉(k)`. So (3) applies: `𝔉 = Hom_Λ(𝔐_Q, −)` on torsion modules with
 `𝔐_Q = Λ^{n_Q}/(rows of Φ)` (a vector `ξ ∈ B^{n_Q}` defines a map `𝔐_Q → B` exactly when `Φξ = 0`); the zeroth Fitting ideal of a
-finitely presented module does not depend on the presentation, and two generators of a principal ideal of a local ring
-differ by a unit. *The universal cocycle* is the image of the tautological element under the pro-representing isomorphism
+finitely presented module does not depend on the presentation (PadicMeasuresIwasawaAlgebras §6.3, the Fitting ideal of a
+quadratic presentation; §6.5), and two generators of a principal ideal of a local ring differ by a unit. *The universal
+cocycle* is the image of the tautological element under the pro-representing isomorphism
 of (3): passing to the inverse limit over the finite quotients `𝔐_Q/𝔪_Λ^j𝔐_Q` (continuous cohomology with finite
 coefficients commutes with this limit), `Sel_Q(T ⊗ κ^{−1} ⊗ 𝔐_Q) ≅ Hom_Λ(𝔐_Q, 𝔐_Q)`; a cocycle with the class of the identity,
 lifted to a continuous cochain with values in `T ⊗_O Λ^{n_Q} = Hom_Λ(Λ^{n_Q}, T ⊗_O Λ)`, is `Z`. For `ξ ∈ ker(Φ | B^{n_Q})`,
@@ -133,7 +137,8 @@ lifted to a continuous cochain with values in `T ⊗_O Λ^{n_Q} = Hom_Λ(Λ^{n_Q
 class is the one attached to `ξ`; this gives the three properties, and they hold over `A` because the functor on
 `A`-modules is the restriction of the functor on `Λ`-modules. *Needs:* SelmerIwasawaCohomology §§2.6, 2.13, 2.19, 2.21, 2.22, 3.0;
 ArithmeticGaloisDuality §§R02.4.2–R02.4.4, R02.5.1, D7.7.4; ClassFieldTheory Layers 5, 13 (local Euler characteristic; ray
-class fields); Tau Ceti `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_eq_minorsIdeal_ker` (independence of the
+class fields); PadicMeasuresIwasawaAlgebras §§6.3, 6.5 (Fitting ideals of quadratic presentations, in matrix form);
+Tau Ceti `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_eq_minorsIdeal_ker` (independence of the
 presentation) and `Matrix.fittingIdeal_coker_zero_eq_span_det` (the zeroth Fitting ideal of the cokernel of a square matrix is
 generated by its determinant).
 
@@ -162,9 +167,11 @@ above `p`).
 
 *Route.* The `O`-algebra map `sp_u : Λ → O′`, `[e_j] ↦ u_j`, carries `κ^{−1}` to `ψ_u^{−1}`; take `B = E′/O′` with `Λ` acting
 through `sp_u` in 3.22(2): `Sel_Q(T ⊗ ψ_u^{−1} ⊗ E′/O′) = ker(sp_u(Φ))` on `(E′/O′)^{n_Q}`. The kernel of a square matrix over a
-discrete valuation ring on `(E′/O′)^{n_Q}` has length `v′(det)` (Smith normal form), and `det sp_u(Φ) = 𝐅(u − 1)`. The condition
+discrete valuation ring on `(E′/O′)^{n_Q}` has length `v′(det)` (PadicMeasuresIwasawaAlgebras §6.3, the order of the cokernel
+of a square matrix over a PID, applied to the transpose; the kernel on `(E′/O′)^{n_Q}` is its Pontryagin dual), and
+`det sp_u(Φ) = 𝐅(u − 1)`. The condition
 above `p` is the image of `ℒ_v ⊗ B` for every `B`, so it is the same for `T ⊗ ψ_u^{−1}` and `T`: `ψ_u` is trivial there.
-*Needs:* 3.22; Mathlib `Matrix.det`, `Module.length`, Smith normal form over a PID.
+*Needs:* 3.22; PadicMeasuresIwasawaAlgebras §6.3; Mathlib `Matrix.det`, `Module.length`.
 
 **Checks.**
 
@@ -199,13 +206,17 @@ fix `μ_p`. Prove:
    `T̄ ⊗ K[ε]/(ε²)` for the action through `1 + εμ`, with leading part `ω₀`, then `μ(γ)·ω₀(φ) = μ(φ)·ω₀(γ)`;
 3. (*reciprocity*) there are `u_a ∈ k^×` with
    `Σ_a u_a(⟨x(γ_a), y(φ_a)⟩ − ⟨x(cγ_ac^{−1}), y(cφ_ac^{−1})⟩) = 0` for all `x ∈ Sel_Q(T̄)` and `y ∈ Sel_∅(T̄^†)`;
-4. (*choice of Frobenius classes*) (a) `dim_k Sel_∅(T̄) = dim_k Sel_∅(T̄^†)`; (b) for `Λ`, `κ` as in 3.22 (any `J`, `d_j`)
+4. (*choice of Frobenius classes*) (a) `dim_k Sel_∅(T̄) = dim_k Sel_∅(T̄^†)` (core rank `0` in the sense of
+   EulerSystemsAndKolyvaginSystems §0.8, over `k`); (b) for `Λ`, `κ` as in 3.22 (any `J`, `d_j`)
    and every `p`-power-torsion `Λ`-module `B`, restriction to `L` is injective on `H¹(G_F, T ⊗ κ^{−1} ⊗ B)` and on
-   `H¹(G_F, T^† ⊗ κ ⊗ B)`, in particular on `H¹(G_F, T̄)` and `H¹(G_F, T̄^†)`; (c) there is `R ≤ (dim_k Sel_∅(T̄))²` such that
-   for every `L` as above there are `h_1, …, h_R ∈ L` and an open subgroup `L′ ⊆ L`, normal in `G_{F⁺}`, with: whenever each
+   `H¹(G_F, T^† ⊗ κ ⊗ B)`, in particular on `H¹(G_F, T̄)` and `H¹(G_F, T̄^†)`; (c) there is `R` (one may take
+   `R ≤ (dim_k Sel_∅(T̄))²`, by the route) such that for every `L` as above there are `h_1, …, h_R ∈ L` and an open
+   subgroup `L′ ⊆ L`, normal in `G_{F⁺}`, with: whenever each
    `φ_a` lies in the class of `h_a` modulo `L′`, for some `θ⁰ ∈ k^R` the pairing
    `B(x, y) = Σ_a θ⁰_a(⟨x(φ_a), y(φ_a)⟩ − ⟨x(cφ_ac^{−1}), y(cφ_ac^{−1})⟩)` on `Sel_∅(T̄) × Sel_∅(T̄^†)` has left kernel of
-   dimension at most `e`, where `e = 0` if `T̄ ≇ T̄ ⊗ χ̄_cyc^t` and `e = 1` otherwise; in the second case `χ̄_cyc^{tr} = 1`.
+   dimension at most `e`, where `e = 0` if `T̄ ≇ T̄ ⊗ χ̄_cyc^t` and `e = 1` otherwise ([FormalProof] states the clause with
+   `e = 0` when `χ̄_cyc^{tr} ≠ 1` on `G_F` and `e = 1` otherwise; the form here is the case distinction inside its proof); in
+   the second case `χ̄_cyc^{tr} = 1`.
    For every `M`, every such `L`, every `R₁ ≥ R₂ = R` and every `A` there are families in position (at level `M`,
    relative to `z` and `L`) whose second-half Frobenius elements lie in these classes.
 
@@ -230,12 +241,16 @@ containing the torsion, `dim ℒ_v(k) − h⁰(F_v, T̄) = rank ℒ_v − rank H
 duality and (H6). (4b) By (a) and (b) of the normalisation, `z` acts on `T ⊗ κ^{−1} ⊗ B` by `[ϑ]` and on `T^† ⊗ κ ⊗ B` by
 `[ϑ]^{−1}` (`z` fixes `μ_{p^∞}`); `z` is central in `G_F/L`, and inner automorphisms act trivially on cohomology
 (ProfiniteCohomology §2.4), so `[ϑ]^{±1} − 1`, a unit, kills `H¹(G_F/L, (T ⊗ κ^{−1} ⊗ B)^L)` and
-`H¹(G_F/L, (T^† ⊗ κ ⊗ B)^L)`; inflation–restriction (ProfiniteCohomology §5.4) gives (b). (4c) By (b), classes restricted to
+`H¹(G_F/L, (T^† ⊗ κ ⊗ B)^L)`; inflation–restriction (ProfiniteCohomology §5.4) gives (b). This extends the scalar trick of
+EulerSystemsAndKolyvaginSystems §1.6 (b), `L = ker ρ`, to open `L` with `z` central modulo `L` and to twisted torsion
+coefficients. (4c) By (b), classes restricted to
 `L` are `G_F`-equivariant homomorphisms. The four modules `T̄`, `T̄^†`, `T̄∘c`, `T̄^†∘c` are absolutely irreducible; `z` acts
 on them by `ϑ`, `ϑ^{−1}`, `ϑ^{−1}`, `ϑ` (by (H2)), so the only possible isomorphism among them is `T̄ ≅ T̄^†∘c`, which by (H2)
 means `T̄ ≅ T̄ ⊗ χ̄_cyc^t`. If it does not hold, for independent classes `x_a` of `Sel_∅(T̄)` and `y_b` of `Sel_∅(T̄^†)` the
 image of `L` in `⊕T̄ ⊕ ⊕T̄^† ⊕ ⊕T̄∘c ⊕ ⊕T̄^†∘c` spans (Goursat), and polarisation of
-`Σc_{ab}(⟨x_a(h), y_b(h)⟩ − ⟨x_a(chc^{−1}), y_b(chc^{−1})⟩)` shows that the forms `h ↦ (x, y) ↦ ⟨x(h), y(h)⟩ − ⟨x(chc^{−1}), y(chc^{−1})⟩`, `h ∈ L`, span all bilinear forms on `Sel_∅(T̄) × Sel_∅(T̄^†)`; with (a) a nondegenerate combination exists,
+`Σc_{ab}(⟨x_a(h), y_b(h)⟩ − ⟨x_a(chc^{−1}), y_b(chc^{−1})⟩)` shows that the forms `h ↦ (x, y) ↦ ⟨x(h), y(h)⟩ − ⟨x(chc^{−1}), y(chc^{−1})⟩`, `h ∈ L`, span all bilinear forms on `Sel_∅(T̄) × Sel_∅(T̄^†)`
+(cf. EulerSystemsAndKolyvaginSystems §1.6 (a) for one module and §1.23 for prescribed localisation kernels); with (a) a
+nondegenerate combination exists,
 using at most `(dim Sel_∅(T̄))²` of them. If it holds, transport `Sel_∅(T̄^†)` to a subspace `W′ ⊂ H¹(G_F, T̄)` through
 `T̄^† ≅ T̄∘c` and `c`; the invariant pairing `B_A` of `T̄` so obtained satisfies `B_A^T = ηB_A`, `η = ±1` (Schur), and the same
 polarisation shows that the tensors killed by all the forms are the `η`-symmetric tensors on `U = Sel_∅(T̄) ∩ W′`. A form
@@ -276,7 +291,8 @@ kernel of dimension at most `e ∈ {0, 1}`. Let `Φ ∈ M_{n_Q}(𝔪_Λ)` be the
 `e = 0`, every lift `𝐅 ∈ O[X_q : q ∈ 𝔓]` of `det Φ` has a coefficient that is a unit of `O` on a monomial of total degree
 at most `4rR` not involving the variables of the unpaired first-half places; if `e = 1`, either `n_Q = 0` or some entry of the
 adjugate of `Φ` has a lift with a unit coefficient on a monomial of total degree at most `4rR` not involving those
-variables.
+variables. For `e = 0` [FormalProof] states this for families without unpaired first-half places (`R₁ = R`); the form with
+unpaired places is proved by the route below and is used only in 3.26 for families that serve lattices with different `ν_s`.
 
 *Route.* Work over the field `K = k((σ))` of Laurent series in an indeterminate `σ`. For the direction `b_{(2),a} = σ·β_a`,
 `b_{(1),a} = 1 − Σ_{a′}σβ_{a′}d_{𝔭_{a′}^{(2)}}(φ_a)` (with `β_a` the ratio of the reciprocity constants `u_a` of 3.24(3) and the
@@ -309,8 +325,9 @@ variables. *Needs:*
 
 ### 3.25a The determinant bound when `T̄ ≅ T̄ ⊗ χ̄_cyc^t`
 
-Keep the CM data with (H1), (H2), (H5), (H6), and assume `T̄ ≅ T̄ ⊗ χ̄_cyc^t` and `tr ≠ 0`. Let `ν` be the largest integer
-with `χ_cyc^{tr} ≡ 1 (mod p^ν)` on `G_F` (`ν ≥ 1` by 3.24(4c)), `ν_λ := v_λ(p^ν) = ν·e(O/ℤ_p)` and `𝔞_ν := λp^νO = λ^{ν_λ+1}O`.
+Keep the CM data with (H1), (H2), (H5), (H6), and assume `tr ≠ 0` and `χ̄_cyc^{tr} = 1` on `G_F`; this holds whenever
+`T̄ ≅ T̄ ⊗ χ̄_cyc^t`, by 3.24(4c). Let `ν ≥ 1` be the largest integer with `χ_cyc^{tr} ≡ 1 (mod p^ν)` on `G_F`,
+`ν_λ := v_λ(p^ν) = ν·e(O/ℤ_p)` and `𝔞_ν := λp^νO = λ^{ν_λ+1}O`.
 Assume `M ≥ ν + 2` and that the subgroup `L` of 3.24 acts trivially on `T/𝔞_νT` (for instance `L = ker(T/𝔞_νT) ∩ H_M`);
 families in position are relative to `z` and this `L`. For a family `𝔓` in position and `n ≤ p^{M−ν}`, say that `𝔓` has
 `NF(n)` if a lift of `det Φ` (3.22(2) for `Q = 𝔓 ∪ c𝔓`) has a coefficient outside `𝔞_ν`, that is of valuation at most `ν_λ`,
@@ -325,7 +342,9 @@ map `ev : Λ → A` (through which `κ` acts) put `A^∨ := Hom_{ℤ_p}(A, ℚ_p
 `H¹(G_F, T^† ⊗_O A(κ))` that are zero at the finite places of `S ∪ Q` not above `p`, unramified at the other places not above
 `p`, and at `v | p` orthogonal to the image of `ℒ_v ⊗ A^∨` under the local pairing
 `H¹(F_v, T ⊗ A^∨) × H¹(F_v, T^† ⊗ A) → ℚ_p/ℤ_p`; likewise `Sel^*_Q(T^† ⊗ κ ⊗ B′)` for a finite `A`-module `B′`, with `B′^∨` in place of
-`A^∨`. The duality pairing of 3.24 extends to the `A`-bilinear pairing
+`A^∨`. For a self-injective `A` (test data are such rings) this is the `A`-linear dual structure of
+EulerSystemsAndKolyvaginSystems §0.2, through its trace comparison `A^∨ ≅ A`. The duality pairing of 3.24 extends to the
+`A`-bilinear pairing
 `⟨·,·⟩_A : (T ⊗_O A) × (T^† ⊗_O A) → A(1)`, `⟨t ⊗ ζ, s ⊗ ζ′⟩_A := ⟨t, s⟩·ζζ′` (`⟨t, s⟩ ∈ O(1)` the duality of `T` and `T^†`); when `A`
 is killed by `p^M` (as test data are, `M ≥ ν + 2`), it is read as `A`-valued on elements of `G_F` that fix `μ_{p^M}` (a generator of
 `μ_{p^M}` being fixed once).
@@ -353,7 +372,8 @@ Prove:
    place of `𝔓`, whose Frobenius elements act trivially on `T/𝔞_νT` (automatic if they lie in `L`), and `n + 2r ≤ p^{M−ν−1}`,
    then `𝔓′` has `NF(n + 2r)`; the same holds for a unit coefficient, on a monomial not involving the variables of the
    unpaired first-half places, of a lift of an entry of the adjugate of `Φ` (it passes to an entry of the adjugate of `Φ′`) or
-   of `det Φ` (then triviality on `T̄`, which every second-half place has, suffices). No first-half place is added. By
+   of `det Φ` (then triviality on `T̄`, which every second-half place has, suffices); this last case is not a statement of
+   [FormalProof] and is used only in 3.26 for families that serve lattices with different `ν_s`. No first-half place is added. By
    induction, adding `n′` such places one at a time gives `NF(n + 2rn′)` when `n + 2rn′ ≤ p^{M−ν−1}`; for several data as in
    3.22 over the same `F`, `p`, `O`, `S`, `z`, `L`, a place whose Frobenius elements lie in `L` serves all of them;
 3. (*a dual class*) let `A` be a finite `O`-algebra with an `O`-algebra map `ev : Λ → A` (for instance a test datum), `ρ ∈ A^{n_Q}`
@@ -405,7 +425,8 @@ that the coboundary vanishes at them. (iv) *Reciprocity.* For `f ∈ Sel_{Q′}(
 §R02.4.3); the terms vanish above `p` (the dual condition), at the places of `S ∪ Q` not above `p` (`y` is locally a coboundary)
 and away from `S ∪ Q′` (both unramified), and the two remaining ones are `u·⟨f(γ_𝔮), y(φ_𝔮)⟩` and `−u·⟨f(cγ_𝔮c^{−1}), y(cφ_𝔮c^{−1})⟩`
 by the tame formula of 3.24(3) (the sign from `c` acting on `μ_p` by inversion). By Pontryagin duality over the finite ring `C`
-(a vector of `C^{n_{Q′}}` that kills every `C^∨`-valued solution of a matrix is a combination of its rows), the vector
+(a vector of `C^{n_{Q′}}` that kills every `C^∨`-valued solution of a matrix is a combination of its rows; for the
+self-injective `C` this is the biduality of EulerSystemsAndKolyvaginSystems §0.2 with its trace comparison), the vector
 `Σ_c( y(φ_𝔮)_c·Z′(γ_𝔮)_c − y(cφ_𝔮c^{−1})_c·Z′(cγ_𝔮c^{−1})_c )` lies in the row space of the reduction of `ev′(Φ′)`. (v) *The
 determinant.* Suppose `det ev′(Φ′) = 0`. By (iii) and Nakayama (`x₁`, `x₂` nilpotent), `𝔐′` is generated by lifts `ε_b` of the rows
 of `E` (`b ≤ n_Q`) and the `2r` elements `τ_j := ϵ_j·Z′(γ_j)_c`, `j = (𝔮, c)` or `(c𝔮, c)` (`γ_j = γ_𝔮` or `cγ_𝔮c^{−1}`, `ϵ_j = ϵ` or `1`).
@@ -466,10 +487,13 @@ exact, with `𝔑` presented by the two square matrices `N(v)^{−1}κ₁(φ_v)^
 is part of this target (neither library has it): the images of `n` generators of `𝔑` and lifts of `m` generators of `𝔐₁`
 generate `𝔐`; the relations of `𝔑`, and lifts of the relations of `𝔐₁` corrected by elements of the image of `𝔑`, are relations
 of `𝔐` forming a block-triangular matrix, whose minors of size `(n − a) + (m − b)` include the products of the minors of sizes
-`n − a` and `m − b` of the two diagonal blocks. For `a = b = 0`, `det Φ·P_𝔮` is a multiple of `det Φ′|_{X_𝔮=0}`, with
+`n − a` and `m − b` of the two diagonal blocks. For `a = b = 0` (where the inclusion is also
+PadicMeasuresIwasawaAlgebras §6.6, extensions with a quadratically presented quotient, applied to the image of `𝔑`, with §6.5,
+monotonicity under surjections, for `𝔑` itself), `det Φ·P_𝔮` is a multiple of `det Φ′|_{X_𝔮=0}`, with
 `P_𝔮 := ∏_{v=𝔮,c𝔮}det(N(v)^{−1}κ₁(φ_v)^{−1}T(φ_v) − 1)`; for `a = 0`, `b = 1`, every entry of the adjugate of `Φ` times `P_𝔮` is a
 combination of the entries of the adjugate of `Φ′|_{X_𝔮=0}` (the first Fitting ideal of a module presented by a square matrix
-is generated by the entries of its adjugate). The polynomials whose coefficients below a given degree lie in `𝔞_ν` (resp. in
+is generated by the entries of its adjugate: PadicMeasuresIwasawaAlgebras §6.5, Fitting ideals in matrix form, `i = 1`). The
+polynomials whose coefficients below a given degree lie in `𝔞_ν` (resp. in
 `λO`) form an ideal; so it suffices that the product with `P_𝔮` has a coefficient outside `𝔞_ν` (resp. a unit coefficient)
 below degree `n + 2r`. For a unit coefficient on a monomial not involving the variables of the unpaired first-half places
 of `𝔓′` (those of `𝔓` other than `𝔭₁`), first set these variables to `0`: a ring map, which keeps the given monomial of the lift
@@ -485,7 +509,8 @@ degree `n`, and `d₀` the least degree in which it occurs. In degree `d₀ + 2r
 nonzero modulo `λ` since `k[X]` is a domain: a coefficient of valuation exactly `m` in degree `d₀ + 2r < n + 2r`. For `λO` in
 place of `𝔞_ν` the same argument with `m = 0` needs only `φ_𝔮` trivial on `T̄`.
 *Needs:* 3.22, 3.24, 3.25; SelmerIwasawaCohomology §§2.21–2.22; ArithmeticGaloisDuality §§R02.4.3, R02.5.1; Chebotarev (Completed) Layers 10, 14;
-Mathlib `Matrix.adjugate`; Tau Ceti `TauCeti.fittingIdeal` and `TauCeti.fittingIdeal_eq_minorsIdeal_ker`.
+PadicMeasuresIwasawaAlgebras §§6.5, 6.6; Mathlib `Matrix.adjugate`; Tau Ceti `TauCeti.fittingIdeal` and
+`TauCeti.fittingIdeal_eq_minorsIdeal_ker`.
 
 **Checks.**
 
@@ -506,12 +531,12 @@ Let `O₀` be the ring of integers of a finite extension `K₀` of `ℚ_p`, with
 with `v(p) = 1`. Let `D ≥ 0`, `n, s ≥ 1` be integers and `v₀ ≥ 0`, `ε > 0` real. A polynomial of `O₀[X_1, …, X_n]` is *of the first
 kind* (for `D`, `v₀`) if it has a coefficient of valuation at most `v₀` on a monomial of total degree at most `D`. Prove:
 
-1. there is `M₁` such that for every `M ≥ M₁` and all `f_1, …, f_s` of the first kind there are integers `1 ≤ M_q ≤ M` (`q ≤ n`)
-   such that for all roots of unity `u_q` of exact order `p^{M_q}`: `v(u_q − 1) ≤ ε`, `f_j((u_q − 1)_q) ≠ 0` and
-   `v(f_j((u_q − 1)_q)) ≤ v₀ + ε` for every `j`. In particular `u = (u_q) ∈ μ_{p^M}^n`, every `u_q ≠ 1`, and the same holds for
-   `u^m = (u_q^m)_q` for every `m` prime to `p`. `M₁` depends only on `D`, `v₀`, `n`, `s`, `ε`, `p` and `K₀`, not on the polynomials
-   or their degrees. With `k := max_qM_q` and `e_q := k − M_q`, the `u_q` may be taken to be the powers `ζ^{p^{e_q}}` of any primitive
-   `p^k`-th root of unity `ζ`, and `p^{e_q}/φ(p^k) = v(u_q − 1) ≤ ε`;
+1. there is `M₁` such that for every `M ≥ M₁` and all `f_1, …, f_s` of the first kind there are integers `1 ≤ k ≤ M` and
+   `0 ≤ e_q < k` (`q ≤ n`) with `p^{e_q}/φ(p^k) ≤ ε` such that for every primitive `p^k`-th root of unity `ζ`, at
+   `u_q := ζ^{p^{e_q}}` (a root of unity of exact order `p^{M_q}`, `M_q := k − e_q`): `v(u_q − 1) = p^{e_q}/φ(p^k) ≤ ε`,
+   `f_j((u_q − 1)_q) ≠ 0` and `v(f_j((u_q − 1)_q)) ≤ v₀ + ε` for every `j`. In particular `u = (u_q) ∈ μ_{p^M}^n`, every
+   `u_q ≠ 1`, and the same holds for `u^m = (u_q^m)_q` for every `m` prime to `p`. `M₁` depends only on `D`, `v₀`, `n`, `s`,
+   `ε`, `p` and `K₀`, not on the polynomials or their degrees;
 2. (*a second kind of polynomial*) let the variables be divided into *first-half* and *second-half* ones, `n_max ≥ 0` and
    `s′ ≥ 0`, and for every `M ≥ M₀` let `f_{M,1}, …, f_{M,s}` be of the first kind and `g_{M,1}, …, g_{M,s′}` of the *second kind at
    level `M`*: modulo the ideal generated by the second-half variables and the `(1 + X_q)^{p^M} − 1` for the first-half variables,
@@ -578,11 +603,16 @@ places, avoiding `A`, with `Q = 𝔓 ∪ c𝔓` (so `#Q ≤ 4R`), a finite exten
 on the decomposition groups above `p` — satisfies, for every `s ∈ 𝒮` and every integer `m` prime to `p`:
 
 1. `length_{O′} Sel_Q(T_s ⊗ ψ^m ⊗ E′/O′) ≤ (ν_s + ε′)·length_{O′}(O′/p)`;
-2. `length_{O′} Sel_Q(T_s ⊗ ψ^m ⊗ E′/O′) ≤ ε′·length_{O′}(O′/p)` if `T̄_s ≇ T̄_s ⊗ χ̄_cyc^{t_s}`;
+2. in particular `length_{O′} Sel_Q(T_s ⊗ ψ^m ⊗ E′/O′) ≤ ε′·length_{O′}(O′/p)` when `ν_s = 0`, that is when
+   `χ̄_cyc^{t_sr_s} ≠ 1` on `G_F`; then `T̄_s ≇ T̄_s ⊗ χ̄_cyc^{t_s}`, by determinants;
 3. `Σ_{𝔭∈Q} v_p(ψ(γ_𝔭) − 1) ≤ ε′` for inertia generators `γ_𝔭`;
 4. `v_p(f_j((u_q^m − 1)_q)) ≤ v_j + ε′` for the polynomial `f_j` that `𝒞_j` attaches to `𝔓`.
 
 `R` is independent of `ε′` and `A`: it depends only on the `r_s`, the `dim Sel_∅(T̄_s)`, `e(O/ℤ_p)` and the `ν_s`.
+*The form of the formal proof.* [FormalProof] proves this theorem for lattices of one rank `r` and one integer `t` with
+`tr ≠ 0`, so that `ν_s = ν` is one number, with the single bound of clause 1; it has no finer bound for the `s` with
+`T̄_s ≇ T̄_s ⊗ χ̄_cyc^{t_s}` when `ν > 0`. The form for lattices of different ranks and integers `t_s`, and the dependence of
+`R` on the `r_s`, the `dim Sel_∅(T̄_s)`, `e(O/ℤ_p)` and the `ν_s` alone, are this roadmap's.
 
 *Route.* (a) For each level `M` the subgroup `L_M` is normal in `G_{F⁺}` (each factor is, by (H2) for the kernels, since
 `p^M ∈ 𝔞_s`), contains the relevant inertia groups, and `z` is central modulo it: a commutator `[g, z]`, `g ∈ G_F`, acts
@@ -590,13 +620,14 @@ trivially on every `T_s` ((a) of the normalisation), lies in `H_M` (normal, cont
 central modulo each). Every first-half Frobenius element lies in `zL_M ⊆ zH_{𝒞_j}` and every second-half one chosen below in
 `L_M ⊆ H_{𝒞_j}`, so every `𝒞_j` attaches a polynomial to the families constructed; their numbers of first-half places are at
 most `R`, which does not depend on the conditions, so the degrees are at most `max_{n≤R}D_j(n)` and the exponents at most
-`max_{n≤R}n_{max,j}(n)`. The data with `t_sr_s = 0` take no part in the determinant argument: for them `ν_s = ∞` and clause 1 is
-empty, and clause 2 does not apply, because `r_s ≥ 1` forces `t_s = 0` and then `T̄_s ≅ T̄_s ⊗ χ̄_cyc^{t_s}`. By 3.24(4c) for each
+`max_{n≤R}n_{max,j}(n)`. The data with `t_sr_s = 0` take no part in the determinant argument: for them `ν_s = ∞` and clause 1
+is empty, and clause 2 does not apply, because `ν_s ≠ 0`. By 3.24(4c) for each
 `s` with `t_sr_s ≠ 0` and Chebotarev, choose a family in position avoiding `A` and the `A_{𝒞_j}`, whose second-half classes serve
 all these `s` at once (the union of the classes `h_a` for the different `s`, with `θ⁰` zero on the places of the others), with
-one additional unpaired first-half place for each such `s` with `T̄_s ≅ T̄_s ⊗ χ̄_cyc^{t_s}`; all first-half places are chosen
-at this step, and the following steps add only second-half places. For `s` with `T̄_s ≇ T̄_s ⊗ χ̄_cyc^{t_s}` 3.25 with `e = 0` gives a unit
-coefficient of a lift of `det Φ_s` in bounded degree; for the others (`t_sr_s ≠ 0`) 3.25 with `e = 1` gives a unit coefficient
+one additional unpaired first-half place for each such `s` with `ν_s > 0`; all first-half places are chosen
+at this step, and the following steps add only second-half places. For `s` with `ν_s = 0` (then `T̄_s ≇ T̄_s ⊗ χ̄_cyc^{t_s}`)
+3.25 with `e = 0` gives a unit coefficient of a lift of `det Φ_s` in bounded degree; for the others (`1 ≤ ν_s < ∞`; the left
+kernel has dimension at most `1` by 3.24(4c), with or without a residual isomorphism) 3.25 with `e = 1` gives a unit coefficient
 of an adjugate entry, and 3.25a(1), applied once for each such `s`, adds a second-half place with Frobenius in `L_M`, paired
 with the first-half place reserved for `s`, after which a lift of `det Φ_s` has a coefficient of valuation at most `v(p^{ν_s})`
 in bounded degree; 3.25a(2) keeps all these bounds (and the unit coefficients of the adjugate entries needed before
@@ -632,7 +663,7 @@ For `J = ∅`, `Λ = O` and 3.22 (2) presents the relaxed Selmer group of `T ⊗
 
 ### Dependencies
 
-SelmerIwasawaCohomology §§2.6, 2.13, 2.19, 2.21, 2.22 and 3.0; ArithmeticGaloisDuality §§R02.4.2–R02.4.4, R02.5.1 and D7.7.4; ClassFieldTheory Layers 5 and 13; ProfiniteCohomology §§2.4 and 5.4; Chebotarev (Completed) Layers 10 and 14; ArithmeticDirichletSeries (Completed) §5.3; NewtonPolygons §§2.1–2.3; Mathlib's determinants, adjugates, lengths, polynomials and primitive roots of unity, and the Smith normal form; Tau Ceti's Fitting ideals. The local condition above `p` is abstract in this layer, which uses nothing from Layer 4.
+SelmerIwasawaCohomology §§2.6, 2.13, 2.19, 2.21, 2.22 and 3.0; ArithmeticGaloisDuality §§R02.4.2–R02.4.4, R02.5.1 and D7.7.4; ClassFieldTheory Layers 5 and 13; ProfiniteCohomology §§2.4 and 5.4; Chebotarev (Completed) Layers 10 and 14; ArithmeticDirichletSeries (Completed) §5.3; NewtonPolygons §§2.1–2.3; PadicMeasuresIwasawaAlgebras §§6.3, 6.5 and 6.6; Mathlib's determinants, adjugates, lengths, polynomials and primitive roots of unity, and the Smith normal form; Tau Ceti's Fitting ideals. The local condition above `p` is abstract in this layer, which uses nothing from Layer 4.
 
 ## Layer 4: Bloch–Kato finite classes and lifting with loss
 
@@ -651,6 +682,9 @@ class `c ∈ H¹(K, V(η^{−1}))`. Prove: (1) if `V` and `η` are crystalline, 
 finite extension `E′/E`, `H¹_f(K, V ⊗_E E′) = H¹_f(K, V) ⊗_E E′` inside `H¹(K, V ⊗_E E′) = H¹(K, V) ⊗_E E′`, and likewise for
 `H¹_g`; (4) for a `G_K`-stable `O`-lattice `T` in a crystalline `V`, a class `ξ ∈ H¹(K, T)` lies in `H¹_f(K, T)`, the preimage
 of `H¹_f(K, V)` (SelmerIwasawaCohomology §4.9), if and only if its extension `0 → T → T_ξ → O → 0` has `T_ξ[1/p]` crystalline.
+For `η = 1` and `E = ℚ_p`, (1) and (2) are the criterion of AnabelianGeometryAndNonabelianChabauty §4.6, and
+PadicHodgeRegulators §1.1 states `H¹_g`, the inclusion `H¹_f ⊆ H¹_g` and their functoriality as well; 4.9a adds the twist by
+`η`, the `E`-coefficients with (3), and the form for lattices (4).
 
 *Route.* Twisting by `η^{−1}` preserves crystallinity (resp. the de Rham property) and carries `W` to an extension of `E` by
 `V(η^{−1})` with class `c`, so assume `η = 1`. Pulling the extension back along `ℚ_p → E`, `1 ↦ 1`, gives an extension
@@ -751,7 +785,8 @@ descent from `K_m` to `K_s` (`cor∘res = [K_m : K_s] = p^{m−s}`, ArithmeticGa
 for `χ_cyc^{−e}` modulo `ℤ_p`, and `c_ψ := ψ∘f`: then `p^{c′}c_ψ(σ) − (χ_cyc(σ)^{−e}σ(b) − b) ∈ A_inf + Fil^{e+1}B_dR` for some
 `b ∈ B_dR^+` and all `σ ∈ G_{K_s}`. (d) *A genuine cocycle.* `p^{s + v_p(e+1)}c_ψ` is congruent modulo `ℤ_p` to a cocycle `z : G_{K_s} → ℚ_p(−e)`: the
 obstruction lies in `H²(K_s, ℤ_p(−e))`, dual to `H⁰(K_s, ℚ_p/ℤ_p(e + 1))`, of order `p^{s + v_p(e+1)}` (ClassFieldTheory Layer 5;
-`χ_cyc(G_{K_s}) = 1 + p^sℤ_p`). (e) *The dual exponential.* Let `exp^* : H¹(K_s, ℚ_p(−e)) → K_s` be the dual exponential (the image
+`χ_cyc(G_{K_s}) = 1 + p^sℤ_p`). (e) *The dual exponential.* Let `exp^* : H¹(K_s, ℚ_p(−e)) → K_s` be the dual exponential of
+PadicHodgeRegulators §1.4, with kernel `H¹_g` (the image
 of a class in `H¹(G_{K_s}, (B_dR^+/Fil^{e+1})(−e)) = K_s·t^e·log χ_cyc`). The two remaining sub-statements are:
    (D1) a class of `H¹(K_s, ℚ_p(−e))` represented, modulo `A_inf + Fil^{e+1}B_dR`, by a twisted coboundary of `B_dR^+` as in (c) has
    `v_p(exp^*) ≥ −(e(s + 1) + v_p(e!) + 1 + s + e/(p − 1))` ([FormalProof] `GlobalTheory.T.norm_dualExponential_le_of_ainf_valued`);
@@ -761,10 +796,13 @@ of a class in `H¹(G_{K_s}, (B_dR^+/Fil^{e+1})(−e)) = K_s·t^e·log χ_cyc`). 
 Put `a := (e + 2)s + v_p(e) + ⌊e/(p − 1)⌋ + 1`. Then `a ≥ β + (e(s + 1) + v_p(e!) + 1 + s + e/(p − 1))`: for `e > 0` the right side is
 `(e + 2)s + v_p(e) + e/(p − 1)`, for `e = 0` it is `s ≤ 2s + 1 = a`. So by (D1) applied to `p^{c′}z` and (D2) there is a cocycle `z₁`
 with values in `ℤ_p(−e)` and `exp^*(p^{a+c′}z − z₁) = 0`. (f) *Finiteness.* A class of `H¹(K_s, ℚ_p(−e))` with `exp^* = 0` lies in
-`H¹_g = H¹_f` (SelmerIwasawaCohomology §4.9: it is zero if `e > 0`, unramified if `e = 0`); `z₁` dies in `(ℚ_p/ℤ_p)(−e)`; so `p^{c′ + (s + v_p(e+1)) + a}` times
-the restriction of `[ϕ∘f]` to `G_{K_s}` is finite. (g) *Descent* to `K`: corestriction preserves the finite classes and
+`H¹_g = H¹_f` (PadicHodgeRegulators §1.8 (iv) for `e > 0`, (i) for `e = 0`: it is zero if `e > 0`, unramified if `e = 0`);
+`z₁` dies in `(ℚ_p/ℤ_p)(−e)`; so `p^{c′ + (s + v_p(e+1)) + a}` times
+the restriction of `[ϕ∘f]` to `G_{K_s}` is finite. (g) *Descent* to `K`: corestriction preserves the finite classes
+(PadicHodgeRegulators §1.1) and
 `cor∘res = [K_s : K]`, the cost `g_K`. The exponents add up to `c`. The torsion clause: the divisible part of `H¹(K, V_e/L_e)` has
-corank at most `[K:ℚ_p] + 1` (local Euler characteristic); the description of the finite classes is SelmerIwasawaCohomology §4.9. Not given here:
+corank at most `[K:ℚ_p] + 1` (local Euler characteristic); the description of the finite classes is
+PadicHodgeRegulators §1.8 (iv), (i). Not given here:
 (G), (D1), (D2), and in (b) the rational lifting of the invariants of the quotients ([FormalProof]
 `GlobalTheory.T.xiQuotient_invariants_lift_rationally`).
 
@@ -777,7 +815,8 @@ preserves the finite classes and `cor∘res = [K′ : K]`, `p^{v_p([K′:K])}` t
 `λ := λ_N` and `M₀ = h₀ = h`, `n₀ ≤ ⌊log_p 2h⌋ + 1`, `m ≤ 2λ`, `v ≤ 2λ`, `|u − i| ≤ 2h`, so `r_i ≤ n(m + λ) ≤ 3nλ` and each term of `c′` is at most
 `3(n + 1)λ`; `v_p(e), v_p(e + 1) ≤ log_p h ≤ λ` and `⌊e/(p − 1)⌋ ≤ t`; hence `c(K′) ≤ 2λ + 3t(n + 1)λ + (2t + 4)λ`, and with
 `v_p([K′:K]) ≤ λ` the total is at most `(n + 1)(5t + 7)λ ≤ 7(t + 1)(n + 1)λ ≤ 40(t + 1)(n + 1)λ`. *Needs:* SelmerIwasawaCohomology §4.9; 4.10e(0);
-ClassFieldTheory Layer 5; ProfiniteCohomology §5.4; ArithmeticGaloisDuality §R02.2.3; PadicPeriodRings §§1.3–1.5 (normalized
+ClassFieldTheory Layer 5; ProfiniteCohomology §5.4; ArithmeticGaloisDuality §R02.2.3; PadicHodgeRegulators §§1.1, 1.4, 1.8;
+PadicPeriodRings §§1.3–1.5 (normalized
 traces and Tate's decomposition, Tate's cohomology of `ℂ_p(j)`, `B_dR^+`).
 
 **Checks.** (`K = ℚ_p`, `s = 1`, `p` odd, `μ` an unramified character; then `g_K = 0` and `U` is the weight of `Y`.)
@@ -916,8 +955,9 @@ of SelmerIwasawaCohomology §4.9. Prove: for every `O`-submodule `I ⊆ H¹_f(K,
 So a class of `H¹(K, W)` orthogonal to `I` is finite up to a defect of length at most the colength of `I` in `H¹_f(K, T′)`.
 
 *Route.* The pairing identifies `H¹(K, W)` with the Pontryagin dual of the finitely generated `O`-module `H¹(K, T′)`, so for
-submodules `I ⊆ I′` the quotient `I^⊥/I′^⊥` is the Pontryagin dual of `I′/I`, of the same length; take `I′ = H¹_f(K, T′)`, whose
-annihilator is `F_W` (SelmerIwasawaCohomology §2.17). *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; ArithmeticGaloisDuality §R02.4.2; ClassFieldTheory Layer 5.
+submodules `I ⊆ I′` the quotient `I^⊥/I′^⊥` is the Pontryagin dual of `I′/I` (ArithmeticGaloisDuality §D7.7.1, the induced
+perfect pairing on `X/F × F^⊥`), of the same length; take `I′ = H¹_f(K, T′)`, whose
+annihilator is `F_W` (SelmerIwasawaCohomology §2.17). *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; ArithmeticGaloisDuality §§R02.4.2, D7.7.1; ClassFieldTheory Layer 5.
 
 **Checks.**
 
@@ -938,7 +978,8 @@ crystalline `E`-representations with `HT_i(T₁) ⊂ [−M_i, h_i]`, `M_i, h_i �
 1. (*for every prime `p` and every finite `K/ℚ_p`*, `E` arbitrary) for a `G_K`-stable `O`-lattice `T` in a crystalline
    `E`-representation of `G_K`, `H¹_f(K, T)` (the `T`-condition of SelmerIwasawaCohomology §4.9; by 4.9a(4), the classes whose extension of `O` by `T`
    is crystalline) contains the torsion of `H¹(K, T)` and is generated by at most `([K:ℚ_p] + 1)·rk T` elements (over the
-   unramified `K` of this section, `(n + 1)·rk T`);
+   unramified `K` of this section, `(n + 1)·rk T`); the count for every finite `K` is this roadmap's, and [FormalProof] states
+   the count over unramified `K`, for crystalline `T`;
 2. (*Herr representatives*) let `ξ ∈ H¹_f(K, T)`, with weights of `T` in `[−M, h]`, and `e` the `φ`- and `Γ_K`-fixed generator
    of `N(O)`. If `x ∈ N(T_ξ)^{Γ_K^{tor}}` maps to `p^ke`, then `((φ − 1)x, (γ − 1)x)` is a Herr cocycle of `D(T)^{Γ_K^{tor}}` (for
    the procyclic group generated by `γ`) with components in `Q^{−M}N(T)^{Γ_K^{tor}}` and `π₀N(T)^{Γ_K^{tor}}` representing
@@ -946,15 +987,18 @@ crystalline `E`-representations with `HT_i(T₁) ⊂ [−M_i, h_i]`, `M_i, h_i �
    `y ∈ Q^{−M}N(T)^{Γ_K^{tor}}`, `z ∈ π₀N(T)^{Γ_K^{tor}}` represents a class of `H¹_f(K, T)`, which is zero only if `(y, z) = d⁰m`
    with `m ∈ N(T)^{Γ_K^{tor}}`. (*Poles at several levels*) More generally, if `(y, z)` is a Herr cocycle of `D(T)^{Γ_K^{tor}}` with
    `Λ·y ∈ N(T)` for a product `Λ` of powers of the `φ^j(π₀ + p)`, `j ≥ 0`, and `z ∈ π₀N(T)`, the class of `(y, z)` is finite;
-3. (*lifting with loss*) `p^{e°}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with `e° := 2·cost(0, H) + e°_U`; `e° = 0` when `M + h ≤ p − 2`.
-   As round bounds, `e° ≤ e := 2e_W + e_U` and `e ≤ 23·(2 + H/p + log_p(H + 1))`.
+3. (*lifting with loss*; *the form of the formal proof*) `p^{e}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with `e := 2e_W + e_U`, and
+   `e ≤ 23·(2 + H/p + log_p(H + 1))`. (*A refinement of this roadmap, not a statement of [FormalProof]*) The route gives the
+   same inclusion with `e° := 2·cost(0, H) + e°_U ≤ e`, which is `0` when `M + h ≤ p − 2`; it uses the exact annihilators of
+   WachLatticesOverTheCyclotomicTower §6.10 (2), (4) in place of their round bounds.
 
 The interval `[−M_i, h_i]` must contain `0`; the statement is not invariant under twist.
 
 *Route.* (1) `H¹_f(K, T)` modulo torsion is free of rank
 `dim H¹_f(K, V) = dim_E(D_dR/Fil⁰) + dim H⁰(K, V) ≤ [K:ℚ_p]·rk T + dim H⁰(K, V)` (SelmerIwasawaCohomology §4.9's exact sequence; `D_dR(V)` is free of
 rank `rk T` over `K ⊗_{ℚ_p} E`); the torsion of `H¹(K, T)` is the quotient of `H⁰(K, V/T) ⊆ (E/O)^{rk T}` by its divisible part,
-the image of `H⁰(K, V)`, of corank `dim H⁰(K, V)`, so it needs at most `rk T − dim H⁰(K, V)` generators; a torsion class splits
+the image of `H⁰(K, V)` (ArithmeticGaloisDuality §R02.1.3), of corank `dim H⁰(K, V)`, so it needs at most
+`rk T − dim H⁰(K, V)` generators; a torsion class splits
 after inverting `p`. Nothing here uses `p` odd or `K` unramified. (2) The first
 half is the connecting map of Herr complexes (PhiGammaModulesAndIwasawaCohomology §3.6) for
 `0 → D(T) → D(T_ξ) → D(O) → 0`, on `Γ_K^{tor}`-invariants with the pro-`p` generator `γ` (the element `γ₀` is used only in
@@ -998,7 +1042,8 @@ round bounds: `cost(0, H) + 3 ≤ e_W` and `e°_U ≤ e_U`; `J ⊆ [−M + 1, M 
 lattices used are those of 4.10e(0) at `s = 1` (heights, the `Γ` condition of (a), saturation, Sen, Herr):
 WachLatticesOverTheCyclotomicTower §§6.4(2), 6.4(3), 6.4(5), 6.5(4) and (2) above. Sources: Wach 1996, Berger 2004 (Wach lattices); Herr 1998 (the complex); Bloch–Kato,
 §3 (crystalline extensions and the exact sequence for `H¹_f`); [FormalProof]. *Needs:* SelmerIwasawaCohomology §4.9; 4.9a;
-PhiGammaModulesAndIwasawaCohomology §§3.6, 6.0 and WachLatticesOverTheCyclotomicTower §§6.4, 6.5(4), 6.10; PadicPeriodRings §§4.1–4.3 (`B_cris`).
+PhiGammaModulesAndIwasawaCohomology §§3.6, 6.0 and WachLatticesOverTheCyclotomicTower §§6.4, 6.5(4), 6.10; PadicPeriodRings §§4.1–4.3 (`B_cris`);
+ArithmeticGaloisDuality §R02.1.3.
 
 **Checks.**
 
@@ -1053,17 +1098,17 @@ For `• ∈ {1, 2}` and a letter `i` let `H^•_i` be the length of the smalles
    letters do not include the letter itself; the condition holds when any `2j + 1` consecutive letters contain at most two
    thick ones). Then
    `length_O coker(H¹_f(K, T₁) → H¹_f(K, T₂)) ≤ C(n + 1)·rk T₂·(h/(p − 1)^{j+1} + (w + S + η + 1)(j + 1) + log_p h)·length_O(O/p)`;
-3. (*words of weights*; [FormalProof] states it with the round exponent `e = 2e_W + e_U` of 4.10c(3) in place of `e°` below,
-   and the form with `e° ≤ e` follows from the same assembly; the proof is given here only in part, see the route) there is
+3. (*words of weights*; the proof is given here only in part, see the route) there is
    an absolute constant `C ≥ 1` such that the following holds. Let `p ≥ 11`, let every letter be of type up `b_i` or down `b_i`
    (no thin letters) with `b_i > η`, thick if `b_i ∈ [b, b + η]` and otherwise `b_i ≤ w`, some letter not thick,
-   `20·max(w, η, S) ≤ b`, and `T₂` with at most `m` weights in `[−η, η]` at every letter; let `e°` be the exponent of 4.10c(3)
-   for the intervals of `T₁`, `h := b + η + S` if some letter is thick and `h := w + S` otherwise, and `[res] := 1` if some
+   `20·max(w, η, S) ≤ b`, and `T₂` with at most `m` weights, counted with multiplicity, in `[−η, η]` at every letter; let `e`
+   be the exponent `2e_W + e_U` of 4.10c(3) for intervals `[−M_i, h_i]` containing the weights of `T₁`, `h := b + η + S` if
+   some letter is thick and `h := w + S` otherwise, and `[res] := 1` if some
    non-thick letter adjacent to a thick one has size `b′` with `|p·b′ − b| ≤ C(pη + pS + b/p + b′ + p·log_p(2h))`, `0` otherwise.
    (i) If the directions alternate along the letters (so `n` is even) and no three consecutive letters are thick, then
-   `length_O coker(H¹_f(K, T₁) → H¹_f(K, T₂)) ≤ (C(n + 1)·rk T₂·(h/p² + (w + η)/p + S + 1 + log_p(2h) + η·[res]) + C·n·m·e°)·length_O(O/p)`.
+   `length_O coker(H¹_f(K, T₁) → H¹_f(K, T₂)) ≤ (C(n + 1)·rk T₂·(h/p² + (w + η)/p + S + 1 + log_p(2h) + η·[res]) + C·n·m·e)·length_O(O/p)`.
    (ii) If all letters have the same direction and no `R ≥ 1` consecutive letters are all thick, the same holds with
-   `R²(S + 1 + log_p(2h))` in place of `S + 1 + log_p(2h)` and `C·n·m·R²·e°` in place of `C·n·m·e°`.
+   `R²(S + 1 + log_p(2h))` in place of `S + 1 + log_p(2h)` and `C·n·m·R²·e` in place of `C·n·m·e`.
 4. (*alternating words of comparable sizes*; [FormalProof] states it with the constants below; the proof is given here
    only in part, see the route) Let `p ≥ 11`, let `K/ℚ_p` be unramified of even degree `n`, and let `E` contain the images of
    the embeddings of `K(μ_p)`. Let every letter be of type up `b_i` or down `b_i` (no thin letters), the directions
@@ -1211,8 +1256,8 @@ weights in `[−η, η]` at each letter) outside which the constants lie in `Fil
 also bounds the number of exceptional classes below); after a killing polynomial the coordinates outside this set are
 lifted by the one-coordinate lifting (d), and the invariants supported on it give at most `m·ro(c)(ℓ(c) + 1)` finite classes,
 the *exceptional classes*. So `p^{e₂}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁)) + 𝒵` with `e₂` a constant times `Sg` (plus `η[res]` in (i)) and
-`𝒵` spanned by at most `4nm` (resp. `(R + 1)nm`) classes, each lifted by 4.10c(3) at the cost `e°` (or `e`); the colength is at
-most `((n + 1)·rk T₂·e₂ + #𝒵·e°)·length_O(O/p)`. (d) *One-coordinate lifting* (a statement of [FormalProof]:
+`𝒵` spanned by at most `4nm` (resp. `(R + 1)nm`) classes, each lifted by 4.10c(3) at the cost `e`; the colength is at
+most `((n + 1)·rk T₂·e₂ + #𝒵·e)·length_O(O/p)`. (d) *One-coordinate lifting* (a statement of [FormalProof]:
 `Formalism.MainNotions.N.FrobeniusPowerSeries.arc_proposition_alternative` in (i), `arc_single_type_bound` of the same
 namespace in (ii)): for a basis vector
 outside the exceptional set and a coefficient constant modulo `p_s^{b_s+S}` at the down levels, the invariant of `T₂` it defines
@@ -1300,7 +1345,7 @@ PhiGammaModulesAndIwasawaCohomology §3.6; WachLatticesOverTheCyclotomicTower §
 - In (2), if every letter is thick (`n ≥ 3`), the cluster hypothesis fails for every `j ≥ 1` and (2) says nothing: it needs
   letters of small size between the thick ones.
 - In (3)(i), the cuts are the letters before a non-thick letter; three consecutive thick letters would give an arc whose
-  words the case analysis does not cover. With `m = 0` there is no exceptional class and no term `e°`.
+  words the case analysis does not cover. With `m = 0` there is no exceptional class and no term `C·n·m·e`.
 - (*ramified coefficients*) The factor `length_O(O/p) = e(O/ℤ_p)` in (2) and (3) is needed. In (2), take `p ≥ 11`, `n ≥ 3`, `j = 1`,
   `ψ := χ_cyc^{−(p−1)}·μ` with `μ` unramified and `ψ(Fr₀) = 1` for one Frobenius lift `Fr₀`, `T₁ = U ⊗ ψ` with `U = O²` the
   unramified unipotent lattice, and `T₂ = O(ψ)` its quotient: every letter is up of size `p − 1 ≤ w`, none thick,
@@ -1361,7 +1406,8 @@ Prove:
    - (a) (*what the prismatic construction supplies*) `N_s(T)` is free of finite rank over `A` and spans `D_s(T)` over
      `O ⊗ W(k)((π))^∧_p`; `Q^kφ(N_s(T)) ⊆ N_s(T)` and `Q^kN_s(T) ⊆ A·φ(N_s(T))` for some `k ≥ 0`; `(g − 1)N_s(T) ⊆ πN_s(T)` for every
      `g ∈ Γ_K`, and `(γ − 1)N_s(T) ⊆ XN_s(T)`; `T ↦ N_s(T)` is an `O`-linear functor; and `N_s(O) = A·e` with `e` fixed by `φ` and `Γ_K`;
-   - (U)_s (*uniqueness*) a free `A`-submodule `N′ ⊆ D_s(T)` that spans `D_s(T)`, with `γ(N′) ⊆ N′`, `(γ − 1)N′ ⊆ πN′`, and
+   - (U)_s (*uniqueness*) a free `A`-submodule `N′ ⊆ D_s(T)` of rank `rk_O T` that spans `D_s(T)` (equivalently:
+     `N′ ⊗_A (O ⊗ W(k)((π))^∧_p) → D_s(T)` is bijective), with `γ(N′) ⊆ N′`, `(γ − 1)N′ ⊆ πN′`, and
      `Q^kφ(N′) ⊆ N′`, `Q^kN′ ⊆ A·φ(N′)` for some `k ≥ 0`, equals `N_s(T)`;
    - (H)_s (*heights and the comparison at the zeros of `Q`*) if the weights of `T` at every embedding lie in `[−M, h]`, then
      `Q^Mφ(N_s(T)) ⊆ N_s(T)` and `Q^hN_s(T) ⊆ A·φ(N_s(T))`; and `ι_s` with the comparison of PrismaticCohomologyPartIII §7.13(2)
@@ -1400,12 +1446,14 @@ Prove:
    (1′) (*abelian bases*) let `N ≥ 1` (`4 | N` if `p = 2`), `K_N := ℚ_p(μ_{lcm(p,N)})` (the field `K′` of 4.9c(2)),
    `s_N := max(1, v_p(N))`, `K ⊆ K_N`, `E ⊇ μ_{lcm(p,N)}`, and `T₁`, `T₂` lattices in representations crystalline over `K`, the weights of `T₁` at every embedding in
    `[−h, h]`. Then `p^e·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with `e = 32(2h·s_N + 1) + s_N + ⌊log_p 2h⌋ + ⌊log_p N⌋ + 1`;
-2. (*descent*) if `K/K′` is finite, `T₁`, `T₂` are `G_{K′}`-stable and `p^e·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` for the restrictions to
+2. (*descent*) if `K/K′` is finite (Galois in [FormalProof] and in every use here; the form for any finite `K/K′` is this
+   roadmap's), `T₁`, `T₂` are `G_{K′}`-stable and `p^e·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` for the restrictions to
    `G_K`, then `p^{e + v_p([K:K′])}·H¹_f(K′, T₂) ⊆ f(H¹_f(K′, T₁))`;
 3. (*tamely ramified bases*; the statement of [FormalProof], whose proof is given here only as its assembly) let `p` be odd,
    `K ⊆ K₀(μ_p)`, `e_K := [K : K₀]`; for every embedding `τ` of `K` let a direction and a size `b_τ > η` be given, the weights of
    `T₁` at `τ` lying in `[b_τ, b_τ + S] ∪ [−η, η]` (up) or in `[−b_τ − S, −b_τ] ∪ [−η, η]` (down) and in `[−h, h]`; let `T₂` have at
-   most `m` weights in `[−η, η]` at each `τ`, and suppose `e_K = 2` or the direction depends only on `τ|_{K₀}`. Then there are at
+   most `m` weights, counted with multiplicity, in `[−η, η]` at each `τ`, and suppose `e_K = 2` or the direction depends
+   only on `τ|_{K₀}`. Then there are at
    most `n·e_K(e_K + 1)·m` finite classes of `T₂` modulo which `p^Y·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))`,
    `Y ≤ 80(e_Kh/p + e_KS + e_K·log_p h + 1 + η)`; and `p^{E′}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with `E′ := e_1` of (1) for `H = 2h`,
    `M = h` (so `E′ ≤ 18h` for `p ≥ 3`); hence, for an absolute constant `C`,
@@ -1460,9 +1508,9 @@ exponents add up to at most `e_s`. Round bounds: `#J ≤ 2H`, `Σ_{j∈J}v_p(j) 
 rests on the clauses of (0) whose proofs are not given here. (1′) Restrict to `K_N = K_{N,0}(μ_{p^{s_N}})`, `K_{N,0} = ℚ_p(μ_{N′})`
 (4.9c(2)): the lattices are crystalline over `K_N` with weights in `[−h, h]`, so (1) with `H = 2h`, `M = h`, `s = s_N` gives an
 exponent `e_{s_N} ≤ 32(2h·s_N + 1)`; (2) from `K_N` to `K` adds `v_p([K_N : K]) ≤ ⌊log_p N⌋` (4.9c(2)), which is at most
-`s_N + ⌊log_p 2h⌋ + ⌊log_p N⌋ + 1`. (2) Restriction preserves finite classes and commutes with `f`; so does corestriction, which by the projection
-formula and the compatibility of the local invariants with corestriction (ClassFieldTheory Layer 5) is adjoint to restriction
-under local Tate duality, the finite parts being exact annihilators (SelmerIwasawaCohomology §§2.17, 4.9). For `ξ ∈ H¹_f(K′, T₂)`, `p^e·res ξ = f(ξ₁)` with
+`s_N + ⌊log_p 2h⌋ + ⌊log_p N⌋ + 1`. (2) Restriction preserves finite classes and commutes with `f`; so does corestriction
+(PadicHodgeRegulators §1.1; on `T` by
+preimage). For `ξ ∈ H¹_f(K′, T₂)`, `p^e·res ξ = f(ξ₁)` with
 `ξ₁ ∈ H¹_f(K, T₁)`, and `f(cor ξ₁) = p^e·[K:K′]·ξ` (`cor∘res = [K:K′]`, ArithmeticGaloisDuality §R02.2.3). (3) (the assembly,
 proved; its third input is a statement of [FormalProof]) Over `O[[π′]]` (clause (R)) every embedding of `K₀` is a cut, and the
 `e_K` zeros of `E_K(π′)`, the `e_K` embeddings of `K` above it, play the role of the levels of an arc; the hypothesis "`e_K = 2` or
@@ -1481,7 +1529,7 @@ exceptional classes is killed by `p^Y`, and each exceptional class by `p^{E′}`
 of exceptional classes times the exponent, linear in `h`, of the basic theorem over the tame base. *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; 4.9a,
 4.10c, 4.10d; PhiGammaModulesAndIwasawaCohomology §§1.0, 6.0 and WachLatticesOverTheCyclotomicTower §§6.4(8), 6.10; PrismaticCohomology §§0.61, 0.77;
 PrismaticCohomologyPartIII §§7.12, 7.13, 7.22; PadicPeriodRings §§4.1–4.3 (`B_cris`); ArithmeticGaloisDuality §R02.2.3;
-ClassFieldTheory Layer 5.
+ClassFieldTheory Layer 5; PadicHodgeRegulators §1.1.
 
 **Checks.**
 
@@ -1594,8 +1642,9 @@ from `X₁ ⊕ X₂` (lattice `L₁ ⊕ L₂`, map `ϕ ⊕ 0`, class `y ⊕ 0`) 
 span of the pushouts from one `X`, a submodule killed by `p^e`; a module all of whose finitely generated submodules have length
 at most `B` has length at most `B`. By local duality `H¹(K, U/L_U)/H¹_f(K, U/L_U) ≅ Hom_O(M, E/O)` with `M := H¹_f(K, L_U^†)` (4.10b), and
 a submodule killed by `p^e` has length at most `length(M/p^eM) ≤ e·μ(M)·length_O(O/p)`, `μ(M)` the number of generators. The torsion
-of `M` is that of `H¹(K, L_U^†)`, a quotient of a submodule of `H⁰(K, U^*(1)/L_U^†) ⊆ (E/O)^{rank L_U}`, so it needs at most `rank L_U`
-generators, and `μ(M) ≤ rank M + rank L_U`. Finally `rank M = dim H¹_f(K, U^*(1)) = dim H⁰(K, U^*(1)) + dim D_dR(U^*(1))/Fil⁰ ≤ dim D_dR(U^*(1)) = [K:ℚ_p]·dim U` (the dimension formula for de Rham representations, PadicHodgeRegulators §1.5; `H⁰ ⊗ K` embeds in `Fil⁰D_dR`). *Needs:* SelmerIwasawaCohomology §4.9; 4.10b; PadicHodgeRegulators §1.5; ClassFieldTheory
+of `M` is that of `H¹(K, L_U^†)`, a quotient of a submodule of `H⁰(K, U^*(1)/L_U^†) ⊆ (E/O)^{rank L_U}`
+(ArithmeticGaloisDuality §R02.1.3), so it needs at most `rank L_U`
+generators, and `μ(M) ≤ rank M + rank L_U`. Finally `rank M = dim H¹_f(K, U^*(1)) = dim H⁰(K, U^*(1)) + dim D_dR(U^*(1))/Fil⁰ ≤ dim D_dR(U^*(1)) = [K:ℚ_p]·dim U` (the dimension formula for de Rham representations, PadicHodgeRegulators §1.5; `H⁰ ⊗ K` embeds in `Fil⁰D_dR`). *Needs:* SelmerIwasawaCohomology §4.9; 4.10b; PadicHodgeRegulators §1.5; ArithmeticGaloisDuality §R02.1.3; ClassFieldTheory
 Layer 5 (local duality).
 
 **Checks.**
@@ -1612,7 +1661,7 @@ Over `ℚ_p`, a crystalline extension of `E(χ_cyc)` by `E` splits: its class li
 
 ### Dependencies
 
-Layer 3 (the Selmer data of 3.22, in 4.9b); AnabelianGeometryAndNonabelianChabauty §4.6 and PadicHodgeTheory §3.1 (4.9a); PadicHodgeRegulators §1.5 (4.9b, 4.10g); SelmerIwasawaCohomology §§2.6, 2.17, 4.8 (in a Check of 4.10a), 4.9 and 4.10; PhiGammaModulesAndIwasawaCohomology §§1.0, 3.4, 3.6 and 6.0; WachLatticesOverTheCyclotomicTower §§6.4–6.10; PadicPeriodRings §§1.3–1.5 (4.9c, 4.9d) and PadicPeriodRings §§4.1–4.3 (4.10c, 4.10e, 4.10f); PrismaticCohomologyPartIII §§7.12, 7.13 and 7.22 and PrismaticCohomology §§0.61, 0.76 and 0.77 (4.10e (0), 4.10f); ArithmeticGaloisDuality §§R02.2.3 and R02.4.2; ClassFieldTheory Layer 5; ProfiniteCohomology §5.4. Construction order: 4.9c and 4.9d use, in their routes, the lattices at level `s` of 4.10e (0), a later section of this layer; 4.10e (0) and what it rests on (4.9a and 4.10c (2)) use neither 4.9c nor 4.9d, so 4.10e (0) is built before them and there is no cycle.
+Layer 3 (the Selmer data of 3.22, in 4.9b); AnabelianGeometryAndNonabelianChabauty §4.6 and PadicHodgeTheory §3.1 (4.9a); PadicHodgeRegulators §§1.1, 1.4, 1.8 (4.9c, 4.10e) and §1.5 (4.9b, 4.10g); SelmerIwasawaCohomology §§2.6, 2.17, 4.8 (in a Check of 4.10a), 4.9 and 4.10; PhiGammaModulesAndIwasawaCohomology §§1.0, 3.4, 3.6 and 6.0; WachLatticesOverTheCyclotomicTower §§6.4–6.10; PadicPeriodRings §§1.3–1.5 (4.9c, 4.9d) and PadicPeriodRings §§4.1–4.3 (4.10c, 4.10e, 4.10f); PrismaticCohomologyPartIII §§7.12, 7.13 and 7.22 and PrismaticCohomology §§0.61, 0.76 and 0.77 (4.10e (0), 4.10f); ArithmeticGaloisDuality §§R02.1.3, R02.2.3, R02.4.2 and D7.7.1; ClassFieldTheory Layer 5; ProfiniteCohomology §5.4. Construction order: 4.9c and 4.9d use, in their routes, the lattices at level `s` of 4.10e (0), a later section of this layer; 4.10e (0) and what it rests on (4.9a and 4.10c (2)) use neither 4.9c nor 4.9d, so 4.10e (0) is built before them and there is no cycle.
 
 ## Downstream consumers
 
@@ -1627,7 +1676,7 @@ For each target of this roadmap, the statements that use it, in this roadmap, in
 - **3.26**: CongruenceModulesOfThetaLifts §7.8 (one twist for all signatures, both sides, the twisted theta value and the theta index; the theta conditions are polynomial conditions in the sense above, of the first or of the second kind, produced there; a condition given only by an inequality for a Gauss norm is not of either kind and must first be brought to the first kind); GluedTargetAndDivisionInequality §8.19e (the theta conditions as polynomial conditions of the second kind, in the coset form) and ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d.
 - **4.9a**: 4.10a–4.10f, hence CongruenceModulesOfThetaLifts §§7.6, 7.7a–7.7d, 7.10a–7.10c.
 - **4.9b**: CongruenceModulesOfThetaLifts §§7.7a–7.7d, 7.8 (the relaxed Selmer groups with the Bloch–Kato condition above `ℓ`).
-- **4.9c**: CongruenceModulesOfThetaLifts §§7.7a–7.7d, 7.10a–7.10c (the bound for the character blocks at the rows, with `Y` the lattice of the block `ρ_0`, `Ỹ` the extension cut out by a cut cocycle, and `e < t`): (1) at the rows over unramified bases, (2) at the primes of the conductor of the host and at `2`, `3`, with `N` the modulus of the host. At the type primes of the consumer this statement is not used (a tame type of niveau `> 1` is crystalline over no `K₀(μ_{p^s})`); the description of the finite classes of `(E/O)(χ_cyc^{−e})` used there is SelmerIwasawaCohomology §4.9.
+- **4.9c**: CongruenceModulesOfThetaLifts §§7.7a–7.7d, 7.10a–7.10c (the bound for the character blocks at the rows, with `Y` the lattice of the block `ρ_0`, `Ỹ` the extension cut out by a cut cocycle, and `e < t`): (1) at the rows over unramified bases, (2) at the primes of the conductor of the host and at `2`, `3`, with `N` the modulus of the host. At the type primes of the consumer this statement is not used (a tame type of niveau `> 1` is crystalline over no `K₀(μ_{p^s})`); the description of the finite classes of `(E/O)(χ_cyc^{−e})` used there is PadicHodgeRegulators §1.8 (iv), (i).
 - **4.9d**: CongruenceModulesOfThetaLifts §§7.7d, 7.10a (the `H⁰` terms and the torsion of `H¹_f` in the congruence bound at the split rows; (2) at the primes of the conductor of the host).
 - **4.10a**: CongruenceModulesOfThetaLifts §7.6 (the local condition at `ℓ` for the cocycles cut out of the lifted eigensystems, at primes in position).
 - **4.10b**: LengthBoundsInPadicFamilies §1.8e (rows), hence CongruenceModulesOfThetaLifts §§7.7a–7.7d.
@@ -1641,7 +1690,7 @@ For each target of this roadmap, the statements that use it, in this roadmap, in
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the statements of its two layers above: Selmer functors on torsion modules over finite group rings with an abstract balanced saturated condition above `p`, their square-matrix presentations with a universal cocycle, the square presentations of left-exact functors and the tame anticyclotomic characters (3.22); the length of a twisted Selmer group as the valuation of a specialised determinant (3.23); auxiliary places in position with the residual determinant bounds, also when `T̄ ≅ T̄ ⊗ χ̄_cyc^t`, with the inclusion of Fitting ideals along an exact sequence that the last of them uses (3.24, 3.25, 3.25a); the specialisation lemma for roots of unity (3.25b); twist selection (3.26); the crystalline-extension and de Rham-extension criteria for `H¹_f` and `H¹_g` in their form for an extension of a character by an `E`-representation, with `E`-coefficients, and in their form for lattices (4.9a); the balance of the Bloch–Kato condition (4.9b); the bound for the finite part of the classes cut out by a character (4.9c) and the killing exponent for the invariants of a crystalline representation modulo a lattice (4.9d), both also over the abelian bases `K ⊆ ℚ_p(μ_{lcm(p,N)})`; the identification of torsion classes cut out of crystalline families with the Bloch–Kato finite ones under a position hypothesis on the weights, beyond the Fontaine–Laffaille range (4.10a); the defect of a class orthogonal to part of the dual finite classes (4.10b); the cyclotomic prisms of finite level over `O_K` and the lattices at a finite level of the cyclotomic tower obtained from prismatic `F`-crystals on them, with their uniqueness, heights, comparison at the zeros of `Q`, `Γ` condition, saturation, Sen and Herr properties (4.10e (0)); the lifting theorems with loss over unramified, ramified cyclotomic, abelian, tamely ramified and tame-type bases, along arcs of embeddings, for words of weights and for alternating words of comparable sizes (4.10c–4.10f); and the pushouts of finite classes under a lifting exponent (4.10g).
+This roadmap owns the statements of its two layers above: Selmer functors on torsion modules over finite group rings with an abstract balanced saturated condition above `p`, their square-matrix presentations with a universal cocycle, the square presentations of left-exact functors and the tame anticyclotomic characters (3.22); the length of a twisted Selmer group as the valuation of a specialised determinant (3.23); auxiliary places in position with the residual determinant bounds, also when `χ̄_cyc^{tr} = 1`, with the inclusion of Fitting ideals along an exact sequence that the last of them uses (3.24, 3.25, 3.25a); the specialisation lemma for roots of unity (3.25b); twist selection (3.26); the crystalline-extension and de Rham-extension criteria for `H¹_f` and `H¹_g` in their form for an extension of a character by an `E`-representation, with `E`-coefficients, and in their form for lattices (4.9a); the balance of the Bloch–Kato condition (4.9b); the bound for the finite part of the classes cut out by a character (4.9c) and the killing exponent for the invariants of a crystalline representation modulo a lattice (4.9d), both also over the abelian bases `K ⊆ ℚ_p(μ_{lcm(p,N)})`; the identification of torsion classes cut out of crystalline families with the Bloch–Kato finite ones under a position hypothesis on the weights, beyond the Fontaine–Laffaille range (4.10a); the defect of a class orthogonal to part of the dual finite classes (4.10b); the cyclotomic prisms of finite level over `O_K` and the lattices at a finite level of the cyclotomic tower obtained from prismatic `F`-crystals on them, with their uniqueness, heights, comparison at the zeros of `Q`, `Γ` condition, saturation, Sen and Herr properties (4.10e (0)); the lifting theorems with loss over unramified, ramified cyclotomic, abelian, tamely ramified and tame-type bases, along arcs of embeddings, for words of weights and for alternating words of comparable sizes (4.10c–4.10f); and the pushouts of finite classes under a lifting exponent (4.10g).
 
 The theory these statements extend is owned elsewhere. Selmer structures and dual Selmer structures, local duality for the finite conditions, Poitou–Tate for Selmer groups, Selmer complexes as mapping fibres, Iwasawa algebras of `ℤ_p^d × Δ`, the Bloch–Kato local condition and its integral comparison in the Fontaine–Laffaille range are [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) §§2.6, 2.13, 2.17, 2.19, 2.21, 2.22, 3.0 and 4.7–4.11. Wach lattices with their uniqueness and twist laws and the integral Herr comparison are [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md) §§3.4, 3.6 and 6.0; the reduction of Wach lattices, position data, full representations and admissible modules, and the annihilators of the cokernels of Wach lattices with the torsion bound for the truncated Herr complex are [WachLatticesOverTheCyclotomicTower](../WachLatticesOverTheCyclotomicTower/README.md) §§6.4–6.10: the count of `(φ, Γ)`-modules behind 4.10a and the annihilators behind 4.10c–4.10e are proved there. Prismatic `F`-crystals and their étale comparison are [PrismaticCohomologyPartIII](../../PrismaticCohomologyPartIII/README.md) §§7.12, 7.13 and 7.22, and the Breuil–Kisin and `q`-de Rham prisms are [PrismaticCohomology](../../PrismaticCohomology/README.md) §§0.61, 0.76 and 0.77. Local and global duality, restriction and corestriction and the Greenberg–Wiles formula are [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md); local class field theory and ray class fields are [ClassFieldTheory](../../ClassFieldTheory/README.md) Layers 5 and 13; the Chebotarev density theorem is [Chebotarev](../../../Completed/Chebotarev/README.md); the period rings are [PadicPeriodRings](../../PadicPeriodRings/README.md), and the closure of crystalline and de Rham representations under subquotients, sums and tensor products is [PadicHodgeTheory](../../PadicHodgeTheory/README.md) §3.1; the dimension of `H¹_f` of a de Rham representation is [PadicHodgeRegulators](../../PadicHodgeRegulators/README.md) §1.5; Newton polygons are [NewtonPolygons](../../NewtonPolygons/README.md). The group `H¹_g`, the inclusion `H¹_f ⊆ H¹_g`, and the criterion that a class lies in `H¹_f` (resp. `H¹_g`) exactly when its extension of `ℚ_p` by a crystalline (resp. de Rham) representation is crystalline (resp. de Rham) are the target "The Bloch–Kato subgroups `H¹_e ⊆ H¹_f ⊆ H¹_g`" of [AnabelianGeometryAndNonabelianChabauty](../../AnabelianGeometryAndNonabelianChabauty/README.md) §4.6; 4.9a derives from it the form for an extension of a character by an `E`-representation and the form for lattices.
 
@@ -1671,7 +1720,7 @@ In this family, CongruenceModulesOfThetaLifts uses twist selection, the balance 
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
-§R02.2.3: restriction and corestriction for finite index, `cor∘res = [K′ : K]` (4.9c, 4.10e (2)). §R02.4.2: the local Tate pairing, and unramified classes as exact annihilators (3.24, 4.10a, 4.10b). §R02.4.3: Poitou–Tate duality (3.22, 3.24, 3.25a). §R02.4.4: finiteness, cohomological dimension and Tate's global Euler characteristic formula (3.22). §R02.5.1: the Greenberg–Wiles formula (3.22, 3.24, 3.25a). §D7.7.4: duality for the Selmer complexes (3.22).
+§R02.1.3: for a free lattice `T` with `W = T ⊗ ℚ_p/ℤ_p`, the exact sequence `V^G → W^G → H¹(G, T)_tors → 0` (4.10c (1), 4.10g (2)). §R02.2.3: restriction and corestriction for finite index, `cor∘res = [K′ : K]` (4.9c, 4.10e (2)). §R02.4.2: the local Tate pairing, and unramified classes as exact annihilators (3.24, 4.10a, 4.10b). §R02.4.3: Poitou–Tate duality (3.22, 3.24, 3.25a). §R02.4.4: finiteness, cohomological dimension and Tate's global Euler characteristic formula (3.22). §R02.5.1: the Greenberg–Wiles formula (3.22, 3.24, 3.25a). §D7.7.1: for a perfect pairing of a finitely generated compact module with a discrete one, the induced pairing `(X/F) × F^⊥` is perfect (4.10b). §D7.7.4: duality for the Selmer complexes (3.22).
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -1691,7 +1740,7 @@ Layer 5: local Tate duality, the local Euler characteristic formula and the inva
 
 ### From TauCetiRoadmap.PadicHodgeRegulators
 
-§1.5: for finite `K/ℚ_p` and a de Rham representation `V` of `G_K`, `dim H¹_f(K, V) = dim D_dR(V)/Fil⁰ + dim H⁰(K, V)` (Bloch–Kato, Corollary 3.8.4). Used in 4.9b and 4.10g.
+§1.1: for finite `L/K`, restriction and corestriction preserve `H¹_f` (4.9c, 4.10e (2)). §1.4: Kato's dual exponential, with kernel `H¹_g` (4.9c). §1.8: `H¹_f = H¹_g = H¹_ur` for `ℚ_p` and `H¹_f = H¹_g = 0` for `ℚ_p(r)`, `r ≤ −1` (4.9c). §1.5: for finite `K/ℚ_p` and a de Rham representation `V` of `G_K`, `dim H¹_f(K, V) = dim D_dR(V)/Fil⁰ + dim H⁰(K, V)` (Bloch–Kato, Corollary 3.8.4). Used in 4.9b and 4.10g.
 
 ### From TauCetiRoadmap.PadicPeriodRings
 
@@ -1709,9 +1758,13 @@ Layers 10 and 14: every conjugacy class of a finite Galois quotient of `G_F` is 
 
 §5.3: the primes of a number field of residue degree greater than one have density zero, so the conjugacy classes of Chebotarev are met by places of degree one over `ℚ`. Used in 3.24 (4c) and 3.26.
 
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+§6.3: the Fitting ideal of a quadratically presented module is generated by the determinant of the presentation (3.22 (2)); over a principal ideal domain the cokernel of a square matrix with nonzero determinant `d` has the cardinality of `D/(d)` (3.23). §6.5: the higher Fitting ideals of a presented module are generated by the minors of its relation matrix, and `Fitt(M) ⊆ Fitt(M′)` for a surjection `M ↠ M′` (3.22 (2), 3.25a (2)). §6.6: `Fitt(B) = Fitt(A)·Fitt(C)` for `0 → A → B → C → 0` with `C` quadratically presented and `A` finitely presented (3.25a (2)).
+
 ### From Mathlib
 
-`Matrix.det`, `Matrix.adjugate`, `Module.length`, `Polynomial` and `IsPrimitiveRoot`; the Smith normal form over a principal ideal domain (3.23, 3.25).
+`Matrix.det`, `Matrix.adjugate`, `Module.length`, `Polynomial` and `IsPrimitiveRoot`; the Smith normal form over a principal ideal domain (3.25).
 
 ### From Tau Ceti
 

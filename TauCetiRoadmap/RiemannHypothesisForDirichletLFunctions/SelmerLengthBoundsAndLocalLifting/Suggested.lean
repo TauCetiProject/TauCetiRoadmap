@@ -56,8 +56,8 @@ filtration, Hodge–Tate weights, or the Bloch–Kato subgroup `H¹_f`.
   conjugate self-dual lattices with balanced conditions and a common element of
   `G_{F(μ_{p^∞})}` acting by scalars `ϑ_s` with `ϑ_s² ≠ 1`, one anticyclotomic character `ψ` of
   `p`-power order, ramified at a bounded number of places, makes every Selmer group of a twist by
-  `ψ^m` (`m` prime to `p`) of length at most `(ν_s + ε′)·length(O′/p)`, and at most
-  `ε′·length(O′/p)` in the residually non-self-twisted case. It lacks the same carrier: the
+  `ψ^m` (`m` prime to `p`) of length at most `(ν_s + ε′)·length(O′/p)`, hence at most
+  `ε′·length(O′/p)` when `ν_s = 0`. It lacks the same carrier: the
   coefficient modules `T_s ⊗_O E′/O′`, with the action twisted by `ψ^m`, as continuous
   representations of `G_F`, and the maps carrying the conditions `ℒ_{s,v}` into their `H¹`.
 * Invariants modulo a lattice (4.9d): for `V` crystalline over `K₀(μ_{p^s})` with Hodge–Tate
@@ -65,12 +65,11 @@ filtration, Hodge–Tate weights, or the Bloch–Kato subgroup `H¹_f`.
   stable lattice `T`, with `c = 2 + Σ_u(2s + n₀ + 1 + v_p(u))` over the distinct weights `u` at `τ`.
   It lacks crystalline representations and their Hodge–Tate weights at an embedding.
 * Lifting with loss (4.10c (3), 4.10e (1′)): for a surjection `f : T₁ ↠ T₂` of lattices in
-  crystalline representations, `p^{e°}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with
-  `e° ≤ 23(2 + H/p + log_p(H + 1))` over an unramified `K` and `p` odd, and with the exponent
+  crystalline representations, `p^{e}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with an explicit
+  `e ≤ 23(2 + H/p + log_p(H + 1))` over an unramified `K` and `p` odd, and with the exponent
   `32(2h·s_N + 1) + s_N + ⌊log_p 2h⌋ + ⌊log_p N⌋ + 1` over the subfields of `ℚ_p(μ_{lcm(p,N)})`. It
   lacks, besides crystalline representations and their weights, the Bloch–Kato subgroup `H¹_f` of a
-  lattice; the exact exponent `e°` is defined through Wach lattices
-  (WachLatticesOverTheCyclotomicTower §6.10), which are absent as well.
+  lattice; the exponent `e` is explicit in the weights (4.10c (3)).
 
 The specialisation lemma 3.25b, on the values at roots of unity of finitely many polynomials over
 the integers of a finite extension of `ℚ_p`, and the square presentation of a left-exact functor on
