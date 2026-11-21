@@ -43,9 +43,13 @@ SpecialFunctionsSU11MatrixElements (a roadmap of the same project) it takes the 
 `𝔓^τ_{mn}` of `SU(1,1)` with their hypergeometric form, and identifies them with Jacobi functions;
 that roadmap's Mehler–Fock transform is the Jacobi transform at `(α, β) = (0, −1/2)`.
 [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md) supplies the irreducibility of
-the principal series of `SL(2, ℝ)` and `SL(2, ℂ)` for `n = 2, 3`, and
-[RealSemisimpleLieGroups](../RealSemisimpleLieGroups/README.md) the general symmetric space `G/K`,
-with which the concrete model here is compared.
+the principal series of `SL(2, ℝ)` and `SL(2, ℂ)` for `n = 2, 3`;
+[RealSemisimpleLieGroups](../RealSemisimpleLieGroups/README.md) supplies the general symmetric
+space `G/K` and [RiemannianGeometry](../RiemannianGeometry/README.md) the hyperboloid as a
+Riemannian manifold, with both of which the concrete model here is compared.
+[AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md) supplies the Euclidean
+Paley–Wiener theorem, which this roadmap reads on the line, and SpecialFunctionsGamma (a roadmap
+of the same project) Carlson's theorem, which continues identities from integral parameters.
 
 Layer 0 is the Jacobi function as a function of one variable, Layer 1 the Jacobi transform, Layer 2
 the geometry of `ℍⁿ`, Layer 3 the spherical functions and the spherical principal series, and
@@ -53,9 +57,11 @@ Layer 4 the spherical, Abel and Helgason–Fourier transforms on `ℍⁿ`.
 
 ## How to read the build
 
-Layers 0 and 1 are one-variable analysis and depend only on the hypergeometric function and the
-Gamma function; their theorems hold for general complex or real `(α, β)`, so that they serve every
-rank-one space. Layer 2 is the geometry of `ℍⁿ` and depends on nothing in Layers 0–1. Layer 3 joins
+Layers 0 and 1 are one-variable analysis. Apart from 0.5 (the `SU(1,1)` matrix elements) and the
+polynomial case of 0.1 (the Jacobi polynomials), they depend only on the hypergeometric and Gamma
+functions, Carlson's theorem and the Euclidean Paley–Wiener theorem on `ℝ`; their theorems hold
+for general complex or real `(α, β)`, so that they serve every rank-one space. Layer 2 is the
+geometry of `ℍⁿ` and depends on nothing in Layers 0–1. Layer 3 joins
 them: the spherical functions of Layer 2's Gel'fand pair are the Jacobi functions of Layer 0, by the
 uniqueness theorem of 0.1. Layer 4 transfers the inversion and Plancherel theorems of Layer 1 to
 `ℍⁿ` through 3.1 and the polar coordinates of 2.2, and extends them to non-radial functions through
@@ -135,7 +141,8 @@ hypergeometric equation); Wawrzyńczyk §18.5, Example, (18.5.1), p. 627.
 
 Prove:
 - **Value at the origin** (`jacobiFunction_zero`): `φ_λ(0) = 1` for `α + 1 ∉ {0, −1, −2, …}`;
-- **Evenness** (`jacobiFunction_neg_spectral`, `jacobiFunction_even`): `φ_{−λ} = φ_λ` and
+- **Evenness** (`jacobiFunction_neg_spectral`): `φ_{−λ} = φ_λ`;
+- evenness in the radius, a sanity check of the definition (`jacobiFunction_even`):
   `φ_λ(−t) = φ_λ(t)`;
 - **Holomorphy** (`differentiable_jacobiFunction`): `λ ↦ φ_λ(t)` is entire;
 - **The Jacobi equation** (`jacobiOperator_jacobiFunction`): `L φ_λ = −(λ² + ρ²) φ_λ` on
@@ -184,7 +191,7 @@ Prove:
 - `φ_λ^{(1/2,1/2)}(t) = 2 sin λt/(λ sinh 2t)` for `λ ≠ 0`, `t ≠ 0`.
 
 Proof route: `F(a, −a; 1/2; −sinh² t) = cosh 2at` and
-`(2 − 4a) sinh t · F(a, 1 − a; 3/2; −sinh² t) = sinh((2 − 4a)t)`, which are DLMF 15.4.11 and
+`(2 − 4a) sinh t · F(a, 1 − a; 3/2; −sinh² t) = 2 sinh((1 − 2a)t)`, which are DLMF 15.4.11 and
 15.4.15 at `z = sinh t` (SpecialFunctionsHypergeometric §4.1; `1 + sinh² t = cosh² t` lies in the
 cut plane for every real `t`, and `√(1 + z²) ± z = e^{±t}`). The quadratic transformation is the
 one of SpecialFunctionsHypergeometric §7.1 with third parameter `c = (a + b + 1)/2`,
@@ -223,7 +230,8 @@ used for `t > 0`; at `iλ ∈ {1, 2, …}` it is the junk value `0`. Prove:
   `φ_λ(t) e^{(ρ−iλ)t} → c(λ)` as `t → ∞`;
 - **Growth of the Plancherel density** (`exists_norm_cFunction_inv_sq_le`): for real `α > −1` and
   real `β`, `|c(λ)|⁻² ≤ C (1 + |λ|)^{2α+1}` for real `λ`;
-- `c(λ) ≠ 0` for real `λ ≠ 0`, and `c(−λ) = conj c(λ)` for real `α, β, λ`.
+- for real `α, β` with `α + 1 ∉ {0, −1, −2, …}`, `c(λ) ≠ 0` for real `λ ≠ 0`; for real
+  `α, β, λ`, `c(−λ) = conj c(λ)`.
 
 Proof route: the connection formula is DLMF 15.8.2 (SpecialFunctionsHypergeometric §5.1, valid for
 all parameters on `−z ∈ slitPlane`) at `z = −sinh² t`, followed by Pfaff's transformation, which
@@ -284,7 +292,11 @@ Proof route for the energy bound: `u = φ_λ` is real for real `α, β, λ`; wit
 `λ = ρ = 0`, `φ_λ ≡ 1`). The exponential bound is the same Lyapunov argument for
 `e^{−|Im λ| t} φ_λ`. The Laplace representation holds for integers `α > β ≥ 0` by the disc integral
 of §11.4.1 and extends to real `α > β > −1/2` by Carlson's theorem in `α` and `β`
-(Vilenkin–Klimyk's footnote on p. 349); the product formula follows in the same way, and the bound
+(Vilenkin–Klimyk's footnote on p. 349), applied in the form of SpecialFunctionsGamma §10.1 to the
+difference of the two sides in one shifted parameter at a time, with the identity theorem for the
+remaining range; that form needs holomorphy on a right half-plane, exponential type there, and
+type less than `π` on the imaginary axis, which the proof must verify for both sides; the
+product formula follows in the same way, and the bound
 by the imaginary part from the Laplace representation since `|e^{(iλ−ρ)s}| = e^{(−Im λ−ρ)s}`, with
 the cases `α = β` and `β = −1/2` by continuity. Boundedness: for `|Im λ| ≤ ρ` the bound by the
 imaginary part reduces to `0 ≤ φ_{iy} ≤ 1` for `|y| ≤ ρ`; for `|Im λ| > ρ` the asymptotics of 0.3
@@ -302,7 +314,8 @@ give exponential growth.
 - Negative control (the strip): at `(α, β) = (1.3, 0.2)`, `λ = 0.5 − 2.8i`, so
   `|Im λ| = ρ + 0.3`: `|φ_λ(10)| = 16.34674 48467` and `|φ_λ(20)| = 328.33314 70239`.
 
-*Needs:* 0.1, 0.3; Mathlib Carlson-type uniqueness or a direct proof for real `α > β > −1/2`.
+*Needs:* 0.1, 0.3; SpecialFunctionsGamma §10.1 (Carlson's theorem), or a direct proof for real
+`α > β > −1/2`.
 
 ### 0.5 The matrix elements of `SU(1,1)`
 
@@ -350,7 +363,8 @@ case is `k = m = n = 0` at `2t` with `τ = −1/2 + iλ/2`, using `φ_{−λ} = 
 ### Dependencies
 
 SpecialFunctionsHypergeometric Layers 1 and 3, §§1.3, 4.1, 5.1, 7.1; LaguerreJacobi §3.2;
-ZerosOfLFunctions §1.3; SpecialFunctionsSU11MatrixElements §§1.1–1.3; Mathlib Gamma function.
+ZerosOfLFunctions §1.3; SpecialFunctionsSU11MatrixElements §§1.1–1.3; SpecialFunctionsGamma §10.1;
+Mathlib Gamma function.
 
 ## Layer 1: the Jacobi transform
 
@@ -361,7 +375,7 @@ Heckman–Schlichtkrull Part I §5.4 (5.4.2), p. 83.
 
 `jacobiWeight α β t`, `jacobiTransform α β f λ` and the measure `jacobiMeasure α β`, which is
 `Δ(t) dt` on `(0, ∞)`. Prove:
-- **Evenness** (`jacobiTransform_neg`): `f̃(−λ) = f̃(λ)`;
+- evenness, a sanity check of the definition (`jacobiTransform_neg`): `f̃(−λ) = f̃(λ)`, by 0.1;
 - **Holomorphy** (`differentiable_jacobiTransform`): for real `α > −1` and continuous compactly
   supported `f`, `f̃` is entire;
 - **The Paley–Wiener estimate** (`norm_jacobiTransform_le`): for real `α ≥ β ≥ −1/2` and `f`
@@ -398,11 +412,13 @@ Prove, for real `α > −1` and `|β| ≤ α + 1`:
   compactly supported functions.
 
 Proof route (Koornwinder): write `f̃(λ) c(−λ)⁻¹ Φ_λ` with the connection formula, shift the contour
-of the resulting integral over `ℝ` into `Im λ < 0` using the Paley–Wiener estimate and the
-asymptotics of `Φ_λ`; when `|β| ≤ α + 1` the function `c(−λ)⁻¹` has no poles in `Im λ > 0`
-(Klimyk–Vilenkin, p. 233), so no residues appear. Plancherel follows from inversion and the
-symmetry of `L` (1.1); surjectivity of the unitary extension follows from the Paley–Wiener theorem
-of 1.3, whose range is dense.
+of the resulting integral over `ℝ` into `Im λ > 0`, where `|Φ_λ(t)| ~ e^{−(Im λ + ρ)t}` decays,
+using the Paley–Wiener estimate and the asymptotics of `Φ_λ` (whose poles `λ = −ik` lie in
+`Im λ < 0`); when `|β| ≤ α + 1` the function `c(−λ)⁻¹` has no poles in `Im λ > 0`
+(Klimyk–Vilenkin, p. 233, state this for `|β| < α + 1`; at `|β| = α + 1` the pole of the Gamma
+factor at `λ = 0` cancels against `Γ(−iλ)`), so no residues appear. Plancherel follows from
+inversion and the symmetry of `L` (1.1); surjectivity of the unitary extension follows from the
+Paley–Wiener theorem of 1.3, whose range is dense.
 
 **Checks.**
 - `(α, β) = (−1/2, −1/2)`: `(2π)⁻¹ |c|⁻² = 2/π`, the Fourier cosine inversion
@@ -424,46 +440,60 @@ of 1.3, whose range is dense.
 ### 1.3 Discrete terms, the Abel transform and the Paley–Wiener theorem
 
 Sources: Klimyk–Vilenkin (EMS 59) Part II, Ch. 5, §2.4, p. 233 (the poles of `c(−λ)⁻¹` and the
-added summands); Heckman–Schlichtkrull Part II, Lecture 8, Example 8.3 (8.23)–(8.24),
-pp. 181–182 (the residue terms for the hyperboloids `X_{p,q}`); Heckman–Schlichtkrull Part I §5.4,
-Theorem 5.4.2 and Proposition 5.4.3, pp. 83–84 (the spherical transform through the Abel
-transform).
+added summands, without their coefficients); Heckman–Schlichtkrull Part II, Lecture 8,
+Example 8.3 (8.23)–(8.24), pp. 181–182 (the residue terms for the hyperboloids `X_{p,q}`);
+Heckman–Schlichtkrull Part I §5.4, Theorem 5.4.2 and Proposition 5.4.3, pp. 83–84 (the spherical
+transform through the Abel transform), and §5.5, Theorem 5.5.4, p. 86, and Corollary 5.5.6,
+p. 88 (the Euclidean Paley–Wiener theorem, and the Paley–Wiener theorem for the spherical
+transforms of type `χ_l` on Hermitian symmetric spaces, whose radial parts are Jacobi
+transforms at group parameters); Wawrzyńczyk Theorem 18.8.1 (2), p. 645 (Helgason's theorem, the
+spherical case on a symmetric space). None of these states the Paley–Wiener theorem at general
+`α ≥ β ≥ −1/2`; Klimyk–Vilenkin, p. 234, refer for the general Jacobi transform to
+Flensted-Jensen (1972) and Koornwinder (1975). The general statement is carried by the proof
+route below.
 
 Prove:
-- **Discrete terms**: for real `α > −1` and `|β| > α + 1`, the points
-  `λ_j = i(|β| − α − 1 − 2j)` with `j ∈ ℕ`, `|β| − α − 1 − 2j > 0`, are the poles of `c(−λ)⁻¹` in
-  `Im λ > 0`; they are simple, `φ_{λ_j} ∈ L²(Δ dt)`, and for smooth even compactly supported `f`,
-  `f(t) = (2π)⁻¹ ∫₀^∞ f̃(λ) φ_λ(t) |c(λ)|⁻² dλ + Σ_j d(λ_j) f̃(λ_j) φ_{λ_j}(t)` with
-  `d(λ) = −i Res_{μ=λ} (c(μ) c(−μ))⁻¹ = (∫₀^∞ φ_λ² Δ dt)⁻¹ > 0`, with the matching Plancherel
-  formula;
+- **Discrete terms** (`jacobiTransform_inversion_discrete`): for real `α > −1` and
+  `|β| > α + 1`, with `λ_j = i(|β| − α − 1 − 2j)` for the `j ∈ ℕ` with `|β| − α − 1 − 2j > 0` and
+  `d(λ_j) = (∫₀^∞ φ_{λ_j}² Δ dt)⁻¹`, every smooth even compactly supported `f` satisfies
+  `f(t) = (2π)⁻¹ ∫₀^∞ f̃(λ) φ_λ(t) |c(λ)|⁻² dλ + Σ_j d(λ_j) f̃(λ_j) φ_{λ_j}(t)` for real `t`;
+- the `λ_j` are the poles of `c(−λ)⁻¹` in `Im λ > 0`, they are simple, `φ_{λ_j} ∈ L²(Δ dt)`,
+  `d(λ_j) = −i Res_{μ=λ_j} (c(μ) c(−μ))⁻¹ > 0`, and the matching Plancherel formula holds;
 - **The Abel transform of the Jacobi analysis**: for real `α > β > −1/2`, the Laplace
   representation of 0.4 written in the variable `s = log |cosh t + r e^{iψ} sinh t|` gives
   `φ_λ(t) = ∫_{−t}^{t} e^{iλs} k_t(s) ds` with a nonnegative kernel `k_t`, even in `s`, so that
   `f̃(λ) = ∫_ℝ (𝒜_{α,β} f)(s) e^{iλs} ds` with `𝒜_{α,β} f(s) = ∫_{|s|}^∞ f(t) k_t(s) Δ(t) dt`, and
   `𝒜_{α,β} f` is supported in `[−R, R]` when `f` is;
-- **The Paley–Wiener theorem**: for real `α ≥ β ≥ −1/2`, the Jacobi transform maps the smooth even
-  functions supported in `[−R, R]` onto the even entire functions `g` with
-  `|g(λ)| ≤ C_N (1 + |λ|)^{−N} e^{R |Im λ|}` for every `N`.
+- **The Paley–Wiener theorem** (`jacobiTransform_paley_wiener`): for real `α ≥ β ≥ −1/2` and
+  real `R`, the Jacobi transform maps the smooth even functions supported in `[−R, R]` onto the
+  even entire functions `g` with `(1 + |λ|)^N |g(λ)| ≤ C_N e^{R |Im λ|}` for every `N`.
 
-Proof route: in the contour shift of 1.2 the poles `λ_j` are crossed and contribute their residues;
-the identification of `d(λ_j)` with the reciprocal norm follows from the projection onto the
-eigenfunction `φ_{λ_j}`. The Paley–Wiener theorem: the transform factors as the Euclidean Fourier
-transform after `𝒜_{α,β}`, the classical Paley–Wiener theorem applies to `𝒜_{α,β} f`, and
+Proof route: in the contour shift of 1.2 the poles `λ_j` are crossed and contribute their residues
+`d(λ_j) = −i Res (c(μ) c(−μ))⁻¹`; the identification of `d(λ_j)` with the reciprocal norm follows
+from the projection onto the eigenfunction `φ_{λ_j}`. The Paley–Wiener theorem: the transform
+factors as the Euclidean Fourier transform after `𝒜_{α,β}`, the Euclidean Paley–Wiener theorem of
+AutomorphicSpectralTheory §1.6 on `𝔞 = ℝ` (its transform `ĥ(μ) = ∫ h(s) e^{−μs} ds` read at
+`μ = −iλ`, so that its bound `e^{R |Re μ|}` is `e^{R |Im λ|}`) applies to `𝒜_{α,β} f`, and
 `𝒜_{α,β}` is a bijection of the smooth even functions supported in `[−R, R]` (Koornwinder's
 inversion of `𝒜_{α,β}` by fractional integrals); the boundary cases `α = β` and `β = −1/2` follow
-by the quadratic transformation of 0.2 and directly from the Fourier case. For `ℍⁿ` the factorization
-is 4.2.
+by the quadratic transformation of 0.2 and directly from the Fourier case. For `R < 0` both sides
+contain only `0` (an entire `g` with `(1 + |λ|) |g(λ)| ≤ C e^{R |Im λ|}` is bounded and tends to
+`0`). For `ℍⁿ` the factorization is 4.2.
 
 **Checks.**
 - At `(α, β) = (0, 3/2)` there is one discrete term, at `λ₀ = i/2`, with
   `d(λ₀) = −i Res (c(μ) c(−μ))⁻¹ = 1/32 = (∫₀^∞ φ_{i/2}² Δ dt)⁻¹`.
+- At `(α, β) = (0, 3/2)`, `f(t) = e^{−t²}` and `t = 0.5`, the continuous part of the inversion is
+  `0.07087 51680` and the discrete term `0.70792 56150`; their sum is `e^{−1/4} = 0.77880 07831`
+  (negative control: the continuous part alone misses `f(t)`).
 - At `(α, β) = (0, 7/2)` there are two, at `5i/2` and `i/2`.
 - For `α ≥ β ≥ −1/2` there are no discrete terms, since then `|β| ≤ α + 1`.
 - Negative control: `e^{−t²}` does not have compact support, and its transform
   `(√π/2) e^{−λ²/4}` in the Fourier case grows like `e^{(Im λ)²/4}` on the imaginary axis, faster
   than every `e^{R |Im λ|}`.
 
-*Needs:* 0.4, 1.1, 1.2; Mathlib Fourier transform and the classical Paley–Wiener theorem.
+*Needs:* 0.4, 1.1, 1.2; Mathlib Fourier transform; AutomorphicSpectralTheory §1.6 (the Euclidean
+Paley–Wiener theorem).
 
 ### Examples
 
@@ -472,7 +502,8 @@ is 4.2.
 
 ### Dependencies
 
-Layer 0; Mathlib `Lp`, Fourier analysis; SpecialFunctionsSU11MatrixElements §5.2 for a Check.
+Layer 0; Mathlib `Lp`, Fourier analysis; AutomorphicSpectralTheory §1.6;
+SpecialFunctionsSU11MatrixElements §5.2 for a Check.
 
 ## Layer 2: real hyperbolic space
 
@@ -485,17 +516,24 @@ Cartan decomposition `KA'K`); Wawrzyńczyk §18.1, Example 1, p. 611.
 `lorentz`, `hyperboloid`, `basePoint`, `hyperbolicDist`, `lorentzGroup`, `rotationSubgroup`,
 `orbitMap` as in Conventions. Prove:
 - **Transitivity** (`exists_orbitMap_eq`): every `x ∈ ℍⁿ` is `g o` for some `g ∈ G`;
-- **Invariance of the distance** (`hyperbolicDist_mulVec`): `d(gx, gy) = d(x, y)` for `g ∈ G`;
+- invariance of the distance, a sanity check of the definition of `G` (`hyperbolicDist_mulVec`):
+  `d(gx, gy) = d(x, y)` for `g ∈ G`;
 - `K` is compact and isomorphic to `SO(n)`, acting on `(x₁, …, xₙ)`;
 - the Cartan decomposition in coordinates: every `g ∈ G` is `k₁ a_t k₂` with `k₁, k₂ ∈ K` and
   `t = d(o, g o) ≥ 0`;
-- `d` is a metric on `ℍⁿ`, with `[x, y] ≥ 1` for `x, y ∈ ℍⁿ` and equality only at `x = y`;
+- `[x, y] ≥ 1` for `x, y ∈ ℍⁿ`, with equality only at `x = y`, and `d` is the Riemannian distance
+  of RiemannianGeometry R4.7's hyperboloid model (the metric that the Lorentz form induces on the
+  tangent spaces, here `−[·, ·]`, up to the order of the coordinates); in particular `d` is a
+  metric on `ℍⁿ`;
+- `G` is the subgroup of determinant one of R4.7's isometry group `O⁺(n, 1)`, so it acts on `ℍⁿ`
+  by isometries of that model;
 - `g ↦ g o` induces a `G`-equivariant diffeomorphism from RealSemisimpleLieGroups §5.2's symmetric
   space `SO₀(n, 1)/SO(n)` onto `ℍⁿ`.
 
 Proof route: `a_t o = (cosh t, sinh t, 0, …)`; rotate `(x₁, …, xₙ)` onto the `x₁`-axis by `K`.
 `[x, y] ≥ 1` is the Cauchy–Schwarz inequality for `(x₁, …, xₙ)` and `(y₁, …, yₙ)`, as in
-Wawrzyńczyk, p. 397.
+Wawrzyńczyk, p. 397. The comparison with R4.7: by transitivity and invariance it suffices to take
+`x = o`, `y = a_t o`, joined by the unit-speed geodesic `s ↦ a_s o` of length `t = arcosh [o, y]`.
 
 **Checks.**
 - `d(o, x) = arcosh x₀`, since `[o, x] = x₀`.
@@ -506,8 +544,8 @@ Wawrzyńczyk, p. 397.
   so it is not in `lorentzGroup 2` (negative control for the condition on the sheet).
 - The boost `a_t` lies in `lorentzGroup n`, and the rotations of `(x₁, …, xₙ)` lie in `K`.
 
-*Needs:* Mathlib `Matrix.SpecialLinearGroup`, `Real.arcosh`; RealSemisimpleLieGroups §5.2 for the
-last bullet.
+*Needs:* Mathlib `Matrix.SpecialLinearGroup`, `Real.arcosh`; RiemannianGeometry R4.7 for the
+comparison with the Riemannian model; RealSemisimpleLieGroups §5.2 for the last bullet.
 
 ### 2.2 The invariant volume
 
@@ -523,9 +561,9 @@ coordinates).
 - **Horospherical coordinates** (`lintegral_hyperbolicMeasure_horospherical`): on `ℍ^{m+1}`, with
   `x(s, v) = (cosh s + |v|² e^{−s}/2, e^{−s} v, −sinh s − |v|² e^{−s}/2)` for `s ∈ ℝ`, `v ∈ ℝ^m`,
   `∫⁻ f dm = ∫⁻ ∫⁻ f(x(s, v)) e^{−ms} dv ds` for measurable `f ≥ 0`;
-- `m` is the Riemannian volume of the metric `g_{ij} = δ_{ij} − y_i y_j/(1 + |y|²)` that `−[·, ·]`
-  induces in the chart, and the image of a Haar measure of `G` under `g ↦ g o` is a multiple of
-  `m`.
+- `m` is the Riemannian volume of RiemannianGeometry R4.7's hyperboloid metric, which in the
+  chart is `g_{ij} = δ_{ij} − y_i y_j/(1 + |y|²)`, and the image of a Haar measure of `G` under
+  `g ↦ g o` is a multiple of `m`.
 
 Proof route: invariance under `K` is invariance of the chart under rotations; under the boosts it
 is a change of variables in the chart; `G = K A K`. Polar coordinates: `y = sinh t · ω` in the
@@ -540,7 +578,8 @@ ray of `(1, 0, …, 0, −1)` (Wawrzyńczyk (11.2.10)–(11.2.11), p. 399).
 - `x(s, v)` lies on `ℍ^{m+1}`: `x₀² − e^{−2s}|v|² − x_{m+1}² = 1`.
 - `√det g = (1 + |y|²)^{−1/2} = 1/x₀`.
 
-*Needs:* 2.1; Mathlib change of variables, `MeasureTheory.Measure.toSphere`.
+*Needs:* 2.1; Mathlib change of variables, `MeasureTheory.Measure.toSphere`; RiemannianGeometry
+R4.7 for the last bullet.
 
 ### 2.3 The Laplace–Beltrami operator
 
@@ -554,9 +593,10 @@ are generated by the Laplace–Beltrami operator).
 - **Radial part** (`hyperbolicLaplacian_radial`): for `F` of class `C²` on `(0, ∞)` and
   `x ∈ ℍⁿ \ {o}` with `t = d(o, x)`, `Δ(F ∘ d(o, ·))(x) = F''(t) + (n − 1) coth t F'(t)`;
 - `Δ f(x)` depends only on the values of `f` on `ℍⁿ`;
-- in the chart, `Δ` is the Laplace–Beltrami operator `|g|^{−1/2} ∂_i(|g|^{1/2} g^{ij} ∂_j)` of the
-  metric of 2.2; it is symmetric and negative semidefinite on `C_c^∞(ℍⁿ)` for `m`, and it generates
-  the algebra of `G`-invariant differential operators on `ℍⁿ`.
+- in the chart, `Δ` is the Laplace–Beltrami operator `|g|^{−1/2} ∂_i(|g|^{1/2} g^{ij} ∂_j)` of
+  RiemannianGeometry R4.7's hyperboloid metric, written in the chart in 2.2; it is symmetric and
+  negative semidefinite on `C_c^∞(ℍⁿ)` for `m`, and it generates the algebra of `G`-invariant
+  differential operators on `ℍⁿ`.
 
 Proof route: `g` commutes with the homogeneous extension and with the wave operator. The radial
 part: the homogeneous extension of `F(arcosh x₀)` is `F(arcosh(y₀/√[y, y]))`; differentiate. More
@@ -569,7 +609,7 @@ generally, for `F` of one variable, `Δ(F([·, b]))(x) = ([x, b]² − [b, b]) F
 - The radial part at `(α, β) = (n/2 − 1, −1/2)` is the Jacobi operator `L`:
   `(2α + 1) coth t + (2β + 1) tanh t = (n − 1) coth t`.
 
-*Needs:* 2.1, 2.2; Mathlib iterated derivatives.
+*Needs:* 2.1, 2.2; Mathlib iterated derivatives; RiemannianGeometry R4.7 for the last bullet.
 
 ### 2.4 The boundary sphere, plane waves and the Poisson kernel
 
@@ -621,7 +661,8 @@ Proof route: `θ(g) = J g J` on `G` since `gᵀ J g = J`; `θ` fixes `K` (block-
 **Checks.**
 - `θ(a_t) = a_{−t}` and `θ(k) = k` for `k ∈ K`.
 - `θ(gh) = θ(g) θ(h)` and `θ² = id`.
-- Negative control: `(SO₀(n, 1), {1})` is not a Gel'fand pair, since `G` is not abelian.
+- Negative control: for `n ≥ 2`, `(SO₀(n, 1), {1})` is not a Gel'fand pair, since `G` is not
+  abelian (for `n = 1`, `SO₀(1, 1) ≅ ℝ` is abelian and the pair is one).
 
 *Needs:* 2.1, 2.2; SpecialFunctionsGroupModels §5.1.
 
@@ -632,7 +673,8 @@ Proof route: `θ(g) = J g J` on `G` since `gᵀ J g = J`; `θ` fixes `K` (block-
 ### Dependencies
 
 Mathlib matrices, measure theory and derivatives; SpecialFunctionsGroupModels §5.1;
-RealSemisimpleLieGroups §5.2 for one bullet of 2.1.
+RiemannianGeometry R4.7 for the comparison bullets of 2.1–2.3; RealSemisimpleLieGroups §5.2 for one
+bullet of 2.1.
 
 ## Layer 3: spherical functions on `ℍⁿ`
 
@@ -734,19 +776,30 @@ SpecialFunctionsGroupModels Layer 1. Prove, for `n ≥ 2`:
 - `π_λ` is irreducible for `λ ∈ ℝ`, and `π_λ ≅ π_{−λ}`; for `n = 2, 3` this is the irreducibility
   and equivalence of the principal series of NoncompactQuantumSymmetry M4 and M4.Lorentz through
   `SO₀(2, 1) ≅ PSL(2, ℝ)` and `SO₀(3, 1) ≅ PSL(2, ℂ)`;
-- the complementary series: for `λ ∈ i(−ρ, ρ) \ {0}`, `π_λ` is unitary for an invariant positive
+- the complementary series: for `λ ∈ i(−ρ, 0)`, `π_λ` is unitary for an invariant positive
   Hermitian form on smooth functions whose kernel is a positive multiple of
-  `|b − b'|^{2(iλ−ρ)}`, an integrable kernel on `S^{n−1} × S^{n−1}`.
+  `|b − b'|^{2(iλ−ρ)}`, integrable on `S^{n−1} × S^{n−1}` because its exponent
+  `−2(ρ + Im λ)` exceeds `−(n − 1) = −2ρ`; for `λ ∈ i(0, ρ)`, the operator with the integrable
+  kernel `|b − b'|^{2(−iλ−ρ)}` intertwines `π_{−λ}` with `π_λ`, so `π_λ ≅ π_{−λ}` is unitary for
+  the transported form.
 
 Proof route: the cocycle identity is the homogeneity of `b̃ ↦ (g⁻¹ b̃)₀` (2.4). The coefficient is
 Harish-Chandra's integral, since `(g⁻¹ b̃)₀ = [g o, b̃]`. Irreducibility for general `n`: the
 `K`-types of `L²(S^{n−1})` are the spherical harmonics of each degree, each once, and the
 infinitesimal action of a boost connects neighbouring degrees with coefficients that do not vanish
-for `λ ∈ ℝ` (Vilenkin–Klimyk §9.2.6). The intertwiner `π_λ ≅ π_{−λ}` is the operator with kernel
-`|b − b'|^{2(iλ−ρ)}`, suitably normalized (Vilenkin–Klimyk §9.2.7).
+for `λ ∈ ℝ` (Vilenkin–Klimyk §9.2.6). The operator `A_λ` with kernel `[b̃, b̃']^{iλ−ρ}`, a multiple
+of `|b − b'|^{2(iλ−ρ)}` since `[b̃, b̃'] = |b − b'|²/2`, satisfies `A_λ π_λ(g) = π_{−λ}(g) A_λ` by
+the Jacobian of 2.4 (the exponent `s` of the kernel must satisfy `s − iλ + ρ = 0`); it is an
+integral operator for `Im λ < 0`, and for real `λ` the intertwiner `π_λ ≅ π_{−λ}` is its
+normalized analytic continuation in `λ` (Vilenkin–Klimyk §9.2.7). For `λ ∈ i(−ρ, 0)` the form
+`⟪A_λ F, G⟫` is `π_λ`-invariant, since the `L²` adjoint of `π_λ(g)` is `π_{λ̄}(g⁻¹)` and
+`λ̄ = −λ`.
 
 **Checks.**
 - The multiplier at `g = a_t`, `b = (1, 0, …, 0)` is `e^{(iλ+ρ)t}`.
+- Negative control (the sign of `Im λ` in the complementary series): for `n = 2` and `λ = i/4`
+  the kernel `|b − b'|^{2(iλ−ρ)} = |b − b'|^{−3/2}` is not integrable on the circle, while at
+  `λ = −i/4` it is `|b − b'|^{−1/2}`, which is.
 - `n = 2`: `π_λ` and the principal series of SpecialFunctionsGroupModels §2.1 at
   `τ = −1/2 + iλ` (through `PSL(2, ℝ) ≅ SU(1,1)/{±1}`) are unitary and irreducible with the same
   spherical function `P_{−1/2+iλ}(cosh t)`, hence equivalent (SpecialFunctionsGroupModels §5.3).
@@ -958,6 +1011,15 @@ and harmonic analysis on `G/K`. This roadmap builds `ℍⁿ` concretely in coord
 decompositions it needs proved by matrix computation, and records the comparison with
 RealSemisimpleLieGroups §5.2 in 2.1.
 
+**Boundary with [RiemannianGeometry](../RiemannianGeometry/README.md).** Its R4.7 owns the
+hyperboloid model of hyperbolic space as a Riemannian manifold: the metric restricted from the
+Lorentz form, explicit isometries, geodesics, curvature `−1`, the Riemannian distance, and the
+identification of the isometry group with `O⁺(n, 1)` acting on the future unit hyperboloid. This
+roadmap owns the coordinate set `ℍⁿ` with the matrix group `SO₀(n, 1)`, the formula
+`d = arcosh [·, ·]`, the volume in the chart and in polar and horospherical coordinates, the
+wave-operator form of the Laplacian and the harmonic analysis; it compares its distance, volume
+and Laplacian with R4.7's metric in 2.1–2.3.
+
 **Boundary with [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md).** Its M4 and
 M4.Lorentz own the principal and complementary series of `SL(2, ℝ)` and `SL(2, ℂ)` with their
 irreducibility and classification. This roadmap consumes them for `n = 2, 3` and owns the spherical
@@ -967,9 +1029,10 @@ principal and complementary series of `SO₀(n, 1)` on `L²(S^{n−1})` for gene
 [AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md).** AutomorphicSpectralTheory
 §§0.35–0.37 own the Legendre function `Q_{s−1}` and point-pair invariants on the upper half-plane;
 AnalyticNumberTheoryPartII §6.12c uses inverse Abel transforms for the heat-kernel trace on a
-compact hyperbolic surface. Neither depends on this roadmap, and this roadmap does not depend on
-them; the Abel transform of 4.2 at `n = 2` is the general object of which their formulas are
-instances.
+compact hyperbolic surface. Neither depends on this roadmap. This roadmap consumes from
+AutomorphicSpectralTheory only the Euclidean Paley–Wiener theorem of its §1.6, on `ℝ`, and nothing
+from AnalyticNumberTheoryPartII; the Abel transform of 4.2 at `n = 2` is the general object of
+which their formulas are instances.
 
 **Boundary with [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
 and [LaguerreJacobi](../LaguerreJacobi/README.md).** The first owns `F(a, b; c; z)` on the cut
@@ -984,7 +1047,7 @@ second owns the Jacobi polynomials `P_k^{(α,β)}` (its §3.2), consumed in 0.1.
 - `Real.arcosh`, `Complex.Gamma`, `ascPochhammer`, `iteratedDeriv`,
   `Matrix.SpecialLinearGroup` with its topology, `MeasureTheory.Measure.toSphere`,
   `MeasureTheory.average`, `MeasureTheory.Lp`, `MeasureTheory.Measure.IsHaarMeasure`,
-  `LinearIsometryEquiv`, the Fourier transform on `ℝ` with the classical Paley–Wiener theorem.
+  `LinearIsometryEquiv`, the Fourier transform on `ℝ`.
 
 ### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
 
@@ -1003,6 +1066,21 @@ second owns the Jacobi polynomials `P_k^{(α,β)}` (its §3.2), consumed in 0.1.
 ### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
 
 - §1.3 (the asymptotics of `log |Γ(σ + it)|` on vertical strips), in the growth bound of 0.3.
+
+### From SpecialFunctionsGamma
+
+- §10.1: Carlson's theorem, for `f` holomorphic on `{Re z > 0}` and continuous on `{Re z ≥ 0}`,
+  with `|f(z)| ≤ C e^{τ|z|}` there and `|f(iy)| ≤ C e^{c|y|}` for real `y` with `c < π`: if
+  `f(n) = 0` for every `n ∈ ℕ`, then `f = 0` on `{Re z ≥ 0}`. In 0.4, for the Laplace-type
+  representation and the product formula.
+
+### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
+
+- §1.6: the Euclidean Paley–Wiener theorem, on `𝔞 = ℝ` with `R ≥ 0`: the Fourier–Laplace
+  transform `ĥ(μ) = ∫ h(s) e^{−μs} ds` maps the smooth functions supported in `[−R, R]` onto the
+  entire functions with `sup_μ e^{−R |Re μ|} (1 + |μ|)^N |ĥ(μ)| < ∞` for every `N`, with the
+  inversion formula on every vertical line. Read at `μ = −iλ` in 1.3, and through 1.3 in the
+  surjectivity of 1.2 and in 4.2 and 4.3.
 
 ### From SpecialFunctionsGroupModels
 
@@ -1035,6 +1113,12 @@ second owns the Jacobi polynomials `P_k^{(α,β)}` (its §3.2), consumed in 0.1.
 ### From [RealSemisimpleLieGroups](../RealSemisimpleLieGroups/README.md)
 
 - §5.2: the symmetric space `G/K` of `G = SO₀(n, 1)`, in the last bullet of 2.1.
+
+### From [RiemannianGeometry](../RiemannianGeometry/README.md)
+
+- R4.7: the hyperboloid model as a Riemannian manifold (the metric restricted from the Lorentz
+  form, its Riemannian distance and geodesics) and its isometry group `O⁺(n, 1)` acting on the
+  future unit hyperboloid, in the comparison bullets of 2.1–2.3.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 

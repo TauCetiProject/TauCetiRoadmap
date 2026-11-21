@@ -10,7 +10,9 @@ This file states, against the pinned Mathlib and Tau Ceti, the headlines of `REA
 carry a Lean name, each with every conclusion the README attaches to it, with `sorry` proofs and
 the definitions they need. These are suggested forms; the README's other headlines are targets of
 the same standing, stated in prose. Discharging this file finishes neither a layer nor the
-roadmap. Section numbers in docstrings are those of the README.
+roadmap. Section numbers in docstrings are those of the README. Three statements
+(`jacobiFunction_even`, `jacobiTransform_neg`, `hyperbolicDist_mulVec`) are sanity checks of the
+definitions rather than targets of substance; their docstrings say so.
 
 Conventions (README, Conventions). The Jacobi function is DLMF 15.9.11,
 `φ_λ^{(α,β)}(t) = F((α + β + 1 + iλ)/2, (α + β + 1 − iλ)/2; α + 1; −sinh² t)`, with
@@ -141,7 +143,7 @@ theorem jacobiFunction_neg_spectral (α β lam : ℂ) (t : ℝ) :
     jacobiFunction α β (-lam) t = jacobiFunction α β lam t := by
   sorry
 
-/-- README 0.1. **Evenness in the radius**: `φ_λ(−t) = φ_λ(t)`. -/
+/-- Sanity check of the definition: README 0.1, evenness in the radius, `φ_λ(−t) = φ_λ(t)`. -/
 theorem jacobiFunction_even (α β lam : ℂ) (t : ℝ) :
     jacobiFunction α β lam (-t) = jacobiFunction α β lam t := by
   sorry
@@ -195,7 +197,8 @@ theorem jacobiFunction_quadratic (α lam : ℂ) (t : ℝ) :
     jacobiFunction α (-1 / 2) lam t = jacobiFunction α α (2 * lam) (t / 2) := by
   sorry
 
-/-- README 0.3. **`Φ_λ` solves the Jacobi equation** on `t > 0` for `iλ ∉ {1, 2, …}`. -/
+/-- README 0.3. **`Φ_λ` solves the Jacobi equation** on `t > 0`. At the junk values
+`iλ ∈ {1, 2, …}` both sides are `0`, so no hypothesis on `λ` is needed. -/
 theorem jacobiOperator_harishChandraSeries (α β lam : ℂ)
     {t : ℝ} (ht : 0 < t) :
     jacobiOperator α β (harishChandraSeries α β lam) t =
@@ -209,7 +212,8 @@ theorem tendsto_harishChandraSeries (α β lam : ℂ) (hlam : ∀ k : ℕ, I * l
   sorry
 
 /-- README 0.3. **The connection formula**: `φ_λ = c(λ) Φ_λ + c(−λ) Φ_{−λ}` on `t > 0`, for
-`iλ ∉ ℤ` and `α ∉ {−1, −2, …}`. -/
+`iλ ∉ ℤ`. At `α ∈ {−1, −2, …}` both sides are `0` (the factor `Γ(α + 1)` of `φ_λ` and of `c`), so
+no hypothesis on `α` is needed. -/
 theorem jacobiFunction_eq_cFunction (α β lam : ℂ)
     (hlam : ∀ k : ℤ, I * lam ≠ k) {t : ℝ} (ht : 0 < t) :
     jacobiFunction α β lam t =
@@ -340,7 +344,8 @@ def jacobiPlancherelMeasure (α β : ℝ) : Measure ℝ :=
   (volume.restrict (Ioi (0 : ℝ))).withDensity fun lam : ℝ =>
     ENNReal.ofReal ((2 * π)⁻¹ * ‖cFunction α β lam‖⁻¹ ^ 2)
 
-/-- README 1.1. **Evenness**: `f̃(−λ) = f̃(λ)`. -/
+/-- Sanity check of the definition: README 1.1, evenness, `f̃(−λ) = f̃(λ)`, by
+`jacobiFunction_neg_spectral`. -/
 theorem jacobiTransform_neg (α β : ℝ) (f : ℝ → ℂ) (lam : ℂ) :
     jacobiTransform α β f (-lam) = jacobiTransform α β f lam := by
   sorry
@@ -393,6 +398,35 @@ theorem exists_jacobiTransform_linearIsometryEquiv (α β : ℝ) (hα : -1 < α)
           (hf' : MemLp (fun lam : ℝ => jacobiTransform α β f lam) 2
             (jacobiPlancherelMeasure α β)),
           U (hf.toLp f) = hf'.toLp _ := by
+  sorry
+
+/-- README 1.3. **Discrete terms**: for real `α > −1` and `|β| > α + 1`, with
+`λ_j = i(|β| − α − 1 − 2j)` for the `j ∈ ℕ` with `|β| − α − 1 − 2j > 0` (these are the
+`j < ⌈(|β| − α − 1)/2⌉`) and `d(λ_j) = (∫₀^∞ φ_{λ_j}² Δ dt)⁻¹`,
+`f(t) = (2π)⁻¹ ∫₀^∞ f̃(λ) φ_λ(t) |c(λ)|⁻² dλ + Σ_j d(λ_j) f̃(λ_j) φ_{λ_j}(t)` for smooth even
+compactly supported `f`. -/
+theorem jacobiTransform_inversion_discrete (α β : ℝ) (hα : -1 < α) (hβ : α + 1 < |β|)
+    (f : ℝ → ℂ) (hf : ContDiff ℝ ∞ f) (hfs : HasCompactSupport f) (heven : ∀ t, f (-t) = f t)
+    (t : ℝ) :
+    f t = (∫ lam in Ioi (0 : ℝ), jacobiTransform α β f lam * jacobiFunction α β lam t *
+        ((2 * π)⁻¹ * ‖cFunction α β lam‖⁻¹ ^ 2 : ℝ)) +
+      ∑ j ∈ Finset.range ⌈(|β| - α - 1) / 2⌉₊,
+        (∫ s in Ioi 0, jacobiFunction α β (I * ((|β| - α - 1 - 2 * j : ℝ) : ℂ)) s ^ 2 *
+            (jacobiWeight α β s : ℂ))⁻¹ *
+          jacobiTransform α β f (I * ((|β| - α - 1 - 2 * j : ℝ) : ℂ)) *
+          jacobiFunction α β (I * ((|β| - α - 1 - 2 * j : ℝ) : ℂ)) t := by
+  sorry
+
+/-- README 1.3. **The Paley–Wiener theorem**: for real `α ≥ β ≥ −1/2` and real `R`, the Jacobi
+transforms of the smooth even functions supported in `[−R, R]` are exactly the even entire
+functions `g` with `(1 + |λ|)^N |g(λ)| ≤ C_N e^{R |Im λ|}` for every `N`. -/
+theorem jacobiTransform_paley_wiener (α β : ℝ) (hαβ : β ≤ α) (hβ : -1 / 2 ≤ β) (R : ℝ)
+    (g : ℂ → ℂ) :
+    (∃ f : ℝ → ℂ, ContDiff ℝ ∞ f ∧ (∀ t, f (-t) = f t) ∧ tsupport f ⊆ Icc (-R) R ∧
+        g = jacobiTransform α β f) ↔
+      Differentiable ℂ g ∧ (∀ lam, g (-lam) = g lam) ∧
+        ∀ N : ℕ, ∃ C : ℝ, ∀ lam : ℂ,
+          (1 + ‖lam‖) ^ N * ‖g lam‖ ≤ C * Real.exp (R * |lam.im|) := by
   sorry
 
 /-! ## Layer 2: real hyperbolic space -/
@@ -470,7 +504,8 @@ theorem exists_orbitMap_eq (n : ℕ) {x : Fin (n + 1) → ℝ} (hx : x ∈ hyper
     ∃ g : lorentzGroup n, orbitMap n g = x := by
   sorry
 
-/-- README 2.1. **Invariance of the distance**: `d(g x, g y) = d(x, y)` for `g ∈ SO₀(n, 1)`. -/
+/-- Sanity check of the definition of `lorentzGroup`: README 2.1, invariance of the distance,
+`d(g x, g y) = d(x, y)` for `g ∈ SO₀(n, 1)`. -/
 theorem hyperbolicDist_mulVec (n : ℕ) (g : lorentzGroup n) (x y : Fin (n + 1) → ℝ) :
     hyperbolicDist ((g : Matrix.SpecialLinearGroup (Fin (n + 1)) ℝ).1 *ᵥ x)
       ((g : Matrix.SpecialLinearGroup (Fin (n + 1)) ℝ).1 *ᵥ y) = hyperbolicDist x y := by
