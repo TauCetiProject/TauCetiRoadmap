@@ -6,8 +6,9 @@ the value group `Γ` as an ordered abelian group. This is the Ax–Kochen–Ersh
 `K ≡ K'` if and only if `k ≡ k'` and `Γ ≡ Γ'`. If moreover `K ⊆ K'` is an extension of henselian
 valued fields with `k ≼ k'` and `Γ ≼ Γ'`, then `K ≼ K'`. The same holds in mixed characteristic
 `(0, p)` for unramified fields, those in which `v(p)` is the least positive value, provided the
-residue fields are perfect. It also holds for finitely ramified fields, those with finitely many
-values between `0` and `v(p)`, with the residue rings `O/𝔪ⁿ` in place of the residue field.
+residue fields are perfect. The equivalence criterion also holds for finitely ramified fields,
+those with finitely many values between `0` and `v(p)`, with the residue rings `O/𝔪ⁿ` in place of
+the residue field.
 
 Applied to `ℚ_p`, this gives Ax–Kochen's and Ershov's axiomatization: a valued field is
 elementarily equivalent to `ℚ_p` if and only if it is henselian of characteristic `0`, with
@@ -16,17 +17,16 @@ theory of `ℚ_p` is therefore complete, recursively axiomatized, decidable and 
 the field of algebraic `p`-adic numbers as prime model. Applied to power series, for fields `k`,
 `k'` of characteristic `0` it gives `k[[t]] ≡ k'[[t]]` as rings if and only if `k ≡ k'`. The
 ring of algebraic power series `k[[t]]ᵃˡᵍ` is an elementary subring of `k[[t]]`. The theories of
-`ℂ((t))` and of `ℝ((t))` are decidable. Robinson's theorem, that algebraically closed fields with a
-nontrivial valuation eliminate quantifiers and that their completions are fixed by the
-characteristics of the field and of the residue field, is the first theorem of the roadmap and its
-model of how the later proofs run.
+`ℂ((t))` and of `ℝ((t))` are decidable. From Robinson's theorem, that algebraically closed fields
+with a nontrivial valuation eliminate quantifiers, the roadmap derives that their completions are
+fixed by the characteristics of the field and of the residue field.
 
 The proofs go through Kaplansky's theory of immediate extensions. A pseudo-Cauchy sequence is a
 well-ordered sequence whose successive distances eventually strictly decrease. Every one has a
 limit in some immediate extension, which changes neither the residue field nor the value group.
-A field is maximal when it has no proper immediate extension. In residue characteristic `0` and
-in finitely ramified mixed characteristic, henselian fields are algebraically maximal, and maximal
-immediate extensions are unique up to isomorphism. These are the facts that let an isomorphism
+A field is maximal when it has no proper immediate extension. In residue characteristic `0`,
+henselian fields are algebraically maximal, and maximal immediate extensions are unique up to
+isomorphism. These are the facts that let an isomorphism
 between small subfields of two saturated valued fields extend by one element, which is what a
 back-and-forth argument needs.
 
@@ -34,13 +34,14 @@ The roadmap builds on SaturationAndQuantifierElimination, which supplies saturat
 extensions, back-and-forth families, the quantifier elimination tests, the theory of `ℤ`-groups
 and the passage to decidability. It builds on LocalFieldsRamificationPartII, which supplies the
 henselization of a valued field and the composition and coarsening of valuations, and on Mathlib's
-valuation subrings, henselian local rings and Witt vectors. It feeds PadicallyClosedFields, whose
-model theory of `p`-adically closed fields of `p`-rank `d` rests on the finitely ramified case.
-It also feeds CiFieldsAndArtinsConjecture, which uses the fixed-prime theory of `ℚ_p` beside the
-asymptotic transfer of LogicAndDefinabilityInNumberTheory.
+valuation subrings, henselian local rings and Witt vectors, and on RigidAnalyticGeometry, which
+supplies quantifier elimination for algebraically closed valued fields. It feeds two planned
+roadmaps: PadicallyClosedFields, whose model theory of `p`-adically closed fields of `p`-rank `d`
+rests on the finitely ramified case, and CiFieldsAndArtinsConjecture, which uses the fixed-prime
+theory of `ℚ_p` beside the asymptotic transfer of LogicAndDefinabilityInNumberTheory.
 
-Layer 0 fixes the language and interprets the residue field and the value group. Layer 1 is
-Robinson's theorem. Layer 2 builds pseudo-Cauchy sequences and maximal fields, and Layer 3
+Layer 0 fixes the language and interprets the residue field and the value group. Layer 1 treats
+algebraically closed valued fields. Layer 2 builds pseudo-Cauchy sequences and maximal fields, and Layer 3
 henselian fields and the uniqueness of maximal immediate extensions. Layer 4 constructs
 cross-sections and angular components in saturated models. Layer 5 proves the AKE theorems:
 residue characteristic `0`, then unramified, then finitely ramified. Layer 6 draws the
@@ -72,18 +73,24 @@ consequences.
   back-and-forth family of partial isomorphisms between `ℵ₁`-saturated elementary extensions, in
   the sense of SaturationAndQuantifierElimination Layer 1. No statement assumes CH, and no proof
   constructs a full isomorphism of saturated models.
-- **Pseudo-Cauchy sequences** are indexed by a well-ordered set without a largest element.
+- **Pseudo-Cauchy sequences.** The predicates of 2.1 are defined for every linearly ordered index
+  type. The theorems about them assume an index type without a largest element, and those of
+  Kaplansky's theory (2.2–2.3) a well-ordered one.
 
 ## Layer 0: the language of valued fields
 
 ### 0.1 The language and the theory of valued fields
 
-`valLang`, `valStructure K V`, and `Theory.valuedField`: the field axioms of Mathlib's
+`valLang`, `valStructure K V`, and `Theory.valuedField` (a proposed name, as are
+`Theory.henselianValuedField` and `Theory.acvf` below): the field axioms of Mathlib's
 `Theory.field` together with van den Dries's axioms (VD1)–(VD5) for a valuation divisibility
 (van den Dries Def. 3.26). The bridge, in both directions: a model of `Theory.valuedField` is a
 field with the valuation subring `{x | 1 ∣ x}`, inducing the given relation, and every valued field
 is a model (van den Dries Lem. 3.27(i)–(ii)). Embeddings of `valLang`-structures between valued
-fields are exactly the field embeddings `f` with `W.comap f = V`.
+fields are exactly the field embeddings `f` with `W.comap f = V`. The language and the
+valuation-ring axioms are those of RigidAnalyticGeometry §8.2, with the same reading of `∣`; the Lean
+carriers `valLang`, `valStructure` and `Theory.valuedField`, and the bridge to Mathlib's
+`ValuationSubring`, are targets here.
 
 `Theory.henselianValuedField` adds, for each `n`, the sentence asserting Hensel's lemma for monic
 polynomials of degree `n` with coefficients in `V` (van den Dries Def. 1.6). Its models are the
@@ -97,6 +104,7 @@ henselian valued fields. The theories `T_{0,0}` (equicharacteristic `0`: `1 ∣ 
   `p` choose an integer `a ≡ 1 mod p` that is not a rational square. Then `X² − a` has the simple
   root `1` modulo `p` and no root in `ℚ`.
 - `ℚ_p`, `k((t))` and `k[[t]] ⊆ k((t))` are henselian (Tau Ceti `IsAdicComplete.henselianLocalRing`).
+- `V = {x | 1 ∣ x}` (`mem_iff_dvd_one`, which unfolds the definition).
 
 ### 0.2 Interpretation of the residue field and the value group
 
@@ -104,8 +112,10 @@ For every ring formula `φ(x₁, …, xₙ)` there is a `valLang`-formula `φᵏ
 every valued field, for `a₁, …, aₙ ∈ V`, `K ⊨ φᵏ(a)` if and only if `k ⊨ φ(ā)`, with `ā` the
 residues. For every `orderedGroup`-formula `ψ(x₁, …, xₙ)` there is a `valLang`-formula
 `ψᵛ(y₁, …, yₙ)` such that, for `a₁, …, aₙ ∈ Kˣ`, `K ⊨ ψᵛ(a)` if and only if `Γ ⊨ ψ(|a₁|, …, |aₙ|)`.
-Both translations are uniform in the valued field and computable on the codings of
-SaturationAndQuantifierElimination Layer 4.1. The construction relativizes quantifiers to `V`
+Both translations are uniform in the valued field and computable on the codes of formulas
+(RandomGraphs' `boundedCode`, as in SaturationAndQuantifierElimination's conventions). In
+`Suggested.lean` they are `exists_residueSentence` and `exists_valueGroupSentence`, with the value
+group `valueGroup V`. The construction relativizes quantifiers to `V`
 (respectively to `Kˣ`), and replaces `=` by congruence modulo the maximal ideal (respectively by
 `x ∣ y ∧ y ∣ x`), and `≤` on `Γ` by `∣`.
 
@@ -127,25 +137,22 @@ Mathlib `Language.ring`, `compatibleRingOfRing`, `Theory.field`, `ValuationSubri
 ## Layer 1: algebraically closed valued fields
 
 `Theory.acvf` is `Theory.valuedField` together with Mathlib's `Theory.ACF` axioms and
-nontriviality `∃ x, ¬ 1 ∣ x`.
+nontriviality `∃ x, ¬ 1 ∣ x`: the theory ACVF of RigidAnalyticGeometry §8.2. That roadmap owns,
+as its target, the conjugacy under `Aut(Kᵃ/K)` of the prolongations of a valuation to an algebraic
+closure, the extension of valued-field embeddings to relative algebraic closures and along one
+transcendental element, and Robinson's theorem: ACVF eliminates quantifiers (its steps (i)–(iv);
+van den Dries Cor. 3.16, Lemmas 3.21–3.23, Thm. 3.29). This layer uses that theorem, read for
+`Theory.acvf` in `valLang`, and builds on it:
 
-- *Extension of valuations.* The prolongations of `V` to `Kᵃ` are conjugate under `Aut(Kᵃ/K)`,
-  and every valued field embedding of `K` into an algebraically closed valued field extends to
-  `(Kᵃ, Vᵃ)` for any prolongation `Vᵃ` (van den Dries Cor. 3.16). The base is Mathlib's Chevalley
-  extension theorem `LocalSubring.exists_le_valuationSubring`.
 - *Finite and algebraic extensions.* `[k_L : k_K]·[Γ_L : Γ_K] ≤ [L : K]` (van den Dries
   Prop. 3.19), and for `L = Kᵃ` the residue field is an algebraic closure of `k_K` and the value
   group a divisible hull of `Γ_K` (Cor. 3.20).
-- *Simple transcendental extensions* (van den Dries Lemmas 3.21–3.23): the valuations on `K(x)`
-  over an algebraically closed `K` are determined by the residue or value-group extension that `x`
-  generates. The general bound `rk_ℚ(Γ_L/Γ_K) + trdeg(k_L/k_K) ≤ trdeg(L/K)` is the Abhyankar
-  inequality of LocalFieldsRamificationPartII §5.3.
-- *Robinson's theorem.* `Theory.acvf` eliminates quantifiers in `valLang` (van den Dries
-  Thm. 3.29). The proof applies the saturated extension test of SaturationAndQuantifierElimination
-  §2.3.
+- The general bound `rk_ℚ(Γ_L/Γ_K) + trdeg(k_L/k_K) ≤ trdeg(L/K)` is the Abhyankar inequality of
+  LocalFieldsRamificationPartII §5.3.
 - *Completions.* For `(a, b)` equal to `(0, 0)`, `(0, p)` or `(p, p)`, the theory `ACFval(a, b)`
   of algebraically closed nontrivially valued fields with `char K = a` and `char k = b` is
-  complete (van den Dries Cor. 3.34). These are all the completions of `Theory.acvf`.
+  complete (van den Dries Cor. 3.34; `elementarilyEquivalent_of_isAlgClosed`). These are all the
+  completions of `Theory.acvf`.
 - *Definable sets in one variable.* Every subset of `K` definable with parameters in a model of
   `Theory.acvf` is a finite Boolean combination of balls (van den Dries Cor. 3.32), and a finite
   disjoint union of Swiss cheeses: balls with finitely many smaller balls removed (Prop. 3.33).
@@ -159,23 +166,24 @@ nontriviality `∃ x, ¬ 1 ∣ x`.
 
 ### Dependencies
 
-Mathlib `LocalSubring.exists_le_valuationSubring`, `Theory.ACF`, `AlgebraicClosure`;
-SaturationAndQuantifierElimination §§2.3–2.4; Layer 0.
+Mathlib `Theory.ACF`, `AlgebraicClosure`; RigidAnalyticGeometry §8.2;
+SaturationAndQuantifierElimination §2.4; Layer 0.
 
 ## Layer 2: pseudo-Cauchy sequences and maximal fields
 
 ### 2.1 Pseudo-Cauchy sequences
 
-`IsPseudoCauchy V a`, for `a : ι → K` with `ι` well-ordered without a largest element: there is
+`IsPseudoCauchy V a`, for `a : ι → K` with `ι` linearly ordered: there is
 `i₀` with `|a_k − a_j| < |a_j − a_i|` for `i₀ ≤ i < j < k`. `IsPseudoLimit V a x`: `|x − a_i|` is
 eventually strictly decreasing. API (van den Dries §4.1):
 
-- the pseudolimits of a pseudo-Cauchy sequence, if any, form the ball of radius the eventual value
-  of `|a_{i+1} − a_i|` around any one of them (van den Dries Lem. 4.1);
+- for `ι` without a largest element: if `x` is a pseudolimit of `a`, then `y` is one exactly when
+  `|x − y| < |x − a_i|` for all large `i` (van den Dries Lem. 4.1), and a sequence with a
+  pseudolimit is pseudo-Cauchy;
 - in an immediate extension every element outside `K` is a pseudolimit of a pseudo-Cauchy sequence
   in `K` without pseudolimit in `K` (van den Dries Lem. 4.2);
 - the values `|a_i|` are eventually constant or eventually strictly decreasing (Cor. 4.4);
-- for a polynomial `f`, `f(a_i)` is pseudo-Cauchy for `i` large, and `|f(a_i)|` is eventually
+- for a nonconstant polynomial `f`, `f(a_i)` is pseudo-Cauchy for `i` large, and `|f(a_i)|` is eventually
   constant or eventually strictly decreasing (Prop. 4.7, Cor. 4.8).
 
 A pseudo-Cauchy sequence is of *algebraic type* over `K` if some polynomial `f` has `|f(a_i)|`
@@ -204,7 +212,8 @@ it has no proper immediate algebraic extension. API:
   pseudolimit in `K` (Lem. 4.15, Cor. 4.16);
 - algebraically maximal fields are henselian (Lem. 4.17, Cor. 4.18);
 - Hahn fields are maximal: for a field `k` and an ordered abelian group `Γ`, Mathlib's
-  `HahnSeries Γ k` with the valuation `HahnSeries.addVal` is maximal (van den Dries Cor. 4.13). The
+  `HahnSeries Γ k` with Tau Ceti's multiplicative valuation `HahnSeries.valuation` (Mathlib's
+  additive form is `HahnSeries.addVal`) is maximal (van den Dries Cor. 4.13). The
   valuation subring of `HahnSeries Γ k` and its identification with residue field `k` and value
   group `Γ` are targets here.
 
@@ -220,7 +229,8 @@ it has no proper immediate algebraic extension. API:
 
 ### Dependencies
 
-Mathlib `ValuationSubring.valuation`, `HahnSeries`, `HahnSeries.addVal`, `Cardinal`; Layer 0.
+Mathlib `ValuationSubring.valuation`, `HahnSeries`, `HahnSeries.addVal`, `Cardinal`; Tau Ceti
+`HahnSeries.valuation`; Layer 0.
 
 ## Layer 3: henselian fields and uniqueness
 
@@ -232,7 +242,8 @@ the corresponding ball (Lem. 4.20).
 
 ### 3.2 Henselian is algebraically maximal
 
-Let `(K, V)` be of equicharacteristic `0` or finitely ramified of mixed characteristic.
+Let `(K, V)` be of equicharacteristic `0`. The finitely ramified case of 5.8 does not pass through
+3.2–3.4: its embedding step is Basarab's own.
 
 - For a pseudo-Cauchy sequence `a` and `f` with `f(aᵢ)` tending to `0` and no derivative `f⁽ʲ⁾`,
   `j ≥ 1`, tending to `0`, the pair `f, aᵢ` is eventually in Hensel configuration, and every
@@ -329,7 +340,8 @@ transcendental extensions of Layer 2.2.
 ### 5.3 AKE in equicharacteristic 0
 
 - `K ≅[valLang] K'` if and only if `k ≅[Language.ring] k'` and `Γ ≅[orderedGroup] Γ'`, for
-  henselian `K`, `K'` of equicharacteristic `0` (van den Dries Thm. 5.1, Cor. 5.22).
+  henselian `K`, `K'` of equicharacteristic `0` (van den Dries Thm. 5.1, Cor. 5.22;
+  `elementarilyEquivalent_iff_of_charZero`).
 - For every `valLang`-sentence `σ` there are ring sentences `ρ₁, …, ρₘ` and ordered-group
   sentences `τ₁, …, τₘ` such that, in every henselian valued field of equicharacteristic `0`,
   `σ` holds if and only if some `ρᵢ` holds in `k` and `τᵢ` holds in `Γ` (van den Dries Cor. 5.17).
@@ -350,11 +362,12 @@ On Mathlib's `WittVector p k` (`𝕎 k`) for a perfect field `k` of characterist
 
 - *Teichmüller representatives.* A complete local ring with perfect residue field of
   characteristic `p` has a unique multiplicative section of the residue map (van den Dries
-  Thm. 6.1), and its `p`-adic expansions (Cor. 6.2). Tau Ceti's
-  `TauCeti.RingTheory.Henselian.teichmuller` is the case of a finite residue field.
+  Thm. 6.1), and its `p`-adic expansions (Cor. 6.2). Tau Ceti's `TauCeti.teichmuller` is the case
+  of a finite residue field.
 - `𝕎 k` is a complete discrete valuation ring with uniformizer `p` and residue field `k`
   (van den Dries Thm. 6.10).
-- *Universal property.* For a strict local `p`-ring `A` and a field embedding `k → k_A` there is a
+- *Universal property.* A strict local `p`-ring is a complete discrete valuation ring `A` with
+  maximal ideal `pA` and perfect residue field `k_A`. For such an `A` and a field embedding `k → k_A` there is a
   unique ring map `𝕎 k → A` lifting it (van den Dries Thm. 6.11), and its consequence for valuation
   subrings of `𝕎 k` (Lem. 6.12).
 - `FractionRing (𝕎 k)` is a henselian unramified valued field of mixed characteristic with residue
@@ -365,8 +378,9 @@ On Mathlib's `WittVector p k` (`𝕎 k`) for a perfect field `k` of characterist
 For `K` of mixed characteristic `(0, p)`, let `Δ` be the convex subgroup of `Γ` generated by `|p|`.
 The coarsening of `V` by `Δ` (LocalFieldsRamificationPartII §5.1) is a valuation of
 equicharacteristic `0`, henselian when `V` is (van den Dries Lem. 7.13). Its residue field carries
-the induced valuation with value group `Δ`, and when `K` is `ℵ₁`-saturated the corresponding
-valuation ring is a complete discrete valuation ring (Lem. 7.14). For `K` unramified with perfect
+the induced valuation with value group `Δ`, and when `K` is unramified (or finitely ramified) and
+`ℵ₁`-saturated the corresponding valuation ring is a complete discrete valuation ring
+(Lem. 7.14). For `K` unramified with perfect
 residue field it is `𝕎 k` (Lem. 7.15, via 5.5).
 
 ### 5.7 AKE for unramified fields
@@ -375,7 +389,7 @@ Let `K`, `K'` be henselian, unramified, of mixed characteristic `(0, p)`, with p
 fields.
 
 - `K ≅[valLang] K'` if and only if `k ≅[Language.ring] k'` and `Γ ≅[orderedGroup] Γ'` (van den
-  Dries Thm. 7.1). In particular a henselian unramified `K` with `[Γ : Γⁿ] = n` for all `n ≥ 1` is
+  Dries Thm. 7.1; `elementarilyEquivalent_iff_of_unramified`). In particular a henselian unramified `K` with `[Γ : Γⁿ] = n` for all `n ≥ 1` is
   elementarily equivalent to `FractionRing (𝕎 k)`.
 - If `K ⊆ K'` and the induced embeddings of residue fields and value groups are elementary, then
   `K ↪ K'` is elementary (Thm. 7.2).
@@ -392,7 +406,7 @@ perfect and that the value group of `E` is the given one (van den Dries, final r
 Let `K`, `K'` be henselian of mixed characteristic `(0, p)` and finitely ramified, with maximal
 ideals `𝔪`, `𝔪'` of their valuation rings `O`, `O'`. No condition is put on the residue fields. Then
 `K ≅[valLang] K'` if and only if `O/𝔪ⁿ ≅[Language.ring] O'/𝔪'ⁿ` for every `n ≥ 1` and
-`Γ ≅[orderedGroup] Γ'` (Basarab Cor. 3.2).
+`Γ ≅[orderedGroup] Γ'` (Basarab Cor. 3.2; `elementarilyEquivalent_iff_of_finitelyRamified`).
 
 - `𝔪ⁿ` is the set of products of `n` elements of `𝔪`, so `O/𝔪ⁿ` is interpretable in `(K, V)`
   without parameters, uniformly in `n`, and the condition is necessary.
@@ -412,8 +426,9 @@ given residue field and value group. Saturation is SaturationAndQuantifierElimin
 
 - The residue field and the value group alone do not suffice when `e > 1`. `ℚ₂(√-2)` and
   `ℚ₂(π)` with `π² + 2π + 2 = 0` are complete, with residue field `𝔽₂`, value group `ℤ` and
-  `e = 2`, but `∃ x, x² + 2 = 0` holds only in the first (Basarab §1). So some `O/𝔪ⁿ` tells them
-  apart; `n = 3` does not, since `x = π` solves `x² + 2 ≡ 0 mod 𝔪³` in the second.
+  `e = 2`, but `∃ x, x² + 2 = 0` holds only in the first (Basarab §1). Both `O/𝔪³` are
+  `(ℤ/4)[x]/(x² − 2, 2x)`, while `n = 4` separates them: `y² = −2` has the solution `x` in
+  `(ℤ/4)[x]/(x² + 2)` and none in `(ℤ/4)[π]/(π² + 2π + 2)`.
 - For `e = 1`, `𝔪 = pO` and the statement covers imperfect residue fields, where 5.7 does not
   apply.
 
@@ -421,7 +436,7 @@ given residue field and value group. Saturation is SaturationAndQuantifierElimin
 
 SaturationAndQuantifierElimination Layers 0, 1 and 3; LocalFieldsRamificationPartII §§1.3, 5.1;
 Mathlib `WittVector`, `WittVector.isDiscreteValuationRing`, `WittVector.teichmuller`,
-`FractionRing`; Tau Ceti `TauCeti.RingTheory.Henselian.teichmuller`; Layers 2–4.
+`FractionRing`; Tau Ceti `TauCeti.teichmuller`; Layers 2–4.
 
 ## Layer 6: consequences
 
@@ -429,11 +444,13 @@ Mathlib `WittVector`, `WittVector.isDiscreteValuationRing`, `WittVector.teichmul
 
 - A valued field is elementarily equivalent to `ℚ_p` if and only if it is henselian of
   characteristic `0` with residue field isomorphic to `𝔽_p`, unramified, and with value group
-  elementarily equivalent to `Multiplicative ℤ` (Ax–Kochen II, Thm. 2; Ershov 1965, Thm. 2). This
+  elementarily equivalent to `Multiplicative ℤ` (Ax–Kochen II, Thm. 2; Ershov 1965, Thm. 2;
+  `elementarilyEquivalent_padic_iff`, with `ℤ_p` as `padicValuationSubring p`). This
   follows from 5.7 and SaturationAndQuantifierElimination §3.3.
 - These axioms are recursively enumerable, so `Th(ℚ_p, ℤ_p)` is decidable (Ax–Kochen II, Thm. 3;
   Ershov 1965, Thm. 3), through SaturationAndQuantifierElimination §4.3.
-- The theory is model complete (Ax–Kochen II, Thm. 4; Ershov 1965, Thm. 1), and the field
+- The theory is model complete (Ax–Kochen II, Thm. 4; Ershov 1965, Thm. 1;
+  `realize_embedding_of_elementarilyEquivalent_padic`), and the field
   `ℚ_p ∩ ℚᵃˡᵍ` of algebraic `p`-adic numbers, the henselization of `(ℚ, ℤ_(p))`, is its prime model
   and an elementary substructure of `ℚ_p` (Ershov 1965, proof of Thm. 2).
 - The valuation ring is definable in the ring language: `ℤ_p = {x | ∃ y, y² = 1 + p x²}` for odd
@@ -446,7 +463,7 @@ For fields `k`, `k'` of characteristic `0`:
 
 - `k((t)) ≅[valLang] k'((t))` if and only if `k ≅[Language.ring] k'`, and `PowerSeries k
   ≅[Language.ring] PowerSeries k'` if and only if `k ≅[Language.ring] k'` (van den Dries 1.1;
-  Ax–Kochen III, Thm. 4);
+  Ax–Kochen III, Thm. 4; the second is `elementarilyEquivalent_powerSeries_iff`);
 - for every ring sentence `σ` there is a ring sentence `ρ` with `k[[t]] ⊨ σ ↔ k ⊨ ρ` for every `k`
   of characteristic `0` (van den Dries 1.2);
 - `k[[t]]ᵃˡᵍ ≼ k[[t]]` as rings (van den Dries 1.3);
@@ -468,7 +485,7 @@ if and only if `k ≅[Language.ring] k'`. If `Th(k)` is decidable, so is `Th(Fra
 - `ℚ` with `ℤ_(p)` and `ℚ_p` have the same residue field and value group but are not elementarily
   equivalent (0.1, Check): henselianity cannot be dropped.
 - `ℚ₂` and `𝔽₂((t))` are not elementarily equivalent as rings, since `−1` is a square in the
-  second only. Equicharacteristic `0` and mixed characteristic are not comparable by these
+  second only. Equicharacteristic `p` and mixed characteristic are not comparable by these
   theorems.
 - `ℂ((t))` and `ℚᵃˡᵍ((t))` are elementarily equivalent by 6.2. `ℂ[[t₁, t₂]]` and
   `ℚᵃˡᵍ[[t₁, t₂]]` are not (van den Dries, Introduction). AKE is a statement about valuation
@@ -483,6 +500,8 @@ SaturationAndQuantifierElimination Layers 3 and 4; LocalFieldsRamificationPartII
 
 ## Downstream consumers
 
+PadicallyClosedFields and CiFieldsAndArtinsConjecture are planned roadmaps of the same series.
+
 - **PadicallyClosedFields.** Layer 5.8 and Layer 6.1, for the completeness of the theory of
   `p`-adically closed fields of `p`-rank `d` and the classification of its completions; Layers 2–3
   for `p`-adic closures.
@@ -492,8 +511,9 @@ SaturationAndQuantifierElimination Layers 3 and 4; LocalFieldsRamificationPartII
 
 ## Scope and ownership
 
-This roadmap owns: the one-sorted language of valued fields and its interpretations of the residue
-field and value group; Robinson's theorem on algebraically closed valued fields; pseudo-Cauchy
+This roadmap owns: the Lean carriers of the one-sorted language of valued fields and its
+interpretations of the residue field and value group; the completions and one-variable definable
+sets of algebraically closed valued fields; pseudo-Cauchy
 sequences, Kaplansky's theorems, maximal and algebraically maximal fields and the uniqueness of
 maximal immediate extensions; liftings, cross-sections and angular components as structure on
 saturated models; the Equivalence Theorem and AKE in equicharacteristic `0`, in unramified and in
@@ -508,8 +528,10 @@ Boundaries:
   elimination (Cor. 5.24) and its consequences for definable sets (Cor. 5.25) are that roadmap's
   and are not restated here.
 - **LocalFieldsRamificationPartII** owns henselization, prolongations and coarsening.
+- **RigidAnalyticGeometry** (§8.2) owns the theory ACVF, the conjugacy of prolongations to an
+  algebraic closure, and Robinson's quantifier elimination for ACVF.
 - **SaturationAndQuantifierElimination** owns the model-theoretic toolkit.
-- **PadicallyClosedFields** owns `p`-valuations, `p`-adic closures and Macintyre's elimination for
+- **PadicallyClosedFields** (planned) owns `p`-valuations, `p`-adic closures and Macintyre's elimination for
   `p`-adically closed fields.
 - Positive residue characteristic beyond the unramified and finitely ramified cases (tame and
   separably tame fields, the existential theory of `𝔽_q((t))`) is outside this roadmap.
@@ -521,9 +543,15 @@ Boundaries:
 `IsSaturated`, `exists_elementaryEmbedding_isSaturated` (0.3), `isSaturated_aleph_one_product`
 (0.4), `IsBackAndForth` with `IsBackAndForth.realize_iff` and
 `IsBackAndForth.elementarilyEquivalent` (1.1–1.2), `hasQuantifierElimination_of_isSaturated_extend`
-(2.3), `IsModelComplete` (2.5), `orderedGroup` and `orderedGroupStructure` (3.1), `IsZGroup` and
+(2.3), `IsModelComplete` (2.5), `orderedGroup` and `orderedGroupStructure` (3.1), `IsPresburgerGroup` and
 `elementarilyEquivalent_multiplicative_int_iff` (3.3), and the decidability of complete recursively
 enumerable theories (4.3).
+
+### From RigidAnalyticGeometry
+
+§8.2: the language of rings with `∣` read `x ∣ y ⟺ |y| ≤ |x|`, the axioms of ACVF, the conjugacy of
+prolongations of a valuation to an algebraic closure (its step (iii)), and the theorem that ACVF
+eliminates quantifiers.
 
 ### From LocalFieldsRamificationPartII
 
@@ -535,15 +563,15 @@ valuation subring, with the exact sequence of value groups.
 
 `FirstOrder.Language.ring`, `FirstOrder.Ring.compatibleRingOfRing`, `Theory.field`, `Theory.ACF`,
 `ValuationSubring`, `ValuationSubring.ValueGroup`, `ValuationSubring.valuation`,
-`ValuationSubring.mapOfLE`, `IsLocalRing.ResidueField`, `HenselianLocalRing`,
-`LocalSubring.exists_le_valuationSubring`, `HahnSeries`, `HahnSeries.addVal`, `WittVector`,
+`ValuationSubring.mapOfLE`, `IsLocalRing.ResidueField`, `HenselianLocalRing`, `HahnSeries`, `HahnSeries.addVal`, `WittVector`,
 `WittVector.isDiscreteValuationRing`, `WittVector.teichmuller`, `FractionRing`, `Padic`,
 `Padic.mulValuation`, `PowerSeries`, `LaurentSeries`, `ValuativeRel`.
 
 ### From Tau Ceti
 
 `IsAdicComplete.henselianLocalRing` (`TauCeti/RingTheory/Henselian/Basic.lean`),
-`TauCeti.RingTheory.Henselian.teichmuller` (`TauCeti/RingTheory/Henselian/Teichmuller.lean`),
+`TauCeti.teichmuller` (`TauCeti/RingTheory/Henselian/Teichmuller.lean`), `HahnSeries.valuation`
+(`TauCeti/RingTheory/HahnSeries/Valuation.lean`),
 `FirstOrder.Language.group` and `TauCeti.Group.structureOfGroup`
 (`TauCeti/ModelTheory/Algebra/Group/Basic.lean`).
 
