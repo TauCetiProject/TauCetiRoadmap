@@ -97,7 +97,8 @@ of a given type under a parahoric subgroup of type `(a, b)`.
 - **Characters and pairing.** Class functions, the pairing
   `⟨f₁, f₂⟩ = |G^F|⁻¹ Σ_g f₁(g) f₂(g⁻¹)` and virtual characters are those of
   RepresentationTheory/CharacterTheory (Layers 0 and 3). "Constituent" means an irreducible character
-  with nonzero pairing. `|G^F|_p` and `|G^F|_{p'}` are the `p`-part and prime-to-`p` part of the order.
+  with nonzero pairing. `|G^F|_p` and `|G^F|_{p'}` are the `p`-part and prime-to-`p` part of the order. `conj(z)` is
+  the complex conjugate of `z ∈ ℂ`.
 - **Harish-Chandra functors.** `R_{L⊂P}^G` and `*R_{L⊂P}^G` are the functors of ReductiveGroups Layer 7c
   with coefficient ring `ℂ`. By that roadmap's Layer 7e they do not depend on `P`, and are written `R_L^G`,
   `*R_L^G`.
@@ -391,7 +392,7 @@ that acts by `a_O` on `π_− ⊠ σ'` and by `−1` on `π_+ ⊠ σ'`; it is su
 `S_{m_O}`; each `T_s` is `±R_M^G(T_s^M)`, and `T_s = R_M^G(T_s^M)` for every `s` when `a_O ≠ 1` (the relation then
 singles out one multiple of the operators supported on `P^F ṡ P^F`). Thus `End(R_L^G σ) ≅ ⊗_O H_{m_O}(a_O)`, where
 `H_m(a)` is the Iwahori–Hecke algebra of `S_m` with these
-relations, TypeAHeckeAlgebras H1's algebra at the parameter `√a` after the substitution `T_s ↦ √a·T_s`; it
+relations, the algebra of TypeAHeckeAlgebras §1.1 at the parameter `√a` after the substitution `T_s ↦ √a·T_s`; it
 is split semisimple, and by 1.3 the constituents of `R_L^G σ` correspond to its simple modules, with
 multiplicity the dimension. For `L = T` and `σ = 1` this is Iwahori's theorem `End(Ind_{B^F}^{G^F} 1) ≅ H_n(q)`.
 The value `a_O = q^{d_O}`, and with it `T_s = R_M^G(T_s^M)` for every `s`, is 2.4(d).
@@ -422,9 +423,9 @@ Comparing the two root sets, `c_{s'} = c_O`, or `a_O/c_{s'} = −1/c_O` and `−
 the roots `1`, `−1` do not distinguish an operator from its negative, and the identification of every `T_s` with
 `R_M^G(T_s^M)` follows once `a_O ≠ 1`, which is 2.4(d). The eigenspaces of `T_s` on
 all of `R_L^G σ` are sums of several constituents, and the trace of `T_s` there does not give their degrees (Checks). Split
-semisimplicity: H1's criterion `∏_r (1 + a + ⋯ + a^{r−1}) ≠ 0` holds for `a > 0`.
+semisimplicity: the criterion of TypeAHeckeAlgebras §1.2, `∏_r (1 + a + ⋯ + a^{r−1}) ≠ 0`, holds for `a > 0`.
 
-*Needs:* 1.0, 1.3; ReductiveGroups 7b–7d; TypeAHeckeAlgebras H1.
+*Needs:* 1.0, 1.3; ReductiveGroups 7b–7d; TypeAHeckeAlgebras §§1.1, 1.2.
 
 **Checks.**
 - `GL₂`, `σ = 1`: `Ind_{B^F}^{G^F} 1 = 1 + St`, of degrees `1` and `q`, so `a = q`; `T_s` acts by `q` on the
@@ -447,7 +448,7 @@ semisimplicity: H1's criterion `∏_r (1 + a + ⋯ + a^{r−1}) ≠ 0` holds for
 
 ### Dependencies
 
-Layer 0; ReductiveGroups Layers 7, 7b, 7c, 7d, 7e and 9E; InductionRestriction Layer 0; RepresentationTheory/CharacterTheory Layers 2–3; TypeAHeckeAlgebras H1.
+Layer 0; ReductiveGroups Layers 7, 7b, 7c, 7d, 7e and 9E; InductionRestriction Layer 0; RepresentationTheory/CharacterTheory Layers 2–3; TypeAHeckeAlgebras §§1.1 and 1.2.
 
 ## Layer 2: Gelfand–Graev representations, the mirabolic subgroup and Bessel-type induced representations
 
@@ -635,7 +636,7 @@ decreasing terms), and `(1 + 3x)(1 − x − x²) ≥ 1` for `0 ≤ x ≤ 1/3`.
 *Needs:* 2.2, 2.4; CharacterTheory §3.5.
 
 **Checks.**
-- `n = 1`: `U = 1`, `Γ_ψ` is the regular representation of `𝔽_q^×`, `γ = (q−1)·1_{\{1\}}`, and both sides of
+- `n = 1`: `U = 1`, `Γ_ψ` is the regular representation of `𝔽_q^×`, `γ` is `q − 1` at `1` and `0` elsewhere, and both sides of
   the bound equal `(q−1) Σ_x ‖v_x‖²` (the empty product is `1`).
 - `q = 2`: `∏_{i=1}^{n−1}(1 − 2^{−i})^{−1}` is `2` for `n = 2` and `8/3 > 1 + 3/2` for `n = 3` (the infinite
   product is about `3.46`): the numerical bound fails from `n = 3`, and the restriction `q ≥ 3` cannot be
@@ -831,7 +832,8 @@ rationalised (§F.4.5) and extended to `ℚ̄_ℓ`; it is finite dimensional and
 `[0, 2 dim X]` (§F.3). A group acting on `X` by `k̄`-automorphisms acts on `H^i_c(X)` on the left by
 `γ ↦ (γ⁻¹)^*`. Closed, open and locally closed subschemes, fixed-point schemes, finite products and the
 quotients of 3.2(c) are again quasi-projective. The statements are made for the individual groups `H^i_c(X)`
-as modules over the groups acting (3.2(a)–(c), 3.4(a), (c)) and for Lefschetz numbers; Deligne–Lusztig theory
+as modules over the groups acting (3.2(a)–(c), 3.4(a), (c)), for the complexes `RΓ_c(X, ℤ/ℓ^ν)` along a free action
+(3.2(d)) and for Lefschetz numbers; Deligne–Lusztig theory
 (Layer 4) uses them and nothing else from ℓ-adic cohomology. The module forms enter the disjointness of Lusztig series
 in 4.8, the triviality of the action of connected groups (3.4(a), used in 3.4(b) and 4.5(c)) and the description of the
 cohomology of `Y_U` as an induced module in 4.5(a).
@@ -881,7 +883,11 @@ an irreducible representation of `Δ` that occurs in no `H^i_c` of any piece occ
 (c) If a finite group `Γ` acts on `X`, the quotient `π : X → X/Γ` exists, is finite, and `X/Γ` is
 quasi-projective; `H^i_c(X/Γ) ≅ H^i_c(X)^Γ`, compatibly with every automorphism of `X` commuting with `Γ`, and
 for such an automorphism `g` of finite order `L(g, X/Γ) = |Γ|⁻¹ Σ_{γ∈Γ} L(gγ, X)`.
-(d) If `Γ` acts freely on `X`, then `L(γ, X) = 0` for every `γ ∈ Γ` whose order is not a power of `p`.
+(d) Let `Γ` act freely on `X`, with quotient map `π : X → X/Γ`, and for `Λ = ℤ/ℓ^ν` (`ν ≥ 1`) regard
+`RΓ_c(X, Λ) = RΓ_c(X/Γ, π_*Λ)` as a complex of `Λ[Γ]`-modules through the action of `Γ` on `π_*Λ`. Then it is a perfect
+complex of `Λ[Γ]`-modules, its derived reduction to `ℤ/ℓ^μ` (`1 ≤ μ ≤ ν`) is `RΓ_c(X, ℤ/ℓ^μ)`, and the limit
+`RΓ_c(X, ℤ_ℓ)` is a perfect complex of `ℤ_ℓ[Γ]`-modules. Consequently `L(γ, X) = 0` for every `γ ∈ Γ` whose order is not a
+power of `p`.
 
 *Route.* (a) The localisation triangle of §F.2.5, `j_!j^* → id → i_*i^*`, is natural, so automorphisms preserving
 `Z` act compatibly on its long exact cohomology sequence; alternating traces are additive along it. For a filtered
@@ -899,9 +905,18 @@ finite since `A` is integral over `A^Γ`; the norm `⊗_γ γ^*𝓛` of an ample
 is quasi-projective (Mumford, *Abelian varieties*, §7; SGA 1, Exp. V, §1). Cohomology:
 `π_*ℚ̄_ℓ` has `Γ`-invariants `ℚ̄_ℓ` (check on geometric stalks, where `Γ` permutes the fibre transitively),
 and invariants are exact in characteristic zero; an automorphism commuting with `Γ` descends to `X/Γ` and acts
-compatibly. (d) For a free action `X → X/Γ` is a finite étale `Γ`-torsor over a separated scheme of finite
-type, so `RΓ_c(X, ℤ_ℓ)` is a perfect complex of `ℤ_ℓ[Γ]`-modules (EtaleCohomologyFoundations §F.10.4, in the
-form for every separated base of finite type). The character of a finitely generated projective `ℤ_ℓ[Γ]`-module vanishes at
+compatibly. (d) For a free action `π` is a finite étale `Γ`-torsor (Mumford, *Abelian varieties*, §7), so `π_*Λ` is
+étale-locally the constant sheaf `Λ[Γ]`, a flat sheaf of `Λ[Γ]`-modules, and `π_! = π_*` gives `RΓ_c(X, Λ) = RΓ_c(X/Γ, π_*Λ)`.
+EtaleCohomologyFoundations §F.10.4 makes the following argument for a torsor over a smooth affine curve; it is made here
+over the quasi-projective base `X/Γ`. For a finitely generated right `Λ[Γ]`-module `N`, the projection comparison
+`N ⊗ᴸ_{Λ[Γ]} RΓ_c(X/Γ, π_*Λ) ≅ RΓ_c(X/Γ, N ⊗_{Λ[Γ]} π_*Λ)` holds: both sides are way-out triangulated functors of `N`
+(`π_*Λ` is flat and `RΓ_c` has finite cohomological dimension), and the natural map between them is an isomorphism at
+`N = Λ[Γ]`. The right side is `RΓ_c` of a constructible sheaf, with finite cohomology in degrees `[0, 2 dim X]` (§F.3). So
+`RΓ_c(X, Λ)` has finite cohomology and Tor amplitude in `[0, 2 dim X]`, and over the finite ring `Λ[Γ]` such a complex is
+perfect: in a resolution by finitely generated free modules, the cokernel of the differential into degree `0` is flat and
+finitely presented, hence projective, and truncating there leaves a bounded projective representative. `N = (ℤ/ℓ^μ)[Γ]`
+gives the reductions, and the limit over `ν` (§F.4.5) is perfect over the `ℓ`-adically complete ring `ℤ_ℓ[Γ]`, because
+finitely generated projective modules, their maps and homotopies lift along `ℤ/ℓ^{ν+1} → ℤ/ℓ^ν`. The character of a finitely generated projective `ℤ_ℓ[Γ]`-module vanishes at
 every `γ` whose order is divisible by `ℓ`: restricted to the cyclic group `C = ⟨γ⟩ = C_ℓ × C_{ℓ'}` it stays
 projective, `ℤ_ℓ[C_{ℓ'}]` is a finite product of unramified discrete valuation rings `𝒪_i` (`ℓ ∤ |C_{ℓ'}|`),
 so `ℤ_ℓ[C] = ∏_i 𝒪_i[C_ℓ]` is a product of local rings and the module is a sum of copies of the `𝒪_i[C_ℓ]`,
@@ -909,7 +924,8 @@ on which `γ` acts by a scalar times a fixed-point-free permutation of the basis
 alternating sum over a bounded projective representative computes `L(γ, X)` (§F.4.5), so choosing `ℓ` a
 prime other than `p` dividing the order of `γ` gives `L(γ, X) = 0` by 3.1.
 
-*Needs:* 3.1; EtaleCohomologyFoundations §§0.8, F.2.5, F.2.7, F.3, F.4.5, F.10.4.
+*Needs:* 3.1; EtaleCohomologyFoundations §§0.8, F.0.2 (finite étale torsors), F.2.5, F.2.7, F.3, F.4.5, F.10.4 (the right–left
+derived tensor over a group ring on the enhanced module sheaves).
 
 **Checks.**
 - (d) cannot drop the condition on the order: `Γ = ℤ/p` acting on `𝔸¹` over `𝔽̄_p` by `x ↦ x + 1` is free, and
@@ -988,7 +1004,7 @@ On `X = 𝔾_m` the identity has Lefschetz number `0`, and the inversion `x ↦ 
 
 ### Dependencies
 
-EtaleCohomologyFoundations §§0.8, 0.11, F.2.4, F.2.5, F.2.7, F.3, F.4.5, F.10.1, F.10.2b and F.10.4; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §1.1.
+EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.2.4, F.2.5, F.2.7, F.3, F.4.5, F.10.1, F.10.2b and F.10.4; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §1.1.
 
 ## Layer 4: Deligne–Lusztig induction
 
@@ -1155,7 +1171,7 @@ spaces over tori (Checks). Independence of `B`: for two choices `B, B₁ ⊃ T` 
 `*R_L^G ∘ R_T^G = Σ_x R_{xTx⁻¹}^L ∘ ad(x)`, the sum over `x ∈ L^F\{x ∈ G^F : xTx⁻¹ ⊂ L}/T^F`.
 (c) `⟨R_T^G(θ), 1_{G^F}⟩ = 1` if `θ = 1` and `0` otherwise.
 (d) (Functions of the semisimple part.) If `f` is a class function on `G^F` with `f(su) = f(s)` for every Jordan
-decomposition `g = su` (0.3), then `⟨f, R_T^G(θ)⟩ = |T^F|⁻¹ Σ_{t∈T^F} f(t)\overline{θ(t)}` for every rational maximal torus `T`
+decomposition `g = su` (0.3), then `⟨f, R_T^G(θ)⟩ = |T^F|⁻¹ Σ_{t∈T^F} f(t)·conj(θ(t))` for every rational maximal torus `T`
 and every `θ`.
 
 *Route.* (a) By 4.4 choose `B = B_L U_P` with `B_L ⊃ T` a Borel subgroup of `L`, so `U = U_L U_P`. For `gU ∈ Y_U`,
@@ -1195,7 +1211,7 @@ for `θ = 1` and `0` otherwise. (d) First, for every rational maximal torus `T�
 `Σ_u Q_{T′}^C(u) = |C^F|/|T′^F|`, the sum over the unipotent elements of `C^F`: `Σ_θ R_{T′}^C(θ)` vanishes off the unipotent
 elements and equals `|T′^F|·Q_{T′}^C` on them (4.3, 4.2), and `Σ_θ ⟨R_{T′}^C(θ), 1⟩ = 1` by (c). Summing 4.3 over the unipotent
 `u ∈ C°(s)^F` therefore gives `Σ_u R_T^G(θ)(su) = |T^F|⁻¹ Σ_{x ∈ G^F, x⁻¹sx ∈ T} θ(x⁻¹sx)` for semisimple `s`. Hence
-`|G^F|·⟨f, R_T^G(θ)⟩ = Σ_s f(s)·|T^F|⁻¹ Σ_{x : x⁻¹sx ∈ T} \overline{θ(x⁻¹sx)}`, the outer sum over the semisimple elements; the
+`|G^F|·⟨f, R_T^G(θ)⟩ = Σ_s f(s)·|T^F|⁻¹ Σ_{x : x⁻¹sx ∈ T} conj(θ(x⁻¹sx))`, the outer sum over the semisimple elements; the
 pairs `(s, x)` correspond to the pairs `(t, x) ∈ T^F × G^F` through `s = xtx⁻¹`, and `f(xtx⁻¹) = f(t)`, which gives the formula.
 
 *Needs:* 4.1, 4.2, 4.3, 4.4; 1.0; 3.2, 3.4; 0.3; 0.4 (for the second route of (b) for `GL_n`); ReductiveGroups 7a, 7b, 7c.
@@ -1660,7 +1676,7 @@ formula in the ranks `c, n − c < n` (induction on `n`), so `γ_n` is killed by
 Harish-Chandra restriction. Such a class function is orthogonal to every Harish-Chandra induced function (adjunction),
 in particular to `R_{T_τ}(θ′)` for `τ ≠ (n)` (4.5(a): `T_τ` lies in a proper rational Levi subgroup); by (a) it lies in the span
 of the `R_{T_{(n)}}(θ′)`. By 4.5(d), applied to the function `b^{(n)}` of the semisimple part,
-`⟨γ_n, R_{T_{(n)}}(θ′)⟩ = ⟨b^{(n)}, R_{T_{(n)}}(θ′)⟩ = (q^n − 1)⁻¹ Σ_{z ∈ 𝔽_{q^n}^×} Σ_{j<n} θ̃(z^{q^j})\overline{θ′(z)}` (the eigenvalues of `z` in
+`⟨γ_n, R_{T_{(n)}}(θ′)⟩ = ⟨b^{(n)}, R_{T_{(n)}}(θ′)⟩ = (q^n − 1)⁻¹ Σ_{z ∈ 𝔽_{q^n}^×} Σ_{j<n} θ̃(z^{q^j})·conj(θ′(z))` (the eigenvalues of `z` in
 `T_{(n)}^F ≅ 𝔽_{q^n}^×` are its conjugates), which is the number of `j < n` with `θ^{q^j} = θ′`, `θ = θ̃|_{𝔽_{q^n}^×}`, and
 equals `⟨R_{T_{(n)}}(θ), R_{T_{(n)}}(θ′)⟩` (4.4). So `γ_n − β_n` lies in that span and is orthogonal to it: `γ_n = β_n`. Virtuality:
 `R_T(θ)` is a virtual character (4.2) and Harish-Chandra induction preserves virtual characters.
@@ -1855,14 +1871,14 @@ orbits of size `m/gcd(d, m)` over `k′`. The **lift** of a label `m` of degree 
 class** of `δ`); `δ ↦` (norm class) is a bijection from the `F`-conjugacy classes of `G′` onto the conjugacy classes of `G`; and
 `{y ∈ G′ : y⁻¹δF(y) = δ}` is isomorphic to the centraliser of `γ` in `G`. Hence `#{δ ∈ G′ : N(δ) ∼ γ}·|G| = #(class of γ)·|G′|`.
 (b) *The Shintani lift.* For a class function `f` on `G`, `Sh_d(f)(δ) = f(γ)` (`γ` in the norm class of `δ`) is an `F`-class
-function on `G′`; `|G′|⁻¹ Σ_δ Sh_d f(δ)\overline{Sh_d f′(δ)} = |G|⁻¹ Σ_γ f(γ)\overline{f′(γ)}`; and `Sh_d(ω∘det) = (ω∘N_{k′/k})∘det` for
+function on `G′`; `|G′|⁻¹ Σ_δ Sh_d f(δ)·conj(Sh_d f′(δ)) = |G|⁻¹ Σ_γ f(γ)·conj(f′(γ))`; and `Sh_d(ω∘det) = (ω∘N_{k′/k})∘det` for
 every character `ω` of `k^×`.
 (c) *Harish-Chandra induction.* Let `M = ∏_i GL_{n_i}` be a standard Levi subgroup with standard parabolic subgroup `P = MU`,
 and `Sh_d^M = ⊠_i Sh_d` the lift for `M`. For an `F`-class function `φ` on `M(k′)` put
-`R_M^F(φ)(δ) = |P(k′)|⁻¹ Σ_{y ∈ G′, y⁻¹δF(y) ∈ P(k′)} φ(\overline{y⁻¹δF(y)})`, the bar the image in `M(k′)`. Then
+`R_M^F(φ)(δ) = |P(k′)|⁻¹ Σ_{y ∈ G′, y⁻¹δF(y) ∈ P(k′)} φ(pr_M(y⁻¹δF(y)))`, with `pr_M : P(k′) → M(k′)` the projection along `U(k′)`. Then
 `Sh_d(R_M^G f) = R_M^F(Sh_d^M f)` for every class function `f` on `M(k)`. Moreover, if `φ = ⊠_i φ_i` and each `φ_i` satisfies
-`Σ_δ \overline{φ_i(δ)}ρ_i(δ) = 0` for every irreducible representation `ρ_i` of `GL_{n_i}(k′)` not isomorphic to a given `τ_i`, then
-`Σ_δ \overline{R_M^F(φ)(δ)}ρ(δ) = 0` for every irreducible representation `ρ` of `G′` that is not a constituent of `R_M^{G′}(⊠_i τ_i)`.
+`Σ_δ conj(φ_i(δ))ρ_i(δ) = 0` for every irreducible representation `ρ_i` of `GL_{n_i}(k′)` not isomorphic to a given `τ_i`, then
+`Σ_δ conj(R_M^F(φ)(δ))ρ(δ) = 0` for every irreducible representation `ρ` of `G′` that is not a constituent of `R_M^{G′}(⊠_i τ_i)`.
 (d) *Cuspidal characters in prime degree.* Let `d = l` be prime, `θ ∈ L_m` regular, and `τ` the following irreducible
 representation of `GL_m(k′)`: if `l ∤ m`, `τ = σ_θ` formed over `k′` (as an element of `L`, `θ` is regular of degree `m` over `k′`;
 as a character of `𝔽_{q^{lm}}^×` it is `θ∘N_{𝔽_{q^{lm}}/𝔽_{q^m}}`); if `l ∣ m`, `τ = σ_θ × σ_{θ^q} × ⋯ × σ_{θ^{q^{l−1}}}`, the `θ^{q^i}`
@@ -1870,7 +1886,7 @@ read as characters of `𝔽_{(q^l)^{m/l}}^× = 𝔽_{q^m}^×`, each regular of d
 (so the product is irreducible, 5.4(d)). Then `τ∘F ≅ τ`, and there are an isomorphism `A : τ → τ∘F` (`A∘τ(g) = τ(F(g))∘A`)
 with `A^l = 1` and a sign `ε ∈ {±1}` such that `Sh_l(χ_{σ_θ})(δ) = ε·tr(τ(δ)∘A)` for every `δ ∈ GL_m(k′)`.
 (e) *Labels in prime degree.* Let `d = l` be prime, `χ` the character of a Harish-Chandra product `R_M^G(⊠_i σ_{θ_i})` of
-cuspidal representations, of label `m` (5.7), and `ρ` a representation of `G′` with `Σ_δ \overline{Sh_l χ(δ)}ρ(δ) ≠ 0`. Then `ρ` has
+cuspidal representations, of label `m` (5.7), and `ρ` a representation of `G′` with `Σ_δ conj(Sh_l χ(δ))ρ(δ) ≠ 0`. Then `ρ` has
 an irreducible constituent of label `m^{(l)}`.
 
 *Route.* (a) Lang's theorem for `GL_n` over `k̄` (ReductiveGroups 7a), `F` extended to the `q`-Frobenius of `GL_n(k̄)`, gives `x`
@@ -1888,9 +1904,9 @@ the fibres of (a); `det N(δ) = N_{k′/k}(det δ)`. (c) Let `δ = x⁻¹F(x)` a
 hence of the form `yP` with `y ∈ G′`, and `δF(yP) = yP`. So `yP(k′) ↦ xyP` is a bijection from the cosets with
 `y⁻¹δF(y) ∈ P(k′)` onto the points of `G/P(k)` fixed by `γ`. If `xy = zp⁻¹` with `z ∈ G` and `p ∈ P(k̄)`, then `y⁻¹δF(y) = pF(p)⁻¹` and `z⁻¹γz = F^d(p)⁻¹p`, so by the
 construction of (a) in `P` and in `M`, the image of `z⁻¹γz` in `M(k)` lies in the norm class of the image of `y⁻¹δF(y)` in
-`M(k′)`. Comparing with `R_M^G(f)(γ) = Σ_{zP ∈ G/P(k), γzP = zP} f(\overline{z⁻¹γz})` (ReductiveGroups 7c, the adapter
+`M(k′)`. Comparing with `R_M^G(f)(γ) = Σ_{zP ∈ G/P(k), γzP = zP} f(pr_M(z⁻¹γz))` (`pr_M : P(k) → M(k)`; ReductiveGroups 7c, the adapter
 `R = Ind ∘ Inf`) term by term gives the identity. For the second part, in the group algebra
-`Σ_δ \overline{R_M^F(φ)(δ)}·δ = (|U(k′)|/|P(k′)|)·Σ_{y ∈ G′} y·a_φ·e_U·F(y)⁻¹`, with `a_φ = Σ_{m ∈ M(k′)} \overline{φ(m)}·m` and `e_U` the
+`Σ_δ conj(R_M^F(φ)(δ))·δ = (|U(k′)|/|P(k′)|)·Σ_{y ∈ G′} y·a_φ·e_U·F(y)⁻¹`, with `a_φ = Σ_{m ∈ M(k′)} conj(φ(m))·m` and `e_U` the
 idempotent of `U(k′)` (`M` normalises `U`, so `a_φ` and `e_U` commute). In a representation `ρ`, `ρ(a_φe_U)` acts on `ρ^{U(k′)}`, the
 Harish-Chandra restriction, through `M(k′)`, and by zero on its complement; by the hypothesis on the `φ_i` it vanishes unless
 the Harish-Chandra restriction has a constituent `⊠_i τ_i`, that is (adjunction) unless `ρ` is a constituent of
@@ -1902,7 +1918,7 @@ eigenvalue sum of `θ̃` on `GL_a(k′)` (5.6(b) over `k′`: a virtual characte
 `b_a` the eigenvalue sum on `GL_a(k)`, and `b̂_a(y) = ∏_{i<l} b′_a(F^i(y))` for `y ∈ GL_a(k′)`. Define virtual characters `X_a` of `Ĝ_a`
 by `X_a = b̂_a − Σ_{c<a} Ind_{P̂_c}^{Ĝ_a}(X_c ⊠ 1)`, where `P̂_c = P_{(c, a−c)}(k′) ⋊ ⟨F⟩` and `X_c ⊠ 1` is inflated from
 `(GL_c(k′) × GL_{a−c}(k′)) ⋊ ⟨F⟩`, `1` the trivial character of `Ĝ_{a−c}`. The induced-character formula gives
-`Ind_{P̂_c}(Z)(δF) = |P_c(k′)|⁻¹ Σ_{y : y⁻¹δF(y) ∈ P_c(k′)} Z(\overline{y⁻¹δF(y)}F)`, so by (c) (with `Sh_l(1) = 1`) and by induction on `a`,
+`Ind_{P̂_c}(Z)(δF) = |P_c(k′)|⁻¹ Σ_{y : y⁻¹δF(y) ∈ P_c(k′)} Z(pr(y⁻¹δF(y))F)`, `pr` the projection of `P_c(k′)` onto `(GL_c × GL_{a−c})(k′)`, so by (c) (with `Sh_l(1) = 1`) and by induction on `a`,
 `X_a(δF) = Sh_l(β_a)(δ)`, `β_a = R_{T_{(a)}}(θ̃|_{𝔽_{q^a}^×})` (5.6(b)). As `β_m = (−1)^{m−1}σ_θ` (5.6(b), `θ` regular),
 `X = (−1)^{m−1}X_m` has `X(δF) = Sh_l(χ_{σ_θ})(δ)`, and by (b) `|GL_m(k′)|⁻¹ Σ_δ |X(δF)|² = 1`. By TensorInductionAndFiniteGroupInputs §6.2,
 `X` is on the coset `GL_m(k′)F` a root of unity of `ℚ(e^{2πi/l})`, hence
@@ -1930,7 +1946,7 @@ eigenvalue sum of `θ̃^{q^j}` on `GL_{m/l}(k′)`. Expand over the maps `j ↦ 
 (4.5(d) on the Coxeter torus of `GL_{m/l}(k′)`), which is `(−1)^{m/l−1}δ_{ij}` as `θ` is regular of degree `m` and `i, j < l`. Only the
 identity contributes, and `⟨X|, τ⟩ = ±1`. (e) By (c), `Sh_l χ = R_M^F(⊠_i Sh_l χ_{σ_{θ_i}})`. For each `i` let `τ_i` be the
 representation of (d) for `θ_i`. `Sh_l χ_{σ_{θ_i}} = ±tr(τ_i(·)∘A_i)` satisfies the hypothesis of the second part of (c): for an
-`F`-class function `φ` the operator `Σ_δ \overline{φ(δ)}ρ(δ)` lies in `Hom(ρ∘F, ρ)`, so it vanishes unless `ρ` is `F`-stable, and then it
+`F`-class function `φ` the operator `Σ_δ conj(φ(δ))ρ(δ)` lies in `Hom(ρ∘F, ρ)`, so it vanishes unless `ρ` is `F`-stable, and then it
 is a multiple of `B⁻¹` (`B : ρ → ρ∘F` with `B^l = 1`) with coefficient proportional to the pairing on the coset of `φ` with the
 extension of `ρ` given by `B`, which vanishes for `ρ ≇ τ_i` (the restrictions to the coset of the extensions of distinct `F`-stable
 irreducible representations are orthogonal: the same target, TensorInductionAndFiniteGroupInputs §6.2). By the second part of (c), `ρ` has a
@@ -1959,7 +1975,7 @@ Layer 3.
   `∏_{i<5} b′₂(F^i(·))` with `σ_θ` computed over `GL₂(𝔽₃₂)` is `−11`; for `q = 5`, `m = 2`, `l = 3` both `1` and `4` occur.
 - (d), case `l ∣ m`, for `q = 2`, `m = l = 3`, `θ` of order `7` on `𝔽₈^×`: `τ` is the irreducible principal series of `θ, θ², θ⁴` of
   `GL₃(𝔽₈)`; for `m = l = 2`, `τ = R(θ ⊠ θ^q)` of `GL₂(𝔽_{q²})`.
-- (d) in the form "`Σ_δ \overline{Sh_l χ_{σ_θ}(δ)}·δ` lies in the isotypic ideal of `τ`" (fixed by the central idempotent of `τ`, at
+- (d) in the form "`Σ_δ conj(Sh_l χ_{σ_θ}(δ))·δ` lies in the isotypic ideal of `τ`" (fixed by the central idempotent of `τ`, at
   every `F`-class), by enumeration of `G′`: for `GL₂` with `(q, l) ∈ {2, 3, 4} × {2, 3}` and `(2, 5)`, and for `GL₃(𝔽₂)` with `l = 2`
   (`τ` cuspidal of `GL₃(𝔽₄)`) and `l = 3` (`|G′| = 115 379 712`); the idempotents of the other `F`-stable irreducible
   representations tested (trivial, Steinberg, another lifted cuspidal, an `F`-stable principal series) kill it.
@@ -1980,12 +1996,13 @@ Layers 0, 1, 2 and 4; ReductiveGroups Layers 7a, 7b, 7c and 7d; RepresentationTh
 
 ### 6.0 `K₁`-invariants and Jacquet modules
 
-For a smooth representation `π` of `GL_n(F)` and a standard parabolic `P = MN`, `M = GL_{n₁} × ⋯ × GL_{n_r}`, the
-projection to the Jacquet module induces an isomorphism of `M(k)`-modules `(π^{K₁})^{N(k)} ≅ (π_N)^{M ∩ K₁}`,
-that is `*R_{M(k)}^{GL_n(k)}(π^{K₁}) ≅ (π_N)^{M∩K₁}`. In particular a supercuspidal `π` has `π^{K₁}` cuspidal as a
-`GL_n(k)`-module, and an irreducible `π` has depth zero iff every member of its supercuspidal support does.
+This item is not a target of this roadmap: it records, in the form 6.1–6.5 use, the case `G = GL_n` of
+LocalFactorsOfTwistsAndTypes §2.1 (a) and (d), which Layer 6 imports. For a smooth representation `π` of `GL_n(F)` and a
+standard parabolic `P = MN`, `M = GL_{n₁} × ⋯ × GL_{n_r}`, the projection to the Jacquet module induces an
+isomorphism of `M(k)`-modules `(π^{K₁})^{N(k)} ≅ (π_N)^{M ∩ K₁}`, that is `*R_{M(k)}^{GL_n(k)}(π^{K₁}) ≅ (π_N)^{M∩K₁}`.
+In particular a supercuspidal `π` has `π^{K₁}` cuspidal as a `GL_n(k)`-module, and an irreducible `π` has depth zero iff every member of its supercuspidal support does.
 
-*Route.* The comparison is LocalFactorsOfTwistsAndTypes §2.1 (d) for `G = GL_n`, `x`
+*Reading.* The comparison is LocalFactorsOfTwistsAndTypes §2.1 (d) for `G = GL_n`, `x`
 the vertex fixed by `K` and `P` standard: there `J = K₁N(𝒪)`, so `π^J = (π^{K₁})^{N(k)}`, and `M_{x,0+} = M ∩ K₁`;
 injectivity rests on the invertibility of the contracting Hecke operator, LocalFactorsOfTwistsAndTypes §2.1 (c). For supercuspidal `π`
 every `π_N`, `P` proper, vanishes, so the comparison and 1.1 make `π^{K₁}` cuspidal. The statement on the
@@ -2103,7 +2120,8 @@ statement.
 
 Let `F` be a nonarchimedean local field with residue field `k`, `a, b ≥ 1`, `J ⊂ GL_{a+b}(𝒪_F)` the subgroup of the
 parahoric subgroup of type `(a, b)` whose upper left `a × a` block is `≡ 1` modulo `ϖ`, `α` a character of `k^×` and `f` a
-squarefree label of degree `a` over `k` with `f(α) ≠ 0`. If an irreducible smooth representation `π` of `GL_{a+b}(F)` has a
+squarefree label of degree `a` over `k` with `f({α}) = 0`: the orbit `{α}` does not occur in `f` (in the labelled form of 5.7,
+`P_O` does not divide `f` for `O = {α}`). If an irreducible smooth representation `π` of `GL_{a+b}(F)` has a
 nonzero vector on which the lower right block of `J` acts by `α∘det` (through the reduction) and on whose `GL_a(k)`-span the
 series idempotent of `f` (5.7) does not vanish, then `π ≅ π_f × (α̃∘det ⊗ π_sph)` (normalised parabolic induction,
 irreducible), with `π_f` irreducible of depth zero with label `f`, `π_sph` irreducible spherical of `GL_b(F)`, and `α̃` a
@@ -2111,10 +2129,17 @@ tamely ramified character of `F^×` lifting `α`.
 
 *Route.* The Jacquet module of `π` along the parabolic subgroup of type `(a, b)` has a constituent `ρ_a ⊗ ρ_b`, with `ρ_b`
 a twist of a spherical representation and `ρ_a` of label `f` (6.0, 6.3); the inertial supports of the two factors are
-disjoint, so the induced representation is irreducible (Bernstein–Zelevinsky) and equals `π`.
+disjoint, because `{α}` does not occur in `f`, so the induced representation is irreducible (Bernstein–Zelevinsky) and
+equals `π`.
 
 *Needs:* 6.0, 6.3; 5.7; SmoothRepresentationsOfLocalGroups SR.2.2 (Jacquet functors and parabolic induction), SR.3.1
 (supercuspidal support).
+
+**Checks.**
+- The condition on `{α}` cannot be reversed: for `a = b = 1`, `f` the label `{α}` and `π = (α̃∘det) ⊗ St`, the Iwahori-fixed
+  line of `St` is a line of `π` on which `J` acts through `α` of the lower right entry and `GL_1(k)` through `α`, so the
+  idempotent of `f` does not kill it; but `π` is a constituent of the reducible `i_B(α̃ν^{1/2} ⊗ α̃ν^{−1/2})` (`ν = |·|`) and
+  not an irreducible parabolic induction.
 
 ### Examples
 
@@ -2182,8 +2207,9 @@ The roadmap owns:
 - the module forms of the localisation sequence, the Künneth isomorphism, quotients and affine fibrations for
   compactly supported ℓ-adic cohomology of quasi-projective schemes with finite group actions, and Lefschetz
   numbers of finite-order automorphisms: integrality, independence of `ℓ`, additivity, the quotient formula,
-  vanishing for free actions, the Jordan decomposition formula, torus fixed points and affine fibrations
-  (Layer 3);
+  the perfectness of compactly supported cohomology over the group ring of a finite group acting freely and the
+  vanishing of Lefschetz numbers for free actions, the Jordan decomposition formula, torus fixed points and affine
+  fibrations (Layer 3);
 - the Lang map as a finite étale `G^F`-torsor, Deligne–Lusztig varieties and characters for rational maximal tori, Green
   functions, the character
   formula, the inner product formula, compatibility with Harish-Chandra functors, the pairing of a function of the
@@ -2202,7 +2228,10 @@ The roadmap owns:
   prime degree the lift of cuspidal characters and of labels) (Layer 5);
 - depth-zero supercuspidal representations of `GL_n(F)` as compact inductions of cuspidal characters, their
   parametrisation by level-zero characters, labels of depth-zero representations, the class of
-  representations of depth zero up to twist, and the local type statement (Layer 6).
+  representations of depth zero up to twist, and the local type statement (Layer 6). For `F` finite over `ℚ_p` the
+  irreducibility and exhaustion of 6.1 are the depth-zero case of SmoothRepresentationsOfLocalGroups SR.5.2
+  *distinguished-cuspidal-types*; 6.1 extends them to every nonarchimedean local field, positive characteristic
+  included.
 
 It does not own, and consumes by name:
 
@@ -2216,14 +2245,14 @@ It does not own, and consumes by name:
 - tensor induction of virtual characters to an overgroup of prime index, and the virtual characters of norm one on a
   non-trivial coset of a normal subgroup of prime index: **TensorInductionAndFiniteGroupInputs** §§6.1, 6.2, a
   sub-roadmap of this family;
-- Iwahori–Hecke algebras of type A and their Specht modules: **TypeAHeckeAlgebras** H1; symmetric functions,
+- Iwahori–Hecke algebras of type A and their Specht modules: **TypeAHeckeAlgebras** §§1.1, 1.2; symmetric functions,
   Schur functions, the Frobenius characteristic and characters of symmetric groups:
   **SchurWeyl** Layers 4 and 7;
-- compactly supported étale cohomology, its finiteness, Künneth formula, rational realisation, the smooth trace and
-  the perfectness of compactly supported cohomology along finite étale torsors: **EtaleCohomologyFoundations**; the
-  Grothendieck–Lefschetz trace formula: **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T3. EtaleCohomologyFoundations
-  §F.10.4 states the perfectness over a smooth affine curve; 3.2 (d) uses it over every separated scheme of finite
-  type;
+- compactly supported étale cohomology, its finiteness, Künneth formula, rational realisation, the smooth trace, the
+  derived tensor over a group ring, and the perfectness of compactly supported cohomology along a finite étale torsor
+  over a smooth affine curve: **EtaleCohomologyFoundations** (§F.10.4 for the last two), whose perfectness 3.2 (d)
+  extends to a free action on every quasi-projective scheme; the Grothendieck–Lefschetz trace formula:
+  **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T3;
 - compact induction and its irreducibility criterion, Jacquet modules and supercuspidal support:
   **SmoothRepresentationsOfLocalGroups**; the depth of the supercuspidal support and the depth-zero Jacquet comparison:
   **LocalFactorsOfTwistsAndTypes** §2.1, a sub-roadmap of this family;
@@ -2311,7 +2340,8 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 
 | Use here | Section |
 |---|---|
-| `H_m(q)`, its basis, Specht modules, split semisimplicity | H1 |
+| `H_m(q)` and its basis | §1.1 |
+| split semisimplicity and Specht modules | §1.2 |
 
 ### From TauCetiRoadmap.EtaleCohomologyFoundations
 
@@ -2324,7 +2354,8 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 | finiteness and cohomological dimension | §F.3 |
 | rational realisation | §F.4.5 |
 | Frobenius on finite-field schemes and on cohomology | §§F.10.1, F.10.2b |
-| finite traces; perfectness of `RΓ_c` along a finite étale torsor (stated there over a smooth affine curve; used in 3.2 (d) over every separated scheme of finite type) | §§0.8, F.10.4 |
+| finite étale torsors (used in 3.2 (d)) | §F.0.2 |
+| finite traces; the right–left derived tensor over a group ring `A[G]` on the enhanced module sheaves (used in 3.2 (d), which proves over every quasi-projective base the perfectness that §F.10.4 states for a torsor over a smooth affine curve) | §§0.8, F.10.4 |
 
 ### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
 

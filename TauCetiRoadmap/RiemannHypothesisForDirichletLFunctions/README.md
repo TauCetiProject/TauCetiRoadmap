@@ -68,10 +68,6 @@ within the family, each roadmap cites only roadmaps listed above it.
 - [**Reducibility ideals and ultrafilter patching**](ReducibilityIdealsAndUltrafilterPatching/README.md):
   generalised matrix algebras, reducibility ideals, the numerical criterion, block types, and
   patching with an ultrafilter.
-- [**Finite reductive groups and the characters of `GL_n(𝔽_q)`**](FiniteReductiveGroups/README.md):
-  Harish-Chandra induction and Deligne–Lusztig theory for the groups of rational points of connected
-  reductive groups over finite fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for
-  `GL_n` in prime degree.
 - [**Multiplier ideals of pairs and point separation**](MultiplierIdealsOfPairsAndPointSeparation/README.md):
   discrepancies and klt and lc pairs, multiplier ideals of pairs, Nadel vanishing for pairs, and the
   theorems on isolated non-klt centres, global generation and separation of points for adjoint
@@ -90,6 +86,10 @@ within the family, each roadmap cites only roadmaps listed above it.
 - [**Local factors of twists and types**](LocalFactorsOfTwistsAndTypes/README.md):
   local factors and epsilon factors of twists, converse theorems, and smooth representations with
   their types.
+- [**Finite reductive groups and the characters of `GL_n(𝔽_q)`**](FiniteReductiveGroups/README.md):
+  Harish-Chandra induction and Deligne–Lusztig theory for the groups of rational points of connected
+  reductive groups over finite fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for
+  `GL_n` in prime degree.
 - [**Base change and Galois representations for unitary groups**](BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md):
   base change and inertial types of depth-zero representations, and the Galois representations
   attached to automorphic representations of unitary groups.

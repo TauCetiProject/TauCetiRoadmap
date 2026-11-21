@@ -40,8 +40,10 @@ The other headline theorems are not statable at the pins.
 * Gelfand–Graev multiplicity one (2.2) and the pairing `⟨Γ_ψ, R_T^G(θ)⟩ = ε_Gε_T` (4.11) for every
   connected reductive `G`: besides `R_T^G(θ)`, it lacks a rational Borel subgroup `B₀ = T₀U₀` of `G`
   with the root subgroups of `U₀` (ReductiveGroups Layers 7C, 9), hence the subgroup `U₀*` and the
-  regular characters of `U₀^F`; Tau Ceti has root subgroups only for special linear and a few other
-  explicit groups.
+  regular characters of `U₀^F`. Tau Ceti has the root subgroups of the split Chevalley groups given by a
+  Kostant integral form (`TauCeti.UniversalEnvelopingAlgebra.kostantRootSubgroupPoints`), but no rational
+  Borel subgroup with its root subgroups for an arbitrary connected reductive group over `𝔽_q`, non-split
+  ones included.
 * Green's parametrisation and degree formula (5.4, 5.5), the uniqueness of the generic constituent of
   each series (5.4 (c)) and the Gelfand–Graev weights (5.8): the irreducible characters `χ_λ` are
   defined by the characteristic map `ch_m`, which sends power sums to the virtual characters
