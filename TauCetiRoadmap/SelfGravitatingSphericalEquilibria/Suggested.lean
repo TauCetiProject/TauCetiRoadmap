@@ -90,8 +90,8 @@ theorem laneEmden_five {θ : ℝ → ℝ} (hθ : IsLaneEmdenSolution 5 θ) :
 
 /-! ## Layer 3: the first zero -/
 
-/-- 3.1 For `0 ≤ n < 3` the solution has a zero `ξ₁ > 0`, and it is positive on `[0, ξ₁)`. -/
-theorem laneEmden_exists_zero {n : ℝ} (hn : 0 ≤ n) (hn3 : n < 3) {θ : ℝ → ℝ}
+/-- 3.1 For `0 ≤ n < 5` the solution has a zero `ξ₁ > 0`, and it is positive on `[0, ξ₁)`. -/
+theorem laneEmden_exists_zero {n : ℝ} (hn : 0 ≤ n) (hn5 : n < 5) {θ : ℝ → ℝ}
     (hθ : IsLaneEmdenSolution n θ) :
     ∃ ξ₁, 0 < ξ₁ ∧ θ ξ₁ = 0 ∧ ∀ ξ ∈ Ico 0 ξ₁, 0 < θ ξ := by
   sorry
@@ -135,10 +135,10 @@ theorem isHydrostaticOn_polytrope_iff {n K G : ℝ} (hn : 0 < n) (hK : 0 < K) (h
       ∀ r, 0 ≤ r → ρ r = ρ 0 * laneEmdenNonlin n (θ (r / polytropeScale n K G (ρ 0))) := by
   sorry
 
-/-- 4.2 The mass–radius relation: for `0 < n < 3` there is `C > 0` such that every polytrope of
+/-- 4.2 The mass–radius relation: for `0 < n < 5` there is `C > 0` such that every polytrope of
 index `n` with positive central density has a radius `R > 0` (positive density on `[0, R)`, zero
 density from `R` on) and `K = C G M^((n − 1)/n) R^((3 − n)/n)` with `M = m(R)`. -/
-theorem polytrope_mass_radius {n : ℝ} (hn : 0 < n) (hn3 : n < 3) :
+theorem polytrope_mass_radius {n : ℝ} (hn : 0 < n) (hn5 : n < 5) :
     ∃ C > 0, ∀ K > 0, ∀ G > 0, ∀ ρ : ℝ → ℝ, 0 < ρ 0 → (∀ r, 0 ≤ r → 0 ≤ ρ r) →
       ContinuousWithinAt ρ (Ici 0) 0 →
       IsHydrostaticOn G ρ (fun r ↦ K * ρ r ^ (1 + 1 / n)) (Ioi 0) →

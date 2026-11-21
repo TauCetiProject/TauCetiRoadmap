@@ -15,13 +15,13 @@ The headline theorems are these.
   solution on `[0, ∞)` that is continuous at the centre with value `1` there, and it is strictly
   decreasing. For `n = 0` it is `1 − ξ²/6`; for `n = 1` it is `sin ξ / ξ` up to its first zero
   `π` and `π/ξ − 1` after it; for `n = 5` it is `(1 + ξ²/3)^(−1/2)`.
-- *The first zero.* For `0 ≤ n < 3` the solution has a zero; for `n ≥ 5` it has none. The second
-  statement comes from a virial identity: at a zero `ξ₁`, `(5 − n)` times a positive integral
-  equals `3 μ(ξ₁)²/ξ₁`, where `μ(ξ) = −ξ² θ'(ξ)`.
+- *The first zero.* For `0 ≤ n < 5` the solution has a zero; for `n ≥ 5` it has none. For
+  `n > 1` both come from a virial identity, which at a zero `ξ₁` says that `(5 − n)` times a
+  positive integral equals `3 μ(ξ₁)²/ξ₁`, where `μ(ξ) = −ξ² θ'(ξ)`.
 - *Polytropes.* For `n > 0` a nonnegative density, continuous at the centre, is in hydrostatic
   equilibrium with the pressure `K ρ^(1+1/n)` if and only if it is `ρ(0) θ(r/α)ⁿ` up to the
   first zero of `θ`, if there is one, and zero after it, with an explicit length `α`. For
-  `0 < n < 3` every such star with positive central density has a finite radius `R` and mass `M`
+  `0 < n < 5` every such star with positive central density has a finite radius `R` and mass `M`
   with `K = C G M^((n−1)/n) R^((3−n)/n)`, where `C` depends on `n` only. For a static star of
   radius `R` whose density and pressure are continuous on `[0, R]`, with zero pressure at `R`,
   the virial identity `3 ∫ p dV + E = 0` holds between the
@@ -39,7 +39,7 @@ Tolman–Oppenheimer–Volkoff system is derived is not used either.
 
 Layer 1 below defines the regular solution and proves its integral form, existence, uniqueness
 and monotonicity. Layer 2 identifies the three explicit solutions, and Layer 3 proves the
-finite-radius theorem for `n < 3`, the virial identity and the positivity for `n ≥ 5`. Layer 2
+finite-radius theorem for `n < 5`, the virial identity and the positivity for `n ≥ 5`. Layer 2
 uses Layer 1, and Layer 3 uses Layers 1 and 2. Layer 4 turns Lane–Emden solutions into
 Newtonian stars and uses Layers 1 and 3. Layer 5, on the relativistic system, uses only the mass
 function of Layer 4.
@@ -262,26 +262,61 @@ Layer 1.
 
 ## Layer 3: the first zero
 
-### 3.1 Finite radius for n < 3
+### 3.1 Finite radius for n < 5
 
-For `0 ≤ n < 3`, `laneEmden_exists_zero`: a solution on `[0, ∞)` has a zero `ξ₁ > 0`, and it is
+For `0 ≤ n < 5`, `laneEmden_exists_zero`: a solution on `[0, ∞)` has a zero `ξ₁ > 0`, and it is
 positive on `[0, ξ₁)` (Ramming–Rein, Lemma 3.1, p. 13, with `l = 0` and `g(y) = (max y 0)ⁿ`, and
-its fluid form Theorem 4.2, p. 17). Route: for `n = 0` it is 2.1. For `0 < n < 3`, after the
+its fluid form Theorem 4.2, p. 17, for `n < 3`; the range `3 ≤ n < 5` is proved here). Positivity
+before `ξ₁` is 1.4, and since `θ 0 = 1` and `θ` is continuous, a zero exists as soon as `θ` is not
+positive on all of `[0, ∞)` (Mathlib `intermediate_value_Icc'`).
+
+Route for `0 ≤ n < 3`: for `n = 0` it is 2.1. For `0 < n < 3`, after the
 change of variables `r = ξ/√(4π)` of 1.2 the function satisfies `y' = −m/r²` with
 `m(r) = 4π ∫₀ʳ s² g(y(s)) ds`, where `g(y) = (max y 0)ⁿ` is continuous, increasing, zero for
 `y ≤ 0`, positive for `y > 0`, and `g(y) ≥ yⁿ`; Lemma 3.1 gives a zero. Its proof: the solution
 decreases (1.4) to a limit `y∞`; `y∞ > 0` forces `y(r) ≤ y(0) − C r²`; `y∞ = 0` gives
 `y(r) ≥ m(1)/r` for `r ≥ 1` and `∫_{y(r)}^{y(0)} dη / g(η) ≥ C r²`, which contradict each other
-as `r → ∞` when `n < 3`. Positivity before `ξ₁` is 1.4.
+as `r → ∞` when `n < 3`.
+
+Route for `1 < n < 5`, which covers `3 ≤ n < 5`. Suppose that `θ > 0` on `[0, ∞)`. Then the clamp
+is inactive, `θ ≤ 1` (1.4), `θ' = −μ/ξ²` and `μ' = ξ² θⁿ` on `(0, ∞)` (1.2), and
+`0 < μ(ξ) ≤ ξ³/3` for `ξ > 0`.
+1. *The limit.* `θ` decreases to a limit `L ≥ 0`. If `L > 0`, then `μ(ξ) ≥ Lⁿ ξ³/3`, so
+   `θ(ξ) ≤ 1 − Lⁿ ξ²/6`, which is negative for large `ξ`; hence `θ(ξ) → 0`.
+2. *The identity with boundary terms.* Fix `ξ > 0` and put `W = ∫₀^ξ s θⁿ μ ds`,
+   `J = ∫₀^ξ s² θ^(n+1) ds` and `I(ξ) = ∫₀^ξ μ²/s² ds`. Integrating
+   `s³ (θ^(n+1))' = −(n + 1) s θⁿ μ` by parts gives `(n + 1) W = 3J − ξ³ θ(ξ)^(n+1)`; integrating
+   `θ μ'` by parts gives `J = θ(ξ) μ(ξ) + I(ξ)`; and `μ μ'/s = (μ²/(2s))' + μ²/(2s²)` gives
+   `W = μ(ξ)²/(2ξ) + I(ξ)/2`. The boundary terms at `0` vanish since `θ ≤ 1` and `μ(s) ≤ s³/3`.
+   Eliminating `W` and `J`,
+   `(5 − n) I(ξ)/2 = (n + 1) μ(ξ)²/(2ξ) − 3 θ(ξ) μ(ξ) + ξ³ θ(ξ)^(n+1)`.
+   At a zero `ξ₁` of `θ` the same three steps give 3.2.
+3. *Two estimates.* For `T > ξ`, `θ(ξ) − θ(T) = ∫_ξ^T μ/s² ds ≥ μ(ξ) (1/ξ − 1/T)` since `μ`
+   increases; letting `T → ∞` (step 1), `μ(ξ) ≤ ξ θ(ξ)`. Since `θ` decreases,
+   `μ(ξ) ≥ ξ³ θ(ξ)ⁿ/3`, so `(θ^(1−n))' = (n − 1) θ^(−n) μ/ξ² ≥ (n − 1) ξ/3`; the function
+   `(n − 1) ξ²/6 − θ(ξ)^(1−n)` is nonincreasing on `[0, ∞)` with value `−1` at `0`, so
+   `θ(ξ)^(n−1) ≤ 6/((n − 1) ξ²)`. This is the step that needs `n > 1`.
+4. *The contradiction.* By step 3, and `θ μ > 0`, the right side of step 2 is at most
+   `(n + 1) ξ θ(ξ)²/2 + ξ³ θ(ξ)^(n+1)`. With `θ(ξ) ≤ c ξ^(−2/(n−1))`, `c = (6/(n − 1))^(1/(n−1))`,
+   both terms are at most a constant times `ξ^((n−5)/(n−1))`, because
+   `1 − 4/(n − 1) = 3 − 2(n + 1)/(n − 1) = (n − 5)/(n − 1)`; for `n < 5` the exponent is negative
+   and the right side tends to `0`. The left side is nondecreasing in `ξ`, and for `ξ ≥ 1` it is
+   at least `(5 − n) I(1)/2 > 0`: a contradiction.
 
 **Checks.**
 - The first zeros for `n = 0, 1` are `√6` and `π` (2.1, 2.2).
-- For `n = 3` the proof breaks at its last step: with `g(η) = η³` the right side of the final
-  inequality of the proof of Lemma 3.1 tends to `1/(2c)` instead of `0`, which is no
-  contradiction. Pols, Table 4.1, lists the zero `z₃ = 6.89685` of index `3`; this roadmap does
-  not prove that it exists.
+- For `n = 3` the first route breaks at its last step: with `g(η) = η³` the right side of the
+  final inequality of the proof of Lemma 3.1 tends to `1/(2c)` instead of `0`, which is no
+  contradiction; the second route covers this index. Pols, Table 4.1, lists the zero
+  `z₃ = 6.89685` of index `3`.
+- At `n = 5` the identity of step 2 holds with both sides `0`, as the factor `5 − n` requires: for
+  `θ = (1 + ξ²/3)^(−1/2)` (2.3), `μ = (ξ³/3) θ³`, and the right side is
+  `ξ³ θ⁶ (ξ²/3 − (1 + ξ²/3) + 1) = 0`.
 
-*Needs:* 1.2, 1.4, 2.1.
+*Needs:* 1.2, 1.4, 2.1; Mathlib `intermediate_value_Icc'`,
+`intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDerivAt`,
+`intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`, `Real.hasDerivAt_rpow_const`,
+`antitoneOn_of_deriv_nonpos`.
 
 ### 3.2 The virial identity of the Lane–Emden equation
 
@@ -384,7 +419,7 @@ tends to `0` at `0`, so it vanishes and `ρ = 0`; conversely `ρ = 0` is hydrost
 
 ### 4.2 Radius, mass and the mass–radius relation
 
-For `0 < n < 3`, `polytrope_mass_radius`: there is `C > 0` such that for all `K > 0`, `G > 0` and
+For `0 < n < 5`, `polytrope_mass_radius`: there is `C > 0` such that for all `K > 0`, `G > 0` and
 every density `ρ ≥ 0` with `ρ(0) > 0`, continuous at `0`, whose pressure `K ρ^(1+1/n)` is
 hydrostatic on `(0, ∞)`, there is `R > 0` with `ρ > 0` on `[0, R)`, `ρ = 0` on `[R, ∞)`, and
 `K = C G M^((n−1)/n) R^((3−n)/n)` with `M = m(R)` (Pols, §4.1.1, eqs. (4.11)–(4.15), p. 48).
@@ -396,6 +431,8 @@ from `α² = (n + 1) K ρc^(1/n − 1)/(4π G)` gives the relation with
 **Checks.**
 - `n = 1`: `C = 2π/π² = 2/π` (Pols, Table 4.1, `N₁ = 0.63662`), so `R = π √(K/(2π G))` does not
   depend on `M`.
+- `n = 3`: `α² = K ρc^(−2/3)/(π G)`, so `M = 4π ρc α³ ω = 4 ω K^(3/2)/(√π G^(3/2))` does not
+  depend on the central density, and the relation reads `K = C G M^(2/3)` (`R^0 = 1`).
 - The quantifier order matters: `C` is chosen before `K`, `G` and the central density.
 
 *Needs:* 3.1, 4.1.
@@ -527,7 +564,7 @@ Layer 4 (the mass function only).
 
 This roadmap owns the Lane–Emden equation with real index `n ≥ 0` as an initial value problem
 singular at the centre (its regular solution, integral form, existence, uniqueness, monotonicity,
-the explicit solutions of index `0`, `1`, `5`, the finite radius for `n < 3`, the virial identity
+the explicit solutions of index `0`, `1`, `5`, the finite radius for `n < 5`, the virial identity
 and the positivity for `n ≥ 5`), the hydrostatic equation of a radial Newtonian star with the
 mass function, polytropes and their Lane–Emden reduction, the mass–radius relation, the virial
 identity and the Betti–Ritter formula, and Buchdahl's inequality for the
@@ -547,13 +584,11 @@ Boundaries.
   used for the regular part of the system; no theorem on main about Carathéodory solutions is
   needed, since the Lane–Emden system is continuous in the radius away from the centre.
 
-Not treated here: a zero of the Lane–Emden solution for `3 ≤ n < 5` (classically true; no open
-source with a proof was found, and Layer 3 proves only `n < 3`); Emden–Fowler and isothermal
-spheres; kinetic (Vlasov–Poisson) polytropes and their compact support; stability of polytropes;
-Chandrasekhar's limiting mass beyond the scaling of 4.2; the general-relativistic finite radius
-of Ramming–Rein, Theorem 4.2; Andréasson's extension of Buchdahl's inequality to anisotropic
-pressure and non-monotone density (Andréasson, Theorems 1 and 2, p. 7); the interior bound
-(1.19) of Reall's §1.7.
+Not treated here: Emden–Fowler and isothermal spheres; kinetic (Vlasov–Poisson) polytropes and
+their compact support; stability of polytropes; Chandrasekhar's limiting mass beyond the scaling
+of 4.2; the general-relativistic finite radius of Ramming–Rein, Theorem 4.2; Andréasson's
+extension of Buchdahl's inequality to anisotropic pressure and non-monotone density (Andréasson,
+Theorems 1 and 2, p. 7); the interior bound (1.19) of Reall's §1.7.
 
 ## Exact supplier contracts
 
@@ -565,17 +600,17 @@ pressure and non-monotone density (Andréasson, Theorems 1 and 2, p. 7); the int
 - `Mathlib/Analysis/SpecialFunctions/Pow/Continuity.lean`: `Real.continuousAt_rpow_const`
   (continuity of `x ↦ x ^ q` at `x` when `x ≠ 0` or `q ≥ 0`), for 1.1.
 - `Mathlib/Analysis/SpecialFunctions/Pow/Deriv.lean`: `Real.hasDerivAt_rpow_const` (derivative
-  `p x^(p−1)` when `x ≠ 0` or `p ≥ 1`), for 1.1 and 4.1.
+  `p x^(p−1)` when `x ≠ 0` or `p ≥ 1`), for 1.1, 3.1 and 4.1.
 - `Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean`:
   `intervalIntegral.integral_hasDerivAt_right` (an interval integral of an integrable function,
   continuous at `b`, has derivative `f b` in its upper limit),
   `intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le` (for `a ≤ b`, `f` continuous on `[a, b]`
-  with derivative `f'` on `(a, b)` and `f'` integrable, `∫_a^b f' = f b − f a`), for 1.2, 3.2,
-  4.3, 5.2.
+  with derivative `f'` on `(a, b)` and `f'` integrable, `∫_a^b f' = f b − f a`), for 1.2, 3.1,
+  3.2, 4.3, 5.2.
 - `Mathlib/MeasureTheory/Integral/IntervalIntegral/IntegrationByParts.lean`:
   `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDerivAt` (integration by parts on
   `[a, b]` for functions continuous on `[a, b]`, differentiable on `(a, b)`, with integrable
-  derivatives), for 3.2.
+  derivatives), for 3.1 and 3.2.
 - `Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean`: `ContinuousOn.intervalIntegrable`,
   `intervalIntegral.integral_comp_mul_left` (`∫_a^b f(c x) dx = c⁻¹ ∫_{ca}^{cb} f` for `c ≠ 0`),
   for 1.2, 4.1, 4.3.
@@ -590,7 +625,9 @@ pressure and non-monotone density (Andréasson, Theorems 1 and 2, p. 7); the int
   `ODE_solution_unique_of_mem_Icc_right` (two solutions of a field Lipschitz in the state on the
   region they stay in, equal at the left end of an interval, agree on the interval), for 1.3.
 - `Mathlib/Analysis/Calculus/Deriv/MeanValue.lean`: `strictAntiOn_of_deriv_neg`,
-  `antitoneOn_of_deriv_nonpos`, for 1.4 and 5.2.
+  `antitoneOn_of_deriv_nonpos`, for 1.4, 3.1 and 5.2.
+- `Mathlib/Topology/Order/IntermediateValue.lean`: `intermediate_value_Icc'` (a function continuous
+  on `[a, b]` with `a ≤ b` takes every value between `f b` and `f a` on `[a, b]`), for 3.1.
 - `Mathlib/Analysis/Complex/Exponential.lean`: `Real.exp_pos`, for 5.2.
 
 ### From Tau Ceti
