@@ -249,6 +249,10 @@ a dual pair.
   `E`, an unramified representation of `U(X₁^*)(F_v) ≅ GL_n(E_w)` with Satake parameter `α` is, as a representation of
   `U(X₁)(F_v) ≅ GL_n(E_w)`, the one with parameter `α⁻¹`. The dictionary of Layers 1–2 for this pair is 2.5.
 
+The form that the formal proof uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/ThetaBasicK.lean`
+(`GlobalTheory.ThK.IsPair_k`).
+
 Route: the polarisation is `Tr_{E/F}(F · δF) = 0`; compactness and anisotropy are
 HermitianFormsAndLattices §2.5(b), (c), the Witt indices HermitianFormsAndLattices §§2.3, 2.4, and finiteness of the class sets
 is HermitianFormsAndLattices §5.2. For the exchanged pair, `Tr(δ⁻¹⟨w, w′⟩_W · δ⟨v, v′⟩_V) = B(v ⊗ w, v′ ⊗ w′)`. For the homomorphism pair:
@@ -286,6 +290,10 @@ Define *splitting data* for `(V, W)`: a pair `(χ_V, χ_W)` of splitting charact
   `μ̃(x/x̄) = μ(x)` on `E¹`.
 - *Ramification.* Each choice is unramified outside a finite set of places, and for any finite set of
   places of `F` split in `E` there is a choice unramified at all of them.
+
+The form that the formal proof uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/HalfIndexLattices/TLiftK.lean`
+(`UpperTheory.TP.TLiftK`).
 
 Route: existence and the prescribed infinity types are BaseChangeAndGaloisRepresentationsForUnitaryGroups
 §6.3a; the parity is forced on `ℝ^× ⊂ ℂ^×`, where `(x/|x|)^{m} = sgn(x)^m` must equal `η_v(x)^n`;
@@ -411,7 +419,9 @@ MetaplecticAutomorphicForms §§0.1, 1.1, 2.6a, 3.2a, 3.3, 3.14, 4.1, 5.1, 5.2; 
 ### 1.1 The lift of a definite pair
 
 Define the *definite theta lift* of `φ`, `𝒜(V; K) → 𝒜(W; K′)`, `F ↦ θ_φ(F)`, by
-`θ_φ(F)(h) = ∫_{[U(V)]} θ(g, h; φ) F(g) dg` for a test vector `φ` fixed by `K × K′`. Prove:
+`θ_φ(F)(h) = ∫_{[U(V)]} θ(g, h; φ) F(g) dg` for a test vector `φ` fixed by `K × K′` ([FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SchurStep.lean`
+(`UpperTheory.TP.lift`)). Prove:
 
 - The integral converges absolutely and `θ_φ(F)` lies in `𝒜(W; K′)`.
 - *Equivariance.* `θ_{ω(g₀, h₀)φ}(F) = R(h₀) θ_φ(R(g₀⁻¹) F)` for `g₀ ∈ U(V)(𝔸)`, `h₀ ∈ U(W)(𝔸)`,
@@ -536,6 +546,14 @@ Prove:
 - *Finite level.* For `F` in the `K`-fixed part of `π` and `φ` of level `K × K′`, `θ_φ(F)` has level
   `K′`.
 
+The form that the formal proof uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.LiftAut_k`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SchurStep.lean`
+(`UpperTheory.TP.ProjEx`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/ThetaLiftWeilTranslateEquivariant.lean`
+(`UpperTheory.thetaLift_weil_translate_equivariant`).
+
 Route: equivariance of 1.1; finite dimensionality of `𝒜_{λ′}(W; K′)` from AutomorphicFormsOnReductiveGroups
 §7.5 and semisimplicity of the `L²` space of a compact quotient (§7.5 automorphic realisation).
 
@@ -553,6 +571,8 @@ compatible with `f(γ t u) = ρ(γ) f(t)`, since `M_{γtu} = ρ(γ)M_t`.
 The stabilisers are bounded by HermitianFormsAndLattices §5.2(c): `Γ_c` is a subgroup of `U(L_c)` for
 the lattice `L_c = t_c L` of a lattice `L` with `K ⊂ K_L` (HermitianFormsAndLattices §4.5(c)), so `|Γ_c|`
 and `D_K = lcm_c |Γ_c|` divide `minkowskiBound(2n[F : ℚ])`, Minkowski's number of FiniteGroupInvariants 10.2.
+This follows from [FormalProof], `Formalism/FlagUnipotentLattices/MemOfOrthogonalAnisotropic.lean`
+(`Formalism.HermitianLatticeCounting.S6.MinkowskiBound`).
 
 Prove: suppose there is `Ω ∈ ℂ^×` with
 `Ω⁻¹ k_φ(t, t′) M_t ⊂ M′_{t′}` for all `t ∈ U(V)(𝔸_f)`, `t′ ∈ U(W)(𝔸_f)`. Then `D_K · Ω⁻¹ · Θ^φ` maps
@@ -923,6 +943,14 @@ Let `π` be an irreducible automorphic representation of `U(V)` and `Π` an irre
   segment of Hecke characters, in the sense of equality of Satake parameters at almost all split
   places; `BC(π)^∨ = BC(π)^c`.
 
+The form that the formal proof uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SchurStep.lean`
+(`UpperTheory.TP.IsLift`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SatakeLifts/CompUnit.lean`
+(`UpperTheory.Gal.TP.Loc.LiftSatU`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SplitLineSubtraction/RowDefOfOdd.lean`
+(`UpperTheory.Gal.TP.Sub.IsUp`).
+
 Route: the projection of `θ_φ(F)` to `Π` defines a nonzero `U(V)(𝔸_f) × U(W)(𝔸_f)`-equivariant
 map `ω ⊗ π → Π` factoring through `U(V)(𝔸_f)`-coinvariants (1.1, equivariance); at each finite `v`
 this gives a nonzero element of `Hom_{U(V)×U(W)}(ω_v, π_v^∨ ⊗ Π_v)`, which is MetaplecticAutomorphicForms §3.4's description of
@@ -966,6 +994,9 @@ through `τ` (`χ(z) = (τ(z)/|τ(z)|)^{m^Φ}`), and take `δ = δ′` in the Co
   inert places of 2.3 the parameter is `(c_v α, segment)`.
 - (e) *Base change.* If an irreducible `π` of `U(X₁)` has a weak base change `BC(π)`, every constituent of its lift has
   the weak base change `BC(π) ⊗ (χ_V/χ_W) ⊞ ⊞_{i=0}^{d−n−1} χ_V |·|_E^{(d−n−1)/2 − i}`.
+  This follows from [FormalProof],
+  `Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SplitLineSubtraction/RowDefOfOdd.lean`
+  (`UpperTheory.Gal.TP.Sub.IsUp`).
 - (f) *Weil representation.* The Weil representation of the pair is `ω_{ψ, χ_V, χ_W}` of ThetaKernelsForUnitaryDualPairs
   §4.4a; it is the unique representation of `U(X₁)(𝔸) × U(X₂)(𝔸)` on Schwartz functions of a rational Lagrangian of
   `Hom_E(X₁, X₂)` with Heisenberg covariance for `(g, h)x = hxg⁻¹`, theta functional invariant under rational points,
@@ -1022,6 +1053,8 @@ map) is a Siegel–Weil integral over the compact quotient `[U(W)]`. Prove:
   `U(V^□)` attached to the Siegel–Weil section `Φ` of `δ(φ ⊗ φ̄)`, holomorphic at `s₀`, and `c = 1` if
   `s₀ > 0`, `c = 2` if `s₀ ≤ 0` (MetaplecticAutomorphicForms §6.4: `E = c τ(H)/[E:F] · I` with
   `I = τ(H)⁻¹∫_{[H]}θ`). So the factor is `2` for `d > n` and `1` for `d ≤ n`.
+  This is [FormalProof], `Development/WeilBound/ThetaLifts/LatticeBasics/HypothesesS.lean`
+  (`GlobalTheory.ThK.Dbl.SiegelWeilStd`).
 - The restriction of `Φ_{s₀}` to `ι(g, 1)` is `⟨ω(g)φ, φ⟩` times the determinant twist of §6.10.
 
 Route: the seesaw identity is the tensor identity `ω_{V^□, W}|_{U(V) × U(V)} = ω_{V,W} ⊗ ω̄_{V,W}`
@@ -1050,6 +1083,9 @@ anisotropic target `W` (`r = 0`, `m = d`), the splitting character `χ = χ_W` a
 the anisotropic `U(V)` is cuspidal (0.1), and that bullet's `L^S(s + ½, BC(π) ⊗ χ)` is `L^S(s + ½, π × χ_W)` by the
 Conventions. For the conjugate-linear lift of MetaplecticAutomorphicForms §5.6, ThetaKernelsForUnitaryDualPairs §6.13a (i)
 has `π^∨` in place of `π`, `L^S(s + ½, π^∨ × χ_W) = L^S_E(s + ½, BC(π) ⊗ χ_W⁻¹)`, and the conjugate matrix coefficient.
+The form that the formal proof uses is [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.Rallis_k`).
 
 Prove, for a definite pair:
 
@@ -1193,6 +1229,14 @@ Prove: in the setting of 3.2 with `d ≥ 2n + 1`,
   and equal to `‖φ_v‖²` on `H_v`; then for every `F_v ∈ π_v` fixed by `U`, `Z_v(s₀, Φ_v, F_v, F_v) = c · ‖F_v‖²` with
   `c = ∫_U ⟨ω_v(g)φ_v, φ_v⟩ dg ≥ ‖φ_v‖² vol(H_v) > 0`; in particular it is nonzero for `F_v ≠ 0`.
 
+For `d ≥ 2n + 1` this follows from [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.BumpAny_k`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SchurStep.lean`
+(`UpperTheory.TP.IsBump`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.SchurStep_k`).
+
 Route: at a real place, `⟨ω_v(k)φ_v, φ_v⟩⟨σ_{λ_v}(k)F_v, F_v⟩` is the matrix coefficient of `φ_v ⊗ F_v` in
 `ω_v ⊗ σ_{λ_v}`, whose average over `U(n)` is `‖pr(φ_v ⊗ F_v)‖²`, and `(ω_v ⊗ σ_{λ_v})^{U(n)} ≠ 0` exactly when
 `σ_{λ_v}^∨ ⊂ ω_v` (Schur orthogonality, CompactGroups §4.1); the linear lift pairs `F ∈ σ_{λ_v}`
@@ -1218,6 +1262,13 @@ corresponding criterion, with the normalised local doubling functionals and the 
 weights, is MetaplecticAutomorphicForms §6.14. *The form of the formal proof.* One direction, with an
 unspecified threshold, for the standard spaces described after 4.3: there is `d₀`, depending on `E` and `n`, such that for
 every `d ≥ d₀`, if `λ_v` occurs at every real place, then `Θ_W(π) ≠ 0`.
+This follows from [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.NonVan_k`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.RealPair_k`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
+(`UpperTheory.TP.HgtFst_k`).
 
 Route: if some `λ_v` does not occur, every lift vanishes by 2.1. Conversely choose `S`, a test vector
 `φ` and `F ∈ π` as in 3.2 with `φ_v` from 4.1 at the places of `S`: by 3.3 the `L`-value and
@@ -1249,13 +1300,20 @@ PotentialAutomorphyInfrastructurePartII §3.5 (2), as in 2.4.
 
 *The form of the formal proof.* The route through an absolutely convergent integral of matrix coefficients gives the
 following weaker statement, which is the one the family's Galois-theoretic part uses. Let `E` be a CM field containing an
-imaginary quadratic field and satisfying (P0)–(P2) of 6.1, `V` the standard positive definite Hermitian space of rank
-`n ≥ 1` with its standard lattice. There is `d₀`, depending on `E` and `n`, such that for every `d ≥ d₀`, every totally
-definite `W = δ·⟨1, …, 1⟩` of rank `d` with its standard lattice unimodular for the skew-Hermitian form, all splitting data
-and every `π` whose weights occur at every real place, there is an irreducible automorphic `Π` on `U(W)` with the weights
-`Λ_v(λ_v)` and, at every place split in `E`, a nonzero `U(V)(F_v) × U(W)(F_v)`-equivariant pairing of the type-II Weil
-representation with `π_v` and `Π_v`. The threshold `2n + 1`, the converse and the components at the inert places are those
-of 4.2 and of the statement above.
+imaginary quadratic field and satisfying (P1) and (P2) of 6.1 (it need not be Galois over `ℚ`), and `V` the standard
+positive definite Hermitian space of rank `n ≥ 1`. There is `d₀`, depending on `E` and `n`, such that for every `d ≥ d₀`,
+every totally definite `W = δ·⟨1, …, 1⟩` of rank `d` containing a lattice unimodular for its skew-Hermitian form at every
+finite place, all splitting data and every `π` whose weights occur at every real place, there is an irreducible automorphic
+`Π` on `U(W)` with the weights `Λ_v(λ_v)` and, at every place split in `E`, a nonzero `U(V)(F_v) × U(W)(F_v)`-equivariant
+pairing of the type-II Weil representation with `π_v` and `Π_v`. This follows from [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/HalfIndexLattices/TLiftK.lean`
+(`UpperTheory.TP.TLiftK`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/HalfIndexLattices/SplitStab.lean`
+(`UpperTheory.TP.W.GoodK`),
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/SchurStep.lean`
+(`UpperTheory.TP.IsLift`). One may take any `d₀` with `d₀ ≥ 2n` and `d₀ > 2t₀`, where `t₀` is an exponent from which the
+height of the doubling embedding of `U(V)` is integrable over `U(V)(𝔸)`. The threshold `2n + 1`, the converse and the
+components at the inert places are those of 4.2 and of the statement above.
 
 Route: 4.2 gives `Θ_W(π) ≠ 0`; 1.5 decomposes it into irreducibles; 2.4 identifies each.
 
@@ -1350,6 +1408,11 @@ Corollaries:
   `k ≥ d/2 − n + 1 > −|m_{W,v}|/2`, and every `L_E(k, χ_W)` is finite and nonzero: for `k ≥ 1` by the Euler
   product and nonvanishing on `Re s = 1`, for `k ≤ 0` by the functional equation, whose archimedean
   factors `Γ_ℂ(s + |m_{W,v}|/2)` have no pole at `k`.
+
+The form that the formal proof uses is [FormalProof], `Development/WeilBound/ThetaLifts/LatticeBasics/PairsStable.lean`
+(`GlobalTheory.ThK.Dbl.NonZeroBot`), `Development/WeilBound/ThetaLifts/LatticeBasics/HodgeTateFromSandwich.lean`
+(`GlobalTheory.ThK.Dbl.EulerProd`), `Development/WeilBound/ThetaLifts/LatticeBasics/ExistsIsHeckeLOfCompleted.lean`
+(`GlobalTheory.ThK.Dbl.LInt2`).
 
 Route: 5.2 in its second form; choose `φ_∞` with nonzero archimedean factor (4.1, the trivial
 `K_∞`-type), local vectors at `S` with nonzero factors, and evaluate. The corollaries use
@@ -1483,7 +1546,13 @@ coinvariants of the polynomial Fock spaces under `(𝔲(V_v), K_{V_v})` and `(�
 - At a real place where `V` is positive and `V′` negative definite, the definite pairs `(V, W)` and `(V′, W)` have
   `ε_v = −1` and `ε_v = +1` (Conventions), and `ε_v m_{W,v} = κ_v` for both (2.1, Check).
 
-Define the *place conditions* of a triple:
+Define the *place conditions* of a triple ([FormalProof],
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base.IsGood`),
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars.IsGood`),
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc.IsSkew`)):
 
 - (P0) `E` is a Galois extension of `ℚ`;
 - (P1) `E/F` is unramified at every finite place;
@@ -1504,6 +1573,10 @@ Prove: under (P0)–(P4), for every definite pair `(X, W₀)` obtained
 from the triple by removing hyperbolic planes from `W` and from `V` or `V′` (`X = V` with splitting data `(β, β/α)`, or
 `X = V′` with `(α, α/β)`), the local hypotheses of 5.3 hold at every finite place of its sets `S` and `S_0`, the test
 vector being the lattice vector of `L_v ⊗ M_{0,v}` at the finite places outside `S`.
+This follows from [FormalProof], `Development/WeilBound/ThetaLifts/LatticeBasics/HodgeTateFromSandwich.lean`
+(`GlobalTheory.ThK.Dbl.BadFactor`), `Development/WeilBound/ThetaLifts/LatticeBasics/LocUnr.lean`
+(`GlobalTheory.ThK.Dbl.LocUnrSplit`), `Development/WeilBound/ThetaLifts/LatticeBasics/LocUnr.lean`
+(`GlobalTheory.ThK.Dbl.LocUnrInert`).
 
 Route: every finite place of these sets splits in `E`: `E/F` is unramified (P1); `χ_W = ν^{∓1}` and the splitting
 characters are ramified only at `T`, which consists of split places (P3); `ψ_v` is ramified only at places dividing the
@@ -1559,23 +1632,25 @@ integrals on the data); a change of one of the two Haar measures alone multiplie
 `p_v(Φ_v) = p′_v(Φ′_v)` for every `v`; in general a matched pair is a finite sum of matched pairs of pure tensors (no
 limits are taken). Prove:
 
-- *existence* (in this range, this roadmap's extension, by the route below): if `a′ ≥ 1`, `a ≡ a′ (mod 2)`, the triple
-  satisfies the place conditions (6.1) and, at every real place
-  `v` where `V` and `V′` have signatures `(a − p_v, p_v)` and `(q_v, a′ − q_v)`, `−κ_v > |a − 2p_v| + |a′ − 2q_v|` (for
-  instance `κ_v < −N`), matching data exist, unique up to rescaling `(p_v, p′_v)` at each place, and normalised ones
-  exist;
+- *existence* (in this range, this roadmap's extension, by the route below): if `a ≡ a′ (mod 2)`, the triple satisfies the
+  place conditions (6.1) and, at every real place `v` where `V` and `V′` have signatures `(a − p_v, p_v)` and
+  `(q_v, a′ − q_v)`, `κ_v < −N` and `2(p_v + q_v) + 1 < min(ε₀, a′)` (the signatures may depend on `v`), matching data
+  exist, unique up to rescaling `(p_v, p′_v)` at each place, and normalised ones exist;
 - the matched pairs form a `U(W)(𝔸_f) × K_{W,∞}`-stable space, stable under `𝔲(W_∞)`, and every test vector
   `Φ` has a partner `Φ′`, and conversely;
 - matching is unchanged by rescaling `p_v`, `p′_v` by the same nonzero scalar; normalised matching data are
   determined by the choice at the real places and of the bases at the places of `T`.
 
-*The form of the formal proof.* Under hypotheses 1–4 of 6.11, matching data exist, unique up to rescaling `(p_v, p′_v)` at
-each place, and normalised ones exist.
+*The form of the formal proof.* Under hypotheses 1–4 of 6.11 there are, at every finite place and for the real places
+taken together, a nonzero irreducible module of the group of `W` and surjections onto it from the two theta quotients,
+compatible with the action of the group of `W`, normalised as above: outside `T` the two lattice vectors have the same
+nonzero image, and at the places of `T` two vectors have the same image exactly when their two zeta integrals are equal.
+That the kernels are the unique maximal proper submodules, and the uniqueness of the data up to rescaling, are not
+statements of the formal proof at the real places; they rest on ThetaKernelsForUnitaryDualPairs §3.47b.
 
 Route: existence place by place: at split places ThetaKernelsForUnitaryDualPairs §3.47 (with `α`, `β` unramified, `ψ` arbitrary,
 any residue characteristic; or `ν` ramified and `ψ` unramified, at the places of `T`), at the inert places §3.47a, at the
-real places §3.47b (its hypotheses are `a′ ≥ 1` and the displayed inequality, since
-`|P − Q| + |P′ − Q′| = |a − 2p_v| + |a′ − 2q_v|`);
+real places §3.47b (its hypotheses are `a + a′` even and the two displayed inequalities, with `Q + P′ = p_v + q_v`);
 uniqueness up to scalars because `ker p_v` is the unique maximal proper submodule of `Θ_v` and `Π_v` has scalar
 endomorphisms. The normalisation: the lattice vectors span the spherical lines and generate (§§3.47, 3.47a), and at `T`
 the zeta integrals are isomorphisms of `Θ_v` and `Θ′_v` onto one induced representation `Π_v` (they satisfy the same left law
@@ -1591,8 +1666,13 @@ Fix a finite place `v₁` of `F` outside `T`, lying over a rational prime that s
 `ν_{w₁}(ϖ_{w₁}) ≠ 1` for `w₁ | v₁`. (Under (P0) and `κ_v ≠ 0` at every real place, as under hypotheses 1–4 of 6.11, such
 places exist: a place of `F` split in `E` and of degree one over a rational prime unramified in `F` lies over a prime that
 splits completely in the Galois extension `E/ℚ`, and those of these places that lie in the set `𝒮` of 6.8 (good split
-places) and outside `T` have Dirichlet density one among the places split in `E`. With `α = β` and `a ≡ a′ (mod 2)`,
-`ν = 1` and there is none.) Prove:
+places) and outside `T` have Dirichlet density one among the places split in `E`. With `α = β` and `a ≡ a′ (mod 2)`, `ν = 1`
+and there is none.) Under hypotheses 1–4 of 6.11 the last condition holds at every such place: there `ν_{w₁}(ϖ_{w₁})^k ≠ 1` for
+every `k ≠ 0`, because `E` is Galois over `ℚ` and `κ_v ≠ 0`. This follows from [FormalProof],
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars.Good`),
+`Development/WeilBound/ThetaLifts/LatticeBasics/PairsStable.lean` (`GlobalTheory.ThK.Dbl.GoodNe`),
+`Development/WeilBound/ThetaLifts/LatticeBasics/GoodNe.lean` (`GlobalTheory.ThK.Dbl.nu_pow_ne_one`). Prove:
 
 - *Convergence.* `I_V(Φ)` converges absolutely for every test vector `Φ` when `2p + a′ < a` at the real
   places (Weil's criterion, ThetaKernelsForUnitaryDualPairs §5.7a). For `Φ′` whose component at `v₁` is
@@ -1625,18 +1705,35 @@ places) and outside `T` have Dirichlet density one among the places split in `E`
   Under hypotheses 1–4 of 6.11 this applies to `(V, W)` for every triple reached from the triple by removing `j < q`
   adapted planes from `V′` and `W` (`min(a − p, p) = p` and `p + q − j < a′ − 2j`), to `(V, W)` for the triple itself, and
   to `(V′, W)` whenever `q = 0` (`V′` is then definite and `p < a`).
+  This is [FormalProof], `Development/WeilBound/ThetaLifts/FrameEstimates/SquareIntegrableWeilRange.lean`
+  (`PositivityTheory.ThKEst.SquareIntegrableWeilRange`),
+  `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean` (`GlobalTheory.ThK.IsPair`),
+  `Development/WeilBound/ThetaLifts/FrameEstimates/SquareIntegrableWeilRange.lean`
+  (`PositivityTheory.ThKEst.TriplePair`).
 - *Square-integrability on regular vectors* (a statement about a pair). For a pair as in the previous bullet, if
-  `2n ≤ d` and `2·max(min(r, s), min(r′, s′)) + 1 < n`, then `I_{X,W}(Φ) ∈ L²([U(W)])` for every `Φ` regular at `v₁` (its
-  component at `v₁` supported on matrices of rank `n` in the type-II model). For a triple with one signature, the place
-  conditions and `a′ > 2(p + q) + 1` this applies to `(V′, W)` for every `q` (`min(q, a′ − q) = q`,
+  `2n ≤ d` and `2·max(min(r, s), min(r′, s′)) + 1 < n`, then `I_{X,W}(Φ) ∈ L²([U(W)])` for every `Φ` regular at a finite
+  place of `F` split in `E` (its component there supported on matrices of rank `n` in the type-II model). For a triple
+  with one signature, the place conditions and `a′ > 2(p + q) + 1` this applies to `(V′, W)` for every `q` (`min(q, a′ − q) = q`,
   `min(N − p − q, p + q) = p + q`, `2a′ ≤ N`).
-- *Archimedean vanishing.* ThetaKernelsForUnitaryDualPairs §5.7b(iii) applies to the pairs `(V, W₁)`,
-  `(V′, W₁)` of the smaller triples of 6.4: if `|m_{χ,v}| > dim W₁` for the splitting character `χ` of the
-  pair and the signature condition of §5.7b(iii) holds, every convergent theta integral of the pair vanishes, and so
-  does the extension (it is the integral of a regular representative).
+  This follows from [FormalProof], `Development/WeilBound/ThetaLifts/FrameEstimates/SquareIntegrableWeilRange.lean`
+  (`PositivityTheory.ThKEst.SquareIntegrableSiegelSet`).
+- *Archimedean vanishing.* ThetaKernelsForUnitaryDualPairs §5.7b(iii) applies to the pairs `(V, W₁)`, `(V′, W₁)` of the
+  smaller triples of 6.4, which have one signature at every real place: if `|m_{χ,v}| > dim W₁` at every real place for
+  the splitting character `χ` of the pair and the signature condition of §5.7b(iii) holds, every theta integral of the
+  pair that converges by Weil's criterion, and every theta integral of a vector regular at `v₁`, vanishes; so does the
+  extension (it is the integral of a regular representative).
+  This follows from [FormalProof],
+  `Development/WeilBound/ThetaLifts/EigenvalueEndgame/EigenKilling/ConeIntegralFactorisation.lean`
+  (`PositivityTheory.ThKEnd.Comp.IZero`),
+  `Development/WeilBound/ThetaLifts/EigenvalueEndgame/EigenKilling/ConeIntegralFactorisation.lean`
+  (`PositivityTheory.ThKEnd.Comp.RealVanish`).
 - *The difference space.* `𝒟(V, V′, W)` is the space of all differences `I_V(Φ) − I_{V′}(Φ′)`, `Φ`, `Φ′` test vectors (no
   matching required; equivalently `Φ′ ∈ S′_{reg}`). Its elements are smooth of uniform moderate growth, and the cuspidal
   ones are rapidly decreasing.
+  This follows from [FormalProof], `Development/WeilBound/ThetaLifts/EigenvalueEndgame/PlaneRemovalConfiguration.lean`
+  (`PositivityTheory.ThKEnd.Sig`),
+  `Development/WeilBound/ThetaLifts/EigenvalueEndgame/OrthogonalDecomposition/SigThConst.lean`
+  (`PositivityTheory.ThKEnd.Orth.SigRapid`).
 
 Route: ThetaKernelsForUnitaryDualPairs §§5.7a, 5.7b; rapid decay of cuspidal functions of uniform moderate growth is
 AutomorphicSpectralTheory §3.4 (the truncation of a smooth function of uniform moderate growth is rapidly decreasing on
@@ -1669,10 +1766,10 @@ lattice-point count in a box whose sides are these exponentials of the positive 
 `1 ≤ k ≤ r_X`, that is in Weil's range `n − r_X > d/2` (nothing to do when `X` is anisotropic, the quotient being
 compact). This gives `|I_{X,W}(Φ)(a′(t)κ′)| ≪ ∏_j|a′(t)_j|_E^{n/2}`, the pointwise bound. Its square against the modular
 factor `∏_j|a′(t)_j|_E^{−(d−2j+1)}` of `U(W)` is integrable when the partial sums `−k(d − n − k)` are negative for
-`1 ≤ k ≤ r_W`, that is `n + r_W < d`. *Regular vectors.* Cut `Φ` into finitely many pieces whose component at `v₁` is
+`1 ≤ k ≤ r_W`, that is `n + r_W < d`. *Regular vectors.* Cut `Φ` into finitely many pieces whose component at its regular place is
 supported near one matrix of full rank (route not given here), and use `|θ(Φ)|² = |θ(Φ)|·|θ(Φ^−)|`, `Φ^−(x) = Φ(−x)`
 (the theta distribution is even, and the central element `−1` of `U(X)` acts by a scalar of absolute value one times
-`Φ ↦ Φ^−`, so the same holds after `ω(g, h)`): by ThetaKernelsForUnitaryDualPairs §5.7a (iii) `M_{Φ,Φ^−}` vanishes at the points whose component at `v₁`
+`Φ ↦ Φ^−`, so the same holds after `ω(g, h)`): by ThetaKernelsForUnitaryDualPairs §5.7a (iii) `M_{Φ,Φ^−}` vanishes at the points whose component there
 has rank `< n`, so only rational points of full rank contribute. For such a point the archimedean norm of
 `(a(s), a′(t))⁻¹ξ` is at least a constant times `exp(v(s, t)/(n + 1))`, `v(s, t) = max_k(Σ_{i≤k}s_i − Σ_{i≤k}t_i)⁺`
 (route not given here; the statement is a lower bound for the archimedean size of a full-rank rational matrix moved by
@@ -1692,10 +1789,10 @@ AutomorphicSpectralTheory §§3.2, 3.4.
 
 ### 6.3a Factorisation through the matched quotients, and injectivity
 
-Let a triple satisfy the place conditions (6.1) and the hypotheses of ThetaKernelsForUnitaryDualPairs §3.47b at every real
-place (`a′ ≥ 1` and `−κ_v > |a − 2p_v| + |a′ − 2q_v|`, `(a − p_v, p_v)`, `(q_v, a′ − q_v)` the signatures of `V`, `V′`
-at `v`), with matching data (6.2), and let `I` be one of its two theta integrals on all test vectors: `I_V`, or `I_{V′}`
-extended from `S′_{reg}` (6.3). Prove:
+Let a triple satisfy the place conditions (6.1), `a ≡ a′ (mod 2)` and the hypotheses of ThetaKernelsForUnitaryDualPairs
+§3.47b at every real place (`κ_v < −N` and `2(p_v + q_v) + 1 < min(ε₀, a′)`, `(a − p_v, p_v)`, `(q_v, a′ − q_v)` the
+signatures of `V`, `V′` at `v`), with matching data (6.2), and let `I` be one of its two theta integrals on all test
+vectors: `I_V`, or `I_{V′}` extended from `S′_{reg}` (6.3). Prove:
 
 - *Factorisation.* If `I(Φ) ∈ L²([U(W)])` for every `Φ` in its domain, then `I(Φ) = 0` for every pure tensor `Φ` one of whose
   components dies in the matched quotient (`p_v(Φ_v) = 0` at a finite place, `p_v(Φ_v) = 0` on polynomial Fock vectors at a
@@ -1709,6 +1806,10 @@ The range of the first sentence is this roadmap's extension, proved by the route
 The same statements for a triple satisfying hypotheses 1–4 of 6.11, with matching data (6.2), the theta integral of `V′`
 taken on `S′_{reg}`; there both theta integrals are square-integrable (6.3), so the factorisation needs no further
 hypothesis.
+This is [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
+(`GlobalTheory.ThK.Factor`), `Development/WeilBound/ThetaLifts/LocalTheory/UnramifiedDeterminedBySpherical.lean`
+(`PositivityTheory.ThKG.Loc.InjPure`), `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
+(`GlobalTheory.ThK.SqInt`).
 
 Route. Factorisation: fix the components away from `v` and put `u(y) = I(y ⊗ Φ^v)`; `u` is linear, kills the coinvariant
 relations (invariance of the integral over the group integrated over), intertwines `ω_v(1, h)` with right translation,
@@ -1739,9 +1840,9 @@ like the other finite places.
 - A semisimple image is not what is used: a smooth module with a positive invariant form need not be semisimple; the
   argument uses only generation by a vector spanning the `K_v`-eigenline, resp. by a `K_W`-type of multiplicity one.
 - In the compact case (6.10) `[U(W)]` is compact and square-integrability is automatic.
-- The real-place hypotheses hold for every triple of the induction of 6.11: there `a′ ≥ 2`, and
-  `|a − 2p| + |a′ − 2q| = N − 2(p + q) ≤ N < −κ_v` (`N` of the triple of 6.11), the left side unchanged when a plane is
-  removed.
+- The real-place hypotheses hold for every triple of the induction of 6.11: `N` does not increase, so `κ_v < −N` is
+  kept; and `2(p + q) + 1 < min(ε₀, a′)` is kept when a plane is removed from `V′` (the triple `(p, q − 1)`, `ε₀ + 1`,
+  `a′ − 2`) and when one is removed from `V` (`(p − 1, 0)`, `ε₀ − 1`, `a′`).
 
 ### 6.4 Constant terms of the theta integrals of a triple
 
@@ -1760,7 +1861,7 @@ plane (HermitianFormsAndLattices §4.2(d), its last sentence, locally, and Hermi
 before the maximal compact subgroups at the real places, which are chosen in good position for all of them (6.2); the
 local maps at the real places (ThetaKernelsForUnitaryDualPairs §5.7c(c), §5.7e) need this good position, which
 lattice-adaptedness alone does not give (Check). Let the triple have one signature `(a − p, p)`, `(q, a′ − q)` at every
-real place with `ε₀ ≥ p + 1` and `ε₀ ≥ 2` (implied by hypothesis 2 of
+real place with `a ≡ a′ (mod 2)`, `ε₀ ≥ p + 1` and `ε₀ ≥ 2` (implied by hypothesis 2 of
 6.11, for the triple and for every smaller triple of its induction), and `v₁` as in 6.3. Let `x` lie in an adapted plane
 of the induction and `P_x` be the stabiliser of `Ex`, with Levi `E^× × U(W₁)`, `W₁ = ⟨x, y⟩^⊥`. Prove:
 
@@ -1783,10 +1884,25 @@ of the induction and `P_x` be the stabiliser of `Ex`, with Levi `E^× × U(W₁)
   `𝒟` is zero (the first term of `I_{V′}` vanishes by 6.3, archimedean vanishing, applied to a regular representative of
   `e′₀Φ′`, and `V` is anisotropic); if `q = 0, p ≥ 1`, the `β`-part is zero.
 
-The range above (one signature, `ε₀ ≥ p + 1`, `ε₀ ≥ 2`) is this roadmap's extension, proved by the route below. *The form
-of the formal proof.* The triple satisfies hypotheses 1–4 of 6.11, and the triple obtained by removing the planes
-satisfies them too (it does, 6.11, step 1); the part of law `α|t|^{a′/2}` of `I_V` is identified with a cone integral
-when `q = 0`.
+*The form of the formal proof.* The formal proof has the constant term for pairs. Let `(X, W)` be a unitary pair as in
+the square-integrability statements of 6.3 ((P0)–(P2), one signature at every real place, unimodular lattices), `d`
+even, `x` in a plane of `W` adapted to its lattice, the pairs obtained by removing the planes being of the same kind.
+If `X` is definite at the real places, the constant term of `I_{X,W}(Φ)` has the single law `χ_X|t|^{n/2}` and equals
+`C₀ · I_{X,W₁}(e₀Φ)` on the Levi, for every Schwartz function `Φ`. If `X` is indefinite and `n − d/2 ≥ 1 + r_∞`, with
+`r_∞` the Witt index of `X` at the real places, then for `Φ` finite under a subgroup `K_X` with the Iwasawa
+decomposition the constant term is the sum of `C₀ · I_{X,W₁}(e₀Φ)`, of law `χ_X|t|^{n/2}`, and
+`C₁ · I_{X₁,W₁}(cone_{χ_W⁻¹, n−d/2}Φ)`, of law `(χ_X/χ_W)|t|^{(d−n)/2}`. If `X` is indefinite and `1 + d/2 − n ≥ 2`, then
+for such `Φ` regular at a place split in `E` it is the sum of a part of law `χ_X|t|^{n/2}`, equal to
+`C₀ · I_{X,W₁}(e₀Φ)` whenever `e₀Φ` is regular at that place, and `C₁ · I_{X₁,W₁}(cone^∨_{χ_W, 1+d/2−n}Φ)`. The nonzero
+constants are chosen after the spaces, the lattices, the planes, `K_X` and the measures, and before the splitting
+characters. These statements follow from [FormalProof], `Development/WeilBound/ThetaLifts/SmallCones/ThetaUniq.lean`
+(`PositivityTheory.ThKCT.GenAniso`), `Development/WeilBound/ThetaLifts/SmallCones/ThetaUniq.lean`
+(`PositivityTheory.ThKCT.GenBig`), `Development/WeilBound/ThetaLifts/SmallCones/ThetaUniq.lean`
+(`PositivityTheory.ThKCT.GenSmall`). For a triple in the range above with `a ≡ a′ (mod 2)` this gives both parts of
+`I_V` for every `q`, the part of law `β|t|^{a/2}` of `I_{V′}` on `S′_{reg}`, and its part of law `α|t|^{a′/2}` when
+`e′₀Φ′` is regular at `v₁` or `q = 0` (for `q = 0` on every test vector, the part of law `β|t|^{a/2}` being zero). This
+roadmap's own, proved by the route below: the identification of the first part of `I_{V′}` with the extended theta
+integral when `e′₀Φ′` is not regular, and that the four constants depend only on the measures.
 
 Route: ThetaKernelsForUnitaryDualPairs §5.7c(i)–(ii) for the pairs `(V, W)` and `(V′, W)` with the splitting data of 6.1 (its first range (i) for `(V, W)`:
 `a − N/2 = ε₀ ≥ 1 + p`, `p` bounding the Witt index of `V` at the real places; its second range (ii) for `(V′, W)`:
@@ -1824,12 +1940,14 @@ real place; the place conditions of 6.1), with normalised matching data (6.2). C
   normalised matching data, and assume that `G₁` has a constant: some `I_{V,W₁}(Φ₁)` and some `I_{V′₁,W₁}(Φ′₁)` are nonzero,
   and `I_{V,W₁}(Φ₁) = c(G₁)·I_{V′₁,W₁}(Φ′₁)` for every matched pair of `G₁` (with the extended `I_{V′₁,W₁}` of 6.3). Then for
   every matched pair `(Φ, Φ′)` of `G` with `Φ′ ∈ S′_{reg}` the pair `(c_β(G) · e₀Φ, cone^∨_{ν, ε₀+1}Φ′)` is matched for `G₁`,
-  where `c_β(G) = C_β · ν^T(𝔟𝔠)⁻¹ · c_T(G) · L^T(ε₀ + 1, ν)`. More precisely, at every place `v`
+  where `c_β(G) = C_β · ν^T(𝔟𝔠)⁻¹ · c_T(G) · L^T(ε₀ + 1, ν)`. (The following local form is the shape of the route; the
+  formal proof states the descent for matched pairs only.) More precisely, at every place `v`
   there are `a_v ≠ 0` in `Hom_{P_x}(Π_v, Π_{1,v} ⊗ χ_β)` (`Hom_{(𝔭_x, K_W ∩ M_x)}` at a real place) and `c_v ≠ 0` with
   `p_{1,v} ∘ e₀,v = a_v ∘ p_v` and `p′_{1,v} ∘ cone^∨_v = c_v · a_v ∘ p′_v`.
 - *Removing a plane from `V`.* Let `q = 0` and `p ≥ 1`; remove adapted planes from `V` and `W`, giving `G₁ = (V₁, V′, W₁)`,
   and assume that `G₁` has a constant in the same sense. Then `(cone_{ν, ε₀}Φ, c_α(G) · e′₀Φ′)` is matched for `G₁`, with
-  `c_α(G) = C_α · ν^T(𝔟𝔠) · c_T(G) · L^T(ε₀, ν)`. More precisely, the two sides and the law are exchanged: at every place `v`
+  `c_α(G) = C_α · ν^T(𝔟𝔠) · c_T(G) · L^T(ε₀, ν)`. (The following local form is the shape of the route; the formal proof
+  states the descent for matched pairs only.) More precisely, the two sides and the law are exchanged: at every place `v`
   there are `b_v ≠ 0` in `Hom_{P_x}(Π_v, Π_{1,v} ⊗ χ_α)` (`Hom_{(𝔭_x, K_W ∩ M_x)}` at a real place) and `c_v ≠ 0` with
   `p′_{1,v} ∘ e′₀,v = b_v ∘ p′_v` and `p_{1,v} ∘ cone_v = c_v · b_v ∘ p_v`, `cone_v` the local cone `cone_{ν, ε₀}` at `v`.
 
@@ -1843,8 +1961,11 @@ the constant of the step at `T` for the chosen data: nonzero numbers fixed by th
 the local maps, the local cones at `v ∈ T` being computed with the Haar measure of `E_v^×` giving `O_{E_v}^×` volume one and
 the self-dual measure of `E_v` for `ψ_v`; they depend on the bases of 6.2 at `T` through a factor in
 `∏_{v∈T} ν_v(O_{E_v}^×)`), and `C_β, C_α ≠ 0` depend only on the measures, the spaces, the lattices with their lattice
-vectors, the planes, `ψ`, the set `P` with its bases, the infinity types of `α` and `β`, and the matching data of `G` and
-`G₁` at the real places; they do not depend on `T ⊆ P`. Here `P` is a fixed finite set of places of `F` split in `E` at
+vectors, the planes, `ψ`, the set `P` with its bases, the place `v₁`, the infinity types of `α` and `β`, and the matching data of `G` and
+`G₁` at the real places; they do not depend on `T ⊆ P` (follows from [FormalProof],
+`Development/WeilBound/ThetaLifts/ConeHypotheses/PolDense.lean` (`PositivityTheory.ThKG.LocB'`),
+`Development/WeilBound/ThetaLifts/ConeHypotheses/PolDense.lean` (`PositivityTheory.ThKG.LocA'`)). Here `P` is a fixed
+finite set of places of `F` split in `E` at
 which `ψ_v` is unramified, containing `T`, with bases at every place of `P` placed as in *The constant at `T`* below, the
 lattice vectors at the places of `P` being the indicator functions of the integral matrices in these bases. In particular,
 at every place the Jacquet condition holds for the local components of `G` and `G₁`: `Hom_{P_x}(Π_v, Π_{1,v} ⊗ χ_β) ≠ 0`
@@ -1987,6 +2108,8 @@ signature `(a − p, p)`, `(q, a′ − q)` at every real place, `a ≡ a′ (mo
 This range is this roadmap's extension, proved by the route below. *The form of the formal proof.* Let `(V, V′, W)`
 satisfy hypotheses 1–4 of 6.11. If `p = 0`, then `I_V(Φ) ≠ 0` for some test vector `Φ`; if `q = 0`, then
 `I_{V′}(Φ′) ≠ 0` for some `Φ′ ∈ S′_{reg}`.
+This is [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
+(`GlobalTheory.ThK.NonZeroAn`).
 
 Route: for `p = 0`, remove `q` adapted planes from `V′` and `W` (6.4; HermitianFormsAndLattices §§3.5(b), 4.7(b), and 4.7(c)
 for the lattice of `W`, unimodular for its skew-Hermitian form): at the
@@ -2007,6 +2130,11 @@ each stage. For `q = 0` the same with `V′` (`ε_v = +1`, `χ_W = α/β`, `ε_v
 
 Prove: under the convergence hypotheses of 6.3, if `f ∈ 𝒟` is cuspidal
 and `⟨f, I_V(Ψ)⟩ = ⟨f, I_{V′}(Ψ′)⟩ = 0` for every test vector `Ψ` and every `Ψ′ ∈ S′_{reg}`, then `f = 0`.
+
+*The form of the formal proof.* For a triple satisfying hypotheses 1–4 of 6.11: a difference `I_V(Φ) − I_{V′}(Φ′)`,
+`Φ′ ∈ S′_{reg}`, that is orthogonal to `I_V(Ψ)` for every test vector `Ψ` and to `I_{V′}(Ψ′)` for every `Ψ′ ∈ S′_{reg}` is
+zero; there the theta integrals are square-integrable (6.3) and cuspidality is not needed. The statement above, in the
+range of 6.3 and for cuspidal `f`, is this roadmap's extension, proved by the route below.
 
 Route: `f` is cuspidal of uniform moderate growth, hence rapidly decreasing (6.3), and every theta integral of 6.3 has
 moderate growth, so the Petersson pairings converge absolutely. Writing `f = Σ_i (I_V(Φ_i) − I_{V′}(Φ′_i))`,
@@ -2054,6 +2182,17 @@ every value of `T`, not only `f`, pairs with the theta kernels, which have moder
 - *Anisotropic case.* If `f` is cuspidal, `p = 0` and `q ≥ 1`, then `⟨I_V(Ψ), f⟩ = 0` for all `Ψ`; if
   `q = 0` and `p ≥ 1`, then `⟨I_{V′}(Ψ′), f⟩ = 0` for all `Ψ′`; under the hypotheses of 6.6 for the smaller
   triple.
+
+*The form of the formal proof.* For a triple satisfying hypotheses 1–4 of 6.11, with `𝒮` replaced by the set of the
+places of `F` outside `T` that lie over a rational prime splitting completely in `E`; at these places
+`ν_w(ϖ_w)^k ≠ 1` for every `k ≠ 0`. Local origin holds at each of them other than `v₁`. Invariance holds for any two
+pairs `(X, W)`, `(X′, W)` as in the square-integrability statements of 6.3 with `dim X + dim X′ = dim W` and
+`χ_W = χ_X/χ_{X′}`, at every place split in `E` at which the component of `χ_W` is not `1` at a uniformiser.
+Constancy is proved for a function right invariant under `U(X)(F_v)` at every place outside a finite set lying over a
+rational prime that splits completely in `E`. A constant back-lift vanishes when `X` is indefinite at the real places,
+`dim X ≥ 3` and `χ_W` is nontrivial at `v₁`. Orthogonality and the anisotropic case are as stated, for cuspidal `f`. The
+density statement for `𝒮`, the statements at the places of `𝒮` outside that set, and constancy from invariance on an
+arbitrary set of split places of density one are this roadmap's extension.
 
 Route. Good split places: `ν` has infinity types `κ_v ≠ 0`, so no `ν^k`, `k ≠ 0`, is a norm twist, and
 `L(s, ν^k)` is holomorphic and nonzero at `s = 1` (AnalyticNumberTheoryPartI §2.3a, LFunctions Layer 7);
@@ -2105,6 +2244,14 @@ Prove:
   restriction is `Σ_i (C₁ · I_{V₁,W₁}(cone_{ν,ε₀}Φ_i) − C′₀ · I_{V′,W₁}(Φ′_{1,i}))` with `Φ′_{1,i} ∈ S′_{reg}(V′, W₁)`
   regular representatives of the `e′₀Φ′_i`.
 
+*The form of the formal proof.* For a triple satisfying hypotheses 1–4 of 6.11: an element of `𝒟` (with
+`Φ′ ∈ S′_{reg}`) whose constant term along the line of one hyperbolic plane of `W` vanishes is cuspidal. For
+`p, q ≥ 1`, when the triple `(V₁, V′, W₁)` obtained by removing adapted planes from `V` and `W` satisfies them too: the
+part of law `α|t|^{a′/2}` of an element of `𝒟`, translated by an element of `K_{W,∞} × U(W)(𝔸_f)` and restricted to the
+Levi, is an element of `𝒟(V₁, V′, W₁)`; and if the element of `𝒟` has zero `β`-part, the constant term of that
+restriction along some hyperbolic plane of `W₁` has the single law `α|t|^{a′/2}`. The ranges above, and the explicit
+form of the restriction, are this roadmap's extension.
+
 Route. Cuspidality, by induction on `j = dim I`: for `j = 1` all isotropic lines are conjugate under
 `U(W)(F)` (Witt's theorem, HermitianFormsAndLattices §§1.1–1.2). For `j ≥ 2`, the function
 `g ↦ (constant term along N_I)(lev(g) x)` on `GL_j(E)\GL_j(𝔸_E)` is cuspidal by the induction hypothesis
@@ -2135,6 +2282,10 @@ extension `E/F` with `V` positive definite and `V′` negative definite at every
 place (6.2; they exist under the place conditions, and at the real places `Θ_v = Θ′_v` is the irreducible representation
 of the compact `U(W_v)` of ThetaKernelsForUnitaryDualPairs §3.47b, first Check). Then some `I_V(Φ)` and some `I_{V′}(Φ′)` are
 nonzero, and there is a unique `c` with `I_V(Φ) = c · I_{V′}(Φ′)` for every matched pair; `c ≠ 0`.
+This is [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
+(`GlobalTheory.ThK.PolZero`), `Development/WeilBound/ThetaLifts/LatticeBasics/PairsStable.lean`
+(`GlobalTheory.ThK.Dbl.NonZeroBot`), `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
+(`GlobalTheory.ThK.AnAll`).
 
 Route: all three groups are compact at infinity. (1) *Nonvanishing*: 5.3 for the definite pairs `(V, W)`
 (`ε_v = −1`, `χ_W = β/α` of infinity type `−κ_v`) and `(V′, W)` (`ε_v = +1`, `χ_W = α/β` of infinity type
@@ -2182,6 +2333,12 @@ for `Φ′ ∈ S′_{reg}` and extends to all test vectors, independently of `v�
 some `I_V(Φ)` and some `I_{V′}(Φ′)` are nonzero, and there is a unique `c` with `I_V(Φ) = c · I_{V′}(Φ′)` for every
 matched pair `(Φ, Φ′)` of test vectors; `c ≠ 0`. Moreover `I_V(Φ)` is square-integrable on `[U(W)]` for every `Φ`, by
 6.3 (`ε₀ > p` and `p + q < a′`, from 2). When `p = q = 0` this is 6.10.
+The statement is [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ThetaIntegralsAgree`),
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsTriple`),
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Geo.IsGood`).
 
 What each hypothesis is used for: 1 by the induction, which removes hyperbolic planes globally (each
 removal lowers the defect at every real place at once) and must end in the compact case 6.10; 2 by
@@ -2280,7 +2437,8 @@ for `M` as well as for `M^ψ`; within the family, replacing `λ_v` by `λ_v·(ϖ
 `ν_w(ϖ_w)^kν_{w̄}(ϖ_{w̄})^{−k} = ν_w(ϖ_w)^{2k}` (`ν` is trivial on `F_v^×`), so the formula is to be read with the lattices
 whose lattice vectors normalise the matching data. Fix the spaces, the lattices with their lattice vectors at every finite
 place, the planes, `ψ`, the infinity types of `α` and `β`, the local matching data at the real places
-(ThetaKernelsForUnitaryDualPairs §3.47b), and a finite set `P` of places of `F` split in `E` at which `ψ_v` is unramified,
+(ThetaKernelsForUnitaryDualPairs §3.47b), a finite set `P` of places of `F` split in `E` at which `ψ_v` is unramified, and
+the place `v₁` of 6.3, outside `P`,
 with bases at every place of `P` placed as in 6.5 (and the Haar measures of 6.2 and 6.5 there), the lattice vectors at the
 places of `P` being the indicator functions of the integral matrices in these bases. Then there is a constant `C ≠ 0`
 (`C = C₁C_α/C′₀` for the first step and `C′₁C_β/C₀` for the second, with the constants of 6.4 and 6.5), the same for all
@@ -2300,7 +2458,14 @@ and `e′₀` when it is removed from `V`; a change of the integral bases at `T`
 `f_v` the conductor exponent of `ν_w` at `v` (the `c` of 6.5) and `n = −ε₀` for a plane removed from `V′`, `n = 1 − ε₀`
 for a plane removed from `V` (6.5). The `L`-values are
 finite and nonzero: `ε₀ ≥ 2` places them in the region of absolute convergence (the Euler factors of `ν` at `T` are `1`,
-`ν_v` being ramified there). The identity determines `c(G)/c(G₁)` up to `C` and the constant at `T`.
+`ν_v` being ramified there). The identity determines `c(G)/c(G₁)` up to `C` and the constant at `T`. (By 6.3 the
+constants `c(G)` do not depend on `v₁`; the formal proof fixes `v₁` before `C`.)
+The statement follows from [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepBeta`),
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepAlpha`),
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.stepFac`).
 
 Route: steps 2 and 4 of 6.11 give `c(G₁) = (C′₁/C₀) c_β(G) c(G)` (plane removed from `V′`) and
 `c(G) = (C₁/C′₀) c_α(G) c(G₁)` (plane removed from `V`), with `c_β(G)`, `c_α(G)` the products of the local constants of 6.5:
@@ -2505,9 +2670,9 @@ Boundaries:
   zeta integrals on `Y₀`, `X₀` and the bases (with the moduli `|det|` for general
   changes; factors in `ν(O_E^×)` for integral bases, the measures fixed; 6.2, 6.12); local matching at unramified inert
   places of odd residue characteristic for `a + a′` even, with `Θ`, `Θ′` nonzero, lattices `L`, `L′`, `M` and no
-  compatibility between them; at real places, for `a′ ≥ 1` and `−κ > |P − Q| + |P′ − Q′|` (in particular
-  `κ < −(a + a′)`), the `K_W`-spectrum of the quotients, the matched type `La`, uniqueness of the quotients and their
-  isomorphism (through the Casimir gap), and, for `κ ≤ −(a + a′)`, their identification with `A_𝔮(λ)`; the three local
+  compatibility between them; at real places, for `a + a′` even, `−κ > a + a′` and `2(Q + P′) + 1 < min((a − a′)/2, a′)`,
+  the `K_W`-spectrum of the quotients, the matched type `La`, uniqueness of the quotients and their
+  isomorphism (through the Casimir gap), and their identification with `A_𝔮(λ)`; the three local
   lemmas at a split place.
 - §4.4a: the global splitting of `U(V)(𝔸) × U(W)(𝔸)` into the adelic scalar cover (the
   push-out of the metaplectic double cover along `μ₂ ⊂ ℂ^1`), equal to the rational splitting on rational points, and the
@@ -2545,7 +2710,7 @@ Boundaries:
   `c` the ratio of the multiple of `e₀` to the value of the dual cone on the lattice vectors); at unramified inert
   places (c) and at real places (d), `dim Hom_{P_x}(X, Π₁ ⊗ χ) ≤ 1` for `X = Θ, Θ′, Π`, with `A ≠ 0` (and `B ≠ 0` at
   inert places).
-- §5.7e: the archimedean cone lemma: no nonzero continuous `K_{X₁}`-invariant functional kills the cone (case (A), the
+- §5.7e: the archimedean cone lemma: no nonzero continuous functional invariant under `U(X₁)(ℝ)` kills the cone (case (A), the
   pair `(V, W)`) or the dual cone (case (B), the pair `(V′, W)`, for `2ε₀ < |κ|`) (6.5).
 - §6.4a and its corollary: the formula in Weil's convergent range and the Fourier coefficients of theta integrals of indefinite
   Hermitian spaces on `U(k, k)` (cited in 5.4).
@@ -2702,8 +2867,8 @@ Boundaries:
 
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the routes of 1.2 (class-set form of the lift), 1.7–1.9 (the kernel of the lattice vacuum read through a CM
-  theta function), 4.2–4.3 (the inner-product route to nonvanishing, in dimension `d ≥ d₀`), 5.2–5.3 and Layer 6
+  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the routes of 1.2 (class-set form
+  of the lift), 4.2–4.3 (the inner-product route to nonvanishing, in dimension `d ≥ d₀`), 5.2–5.3, 6.1–6.6 and 6.10–6.12
   (the back-lift argument, cuspidality from one line parabolic, the purity lemma, the compact case, the
   constant-term induction, the global descent of matching through factorisation, constant terms and injectivity, the
   archimedean cone lemma, square-integrability of the theta integrals through the square of the theta kernel, and the
