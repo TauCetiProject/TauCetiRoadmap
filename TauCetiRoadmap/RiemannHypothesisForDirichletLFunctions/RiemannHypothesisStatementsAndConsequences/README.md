@@ -319,7 +319,7 @@ in 8.4a), and `κ = 1` if `L = dedekindZetaC K`, `κ = 0` otherwise. For `x > 1`
 ```
 
 the last sum over all zeros `ρ` of `L`, the trivial ones included, with
-`m_ρ = meromorphicOrderAt L ρ`, absolutely summable.
+`m_ρ = meromorphicOrderAt L ρ`, absolutely summable (Titchmarsh, Chapter XIV, for `ζ`).
 
 Route. For `y > 0` and `c > 0`, `(2πi)⁻¹ ∫_{(c)} y^w dw/w² = max(log y, 0)`: shift the line right
 when `y < 1` and left when `y > 1`, collecting `log y` at the double pole, the integrand being
@@ -524,9 +524,9 @@ the same body, since a roadmap's module is not imported. This section adds four 
   for every `σ' > σ`.
 - Products, the converse: at a point `s` where `f` and `g` are meromorphic, `0 ≤ ord_s g`, and
   either `0 ≤ ord_s f` or (`ord_s f < 0` and `ord_s g = 0`): `ord_s (f · g) ≤ 0` holds exactly when
-  `ord_s f ≤ 0` and `ord_s g ≤ 0` (`meromorphicOrderAt_mul`). So if `g` has no pole right of `σ`
-  and every pole of `f` there is a point of order `0` of `g`, then `f · g` is zero-free right of
-  `σ` exactly when `f` and `g` both are.
+  `ord_s f ≤ 0` and `ord_s g ≤ 0` (`meromorphicOrderAt_mul`). So if `f` and `g` are meromorphic at
+  every point right of `σ`, `g` has no pole there and every pole of `f` there is a point of order
+  `0` of `g`, then `f · g` is zero-free right of `σ` exactly when `f` and `g` both are.
 - Symmetries: `ZeroFreeRightOf σ (fun s ↦ conj (f (conj s))) ↔ ZeroFreeRightOf σ f`, since the
   order of the reflected function at `conj s` is that of `f` at `s`, meromorphic or not
   (`TauCeti.meromorphicOrderAt_conj_conj`); and for `a : ℂ`,
@@ -555,7 +555,10 @@ Tau Ceti `TauCeti.meromorphicOrderAt_conj_conj`.
   predicate treats them alike.
 - The converse product clause needs its condition at the poles: `f(s) = 1/(s − 1)` and
   `g(s) = s − 1` have product `1`, zero-free right of every `σ`, while `g` is not zero-free right
-  of `1/2`.
+  of `1/2`. It needs its meromorphy hypothesis as well: `f(s) = (s − 2) e^{conj s}` and
+  `g(s) = e^{−conj s}` are meromorphic at no point, `e^{conj s}` being complex-differentiable
+  nowhere, so both have the junk order `0` everywhere, neither has a pole and both are zero-free
+  right of every `σ`, while their product `s − 2` is not zero-free right of `1`.
 - The translation clause adds `Re a` to the threshold: `s − 2` is zero-free right of `2` and not of
   `3/2`, so its translate `s − 1` (`a = 1`) is zero-free right of `1` and not of `1/2`. With
   `σ − Re a` in place of `σ + Re a`, the clause would tie `s − 1` being zero-free right of `1`,
@@ -1041,7 +1044,7 @@ derivative. The card `heckeData ψ` has conductor `q` and real gamma shift `a`
 are the bounds for `χ`.
 
 (Titchmarsh, Chapter XIV, for `ζ` under the Riemann hypothesis, with Selberg's formula;
-Littlewood 1928 for `L(1, χ)`.)
+Iwaniec–Kowalski, Chapter 5, for the analytic conductor; Littlewood 1928 for `L(1, χ)`.)
 
 *Needs:* 3.2a, 8.4b, 9.2, 9.5, 11.1 (the compatibility with the primitive sources and the
 comparison of L-functions and cards); QuasiRiemannHypothesis §1.1 (values, the ray-class clause);
@@ -1110,7 +1113,8 @@ Summed with the multiplicities, by step 1 of 9.7(ii) at `s₁`, the zero terms a
 `π a Re logDeriv Λ₀ (s₁) ≤ π a B log 𝔮/(1 − σ₀) = 2π B log 𝔮/log log 𝔮`, by step 2 of 9.7(ii).
 The remaining terms are `a ‖logDeriv Λ₀ (s₁)‖ = O(log 𝔮/log log 𝔮)`, by 8.4b at `s₁`
 as in step 2, and the variation of the gamma and polynomial terms over the segment, `O(1)` by
-ZerosOfLFunctions §1.4. (Titchmarsh, Chapter XIV, for `ζ`.)
+ZerosOfLFunctions §1.4. (Titchmarsh, Chapter XIV, for `ζ`; Iwaniec–Kowalski, Chapter 5, for the
+analytic conductor.)
 
 *Needs:* 8.4b, 9.3, 9.5, 9.7; ZerosOfLFunctions §§1.4, 5.5, 5.6, 7.3.
 
@@ -1150,7 +1154,8 @@ constant; under `RiemannHypothesis` the errors are `O(√x log² x)`
 `primeCounting_sub_logIntegral_isBigO_of_riemannHypothesis`). At `𝔪 = (q)∞`: the
 same for the primes in a reduced class modulo a fixed `q`, under the same zero-free half-plane
 for every Dirichlet character modulo `q` (9.5, rational bullet), which is the hypothesis of (ii),
-`ratDirichletEquiv q hq` being a bijection of the characters.
+`ratDirichletEquiv q hq` being a bijection of the characters. (Ingham, Chapter IV, at `ℚ`;
+Davenport, §§18 and 20, at `ℚ` and at `(q)∞`.)
 
 At `σ = 1/2` the bound for `ψ_K` in (i) is ClassicalArithmeticCompletion §5.16a (i), which gives it
 with explicit constants for `x ≥ 100` under `DedekindERH K`, that is `ExtendedRiemannHypothesis K`
