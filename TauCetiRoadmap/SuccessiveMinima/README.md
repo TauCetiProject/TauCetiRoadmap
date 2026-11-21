@@ -1,38 +1,60 @@
 # Roadmap: successive minima and Minkowski's theorems
 
-**Summary.** This roadmap develops the successive minima of a convex body with respect to a lattice
-and the lower half of Minkowski's second theorem, in a finite-dimensional real normed space with an
-arbitrary additive Haar measure, together with the sharpness of both halves. It also covers the
-hermitian Gram–Hadamard bound, integral bases with a prescribed flag, and Minkowski's linear forms
-theorem. We want it because these are the basic quantitative tools of the geometry of numbers:
-Siegel's lemma and its Bombieri–Vaaler form, bases of unit lattices of controlled height, the
-Subspace Theorem, lattice-point counting and reduction theory all start from them.
+**Summary.** Minkowski's first theorem finds a nonzero lattice point in any centrally symmetric
+convex body whose volume is large compared with the covolume of the lattice. Successive minima
+refine it. The i-th minimum of a convex body K with respect to a lattice L is the infimum of the
+t ≥ 0 such that the dilate tK contains i linearly independent vectors of L. Indexing starts at
+zero, so `λ_0` is the first. Minkowski's second theorem bounds their product, times the volume of
+K, above and below by multiples of the covolume.
 
-The roadmap builds on Mathlib's `ZLattice`, `ConvexBody`, `gauge` and Minkowski's first theorem,
-and on Tau Ceti's real-valued body minima `ZLattice.successiveMin`, with their attainment, threshold
-calculus and the upper half of Minkowski's second theorem. It adopts the foundational successive
-minima of
+This roadmap develops the minima in a real normed space E of finite dimension d, with any additive
+Haar measure μ in place of Euclidean volume. A lattice is a discrete subgroup of E whose real span
+is E, and a body is a compact convex set with 0 in its interior. Central symmetry is assumed only
+where stated. The minima are already defined in Tau Ceti; the roadmap builds the
+more general definition of
 [Mathlib's successive-minima proposal](https://github.com/leanprover-community/mathlib4/pull/35812),
-identifies them with Tau Ceti's body minima, and proves on the body minima:
-- the rank forms of the threshold calculus, and one real basis attaining all minima with the
-  strict-sublevel flags, for bodies that need not be symmetric;
-- monotonicity in the body and the lattice, and transport along linear equivalences;
-- an integral basis whose flag contains the strict sublevels;
-- the lower half of Minkowski's second theorem, with equality on weighted cross-polytopes, and
-  equality in the upper half on weighted boxes;
-- Minkowski's first theorem on successive minima.
+on arbitrary sets, and proves that the two agree for every subgroup L and every nonempty compact
+convex K.
 
-The end theorem is `minkowski_second_lower` (2.1.4).
+The end theorem is the lower half of Minkowski's second theorem. For a lattice L, an additive Haar
+measure μ and a centrally symmetric body K, `(2^d/d!)·covolume(L,μ) ≤ (∏ λ_i)·μ(K)`, with the
+covolume taken for the same μ and d = 0 included. Tau Ceti already has the upper half,
+`(∏ λ_i)·μ(K) ≤ 2^d·covolume(L,μ)` for symmetric K.
 
-| Layer | Construction |
-| --- | --- |
-| 0 | Gram determinants and integral bases with a prescribed flag |
-| 1 | Successive minima |
-| 2 | Minkowski's lower inequality and the linear forms theorem |
-| 3 | Translate volumes and consequences of the upper inequality |
+Both halves are sharp. Take a real basis of E, the lattice it spans over ℤ, and positive weights
+`a_1 ≤ … ≤ a_d`. In the coordinates of that basis, the box `max_j a_j·|x_j| ≤ 1` and the
+cross-polytope `Σ_j a_j·|x_j| ≤ 1` both have the weights as their successive minima. The box
+attains equality in the upper half, the cross-polytope in the lower. For ℤ² and the diamond
+`|x_1|+|x_2| ≤ 1`, both minima are 1 and the area is `2 = 2²/2!`.
 
-Layer 1 needs Layer 0.2 only for the integral minimum flag (1.11). Layer 2 needs Layer 1. Layer 3
-needs Tau Ceti's upper inequality and the body-minimum API. Layer 0.1 is independent of the rest.
+The roadmap also proves Minkowski's linear forms theorem. If A is an invertible real n×n matrix
+with n ≥ 1, and positive numbers `a_1,…,a_n` have product at least |det A|, then some nonzero
+integer vector z satisfies `|(Az)_i| ≤ a_i` for every i, even when the product equals |det A|.
+Applied to x − αy and y with bounds 1/T and T, where T > 1, it gives Dirichlet approximation with a
+nonzero denominator. The hermitian Gram–Hadamard inequality is also proved here: for any vectors
+`v_1,…,v_n`, possibly dependent, in a real or complex inner product space, possibly
+infinite-dimensional, the Gram determinant is a nonnegative real number at most `‖v_1‖²⋯‖v_n‖²`.
+
+From Mathlib the roadmap uses lattices with their covolumes, convex bodies and Minkowski's first
+theorem; from Tau Ceti, the minima and the upper half. The comparison of these minima with the
+natural-number, squared-norm minima of positive definite integral lattices in
+[IntegralLattices](../IntegralLattices/README.md) belongs to
+[GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md),
+which builds on this roadmap. Siegel's lemma, its Bombieri–Vaaler form and the heights of lattices
+belong to
+[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)
+and [HeightsAndUnits](../../Completed/HeightsAndUnits/README.md).
+
+Layer 0 proves the Gram–Hadamard inequality, independent of the rest. It also shows that for every
+real basis of E made of vectors of a discrete subgroup L, some basis of L over ℤ has, for every k,
+the same span of its first k vectors. Layer 1 identifies the two definitions, proves the monotonicity
+and scaling laws, and finds one real basis of lattice vectors attaining all the minima. Using
+Layer 0, it ends with a basis of L over ℤ such that every lattice vector in a dilate tK with
+t < `λ_i` lies in the real span of the first i basis vectors. Layer 2, built on Layer 1, proves the
+lower half by placing inside K the cross-polytope of a basis attaining the minima, then the
+sharpness and the linear forms theorem. Layer 3, built on Tau Ceti's upper half, ends with
+Minkowski's first theorem on successive minima, `λ_0^d·μ(K) ≤ 2^d·covolume(L,μ)` for
+symmetric K in positive dimension.
 
 Suggested home: `TauCeti/MeasureTheory/Group/GeometryOfNumbers/` for `MeasureTheory.successiveMin`
 and its lemmas (1.1b), beside Mathlib's `Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean`;

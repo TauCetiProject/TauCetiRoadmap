@@ -1,181 +1,83 @@
 # Roadmap: p-adic measures, completed group algebras, and characteristic ideals
 
-**Summary.** This roadmap builds the common language of Iwasawa theory and p-adic L-functions:
-bounded measures on profinite spaces and their duals, completed group algebras with the Mahler–Amice
-identification of measures on ℤ_p with power series, pseudo-measures and their values at characters
-and on the weight space, Weierstrass preparation, the structure theory of finitely generated Iwasawa
-modules with the invariants μ and λ, characteristic and Fitting ideals and how they behave under
-specialisation and exact sequences. It supplies the bounded/ordinary measure and pseudo-measure
-foundation for p-adic L-functions and their characteristic-ideal comparisons;
-LocallyAnalyticDistributions extends this foundation to the distributions used in nonordinary
-constructions. Fixing the measure algebra and the module theory once lets those later roadmaps
-state their theorems against shared, pinned objects.
+**Summary.** Iwasawa theory and the theory of p-adic L-functions share a common language. Its
+analytic half is bounded p-adic measures: a measure on a compact space X with coefficients in a
+normed commutative ring R is a continuous R-linear functional on C(X, R). Its algebraic half is
+completed group algebras and finitely generated modules over Λ = O⟦T⟧, where O is a complete
+discrete valuation ring with uniformizer ϖ and finite residue field. This roadmap builds both, for
+later work on p-adic L-functions, Euler systems and main conjectures. The prime p may be 2 unless a
+statement says otherwise.
 
-This roadmap builds the analytic and algebraic language that Iwasawa theory shares with the theory
-of p-adic L-functions: bounded measures on profinite spaces and their duals, completed group
-algebras and the comparison between measures and the Iwasawa algebra, the Mahler–Amice dictionary
-between measures on ℤ_p and power series with its operator calculus (weighting, translation,
-dilation, φ, ψ, restriction to residue classes and to the units), pseudo-measures and their
-evaluation at characters, the Weierstrass theory of O⟦T⟧ and the structure of finitely generated
-Λ-modules with their characteristic ideals and μ/λ-invariants, determinant lines and specialization,
-and the ring theory of coefficient orders (character group rings, quadratic presentations, Fitting
-ideals of all indices, transposes) that integral Euler-system and Brumer–Stark arguments use. It
-continues the Tau Ceti roadmap ProfiniteProPGroups, whose layer 9 builds the completed group algebra
-`TauCeti.completedGroupAlgebra ℤ_p Γ` with its power-series coordinate; everything here is stated on
-that carrier and on Mathlib's `AbstractMeasure`, `PowerSeries` and localization carriers. Its end
-theorems are the comparison of integral measures with the completed group algebra (§1.7) and its
-reading in the power-series coordinate (§4.5), the Mahler–Amice calculus using ψφ = 1 and φψ the
-restriction to pℤ_p from PadicFunctionalAnalysis §3.4, clause 5 (§2.2), the evaluation of
-pseudo-measures at characters and its continuity
-(§3.3, §3a.1), the structure theorem for Iwasawa modules with the growth formula over any
-mixed-characteristic coefficient ring (§4.2, §4.7), the rational trivialization of the determinant
-of a perfect complex by the alternating product of characteristic ideals (§5.1), and the
-Fitting-ideal identities for character group rings and transposes (§6.2, §6.6).
+The first main theorem identifies measures with group algebras. For a profinite group Γ, sending
+the Dirac measure δ_x to the group element [x] gives an isomorphism of ℤ_p-algebras from the
+ℤ_p-valued measures on Γ, with convolution as product, onto the completed group algebra ℤ_p⟦Γ⟧, the
+inverse limit of the group rings ℤ_p[Γ/U]. It is a homeomorphism from the weak topology (pointwise
+convergence on test functions) to the inverse-limit topology. On ℤ_p, the Amice transform
+identifies ℤ_p-valued measures with power series in ℤ_p⟦T⟧, sending δ_a to (1 + T)^a. Through it,
+the measures on ℤ_pˣ correspond to the power series killed by the operator ψ, a left inverse of
+F(T) ↦ F((1 + T)^p − 1).
+
+The second is the structure theorem. The height-one primes of Λ are (ϖ) and the ideals (F) of
+irreducible distinguished polynomials. Every finitely generated Λ-module M has a homomorphism with
+finite kernel and cokernel to an elementary module `Λ^r ⊕ ⨁_i Λ/(ϖ^{m_i}) ⊕ ⨁_j Λ/(F_j^{n_j})`,
+each F_j irreducible and distinguished. The number r, the multisets (m_i) and (n_j) and the ideals
+(F_j) are determined by M. The invariants are μ = Σ m_i, normalised by ϖ and not by p, and
+λ = Σ n_j deg F_j. For torsion M the characteristic ideal is `(ϖ^μ ∏_j F_j^{n_j})`.
+
+The third is Iwasawa's growth formula. Put `ω_n = (1 + T)^{p^n} − 1`; with T = γ − 1 for a
+topological generator γ of Γ ≅ ℤ_p, M/ω_nM is the module of coinvariants of the subgroup of
+index p^n. If M is a finitely generated torsion ℤ_p⟦T⟧-module whose quotients M/ω_nM are all
+finite, then `#(M/ω_n M) = p^{μp^n + λn + ν}` for all large n, with ν independent of n. In
+general the same holds for the quotients by ω_n/ω_c, for every c at or beyond an explicit cutoff determined by M.
+Over O of characteristic zero, with residue field of order p^f and ramification index e, the
+exponent becomes `fμp^n + efλn + ν`. In equal characteristic the formula is false.
+
+Fourth, let P be a perfect complex over Λ (a bounded complex of finite projective modules) whose
+cohomology modules are finitely generated and torsion. Then P becomes acyclic over the fraction
+field of Λ, and the image of its determinant under the resulting trivialization is the fractional
+ideal `∏_i char(H^i(P))^{(−1)^{i+1}}`.
+
+The roadmap builds on ProfiniteProPGroups, whose layer 9 provides ℤ_p⟦Γ⟧ and its power-series
+coordinate; measures, convolution and the Amice transform come from Mathlib. The roadmap
+PadicFunctionalAnalysis gives φ, ψ and the character space of ℤ_pˣ, and NewtonPolygons gives
+Weierstrass preparation with a power of ϖ. The construction of the Kubota–Leopoldt measure uses
+Layers 2, 3 and 3a. The roadmap proving the Brumer–Stark integrality statements of Dasgupta and
+Kakde uses Layer 6.
+
+Layer 0 develops the operators and topologies on measures. Layer 1 builds their finite projections
+and the comparison with ℤ_p⟦Γ⟧, and Layer 2 the Mahler–Amice calculus. Layer 3 treats
+pseudo-measures, the fractions z with ([g] − 1)z integral for every g, and their values at
+characters. Layer 3a makes those on ℤ_pˣ functions on its character space, with at most a simple
+pole at the trivial character. Layer 4 is the theory of Λ-modules, Layer 5 the determinants, and
+Layer 6 the coefficient orders and Fitting ideals.
 
 `README.md` is normative. [`Suggested.lean`](Suggested.lean) records the end theorems and layer
-milestones that can be stated against the pinned libraries, with the few light definitions they need
-and checks that fix the conventions; it is not exhaustive, and the docstrings there cite the
-subsections of this file as §k.n. Every target below states its hypotheses and source; a closing
-*Lean:* note names the declaration of `Suggested.lean` that carries it, and a target without that
-note is specified here only. The names written inside a target (definitions, API lemmas,
-intermediate results) are the proposed names for the library; a declaration of `Suggested.lean` is
-cited as such, in a *Lean:* note or with an explicit mention of the file. New declarations live in
-the namespaces of `Suggested.lean` (`AbstractMeasure`, `PowerSeries`, `Iwasawa`,
-`TauCeti.Iwasawa`, `TauCeti`, `Matrix`) or under `TauCeti.` in the library;
-the namespaces named in each subsection are the proposed ones. Every definition comes with the API
-it needs and with checks that a plausible wrong definition fails; every theorem carries its exact
-hypotheses, its source, and the earlier statements or library declarations it rests on. Nothing here
-is optional.
+milestones that can be stated against the pinned libraries; it is not exhaustive. Every target below
+states its hypotheses and source; a closing *Lean:* note names the declaration of `Suggested.lean`
+that carries it, and a target without that note is specified here only.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap owns:
-
-- bounded measures on compact spaces and their operator calculus: clopen restriction, extension by
-  zero, the weak and strong topologies, the Dirac measures (Layer 0), the Mahler–Amice dictionary on
-  ℤ_p with weighting, translation, root-of-unity averaging, residue projections, the unit-domain
-  comparisons and the Cartier operators, using PadicFunctionalAnalysis §3.4 for the bounded
-  Mahler dual, dilation, φ, ψ, the bounded Amice norm and the rational integral lattice (Layer 2);
-- finite coefficients and joint coordinates of measures, the finite measure algebras, the finite
-  quotients and coordinates of ℤ_pˣ, and the comparison of integral measures on a profinite group
-  with `TauCeti.completedGroupAlgebra ℤ_p Γ`, with coefficient extension (Layer 1);
-- pseudo-measures on a commutative completed group algebra, admissible evaluation at characters, the
-  characters of ℤ_pˣ and their integrals, and the evaluation at varying characters (Layer 3),
-  together with meromorphic functions on the character space of ℤ_pˣ supplied by
-  PadicFunctionalAnalysis §§5.1–5.3 (Layer 3a);
-- ring theory of O⟦T⟧ using NewtonPolygons §6.3, clause 3 for preparation, pseudo-null modules and
-  pseudo-isomorphisms, the structure theorem for finitely generated Λ-modules, the invariants μ and
-  λ, the Iwasawa coordinate over O, characteristic divisors and ideals with their base change and
-  change of generator, isotypic decompositions and Galois-orbit components, the cyclotomic
-  polynomials and the growth formulas (Layer 4);
-- line modules and determinant lines of perfect complexes, their rational trivialization and
-  specialization, and topological Nakayama (Layer 5);
-- the coefficient-order algebra of Dasgupta–Kakde: character group rings with their lattices, units,
-  locality and completeness, the sharp involution, the contragredient dual and the transpose of a
-  presentation, quadratic presentations, compound matrices and higher adjugates, the Fitting ideals
-  of extensions and fibre products, and the exterior-power annihilation lemma (Layer 6).
-
-It does not construct any p-adic L-function (no Bernoulli, Eisenstein or zeta arithmetic, no
-Kubota–Leopoldt measure), no Coleman norm or trace operator and no Coleman map, no locally analytic
-distributions beyond the bounded theory, no Galois cohomology, Selmer group or main conjecture, no
-Euler- or Kolyvagin-system contraction, and no eigenvariety. It states no Gorenstein property and no
-duality for the character group rings: the Gorenstein-order theory of Dasgupta–Kakde and the exact
-duality it feeds (the lattice dual Hom_R(M, R) of a module over an order R, and the finite-module
-dual Hom_O(M, K/O), which differ already for M = O/ϖ, whose lattice dual is 0 and whose finite dual
-is O/ϖ again; the dualizing object, exactness, biduality and the compatibility with the
-involution #) are left to the roadmap that proves the Brumer–Stark integrality statements, which
-will state them with the generic lemmas on orders shared with GlobalNumberFields. Those
-subjects consume the statements here through the interfaces named in each layer.
-
-It leaves to named roadmaps:
-
-- the bounded Mahler dual and integral unit-ball identification, dilation and Frobenius/psi
-  calculus, characters and their universal property, bounded measure functions and the agreement
-  of the integral Amice and completed-group-algebra coordinates, to **PadicFunctionalAnalysis**
-  §§3.4 and 5.1–5.3; uniformizer-power Weierstrass preparation to **NewtonPolygons** §6.3, clause 3;
-  these are roadmaps of W. Coram, to be contributed to TauCetiRoadmap ahead of this one;
-- the completed group algebra itself, its inverse-limit topology, the ℤ_p power-series coordinate
-  for a procyclic pro-p group, the continuity of that coordinate and the change of generator, to Tau
-  Ceti **ProfiniteProPGroups**, layer 9 (section "The completed group algebra of the orientation
-  image"); they are consumed, never restated;
-- the Fitting ideals of finitely presented quasi-coherent modules as far as the relative singular
-  subscheme Sing(f) needs them, to Tau Ceti **StableReduction**, layer 1; the ring-level carrier
-  shared by both roadmaps is Tau Ceti's `TauCeti.fittingIdeal R M k`, which §4.5 and Layer 6 extend
-  and never re-plan;
-- the determinant of a finite locally free sheaf and its pullback comparisons on schemes, to Tau
-  Ceti **AlgebraicVectorBundles**, layer 0C; the ring-level foundation both need (invertible
-  modules, the determinant of an arbitrary finite projective module by its clopen rank
-  decomposition, locally constant parity, equal-rank determinant maps and base change) is stated
-  once in §5.1. AlgebraicVectorBundles L0C supplies the sheaf construction and gluing using that
-  ring-level API: on Spec A its determinant is the associated sheaf of `projectiveDeterminant A P`,
-  compatibly with affine pullback and all equal-rank determinant maps, including noninvertible
-  maps. The graded comparison retains the locally constant rank and its parity; the ordinary
-  invertible-sheaf functor forgets the grading. §5.1 imports nothing geometric, and the determinant
-  of a perfect complex is the new work of Layer 5;
-- orders in number fields and the Gorenstein property for those orders, to Tau
-  Ceti **GlobalNumberFields**; the character group rings R_Ψ of Layer 6 are orders in products of
-  copies of O and may have zero divisors (R_∅ = 0, R_Ψ with Ψ a proper subset of a component), so
-  they are never identified with a number-field order, and nothing here depends on that roadmap;
-- the profinite integers ẑ, their units and the assembly of characters into ẑˣ, to Tau Ceti
-  **ProfiniteArithmetic**, layer 0, and restricted products, adeles and Tamagawa measures to
-  **RestrictedProducts**; neither is restated here, and no statement of this roadmap is made by
-  either.
-
-Already stated or built elsewhere, and therefore cited rather than stated here:
-
-- Convolution of a function on the right, the convolution product of measures and the algebra of
-  measures: Mathlib `Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, which is in the pinned
-  Mathlib, has `AbstractMeasure.convolveFunRight` with `convolveFunRight_apply`,
-  `convolveFunRight_dirac_apply`, `convolveFunRight_apply_one`, `convolveFunRight_one` and
-  `convolveFunRight_mul`, the `Mul` instance on `D(G,R)` with `mul_def`, `mul_apply` and
-  `dirac_mul_dirac`, the `Ring` and `Algebra R` instances with `one_def` and `one_apply`, and the
-  `CommRing` instance for commutative G; only `algebraMap_apply` is new to Layer 1, and it is
-  immediate.
-- The Dirac monoid homomorphism: Mathlib `AbstractMeasure.diracHom : G →* D(G,R)` with
-  `diracHom_apply`; its power rule is `map_pow` and its pushforward rule is `map_dirac`.
-- The local-field integer subring of ℚ_p, 𝒪[ℚ_p] = `PadicInt.subring p`: Tau Ceti
-  `Padic.integerRing_eq_subring` with `Padic.integerRingEquiv`
-  (`TauCeti/NumberTheory/LocalField/Padic.lean`).
-- The reduction of p-adic units and its kernels: red_n is Tau Ceti `PadicInt.unitsToZModPow n` with
-  `PadicInt.coe_unitsToZModPow_apply`, surjective by `PadicInt.surjective_units_map_toZModPow`,
-  continuous by `PadicInt.continuous_toZModPow` and `(PadicInt.unitsToZModPow n).continuous`; its
-  kernel is `TauCeti.unitsPrincipal p n` with `mem_unitsPrincipal_iff`, `isOpen_unitsPrincipal`,
-  `hasBasis_nhds_one_unitsPrincipal` and `iInf_unitsPrincipal_eq_bot`
-  (`TauCeti/NumberTheory/Padics/PrincipalUnits.lean`); the total disconnectedness of ℤ_pˣ is Tau
-  Ceti `PadicInt.totallyDisconnectedSpace_units`.
-- Reflexive modules are torsion-free over any commutative ring: Mathlib's instance
-  `Module.IsReflexive.to_isTorsionFree` (`Mathlib.LinearAlgebra.Dual.Defs`).
-- Exactness of inverse limits of compact modules, that is surjectivity of lim B_n → lim C_n for a
-  tower of compact Hausdorff groups with continuous levelwise surjections commuting with the
-  transition maps: Tau Ceti `exists_forall_map_succ_eq_and_forall_eq_of_surjective` (namespace
-  `TauCeti`, module `TauCeti.Topology.Compactness.InverseSystem`; the directed case is
-  `exists_forall_map_eq_of_compact_t2`), exactness on the left being the closed-embedding formality.
-- Transposes are unique up to projective summands, tr(f) ⊕ (Q_1 ⊕ P_0)^* ≅ tr(g) ⊕ (P_1 ⊕ Q_0)^* for
-  any ring and any two projective presentations: Tau Ceti
-  `TauCeti.AuslanderReitenTranspose.nonempty_linearEquiv_prod_dual`
-  (`TauCeti.Algebra.Module.AuslanderReiten.StableTranspose`), with the converse
-  `nonempty_linearEquiv_prod_of_linearEquiv`; §6.2 only restricts scalars along σ.
-- The higher Fitting ideals and their calculus: Tau Ceti `TauCeti.fittingIdeal R M k`
-  (`TauCeti/RingTheory/FittingIdeal/{Basic,Generators,BaseChange}.lean`), defined for every finite
-  module with our indexing, with presentation independence `fittingIdeal_eq_minorsIdeal_ker` and
-  `fittingIdeal_eq_minorsIdealOfSet`, invariance `fittingIdeal_congr`, monotonicity under
-  surjections `fittingIdeal_le_of_surjective`, the chain `fittingIdeal_monotone`,
-  `fittingIdeal_eq_top_of_surjective` (Fitt^i = R once M is generated by i elements),
-  `fittingIdeal_quotient_zero` (Fitt⁰(R/I) = I), the free-module jumps
-  `fittingIdeal_eq_bot_of_lt_finrank` and `fittingIdeal_eq_top_iff_finrank_le`, the free-summand
-  shift `fittingIdeal_prod_add_finrank`, the fibre criterion `fittingIdeal_le_iff_lt_finrank`, base
-  change `fittingIdeal_baseChange` without flatness and its localisation form `fittingIdeal_eq_map`
-  with `IsLocalizedModule.isBaseChange`; §6.5 keeps only the translation to the matrix form, and
-  §4.5 only the genuinely new identities (Fitt⁰ ≤ annihilator, Fitt⁰ of a product, Fitt⁰ = R iff M =
-  0 as a corollary).
-- The cyclotomic polynomial ω_n = (1 + T)^{p^n} − 1 is distinguished of degree p^n at the ideal (p):
-  Tau Ceti `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one` with
-  `natDegree_one_add_X_pow_sub_one`; §4.3 keeps only the corollary at 𝔪_O, which follows since p ∈
-  𝔪_O. The quotient Λ/(F) ≅ O[X]/(F) by a distinguished F is free of rank deg F: Mathlib
-  `Polynomial.IsDistinguishedAt.algEquivQuotient` with `Polynomial.Monic.free_quotient` and
-  `Polynomial.Monic.finite_quotient`. Weierstrass preparation in the unit-reduction case: Mathlib
-  `PowerSeries.exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and
-  `IsWeierstrassFactorization.unique`; the ϖ^μ form is supplied by NewtonPolygons §6.3, clause 3.
+The layers are built in the order Layer 0 → 1 → 2 → 3 → 3a → 4 → 5 → 6, and each `### k.n`
+subsection lists its statements in dependency order; `*Needs:*` at the end of a statement names the
+earlier statements, by Lean name or by subsection, and the library declarations it rests on. Layer 0
+delivers the operators on D(X,R) for a compact X: clopen restriction and extension, the weak and
+strong topologies and the Dirac measures. Layer 1 delivers the finite coordinates of measures, the
+finite measure algebras, the coordinates of ℤ_pˣ, and the comparison D(Γ, ℤ_p) ≅
+`completedGroupAlgebra ℤ_p Γ` with its coefficient extensions. Layer 2 delivers the Mahler–Amice
+calculus on ℤ_p: moments, root-of-unity averaging, the unit domain, and the supplied φ, ψ and
+bounded Amice norm,
+the Cartier operators and the residue projections. Layer 3 delivers pseudo-measures and their
+admissible evaluation at characters, and Layer 3a the character space of ℤ_pˣ with its bounded and
+meromorphic functions using PadicFunctionalAnalysis §§5.1–5.3. Layer 4 uses NewtonPolygons §6.3 for
+preparation and delivers the ring theory of O⟦T⟧,
+the structure theorem for Iwasawa modules, the Iwasawa coordinate over O, the characteristic ideals
+and the growth formulas. Layer 5 delivers determinant lines of perfect complexes with their rational
+trivialization and specialization, and topological Nakayama. Layer 6 delivers the coefficient-order
+algebra of Dasgupta–Kakde. Each subsection opens with its references and the library declarations it
+is built on; each definition gives its API as named lemmas and its checks as a `**Checks.**` list of
+discriminating instances, the *Lean:* note saying which of them are `example`s of `Suggested.lean`;
+every layer ends with its examples and its dependencies.
 
 ## Conventions
 
@@ -267,133 +169,6 @@ never an instance: where one is used it is named, `AbstractMeasure.WeakTopology`
 `AbstractMeasure.StrongTopology`. ψ on integral measures is supplied by PadicFunctionalAnalysis
 §3.4, clause 5,
 transported to power series through the Amice transform.
-
-## Exact supplier contracts
-
-The library vocabulary is that of Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; `Suggested.lean` imports Mathlib and the Tau Ceti
-modules its statements need, and states them on these declarations. A prerequisite on a Tau Ceti
-roadmap layer refers to that layer's stated development.
-
-### From Mathlib
-
-| Use here | Exact declarations |
-|---|---|
-| measures | `AbstractMeasure`, written D(X,R): the continuous R-linear dual of C(X,R) for compact X and a normed commutative ring R, with `map`, `dirac`, `toCLMEquiv`, `amiceTransform`, `coeff_amiceTransform`, `amiceTransformEquiv`, `injective_amiceTransform`, `monoidAlgebraHom`, `WeakTopology`, `StrongTopology`, and the Mahler basis `mahler`, `PadicInt.mahlerEquiv`, `PadicInt.hasSum_mahler`; the operator calculus of Layers 0 and 2 is built on this carrier |
-| the measure algebra (`Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, in the pinned Mathlib) | `AbstractMeasure.convolveFunRight` and its five lemmas, the `Mul`, `One`, `Ring`, `Algebra R` and `CommRing` instances on `D(G,R)` with `mul_def`, `mul_apply`, `dirac_mul_dirac`, `one_def`, `one_apply`, `prodMk'`, and `diracHom` with `diracHom_apply`; the right-handed orientation (μ ⋆ ν)(f) = μ(x ↦ ν(y ↦ f(xy))) is the library's |
-| power series and polynomials | `PowerSeries` with `coeff`, `map`, `expand`, `subst`, `derivative`, `exp`, `binomialSeries`, `HasEval`, `aeval`, `aeval_unique`, `WithPiTopology`, `exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and `IsWeierstrassFactorization.unique`; `Polynomial`, `Polynomial.IsDistinguishedAt.algEquivQuotient`, `Polynomial.Monic.free_quotient`, `Polynomial.Monic.finite_quotient`, `MvPowerSeries`; the Mahler derivation, φ, ψ, residue averaging and the cyclotomic polynomials ω_n, ξ_n are defined on these |
-| algebra, p-adics and topology | `MonoidAlgebra` with its Hopf structure and its antipode `HopfAlgebra.antipodeAlgHom`, `LocalizedModule`, `IsFractionRing` (no domain hypothesis), the `Div (Submodule R A)` instance with `Submodule.mem_div_iff_forall_mul_mem`, `Module.length`, `PrimeSpectrum`, `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsDiscreteValuationRing`, `Module.FinitePresentation`, `Module.rankAtStalk`, `Matrix.adjugate`, `exteriorPower`, `HasEnoughRootsOfUnity`, `HomologicalComplex`, `ModuleCat`; `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.ker_toZMod`, `PadicInt.norm_le_pow_iff_mem_span_pow`, `PadicComplex`, `ZMod.unitsMap`, `QuotientGroup.quotientKerEquivOfSurjective`, `LocallyConstant`, `WeakDual`, `DenseRange.equalizer`, `Topology.IsClosedEmbedding`, `IsLocalizedModule.isBaseChange` |
-
-### From Tau Ceti
-
-| Use here | Exact declarations |
-|---|---|
-| the completed group algebra carrier (`Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/`) | `TauCeti.completedGroupAlgebra R Γ` for any commutative ring R, with `proj`, `of`, `mk`, `lift`, `ext`, `of_injective`, `isClosedEmbedding_of`, the inverse-limit topology, compactness, `isMulCommutative_iff` (`Basic.lean`); `Map.lean`; `Prod.lean` (R⟦C × Γ⟧ ≅ R⟦Γ⟧[C]); `Discrete.lean`; `PowerSeries.lean` (`powerSeriesCoordinate` : ℤ_p⟦X⟧ ≃ₐ ℤ_p⟦Γ⟧ for procyclic pro-p Γ, `powerSeriesCoordinate_X`, `powerSeriesCoordinate_padicPow_apply` for the generator change); `Filtration.lean` (the kernels of the finite levels); `ProductCoordinate.lean`, `DyadicCoordinate.lean`, `CharacterDivision.lean` |
-| compact modules and inverse systems (namespace `TauCeti`) | `TauCeti.IsCompactModule` (`Topology/Algebra/Module/Compact.lean`); `exists_forall_map_succ_eq_and_forall_eq_of_surjective`, `exists_forall_map_eq_of_compact_t2` (`Topology/Compactness/InverseSystem.lean`); `hasAntitoneBasis_nhds_one_of_iInf_eq_bot` |
-| Fitting ideals (`RingTheory/FittingIdeal/{Basic,Generators,BaseChange}.lean`) | `TauCeti.fittingIdeal R M k` for every k on a finite module, with `fittingIdeal_eq_minorsIdeal_ker`, `fittingIdeal_eq_minorsIdealOfSet`, `fittingIdeal_congr`, `fittingIdeal_le_of_surjective`, `fittingIdeal_monotone`, `fittingIdeal_eq_top_of_surjective`, `fittingIdeal_quotient_zero`, `fittingIdeal_eq_top_iff_finrank_le`, `fittingIdeal_eq_bot_of_lt_finrank`, `fittingIdeal_prod_add_finrank`, `fittingIdeal_le_iff_lt_finrank`, `fittingIdeal_baseChange`, `fittingIdeal_eq_map` |
-| p-adic units (`NumberTheory/Padics/RingHoms.lean`, `PadicIntegers.lean`, `PrincipalUnits.lean`, `NumberTheory/LocalField/Padic.lean`, `UnitFiltration/Basic.lean`) | `PadicInt.unitsToZModPow` with `coe_unitsToZModPow_apply`, `surjective_units_map_toZModPow`, `continuous_toZModPow`; `PadicInt.continuous_toZMod`, `PadicInt.isUnit_one_add_of_dvd`; `TauCeti.unitsPrincipal` with `mem_unitsPrincipal_iff`, `mem_unitsPrincipal_iff_norm`, `isOpen_unitsPrincipal`, `hasBasis_nhds_one_unitsPrincipal`, `iInf_unitsPrincipal_eq_bot`; `PadicInt.totallyDisconnectedSpace_units`; `TauCeti.padicIntUnitsEquivProd` (ℤ_pˣ ≅ μ_{p−1} × (1 + pℤ_p), p odd), `TauCeti.unitsPlusMinus` (the subgroup {±1} at p = 2); `exists_topologicalClosure_zpowers_eq_unitsPrincipal` (a topological generator of the principal units); `not_isOfFinOrder_of_mem_unitsPrincipal` (odd p); `Padic.integerRing_eq_subring`, `Padic.integerRingEquiv`; `TauCeti.unitFiltration` and its open neighbourhood basis |
-| locally constant functions and power series | `TauCeti.rightTranslationStabilizer` (`Topology/Algebra/Group/LocallyConstant.lean`: locally constant functions on a compact group are uniformly locally constant); `hasSubst_binomialSeries_sub_one` (namespace `TauCeti`); `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one` with `natDegree_one_add_X_pow_sub_one` |
-| group rings, Hopf algebras and transposes | `TauCeti.subgroupCharSum`, `TauCeti.MonoidAlgebra.augmentation`, `TauCeti.HopfAlgebra.antipodeAlgEquiv`, `TauCeti.HopfAlgebra.antipode_antipode`, `TauCeti.DiagonalizableGroup.point` with `point_single` and `point_single_one`, `Representation.ofLinearCharacter`; `Matrix.pairMinor` with `pairMinor_mul`, `exteriorPower.map_top_eq_det_smul`; `TauCeti.AuslanderReitenTranspose` with `mk`, `mk_eq_zero_iff`, `mk_surjective`, `lift`, `lift_mk`, `hom_ext`, `nonempty_linearEquiv_prod_dual`, `nonempty_linearEquiv_prod_of_linearEquiv`, and `TauCeti.IsMinimalProjectivePresentation.nonempty_linearEquiv_auslanderReitenTranspose` |
-
-### From TauCetiRoadmap.ProfiniteProPGroups, layer 9
-
-`completedGroupAlgebra ℤ_p Γ = lim_U ℤ_p[Γ/U]` over the open normal subgroups, a compact topological
-ℤ_p-algebra with `of`, `proj` (surjective; with separatedness this is the inverse-limit
-description), `map`, `isMulCommutative_iff` for abelian Γ, the procyclic coordinate
-`powerSeriesCoordinate` : ℤ_p⟦T⟧ ≅ `completedGroupAlgebra ℤ_p Γ` for Γ ≅ ℤ_p (T ↦ γ − 1,
-`powerSeriesCoordinate_X`, `ker_proj_comp_powerSeriesCoordinate`, its continuity, and the generator
-change T ↦ (1 + T)^u − 1), the evaluation `aeval` at `of γ − 1` with `aeval_surjective`,
-`aeval_injective` and `of_sub_algebraMap_dvd_aeval_of_aeval_eq_zero`, the dyadic coordinate
-`dyadicCoordinate`, and `IsCompactModule` with the compact inverse-limit exactness. These stay
-canonical: the carrier, the ℤ_p power-series coordinate, its continuity and the change of generator
-are consumed, never restated. This roadmap adds only what is missing there: the comparison of
-integral measures with the carrier (§1.7), the compatibility of that comparison with the coordinate
-(§4.5), the O-coefficient level maps of the coordinate (§4.5, which for O = ℤ_p is the Tau Ceti
-coordinate read through §1.7), and the compact-module statements of §5.2.
-
-### From TauCetiRoadmap.StableReduction, layer 1
-
-StableReduction develops Fitting ideals of finitely presented quasi-coherent modules only as far as
-the relative singular subscheme Sing(f) needs them, with no ring-level interface stated. The
-ring-level carrier for both roadmaps is Tau Ceti's `TauCeti.fittingIdeal R M k`, which already
-handles every index k with presentation independence, base change and the basic formulas; §4.5 and
-Layer 6 extend that one API (annihilator containment, products, quadratic presentations, extensions,
-transposes) and never re-plan it.
-
-### Shared with TauCetiRoadmap.AlgebraicVectorBundles, layer 0C, and TauCetiRoadmap.GlobalNumberFields
-
-AlgebraicVectorBundles L0C owns the sheaf construction, gluing and pullback comparisons; §5.1
-supplies its ring-level foundation on Mathlib's `exteriorPower` and Tau Ceti's
-`exteriorPower.map_top_eq_det_smul`. On Spec A the associated-sheaf comparison identifies
-`projectiveDeterminantMap` with the exterior-power map for every map between finite projectives
-whose rank functions agree, and commutes with identities, composition and arbitrary affine
-pullback. Rank remains the locally constant integer function of the source; reduction modulo two
-gives the graded line's parity. The ordinary `InvertibleSheaf` target forgets this grading;
-Koszul symmetry is compared in graded lines before forgetting. Both consumers use the same
-ring-level library API, and §5.1 imports no scheme-level construction. GlobalNumberFields has
-orders in number fields and the Gorenstein property for those orders; the algebra shared with it is
-the generic lemmas on orders over a Dedekind base, and nothing here depends
-on it.
-
-### From the student roadmaps
-
-PadicFunctionalAnalysis and NewtonPolygons are roadmaps of W. Coram, to be contributed to
-TauCetiRoadmap ahead of this one. Section references use the numbered README heading followed by its
-clause. The labels below lie under **Targets requested by the Tau Ceti PadicMeasuresIwasawaAlgebras,
-LocallyAnalyticDistributions and AdicSpaces roadmaps** in PadicFunctionalAnalysis and **Targets
-requested by the Tau Ceti PadicMeasuresIwasawaAlgebras roadmap** in NewtonPolygons. Student Lean
-declarations have namespaces `TauCetiRoadmap.PadicFunctionalAnalysis` and
-`TauCetiRoadmap.NewtonPolygons`, respectively. Their measures are Mathlib's `AbstractMeasure`;
-PadicFunctionalAnalysis's native Amice series agrees coefficientwise with
-`AbstractMeasure.amiceTransform` by the Mahler-term definition.
-
-| Use here | Student roadmap and section | Student declarations and comparison with this roadmap's notation |
-|---|---|---|
-| §2.5 bounded Mahler pairing | PadicFunctionalAnalysis §3.4, clause 1 | Mahler dual pairing; no separate Lean declaration; the norm-one coefficient hypothesis is handled at the R-valued inverse transform |
-| §2.5 bounded Amice isometry | PadicFunctionalAnalysis §3.4, clause 1; label **§3.4.1, §3.4.4 — amiceTransform, norm_toCLMEquiv_eq_iSup_coeff, mem_range_amiceTransform_iff** | `TauCetiRoadmap.PadicFunctionalAnalysis.norm_toCLMEquiv_eq_iSup_coeff`; student `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform` is the same series as `AbstractMeasure.amiceTransform` |
-| §2.5 bounded-series range | PadicFunctionalAnalysis §3.4, clauses 1 and 4; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.mem_range_amiceTransform_iff`; bounded coefficients on the native `PowerSeries` carrier |
-| §2.5 rational dual unit ball | PadicFunctionalAnalysis §3.4, clause 4; label **§3.4.4 — existsUnique_integral_iff_norm_le_one** | `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_integral_iff_norm_le_one`; unique integral preimage by agreement on integral tests |
-| §2.2 Frobenius on bounded measures | PadicFunctionalAnalysis §3.4, clause 5; label **§3.4.5 — phiMeasure, pMultiplesIndicator, weightMeasure, existsUnique_psiMeasure, amiceTransform_phiMeasure** | `TauCetiRoadmap.PadicFunctionalAnalysis.phiMeasure`; pushforward φ on the same measure carrier |
-| §2.2 left inverse of Frobenius | PadicFunctionalAnalysis §3.4, clause 5; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure`; ψ on the same measure carrier |
-| §2.2 left inverse identity | PadicFunctionalAnalysis §3.4, clause 5; same label | First identity in `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure` |
-| §2.2 Frobenius after its left inverse | PadicFunctionalAnalysis §3.4, clause 5; same label | Second identity in `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure`, with `TauCetiRoadmap.PadicFunctionalAnalysis.pMultiplesIndicator` and `TauCetiRoadmap.PadicFunctionalAnalysis.weightMeasure`; weighting here is `AbstractMeasure.weight` and the indicator has the local restatement below |
-| §2.2 Frobenius and Amice | PadicFunctionalAnalysis §3.4, clause 5; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform_phiMeasure` |
-| §2.2 Amice unit projector | PadicFunctionalAnalysis §3.4, clause 5; same label | Unit projector from `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform_phiMeasure` and the two psi identities; no separate Lean declaration |
-| §2.11 dilation transform | PadicFunctionalAnalysis §3.4, clause 5 | General multiplication pushforward and binomial substitution; no separately named Lean theorem |
-| §3a.1 continuous unit characters | PadicFunctionalAnalysis §5.1, clause 1, and §5.2, clause 1 | `TauCetiRoadmap.PadicFunctionalAnalysis.WeightSpace` is W(A); torsion/principal splitting includes p = 2 |
-| §3a.1 principal characters and open discs | PadicFunctionalAnalysis §5.2, clause 2 | `TauCetiRoadmap.PadicFunctionalAnalysis.nonempty_weightSpace_equiv`, with coordinate `TauCetiRoadmap.PadicFunctionalAnalysis.TCoord`; specialize to C_p |
-| §3a.1 universal character | PadicFunctionalAnalysis §5.3, clauses 1 and 3; label **§5.3.1, §5.3.3 — exists_character_of_hasEval, eq_aeval_binomialSeries, existsUnique_character_of_norm_lt_one** | `TauCetiRoadmap.PadicFunctionalAnalysis.exists_character_of_hasEval`, `TauCetiRoadmap.PadicFunctionalAnalysis.eq_aeval_binomialSeries`, `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_character_of_norm_lt_one`; restrict the unit character to its principal ℤ_p factor, retaining ultrametricity in the normed case |
-| §4.5 Amice/completed coordinate comparison | PadicFunctionalAnalysis §5.3, clause 4, second sentence, and §3.4, clause 4 | No separately named Lean declaration; transport a ↦ γ^a with T = [γ] − 1 |
-| §3a.1 bounded measure functions | PadicFunctionalAnalysis §5.3, clause 5; label **§5.3.5 — extendIntegralMeasure, weightTest, measureFun, measureFun_norm_le, measureFun_injective** | `TauCetiRoadmap.PadicFunctionalAnalysis.extendIntegralMeasure`, `TauCetiRoadmap.PadicFunctionalAnalysis.weightTest`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun_norm_le`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun_injective`; these are F_μ and its bounds/injectivity, with O coefficients supplied by §1.7 |
-| §4.3 uniformizer-power preparation | NewtonPolygons §6.3, clause 3; label **exists_pow_mul_distinguished_mul_unit** | `TauCetiRoadmap.NewtonPolygons.exists_pow_mul_distinguished_mul_unit`; identify the abstract complete DVR O with the valuation ring of its complete valued fraction field, and commute the unit and polynomial factors |
-
-Local restatements in `Suggested.lean`:
-
-- `AbstractMeasure.pMultiplesIndicator`: local restatement of PadicFunctionalAnalysis §3.4,
-  clause 5, used by the retained unit-support range and division statements (§§2.3 and 2.6).
-
-## How to read the build
-
-The layers are built in the order Layer 0 → 1 → 2 → 3 → 3a → 4 → 5 → 6, and each `### k.n`
-subsection lists its statements in dependency order; `*Needs:*` at the end of a statement names the
-earlier statements, by Lean name or by subsection, and the library declarations it rests on. Layer 0
-delivers the operators on D(X,R) for a compact X: clopen restriction and extension, the weak and
-strong topologies and the Dirac measures. Layer 1 delivers the finite coordinates of measures, the
-finite measure algebras, the coordinates of ℤ_pˣ, and the comparison D(Γ, ℤ_p) ≅
-`completedGroupAlgebra ℤ_p Γ` with its coefficient extensions. Layer 2 delivers the Mahler–Amice
-calculus on ℤ_p: moments, root-of-unity averaging, the unit domain, and the supplied φ, ψ and
-bounded Amice norm,
-the Cartier operators and the residue projections. Layer 3 delivers pseudo-measures and their
-admissible evaluation at characters, and Layer 3a the character space of ℤ_pˣ with its bounded and
-meromorphic functions using PadicFunctionalAnalysis §§5.1–5.3. Layer 4 uses NewtonPolygons §6.3 for
-preparation and delivers the ring theory of O⟦T⟧,
-the structure theorem for Iwasawa modules, the Iwasawa coordinate over O, the characteristic ideals
-and the growth formulas. Layer 5 delivers determinant lines of perfect complexes with their rational
-trivialization and specialization, and topological Nakayama. Layer 6 delivers the coefficient-order
-algebra of Dasgupta–Kakde. Each subsection opens with its references and the library declarations it
-is built on; each definition gives its API as named lemmas and its checks as a `**Checks.**` list of
-discriminating instances, the *Lean:* note saying which of them are `example`s of `Suggested.lean`;
-every layer ends with its examples and its dependencies.
 
 ## Layer 0: coefficients, continuous functions and duals
 
@@ -3374,7 +3149,7 @@ References: RJW Proposition 13.13 and its proof, p. 193, where the inverse limit
 → E⁺_{n,1} → U⁺_{n,1} → Gal(M⁺_n/L⁺_n) → 0 is taken; RJW justifies its exactness by the terms being
 finitely generated ℤ_p-modules (Mittag-Leffler), whereas the statement below derives it from
 compactness of the terms, which is the statement arithmetic uses. The same exactness along a tower
-with surjective transition maps is `exists_forall_map_succ_eq_and_forall_eq_of_surjective`
+with surjective transition maps is `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`
 (`TauCeti.Topology.Compactness.InverseSystem`) of Tau Ceti ProfiniteProPGroups, layer 9; its
 directed case is `exists_forall_map_eq_of_compact_t2`, and exactness on the left is the
 closed-embedding formality. Built on Mathlib `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`.
@@ -3386,7 +3161,7 @@ finite spanning set; and a map of compact Λ-modules is surjective if it is surj
 Compactness of M replaces the finite-generation hypothesis of the algebraic Nakayama lemma (no
 source in this roadmap's register; the statement is the standard topological Nakayama lemma, and is
 stated here as the specification). *Needs:* the maximal ideal (ϖ, T) of Λ (§4.3), Tau Ceti
-`exists_forall_map_succ_eq_and_forall_eq_of_surjective`, Mathlib
+`exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`, Mathlib
 `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`.
 
 **Checks.**
@@ -3411,7 +3186,7 @@ stated here as the specification). *Needs:* the maximal ideal (ϖ, T) of Λ (§4
 Layer 4 (`charIdeal`, `charPoly`, the maximal ideal of Λ). Mathlib `exteriorPower`,
 `HomologicalComplex`, `ModuleCat`, `Module.Projective`, `Module.rankAtStalk`, `IsFractionRing`,
 `lTensor_exact`, `Module.FinitePresentation`, `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`; Tau
-Ceti `exteriorPower.map_top_eq_det_smul`, `exists_forall_map_succ_eq_and_forall_eq_of_surjective`
+Ceti `exteriorPower.map_top_eq_det_smul`, `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`
 and `exists_forall_map_eq_of_compact_t2` (ProfiniteProPGroups, layer 9). The line-module foundation
 is shared with AlgebraicVectorBundles layer 0C at the level of rings; neither roadmap imports the
 other.
@@ -4063,6 +3838,240 @@ every consumer of minors.
 | AlgebraicVectorBundles, Layer 0C | §5.1 `projectiveDeterminant`, `projectiveDeterminantMap` and their base-change API | Supply the associated-sheaf identification on Spec A and its gluing and pullback comparisons. The identification respects all equal-rank maps, identities, composition, the locally constant rank and parity, and arbitrary base change. The ordinary invertible-sheaf functor forgets the grading after comparing Koszul symmetry. |
 | SelmerIwasawaCohomology, §§3.9 and 3.14 | §5.1 `detLine_cone`, `detLine_baseChange` and the rational trivialization | Retain finite-projective cone/fibre presentations of perfect Selmer and local-error complexes and the comparison quasi-isomorphisms and homotopies. Apply multiplicativity to their induced coherent cone maps through specialization. Ordinary triangle isomorphisms over arbitrary, possibly nonreduced coefficient rings do not supply this naturality. |
 | [MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2, The index of an image lattice | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` in `TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` | Use `Matrix.toLin'_apply' A` to identify `Matrix.toLin' A` with `Matrix.mulVecLin A` on the same coordinates; associated determinants generate the same ideal. Derive `card_quotient_range` from this generic input and the DVR residue-ring cardinality q^k. MassFormula supplies the Haar scaling law. |
+
+## Scope and ownership
+
+The roadmap owns:
+
+- bounded measures on compact spaces and their operator calculus: clopen restriction, extension by
+  zero, the weak and strong topologies, the Dirac measures (Layer 0), the Mahler–Amice dictionary on
+  ℤ_p with weighting, translation, root-of-unity averaging, residue projections, the unit-domain
+  comparisons and the Cartier operators, using PadicFunctionalAnalysis §3.4 for the bounded
+  Mahler dual, dilation, φ, ψ, the bounded Amice norm and the rational integral lattice (Layer 2);
+- finite coefficients and joint coordinates of measures, the finite measure algebras, the finite
+  quotients and coordinates of ℤ_pˣ, and the comparison of integral measures on a profinite group
+  with `TauCeti.completedGroupAlgebra ℤ_p Γ`, with coefficient extension (Layer 1);
+- pseudo-measures on a commutative completed group algebra, admissible evaluation at characters, the
+  characters of ℤ_pˣ and their integrals, and the evaluation at varying characters (Layer 3),
+  together with meromorphic functions on the character space of ℤ_pˣ supplied by
+  PadicFunctionalAnalysis §§5.1–5.3 (Layer 3a);
+- ring theory of O⟦T⟧ using NewtonPolygons §6.3, clause 3 for preparation, pseudo-null modules and
+  pseudo-isomorphisms, the structure theorem for finitely generated Λ-modules, the invariants μ and
+  λ, the Iwasawa coordinate over O, characteristic divisors and ideals with their base change and
+  change of generator, isotypic decompositions and Galois-orbit components, the cyclotomic
+  polynomials and the growth formulas (Layer 4);
+- line modules and determinant lines of perfect complexes, their rational trivialization and
+  specialization, and topological Nakayama (Layer 5);
+- the coefficient-order algebra of Dasgupta–Kakde: character group rings with their lattices, units,
+  locality and completeness, the sharp involution, the contragredient dual and the transpose of a
+  presentation, quadratic presentations, compound matrices and higher adjugates, the Fitting ideals
+  of extensions and fibre products, and the exterior-power annihilation lemma (Layer 6).
+
+It does not construct any p-adic L-function (no Bernoulli, Eisenstein or zeta arithmetic, no
+Kubota–Leopoldt measure), no Coleman norm or trace operator and no Coleman map, no locally analytic
+distributions beyond the bounded theory, no Galois cohomology, Selmer group or main conjecture, no
+Euler- or Kolyvagin-system contraction, and no eigenvariety. It states no Gorenstein property and no
+duality for the character group rings: the Gorenstein-order theory of Dasgupta–Kakde and the exact
+duality it feeds (the lattice dual Hom_R(M, R) of a module over an order R, and the finite-module
+dual Hom_O(M, K/O), which differ already for M = O/ϖ, whose lattice dual is 0 and whose finite dual
+is O/ϖ again; the dualizing object, exactness, biduality and the compatibility with the
+involution #) are left to the roadmap that proves the Brumer–Stark integrality statements, which
+will state them with the generic lemmas on orders shared with GlobalNumberFields. Those
+subjects consume the statements here through the interfaces named in each layer.
+
+It leaves to named roadmaps:
+
+- the bounded Mahler dual and integral unit-ball identification, dilation and Frobenius/psi
+  calculus, characters and their universal property, bounded measure functions and the agreement
+  of the integral Amice and completed-group-algebra coordinates, to **PadicFunctionalAnalysis**
+  §§3.4 and 5.1–5.3; uniformizer-power Weierstrass preparation to **NewtonPolygons** §6.3, clause 3;
+  these are roadmaps of W. Coram, to be contributed to TauCetiRoadmap ahead of this one;
+- the completed group algebra itself, its inverse-limit topology, the ℤ_p power-series coordinate
+  for a procyclic pro-p group, the continuity of that coordinate and the change of generator, to Tau
+  Ceti **ProfiniteProPGroups**, layer 9 (section "The completed group algebra of the orientation
+  image"); they are consumed, never restated;
+- the Fitting ideals of finitely presented quasi-coherent modules as far as the relative singular
+  subscheme Sing(f) needs them, to Tau Ceti **StableReduction**, layer 1; the ring-level carrier
+  shared by both roadmaps is Tau Ceti's `TauCeti.fittingIdeal R M k`, which §4.5 and Layer 6 extend
+  and never re-plan;
+- the determinant of a finite locally free sheaf and its pullback comparisons on schemes, to Tau
+  Ceti **AlgebraicVectorBundles**, layer 0C; the ring-level foundation both need (invertible
+  modules, the determinant of an arbitrary finite projective module by its clopen rank
+  decomposition, locally constant parity, equal-rank determinant maps and base change) is stated
+  once in §5.1. AlgebraicVectorBundles L0C supplies the sheaf construction and gluing using that
+  ring-level API: on Spec A its determinant is the associated sheaf of `projectiveDeterminant A P`,
+  compatibly with affine pullback and all equal-rank determinant maps, including noninvertible
+  maps. The graded comparison retains the locally constant rank and its parity; the ordinary
+  invertible-sheaf functor forgets the grading. §5.1 imports nothing geometric, and the determinant
+  of a perfect complex is the new work of Layer 5;
+- orders in number fields and the Gorenstein property for those orders, to Tau
+  Ceti **GlobalNumberFields**; the character group rings R_Ψ of Layer 6 are orders in products of
+  copies of O and may have zero divisors (R_∅ = 0, R_Ψ with Ψ a proper subset of a component), so
+  they are never identified with a number-field order, and nothing here depends on that roadmap;
+- the profinite integers ẑ, their units and the assembly of characters into ẑˣ, to Tau Ceti
+  **ProfiniteArithmetic**, layer 0, and restricted products, adeles and Tamagawa measures to
+  **RestrictedProducts**; neither is restated here, and no statement of this roadmap is made by
+  either.
+
+Already stated or built elsewhere, and therefore cited rather than stated here:
+
+- Convolution of a function on the right, the convolution product of measures and the algebra of
+  measures: Mathlib `Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, which is in the pinned
+  Mathlib, has `AbstractMeasure.convolveFunRight` with `convolveFunRight_apply`,
+  `convolveFunRight_dirac_apply`, `convolveFunRight_apply_one`, `convolveFunRight_one` and
+  `convolveFunRight_mul`, the `Mul` instance on `D(G,R)` with `mul_def`, `mul_apply` and
+  `dirac_mul_dirac`, the `Ring` and `Algebra R` instances with `one_def` and `one_apply`, and the
+  `CommRing` instance for commutative G; only `algebraMap_apply` is new to Layer 1, and it is
+  immediate.
+- The Dirac monoid homomorphism: Mathlib `AbstractMeasure.diracHom : G →* D(G,R)` with
+  `diracHom_apply`; its power rule is `map_pow` and its pushforward rule is `map_dirac`.
+- The local-field integer subring of ℚ_p, 𝒪[ℚ_p] = `PadicInt.subring p`: Tau Ceti
+  `Padic.integerRing_eq_subring` with `Padic.integerRingEquiv`
+  (`TauCeti/NumberTheory/LocalField/Padic.lean`).
+- The reduction of p-adic units and its kernels: red_n is Tau Ceti `PadicInt.unitsToZModPow n` with
+  `PadicInt.coe_unitsToZModPow_apply`, surjective by `PadicInt.surjective_units_map_toZModPow`,
+  continuous by `PadicInt.continuous_toZModPow` and `(PadicInt.unitsToZModPow n).continuous`; its
+  kernel is `TauCeti.unitsPrincipal p n` with `mem_unitsPrincipal_iff`, `isOpen_unitsPrincipal`,
+  `hasBasis_nhds_one_unitsPrincipal` and `iInf_unitsPrincipal_eq_bot`
+  (`TauCeti/NumberTheory/Padics/PrincipalUnits.lean`); the total disconnectedness of ℤ_pˣ is Tau
+  Ceti `PadicInt.totallyDisconnectedSpace_units`.
+- Reflexive modules are torsion-free over any commutative ring: Mathlib's instance
+  `Module.IsReflexive.to_isTorsionFree` (`Mathlib.LinearAlgebra.Dual.Defs`).
+- Exactness of inverse limits of compact modules, that is surjectivity of lim B_n → lim C_n for a
+  tower of compact Hausdorff groups with continuous levelwise surjections commuting with the
+  transition maps: Tau Ceti `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range` (namespace
+  `TauCeti`, module `TauCeti.Topology.Compactness.InverseSystem`; the directed case is
+  `exists_forall_map_eq_of_compact_t2`), exactness on the left being the closed-embedding formality.
+- Transposes are unique up to projective summands, tr(f) ⊕ (Q_1 ⊕ P_0)^* ≅ tr(g) ⊕ (P_1 ⊕ Q_0)^* for
+  any ring and any two projective presentations: Tau Ceti
+  `TauCeti.AuslanderReitenTranspose.nonempty_linearEquiv_prod_dual`
+  (`TauCeti.Algebra.Module.AuslanderReiten.StableTranspose`), with the converse
+  `nonempty_linearEquiv_prod_of_linearEquiv`; §6.2 only restricts scalars along σ.
+- The higher Fitting ideals and their calculus: Tau Ceti `TauCeti.fittingIdeal R M k`
+  (`TauCeti/RingTheory/FittingIdeal/{Basic,Generators,BaseChange}.lean`), defined for every finite
+  module with our indexing, with presentation independence `fittingIdeal_eq_minorsIdeal_ker` and
+  `fittingIdeal_eq_minorsIdealOfSet`, invariance `fittingIdeal_congr`, monotonicity under
+  surjections `fittingIdeal_le_of_surjective`, the chain `fittingIdeal_monotone`,
+  `fittingIdeal_eq_top_of_surjective` (Fitt^i = R once M is generated by i elements),
+  `fittingIdeal_quotient_zero` (Fitt⁰(R/I) = I), the free-module jumps
+  `fittingIdeal_eq_bot_of_lt_finrank` and `fittingIdeal_eq_top_iff_finrank_le`, the free-summand
+  shift `fittingIdeal_prod_add_finrank`, the fibre criterion `fittingIdeal_le_iff_lt_finrank`, base
+  change `fittingIdeal_baseChange` without flatness and its localisation form `fittingIdeal_eq_map`
+  with `IsLocalizedModule.isBaseChange`; §6.5 keeps only the translation to the matrix form, and
+  §4.5 only the genuinely new identities (Fitt⁰ ≤ annihilator, Fitt⁰ of a product, Fitt⁰ = R iff M =
+  0 as a corollary).
+- The cyclotomic polynomial ω_n = (1 + T)^{p^n} − 1 is distinguished of degree p^n at the ideal (p):
+  Tau Ceti `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one` with
+  `natDegree_one_add_X_pow_sub_one`; §4.3 keeps only the corollary at 𝔪_O, which follows since p ∈
+  𝔪_O. The quotient Λ/(F) ≅ O[X]/(F) by a distinguished F is free of rank deg F: Mathlib
+  `Polynomial.IsDistinguishedAt.algEquivQuotient` with `Polynomial.Monic.free_quotient` and
+  `Polynomial.Monic.finite_quotient`. Weierstrass preparation in the unit-reduction case: Mathlib
+  `PowerSeries.exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and
+  `IsWeierstrassFactorization.unique`; the ϖ^μ form is supplied by NewtonPolygons §6.3, clause 3.
+
+## Exact supplier contracts
+
+The library vocabulary is that of Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; `Suggested.lean` imports Mathlib and the Tau Ceti
+modules its statements need, and states them on these declarations. A prerequisite on a Tau Ceti
+roadmap layer refers to that layer's stated development.
+
+### From Mathlib
+
+| Use here | Exact declarations |
+|---|---|
+| measures | `AbstractMeasure`, written D(X,R): the continuous R-linear dual of C(X,R) for compact X and a normed commutative ring R, with `map`, `dirac`, `toCLMEquiv`, `amiceTransform`, `coeff_amiceTransform`, `amiceTransformEquiv`, `injective_amiceTransform`, `monoidAlgebraHom`, `WeakTopology`, `StrongTopology`, and the Mahler basis `mahler`, `PadicInt.mahlerEquiv`, `PadicInt.hasSum_mahler`; the operator calculus of Layers 0 and 2 is built on this carrier |
+| the measure algebra (`Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, in the pinned Mathlib) | `AbstractMeasure.convolveFunRight` and its five lemmas, the `Mul`, `One`, `Ring`, `Algebra R` and `CommRing` instances on `D(G,R)` with `mul_def`, `mul_apply`, `dirac_mul_dirac`, `one_def`, `one_apply`, `prodMk'`, and `diracHom` with `diracHom_apply`; the right-handed orientation (μ ⋆ ν)(f) = μ(x ↦ ν(y ↦ f(xy))) is the library's |
+| power series and polynomials | `PowerSeries` with `coeff`, `map`, `expand`, `subst`, `derivative`, `exp`, `binomialSeries`, `HasEval`, `aeval`, `aeval_unique`, `WithPiTopology`, `exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and `IsWeierstrassFactorization.unique`; `Polynomial`, `Polynomial.IsDistinguishedAt.algEquivQuotient`, `Polynomial.Monic.free_quotient`, `Polynomial.Monic.finite_quotient`, `MvPowerSeries`; the Mahler derivation, φ, ψ, residue averaging and the cyclotomic polynomials ω_n, ξ_n are defined on these |
+| algebra, p-adics and topology | `MonoidAlgebra` with its Hopf structure and its antipode `HopfAlgebra.antipodeAlgHom`, `LocalizedModule`, `IsFractionRing` (no domain hypothesis), the `Div (Submodule R A)` instance with `Submodule.mem_div_iff_forall_mul_mem`, `Module.length`, `PrimeSpectrum`, `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsDiscreteValuationRing`, `Module.FinitePresentation`, `Module.rankAtStalk`, `Matrix.adjugate`, `exteriorPower`, `HasEnoughRootsOfUnity`, `HomologicalComplex`, `ModuleCat`; `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.ker_toZMod`, `PadicInt.norm_le_pow_iff_mem_span_pow`, `PadicComplex`, `ZMod.unitsMap`, `QuotientGroup.quotientKerEquivOfSurjective`, `LocallyConstant`, `WeakDual`, `DenseRange.equalizer`, `Topology.IsClosedEmbedding`, `IsLocalizedModule.isBaseChange` |
+
+### From Tau Ceti
+
+| Use here | Exact declarations |
+|---|---|
+| the completed group algebra carrier (`Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/`) | `TauCeti.completedGroupAlgebra R Γ` for any commutative ring R, with `proj`, `of`, `mk`, `lift`, `ext`, `of_injective`, `isClosedEmbedding_of`, the inverse-limit topology, compactness, `isMulCommutative_iff` (`Basic.lean`); `Map.lean`; `Prod.lean` (R⟦C × Γ⟧ ≅ R⟦Γ⟧[C]); `Discrete.lean`; `PowerSeries.lean` (`powerSeriesCoordinate` : ℤ_p⟦X⟧ ≃ₐ ℤ_p⟦Γ⟧ for procyclic pro-p Γ, `powerSeriesCoordinate_X`, `powerSeriesCoordinate_padicPow_apply` for the generator change); `Filtration.lean` (the kernels of the finite levels); `ProductCoordinate.lean`, `DyadicCoordinate.lean`, `CharacterDivision.lean` |
+| compact modules and inverse systems (namespace `TauCeti`) | `TauCeti.IsCompactModule` (`Topology/Algebra/Module/Compact.lean`); `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`, `exists_forall_map_eq_of_compact_t2` (`Topology/Compactness/InverseSystem.lean`); `hasAntitoneBasis_nhds_one_of_iInf_eq_bot` |
+| Fitting ideals (`RingTheory/FittingIdeal/{Basic,Generators,BaseChange}.lean`) | `TauCeti.fittingIdeal R M k` for every k on a finite module, with `fittingIdeal_eq_minorsIdeal_ker`, `fittingIdeal_eq_minorsIdealOfSet`, `fittingIdeal_congr`, `fittingIdeal_le_of_surjective`, `fittingIdeal_monotone`, `fittingIdeal_eq_top_of_surjective`, `fittingIdeal_quotient_zero`, `fittingIdeal_eq_top_iff_finrank_le`, `fittingIdeal_eq_bot_of_lt_finrank`, `fittingIdeal_prod_add_finrank`, `fittingIdeal_le_iff_lt_finrank`, `fittingIdeal_baseChange`, `fittingIdeal_eq_map` |
+| p-adic units (`NumberTheory/Padics/RingHoms.lean`, `PadicIntegers.lean`, `PrincipalUnits.lean`, `NumberTheory/LocalField/Padic.lean`, `UnitFiltration/Basic.lean`) | `PadicInt.unitsToZModPow` with `coe_unitsToZModPow_apply`, `surjective_units_map_toZModPow`, `continuous_toZModPow`; `PadicInt.continuous_toZMod`, `PadicInt.isUnit_one_add_of_dvd`; `TauCeti.unitsPrincipal` with `mem_unitsPrincipal_iff`, `mem_unitsPrincipal_iff_norm`, `isOpen_unitsPrincipal`, `hasBasis_nhds_one_unitsPrincipal`, `iInf_unitsPrincipal_eq_bot`; `PadicInt.totallyDisconnectedSpace_units`; `TauCeti.padicIntUnitsEquivProd` (ℤ_pˣ ≅ μ_{p−1} × (1 + pℤ_p), p odd), `TauCeti.unitsPlusMinus` (the subgroup {±1} at p = 2); `exists_topologicalClosure_zpowers_eq_unitsPrincipal` (a topological generator of the principal units); `not_isOfFinOrder_of_mem_unitsPrincipal` (odd p); `Padic.integerRing_eq_subring`, `Padic.integerRingEquiv`; `TauCeti.unitFiltration` and its open neighbourhood basis |
+| locally constant functions and power series | `TauCeti.rightTranslationStabilizer` (`Topology/Algebra/Group/LocallyConstant.lean`: locally constant functions on a compact group are uniformly locally constant); `hasSubst_binomialSeries_sub_one` (namespace `TauCeti`); `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one` with `natDegree_one_add_X_pow_sub_one` |
+| group rings, Hopf algebras and transposes | `TauCeti.subgroupCharSum`, `TauCeti.MonoidAlgebra.augmentation`, `TauCeti.HopfAlgebra.antipodeAlgEquiv`, `TauCeti.HopfAlgebra.antipode_antipode`, `TauCeti.DiagonalizableGroup.point` with `point_single` and `point_single_one`, `Representation.ofLinearCharacter`; `Matrix.pairMinor` with `pairMinor_mul`, `exteriorPower.map_top_eq_det_smul`; `TauCeti.AuslanderReitenTranspose` with `mk`, `mk_eq_zero_iff`, `mk_surjective`, `lift`, `lift_mk`, `hom_ext`, `nonempty_linearEquiv_prod_dual`, `nonempty_linearEquiv_prod_of_linearEquiv`, and `TauCeti.IsMinimalProjectivePresentation.nonempty_linearEquiv_auslanderReitenTranspose` |
+
+### From TauCetiRoadmap.ProfiniteProPGroups, layer 9
+
+`completedGroupAlgebra ℤ_p Γ = lim_U ℤ_p[Γ/U]` over the open normal subgroups, a compact topological
+ℤ_p-algebra with `of`, `proj` (surjective; with separatedness this is the inverse-limit
+description), `map`, `isMulCommutative_iff` for abelian Γ, the procyclic coordinate
+`powerSeriesCoordinate` : ℤ_p⟦T⟧ ≅ `completedGroupAlgebra ℤ_p Γ` for Γ ≅ ℤ_p (T ↦ γ − 1,
+`powerSeriesCoordinate_X`, `ker_proj_comp_powerSeriesCoordinate`, its continuity, and the generator
+change T ↦ (1 + T)^u − 1), the evaluation `aeval` at `of γ − 1` with `aeval_surjective`,
+`aeval_injective` and `of_sub_algebraMap_dvd_aeval_of_aeval_eq_zero`, the dyadic coordinate
+`dyadicCoordinate`, and `IsCompactModule` with the compact inverse-limit exactness. These stay
+canonical: the carrier, the ℤ_p power-series coordinate, its continuity and the change of generator
+are consumed, never restated. This roadmap adds only what is missing there: the comparison of
+integral measures with the carrier (§1.7), the compatibility of that comparison with the coordinate
+(§4.5), the O-coefficient level maps of the coordinate (§4.5, which for O = ℤ_p is the Tau Ceti
+coordinate read through §1.7), and the compact-module statements of §5.2.
+
+### From TauCetiRoadmap.StableReduction, layer 1
+
+StableReduction develops Fitting ideals of finitely presented quasi-coherent modules only as far as
+the relative singular subscheme Sing(f) needs them, with no ring-level interface stated. The
+ring-level carrier for both roadmaps is Tau Ceti's `TauCeti.fittingIdeal R M k`, which already
+handles every index k with presentation independence, base change and the basic formulas; §4.5 and
+Layer 6 extend that one API (annihilator containment, products, quadratic presentations, extensions,
+transposes) and never re-plan it.
+
+### Shared with TauCetiRoadmap.AlgebraicVectorBundles, layer 0C, and TauCetiRoadmap.GlobalNumberFields
+
+AlgebraicVectorBundles L0C owns the sheaf construction, gluing and pullback comparisons; §5.1
+supplies its ring-level foundation on Mathlib's `exteriorPower` and Tau Ceti's
+`exteriorPower.map_top_eq_det_smul`. On Spec A the associated-sheaf comparison identifies
+`projectiveDeterminantMap` with the exterior-power map for every map between finite projectives
+whose rank functions agree, and commutes with identities, composition and arbitrary affine
+pullback. Rank remains the locally constant integer function of the source; reduction modulo two
+gives the graded line's parity. The ordinary `InvertibleSheaf` target forgets this grading;
+Koszul symmetry is compared in graded lines before forgetting. Both consumers use the same
+ring-level library API, and §5.1 imports no scheme-level construction. GlobalNumberFields has
+orders in number fields and the Gorenstein property for those orders; the algebra shared with it is
+the generic lemmas on orders over a Dedekind base, and nothing here depends
+on it.
+
+### From the student roadmaps
+
+PadicFunctionalAnalysis and NewtonPolygons are roadmaps of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one. Section references use the numbered README heading followed by its
+clause. The labels below lie under **Targets requested by the Tau Ceti PadicMeasuresIwasawaAlgebras,
+LocallyAnalyticDistributions and AdicSpaces roadmaps** in PadicFunctionalAnalysis and **Targets
+requested by the Tau Ceti PadicMeasuresIwasawaAlgebras roadmap** in NewtonPolygons. Student Lean
+declarations have namespaces `TauCetiRoadmap.PadicFunctionalAnalysis` and
+`TauCetiRoadmap.NewtonPolygons`, respectively. Their measures are Mathlib's `AbstractMeasure`;
+PadicFunctionalAnalysis's native Amice series agrees coefficientwise with
+`AbstractMeasure.amiceTransform` by the Mahler-term definition.
+
+| Use here | Student roadmap and section | Student declarations and comparison with this roadmap's notation |
+|---|---|---|
+| §2.5 bounded Mahler pairing | PadicFunctionalAnalysis §3.4, clause 1 | Mahler dual pairing; no separate Lean declaration; the norm-one coefficient hypothesis is handled at the R-valued inverse transform |
+| §2.5 bounded Amice isometry | PadicFunctionalAnalysis §3.4, clause 1; label **§3.4.1, §3.4.4 — amiceTransform, norm_toCLMEquiv_eq_iSup_coeff, mem_range_amiceTransform_iff** | `TauCetiRoadmap.PadicFunctionalAnalysis.norm_toCLMEquiv_eq_iSup_coeff`; student `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform` is the same series as `AbstractMeasure.amiceTransform` |
+| §2.5 bounded-series range | PadicFunctionalAnalysis §3.4, clauses 1 and 4; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.mem_range_amiceTransform_iff`; bounded coefficients on the native `PowerSeries` carrier |
+| §2.5 rational dual unit ball | PadicFunctionalAnalysis §3.4, clause 4; label **§3.4.4 — existsUnique_integral_iff_norm_le_one** | `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_integral_iff_norm_le_one`; unique integral preimage by agreement on integral tests |
+| §2.2 Frobenius on bounded measures | PadicFunctionalAnalysis §3.4, clause 5; label **§3.4.5 — phiMeasure, pMultiplesIndicator, weightMeasure, existsUnique_psiMeasure, amiceTransform_phiMeasure** | `TauCetiRoadmap.PadicFunctionalAnalysis.phiMeasure`; pushforward φ on the same measure carrier |
+| §2.2 left inverse of Frobenius | PadicFunctionalAnalysis §3.4, clause 5; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure`; ψ on the same measure carrier |
+| §2.2 left inverse identity | PadicFunctionalAnalysis §3.4, clause 5; same label | First identity in `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure` |
+| §2.2 Frobenius after its left inverse | PadicFunctionalAnalysis §3.4, clause 5; same label | Second identity in `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure`, with `TauCetiRoadmap.PadicFunctionalAnalysis.pMultiplesIndicator` and `TauCetiRoadmap.PadicFunctionalAnalysis.weightMeasure`; weighting here is `AbstractMeasure.weight` and the indicator has the local restatement below |
+| §2.2 Frobenius and Amice | PadicFunctionalAnalysis §3.4, clause 5; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform_phiMeasure` |
+| §2.2 Amice unit projector | PadicFunctionalAnalysis §3.4, clause 5; same label | Unit projector from `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform_phiMeasure` and the two psi identities; no separate Lean declaration |
+| §2.11 dilation transform | PadicFunctionalAnalysis §3.4, clause 5 | General multiplication pushforward and binomial substitution; no separately named Lean theorem |
+| §3a.1 continuous unit characters | PadicFunctionalAnalysis §5.1, clause 1, and §5.2, clause 1 | `TauCetiRoadmap.PadicFunctionalAnalysis.WeightSpace` is W(A); torsion/principal splitting includes p = 2 |
+| §3a.1 principal characters and open discs | PadicFunctionalAnalysis §5.2, clause 2 | `TauCetiRoadmap.PadicFunctionalAnalysis.nonempty_weightSpace_equiv`, with coordinate `TauCetiRoadmap.PadicFunctionalAnalysis.TCoord`; specialize to C_p |
+| §3a.1 universal character | PadicFunctionalAnalysis §5.3, clauses 1 and 3; label **§5.3.1, §5.3.3 — exists_character_of_hasEval, eq_aeval_binomialSeries, existsUnique_character_of_norm_lt_one** | `TauCetiRoadmap.PadicFunctionalAnalysis.exists_character_of_hasEval`, `TauCetiRoadmap.PadicFunctionalAnalysis.eq_aeval_binomialSeries`, `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_character_of_norm_lt_one`; restrict the unit character to its principal ℤ_p factor, retaining ultrametricity in the normed case |
+| §4.5 Amice/completed coordinate comparison | PadicFunctionalAnalysis §5.3, clause 4, second sentence, and §3.4, clause 4 | No separately named Lean declaration; transport a ↦ γ^a with T = [γ] − 1 |
+| §3a.1 bounded measure functions | PadicFunctionalAnalysis §5.3, clause 5; label **§5.3.5 — extendIntegralMeasure, weightTest, measureFun, measureFun_norm_le, measureFun_injective** | `TauCetiRoadmap.PadicFunctionalAnalysis.extendIntegralMeasure`, `TauCetiRoadmap.PadicFunctionalAnalysis.weightTest`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun_norm_le`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun_injective`; these are F_μ and its bounds/injectivity, with O coefficients supplied by §1.7 |
+| §4.3 uniformizer-power preparation | NewtonPolygons §6.3, clause 3; label **exists_pow_mul_distinguished_mul_unit** | `TauCetiRoadmap.NewtonPolygons.exists_pow_mul_distinguished_mul_unit`; identify the abstract complete DVR O with the valuation ring of its complete valued fraction field, and commute the unit and polynomial factors |
+
+Local restatements in `Suggested.lean`:
+
+- `AbstractMeasure.pMultiplesIndicator`: local restatement of PadicFunctionalAnalysis §3.4,
+  clause 5, used by the retained unit-support range and division statements (§§2.3 and 2.6).
 
 ## References
 
