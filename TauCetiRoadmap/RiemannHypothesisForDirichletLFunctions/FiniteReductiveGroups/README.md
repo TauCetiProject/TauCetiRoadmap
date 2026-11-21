@@ -2500,12 +2500,12 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
   and unrefined minimal K-types*, Comment. Math. Helv. 71 (1996): 6.0, 6.3.
 - C. J. Bushnell, G. Henniart, *The local Langlands conjecture for GL(2)* (2006), §11: 6.1 (the depth-zero case
   of compact induction).
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions
   announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. Source of the statements of 2.7 (b), (c) (the Bessel-type
   decomposition and the inequality), of 2.8 (a), (b) and the first form of 2.8 (c) (the multiplicities of the Bessel-type
   characters in Harish-Chandra induced cuspidal representations and their near-constancy over several places), of the
   lower bound of 5.8 (c), of 5.11 (e) in the form stated (the lift of labels in prime degree), and of 6.5 (the local type
   statement, for residue fields of prime order).
-- [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>. Cited
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>. Cited
   at 2.7(b) and 2.8.
