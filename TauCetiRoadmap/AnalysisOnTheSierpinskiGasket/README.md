@@ -710,15 +710,16 @@ proof. Write `E_n(u, v) = ∑_(z ∈ V_n) u(z) (L_n v)(z)`, the symmetric biline
 `E_n(u, u) = E_n(u)` (Conventions).
 
 - *Tent functions.* For `x ∈ V_m` let `ψ_x^m` be the indicator of `x` on `V_m`, extended by the
-  rule (2.3) to every level above `m`. Its energies are constant from level `m` on (2.3), so by 4.4
-  it is continuous on `K` (we use that version). The rule has nonnegative weights and reproduces
-  constants, so on `V_*`, and by continuity and 1.2 on `K`, `ψ_x^m ≥ 0` and
-  `∑_(x ∈ V_m) ψ_x^m = 1`. On a cell `F_w(K)` of level `m` of which `x` is not a corner, `ψ_x^m`
-  is `0` at the vertices, hence on the cell (`F_w(K)` lies in the closure of `F_w(V_*) ⊆ V_*`), so
-  `ψ_x^m(y) ≠ 0` with `y ∈ K` forces `|y − x| ≤ 2^(−m)` (cells of level `m` have diameter at most
-  `2^(−m)`, as `K ⊆ T` by 1.2). For `x ∉ V₀`, `∫ ψ_x^m dμ = (2/3) 3^(−m)` (5.1). Both
-  `ψ_x^m` and `∑_(y ∈ V_(m+1)) ψ_x^m(y) ψ_y^(m+1)` follow the rule from level `m + 1` on and agree
-  on `V_(m+1)`, so they are equal on `V_*`, and on `K` by continuity and 1.2.
+  rule (2.3) to every level above `m`. Its energies are constant from level `m` on (2.3), so
+  `E(ψ_x^m) = E_m(ψ_x^m) < ∞` (2.4), and by 4.4 it is continuous on `K` (we use that version).
+  The rule has nonnegative weights and reproduces constants, so on `V_*`, and by continuity and
+  1.2 on `K`, `ψ_x^m ≥ 0` and `∑_(x ∈ V_m) ψ_x^m = 1`. On a cell `F_w(K)` of level `m` of which
+  `x` is not a corner, `ψ_x^m` is `0` at the vertices, hence on the cell (`F_w(K)` lies in the
+  closure of `F_w(V_*) ⊆ V_*`), so `ψ_x^m(y) ≠ 0` with `y ∈ K` forces `|y − x| ≤ 2^(−m)` (cells
+  of level `m` have diameter at most `2^(−m)`, as `K ⊆ T` by 1.2). For `x ∉ V₀`,
+  `∫ ψ_x^m dμ = (2/3) 3^(−m)` (5.1). Both `ψ_x^m` and `∑_(y ∈ V_(m+1)) ψ_x^m(y) ψ_y^(m+1)`
+  follow the rule from level `m + 1` on and agree on `V_(m+1)`, so they are equal on `V_*`, and
+  on `K` by continuity and 1.2.
 - *Level solutions.* For each `m` there is exactly one `g_m` on `V_m`, `0` on `V₀`, with
   `−(L_m g_m)(x) = ∫_K ψ_x^m φ dμ` for `x ∈ V_m \ V₀`: the map sending a function on `V_m \ V₀`,
   extended by `0` on `V₀`, to the restriction of its `L_m` to `V_m \ V₀` is a linear endomorphism
@@ -744,8 +745,8 @@ proof. Write `E_n(u, v) = ∑_(z ∈ V_n) u(z) (L_n v)(z)`, the symmetric biline
   Dirichlet's principle in `levelNetwork m` (ElectricalNetworksAndRandomWalks 2.2,
   isLeast_dirichletEnergy, with 1.3), 4.1 and 4.2 give
   `g(x)² = (g(x) − g(p₀))² ≤ R(x, p₀) E_m(g) ≤ (5/3) E_m(g)`. Hence `‖g‖_m ≤ (5/3) ‖φ‖_K` and
-  `E_m(g) ≤ (5/3) ‖φ‖_K²` for every `m`, so `E(g) < ∞`, and 4.4 gives `g̃` continuous on `K` equal
-  to `g` on `V_*`.
+  `E_m(g) ≤ (5/3) ‖φ‖_K²` for every `m`, so `E(g) < ∞` (2.4), and 4.4 gives `g̃` continuous on `K`
+  equal to `g` on `V_*`.
 - *Conclusion.* Let `f = g̃ + h_b`, with `h_b` the harmonic function of 3.3 with corner values `b`;
   `f(pᵢ) = bᵢ`, and `(L_m h_b)(x) = 0` for `x ∉ V₀`. At `x ∈ V_m \ V₀`,
   `(3/2) 5^m ∑_(y ∼ x) (f(y) − f(x)) = (3/2) 3^m ∫_K ψ_x^m φ dμ`, so, by the properties of the
@@ -774,7 +775,7 @@ on `K` by continuity and 1.2.
   ∫ ψ_(q₂)^m φ dμ` differs from `φ(q₂) = 1` by `−(8/15)(3/5)^(m−1)`, which tends to `0`. For
   harmonic `φ` the two right sides coincide.
 
-*Needs:* 1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 3.3, 4.1, 4.2, 4.4, 5.1, 5.2;
+*Needs:* 1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 2.4, 3.3, 4.1, 4.2, 4.4, 5.1, 5.2;
 ElectricalNetworksAndRandomWalks 1.2 (existsUnique_isHarmonicAt), 2.2 (isLeast_dirichletEnergy);
 FractalGeometry 1.5 (IFS.existsUnique_selfSimilarMeasure, IFS.measure_attractor_eq_one); Mathlib
 `LinearMap.injective_iff_surjective`, `IsCompact.uniformContinuousOn_of_continuous`,
@@ -814,7 +815,7 @@ sides and its normal derivatives `1/3`; the harmonic functions with their normal
 
 ### Dependencies
 
-Layers 1 to 3 (1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3) and, for 5.3, 4.1, 4.2 and 4.4, for
+Layers 1 to 3 (1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3) and, for 5.3, 4.1, 4.2 and 4.4, for
 5.4, 4.1 and 4.2; ElectricalNetworksAndRandomWalks 1.2, 2.2; FractalGeometry 1.4, 1.5; Mathlib
 `MeasureTheory.Measure.map`, `MeasureTheory.integral_map`, `ContinuousOn.integrableOn_compact`,
 `Matrix.mulVec`, `dotProduct`, `LinearMap.injective_iff_surjective`,
