@@ -182,9 +182,10 @@ under sums, negatives, finite sums and scalar multiples (`MvPowerSeries.IsRestri
 `MvPowerSeries.IsRestricted.smul`), and under products and powers when `R` is ultrametric
 (`MvPowerSeries.IsRestricted.mul`, `MvPowerSeries.IsRestricted.pow`). Extensionality, the ring
 operations and the coefficients of a product, the finite antidiagonal sums, are those of
-`MvPowerSeries σ R` through the coercion. For commutative ultrametric `R` the subring is an algebra
-over every `R`-algebra (`MvPowerSeries.instAlgebraIsRestrictedSubring`); the polynomial inclusion is
-the `R`-algebra map `TauCeti.MvPowerSeries.polynomialToRestricted r`, sending `X i` to `X i`
+`MvPowerSeries σ R` through the coercion. For commutative ultrametric `R` the subring is an
+`S`-algebra whenever `R` is an algebra over a commutative semiring `S`, through the constant series
+(`MvPowerSeries.instAlgebraIsRestrictedSubring`); the polynomial inclusion is the `R`-algebra map
+`TauCeti.MvPowerSeries.polynomialToRestricted r`, sending `X i` to `X i`
 (`TauCeti.MvPowerSeries.polynomialToRestricted_X`) and injective, as Mathlib's ring map
 `MvPolynomial.toRestricted r` is (`MvPolynomial.toRestricted_injective`). For empty `σ` the algebra
 map `R → R⟨r⁻¹X⟩` is surjective (`MvPowerSeries.algebraMap_isRestrictedSubring_surjective`).
@@ -227,8 +228,8 @@ of the image is at most `C` times that of `f` (`TauCeti.MvPowerSeries.norm_restr
 equality when `φ` preserves norms (`TauCeti.MvPowerSeries.norm_restrictedMap`,
 `TauCeti.MvPowerSeries.isometry_restrictedMap`).
 
-A surjective bounded `φ` gives a surjection of restricted series only under a uniform lifting
-bound: a constant `L` such that every `b : S` has a lift `a` with `‖a‖ ≤ L ‖b‖`. Under it,
+A bounded `φ` gives a surjection of restricted series if it admits a uniform lifting bound: a
+constant `L` such that every `b : S` has a lift `a` with `‖a‖ ≤ L ‖b‖`. Under it,
 coefficient lifts form a restricted series (`TauCeti.MvPowerSeries.exists_restrictedMap_eq_and_norm_coeff_le`,
 `TauCeti.MvPowerSeries.restrictedMap_surjective`), at positive radii and for `L ≥ 0` the lift can be
 chosen with Gauss norm at most `L` times that of its image
@@ -248,6 +249,11 @@ Mathlib `MvPowerSeries.map`.
 **Checks.**
 - Along a ring homomorphism, coefficient mapping sends `X i` to `X i`, since `φ 1 = 1`; mapping
   along the zero map `R → 0` sends every series to `0`, as the kernel description predicts.
+- The lifting bound is sufficient, not necessary. Give `𝔽_p[t]` the ultrametric norm `2^(deg f)`
+  on nonzero `f`, and take as target `𝔽_p[t]` with the trivial norm. The identity is contractive;
+  every nonzero coefficient has norm at least `1` on both sides, so at radius one both rings of
+  restricted series are `𝔽_p[t][X]` and the induced map is the identity, which is surjective. Yet
+  `tⁿ` has norm `1` in the target and its only lift has norm `2ⁿ`, so no constant `L` exists.
 
 ### 0.3 Module-valued coefficients
 
@@ -469,14 +475,17 @@ makes the sum multiplicative. For `‖1‖ = 1` in `A` its norm is at most the G
 operators once functional analysis supplies that algebra; no operator algebra or Fredholm
 determinant is constructed here. The ultrametric hypothesis on `A` is needed: in the convolution
 algebra `ℓ¹(ℕ, ℚ_p)` with `b = e₁` the sum diverges for coefficients tending to zero with divergent
-sum of norms.
+sum of norms. The hypothesis `‖1‖ = 1` of the norm bound is needed as well: `ℚ_p` with the norm
+`2 |x|_p` is a complete ultrametric normed `ℚ_p`-algebra with `‖a • x‖ = |a|_p ‖x‖`, and in it the
+constant series `1` has value `1`, of norm `2`, and Gauss norm `1`.
 
 Prove the following on the native carrier.
 - *Bounded coefficient maps.* For `φ` with `‖φ a‖ ≤ C ‖a‖` and `C ≥ 0`, evaluation at `‖b_i‖ ≤ r_i`
   converges, is a continuous ring homomorphism with `‖f(b)‖ ≤ C ‖f‖_r`, has the values above and is
   unique with them; in one variable the same holds for a noncommutative `A` whose algebra map
-  satisfies `‖a • x‖ ≤ C ‖a‖ ‖x‖`, together with continuity of `evalAtHom` and its uniqueness among
-  continuous ring homomorphisms with the same values on constants and on `T`.
+  satisfies `‖algebraMap R A a‖ ≤ C ‖a‖` (implied by `‖a • x‖ ≤ C ‖a‖ ‖x‖` when `‖1‖ = 1`, at
+  `x = 1`), together with continuity of `evalAtHom` and its uniqueness among continuous ring
+  homomorphisms with the same values on constants and on `T`.
 - *Functoriality.* Evaluation composed with a contractive ring homomorphism `S → S'` is evaluation
   at the image points, and evaluation after `restrictedMap ψ` is evaluation along `φ ∘ ψ`.
 - *Algebra and module forms.* For an `R`-algebra `S`, evaluation along the algebra map is an
