@@ -14,7 +14,7 @@ definitions those statements need.
   `PrimitiveDirichletCharacter.cyclicFamily` (FrobeniusRestrictedRieszSums §0.5), the weights
   `PrimitiveDirichletCharacter.familyWeight` of 10.10 and the predicate `HasWindows`
   (PositivityOfDirichletSeriesWithKernels §6.9 (a)). The uniform form is stated with the exponent
-  `e_W = 9` and every window exponent in `(1, 2)`, which 10.10 says one may take; the consumer
+  `e_W = 9`, the weights at `ω₀ = 3/4` and the window exponent `3/2`; the consumer
   form is the statement that GeneralizedRiemannHypothesisFromWindowBounds §§4.2, 5.1 cite.
 * The Frobenius-restricted inequality for one translate (10.4, with the budget 10.5): for chain
   data at a scale `(x, ε)` satisfying the standing hypotheses of 10.0, the sum over the tops and
@@ -85,9 +85,10 @@ noncomputable def cyclicFamily (ψ : PrimitiveDirichletCharacter) :
       character := (ψ.character ^ l).primitiveCharacter
       isPrimitive := DirichletCharacter.primitiveCharacter_isPrimitive _ }
 
-/-- The weights of the uniform windowed bound (10.10): for `ω₀ ∈ (0, 1)` and `ψ` of order `o`,
+/-- The weights of the cyclic family: for `ω₀ ∈ (0, 1)` and `ψ` of order `o`,
 `w_ψ(1) = 1` and `w_ψ(χ) = (1 − ω₀)/(1 + ω₀(o − 1))` for the members `χ ≠ 1` of `𝒦(ψ)` (a primitive
-character is trivial exactly when its level is `1`). -/
+character is trivial exactly when its level is `1`). The uniform windowed bound (10.10) takes
+`ω₀ = 3/4`, where `w_ψ(χ) = 1/(3o + 1)`. -/
 noncomputable def familyWeight (ψ : PrimitiveDirichletCharacter) (ω₀ : ℝ)
     (χ : PrimitiveDirichletCharacter) : ℝ :=
   if χ.level = 1 then 1 else (1 - ω₀) / (1 + ω₀ * ((orderOf ψ.character : ℝ) - 1))
@@ -101,16 +102,14 @@ def HasWindows (S : Set ℝ) (κ : ℝ) : Prop :=
   ∀ Y₀ : ℝ, ∃ Y ≥ max Y₀ 1, Set.Icc Y (Y ^ κ) ⊆ S
 
 /-- **The windowed bound for the cyclic family, uniform form** (10.10). Let `ψ` be a primitive
-Dirichlet character and `ω₀ ∈ (0, 1)`. For every window exponent `κ ∈ (1, 2)` there is `ε₁ > 0`
-such that for every `ε ∈ (0, ε₁)` the set of `y` with
-`Σ_{χ ∈ 𝒦(ψ)} w_ψ(χ)·Re G_χ(y) ≤ y^{1/2 + 9ε}` has windows of exponent `κ`; the weights are those of
-`PrimitiveDirichletCharacter.familyWeight`. This is the statement of 10.10 with the exponent
-`e_W = 9` and the window exponents that 10.10 says one may take. -/
-theorem cyclicWindowedBound (ψ : PrimitiveDirichletCharacter) {ω₀ : ℝ}
-    (hω₀ : ω₀ ∈ Set.Ioo (0 : ℝ) 1) :
-    ∀ κ ∈ Set.Ioo (1 : ℝ) 2, ∃ ε₁ > (0 : ℝ), ∀ ε ∈ Set.Ioo (0 : ℝ) ε₁,
-      HasWindows {y : ℝ | ∑ χ ∈ ψ.cyclicFamily, ψ.familyWeight ω₀ χ * (χ.rieszRemainder y).re
-        ≤ y ^ ((1 : ℝ) / 2 + 9 * ε)} κ := by
+Dirichlet character of order `o`. There is `ε₁ > 0` such that for every `ε ∈ (0, ε₁)` the set of `y`
+with `Σ_{χ ∈ 𝒦(ψ)} w_ψ(χ)·Re G_χ(y) ≤ y^{1/2 + 9ε}` has windows of exponent `3/2`; the weights are
+those of `PrimitiveDirichletCharacter.familyWeight` at `ω₀ = 3/4`: `1` at the trivial character and
+`1/(3o + 1)` at the other members. -/
+theorem cyclicWindowedBound (ψ : PrimitiveDirichletCharacter) :
+    ∃ ε₁ > (0 : ℝ), ∀ ε ∈ Set.Ioo (0 : ℝ) ε₁,
+      HasWindows {y : ℝ | ∑ χ ∈ ψ.cyclicFamily, ψ.familyWeight (3 / 4) χ * (χ.rieszRemainder y).re
+        ≤ y ^ ((1 : ℝ) / 2 + 9 * ε)} (3 / 2) := by
   sorry
 
 /-- **The windowed bound for the cyclic family, consumer form** (10.11). For every primitive
