@@ -14,7 +14,7 @@ length `L_th ≤ C_L·log x` satisfying the depth hypothesis, and a host field `
 twisted places is at most `d^Z_j·(C + κ_W)·x^ε·B₀`, where `C` depends only on constants fixed before `ε` and `d^Z_j` is the
 dimension of the good part of the forms on the model group `U(W_j)`. For the parts of a level at the type primes the same
 bound holds with the congruence lengths and the dimension of the level parts; at the base level the factor is the
-dimension `D_0` of the base-level row space, and this is the form of [FormalProof]. (2) At every twisted place `𝔭 | ℓ` and for every
+dimension `D_0` of the base-level row space, the level at which [FormalProof] states the bound. (2) At every twisted place `𝔭 | ℓ` and for every
 `ε′ > 0` there is an
 anticyclotomic character `ψ` of `ℓ`-power order, ramified at a bounded number of places of degree one, such that for the
 `ℓ`-adic lattices `T_s` attached to the good eigenforms on `U(W_j)` every Bloch–Kato Selmer group of `T_s ⊗ ψ^{m′}`, `m′` prime
@@ -109,10 +109,10 @@ ThetaChainsOnDefiniteUnitaryGroups §2.9 (the residues `c_{i,v}` of the step cha
 unramified at the type places, and `μ_j`, `δ`, `δ′` are unramified outside the *bad places* `S₀`, the places above
 `g₀, g₁, p_δ, p′_δ` (ThetaChainsOnDefiniteUnitaryGroups §2.4 (b)).
 
-**Routes.** The mathematics of this roadmap follows a complete formal proof ([FormalProof]); every target states what
-that proof establishes. Where a route is not given, or not given in full, the target says so in its route. A good
-twisting datum (7.10a) and a wild-kernel budget (7.11) are conditions on the data; the targets that use them carry them as
-hypotheses.
+**Routes.** The statements of this roadmap are those established by a complete formal proof ([FormalProof]); a target
+whose form is this roadmap's own and not that of [FormalProof] says so. Where a route is not given, or not given in full,
+the target says so in its route. A good twisting datum (7.10a) and a wild-kernel budget (7.11) are conditions on the
+data; the targets that use them carry them as hypotheses.
 
 **Quantifier order and sizes.** Constants named before `ε` do not depend on `ε`; the scale `x` and everything chosen at
 it come after `ε`. Between them come the numbers that may depend on `ε`; among them the layer exponent `A_n`, a real number
@@ -1326,9 +1326,13 @@ and `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)`.
 
 *At a level.* For every level `(P, χ_P)` at the type primes the same holds for the level parts:
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^P_j(𝔭) ≤ d^{Z,P}_j·( C·f·m·b·L² + V(E, t) )`. *The form of the formal proof.* At the base level this is
-`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·f·m·b·L² + V(E, t) )`, the form in which [FormalProof] states the sum: its congruence
-lengths are those of the base-level lattice and its factor is `D_0`. The form with `d^Z_j` (the whole lattice, `P = 1`)
-is this roadmap's, by the same route.
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·f·m·b·L² + V(E, t) )`. [FormalProof] states the base-level sum with the further
+nonnegative term `(log x)²·N_c` in the bracket (`N_c` the budget of ThetaChainsOnDefiniteUnitaryGroups §2.1):
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·(f·m·b·L² + (log x)²·N_c) + V(E, t) )`; its congruence lengths are those of the
+base-level lattice and its factor is `D_0` ([FormalProof],
+`Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.aux₃`)). The
+form without that term and the form with `d^Z_j` (the whole lattice, `P = 1`) are this roadmap's, by the route below; the route
+of 7.11 compares the two forms.
 
 *Route.* Sum 7.10a (with 7.1(2) and 7.5b for the multiplicities) and 7.10b over the twisted places. At a level
 `(P, χ_P)`: the same sum with 7.1 (4), the ideals `c(π)`, `c′(π)` and their bounds being unchanged and the multiplicities
@@ -1346,8 +1350,8 @@ each one line from the ranks of ThetaChainsOnDefiniteUnitaryGroups §2.1 (`r = k
 predicate of 7.10a, those whose order in `(ℤ/2^{n+2})^×/{±1}` is at most `4L_th`, among them those with `Frob_ℓ = c`: they
 satisfy `ℓ^o ≡ ±1 (mod 2^{n+2})` for some `o ≤ 4L_th`, a congruence condition, summed as such. As that group is cyclic of order
 `2^n` (FrobeniusRestrictedRieszSums §0.4), the order is a power of two at most `4L_th`, so these primes are `≡ ±1` modulo a power of two
-`M_* ≥ 2^{n+2}/(4L_th) ≥ |A|/(o·L_th)` (as `2^{n+2} ≥ 4|A|/o`: by FrobeniusRestrictedRieszSums §0.4 (iii) `A ≅ Gal(ℚ_nℚ(ψ)/ℚ)`,
-of order at most `[ℚ_n:ℚ]·[ℚ(ψ):ℚ] = 2^n·o`); with `o ≤ x^{ε/100}` (for `x ≥ x₀(ψ, ε)`) and the length bound
+`M_* ≥ 2^{n+2}/(4L_th) ≥ |A|/([ℚ(ψ):ℚ]·L_th)` (as `2^{n+2} ≥ 4|A|/[ℚ(ψ):ℚ]`: by FrobeniusRestrictedRieszSums §0.4 (iii)
+`A ≅ Gal(ℚ_nℚ(ψ)/ℚ)`, of order at most `[ℚ_n:ℚ]·[ℚ(ψ):ℚ] = 2^n·[ℚ(ψ):ℚ]`); with `[ℚ(ψ):ℚ] ≤ x^{ε/100}` (for `x ≥ x₀(ψ, ε)`) and the length bound
 `L_th ≤ C_L·log x`, `M_* ≥ |A|·x^{−ε/50}` for `x ≥ x₀(ψ, ε, C_L)`, and the sum of `log ℓ/ℓ²` over the primes `≡ ±1 (mod M_*)` is at most
 `C·log M_*/M_*²`; with `k/m ≤ |A|²` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and `r ≤ 2k` this gives
 `r·Σ log ℓ/ℓ² ≤ C·m·x^{ε/25}·log x ≤ C·m·L²`. The resonance terms of row 4: for a resonant `w` and its size `s ≥ w″`, `SizeThin` gives
@@ -1380,11 +1384,11 @@ length bound `L_th ≤ C_L·log x` of 7.10c, for every step `j`
 
 For every level `(P, χ_P)` the same holds with `η^P_j`, `d^{Z,P}_j`. *The form of the formal proof.* At the base level,
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·(C + κ_W)·x^ε·B₀`, the form that GluedTargetAndDivisionInequality consumes (Downstream
-consumers).
+consumers); the bound that [FormalProof] states at the base level is recorded in the route.
 
-UniformWildKernelBounds §7.6 (stated for `0 < ε ≤ 2`), applied with its parameter `κ` equal to `C_t`, supplies the wild-kernel budget `κ_W = 1` on its windows, for
+UniformWildKernelBounds §7.6 (stated for `0 < ε ≤ 2`), applied with its parameter `κ` equal to `max(1, C_t)` (it asks `κ ≥ 1`), supplies the wild-kernel budget `κ_W = 1` on its windows, for
 the host fields `E_n(χ, {q, q′})` with `q ≡ 3 (mod 8)`, `q′ ≡ 7 (mod 16)`,
-every layer `n ≥ 2` with `2^n ≤ x^α` at each scale, and `t ≤ x^{C_t}` (the sum `V(E, t)` is monotone in `t`, and `exp(x^ε) = b ≤ B₀`).
+every layer `n ≥ 2` with `2^n ≤ x^α` at each scale, and `t ≤ x^{C_t} ≤ x^κ` (the sum `V(E, t)` is monotone in `t`, and `exp(x^ε) = b ≤ B₀`).
 
 *Route.* 7.10c, with `f·m·b·L² = x^ε·B₀` and `V(E, t) ≤ κ_W·x^ε·B₀`. In [FormalProof] the bound of 7.10c carries the further
 nonnegative term `(log x)²·N_c` in the bracket, and its bound reads
@@ -1456,7 +1460,7 @@ congruence lengths of 7.1, bounded in 7.10a–7.11 (for the whole lattice and fo
 the dual index up to the Weyl exponent (bounded by 7.16a (3)) and the valuation of the integer. The integer of (b)
 depends on the tuple `ξ_𝔭`, hence on the place; if `N` is a positive integer divisible by the `D_V` of every step and of
 every tuple that occurs (the Minkowski number of (c) is one), the weighted sum of `e_𝔭·v_ℓ(N)` over the places above `ℓ`
-is `v_ℓ(N)·log ℓ` by the product formula, and for the divided product of (c′) the same holds with `|P|·N`.
+is `v_ℓ(N)·log ℓ`, because `Σ_{𝔭|ℓ} e_𝔭f_𝔭 = [𝕃:ℚ]` (Check (i) of 7.10c), and for the divided product of (c′) the same holds with `|P|·N`.
 
 *Check.* `M = 𝒪²` with the standard form at a place above `ℓ = 2`, unramified, `Z` the diagonal line, `M′ = M`:
 `PM = 𝒪 · (1,1)/2`, `M ∩ Z = 𝒪 · (1,1)`, so `e_𝔭η = 1`; `(PM)^∨ = 𝒪 · (1,1) = M^∨ ∩ Z`, and `ℐ = ℐ^+ = 1`: the bound is attained
@@ -1510,8 +1514,9 @@ order `ℓ`, Cauchy.)
 `{μ_τ(a) − a} = {λ_τ(a) − a}` as multisets modulo `ℓ` (as holds when `L(μ)` is a constituent of `∇(λ)/ℓ`, by the linkage
 principle, IntegralWeylModulesOfGeneralLinearGroups §2.1 (d)). Suppose there is a continuous `r : G_E → GL_{n_V}(ℚ̄_ℓ)`,
 crystalline above `ℓ` with Hodge–Tate weights `μ_τ(a) + n_V − 1 − a` at `τ` and `h −` these at `τ∘c`, residually
-`ρ̄′ ⊕ χ̄_0 ⊕ ⋯ ⊕ χ̄_{t−1}` with `χ_s` crystalline characters of Hodge–Tate weight `bot_τ + s` at `τ` and `h − bot_τ − s` at `τ∘c`, for
-every `τ ∈ Φ` (the block at every embedding). Then `dp_τ(μ) ≤ i_W(ℓ, τ)` for every `τ`.
+`ρ̄′ ⊕ χ̄_0 ⊕ ⋯ ⊕ χ̄_{t−1}` with `χ_s` crystalline characters of Hodge–Tate weight `bot_τ + s` at `τ` and `h − bot_τ − (t − 1) + s`
+at `τ∘c`, for every `τ ∈ Φ` (at every embedding the weights of `χ_0, …, χ_{t−1}` are the block there, in increasing order, as
+for `χ_s = χ_0·χ_cyc^{−s}`, the shape of the block of 7.5 (1)). Then `dp_τ(μ) ≤ i_W(ℓ, τ)` for every `τ`.
 
 *Route.* The Wach lattices of a lattice in `r` and of the `χ_s` exist (PhiGammaModulesAndIwasawaCohomology §6.0), over
 coefficients containing the images of the embeddings of `E_w(ζ_ℓ)`, `w` the place of `τ` (the setting of
