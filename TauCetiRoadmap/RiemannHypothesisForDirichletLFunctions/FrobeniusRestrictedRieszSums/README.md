@@ -304,6 +304,9 @@ divides `N_n(M, Q)`, with equality for `n ≥ 1`, and `[E_n(M, Q) : ℚ]` divide
 `E_n(M, Q) ⊂ E_{n+1}(M, Q)`, `E_n(M, Q) ⊂ E_n(M, Q′)` for `Q ⊂ Q′`, and `E_n(M, Q) = E_0(M, Q)·ℚ_n`. (e) If `Q ≠ ∅` or `M`
 is imaginary, `E_n(M, Q)` is a CM field with complex conjugation `σ_{−1}|_E = art_N(−1)`. (f) The characters of
 `Gal(E_n(M, Q)/ℚ)`, read through `art_N`, are the Dirichlet characters modulo `N` trivial on `H_n(M, Q)`.
+(g) Let `c = art_N(−1)` (complex conjugation, as in (e)) and let `p ∤ N` be a prime (for `n ≥ 1` these are, by (c),
+exactly the primes unramified in `E_n(M, Q)`). If `c·Frob_p` has odd order in `Gal(E_n(M, Q)/ℚ)`, then
+`p ≡ ±1 (mod 2^{n+2})`.
 
 *Statement (cyclic hosts).* Let `ψ` be a primitive Dirichlet character of conductor `f_ψ` and order `o`, `n ≥ 2` an
 integer, and `q`, `d` primes with `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, `q, d ∤ f_ψ`, `(−d/q) = 1`, and `(−d/ℓ) = 1` for
@@ -344,7 +347,10 @@ compositum. (b) Galois correspondence in `ℚ(ζ_N)` and 0.2 (ii). (c) Conductor
 (ClassFieldTheory Layer 13, `abelianConductor_eq_lcm`); `ℚ_n` has conductor `2^{n+2}` for `n ≥ 1`; the quotient by
 `H_n(M, Q)` embeds in the product of the images of the three kinds of conditions. (d) From (a). (e) `σ_{−1}` is
 central, induces complex
-conjugation, and is nontrivial on `ℚ(√−q)` and on an imaginary `M`. (f) From (b). (Cyclic hosts.) (ii) By (f) the
+conjugation, and is nontrivial on `ℚ(√−q)` and on an imaginary `M`. (f) From (b). (g) By (a) `ℚ_n ⊂ E_n(M, Q)`, and
+`Gal(ℚ_n/ℚ) ≅ (ℤ/2^{n+2})^×/{±1}` is cyclic of order `2^n`; by (b) `Frob_p = art_N(p)` restricts to `ℚ_n` as the class
+of `p`, and `c` as the class of `−1`, which is trivial; so the odd-order element `c·Frob_p` restricts to the class of
+`p` and to the identity of this `2`-group. (Cyclic hosts.) (ii) By (f) the
 characters of `G` are the Dirichlet characters modulo `N = lcm(2^{n+2}, f_ψ)qd` trivial on `H_n(ψ, {q, d})`; that
 subgroup is the intersection of the kernels of `𝔛_n`, `ψ`, `χ_{−q}` and `χ_{−d}`, so its annihilator is the group they
 generate; the conductors (powers of `2`, divisors of `f_ψ`, `q`, `d`) make `⟨χ_{−q}, χ_{−d}⟩` meet `𝔛_n⟨ψ⟩` trivially.
@@ -404,7 +410,8 @@ so `φ^k` is nontrivial on `ℚ_n` for odd `k`. The other primes dividing `f_E` 
 - (iv) on the first host: `|G| = 16 = 4·|A|`, and the four elements `1, c, σ_d, cσ_d` represent `G/A`.
 
 *KNOWN* (Galois theory of cyclotomic fields; quadratic reciprocity; the dyadic host fields `E_n(M, Q)` for a general
-`(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof]; the cyclic hosts: [FormalProof],
+`(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof], and so is (g), elementary, for
+every `(M, Q)`; the cyclic hosts: [FormalProof],
 `Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean` (`UpperTheory.Top.IsChiField`),
 `Development/AutomorphicArithmetic/CharacterBoxes/TwistForm.lean` (`UpperTheory.Top.KerChi`); (iv): [FormalProof],
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean`
@@ -1074,6 +1081,8 @@ the constants that are parameters here (among them the gap `c_box` of 1.4, chose
 `δ_top` of the tops and the length of the thick set) in ThetaChainsAndFrobeniusPrimeSums §10.6, takes the admissible
 pairs, the tops and the thick set from 0.9, 0.7 and 0.8a in ThetaChainsAndFrobeniusPrimeSums §10.7, and applies 1.9 to the inequality of its chain at every translate to obtain the windowed
 bound for the cyclic family. GeneralizedRiemannHypothesisFromWindowBounds uses the cyclic family of 0.5.
+GluedTargetAndDivisionInequality §8.23 and LocalGainOfThetaChains use 0.4 (g) on the cyclic hosts: a prime `p`
+unramified in `E` with `c·Frob_p` of odd order satisfies `p ≡ ±1 (mod 2^{n+2})`.
 
 ## Scope and ownership
 
