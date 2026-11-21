@@ -319,8 +319,8 @@ of `E` at `ℓ` is the mean of the conductor exponents at `ℓ` of the character
 and `t ≤ x^{400}` with `C_t = 401`, every parameter predicate holds for large `x`; the smallest margins are a factor
 `x^{1.31ε}` in `SizeW` (`m⁵|A|x^ε ≍ x^{9/2+8.69ε}`) and `x^{5ε}` in the upper bound of `SizeK`.
 
-*NEW* (definitions). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.8a (for `A`, `A₀`, `𝒯`, `(q, d)`); ClassFieldTheory Layer 13 (conductor–discriminant
-formula).
+*NEW* (definitions). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.8a (for `A`, `A₀`, `𝒯`, `(q, d)`); ClassFieldTheory §13.1 (conductor–discriminant
+formula: `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor_eq_lcm`).
 
 ### 2.2 The spaces of the chain
 
@@ -767,7 +767,12 @@ the Hilbert class field of `E` (infinitely many, Chebotarev), and `𝔓 = (α)` 
 is trivial on `E^×` and unramified, `η̃(ϖ_𝔓) = η̃_∞(α)^{−1} = (∏_{τ∈Φ}τ(α)/|τ(α)|)^{−1} = √p/N_{E/K}(α)` (`∏_{τ∈Φ}|τ(α)| = N_{E/ℚ}(α)^{1/2}`);
 the fields `K(√p)` for these `p` are pairwise different, so the values of `η̃` generate an infinite extension of `ℚ`.
 
-*KNOWN* in kind (Hecke; Weil 1955; the criterion is the extension argument above). *Needs:* FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.9, 2.3;
+*KNOWN* in kind (Hecke; Weil 1955; the criterion is the extension argument above). Existence without control of the
+conductor, for finite-image characters with prescribed full local components, is GL2AutomorphicRepresentationsAndTransfer
+R16.1.8; (a) adds the restriction to `𝔸_F^×`, the infinity type and the exact ramification. The existence of an algebraic Hecke
+character of a CM field with a prescribed infinity type and an unspecified conductor is PotentialAutomorphyDworkMotivesPartII
+§9.14; (b) controls the conductor of `μ_j` and its restriction to `𝔸_F^×`.
+*Needs:* FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.9, 2.3;
 GlobalNumberFields (Completed) Layers 8–10; ClassFieldTheory Layer 11 (`η_{E/F}` by reciprocity);
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a (splitting characters without prescribed ramification).
 
@@ -897,24 +902,41 @@ rules and short theta series are over `𝒪_𝕂` and enter the chain after exte
 the normalised slope nor the maximal slope (SlopesOfHermitianVectorBundles §3.5). The level at `T(u)` carries the
 trivial character (2.9b): no root of unity of order `T(u)` is needed in `𝕂`.
 
-*Route.* (a) (i) the principal ideal theorem in the Hilbert class field, which lies in `E(N)`. (ii) the conductor of
-`E(ζ_n)/E` divides `n`; Weber: `K(n) = K(j(𝒪_K), h(z/n))`. The inclusion `K(n)·E ⊂ E(N)` is not given here. (iii) classical.
+*Route.* (a) (i) the principal ideal theorem in the Hilbert class field (ClassFieldTheory §13.1,
+`isPrincipal_map_hilbertClassField`), which lies in `E(N)` (`isAdmissibleModulus_iff_le_rayClassField`). (ii) the conductor of
+`E(ζ_n)/E` divides `n`, so `ζ_n ∈ E(N)` (`isAdmissibleModulus_iff_le_rayClassField`); an automorphism of `ℂ` fixing `K(n)` fixes
+`ℂ/𝒪_K` with its level structure of level `n` up to isomorphism by ShimuraVarieties §5.9 (`cm_ideal_reciprocity` at `E = K`,
+`m = n`); the generation of `K(n)` by level-`n` values is ComplexMultiplicationAndExplicitReciprocity §3.2 and
+ImaginaryQuadraticClassNumber H3.1. The inclusion `K(n)·E ⊂ E(N)` is not given here. (iii) classical.
 (iv) for `𝔞` prime to `N`, `𝔞^{h*} = (γ)` with `γ ≡ 1 (mod N)` and `χ(𝔞)^{h*} = ∏_τ τ(γ)^{n_τ}`-type power of `γ`, an element of `E`
 generating an `h*`-th power. (v) take `𝔞^{h_E} = (γ)` and `β` an `h_E`-th root of the type norm `∏_τ τ(γ)^pτ̄(γ)^q` of `γ`
 (`h_E | h*`); then `(β)^{h_E}` is the `h_E`-th power of the type norm of `𝔞`. The equality `|σ(β)|² = N(𝔞)^{p+q}` at every
 embedding is not given here. (b) Logarithms of degrees and of root discriminants are subadditive
-under composita. For a Galois extension `M/F` unramified outside an integer `n`, `n·[M:F]` lies in the different, hence
+under composita. For a Galois extension `M/F` unramified outside an integer `n`, `n·[M:F]` lies in the different
+(NumberFieldArithmetic §6.4: `v_P(𝔡) ≤ e_P − 1 + v_P(e_P)`, `e_P` the ramification index of `P`, while `v_P(n) ≥ e_P` and
+`e_P | [M:F]` at `P | n`, and `v_P(𝔡) = 0` at the other `P`), hence
 `log rd(M) ≤ log rd(F) + log(n·[M:F])`: apply it to `H₁₂/K(j)` (`n = 6d`, degree `≤ |GL₂(ℤ/12)| ≤ 20736`; `K(j)/K` unramified of
-degree `≤ 9d`), to `E(N)/E` (`n = N`), to `ℚ(ζ_n)/ℚ`, and, with `n = k`, to each step `F(y^{1/k})/F`, `(y)` a `k`-th power; `V` is
-reached from `E(ζ_{h*})` by `ρ + 1` roots of order `h*` (units) and roots of orders with product `h_E` (class group). The
+degree `≤ 9d`), to `ℚ(ζ_n)/ℚ`, and, with `n = k`, to each step `F(y^{1/k})/F`, `(y)` a `k`-th power; `V` is
+reached from `E(ζ_{h*})` by `ρ + 1` roots of order `h*` (units) and roots of orders with product `h_E` (class group). For
+`E(N)/E`: every character of `Gal(E(N)/E)` has conductor dividing `N𝒪_E` (`isAdmissibleModulus_iff_le_rayClassField`), so the
+conductor–discriminant formula (ClassFieldTheory §13.1, `count_relDiscr_eq_finsum_abelianConductor_exponent`) gives
+`N(𝔡_{E(N)/E}) ≤ N^{2f·h*}`, that is `log rd(E(N)) ≤ log rd_E + log N`. `h* = |Cl_{N𝒪_E}(E)|`
+(`gal_rayClassField_equiv_rayClassGroup`) `≤ h_E·N(N𝒪_E) = h_E·N^{2f}` by the ray-class exact sequence and the class-number
+formula (GlobalNumberFields (Completed) Layer 2; `E` has no real place). The bound for `h_E` is, for `f ≥ 6`,
+ExplicitNumberFields §5.3 (`classNumber_le_bordelles`) at `n = 2f`, which gives
+`log h_E ≤ f·log rd_E + (2f − 1)·log(4f·log rd_E) − log((2f − 1)!)`; with `(2f − 1)! ≥ ((2f − 1)/exp(1))^{2f−1}` the last two
+terms are at most `(2f − 1)·log(4·exp(1)·f·log rd_E/(2f − 1)) ≤ 2f·log(1 + f·log rd_E)`, as `4·exp(1) ≤ 2f − 1`. For `f ≤ 5`
+the bound for `h_E` is not given here. The
 numerical bound: `log h_E ≤ 10fL`, `log N ≤ 20L + 2`, `log h* ≤ 51fL`, `log|G₀| ≤ f·r²·(18L + 2)`, `log d ≤ 4L`.
 
 *KNOWN* ingredients (class field theory; Furtwängler; Weber; the different of a tamely bounded Galois extension), *NEW*
-assembly. *Needs:* FrobeniusRestrictedRieszSums §0.1, 2.1, 2.4, 2.7; ClassFieldTheory Layers 5, 13; NumberFieldArithmetic (Completed; the different and the
-discriminant: an integer in the different of a Galois extension unramified outside it, root discriminants of composita
-and of Kummer steps, the bound for the class number); ComplexMultiplicationAndExplicitReciprocity §4.3 and Weber's
-generation of the ray class field `K(n)` by the values of the `n`-torsion of `ℂ/𝒪_K`; EllipticCurves Layer 4;
-SlopesOfHermitianVectorBundles §3.5.
+assembly. *Needs:* FrobeniusRestrictedRieszSums §0.1, 2.1, 2.4, 2.7; ClassFieldTheory §13.1 (`rayClassField`,
+`gal_rayClassField_equiv_rayClassGroup`, `isAdmissibleModulus_iff_le_rayClassField`, `IsAdmissibleModulus.mem_support_of_ramified`,
+`isPrincipal_map_hilbertClassField`, `count_relDiscr_eq_finsum_abelianConductor_exponent`); GlobalNumberFields (Completed)
+Layer 2 (the ray-class exact sequence and the class-number formula); NumberFieldArithmetic §6.4 (Completed; the bound
+`v_P(𝔡) ≤ e_P − 1 + v_P(e_P)`) and NumberFieldArithmetic §4.2 (the tower formula); ExplicitNumberFields §5.3 (`classNumber_le_bordelles`);
+ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1;
+EllipticCurves Layer 4; SlopesOfHermitianVectorBundles §3.5.
 
 ### 2.7 Type primes and auxiliary primes
 
@@ -1274,7 +1296,7 @@ first denominator `p^{−a}` and the shear vector `z ∈ L_{j,w_v}`, every eleme
 
 ### Dependencies
 
-FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2, 5.2, 5.5, 6.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; ThetaKernelsForUnitaryDualPairs §§3.46a, 4.4a; MetaplecticAutomorphicForms §3.3; FiniteReductiveGroups (Conventions; §§2.2, 2.7, 5.7); RieszSumsOverPrimesAndExceptionalZeros §§1.7b, 2.9b; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; ClassicalGroups §6.1 and Layer 5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; SlopesOfHermitianVectorBundles §3.5; ComplexMultiplicationAndExplicitReciprocity §4.3; ClassFieldTheory Layers 5, 11–13; GlobalNumberFields (Completed) Layers 8–10; Chebotarev (Completed) Layer 10; NumberFieldArithmetic (Completed); EllipticCurves Layer 4.
+FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2, 5.2, 5.5, 6.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; ThetaKernelsForUnitaryDualPairs §§3.46a, 4.4a; MetaplecticAutomorphicForms §3.3; FiniteReductiveGroups (Conventions; §§2.2, 2.7, 5.7); RieszSumsOverPrimesAndExceptionalZeros §§1.7b, 2.9b; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; ClassicalGroups §6.1 and Layer 5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; SlopesOfHermitianVectorBundles §3.5; ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ClassFieldTheory Layers 11–13; GlobalNumberFields (Completed) Layers 2, 8–10; Chebotarev (Completed) Layer 10; NumberFieldArithmetic (Completed); ExplicitNumberFields §5.3; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1; EllipticCurves Layer 4.
 
 ## Layer 3: The column chain on definite unitary groups
 
@@ -1413,7 +1435,8 @@ Route. `Im H_A` is integral and unimodular on `𝔙(L, L′)` because `𝔞₀Ho
 (`h(x, y) = tr(x^†y)`): its dual is `δ_T^{−1}𝔞̄₀^{−1}𝔇_{E/ℚ}^{−1}·Hom(L, L′) = 𝔞₀Hom(L, L′)` by 2.2(f); `Q_A` is integral because
 `d ≡ 3 (mod 4)` and the ranks are even; the polarisation is principal, and an `𝒪_E`-module decomposition gives the product of
 CM elliptic curves (AbelianSchemesAndArithmeticModuli A5.3–A5.4 for the line). The integral coordinates:
-ComplexMultiplicationAndExplicitReciprocity §1.2 (Serre's construction) and the good model of `𝒞` (2.6). The axis ideal: for a
+AbelianSchemesAndArithmeticModuli A1.3a, A4.7a (the Serre tensor and its Lie realization), specialised in
+ComplexMultiplicationAndExplicitReciprocity §1.2 (Serre's construction), and the good model of `𝒞` (2.6). The axis ideal: for a
 fractional ideal `𝔞` of `E` the dual of `𝒪_M·Φ(𝔞)` for `Σ_τ x_τy_τ` is `𝒪_M·Φ(𝔞^{−1}𝔇_{E/K}^{−1})` (the trace dual of `𝔞` for
 `Tr_{E/K}`, base-changed to the flat `𝒪_M`), so `y·e_τ ∈ 𝒪_M·Φ(𝔞)` iff `y·τ(b) ∈ 𝒪_M` for all `b ∈ 𝔞^{−1}𝔇_{E/K}^{−1}`, iff
 `y ∈ τ(𝔞𝔇_{E/K})𝒪_M`; and `𝔞₀𝔞̄₀𝔇_{E/K} = 𝒪_E` (2.2(f)).
@@ -1429,7 +1452,7 @@ is the `log Ω` of the Conventions. (iii) The axis ideal in relative degree `2`:
 `τ₁(a·g′(ϑ)) = τ₁(𝔞𝔇_{E/K})` (`g` the minimal polynomial of `ϑ`); a generator of `τ(𝔞₀)𝒪_𝕃` in place of `c_τ` would not give a
 lattice direction at a prime where `𝔇_{E/K}` is not a unit.
 
-*KNOWN* in kind (Shimura; Serre's construction). *Needs:* FrobeniusRestrictedRieszSums §0.3, 2.1, 2.2, 2.6; AbelianSchemesAndArithmeticModuli A5.3–A5.4;
+*KNOWN* in kind (Shimura; Serre's construction). *Needs:* FrobeniusRestrictedRieszSums §0.3, 2.1, 2.2, 2.6; AbelianSchemesAndArithmeticModuli A1.3a, A4.7a, A5.3–A5.4;
 ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.1b The character `χ_D`
@@ -1466,7 +1489,8 @@ coefficients, `(log U_yθ)′(0) ∈ a₁/2 + N^{−1}𝒪`, and `(U_yθ)(0)` is
 whose `a₁` is a unit, the same holds with no factor.
 
 Route: `φ″ = x(t) + (s₂ + b₂/12) + D²log t` (`D = d/dz`), a series with coefficients in `𝒪` up to the constant `s₂ + b₂/12`
-(equivalently, the theorem of the cube for `σ`); so all derivatives of `φ` of order `≥ 3` at `0` are integral, at every `p`. For a
+(equivalently, the theorem of the cube for `σ`, AbelianSchemesAndArithmeticModuli A1.5); so all derivatives of `φ` of order `≥ 3`
+at `0` are integral, at every `p`. For a
 complex multiplication `α`, comparing quasi-periods gives `α(α − ᾱ)(s₂ + b₂/12) = Σ_{0≠P∈ker α}x(P) + (α² − 1)b₂/12`; when `α` and
 `α − ᾱ` are units at the place considered, the kernel points lie outside `Ê(𝔪)`, and the last term is integral (`α² ≡ 1` modulo
 `3`, resp. `8`, at a split `3`, resp. `2`; `b₂ ≡ 0 (mod 3)` at an inert `3`), so `s₂ + b₂/12 ∈ 𝒪` at every `p ≠ d` (with
@@ -1485,8 +1509,8 @@ one more step: for a translate of `θ₀` by a point `s` of odd order it is `F(s
 order of `ℚ(√−d)`, `√−d·s₂ = 1/4, 2/3, 2, 12, 38, 724` (up to a root of unity) for `d = 7, 11, 19, 43, 67, 163`, so `v_d(s₂) = −1/2`;
 for `d = 7` neither `s₂` nor `℘(ω₀/2)` is `2`-integral, while `θ₀″(0) = −(℘(ω₀/2) + s₂) = ±2√−7/7` is.
 
-*KNOWN* in kind (Weierstrass; Mumford, the theorem of the cube; complex multiplication). *Needs:* 2.6, 3.1a;
-ComplexMultiplicationAndExplicitReciprocity §1.2.
+*KNOWN* in kind (Weierstrass; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; complex multiplication).
+*Needs:* 2.6, 3.1a; AbelianSchemesAndArithmeticModuli A1.5; ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.1d The CM theta family
 
@@ -1563,7 +1587,8 @@ the family: `N·Θ^{CM}` satisfies them for every integer `N ≠ 0` ((d) is an i
 multiplied by `N⁴`), and (c) up to `2 log|N|` in the mean logarithm; the defining equality fixes the normalisation, and a
 characterisation by (f) alone would need a primitivity condition.
 
-*KNOWN* in kind (Shimura; Mumford, the theorem of the cube; Serre's construction), *NEW* (the family with (b)–(f)). *Needs:* FrobeniusRestrictedRieszSums §0.3,
+*KNOWN* in kind (Shimura; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; Serre's construction), *NEW*
+(the family with (b)–(f)). *Needs:* FrobeniusRestrictedRieszSums §0.3,
 2.1, 2.2, 2.3, 2.6, 3.1a, 3.1b, 3.1c; AbelianSchemesAndArithmeticModuli A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.2 The step of the chain
@@ -1977,6 +2002,9 @@ SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1.
 `P̃` is linear in the level-`m` form, hence (the step operators being linear, 3.2) linear in the column `φ`: a scalar of `𝕃` comes out
 of the column slot unchanged, so a bound for the period at a place `𝔭` uses the column at the same place `𝔭`. It is conjugate-linear
 in `Υ` (the Hermitian product is conjugate-linear in its first variable). This is the only definition of the top period.
+`P̃` is a definite, vector-valued form of the adjacent (`r = 0`) period of GanGrossPrasadUnitaryGroups §4.1 for the pair
+`X^h ⊂ X_m`: the integral over `[U(X^h)]` is the class sum with the weights `|Γ_𝒸|^{−1}`, and the two forms are paired through
+`br_τ` and the Hermitian product.
 
 - *The bilinear form of the period.* Let `β_λ` be the `ℚ`-bilinear contravariant form on `𝒫_λ` whose Hermitian form is `⟨·,·⟩_λ`
   (3.1): `⟨P, Q⟩_λ = β_λ(P^c, Q)`, `P^c` the polynomial with complex conjugate coefficients; `β_σ := ⊗_τ β_{σ(τ)}`. For a form `Υ` on
@@ -2054,7 +2082,7 @@ moves the integrality of `Υ` from `c_𝕃(𝔭)` to `𝔭`, while `φ′` enter
 
 ### Dependencies
 
-Layer 2; FrobeniusRestrictedRieszSums §0.3; HermitianFormsAndLattices §§5.1, 5.2, 5.5, 5.6, 5.7; ThetaLiftsForDefiniteUnitaryGroups §§0.1–0.4, 1.2, 1.4, 1.7, 1.8, 2.1, 2.2, 2.5; ThetaKernelsForUnitaryDualPairs §4.4a; AdelicAlgebraicGroups §4.2; AutomorphicFormsOnReductiveGroups §§7.4, 7.5; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; ReductiveGroups 10B; ArithmeticLocallySymmetricSpaces ALS.F.7; AbelianSchemesAndArithmeticModuli A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2; TensorInductionAndFiniteGroupInputs §7.1; FiniteGroupInvariants §10.2; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1; IntegralWeylModulesOfGeneralLinearGroups §1.1; ClassicalGroups §6.1.
+Layer 2; FrobeniusRestrictedRieszSums §0.3; HermitianFormsAndLattices §§5.1, 5.2, 5.5, 5.6, 5.7; ThetaLiftsForDefiniteUnitaryGroups §§0.1–0.4, 1.2, 1.4, 1.7, 1.8, 2.1, 2.2, 2.5; ThetaKernelsForUnitaryDualPairs §4.4a; AdelicAlgebraicGroups §4.2; AutomorphicFormsOnReductiveGroups §§7.4, 7.5; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; ReductiveGroups 10B; ArithmeticLocallySymmetricSpaces ALS.F.7; AbelianSchemesAndArithmeticModuli A1.3a, A1.5, A4.7a, A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2; TensorInductionAndFiniteGroupInputs §7.1; FiniteGroupInvariants §10.2; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1; IntegralWeylModulesOfGeneralLinearGroups §1.1; ClassicalGroups §6.1.
 
 ## Downstream consumers
 
@@ -2073,7 +2101,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns Layers 2 and 3 above: the ranks, scales and size predicates of the chain; its column, row and model spaces and the normal form of the pairs they form, with the conjugate datum, the conventions for lifts and descents and the reading of a step at a real place; weight data, words, adapted and separated data and their existence; the existence criterion for Hecke characters of a CM field with prescribed restriction, local data and infinity type, and the Hecke characters of the chain; anticyclotomic twisting characters and twisting data; the coefficient field `𝕂` with its size bound and the field of places `𝕃`; the type, auxiliary and level primes; the level structures at the unramified places, the type primes, the level primes and the twist places; chain forms and their integral structures; the theta data, the character `χ_D`, the reduced theta function of `ℂ/Λ_K` with its integrality and the CM theta family; the step operator, its identification with a class-set theta lift and its weights; the chain lift and its integrality; the operators at the level prime; the source lattices; the top period and its integrality.
 
-Not owned here. Abelian CM hosts, their predicates, the cyclic hosts, tops and thick sets are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Unitary groups and Hermitian forms over quadratic étale algebras, their local and global classification, unimodular lattices, class sets, stabilisers and masses are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 2–6. The dictionary of the theta lift of a definite homomorphism pair, its lattice vectors, theta kernels, class-set lifts and Hecke relations are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) Layers 0–2; the global Weil representation of a unitary pair and the archimedean correspondence of discrete series are [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) §§4.4a, 3.46a. Integral branching for `GL_N ↓ GL_{N−1}` is [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) §1.1; slopes of Hermitian vector bundles and their base change are [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md); prime ideals of a ray class in short intervals and Linnik's theorem are [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) §§1.7b, 2.9b; class-set integration, the perfect pairing of lattices of forms and kernel operators are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) Layer 7 with [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§7.5a, 7.5b, and the formal degree of a discrete series is DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; the Gelfand–Graev and Bessel-type pairs of `GL_n(𝔽_q)` and the tame labelled form are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md); global class field theory is [ClassFieldTheory](../../ClassFieldTheory/README.md); Hecke characters are [GlobalNumberFields](../../../Completed/GlobalNumberFields/README.md); the Serre tensor construction and canonical Gross characters are ComplexMultiplicationAndExplicitReciprocity §§1.2, 4.3. The facts on the different and the discriminant used by the route of 2.6 (an integer in the different of a Galois extension unramified outside it, root discriminants of composita and of Kummer steps, the bound for the class number), Weber's generation of the ray class fields of `K`, and the values of algebraic Hecke characters in a Kummer field are used by that route and are stated by no roadmap on main.
+Not owned here. Abelian CM hosts, their predicates, the cyclic hosts, tops and thick sets are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Unitary groups and Hermitian forms over quadratic étale algebras, their local and global classification, unimodular lattices, class sets, stabilisers and masses are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 2–6. The dictionary of the theta lift of a definite homomorphism pair, its lattice vectors, theta kernels, class-set lifts and Hecke relations are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) Layers 0–2; the global Weil representation of a unitary pair and the archimedean correspondence of discrete series are [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) §§4.4a, 3.46a. Integral branching for `GL_N ↓ GL_{N−1}` is [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) §1.1; slopes of Hermitian vector bundles and their base change are [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md); prime ideals of a ray class in short intervals and Linnik's theorem are [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) §§1.7b, 2.9b; class-set integration, the perfect pairing of lattices of forms and kernel operators are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) Layer 7 with [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§7.5a, 7.5b, and the formal degree of a discrete series is DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; the Gelfand–Graev and Bessel-type pairs of `GL_n(𝔽_q)` and the tame labelled form are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md); global class field theory is [ClassFieldTheory](../../ClassFieldTheory/README.md); Hecke characters are [GlobalNumberFields](../../../Completed/GlobalNumberFields/README.md); the Serre tensor construction and canonical Gross characters are ComplexMultiplicationAndExplicitReciprocity §§1.2, 4.3. The route of 2.6 takes the bound for the different from NumberFieldArithmetic §6.4, the bound for the class number (for `f ≥ 6`) from ExplicitNumberFields §5.3, and the action of the automorphisms fixing `K(n)` on `ℂ/𝒪_K` with its level structure of level `n` from ShimuraVarieties §5.9. The root discriminants of composita and of Kummer steps, and the values of algebraic Hecke characters in a Kummer field, are used by that route and are stated by no roadmap on main.
 
 The roadmaps of the family named under Downstream consumers above use these statements; the theta lifts along rows, the model steps, the periods and the slope argument are theirs.
 
@@ -2160,6 +2188,8 @@ The roadmaps of the family named under Downstream consumers above use these stat
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
 - A5.3–A5.4 (the line of theta functions of a principal polarisation; algebraic theta functions). Used in 3.1a, 3.1d.
+- A1.3a, A4.7a (`relativeSerreTensor`, the Serre tensor over an arbitrary base, and its Lie realization). Used in 3.1a.
+- A1.5 (`relativeCube`, the theorem of the cube). Used in 3.1c, 3.1d.
 
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
@@ -2172,18 +2202,31 @@ The roadmaps of the family named under Downstream consumers above use these stat
 ### From ComplexMultiplicationAndExplicitReciprocity
 
 - §1.2 (Serre tensor construction, Lie and period comparisons). Used in 3.1a, 3.1c, 3.1d.
+- §3.2 (the field of level-`N` CM values and its exact ray-level field). Used in 2.6.
 - §4.3 (canonical Gross characters and their curves). Used in 2.6.
+
+### From ExplicitNumberFields
+
+- §5.3 (`classNumber_le_bordelles`, the regulator-free class-number bound). Used in 2.6.
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+- §5.9 (`cm_ideal_reciprocity`, CM ideal reciprocity). Used in 2.6.
+
+### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
+
+- H3.1 (the imaginary-quadratic CM dictionary and the reciprocity action on level-`N` values). Used in 2.6.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
 - Layer 11 (global Artin reciprocity; `η_{E/F}` by reciprocity). Used in 2.4, 2.5.
-- Layer 13 (Kronecker–Weber, the conductor–discriminant formula, the Hilbert class field and the principal ideal theorem). Used in 2.1, 2.5, 2.6.
+- §13.1 (Kronecker–Weber; the conductor–discriminant formula, `count_relDiscr_eq_finsum_abelianConductor_exponent` and `abelianConductor_eq_lcm`; the ray class fields, `rayClassField`, `gal_rayClassField_equiv_rayClassGroup`, `isAdmissibleModulus_iff_le_rayClassField` and `IsAdmissibleModulus.mem_support_of_ramified`; the Hilbert class field and the principal ideal theorem, `isPrincipal_map_hilbertClassField`). Used in 2.1, 2.5, 2.6.
 - Layer 12 (global existence and the global correspondence). Used in 2.5.
-- Layer 5, as cited by 2.6. Used in 2.6.
 
 ### From TauCetiRoadmap.GlobalNumberFields (Completed)
 
 - Layer 8 (adeles and ideles of a finite extension, their maps and compatibility with the diagonal embeddings), Layer 9 (Hecke and ray class characters on the canonical carrier), Layer 10 (archimedean characters and infinity types). Used in 2.4, 2.5.
+- Layer 2 (moduli and ray class groups: the ray-class exact sequence, `finite_rayClassGroup` and the class-number formula). Used in 2.6.
 
 ### From TauCetiRoadmap.Chebotarev (Completed)
 
@@ -2191,7 +2234,7 @@ The roadmaps of the family named under Downstream consumers above use these stat
 
 ### From TauCetiRoadmap.NumberFieldArithmetic (Completed)
 
-- 4.2 (the relative discriminant ideal and its tower formula), 5.9 (the different localizes), 6.3 (the different-exponent formula). Used in 2.2, 2.6.
+- 4.2 (the relative discriminant ideal and its tower formula), 5.9 (the different localizes), 6.3 (the different-exponent formula), 6.4 (exact tame and wild exponents, `v_P(𝔡) ≤ e − 1 + v_P(e)`). Used in 2.2, 2.6.
 
 ### From TauCetiRoadmap.EllipticCurves
 
