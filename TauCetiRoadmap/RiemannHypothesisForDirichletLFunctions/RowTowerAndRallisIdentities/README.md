@@ -22,8 +22,8 @@ where each factor is an absolutely convergent Euler product with a positive valu
 on `ξ`; so `D_ξ` and `ι_ξ` are onto. On the good part `ι_ξ ι_ξ^* = 𝔫 · ∏_j λ_j(ξ, 𝔥)`, where, for `t > r`,
 `λ_j(ξ, 𝔥) = a_j · L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` is the scalar by which `θ_jθ_j^*` acts for the model lift `θ_j` from a
 definite group `U(V_j)` to an inner form `U(W_j)` of `U(Y_0)`, positive wherever that part is nonzero.
-(2) *A rational structure.* For a grid of complementary spaces over the chain satisfying the rank, spacing and place
-conditions of 5.8b and the gap and depth conditions of 5.8e, if the field `𝕃` of the chain contains the finitely many
+(2) *A rational structure.* For the grid of complementary spaces of the chain (5.8a), satisfying the rank, spacing and
+place conditions of 5.8b, under the size predicate `Size_□` of 5.8e, if the field `𝕃` of the chain contains the finitely many
 algebraic numbers that 5.8 names and the hypotheses of (1) hold for every tuple considered, then Bessel periods define an
 `𝕃`-structure `𝔼_𝕃` of `𝔼^♮` that contains `ι_ξ(x)` for every tuple `ξ` and every `𝕃`-rational form `x` and is stable under
 `G₀` and the Hecke operators away from `S(1)`; the constants of the squares of the grid satisfy
@@ -59,8 +59,9 @@ forms a rational structure and prove positivity at every embedding; 5.12 conclud
 
 **Fields.** `E` is the host (FrobeniusRestrictedRieszSums §0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its
 maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G` complex conjugation; `χ_K` the quadratic character of `K`; `f_E` the
-conductor of `E` (the conductor of a primitive character `χ` is `f_χ`); `h_E` the class number of `E` and `μ_E` its
-group of roots of unity. Under `SplitRamification d` (FrobeniusRestrictedRieszSums §0.3) `K` is ramified only at the prime `d`; on the cyclic hosts
+conductor of `E` (the conductor of a primitive character `χ` is `f_χ`); `h_E` the class number of `E`, `μ_E` its
+group of roots of unity, `d_E` its discriminant and `rd_E = |d_E|^{1/[E:ℚ]}` its root discriminant. Under
+`SplitRamification d` (FrobeniusRestrictedRieszSums §0.3) `K` is ramified only at the prime `d`; on the cyclic hosts
 (FrobeniusRestrictedRieszSums §0.4) `d ≡ 7 (mod 8)` and `K = ℚ(√−d)`. `𝕃` is the field of
 ThetaChainsOnDefiniteUnitaryGroups §2.6: a number field containing `E`, Galois over `ℚ` and totally complex, read in `ℂ`
 through the embedding `σ₀` fixed in ThetaChainsOnDefiniteUnitaryGroups §2.6, with the conjugation
@@ -145,7 +146,8 @@ unramified outside the *bad places* `S₀`, the places above `g₀, g₁, p_δ, 
 host predicates `SizeA`, `SizeN`, `SizeD`, `SizeRd`, `SizeQD`, `SizeInert`, `SizeDep` and the parameter predicates `SizeM`,
 `SizeK`, `SizeW`, `SizeMf`, `SizeT`, `SizeTheta`, with their conjunction `Size(x, ε)`; and those named where their quantities
 are defined: `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `SizeGap`, `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups
-§2.3c), `SizeG` (ThetaChainsOnDefiniteUnitaryGroups §2.7), `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8). "The size
+§2.3c), `SizeG` (ThetaChainsOnDefiniteUnitaryGroups §2.7), `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), and the
+size predicate `Size_□` of the grid (5.8e). "The size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1" means `Size(x, ε)`; a target that uses a single predicate names it.
 
 **Routes.** The mathematics of this roadmap follows a complete formal proof ([FormalProof]); every target states what
@@ -156,7 +158,7 @@ that proof establishes. Where a route is not given, or not given in full, the ta
 | Symbol | Meaning | Defined |
 |---|---|---|
 | `E, F = E⁺, f, c, G, f_E` | host field, its maximal totally real subfield, `[F:ℚ]`, complex conjugation, `Gal(E/ℚ)`, conductor of `E` (of a primitive `χ`: `f_χ`) | FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.2 |
-| `h_E, μ_E` | class number of `E`; group of roots of unity of `E` | Conventions |
+| `h_E, μ_E, d_E, rd_E` | class number of `E`; group of roots of unity of `E`; discriminant and root discriminant of `E` | Conventions |
 | `K, χ_K, d, √−d` | the imaginary quadratic subfield and its character; the prime of `SplitRamification d` (`K = ℚ(√−d)` on the cyclic hosts) and the root with `Im ι₀(√−d) > 0` | FrobeniusRestrictedRieszSums §§0.1–0.3, Conventions |
 | `Φ, ι₀, τ` | `Gal(E/K)` and the CM type it defines through `ι₀`; its elements, the places | FrobeniusRestrictedRieszSums §0.1 |
 | `SplitRamification d, InertFreeUpTo B, HostSplitting E` | host predicates: every ramified prime other than `d` splits in `K` and `I_d = {1, σ_d}`, `σ_d ∉ Φ`; no prime `p ≤ B` is inert in `K`; `4 \| f` and every place of `F` above a prime dividing `f_E` splits in `E` | FrobeniusRestrictedRieszSums §0.3 |
@@ -200,10 +202,13 @@ that proof establishes. Where a route is not given, or not given in full, the ta
 | `𝒰^♮_ξ, M̃_ξ, D_ξ, ι_ξ, ℋ^{rt}_ξ, Q_ξ, sec` | forms on `U(X^h)` at principal level, integral forms, the unprojected `m`-fold descent, the good descent `Π_good∘D_ξ`, the relevant part of the row type level, its part orthogonal to `ker ι_ξ`, the section of `ι_1` on `𝔼` | 5.4 |
 | `θ_j, D_{W_j}, λ_j(ξ, 𝔥), a_j, ϑ_v` | model lift of step `j`, the holomorphic discrete series of `U(W_j)`, its Rallis eigenvalue `a_j·L`, its constant; the character in the test function at a place below `Q(ξ)` | 5.7 |
 | `v_□, p_□, S_□` | the auxiliary place of the grid, its rational prime, `S₀ ∪ {v_□}` | 5.8a |
+| `N_E, r′, c_i(τ), h_c, N_□, ℓ_cl, C_F` | the modulus of the host (FrobeniusRestrictedRieszSums §0.4); the least prime not dividing `N_E(p_δ − 1)(p′_δ − 1)`; the centres of the grid, their spacing, `k + m(t + s + 1)`, the length of the cloud of `v`; the depth constant | 5.8a |
 | `𝔪_□, d_□, K⁺; X^c_i, X⁺ = X^c_m; C⁺, e⁺_i, z⁺, N⁺, ψ⁺, n⁺` | the modulus of the grid, its depth, the principal congruence subgroup of level `𝔪_□` in `U(X⁺)(𝔸_f)`; the core column; the Bessel datum (the measure constants `𝔪_j` of 5.2 are other symbols) | 5.8a |
 | `u_l` | the step quotient `u_l(ξ)/u_l(1)` | 5.8d |
 | `B⁺, 𝐩, 𝐜, ℓ⁺, Cl⁺, y_{κ,i}, Θ^{(0)}_{𝐩,𝐜}; ℬ_a, a = (𝐜, κ, i)` | the Bessel form; Fock data of column `0`; coset data; a linear form on `V_{Λ⁺}`; the classes `U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺`; the form on the class `κ` with value the `i`-th basis vector; the theta series of column `0`; the Bessel periods of the grid and their index | 5.8e |
+| `Size_□` | the size predicate of the grid | 5.8e |
 | `𝔼_𝕃` | the `𝕃`-structure of `𝔼^♮` the Bessel periods define | 5.8 |
+| `(L1)–(L7), T_w(ξ), d(w)` | the condition on `𝕃`; the places of `E` it concerns for a tuple `ξ`; the exponent of `𝔪_□` at `w` | 5.8 |
 | `𝔫` | the descent constant | 5.10 |
 | `j_σ` | the realisation of the rational structure at an embedding `σ` | 5.10a |
 
@@ -379,8 +384,17 @@ that every entry of the block parameters of the step has absolute value at least
 condition for the hypothesis of ThetaKernelsForUnitaryDualPairs §3.46a (c2), that `(t + 1)/2` and `−(t + 1)/2` are not both
 entries. ThetaKernelsForUnitaryDualPairs §5.6a is stated for continuous maps from smooth vectors; a `(𝔤, K_∞)`-map from a
 discrete series to smooth cusp forms extends uniquely to the smooth vectors, and in this form it applies to the row spaces
-of 5.1. The comparison of the data of each row step with those of ThetaKernelsForUnitaryDualPairs §3.46a (its centre, its
-lists and its case at each `τ`, and its gap hypothesis (G) from (W1) and (W3)) is not given here. *Cuspidality:* for an isotropic `C ⊂ V` with
+of 5.1. *The instance.* Fix a step `1 ≤ j ≤ m` and `τ ∈ Φ`. For an entry `y` of the row parameter of `Y_{j−1}` at `τ`
+before its shift (ThetaChainsOnDefiniteUnitaryGroups §2.3) put `x := y + w_j(τ)`. Then `x ∈ ℤ = (t+1)/2 + ℤ` (`t` is odd),
+and `|x| ≥ (t+3)/2`: `x > 0` for the entries `v_i`, the nodes `−e′_i` with `i < j` and the strings `S(−w_a, t)`, `a < j`;
+`x < 0` for the nodes `−e′_i` with `i ≥ j` ((W1), (W2) and the interlacing). The data of ThetaKernelsForUnitaryDualPairs
+§3.46a are: `α` the positive `x` (all of sign `+`), `γ = ∅`, `β` the `w_j − e′_i` with `i ≥ j` and `i − j` odd (sign `+` at
+stage `j − 1`), `δ` the `w_j − e′_i` with `i ≥ j` and `i − j` even (sign `−`), each decreasing; the case is (+) at every
+step and every `τ`. The parameter of `𝒟^{(j−1)}_τ` is `(α, β | δ)` translated by `−w_j(τ) − ½[j − 1 odd]`, that of
+`𝒟^{(j)}_τ` is `(α, σ_t, δ | β)` translated by `−w_j(τ) − ½[j odd]`; this is the rule of 5.1 (the nodes below the inserted
+string change sign). *The gap hypothesis (G)* holds by ThetaChainsOnDefiniteUnitaryGroups §2.3, Lemma (h): entries of
+different signs at either stage are at least `t + 2N_m³ + 1` apart, the ranks satisfy `n_j < N_m`, so the differences
+exceed `n_j³`, and `120·n_{j−1}·min(p, q)^{3/2} ≤ 120·N_m·m² ≤ 2N_m³` because `min(p, q) ≤ m` and `N_m ≥ 8m`. *Cuspidality:* for an isotropic `C ⊂ V` with
 `V = C ⊕ V′ ⊕ C^∨`, the constant term along the unipotent radical attached to `C` is a volume times the theta integral of the
 same form to `U(V′)` with a restricted Schwartz datum (Rallis's tower property, for lifts of rapidly decreasing cusp forms);
 and every theta integral of a form of type `𝒟_W` to a member `V′` of the Witt tower of `V` below `V` vanishes: on Fock data
@@ -414,7 +428,7 @@ source.
   type whose first `t` entries are equal. A tensor-pair realisation on `Y_{j−1} ⊗_E Y_j` instead negates the old parameters
   at every step, so no two consecutive stages could both carry parameters `(v; −e′; …)`.
 
-*KNOWN* (Howe; Rallis; Kudla; J.-S. Li; A. Paul). *Needs:* 5.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9c, ThetaChainsOnDefiniteUnitaryGroups §3.2; MetaplecticAutomorphicForms §§3.3, 5.6, 6.15 and
+*KNOWN* (Howe; Rallis; Kudla; J.-S. Li; A. Paul). *Needs:* 5.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.3 (with Lemma (h)), ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9c, ThetaChainsOnDefiniteUnitaryGroups §3.2; MetaplecticAutomorphicForms §§3.3, 5.6, 6.15 and
 ThetaKernelsForUnitaryDualPairs §§3.21a, 3.45, 3.46a, 4.4a, 5.6a; EndoscopicTransferAndUnitaryTraceComparison §6.3 and BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a;
 AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.7.
 
@@ -640,8 +654,9 @@ places above `2` split, so no dyadic inert place occurs. The Lemma gives the hyp
 *Proof of the Lemma.* *Real places:* the Weil coefficient restricted to `(g, 1)` is a `K`-finite section of the degenerate
 principal series at `s₀ = t/2` of the doubled group, hence bounded by `C·H_∞^{n_{i+1}/2}` (ThetaKernelsForUnitaryDualPairs §6.13b (i) (c)); the lowest-`K_∞`-type
 coefficient of `𝒟^{(i)}_τ` is integrable (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (d), under its hypotheses
-`h > n_ip_iq_i + 1` and `h > 16√(2q₀)·n_i·q₀`, `q₀ = min(p_i, q_i)`, on the gap `h` between entries of different signs; the
-verification of these hypotheses from the gap conditions of ThetaChainsOnDefiniteUnitaryGroups §2.3 is not given here); `0 < H_∞ ≤ 1` and `n_{i+1} = n_i + t` give `|z_∞H_∞^{s−t/2}| ≤ C·|coefficient|` for
+`h > n_ip_iq_i + 1` and `h > 16√(2q₀)·n_i·q₀`, `q₀ = min(p_i, q_i)`, on the gap `h` between entries of different signs. They
+hold: `h ≥ t + 2N_m³ + 1` (ThetaChainsOnDefiniteUnitaryGroups §2.3, Lemma (h)), `n_i < N_m`, `p_iq_i ≤ n_i²/4`, `q₀ ≤ m/2`
+and `N_m > 3m²`, so `n_ip_iq_i + 1 < 2N_m³` and `16√(2q₀)·n_i·q₀ ≤ 16·N_m·m^{3/2} < 2N_m³`); `0 < H_∞ ≤ 1` and `n_{i+1} = n_i + t` give `|z_∞H_∞^{s−t/2}| ≤ C·|coefficient|` for
 `s ≥ −n_i/2`, which is (a); `∫z_∞` is a product over `τ` of local zeta integrals, each positive (ThetaKernelsForUnitaryDualPairs
 §3.46a (d)). *Type primes:* the Weil coefficient of the principal-level vector vanishes unless the component of `g` lies in
 the level group (its support and its translate are disjoint otherwise, ThetaKernelsForUnitaryDualPairs §6.13b (v): the upper square block
@@ -685,7 +700,7 @@ partial Dedekind zeta function.
 `q = 2`: `idx_v(1) = #ℙ³(𝔽_2) = 15`, `‖Φ^Q_{1,v}‖² = 1·2^{−1−3} = 1/16`, product `15/16 = 1 − 2^{−4}`, as the formula gives.
 
 *KNOWN* in kind (Rallis; Piatetski-Shapiro–Rallis; J.-S. Li; Ichino; Hecke), *NEW* (the twist places, the independence
-of the tuple). *Needs:* 5.1, 5.2, 5.4, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9c, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§6.10a, 6.11, 6.12;
+of the tuple). *Needs:* 5.1, 5.2, 5.4, ThetaChainsOnDefiniteUnitaryGroups §2.3 (with Lemma (h)), ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9c, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§6.10a, 6.11, 6.12;
 ThetaKernelsForUnitaryDualPairs §§3.46a, 5.7a, 6.4a, 6.11, 6.13a, 6.13b, 6.13c; DiscreteSeriesCoefficientsAndAutomorphicMetrics
 §2.4a; LFunctions Layer 6 and Layer 7 (nonvanishing of Hecke `L`-functions on
 `Re s = 1`); AnalyticNumberTheoryPartI §2.3a.
@@ -727,10 +742,7 @@ families `B^{(i)}` separate the parts.
 
 ### 5.7 Model lifts and their Rallis identity
 
-For `1 ≤ j ≤ m` and a tuple `ξ`: let `𝒲_j = ⊗_τ𝒲_{j,τ}` be the *coefficient representation* of
-the compact group `U(V_j)(F_∞)`, `𝒲_{j,τ}` the irreducible representation of `U(V_j)(F_τ) ≅ U(r + t)` with Harish-Chandra
-parameter `(v_0, …, v_{k−2}, −e′_0, …, −e′_{j−1}, S(−w_j, t), −e′_j, …, −e′_{m−1}) − ½·(1, …, 1)` (entries at `τ`, ThetaChainsOnDefiniteUnitaryGroups §2.3; dominant
-and integral, the `t` entries of the string being at distance at least `2` from the others by (W1)), and `D_{W_j}` the
+For `1 ≤ j ≤ m` and a tuple `ξ`: let `D_{W_j}` be the
 *holomorphic* discrete series of
 `U(W_j)(F_τ) ≅ U(k + j − 1, m − j)` whose Harish-Chandra parameter is the row parameter `(v(τ); −e′(τ))` of `𝒟^{(0)}`: its
 `k + j − 1` largest entries are compact-positive and its `m − j` smallest are negative (for `j = m` it is
@@ -739,9 +751,7 @@ type primes (through the isometries `W_j ≅ Y_0` of ThetaChainsOnDefiniteUnitar
 the isometries of ThetaChainsOnDefiniteUnitaryGroups §2.2 at the other finite places. The pair is the homomorphism pair `Hom_E(V_j, W_j)` in the normal form of
 ThetaChainsOnDefiniteUnitaryGroups §2.2a (skew element `δ_T`, `(g, h)x = hxg^{−1}` for `(g, h) ∈ U(V_j) × U(W_j)`, the standard additive character), with the splitting
 characters `μ_j(ξ)` on `V_j` (even rank `r + t`) and `μ_j(ξ)η̃^{−1}` on `W_j` (odd rank `r`), and the Schwartz datum `Δ_j ⊗ f`, where
-`Δ_j` is the product of
-powers of leading minors attached by the Kashiwara–Vergne description of the joint harmonics to the Harish-Chandra
-parameter (ThetaKernelsForUnitaryDualPairs §3.46(iii)), and the *level vector* `f` is: the lattice vector outside `S(ξ)`;
+`Δ_j` is the *joint vector* below, and the *level vector* `f` is: the lattice vector outside `S(ξ)`;
 at a place `v` below `Q(ξ)`, the function `f_v(y) := ϑ_v(det g)^{−1}` of the reduction `y ∈ M_{(r+t)×r}(𝔽_p)` of an integral element
 of `Hom(W_{j,w_v}, V_{j,w_v})` if its last `t` rows vanish and its first `r` rows form `g ∈ GL_r(𝔽_p)`, and `0` otherwise, where `ϑ_v`
 is the character for which the test vector `Φ^Q_{j,v}` of the row step at `v` (ThetaChainsOnDefiniteUnitaryGroups §2.9c), read as a vector of a Weil datum of the
@@ -758,13 +768,23 @@ the type character of step `j` at `v`, ThetaChainsOnDefiniteUnitaryGroups §2.4(
 carries the level character itself; for `H = {1}` it is the *principal level vector* `f_1`); the algebraic forms on `U(V_j)`
 transform on their block at `v` by `χ_{v,j}^{−1}` (ThetaChainsOnDefiniteUnitaryGroups §2.9). The
 *model lift* `θ_j(ξ)` is the theta integral over the compact quotient `[U(V_j)]` with the principal level vector
-(`H = {1}`); it maps algebraic forms on `U(V_j)` with coefficients in `𝒲_j` to functions on `U(W_j)`, pairing the values of the form
-in `𝒲_j` with the `U(V_j)`-factor of the Fock vector. That factor is the contragredient `𝒲_j^∨`: the source `V_j` is the larger space
-of the pair, and on `Hom(V_j, W_j)` the `U(V_j)`-factors of the polynomial Fock vectors are contragredients `(V_{(μ,0^t)+a})^∨` (`a` the
-shift by the splitting characters; ThetaChainsOnDefiniteUnitaryGroups §2.2a (d) gives the types for the opposite inclusion), so a nonzero map from
-`D_{W_j} ⊗ 𝒲_j` to the Fock space does not exist (for `j = m` the first `t` entries of these factors are `−a` and the last `t` entries of
-`𝒲_m` are `a`). The archimedean intertwiner from (lowest `K`-type of `D_{W_j}`) ⊗
-`𝒲_j^∨` to Fock polynomials sends a unit vector of extremal weight tensored with a unit vector of `𝒲_j^∨` to `Δ_j`.
+(`H = {1}`); it maps algebraic forms on `U(V_j)` with values in the coefficient representation `𝒲_j` below or in its
+contragredient to functions on `U(W_j)`, pairing the values of the form with the `U(V_j)`-factor `𝒲_j` of the Fock vector.
+
+*The joint vector.* With `(p, q) = (k + j − 1, m − j)` and `λ(τ) = (v(τ); −e′(τ))` the row parameter of `Y_0`, put
+`a⁺_n(τ) := λ_n(τ) + w_j(τ) − (p − n − 1) − (t+1)/2` for `0 ≤ n < p` and
+`a⁻_n(τ) := −(w_j(τ) + λ_{p+q−n−1}(τ)) − (q − n) − (t−1)/2` for `0 ≤ n < q` (positive integers, decreasing in `n`, by
+(W1)), `a⁺_p = a⁻_q = 0`, and
+`Δ_j := ∏_τ ∏_{n<p} (Δ⁺_{n+1,τ})^{a⁺_n − a⁺_{n+1}} · ∏_{n<q} (Δ⁻_{n+1,τ})^{a⁻_n − a⁻_{n+1}}`,
+`Δ^±_{i,τ}` the leading minor of size `i` of the block of the matrix of `Hom(W_j, V_j)` at `τ` attached to the
+positive, resp. negative, directions of `W_j`. *The coefficient representation* `𝒲_j` is the representation of
+`U(V_j)(F_∞)` on the span of the translates of `Δ_j` in the polynomial Fock space; prove that it is irreducible, and
+that there is an intertwiner from (lowest `K`-type of `D_{W_j}`) ⊗ `𝒲_j` to Fock polynomials, equivariant for
+`U(V_j)(F_∞)` and for the maximal compact subgroup of `U(W_j)(F_∞)`, sending a tensor of unit vectors to `Δ_j`. Not given
+here: the highest weight of `𝒲_j` (as a polynomial in the columns of the matrix, `Δ_j` has the degrees
+`(a⁺_0, …, a⁺_{p−1}, 0^t, a⁻_{q−1}, …, a⁻_0)`; the signs of the last `q` entries and the twist by the splitting characters
+depend on the Fock model of the step), hence the Harish-Chandra parameter of `𝒲_j`, and whether the algebraic forms on
+`U(V_j)` take values in `𝒲_j` or in its contragredient.
 
 *Lemma (cuspidality from the support).* Let `V` be anisotropic Hermitian and `W` skew-Hermitian over `E`, `v` a finite place
 of `F` split in `E`, and `φ_v`, in the model on `Hom(W′_v, V′_v)` of the split place (on which `GL(V′_v) × GL(W′_v)` acts by
@@ -790,10 +810,8 @@ function of `F` for even `n`). (ii′) With the level vector of a level `(H, χ_
 holds on the level-`(H, χ_H)` part of `𝒞(W_j)[𝔥]` with `a_j` multiplied by `|H|`. (iii) `λ_j(ξ, 𝔥) > 0` whenever
 `𝒞(W_j)[𝔥] ≠ 0`.
 
-*Route.* The coefficient representation is the one paired with `D_{W_j}` by the correspondence of infinitesimal
-characters for the compact member of the pair `(U(k+j−1, m−j), U(r+t))` with the splitting characters of the step
-(ThetaKernelsForUnitaryDualPairs §3.46 (iii), stated for all ranks; ThetaChainsOnDefiniteUnitaryGroups §2.2a (d) and ThetaLiftsForDefiniteUnitaryGroups §2.5 (b) cover only
-the case where the compact member is the smaller space). *Lemma.* In the mixed model adapted to `W = ⟨ξ′⟩ ⊕ W₀ ⊕ ⟨ξ′^∨⟩` the transvections act on
+*Route.* The irreducibility of the coefficient representation `𝒲_j` and the existence of the intertwiner are not given
+here. *Lemma.* In the mixed model adapted to `W = ⟨ξ′⟩ ⊕ W₀ ⊕ ⟨ξ′^∨⟩` the transvections act on
 `φ(x, y)`, `x ∈ V ⊗ ξ′^∨`, by `ψ(s⟨x, x⟩)`, so the constant term along `Z_{ξ′}` keeps the rational `x` with `⟨x, x⟩ = 0`, that is
 `x = 0` (`V` anisotropic); at the split place this term is an integral of `φ_v` over the maps killing `ξ′`, which are not
 injective, so it vanishes. `Z_{ξ′}` lies in the unipotent radical of the stabiliser of any isotropic flag whose first
@@ -807,7 +825,7 @@ series (DiscreteSeriesCoefficientsAndAutomorphicMetrics §6.8); so the lift lies
 (ii) The Rallis inner product formula in Weil's range `dim V_j = r + t > 2r = 2 dim W_j` (ThetaKernelsForUnitaryDualPairs
 §6.13a, the theta integral being over the compact `[U(V_j)]`): the inner product of two up-lifts is an integral over
 `U(W_j)(𝔸)` of `⟨ω(g)φ₁, φ₂⟩·conj⟨R(g)F₁, F₂⟩`. On the span of the joint harmonics the Weil representation of
-`U(W_j)(F_∞)` is the discrete series tensored with `𝒲_j^∨`, so the archimedean matrix coefficient of the Fock vector is
+`U(W_j)(F_∞)` is the discrete series tensored with `𝒲_j`, so the archimedean matrix coefficient of the Fock vector is
 `‖Δ_j‖²_Fock` times a matrix coefficient of `D_{W_j}`; Schur orthogonality integrates it to the inverse formal degree. At
 unramified places the matrix coefficient of the lattice vector is the bi-invariant function whose sum over
 `U(W_j)(F_v)/K_v` against a spherical coefficient is the unramified doubling integral `L_v((t+1)/2, B_𝔥 × μ_j^{−1})/d_v`
@@ -843,19 +861,25 @@ which ThetaChainsOnDefiniteUnitaryGroups §2.9c writes `Φ^Q_{j,v}`) is not deci
 
 *KNOWN* (Rallis; J.-S. Li; Kashiwara–Vergne; Harish-Chandra; Piatetski-Shapiro–Rallis), *NEW* (the exact constant in
 this setting; cuspidality through the level vector). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9c, 5.1, 5.4; MetaplecticAutomorphicForms §§6.4, 6.10a,
-6.11; ThetaKernelsForUnitaryDualPairs §§3.45, 3.46, 4.4a, 6.11, 6.13a; AutomorphicFormsOnReductiveGroups §§2.4, 4.2;
+6.11; ThetaKernelsForUnitaryDualPairs §§3.45, 4.4a, 6.11, 6.13a; AutomorphicFormsOnReductiveGroups §§2.4, 4.2;
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §§6.8, 8.3;
 HermitianFormsAndLattices §§4.5, 5.5.
 
 ### 5.8a The grid of the chain
 
-*Definition.* A *grid* over the chain consists of: an integer `s ≥ r + 4` with `s ≡ t (mod 2)` (so `s` is odd); Hermitian
+*Definition.* A *grid* over the chain consists of: the integer `s := r + 6` (odd, as `r` is odd); Hermitian
 spaces `V(i, j)` (`0 ≤ i, j ≤ m`) over `E` with self-dual lattices, of rank `r + jt + is`, with `⌊(m − j)/2⌋` negative directions
-at every `τ ∈ Φ`, `V(0, j) = Y_j` for `j < m` and `V(0, m) = X^h`; an *auxiliary place* `v_□` of `F`, not in `S₀`, above a rational
-prime `p_□ ≡ 1 (mod f_E)` with `p_□ − 1 ≥ 2·#μ_E`, prime to the different of `F/ℚ` and split in `E`; unitary Hecke characters
-`χ_1, …, χ_m` of `E` trivial on `𝔸_F^×`, with `χ_{i,τ}(z) = (z/z̄)^{c_i(τ)}` at `τ ∈ Φ` (`c_i(τ) ∈ ℤ`, the *centres*), unramified outside
+at every `τ ∈ Φ`, `V(0, j) = Y_j` for `j < m` and `V(0, m) = X^h`; the *auxiliary prime* `p_□`, the least prime with
+`p_□ ≡ 1 (mod r′·N_E)`, where `N_E` is the modulus of the host (FrobeniusRestrictedRieszSums §0.4; the conductor `f_E`
+divides it) and `r′` is the least prime not dividing `N_E·(p_δ − 1)(p′_δ − 1)`, and the *auxiliary place* `v_□`, a place of
+`F` above `p_□`; unitary Hecke characters
+`χ_1, …, χ_m` of `E` trivial on `𝔸_F^×`, with `χ_{i,τ}(z) = (z/z̄)^{c_i(τ)}` at `τ ∈ Φ` (the *centres* are
+`c_i(τ) := ⌊v_0(τ) + ½ + (m − i + 3/2)·h_c⌋`, `1 ≤ i ≤ m`, where the *spacing* `h_c` is the least integer with
+`h_c ≥ N_□³ + (r+1)⁷ + (r+1)³·√ℓ_cl`, `h_c > 2N_□³ + 2s + 2` and `h_c ≥ 48(r+1)²√m`, `N_□ := k + m(t + s + 1)`,
+`ℓ_cl := max_τ (v_0(τ) − v_{k−2}(τ))`), unramified outside
 `S_□ := S₀ ∪ {v_□}`, of conductor exponent exactly `2` at every place of `E` above `S₀` and exactly `1` at the places of `E` above
-`v_□`, where `S₀` is the set of bad places of ThetaChainsOnDefiniteUnitaryGroups §2.4(b) (the places above `g₀, g₁, p_δ, p′_δ`; outside `S₀` the `μ_j` and `η̃` are
+`v_□`, and, at the places of `E` above `p_δ` and `p′_δ`, trivial on the roots of unity of order prime to the residue
+characteristic, where `S₀` is the set of bad places of ThetaChainsOnDefiniteUnitaryGroups §2.4(b) (the places above `g₀, g₁, p_δ, p′_δ`; outside `S₀` the `μ_j` and `η̃` are
 unramified, and at the places of `S₀` the `μ_j` are at most tamely ramified); and the Weil data of the *down* pairs
 `(V(i, j), V(i, j+1))` and the *right* pairs `(V(i+1, j), V(i, j))`: every pair of the grid is a homomorphism pair in the
 normal form of ThetaChainsOnDefiniteUnitaryGroups §2.2a (skew element `δ_T`; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5 with `δ′ = δ_T`), the down pair on
@@ -868,8 +892,13 @@ along the down pairs integrate against the complex conjugate kernels (ThetaChain
   of rank `i − 1` and antidiagonal Gram matrix, with centre `−1` when `i − 1` is odd; `X⁺ := X^c_m`, positive definite of rank
   `r + 1 + m(s − 1)`; and the homomorphism pairs `(X^c_{i+1}(−1), X^c_i)` in the normal form of ThetaChainsOnDefiniteUnitaryGroups §2.2a with the character `χ_{m−i}` on
   both members (both ranks are even);
-- the *modulus* `𝔪_□ := ∏_{v∈S_□}w(v)^{d(v)}`, `w(v)` one chosen place of `E` above `v`, `d(v) = 2` for `v ∈ S₀` and `d(v_□) = d_□ ≥ 1`
-  (the *depth*); `K⁺ ⊂ U(X⁺)(𝔸_f)` the principal congruence subgroup of level `𝔪_□` of the stabiliser of the lattice of `X⁺`. The
+- the *modulus* `𝔪_□ := ∏_{v∈S_□}w(v)^{d(v)}`, `w(v)` a chosen place of `E` above `v`, for every `v ∈ S_□` (all these `v` split
+  in `E`), such that: for `v | g₀g₁`, `w(v)` is the place `w_v` of the chain (ThetaChainsOnDefiniteUnitaryGroups §2.9a); for
+  each of `p_δ`, `p′_δ`, the places `w(v)`, `v | p`, lie above one prime of `K`; a place of a set `Q(ξ)` that lies above `S₀`
+  is the chosen place of its place of `F`; and no place of any `Q(ξ)` lies above `v_□`. `d(v) = 2` for `v ∈ S₀`, and the
+  *depth* is `d(v_□) = d_□ := ⌊C_F·f²(r+1)⁶·log(b(r+1)g₀g₁p_δp′_δ|d_E|)/log p_□⌋ + 1`, with a constant `C_F ≥ 6510` fixed
+  before `ε`; so `d_□·log p_□ > C_F·f²(r+1)⁶·log(b(r+1)g₀g₁p_δp′_δ|d_E|) ≥ (d_□ − 1)·log p_□`;
+  `K⁺ ⊂ U(X⁺)(𝔸_f)` the principal congruence subgroup of level `𝔪_□` of the stabiliser of the lattice of `X⁺`. The
   characters `χ_j` keep conductor exponent exactly `1` at `v_□`: the modulus is a separate datum, the level of the coset data
   of 5.8e and of `K⁺`;
 - the *Bessel datum* at the top of column `0`: `V(m, 0) = X⁺ ⊥ C⁺` with `C⁺` of rank `m − 1`, an isotropic flag `e⁺_1, …, e⁺_{n⁺}` of
@@ -879,7 +908,8 @@ along the down pairs integrate against the complex conjugate kernels (ThetaChain
   `ψ⁺_E` a nontrivial character of `𝔸_E/E` trivial on `𝔸_F`.
 
 (The signatures are consistent: the complement of `X^c_i` in `V(i, 0)` has `⌊i/2⌋` negative directions and
-`⌊(m − i + 1)/2⌋ + ⌊i/2⌋ = m/2`, the number of `V(i, 0)`; `C⁺` is `n⁺` hyperbolic planes plus `⟨−1⟩`.) The grid is chosen with the chain,
+`⌊(m − i + 1)/2⌋ + ⌊i/2⌋ = m/2`, the number of `V(i, 0)`; `C⁺` is `n⁺` hyperbolic planes plus `⟨−1⟩`.) `s`, `h_c`, `p_□`, `d_□`
+and the centres are functions of the host, the ranks, the scale and the weight datum. The grid is chosen with the chain,
 before the field `𝕃` of ThetaChainsOnDefiniteUnitaryGroups §2.6 and the twisting datum of ThetaChainsOnDefiniteUnitaryGroups §2.5; the places of `F` above `p_□` belong to the
 prescribed finite set of ThetaChainsOnDefiniteUnitaryGroups §2.5 (b), so that no place of any `Q(ξ)` lies above `p_□`. A *square* `(i, j)`, `i, j < m`, has
 corners `X = V(i, j+1)`, `M = V(i+1, j+1)`, `M′ = V(i, j)`, `Y = V(i+1, j)`, and `X ⊕ Y ≅ M ⊕ M′`; its *triple* is
@@ -888,16 +918,20 @@ corners `X = V(i, j+1)`, `M = V(i+1, j+1)`, `M′ = V(i, j)`, `Y = V(i+1, j)`, a
 `rank V(i, j)`); `ν = α/β`, `a = rank M`, `a′ = rank M′`, `ε_□ = (a − a′)/2`, `p = ⌊(m − j − 1)/2⌋`, `q = ⌊(m − j)/2⌋`.
 
 *Statement.* (e) *Existence.* For every choice of centres and of `v_□` as above there are characters `χ_1, …, χ_m` with these
-properties; the spaces of the core column exist (formed as those of ThetaChainsOnDefiniteUnitaryGroups §2.2, from diagonal unit forms, ThetaChainsOnDefiniteUnitaryGroups §2.2 (d), (e)). (s) `Im τ(δ_Y) < 0` for every `τ ∈ Φ`. So for every square the embedding of ThetaLiftsForDefiniteUnitaryGroups at the
+properties; the spaces of the core column exist (formed as those of ThetaChainsOnDefiniteUnitaryGroups §2.2, from diagonal unit forms, ThetaChainsOnDefiniteUnitaryGroups §2.2 (d), (e)).
+The grid exists as soon as `g₀, g₁, p_δ, p′_δ ≡ 1 (mod N_E)`, `p_□ ∉ {g₀, g₁}` and no place of any `Q(ξ)` lies above `p_□`.
+(s) `Im τ(δ_Y) < 0` for every `τ ∈ Φ`. So for every square the embedding of ThetaLiftsForDefiniteUnitaryGroups at the
 real place below `τ ∈ Φ` (the one at which `Im τ_v(δ) < 0` for the skew element `δ = δ_Y` of the triple) is `τ` itself, and
 there `κ_v = m_{α,v} − m_{β,v} = −(2e_j(τ) + 2c_{m−i}(τ))`. (r) For all `i, j < m` and every tuple `ξ`, the character
 `ν_ξ = μ_{j+1}(ξ)/χ_{m−i}` is ramified at every place of `E` above `S_□ ∪ Q(ξ)`, and `μ_{j+1}(ξ)`, `χ_{m−i}`, `η̃` are unramified
-outside `S_□ ∪ Q(ξ)`.
+outside `S_□ ∪ Q(ξ)`. (p) *The auxiliary prime.* `p_□` is prime to `N_E` (so it splits completely in `E`);
+`p_□ ∉ {p_δ, p′_δ}`; `p_□` does not divide the discriminant of `F`; `p_□ − 1 > #μ_E`; `N(w(v_□)) ≥ p_□`.
 
 *Route.* (e) ThetaChainsOnDefiniteUnitaryGroups §2.4 (a) with `n_η = 0`, `S = S_□`, the prescribed infinity types and local unit components of conductor exponent
 `2` above `S₀`: the obstruction `(★)` is a character of `μ_{E/F}`, and at `v_□` the tame characters of `𝔽_{p_□}^×` with a
 prescribed restriction to the image of `μ_{E/F}` form a coset of size `(p_□ − 1)/#μ_{E/F} ≥ 2`, which contains a nontrivial
-one (the other units of `E` are, up to index `2`, units of `F`, on which every prescribed component is trivial). (s)
+one (the other units of `E` are, up to index `2`, units of `F`, on which every prescribed component is trivial). The
+existence of the places `w(v)` under the conditions of the last sentence of (e) is not given here. (s)
 `Im τ(δ_T) > 0` for `τ ∈ Φ` (ThetaChainsOnDefiniteUnitaryGroups §3.2) and `δ_Y = −δ_T`. The signatures of the grid spaces and the infinity types of the characters
 are read at the same embeddings `τ ∈ Φ`, and the triple of a square carries the skew form `δ_Y⟨·,·⟩` on `X ⊕ Y`, so the
 embedding of ThetaLiftsForDefiniteUnitaryGroups is `τ`; at `τ` the infinity types are `(z/z̄)^{−e_j(τ)}` for `μ_{j+1}` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b),
@@ -909,8 +943,10 @@ change of sign is the passage to the exchanged pair for the arrows into `M` and 
 has conductor exponent exactly `2`, so it is nontrivial on the principal units, while `μ_{j+1}(ξ)` is at most tamely ramified
 there (ThetaChainsOnDefiniteUnitaryGroups §2.4(b), ThetaChainsOnDefiniteUnitaryGroups §2.5), hence trivial on them. At the other places of `Q(ξ)`: `ξ` is ramified, `χ_{m−i}` and `μ_{j+1}` are not.
 Elsewhere `η̃` and `μ_{j+1}` are unramified outside `S₀` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b)), `μ_{j+1}(ξ)` outside `S₀ ∪ Q(ξ)` (ThetaChainsOnDefiniteUnitaryGroups §2.5), `χ_{m−i}` outside `S_□`.
+(p) `r′ | p_□ − 1` and `r′ ∤ (p_δ − 1)(p′_δ − 1)` give `p_□ ≠ p_δ, p′_δ`; the congruence gives the coprimality to `N_E`. The
+statements on the discriminant of `F` and on `#μ_E` are not given here.
 
-*NEW* (the grid). *Needs:* 5.2, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §3.2, FrobeniusRestrictedRieszSums §0.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5.
+*NEW* (the grid). *Needs:* 5.2, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.2a, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.2, FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5.
 
 ### 5.8b The squares of the grid are complementary triples
 
@@ -918,9 +954,11 @@ Let a grid (5.8a) be given, and assume:
 - (R1), (R2) of ThetaChainsOnDefiniteUnitaryGroups §2.1 (`m + 3 ≤ k`, `3m < t`), `SizeInert` of ThetaChainsOnDefiniteUnitaryGroups §2.1 and `HostSplitting E` (FrobeniusRestrictedRieszSums §0.3; ThetaChainsOnDefiniteUnitaryGroups §2.4(b) uses it). Then the *place
   conditions* hold: `E/ℚ` is Galois (an abelian host) and `E/F` is unramified at every finite place (the setting of Layer 2);
   every finite place of `F` that is dyadic or divides the different of `F/ℚ` splits in `E` (ThetaChainsOnDefiniteUnitaryGroups §2.2(g));
-  the places of `S_□ ∪ Q(ξ)` are prime to the different of `F/ℚ` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b), ThetaChainsOnDefiniteUnitaryGroups §2.5 and the choice of `v_□`);
-- the *spacing of the centres*: for all `i, j < m` and `τ ∈ Φ`, `2e_j(τ) + 2c_{m−i}(τ) > rank V(i+1, j+1) + rank V(i, j)` (for
-  instance `c_{m−i}(τ) := ⌊v_0(τ) + ½ + (i + 3/2)·h_c⌋` with an integer `h_c > 2(k + m(t + s + 1))`).
+  the places of `S_□ ∪ Q(ξ)` are prime to the different of `F/ℚ` (ThetaChainsOnDefiniteUnitaryGroups §2.4(b), ThetaChainsOnDefiniteUnitaryGroups §2.5 and 5.8a (p));
+- the *spacing of the centres*: for all `i, j < m` and `τ ∈ Φ`, `2e_j(τ) + 2c_{m−i}(τ) > rank V(i+1, j+1) + rank V(i, j)`.
+  It holds for the centres of 5.8a: `e_j(τ) + v_0(τ) > 0` (interlacing of ThetaChainsOnDefiniteUnitaryGroups §2.3) and
+  `c_{m−i}(τ) > v_0(τ) + (i + 3/2)h_c − ½`, so the left side exceeds `3h_c − 1 > 2N_□`, and the two ranks are at most
+  `N_□` each.
 
 Then for every square `(i, j)` and every tuple `ξ` the triple with the characters `(β, α)` is a complementary triple
 (ThetaLiftsForDefiniteUnitaryGroups §6.1) satisfying hypotheses 1–4 of ThetaLiftsForDefiniteUnitaryGroups §6.11:
@@ -936,8 +974,8 @@ exist at every place, for the triple and for every smaller triple reached by rem
 ThetaLiftsForDefiniteUnitaryGroups §6.11 applies to every square.
 
 *Route.* The rank conditions are integer arithmetic: `a − a′ = t + s`, `p + q = m − j − 1`, so `(t + s)/2 > 2m − 1 ≥ 2(p + q) + 1`
-by `t ≥ 3m + 1` and `s ≥ r + 4 > m`; `a′ ≥ r = k + m − 1 ≥ 2m + 2`; `a + a′ ≡ t + s ≡ 0`. These are the only uses of (R1), (R2). The
-signatures from ThetaChainsOnDefiniteUnitaryGroups §2.2 and the shape of the grid. Hypothesis 3: 5.8a (s), and in the example `e_j(τ) + v_0(τ) > 0` by the
+by `t ≥ 3m + 1` and `s = r + 6 > m`; `a′ ≥ r = k + m − 1 ≥ 2m + 2`; `a + a′ ≡ t + s ≡ 0`. These are the only uses of (R1), (R2). The
+signatures from ThetaChainsOnDefiniteUnitaryGroups §2.2 and the shape of the grid. Hypothesis 3: 5.8a (s), and for the centres of 5.8a `e_j(τ) + v_0(τ) > 0` by the
 interlacing of ThetaChainsOnDefiniteUnitaryGroups §2.3, so `2e_j + 2c_{m−i} > 2h_c ≥ a + a′`. `ν` is ramified at every place above `S_□ ∪ Q(ξ)` and `α`, `β` are
 unramified elsewhere (5.8a (r)); the standard character is unramified at the places prime to the different; (P4) from the
 self-dual lattices of the grid (at an inert place `a + a′` is even, so `(X ⊕ Y)_v` contains a lattice unimodular for `δ_Y⟨·,·⟩`
@@ -994,7 +1032,9 @@ quotients `u_l := u_l(ξ)/u_l(1)` of the step factors `u_l(ξ) = ν_ξ^{T(ξ)}(�
 `T(ξ) = S_□ ∪ Q(ξ)`, `ν_ξ^{T(ξ)}` the value of `ν_ξ` on the part prime to `T(ξ)` of the ideals `𝔟`, `𝔠` of the lattices of the step, `𝔠`
 that of the self-dual lattice for the character, and `c_{T,l}(ξ) = ∏_{v∈T(ξ)}c_v(ξ)` the constant of the step at `T(ξ)` for the matched
 data normalised as in ThetaLiftsForDefiniteUnitaryGroups §6.2, chosen for every tuple, the same at the places of `S_□` for all tuples; for the base
-tuple `T(1) = S_□`), `r_{ij}(ξ)` is the product of `c0(ξ)/c0(1)`, of `p` values `ρ_ξ(s)` and of `q` inverse values `ρ_ξ(s)^{−1}` at
+tuple `T(1) = S_□`; each `u_l` is of the form `β·∏_{v∈S₀} g(v)/g′(v)` with `β ∈ 𝕃` a unit away from the twist primes of `ξ`
+and `g(v), g′(v)` integers of `𝕃` dividing `N(v)^{c(v)}`, `c(v)` the conductor exponent at `v`),
+`r_{ij}(ξ)` is the product of `c0(ξ)/c0(1)`, of `p` values `ρ_ξ(s)` and of `q` inverse values `ρ_ξ(s)^{−1}` at
 consecutive integers. Moreover:
 - *(coordinate identity)* there is `κ ≠ 0` independent of `ξ` such that for every tuple there are an algebraic number `υ`,
   a unit at every prime not dividing the twist primes of `ξ`, and matrices `𝐌`, `𝐌′` with entries in `{0, ±1}`, signed
@@ -1017,7 +1057,8 @@ consecutive integers. Moreover:
   where `w | v` is the place of the model, `c ≥ 1` the conductor exponent of `ν_{ξ,w}` (5.8a (r)), `ψ_v` the standard (unramified)
   character, `n = −e` for a step removing a plane from `M′` and `n = 1 − e` for a step removing a plane from `M`, `e` half the
   difference of the two ranks before the step (Tate's local constant of `ν_{ξ,w}` at the integer `n`); for another placement
-  of the plane vectors in the bases `c_v(ξ)` is multiplied by `ν_{ξ,w}(sgn σ)`, `σ` the permutation relating the bases. Hence `c_v(ξ)·ν_{ξ,w}(ϖ_v)^{−c}` is a unit at every place of `𝕃(μ_{p_v^c})` not above the residue characteristic `p_v`
+  of the plane vectors in the bases `c_v(ξ)` is multiplied by `ν_{ξ,w}(sgn σ)`, `σ` the permutation relating the bases. Under
+  the conditions (L1), (L3) of 5.8 the constants `c_v(ξ)` lie in `𝕃`, and so do the step quotients. Hence `c_v(ξ)·ν_{ξ,w}(ϖ_v)^{−c}` is a unit at every place of `𝕃(μ_{p_v^c})` not above the residue characteristic `p_v`
   of `v`, and `|v_𝔭(c_v(ξ)ν_{ξ,w}(ϖ_v)^{−c})| ≤ c(|n| + 1)·v_𝔭(N v)` at the places `𝔭` above it. For the *quotients* between a tuple and
   the base tuple: at `v ∈ S_□` not below `Q(ξ)`, `c_v(ξ)/c_v(1)` is a root of unity; at `v ∈ S₀` below `Q(ξ)` (conductor exponent
   `2` for both characters) it is a root of unity times a quotient of two Gauss sums of the same conductor; at `v` below `Q(ξ)`
@@ -1080,16 +1121,39 @@ smooth vector `w` of `𝒟^{(0)}` and to `(𝐩, ℓ⁺)` consists of the functi
 indexed by (coset data) × `Cl⁺` × (basis of `V_{Λ⁺}(𝕃)`); their number is
 `N(𝔪_□)^{Σ_{i<m}(r+is)(r+(i+1)s)}·#Cl⁺·dim V_{Λ⁺}` (the first factor is the number of coset data, `∏_i#(Hom(Λ_{i+1,0}, Λ_{i,0})/𝔪_□)`).
 
-*Statement (the separation).* For a grid satisfying the hypotheses of 5.8b (with
-`s ≥ r + 4`, 5.8a), the gap conditions (entries of different signs of the Harish-Chandra parameter of the discrete series of
-the top stage `V(m, 0)` of column `0` at least `120(r + ms)³` apart, and of those of `Y_0` and of `X^c_0` at least `1000(r + 1)³` apart;
-for `Y_0` they hold by ThetaChainsOnDefiniteUnitaryGroups §2.3c, *Gaps of the row parameter*, when `r ≥ 13`, the strings of the grid being the grid's own data)
-and the depth condition (there is `0 < σ ≤ ½` with `e^{Q}·r²·f·g₀g₁·|d_E|^{1/[E:ℚ]}·(2σ)^{1/m} ≤ ½` and
-`2e^{Q+(6r+15)f} ≤ σ^f·√N(𝔪_□)`, `Q = C·f·(r + 1)⁴·log b`, `f = [F:ℚ]`, for an absolute constant `C`), for every nonzero smooth vector `w`
-of `𝒟^{(0)}` there are Fock data `𝐩` and a linear form `ℓ⁺` such that all the integrals defining the `ℬ_a` converge absolutely on
-all of `ℋ^♮` and the `ℬ_a` are jointly injective there. In particular they separate the points of `𝔼^♮`.
+*The size predicate `Size_□`.* (o) The weight datum is that of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and the standing
+size predicates of the chain hold at its parameters (not given here: their list); (i) `m⁴ ≤ f` and `m ≥ 44`;
+(ii) `x²·m³·L·log rd_E ≤ k`; (iii) `m·f·N_m²·d ≤ b`; (iv) `f·m ≤ (r+1)³`; (v) `log g_i ≤ 9L + 1` (`i = 0, 1`) and
+`log p_□ ≤ L`; (vi) `log rd_E ≤ log N_E ≤ L/100`; (vii) `Sc + (m+1)·h_c + ½ ≤ b`; (viii) `e′_l(τ) > 0` and `e_l(τ) ≤ 4b`
+for all `l`, `τ`. Here `L = x^ε = log b`.
 
-The depth condition follows from `d_□·log N(v_□) ≥ C′·f²(r + 1)⁶·log(b(r + 1)g₀g₁p_δp′_δ|d_E|)` for an absolute `C′`.
+*Statement (the separation).* For every `ε` and every `C_F ≥ 6510` there is `x₀` such that the following holds for every
+chain at a scale `(x, ε)` with `x ≥ x₀` and `Size_□`, with the grid of the chain (5.8a, for this `C_F`; its row `0` is the
+row tower with the additive character, the Weil representations, the frames and the Cartan involutions of 5.2), the
+series projections `Π_𝔣` of 5.3 at the type primes (those of the labelled series of FiniteReductiveGroups §5.7 for the
+Teichmüller characters of the chain), and the following measures: on `U(V(i, 0))(𝔸)`, `0 ≤ i ≤ m`, the Haar measure
+normalised for the principal congruence subgroup of level `𝔪_□` of the lattice stabiliser, on `U(X⁺)(𝔸)` the one
+normalised for `K⁺`, and on `N⁺(𝔸)` the Haar measure with `vol([N⁺]) = 1`. For every nonzero smooth vector `w` of
+`𝒟^{(0)}` there are Fock data `𝐩` and a linear form `ℓ⁺` such that all the integrals defining the `ℬ_a` converge
+absolutely on all of `ℋ^♮` and the `ℬ_a` are jointly injective there. In particular they separate the points of `𝔼^♮`.
+Under `Size_□`, `p_□ < g₀` and `p_□ ≠ g₁`, so the grid exists (5.8a (e)). (Not given here: the normalisation "for a
+level" of these measures in terms of the conventions of 5.2.)
+
+*Lemma (the depth pays).* Under `Size_□`, for every `C ≥ 0` and `x ≥ C + 1` there is `0 < σ ≤ ½` with
+`e^{Q}·r²·f·g₀g₁·|d_E|^{1/[E:ℚ]}·(2σ)^{1/m} ≤ ½` and `2e^{Q+(6r+15)f} ≤ σ^f·√N(𝔪_□)`, `Q = C·f(r+1)⁴·log b`. Route:
+`log N(𝔪_□) ≥ d_□·log p_□ > C_F·f²(r+1)⁶·L`, and the losses
+`log 2 + Q + (6r + 15)f + f(log 2 + m(log 2 + Q + log(r²f·g₀g₁|d_E|^{1/[E:ℚ]})))` are at most half of it (this uses
+`C_F ≥ 6510`, `C + 1 ≤ k` and the clauses (i), (ii), (iii), (v), (vi)).
+
+*Lemma (the level is not too deep).* Under `Size_□`, `d_□ + 2 ≤ (50C_F + 3)·t⁹·L`, and
+`8N_□·log((p_□g₀g₁p_δp′_δ)^{d_□+2}) ≤ 1840(50C_F + 3)·b·log b`: the size condition into which `N(𝔪_□)` enters (the
+count of the terms of the coset expansions of 5.8). Its route is not given here.
+
+*Lemma (the gaps of the grid).* For the grid of the chain, the entries of different signs of the Harish-Chandra
+parameter of the top stage `V(m, 0)` of column `0` are at least `120(r + ms)³` apart, and those of `Y_0` and of
+`X^c_0` at least `1000(r + 1)³` apart. Route: for `Y_0`, ThetaChainsOnDefiniteUnitaryGroups §2.3c (*Gaps of the row
+parameter*); for the stages that contain strings of the grid, the spacing `h_c > 2N_□³` of the centres; the
+verification is not given here.
 
 *Route* (an outline: the steps are statements with no target here, and their proofs are not given here except as indicated):
 (A) *Column `0` is a tower:* each right step is an up-lift, so by the pair statement of 5.2 (ThetaKernelsForUnitaryDualPairs
@@ -1101,7 +1165,7 @@ the added vector `z₀` (`X^c_0 = Y_0 ⊥ ⟨z₀⟩`); its main term is a posit
 `∫_{U(Y_0)(F_τ)}conj⟨v, π(h)v⟩⟨b, σ(h)w′⟩dh = c⟨b, w′⟩` for discrete series in the branching pattern, taken at a point `x` where
 `|e(w′)|` is at least half its supremum (there the lattice has no short vector: a cusp form is small where the lattice has
 one); the other terms, indexed by lattice points `z ≠ z₀` with `z − z₀ ∈ 𝔪_□Λ_x`, are each at most
-`e^{Q}|c|·(∏_τ‖z‖_{x,τ})^{−(2r+7)}` times the supremum, and by the depth condition their sum is smaller than the main term.
+`e^{Q}|c|·(∏_τ‖z‖_{x,τ})^{−(2r+7)}` times the supremum, and by the Lemma (the depth pays) their sum is smaller than the main term.
 (C) *The core column is onto:* the composite of the theta descents `U(X⁺) → ⋯ → U(X^c_0)` maps the algebraic forms of level `K⁺`
 onto the cusp forms of the bottom type and level `𝔪_□`: this is the surjectivity of 5.5–5.6 for the chain of base rank `r + 1`,
 step `s − 1` and `m` steps, with trivial level characters and no twist places; `s − 1 ≥ r + 3` puts the `L`-value of the base
@@ -1117,20 +1181,58 @@ family because Fock polynomials times coset indicators span the data of depth `�
 be fixed:* by (A), the tensor structure of `V_{Λ⁺}^∨` over the real places and the uniqueness of Bessel functionals of gapped
 discrete series at each real place (GanGrossPrasadUnitaryGroups 2.6), `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(e(w))) = a_w(𝐩, ℓ⁺)·l(e, y, 𝐜)`; one
 `(𝐩, ℓ⁺)` with `a_w(𝐩, ℓ⁺) ≠ 0` serves every `e`. (G) Linearity in `y` and the basis `y_{κ,i}` (the level `K⁺` is neat) give the
-finite family. The remaining steps of the route are not given here.
+finite family. The remaining steps of the route are not given here. The route of `p_□ < g₀` and `p_□ ≠ g₁` under `Size_□` is
+not given here.
 
 *Check.* A totally definite subspace of `V(m, 0)` of rank `r` would have a complement of rank `ms`, which is not a Bessel
 datum for the signature of `V(m, 0)` (`m/2` negative directions): the subspace of the separation has codimension `m − 1`.
-`s ≥ r + 4` keeps the arithmetic of 5.8b (`(t + s)/2 > 2m − 1`), since `r + 4 > m`.
+`s = r + 6` keeps the arithmetic of 5.8b (`(t + s)/2 > 2m − 1`), since `r + 6 > m`.
 
-*NEW*. *Needs:* 5.8a, 5.8b, 5.3, 5.4 (and, for the outline, 5.2, 5.5, 5.6); GanGrossPrasadUnitaryGroups 2.6, 4.1; ThetaKernelsForUnitaryDualPairs §5.6a.
+*NEW*. *Needs:* 5.8a, 5.8b, 5.2, 5.3, 5.4 (and, for the outline, 5.5, 5.6); ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3c; FiniteReductiveGroups §5.7; GanGrossPrasadUnitaryGroups 2.6, 4.1; ThetaKernelsForUnitaryDualPairs §5.6a.
 
 ### 5.8 The rational structure of the row space
 
-Let a grid satisfy the hypotheses of 5.8b, let the field `𝕃` of ThetaChainsOnDefiniteUnitaryGroups §2.6 contain
-a finite set of algebraic numbers attached to the grid, the values of the irreducible characters of `G₀`
-and those of the characters of the levels of ThetaChainsOnDefiniteUnitaryGroups §2.9a at the type primes (so that `Π_good` and every `e_{P,χ_P}` lie in `𝕃[G₀]`), let
-the grid satisfy the gap and depth conditions of 5.8e, take the functionals `ℬ_a` of 5.8e for a vector `w` and data `(𝐩, ℓ⁺)`
+Let a grid satisfy the hypotheses of 5.8b, and let the field `𝕃` of ThetaChainsOnDefiniteUnitaryGroups §2.6 contain, for
+the grid, the base tuple and every tuple `ξ` considered (finitely many), the following numbers. Write `T_w(ξ)` for the set
+of places of `E` consisting of the chosen places `w(v)`, `v ∈ S_□` (5.8a), and of the places of `Q(ξ)`, and `d(w)` for the
+exponent of the modulus `𝔪_□` at `w` (`d(w) = 2` above `S₀`, `d_□` at `w(v_□)`), with `d(w) := 1` at a place of `Q(ξ)` not
+above `S_□`.
+- (L1) Every value of every local component, at every finite place of `E`, of `μ_j` (`1 ≤ j ≤ m`), of the twisting
+  characters of the tuples and of `χ_1, …, χ_m`; the values `η̃(ϖ_v)·N v^{−1/2}` at the places where `η̃` is
+  unramified; the values at their unramified places of `δ`, `δ′` and of the character of `E` that the chain attaches
+  to `ψ` (not given here: its definition).
+- (L2) The eighth roots of unity.
+- (L3) The roots of unity of order `N(w)^{d(w)}` for every `w ∈ T_w(ξ)`.
+- (L4) `√N(w)` for every `w ∈ T_w(ξ)`, and for every `w` in a set `P_𝔡` fixed with the grid: one place of `E` above
+  each place of `F` that lies below the relative different `𝔡_{E/K}`, taken among the places dividing `𝔟` or `c(𝔟)`,
+  where `𝔡_{E/K} = 𝔟·c(𝔟)` with `𝔟 + c(𝔟) = 1` and `𝔟` stable under `Φ` (these places of `F` split in `E`,
+  ThetaChainsOnDefiniteUnitaryGroups §2.2 (g)).
+- (L5) *Phases.* For every `ξ`, every `w ∈ T_w(ξ)` and every local argument at `w` at which the local term of a coset
+  expansion of 5.8 and the transported local datum are both nonzero, the value `ψ_w(φ)` of the additive character of
+  the Weil datum at `w` at the *phase* `φ` of the argument: the sum, over the steps `j` of the column, of a term
+  attached to the step point of the argument and, when `m − 2 − j` is even, of the pairing
+  `Σ_r (row variable)_{j+1,r}·(column variable)_{j,r}`. (For arguments with denominators at most `ϖ_w^{d(w)}` these are
+  `N(w)^{d(w)}`-th roots of unity and (L5) follows from (L3).) *Jets.* For every `ξ`, every pure tensor of the coset
+  expansions of 5.8 and every class of the class set: the entries, in the fixed `𝕃`-bases of the coefficient spaces, of
+  the class-set theta kernels (ThetaChainsOnDefiniteUnitaryGroups §3.3) of the `2m` definite pairs at the definite
+  corner of the grid (the `m` pairs carrying `μ_1(ξ), …, μ_m(ξ)` and the `m` pairs carrying `χ_1, …, χ_m`), at the pairs
+  of consecutive class points.
+- (L6) The ratios `Λ(s, ν_ξ)/Λ(s, ν_1)` for all squares `(i, j)` and all integers `1 ≤ s ≤ N_□ + 1` (5.8a) with
+  `Λ(s, ν_1) ≠ 0`.
+- (L7) *Bottom sums.* For every square `(i, j)`: there are a bottom triple of the square (5.8d) and two nonzero
+  complex numbers `Ω`, `Ω′`, depending neither on the tuple nor on the point, such that for every `ξ`, every finite
+  adelic point `h` of the unitary group of the third space of the triple and every monomial `P` in the Fock
+  variables for which the kernel is integrable, `I(ξ; P; h)/Ω ∈ 𝕃` and `I′(ξ; P; h)/Ω′ ∈ 𝕃`, where `I`, `I′` are the
+  theta integrals over the two definite groups of the bottom triple (the two sides of the bottom triangle identity).
+
+Let `𝕃` also contain the values of the irreducible characters of `G₀`
+and those of the characters of the levels of ThetaChainsOnDefiniteUnitaryGroups §2.9a at the type primes (so that `Π_good` and every `e_{P,χ_P}` lie in `𝕃[G₀]`).
+Every number in (L1)–(L6) is algebraic ((L6) by the algebraicity of ratios of critical values of Hecke `L`-functions of
+`E` under finite-order twists), and so are the quotients of (L7) for suitable `Ω`, `Ω′`; the set is finite once the
+tuples are fixed, and `𝕃` is chosen after the twisting datum (ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). Not
+given here: the existence of `Ω`, `Ω′` in (L7) (it belongs to the rationality of the theta integrals of definite
+triples, ThetaChainsOnDefiniteUnitaryGroups §3.3), and the explicit form of the term attached to a step point in (L5).
+Let `x ≥ x₀` and `Size_□` hold, for the grid of the chain (5.8e), take the functionals `ℬ_a` of 5.8e for a vector `w` and data `(𝐩, ℓ⁺)`
 chosen once (jointly injective by 5.8e), and assume the hypotheses of 5.6 for the base tuple and for every tuple `ξ`
 considered. There are a constant `κ_G ≠ 0` and, for every tuple `ξ`, a
 root of unity `ϱ_ξ ∈ 𝕃`
@@ -1151,14 +1253,15 @@ primes; the level parts follow because the operators commute with `G₀`.
 along row `0`, then lift along column `0`" to "lift along column `m`, then descend along row `m`", at the price `∏ c(i, j, ξ)`
 and a root of unity coming from the values of the twisting characters; the period pairing then unfolds into finitely many
 integrals over the definite group of `V(m, m)` of products of iterated lifts between definite groups, each a finite class
-sum of jets of CM theta functions (ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3), whose period-normalised values lie in `𝕃` (ThetaChainsOnDefiniteUnitaryGroups §2.6). Rationality of
-`c(i, j, ξ)/c(i, j, 1)`: by 5.8d the dependence on `ξ` is through `ν_ξ` only, through ratios `Λ(s, ν_ξ)/Λ(s, ν_1)` of values of
-Hecke `L`-functions and the step quotients `u_l` (5.8d); the Gauss sums at the twist places that the quotients
-`u_l` contain (they lie in `𝕃(μ_{p_v^c})`, not in `𝕃`) must cancel against those of the ratios `Λ(s, ν_ξ)/Λ(s, ν_1)` of twisted
-critical values, which carry the Gauss sum of the twist: this cancellation is not proved here. *Values of `η̃`.* The splitting
-characters of the members of odd rank contain `η̃`, whose values do not lie in one number field (ThetaChainsOnDefiniteUnitaryGroups §2.4 (b)); `𝕃` contains the values
-of `μ_j`, `η̃²` and of the algebraic character `η̃·‖·‖^{1/2}` (ThetaChainsOnDefiniteUnitaryGroups §2.6), and that the class sums above involve `η̃` only through these is not
-proved here. Then `ℬ_a(ι_ξ x)` is a
+sum of jets of CM theta functions (ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3), whose period-normalised values lie in `𝕃` (ThetaChainsOnDefiniteUnitaryGroups §2.6).
+*Rationality of the ratios.* By 5.8d, `c(i, j, ξ)/c(i, j, 1)` is the product of a unit `ζ ∈ 𝕃` away from the twist primes,
+of the step quotients `u_l`, of `c0(ξ)/c0(1) ∈ 𝕃^×` and of ratios `Λ(s, ν_ξ)/Λ(s, ν_1)` and their inverses. Each factor lies
+in `𝕃`: the ratios by (L6); the step quotients because the constants `c_v(ξ)` of 5.8d lie in `𝕃` (the Gauss sum
+`G(ψ_v, ν_{ξ,w})` is a combination of `N(w)^c`-th roots of unity, `c ≤ d(w)`, with coefficients values of `ν_{ξ,w}`: (L1),
+(L3)); the bottom ratio by 5.8d and (L7). No cancellation between the Gauss sums of the step quotients and those of the
+twisted critical values is used. *Values of `η̃`.* The class sums contain `η̃` through `η̃(ϖ_v)N v^{−1/2}` at unramified
+places and through `√N(w)` at the places of (L4), all in `𝕃` by (L1), (L4), and the Weil constants are eighth roots of
+unity (L2). Then `ℬ_a(ι_ξ x)` is a
 `(ϱ_ξ c_tot(ξ)/c_tot(1))^{−1}`-multiple of an element of `𝕃`. *The `𝕃`-structure.* `𝔼_𝕃` is an `𝕃`-subspace containing `ι_1(x)` for every
 rational `x`; these span `𝔼^♮` over `ℂ` because `ι_1` maps `Π_good·𝒰^♮_1 ⊗ ℂ` onto `𝔼^♮` (5.6) and `𝒰^♮_1` has the `𝕃`-structure of its
 rational forms; and `𝕃`-independent elements of `𝔼_𝕃` are `ℂ`-independent, because `e ↦ (ℬ_a(e))_a` is injective by 5.8e with
@@ -1171,7 +1274,7 @@ with `ι_ξ`.
 transcendental `α` no nonzero point has both coordinates in `𝕃`; the spanning by the rational images `ι_1(x)` is what 5.6
 supplies.
 
-*NEW*. *Needs:* 5.2, 5.3, 5.4, 5.6, 5.8a, 5.8b, 5.8c, 5.8d, 5.8e, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.8, 6.4, 6.15.
+*NEW*. *Needs:* 5.2, 5.3, 5.4, 5.6, 5.8a, 5.8b, 5.8c, 5.8d, 5.8e, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.8, 6.4, 6.15.
 
 ### 5.9 Multiplicities on the row group and on the model groups
 
@@ -1360,7 +1463,7 @@ and `μ(ϖ_w) = u`, `|u| = 1`, the two Euler factors multiply to `|1 − βū N 
 ### Dependencies
 
 FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.9 (the host and its predicates); ThetaChainsOnDefiniteUnitaryGroups
-§§2.1, 2.2, 2.2a, 2.3, 2.3b, 2.3c, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.9a, 2.9c, 3.1, 3.2, 3.3 (the data, spaces, characters, levels
+§§2.1, 2.2, 2.2a, 2.3, 2.3a, 2.3b, 2.3c, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.9a, 2.9c, 3.1, 3.2, 3.3 (the data, spaces, characters, levels
 and column steps of the chain); ThetaLiftsForDefiniteUnitaryGroups §§0.1, 1.2, 1.4, 1.6, 1.7, 1.8, 1.9, 2.5, 3.1, 3.2, 5.3,
 6.1, 6.2, 6.3, 6.5, 6.10, 6.11, 6.12; ThetaKernelsForUnitaryDualPairs §§3.21a, 3.45, 3.46, 3.46a, 3.47, 3.47a, 3.47b, 4.4a,
 5.6a, 5.7a, 5.7b, 6.4a, 6.11, 6.13a, 6.13b, 6.13c; HermitianFormsAndLattices §§4.5, 5.5, 5.6, 5.7; FiniteReductiveGroups
@@ -1442,15 +1545,19 @@ of the chain belong to the roadmaps named under Downstream consumers above.
 
 §0.1: the abelian CM host `E`, with `K`, `F` and the CM type `Φ` (Conventions). §0.3: the host predicates
 `SplitRamification d` and `HostSplitting E` (Conventions, 5.8a, 5.8b). §0.4: the cyclic hosts, on which `d ≡ 7 (mod 8)`
-(Conventions). §0.9: the hosts of an admissible pair, on which `2` splits in `K` (5.5, 5.8).
+(Conventions), and the modulus of the host, which the conductor `f_E` divides (5.8a).
+§0.9: the hosts of an admissible pair, on which `2` splits in `K` (5.5, 5.8).
 
 ### From ThetaChainsOnDefiniteUnitaryGroups, a sub-roadmap of this family
 
 §2.1: the ranks, the scale and the size conditions, among them (R1), (R2) and `SizeInert` (5.5, 5.8b). §§2.2, 2.2a: the
-spaces of the chain and the normal form of a step, with the conjugate datum (5.1, 5.2, 5.7, 5.8a). §§2.3, 2.3b, 2.3c: the
-weights and words, the conditions (W1), (W3), (W5) and the gap size `SizeGap` (5.1, 5.2, 5.3, 5.9). §2.4: the Hecke
-characters `μ_j`, the splitting character `η̃`, the characters `δ`, `δ′` and the type characters (5.1, 5.2, 5.8a). §2.5:
-the twisting tuples and their twist places (5.8a, 5.8b). §2.6: the field `𝕃`, its embedding `σ₀` and conjugation `c_𝕃`
+spaces of the chain and the normal form of a step, with the conjugate datum, and the split places of §2.2 (g) (5.1, 5.2, 5.7,
+5.8a, 5.8). §§2.3, 2.3a, 2.3b, 2.3c: the weights and words, the conditions (W1), (W3), (W5), the separation of entries of
+different signs (§2.3, Lemma (h)), the adapted, separated data, and the gap size `SizeGap` with the gaps of the row
+parameter (5.1, 5.2, 5.3, 5.5, 5.8e, 5.9). §2.4: the Hecke
+characters `μ_j`, the splitting character `η̃`, the characters `δ`, `δ′` and the type characters (5.1, 5.2, 5.8a, 5.8). §2.5:
+the twisting tuples and their twist places, and the field of places chosen after the twisting datum (Lemma (iv)) (5.8a,
+5.8b, 5.8). §2.6: the field `𝕃`, its embedding `σ₀` and conjugation `c_𝕃`
 (5.8, 5.10a, 5.11, 5.12). §§2.7, 2.8: the type, auxiliary and level primes (5.3, 5.8a). §§2.9, 2.9a, 2.9c: the levels, the
 type primes with `G₀`, the principal-level and row-type vectors, and the twist places with their test vectors (5.1–5.9).
 §§3.1, 3.2, 3.3: the algebraic forms on the column groups with their integral structures, the column steps and their
@@ -1505,7 +1612,8 @@ theta functions (5.4, 5.8, 5.10a).
 - 1.2 (Harish-Chandra series), 1.3 (endomorphism algebras), 1.4 (Hecke algebras of type A), 2.2 (regular characters and
   Gelfand–Graev representations; multiplicity one), 5.2, 5.5 (cuspidal characters, Green's parametrisation), 5.7 (labels and
   series idempotents; a squarefree label carries one character, which is generic), 6.3 (labels of depth-zero
-  representations), and the Conventions (the tame labelled form fixed by a generator of tame inertia). Used in 5.3, 5.9.
+  representations), and the Conventions (the tame labelled form fixed by a generator of tame inertia). Used in 5.3, 5.9;
+  5.7 also in 5.8e.
 - 2.7 (b) (the Bessel-type pairs), 2.8 (multiplicities of the Bessel-type characters in Harish-Chandra induced cuspidal
   representations). Used in 5.3.
 
