@@ -1,124 +1,60 @@
 # Roadmap: reductive algebraic groups, part II — local structure and arithmetic models
 
-**Summary.** This roadmap builds the local structure of a connected reductive group over a nonarchimedean local field: the topology on rational points, Weil restriction, valued root data and the Bruhat–Tits building, parahoric and Iwahori subgroups with their Moy–Prasad filtrations, integral models and hyperspecial points, the Iwasawa, Cartan and Iwahori–Bruhat decompositions with their double-coset combinatorics, and the dual group with its L-group. We want it because the representation theory of p-adic groups, Hecke algebras at parahoric level, local models and integral models of Shimura varieties, and the unramified local Langlands correspondence all start from this material, and none of it exists in Mathlib or Tau Ceti beyond root data. It is the local foundation on which the adelic, smooth-representation and Hecke roadmaps are built.
+**Summary.** Let G be a connected reductive group over a nonarchimedean local field E, such as GLₙ over ℚₚ. Its rational points G(E) form a totally disconnected, locally compact group. This roadmap builds the Bruhat–Tits building on which G(E) acts, the integral models of G attached to its points, and the decompositions of G(E) they produce. It ends with the Langlands dual group and the L-group over ℤ.
 
-A root datum alone gives neither a building nor a parahoric group scheme. This roadmap takes a
-connected reductive group over a nonarchimedean local field `E`, and over the completion `Ĕ` of its
-maximal unramified extension, and builds the structures that local representation theory, Shimura
-varieties with parahoric level, local shtukas and geometric Satake need: the topology on rational
-points, Weil restriction and the Deligne torus, valued root data and apartments, the Bruhat–Tits
-building with its group action, integral models (Bruhat–Tits, parahoric, Néron models of tori, hyperspecial), the
-Iwasawa, Cartan and Iwahori–Bruhat decompositions with their double-coset combinatorics, and the
-integral dual group with its L-group. The end results are the parahoric group schemes `𝒢°_F` with
-their Moy–Prasad filtrations, the decompositions
+Throughout, the base field is complete or henselian for a nontrivial discrete valuation of rank one, with perfect residue field. Its two main instances are E and the completion Ĕ of the maximal unramified extension of E.
 
-```text
-G(E) = ⊔_{w ∈ W̃} IẇI,      G(E) = K Z(E) K,      G(E) = K P(E),
-```
+The first main result is the building. Fix a maximal split torus S with centralizer Z. A valuation of the root datum of G relative to S, in the sense of Bruhat and Tits, attaches to each rational root subgroup a function to `ℝ ∪ {∞}`, subject to axioms. The roadmap proves that a valuation compatible with that of the field exists, unique up to translation by a vector of `V = X_*(S) ⊗ ℝ`. The construction descends from Ĕ, using Steinberg's theorem: over a field complete or henselian for a discrete valuation with algebraically closed residue field, every connected reductive group has trivial first Galois cohomology. The building is glued from copies of the apartment, an affine space under V. It carries an invariant metric satisfying the CAT(0) inequality, and when the valuation is discrete, every subgroup with a bounded orbit fixes a point.
 
-with their index formulas, and the L-group `ᴸG = Ĝ ⋊ Γ` as a group functor over `ℤ`.
+The second result is the integral models. For each facet F the roadmap constructs the parahoric group scheme `𝒢°_F`, a smooth affine model of G over the valuation ring O with connected special fibre. Its integral points form the parahoric subgroup of F; the full fixer of F can be larger. The minimal parahorics, the Iwahori subgroups, are all conjugate. Over E the parahorics are compact open and fall into finitely many conjugacy classes.
 
-It extends the Reductive groups roadmap (`TauCetiRoadmap/ReductiveGroups/README.md`), which remains
-the owner of the unvalued theory of its layers 0–9: group schemes as Hopf algebras and their functors
-of points, representations, Lie algebras, subgroups and quotients, tori and diagonalizable groups,
-unipotent radicals, reductivity, the structure theory of layer 7 (maximal split tori, relative and
-absolute root data with Galois action, root subgroups, parabolic and Levi subgroups, Bruhat
-decomposition and BN-pairs) and the pinned Chevalley–Demazure groups over `ℤ` of layer 9. The shared algebraic carriers in RG2 refine layer 7 for both local and adelic consumers;
-the structure theorems retain that supplier and its library vocabulary.
+The third result is the decompositions. Let I be an Iwahori subgroup and W̃ the Iwahori–Weyl group, a quotient of the rational points of the normalizer of S. Then G(E) is the disjoint union of the double cosets IẇI, one for each w in W̃. If K is the parahoric subgroup of a special point, then G(E) = K Z(E) K (Cartan) and G(E) = K P(E) for a minimal parabolic P (Iwasawa). For GLₙ with K = GLₙ(O), the Cartan decomposition is the theory of elementary divisors: each g lies in K diag(ϖ^λ₁, …, ϖ^λₙ) K for exactly one λ₁ ≥ ⋯ ≥ λₙ.
 
-## Scope and ownership
+A companion Lean file states the headline theorems that Mathlib and Tau Ceti can already express. Buildings and parahoric models are absent there, so the three results above have no Lean form. One is Lang's theorem: for a smooth, geometrically connected group of finite type over a finite field with q elements, g ↦ g⁻¹F(g) is surjective on points over an algebraic closure, F being the q-power Frobenius. It fails for μ₂ over a finite field of odd order. Another says that, for a smooth affine group over a nonarchimedean local field, right translation by g carries each left Haar measure to its multiple by the normalized absolute value of det Ad(g). When G is connected reductive, G(E) is unimodular.
 
-The roadmap owns, layer by layer:
+This is the second part of the Reductive groups roadmap, which provides the unvalued structure theory and the Chevalley–Demazure groups over ℤ. The Local fields and ramification roadmap provides the maximal unramified extension with its Frobenius, and tame ramification. The Adelic algebraic groups roadmap uses the topology on points, Weil restriction and the integral Iwasawa decomposition at almost all places. The roadmap on smooth representations of local groups builds Hecke algebras and the Satake isomorphism on these decompositions.
 
-- RG2.0: affine point topology over topological rings, including the adelic case used by
-  AdelicAlgebraicGroups; scheme point topology over local topological rings whose units are open
-  and whose inversion is continuous in the subspace topology; local analytic charts, tangent
-  comparison and Haar Jacobians in characteristic zero and positive characteristic; integral points
-  and congruence subgroups; the completed maximal unramified extension `Ĕ` with its Frobenius. It does
-  not own adeles, Haar measures on restricted products or arithmetic quotients, and it does not
-  state the compatibility of the scheme point topology with fibre products, the transcendence
-  degree of `Ĕ` over `E` in equal characteristic, or a Witt-vector description of `O_Ĕ` for
-  `E ≠ ℚ_p`.
-- RG2.0a: restriction of scalars for affine schemes along finite locally free maps and its field
-  specialization, with affine representability, fibre-product preservation, formal smoothness,
-  smoothness and closed immersions; norm tori and abstract quotients of roots-of-unity
-  point groups; the Deligne torus. Restriction of scalars for non-affine schemes, general projective
-  parameter spaces and algebraic spaces lie outside this roadmap, as do the preservation by
-  restriction of scalars of étale and surjective maps and of open immersions, its
-  commutation with centres and derived groups, and the multiplicities of the
-  relative roots of a Weil-restricted group.
-- RG2.1: valued structure only — valuations of root data, apartments, affine roots, the affine Weyl
-  group, `π₁(G)`, z-extensions and the Kottwitz homomorphism. The unvalued relative root system and
-  the absolute root datum with Galois action are the Reductive groups roadmap's; RG2.1.2 states from
-  the coordinate Hopf algebra only the objects of that theory which the valued theory consumes
-  (`GeometricRoots`, `LocalRootData`, `AbsoluteRootData`). The vanishing of `κ_G` on unipotent
-  elements is not stated.
-- RG2.2: the Bruhat–Tits building, its axioms, metric, fixed points, facets and fixers, unramified
-  and tame descent, functoriality for finite extensions, central surjections, Levi inclusions and
-  twisted Levi subgroups, the lattice-chain models and the tree of `SL_2`. Uniqueness and Galois
-  equivariance of toral embeddings into the building of `GL_n` for non-split groups are not stated.
-- RG2.3: smooth affine and reductive models, Néron lft models of tori over discrete valuation rings, Bruhat–Tits and parahoric group
-  schemes, hyperspecial vertices, Moy–Prasad filtrations, Lang's theorem and level subgroups. RG2.3 is
-  the single owner in Tau Ceti of Lang's theorem for connected smooth groups over finite fields, of
-  the Moy–Prasad filtrations and of the parahoric group schemes; it does not own affine Grassmannians,
-  local models or Schubert varieties. It also owns Lang's theorem for inverse limits of smooth
-  connected groups over finite fields; it does not state it for torsors under smooth models with
-  connected special fibre.
-- RG2.4: the decompositions of `G(E)`, the Iwahori–Weyl combinatorics up to admissible sets,
-  the local adjoint-modulus formula and the algebraic parabolic adjoint determinant identity. The
-  Hecke algebras, the Satake isomorphism and the smooth representations built on them belong to the
-  representation-theoretic roadmaps that cite this one.
-- RG2.5: the dual group, its Galois action, the abstract L-group functors and the finite
-  semidirect-product group scheme, with their pointwise comparisons and standard Levi subgroups
-  over coefficient fields. Spaces of Langlands parameters, Weil–Deligne parameters and the moduli of L-parameters are not part of this
-  roadmap; neither is Shapiro's lemma comparing parameters of a Weil restriction with those of the
-  original group, nor the dual embedding `Ĝ ↪ Ĝ̃` of a z-extension as a morphism of `ℤ`-group
-  schemes.
+The seven layers follow the construction. The first two topologize rational points, construct Ĕ and treat Weil restriction. The third builds valued root data, π₁(G) and the Kottwitz homomorphism. The fourth builds the building, the fifth the integral models with Moy–Prasad filtrations and Lang's theorem, and the sixth the decompositions. The last constructs the dual group Ĝ, a split reductive group over ℤ, and the L-group ᴸG = Ĝ ⋊ Γ.
 
-The associated-parahoric interface in RG2.3 is restricted to central surjections. The following
-constructions lie outside this roadmap:
+## How to read the build
 
-- `associatedParahoricAdjoint`: association for arbitrary identified adjoint groups, independence
-  of central lifts, and the corresponding morphism and composition API. The source for association
-  is [Kisin–Zhou], §2.3.1, arXiv v2 pp. 11–12. The retained `associatedParahoric` uses the apartment
-  map of a specified central surjection.
-- `r-smooth-torus`: the closure in the restriction of scalars of a non-affine lft Néron model,
-  R-smoothness of tori and centralizers, and its independence and base-change criteria
-  ([Kisin–Zhou], §2.4.2, Def. 2.4.3, p. 13; [Kisin–Pappas–Zhou], §2.1.4, arXiv v3 p. 11).
-  The R-smoothness criteria and Néron closed-immersion
-  results of Lem. 2.4.4 and Prop. 2.4.6, pp. 13–14, are also outside the scope. The lft,
-  finite-type and connected Néron models themselves remain in RG2.3.2.
-- `centralExtension_exact_rSmooth`: the smooth schematic kernel, its components and fppf exact
-  sequence for an R-smooth torus kernel ([Kisin–Zhou], §2.4.12, Prop. 2.4.13 and proof,
-  pp. 17–18). The split-kernel specialization `centralExtension_exact_split` remains in RG2.3.4.
-- `fixer_closedImmersion_of_rSmooth`: fixer immersions under a closed immersion inducing an
-  isomorphism of derived groups, and under finite separable field extension ([Kisin–Zhou],
-  §2.4.7, Prop. 2.4.8, §2.4.9 and Prop. 2.4.10, pp. 15–16). The latter proposition imposes
-  `p > 2`; Prop. 2.4.8 and Prop. 2.4.13 do not. The R-smoothness and Hodge-intersection
-  consequences in [Kisin–Pappas–Zhou], Lems. 7.2.11 and 7.2.13, arXiv v3 pp. 84–85,
-  are outside the scope as well.
-
-Types for tame groups (Adler–Roche forms and tameness of tori), z-embeddings and central pushouts
-`G ×_Z T`, and the identification of the affine Grassmannian embeddings of Zhu are deliberately not
-here; they belong to later roadmaps which cite RG2.2–RG2.5.
-
-Seven Tau Ceti roadmaps are cited by layer. The Reductive groups roadmap supplies the functor of
-points and the three-way dictionary (layer 0), Lie algebras and the adjoint representation
-(layer 2), identity components, quotients and exact sequences (layer 3), character modules of groups
-of multiplicative type (layer 4; their Galois action is layer 7), unipotent radicals (layer 5),
-reductivity and semisimplicity with simply connected covers and central isogenies (layer 6), the
-structure theory (layer 7) and the pinned Chevalley–Demazure group schemes over `ℤ` with their
-isomorphism theorem (layer 9). The Local fields and ramification roadmap supplies finite extensions
-and the extension of the valuation (layer 0), the maximal unramified extension with its Frobenius
-(layer 2), and tame ramification (layer 3). The Modular curves roadmap, layer 0F, supplies the
-affine finitely presented Hom scheme along a finite locally free map, which RG2.0a extends to
-arbitrary affine targets. On finitely presented targets, identify the representing object
-and point adjunction with that Hom-scheme supplier by Yoneda, compatibly with base change,
-rather than introducing a second Hom-scheme carrier. Its layer 4D supplies strict henselisation. The Root systems roadmap supplies Coxeter combinatorics for a general Coxeter system
-(layer 3) and chambers with the fundamental domain (layer 4). The Profinite and pro-p groups
-roadmap, layer 3, supplies pro-p groups, and the Class field theory roadmap, layer 9, the local Weil
-group for the Weil form of the L-group. MassFormula, Layer 2, supplies the DVR lattice index
-and the regular-Haar linear image law used by the positive-characteristic analytic charts.
+`README.md` specifies the mathematics; `Suggested.lean` states the headline theorems that
+can be expressed against the pinned Mathlib and Tau Ceti. It is not an exhaustive list of the
+results of any layer. Each target ends with a *Lean:* line naming its declarations in
+`Suggested.lean`, relative to `TauCetiRoadmap.ReductiveGroupsPartII`, or saying
+"none (README-only)". Other names describe the definitions and theorems to be built in the
+specified target; they do not assert declarations in `Suggested.lean`. Checks specify
+representative cases and boundaries in prose. Read each
+construction with its stated hypotheses and the supplier contracts below. RG2.0 gives the topologies
+on rational points, integral points and congruence subgroups, and the field `Ĕ`. RG2.0a gives Weil
+restriction of affine schemes and groups along finite locally free maps, norm tori and the Deligne
+torus. RG2.1 gives root data in a group, valuations, apartments, affine roots and the affine Weyl
+group, and the arithmetic invariants `π₁(G)`, z-extensions and the Kottwitz homomorphism. RG2.2
+gives the Bruhat–Tits building with its axioms, metric, fixed points, facets and fixers, unramified
+and tame descent, functoriality for finite extensions, central surjections, Levi inclusions and
+twisted Levi subgroups, the lattice-chain models and the tree of `SL_2`. RG2.3 gives smooth affine
+and reductive models, Néron models of tori, Bruhat–Tits and parahoric group schemes, hyperspecial
+vertices, Moy–Prasad filtrations, Lang's theorem and level subgroups. RG2.4 gives the Iwahori–Weyl
+group, the Iwahori–Bruhat, Cartan and Iwasawa decompositions, double cosets, indices, admissible
+sets and unimodularity. RG2.5 gives the dual based root datum, the Langlands dual group over `ℤ`,
+its Galois action, the L-group and its functoriality. Each *Needs:* line identifies mathematical
+inputs by name or supplier layer. Within RG2.0a.2, build formal smoothness, smoothness and
+closed-immersion preservation first, then *weil-restriction-separable-splitting*, then
+`ringKrullDim_res` and the inseparable dimension comparison. RG2.0a supplies smooth fixed schemes;
+RG2.3.2 supplies their connected Néron comparison. RG2.1.1 supplies the rational torus;
+RG2.1.3 supplies its compatible valuation and RG2.1.4 its fixed apartment. In constructing
+RG2.1.3, build *unramified-descent-of-valuation* from the quasi-split datum before the
+general *valued-root-datum-existence* conclusion. RG2.2.3 supplies field fixed groups and
+building actions; build the unramified instances of RG2.3.1–RG2.3.3 and their fixed models
+before the model-based proof of tame building descent. The remaining RG2.3 constructions
+then consume tame descent. In RG2.3.7, *smooth-model-reduction* and
+*finite-level-jet-realizations* precede *positive-depth-intersection-presentation*;
+build the ordinary RG2.4 *iwahori-bruhat-decomposition* over `L` before that intersection
+target. For RG2.4's local adjoint-modulus theorem, build RG2.0
+*smooth-group-analytic-charts* in characteristic zero, and RG2.0
+*equal-characteristic-smooth-group-analytic-charts* in positive characteristic, before
+`LocalIntegration.modularCharacter_eq_adjointModulus`. The chart targets use local point
+topology, cotangent duality, the inverse function theorem and local additive Haar measures.
 
 ## Conventions
 
@@ -184,255 +120,6 @@ RG2 adds valuations and buildings; AA adds the positive system,
 characters between the finite enumeration and the shared subtype of nonzero adjoint weights.
 AA's supplier table records that its local modulus, the product over positive relative roots, is
 formed on the identical `Root S` and `weightSpace S χ`, with no independently chosen root indices.
-
-## Exact supplier contracts
-
-| Object | Exact supplier | File |
-| --- | --- | --- |
-| Dual pairing and double flip | `RootPairing.flip`, `RootPairing.flip_flip` | `Mathlib/LinearAlgebra/RootSystem/Defs.lean` |
-| Dual base and support | `RootPairing.Base.flip`, `RootPairing.Base.flip_support` | `Mathlib/LinearAlgebra/RootSystem/Base.lean` |
-| Points of the dual torus | `TauCeti.DiagonalizableGroup.pointsMulEquiv` | `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Basic.lean` |
-| L-group projection, inclusion, section, multiplication | `SemidirectProduct.rightHom`, `SemidirectProduct.inl`, `SemidirectProduct.inr`, `SemidirectProduct.mul_left` | `Mathlib/GroupTheory/SemidirectProduct.lean` |
-| Projection surjectivity and kernel | `SemidirectProduct.rightHom_surjective`, `SemidirectProduct.range_inl_eq_ker_rightHom` | `Mathlib/GroupTheory/SemidirectProduct.lean` |
-| Section and split product | `SemidirectProduct.rightHom_comp_inr`, `SemidirectProduct.mulEquivProd` | `Mathlib/GroupTheory/SemidirectProduct.lean` |
-| Norm on units | `TauCeti.Algebra.normUnits`, `TauCeti.Algebra.coe_normUnits` | `TauCeti/RingTheory/Norm/Units.lean` |
-| Completion of a uniform space and its dense inclusion | `UniformSpace.Completion`, `UniformSpace.Completion.denseRange_coe` | `Mathlib/Topology/UniformSpace/Completion.lean` |
-| Extension of a continuous ring automorphism to completion | `UniformSpace.Completion.mapRingEquiv` | `Mathlib/Topology/Algebra/UniformRing.lean` |
-| Valuation comparison on completion | `UniformSpace.Completion.coe_vle_coe_iff` | `Mathlib/Topology/Algebra/ValuativeRel/Completion.lean` |
-| Maximal unramified extension, its adjoin presentation and its Frobenius | `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedExtension_eq_adjoin`, `TauCeti.maximalUnramifiedFrobenius`, `TauCeti.eq_maximalUnramifiedFrobenius_iff`, `TauCeti.fixedField_zpowers_maximalUnramifiedFrobenius` | `TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean` |
-| Points of a closed subgroup given by a Hopf ideal | `TauCeti.CommHopfAlgCat.quotientPointsSubgroup`, `TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_iff` | `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Points/Basic.lean` |
-| Adjoint action on counit derivations | `Derivation.adDerivation` | `TauCeti/Algebra/AlgebraicGroup/Tangent/Adjoint.lean` |
-| Maps of points along Hopf maps and coefficient maps | `TauCeti.AlgHom.mapDomain`, `TauCeti.AlgHom.mapValue` | `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean`, `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean` |
-| Points after base change | `TauCeti.AlgHom.baseChangePointsMulEquiv` | `TauCeti/Algebra/AlgebraicGroup/BaseChange/Basic.lean` |
-| Root groups of `GL_n` and their conjugation by the diagonal torus | `TauCeti.transvectionHom`, `TauCeti.diagGL_mul_transvectionUnit_mul_inv` | `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Transvection.lean` |
-| Diagonal torus and root subgroups of `GL_n` | `TauCeti.GeneralLinear.diagonalTorusDefiningIdeal`, `TauCeti.GeneralLinear.isMaximalTorus_diagonalTorusDefiningIdeal`, `TauCeti.GeneralLinear.DiagonalRootIndex`, `TauCeti.GeneralLinear.rootSubgroup` | `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/DiagonalTorus/Maximal.lean`, `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Datum.lean`, `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Subgroup.lean` |
-| Extension of a valuative relation and the decomposition group | `ValuativeExtension`, `ValuationSubring.decompositionSubgroup` | `Mathlib/RingTheory/Valuation/ValuativeRel/Basic.lean`, `Mathlib/RingTheory/Valuation/RamificationGroup.lean` |
-| Coinvariants of a representation and quotient representations | `Representation.Coinvariants`, `Representation.quotientToCoinvariants`, `Representation.quotient` | `Mathlib/RepresentationTheory/Coinvariants.lean`, `Mathlib/RepresentationTheory/Basic.lean` |
-| Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
-| Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
-| Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
-| DVR lattice indices and linear Haar images | MassFormula, Layer 2 (target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
-
-*NormTorus.norm* differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
-before taking the norm over `R`. The affine point topology here allows general topological
-coefficient rings, whereas `TauCeti.Toric.affinePointTopology` in
-`TauCeti/Geometry/Toric/Analytic/AffinePoint.lean` concerns complex points of affine toric varieties.
-`Model.closure` in `TauCeti/AlgebraicGeometry/Curves/StableReduction/Model/Closure.lean`
-is specific to curve models; it does not supply the general affine Hopf-ideal closure in RG2.3.
-
-The following interfaces use Tau Ceti objects at the pin or an explicit presentation of them.
-`MaxUnramifiedCompletion.Unramified` abbreviates
-`TauCeti.maximalUnramifiedExtension E (AlgebraicClosure E)`, whose presentation is supplied by
-`TauCeti.maximalUnramifiedExtension_eq_adjoin`, and `unramifiedFrobenius` is
-`TauCeti.maximalUnramifiedFrobenius` on it (`TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean`).
-Scalar extension of a Hopf ideal uses `TauCeti.CommHopfAlgCat.baseChangeHopfIdeal` and
-`TauCeti.CommHopfAlgCat.baseChangeHopfIdeal_toIdeal`
-(`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/BaseChange.lean`). The derived subgroup uses
-`TauCeti.CommHopfAlgCat.derivedDefiningIdeal`,
-`TauCeti.CommHopfAlgCat.commutator_mem_derivedPointsSubgroup` and
-`TauCeti.CommHopfAlgCat.derivedDefiningIdeal_eq_augmentation_iff_isCocomm`
-(`TauCeti/Algebra/AlgebraicGroup/Derived/Basic.lean`). A formalization of these targets imports
-these modules directly.
-*SchematicClosure.closureIdeal* at the zero ideal is `TauCeti.scalarTorsionIdeal`, with Hopf form
-`TauCeti.HopfIdeal.scalarTorsion` (`TauCeti/RingTheory/Ideal/ScalarTorsion.lean`,
-`TauCeti/Algebra/HopfAlgebra/HopfIdeal/ScalarTorsion.lean`). *IntegralModel.SmoothModel.IsReductive*
-is the two-fibre form of `TauCeti.reductiveCommHopfAlgPropertyOver`
-(`TauCeti/Algebra/AlgebraicGroup/Reductive/Over.lean`). Contraction by a cocharacter is membership
-in Tau Ceti's `TauCeti.Cocharacter.unipotent`, with `TauCeti.Cocharacter.mem_unipotent_iff`
-and `TauCeti.Cocharacter.unipotent_eq_bot`
-(`TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean`),
-and the torus of *GLBuilding.standardData* is `TauCeti.GeneralLinear.diagonalTorusDefiningIdeal`.
-*BruhatTits.IsMinuscule* is the root-pairing condition on an arbitrary coweight, whereas
-`TauCeti.IsMinuscule` (`TauCeti/Algebra/Lie/HighestWeight/Minuscule.lean`) concerns dominant weights.
-
-
-The integral chamber, dominance cone and Weyl vector use `TauCeti.dominantChamber`
-(`TauCeti/LinearAlgebra/RootSystem/Chamber.lean`),
-`TauCeti.existsUnique_mem_orbit_inter_dominantChamber_of_finite_weylGroup`
-(`TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`), `TauCeti.posRootCone`
-(`TauCeti/LinearAlgebra/RootSystem/Positive.lean`) and `TauCeti.twoWeylVector`
-(`TauCeti/LinearAlgebra/RootSystem/Weyl/Vector.lean`), applied to the flipped pairing and a base.
-
-### From Mathlib
-
-Mathlib supplies nonarchimedean local fields with their valuative relation and the compactness of
-closed balls (`IsNonarchimedeanLocalField`, `IsNonarchimedeanLocalField.isCompact_closedBall`,
-`Valuation`), henselian rings, topological groups and open subgroups (`OpenSubgroup`), module
-topologies (`IsModuleTopology`), uniform completions (`UniformSpace.Completion`), Witt vectors
-(`WittVector.isDiscreteValuationRing`, `FractionRing (WittVector p k)`,
-`WittVector.FractionRing.frobenius`), the continuity of polynomial evaluation
-(`MvPolynomial.continuous_eval`), the units embedding `Units.isEmbedding_embedProduct` and the
-determinant criterion `Matrix.isUnit_iff_isUnit_det`, the algebra categories `CommAlgCat` and
-`CommHopfAlgCat`, representability (`CategoryTheory.Functor.RepresentableBy`), tensor products of
-algebras (`Algebra.TensorProduct.map`, `Algebra.TensorProduct.basis`, `Algebra.TensorProduct.assoc`,
-`Algebra.TensorProduct.cancelBaseChange`), duals (`Module.Dual`), finiteness and smoothness of
-algebras (`Algebra.FiniteType`, `Algebra.FinitePresentation`, `Algebra.FormallySmooth`,
-`Algebra.Smooth`, `Algebra.FormallyEtale.equivPiOfIsSepClosed`,
-`Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`), norms (`Algebra.norm`,
-`Algebra.norm_algebraMap`, `Module.finrank_baseChange`, `Algebra.norm_eq_matrix_det`,
-`AlgHom.card`), ideals (`Ideal.comap`), schemes and their morphism properties
-(`AlgebraicGeometry.Scheme`), root pairings with their Weyl groups, bases and flips (`RootPairing`,
-`RootPairing.IsReduced`, `RootPairing.Aut`, `RootPairing.flip`, `RootPairing.Base.flip`,
-`RootPairing.Base.flip_support`, `RootPairing.flip_flip`), Coxeter systems with length
-(`CoxeterSystem`, `CoxeterSystem.length`, `CoxeterSystem.length_inv`,
-`CoxeterSystem.length_simple_mul`), double cosets (`DoubleCoset.Quotient`, `DoubleCoset.mk`,
-`DoubleCoset.doubleCoset`), subgroup indices and complements (`Subgroup.index`, `Subgroup.relIndex`,
-`Subgroup.IsComplement'`, `Subgroup.quotient_finite_of_isOpen'`), quotient groups
-(`QuotientGroup.mk'`, `QuotientGroup.lift`), semidirect products (`SemidirectProduct`,
-`SemidirectProduct.rightHom`, `SemidirectProduct.rightHom_surjective`,
-`SemidirectProduct.range_inl_eq_ker_rightHom`, `SemidirectProduct.map`, `SemidirectProduct.inr`,
-`SemidirectProduct.mulEquivProd`), amalgamated products (`Monoid.PushoutI`), Haar measures
-(`MeasureTheory.Measure.haar`, `MeasureTheory.Measure.IsHaarMeasure`,
-`MeasureTheory.Measure.IsMulRightInvariant`), lattices in modules over a DVR
-(`Submodule.IsLattice`), Smith normal form (`Module.Basis.SmithNormalForm`), trees
-(`SimpleGraph.IsTree`), absolute Galois groups (`Field.absoluteGaloisGroup`), and group cohomology
-with Hilbert 90 (`groupCohomology`, `groupCohomology.isMulCoboundary₁_of_isMulCocycle₁_of_aut_to_units`).
-Each of these is assumed in its Mathlib form; the roadmap defines no copy of any of them.
-
-### From Tau Ceti
-
-Tau Ceti supplies commutative Hopf algebras as affine group schemes with their convolution groups of
-points and points functors (`TauCeti.AlgHom.instGroup`, `TauCeti.HopfAlgebra.pointsFunctor`), the
-general linear, special linear and multiplicative groups with their point comparisons
-(`TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.SpecialLinear.pointsMulEquiv`,
-`TauCeti.SpecialLinear.finiteTypeCoordinateHopfAlgebra`
-(`TauCeti/Algebra/AlgebraicGroup/SpecialLinear/Basic.lean`),
-`TauCeti.MultiplicativeGroup.pointsMulEquiv`,
-`TauCeti.GeneralLinear.instSmoothCoordinateHopfAlgebra`,
-`TauCeti.GeneralLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`,
-`TauCeti.GeneralLinear.diagonalRootDatum`,
-`TauCeti.GeneralLinear.commutatorElement_rootSubgroupPoints`, the upper-triangular subgroup
-`TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra` with its points
-`TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv`
-(`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/UpperTriangular/Basic.lean`),
-`TauCeti.Symplectic.diagonalTorus`,
-`TauCeti.GL2NonSplitTorusHom`), split tori and diagonalizable groups with their character lattices
-and pairings (`TauCeti.SplitTorus.pointsMulEquiv`, `TauCeti.DiagonalizableGroup.pointsMulEquiv`,
-`TauCeti.DiagonalizableGroup.pairing`, `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
-`TauCeti.CommHopfAlgCat.centerGroupScheme`), Hopf ideals (`TauCeti.HopfIdeal`), smoothness and
-reductivity predicates (`TauCeti.smoothCommHopfAlgProperty`, `TauCeti.reductiveCommHopfAlgProperty`,
-`TauCeti.torusCommHopfAlgProperty`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`), the
-unipotent radical (`TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical`), the centre, faithfully flat
-descent of points (`TauCeti.AlgHom.faithfullyFlatDescentMulEquiv`), the normalized valuation and
-unit filtration of a local field (`TauCeti.unitFiltration`,
-`unitFiltrationGradedSuccEquivResidueField`, `relIndex_unitFiltration_succ_succ`,
-`unitFiltration_one_isProP`), and pro-p groups (`TauCeti.IsProP`). Tau Ceti also has the
-maximal unramified extension of a local field with its Frobenius
-(`TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius`), pinnings of split
-groups (`TauCeti.Pinning`), Borel subgroups (`TauCeti.HopfIdeal.IsBorel`), dynamic parabolic
-subgroups with their Levi decompositions (`TauCeti.Cocharacter.parabolic`,
-`TauCeti.Cocharacter.levi`), central isogenies (`TauCeti.CommHopfAlgCat.IsCentralIsogeny`), simply
-connected semisimple groups, root-datum isogenies (`TauCeti.RootPairingIsogeny`), the flip of a
-based root pairing (`RootPairing.Base.flipSupportEquiv`),
-Tits systems with the Bruhat decomposition (`TauCeti.TitsSystem`,
-`TauCeti.TitsSystem.bruhatCells_eq_univ`, `TitsSystem.bruhatCell_mul_eq_of_wordLength_le`,
-`bruhatCell_mul_eq_union_of_wordLength_lt`), the Bruhat order on a Coxeter system
-(`CoxeterSystem.BruhatLE`, `bruhatPartialOrder`, `BruhatLE.length_lt_of_ne`,
-`CoxeterSystem.IsMinimalCosetRep`, `existsUnique_isMinimalCosetRep_mul`), double-coset
-decompositions (`DoubleCoset.doubleCoset_eq_iUnion_leftCosets`,
-`doubleCoset_eq_iUnion_rightCosets`), dominant chambers (`dominantChamber`,
-`existsUnique_mem_orbit_inter_dominantChamber_of_finite_weylGroup`, `posRootCone`,
-`twoWeylVector`), norms on units (`Algebra.normUnits`), the toric point topology
-(`Toric.affinePointTopology`) and flat closures over a DVR (`Model.closure`,
-`HopfIdeal.scalarTorsion`). This roadmap extends those objects; the few targets that restate one
-of them through its points or an explicit presentation are listed after the supplier table, each
-with the Tau Ceti object it equals.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 0 is assumed for the functor of points and the three-way dictionary between Hopf algebras,
-group schemes and group functors; layer 2 for Lie algebras and the adjoint representation (used by
-the congruence quotients of RG2.0 and the Moy–Prasad lattices of RG2.3); layer 3 for identity
-components, quotients and exact sequences; layer 4 for character modules of groups of
-multiplicative type; layer 5 for unipotent radicals; layer 6 for the predicates "connected
-reductive", "semisimple", "simply connected" and for central isogenies; layer 7 for the structure
-theory over a field — maximal split tori `S`, `Z = Z_G(S)`, `N`, the relative root system
-`Φ(G,S)`, the root subgroups `U_a`, parabolic and Levi subgroups, the absolute root datum with its
-Galois action, the Bruhat decomposition and BN-pairs; layer 9 for the pinned Chevalley–Demazure
-group schemes over `ℤ` and the isomorphism theorem for pinned groups. The valued theory here
-consumes these objects; RG2.1.2 states from the coordinate Hopf algebra the maximal split torus,
-relative roots, root subgroups, coroots, centralizer, normalizer and absolute root datum that it
-uses, without their structure theory; no parabolic is defined, and the dual group of RG2.5 is
-layer 9's Chevalley–Demazure construction applied to the flipped based root datum.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-Layer 0 supplies finite extensions of a local field and the extension of the valuation; layer 2
-the maximal unramified extension with its Frobenius (which RG2.0 completes to `Ĕ`); layer 3 tame
-ramification, used for the tame descent of buildings, quasi-tame groups and the
-tame realization of stabilizers.
-
-### From TauCetiRoadmap.ModularCurves
-
-Layer 0F supplies the affine finitely presented Hom scheme along a finite locally free map; for
-finitely presented `A'` it is RG2.0a's `(Res A', universal)`, with `finitePresentation_res`
-(RG2.0a *weil-restriction-finiteness*); layer 4D supplies strict henselisation.
-
-### From TauCetiRoadmap.RepresentationTheory.RootSystems
-
-Layer 3 supplies Coxeter combinatorics for a general Coxeter system (lengths, reduced words,
-parabolic subgroups), used for the affine Weyl group and the Iwahori–Weyl group; layer 4 supplies
-chambers with the fundamental domain, used for facets, special points and dominance.
-
-### From TauCetiRoadmap.ProfiniteProPGroups and TauCetiRoadmap.ClassFieldTheory
-
-ProfiniteProPGroups layer 3 supplies pro-p groups, for the pro-p property of congruence subgroups and
-positive-depth Moy–Prasad subgroups. ClassFieldTheory layer 9 supplies the local Weil group `W_K`
-with its map to `Γ_K`, for the Weil form of the L-group.
-
-### Additional supplier contracts
-
-The ChevalleyGroups specification
-supplies C2–C4 below. The CFSGBasicProperties specification
-supplies T0–T2. C2–C4 concern every Chevalley datum; only the full-weight datum is
-simply connected. T0 requires perfectness and a nontrivial central quotient; T1–T2
-prove these inputs in the validity range of the ordinary and graph-twisted finite families.
-
-| Object | Supplier | Exact interface consumed | Convention and scope bridge |
-| --- | --- | --- | --- |
-| Integral Chevalley big cell | ChevalleyGroups §C4 / The big cell, Points and Generality | Open immersion `U⁻ × T × U → G_D` over `ℤ` and its base changes | Identify the chosen Chevalley datum, torus, signs and ordered root coordinates; `Φ_nd = Φ` in the reduced split case. RG2.3.1 supplies the relative non-reduced root-ray product and the conditional DVR closure/extension criteria. |
-| Semisimple Chevalley point centre | ChevalleyGroups §C3 / Centralizer and centre, with §C4 / Points and Generality | Centre of the field-point group by root-character equations and the character-lattice/root-lattice quotient | Use `E(k) = G_D(k)` from §C4, flip roots and coroots, and identify the datum's character lattice with `X_*(T)`; only the full-weight datum gives `P/Q`. Its all-field theorem supplies the algebraically closed semisimple specialization; RG2.5.2 supplies the general reductive scheme centre, central torus and Galois/coinvariant comparisons. |
-| Finite ordinary Tits input | CFSGBasicProperties §T0 / a reusable simplicity criterion and §T1–T2 / ordinary and graph-twisted groups | Normal-subgroup theorem, central quotient and finite ordinary root-generated perfectness in the common validity range | Match `H⁺`, `[H,H]`, `G(k)^+` and their centres; check a connected nonempty Coxeter graph, `Z ∩ U = 1` and quotient nontriviality. §T0 assumes perfectness, supplied by §T1–T2 for the finite applications, including their allowed small fields; RG2.4.4 supplies infinite-field geometric perfectness and local Whitehead-group vanishing. |
-
-## How to read the build
-
-`README.md` specifies the mathematics; `Suggested.lean` states the headline theorems that
-can be expressed against the pinned Mathlib and Tau Ceti. It is not an exhaustive list of the
-results of any layer. Each target ends with a *Lean:* line naming its declarations in
-`Suggested.lean`, relative to `TauCetiRoadmap.ReductiveGroupsPartII`, or saying
-"none (README-only)". Other names describe the definitions and theorems to be built in the
-specified target; they do not assert declarations in `Suggested.lean`. Checks specify
-representative cases and boundaries in prose. Read each
-construction with its stated hypotheses and the supplier contracts above. RG2.0 gives the topologies
-on rational points, integral points and congruence subgroups, and the field `Ĕ`. RG2.0a gives Weil
-restriction of affine schemes and groups along finite locally free maps, norm tori and the Deligne
-torus. RG2.1 gives root data in a group, valuations, apartments, affine roots and the affine Weyl
-group, and the arithmetic invariants `π₁(G)`, z-extensions and the Kottwitz homomorphism. RG2.2
-gives the Bruhat–Tits building with its axioms, metric, fixed points, facets and fixers, unramified
-and tame descent, functoriality for finite extensions, central surjections, Levi inclusions and
-twisted Levi subgroups, the lattice-chain models and the tree of `SL_2`. RG2.3 gives smooth affine
-and reductive models, Néron models of tori, Bruhat–Tits and parahoric group schemes, hyperspecial
-vertices, Moy–Prasad filtrations, Lang's theorem and level subgroups. RG2.4 gives the Iwahori–Weyl
-group, the Iwahori–Bruhat, Cartan and Iwasawa decompositions, double cosets, indices, admissible
-sets and unimodularity. RG2.5 gives the dual based root datum, the Langlands dual group over `ℤ`,
-its Galois action, the L-group and its functoriality. Each *Needs:* line identifies mathematical
-inputs by name or supplier layer. Within RG2.0a.2, build formal smoothness, smoothness and
-closed-immersion preservation first, then *weil-restriction-separable-splitting*, then
-`ringKrullDim_res` and the inseparable dimension comparison. RG2.0a supplies smooth fixed schemes;
-RG2.3.2 supplies their connected Néron comparison. RG2.1.1 supplies the rational torus;
-RG2.1.3 supplies its compatible valuation and RG2.1.4 its fixed apartment. In constructing
-RG2.1.3, build *unramified-descent-of-valuation* from the quasi-split datum before the
-general *valued-root-datum-existence* conclusion. RG2.2.3 supplies field fixed groups and
-building actions; build the unramified instances of RG2.3.1–RG2.3.3 and their fixed models
-before the model-based proof of tame building descent. The remaining RG2.3 constructions
-then consume tame descent. In RG2.3.7, *smooth-model-reduction* and
-*finite-level-jet-realizations* precede *positive-depth-intersection-presentation*;
-build the ordinary RG2.4 *iwahori-bruhat-decomposition* over `L` before that intersection
-target. For RG2.4's local adjoint-modulus theorem, build RG2.0
-*smooth-group-analytic-charts* in characteristic zero, and RG2.0
-*equal-characteristic-smooth-group-analytic-charts* in positive characteristic, before
-`LocalIntegration.modularCharacter_eq_adjointModulus`. The chart targets use local point
-topology, cotangent duality, the inverse function theorem and local additive Haar measures.
 
 ## Layer RG2.0: topologies on rational points
 
@@ -621,7 +308,7 @@ inherited from `E^H` and second countability from `E^n`). *Needs:*
 (*PointTopology.isTopologicalGroup*; over `E` this is the instance `instIsTopologicalGroupLocal`). A
 Hopf map `H' → H` and a continuous `k`-algebra map `R → R'` induce continuous homomorphisms
 `G(R) → G'(R)` and `G(R) → G(R')`: precomposition with a map of Hopf algebras preserves the
-convolution product, postcomposition is the homomorphism `TauCeti.AlgHom.mapValue`, and both are
+convolution product, postcomposition is the homomorphism `AlgHom.mapValue`, and both are
 continuous by `continuous_comap`, `continuous_map_codomain` and `isHomeomorph_ofConv` ([Conrad],
 Prop. 2.1 and the discussion after it, p. 2). *Needs:*
 *affine-point-topology-functoriality*; *points-locally-compact-hausdorff*; Tau Ceti
@@ -736,7 +423,7 @@ ReductiveGroups layer 2; Tau Ceti
 `O`-algebra `A`, finitely generated or not, its image is the set of `x` with `x(a) ∈ O` for all
 `a ∈ A`, equivalently for all `a` in a generating family (`range_integralPoints`). For an affine
 finite-type `O`-group `𝒢 = Spec H`, the map is the group homomorphism
-`TauCeti.AlgHom.mapValue (Algebra.ofId O E)`, so `𝒢(O)` is a compact open subgroup of `G(E)`
+`AlgHom.mapValue (Algebra.ofId O E)`, so `𝒢(O)` is a compact open subgroup of `G(E)`
 ([Conrad], Ex. 2.3, p. 3, for openness and closedness; compactness because `𝒳(O)` is closed in `O^n`,
 [Conrad], Prop. 2.1, p. 2). *Needs:* *affine-point-topology-functoriality*;
 *affine-point-topology-embedding*; Mathlib `IsNonarchimedeanLocalField`,
@@ -776,7 +463,7 @@ p. 3; the determinant criterion is Mathlib's `Matrix.isUnit_iff_isUnit_det`). *N
 **Congruence subgroups of an integral group model.** (*congruence-subgroup*) Let `E` be a
 nonarchimedean local field, `O = 𝒪[E]` with maximal ideal `m`, and `𝒢 = Spec H` an affine `O`-group.
 For `n ≥ 0` put `𝒢(O)_n := ker(𝒢(O) → 𝒢(O/m^n))`. In `CongruenceSubgroup`, define `subgroup` as
-`𝒢(O)_n ⊂ 𝒢(O)`, the kernel of the homomorphism `TauCeti.AlgHom.mapValue` of the quotient map
+`𝒢(O)_n ⊂ 𝒢(O)`, the kernel of the homomorphism `AlgHom.mapValue` of the quotient map
 `O → O/m^n`; prove `mem_iff` (`x ∈ 𝒢(O)_n` iff `x` and the identity point agree modulo `m^n`),
 `normal` (`𝒢(O)_n` is normal in `𝒢(O)`), `antitone` (`n ≤ n'` implies `𝒢(O)_{n'} ≤ 𝒢(O)_n`),
 `zero_eq_top` (`𝒢(O)_0 = 𝒢(O)`), `isOpen` (for `H` of finite type, `𝒢(O)_n` is open in `𝒢(O)`, hence
@@ -786,7 +473,7 @@ with the counits, for instance the Hopf map of a homomorphism `𝒢 → 𝒢'`, 
 the kernel of a group homomorphism, `m^{n'} ⊆ m^n` for `n ≤ n'`, `m^0 = O`, and for `H` of finite
 type membership is a congruence on finitely many generators ([Platonov–Rapinchuk–Rapinchuk], §3.1,
 p. 126, and §3.3, (3.15), p. 160, for `𝒢 ⊂ GL_n` in characteristic zero). *Needs:*
-*integral-points-compact-open*; Tau Ceti `TauCeti.AlgHom.mapValue`,
+*integral-points-compact-open*; Tau Ceti `AlgHom.mapValue`,
 `TauCeti.HopfAlgebra.pointsFunctor`, `TauCeti.unitFiltration`.
 *Lean:* none (README-only).
 
@@ -917,7 +604,7 @@ LocalFieldsRamification layer 0; LocalFieldsRamification layer 2; Tau Ceti
 (`continuous_map_codomain` with `continuous_frobenius`), and `X(E) = X(Ĕ)^σ` (`points_eq_fixedPoints`),
 where `X(E) → X(Ĕ)` is a closed embedding (`isClosedEmbedding_map_codomain` with
 `isClosedEmbedding_algebraMap`). For an affine group `G = Spec H`, `x ↦ σ ∘ x` is the group
-automorphism `TauCeti.AlgHom.mapValue σ` of `G(Ĕ)`, so `G(E) = G(Ĕ)^σ` as topological groups. For an
+automorphism `AlgHom.mapValue σ` of `G(Ĕ)`, so `G(E) = G(Ĕ)^σ` as topological groups. For an
 `O_E`-algebra `A_O`, an `O_E`-algebra map `A_O → Ĕ` with values in `O_Ĕ` that is fixed by `σ` has
 values in `O_E`, because `O_Ĕ^σ = O_E` ([He 2018], §4.3, p. 12, for connected reductive `G`; for
 general `A` the statement follows from `fixedPoints_frobenius` applied to the values `x(a)`).
@@ -3142,8 +2829,8 @@ unramified, a point of `B(G,K)` that is special in `B(G,K')` is special in `B(G,
 hyperspecial if `G` splits over `K'` ([Tits], 2.6.1, p. 47). For `G` split semisimple, `G^ad(K)`
 permutes the special points of `B(G,K)` transitively ([Tits], §2.5, p. 47). The proposed Lean
 statements are `Building.pointsExtension` (the map `G(K) → G(K')`, composed of the library
-maps `TauCeti.AlgHom.mapValue`, `TauCeti.AlgHom.baseChangePointsMulEquiv` and
-`TauCeti.AlgHom.mapDomain`), `Building.extensionEmbedding` with `Building.extensionEmbedding_injective`,
+maps `AlgHom.mapValue`, `TauCeti.AlgHom.baseChangePointsMulEquiv` and
+`BialgHom.mapDomain`), `Building.extensionEmbedding` with `Building.extensionEmbedding_injective`,
 `Building.extensionEmbedding_smul`, `Building.extensionEmbedding_tower`
 (transitivity after the canonical tensor-associativity base-change identification), and `Building.extensionEmbedding_apartment` (an affine map of
 apartments when the ideal of `S'` maps into the extended ideal of `S`) ([Bruhat–Tits II], 5.1.41,
@@ -3291,7 +2978,7 @@ requires injectivity of the coordinate Hopf map and centrality of its kernel on 
 algebra. `centralData` constructs the maximal split torus `α(S)`; `centralRoots` and
 `centralRootPoints` are induced by `α`, and `centralValuation` transports `φ` through these root-group
 isomorphisms. `mapCentral` is equivariant for the point map `Building.pointsMap` (the library's
-`TauCeti.AlgHom.mapDomain`) and restricts to `centralApartment`. The linear apartment map is dual to
+`BialgHom.mapDomain`) and restricts to `centralApartment`. The linear apartment map is dual to
 `centralCharacter`, pullback of characters along `α|S`; `centralCharacter_value` and
 `centralApartment_linear_character` fix these identifications. The reduced map
 `ReducedBuilding.centralEquiv` is an equivariant bijection, induced by `mapCentral`. For enlarged
@@ -6809,7 +6496,7 @@ subgroups) do not depend on that sign. Use `TauCeti.DiagonalizableGroup.pointsMu
 over `ℤ`), `dualGroup_reductive_fibres` (`Ĝ_k` is connected reductive for every field `k`) and
 `dualGroup_torus_points` (for a torus, `Ĝ(R) ≃* Hom(X_*(T), R^×)`). *Needs:*
 *dual-based-root-datum*; ReductiveGroups layer 9; Mathlib `CommHopfAlgCat`; Tau Ceti
-`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `TauCeti.AlgHom.mapValue`.
+`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `AlgHom.mapValue`.
 ChevalleyGroups §C2 / Root subgroups for every root states the semisimple Chevalley special case
 of the closed root-immersion interface, to be reconciled after identifying its constructed datum
 with the flipped datum.
@@ -6906,7 +6593,7 @@ as `Γ_K →* MulAut(Ĝ(R))` for each ring `R`, and `weilActionOnPoints` as the 
 `galoisActionOnPoints_natural` (it commutes with `Ĝ(R) → Ĝ(R')` for `R → R'`) ([Buzzard–Gee], §2.1,
 p. 5; [Kaletha], §2, p. 9 (notation), and §5.6, p. 46). *Needs:* *pinned-automorphisms*;
 *dual-based-root-datum*; Mathlib `Field.absoluteGaloisGroup`, `OpenSubgroup`,
-`MonoidHom.codRestrict`; Tau Ceti `TauCeti.AlgHom.mapValue`; ClassFieldTheory layer 9.
+`MonoidHom.codRestrict`; Tau Ceti `AlgHom.mapValue`; ClassFieldTheory layer 9.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -6956,7 +6643,7 @@ Weil abstract functors retain their point-group API. No `√q` enters. In `Langl
 inclusion and section, and `SemidirectProduct.rightHom_surjective`,
 `SemidirectProduct.range_inl_eq_ker_rightHom` and `SemidirectProduct.mul_left` for surjectivity,
 the kernel and the multiplication law. Define `mapCoeff`, the map `^LG(R) →* ^LG(R')` induced by
-`R → R'`, as `SemidirectProduct.map` of `TauCeti.AlgHom.mapValue` and the identity, whose
+`R → R'`, as `SemidirectProduct.map` of `AlgHom.mapValue` and the identity, whose
 compatibility condition is `galoisActionOnPoints_natural`; `SemidirectProduct.rightHom_comp_map`
 says that it lies over `Γ_K`. Define `WeilLGroup` as `Ĝ(R) ⋊ W` for a homomorphism `W → Γ_K`. For
 an open normal subgroup `U` of `Γ_K` contained in the kernel of the action, the finite action of
@@ -7158,7 +6845,7 @@ transposition without inverse).
 RG2.0a for Weil restrictions and norm tori; RG2.1 for `π₁(G)` and z-extensions; ReductiveGroups
 layers 7 and 9; ClassFieldTheory layer 9 for the Weil group; Mathlib `RootPairing`,
 `MulAction.stabilizer` and `SemidirectProduct`; Tau Ceti `TauCeti.Pinning`,
-`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `TauCeti.AlgHom.mapValue`,
+`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `AlgHom.mapValue`,
 `TauCeti.CommHopfAlgCat.centerGroupScheme`, `TauCeti.RootPairingIsogeny`,
 `TauCeti.CommHopfAlgCat.IsCentralIsogeny`.
 
@@ -7191,6 +6878,309 @@ hyperspecial vertices and tame realizations of RG2.3, and the admissible sets of
 roadmaps on types for tame groups (Adler–Roche forms, tameness of tori), z-embeddings and central
 pushouts `G ×_Z T`, affine Grassmannians and local models cite RG2.2–RG2.5 for the building, the
 Moy–Prasad filtrations, the Iwahori–Weyl combinatorics and the L-group.
+
+## Scope and ownership
+
+The roadmap owns, layer by layer:
+
+- RG2.0: affine point topology over topological rings, including the adelic case used by
+  AdelicAlgebraicGroups; scheme point topology over local topological rings whose units are open
+  and whose inversion is continuous in the subspace topology; local analytic charts, tangent
+  comparison and Haar Jacobians in characteristic zero and positive characteristic; integral points
+  and congruence subgroups; the completed maximal unramified extension `Ĕ` with its Frobenius. It does
+  not own adeles, Haar measures on restricted products or arithmetic quotients, and it does not
+  state the compatibility of the scheme point topology with fibre products, the transcendence
+  degree of `Ĕ` over `E` in equal characteristic, or a Witt-vector description of `O_Ĕ` for
+  `E ≠ ℚ_p`.
+- RG2.0a: restriction of scalars for affine schemes along finite locally free maps and its field
+  specialization, with affine representability, fibre-product preservation, formal smoothness,
+  smoothness and closed immersions; norm tori and abstract quotients of roots-of-unity
+  point groups; the Deligne torus. Restriction of scalars for non-affine schemes, general projective
+  parameter spaces and algebraic spaces lie outside this roadmap, as do the preservation by
+  restriction of scalars of étale and surjective maps and of open immersions, its
+  commutation with centres and derived groups, and the multiplicities of the
+  relative roots of a Weil-restricted group.
+- RG2.1: valued structure only — valuations of root data, apartments, affine roots, the affine Weyl
+  group, `π₁(G)`, z-extensions and the Kottwitz homomorphism. The unvalued relative root system and
+  the absolute root datum with Galois action are the Reductive groups roadmap's; RG2.1.2 states from
+  the coordinate Hopf algebra only the objects of that theory which the valued theory consumes
+  (`GeometricRoots`, `LocalRootData`, `AbsoluteRootData`). The vanishing of `κ_G` on unipotent
+  elements is not stated.
+- RG2.2: the Bruhat–Tits building, its axioms, metric, fixed points, facets and fixers, unramified
+  and tame descent, functoriality for finite extensions, central surjections, Levi inclusions and
+  twisted Levi subgroups, the lattice-chain models and the tree of `SL_2`. Uniqueness and Galois
+  equivariance of toral embeddings into the building of `GL_n` for non-split groups are not stated.
+- RG2.3: smooth affine and reductive models, Néron lft models of tori over discrete valuation rings, Bruhat–Tits and parahoric group
+  schemes, hyperspecial vertices, Moy–Prasad filtrations, Lang's theorem and level subgroups. RG2.3 is
+  the single owner in Tau Ceti of Lang's theorem for connected smooth groups over finite fields, of
+  the Moy–Prasad filtrations and of the parahoric group schemes; it does not own affine Grassmannians,
+  local models or Schubert varieties. It also owns Lang's theorem for inverse limits of smooth
+  connected groups over finite fields; it does not state it for torsors under smooth models with
+  connected special fibre.
+- RG2.4: the decompositions of `G(E)`, the Iwahori–Weyl combinatorics up to admissible sets,
+  the local adjoint-modulus formula and the algebraic parabolic adjoint determinant identity. The
+  Hecke algebras, the Satake isomorphism and the smooth representations built on them belong to the
+  representation-theoretic roadmaps that cite this one.
+- RG2.5: the dual group, its Galois action, the abstract L-group functors and the finite
+  semidirect-product group scheme, with their pointwise comparisons and standard Levi subgroups
+  over coefficient fields. Spaces of Langlands parameters, Weil–Deligne parameters and the moduli of L-parameters are not part of this
+  roadmap; neither is Shapiro's lemma comparing parameters of a Weil restriction with those of the
+  original group, nor the dual embedding `Ĝ ↪ Ĝ̃` of a z-extension as a morphism of `ℤ`-group
+  schemes.
+
+The associated-parahoric interface in RG2.3 is restricted to central surjections. The following
+constructions lie outside this roadmap:
+
+- `associatedParahoricAdjoint`: association for arbitrary identified adjoint groups, independence
+  of central lifts, and the corresponding morphism and composition API. The source for association
+  is [Kisin–Zhou], §2.3.1, arXiv v2 pp. 11–12. The retained `associatedParahoric` uses the apartment
+  map of a specified central surjection.
+- `r-smooth-torus`: the closure in the restriction of scalars of a non-affine lft Néron model,
+  R-smoothness of tori and centralizers, and its independence and base-change criteria
+  ([Kisin–Zhou], §2.4.2, Def. 2.4.3, p. 13; [Kisin–Pappas–Zhou], §2.1.4, arXiv v3 p. 11).
+  The R-smoothness criteria and Néron closed-immersion
+  results of Lem. 2.4.4 and Prop. 2.4.6, pp. 13–14, are also outside the scope. The lft,
+  finite-type and connected Néron models themselves remain in RG2.3.2.
+- `centralExtension_exact_rSmooth`: the smooth schematic kernel, its components and fppf exact
+  sequence for an R-smooth torus kernel ([Kisin–Zhou], §2.4.12, Prop. 2.4.13 and proof,
+  pp. 17–18). The split-kernel specialization `centralExtension_exact_split` remains in RG2.3.4.
+- `fixer_closedImmersion_of_rSmooth`: fixer immersions under a closed immersion inducing an
+  isomorphism of derived groups, and under finite separable field extension ([Kisin–Zhou],
+  §2.4.7, Prop. 2.4.8, §2.4.9 and Prop. 2.4.10, pp. 15–16). The latter proposition imposes
+  `p > 2`; Prop. 2.4.8 and Prop. 2.4.13 do not. The R-smoothness and Hodge-intersection
+  consequences in [Kisin–Pappas–Zhou], Lems. 7.2.11 and 7.2.13, arXiv v3 pp. 84–85,
+  are outside the scope as well.
+
+Types for tame groups (Adler–Roche forms and tameness of tori), z-embeddings and central pushouts
+`G ×_Z T`, and the identification of the affine Grassmannian embeddings of Zhu are deliberately not
+here; they belong to later roadmaps which cite RG2.2–RG2.5.
+
+Seven Tau Ceti roadmaps are cited by layer. The Reductive groups roadmap supplies the functor of
+points and the three-way dictionary (layer 0), Lie algebras and the adjoint representation
+(layer 2), identity components, quotients and exact sequences (layer 3), character modules of groups
+of multiplicative type (layer 4; their Galois action is layer 7), unipotent radicals (layer 5),
+reductivity and semisimplicity with simply connected covers and central isogenies (layer 6), the
+structure theory (layer 7) and the pinned Chevalley–Demazure group schemes over `ℤ` with their
+isomorphism theorem (layer 9). The Local fields and ramification roadmap supplies finite extensions
+and the extension of the valuation (layer 0), the maximal unramified extension with its Frobenius
+(layer 2), and tame ramification (layer 3). The Modular curves roadmap, layer 0F, supplies the
+affine finitely presented Hom scheme along a finite locally free map, which RG2.0a extends to
+arbitrary affine targets. On finitely presented targets, identify the representing object
+and point adjunction with that Hom-scheme supplier by Yoneda, compatibly with base change,
+rather than introducing a second Hom-scheme carrier. Its layer 4D supplies strict henselisation. The Root systems roadmap supplies Coxeter combinatorics for a general Coxeter system
+(layer 3) and chambers with the fundamental domain (layer 4). The Profinite and pro-p groups
+roadmap, layer 3, supplies pro-p groups, and the Class field theory roadmap, layer 9, the local Weil
+group for the Weil form of the L-group. MassFormula, Layer 2, supplies the DVR lattice index
+and the regular-Haar linear image law used by the positive-characteristic analytic charts.
+
+## Exact supplier contracts
+
+| Object | Exact supplier | File |
+| --- | --- | --- |
+| Dual pairing and double flip | `RootPairing.flip`, `RootPairing.flip_flip` | `Mathlib/LinearAlgebra/RootSystem/Defs.lean` |
+| Dual base and support | `RootPairing.Base.flip`, `RootPairing.Base.flip_support` | `Mathlib/LinearAlgebra/RootSystem/Base.lean` |
+| Points of the dual torus | `TauCeti.DiagonalizableGroup.pointsMulEquiv` | `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Basic.lean` |
+| L-group projection, inclusion, section, multiplication | `SemidirectProduct.rightHom`, `SemidirectProduct.inl`, `SemidirectProduct.inr`, `SemidirectProduct.mul_left` | `Mathlib/GroupTheory/SemidirectProduct.lean` |
+| Projection surjectivity and kernel | `SemidirectProduct.rightHom_surjective`, `SemidirectProduct.range_inl_eq_ker_rightHom` | `Mathlib/GroupTheory/SemidirectProduct.lean` |
+| Section and split product | `SemidirectProduct.rightHom_comp_inr`, `SemidirectProduct.mulEquivProd` | `Mathlib/GroupTheory/SemidirectProduct.lean` |
+| Norm on units | `TauCeti.Algebra.normUnits`, `TauCeti.Algebra.coe_normUnits` | `TauCeti/RingTheory/Norm/Units.lean` |
+| Completion of a uniform space and its dense inclusion | `UniformSpace.Completion`, `UniformSpace.Completion.denseRange_coe` | `Mathlib/Topology/UniformSpace/Completion.lean` |
+| Extension of a continuous ring automorphism to completion | `UniformSpace.Completion.mapRingEquiv` | `Mathlib/Topology/Algebra/UniformRing.lean` |
+| Valuation comparison on completion | `UniformSpace.Completion.coe_vle_coe_iff` | `Mathlib/Topology/Algebra/ValuativeRel/Completion.lean` |
+| Maximal unramified extension, its adjoin presentation and its Frobenius | `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedExtension_eq_adjoin`, `TauCeti.maximalUnramifiedFrobenius`, `TauCeti.eq_maximalUnramifiedFrobenius_iff`, `TauCeti.fixedField_zpowers_maximalUnramifiedFrobenius` | `TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean` |
+| Points of a closed subgroup given by a Hopf ideal | `TauCeti.CommHopfAlgCat.quotientPointsSubgroup`, `TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_iff` | `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Points/Basic.lean` |
+| Adjoint action on counit derivations | `Derivation.adDerivation` | `TauCeti/Algebra/AlgebraicGroup/Tangent/Adjoint.lean` |
+| Maps of points along Hopf maps and coefficient maps | `BialgHom.mapDomain`, `AlgHom.mapValue` | `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean`, `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean` |
+| Points after base change | `TauCeti.AlgHom.baseChangePointsMulEquiv` | `TauCeti/Algebra/AlgebraicGroup/BaseChange/Basic.lean` |
+| Root groups of `GL_n` and their conjugation by the diagonal torus | `TauCeti.transvectionHom`, `TauCeti.diagGL_mul_transvectionUnit_mul_inv` | `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Transvection.lean` |
+| Diagonal torus and root subgroups of `GL_n` | `TauCeti.GeneralLinear.diagonalTorusDefiningIdeal`, `TauCeti.GeneralLinear.isMaximalTorus_diagonalTorusDefiningIdeal`, `TauCeti.GeneralLinear.DiagonalRootIndex`, `TauCeti.GeneralLinear.rootSubgroup` | `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/DiagonalTorus/Maximal.lean`, `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Datum.lean`, `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Subgroup.lean` |
+| Extension of a valuative relation and the decomposition group | `ValuativeExtension`, `ValuationSubring.decompositionSubgroup` | `Mathlib/RingTheory/Valuation/ValuativeRel/Basic.lean`, `Mathlib/RingTheory/Valuation/RamificationGroup.lean` |
+| Coinvariants of a representation and quotient representations | `Representation.Coinvariants`, `Representation.quotientToCoinvariants`, `Representation.quotient` | `Mathlib/RepresentationTheory/Coinvariants.lean`, `Mathlib/RepresentationTheory/Basic.lean` |
+| Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
+| Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
+| Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
+| DVR lattice indices and linear Haar images | MassFormula, Layer 2 (target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
+
+*NormTorus.norm* differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
+before taking the norm over `R`. The affine point topology here allows general topological
+coefficient rings, whereas `TauCeti.Toric.affinePointTopology` in
+`TauCeti/Geometry/Toric/Analytic/AffinePoint.lean` concerns complex points of affine toric varieties.
+`Model.closure` in `TauCeti/AlgebraicGeometry/Curves/StableReduction/Model/Closure.lean`
+is specific to curve models; it does not supply the general affine Hopf-ideal closure in RG2.3.
+
+The following interfaces use Tau Ceti objects at the pin or an explicit presentation of them.
+`MaxUnramifiedCompletion.Unramified` abbreviates
+`TauCeti.maximalUnramifiedExtension E (AlgebraicClosure E)`, whose presentation is supplied by
+`TauCeti.maximalUnramifiedExtension_eq_adjoin`, and `unramifiedFrobenius` is
+`TauCeti.maximalUnramifiedFrobenius` on it (`TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean`).
+Scalar extension of a Hopf ideal uses `TauCeti.CommHopfAlgCat.baseChangeHopfIdeal` and
+`TauCeti.CommHopfAlgCat.baseChangeHopfIdeal_toIdeal`
+(`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/BaseChange.lean`). The derived subgroup uses
+`TauCeti.CommHopfAlgCat.derivedDefiningIdeal`,
+`TauCeti.CommHopfAlgCat.commutator_mem_derivedPointsSubgroup` and
+`TauCeti.CommHopfAlgCat.derivedDefiningIdeal_eq_augmentation_iff_isCocomm`
+(`TauCeti/Algebra/AlgebraicGroup/Derived/Basic.lean`). A formalization of these targets imports
+these modules directly.
+*SchematicClosure.closureIdeal* at the zero ideal is `TauCeti.scalarTorsionIdeal`, with Hopf form
+`TauCeti.HopfIdeal.scalarTorsion` (`TauCeti/RingTheory/Ideal/ScalarTorsion.lean`,
+`TauCeti/Algebra/HopfAlgebra/HopfIdeal/ScalarTorsion.lean`). *IntegralModel.SmoothModel.IsReductive*
+is the two-fibre form of `TauCeti.reductiveCommHopfAlgPropertyOver`
+(`TauCeti/Algebra/AlgebraicGroup/Reductive/Over.lean`). Contraction by a cocharacter is membership
+in Tau Ceti's `TauCeti.Cocharacter.unipotent`, with `TauCeti.Cocharacter.mem_unipotent_iff`
+and `TauCeti.Cocharacter.unipotent_eq_bot`
+(`TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean`),
+and the torus of *GLBuilding.standardData* is `TauCeti.GeneralLinear.diagonalTorusDefiningIdeal`.
+*BruhatTits.IsMinuscule* is the root-pairing condition on an arbitrary coweight, whereas
+`TauCeti.IsMinuscule` (`TauCeti/Algebra/Lie/HighestWeight/Minuscule.lean`) concerns dominant weights.
+
+
+The integral chamber, dominance cone and Weyl vector use `TauCeti.dominantChamber`
+(`TauCeti/LinearAlgebra/RootSystem/Chamber.lean`),
+`TauCeti.existsUnique_mem_orbit_inter_dominantChamber_of_finite_weylGroup`
+(`TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`), `TauCeti.posRootCone`
+(`TauCeti/LinearAlgebra/RootSystem/Positive.lean`) and `TauCeti.twoWeylVector`
+(`TauCeti/LinearAlgebra/RootSystem/Weyl/Vector.lean`), applied to the flipped pairing and a base.
+
+### From Mathlib
+
+Mathlib supplies nonarchimedean local fields with their valuative relation and the compactness of
+closed balls (`IsNonarchimedeanLocalField`, `IsNonarchimedeanLocalField.isCompact_closedBall`,
+`Valuation`), henselian rings, topological groups and open subgroups (`OpenSubgroup`), module
+topologies (`IsModuleTopology`), uniform completions (`UniformSpace.Completion`), Witt vectors
+(`WittVector.isDiscreteValuationRing`, `FractionRing (WittVector p k)`,
+`WittVector.FractionRing.frobenius`), the continuity of polynomial evaluation
+(`MvPolynomial.continuous_eval`), the units embedding `Units.isEmbedding_embedProduct` and the
+determinant criterion `Matrix.isUnit_iff_isUnit_det`, the algebra categories `CommAlgCat` and
+`CommHopfAlgCat`, representability (`CategoryTheory.Functor.RepresentableBy`), tensor products of
+algebras (`Algebra.TensorProduct.map`, `Algebra.TensorProduct.basis`, `Algebra.TensorProduct.assoc`,
+`Algebra.TensorProduct.cancelBaseChange`), duals (`Module.Dual`), finiteness and smoothness of
+algebras (`Algebra.FiniteType`, `Algebra.FinitePresentation`, `Algebra.FormallySmooth`,
+`Algebra.Smooth`, `Algebra.FormallyEtale.equivPiOfIsSepClosed`,
+`Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`), norms (`Algebra.norm`,
+`Algebra.norm_algebraMap`, `Module.finrank_baseChange`, `Algebra.norm_eq_matrix_det`,
+`AlgHom.card`), ideals (`Ideal.comap`), schemes and their morphism properties
+(`AlgebraicGeometry.Scheme`), root pairings with their Weyl groups, bases and flips (`RootPairing`,
+`RootPairing.IsReduced`, `RootPairing.Aut`, `RootPairing.flip`, `RootPairing.Base.flip`,
+`RootPairing.Base.flip_support`, `RootPairing.flip_flip`), Coxeter systems with length
+(`CoxeterSystem`, `CoxeterSystem.length`, `CoxeterSystem.length_inv`,
+`CoxeterSystem.length_simple_mul`), double cosets (`DoubleCoset.Quotient`, `DoubleCoset.mk`,
+`DoubleCoset.doubleCoset`), subgroup indices and complements (`Subgroup.index`, `Subgroup.relIndex`,
+`Subgroup.IsComplement'`, `Subgroup.quotient_finite_of_isOpen'`), quotient groups
+(`QuotientGroup.mk'`, `QuotientGroup.lift`), semidirect products (`SemidirectProduct`,
+`SemidirectProduct.rightHom`, `SemidirectProduct.rightHom_surjective`,
+`SemidirectProduct.range_inl_eq_ker_rightHom`, `SemidirectProduct.map`, `SemidirectProduct.inr`,
+`SemidirectProduct.mulEquivProd`), amalgamated products (`Monoid.PushoutI`), Haar measures
+(`MeasureTheory.Measure.haar`, `MeasureTheory.Measure.IsHaarMeasure`,
+`MeasureTheory.Measure.IsMulRightInvariant`), lattices in modules over a DVR
+(`Submodule.IsLattice`), Smith normal form (`Module.Basis.SmithNormalForm`), trees
+(`SimpleGraph.IsTree`), absolute Galois groups (`Field.absoluteGaloisGroup`), and group cohomology
+with Hilbert 90 (`groupCohomology`, `groupCohomology.isMulCoboundary₁_of_isMulCocycle₁_of_aut_to_units`).
+Each of these is assumed in its Mathlib form; the roadmap defines no copy of any of them.
+
+### From Tau Ceti
+
+Tau Ceti supplies commutative Hopf algebras as affine group schemes with their convolution groups of
+points and points functors (`TauCeti.AlgHom.instGroup`, `TauCeti.HopfAlgebra.pointsFunctor`), the
+general linear, special linear and multiplicative groups with their point comparisons
+(`TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.SpecialLinear.pointsMulEquiv`,
+`TauCeti.SpecialLinear.finiteTypeCoordinateHopfAlgebra`
+(`TauCeti/Algebra/AlgebraicGroup/SpecialLinear/Basic.lean`),
+`TauCeti.MultiplicativeGroup.pointsMulEquiv`,
+`TauCeti.GeneralLinear.instSmoothCoordinateHopfAlgebra`,
+`TauCeti.GeneralLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`,
+`TauCeti.GeneralLinear.diagonalRootDatum`,
+`TauCeti.GeneralLinear.commutatorElement_rootSubgroupPoints`, the upper-triangular subgroup
+`TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra` with its points
+`TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv`
+(`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/UpperTriangular/Basic.lean`),
+`TauCeti.Symplectic.diagonalTorus`,
+`TauCeti.GL2NonSplitTorusHom`), split tori and diagonalizable groups with their character lattices
+and pairings (`TauCeti.SplitTorus.pointsMulEquiv`, `TauCeti.DiagonalizableGroup.pointsMulEquiv`,
+`TauCeti.DiagonalizableGroup.pairing`, `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
+`TauCeti.CommHopfAlgCat.centerGroupScheme`), Hopf ideals (`TauCeti.HopfIdeal`), smoothness and
+reductivity predicates (`TauCeti.smoothCommHopfAlgProperty`, `TauCeti.reductiveCommHopfAlgProperty`,
+`TauCeti.torusCommHopfAlgProperty`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`), the
+unipotent radical (`TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical`), the centre, faithfully flat
+descent of points (`TauCeti.AlgHom.faithfullyFlatDescentMulEquiv`), the normalized valuation and
+unit filtration of a local field (`TauCeti.unitFiltration`,
+`unitFiltrationGradedSuccEquivResidueField`, `relIndex_unitFiltration_succ_succ`,
+`unitFiltration_one_isProP`), and pro-p groups (`TauCeti.IsProP`). Tau Ceti also has the
+maximal unramified extension of a local field with its Frobenius
+(`TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius`), pinnings of split
+groups (`TauCeti.Pinning`), Borel subgroups (`TauCeti.HopfIdeal.IsBorel`), dynamic parabolic
+subgroups with their Levi decompositions (`TauCeti.Cocharacter.parabolic`,
+`TauCeti.Cocharacter.levi`), central isogenies (`TauCeti.CommHopfAlgCat.IsCentralIsogeny`), simply
+connected semisimple groups, root-datum isogenies (`TauCeti.RootPairingIsogeny`), the flip of a
+based root pairing (`RootPairing.Base.flipSupportEquiv`),
+Tits systems with the Bruhat decomposition (`TauCeti.TitsSystem`,
+`TauCeti.TitsSystem.bruhatCells_eq_univ`, `TitsSystem.bruhatCell_mul_eq_of_wordLength_le`,
+`bruhatCell_mul_eq_union_of_wordLength_lt`), the Bruhat order on a Coxeter system
+(`CoxeterSystem.BruhatLE`, `bruhatPartialOrder`, `BruhatLE.length_lt_of_ne`,
+`CoxeterSystem.IsMinimalCosetRep`, `existsUnique_isMinimalCosetRep_mul`), double-coset
+decompositions (`DoubleCoset.doubleCoset_eq_iUnion_leftCosets`,
+`doubleCoset_eq_iUnion_rightCosets`), dominant chambers (`dominantChamber`,
+`existsUnique_mem_orbit_inter_dominantChamber_of_finite_weylGroup`, `posRootCone`,
+`twoWeylVector`), norms on units (`Algebra.normUnits`), the toric point topology
+(`Toric.affinePointTopology`) and flat closures over a DVR (`Model.closure`,
+`HopfIdeal.scalarTorsion`). This roadmap extends those objects; the few targets that restate one
+of them through its points or an explicit presentation are listed after the supplier table, each
+with the Tau Ceti object it equals.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 0 is assumed for the functor of points and the three-way dictionary between Hopf algebras,
+group schemes and group functors; layer 2 for Lie algebras and the adjoint representation (used by
+the congruence quotients of RG2.0 and the Moy–Prasad lattices of RG2.3); layer 3 for identity
+components, quotients and exact sequences; layer 4 for character modules of groups of
+multiplicative type; layer 5 for unipotent radicals; layer 6 for the predicates "connected
+reductive", "semisimple", "simply connected" and for central isogenies; layer 7 for the structure
+theory over a field — maximal split tori `S`, `Z = Z_G(S)`, `N`, the relative root system
+`Φ(G,S)`, the root subgroups `U_a`, parabolic and Levi subgroups, the absolute root datum with its
+Galois action, the Bruhat decomposition and BN-pairs; layer 9 for the pinned Chevalley–Demazure
+group schemes over `ℤ` and the isomorphism theorem for pinned groups. The valued theory here
+consumes these objects; RG2.1.2 states from the coordinate Hopf algebra the maximal split torus,
+relative roots, root subgroups, coroots, centralizer, normalizer and absolute root datum that it
+uses, without their structure theory; no parabolic is defined, and the dual group of RG2.5 is
+layer 9's Chevalley–Demazure construction applied to the flipped based root datum.
+
+### From TauCetiRoadmap.LocalFieldsRamification
+
+Layer 0 supplies finite extensions of a local field and the extension of the valuation; layer 2
+the maximal unramified extension with its Frobenius (which RG2.0 completes to `Ĕ`); layer 3 tame
+ramification, used for the tame descent of buildings, quasi-tame groups and the
+tame realization of stabilizers.
+
+### From TauCetiRoadmap.ModularCurves
+
+Layer 0F supplies the affine finitely presented Hom scheme along a finite locally free map; for
+finitely presented `A'` it is RG2.0a's `(Res A', universal)`, with `finitePresentation_res`
+(RG2.0a *weil-restriction-finiteness*); layer 4D supplies strict henselisation.
+
+### From TauCetiRoadmap.RepresentationTheory.RootSystems
+
+Layer 3 supplies Coxeter combinatorics for a general Coxeter system (lengths, reduced words,
+parabolic subgroups), used for the affine Weyl group and the Iwahori–Weyl group; layer 4 supplies
+chambers with the fundamental domain, used for facets, special points and dominance.
+
+### From TauCetiRoadmap.ProfiniteProPGroups and TauCetiRoadmap.ClassFieldTheory
+
+ProfiniteProPGroups layer 3 supplies pro-p groups, for the pro-p property of congruence subgroups and
+positive-depth Moy–Prasad subgroups. ClassFieldTheory layer 9 supplies the local Weil group `W_K`
+with its map to `Γ_K`, for the Weil form of the L-group.
+
+### Additional supplier contracts
+
+The ChevalleyGroups specification
+supplies C2–C4 below. The CFSGBasicProperties specification
+supplies T0–T2. C2–C4 concern every Chevalley datum; only the full-weight datum is
+simply connected. T0 requires perfectness and a nontrivial central quotient; T1–T2
+prove these inputs in the validity range of the ordinary and graph-twisted finite families.
+
+| Object | Supplier | Exact interface consumed | Convention and scope bridge |
+| --- | --- | --- | --- |
+| Integral Chevalley big cell | ChevalleyGroups §C4 / The big cell, Points and Generality | Open immersion `U⁻ × T × U → G_D` over `ℤ` and its base changes | Identify the chosen Chevalley datum, torus, signs and ordered root coordinates; `Φ_nd = Φ` in the reduced split case. RG2.3.1 supplies the relative non-reduced root-ray product and the conditional DVR closure/extension criteria. |
+| Semisimple Chevalley point centre | ChevalleyGroups §C3 / Centralizer and centre, with §C4 / Points and Generality | Centre of the field-point group by root-character equations and the character-lattice/root-lattice quotient | Use `E(k) = G_D(k)` from §C4, flip roots and coroots, and identify the datum's character lattice with `X_*(T)`; only the full-weight datum gives `P/Q`. Its all-field theorem supplies the algebraically closed semisimple specialization; RG2.5.2 supplies the general reductive scheme centre, central torus and Galois/coinvariant comparisons. |
+| Finite ordinary Tits input | CFSGBasicProperties §T0 / a reusable simplicity criterion and §T1–T2 / ordinary and graph-twisted groups | Normal-subgroup theorem, central quotient and finite ordinary root-generated perfectness in the common validity range | Match `H⁺`, `[H,H]`, `G(k)^+` and their centres; check a connected nonempty Coxeter graph, `Z ∩ U = 1` and quotient nontriviality. §T0 assumes perfectness, supplied by §T1–T2 for the finite applications, including their allowed small fields; RG2.4.4 supplies infinite-field geometric perfectness and local Whitehead-group vanishing. |
 
 ## References
 

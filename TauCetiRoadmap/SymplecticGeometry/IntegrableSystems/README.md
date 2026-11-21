@@ -9,29 +9,90 @@ mechanical system must be related by proved maps and equations.
 
 Use [family conventions](../README.md): real finite-dimensional smooth boundaryless manifolds,
 ω=−dλ, ι_XHω=dH, {f,g}=df(Xg). For singular central potentials the phase space is the cotangent
-bundle of the **punctured** configuration space; collision is not a smooth point. Ordinary vector-field
-flows/conservation/brackets come from [HamiltonianSystems](https://github.com/TauCetiProject/TauCetiRoadmap/pull/480),
-cotangent forms and canonical transformations from [CotangentLagrangian](../CotangentLagrangian/README.md),
+bundle of the **punctured** configuration space; collision is not a smooth point. Hamiltonian vector
+fields and Poisson brackets are Tau Ceti's `TauCeti.SmoothTwoForm.hamiltonianVectorField`,
+X_f=(σ♭)⁻¹df, so that ι_(X_f)σ=df for a nondegenerate form on a finite-dimensional manifold, and
+`TauCeti.SmoothTwoForm.poissonBracket`, {f,g}=σ(X_f,X_g), which equals df(X_g) there
+(`TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`). The canonical form of a
+cotangent bundle is `TauCeti.CotangentBundle.symplecticForm`, ω=−dλ for the Liouville form
+`TauCeti.CotangentBundle.liouvilleForm`, equal to Σdqᵢ∧dpᵢ in bundle charts. Flows come from
+DifferentialGeometry Layer 3; cotangent forms and canonical transformations from [CotangentLagrangian](../CotangentLagrangian/README.md),
 regular quotients from [HamiltonianReduction](../HamiltonianReduction/README.md), and torus/lattice API
-from [ConvexityToric T1](../ConvexityToric/README.md#t1-compact-symplectic-actions-and-local-models).
-LieGroups supplies the exponential floor. LieGroupoidsPoisson G0.1 supplies regular-level
-manifolds, HopfRinow the inverse function theorem, and DifferentialGeometry Frobenius,
-complete flows and integration of one-forms. Bundle connections/Ehresmann theory come from SmoothBundlesConnections; singular-system
-examples below build their own monodromy rather than silently assuming global angle coordinates.
+from [ConvexityToric Layer 1 (1.1)](../ConvexityToric/README.md#layer-1-compact-symplectic-actions-and-local-models).
+LieGroups supplies the exponential floor, HopfRinow the inverse function theorem, and
+DifferentialGeometry Frobenius, complete flows and integration of one-forms.
+SmoothBundlesConnections B1.0 supplies regular fibres with tangent space ker df
+(`exists_regularFiber_smoothEmbedding`), and SmoothBundlesConnections also supplies bundle
+connections and Ehresmann theory; singular-system examples below build their own monodromy rather
+than silently assuming global angle coordinates. I5 treats the closed annulus through open collar
+extensions; its finite-action gradient flow lives on the boundaryless configuration quotient. I5
+owns the annulus isotopy theorem (I5.1), the compact-pair Čech theory with its Alexander–Spanier
+comparison (I5.4), the index-pair data of its block (I5.3) and the Conley–Zehnder injectivity and
+cup-length statements (I5.4): no roadmap on main states them.
+
+**Supplied by Tau Ceti.** The pinned Tau Ceti proves the following parts of the sections below;
+those sections consume them and do not prove them again.
+
+- I1: integrable systems `TauCeti.SmoothTwoForm.IsIntegrableSystem` (a smooth F:M→ℝⁿ with
+  pairwise Poisson-commuting components, independent differentials on a dense set and 2n=dim M)
+  and first integrals `TauCeti.SmoothTwoForm.IsFirstIntegral`. For finitely many functions at a
+  point: the symplectic orthogonal of ker dF_x is the span of the X_(F_i)
+  (`TauCeti.SmoothTwoForm.IsNondegenerate.orthogonal_ker_mfderiv`), ker dF_x is coisotropic
+  exactly when they Poisson-commute (`TauCeti.SmoothTwoForm.IsNondegenerate.isCoisotropic_ker_mfderiv_iff`),
+  k Poisson-commuting functions regular at a point of a 2n-manifold have k≤n
+  (`TauCeti.SmoothTwoForm.IsNondegenerate.two_mul_card_le_finrank`), and
+  for an integrable system ker dF_x is Lagrangian at a regular point
+  (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`) and spanned by the
+  Hamiltonian vectors (`TauCeti.SmoothTwoForm.IsNondegenerate.ker_mfderiv_eq_span_hamiltonianVectorField`).
+  A function Poisson-commuting with every F_i is a function of F near a regular point and on
+  every open set of regular points with connected fibers
+  (`TauCeti.SmoothTwoForm.IsIntegrableSystem.exists_eventuallyEq_comp`,
+  `TauCeti.SmoothTwoForm.IsIntegrableSystem.exists_eqOn_comp`). Integrability is invariant under
+  local diffeomorphisms pulling the form back to the form and under reparametrization of the
+  values (`TauCeti.SmoothTwoForm.IsIntegrableSystem.comp_isLocalDiffeomorph`,
+  `TauCeti.SmoothTwoForm.IsIntegrableSystem.comp_left`). Complete Poisson-commuting Hamiltonian
+  flows commute (`TauCeti.SmoothTwoForm.IsSymplectic.commute_globalFlowDiffeomorph`).
+- I2: for a proper integrable system every X_(F_i) is complete
+  (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isCompleteVectorField_hamiltonianVectorField_of_isProperMap`).
+  Complete Poisson-commuting fields give an action of ℝⁿ
+  (`TauCeti.SmoothTwoForm.IsSymplectic.hamiltonianFlowAction`) which is transitive on every
+  connected component of a level consisting of regular points
+  (`TauCeti.SmoothTwoForm.IsSymplectic.range_hamiltonianFlowAction_apply`), with discrete
+  stabilizer Λ (`TauCeti.SmoothTwoForm.IsSymplectic.discreteTopology_hamiltonianFlowStabilizer`),
+  a homeomorphism ℝⁿ/Λ≅L (`TauCeti.SmoothTwoForm.IsSymplectic.quotientHamiltonianFlowStabilizerHomeomorph`)
+  and Λ cocompact when L is compact
+  (`TauCeti.SmoothTwoForm.IsSymplectic.compactSpace_quotient_hamiltonianFlowStabilizer`).
+- I2.0: the circle, torus and circle-family constructions listed at the start of I2.0.
+- I3: the Legendre map, energy, fibre Hessian, regularity and Cartan forms listed at the start of
+  I3, with the mechanical Lagrangian `TauCeti.mechanicalLagrangian`.
+- I4: the central-force Hamiltonian `TauCeti.centralForceHamiltonian` and angular momentum
+  `TauCeti.angularMomentum` with {H,L}=0 off the collision set
+  (`TauCeti.stdSymplecticForm_poissonBracket_centralForceHamiltonian_angularMomentum`, for the
+  linear bracket of the standard form, which is the manifold bracket of its constant form by
+  `TauCeti.SymplecticForm.poissonBracket_constSmooth`); the planar Runge–Lenz identity
+  |A|²=m²κ²+2mHL² (`TauCeti.norm_rungeLenz_sq_of_orthonormalBasis`), the conic orbit
+  (`TauCeti.norm_fst_eq_div_one_add_sqrt_mul_cos_angle`) and the Kepler radial action on the
+  whole bound-energy domain (`TauCeti.kepler_radialAction_turningRadii`); and the action–angle
+  parametrization of the harmonic oscillator (`TauCeti.oscillatorActionAngle`).
 
 ## I1. Involutive functions and regular fibers
 
-Define an n-tuple f=(f₁,…,fₙ) of smooth functions on a 2n-dimensional symplectic manifold, pairwise
-Poisson commuting and with independent differentials on a dense open regular set. Independence means
-surjectivity of df_x:T_xM→Rⁿ at each point, invariant under reparametrization and canonical transformations. A Hamiltonian
-H belongs to the system when it Poisson-commutes with every fᵢ; prove local H=h(f) in a connected submersion chart. On the saturated neighborhood of I2 prove
-H=h(f) by transitivity on its connected fibers; arbitrary disconnected fibers do not give global
-factorization.
+The system is an n-tuple f=(f₁,…,fₙ) of smooth functions on a 2n-dimensional symplectic manifold,
+pairwise Poisson commuting and with independent differentials on a dense open regular set:
+Tau Ceti's `TauCeti.SmoothTwoForm.IsIntegrableSystem`. Independence means surjectivity of
+df_x:T_xM→Rⁿ at each point, invariant under reparametrization and canonical transformations. A
+Hamiltonian H belongs to the system when it Poisson-commutes with every fᵢ; then H=h(f) near each
+regular point and on every open set of regular points with connected fibers, in particular on the
+saturated neighborhood of I2 (Tau Ceti, as listed above); arbitrary disconnected fibers do not
+give global factorization.
 
-For k≤n independent involutive functions prove regular common levels have tangent ker df,
-symplectic orthogonal spanned by X_fi, hence are coisotropic; derive the k≤n bound. For k=n they are
-Lagrangian and the Hamiltonian fields span their tangent spaces. Prove commuting flows wherever their
-compositions are defined; completeness is separate. Build the local Carathéodory–Jacobi–Lie normal
+For k≤n independent involutive functions, regular common levels have tangent ker df
+(SmoothBundlesConnections B1.0). At each point the symplectic orthogonal of ker df_x is spanned by
+the X_fi, so the levels are coisotropic and k≤n, and for k=n they are Lagrangian and the
+Hamiltonian fields span their tangent spaces: these linear statements are Tau Ceti's, the
+Lagrangian one being `TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`. Tau
+Ceti proves that complete Poisson-commuting flows commute; prove here that the flows commute
+wherever their compositions are defined, with no completeness. Build the local Carathéodory–Jacobi–Lie normal
 form: k commuting independent functions can be chosen as k momenta in a Darboux coordinate system,
 with canonical conjugate variables. This refines ordinary Darboux and needs Frobenius plus the
 Hamiltonian identities, not a second proof of general Darboux.
@@ -45,12 +106,27 @@ classify the rank-zero Hessian data there. This is explicit work here on the exi
 
 ## I2.0. Positive-period circles and families
 
-Construct the following reusable foundation independently of the integrable map in I1. The carrier is
-Mathlib's existing topological `AddCircle p`, for every real `p>0`; the quotient projection is
-`q_p(t)=[t]_p`. Generic smooth free/proper discrete quotients belong to TauCeti's existing manifold
-quotient API. This section owns their positive-period application, the comparison with the additive
-circle, and the resulting circle, torus and parameter-family interfaces. Generic forms, wedge,
-exterior differentiation and integration belong to
+This reusable foundation is independent of the integrable map in I1. The carrier is Mathlib's
+topological `AddCircle p`, for every real `p>0`; the quotient projection is `q_p(t)=[t]_p`. The
+pinned Tau Ceti implements the constructions of the paragraphs below, and I2 and S0 consume them
+from there: the real line `TauCeti.PeriodLine p` with its free, properly discontinuous action of
+`Multiplicative ℤ`, the transported atlas `AddCircle.instIsManifold` whose charts are local real
+lifts, the smooth local diffeomorphism `AddCircle.isLocalDiffeomorph_coe`, the Lie group
+`AddCircle.instLieAddGroup` and the orientation `AddCircle.instOrientable`; the time form
+`AddCircle.timeForm`, the unique form with q_p^*dt_p=dt (`AddCircle.eq_timeForm_iff`), of
+integral p over one circuit (`AddCircle.pathIntegral_timeForm_coe`); the rescalings
+`AddCircle.diffeomorphAddCircle`, with derivative q/p (`AddCircle.mfderiv_diffeomorphAddCircle`)
+and D_(p,q)^*dt_q=(q/p)dt_p (`AddCircle.mpullback_diffeomorphAddCircle_timeForm`); the torus
+time and volume forms `TauCeti.torusTimeForm` and `TauCeti.torusVolumeForm` with the torus
+orientation `TauCeti.torusOrientation`; the total family `TauCeti.CircleFamily` with its forms
+`TauCeti.CircleFamily.angleForm`, `TauCeti.CircleFamily.timeForm` and
+`TauCeti.CircleFamily.totalForm`; and the families `TauCeti.CircleFamily.Pullback` over a base,
+with base change, fiberwise rescaling and their forms. This section proves what those
+declarations do not contain: the restriction of the torus charts, forms and maps to open subsets
+with its compatibilities, naturality under association and insertion or deletion of point
+factors, the families for finite collections of periods with their product laws, and the uniform
+estimates of the last paragraph. Generic smooth free/proper discrete quotients belong to Tau
+Ceti's manifold quotient API, and generic forms, wedge, exterior differentiation and integration to
 [DifferentialGeometry Layers0–1 and8.4](../../DifferentialGeometry/README.md).
 
 **Quotient and atlas.** Put the real line on a p-indexed type synonym with transported topology and
@@ -150,19 +226,20 @@ there. Both use this single construction and its proved normalization conversion
 
 ## I2. Liouville–Arnold and local action-angle coordinates
 
-First prove the global completeness statement: if the commuting integrable map
-f is proper, every Hamiltonian field X_fi is complete. Each trajectory stays in
-the compact fiber f⁻¹(f(x)); apply the compact-escape extension criterion at
-both ends of its maximal time interval. This also treats critical fibers;
-transitivity and torus conclusions require the regularity below. Complete
-commuting fields give a global ℝⁿ-action, with its restriction/flow identities.
+The global completeness statement is Tau Ceti's: if the commuting integrable map f is proper,
+every Hamiltonian field X_fi is complete, critical fibers included; transitivity and torus
+conclusions require the regularity below. Complete commuting fields give a global ℝⁿ-action, with
+its restriction/flow identities (Tau Ceti, as listed above).
 
 Let L be a nonempty compact connected component of f⁻¹(c₀) and assume df is surjective
 at every point of L; other components of this level need not be regular. The commuting
-Hamiltonian fields are complete on L because L is compact and invariant. Construct the transitive
-Rⁿ-action on L, prove its isotropy subgroup is discrete and cocompact, and identify L smoothly with
-Rⁿ/Λ. For a regular fiber without compactness the statement is a cylinder R^(n−r)×T^r only if
-these fields are complete and the discrete stabilizer is specified; no torus conclusion is asserted.
+Hamiltonian fields are complete on L because L is compact and invariant. When the fields are
+complete on all of M, Tau Ceti proves that the ℝⁿ-action is transitive on L with discrete
+cocompact stabilizer Λ and that L is homeomorphic to Rⁿ/Λ. Prove here the same conclusions when
+the fields are complete only along L, by restricting the flows to the invariant compact set L,
+and identify L smoothly with Rⁿ/Λ. For a regular fiber without compactness the statement is a
+cylinder R^(n−r)×T^r only if these fields are complete and the discrete stabilizer is specified;
+no torus conclusion is asserted.
 
 Construct a local product around the fixed compact connected regular component L. Choose a
 smooth complement to ker(df) near L. Horizontal lifts of radial paths in a sufficiently small
@@ -180,7 +257,31 @@ proper-submersion theorem is a second reusable route with the same derived local
 Choose a local integral basis and construct actions I₁,…,Iₙ and angles
 θ∈(R/2πZ)^n with **ω=Σdθᵢ∧dIᵢ**, f=f(I), and X_H=Σ(∂h/∂Iᵢ)∂θᵢ.
 The chart is a symplectomorphism of a neighborhood with an open action domain times the whole torus,
-not a single ordinary Euclidean coordinate chart on the torus.
+not a single ordinary Euclidean coordinate chart on the torus. `exists_actionAngle` states this
+normal form on the cotangent bundle of the torus `Fin n → AddCircle p` with its canonical form
+`TauCeti.CotangentBundle.symplecticForm`: for an integrable system on a Hausdorff boundaryless
+2n-manifold and a compact connected component L of a level consisting of regular points, there
+are an open U⊇L, an open D⊆Rⁿ and a map which on U is an injective local diffeomorphism onto the
+covectors ξ with actions (ξ(e₁),…,ξ(eₙ))∈D, pulls the canonical form back to ω, and along which
+f is a function of the actions. It is stated for every period p>0: p=2π gives the angles above,
+and the cotangent lift of the rescaling θ↦(p/2π)θ of the torus converts them to period p,
+multiplying the actions by 2π/p and preserving Σdθᵢ∧dIᵢ.
+
+**Checks.**
+- For the oscillator H=(q²+p²)/2 on R² with ω=dq∧dp, n=1 and x₀=(1,0), L is the unit circle. With
+  I=(q²+p²)/2 and θ measured clockwise from the p-axis, (q,p)=(√(2I)sinθ,√(2I)cosθ) gives
+  dq=sinθ dr+r cosθ dθ and dp=cosθ dr−r sinθ dθ for r=√(2I), so dq∧dp=r dθ∧dr=dθ∧dI and H=I;
+  this is Tau Ceti's `TauCeti.oscillatorActionAngle` at unit mass and frequency. The
+  counterclockwise angle gives dq∧dp=−dθ∧dI, the wrong sign for ω=−dλ=Σdθᵢ∧dIᵢ.
+- At the critical point x₀=(0,0) of the same oscillator the level is the point {0}, where dH=0,
+  so the regularity hypothesis fails. The conclusion fails too: H would be constant on the circle
+  of the chart through 0, so that circle would lie in the level {0}.
+- For n=0 the manifold is discrete, L={x₀}, the torus is a point and its cotangent bundle a point;
+  U={x₀}, D=R⁰ and the constant map satisfy every clause, the form condition being one on zero
+  spaces.
+- For f(q,p)=p on T*R=R², every level is a line: L is not compact, and the conclusion fails,
+  since f would be constant on the compact circles of the chart while its levels in U are open
+  pieces of lines; so the compactness hypothesis is not removable.
 
 Orient γᵢ by t↦φ_(tλ^(i))(s(c)), t∈[0,1], and prove
 dIᵢ=(1/2π)Σ_j λ^(i)_j(c)dc_j; equivalently the lattice is
@@ -212,13 +313,21 @@ integral-affine change of a. Thus it has no global action chart onto an open V�
 
 ## I3. Hamiltonian and Lagrangian mechanics
 
-For a smooth L:TQ→R construct the fiber derivative/Legendre map FL:TQ→T*Q intrinsically.
-A regular Lagrangian has invertible fiber Hessian and local FL diffeomorphism; a hyperregular one has
-a **global** FL diffeomorphism. Define energy E_L=⟨FL(v),v⟩−L(v), Cartan form
-θ_L=FL*λ and ω_L=−dθ_L, and H=E_L∘FL⁻¹ in the hyperregular setting. Derive equivalence of
-Euler–Lagrange equations and Hamilton's equations, including second-order property of the flow and
-invariance under configuration coordinate changes. Build kinetic-plus-potential systems from a smooth
-positive definite metric and potential, and prove fiber Hessian/Legendre/energy formulas. Metric
+For a smooth L:TQ→R the intrinsic fiber derivative FL:TQ→T*Q, the energy E_L=⟨FL(v),v⟩−L(v),
+the fiber Hessian, regularity (invertible fiber Hessian, equivalently FL a local diffeomorphism on
+a boundaryless Q), the Cartan forms θ_L=FL*λ and ω_L=−dθ_L=FL*ω, and the kinetic-plus-potential
+Lagrangian of a metric and a potential with its Legendre, energy and fiber-Hessian formulas are
+Tau Ceti's: `TauCeti.legendreMap`, `TauCeti.lagrangianEnergy`, `TauCeti.fiberHessian`,
+`TauCeti.IsRegularLagrangian`, `TauCeti.isLocalDiffeomorph_legendreMap_iff`,
+`TauCeti.cartanForm`, `TauCeti.cartanTwoForm`, `TauCeti.mpullback_legendreMap_symplecticForm` and
+`TauCeti.mechanicalLagrangian`. A hyperregular Lagrangian is a regular one whose FL is bijective,
+hence a **global** diffeomorphism; then put H=E_L∘FL⁻¹. The Lagrangian vector field X_E is the
+Hamiltonian vector field of E_L for ω_L. Prove that for regular L it is second order,
+dπ(X_E(v))=v (`mfderiv_proj_lagrangianVectorField`), so that its integral curves are the velocity
+curves of the solutions of the Euler–Lagrange equations d/dt(∂L/∂v)=∂L/∂q in every chart, and
+that for hyperregular L the Legendre map carries it to Hamilton's equations,
+dFL(X_E(v))=X_H(FL v) (`mfderiv_legendreMap_lagrangianVectorField`); prove the invariance of these
+equations under configuration coordinate changes. Metric
 geodesic flow is the kinetic Hamiltonian flow via Legendre and the Levi–Civita connection of [HopfRinow](../../../Completed/HopfRinow/README.md).
 
 For time-dependent L or H build extended phase space T*(Q×R), Hamiltonian p_t+H(t,q,p), and
@@ -229,6 +338,17 @@ Hamiltonian conservation of [R1](../HamiltonianReduction/README.md#r1-smooth-act
 If the infinitesimal symmetry variation of L equals dB_ξ(t,q)/dt along curves,
 prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent transformation law.
 
+**Checks.**
+- On Q=R with L=½mv²−V(q), m>0: FL(q,v)=(q,mv), θ_L=mv dq, ω_L=m dq∧dv and E_L=½mv²+V(q).
+  Writing X_E=(a,b), ι_(X_E)ω_L=m(a dv−b dq) equals dE_L=mv dv+V′dq exactly when a=v and
+  b=−V′/m: the field is second order and its base curves solve mq̈=−V′(q). With
+  H=p²/(2m)+V, X_H=(∂H/∂p,−∂H/∂q)=(p/m,−V′), and at p=mv this is dFL(v,−V′/m)=(v,−V′).
+  Defining X_E by ι_Xω_L=−dE_L instead gives (−v,V′/m), which fails dπ(X_E(v))=v.
+- L(q,v)=v on Q=R is not regular: θ_L=dq, so ω_L=0 and the Hamiltonian vector field of E_L=0 is
+  0, whose projection is 0≠v for v≠0; the regularity hypothesis is not removable.
+- L(q,v)=e^v on Q=R is regular, with fiber Hessian e^v>0, but FL(q,v)=(q,e^v) misses the
+  covectors p≤0: L is not hyperregular and H=E_L∘FL⁻¹ is not defined on T*Q.
+
 ## I4. Examples that exercise the full API
 
 - Free particle: H=‖p‖²/(2m), m>0, linear flow with C3’s convention (q,p) the source and mass generalization, generating S=−m‖q−Q‖²/(2t), t≠0.
@@ -236,7 +356,11 @@ prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent t
   frequency: actions Eᵢ/νᵢ on {all Eᵢ>0}, angles and period lattice;
   resonant versus nonresonant orbit closure on a fixed invariant torus.
 - Planar central force Q=R²\{0}, H=‖p‖²/(2m)+V(r), L=q₁p₂−q₂p₁. Prove rotational
-  moment map, {H,L}=0, functional independence precisely away from p_r=0 and V_ℓ′(r)=0 simultaneously,
+  moment map; {H,L}=0 on the punctured domain is Tau Ceti's
+  `TauCeti.stdSymplecticForm_poissonBracket_centralForceHamiltonian_angularMomentum`, for
+  `TauCeti.centralForceHamiltonian` and `TauCeti.angularMomentum` with the standard basis vectors
+  of R² as the plane, in every dimension and for a potential differentiable at ‖q‖. Prove
+  functional independence precisely away from p_r=0 and V_ℓ′(r)=0 simultaneously,
   and global polar cotangent coordinates with θ∈R/(2πZ) obtained from the base diffeomorphism
   R²\{0}≅R_>0×R/(2πZ). Prove polar canonical
   coordinates `(r,θ,p_r,L)` with λ=p_r dr+L dθ. Reduce at L=ℓ to
@@ -269,14 +393,332 @@ prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent t
   in the (h,j)-plane around (1,0), γ_J the positive X_J-orbit, and γ₂ the forward
   X_H first-return path closed by backward X_J-rotation. Prove homology transport fixes γ_J
   and sends γ₂ to γ₂+γ_J, matrix [[1,1],[0,1]] with columns the transported basis.
-  Use the rotation-form/residue computation of [Efstathiou–Giacobbe–Mardešić–Sugny](https://arxiv.org/html/1608.01579),
-  §§II–III.2, building its first-return/rotation-number lemma and evaluating both polar contributions.
+  Use the rotation-form/residue computation of [Efstathiou–Giacobbe–Mardešić–Sugny](https://arxiv.org/abs/1608.01579),
+  §II.A–II.C and §III.B, building its first-return/rotation-number lemma and evaluating the three
+  polar orbits P₊, P₋, P₀ of its spherical-pendulum loop, of which P₋ and P₀ cancel.
   Use the stated (h,j) orientation: the continuous lift of Θ decreases by 2π around
   the loop, so the closing −Θ segment gains a positive J-orbit.
   This supplies the nonlinear monodromy proof; the quadratic focus-focus Hessian alone does not.
   Conclude failure of global action-angle coordinates around this value.
 
+## I5. The strict annulus fixed-point theorem
+
+Prove the following theorem with the constructions below; it is the Poincaré–Birkhoff theorem for
+smooth area-preserving maps (Le Calvez–Wang, Thm. 1, p. 704, state it for area-preserving
+homeomorphisms), proved here by the generating-function and isolating-block route of
+Conley–Zehnder (Invent. Math. 73 (1983), pp. 33–49). Let A=(ℝ/ℤ)×[0,1], let ω be a smooth
+positive area form, and let f:A→A be a smooth diffeomorphism preserving ω and each boundary
+component. Fix a degree-one lift F of f commuting with T(x,y)=(x+1,y). Require strict opposite
+boundary displacements: F^x(x,0)<x and F^x(x,1)>x for every x. The conclusion is at least two
+distinct fixed points with zero displacement for this chosen lift; no nondegeneracy or
+monotone-interior-twist hypothesis is imposed. For the reversed boundary inequalities apply the same
+statement to f⁻¹. Compactness gives uniform positive margins in the inequalities. For an
+orientation-preserving boundary circle lift, a positive uniform displacement gives positive rotation
+number by iteration, and negative gives negative. Conversely a lift with a zero displacement has
+rotation number zero; continuity and periodicity then show nonzero signed rotation number gives the
+corresponding strict pointwise sign. Expose this equivalence with the actual rotation-number
+definition and chosen lift, rather than changing lift halfway through the proof.
+
+Construct compatible smooth extensions to open collars of the closed annulus. Extend the periodic coordinate functions using boundary charts and a periodic partition of unity; the inverse derivative identity at the boundary and the inverse function theorem give local inverses. Compactness on the annulus quotient and injectivity on the closed annulus give injectivity after shrinking the collars. Lift this collar diffeomorphism to the strip. Use the native `CircleDeg1Lift` translation-number API for the boundary lifts and prove the displacement/translation-number comparison above. `strict_annulus_two_fixed_points` states the lifted form on actual open partial homeomorphisms of the plane: the lift F on the
+closed `strip`, with the two fixed points taken in the half-open `interiorFundamentalDomain` so
+that they are distinct annulus points, a smooth positive T-periodic density ρ on the strip with ρ(F(p))·det DF_p=ρ(p), the boundary identities and the strict displacements. The constant density is the standard-area case, and I5.0 reduces every density to it.
+
+### I5.0. Carrier, area and generating conventions
+
+A general positive density ρ(x,y)dx∧dy is normalized explicitly. Put s(x)=∫_0^1ρ(x,r)dr and
+a=∫_0^1s(x)dx>0. The coordinates u=a⁻¹∫_0^x s(t)dt modulo1, v=s(x)⁻¹∫_0^yρ(x,r)dr give a
+boundary-preserving orientation-preserving diffeomorphism with a du∧dv=ω. Prove inverse smoothness
+and the endpoint identities by positivity and the inverse function theorem. Degree-one boundary
+conjugacy transports the lift inequalities, or equivalently rotation signs. Thus work below with
+dx∧dy.
+
+Use the generating convention y=−∂_1S, Y=∂_2S, so S is the negative of CotangentLagrangian C3's
+generator. With W=ΣS_k, derive ∂_kW=Y_(k−1)−y_k and negative-gradient velocity xdot_k=y_k−Y_(k−1).
+Prove all signs from these equations.
+
+**Checks.**
+- The constant density ρ≡1 gives s≡1, a=1 and (u,v)=(x,y): the normalization is the identity.
+- The density ρ=1+y gives s=3/2, a=3/2, u=x and v=(2y+y²)/3, with v(x,0)=0, v(x,1)=1 and
+  a du∧dv=(1+y)dx∧dy=ω; omitting the factor a gives (2/3)(1+y)dx∧dy, which is not ω.
+- For the shear R_c(x,y)=(x+cy,y), c>0, the generator in this convention is S=(X−x)²/(2c):
+  y=−∂_1S=(X−x)/c and Y=∂_2S=(X−x)/c=y. With C3's convention p=d_1S the same S would give
+  y=−(X−x)/c, the wrong sign; the two conventions differ exactly by the sign of S.
+
+### I5.1. Smooth area-preserving isotopy and finite twist factorization
+
+Construct an isotopy through orientation-preserving, boundary-component-preserving smooth
+diffeomorphisms from id to f. Prove here that every orientation-preserving smooth
+diffeomorphism of the closed annulus preserving each boundary component is smoothly isotopic to the identity through such
+diffeomorphisms (Epstein, Acta Math. 115 (1966), Thm. 6.4; Gramain, Ann. Sci. ÉNS 6 (1973),
+Thm. 1, pp. 53–54, records that the diffeomorphisms of the annulus homotopic to the identity
+have the homotopy type of O(2), whose identity component consists of exactly these maps). Route.
+Lift the two boundary maps of f to increasing degree-one maps b_±:ℝ→ℝ. The interpolation
+`B_t(x,y)=((1−t)x+t((1−y)b_−(x)+y b_+(x)), y)` has positive x-derivative, commutes with T and
+preserves both boundary lines, so it is a boundary-preserving isotopy from the identity to a
+diffeomorphism B_1 with the boundary maps of f; then g=B_1⁻¹∘f fixes the boundary pointwise. Lift
+g to G on the strip, commuting with T and fixing the lower boundary line pointwise; G is then a
+lift of the identity on the upper boundary circle, so it translates the upper line by an integer
+m. The image under G of the segment {0}×[0,1] is a properly embedded arc from (0,0) to (m,1);
+composing with the inverse of the twist τ^m, τ(x,y)=(x+y,y), gives τ^(−m)∘G, which fixes both
+boundary lines pointwise and sends the segment to an arc from (0,0) to (0,1), which is isotopic to the segment relative to its endpoints through properly embedded arcs
+(Epstein's arc theorems). Extend this arc isotopy, together with its T-translates, to an ambient
+isotopy of the strip fixing both boundary lines, by integrating a compactly supported T-periodic
+time-dependent vector field that extends the arc velocities (DifferentialGeometry Layer 3, 3.5).
+The result fixes the boundary lines and the segment pointwise, hence restricts to a diffeomorphism
+of the closed square [0,1]² fixing its boundary pointwise. Prove that such a diffeomorphism of the
+square is isotopic rel boundary to one equal to the identity near the boundary: at a point of an
+edge, in (tangent, normal) coordinates, its derivative is upper triangular with tangential entry 1
+and positive normal entry, so its convex combination with the identity has positive determinant
+along the boundary and, cut off to a thin collar, stays a diffeomorphism. Smale's theorem (Smale, Proc. AMS 10
+(1959), Thm. B, p. 621: diffeomorphisms of the square which are the identity near the boundary
+form a contractible space) then gives an isotopy to the identity through such diffeomorphisms; it
+transfers to the strip by T-equivariance and descends to the annulus. Finally the twist τ^m is
+isotopic to the identity through boundary-component-preserving diffeomorphisms by
+τ_s(x,y)=(x+smy,y), s from 1 to 0, which rotates the upper boundary circle. Concatenate the pieces
+and smoothly reparametrize. *Needs:* DifferentialGeometry Layer 3 (3.2 maximal flows, 3.3
+completeness of compactly supported fields, 3.5 time-dependent flows); Smale's theorem; Epstein's
+arc and isotopy theorems.
+
+Make this path area-preserving without assuming a Hamiltonian isotopy. Write h_t*(dx∧dy)=ρ_t dx∧dy,
+g_t=ρ_t−1, and bar_g_t(y)=∫_0^1g_t(x,y)dx. Set `a_t(y)=−∫_0^y bar_g_t(r)dr`,
+`b_t(x,y)=∫_0^x(g_t(s,y)−bar_g_t(y))ds`, `β_t=a_t dx+b_t dy`. Total area gives a_t(0)=a_t(1)=0, b_t
+is periodic, and dβ_t=(ρ_t−1)dx∧dy. For the auxiliary parameter s interpolate the POSITIVE two-forms
+ω_(t,s)=(1+s(ρ_t−1))dx∧dy. The field ι_Xω_(t,s)=−β_t is tangent to both boundary circles because its
+y-component vanishes there. Extend smoothly to a common open collar and cut off away from A. DG3's
+time-dependent flow and boundary invariance by uniqueness give its full s-flow ψ_(t,s), smooth in t.
+The map k_t=h_t∘ψ_(t,1) preserves area. At t=0,1 the density is1, β_t=0, so ψ_(t,1)=id and the
+endpoints remain id,f. This explicit boundary-tangent construction supplies the boundary case; the
+compact-boundaryless global Moser theorem is not applied unchanged. Adjust the lifted path by an
+integer rigid-rotation loop if necessary so its endpoint is exactly the specified F, then retain
+that lift throughout.
+
+In the C¹ topology, continuity on the compact path interval gives a finite partition such that each
+increment lies in a prescribed small identity neighborhood U. Fix a shear R_c(x,y)=(x+cy,y), c>0.
+For U sufficiently small, H∈U implies N=R_c⁻¹H has N_Xx>0 and N_Xy<0 throughout A, while R_c has
+X_x=1 and X_y=c>0. Thus each increment is R_c∘N, and the exact lifted composition is F=F_(2K)⋯F_1,
+K≥1, with odd factors negative twist, even factors positive twist, and EVERY factor X_x>0. All
+factors preserve area and both boundaries. Prove these uniform derivative inequalities from C¹
+closeness; the generic fact that twist maps are open alone does not install X_x>0.
+
+For each factor the coordinate map (x,y)↦(x,X_k(x,y)) is a global diffeomorphism from the strip onto
+its boundary-graph band, with the chosen smooth extension near the closed band. The form YdX−ydx is
+closed. Its period under simultaneous integer translation is zero: on the lower boundary y=Y=0 it
+vanishes on tangent vectors. Path integration on the simply connected band from a base point on the
+lower boundary graph {(x,X_k(x,0))} supplies S_k; along that graph y=Y=0, so the form vanishes on
+its tangent vectors and S_k≡0 there, which fixes the additive constant of every S_k. That zero
+period makes S_k(x+1,X+1)=S_k(x,X). Expose smoothness up to an open neighborhood of the closed
+admissible band and the derivative equations. This proves the required exactness and finite global
+generating functions on the actual closed bands and their collar neighborhoods.
+First construct S_k on the closed band and prove smoothness up to its boundary;
+then extend S_k periodically to an open band, retaining its mixed-derivative sign
+by shrinking. Its generating equations there can define a symplectic collar
+extension agreeing with the factor on the closed strip. An arbitrary initial
+collar extension of the factor is not assumed area-preserving outside that strip.
+
+**Checks.**
+- For F(x,y)=(x+(2y−1)/8,y) and c=1 the factor N=R_1⁻¹F=(x−(6y+1)/8,y) has N_Xx=1>0 and
+  N_Xy=−3/4<0, so F=R_1∘N is a factorization with K=1. With c=1/8 instead, N=(x+(y−1)/8,y) has
+  N_Xy=+1/8: a shear smaller than the increment's twist does not factor it, so the partition must
+  be fine relative to the chosen c.
+- The generator of that N, normalized on the lower boundary graph X=x−1/8, is
+  S_1(x,X)=−(2/3)(x−X)²+(x−X)/6−1/96, with S_12=4/3=−1/N_Xy; the generator of R_1, vanishing on
+  X=x, is S_2(x,X)=(X−x)²/2 with S_12=−1=−1/R_Xy. Dropping the normalization changes S_1 by 1/96
+  and every action value of I5.2 by the same constant.
+- For the density ρ_t=1+ε sin(2πx), |ε|<1, the Moser data are bar_g_t=0, a_t=0 and
+  b_t=ε(1−cos 2πx)/(2π), periodic, with dβ_t=ε sin(2πx)dx∧dy=(ρ_t−1)dx∧dy; the field has zero
+  y-component everywhere, so it is tangent to both boundary circles. Defining the field by
+  ι_Xω_(t,s)=+β_t instead of −β_t gives d/ds(ψ_(t,s)^*ω_(t,s))=ψ_(t,s)^*(2dβ_t)≠0, so ψ_(t,1)
+  pulls ω_(t,1) back to (1+2ε sin(2πx))dx∧dy+O(ε²) instead of dx∧dy: the sign in ι_Xω=−β_t is
+  what makes the Moser flow correct the density rather than double its defect.
+
+### I5.2. Finite action, quotient and periodic-orbit dictionary
+
+Use cyclic configurations (x_1,…,x_(2K)), x_(2K+1)=x_1, in the common open domain of the S_k, modulo
+simultaneous integer translation of all positions. The quotient is an open subset of
+ℝ^(2K)/ℤ≅S^1×ℝ^(2K−1), with the explicit coordinates (x_1 mod1,x_2−x_1,…,x_(2K)−x_1). Define
+W=ΣS_k(x_k,x_(k+1)), a smooth function on that quotient. The diagonal integer quotient is necessary
+for compactness and for counting marked fixed points correctly. The inherited Euclidean metric on
+position space is deck invariant and descends to the metric used for −grad W.
+
+For every configuration put y_k=−∂_1S_k(x_k,x_(k+1)) and Y_k=∂_2S_k(x_k,x_(k+1)), so that
+F_k(x_k,y_k)=(x_(k+1),Y_k). CotangentLagrangian C3.1's chain dictionary supplies the bijection
+between the critical configurations of a cyclic action and the fixed points of the composite whose
+every intermediate state is admissible; instantiate it with the base ℝ, the generators −S_k of
+I5.0 and the composite F=F_(2K)∘⋯∘F_1, so that its critical equations read Y_(k−1)=y_k at every
+k. Own here only what the dictionary does not say: W and the dictionary descend to the diagonal
+ℤ-quotient, where the dictionary is injective on (x_1 mod1, y_1), so two critical points of W on
+the quotient give two distinct zero-displacement fixed points of F on the annulus. Different lifts
+of one point or different cyclic markings are not distinct points.
+
+**Checks.**
+- For the K=1 example of I5.1, with d=x_2−x_1, the admissible band is −7/8≤d≤−1/8 and
+  W(d)=S_1(x_1,x_2)+S_2(x_2,x_1)=1/32−(d+1/2)²/6; its critical set is the circle d=−1/2, where
+  y_1=−(4/3)d−1/6=1/2, matching the circle of fixed points {y=1/2} of F. Without the I5.1
+  normalization the constant 1/32 becomes 1/24.
+- W is invariant under the diagonal translation (x_1+1,x_2+1) but not under translating x_2 alone,
+  since S_1 depends on x_1−x_2; only the diagonal quotient carries W.
+- The momentum y_1=−(4/3)d−1/6 lies in [0,1] exactly for d in the admissible band; with C3's sign
+  of S the same formula would give negative momenta throughout the band.
+
+### I5.3. The actual compact block and all face directions
+
+Let P be the closed admissible configurations 0≤y_k≤1. Compactness follows after the diagonal
+quotient: x_1 lies on S^1 and every successive displacement X_k(x_k,y_k)−x_k is uniformly bounded on
+its compact periodic strip. All boundary/generating functions extend to an open neighborhood of P.
+There, multiply −grad W by a compactly supported smooth cutoff equal1 near P and extend by zero in
+S^1×ℝ^(2K−1). DG3.3 supplies a complete flow; the dynamics on P are unchanged. Only Crit(W) in
+Inv(P) is counted.
+
+At a face y_k=c∈{0,1}, boundary preservation gives Y_k=c. Let B_k(x)=X_k(x,c); B_k′>0.
+Differentiating c=−∂_1S_k(x,B_k(x)) gives S_11=−S_12 B_k′ at that face. Also S_12=−1/(X_ky), so it
+is negative for even factors and positive for odd ones. Along negative gradient,
+`ydot_k=S_11(Y_(k−1)−y_k)+S_12(Y_k−y_(k+1))`. For a positive factor this points weakly inward on
+BOTH faces; for a negative factor it points weakly outward. Equality occurs exactly when BOTH
+neighboring incoming momenta equal the same c: Y_(k−1)=c iff y_(k−1)=c because the preceding factor
+is a boundary-preserving diffeomorphism. Evaluate these derivatives at the stated action-coordinate
+pair.
+
+Prove the edge cases, not only open faces. Take a maximal cyclic run of inputs equal to c. It cannot
+be the full cycle, since that would give a fixed lift on the corresponding boundary, contradicting
+the strict boundary inequality. If the run has a negative-factor endpoint, its outward derivative is
+strict. If both endpoints are positive-factor inputs and the run contains a negative-factor input,
+an adjacent negative input has zero first derivative but a strict outward SECOND derivative. Indeed
+on a boundary face dY_j=(1/B_j′)dy_j; at a negative face with zero first derivative the
+coefficient-derivative terms vanish, giving `yddot_k=S_11 ydot_(k−1)/B_(k−1)′−S_12 ydot_(k+1)`. Its
+neighboring positive-face derivatives have the inward sign, one strict at a run endpoint, giving the
+claimed strict outward acceleration. If the boundary point has only positive-factor faces, each has
+strict inward derivative, so the reverse flow exits. Thus every boundary point exits in at least one
+time direction, and the closed positive exit set is EXACTLY `L={x∈P : y_k=0 or1 for some odd k}`.
+Prove the Taylor-sign statements in a common smooth extension neighborhood. No critical point lies
+on the boundary. Establish here the index-pair data of the cut-off flow Φ on the pair (P,L): first exit is
+immediate on L;
+its time tends to0 for points of P approaching L by the strict first/second-order exit; away from L
+all active positive faces are strictly entering, and every positive-time trajectory before its first
+exit is interior. An interior trajectory's first finite exit cannot have only second-order outward
+tangencies: such a face is outside for both sufficiently small positive and negative time about that
+event, contradicting its first-exit property. Therefore some active odd face has strict first-order
+outward derivative at every first finite exit reached from the interior. The implicit function
+theorem and compact-time interior margin give continuity of that exit time away from L. At L, for
+every small positive reference time the actual trajectory is already strictly outside P; continuous
+dependence makes nearby points exit by that time, so their exit times tend to0. At an inflow point
+with no odd face active, every active positive face is strictly inward, giving a common initial
+interior segment for nearby points of P. These statements also give lower semicontinuity at infinite
+exit time. Prove the corresponding joint quotient-flow continuity, including time0/basepoint, from
+these estimates and compactness. The exit time τ:P→[0,∞], continuous in this sense with τ=0
+exactly on L, is the input of the injectivity lemma of I5.4; the raw image Φ^t(P) is not used as
+a subset of P.
+
+**Checks.**
+- In the K=1 example, y_2=−d∈[1/8,7/8] on P, so the even faces are inactive; the descended
+  negative gradient is d′=(2/3)(d+1/2), hence ydot_1=−(8/9)(d+1/2) equals −1/3 at d=−1/8 (the face
+  y_1=0) and +1/3 at d=−7/8 (the face y_1=1), both outward. So L is both boundary circles of the
+  band and the relative orientation degree is 1. With C3's sign of S both derivatives would point
+  inward, L would be empty and the pair class of I5.4 would vanish.
+- At y_k=0 for an even factor (S_12<0) the formula gives ydot_k=S_12(−B_k′Y_(k−1)−y_(k+1))≥0,
+  into y_k≥0; for an odd factor (S_12>0) the same expression is ≤0, outward. The identity
+  S_11=−S_12B_k′ is what makes the two terms combine with one sign.
+- All inputs y_k=0 would be a lifted fixed point on the lower boundary, excluded by F^x(x,0)<x; in
+  the K=1 example y_1=0 forces d=−1/8 and then y_2=1/8≠0.
+
+### I5.4. Pair deformation and the correct shifted cup module
+
+Use (x_1,y_1,…,y_(2K)) to reconstruct successive positions by X_k and impose the single equation
+G=x_(2K+1)−x_1=0. Put u for the K even (positive) incoming momenta and v for the K odd (negative)
+momenta. Since EVERY X_kx>0, the chain rule gives ∂G/∂u_i>0 and ∂G/∂v_i<0. At all inputs0,
+G=F^x(x_1,0)−x_1<0; at all inputs1 it is G=F^x(x_1,1)−x_1>0. Thus for each (x_1,v),
+G(x_1,0,v)<0<G(x_1,1,v). The unique diagonal root u=t(x_1,v)·1 lies in the open positive cube and
+depends smoothly/periodically on (x_1,v).
+
+Construct an explicit strong deformation retraction of each positive-input level fiber to that root.
+For u with G=0, first interpolate a_s=(1−s)u+s t·1. Choose τ∈[−1,1] such that
+G(x_1,clamp(a_s+τ·1,0,1),v)=0, using the endpoint signs and the intermediate value theorem. Although
+τ can have a plateau at a vertex, the resulting VECTOR is unique: increasing τ makes every
+coordinate nondecreasing, and any strict coordinate increase strictly increases G. Continuity
+follows by compactness of [−1,1], subsequences and uniqueness of that vector. At s=0 it is u, at s=1
+it is t·1, and the root remains fixed throughout. The construction preserves (x_1,v) and is periodic
+in x_1. Therefore it is a homotopy equivalence of PAIRS `(P,L) ≃ (S^1×[0,1]^K, S^1×∂([0,1]^K))`,
+commuting with the circle projection. This proves the pair/module comparison for every K. In
+particular the relative orientation class has degree K.
+
+Choose v_0 in the open negative cube. The root section at v_0 embeds a circle P_0⊂P, and α:P→P_0
+given by x_1 is a retraction. The cohomology throughout is Čech cohomology with real coefficients.
+CharacteristicClasses C1.2b supplies the Čech cohomology of a topological space with constant
+coefficients as the colimit over open covers, its homotopy invariance and its cup-compatible
+comparison with singular cohomology on closed CW pairs. Own here its compact-pair theory: for
+compact metric pairs (X,A) the relative groups Ȟ^*(X,A;ℝ), the exact sequence of the pair,
+homotopy invariance for maps of pairs, excision for closed covers X=A∪B (Ȟ^*(X,A)≅Ȟ^*(B,A∩B)),
+continuity for a compact subset S⊂X (a class of Ȟ^*(X) vanishing on S vanishes on a closed
+neighborhood of S), and the relative cup product Ȟ^j(X)⊗Ȟ^k(X,A)→Ȟ^(j+k)(X,A) with its
+naturality under maps of pairs. Prove these as Spanier's theorems for Alexander–Spanier
+cohomology (Spanier, Algebraic Topology, Ch. 6, §§6.6–6.9) and own the transport: the natural
+isomorphism, for compact Hausdorff pairs (X,A) with A closed, between the open-cover Čech
+cohomology of C1.2b and Alexander–Spanier cohomology, compatible with maps of pairs and with cup
+products, so that every statement above holds for the groups of C1.2b. On the model pair (S^1×[0,1]^K,S^1×∂[0,1]^K) the comparison
+identifies these with AlgebraicTopology's singular products (Stage 6, the absolute-relative module
+action) and its Künneth isomorphism over the field ℝ (Stage 5). Transporting the pair homotopy
+equivalence above, obtain u∈Ȟ^K(P,L;ℝ), the pullback of the generator of
+H^K([0,1]^K,∂[0,1]^K;ℝ), such that v↦u∪α^*v is an isomorphism Ȟ^j(P_0;ℝ)→Ȟ^(j+K)(P,L;ℝ) for
+every j; identify the chosen relative cube orientation and the Koszul sign (−1)^(Kj) when changing
+cup order in degree j.
+
+Prove the two flow-theoretic statements that the count rests on (Conley–Zehnder, Invent. Math. 73
+(1983), pp. 33–49, whose torus argument they are). Let Φ be the complete cut-off flow of I5.3,
+S=Inv(P) the maximal invariant subset of P, and L the exit set. First, the injectivity lemma: if
+cup product with a class u∈Ȟ^K(P,L) is an isomorphism Ȟ^j(P)→Ȟ^(j+K)(P,L) for every j, then
+restriction Ȟ^*(P)→Ȟ^*(S) is injective. Route: for t≥0 let N_t be the points whose forward orbit
+stays in P for time t and E_t those leaving by time t, closed sets with P=N_t∪E_t; the map r_t
+sending p to its position at time min(t,τ(p)), with τ the exit time of I5.3, is continuous, maps L
+to L and E_t to L, and is homotopic to the identity as a map of pairs (P,L)→(P,L). So the pair
+inclusion (P,L)→(P,E_t) is a left inverse of r_t up to homotopy; for v∈Ȟ^j(P) vanishing on N_t,
+u∪v=j^*(r_t^*u∪v), and r_t^*u∪v lies in Ȟ^*(P,E_t)≅Ȟ^*(N_t,N_t∩E_t), where it restricts to
+(r_t^*u)|∪(v|_(N_t))=0 by naturality; hence u∪v=0, v=0, and Ȟ^*(P)→Ȟ^*(N_t) is injective.
+Continuity passes to S^+=∩_t N_t, the points whose forward orbit stays in P. For the step from S^+
+to S: every ω-limit set of a point of S^+ lies in S, so by compactness Φ^t maps S^+ into any
+prescribed neighborhood of S in S^+ for t large; Φ^t on S^+ is homotopic to the identity, so a class
+vanishing on S, hence on that neighborhood by continuity, vanishes on S^+. Second, the cup-length
+bound: a flow on a compact metric space S with a continuous Lyapunov function strictly decreasing
+along every nonconstant orbit has at least cl(Ȟ^*(S;ℝ))+1 rest points, where the cup length cl is
+the largest ℓ with a nonzero ℓ-fold product of positive-degree classes (0 if none). Route: the
+Lusternik–Schnirelmann minimax over the sublevel sets of the Lyapunov function, with the
+deformation lemma supplied by the flow and compactness, continuity to pass from a finite rest-point
+set at a level to a neighborhood, and the standard argument that a repeated minimax level carries
+infinitely many rest points. Here the Lyapunov function is W, the class of S^1 survives in Ȟ^1(S) by
+the injectivity lemma, so cl(Ȟ^*(S))≥1 and W has at least two critical points in Inv(P); I5.2
+converts them to the required two fixed points. Each topology, flow, relative-cup and
+orbit-dictionary construction is a required part of the theorem; prove the stated maps and
+identities on the constructed carriers. *Needs:* I5.2, I5.3; CharacteristicClasses C1.2b;
+AlgebraicTopology Stages 5–6; DifferentialGeometry Layer 3.
+
+**Checks.**
+- In the K=1 example, G(x_1,u,v)=u−(6v+1)/8 with ∂_uG=1>0 and ∂_vG=−3/4<0; G(x_1,0,0)=−1/8 is
+  F^x(x,0)−x and G(x_1,1,1)=1/8 is F^x(x,1)−x; the root t(v)=(6v+1)/8 lies in (0,1) for every
+  v∈[0,1].
+- For K=1 the pair is (S^1×[0,1],S^1×{0,1}), u is the class of ([0,1],{0,1}), and
+  v↦u∪α^*v is an isomorphism Ȟ^0(P_0)→Ȟ^1(P,L) and Ȟ^1(P_0)→Ȟ^2(P,L) between one-dimensional
+  spaces; the Koszul sign for j=1 is −1.
+- Negative control for the injectivity lemma: for the flow ydot=1 on P=S^1×[0,1], L is the upper
+  circle, Ȟ^*(P,L)=0, so the cup hypothesis fails for every u, and indeed Inv(P)=∅ has
+  Ȟ^*(∅)=0.
+- The cup-length bound is sharp: the gradient flow of the height function on S^1 has exactly
+  2=cl(Ȟ^*(S^1))+1 rest points; the K=1 example has the whole circle d=−1/2 of rest points,
+  infinitely many, consistent with the bound.
+
+Acceptance: for F(x,y)=(x+(2y−1)/8,y), take c=1 and K=1. With d=x_2−x_1, derive −7/8≤d≤−1/8 and
+W(d)=1/32−(d+1/2)^2/6 with the S_k normalized on their lower boundary graphs. The descended
+Euclidean negative gradient has d′=(2/3)(d+1/2), so both endpoints exit and the relative
+orientation degree is 1. Verify the action, face, pair and counting formulas on this example and
+on the general strict-twist construction. The rigid rotation (x+1/4,y) is the negative control for
+the hypothesis: it preserves area and both boundaries but displaces both boundary circles in the
+same direction, and it has no fixed point. Fixed points of an iterate are phase points; a separate
+orbit-count argument is required for claims about geometrically distinct periodic orbits.
+
 ## Acceptance and order
+
+I5 consumes C3's generating calculus and C3.1's chain dictionary, I2.0's independent period-one
+circle, DifferentialGeometry's complete parameter flows, CharacteristicClasses C1.2b's Čech
+cohomology and AlgebraicTopology's singular products; it owns the annulus isotopy theorem, the
+compact-pair Čech theory, the index-pair data and the Conley–Zehnder injectivity and cup-length
+statements. Its isotopy, factorization and finite action precede its block/pair/cup argument.
 
 I2.0 is independent of I1. I1 and I2.0 precede the Liouville–Arnold construction in I2; I3 consumes
 cotangent geometry and Hamiltonian foundations; I4 consumes I1–I3 and reduction as needed. Verify every action-angle chart by pulling back ω and differentiating H, not only
@@ -289,4 +731,16 @@ regularity is part of system data; a theorem at one regular point does not estab
 Cannas da Silva, [*Lectures on Symplectic Geometry*](https://people.math.ethz.ch/~acannas/Papers/lsg.pdf),
 §18.4; Arnold, *Mathematical Methods of Classical Mechanics*, central forces and integrability chapters;
 Duistermaat, *On global action-angle coordinates*, Comm. Pure Appl. Math. 33 (1980), 687–706;
-Marsden–Ratiu, *Introduction to Mechanics and Symmetry*, Lagrangian/Legendre and Noether theory.
+Marsden–Ratiu, *Introduction to Mechanics and Symmetry*, Lagrangian/Legendre and Noether theory;
+Efstathiou–Giacobbe–Mardešić–Sugny, *Rotation forms and local Hamiltonian monodromy*, J. Math.
+Phys. 58 (2017), [arXiv:1608.01579](https://arxiv.org/abs/1608.01579);
+Le Calvez–Wang, [*Some remarks on the Poincaré–Birkhoff theorem*](https://www.ams.org/journals/proc/2010-138-02/S0002-9939-09-10105-3/),
+Proc. AMS 138 (2010), 703–715, Thm. 1;
+Conley–Zehnder, *The Birkhoff–Lewis fixed point theorem and a conjecture of V. I. Arnold*,
+Invent. Math. 73 (1983), 33–49;
+Smale, [*Diffeomorphisms of the 2-sphere*](https://www.ams.org/journals/proc/1959-010-04/S0002-9939-1959-0112149-8/),
+Proc. AMS 10 (1959), 621–626, Thm. B;
+Epstein, *Curves on 2-manifolds and isotopies*, Acta Math. 115 (1966), 83–107, Thm. 6.4;
+Gramain, [*Le type d'homotopie du groupe des difféomorphismes d'une surface compacte*](https://www.numdam.org/item/ASENS_1973_4_6_1_53_0/),
+Ann. Sci. ÉNS 6 (1973), 53–66, Thm. 1;
+Spanier, *Algebraic Topology*, Springer, Ch. 6 (Alexander–Spanier and Čech cohomology).

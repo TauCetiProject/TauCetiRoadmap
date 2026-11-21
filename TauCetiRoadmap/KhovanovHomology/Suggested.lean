@@ -15,7 +15,7 @@ import Mathlib.Logic.Relation
 import Mathlib.LinearAlgebra.TensorProduct.Basic
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import TauCeti.KnotTheory.PDCode.Kauffman
-import TauCeti.KnotTheory.PDCode.Jones
+import TauCeti.KnotTheory.PDCode.Jones.Basic
 
 noncomputable section
 
@@ -317,7 +317,7 @@ def bigradedStateEmbedding {n : ℕ} (D : OrientedPDCode n) (i j : ℤ) :
     {e : EnhancedState D // enhancedCochainDegree D e = i ∧ enhancedQuantumDegree D e = j} ↪
       {e : EnhancedState D // enhancedCochainDegree D e = i} where
   toFun e := ⟨e.1, e.2.1⟩
-  inj' a b h := Subtype.ext
+  inj' _ _ h := Subtype.ext
     (congrArg (fun e : {e : EnhancedState D // enhancedCochainDegree D e = i} => e.1) h)
 
 /-- The inclusion of a quantum summand is the actual basis-index inclusion. -/
