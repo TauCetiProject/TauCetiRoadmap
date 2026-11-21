@@ -40,8 +40,9 @@ and not on `σ`; at `ℚ` under the Riemann hypothesis this is von Koch's theore
 The roadmap extends ZerosOfLFunctions, whose growth bounds, zero counts, Hadamard factorizations,
 zero-free regions, argument bounds and explicit formulas the consequences use, and
 [LFunctions](../../LFunctions/README.md), whose analytic records and continued Dedekind, Dirichlet
-and Hecke L-functions the predicates are read on. Mathlib supplies the continued Dirichlet
-L-functions, `riemannZeta` and `RiemannHypothesis`. In the family
+and Hecke L-functions the predicates are read on. The zero-free half-plane predicate and its first
+properties are those of [QuasiRiemannHypothesis](../../QuasiRiemannHypothesis/README.md). Mathlib
+supplies the continued Dirichlet L-functions, `riemannZeta` and `RiemannHypothesis`. In the family
 [RiemannHypothesisForDirichletLFunctions](../README.md), the predicates, the Riesz remainders and
 the remainder bound are the statements through which
 [GeneralizedRiemannHypothesisFromWindowBounds](../GeneralizedRiemannHypothesisFromWindowBounds/README.md)
@@ -53,17 +54,18 @@ Layer 3 proves Hadamard's three-circles theorem. Layer 8 defines Riesz sums and 
 of a primitive character with its Mellin transform and explicit formula, proves Selberg's smoothed
 formula for the logarithmic derivative, shows that the primitive characters attached to a
 reciprocity dictionary do not depend on it, and expands Riesz-smoothed character sums through a
-surjection of a ray class group. Layer 9 defines the zero-free half-plane predicate and the Riemann
-hypotheses, proves their equivalent forms and their bridges to Mathlib's `RiemannHypothesis`, and
-derives from a zero-free half-plane `Re s > σ`, `1/2 ≤ σ < 1`, the absence of exceptional zeros,
-the bound for the Riesz remainder, bounds for `L` and `1/L`, Lindelöf's and Littlewood's bounds,
-the argument of `L` and `S(T)`, and prime counts over a number field, in a ray class and in the
-Frobenius classes of an abelian extension. Layer 10 makes the conductor of a Dirichlet
-character an instance, proves that its gamma factor has no zero on `Re s > 0`, and bundles primitive
-Dirichlet characters; Layer 11 identifies them with the primitive ray-class characters of `ℚ`,
-with their L-functions and cards. The layers continue the numbering of the roadmaps they extend:
-Layers 3, 8 and 9 that of ZerosOfLFunctions, Layers 10 and 11 the Layers 4 and 8 of LFunctions.
-Layers 10 and 11 use no other layer of this roadmap and may be read first.
+surjection of a ray class group. Layer 9 adds symmetries and a change of level to the zero-free
+half-plane predicate, defines the Riemann hypotheses, proves their equivalent forms and their
+bridges to Mathlib's `RiemannHypothesis`, and derives from a zero-free half-plane `Re s > σ`,
+`1/2 ≤ σ < 1`, the absence of exceptional zeros, the bound for the Riesz remainder, bounds for `L`
+and `1/L`, Lindelöf's and Littlewood's bounds, the argument of `L` and `S(T)`, and prime counts over
+a number field, in a ray class and in the Frobenius classes of an abelian extension. Layer 10 proves
+that the gamma factor of a Dirichlet character has no zero on `Re s > 0`, and bundles primitive
+Dirichlet characters; Layer 11 identifies them with the primitive ray-class characters of `ℚ`, with
+their L-functions and cards. The layer and section numbers are this roadmap's own. A bare section
+number such as 8.8 is a section of this roadmap; a section of another roadmap is cited with that
+roadmap's name, as in ZerosOfLFunctions §8.8. Layers 10 and 11 use no other layer of this roadmap
+and may be read first.
 
 ## Conventions
 
@@ -84,6 +86,11 @@ Layer 0: the analytic records `AnalyticLFunctionData` and their predicates).
   `riemannZetaData` are the records of LFunctions; *continuedL* `d` and *entireCompletion* `d` are
   those of ZerosOfLFunctions §1.6 and Layer 0, and *analyticConductorAt* `d s` that of
   ZerosOfLFunctions Layer 2.
+- **The conductor instance.** Mathlib's `DirichletCharacter.LFunction` takes `[NeZero N]`, so every
+  statement about `χ.primitiveCharacter.LFunction` uses the instance `NeZero χ.conductor` for
+  `[NeZero N]` of CharacterSumsOverFiniteFields §7.1 (`instNeZeroConductor`, from Mathlib's
+  `DirichletCharacter.conductor_ne_zero`). `Suggested.lean` declares the same instance as
+  `DirichletCharacter.instNeZeroConductor`, since a roadmap's module is not imported.
 - **Arithmetic functions.** `Λ` is the von Mangoldt function and `Λ_K` the ideal von Mangoldt
   function, `γ` is Euler's constant, `Li x = ∫_2^x dt/log t`, `ψ_K` and `π_K` are the Chebyshev
   function and the prime-ideal count of `K`.
@@ -204,7 +211,7 @@ For a primitive Dirichlet character `χ` (`PrimitiveDirichletCharacter`, 10.3),
 `PrimitiveDirichletCharacter.rieszRemainder χ y` is the same with the coefficients
 `Λ(n) χ(n)` and `logDeriv χ.LFunction 1`, and at level `1` with `Λ(n)` and `−y log y + (1 + γ) y`;
 it equals the remainder of the primitive ray-class character of `ℚ` attached to `χ`
-(`toPrimitiveRayClassCharacter`, 11.1, whose L-functions agree with those of `χ`).
+(*toPrimitiveRayClassCharacter*, 11.1, whose L-functions agree with those of `χ`).
 `Λ(ψ, ·)` denotes the completed function of the record `heckeData ψ`.
 
 - Conjugation: `rieszRemainder ψ⁻¹ y = conj (rieszRemainder ψ y)`, from the conjugate coefficients
@@ -257,7 +264,7 @@ zero lies at `0` or `1` (ZerosOfLFunctions §6.5), finitely many have `|Im ρ| <
 `|ρ(1 − ρ)| ≥ (1 + (Im ρ)²)/2` for `|Im ρ| ≥ 1` on the closed strip, so ZerosOfLFunctions §5.6a applies. The size
 bound: `‖y^ρ‖ ≤ y` on the closed strip.
 
-*Needs:* 10.3 (`PrimitiveDirichletCharacter`); 11.1 (`toPrimitiveRayClassCharacter`, the
+*Needs:* 10.3 (`PrimitiveDirichletCharacter`); 11.1 (*toPrimitiveRayClassCharacter*, the
 comparison of its L-functions, and of its cards up to the normal form of the completed function
 at conductor one); ZerosOfLFunctions §§8.2, 1.4, 1.4a, 4.5, 5.6, 5.6a, 6.5; LFunctions Layer 3
 (`dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`), Layer 5 (`heckeLFunctionC_eq`),
@@ -266,8 +273,8 @@ Layer 7 (`heckeLFunction_ne_zero_of_one_le_re`); ArithmeticDirichletSeries §2.3
 `TauCeti.normCoeff`; Tau Ceti `TauCeti.Contour.classicalResidueTheorem_nullHomologous`,
 `TauCeti.Contour.logDeriv_eventuallyEq_principalPart`, `TauCeti.meromorphicContinuation`; Mathlib
 `toMeromorphicNFOn`, `LSeries`, `LSeriesSummable`,
-`LSeries_vonMangoldt_eq_deriv_riemannZeta_div`, `DirichletCharacter.LSeries_twist_vonMangoldt_eq`,
-`Real.eulerMascheroniConstant`.
+`ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`,
+`DirichletCharacter.LSeries_twist_vonMangoldt_eq`, `Real.eulerMascheroniConstant`.
 
 **Checks.**
 
@@ -348,7 +355,10 @@ ArithmeticDirichletSeries §2.3 for the coefficients; Tau Ceti `TauCeti.Contour.
 
 ### 8.8 Primitive characters independent of the reciprocity dictionary
 
-This target extends ZerosOfLFunctions §8.8: three theorems accompany its exceptional term *exceptionalChebotarevTerm*. First, *PrimitiveRayClassCharacter.of_comp_dictionary_eq*: if `Φ` at
+This target states as a theorem of its own the step that ZerosOfLFunctions §8.8 uses to show that
+its exceptional term *exceptionalChebotarevTerm* does not depend on the reciprocity dictionary: two
+dictionaries induce the same primitive characters. Precisely,
+*PrimitiveRayClassCharacter.of_comp_dictionary_eq*: if `Φ` at
 `𝔪` and `Φ′` at `𝔪′` are two reciprocity dictionaries for `L/K` and `ψ` is a character of
 `L ≃ₐ[K] L`, then
 `PrimitiveRayClassCharacter.of (ψ.comp Φ) = PrimitiveRayClassCharacter.of (ψ.comp Φ′)`. Route:
@@ -357,13 +367,13 @@ ramified in `L`; induced to `𝔐` (`RayClassCharacter.induced`), both character
 `ψ(Frob_𝔭)` at the class of every prime `𝔭 ∤ 𝔐`, by the two splitting laws, `Gal(L/K)` being
 abelian; these classes generate `RayClassGroup 𝔐`, every ideal prime to `𝔐` being a product of
 such primes (`RayClassGroup.hom_ext`), so the induced characters are equal, and
-`PrimitiveRayClassCharacter.of_induced` gives the same primitive character. Then
-*exceptionalChebotarevTerm* equals the sum of *exceptionalRayClassTerm* over the fibre
-`Φ⁻¹(σ_C)`, and it does not depend on the dictionary, by the first theorem (these two are stated
-in ZerosOfLFunctions §8.8); without these the
-term would be opaque and the estimate unfalsifiable.
+`PrimitiveRayClassCharacter.of_induced` gives the same primitive character. The two theorems on
+the exceptional term itself, its expression as the sum of *exceptionalRayClassTerm* over the fibre
+`Φ⁻¹(σ_C)` and its independence of the dictionary, are ZerosOfLFunctions §8.8's.
 
-*Needs:* ZerosOfLFunctions §8.8 (the reciprocity dictionaries, their splitting laws, *exceptionalChebotarevTerm* and *exceptionalRayClassTerm*); GlobalNumberFields `RayClassCharacter.induced`, `RayClassGroup.hom_ext`; LFunctions Layer 5 (`PrimitiveRayClassCharacter.of`), with Tau Ceti
+*Needs:* ZerosOfLFunctions §8.8 (the reciprocity dictionaries and their splitting laws);
+GlobalNumberFields `RayClassCharacter.induced`, `RayClassGroup.hom_ext`; LFunctions Layer 5
+(`PrimitiveRayClassCharacter.of`), with Tau Ceti
 `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced`.
 
 ### 8.8a Riesz-smoothed character sums through a surjection of a ray class group
@@ -467,7 +477,8 @@ read through meromorphic orders (9.2–9.5), and proves the first consequences o
 half-plane and of the hypothesis itself (9.6–9.9). Nothing here proves a numerical fact or a case of
 the Riemann hypothesis.
 
-**Names.** The predicates are `ZeroFreeRightOf` (9.2), the hypothesis
+**Names.** The predicates are `ZeroFreeRightOf` (QuasiRiemannHypothesis §1.1, with the clauses of
+9.2), the hypothesis
 *AnalyticLFunctionData.GeneralizedRiemannHypothesis* of a record (9.3),
 `DirichletCharacter.GeneralizedRiemannHypothesis` (9.4), *NumberField.ExtendedRiemannHypothesis*,
 *RayClassCharacter.GeneralizedRiemannHypothesis* and the Grossencharacter predicate (9.5). Each
@@ -482,69 +493,49 @@ that of `ψ.character`.
 
 ### 9.2 Zero-free half-planes
 
-Define `ZeroFreeRightOf σ f`, for `σ : ℝ` and `f : ℂ → ℂ`, as `meromorphicOrderAt f s ≤ 0` for
-every `s` with `σ < Re s`; in prose, *`f` is zero-free right of `σ`*. A zero is a point of positive
-order, so poles are allowed and no value of `f` is read. Mathlib's order of a function that is not
-meromorphic at `s` is the junk value `0` (`meromorphicOrderAt_of_not_meromorphicAt`), so the
-predicate carries information only for a function meromorphic on the half-plane; every statement
-below that applies it to an L-function relies on that function's continuation theorem.
+`ZeroFreeRightOf σ f`, for `σ : ℝ` and `f : ℂ → ℂ`, is the predicate of QuasiRiemannHypothesis
+§1.1: `meromorphicOrderAt f s ≤ 0` for every `s` with `σ < Re s`; in prose, *`f` is zero-free right
+of `σ`*. A zero is a point of positive order, so poles are allowed and no value of `f` is read.
+Mathlib's order of a function that is not meromorphic at `s` is the junk value `0`
+(`meromorphicOrderAt_of_not_meromorphicAt`), so the predicate carries information only for a
+function meromorphic on the half-plane; every statement below that applies it to an L-function
+relies on that function's continuation theorem. QuasiRiemannHypothesis §1.1 proves that the
+predicate is monotone in `σ`; that it depends only on the punctured germs of `f`; that a product of
+two functions meromorphic and zero-free right of `σ` is zero-free right of `σ`, and that a factor
+analytic and nonzero on the half-plane changes nothing; that at a point where `f` is analytic the
+order is at most `0` exactly when `f s ≠ 0`; that for a Dirichlet character `χ`,
+`ZeroFreeRightOf σ χ.LFunction` holds exactly when `χ.LFunction s ≠ 0` for every `s` with
+`σ < Re s` other than the pole `s = 1` of the principal character; and that for `σ ≥ 0` a ray-class
+character and its primitive source satisfy it together. `Suggested.lean` declares the predicate with
+the same body, since a roadmap's module is not imported. This section adds four clauses.
 
-- Monotonicity: for `σ ≤ σ'`, `ZeroFreeRightOf σ f` implies `ZeroFreeRightOf σ' f`; and
-  `ZeroFreeRightOf σ f` holds exactly when `ZeroFreeRightOf σ' f` holds for every `σ' > σ`.
-- Germs: if `f` and `g` agree on a punctured neighbourhood of every `s` with `σ < Re s`, then
-  `ZeroFreeRightOf σ f ↔ ZeroFreeRightOf σ g` (`meromorphicOrderAt_congr`).
-- Products: if `f` and `g` are meromorphic at every point of `Re s > σ` and both are zero-free right
-  of `σ`, so is `f · g`; if `D` is analytic and nonzero at every such point, `f · D` is zero-free
-  right of `σ` exactly when `f` is (`meromorphicOrderAt_mul`). Conversely, at a point `s` where `f`
-  and `g` are meromorphic, `0 ≤ ord_s g`, and either `0 ≤ ord_s f` or (`ord_s f < 0` and
-  `ord_s g = 0`): `ord_s (f · g) ≤ 0` holds exactly when `ord_s f ≤ 0` and `ord_s g ≤ 0`. So if `g`
-  has no pole right of `σ` and every pole of `f` there is a point of order `0` of `g`, then
-  `f · g` is zero-free right of `σ` exactly when `f` and `g` both are.
-- Values: at a point where `f` is analytic, `meromorphicOrderAt f s ≤ 0` holds exactly when
-  `f s ≠ 0`; so for `f` analytic on `Re s > σ` the predicate is `∀ s, σ < Re s → f s ≠ 0`.
+- Monotonicity, the limit: `ZeroFreeRightOf σ f` holds exactly when `ZeroFreeRightOf σ' f` holds
+  for every `σ' > σ`.
+- Products, the converse: at a point `s` where `f` and `g` are meromorphic, `0 ≤ ord_s g`, and
+  either `0 ≤ ord_s f` or (`ord_s f < 0` and `ord_s g = 0`): `ord_s (f · g) ≤ 0` holds exactly when
+  `ord_s f ≤ 0` and `ord_s g ≤ 0` (`meromorphicOrderAt_mul`). So if `g` has no pole right of `σ`
+  and every pole of `f` there is a point of order `0` of `g`, then `f · g` is zero-free right of
+  `σ` exactly when `f` and `g` both are.
 - Symmetries: `ZeroFreeRightOf σ (fun s ↦ conj (f (conj s))) ↔ ZeroFreeRightOf σ f`, since the
   order of the reflected function at `conj s` is that of `f` at `s`, meromorphic or not
   (`TauCeti.meromorphicOrderAt_conj_conj`); and for `a : ℂ`,
   `ZeroFreeRightOf σ (fun s ↦ f (s + a)) ↔ ZeroFreeRightOf (σ + Re a) f`
   (`meromorphicOrderAt_comp_add_const_eq_meromorphicOrderAt`).
-- Dirichlet L-functions: for `[NeZero N]` and `χ : DirichletCharacter ℂ N`,
-  `ZeroFreeRightOf σ χ.LFunction` holds exactly when `χ.LFunction s ≠ 0` for every `s` with
-  `σ < Re s` and `χ ≠ 1 ∨ s ≠ 1`. Off `s = 1`, and at `1` for `χ ≠ 1`, the function is analytic
-  (`DirichletCharacter.differentiableAt_LFunction`); for `χ = 1` its order at `1` is `−1`, since
-  `(s − 1) L(s, 1)` extends to a function analytic and nonzero at `1`
-  (`DirichletCharacter.LFunctionTrivChar₁`, `LFunctionTrivChar₁_apply_one_ne_zero`).
 - Change of level: for `σ ≥ 0`, `M ∣ N` and `ψ : DirichletCharacter ℂ M`,
   `ZeroFreeRightOf σ (changeLevel h ψ).LFunction ↔ ZeroFreeRightOf σ ψ.LFunction`:
   `DirichletCharacter.LFunction_changeLevel` relates the two, as germs at every point, by
   `∏_{p ∣ N} (1 − ψ(p) p^(−s))`, whose factors vanish only on `Re s = 0`. In particular `χ` and
   `χ.primitiveCharacter` satisfy the predicate together (`changeLevel_primitiveCharacter`).
-- Ray-class characters: for `σ ≥ 0` and `χ` a ray-class character of a modulus `𝔪` of a number
-  field, `ZeroFreeRightOf σ (heckeLFunctionC χ)` holds exactly when
-  `ZeroFreeRightOf σ (heckeLFunctionC (PrimitiveRayClassCharacter.of χ).character)` does
-  (`heckeLFunctionC_eventuallyEq_primitive`, and `eulerCorrection_ne_zero` on `Re s > 0`).
 
-*Needs:* Mathlib `meromorphicOrderAt`, `meromorphicOrderAt_of_not_meromorphicAt`,
-`meromorphicOrderAt_congr`, `meromorphicOrderAt_mul`, `AnalyticAt.meromorphicOrderAt_nonneg`,
+*Needs:* QuasiRiemannHypothesis §1.1; Mathlib `meromorphicOrderAt`,
+`meromorphicOrderAt_of_not_meromorphicAt`, `meromorphicOrderAt_mul`,
 `meromorphicOrderAt_comp_add_const_eq_meromorphicOrderAt`,
-`DirichletCharacter.differentiableAt_LFunction`, `DirichletCharacter.LFunctionTrivChar₁`,
-`DirichletCharacter.LFunctionTrivChar₁_apply_one_ne_zero`, `DirichletCharacter.LFunction_changeLevel`,
-`DirichletCharacter.changeLevel_primitiveCharacter`; 10.1 (the instance `NeZero χ.conductor`,
-for the primitive character); Tau Ceti
-`TauCeti.meromorphicOrderAt_conj_conj`, `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive`,
-`TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection_ne_zero`.
+`DirichletCharacter.LFunction_changeLevel`, `DirichletCharacter.changeLevel_primitiveCharacter`;
+CharacterSumsOverFiniteFields §7.1 (the instance `NeZero χ.conductor`, for the primitive character);
+Tau Ceti `TauCeti.meromorphicOrderAt_conj_conj`.
 
 **Checks.**
 
-- `s ↦ s − 2` is zero-free right of `2` and not right of `3/2`: its order at `2` is `1`.
-- The zero function is zero-free right of no `σ`, its order being `⊤` everywhere; a statement about
-  `TauCeti.meromorphicContinuation σ f`, which is `0` when `f` has no continuation, is therefore
-  never true by default.
-- `s ↦ 1/(s − 1)` is zero-free right of every `σ`: its order at `1` is `−1`.
-- Complex conjugation `s ↦ conj s` is meromorphic at no point, so its order is the junk `0`
-  everywhere and it is zero-free right of every `σ`, although it vanishes at `0`: meromorphy is a
-  separate hypothesis.
-- The function equal to `s − 2` off `2` and to `1` at `2` has order `1` at `2` and a nonzero value
-  there: it is not zero-free right of `3/2`, while a definition through values accepts it.
 - The continued functions of LFunctions are in meromorphic normal form, which takes
   the value `0` at a pole: `dedekindZetaC ℚ 1 = 0`, while Mathlib's
   `riemannZeta 1 = (γ − log 4π)/2 ≠ 0` (`riemannZeta_one_ne_zero`). The value form
@@ -554,8 +545,10 @@ for the primitive character); Tau Ceti
 - The converse product clause needs its condition at the poles: `f(s) = 1/(s − 1)` and
   `g(s) = s − 1` have product `1`, zero-free right of every `σ`, while `g` is not zero-free right
   of `1/2`.
-- `riemannZeta` is zero-free right of `1`: analytic and nonzero on `Re s > 1`
-  (`riemannZeta_ne_zero_of_one_le_re`); the pole at `1` enters only for `σ < 1`, as order `−1`.
+- The translation clause adds `Re a` to the threshold: `s − 2` is zero-free right of `2` and not of
+  `3/2`, so its translate `s − 1` (`a = 1`) is zero-free right of `1` and not of `1/2`. With
+  `σ − Re a` in place of `σ + Re a`, the clause would tie `s − 1` being zero-free right of `1`,
+  which holds, to `s − 2` being zero-free right of `0`, which fails.
 
 ### 9.3 The generalized Riemann hypothesis of a record, and `ζ`
 
@@ -587,14 +580,18 @@ carries information only for a record whose completed function is meromorphic on
   `completedRiemannZeta` is meromorphic on `ℂ` with order `−1` at `1`
   (`TauCeti.meromorphicOrderAt_completedRiemannZeta_one`), and `dirichletData χ hχ` for primitive
   `χ` (`HasMeromorphicContinuation`, and order `0` at `2`, where `L(2, χ) ≠ 0` and the conductor
-  power and the gamma factor are regular and nonzero). In particular
-  `riemannZetaData.GeneralizedRiemannHypothesis ↔ AllOnCriticalLine completedRiemannZeta univ univ`.
+  power and the gamma factor are regular and nonzero). For the two families the right side is the
+  hypothesis *GRH* of ZerosOfLFunctions Layer 9, read through the divisor. In particular
+  `riemannZetaData.GeneralizedRiemannHypothesis ↔ AllOnCriticalLine completedRiemannZeta univ univ`,
+  whose right side is that *GRH* at the `ζ` instance.
 - Uncompleted form: under `HasMeromorphicContinuation` and `HasFunctionalEquation`, if every real
   gamma shift `μ` and every complex gamma shift `ν` of `d` has real part at least `−1/2`, the gamma
   factor has neither zero nor pole on `Re s > 1/2` (ZerosOfLFunctions §1.5), so the orders of `Λ`
   and of *continuedL* `d` agree there (ZerosOfLFunctions §1.6), and `d.GeneralizedRiemannHypothesis ↔ ZeroFreeRightOf (1/2) (continuedL d)`.
   The shifts `0` and `1` of the two families qualify.
-- `ζ`: `riemannZetaData.GeneralizedRiemannHypothesis ↔ RiemannHypothesis`,
+- `ζ`: `riemannZetaData.GeneralizedRiemannHypothesis ↔ RiemannHypothesis`, by the divisor form and
+  the bridge of ZerosOfLFunctions Layer 9, which identifies its *GRH* at `ζ` with
+  `RiemannHypothesis`; and
   `RiemannHypothesis ↔ ZeroFreeRightOf (1/2) riemannZeta` (`riemannHypothesis_iff_zeroFreeRightOf`)
   and `RiemannHypothesis ↔ ∀ s, 1/2 < Re s → riemannZeta s ≠ 0`
   (`riemannHypothesis_iff_riemannZeta_ne_zero`). The value form needs no `s ≠ 1`, because Mathlib's
@@ -604,37 +601,31 @@ carries information only for a record whose completed function is meromorphic on
   (`differentiableAt_riemannZeta`) and `riemannZeta 2 ≠ 0`, which excludes local vanishing on the
   connected set `ℂ ∖ {1}`; and `meromorphicOrderAt riemannZeta 1 = −1` (`riemannZeta_residue_one`).
 
-Route of the bridge: a point of positive order of `completedRiemannZeta` is a zero of
-`riemannZeta` with `0 < Re ρ < 1` (`riemannZeta_def_of_ne_zero`, `Gammaℝ` regular and nonzero on
-`Re s > 0`, the reflection `completedRiemannZeta_one_sub` for `Re s ≤ 0`); the trivial zeros have
-order `0` (`riemannZeta_eq_zero_iff_of_re_nonpos` and the poles of `Gammaℝ`); `0` and `1` have
-order `−1`; and a zero of `riemannZeta` with `0 < Re s < 1/2` gives one at `1 − s`
-(`riemannZeta_one_sub`), with `Re (1 − s) > 1/2`.
+Route of the two forms of `RiemannHypothesis` on `riemannZeta`: by the hinge, a point of positive
+order right of `1/2` is a zero other than `1`, and it is not a trivial zero, so
+`RiemannHypothesis` excludes it; the value form is the same, `riemannZeta 1` being nonzero.
+Conversely, a zero `s ≠ 1` of `riemannZeta` that is not trivial has `Re s > 0`
+(`riemannZeta_eq_zero_iff_of_re_nonpos`); if `Re s < 1/2`, then `1 − s` is a zero
+(`riemannZeta_one_sub`) with `Re (1 − s) > 1/2`; so either form gives `Re s = 1/2`.
 
-*Needs:* 9.2; ZerosOfLFunctions §§1.5, 1.6 and Layer 9 (*AllOnCriticalLine*); LFunctions Layer 0 (`AnalyticLFunctionData.dual_completed`,
+*Needs:* 9.2; ZerosOfLFunctions §§1.5, 1.6 and Layer 9 (*AllOnCriticalLine*, and *GRH* with its
+bridge to `RiemannHypothesis`); LFunctions Layer 0 (`AnalyticLFunctionData.dual_completed`,
 `HasMeromorphicContinuation`, `HasFunctionalEquation.eventuallyEq`, the field
 `HasFunctionalEquation.norm_rootNumber`); Mathlib `RiemannHypothesis`,
 `meromorphicOrderAt_comp_of_deriv_ne_zero`, `MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected`,
-`riemannZeta_def_of_ne_zero`, `riemannZeta_eq_zero_iff_of_re_nonpos`, `riemannZeta_one_sub`,
-`riemannZeta_residue_one`, `riemannZeta_one_ne_zero`, `riemannZeta_two`,
-`differentiableAt_riemannZeta`, `completedRiemannZeta_one_sub`, `Complex.Gammaℝ_ne_zero_of_re_pos`;
-Tau Ceti `TauCeti.meromorphicOrderAt_conj_conj`,
-`TauCeti.meromorphicOrderAt_completedRiemannZeta_zero`,
-`TauCeti.meromorphicOrderAt_completedRiemannZeta_one`, `TauCeti.LFunctions.riemannZetaData`.
+`riemannZeta_eq_zero_iff_of_re_nonpos`, `riemannZeta_one_sub`, `riemannZeta_residue_one`,
+`riemannZeta_one_ne_zero`, `riemannZeta_two`, `differentiableAt_riemannZeta`; Tau Ceti
+`TauCeti.meromorphicOrderAt_conj_conj`, `TauCeti.meromorphicOrderAt_completedRiemannZeta_one`,
+`TauCeti.LFunctions.riemannZetaData`.
 
 **Checks.**
 
-- `meromorphicOrderAt completedRiemannZeta (−2) = 0`, so the trivial zero at `−2` is not counted.
-- `meromorphicOrderAt completedRiemannZeta 1 = −1`: the pole is not a zero, although the total
-  representative's value there is junk.
 - The record with completed function `0`, polar divisor `0`, root number `1` and no gamma shifts
   satisfies `HasMeromorphicContinuation` and `HasFunctionalEquation` (`0 = 1 · conj 0`). Its order
   is `⊤` everywhere, so it fails the hypothesis and is zero-free right of no `σ`, as the half-plane
   form requires. Its divisor is `0` everywhere, so the definition through the divisor
   (`∀ ρ, 0 < divisor d.completed univ ρ → Re ρ = 1/2`) would hold for it and the half-plane form
   would fail; the divisor form above excludes it by its finiteness condition.
-- The bridge to `RiemannHypothesis` would fail for a definition through `riemannZeta` on all of
-  `ℂ`, whose trivial zeros violate `Re ρ = 1/2`.
 - Mathlib's junk value `riemannZeta 1 = (γ − log 4π)/2` enters no statement: the order form reads
   `−1` at `1`.
 - For the quartic character `χ` modulo `5` with `χ(2) = i`, `dirichletData χ` and its dual
@@ -658,14 +649,16 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   the function is analytic there and not locally zero,
   `L(2, χ) ≠ 0`; and `meromorphicOrderAt (1 : DirichletCharacter ℂ N).LFunction 1 = −1`.
 - **Value form.** `χ.GeneralizedRiemannHypothesis ↔ ∀ s, 1/2 < Re s → (χ ≠ 1 ∨ s ≠ 1) →
-  χ.LFunction s ≠ 0` (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`, from 9.2).
+  χ.LFunction s ≠ 0` (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`, from the Dirichlet
+  clause of QuasiRiemannHypothesis §1.1).
 - **Inverse.** For every `σ`, `ZeroFreeRightOf σ χ⁻¹.LFunction ↔ ZeroFreeRightOf σ χ.LFunction`,
   from `L(χ⁻¹, conj s) = conj L(χ, s)` (Tau Ceti `DirichletCharacter.LFunction_inv_conj`) and 9.2's
   symmetry; hence `χ⁻¹.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis`.
 - **Change of level and the primitive character.**
   `(changeLevel h ψ).GeneralizedRiemannHypothesis ↔ ψ.GeneralizedRiemannHypothesis` for `M ∣ N`, and
   `χ.primitiveCharacter.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis`
-  (`generalizedRiemannHypothesis_primitiveCharacter_iff`), by 9.2 at `σ = 1/2`.
+  (`generalizedRiemannHypothesis_primitiveCharacter_iff`), by 9.2 at `σ = 1/2`
+  (AnalyticNumberTheoryPartI §1.6 states the primitive reduction for *DirichletGRH*).
 - **Reflection.** For primitive `χ` and `0 < Re ρ < 1`,
   `meromorphicOrderAt χ.LFunction ρ = meromorphicOrderAt χ⁻¹.LFunction (1 − ρ)`, by
   `IsPrimitive.completedLFunction_one_sub` and `LFunction_eq_completed_div_gammaFactor`: the gamma
@@ -677,19 +670,24 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   `ZeroFreeRightOf σ χ.LFunction ↔ ∀ ρ, 0 < Re ρ → Re ρ < 1 → χ.LFunction ρ = 0 →
   1 − σ ≤ Re ρ ∧ Re ρ ≤ σ`, by the reflection, `LFunction_ne_zero_of_one_le_re` and analyticity on
   the open strip (for `σ < 1/2` both sides say that `L(·, χ)` has no zero in the open strip, for
-  `σ ≥ 1` both hold). At `σ = 1/2` and for every `χ`, primitive or not:
+  `σ ≥ 1` both hold). QuasiRiemannHypothesis §11.1 derives this strip for every primitive
+  character from the half-plane for all of them; here, and in 9.5, the strip and the half-plane are
+  equivalent for each character separately, through the inverse clause. At `σ = 1/2` and for every
+  `χ`, primitive or not:
   `χ.GeneralizedRiemannHypothesis ↔ ∀ ρ, 0 < Re ρ → Re ρ < 1 → χ.LFunction ρ = 0 → Re ρ = 1/2`
   (`generalizedRiemannHypothesis_iff_re_eq_half`) and
   `χ.GeneralizedRiemannHypothesis ↔ ∀ s, 0 < Re s → (χ ≠ 1 ∨ s ≠ 1) → χ.LFunction s = 0 →
-  Re s = 1/2`; an imprimitive `χ` has the zeros of its
-  primitive character in the open strip, its deleted Euler factors vanishing only on `Re s = 0`.
+  Re s = 1/2`, whose right side is AnalyticNumberTheoryPartI §1.6's *DirichletGRH* `χ`; an
+  imprimitive `χ` has the zeros of its primitive character in the open strip, its deleted Euler
+  factors vanishing only on `Re s = 0`.
 - **Completed function.** For primitive `χ`,
   `χ.GeneralizedRiemannHypothesis ↔ (dirichletData χ hχ).GeneralizedRiemannHypothesis`
   (9.3, uncompleted form; *continuedL* of the record is `χ.LFunction`, ZerosOfLFunctions
   §6.4a, and at level `1` it is `riemannZeta`, `dirichletData_modOne`).
-- **Modulus one and the principal character.** For `χ : DirichletCharacter ℂ 1`,
-  `χ.GeneralizedRiemannHypothesis ↔ RiemannHypothesis` (`generalizedRiemannHypothesis_modOne_iff`;
-  `DirichletCharacter.LFunction_modOne_eq`, 9.3); for every `N`,
+- **Modulus one and the principal character.** For `χ : DirichletCharacter ℂ 1`, which is the
+  trivial character (`DirichletCharacter.level_one`), `χ.GeneralizedRiemannHypothesis ↔
+  RiemannHypothesis` (`DirichletCharacter.LFunction_modOne_eq`, 9.3; AnalyticNumberTheoryPartI §1.6
+  states it for *DirichletGRH*); for every `N`,
   `(1 : DirichletCharacter ℂ N).GeneralizedRiemannHypothesis ↔ RiemannHypothesis`
   (`generalizedRiemannHypothesis_one_iff`), its primitive character being the character modulo
   `1`. So the hypothesis for every character modulo any `q` contains `RiemannHypothesis`.
@@ -704,9 +702,10 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
 - **Consumer forms.** From the hypothesis, `1/2 < Re s` and `χ ≠ 1 ∨ s ≠ 1`,
   `χ.LFunction s ≠ 0`; from the hypothesis, `0 < Re s < 1` and `χ.LFunction s = 0`, `Re s = 1/2`.
 
-*Needs:* 9.2, 9.3, 10.1 (the instance `NeZero χ.conductor`), 10.2; ZerosOfLFunctions §6.4a
+*Needs:* 9.2, 9.3, 10.2; QuasiRiemannHypothesis §1.1 (the Dirichlet clause);
+CharacterSumsOverFiniteFields §7.1 (the instance `NeZero χ.conductor`); ZerosOfLFunctions §6.4a
 (completion comparisons); LFunctions Layer 4 (`dirichletData`, `dirichletData_dual`,
-`dirichletData_modOne`); Mathlib `DirichletCharacter.LFunction`,
+`dirichletData_modOne`); Mathlib `DirichletCharacter.LFunction`, `DirichletCharacter.level_one`,
 `DirichletCharacter.LFunction_modOne_eq`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
 `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
 `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`, `DirichletCharacter.IsPrimitive.inv`,
@@ -757,19 +756,25 @@ predicate names it.
   and `completedHeckeLFunction_one_sub_eventuallyEq` for the trivial character), the gamma factors
   being regular and nonzero on `Re s > 0` (ZerosOfLFunctions §1.5), the inverse clause, and no
   zero on `Re s = 1` (ZerosOfLFunctions §6.5). In the open strip the functions are analytic, so the strip forms read values.
+  The right sides of the first two forms are AnalyticNumberTheoryPartI §2.42's ERH(`K`) and its
+  GRH(`ψ`) of a primitive finite-order Hecke character.
 - **Presented and primitive.** `χ.GeneralizedRiemannHypothesis ↔
-  (PrimitiveRayClassCharacter.of χ).character.GeneralizedRiemannHypothesis` (9.2).
+  (PrimitiveRayClassCharacter.of χ).character.GeneralizedRiemannHypothesis` (the ray-class clause of
+  QuasiRiemannHypothesis §1.1).
 - **Trivial character.** For every modulus `𝔪`, `(1 : RayClassCharacter 𝔪).GeneralizedRiemannHypothesis
   ↔ ExtendedRiemannHypothesis K`: the primitive source of `1` is the trivial character of conductor
-  `Modulus.one K`, whose L-function is `dedekindZetaC K`.
+  `Modulus.one K`, whose L-function is `dedekindZetaC K` (at that conductor,
+  AnalyticNumberTheoryPartI §2.42 states that GRH of the trivial character is ERH(`K`)).
 - **Records.** `ExtendedRiemannHypothesis K ↔ (dedekindZetaData K).GeneralizedRiemannHypothesis`,
   and for primitive `ψ`, `ψ.character.GeneralizedRiemannHypothesis ↔
   (heckeData ψ).GeneralizedRiemannHypothesis` (9.3, uncompleted form, with *continuedL* of ZerosOfLFunctions §1.6).
 - **The rationals.** For every `σ`,
   `ZeroFreeRightOf σ (dedekindZetaC ℚ) ↔ ZeroFreeRightOf σ riemannZeta`: the two functions agree
   on `Re s > 1`, hence have the same germ at every point
-  (`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`), though they differ at `1` (9.2,
-  germs); at `σ = 1/2` this is `ExtendedRiemannHypothesis ℚ ↔ RiemannHypothesis`. For `q ≠ 0`, `χ : DirichletCharacter ℂ q`
+  (`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`), though they differ at `1` (germ
+  invariance, QuasiRiemannHypothesis §1.1); at `σ = 1/2` this is
+  `ExtendedRiemannHypothesis ℚ ↔ RiemannHypothesis` (AnalyticNumberTheoryPartI §2.42 states it for
+  ERH(`ℚ`)). For `q ≠ 0`, `χ : DirichletCharacter ℂ q`
   and every `σ`,
   `ZeroFreeRightOf σ (heckeLFunctionC ((ratDirichletEquiv q hq).symm χ)) ↔
   ZeroFreeRightOf σ χ.LFunction`: the ray-class series at `(q)∞` and the Dirichlet series of `χ`
@@ -788,7 +793,8 @@ predicate names it.
   For a Grossencharacter of finite order it is the hypothesis of the ray-class character it
   presents.
 
-*Needs:* 9.2–9.4; ZerosOfLFunctions §§6.5, 1.5, 1.6; LFunctions Layer 3 (`dedekindZetaC`,
+*Needs:* 9.2–9.4; QuasiRiemannHypothesis §1.1 (germs, the ray-class clause); ZerosOfLFunctions
+§§6.5, 1.5, 1.6; LFunctions Layer 3 (`dedekindZetaC`,
 `analyticAt_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`, `dedekindZetaData`), Layer 5
 (`heckeLFunctionC_eq`, `heckeData`, `completedHeckeLFunction_one_sub`,
 `completedHeckeLFunction_one_sub_eventuallyEq`), Layer 6 (`Grossencharacter`, `idealShift`,
@@ -810,7 +816,8 @@ predicate names it.
 - `K = ℚ(i)`: `dedekindZetaC K = ζ · L(·, χ₋₄)` as germs (`dedekindZetaC_quadratic`); `L(·, χ₋₄)`
   has no pole, and the only pole of `ζ` right of `1/2` is at `1`, where `L(1, χ₋₄) = π/4 ≠ 0`, so
   by 9.2's converse product clause `ExtendedRiemannHypothesis ℚ(i)` holds exactly when
-  `RiemannHypothesis` and the hypothesis for `χ₋₄` both hold.
+  `RiemannHypothesis` and the hypothesis for `χ₋₄` both hold, as AnalyticNumberTheoryPartI §2.42
+  states for ERH(`ℚ(i)`) and *DirichletGRH* `χ₋₄`.
 - The norm power `N^m` over `ℚ`, `m ≥ 1`: `lFunctionC` is `s ↦ ζ(s − m)`, whose nontrivial zeros
   have real parts in `(m, m + 1)`; its trivial zeros, at `s = m − 2k`, `k ≥ 1`, do not. A predicate
   with the threshold `1/2` in place of `1/2 + σ_χ` would be false for it, `ζ` having nontrivial
@@ -835,15 +842,17 @@ primitive or not, satisfying its hypothesis (9.4, and the rational paragraph of 
 `‖rieszRemainder ψ y‖ ≤ C y^σ` for `y ≥ 2`, and the same for the remainder of a primitive
 Dirichlet character zero-free right of `σ`
 (`PrimitiveDirichletCharacter.norm_rieszRemainder_le_of_zeroFreeRightOf`). Route: the explicit formula of 8.4a(b). For
-`χ : PrimitiveDirichletCharacter`, the remainder is that of `ψ = toPrimitiveRayClassCharacter χ`
-(8.4a(b)), and `heckeLFunctionC ψ.character` has the germ of `χ.character.LFunction` at every
-point (11.1), so it is zero-free right of `σ` with it (9.2, germs). Every zero of
+`χ : PrimitiveDirichletCharacter`, the remainder is that of its image `ψ` under
+*toPrimitiveRayClassCharacter* (8.4a(b)), and `heckeLFunctionC ψ.character` has the germ of
+`χ.character.LFunction` at every point (11.1), so it is zero-free right of `σ` with it (germ
+invariance, QuasiRiemannHypothesis §1.1). Every zero of
 `Λ(ψ, ·)` lies in the open strip (ZerosOfLFunctions §§5.6a, 6.5), hence in `1 − σ ≤ Re ρ ≤ σ` by the strip form of
 9.5, so `‖y^ρ‖ ≤ y^σ`; the zero sum is at most `y^σ ∑_ρ m_ρ/‖ρ(1 − ρ)‖`, finite by ZerosOfLFunctions §5.6a; and
 `E_ψ(y) = O(log y)`.
 
-*Needs:* 8.4a, 9.2–9.5, 11.1 (the comparison of L-functions of `toPrimitiveRayClassCharacter`);
-ZerosOfLFunctions §§2.1, 5.6a, 6.2–6.5; Mathlib `NumberField.abs_discr_gt_two`.
+*Needs:* 8.4a, 9.2–9.5, 11.1 (the comparison of L-functions of *toPrimitiveRayClassCharacter*);
+QuasiRiemannHypothesis §1.1 (germs); ZerosOfLFunctions §§2.1, 5.6a, 6.2–6.5; Mathlib
+`NumberField.abs_discr_gt_two`.
 
 **Checks.**
 
@@ -875,6 +884,10 @@ ray, which is the Dirichlet series `∑_m a_L(m)/(m^s log m)` for `Re s > 1`.
 `‖L(σ + it)‖ ≤ C 𝔮(σ + it)^ε` and `‖L(σ + it)‖⁻¹ ≤ C 𝔮(σ + it)^ε` for every `σ ≥ σ₀ + δ` and every
 admissible `t`. For a fixed `d` both are `≤ C′ |t|^ε` for `|t| ≥ 2`; at `ℚ`, under
 `RiemannHypothesis`, `ζ(σ + it) ≪ |t|^ε` and `1/ζ(σ + it) ≪ |t|^ε` for `σ ≥ 1/2 + δ`.
+QuasiRiemannHypothesis §5.3 bounds the Hecke L-functions of one field, with the pole of `ζ_K`
+cleared, in a zero-free disc and right of the zero abscissa of the field's whole primitive family,
+with constants depending on the field; (i) assumes the half-plane for the one L-function and has
+constants depending only on the degree.
 
 Route: fix an admissible `t`; it suffices to treat `σ ≤ 3/2`, since for `σ ≥ 3/2` the Dirichlet
 series gives `‖log L(σ + it)‖ ≤ n log ζ(3/2)` (the coefficients of `log L` are dominated by
@@ -882,7 +895,8 @@ series gives `‖log L(σ + it)‖ ≤ n log ζ(3/2)` (the coefficients of `log 
 it for a larger one. About `s₀ = 2 + it` take the radii `r₀ = 2 − σ₀ − δ/4`, `r₃ = 2 − σ₀ − δ/2`,
 `r₂ = 2 − σ₀ − δ` and `r₁ = 1/2`. The disc `closedBall s₀ r₀` lies in `Re s ≥ σ₀ + δ/4` and, at an
 admissible height, avoids the pole `1`; there `L` is analytic and, zero-free right of `σ₀`,
-nonzero (9.2, values), so it has a holomorphic logarithm on a neighbourhood of the disc
+nonzero (its order is `0` there, QuasiRiemannHypothesis §1.1), so it has a holomorphic logarithm
+on a neighbourhood of the disc
 (`TauCeti.exists_differentiableOn_eqOn_exp_comp`), equal to the Dirichlet series of `log L` on
 `closedBall s₀ r₁ ⊆ {Re s ≥ 3/2}`, where its norm is at most `n log ζ(3/2)`. On `closedBall s₀ r₀`,
 `Re log L = log ‖L‖ ≤ log C₁ + B log 𝔮(s)` by ZerosOfLFunctions §3.4 (the strip bound for the pole-cleared function
@@ -988,9 +1002,10 @@ written out, through the factor `1/(1 − σ₀)` and the choice of `x`. For `σ
    `logDeriv L(·, χ₋₃) 1`, absorbed in `C`.
 
 The bounds for a Dirichlet character, at every `σ₀`: let `χ ≠ 1` be primitive modulo `q` and
-`ψ = PrimitiveRayClassCharacter.of ((ratDirichletEquiv q hq).symm χ)`, which is
-`toPrimitiveRayClassCharacter (PrimitiveDirichletCharacter.of χ)` (11.1), of level `q` as `χ` is primitive. By 9.5's rational bullet
-and 9.2's ray-class clause, `heckeLFunctionC ψ.character` is zero-free right of `σ₀` exactly when
+`ψ = PrimitiveRayClassCharacter.of ((ratDirichletEquiv q hq).symm χ)`, which is the image under
+*toPrimitiveRayClassCharacter* of the bundle of `χ` (11.1), of level `q` as `χ` is primitive. By
+9.5's rational bullet and the ray-class clause of QuasiRiemannHypothesis §1.1,
+`heckeLFunctionC ψ.character` is zero-free right of `σ₀` exactly when
 `χ.LFunction` is. The two functions have the same germ at every point (11.1) and
 both are entire (`ψ ≠ 1`), so they are equal, with the same logarithm and logarithmic
 derivative. The card `heckeData ψ` has conductor `q` and real gamma shift `a`
@@ -1001,7 +1016,8 @@ are the bounds for `χ`.
 Littlewood 1928 for `L(1, χ)`.)
 
 *Needs:* 3.2a, 8.4b, 9.2, 9.5, 11.1 (the compatibility with the primitive sources and the
-comparison of L-functions and cards); ZerosOfLFunctions §§1.4, 2.1–2.2, 3.4, 4.4, 5.5, 5.6, 5.6a,
+comparison of L-functions and cards); QuasiRiemannHypothesis §1.1 (values, the ray-class clause);
+ZerosOfLFunctions §§1.4, 2.1–2.2, 3.4, 4.4, 5.5, 5.6, 5.6a,
 6.5 and Layer 0 *entireCompletion*; LFunctions Layer 8 (Mertens' product
 `tendsto_prod_one_sub_inv_absNorm_div_log` at `ℚ`); Mathlib
 `Complex.borelCaratheodory`, `Chebyshev.psi_le_const_mul_self`; Tau Ceti
@@ -1083,7 +1099,8 @@ and `π_K(x) = Li x + O(x^σ log x)`, with `ψ_K = TauCeti.primePsi K Set.univ`,
 (ii) For a modulus `𝔪`: if `heckeLFunctionC χ` is zero-free right of `σ` for every
 `χ : RayClassCharacter 𝔪`, then for every class `c`, *rayClassPsi* `𝔪 c x = x/#Cl_𝔪 +
 O(x^σ log² x)`, and the number of prime ideals prime to `𝔪` in `c` of norm at most `x` is
-`Li x/#Cl_𝔪 + O(x^σ log x)`. By 9.2 the hypothesis may be checked on the primitive characters.
+`Li x/#Cl_𝔪 + O(x^σ log x)`. By the ray-class clause of QuasiRiemannHypothesis §1.1 the
+hypothesis may be checked on the primitive characters.
 
 (iii) For `L/K` with a reciprocity dictionary `Φ` at `𝔪` (ZerosOfLFunctions §8.8): if `heckeLFunctionC (ψ ∘ Φ)` is
 zero-free right of `σ` for every character `ψ` of `Gal(L/K)`, then
@@ -1094,7 +1111,7 @@ At `K = ℚ` and `𝔪 = 1`: if `riemannZeta` is zero-free right of `σ`, so is 
 (9.5, rational bullet), which is the hypothesis of (i), and `Chebyshev.psi x − x` and
 `Chebyshev.theta x − x` are `O(x^σ log² x)` and `π(x) − Li x = O(x^σ log x)`, with an absolute
 constant; under `RiemannHypothesis` the errors are `O(√x log² x)`
-(`psi_sub_self_isBigO_of_riemannHypothesis`) and `O(√x log x)` (von Koch;
+(`psi_sub_self_isBigO_sqrt_mul_log_sq_of_riemannHypothesis`) and `O(√x log x)` (von Koch;
 `primeCounting_sub_logIntegral_isBigO_of_riemannHypothesis`). At `𝔪 = (q)∞`: the
 same for the primes in a reduced class modulo a fixed `q`, under the same zero-free half-plane
 for every Dirichlet character modulo `q` (9.5, rational bullet), which is the hypothesis of (ii),
@@ -1109,8 +1126,9 @@ for (iii) the transport of ZerosOfLFunctions §8.8; for the prime counts the hig
 removed and the Abel identity is applied as in ZerosOfLFunctions §§8.5 and 8.7, where
 `∫_2^x t^{σ − 1} dt ≤ x^σ/σ ≤ 2x^σ` keeps the constant independent of `σ`.
 
-*Needs:* 9.2, 9.5; ZerosOfLFunctions §§4.5, 6.5, 8.3, 8.5–8.8; ArithmeticDirichletSeries §§5.2,
-6.1–6.2 and 10.1–10.2, as in ZerosOfLFunctions §§8.5 and 8.7.
+*Needs:* 9.2, 9.5; QuasiRiemannHypothesis §1.1 (the ray-class clause); ZerosOfLFunctions §§4.5,
+6.5, 8.3, 8.5–8.8; ArithmeticDirichletSeries §§5.2, 6.1–6.2 and 10.1–10.2, as in ZerosOfLFunctions
+§§8.5 and 8.7.
 
 **Checks.**
 
@@ -1131,36 +1149,20 @@ removed and the Abel identity is applied as in ZerosOfLFunctions §§8.5 and 8.7
 
 ### Dependencies
 
-Layers 3 and 8 (3.2a for 9.7; 8.4a and 8.4b for 9.6–9.8), and 10.1, 10.2 and 11.1 of Layers 10 and
-11, which use nothing of this layer. ZerosOfLFunctions Layer 0 for *entireCompletion* and Layer 9
-for *AllOnCriticalLine*; ZerosOfLFunctions §§1.4–1.6, 2.1–2.2, 3.4, 4.4–4.5, 5.5–5.6a, 6.2–6.5,
+Layers 3 and 8 (3.2a for 9.7; 8.4a and 8.4b for 9.6–9.8), and 10.2 and 11.1 of Layers 10 and 11,
+which use nothing of this layer. QuasiRiemannHypothesis §1.1 for the predicate `ZeroFreeRightOf`
+and its first properties; CharacterSumsOverFiniteFields §7.1 for the instance `NeZero χ.conductor`.
+ZerosOfLFunctions Layer 0 for *entireCompletion* and Layer 9 for *AllOnCriticalLine* and *GRH*;
+ZerosOfLFunctions §§1.4–1.6, 2.1–2.2, 3.4, 4.4–4.5, 5.5–5.6a, 6.2–6.5,
 7.3, 7.6 and 8.3–8.8 for 9.3–9.9. LFunctions Layers 0 and 3–8. Mathlib `RiemannHypothesis`,
 `meromorphicOrderAt`, `Complex.borelCaratheodory`, the continued Dirichlet L-functions and their
 functional equation.
 
 ## Layer 10: Primitive Dirichlet characters, conductors and gamma factors
 
-This layer works with Mathlib's Dirichlet characters and their L-functions: it makes the conductor
-an instance, proves that the gamma factor has no zero on `Re s > 0`, and bundles a primitive
-character with its conductor.
-
-### 10.1 The conductor of a Dirichlet character is nonzero, as an instance
-
-Make the conductor of a Dirichlet character over a nonzero level an instance:
-`DirichletCharacter.instNeZeroConductor : NeZero χ.conductor` for every commutative monoid with
-zero `R`, `[NeZero N]` and `χ : DirichletCharacter R N`, from Mathlib's
-`DirichletCharacter.conductor_ne_zero`. Every statement about `χ.primitiveCharacter.LFunction`
-needs it, Mathlib's `LFunction` taking `[NeZero N]`, and so does every Gauss sum of a primitive
-character read on `ZMod χ.conductor`. It is a proposition, so it creates no diamond, and it is
-declared once.
-
-*Needs:* Mathlib `DirichletCharacter.conductor`, `DirichletCharacter.conductor_ne_zero`.
-
-**Checks.**
-
-- The principal character modulo `6` has conductor `1`, and `χ.primitiveCharacter` is the character
-  modulo `1`, whose L-function is `riemannZeta` (`DirichletCharacter.LFunction_modOne_eq`); the
-  instance is what makes that L-function well-typed.
+This layer works with Mathlib's Dirichlet characters and their L-functions: it proves that the
+gamma factor has no zero on `Re s > 0`, and bundles a primitive character with its conductor. The
+instance `NeZero χ.conductor` it uses is that of CharacterSumsOverFiniteFields §7.1 (Conventions).
 
 ### 10.2 The gamma factor has no zero on `Re s > 0`
 
@@ -1192,32 +1194,36 @@ a level `level : ℕ+`, a character `character : DirichletCharacter ℂ level` a
 `PrimitiveRayClassCharacter`, built on Mathlib's characters so that its L-function is Mathlib's
 `DirichletCharacter.LFunction`; a primitive character cannot carry a second level.
 
-- `of χ`, for `[NeZero N]` and `χ : DirichletCharacter ℂ N`: the bundle of `χ.conductor`,
-  `χ.primitiveCharacter` and `primitiveCharacter_isPrimitive`; `(of χ).level = χ.conductor`,
-  `of ψ.character = ψ`, and `of (changeLevel h ψ) = of ψ` for `M ∣ N`
-  (`changeLevel_primitiveCharacter`).
+- *PrimitiveDirichletCharacter.of* `χ`, for `[NeZero N]` and `χ : DirichletCharacter ℂ N`, the
+  *bundle of `χ`*: the bundle of `χ.conductor`, `χ.primitiveCharacter` and
+  `primitiveCharacter_isPrimitive`. Its level is `χ.conductor`; the bundle of the character of a
+  bundle `ψ` is `ψ`; and for `M ∣ N` and `ψ : DirichletCharacter ℂ M`, `changeLevel h ψ` and `ψ`
+  have the same bundle (`changeLevel_primitiveCharacter`).
 - Equality: two bundles are equal exactly when their characters agree after lifting both to the
   product of the levels (`DirichletCharacter.changeLevel`).
-- `1`, the character modulo `1`, with `of (1 : DirichletCharacter ℂ N) = 1` for every `N`.
-- `ψ⁻¹`, the inverse character at the same level, primitive by `IsPrimitive.inv`; `of χ⁻¹ = (of χ)⁻¹`
-  (`conductor_inv`, the primitive character of `χ⁻¹` being the inverse of that of `χ`); `1⁻¹ = 1`.
-- `ψ.LFunction = ψ.character.LFunction`; for `χ ≠ 1 ∨ s ≠ 1`,
-  `χ.LFunction s = (of χ).LFunction s · ∏_{p ∣ N} (1 − (of χ).character p · p^(−s))`
-  (`LFunction_changeLevel`); and the card of `ψ` is `dirichletData ψ.character ψ.isPrimitive`.
+- `1`, the character modulo `1`; the trivial character modulo every `N` has bundle `1`.
+- `ψ⁻¹`, the inverse character at the same level, primitive by `IsPrimitive.inv`; the bundle of
+  `χ⁻¹` is the inverse of the bundle of `χ` (`conductor_inv`, the primitive character of `χ⁻¹`
+  being the inverse of that of `χ`); `1⁻¹ = 1`.
+- The L-function of a bundle `ψ` is `ψ.character.LFunction`. For `χ ≠ 1 ∨ s ≠ 1`, with
+  `χ' = χ.primitiveCharacter`, whose L-function is that of the bundle of `χ`,
+  `χ.LFunction s = χ'.LFunction s · ∏_{p ∣ N} (1 − χ'(p) p^(−s))` (`LFunction_changeLevel`); and
+  the card of `ψ` is `dirichletData ψ.character ψ.isPrimitive`.
 
 *Needs:* Mathlib `DirichletCharacter.conductor`, `DirichletCharacter.primitiveCharacter`,
 `DirichletCharacter.primitiveCharacter_isPrimitive`, `DirichletCharacter.changeLevel`,
 `DirichletCharacter.changeLevel_primitiveCharacter`, `DirichletCharacter.IsPrimitive.inv`,
 `DirichletCharacter.conductor_inv`, `DirichletCharacter.isPrimitive_one_level_one`,
-`DirichletCharacter.LFunction_changeLevel`; LFunctions Layer 4 (`dirichletData`); the instance of 10.1.
+`DirichletCharacter.LFunction_changeLevel`; LFunctions Layer 4 (`dirichletData`); the instance
+`NeZero χ.conductor` of CharacterSumsOverFiniteFields §7.1.
 
 **Checks.**
 
-- `of` the principal character modulo `6` is `1`, of level `1`, not a character of level `6`; a
-  bundle that kept the level of presentation would give the principal character modulo `6` a
+- The bundle of the principal character modulo `6` is `1`, of level `1`, not a character of level
+  `6`; a bundle that kept the level of presentation would give the principal character modulo `6` a
   card of conductor `6`.
-- `of` the character modulo `12` induced by the character `χ*` modulo `3` has level `3`; the
-  L-function of the character modulo `12` is that of `χ*` times `1 − χ*(2) 2^(−s) = 1 + 2^(−s)`
+- The bundle of the character modulo `12` induced by the character `χ*` modulo `3` has level `3`;
+  the L-function of the character modulo `12` is that of `χ*` times `1 − χ*(2) 2^(−s) = 1 + 2^(−s)`
   (as `χ*(2) = −1`) and the factor `1` at `3`, where `χ*` vanishes.
 - `ψ⁻¹` of the order-three character modulo `7` is its conjugate, of level `7`; `ψ⁻¹` of a
   quadratic character is itself.
@@ -1225,18 +1231,18 @@ a level `level : ℕ+`, a character `character : DirichletCharacter ℂ level` a
 ### Examples
 
 - The principal character modulo `6` has conductor `1`; its primitive character is the character
-  modulo `1`, whose L-function is `riemannZeta` (10.1), and `of` it is `1`, of level `1` (10.3).
+  modulo `1`, whose L-function is `riemannZeta`, and its bundle is `1`, of level `1` (10.3).
 - For even `χ`, Mathlib's `gammaFactor χ 0` is the junk value `0` at the pole of `Gammaℝ`, while for
   odd `χ` the gamma factor at `0` is `Gammaℝ(1) = 1` (10.2).
-- `of` the character modulo `12` induced by the character `χ*` modulo `3` has level `3`, and the
-  L-function of the character modulo `12` is that of `χ*` times `1 + 2^(−s)` (10.3).
+- The bundle of the character modulo `12` induced by the character `χ*` modulo `3` has level `3`,
+  and the L-function of the character modulo `12` is that of `χ*` times `1 + 2^(−s)` (10.3).
 
 ### Dependencies
 
-Mathlib `DirichletCharacter.conductor`, `DirichletCharacter.conductor_ne_zero`,
-`DirichletCharacter.gammaFactor`, `DirichletCharacter.primitiveCharacter`,
-`DirichletCharacter.changeLevel`, `DirichletCharacter.LFunction_changeLevel` and
-`Complex.Gammaℝ_ne_zero_of_re_pos`; LFunctions Layer 4 (`dirichletData`).
+Mathlib `DirichletCharacter.conductor`, `DirichletCharacter.gammaFactor`,
+`DirichletCharacter.primitiveCharacter`, `DirichletCharacter.changeLevel`,
+`DirichletCharacter.LFunction_changeLevel` and `Complex.Gammaℝ_ne_zero_of_re_pos`; LFunctions
+Layer 4 (`dirichletData`); CharacterSumsOverFiniteFields §7.1 (the instance `NeZero χ.conductor`).
 
 ## Layer 11: Primitive Dirichlet characters as primitive ray-class characters
 
@@ -1247,33 +1253,33 @@ characters of `ℚ`, with their values, conductors, L-functions and cards.
 
 Define *PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter*, an equivalence
 `PrimitiveDirichletCharacter ≃ PrimitiveRayClassCharacter ℚ` sending `ψ` to
-`PrimitiveRayClassCharacter.of ((ratDirichletEquiv ψ.level _).symm ψ.character)`.
+`ψ_ℚ = PrimitiveRayClassCharacter.of ((ratDirichletEquiv ψ.level _).symm ψ.character)`.
 
-- The image has finite conductor `(ψ.level)` and contains the real place exactly when `ψ` is odd
-  (`conductor_finitePart_eq_span`, `conductor_infinitePart_eq_empty_iff_even`); its value at an
-  ideal `(n)` prime to the level is `ψ.character n`, with no inverse or conjugation
+- The image `ψ_ℚ` has finite conductor `(ψ.level)` and contains the real place exactly when `ψ` is
+  odd (`TauCeti.GlobalNumberFields.RayClassCharacter.conductor_finitePart_eq_span`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.conductor_infinitePart_eq_empty_iff_even`); its
+  value at an ideal `(n)` prime to the level is `ψ.character n`, with no inverse or conjugation
   (`ratDirichletEquiv_absNorm`); and the map commutes with `1` and `ψ⁻¹`.
 - The inverse presents a primitive ray-class character of `ℚ` at the modulus `(n)·∞` of its finite
   conductor and reads it through `ratDirichletEquiv`.
-- Compatibility with the primitive sources at any level: for
-  `[NeZero N]` and `χ : DirichletCharacter ℂ N`,
-  `toPrimitiveRayClassCharacter (PrimitiveDirichletCharacter.of χ) =
-  PrimitiveRayClassCharacter.of ((ratDirichletEquiv N _).symm χ)`. Route: `χ` is the change of
+- Compatibility with the primitive sources at any level: for `[NeZero N]` and
+  `χ : DirichletCharacter ℂ N`, the image of the bundle of `χ` (10.3) is
+  `PrimitiveRayClassCharacter.of ((ratDirichletEquiv N _).symm χ)`. Route: `χ` is the change of
   level of `χ.primitiveCharacter` from `f = χ.conductor` (`changeLevel_primitiveCharacter`), so
   `(ratDirichletEquiv N _).symm χ` is the character of `(f)·∞` attached to `χ.primitiveCharacter`,
-  induced to `(N)·∞` (`ratDirichletEquiv_induced`, with `ratModulus_dvd_ratModulus_iff` for
-  `f ∣ N`), and the primitive source does not change under induction
-  (`PrimitiveRayClassCharacter.of_induced`). Together with the bullets below, a Dirichlet character
-  presented at any level and its ray-class character at `(N)·∞` have one primitive source and one
-  card.
-- L-functions: `heckeLFunctionC (toPrimitiveRayClassCharacter ψ).character` and
+  induced to `(N)·∞` (`TauCeti.GlobalNumberFields.ratDirichletEquiv_induced`, with
+  `TauCeti.GlobalNumberFields.ratModulus_dvd_ratModulus_iff` for `f ∣ N`), and the primitive source
+  does not change under induction (`PrimitiveRayClassCharacter.of_induced`). Together with the
+  bullets below, a Dirichlet character presented at any level and its ray-class character at `(N)·∞`
+  have one primitive source and one card.
+- L-functions: `heckeLFunctionC ψ_ℚ.character` and
   `ψ.character.LFunction` have the same germ at every point, the two series agreeing on `Re s > 1`
   term by term (`eventuallyEq_of_meromorphic_of_eqOn_halfPlane`), and agree off `s = 1`.
-- Cards: `heckeData (toPrimitiveRayClassCharacter ψ)`, built by `ofSeries` (LFunctions Layer 0), and
+- Cards: `heckeData ψ_ℚ`, built by `ofSeries` (LFunctions Layer 0), and
   `dirichletData ψ.character ψ.isPrimitive` have the same coefficients at every positive index, the
   conductor `ψ.level`, the real gamma shift `0` or `1` by parity, the same root number and the same
   polar divisor, and the completed function of the first is the meromorphic normal form of that of
-  the second. So `heckeData (toPrimitiveRayClassCharacter ψ)` agrees under `EqOffZero` with the
+  the second. So `heckeData ψ_ℚ` agrees under `EqOffZero` with the
   normalized card `{ dirichletData ψ.character ψ.isPrimitive with completed :=
   toMeromorphicNFOn (dirichletData ψ.character ψ.isPrimitive).completed univ }`, for every `ψ`:
   `ofSeries_eq_normalized` applied to `dirichletData`, whose hypotheses are its three card
@@ -1297,23 +1303,25 @@ Define *PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter*, an equivalenc
 `PrimitiveRayClassCharacter`,
 `PrimitiveRayClassCharacter.of`, `heckeLFunctionC`, `heckeData`, with Tau Ceti
 `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced` (the primitive source does not depend
-on the presentation); GlobalNumberFields `ratModulus`,
-`ratFiniteModulus`, `ratDirichletEquiv`,
-`ratDirichletEquiv_absNorm`, `ratDirichletEquiv_induced`, `ratModulus_dvd_ratModulus_iff`,
-`conductor_finitePart_eq_span`, `conductor_infinitePart_eq_empty_iff_even`; Mathlib
+on the presentation); GlobalNumberFields, in the namespace `TauCeti.GlobalNumberFields`:
+`ratModulus`, `ratFiniteModulus`, `ratDirichletEquiv`, `ratDirichletEquiv_absNorm`,
+`ratDirichletEquiv_induced`, `ratModulus_dvd_ratModulus_iff`,
+`RayClassCharacter.conductor_finitePart_eq_span`,
+`RayClassCharacter.conductor_infinitePart_eq_empty_iff_even`; Mathlib
 `DirichletCharacter.changeLevel_primitiveCharacter`, `DirichletCharacter.conductor_dvd_level`,
 `toMeromorphicNFOn`, `completedRiemannZeta_one`.
 
 **Checks.**
 
-- `toPrimitiveRayClassCharacter` of `χ₋₄` has conductor `ratModulus 4`, the real place included,
-  and its card is the comparison card of the `χ₄` Check of LFunctions Layer 8; that of the even quadratic
-  character modulo `5` has conductor `ratFiniteModulus 5`, without it. A map that kept the modulus
-  `(5)·∞` of `ratDirichletEquiv` would record a real place and the gamma shift of an odd character.
+- The image of `χ₋₄` under *toPrimitiveRayClassCharacter* has conductor `ratModulus 4`, the real
+  place included, and its card is the comparison card of the `χ₄` Check of LFunctions Layer 8; that
+  of the even quadratic character modulo `5` has conductor `ratFiniteModulus 5`, without it. A map
+  that kept the modulus `(5)·∞` of `ratDirichletEquiv` would record a real place and the gamma shift
+  of an odd character.
 - For the quartic character modulo `5` with `χ(2) = i`, the ideal `(2)` has value `i`; a map through
   the inverse character would give `−i` and the card of `χ⁻¹`, whose root number is the conjugate.
 - Compatibility at the character `χ` modulo `12` induced from the odd character `χ*` modulo `3`:
-  `PrimitiveDirichletCharacter.of χ` has level `3` and character `χ*`, whose image has conductor
+  the bundle of `χ` (10.3) has level `3` and character `χ*`, whose image has conductor
   `ratModulus 3`, the real place included; the ray-class character `(ratDirichletEquiv 12 _).symm χ`
   of `(12)·∞` has the same primitive source, of conductor `ratModulus 3`, and not `ratModulus 12`. At
   the principal character modulo `6` both sides are `1`.
@@ -1368,15 +1376,16 @@ constant, and the Riesz remainder of a primitive ray-class or Dirichlet characte
 transform, continuation, poles and explicit formula (8.4a); Selberg's smoothed formula for the
 logarithmic derivative (8.4b); the independence of the primitive characters from the reciprocity
 dictionary (8.8); the Riesz-smoothed character sums through a surjection of a ray class group and
-their Frobenius reading (8.8a); the zero-free half-plane predicate `ZeroFreeRightOf` (9.2); the
+their Frobenius reading (8.8a); the limit form of monotonicity, the converse product clause, the
+symmetries and the change of level of the zero-free half-plane predicate (9.2); the
 Riemann hypothesis of an analytic record (9.3), of a Dirichlet character (9.4), of a Dedekind zeta
 function, of a ray-class character and of a Grossencharacter (9.5), each with its equivalent forms
 and, at `ℚ`, its bridge to Mathlib's `RiemannHypothesis`; the consequences of a zero-free half-plane
 `Re s > σ`, `σ ∈ [1/2, 1)`, the hypothesis being the case `σ = 1/2`: exceptional zeros and the
 Riesz remainder (9.6), growth, the Lindelöf bound, the bound `exp(C log 𝔮/log log 𝔮)` and
 Littlewood's bounds on `Re s = 1` (9.7), the argument along a horizontal segment and `S(T)` (9.8),
-and prime counts (9.9); the instance `NeZero χ.conductor` (10.1); the nonvanishing of the gamma
-factor of a Dirichlet character on `Re s > 0` (10.2); the bundled primitive Dirichlet character
+and prime counts (9.9); the nonvanishing of the gamma factor of a Dirichlet character on
+`Re s > 0` (10.2); the bundled primitive Dirichlet character
 (10.3); and its equivalence with the primitive ray-class characters of `ℚ`, with the comparison of
 their L-functions and cards (11.1).
 
@@ -1392,21 +1401,33 @@ Layers 0–8. The ideal von Mangoldt function, truncated Perron summation and Ab
 [ArithmeticDirichletSeries](../../../Completed/ArithmeticDirichletSeries/README.md); ray-class
 characters, their induction and conductors and the rational dictionary `ratDirichletEquiv` are
 [GlobalNumberFields](../../../Completed/GlobalNumberFields/README.md); admissible moduli and the
-ray-class Artin map are [ClassFieldTheory](../../ClassFieldTheory/README.md).
+ray-class Artin map are [ClassFieldTheory](../../ClassFieldTheory/README.md). The instance
+`NeZero χ.conductor` of a Dirichlet character over a nonzero level is
+[CharacterSumsOverFiniteFields](../../CharacterSumsOverFiniteFields/README.md) §7.1.
 
-Forms on main that differ. ZerosOfLFunctions Layer 9 defines *GRH* over its two families through
-the divisor of the completed function; 9.3 reads the hypothesis of a record through the meromorphic
+The zero-free half-plane predicate `ZeroFreeRightOf`, with its monotonicity, its invariance under
+germs, its product rules, its value form at points of analyticity and its forms for Dirichlet and
+ray-class L-functions, is [QuasiRiemannHypothesis](../../QuasiRiemannHypothesis/README.md) §1.1.
+That roadmap also bounds the Hecke L-functions of one field in a zero-free disc (§5.3) and derives
+the zero strip of the primitive characters from a zero-free half-plane for all of them (§11.1);
+9.7 (i) and the strip forms of 9.4 and 9.5 differ from these as said there.
+
+Forms on main that differ. ZerosOfLFunctions Layer 9 defines *GRH* over its two families through the
+divisor of the completed function; 9.3 reads the hypothesis of a record through the meromorphic
 order, which for those families is the same statement (its divisor form) and which, unlike the
 divisor reading, fails for an identically zero completed function. AnalyticNumberTheoryPartI §1.6
-states a Dirichlet hypothesis in the value form on `Re s > 0`, and AnalyticNumberTheoryPartI §2.42
-the hypotheses for
-Dedekind zeta functions and Hecke characters in the strip form; ClassicalArithmeticCompletion §5.0
-states them for Dedekind zeta functions and class-group characters. These are equivalent forms of
-9.4 and 9.5. AnalyticNumberTheoryPartI §1.9 (i) states `ψ(x) − x = O(x^{1/2+ε})` under
-`RiemannHypothesis`, which 9.9 sharpens to `O(√x log² x)`. AnalyticNumberTheoryPartI §0.30 states
-the dictionary between Dirichlet characters and ray-class characters of `ℚ` at level `q`, of which
-11.1 is the primitive level, and the rational paragraph of ZerosOfLFunctions §6.4 compares the two
-series at the primitive level.
+states *DirichletGRH* `χ` in the value form on `Re s > 0`, the right side of the second strip form
+of 9.4, and AnalyticNumberTheoryPartI §2.42 states ERH(`K`) and GRH(`χ`) of a primitive Hecke
+character in the strip form, the right sides of the strip forms of 9.5;
+ClassicalArithmeticCompletion §5.0 states the hypotheses for Dedekind zeta functions and class-group
+characters. These are equivalent forms of 9.4 and 9.5. AnalyticNumberTheoryPartI §1.9 (i) states
+`ψ(x) − x = O(x^{1/2+ε})` under `RiemannHypothesis`, which 9.9 sharpens to `O(√x log² x)`;
+ClassicalArithmeticCompletion §5.16a (i) states an explicit bound for `|ψ_K(x) − x|` under the
+extended Riemann hypothesis of `K`, and for `|ψ(x) − x|` under `RiemannHypothesis`, of which the
+bounds of 9.9 for `ψ_K` and `ψ` at `σ = 1/2` are the `O`-forms. AnalyticNumberTheoryPartI §0.30
+states the dictionary between Dirichlet characters and ray-class characters of `ℚ` at level `q`, of
+which 11.1 is the primitive level, and the rational paragraph of ZerosOfLFunctions §6.4 compares the
+two series at the primitive level.
 
 Not stated here: unconditional subconvexity (9.7 gives every exponent `ε > 0` under the hypothesis
 of the L-function); the equivalence between the hypothesis of a field abelian over `ℚ` and that of
@@ -1443,7 +1464,22 @@ corollaries, infinitely many zeros. §8.2: the heights of the contour shift and 
 `logDeriv L = O(log² T)` on them; §§8.3–8.7: the truncated formulas, the Weil formula, the prime
 ideal theorem, the Hecke instance and effective counting in a ray class with its orthogonality and
 *rayClassPsi*; §8.8: reciprocity dictionaries and their splitting laws, *exceptionalChebotarevTerm*,
-*exceptionalRayClassTerm*, `frobeniusPsi` and `frobeniusPrimeCount`. Layer 9: *AllOnCriticalLine*.
+*exceptionalRayClassTerm*, `frobeniusPsi` and `frobeniusPrimeCount`. Layer 9: *AllOnCriticalLine*,
+and *GRH* over the two families with its bridge to `RiemannHypothesis` at `ζ` (9.3).
+
+### From TauCetiRoadmap.QuasiRiemannHypothesis
+
+§1.1: the predicate `ZeroFreeRightOf σ f`, `meromorphicOrderAt f s ≤ 0` for every `s` with
+`σ < Re s`, with its monotonicity in `σ`, its invariance under punctured germs, its two product
+rules (a product of two functions meromorphic and zero-free right of `σ`, and a factor analytic
+and nonzero on the half-plane), its value form at points of analyticity, its form for
+`DirichletCharacter.LFunction` with the pole of the principal character excepted, and, for `σ ≥ 0`,
+the agreement of a ray-class character with its primitive source (9.2–9.9).
+
+### From TauCetiRoadmap.CharacterSumsOverFiniteFields
+
+§7.1: the instance `instNeZeroConductor : NeZero χ.conductor` for `[NeZero N]` and a Dirichlet
+character `χ` over a commutative monoid with zero (9.2, 9.4, 10.3).
 
 ### From TauCetiRoadmap.LFunctions
 
@@ -1475,10 +1511,15 @@ coefficients `TauCeti.normCoeff` (8.4a, 8.4b). §§5.2, 6.1–6.2 and 10.1–10.
 ### From TauCetiRoadmap.GlobalNumberFields
 
 `RayClassCharacter.induced`, `RayClassCharacter.conductor_dvd_iff` and `RayClassGroup.hom_ext`
-(8.8, 8.8a); `RayClassCharacter.eulerCorrection_ne_zero` (9.2); `ratModulus`, `ratFiniteModulus`,
-`ratModulus_dvd_ratModulus_iff`, `ratDirichletEquiv`, `ratDirichletEquiv_absNorm`,
-`ratDirichletEquiv_induced`, `onIdeals_ratDirichletEquiv_symm`, `conductor_finitePart_eq_span` and
-`conductor_infinitePart_eq_empty_iff_even` (9.5, 9.7, 11.1).
+(8.8, 8.8a); `TauCeti.GlobalNumberFields.ratModulus`, `TauCeti.GlobalNumberFields.ratFiniteModulus`,
+`TauCeti.GlobalNumberFields.ratModulus_dvd_ratModulus_iff`,
+`TauCeti.GlobalNumberFields.ratDirichletEquiv`,
+`TauCeti.GlobalNumberFields.ratDirichletEquiv_absNorm`,
+`TauCeti.GlobalNumberFields.ratDirichletEquiv_induced`,
+`TauCeti.GlobalNumberFields.onIdeals_ratDirichletEquiv_symm`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.conductor_finitePart_eq_span` and
+`TauCeti.GlobalNumberFields.RayClassCharacter.conductor_infinitePart_eq_empty_iff_even` (9.5, 9.7,
+11.1).
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -1490,18 +1531,17 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
 
 - `RiemannHypothesis`, `riemannZeta`, `riemannZeta_one_ne_zero` (the junk value at `1`),
   `riemannZeta_two`, `riemannZeta_residue_one`, `riemannZeta_eq_zero_iff_of_re_nonpos`,
-  `riemannZeta_one_sub`, `riemannZeta_def_of_ne_zero`, `riemannZeta_ne_zero_of_one_le_re`,
-  `differentiableAt_riemannZeta`, `completedRiemannZeta_one_sub`, `completedRiemannZeta_one`,
+  `riemannZeta_one_sub`, `differentiableAt_riemannZeta`, `completedRiemannZeta_one`,
   `Complex.Gammaℝ_ne_zero_of_re_pos`, `Complex.differentiable_Gammaℝ_inv`,
   `meromorphicOrderAt_comp_of_deriv_ne_zero` (order under `s ↦ 1 − s`, meromorphic or not),
   `MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected` (9.3, 10.2, 11.1).
-- `meromorphicOrderAt`, `meromorphicOrderAt_of_not_meromorphicAt`, `meromorphicOrderAt_congr`,
-  `meromorphicOrderAt_mul`, `AnalyticAt.meromorphicOrderAt_nonneg`,
+- `meromorphicOrderAt`, `meromorphicOrderAt_of_not_meromorphicAt`, `meromorphicOrderAt_mul`,
   `meromorphicOrderAt_comp_add_const_eq_meromorphicOrderAt`, and `MeromorphicNFAt` (the value `0`
   of the normal form at a pole) (9.2).
 - `DirichletCharacter.LFunction`, `DirichletCharacter.differentiableAt_LFunction`,
   `DirichletCharacter.LFunctionTrivChar₁`, `DirichletCharacter.LFunctionTrivChar₁_apply_one_ne_zero`,
-  `DirichletCharacter.LFunction_modOne_eq`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
+  `DirichletCharacter.level_one`, `DirichletCharacter.LFunction_modOne_eq`,
+  `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
   `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
   `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`, `DirichletCharacter.IsPrimitive.inv`,
   `DirichletCharacter.conductor`, `DirichletCharacter.conductor_ne_zero`,
@@ -1510,11 +1550,12 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
   `DirichletCharacter.changeLevel`, `DirichletCharacter.changeLevel_primitiveCharacter`,
   `DirichletCharacter.isPrimitive_one_level_one`, `DirichletCharacter.LFunction_changeLevel`,
   `DirichletCharacter.gammaFactor`, `DirichletCharacter.Even.gammaFactor_def`,
-  `DirichletCharacter.Odd.gammaFactor_def`, `DirichletCharacter.even_or_odd` (9.2, 9.4, 10.1–10.3,
-  11.1).
+  `DirichletCharacter.Odd.gammaFactor_def`, `DirichletCharacter.even_or_odd` (9.2, 9.4, 10.2,
+  10.3, 11.1).
 - `LSeries`, `LSeriesSummable`, `DirichletCharacter.LSeries_twist_vonMangoldt_eq`,
-  `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`, `Real.eulerMascheroniConstant`, and
-  `toMeromorphicNFOn` (the transform `Φ_ψ` as a normal form) (8.4a, 11.1).
+  `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`,
+  `Real.eulerMascheroniConstant`, and `toMeromorphicNFOn` (the transform `Φ_ψ` as a normal form)
+  (8.4a, 11.1).
 - `NumberField.dedekindZeta`, `NumberField.abs_discr_gt_two` (9.5, 9.6).
 - `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
   `IsCompact.exists_bound_of_continuousOn`, `Complex.norm_le_of_forall_mem_frontier_norm_le`
@@ -1527,17 +1568,13 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
   and `DirichletCharacter.LFunction_inv_conj_eq_zero_iff` (9.4).
 - `TauCeti.meromorphicOrderAt_conj_conj` (the order of `conj ∘ f ∘ conj` at `x` is that of `f` at
   `conj x`, with no meromorphy hypothesis) (9.2, 9.3);
-  `TauCeti.meromorphicOrderAt_completedRiemannZeta_zero`,
   `TauCeti.meromorphicOrderAt_completedRiemannZeta_one` and `TauCeti.LFunctions.riemannZetaData`
   (9.3).
 - `TauCeti.meromorphicContinuation`, `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`,
   `TauCeti.LFunctions.heckeLFunctionC`, `TauCeti.LFunctions.meromorphicNFOn_heckeLFunctionC`,
-  `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive`,
   `TauCeti.LFunctions.PrimitiveRayClassCharacter.of`,
   `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced` (the primitive source does not depend
-  on the presentation), `PrimitiveRayClassCharacter.character_inv`,
-  `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection_ne_zero` (the correction is nonzero
-  on `Re s > 0`) (8.8, 9.2, 9.5, 11.1).
+  on the presentation), `PrimitiveRayClassCharacter.character_inv` (8.8, 9.5, 11.1).
 - `TauCeti.Contour.classicalResidueTheorem_nullHomologous`,
   `TauCeti.Contour.logDeriv_eventuallyEq_principalPart` (8.4a, 8.4b);
   `TauCeti.exists_differentiableOn_eqOn_exp_comp` (the holomorphic logarithm) (9.7).

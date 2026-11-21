@@ -14,8 +14,10 @@ predicates, the instance and the definitions those statements need.
 * The Riemann hypothesis for a Dirichlet L-function and its equivalent forms (9.2–9.4): stated,
   with the predicate `ZeroFreeRightOf` read through meromorphic orders, the predicate
   `DirichletCharacter.GeneralizedRiemannHypothesis` on Mathlib's continued
-  `DirichletCharacter.LFunction`, and the instance `DirichletCharacter.instNeZeroConductor` of 10.1,
-  which makes the L-function of the primitive character well typed.
+  `DirichletCharacter.LFunction`, and the instance `DirichletCharacter.instNeZeroConductor`, which
+  makes the L-function of the primitive character well typed. The predicate is that of
+  QuasiRiemannHypothesis §1.1 and the instance that of CharacterSumsOverFiniteFields §7.1; both are
+  declared here with the same bodies, since a roadmap's module is not imported.
 * The Riesz remainder of a primitive Dirichlet character under a zero-free half-plane (8.4a,
   9.6 (c)): stated, with the Riesz sum `rieszSum`, the bundle `PrimitiveDirichletCharacter` of 10.3
   and its remainder `PrimitiveDirichletCharacter.rieszRemainder`.
@@ -30,11 +32,14 @@ predicates, the instance and the definitions those statements need.
   Ceti's `TauCeti.primePsi`, `TauCeti.primeCount` and `TauCeti.Real.logIntegral` and the Dedekind
   zeta function continued by `TauCeti.meromorphicContinuation`, and as von Koch's theorem at `ℚ`.
 
-The predicates for analytic records, Dedekind zeta functions, ray-class characters and
-Grossencharacters (9.3, 9.5), and the ray-class form of 9.6 (c), are statable with Tau Ceti's
+The predicates for analytic records, Dedekind zeta functions and ray-class characters (9.3, 9.5),
+and the ray-class form of 9.6 (c), are statable with Tau Ceti's
 `TauCeti.LFunctions.AnalyticLFunctionData` and `TauCeti.LFunctions.heckeLFunctionC`; they are
-ingredients of the number-field statements, not headlines, and are not stated. The argument bound
-9.8 needs the argument lift of ZerosOfLFunctions §7.3, the exceptional zeros of 9.6 (a) the
+ingredients of the number-field statements, not headlines, and are not stated. The Grossencharacter
+predicate of 9.5 is not statable: it is read on the record `grossencharacterData` of a
+Grossencharacter of LFunctions Layer 6, and the pinned Tau Ceti has neither that carrier nor the
+record, only the idele-class characters `TauCeti.GlobalNumberFields.HeckeCharacter`. The argument
+bound 9.8 needs the argument lift of ZerosOfLFunctions §7.3, the exceptional zeros of 9.6 (a) the
 predicate of ZerosOfLFunctions §6.3, and the Frobenius forms of 8.8a and 9.9 (iii) the reciprocity
 dictionary of ZerosOfLFunctions §8.8, none of which is a declaration at the pins. The three-circles
 theorem 3.2a, the explicit formula of 8.4a (b), Selberg's formula 8.4b, the independence 8.8, the
@@ -55,8 +60,8 @@ noncomputable def rieszSum (a : ℕ → ℂ) (y : ℝ) : ℂ :=
 
 /-! ## Layer 9: Riemann hypotheses as predicates and their conditional consequences -/
 
-/-- `f` is zero-free right of `σ` (9.2): every `s` with `σ < Re s` has order at most `0`, so that
-poles are allowed and no value of `f` is read. -/
+/-- `f` is zero-free right of `σ` (QuasiRiemannHypothesis §1.1, used in 9.2): every `s` with
+`σ < Re s` has order at most `0`, so that poles are allowed and no value of `f` is read. -/
 def ZeroFreeRightOf (σ : ℝ) (f : ℂ → ℂ) : Prop :=
   ∀ s : ℂ, σ < s.re → meromorphicOrderAt f s ≤ 0
 
@@ -94,11 +99,6 @@ theorem generalizedRiemannHypothesis_iff_re_eq_half {N : ℕ} [NeZero N]
       ∀ ρ : ℂ, 0 < ρ.re → ρ.re < 1 → χ.LFunction ρ = 0 → ρ.re = 1 / 2 := by
   sorry
 
-/-- At modulus one the hypothesis is Mathlib's `RiemannHypothesis` (9.4). -/
-theorem generalizedRiemannHypothesis_modOne_iff (χ : DirichletCharacter ℂ 1) :
-    χ.GeneralizedRiemannHypothesis ↔ RiemannHypothesis := by
-  sorry
-
 /-- The hypothesis for the principal character modulo any `N ≥ 1` is `RiemannHypothesis` (9.4). -/
 theorem generalizedRiemannHypothesis_one_iff (N : ℕ) [NeZero N] :
     (1 : DirichletCharacter ℂ N).GeneralizedRiemannHypothesis ↔ RiemannHypothesis := by
@@ -111,10 +111,9 @@ theorem forall_generalizedRiemannHypothesis_iff_forall_isPrimitive :
         χ.GeneralizedRiemannHypothesis := by
   sorry
 
-/-! ## Layer 10: Primitive Dirichlet characters, conductors and gamma factors -/
-
-/-- The conductor of a Dirichlet character over a nonzero level is nonzero, as an instance (10.1);
-it makes `χ.primitiveCharacter.LFunction` well typed. -/
+/-- The conductor of a Dirichlet character over a nonzero level is nonzero, as an instance
+(CharacterSumsOverFiniteFields §7.1, from Mathlib's `DirichletCharacter.conductor_ne_zero`); it
+makes `χ.primitiveCharacter.LFunction` well typed. -/
 instance _root_.DirichletCharacter.instNeZeroConductor {R : Type*} [CommMonoidWithZero R] {N : ℕ}
     [NeZero N] (χ : DirichletCharacter R N) : NeZero χ.conductor :=
   ⟨χ.conductor_ne_zero⟩
@@ -124,6 +123,8 @@ theorem generalizedRiemannHypothesis_primitiveCharacter_iff {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) :
     χ.primitiveCharacter.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis := by
   sorry
+
+/-! ## Layer 10: Primitive Dirichlet characters, conductors and gamma factors -/
 
 /-- A primitive Dirichlet character bundled with its conductor (10.3): a level, a character of that
 level and a proof that it is primitive. -/
@@ -187,7 +188,7 @@ theorem primePsi_primeCount_of_zeroFreeRightOf (K : Type*) [Field K] [NumberFiel
   sorry
 
 /-- Von Koch (9.9, at `ℚ`): under the Riemann hypothesis, `ψ(x) − x = O(√x log² x)`. -/
-theorem psi_sub_self_isBigO_of_riemannHypothesis (h : RiemannHypothesis) :
+theorem psi_sub_self_isBigO_sqrt_mul_log_sq_of_riemannHypothesis (h : RiemannHypothesis) :
     (fun x : ℝ ↦ Chebyshev.psi x - x) =O[atTop] fun x ↦ √x * Real.log x ^ 2 := by
   sorry
 
