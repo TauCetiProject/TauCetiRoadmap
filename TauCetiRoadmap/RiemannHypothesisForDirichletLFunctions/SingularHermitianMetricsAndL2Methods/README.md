@@ -281,7 +281,7 @@ nonnegative multiples and finite maxima, but not under decreasing limits: a decr
 functions need not be quasi-plurisubharmonic (third Check), and lying in one `PSH(X, γ)` is a sufficient condition for
 it to be, not a necessary one (fourth Check); (b) if `X` is compact and
 connected and `γ` is continuous, then `{u ∈ PSH(X, γ) : sup_X u = 0}` is compact in `L¹(X)` and bounded in
-`L¹`, and `sup_X u` is controlled by the mean of `u`: `sup_X u ≤ ∫_X u dV_ω/∫_X dV_ω + C(X, ω, γ)` (for closed `γ`, Guedj and
+`L¹`, and `sup_X u` is controlled by the mean of `u`: `sup_X u ≤ ∫_X u dV_ω/∫_X dV_ω + C(X, ω, γ)` (for closed `γ` on compact Kähler `X`, Guedj and
 Zeriahi 2005, Proposition 1.7, p. 6 of arXiv:math/0401302v2).
 
 *Route.* (a) is local. Near a point `x₀`, in a chart, let `q` be the quadratic polynomial with `i∂∂̄q = γ(x₀)`; for
@@ -549,8 +549,8 @@ component, with weight `log Σ_j|f_j|²` and `iΘ ≥ 0`; comparison of singular
 
 Say that a singular metric `h` whose local weights are quasi-plurisubharmonic (2.1;
 `φ` below is the canonical representative) has *analytic singularities* with coefficient `c` if locally `φ = c·log Σ_j|g_j|² + w` with holomorphic `g_j`, not all identically
-zero on any component, a real `c ≥ 0` and `w` bounded on the complement of `V(g_j)` (*neat* when `w` extends smoothly;
-[AMAG] Def. 1.10, p. 8).
+zero on any component, a real `c ≥ 0` and `w` bounded on the complement of `V(g_j)` ([AMAG] Def. 1.10, p. 8); it is *neat* when `w` extends
+smoothly.
 Prove that for `c > 0` the polar set `{φ = −∞}` of such a weight
 is the analytic set `V(g_j)` (for `c = 0` the weight is bounded and its polar set is empty), that `h` is smooth on
 `X ∖ V(g_j)` when `w` is smooth, and that the Lelong number (1.1) at `x` is `2c·min_j ord_x g_j`, which is `2c` times the order
@@ -781,7 +781,7 @@ Prove:
 quotient metric, identified with `S^⊥` as a smooth bundle. The *second fundamental form* `β`, `β(s) = ` the `S^⊥`-component of
 `D_E s` for smooth sections `s` of `S`, is a `(1,0)`-form with values in `Hom(S, Q)`, `β = Σ_jβ_jdz_j`; with respect to
 `E = S ⊕ S^⊥`, `D_E = (D_S, −β*; β, D_Q)` and `Θ_S = Θ_E|_S + β* ∧ β`, `Θ_Q = Θ_E|_Q + β ∧ β*` (the diagonal blocks of
-`Θ_E`). Hence, for `v ∈ S_x`, `w ∈ Q_x` with lift `w̃ ∈ S^⊥_x`, and `u ∈ T^{1,0}_xX ⊗ S_x`,
+`Θ_E`; [CADG] chapter V, Th. 14.3 and 14.5 and (14.6)–(14.7), pp. 273–275). Hence, for `v ∈ S_x`, `w ∈ Q_x` with lift `w̃ ∈ S^⊥_x`, and `u ∈ T^{1,0}_xX ⊗ S_x`,
 `θ_S(ξ ⊗ v) = θ_E(ξ ⊗ v) − |β(ξ)v|²`, `θ_S(u) = θ_E(u) − |Σ_jβ_ju_j|²`, `θ_Q(ξ ⊗ w) = θ_E(ξ ⊗ w̃) + |β(ξ)*w|²`.
 So the curvature decreases on sub-bundles (Griffiths and Nakano seminegativity pass to sub-bundles) and increases on
 quotients (Griffiths semipositivity passes to quotients). Moreover, if `t` is the smooth section of `S^⊥` lifting a
@@ -789,10 +789,15 @@ holomorphic section of `Q`, then `∂̄t = −β*(t)` is an `S`-valued `(0,1)`-f
 
 (b) (*flat bundles with an indefinite form*) Let `V` be a holomorphic vector bundle with a flat connection `∇`,
 `∇^{0,1} = ∂̄_V`, and a `∇`-parallel nondegenerate hermitian form `k`; let `S ⊂ V` be a holomorphic sub-bundle on which `k`
-is positive definite and whose `k`-orthogonal `S^{⊥k}` is a complement on which `k` is negative definite. Give `S` the
-metric `k|_S` and `S^{⊥k}` the metric `−k`, and let `σ = Σ_jσ_jdz_j`, `σ(s) = ` the `S^{⊥k}`-component of `∇s`. Then
-`Θ_S = −σ* ∧ σ`: `θ_S(ξ ⊗ v) = |σ(ξ)v|²` and `θ_S(u) = |Σ_jσ_ju_j|²`, so `S` is Nakano semipositive (the curvature of the
-top piece of a polarised variation of Hodge structure, `σ` its Kodaira–Spencer map).
+is positive definite, so that its `k`-orthogonal `S^{⊥k}` is a complement, and let `σ = Σ_jσ_jdz_j`, `σ(s) = ` the
+`S^{⊥k}`-component of `∇s`. Assume that `k` is negative definite on a smooth sub-bundle `W ⊂ S^{⊥k}` containing the image of
+every `σ_j` (for instance `W = S^{⊥k}` when `k` is negative definite there). Give `S` the metric `k|_S` and `W` the metric
+`−k`. Then `Θ_S = −σ* ∧ σ`, `σ` read as a form with values in `Hom(S, W)`: `θ_S(ξ ⊗ v) = |σ(ξ)v|²` and
+`θ_S(u) = |Σ_jσ_ju_j|²`, so `S` is Nakano semipositive. This is the curvature of the top piece `S = H^{w,0}` of a polarised
+variation of Hodge structure of weight `w`, `σ` its Kodaira–Spencer map: the flat hermitian form `k` of the polarisation,
+normalised to be positive on `H^{w,0}`, has the sign `(−1)^q` on `H^{w−q,q}`, and `W = H^{w−1,1}` contains the image of `σ`
+by Griffiths transversality. For `w ≥ 2`, `k` is positive on `H^{w−2,2} ⊂ S^{⊥k}`, which for `w = 2` is the conjugate of
+`S`, so `W = S^{⊥k}` is not available there.
 
 (c) (*Skoda's inequality*) Let `E = O^p` on an open set of `ℂ^n` with the standard flat metric, `g = (g_1, …, g_p)`
 holomorphic without common zero, `|g|² = Σ_l|g_l|²`, `S = ker(g : O^p → O)` with the induced metric (its orthogonal is
@@ -808,8 +813,9 @@ subtracting gives the Griffiths form of `S`. For the blocks: `β` is of type `(1
 `(β* ∧ β)_{jk̄} = −β_k*β_j`, `(β ∧ β*)_{jk̄} = β_jβ_k*` give the three formulas. If `t` lifts a holomorphic section of
 `Q`, the `(0,1)`-part of `D_Et` is `∂̄t`, with `S`-component `−β*(t)` and `Q`-component `∂̄_Q` of that section, `0`.
 (b) The same block decomposition of `∇` in `V = S ⊕ S^{⊥k}`: `π_S∇` is the Chern connection of `(S, k|_S)` (it preserves
-`k` and its `(0,1)`-part is `∂̄_S`), the block from `S^{⊥k}` to `S` is the `k`-adjoint of `−σ`, which is `+σ*` since `k` is
-`−1` times the metric on `S^{⊥k}`, and `∇² = 0` gives `Θ_S = −σ* ∧ σ`. (c) Write `a_j = ∂g/∂z_j ∈ ℂ^p`, `x·y = Σ_lx_ly_l`,
+`k` and its `(0,1)`-part is `∂̄_S`); the block `τ` from `S^{⊥k}` to `S` satisfies `k(σs, t) + k(s, τt) = 0` (`k` is parallel),
+so on `W` it is the `k`-adjoint of `−σ`, which is `+σ*` since `k` is `−1` times the metric on `W`; the `S`-block of `∇² = 0`
+is `Θ_S + τ ∧ σ = 0`, and `σ` takes values in `W`, so `Θ_S = −σ* ∧ σ`. (c) Write `a_j = ∂g/∂z_j ∈ ℂ^p`, `x·y = Σ_lx_ly_l`,
 and `P` for the orthogonal projection of `ℂ^p` onto the orthogonal of the vector `g(z)`. Differentiating `Σ_lg_ls_l = 0`
 gives `β_ju = −(a_j·u)ḡ/|g|²` for `u ∈ S`, and `a_j·u = b_j·u` with `b_j = Pa_j`; a direct computation gives
 `∂_j∂̄_k log|g|² = ⟨b_j, b_k⟩/|g|²`. The vectors `b̄_j` lie in `S`, and the endomorphism `M = Σ_j⟨·, b̄_j⟩u_j` of `S_z` has
@@ -849,7 +855,7 @@ that `X ∖ Z` is complete Kähler in general, and the route below proves (a).
 `ω + i∂∂̄χ₂(ψ)` is a complete Kähler metric on `X` (RealAnalyticGeometry R3.1's construction), which is the second claim.
 Glue local generators of the ideal of `Z` by a locally finite partition of unity into a function `|g|²`, smooth on `X` and
 vanishing exactly on `Z`, with `i∂∂̄log|g|² ≥ −Aω` on `X ∖ Z` for a continuous function `A ≥ 0` on `X` (Demailly 1982,
-Proposition 1.4 and its proof, pp. 462–463). No constant `A` serves on a noncompact `X`, and cut-offs between sublevel sets
+Proposition 1.4 and its proof, pp. 462–463). A constant `A` need not exist on a noncompact `X`, and cut-offs between sublevel sets
 would bring in derivatives of the unbounded `log(−log|g|²)`; instead the scale of `|g|²` grows with `ψ`. Choose a smooth
 convex increasing `F ≥ 1` on `[0, ∞)` with `F(ψ) ≥ 2(A + log⁺|g|² + 1)` on `X` (the right side is bounded on each compact
 `{ψ ≤ t}`), and put `ℓ = F(ψ) − log|g|²`; then `ℓ ≥ F(ψ)/2 ≥ A + 1` and `ℓ → ∞` at `Z`. From
@@ -999,7 +1005,8 @@ For a real `(1,1)`-form `θ = Σ_{j,k} θ_{jk̄} i dz_j ∧ dz̄_k ≥ 0` at a p
 Prove: let `Ω ⊂ ℂ^n` be pseudoconvex and `φ` plurisubharmonic of class `C²` on `Ω`. For every `(0,1)`-form `v` with
 `L²_loc` coefficients, `∂̄v = 0` and `∫_Ω|v|²_{i∂∂̄φ}e^{−φ}dλ < ∞`, there is `u` with `∂̄u = v` and
 `∫_Ω|u|²e^{−φ}dλ ≤ ∫_Ω|v|²_{i∂∂̄φ}e^{−φ}dλ`; the solution of least norm in `L²(Ω, e^{−φ}dλ)` is one. This is Hörmander's
-theorem in the form with the datum measured by the Levi form of the weight; it needs no lower bound for `i∂∂̄φ`, only the
+theorem in the form with the datum measured by the Levi form of the weight (for smooth `φ`, the case of the trivial line
+bundle with weight `φ` on `Ω` of [CADG] chapter VIII, Th. 6.1, p. 376); it needs no lower bound for `i∂∂̄φ`, only the
 finiteness of the right side. The same holds, with the same proof, on a Stein Riemann domain `Ω → ℂ^n` (a Stein manifold
 with a local biholomorphism to `ℂ^n`), the coordinates and `dλ` being pulled back.
 
@@ -1132,7 +1139,8 @@ Prove: let `Ω ⊂ ℂ^n` be pseudoconvex, `φ` plurisubharmonic on `Ω` and not
 holomorphic on `Ω` and not all identically zero on any component, `|g|² = Σ_j|g_j|²`, and `q = min(n, p − 1)`.
 
 (a) (*Skoda*) For every real `α > 1` and every holomorphic `f` on `Ω` with `I = ∫_Ω|f|²|g|^{−2(αq+1)}e^{−φ}dλ < ∞` there are
-holomorphic `h_1, …, h_p` on `Ω` with `f = Σ_j g_jh_j` and `∫_Ω Σ_j|h_j|²·|g|^{−2αq}e^{−φ}dλ ≤ (α/(α − 1))·I`.
+holomorphic `h_1, …, h_p` on `Ω` with `f = Σ_j g_jh_j` and `∫_Ω Σ_j|h_j|²·|g|^{−2αq}e^{−φ}dλ ≤ (α/(α − 1))·I` ([CADG]
+chapter VIII, Th. 9.10, p. 392, with `m = q ≥ 1` and `m + ε = αq`, so that `1 + m/ε = α/(α − 1)`).
 
 (b) (*Powers of the ideal*) For every real `β > q`, every integer `a ≥ 1` and every holomorphic `f` with
 `I_{β,a} = ∫_Ω|f|²|g|^{−2(β+a)}e^{−φ}dλ < ∞` there are holomorphic `h_J`, `J = (j_1, …, j_a) ∈ {1, …, p}^a`, with
@@ -1339,11 +1347,12 @@ with Poincaré growth restricted to `{|z_i| = ε}` is `O(1/|log ε|)` in the ang
 Let `Ē` be a holomorphic vector bundle on `X̄` of rank `r` and `h` a smooth hermitian metric
 on `E = Ē|_X`. Call `h` *good relative to `Ē`* if at every point of `D`, for a local frame `e₁, …, e_r` of `Ē` on a Poincaré polydisc with Gram
 matrix `H = (h(e_i, e_j))`, `h` linear in the first and conjugate-linear in the second variable: (i) `|H_{ij}|` and
-`(det H)^{−1}` are bounded by `C(Σ_{i≤k}|log|z_i||)^m`; (ii) the entries of `(∂H)H^{−1}` are good forms. With this
+`(det H)^{−1}` are bounded by `C(Σ_{i≤k}|log|z_i||)^m`; (ii) the entries of `(∂H)H^{−1}` are good forms (Mumford 1977, §1,
+p. 242, on a smooth projective compactification `X̄`). With this
 convention `(∂H)H^{−1}` is the transpose of the matrix `θ` of the Chern connection (`D′e_j = Σ_iθ_{ij}e_i`), and a change of
 frame `e′_j = Σ_ie_ig_{ij}` (`g` holomorphic and invertible on the polydisc) gives `H′ = gᵀHḡ`. Prove: (a) the condition does not depend on the
 frame; (b) if `h` is good relative to `Ē₁` and to `Ē₂`, both extending `E`, then the identity of `E` extends to
-an isomorphism `Ē₁ ≅ Ē₂`; (c) direct sums, tensor products, duals, exterior and symmetric powers and
+an isomorphism `Ē₁ ≅ Ē₂` (Mumford 1977, Proposition 1.3, p. 242); (c) direct sums, tensor products, duals, exterior and symmetric powers and
 determinants of good metrics are good relative to the corresponding extensions; (d) for line bundles, condition
 (i) is the logarithmic-growth condition of 2.5 in every chart, and condition (ii) says that `∂φ` and `∂∂̄φ` both have
 bounded norm for the Poincaré metric, `φ` the weight; the bound for `∂φ` together with (i) does not imply the bound for
@@ -1384,7 +1393,7 @@ Prove: let `X̄` be compact, `Ē` a holomorphic vector bundle on `X̄`, `h` good
 invariant polynomial `P` the Chern–Weil form `P(Θ_h)` on `X` is a good form, the current `[P(Θ_h)]` on `X̄` is
 closed, and it represents `P(Ē)` in `H*(X̄, ℝ)`: for every closed smooth form `β` on `X̄` of complementary degree,
 `∫_X P(Θ_h) ∧ β = ⟨P(Ē) ∪ [β], [X̄]⟩`. In particular `∫_X c_I(E, h) = c_I(Ē)[X̄]` for every Chern monomial of top
-degree.
+degree. (For the Chern forms, with `X̄` projective, Mumford 1977, Theorem 1.4, pp. 242–243.)
 
 *Route.* Mumford's argument: the curvature matrix `∂̄θ` of a good metric (`θ` the connection matrix of 5.3, the
 transpose of `(∂H)H^{−1}`) has Poincaré growth, and so does `d(∂̄θ) = d(θ ∧ θ)` (as `∂θ = −θ ∧ θ`), so Chern forms are good (5.2); compare with a smooth metric `h₀` on `Ē` through the transgression form `T(h, h₀)` of
@@ -1457,7 +1466,8 @@ otherwise; 1.1's last Check.)
 
 ### 6.2 Coherence (Nadel)
 
-Prove that `J(φ)` is a coherent ideal sheaf for every quasi-plurisubharmonic `φ`.
+Prove that `J(φ)` is a coherent ideal sheaf for every quasi-plurisubharmonic `φ` (for plurisubharmonic `φ`, [AMAG]
+Prop. 5.7, p. 37).
 
 *Route.* The question is local. On a small ball `B` around a point, write `φ = v + ψ` with `v` plurisubharmonic and `ψ`
 smooth on a neighbourhood of `B̄`, and fix `C` with `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` there: `φ̃ = φ + C|z|²` is plurisubharmonic on `B`
@@ -1528,7 +1538,8 @@ ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2, 7.7; ComplexCompariso
 ### 6.4 The restriction theorem
 
 Prove: if `H ⊂ X` is a smooth hypersurface and `φ` is quasi-plurisubharmonic with `φ|_H ≢ −∞` on each component
-of `H`, then `J(φ|_H) ⊆ J(φ)·O_H` (the image of `J(φ)` in `O_H`).
+of `H`, then `J(φ|_H) ⊆ J(φ)·O_H` (the image of `J(φ)` in `O_H`; for plurisubharmonic `φ` and any submanifold,
+[AMAG] (15.1), p. 158).
 
 *Route.* At `x ∈ H` take coordinates with `H = {z_n = 0}` and a polydisc `P = P′ × Δ_r` around `x` on which `φ = v + ψ` with `v`
 plurisubharmonic and `ψ` smooth on a neighbourhood of `P̄`; with `C` such that `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` there, `φ̃ = φ + C|z|²` is
@@ -1546,7 +1557,7 @@ holomorphic on `P` with `F|_{P∩H} = f` and `∫_P|F|²e^{−φ} ≤ e^{C′}�
 
 ### 6.5 Subadditivity
 
-Prove `J(φ + ψ) ⊆ J(φ)·J(ψ)` for quasi-plurisubharmonic `φ, ψ`.
+Prove `J(φ + ψ) ⊆ J(φ)·J(ψ)` for quasi-plurisubharmonic `φ, ψ` (for plurisubharmonic `φ, ψ`, [AMAG] Th. 15.2(b), p. 159).
 
 *Route.* On `X × X`, `J(φ ⊠ ψ) = J(φ) ⊠ J(ψ)` (Fubini and coherence); restrict to the diagonal by 6.4, applied
 `n` times along hypersurfaces cutting out the diagonal.
@@ -1668,7 +1679,8 @@ singularities (2.2, with `c = 1/m`), smooth on `X′ ∖ V(J(mφ))`, such that `
 (8.1 does not use any).
 
 *Route.* The approximation is Demailly's global approximation theorem (J.-P. Demailly, *Regularization of closed positive
-currents and intersection theory*, 1992; for compact `X`, [AMAG] Th. 14.12, pp. 142–143); for the statement in the
+currents and intersection theory*, 1992, Proposition 3.7, and [AMAG] Th. 14.12, pp. 142–143, both for compact `X`, with
+Demailly's weight, half of ours; for `X′ ⋐ X` the same proof on a finite cover of the closure of `X′`); for the statement in the
 exact form above (in particular the dependence of the constants) the proof is not given here. The standard method, at the
 level of its steps: on finitely many small coordinate balls `B_j` covering `X̄′`, write
 `α = i∂∂̄g_j` and choose a quadratic polynomial `q_j` with `i∂∂̄q_j = −γ(x_j)` at the centre `x_j`; since `γ` is continuous,
@@ -1710,10 +1722,11 @@ positivity tends to zero. If `γ` is Lipschitz with constant `L_γ` (with respec
 class `C¹`), then `m_γ(t) ≤ L_γ·t` and `ε_r ≤ C(1 + L_γ)/log(r₀/r)`; for the means of the route the dependence on `L_γ` cannot be
 replaced by one on a lower bound of `γ` (fifth Check). For `γ = 0`, `ε_r ≤ C(r + r₀²/log(r₀/r))`.
 
-*Route.* The regularisation is Demailly's (J.-P. Demailly, *Regularization of closed positive currents and intersection
-theory*, 1992). His estimate bounds the loss of positivity of `φ_r = Φ(·, r) + Kr²` (below) by a constant times the
-logarithmic scale derivative of the corrected mean `Φ(x, t) + Kt²` at `t = r`, plus a term `O(r)` and the modulus of
-continuity of `γ` at scale `Cr`. The statement above, with the chart secant `λ_r(x)` in place of that scale derivative and
+*Route.* The regularisation is Demailly's (J.-P. Demailly, *Regularization of closed positive currents of type (1,1) by the
+flow of a Chern connection*, 1994, Theorem 4.1, for compact `X`, with the modified exponential map of its Proposition 2.9).
+His estimate bounds the loss of positivity of `φ_r = Φ(·, r) + Kr²` (below) by a constant times the
+logarithmic scale derivative of the corrected mean `Φ(x, t) + Kt²` at `t = r`, plus an error tending to `0` with `r`, which
+in its proof collects terms `O(r)` and the modulus of continuity of `γ` at scale `Cr`. The statement above, with the chart secant `λ_r(x)` in place of that scale derivative and
 with the stated dependence of `C` and range of `r`, is derived from that estimate by the convexity in `log t` of the
 corrected mean and a comparison of the `exph`-balls with the chart balls (radii scaled by `A`); for it the proof is not
 given here. The method: `Φ(x, t)` is
@@ -1818,7 +1831,8 @@ and convolve there.
   `2πω_FS`-plurisubharmonic (not `ω_FS`-plurisubharmonic), and it is the decreasing limit of
   `log((|z₀|² + ε|z₁|²)/(|z₀|² + |z₁|²))`, each `2πω_FS`-plurisubharmonic.
 - Why (a) truncates first: for `u = log|z|²` and the charts `z` and `w = 2z` near `0`, the convolutions at radius `ε` at the
-  origin are `2 log ε + c_ρ` and `2 log ε + c_ρ − log 4`, which differ by `log 4` for every `ε` (in the route, `S(4r) − S(r)`
+  origin are `2 log ε + 2c_ρ` and `2 log ε + 2c_ρ − log 4` (`c_ρ = ∫log|w|·ρ(w)dλ` as in 7.4's third Check), which differ by
+`log 4` for every `ε` (in the route, `S(4r) − S(r)`
   is `log 16` there); for the bounded `max(log|z|², −k)` both are `−k` once `ε ≤ e^{−k/2}`.
 
 ### 7.6 Richberg's approximation
@@ -2147,7 +2161,7 @@ increasing `χ` (which only increases the curvature), and 8.1, in its form with 
 
 ### 8.3 Separation of points and jets by multiplier ideals
 
-Prove: in the setting of 8.2 with `X` compact, if `Z = V(J(h))` and `x₁, …, x_r` are pairwise distinct isolated points of `Z`,
+Prove: in the setting of 8.2, if `Z = V(J(h))` and `x₁, …, x_r` are pairwise distinct isolated points of `Z`,
 then the restriction map `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L ⊗ O_X/J(h))_{x_i}` is surjective. (With a repeated point the target
 counts its stalk twice and the map is not onto: second Check.) ([AMAG] Cor. 5.12, p. 40.) In particular, if
 `J(h)_{x_i} = m_{x_i}` for each `i` (an isolated non-integrability point of multiplicity one), sections of
@@ -2350,8 +2364,6 @@ Layers 1–5, 7 and 8; AlgebraicModuliForArithmeticGeometry §1.6.
 - ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a: logarithmic growth of the Hodge metric in the sense of 5.3(i) and semipositivity of
   the Hodge bundle of a semi-abelian scheme with abelian generic fibre over a curve, using 3.2a (curvature of the top piece of a polarised variation
   and of quotients) and 2.5.
-- HeightsRationalPointsAndObstructions §5.17c: its uniform Bergman-density asymptotics and its restriction
-  operators to smooth members of `|L^a|` are instances of 9.2 and 4.2.
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties: plurisubharmonic functions (0.1–0.3), complete Kähler metrics off analytic sets of
   complete Kähler manifolds (3.3(b)), sup-norm bounds for holomorphic forms (3.7), Bergman-kernel lower bounds by peak
   sections (9.1), `L²` estimates with weights singular at points (3.5), the regularisation of log-log singular metrics and
@@ -2431,6 +2443,14 @@ It leaves to named roadmaps:
   6.3, and nothing here is consumed by those sections.
 - AlgebraicModuliForArithmeticGeometry §1.6 (bigness), ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2
   (principalisation) and §7.7 (principalisation of quasi-excellent schemes, for the analytic principalisation of 6.3).
+- HeightsRationalPointsAndObstructions §5.17c: the Bergman density of a positive hermitian line bundle on a compact
+  projective manifold for the curvature probability volume, its uniform asymptotic `bergmanDensity_uniform`
+  (`B_n/h⁰(L^n) → 1`), and the uniform restriction to smooth members of `|L^a|` (`positiveBundle_uniformRestriction`), each
+  proved there by its own route. 9.2 is kept as the variant for an arbitrary smooth positive volume form `dV` (for the
+  curvature probability volume its limit `∫_X c₁(L, h)^n/n!` is `lim_k k^{−n}h⁰(L^k)`, which is §5.17c's statement), proved by
+  its own peak-section route without §5.17c; 3.6, 9.3–9.4 and 9.6 treat singular metrics and noncompact manifolds, which
+  §5.17c does not; and 4.2 is the general extension theorem, of which that restriction is the case `E = L^a` applied to
+  `L^n ⊗ K_X^{−1}` for large `n`.
 - Not in this roadmap: Monge–Ampère operators on singular weights and pluripotential capacities (Bedford–Taylor
   theory), the full Tian–Yau–Zelditch–Catlin expansion beyond the leading term, invariance of plurigenera,
   extension of sections from non-reduced subspaces, Josefson's theorem, Poincaré series on quotients of bounded
@@ -2539,7 +2559,10 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   in this form, and constructs the almost monotone regularisations of the second route of 7.7 (b)–(c).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - J.-P. Demailly, *Regularization of closed positive currents and intersection theory*, J. Algebraic Geom. 1
-  (1992): 7.3, 7.4, 7.7.
+  (1992), Proposition 3.7 (located in the author's manuscript): 7.3, 7.7.
+- J.-P. Demailly, *Regularization of closed positive currents of type (1,1) by the flow of a Chern connection*, in
+  the proceedings of the colloquium in honour of P. Dolbeault, Aspects of Math. E26 (1994), Theorem 4.1 (located in the
+  author's manuscript): 7.4, 7.7.
 - J.-P. Demailly, *On the Ohsawa–Takegoshi–Manivel L² extension theorem*, Proceedings of the conference in honour
   of P. Lelong (2000): 3.2, 4.2.
 - L. Hörmander, *An Introduction to Complex Analysis in Several Variables*, chapter IV: 3.1.
