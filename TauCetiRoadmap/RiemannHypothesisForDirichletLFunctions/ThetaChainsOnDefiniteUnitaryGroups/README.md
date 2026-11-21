@@ -231,6 +231,11 @@ are fixed choices. The values of one construction (such as `C_t = 401`) appear o
 | `P̃, P̃_ξ; Υ, φ′; P^{bil}, Υ^c, β_λ` | top period, of the chain of the tuple `ξ`; a row form on `U(X^h)`, a column form of level `m`; the bilinear form of the period, the coefficient conjugate of `Υ`, the bilinear contravariant form | 3.9 |
 | `𝒸̃, res, br_τ, c_{Br,τ}, D₀(τ), D₁(τ)` | the class of level `m` of a class of `U(X^h)`, restriction to `U(X^h)`, the branching map, its constant, its degree bounds | 3.9 |
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 2: The setting of the chain
 
 Ranks, scales and every object the chain is built from, constructed explicitly: the column, row and model spaces and
