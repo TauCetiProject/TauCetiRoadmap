@@ -458,6 +458,6 @@ In this family, [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../
 - K.-W. Lan, *Compactifications of PEL-type Shimura varieties in ramified characteristics*, Forum Math. Sigma (2016): 7.31a.
 - K.-W. Lan, *Integral models of toroidal compactifications with projective cone decompositions*, IMRN (2017); G. Faltings and C.-L. Chai, *Degeneration of abelian varieties* (1990): 6.7a, 7.17a, 7.31a.
 - A. Grothendieck, *Éléments de géométrie algébrique* II (Chow's lemma): 7.31a (b).
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions,
-  with a public verification setup at <https://github.com/leanprover-community/riemann-hypothesis>: 7.31a (b′).
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The form of 7.31a (b′) is taken from it.
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - [DN] J.-M. Drezet and M. S. Narasimhan, *Groupe de Picard des variétés de modules de fibrés semi-stables sur les courbes algébriques*, Invent. Math. 97 (1989): Kempf's descent lemma (a finite group and a line bundle), 9.1.
