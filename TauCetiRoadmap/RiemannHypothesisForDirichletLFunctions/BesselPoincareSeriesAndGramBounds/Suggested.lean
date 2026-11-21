@@ -18,9 +18,9 @@ finite-dimensional `Representation`s, and `ContRepresentation`, a group acting b
 linear maps; Tau Ceti adds `ContRepresentation.IsUnitary` (every operator preserves the inner
 product) and the joint continuity of a unitary representation with continuous orbits, so unitary
 representations on a Hilbert space are available. Neither library has a square-integrable
-representation or a formal degree, a quotient measure on `S\G` or on a double coset space
-`S\G/S′` for a closed subgroup `S` that is neither discrete nor normal, or the unitary group of a
-Hermitian space over a number field with its adelic points.
+representation or a formal degree, a quotient measure on `S\G` for a closed subgroup `S` that is
+neither discrete nor normal, or the unitary group of a Hermitian space over a number field with its
+adelic points.
 
 * Relative Schur orthogonality (5.15a): for an irreducible square-integrable unitary
   representation `σ` of formal degree `d` of a unimodular second-countable locally compact group
@@ -29,10 +29,11 @@ Hermitian space over a number field with its adelic points.
   projector of `σ`, and are integrable and of norm one on `S\G` and `S′\G`, the orbital integrals
   `O(γ) = ∫ W(x) ⊗ conj W′(γ⁻¹x) dx` satisfy `∫_{S\G/S′} ‖O(γ)‖²_HS dγ ≤ 1/d`, when they converge
   absolutely and the three integrability conditions of 5.15a hold, for a measurable
-  parametrisation of the double cosets that disintegrates Haar measure. It lacks square
-  integrability and the formal degree of a unitary representation, the integrated action `R(f)`
-  of `L¹(G)` for a non-commutative `G` (Tau Ceti integrates strongly continuous representations of
-  additive monoids only), and the quotient measures on `S\G` and on `S\G/S′`.
+  parametrisation of the double cosets that disintegrates Haar measure, `dγ` being the image of
+  its measure. It lacks square integrability and the formal degree of a unitary representation,
+  the integrated action `R(f)` of `L¹(G)` for a non-commutative `G` (Tau Ceti integrates strongly
+  continuous representations of additive monoids only), and the quotient measures on `S\G` and
+  `S′\G`.
 * Limit multiplicity with a uniform error (5.16): for a Hermitian space `V` of dimension `n ≥ n₀`
   over a CM extension `E/F` with a self-dual lattice and one signature `(p_V, q_V)` at every real
   place, `q_V² ≤ n`, `log rd_E ≤ e^n`, `log f ≤ √n`, a discrete series `π_∞` of `U(V)(F_∞)` with
