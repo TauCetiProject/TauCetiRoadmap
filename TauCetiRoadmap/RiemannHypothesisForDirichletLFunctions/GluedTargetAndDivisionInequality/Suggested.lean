@@ -20,7 +20,7 @@ forms on vector spaces over `ℂ` and the unitary group of a matrix ring, but no
 over the ring of integers of a number field with metrics at its embeddings, no Arakelov degree or
 slope of such a lattice, and no unitary group of a Hermitian space over a CM field with its adelic
 points, its algebraic automorphic forms, theta lifts or Weil representations. Tau Ceti has heights
-of points and the height `TauCeti.subspaceHeight` of a subspace of `K^n` for the standard
+of points and the height `Submodule.subspaceHeight` of a subspace of `K^n` for the standard
 metrics, which do not give these lattices either.
 
 * Integrality after division for the chain (7.13, 7.14): for every word `u`, under the hypotheses
