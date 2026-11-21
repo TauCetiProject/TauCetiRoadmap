@@ -2417,13 +2417,13 @@ homotopy groups. Construct the completed monoidal/module/ring
 comparisons through the derived completed smash
 `(E^∧_p∧F^∧_p)^∧_p`; an ordinary smash of complete spectra need
 not be complete. Do not assign a commutative ring structure to every
-multiplication cofiber E/p^r. For the bounded-below, degreewise finite
-type spectra used by HF_p Adams, prove comparison of derived prime
-completion with the actual HF_p nilpotent/Adams completion and its
-convergence hypotheses. These two completions are not identified
-without hypotheses on general unbounded spectra. Degreewise finite
-generation plus these comparisons supply the localized/completed
-arithmetic descent used by TangentialBordism, rather than undefined E_(p) notation.
+multiplication cofiber E/p^r. BordismFormalGroups F2.2 compares this
+completion with the HF_p-nilpotent completion of bounded-below spectra;
+the two are not identified on general unbounded spectra. The formulas
+π_n E_(p)=π_n E⊗Z_(p) and, for degreewise finitely generated π_*E,
+π_n E^∧_p=π_n E⊗Z_p, with the completed monoidal/module/ring comparisons
+above, supply the localized/completed arithmetic descent used by
+TangentialBordism, rather than undefined E_(p) notation.
 
 **API.**
 
