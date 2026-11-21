@@ -2124,9 +2124,10 @@ prime `p`. The Hecke analogue of §11.2 at `θ = 1/2`, for
 every field `K` abelian over `ℚ`, every modulus `𝔪` of `K` and every nontrivial
 `η : RayClassCharacter 𝔪` whose primitive character is a `φ̃` of 5.6: some nonzero prime ideal `𝔭`
 with `η(𝔭) ∉ {0, 1}` has `N𝔭 ≤ C_K (log N𝔪₀ + 2)²`, `𝔪₀` the finite part of `𝔪`.
-The bound for `leastNonresidue` implies `SieveApplications.linnik_exceptional` of
-SieveMethodsAndPrimePatterns §2.9: for each `ε > 0` only finitely many odd primes `p` have
-`leastNonresidue p > p^ε`.
+The bound for `leastNonresidue` implies that for each `ε > 0` only finitely many odd primes `p`
+have `leastNonresidue p > p^ε`, and with it `SieveApplications.linnik_exceptional` of
+SieveMethodsAndPrimePatterns §2.9: for each `ε > 0` there is `C_ε` such that for every `N ≥ 2` at
+most `C_ε` odd primes `p ≤ N` have `leastNonresidue p > N^ε`.
 
 Route: §11.2 at `θ = 1/2` with 5.1, and with 5.6 for the Hecke analogue; the least nonresidue as in
 §11.3 with the exponent `1/(1 − θ) = 2`.
