@@ -142,9 +142,10 @@ of a given type under a parahoric subgroup of type `(a, b)`.
   `F_n/F` is the unramified extension of degree `n` with residue field `k_n`; representations are smooth
   and complex, in the categories of SmoothRepresentationsOfLocalGroups SR.0.
 
-**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider statement would need its own proof.
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
 
 ## Layer 0: finite reductive groups, rational tori and classes
 
