@@ -2581,14 +2581,14 @@ nothing here uses them.
 
 ## References
 
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for
   Dirichlet L-functions announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the route of
   this roadmap: of the transform of a family with its positive residues
   (0.5, 0.6), of the windowed Landau theorem for families (Layer 2, through
   PositivityOfDirichletSeriesWithKernels §6.8), and of the passage from the window bounds for cyclic
   families to the hypothesis (Layer 4, 5.1).
-- [Announcement] The announcement of that proof by its author, 20 November 2026:
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026:
   <https://alpo.ge/remark.pdf> (Layers 4–5).
 - E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905): Landau's theorem on Laplace
   and Mellin transforms of functions bounded on one side (1.1–1.3).
