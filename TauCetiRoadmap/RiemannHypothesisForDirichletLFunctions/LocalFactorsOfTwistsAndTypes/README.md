@@ -10,7 +10,7 @@ Layer 1 characterises the tempered representations of `GL_n` as the irreducible 
 
 ## Conventions
 
-`F` and `K` are nonarchimedean local fields, of any characteristic unless a target says otherwise, with ring of integers `𝒪`, uniformiser `ϖ`, residue field `k` and residue cardinality `q`; where a target works over `K`, or over an unramified quadratic extension `E` of `F`, the residue cardinality is written `Q` (`Q = q²` for `E`). Representations are on complex vector spaces and smooth, except in 3.1, where `ρ` need not be smooth. `ν = |det|`, and `×` is normalised parabolic induction. Segments `Δ`, the representations `Z(Δ)` and `L(Δ)`, multisegments and linked segments are those of SmoothRepresentationsOfLocalGroups §SR.5.2 *segment-representations*. `ψ` is a nontrivial additive character, `𝒲(π, ψ)` the Whittaker model, and `L(s, π × τ)`, `ε(s, π × τ, ψ)` and `γ(s, π × τ, ψ)` the Rankin–Selberg factors of AutomorphicLFunctionsAndLocalFactors §§AL.3.2.3, AL.3.3.2. `ℋ(G, K)` is the convolution algebra of finitely supported bi-`K`-invariant functions on `G`. Satake transforms, spherical parameters and their normalisations are those of SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4, the base-change parameter `BC(α)` of an unramified unitary group being that of SmoothRepresentationsOfLocalGroups §SR.4.4 *paired-unitary-parameter*. Weil–Deligne representations are those of ArithmeticGaloisRepresentations §§2.4–2.5, and the Weil group and the reciprocity map those of ClassFieldTheory layer 9; 6.5 says which Frobenius normalisation each correspondence uses. `Sp(b)` is the special representation of SmoothRepresentationsOfLocalGroups §SR.5.2 *wd-parameter-operations*: the Weil group acts on the basis vector `e_i`, `0 ≤ i < b`, by `ω^i`, where `ω(w) = q^{deg w}` and arithmetic Frobenius has degree one, and `Ne_i = e_{i+1}`. In the segment rules of 4.2 and 6.5 the segment attached to `ρ ⊗ Sp(b)` has the supercuspidal representation matched with `ρ` as its last member (4.2, arithmetic normalisation) or its first member (6.5, geometric normalisation); it is not centred at it.
+`F` and `K` are nonarchimedean local fields, of any characteristic unless a target says otherwise, with ring of integers `𝒪`, uniformiser `ϖ`, residue field `k` and residue cardinality `q`; where a target works over `K`, or over an unramified quadratic extension `E` of `F`, the residue cardinality is written `Q` (`Q = q²` for `E`). Representations are on complex vector spaces and smooth, except in 3.1, where `ρ` need not be smooth. `ν = |det|`, and `×` is normalised parabolic induction. Segments `Δ`, the representations `Z(Δ)` and `L(Δ)`, multisegments and linked segments are those of SmoothRepresentationsOfLocalGroups §SR.5.2 *segment-representations*. `ψ` is a nontrivial additive character, `𝒲(π, ψ)` the Whittaker model, and `L(s, π × τ)`, `ε(s, π × τ, ψ)` and `γ(s, π × τ, ψ)` the Rankin–Selberg factors of AutomorphicLFunctionsAndLocalFactors §§AL.3.2.3, AL.3.3.2. `ℋ(G, K)` is the convolution algebra of finitely supported bi-`K`-invariant functions on `G`. Satake transforms, spherical parameters and their normalisations are those of SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4, the base-change parameter `BC(α)` of an unramified unitary group being that of SmoothRepresentationsOfLocalGroups §SR.4.4 *paired-unitary-parameter*. Weil–Deligne representations, their Frobenius semisimplicity, sums, tensor products, duals and determinants are those of SmoothRepresentationsOfLocalGroups §SR.5.2 *wd-raw-parameters*, *wd-parameter-operations*, and the Weil group and the reciprocity map those of ClassFieldTheory layer 9; 6.5 says which Frobenius normalisation each correspondence uses. `Sp(b)` is the special representation of SmoothRepresentationsOfLocalGroups §SR.5.2 *wd-parameter-operations*: the Weil group acts on the basis vector `e_i`, `0 ≤ i < b`, by `ω^i`, where `ω(w) = q^{deg w}` and arithmetic Frobenius has degree one, and `Ne_i = e_{i+1}`. In the segment rules of 4.2 and 6.5 the segment attached to `ρ ⊗ Sp(b)` has the supercuspidal representation matched with `ρ` as its last member (4.2, arithmetic normalisation) or its first member (6.5, geometric normalisation); it is not centred at it.
 
 Italic labels such as *satake-transform* name targets of SmoothRepresentationsOfLocalGroups and are cited with their section. Notation and conventions not restated here are those of the home roadmaps: SmoothRepresentationsOfLocalGroups (its Conventions and Layers SR.0–SR.5), AutomorphicLFunctionsAndLocalFactors (its Conventions and Layers AL.2–AL.4) and AutomorphicLFunctionsAndLocalFactorsPartII (its Conventions and §§2.3, 3.4).
 
@@ -26,7 +26,10 @@ square-integrable, and every such product is irreducible; hence SmoothRepresenta
 and SmoothRepresentationsOfLocalGroups §SR.3.3 *langlands-classification* is unconditional for `GL_n`. *Route:* the irreducibility of the products is 4.1 (ii)
 (Zelevinsky 1980, Theorem 9.7 (a)): by 4.1 (v) a unitary square-integrable representation is `L([ρν^{−x}, …, ρν^{x}])` with `ρ`
 unitary supercuspidal (its central character being unitary), two such segments on one line `{ρν^y}` have the same centre, so
-one contains the other, and no two are linked; the characterisation of tempered representations then follows from 4.1 (v). *Needs:* 4.1; SmoothRepresentationsOfLocalGroups §SR.3.3
+one contains the other, and no two are linked; the characterisation of tempered representations then follows from 4.1 (v).
+In characteristic zero the irreducibility of these products is also EndoscopicTransferAndUnitaryTraceComparison §2.16
+(for `GL_r(D)`, with `D = F`) and the case `k = 1` of the unitary classification of AutomorphicSpectralTheory §7.0b.
+*Needs:* 4.1; SmoothRepresentationsOfLocalGroups §SR.3.3
 *casselman-criterion*, §SR.2.3 *casselman-pairing*.
 
 ### Examples
@@ -46,7 +49,8 @@ This layer extends SmoothRepresentationsOfLocalGroups Layer SR.2a: for a parabol
 Complex coefficients. Let `G` be a connected reductive group over a nonarchimedean local field `F`, `S` a maximal split torus, `x` a point
 of the apartment of `S`, `G_{x,0} ⊃ G_{x,0+}` the parahoric subgroup and its pro-unipotent radical (ReductiveGroupsPartII
 §RG2.3.6), and `P = MN` a parabolic subgroup with Levi subgroup `M ⊃ S`. Put `J = G_{x,0+}(N ∩ G_{x,0})`, a compact
-open subgroup normalised by `M_{x,0}`, with Iwahori decomposition `J = (N̄ ∩ G_{x,0+})·M_{x,0+}·(N ∩ G_{x,0})`. An
+open subgroup normalised by `M_{x,0}`, with Iwahori decomposition `J = (N̄ ∩ G_{x,0+})·M_{x,0+}·(N ∩ G_{x,0})`
+(ReductiveGroupsPartII RG2.4 *iwahori-factorization*, for `G_{x,0+}`). An
 irreducible smooth `π` has **depth zero** if `π^{G_{y,0+}} ≠ 0` for some point `y` of the building.
 (a) An irreducible `π` has depth zero iff every member of its supercuspidal support (SmoothRepresentationsOfLocalGroups §SR.3.1 *cuspidal-support*) has
 depth zero.
@@ -79,7 +83,8 @@ decomposition of `K` over `I₁` gives `K = ⊔_{w∈W_v} I₁ẇI₀` (`W_v` th
 (ReductiveGroupsPartII RG2.4 *iwasawa-decomposition*, *parahoric-double-cosets*). A
 `G_{x,0+}`-invariant vector of `i_P σ` is determined by its values on representatives `g = nk`, `n ∈ N_G(S)`,
 `k ∈ G_{x,0}`, of `P\G/G_{x,0+}`, and its value at `g` is fixed by the image in `M` of `P ∩ gG_{x,0+}g⁻¹ = P ∩ G_{nx,0+}`,
-which is `M_{nx,0+}` by the Iwahori decomposition of `G_{nx,0+}` (`nx` lies in the apartment of `S`). So
+which is `M_{nx,0+}` by the Iwahori decomposition of `G_{nx,0+}` (`nx` lies in the apartment of `S`;
+ReductiveGroupsPartII RG2.4 *iwahori-factorization*). So
 `σ^{M_{nx,0+}} ≠ 0` for some `n`: `σ` has depth zero. "⇐": if the supercuspidal support `σ` of `π` has depth zero,
 conjugate within `M` so that `σ^{M_{y,0+}} ≠ 0` with `y` in the apartment of `S`, and choose `P` with `π_N ↠ σ` (first
 adjointness); invariants under a compact open subgroup are exact, so `(π_N)^{M_{y,0+}} ≠ 0`, and (b) at `y` gives
@@ -112,7 +117,9 @@ inductions, read as an invertible intertwiner between the two types. The product
 `T_z` on the `τ`-part, which is therefore invertible (Morris, *Tamely ramified intertwining algebras*, 1993, for the
 support of the intertwining and the structure of `H(G, G_{y,0}, τ)`; Bushnell–Kutzko, *Smooth representations of
 reductive p-adic groups: structure theory via types*, 1998, for the invertible element of a cover).
-(d) Surjectivity is (b). Injectivity: if `v ∈ π^J` maps to `0` in `π_N`, then `∫_{N_c} π(n)v dn = 0` for some compact
+(d) Surjectivity is (b). Injectivity: by SmoothRepresentationsOfLocalGroups §SR.2a.1 *jacquet-lemma-smooth* the
+projection is an isomorphism on the eventual range of `T_z` in `π^J`, which is all of `π^J` by (c). Directly: if
+`v ∈ π^J` maps to `0` in `π_N`, then `∫_{N_c} π(n)v dn = 0` for some compact
 open `N_c ⊂ N` (SmoothRepresentationsOfLocalGroups §SR.2.2 *jacquet-module*); `T_z^m v` is a positive multiple of `π(z^m)∫_{z^{−m}(N∩J)z^m} π(n)v dn`, and
 `z^{−m}(N ∩ J)z^m ⊃ N_c` for large `m` by strong positivity, so `T_z^m v = 0` and `v = 0` by (c). Without (c) the argument
 fails: for `J = G_{x,0+}` alone a depth-zero supercuspidal `π` has `π^J ≠ 0 = π_N`. The supercuspidal case: `π_N = 0`
@@ -121,7 +128,8 @@ theorem for points `x` in general position with respect to `M` (Moy–Prasad, *J
 K-types*, 1996), beside Morris's treatment of the Hecke algebras of depth-zero types.
 
 *Needs:* ReductiveGroupsPartII §RG2.3.6 *moy-prasad-filtration*, RG2.4 *iwasawa-decomposition*,
-*parahoric-double-cosets*; ReductiveGroups Layers 7c–7e (Harish-Chandra functors of finite reductive groups, the
+*parahoric-double-cosets*, *iwahori-factorization*;
+ReductiveGroups Layers 7c–7e (Harish-Chandra functors of finite reductive groups, the
 Mackey formula, independence of the parabolic); SmoothRepresentationsOfLocalGroups §SR.1.2 (the double-coset Hecke ring), §SR.1.4 *iwahori-decomposition*,
 *positive-hecke-homomorphism*, §SR.2.2 *jacquet-module*, *parabolic-induction*, *first-adjointness*, §SR.2.3
 *jacquet-invariants*, §SR.3a.1 *jacquet-subrepresentation*, §SR.3.1 *cuspidal-support*, §SR.2a.1 *jacquet-lemma-smooth*,
@@ -132,7 +140,9 @@ Mackey formula, independence of the parabolic); SmoothRepresentationsOfLocalGrou
   `U(k)`-invariants are two-dimensional, as is `(π_N)^{T(𝒪)}`.
 - (c) for `GL₂`, `x` that vertex, `P = B`: `J` is the pro-`p` Iwahori subgroup, `τ = 1` on `T(k)`, and
   `z = diag(ϖ, 1)` is the product of the length-zero element `ω = [[0, 1], [ϖ, 0]]` and a simple affine reflection `s`.
-  `T_z T_{z⁻¹} = T_s² = (q − 1)T_s + q` is not a scalar; `T_z` is invertible because `T_s` is.
+  `T_z T_{z⁻¹} = T_s² = (q − 1)T_s + q` is not a scalar; `T_z` is invertible because `T_s` is. For split `G`, `x` a
+  hyperspecial vertex and `P` a Borel subgroup, `J` is the pro-`p` Iwahori subgroup and (c) is, after extension of
+  scalars to `ℂ`, the case of strongly positive `z` of SmoothRepresentationsOfLocalGroups §SR.1.4 *pro-iwahori-torus*.
 - Strong positivity is needed: for `M` the diagonal torus of `GL₃` and `z = diag(ϖ, 1, 1)`, `z(N ∩ J)z⁻¹ ⊊ N ∩ J`, but the
   conjugates `z^{−m}(N ∩ J)z^m` keep the entry `(2, 3)` in `𝒪` and do not exhaust `N`; for the block Levi `GL₁ × GL₂`
   the same `z` is strongly positive.
@@ -305,7 +315,8 @@ from the unramified principal series is 7.2 (i) and holds over every `K`.
 *Route.* By 3.1, `|θ(h)| ≤ ‖h‖₁` for every `h`. (i) Let `S_m ⊂ G/K₀` be the cosets of the
 integral matrices whose determinant has valuation `m` (the sublattices of index `Q^m` of `𝒪_K^n`); it is `K₀`-stable,
 `#S_m = h_m(Q^{n−1}, …, Q, 1)` by Hermite normal forms (`h_m` the complete homogeneous symmetric polynomial), and the
-Satake transform of `1_{S_m}` is `Q^{m(n−1)/2}h_m(X_1, …, X_n)` (the same count weighted by the Borel-spherical function).
+Satake transform of `1_{S_m}` is `Q^{m(n−1)/2}h_m(X_1, …, X_n)` (the same count weighted by the Borel-spherical function;
+for `K = E` unramified quadratic over `F` this is EndoscopicTransferAndUnitaryTraceComparisonPartII §4.8).
 So `|Q^{m(n−1)/2}h_m(α)| ≤ #S_m ≤ (m + 1)^{n−1}Q^{m(n−1)}`, and `Σ_m h_m(α)Y^m = ∏_i(1 − α_iY)⁻¹` converges on
 `|Y| < Q^{−(n−1)/2}`, whence `|α_i| ≤ Q^{(n−1)/2}` (there is no numerator, so no cancellation). The lower bound comes in
 the same way from the superlattices of index `Q^m`, whose transform is `Q^{m(n−1)/2}h_m(α⁻¹)`, with the same
@@ -580,8 +591,9 @@ character) over every nonarchimedean local field; for `F/ℚ_p` also Chai 2019, 
 
 ### 6.5 Local Langlands correspondences: characterisation by pair factors and uniqueness
 
-Let `F/ℚ_p` be finite, `ψ` nontrivial, `Art_F` the reciprocity map of ClassFieldTheory layer 9 sending uniformisers to
-geometric Frobenius, and `n₀ ≥ 1` or `n₀ = ∞`. A **local Langlands correspondence in ranks `≤ n₀`** is a family
+Let `F/ℚ_p` be finite, `ψ` nontrivial, `Art_F` the reciprocity map of ClassFieldTheory layer 9 composed with inversion
+(ClassFieldTheory C.6, `geometricArtinMap`), sending uniformisers to geometric Frobenius,
+and `n₀ ≥ 1` or `n₀ = ∞`. A **local Langlands correspondence in ranks `≤ n₀`** is a family
 `(r_n)_{1 ≤ n ≤ n₀}`, `r_n` a bijection from the isomorphism classes of irreducible smooth representations of `GL_n(F)`
 onto the `n`-dimensional Frobenius-semisimple Weil–Deligne representations over `ℂ`, such that:
 1. `r_1(χ) = χ∘Art_F⁻¹`;
@@ -603,8 +615,11 @@ SmoothRepresentationsOfLocalGroups §SR.5.2 *classical-llc-normalization*, trans
 correspondence in every rank. This is not a target of this roadmap: it is the input theorem of
 SmoothRepresentationsOfLocalGroups §SR.5.2 (the theorem of Harris–Taylor 2001 and Henniart 2000; Henniart 1993, corollary
 of Théorème 1.1, recalled in Henniart 2002, §1.4, pp. 589–590, for the characterisation by property 5), stated here because the pair factors of property 5 are defined here, and it does
-not follow from what SmoothRepresentationsOfLocalGroups §SR.5.2 states (property 5 cannot be stated there). The
-family's base change of depth-zero representations does not use property 5 or the uniqueness. It uses, for a map from
+not follow from what SmoothRepresentationsOfLocalGroups §SR.5.2 states (property 5 cannot be stated there).
+EndoscopicTransferAndUnitaryTraceComparison states it in the geometric normalisation: its §10.30 identifies the
+classical correspondence with its trace-defined correspondence, which has properties 1–4 by its §§10.1, 10.23, 10.26
+and 10.30 and property 5 by its §10.28.
+The family's base change of depth-zero representations does not use property 5 or the uniqueness. It uses, for a map from
 irreducible representations to Weil–Deligne representations in the geometric normalisation: property 1; property 2;
 the segment rule 4; compatibility with the twists `ν^s`, `s` real; the equality of dimensions; and, for the
 representations whose supercuspidal support consists of characters and of twists by characters of depth-zero
@@ -629,13 +644,15 @@ is `r'_n(π) = r_n(π)`. The segment rule 4 extends the agreement to all irreduc
 `L(Δ_1 + ⋯ + Δ_t)` for a unique multiset of segments (4.1 (i)).
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors §§AL.3.1.1, AL.3.2.1, AL.3.2.3, AL.3.3.2; 4.1, 4.2, 6.4; SmoothRepresentationsOfLocalGroups §SR.5.1
-(*mirabolic-derivatives*), §SR.5.2 (*segment-representations*, *classical-llc-normalization*), §SR.3.1;
-ClassicalArithmeticCompletion §7.12b (Langlands–Deligne local constants of Weil representations);
-ArithmeticGaloisRepresentations §§2.4–2.5 (Weil–Deligne representations, Frobenius semisimplicity); ClassFieldTheory
+(*mirabolic-derivatives*), §SR.5.2 (*segment-representations*, *classical-llc-normalization*, *wd-raw-parameters*,
+*wd-parameter-operations*: Weil–Deligne representations, Frobenius semisimplicity), §SR.3.1;
+ClassicalArithmeticCompletion §7.12b (Langlands–Deligne local constants of Weil representations); ClassFieldTheory
 layer 9.
 
 **Checks.**
 - `n₀ = 1`: property 1 alone; uniqueness is the definition.
+- `n₀ = 2`: GL2AutomorphicRepresentationsAndTransfer §R16.0.1 states the neighbouring uniqueness for `GL₂(F)`, by the
+  `L`- and `ε`-factors of the twists by characters of all irreducible representations.
 - The supercuspidal clause 2 is used: without it `r'^{−1}_n(r_n(π))` need not be generic, and the converse theorem
   does not apply.
 - For a supercuspidal `π` of `GL₂(F)` and a character `χ` of `F^×`, `L(s, π × χ) = 1`, so property 5 for `m = 1` is the
@@ -663,7 +680,7 @@ From the Checks of this layer: for the Steinberg representation of `GL₂(F)` th
 
 ### Dependencies
 
-Layers 4 and 5 (4.1 in 6.3 and 6.5, 4.2 in 6.5, 5.1 in 6.6); AutomorphicLFunctionsAndLocalFactors §§AL.3.1.1, AL.3.1.2, AL.3.2.1, AL.3.2.2, AL.3.2.3, AL.3.3.1, AL.3.3.2, AL.3.3.8, AL.3.6.1, AL.3.6.2; SmoothRepresentationsOfLocalGroups §§SR.0.4, SR.2.2, SR.3a.1, SR.3.1, SR.3.3, SR.5.1, SR.5.2; ClassicalArithmeticCompletion §7.12b; ArithmeticGaloisRepresentations §§2.4–2.5; ClassFieldTheory layer 9; RiemannHypothesisStatementsAndConsequences §9.2.
+Layers 4 and 5 (4.1 in 6.3 and 6.5, 4.2 in 6.5, 5.1 in 6.6); AutomorphicLFunctionsAndLocalFactors §§AL.3.1.1, AL.3.1.2, AL.3.2.1, AL.3.2.2, AL.3.2.3, AL.3.3.1, AL.3.3.2, AL.3.3.8, AL.3.6.1, AL.3.6.2; SmoothRepresentationsOfLocalGroups §§SR.0.4, SR.2.2, SR.3a.1, SR.3.1, SR.3.3, SR.5.1, SR.5.2; ClassicalArithmeticCompletion §7.12b; ClassFieldTheory layer 9; RiemannHypothesisStatementsAndConsequences §9.2.
 
 ## Layer 7: Standard L-functions of characters and Satake bounds
 
@@ -720,7 +737,8 @@ Prove the absolute convergence (iii), with the local bounds (i)–(ii), which ar
 - (i) *`GL_n`.* Let `K` be a nonarchimedean local field with residue cardinality `Q` and `π` an irreducible
   unitary unramified representation of `GL_n(K)` with Satake parameter `(α_1, …, α_n)` in the unitary
   normalisation (SmoothRepresentationsOfLocalGroups §SR.4.3). Then `Q^{−(n−1)/2} ≤ |α_i| ≤ Q^{(n−1)/2}` for
-  every `i`.
+  every `i`. For generic `π`, AutomorphicLFunctionsAndLocalFactors §AL.3.3.8 gives the strict bound
+  `Q^{−1/2} < |α_i| < Q^{1/2}`.
 - (ii) *Unramified unitary groups.* Let `E_v/F_v` be an unramified quadratic extension of nonarchimedean local fields
   (any residue characteristic), `q_w` the residue cardinality of `E_v`, `V_v` a Hermitian space of dimension `n` with a
   self-dual lattice `L_v`, and `π` an irreducible unitary representation of `U(V_v)` with a nonzero vector fixed by the
@@ -733,7 +751,8 @@ Prove the absolute convergence (iii), with the local bounds (i)–(ii), which ar
   `w` of `E` above places of `F` outside `S`, converges absolutely and is nonzero for `Re z > (n + 1)/2`.
 
 *Route.* (i) and (ii): a unitary `π` has a positive definite, hence bounded, spherical function (its spherical
-vector `v₀` gives the bounded coefficient `g ↦ ⟨π(g)v₀, v₀⟩`), and 3.4 gives the bounds: case (i) for `GL_n`; case (ii) (the doubling series) for the unitary
+vector `v₀` gives the bounded coefficient `g ↦ ⟨π(g)v₀, v₀⟩`; SmoothRepresentationsOfLocalGroupsPartII §§0.3–0.4),
+and 3.4 gives the bounds: case (i) for `GL_n`; case (ii) (the doubling series) for the unitary
 group, after identifying `(V_v, L_v)` with the standard space of SmoothRepresentationsOfLocalGroups §SR.4.4 (antidiagonal form on `E_v^n`, lattice
 `𝒪_{E_v}^n`): both are Hermitian spaces of dimension `n` with unimodular lattices, so they are isometric
 (HermitianFormsAndLattices §2.1 (a): the determinants have even valuation), and unimodular lattices are unique up to the
@@ -743,7 +762,8 @@ for `Re z > (n − 1)/2 + 1`, uniformly, and the product over `w` converges by A
 (`Σ_w q_w^{−σ} < ∞` for `σ > 1`), with no vanishing factor.
 
 *Needs:* AutomorphicLFunctionsAndLocalFactorsPartII §§2.3, 3.4; SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4; 3.4;
-HermitianFormsAndLattices §§2.1, 4.2; AutomorphicLFunctionsAndLocalFactors §§AL.4.1.1, AL.4.1.2.
+HermitianFormsAndLattices §§2.1, 4.2; AutomorphicLFunctionsAndLocalFactors §§AL.4.1.1, AL.4.1.2;
+SmoothRepresentationsOfLocalGroupsPartII §§0.3–0.4.
 
 **Checks.**
 
@@ -760,13 +780,13 @@ From the Checks of this layer: for `n = 1` the formula of 7.1 is `L^S_E(z, μ̃�
 
 ### Dependencies
 
-Layer 3 (3.4); AutomorphicLFunctionsAndLocalFactorsPartII §§2.3, 3.4; AutomorphicLFunctionsAndLocalFactors Layer AL.4, with §§AL.4.1.1, AL.4.1.2; SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4; MetaplecticAutomorphicForms §6.10a; HermitianFormsAndLattices §§2.1, 4.2.
+Layer 3 (3.4); AutomorphicLFunctionsAndLocalFactorsPartII §§2.3, 3.4; AutomorphicLFunctionsAndLocalFactors Layer AL.4, with §§AL.4.1.1, AL.4.1.2; SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4; MetaplecticAutomorphicForms §6.10a; HermitianFormsAndLattices §§2.1, 4.2; SmoothRepresentationsOfLocalGroupsPartII §§0.3–0.4.
 
 ## Downstream consumers
 
 In the family RiemannHypothesisForDirichletLFunctions, the following roadmaps consume this one. FiniteReductiveGroups §6.0 consumes 2.1, and through it so do FiniteReductiveGroups §§6.1 (exhaustion) and 6.3 (labels of depth-zero representations). BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.35 (b)–(c) consumes 4.1, through the segment rule. BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.29a consumes 6.4 and 6.5: the trace-defined correspondence, which attaches a parameter to a representation in the geometric normalisation, is a local Langlands correspondence in every rank. BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.30 identifies it with the classical correspondence by `rec(ρ) = LLC_WD⁻¹(ρ^∨)`, through the uniqueness of 6.5 and the statement on `rec` recorded there. BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.34 consumes the half range of 6.4 for `n = 3`: twists by characters determine a depth-zero supercuspidal representation of `GL_3(F)`. BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.1 consumes 6.3 (the base change to the spherical place is the full unramified principal series). ThetaKernelsForUnitaryDualPairs §6.11 consumes 3.3 (the unramified doubling integral at inert places). ThetaLiftsForDefiniteUnitaryGroups §5.2 consumes 7.1 (the norm of the lift of the trivial representation, `∏_{i=0}^{n−1} L^S_E(d/2 − i, χ_W)` at `z = (d − n + 1)/2`), and ThetaLiftsForDefiniteUnitaryGroups §3.3 consumes 7.2, with the local bounds of 3.4 (the Rallis formula in its range of absolute convergence, `d ≥ 2n + 1`). RowTowerAndRallisIdentities §5.1 consumes 7.2, (i) at the split places and (ii) at the inert places, for the bound on the Satake parameters of the Hecke eigensystems of its row spaces, which every Euler product of its Layer 5 uses.
 
-Outside the family: EndoscopicTransferAndUnitaryTraceComparison §10.26, whose standard-data uniqueness uses *langlands-classification*, uses it unconditionally for `GL_n` through 1.1; AutomorphicSpectralTheory §3.6c consumes 5.1, and LevelOneAutomorphicFormsForClassicalGroups consumes 6.6 in its Conventions; GL2AutomorphicRepresentationsAndTransfer §R16.0.1 concerns the correspondence of 6.5 at `n = 2, 3`. AutomorphicLFunctionsAndLocalFactorsPartII §10.2 (coarse local transfer: equality of `γ`-factors against supercuspidal representations of rank `≤ N − 1` determines the supercuspidal support, Henniart 2002, Proposition 1.9) is the neighbouring statement of 6.4 for arbitrary irreducible representations.
+Outside the family: EndoscopicTransferAndUnitaryTraceComparison §10.26, whose standard-data uniqueness uses *langlands-classification*, has it unconditionally for `GL_n` in characteristic zero from its own §2.16, of which 1.1 is, for `D = F`, the form in every characteristic; AutomorphicSpectralTheory §3.6c consumes 5.1, and LevelOneAutomorphicFormsForClassicalGroups consumes 6.6 in its Conventions; GL2AutomorphicRepresentationsAndTransfer §R16.0.1 concerns the correspondence of 6.5 at `n = 2, 3`. AutomorphicLFunctionsAndLocalFactorsPartII §10.2 (coarse local transfer: equality of `γ`-factors against supercuspidal representations of rank `≤ N − 1` determines the supercuspidal support, Henniart 2002, Proposition 1.9) is the neighbouring statement of 6.4 for arbitrary irreducible representations.
 
 ## Scope and ownership
 
@@ -774,7 +794,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns: the characterisation of the tempered representations of `GL_n` (1.1); the comparison of the depth-zero part of a Jacquet module with Harish-Chandra restriction, with the invertibility of the positive Hecke operator it rests on (2.1); the Hecke eigenvalue bound from bounded coefficients (3.1); the Macdonald formula for every residue cardinality (3.2); the unitary doubling series and its cell lemma (3.3); the Satake bounds for bounded spherical functions (3.4); the Zelevinsky classification (4.1; its clause (vii) is, for `F/ℚ_p`, SmoothRepresentationsOfLocalGroups §SR.5.2 *modular-generic-segments* with complex coefficients, and differs in holding over every nonarchimedean `F`); the list of properties of the classical correspondence that this roadmap uses, with the Check that they do not determine it (4.2); the generalized Riemann hypothesis of a unitary cuspidal representation of `GLₙ(𝔸_K)` and of a Rankin–Selberg pair (5.1, 6.6); the convergence of the mirabolic self-pairing of a square-integrable representation near `s = 0` (6.1); the multiplicativity of `γ`-factors (6.2; for `F/ℚ_p` it follows from EndoscopicTransferAndUnitaryTraceComparison §10.29, which gives the pair factors of all irreducible representations through their Langlands data, and 6.2 differs in holding over every nonarchimedean `F`, positive characteristic included); the exponent bound for unitary generic representations, with the pole of `L(s, δ × δ^∨)` at `s = 0` (6.3); the local converse theorem (6.4); the definition of a local Langlands correspondence by pair factors and its uniqueness (6.5); the standard `L`-function of a one-dimensional representation of a unitary group (7.1); and the Satake bounds for unitary unramified representations with the absolute convergence of the partial standard `L`-function (7.2).
 
-Not owned here. The theory these statements extend is owned by the home roadmaps. [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) owns the smooth category, Hecke algebras, Jacquet functors and parabolic induction, cuspidal support, square-integrable and tempered representations with Casselman's criterion and the conditional Langlands classification (§SR.3.3), the Satake transform and spherical parameters (§§SR.4.1–SR.4.4), derivatives and the Kirillov model (§SR.5.1), segments, generic segments and the classical correspondence `rec` with its normalisation (§SR.5.2), where `rec` is an owned input theorem; *integral-llc-centre* and *llc-family-conditional* stay as they are there. SmoothRepresentationsOfLocalGroups §SR.4.3 states *macdonald-formula* for `GL_n(E)` with `E/F` unramified quadratic, in the form `S(1_λ) = q^{⟨λ, 2ρ⟩} P_λ(X; q⁻²)`; this roadmap uses the form of 3.2 for every residue cardinality `Q`, whose case `Q = q²` is the form there. The statement that `rec`, transported as in 6.5, is a local Langlands correspondence in every rank (the theorem of Harris–Taylor and Henniart) is the input theorem of SmoothRepresentationsOfLocalGroups §SR.5.2; it is stated in 6.5, where its property 5 can be stated, and is not a target here. [AutomorphicLFunctionsAndLocalFactors](../../AutomorphicLFunctionsAndLocalFactors/README.md) owns Tate's local factors and Gauss sums (Layer AL.1), the Godement–Jacquet standard `L`-functions (Layer AL.2), Whittaker models, the Rankin–Selberg integrals, factors and functional equations of pairs, local and global (Layer AL.3), and Satake Euler products with their convergence (Layer AL.4). [AutomorphicLFunctionsAndLocalFactorsPartII](../../AutomorphicLFunctionsAndLocalFactorsPartII/README.md) owns the unramified unitary doubling formula (§2.3), the standard `L`-function of a cuspidal representation of a unitary group from doubling (§3.4) and coarse local transfer (§10.2). Moy–Prasad filtrations and parahoric subgroups are ReductiveGroupsPartII §RG2.3.6 and Layer RG2.4; Harish-Chandra induction and restriction for finite reductive groups are ReductiveGroups Layers 7c–7e; the Langlands–Deligne local constants of Weil representations are ClassicalArithmeticCompletion §7.12b; the classification of Hermitian spaces and of unimodular Hermitian lattices over local fields is HermitianFormsAndLattices §§2.1, 4.2; zero-free half-planes and the generalized Riemann hypothesis of `L`-function data are RiemannHypothesisStatementsAndConsequences §§9.2–9.5.
+Not owned here. The theory these statements extend is owned by the home roadmaps. [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) owns the smooth category, Hecke algebras, Jacquet functors and parabolic induction, cuspidal support, square-integrable and tempered representations with Casselman's criterion and the conditional Langlands classification (§SR.3.3), the Satake transform and spherical parameters (§§SR.4.1–SR.4.4), derivatives and the Kirillov model (§SR.5.1), segments, generic segments and the classical correspondence `rec` with its normalisation (§SR.5.2), where `rec` is an owned input theorem; *integral-llc-centre* and *llc-family-conditional* stay as they are there. SmoothRepresentationsOfLocalGroups §SR.4.3 states *macdonald-formula* for `GL_n(E)` with `E/F` unramified quadratic, in the form `S(1_λ) = q^{⟨λ, 2ρ⟩} P_λ(X; q⁻²)`; this roadmap uses the form of 3.2 for every residue cardinality `Q`, whose case `Q = q²` is the form there. The statement that `rec`, transported as in 6.5, is a local Langlands correspondence in every rank (the theorem of Harris–Taylor and Henniart) is the input theorem of SmoothRepresentationsOfLocalGroups §SR.5.2, and EndoscopicTransferAndUnitaryTraceComparison §10.30, with §10.28, states it in the geometric normalisation; it is stated in 6.5, where its property 5 can be stated, and is not a target here. [AutomorphicLFunctionsAndLocalFactors](../../AutomorphicLFunctionsAndLocalFactors/README.md) owns Tate's local factors and Gauss sums (Layer AL.1), the Godement–Jacquet standard `L`-functions (Layer AL.2), Whittaker models, the Rankin–Selberg integrals, factors and functional equations of pairs, local and global (Layer AL.3), and Satake Euler products with their convergence (Layer AL.4). [AutomorphicLFunctionsAndLocalFactorsPartII](../../AutomorphicLFunctionsAndLocalFactorsPartII/README.md) owns the unramified unitary doubling formula (§2.3), the standard `L`-function of a cuspidal representation of a unitary group from doubling (§3.4) and coarse local transfer (§10.2). Moy–Prasad filtrations and parahoric subgroups are ReductiveGroupsPartII §RG2.3.6 and Layer RG2.4; Harish-Chandra induction and restriction for finite reductive groups are ReductiveGroups Layers 7c–7e; the Langlands–Deligne local constants of Weil representations are ClassicalArithmeticCompletion §7.12b; the classification of Hermitian spaces and of unimodular Hermitian lattices over local fields is HermitianFormsAndLattices §§2.1, 4.2; zero-free half-planes and the generalized Riemann hypothesis of `L`-function data are RiemannHypothesisStatementsAndConsequences §§9.2–9.5.
 
 The roadmaps of this family that use these statements are FiniteReductiveGroups, BaseChangeAndGaloisRepresentationsForUnitaryGroups, ThetaKernelsForUnitaryDualPairs, ThetaLiftsForDefiniteUnitaryGroups and RowTowerAndRallisIdentities (Downstream consumers above).
 
@@ -782,7 +802,11 @@ The roadmaps of this family that use these statements are FiniteReductiveGroups,
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
-§SR.0.3 (compact open invariants and averaging) and §SR.0.4 (admissibility, coefficients and *smooth-dual*, used in 3.1 and 6.3). §SR.1.2 (the double-coset Hecke ring) and §SR.1.4 (*iwahori-decomposition*, with strongly positive elements, and *positive-hecke-homomorphism*), used in 2.1. §SR.2.2 (*jacquet-module*, *parabolic-induction*, *first-adjointness*, *geometric-lemma*), §SR.2.3 (*jacquet-invariants*, *casselman-pairing*) and §SR.2a.1 (*jacquet-lemma-smooth*). §SR.3a.1 (*jacquet-subrepresentation*: every irreducible representation embeds in a representation induced from a supercuspidal one) and §SR.3.1 (*cuspidal-support*). §SR.3.3 (*square-integrable-tempered*, *casselman-criterion*, *harish-chandra-tempered-support*, *langlands-classification*), used in 1.1 and 6.1. §SR.4.1 (*satake-transform*, with the Iwasawa and Cartan decompositions of the groups it treats and the chosen square root of the residue cardinality), §SR.4.2 (*spherical-parameter*: every parameter is that of an irreducible unramified representation), §SR.4.3 (*hall-littlewood*, *gln-generators*, *macdonald-formula*, and the unitary normalisation of Satake parameters) and §SR.4.4 (the model of the unramified unitary group, *paired-unitary-parameter*, *unitary-odd-formulas*, *unitary-triangular-transform*), used in Layers 3 and 7. §SR.5.1 (*mirabolic-derivatives*, the Kirillov model of a supercuspidal representation) and §SR.5.2 (*segment-representations*: segments, `Z(Δ)`, `L(Δ)` and multisegments; *modular-generic-segments*: the classification of generic representations, which 4.1 (vii) extends to every `F` with complex coefficients; *classical-llc-normalization*: the classical correspondence `rec` in the arithmetic normalisation, an owned input theorem there), used in Layers 4 and 6.
+§SR.0.3 (compact open invariants and averaging) and §SR.0.4 (admissibility, coefficients and *smooth-dual*, used in 3.1 and 6.3). §SR.1.2 (the double-coset Hecke ring) and §SR.1.4 (*iwahori-decomposition*, with strongly positive elements, and *positive-hecke-homomorphism*), used in 2.1. §SR.2.2 (*jacquet-module*, *parabolic-induction*, *first-adjointness*, *geometric-lemma*), §SR.2.3 (*jacquet-invariants*, *casselman-pairing*) and §SR.2a.1 (*jacquet-lemma-smooth*). §SR.3a.1 (*jacquet-subrepresentation*: every irreducible representation embeds in a representation induced from a supercuspidal one) and §SR.3.1 (*cuspidal-support*). §SR.3.3 (*square-integrable-tempered*, *casselman-criterion*, *harish-chandra-tempered-support*, *langlands-classification*), used in 1.1 and 6.1. §SR.4.1 (*satake-transform*, with the Iwasawa and Cartan decompositions of the groups it treats and the chosen square root of the residue cardinality), §SR.4.2 (*spherical-parameter*: every parameter is that of an irreducible unramified representation), §SR.4.3 (*hall-littlewood*, *gln-generators*, *macdonald-formula*, and the unitary normalisation of Satake parameters) and §SR.4.4 (the model of the unramified unitary group, *paired-unitary-parameter*, *unitary-odd-formulas*, *unitary-triangular-transform*), used in Layers 3 and 7. §SR.5.1 (*mirabolic-derivatives*, the Kirillov model of a supercuspidal representation) and §SR.5.2 (*segment-representations*: segments, `Z(Δ)`, `L(Δ)` and multisegments; *modular-generic-segments*: the classification of generic representations, which 4.1 (vii) extends to every `F` with complex coefficients; *classical-llc-normalization*: the classical correspondence `rec` in the arithmetic normalisation, an owned input theorem there; *wd-raw-parameters* and *wd-parameter-operations*: Weil–Deligne representations and Frobenius semisimplicity, with their sums, tensor products, duals, determinants and `Sp(n)`), used in Layers 4 and 6.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroupsPartII
+
+§§0.3 (functions of positive type, bounded by their value at the identity) and 0.4 (positive-type coefficients of unitary representations), used in 7.2.
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
@@ -794,7 +818,7 @@ The roadmaps of this family that use these statements are FiniteReductiveGroups,
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
-§RG2.3.6 (*moy-prasad-filtration*: the parahoric subgroups `G_{x,0}`, their pro-unipotent radicals `G_{x,0+}` and the Iwahori decompositions of these groups) and Layer RG2.4 (*iwasawa-decomposition*, *parahoric-double-cosets*), used in 2.1.
+§RG2.3.6 (*moy-prasad-filtration*: the parahoric subgroups `G_{x,0}`, their pro-unipotent radicals `G_{x,0+}`) and Layer RG2.4 (*iwasawa-decomposition*, *parahoric-double-cosets*, and *iwahori-factorization*: the Iwahori decompositions of the groups `G_{x,0+}`), used in 2.1.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -803,10 +827,6 @@ Layers 7c–7e: Harish-Chandra induction and restriction for finite reductive gr
 ### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
 §7.12b: the Langlands–Deligne local constants of Weil representations, used in property 5 of 6.5.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-§§2.4–2.5: Weil–Deligne representations and Frobenius semisimplicity, used in 6.5.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
