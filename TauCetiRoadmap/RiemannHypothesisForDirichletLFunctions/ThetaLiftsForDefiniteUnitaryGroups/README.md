@@ -94,7 +94,7 @@ and [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficie
 complex tori), and [AutomorphicLFunctionsAndLocalFactorsPartII](../../AutomorphicLFunctionsAndLocalFactorsPartII/README.md)
 with [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md) (standard `L`-functions of unitary
 groups and their convergence). It acts on the forms of the definite unitary groups of
-PotentialAutomorphyInfrastructurePartII. In the family [RiemannHypothesisForDirichletLFunctions](../README.md) it feeds
+PotentialAutomorphyInfrastructurePartII §§3.1–3.2. In the family [RiemannHypothesisForDirichletLFunctions](../README.md) it feeds
 the roadmaps that compose such lifts into chains, beginning with
 [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md).
 
@@ -202,7 +202,10 @@ along hyperbolic planes, the complementary-space identity for theta integrals an
   partial standard function `L^S_E(s, BC(π^∨) ⊗ χ_W⁻¹)` of the doubling method of
   MetaplecticAutomorphicForms §6.10a for `π` and `χ_W` (AutomorphicLFunctionsAndLocalFactorsPartII §3.4),
   with its meromorphic continuation. `d^S(s)` is the product over `v ∉ S` of the unramified normalising
-  denominators `d_v(s)` of MetaplecticAutomorphicForms §6.10a for `χ_W`.
+  denominators `d_v(s)` of MetaplecticAutomorphicForms §6.10a for `χ_W`, which
+  AutomorphicLFunctionsAndLocalFactorsPartII §2.2 writes as the product `d_v(s) = d_n(s, χ_{W,v})` of `n` Tate factors; its
+  denominator `d_n(s, χ_{W,v}⁻¹)` of the spherical identity is the same product here, since `χ_W` and `χ_W⁻¹` both restrict
+  to `η^d` on `𝔸_F^×`.
 - The *linear lift* `θ_φ(F)(h) = ∫_{[U(V)]} θ(g, h; φ) F(g) dg` is the global theta lift of
   MetaplecticAutomorphicForms §5.6 applied to `F̄`. It is linear in `F`. With this convention an
   irreducible constituent of the lift of `π` is locally a quotient of the big theta lift `Θ(π_v^∨)`
@@ -287,7 +290,9 @@ Define *splitting data* for `(V, W)`: a pair `(χ_V, χ_W)` of splitting charact
 Route: existence and the prescribed infinity types are BaseChangeAndGaloisRepresentationsForUnitaryGroups
 §6.3a; the parity is forced on `ℝ^× ⊂ ℂ^×`, where `(x/|x|)^{m} = sgn(x)^m` must equal `η_v(x)^n`;
 the twist is MetaplecticAutomorphicForms §3.3 (`unitarySplitting_character_change`); at a split
-place `η_v = 1`, so the avoidance clause of BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a applies.
+place `η_v = 1`, so the avoidance clause of BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a applies. For `F = ℚ`
+and `n` odd, EndoscopicTransferAndUnitaryTraceComparison §6.3 is the existence of `χ_V` without prescribed infinity types,
+with the torsor of choices and their finite ramification.
 
 *Needs:* BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; MetaplecticAutomorphicForms §3.3.
 
@@ -771,7 +776,9 @@ Define the *weight map* `λ_v ↦ Λ_v(λ_v)` on highest weights of `U(n)`: `λ_
   `λ′_{min(n,d)} ≥ b_v` (for `n = 0` the single weight `ι_{ε_v}(b_v(1, …, 1))`).
 
 Route: ThetaKernelsForUnitaryDualPairs §3.46(iii) and Schur orthogonality on `K_∞` (1.1); the extremal vectors are those of the
-`(GL_n, GL_d)`-duality, TensorInductionAndFiniteGroupInputs §7.1. For the second bullet, at `g = h = 1` the
+`(GL_n, GL_d)`-duality, TensorInductionAndFiniteGroupInputs §7.1; for `n = d` this duality, with highest lines spanned by
+products of leading principal minors for the Borel pair chosen there, is AutomorphicLFunctionsAndLocalFactorsPartII §4.4.
+For the second bullet, at `g = h = 1` the
 lattice sum of 0.4 for `φ_f` the indicator of `ξ₀ + Λ`, `Λ ⊂ X(𝔸_f)` a small compact open subgroup, runs over
 `ξ₀ + (Λ ∩ X(F))`, a translate of a lattice of `X_∞`. Fix a compact open subgroup `Λ₁`; since `B⁻¹P` is a polynomial
 times a Gaussian there is `R` with `Σ_{ξ ∈ Λ₁ ∩ X(F), ‖ξ‖ > R} |(B⁻¹P)(ξ₀ + ξ)| < |(B⁻¹P)(ξ₀)|`, and a compact open `Λ₀ ⊂ Λ₁`
@@ -884,7 +891,9 @@ multiset `α` is stable under inversion, so `c_v α⁻¹` may be written `c_v α
 Route: as 2.2, with the inert case of ThetaKernelsForUnitaryDualPairs §3.21a. The lift of a `K_v`-fixed form by a `K_v × K′_v`-fixed
 vector is `K′_v`-fixed (1.1). At an inert place `ϖ_v ∈ F_v`, so `χ_{V,v}(ϖ_v) = η_v(ϖ_v)^n = (−1)^n`; the
 base-change parameter of an unramified representation of `U(V)(F_v)` is conjugate-self-dual, and
-conjugation acts trivially on unramified parameters of `GL_n(E_v)`.
+conjugation acts trivially on unramified parameters of `GL_n(E_v)`. In Li–Liu's equal-rank setting (`n = d` even, trivial
+splitting characters, so `c_v = 1` and there is no segment) the corresponding Hecke compatibility is
+MetaplecticAutomorphicForms §3.22.
 
 *Needs:* 1.1; ThetaKernelsForUnitaryDualPairs §3.21a; SmoothRepresentationsOfLocalGroups §SR.4.4.
 
@@ -907,7 +916,9 @@ Let `π` be an irreducible automorphic representation of `U(V)` and `Π` an irre
 - For `n ≤ d`: at split places where the data are unramified and `π_v` is unramified, `Π_v` is unramified with the
   Satake parameter of 2.2; likewise at the inert places of 2.3.
 - *Weak base change* (`n ≤ d`). If `π` has a weak base change `BC(π)` to `GL_n(𝔸_E)`
-  (EndoscopicTransferAndUnitaryTraceComparison §6.29), then `Π` has the weak base change
+  (EndoscopicTransferAndUnitaryTraceComparison §6.29; when `E/F` is unramified at every finite place and `V` is the
+  standard positive definite space, every `π` has one, matching `π` at every split place and at every inert place where
+  `π_v` is unramified, by PotentialAutomorphyInfrastructurePartII §3.5 (2)), then `Π` has the weak base change
   `BC(π)^∨ ⊗ (χ_V/χ_W) ⊞ ⊞_{i=0}^{d−n−1} χ_V |·|_E^{(d−n−1)/2 − i}`, an isobaric sum with the
   segment of Hecke characters, in the sense of equality of Satake parameters at almost all split
   places; `BC(π)^∨ = BC(π)^c`.
@@ -1056,17 +1067,21 @@ Prove, for a definite pair:
 Route: the identity is ThetaKernelsForUnitaryDualPairs §6.13a (i), specialised as above. Local measures: fix Haar
 measures at all places but one place of `S`, giving `K_v` volume one outside `S`, and rescale at the remaining place so
 that the product is the Tamagawa measure; with these, the unramified local integrals outside `S` are `L_v/d_v`
-(MetaplecticAutomorphicForms §6.11, `localDoublingZeta_unramified`), which is the normalisation under which §6.13a (i)
+(MetaplecticAutomorphicForms §6.11, `localDoublingZeta_unramified`; for unitary groups, with the `d_v` of the Conventions,
+AutomorphicLFunctionsAndLocalFactorsPartII §2.3 for the section spherical for the stabiliser of `L_v ⊕ L_v` in
+`U(V^□)(F_v)` with value `1` at the identity), which is the normalisation under which §6.13a (i)
 collects them into `L^S/d^S`. Cross terms: `θ_φ` is linear in `φ`, and §6.13a (i) allows `φ₁ ≠ φ₂`. Orthogonality: by
 Fubini and 3.1 the left side is `[E : F]/c` times the value at `s₀` of the integral of `E(ι(g₁, g₂), s, Φ)` against
 `F₁ ⊗ F̄₂` (with the twist), a meromorphic function of `s` (the integral over the compact `[U(V)]²` of a meromorphic
 family of continuous functions) holomorphic at `s₀`; for `Re s` large it unfolds (MetaplecticAutomorphicForms §6.12,
-basic identity) into the integral over `U(V)(𝔸)` of the section against `g ↦ ⟨R(g)F₁, F₂⟩`, which vanishes identically
+basic identity; for unitary groups AutomorphicLFunctionsAndLocalFactorsPartII §3.1, which also gives the vanishing for
+inequivalent representation types) into the integral over `U(V)(𝔸)` of the section against
+`g ↦ ⟨R(g)F₁, F₂⟩`, which vanishes identically
 when `F₁`, `F₂` lie in non-isomorphic summands, and uniqueness of continuation gives the vanishing at `s₀`. The local
 factor at `s₀`: the last item of 3.1.
 
 *Needs:* 1.1, 3.1; MetaplecticAutomorphicForms §§6.1, 6.10, 6.10a, 6.11, 6.12; ThetaKernelsForUnitaryDualPairs §6.13a;
-AutomorphicLFunctionsAndLocalFactorsPartII §3.4.
+AutomorphicLFunctionsAndLocalFactorsPartII §§2.3, 3.1, 3.4.
 
 **Checks.**
 
@@ -1111,13 +1126,14 @@ Route: the local components of `π` are unitary, so by LocalFactorsOfTwistsAndTy
 `det(1 − α_w χ_{W,w}(ϖ_w)q_w^{−s−1/2})⁻¹` then converges absolutely for `Re s + ½ > (n − 1)/2 + 1`, and the
 product over the places of `E` converges by AutomorphicLFunctionsAndLocalFactors AL.4.1.2. The convergence of
 `d^S` is that of a finite product of shifted Hecke `L`-functions on their half-planes of absolute
-convergence (MetaplecticAutomorphicForms §6.10a). The operator statement is 3.2 read as an identity of
+convergence (MetaplecticAutomorphicForms §6.10a; the `n` Tate factors of AutomorphicLFunctionsAndLocalFactorsPartII
+§2.2). The operator statement is 3.2 read as an identity of
 Hermitian forms on `π^K`, with 1.4: for `v ∉ S` the vectors of `π_v` fixed by `K_v = Stab(L_v)` form the line of the
 normalised spherical vector, which is the vector 3.2 needs there; the average over `K_∞` is Schur's lemma for the
 irreducible `σ_{λ_v}`.
 
 *Needs:* 3.2, 1.4; LocalFactorsOfTwistsAndTypes §§3.4, 7.2; AutomorphicLFunctionsAndLocalFactors AL.4.1.2;
-MetaplecticAutomorphicForms §6.10a.
+MetaplecticAutomorphicForms §6.10a; AutomorphicLFunctionsAndLocalFactorsPartII §2.2.
 
 **Checks.**
 
@@ -1158,7 +1174,7 @@ For `n = 0` both sides of the Rallis inner product formula equal `|φ(0)|² vol(
 
 ### Dependencies
 
-Layers 0 and 1; MetaplecticAutomorphicForms §§5.6, 6.1, 6.2, 6.4, 6.10, 6.10a, 6.11, 6.12, 6.15; ThetaKernelsForUnitaryDualPairs §6.13a; AutomorphicLFunctionsAndLocalFactorsPartII §3.4; LocalFactorsOfTwistsAndTypes §§3.4, 7.2; AutomorphicLFunctionsAndLocalFactors AL.4.1.2.
+Layers 0 and 1; MetaplecticAutomorphicForms §§5.6, 6.1, 6.2, 6.4, 6.10, 6.10a, 6.11, 6.12, 6.15; ThetaKernelsForUnitaryDualPairs §6.13a; AutomorphicLFunctionsAndLocalFactorsPartII §§2.2, 2.3, 3.1, 3.4; LocalFactorsOfTwistsAndTypes §§3.4, 7.2; AutomorphicLFunctionsAndLocalFactors AL.4.1.2.
 
 ## Layer 4: nonvanishing and existence of lifts in large dimension
 
@@ -1195,7 +1211,9 @@ Prove: let `π` be an irreducible automorphic representation of
 `U(V)` with `π_∞ ≅ ⊗_v σ_{λ_v}`, and suppose `d ≥ 2n + 1`. Then `Θ_W(π) ≠ 0` if and only if `λ_v` occurs (2.1) at every
 real place `v`.
 
-This is the published stable-range criterion (J.-S. Li, References). *The form of the formal proof.* One direction, with an
+This is the published stable-range criterion (J.-S. Li, References). In the range `n < d ≤ 2n` (3.2, Check) the
+corresponding criterion, with the normalised local doubling functionals and the `L`-value in place of the occurrence of
+weights, is MetaplecticAutomorphicForms §6.14. *The form of the formal proof.* One direction, with an
 unspecified threshold, for the standard spaces described after 4.3: there is `d₀`, depending on `E` and `n`, such that for
 every `d ≥ d₀`, if `λ_v` occurs at every real place, then `Θ_W(π) ≠ 0`.
 
@@ -1223,7 +1241,9 @@ weak base change `BC(π)`, `Π` has the weak base change `BC(π)^∨ ⊗ (χ_V/�
 irreducible constituent of `Θ_W(π)` is isomorphic to `Π`.
 
 With 4.2 this is the published stable-range theorem (References: J.-S. Li for the criterion, J.-P. Labesse for the base
-change), proved here by the routes given.
+change), proved here by the routes given. When `E/F` is unramified at every finite place and `V` is the standard positive
+definite space, as in the form below, the hypothesis that `π` has a weak base change holds for every `π` by
+PotentialAutomorphyInfrastructurePartII §3.5 (2), as in 2.4.
 
 *The form of the formal proof.* The route through an absolutely convergent integral of matrix coefficients gives the
 following weaker statement, which is the one the family's Galois-theoretic part uses. Let `E` be a CM field containing an
@@ -1312,7 +1332,9 @@ vector `φ`. The local hypotheses hold:
   `vol(Stab(L_v), dg_v) = 1`, the lattice vector of norm one (so that the section has value `1` at the identity) and
   `⟨1, 1⟩_v = 1`, the lattice vector gives `Z_v^* = d_v(s₀)⁻¹`; for another Haar measure
   `Z_v^* = vol(Stab(L_v), dg_v) · d_v(s₀)⁻¹`; in both cases it is nonzero (MetaplecticAutomorphicForms §6.11 and ThetaKernelsForUnitaryDualPairs §6.11, after the change of character of
-  MetaplecticAutomorphicForms §2.7, `ψ_v = ψ^0_v(c ·)` with `ψ^0_v` of conductor `O_v`);
+  MetaplecticAutomorphicForms §2.7, `ψ_v = ψ^0_v(c ·)` with `ψ^0_v` of conductor `O_v`; for self-dual `L_v` and the section
+  spherical for the stabiliser of `L_v ⊕ L_v` with value `1` at the identity, also AutomorphicLFunctionsAndLocalFactorsPartII
+  §2.3);
 - at split places and at places where `W_v` has Witt index at least `n` (all finite places when
   `d ≥ 2n + 1`, by 0.1): the bump vectors of 4.1 give `Z_v` finite and nonzero, hence `Z_v^*` finite and
   nonzero whenever `∏_i L_v(d/2 − i, χ_W)` is finite, which fails only if `d` is even, `d ≤ 2n − 2` and
@@ -1333,7 +1355,7 @@ AnalyticNumberTheoryPartI §2.3a (continuation and functional equation of Hecke 
 LFunctions Layer 7 (nonvanishing on `Re s = 1`).
 
 *Needs:* 0.1, 4.1, 5.2; MetaplecticAutomorphicForms §§2.7, 6.11; ThetaKernelsForUnitaryDualPairs §6.11; AnalyticNumberTheoryPartI §2.3a;
-LFunctions Layer 7.
+LFunctions Layer 7; AutomorphicLFunctionsAndLocalFactorsPartII §2.3.
 
 ### 5.4 Genus theta series as theta integrals
 
@@ -1380,6 +1402,8 @@ Put `φ_L = ⊗_{v|∞}φ_v^0 ⊗ 1_{L̂^k}` with `φ_v^0(x) = e^{−2π tr τ_v
 
 For an indefinite `V` the corresponding identity of the theta integral of any Schwartz–Bruhat function with a Siegel
 Eisenstein series, and its Fourier coefficients, are the corollary of ThetaKernelsForUnitaryDualPairs §6.4a.
+GrossZagierAndArithmeticHeightsPartII §13.4, for `k = n` and the positive definite coherent Hermitian space of its nonsingular
+Fourier calculation, is a neighbouring form of (c), in another normalisation of the measure and of the Eisenstein series.
 
 Route: (a) from the three formulas: on `P(ℝ)`, `φ^0(xA) = e^{−2π tr(T_x AA^*)}` (since `T_{xA} = A^*T_xA`), so
 `Σ_x ω(n(B)m(A))φ^0(x) = χ_V(det A)⁻¹det(AA^*)^{n/2} Σ_x e(tr τ(T_x)Z)`; `ω(h)1_{L̂^k} = 1_{hL̂^k}` because `U(V)` acts
@@ -1420,7 +1444,7 @@ For `n = 1` the global factor of `‖I_V(φ)‖²` is `L_E(1, χ_W)/d^S(½)` whe
 
 ### Dependencies
 
-Layers 0–4; MetaplecticAutomorphicForms §§2.7, 3.3, 3.3b, 5.1, 6.1, 6.2, 6.4, 6.11; ThetaKernelsForUnitaryDualPairs §§3.3b, 3.46, 4.4a, 6.11; LocalFactorsOfTwistsAndTypes §7.1; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a; HermitianFormsAndLattices §§5.1, 5.5, 6.0b, 7.1, 7.2; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7.
+Layers 0–4; MetaplecticAutomorphicForms §§2.7, 3.3, 3.3b, 5.1, 6.1, 6.2, 6.4, 6.11; ThetaKernelsForUnitaryDualPairs §§3.3b, 3.46, 4.4a, 6.11; LocalFactorsOfTwistsAndTypes §7.1; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a; HermitianFormsAndLattices §§5.1, 5.5, 6.0b, 7.1, 7.2; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7; AutomorphicLFunctionsAndLocalFactorsPartII §2.3.
 
 ## Layer 6: complementary spaces
 
@@ -2385,7 +2409,7 @@ Boundaries:
   any group compact at infinity: the carrier, class-set evaluation and Hecke operators;
   [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) owns the
   class-set integration formula and inner product, kernel operators between class sets with their adjoints and
-  integrality, and the dimension formula. PotentialAutomorphyInfrastructurePartII Layer 3 and
+  integrality, and the dimension formula. PotentialAutomorphyInfrastructurePartII §§3.1–3.3, 3.5–3.13 and
   CompletedCohomologyAndLocalGlobalCompatibility §0.7 own the definite unitary group of a CM field
   quasi-split at finite places, its integral Hecke algebras, base change, Galois representations and
   Hida theory; this roadmap acts on their forms.
@@ -2405,8 +2429,8 @@ Boundaries:
   functions (NonordinaryCMSpecialValues, ComplexMultiplicationAndExplicitReciprocityPartII); 1.6 takes the
   integrality of the kernel as a hypothesis.
 - LevelOneAutomorphicFormsForClassicalGroups owns the level-one orthogonal theta maps between
-  definite lattices; GanGrossPrasadUnitaryGroups owns Bessel periods and their behaviour under
-  theta lifts.
+  definite lattices; GanGrossPrasadUnitaryGroups owns Bessel periods; the theta reduction of local Bessel forms at a
+  real place is GanGrossPrasadUnitaryGroups §3.8.
 
 ## Exact supplier contracts
 
@@ -2589,6 +2613,11 @@ Boundaries:
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactorsPartII
 
+- §2.2: the unramified denominator `d_n(s, χ)` of MetaplecticAutomorphicForms §6.10a as a product of `n` Tate factors, and
+  `d_n(s, χ⁻¹)` in the spherical identity (Conventions, 3.3).
+- §2.3: the unramified doubling formula `d_n(s, χ⁻¹)Z_U = L_E(s + ½, BC(π^∨) ⊗ χ⁻¹)` for a self-dual lattice `L` and the
+  section spherical for the stabiliser of `L ⊕ L` with value `1` at the identity (3.2, 5.3).
+- §3.1: the unitary doubling identity, with the vanishing for inequivalent representation types (3.2, orthogonality).
 - §3.4: the partial standard function of the doubling method is `L^S_E(z, BC(π^∨) ⊗ χ⁻¹)`, with its
   meromorphic continuation.
 
@@ -2616,7 +2645,7 @@ Boundaries:
   factors of automorphy `α(λ) exp(πH(z, λ) + πH(λ, λ)/2)`; the Mumford map), A5.4 (polarisation type;
   `h⁰(L) = ∏ d_i`, so the sections of a principal polarisation form a line).
 
-### From TauCetiRoadmap.NonordinaryCMSpecialValues
+### From NonordinaryCMSpecialValues
 
 - §4.2: Finis's spaces `T_{r,𝔞}` of scalar theta functions on CM lattices of an imaginary quadratic field,
   the operators `A_l`, the normalised scalar product and the arithmetic and integral structures (1.9).
