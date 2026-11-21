@@ -273,7 +273,12 @@ factor `½` where the form is written as `(s₂/2)·Σ_wz_w²`, are units at `d`
 `ζ^{−2}`: the values are determined up to a sixth root of unity, and are these rational numbers for a suitable choice), of
 valuation `0` at `d`; so the cost of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a at `d` is real.
 
-*NEW* (the step-level form of ThetaChainsOnDefiniteUnitaryGroups §3.1d (e)). *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3.
+*NEW* (the step-level form of ThetaChainsOnDefiniteUnitaryGroups §3.1d (e)). [FormalProof] states it for the kernels of its
+adapted kernel data at the places above `d` not above `T(u)`, `g₀`, `g₁` or `Q(ξ)`, with the shape
+`Formalism.MainNotions.OrbitPlaces.ShapeD`, as `GlobalTheory.T.kernelDatum_thetaSeries_shape_at_d_adaptedBases`
+(`src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/KernelDatumThetaSeriesShapeAtDAdaptedBasesStatement.lean`), proved as
+`GlobalTheory.Ggeo.KerShapeD.thetaKernelShapeAtD_ofKer_of_hyp_adapted` from the theorems on the normalised CM theta functions
+that it collects as `GlobalTheory.ThLoc.Inputs`. *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3.
 
 ### 4.9d The folded shape at a prime of odd conjugate type
 
@@ -300,7 +305,10 @@ odd-letter form with coefficient `ω_r` equals the even-letter form with coeffic
 relation at `α = 2`), and `2A ≃ 0` implies `A ≃ 0` for `p` odd; hence `Σ_rφ(x_r) ≃ ½β(L)`, which is the shape of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a with all signs
 `−1`. The existence of the Frobenius-equivariant coordinates `g` in (2) is not proved here.
 
-*NEW*. *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.3, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6;
+*NEW*. [FormalProof] states it under the host property of 4.9a at `p` (`GlobalTheory.KerStd.HostAt`), for the combinations read
+in its standard bases at `p`, with the shape `UpperTheory.G2.HasThetaProductForm`
+(`src/Development/AutomorphicArithmetic/OrbitLabellings/ColDefs.lean`), as `UpperTheory.lattice_pairs_odd_degree_isometric`
+(`src/Development/AutomorphicArithmetic/OrbitLabellings/LatticePairsOddDegreeIsometric.lean`). *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.3, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6;
 PotentialAutomorphyDworkMotivesPartII §0.7.
 
 ### 4.9e Definitions: the local exponents of a place, the gain and the colength data
@@ -336,7 +344,7 @@ be given, `e_p` a *sandwich exponent*: `p^{e_p}·ℳ^∨_0 ⊂ ℳ^{int}_0` loca
 (ThetaChainsOnDefiniteUnitaryGroups §3.1; at every `𝔭 | p` not above `T(u)`, where `ℳ^∨_0` is defined; by IntegralWeylModulesOfGeneralLinearGroups §0.3 the integer
 `max_u Σ_{τ∈Φ}(k(k−1)/2)·⌊log_p(Λ_0(τ)_0 − Λ_0(τ)_{k−1} + k − 1)⌋`, the maximum over the words `u` with their weights `Λ_0(τ)`, is one:
 locally at such a `𝔭` the forms of `ℳ^{int}_0`, resp. `ℳ^∨_0`, are those whose values, class by class and in the same coordinates,
-lie in `⊗_{τ∈Φ}Δ_ℤ(Λ_0(τ))`, resp. `⊗_{τ∈Φ}∇_ℤ(Λ_0(τ))`, and the exponents of the factors add; IntegralWeylModulesOfGeneralLinearGroups §0.3 (b), (c) give even
+lie in `⊗_{τ∈Φ}Δ_ℤ(Λ_0(τ))`, resp. `⊗_{τ∈Φ}∇_ℤ(Λ_0(τ))`, and the exponents of the factors add; IntegralWeylModulesOfGeneralLinearGroups §0.3 (b′), (c) give even
 `p^{e}∇_ℤ(λ) ⊂ (dim V_λ)·Δ_ℤ(λ) ⊗ ℤ_(p)`, so each factor may be lowered by `v_p(dim V_{Λ_0(τ)})`);
 `𝔖(p) := m·Σ_{v∈𝒱_p}sh_v`, `τ_N(𝔭) := e_p + Σ_{v∈𝒱_p}m(⌈dep_v⌉ + D_p + 1)` and `𝔦(𝔭) := 2𝔖(p)·max_{v∈𝒱_p}𝔵_v` when
 `𝒱_p ≠ ∅`; all three are `0` when `𝒱_p = ∅`.
@@ -1304,11 +1312,13 @@ for the stochastic order under convolution). With `q` the probability that a til
 probability at most `(1 − q)^{M₀−1} ≤ 2(1 − q)^{M₀}` (`q ≤ 1/2`), and the union is over at most `n′/((6r + 1)u) + 1 ≤ n′/2` tiles, which
 absorbs the factor `2`: the bound is the second term of `p_orb`.
 
-*NEW* (definition; elementary probability). The probability bound is this roadmap's own: it is not on the path of
-[FormalProof], which reaches the bound of 4.17d on the bad tops by another route; it is used here only in the Route of
-4.17d. The source of [FormalProof] also proves, off that path, the case of equal probabilities `δ` (`ω₀ = 1`), with `u`,
-`G′`, `N₁` free: `Formalism.G0.TileConditionFailureProbBound`
-(`src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.choice_of_tops_refined_holds`. *Needs:* StandardDistributions §§7.13, 9.4;
+*NEW* (definition; elementary probability). The probability bound with probabilities in `[ω₀δ, δ]` is this roadmap's own; it
+is used here only in the Route of 4.17d. [FormalProof] proves the case of equal probabilities `δ` (`ω₀ = 1`), with `u`,
+`G′`, `N₁` and the bound `r − 1` of a window free: as `Formalism.G0.TileConditionFailureProbBound`
+(`src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.choice_of_tops_refined_holds`, and,
+at the window bound `r − 1`, with the window term `L₂·C(L₂, r−1)δ^{r−1} + n′·C(L₂, r)δ^r` in place of `n′·C(L₂, r−1)δ^{r−1}` as
+`Formalism.MainNotions.G.TopChoiceBounds.good_orbit_failure_prob_le` (`src/Formalism/SharpRestriction/GrowthBounds/TopChoiceBounds.lean`),
+from which it derives its bound on the bad tops of 4.17d (`Formalism.MainNotions.G.TopChoiceBounds.tops_choice_holds`). *Needs:* StandardDistributions §§7.13, 9.4;
 Mathlib probability (independent Bernoulli variables, binomial tails).
 
 ### 4.15e Theorem II (small primes)
@@ -1735,10 +1745,11 @@ probability at least `1/2`, (i),
 `n_top ≤ δ_top|A| ≤ 2|Φ_top|` on the event of (i), by its second sentence);
 `Σ_{p<X′}log p/p ≤ log X′ + C` (Mertens), and `x^{−2}·x^{ε/3} = o(x^{−2+ε})`.
 
-*NEW*. [FormalProof] makes the selection for the one profile `ω = 1` on `A₀`, `ω = 3/4` on the other cosets, under
-`x^ε ≥ 64·C_o⁴` for a bound `C_o` of `o` and of `|A|/x^{h_A}` (so that `δ_top|A| ≥ 32·o⁴·x²`), with the conclusions
-`δ_top|A|/2 ≤ |Φ_top| ≤ 2δ_top|A|` and `Z_bad ≤ 4C_bx^{−2}·δ_top|A|·Σ_{p∈I}log p/p`; the statement for a general profile
-`ω ≥ ω₀` is this roadmap's own, and at the profile of [FormalProof] its conclusion is that of [FormalProof].
+*NEW*. [FormalProof] makes the selection for the uniform law (every position a top with probability `δ_top`, the profile
+`ω = 1`), under `δ_top|A| ≥ 16`, with the conclusions `δ_top|A|/2 ≤ |Φ_top| ≤ 2δ_top|A|` and
+`Z_bad ≤ 4C_bx^{−2}·δ_top|A|·Σ_{p∈I}log p/p` (`Formalism.MainNotions.J.TopsOK`), as `Formalism.MainNotions.J.tops_exist_of`
+(`src/Formalism/SharpRestriction/AdmissibleParameterJoins/GandSa.lean`); the statement for a general profile `ω ≥ ω₀` is this
+roadmap's own, and at the profile `ω = 1` its Route gives the conclusions of [FormalProof].
 *Needs:* FrobeniusRestrictedRieszSums §0.7, 4.15d, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib probability (independent Bernoulli variables, binomial tails).
 
 ### 4.17c The choice of the top weights
