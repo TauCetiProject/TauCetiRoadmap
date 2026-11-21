@@ -153,8 +153,12 @@ and gets `−1.310533`, the classical value of the Faltings height of that curve
 
 *KNOWN* ((a): Chowla–Selberg 1967, §12, p. 109, the constant terms at `s = 1` of their identity (1) between the sum over the classes of the Epstein zeta functions and `w·ζ(s)·L(s, χ_K)`, through Kronecker's limit formula in their form §6, (39), p. 97; their (2), p. 110, is the same identity as a product over the classes, with values of `Γ`). The identity holds for `D = 3, 4` as well (Lerch;
 Chowla–Selberg); [FormalProof] treats `D > 4`, which contains every host of the family.
-(b): [FormalProof], `Development/AbelianVarietyTheory/Proofs/CubicalLineBundles/OneMulConjFracOneEqInvDifferent.lean`
-(`GlobalTheory.chowla_selberg_of_mean_log`, `GlobalTheory.chowla_selberg_lie_lines`).
+(b) for every curve and every `k ⊃ K` is this roadmap's own. [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/CubicalLineBundles/OneMulConjFracOneEqInvDifferent.lean`, has one curve for each `D ≥ 7`
+squarefree with `D ≡ 3 (mod 4)`: an elliptic curve with complex multiplication by `𝒪_K` over the ring of integers of a number field
+`M ⊂ ℂ`, with a basis `v` of its Lie algebra such that the mean over the embeddings of `M` of `log(π·H(v, v))` (`H` the Hermitian form of
+the principal polarisation) is `−log Ω_K` (`GlobalTheory.chowla_selberg_lie_lines`); `GlobalTheory.chowla_selberg_of_mean_log` derives
+this value from (a) when that mean is minus the class mean of `Per`.
 *Needs:* ComplexMultiplicationAndExplicitReciprocityPartII
 §4.6 (the Faltings height of a CM elliptic curve); ArakelovGeometryAndAbelianHeights §2.9 (the Faltings height of an
 elliptic curve from its minimal discriminant and its periods); ImaginaryQuadraticClassNumber H3.1 (the CM dictionary and the
@@ -2011,7 +2015,11 @@ Let `ρ := 2c(l) + 2a(l) + v_l(D′)/2`. It satisfies the condition of (4) (`v_l
 `v_l(S_L^♮) ≥ −( c_E(l) + s·v_l(d_F) + (2sf + 2|κ|)·a(l) + |κ|·(2c(l) + ½[l = D]) )`, which gives the claim since
 `s·v_l(d_F) ≤ 2sf·c(l)`. Algebraicity is contained in (5) and (6), all coefficients being algebraic. Not given here: the
 expansion of the derivatives in (4) from that of the Hilbert–Eisenstein series (termwise differentiation, holomorphy), Hecke's
-continuation used for `s = 1`, and the proofs of the general statements cited in (4)–(6), which belong to their owners. The route of (ii) is not given here.
+continuation used for `s = 1`, and two general statements that are steps of this roadmap: the expansion of the Hilbert–Eisenstein
+series of every lattice `N𝒪_F² ⊂ L″ ⊂ 𝒪_F²` used in (4), with the additive shift `ξ₀` and weight two included
+(NoncommutativeAndEquivariantIwasawa §6.1, step 0(c), has the series of a finite-order character of a ray class group, depleted at a
+finite set of places and without additive shift), and the isogeny formula for `G₂^*` of (6) (ii). The other general statements cited in (4)–(6) are those of
+the suppliers named under *Needs*. The route of (ii) is not given here.
 
 *Check.* At `l ∤ 𝔣·d_E` with `c_E(l) = 0` the bound of (i) says `T^♮` is `l`-integral, uniformly in `Q` and `κ`: the uniformity that
 8.19d (iii) needs. Numerically (twelve digits), with `E₂^* = E₂ − 3/(π·Im ϑ)`, `G₂^* = (π²/3)E₂^*`: for `D = 7`,
@@ -2027,13 +2035,13 @@ lose. Without the condition on the primes of `𝔣` the units of `𝒪_𝔠` can
 functions of a totally real field, LFunctions Layer 2 (the partial zeta functions) and Layer 5 (the orthogonality
 reconstruction and the functional equation of a finite-order Hecke character) at the trivial modulus of `F`, and for their
 rationality at `1 − 2s` IntegralIwasawaTheory §6.0 (the Siegel–Klingen rationality, for the Hilbert class field of `F`);
-the expansion of the Hilbert–Eisenstein series of a pair of ideals, weight two included (NoncommutativeAndEquivariantIwasawa
-§6.1, step 0(c), states the series restricted to a class, depleted at a finite set of places and without additive shift);
+the expansion of the Hilbert–Eisenstein series of a pair of ideals with an additive shift, weight two included (a step of this
+roadmap not given here, see the route);
 modular forms of level one with coefficients in a ring (`f = Δ^wP(j)`; the field case, `F₁ = ℚ(j)` with the `q`-expansion
 principle for coefficient subfields, is ImaginaryQuadraticClassNumber H3.1, and the integral algebraic case is
 EllipticCohomology Layer 1); ModularCurvesPartII §5.6 (the modular polynomial) for the integrality of `j` at CM points;
 Weierstrass functions: ModularCurvesPartII §1.4a (the quasi-period homomorphism and Legendre's relation), the isogeny formula
-for `G₂^*`, and ModularForms §10D (the complex Tate curve and the division values) for the `℘` part of the expansion of
+for `G₂^*` (a step of this roadmap not given here, see the route), and ModularForms §10D (the complex Tate curve and the division values) for the `℘` part of the expansion of
 `(G₂ + ℘(t))/(2πi)²` at torsion points and of its transformation law; for (ii), IntegralIwasawaTheory §6.0 (the rationality of
 the partial zeta values of a totally real field at negative integers and the Deligne–Ribet congruences between them).
 
@@ -2060,17 +2068,22 @@ in general: `1/2` for one place with `Y = 1`, `N𝔮 = 2`, `s = 1`), whose entri
 *KNOWN* (Shimura's reciprocity law, here through the main theorem of complex multiplication of ComplexMultiplicationAndExplicitReciprocity §2.2; the algebraicity of the normalised lattice sums of an order of an imaginary quadratic field is Damerell 1970, §2, Theorem 1, p. 290). *Needs:* 8.19b (its steps (0)–(4)); ComplexMultiplicationAndExplicitReciprocity §2.2 (the normalized idele and torsion
 dictionary, the main theorem of complex multiplication in adelic form with the arithmetic Artin map, applied to the
 Weierstrass model `y² = 4x³ − g₂x − g₃` of `ℂ/𝒪_K`); the conjugation form of the `q`-expansion principle for families of
-elliptic modular forms permuted by `SL₂(ℤ)` (it extends ComplexMultiplicationAndExplicitReciprocity §2.3, explicit
-reciprocity on CM level functions, from weight `0` to weight `w` divided by `ω^w`); ImaginaryQuadraticClassNumber H3.1 (the CM dictionary).
+elliptic modular forms permuted by `SL₂(ℤ)` (a step of this roadmap not given here, see the route; it extends
+ComplexMultiplicationAndExplicitReciprocity §2.3, level functions with their semilinear action of `GSp_{2g}(ℤ/N)` (`GL₂(ℤ/N)` for `g = 1`), from weight `0` to
+weight `w` divided by `ω^w`); ImaginaryQuadraticClassNumber H3.1 (the CM dictionary).
 
 ### 8.19d Toric sums: Hecke's formula, the Euler-factor relation, and the twisted values
 
-In the setting of 8.19b (in particular `D` is prime and `2` is ramified in `E`), let `Λ(s, χ)` be the Hecke `L`-function of `χ` without Gamma factors (the Euler product over the
-places where `χ` is unramified).
+For (i) and (ii) let `E` be a CM field, unramified over its maximal real subfield `F` at all finite places, with a CM type `Φ`, and let
+`s ≥ 1`, `κ`, the base conductor `𝔣`, `Q`, `χ`, `𝔠 = 𝔣·∏_{𝔮∈Q}𝔮`, the class terms and the twisted toric sums be defined as in 8.19b (that `E`
+is abelian over `ℚ`, that it contains an imaginary quadratic field inducing `Φ`, that `2` is ramified in `E` and the condition on its roots
+of unity are not asked here). (iii) is stated in the setting of 8.19b (in particular `D` is prime and `2` is ramified in `E`). Let
+`Λ(s, χ)` be the Hecke `L`-function of `χ` without Gamma factors (the Euler product over the places where `χ` is unramified).
 
 (i) `T(χ; 𝔠) = Λ(s, χ)·∏_{𝔮∈Q, χ unramified above 𝔮}[(1 − Y_𝔮N𝔮^{−s})(1 − Y_𝔮^{−1}N𝔮^{−s}) + (N𝔮 − 1)N𝔮^{−2s}]`, `Y_𝔮` the value of
-`χ` at a place `P_𝔮` above `𝔮`. (This uses `𝒪_𝔠^× = 𝒪_F^×`, which the shape of a base conductor gives, 8.19b; for an order with
-larger units the right side is multiplied by the index `[𝒪_𝔠^× : 𝒪_F^×]`.)
+`χ` at a place `P_𝔮` above `𝔮`. (This uses `𝒪_𝔠^× = 𝒪_F^×`, which the shape of a base conductor gives for every CM field: for a unit
+`u` of `𝒪_𝔠`, `u/ū` is a root of unity congruent to `1` modulo a prime of `E` above an odd prime under `𝔣` unramified in `E`, so it is `1`;
+for an order with larger units the right side is multiplied by the index `[𝒪_𝔠^× : 𝒪_F^×]`.)
 
 (ii) For a conjugate pair `{P, P̄}` above `𝔮 ∈ Q` with `χ` unramified above `𝔮` (as it is when `χ` has exact conductor `𝔣`) and
 a character `ψ` of `Pic(𝒪_{𝔠/𝔮})`, extended through `Pic(𝒪_𝔠) → Pic(𝒪_{𝔠/𝔮})`: `T(χψ; 𝔠) = [(1 − Yw)(1 − Y^{−1}w) + (N𝔮 − 1)w²]·T(χψ; 𝔠/𝔮)`, `Y = (χψ)(P)`, `w = N𝔮^{−s}`; and
@@ -2100,7 +2113,8 @@ and `e_a = 2` for these families (the residual value of `χ` at the Frobenius of
 `Pic(𝒪_𝔠)` is finite; each lattice sum is entire in `σ` (continuation of Hecke `L`-functions with nontrivial infinity
 type, LFunctions Layer 6); for `Re(s + σ) > 1` the pairs (class, lattice point modulo `𝒪_F^×`) correspond to the integral
 ideles modulo `𝒪̂_𝔠^×` (the shape of a base conductor makes the units of `𝒪_𝔠` those of `𝒪_F`), whose generating series is
-the Euler product with the local factor `1 + (N𝔮 − 1)Σ_{a,b≥1}(Yw)^a(Y^{−1}w)^b` times the two Euler factors at `𝔮 ∈ Q`; then the
+the Euler product with the local factor `1 + (N𝔮 − 1)Σ_{a,b≥1}(Yw)^a(Y^{−1}w)^b` in place of the two Euler factors at each `𝔮 ∈ Q` above
+which `χ` is unramified (at the other `𝔮 ∈ Q` the local factor is `1`, the classes with `a, b ≥ 1` cancelling); then the
 identity principle and `σ = 0`. (ii) Divide (i) for `Q` by (i) for `Q ∖ {𝔮}` (same `Λ(s, χψ)`, `χψ` unramified above `𝔮`);
 `Λ(s, χ) ≠ 0` at integers `s ≥ 1` (`χ` is ramified at `𝔣 ≠ 1`, so it is not a power of the norm). (iii) Fourier inversion
 on the fibres of `Pic(𝒪_𝔠) → G_Q`; field of values by 8.19c, applicable because `T(χ; 𝔣) ≠ 0` by (ii): an automorphism `g` fixing
@@ -2134,7 +2148,7 @@ From the Checks of this layer. For `K = ℚ(i)` the logarithmic period of `ℤ[i
 
 ### Dependencies
 
-This roadmap holds one layer. It uses the earlier roadmaps of this family FrobeniusRestrictedRieszSums §§0.1–0.4; ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.4, 2.6, 2.7, 2.9, 2.9a, 3.1; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.8b, 4.8b′, 4.18; LocalGainOfThetaChains §4.9f; RowTowerAndRallisIdentities §§5.1, 5.3, 5.7, 5.9, 5.11; BesselPoincareSeriesAndGramBounds §5.23; CongruenceModulesOfThetaLifts §7.8; HermitianFormsAndLattices §§4.0b, 4.13; SlopesOfHermitianVectorBundles (Layers 1–4 and 6); SingularHermitianMetricsAndL2Methods (Layers 3 and 7); HodgeTateLatticesAndLubinTateLogarithms (Layers 0 and 2); MultiplierIdealsOfPairsAndPointSeparation §§9.10c–9.13b; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a–9.1; HeightsForLogSingularMetrics §§0.4, 4.3a, 4.3b, 14.1, 14.2, 16.1; ChowFormsAndHeightsOfSubvarieties §§6.1, 6.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§6.8a, 10.1, 10.2; ThetaKernelsForUnitaryDualPairs §6.4a; ThetaLiftsForDefiniteUnitaryGroups §§1.6, 3.2, 3.3; SelmerLengthBoundsAndLocalLifting §§3.22, 3.25b, 3.26; FiniteReductiveGroups §2.4. Roadmaps on main or in open pull requests: ShimuraCompactifications, PELModuli, AutomorphicBundles, AlgebraicModuliForArithmeticGeometry, AlgebraicModuliForArithmeticGeometryPartII, ArakelovGeometryAndAbelianHeights, ArakelovGeometryAndAbelianHeightsPartII, HeightsRationalPointsAndObstructions, HodgeTateAndCanonicalSubgroups, FiniteFlatGroupsAndIntegralPadicHodgeTheory, NeronModelsAndSemistableAbelianVarieties, NashBlowups, SchemeAndStackFoundations, ResolutionOfSingularitiesCharacteristicZero, ComplexComparisonPartII, AdelicAlgebraicGroups, GeometryOfNumbersAndQuadraticArithmetic, MetaplecticAutomorphicForms, AbelianSchemesAndArithmeticModuli, SpecialFunctionsTheta, ImaginaryQuadraticClassNumber, ComplexMultiplicationAndExplicitReciprocity, ComplexMultiplicationAndExplicitReciprocityPartII, LFunctions, ClassFieldTheory, IntegralIwasawaTheory, ModularCurvesPartII, ModularForms, RepresentationTheory/ClassicalGroups.
+This roadmap holds one layer. It uses the earlier roadmaps of this family FrobeniusRestrictedRieszSums §§0.1–0.4; ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.4, 2.6, 2.7, 2.9, 2.9a, 3.1; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.8b, 4.8b′, 4.18; LocalGainOfThetaChains §4.9f; RowTowerAndRallisIdentities §§5.1, 5.3, 5.7, 5.9, 5.11; BesselPoincareSeriesAndGramBounds §5.23; UniformWildKernelBounds §7.6; CongruenceModulesOfThetaLifts §7.8; HermitianFormsAndLattices §§4.0b, 4.13; SlopesOfHermitianVectorBundles (Layers 1–4 and 6); SingularHermitianMetricsAndL2Methods (Layers 3 and 7); HodgeTateLatticesAndLubinTateLogarithms (Layers 0 and 2); MultiplierIdealsOfPairsAndPointSeparation §§9.10c–9.13b; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a–9.1; HeightsForLogSingularMetrics §§0.4, 4.3a, 4.3b, 14.1, 14.2, 16.1; ChowFormsAndHeightsOfSubvarieties §§6.1, 6.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§6.8a, 10.1, 10.2; ThetaKernelsForUnitaryDualPairs §6.4a; ThetaLiftsForDefiniteUnitaryGroups §§1.6, 3.2, 3.3; SelmerLengthBoundsAndLocalLifting §§3.22, 3.25b, 3.26; FiniteReductiveGroups §2.4. Roadmaps on main or in open pull requests: ShimuraCompactifications, PELModuli, AutomorphicBundles, AlgebraicModuliForArithmeticGeometry, AlgebraicModuliForArithmeticGeometryPartII, ArakelovGeometryAndAbelianHeights, ArakelovGeometryAndAbelianHeightsPartII, HeightsRationalPointsAndObstructions, HodgeTateAndCanonicalSubgroups, FiniteFlatGroupsAndIntegralPadicHodgeTheory, NeronModelsAndSemistableAbelianVarieties, NashBlowups, SchemeAndStackFoundations, ResolutionOfSingularitiesCharacteristicZero, ComplexComparisonPartII, AdelicAlgebraicGroups, GeometryOfNumbersAndQuadraticArithmetic, MetaplecticAutomorphicForms, AbelianSchemesAndArithmeticModuli, SpecialFunctionsTheta, ImaginaryQuadraticClassNumber, ComplexMultiplicationAndExplicitReciprocity, ComplexMultiplicationAndExplicitReciprocityPartII, LFunctions, ClassFieldTheory, IntegralIwasawaTheory, ModularCurvesPartII, ModularForms, EllipticCohomology, ClassicalArithmeticCompletion, RepresentationTheory/ClassicalGroups.
 
 ## Downstream consumers
 
@@ -2247,6 +2261,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 ### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
 
 - §2.2 (the normalized idele and torsion dictionary: the main theorem of complex multiplication in adelic form, with the arithmetic Artin map), applied to the Weierstrass model of `ℂ/𝒪_K`. Used in 8.19c.
+- §2.3 (level functions with their semilinear action of `GSp_{2g}(ℤ/N)`, `GL₂(ℤ/N)` for `g = 1`: the weight-`0` case that the conjugation form of the `q`-expansion principle of 8.19c extends). Used in 8.19c.
 - §3.2 (the exact ray-level field: in the elliptic maximal-order case the regular values at the CM point of the functions of level `n` generate the ray class field `K(n)`). Used in 8.18.
 
 ### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocityPartII
@@ -2274,6 +2289,14 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 ### From TauCetiRoadmap.ModularForms
 
 - §10D (the complex Tate curve `(2πi)^{−2}℘(u; ℤ + ℤz) − 1/12 = X_Tate(e^{2πiu})`, the holomorphy of the division values, homogeneity of `℘`). Used in 8.19b.
+
+### From TauCetiRoadmap.EllipticCohomology
+
+- Layer 1 (Deligne's computation of the ring of integral algebraic modular forms of level one, `ℤ[c₄, c₆, Δ]/(c₄³ − c₆² − 1728Δ)` with weights `4, 6, 12`). Used in 8.19b.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+- §7.5 (Dedekind's factorisation of the group determinant of a finite abelian group into the sums `Σ_g χ(g)X_g` over its characters). Used in 8.14.
 
 ### From TauCetiRoadmap.RepresentationTheory/ClassicalGroups
 
@@ -2303,6 +2326,10 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 ### From BesselPoincareSeriesAndGramBounds, a sub-roadmap of this family
 
 - §5.23 (ii)–(vi) (the Gelfand–Graev shares and the bound for the discarded share; (v) embedding in regular representations from a group determinant; (vi) free permutation). Used in 8.19.
+
+### From UniformWildKernelBounds, a sub-roadmap of this family
+
+- §7.6 (the budget bound on windows; its constant `J` at the chain's parameters is the window constant of ThetaChainsOnDefiniteUnitaryGroups §2.1). Used in the Conventions.
 
 ### From CongruenceModulesOfThetaLifts, a sub-roadmap of this family
 
