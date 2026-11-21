@@ -6,12 +6,15 @@ every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s`
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
 of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
 Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
-roadmap of the family states and proves these theorems. The family follows the formal Lean proof of
-these theorems by Levent Alpöge, announced on 20 November 2026
-([announcement](https://alpo.ge/remark.pdf); [source with a public verification
-setup](https://github.com/leanprover-community/riemann-hypothesis)): each roadmap states as targets
-what that proof establishes, in the generality in which the statement holds, and says so where a
-route is not written out.
+roadmap of the family states these theorems. The family follows the formal Lean proof, by Levent
+Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced
+on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf); [source with a public verification
+setup](https://github.com/leanprover-community/riemann-hypothesis)). The theorems of that proof are
+the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
+Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
+them by published theorems and are not statements of the formal proof. Each roadmap states as
+targets what the proof establishes, in the generality in which the statement holds, with the
+published theory it rests on, and says so where a route is not written out.
 
 The route is analytic at both ends. For a positively weighted family of characters, a one-sided
 bound for the weighted sum of the Riesz-smoothed prime sums of its members, less their main terms,
@@ -28,7 +31,9 @@ representations and Selmer groups, and integral models of unitary Shimura variet
 
 Each subdirectory is a roadmap of its own, with a definitive `README.md` and a `Suggested.lean` of
 target signatures; this page is the index of the family. The roadmaps are listed in merge order:
-within the family, each roadmap cites only roadmaps listed above it.
+within the family, each roadmap cites only roadmaps listed above it. Citations between the roadmaps
+are by section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a
+section keeps its number.
 
 ## The roadmaps
 
@@ -109,8 +114,9 @@ within the family, each roadmap cites only roadmaps listed above it.
   archimedean place; also the maximal slopes of lattices of sections of an ample line bundle and an
   explicit arithmetic Hilbert–Samuel inequality.
 - [**Chow forms and heights of subvarieties**](ChowFormsAndHeightsOfSubvarieties/README.md):
-  Chow forms of projective subvarieties, spherical heights of multihomogeneous forms, and the
-  heights of subvarieties they define.
+  the change of metric in arithmetic intersection numbers, the comparison of the Fubini–Study height
+  of a projective cycle with the spherical height of its Chow form, and heights of cycles in the
+  projective space of a Hermitian vector bundle.
 - [**Heights for log-singular metrics**](HeightsForLogSingularMetrics/README.md):
   heights for log-singular metrics, heights on projective spaces and flag varieties, and slopes of
   Lie algebras of abelian schemes.
