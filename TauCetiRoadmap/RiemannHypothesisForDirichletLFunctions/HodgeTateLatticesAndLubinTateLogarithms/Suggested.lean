@@ -98,7 +98,8 @@ characteristic `0` with a nonarchimedean absolute value normalised by `|p| = p�
 set with a self-map `ς` and `q ≥ 2`. There is a unique family `g = (g_x)_{x ∈ S}` of series
 without constant term with `λ_x(g) = T_x` for all `x`; it also satisfies `g_x(λ) = T_x`; and
 `v_p(coeff_n g_x) ≥ −(|n| − 1)/(q − 1)`, that is `‖coeff_n g_x‖ ≤ p^((|n| − 1)/(q − 1))`, for
-every multi-index `n ≠ 0` of total degree `|n|`. -/
+every multi-index `n ≠ 0` of total degree `|n|`.
+[FormalProof] has the case `q = p²`; the general `q` is this roadmap's, by the same route. -/
 theorem exists_twistedLog_inverse_norm_coeff_le (K : Type*) [NormedField K] [IsUltrametricDist K]
     [CharZero K] (p : ℕ) (hp : p.Prime) (hpK : ‖(p : K)‖ = (p : ℝ)⁻¹)
     {S : Type*} [Finite S] (ς : S → S) (q : ℕ) (hq : 2 ≤ q) :
