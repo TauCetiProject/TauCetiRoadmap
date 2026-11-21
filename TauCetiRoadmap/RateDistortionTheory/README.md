@@ -103,8 +103,10 @@ mixture with weight `λ`, put `w₁ = λ y₁ / y` and `w₂ = (1 − λ) y₂ /
 `x / y = w₁ (x₁ / y₁) + w₂ (x₂ / y₂)`, apply the convexity of `t ↦ t log t` on `[0, ∞)` (Mathlib
 `Real.convexOn_mul_log`) and multiply by `y` (Polyanskiy–Wu, Remark 5.2, p. 92, names this
 perspective argument). For `λ ∈ {0, 1}` there is nothing to prove; for `0 < λ < 1` a pair with
-`y = 0` in the mixture has `y₁ = y₂ = 0` and contributes `0` on both sides. Continuity follows
-from the ChannelCoding 1.1 formula `I(p, W) = H(q) − ∑ a, p a · H(W a)` and
+`y = 0` in the mixture has `y₁ = y₂ = 0` and contributes `0` on both sides. A pair with
+`y₁ = 0 < y₂` has `x₁ = 0`, so `x = (1 − λ) x₂`, `y = (1 − λ) y₂` and both sides are
+`(1 − λ) x₂ log (x₂ / y₂)`; symmetrically for `y₂ = 0 < y₁`. Continuity follows from the
+ChannelCoding 1.1 formula `I(p, W) = H(q) − ∑ a, p a · H(W a)` and
 `Real.continuous_negMulLog`.
 
 **Checks.**
@@ -353,10 +355,11 @@ EntropyAndSourceCoding 1.3; Mathlib `Real.binEntropy`, `Real.binEntropy_one_sub`
 
 Define `SourceCode M X Y`, `codeDistortion`, `productLaw` and `blockDistortion` as in the
 conventions (Polyanskiy–Wu, Definition 24.2 and (24.8), p. 485; El Gamal–Kim, Lecture 3,
-pp. 3–37 to 3–39). API, proved here: `productLaw p n` is a source law on words; the expected
-block distortion of the product channel of a test channel `W` (ChannelCoding 1.4, the memoryless
-use of a channel) is `expectedDistortion p W d`; and the block distortion of any channel on words
-is the average over `i` of the expected distortions of its `i`-th letters.
+pp. 3–37 to 3–39). API, proved here: `productLaw p n` is a source law on words; for `n ≥ 1`, the
+expected block distortion of the product channel of a test channel `W` (ChannelCoding 1.4, the
+memoryless use of a channel) is `expectedDistortion p W d` (for `n = 0` it is `0`); and the block
+distortion of any channel on words is the average over `i` of the expected distortions of its
+`i`-th letters.
 
 **Checks.**
 - For `n = 0` there is one word, `blockDistortion d 0` is the junk value `0`, and every code has
