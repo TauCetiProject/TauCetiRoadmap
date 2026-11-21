@@ -114,13 +114,13 @@ that every out-neighbour of `u` is discovered before `u` finishes, the only axio
 are not tree edges. The search procedure of Erickson's Figure 6.3 (p. 228) assigns times and parent
 pointers in this way.
 
-*Remark (a finite computation, not a target).* On every relation on at most four vertices (1, 2,
-10, 104 and 3044 relations up to isomorphism for `n = 0, …, 4`, loops allowed) and on every simple
-graph on at most five labelled vertices (1, 2, 8, 64 and 1024 graphs for `n = 1, …, 5`), the
-structures with times `0, …, 2n − 1` satisfying the six axioms are exactly the outputs of
-depth-first search over all orders of the roots and of the out-neighbours; counting the forests of
-one representative of each relation class, there are 32632 pairs of a relation class and a forest
-for `n = 4`, and 27360 pairs of a labelled graph and a forest for `n = 5`.
+*Remark (not a target).* For one arc `a → b` with times `0, 1, 2, 3`, the six ways of giving each
+vertex an interval yield exactly two forests, the results of searching from `a` and from `b`
+first. The crossing intervals `a = [0, 2]`, `b = [1, 3]` and `a = [1, 3]`, `b = [0, 2]` violate
+(D3); `a = [0, 1]`, `b = [2, 3]` violates (D6); `b = [0, 3]`, `a = [1, 2]` forces
+`parent a = some b` by (D4), against (D5) since there is no arc `b → a`. The remaining two,
+`a = [0, 3]`, `b = [1, 2]` with `parent b = some a`, and `b = [0, 1]`, `a = [2, 3]` without
+parents, satisfy all six axioms (the Checks below and the Examples of Layer 1).
 
 **Checks.**
 - The empty type carries the empty forest. One vertex, with or without a loop, carries the forest
@@ -312,8 +312,10 @@ component `C` and `a ⇝ c ⇝ b`, then `c ∈ C`, because `c ⇝ b ⇝ a`.
 
 Prove `IsDFSForest.isAcyclic_iff`: `TauCeti.Quiver.IsAcyclic V` if and only if `post v < post u`
 for every arrow `u ⟶ v` (Erickson, §6.2, p. 231, and §6.3, p. 232). Erickson states the cyclic
-side as `u.post < v.post` for some edge, which misses loops; with the strict inequality used here a
-loop `u ⟶ u` violates the condition, as it must, since a loop is a cycle for Tau Ceti.
+side as `u.post < v.post` for some edge, which a loop does not satisfy, and does not treat loops
+there; his bound `E ≤ V(V − 1)` on the number of edges of a directed graph (§5.2, p. 191) leaves no
+room for them. With the strict inequality used here a loop `u ⟶ u` violates the condition, as it
+must, since a loop is a cycle for Tau Ceti.
 
 Route. (⇐) A closed path that is not trivial ends with an arrow `b ⟶ a`, so `post a < post b`,
 while along its first part, a path from `a` to `b`, finishing times do not increase (induction):
@@ -410,7 +412,8 @@ Erickson, §6.6, "Kosaraju and Sharir's Algorithm", p. 240, states it with the f
 reversed graph and the second on the graph itself; the statement here is the same theorem applied to
 the reversed quiver, whose strongly connected components are those of the quiver. Erickson argues
 through his Lemma 6.3 and the remark that reversing a graph reverses its graph of components; the
-route here is derived from 2.2 and 3.3 (Proved here).
+route here is derived from 2.2 and 3.3 (Proved here). The names follow Erickson (p. 240), who
+credits the algorithm to Kosaraju (1978, never published) and to Sharir (1981; References).
 
 Route. Strong induction on `pre' x` over the roots `x` of the second forest.
 
@@ -449,7 +452,8 @@ descendant ends at a descendant, whose discovery time exceeds `pre v`. The set c
 
 Prove `IsDFSForest.isMax_and_le_iff_lowLink`: `mk v` is a sink component and `v` is its earliest
 vertex if and only if `lowLink v = pre v` and `lowLink w < pre w` for every proper descendant `w`
-of `v` (Erickson, Lemma 6.4, p. 242, with proof).
+of `v` (Erickson, Lemma 6.4, p. 242, with proof). The name follows Erickson (p. 242), who credits
+the algorithm to Tarjan (1972; References).
 
 Route (Erickson's argument, checked step by step).
 
@@ -515,8 +519,13 @@ Route. By 2.3 the only other case is `post v < pre u`; but `G.Adj v u` and (D6) 
 
 Prove `IsDFSForest.isTree_fromRel`: if `G` is connected, the graph whose edges are the pairs
 `{a, b}` with `parent b = some a` (`SimpleGraph.fromRel`) is a tree. With 4.1 and 1.4 this gives,
-for finite connected graphs, a normal spanning tree (Diestel, Proposition 1.5.5, p. 16, proves
-existence for all connected graphs by another route). (Proved here.)
+for finite connected graphs, a normal spanning tree. (Proved here. Diestel, Proposition 1.5.5,
+p. 16, proves that connected graphs have normal spanning trees by another route; by the book's
+standing convention (§1.1, p. 2) its graphs are finite outside Chapter 8 unless said otherwise, and
+his Exercise 27, p. 31, asks for a prescribed root. Finiteness cannot simply be dropped: in a
+normal spanning tree of a complete graph any two vertices are comparable, so the tree is a chain
+from the root; every vertex has finitely many ancestors, so the chain is countable, and a complete
+graph on an uncountable vertex set has no normal spanning tree.)
 
 Route. Common facts used here and below: (F1) the descendants of a root form a connected
 component of `G`: tree edges join them ((D5)), and by 4.1 a neighbour of a descendant `w` is a
@@ -533,7 +542,7 @@ a child of `z`, and a child has larger `pre`; so both are `parent z`, a contradi
 - Connectivity is needed: two vertices without edges carry a forest with two roots, and its tree
   graph has no edge, so it is not connected.
 
-*Needs:* 1.2, 4.1; Mathlib `SimpleGraph.fromRel`, `SimpleGraph.IsTree`.
+*Needs:* 1.2, 2.1, 4.1; Mathlib `SimpleGraph.fromRel`, `SimpleGraph.IsTree`.
 
 ### 4.3 Low points
 
@@ -570,10 +579,9 @@ By (F4) and (F5), `pre u < lowPoint v` holds exactly when `lowPoint v = pre v`.
 ### 4.4 Roots
 
 Prove `IsDFSForest.isCutVertex_iff_of_parent_eq_none`: a root `u` is a cut vertex if and only if
-it has at least two distinct children. (Proved here; the low-point criteria of 4.4–4.6 are due to
-Hopcroft and Tarjan. The nearest opened statement is Diestel, Lemma 1.5.4 (i), p. 15, with proof on
-p. 16: in a normal tree, incomparable vertices are separated by the common part of their
-down-closures.)
+it has at least two distinct children. (Proved here. The nearest opened statement is Diestel,
+Lemma 1.5.4 (i), p. 15, with proof on p. 16: in a normal tree, incomparable vertices are separated
+by the common part of their down-closures.)
 
 Route. Use Tau Ceti's `SimpleGraph.isCutVertex_iff_exists_forall_walk_mem_support`. (⇐) For
 children `v ≠ w` of `u`: `v` and `w` are joined through `u` by tree edges; `w ∉ sub(v)` (F2); a
@@ -590,8 +598,8 @@ not a cut vertex.
 - The hypothesis `parent u = none` is needed: in the path `a – b – c` searched from `a`, `b` has
   one child and is a cut vertex.
 
-*Needs:* 4.1, 4.2 (the fact (F1)), 4.3 (the facts (F2), (F3)); Tau Ceti `SimpleGraph.IsCutVertex`,
-`SimpleGraph.isCutVertex_iff_exists_forall_walk_mem_support`.
+*Needs:* 2.1, 4.1, 4.2 (the fact (F1)), 4.3 (the facts (F2), (F3)); Tau Ceti
+`SimpleGraph.IsCutVertex`, `SimpleGraph.isCutVertex_iff_exists_forall_walk_mem_support`.
 
 ### 4.5 Vertices with a parent
 
@@ -688,8 +696,11 @@ an edge `u – v` the distances are unequal and differ by at most one
 
 ### Examples
 
-- Every connected labelled graph on at most six vertices, with every choice of `s`, satisfies 5.1;
-  for `n = 6` these are 160224 pairs, 142038 of them non-bipartite.
+- The 5-cycle `0 – 1 – 2 – 3 – 4 – 0` from `s = 0`: distances `0, 1, 2, 2, 1`. The edge `2 – 3`
+  joins two vertices at distance `2`, and the graph is not bipartite (it is an odd cycle). Deleting
+  that edge leaves the path `2 – 1 – 0 – 4 – 3` with the same distances from `0`; now every edge
+  joins consecutive layers, and colouring by parity of distance gives the classes `{0, 2, 3}` and
+  `{1, 4}`.
 
 ### Dependencies
 
@@ -738,7 +749,7 @@ Left to other roadmaps:
 Not treated here: breadth-first search trees as structures, directed breadth-first layers,
 dominator trees, the characterization of depth-first vertex orderings by a three-point condition,
 and every running time, data structure and search procedure. The comparison of the six axioms with
-the outputs of depth-first search is recorded only as the finite computation in 1.2; no such
+the outputs of depth-first search is recorded only for one arc, in the remark of 1.2; no general
 statement is made, because no search procedure is defined.
 
 ## Exact supplier contracts
@@ -795,8 +806,14 @@ statement is made, because no search procedure is defined.
   Attribution 4.0). Used: §6.1 with Figure 6.3 (p. 228), "Classifying Vertices and Edges"
   (pp. 228–229), Figures 6.4 and 6.5 (pp. 229–230), Lemma 6.1 (p. 230); §6.2 (p. 231); §6.3
   (p. 232); §6.6, Lemma 6.2 (p. 238), the root of a component (p. 239), "Kosaraju and Sharir's
-  Algorithm" with Lemma 6.3 (p. 240), "Tarjan's Algorithm" with Lemma 6.4 (p. 242).
+  Algorithm" with Lemma 6.3 (p. 240), "Tarjan's Algorithm" with Lemma 6.4 (p. 242). Also
+  Chapter 5, "Basic Graph Algorithms", same site (`.../book/05-graphs.pdf`), §5.2 (p. 191).
 - Reinhard Diestel, *Graph Theory*, sixth edition (2025), Chapter 1, in the free preview linked
-  from the author's book site `https://diestel-graph-theory.com/basic.html`. Used: §1.5,
-  normal trees (p. 15), Lemma 1.5.4 (pp. 15–16), Proposition 1.5.5 (p. 16), Exercise 29 (p. 32);
-  §1.6, Proposition 1.6.1 (p. 17).
+  from the author's book site `https://diestel-graph-theory.com/basic.html`. Used: §1.1, the
+  convention on finiteness (p. 2); §1.5, normal trees (p. 15), Lemma 1.5.4 (pp. 15–16),
+  Proposition 1.5.5 (p. 16), Exercises 27 (p. 31) and 29 (p. 32); §1.6, Proposition 1.6.1 (p. 17).
+- Named for attribution only, not consulted (bibliographic data from the DOI registry):
+  Robert Tarjan, "Depth-First Search and Linear Graph Algorithms", *SIAM Journal on Computing*
+  1 (2) (1972), 146–160, doi:10.1137/0201010; M. Sharir, "A strong-connectivity algorithm and its
+  applications in data flow analysis", *Computers & Mathematics with Applications* 7 (1) (1981),
+  67–72, doi:10.1016/0898-1221(81)90008-0.
