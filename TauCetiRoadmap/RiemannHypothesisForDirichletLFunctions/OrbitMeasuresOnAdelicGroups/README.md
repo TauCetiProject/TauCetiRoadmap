@@ -21,6 +21,11 @@ Notation and conventions not restated here are those of the Conventions of Adeli
 - AdelicAlgebraicGroups, AnalyticNumberTheoryPartII, LogicAndDefinabilityInNumberTheory, EndoscopicTransferAndUnitaryTraceComparison, AdicSpacesPartV, GeometryOfNumbersAndQuadraticArithmetic and HeightsRationalPointsAndObstructions are cited by section, ReductiveGroupsPartII by its own labels (`RG2.0`, `RG2.1.5`, `RG2.3.7`), and ReductiveGroups by layer or by item (`3A.5d`, `3A.5f`).
 - In Layers 2 and 3 every field has characteristic zero; Layer 4 holds in every characteristic.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 2: Measures of top forms and quotient measures on homogeneous spaces
 
 This layer extends Layer 2 of AdelicAlgebraicGroups, which builds gauge forms and the Tamagawa measure of connected reductive groups, by one target with three named statements: the measure of a top form on a smooth variety over a local field with its fibre formula, the Tamagawa measure of a group with a unipotent radical, and invariant gauge forms with the quotient of Tamagawa measures on homogeneous spaces.
