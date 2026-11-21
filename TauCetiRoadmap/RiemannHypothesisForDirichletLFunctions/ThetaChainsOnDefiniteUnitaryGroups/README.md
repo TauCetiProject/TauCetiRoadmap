@@ -139,6 +139,12 @@ states what that proof establishes; where a target is stated in greater generali
 route is not given, or not given in full, the target says so in its route. The
 conditions (T1), (T2) of 2.5 are conditions on the twisting datum.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own and is not in [FormalProof]; it is proved by
+the route written here, except at the steps that the route names as not given, which [FormalProof] proves only in the
+range recorded at the target (3.1d, 3.3).
+
 **Quantifier order and sizes.** Constants named before `ε` do not depend on `ε`; the scale `x` and everything chosen at
 it come after `ε`. Between them come the numbers that may depend on `ε`: the layer exponent `A_n` (`2 + 8ε` in the
 construction, at most the constant `A_max`), the window constant `J` and the exponent `c_H` of the slope range, which
@@ -231,11 +237,6 @@ are fixed choices. The values of one construction (such as `C_t = 401`) appear o
 | `P̃, P̃_ξ; Υ, φ′; P^{bil}, Υ^c, β_λ` | top period, of the chain of the tuple `ξ`; a row form on `U(X^h)`, a column form of level `m`; the bilinear form of the period, the coefficient conjugate of `Υ`, the bilinear contravariant form | 3.9 |
 | `𝒸̃, res, br_τ, c_{Br,τ}, D₀(τ), D₁(τ)` | the class of level `m` of a class of `U(X^h)`, restriction to `U(X^h)`, the branching map, its constant, its degree bounds | 3.9 |
 
-**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
-hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
-[FormalProof].
-
 ## Layer 2: The setting of the chain
 
 Ranks, scales and every object the chain is built from, constructed explicitly: the column, row and model spaces and
@@ -250,8 +251,11 @@ quadratic, `Φ = Gal(E/K)` and the embedding `ι₀`. From 2.2 on the host satis
 (`2` splits in `K`, and `E = FK`). The hosts of FrobeniusRestrictedRieszSums §0.4 satisfy all of this (FrobeniusRestrictedRieszSums §0.4(i) and `d ≡ 7 (mod 8)`).
 The chain is built, and the statements of Layer 3 that rest on [FormalProof] are proved there, for the hosts of
 FrobeniusRestrictedRieszSums §0.4, which have `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)` and layer `n ≥ 2`. For these `v₂(d + 1) = 3`, so
-`n ≥ v₂(d + 1) − 1` holds and `HostSplitting E` is satisfied (2.4 (b)); `16qd` divides `f_E`, `f = 2|A|` and `f ≥ 8`. The
-statements of this roadmap for a general prime `d ≡ 7 (mod 8)` are proved by the routes given with them. The splitting character
+`n ≥ v₂(d + 1) − 1` holds and `HostSplitting E` is satisfied (2.4 (b)); `16qd` divides `f_E`, `f = 2|A|` and `f ≥ 8`. For
+a general prime `d ≡ 7 (mod 8)` the statements of this roadmap are proved by the routes given with them, except at the
+steps that the routes of 3.1d and 3.3 list as not given (at the end of each route): [FormalProof] covers those steps only
+for the hosts named above, so for the other hosts 3.1d, 3.3 and the statements of Layer 3 that use them rest on steps for
+which this roadmap gives no proof. The splitting character
 `η̃` of the chain exists under `HostSplitting E` (FrobeniusRestrictedRieszSums §0.3; 2.4 (b)), so every statement that uses `η̃` assumes it; its second
 condition (every place of `F` above a prime dividing `f_E` splits in `E`) is a standing hypothesis of Layer 3 from 3.1d on.
 
@@ -289,8 +293,7 @@ host, `−d` the discriminant of `K` and `(q, d)` the auxiliary pair of the host
   of the host prime to `q·d` (`Q_S = lcm(2^{n+2}, f_ψ)` for a host of FrobeniusRestrictedRieszSums §0.4 with layer `n`, by
   its API (c); `S_small` below is the set of the primes dividing `Q_S`). Every host of FrobeniusRestrictedRieszSums §0.4 has
   `1 ≤ rd_E ≤ (Q_S/2)·√(q·d) = f_E/(2√(q·d))`, so this bound, which [FormalProof] counts among its conditions on `q, d`,
-  is a consequence and not a hypothesis (`1 ≤ rd_E` for every number field; the upper bound is a property of every host
-  in [FormalProof], and its route is not given here);
+  is a consequence and not a hypothesis (`1 ≤ rd_E` for every number field; the upper bound is proved in the route below);
   `SizeInert`: the host is inert-free up to `max(12, x^{ε/(5J)})` (FrobeniusRestrictedRieszSums §0.3), so every prime inert in `K` is at least `13`;
   `SizeDep`: `log(qd) ≤ m` and `(Σ_{ℓ∈S_small} log ℓ)·(2 + vd) ≤ C_dep·x^ε`, where `S_small` is the set of the primes dividing
   `2f_E` other than `q` and `d` (they split in `K`, FrobeniusRestrictedRieszSums §0.4(v); every prime ramified in `E` lies in `S_small ∪ {q, d}`), and `vd := log₂ Q_S` (`Q_S = f_E/(q·d)`
@@ -348,6 +351,16 @@ trivial on `A` form `⟨χ_{−q}, χ_{−d}⟩`, which meets `𝔛_n⟨ψ⟩` t
 order `2^n` of even Dirichlet characters of conductor dividing `2^{n+2}`), so the characters of `A` are the restrictions of `𝔛_n⟨ψ⟩` and
 `|A| = 2^n·o/|𝔛_n ∩ ⟨ψ⟩|`; for `n + 2 ≥ v₂(f_ψ)`, `𝔛_n ∩ ⟨ψ⟩` is the group of the powers of `ψ` that are even of `2`-power
 conductor, which does not depend on `n`, so `c(ψ) = o/|𝔛_n ∩ ⟨ψ⟩|` (the integer of FrobeniusRestrictedRieszSums §0.4 (iii)) divides `o`.
+The bound on `rd_E`: by FrobeniusRestrictedRieszSums §0.4 (ii)–(iii) the characters of `G` are the products `χ_{−q}^aχ_{−d}^bη`
+with `a, b ∈ {0, 1}` and `η` in `H := 𝔛_n⟨ψ⟩`, a group of order `|A|`; `f_η` divides `Q_S`, which is prime to `qd`
+(`q, d ∤ f_ψ`), so that product has conductor `q^ad^bf_η`, and the conductor–discriminant formula gives
+`rd_E = |d_E|^{1/(4|A|)} = √(qd)·(∏_{η∈H} f_η)^{1/|A|}`. Put `v := v₂(Q_S)` and let `e(η)` be the exponent of the
+conductor of the `2`-component of `η`, so `f_η ≤ 2^{e(η)−v}Q_S`. These `2`-components form a group `H₂` of characters
+modulo `2^v`, each taken `|A|/|H₂|` times; its subgroups `H₂^{(j)}` of the characters of conductor dividing `2^j` have
+`|H₂^{(0)}| = |H₂^{(1)}| = 1` and `[H₂^{(j)} : H₂^{(j−1)}] ≤ 2` (the characters modulo `2^j` form a group of order
+`2^{j−1}`), so `Σ_{χ∈H₂} e(χ) = v|H₂| − Σ_{0≤j<v} |H₂^{(j)}| ≤ (v − 1)|H₂|`, because
+`Σ_{1≤j<v} |H₂^{(j)}| ≥ (1 − 2^{1−v})|H₂|` and `|H₂| ≤ 2^{v−1}`. Hence `(∏_η f_η)^{1/|A|} ≤ Q_S/2`, with equality for
+`ψ` the nontrivial character modulo `4`, for which `H` is the group of all characters modulo `2^{n+2}`.
 The bad primes: `q, d | f_E`, so
 `log(qd) ≤ log f_E ≤ 2x^{ε/5}log²x ≤ x^{1/2−ε} ≤ m` (the third inequality for `x ≥ x₀(ε)` because `ε/5 < 1/2 − ε`, which
 holds for `ε ≤ 1/6` and fails for `ε ≥ 5/12`); `f_E = lcm(2^{n+2}, f_ψ)·q·d` for `n ≥ 1` (FrobeniusRestrictedRieszSums §0.4 API (c)), so the primes of `S_small` divide
@@ -1678,7 +1691,9 @@ multiplied by `N⁴`), and (c) up to `2 log|N|` in the mean logarithm; the defin
 characterisation by (f) alone would need a primitivity condition.
 
 *KNOWN* in kind (Shimura; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; Serre's construction), *NEW*
-(the family with (b)–(f)). *Needs:* FrobeniusRestrictedRieszSums §0.3,
+(the family with (b)–(f)). [FormalProof] establishes the family, with (b)–(f), for the hosts of FrobeniusRestrictedRieszSums
+§0.4 (`q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, layer `n ≥ 2`); for the other hosts of Layer 2 (a prime `d ≡ 7 (mod 8)`) the
+theorem is this roadmap's wider form, which rests on the steps that the route lists as not given. *Needs:* FrobeniusRestrictedRieszSums §0.3,
 2.1, 2.2, 2.3, 2.6, 3.1a, 3.1b, 3.1c; AbelianSchemesAndArithmeticModuli A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.2 The step of the chain
@@ -1884,7 +1899,10 @@ makes the reading of a moved lattice vector the complex conjugate of a section, 
 with the moved lift, and reads the moved Heisenberg translates; the identification of that section, for an element supported at a
 single split place, with the image under the isogeny operator of 3.1d (b) times the scalar of (i) is not given here.
 
-*KNOWN* in kind (Shimura; Kashiwara–Vergne; Howe), *NEW* in this form. *Needs:* 2.2, 2.2a, 2.4, 2.5, 2.9, 3.1a, 3.1b, 3.1d, 3.2;
+*KNOWN* in kind (Shimura; Kashiwara–Vergne; Howe), *NEW* in this form. [FormalProof] establishes (i)–(iv) for the hosts of
+FrobeniusRestrictedRieszSums §0.4; for the other hosts of Layer 2 (a prime `d ≡ 7 (mod 8)`) (i)–(v) are this roadmap's
+wider form, which rests on the identification of the moved lattice vector that the route does not give and on 3.1d.
+*Needs:* 2.2, 2.2a, 2.4, 2.5, 2.9, 3.1a, 3.1b, 3.1d, 3.2;
 ThetaLiftsForDefiniteUnitaryGroups §§0.1, 0.2, 0.3, 1.2, 1.7, 1.8, 2.2, 2.5; ThetaKernelsForUnitaryDualPairs §4.4a;
 AdelicAlgebraicGroups §4.2.
 
@@ -2341,5 +2359,5 @@ The roadmaps of the family named under Downstream consumers above use these stat
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The mathematics of this roadmap follows it; it is the reference of every target marked *NEW*.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - P. L. Chebyshev, *Mémoire sur les nombres premiers* (1852). F. Mertens, *Ein Beitrag zur analytischen Zahlentheorie* (1874). H. Davenport, *Multiplicative Number Theory*, ch. 19–20 (de la Vallée Poussin, Landau, Page). Yu. V. Linnik, *On the least prime in an arithmetic progression* (1944): 2.7.
-- E. Hecke; A. Weil, *On a certain type of characters of the idèle-class group* (1955): 2.4. Ph. Furtwängler (principal ideal theorem); B. Gross, *Arithmetic on elliptic curves with complex multiplication*, LNM 776 (1980): 2.6.
-- B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999): 3.1. M. Kashiwara and M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*, Invent. Math. 44 (1978); R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989): 3.3, 3.4. D. Mumford, *Abelian Varieties* (the theorem of the cube); K. Weierstrass (the sigma function); G. Shimura (algebraicity of CM theta values): 3.1a. A. Capelli (the Capelli identity): 3.9. M. Kneser (strong approximation): 3.3.
+- E. Hecke; A. Weil, *On a certain type of characters of the idèle-class group of an algebraic number-field*, Proceedings of the International Symposium on Algebraic Number Theory, Tokyo–Nikko 1955, pp. 1–7: 2.4. Ph. Furtwängler (principal ideal theorem); B. Gross, *Arithmetic on elliptic curves with complex multiplication*, LNM 776 (1980): 2.6.
+- B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: 3.1. M. Kashiwara and M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*, Invent. Math. 44 (1978), 1–47; R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989), 535–552: 3.3, 3.4. D. Mumford, *Abelian Varieties* (1970), §6 (the theorem of the cube): 3.1c, 3.1d. K. Weierstrass (the sigma function): 3.1c. G. Shimura, *Theta functions with complex multiplication*, Duke Math. J. 43 (1976), 673–696 (algebraicity of CM theta values): 3.1a, 3.1d, 3.3. A. Capelli (the Capelli identity): 3.9. M. Kneser (strong approximation): 3.3.
