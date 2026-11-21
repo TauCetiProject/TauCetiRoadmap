@@ -8,12 +8,15 @@ headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, to
 one definition they need, which has a real body. Every headline theorem of the README is statable
 at the pins and is stated here; the README's API lists and Checks are not restated.
 
-Matrices are real square matrices `A : Matrix n n ℝ` on a finite index type. Irreducibility is
-Mathlib's `Matrix.IsIrreducible` (nonnegative entries and a strongly connected quiver of positive
-entries, every pair of indices, equal or not, joined by a path of positive length) and primitivity
-is Mathlib's `Matrix.IsPrimitive`. Complex eigenvalues are those of `A.map (↑) : Matrix n n ℂ`,
-as in Tau Ceti's Perron–Frobenius files, and a Perron root `r` is given, as there, by an
-eigenvector `v` with strictly positive entries and `A *ᵥ v = r • v`.
+Matrices are real square matrices `A : Matrix n n ℝ` on a finite index type. The period is
+defined for every such matrix, through the positive diagonal entries of its powers; for an
+entrywise nonnegative matrix it is the gcd of the closed-walk lengths in the quiver of positive
+entries. Irreducibility is Mathlib's `Matrix.IsIrreducible` (nonnegative entries and a strongly
+connected quiver of positive entries, every pair of indices, equal or not, joined by a path of
+positive length) and primitivity is Mathlib's `Matrix.IsPrimitive`. Complex eigenvalues are
+those of `A.map (↑) : Matrix n n ℂ`, as in Tau Ceti's Perron–Frobenius files, and a Perron root
+`r` is given, as there, by an eigenvector `v` with strictly positive entries and
+`A *ᵥ v = r • v`.
 -/
 
 noncomputable section
@@ -26,9 +29,9 @@ variable {n : Type*} [Fintype n] [DecidableEq n]
 
 /-! ## Layer 1: The period and the cyclic classes -/
 
-/-- 1.1 The period of the index `i` of a real square matrix: the gcd of the lengths `k ≥ 1` of
-the closed walks at `i` in the quiver of positive entries, that is of the `k ≥ 1` with
-`0 < (A ^ k) i i`. It is `0` when there is no such `k`. -/
+/-- 1.1 The period of the index `i` of a real square matrix: the gcd of the `k ≥ 1` with
+`0 < (A ^ k) i i`, and `0` when there is no such `k`. For an entrywise nonnegative `A` this is the
+gcd of the lengths of the closed walks at `i` in the quiver of positive entries. -/
 def period (A : Matrix n n ℝ) (i : n) : ℕ :=
   Nat.setGcd {k : ℕ | 0 < k ∧ 0 < (A ^ k) i i}
 

@@ -47,8 +47,8 @@ Tau Ceti. Layer 3 specializes both to adjacency matrices of graphs.
   with an arrow `i ⟶ j` when `0 < A i j`, joins every ordered pair of indices, equal or not, by a
   path of positive length. Primitivity is Mathlib's `Matrix.IsPrimitive`: nonnegative entries and
   `0 < (A ^ k) i j` for all `i, j` for some `k > 0`. A closed walk of length `k` at `i` is a path
-  from `i` to `i` of length `k` in that quiver; by Mathlib's
-  `Matrix.pow_apply_pos_iff_nonempty_path` one exists exactly when `0 < (A ^ k) i i`.
+  from `i` to `i` of length `k` in that quiver; for a nonnegative `A`, by Mathlib's
+  `Matrix.pow_apply_pos_iff_nonempty_path`, one exists exactly when `0 < (A ^ k) i i`.
 - **Degenerate index types.** On the empty index type every matrix is irreducible and primitive,
   vacuously, and no statement with a chosen index applies. The `1 × 1` zero matrix is not
   irreducible, since there is no path of positive length from the index to itself; every `1 × 1`
@@ -77,8 +77,9 @@ Tau Ceti. Layer 3 specializes both to adjacency matrices of graphs.
 ### 1.1 The period of an index
 
 Define `period`: `period A i` is the gcd (Mathlib's `Nat.setGcd`) of the set of `k ≥ 1` with
-`0 < (A ^ k) i i`, that is of the lengths of the closed walks at `i`. It is `0` when there is no
-closed walk at `i`, and its definition does not assume irreducibility.
+`0 < (A ^ k) i i`; for a nonnegative `A` these are the lengths of the closed walks at `i`. It is
+`0` when there is no such `k`, and its definition assumes neither nonnegativity nor
+irreducibility.
 
 Prove `period_eq_period_of_isIrreducible`: for an irreducible `A`, `period A i = period A j` for
 all indices `i`, `j` (Brouwer–Haemers, §2.2, p. 30, where it is stated without proof).
@@ -93,11 +94,7 @@ for the powers of a nonnegative matrix.
 
 For a nonnegative `A`, `period A i` is the period of the vertex `i` of the quiver
 `Matrix.toQuiver A` (the gcd of the lengths of its closed paths at `i`), by
-`Matrix.pow_apply_pos_iff_nonempty_path`. Mathlib pull request 39913 proposes this quiver period,
-its independence of the vertex in a strongly connected quiver and the existence of a cyclic
-partition (`Mathlib/Combinatorics/Quiver/Cyclic.lean`); it is not in the pinned Mathlib. The
-statements here are made on the matrix, so that adopting that file replaces 1.1 and the existence
-part of 1.3 by its statements transported along this identification.
+`Matrix.pow_apply_pos_iff_nonempty_path`.
 
 **Checks.**
 - The matrix `[[0, 1], [1, 0]]` has closed walks of every even length and of no odd length at both
@@ -110,6 +107,9 @@ part of 1.3 by its statements transported along this identification.
   second, which has no closed walk. The block matrix `[[1, 0, 0], [0, 0, 1], [0, 1, 0]]` has
   periods 1, 2, 2, all positive.
 - The `1 × 1` zero matrix has period 0, and it is not irreducible.
+- Nonnegativity is needed for the description by closed walks: for the `1 × 1` matrix `A = (−1)`,
+  `Matrix.toQuiver A` has no arrow, so there is no closed walk, but `(A ^ k) 0 0 = (−1) ^ k` is
+  positive exactly for even `k`, and `period A 0 = Nat.setGcd {2, 4, 6, …} = 2`.
 
 *Needs:* Mathlib `Nat.setGcd`, `Nat.dvd_setGcd_iff`, `Nat.setGcd_dvd_of_mem`,
 `Matrix.IsIrreducible`, `Matrix.isIrreducible_iff_exists_pow_pos`. (Proved here.)
@@ -178,8 +178,9 @@ around a closed walk.
   and `{1, 3}`, and the only other one is `(1, 0, 1, 0)`. There is no labelling by `ZMod 3` or by
   `ZMod 4`, although 4 is the length of a cycle, since the cycle of length 2 has a length not
   divisible by them.
-- For a primitive matrix the unique labelling by `ZMod 1` is the constant one, and the only class
-  is the whole index set.
+- A primitive matrix, of period 1, has no cyclic labelling by `ZMod 2`, as `dvd_period_iff`
+  requires since `2 ∤ 1`: for `[[1, 1], [1, 0]]` the loop `0 < A 0 0` would force
+  `c 0 = c 0 + 1` in `ZMod 2`.
 - The matrix of the directed 3-cycle has the labellings `j ↦ j + a` on `ZMod 3`, three in all.
 - Uniqueness up to translation needs irreducibility: the matrix of two disjoint 2-cycles,
   `0 ⇄ 1` and `2 ⇄ 3`, has period 2 at every index and the labellings `(0, 1, 0, 1)` and
@@ -503,9 +504,6 @@ Already in the libraries and therefore not targets:
   object: it is defined for a nonnegative real matrix, whose entries need not be transition
   probabilities, through the powers of the matrix.
 
-The quiver period proposed in Mathlib pull request 39913, described in 1.1 and also named by
-MarkovChainsAndRenewal, is not in the pinned Mathlib; this roadmap does not depend on it.
-
 Left to other roadmaps:
 
 - ClassicalErgodicTheory, §8.6 item 1, states the primitive case of the Perron–Frobenius
@@ -589,8 +587,8 @@ form of a reducible matrix; the convergence of powers; Markov kernels.
 
 ## References
 
-- Andries E. Brouwer and Willem H. Haemers, *Spectra of Graphs*, the authors' text posted by the
-  first author (`homepages.cwi.nl/~aeb/math/ipm/ipm.pdf`, file of 4 May 2025), published as a book
+- Andries E. Brouwer and Willem H. Haemers, *Spectra of Graphs*, the authors' text on the first
+  author's page (`homepages.cwi.nl/~aeb/math/ipm/ipm.pdf`, file of 4 May 2025), published as a book
   by Springer in the series Universitext. Locators are to the numbered results and printed page
   numbers of that file: §2.2 and Theorem 2.2.1 with its proof, pp. 29–31; §3.4 and
   Proposition 3.4.1, p. 46.
