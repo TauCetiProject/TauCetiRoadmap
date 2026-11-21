@@ -79,7 +79,8 @@ variable {K : Type*} [Field K]
 /-- The Bessel-type character `ϕ_i` of 2.7 (b), for `0 ≤ i`, a block of size `k` and `n`, in `0`-based
 indices: `g ↦ ψ₀(Σ g_{ab})` over the pairs `(a, b)` of the block `{i, …, i + k − 1}` with `b = a + 1`, of the chain
 `0 → 1 → ⋯ → i − 1 → i + k → i + k + 1 → ⋯ → n − 1` and of no other position. On the subgroup `H_i` of 2.7 (b) it is a
-character. -/
+character.
+[FormalProof], `Formalism/LocalToGlobal/Divisibility/DefGroup.lean` (`Formalism.L2.DIV.symEdge`). -/
 noncomputable def besselCharacter (ψ₀ : AddChar K ℂ) (n k i : ℕ) (g : GL (Fin n) K) : ℂ :=
   ψ₀ (∑ a : Fin n, ∑ b : Fin n,
     if ((b : ℕ) = a + 1 ∧ i ≤ (a : ℕ) ∧ (b : ℕ) < i + k) ∨ ((b : ℕ) = a + 1 ∧ (b : ℕ) < i) ∨
@@ -88,7 +89,9 @@ noncomputable def besselCharacter (ψ₀ : AddChar K ℂ) (n k i : ℕ) (g : GL 
 
 /-- The character `ψ_{(j, n − j)}` of the upper unitriangular group defining the degenerate Gelfand–Graev
 representation `Γ_{(j, n − j)}` of 2.6 (c), in `0`-based indices: `g ↦ ψ₀(Σ g_{a, a+1})` over the `a` with `a + 1 ≠ j`.
-For `j = 0` it is the standard regular character `ψ` of the Conventions. -/
+For `j = 0` it is the standard regular character `ψ` of the Conventions.
+[FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/SplitDoublingNBlock.lean`
+(`GlobalTheory.FinGL.cutEdge`). -/
 noncomputable def degenerateCharacter (ψ₀ : AddChar K ℂ) (n j : ℕ) (g : GL (Fin n) K) : ℂ :=
   ψ₀ (∑ a : Fin n, ∑ b : Fin n,
     if (b : ℕ) = a + 1 ∧ (b : ℕ) ≠ j then (g : Matrix (Fin n) (Fin n) K) a b else 0)
@@ -99,7 +102,13 @@ column `i + k` (`0`-based) vanishes in the rows `i, …, i + k − 1`. For every
 `⟨χ|_{H_i}, ϕ_i⟩ = ⟨χ|_U, ψ_{(k, n−k)}⟩ + Σ_{j<k} (q^{k−j} − q^{k−j−1})·⟨χ|_U, ψ_{(j, n−j)}⟩`, the pairings being
 `⟨f, φ⟩_H = |H|⁻¹ Σ_{h ∈ H} f(h) φ(h⁻¹)`; by Frobenius reciprocity this is
 `Ind_{H_i}^{GL_n(K)} ϕ_i ≅ Γ_{(k,n−k)} ⊕ ⊕_{j=1}^{k−1} (q^{k−j} − q^{k−j−1})·Γ_{(j,n−j)} ⊕ (q^k − q^{k−1})·Γ_n`. There is no
-hypothesis on `q`. -/
+hypothesis on `q`.
+Follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymmetricPositionCharMultiplicityEqSumDegenerateStatement.lean`
+(`GlobalTheory.T.symmetricPositionCharMultiplicity_eq_sum_degenerateWhittaker`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymmetricPositionCharMultiplicitySuccEq.lean`
+(`GlobalTheory.FinGL.RootExchange.nPos_succ`), `Formalism/LocalToGlobal/Divisibility/DefGroup.lean`
+(`Formalism.L2.DIV.symEdge`). -/
 theorem bessel_pairing_eq [Finite K] (n k i : ℕ) (hk : 1 ≤ k) (hi : i + k < n) (ψ₀ : AddChar K ℂ)
     (hψ₀ : ψ₀ ≠ 1) (χ : GL (Fin n) K → ℂ) (hχ : ∀ g h : GL (Fin n) K, χ (h * g * h⁻¹) = χ g) :
     (Nat.card {h : GL (Fin n) K // h ∈ TauCeti.upperUnitriangularGroup (Fin n) K ∧
@@ -121,7 +130,9 @@ theorem bessel_pairing_eq [Finite K] (n k i : ℕ) (hk : 1 ≤ k) (hi : i + k < 
 /-- A representation of `GL_n(K)` is cuspidal when, for every `0 < k < n`, it has no nonzero vector fixed by the
 unipotent radical of the standard parabolic subgroup of type `(k, n − k)`, the matrices `1 + X` with `X` supported on
 the rows `< k` and the columns `≥ k` (`0`-based). Every proper parabolic subgroup lies in a maximal one, and every
-maximal one is conjugate to one of these, so this is the cuspidality of 1.1. -/
+maximal one is conjugate to one of these, so this is the cuspidality of 1.1.
+[FormalProof], `Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/BlockTriangularOfSubOne.lean`
+(`GlobalTheory.FiniteGL.IsCuspidal`). -/
 def IsCuspidal {n : ℕ} {V : Type*} [AddCommGroup V] [Module ℂ V]
     (ρ : Representation ℂ (GL (Fin n) K) V) : Prop :=
   ∀ k : ℕ, 0 < k → k < n → ∀ v : V,
@@ -154,7 +165,12 @@ def HasCuspidalValues {n : ℕ} {L : Type*} [Field L] [Algebra K L] (θ : Lˣ �
 whose `n` Frobenius conjugates `θ, θ^q, …, θ^{q^{n−1}}` are distinct. There is an irreducible cuspidal complex
 representation `σ_θ` of `GL_n(K)` of dimension `(q − 1)(q² − 1)⋯(q^{n−1} − 1)` whose character has the values of
 `HasCuspidalValues`; at an element whose characteristic polynomial is irreducible with root `z ∈ L` the value is
-`(−1)^{n−1}(θ(z) + θ(z^q) + ⋯ + θ(z^{q^{n−1}}))`. -/
+`(−1)^{n−1}(θ(z) + θ(z^q) + ⋯ + θ(z^{q^{n−1}}))`.
+For `K` a prime field and the values at elements with irreducible characteristic polynomial: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsCuspidalCharacterOfRegularCharacterGLn.lean`
+(`GlobalTheory.GreenRegular.exists_cusp_of_regular`),
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GreenRegularCharacters.lean`
+(`GlobalTheory.Published.IsRegularChar`). -/
 theorem exists_cuspidal_of_regular [Finite K] {n : ℕ} (hn : 0 < n) (L : Type*) [Field L] [Finite L] [Algebra K L]
     (hL : Module.finrank K L = n) (θ : Lˣ →* ℂˣ)
     (hθ : Function.Injective fun j : Fin n => θ ^ Nat.card K ^ (j : ℕ)) :
@@ -166,7 +182,10 @@ theorem exists_cuspidal_of_regular [Finite K] {n : ℕ} (hn : 0 < n) (L : Type*)
 /-- **Every cuspidal character is some `σ_θ`** (5.5). Let `L` be an extension of `K` of degree `n ≥ 1`. The character of
 every irreducible cuspidal complex representation of `GL_n(K)` has the values of `HasCuspidalValues` for a character
 `θ` of `Lˣ` whose `n` Frobenius conjugates are distinct; as these values determine a class function on `GL_n(K)`, the
-representation is `σ_θ`. -/
+representation is `σ_θ`.
+For `K` a prime field and the values at elements with irreducible characteristic polynomial: [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/LabelDatum.lean` (`GlobalTheory.GLq.Green`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SumRangeEqRoots.lean` (`GlobalTheory.GreenBridge.green_of_regular`). -/
 theorem exists_regular_of_isCuspidal [Finite K] {n : ℕ} (hn : 0 < n) (L : Type*) [Field L] [Finite L]
     [Algebra K L]
     (hL : Module.finrank K L = n) (V : FDRep ℂ (GL (Fin n) K)) (hV : Representation.IsIrreducible V.ρ)

@@ -498,7 +498,11 @@ Then `f ↦ f∘ι` maps `H_ψ` to itself (`(f∘ι)(ugu') = ψ(u')f(ι(g))ψ(u)
 supported on `U₀^F n U₀^F` and takes the value `f_n(ι(n)) = 1` at `n`. So `f ↦ f∘ι` is the identity, and
 `f₁ ∗ f₂ = (f₁ ∗ f₂)∘ι = (f₂∘ι) ∗ (f₁∘ι) = f₂ ∗ f₁`. That `ι` preserves `ψ` and maps each supporting double coset to itself
 is not enough: `f_n∘ι = f_n(ι(n))·f_n` with `f_n(ι(n)) = ψ(u)ψ(u')` for `ι(n) = unu'`, which can be `−1` (Checks).
-*`G = GL_n`*, `ψ` the standard regular character (every regular character is `T^F`-conjugate to it, 2.1). Every
+*`G = GL_n`*, `ψ` the standard regular character (every regular character is `T^F`-conjugate to it, 2.1);
+this case is in [FormalProof], `Formalism/PadicSubsetSums/StableGradedCounts/MemBesselSetZeroIffUpperTriangular.lean`
+(`Formalism.IrreducibleCountingLemmas.GaloisIrreducibility.gelfand_graev_multiplicity_one`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/WhittakerSpaceDimFiniteGLLeOne.lean`
+(`GlobalTheory.FinGL.GGFree.whDim_le_one`). Every
 `U^F`-double coset contains exactly one monomial matrix `n` (Bruhat decomposition, 0.1). Write `n e_j = t_j e_{σ(j)}` and
 `τ = σ⁻¹`; then, for `x_{ab}(c) = 1 + cE_{ab}`, `n⁻¹x_{ab}(c)n = x_{τ(a)τ(b)}(c·t_{τ(b)}/t_{τ(a)})`, and `U^F ∩ nU^Fn⁻¹` is the product of the root subgroups
 `x_{ab}`, `a < b`, with `τ(a) < τ(b)`. A biequivariant function is supported on `U^F n U^F` iff `ψ(u) = ψ(n⁻¹un)` on this
@@ -589,7 +593,10 @@ mirabolic restriction, by (a) it says that `π^{(k)} = 0` for `k < n` and `π^{(
 cuspidal, let `(∏_{i≤r} GL_{n_i}, ⊠_i σ_i)`, `r ≥ 2`, be its cuspidal support (1.2): by adjunction and 1.0,
 `*R_{GL_{n−n_r}×GL_{n_r}}^{GL_n}(π)` has a constituent `τ ⊠ σ_r`, and `σ_r`, cuspidal of smaller rank, is
 generic by induction on `n`, so `π^{(n_r)} ≠ 0` with `n_r < n`. The degree count:
-`|P_n(𝔽_q)|/|U^F| = ψ_{n−1}(q)`. (c) A unipotent element fixes a nonzero linear form, hence is conjugate into
+`|P_n(𝔽_q)|/|U^F| = ψ_{n−1}(q)`.
+The degree bound for generic representations is in [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/GGMirabolic.lean` (`Formalism.L2.SG.GGMirabolic.MirabolicBound`).
+(c) A unipotent element fixes a nonzero linear form, hence is conjugate into
 `P_n`, and by (b) `π|_{P_n} = ρ_n` with `ρ_k = (Φ⁺)^{k−1}Ψ⁺(1)` on `P_k`. Claim, by induction on `k`: the value
 of `ρ_k` at a unipotent `u ∈ P_k` with `ℓ` Jordan blocks (in `GL_k`) is `f_k(ℓ) = (−1)^{k−ℓ}∏_{i=1}^{ℓ−1}(q^i − 1)`;
 `ρ₁ = 1`. Write `u = (a, v) ∈ GL_{k−1} ⋉ V_k`. Since `ρ_k = Φ⁺(ρ_{k−1})`, the induced-character formula gives
@@ -745,7 +752,13 @@ independently of `i`. Equivalently, for every class function `χ` of `G_n`,
 `⟨π, Γ_{(j,n−j)}⟩ = 0` for `1 ≤ j ≤ k` (for instance when `π` is cuspidal).
 There is no hypothesis on `q` (`q = 2` and non-prime `q` included). *Status.* (b) is the statement of [FormalProof], which
 proves the equality of multiplicities for every finite-dimensional representation, at `i = 0` and from each position to the
-next. For `i = 0`, `H₀` is the group of unitriangular matrices
+next. (b) follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymmetricPositionCharMultiplicityEqSumDegenerateStatement.lean`
+(`GlobalTheory.T.symmetricPositionCharMultiplicity_eq_sum_degenerateWhittaker`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymmetricPositionCharMultiplicitySuccEq.lean`
+(`GlobalTheory.FinGL.RootExchange.nPos_succ`), `Formalism/LocalToGlobal/Divisibility/DefGroup.lean`
+(`Formalism.L2.DIV.symEdge`).
+For `i = 0`, `H₀` is the group of unitriangular matrices
 whose `(k+1)`-st column vanishes above the diagonal and `ϕ₀ = ψ|_{H₀}`; for `n = k + 2s + 1` and `i = s` the block sits in the
 middle of the chain. The position `i = n − k` is excluded: there the group is `U_n` and the representation is `Γ_{(n−k,k)}`.
 The character form of (b) is stated as `bessel_pairing_eq`, with `besselCharacter` for `ϕ_i` and
@@ -805,6 +818,18 @@ The bounds concern the whole Harish-Chandra induced representation `R_L^G σ`, n
 
 *Status.* (a), (b) and the first form of (c) are the statements of [FormalProof], for every finite field and every position
 `0 ≤ i ≤ n − k − 1`; the bound `q^k(1 + (2n − 1)/q)` is stated there, with the lower bound, under `n ≤ q`.
+(a): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/DegenerateWhittakerDimParabolicInductionCuspidalStatement.lean`
+(`GlobalTheory.T.degenerateWhittakerDim_parabolicInduction_cuspidal`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymmetricPositionCharMultiplicityParabolicInduct.lean`
+(`GlobalTheory.FinGL.nPos_parInd`);
+(b) follows from [FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/MultSharpOfPlaceBound.lean`
+(`GlobalTheory.FinGL.MultSharpPf.PlaceBound`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SumNumBlockSetsMulGammaTwoSidedBounds.lean`
+(`GlobalTheory.FinGL.sum_numBlockSets_mul_gamma_two_sided_bounds`);
+the product bounds of (c) follow from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/MultSharpOfPlaceBound.lean`
+(`GlobalTheory.FinGL.MultSharpPf.levelMult_ofLocal`).
 
 *Route.* (a) By the Mackey formula (ReductiveGroups 7d) and cuspidality of `σ`, `*R_{M}^G R_L^G σ` for `M = GL_j × GL_{n−j}` is the
 sum, over the subsets `I` with `Σ_{l∈I} d_l = j` (the double cosets `W_M\W/W_L` with `wLw⁻¹ ⊂ M`), of
@@ -1968,7 +1993,11 @@ so these terms are orthogonal to `τ` (1.2). The function `∏_{i<l} b′_m(F^i(
 eigenvalue sum of `θ̃^{q^j}` on `GL_{m/l}(k′)`. Expand over the maps `j ↦ i(j)`: a map missing some `i` contributes a factor
 `⟨1, σ_{θ^{q^i}}⟩ = 0`; for a bijection the factor at `i = i(j)` is `⟨b′_{θ̃^{q^j}}, σ_{θ^{q^i}}⟩ = (−1)^{m/l−1}#{a < m/l : θ^{q^{j+la}} = θ^{q^i}}`
 (4.5(d) on the Coxeter torus of `GL_{m/l}(k′)`), which is `(−1)^{m/l−1}δ_{ij}` as `θ` is regular of degree `m` and `i, j < l`. Only the
-identity contributes, and `⟨X|, τ⟩ = ±1`. (e) By (c), `Sh_l χ = R_M^F(⊠_i Sh_l χ_{σ_{θ_i}})`. For each `i` let `τ_i` be the
+identity contributes, and `⟨X|, τ⟩ = ±1`. (e) is in [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FormalGermBaseChange.lean`
+(`GlobalTheory.Shin.DescentAll.kills_liftAll`),
+`Development/AbelianVarietyTheory/Definitions/Divisors/OrthSubrepresentation.lean` (`GlobalTheory.Shin.Kills`).
+By (c), `Sh_l χ = R_M^F(⊠_i Sh_l χ_{σ_{θ_i}})`. For each `i` let `τ_i` be the
 representation of (d) for `θ_i`. `Sh_l χ_{σ_{θ_i}} = ±tr(τ_i(·)∘A_i)` satisfies the hypothesis of the second part of (c): for an
 `F`-class function `φ` the operator `Σ_δ conj(φ(δ))ρ(δ)` lies in `Hom(ρ∘F, ρ)`, so it vanishes unless `ρ` is `F`-stable, and then it
 is a multiple of `B⁻¹` (`B : ρ → ρ∘F` with `B^l = 1`) with coefficient proportional to the pairing on the coset of `φ` with the
