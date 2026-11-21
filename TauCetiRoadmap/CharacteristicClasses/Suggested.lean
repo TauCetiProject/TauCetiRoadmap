@@ -1,231 +1,287 @@
-import Mathlib.Algebra.Lie.Cochain
-import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
-import Mathlib.Topology.Algebra.Group.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Cup
-import TauCeti.AlgebraicTopology.Cohomology.Relative
-import Mathlib.NumberTheory.Bernoulli
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.RingTheory.PowerSeries.Exp
-import Mathlib.Data.Finset.NatAntidiagonal
-import Mathlib.RingTheory.MvPolynomial.Symmetric.FundamentalTheorem
-import Mathlib.Topology.CWComplex.Classical.Basic
-import Mathlib.Analysis.InnerProductSpace.PiL2
+module
+
+public import Mathlib
+public import TauCeti.Topology.VectorBundle.Orientation.ThomClass
+public import TauCeti.Analysis.Normed.Module.Ball.IntUnitsAction
+public import TauCeti.AlgebraicTopology.Cohomology.FundamentalClass
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Chart
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Linear
+public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+public import TauCeti.Geometry.Manifold.Orientation.Basic
 
 /-!
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These forms use the existing singular-cohomology carrier and formal
-power-series API. The bundle characteristic classes, Thom and universal principal
-objects are specified there; no empty proposition field replaces their construction.
-`Sorry` bodies below denote mathematical targets, not implemented characteristic classes.
+# Characteristic classes and Chern–Weil theory: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the
+roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each
+with `sorry`.
+
+The pinned Tau Ceti already carries the Thom pair `TauCeti.thomPair`, the
+Thom-class predicate `TauCeti.IsThomClass`, the Euler class
+`TauCeti.eulerClass` with its naturality and its vanishing on a bundle with a
+nowhere-zero section, bundle orientations `TauCeti.VectorBundleOrientation`,
+the orientation double cover and its sign local system
+`TauCeti.VectorBundleOrientationCover.signLocalSystem`, the existence of a
+Thom class of an oriented bundle over a compact base
+(`TauCeti.VectorBundleOrientation.exists_isThomClass`), and the vanishing of
+the relative cohomology of the Thom pair below the rank together with the
+unique gluing of compatible top-degree classes over an arbitrary trivializing
+cover (`TauCeti.existsUnique_singularCohomology_thomPairOver_iUnion`), over an
+arbitrary base. Stated here, on those carriers, are the headline of C2.1,
+existence and uniqueness of the Thom class of an oriented real vector bundle
+over an arbitrary base, prescribed on every fibre by the orientation, and the
+headline of C2.2, the Euler class as the primary obstruction: over a CW
+complex of dimension at most the rank `n ≥ 2`, an integral Euler class
+vanishes exactly when a nowhere-zero section exists.
+
+Stated also is the headline of C2.3, `⟨e(TM), [M]⟩ = χ(M)` for a closed oriented
+manifold of positive dimension, on the pinned Euler characteristic `TauCeti.eulerChar` of a
+space of finite CW type, the evaluation `TauCeti.HomologicalOrientation.evalFundamentalClass`
+on the fundamental class, and the pinned local orientations
+`TauCeti.localOrientationOfManifoldOrientation` that a manifold orientation selects through
+its oriented charts; the Thom class is normalized on every fibre by the pinned generator
+`Orientation.localOrientation` of the tangent orientation. Finite CW type is a hypothesis,
+since the pins have no such instance for compact manifolds. The self-map form
+`⟨f* e(TM), [M]⟩ = deg(f) χ(M)` of C2.3 is not a separate headline: the pins define no degree
+of a self-map, and for an integer `d` with `f_*[M] = d • [M]` (the pinned
+`TauCeti.HomologicalOrientation.mapFundamentalClass` and
+`TauCeti.HomologicalOrientation.fundamentalClass`) it follows from
+this theorem, the pinned
+`TauCeti.HomologicalOrientation.evalFundamentalClass_id_singularCohomologyMap`, which gives
+`⟨f* c, [M]⟩ = ⟨c, f_*[M]⟩`, and linearity of the Kronecker pairing.
+
+Stated also is the integral headline of C2.4a, Thom's representation of homology classes in
+codimensions one and two: on a compact oriented boundaryless smooth manifold of dimension
+`m + c`, `c ∈ {1, 2}`, every class of `H_m(M; ℤ)` is `i_*[N]` for a compact oriented smooth
+`m`-manifold `N` and a smooth embedding `i : N → M` (Mathlib's `Manifold.IsSmoothEmbedding`),
+with `i_*[N]` the pinned `TauCeti.HomologicalOrientation.mapFundamentalClass`.
+
+Stated as well is the headline of C7.3a, Whitney's theorem that `ℝP^(2^k)`
+admits no smooth immersion into `ℝ^(2^(k+1)-2)`. Here `ℝPᵐ` is the orbit space
+of the antipodal action of `ℤˣ` on the unit sphere `Sᵐ` (the pinned action of
+`TauCeti.Analysis.Normed.Module.Ball.IntUnitsAction`, which is free), with
+Mathlib's quotient charts `MulAction.instChartedSpaceQuotient`. The smooth-action
+instance `ContMDiffConstSMul (𝓡 m) ω ℤˣ Sᵐ` is a target of C7.3a, proved from
+`contMDiff_neg_sphere` for `g = -1` and `contMDiff_id` for `g = 1`; with it the
+pinned `TauCeti.instIsManifoldQuotient` makes these charts an analytic, hence
+smooth, atlas, and the pinned `Manifold.IsImmersion.id` applies. Immersions are
+Mathlib's `Manifold.IsImmersion`, whose charts range over `IsManifold.maximalAtlas`,
+which is defined without that instance.
+
+Not statable at the pins, and therefore not stated here:
+* the mod 2 form of C2.4a, that every class of `H_(m-1)(M; 𝔽₂)` of a compact, possibly
+  non-orientable, smooth `m`-manifold is `i_*[N]` for an embedded, possibly non-orientable,
+  `N`: the pinned fundamental class `TauCeti.HomologicalOrientation.fundamentalClass` is
+  integral and needs an orientation, so a non-orientable `N` has no fundamental class at the
+  pins;
+* the Thom isomorphism `H^k(X;L) ≃ H^(k+n)(E,E∖0;π*L⊗o(E))` (C2.1): there is no
+  relative cup product `H^k(E) ⊗ H^n(E,E₀) → H^(k+n)(E,E₀)` at the pins, so
+  the Thom map `a ↦ π*a ∪ U_E` has no carrier;
+* the Gysin sequence `⋯ → Hᵏ(X) → Hᵏ⁺ⁿ(X) → Hᵏ⁺ⁿ(E₀) → Hᵏ⁺¹(X) → ⋯` (C2.2): its
+  third map is the connecting map of the Thom pair followed by the inverse of
+  the Thom isomorphism, which has no carrier for the reason just given (the
+  pinned absolute cup `TopCat.singularCup` gives the first map `a ↦ a ∪ e`,
+  but not the third);
+* the universal rings `H*(BU(r);ℤ)=ℤ[c₁,…,c_r]`, `H*(BO(n);𝔽₂)` and the
+  BSO rings (C3.4, C3.6): the pins have the finite Grassmannians
+  `TauCeti.finiteGrassmannian` with their tautological bundles and
+  stabilization maps, the finite oriented Grassmannians
+  `TauCeti.finiteOrientedGrassmannian`, and the discrete-group Milnor join
+  `TauCeti.classifyingSpace G`, but no infinite Grassmannian, no classifying
+  space of a topological group, no universal bundle, and no Chern or
+  Stiefel–Whitney class;
+* Borel's theorem `H*(BG;ℚ)≃H*(BT;ℚ)^W` and the universal Chern–Weil
+  isomorphism (C5.2): no classifying space and no Chern–Weil map exist at
+  the pins;
+* the singular/de Rham Chern–Weil comparison (C4.2): the pins have de Rham
+  cohomology `TauCeti.deRhamCohomology` (`Geometry/Manifold/DeRham/Basic.lean`)
+  and Tau Ceti's curvature operator `CovariantDerivative.curvatureOperator`
+  (`Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Basic.lean`) of
+  a Mathlib `CovariantDerivative`, but no Chern–Weil form `P(F)` of an invariant polynomial on the curvature,
+  no de Rham/singular comparison map, and no Chern or Pontryagin class in
+  singular cohomology to compare with;
+* the exterior Hopf isomorphism `H*(K;ℚ) ≅ Λ_ℚ(z₁,…,z_r)`, `|zᵢ| = 2dᵢ − 1`,
+  of a compact connected Lie group (C5a.5): the pinned cup `TopCat.singularCup`
+  is a family of bilinear maps `H^p × H^q → H^(p+q)`, with no graded
+  cohomology algebra `⨁ₖ Hᵏ(K;ℚ)` to compare with an exterior algebra, and
+  spelling out exterior monomials through iterated degreewise cups would be
+  an ad hoc encoding;
+* the comparison `H*_dR(K) ≅ H*(CE(𝔤;ℝ))` of the de Rham cohomology ring of a compact
+  connected Lie group with the cohomology of its Chevalley–Eilenberg complex (C5a.1): the
+  pinned Lie-algebra cochains of Mathlib's `LieModule.Cohomology` and of Tau Ceti's
+  `Algebra/Lie/Cochain.lean` stop at 2-cochains, with coboundaries `d₁₂` and `d₂₃`, so there is
+  no Chevalley–Eilenberg complex in all degrees;
+* the universal transgression `d_(2dᵢ)(zᵢ) = uᵢ` in the Serre spectral sequence of
+  `K → EK → BK` (C5a.5): the pins have no classifying space of a Lie group of positive
+  dimension (`TauCeti.classifyingSpace G` is the join of `G` as a discrete group) and no
+  cohomological Serre spectral sequence (the pinned
+  `TauCeti.filteredSpaceSpectralSequence` is the homological spectral sequence of a filtered
+  space);
+* the rational Chern-character isomorphism on finite CW pairs, its Thom
+  correction `ch(Thom_K(a)) = Thom_H(ch(a)·Td(E)⁻¹)` for the dual-Koszul Thom class
+  (C6.3–C6.4) and the resulting Riemann–Roch identity for embedding pushforwards
+  (C6.5): the pins have no topological K-theory and no Chern class.
+
+The formal power series of C6.1 and the low-degree genus polynomials of C7.1
+are proved at the pin (`TauCeti.hirzebruchLSeries`, `TauCeti.aHatSeries`,
+`PowerSeries.multiplicativeSequence` and `TauCeti/RingTheory/PowerSeries/
+GenusPolynomials.lean`) and are cited in the README, not restated here.
 -/
 
+@[expose] public section
 noncomputable section
-open CategoryTheory
+
 namespace TauCetiRoadmap.CharacteristicClasses
 
-/-- An example coefficient instance of the existing cohomology carrier.
-The library's general universe and coefficient-object parameters remain authoritative. -/
-abbrev IntegralCohomology (X : TopCat.{0}) (n : ℕ) : ModuleCat ℤ :=
-  X.singularCohomology (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ ℤ) n
+open Bundle CategoryTheory Module Set
 
-/-- The actual degree-zero constant-cochain class of the coefficient unit. -/
-def integralCohomologyUnit (X : TopCat.{0}) : IntegralCohomology X 0 :=
-  (X.singularCochainComplex (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ ℤ)).homologyπ 0
-    (X.constSingularCocycle ℤ (𝟙 (ModuleCat.of ℤ ℤ)))
+universe w
 
-/-- The actual deleted-total-space pair of a trivial real rank-n bundle.
-The zero section is X×{0}; this includes the genuine rank-zero pair. -/
-def deletedTrivialPair (X : TopCat.{0}) (n : ℕ) : TopPair.{0} :=
-  TopPair.ofSubset (X := TopCat.of (X × (Fin n → ℝ))) {p | p.2 ≠ 0}
+section Bundle
 
-/-- C2.0's disk/sphere cell model for a trivial rank-r bundle over a native
-relative CW pair. The general bundle construction is specified in the README. -/
-@[instance_reducible]
-noncomputable def trivialDiskSphereRelCW
-    (X : Type*) [TopologicalSpace X] [T2Space X] (A : Set X)
-    [Topology.RelCWComplex (Set.univ : Set X) A] (r : ℕ) :
-    Topology.RelCWComplex
-      (Set.univ : Set (X × Metric.closedBall (0 : EuclideanSpace ℝ (Fin r)) 1))
-      {p | p.1 ∈ A ∨ ‖p.2.val‖ = 1} := by
+/-! ## C2.1: the Thom class of an oriented bundle over an arbitrary base -/
+
+variable {B : Type w} [TopologicalSpace B] {F : Type w} [NormedAddCommGroup F]
+  [NormedSpace ℝ F] [FiniteDimensional ℝ F] {E : B → Type w}
+  [TopologicalSpace (TotalSpace F E)] [∀ b, AddCommMonoid (E b)] [∀ b, Module ℝ (E b)]
+  [∀ b, TopologicalSpace (E b)] [FiberBundle F E] [VectorBundle ℝ F E]
+  {ι : Type*} [Fintype ι]
+
+/-- **The Thom class of an oriented bundle over an arbitrary base** (Milnor–Stasheff,
+Theorem 10.4, existence and uniqueness; the base is arbitrary, by the directed-union
+argument of the proof). Let `o` be an orientation of a real vector bundle `E → B` with
+fibres of dimension `r = card ι`, `ω` an orientation of the model fibre `F`, and
+`g ∈ Hʳ(F, F ∖ {0}; R, M)` with `R` projective. There is exactly one class of
+`Hʳ(E, E₀; R, M)` whose restriction to the fibre pair `(E_b, E_b ∖ {0})` is the pull-back of
+`g` along every linear trivialization carrying `o b` to `ω`, and the negative of that
+pull-back along every linear trivialization carrying `o b` to `-ω`. The pinned
+`TauCeti.VectorBundleOrientation.exists_singularCohomology_thomPair_fiber` is the existence
+half over a compact base. -/
+theorem existsUnique_singularCohomology_thomPair_fiber {K : Type*} [CommRing K]
+    {R M : ModuleCat.{w} K} [Module.Projective K R]
+    (hι : Fintype.card ι = finrank ℝ F) (o : TauCeti.VectorBundleOrientation F E ι)
+    (ω : Orientation ℝ F ι)
+    (g : (TopPair.ofSubset (X := TopCat.of F) ({0}ᶜ : Set F)).singularCohomology R K M
+      (finrank ℝ F)) :
+    ∃! u : (TauCeti.thomPair F E).singularCohomology R K M (finrank ℝ F),
+      (∀ (e : Trivialization F (π F E)) [e.IsLinear ℝ] (b : B) (hb : b ∈ e.baseSet),
+        e.mapOrientation ι hb (o b) = ω →
+          TopPair.singularCohomologyMap (TauCeti.fiberThomPairMap F E b) _ u =
+            TopPair.singularCohomologyMap
+              (e.continuousLinearEquivAt ℝ b hb).complZeroPairIso.hom _ g) ∧
+      ∀ (e : Trivialization F (π F E)) [e.IsLinear ℝ] (b : B) (hb : b ∈ e.baseSet),
+        e.mapOrientation ι hb (o b) = -ω →
+          TopPair.singularCohomologyMap (TauCeti.fiberThomPairMap F E b) _ u =
+            -TopPair.singularCohomologyMap
+              (e.continuousLinearEquivAt ℝ b hb).complZeroPairIso.hom _ g := by
   sorry
 
-/-- No disk-bundle relative cell lies below the fiber rank. -/
-theorem trivialDiskSphereRelCW_noCellsBelowRank
-    (X : Type*) [TopologicalSpace X] [T2Space X] (A : Set X)
-    [Topology.RelCWComplex (Set.univ : Set X) A] (r n : ℕ) (hn : n < r) :
-    letI := trivialDiskSphereRelCW X A r
-    IsEmpty (Topology.RelCWComplex.cell
-      (Set.univ : Set (X × Metric.closedBall (0 : EuclideanSpace ℝ (Fin r)) 1)) n) := by
+/-- **Every oriented real vector bundle has a Thom class**, over an arbitrary base and with
+coefficients in any commutative ring `K`, integral coefficients included: a class of
+`Hʳ(E, E₀; K, K)`, `r = dim F`, restricting to a generator of `Hʳ(E_b, E_b ∖ {0}; K, K) ≅ K`
+on every fibre (Milnor–Stasheff, Theorem 10.4). The pinned
+`TauCeti.VectorBundleOrientation.exists_isThomClass` is the case of a compact base. -/
+theorem exists_isThomClass_of_orientation (hι : Fintype.card ι = finrank ℝ F)
+    (o : TauCeti.VectorBundleOrientation F E ι) (K : Type w) [CommRing K] :
+    ∃ u : (TauCeti.thomPair F E).singularCohomology (ModuleCat.of K K) K (ModuleCat.of K K)
+      (finrank ℝ F), TauCeti.IsThomClass F E u := by
   sorry
 
-/-- A concrete Thom target on the native singular relative-cohomology object.
-The standard ordered coordinates orient the trivial fibre in README C2. -/
-abbrev TrivialThomTarget (X : TopCat.{0}) (n k : ℕ) : ModuleCat ℤ :=
-  (deletedTrivialPair X n).singularCohomology
-    (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ ℤ) (k + n)
+/-! ## C2.2: the Euler class as the primary obstruction -/
 
-/-- A concrete trivial-bundle Thom-isomorphism target. README C2 specifies
-its positive-fibre normalization, naturality and rank-zero comparison. -/
-def trivialThomIso (X : TopCat.{0}) (n k : ℕ) :
-    IntegralCohomology X k ≅ TrivialThomTarget X n k := by
+/-- **The Euler class is the complete obstruction to a nowhere-zero section in the
+primary range** (Milnor–Stasheff, §12). Let `E → B` be a real vector bundle of rank
+`n = dim F ≥ 2` over a Hausdorff CW complex `B` with no cells of dimension above `n`, and
+let `u ∈ Hⁿ(E, E₀; ℤ)` be an integral Thom class, integral coefficients being lifted to the
+universe of the base. Then the Euler class `e(u) ∈ Hⁿ(B; ℤ)` vanishes exactly when the
+bundle has a continuous section with no zero. The direction from a section to `e(u) = 0` is
+the pinned `TauCeti.eulerClass_eq_zero_of_forall_ne_zero`; the dimension bound cannot be
+dropped (rank three over the four-sphere, C7). -/
+theorem eulerClass_eq_zero_iff_exists_ne_zero [T2Space B] [Topology.CWComplex (univ : Set B)]
+    (hdim : ∀ m, finrank ℝ F < m → IsEmpty (Topology.RelCWComplex.cell (univ : Set B) m))
+    (hn : 2 ≤ finrank ℝ F)
+    (u : (TauCeti.thomPair F E).singularCohomology (ModuleCat.of ℤ (ULift.{w} ℤ)) ℤ
+      (ModuleCat.of ℤ (ULift.{w} ℤ)) (finrank ℝ F)) (hu : TauCeti.IsThomClass F E u) :
+    TauCeti.eulerClass (ModuleCat.of ℤ (ULift.{w} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{w} ℤ)) F E
+        (finrank ℝ F) u = 0 ↔
+      ∃ s : ∀ b, E b, Continuous (fun b ↦ TotalSpace.mk' F b (s b)) ∧ ∀ b, s b ≠ 0 := by
   sorry
 
-/-- The concrete relative Thom-class carrier obtained by applying the target
-isomorphism to the coefficient unit. This preserves actual cohomology data. -/
-def trivialThomClass (X : TopCat.{0}) (n : ℕ) :
-    TrivialThomTarget X n 0 :=
-  (trivialThomIso X n 0).hom (integralCohomologyUnit X)
+end Bundle
 
-/-- The standard-character invariant polynomial in SBC's real circle Lie coordinate.
-The scaling is inside the polynomial, while the abstract map is P ↦ [P(F)]. -/
-def standardCirclePolynomial : Polynomial ℝ :=
-  Polynomial.C (-(1 / (2 * Real.pi))) * Polynomial.X
+/-! ## C2.3: the Euler number of a closed oriented manifold -/
 
-/-- Algebraic Chern-root polynomial values, not yet bundle characteristic classes. -/
-def chernRootValue {A : Type*} [CommRing A] {r : ℕ} (x : Fin r → A) (j : ℕ) : A :=
-  MvPolynomial.eval x (MvPolynomial.esymm (Fin r) A j)
-
-/-- Pontryagin roots use one oriented plane per x_i; the squares have weight4. -/
-def pontryaginRootValue {A : Type*} [CommRing A] {r : ℕ}
-    (x : Fin r → A) (j : ℕ) : A :=
-  chernRootValue (fun i ↦ x i ^ 2) j
-
-/-- Ordered oriented-plane Euler root product; rank0 has value1. -/
-def orientedPlaneEulerRootValue {A : Type*} [CommRing A] {r : ℕ}
-    (x : Fin r → A) : A :=
-  ∏ i, x i
-
-/-- Algebraic top Pontryagin/Euler-square identity for the ordered-plane roots. -/
-theorem pontryaginRootValue_top_eq_euler_sq {A : Type*} [CommRing A] {r : ℕ}
-    (x : Fin r → A) :
-    pontryaginRootValue x r = orientedPlaneEulerRootValue x ^ 2 := by
-  have htop : Finset.powersetCard r (Finset.univ : Finset (Fin r)) =
-      {Finset.univ} := by
-    simpa using Finset.powersetCard_self (Finset.univ : Finset (Fin r))
-  simp [pontryaginRootValue, chernRootValue, orientedPlaneEulerRootValue,
-    MvPolynomial.esymm, htop, Finset.prod_pow]
-
-/-- Todd's regular formal series consumes the existing Bernoulli convention B'_1=1/2. -/
-abbrev toddSeries : PowerSeries ℚ := bernoulli'PowerSeries ℚ
-
-/-- x coth(x), expressed without division by the nonunit x. -/
-def lSeries : PowerSeries ℚ := PowerSeries.rescale 2 toddSeries - PowerSeries.X
-
-/-- The regular even Â factor in the oriented-plane root convention. -/
-def aHatSeries : PowerSeries ℚ :=
-  toddSeries * PowerSeries.rescale (-(1 / 2 : ℚ)) (PowerSeries.exp ℚ)
-
-/-- The regular quotient x/(1-exp(-x)) has its prescribed denominator identity. -/
-theorem todd_denominator_identity :
-    toddSeries * (1 - PowerSeries.evalNegHom (PowerSeries.exp ℚ)) = PowerSeries.X := by
-  have h := PowerSeries.exp_mul_exp_neg_eq_one (A := ℚ)
-  calc
-    toddSeries * (1 - PowerSeries.evalNegHom (PowerSeries.exp ℚ)) =
-        (toddSeries * (PowerSeries.exp ℚ - 1)) *
-          PowerSeries.evalNegHom (PowerSeries.exp ℚ) := by
-            linear_combination -(toddSeries) * h
-    _ = (PowerSeries.X * PowerSeries.exp ℚ) *
-          PowerSeries.evalNegHom (PowerSeries.exp ℚ) := by
-            rw [bernoulli'PowerSeries_mul_exp_sub_one]
-    _ = PowerSeries.X := by rw [mul_assoc, h, mul_one]
-
-/-- The L-series is an even series, allowing descent to Pontryagin root squares. -/
-theorem lSeries_even : PowerSeries.evalNegHom lSeries = lSeries := by
+open scoped Manifold ContDiff in
+/-- **The Euler number of the tangent bundle is the Euler characteristic** (C2.3;
+Milnor–Stasheff, Corollary 11.12). Let `M` be a compact Hausdorff boundaryless smooth manifold
+of dimension `n + 1` modelled on a finite-dimensional real inner product space `E`, of finite
+CW type, with an orientation `o`. Let `oh` be a homological orientation whose local
+orientation at every point is the one `o` selects through its oriented charts, and let `u` be
+a class of `H^(n+1)(TM, TM ∖ 0; ℤ)` whose restriction to the fibre at every point pairs to `1`
+with the generator of `H_(n+1)(E, E ∖ {0}; ℤ)` selected by the tangent orientation of `o`
+there. Then the Euler class `e(u) ∈ H^(n+1)(M; ℤ)` evaluates to `χ(M)` on the fundamental
+class of `oh`. Reversing `o` negates both `u` and `[M]`. -/
+theorem eval_eulerClass_tangent_eq_eulerChar {M E : Type} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace M] [T2Space M]
+    [CompactSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) ∞ M] [TauCeti.FiniteCWType M]
+    {n : ℕ} (hE : finrank ℝ E = n + 1)
+    (o : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin (n + 1)))
+    (oh : TauCeti.HomologicalOrientation M E (n + 1))
+    (hoh : ∀ x, oh x = TauCeti.localOrientationOfManifoldOrientation o hE x)
+    (u : (TauCeti.thomPair E (TangentSpace 𝓘(ℝ, E) : M → Type)).singularCohomology
+      (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) (n + 1))
+    (hu : ∀ b : M,
+      (TopPair.singularKronecker (TopPair.ofSubset (X := TopCat.of E) ({0}ᶜ : Set E)) ℤ (n + 1)
+        (TopPair.singularCohomologyMap
+          (TauCeti.fiberThomPairMap E (TangentSpace 𝓘(ℝ, E) : M → Type) b) (n + 1) u)).hom
+        (Orientation.localOrientation
+          (show Orientation ℝ E (Fin (n + 1)) from o.toVectorBundleOrientation b) hE).1 =
+        ULift.up 1) :
+    oh.evalFundamentalClass (hE ▸ rfl) (ModuleCat.of ℤ (ULift.{0} ℤ)) (ContinuousMap.id M)
+        (TauCeti.eulerClass (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) E
+          (TangentSpace 𝓘(ℝ, E) : M → Type) (n + 1) u) =
+      ULift.up (TauCeti.eulerChar M) := by
   sorry
 
-/-- The precise 2-torsion correction behind integral Pontryagin Whitney formulas.
-The even-part multiplication is valid after inverting 2; it is not asserted integrally. -/
-theorem twice_even_product_correction_eq_zero
-    {R : Type*} [CommRing R] (P Q : PowerSeries R)
-    (hodd : ∀ j : ℕ, 2 * PowerSeries.coeff (2 * j + 1) P = 0) (k : ℕ) :
-    2 * (PowerSeries.coeff (2 * k) (P * Q) -
-      ∑ ij ∈ Finset.antidiagonal k,
-        PowerSeries.coeff (2 * ij.1) P * PowerSeries.coeff (2 * ij.2) Q) = 0 := by
+/-! ## C2.4a: embedded representatives in codimensions one and two -/
+
+open scoped Manifold ContDiff in
+/-- **Thom's representation theorem in codimensions one and two, integral form** (C2.4a;
+Thom 1954, Théorème II.27, p. 55). Let `M` be a compact Hausdorff boundaryless smooth manifold
+of dimension `m + c` with `c = 1` or `c = 2`, modelled on a finite-dimensional real normed space
+`E`, with an orientation `oM`. Every class `x ∈ H_m(M; ℤ)` is the image `i_*[N]` of the
+fundamental class of a compact Hausdorff boundaryless smooth `m`-manifold `N`, for some
+orientation `oN` of `N`, under a smooth embedding `i : N → M`. The representative may be empty
+(for `x = 0`) or disconnected, and torsion classes are included. -/
+theorem exists_isSmoothEmbedding_mapFundamentalClass_eq {E M : Type} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace M] [T2Space M]
+    [CompactSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) ∞ M]
+    {m c : ℕ} (hc : c = 1 ∨ c = 2) (hE : finrank ℝ E = m + c)
+    (oM : TauCeti.HomologicalOrientation M E (m + c))
+    (x : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) m).obj
+      (ModuleCat.of ℤ (ULift.{0} ℤ))).obj (TopCat.of M)) :
+    ∃ (N : Type) (_ : TopologicalSpace N) (_ : T2Space N) (_ : CompactSpace N)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin m)) N) (_ : IsManifold (𝓡 m) ∞ N)
+      (oN : TauCeti.HomologicalOrientation N (EuclideanSpace ℝ (Fin m)) m) (i : C(N, M)),
+      Manifold.IsSmoothEmbedding (𝓡 m) 𝓘(ℝ, E) ∞ i ∧
+        oN.mapFundamentalClass finrank_euclideanSpace_fin i = x := by
   sorry
 
-/-- The root-exponential identity that gives tensor multiplicativity of ch.
-Roots are arbitrary coefficients in a commutative rational algebra. -/
-theorem root_exponential_tensor_product
-    {A : Type*} [CommRing A] [Algebra ℚ A] {r s : ℕ}
-    (x : Fin r → A) (y : Fin s → A) :
-    (∑ i, PowerSeries.rescale (x i) (PowerSeries.exp A)) *
-      (∑ j, PowerSeries.rescale (y j) (PowerSeries.exp A)) =
-    ∑ i, ∑ j, PowerSeries.rescale (x i + y j) (PowerSeries.exp A) := by
-  simp_rw [Finset.sum_mul, Finset.mul_sum, PowerSeries.exp_mul_exp_eq_exp_add]
+/-! ## C7.3a: real projective spaces and the immersion obstruction -/
 
-/-!
-Representative interfaces for C5a. These extend the standard nonexhaustive
-Suggested.lean note. They use actual native cochains, exterior algebra,
-polynomials and singular-cohomology maps. They do not prototype an unimplemented
-CE/de Rham or classifying-space carrier.
--/
-
-abbrev RationalCohomology (X : TopCat.{0}) (n : ℕ) : ModuleCat ℚ :=
-  X.singularCohomology (ModuleCat.of ℚ ℚ) ℚ (ModuleCat.of ℚ ℚ) n
-
-/-- The space-level multiplication pullback; Künneth and the Hopf packaging
-are C5a targets. Multiplication is not asserted to be a Lie homomorphism. -/
-def rationalMultiplicationPullback
-    (K : Type) [TopologicalSpace K] [Group K] [IsTopologicalGroup K] (n : ℕ) :
-    RationalCohomology (TopCat.of K) n ⟶
-      RationalCohomology (TopCat.of (K × K)) n :=
-  TopCat.singularCohomologyMap
-    (R := ModuleCat.of ℚ ℚ) (k := ℚ) (M := ModuleCat.of ℚ ℚ)
-    (TopCat.ofHom ⟨fun p : K × K ↦ p.1 * p.2,
-      continuous_fst.mul continuous_snd⟩) n
-
-/-- The actual native trivial-coefficient sign used in C5a.1. -/
-theorem compactCE_degreeOne_sign
-    {R L V : Type*} [CommRing R] [LieRing L] [LieAlgebra R L]
-    [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V]
-    [LieModule.IsTrivial L V]
-    (a : LieModule.Cohomology.oneCochain R L V) (x y : L) :
-    LieModule.Cohomology.d₁₂ R L V a x y = -a ⁅x, y⁆ :=
-  LieModule.Cohomology.d₁₂_apply_apply_ofTrivial R L V a x y
-
-/-- Closed native degree-one cochains annihilate the actual bracket. -/
-theorem compactCE_degreeOne_closed_iff
-    {R L V : Type*} [CommRing R] [LieRing L] [LieAlgebra R L]
-    [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V]
-    [LieModule.IsTrivial L V]
-    (a : LieModule.Cohomology.oneCochain R L V) :
-    LieModule.Cohomology.d₁₂ R L V a = 0 ↔ ∀ x y : L, a ⁅x, y⁆ = 0 := by
-  constructor
-  · intro ha x y
-    have h := congrArg
-      (fun b : LieModule.Cohomology.twoCochain R L V ↦ b x y) ha
-    change LieModule.Cohomology.d₁₂ R L V a x y = 0 at h
-    rw [compactCE_degreeOne_sign] at h
-    exact neg_eq_zero.mp h
-  · intro ha
-    ext x y
-    change LieModule.Cohomology.d₁₂ R L V a x y = 0
-    rw [compactCE_degreeOne_sign, ha x y, neg_zero]
-
-/-- The degree-one generator map of the Koszul model on the ACTUAL polynomials.
-It is not a stand-in for the full differential or its regular-sequence proof. -/
-def compactKoszulGeneratorMap {r : ℕ}
-    (P : Fin r → MvPolynomial (Fin r) ℚ) :
-    (Fin r → ℚ) →ₗ[ℚ] MvPolynomial (Fin r) ℚ where
-  toFun v := ∑ i, v i • P i
-  map_add' v w := by simp [add_smul, Finset.sum_add_distrib]
-  map_smul' c v := by simp [Finset.smul_sum, smul_smul]
-
-/-- The coefficient family is retained, including each chosen generator. -/
-theorem compactKoszulGeneratorMap_basis {r : ℕ}
-    (P : Fin r → MvPolynomial (Fin r) ℚ) (i : Fin r) :
-    compactKoszulGeneratorMap P (Pi.single i 1) = P i := by
-  classical
-  simp [compactKoszulGeneratorMap, Pi.single_apply]
-
-/-- Actual exterior generator, without claiming the general cohomology theorem. -/
-def compactExteriorGenerator {r : ℕ} (i : Fin r) :
-    ExteriorAlgebra ℚ (Fin r → ℚ) :=
-  ExteriorAlgebra.ι ℚ (Pi.single i 1)
-
-theorem compactExteriorGenerator_square {r : ℕ} (i : Fin r) :
-    compactExteriorGenerator i * compactExteriorGenerator i = 0 := by
-  simpa only [compactExteriorGenerator] using
-    (ExteriorAlgebra.ι_sq_zero (R := ℚ) (Pi.single i (1 : ℚ) : Fin r → ℚ))
+open Metric in
+open scoped Manifold ContDiff in
+/-- **Whitney's non-immersion theorem for `ℝP^(2^k)`** (C7.3a). For `k ≥ 1` and `m = 2^k`,
+real projective space `ℝPᵐ`, the orbit space of the antipodal action of `ℤˣ` on the unit sphere
+`Sᵐ ⊆ ℝᵐ⁺¹` with its quotient charts, admits no smooth immersion into `ℝ^(2m − 2)`. The proof
+computes the dual Stiefel–Whitney class `w̄_(m−1)(ℝPᵐ) = a^(m−1) ≠ 0` from
+`w(T ℝPᵐ) = (1 + a)^(m+1)`, which an immersion with normal rank `m − 2` would kill
+(Cohen, *The Topology of Fiber Bundles*, Corollary 3.28, p. 106; Milnor–Stasheff, §4). -/
+theorem not_exists_isImmersion_realProjectiveSpace (k : ℕ) (hk : 1 ≤ k) :
+    ¬ ∃ f : MulAction.orbitRel.Quotient ℤˣ (sphere (0 : EuclideanSpace ℝ (Fin (2 ^ k + 1))) 1) →
+        EuclideanSpace ℝ (Fin (2 ^ (k + 1) - 2)),
+      Manifold.IsImmersion (𝓡 (2 ^ k)) 𝓘(ℝ, EuclideanSpace ℝ (Fin (2 ^ (k + 1) - 2))) ∞ f := by
+  sorry
 
 end TauCetiRoadmap.CharacteristicClasses

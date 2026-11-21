@@ -1,256 +1,294 @@
-import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
-import TauCeti.RingTheory.Huber.PowerBounded
-import Mathlib.LinearAlgebra.Projection
-import Mathlib.RingTheory.Finiteness.Projective
-import Mathlib.Analysis.Normed.Operator.Basic
-import Mathlib.Algebra.Polynomial.Module.AEval
-import Mathlib.RingTheory.MvPowerSeries.Restricted
-import Mathlib.RingTheory.MvPowerSeries.GaussNorm
-import Mathlib.RingTheory.Jacobson.Ring
-import Mathlib.RingTheory.Ideal.Height
-import Mathlib.RingTheory.Spectrum.Maximal.Basic
-import Mathlib.RingTheory.KrullDimension.LocalRing
-import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
-import Mathlib.Analysis.Normed.Unbundled.SpectralNorm
-import Mathlib.Analysis.Normed.Algebra.Basic
-import Mathlib.Topology.Algebra.Module.Basic
+module
+
+public import Mathlib
+public import TauCeti.Analysis.Normed.Field.WeaklyStable
+public import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.FractionField
+public import TauCeti.RingTheory.Affinoid.PowerBounded
+public import TauCeti.RingTheory.Affinoid.TopologicallyFiniteType
+public import TauCeti.RingTheory.Affinoid.Subdomain.Rational
+public import TauCeti.RingTheory.Japanese
+public import TauCeti.RingTheory.RegularLocalRing.GRing
+public import TauCeti.RingTheory.RegularLocalRing.Locus
+public import TauCeti.RingTheory.UniversallyCatenary
+public import TauCeti.AlgebraicGeometry.Rigid.Affinoid.Site
+public import TauCeti.Topology.GTopology.Points
+public import TauCeti.AlgebraicGeometry.AdicSpace.Spa.MaximalIdealPoint
 
 /-!
-# Rigid analytic geometry: representative interfaces
+# Rigid analytic geometry: target signatures
 
-The README is definitive. All definitions below have bodies; `sorry` occurs only in theorem
-targets. No admitted instances, opaque geometric carriers or roadmap imports are used.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, on the pinned carriers: the
+weak-stability predicate `TauCeti.IsWeaklyStable` and the Gauss-normed fraction field
+`TauCeti.MvPowerSeries.GaussFractionField`, the affinoid predicate `TauCeti.IsAffinoidAlgebra`, the
+supremum seminorm `TauCeti.supSeminorm`, the Japanese-ring predicate `TauCeti.Ring.IsJapanese`,
+the G-ring predicate `TauCeti.Excellence.IsGRing`, the regular locus
+`TauCeti.Excellence.regularLocus` and universal catenarity `TauCeti.Excellence.IsUniversallyCatenary`,
+the poset `TauCeti.AffinoidSubdomain` of affinoid subdomains of `Sp A`, the rational domains
+`TauCeti.rationalDomain`, the presheaf of
+coordinate algebras `TauCeti.AffinoidSubdomain.presheaf`, its weak G-topology
+`TauCeti.AffinoidSubdomain.weakGTopology` and the site points `TauCeti.GTopology.point` of a
+G-topology with Mathlib's fibers `CategoryTheory.GrothendieckTopology.Point.presheafFiber`, Mathlib's
+Čech complex `CategoryTheory.cechComplexFunctor`, and the classical points
+`TauCeti.ValuationSpectrum.maximalSpectrumToSpa` of `Spa(A,A°)` inside the valuation spectrum
+`TauCeti.ValuationSpectrum A` with Mathlib's `constructibleTopology`. No definition is made here.
 
-`weightedTate` abbreviates the native restricted subring. Its coefficient algebra, Gauss norm,
-completeness and normed-algebra structures come from Tau Ceti, not a private construction.
-Production code consumes the shared RestrictedPowerSeries interfaces.
-The point seminorm uses Mathlib's spectral norm on the actual maximal-ideal quotient. Affinoid
-hypotheses are explicit propositions; they do not install a norm or assume reducedness.
+Stated below, because the pinned libraries do not prove them: weak stability of the Gauss
+fraction field of `Tₙ` in every characteristic (Layer 0); finiteness of normalisation for affinoid
+domains (§1.2: an affinoid domain is Japanese, in every characteristic); Kiehl's excellence of
+affinoid algebras in its two non-pinned halves (§1.2: every affinoid algebra is a G-ring, and every
+algebra of finite type over it has open regular locus; universal catenarity is pinned); the
+Banach function algebra theorem of §2.2 (on a reduced affinoid algebra every complete ultrametric
+algebra norm is bounded by a multiple of the supremum seminorm; the reverse bound is the pinned
+`TauCeti.IsAffinoidAlgebra.supSeminorm_le_norm`); the Gerritzen–Grauert theorem in its
+finite-union form (§4.3: every affinoid subdomain of `Sp A` is a finite union of rational
+domains); Tate's acyclicity theorem (§5.1: the presheaf of
+coordinate algebras is a sheaf for the weak affinoid G-topology, and its Čech complex for a finite
+affinoid cover is exact in positive degrees); excellence of the analytic local rings (§5.3: the
+stalk of the structure presheaf at a classical point is a G-ring and universally catenary); and
+Huber's theorems on classical points (§8.2: their closure in the constructible
+topology of `Spv A` is the set `L_A`, and they are dense in the constructible topology of
+`Spa(A,A°)`).
 
-The geometric constructions, completed tensors and Kiehl operators are specified in the README
-with their owners, without axiomatic substitutes here. The numerical slope predicates are actual
-conditions on polynomials and native submodules, supplied to LAD §4.16.
-The filtration helper at the end only states an algebraic implication; it does not pretend to
-prove the geometric stability or uniform cokernel assertion of formal functions.
+Proved by the pinned Tau Ceti, so not restated: the algebraic theorems of Layers 0–2 that the
+README cites by their pinned names, the injectivity and image of the classical-point map of §8.2,
+and the numerical slope predicates, decomposition and projector of §7.2.
+
+Not statable at the pins, so stated nowhere in this file: the Gerritzen–Grauert theorem for a
+locally closed immersion of affinoid spaces (§4.3; Bosch §4.2, Theorem 10), which needs the stalk
+map of a morphism of affinoid spaces, and the pins construct neither the morphism of weak
+affinoid G-topologies that an algebra map induces nor its map of structure presheaves (the
+pinned `TauCeti.GTopology.stalkMap` takes such a presheaf map as input); the category of rigid
+spaces with its
+gluing and the classical properness predicates (§§6.2–6.3), which need a rigid-space carrier; the
+identity principle (§7.3), which needs rigid spaces and their analytic subsets; rigid
+analytification (§8.1), which needs the rigid category; the rigid–adic equivalence (§8.3), which
+needs the rigid category and the functor to adic spaces; and quantifier elimination for
+algebraically closed valued fields (§8.2), which needs their first-order theory in the language
+of rings with a divisibility relation: neither library defines it, and writing out its axiom
+schemes here would be a long ad hoc encoding. These are README targets with their intended
+signatures.
 -/
 
 namespace TauCetiRoadmap.RigidAnalyticGeometry
 
 noncomputable section
 
-open scoped Topology
+@[expose] public section
 
-variable (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-
-/-- The native carrier, with Tau Ceti's existing algebra and norm instances. -/
-abbrev weightedTate (n : ℕ) (ρ : Fin n → ℝ) :=
-  MvPowerSeries.IsRestricted.subring (R := K) ρ
-
-abbrev TateAlgebra (n : ℕ) := weightedTate K n (fun _ ↦ 1)
-
-local instance unitRadius_pos : Fact (0 < (1 : ℝ)) := ⟨zero_lt_one⟩
-
-def gaussNorm {n : ℕ} (f : TateAlgebra K n) : ℝ :=
-  MvPowerSeries.gaussNorm norm (fun _ : Fin n ↦ 1) (f : MvPowerSeries (Fin n) K)
-
-omit [CompleteSpace K] in
-/-- The prototype's Gauss value is the native norm. -/
-theorem gaussNorm_eq_norm {n : ℕ} (f : TateAlgebra K n) : gaussNorm K f = ‖f‖ :=
-  (MvPowerSeries.norm_eq_gaussNorm f).symm
-
-/-- This predicate makes no choice of topology (README Convention 3). -/
-def IsAffinoidAlgebra (A : Type*) [CommRing A] [Algebra K A] : Prop :=
-  ∃ (n : ℕ) (π : TateAlgebra K n →ₐ[K] A), Function.Surjective π
-
-/-- Positive divisible value-group radii. Positivity excludes zero. -/
-def IsStrictRadius (r : ℝ) : Prop :=
-  0 < r ∧ ∃ (m : ℕ) (c : K), 0 < m ∧ c ≠ 0 ∧ r ^ m = ‖c‖
-
-section Algebra
-
-variable {A : Type*} [CommRing A] [Algebra K A]
-
-theorem isNoetherianRing (hA : IsAffinoidAlgebra K A) : IsNoetherianRing A := by
-  sorry
-
-theorem isJacobsonRing (hA : IsAffinoidAlgebra K A) : IsJacobsonRing A := by
-  sorry
-
-/-- Nontriviality is necessary for the injective normalisation map. -/
-theorem exists_finite_injective [Nontrivial A] (hA : IsAffinoidAlgebra K A) :
-    ∃ (d : ℕ) (π : TateAlgebra K d →ₐ[K] A), Function.Injective π ∧
-      (letI := π.toRingHom.toAlgebra; Module.Finite (TateAlgebra K d) A) := by
-  sorry
-
-theorem finite_residue (hA : IsAffinoidAlgebra K A) (x : MaximalSpectrum A) :
-    FiniteDimensional K (A ⧸ x.asIdeal) := by
-  sorry
-
-/-- The domain hypothesis cannot be weakened to arbitrary reduced affinoids. -/
-theorem height_eq_ringKrullDim_of_isDomain [IsDomain A]
-    (hA : IsAffinoidAlgebra K A) (x : MaximalSpectrum A) :
-    x.asIdeal.height = ringKrullDim A := by
-  sorry
-
-theorem weightedTate_isAffinoid_iff (n : ℕ) (ρ : Fin n → ℝ) (hρ : ∀ i, 0 < ρ i) :
-    IsAffinoidAlgebra K (weightedTate K n ρ) ↔ ∀ i, IsStrictRadius K (ρ i) := by
-  sorry
-
-end Algebra
-
-section Points
-
-variable {A : Type*} [CommRing A] [Algebra K A]
-
-/-- This raw value becomes an evaluation norm after finite-residue-field theorems. -/
-def pointNorm (x : MaximalSpectrum A) (f : A) : ℝ :=
-  letI := x.isMaximal
-  letI := Ideal.Quotient.field x.asIdeal
-  spectralNorm K (A ⧸ x.asIdeal) (Ideal.Quotient.mk x.asIdeal f)
-
-/-- The real supremum has empty value zero; its boundedness is a separate target. -/
-def supSeminorm (f : A) : ℝ := ⨆ x : MaximalSpectrum A, pointNorm K x f
-
-theorem bddAbove_pointNorm (hA : IsAffinoidAlgebra K A) (f : A) :
-    BddAbove (Set.range (fun x : MaximalSpectrum A ↦ pointNorm K x f)) := by
-  sorry
-
-theorem exists_pointNorm_eq_supSeminorm [Nontrivial A]
-    (hA : IsAffinoidAlgebra K A) (f : A) :
-    ∃ x : MaximalSpectrum A, pointNorm K x f = supSeminorm K f := by
-  sorry
-
-theorem supSeminorm_pow (hA : IsAffinoidAlgebra K A) (f : A) (n : ℕ) (hn : 0 < n) :
-    supSeminorm K (f ^ n) = supSeminorm K f ^ n := by
-  sorry
-
-theorem supSeminorm_eq_zero_iff (hA : IsAffinoidAlgebra K A) (f : A) :
-    supSeminorm K f = 0 ↔ IsNilpotent f := by
-  sorry
-
-/-- One exponent for the whole affinoid, including elements of supremum zero. -/
-theorem exists_uniform_valueGroup_exponent (hA : IsAffinoidAlgebra K A) :
-    ∃ m : ℕ, 0 < m ∧ ∀ f : A, ∃ c : K, supSeminorm K f ^ m = ‖c‖ := by
-  sorry
-
-theorem supSeminorm_eq_zero_of_subsingleton [Subsingleton A] (f : A) :
-    supSeminorm K f = 0 := by
-  sorry
-
-end Points
-
-section Normed
-
-variable {A : Type*} [NormedCommRing A] [NormedAlgebra K A]
-  [IsUltrametricDist A] [CompleteSpace A]
-
-theorem powerBounded_iff (hA : IsAffinoidAlgebra K A) (f : A) :
-    TauCeti.Huber.IsPowerBounded f ↔ supSeminorm K f ≤ 1 := by
-  sorry
-
-theorem topologicallyNilpotent_iff (hA : IsAffinoidAlgebra K A) (f : A) :
-    IsTopologicallyNilpotent f ↔ supSeminorm K f < 1 := by
-  sorry
-
-theorem banachFunctionAlgebra [IsReduced A] (hA : IsAffinoidAlgebra K A) :
-    ∃ C : ℝ, 0 < C ∧ ∀ f : A,
-      supSeminorm K f ≤ ‖f‖ ∧ ‖f‖ ≤ C * supSeminorm K f := by
-  sorry
-
-/-- The affinoid ring-of-definition criterion supplied to Part II R0.9.
-The unit is an element of the ring of definition, not necessarily a scalar in K. -/
-theorem mem_iff_supSeminorm_le_one_of_isReduced (hA : IsAffinoidAlgebra K A)
-    (B : Subring A) (hBo : IsOpen (B : Set A)) (hBb : Bornology.IsBounded (B : Set A))
-    (ϖ : B) (hϖu : IsUnit (ϖ : A))
-    (hϖ : IsTopologicallyNilpotent (ϖ : A))
-    (hred : IsReduced (B ⧸ Ideal.span {ϖ})) (f : A) :
-    f ∈ B ↔ supSeminorm K f ≤ 1 := by
-  sorry
-
-end Normed
-
-section IntegralModels
-
-variable {A : Type*} [CommRing A] [Algebra K A]
-
-/-- Membership characterisation of the actual presentation ring; no norm instance is invented. -/
-def IsPresentationRing {n : ℕ} (π : TateAlgebra K n →ₐ[K] A) (S : Subring A) : Prop :=
-  ∀ a : A, a ∈ S ↔ ∃ t, gaussNorm K t ≤ 1 ∧ π t = a
-
-theorem integral_iff_supSeminorm_le_one {n : ℕ} (π : TateAlgebra K n →ₐ[K] A)
-    (hπ : Function.Surjective π) (S : Subring A) (hS : IsPresentationRing K π S) (a : A) :
-    IsIntegral S a ↔ supSeminorm K a ≤ 1 := by
-  sorry
-
-/-- One finite submodule works uniformly for all small scalar elements of S. -/
-theorem exists_fg_smul_le_of_presentation {n : ℕ} (π : TateAlgebra K n →ₐ[K] A)
-    (hπ : Function.Surjective π) (S : Subring A) (hS : IsPresentationRing K π S)
-    {M : Type*} [AddCommGroup M] [Module S M] [Module.Finite S M]
-    (N : Submodule S M) (ε : ℝ) (hε₀ : 0 < ε) (hε₁ : ε < 1) :
-    ∃ N' : Submodule S M, N'.FG ∧ N' ≤ N ∧
-      ∀ s : S, (∃ c : K, ‖c‖ ≤ ε ∧ (s : A) = algebraMap K A c) →
-        ∀ x ∈ N, s • x ∈ N' := by
-  sorry
-
-theorem isNoetherian_of_presentation_of_discrete
-    (hK : ∃ ρ : ℝ, ρ < 1 ∧ ∀ c : K, ‖c‖ < 1 → ‖c‖ ≤ ρ)
-    {n : ℕ} (π : TateAlgebra K n →ₐ[K] A) (hπ : Function.Surjective π)
-    (S : Subring A) (hS : IsPresentationRing K π S) : IsNoetherianRing S := by
-  sorry
-
-end IntegralModels
-
-section NumericalSlopes
+open Topology
 
 universe u
 
-variable {K : Type u} [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+variable (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
 
-/-- A positive norm cutoff for annihilator roots, not Fredholm-series roots. -/
-def IsSlopeLE {A : Type u} [CommRing A] [Algebra K A] (r : ℝ) (Q : Polynomial A) : Prop :=
-  0 < r ∧ ∀ (L : Type u) [Field L] [Algebra K L] [Algebra.IsAlgebraic K L]
-    (χ : A →ₐ[K] L) (α : L),
-    (Q.map (χ : A →+* L)).IsRoot α → r ≤ spectralNorm K L α
+/-! ## Layer 0: shared Tate inputs and weak stability -/
 
-/-- The common module-level condition consumed by LocallyAnalyticDistributions §4.16. -/
-def IsSlopeDecomposition {A : Type u} [NormedCommRing A] [NormedAlgebra K A]
-    {M : Type*} [NormedAddCommGroup M] [Module A M] (U : M →L[A] M) (r : ℝ)
-    (M₁ M₂ : Submodule A M) : Prop :=
-  0 < r ∧
-    (∃ h : IsCompl M₁ M₂, Continuous (Submodule.projectionOnto M₁ M₂ h)) ∧
-    (∀ x ∈ M₁, U x ∈ M₁) ∧ (∀ x ∈ M₂, U x ∈ M₂) ∧
-    Module.Finite A M₁ ∧ Module.Projective A M₁ ∧
-    (∃ Q : Polynomial A, Q.Monic ∧ IsUnit (Q.coeff 0) ∧ IsSlopeLE (K := K) r Q ∧
-      ∀ x ∈ M₁, Polynomial.aeval (U : M →ₗ[A] M) Q x = 0) ∧
-    ∀ P : Polynomial A, P.Monic → IsUnit (P.coeff 0) → IsSlopeLE (K := K) r P →
-      Set.BijOn (Polynomial.aeval (U : M →ₗ[A] M) P) M₂ M₂
-
-theorem IsSlopeDecomposition.exists_projection {A : Type u} [NormedCommRing A]
-    [NormedAlgebra K A] {M : Type*} [NormedAddCommGroup M] [Module A M]
-    {U : M →L[A] M} {r : ℝ} {M₁ M₂ : Submodule A M}
-    (h : IsSlopeDecomposition (K := K) U r M₁ M₂) :
-    ∃ P : M →L[A] M, P.comp P = P ∧ LinearMap.range (P : M →ₗ[A] M) = M₁ ∧
-      LinearMap.ker (P : M →ₗ[A] M) = M₂ ∧ P.comp U = U.comp P := by
+/-- Weak stability of the Gauss fraction field (Layer 0; BGR 5.3.1/1 with 3.5.3/1–2): the
+fraction field of `Tₙ = K⟨X₁,…,Xₙ⟩`, with the extended Gauss norm and not completed, is weakly
+stable, in the bounded-functional form of `TauCeti.IsWeaklyStable`: every linear functional on a
+finite extension is bounded by a multiple of its spectral norm. In characteristic zero the field
+is perfect and this is the pinned `TauCeti.isWeaklyStable_of_perfectField`; in characteristic `p`
+the field is imperfect and incomplete, and purely inseparable extensions such as
+`Frac(T₁)(T^(1/p))` are included. -/
+theorem isWeaklyStable_gaussFractionField (n : ℕ) :
+    TauCeti.IsWeaklyStable (TauCeti.MvPowerSeries.GaussFractionField (Fin n) K (fun _ ↦ 1)) := by
   sorry
 
-end NumericalSlopes
+/-! ## Layer 1: affinoid algebras and their topology -/
 
-section PrincipalFiltration
+section Normalisation
 
-variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
+variable {A : Type*} [CommRing A] [IsDomain A] [Algebra K A]
 
-/-- The actual image aN, not scalar multiplication of a predicate. -/
-def scalarImage (a : R) (N : Submodule R M) : Submodule R M :=
-  N.map (a • LinearMap.id)
-
-/-- Algebraic cofinality once the geometric stable-filtration theorem is supplied.
-The proper-cohomology theorem must separately prove stability and the uniform cokernel shift. -/
-theorem stable_filtration_cofinal (a : R) (F : ℕ → Submodule R M)
-    (hstable : ∃ d : ℕ, ∀ n, d ≤ n → F (n + 1) = scalarImage a (F n)) :
-    ∃ d : ℕ, ∀ n, F (n + d) ≤ LinearMap.range ((a ^ n) • (LinearMap.id : M →ₗ[R] M)) := by
+/-- Finiteness of normalisation (§§0.2 and 1.2; BGR 6.1.2 through 5.3.1 and 3.5.3): an
+affinoid domain is Japanese, that is, its integral closure in every finite extension of its
+fraction field is a finite module, inseparable extensions included. An affinoid domain is finite
+over a Tate algebra, and the Tate algebra is Japanese by the weak stability of its Gauss fraction
+field; `TauCeti.Ring.IsJapanese.of_finite` transfers the property. The zero-variable case is a
+finite extension of `K`, a field, which is Japanese trivially. -/
+theorem isJapanese_of_isAffinoidAlgebra (hA : TauCeti.IsAffinoidAlgebra K A) :
+    TauCeti.Ring.IsJapanese A := by
   sorry
 
-end PrincipalFiltration
+end Normalisation
+
+section Excellence
+
+/-- Affinoid algebras are G-rings (§1.2; Kiehl, *Ausgezeichnete Ringe in der
+nichtarchimedischen analytischen Geometrie*, Theorem 3.3, p. 94, reduced to a formal-fibre input
+by the G-ring criterion of README §1.2 as in Conrad, *Irreducible components of rigid spaces*,
+§1.1, pp. 3–4): every affinoid algebra is
+noetherian and the completion of each of its local rings has geometrically regular formal fibres.
+No finiteness of the imperfection degree `[K : K^p]` is assumed; in characteristic `p` the proof
+uses Kiehl's fields of definition, the faithful flatness of complete field extension (README
+§1.3) and his differential regularity criterion (Kiehl, Satz 2.2; proved in Conrad,
+Theorem 1.1.1). The algebra need not be a domain: `K⟨T⟩ × K` is a G-ring. -/
+theorem isGRing_of_isAffinoidAlgebra {A : Type*} [CommRing A] [Algebra K A]
+    (hA : TauCeti.IsAffinoidAlgebra K A) : TauCeti.Excellence.IsGRing A := by
+  sorry
+
+/-- Affinoid algebras are J-2 (§1.2; Kiehl, *Ausgezeichnete Ringe*, Theorem 3.3, p. 94, reduced
+by the J-2 criterion of README §1.2 to a nonempty open regular subset for affinoid domains): for an
+affinoid algebra `A` and every `A`-algebra `B` of finite type, the regular locus of `B` is open in
+`Spec B`. For the cusp `K⟨X,Y⟩/(Y² − X³)` it is the complement of the origin. A nonempty regular
+locus alone would say nothing, since the generic point of a domain is always regular. -/
+theorem isOpen_regularLocus_of_finiteType {A : Type*} [CommRing A] [Algebra K A]
+    (hA : TauCeti.IsAffinoidAlgebra K A) (B : Type*) [CommRing B] [Algebra A B]
+    [Algebra.FiniteType A B] : IsOpen (TauCeti.Excellence.regularLocus B) := by
+  sorry
+
+end Excellence
+
+/-! ## Layer 2: supremum seminorm, reduction and integral models -/
+
+section BanachFunctionAlgebra
+
+variable {A : Type*} [NormedCommRing A] [NormedAlgebra K A] [IsUltrametricDist A] [CompleteSpace A]
+
+/-- Banach function algebra theorem (§2.2; BGR §6.2.4): on a reduced affinoid algebra, every
+complete ultrametric algebra norm is bounded by a constant multiple of the supremum seminorm, so
+the two are equivalent. The reverse inequality `|f|sup ≤ ‖f‖` holds for every affinoid algebra and
+is the pinned `TauCeti.IsAffinoidAlgebra.supSeminorm_le_norm`. Reducedness is necessary: in
+`K⟨T⟩/(T²)` with its quotient norm, `T` has norm one and supremum seminorm zero. -/
+theorem exists_norm_le_mul_supSeminorm [IsReduced A] (hA : TauCeti.IsAffinoidAlgebra K A) :
+    ∃ C : ℝ, 0 < C ∧ ∀ f : A, ‖f‖ ≤ C * TauCeti.supSeminorm K f := by
+  sorry
+
+end BanachFunctionAlgebra
+
+/-! ## Layer 4: affinoid subdomains, local rings and covers -/
+
+/-- The Gerritzen–Grauert theorem, finite-union form (§4.3; Bosch, *Lectures on Formal and Rigid
+Geometry*, §3.3, Theorem 20, p. 60, and §4.2, Corollary 12, p. 77): every affinoid subdomain `U`
+of `Sp A` is a finite union of rational domains `R(fᵢ/gᵢ)`, where `gᵢ` and the entries of `fᵢ`
+generate the unit ideal of `A`. For `A = 0` the union is empty; for `U = Sp A` one domain with
+`g = 1` and no numerators suffices; the annulus `|ϖ| ≤ |T| ≤ 1` of the unit disc is `R(ϖ/T)`.
+Without the unit-ideal clause `g = T` with no numerators would give the punctured disc, which is
+no finite union of affinoid subdomains. -/
+theorem exists_eq_iUnion_rationalDomain (A : Type*) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] (U : TauCeti.AffinoidSubdomain K A) :
+    ∃ (n : ℕ) (m : Fin n → ℕ) (g : Fin n → A) (f : (i : Fin n) → Fin (m i) → A),
+      (∀ i, Ideal.span (insert (g i) (Set.range (f i))) = ⊤) ∧
+        (U : Set (MaximalSpectrum A)) = ⋃ i, TauCeti.rationalDomain K (g i) (f i) := by
+  sorry
+
+/-! ## Layer 5: Čech comparison and acyclicity -/
+
+section Acyclicity
+
+open CategoryTheory in
+/-- Tate's acyclicity theorem, sheaf form (§5.1; BGR 8.2.1/1; Tate's theorem as recorded in
+Kiehl-AB §1, p. 258, whose Hilfssatz 1.3, p. 260, refines a covering by special subdomains to a
+Laurent covering on each member of which the induced covering is formal): the presheaf of
+coordinate algebras on the affinoid subdomains of `Sp A` is a sheaf for the Grothendieck topology
+of the weak affinoid G-topology, whose covers are the families of affinoid subdomains with a
+finite affinoid subcover. For the Laurent cover of the unit disc, with `0 < |ϖ| < 1`, this is the
+exactness of
+`0 → K⟨T⟩ → K⟨T/ϖ⟩ × K⟨ϖ/T⟩ → K⟨T/ϖ, ϖ/T⟩`; for `A = 0` the empty cover of the empty subdomain
+forces its coordinate algebra to be the zero ring. -/
+theorem isSheaf_affinoidSubdomain_presheaf (A : Type*) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] :
+    Presheaf.IsSheaf
+      (TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).grothendieckTopology
+      (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A)) := by
+  sorry
+
+open CategoryTheory in
+/-- Tate's acyclicity theorem in positive degrees (§5.1; BGR 8.2.1/1): for a finite family `U`
+of affinoid subdomains covering `Sp A`, Mathlib's Čech complex of the presheaf of coordinate
+algebras, as `K`-modules, is exact in every degree `n ≥ 1`. The complex runs over all ordered
+tuples of indices. Degree zero is excluded: there the cohomology is `A`, by the sheaf condition.
+For the one-member cover by `Sp A` the complex is `A` in every degree, with differentials
+alternately zero and the identity. -/
+theorem exactAt_cechComplex_of_cover (A : Type*) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] {ι : Type} [Finite ι]
+    (U : ι → TauCeti.AffinoidSubdomain K A) (hU : ∀ x : MaximalSpectrum A, ∃ i, x ∈ U i)
+    (n : ℕ) (hn : 0 < n) :
+    ((cechComplexFunctor U).obj
+      (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
+        forget₂ (CommAlgCat K) (AlgCat K) ⋙ forget₂ (AlgCat K) (ModuleCat K))).ExactAt n := by
+  sorry
+
+end Acyclicity
+
+section AnalyticLocalRings
+
+open CategoryTheory
+
+/-- The analytic local rings are G-rings (§5.3; Conrad, *Irreducible components of rigid
+spaces*, Theorem 1.1.3, p. 5): the stalk of the structure presheaf of `Sp A` at a classical point
+`x`, the fiber of the presheaf of coordinate algebras at the site point of `x` for the weak affinoid
+G-topology, which is the colimit of the coordinate algebras of the affinoid subdomains containing
+`x`, is noetherian with geometrically regular formal fibres. Conrad's proof reduces the formal
+fibres to the generic formal fibre of an affinoid domain, regular by Kiehl's excellence of affinoid
+algebras, through finite maps of affinoids, using Kisin's lemma and the sheaf condition for
+disjoint affinoid coverings. The stalk need not be regular: at the origin of the cusp
+`K⟨X,Y⟩/(Y² − X³)` its completion is `K⟦t², t³⟧`, and its generic formal fibre is the field
+`K((t))`. -/
+theorem isGRing_stalk (A : Type u) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] (x : MaximalSpectrum A) :
+    TauCeti.Excellence.IsGRing
+      (((TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).point x).presheafFiber
+        (A := CommRingCat.{u}) |>.obj
+        (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
+          forget₂ (CommAlgCat K) CommRingCat)) := by
+  sorry
+
+/-- The analytic local rings are universally catenary (§5.3; Conrad, proof of Theorem 1.1.3,
+p. 5): the stalk at a classical point is a quotient of the stalk at a point of a unit ball, which
+is a regular local ring. With `isGRing_stalk` this is excellence of the noetherian local ring,
+by the criterion Conrad's proof applies on p. 5. -/
+theorem isUniversallyCatenary_stalk (A : Type u) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] (x : MaximalSpectrum A) :
+    TauCeti.Excellence.IsUniversallyCatenary
+      (((TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).point x).presheafFiber
+        (A := CommRingCat.{u}) |>.obj
+        (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
+          forget₂ (CommAlgCat K) CommRingCat)) := by
+  sorry
+
+end AnalyticLocalRings
+
+/-! ## Layer 8: analytification and rigid–adic comparison -/
+
+section ConstructibleDensity
+
+/-- Huber's constructible closure of the classical points (§8.2; Huber, *Continuous valuations*,
+Theorem 4.1, p. 472): for a complete ultrametric normed affinoid algebra `A`, the closure of the
+classical points in the constructible topology of the valuation spectrum `Spv A` is the set `L_A`
+of valuations at most one on `A°` and less than one on `A°°`. The proof uses quantifier
+elimination for algebraically closed valued fields (README §8.2). `L_A` contains discontinuous
+valuations, so this is a statement about `Spv A` and not only `Spa(A, A°)`; for `A = K` both sides
+are the single point `|·|`. -/
+theorem closure_range_maximalSpectrumToSpa {A : Type*} [NormedCommRing A] [NormedAlgebra K A]
+    [IsUltrametricDist A] [CompleteSpace A] (hA : TauCeti.IsAffinoidAlgebra K A) :
+    @closure (TauCeti.ValuationSpectrum A) (constructibleTopology (TauCeti.ValuationSpectrum A))
+      (Set.range fun x ↦
+        ((TauCeti.ValuationSpectrum.maximalSpectrumToSpa K hA.isTopologicallyFiniteType x :
+          TauCeti.ValuationSpectrum.spa (TauCeti.Huber.powerBoundedSubring A)) :
+            TauCeti.ValuationSpectrum A)) =
+      {v : TauCeti.ValuationSpectrum A |
+        (∀ a ∈ TauCeti.Huber.powerBoundedSubring A, v.toValuativeRel.vle a 1) ∧
+          ∀ a ∈ TauCeti.Huber.topologicallyNilpotentIdeal A, ¬ v.toValuativeRel.vle 1 (a : A)} := by
+  sorry
+
+/-- Constructible density of classical points (§8.2; Huber, *Continuous valuations*,
+Corollary 4.2, p. 473, proved without Theorem 4.1 by the route of Remark 4.7, pp. 474–476): for a
+complete ultrametric normed affinoid algebra `A`, the classical points `Max A → Spa(A, A°)` are
+dense in the constructible topology of `Spa(A, A°)`, so every nonempty constructible subset
+contains a classical point. They are not dense in the stronger sense of meeting every
+proconstructible set: the singleton of a rank-two point of the disc contains none. -/
+theorem dense_range_maximalSpectrumToSpa {A : Type*} [NormedCommRing A] [NormedAlgebra K A]
+    [IsUltrametricDist A] [CompleteSpace A] (hA : TauCeti.IsAffinoidAlgebra K A) :
+    @Dense _ (constructibleTopology _)
+      (Set.range
+        (TauCeti.ValuationSpectrum.maximalSpectrumToSpa K hA.isTopologicallyFiniteType)) := by
+  sorry
+
+end ConstructibleDensity
+
+end
 
 end
 

@@ -1,528 +1,60 @@
 # Roadmap: analytic adic geometry for diamonds
 
-**Summary.** Scholze's comparison between the étale site of an analytic adic space and that of its
-diamond needs, on the adic side, an étale geometry beyond Huber's noetherian setting. This roadmap
-supplies it. Layer A0 fixes how completed tensor products and fibre products of complete Huber
-pairs are used and adds the analytic locus of a non-Tate space. Layer A1 defines finite étale
-algebras over arbitrary complete Tate rings with their Huber pairs, classical henselian
-approximation and finite étale completion, strongly sheafy rings, finite
-étale and étale morphisms by Kedlaya–Liu's local description, and builds the étale, finite étale,
-pro-étale and pro-finite-étale sites with geometric points, strict localisations, the finite étale
-fundamental group and the presentation of non-sheafy spaces as Yoneda-adic spaces. Layer A2 adds
-relative polydiscs and tori, smooth morphisms by ball charts, compatible toric charts and the
-dimension theory of adic spaces, the analytification morphism of étale sites, and the continuous
-generic-fibre functor on formal étale sites. Layer A3 develops pseudocoherent modules over sheafy Tate rings,
-standard étale presentations and the quantitative Newton theorem. Layer A4 builds finite étale
-torsors, their tower, uniform completion, self-products, finite étale descent and the spectra of
-the completed tower. PerfectoidSpaces P1.32 and P6.15–P6.17 use these to construct perfectoid
-torsor presentations, and DiamondsAndVStacks D6 identifies the associated diamond and its étale sites.
+**Summary.** Huber's étale morphisms are defined by an infinitesimal lifting property, and his
+theory is developed for locally noetherian adic spaces. Scholze's comparison between the étale
+site of an analytic adic space and that of its diamond needs, on the adic side, an étale geometry
+beyond this noetherian setting. This roadmap supplies it. It defines finite étale and étale
+morphisms of analytic adic spaces that need not be noetherian, by the local description of Kedlaya
+and Liu: an étale morphism is, locally on the source, an open immersion followed by a finite étale
+morphism and another open immersion. On these morphisms it builds the étale and finite étale
+sites, and then their pro-étale and pro-finite-étale versions.
 
-Scholze's *Étale cohomology of diamonds* builds diamonds out of perfectoid spaces and then compares
-the étale site of an analytic adic space with that of its diamond. Before that comparison can be
-stated, the adic side needs its own étale geometry in a generality beyond Huber's noetherian
-setting: finite étale algebras over arbitrary complete Tate rings, étale morphisms defined by a
-local description, the étale, finite étale and pro-étale sites with their points, the presentation
-of non-sheafy spaces, pseudocoherent modules and standard étale presentations, and finite étale
-torsor towers with their uniform completions. These extend the analytic geometry of
-AdicSpacesPartII and the formal geometry of AdicSpacesPartIII. PerfectoidSpaces P5.13.1–P5.13.4
-owns the perfectoid-base approximation theorem of Scholze's Proposition 6.4(iv); P1.32 and
-P6.15–P6.17 own perfectoidness and the analytic presentation interfaces used by
-DiamondsAndVStacks D6.
+Completeness always includes the Hausdorff property. Base change, composition and the sites are
+stated for strongly sheafy spaces, in the sense of Hansen and Kedlaya: a complete Tate ring `A` is
+strongly sheafy if every `A⟨T₁, …, Tₙ⟩` is sheafy. Sheafiness alone is not known to survive finite
+étale extension. The hypothesis covers locally noetherian analytic spaces and, by facts proved
+where those rings are constructed, perfectoid and sousperfectoid spaces.
 
-The ordinary morphism theory (completed tensor products, fibre products, separated, proper,
-finite, smooth and étale morphisms in Huber's sense, and analytification) is
-AdicSpacesPartII's. Formal geometry and formal models belong to AdicSpacesPartIII. Layers A0 and
-A2 are the comparison interfaces that identify these theories on the same carriers.
+The first main result is that strong sheafiness passes to finite étale algebras. If `A` is a
+strongly sheafy complete Tate ring and `B` a finite étale `A`-algebra, with its natural topology
+and with plus ring the integral closure of `A⁺`, then `B` is strongly sheafy, so `Spa(B, B⁺)` is
+an affinoid adic space. Over an affinoid `Spa(A, A⁺)` with `A` strongly sheafy, global sections
+then give an anti-equivalence between finite étale spaces over it and finite étale `A`-algebras.
 
-| Layer | Title | What it builds |
-|---|---|---|
-| A0 | Completed tensor products and the fibre products actually used | the contract with AdicSpacesPartII layer R0: completed tensors, uniformisation, analytic pullbacks, analytic loci of non-Tate spaces |
-| A1 | Finite étale and étale geometry | classical henselian approximation and finite étale completion, finite étale uniformity, finite étale algebras and morphisms, the étale, finite étale and pro-étale sites, stable-basis vector bundles, geometric points, strict localisations, Yoneda-adic presentations |
-| A2 | Separatedness, smooth charts, and classical analytic geometry | the contract with AdicSpacesPartII layers R0–R1 and AdicSpacesPartIII layers F0/R2; relative polydiscs and tori, smooth morphisms by ball charts, dimension, the analytification site morphism and formal generic-fibre site functor |
-| A3 | Pseudocoherent modules and standard étale presentations | sheafy Tate-ring module theory, restricted-series Newton approximation and generic standard presentations |
-| A4 | Finite étale torsor towers and uniform completion | finite Galois module descent, uniform completion and étale invariance, the finite étale torsor tower, self-products and spectra |
+The second is that these morphisms behave as étale morphisms should. Over a locally strongly
+sheafy base, étale morphisms are open maps and are closed under composition, and their base change
+along a map from another locally strongly sheafy space exists and is again étale. If `X` is
+locally noetherian and analytic and `Y` is analytic, then `f : Y → X` is étale in this sense
+exactly when it is étale in Huber's sense, and finite étale exactly when it is finite and étale in
+Huber's. The étale site of such an `X` is therefore Huber's.
 
-```text
-AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A0
-A0, AdicSpacesPartII R0/R0.19, AdicSpacesPartIII R3 → A1
-A1, AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A2
-A1, AdicSpacesPartII R0, AdicSpacesPartIII R3 → A3.1–A3.2
-A4.2 → A4.2a → A4.5
-A1, AdicSpacesPartII R0/R0.19.7 → A4.2–A4.5/A4.7
-A3.1–A3.2 → PerfectoidSpaces P5.13.1–P5.13.4
-A4.2–A4.5/A4.7 → PerfectoidSpaces P1.32/P6.15–P6.17
-A4.2a/A4.3–A4.5 → PerfectoidTowers P9
-PerfectoidSpaces P6.16–P6.17 → DiamondsAndVStacks D6
-```
+The third concerns points. A geometric point is a morphism `Spa(C, C⁺) → X`, with `C` complete,
+algebraically closed and nontrivially valued, and `C⁺` an open and bounded valuation subring of
+any rank. On a locally strongly sheafy analytic `X`, any choice of one geometric point over each
+point detects isomorphisms of étale sheaves, so the étale site has enough points. Rank-one points
+do not suffice once `X` has points of higher rank.
 
-A1.6a supplies vector bundles on arbitrary stable étale bases. A2.6a supplies the
-analytification morphism of étale sites and A2.9a the formal generic-fibre site functor.
-PerfectoidTowers P9 applies A4's finite-group module descent and generic completed towers to
-prescribed Galois towers, character sheaves and coefficient modules.
+The fourth describes the spectrum of a torsor. Let `A` be a complete Tate ring, `G` a finite group
+and `A → B` a finite étale `G`-torsor: `B` is faithfully flat over `A` and the Galois map
+`B ⊗_A B → ∏_G B` is bijective. Then `Spa(B, B⁺) → Spa(A, A⁺)` is open and surjective with the
+`G`-orbits as fibres, so `|Spa(B, B⁺)|/G ≅ |Spa(A, A⁺)|`, without any sheafiness. Every finite
+étale algebra over a commutative ring is split by such a torsor; for `ℚ(∛2)` over `ℚ` the
+construction gives the `S₃`-torsor `ℚ(∛2, ζ₃)`, the Galois closure.
 
-## Scope and ownership
+The roadmap builds on AdicSpaces and AdicSpacesPartII for Huber pairs, adic spaces and Huber's
+morphism theory, which it compares with rather than redoes, and on AdicSpacesPartIII for formal
+schemes. PerfectoidSpaces uses its module theory for the finite-stage approximation of Scholze's
+Proposition 6.4(iv), and its torsor towers for perfectoid torsor presentations. DiamondsAndVStacks
+uses the sites and those presentations to construct `Spd` and compare étale sites. Derived étale
+cohomology belongs to the étale-cohomology roadmaps.
 
-The roadmap owns, layer by layer:
-
-- A0: the comparison interface between AdicSpacesPartII's completed tensor product of complete
-  Huber pairs and the pushout and fibre-product shapes that the étale geometry uses — the pushout
-  square of complete Huber pairs, uniformisation supplied separately, the tracking of rings of
-  definition, pseudouniformisers and plus rings, point lifting for completed tensors over Tate
-  bases without sheafiness or finite-type assumptions, the restatement as contract clauses of R0's
-  pullbacks along rational open immersions and along finite étale maps and of its chart
-  independence, associativity, symmetry and unit, the universal property of maps into affinoids,
-  and the analytic locus of a non-Tate space with the restriction of morphisms to it. A0 defines
-  no new completed tensor product.
-- A1: split-ring vocabulary, henselian pairs, algebraic finite étale colimits, Elkik approximation,
-  henselian finite étale completion and uniformity; vector bundles on stable étale bases; strongly sheafy Huber pairs; the Huber pair of a finite étale algebra over a complete Tate
-  ring; finite étale and étale morphisms of analytic adic spaces by Kedlaya–Liu's local description,
-  with the comparison to Huber's definitions on locally noetherian spaces and the stability
-  properties; the étale and finite étale sites; geometric points (with the completed residue field
-  of a point), enough points and strict localisations; the finite étale fundamental group;
-  Kedlaya–Liu's site of an arbitrary analytic adic space; pro-étale morphisms and the pro-étale
-  site with Scholze's corrected covering condition; profinite `G`-sets and the pro-finite-étale
-  site; coherence and change of base field; points, with Deligne's theorem on points of coherent
-  topoi stated as the input it rests on; and generalized adic presentations (Yoneda-adic spaces)
-  of non-sheafy Huber pairs.
-- A2: the comparison interface with AdicSpacesPartII's separated, proper and partially proper
-  morphisms, and the few objects that roadmap leaves to this one — relative closed polydiscs,
-  relative tori, smooth morphisms by ball charts with the comparison to Huber's smooth morphisms,
-  compatible toric charts, the dimension of adic spaces and its estimates, analytification and its
-  compatibility with the étale site of A1, the continuous generic-fibre functor from formal étale
-  sites, and the formal schemes and generic fibres in the scope of
-  the specialisation theory of the étale-cohomology roadmaps.
-- A3: pseudocoherent modules and sheaves over sheafy complete Tate rings, generic standard étale
-  presentations, perturbation of generators and the quantitative implicit function theorem.
-- A4: applications of A1.0's split-ring and completion theory, finite étale torsors, finite Galois
-  module descent, the finite étale torsor tower, invariance of spectra and finite étale algebras
-  under uniformisation, the completed tower with its self-products and finite étale data, and
-  the adic spectra of the tower.
-
-AdicSpaces (layers 0–5, with 6.1 for `A_inf`) and AdicSpacesPartII (layers R0–R1) are the owners of Huber pairs,
-adic spaces, the completed tensor product, uniformisation, fibre products and Huber's morphism
-theory. AdicSpacesPartIII owns formal schemes, generic fibres and relative differential sheaves;
-AdicSpacesPartIV owns the R4 site applications. A0 and A2 add the relative polydiscs and tori,
-smooth morphisms by ball charts and dimension. AdicSpacesPartII R0.19.6, R0.19.9 and R0.19.10
-own cofiltered spectral limits, pro-categories and the qcqs vocabulary of algebraic topoi used
-by A1. PerfectoidSpaces P3.17a–P3.17b own sousperfectoid geometry and perfectoid polydisc
-specializations; P5.13.1–P5.13.4 own tubular neighbourhoods, the Fargues–Scholze analytic
-specializations, closed embeddings and affinoid étale finite-stage approximation. P1.32 owns
-perfectoidness of split Tate rings, and P6.15–P6.17 own continuous-function perfectoidness,
-perfectoid torsor presentations and analytic comparison interfaces. DiamondsAndVStacks D6 owns
-`Spd`, representability and the identification of étale sites in Scholze's Proposition 15.4,
-Definition 15.5 and Lemma 15.6. A1 owns Deligne's theorem on points of coherent topoi.
-Derived étale cohomology of the sites belongs to the étale-cohomology roadmaps that
-import this one: the sites built here are geometric sites, not definitions of derived cohomology;
-the affinoid perfectoid basis of the pro-étale site over complete nonarchimedean extensions
-of `ℚ_p` belongs to PerfectoidSpaces P7.16.
-AdicSpacesPartIV layer R4 re-exports the sites of A1 on its carriers — the étale slice site, the
-pro-étale slice site and the functoriality of the étale site are stated here and re-exported there
-(*slice-site*, *proetale-slice-open-subspace*, *etale-site*) — and R5.7
-consumes A1.6's *etale-covering-reduction* on its stable basis. PerfectoidSpaces cites the generic results of
-this roadmap: finite étale algebras over a filtered colimit of rings
-(*finite-etale-algebras-filtered-colimit*), the finite étale Galois torsors with
-`|Spa B|/G ≅ |Spa A|` and their completed towers (*torsor-spa-orbits*, *spa-of-completed-tower*),
-of which PerfectoidTowers P8's quotient theorems are the non-free generalisation.
-PerfectoidSpaces P5.13.4 owns the compatibility clause of the assembled Proposition 6.4
-(*etale-descent-to-finite-stage-6-4*). PerfectoidSpaces P0–P7, PerfectoidTowers P8–P9,
-DiamondsAndVStacks D2–D6 and the `p`-adic Hodge theory, adic-coefficient and relative
-Fargues–Fontaine roadmaps consume the layers named in their own documents.
-
-Already stated or built elsewhere, and cited in this roadmap rather than restated:
-
-- the set-level preimage of a rational subset along an adic morphism of complete Huber pairs —
-  AdicSpacesPartII layer R0 (*completed-tensor-rational-localisation*); the open subspace `g⁻¹(U)` as the fibre product
-  `Y ×_X U` — AdicSpaces layer 5; the open disc over a non-adic base — R0
-  (*fibre-product-along-finite-type*);
-- the base change of a finite algebra over a complete Tate ring without completion, its plus ring
-  and its rational preimages — R0 (*finite-algebra-tensor-complete*), with `Spa` of the result as
-  a fibre product — R0 (*affinoid-fibre-product*);
-- the affinoid charts of the glued fibre product and their restriction to rational subsets — R0
-  (*fibre-products-existence*, *affinoid-fibre-product*, *completed-tensor-rational-localisation*);
-- finite étale algebras over a completed direct limit of complete Tate rings come from a finite
-  stage — A1.0.5 (*finite-etale-completed-direct-limit*);
-- Huber's smooth morphisms are locally étale over relative polydiscs, with the rank of `Ω` and the
-  closure-of-the-point refinement over a field — R0 (*smooth-local-structure*,
-  *smooth-differentials-locally-free*, *smooth-toric-chart*);
-- the relative affine space as the increasing union of polydiscs, with the torus inside it —
-  AdicSpacesPartII layer R1 (*affine-chart-analytification*, *analytic-affine-space*);
-- the point-set and Krull-dimension clauses of the analytic locus and of the dimension theory, and
-  the ring-level clauses of A3's natural topology, Laurent-series and flatness statements, which
-  are Tau Ceti lemmas named in their targets and in the supplier contracts below.
-
-Where a clause of a target of this roadmap is a statement of a sibling roadmap in a special case
-(the locally noetherian, strongly noetherian, sousperfectoid or perfectoid case), the target says
-so by label and states in one clause what remains its own.
-
-## Conventions
-
-1. Huber pairs, completeness (which includes Hausdorff) and adic spaces are AdicSpaces's; morphism
-   classes in Huber's sense are AdicSpacesPartII's.
-2. Finite étale and étale morphisms of analytic adic spaces are defined by the local description
-   (Kedlaya–Liu, Definition 8.2.16): locally an open immersion, a finite étale morphism and an open
-   immersion. On locally noetherian analytic spaces they agree with Huber's (A1).
-3. Base change, composition and the sites are stated for strongly sheafy spaces (Hansen–Kedlaya):
-   sheafiness alone is not known to survive finite étale extension. Non-sheafy spaces are handled as
-   Yoneda-adic spaces (sheaves on complete Huber pairs glued from sheafified spectra).
-4. Pro-étale coverings follow Scholze's erratum: a covering map is a transfinite tower of pullbacks
-   of finite étale surjections followed by an étale map; the deleted Corollary 3.8 (called Proposition 3.8 in the erratum), the
-   conservativity claim and the deleted last sentence of Proposition 3.13 of the 2013 paper are
-   never used; its point morphisms `i_x` are A1's *proetale-fibre-morphism-of-topoi*.
-5. Geometric points are morphisms `Spa(C, C⁺) → X` with `C` complete algebraically closed and `C⁺`
-   of any rank; nothing is tested only on rank-one points.
-6. The dimension of an adic space is the topological Krull dimension of its underlying space
-   (Mathlib `topologicalKrullDim`).
-7. Names: ring-level declarations in `Huber`, geometry in `AdicSpace`, Yoneda-adic spaces in
-   `YonedaAdicSpace` (the site in `CAff`), all under Tau Ceti's root namespace; the names below omit that prefix. The
-   declarations of `Suggested.lean` carry the same names inside `TauCetiRoadmap.AdicEtaleGeometry`.
-   A backticked name attached to a target of this roadmap is the name proposed for that piece of API.
-   It is a declaration of `Suggested.lean` exactly when the target's `Lean:` note lists it. A target
-   that ends with the note "README only (no Lean declaration)", and every clause that a `Lean:`
-   note leaves out, is specified in this README only.
-8. Each target below is written with its hypotheses in the sentence, its source locator in
-   parentheses (short keys are resolved in the References), its API as named lemmas and its unit
-   tests as `Checks`. A Check is named by an italic tag; when its target is formalised, the Check
-   becomes an `example` carrying that tag in its docstring. A target's label `(*slug*)` is the name
-   by which later targets, sibling roadmaps and the Lean file refer to it.
-9. Check fixtures. Several Checks share named test objects, proposed as namespaces of `example`s
-   and specified in this README only: `SplitChecks`, the split `n`-sheeted cover
-   `Spa(ℚ₂ⁿ, ℤ₂ⁿ) → Spa(ℚ₂, ℤ₂)` with its sheets (points, components) numbered `0, …, n − 1` and the
-   three-cycle `f ↦ (i ↦ f(i + 1))` of `ℚ₂³` with its `Spa` map (which moves sheet `i` to sheet
-   `i + 1`); `DiscChecks` and `DoubleDiscChecks`, the closed and open unit discs over `ℚ₂` and two
-   closed discs glued along the open disc; `CantorChecks`, `CompletionChecks` and
-   `ValuationSwapChecks`, described where they are used. Phrases such as "sheet 0", "the split
-   two-sheeted cover" and "the three-cycle" in the Checks refer to these fixtures.
-
-The `IsLimit`/`IsTerminal` witnesses `ProEtale.ProEt.space_isLimit`, `ProEtale.ProEt.final_isTerminal`, `FieldBaseChangeSystem.spaceCone_isLimit` and `FieldBaseChangeSystem.proObjectCone_isLimit`, and the unique terminal map `ProEtale.ProEt.toFinal`, are exempt from three discriminating Checks because their types are subsingletons; the cone maps and terminal objects carry the computational content.
-
-**Checks.** These checks fix the sign, order and transport conventions used throughout.
-
-- *cech_two_pieces* — The first differential of the augmented Čech complex of
-  *pseudocoherent-tate-acyclicity*, on two copies of the unit rational chart, sends `(1,0)` to `−1` on
-  their ordered overlap.
-- *koszul_two_equations* — For `ℚ[X₀,X₁]/(X₀,X₁)`, the two Koszul differentials of
-  *koszul-regular-sequence-fpd* satisfy `d₂(1) = (−X₁,X₀)`,
-  `d₁(1,0) = X₀`, `d₁(0,1) = X₁` and `d₁(d₂(1)) = 0`. The conormal basis of that target
-  sends the classes of `X₀` and `X₁` to their
-  respective basis vectors.
-- *inverse_action_three* — For the ring action of `ℤ/3` on `ℚ₂³` whose generator is the cyclic
-  shift `f ↦ (i ↦ f(i + 1))`, transport of valuations by the inverse generator sends the point of
-  `Spa(ℚ₂³, ℤ₂³)` at coordinate 0 to the point at coordinate 2. It agrees with the square of the
-  `Spa` map of the shift (which moves coordinate `i` to coordinate `i + 1`) on that point and
-  differs from the forward geometric map.
-- *galoisTensorMap_inverse_support*: on the regular `ℤ/3` torsor, `1 ⊗ δ₂`
-  evaluates under `Algebra.galoisTensorMap` to 1 at group coordinate 2 and the identity point,
-  and to 0 at group coordinate 1. With `G` acting on points of spectra by transport of structure,
-  `(g·v)(b) = v(g⁻¹·b)`, the ring map `b ↦ (g ↦ g·b)` therefore induces `(g,x) ↦ g⁻¹·x` on
-  spectra; on an actual Galois map this is A4's *galois_convention_three*.
-
-## Exact supplier contracts
-
-`Suggested.lean` imports Mathlib, the Tau Ceti modules whose declarations it uses,
-`TauCetiRoadmap.AdicSpacesPartII.Suggested` for the R0 chart and morphism
-interfaces, and `TauCetiRoadmap.SchemeAndStackFoundations.Suggested`
-for the shared algebraic pseudocoherence predicate. All statements here use generic Huber-pair,
-sheafy or strongly sheafy Tate-ring hypotheses. Perfectoid and sousperfectoid specializations
-are owned by PerfectoidSpaces P3.17a–P3.17b and P5.13.1.
-
-### From Mathlib
-
-Étale, smooth and unramified algebras (`Algebra.Etale`, `Algebra.Smooth.flat`,
-`Algebra.Etale.baseChange`, `Algebra.FormallyUnramified`), finite and finitely presented modules
-(`Module.Finite`, `Module.FinitePresentation`, `Module.Flat.projective_of_finitePresentation`),
-faithful flatness (`Module.FaithfullyFlat`), the module topology (`IsModuleTopology`), split
-algebras and semiring actions (`Algebra.IsFiniteSplit`, `MulSemiringAction`), integral closure,
-pushouts and pullbacks (`CategoryTheory.IsPushout`, `IsPullback`, `Limits.pullbackAssoc`,
-`pullbackSymmetry`, `IsPushout.paste_horiz`), Grothendieck topologies, sheaves, points and
-`HasEnoughPoints`, continuous actions of profinite groups (`ContAction Profinite G`), sheaf
-cohomology (`Sheaf.H`), multivariate power series with derivations (`MvPowerSeries.pderiv`), the
-topological Krull dimension (`topologicalKrullDim`, `Topology.IsInducing.topologicalKrullDim_le`,
-`IsHomeomorph.topologicalKrullDim_eq`), nonarchimedean normed fields
-(`NontriviallyNormedField`, `IsUltrametricDist`, `CompleteSpace`), direct limits of rings
-(`Ring.DirectLimit`), henselian rings (`HenselianRing`, `IsAdicComplete.henselianRing`),
-continuity of linear maps for the module topology (`IsModuleTopology.continuous_of_linearMap`)
-and the projective dimension of quotients by regular sequences in noetherian local rings
-(`projectiveDimension_quotient_eq_length`,
-`projectiveDimension_quotient_eq_add_length_of_isWeaklyRegular`). The site of A1.16 uses
-`CategoryTheory.Coverage`, `Coverage.toGrothendieck`, `Presieve.isSheaf_coverage`,
-`presheafToSheaf` (left exact), `sheafificationAdjunction`, `uliftYonedaEquiv`,
-`CostructuredArrow` and `DiscreteUniformity` directly; A4 uses `PadicComplex.isAlgClosed`,
-`HenselianLocalRing`, `IsSepClosed.of_isAlgClosed`, `PadicInt.isUnit_iff`, `LocallyConstant`,
-`ProfiniteGrp`, `DirectLimit` and `DualNumber`.
-
-| Declaration | File | A1 use |
-|---|---|---|
-| `CategoryTheory.PreGaloisCategory.functorToContAction`, its `IsEquivalence` instance | `Mathlib/CategoryTheory/Galois/Equivalence.lean` | The finite-set equivalence, using `smallFiniteEtale.isFiberFunctor`; the action is evaluation of natural automorphisms. |
-| `CategoryTheory.PreGaloisCategory.autEmbedding_isClosedEmbedding`, together with the `CompactSpace (Aut F)` and `TotallyDisconnectedSpace (Aut F)` instances | `Mathlib/CategoryTheory/Galois/Topology.lean` | The topology of `fundamentalGroup` directly inherits compactness and total disconnectedness. |
-| `CategoryTheory.Limits.PullbackCone.IsLimit.lift_fst`, `CategoryTheory.Limits.PullbackCone.IsLimit.lift_snd` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/PullbackCone.lean` | Projection equations for `FibreProduct.lift`, directly from its `isLimit` field. |
-| `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso`, `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp` | `Mathlib/CategoryTheory/Limits/IsLimit.lean` | Unique comparison of two `FibreProduct` cones, fixing both projections. |
-| `CategoryTheory.IsPullback`, `CategoryTheory.IsPullback.isLimit`, `CategoryTheory.Limits.LimitCone`, `CategoryTheory.Limits.cospan` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/IsPullback/Defs.lean`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Cospan.lean` | `FibreProduct f g` is a `Limits.LimitCone (cospan f g)` with named projections; `⟨P.fst, P.snd, f, g⟩` satisfies Mathlib's `IsPullback`, and `IsPullback.isLimit` recovers `isLimit`. |
-| `CategoryTheory.GrothendieckTopology.Point.isCofiltered`, `Point.initiallySmall`, `Point.presheafFiber`, `Point.isColimitPresheafFiberCocone`, `Point.sheafFiber` | `Mathlib/CategoryTheory/Sites/Point/Basic.lean` | Cofiltered neighbourhoods, existence and value of their stalk colimit, and its restriction to sheaves, applied to `GeometricPoint.point`. |
-| `CategoryTheory.Ind.yoneda.fullyFaithful` | `Mathlib/CategoryTheory/Limits/Indization/Category.lean` | Fullness and faithfulness of `ProEt.const` follow from this embedding, opposites and composition. |
-| `IsModuleTopology.isTopologicalRing` | `Mathlib/Topology/Algebra/Module/ModuleTopology.lean` | Ring topology on the finite algebra synonym; no new theorem. |
-| `eq_moduleTopology` | `Mathlib/Topology/Algebra/Module/ModuleTopology.lean` | Identification of the canonical module topology. |
-| `QuotientGroup.subsingleton_quotient_top` | `Mathlib/GroupTheory/QuotientGroup/Basic.lean` | The Check that `G/G` has one point. |
-| `topologicalKrullDim`, `topologicalKrullDim_subspace_le`, `IsHomeomorph.topologicalKrullDim_eq` | `Mathlib/Topology/KrullDimension.lean` | A2 uses dimension and its subspace/homeomorphism API directly. |
-| `irreducibleSetEquivPoints` | `Mathlib/Topology/Sober.lean` | A2 specialization chains on quasi-sober T0 spaces. |
-| `Order.krullDim_eq_of_orderIso`, `Order.krullDim_eq_iSup_coheight` | `Mathlib/Order/KrullDimension.lean` | A2 chain-length formula; no additional wrapper theorem. |
-| `RingTheory.Sequence.IsWeaklyRegular.of_flat` | `Mathlib/RingTheory/Regular/Flat.lean` | A3 weak regularity under flat base change; used directly. |
-| `CategoryTheory.HasProjectiveDimensionLE` | `Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean` | A3 agreement Check for `Module.IsFPD` (check *test_projectiveDimension*); a different notion (arbitrary projectives). |
-| `ContinuousLinearMap.isClosed_ker` | `Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean` | A3 closed kernels after `IsModuleTopology.continuous_of_linearMap`; surjectivity is unnecessary. |
-| `StandardEtalePresentation` (root namespace), `Algebra.SubmersivePresentation`, `Algebra.Etale.iff_isStandardSmoothOfRelativeDimension_zero` | `Mathlib/RingTheory/Etale/StandardEtale.lean`, `Mathlib/RingTheory/Extension/Presentation/Submersive.lean`, `Mathlib/RingTheory/Smooth/StandardSmoothOfFree.lean` | One-variable `R[X]_g/(f)` presentations and algebraic relative-dimension-zero presentations; A3's `Huber.StandardEtalePresentation` has `N` variables, restricted series, closed kernel, quotient topology, integral-closure plus ring and the bound `k`, and uses the submersive presentation only to construct presentations of finite étale algebras. |
-
-### From Tau Ceti
-
-Huber rings and pairs (`Huber.IsHuberRing`, `IsTateRing`, `IsPseudoUniformizer`, `Pair`,
-`Pair.Hom`, `PairOfDefinition`, `PairOfDefinition.completionLocalization`,
-`PairOfDefinition.locUniformSpace`, `IsStronglyNoetherian`, `restrictedMvPowerSeriesCompletion`,
-`IsTopologicallyFiniteType`), the adic spectrum (`ValuationSpectrum.spa`, `rationalSubset`,
-`spa_antitone`, `spa_integralClosure`, `Pair.Hom.spaComap`,
-`TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset`,
-`existsUnique_continuous_ringHom_of_forall_comap_mem_rationalSubset`, `spaLocalizationHomeomorph`),
-the analytic locus (`ValuationSpectrum.IsAnalyticPoint`, `spaAnalytic`,
-`isOpen_val_preimage_spaAnalytic`, `isCompact_val_preimage_spaAnalytic`,
-`spaAnalytic_eq_biUnion_rationalSubset`, `isTateRing_completion_locTopology_of_mem_generators`,
-`spaAnalytic_eq_spa_of_isTateRing`, `spaAnalytic_eq_empty_iff_discrete_separationQuotient`),
-polydiscs and Gauss points, and the `p`-adic Huber instances (`TauCeti.RingTheory.Huber.Padic`).
-Also consumed, each at the target whose clause it supplies: the transport of pseudouniformisers
-(`Huber.IsPseudoUniformizer.map`); the module topology of finite modules over Tate rings
-(`completeSpace_moduleTopology`, `firstCountableTopology_moduleTopology`,
-`IsTateRing.t2Space_moduleTopology`, `IsTateRing.isModuleTopology`, `IsTateRing.isOpenMap`,
-`isQuotientMap`, `isStrictMap_of_isClosed_range`, `isClosed_of_module_finite_topologicalClosure`,
-`isClosed_of_isNoetherian`, `IsTateRing.exists_presentation_isStrictMap_isOpenMap`); restricted
-and Laurent series (`restrictedMvPowerSeriesBaseChangeEquiv`, `id_sub_smul_mulX_injective`,
-`smul_id_sub_mulX_injective`, `flat_quotient_algebraMap_sub_restrictedX`,
-`flat_quotient_one_sub_algebraMap_mul_restrictedX`); flatness of rational localisation
-(`flat_toCompletionLoc`, `flat_restrictionRingHom`, `faithfullyFlat_pi_toCompletionLoc`); rings of
-definition (`isPowerBounded_iff_exists_mem_ringOfDefinition`); the valued residue field of a point
-(`ValuationSpectrum.residueFieldValuation`, whose completion `k(x)^` is defined in A1); the sheaf
-criterion on the rational basis (`TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`);
-continuous sections of profinite groups (`exists_continuous_section`,
-`exists_continuous_section_of_le`, `exists_continuous_rightCosetFactorization`); and dimension
-(`topologicalKrullDim_eq_iSup_coheight`, `topologicalKrullDim_eq_iSup_of_isOpenEmbedding`,
-`IsPureDimensional`, `isPureDimensional_iff_forall_of_isOpenEmbedding`).
-
-| Declaration | File | Use |
-|---|---|---|
-| `TauCeti.MulSemiringAction.tensorToPi`, `tensorToPi_tmul`, `tensorToPi_apply_one`, `tensorToPi_map_toAlgHom` | [Tau Ceti, `RingTheory/Invariant/Free.lean`, lines 79–109](https://github.com/TauCetiProject/TauCeti/blob/cb5fb39763cbca84862c35ee20e64abb6cc539d8/TauCeti/RingTheory/Invariant/Free.lean#L79-L109) | A4.2 consumes the generic Galois tensor map for arbitrary groups, its pure-tensor and identity formulas, and compatibility with twisting the second factor. `Algebra.galoisTensorMap` is an alias of this map. |
-| Unit-Jacobian Newton | `TauCeti.IsAdicComplete.existsUnique_eq_zero_of_isUnit_det`, `TauCeti/RingTheory/AdicCompletion/Newton.lean` | Supplies the restricted-series Newton case `k = 0` after Taylor linearisation on the ring of definition; the quantitative bounds and functoriality belong to A3. |
-| `TauCeti.Huber.IsSheafyRing`, `IsStablySheafyRing` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/SheafyRing.lean` | Sheafiness predicates used by the strong-sheafiness targets. |
-| `TauCeti.Huber.isSheafyRing_of_isStronglyNoetherian` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/StronglyNoetherian.lean` | Strongly noetherian sheafiness; combined with the existing restricted-series instance. |
-| `TauCeti.AdicSpace`, `PreAdicSpace.IsOpenImmersion`, `PreAdicSpace.isAffinoid`, `ValuationSpectrum.presentationLimitPreAdicSpace`, `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/{Adic,OpenImmersion,Affinoid,PresentationLimit}.lean` | Existing geometric carrier for the named geometric targets of A0.8, A1.3–A1.15, A1.16 (`YonedaAdicSpace.ofAdicSpace`) and A2. |
-| `TauCeti.Huber.Pair.Hom.comp_id`, `TauCeti.Huber.Pair.Hom.id_comp`, `TauCeti.Huber.Pair.Hom.comp_assoc`, `TauCeti.Huber.Pair.Hom.continuous_spaComap`, `TauCeti.Huber.Pair.Hom.spaComap_id`, `TauCeti.Huber.Pair.Hom.spaComap_comp` | `TauCeti/RingTheory/Huber/Pair.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/HuberPair.lean` | Category laws of `CAff` and the functor `CAff.spa`, used directly. |
-| `Valuation.restrictToConvex`, `Valuation.restrictToConvex_le_iff_of_mem`, `TauCeti.Huber.PairOfDefinition.isContinuous_of_forall_cofinalValue`, `TauCeti.ValuationSpectrum.spaCompletionHomeomorph` | `TauCeti/RingTheory/Valuation/RestrictToConvex.lean`, `TauCeti/RingTheory/Huber/Continuous/OfCofinal.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Completion/Homeomorph.lean` | A0.1's *tate-completed-tensor-points*: restriction preserving factor valuations of arbitrary rank, continuity for the tensor topology, and extension to the completion. |
-| `TauCeti.Huber.Pair.Hom.isSpectralMap_spaComap_of_isTateRing` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MorphismSpectral.lean` | Every morphism out of a Tate pair has spectral `Spa`; A4's presentations need no separate spectrality axiom. |
-| `TauCeti.Huber.Pair.Hom.isSpectralMap_spaComap` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MorphismSpectral.lean` | Spectrality when the image of every open ideal is open. |
-| `TauCeti.Huber.existsUnique_continuous_ringHom_completion_weightedRestrictedSubring` | `TauCeti/RingTheory/Huber/WeightedEval/Completion.lean` | Continuous evaluation of the completed weighted series ring under `IsWeightBounded`. |
-| `TauCeti.Huber.isOpen_powerBoundedSubring` | `TauCeti/RingTheory/Huber/Basic.lean` | The power-bounded subring of a Huber ring is open. |
-| `TauCeti.Huber.mem_of_isTopologicallyNilpotent_of_isIntegrallyClosedIn` | `TauCeti/RingTheory/Huber/Pair.lean` | An open integrally closed subring contains the topologically nilpotent elements. |
-| `TauCeti.ValuationSpectrum.spa_eq_empty_iff_subsingleton` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Emptiness.lean` | The zero-pair Checks of A1.16. |
-| `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean` | Directly constructs `CAff.adicSpa` from `IsSheafyForEveryPresentation.isSheaf`; no additional adicity theorem. |
-| `TauCeti.Huber.IsSheafyForEveryPresentation` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/SheafForEveryPresentation.lean` | Pair-level sheafiness in `CAff.isSheafAt_O_iff_isSheafyPair` and *adic-spaces-in-yoneda-adic-spaces*. |
-| `TauCeti.Huber.IsTateRing.completion` | `TauCeti/RingTheory/Huber/Completion.lean` | A4: the completion of the colimit of the tower is Tate. |
-| `TauCeti.Huber.isPowerBounded_of_isIntegral` | `TauCeti/RingTheory/Huber/PowerBounded.lean` | A4 Check that nilpotents are power-bounded. |
-| `TauCeti.topologicalKrullDim_eq_iSup_coheight`, `TauCeti.topologicalKrullDim_eq_iSup_of_isOpenEmbedding` | `TauCeti/Topology/KrullDimension.lean` | A2 specialization dimension and dimension of an open cover. |
-| `TauCeti.IsPureDimensional`, `TauCeti.isPureDimensional_iff_forall_of_isOpenEmbedding` | `TauCeti/Topology/PureDimension.lean` | Component dimension; locality requires the explicit `hdim` hypothesis. |
-| `TauCeti.Huber.weightedX` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean` | A2 coordinates before completion. |
-| `TauCeti.ValuationSpectrum.gaussPoint`, `TauCeti.ValuationSpectrum.closedPolydisc` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/{GaussPoint,Basic}.lean` | A2 Gauss point Check and the field polydisc comparison. |
-| `TauCeti.ValuationSpectrum.isOpen_val_preimage_rationalSubset` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/RationalSubset/Basic.lean` | A2: the torus is open in the polydisc chart. |
-| `TauCeti.Huber.PairOfDefinition.isHuberRing_completion_locTopology`, `TauCeti.Huber.PairOfDefinition.isTateRing_completion_locTopology_of_isTateRing` | `TauCeti/RingTheory/Huber/LocalizationTopology/Completion.lean` | A3 instances `IsHuberRing`, `IsTateRing` of `Huber.ratLoc`; used directly. |
-| `TauCeti.Huber.PairOfDefinition.isRingOfIntegralElements_completedPlusSubring` | `TauCeti/RingTheory/Huber/LocalizationTopology/Plus.lean` | A3 plus ring of `Huber.ratLocPair`; used directly. |
-| `TauCeti.Huber.restrictedMvPowerSeriesCompletionEquiv` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Complete.lean:285` | A3 coefficients `Huber.restrictedCoeff` of `A⟨T⟩` for the map of Kedlaya–Liu II Cor. 2.4.9, and the identification of `tateSeries N A` with the Tate algebra over a complete Hausdorff base. |
-| `TauCeti.Huber.weightedEval` | `TauCeti/RingTheory/Huber/WeightedEval/Map.lean` | A3 value `F(t)` of a restricted series at a point in the Newton statements (`weightedEval (RingHom.id C₀) t F`). |
-| `TauCeti.Huber.PairOfDefinition.weighted`, `PairOfDefinition.weightedRingOfDefinition`, `PairOfDefinition.weightedRingOfDefinitionC`, `TauCeti.Huber.continuous_weightedC` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/PairOfDefinition.lean`, `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean` | A3 ring of definition `A₀⟨X⟩` of the Tate algebra (perturbations of coordinates, Newton with parameters). |
-| `TauCeti.completeSpace_moduleTopology` | `TauCeti/Topology/Algebra/Module/Finite.lean:82` | A1: supplies completeness for the right uniformity of the module topology on any finite module over a complete first-countable ring, hence on `FiniteEtale A B`; a Huber base is first countable. Neither étaleness nor Hausdorffness is needed for completeness. A3: natural completeness of a finite module is its Hausdorff property (check *test_iff_t2*). |
-| `TauCeti.Huber.PairOfDefinition.restrictionRingHomOfSubset` | `TauCeti/RingTheory/Huber/LocalizationTopology/Restriction.lean:441` | A3 numerator-enlargement restrictions; `ratLocRestriction_of_subset` identifies them with the restrictions used for Čech differentials and descent. |
-| `TauCeti.Huber.LaurentSeries.isTateRing` | `TauCeti/RingTheory/Huber/LaurentSeries.lean:224` | The formal Laurent field `𝔽_p((t))` with its `t`-adic topology, used as the coefficient field of the characteristic-`p` annulus Check. |
-| `TauCeti.Huber.weightedMapCompletion`, `continuous_weightedMapCompletion` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean:164`, `:181` | A1 coefficient inclusion on completed Tate algebras, descended through `TV-1` for the integral Kummer annulus. |
-| `TauCeti.Huber.laurentIdeal`, `mk_weightedX_zero_mul_mk_weightedX_one` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Laurent/Basic.lean:90, :106` | The quotient `weightedRestrictedSubring _ _ ⧸ laurentIdeal A` presents the Laurent ring with inverse coordinates; `Huber.restrictedLaurentSeries A` instead takes the quotient of the completed series ring. The generators `1 − TS` and `TS − 1` differ by the unit `−1`. |
-| `TauCeti.Huber.twoSidedRestrictedSubmodule`, `twoSidedRestrictedSubmodule.instCommRing` | `TauCeti/RingTheory/Huber/Restricted/TwoSidedSeries/Basic.lean:109`, `TauCeti/RingTheory/Huber/Restricted/TwoSidedSeries/Ring.lean:183` | The Laurent coefficient carrier is definitionally Mathlib `Filter.zeroAtFilterSubmodule A (Filter.cofinite : Filter ℤ)`, with convolution multiplication over a complete Hausdorff base; `restrictedLaurentSeries` uses quotient coordinates instead. A3's `restrictedLaurentSeriesTensorToNull` uses this coefficient carrier directly. |
-| `TauCeti.Huber.restrictedMvPowerSeriesCompletionFinZeroEquiv`, `TauCeti.Huber.continuous_restrictedMvPowerSeriesCompletionFinZeroEquiv`, `TauCeti.Huber.continuous_restrictedMvPowerSeriesCompletionFinZeroEquiv_symm` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | A2 zero-variable topological ring equivalence; the new target tracks plus rings. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.of_isTateRing` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A continuous map out of a Tate ring is adic; A1 does not restate it. |
-| `Algebra.IsFiniteSplit`, `Algebra.IsFiniteSplit.exists_tensorProduct_of_etale` | `Mathlib/RingTheory/TotallySplit.lean` | A1.0.0 retains variable-rank total splitting; A4.3 strengthens a splitting cover to a finite-group torsor. |
-| `TauCeti.Huber.isPowerBounded_iff_exists_mem_ringOfDefinition` | `TauCeti/RingTheory/Huber/RingOfDefinition.lean` | A1.0.2 cites the directed-union description of power-bounded elements. |
-| `IsAdic.isAdicComplete_iff` | `Mathlib/RingTheory/AdicCompletion/Topology.lean` | A1.0.2 passes from completeness and the adic subspace topology to adic completeness. |
-
-The proposed `CAff.IsTopologicallyFiniteType` (README only) uses [H94] 3.5(ii), pp. 534–535: the underlying
-ring map is topologically of finite type, and there is an open subring `C ⊆ B⁺`
-containing the image of `A⁺`, with `A⁺ → C` topologically of finite type and `B⁺`
-integral over `C`. This is the pair condition in [H96] 1.2.1(iii), p. 46, used by
-`AdicSpace.LocallyOfFiniteType` and the finite-presentation clause of `AdicSpace.Etale`.
-Adicness plus `+`-weak finite type does not replace this condition.
-
-### Within AdicEtaleGeometry
-
-| Declaration | File | Use |
-|---|---|---|
-| `Huber.Pair.polydiscVar`, `Huber.Pair.polydiscPlus`, `Huber.Pair.polydisc` | `Suggested.lean` | A3 uses A2's completed coordinates. A3's coefficient-series ring `Huber.tateSeries` with its plus ring `Huber.tateSeriesPlus` (`Suggested.lean`) has the same plus ring as the polydisc under `restrictedMvPowerSeriesCompletionEquiv`; that comparison is a clause of *standard-etale-presentation* (README only). |
-| strict pseudocoherence (*natural-topology-strict-exactness*, *stably-pseudocoherent-module*; README only), `Huber.IsNaturallyComplete` (`Suggested.lean`) | this README | Natural completeness is the second conjunct of strict pseudocoherence, so a stably pseudocoherent module over a complete Tate ring is naturally complete. |
-| the effective descent of finite étale algebras along the completed tower (*finite-etale-effective-descent-along-tower*; README only) | this README | A4 applies this theorem to the completed tower underlying the perfectoid torsor presentation of a tower (*perfectoid-cover-presentation*); the presentation needs no separate descent theorem. |
-
-| Target | Owner and address | Input contract |
-|---|---|---|
-| Henselian pairs, split rings and algebraic finite étale colimits | A1.0.0–A1.0.3a | Mathlib henselian pairs, finite étale algebras, idempotents and filtered colimits; no site input. |
-| Classical approximation and finite étale henselian completion | A1.0.4–A1.0.5 | A1.0.1–A1.0.3; polynomial approximation, section topologies, projective and algebra-structure moduli. |
-| Uniformity of finite étale algebras | A1.2a | A1.2's natural topology and integral plus ring; AdicSpacesPartIII R3.8's ordinary perfect trace pairing. |
-| Vector bundles on a stable étale basis | A1.6a | A1.6's site, basis and covering reduction; AdicSpacesPartIII R3.1/R3.5's acyclicity and finite-projective descent. |
-| Analytification morphism of étale sites | A2.6a | AdicSpacesPartII R1's analytification, points and fibre products; A1.6's locally noetherian analytic étale site. |
-| Generic-fibre functor from formal étale sites | A2.9a | AdicSpacesPartIII F0/R2.3/R2.9's formal site and site-free generic-fibre facts; A1.6's adic site. |
-| Finite Galois module descent | A4.2a | A4.2's finite torsor Galois map and invariants; Mathlib faithfully flat module descent. |
-
-### From AdicSpaces, AdicSpacesPartII and AdicSpacesPartIII
-
-AdicSpaces layers 0–5: Huber pairs, `Spa`, rational subsets, the structure presheaf, sheafiness,
-adic spaces, open and closed immersions, morphisms locally of finite type and gluing.
-AdicSpacesPartII layer R0: the completed tensor product with its universal property and
-uniformisation, affinoid and global fibre products, adic morphisms, the finite-type classes,
-separated, proper and partially proper morphisms, finite and quasi-finite morphisms, continuous
-differentials, smooth and étale morphisms in Huber's sense; layer R1: analytification. AdicSpacesPartIII layers F0/R2 own
-formal schemes and generic fibres, and layer R3 owns finite projective modules, trace forms and
-relative differential sheaves. AdicSpacesPartII R0.19 supplies spectral limits, Pro and topos
-foundations. The targets of those layers that this roadmap cites by label are: R0
-*completed-tensor-product*, *completed-tensor-product-universal-property*,
-*completed-tensor-rational-localisation*, *completed-tensor-restricted-power-series*,
-*uniformization*, *uniform-completed-tensor-product*, *adic-hom-choice-independence*,
-*adic-iff-analytic-locus*, *spa-comap-analytic-locus*, *affinoid-fibre-product*,
-*fibre-product-along-finite-type*, *fibre-products-existence*, *fibre-product-points*,
-*finite-algebra-over-affinoid*, *finite-algebra-tensor-complete*,
-*finite-etale-algebra-comparison*, *open-embedding-etale*, *etale-smooth-composition*,
-*etale-smooth-cancellation*, *etale-smooth-locality*, *smooth-etale-base-change*,
-*infinitesimal-criteria*, *diagonal-locally-closed*, *smooth-morphism-open*,
-*etale-local-open-finite-etale-factorisation*, *etale-local-structure*,
-*etale-presentation-perturbation*, *smooth-local-structure*, *smooth-differentials-locally-free*,
-*smooth-toric-chart*, *restricted-power-series-smooth*, *conormal-sequence*,
-*proper-iff-partially-proper-quasi-compact*, *separated-morphism*,
-*separated-diagonal-closed-embedding*, *adic-valuation-rings-and-centres*,
-*valuative-criterion-separated*, *separated-proper-partially-proper*, *closed-embedding-proper*,
-*finite-morphisms*, *proper-comp*, *proper-base-change*, *strict-complex-completion-exact*,
-*noetherian-rod-module-topology-strict*; R1 *affine-chart-analytification*,
-*analytic-affine-space*, *affinoid-domain-equidimensional*; R2 *generic-fibre-functor-d*, *noetherian-formal-scheme-as-adic-space*,
-*specialisation-map*; R3 *rational-covering-reduction*, *sheafy-cech-acyclicity*,
-*finite-projective-module-acyclicity*, *sheafy-tate-acyclicity-and-kiehl-gluing*,
-*tate-kiehl-affinoid*, *surjection-small-perturbation*. AdicSpacesPartII R0.19.6 owns
-*cofiltered-limits-of-spectral-spaces*, R0.19.7 owns *spa-of-filtered-colimit-of-tate-pairs*,
-R0.19.8 owns *quasicompact-opens-in-limits-of-spectral-spaces*, R0.19.9 owns
-*pro-category-of-finite-t0-spaces*, and R0.19.10 owns *quasicompact-objects-in-a-topos*.
-| Contract | Owner | Use here |
-| --- | --- | --- |
-| Cofiltered limits of spectral spaces | AdicSpacesPartII R0.19.6 | Underlying spaces and finite-stage detection of pro-étale opens. |
-| Spectra of filtered colimits of Tate pairs | AdicSpacesPartII R0.19.7 | A1.2 approximation and A4.7 completed-tower spectra. |
-| Pro-categories and spectral realization | AdicSpacesPartII R0.19.9 | The pro-category of the étale site and its Hom formula. |
-| Quasi-compact objects and algebraic topoi | AdicSpacesPartII R0.19.10 | A1.14 coherence and A1.15 Deligne points. |
-
-A1.6 owns *etale-covering-reduction*; A1.6a owns *stable-basis-etale-vector-bundles*;
-A2.6a owns *analytification-etale-site*; A4.2a owns *finite-galois-descent-of-modules*.
-
-| A2 entry point | Supplier | Contract |
-|---|---|---|
-| Formal generic fibre and analytic-locus comparison (*formal-generic-fibre-analytic-locus*) | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.genericFibre`, `FormalScheme.genericFibre.lift`, `FormalScheme.genericFibre.lift_unique`, `FormalScheme.genericFibre_isAnalytic`, `FormalScheme.specialisation`, named in AdicSpacesPartIII's README (*generic-fibre-functor-d*); [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | R2 owns the functors `t` and `d`, their universal properties and gluing, including `d(𝔛) ≅ t(𝔛)_a` for locally noetherian formal schemes, respecting specialisation, open formal subschemes and adic morphisms. |
-| Power-series and restricted-power-series generic fibres | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.ofSpf`, `FormalScheme.genericFibre`, `FormalScheme.genericFibre.lift`, `FormalScheme.genericFibre.lift_unique`, named in AdicSpacesPartIII's README; [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | A2.9 uses the `(p,T)`-adic topology on `ℤ_p⟦T⟧` and the `p`-adic topology on `ℤ_p⟨T⟩`. The open-disc and closed-disc comparisons are Part III's generic-fibre targets. |
-
-The completed-tensor universal mapping property, compatibility of the two base maps and
-density of elementary tensors are AdicSpacesPartII R0's (*completed-tensor-product*,
-*completed-tensor-product-universal-property*: the lift, `inl_comp` and `denseRange_tmul` of
-R0's `Huber.Pair.completedTensor`, named in R0's README); in this roadmap's `Suggested.lean` they
-enter as `Huber.IsCompletedPushout` and `Huber.exists_isCompletedPushout`. Boundedness of the
-uniform completed tensor and its universal property (lift, compatibility with `inl`, uniqueness)
-are R0's *uniform-completed-tensor-product*.
-These contracts are used directly. The rational-localization equivalence of A0.4 identifies
-the completed tensor with the localized carrier; the finite-étale equivalence of A0.5 restates
-R0's bijectivity of the completed tensor map for a finite algebra (*finite-algebra-tensor-complete*)
-for a finite étale algebra with its module topology (no plus rings, `B` on the left) and adds the
-inverse and the comparison of topologies (R0's comparison of the module and tensor topologies
-treats the uncompleted tensor). R0's plus-ring formula takes the integral closure in
-`B ⊗_A C`; A0's clause (ii) of *supplier-contract-fibre-products* takes it in the completion. R0's
-tests *completedTensor_test_not_adic* and *completedTensor_test_polydisc*, the non-adic
-`ℤ_p → ℤ_p⟦X⟧` of *adic-ring-homomorphism*, the non-finite identity `(A, A⁺) → (A, A'⁺)` of
-*finite-huber-pair-hom*, and the polydisc, `ℂ_p` and Galois cases of
-*uniform-completed-tensor-product* are cited by A0's Checks and not restated. A4 applies R0's
-plus ring and boundedness of the
-uniformisation (*uniformization*) and AdicSpacesPartII's `IsAdicHom.of_isTateRing` to the colimit
-pair of its tower; A2's base change of polydiscs is R0's restricted-power-series case of the
-completed tensor product (*completed-tensor-restricted-power-series*) at weights `1` with the
-factors exchanged, for an adic structure map (`IsAdicHom`). A0.1's *tate-completed-tensor-points*
-deduces point lifting over arbitrary complete Tate pairs from R0's *valuation-amalgamation*
-and completed tensor construction; A1.16 globalises it to analytic Yoneda-adic spaces.
-R0's geometric *fibre-product-points*,
-`TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point`, concerns ordinary adic spaces
-with one leg locally of weakly finite type, the other adic, and stably sheafy charts on the second
-factor. It supplies the comparison in that scope.
-
-Pseudouniformisers are carried forward by `TauCeti.Huber.IsPseudoUniformizer.map` in
-`TauCeti/RingTheory/Huber/Basic.lean`. Rational preimages are
-`TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset` in
-`TauCeti/AlgebraicGeometry/AdicSpace/Spa/HuberPair.lean`; this applies also to finite étale maps
-and to the torsor-presentation map. Dimension along an open covering is
-`TauCeti.topologicalKrullDim_eq_iSup_of_isOpenEmbedding` in
-`TauCeti/Topology/KrullDimension.lean`.
-
-| Interface | Supplier | Carrier used here |
-|---|---|---|
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `AdicSpace.Affinoid`, `AdicSpace.HomChart` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Complete sheafy affinoids, their open embeddings `Chart.ι`, and commuting morphism charts. Coefficients and plus rings are fields of `Chart.affinoid`. |
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsAdic`, `AdicSpace.IsFinite`, `AdicSpace.LocallyOfFiniteType` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Adic ring maps, finite whole affinoid inverse images, and local finite type with the integral plus ring. |
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale`, `AdicSpace.Smooth` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Finite presentation and infinitesimal lifting on `HomChart`. The analytic and locally noetherian hypotheses in A1/A2 are separate assumptions of the comparisons `AdicSpace.IsEtaleLocalDescription.iff_etale` and `AdicSpace.IsLocallyEtaleOverPolydisc.iff_smooth`. |
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsClosedImmersion`, `AdicSpace.IsSeparated`, `AdicSpace.IsPartiallyProper`, `AdicSpace.IsProper` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Quotient charts, closed diagonals, universal specialization and properness, with their stated finite-type and stable-sheafiness conditions. |
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsAnalytic`, `AdicSpace.HasStablySheafyCharts` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Analyticity means Tate affinoid neighbourhoods; stable sheafiness means stably sheafy affinoid neighbourhoods. |
-| `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.relativeDifferentials`, `AdicSpace.relativeDifferentials.d`, `AdicSpace.relativeDifferentials.affinoidIso` | AdicSpacesPartIII's README (R3.6, *sheaf-of-continuous-differentials*) | The relative continuous differential sheaf on locally noetherian analytic spaces. This roadmap's proposed `AdicSpace.relativeDifferentials.continuousIso` (A2, README only) uniquely identifies the local module and derivation with this representing sheaf; the affinoid comparison uses Part II continuous differentials. |
-
-### Approximation and site inputs
-
-The named entry points *finite-etale-approximation* and
-*analytification-relative-polydisc-comparison* cite A1.0.5
-(*finite-etale-completed-direct-limit*) and AdicSpacesPartII R1 with A2.6a
-(*analytification-etale-site*), respectively. SchemeAndStackFoundations §0.14 owns generic
-henselian-pair permanence and smooth lifting. A1.0.1 re-exports its filtered-colimit theorem as
-`Ring.DirectLimit.henselianRing` (README only), and A1.0.4 uses its `henselian_smooth_lifting`.
-The power-bounded and topological applications and the stronger Elkik approximation theorems
-belong here. SchemeAndStackFoundations §0.5 owns algebraic pseudocoherence. A3 extends that shared
-API to finite degrees through `Huber.IsPseudoCoherentOver`.
-
-Its `m = ∞` case characterizes the supplied predicate on `ModuleCat.of R M` by
-`Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule`, which identifies it with an augmented
-coordinate resolution. Its degree-zero and degree-one identifications use Mathlib's `Module.Finite` and
-`Module.FinitePresentation`. Natural completeness, strict and stable pseudocoherence,
-pseudoflatness and the adic module sheaf theory belong to A3.
-
-| Interface | Supplier | A3 contract |
-|---|---|---|
-| `PseudoCoherence.IsPseudoCoherentModule` (the Lean form of `Module.IsPseudoCoherent`) | [SchemeAndStackFoundations §0.5](../SchemeAndStackFoundations/README.md) on main | A nonnegative finite free complex with zeroth homology `M` and vanishing positive homology. A3's `Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule` transports between this predicate on `ModuleCat.of R M` and infinite coordinate resolutions; `Module.IsFPD.isPseudoCoherent` and `Huber.IsStablyPseudoCoherent.isPseudoCoherent` return the supplied predicate. |
-| The linear-functional Koszul complex and weak-regular-sequence finite free resolution | DerivedModuleAlgebra §0.K.1, *Koszul complex of a finite sequence* | Specialize the supplied complex to `φ(v) = ∑ fᵢvᵢ` on `Rʳ`, with its ordered wedge basis and alternating-deletion differential. A3's *koszul-regular-sequence-fpd* supplies the `Module.IsFPD`, shared pseudocoherence and conormal-basis consequences. |
-
-The rational plus subring is `Huber.PairOfDefinition.completedPlusSubring` in
-`TauCeti/RingTheory/Huber/LocalizationTopology/Plus.lean`: the closure of the image of the
-integral closure in the uncompleted localisation. A0.4 uses this supplied subring for the plus
-ring of the rational pullback (*rational-pullback-comparison*), and A3's `Huber.ratLocPair` takes
-it as its plus ring.
-
-### A0 point-set contracts
-
-| Object | Exact supplied declaration and file |
-| --- | --- |
-| Shrinking the spectrum when the plus ring grows | `TauCeti.ValuationSpectrum.spa_antitone`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean` |
-| Integral closure and topological closure leave the bounded valuation set unchanged | `TauCeti.ValuationSpectrum.spa_integralClosure`, `TauCeti.ValuationSpectrum.spa_topologicalClosure`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean` |
-| Analytic locus as an intersection and as rational charts | `TauCeti.ValuationSpectrum.spaAnalytic_def`, `TauCeti.ValuationSpectrum.spaAnalytic_eq_biUnion_rationalSubset`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean` |
-| Empty analytic locus of a discrete ring | `TauCeti.ValuationSpectrum.IsAnalyticPoint`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean`; every ideal is open in a discrete topology |
-| Every point of the spectrum of a Tate ring is analytic | `TauCeti.ValuationSpectrum.spaAnalytic_eq_spa_of_isTateRing`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean` |
-| Trivial-valuation points | `TauCeti.ValuationSpectrum.trivialSection`, `trivialSection_vle_iff`, `TauCeti/AlgebraicGeometry/AdicSpace/ValuationSpectrum/Basic.lean`; `isContinuous_trivialSection_iff`, `TauCeti/AlgebraicGeometry/AdicSpace/Cont/Basic.lean` |
-| `p` is a pseudouniformiser of `ℚ_p` | `TauCeti.Huber.Padic.isPseudoUniformizer_p`, `TauCeti/RingTheory/Huber/Padic/Field.lean` |
-| Adic-space carriers of A0.8 | `TauCeti.AdicSpace`, `PreAdicSpace.isAdic_restrict`, `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` (`PreAdicSpace/Adic.lean`); `PreAdicSpace.restrict`, `PreAdicSpace.ofRestrict` (`PreAdicSpace/Restrict.lean`); `PreAdicSpace.IsOpenImmersion`, `IsOpenImmersion.lift` (`PreAdicSpace/OpenImmersion.lean`); `ValuationSpectrum.presentationLimitPreAdicSpace` (`PreAdicSpace/PresentationLimit.lean`), all under `TauCeti/AlgebraicGeometry/AdicSpace/` |
-
-
-**`AdicSpace.IsFinite`.** Part II's finite morphism predicate has finite affinoid whole preimages, including the plus-ring condition. The comparison `IsFinite.iff_affinoidPullbacks` identifies these with the categorical pullback squares used here ([H96] §1.4, (1.4.4), p. 61). The predicate is AdicSpacesPartII's; the comparison and the Checks below are README only (no Lean declaration).
-
-**Checks.**
-
-- *AdicSpace_IsFinite_positive* (computation) — The split two-sheeted `ℚ₂` projection is finite.
-- *AdicSpace_IsFinite_degenerate* (degenerate) — The empty finite cover of `Spa(ℚ₂,ℤ₂)` is finite.
-- *AdicSpace_IsFinite_negative* (non-example) — The open unit disc into the closed unit disc is not finite; being an open immersion is insufficient.
-
-**`AdicSpace.LocallyOfFiniteType`.** Local finite type includes the adic condition on the chart maps (Huber 1996, Definition 1.2.1, p. 46). The predicate is AdicSpacesPartII's; the Checks below are README only (no Lean declaration).
-
-**Checks.**
-
-- *AdicSpace_LocallyOfFiniteType_positive* (computation) — The split two-sheeted cover of `Spa(ℚ₂,ℤ₂)` is locally of finite type.
-- *AdicSpace_LocallyOfFiniteType_degenerate* (degenerate) — The empty split cover is locally of finite type.
-- *AdicSpace_LocallyOfFiniteType_negative* (non-example) — `Spa(ℚ₂,ℤ₂) → Spa(ℤ,ℤ)` is not locally of finite type: its map is not adic. Omitting adicness from topological finite type would admit it.
+There are five layers. The first fixes how completed tensor products of complete Huber pairs are
+used and adds the analytic locus of a space that is not Tate. The second, the heart, builds the
+morphisms, the sites and their points; its pro-étale site, over locally noetherian bases, follows
+Scholze's erratum on coverings. The third adds relative polydiscs and tori, smooth morphisms by
+ball charts, and dimension. The fourth develops pseudocoherent modules over sheafy complete Tate
+rings and standard étale presentations. The fifth builds towers of finite étale torsors and their
+uniform completions.
 
 ## How to read the build
 
@@ -743,6 +275,68 @@ the full group. These equations retain the higher-rank distinction in A1.15.
   site. *coherent_presentation_infinite_discrete* excludes the topos of the infinite discrete
   space `ℕ`: its terminal sheaf is not quasi-compact, whereas a coherent presentation has a
   quasi-compact terminal object ([SGA 4 VI] §2 and Appendix, Proposition 9.0, p. 336).
+
+## Conventions
+
+1. Huber pairs, completeness (which includes Hausdorff) and adic spaces are AdicSpaces's; morphism
+   classes in Huber's sense are AdicSpacesPartII's.
+2. Finite étale and étale morphisms of analytic adic spaces are defined by the local description
+   (Kedlaya–Liu, Definition 8.2.16): locally an open immersion, a finite étale morphism and an open
+   immersion. On locally noetherian analytic spaces they agree with Huber's (A1).
+3. Base change, composition and the sites are stated for strongly sheafy spaces (Hansen–Kedlaya):
+   sheafiness alone is not known to survive finite étale extension. Non-sheafy spaces are handled as
+   Yoneda-adic spaces (sheaves on complete Huber pairs glued from sheafified spectra).
+4. Pro-étale coverings follow Scholze's erratum: a covering map is a transfinite tower of pullbacks
+   of finite étale surjections followed by an étale map; the deleted Corollary 3.8 (called Proposition 3.8 in the erratum), the
+   conservativity claim and the deleted last sentence of Proposition 3.13 of the 2013 paper are
+   never used; its point morphisms `i_x` are A1's *proetale-fibre-morphism-of-topoi*.
+5. Geometric points are morphisms `Spa(C, C⁺) → X` with `C` complete algebraically closed and `C⁺`
+   of any rank; nothing is tested only on rank-one points.
+6. The dimension of an adic space is the topological Krull dimension of its underlying space
+   (Mathlib `topologicalKrullDim`).
+7. Names: ring-level declarations in `Huber`, geometry in `AdicSpace`, Yoneda-adic spaces in
+   `YonedaAdicSpace` (the site in `CAff`), all under Tau Ceti's root namespace; the names below omit that prefix. The
+   declarations of `Suggested.lean` carry the same names inside `TauCetiRoadmap.AdicEtaleGeometry`.
+   A backticked name attached to a target of this roadmap is the name proposed for that piece of API.
+   It is a declaration of `Suggested.lean` exactly when the target's `Lean:` note lists it. A target
+   that ends with the note "README only (no Lean declaration)", and every clause that a `Lean:`
+   note leaves out, is specified in this README only.
+8. Each target below is written with its hypotheses in the sentence, its source locator in
+   parentheses (short keys are resolved in the References), its API as named lemmas and its unit
+   tests as `Checks`. A Check is named by an italic tag; when its target is formalised, the Check
+   becomes an `example` carrying that tag in its docstring. A target's label `(*slug*)` is the name
+   by which later targets, sibling roadmaps and the Lean file refer to it.
+9. Check fixtures. Several Checks share named test objects, proposed as namespaces of `example`s
+   and specified in this README only: `SplitChecks`, the split `n`-sheeted cover
+   `Spa(ℚ₂ⁿ, ℤ₂ⁿ) → Spa(ℚ₂, ℤ₂)` with its sheets (points, components) numbered `0, …, n − 1` and the
+   three-cycle `f ↦ (i ↦ f(i + 1))` of `ℚ₂³` with its `Spa` map (which moves sheet `i` to sheet
+   `i + 1`); `DiscChecks` and `DoubleDiscChecks`, the closed and open unit discs over `ℚ₂` and two
+   closed discs glued along the open disc; `CantorChecks`, `CompletionChecks` and
+   `ValuationSwapChecks`, described where they are used. Phrases such as "sheet 0", "the split
+   two-sheeted cover" and "the three-cycle" in the Checks refer to these fixtures.
+
+The `IsLimit`/`IsTerminal` witnesses `ProEtale.ProEt.space_isLimit`, `ProEtale.ProEt.final_isTerminal`, `FieldBaseChangeSystem.spaceCone_isLimit` and `FieldBaseChangeSystem.proObjectCone_isLimit`, and the unique terminal map `ProEtale.ProEt.toFinal`, are exempt from three discriminating Checks because their types are subsingletons; the cone maps and terminal objects carry the computational content.
+
+**Checks.** These checks fix the sign, order and transport conventions used throughout.
+
+- *cech_two_pieces* — The first differential of the augmented Čech complex of
+  *pseudocoherent-tate-acyclicity*, on two copies of the unit rational chart, sends `(1,0)` to `−1` on
+  their ordered overlap.
+- *koszul_two_equations* — For `ℚ[X₀,X₁]/(X₀,X₁)`, the two Koszul differentials of
+  *koszul-regular-sequence-fpd* satisfy `d₂(1) = (−X₁,X₀)`,
+  `d₁(1,0) = X₀`, `d₁(0,1) = X₁` and `d₁(d₂(1)) = 0`. The conormal basis of that target
+  sends the classes of `X₀` and `X₁` to their
+  respective basis vectors.
+- *inverse_action_three* — For the ring action of `ℤ/3` on `ℚ₂³` whose generator is the cyclic
+  shift `f ↦ (i ↦ f(i + 1))`, transport of valuations by the inverse generator sends the point of
+  `Spa(ℚ₂³, ℤ₂³)` at coordinate 0 to the point at coordinate 2. It agrees with the square of the
+  `Spa` map of the shift (which moves coordinate `i` to coordinate `i + 1`) on that point and
+  differs from the forward geometric map.
+- *galoisTensorMap_inverse_support*: on the regular `ℤ/3` torsor, `1 ⊗ δ₂`
+  evaluates under `Algebra.galoisTensorMap` to 1 at group coordinate 2 and the identity point,
+  and to 0 at group coordinate 1. With `G` acting on points of spectra by transport of structure,
+  `(g·v)(b) = v(g⁻¹·b)`, the ring map `b ↦ (g ↦ g·b)` therefore induces `(g,x) ↦ g⁻¹·x` on
+  spectra; on an actual Galois map this is A4's *galois_convention_three*.
 
 ## Layer A0: completed tensor products and the fibre products actually used
 
@@ -10024,6 +9618,408 @@ self-products and spectra. DiamondsAndVStacks D6 consumes A1's sites and generic
 and PerfectoidSpaces P6.16–P6.17's analytic presentation interfaces. The étale-cohomology,
 Shimura-variety, `p`-adic Hodge theory and adic-coefficient roadmaps use the named geometric
 contracts in their own documents.
+
+## Scope and ownership
+
+The roadmap owns, layer by layer:
+
+- A0: the comparison interface between AdicSpacesPartII's completed tensor product of complete
+  Huber pairs and the pushout and fibre-product shapes that the étale geometry uses — the pushout
+  square of complete Huber pairs, uniformisation supplied separately, the tracking of rings of
+  definition, pseudouniformisers and plus rings, point lifting for completed tensors over Tate
+  bases without sheafiness or finite-type assumptions, the restatement as contract clauses of R0's
+  pullbacks along rational open immersions and along finite étale maps and of its chart
+  independence, associativity, symmetry and unit, the universal property of maps into affinoids,
+  and the analytic locus of a non-Tate space with the restriction of morphisms to it. A0 defines
+  no new completed tensor product.
+- A1: split-ring vocabulary, henselian pairs, algebraic finite étale colimits, Elkik approximation,
+  henselian finite étale completion and uniformity; vector bundles on stable étale bases; strongly sheafy Huber pairs; the Huber pair of a finite étale algebra over a complete Tate
+  ring; finite étale and étale morphisms of analytic adic spaces by Kedlaya–Liu's local description,
+  with the comparison to Huber's definitions on locally noetherian spaces and the stability
+  properties; the étale and finite étale sites; geometric points (with the completed residue field
+  of a point), enough points and strict localisations; the finite étale fundamental group;
+  Kedlaya–Liu's site of an arbitrary analytic adic space; pro-étale morphisms and the pro-étale
+  site with Scholze's corrected covering condition; profinite `G`-sets and the pro-finite-étale
+  site; coherence and change of base field; points, with Deligne's theorem on points of coherent
+  topoi stated as the input it rests on; and generalized adic presentations (Yoneda-adic spaces)
+  of non-sheafy Huber pairs.
+- A2: the comparison interface with AdicSpacesPartII's separated, proper and partially proper
+  morphisms, and the few objects that roadmap leaves to this one — relative closed polydiscs,
+  relative tori, smooth morphisms by ball charts with the comparison to Huber's smooth morphisms,
+  compatible toric charts, the dimension of adic spaces and its estimates, analytification and its
+  compatibility with the étale site of A1, the continuous generic-fibre functor from formal étale
+  sites, and the formal schemes and generic fibres in the scope of
+  the specialisation theory of the étale-cohomology roadmaps.
+- A3: pseudocoherent modules and sheaves over sheafy complete Tate rings, generic standard étale
+  presentations, perturbation of generators and the quantitative implicit function theorem.
+- A4: applications of A1.0's split-ring and completion theory, finite étale torsors, finite Galois
+  module descent, the finite étale torsor tower, invariance of spectra and finite étale algebras
+  under uniformisation, the completed tower with its self-products and finite étale data, and
+  the adic spectra of the tower.
+
+AdicSpaces (layers 0–5, with 6.1 for `A_inf`) and AdicSpacesPartII (layers R0–R1) are the owners of Huber pairs,
+adic spaces, the completed tensor product, uniformisation, fibre products and Huber's morphism
+theory. AdicSpacesPartIII owns formal schemes, generic fibres and relative differential sheaves;
+AdicSpacesPartIV owns the R4 site applications. A0 and A2 add the relative polydiscs and tori,
+smooth morphisms by ball charts and dimension. AdicSpacesPartII R0.19.6, R0.19.9 and R0.19.10
+own cofiltered spectral limits, pro-categories and the qcqs vocabulary of algebraic topoi used
+by A1. PerfectoidSpaces P3.17a–P3.17b own sousperfectoid geometry and perfectoid polydisc
+specializations; P5.13.1–P5.13.4 own tubular neighbourhoods, the Fargues–Scholze analytic
+specializations, closed embeddings and affinoid étale finite-stage approximation. P1.32 owns
+perfectoidness of split Tate rings, and P6.15–P6.17 own continuous-function perfectoidness,
+perfectoid torsor presentations and analytic comparison interfaces. DiamondsAndVStacks D6 owns
+`Spd`, representability and the identification of étale sites in Scholze's Proposition 15.4,
+Definition 15.5 and Lemma 15.6. A1 owns Deligne's theorem on points of coherent topoi.
+Derived étale cohomology of the sites belongs to the étale-cohomology roadmaps that
+import this one: the sites built here are geometric sites, not definitions of derived cohomology;
+the affinoid perfectoid basis of the pro-étale site over complete nonarchimedean extensions
+of `ℚ_p` belongs to PerfectoidSpaces P7.16.
+AdicSpacesPartIV layer R4 re-exports the sites of A1 on its carriers — the étale slice site, the
+pro-étale slice site and the functoriality of the étale site are stated here and re-exported there
+(*slice-site*, *proetale-slice-open-subspace*, *etale-site*) — and R5.7
+consumes A1.6's *etale-covering-reduction* on its stable basis. PerfectoidSpaces cites the generic results of
+this roadmap: finite étale algebras over a filtered colimit of rings
+(*finite-etale-algebras-filtered-colimit*), the finite étale Galois torsors with
+`|Spa B|/G ≅ |Spa A|` and their completed towers (*torsor-spa-orbits*, *spa-of-completed-tower*),
+of which PerfectoidTowers P8's quotient theorems are the non-free generalisation.
+PerfectoidSpaces P5.13.4 owns the compatibility clause of the assembled Proposition 6.4
+(*etale-descent-to-finite-stage-6-4*). PerfectoidSpaces P0–P7, PerfectoidTowers P8–P9,
+DiamondsAndVStacks D2–D6 and the `p`-adic Hodge theory, adic-coefficient and relative
+Fargues–Fontaine roadmaps consume the layers named in their own documents.
+
+Already stated or built elsewhere, and cited in this roadmap rather than restated:
+
+- the set-level preimage of a rational subset along an adic morphism of complete Huber pairs —
+  AdicSpacesPartII layer R0 (*completed-tensor-rational-localisation*); the open subspace `g⁻¹(U)` as the fibre product
+  `Y ×_X U` — AdicSpaces layer 5; the open disc over a non-adic base — R0
+  (*fibre-product-along-finite-type*);
+- the base change of a finite algebra over a complete Tate ring without completion, its plus ring
+  and its rational preimages — R0 (*finite-algebra-tensor-complete*), with `Spa` of the result as
+  a fibre product — R0 (*affinoid-fibre-product*);
+- the affinoid charts of the glued fibre product and their restriction to rational subsets — R0
+  (*fibre-products-existence*, *affinoid-fibre-product*, *completed-tensor-rational-localisation*);
+- finite étale algebras over a completed direct limit of complete Tate rings come from a finite
+  stage — A1.0.5 (*finite-etale-completed-direct-limit*);
+- Huber's smooth morphisms are locally étale over relative polydiscs, with the rank of `Ω` and the
+  closure-of-the-point refinement over a field — R0 (*smooth-local-structure*,
+  *smooth-differentials-locally-free*, *smooth-toric-chart*);
+- the relative affine space as the increasing union of polydiscs, with the torus inside it —
+  AdicSpacesPartII layer R1 (*affine-chart-analytification*, *analytic-affine-space*);
+- the point-set and Krull-dimension clauses of the analytic locus and of the dimension theory, and
+  the ring-level clauses of A3's natural topology, Laurent-series and flatness statements, which
+  are Tau Ceti lemmas named in their targets and in the supplier contracts below.
+
+Where a clause of a target of this roadmap is a statement of a sibling roadmap in a special case
+(the locally noetherian, strongly noetherian, sousperfectoid or perfectoid case), the target says
+so by label and states in one clause what remains its own.
+
+## Exact supplier contracts
+
+`Suggested.lean` imports Mathlib, the Tau Ceti modules whose declarations it uses,
+`TauCetiRoadmap.AdicSpacesPartII.Suggested` for the R0 chart and morphism
+interfaces, and `TauCetiRoadmap.SchemeAndStackFoundations.Suggested`
+for the shared algebraic pseudocoherence predicate. All statements here use generic Huber-pair,
+sheafy or strongly sheafy Tate-ring hypotheses. Perfectoid and sousperfectoid specializations
+are owned by PerfectoidSpaces P3.17a–P3.17b and P5.13.1.
+
+### From Mathlib
+
+Étale, smooth and unramified algebras (`Algebra.Etale`, `Algebra.Smooth.flat`,
+`Algebra.Etale.baseChange`, `Algebra.FormallyUnramified`), finite and finitely presented modules
+(`Module.Finite`, `Module.FinitePresentation`, `Module.Flat.projective_of_finitePresentation`),
+faithful flatness (`Module.FaithfullyFlat`), the module topology (`IsModuleTopology`), split
+algebras and semiring actions (`Algebra.IsFiniteSplit`, `MulSemiringAction`), integral closure,
+pushouts and pullbacks (`CategoryTheory.IsPushout`, `IsPullback`, `Limits.pullbackAssoc`,
+`pullbackSymmetry`, `IsPushout.paste_horiz`), Grothendieck topologies, sheaves, points and
+`HasEnoughPoints`, continuous actions of profinite groups (`ContAction Profinite G`), sheaf
+cohomology (`Sheaf.H`), multivariate power series with derivations (`MvPowerSeries.pderiv`), the
+topological Krull dimension (`topologicalKrullDim`, `Topology.IsInducing.topologicalKrullDim_le`,
+`IsHomeomorph.topologicalKrullDim_eq`), nonarchimedean normed fields
+(`NontriviallyNormedField`, `IsUltrametricDist`, `CompleteSpace`), direct limits of rings
+(`Ring.DirectLimit`), henselian rings (`HenselianRing`, `IsAdicComplete.henselianRing`),
+continuity of linear maps for the module topology (`IsModuleTopology.continuous_of_linearMap`)
+and the projective dimension of quotients by regular sequences in noetherian local rings
+(`projectiveDimension_quotient_eq_length`,
+`projectiveDimension_quotient_eq_add_length_of_isWeaklyRegular`). The site of A1.16 uses
+`CategoryTheory.Coverage`, `Coverage.toGrothendieck`, `Presieve.isSheaf_coverage`,
+`presheafToSheaf` (left exact), `sheafificationAdjunction`, `uliftYonedaEquiv`,
+`CostructuredArrow` and `DiscreteUniformity` directly; A4 uses `PadicComplex.isAlgClosed`,
+`HenselianLocalRing`, `IsSepClosed.of_isAlgClosed`, `PadicInt.isUnit_iff`, `LocallyConstant`,
+`ProfiniteGrp`, `DirectLimit` and `DualNumber`.
+
+| Declaration | File | A1 use |
+|---|---|---|
+| `CategoryTheory.PreGaloisCategory.functorToContAction`, its `IsEquivalence` instance | `Mathlib/CategoryTheory/Galois/Equivalence.lean` | The finite-set equivalence, using `smallFiniteEtale.isFiberFunctor`; the action is evaluation of natural automorphisms. |
+| `CategoryTheory.PreGaloisCategory.autEmbedding_isClosedEmbedding`, together with the `CompactSpace (Aut F)` and `TotallyDisconnectedSpace (Aut F)` instances | `Mathlib/CategoryTheory/Galois/Topology.lean` | The topology of `fundamentalGroup` directly inherits compactness and total disconnectedness. |
+| `CategoryTheory.Limits.PullbackCone.IsLimit.lift_fst`, `CategoryTheory.Limits.PullbackCone.IsLimit.lift_snd` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/PullbackCone.lean` | Projection equations for `FibreProduct.lift`, directly from its `isLimit` field. |
+| `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso`, `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp` | `Mathlib/CategoryTheory/Limits/IsLimit.lean` | Unique comparison of two `FibreProduct` cones, fixing both projections. |
+| `CategoryTheory.IsPullback`, `CategoryTheory.IsPullback.isLimit`, `CategoryTheory.Limits.LimitCone`, `CategoryTheory.Limits.cospan` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/IsPullback/Defs.lean`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Cospan.lean` | `FibreProduct f g` is a `Limits.LimitCone (cospan f g)` with named projections; `⟨P.fst, P.snd, f, g⟩` satisfies Mathlib's `IsPullback`, and `IsPullback.isLimit` recovers `isLimit`. |
+| `CategoryTheory.GrothendieckTopology.Point.isCofiltered`, `Point.initiallySmall`, `Point.presheafFiber`, `Point.isColimitPresheafFiberCocone`, `Point.sheafFiber` | `Mathlib/CategoryTheory/Sites/Point/Basic.lean` | Cofiltered neighbourhoods, existence and value of their stalk colimit, and its restriction to sheaves, applied to `GeometricPoint.point`. |
+| `CategoryTheory.Ind.yoneda.fullyFaithful` | `Mathlib/CategoryTheory/Limits/Indization/Category.lean` | Fullness and faithfulness of `ProEt.const` follow from this embedding, opposites and composition. |
+| `IsModuleTopology.isTopologicalRing` | `Mathlib/Topology/Algebra/Module/ModuleTopology.lean` | Ring topology on the finite algebra synonym; no new theorem. |
+| `eq_moduleTopology` | `Mathlib/Topology/Algebra/Module/ModuleTopology.lean` | Identification of the canonical module topology. |
+| `QuotientGroup.subsingleton_quotient_top` | `Mathlib/GroupTheory/QuotientGroup/Basic.lean` | The Check that `G/G` has one point. |
+| `topologicalKrullDim`, `topologicalKrullDim_subspace_le`, `IsHomeomorph.topologicalKrullDim_eq` | `Mathlib/Topology/KrullDimension.lean` | A2 uses dimension and its subspace/homeomorphism API directly. |
+| `irreducibleSetEquivPoints` | `Mathlib/Topology/Sober.lean` | A2 specialization chains on quasi-sober T0 spaces. |
+| `Order.krullDim_eq_of_orderIso`, `Order.krullDim_eq_iSup_coheight` | `Mathlib/Order/KrullDimension.lean` | A2 chain-length formula; no additional wrapper theorem. |
+| `RingTheory.Sequence.IsWeaklyRegular.of_flat` | `Mathlib/RingTheory/Regular/Flat.lean` | A3 weak regularity under flat base change; used directly. |
+| `CategoryTheory.HasProjectiveDimensionLE` | `Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean` | A3 agreement Check for `Module.IsFPD` (check *test_projectiveDimension*); a different notion (arbitrary projectives). |
+| `ContinuousLinearMap.isClosed_ker` | `Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Basic.lean` | A3 closed kernels after `IsModuleTopology.continuous_of_linearMap`; surjectivity is unnecessary. |
+| `StandardEtalePresentation` (root namespace), `Algebra.SubmersivePresentation`, `Algebra.Etale.iff_isStandardSmoothOfRelativeDimension_zero` | `Mathlib/RingTheory/Etale/StandardEtale.lean`, `Mathlib/RingTheory/Extension/Presentation/Submersive.lean`, `Mathlib/RingTheory/Smooth/StandardSmoothOfFree.lean` | One-variable `R[X]_g/(f)` presentations and algebraic relative-dimension-zero presentations; A3's `Huber.StandardEtalePresentation` has `N` variables, restricted series, closed kernel, quotient topology, integral-closure plus ring and the bound `k`, and uses the submersive presentation only to construct presentations of finite étale algebras. |
+
+### From Tau Ceti
+
+Huber rings and pairs (`Huber.IsHuberRing`, `IsTateRing`, `IsPseudoUniformizer`, `Pair`,
+`Pair.Hom`, `PairOfDefinition`, `PairOfDefinition.completionLocalization`,
+`PairOfDefinition.locUniformSpace`, `IsStronglyNoetherian`, `restrictedMvPowerSeriesCompletion`,
+`IsTopologicallyFiniteType`), the adic spectrum (`ValuationSpectrum.spa`, `rationalSubset`,
+`spa_antitone`, `spa_integralClosure`, `Pair.Hom.spaComap`,
+`TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset`,
+`existsUnique_continuous_ringHom_of_forall_comap_mem_rationalSubset`, `spaLocalizationHomeomorph`),
+the analytic locus (`ValuationSpectrum.IsAnalyticPoint`, `spaAnalytic`,
+`isOpen_val_preimage_spaAnalytic`, `isCompact_val_preimage_spaAnalytic`,
+`spaAnalytic_eq_biUnion_rationalSubset`, `isTateRing_completion_locTopology_of_mem_generators`,
+`spaAnalytic_eq_spa_of_isTateRing`, `spaAnalytic_eq_empty_iff_discrete_separationQuotient`),
+polydiscs and Gauss points, and the `p`-adic Huber instances (`TauCeti.RingTheory.Huber.Padic`).
+Also consumed, each at the target whose clause it supplies: the transport of pseudouniformisers
+(`Huber.IsPseudoUniformizer.map`); the module topology of finite modules over Tate rings
+(`completeSpace_moduleTopology`, `firstCountableTopology_moduleTopology`,
+`IsTateRing.t2Space_moduleTopology`, `IsTateRing.isModuleTopology`, `IsTateRing.isOpenMap`,
+`isQuotientMap`, `isStrictMap_of_isClosed_range`, `isClosed_of_module_finite_topologicalClosure`,
+`isClosed_of_isNoetherian`, `IsTateRing.exists_presentation_isStrictMap_isOpenMap`); restricted
+and Laurent series (`restrictedMvPowerSeriesBaseChangeEquiv`, `id_sub_smul_mulX_injective`,
+`smul_id_sub_mulX_injective`, `flat_quotient_algebraMap_sub_restrictedX`,
+`flat_quotient_one_sub_algebraMap_mul_restrictedX`); flatness of rational localisation
+(`flat_toCompletionLoc`, `flat_restrictionRingHom`, `faithfullyFlat_pi_toCompletionLoc`); rings of
+definition (`isPowerBounded_iff_exists_mem_ringOfDefinition`); the valued residue field of a point
+(`ValuationSpectrum.residueFieldValuation`, whose completion `k(x)^` is defined in A1); the sheaf
+criterion on the rational basis (`TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`);
+continuous sections of profinite groups (`exists_continuous_section`,
+`exists_continuous_section_of_le`, `exists_continuous_rightCosetFactorization`); and dimension
+(`topologicalKrullDim_eq_iSup_coheight`, `topologicalKrullDim_eq_iSup_of_isOpenEmbedding`,
+`IsPureDimensional`, `isPureDimensional_iff_forall_of_isOpenEmbedding`).
+
+| Declaration | File | Use |
+|---|---|---|
+| `TauCeti.MulSemiringAction.tensorToPi`, `tensorToPi_tmul`, `tensorToPi_apply_one`, `tensorToPi_map_toAlgHom` | [Tau Ceti, `RingTheory/Invariant/Free.lean`, lines 79–109](https://github.com/TauCetiProject/TauCeti/blob/cb5fb39763cbca84862c35ee20e64abb6cc539d8/TauCeti/RingTheory/Invariant/Free.lean#L79-L109) | A4.2 consumes the generic Galois tensor map for arbitrary groups, its pure-tensor and identity formulas, and compatibility with twisting the second factor. `Algebra.galoisTensorMap` is an alias of this map. |
+| Unit-Jacobian Newton | `TauCeti.IsAdicComplete.existsUnique_eq_zero_of_isUnit_det`, `TauCeti/RingTheory/AdicCompletion/Newton.lean` | Supplies the restricted-series Newton case `k = 0` after Taylor linearisation on the ring of definition; the quantitative bounds and functoriality belong to A3. |
+| `TauCeti.Huber.IsSheafyRing`, `IsStablySheafyRing` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/SheafyRing.lean` | Sheafiness predicates used by the strong-sheafiness targets. |
+| `TauCeti.Huber.isSheafyRing_of_isStronglyNoetherian` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/StronglyNoetherian.lean` | Strongly noetherian sheafiness; combined with the existing restricted-series instance. |
+| `TauCeti.AdicSpace`, `PreAdicSpace.IsOpenImmersion`, `PreAdicSpace.isAffinoid`, `ValuationSpectrum.presentationLimitPreAdicSpace`, `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/{Adic,OpenImmersion,Affinoid,PresentationLimit}.lean` | Existing geometric carrier for the named geometric targets of A0.8, A1.3–A1.15, A1.16 (`YonedaAdicSpace.ofAdicSpace`) and A2. |
+| `TauCeti.Huber.Pair.Hom.comp_id`, `TauCeti.Huber.Pair.Hom.id_comp`, `TauCeti.Huber.Pair.Hom.comp_assoc`, `TauCeti.Huber.Pair.Hom.continuous_spaComap`, `TauCeti.Huber.Pair.Hom.spaComap_id`, `TauCeti.Huber.Pair.Hom.spaComap_comp` | `TauCeti/RingTheory/Huber/Pair.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/HuberPair.lean` | Category laws of `CAff` and the functor `CAff.spa`, used directly. |
+| `Valuation.restrictToConvex`, `Valuation.restrictToConvex_le_iff_of_mem`, `TauCeti.Huber.PairOfDefinition.isContinuous_of_forall_cofinalValue`, `TauCeti.ValuationSpectrum.spaCompletionHomeomorph` | `TauCeti/RingTheory/Valuation/RestrictToConvex.lean`, `TauCeti/RingTheory/Huber/Continuous/OfCofinal.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Completion/Homeomorph.lean` | A0.1's *tate-completed-tensor-points*: restriction preserving factor valuations of arbitrary rank, continuity for the tensor topology, and extension to the completion. |
+| `TauCeti.Huber.Pair.Hom.isSpectralMap_spaComap_of_isTateRing` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MorphismSpectral.lean` | Every morphism out of a Tate pair has spectral `Spa`; A4's presentations need no separate spectrality axiom. |
+| `TauCeti.Huber.Pair.Hom.isSpectralMap_spaComap` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MorphismSpectral.lean` | Spectrality when the image of every open ideal is open. |
+| `TauCeti.Huber.existsUnique_continuous_ringHom_completion_weightedRestrictedSubring` | `TauCeti/RingTheory/Huber/WeightedEval/Completion.lean` | Continuous evaluation of the completed weighted series ring under `IsWeightBounded`. |
+| `TauCeti.Huber.isOpen_powerBoundedSubring` | `TauCeti/RingTheory/Huber/Basic.lean` | The power-bounded subring of a Huber ring is open. |
+| `TauCeti.Huber.mem_of_isTopologicallyNilpotent_of_isIntegrallyClosedIn` | `TauCeti/RingTheory/Huber/Pair.lean` | An open integrally closed subring contains the topologically nilpotent elements. |
+| `TauCeti.ValuationSpectrum.spa_eq_empty_iff_subsingleton` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Emptiness.lean` | The zero-pair Checks of A1.16. |
+| `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean` | Directly constructs `CAff.adicSpa` from `IsSheafyForEveryPresentation.isSheaf`; no additional adicity theorem. |
+| `TauCeti.Huber.IsSheafyForEveryPresentation` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/SheafForEveryPresentation.lean` | Pair-level sheafiness in `CAff.isSheafAt_O_iff_isSheafyPair` and *adic-spaces-in-yoneda-adic-spaces*. |
+| `TauCeti.Huber.IsTateRing.completion` | `TauCeti/RingTheory/Huber/Completion.lean` | A4: the completion of the colimit of the tower is Tate. |
+| `TauCeti.Huber.isPowerBounded_of_isIntegral` | `TauCeti/RingTheory/Huber/PowerBounded.lean` | A4 Check that nilpotents are power-bounded. |
+| `TauCeti.topologicalKrullDim_eq_iSup_coheight`, `TauCeti.topologicalKrullDim_eq_iSup_of_isOpenEmbedding` | `TauCeti/Topology/KrullDimension.lean` | A2 specialization dimension and dimension of an open cover. |
+| `TauCeti.IsPureDimensional`, `TauCeti.isPureDimensional_iff_forall_of_isOpenEmbedding` | `TauCeti/Topology/PureDimension.lean` | Component dimension; locality requires the explicit `hdim` hypothesis. |
+| `TauCeti.Huber.weightedX` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean` | A2 coordinates before completion. |
+| `TauCeti.ValuationSpectrum.gaussPoint`, `TauCeti.ValuationSpectrum.closedPolydisc` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/{GaussPoint,Basic}.lean` | A2 Gauss point Check and the field polydisc comparison. |
+| `TauCeti.ValuationSpectrum.isOpen_val_preimage_rationalSubset` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/RationalSubset/Basic.lean` | A2: the torus is open in the polydisc chart. |
+| `TauCeti.Huber.PairOfDefinition.isHuberRing_completion_locTopology`, `TauCeti.Huber.PairOfDefinition.isTateRing_completion_locTopology_of_isTateRing` | `TauCeti/RingTheory/Huber/LocalizationTopology/Completion.lean` | A3 instances `IsHuberRing`, `IsTateRing` of `Huber.ratLoc`; used directly. |
+| `TauCeti.Huber.PairOfDefinition.isRingOfIntegralElements_completedPlusSubring` | `TauCeti/RingTheory/Huber/LocalizationTopology/Plus.lean` | A3 plus ring of `Huber.ratLocPair`; used directly. |
+| `TauCeti.Huber.restrictedMvPowerSeriesCompletionEquiv` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Complete.lean:285` | A3 coefficients `Huber.restrictedCoeff` of `A⟨T⟩` for the map of Kedlaya–Liu II Cor. 2.4.9, and the identification of `tateSeries N A` with the Tate algebra over a complete Hausdorff base. |
+| `TauCeti.Huber.weightedEval` | `TauCeti/RingTheory/Huber/WeightedEval/Map.lean` | A3 value `F(t)` of a restricted series at a point in the Newton statements (`weightedEval (RingHom.id C₀) t F`). |
+| `TauCeti.Huber.PairOfDefinition.weighted`, `PairOfDefinition.weightedRingOfDefinition`, `PairOfDefinition.weightedRingOfDefinitionC`, `TauCeti.Huber.continuous_weightedC` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/PairOfDefinition.lean`, `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean` | A3 ring of definition `A₀⟨X⟩` of the Tate algebra (perturbations of coordinates, Newton with parameters). |
+| `TauCeti.completeSpace_moduleTopology` | `TauCeti/Topology/Algebra/Module/Finite.lean:82` | A1: supplies completeness for the right uniformity of the module topology on any finite module over a complete first-countable ring, hence on `FiniteEtale A B`; a Huber base is first countable. Neither étaleness nor Hausdorffness is needed for completeness. A3: natural completeness of a finite module is its Hausdorff property (check *test_iff_t2*). |
+| `TauCeti.Huber.PairOfDefinition.restrictionRingHomOfSubset` | `TauCeti/RingTheory/Huber/LocalizationTopology/Restriction.lean:441` | A3 numerator-enlargement restrictions; `ratLocRestriction_of_subset` identifies them with the restrictions used for Čech differentials and descent. |
+| `TauCeti.Huber.LaurentSeries.isTateRing` | `TauCeti/RingTheory/Huber/LaurentSeries.lean:224` | The formal Laurent field `𝔽_p((t))` with its `t`-adic topology, used as the coefficient field of the characteristic-`p` annulus Check. |
+| `TauCeti.Huber.weightedMapCompletion`, `continuous_weightedMapCompletion` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean:164`, `:181` | A1 coefficient inclusion on completed Tate algebras, descended through `TV-1` for the integral Kummer annulus. |
+| `TauCeti.Huber.laurentIdeal`, `mk_weightedX_zero_mul_mk_weightedX_one` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Laurent/Basic.lean:90, :106` | The quotient `weightedRestrictedSubring _ _ ⧸ laurentIdeal A` presents the Laurent ring with inverse coordinates; `Huber.restrictedLaurentSeries A` instead takes the quotient of the completed series ring. The generators `1 − TS` and `TS − 1` differ by the unit `−1`. |
+| `TauCeti.Huber.twoSidedRestrictedSubmodule`, `twoSidedRestrictedSubmodule.instCommRing` | `TauCeti/RingTheory/Huber/Restricted/TwoSidedSeries/Basic.lean:109`, `TauCeti/RingTheory/Huber/Restricted/TwoSidedSeries/Ring.lean:183` | The Laurent coefficient carrier is definitionally Mathlib `Filter.zeroAtFilterSubmodule A (Filter.cofinite : Filter ℤ)`, with convolution multiplication over a complete Hausdorff base; `restrictedLaurentSeries` uses quotient coordinates instead. A3's `restrictedLaurentSeriesTensorToNull` uses this coefficient carrier directly. |
+| `TauCeti.Huber.restrictedMvPowerSeriesCompletionFinZeroEquiv`, `TauCeti.Huber.continuous_restrictedMvPowerSeriesCompletionFinZeroEquiv`, `TauCeti.Huber.continuous_restrictedMvPowerSeriesCompletionFinZeroEquiv_symm` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | A2 zero-variable topological ring equivalence; the new target tracks plus rings. |
+| `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.of_isTateRing` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A continuous map out of a Tate ring is adic; A1 does not restate it. |
+| `Algebra.IsFiniteSplit`, `Algebra.IsFiniteSplit.exists_tensorProduct_of_etale` | `Mathlib/RingTheory/TotallySplit.lean` | A1.0.0 retains variable-rank total splitting; A4.3 strengthens a splitting cover to a finite-group torsor. |
+| `TauCeti.Huber.isPowerBounded_iff_exists_mem_ringOfDefinition` | `TauCeti/RingTheory/Huber/RingOfDefinition.lean` | A1.0.2 cites the directed-union description of power-bounded elements. |
+| `IsAdic.isAdicComplete_iff` | `Mathlib/RingTheory/AdicCompletion/Topology.lean` | A1.0.2 passes from completeness and the adic subspace topology to adic completeness. |
+
+The proposed `CAff.IsTopologicallyFiniteType` (README only) uses [H94] 3.5(ii), pp. 534–535: the underlying
+ring map is topologically of finite type, and there is an open subring `C ⊆ B⁺`
+containing the image of `A⁺`, with `A⁺ → C` topologically of finite type and `B⁺`
+integral over `C`. This is the pair condition in [H96] 1.2.1(iii), p. 46, used by
+`AdicSpace.LocallyOfFiniteType` and the finite-presentation clause of `AdicSpace.Etale`.
+Adicness plus `+`-weak finite type does not replace this condition.
+
+### Within AdicEtaleGeometry
+
+| Declaration | File | Use |
+|---|---|---|
+| `Huber.Pair.polydiscVar`, `Huber.Pair.polydiscPlus`, `Huber.Pair.polydisc` | `Suggested.lean` | A3 uses A2's completed coordinates. A3's coefficient-series ring `Huber.tateSeries` with its plus ring `Huber.tateSeriesPlus` (`Suggested.lean`) has the same plus ring as the polydisc under `restrictedMvPowerSeriesCompletionEquiv`; that comparison is a clause of *standard-etale-presentation* (README only). |
+| strict pseudocoherence (*natural-topology-strict-exactness*, *stably-pseudocoherent-module*; README only), `Huber.IsNaturallyComplete` (`Suggested.lean`) | this README | Natural completeness is the second conjunct of strict pseudocoherence, so a stably pseudocoherent module over a complete Tate ring is naturally complete. |
+| the effective descent of finite étale algebras along the completed tower (*finite-etale-effective-descent-along-tower*; README only) | this README | A4 applies this theorem to the completed tower underlying the perfectoid torsor presentation of a tower (*perfectoid-cover-presentation*); the presentation needs no separate descent theorem. |
+
+| Target | Owner and address | Input contract |
+|---|---|---|
+| Henselian pairs, split rings and algebraic finite étale colimits | A1.0.0–A1.0.3a | Mathlib henselian pairs, finite étale algebras, idempotents and filtered colimits; no site input. |
+| Classical approximation and finite étale henselian completion | A1.0.4–A1.0.5 | A1.0.1–A1.0.3; polynomial approximation, section topologies, projective and algebra-structure moduli. |
+| Uniformity of finite étale algebras | A1.2a | A1.2's natural topology and integral plus ring; AdicSpacesPartIII R3.8's ordinary perfect trace pairing. |
+| Vector bundles on a stable étale basis | A1.6a | A1.6's site, basis and covering reduction; AdicSpacesPartIII R3.1/R3.5's acyclicity and finite-projective descent. |
+| Analytification morphism of étale sites | A2.6a | AdicSpacesPartII R1's analytification, points and fibre products; A1.6's locally noetherian analytic étale site. |
+| Generic-fibre functor from formal étale sites | A2.9a | AdicSpacesPartIII F0/R2.3/R2.9's formal site and site-free generic-fibre facts; A1.6's adic site. |
+| Finite Galois module descent | A4.2a | A4.2's finite torsor Galois map and invariants; Mathlib faithfully flat module descent. |
+
+### From AdicSpaces, AdicSpacesPartII and AdicSpacesPartIII
+
+AdicSpaces layers 0–5: Huber pairs, `Spa`, rational subsets, the structure presheaf, sheafiness,
+adic spaces, open and closed immersions, morphisms locally of finite type and gluing.
+AdicSpacesPartII layer R0: the completed tensor product with its universal property and
+uniformisation, affinoid and global fibre products, adic morphisms, the finite-type classes,
+separated, proper and partially proper morphisms, finite and quasi-finite morphisms, continuous
+differentials, smooth and étale morphisms in Huber's sense; layer R1: analytification. AdicSpacesPartIII layers F0/R2 own
+formal schemes and generic fibres, and layer R3 owns finite projective modules, trace forms and
+relative differential sheaves. AdicSpacesPartII R0.19 supplies spectral limits, Pro and topos
+foundations. The targets of those layers that this roadmap cites by label are: R0
+*completed-tensor-product*, *completed-tensor-product-universal-property*,
+*completed-tensor-rational-localisation*, *completed-tensor-restricted-power-series*,
+*uniformization*, *uniform-completed-tensor-product*, *adic-hom-choice-independence*,
+*adic-iff-analytic-locus*, *spa-comap-analytic-locus*, *affinoid-fibre-product*,
+*fibre-product-along-finite-type*, *fibre-products-existence*, *fibre-product-points*,
+*finite-algebra-over-affinoid*, *finite-algebra-tensor-complete*,
+*finite-etale-algebra-comparison*, *open-embedding-etale*, *etale-smooth-composition*,
+*etale-smooth-cancellation*, *etale-smooth-locality*, *smooth-etale-base-change*,
+*infinitesimal-criteria*, *diagonal-locally-closed*, *smooth-morphism-open*,
+*etale-local-open-finite-etale-factorisation*, *etale-local-structure*,
+*etale-presentation-perturbation*, *smooth-local-structure*, *smooth-differentials-locally-free*,
+*smooth-toric-chart*, *restricted-power-series-smooth*, *conormal-sequence*,
+*proper-iff-partially-proper-quasi-compact*, *separated-morphism*,
+*separated-diagonal-closed-embedding*, *adic-valuation-rings-and-centres*,
+*valuative-criterion-separated*, *separated-proper-partially-proper*, *closed-embedding-proper*,
+*finite-morphisms*, *proper-comp*, *proper-base-change*, *strict-complex-completion-exact*,
+*noetherian-rod-module-topology-strict*; R1 *affine-chart-analytification*,
+*analytic-affine-space*, *affinoid-domain-equidimensional*; R2 *generic-fibre-functor-d*, *noetherian-formal-scheme-as-adic-space*,
+*specialisation-map*; R3 *rational-covering-reduction*, *sheafy-cech-acyclicity*,
+*finite-projective-module-acyclicity*, *sheafy-tate-acyclicity-and-kiehl-gluing*,
+*tate-kiehl-affinoid*, *surjection-small-perturbation*. AdicSpacesPartII R0.19.6 owns
+*cofiltered-limits-of-spectral-spaces*, R0.19.7 owns *spa-of-filtered-colimit-of-tate-pairs*,
+R0.19.8 owns *quasicompact-opens-in-limits-of-spectral-spaces*, R0.19.9 owns
+*pro-category-of-finite-t0-spaces*, and R0.19.10 owns *quasicompact-objects-in-a-topos*.
+| Contract | Owner | Use here |
+| --- | --- | --- |
+| Cofiltered limits of spectral spaces | AdicSpacesPartII R0.19.6 | Underlying spaces and finite-stage detection of pro-étale opens. |
+| Spectra of filtered colimits of Tate pairs | AdicSpacesPartII R0.19.7 | A1.2 approximation and A4.7 completed-tower spectra. |
+| Pro-categories and spectral realization | AdicSpacesPartII R0.19.9 | The pro-category of the étale site and its Hom formula. |
+| Quasi-compact objects and algebraic topoi | AdicSpacesPartII R0.19.10 | A1.14 coherence and A1.15 Deligne points. |
+
+A1.6 owns *etale-covering-reduction*; A1.6a owns *stable-basis-etale-vector-bundles*;
+A2.6a owns *analytification-etale-site*; A4.2a owns *finite-galois-descent-of-modules*.
+
+| A2 entry point | Supplier | Contract |
+|---|---|---|
+| Formal generic fibre and analytic-locus comparison (*formal-generic-fibre-analytic-locus*) | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.genericFibre`, `FormalScheme.genericFibre.lift`, `FormalScheme.genericFibre.lift_unique`, `FormalScheme.genericFibre_isAnalytic`, `FormalScheme.specialisation`, named in AdicSpacesPartIII's README (*generic-fibre-functor-d*); [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | R2 owns the functors `t` and `d`, their universal properties and gluing, including `d(𝔛) ≅ t(𝔛)_a` for locally noetherian formal schemes, respecting specialisation, open formal subschemes and adic morphisms. |
+| Power-series and restricted-power-series generic fibres | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.ofSpf`, `FormalScheme.genericFibre`, `FormalScheme.genericFibre.lift`, `FormalScheme.genericFibre.lift_unique`, named in AdicSpacesPartIII's README; [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | A2.9 uses the `(p,T)`-adic topology on `ℤ_p⟦T⟧` and the `p`-adic topology on `ℤ_p⟨T⟩`. The open-disc and closed-disc comparisons are Part III's generic-fibre targets. |
+
+The completed-tensor universal mapping property, compatibility of the two base maps and
+density of elementary tensors are AdicSpacesPartII R0's (*completed-tensor-product*,
+*completed-tensor-product-universal-property*: the lift, `inl_comp` and `denseRange_tmul` of
+R0's `Huber.Pair.completedTensor`, named in R0's README); in this roadmap's `Suggested.lean` they
+enter as `Huber.IsCompletedPushout` and `Huber.exists_isCompletedPushout`. Boundedness of the
+uniform completed tensor and its universal property (lift, compatibility with `inl`, uniqueness)
+are R0's *uniform-completed-tensor-product*.
+These contracts are used directly. The rational-localization equivalence of A0.4 identifies
+the completed tensor with the localized carrier; the finite-étale equivalence of A0.5 restates
+R0's bijectivity of the completed tensor map for a finite algebra (*finite-algebra-tensor-complete*)
+for a finite étale algebra with its module topology (no plus rings, `B` on the left) and adds the
+inverse and the comparison of topologies (R0's comparison of the module and tensor topologies
+treats the uncompleted tensor). R0's plus-ring formula takes the integral closure in
+`B ⊗_A C`; A0's clause (ii) of *supplier-contract-fibre-products* takes it in the completion. R0's
+tests *completedTensor_test_not_adic* and *completedTensor_test_polydisc*, the non-adic
+`ℤ_p → ℤ_p⟦X⟧` of *adic-ring-homomorphism*, the non-finite identity `(A, A⁺) → (A, A'⁺)` of
+*finite-huber-pair-hom*, and the polydisc, `ℂ_p` and Galois cases of
+*uniform-completed-tensor-product* are cited by A0's Checks and not restated. A4 applies R0's
+plus ring and boundedness of the
+uniformisation (*uniformization*) and AdicSpacesPartII's `IsAdicHom.of_isTateRing` to the colimit
+pair of its tower; A2's base change of polydiscs is R0's restricted-power-series case of the
+completed tensor product (*completed-tensor-restricted-power-series*) at weights `1` with the
+factors exchanged, for an adic structure map (`IsAdicHom`). A0.1's *tate-completed-tensor-points*
+deduces point lifting over arbitrary complete Tate pairs from R0's *valuation-amalgamation*
+and completed tensor construction; A1.16 globalises it to analytic Yoneda-adic spaces.
+R0's geometric *fibre-product-points*,
+`TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point`, concerns ordinary adic spaces
+with one leg locally of weakly finite type, the other adic, and stably sheafy charts on the second
+factor. It supplies the comparison in that scope.
+
+Pseudouniformisers are carried forward by `TauCeti.Huber.IsPseudoUniformizer.map` in
+`TauCeti/RingTheory/Huber/Basic.lean`. Rational preimages are
+`TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset` in
+`TauCeti/AlgebraicGeometry/AdicSpace/Spa/HuberPair.lean`; this applies also to finite étale maps
+and to the torsor-presentation map. Dimension along an open covering is
+`TauCeti.topologicalKrullDim_eq_iSup_of_isOpenEmbedding` in
+`TauCeti/Topology/KrullDimension.lean`.
+
+| Interface | Supplier | Carrier used here |
+|---|---|---|
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `AdicSpace.Affinoid`, `AdicSpace.HomChart` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Complete sheafy affinoids, their open embeddings `Chart.ι`, and commuting morphism charts. Coefficients and plus rings are fields of `Chart.affinoid`. |
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsAdic`, `AdicSpace.IsFinite`, `AdicSpace.LocallyOfFiniteType` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Adic ring maps, finite whole affinoid inverse images, and local finite type with the integral plus ring. |
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale`, `AdicSpace.Smooth` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Finite presentation and infinitesimal lifting on `HomChart`. The analytic and locally noetherian hypotheses in A1/A2 are separate assumptions of the comparisons `AdicSpace.IsEtaleLocalDescription.iff_etale` and `AdicSpace.IsLocallyEtaleOverPolydisc.iff_smooth`. |
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsClosedImmersion`, `AdicSpace.IsSeparated`, `AdicSpace.IsPartiallyProper`, `AdicSpace.IsProper` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Quotient charts, closed diagonals, universal specialization and properness, with their stated finite-type and stable-sheafiness conditions. |
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsAnalytic`, `AdicSpace.HasStablySheafyCharts` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Analyticity means Tate affinoid neighbourhoods; stable sheafiness means stably sheafy affinoid neighbourhoods. |
+| `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.relativeDifferentials`, `AdicSpace.relativeDifferentials.d`, `AdicSpace.relativeDifferentials.affinoidIso` | AdicSpacesPartIII's README (R3.6, *sheaf-of-continuous-differentials*) | The relative continuous differential sheaf on locally noetherian analytic spaces. This roadmap's proposed `AdicSpace.relativeDifferentials.continuousIso` (A2, README only) uniquely identifies the local module and derivation with this representing sheaf; the affinoid comparison uses Part II continuous differentials. |
+
+### Approximation and site inputs
+
+The named entry points *finite-etale-approximation* and
+*analytification-relative-polydisc-comparison* cite A1.0.5
+(*finite-etale-completed-direct-limit*) and AdicSpacesPartII R1 with A2.6a
+(*analytification-etale-site*), respectively. SchemeAndStackFoundations §0.14 owns generic
+henselian-pair permanence and smooth lifting. A1.0.1 re-exports its filtered-colimit theorem as
+`Ring.DirectLimit.henselianRing` (README only), and A1.0.4 uses its `henselian_smooth_lifting`.
+The power-bounded and topological applications and the stronger Elkik approximation theorems
+belong here. SchemeAndStackFoundations §0.5 owns algebraic pseudocoherence. A3 extends that shared
+API to finite degrees through `Huber.IsPseudoCoherentOver`.
+
+Its `m = ∞` case characterizes the supplied predicate on `ModuleCat.of R M` by
+`Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule`, which identifies it with an augmented
+coordinate resolution. Its degree-zero and degree-one identifications use Mathlib's `Module.Finite` and
+`Module.FinitePresentation`. Natural completeness, strict and stable pseudocoherence,
+pseudoflatness and the adic module sheaf theory belong to A3.
+
+| Interface | Supplier | A3 contract |
+|---|---|---|
+| `PseudoCoherence.IsPseudoCoherentModule` (the Lean form of `Module.IsPseudoCoherent`) | [SchemeAndStackFoundations §0.5](../SchemeAndStackFoundations/README.md) on main | A nonnegative finite free complex with zeroth homology `M` and vanishing positive homology. A3's `Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule` transports between this predicate on `ModuleCat.of R M` and infinite coordinate resolutions; `Module.IsFPD.isPseudoCoherent` and `Huber.IsStablyPseudoCoherent.isPseudoCoherent` return the supplied predicate. |
+| The linear-functional Koszul complex and weak-regular-sequence finite free resolution | DerivedModuleAlgebra §0.K.1, *Koszul complex of a finite sequence* | Specialize the supplied complex to `φ(v) = ∑ fᵢvᵢ` on `Rʳ`, with its ordered wedge basis and alternating-deletion differential. A3's *koszul-regular-sequence-fpd* supplies the `Module.IsFPD`, shared pseudocoherence and conormal-basis consequences. |
+
+The rational plus subring is `Huber.PairOfDefinition.completedPlusSubring` in
+`TauCeti/RingTheory/Huber/LocalizationTopology/Plus.lean`: the closure of the image of the
+integral closure in the uncompleted localisation. A0.4 uses this supplied subring for the plus
+ring of the rational pullback (*rational-pullback-comparison*), and A3's `Huber.ratLocPair` takes
+it as its plus ring.
+
+### A0 point-set contracts
+
+| Object | Exact supplied declaration and file |
+| --- | --- |
+| Shrinking the spectrum when the plus ring grows | `TauCeti.ValuationSpectrum.spa_antitone`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean` |
+| Integral closure and topological closure leave the bounded valuation set unchanged | `TauCeti.ValuationSpectrum.spa_integralClosure`, `TauCeti.ValuationSpectrum.spa_topologicalClosure`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean` |
+| Analytic locus as an intersection and as rational charts | `TauCeti.ValuationSpectrum.spaAnalytic_def`, `TauCeti.ValuationSpectrum.spaAnalytic_eq_biUnion_rationalSubset`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean` |
+| Empty analytic locus of a discrete ring | `TauCeti.ValuationSpectrum.IsAnalyticPoint`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean`; every ideal is open in a discrete topology |
+| Every point of the spectrum of a Tate ring is analytic | `TauCeti.ValuationSpectrum.spaAnalytic_eq_spa_of_isTateRing`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean` |
+| Trivial-valuation points | `TauCeti.ValuationSpectrum.trivialSection`, `trivialSection_vle_iff`, `TauCeti/AlgebraicGeometry/AdicSpace/ValuationSpectrum/Basic.lean`; `isContinuous_trivialSection_iff`, `TauCeti/AlgebraicGeometry/AdicSpace/Cont/Basic.lean` |
+| `p` is a pseudouniformiser of `ℚ_p` | `TauCeti.Huber.Padic.isPseudoUniformizer_p`, `TauCeti/RingTheory/Huber/Padic/Field.lean` |
+| Adic-space carriers of A0.8 | `TauCeti.AdicSpace`, `PreAdicSpace.isAdic_restrict`, `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` (`PreAdicSpace/Adic.lean`); `PreAdicSpace.restrict`, `PreAdicSpace.ofRestrict` (`PreAdicSpace/Restrict.lean`); `PreAdicSpace.IsOpenImmersion`, `IsOpenImmersion.lift` (`PreAdicSpace/OpenImmersion.lean`); `ValuationSpectrum.presentationLimitPreAdicSpace` (`PreAdicSpace/PresentationLimit.lean`), all under `TauCeti/AlgebraicGeometry/AdicSpace/` |
+
+
+**`AdicSpace.IsFinite`.** Part II's finite morphism predicate has finite affinoid whole preimages, including the plus-ring condition. The comparison `IsFinite.iff_affinoidPullbacks` identifies these with the categorical pullback squares used here ([H96] §1.4, (1.4.4), p. 61). The predicate is AdicSpacesPartII's; the comparison and the Checks below are README only (no Lean declaration).
+
+**Checks.**
+
+- *AdicSpace_IsFinite_positive* (computation) — The split two-sheeted `ℚ₂` projection is finite.
+- *AdicSpace_IsFinite_degenerate* (degenerate) — The empty finite cover of `Spa(ℚ₂,ℤ₂)` is finite.
+- *AdicSpace_IsFinite_negative* (non-example) — The open unit disc into the closed unit disc is not finite; being an open immersion is insufficient.
+
+**`AdicSpace.LocallyOfFiniteType`.** Local finite type includes the adic condition on the chart maps (Huber 1996, Definition 1.2.1, p. 46). The predicate is AdicSpacesPartII's; the Checks below are README only (no Lean declaration).
+
+**Checks.**
+
+- *AdicSpace_LocallyOfFiniteType_positive* (computation) — The split two-sheeted cover of `Spa(ℚ₂,ℤ₂)` is locally of finite type.
+- *AdicSpace_LocallyOfFiniteType_degenerate* (degenerate) — The empty split cover is locally of finite type.
+- *AdicSpace_LocallyOfFiniteType_negative* (non-example) — `Spa(ℚ₂,ℤ₂) → Spa(ℤ,ℤ)` is not locally of finite type: its map is not adic. Omitting adicness from topological finite type would admit it.
 
 ## References
 
