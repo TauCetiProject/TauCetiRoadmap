@@ -106,6 +106,10 @@ constraints stated where they enter; the values of particular constructions appe
 | `C_Λ, s_th, ν̂` | Lipschitz constant of the remainders (RieszSumsOverPrimesAndExceptionalZeros §1.4h), thin-scale saving, Fourier coefficients of `ν` | 1.7, 1.4, 1.6 |
 | `𝔄, 𝔜_{ν₀}(x), 𝔔_x, x₁` | averaged sum of the `m` differences, the family sum `G_1(x) + (3o + 1)^{−1}Σ_{κ≠1} Re G_κ(x)`, the logarithmic size of 1.7, the threshold of 1.9 | 1.7, 1.9 |
 
+**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider statement would need its own proof.
+
 ## Layer 0: Abelian CM hosts and their Frobenius data
 
 The host is a finite abelian extension of `ℚ` with an imaginary quadratic subfield `K`; such a field is a CM field, and
