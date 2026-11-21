@@ -1077,8 +1077,12 @@ crystalline `E`-representations with `HT_i(T₁) ⊂ [−M_i, h_i]`, `M_i, h_i �
    `y ∈ Q^{−M}N(T)^{Γ_K^{tor}}`, `z ∈ π₀N(T)^{Γ_K^{tor}}` represents a class of `H¹_f(K, T)`, which is zero only if `(y, z) = d⁰m`
    with `m ∈ N(T)^{Γ_K^{tor}}`. (*Poles at several levels*) More generally, if `(y, z)` is a Herr cocycle of `D(T)^{Γ_K^{tor}}` with
    `Λ·y ∈ N(T)` for a product `Λ` of powers of the `φ^j(π₀ + p)`, `j ≥ 0`, and `z ∈ π₀N(T)`, the class of `(y, z)` is finite;
-3. (*lifting with loss*; *the form of the formal proof*) `p^{e}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with `e := 2e_W + e_U`, and
-   `e ≤ 23·(2 + H/p + log_p(H + 1))`. (*A refinement of this roadmap, not a statement of [FormalProof]*) The route gives the
+3. (*lifting with loss*; *the form of the formal proof*, [FormalProof],
+   `Formalism/SharpRestriction/LevelLetterCocycles/LiftingTheory.lean` (`Formalism.MainNotions.LiftingTheory.coreLiftA`, with
+   `Formalism.MainNotions.LiftingTheory.LiftTheoremCaseA`) for the inclusion and
+   `Formalism/SharpRestriction/LevelLetterCocycles/FrobeniusPowUniformizerFactorisation.lean`
+   (`Formalism.MainNotions.LiftingTheory.coreLiftO_holds`) for the bound) `p^{e}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with
+   `e := 2e_W + e_U`, and `e ≤ 23·(2 + H/p + log_p(H + 1))`. (*A refinement of this roadmap, not a statement of [FormalProof]*) The route gives the
    same inclusion with `e° := 2·cost(0, H) + e°_U ≤ e`, which is `0` when `M + h ≤ p − 2`; it uses `cost` of
    WachLatticesOverTheCyclotomicTower §6.10 (2) in place of `e_W`, and the refinement `e°_U` of its §6.10 (4), which is that
    roadmap's own, in place of `e_U`.
