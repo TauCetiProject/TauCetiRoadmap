@@ -20,13 +20,13 @@ This file is not the roadmap: the roadmap is `README.md`. This file states the r
 theorems against the pinned Mathlib and Tau Ceti.
 
 The headline theorems are the compactness characterization `T` compact iff `aₙ(T) → 0` for a
-Hilbert-space target (README §1.2, OI-A29), the Ky Fan triangle inequality (§1.5, OI-A48),
-Eckart–Young (§1.5, OI-A49), Ky Fan dominance of the operator-ideal family induced by a symmetric
-gauge (§2.5, OI-B75), the inclusions `S_p ⊆ S_q` of the Schatten scale (§2.5, OI-B88), the
-Hilbert–Schmidt reconciliation `∑ aₙ(T)² = ∑ ‖T bᵢ‖²` (§2.5, OI-B90), the approximation numbers
-of an orthogonal block sum (§2.6, OI-B91), the identification of the operators represented by `ℓ²`
+Hilbert-space target (README §A2, OI-A29), the Ky Fan triangle inequality (§A5, OI-A48),
+Eckart–Young (§A5, OI-A49), Ky Fan dominance of the operator-ideal family induced by a symmetric
+gauge (§B5, OI-B75), the inclusions `S_p ⊆ S_q` of the Schatten scale (§B5, OI-B88), the
+Hilbert–Schmidt reconciliation `∑ aₙ(T)² = ∑ ‖T bᵢ‖²` (§B5, OI-B90), the approximation numbers
+of an orthogonal block sum (§B6, OI-B91), the identification of the operators represented by `ℓ²`
 families of columns with the operators of finite Hilbert–Schmidt energy and their compactness
-(§3.1, OI-C08, OI-C14), and faithfulness of the symmetric-gauge construction (§2.4, OI-B72). All
+(§C1, OI-C08, OI-C14), and faithfulness of the symmetric-gauge construction (§B4, OI-B72). All
 are statable at the pins, on Tau Ceti's carriers, and all but the last are proved in Tau Ceti at
 the pins; they are pinned below by `#check`. Faithfulness is proved there for scalars and spaces in
 the lowest universe (`TauCeti.SymmetricGauge.extend_eq_of_operatorIdealFamily_eq`), and is stated
@@ -39,7 +39,7 @@ namespace TauCetiRoadmap.OperatorIdeals
 
 open scoped ENNReal NNReal
 
-/-- **Faithfulness of the symmetric-gauge construction** (README §2.4, OI-B72), in arbitrary
+/-- **Faithfulness of the symmetric-gauge construction** (README §B4, OI-B72), in arbitrary
 universes: if two symmetric gauges `Φ` and `Ψ` induce the same operator-ideal family over `𝕜`, on
 Hilbert spaces with sources in the universe `v` and targets in the universe `w`, then their
 extensions agree on every antitone sequence `a : ℕ → ℝ≥0∞`. Tau Ceti proves the case of the lowest
@@ -52,10 +52,10 @@ theorem symmetricGaugeFamily_injective {𝕜 : Type u} [RCLike 𝕜] {Φ Ψ : Ta
   sorry
 
 /-! The headline theorems proved in Tau Ceti at the pins, in the order of `README.md`: the
-compactness characterization (§1.2), the Ky Fan triangle inequality and Eckart–Young (§1.5), Ky Fan
+compactness characterization (§A2), the Ky Fan triangle inequality and Eckart–Young (§A5), Ky Fan
 dominance of induced families, the Schatten inclusions and the Hilbert–Schmidt reconciliation
-(§2.5), the approximation numbers of a block sum (§2.6), and the column model with the compactness
-of Hilbert–Schmidt operators (§3.1). -/
+(§B5), the approximation numbers of a block sum (§B6), and the column model with the compactness
+of Hilbert–Schmidt operators (§C1). -/
 
 #check @ContinuousLinearMap.isCompactOperator_iff_tendsto_singularValue
 #check @ContinuousLinearMap.kyFanGauge_add_le
