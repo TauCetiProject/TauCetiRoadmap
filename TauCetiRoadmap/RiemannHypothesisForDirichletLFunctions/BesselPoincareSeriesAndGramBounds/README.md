@@ -349,8 +349,9 @@ character `ω` of `D` has `ω² ≠ 1`) and `∫_{S_{z′}\G_τ}‖W‖² = 1`, 
 *Chain instance.* Assume (W5) of ThetaChainsOnDefiniteUnitaryGroups §2.3 with `h_gap ≥ max(120r³, h_nv(r, q_S))`, `h_gap > 8√(2q_S)(N₁ + 2rq_S)`,
 `h_gap > rpq_S + 1` and (G) for `h_gap/4`, where `N₁ = 4r²√(2q_S)` (all implied by `SizeGap` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, whose main term
 `C_gap·r^{19}` with `C_gap ≥ 120` exceeds each of them). The chain instance below, and that of 5.15a, are used for
-`r ≥ 1801` and consecutive nodes of the row parameter at least `16r^{19}` apart, which the chain supplies for large `x`; this
-is the form in which they are established. Then for every word `u` and every `τ`, `(𝒟_τ, V_{λ_u(τ)})`
+`r ≥ 1801` and consecutive nodes of the row parameter at least `16r^{19}` apart, which (St) of 5.20a implies when `C_l ≥ 16`
+and `C′ ≥ 29` (the node gaps by its clause `C_lr^{19}f⁵L ≤ e′_{j+1}(τ) − e′_j(τ)`, the rank by `C′m⁵fL ≤ k`); this is the form
+in which they are established. Then for every word `u` and every `τ`, `(𝒟_τ, V_{λ_u(τ)})`
 satisfies the hypotheses of 5.13a, with the sign pattern of RowTowerAndRallisIdentities §5.3, the gap between entries of different signs of `hc(τ)` being
 at least `h_gap` by (W5) and `0 ≤ v_l(τ) ≤ Sc` (ThetaChainsOnDefiniteUnitaryGroups §2.3), and `W_u = ⊗_τ W_{u,τ} : U(Y_0)(F_∞) → V_{λ_u}` is the *Bessel function
 of `u`*, unique up to a scalar of modulus `1`, with
@@ -606,8 +607,14 @@ modulo `g′ = g₀`, which splits completely in `E`), and assume `r ≥ n₀`, 
 `log log b ≤ c·rf log r`, `g₀g₁ ≤ b^{C_ϕ}`, `g₀ > 4r`, (W6) of ThetaChainsOnDefiniteUnitaryGroups §2.3, and (W5) with `h_gap ≥ C·r^{19}f^5·log(b·rd_E)`. Then
 `|D_all − D*| ≤ ε_C·D*` with `ε_C = exp(−c·rf log r)`.
 
-*Route.* (a) `R(e_{π_∞} ⊗ ϕ)` is a projection onto cusp forms (RowTowerAndRallisIdentities §5.3; the criterion
-AutomorphicSpectralTheory §4.10 is stated for semisimple groups, and its reduction for the centre of `U(V)` is not given here), so `m(π_∞, ϕ) = ∫_𝔉 Σ_{γ∈U(V)(F)} (e_{π_∞} ⊗ ϕ)(x^{−1}γx) dx`
+*Route.* (a) Call a function `F` on `U(V)(F)\U(V)(𝔸)` *cuspidal* if, for every nonzero totally isotropic subspace `W ⊂ V`,
+with `N_W` the unipotent radical of the stabiliser of `W` in `U(V)`, `∫_{N_W(F)\N_W(𝔸)}F(nx) dn = 0` for almost every `x` (the
+definition is made on `U(V)` itself; no reduction to a semisimple group is involved). Under the gap of the statement the
+coefficient `⟨w_τ, π_τ(·)w_τ⟩` decays so that `e_{π_∞} ⊗ ϕ` is integrable and `R(e_{π_∞} ⊗ ϕ)` is a bounded operator; the
+space of intertwiners from `π_∞` to `L²(U(V)(F)\U(V)(𝔸))` with values fixed by `R(ϕ)` is finite-dimensional, and it has an
+orthonormal basis `T_1, …, T_D` of isometric intertwiners whose values are cuspidal and such that `T_1(w), …, T_D(w)`,
+`w = ⊗_τw_τ`, is an orthonormal basis of the range of `R(e_{π_∞} ⊗ ϕ)` (RowTowerAndRallisIdentities §5.3). So
+`R(e_{π_∞} ⊗ ϕ)` is a projection onto cusp forms, and `m(π_∞, ϕ) = ∫_𝔉 Σ_{γ∈U(V)(F)} (e_{π_∞} ⊗ ϕ)(x^{−1}γx) dx`
 over a fundamental domain `𝔉`, the kernel on the diagonal being `Σ_i|F_i(x)|²` for an orthonormal basis of the range;
 the term `γ = 1` integrates to `D*(π_∞, ϕ)`. (b) For `x ∈ U(V)(𝔸)` let `Λ_x` be the Hermitian lattice `x_fL` with the
 metrics `x_∞`; its canonical filtration (SlopesOfHermitianVectorBundles §3.2) gives `least(x)`, the least normalised size
@@ -660,7 +667,7 @@ counts for the stabiliser of the lattice. (g) Combine.
 Chain instance: `𝟙_{K₂,χ₂}` is an admissible idempotent (ThetaChainsOnDefiniteUnitaryGroups §2.9: `K₂` is the inverse image of a unipotent subgroup modulo
 `g₀g₁`, and `g₀`, split completely, is unramified in `E`), the gap from (W5) as in the chain instance of 5.13, the parameters from (W6).
 
-*Needs:* RowTowerAndRallisIdentities §5.3, 5.14, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; AutomorphicSpectralTheory §4.5 (finite multiplicity), §4.10 (Wallach's cuspidality criterion); DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1 (trace class),
+*Needs:* RowTowerAndRallisIdentities §5.3, 5.14, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; AutomorphicSpectralTheory §4.5 (finite multiplicity); DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1 (trace class),
 §2.4a (c) (explicit lowest-`K`-type coefficients of gapped discrete series and their decay); SlopesOfHermitianVectorBundles §3.2; HermitianFormsAndLattices §§6.0b,
 5.5, 6.4, 6.5; AdelicAlgebraicGroups §3.1 (Iwasawa integration), §3.4 (adelic reduction, finite covolume); GeometryOfNumbersAndQuadraticArithmetic
 §4.4.14 (covering radius and dual minimum); AnalyticNumberTheoryPartI §2.15 (residue bound for Dedekind zeta functions).
@@ -1428,8 +1435,9 @@ Follows from [FormalProof], `Formalism/HermitianCurvature/StatementTC.lean` (`Fo
 ThetaChainsOnDefiniteUnitaryGroups §2.3b (f) bounds every entry of `u(τ)` by `b²`), `(kfL)^{C_l} ≤ Δ_w`, `C_l r^{19}f⁵L ≤ e′_{j+1}(τ) − e′_j(τ)`, all consecutive gaps of
 the row parameter `> C_l k m⁴ + r·m^{10}` (`SizeGap`), `b^{c_T m} ≤ T(w) ≤ b^{C_T m}` for the words `w` considered (the upper
 bound is `SizeT_u`, ThetaChainsOnDefiniteUnitaryGroups §2.8), and `C_l ≤ m`; with the adapted data of ThetaChainsOnDefiniteUnitaryGroups §2.3b (`0 ≤ v_l(τ) ≤ Sc ≤ e′_0(τ)/8`, consecutive `v_l` exactly
-`4Δ_w` apart, and, at the real places that are not top places, the cloud gap `u_1(τ) − v_0(τ) ≥ Sc` and the last entry
-`u_k(τ) = v_{k−2}(τ) − ½`, type entries numbered from `1`). Put `κ_sc := 2π/(rd_E·g₀g₁)` (the *scaling factor*: `ψ_τ(x) = ψ_ℂ(κ_scx)` for the character `ψ_τ` of 5.13
+`4Δ_w` apart; at every real place the cloud gap `u_1(τ) − v_0(τ) ≥ Sc`; at the real places that are not top places also
+`u_1(τ) − v_0(τ) ≤ 2Sc` and the last entry `u_k(τ) = v_{k−2}(τ) − ½`; at a top place `e′_0(τ)/2 ≤ −u_k(τ) ≤ e′_0(τ) − 3`;
+type entries numbered from `1`). Put `κ_sc := 2π/(rd_E·g₀g₁)` (the *scaling factor*: `ψ_τ(x) = ψ_ℂ(κ_scx)` for the character `ψ_τ` of 5.13
 and a suitable choice of the character `ψ_ℂ` of 5.18 (i); another choice multiplies `κ_sc` by a fixed constant) and
 `Γ₀ = exp(C_Γm⁵f log b)` (ThetaChainsOnDefiniteUnitaryGroups §2.1).
 
@@ -1475,9 +1483,10 @@ power of `g₀g₁` up to factors `∏(1 − g_i^{−j})`; the error factor is t
 `(T^k/(T^k − 1))^f` and of these factors, and `|log L(M, η^M)| ≤ f·log ζ(M)`. (b) By (a), `d(𝒟_τ)∏_{i<r}i! = vand(hc(τ))`, and
 `vand(hc) ≥ vand(v)·∏_{l,j}(v_l + e′_j) ≥ vand(v)·(∏_je′_j)^{k−1}`. Off the top places `a_eff = u_1 − v_0 ≥ Sc = 4kΔ_w` (the cloud gap of (St))
 and `v_0 − u_j ≤ 4jΔ_w` for `j ≥ 2` (the letters, and `u_k = v_{k−2} − ½`), so `u_1 − u_j ≤ a_eff(1 + j/k)` and `∏_{j>1}(u_1 − u_j) ≤ a_eff^{k−1}e^{k/2}`; the other differences are `u_i − u_j = (4(j − i) + b_j − b_i)Δ_w`
-with bits `b_l ∈ {0, 1}` (ThetaChainsOnDefiniteUnitaryGroups §2.3), whose product divided by `vand(v)` is at most `2^{k/4}` (a harmonic-sum estimate); the missing
+with bits `b_l ∈ {0, 1}` (ThetaChainsOnDefiniteUnitaryGroups §2.3), whose product divided by `vand(v)` is at most `e^{k/4}` (a harmonic-sum estimate); the missing
 factor `∏_je′_j` costs only its `k`-th root, `≤ e^{2mL/k} ≤ 10/9` because `C_lm²L ≤ k`; this gives the constant `1/5` (the same
-computation at a top place, with `a_eff` as defined there). `a_eff ≤ e′_0b^{C_u}`: off the top places `a_eff ≤ u_1 ≤ b^{C_u}` (`v_0 ≥ 0`), at a
+computation at a top place, with `a_eff` as defined there, the cloud gap and the bounds for `−u_k` of (St)).
+`a_eff ≤ e′_0b^{C_u}`: off the top places `a_eff ≤ u_1 ≤ b^{C_u}` (`v_0 ≥ 0`), at a
 top place `a_eff ≤ u_1·(−u_k) ≤ b^{C_u}e′_0`. The second form: `b^{C_u} ≤ k^{m−1}` (`C_u log b ≤ m − 1`), `e′_j ≥ k^{C_l} ≥ k⁴` for
 `j ≥ 1`, `m − 1 = 2r_S + 1`, `v_E ≥ 1` (`rd_E ≥ 2`, Minkowski's bound for a totally complex field of degree `≥ 4`) and `k ≥ 32`. (c)
 Clause by clause: `hc(τ)` is strictly decreasing by the gaps and integral because `k` is even (`(r − 1)/2 = r_S + k/2`);
@@ -1490,7 +1499,7 @@ shape: the interlaced entries are the `v_l ∈ [0, Sc] ⊂ [0, e′_0/8]`, the o
 `4Δ_w` (ThetaChainsOnDefiniteUnitaryGroups §2.3), and `Δ_w ≥ k² ≥ 64m⁴`. The scaling condition `T(w)κ_sc^{2r_S} ≥ 1` (true under the window, by (a), (b) and a
 contradiction) is not used.
 
-*Check.* The cloud gap is needed off the top places: with `u_1 = v_0 + ½` instead, `∏_{j>1}(u_1 − u_j) ≥ (4Δ_w)^{k−2}(k − 2)!`, so
+*Check.* The cloud gap is assumed at every real place; off the top places it is what makes (b) hold: with `u_1 = v_0 + ½` instead, `∏_{j>1}(u_1 − u_j) ≥ (4Δ_w)^{k−2}(k − 2)!`, so
 `T_crit` falls below the bound of (b) by a factor of order `kΔ_w`. Evaluating the definition of `T_crit` in (a) at `k = 200`, `m = 4`,
 `Δ_w = 10⁶`, `rd_E = 2`, nodes near `10¹⁵` and `g₀g₁ = 10¹²`, the logarithm of `T_crit` over the bound is about `−18` for
 `u_1 = v_0 + ½` and from `+1.5` to `+1.9`, depending on the bits of the word, for `u_1 = v_0 + Sc + ½`.
@@ -1653,8 +1662,8 @@ quantity weighted in (a); that the factor `H(γ)^C` is bounded by a power of thi
 
 ### 5.20 The Gram bound for distinct words
 
-There are absolute constants `C_Δ > 4`, `C_b > 0`, `c_T > 0` with `c_TC_b > 1`, and `C_n` depending on the
-constant `C₄` of 5.18 (i), fixed before `ε`, with the following property. Let `u ≠ u′` be words differing at a letter `l`
+For all constants `C_Δ > 4`, `C_b > 0`, `c_T > 0` with `c_T·C_b > 1` there is `C_n`, depending on the constant `C₄` of
+5.18 (i) and fixed before `ε`, with the following property. Let `u ≠ u′` be words differing at a letter `l`
 (`1 ≤ l ≤ k − 2` in the numbering of ThetaChainsOnDefiniteUnitaryGroups §2.3): at the entry `u_l(τ)` of ThetaChainsOnDefiniteUnitaryGroups §2.3 (the entry of index `l + 1` in the numbering from `1` of
 5.13a–5.21) their types differ by exactly `Δ_w` at every `τ` (they may differ at other inner entries), and the strings are taken in
 the half-cut `{5/2 ≤ v_{l−1} + Y ≤ Δ_w/2}` of 5.18a at that entry (of length `(Δ_w − 5)/2`). Assume: `b ≥ 16`, `k ≥ 32`, `f ≤ k`, `4r_S + 12 ≤ k`, `2r_S + 7 + f ≤ k`, `70 log b ≤ k`,
@@ -1672,6 +1681,8 @@ for `k ≥ k₀`, `k₀` depending on `C_Δ, c_T, C_b`, `C₀`, `C_Γ` and the c
 `e₁ = max(d_sup, 1)` (5.17d), `ε_L` of 5.20b and `ε_N` of 5.20c; under the hypotheses
 `η_off ≤ b^{−6}` for `m ≥ C_m` and `x ≥ x₀`, `C_m` depending on `C_g` and on the margin `8C_n log 2 − C₄ > 0`. The operator `K(u, u′)` maps columns of
 level `K_{u′}` to columns of level `K_u`; the counts are of terms of the row type level `(K₂, χ₂)`, and `D*` is formed with `K₂`.
+For `C_Δ = 5`, `c_T = 1/2`, `C_b = 3` one has `c_Θ = 1/16`, and (St) of 5.20a with `C_l ≥ 256` gives the conditions on the
+nodes and on `Δ_w` and `c_Θ·C_l ≥ 16`.
 
 *Route.* By 5.15 (b) the identity and degenerate terms contribute `0`, so `K = P_gen + P_ng`. 5.17a bounds `‖P_𝒮‖²` by `P_g` times a
 sum over ordered pairs of terms in one row (pairs in different rows are orthogonal), split by corank (5.15 (e)). The loops
@@ -1928,7 +1939,7 @@ These instances are worked in the Checks of the targets cited.
 
 ### Dependencies
 
-ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.8 (the data of the chain); RowTowerAndRallisIdentities §§5.1, 5.2a, 5.3, 5.9 (the row spaces); FrobeniusRestrictedRieszSums §§0.1, 0.4, 0.9 (the hosts and the auxiliary pair); HermitianFormsAndLattices §§4.1, 4.4, 4.8–4.11, 5.1, 5.2, 5.5–5.7, 5.9, 6.0b, 6.1, 6.1a, 6.1d, 6.2–6.5; SlopesOfHermitianVectorBundles §3.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 2.4b, 8.3, 9.1; TensorInductionAndFiniteGroupInputs §9.1; PositivityOfDirichletSeriesWithKernels §§7.1, 8.1, 8.2; FiniteReductiveGroups §§2.2, 2.4–2.7, 5.7, 5.8. On main: AutomorphicFormsOnReductiveGroups §2.4; AutomorphicSpectralTheory §§4.5, 4.10; VonNeumannAlgebras Layer 9; RealSemisimpleLieGroups §§3.2, 3.3, 4.2, 4.3; AdelicAlgebraicGroups §§2.3, 3.1, 3.4, 3.5; GeometryOfNumbersAndQuadraticArithmetic §4.4; AnalyticNumberTheoryPartI §2.15; AnalyticNumberTheoryPartII §5.3k; RepresentationTheory/LieGroups Layer 9; ClassicalGroups §§6.1, 6.3–6.6; RepresentationTheory/CompactGroups Layers 2 and 4; RepresentationTheory/LieHighestWeight Layer 7. Also GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1, Mathlib and Tau Ceti.
+ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.8 (the data of the chain); RowTowerAndRallisIdentities §§5.1, 5.2a, 5.3, 5.9 (the row spaces); FrobeniusRestrictedRieszSums §§0.1, 0.4, 0.9 (the hosts and the auxiliary pair); HermitianFormsAndLattices §§4.1, 4.4, 4.8–4.11, 5.1, 5.2, 5.5–5.7, 5.9, 6.0b, 6.1, 6.1a, 6.1d, 6.2–6.5; SlopesOfHermitianVectorBundles §3.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 2.4b, 8.3, 9.1; TensorInductionAndFiniteGroupInputs §9.1; PositivityOfDirichletSeriesWithKernels §§7.1, 8.1, 8.2; FiniteReductiveGroups §§2.2, 2.4–2.7, 5.7, 5.8. On main: AutomorphicFormsOnReductiveGroups §2.4; AutomorphicSpectralTheory §4.5; VonNeumannAlgebras Layer 9; RealSemisimpleLieGroups §§3.2, 3.3, 4.2, 4.3; AdelicAlgebraicGroups §§2.3, 3.1, 3.4, 3.5; GeometryOfNumbersAndQuadraticArithmetic §4.4; AnalyticNumberTheoryPartI §2.15; AnalyticNumberTheoryPartII §5.3k; RepresentationTheory/LieGroups Layer 9; ClassicalGroups §§6.1, 6.3–6.6; RepresentationTheory/CompactGroups Layers 2 and 4; RepresentationTheory/LieHighestWeight Layer 7. Also GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1, Mathlib and Tau Ceti.
 
 ## Downstream consumers
 
@@ -1942,7 +1953,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns the targets 5.13a–5.23 of Layer 5 of the family: the Bessel theory of gapped discrete series of `U(p, q_S)` at a real place (the big cell, the Bessel integral and its pairing, the majorant, bounded Bessel maps, rank one of the Bessel form and its detection of the Bessel maps, existence of Bessel maps for gapped parameters in the interlacing pattern (the case of GanGrossPrasadUnitaryGroups §3.9 made explicit in Harish-Chandra parameters), the transfer coefficients and the Bessel function of a word); the Bessel–Poincaré series and the geometric expansion of their Gram operators; relative Schur orthogonality; limit multiplicity of discrete series with an error uniform in rank, field, level and weight; the Gelfand–Graev expansion at the type primes, the local kernels of decorated cokernels with their germ identity and periodic majorants, the local model of the chain and the mean value formula for the rows; the archimedean transfer matrices of Capelli operators, the level forms, the Fourier majorants, the blocks, level zero and the pointwise bound for the orbital integrals; the tower inequality; the Gram bounds for distinct and for equal words; and the equidistribution of the row labels with the share of the good rows.
 
-Not owned here. The targets of Layer 5 before these (the row spaces, the row tower, the Rallis identities and the rational structure of the rows) are RowTowerAndRallisIdentities §§5.1–5.12 ([RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md)); the data of the chain (sizes, words and types, type and level primes, levels, source lattices) are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3; the hosts and the auxiliary pair are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Hermitian lattices, genera, masses, local densities, Siegel's main theorem, the volumes of stabilisers and the volume identity `vol([U(V)]) = mass(𝒪_E^n)` in the compact-dual normalisation (§6.2 (c), used for `Y_0` in the Conventions and in 5.20a (a)) are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 4–6; the canonical filtration is [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) §3.2; the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their tensor products with the standard representation, the formal degree and trace class on the cuspidal spectrum are [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§2.4a, 2.4b, 8.3, 9.1; the identities of quantum minors are [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md) §9.1; Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings are [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md) §§7.1, 8.1, 8.2; Gelfand–Graev representations, Bessel-type induced representations and the weights of labels of `GL_n(𝔽_q)` are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) Layers 2 and 5. On main: discrete series of real reductive groups are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §2.4; finite multiplicity in the discrete spectrum and Wallach's cuspidality criterion are [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md) §§4.5, 4.10; coefficient maps, Schur orthogonality and the formal degree of square-integrable representations are [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9; the open big cell, the Bruhat decomposition, the parabolic double cosets and the Langlands decomposition are [RealSemisimpleLieGroups](../../RealSemisimpleLieGroups/README.md) §§3.2, 3.3, 4.2, 4.3; the Cartan, Iwasawa and `KAK` decompositions are [RepresentationTheory/LieGroups](../../RepresentationTheory/LieGroups/README.md) Layer 9; the branching rule `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin patterns and the Capelli generators are [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §§6.1, 6.3–6.6; Schur orthogonality for `U(k)` is [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) Layers 2 and 4; the Harish-Chandra isomorphism is [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) Layer 7; rational quotients, Iwasawa integration, adelic reduction and algebraic heights are [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) §§2.3, 3.1, 3.4, 3.5; the transference bound for the covering radius is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) §4.4; the residue bound for Dedekind zeta functions is [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §2.15; quotient measures, integration in stages and unfolding are [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) §5.3k. The Bessel data of a pair of unitary groups and their transport, multiplicity one of Bessel models over a local field, the real tempered theorem of the local Gan–Gross–Prasad conjecture and the global Bessel periods are GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1.
+Not owned here. The targets of Layer 5 before these (the row spaces, the row tower, the Rallis identities and the rational structure of the rows) are RowTowerAndRallisIdentities §§5.1–5.12 ([RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md)); the data of the chain (sizes, words and types, type and level primes, levels, source lattices) are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3; the hosts and the auxiliary pair are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Hermitian lattices, genera, masses, local densities, Siegel's main theorem, the volumes of stabilisers and the volume identity `vol([U(V)]) = mass(𝒪_E^n)` in the compact-dual normalisation (§6.2 (c), used for `Y_0` in the Conventions and in 5.20a (a)) are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 4–6; the canonical filtration is [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) §3.2; the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their tensor products with the standard representation, the formal degree and trace class on the cuspidal spectrum are [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§2.4a, 2.4b, 8.3, 9.1; the identities of quantum minors are [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md) §9.1; Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings are [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md) §§7.1, 8.1, 8.2; Gelfand–Graev representations, Bessel-type induced representations and the weights of labels of `GL_n(𝔽_q)` are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) Layers 2 and 5. On main: discrete series of real reductive groups are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §2.4; finite multiplicity in the discrete spectrum is [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md) §4.5; coefficient maps, Schur orthogonality and the formal degree of square-integrable representations are [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9; the open big cell, the Bruhat decomposition, the parabolic double cosets and the Langlands decomposition are [RealSemisimpleLieGroups](../../RealSemisimpleLieGroups/README.md) §§3.2, 3.3, 4.2, 4.3; the Cartan, Iwasawa and `KAK` decompositions are [RepresentationTheory/LieGroups](../../RepresentationTheory/LieGroups/README.md) Layer 9; the branching rule `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin patterns and the Capelli generators are [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §§6.1, 6.3–6.6; Schur orthogonality for `U(k)` is [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) Layers 2 and 4; the Harish-Chandra isomorphism is [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) Layer 7; rational quotients, Iwasawa integration, adelic reduction and algebraic heights are [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) §§2.3, 3.1, 3.4, 3.5; the transference bound for the covering radius is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) §4.4; the residue bound for Dedekind zeta functions is [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §2.15; quotient measures, integration in stages and unfolding are [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) §5.3k. The Bessel data of a pair of unitary groups and their transport, multiplicity one of Bessel models over a local field, the real tempered theorem of the local Gan–Gross–Prasad conjecture and the global Bessel periods are GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1.
 
 ## Exact supplier contracts
 
@@ -2004,7 +2015,7 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
-- §4.5 (finite multiplicity in the discrete spectrum), §4.10 (Wallach's cuspidality criterion). Used in 5.16.
+- §4.5 (finite multiplicity in the discrete spectrum). Used in 5.16.
 
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
