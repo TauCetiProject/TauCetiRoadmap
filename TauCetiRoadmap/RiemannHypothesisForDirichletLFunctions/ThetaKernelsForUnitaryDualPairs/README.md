@@ -12,11 +12,13 @@ Layer 3 fixes the normalisations of the Weil representation on Siegel parabolic 
 
 Notation and conventions not restated here are those of MetaplecticAutomorphicForms: its Conventions, and, for the Heisenberg law and the Schrödinger model, split étale Hermitian spaces, unitary dual pairs and their splitting characters, the big theta module, the type-II model, the adelic Weil representation, the theta kernel, the global theta lift and the doubling method, MetaplecticAutomorphicForms §§0.1, 0.15, 3.2a, 3.3, 3.4, 3.14, 4.5, 5.1, 5.6, 6.10 and 6.11. Hermitian spaces and lattices are those of HermitianFormsAndLattices.
 
-`E/F` is a quadratic étale algebra over a local field or a number field: a quadratic field extension, or `E = F × F`. Its conjugation is `x ↦ x̄`, and `ω_{E/F}` (written `η` in the global statements) is the quadratic character attached to it. `V` is an ε-Hermitian and `W` a (−ε)-Hermitian space over `E`; in most statements `V` is Hermitian and `W` skew-Hermitian. Their isometry groups `U(V)` and `U(W)` act on the left, and `V ⊗ W` carries the trace-symplectic form of MetaplecticAutomorphicForms §3.3. For skew-Hermitian `W` and a trace-zero `δ ∈ E^×`, `W^♭ = δ⁻¹W` is the Hermitian space with the form `δ⁻¹⟨·,·⟩_W`. `H` is a hyperbolic plane and `W_r = W₀ ⊕ H^r` a Witt tower. `ψ` is a nontrivial unitary character of `F` (of `𝔸_F/F` in the global statements), and the measures on `F`, `E` and their adeles are self-dual.
+`E/F` is a quadratic étale algebra over a local field or a number field: a quadratic field extension, or `E = F × F`. Its conjugation is `x ↦ x̄`, and `ω_{E/F}` (written `η` in the global statements) is the quadratic character attached to it. `V` is an ε-Hermitian and `W` a (−ε)-Hermitian space over `E`; in most statements `V` is Hermitian and `W` skew-Hermitian. Their isometry groups `U(V)` and `U(W)` act on the left, and `V ⊗ W` carries the trace-symplectic form of MetaplecticAutomorphicForms §3.3. For skew-Hermitian `W` and a trace-zero `δ ∈ E^×`, `W^♭ = δ⁻¹W` is the Hermitian space with the form `δ⁻¹⟨·,·⟩_W`. `H` is a hyperbolic plane and `W_r = W₀ ⊕ H^r` a Witt tower. `ψ` is a nontrivial unitary character of `F` (of `𝔸_F/F` in the global statements), and the measures on `F`, `E` and their adeles are self-dual. Hermitian and skew-Hermitian forms are conjugate-linear in the first variable and linear in the second. A normalisation with forms linear in the first variable, the symplectic form `−Tr(⟨·,·⟩_V⟨·,·⟩_W)` and the additive character `e^{−2πix}` at the real places has, for the same signatures of `V` and of `W^♭`, the complex conjugate Weil representation: there every infinity type and every weight at a real place is the negative of the one stated here.
 
 Splitting characters are those of MetaplecticAutomorphicForms §3.3: unitary characters `χ_V`, `χ_W` of `E^×` (Hecke characters of `𝔸_E^×/E^×` in the global statements) with `χ_V|_{F^×} = ω_{E/F}^{dim V}` and `χ_W|_{F^×} = ω_{E/F}^{dim W}`; `χ_V` governs the `U(W)`-factor and `χ_W` the `U(V)`-factor. For a character `χ` of `E^×` trivial on `F^×`, `χ̃` is the character of the norm-one group with `χ̃(x/x̄) = χ(x)`; for `V = 0` the oscillator line of `U(W)` is `h ↦ χ̃_V(det h)`, with `det h` the determinant of the left-acting isometry `h` of `W`. At a real place a splitting character is `z ↦ (z/|z|)^m`, and `m` is its infinity type. `ω` (or `ω_{ψ, χ_V, χ_W}`) is the Weil representation of `U(V) × U(W)` attached to `ψ`, `χ_V`, `χ_W`, `S(X)` the Schwartz(–Bruhat) space of a Lagrangian `X`, and `Θ(π)`, `θ(π)` the big and the small theta lift.
 
 In Layers 5–6 the parameters `m`, `n`, `r`, `d(n)` and `s₀` are those of GQT, as in the Conventions of MetaplecticAutomorphicForms; in 6.11 and 6.13a, as in MetaplecticAutomorphicForms §§6.10–6.14, `n` is the dimension of the undoubled space.
+
+A paragraph headed *The form of the formal proof* records the form, with its hypotheses and ranges, in which the formal proof that the family follows has a statement; a wider statement beside it is marked as published or as this roadmap's own. A paragraph headed *Status* names the clauses of a target that are this roadmap's own and are not on the path of that proof.
 
 ## Layer 3: Fock model and local theta correspondence for unitary pairs
 
@@ -418,6 +420,8 @@ parameters `−λ + m_W/2` and `−λ′ + m_V/2`: the parameter of `U(W)` is th
 string of length `t` centred at `m_V/2` inserted, the entries of the parameter of `U(V)` below `m_W/2` keeping their
 block and those above `m_W/2` changing block.
 
+*Status.* The paragraph *Other normalisations* is this roadmap's own and is not on the path of the formal proof.
+
 *Route.* (1) *The Fock module:* `𝔨_ℂ`, `𝔨′_ℂ` preserve the degree and `𝔭_ℂ`, `𝔭′_ℂ` have components of degree `±2`, adjoint to
 each other up to sign; a `K̃`-type of highest weight `μ` occurs only in degrees at least `Σ_{a ∈ I₊}|μ_a − (r − s)/2| + Σ_{a ∈ I₋}|μ_a + (r − s)/2|`; the joint harmonics contain a pair of types `(μ, μ′)` at most once, exactly when
 `μ − ((r − s)/2 | (s − r)/2) = (a, 0, b | c, 0, d)` and `μ′ − ((p − q)/2 | (q − p)/2) = (a, 0, d | c, 0, b)` for sequences of
@@ -488,6 +492,13 @@ and at a real place the coinvariants of the polynomial Fock spaces (3.45) under 
 `ker p′`). Then `p` and `p′` are unique up to scalars, every nonzero map from `Θ` or `Θ′` to `Π` is a multiple of
 them, and every semisimple quotient of `Θ` or `Θ′` is a quotient of `Π`.
 
+*The form of the formal proof.* The complementary data used have `a + a′` even, `a′ ≥ 2` and `(a − a′)/2 ≥ 2`; they
+are local components of global data over a CM extension unramified at every finite place, at split places, at
+unramified inert places of odd residue characteristic and residue cardinality greater than `3`, and at real places in
+the range of 3.47b. For complementary data the formal proof has 3.47, 3.47a, 3.47c and 5.7b–5.7e in this setting only;
+their statements here for every local complementary datum rest on the routes written at those targets and on the
+published sources cited there.
+
 Prove local matching at split places: let `E = F × F`, so that `U(W) ≅ GL_N(F)` and `Θ`, `Θ′` are the coinvariants of the
 type-II Weil representations of `(GL_a, GL_N)` and `(GL_{a′}, GL_N)` on `S(M_{a×N}(F))`, `S(M_{a′×N}(F))`,
 twisted by the splitting characters (MetaplecticAutomorphicForms §§3.2a, 3.14). Then:
@@ -546,6 +557,12 @@ twisted by the splitting characters (MetaplecticAutomorphicForms §§3.2a, 3.14)
   components of `α`, `β` at the factor of `E = F × F` that the identification `U(W) ≅ GL_N(F)` selects); the twisted
   coinvariants of the functions of full rank are this induced representation and map isomorphically onto `Θ`, resp. `Θ′`;
   so `Π = Θ = Θ′`, and every `U(W)`-equivariant linear map out of `Θ` or `Θ′` factors through `Π`.
+
+*Status.* The identification of `Θ` and `Θ′` with `α_w ∘ det_a × β_w ∘ det_{a′}` (in the second bullet and in the bullet
+*irreducibility*), their irreducibility for ramified `ν`, and the bullets on the dependence of the zeta integrals on the
+data and on self-dual lattices for every conductor of `ψ` are this roadmap's own and are not on the path of the formal
+proof, which has, at completely split places where `ν` is unramified with `ν(ϖ) ≠ 1`, that the kernels of the maps to
+the matched quotient are exactly the coinvariant relations, so that `Θ = Θ′ = Π`.
 
 *Route.* Compute both coinvariant modules through the filtration of the type-II model by the orbits of
 `GL_a × GL_N` on `a × N` matrices (functions on an orbit as sections over a homogeneous space,
@@ -660,9 +677,11 @@ and `ψ(x) = e^{2πix}`, and let a local complementary datum (3.47) have signatu
 part `W₊ = V′₋ ⊕ V₊` and the negative part `W₋ = V′₊ ⊕ V₋`, of dimensions `P_W = P + Q′` and `Q_W = Q + P′`, and
 `K_W = U(W₊) × U(W₋)`; write `e_1, …, e_{P_W}` and `f_1, …, f_{Q_W}` for the coordinates of its highest weights in bases
 adapted to these decompositions, in the order written (first `V′₋`, then `V₊`; first `V′₊`, then `V₋`). Let `m_α`, `m_β`
-be the infinity types and `κ = m_α − m_β` (so `κ ≡ a + a′ (mod 2)`), and assume `a′ ≥ 1` and
+be the infinity types and `κ = m_α − m_β` (so `κ ≡ a + a′ (mod 2)`), and assume that `a + a′` is even,
 
-`−κ > |P − Q| + |P′ − Q′|`  (for instance `κ < −(a + a′)`, which is the same condition when `V` and `V′` are definite).
+`−κ > a + a′`  and  `2(Q + P′) + 1 < min((a − a′)/2, a′)`
+
+(so `V` is positive up to a small negative part, `V′` negative up to a small positive part, and `a′ ≥ 2`).
 
 Put `L₊ = (−κ − (P_W − Q_W))/2` and `L₋ = (−κ + (P_W − Q_W))/2`, positive integers (`κ ≡ a + a′ ≡ P_W − Q_W (mod 2)`, and
 `|P_W − Q_W| = |(P − Q) − (P′ − Q′)| < −κ`), and let `La` be the `K_W`-type of highest weight
@@ -683,13 +702,21 @@ and `Θ′` are the theta quotients of 3.47, the coinvariants of the polynomial 
   `{m_α/2 + (a − 1)/2 − i}_{0 ≤ i < a} ∪ {m_β/2 + (a′ − 1)/2 − j}_{0 ≤ j < a′}`.
 - (iv) *Matching.* The two irreducible quotients are isomorphic: with `Π` their common class and `p`, `p′` the quotient
   maps, `(Π, p, p′)` is local matching data.
-- (v) *Identification.* Assume moreover `κ ≤ −(a + a′)`. Let `𝔮 = 𝔩 ⊕ 𝔲` be the `θ`-stable parabolic subalgebra of
+- (v) *Identification.* Let `𝔮 = 𝔩 ⊕ 𝔲` be the `θ`-stable parabolic subalgebra of
   `𝔲(W)_ℂ` with Levi subgroup `L = U(V) × U(V′)` (through `W ≅ V ⊕ V′`) and `𝔲 = Hom(V, V′)`, and `λ` the character
   `det_V^{(m_α + a′)/2} ⊗ det_{V′}^{(m_β − a)/2}` of `L`, admissible since `κ ≤ −(a + a′)`. Then `Π` is isomorphic to the
   module `A_𝔮(λ)` of AutomorphicFormsOnReductiveGroups §5.4.
 
+*Remark.* The statement is made in the range displayed. The route below uses the hypothesis only in the form
+`−κ > |P − Q| + |P′ − Q′|` and does not use the parity of `a + a′`; the statement in that wider range is not claimed here.
+
+*Status.* In the displayed range the formal proof gives an irreducible common quotient of `Θ` and `Θ′` with scalar
+endomorphisms, that is (iv) and the existence part of (ii); (i) beyond its last sentence (`La` occurs once and
+generates), (iii) and (v) are this roadmap's own and are not on the path of the formal proof.
+
 The hypothesis is used as follows: `L_± > 0` (for (i)) is `−κ > |(P − Q) − (P′ − Q′)|`, and the Casimir gap below (for (ii)
-and (iv)) is `−κ > |(P − Q) + (P′ − Q′)|`; together they are the displayed condition.
+and (iv)) is `−κ > |(P − Q) + (P′ − Q′)|`; together they are the condition `−κ > |P − Q| + |P′ − Q′|` of the Remark, which
+the displayed hypothesis implies (`|P − Q| ≤ a`, `|P′ − Q′| ≤ a′`).
 
 The route of (ii) and (iv) is the following lemma, stated for any pair `𝔤 = 𝔨 ⊕ 𝔭` of complex Lie algebras with
 `[𝔭, 𝔭] ⊂ 𝔨`, `𝔨` the complexification of a compact Lie algebra acting on `𝔭` unitarily for a positive Hermitian form,
@@ -701,6 +728,9 @@ and `Ω = Σ_k e_k e_k^* ∈ U(𝔨)` a Casimir element (for a basis `(e_k)` of 
   `≤ c₀ + d` on `𝔭·V`. Then the generalised `c₀`-eigenspace of `Ω` in `M` is `V`. If `V` is irreducible, `M` has a unique
   maximal proper submodule; and two such modules `M`, `M′` with `𝔨`-isomorphic `V`, `V′` have isomorphic irreducible
   quotients.
+
+*Status.* The lemma (o), and its use for the uniqueness in (ii), are this roadmap's own and are not on the path of the
+formal proof.
 
 *Route.* (i) *Seesaw.* `V ⊗ W = (V ⊗ W₊) ⊕ (V ⊗ W₋)`, a symplectically orthogonal sum on which the positive complex
 structure of the pair restricts to those of the compact pairs `(U(W₊), U(V))` and `(U(W₋), U(V))`; so the polynomial
@@ -788,8 +818,8 @@ TensorInductionAndFiniteGroupInputs §7.1; AutomorphicFormsOnReductiveGroups §�
   and `λ + ρ = (½, −3/2, −5/2, −7/2)`, which is `{m_α/2 + 1 − i} ∪ {m_β/2}`. The gap of (o): only `β₁` occurs
   (`min(Q, Q′) = 0`), `La + β₁ = (−3, −4) ⊗ (2, −2)`, and `Ω` takes the values `18 + 8 = 26` on `La` and `26 + 12 = 38` on
   `La + β₁` (`Ω = μ₁(μ₁ + 1) + μ₂(μ₂ − 1)` on `U(2)`): the difference `12 = N + (−κ + P + P′ − Q − Q′)` exceeds `N = 4`.
-- *The general range.* In the same signatures `|P − Q| + |P′ − Q′| = 2 < N = 4`, so (i)–(iv) hold also for `κ = −4`, which
-  `κ < −(a + a′)` excludes; (v) holds there as well (`κ ≤ −(a + a′)`). For `m_β = 1`, `m_α = −3`: `L₊ = L₋ = 2`,
+- *The general range* (Remark). In the same signatures `|P − Q| + |P′ − Q′| = 2 < N = 4`, so the route also covers
+  `κ = −4`, which `−κ > a + a′` excludes (for (v), `κ ≤ −(a + a′)` holds there). For `m_β = 1`, `m_α = −3`: `L₊ = L₋ = 2`,
   `La = (−2, −2) ⊗ (1, −1)`, `Ω(La) = 8 + 4 = 12`, `La + β₁ = (−2, −3) ⊗ (2, −1)`, `Ω(La + β₁) = 14 + 8 = 22`, and the
   difference `10 = N + (−κ + P + P′ − Q − Q′)` exceeds `4`. For signatures `(a − p, p)` of `V` and `(q, a′ − q)` of `V′`
   with `2p ≤ a`, `2q ≤ a′`, the bound is `|P − Q| + |P′ − Q′| = N − 2(p + q)`, which does not change when a hyperbolic plane
@@ -891,10 +921,14 @@ Construct the global Weil representation of a unitary pair. Let `E/F` be a quadr
   `w ∈ 𝕎(𝔸)` (MetaplecticAutomorphicForms §1.3); (2) the theta functional `φ ↦ Σ_{ξ ∈ X(F)} φ(ξ)` is invariant under `U(V)(F) × U(W)(F)`; (3) `ω′` is
   unitary for the `L²` inner product of `S(X(𝔸)) ⊂ L²(X(𝔸))`; (4) at every place `v` split in `E`, the functional
   `φ ↦ φ(0)` of the type-II model at `v` transforms under `U(V)(F_v) × U(W)(F_v)` by a positive multiple of
-  `χ̃_W(det g)χ̃_V(det h)`; (5) *continuity*: for every `φ ∈ S(X(𝔸))` the orbit map `(g, h) ↦ ω′(g, h)φ` is continuous from
-  `U(V)(𝔸) × U(W)(𝔸)`, with its adelic topology, to `L²(X(𝔸))` with its norm topology (equivalently, by (3) and the
-  density of `S(X(𝔸))`, `ω′` extends to a strongly continuous unitary representation on `L²(X(𝔸))`). Then
-  `ω′ = ω_{ψ, χ_V, χ_W}`.
+  `χ̃_W(det g)χ̃_V(det h)`; (5) *continuity*: for every `φ ∈ S(X(𝔸))` and every `w ∈ 𝕎(𝔸)` the function
+  `(g, h) ↦ Σ_{ξ ∈ X(F)} (ρ(w)ω′(g, h)φ)(ξ)` is continuous on `U(V)(𝔸) × U(W)(𝔸)` (the theta function of `ω′(g, h)φ`
+  depends continuously on `(g, h)` at every point). Then `ω′ = ω_{ψ, χ_V, χ_W}`.
+
+*The form of the formal proof.* The formal proof has the characterisation with (5) in this form, for the standard
+additive character `ψ` in the normalisation with `e^{−2πix}` at the real places (Conventions) and for the CM extensions
+of the complementary data of 3.47; for every quadratic extension of number fields and every `ψ` the characterisation
+is this roadmap's own, proved by the route below.
 
 *Route.* The product formula for the local splitting cocycles: the global cocycle restricted to
 rational points is a product of local Weil indices and character values, which is `1` by the product
@@ -903,8 +937,8 @@ triviality on integral points. Siegel parabolic: 3.3b, place by place. Split pla
 split oscillator with the type-II model and its characters, and `φ(0)` is invariant under the substitution.
 Characterisation: by (1) and the irreducibility of the Heisenberg representation (Stone–von Neumann, MetaplecticAutomorphicForms §1.1),
 `ω′ = c · ω_{ψ, χ_V, χ_W}` for a function `c`, which is a character because both are representations, unitary by (3),
-continuous by (5) and the continuity of `ω_{ψ, χ_V, χ_W}` (first bullets: `c(g, h) = ⟨ω′(g, h)φ, ω(g, h)φ⟩/‖φ‖²`, an inner
-product of two continuous orbit maps), trivial on rational points because the nonzero theta functional is invariant under
+continuous by (5): for a point `w` at which the theta function of `ω(g₀, h₀)φ` does not vanish, `c` is near `(g₀, h₀)` the
+quotient of the two theta functions at `w`, trivial on rational points because the nonzero theta functional is invariant under
 them for `ω′` (by (2)) and for `ω` (above), and positive, hence trivial, on `U(V)(F_v) × U(W)(F_v)` at every split `v` by (4)
 and the split law. On `U(W)(𝔸)`, `c` is trivial on `SU(W)(F)` and on `SU(W)(F_{v₀})` for a split `v₀`, where
 `SU(W)(F_{v₀}) ≅ SL_d(F_{v₀})` is not compact for `d ≥ 2`; by strong approximation for the simply connected `SU(W)`
@@ -932,8 +966,8 @@ AdelicAlgebraicGroups §4.2; LFunctions Layer 7.
   element `≠ 1` of `E_v^1`, `v` inert, is not in `H` (an element of `E^1` equal to `1` at a real place is `1`), so `𝔸_E^1/H ≠ 1`,
   and since the circle is divisible there is a homomorphism `c : 𝔸_E^1 → ℂ^1`, trivial on `H` and not trivial. Then
   `(c ∘ det h)·ω(g, h)` satisfies (1)–(4) and is not `ω`; it violates (5), because a continuous `c` trivial on `H` is
-  trivial (the argument of the route), so this `c` is not continuous, and `h ↦ c(det h) = ⟨ω′(1, h)φ, ω(1, h)φ⟩/‖φ‖²`
-  would be continuous under (5).
+  trivial (the argument of the route), so this `c` is not continuous, while under (5) `h ↦ c(det h)`, near each point a
+  quotient of the theta functions of `ω′(1, h)φ` and `ω(1, h)φ` at a fixed `w` (route), would be continuous.
 - For the pair `(V, W) = (X₁^*, δ′X₂)` (`X₁^* = Hom_E(X₁, E)` with the dual Hermitian form, on which `g ∈ U(X₁)` acts by
   `ℓ ↦ ℓ ∘ g⁻¹`; `X₂` with the skew-Hermitian form `δ′h₂`), realised on `Hom_E(X₁, X₂)` with `(g, h)x = hxg⁻¹`, the
   determinant of `g` acting on `X₁^*` is `det(g)⁻¹`, so (4) reads `r · χ̃_W(det g)⁻¹ χ̃_V(det h)` with `det g` taken on `X₁`.
@@ -1071,6 +1105,12 @@ unitary dual pair over a CM extension `E/F`, `dim X = n ≤ dim W = d`, with spl
 - (ii) If `χ_W` is nontrivial at `v₁`, then for every `k < n` the twisted `U(X)(F_{v₁})`-coinvariants of the Schwartz
   space of the matrices of rank exactly `k` vanish; hence modulo the `U(X)(F_{v₁})`-coinvariants every Schwartz function
   at `v₁` is equivalent to one supported on matrices of full rank.
+
+  *The form of the formal proof.* The case used is the pair `(V′, W)` of a complementary datum at a place `v₁` split
+  completely at which `ν` is unramified with `ν(ϖ) ≠ 1`; the two statements used there are that every class of the
+  coinvariants has a regular representative and that a regular vector in the coinvariant relations is a relation among
+  regular vectors. (ii) and (iv) for every pair and every nontrivial `χ_{W,v₁}`, and the vanishing stratum by stratum,
+  are this roadmap's own, proved by the route below.
 - (iii) *Archimedean vanishing.* If at a real place `v` the space `X` has signature `(r, s)`, `W^♭` has signature
   `(r′, s′)`, the infinity type `m_{W,v}` of `χ_W` satisfies `|m_{W,v}| > d` and `min(r′, s′) < min(r, s)`, then
   `I_{X,W}(Φ) = 0` for every `Φ` for which it converges and for every `Φ` as in (i).
@@ -1193,23 +1233,24 @@ Prove:
   and a power of the residue cardinality, fixed by the ideal of the line `Eu₀` in the lattice) times the lattice vector
   of `(X₁, W₁)`; and `e₀` carries the lattice vector of `(X, W)` to a nonzero multiple of the lattice vector of `(X, W₁)`,
   for the lattice of `W₁` that is the orthogonal complement of the plane in the lattice of `W`.
-- (i) *Constant term, first range.* If `X` is anisotropic, or `z₀ = n − d/2 ≥ 1 + r_∞` with `r_∞` the largest Witt index of
-  `X` at the real places, then for `Φ` finite under `K_X` at the real places
+- (i) *Constant term, first range.* If `X` is anisotropic, or `d` is even and `z₀ = n − d/2 ≥ 1 + r_∞` with `r_∞` the
+  largest Witt index of `X` at the real places, then for `Φ` finite under `K_X` at the real places
   `∫_{N_x(F)\N_x(𝔸)} I_{X,W}(Φ)(n h) dn = A₀ + A₁`, where `A₀` transforms under `t` by `χ_X(t)|t|_E^{n/2}` and equals
   `C₀ · I_{X,W₁}(e₀ ω(1, h)Φ)` on the Levi, and `A₁` transforms by `(χ_X/χ_W)(t)|t|_E^{(d−n)/2}`, is `0` if `X` is
   anisotropic, and otherwise equals `C₁ · I_{X₁,W₁}(cone_{χ_W⁻¹, z₀} ω(1, h)Φ)`; all these integrals converge absolutely.
-- (ii) *Constant term, second range, regular data.* Let `X` be isotropic, `1 − z₀ = 1 + d/2 − n ≥ 2`, `v₁` a finite place
-  split in `E` with `χ_{W,v₁}` nontrivial, and `Φ` regular at `v₁` (5.7b(i)). Then the constant term is `A₀ + A₁`, with
-  the same two laws, where:
+- (ii) *Constant term, second range, regular data.* Let `X` be isotropic, `d` even, `1 − z₀ = 1 + d/2 − n ≥ 2`, `v₁` a
+  finite place split in `E` with `χ_{W,v₁}` nontrivial, and `Φ` regular at `v₁` (5.7b(i)). Then the constant term is
+  `A₀ + A₁`, with the same two laws, where:
   - `A₁ = C₁ · I_{X₁,W₁}(cone^∨_{χ_W, 1−z₀} ω(1, h)Φ)`, an absolutely convergent integral: the dual cone of a regular `Φ` is
     regular at `v₁` for the pair `(X₁, W₁)` (so is the cone, where it converges), and its Tate integral converges
     absolutely because `1 − z₀ > 1`;
-  - `A₀ = C₀ · ∫_{[U(X)]} (θ_{X,W₁}(g; e₀ω(1, h)Φ) − E(g)) dg` on the Levi, where `P′` is the stabiliser of `Eu₀` in `U(X)` and
-    `E(g) = Σ_{γ ∈ P′(F)\U(X)(F)} θ_{X₁,W₁}(r₁^{(0)}(ω(γg, h)Φ))`: this Eisenstein series converges absolutely for almost every
-    `g`, and the integrand is integrable over `[U(X)]`. The vector `e₀Φ` need not be regular at `v₁` for `(X, W₁)`, and
-    `θ_{X,W₁}(·; e₀ω(1, h)Φ)` alone need not be integrable;
-  - if the pair `(X, W₁)` satisfies the hypotheses of 5.7b(iv) at `v₁`, then `A₀ = C₀ · I_{X,W₁}(e₀ω(1, h)Φ)` on the Levi,
-    `I_{X,W₁}` being the invariant extension of 5.7b(iv).
+  - `A₀ = C₀ · I_{X,W₁}(e₀ω(1, h)Φ)` on the Levi whenever `e₀ω(1, h)Φ` is regular at `v₁` for the pair `(X, W₁)`.
+
+    *Remark.* The vector `e₀Φ` need not be regular. In general
+    `A₀ = C₀ · ∫_{[U(X)]} (θ_{X,W₁}(g; e₀ω(1, h)Φ) − E(g)) dg` with `E` the Eisenstein series of the route,
+    `E(g) = Σ_{γ ∈ P′(F)\U(X)(F)} θ_{X₁,W₁}(r₁^{(0)}(ω(γg, h)Φ))`, and, when the pair `(X, W₁)` satisfies the hypotheses
+    of 5.7b (iv) at `v₁`, `A₀ = C₀ · I_{X,W₁}(e₀ω(1, h)Φ)` for the invariant extension; these two statements are proved
+    by the route below and are not used for the comparison of the two theta integrals of a complementary datum.
 
   In (i) and (ii), `C₀`, `C₁` are nonzero and depend only on the normalisations of measures. For the two pairs of a
   complementary datum (3.47; `ν = α/β`, `ε₀ = (a − a′)/2`): `(V, W)` has `χ_W = ν⁻¹` and `z₀ = ε₀`, and in the first range
@@ -1371,9 +1412,8 @@ Then:
 - (c) *Unramified inert places.* If `E/F` is unramified quadratic of odd residue characteristic, `α`, `β`, `ψ` are
   unramified, and the lattices and pairs are as in (b) (`M` unimodular for
   `⟨·,·⟩_W`), then `A ≠ 0`, `B ≠ 0` and `dim Hom_{P_x}(X, Π₁ ⊗ χ_β) ≤ 1` for `X = Θ, Θ′, Π`.
-- (d) *Real places.* If `F = ℝ`, `a′ ≥ 3` (for the pairs of `V`: `a′ ≥ 1`) and `−κ > |P − Q| + |P′ − Q′|` (the hypothesis of
-  3.47b for `D`, which then holds for `D₁` with the same bound), then `A ≠ 0` and `dim Hom_{P_x}(X, Π₁ ⊗ χ_β) ≤ 1` for
-  `X = Θ, Θ′, Π`.
+- (d) *Real places.* If `F = ℝ`, `a′ ≥ 3` (for the pairs of `V`: `a′ ≥ 1`) and the hypotheses of 3.47b hold for `D` and
+  for `D₁`, then `A ≠ 0` and `dim Hom_{P_x}(X, Π₁ ⊗ χ_β) ≤ 1` for `X = Θ, Θ′, Π`.
 
 *Route.* (R): if `B = b ∘ p′` with `b ≠ 0`, then `b ∘ p` is a nonzero element of the line `Hom_{P_x}(Θ, Π₁ ⊗ χ_β)`, which
 contains `A ≠ 0`, so `A = c · b ∘ p` with `c ≠ 0`, and `A(Φ) = c · b(p(Φ)) = c · b(p′(Φ′)) = c · B(Φ′)` on matched pairs;
@@ -1464,7 +1504,7 @@ LocalFactorsOfTwistsAndTypes §4.1 (ii)–(iv); ClassicalGroups §6.1.
 Prove the archimedean cone lemma. Let `F_v = ℝ`, `E_v = ℂ`, `(X, W)` a unitary pair with `X` isotropic and splitting
 character `χ_W` of `U(X)`, `(x, y)` and `(u₀, u′₀)` hyperbolic pairs of `W` and `X` in good position (5.7c), `X₁`, `W₁` their
 complements, and `cone_{μ,z}`, `cone^∨_{μ,z}` the local cones of 5.7c. Let `ℓ` be a nonzero continuous linear functional
-on the Schwartz space of `(X₁, W₁)`, invariant under `K_{X₁}` (for instance under `U(X₁)(ℝ)`), `μ` the character
+on the Schwartz space of `(X₁, W₁)`, invariant under `U(X₁)(ℝ)`, `μ` the character
 `μ(l) = (l/|l|)^m` of `ℂ^×` (every splitting character at a real place, and every quotient of two of them, has this form,
 being trivial on `ℝ_{>0}`), and `Re z > 0`.
 
@@ -1476,6 +1516,9 @@ being trivial on `ℝ_{>0}`), and `Re z > 0`.
 For the two pairs of a complementary datum with `κ = m_α − m_β`, (A) is the pair `(V, W)` with `(μ, z) = (ν, ε₀)` and (B) the
 pair `(V′, W)` with `(ν, ε₀ + 1)`, where the condition reads `2ε₀ < |κ|`, implied by `|κ| > a + a′`. The same holds over
 `F ⊗ ℝ` (all real places together), by freezing the variables at the other places one at a time.
+
+*The form of the formal proof.* The cases used are these two, for a functional invariant under `U(X₁)(F ⊗ ℝ)`. The
+route below gives (A) and (B) for every `(μ, z)` as stated, and for a functional invariant under `K_{X₁}` only.
 
 *Route.* (A). Let `S₀` be the Schwartz functions whose first variable vanishes near `0`; it is stable under `ω(K_X, 1)` and
 under the Heisenberg operators `ρ(v ⊗ x)`, `v ∈ X`, which multiply the first variable `u` by the character
