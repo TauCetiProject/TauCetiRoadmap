@@ -53,6 +53,11 @@ section keeps its number.
 - [**Quadratic twists selected over primes**](QuadraticTwistSelectionOverPrimes/README.md):
   quadratic twists over primes in a progression, and the selection of auxiliary primes with
   zero-free boxes.
+- [**Frobenius-restricted Riesz sums**](FrobeniusRestrictedRieszSums/README.md):
+  abelian CM hosts and their Frobenius data, cyclic hosts and the cyclic family of a primitive
+  Dirichlet character, tops, thick sets and admissible pairs; Riesz sums restricted by Frobenius,
+  and the equivalence of the averaged inequality on a host with the window bound for the cyclic
+  family.
 - [**Adelic heights and successive minima**](AdelicHeightsAndSuccessiveMinima/README.md):
   adelic heights of vectors and subspaces for an adelic presentation, with their duality and
   behaviour under extension, and successive minima over number fields for balanced bodies.
@@ -136,11 +141,6 @@ section keeps its number.
   one theta lift between definite unitary groups: Weil representations, lifts as operators on class
   sets, weights and Satake parameters, the Rallis inner product formula, nonvanishing, the lift of
   the trivial representation, and complementary spaces.
-- [**Frobenius-restricted Riesz sums**](FrobeniusRestrictedRieszSums/README.md):
-  abelian CM hosts and their Frobenius data, cyclic hosts and the cyclic family of a primitive
-  Dirichlet character, tops, thick sets and admissible pairs; Riesz sums restricted by Frobenius,
-  and the equivalence of the averaged inequality on a host with the window bound for the cyclic
-  family.
 - [**Theta chains on definite unitary groups**](ThetaChainsOnDefiniteUnitaryGroups/README.md):
   the data of a chain of theta lifts (ranks, scales and size conditions, Hermitian spaces, weights
   and words, Hecke, twisting and splitting characters, the coefficient field, type, auxiliary and
