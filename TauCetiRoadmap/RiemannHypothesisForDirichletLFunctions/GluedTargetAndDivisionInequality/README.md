@@ -446,7 +446,7 @@ ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.11–8.19d (8.1
 `K = ℚ(√−d)` for a prime `d ≡ 7 (mod 16)` and `E` unramified over `F` at every finite place (the hosts of the chain are of this kind).
 
 Some clauses of this layer are statements whose routes are not given, or not given in full, here: the hypotheses of the
-index statement for the lattices of the chain (8.19e (c)); the bound for the branching integer in 8.7 (b);
+index statement for the lattices of the chain (8.19e (c));
 the generation inputs (8.20 (vii)) and the page conditions (P3),
 (P5) for the weights of a run; the passage to geometrically irreducible components in 8.20 (o); step (3) of the depth table
 at the orbits of odd conjugate type that do not alternate between `Φ` and `cΦ` (8.20a); one point of the route of 8.24a, the
@@ -695,13 +695,18 @@ of (a), Cauchy–Schwarz over the classes of `U(X^h)` with the weights `|Γ_𝒸
 `log‖res‖²_σ ≤ −(Σ_τ n_τ)·log T(u) + Σ_τ log β_τ` at every embedding. By interlacing, `n_τ = Λ_{m,0}(τ) − D₀(τ)` (ThetaChainsOnDefiniteUnitaryGroups §3.9),
 `D₀(τ) ≤ Sc + mϑ + [τ ∈ Φ_top]·a⁻_τ`; the first entry of `Λ_m(τ)` is `u_0(τ) − (N_m − 1)/2` (ThetaChainsOnDefiniteUnitaryGroups §2.3), which is `≥ a_τ − N_m` at a
 top place and `≥ −Sc − N_m` elsewhere, so `−n_τ ≤ 2Sc + mϑ + N_m` off the tops (`n_τ` may be negative there).
-`β_τ = c_{Br,τ}²·‖ξ_τ‖²/‖v_{σ(τ)}‖²` (a). By its definition in ThetaChainsOnDefiniteUnitaryGroups §3.9, `c_{Br,τ}` is a product of at most `N_m²·D₀(τ)` integers
-(`N_m − 1` values of `j` for each of the at most `(N_m − 1)·D₀(τ)` pairs `(i, v)`, `|R_i| ≤ D₀(τ) + 1`), each of absolute value
+`β_τ = c_{Br,τ}²·‖ξ_τ‖²/‖v_{σ(τ)}‖²` (a). By its definition in ThetaChainsOnDefiniteUnitaryGroups §3.9, `c_{Br,τ}` is a product of `(N_m − 1)·D₁(τ)` integers
+(`N_m − 1` values of `j` for each of the `D₁(τ) = Σ_i #(R_i ∖ {σ_i(τ)}) = Σ_i min(Λ_{m,i}(τ) − Λ_{m,i+1}(τ), D₀(τ))` pairs `(i, v)`,
+IntegralWeylModulesOfGeneralLinearGroups §1.1), each of absolute value
 less than the *spread* `sp(τ) := Λ_{m,0}(τ) − Λ_{m,N_m−1}(τ) + N_m` (without the `+N_m` this fails: for `N = 6`, `λ = (1⁵, 0)`,
 `σ = (1⁵)` the integer is `−120`); the ratio `‖ξ_τ‖²/‖v_{σ(τ)}‖²` is `⟨ξ_τ, ξ_τ⟩ ≤ dim V_{Λ_m(τ)}` (ThetaChainsOnDefiniteUnitaryGroups §3.9: `br_τ∘io_τ = c_{Br,τ}²·⟨ξ_τ, ξ_τ⟩`
-exactly; IntegralWeylModulesOfGeneralLinearGroups §1.1), the Weyl product of `Λ_m(τ)`. With
+exactly; IntegralWeylModulesOfGeneralLinearGroups §1.1), the Weyl product of `Λ_m(τ)`. In `Λ_m(τ) = HC_m(τ) − ρ_{N_m}`
+(ThetaChainsOnDefiniteUnitaryGroups §2.3) the gaps `Λ_{m,i}(τ) − Λ_{m,i+1}(τ)` inside a segment `S(−w_j(τ), t + 1)` vanish, those between
+consecutive segments sum to `w_m(τ) − w_1(τ) − (m − 1)(t + 1) ≤ ϑ + 1` and those between `u_1(τ), …, u_{k−2}(τ)` to at most `Sc`
+(ThetaChainsOnDefiniteUnitaryGroups §2.3b), and the gaps after `u_0(τ)`, `u_{k−2}(τ)` and `u_{k−1}(τ)` contribute at most `D₀(τ)` each, so
+`D₁(τ) ≤ 3D₀(τ) + Sc + ϑ + 1`; and `sp(τ) = u_0(τ) + w_m(τ) + t/2 + 1 ≤ 4a + N_m` (ThetaChainsOnDefiniteUnitaryGroups §2.3b (f)). With
 `D₀(τ) ≤ Sc + mϑ + 2b′·[τ ∈ Φ_top]`, the logarithm of the branching integer at `τ` is at most `C·N_m·(D₀(τ) + Sc + ϑ)·La`
-(linear in `N_m`; the count above gives `N_m²` in place of `N_m`, and the passage to this bound is not given here) and that
+(linear in `N_m`) and that
 of `⟨ξ_τ, ξ_τ⟩` at most `C·N_m²·La`; summed over `τ` this is the last term. Under `SizeT_u`,
 `log T(u) ≤ C_T·m·x^ε ≤ C_T·m·La`, and the middle term is at most a constant times `(|Φ_top|·b′ + f·(mϑ + Sc + N_m))·N_m·La`.
 
