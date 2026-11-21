@@ -228,9 +228,12 @@ valuation ring of characteristic `0` and residue characteristic `ℓ`, `λ` a do
 all shifted weights `λ_c + a + b − 1 − c` of `λ` lie in an interval of length `w`. If
 `ℓ^{e₁}·∇_O(λ′) ⊂ Δ_O(λ′)` and `ℓ^{e₂}·∇_O(λ″) ⊂ Δ_O(λ″)`, then
 `ℓ^{e₁ + e₂ + ab·⌊log_ℓ w⌋}·∇_O(λ) ⊂ Δ_O(λ)`. This follows from [FormalProof],
-`Formalism/PieriBlockIdeals/StatementE.lean` (`Formalism.CohomologicalDescent.E.ExCut`) and
+`Formalism/PieriBlockIdeals/StatementE.lean` (`Formalism.CohomologicalDescent.E.ExCut`, for the
+exponents over `ℤ_(ℓ)`) and
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/WeylLatticeExactExponentBlockCut.lean`
-(`GlobalTheory.LeviCut.exCut`). -/
+(`GlobalTheory.LeviCut.exCut`), with the base change to `O` of
+`Formalism/PieriBlockIdeals/LocalFaithfullyFlat.lean`
+(`Formalism.CohomologicalDescent.RealLocalDeltaNabla.ExZEqO`). -/
 theorem pow_smul_dualWeylLattice_le_weylLattice_of_blocks (O : Type*) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [CharZero O] (ℓ : ℕ) [Fact ℓ.Prime]
     [CharP (IsLocalRing.ResidueField O) ℓ] (a b : ℕ) (lam : Fin (a + b) → ℤ) (hlam : Antitone lam)
@@ -300,7 +303,8 @@ grading, `i′ ∈ ℤ` and `e_L ≥ 0` with `ℓ^{e_L}·∇_O(λ₂)_{μ₂} �
 `GL_{r+q}` with `Σ_{a<r} μ(a) = r·w − i` and `Σ_a ξ(a)(λ(a) − μ(a)) ≤ i′`,
 `ℓ^{e_L + v_ℓ(D(r, w, i, λ₂))}·∇_O(λ)_μ ⊂ Δ_O(λ)`. This follows from [FormalProof],
 `Formalism/PieriBlockIdeals/PieriColumnMinors/CorollaryOfParamsLinkage.lean`
-(`Formalism.CohomologicalDescent.Down.hG`). -/
+(`Formalism.CohomologicalDescent.Down.hG`), stated there over `ℤ_(ℓ)`, by the base change of
+README 2.1 (a) applied weight space by weight space. -/
 theorem pow_smul_dualWeylLatticeWeightSpace_le_weylLattice_of_block_first (O : Type*)
     [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [CharZero O] (ℓ : ℕ) [Fact ℓ.Prime]
     [CharP (IsLocalRing.ResidueField O) ℓ] (r q w : ℕ) (lam₂ : Fin q → ℕ) (hlam₂ : Antitone lam₂)
@@ -326,12 +330,15 @@ principal minors of a square matrix). Let `λ` be a dominant weight of `GL_N`, `
 vector with column degrees `μ_0, …, μ_{N−1}`; every such partition arises, and `v_λ` and `c_λ`
 depend on `λ⁰` alone. Then `⟨v_λ, v_λ⟩_F = H(λ⁰)`, the product of the hook lengths of `λ⁰`; and
 `c_λ = H(λ⁰)/∏_s λ⁰_s!` satisfies `1 ≤ c_λ ≤ (λ⁰_0 + N − 1)^{N(N−1)/2}`, written here
-multiplicatively. This follows from [FormalProof],
+multiplicatively. The identity follows from [FormalProof],
 `Development/AbelianVarietyTheory/BlockTheory/TorsionBlocks/BottomMinor.lean`
-(`GlobalTheory.IndefiniteRowSideFullHecke.CornerMinors.HookNorm`),
+(`GlobalTheory.IndefiniteRowSideFullHecke.CornerMinors.HookNorm`) and
 `Development/AbelianVarietyTheory/Proofs/FoundationProofs/PolarisationOperatorApplyVariable.lean`
-(`GlobalTheory.MinorNorm.hookNorm`) and `Formalism/PeriodIntegrals/HookBound.lean`
-(`PI.HookBound`). -/
+(`GlobalTheory.MinorNorm.hookNorm`), and the lower bound from
+`Formalism/PeriodIntegrals/HookBound.lean` (`PI.HookBound`), whose upper bound has the larger base
+`λ⁰_0 + N`; the upper bound stated here, with the base `λ⁰_0 + N − 1`, follows from the identity
+`H(λ⁰)·∏_{i<j}(β_i − β_j) = ∏_i β_i!` for the beta-numbers `β_i = λ⁰_i + N − 1 − i` (README 3.2,
+route). -/
 theorem fischerNormSq_highestWeightVector (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n) :
     fischerNormSq (highestWeightVector ℤ fun s : Fin (n + 1) => μ.rowLen s) =
         ∏ c ∈ μ.cells, (μ.hookLength c : ℤ) ∧
