@@ -19,9 +19,16 @@ carry a Lean name, each with every conclusion the README attaches to it. It is n
 acceptance test: the other targets of the README have the same standing, stated in prose.
 Discharging this file finishes neither a layer nor the roadmap.
 
-Bold headlines of the README that are not stated here: the kernel composition law, the
-Mellin–Barnes integrals and the differential relations of README 2.6, which are stated in prose
-there, and the Mellin–Plancherel theorem of README 1.1.
+Declarations whose docstring begins "Sanity check of the definition:" are short consequences of
+the definitions (unfolding, `simp`, or one Mathlib lemma); they fix the conventions and are not
+headline results.
+
+Two bold items of README 2.6 are not stated here, because as statements they belong to another
+roadmap and what this roadmap adds is a derivation: the Mellin–Barnes integrals of the Whittaker
+functions, which are SpecialFunctionsConfluent §2.4 (DLMF 13.16.10–13.16.12) and which README 2.6
+derives from `triangularKernel_equalTranslationModulation_eq_integral` with the kernels of
+README 2.4–2.5; and the differential relations, which are SpecialFunctionsConfluent §§1.6, 4.2
+(DLMF 13.14.1, 13.15) and which README 2.6 derives from the factorizations of README 0.1.
 
 Definitions owned by other roadmaps are local verbatim copies, so that this file imports only
 Mathlib and Tau Ceti: the `ax + b` group, the oscillator matrix, the multiplier framework, the
@@ -260,7 +267,7 @@ instance : Group TriangularGroup where
 def toMatrix (g : TriangularGroup) : Matrix (Fin 3) (Fin 3) ℝ :=
   !![1, g.a, g.b; 0, Real.exp g.τ, g.d; 0, 0, 1]
 
-/-- README 0.1. **Matrix realization.** -/
+/-- Sanity check of the definition: README 0.1, **Matrix realization.** -/
 theorem toMatrix_mul :
     (∀ g h : TriangularGroup, toMatrix (g * h) = toMatrix g * toMatrix h) ∧
       Function.Injective toMatrix := by
@@ -327,7 +334,7 @@ def heisenbergToTriangular : TauCeti.HeisenbergGroup ℝ →* TriangularGroup wh
   map_one' := by ext <;> simp
   map_mul' p q := by ext <;> simp [add_comm]
 
-/-- README 0.1. **Heisenberg subgroup.** -/
+/-- Sanity check of the definition: README 0.1, **Heisenberg subgroup.** -/
 theorem heisenbergToTriangular_injective : Function.Injective heisenbergToTriangular := by
   sorry
 
@@ -425,11 +432,11 @@ instance : Group Oscillator where
 /-- README 0.2. The matrix realization `oscillatorMatrix w α δ`. -/
 def toMatrix (g : Oscillator) : Matrix (Fin 3) (Fin 3) ℂ := oscillatorMatrix g.w g.α g.δ
 
-/-- README 0.2. **Matrix realization.** -/
+/-- Sanity check of the definition: README 0.2, **Matrix realization.** -/
 theorem toMatrix_mul (g h : Oscillator) : toMatrix (g * h) = toMatrix g * toMatrix h := by
   sorry
 
-/-- README 0.2. **Kernel of the matrix realization.** -/
+/-- Sanity check of the definition: README 0.2, **Kernel of the matrix realization.** -/
 theorem toMatrix_eq_one_iff (g : Oscillator) :
     toMatrix g = 1 ↔ g.w = 0 ∧ g.δ = 0 ∧ ∃ k : ℤ, g.α = 2 * π * k := by
   sorry
@@ -465,7 +472,7 @@ def heisenbergToOscillator : TauCeti.HeisenbergGroup ℝ →* Oscillator where
     · simp
     · simp [rotationFactor_zero]; ring
 
-/-- README 0.2. **Heisenberg subgroup.** -/
+/-- Sanity check of the definition: README 0.2, **Heisenberg subgroup.** -/
 theorem heisenbergToOscillator_injective : Function.Injective heisenbergToOscillator := by
   sorry
 
@@ -475,34 +482,39 @@ theorem heisenbergToOscillator_injective : Function.Injective heisenbergToOscill
 def affineAction (lam : ℂ) (g : AxB) (f : ℝ → ℂ) (x : ℝ) : ℂ :=
   Complex.exp (lam * g.b * x) * f (g.a * x)
 
-/-- README 1.1. **Representation law.** -/
+/-- Sanity check of the definition: README 1.1, **Representation law.** -/
 theorem affineAction_mul (lam : ℂ) (g h : AxB) (f : ℝ → ℂ) :
     affineAction lam (g * h) f = affineAction lam g (affineAction lam h f) := by
   sorry
 
-/-- README 1.1. **Representation law**, the identity. -/
+/-- Sanity check of the definition: README 1.1, **Representation law**, the identity. -/
 theorem affineAction_one (lam : ℂ) (f : ℝ → ℂ) : affineAction lam 1 f = f := by
   sorry
 
-/-- README 1.1. **Dictionary** to SpecialFunctionsGroupModels §2.4. -/
+/-- Sanity check of the definition: README 1.1, **Dictionary** to SpecialFunctionsGroupModels
+§2.4. -/
 theorem affineAction_mul_I (ρ : ℝ) :
     affineAction (ρ * Complex.I) = multiplierAction (axbCocycle ρ) := by
   sorry
 
-/-- README 1.1. **Dilations are diagonal.** -/
-theorem mellin_affineAction_dilation (lam : ℂ) (a : ℝ) (ha : 0 < a) (f : ℝ → ℂ) (w : ℂ) :
-    mellin (affineAction lam ⟨a, 0, ha⟩ f) w = (a : ℂ) ^ (-w) * mellin f w := by
-  sorry
-
-/-- README 1.1. **Infinitesimal operators**, the multiplication operator. -/
-theorem mellin_mul_variable (f : ℝ → ℂ) (w : ℂ) :
-    mellin (fun x => (x : ℂ) * f x) w = mellin f (w + 1) := by
-  sorry
-
-/-- README 1.1. **Infinitesimal operators**, the Euler operator. -/
+/-- README 1.1. **Euler operator.** -/
 theorem mellin_mul_deriv (f : ℝ → ℂ) (w : ℂ) (hf : ContDiff ℝ 1 f)
     (hfc : HasCompactSupport f) (hf0 : (0 : ℝ) ∉ tsupport f) :
     mellin (fun x => (x : ℂ) * deriv f x) w = -w * mellin f w := by
+  sorry
+
+/-- README 1.1. **Mellin–Plancherel theorem.** `f ↦ (s ↦ (2π)^{-1/2} mellin f (is))` extends from
+continuous functions with compact support in `(0, ∞)` to a unitary map from `L²(dx/x)` onto `L²(ℝ)`,
+which carries the dilation representation `R_0(a, 0)` to multiplication by `a^{-is}`. -/
+theorem mellin_plancherel :
+    ∃ M : Lp ℂ 2 halfLineMeasure ≃ₗᵢ[ℂ] Lp ℂ 2 (volume : Measure ℝ),
+      (∀ (f : ℝ → ℂ) (hf : MemLp f 2 halfLineMeasure), Continuous f → HasCompactSupport f →
+        tsupport f ⊆ Ioi 0 →
+        (M (hf.toLp f) : ℝ → ℂ) =ᵐ[volume]
+          fun s => (((2 * π) ^ (-(1 / 2 : ℝ)) : ℝ) : ℂ) * mellin f ((s : ℂ) * Complex.I)) ∧
+      ∀ (a : ℝ) (ha : 0 < a) (F : Lp ℂ 2 halfLineMeasure),
+        (M (multiplierRep halfLineMeasure (axbCocycle 0) ⟨a, 0, ha⟩ F) : ℝ → ℂ) =ᵐ[volume]
+          fun s => (a : ℂ) ^ (-((s : ℂ) * Complex.I)) * M F s := by
   sorry
 
 /-- README 1.2. The Gamma kernel `Γ(w - z) a^{-w} (-λb/a)^{z-w} / (2πi)`. -/
@@ -518,18 +530,14 @@ theorem mellin_affineAction_eq_integral (lam : ℂ) (a b : ℝ) (ha : 0 < a)
         mellin f (c + s * Complex.I) := by
   sorry
 
-/-- README 1.3. **Addition formula for the Gamma function.** -/
-theorem Gamma_mul_div_add_one_cpow (w : ℂ) (t c : ℝ) (ht : 0 < t) (hc : 0 < c)
-    (hcw : c < w.re) :
-    Gamma w * ((t / (t + 1) : ℝ) : ℂ) ^ w =
-      (1 / (2 * π) : ℂ) * ∫ s : ℝ, Gamma (w - (c + s * Complex.I)) * Gamma (c + s * Complex.I) *
-        (t : ℂ) ^ (c + s * Complex.I) := by
-  sorry
-
-/-- README 1.3. **Dual form.** -/
-theorem mellin_div_add_one_cpow (w u : ℂ) (hu : u.re < 0) (hwu : 0 < (w + u).re) :
-    mellin (fun t : ℝ => ((t / (t + 1) : ℝ) : ℂ) ^ w) u =
-      Gamma (w + u) * Gamma (-u) / Gamma w := by
+/-- README 1.3. **Composition of Gamma kernels** along `g(1, b) g(1, 1) = g(1, b + 1)`; after a
+change of variables this is the Mellin–Barnes integral of `(1 + u)^{-a}` of
+SpecialFunctionsHypergeometric §6.3. -/
+theorem affineGammaKernel_composition (lam w z : ℂ) (b c : ℝ) (hb : 0 < b) (hlam : 0 < (-lam).re)
+    (hzc : z.re < c) (hcw : c < w.re) :
+    affineGammaKernel lam 1 (b + 1) w z =
+      Complex.I * ∫ s : ℝ, affineGammaKernel lam 1 b w (c + s * Complex.I) *
+        affineGammaKernel lam 1 1 (c + s * Complex.I) z := by
   sorry
 
 /-! ## Layer 2: the triangular group and the Whittaker functions -/
@@ -684,6 +692,31 @@ theorem triangularKernel_reflect (σ ω : ℂ) (ε η : ℤˣ) (lam μ : ℂ) (g
       triangularKernel σ ω (-ε) (-η) lam μ g := by
   sorry
 
+/-- README 2.6. **Kernel composition for `g_1(t)`** at `σ = -1`, along the factorizations
+`g_1(t) = g_-(t) · g_+(t) z(t²/2)` (a) and `g_1(t) = g_+(t) · g_-(t) z(-t²/2)` (b, c), on the line
+`Re ν = c`. -/
+theorem triangularKernel_equalTranslationModulation_eq_integral (ω lam μ : ℂ) (t c : ℝ)
+    (ht : 0 < t) :
+    (0 < c → c < lam.re → c < μ.re →
+      triangularKernel (-1) ω 1 1 lam μ (equalTranslationModulation t) =
+        ∑ η : ℤˣ, Complex.I * ∫ s : ℝ,
+          triangularKernel (-1) ω 1 η lam (c + s * Complex.I) (modulationElement t) *
+            triangularKernel (-1) ω η 1 (c + s * Complex.I) μ
+              (translationElement t * centralElement (t ^ 2 / 2))) ∧
+    (0 < lam.re → lam.re < c → μ.re < c →
+      triangularKernel (-1) ω 1 1 lam μ (equalTranslationModulation t) =
+        ∑ η : ℤˣ, Complex.I * ∫ s : ℝ,
+          triangularKernel (-1) ω 1 η lam (c + s * Complex.I) (translationElement t) *
+            triangularKernel (-1) ω η 1 (c + s * Complex.I) μ
+              (modulationElement t * centralElement (-(t ^ 2 / 2)))) ∧
+    (0 < lam.re → μ.re < c → c < 1 →
+      triangularKernel (-1) ω (-1) 1 lam μ (equalTranslationModulation t) =
+        ∑ η : ℤˣ, Complex.I * ∫ s : ℝ,
+          triangularKernel (-1) ω (-1) η lam (c + s * Complex.I) (translationElement t) *
+            triangularKernel (-1) ω η 1 (c + s * Complex.I) μ
+              (modulationElement t * centralElement (-(t ^ 2 / 2)))) := by
+  sorry
+
 /-! ## Layer 3: the Heisenberg group, Hermite and Laguerre functions -/
 
 /-- README 3.1. The matrix element of `U(x, y, z)` in the Hermite basis: with
@@ -805,7 +838,7 @@ theorem bargmann_spec :
     ∃ B : Lp ℂ 2 (volume : Measure ℝ) →ₗᵢ[ℂ] Lp ℂ 2 fockMeasure,
       LinearMap.range B.toLinearMap = fockSpace ∧
       (∀ n, B (TauCeti.hermiteFunctionLp ℂ n) = fockMonomial n) ∧
-      (∀ f : Lp ℂ 2 (volume : Measure ℝ), Integrable (f : ℝ → ℂ) →
+      (∀ f : Lp ℂ 2 (volume : Measure ℝ),
         (B f : ℂ → ℂ) =ᵐ[fockMeasure] fun ζ => ∫ u, bargmannKernel ζ u * f u) ∧
       ∀ p f, (B (schrodinger p f) : ℂ → ℂ) =ᵐ[fockMeasure] fockHeisenbergAction p (B f) := by
   sorry
@@ -973,6 +1006,7 @@ theorem hasSum_laguerre_generating (m : ℕ) (x z : ℂ) :
 
 #check @mellin
 #check @mellin_comp_mul_left
+#check @mellin_cpow_smul
 #check @mellin_comp_rpow
 #check @mellinInv_mellin_eq
 #check @Complex.Gamma
@@ -983,6 +1017,7 @@ theorem hasSum_laguerre_generating (m : ℕ) (x z : ℂ) :
 #check @HilbertBasis
 #check @Orthonormal
 #check @Submodule.topologicalClosure
+#check @MeasureTheory.Lp.fourierTransformₗᵢ
 #check @TauCeti.HeisenbergGroup
 #check @TauCeti.HeisenbergGroup.equivProd
 #check @TauCeti.hermiteFunction
@@ -991,13 +1026,5 @@ theorem hasSum_laguerre_generating (m : ℕ) (x z : ℂ) :
 #check @TauCeti.coe_hermiteHilbertBasis
 #check @ContRepresentation
 #check @ContRepresentation.IsUnitary
-
-/-! ## Namespaced targets as cited in the README -/
-
-#check @TriangularGroup.toMatrix_mul
-#check @TriangularGroup.mem_center_iff
-#check @TriangularGroup.factorizations
-#check @Oscillator.toMatrix_mul
-#check @Oscillator.toMatrix_eq_one_iff
 
 end TauCetiRoadmap.SpecialFunctionsAffineHeisenbergGroups

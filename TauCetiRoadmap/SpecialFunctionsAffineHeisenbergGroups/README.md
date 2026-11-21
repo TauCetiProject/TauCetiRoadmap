@@ -6,16 +6,16 @@ solvable and nilpotent Lie groups: the `ax + b` group, the group of real upper t
 matrices with unit corners, the three-dimensional Heisenberg group, the oscillator group and
 Miller's complex four-parameter group `G(0, 1)`. Its headline results are these.
 - In the Mellin transform the dilations of the `ax + b` group act diagonally and a translation
-  acts by an integral operator whose kernel is a Gamma function; composing two translations gives
-  the Mellin–Barnes addition formula
-  `Γ(w) (t/(t + 1))^w = (1/2π) ∫ Γ(w − c − is) Γ(c + is) t^{c+is} ds` for `t > 0` and
-  `0 < c < Re w`, whose Mellin dual is the Beta integral.
+  acts by an integral operator whose kernel is a Gamma function. Two translations compose, and so
+  do their kernels: this composition is the Mellin–Barnes integral of `(1 + u)^{−w}`, and its
+  Mellin dual is the Beta integral on the half-line.
 - The representations of the triangular group on the line,
   `f(x) ↦ e^{ωτ + σ(dx + b)} f(e^τ x + a)`, are unitary exactly when `Re σ = 0` and `Re ω = 1/2`;
   the unitary ones with `σ ≠ 0` are irreducible and pairwise inequivalent. In the signed Mellin
   transform they act by a `2 × 2` matrix of kernels. On the one-parameter subgroups these kernels
   are powers and Beta quotients, and on the two unipotent subgroups `exp t(a₊ ± a₋)` they are the
-  Whittaker functions `W_{κ,μ}(t²)` and `M_{κ,μ}(t²)`.
+  Whittaker functions `W_{κ,μ}(t²)` and `M_{κ,μ}(t²)`. Factoring these unipotent elements and
+  composing their kernels gives the Mellin–Barnes integrals of the Whittaker functions.
 - The matrix elements of the Schrödinger representation of the Heisenberg group in the Hermite
   basis are Laguerre functions `e^{−A/2} A^{(m−n)/2} L_n^{(m−n)}(A)` with `A = (x² + y²)/2`. They
   satisfy an addition theorem, are orthogonal on `ℝ²` with norm `2π` and form a Hilbert basis of
@@ -34,30 +34,36 @@ source, and each section cites Vilenkin–Klimyk, Klimyk–Vilenkin, Miller, Waw
 Dieudonné where they treat the same result; the forms and hypotheses stated here are checked
 against all of them and against direct computation.
 
-It builds on four roadmaps. SpecialFunctionsGroupModels supplies the `ax + b` group, the oscillator
+It builds on five roadmaps. SpecialFunctionsGroupModels supplies the `ax + b` group, the oscillator
 matrices, the multiplier representations on `L²`, the Schrödinger representation with its
-irreducibility, and the abstract matrix elements with their addition theorem and unitarity
-relations. SpecialFunctionsConfluent supplies the Whittaker functions with their integral
-representations, Mellin–Barnes integrals, recurrences and differential equation, which the
-kernels of the triangular group are identified with. [LaguerreJacobi](../LaguerreJacobi/README.md)
-supplies the Laguerre polynomials and their orthogonality and Hilbert bases, which the matrix
-elements of the Heisenberg group are expressed in and reduce to.
-[NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md) classifies the irreducible
-representations of the Heisenberg group, which SpecialFunctionsGroupModels passes on as the
-irreducibility used here. The roadmap owns the Charlier polynomials.
+irreducibility (which it takes from NoncompactQuantumSymmetry), and the abstract matrix elements
+with their addition theorem and unitarity relations. SpecialFunctionsConfluent supplies the
+Whittaker functions with their integral representations, Mellin–Barnes integrals, recurrences and
+differential equation, which the kernels of the triangular group are identified with.
+[LaguerreJacobi](../LaguerreJacobi/README.md) supplies the Laguerre polynomials and their
+orthogonality and Hilbert bases, which the matrix elements of the Heisenberg group are expressed in
+and reduce to. [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+supplies the Mellin–Barnes integral of `(1 + u)^{−a}` and the half-line Beta integral, which the
+composed kernels of the `ax + b` and triangular groups reduce to. ThetaKernelsForUnitaryDualPairs
+supplies the Fock model and the Bargmann transform of a real symplectic space, which this roadmap
+uses in one variable, in the coordinates of Tau Ceti's Heisenberg group. The roadmap owns the
+Charlier polynomials.
 
 ## How to read the build
 
 Layer 0 puts the triangular and oscillator groups in coordinates, with their matrix realizations
 and the embeddings of the Heisenberg group. Layer 1 treats the `ax + b` group in the Mellin
-realization and needs only Mathlib's Mellin transform and Gamma function. Layer 2 treats the
-triangular group: its representations, their infinitesimal operators, the signed Mellin kernel and
-its power and Whittaker values, and the functional relations of the Whittaker functions obtained
-by composing kernels; it needs Layer 0, the multiplier framework and the Whittaker functions.
-Layer 3 treats the Heisenberg group in the Schrödinger and Fock models and needs the Hermite basis
-and the Laguerre polynomials. Layer 4 puts the oscillator group on the Fock space and needs Layers
-0 and 3. Layer 5 treats Miller's group on entire functions; it needs Layer 0 and the Laguerre
-polynomials, and Layer 2 only for the comparison of its real points with the triangular group.
+realization and needs Mathlib's Mellin transform and Gamma function, the `ax + b` group of
+SpecialFunctionsGroupModels and the Mellin–Barnes integral of SpecialFunctionsHypergeometric.
+Layer 2 treats the triangular group: its representations, their infinitesimal operators, the
+signed Mellin kernel and its power and Whittaker values, and the functional relations of the
+Whittaker functions obtained by composing kernels; it needs Layer 0, the multiplier framework, the
+Whittaker functions and again the Mellin–Barnes integral. Layer 3 treats the Heisenberg group in
+the Schrödinger and Fock models; it needs the Hermite basis and the Laguerre polynomials, and takes
+the Fock model and the Bargmann transform from ThetaKernelsForUnitaryDualPairs. Layer 4 puts the
+oscillator group on the Fock space and needs Layers 0 and 3. Layer 5 treats Miller's group on
+entire functions; it needs Layer 0 and the Laguerre polynomials, and Layer 2 only for the
+comparison of its real points with the triangular group.
 
 ## Conventions
 
@@ -123,8 +129,10 @@ Sources: Vilenkin–Klimyk Vol. 1 §5.1.1 (1)–(13), pp. 207–208; Klimyk–Vi
 one-parameter subgroups `g_+(t) = (t, 0, 0, 0)` (`translationElement`), `g_−(t) = (0, 0, t, 0)`
 (`modulationElement`), `z(t) = (0, t, 0, 0)` (`centralElement`), `ε(t) = (0, 0, 0, t)`
 (`dilation`), `g_1(t) = [[1, t, t²/2], [0, 1, t], [0, 0, 1]] = (t, t²/2, t, 0)`
-(`equalTranslationModulation`) and `g_2(t) = [[1, −t, −t²/2], [0, 1, t], [0, 0, 1]] =
-(−t, −t²/2, t, 0)` (`oppositeTranslationModulation`). Prove:
+(`equalTranslationModulation`) and
+`g_2(t) = [[1, −t, −t²/2], [0, 1, t], [0, 0, 1]] = (−t, −t²/2, t, 0)`
+(`oppositeTranslationModulation`). The matrix realization and the Heisenberg
+subgroup are sanity checks of these definitions. Prove:
 - **Matrix realization** (`TriangularGroup.toMatrix_mul`): `toMatrix` is a multiplicative and
   injective map into `3 × 3` real matrices;
 - **Centre** (`TriangularGroup.mem_center_iff`): the centre is `{z(t)}` (Vilenkin–Klimyk §5.1.1, p.
@@ -156,7 +164,8 @@ Sources: Miller §4-11 (4.95)–(4.97), p. 113, and §4-14, p. 120; Klimyk–Vil
 (14)–(15), p. 160; SpecialFunctionsGroupModels §0.2.
 
 `Oscillator` is the group of the Conventions, and `Oscillator.toMatrix g` is the oscillator matrix
-`s(w, α, δ)` of SpecialFunctionsGroupModels §0.2. Prove:
+`s(w, α, δ)` of SpecialFunctionsGroupModels §0.2. The three statements are sanity checks of these
+definitions. Prove:
 - **Matrix realization** (`Oscillator.toMatrix_mul`): `toMatrix` is multiplicative;
 - **Kernel of the matrix realization** (`Oscillator.toMatrix_eq_one_iff`): `toMatrix g = 1` exactly
   when `w = 0`, `δ = 0` and `α ∈ 2πℤ`;
@@ -165,11 +174,12 @@ Sources: Miller §4-11 (4.95)–(4.97), p. 113, and §4-14, p. 120; Klimyk–Vil
 
 The Heisenberg embedding is fixed by the oscillator law: the commutator of `(x, 0, 0)` and
 `(0, y, 0)` in `Oscillator` is `(0, 0, −xy/2)`, so the centre `z` of Tau Ceti's group must go to
-`δ = −z/2`, and the shift by `xy/2` turns Tau Ceti's asymmetric law into the symmetric one.
-Miller's `S₄` is the same group in other coordinates, `w = 2re^{iθ}`; the change of coordinates is a
-target of the same standing, stated in prose: match Miller's matrix (4.95), whose corner entry is
-misprinted and is `1`, with the oscillator matrix, and transport the law (4.96) and the
-coordinates of (4.120).
+`δ = −z/2`, and the shift by `xy/2` turns Tau Ceti's asymmetric law into the symmetric one. Miller's
+`S₄` is the same group in other coordinates, `w = 2re^{iθ}`; the change of coordinates is a target
+of the same standing, stated in prose: match Miller's matrix (4.95) with the oscillator matrix, and
+transport the law (4.96) and the coordinates of (4.120). Miller prints the `(3, 3)` entry of (4.95),
+p. 113, as `0`; the correct entry is `1`, since with `0` every matrix of (4.95) is singular and the
+law (4.96) fails.
 
 **Checks.**
 - `toMatrix` is multiplicative at `(0.4 − 0.9i, 0.7, 0.2)`, `(−1.1 + 0.3i, −1.9, 0.5)` to `10⁻³⁰`.
@@ -196,23 +206,25 @@ coordinates of (4.120).
 Sources: Vilenkin–Klimyk Vol. 1 §3.4.1 (1)–(5), pp. 128–129, and §3.4.2 (1), (11)–(12), pp. 129–131;
 Klimyk–Vilenkin Chapter 4, §1.2, p. 204.
 
-`affineAction λ g f x = e^{λbx} f(ax)` for `g = (a, b)` and complex `λ`. Prove:
+`affineAction λ g f x = e^{λbx} f(ax)` for `g = (a, b)` and complex `λ`. The first two statements
+are sanity checks of the definition, which fix its conventions. Prove:
 - **Representation law** (`affineAction_mul`, `affineAction_one`): `R_λ(gh) = R_λ(g) R_λ(h)` and
   `R_λ(1) = 1` on all functions;
 - **Dictionary** (`affineAction_mul_I`): for real `ρ`, `affineAction (ρ i)` is the multiplier action
   of SpecialFunctionsGroupModels §2.4 with cocycle `e^{iρbx}`; its unitarity on `L²(dx/x)`,
   irreducibility for `ρ ≠ 0` and equivalence classes are consumed from there;
-- **Dilations are diagonal** (`mellin_affineAction_dilation`): for `a > 0`,
-  `mellin (R_λ(a, 0) f) w = a^{−w} mellin f w`;
-- **Infinitesimal operators** (`mellin_mul_variable`, `mellin_mul_deriv`):
-  `mellin (x f) w = mellin f (w + 1)` for every `f` (the operator `B_λ = λx` of (12)), and for `f`
-  continuously differentiable with compact support not containing `0`,
-  `mellin (x f') w = −w mellin f w` (the operator `A_λ = x d/dx` of (11)).
+- **Euler operator** (`mellin_mul_deriv`): for `f` continuously differentiable with compact support
+  not containing `0`, `mellin (x f') w = −w mellin f w` (the operator `A_λ = x d/dx` of (11));
+- **Mellin–Plancherel theorem** (`mellin_plancherel`): `f ↦ (s ↦ (2π)^{−1/2} mellin f (is))`,
+  on continuous `f` with compact support in `(0, ∞)`, extends to a unitary map from
+  `L²((0, ∞), dx/x)` onto `L²(ℝ)`, and this map carries `R_0(a, 0)` to multiplication by `a^{−is}`.
 
-The Mellin–Plancherel theorem is a target of the same standing, stated in prose:
-`f ↦ (s ↦ (2π)^{−1/2} mellin f (is))` extends to a unitary map from `L²((0, ∞), dx/x)` onto `L²(ℝ)`
-(substitute `x = e^u` and use Mathlib's Fourier–Plancherel theorem), and it carries `R_0(a, 0)` to
-multiplication by `a^{−is}`, so `R_0` is a direct integral of the characters `a ↦ a^{−is}`.
+Route for the Mellin–Plancherel theorem: substitute `x = e^u` and use Mathlib's Fourier–Plancherel
+theorem; it shows that `R_0` is a direct integral of the characters `a ↦ a^{−is}`. Two further
+rules follow from Mathlib at once and are not stated separately: the dilations are diagonal,
+`mellin (R_λ(a, 0) f) w = a^{−w} mellin f w` for `a > 0` (`mellin_comp_mul_left`), and
+multiplication by `x` shifts the variable, `mellin (x f) w = mellin f (w + 1)` for every `f` (the
+operator `B_λ = λx` of (12); `mellin_cpow_smul` at exponent `1`).
 
 **Checks.**
 - `R_λ(a, b) R_λ(a', b') = R_λ(aa', ab' + b)` at `λ = 0.3 − 1.1i`, `x = 0.9`, `f(x) = x e^{−x}`,
@@ -223,7 +235,8 @@ multiplication by `a^{−is}`, so `R_0` is a direct integral of the characters `
   representation, diagonal in the Mellin realization.
 - `mellin (e^{−x}) w = Γ(w)`, and the shift rule gives `Γ(w + 1) = w Γ(w)`.
 
-*Needs:* Mathlib `mellin_comp_mul_left`; SpecialFunctionsGroupModels §§0.2, 2.4.
+*Needs:* Mathlib `mellin_comp_mul_left`, `mellin_cpow_smul`, `MeasureTheory.Lp.fourierTransformₗᵢ`;
+SpecialFunctionsGroupModels §§0.2, 2.4.
 
 ### 1.2 The Gamma kernel
 
@@ -241,7 +254,11 @@ to the slit plane (§3.4.3, p. 132); the hypothesis `Re(−λb) > 0` is the half
 `∫_0^∞ e^{λbx/a} x^{w−z−1} dx` converges absolutely, and `c < Re w` keeps `Γ(w − z)` regular on the
 contour. Route: insert Mellin inversion for `f` (the contour may be moved to any `c` since
 `mellin f` is entire and decreases rapidly on vertical lines), exchange the integrals, and evaluate
-the inner integral with Mathlib's `Complex.integral_cpow_mul_exp_neg_mul_Ioi`.
+the inner integral, a Gamma integral with the complex rate `−λb/a`, by
+[AsymptoticExpansions](../AsymptoticExpansions/README.md) §4.1 (for `Re s > 0` and `Re z > 0`,
+`∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}`). Mathlib's `Complex.integral_cpow_mul_exp_neg_mul_Ioi` is
+only the case of a real rate, which is the source's case `λ < 0`, `b > 0`; the continuation in the
+rate is AsymptoticExpansions §4.1.
 
 **Checks.**
 - The Gamma functional equation follows from the kernel: comparing `B_λ R_λ(1, t)` computed from
@@ -255,32 +272,42 @@ the inner integral with Mathlib's `Complex.integral_cpow_mul_exp_neg_mul_Ioi`.
 - Negative control: with `(−λb/a)^{w−z}` in place of `(−λb/a)^{z−w}` the right side is
   `0.02032 28410 − 0.05380 24362 i` at the same data.
 
-*Needs:* 1.1; Mathlib Mellin inversion (`mellinInv_mellin_eq`).
+*Needs:* 1.1; Mathlib Mellin inversion (`mellinInv_mellin_eq`); AsymptoticExpansions §4.1.
 
-### 1.3 The addition formula of the Gamma function
+### 1.3 Composition of Gamma kernels and the addition formula of the Gamma function
 
 Sources: Vilenkin–Klimyk Vol. 1 §3.4.5 (1)–(5), p. 135; Klimyk–Vilenkin Chapter 4, §3.1, p. 218.
 
 Prove:
-- **Addition formula for the Gamma function** (`Gamma_mul_div_add_one_cpow`): for `t > 0` and
-  `0 < c < Re w`, `Γ(w) (t/(t + 1))^w = (1/2π) ∫ Γ(w − c − is) Γ(c + is) t^{c + is} ds`;
-- **Dual form** (`mellin_div_add_one_cpow`): for `Re u < 0 < Re(w + u)`,
-  `mellin (t ↦ (t/(t + 1))^w) u = Γ(w + u) Γ(−u) / Γ(w)`.
+- **Composition of Gamma kernels** (`affineGammaKernel_composition`): for `b > 0`, `Re(−λ) > 0` and
+  real `c` with `Re z < c < Re w`, the kernels of 1.2 compose along `g(1, b) g(1, 1) = g(1, b + 1)`:
+  `affineGammaKernel λ 1 (b + 1) w z` equals
+  `i ∫ affineGammaKernel λ 1 b w (c + is) · affineGammaKernel λ 1 1 (c + is) z ds`.
 
-Route: the addition formula is the kernel identity of 1.2 for `g(1, b) g(1, 1) = g(1, b + 1)`
-(§3.4.5 (1)–(2)); equivalently it is Mellin inversion of the dual form, which is the Beta integral
-`∫_0^∞ t^{w+u−1} (1 + t)^{−w} dt = B(w + u, −u)` (Mathlib `Complex.betaIntegral` and
-`Complex.Gamma_mul_Gamma_eq_betaIntegral` after `t = s/(1 − s)`).
+This is the kernel form of `R_λ(1, b) R_λ(1, 1) = R_λ(1, b + 1)` (§3.4.5 (1)–(2), where the source
+takes `λ = −1`). After `w − z = W`, `ν − z = c′ + is` and `t = b` it reads
+`Γ(W) (t/(t + 1))^W = (1/2π) ∫ Γ(W − c′ − is) Γ(c′ + is) t^{c′ + is} ds` for `t > 0` and
+`0 < c′ < Re W`, the addition formula of the Gamma function (§3.4.5 (3)), and that is the
+Mellin–Barnes integral of `(1 + u)^{−a}` of SpecialFunctionsHypergeometric §6.3 at `u = 1/t`,
+`a = W`, `σ′ = c′`, hypotheses included. Route: reduce to that integral by this substitution and the
+factorization `(−λβ)^s = β^s (−λ)^s` of principal powers for real `β > 0`, which removes `λ`. Its
+Mellin dual, `∫_0^∞ t^{u−1} (t/(t + 1))^w dt = Γ(w + u) Γ(−u) / Γ(w)` for `Re u < 0 < Re(w + u)`, is
+the half-line Beta integral of SpecialFunctionsHypergeometric §6.3 (DLMF 5.12.3) at `s = w + u`,
+`a = w`; neither identity is restated here.
 
 **Checks.**
+- Composition at `λ = −0.8 + 0.5i`, `b = 0.6`, `w = 1.9 + 0.3i`, `z = 0.4 − 0.2i`, on the lines
+  `c = 0.7` and `c = 1.5`: `2πi` times either side is `0.25358 43141 + 0.19954 45259 i`.
+- Negative control: on the line `c = 2.3 > Re w` the integral gives
+  `−0.15149 35975 − 0.31270 52026 i`; the hypothesis `c < Re w` is needed.
 - `w = 1.7 + 0.4i`, `t = 0.6`, `c = 0.8`: both sides of the addition formula are
   `0.15377 50787 − 0.04801 10634 i`.
 - `t = 1` (the special case (4)): both sides are `2^{−w} Γ(w) = 0.25810 49091 − 0.04898 41714 i`.
 - Dual form at `w = 1.7 + 0.4i`, `u = −0.4 + 0.3i`: `1.20298 04832 + 0.67258 52838 i` both ways.
-- Negative control: the hypothesis `c < Re w` is needed: at `c = 2.5` the integral is
+- Negative control for the addition formula: at `c = 2.5 > Re w` its integral is
   `−0.20204 35566 − 0.00704 58538 i`, not the left side.
 
-*Needs:* 1.2; Mathlib `Complex.betaIntegral`, `mellinInv_mellin_eq`.
+*Needs:* 1.2; SpecialFunctionsHypergeometric §6.3.
 
 ### Examples
 
@@ -370,12 +397,15 @@ Sources: Vilenkin–Klimyk Vol. 1 §5.1.3 (1)–(10), pp. 209–211; Klimyk–Vi
   `Σ_η i ∫ triangularKernel σ ω ε η λ (c + is) g · signedMellin f η (c + is) ds`
   (§5.1.3 (4)–(5), p. 210).
 
-The source exchanges the integrals formally and records the common convergence domain
-`0 < Re λ < Re μ < 1` for `Re σ = 0` (p. 210); the hypotheses above are that domain on the line
-`Re μ = c`, and `a ≠ 0` keeps `|e^τ εx + a|^{−μ}` away from `x = 0`; at `a = 0` the source
-computes the diagonal and central elements directly (p. 210), as in the first bullet. Twice
-differentiable `f` makes `signedMellin f η (c + is)` decay like `s^{−2}`, so the line integral
-converges absolutely.
+The source derives (4)–(5) for every `χ` by exchanging the integrals formally, and then notes that
+only for `Re σ = 0` do the four kernel integrals have a common domain of convergence, `Re λ > 0`,
+`Re λ < Re μ < 1`; for `Re σ ≠ 0` it shows that there is none (at `a > 0`, `d > 0`, `Re σ < 0` the
+integral for `K_{−−}` diverges) (p. 210). The hypotheses above are that domain on the line
+`Re μ = c`, and `a ≠ 0` keeps `|e^τ εx + a|^{−μ}` away from `x = 0`; at `a = 0` the source computes
+the diagonal and central elements directly (p. 210), as in the first bullet. Twice differentiable
+`f` makes `signedMellin f η (c + is)` decay like `s^{−2}`, so the line integral converges
+absolutely. For `Re σ ≠ 0` the single kernels of 2.4 and 2.5 and the compositions of 2.6 hold on
+their own domains, which is how 2.6 uses them.
 
 **Checks.**
 - Negative control: at `g = 1` (`a = 0`) the kernel integral is `∫_0^∞ x^{λ−1−μ} dx`, which
@@ -458,15 +488,37 @@ integral representations (§5.1.4, pp. 212–213). Klimyk–Vilenkin's (19) misp
 Sources: Vilenkin–Klimyk Vol. 1 §5.2.1 (1)–(5), pp. 213–214, §5.2.3 (1), p. 217, and §5.2.4 (1)–(7),
 pp. 219–220.
 
+The source states the composition law `K(λ, μ; g h) = Σ_η i ∫ K_{·η}(λ, ν; g) K_{η·}(ν, μ; h)`
+on a line `Re ν = c` without conditions (§5.2.4 (1), p. 219) and reads off the convergence
+conditions afterwards (p. 220). Here it is stated, at `σ = −1` and `t > 0`, for the two
+factorizations of `g_1(t)` that the source uses, `g_1(t) = g_−(t) · g_+(t) z(t²/2)` (§5.2.4 (2),
+p. 219) and `g_1(t) = g_+(t) · g_−(t) z(−t²/2)` (§5.2.4 (5), p. 220). Prove:
+- **Kernel composition for `g_1(t)`** (`triangularKernel_equalTranslationModulation_eq_integral`):
+  for `σ = −1`, `t > 0` and a real line `Re ν = c`,
+  (a) `K_{++}(λ, μ; g_1(t)) = Σ_η i ∫ K_{+η}(λ, ν; g_−(t)) K_{η+}(ν, μ; g_+(t) z(t²/2)) ds` when
+  `0 < c < min(Re λ, Re μ)`;
+  (b) `K_{++}(λ, μ; g_1(t)) = Σ_η i ∫ K_{+η}(λ, ν; g_+(t)) K_{η+}(ν, μ; g_−(t) z(−t²/2)) ds` when
+  `Re λ > 0` and `max(Re λ, Re μ) < c`;
+  (c) `K_{−+}(λ, μ; g_1(t)) = Σ_η i ∫ K_{−η}(λ, ν; g_+(t)) K_{η+}(ν, μ; g_−(t) z(−t²/2)) ds` when
+  `Re λ > 0` and `Re μ < c < 1`;
+  with `ν = c + is`. In each sum one term vanishes identically, because its first or second
+  factor is an integral over the empty set (2.3).
+
+The conditions are those under which both kernel integrals of each surviving term converge
+absolutely (2.4, 2.5); 2.3 does not cover them, since `g_−(t)` has `a = 0` and `σ = −1` is not
+imaginary. Route: write the second factor as a Mellin transform in `ν` of an explicit function
+(for (a), `y ↦ (y + t)^{−μ}` up to constants; for (b) and (c), `y ↦ e^{−ty} y^{−μ}` restricted to
+`y > 0`), exchange the `ν`-integral with the `x`-integral of the first factor by Fubini, and apply
+Mellin inversion on the line `Re ν = c` (Mathlib `mellinInv_mellin_eq`); what remains is the kernel
+integral of 2.5 for `g_1(t)`. In (a) this Mellin inversion is the Mellin–Barnes integral of
+`(1 + y/t)^{−μ}`, SpecialFunctionsHypergeometric §6.3.
+
 The following are targets of the same standing, stated in prose:
-- **Kernel composition**: `K(λ, μ; g h) = Σ_ν i ∫ K(λ, ν; g) K(ν, μ; h)` along a line in a common
-  convergence domain (§5.2.4 (1), p. 219), which follows from 2.3 applied twice;
-- **Mellin–Barnes integrals of `W_{κ,μ}` and `M_{κ,μ}`**: the composition law for
-  `g_1(t) = g_−(t) g_+(t) z(t²/2)` with the kernels of 2.4 and 2.5 gives `W_{κ,μ}(z)` as a contour
-  integral of Gamma products (§5.2.4 (3)–(4), p. 219), and the factorization through `g_+` gives
-  the other forms of `W_{κ,μ}` and the integral of `M_{κ,μ}` (§5.2.4 (5)–(7), p. 220). The target
-  is the group derivation and the identification of the results with DLMF 13.16.10–13.16.12,
-  which SpecialFunctionsConfluent §2.4 proves analytically;
+- **Mellin–Barnes integrals of `W_{κ,μ}` and `M_{κ,μ}`**: with the kernels of 2.4 and 2.5, (a)
+  gives `W_{κ,μ}(z)` as a contour integral of three Gamma functions (§5.2.4 (3)–(4), p. 219), (b)
+  gives the other form of `W_{κ,μ}` (§5.2.4 (6), p. 220), and (c) gives the integral of `M_{κ,μ}`
+  (§5.2.4 (7), p. 220). The target is the group derivation and the identification of the results
+  with DLMF 13.16.10–13.16.12, which SpecialFunctionsConfluent §2.4 proves analytically;
 - **Differential relations**: differentiating `T_χ(g_+(t) g_1(x))` at `t = 0` through the
   factorization of 0.1 gives first-order relations between `K(g_1(x))`, its `x`-derivative and the
   infinitesimal operators (§5.2.1 (3)–(5), p. 214); with 2.5 they become the contiguous relations
@@ -476,13 +528,20 @@ The following are targets of the same standing, stated in prose:
   (§1.6, DLMF 13.14.1); their analytic proofs are consumed.
 
 **Checks.**
+- Composition at `λ = 0.7 + 0.2i`, `μ = 0.5 − 0.4i`, `t = 0.9`: `2πi K_{++}(g_1(t))` is
+  `0.68614 33553 − 0.10049 04888 i` by quadrature of its kernel integral, and the same by (a) on
+  the lines `c = 0.2`, `0.4` and by (b) on the lines `c = 0.8`, `1.3`; `2πi K_{−+}(g_1(t))` is
+  `1.35725 24806 − 1.75727 61310 i` by quadrature and by (c) on the lines `c = 0.6`, `0.9`.
+- Negative control: (a) on the line `c = 0.6`, with `Re μ < c < Re λ`, gives
+  `0.48136 71206 + 0.67212 19634 i`; the condition `c < Re μ` is needed.
 - The derivatives of `r`, `τ`, `b` at `t = 0` in the factorization of 0.1 are `1/2`, `−1/(2x)` and
   `x/2`, as printed in §5.2.1 (3), p. 214.
 - Negative control: the orientation `e^{2τ} = (x + t)/x` would give `dτ/dt = +1/(2x)` at `t = 0`.
 - Vilenkin–Klimyk's (4), p. 219, and (6), p. 220, at `κ = −0.3`, `μ = 0.2`, `z = 1.4`, on the lines
   `Re ν = −0.1` and `Re ν = 0.1`: both give `W_{κ,μ}(z) = 0.34544 79578`.
 
-*Needs:* 0.1, 2.3–2.5; SpecialFunctionsConfluent §§1.6, 2.4, 4.2.
+*Needs:* 0.1, 2.3–2.5; Mathlib `mellinInv_mellin_eq`; SpecialFunctionsHypergeometric §6.3;
+SpecialFunctionsConfluent §§1.6, 2.4, 4.2.
 
 ### Examples
 
@@ -511,10 +570,11 @@ With `α = (−x + iy)/√2` and `A = |α|² = (x² + y²)/2`, `hermiteMatrixEle
 
 Route: `U(x, y, z) = e^{i(z − xy/2)} exp(α a† − conj α a)` on the Schwartz space (the Weyl form of
 `e^{iyu} e^{x d/du}`), and the displaced-number-state formula. The source forms are converted:
-Vilenkin–Klimyk's `r^λ_{mp}(n(a, b, 0))` (9) is for their `R^λ`, whose printed central character
-`e^{iλc}` must be `e^{−iλc}` for `R^λ` to be a representation of their law (the matrix elements at
-`c = 0` are unaffected); Wawrzyńczyk's (12.1.13) and Miller's (4.123) are in
-the Fock model of 3.4.
+Vilenkin–Klimyk's `r^λ_{mp}(n(a, b, 0))` (9) is for their `R^λ`, printed in §12.1.4 (1), p. 413, as
+`(R^λ(n(a, b, c)) f)(x) = e^{iλc} e^{ix·a} e^{iλa·b/2} f(x + λb)`; so printed, `R^λ` reverses
+products for their law `c + c′ + (a·b′ − b·a′)/2`, and with `e^{−iλc}` in place of `e^{iλc}` it is a
+representation (the matrix elements at `c = 0` are unaffected); Wawrzyńczyk's (12.1.13) and Miller's
+(4.123) are in the Fock model of 3.4.
 
 **Checks.**
 - `(x, y, z) = (0.7, −1.1, 0.4)`: the formula and the quadrature
@@ -545,9 +605,18 @@ Route: the addition theorem is SpecialFunctionsGroupModels §3.2 with 3.1. Ortho
 polar coordinates to LaguerreJacobi's orthogonality of `L_n^{(k)}` against `x^k e^{−x}` (§2.3); it
 is the square integrability of `U` modulo the centre. Completeness: expand in a Fourier series in
 the angle and use the completeness of `{x^{k/2} e^{−x/2} L_n^{(k)}}` (LaguerreJacobi §2.4). The
-Laguerre addition formulas of Vilenkin–Klimyk §12.1.8 are this theorem; the phase in their (1) and
-the exponentials in their (2) and (4) carry sign misprints, and the forms here are checked
-numerically.
+Laguerre addition formulas of Vilenkin–Klimyk §12.1.8, pp. 420–421, are this theorem, and four of
+them are misprinted; the corrected forms below pass numerical checks at sample arguments, the
+printed ones fail.
+- (1): the phase on the right is printed `exp[(iλ/2)(ab′ − ba′)]`; it is `exp[−(iλ/2)(ab′ − ba′)]`.
+- (2): the right side is printed `(−z − w)^{m−n} exp(−λw̄z) L_n^{m−n}(λ(z + w)(z̄ + w̄))`; it is
+  `(−z − w)^{m−n} exp(−λwz̄/2) L_n^{m−n}(λ(z + w)(z̄ + w̄)/2)`, with the left side as printed
+  (arguments `λzz̄/2`, `λww̄/2`).
+- (4): `Σ_p (w/z)^p L_p^{m−p}(λzz̄)` is printed as `((z + w)/z)^m e^{−λw̄z}`; it is
+  `((z + w)/z)^m e^{−λwz̄}`, which is the Laguerre generating function of 5.1 at `x = λzz̄`,
+  `z ↦ w/z`.
+- (5): `Σ_p ((−λwz̄)^p/p!) L_n^{p−n}(λww̄)` is printed as `(w/(z − w))^n e^{−λw̄z}`; it is
+  `((−λw(z̄ + w̄))^n/n!) e^{−λwz̄}`.
 
 **Checks.**
 - Addition at `g = (0.7, −1.1, 0.4)`, `h = (−0.4, 0.3, −0.6)`, `(m, n) = (2, 1)`, summing `k < 40`:
@@ -561,7 +630,7 @@ numerically.
 ### 3.3 Laguerre identities and the Charlier polynomials
 
 Sources: Vilenkin–Klimyk Vol. 2 §12.1.6, p. 416 (the generating function), §12.1.8 (4)–(5),
-p. 421; Klimyk–Vilenkin Chapter 6, §1.4 (5)–(7), p. 239.
+p. 421, in the corrected forms of 3.2; Klimyk–Vilenkin Chapter 6, §1.4 (5)–(7), p. 239.
 
 The Charlier polynomial `charlier a n` is
 `c_n(x; a) = Σ_{j ≤ n} C(n, j) (−1/a)^j x(x − 1)⋯(x − j + 1)`, the `₂F₀(−n, −x; ; −1/a)` of
@@ -601,12 +670,42 @@ and Lemma 12.1.1, pp. 425–427; Miller §4-13 (4.111)–(4.114), pp. 117–118.
 - **Fock space** (`fockSpace_spec`): the `fockMonomial n` are orthonormal, and `F ∈ fockSpace`
   exactly when `F` agrees almost everywhere with an entire function;
 - **Bargmann transform** (`bargmann_spec`): there is a linear isometry `B` from `L²(ℝ)` onto
-  `fockSpace` with `B h_n = fockMonomial n`, given for integrable square-integrable `f` by
-  `(B f)(ζ) = ∫ bargmannKernel ζ u f(u) du`, and carrying `U(p)` to `fockHeisenbergAction p`.
+  `fockSpace` with `B h_n = fockMonomial n`, given for every `f ∈ L²(ℝ)` by
+  `(B f)(ζ) = ∫ bargmannKernel ζ u f(u) du` (for each `ζ` the kernel is a Gaussian in `u`, so the
+  integral converges), and carrying `U(p)` to `fockHeisenbergAction p`.
 
-The source kernels are for antianalytic functions in Vilenkin–Klimyk (11), p. 420, and for their
-`R^λ` in (15), whose printed phases need correcting before they intertwine; the kernel here is the
-standard Bargmann kernel for `U` and entire functions.
+The Fock model and the Bargmann transform of a real symplectic space of dimension `2N` with a
+positive compatible complex structure are ThetaKernelsForUnitaryDualPairs §3.45(i)–(ii): the Fock
+space of holomorphic functions square-integrable for `e^{−πH(z,z)} dz`, with the holomorphic
+polynomials dense in it, and a unitary Bargmann transform from `L²` of a Lagrangian onto it,
+intertwining the Schrödinger action of MetaplecticAutomorphicForms §0.15 with
+`ψ(t) U_w`, `U_w G(z) = G(z + w) e^{−πH(z,w) − πH(w,w)/2}`, `ψ(t) = e^{2πit}`. This roadmap consumes
+that statement at `N = 1` (`W = ℝe ⊕ ℝf`, `ω(e, f) = 1`, Lagrangian `ℝe`, `Je = f`, so
+`H(z, w) = z conj w`) and transports it by the following dictionary, which is the only content of
+the existence, unitarity and intertwining parts of the two targets above:
+- the line: `u = √(2π) v`, with the unitary map `(S f)(v) = (2π)^{1/4} f(√(2π) v)` from
+  `L²(ℝ, du)` to `L²(ℝ, dv)`; it sends `h_0` to the vacuum `2^{1/4} e^{−πv²}`;
+- the Fock variable: `ζ = √π z`, and `F ↦ F(√π ·)` carries `fockMeasure` to the probability measure
+  `e^{−π|z|²} dz`, so `fockSpace` goes onto the holomorphic Fock space there;
+- the kernel: `bargmannKernel (√π z) (√(2π) v)` times the Jacobian `(2π)^{1/2}` and the factor
+  `(2π)^{−1/4}` of `S⁻¹` is `2^{1/4} e^{2πvz − πv² − πz²/2}`, the kernel of §3.45's Check;
+- the group: Tau Ceti's `(x, y, z)` acts as the Heisenberg element `ae + bf` with
+  `a = x/√(2π)`, `b = y/√(2π)` and central coordinate `t = (z − xy/2)/(2π)`, so that `U(x, y, z)`
+  is `S⁻¹ ρ(ae + bf, t) S` for the Schrödinger action `ρ` of MetaplecticAutomorphicForms §0.15, and
+  `ψ(t) U_{w′}` with `w′ = (x + iy)/√(2π)` becomes `fockHeisenbergAction (x, y, z)`.
+
+What this roadmap adds to §3.45 is the normalization in the coordinates of Tau Ceti's Heisenberg
+group and its Hermite basis, `B h_n = fockMonomial n`, the explicit kernel formula on all of `L²`,
+and the oscillator group of Layer 4. Route for `B h_n = fockMonomial n`: integrate the generating
+function `Σ_n h_n(u) sⁿ/√n! = π^{−1/4} e^{−u²/2 + √2 su − s²/2}` against the kernel; the Gaussian
+integral gives `e^{sζ} = Σ_n ζⁿ sⁿ/n!`, and the coefficients of `sⁿ` agree.
+
+Vilenkin–Klimyk's kernel (11), p. 420, maps `L²(ℝ)` to antianalytic functions. Their analytic
+model is printed in (15), p. 420, as `(Q^λ(n(w, t)) f)(z) = exp iλ(t + ½ Im w·z̄) f(z − w)`,
+which does not map entire functions times `e^{−λ|z|²/4}` to such functions; the corrected
+operator is `exp iλ(t − ½ Im w·z̄) f(z − w)`, since `e^{−λ|z − w|²/4}` contributes
+`e^{λ Re(z w̄)/2}` and only the phase `e^{iλ Im(z w̄)/2}` completes it to the holomorphic
+`e^{λ z w̄/2}`. The kernel here is the standard Bargmann kernel for `U` and entire functions.
 
 **Checks.**
 - `B h_2 (ζ) = ζ²/√2` and `B h_3 (ζ) = ζ³/√6` at `ζ = 0.4 − 0.3i` by quadrature.
@@ -616,8 +715,14 @@ standard Bargmann kernel for `U` and entire functions.
   `0.04510 48830 + 2.28755 76036 i`.
 - Negative control: `ζ ↦ conj ζ` is in `L²(fockMeasure)` but not in `fockSpace`: it is orthogonal to
   every `fockMonomial n`.
+- The dictionary at `f(u) = e^{−u²/2}(1 + u + u²)`, `z = 0.3 − 0.2i`: `(B f)(√π z)` and the kernel
+  of §3.45 applied to `S f` at `z` are both `2.60214 03106 − 0.58466 70905 i`; at
+  the group element `p = (0.7, −1.1, 0.4)`, `S(U(p) f)` and `ρ(ae + bf, t)(S f)` agree at `v = 0.37`
+  (`1.80807 28593 − 1.29133 92355 i`), and the two sides of the transported intertwining at the
+  same `z` are `1.43436 82448 − 0.29380 00431 i`.
 
-*Needs:* 3.1; Tau Ceti `TauCeti.hermiteFunctionLp`.
+*Needs:* 3.1; Tau Ceti `TauCeti.hermiteFunctionLp`; ThetaKernelsForUnitaryDualPairs §3.45(i)–(ii);
+MetaplecticAutomorphicForms §0.15.
 
 ### Examples
 
@@ -662,9 +767,9 @@ Miller's Lemma 4.5, from the rotation weights and the nonvanishing of the matrix
 *Needs:* 0.2, 3.1, 3.4; SpecialFunctionsGroupModels §§1.2–1.3.
 
 The orthogonality relations of Miller's Theorem 4.3 (p. 124), with
-`δ(l − l') = (1/2π) ∫ e^{ix(l−l')} dx` (Miller prints `1/(2πi)`, which would make the constant
-imaginary), reduce to 3.2 after the `α`-integration, which gives `δ_{λλ'}` for integer weights;
-they are a target of the same standing, stated in prose.
+`δ(l − l') = (1/2π) ∫ e^{ix(l−l')} dx` (Miller prints `1/(2πi)` on the line before Theorem 4.3,
+which would make the constant imaginary), reduce to 3.2 after the `α`-integration, which gives
+`δ_{λλ'}` for integer weights; they are a target of the same standing, stated in prose.
 
 ### Dependencies
 
@@ -736,13 +841,21 @@ Vol. 2 §12.1.6, p. 416.
 ## Scope and ownership
 
 This roadmap owns the triangular group, the oscillator group as an abstract group with its
-Heisenberg embedding, the representations `T_χ` and their Mellin kernels, the Hermite matrix
-elements of the Schrödinger representation and their identities, the Fock space and the Bargmann
-transform, the oscillator Fock representations, Miller's `G(0, 1)` model and the Charlier
-polynomials. No other roadmap owns a Charlier definition; LaguerreJacobi excludes the rest of the
-Askey scheme. Everything it consumes is listed under Exact supplier contracts.
+Heisenberg embedding, the representations `T_χ`, their Mellin kernels and the composition of
+kernels, the Hermite matrix elements of the Schrödinger representation and their identities, the
+one-variable Fock space and Bargmann transform in the coordinates of Tau Ceti's Heisenberg group
+with `B h_n = fockMonomial n`, the oscillator Fock representations, Miller's `G(0, 1)` model and the
+Charlier polynomials. No other roadmap owns a Charlier definition; LaguerreJacobi excludes the rest
+of the Askey scheme. Everything it consumes is listed under Exact supplier contracts.
 
 Boundaries:
+- The Mellin–Barnes integral of `(1 + u)^{−a}` and the half-line Beta integral are
+  SpecialFunctionsHypergeometric §6.3; 1.3 and 2.6 reduce to them and do not restate them. The
+  Gamma integral with complex rate is AsymptoticExpansions §4.1.
+- The Fock model and the Bargmann transform of a real symplectic space of any dimension are
+  ThetaKernelsForUnitaryDualPairs §3.45(i)–(ii); 3.4 consumes them at `N = 1` through the
+  dictionary stated there, and owns only the normalization in Tau Ceti's coordinates, the Hermite
+  correspondence `B h_n = fockMonomial n`, the explicit kernel formula on `L²(ℝ)` and Layer 4.
 - The irreducible unitary representations of the `ax + b` and Heisenberg groups and their
   classification are SpecialFunctionsGroupModels §§2.4–2.5, which consume them from
   NoncompactQuantumSymmetry M2; the Stone–von Neumann theorem is MetaplecticAutomorphicForms 1.2
@@ -762,10 +875,13 @@ Boundaries:
 
 ### From Mathlib
 
-- `mellin`, `mellin_comp_mul_left`, `mellin_comp_rpow`, `mellinInv_mellin_eq`: the Mellin
-  transform, its dilation rule and Mellin inversion. Used in Layers 1–2.
+- `mellin`, `mellin_comp_mul_left`, `mellin_cpow_smul`, `mellin_comp_rpow`, `mellinInv_mellin_eq`:
+  the Mellin transform, its dilation and shift rules and Mellin inversion. Used in Layers 1–2.
 - `Complex.Gamma`, `Complex.betaIntegral`, `Complex.Gamma_mul_Gamma_eq_betaIntegral`,
-  `Complex.integral_cpow_mul_exp_neg_mul_Ioi`: Gamma and Beta integrals. Used in 1.2–1.3, 2.4.
+  `Complex.integral_cpow_mul_exp_neg_mul_Ioi`: Gamma and Beta integrals (the last with a real
+  rate). Used in 1.2, 2.4.
+- `MeasureTheory.Lp.fourierTransformₗᵢ`: the Fourier transform on `L²` as a linear isometric
+  equivalence (Plancherel's theorem). Used in 1.1.
 - `MeasureTheory.Lp`, `HilbertBasis`, `Orthonormal`, `Submodule.topologicalClosure`. Used in
   Layers 2–4.
 
@@ -779,6 +895,18 @@ Boundaries:
   Hermite functions and their Hilbert basis of `L²(ℝ)`. Used in 3.1, 3.4.
 - `ContRepresentation` with `ContRepresentation.IsUnitary`
   (`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`). Used in 2.1, 3.1, 4.1.
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+- §4.1: for `Re s > 0` and `Re z > 0`, `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` with the principal
+  power. Used in 1.2.
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- §6.3: the Mellin–Barnes integral of `(1 + u)^{−a}`: for `0 < σ′ < Re a` and `u > 0`,
+  `Γ(a) (1 + u)^{−a} = (1/2π) ∫ Γ(σ′ + iy) Γ(a − σ′ − iy) u^{−σ′−iy} dy`; and the half-line Beta
+  integral `∫₀^∞ t^{s−1} (1 + t)^{−a} dt = Γ(s) Γ(a − s)/Γ(a)` for `0 < Re s < Re a`
+  (DLMF 5.12.3). Used in 1.3 and 2.6.
 
 ### From SpecialFunctionsGroupModels
 
@@ -811,7 +939,22 @@ The definitions are copied verbatim into `Suggested.lean`.
 - §2.3: the orthogonality of `L_n^{(α)}` against `x^α e^{−x}`; §2.4: the two Hilbert bases. Used in
   3.2.
 
-### From NoncompactQuantumSymmetry
+### From ThetaKernelsForUnitaryDualPairs
+
+- §3.45(i)–(ii), at `N = 1`: for a real symplectic plane with a positive compatible complex
+  structure `J` and `H(x, y) = ω(x, Jy) − iω(x, y)`, the Fock space of holomorphic functions
+  square-integrable for the probability measure `e^{−πH(z,z)} dz`, in which the holomorphic
+  polynomials are dense; and a unitary Bargmann transform from `L²` of a Lagrangian onto it,
+  intertwining the Schrödinger action of MetaplecticAutomorphicForms §0.15 (with
+  `ψ(t) = e^{2πit}`) with `ψ(t) U_w`, `U_w G(z) = G(z + w) e^{−πH(z,w) − πH(w,w)/2}`. Used in 3.4,
+  through the dictionary stated there, and so in 4.1.
+
+### From [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md)
+
+- §0.15: the Schrödinger representation `ρψ(x + y, t) φ(u) = ψ(t + ω(u, y) + ½ω(x, y)) φ(u + x)`
+  of a polarized symplectic space, which fixes the coordinates of the dictionary of 3.4.
+
+### From [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md)
 
 - M2, the HeisenbergShear comparison: the irreducible representations of the Heisenberg group with
   a given nontrivial central character, consumed through SpecialFunctionsGroupModels §2.5 for the
@@ -836,10 +979,10 @@ Contributors should not attempt it under this roadmap.
 
 ## Prior formalization
 
-[lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap,
-proves the following targets without `sorry`, against Tau Ceti and the lean-DLMF Laguerre and
-Charlier polynomials. The roadmap reuses its conventions and names; its modules are a cited
-source, not the specification. The definitions of all layers are in
+[lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap, at
+commit `2a512fe` proves the following targets without `sorry`, against Tau Ceti and the lean-DLMF
+Laguerre and Charlier polynomials. The roadmap reuses its conventions and names; its modules are a
+cited source, not the specification. The definitions of all layers are in
 `SFVK/AffineHeisenberg/Basic/Groups.lean` and `SFVK/AffineHeisenberg/Basic/Models.lean`, on the
 multiplier framework of `SFVKMathlib/MeasureTheory/Group/Multiplier.lean`.
 
@@ -847,10 +990,10 @@ multiplier framework of `SFVKMathlib/MeasureTheory/Group/Multiplier.lean`.
   `TriangularGroup.factorizations`, `heisenbergToTriangular_injective`, `Oscillator.toMatrix_mul`,
   `Oscillator.toMatrix_eq_one_iff` and `heisenbergToOscillator_injective`
   (`SFVK/AffineHeisenberg/Groups.lean`).
-- §§1.1–1.3: `affineAction_mul`, `affineAction_one`, `affineAction_mul_I`,
-  `mellin_affineAction_dilation`, `mellin_mul_variable`, `mellin_mul_deriv`,
-  `mellin_affineAction_eq_integral`, `Gamma_mul_div_add_one_cpow` and `mellin_div_add_one_cpow`
-  (`SFVK/AffineHeisenberg/Affine.lean`).
+- §§1.1–1.2: `affineAction_mul`, `affineAction_one`, `affineAction_mul_I`, `mellin_mul_deriv` and
+  `mellin_affineAction_eq_integral` (`SFVK/AffineHeisenberg/Affine.lean`); the same module also
+  proves the two Mellin rules of 1.1 that are not stated separately and the addition formula and
+  its dual form of 1.3, which this roadmap consumes from SpecialFunctionsHypergeometric.
 - §§2.1–2.3: `isMultiplierCocycle_triangularCocycle`, `lintegral_triangularAction_iff`,
   `triangularAction_heisenberg`, `hasDerivAt_triangularAction`, `signedMellin_dilation_centre`,
   `signedMellin_infinitesimal` and `signedMellin_triangularAction`
@@ -867,10 +1010,11 @@ multiplier framework of `SFVKMathlib/MeasureTheory/Group/Multiplier.lean`.
   `millerMatrixElement_eq_laguerre`, `hasSum_millerMatrixElement_mul` and
   `hasSum_laguerre_generating` (`SFVK/AffineHeisenberg/Miller.lean`).
 
-The modules `SFVK/AffineHeisenberg/Triangular.lean`, `Schrodinger.lean`, `Fock.lean` and
-`Oscillator.lean` state `triangularRep_spec`, `hermiteMatrixElement_hilbertBasis`,
+At that commit the modules `SFVK/AffineHeisenberg/Triangular.lean`, `Schrodinger.lean`,
+`Fock.lean` and `Oscillator.lean` state `triangularRep_spec`, `hermiteMatrixElement_hilbertBasis`,
 `fockSpace_spec`, `bargmann_spec`, `oscillatorFock_spec` and `inner_fockMonomial_oscillatorFock`
-with `sorry`.
+with `sorry`, and lean-SFVK has no counterpart of `mellin_plancherel`,
+`affineGammaKernel_composition` or `triangularKernel_equalTranslationModulation_eq_integral`.
 
 ## References
 
