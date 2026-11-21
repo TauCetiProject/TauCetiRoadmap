@@ -140,6 +140,7 @@ body:
         - ECM
         - EffectiveBoundsPartII
         - EffectiveDiophantineMethods
+        - EisensteinIdealAndRationalTorsion
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
