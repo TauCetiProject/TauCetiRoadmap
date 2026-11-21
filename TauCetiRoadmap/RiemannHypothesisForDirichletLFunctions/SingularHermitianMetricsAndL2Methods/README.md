@@ -122,6 +122,11 @@ and proves Nadel vanishing. Layer 9 bounds Bergman kernels from below and comput
   on a smooth complex algebraic variety, these charts are ComplexComparisonPartII C-1.4's `sncPolydiscChart`
   (`snc_exists_polydiscChart`).
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: Plurisubharmonic functions
 
 ### 0.1 Plurisubharmonic functions
