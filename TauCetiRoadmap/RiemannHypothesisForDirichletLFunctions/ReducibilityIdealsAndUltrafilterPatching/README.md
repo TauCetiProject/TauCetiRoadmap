@@ -18,6 +18,11 @@ Notation and conventions not restated here are those of DeformationAndDerivedPat
 
 A `ℤ`-grading `A = ⊕_j A_j` is read as an action of the torus `𝔾_m` on the points of `A`, `A_j` being the part of weight `j`. Variables of a power series ring `E[[t_i]]` may carry weights; the weights of monomials are then defined, but such a ring is not graded. The Koszul Euler characteristic `χ(ts; M)` (3.16), the order `θ(a; M)` (3.17), the saturation `sat(x)`, the cotangent lattices `cot_j(x)`, the lengths `cotLen_j(F)`, two-signed points and graded smooth points (4.8), ideals chained in a dimension (6.10), the reducibility ideal `ired(N)` (6.11) and coefficient rings (6.14) are defined where they first appear.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 3: Multigraded Koszul Euler characteristics and orders of elements
 
 These two targets continue Layer 3 of DeformationAndDerivedPatchingAlgebra (homological dimension, local duality and multiplicity): a multigraded form of the Koszul Euler characteristic over a local base, and the order of an element on a module finite over a discrete valuation ring. Both feed the graded cotangent bound 4.9.
