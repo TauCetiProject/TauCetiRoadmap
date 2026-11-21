@@ -204,7 +204,7 @@ For `k ^ 2 < 1` (and `α2 < 1` for Π):
 
 ### 1.6 Elementary third-kind reductions
 
-(DLMF 19.6.11, 19.6.13.)
+(DLMF 19.6.2, 19.6.3, 19.6.13; the arctan form is 19.6.12 with 19.2.18.)
 - Π(φ, k, 0) = F(φ, k), and Π(k, 0) = K(k).
 - For `α2 < 1` and |φ| < π/2, Π(φ, 0, α²) = arctan(√(1 − α²) tan φ)/√(1 − α²), and
   Π(0, α²) = π/(2√(1 − α²)).
@@ -265,7 +265,7 @@ continuous on {k | k² < 1} and E(φ, ·) on ℝ.
 
 ### 2.2 Derivatives
 
-(DLMF 19.4.1.) For 0 < |k| < 1:
+(DLMF 19.4.1, 19.4.2.) For 0 < |k| < 1:
 - `HasDerivAt legendreK ((legendreEc k − (1 − k²) legendreK k) / (k (1 − k²))) k`;
 - `HasDerivAt legendreEc ((legendreEc k − legendreK k) / k) k`.
 
@@ -520,7 +520,7 @@ formula.
 
 **Checks.**
 - Replacing M(1, 1/√2) by aₙ₊₁ and keeping the terms up to cₙ gives 3.140579250…,
-  3.141592646… and 3.141592653589794 for n = 1, 2, 3: the number of correct digits roughly
+  3.141592646… and 3.141592653589793… for n = 1, 2, 3: the number of correct digits roughly
   doubles at each step, as quadratic convergence predicts.
 - With 2ⁿcₙ² in place of 2ⁿ⁺¹cₙ² the right side is 3.000251…, not π.
 
@@ -713,7 +713,7 @@ Convention 4 (`Complex.carlsonRF`); Mathlib `Complex.slitPlane`, `Complex.cpow`,
 
 ### 6.6 The Legendre dictionary
 
-(DLMF 19.25.5, 19.25.7, 19.25.14.) For |φ| ≤ π/2 with k² sin²φ < 1 (in particular for
+(DLMF 19.25.5, 19.25.9, 19.25.14.) For |φ| ≤ π/2 with k² sin²φ < 1 (in particular for
 `k ^ 2 < 1`), write c = cos²φ, Δ = 1 − k² sin²φ and s = sin φ. Then, as identities in ℂ with each
 Carlson value taken at real arguments coerced to ℂ, so that its imaginary part is 0:
 - F(φ, k) = s · R_F(c, Δ, 1);

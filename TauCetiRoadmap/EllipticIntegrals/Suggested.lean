@@ -22,8 +22,8 @@ sequences `NNReal.agmSequences`.
 
 The headline theorems that the pinned Tau Ceti already proves (Gauss's theorem
 `K(k) = π / (2 M(1, k′))`, Legendre's relation, the value `K(1/√2) = Γ(1/4)² / (4√π)` and Gauss's
-lemniscate identity, the perimeter of an ellipse with `b² ≤ a²`) are supplier contracts of the
-README and are not restated here. Every headline theorem that remains a target of the roadmap is
+lemniscate identity, the perimeter of an ellipse with `b² ≤ a²`) are named in the README's
+milestones and are not restated here. Every headline theorem that remains a target of the roadmap is
 statable at the pins and is stated below.
 -/
 
@@ -34,14 +34,14 @@ namespace TauCetiRoadmap.EllipticIntegrals
 open Real Filter Topology TauCeti.Real
 open scoped NNReal
 
-/-! ## Layer 1: the complete integrals at the singular modulus -/
+/-! ## Milestone 3: the logarithmic singularity and Legendre's relation -/
 
 /-- **The logarithmic singularity of `K`** (DLMF 19.12.1): as `k → 1⁻`, the complete integral of
 the first kind differs from `log (4 / k′)`, `k′ = √(1 - k²)`, by a quantity tending to `0`. -/
 theorem tendsto_legendreK_sub_log :
     Tendsto (fun k ↦ legendreK k - log (4 / √(1 - k ^ 2))) (𝓝[<] 1) (𝓝 0) := sorry
 
-/-! ## Layer 2: the AGM evaluation of `E` and the Gauss–Brent–Salamin formula -/
+/-! ## Milestone 4: the arithmetic–geometric mean -/
 
 /-- **The AGM series for `E`** (DLMF 19.8.6). Run the arithmetic–geometric mean from `a₀ = 1`,
 `g₀ = k′ = √(1 - k²)`, and put `c₀ = k`, `cₙ₊₁ = (aₙ - gₙ) / 2`, so that `cₙ² = aₙ² - gₙ²` for
@@ -65,7 +65,7 @@ theorem pi_eq_four_mul_agm_sq_div_one_sub_tsum :
       (((NNReal.agmSequences 1 g₀ n).2 : ℝ) ^ 2 - ((NNReal.agmSequences 1 g₀ n).1 : ℝ) ^ 2)
     Summable s ∧ π = 4 * (NNReal.agm 1 g₀ : ℝ) ^ 2 / (1 - ∑' n, s n) := sorry
 
-/-! ## Layer 3: Carlson's symmetric integrals -/
+/-! ## Milestone 6: Carlson's symmetric integrals -/
 
 /-- **The duplication theorem** on the whole domain (DLMF 19.26.18 for nonnegative arguments;
 Carlson 1995, §2, equations (8)–(11)): for `x` in the slit plane or `0` and `y`, `z` in the slit
@@ -84,7 +84,7 @@ theorem carlsonRF_duplication {x y z : ℂ} (hx : x ∈ Complex.slitPlane ∪ {0
 theorem legendreEc_eq_carlsonRG {k : ℝ} (hk : k ^ 2 < 1) :
     (legendreEc k : ℂ) = 2 * Complex.carlsonRG 0 (1 - k ^ 2 : ℝ) 1 := sorry
 
-/-! ## Layer 4: the Jacobi elliptic functions of a real variable -/
+/-! ## Milestone 7: Jacobi elliptic functions of a real variable -/
 
 /-- **The addition theorem for `sn`** (DLMF 22.8.1): for `k² < 1` and real `u`, `v`,
 `sn(u + v) = (sn u cn v dn v + sn v cn u dn u) / (1 - k² sn² u sn² v)`. -/
@@ -107,7 +107,7 @@ theorem pendulum_solution {ω θ₀ : ℝ} (hω : 0 < ω) (hθ₀ : 0 < θ₀) (
         (∀ t, HasDerivAt ψ (-ω ^ 2 * sin (φ t)) t) → φ 0 = θ₀ → ψ 0 = 0 → φ = θ) ∧
       IsLeast {p : ℝ | 0 < p ∧ Function.Periodic θ p} (4 * legendreK k / ω) := sorry
 
-/-! ## Layer 5: geometry and the real period -/
+/-! ## Milestone 8: geometry and the Weierstrass bridge -/
 
 /-- **The real period with three real roots**. If
 `Ψ₂Sq(x) = 4 (x - e₁)(x - e₂)(x - e₃)` with `e₃ < e₂ < e₁`, the real period is
