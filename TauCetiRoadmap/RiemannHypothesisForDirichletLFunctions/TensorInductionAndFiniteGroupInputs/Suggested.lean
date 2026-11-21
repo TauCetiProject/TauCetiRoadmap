@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.GroupTheory.Perm.Jordan
 import TauCeti.RepresentationTheory.CharacterTable.VirtualCharacter
 import TauCeti.RepresentationTheory.Tensor.Induction.Basic
 
@@ -7,10 +6,10 @@ import TauCeti.RepresentationTheory.Tensor.Induction.Basic
 # Tensor induction and finite-group inputs: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. All three are
-statable at the pins, and the third is already a theorem of Tau Ceti.
+states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Both are statable
+at the pins.
 
-In the first two, `G` is a finite group (the group `Ĝ` of the README), `H` a normal subgroup of
+Throughout, `G` is a finite group (the group `Ĝ` of the README), `H` a normal subgroup of
 prime index `l` and `x` an element of `G` outside `H`; conjugation by `x`, the automorphism `F`
 of `H` in the README, is `MulAut.conjNormal x`. Characters are complex; the virtual characters
 of a finite group are the elements of Tau Ceti's `TauCeti.virtualCharacters`, the additive
@@ -19,14 +18,12 @@ elements of `TauCeti.irreducibleCharacters`. Tensor induction is Tau Ceti's
 `Subgroup.tensorInducedRepresentation`.
 
 * Tensor induction in prime index (6.1): `trace_tensorInducedRepresentation_of_index_prime` states
-  the character formula (a), and `tensorInducedClassFunction_mem_virtualCharacters` the first
-  sentence of (b), that the class function given by the same two formulas on a virtual character
-  is a virtual character.
+  the character formula (a), the case of a normal subgroup of prime index of the trace formula for
+  tensor induction of ArithmeticGaloisRepresentations §7.1, which (b) uses; and
+  `tensorInducedClassFunction_mem_virtualCharacters` states the first sentence of (b), that the
+  class function given by the same two formulas on a virtual character is a virtual character.
 * Virtual characters of norm one on a coset (6.2 (b), (c)):
   `exists_rootOfUnity_mul_extension_eq_on_coset`.
-* Jordan's theorem on primitive groups containing a cycle of prime length (8.1):
-  `alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`, proved here by the Tau Ceti theorem
-  `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`.
 
 Two statable parts of these targets are not stated: the explicit expression in 6.1 (b) through
 the sign character of `G ⧸ H` and characters induced from `H`, which proves the membership, and
@@ -35,9 +32,10 @@ a step of the route to 6.2 (b).
 
 The duality 7.1, over `ℂ` for `GL_n(ℂ) × GL_m(ℂ)` and `U(n) × U(m)`, is not a headline, and it
 is not statable at the pins as written: Tau Ceti has the Schur functors `TauCeti.schurFunctor` of
-`GL_n(ℂ)`, but neither library has the action of `GL_n(ℂ) × GL_m(ℂ)` on the polynomial functions
-on `n × m` matrices, the external tensor product of representations of two groups, or the
-restriction to the unitary groups that 7.1 needs. The identities 9.1 hold in an arbitrary
+`GL_n(ℂ)` and the external tensor product `Representation.externalTensor` of representations of
+two groups, and the restriction to the unitary groups is composition with Mathlib's
+`Unitary.toUnits`, but neither library has the action of `GL_n(ℂ) × GL_m(ℂ)` on the polynomial
+functions on `n × m` matrices. The identities 9.1 hold in an arbitrary
 associative `ℂ`-algebra with elements satisfying the commutation relations of `𝔤𝔩_n`, and they
 are statable there, the quantum minors being finite sums over permutations; so is the quantum
 determinant of a `2 × 2` matrix satisfying the exchange relation, 9.1 (j), as an identity in an
@@ -55,7 +53,9 @@ open ComplexConjugate
 normal subgroup of prime index `l` of a finite group `G`, let `x ∉ H`, and let `s` be the left
 transversal `1, x, …, x^(l-1)`. For a finite-dimensional complex representation `ρ` of `H` with
 character `ψ`, the representation of `G` tensor-induced along `s` has trace
-`∏_{i<l} ψ(x^i h x^(-i))` at `h ∈ H`, and trace `ψ(g^l)` at `g ∉ H`. -/
+`∏_{i<l} ψ(x^i h x^(-i))` at `h ∈ H`, and trace `ψ(g^l)` at `g ∉ H`. It is the case of a normal
+subgroup of prime index of the trace formula for tensor induction of ArithmeticGaloisRepresentations
+§7.1, and the input of `tensorInducedClassFunction_mem_virtualCharacters`. -/
 theorem trace_tensorInducedRepresentation_of_index_prime {G : Type*} [Group G] [Finite G]
     (H : Subgroup G) [H.Normal] {l : ℕ} (hl : l.Prime) (hH : H.index = l) {x : G} (hx : x ∉ H)
     (s : H.LeftTransversal) (hs : (s : Set G) = Set.range fun i : Fin l ↦ x ^ (i : ℕ))
@@ -101,18 +101,5 @@ theorem exists_rootOfUnity_mul_extension_eq_on_coset {G : Type*} [Group G] [Fini
           (∀ m : ℤ, (Nat.card H : ℂ)⁻¹ * ∑ h : H, X h * conj (Y.character h) ≠ l * m) →
           (Nat.card H : ℂ)⁻¹ * ∑ h : H, Y.character h * conj (τ₀ h) ≠ 0 := by
   sorry
-
-/-! ## Layer 8: Primitive permutation groups containing a prime cycle -/
-
-/-- **Jordan's theorem on primitive groups with a prime cycle** (8.1). A primitive permutation
-group of degree `n` that contains a cycle of prime length `p`, with `p ≤ n − 3`, contains the
-alternating group `A_n`: here a primitive subgroup `G` of `Equiv.Perm α`, `α` finite of cardinality
-at least `p + 3`, containing a cycle `g` whose support has `p` points. It is the Tau Ceti theorem
-`TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`. -/
-theorem alternatingGroup_le_of_isPreprimitive_of_isCycle_mem {α : Type*} [Fintype α]
-    [DecidableEq α] {G : Subgroup (Equiv.Perm α)} (hG : MulAction.IsPreprimitive G α) {p : ℕ}
-    (hp : p.Prime) (hpn : p + 3 ≤ Nat.card α) {g : Equiv.Perm α} (hgc : g.IsCycle)
-    (hgp : g.support.card = p) (hg : g ∈ G) : alternatingGroup α ≤ G :=
-  TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem hG hp hpn hgc hgp hg
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.TensorInductionAndFiniteGroupInputs

@@ -2,21 +2,19 @@
 
 **Summary.** This roadmap states results on finite groups and on representations of finite and general linear groups that the family [RiemannHypothesisForDirichletLFunctions](../README.md) uses and that the roadmaps it extends do not state. In Layer 6, `Ĝ` is a finite group, `H` a normal subgroup of prime index `l`, `x` an element of `Ĝ` outside `H` and `F(h) = xhx⁻¹`; characters are complex.
 
-The headline theorems are these. (1) *Tensor induction in prime index* (6.1). The tensor induction to `Ĝ` of a finite-dimensional complex representation of `H` with character `ψ` has the character `ψ̂` with `ψ̂(h) = ∏_{i<l} ψ(F^i(h))` for `h ∈ H` and `ψ̂(g) = ψ(g^l)` for `g ∉ H`; and for every virtual character `ψ` of `H`, the class function `ψ̂` given by the same two formulas is a virtual character of `Ĝ`, with an explicit expression through the linear character `s` of `Ĝ/H` with `s(x) = (−1)^{l−1}` and characters induced from `H`. (2) *Virtual characters of norm one on a coset* (6.2). Let `ζ = e^{2πi/l}` and `⟨φ, φ′⟩_{Hx} = |H|⁻¹ Σ_{h∈H} φ(hx)·conj(φ′(hx))`. If `X` is a virtual character of `Ĝ` with `⟨X, X⟩_{Hx} = 1`, there are an irreducible character `τ₀` of `H` with `τ₀∘F = τ₀`, an extension `τ̃₀` of it to `Ĝ` and a root of unity `b ∈ ℚ(ζ)` with `X = b·τ̃₀` on `Hx`; and `τ₀` is a constituent of every character `Y` of `H` with `Y∘F = Y` for which `l` does not divide `⟨X|_H, Y⟩_H`. (3) *Jordan's theorem* (8.1). A primitive permutation group of degree `n` that contains a cycle of prime length `p` with `p ≤ n − 3` contains the alternating group `A_n`.
+The headline theorems are these. (1) *Tensor induction in prime index* (6.1). The tensor induction to `Ĝ` of a finite-dimensional complex representation of `H` with character `ψ` has the character `ψ̂` with `ψ̂(h) = ∏_{i<l} ψ(F^i(h))` for `h ∈ H` and `ψ̂(g) = ψ(g^l)` for `g ∉ H`; and for every virtual character `ψ` of `H`, the class function `ψ̂` given by the same two formulas is a virtual character of `Ĝ`, with an explicit expression through the linear character `s` of `Ĝ/H` with `s(x) = (−1)^{l−1}` and characters induced from `H`. (2) *Virtual characters of norm one on a coset* (6.2). Let `ζ = e^{2πi/l}` and `⟨φ, φ′⟩_{Hx} = |H|⁻¹ Σ_{h∈H} φ(hx)·conj(φ′(hx))`. If `X` is a virtual character of `Ĝ` with `⟨X, X⟩_{Hx} = 1`, there are an irreducible character `τ₀` of `H` with `τ₀∘F = τ₀`, an extension `τ̃₀` of it to `Ĝ` and a root of unity `b ∈ ℚ(ζ)` with `X = b·τ̃₀` on `Hx`; and `τ₀` is a constituent of every character `Y` of `H` with `Y∘F = Y` for which `l` does not divide `⟨X|_H, Y⟩_H`.
 
-The roadmap extends four roadmaps on main: [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md), whose induced characters, Mackey criterion, Clifford theory and virtual-character ring carry Layer 6, together with Tau Ceti's tensor induction; [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md), whose Schur–Weyl duality on tensor powers gives the duality of Layer 7; [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md), whose Schur functors and highest weights enter Layer 7 and whose Capelli generators are the subject of Layer 9; and [FiniteGroupInvariants](../../FiniteGroupInvariants/README.md), the roadmap of invariants of finite groups, to which Layer 8 adds Jordan's theorem, proved from Mathlib's primitive groups. In the family, [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) uses Layer 6 in Shintani descent for `GL_n` in prime degree, [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) uses 7.1 for the compact dual pairs `(U(n), U(m))`, [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) uses 8.1 for residual irreducibility after solvable base change, and [BesselPoincareSeriesAndGramBounds](../BesselPoincareSeriesAndGramBounds/README.md) uses 9.1.
+The roadmap extends three roadmaps on main: [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md), whose induced characters, Mackey criterion, Clifford theory and virtual-character ring carry Layer 6, together with Tau Ceti's tensor induction; [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md), whose Schur–Weyl duality on tensor powers gives the duality of Layer 7; and [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md), whose Schur functors and highest weights enter Layer 7 and whose Capelli generators are the subject of Layer 9. The character formula of 6.1 is the case of prime index of the trace formula for tensor induction of [ArithmeticGaloisRepresentations](../../ArithmeticGaloisRepresentations/README.md). In the family, [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) uses Layer 6 in Shintani descent for `GL_n` in prime degree, [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) uses 7.1 for the compact dual pairs `(U(n), U(m))`, and [BesselPoincareSeriesAndGramBounds](../BesselPoincareSeriesAndGramBounds/README.md) uses 9.1.
 
-Layer 6 treats tensor induction in prime index (6.1) and the characters of `Ĝ` on the coset `Hx`, beginning with the extensions of the `F`-stable irreducible characters of `H` (6.2). Layer 7 decomposes the polynomial functions on complex `n × m` matrices under `GL_n(ℂ) × GL_m(ℂ)` and under `U(n) × U(m)`, with the highest weight vectors (7.1). Layer 8 proves Jordan's theorem for a cycle of prime length (8.1). Layer 9 proves identities of the quantum minors of `u + E` for elements `E_{ab}` of any associative algebra that satisfy the commutation relations of `𝔤𝔩_n`: Laplace expansions, the centrality of the quantum determinant, the comatrix and Jacobi identities with their bordered forms, and the quantum determinant of a `2 × 2` matrix that satisfies the exchange relation (9.1). The four layers use no statement of one another.
+Layer 6 treats tensor induction in prime index (6.1) and the characters of `Ĝ` on the coset `Hx`, beginning with the extensions of the `F`-stable irreducible characters of `H` (6.2). Layer 7 decomposes the polynomial functions on complex `n × m` matrices under `GL_n(ℂ) × GL_m(ℂ)` and under `U(n) × U(m)`, with the highest weight vectors (7.1). Layer 9 proves identities of the quantum minors of `u + E` for elements `E_{ab}` of any associative algebra that satisfy the commutation relations of `𝔤𝔩_n`: Laplace expansions, the centrality of the quantum determinant, the comatrix and Jacobi identities with their bordered forms, and the quantum determinant of a `2 × 2` matrix that satisfies the exchange relation (9.1). The three layers use no statement of one another.
 
 ## Conventions
 
-Notation and conventions not restated here are those of the roadmaps this one extends: the Standing conventions of InductionRestriction for Layer 6, the Conventions of SchurWeyl for Layer 7, those of FiniteGroupInvariants for Layer 8 and those of ClassicalGroups for Layer 9.
+Notation and conventions not restated here are those of the roadmaps this one extends: the Standing conventions of InductionRestriction for Layer 6, the Conventions of SchurWeyl for Layer 7 and those of ClassicalGroups for Layer 9.
 
 In Layer 6, `Ĝ` is a finite group, `H ⊲ Ĝ` a normal subgroup of prime index `l`, and `x ∈ Ĝ ∖ H`, so that `1, x, …, x^{l−1}` is a transversal of `H`; `F(h) = xhx⁻¹` is the automorphism of `H` that `x` induces. A character is the character of a finite-dimensional complex representation; a virtual character is a difference of two characters, an element of the virtual-character lattice of InductionRestriction Layer 6 (Tau Ceti's `TauCeti.virtualCharacters`). `Ind_H^Ĝ` is induction (InductionRestriction Layer 2), `φ|_H` restriction, and `⟨φ, φ′⟩_H = |H|⁻¹ Σ_{h∈H} φ(h)·conj(φ′(h))` the inner product of class functions on `H`; 6.2 defines the inner product `⟨ , ⟩_{Hx}` on the coset `Hx`.
 
 In Layer 7, `ℂ[M_{n×m}]` is the ring of polynomial functions on complex `n × m` matrices and `ℂ[M_{n×m}]_d` its homogeneous part of degree `d`; `λ ⊢ d` is a partition of `d`, `ℓ(λ)` its number of nonzero parts, and `S^λ` the Schur functor.
-
-In Layer 8, a permutation group of degree `n` is a subgroup of the symmetric group of an `n`-element set (Mathlib's `Equiv.Perm α` with `α` finite of cardinality `n`); primitive means transitive with no nontrivial block (Mathlib's `MulAction.IsPreprimitive`); `A_n` is the alternating group (`alternatingGroup`); a `p`-cycle is a cycle (`Equiv.Perm.IsCycle`) whose support has `p` points.
 
 Layer 9 fixes its notation at the start of 9.1.
 
@@ -43,11 +41,14 @@ letters `2` in `w`, and `⊗_{i<l} ψ_{w_i}∘F^i` is the character `h ↦ ∏_i
 In `Suggested.lean`, (a) is `trace_tensorInducedRepresentation_of_index_prime` and the first sentence of (b) is
 `tensorInducedClassFunction_mem_virtualCharacters`.
 
-*Route.* (a) In the basis of pure tensors of a basis of `V`, an element of `H` acts by `ρ(h) ⊗ ρ(F(h)) ⊗ ⋯ ⊗ ρ(F^{l−1}(h))` up
-to the order of the factors fixed by the transversal, whose trace is the product. An element `g ∉ H` permutes the `l`
-cosets in a single cycle (`l` prime), so it acts by `(A_0 ⊗ ⋯ ⊗ A_{l−1})∘S` with `S` the cyclic shift of the factors, and
-`tr((A_0 ⊗ ⋯ ⊗ A_{l−1})∘S) = tr(A_0A_1⋯A_{l−1})` (expand in the pure-tensor basis); the product `A_0⋯A_{l−1}` is `ρ(g^l)` up to
-conjugation by an element of `H` (`g^l ∈ H`). (b) Expand `∏_i(ψ₁ − ψ₂)(F^i(h)) = Σ_w (−1)^{#₂(w)} ∏_i ψ_{w_i}(F^i(h))`. The two
+*Route.* (a) This is the case of a normal subgroup of prime index of the trace formula for tensor induction of
+ArithmeticGaloisRepresentations §7.1 (the trace at `g` is the product, over the cycles of `g` on `Ĝ/H`, of `tr ρ(t⁻¹g^kt)`,
+`t` the representative of a coset of the cycle and `k` its length), applied to the finite group `Ĝ` with the discrete
+topology and the transversal `x^i`. An element `h ∈ H` fixes every coset `x^iH` (`H` is normal), so its trace is
+`∏_{i<l} ψ(x^{−i}hx^i) = ∏_{i<l} ψ(F^{−i}(h))`, which is `∏_{i<l} ψ(F^i(h))` because `F^l` is conjugation by `x^l ∈ H` and
+`ψ` is a class function on `H`. An element `g ∉ H` permutes the `l` cosets in a single cycle (`l` prime), so its trace is
+`ψ(x^{−i}g^lx^i)` for one `i`; writing `x^i = g^jh′` with `h′ ∈ H` (`gH` generates `Ĝ/H`) gives `x^{−i}g^lx^i = h′⁻¹g^lh′`,
+and the trace is `ψ(g^l)`. (b) Expand `∏_i(ψ₁ − ψ₂)(F^i(h)) = Σ_w (−1)^{#₂(w)} ∏_i ψ_{w_i}(F^i(h))`. The two
 constant words give `ψ̂₁(h)` and `(−1)^lψ̂₂(h)` (by (a); `s` is trivial on `H`). The non-constant words form free orbits of size
 `l` under the cyclic shift (`l` prime), `#₂` is constant on an orbit, and the sum over an orbit is the value at `h` of
 `Ind_H^Ĝ(⊗_i ψ_{w_i}∘F^i)` (InductionRestriction Layer 2's induced-character formula, the conjugates by the `x^j` being the shifts). Off `H` the
@@ -63,13 +64,14 @@ odd, `s = 1`), so the right side is `ψ₁(g^l) − ψ₂(g^l)`. Each term is a 
   `ℂ[𝔽_{2^l}² ∖ 0]`: the trace of `hx` on the tensor-induced module is the character at `h·F(h)⋯F^{l−1}(h) = (hx)^l`, and the
   formula of (b) has the stated values.
 
-*Needs:* Tau Ceti `Subgroup.tensorInducedRepresentation`; InductionRestriction Layer 2 (induced characters); the
-virtual-character lattice of InductionRestriction Layer 6.
+*Needs:* Tau Ceti `Subgroup.tensorInducedRepresentation`; ArithmeticGaloisRepresentations §7.1 (the trace formula for
+tensor induction); InductionRestriction Layer 2 (induced characters); the virtual-character lattice of InductionRestriction
+Layer 6.
 
 ### 6.2 Virtual characters of norm one on a coset of a normal subgroup of prime index
 
 Let `Ĝ`, `H`, `x`, `F` and `l` be as in 6.1, `ζ = e^{2πi/l}`, and
-`⟨φ, φ′⟩_{Hx} = |H|⁻¹ Σ_{h∈H} φ(hx)\overline{φ′(hx)}` for class functions on `Ĝ`. Call an irreducible character `χ′` of `H`
+`⟨φ, φ′⟩_{Hx} = |H|⁻¹ Σ_{h∈H} φ(hx)·conj(φ′(hx))` for class functions on `Ĝ`. Call an irreducible character `χ′` of `H`
 `x`-stable if `χ′∘F = χ′`.
 
 (a) An `x`-stable irreducible character of `H` has exactly `l` extensions to `Ĝ`, `χ̃ε^j` (`ε` a generator of the characters of
@@ -114,9 +116,9 @@ are at most `1`; its norm is a positive integer at most `1`, so all conjugates e
 - (a) without a splitting: `Ĝ = ℤ/4`, `H = 2ℤ/4`, `x = 1`, `χ′` the nontrivial character of `H`. With `A = 1`,
   `ρ(x²)⁻¹A² = −1 = c`, and `A = c^{−1/2}·1 = ±i` gives the two extensions `x ↦ ±i`, although `Ĝ → Ĝ/H` does not split.
 
-*Needs:* InductionRestriction Layers 2, 4, 5 (Frobenius reciprocity and the projection formula; the Mackey irreducibility criterion; Clifford
-theory over a normal subgroup); the orthogonality relations and the virtual-character lattice of InductionRestriction Layer 6; Mathlib's Schur
-lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
+*Needs:* InductionRestriction Layers 0, 2, 4, 5 (the projection formula; Frobenius reciprocity; the Mackey irreducibility criterion; Clifford
+theory over a normal subgroup); the virtual-character lattice of InductionRestriction Layer 6; the orthogonality relations of the irreducible
+characters (Mathlib's `FDRep.char_orthonormal`); Mathlib's Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
 
 ### Examples
 
@@ -125,7 +127,7 @@ lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
 
 ### Dependencies
 
-InductionRestriction Layers 2, 4, 5 and 6 (induced characters, Frobenius reciprocity and the projection formula; the Mackey irreducibility criterion; Clifford theory over a normal subgroup; the virtual-character lattice and the orthogonality relations); Tau Ceti's `Subgroup.tensorInducedRepresentation`; Mathlib's Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
+InductionRestriction Layers 0, 2, 4, 5 and 6 (the projection formula; induced characters and Frobenius reciprocity; the Mackey irreducibility criterion; Clifford theory over a normal subgroup; the virtual-character lattice); ArithmeticGaloisRepresentations §7.1 (the trace formula for tensor induction); Tau Ceti's `Subgroup.tensorInducedRepresentation`; Mathlib's orthogonality relations `FDRep.char_orthonormal`, Schur lemma, `IsPrimitiveRoot`, cyclotomic integers and Kronecker's theorem.
 
 ## Layer 7: Polynomial duality for pairs of general linear groups
 
@@ -148,11 +150,17 @@ the summand of `λ` (for the upper Borel subgroups) is spanned by
 `S_d`-invariant part of `(ℂⁿ)^{⊗d} ⊗ (ℂ^m)^{⊗d}`; Schur–Weyl duality (SchurWeyl §8.1) for each factor and the
 orthogonality of the irreducible characters of `S_d` (SchurWeyl Layer 6) give the decomposition, with
 `S^λ(ℂⁿ) = 0` when `ℓ(λ) > n`. The highest weight vectors are computed on the minors, whose torus
-weights are the fundamental weights.
+weights are the fundamental weights. For `U(n) × U(m)` (Weyl's unitarian trick): the action on `ℂ[M_{n×m}]_d` is
+polynomial in the entries of `g` and `h`, and a polynomial function of `(g, h)` that vanishes on `U(n) × U(m)` vanishes on
+`GL_n(ℂ) × GL_m(ℂ)`, by the Zariski density of the unitary group applied in `g` for each unitary `h` and then in `h` for each
+`g`. Hence `U(n) × U(m)` and `GL_n(ℂ) × GL_m(ℂ)` have the same invariant subspaces and the same intertwining maps on
+`ℂ[M_{n×m}]_d` (for an invariant subspace `W`, `w ∈ W` and a functional `f` vanishing on `W`, apply this to
+`(g, h) ↦ f((g, h)·w)`), which gives the decomposition, the irreducibility and the non-isomorphism for `U(n) × U(m)`.
 
 (R. Howe, *Remarks on classical invariant theory*, Trans. Amer. Math. Soc. 313 (1989), and
 *Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1.) *Needs:* SchurWeyl §§8.1–8.3,
-Layer 6; ClassicalGroups Layers 2–3.
+Layer 6; ClassicalGroups Layers 2–3; Tau Ceti `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`
+(the Zariski density of the unitary group).
 
 **Checks.**
 
@@ -167,53 +175,7 @@ Layer 6; ClassicalGroups Layers 2–3.
 
 ### Dependencies
 
-SchurWeyl §§8.1–8.3 and Layer 6; ClassicalGroups Layers 2–3.
-
-## Layer 8: Primitive permutation groups containing a prime cycle
-
-Mathlib proves Jordan's theorems for a primitive group that contains a transposition or a 3-cycle, and Jordan's multiple primitivity criterion. This layer states the case of a cycle of arbitrary prime length.
-
-### 8.1 Jordan's theorem on primitive groups with a prime cycle
-
-A primitive permutation group `G` of degree `n` containing a cycle of prime length `p` with `p ≤ n − 3` contains the
-alternating group `A_n`.
-
-*In Tau Ceti:* `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`. In `Suggested.lean`, 8.1 is
-`alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`, proved by that theorem.
-
-*Route.* Let `c ∈ G` be the `p`-cycle, `P = ⟨c⟩`, `Δ` its support and `Γ` the set of its `n − p ≥ 3` fixed points. (1) The
-pointwise stabiliser `G_{(Γ)}` acts faithfully on `Δ` and contains the `p`-cycle, so it is transitive of prime degree,
-hence primitive on `Δ`; Jordan's criterion (`MulAction.IsPreprimitive.isMultiplyPreprimitive` with `s = Γ`) makes `G`
-`(n − p + 1)`-fold transitive (Marggraf; Wielandt, Theorem 13.2). (2) `P` is a Sylow `p`-subgroup of
-`G_{(Γ)}`, a subgroup of `Sym(Δ)` of order prime to `p²`, and `Γ` is exactly its fixed-point set; by Witt's lemma
-(Wielandt, Theorem 9.4: in a `k`-transitive group the normaliser of a Sylow subgroup of the pointwise
-stabiliser of a `k`-set acts `k`-transitively on that set), `N_G(P)` induces `Sym(Γ)` on `Γ`. (3) `N_G(P)/C_G(P)` embeds in
-`Aut(P) ≅ ℤ/(p − 1)`, which is cyclic, so the image of `C_G(P)` in `Sym(Γ)` is a normal subgroup with cyclic quotient,
-hence contains `Alt(Γ)` (`|Γ| ≥ 3`; for `|Γ| = 4` the Klein subgroup has non-cyclic quotient `S₃`). (4) Choose
-`g ∈ C_G(P)` inducing a 3-cycle on `Γ`. It preserves `Δ` and commutes with `c` there, so `g|_Δ ∈ C_{Sym(Δ)}(c) = ⟨c|_Δ⟩`
-and `g = c^j·t` with `t` a 3-cycle on `Γ`, disjoint from `c`. For `p ≠ 3`, `g^p = t^p` is a 3-cycle; for `p = 3`, `c` itself
-is a 3-cycle. (5) A primitive group containing a 3-cycle contains `A_n`
-(`Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem`).
-
-*Needs:* Mathlib `MulAction.IsPreprimitive`, `MulAction.IsPreprimitive.isMultiplyPreprimitive`,
-`Equiv.Perm.IsCycle`, `Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem`, Sylow theory; Witt's
-lemma is part of this target.
-
-**Checks.**
-- `n = 7`, `p = 2`: the permutation representation of `PSL₂(𝔽₇) ≅ GL₃(𝔽₂)` on the seven points of `ℙ²(𝔽₂)` is
-  primitive and contains no transposition, consistently with the theorem (it would otherwise contain `A₇`).
-- `n = 6`, `p = 5`: `p > n − 3`; `PGL₂(𝔽₅)`, acting on the six points of `ℙ¹(𝔽₅)`, is primitive, contains a
-  5-cycle and does not contain `A₆`: the bound cannot be dropped.
-- Step (4) for `p = 5`, `n = 8`: `g = c^j·(a b c′)` has `g⁵ = (a b c′)⁵ = (a c′ b)`, a 3-cycle; for `p = 3` the power `g³` is
-  trivial on `Γ`, which is why the cycle itself is used.
-
-### Examples
-
-`PGL₂(𝔽₅)`, acting on the six points of `ℙ¹(𝔽₅)`, is primitive and contains a 5-cycle but not `A₆`, so the bound `p ≤ n − 3` of 8.1 cannot be dropped; for `p = 5` and `n = 8`, the element `g = c^j·(a b c′)` of step (4) has `g⁵ = (a c′ b)`, a 3-cycle (8.1, Checks).
-
-### Dependencies
-
-Mathlib: `MulAction.IsPreprimitive`, Jordan's multiple primitivity criterion `MulAction.IsPreprimitive.isMultiplyPreprimitive`, `Equiv.Perm.IsCycle`, Jordan's theorem for a 3-cycle `Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem`, and Sylow theory.
+SchurWeyl §§8.1–8.3 and Layer 6; ClassicalGroups Layers 2–3; Tau Ceti's Zariski density of the unitary group, `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`.
 
 ## Layer 9: Quantum minors and the Capelli generators
 
@@ -286,20 +248,30 @@ commuting with every `t_{ab}(Y′)` such that `t(Y+1)^T·𝐉·t(Y) = q(Y)·𝐉
 
 *Route.* (a) Rows: reindexing the sum. Columns and the row form: the relation
 `(u − v)·[T(u)_{ab}, T(v)_{cd}] = T(u)_{cb}T(v)_{ad} − T(v)_{cb}T(u)_{ad}`, applied to adjacent factors. (b) The first two from the
-definition, the last two from the row form. (c) Centrality from (a) and (b); the eigenvalue because only the
-identity permutation contributes on `v`. (d) The second expansion of (b) for `i = l`, and the vanishing of a minor
+definition, the last two from the row form. (c) The `E_{ab}` satisfy the defining relations of `U(𝔤𝔩_n)`, so `E_{ab} ↦ E_{ab}`
+extends to an algebra homomorphism `U(𝔤𝔩_n)[u] → A[u]`, which carries the column-ordered determinant `A_n(u)` of
+ClassicalGroups §6.6 to `qdet(u)`; the centrality of `A_n(u)` (ClassicalGroups §6.6; for the Yangian and its evaluation
+homomorphism to `U(𝔤𝔩_n)`, MNO Theorem 2.10 and Remark 2.11) gives the first clause. The eigenvalue because only the identity permutation
+contributes on `v`. (d) The second expansion of (b) for `i = l`, and the vanishing of a minor
 with a repeated column for `i ≠ l`. (e) Adjoin a central indeterminate, replacing `E` by `E + X·1` over `A[X]`; then a row
 `Z` with `Σ_pZ_p·T(v)_{cp} = 0` for all `c` vanishes; multiply the difference of the two sides on the right by `T`, evaluate
 by (d) for the sizes `n − 1` and `n − 2` and by (c), and cancel. (f) The commutator of an arbitrary minor with a
 component of `y` or `η`, by expanding along a row or a column. (g) From (e) and (f), first for basis vectors `x, ξ`.
-(h) From (b) and (a). (i) Termwise. (j) is the quantum determinant of the Yangian of `𝔤𝔩₂`; its route is not given
-here. The framework is that of the Capelli determinant and of the quantum minors of the Yangian of `𝔤𝔩_n` (Capelli
-1887; Howe–Umeda 1991; Molev–Nazarov–Olshanski 1996). The last Check confirms the row form in (a), the four
+(h) From (b) and (a). (i) Termwise. (j) With `P` the flip of `ℂ² ⊗ ℂ²`, `R(z) = z − P`, and `t₁(u)`, `t₂(v)` the matrices `t(u)`, `t(v)` acting on the first and the
+second factor, the relation reads `R(u − v)·t₁(u)t₂(v) = t₂(v)t₁(u)·R(u − v)` on `ℂ² ⊗ ℂ²` with coefficients in `B`. At `(u, v) = (Y + 1, Y)`, `R(1)` is twice the
+projection `Π₁₂` onto the line `Λ²ℂ²`, so `Π₁₂t₁(Y + 1)t₂(Y) = t₂(Y)t₁(Y + 1)Π₁₂`, and both sides equal `q(Y)Π₁₂` with
+`q(Y) = t_{11}(Y + 1)t_{22}(Y) − t_{21}(Y + 1)t_{12}(Y)`; in coordinates these are the two identities (MNO Propositions 2.4, 2.5
+and formula (2.7.3), for the Yangian of `𝔤𝔩₂`). For the commutation, the relations at `(Y + 1, Y′)` and `(Y, Y′)` and the
+Yang–Baxter equation give `f(Y + 1 − Y′)·[q(Y), t_{ab}(Y′)] = 0`, where `f(z) = z(z − 2)` is the scalar by which
+`Π₁₂R₁₃(z)R₂₃(z − 1)Π₁₂` acts on `Λ²ℂ² ⊗ ℂ²` (the argument of MNO Theorem 2.10, Steps 1–5, for this normalisation of `R`);
+this settles `Y′ ∉ {Y − 1, Y + 1}`. The family `Y ↦ t(−Y)`, with values in the opposite algebra of `B`, satisfies the same
+relation (for it the relation at `(u, v)` follows from those of `t` at `(−u, −v)` and `(−v, −u)`), and its `q` at `−Y − 1` is
+`q(Y)`; the same argument applied to it settles `Y′ ∉ {Y, Y + 2}`. The two exceptional sets are disjoint. The last Check confirms the row form in (a), the four
 expansions in (b), the centrality in (c) and (d)–(h) by an exact computation for `n ≤ 3`; that computation does not
 cover the antisymmetry in (a), the eigenvalue on a highest weight vector in (c), the adjoints and the change of basis
 in (i), or (j).
 
-*Needs:* ClassicalGroups §6.6 (the column-ordered determinant `A_n(u)`).
+*Needs:* ClassicalGroups §6.6 (the column-ordered determinant `A_n(u)` and its centrality).
 
 **Checks.**
 
@@ -321,25 +293,25 @@ For `n = 2`, `qdet(u) = (u + E_{11})(u − 1 + E_{22}) − E_{21}E_{12}` commute
 
 ### Dependencies
 
-ClassicalGroups §6.6 (the column-ordered determinant `A_n(u)`).
+ClassicalGroups §6.6 (the column-ordered determinant `A_n(u)` and its centrality).
 
 ## Downstream consumers
 
-FiniteReductiveGroups §5.11 (d), (e), Shintani descent for `GL_n` in prime degree, uses 6.1 for the eigenvalue sums of `GL_m(𝔽_{q^l})` tensor-induced to `GL_m(𝔽_{q^l}) ⋊ Gal(𝔽_{q^l}/𝔽_q)`, and 6.2. ThetaKernelsForUnitaryDualPairs §3.46 (iii) uses 7.1 for the theta correspondence of the compact dual pairs `(U(n), U(m))`, and through it ThetaLiftsForDefiniteUnitaryGroups §2.1 for the weights of a lift between compact unitary groups. CongruenceModulesOfThetaLifts §7.9 uses 8.1 for residual irreducibility after solvable base change from a prime-degree factor of a label (the Jordan-type condition on good label tuples). BesselPoincareSeriesAndGramBounds §5.13d uses 9.1 (b), (d) and (f); BesselPoincareSeriesAndGramBounds §5.18a uses 9.1 (b), (c) and (e)–(j); BesselPoincareSeriesAndGramBounds §5.18e uses 9.1 (f).
+FiniteReductiveGroups §5.11 (d), (e), Shintani descent for `GL_n` in prime degree, uses 6.1 for the eigenvalue sums of `GL_m(𝔽_{q^l})` tensor-induced to `GL_m(𝔽_{q^l}) ⋊ Gal(𝔽_{q^l}/𝔽_q)`, and 6.2. ThetaKernelsForUnitaryDualPairs §3.46 (iii) uses 7.1 for the theta correspondence of the compact dual pairs `(U(n), U(m))`, and through it ThetaLiftsForDefiniteUnitaryGroups §2.1 for the weights of a lift between compact unitary groups. BesselPoincareSeriesAndGramBounds §5.13d uses 9.1 (b), (d) and (f); BesselPoincareSeriesAndGramBounds §5.18a uses 9.1 (b), (c) and (e)–(j); BesselPoincareSeriesAndGramBounds §5.18e uses 9.1 (f).
 
 ## Scope and ownership
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns: the character of a representation tensor-induced from a normal subgroup of prime index and the tensor induction of virtual characters, with its explicit expression (6.1); the extensions of the stable irreducible characters across a normal subgroup of prime index, their orthonormality on a nontrivial coset, and the virtual characters of norm one on that coset (6.2); the `(GL_n, GL_m)`-duality on polynomial functions on complex `n × m` matrices, for `GL_n(ℂ) × GL_m(ℂ)` and for `U(n) × U(m)` with `n, m ≥ 1`, with its highest weight vectors (7.1); Jordan's theorem on primitive permutation groups that contain a cycle of prime length, with Witt's lemma on the normaliser of a Sylow subgroup that its route uses (8.1); and the identities of the quantum minors of `u + E` for elements satisfying the commutation relations of `𝔤𝔩_n` in any associative algebra, with the quantum determinant of a `2 × 2` matrix that satisfies the exchange relation (9.1).
+This roadmap owns: the character of a representation tensor-induced from a normal subgroup of prime index and the tensor induction of virtual characters, with its explicit expression (6.1); the extensions of the stable irreducible characters across a normal subgroup of prime index, their orthonormality on a nontrivial coset, and the virtual characters of norm one on that coset (6.2); the `(GL_n, GL_m)`-duality on polynomial functions on complex `n × m` matrices, for `GL_n(ℂ) × GL_m(ℂ)` and for `U(n) × U(m)` with `n, m ≥ 1`, with its highest weight vectors (7.1); and the identities of the quantum minors of `u + E` for elements satisfying the commutation relations of `𝔤𝔩_n` in any associative algebra, with the quantum determinant of a `2 × 2` matrix that satisfies the exchange relation (9.1).
 
-Not owned here. Induction and restriction, the induced-character formula, Frobenius reciprocity, the Mackey irreducibility criterion, Clifford theory and the virtual-character ring are [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md) Layers 2, 4, 5 and 6; tensor induction along a transversal is in the Tau Ceti library. Specht modules, the characters of the symmetric groups, Schur–Weyl duality on tensor powers and the balanced presentation of the Schur functor are [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md) Layers 6 and 8; the Schur functors, weights and highest weights of the general linear groups are [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) Layers 2–3, and ClassicalGroups §6.6 owns the column-ordered determinant and the Capelli generators. AutomorphicLFunctionsAndLocalFactorsPartII §4.4 proves the square case `n = m` of 7.1, with highest minor vectors, for its own use. The subgroup lattice and the permutation degrees of finite groups are [FiniteGroupInvariants](../../FiniteGroupInvariants/README.md) Layer 5. Jordan's theorems for a primitive group that contains a transposition or a 3-cycle, and Jordan's multiple primitivity criterion, are in Mathlib; Jordan's theorem 8.1 is already in the Tau Ceti library, as `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`.
+Not owned here. Induction and restriction, the induced-character formula, Frobenius reciprocity, the Mackey irreducibility criterion, Clifford theory and the virtual-character ring are [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md) Layers 2, 4, 5 and 6; tensor induction along a transversal is in the Tau Ceti library, and its trace formula, for an open subgroup of finite index of a profinite group and any commutative coefficient ring, is [ArithmeticGaloisRepresentations](../../ArithmeticGaloisRepresentations/README.md) §7.1, of which 6.1 (a) is the case of a normal subgroup of prime index. Specht modules, the characters of the symmetric groups, Schur–Weyl duality on tensor powers and the balanced presentation of the Schur functor are [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md) Layers 6 and 8; the Schur functors, weights and highest weights of the general linear groups are [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) Layers 2–3, and ClassicalGroups §6.6 owns the column-ordered determinant and the Capelli generators. AutomorphicLFunctionsAndLocalFactorsPartII §4.4 proves the square case `n = m` of 7.1, with highest minor vectors, for its own use. Jordan's theorem that a primitive permutation group of degree `n` containing a cycle of prime length `p ≤ n − 3` contains the alternating group, which the family uses, is in the Tau Ceti library as `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (its cases of a transposition and a 3-cycle are in Mathlib), and is not stated here.
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.InductionRestriction
 
-Layer 2: induction from a subgroup of finite index, the induced-character formula as a sum over coset representatives, Frobenius reciprocity and the projection formula for characters (6.1 (b), 6.2 (a)). Layer 4: the Mackey irreducibility criterion, by which `Ind_H^Ĝ χ′` is irreducible when the conjugates of `χ′` are distinct from `χ′` (6.2 (a)). Layer 5: Clifford theory over a normal subgroup, with the inertia group of an irreducible representation of `H` (6.2 (a)). Layer 6: the virtual-character lattice, an additive subgroup of the class functions, with the orthogonality relations of the irreducible characters (6.1 (b), 6.2).
+Layer 0: the projection formula (6.2 (a)). Layer 2: induction from a subgroup of finite index, the induced-character formula as a sum over coset representatives, and Frobenius reciprocity for characters (6.1 (b), 6.2 (a)). Layer 4: the Mackey irreducibility criterion, by which `Ind_H^Ĝ χ′` is irreducible when the conjugates of `χ′` are distinct from `χ′` (6.2 (a)). Layer 5: Clifford theory over a normal subgroup, with the inertia group of an irreducible representation of `H` (6.2 (a)). Layer 6: the virtual-character lattice, an additive subgroup of the class functions (6.1 (b), 6.2).
 
 ### From TauCetiRoadmap.SchurWeyl
 
@@ -347,18 +319,22 @@ Layer 2: induction from a subgroup of finite index, the induced-character formul
 
 ### From TauCetiRoadmap.ClassicalGroups
 
-Layer 2: the Schur functor `S^λ V`, the image of the Young symmetrizer of shape `λ` on `V^{⊗d}`, and the decomposition of `V^{⊗d}`. Layer 3: the maximal torus, weights and the highest-weight classification (7.1). §6.6: the column-ordered determinant `A_k(u)` in `U(𝔤𝔩_k)[u]` and the Capelli generators, its coefficients; `qdet(u)` of 9.1 is `A_n(u)`.
+Layer 2: the Schur functor `S^λ V`, the image of the Young symmetrizer of shape `λ` on `V^{⊗d}`, and the decomposition of `V^{⊗d}`. Layer 3: the maximal torus, weights and the highest-weight classification (7.1). §6.6: the column-ordered determinant `A_k(u)` in `U(𝔤𝔩_k)[u]` and the Capelli generators, its coefficients, with their centrality in `U(𝔤𝔩_k)`; `qdet(u)` of 9.1 is the image of `A_n(u)` (9.1 (c)).
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§7.1: the trace formula for tensor induction. For an open subgroup `H` of finite index of a profinite group `Γ`, a transversal `t` and a representation `ρ` of `H` on a free module of finite rank, the trace of the tensor-induced representation (Tau Ceti's `Subgroup.tensorInducedRepresentation`) at `g` is the product, over the cycles of `g` on `Γ/H`, of `tr ρ(t_i⁻¹g^kt_i)`, `t_i` the representative of a coset of the cycle and `k` its length. It is used for a finite group with the discrete topology and complex coefficients (6.1 (a)).
 
 ### From Mathlib
 
-`Representation` and `FDRep.character`; `MonoidHom.transfer` (a Check of 6.1); Schur's lemma, `IsPrimitiveRoot`, cyclotomic integers, and Kronecker's theorem in the form `NumberField.Embeddings.pow_eq_one_of_norm_eq_one` (6.2); `MulAction.IsPreprimitive`, `MulAction.IsPreprimitive.isMultiplyPreprimitive`, `Equiv.Perm.IsCycle`, `Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem`, `alternatingGroup` and Sylow theory (8.1).
+`Representation` and `FDRep.character`; `MonoidHom.transfer` (a Check of 6.1); the orthogonality relations of the irreducible characters `FDRep.char_orthonormal`, Schur's lemma, `IsPrimitiveRoot`, cyclotomic integers, and Kronecker's theorem in the form `NumberField.Embeddings.pow_eq_one_of_norm_eq_one` (6.2).
 
 ### From Tau Ceti
 
-`Subgroup.tensorInducedRepresentation`, tensor induction along a chosen transversal (6.1); `TauCeti.virtualCharacters` and `TauCeti.irreducibleCharacters`, the virtual-character lattice and the irreducible characters, in which `Suggested.lean` states 6.1 (b) and 6.2; `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`, which proves 8.1.
+`Subgroup.tensorInducedRepresentation`, tensor induction along a chosen transversal (6.1); `TauCeti.virtualCharacters` and `TauCeti.irreducibleCharacters`, the virtual-character lattice and the irreducible characters, in which `Suggested.lean` states 6.1 (b) and 6.2; `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`, the Zariski density of the unitary group in `GL_n(ℂ)`, for the restriction to `U(n) × U(m)` (7.1).
 
 ## References
 
 - Roger Howe, *Remarks on classical invariant theory*, Trans. Amer. Math. Soc. 313 (1989): the `(GL_n, GL_m)`-duality (7.1).
 - Roger Howe, *Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1: the `(GL_n, GL_m)`-duality (7.1).
-- Helmut Wielandt, *Finite Permutation Groups*, 1964: Theorem 9.4 (Witt's lemma) and Theorem 13.2 (Jordan's multiple primitivity criterion) (8.1).
+- A. Molev, M. Nazarov, G. Olshanski, *Yangians and classical Lie algebras*, Russian Math. Surveys 51 (1996), arXiv:hep-th/9409025 (numbering of v2), cited as MNO: Propositions 2.4, 2.5 and 2.7 and Theorem 2.10 (the quantum determinant of the Yangian and its centrality), Remark 2.11 (its evaluation in `U(𝔤𝔩_N)`) (9.1 (c), (j)).

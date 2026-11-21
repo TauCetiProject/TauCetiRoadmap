@@ -34,8 +34,8 @@ within the family, each roadmap cites only roadmaps listed above it.
 
 - [**Tensor induction and finite-group inputs**](TensorInductionAndFiniteGroupInputs/README.md):
   tensor induction in prime index, virtual characters of norm one on a coset, the decomposition of
-  polynomial functions on matrices under two general linear groups, a theorem of Jordan on primitive
-  permutation groups, and identities of minors of the Capelli matrix.
+  polynomial functions on matrices under two general linear groups, and identities of minors of the
+  Capelli matrix.
 - [**Positivity of Dirichlet series with kernels**](PositivityOfDirichletSeriesWithKernels/README.md):
   positivity arguments for Laplace transforms and Dirichlet series with kernels, a windowed form of
   Landau's theorem, Laplace's method with non-vanishing, and stationary phase over the complex
