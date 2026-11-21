@@ -1355,7 +1355,7 @@ with `c_v := (ξ_{w_v}|_{𝒪^×})^{s}`, the common value of the residues `c_{i,
   `U(X^h)(F_v) ∩ K^X_m(v)` is that level with its character (as in 2.9a(d)).
 
 *Check.* `c_v∘det` is trivial on the principal congruence subgroups because `ξ` is tame (2.5). The finite data of the chain
-at a twist place are constructed in SeesawForThetaChains §6.7, a later roadmap of the family, and are indexed by its *charts*
+at a twist place are constructed in the sub-roadmap SeesawForThetaChains (its section on charts), a later roadmap of the family, and are indexed by its *charts*
 (finitely many double cosets at each twist place, each with its *chart level*, a compact open subgroup with a character); by that
 target the chart levels of stage `j ≤ m − 2` contain the principal congruence subgroup of level `p^{j+1}` with trivial character, and
 the cosets of `p^{−m}L_{m−1,w_v}` modulo `p^mL_{m−1,w_v}` (the line variable of the last two steps) are fixed by level `p^{2m}`; so the
@@ -1739,7 +1739,7 @@ characterisation by (f) alone would need a primitivity condition.
   integral matrices.
   Every statement of this layer holds for every admissible finite datum. The finite data of the chain come in finite *systems* of
   admissible data: at a twisted tuple the data of the steps `1, …, m − 2` are indexed by pairs of charts at the twist places
-  (the charts of SeesawForThetaChains §6.7, which constructs these data: finitely many double cosets at each twist place, 2.9c
+  (the charts of the sub-roadmap SeesawForThetaChains, which constructs these data: finitely many double cosets at each twist place, 2.9c
   Check), and the data of the last two steps by a chart and a coset of the line
   variable (`g^{−1}L_{m−1,w_v}` modulo `L_{m−1,w_v}` at the type primes, `p^{−m}L_{m−1,w_v}` modulo `p^mL_{m−1,w_v}` at the twist places);
   for the base tuple only the last two steps carry an index; each member of such a system is admissible for the column levels
@@ -1939,7 +1939,7 @@ adjoint as a lift for another pair), applied to each composite and summed; (c) f
 because the sign is the same at every step. (e) The class sum `Σ_𝒸 |Γ_𝒸|^{−1}F(t_𝒸)` over the classes of a level `K` is the integral of
 `F` over `U(F)\U(𝔸_f)` for the Haar measure giving `K` volume `1`; for `K′ ⊂ K` of index `ι` and a `K`-invariant `F` the sum over the
 classes of `K′` is `ι` times the sum over those of `K`. Not given here: the values of the constants of the chain lift for the
-levels of 2.9–2.9c (the constants `c_K(j)` of 3.3 (iii), the index factors `ι` of (e) and the chart weights of SeesawForThetaChains §6.7), and
+levels of 2.9–2.9c (the constants `c_K(j)` of 3.3 (iii), the index factors `ι` of (e) and the chart weights of the sub-roadmap SeesawForThetaChains), and
 which charts of a twist place carry a nonzero datum.
 
 *NEW* (object), elementary API. *Needs:* 3.2, 3.3, 3.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5b;
