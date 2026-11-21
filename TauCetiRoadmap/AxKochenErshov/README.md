@@ -35,9 +35,9 @@ extensions, back-and-forth families, the quantifier elimination tests, the theor
 and the passage to decidability. It builds on LocalFieldsRamificationPartII, which supplies the
 henselization of a valued field and the composition and coarsening of valuations, and on Mathlib's
 valuation subrings, henselian local rings and Witt vectors, and on RigidAnalyticGeometry, which
-supplies quantifier elimination for algebraically closed valued fields. It feeds two planned
-roadmaps: PadicallyClosedFields, whose model theory of `p`-adically closed fields of `p`-rank `d`
-rests on the finitely ramified case, and CiFieldsAndArtinsConjecture, which uses the fixed-prime
+supplies quantifier elimination for algebraically closed valued fields. It feeds
+PadicallyClosedFields, whose classification of `p`-adically closed fields of `p`-rank `d` uses the
+finitely ramified case, and the planned roadmap CiFieldsAndArtinsConjecture, which uses the fixed-prime
 theory of `ℚ_p` beside the asymptotic transfer of LogicAndDefinabilityInNumberTheory.
 
 Layer 0 fixes the language and interprets the residue field and the value group. Layer 1 treats
@@ -500,11 +500,11 @@ SaturationAndQuantifierElimination Layers 3 and 4; LocalFieldsRamificationPartII
 
 ## Downstream consumers
 
-PadicallyClosedFields and CiFieldsAndArtinsConjecture are planned roadmaps of the same series.
+CiFieldsAndArtinsConjecture is a planned roadmap of the same series.
 
-- **PadicallyClosedFields.** Layer 5.8 and Layer 6.1, for the completeness of the theory of
-  `p`-adically closed fields of `p`-rank `d` and the classification of its completions; Layers 2–3
-  for `p`-adic closures.
+- **PadicallyClosedFields.** Layer 0 for the language, Layer 5.6 for the coarse valuation, Layer
+  5.8 for a classification of the completions of the theory of `p`-adically closed fields of
+  `p`-rank `d` by their residue rings, and Layer 6.1 for the case `d = 1`.
 - **CiFieldsAndArtinsConjecture.** Layer 6.1 for the fixed-prime theory of `ℚ_p`.
 - **LogicAndDefinabilityInNumberTheory.** Its §1.4 is the angular-component form of 5.3. The two
   are stated independently, in different languages.
@@ -531,8 +531,8 @@ Boundaries:
 - **RigidAnalyticGeometry** (§8.2) owns the theory ACVF, the conjugacy of prolongations to an
   algebraic closure, and Robinson's quantifier elimination for ACVF.
 - **SaturationAndQuantifierElimination** owns the model-theoretic toolkit.
-- **PadicallyClosedFields** (planned) owns `p`-valuations, `p`-adic closures and Macintyre's elimination for
-  `p`-adically closed fields.
+- **PadicallyClosedFields** owns `p`-valuations, `p`-adic closures and the quantifier elimination
+  for `p`-adically closed fields of `p`-rank `d`, Macintyre's theorem included.
 - Positive residue characteristic beyond the unramified and finitely ramified cases (tame and
   separably tame fields, the existential theory of `𝔽_q((t))`) is outside this roadmap.
 
