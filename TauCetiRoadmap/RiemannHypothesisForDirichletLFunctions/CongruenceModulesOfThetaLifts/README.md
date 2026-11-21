@@ -294,7 +294,10 @@ notation of this layer. For every `x ∈ X` there is a continuous semisimple `r_
 representation of the weak base change `BC(Π)` of an automorphic representation `Π` of `U(V_j)` with eigensystem `x`, such
 that:
 1. at every place `w ∤ ℓ` of `E` above a split `v` with `w ∉ Σ(𝔭) ∪ Q(ψ_𝔭)`, `r_x` is unramified and the characteristic
-   polynomial of `Frob_w` is the Hecke polynomial of `x` at `w`; hence the coefficients of the characteristic polynomials
+   polynomial of the arithmetic Frobenius `Frob_w` is the Hecke polynomial
+   `X^{r+t} + Σ_{k=1}^{r+t} (−1)^k N(w)^{k(k−1)/2}·T_{w,k}(x)·X^{r+t−k}` of `x` at `w`, where `T_{w,1}, …, T_{w,r+t}` are the
+   generators of `𝕋` at `w`, normalised so that the roots are `β·N(w)^{(1−(r+t))/2}`, `β` running over the eigenvalues of
+   the arithmetic Frobenius on the unramified parameter of `BC(Π)_w`; hence the coefficients of the characteristic polynomials
    of `r(g) := (r_x(g))_x` lie in `𝕋` (after a finite extension of `O`), and `g ↦ det(1 + Y r(g))` is a continuous
    `𝕋`-valued determinant of `G_E` of dimension `r + t`;
 2. `r_x` is unramified outside `Σ(𝔭) ∪ Q(ψ_𝔭)` and the places above `ℓ`;
@@ -320,7 +323,8 @@ that:
    type `(r, t)`, irreducible) with `π₁`, `π₂` irreducible spherical representations of `GL_r(F_{v₀})`, `GL_t(F_{v₀})` and `c̃` a
    tamely ramified character of `F_{v₀}^×` lifting `c_{v₀}`; so the parameter of `BC(Π)_w` is tame with `N = 0`, inertia acts on it
    semisimply through `r` copies of the trivial character and `t` copies of the character `c̃` read on inertia, and (3) applies at
-   `w`.
+   `w`. (The first sentence of (8), the structure of `BC(Π)_w`, is this roadmap's own, proved by the route below; [FormalProof]
+   uses at these places only the consequence that follows it.)
 
 For a CM field unramified over its maximal totally real subfield at every finite place, `ℓ` odd with every place above `ℓ`
 split, and Iwahori levels with characters, PotentialAutomorphyInfrastructurePartII §§3.6, 3.7 give the representations `r_x`
@@ -383,9 +387,9 @@ In the setting of 7.4 (`t > r`):
    `ρ_Σ := r_{ℓ,ι}(Σ ⊗ |det|^{−t/2})` and `χ_c` the `ℓ`-adic character of the algebraic Hecke character
    `ν·|·|_{𝔸_E}^{−r/2−(c−1)}`, `ν := μ_j(ξ_𝔭)η̃^{−1}`; so `χ_c = χ_1·χ_cyc^{−(c−1)}`. The Hodge–Tate weights of the block are `t`
    consecutive integers, and those of `ρ_Σ ⊗ χ_1^{−1}` avoid the interval `[−1, t]`.
-2. *Assume that the reduction of `ρ_Σ` is absolutely irreducible* for the rank-`r` parts `Σ` of the points of `Z_good` in a
-   localisation `X_𝔪`. Then an eigensystem `x ∈ X_𝔪` whose Galois representation contains `χ_1` lies in `Z`, and the rest of
-   its parameter is one cuspidal representation of rank `r`.
+2. *Assume that the localisation `X_𝔪` contains a point of `Z_good` and that the reduction of `ρ_Σ` is absolutely
+   irreducible* for the rank-`r` parts `Σ` of the points of `Z_good` in `X_𝔪`. Then an eigensystem `x ∈ X_𝔪` whose Galois
+   representation contains `χ_1` lies in `Z`, and the rest of its parameter is one cuspidal representation of rank `r`.
 
 *Route.* (1) At split places the local theta correspondence of type II and the unramified correspondence give the
 base-change parameter (MetaplecticAutomorphicForms §3.14 and ThetaKernelsForUnitaryDualPairs §3.21a); 7.4 gives the Galois representation, and the twists are
@@ -502,8 +506,9 @@ is asserted for `Σ` not good, at the places above `ℓ`, or (for the solvable c
 as Frobenius permutes the roots of `f_v`; an invariant subspace is a sum of eigenlines stable under this permutation at
 every `v`, that is a factor of every `f_v` of its dimension, which clause (4) excludes. On a normal subgroup `H` of
 solvable index the constituents are permuted transitively; the cycle of prime length `p ∈ (N/2, N − 3]` of clause (5)
-forces one block (then `ρ|_H` is irreducible) or `N` blocks, in which case the permutation image contains the alternating
-group (Jordan's theorem, TensorInductionAndFiniteGroupInputs §8.1), contradicting solvability. The eigenvalue clause is clause (3) with
+forces one block (then `ρ|_H` is irreducible) or `N` blocks, in which case the permutation image, transitive with a cycle of
+prime length `p > N/2`, is primitive and contains the alternating group (Jordan's theorem for `p + 3 ≤ N`, Tau Ceti
+`TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`), contradicting solvability. The eigenvalue clause is clause (3) with
 the injectivity of `ι_v`; it uses only `ℓ ≠ g`. (b) At a place `w | g_{i′}` the component of `Σ` has depth zero, with label
 `f_v` (FiniteReductiveGroups §6.3: the label of the Harish-Chandra series of its principal-congruence
 invariants), squarefree by goodness, so its supercuspidal support consists of pairwise unlinked depth-zero
@@ -526,8 +531,8 @@ Brauer–Nesbitt).
 *KNOWN* in kind (Bushnell–Kutzko; Henniart; Shintani; Jordan). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, RowTowerAndRallisIdentities §5.3, 7.4, 7.5;
 FiniteReductiveGroups §§5.2, 5.5, 5.7, 6.1, 6.2, 6.3, 6.4 (and its Conventions: the tame labelled form);
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§14.2 (the depth-zero away-prime comparison),
-10.34, 10.35 (the inertial type; the support formula); TensorInductionAndFiniteGroupInputs §8.1; ClassFieldTheory §5.1 (local
-duality, Euler characteristic); ArithmeticGaloisRepresentations §§1.8, 5.3.
+10.34, 10.35 (the inertial type; the support formula); Tau Ceti `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`;
+ClassFieldTheory §5.1 (local duality, Euler characteristic); ArithmeticGaloisRepresentations §§1.8, 5.3.
 
 ### 7.6 The local condition at `ℓ`
 
@@ -549,7 +554,8 @@ position data in position in the sense of WachLatticesOverTheCyclotomicTower §6
 by `i ∈ ℤ/n` as in WachLatticesOverTheCyclotomicTower §6.4; the datum of index `i` is read at the embedding `emb_{i−1}` (the source of `φ_i`), whose
 Hodge–Tate weights are `HT_i`: `U_i` the weights of `ρ_Σ ⊗ χ_1^{−1}` and `B_i` the block at `emb_{i−1}`, after a crystalline
 twist into `[1, h_i − 1]`; the type of index `i` is low if `emb_{i−1}` lies above an embedding of `Φ` and high otherwise;
-and `h_i ≤ b + 2Sc + 2η_s + 3`, `σ_i ≤ σ⁺`, `d_τ + d_{τ∘c} = r`.
+and `d_τ + d_{τ∘c} = r`. (The heights can be taken with `h_i ≤ b + 2Sc + 2η_s + 3`, and then `σ_i ≤ σ⁺`: this is the
+choice of the route below; [FormalProof] asserts the existence of position data in position, not these two bounds.)
 
 (b) *The local condition.* For such `ℓ` and `w`, the cocycles of LengthBoundsInPadicFamilies §1.8c(2) for the family of 7.4 and the
 character `χ_1` (cut out of a lattice in `⊕_x χ_1^{−1}r_x`), restricted to `G_{E_w}`, are: for the block `ρ_Σ`, Bloch–Kato
@@ -622,7 +628,7 @@ then `δ(π′)` is a unit and one puts `v_δ := 0`. The bounds over `A′` at `
 *Route.* (P): the characteristic coefficients of the `r(g)` lie in `𝕋_𝔪` (7.4(1)), and LengthBoundsInPadicFamilies §1.8c(4). (D): over
 `K_O`, `r_π` is the block sum of 7.5(1); the block map of `ρ` is onto `M_r(O)` by (R)(i) (Burnside:
 ArithmeticGaloisRepresentations §1.8 *Over an algebraically closed field*; Nakayama), those of the
-characters trivially. (N): an `x ∈ X_s ∖ Z` has no `χ_1`-line, by 7.5(2), whose hypothesis is (R)(i). *Idempotents.* All
+characters trivially. (N): an `x ∈ X_s ∖ Z` has no `χ_1`-line, by 7.5(2), whose hypotheses are `π ∈ X_𝔪` and (R)(i). *Idempotents.* All
 points of `X_𝔪` have the residual semisimplification `ρ̄ ⊕ χ̄_1 ⊕ ⋯ ⊕ χ̄_t`, with `ρ̄` absolutely irreducible of dimension
 `r ≥ 2`; so `𝒜/Rad(𝒜)` has the matrix factor of rank `r` over the residue field of `O` given by `ρ̄` and the factors of the
 characters, and the central idempotent of the characters and a rank-one idempotent of that matrix factor lift to `e_B`,
@@ -681,6 +687,17 @@ of each block `χ_cχ_1^{−1}`, `1 ≤ c ≤ t`, at most `ν_χ(w)`, then
 
    `v(c(π)) ≤ length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q(ψ_𝔭)} v(χ_1(ς_v) − 1)`
    `     + Σ_{w|ℓ}(ν_ρ(w) + t·ν_χ(w)) + 4(r + t)·v_δ`.
+
+*The form of the formal proof.* [FormalProof] states (ii) with one pair of exponents for all places above `ℓ`: if there are
+integers `e_ρ, e_χ ≥ 0` such that for every `w | ℓ` the restrictions to `G_{E_w}` of the cut cocycles of the block `ρ` span,
+modulo the finite classes, a module of length at most `e_ρ`, and those of each block `χ_cχ_1^{−1}`, `1 ≤ c ≤ t`, at most
+`e_χ`, then
+
+   `v(c(π)) ≤ length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q(ψ_𝔭)} v(χ_1(ς_v) − 1)`
+   `     + #{w | ℓ}·(e_ρ + t·e_χ) + 4(r + t)·v_δ`.
+
+This is (ii) with `ν_ρ(w) = e_ρ` and `ν_χ(w) = e_χ` at every `w | ℓ`. The place-dependent form (ii) is this roadmap's own,
+proved by the route below from LengthBoundsInPadicFamilies §1.8e (2), and is not a statement of [FormalProof].
 
 *The cyclotomic level of a place.* For `w | ℓ` let `E_{w,0}` be the maximal unramified subfield of `E_w`, `s_w` the least integer
 `s ≥ 1` (`≥ 2` if `ℓ = 2`) such that `E_w ⊂ K(μ_{ℓ^s})` for some finite unramified extension `K` of `ℚ_ℓ`, `K_w` the unramified
@@ -745,6 +762,10 @@ case `ν_ρ(w) = ν_w`, `ν_χ(w) = (n_w + 2)c_B` at the rows, with columns. The
 
 *Check.* For `ℓ > t + 1` unramified in `E`, with exact local conditions and `v_δ = 0`, (ii) with `ν_ρ = ν_χ = 0` is the unit
 case: if moreover `Sel(W) = 0`, every `Ш¹(E, ℓ, e) = 0`, `ℓ ∤ h_E` and `Q(ψ_𝔭) = ∅`, then `c(π) = O`.
+AutomorphicCongruences §0.7 (on the lattice datum of AutomorphicCongruences §0.5) is the polarized three-block form
+`χ′ ⊕ ρ ⊕ χ` of the same lattice method, over the completion at a height-one prime and with ordinary local conditions: the
+characteristic ideal of the Selmer group of `ρ ⊗ χ^{−1}` is bounded below by a length cut out of the lattice and, under
+further hypotheses, by the Eisenstein ideal. It and 7.7b are two forms of one method; neither contains the other.
 
 *NEW* (the bound for the lifts `Σ ⊞ μ[t]`, with defects). *Needs:* 7.4, 7.5, 7.7a; LengthBoundsInPadicFamilies §§1.8d(2′), 1.8d(3),
 1.8d(3′), 1.8e(1)–(3), 1.8e(3a); SelmerLengthBoundsAndLocalLifting §§3.22, 4.9b, 4.10b and SelmerIwasawaCohomology §4.9; ArithmeticGaloisDuality R02.3.0d and HeckeIdealsAndTaylorWilesRelations §10.1;
@@ -874,7 +895,8 @@ ArithmeticGaloisRepresentations §§1.8, 5.1, 5.10; Chebotarev (Completed).
 of 7.7a and `E_{w,0}`, `s_w`, `K_w`, `f″_w` are those of 7.7b; `s_w = 1` and `K_w = E_{w,0}` when `E_w` is unramified, and in general
 `s_w ≤ 2 + log_ℓ n_w` and `v_ℓ(f″_w) ≤ log_ℓ n_w`, with `n_w ≤ [E:ℚ] = 4|A| ≤ 8x^{A_n}` (`SizeA`, ThetaChainsOnDefiniteUnitaryGroups §2.1). The *letters* of `w` are the
 embeddings of `E_w`, in Frobenius order, read through their places (FrobeniusRestrictedRieszSums §0.6(c)). Put
-`d^Z_j := dim 𝒞(W_j)^{good}`, which equals `d^Z_j(𝔭)` at every twisted `𝔭` (7.5b). `C` denotes absolute constants fixed with
+`d^Z_j := dim 𝒞(W_j)^{good}`, which equals `d^Z_j(𝔭)` at every twisted `𝔭` (7.5b) and the dimension of the lifted
+subspace for the base tuple (the same argument with `ξ = 1`). `C` denotes absolute constants fixed with
 the lifting theorems, except where the Conventions (Constants) let it depend on `C_t`, `A_max` and `C_L`.
 
 *The character bound at the rows.* Under `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and the separation of ThetaChainsOnDefiniteUnitaryGroups §2.3c,
@@ -1064,7 +1086,8 @@ lattice is the image of the cut module `Y` of 7.7a, the class that of `g ↦ (u_
 trivial representation inside a potentially crystalline one is finite. By the pushout statement of SelmerLengthBoundsAndLocalLifting
 §4.10g, in its first form at the places of the first kind and in its dual form at the second (the span of `Y` is a direct
 summand of a finite sum of the `χ_1^{−1}r_x ⊗ K_O`, these being semisimple, so its dual lies in a finite sum of the dual
-family), `ν_ρ(w) ≤ 2r·e_max` and `ν_χ(w) ≤ 2e_max`. Hence
+family), `ν_ρ(w) ≤ 2r·e_max` and `ν_χ(w) ≤ 2e_max` at every `w | ℓ`: the form of the formal proof of 7.7b (ii) applies, with
+`e_ρ = 2r·e_max`, `e_χ = 2e_max` and `#{w | ℓ} = 2f`. Hence
 `v(c′(π)) ≤ 4f(r + t)e_max + length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q(ψ_𝔭)} v(χ_1(ς_v) − 1)`;
 The goodness of the twisting datum bounds the Selmer term by `v_ℓ(w_{tr}(E)) + ℓ^{−2} = ℓ^{−2}` (`E ∩ ℚ(μ_ℓ) = ℚ`, `ℓ` being unramified in `E`, and
 `ℓ − 1 > tr`, so `χ_cyc^{tr}` is not `≡ 1` modulo `ℓ` on `G_E`) and the `Q`-term by `ℓ^{−2}`; and
@@ -1109,7 +1132,7 @@ of order at most `[ℚ_n:ℚ]·[ℚ(ψ):ℚ] = 2^n·o`); with `o ≤ x^{ε/100}`
 `C(η_s + t + Sc + L) ≤ s/2` for `x ≥ x₀`, so the resonance inequality gives `ℓs/2 ≤ (1 + C)b + Cs` and `ℓ ≤ C·b/w″`; these terms
 sum to at most `Σ_{ℓ≤Cb/w″} log ℓ·C·r·η_s·Σ_w(n_w + 1) ≤ C·f·r·η_s·b/w″ ≤ C·f·m·b·L²` (Chebyshev,
 ArithmeticStatisticsPartIII §2.1; `SizeThin`:
-`r·η_s ≤ m·w″/x`). Rows 5, 6 concern the primes dividing `2f_E`, with `(Σ_ℓ log ℓ)·(2 + max_ℓ v_ℓ(f_E)) ≤ 11x^ε` (ThetaChainsOnDefiniteUnitaryGroups §2.1); the
+`r·η_s ≤ m·w″/x`). Rows 5, 6 concern the primes dividing `2f_E`, with `SizeDep` (ThetaChainsOnDefiniteUnitaryGroups §2.1); the
 `Ш`-terms sum to `V(E, t)`.
 
 *Checks.* (i) `Σ_{𝔭|ℓ} ϱ(𝔭)e_𝔭 = (log ℓ/[𝕃:ℚ])·Σ_{𝔭|ℓ} e_𝔭f_𝔭 = log ℓ`. (ii) The twisted primes below `ℓ*` carry the main term:
@@ -1363,7 +1386,7 @@ and `dp_τ(μ) = 19 > 0 = i_W`: that hypothesis cannot be dropped. The weights `
 ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9c, 3.1, 3.2 (the data of the chain, the levels and the twisting data);
 RowTowerAndRallisIdentities §§5.3, 5.7, 5.9, 5.11 (good labels and the model lifts); FrobeniusRestrictedRieszSums
 §§0.1–0.8b (hosts, letters and the thick set); HermitianFormsAndLattices §§4.0a, 5.2; FiniteReductiveGroups §§5.2–6.5;
-TensorInductionAndFiniteGroupInputs §8.1; BaseChangeAndGaloisRepresentationsForUnitaryGroups §§10.33c–10.35, 14.1–16.1;
+BaseChangeAndGaloisRepresentationsForUnitaryGroups §§10.33c–10.35, 14.1–16.1;
 ThetaKernelsForUnitaryDualPairs §3.21a; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a;
 IntegralWeylModulesOfGeneralLinearGroups §§2.1, 2.2; WachLatticesOverTheCyclotomicTower §§6.4–6.11;
 SelmerLengthBoundsAndLocalLifting §§3.22–4.10g; LengthBoundsInPadicFamilies §§1.7a–1.8e;
@@ -1375,7 +1398,7 @@ SmoothRepresentationsOfLocalGroups SR.2.2–SR.4.3, MetaplecticAutomorphicForms 
 AutomorphicFormsOnReductiveGroups §§7.4, 7.5, ReductiveGroups Layer 10B, ArithmeticGaloisDuality R02.2.3, R02.3.0d,
 ClassFieldTheory §§5.1, 7.1, 8.1, 13.1, ArithmeticGaloisRepresentations §§1.8, 5.1, 5.3, 5.10,
 AlgebraicModularFormsAndSerreWeights §5.10, AnalyticNumberTheoryPartI §0.11, ArithmeticStatisticsPartIII §2.1 and
-Chebotarev (Completed) Layer 10.
+Chebotarev (Completed) Layer 10; Tau Ceti `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (Jordan's theorem).
 
 ## Downstream consumers
 
@@ -1466,10 +1489,6 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
   character, which is generic), §5.11 (Shintani descent for `GL_n`), §§6.1–6.4 (depth-zero representations, their
   parametrisation and labels), §6.5 (the local type statement), and the Conventions (the tame labelled form fixed by a
   generator of tame inertia). Used in 7.1, 7.4, 7.9, 7.10b.
-
-### From TensorInductionAndFiniteGroupInputs, a sub-roadmap of this family
-
-- §8.1 (Jordan's theorem on primitive groups with a prime cycle). Used in 7.9.
 
 ### From BaseChangeAndGaloisRepresentationsForUnitaryGroups, a sub-roadmap of this family
 
