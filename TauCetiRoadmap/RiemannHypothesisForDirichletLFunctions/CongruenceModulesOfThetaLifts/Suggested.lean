@@ -31,11 +31,11 @@ the Bloch–Kato finite classes, or congruence modules of Hecke modules.
   lattices have length at most `v_ℓ(w_{tr}(E)) + ε′`. It lacks the Bloch–Kato local conditions above
   `ℓ` (crystalline representations and `H¹_f`), the Galois lattices attached to good eigenforms on
   `U(W_j)`, families of auxiliary places in position and the governing field.
-* The Ribet-type bound with local defects (7.7b): the valuation of the congruence ideal at a lifted
-  point is at most the length of a relaxed Bloch–Kato Selmer group, the twisted Tate–Shafarevich
-  groups, `v_ℓ(h_E)`, the tame costs and explicit local defects. It lacks, besides the Bloch–Kato
-  Selmer groups, the Hecke–Galois family `(r_x)` over the localised Hecke algebra and its
-  congruence ideal.
+* The Ribet-type bound with local defects (7.7b): the valuation of the congruence ideal of the cut
+  by the type at a lifted point is at most the length of a relaxed Bloch–Kato Selmer group, the
+  twisted Tate–Shafarevich groups, `v_ℓ(h_E)`, the tame costs and explicit local defects. It lacks,
+  besides the Bloch–Kato Selmer groups, the Hecke–Galois family `(r_x)` over the localised Hecke
+  algebra and its congruence ideal.
 * Weight elimination (7.16): for a crystalline `ℓ`-adic representation of `G_E` with prescribed
   Hodge–Tate weights whose reduction contains a block of crystalline characters, the depth of its
   weight is at most `i_W(ℓ, τ)`. It lacks crystalline representations and their Hodge–Tate weights,

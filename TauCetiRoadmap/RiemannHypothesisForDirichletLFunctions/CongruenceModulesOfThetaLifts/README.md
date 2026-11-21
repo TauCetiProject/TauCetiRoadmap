@@ -18,7 +18,7 @@ anticyclotomic character `ψ` of `ℓ`-power order, ramified at a bounded number
 `ℓ`-adic lattices `T_s` attached to the good eigenforms on `U(W_j)` every Bloch–Kato Selmer group of `T_s ⊗ ψ^{m′}`, `m′` prime
 to `ℓ`, has length at most `v_ℓ(w_{tr}(E)) + ε′`, the tame cost of `ψ` is at most `ε′`, and finitely many prescribed
 polynomial conditions hold at the roots of unity defining `ψ`. (3) At a lifted point `π` whose residual representation has an absolutely irreducible rank-`r`
-part, the congruence ideal satisfies `v(c(π)) ≤ length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q} v(χ_1(ς_v) − 1)`
+part, the congruence ideal `c(π)` of the cut by the type satisfies `v(c(π)) ≤ length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q} v(χ_1(ς_v) − 1)`
 plus explicit local defects at the places above `ℓ`, which vanish above a threshold and off a finite exceptional set. (4) If
 a crystalline `ℓ`-adic representation of `G_E` with Hodge–Tate weights given by a dominant weight `μ` reduces to
 `ρ̄′ ⊕ χ̄_0 ⊕ ⋯ ⊕ χ̄_{t−1}` with crystalline characters in the block of weights of `λ`, then the depth of `μ` below `λ` above the
@@ -42,6 +42,9 @@ prime and in total; it ends with the dual index of the projected lattice and wei
 
 Notation and conventions that are not restated here are those of ThetaChainsOnDefiniteUnitaryGroups (its Conventions and
 Layers 2–3), RowTowerAndRallisIdentities (Layer 5) and FrobeniusRestrictedRieszSums (Layer 0), sub-roadmaps of this family.
+Layer and section numbers follow the numbering shared by the sub-roadmaps of this family that build the chain
+(ThetaChainsOnDefiniteUnitaryGroups has Layers 2–3, RowTowerAndRallisIdentities Layer 5); Layer 7 is divided with
+GluedTargetAndDivisionInequality, which has its §§7.12–7.14, so a number absent from this layer is not a missing section.
 
 **Fields.** `E` is the host (FrobeniusRestrictedRieszSums §0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its
 maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G = Gal(E/ℚ)` complex conjugation; `f_E` the conductor of `E` (the conductor
@@ -369,6 +372,12 @@ constituent of its Jacquet module with these supports is the tensor product of t
 and `ρ₂`. An irreducible spherical representation has an unramified parameter with `N = 0`; so the parameter is as stated,
 and the away-prime comparison (BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.1) applies block by block, as in (3).
 
+*Check.* The normalisation of (1), read in rank one (`r + t = 1`): the Hecke polynomial is `X − T_{w,1}(x)` and its root is `β`,
+the eigenvalue of the arithmetic Frobenius on the parameter of the character `BC(Π)_w`. Since Artin reciprocity sends
+uniformizers to geometric Frobenius elements (Conventions), `β = BC(Π)_w(ϖ_w)^{−1}` for a uniformizer `ϖ_w`, so `r_x` takes
+the value `BC(Π)_w(ϖ_w)` at the geometric Frobenius of `w`, as the `ℓ`-adic characters of Hecke characters do in the
+Conventions; with uniformizers sent to arithmetic Frobenius elements the root would be `BC(Π)_w(ϖ_w)` itself.
+
 *KNOWN* (Labesse; Chenevier–Harris; Caraiani; Barnet-Lamb–Gee–Geraghty–Taylor). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9c, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, 7.1;
 AutomorphicGaloisRepresentationsPartII AG2.0, AG2.5 *Unramifiedness and the good-prime polynomial*, AG2.6 *Polarized
 admissibility at the coefficient prime*; BaseChangeAndGaloisRepresentationsForUnitaryGroups §§16.1 (the Galois representations of definite unitary groups), 14.1 (the
@@ -429,7 +438,34 @@ MetaplecticAutomorphicForms §§6.13, 6.14 (the Rallis inner product formula and
 occurrence) treat the lift to the space `W_j ⊥ ℍ^t` itself; (b) is the complementary-space form, in the second-term range of
 MetaplecticAutomorphicForms §6.6, and neither contains the other.
 
-*Route.* (a): the route is not given here. (b): The string gives the partial `L`-function of `y` twisted by the splitting character of the pair a simple pole at
+*Route.* (a) (i) Here `m = r + 2t`, `n = r + t` and `m′ := 2n − m = r`: the complementary space of `W_j ⊥ ℍ^t` is `W_j`
+itself, of some Witt index `r′`, and `m > m′ > 0`. The first-term identity in its complementary form (Gan–Qiu–Takeda,
+arXiv:1207.4709v3, Theorem 7.3 (i), after Kudla–Rallis and Ichino) writes the residue at `s = t/2` of the Siegel
+Eisenstein series of `Φ` as a nonzero constant times the theta integral of `W_j` evaluated on the image under the Ikeda
+map (MetaplecticAutomorphicForms §6.3) of the average of `Φ` over a maximal compact subgroup of `U(W_j ⊥ ℍ^t)(𝔸)`; for
+`r′ > 0` this is the leading coefficient of the regularised theta integral, the integral over `[U(W_j)]` of the theta
+kernel, averaged by a Hecke operator of `U(W_j)`, against an Eisenstein series of `U(W_j)`. As `[U(V_j)]²` is compact, the
+residue of the doubling zeta integral is the integral of this against `y ⊗ ȳ`. For a doubled Schwartz function
+`δ(φ₁ ⊗ φ̄₂)` of the pair `(V_j, W_j)` (MetaplecticAutomorphicForms §6.10), the integral over `[U(V_j)]²` of the (averaged)
+theta kernel of `W_j` against `y ⊗ ȳ` is the (averaged) product of the theta lifts `θ(φ₁, y)` and `conj θ(φ₂, y)` to
+`U(W_j)` (the doubling see-saw, MetaplecticAutomorphicForms §§6.10, 6.15). It vanishes identically on `[U(W_j)]` when every
+lift of `y` to `U(W_j)` vanishes, and then so does its integral against the Eisenstein series for every `s`, hence every
+Laurent coefficient; since the `δ(φ₁ ⊗ φ̄₂)` span a dense subspace of the Schwartz space of `W_j`, the residue
+vanishes. (ii) At a real place `v` the group `U(V_j)(F_v)` is compact, so the archimedean zeta integral at `s = t/2`
+against the Siegel–Weil section of `δ(φ₁ ⊗ φ̄₂)` (MetaplecticAutomorphicForms §§6.2, 6.10, 6.11) is the absolutely
+convergent integral over `U(V_j)(F_v)` of `⟨ω(g)φ₁, φ₂⟩⟨π_v(g)f₁, f₂⟩`, `ω` the Weil representation of `(V_j, W_j ⊥ ℍ^t)`
+and `π_v` the component of `y` at `v`. The splitting characters of the pair `(V_j, W_j)` serve for `W_j ⊥ ℍ^t` with the
+trivial character on `ℍ^t` (the ranks `r` and `r + 2t` have the same parity), and then the restriction of `ω` to
+`U(V_j)(F_v)` is the Weil representation `ω₀` of `(V_j, W_j)` tensored with that of `(V_j, ℍ^t)` (ThetaKernelsForUnitaryDualPairs
+§3.3b (a)), whose vacuum `φ_vac` is fixed by `U(V_j)(F_v)`: it is the tensor product of the vacua of the compact pairs
+formed with the definite halves of `ℍ^t ⊗ F_v`, of signatures `(t, 0)` and `(0, t)`, on which `U(V_j)(F_v)` acts by
+`det^{−t/2}` and `det^{t/2}` times the splitting characters of the halves (ThetaKernelsForUnitaryDualPairs §3.46 (iii)), whose
+product is the trivial character of `ℍ^t`. For `φ₁ = φ₂ = Δ_j ⊗ φ_vac`, with `Δ_j` the joint vector of
+RowTowerAndRallisIdentities §5.7, the integrand is `⟨ω₀(g)Δ_j, Δ_j⟩⟨π_v(g)f₁, f₂⟩`; the first factor is a matrix coefficient of
+the irreducible `U(V_j)(F_v)`-span `𝒲_{j,v}` of `Δ_j`, and `π_v` is the type that the model lift pairs with `𝒲_{j,v}`
+(RowTowerAndRallisIdentities §5.7). For `f₁ = f₂` the vector of `π_v` paired with `Δ_j`, Schur orthogonality (Tau Ceti
+`ContRepresentation.schur_orthogonality_self`) gives `vol(U(V_j)(F_v))·‖Δ_j‖⁴/dim 𝒲_{j,v} ≠ 0`; the product of these data over
+the real places is the archimedean Schwartz function of (a) (ii). (b): The string gives the partial `L`-function of `y` twisted by the splitting character of the pair a simple pole at
 `(t+1)/2` (the rank-`r` factor is holomorphic and nonzero there since `t > r`); the doubling zeta integral of `y ⊗ ȳ`
 against a Siegel–Weil section of the space `W_j ⊥ ℍ^t` is that `L`-function, divided by a normalising factor that is an
 absolutely convergent Euler product at `t/2`, times an integral over the level and real places
@@ -438,10 +474,7 @@ factorization) which, for a test vector on
 `V_j ⊗ ℍ^t` whose matrix coefficient is supported in the principal congruence subgroup at the level places (it exists
 because these places split and `r ≤ t`), is a nonzero constant multiple of the archimedean integral, itself nonzero for the
 archimedean Schwartz function of (a) (ii). So the residue at `t/2` is nonzero for that section, and by (a) (i) some lift of
-`y` to `U(W_j)` is nonzero. (The regularised Siegel–Weil formula in this range, `r + t < r + 2t < 2(r + t)`, gives the residue
-as the leading coefficient of the regularised theta integral of `W_j ⊥ ℍ^t` itself, MetaplecticAutomorphicForms §6.6; the
-complementary space `W_j` enters only the next coefficient, and only modulo the image of the residue: this is why (a) (i) is
-stated, and it is the step of (a) whose route is not given here.) If the lift with the level
+`y` to `U(W_j)` is nonzero. If the lift with the level
 vector of RowTowerAndRallisIdentities §5.7 vanishes, so do the lifts with all functions having its finite part (Fock vectors are dense for a Sobolev norm
 in which the lift is continuous), hence with all their translates under `U(W_j)(𝔸_f)`; every Schwartz function is, modulo
 functions on which `y` pairs to zero because of its level character, a sum of such translates and of averages over the
@@ -449,9 +482,11 @@ subgroups of `GL_r(𝔽_v)` fixing a hyperplane or acting trivially modulo a lin
 kill `y` because a good label has no root `χ_{v,j}^{±1}`. All level places and the dyadic places split in `E`, so no local
 theta dichotomy and no dyadic non-split Weil representation enters.
 
-*KNOWN* ingredients (Kudla–Rallis; Ichino; Gan–Qiu–Takeda; Piatetski-Shapiro–Rallis), *NEW* statement (the local
-generation at the level places). *Needs:* 7.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.9; MetaplecticAutomorphicForms §§6.10–6.12 (doubling, the standard factors, the factorization), 6.6
-(the regularised Siegel–Weil formula in the second-term range); AutomorphicLFunctionsAndLocalFactors AL.3.3.8.
+*KNOWN* ingredients (Kudla–Rallis; Ichino; Gan–Qiu–Takeda, arXiv:1207.4709v3, Theorem 7.3 (i); Piatetski-Shapiro–Rallis),
+*NEW* statement (the local generation at the level places). *Needs:* 7.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.9; MetaplecticAutomorphicForms §§6.2, 6.3 (the Siegel–Weil section, the
+Ikeda map), 6.10–6.12 (doubling, the standard factors, the factorization), 6.15 (the global see-saw), 6.6 (the
+second-term range); ThetaKernelsForUnitaryDualPairs §§3.3b (a), 3.46 (iii); Tau Ceti `ContRepresentation.schur_orthogonality_self`;
+AutomorphicLFunctionsAndLocalFactors AL.3.3.8.
 
 ### 7.5b The lift fills the eigenspaces
 
@@ -644,7 +679,9 @@ splitting algebra `A′`, `E² = δE`, the value at `π′` and `v_δ`; at a poi
 onto the `α_1`-eigenline. In the unit case the roots are distinct modulo `ℓ`, and `s = 0` suffices.
 
 *Checks.* (i) For `ℓ = 3`, `t = 3` and `s₀ = 1`: `v_δ = (1 + 0) + (1 + 0) = 2`; with `χ_cyc(g)` a generator modulo `3` the
-factor `1 − χ_cyc(g)^{−2}` would vanish modulo `3`, so the generator choice requires `ℓ > t + 1`. (ii) The correction `s` is
+factor `1 − χ_cyc(g)^{−2}` would vanish modulo `3`. With `χ_cyc(g)` a generator modulo `ℓ`, the factors `1 − χ_cyc(g)^{−i}`,
+`0 < i < t`, are all units exactly when `t − 1 < ℓ − 1`, so the generator choice needs `ℓ > t` (for `ℓ = 5`, `t = 4`,
+`χ_cyc(g) ≡ 2` they are `−2, −3, −1` modulo `5`); the statement assumes `ℓ > t + 1`. (ii) The correction `s` is
 needed: with `s = 0` two roots of `e_Br_x(g)e_B` may coincide at a point `x ≠ π` (two characters of `r_x` equal on `g`), and
 then the extension `A′` has a double root over `x`, where the congruence ideal over `A′` no longer bounds that of `𝕋_𝔪`
 (LengthBoundsInPadicFamilies §1.8c, Check on (5)).
@@ -937,8 +974,8 @@ finite sum of the `χ_1^{−1}r_x`. SelmerLengthBoundsAndLocalLifting §4.9c doe
 is an `ℓ^{−2}`-good twist at `𝔭` in the sense of 7.8(2) (for some finite family of polynomial conditions); 7.8(2) produces
 such twisting data.
 
-Assume that the twisting datum is good and that every `Ш¹(E, ℓ, e)` (`ℓ` prime, `0 < e < t`) is finite; chain data of Layers 2–5 of the family (ThetaChainsOnDefiniteUnitaryGroups, TaylorBoundsAndDepthsOnHeightTwoFormalGroups,
-LocalGainOfThetaChains, RowTowerAndRallisIdentities) with `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1; its
+Assume that the twisting datum is good and that every `Ш¹(E, ℓ, e)` (`ℓ` prime, `0 < e < t`) is finite; chain data (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3, with the good labels and model lifts of
+RowTowerAndRallisIdentities Layer 5) with `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1; its
 host predicate `SizeInert` makes every prime inert in `K` at least `13`), `SizeSc`, the separation (W7), `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c) and
 `SizeThin` (7.6(a)), the thresholds `ℓ*`, `ℓ_A` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` and `SizeG`) and a
 thick set (FrobeniusRestrictedRieszSums §0.8a) whose length `L_th` satisfies the *depth hypothesis*: for every prime `ℓ ≥ 11` some
@@ -1162,8 +1199,8 @@ nonnegative term `(log x)²·N_c` in the bracket, and the bound above reads `Σ_
 `V(E, t) ≤ b` (`N_c` the budget of ThetaChainsOnDefiniteUnitaryGroups §2.1, `(log x)² ≤ x^ε`); that term is added only in its
 last step, so 7.10c without it is proved there, and the form above follows from it.
 
-*Check.* Without the budget the bound fails for no reason internal to this layer: the wild-kernel budget is the only input bounding the
-groups `Ш¹(E, ℓ, e)`, which enter every row of 7.10a with the same groups at every prime, `2` included.
+The wild-kernel budget is the only input of this layer that bounds the groups `Ш¹(E, ℓ, e)`, which enter every row of
+7.10a, at every prime, `2` included.
 
 *NEW* (insertion). *Needs:* 7.10c; UniformWildKernelBounds §7.6.
 
@@ -1387,18 +1424,19 @@ ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9c, 3.1, 3.2 (the data of the cha
 RowTowerAndRallisIdentities §§5.3, 5.7, 5.9, 5.11 (good labels and the model lifts); FrobeniusRestrictedRieszSums
 §§0.1–0.8b (hosts, letters and the thick set); HermitianFormsAndLattices §§4.0a, 5.2; FiniteReductiveGroups §§5.2–6.5;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§10.33c–10.35, 14.1–16.1;
-ThetaKernelsForUnitaryDualPairs §3.21a; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a;
+ThetaKernelsForUnitaryDualPairs §§3.3b, 3.21a, 3.46; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a;
 IntegralWeylModulesOfGeneralLinearGroups §§2.1, 2.2; WachLatticesOverTheCyclotomicTower §§6.4–6.11;
 SelmerLengthBoundsAndLocalLifting §§3.22–4.10g; LengthBoundsInPadicFamilies §§1.7a–1.8e;
 BernoulliBoundsForClassGroupEigenspaces §6.17; HeckeIdealsAndTaylorWilesRelations §10.1; UniformWildKernelBounds §7.6;
 and on main SelmerIwasawaCohomology §§4.9, 4.10, PadicFamilies §1.7, PhiGammaModulesAndIwasawaCohomology §6.0,
 IntegralHeckeAndGaloisDeterminants §§1.3, 4.1, 5.1, AutomorphicGaloisRepresentationsPartII AG2.0–AG2.6,
 EndoscopicTransferAndUnitaryTraceComparison §§6.29, 13.1, 13.4, AutomorphicLFunctionsAndLocalFactors AL.3.3.8, AL.3.7.2,
-SmoothRepresentationsOfLocalGroups SR.2.2–SR.4.3, MetaplecticAutomorphicForms §§3.14, 6.6, 6.10–6.12,
+SmoothRepresentationsOfLocalGroups SR.2.2–SR.4.3, MetaplecticAutomorphicForms §§3.14, 6.2, 6.3, 6.6, 6.10–6.12, 6.15,
 AutomorphicFormsOnReductiveGroups §§7.4, 7.5, ReductiveGroups Layer 10B, ArithmeticGaloisDuality R02.2.3, R02.3.0d,
 ClassFieldTheory §§5.1, 7.1, 8.1, 13.1, ArithmeticGaloisRepresentations §§1.8, 5.1, 5.3, 5.10,
 AlgebraicModularFormsAndSerreWeights §5.10, AnalyticNumberTheoryPartI §0.11, ArithmeticStatisticsPartIII §2.1 and
-Chebotarev (Completed) Layer 10; Tau Ceti `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (Jordan's theorem).
+Chebotarev (Completed) Layer 10; Tau Ceti `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (Jordan's theorem) and
+`ContRepresentation.schur_orthogonality_self` (Schur orthogonality).
 
 ## Downstream consumers
 
@@ -1505,6 +1543,9 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 ### From ThetaKernelsForUnitaryDualPairs, a sub-roadmap of this family
 
 - §3.21a (the unramified unitary theta correspondence). Used in 7.5.
+- §3.3b (a) (the Weil representation of `(V, W′ ⊥ W″)` restricted to `U(V)` is the tensor product of those of `(V, W′)` and
+  `(V, W″)`, for the product of the splitting characters), §3.46 (iii) (compact dual pairs with both members compact: the
+  decomposition of the polynomial Fock space and the action on the vacuum). Used in 7.5a.
 
 ### From DiscreteSeriesCoefficientsAndAutomorphicMetrics, a sub-roadmap of this family
 
@@ -1613,8 +1654,9 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
 - §3.14 (unramified unitary theta correspondence). Used in 7.5.
-- §6.6 (the regularised second-term identity), §§6.10–6.11 (doubling), §6.10a (the standard doubling factors and the
-  unramified denominators), §6.12 (the factorization of theta pairings). Used in 7.5a.
+- §6.2 (the Siegel–Weil section), §6.3 (the Ikeda map), §6.6 (the regularised second-term identity), §§6.10–6.11 (doubling),
+  §6.10a (the standard doubling factors and the unramified denominators), §6.12 (the factorization of theta pairings), §6.15
+  (the global see-saw). Used in 7.5a.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
@@ -1678,7 +1720,7 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
   regularized Siegel–Weil formula: the first term identity*, Ann. of Math. 140 (1994); A. Ichino, *A regularized Siegel–Weil
   formula for unitary groups*, Math. Z. 247 (2004); S. Yamana, *L-functions and theta correspondence for classical groups*,
   Invent. Math. 196 (2014); W. T. Gan, Y. Qiu and S. Takeda, *The regularized Siegel–Weil formula (the second term identity)
-  and the Rallis inner product formula*, Invent. Math. 198 (2014): 7.5a.
+  and the Rallis inner product formula*, Invent. Math. 198 (2014), cited in the numbering of arXiv:1207.4709v3: 7.5a.
 - C. Bushnell and P. Kutzko, *The admissible dual of GL(N) via compact open subgroups*, Ann. of Math. Stud. 129 (1993);
   G. Henniart, *Une preuve simple des conjectures de Langlands pour GL(n) sur un corps p-adique*, Invent. Math. 139 (2000);
   C. Bushnell and G. Henniart, *The essentially tame local Langlands correspondence, I*, J. Amer. Math. Soc. 18 (2005);
