@@ -124,7 +124,11 @@ constant `C > 0` that is uniquely determined by the Haar measures of `G_τ`, `N_
 *Route.* Bruhat decomposition relative to the maximal parabolic of each line `ℂe_l` (Witt's theorem), iterated
 over the planes, with the rank-one case `U(k, 1)` on the hyperboloid `|𝔷|² > T·T′`.
 
-*KNOWN* in kind (Bruhat decomposition: RealSemisimpleLieGroups §3.3). *Needs:* RowTowerAndRallisIdentities §5.3; GanGrossPrasadUnitaryGroups 1.2,
+*KNOWN* in kind (Bruhat decomposition: RealSemisimpleLieGroups §3.3). (a), the sign of `Gr` and the invariance of `D_l`, `Gr`:
+[FormalProof], `Formalism/FormalDegreeBessel/StatementG.lean` (`Formalism.QuantumDeterminants.GNonneg`); the weight `wt(c, 𝔷)`:
+[FormalProof], `Formalism/FormalDegreeBessel/StatementBF.lean` (`Formalism.QuantumDeterminants.bcWeight`); (G): [FormalProof],
+`Formalism/HermitianCurvature/BesselNonvanishingReduction.lean` (`Formalism.FourierDecayAlt.ThreeDimData.GapOK`).
+*Needs:* RowTowerAndRallisIdentities §5.3; GanGrossPrasadUnitaryGroups 1.2,
 GanGrossPrasadUnitaryGroups §1.3 (transport of Bessel data); RealSemisimpleLieGroups §§3.2, 3.3, 4.2 (open big cell, Bruhat decomposition,
 parabolic double cosets); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa, and KAK decompositions".
 
@@ -196,7 +200,12 @@ on `G_τ`, one invariant derivative at a time, and `β^∞` depends on `(F, F′
 remaining space of signature `(k, 1)`), every `n ∈ N_S` acts unitriangularly on the frame, so every `Δ_l(n)` and `Ξ(n)` is constant,
 and `∫_{N_S}(1 + |ℓ(n)|)^{−δ}dn = ∞` along the kernel of `ℓ`.
 
-*NEW*. *Needs:* 5.13a; RealSemisimpleLieGroups 3.3, 4.3; RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa, and
+*NEW*. (b), the class and the continuity of `β`: [FormalProof], `Formalism/HermitianCurvature/WeylElementCommutesLevelOne.lean`
+(`Formalism.FourierDecayAlt.B2.LemmaBNorm`), `Formalism/HermitianCurvature/StatementB.lean` (`Formalism.FourierDecayAlt.B.AB`);
+the adjointness: follows from [FormalProof], `Formalism/HermitianCurvature/StatementB.lean`
+(`Formalism.FourierDecayAlt.B.PairingAdjointness`); (b′): [FormalProof], `Formalism/HermitianCurvature/StatementB.lean`
+(`Formalism.FourierDecayAlt.B.XiExists`, `Formalism.FourierDecayAlt.B.CoefBound`, `Formalism.FourierDecayAlt.B.XiInt`).
+*Needs:* 5.13a; RealSemisimpleLieGroups 3.3, 4.3; RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa, and
 KAK decompositions"; Mathlib (Fourier inversion, Fatou's lemma, Lagrange interpolation, the layer-cake formula).
 
 ### 5.13c Bounded Bessel maps, rank one and uniqueness
@@ -231,7 +240,14 @@ GanGrossPrasadUnitaryGroups §2.6 also gives `B ∈ ℂl`; the reproducing formu
 
 *KNOWN* in kind (multiplicity one: GanGrossPrasadUnitaryGroups §2.6, from Sun–Zhu, Theorem B, in codimension one and
 Jiang–Sun–Zhu, Theorem A, for the Bessel subgroups of `U(p, q)`; decay of generalised Whittaker functions: Jacquet, Wallach), *NEW*
-(the elementary proofs for gapped discrete series, the identification with the Bessel integral of coefficients). *Needs:*
+(the elementary proofs for gapped discrete series, the identification with the Bessel integral of coefficients). (c):
+[FormalProof], `CompanionTheory/AutomorphicTheory/BesselOrbitBounds/BesselMapUniqueness/BesselMapUniqGap.lean`
+(`CompanionTheory.Bmu.Bounded`); (d): follows from [FormalProof],
+`ReciprocityTheory/ReductiveGroups/DiscreteSeries/MultiplicityOne/StDiagExists.lean`
+(`ReciprocityTheory.ChartRestriction.DS.Mult1.ThmM`),
+`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/IsDSOfIsDG.lean` (`BranchingSupport.RankOneG`),
+`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/UniqGapOfUniq.lean` (`GlobalTheory.GapIn.UniqGap`).
+*Needs:*
 5.13a, 5.13b; GanGrossPrasadUnitaryGroups §2.6 (multiplicity one); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa,
 and KAK decompositions"; RealSemisimpleLieGroups §4.3 (Langlands decomposition); VonNeumannAlgebras Layer 9 (Schur orthogonality for square-integrable representations).
 
@@ -303,7 +319,14 @@ for `D` and for `D_s`; no uniqueness statement is used).
 
 *KNOWN* in kind (existence: GanGrossPrasadUnitaryGroups §3.9, from Xue, Theorem 2.2, with Beuzart-Plessis, Theorem 12.4.1, for
 exactly one member with `m = 1` in each tempered Vogan packet; for `r_S = 0` under interlacing: He, Theorem 0.1), *NEW* (the elementary proof for
-gapped discrete series, the transfer coefficients (g)). *Needs:* 5.13a, 5.13c; GanGrossPrasadUnitaryGroups §3.9 (the real
+gapped discrete series, the transfer coefficients (g)). (e), for a gap above the threshold of the statement: follows from
+[FormalProof], `ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/ParitySignEqGapSign.lean`
+(`ReciprocityTheory.ChartRestriction.DS.Lap.NVStatement`); (g), the values of `|ϰ_s|` and `|κ_s|²`: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ProjectorEntryValueUnderLinearFunctionalStatement.lean`
+(`GlobalTheory.T.projector_entry_value_under_linear_functional`),
+`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/TensorMomentEstimate.lean`
+(`Gp91.CompanionTheory.FamilyDerivativeExpansion.Kap.kappa_dual`).
+*Needs:* 5.13a, 5.13c; GanGrossPrasadUnitaryGroups §3.9 (the real
 tempered theorem); GanGrossPrasadUnitaryGroups §1.3 (transport of Bessel data); DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b) (tensor
 products of gapped discrete series with the standard representation and its dual, on smooth vectors);
 ClassicalGroups §6.6 (Capelli generators); TensorInductionAndFiniteGroupInputs §9.1 (b), (d), (f) (Laplace
@@ -341,7 +364,12 @@ covers it); the weighted bound by `ν(x) ≤ ‖sx‖`, the quotient integral fo
 weighted integrability of the coefficient
 (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (d), whose hypotheses are the two inequalities for `N` in (f)).
 
-*KNOWN* in kind (decay of generalised Whittaker functions: Jacquet, Wallach), *NEW* (the explicit decay). *Needs:* 5.13c, 5.13d,
+*KNOWN* in kind (decay of generalised Whittaker functions: Jacquet, Wallach), *NEW* (the explicit decay). The chain instance:
+[FormalProof], `Development/AbelianVarietyTheory/Proofs/FlagMeasures/WuDecayOfGap.lean` (`GlobalTheory.wuDecayOfGap`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/WuDecay.lean` (`Formalism.L2.SG.WuDecay.WuWeighted`); its hypotheses
+on `h_gap` follow from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/ConcreteSettingExists.lean`
+(`Formalism.L2.SG.ConcreteSettingExists.GapHyp`).
+*Needs:* 5.13c, 5.13d,
 ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, RowTowerAndRallisIdentities §5.3; AutomorphicFormsOnReductiveGroups §2.4 (discrete series); DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (b)–(d) (explicit
 lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their decay and their weighted integrability);
 AnalyticNumberTheoryPartII §5.3k (quotient measures on `S_{z′}\G_τ`).
@@ -418,6 +446,16 @@ the stabiliser of the lattice (any compact open subgroup of it). Then
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.13, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.8; GanGrossPrasadUnitaryGroups 1.2, 4.1; AdelicAlgebraicGroups §2.3 (rational quotients),
 §3.5 (algebraic heights); AnalyticNumberTheoryPartII §5.3k (quotient measures, integration in stages, unfolding);
 SlopesOfHermitianVectorBundles §3.2. *KNOWN* method (Poincaré series of integrable functions; Petersson, Godement), *NEW* in this form.
+The linearity of `P_u` and the definition of `Ph_T`: [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedVolumeStatements/UnipotentInLevelSubgroup.lean`
+(`Formalism.L2.SG.Closed.PuLinearC_holds`), `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/PoincareInHH.lean`
+(`Formalism.L2.SG.PoincareInHH.PoincareSetting.PuLinear`); the adjoint: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/InnerPoincareSeriesEqSetIntegralUnfoldingStatement.lean`
+(`GlobalTheory.T.inner_poincareSeries_eq_setIntegral_unfolding`); the lattice count of the route: [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/ExplicitFormulaBoundHolds.lean` (`Formalism.L2.SG.Count.LatCount`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CasimirReductionTheory/GgExistsAddCharNeOne.lean` (`Formalism.L2.SG.LitS.Size.tau1`);
+the multiplicity bound of the route: follows from [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/ExplicitFormulaBoundHolds.lean` (`Formalism.L2.SG.Count.MultBound`).
 
 ### 5.15 Geometric expansion of the Gram operators
 
@@ -537,7 +575,14 @@ Schur orthogonality); by Schur orthogonality `O(γ) = ⟨b, σ(γ)b′⟩`, and 
 `⟨σ(·)w, b⟩`, conjugate-linear in `σ(·)w`, are not fixed by `R(e_σ)`: for `𝐆 = U(1)` with Haar probability measure, `σ(θ) = e^{inθ}`,
 `n ≠ 0`, `w = b = 1`, it sends `x ↦ e^{−inx}` to `0`. Amenability is used for the truncation only.
 
-*KNOWN* in kind (Schur orthogonality; relative characters), *NEW* (this form). *Needs:* 5.13a, 5.13b, 5.13c, 5.13, 5.15;
+*KNOWN* in kind (Schur orthogonality; relative characters), *NEW* (this form). The chain instance: follows from [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/GaugeLatticeShifts/RealObjInInfinityXOfG.lean`
+(`Formalism.L2.SG.Pf.realObj_inInfinityX_ofG`), `Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/RealObj.lean`
+(`Formalism.L2.SG.RealObj.InInfinityX`); the equality `β(F, F) = c·|s(F)|²/d(𝒟_τ)` for coefficients: [FormalProof],
+`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/BesselSettingUniformConstantStatement.lean`
+(`Gp91.GlobalTheory.T.bessel_setting_uniform_constant`), `Development/AbelianVarietyTheory/Definitions/Jets/SideFam.lean`
+(`BranchingSupport.IsCoef`).
+*Needs:* 5.13a, 5.13b, 5.13c, 5.13, 5.15;
 VonNeumannAlgebras Layer 9 (coefficient maps, Schur orthogonality, formal degree); AnalyticNumberTheoryPartII §5.3k
 (quotient measures on `S\𝐆`); Mathlib (`IsFoelner`, Haar measure, Fatou's lemma).
 
@@ -658,7 +703,9 @@ representation with a nonzero Whittaker functional `ℓ` has dimension `≥ ∏_
 translates of `ℓ` by suitable elements of the mirabolic subgroup are linearly independent (the `q^{k−1} − 1` nontrivial
 characters of the last column group separate them); irreducibility is not used.
 
-*KNOWN* ingredients (Gelfand–Graev multiplicity one). *Needs:* 5.15, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§2.2, 2.4, 2.5.
+*KNOWN* ingredients (Gelfand–Graev multiplicity one). The inequality with `((1 + 3/g₀)(1 + 3/g₁))^f`: [FormalProof],
+`Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.Terms.GGBound`).
+*Needs:* 5.15, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§2.2, 2.4, 2.5.
 
 *Checks.*
 - `k = 1`: `I = ∏_𝔭 𝔽_𝔭^×`, the Gelfand–Graev representation of each factor is its regular representation,
@@ -708,7 +755,19 @@ gives `N^{loc}(1; h, h′; c, c) = Σ_{Z,Z′}ψ(Z)conj ψ(Z′)Σ_{θ,α,β: α
 (`e, e′` the marked vectors, `λ, λ′` the marked forms), and summing over `c` with orthogonality of characters of `coker Z` and of its dual,
 `#coker Z = |det Z|^{−1}`, gives the Parseval identity.
 
-*KNOWN* in kind (Kloosterman sums on Bruhat cells: Friedberg, Stevens, Jacquet–Ye), *NEW* statements. *Needs:* Mathlib
+*KNOWN* in kind (Kloosterman sums on Bruhat cells: Friedberg, Stevens, Jacquet–Ye), *NEW* statements. The local datum, `N^{loc}`
+and `𝔰`: [FormalProof], `Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean`
+(`Formalism.FourierDecayAlt.A5.LocalDatum`); (b-i): [FormalProof],
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/KernelQuotientFinite.lean`
+(`Formalism.FourierDecayAlt.P.gram_kernel_identity`), `Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean`
+(`Formalism.FourierDecayAlt.A5.BlockKernelPosSemidef`), and its last clause follows from [FormalProof],
+`Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean` (`Formalism.FourierDecayAlt.A5.NsBlockDiag`); (b-ii):
+[FormalProof], `Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean`
+(`Formalism.FourierDecayAlt.A5.BlockKernelSupport`, `Formalism.FourierDecayAlt.A5.NsSupport`); (b-iii): [FormalProof],
+`Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean` (`Formalism.FourierDecayAlt.A5.Th1Eq`,
+`Formalism.FourierDecayAlt.A5.SingleBlockThetaProps`); (b-iv): [FormalProof],
+`Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean` (`Formalism.FourierDecayAlt.A5.BaseKernelOne`).
+*Needs:* Mathlib
 (finite modules over discrete valuation rings, characters of finite abelian groups).
 
 *Check.* The weight `#Iso(coker Z, 𝒞)` in `B^{loc}_w(𝒞)` is needed: with the unweighted sum of `ψ(Z)` over the `Z` with
@@ -766,7 +825,11 @@ different shifts modulo `𝔒` are orthogonal by 5.17b (b-ii)), and its sum over
 `𝔰(h)𝔰(h′)N^{loc}(ℓ; h, h′; t_σ, t_σ) ≤ 𝔰(h)^{ℓ+1}𝔰(h′)^{ℓ+1}K^{loc}(h, h′)` by 5.17b (b-iii) for the last block and by (b-v) for `ℓ`; an exhaustion of
 the units by sets `Ω` and a compactness argument (finitely many classes in the support module, bounded entries) conclude.
 
-*NEW*. *Needs:* 5.17b; PositivityOfDirichletSeriesWithKernels §8.2 (a) (the Gauss factor), (d) (stationary phase for
+*NEW*. (b1): [FormalProof], `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean`
+(`Formalism.FourierDecayAlt.A6.GermKernel`); (b-v): [FormalProof],
+`Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean` (`Formalism.FourierDecayAlt.A5.A13`,
+`Formalism.FourierDecayAlt.A5.ThetaExists`, `Formalism.FourierDecayAlt.A5.ThetaProps`).
+*Needs:* 5.17b; PositivityOfDirichletSeriesWithKernels §8.2 (a) (the Gauss factor), (d) (stationary phase for
 `Σx_k + D/∏x_k`); the classification of nondiscrete locally compact fields of characteristic zero.
 
 ### 5.17d The local model of the chain
@@ -806,7 +869,11 @@ quotient `α_𝔭(r)/α_𝔭(r − m − c_𝔭)` with `r − m = k − 1` (for 
 `q^{r−1}(q^r − (−1)^r)` times, density `α(r)/α(r − 1)`); then `e^{−2x_𝔭} ≤ α⁰_𝔭 ≤ e^{2x_𝔭}` and `d_𝔭/α⁰_𝔭 ≤ e^{4x_𝔭}` with
 `x_𝔭 = N𝔭^{−(k−2r_S−2)}`, and `Σ_𝔭x_𝔭 ≤ 3f·2^{−(k−2r_S−2)}` since at most `f` primes of `F` lie over a rational prime.
 
-*NEW* (the local model), *KNOWN* in kind (local densities of unimodular Hermitian lattices). *Needs:* 5.17b, 5.17c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
+*NEW* (the local model), *KNOWN* in kind (local densities of unimodular Hermitian lattices). The density bound: [FormalProof],
+`Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.PairBound`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/TheoremSRecursion.lean`
+(`Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt`).
+*Needs:* 5.17b, 5.17c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
 
 ### 5.17 Mean value formula and comparison for the rows
 
@@ -878,7 +945,13 @@ mean value formula, refined by classes); hence `Σ_ρc_ρ ⊗ conj c_ρ = Σ_θ(
   determinant `−2T − g²`, a unit, so `c_p = 0`, and the two prescriptions give the different denominators `α_p(k − 2)` and
   `α_p(k − 1)` (for `g = 3`, `T = 1`: determinants `−99` and `−11`).
 
-*NEW* statements, *KNOWN* ingredients (the mass formula; gluing of lattices along discriminant forms). *Needs:* 5.13a, 5.15, 5.17d,
+*NEW* statements, *KNOWN* ingredients (the mass formula; gluing of lattices along discriminant forms). The total weight of the
+rows: [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DualFamilyCounting/StepsR.lean`
+(`Formalism.L2.SG.Pf.Cnt.RowsMass`); the mean value formula: [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DualFamilyCounting/FormulaExplicitAtOfEta.lean`
+(`Formalism.L2.SG.Pf.Cnt.AtD.FormulaExplicitAt`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/CntLocal.lean`
+(`Formalism.L2.SG.CntLocal.nu`).
+*Needs:* 5.13a, 5.15, 5.17d,
 ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9; HermitianFormsAndLattices §§4.1, 4.8, 4.9, 5.6, 6.1, 6.1a, 6.1d, 6.3, 6.4a.
 
 ### 5.18a The archimedean transfer matrix
@@ -1035,7 +1108,9 @@ letters is a polynomial of degree `≤ 2j` in its point whose top coefficient is
 divided difference over `2j+1` nodes extracts it; the size inequality is Cauchy–Schwarz for the nonnegative forms of
 5.18b (e) combined with the letter exchange of 5.18b (d).
 
-*NEW*. *Needs:* 5.18b; Mathlib (Lagrange interpolation, Fourier inversion).
+*NEW*. The scales: [FormalProof], `Formalism/HermitianCurvature/StatementSz.lean` (`Formalism.FourierDecayAlt.Sz.lamThreshold`,
+`Formalism.FourierDecayAlt.Sz.Glob.N`, `Formalism.FourierDecayAlt.Sz.Glob.lenI`).
+*Needs:* 5.18b; Mathlib (Lagrange interpolation, Fourier inversion).
 
 ### 5.18d Archimedean blocks
 
@@ -1248,7 +1323,16 @@ between `b^{−2C_hr_S}` and `b^{C_h(4r_S+2)}` (only these two-sided bounds and 
 the Bessel functions and in `Gr`.
 
 *KNOWN* frameworks (stationary phase; tensor products of discrete series with finite-dimensional representations:
-Zuckerman), *NEW* (all the statements in this setting). *Needs:* RowTowerAndRallisIdentities §5.3, 5.13a, 5.13b, 5.13c, 5.13d, 5.15, 5.15a, 5.18a, 5.18b,
+Zuckerman), *NEW* (all the statements in this setting). (i₁): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/JetHarmonics/DiscreteSeriesCoefficientExpansionBoundBall.lean`
+(`GlobalTheory.discreteSeries_coefficient_expansion_bound_ball`),
+`Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean` (`BranchingSupport.Num`),
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/CutBP.lean`
+(`Formalism.FourierDecayAlt.P.CutBP.BigCellDerivativeExpansion`); (i): [FormalProof],
+`Development/AbelianVarietyTheory/Statements/DiscreteSeriesShifts/ThmBpDS.lean` (`BpJoin.ThmBpDS`),
+`Formalism/HermitianCurvature/StatementTBB.lean` (`Formalism.FourierDecayAlt.TBB.ThmBpAt`),
+`Formalism/SharpRestriction/CuspSpanNormBounds/LeadMinorK.lean` (`Formalism.MainNotions.S.ThB.StdHyp`).
+*Needs:* RowTowerAndRallisIdentities §5.3, 5.13a, 5.13b, 5.13c, 5.13d, 5.15, 5.15a, 5.18a, 5.18b,
 5.18c, 5.18d, 5.18e; DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b) (tensor products of gapped discrete series with the
 exterior powers of the standard representation and with its dual, on smooth vectors); RealSemisimpleLieGroups 3.3; Mathlib (Lagrange interpolation, Fourier inversion, Poisson summation).
 
@@ -1323,6 +1407,8 @@ zero frequency of the Poisson step is an identity.
 
 *Needs:* Mathlib `Matrix.PosSemidef.hadamard` (Schur product theorem); Tau Ceti `TauCeti.lintegral_rpow_lintegral_mul_le` (Schur's test, here for counting measures). *NEW* (a large-sieve inequality with constant `1` for amplitudes of
 geometric terms, proved along a flag one pivot at a time).
+Follows from [FormalProof], `Formalism/HermitianCurvature/StatementTC.lean` (`Formalism.FourierDecayAlt.TC.TheoremAAfter`),
+`Formalism/HermitianCurvature/StatementTB.lean` (`Formalism.FourierDecayAlt.TB.Data`).
 
 *Checks.*
 - `L = 0`, one level, `Kr_1` diagonal, no off-diagonal points: the inequality is the Poisson step for one pivot,
@@ -1409,7 +1495,14 @@ contradiction) is not used.
 `Δ_w = 10⁶`, `rd_E = 2`, nodes near `10¹⁵` and `g₀g₁ = 10¹²`, the logarithm of `T_crit` over the bound is about `−18` for
 `u_1 = v_0 + ½` and from `+1.5` to `+1.9`, depending on the bits of the word, for `u_1 = v_0 + Sc + ½`.
 
-*NEW*. *Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.18, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.7, 6.2, 6.3, 6.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics
+*NEW*. (St): [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean`
+(`Formalism.MainNotions.S.StandingHypotheses`); (a): [FormalProof], `Formalism/HermitianCurvature/StatementSz.lean`
+(`Formalism.FourierDecayAlt.Sz.PropA`, `Formalism.FourierDecayAlt.Sz.TcritPow`,
+`Formalism.FourierDecayAlt.Sz.SizeData.MassRatios`); (b), the first bound: follows from [FormalProof],
+`Formalism/HermitianCurvature/StatementSz.lean` (`Formalism.FourierDecayAlt.Sz.TcritLower`, `Formalism.FourierDecayAlt.Sz.cOne`,
+`Formalism.FourierDecayAlt.Sz.Cfg.aeff`); (c): follows from [FormalProof],
+`Formalism/SharpRestriction/CuspSpanNormBounds/SBridge.lean` (`Formalism.MainNotions.S.Bridge.StdOfHyp`).
+*Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.18, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.7, 6.2, 6.3, 6.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics
 §8.3 (formal degree).
 
 ### 5.20b Loops and non-scalar pairs
@@ -1553,7 +1646,10 @@ nondegenerate since `Gr ≠ 0`). Then (a): the bad primes off `g₀g₁` are the
 quantity weighted in (a); that the factor `H(γ)^C` is bounded by a power of this quantity times the archimedean sizes weighted by
 `w(γ)` is used; its proof is not given here.
 
-*NEW*. *Needs:* 5.15, 5.15a, 5.17a, 5.17d, 5.18, 5.20a, 5.20b; HermitianFormsAndLattices §6.5.
+*NEW*. (b): follows from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
+(`Formalism.L2.SG.RowsPos.RowNGP`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsConc.lean`
+(`Formalism.L2.SG.RowsConc.epsNG`).
+*Needs:* 5.15, 5.15a, 5.17a, 5.17d, 5.18, 5.20a, 5.20b; HermitianFormsAndLattices §6.5.
 
 ### 5.20 The Gram bound for distinct words
 
@@ -1652,6 +1748,12 @@ Bessel functional (5.13c (d)), a tail bound for large gaps, and a count of pairs
 rational structure.
 
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, 5.13c, 5.13, 5.15, 5.16, 5.17, 5.18, 5.20a, 5.20b, 5.20c; HermitianFormsAndLattices §§6.4, 6.5. *NEW*.
+(i): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
+(`Formalism.L2.SG.RowsPos.DiagLP`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean`
+(`Formalism.L2.SG.RowsOther.DiagRow`), `Formalism/SharpRestriction/CuspSpanNormBounds/NonGenericAndKTwoTheorems.lean`
+(`Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoParameterConditions`); (ii): [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean` (`Formalism.L2.SG.RowsPos.KppDiagP`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean` (`Formalism.L2.SG.RowsOther.KppDiag`).
 
 ### 5.22 Equidistribution of the row labels
 
@@ -1697,6 +1799,10 @@ Nothing below uses the upper bound of (a).
 `GL_n`), §2.7 (b), (c) (the decomposition of Bessel-type induced representations, the multiplicity inequality), §5.7, §5.8 (a), (c)
 (Gelfand–Graev weights; shares of labels in the Bessel-type induced representations).
 (a) is an instance of FiniteReductiveGroups §5.8 (c); *NEW* count (b).
+The lower bound of (a) and the Gelfand–Graev weight on squarefree labels: [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/ArithmeticCylinders.lean` (`Formalism.MainNotions.ArithmeticCylinders.admLq`);
+(b): [FormalProof], `Formalism/LocalToGlobal/GlobalTheory/IrreducibleOfCountSizes.lean`
+(`Formalism.L2.GlobalTheoryTheory.ConcN.CountAllRows`).
 
 *Checks.*
 - `k = 1`, `r = 2` (`r_S = 0`): `B = 1`, `Ind_1ψ_B` is the regular representation, which is `Γ_{(1,1)} ⊕ (g − 1)·Γ_ψ`
@@ -1778,6 +1884,24 @@ comparison RowTowerAndRallisIdentities §5.9.
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.16, 5.22, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§5.7, 5.8. *NEW* (bookkeeping on *KNOWN*
 inputs: statistics of the factorisation type of a random polynomial, as of the cycle type of a random permutation).
+(i): [FormalProof], `Formalism/LocalToGlobal/GlobalTheory/ConcNP.lean` (`Formalism.L2.GlobalTheoryTheory.ConcN.delp_of_allRows`),
+`Formalism/PadicSubsetSums/CentralIdempotents/EigenbasisOfDistinctRoots.lean`
+(`Formalism.IrreducibleCountingLemmas.GaloisIrreducibility.ShareFromCount`); (ii): [FormalProof],
+`Formalism/LocalToGlobal/GlobalTheory/ConcNWeight.lean` (`Formalism.L2.GlobalTheoryTheory.ConcNWeight.locShare_le_Wg`),
+`Formalism/LocalToGlobal/GlobalTheory/IrreducibleOfCountSizes.lean` (`Formalism.L2.GlobalTheoryTheory.ConcN.Wg`),
+`Formalism/LocalToGlobal/GlobalTheory/ConcNWeight.lean` (`Formalism.L2.GlobalTheoryTheory.ConcNWeight.RangeW`); (iii): follows
+from [FormalProof],
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LocalShareCountLeExp.lean`
+(`GlobalTheory.CovTop.LocShareNum.local_share_count_le_exp_alt`); (iv): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/BadPartDimLeSumLocalSharesWhittakerStatement.lean`
+(`GlobalTheory.T.bad_part_dim_le_sum_local_shares_whittaker`); (v): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/EmbedsInRegularRepresentationCopiesOfGroupDetermStatement.lean`
+(`GlobalTheory.T.embedsInRegularRepresentationCopies_of_groupDeterminant`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinrankLeCardMulFinrankCharacterSpaceBaseChangeStatement.lean`
+(`GlobalTheory.T.finrank_le_card_mul_finrank_characterSpace_baseChange`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/EmbRegCountOfRanks.lean` (`GlobalTheory.BadCount.embReg_count_of_ranks`);
+(vi): [FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/EmbedsInRegularRepresentationCopiesOfFreePermute.lean`
+(`GlobalTheory.BadCount.embReg_of_free_permuted_summands`).
 
 *Checks.*
 - The conditions of (ii) on the type primes can be met: for `q = 19`, `d = 526679` (`d ≡ 7 (mod 16)`; every prime `≤ 19`
