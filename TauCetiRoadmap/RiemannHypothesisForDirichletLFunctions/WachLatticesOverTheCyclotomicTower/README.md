@@ -14,6 +14,11 @@ The setting of 6.4 is fixed throughout: `p` is an odd prime; `F/ℚ_p` is finite
 
 Notation and conventions not restated here are those of [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md): its Conventions (the coordinate `π` with `φ(π) = (1+π)^p − 1` and `γ(π) = (1+π)^{χ(γ)} − 1`, the signed Herr complex, the Hodge–Tate convention), the integral étale realization `T ↦ D(T)` over `O_E⊗A_F` (PhiGammaModulesAndIwasawaCohomology §1.0), and the Wach modules `N(V)` over `E⊗B_F^+` and lattices `N(T) = N(V) ∩ D(T)` over `O_E⊗A_F^+` (PhiGammaModulesAndIwasawaCohomology §6.0), with `q = φ(π)/π`. Crystalline and de Rham representations, `D_cris` and `D_dR` are those of PadicPeriodRings §§4.1–4.2.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 6: Wach lattices modulo a uniformizer, Sen weights and carries
 
 This layer continues PhiGammaModulesAndIwasawaCohomology §§6.0–6.3, which construct Wach modules, their base change, good bases and `ψ`-fixed vectors. It reduces Wach lattices modulo `λ` (6.4, 6.5), develops the semilinear algebra of lattice families modulo `p` (6.6–6.8), and applies it to admissible classes (6.9), to surjections of crystalline lattices (6.10) and to rank-one subquotients (6.11).
