@@ -122,9 +122,11 @@ dictionary, and its statements are homogeneous in it.
 
 **Wild kernels.** For a number field `M`, a prime `ℓ` and an integer `e ≥ 1`, `Ш¹(M, ℓ, e)` is the group of classes in
 `H¹(𝒪_M[1/ℓ], ℚ_ℓ/ℤ_ℓ(−e))` unramified outside `ℓ` and trivial at the places above `ℓ`, and
-`V(M, t) = Σ_ℓ log ℓ Σ_{1≤e<t} length Ш¹(M, ℓ, e)`, as in BernoulliBoundsForClassGroupEigenspaces §6.17; the roadmap uses them for `M = E`.
+`V(M, t) = Σ_ℓ log ℓ Σ_{1≤e<t} length Ш¹(M, ℓ, e)`, as in BernoulliBoundsForClassGroupEigenspaces §6.17; the roadmap uses them for `M = E`
+([FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean` (`UpperTheory.Top.VVle`)).
 
-**The CM period.** `log Ω := γ + log(2π/rd_E) − (L′/L)(1, χ_K)`, `rd_E` the root discriminant of `E`. Equivalently
+**The CM period.** `log Ω := γ + log(2π/rd_E) − (L′/L)(1, χ_K)`, `rd_E` the root discriminant of `E`
+([FormalProof], `Formalism/RankGapBounds/MeanBoundSecondForm.lean` (`Formalism.RankGapBounds.WeightedMeanData.Data.logOm`), `Formalism/LocalRingCardinality/DataParams₂.lean` (`Formalism.BasicNotions.SizeData₂.logOm`)). Equivalently
 `log Ω = log Ω_K − log(rd_E/√d)`, where `log Ω_K = γ + log(2π/√d) − (L′/L)(1, χ_K)` is the mean over the ideal
 classes of `K` of `log(area(Λ)/π) + (1/6) log|Δ(Λ)|` (Chowla–Selberg, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5). The same `Ω` enters the heights of the
 lifts (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5, GluedTargetAndDivisionInequality §8.6) and the arithmetic degree of the flat line bundle (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.11).
@@ -146,7 +148,7 @@ twisting datum (CongruenceModulesOfThetaLifts §7.10a) and the wild-kernel budge
 of ThetaChainsOnDefiniteUnitaryGroups §2.5 and (T3) of GluedTargetAndDivisionInequality §8.20 on the twisting datum (10.0 (D4)); the construction verifies them (10.7 (b), 10.9 (c), (d)).
 
 **Riesz remainders and windows.** `G_χ` is the Riesz remainder of a primitive Dirichlet character (RiemannHypothesisStatementsAndConsequences
-§8.4a (b)): `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y·(L′/L)(1, χ)` for `χ ≠ 1`, and
+§8.4a (b)): `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y·(L′/L)(1, χ)` for `χ ≠ 1` ([FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.An.gChi`)), and
 `G_1(y) = Σ_{n≤y} Λ(n)(y/n − 1) − y log y + (1+γ)y` for the trivial character; `γ` is Euler's constant.
 `HasWindows S λ_W` (PositivityOfDirichletSeriesWithKernels §6.9 (a)), for a set `S` of reals and a window exponent `λ_W > 1`:
 for every `Y₀` there is `Y ≥ max(Y₀, 1)` with `[Y, Y^{λ_W}] ⊂ S`.
@@ -205,8 +207,8 @@ only in Checks.
 | `x, ε, b, a, X′, b′, w″, X″` | scale, exponent, `e^{x^ε}`, `x·b`, `e^{x^{ε/3}}`, `a/X′`, `b′/(x\|A\|)`, `x\|A\|X′` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `ϑ, B₀, N_c, Γ₀, H` | thick-weight width, the two budgets `B₀ = fmbx^ε`, `N_c = \|𝒯\|kbx^{2ε}/\|A\|²`, redundancy factor, slope range `x^{c_H}b` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `Size(x, ε)` | conjunction of the host predicates `SizeA, SizeN, SizeD, SizeRd, SizeQD, SizeInert, SizeDep` and the parameter predicates `SizeM, SizeK, SizeW, SizeMf, SizeT, SizeTheta` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
-| `SizeQD, SizeInert` | the host predicate on the sizes of `q` and `d` (the bound on `(L′/L)(1, χ_K)` is a separate clause of (h4) in 10.6); inert-free up to `max(12, x^{ε/(5J)})` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
-| `S_small, vd, SizeDep` | the primes dividing `2f_E` other than `q`, `d`; the largest mean different exponent of `E` at a prime of `S_small`; the host predicate on them | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
+| `SizeQD, SizeInert` | the host predicate on the sizes of `q`, `d` and `(L′/L)(1, χ_K)`; inert-free up to `max(12, x^{ε/(5J)})` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
+| `S_small, Q_S, vd, SizeDep` | the primes dividing `2f_E` other than `q`, `d`; `Q_S := f_E/(q·d)`; `vd := log₂ Q_S`; the host predicate on them | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `SizeSc, SizeGap, SizeSep, SizeG, SizeT_u` | size predicates of the words, the gaps, the separation, the type primes and the level primes | ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8 |
 | `C_t, C_W, C_Γ, A_max, C_dep` | constants fixed before `ε`: of `SizeT`, of `SizeW`, of `Γ₀`, the bound of the layer exponent, the constant of `SizeDep` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `A_n, J, c_H, c_s` | numbers that may depend on `ε`: the layer exponent of `SizeA` (`A_n ∈ [1, A_max]`; `2 + 8ε` in the construction), the window constant (UniformWildKernelBounds §7.6 at the chain's parameters), the exponent of `H`, the exponent of the inert-free bound of chain data; chosen after `ε` and before the scale | ThetaChainsOnDefiniteUnitaryGroups §2.1, 10.0, 10.6 |
@@ -216,7 +218,7 @@ only in Checks.
 | `a_τ, a⁻_τ, θ_a, A_w` | top entry and negative bottom entry, top window `θ_a = 1/(k·x^{A_w/2})` | ThetaChainsOnDefiniteUnitaryGroups §2.3b |
 | `w_j(τ), w_{u₀,j}` | step weights `e_{j−1}(τ)` (thick, top or thin); those of the translate `u₀` | ThetaChainsOnDefiniteUnitaryGroups §2.3 |
 | `Λ_j(τ)` | weight on `X_j` | ThetaChainsOnDefiniteUnitaryGroups §2.3 |
-| `Δ_w, Sc` | letter step (`⌈(kfx^ε)^{C_Δ}⌉`, the exponent `C_Δ` a constant fixed before `ε`), cloud size `4kΔ_w` | ThetaChainsOnDefiniteUnitaryGroups §2.3, 10.6 |
+| `Δ_w, Sc` | letter step (`⌈x^{c_Δ}⌉`, the exponent `c_Δ` chosen after `ε` and `c_H`), cloud size `4kΔ_w` | ThetaChainsOnDefiniteUnitaryGroups §2.3, 10.6 |
 | `h_gap` | row gap | ThetaChainsOnDefiniteUnitaryGroups §2.3 |
 | `η_s, D_*, ℓ*, ℓ_A` | separation width, thresholds | ThetaChainsOnDefiniteUnitaryGroups §2.3c |
 | `h₀` | node spacing of an adapted weight datum | ThetaChainsOnDefiniteUnitaryGroups §2.3a |
@@ -362,7 +364,7 @@ used: the shift by `det^{a⁻_τ}` costs `k·a⁻_τ·log k`) and `−λ_u(τ)_{
 `m·x^ε·Sc·f/a` are at most `C·La`, and `m·b′ ≤ a`; so the off-top places cost at most `C·a·La` in all, which is at most
 `C·|Φ_top|·a·La` because `Φ_top ≠ ∅`.
 
-*NEW* bookkeeping, *KNOWN* ingredients (Weyl; Carter–Lusztig; Gross; Banaszczyk). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.8;
+*NEW* bookkeeping, *KNOWN* ingredients (Weyl; Carter–Lusztig; Gross; Banaszczyk). (a): [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/SlopeMaxOpenOfHookTwoLeV.lean` (`Formalism.MainNotions.flipTwoThree.StdSlopeLow`); (d): [FormalProof], `Formalism/RankGapBounds/MeanBoundSecondForm.lean` (`Formalism.RankGapBounds.WeightedMeanData.Data.Slopes`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.8;
 IntegralWeylModulesOfGeneralLinearGroups §§3.2, 3.4; HermitianFormsAndLattices §4.12 (b); SlopesOfHermitianVectorBundles §§1.7, 2.2, 2.4;
 GeometryOfNumbersAndQuadraticArithmetic §4.4.13.
 
@@ -476,14 +478,12 @@ inner factors of two words the powers of `Δ_w` cancel, and with `s_{ij} := (�
 `Σ_{i<j}(log(1 + s_{ij}) − log(1 + s′_{ij}))`, where `|log(1 + s) − s| ≤ s²`; `Σ_{i<j} s_{ij} = ¼Σ_l 𝔴_l(H_{l−1} − H_{k−2−l})` (harmonic
 numbers), and `Σ_{l≤k−2}|H_{l−1} − H_{k−2−l}| ≤ 3k` (`|H_a − H_b| ≤ |log((a + 1)/(b + 1))| + 1` and `∫_0^1|log(t/(1 − t))|dt = 2 log 2`),
 while `Σ_{i<j}s_{ij}² ≤ (k/16)·π²/6`; so the inner quotient lies in `[e^{−2k}, e^{2k}]`. The factors with the first entry: off the
-tops `u_0(τ) − u_l(τ) = (u_0(τ) − v_0(τ) + ½) + 4(l − 1)Δ_w + 𝔴_lΔ_w` with `u_0(τ) − v_0(τ) ≥ ½` (interlacing;
-`u_0(τ) − v_0(τ) = ½` for the datum of ThetaChainsOnDefiniteUnitaryGroups §2.3a), so the quotient for two words is at most
-`1 + Δ_w` at `l = 1` and at most `1 + 1/(4(l − 1))` for `l ≥ 2`, in all at most `(1 + Δ_w)·e^{1/4}k^{1/4}`; at a top
-`u_0(τ) ≥ a` while the inner entries lie in `[0, Sc]`, and the quotient is at most
+tops `u_0(τ) − u_l(τ) = (u_0(τ) − v_0(τ) + ½) + 4(l − 1)Δ_w + 𝔴_lΔ_w` with `u_0(τ) − v_0(τ) ≥ Sc` (the cloud gap of
+ThetaChainsOnDefiniteUnitaryGroups §2.3b; `u_0(τ) − u_l(τ) = Sc + 1 + 4(l − 1)Δ_w + 𝔴_lΔ_w` at the values of 10.6), so the
+quotient for two words is at most `1 + Δ_w/Sc = 1 + 1/(4k)` for each `l`, in all at most `e^{1/4}`; at a top `u_0(τ) ≥ a` while the inner entries lie in `[0, Sc]`, and the quotient is at most
 `2`. The factors with the last entry likewise give at most `e·(4/3)·k^{1/3}`
 (at most `2` at a top, where `|u_{k−1}(τ)| ≥ b′`). So, for
-`x ≥ x₀`, `|log(Vand(u(τ))/Vand(u′(τ)))| ≤ 2k + log(1 + Δ_w) + 2 + log k ≤ 3k ≤ k·log A_V`, because
-`log Δ_w ≤ C_S·log x` (`SizeSc`) is at most `k/2 − 2 − log k` for `x ≥ x₀`. By ThetaChainsOnDefiniteUnitaryGroups §2.8 and 9.3, `d*_u` is a word-independent factor times
+`x ≥ x₀`, `|log(Vand(u(τ))/Vand(u′(τ)))| ≤ 3k ≤ k·log A_V`. By ThetaChainsOnDefiniteUnitaryGroups §2.8 and 9.3, `d*_u` is a word-independent factor times
 `∏_τ Vand(u(τ))`, so `T*(u)/T*(u′) = ∏_τ(Vand(u′(τ))/Vand(u(τ)))^{1/(fk)} ∈ [e^{−3}, e^3]`, and the window
 `T*(u) < T(u) ≤ (1 + 1/(fk))T*(u)` gives `A_V^{−1} ≤ T(u)/T(u′) ≤ A_V`. (d) From (c), since `w_j(τ) ≥ w″` and `m·log w″` exceeds
 `C(La + m²La/k) + 2·log(g₀g₁·rd_E)` for `x ≥ x₀`; for the second claim, `log(g₀g₁) > 16·log(kb) = 16(log k + x^ε)` (`SizeG`),
@@ -497,7 +497,7 @@ tops `u_0(τ) − u_l(τ) = (u_0(τ) − v_0(τ) + ½) + 4(l − 1)Δ_w + 𝔴_l
 has order `g^{r(r−1)/2 − k}` on the row side and `U_k(𝔽_g)` order `g^{k(k−1)/2}` on the column side, and
 `r(r+1)/2 + k − k(k+1)/2 = m(2k + m − 1)/2`, which is `2k + 1` at `m = 2`.
 
-*NEW* design, *KNOWN* formulas (Siegel; Shimura; Gan–Hanke–Yu; Harish-Chandra; Weyl). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8,
+*NEW* design, *KNOWN* formulas (Siegel; Shimura; Gan–Hanke–Yu; Harish-Chandra; Weyl). (c), the two words: follows from [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/ThresholdCubicInequalitySignPattern.lean` (`Formalism.MainNotions.Sizes3b`), `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/SzHypFam.lean` (`Formalism.L2.SG.Pf.SzHypFam.aSz`); (d), the lower bounds: follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Count_at`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8,
 ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, RowTowerAndRallisIdentities §5.3, 9.3; HermitianFormsAndLattices §§6.0b, 6.1, 6.2, 6.3, 6.4; AdelicAlgebraicGroups §2.4.
 
 ### 9.5 The word code
@@ -517,7 +517,7 @@ BesselPoincareSeriesAndGramBounds §5.18a at the index `l` exists and has length
 (b) Take `M` distinct binary strings of length `k − 2`; `M ≤ C₀Γ₀²x^{c_H} + 1`. (c) The rank window
 `d_u^{all}Γ₀²/D* ≥ C₀^{−1}` of ThetaChainsOnDefiniteUnitaryGroups §2.8, summed over the `M` words.
 
-*NEW* (elementary). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, BesselPoincareSeriesAndGramBounds §5.18a.
+*NEW* (elementary). (a): [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean` (`Formalism.MainNotions.S.StandingNumericalData`); (c): follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean` (`Formalism.MainNotions.Lnk.frame_at_of`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, BesselPoincareSeriesAndGramBounds §5.18a.
 
 ### 9.6 The slope inequality of the chain
 
@@ -557,8 +557,8 @@ RowTowerAndRallisIdentities §5.12 on `𝔼` divided by `|P_1|`: a constant resc
 all rows (`dim = D_all`), `π` the orthogonal projection onto the target rows `𝔼`, identified with `R^∨ ⊗_{σ₀} ℂ` by
 `y ↦ ⟨V·, y⟩_ℋ`, which is `ℂ`-linear because the Petersson product is conjugate-linear in its first variable (ThetaChainsOnDefiniteUnitaryGroups §3.1), so `π`
 and the lifts are `ℂ`-linear as SlopesOfHermitianVectorBundles §5.5 requires; `D_all − D_rows ≤ δ_bad·D_all` (BesselPoincareSeriesAndGramBounds §5.23). By SeesawForThetaChains §6.14 (d),
-`B_u(φ)(x) = a_u·⟨Vx, P_u(U_uφ)⟩_ℋ` with one `V` for all words (SeesawForThetaChains §6.14 (d): `V` is the identification of SeesawForThetaChains §6.13 (o), and the
-word-dependent central translation is absorbed in `U_u`): the map `φ ↦ B_u(φ)` corresponds to `φ ↦ a_u·P_u(U_uφ)` with
+`B_u(φ)(x) = a_u·⟨Vx, P_u(U_uφ)⟩_ℋ` with one `V` for all words (SeesawForThetaChains §6.14 (d): `V` is the identification of SeesawForThetaChains §6.13 (o)
+composed with a central translation common to all words): the map `φ ↦ B_u(φ)` corresponds to `φ ↦ a_u·P_u(U_uφ)` with
 `U_u` an isometry of the new forms, and `a_u ≠ 0` because `P_u` is nonzero on them. (One `V` is needed: the frame inequality
 uses one projection and one identification of its image with the target; with an embedding `V_u` depending on the word the
 family `V_u^*P_u` need not be a frame, even when each `V_u` preserves the good rows: in `ℂ²` the orthonormal images `(1, 1)/√2`,
@@ -647,14 +647,15 @@ From these, the roadmaps of the chain construct the chain lifts and the period, 
 hypotheses* of chain data are:
 - (H1) *sizes:* `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1, with the window constant `J` and the exponent `c_H` fixed before the scale), `SizeDep`
   (ThetaChainsOnDefiniteUnitaryGroups §2.1, `C_dep = 11`), `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `SizeG` (ThetaChainsOnDefiniteUnitaryGroups §2.7), `SizeT_u` for every word (ThetaChainsOnDefiniteUnitaryGroups §2.8); `Φ_top ≠ ∅` (9.1 (d)); `2^n ≥ x²` and `d ≥ x²`; the size conditions of
-  LocalGainOfThetaChains §4.10 and LocalGainOfThetaChains §4.16a; the hypotheses of LocalGainOfThetaChains §§4.15d–4.15f and of LocalGainOfThetaChains §4.17 at its parameters, and for the chosen data the conclusions of
+  LocalGainOfThetaChains §4.10 and LocalGainOfThetaChains §4.16a; the hypotheses of LocalGainOfThetaChains §4.10a, of LocalGainOfThetaChains §§4.15d–4.15f and of LocalGainOfThetaChains §4.17 at its parameters, and for the chosen data the conclusions of
   LocalGainOfThetaChains §4.17a (ii) at every prime `p ≤ X″` inert in `K` outside `Drop`, of LocalGainOfThetaChains §4.17c and of LocalGainOfThetaChains §4.17d; `k ≥ x²·s_max³·log a`,
   `Λ_log ≤ x^{2ε}` and `X″·(Sc + k + ϑ)·log(2a) ≤ b`; the size conditions of CongruenceModulesOfThetaLifts §7.10a (among them `SizeThin` of CongruenceModulesOfThetaLifts §7.6 (a), and `b ≥ 100`
   and `2(η_s + t + 1) + Sc ≤ b/10`, which its rows use) and its depth hypothesis on the length `L_th` of the thick set (for every
-  prime `ℓ ≥ 11` some `j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`); `f² ≤ rd_E`;
+  prime `ℓ ≥ 11` some `j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`) and the length bound `L_th ≤ C_L·log x` of
+  CongruenceModulesOfThetaLifts §7.10c; `f² ≤ rd_E`;
   the conditions of GluedTargetAndDivisionInequality §8.20 on the logarithmic size `L = x^ε`; the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.6 at
   `L = x^ε` (`r ≥ 62`, `f ≥ 8`, `L ≥ 4`, `log f ≤ L`, `log g_i ≤ 9L + 1`, `log p_δ, log p′_δ ≤ L`, `log rd_E ≤ 2L`), `3` and `5` split
-  in `K`, `gcd(15, g₀g₁) = 1` and `(f·r·x^ε)^{12} ≤ b`; the conditions (N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a
+  in `K`, `gcd(15, g₀g₁) = 1` and `(f·r·x^ε)^{12} ≤ b`; the conditions (N0) and (N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a
   (`SizeGen`, with `R_E = rd_E^{C_R}`) at the degree `T = T_O` for the weights with (N1) at `T = T_O`; the size conditions of
   GluedTargetAndDivisionInequality §8.20b and of GluedTargetAndDivisionInequality §8.22 (weights with (N1), (N2) and the page conditions `SizePage` of GluedTargetAndDivisionInequality §8.20 exist by GluedTargetAndDivisionInequality §8.20 (vii), and witnesses of
   the size conditions `SizeSG` by ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (f) (ii), given witnesses `h₀`, `S_u`, `η_u` of the gap
@@ -685,7 +686,8 @@ The place conditions among the hypotheses of RowTowerAndRallisIdentities §5.8b 
 
 *Check.* What holds where: the host data, with (H2), at every large scale (10.7 (a); `HostSplitting E` by 10.7 (a) (v)); (H5)
 and (H6) at every large scale (10.6a–10.6d, 10.8); (H1) at every large scale (the conclusion of LocalGainOfThetaChains §4.17a (ii) by LocalGainOfThetaChains §4.17a;
-10.6d with ThetaChainsOnDefiniteUnitaryGroups §2.6, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (o) and the setting of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.11–8.19); (H4) on the windows of 10.7 (b)
+10.6d with ThetaChainsOnDefiniteUnitaryGroups §2.6, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (o) and the setting of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.11–8.19, whose conditions
+on the host (`d ≡ 7 (mod 16)` prime, `E/F` unramified at every finite place) a host of FrobeniusRestrictedRieszSums §0.4 satisfies, by its hypotheses and its clause (i)); (H4) on the windows of 10.7 (b)
 only; (H3) for the twisting datum chosen by CongruenceModulesOfThetaLifts §7.8 (2) under its hypotheses (10.9 (c)).
 By (H1), `2^n ≥ x² ≥ 4`, so the layer is `n ≥ 2` and `2` is ramified in `E ⊃ ℚ_n` (FrobeniusRestrictedRieszSums §0.4), while
 `K = ℚ(√−d)` with `d` prime: these are the hypotheses of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b on the field (`2` ramified in `E`, `K = ℚ(√−D)` with `D`
@@ -694,7 +696,7 @@ a prime, here `D = d`), in whose setting ArithmeticVolumesAndIntegralFormsOnUnit
 every translate, at the scales of the window set of 10.7 (b), and nothing is asserted at a scale outside that set: the windows
 of the headline are those of 10.7 (b).
 
-*NEW* (definition). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8a, ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §3.8, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.15d, LocalGainOfThetaChains §4.15e, LocalGainOfThetaChains §4.15f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.16a, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a,
+*NEW* (definition). (H1) follows from [FormalProof], `Formalism/SharpRestriction/ElevenLe.lean` (`Formalism.MainNotions.SizesAt`), `Formalism/LocalRingCardinality/DataParams.lean` (`Formalism.BasicNotions.ParameterChoice'`), `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Win_at`); (H5), its clauses `d_u > 0`, `𝔼 ≠ 0` and `𝔼_0 ≠ 0`, follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Lat_at`), `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean` (`Formalism.L2.Indef.Tree.RankRows`). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8a, ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §3.8, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.10a, LocalGainOfThetaChains §4.15d, LocalGainOfThetaChains §4.15e, LocalGainOfThetaChains §4.15f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.16a, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a,
 LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, RowTowerAndRallisIdentities §5.5, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, SeesawForThetaChains §6.14, CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.6, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.11,
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.14b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18e, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.19e, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.23, 9.1, 9.2, 9.6.
 
@@ -725,7 +727,7 @@ entries vanish at `d` (LocalGainOfThetaChains §4.9e (c), (f)).
 and `1` at `d` (FrobeniusRestrictedRieszSums §1.1 (iii)); the term at `d` is the share of one pair in `D_ℛ(d)`, which sums
 over all `m·|Φ_top|` pairs.
 
-*NEW* (bookkeeping). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §1.1, LocalGainOfThetaChains §4.9, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, 9.2.
+*NEW* (bookkeeping). (a): [FormalProof], `Formalism/LocalToGlobal/GlobalTheory/PowFourLtCeilThresholdPrime.lean` (`Formalism.L2.GlobalTheoryTheory.Loss.unitRule_at`). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §1.1, LocalGainOfThetaChains §4.9, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, 9.2.
 
 ### 10.2 The loss bound
 
@@ -753,19 +755,21 @@ with `C` depending only on the constants fixed before `ε`.
 `ℒ_f` (LocalGainOfThetaChains §4.17b): the parts `C(Sc + k + ϑ)·lg_p(2a)` cost `≤ C·m|Φ_top|·X″·(Sc + k + ϑ)·log(2a) ≤ C·m|Φ_top|b`; the floors
 `ℒ_f` cost `≤ C·m·f·X″·(N_m²·log 2a + log²2a)`; the other parts of `ℒ(p)`, below `X′`, cost at most `C·m|Φ_top|b` by
 LocalGainOfThetaChains §4.17b, the term `b′/x` giving exactly `log 4·X′b′/x·m|Φ_top| = log 4·m|Φ_top|b` (`X′b′ = a = xb`), the only bucket of exact
-order `m|Φ_top|b`. *Unserved tops of a prime outside `Drop`:* they are the tops whose orbit at a linked prime `p < X′` is
-linked and not served; such a `p` is a candidate (the linked non-candidates are in `Drop`), and a candidate none of whose
-linked orbits is good is not dropped: it keeps its operator-free gain and its linked tops are unserved (LocalGainOfThetaChains §4.17). Each costs at most
+order `m|Φ_top|b`. *Unserved tops of a prime outside `Drop`:* they are the tops whose orbit is not served at a prime `p < X′`
+inert in `K` and in `ℚ(√−q)` (`Φ_top(𝔭)` of LocalGainOfThetaChains §4.17a (ii)); such a `p` is a candidate with
+`𝔖(p) ≤ x^{−ε}` (the other such primes are in `Drop`), and a candidate without a good place is not dropped: it keeps its
+operator-free gain and its tops are unserved (LocalGainOfThetaChains §4.17). Each costs at most
 `(4/3)m·a_τ/p`, and (iii) bounds the total by `C·m|Φ_top|a/x = C·m|Φ_top|b`. *Dropped primes* (`g^D = τ_N = 𝔦 = 0`, the whole
-ask charged): the candidates with `𝔖(p) > x^{−ε}` cost `≤ C·m|Φ_top|a·x^{−c_io}` by (ii); the linked primes with orbits shorter
+ask charged): the candidates with `𝔖(p) > x^{−ε}` cost `≤ C·m|Φ_top|a·x^{−c_io}` by (ii); the primes with orbits shorter
 than `x^{ε/4}`, among the primes inert in `K` and in `ℚ(√−q)` with `h_p := c·Frob_p ∈ A` of order `< x^{ε/4}`, and the primes of
-conjugate or odd conjugate type (`h_p` of odd order, LocalGainOfThetaChains §4.9 (a), Checks): the restriction of `h_p`
+conjugate or odd conjugate type (`h_p` of odd order, LocalGainOfThetaChains §4.9 (a), Checks; the primes of odd conjugate type are in
+`Drop` at every size, and their whole ask, which LocalGainOfThetaChains §4.17c leaves to the prime sums, is charged here): the restriction of `h_p`
 to `ℚ_n` is the class of `p` in `(ℤ/2^{n+2})^×/±1 ≅ Gal(ℚ_n/ℚ)` (`c` acts trivially on the real field `ℚ_n`), a cyclic group of
 order `2^n` generated by the class of `5`; its order divides that of `h_p`, so it is `< x^{ε/4}` in the first case and `1` in
 the second; the subgroup of order `J′` (`J′` the largest power of `2` below `x^{ε/4}`) is the image of the classes `≡ 1` modulo
 `2^{n+2}/J′`, so in both cases `p ≡ ±1 (mod 2^{n+2}/J′)`; summing over the integers `≡ ±1` modulo `2^{n+2}/J′ ≥ 2^{n+2}/x^{ε/4}`
 up to `X″` gives `Σ log p/p ≤ 4x^{ε/4}·log X″·(1 + log X″)/2^n ≤ x^{−1}` for `x ≥ x₀`, as `2^n ≥ x²` and
-`log X″ ≤ 2x^{ε/3}`; the linked primes in the band: for each exponent `i ≤ log X′` the primes with `p^i` in the band
+`log X″ ≤ 2x^{ε/3}`; the primes in the band: for each exponent `i ≤ log X′` the primes with `p^i` in the band
 `[(1 − ρ_B)X′, (1 + ρ_B)X′]`, `p ≥ p₀`, lie in an interval of relative width `2ρ_B` around `X′^{1/i}`, so
 `Σ log p/p ≤ log X′·(4ρ_B + 1/p₀)·log(2X′) = o(1/x)`; the primes `p > X″`: no gain is claimed, and since
 `a_τ ≤ a(1 + θ_a)` only the excess of `a_τ` over `a` contributes, at most `2 log(2X″)·(a·θ_a² + w″·θ_a)` per top place and lift,
@@ -775,7 +779,7 @@ which is `o(b)`. *The prime `d`:* `D_ℛ(d) ≤ 2m|Φ_top|a·log d/d ≤ m|Φ_to
 and the served data depend on the top weights only, so one vector of top weights (LocalGainOfThetaChains §4.17c) serves every translate and
 every word.
 
-*NEW*. *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, LocalGainOfThetaChains §4.9, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a, LocalGainOfThetaChains §4.17b, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, 10.1; AnalyticNumberTheoryPartI
+*NEW*. The conclusion: [FormalProof], `Formalism/RankGapBounds/MeanBoundSecondForm.lean` (`Formalism.RankGapBounds.WeightedMeanData.Data.LoP`); (i): [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean` (`Formalism.MainNotions.LinkG_at`); `p₀`: [FormalProof], `Formalism/LocalRingCardinality/DataParams₂.lean` (`Formalism.BasicNotions.Scale.p0`). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, LocalGainOfThetaChains §4.9, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a, LocalGainOfThetaChains §4.17b, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, 10.1; AnalyticNumberTheoryPartI
 §0.11 (Mertens); Mathlib
 `Chebyshev.theta_le_log4_mul_x`.
 
@@ -799,7 +803,7 @@ constant of `𝔐` by a fixed `δ > 0` would make 10.4 false for large `x` (its 
 make 10.4 a consequence of the prime number theorem, carrying no information; `−1` comes from Stirling (GluedTargetAndDivisionInequality §8.10), `−γ` and
 `+(L′/L)(1, χ_K)` from the Chowla–Selberg period (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5), `−mean log w` from the level prime (9.4).
 
-*NEW* (algebra). *Needs:* FrobeniusRestrictedRieszSums §1.1, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5, GluedTargetAndDivisionInequality §8.10, 9.4, 10.1.
+*NEW* (algebra). [FormalProof], `Formalism/RankGapBounds/MeanBoundSecondForm.lean` (`Formalism.RankGapBounds.WeightedMeanData.Data.Main`, `Formalism.RankGapBounds.WeightedMeanData.Data.logOm`, `Formalism.RankGapBounds.WeightedMeanData.Data.DIV`). *Needs:* FrobeniusRestrictedRieszSums §1.1, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5, GluedTargetAndDivisionInequality §8.10, 9.4, 10.1.
 
 ### 10.4 The Frobenius-restricted inequality
 
@@ -919,17 +923,17 @@ and conductor `f_ψ`.
 `ω₀ = 3/4` (the lower bound of the coset profile of the tops, FrobeniusRestrictedRieszSums §0.7; the coset law of the
 selection is then the law of FrobeniusRestrictedRieszSums §1.7 that FrobeniusRestrictedRieszSums §1.9 asks, `4/(3o + 1)` on
 `A₀` and `3/(3o + 1)` on the other cosets); `c_io ≥ 1`, `A_w ≥ 2c_io + 2A_max + 4` and `C_ρ ≥ 1`
-(ThetaChainsOnDefiniteUnitaryGroups §2.3, LocalGainOfThetaChains §4.17); an exponent `c_TO > 352 + 1016ε₀` (the degree `T_O` below); `C_t > c_TO + 22 + 59ε₀` (`SizeT`; it implies
+(ThetaChainsOnDefiniteUnitaryGroups §2.3, LocalGainOfThetaChains §4.17); the constant `C₁` of LocalGainOfThetaChains §4.10a with its
+constraint there (`C₁ = 1` serves); an exponent `c_TO > 352 + 1016ε₀` (the degree `T_O` below); `C_t > c_TO + 22 + 59ε₀` (`SizeT`; it implies
 `C_t ≥ 2A_max + 5/2`, ThetaChainsOnDefiniteUnitaryGroups §2.1); the constants `C_b`, `c_T` of BesselPoincareSeriesAndGramBounds §5.20 with `c_T ≤ 16` (the lower bound for `log T(u)` of 9.4 (d)) and
 `c_T·C_b > 1`, and `C_T ≥ 25` (`SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8, the upper bound of 9.4 (d)); the constant `C_l` of BesselPoincareSeriesAndGramBounds §5.20a (with `C_l ≥ 40` and
 the other constants of its list (St), and `C_m` of BesselPoincareSeriesAndGramBounds §5.20a (c)) with `C_l·c_Θ⁰ ≥ 16`, `c_Θ⁰ := ½·min(18, (c_T·C_b − 1)/4)`;
 then the exponent `c_Θ = ½·min((C_l − 4)/2, (c_T·C_b − 1)/4)` of BesselPoincareSeriesAndGramBounds §5.20, since `Δ_w ≥ (kfx^ε)^{C_l}`
 (10.6b), is at least `c_Θ⁰` (as `C_l ≥ 40`) and the smallness clause `c_Θ·C_l ≥ 16`
-of BesselPoincareSeriesAndGramBounds §5.20 holds; the exponent `C_Δ` of the letter step, with `C_Δ > 4`
-(ThetaChainsOnDefiniteUnitaryGroups §2.3), `C_Δ ≥ C_l` and `C_Δ ≥ C_Δ⁰` (10.6b; `C_Δ⁰` depends only on the other
-constants of this list); `o_δ` with prime-to-`ℓ` part at least `3` for every prime `ℓ` (ThetaChainsOnDefiniteUnitaryGroups §2.4); `C₀ = 3` (ThetaChainsOnDefiniteUnitaryGroups §2.8); `C_Γ ≥ max(C_B, C₄) + 1`
+of BesselPoincareSeriesAndGramBounds §5.20 holds; `o_δ` with prime-to-`ℓ` part at least `3` for every prime `ℓ` (ThetaChainsOnDefiniteUnitaryGroups §2.4); `C₀ = 3` (ThetaChainsOnDefiniteUnitaryGroups §2.8); `C_Γ ≥ max(C_B, C₄) + 1`
 (BesselPoincareSeriesAndGramBounds §5.21); `C_W ≥ 4C_Γ/log 2 + 1` (9.5); `C_deg > c_TO`, the exponent of the degree bound `T ≤ x^{C_deg}` of
-(N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (distinct from the `C_T` of `SizeT_u`); `e_D = 1` (GluedTargetAndDivisionInequality §8.22); the exponent `C_R` of `rd_E` in `SizeGen`
+(N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (distinct from the `C_T` of `SizeT_u`); `e_D = 1` (GluedTargetAndDivisionInequality §8.22); `C_L > 4050`, the
+constant of the length bound `L_th ≤ C_L·log x` of CongruenceModulesOfThetaLifts §7.10c (10.6d); the exponent `C_R` of `rd_E` in `SizeGen`
 (`R_E := rd_E^{C_R}` in (N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a); the width `c_box ∈ [ε₀/8, 1/12)` of the zero-free boxes of QuadraticTwistSelectionOverPrimes
 §2.7c (`c_box = 1/400` in QuadraticTwistSelectionOverPrimes §2.7c (a′)–(c′) and
 QuadraticTwistSelectionOverPrimes §2.7d (ii′)); the depth constant `C_F ≥ 6510` of RowTowerAndRallisIdentities §5.8a;
@@ -937,10 +941,10 @@ and the absolute constants of FrobeniusRestrictedRieszSums §0.7, FrobeniusRestr
 
 *After `ε`, before the scale.* For `ε ∈ (0, ε₀)` put `A_n := 2 + 8ε ∈ (2, A_max)` (the layer exponent of ThetaChainsOnDefiniteUnitaryGroups §2.1, which depends
 on `ε`). Then come: the *window constant* `J ≥ 1`, the constant `J` of the window theorem UniformWildKernelBounds §7.6 for `ψ`,
-`ε` (`0 < ε < ε₀ ≤ 2`), the rank exponent `C_t`, the layer exponent `A_n + 1 = 3 + 8ε` and the bound `3` for the `2`-adic
-valuations of `q + 1`, `d + 1` (the parameters written `κ`, `α`, `a` there; so `J` depends only on `ψ`, `ε` and the constants
-above); the exponent `c_H > 0` of the word count and of the slope range (9.5, 9.6), and the exponent `c_h > 0` of the
-node gap; the predicates of ThetaChainsOnDefiniteUnitaryGroups §2.1 are taken
+`ε` (`0 < ε < ε₀ ≤ 2`), the rank exponent `C_t` and the layer exponent `A_n + 1 = 3 + 8ε` (the parameters written `κ`, `α`
+there; so `J` depends only on `ψ`, `ε` and the constants
+above); the exponent `c_H > 0` of the word count and of the slope range (9.5, 9.6), the exponent `c_Δ > 0` of the letter
+step, and the exponent `c_h > 0` of the node gap; the predicates of ThetaChainsOnDefiniteUnitaryGroups §2.1 are taken
 with these `J` and `c_H`.
 
 *Hosts at a scale `x`*: hosts of FrobeniusRestrictedRieszSums §0.4 for `ψ` with
@@ -959,13 +963,13 @@ with these `J` and `c_H`.
   `L_th ≥ max(2⌈log_{10}(k·x^{2ε}/m)⌉ + 2, 10⌈log₅(|A|·N_m/m)⌉ + 20)` for large `x`. With `P := C_P(f r x^ε)^{12}` (the polynomial of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a) and `D_Y := f·r(r − 1)/2`.
 - *Scale.* The numbers of ThetaChainsOnDefiniteUnitaryGroups §2.1 (`b = e^{x^ε}`, `a = xb`, `X′`, `b′`, `w″`, `X″`, `B₀`, `N_c`), `Γ₀ = exp(C_Γm⁵fx^ε)`, the slope range
   `H = x^{c_H}b`, and a word code with `⌈C₀Γ₀²x^{c_H}⌉` words (9.5; the same exponent `c_H`, 9.6 (b)).
-- *Weights.* `Δ_w := ⌈(kfx^ε)^{C_Δ}⌉`, in the range `(kfx^ε)^{C_Δ} ≤ Δ_w ≤ (kfx^ε)^{C_Δ+1}` of
-  ThetaChainsOnDefiniteUnitaryGroups §2.3,
+- *Weights.* `Δ_w := ⌈x^{c_Δ}⌉` (ThetaChainsOnDefiniteUnitaryGroups §2.3), with an exponent `c_Δ ≥ c_Δ⁰` chosen after `ε`, the
+  constants and `c_H`, and before `c_h`,
   `h_gap := ⌈x^{c_h}⌉`, `h₀ := 2h_gap`, `ϑ := m·h₀ + |μ_E|`, and for each translate `u₀`
   the adapted, separated datum of ThetaChainsOnDefiniteUnitaryGroups §2.3a with these numbers: `v_l(τ) = (k − 2 − l)·4Δ_w`; off the tops
-  `u_0(τ) = v_0(τ) + ½` and `u_{k−1}(τ) = −½`, at a top `u_0(τ) = a_τ + (k − 1)/2` and `u_{k−1}(τ) = −a⁻_τ − (k − 1)/2`, the inner entries given by the word
+  `u_0(τ) = v_0(τ) + 4kΔ_w + ½` (that is `v_0(τ) + Sc + ½`) and `u_{k−1}(τ) = −½`, at a top `u_0(τ) = a_τ + (k − 1)/2` and `u_{k−1}(τ) = −a⁻_τ − (k − 1)/2`, the inner entries given by the word
   (ThetaChainsOnDefiniteUnitaryGroups §2.3); nodes `e′_i(τ) = b₁(τ) + i·h₀` (`0 ≤ i < m`) and step weights `w_{u₀,j}(τ) = b₁(τ) + (j − ½)h₀` (`1 ≤ j ≤ m`, the indexing
-  of ThetaChainsOnDefiniteUnitaryGroups §2.3), with `b₁(τ) = ⌈a⁻_τ + b′/x⌉` at the tops (`a⁻_τ` an integer), `⌈w″⌉` at the thin places, and `⌈b⌉` at the thick places of `u₀` except one,
+  of ThetaChainsOnDefiniteUnitaryGroups §2.3), with `b₁(τ) = a⁻_τ + ⌊b′/x⌋` at the tops (`a⁻_τ` an integer), `⌈w″⌉` at the thin places, and `⌈b⌉` at the thick places of `u₀` except one,
   where `b₁ = ⌈b⌉ + s` with `0 ≤ s < |μ_E|` fixed by the unit condition (ThetaChainsOnDefiniteUnitaryGroups §2.3a; it then holds for every step weight, because
   `∏_{τ∈Φ}τ(ζ) = N_{E/K}(ζ) = 1` for every root of unity `ζ` of `E`, ThetaChainsOnDefiniteUnitaryGroups §2.3 (g)); top weights `a_τ ∈ [a, a(1 + θ_a)]`,
   `θ_a = 1/(k·x^{A_w/2})`, and `a⁻_τ ∈ [b′, b′ + Δ_b]`, chosen as in LocalGainOfThetaChains §4.17c.
@@ -975,10 +979,12 @@ with these `J` and `c_H`.
 - *Primes.* Type primes `g₀, g₁ ∈ (Y_g, 2Y_g]` of ThetaChainsOnDefiniteUnitaryGroups §2.7 (a) for `Y_g := (kb)^8`, with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅`; auxiliary primes
   `p_δ, p′_δ` of ThetaChainsOnDefiniteUnitaryGroups §2.7 (b); for each translate and word, the level prime `T(u)` of ThetaChainsOnDefiniteUnitaryGroups §2.8.
 
-*The order of the choices.* (1) The constants above, among them the exponent `C_Δ` of the letter step. (2) `ε`, and with it `A_n = 2 + 8ε`. (3) The window constant `J` (which
+*The order of the choices.* (1) The constants above. (2) `ε`, and with it `A_n = 2 + 8ε`. (3) The window constant `J` (which
 depends on `ψ`, `ε` and the constants of (1) only), the threshold `x₁(ψ, 3, 4, ε)` of FrobeniusRestrictedRieszSums §1.9, the exponent `c_H ≥ c_H⁰` (9.6 (b): `c_H⁰`
-may depend on `ε` and on these constants); then the exponent `c_h ≥ c_h⁰` of the node gap (`c_h⁰` depends on `ε` and on
-the constants of (1)); then the threshold `x₀`. (4) The scale `x`. (5) At `x`, shared by all translates: the host and its
+may depend on `ε` and on these constants); then the exponent `c_Δ ≥ c_Δ⁰` of the letter step (`c_Δ⁰` depends on `ε`, on
+the constants of (1) and on `c_H`), and with it the exponent `C_S` of `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b);
+then the exponent `c_h ≥ c_h⁰` of the node gap (`c_h⁰` depends on `c_Δ`, hence on `c_H`);
+then the threshold `x₀`. (4) The scale `x`. (5) At `x`, shared by all translates: the host and its
 tops, `k, m, t`, `T_O`, the thick set, the top weights (one vector, LocalGainOfThetaChains §4.17c), the word code (9.5), the type and auxiliary
 primes, and the numerical data of the grid that depend on these (RowTowerAndRallisIdentities §5.8a: `s`, `p_□`, `d_□`). (6) For
 each translate `u₀ ∈ A₀` independently: (6a) the step weights `w_{u₀,j}` (the thick places depend on `u₀`), the
@@ -995,7 +1001,7 @@ allows, and the lattices of the chain.
 *Check.* One admissible choice: `ε₀ = 1/52` (so `A_max = 28/13`), `A_n = 2 + 8ε`, `ω₀ = 3/4`, `c_io = 1`, `A_w = 26`,
 `c_TO = 377`, `C_t = 401`, `c_T = 16`, `C_b = 1`, `C_l = 40` (then `c_Θ⁰ = 15/8` and `C_l·c_Θ⁰ = 75 ≥ 16`), `C_T = 25`,
 `C_R = 7` (the value of the construction of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a; whether a smaller value serves is not
-decided here), `c_box = 1/400` (`≥ ε₀/8 = 1/416`), `C_deg = 378`, `o_δ = 15`; then
+decided here), `c_box = 1/400` (`≥ ε₀/8 = 1/416`), `C_deg = 378`, `o_δ = 15`, `C_L = 4051`; then
 `m ≍ x^{1/2−ε/16}`, `k ≍ x^{9/2+10ε}`, `n_W ≍ x^{21.5+58.0625ε}`,
 `t ≤ x^{398.5+58.0625ε+o(1)} ≤ x^{400}`, the binding lower bound for `T_O` has exponent `352 + 1015.0625ε < 371.6 < 377`, and
 `log T(u) = (17 + o(1))m x^ε`. In the construction of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a the further lower bounds that the generation by theta series
@@ -1003,14 +1009,24 @@ asks of `T_O` are `(D_Y + 2)n_W + 2r`, `40(D_Y + 2)`, `11D_Y²`, `r + 2500r(D_Y 
 `A_n ≤ 2` is not admissible: then `m⁵|A| ≥ |A|²x^{1/2}` for `m ≍ √x`, and no `k` satisfies both the word count of 9.5 and
 `SizeK`. A choice `t ≤ 2(k + m + 4)` violates (R5) as soon as `f ≥ 1`.
 
-*NEW* (definition). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.15, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17c, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.21,
-ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.22, 9.4, 9.5, 9.6; RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i; UniformWildKernelBounds §7.6; QuadraticTwistSelectionOverPrimes
+*NEW* (definition). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.10a, LocalGainOfThetaChains §4.15, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17c, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.21,
+CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.22, 9.4, 9.5, 9.6; RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i; UniformWildKernelBounds §7.6; QuadraticTwistSelectionOverPrimes
 §§2.7c, 2.7d.
 
 ### 10.6a The size predicates
 
-*Statement.* With the constants of 10.6, `ε ∈ (0, ε₀)`, `J ≥ 1` and
-`c_h > 0`, there is `x₀(ψ, ε, J, c_h)` such that for `x ≥ x₀`, every host with (h1)–(h5) and the choices of 10.6 at `x`: the rank conditions
+*Statement.* [FormalProof] establishes the size conditions of 10.6a–10.6d for one choice of constants (`ε₀ = 1/52`,
+`C_t = 401`, `c_TO = 377`, `A_w = 26`, `C_T = 25`, `c_T = 1/2`, `c_box = 1/400`, `C_R = 7`, `C₀ = 3`: the choice of the Check of
+10.6, except that the Check takes `c_T = 16`) and for the values of `u_0(τ)`, `Δ_w`, `L_th` and `b₁(τ)` stated in 10.6; for the
+other admissible constants they are this roadmap's arithmetic. Their clauses with no counterpart among the size conditions
+of [FormalProof] are this roadmap's own: `SizeSc`, the second clause of `SizeDep`, `SizeThin` and the row sizes `b ≥ 100`,
+`2(η_s + t + 1) + Sc ≤ b/10`, `20·max(w_max, η_s + t + 1, Sc) ≤ b`, `r/ℓ_A ≤ 2m/x^ε`, `(3 + log ℓ_A)² ≤ x^ε`,
+`k ≥ x²·s_max³·log a`, `N_m²·w″ ≤ b`, `(N_m² + m·k)·b′ ≤ a`, `k·(Sc + η_w)·x^ε ≤ m·b` and the count `20r³ < Y_g^{3/20}`; they are
+elementary comparisons of the kinds (K1)–(K3), true at the values of 10.6 for large `x`, and the targets that use them belong
+to the other roadmaps of the chain.
+
+With the constants of 10.6, `ε ∈ (0, ε₀)`, `J ≥ 1`, `c_Δ > 0` and
+`c_h > 0`, there is `x₀(ψ, ε, J, c_Δ, c_h)` such that for `x ≥ x₀`, every host with (h1)–(h5) and the choices of 10.6 at `x`: the rank conditions
 (R1)–(R5) of ThetaChainsOnDefiniteUnitaryGroups §2.1; the host predicates `SizeA`, `SizeN`, `SizeD`, `SizeRd`, `SizeQD`, `SizeInert` of ThetaChainsOnDefiniteUnitaryGroups §2.1 (from (h1)–(h4)), so
 `d ≥ x²`, and `SizeDep` (ThetaChainsOnDefiniteUnitaryGroups §2.1, `C_dep = 11`); the parameter predicates `SizeM`, `SizeK`, `SizeW`, `SizeMf`, `SizeT`, `SizeTheta` of ThetaChainsOnDefiniteUnitaryGroups §2.1;
 `2^n ≥ x²` and `2^n ≥ |A|·x^{−ε/100}`; `q, d > x^{2C_t+5}`; the cost conditions of FrobeniusRestrictedRieszSums §1.7, the
@@ -1040,77 +1056,80 @@ and `t ≤ 2T_O·n_W ≤ x^{C_t}` (exponent `c_TO + 21.5 + 58.0625ε + o(1)` aga
 gives `|𝒯| ≥ x^{−ε}|A|`; (h3), (h4) give the inert bound of LocalGainOfThetaChains, `d ≥ x²` (10.2), `q, d > x^{2C_t+5}` and `SizeD` (ThetaChainsOnDefiniteUnitaryGroups §2.1),
 and `|log Ω| ≤ La` (GluedTargetAndDivisionInequality §8.22). `SizeDep` is the Lemma of ThetaChainsOnDefiniteUnitaryGroups §2.1 for the hosts of FrobeniusRestrictedRieszSums §0.4: `q` and `d` divide `f_E`, so
 `log(qd) ≤ log f_E ≤ 2x^{ε/5}log²x ≤ m` by (h2) and `m ≥ x^{1/2−ε/16}`; the primes of `S_small` (ThetaChainsOnDefiniteUnitaryGroups §2.1) divide `2f_ψ`, because
-`f_E = lcm(2^{n+2}, f_ψ)·q·d` (FrobeniusRestrictedRieszSums §0.4 API (c)); at such a prime `ℓ` the different exponent of `E` divided by the ramification index
-is the mean of the conductor exponents at `ℓ` of the characters of `G` (ClassFieldTheory §13.1,
-`count_relDiscr_eq_finsum_abelianConductor_exponent`, with NumberFieldArithmetic §5.10), at most
-`v_ℓ(f_E) ≤ n + 2 + log₂f_ψ`, and `2^n ≤ |A| ≤ 2x^{A_n}`; so `vd ≤ max_{ℓ∈S_small} v_ℓ(f_E)` and
-`(Σ_{ℓ∈S_small} log ℓ)·(2 + max_{ℓ∈S_small} v_ℓ(f_E)) ≤ log(2f_ψ)·(5 log x + log₂f_ψ + 4)`, which is at most `11x^ε` for
-`x ≥ x₀`. *The window `ϑ` and FrobeniusRestrictedRieszSums §1.7.* `ϑ = m·h₀ + |μ_E|` is polynomial in `x` (`h₀ ≤ 4x^{c_h}`;
+`f_E = lcm(2^{n+2}, f_ψ)·q·d` (FrobeniusRestrictedRieszSums §0.4 API (c)), so `Q_S = lcm(2^{n+2}, f_ψ)` divides `2^{n+2}f_ψ` and
+`vd = log₂ Q_S ≤ n + 2 + log₂f_ψ` (at `ℓ ∈ S_small`, `vd ≥ v_ℓ(f_E)`, at least the different exponent of `E` divided by the
+ramification index, the mean of the conductor exponents at `ℓ` of the characters of `G`: ClassFieldTheory §13.1,
+`count_relDiscr_eq_finsum_abelianConductor_exponent`, with NumberFieldArithmetic §5.10), and `2^n ≤ |A| ≤ 2x^{A_n}`;
+so `(Σ_{ℓ∈S_small} log ℓ)·(2 + vd) ≤ log(2f_ψ)·(5 log x + log₂f_ψ + 4)`,
+which is at most `11x^ε` for `x ≥ x₀`. *The window `ϑ` and FrobeniusRestrictedRieszSums §1.7.* `ϑ = m·h₀ + |μ_E|` is polynomial in `x` (`h₀ ≤ 4x^{c_h}`;
 `φ(|μ_E|) ≤ 2f`), of a degree that depends on `c_h`, so `SizeTheta`, `ϑ ≤ w″/x` and the cost conditions of
 FrobeniusRestrictedRieszSums §1.7 (`6f(x + 1)(ϑ + 1) ≤ b/x`, and `2f(x + 1)·s_th ≤ 1/x` for the saving
-`s_th = e^{−x^{ε/8}}` of 10.7 (a) (ii)) hold for `x ≥ x₀(ψ, ε, J, c_h)`: this is why the threshold depends on `c_h`.
-*Primes.* `Y_g = (kb)^8` satisfies the hypotheses of ThetaChainsOnDefiniteUnitaryGroups §2.7 (a) by (h2); the
+`s_th = e^{−x^{ε/8}}` of 10.7 (a) (ii)) hold for `x ≥ x₀(ψ, ε, J, c_Δ, c_h)`: this is why the threshold depends on `c_h`
+(and, through `Sc` in `SizeTheta`, on `c_Δ`). *Primes.* `Y_g = (kb)^8` satisfies the hypotheses of ThetaChainsOnDefiniteUnitaryGroups §2.7 (a) (`d ≥ 100` by
+`SizeD`; `log(d f_E²) ≤ 6x^{ε/5}log²x` by (h2) against `log Y_g ≥ 8x^ε`, so that its count `c₂Y_g/((d f_E²)^{A_gap} log Y_g)`, with the
+absolute exponent `A_gap`, is at least `Y_g^{9/10}`); the
 disjointness `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` is possible because at most `(3r + 1)(1 + 2r²(Y_g^{3/4} + 1))` primes of `(Y_g, 2Y_g]` meet
 `𝔅(r, g₁)`, fewer than the primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (a) there; the hypothesis `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 (`16·m·x^ε ≤ log T*(u)`,
 `log T*(u) + 1 ≤ C_T·m·x^ε ≤ x`) is 9.4 (d), with `C_T ≥ 25`; `g_i ≡ 1 (mod f_E)` and `g_i ≤ 2(kb)^8 ≤ b⁹`.
 
-*NEW* (elementary). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.7, FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, 9.4, 10.6, 10.7; ClassFieldTheory §13.1; NumberFieldArithmetic §5.10.
+*NEW* (elementary). With the constants of its head: (R1)–(R5), [FormalProof], `Formalism/LocalRingCardinality/Params.lean` (`Formalism.BasicNotions.Ranks`); `log(qd) ≤ m`, [FormalProof], `Development/AbelianVarietyTheory/Proofs/FoundationProofs/ThreeLeScaleOfPowBound.lean` (`GlobalTheory.IndexAssembly.SizeRows`); the windows of `m` and `k`, `SizeTheta` and the cost conditions, [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Win_at`). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.7, FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, 9.4, 10.6, 10.7; ClassFieldTheory §13.1; NumberFieldArithmetic §5.10.
 
 ### 10.6b The weight datum
 
-*Statement.* There is `C_Δ⁰`, depending only on the constants of 10.6 other than `C_Δ`, such that, with the constants of
-10.6 and `C_Δ ≥ C_Δ⁰`, for `ε ∈ (0, ε₀)`, `J ≥ 1` and `c_H > 0` there is `c_h⁰`, depending on `ε` and on the constants
-fixed before `ε`, and for every `c_h ≥ c_h⁰` a threshold `x₀(ψ, ε, J, c_H, c_h)`,
+*Statement.* With the constants of 10.6, `ε ∈ (0, ε₀)`, `J ≥ 1` and `c_H > 0`, there is `c_Δ⁰`, depending on `ε`, on the
+constants fixed before `ε` and on `c_H`, for every `c_Δ ≥ c_Δ⁰` there is `c_h⁰`, depending on `c_Δ`, `c_TO` and the constants
+fixed before `ε`, and for every `c_h ≥ c_h⁰` a threshold `x₀(ψ, ε, J, c_H, c_Δ, c_h)`,
 such that for `x ≥ x₀`, every host with (h1)–(h5) and the choices of 10.6 at `x`: the hypotheses of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `SizeGap`, `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3c); the lower
 bounds that ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9 (consecutive entries of the row parameter at least `100r⁴`), BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, CongruenceModulesOfThetaLifts §7.10a and
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (N1) ask of `Δ_w`, `h₀` and `h_gap`, among them `Δ_w ≥ (T_O + D_Y + 2)(T_O + D_Y + 2 + 2N_m)` and
-`h₀ ≥ 4T_O² + t + 1`; the further lower bounds `Δ_w ≥ x^{ε/100}·m·N_m`, `h₀ ≥ k·t·x^ε`, `h₀ ≥ x^{ε/100}·k·m^{9/2}` and
-`h₀ ≥ N_m·m^{10}` (polynomials in `x`: they hold for `C_Δ ≥ C_Δ⁰`, resp. `c_h ≥ c_h⁰`); the range of `Δ_w` of
-ThetaChainsOnDefiniteUnitaryGroups §2.3; `√b ≤ w″` (kind (K3)), and
+`h₀ ≥ 4T_O² + t + 1`; the further lower bounds `Δ_w ≥ k^{C}(C·m)³·(x^{c_H}/6)^{C}` (the bound for `Δ_w` in
+`c_H`, with a constant `C` fixed before `ε`), `Δ_w ≥ x^{ε/100}·m·N_m`, `h₀ ≥ k·t·x^ε`, `h₀ ≥ x^{ε/100}·k·m^{9/2}` and
+`h₀ ≥ N_m·m^{10}` (polynomials in `x`: they hold for `c_Δ ≥ c_Δ⁰`, resp. `c_h ≥ c_h⁰`); the upper bound
+`log Δ_w ≤ x^{ε/4}/2` of ThetaChainsOnDefiniteUnitaryGroups §2.3; `√b ≤ w″` (kind (K3)), and
 `w_j(τ) ≤ X″·w_{j′}(τ′)` for all steps `j, j′` and places `τ, τ′` (its verification at the parameters is not given here);
 the cut of BesselPoincareSeriesAndGramBounds §5.18a at the letter, of length `Δ_w − 4` (9.5 (a)); (St) of BesselPoincareSeriesAndGramBounds §5.20a with `C_l ≥ 40`,
-`C_u·log b ≤ m − 1` and `m ≥ C_m`, at the weight datum of 10.6, the adapted, separated datum of
-ThetaChainsOnDefiniteUnitaryGroups §2.3a (off the tops `u_0(τ) = v_0(τ) + ½` and `u_{k−1}(τ) = v_{k−2}(τ) − ½`), and the hypotheses of BesselPoincareSeriesAndGramBounds §5.20 for every pair of distinct words (the ratios of two words by
+`C_u·log b ≤ m − 1` and `m ≥ C_m`, at the weight datum of 10.6, which has `Sc ≤ u_0(τ) − v_0(τ)` at every place and
+`u_0(τ) − v_0(τ) ≤ 2Sc`, `u_{k−1}(τ) = v_{k−2}(τ) − ½` off the tops (the adapted data of ThetaChainsOnDefiniteUnitaryGroups
+§§2.3a, 2.3b), and the hypotheses of BesselPoincareSeriesAndGramBounds §5.20 for every pair of distinct words (the ratios of two words by
 9.4 (c), the window of ThetaChainsOnDefiniteUnitaryGroups §2.8 with ThetaChainsOnDefiniteUnitaryGroups §3.8; `C_l·log b ≤ f·log k`, under which the smallness clause `c_Θ·C_l ≥ 16` of 10.6 gives the
-bound `b^{−7}` of BesselPoincareSeriesAndGramBounds §5.20) and of BesselPoincareSeriesAndGramBounds §5.21 for every word, with `e_diag < 1 − δ_old(u)`; the hypotheses of BesselPoincareSeriesAndGramBounds §5.23 with
-`min(q, d) ≥ exp(x^{ε/(6J)})`, so that `δ_bad ≤ exp(−x^{ε/(7J)})`. In particular `Δ_w`, `ϑ` and `h₀` are polynomial in `x`.
+bound `b^{−7}` of BesselPoincareSeriesAndGramBounds §5.20) and of BesselPoincareSeriesAndGramBounds §5.21 for every word, with `e_diag < 1 − δ_old(u)`; the hypotheses of BesselPoincareSeriesAndGramBounds §5.23 (among them
+`g₁ > 4r`) with `min(q, d) ≥ exp(x^{ε/(6J)})`, so that `δ_bad ≤ exp(−x^{ε/(7J)})`. In particular `Δ_w`, `ϑ` and `h₀` are polynomial in `x`.
 
 *Route.* The lower bounds for `Δ_w` and for `h₀` by polynomials in `x` (*kind (K2)*): those for `Δ_w` are `(kfx^ε)^{C_l}`,
-`T_O²`, `(T_O + D_Y + 2)(T_O + D_Y + 2 + 2N_m)`, `N_m·m^{10}`, `(N_m·f·x^ε)^{C}` and `x^{ε/100}·m·N_m`, with
-constants `C` fixed before `ε`: polynomials in `x` whose exponents are linear in `ε` with coefficients fixed before `ε`
-(`T_O ≤ 2x^{c_TO}`, `N_m ≤ x^{C_t + 2}`), hence at most a constant fixed before `ε` as `ε < ε₀`, while `kf ≥ x^{13/2}`; so they
-hold for `C_Δ ≥ C_Δ⁰` and `x ≥ x₀`. Those for `h₀` involve `Δ_w` (through `b/ℓ* = D_*/m`) and hold for `c_h ≥ c_h⁰`. The upper
+`T_O²`, `(T_O + D_Y + 2)(T_O + D_Y + 2 + 2N_m)`, `N_m·m^{10}`, `(N_m·f·x^ε)^{C}`, `k^{C}(C·m)³·(x^{c_H}/6)^{C}` and
+`x^{ε/100}·m·N_m`, with constants `C` fixed before `ε`: polynomials in `x` whose exponents depend on `ε`, on the constants and
+on `c_H`; they hold for `c_Δ ≥ c_Δ⁰`. `Sc = 4kΔ_w` is polynomial in `x`, so `SizeSc` holds for the exponent `C_S` chosen with
+`c_Δ` (10.6). Those for `h₀` involve `Δ_w` (through `b/ℓ* = D_*/m`) and hold for `c_h ≥ c_h⁰`. The upper
 bounds for `Δ_w`, `Sc`, `ϑ`, `h₀` and the comparisons with `q, d, f_E, X′, w″, b′, b, g_i, T(u)` (*kind (K3)*) each compare a
 quantity at most `e^{Cx^{ε/5}log²x}·x^{C}` or `e^{x^{ε/4}}` with `X′ = e^{x^{ε/3}}`, or a quantity at most `X′·e^{x^{ε/4}}·x^{C}`
 with `√b`; they hold for `x ≥ x₀` because `ε/5 < ε/4 < ε/3 < ε`. The upper bounds for `Δ_w`, `Sc`, `ϑ`, `h₀` are
-`log Δ_w ≤ x^{ε/4}/2`, `log ϑ ≤ x^{ε/4}` and comparisons with `w″`, `b′`, `X′`. The letter step is bounded above by a fixed
-power of `x`: `(kfx^ε)^{C_Δ} ≤ Δ_w ≤ (kfx^ε)^{C_Δ} + 1 ≤ (kfx^ε)^{C_Δ+1}` is the range of ThetaChainsOnDefiniteUnitaryGroups §2.3, and,
-as `k ≤ 2x^{A_max+3}`, `f ≤ 4x^{A_max}` and `x^ε ≤ x`, `Sc = 4kΔ_w ≤ x^{C_S}` with `C_S := (C_Δ + 1)(2A_max + 5)` for `x ≥ x₀`, which is
-`SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), both with exponents fixed before `ε`. No condition bounds `h₀` or `ϑ` above by a fixed power of `x`, so the
-order `c_H`, then `c_h`, then `x₀` is consistent. *Weights.* ThetaChainsOnDefiniteUnitaryGroups §2.3a constructs the datum (nodes in arithmetic progression of step `h₀`; the unit condition by
+`log Δ_w ≤ x^{ε/4}/2`, `log ϑ ≤ x^{ε/4}` and comparisons with `w″`, `b′`, `X′`; no condition bounds them above by a fixed
+power of `x`, so the order `c_H`, then `c_Δ`, then `c_h`, then `x₀` is consistent. *Weights.* ThetaChainsOnDefiniteUnitaryGroups §2.3a constructs the datum (nodes in arithmetic progression of step `h₀`; the unit condition by
 one residue at one thick place, which exists because `μ_E` is cyclic and `τ₁` maps a generator of it to a generator); off
-the tops `u_0(τ) − v_0(τ) = ½` and `u_{k−1}(τ) = −½ = v_{k−2}(τ) − ½`; the
+the tops `u_0(τ) − v_0(τ) = Sc + ½` and `u_{k−1}(τ) = −½ = v_{k−2}(τ) − ½`, and at a top `u_0(τ) − v_0(τ) ≥ a − Sc ≥ Sc`; the
 lower bounds that ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3 (`SizeGap`), RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9, BesselPoincareSeriesAndGramBounds §5.13, CongruenceModulesOfThetaLifts §7.10a and ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (N1) ask of `h₀` and `h_gap` are polynomials in `x`
 (among them `t + 2N_m³ + 1`, `4b/ℓ* + t + 6`, `120r³`, `C r^{19}f^5 x^ε`, `100r⁴`, `4T_O² + t + 1`), so they hold for
 `c_h ≥ c_h⁰`. The nodes are at least `w″`, which exceeds every polynomial in `x`, so `e′_j(τ) ≥ k^{C_b}` and
 `C_l·m·k·Δ_w ≤ e′_j(τ)`. *Loops (BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b).* `C_u·log b = C_u·x^ε ≤ m − 1` and `m ≥ C_m` because `m ≥ x^{1/2−ε/16}` and `ε < 1/52`.
 *The two words of BesselPoincareSeriesAndGramBounds §5.20.* 9.4 (c) gives `T(u)/T(u′) ≤ A_V` and the Vandermonde products within `A_V^k` for the absolute `A_V`; 9.4 (d)
 gives `T(u) ≥ b^{16m} ≥ b^{c_T m}`; 9.5 (a) gives the cut; `C_l·log b = C_l·x^ε ≤ f·log k` because `f ≥ 2x^{A_n}`. *BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23.* `e_diag = 2C₀/Γ₀ + 2e^{−kf log k}` and
-`δ_old(u) ≤ 2f/X′` are smaller than any negative power of `x`; `min(q, d) ≥ exp(x^{ε/(6J)})` by (h4).
+`δ_old(u) ≤ 2f/X′` are smaller than any negative power of `x`; `min(q, d) ≥ exp(x^{ε/(6J)})` by (h4); `g₁ > (kb)^8 > 4r`.
 
-*NEW* (elementary). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9, BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, CongruenceModulesOfThetaLifts §7.10a,
+*NEW* (elementary). With the constants of the head of 10.6a: the unit condition of the datum, [FormalProof], `Development/AutomorphicArithmetic/WeightCongruences/ProdNegOneZpow.lean` (`UpperTheory.MUQ`); `SizeSep` with `ℓ*`, `D_*`, `ℓ_A`, [FormalProof], `Formalism/LocalRingCardinality/DataParams.lean` (`Formalism.BasicNotions.LevelStarExponents.lStar`); `e_diag`, `δ_old(u)` and `δ_bad`, [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean` (`Formalism.MainNotions.LinkIRR`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9, BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, CongruenceModulesOfThetaLifts §7.10a,
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, 9.4, 9.5, 10.6.
 
 ### 10.6c The gain parameters
 
-*Statement.* With the constants of 10.6, `ε ∈ (0, ε₀)`, `J ≥ 1` and
-`c_h > 0`, there is `x₀(ψ, ε, J, c_h)` (it depends on `c_h` through `ϑ`) such that for `x ≥ x₀`, every host with (h1)–(h5) and
+*Statement.* With the constants of 10.6, `ε ∈ (0, ε₀)`, `J ≥ 1`, `c_Δ > 0` and
+`c_h > 0`, there is `x₀(ψ, ε, J, c_Δ, c_h)` (it depends on `c_h` through `ϑ`) such that for `x ≥ x₀`, every host with (h1)–(h5) and
 the choices of 10.6 at `x`: the size conditions
-of LocalGainOfThetaChains §4.10 and LocalGainOfThetaChains §4.16a (`k·Sc + m(t + 1)(ϑ + 1) + k·N_m ≤ min(w″, b′/x)`, `2 log_p(2kb) + 2 ≤ k − 1` at the primes inert in `K`,
+of LocalGainOfThetaChains §4.10 and LocalGainOfThetaChains §4.16a (`k·Sc + m(t + 1)(ϑ + 1) + k·N_m ≤ min(w″, b′/x)`, `X″ ≤ a`, `2·log_5(a²) + 2 ≤ k − 1`,
+`|ν_j(τ)| ≤ a²` for every step `j` and place `τ` (its verification at the parameters is not given here),
 `T(u) > 2(Λ_j(τ)_a − Λ_j(τ)_b + N_j)`); the hypotheses of LocalGainOfThetaChains §§4.15d–4.15f and LocalGainOfThetaChains §4.17, including `SizeA` with `A_n`, `L₂ ≤ L_b`,
 `ρ_B ≤ x^{−2}`, the band condition `2δ_I ≤ ρ_B` of LocalGainOfThetaChains §4.15f at the good places (with `Y_b|𝔗_v|Λ_logb′/k ≤ Δ_b ≤ b′/2`), the tile
 condition `(M₀ + 1)(6r_G + 1)⌈1/δ_top⌉ ≤ x^{ε/4}`, `n′_pδ_topω₀ ≥ 4r_G` at the candidates, the two conditions of LocalGainOfThetaChains §4.17c on
-`Y_I = x^{A_w/2}` and `Y_II = x^{A_w}`, and the bound on `Z_bad` of LocalGainOfThetaChains §4.17d; and `k ≥ x²·s_max³·log a`, `Λ_log ≤ x^{2ε}` and
+`Y_I = x^{A_w/2}` and `Y_II = x^{A_w}`, and the bound on `Z_bad` of LocalGainOfThetaChains §4.17d with its hypotheses `ω₀ ≥ 3/4` and
+`δ_top|A| ≥ 36o²/ω₀²`; and `k ≥ x²·s_max³·log a`, `Λ_log ≤ x^{2ε}` and
 `X″·(Sc + k + ϑ)·log(2a) ≤ b` (10.2); and the size conditions `x^ε ≤ Λ_log`, `4Sc ≤ Λ_log·b′/k` and
 `4x^{ε/100}·k²·Δ_w ≤ Λ_log·b′` (their verification at the parameters is not given here).
 
@@ -1122,35 +1141,35 @@ fail if the exponent of the candidates' orbit length were at most that of `1/δ_
 `⌈1/δ_top⌉ = ⌈x^{ε/8}⌉`): any pair of exponents `c₁ < c₂ < 1` in place of `1/8 < 1/4` serves; the conditions of LocalGainOfThetaChains §4.17c
 hold because `A_w ≥ 2c_io + 2A_max + 4` (the quantities `m|Φ_top|s_max·x^{c_io+2ε}log X′` and
 `m|Φ_top|r_G²k·x^{c_io+2ε}log X′` are at most `x^{1/2+A_n+c_io+3ε}` and `x^{3+2A_n+c_io+5ε}` for large `x`); `L₂ ≤ L_b` because
-`L₂` is a maximum over the primes `p < p₀` inert in `K` (LocalGainOfThetaChains §4.17), and every such `p` has `p ≥ x^{c_s}` by (h3) and `k·Y_II ≤ x^{A_w+5}`, so `L₁(p) = ⌈4·log_p(k·Y_II)⌉ ≤ ⌈4(A_w + 5)/c_s⌉`;
+`L₂` is a maximum over the primes inert in `K` and in `ℚ(√−q)` (LocalGainOfThetaChains §4.17), and every such `p` has `p ≥ x^{c_s}` by (h3) and `k·Y_II ≤ x^{A_w+5}`, so `L₁(p) = ⌈4·log_p(k·Y_II)⌉ ≤ ⌈4(A_w + 5)/c_s⌉`;
 `k ≥ x^{9/2}` and `s_max ≤ C(ε)·log x` give `k ≥ x²·s_max³·log a`; the conditions of LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.16a and
-`X″·(Sc + k + ϑ)·log(2a) ≤ b` compare polynomials in `x` (or `X″` times one, `X″ ≤ X′·x^C`) with `w″`, `b′/x` or `b`, and
-`T(u) ≥ b³`, so they are of kind (K3).
+`X″·(Sc + k + ϑ)·log(2a) ≤ b` compare polynomials in `x` (or `X″` times one, `X″ ≤ X′·x^C`) with `w″`, `b′/x`, `b` or `a`, and
+`T(u) ≥ b³`, so they are of kind (K3), except `2·log_5(a²) + 2 ≤ k − 1`, of kind (K1) (`log a ≤ 2x^ε`, `k ≥ x^{9/2}`), and
+`|ν_j(τ)| ≤ a²` (not given here); `ω₀ = 3/4` (10.6), and `δ_top|A| ≥ x^{2+7ε} ≥ 64o² = 36o²/ω₀²` for large `x`.
 
-*NEW* (elementary). *Needs:* LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.15d, LocalGainOfThetaChains §4.15e, LocalGainOfThetaChains §4.15f, LocalGainOfThetaChains §4.16a, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17b, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, 10.2, 10.6.
+*NEW* (elementary). With the constants of the head of 10.6a: `p₀ = k²x^{A_w}`, [FormalProof], `Formalism/LocalRingCardinality/DataParams₂.lean` (`Formalism.BasicNotions.Scale.p0`). *Needs:* LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.15d, LocalGainOfThetaChains §4.15e, LocalGainOfThetaChains §4.15f, LocalGainOfThetaChains §4.16a, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17b, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, 10.2, 10.6.
 
 ### 10.6d The size conditions of the congruence modules, the target and the frame
 
 *Statement.* With the constants of 10.6, `ε ∈ (0, ε₀)`,
-`J ≥ 1`, `c_h > 0` and `c_H ≥ c_H⁰`, there is `x₀(ψ, ε, J, c_h, c_H)` such that for `x ≥ x₀`, every host with (h1)–(h5) and the
+`J ≥ 1`, `c_Δ > 0`, `c_h > 0` and `c_H ≥ c_H⁰`, there is `x₀(ψ, ε, J, c_Δ, c_h, c_H)` such that for `x ≥ x₀`, every host with (h1)–(h5) and the
 choices of 10.6 at `x`: those of CongruenceModulesOfThetaLifts §7.10a on the thresholds and on the length `L_th`, among them its depth hypothesis
-(for every prime `ℓ ≥ 11` some `j ≥ 0` with `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`), the comparisons that the sum CongruenceModulesOfThetaLifts §7.10c uses
+(for every prime `ℓ ≥ 11` some `j ≥ 0` with `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`) and the length bound `L_th ≤ C_L·log x` of
+CongruenceModulesOfThetaLifts §7.10c (`C_L` of 10.6), the comparisons that the sum CongruenceModulesOfThetaLifts §7.10c uses
 (`r + t ≤ N_m + t`, `r ≤ 2k`, `k·|A|²·x^ε ≤ D_*`, `r/ℓ_A ≤ 2m/x^ε`, `(3 + log ℓ_A)² ≤ x^ε`), `SizeThin` of CongruenceModulesOfThetaLifts §7.6 (a)
 (`x·r·(Sc + 2η_s + 2σ⁺ + t + x^ε + 4) ≤ m·w″`, `σ⁺ = ⌊2b/ℓ*⌋`), and the sizes that its rows use (`b ≥ 100`,
 `2(η_s + t + 1) + Sc ≤ b/10` and `20·max(w_max, η_s + t + 1, Sc) ≤ b`); `f² ≤ rd_E` and `r ≥ 8`; the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.6 at `L = x^ε`
 (`r ≥ 62`, `f ≥ 8`, `L ≥ 4`, `log f ≤ L`, `log g_i ≤ 9L + 1`, `log p_δ, log p′_δ ≤ L`, `log rd_E ≤ 2L`), `3` and `5` split in `K`, and
 `gcd(15, g₀g₁) = 1`; for every step, `2·DF(κ_j) + 2 < g_i` (`i = 0, 1`) and `k ≤ min(q, d) − 1` for the weight
 `κ_j = λ^W_j` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 (the size parts of (P1), (P2) of GluedTargetAndDivisionInequality §8.20); for the degree `T = T_O`, `n_P = 8fr + 4`, `n_W` of 10.6 and every pair of
-weights `w_L`, `w_F` that satisfies (N1) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a at `T = T_O`: the conditions (N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (`SizeGen`, with `R_E = rd_E^{C_R}` for
+weights `w_L`, `w_F` that satisfies (N1) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a at `T = T_O`: the condition (N0) and the conditions (N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (`SizeGen`, with `R_E = rd_E^{C_R}` for
 the constant `C_R` of 10.6) and `DF(w_L) ≥ 3`, and the conditions of GluedTargetAndDivisionInequality §8.20 on the logarithmic size `L = x^ε` (`L ≥ max(3, log k)`,
 `log g_i ≤ 9L + 1`, `log rd_E, log d, log f ≤ 2L`, `log p_δ, log p′_δ ≤ L`, `log(1 + DF(w)) ≤ 2L` and `log n(w) ≤ L` for these weights);
-the own primes `p_δ`, `p′_δ` are prime to `Q·q·d`; the size conditions under which GluedTargetAndDivisionInequality §8.20b bounds the depth errors: `k·b′ ≤ b`,
+the own primes `p_δ`, `p′_δ` are prime to `Q·q·d` (`Q` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a); the size conditions under which GluedTargetAndDivisionInequality §8.20b bounds the depth errors: `k·b′ ≤ b`,
 `g₀, g₁ ≤ b⁹`, `P³T_O² ≤ b`, `(f·r·x^ε)^{12} ≤ b`, `1 < C·DF(w_L) ≤ m·b` and `log(C·DF(w_L)) ≤ 2x^ε` (the cut-off of the good primes in
-GluedTargetAndDivisionInequality §8.20), `k·(Sc + η_w)·x^ε ≤ m·b`, `k ≤ X″` and `log k ≤ x^ε`, and the bound
-`(Σ_{ℓ∈S_small} log ℓ)·(2 + max_{ℓ∈S_small} v_ℓ(f_E)) ≤ C_dep·x^ε` (`C_dep = 11`), which (P4) and the bound at the small
-primes of GluedTargetAndDivisionInequality §8.20 use with `max_{ℓ∈S_small} v_ℓ(f_E)` as their number `vd` (there a number
-at least `v_ℓ(f_E)`, hence at least `v_ℓ(Q)`, `Q` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, at
-every `ℓ ∈ S_small`); the size conditions of GluedTargetAndDivisionInequality §8.22 (among them `N_m²·w″ ≤ b` and
+GluedTargetAndDivisionInequality §8.20), `k·(Sc + η_w)·x^ε ≤ m·b`, `k ≤ X″` and `log k ≤ x^ε`, and
+`SizeDep` (ThetaChainsOnDefiniteUnitaryGroups §2.1, 10.6a, `C_dep = 11`), whose number `vd := log₂ Q_S` is the `vd` of GluedTargetAndDivisionInequality §8.20,
+which (P4) and the bound at the small primes there use; the size conditions of GluedTargetAndDivisionInequality §8.22 (among them `N_m²·w″ ≤ b` and
 `(N_m² + m·k)·b′ ≤ a`) and its hypotheses `r + 1 < g₀, g₁`, `q_z ≤ ¼` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties
 §8.18c (e)) and (H1)–(H3) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c); `24f·r ≤ min(g₀, g₁)` for
 the multiplicities of GluedTargetAndDivisionInequality §8.21 (c); the cost condition `𝔢_u·log T(u) ≤ C·B₀` of GluedTargetAndDivisionInequality §8.23 (LocalGainOfThetaChains §4.9f (e)); those of 9.2 (`T(u) ≥ b³`, `b ≥ 4f`, and,
@@ -1159,7 +1178,8 @@ by LocalGainOfThetaChains §4.17a (ii) at the served primes, `Σ_𝔭 sz_𝔭(τ
 `3√ϑ_T + 4√(2e_diag) ≤ x^{−c_H}`); those of 10.5 for the constant `C_*` of 10.4; and the clauses (i)–(viii) of `Size_□`
 (RowTowerAndRallisIdentities §5.8e). (The weights of a run of GluedTargetAndDivisionInequality §8.20 satisfy (N1), and at these parameters (N2) and the page conditions (P1), (P2), (P4)
 of `SizePage`, by GluedTargetAndDivisionInequality §8.20 (vii), whose route takes the size conditions from here: for (P4), with `wt_j = 2f·b` and
-`A = (2b + Sc)/T`, the conditions `k·b′ ≤ b` and `x ≥ 3`; that the deep covers carry witnesses with `SizeSG` is
+`A = (2b + Sc)/T`, the conditions `k·b′ ≤ b` and `x ≥ 3`; the conditions (P3) (with the remaining degree `R_w^{tot}`) and (P5)
+for these weights are not given here; that the deep covers carry witnesses with `SizeSG` is
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (f) (ii), given witnesses `h₀`, `S_u`, `η_u` of the gap conditions there.)
 
 Clause (o) of `Size_□` (RowTowerAndRallisIdentities §5.8e), the standing size predicates of the chain at the weight datum of
@@ -1176,7 +1196,8 @@ for large `x`, `log f ≤ C·log x ≤ x^ε`, and the other bounds are those of 
 unramified in `K` (`d` being a large prime) and not inert by (H2) (inert-free up to `B_s ≥ 12`), so they split; `g_i > 5`,
 so `gcd(15, g₀g₁) = 1`. *The depth hypothesis and the comparisons of CongruenceModulesOfThetaLifts §§7.10a, 7.10c.* `N_m − r = m·t + 1 > 0`; `r ≤ 2k` by (R1); `D_* ≥ k|A|²x^ε` by its definition (ThetaChainsOnDefiniteUnitaryGroups §2.3c);
 `r/ℓ_A = r·m·δ_th/(k·x^ε) ≤ 2m/x^ε`; `ℓ_A ≤ x^C`; `j := ⌈log_{10}(k·x^{2ε}/m)⌉` has `(ℓ − 1)^j ≥ 10^j ≥ k·x^{2ε}/m ≥ ℓ_A` for every prime `ℓ ≥ 11` (as
-`δ_th ≥ x^{−ε}`) and `2j + 2 ≤ L_th` by the choice of `L_th` in 10.6. *The sizes of the rows.* `η_s = ϑ` (ThetaChainsOnDefiniteUnitaryGroups §2.3c), `t` and `Sc` are polynomial in `x`
+`δ_th ≥ x^{−ε}`) and `2j + 2 ≤ L_th` by the choice of `L_th` in 10.6; that choice gives
+`L_th ≤ 4050·log x + 60/ε + 34 ≤ C_L·log x` for `x ≥ x₀(ε)`, as `C_L > 4050`. *The sizes of the rows.* `η_s = ϑ` (ThetaChainsOnDefiniteUnitaryGroups §2.3c), `t` and `Sc` are polynomial in `x`
 and `b = e^{x^ε}`, so `b ≥ 100` and `2(η_s + t + 1) + Sc ≤ b/10` (kind (K1)); `w_max ≤ 2b′ = 2x·b/X′` (CongruenceModulesOfThetaLifts §7.8a), so
 `20·max(w_max, η_s + t + 1, Sc) ≤ b` (kind (K3)). *`SizeThin`.* `ℓ* = m·b/D_*` with `D_* ≤ x^C`, so
 `σ⁺ ≤ 2D_*/m`, `Sc`, `η_s`, `t` and `r` are polynomial in `x`, while `w″ = b/(X′|A|)`: kind (K3). *The logarithmic size `L = x^ε`.*
@@ -1210,13 +1231,13 @@ the conditions of 9.6 and `3√ϑ_T + 4√(2e_diag) ≤ x^{−c_H}` hold because
 `(η_frame + 4√e_frame)·x^{c_H} ≤ 6`; the conditions of 10.5 are `La ≤ 2x^ε` (ThetaChainsOnDefiniteUnitaryGroups §2.1), `log k ≤ x^ε`,
 inequalities between `a`, `b`, `b′`, `X″`, `m`, `k` of kind (K1) or (K3), `δ_bad ≤ exp(−x^{ε/(7J)})` (10.6b), and
 `200(1 + C_*)(1 + c_H) ≤ x^ε`, which holds for `x ≥ x₀` because `C_*` and `c_H` are fixed before the scale. *The small
-primes.* The bound with `max_{ℓ∈S_small} v_ℓ(f_E)` is the computation of `SizeDep` in 10.6a. Not given here:
-the verification of the clauses (i)–(viii) of `Size_□` from the predicates of 10.6a–10.6d, that of `q_z ≤ ¼` and of
-(H1)–(H3) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c) at the
+primes.* The bound with `vd = log₂ Q_S` is the computation of `SizeDep` in 10.6a. Not given here:
+the verification of the clauses (i)–(viii) of `Size_□` from the predicates of 10.6a–10.6d, that of (N0) of
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a for the runs, of `q_z ≤ ¼` and of (H1)–(H3) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c) at the
 parameters, and the choice of the witnesses
 `h₀`, `S_u`, `η_u` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (f) at the parameters.
 
-*NEW* (elementary). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.17a, RowTowerAndRallisIdentities §5.8e, CongruenceModulesOfThetaLifts §7.6, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.23, 9.2, 9.4, 9.5, 9.6, 10.1, 10.2,
+*NEW* (elementary). With the constants of the head of 10.6a: the conditions on `DF(κ_j)`, `DF(w_L)` and (N2), [FormalProof], `Development/AbelianVarietyTheory/Proofs/JetHarmonics/DegreeWeightKappaLePageBound.lean` (`GlobalTheory.RunDepth.DF_kaR_le`); the logarithmic size, `k·b′ ≤ b` and `g₀, g₁ ≤ b⁹`, follow from [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/LevelPlusSubgroup.lean` (`GlobalTheory.IndefiniteRowSideFullHecke.LevelPlusSubgroup.SizeRows`), `Development/AbelianVarietyTheory/Proofs/FoundationProofs/ThreeLeScaleOfPowBound.lean` (`GlobalTheory.IndexAssembly.SizeRows`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.17a, RowTowerAndRallisIdentities §5.8e, CongruenceModulesOfThetaLifts §7.6, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.23, 9.2, 9.4, 9.5, 9.6, 10.1, 10.2,
 10.4, 10.5, 10.6, 10.6a, 10.6b, 10.6c; ClassFieldTheory §13.1; AnalyticNumberTheoryPartI §0.11.
 
 ### 10.7 Hosts at every scale, and on windows
@@ -1244,9 +1265,10 @@ satisfies the thin-scale box hypothesis of FrobeniusRestrictedRieszSums §1.4 (a
 and by FrobeniusRestrictedRieszSums §1.4 (b) `E` satisfies the prime number theorem with saving `s_th = e^{−x^{ε/8}}` beyond `X′/3`;
 (iii) the host is inert-free up to `B ≥ x^{ε/(5J)}` (FrobeniusRestrictedRieszSums §0.9 (iii)), in particular up to `12` for large `x` (`SizeInert` of ThetaChainsOnDefiniteUnitaryGroups §2.1);
 `log q ≥ x^{ε/(6J)}`, `log d ≥ x^{ε/(5J)}`, `d ≥ x²`, `log d ≤ x^{ε/4}`, `|(L′/L)(1, χ_K)| ≤ 4 log x` and
-`log rd_E ≤ x^ε` (with the windows of `log q`, `log d` in (a), these give `SizeQD` of
-ThetaChainsOnDefiniteUnitaryGroups §2.1, the lower bounds on `log q` and `log d`, and the separate clauses `log d ≤ x^{ε/4}`
-and `|(L′/L)(1, χ_K)| ≤ x^ε` of (h4) in 10.6, for large `x`);
+`log rd_E ≤ x^ε` (with the windows of `log q`, `log d` in (a), these give the bounds of `SizeQD` of
+ThetaChainsOnDefiniteUnitaryGroups §2.1 on `log q`, `log d` and `(L′/L)(1, χ_K)`, and the separate clause `log d ≤ x^{ε/4}` of
+(h4) in 10.6, for large `x`; the bound `rd_E ≤ (Q_S/2)·√(q·d)` of `SizeQD`, `Q_S = f_E/(q·d)`, holds for every host of
+FrobeniusRestrictedRieszSums §0.4, ThetaChainsOnDefiniteUnitaryGroups §2.1);
 (iv) type and auxiliary primes as in ThetaChainsOnDefiniteUnitaryGroups §2.7, tops `Φ_top ⊂ A` as in 10.6 (h5) and a thick set `𝒯 ⊂ A₀` as in the choices of 10.6,
 so that the host, `Φ_top` with its coset law and precision `η_top ≤ x^{−1+ε}`, and `𝒯` are cyclic host data at `x` in the sense
 of FrobeniusRestrictedRieszSums §1.7 once the weights of 10.6 are added;
@@ -1258,9 +1280,9 @@ unramified splitting character `η̃` of ThetaChainsOnDefiniteUnitaryGroups §2.
 exponent `λ_W ∈ (1, 3/2]` (PositivityOfDirichletSeriesWithKernels §6.9 (a)).
 
 *Route.* Fix the layer `n(x)` (FrobeniusRestrictedRieszSums §0.4 (iii)); there is `x_lay(ψ)` such that `n(x) ≥ 2` and `2^{n(x)} ≤ x^{A_n+1}` for
-`x ≥ x_lay(ψ)`. UniformWildKernelBounds §7.6 at the parameters of 10.6 (rank exponent `C_t`, layer exponent `A_n + 1`, the
-bound `3`, `ε ≤ 2`) gives the window constant `J` and a threshold `X₀`; enlarge `X₀` so that `X₀^{1/J} ≥ x_lay(ψ)`. Then for every `X ≥ X₀` and every pair `q ≠ d` of primes
-`≡ 3 mod 4` with `v₂(q + 1), v₂(d + 1) ≤ 3` (FrobeniusRestrictedRieszSums §0.9 (v)), not dividing `f_ψ`, larger than `2X^{C_t} + 1 + P(ψ)` and with
+`x ≥ x_lay(ψ)`. UniformWildKernelBounds §7.6 at the parameters of 10.6 (rank exponent `C_t`, layer exponent `A_n + 1`,
+`ε ≤ 2`) gives the window constant `J` and a threshold `X₀`; enlarge `X₀` so that `X₀^{1/J} ≥ x_lay(ψ)`. Then for every `X ≥ X₀` and every pair of primes
+`q ≡ 3 mod 8`, `d ≡ 7 mod 16` (the classes of a `B`-admissible pair, FrobeniusRestrictedRieszSums §0.9), not dividing `f_ψ`, larger than `2X^{C_t} + 1 + P(ψ)` and with
 `log q + log d ≤ Y₀^{ε/4}`, `Y₀ = X^{1/J}`, there is `Y′ ∈ [Y₀, X^{1/2}]` such that for every `x ∈ [Y′, Y′²]`, applying UniformWildKernelBounds §7.6 at the
 layer `n = n(x)` (allowed, as `x ≥ Y₀ ≥ x_lay(ψ)`), the groups `Ш¹(E, ℓ, e)`, `0 < e < ⌊x^{C_t}⌋`, are finite and
 `V(E, ⌊x^{C_t}⌋) ≤ e^{x^ε}` (the ranks of 10.6 satisfy `t ≤ ⌊x^{C_t}⌋`, and `V(E, t)` is monotone in `t`). Choose `(q, d)` at `Y = Y₀`
@@ -1303,7 +1325,7 @@ of `G` (it lies in `𝔛_n`) and `(2/·)·(·/q)` is a real character of `G` tha
 pair `(19, 526679)` of FrobeniusRestrictedRieszSums §0.9's Checks satisfies the arithmetic conditions of (a) and (v) for `ψ = 1` (`B`-admissible for `B < 13`,
 `q > 8f_ψ`, `HostSplitting E` from `n = 2` on); it is not in the size ranges of (a).
 
-*KNOWN* ingredients, *NEW* packaging. *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.5, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §0.9, FrobeniusRestrictedRieszSums §1.4, FrobeniusRestrictedRieszSums §1.7, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, 10.6;
+*KNOWN* ingredients, *NEW* packaging. (a), the pair, (i) and (iii): [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Supply.lean` (`UpperTheory.Top.GChi`), `Development/AbelianVarietyTheory/Definitions/GlobalTwisting/PairRowIffQdRows.lean` (`GlobalTheory.EX.PairRow`). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.5, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §0.9, FrobeniusRestrictedRieszSums §1.4, FrobeniusRestrictedRieszSums §1.7, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, 10.6;
 UniformWildKernelBounds §7.6; QuadraticTwistSelectionOverPrimes §§2.7c, 2.7d (ii), (ii′); RieszSumsOverPrimesAndExceptionalZeros §§1.7b (iii), 2.9b (iv)(c′);
 PositivityOfDirichletSeriesWithKernels §6.9 (a); BernoulliBoundsForClassGroupEigenspaces §6.17.
 
@@ -1327,7 +1349,7 @@ irreducible constituent of `𝔼^♮` contains the Gelfand–Graev character `χ
 `dim 𝔼_0` is the number of these constituents, at least `1`. (b) The rank formula of ThetaChainsOnDefiniteUnitaryGroups §3.8 (b):
 `d_u·(T − 1)^f = d_u^{all}·(T − 2)^f > 0`. (c) BesselPoincareSeriesAndGramBounds §5.21 (v) with `e_diag < 1 − δ_old(u)` (10.6b). (d) RowTowerAndRallisIdentities §5.6, RowTowerAndRallisIdentities §5.12. (e) RowTowerAndRallisIdentities §5.11 with (a).
 
-*NEW*. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.8, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.6, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, 10.6, 10.6b, 10.7; FiniteReductiveGroups §§2.2,
+*NEW*. (a): [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean` (`Formalism.MainNotions.Lnk.dall_pos`), `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean` (`Formalism.L2.Indef.Tree.RankRows`); (c): follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean` (`Formalism.MainNotions.Lnk.unfolding_constant_pos_of_diagonal`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.8, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.6, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, 10.6, 10.6b, 10.7; FiniteReductiveGroups §§2.2,
 5.7.
 
 ### 10.9 Chain data at a scale
@@ -1361,13 +1383,15 @@ The data at `𝔭` and at
 `c_𝕃(𝔭)` are equal (ThetaChainsOnDefiniteUnitaryGroups §2.5). With the prescribed set `Z₀` of ThetaChainsOnDefiniteUnitaryGroups §2.5 (b) equal to the set of places above the level primes `T(u)` and above
 `p_□` (RowTowerAndRallisIdentities §5.8a) (no place above `p_δ`, `p′_δ` lies in it: `v_□ ∉ S₀`, RowTowerAndRallisIdentities §5.8a, and the level primes are not `p_δ`, `p′_δ`, ThetaChainsOnDefiniteUnitaryGroups §2.8), so
 that the places `A(ℓ)` above `p_δ`, `p′_δ` at which `δ_ℓ` ramifies avoid `Z₀`, the characters `ψ_𝔭` can be chosen by
-CongruenceModulesOfThetaLifts §7.8 (2), under its hypotheses, after the data of (6a), so that the twisting datum is good (CongruenceModulesOfThetaLifts §7.10a): at every
+CongruenceModulesOfThetaLifts §7.8 (2), under its hypotheses (among them `r ≥ 100` and `g₀, g₁ ≥ 2r`, which GluedTargetAndDivisionInequality §8.19e assumes as
+well; they hold by (b) and `r ≥ k ≥ x^{9/2}`), after the data of (6a), so that the twisting datum is good (CongruenceModulesOfThetaLifts §7.10a): at every
 twisted place `𝔭 | ℓ`, `ψ_𝔭` is an `ℓ^{−2}`-good twist at `𝔭` in the sense of CongruenceModulesOfThetaLifts §7.8 (2), for the polynomial conditions of GluedTargetAndDivisionInequality §8.19e
 (a) and, by GluedTargetAndDivisionInequality §8.19e (b), (c), those of the twisted theta lattices, which GluedTargetAndDivisionInequality §8.19e gives as polynomial conditions of the second kind of
 SelmerLengthBoundsAndLocalLifting §3.25b (2), the form that CongruenceModulesOfThetaLifts §7.8 (2) takes.
 
 (d) *Budgets.* `V(E, ⌊x^{C_t}⌋) ≤ e^{x^ε} = b ≤ B₀`, so the host has wild-kernel budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11); for the good twisting datum of (c), CongruenceModulesOfThetaLifts §7.11 then bounds the congruence
-lengths (under the hypotheses of CongruenceModulesOfThetaLifts §7.10a, its depth hypothesis among them, as (H1) and 10.6a–10.6d give them): the sum of the rows of CongruenceModulesOfThetaLifts §7.10a (CongruenceModulesOfThetaLifts §7.10c), divided by `d^Z_j`, is at most `C·f·m·b·x^{2ε} + V(E, t) ≤ (C + 1)·x^ε·B₀` per step
+lengths (under the hypotheses of CongruenceModulesOfThetaLifts §7.10a, its depth hypothesis among them, and the length bound `L_th ≤ C_L·log x` of
+CongruenceModulesOfThetaLifts §7.10c, as (H1) and 10.6a–10.6d give them; the constant `C` depends only on `C_L`, `C_t`, `A_max`): the sum of the rows of CongruenceModulesOfThetaLifts §7.10a (CongruenceModulesOfThetaLifts §7.10c), divided by `d^Z_j`, is at most `C·f·m·b·x^{2ε} + V(E, t) ≤ (C + 1)·x^ε·B₀` per step
 (CongruenceModulesOfThetaLifts §7.11), so `C·m·x^ε·B₀` over the `m` steps. In that sum the invariant terms of the split rows, at most
 `r·(2 + r·(2s_w + 2 + 2·log_ℓ(4h)))` at each of the at most `2f` places (CongruenceModulesOfThetaLifts §7.10a), add up to at most `C·f·t·(r + t)·x^ε`, which
 `C·B₀` absorbs because `r + 5 ≤ t` (ThetaChainsOnDefiniteUnitaryGroups §2.1, Lemma). The exponents of weight elimination add up, per
@@ -1407,7 +1431,7 @@ primes and above `p_□` (both chosen in (6a), neither above `p_δ`, `p′_δ`, 
 equal at places with the same restriction to the field of definition of the base data,
 over a field of places `𝕃` that contains the roots of unity `u_q` of CongruenceModulesOfThetaLifts §7.8 (2) and the Hecke eigenvalues that
 RowTowerAndRallisIdentities §5.12 asks to separate (ThetaChainsOnDefiniteUnitaryGroups §2.6: `𝕃` contains the finitely many algebraic numbers that later
-targets name; it may be enlarged after the twisting datum is fixed, ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). (d) is 10.7 (b) with CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c and CongruenceModulesOfThetaLifts §7.11, and CongruenceModulesOfThetaLifts §7.16a (3) (b) with GluedTargetAndDivisionInequality §8.20b. (e) is 10.7 (a) (iii), (v) and LocalGainOfThetaChains §4.17a (ii), (iv), (v) with
+targets name; it may be enlarged after the twisting datum is fixed, ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). (d) is 10.7 (b) with CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c and CongruenceModulesOfThetaLifts §7.11, and CongruenceModulesOfThetaLifts §7.16a (3) (b) with GluedTargetAndDivisionInequality §8.20b. (e) is 10.7 (a) (iii), (v) and LocalGainOfThetaChains §§4.17a (ii), 4.17c, 4.17d with
 10.6c: one vector serves every translate because the shares of the inert primes depend on the vector and not on `u₀`.
 (f) is 10.8. The grid is the grid of the chain of RowTowerAndRallisIdentities §5.8a: its string length, the spacing of its
 centres, its auxiliary prime and its depth are fixed there as functions of the data of steps (5), (6a), so nothing is chosen
@@ -1416,7 +1440,7 @@ here beyond the place `v_□` above `p_□` and the places `w(v)`; it exists by 
 separation of RowTowerAndRallisIdentities §5.8e holds for `x ≥ x₀` under `Size_□`, which is among the size conditions of
 10.6a–10.6d, and its lemmas give the depth condition and the size condition into which `N(𝔪_□)` enters.
 
-*NEW*. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §§2.2–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §§3.1–3.10, ThetaChainsOnDefiniteUnitaryGroups §3.1a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, CongruenceModulesOfThetaLifts §7.15,
+*NEW*. (a): [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Loss_at`); (b), the level primes and the nodes: [FormalProof], `Formalism/SharpRestriction/GrowthBounds/ProjectionLemmaBaseLevel.lean` (`Formalism.MainNotions.flipOneThree.AdmT`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §§2.2–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §§3.1–3.10, ThetaChainsOnDefiniteUnitaryGroups §3.1a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, CongruenceModulesOfThetaLifts §7.15,
 CongruenceModulesOfThetaLifts §7.16a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.19e, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.24, SelmerLengthBoundsAndLocalLifting §3.25b (2), 9.4, 9.6, 10.0, 10.2, 10.4, 10.5, 10.6, 10.6a, 10.6b, 10.6c, 10.6d, 10.7, 10.8.
 
 ### 10.10 The windowed bound for the cyclic family, uniform form
@@ -1472,7 +1496,7 @@ windows) together with monotonicity in the set. The weights `w = w_ψ` do not de
 *Check.* The weights are positive at `ψ` itself (`w_ψ(ψ) = 1/(3o + 1)` for `ψ ≠ 1`); a family whose weight vanished at `ψ` would
 say nothing about `L(s, ψ)`.
 
-*NEW* (one line). *Needs:* FrobeniusRestrictedRieszSums §0.5, 10.10; PositivityOfDirichletSeriesWithKernels §6.9 (a).
+*NEW* (one line). Follows from [FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows.mono`). *Needs:* FrobeniusRestrictedRieszSums §0.5, 10.10; PositivityOfDirichletSeriesWithKernels §6.9 (a).
 
 ### Examples
 
@@ -1490,7 +1514,7 @@ At `ω₀ = 3/4` the weights of 10.10 are `w_ψ(1) = 1` and `w_ψ(χ) = 1/(3o + 
 
 Layer 9; FrobeniusRestrictedRieszSums §§0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.8a, 0.9, 1.1, 1.4, 1.7, 1.8, 1.9;
 ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3a, 2.3b, 2.3c, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.9a, 3.1, 3.1a, 3.8,
-3.10; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6; LocalGainOfThetaChains §§4.9, 4.9e, 4.9f, 4.10, 4.15, 4.15d, 4.15e,
+3.10; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6; LocalGainOfThetaChains §§4.9, 4.9e, 4.9f, 4.10, 4.10a, 4.15, 4.15d, 4.15e,
 4.15f, 4.16, 4.16a, 4.17, 4.17a, 4.17b, 4.17c, 4.17d; RowTowerAndRallisIdentities §§5.3, 5.5, 5.6, 5.8, 5.8a, 5.8b, 5.8d,
 5.8e, 5.9, 5.11, 5.12; BesselPoincareSeriesAndGramBounds §§5.13, 5.16, 5.18, 5.18a, 5.20, 5.20a, 5.20b, 5.21, 5.23;
 SeesawForThetaChains §§6.14, 6.15; CongruenceModulesOfThetaLifts §§7.5a, 7.6, 7.8, 7.10a, 7.10c, 7.11, 7.15, 7.16a;
@@ -1740,7 +1764,7 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
   colength beyond `τ_N`, the net exponent `𝔊_u`, the cost `𝔢_u` at the level prime). Used in 9.2, 9.6, 10.0, 10.1, 10.2,
   10.6d, 10.9.
 - §4.10, §4.15, §4.15d, §4.15e, §4.15f, §4.16a: the size conditions of the gain and its parameters. Used in 10.0, 10.6,
-  10.6c.
+  10.6c. §4.10a: the periods of the chain at the type primes, with its constant `C₁`. Used in 10.0, 10.6.
 - §4.16, §4.16b, §4.16c: the gain sublattice `N_u`, its form at the level prime and the colength bound there. Used in 9.2,
   9.6, 10.0, 10.2, 10.9.
 - §4.17, §4.17a, §4.17b, §4.17c, §4.17d: the served data, the inequality at the served primes, the sizes of `ℒ(p)` and
@@ -1773,21 +1797,21 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
 
 ### From UniformWildKernelBounds, a sub-roadmap of this family
 
-- §7.6: for primitive `χ`, `0 < ε ≤ 2`, `κ, α ≥ 1` and `a ≥ 2`: `J ≥ 1` and `X₀` (depending on `χ, ε, κ, α, a` only) such that for
-  every `X ≥ X₀` and every pair `q ≠ q′`, `≡ 3 mod 4`, `v₂(q + 1), v₂(q′ + 1) ≤ a`, not dividing `f_χ`, `q, q′ > 2X^κ + 1 + P(χ)` and
+- §7.6: for primitive `χ`, `0 < ε ≤ 2` and `κ, α ≥ 1`: `J ≥ 1` and `X₀` (depending on `χ, ε, κ, α` only) such that for
+  every `X ≥ X₀` and every pair of primes `q ≡ 3 mod 8`, `q′ ≡ 7 mod 16`, not dividing `f_χ`, `q, q′ > 2X^κ + 1 + P(χ)` and
   `log q + log q′ ≤ Y₀^{ε/4}` (`Y₀ = X^{1/J}`), there is `Y ∈ [Y₀, X^{1/2}]` such that for every `x ∈ [Y, Y²]` and every layer
   `n ≥ 2` with `2^n ≤ x^α`, with `E = E_n(χ, {q, q′})` the dyadic host field (FrobeniusRestrictedRieszSums §0.4): every
   `Ш¹(E, ℓ, e)` (`ℓ` prime, `0 < e < ⌊x^κ⌋`) is finite and `V(E, ⌊x^κ⌋) ≤ exp(x^ε)`; the local condition is the one of the
   Conventions (classes unramified outside `ℓ`, trivial above `ℓ`). Applied in 10.7 with `κ = C_t`, `α = A_n + 1 = 3 + 8ε`,
-  `a = 3`, `ε < ε₀ ≤ 2`, at the layer `n(x)` of FrobeniusRestrictedRieszSums §0.4 (iii) for each scale `x` of the window
+  `ε < ε₀ ≤ 2`, at the layer `n(x)` of FrobeniusRestrictedRieszSums §0.4 (iii) for each scale `x` of the window
   (`n(x) ≥ 2` and `2^{n(x)} ≤ x^{A_n+1}` for large `x`). Used in 10.6 (the window constant `J`), 10.7.
 
 ### From CongruenceModulesOfThetaLifts, a sub-roadmap of this family
 
 - §7.5a, §7.6: the complementary residue and the thin windows with `SizeThin`. Used in 10.0, 10.6d.
-- §7.8, §7.10a, §7.10c: good twists, good twisting data, the rows of the congruence bound with the depth hypothesis on the
-  thick set, and their sum. Used in
-  10.0, 10.6b, 10.6d, 10.9.
+- §7.8, §7.10a, §7.10c: good twists (under `r ≥ 100`, `g₀, g₁ ≥ 2r`), good twisting data, the rows of the congruence bound with
+  the depth hypothesis on the thick set, and their sum under the length bound `L_th ≤ C_L·log x`. Used in
+  10.0, 10.6, 10.6b, 10.6d, 10.9.
 - §7.11: the total congruence bound under a wild-kernel budget `κ_W`. Used in 10.0, 10.5, 10.9.
 - §7.15, §7.16a: the projected lattices and the exponents of weight elimination. Used in 10.5, 10.9.
 
@@ -1799,7 +1823,7 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
 - §8.18, §8.18c, §8.18e, §8.18f: deep covers (§8.18 (o)), short generators, witnesses of `SizeSG` (§8.18c (f) (ii), given
   witnesses `h₀`, `S_u`, `η_u` of its gap conditions), the slopes of lattices of forms, and the degree condition
   `[F:ℚ] ≥ 3` of §8.18f (d). Used in 10.0, 10.5, 10.6d, 10.9.
-- §8.19, §8.19a: lattices of integral forms (the slope of §8.19 (b) under `[F:ℚ] ≥ 3`), weights with (N1), (N2) and
+- §8.19, §8.19a: lattices of integral forms (the slope of §8.19 (b) under `[F:ℚ] ≥ 3`), weights with (N0), (N1), (N2) and
   `SizeGen`. Used in 10.0, 10.6, 10.6a, 10.6b, 10.6d, 10.9.
 
 ### From GluedTargetAndDivisionInequality, a sub-roadmap of this family

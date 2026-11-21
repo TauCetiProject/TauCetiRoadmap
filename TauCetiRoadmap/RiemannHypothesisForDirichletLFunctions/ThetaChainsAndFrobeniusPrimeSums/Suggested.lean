@@ -20,9 +20,9 @@ definitions those statements need.
   data at a scale `(x, ε)` satisfying the standing hypotheses of 10.0, the sum over the tops and
   the steps of the Frobenius-restricted Riesz sums `ℛ(a_τ, τ, w_{u₀,j})` is at most their main
   terms plus `x^{3ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`. It lacks chain data (10.0): Hermitian
-  lattices over the ring of integers of a number field with their slopes and the heights of maps between
-  them (SlopesOfHermitianVectorBundles Layers 1–2), algebraic modular forms on definite unitary
-  groups with their integral structures (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3), the
+  lattices over the ring of integers of a number field with their slopes and the heights of maps
+  between them (SlopesOfHermitianVectorBundles Layers 1–2), algebraic modular forms on definite
+  unitary groups with their integral structures (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3), the
   lattices of forms divided by the local gains, the glued target and the period pairing
   (GluedTargetAndDivisionInequality §§7.13–7.14), and the Bessel–Poincaré series with their Gram
   operators (BesselPoincareSeriesAndGramBounds §§5.14–5.15).
@@ -48,7 +48,8 @@ open scoped ArithmeticFunction.vonMangoldt
 /-! ## Layer 10: The Frobenius-restricted inequality and the windowed bound -/
 
 /-- A primitive Dirichlet character bundled with its conductor: a level, a character of that level
-and a proof that it is primitive. -/
+and a proof that it is primitive.
+[FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean` (`Formalism.HC.PChar`). -/
 structure PrimitiveDirichletCharacter where
   /-- The level, which is the conductor. -/
   level : ℕ+
@@ -62,7 +63,8 @@ namespace PrimitiveDirichletCharacter
 /-- The Riesz remainder `G_χ` of a primitive Dirichlet character
 (RiemannHypothesisStatementsAndConsequences §8.4a (b)):
 `∑_{n ≤ y} Λ(n) χ(n) (y/n − 1) + y · L′/L(1, χ)` for `χ ≠ 1`, and
-`∑_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` for the trivial character, of level `1`. -/
+`∑_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` for the trivial character, of level `1`.
+[FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.An.gChi`, `Formalism.HC.An.logDerivativeAtOne`), `Formalism/StatementOC.lean` (`Formalism.Gz`). -/
 noncomputable def rieszRemainder (χ : PrimitiveDirichletCharacter) (y : ℝ) : ℂ :=
   if χ.level = 1 then
     ∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (Λ n : ℂ) * ((y : ℂ) / n - 1) - y * Real.log y
@@ -73,7 +75,8 @@ noncomputable def rieszRemainder (χ : PrimitiveDirichletCharacter) (y : ℝ) : 
 
 /-- The cyclic family `𝒦(ψ)` of a primitive Dirichlet character `ψ` of order `o`
 (FrobeniusRestrictedRieszSums §0.5): the primitive characters `(ψ^l)*` inducing the powers `ψ^l`,
-`0 ≤ l < o`. -/
+`0 ≤ l < o`.
+[FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean` (`Formalism.HC.Level.ofSub`), `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean` (`Formalism.HC.PChar.of`). -/
 noncomputable def cyclicFamily (ψ : PrimitiveDirichletCharacter) :
     Finset PrimitiveDirichletCharacter := by
   classical
@@ -95,7 +98,8 @@ end PrimitiveDirichletCharacter
 
 /-- Windows of scales (PositivityOfDirichletSeriesWithKernels §6.9 (a)): for `S ⊆ ℝ` and an
 exponent `κ > 1` (written `λ_W` in the README), `HasWindows S κ` says that for every `Y₀` there is
-`Y ≥ max(Y₀, 1)` with `[Y, Y^κ] ⊆ S`. -/
+`Y ≥ max(Y₀, 1)` with `[Y, Y^κ] ⊆ S`.
+[FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows`). -/
 def HasWindows (S : Set ℝ) (κ : ℝ) : Prop :=
   ∀ Y₀ : ℝ, ∃ Y ≥ max Y₀ 1, Set.Icc Y (Y ^ κ) ⊆ S
 
@@ -113,7 +117,8 @@ theorem cyclicWindowedBound (ψ : PrimitiveDirichletCharacter) :
 /-- **The windowed bound for the cyclic family, consumer form** (10.11). For every primitive
 Dirichlet character `ψ` and every `ε > 0` there are positive reals `w(χ)`, `χ ∈ 𝒦(ψ)`, and `κ > 1`
 such that the set of `y` with `Σ_{χ ∈ 𝒦(ψ)} w(χ)·Re G_χ(y) ≤ y^{1/2 + ε}` has windows of
-exponent `κ`. -/
+exponent `κ`.
+Follows from [FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows.mono`). -/
 theorem cyclicWindowedBound_forEveryEpsilon (ψ : PrimitiveDirichletCharacter) {ε : ℝ}
     (hε : 0 < ε) :
     ∃ w : PrimitiveDirichletCharacter → ℝ, (∀ χ ∈ ψ.cyclicFamily, 0 < w χ) ∧ ∃ κ > (1 : ℝ),
