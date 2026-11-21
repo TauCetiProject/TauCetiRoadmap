@@ -4,12 +4,12 @@
 
 - *The Hecke ideal.* Let `L` be a CM field with `L/L⁺` unramified at every finite place, `l` an odd prime, and `χ̄_1, …, χ̄_n` pairwise distinct characters of `G_{L,S}` with `⊕χ̄_i` isomorphic to its conjugate dual twisted by `ε̄^{1−n}`. Ordinary determinants lifting `det ⊕χ̄_i` are classified by a complete local noetherian ring `B` over the weight algebra `Λ`; the localized big ordinary Hecke algebra `𝕋` carries a unique ordinary determinant, and the classifying map `B → 𝕋` is surjective, with kernel `J` such that `B/J` is finite over `Λ`, `Λ`-torsion-free and reduced. Twisting by a character `γ ≡ 1` as in 3.13a (g) maps `J` into itself.
 - *Patching data.* If moreover `μ_l ⊄ L`, then `J` has automorphic patching data: at every Taylor–Wiles level `N`, modules over the ordinary determinant ring with the Taylor–Wiles places added, comparison maps whose composites are multiplication by a product `f` of differences of ordered Hecke eigenvalues, and Taylor–Wiles relations that, multiplied by `f`, act nilpotently with exponent `n!`, independent of `N`.
-- *Adjoint vanishing.* If `F` is an imaginary CM field, `n ∈ {2, 3}`, and `ρ = r|_{G_F}` is attached to a regular algebraic conjugate self-dual cuspidal representation of `GL_n(𝔸_F)` and is irreducible on every open subgroup of `G_F`, then `H¹_f(F⁺, ad r) = 0`. For `2 ≤ n ≤ 4` and ordinary `ρ` with residual representation a sum of pairwise distinct characters, `H¹_f(L⁺, ad r) = 0` under the hypotheses of 9.9 (d), among them absolute irreducibility on `G_{L(μ_{p^∞})}` and an element with separable characteristic polynomial in every nonempty open subset of that group.
+- *Adjoint vanishing.* If `F` is an imaginary CM field, `n ∈ {2, 3}`, and `ρ = r|_{G_F}` is attached to a regular algebraic conjugate self-dual cuspidal representation of `GL_n(𝔸_F)` and is absolutely irreducible on every open subgroup of `G_F`, then `H¹_f(F⁺, ad r) = 0`. For `2 ≤ n ≤ 4` and ordinary `ρ` with residual representation a sum of pairwise distinct characters, `H¹_f(L⁺, ad r) = 0` under the hypotheses of 9.9 (d), among them absolute irreducibility on `G_{L(μ_{p^∞})}` and an element with separable characteristic polynomial in every nonempty open subset of that group.
 - *Kernels with lattice coefficients.* For a number field `F`, a prime `p`, a finite set `S` of places containing those above `p` and the infinite ones, and a `ℤ_p`-lattice `T` with continuous `G_{F,S}`-action, the kernel `Ш²_S(F, T)` of localization on `H²(G_{F,S}, T)` is the Pontryagin dual of `Ш¹_S(F, T^D)`, real places included.
 
 The targets extend PotentialAutomorphyInfrastructurePartII (definite unitary groups, their Hecke algebras and Taylor–Wiles data) and [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) (Poitou–Tate duality). Determinants come from [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md), the Galois representations of definite unitary groups from [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md), another sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md), and Newton and Thorne's vanishing theorem from ModularityAndLanglandsExtensions.
 
-Layers 3, 4 and 9 below carry the numbers of the layers of PotentialAutomorphyInfrastructurePartII that they extend; Layer 10 extends ArithmeticGaloisDuality instead. Layer 3 builds the universal ordinary determinant ring and the Hecke ideal (3.13a), and Layer 4 its patching data (4.2a). Layer 9 proves adjoint vanishing (9.9): by Newton and Thorne's theorem at points irreducible on every open subgroup, and through Layers 3 and 4 at the other irreducible ordinary points. Layer 10, independent of the others, states the Tate–Shafarevich kernels (10.1).
+Layers 3, 4 and 9 below carry the numbers of the layers of PotentialAutomorphyInfrastructurePartII that they extend; Layer 10 extends ArithmeticGaloisDuality instead. Layer 3 builds the universal ordinary determinant ring and the Hecke ideal (3.13a), and Layer 4 its patching data (4.2a). Layer 9 proves adjoint vanishing (9.9): by Newton and Thorne's theorem at points absolutely irreducible on every open subgroup, and through Layers 3 and 4 at the other irreducible ordinary points. Layer 10, independent of the others, states the Tate–Shafarevich kernels (10.1).
 
 ## Conventions
 
@@ -85,14 +85,16 @@ route below, those of the cuspidal constituents of the base change); if all `m_i
 (e) (*classicality*) if `ρ` in (d) is irreducible, it is attached to a regular algebraic conjugate self-dual cuspidal
 representation of `GL_n(𝔸_L)`.
 
-(f) (*points*) for `2 ≤ n ≤ 4`: an arithmetic point of `B` whose determinant is that of an automorphic `ρ` unramified at `v₀`,
-with a full flag at each `v ∈ S_l` with characters `ψ_{v,i}`, no two of which are in ratio `ε`, lies in `V(J)`. Here
-*automorphic* means: `ρ` is continuous and attached to a regular algebraic conjugate self-dual cuspidal representation of
+(f) (*points*) an arithmetic point of `B` whose determinant is that of a continuous `ρ` attached to a regular algebraic
+conjugate self-dual cuspidal representation of `GL_n(𝔸_L)`, unramified at `v₀`, with a full flag at each `v ∈ S_l` with
+characters `ψ_{v,i}`, no two of which are in ratio `ε`, lies in `V(J)`. [FormalProof] states (f) for `2 ≤ n ≤ 4` and for `ρ`
+*automorphic*, which means: `ρ` is continuous and attached to a regular algebraic conjugate self-dual cuspidal representation of
 `GL_n(𝔸_L)`, and (w1) at each place above `l` at which `ρ` has a full flag with no two characters in ratio `ε`, it has a full
 flag with no two characters in ratio `ε` up to a character of finite order; (w2) for every regular algebraic cuspidal `Π′` to
 which `ρ` is attached there is a real `t` such that, at every finite place `w` of `L` which is prime to `l` or at which the
 conclusion of (w1) holds, `Π′_w` has cuspidal support made of characters `ξ` of `L_w^×`, each with
-`(Nw)^{t−1/2} < |ξ(ϖ_w)| < (Nw)^{t+1/2}`.
+`(Nw)^{t−1/2} < |ξ(ϖ_w)| < (Nw)^{t+1/2}`. The statement for every `n ≥ 1` and without (w1) and (w2) is this roadmap's, by
+the route below.
 
 (g) (*twists*) Let `γ : G_{L,S} → B^×` be a continuous character, `γ ≡ 1` modulo the maximal ideal, with `γ(cgc⁻¹)γ(g) = 1`, trivial on
 the inertia groups at `S_t` and at `v₀`, and trivial on the `l`-torsion of the `G_{L_ṽ}^{ab}`, `v ∈ S_l`, prescribed in (1) (for
@@ -145,15 +147,27 @@ zero, and a word from `a` to `b ≠ a` lies in `e_a R e_b`, whose characteristic
 `λe_a + 1 − e_a` multiplies it by `λ`. So `D(1 − tw) = 1` for every `z`, and `x` lies in the kernel of `D`. (e) PotentialAutomorphyInfrastructurePartII §3.14(b). (f) The flag makes `ρ` potentially crystalline at `S_l`: `ρ` is de Rham
 there (AutomorphicGaloisRepresentationsPartII §AG2.6), so each step of the flag is a class in `H¹_g` with coefficients `W`, and
 `dim H¹_g − dim H¹_f = dim D_cris(W^∨(1))^{φ=1}` (Bloch–Kato, as in the route of PotentialAutomorphyInfrastructurePartII §9.2)
-vanishes, the graded characters of `W^∨(1)` being nontrivial because no two characters of the flag are in ratio `ε`. Hence the
-cuspidal representation of `ρ` has level potentially prime to `l` (AutomorphicGaloisRepresentationsPartII §AG2.6) and is
-`ι`-ordinary (PotentialAutomorphyInfrastructurePartII §0.5). Its descent to `G` (PotentialAutomorphyInfrastructurePartII §3.5(1)) gives a point of the big
-ordinary Hecke algebra above an arithmetic prime (PotentialAutomorphyInfrastructurePartII §3.12, first Check), with the inertial type at `S_t` matched by the type and the
-flag matched by the characters. No hypothesis on the maximal ideal is used: the residual determinant may be reducible, and
-nothing in (a)–(e) uses that the `χ̄_i` are distinct except the definition of the tame types and of the torsion data and the
-second statement of (b). The range `2 ≤ n ≤ 4` of (f) is that of the statement of [FormalProof], in which the restriction is
-used at one step only, the descent of the cuspidal representation to `G`; the route above does not depend on `n`, but (f) for
-other `n` is not a statement of [FormalProof] and is not claimed here. Clauses (w1) and (w2) are hypotheses of [FormalProof].
+vanishes. Indeed a graded character `ψ_{v,j}ψ_{v,i}^{−1}ε` (`i < j`) of `W^∨(1)` has all its Hodge–Tate weights `≥ 0`, the
+weight of an arithmetic point being dominant (at weight `0` they all equal `j − i − 1`, by the fourth Check below); if one of them is
+positive, a nonzero `D_cris` of it is admissible of rank one, so `t_N = t_H ≠ 0` (PadicHodgeTheory §3.5) and its Frobenius
+has an eigenvalue of nonzero valuation and fixes no vector; if all vanish, it has `D_cris ≠ 0` only if it is unramified, and then a
+Frobenius-fixed vector only if it is trivial, which is excluded because no two characters of the flag are in ratio `ε`. A class
+of `H¹_f` stays in `H¹_f` over a finite extension on which the `ψ_{v,i}` are crystalline, where it is a crystalline extension.
+Hence the cuspidal representation `Π` of `ρ` has level potentially prime to `l` (AutomorphicGaloisRepresentationsPartII
+§AG2.6) and is `ι`-ordinary (PotentialAutomorphyInfrastructurePartII §0.5). Away from `l`, Caraiani's full local–global
+compatibility, with the monodromy operator (AutomorphicGaloisRepresentationsPartII §AG2.5, *Caraiani's full away-prime
+compatibility*), determines `Π_w` from `ρ|_{G_{L_w}}`: `Π_w` is unramified wherever `ρ` is, in particular outside `S` and at
+`v₀`. As `ρ` is semisimple (AutomorphicGaloisRepresentationsPartII §AG2.3, *Arbitrary regular conjugate-self-dual
+existence*), the trace form on the span of `ρ(G_{L,S})` is
+nondegenerate, so at `S_t` the relation of (1) makes `ρ` trivial on the inertia elements killed by all `χ̄_i`; its monodromy
+vanishes there, and `Π_w` is a principal series with the type of `⊕Teich(χ̄_i)|_I`. The descent `σ` of `Π` to `G`
+(PotentialAutomorphyInfrastructurePartII §3.5(1), `σ_v ≅ Π_w ∘ ι_w` at split `v`, for every `n`) gives a point of the big
+ordinary Hecke algebra above an arithmetic prime (PotentialAutomorphyInfrastructurePartII §3.12, first Check), with the type at
+`S_t` matched and the flag matched by the characters. No step depends on `n` or uses (w1) or (w2); (w2), which keeps the
+exponents of the cuspidal support less than one apart, excludes nonzero monodromy at the places prime to `l`, which §AG2.5
+gives here. No hypothesis on the
+maximal ideal is used: the residual determinant may be reducible, and nothing in (a)–(e) uses that the `χ̄_i` are distinct except
+the definition of the tame types and of the torsion data and the second statement of (b).
 (g) (i) For `β` of finite `l`-power order with `β^c = β⁻¹`, trivial on those inertia groups, and a point
 `x` of `V(J)` as in (c): `x` comes from an automorphic representation `σ` of `G`; `β = μ/μ^c` (`β` has odd order); twisting `σ` by the
 character of `G(𝔸)` attached to `μ` gives an automorphic representation with the same weights, unramified where `σ` and `β` are,
@@ -163,8 +177,8 @@ free over `B`, `J` is the ideal of the dense set of points of (c), and at a pair
 `b ∈ J` is the value of `b` at the twisted point, zero by (i). Specialising and letting `N` grow, `τ_γ(b) ∈ J + 𝔪_B^N` for all `N`,
 and `J` is closed. The twisting endomorphism exists and is unique by the universal property of (1). *Needs:* PotentialAutomorphyInfrastructurePartII §§0.5, 3.5–3.14;
 IntegralHeckeAndGaloisDeterminants Layers 0–1, §4.1; LocalGaloisDeformationRings §§1.3, F.2.1, F.2.2, F.2.11;
-EndoscopicTransferAndUnitaryTraceComparison §6.29; AutomorphicGaloisRepresentationsPartII §AG2.6;
-BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1; ModularityAndLanglandsExtensions §2.43; PadicHodgeTheory §3.6;
+EndoscopicTransferAndUnitaryTraceComparison §6.29; AutomorphicGaloisRepresentationsPartII §§AG2.3, AG2.5, AG2.6;
+BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1; ModularityAndLanglandsExtensions §2.43; PadicHodgeTheory §§3.5, 3.6;
 NoncommutativeAndEquivariantIwasawa §F.6; AutomorphicLFunctionsAndLocalFactors §AL.3.3.8.
 
 **Checks.**
@@ -184,8 +198,6 @@ NoncommutativeAndEquivariantIwasawa §F.6; AutomorphicLFunctionsAndLocalFactors 
   never deduced from its determinant.
 - The shift in (a) is `ε^{i−1}` for `i = 1, …, n`: at weight `0` the diagonal characters on inertia are `1, ε⁻¹, …, ε^{1−n}` (PotentialAutomorphyInfrastructurePartII §3.13,
   first Check).
-- The integer congruences that a consumer extracts from `V(J)` bound sums of valuations over sets of non-isomorphic points; they
-  are not orders of congruence modules of `𝕋`.
 - The direction of `Frob_w` in the maximal ideal and in (a): for `n = 2`, on the constant functions of weight `0`, `T_w^1` acts by
   the number `Nw + 1` of its cosets and `T_w^2` by `1`, so the Hecke polynomial is `X² − (Nw + 1)X + Nw = (X − 1)(X − Nw)`, the
   characteristic polynomial of `(1 ⊕ ε̄⁻¹)(Frob_w)` because `ε(Frob_w) = (Nw)⁻¹`; and `1 ⊕ ε̄⁻¹` is conjugate self-dual up to
@@ -206,7 +218,7 @@ NoncommutativeAndEquivariantIwasawa §F.6; AutomorphicLFunctionsAndLocalFactors 
 
 PotentialAutomorphyInfrastructurePartII §§0.5, 3.1, 3.5–3.14; IntegralHeckeAndGaloisDeterminants Layers 0–1, §4.1;
 LocalGaloisDeformationRings §§1.3, F.2.1, F.2.2, F.2.11; EndoscopicTransferAndUnitaryTraceComparison §6.29;
-AutomorphicGaloisRepresentationsPartII §AG2.6; BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1; ModularityAndLanglandsExtensions §2.43; PadicHodgeTheory §3.6;
+AutomorphicGaloisRepresentationsPartII §§AG2.3, AG2.5, AG2.6; BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1; ModularityAndLanglandsExtensions §2.43; PadicHodgeTheory §§3.5, 3.6;
 NoncommutativeAndEquivariantIwasawa §F.6; AutomorphicLFunctionsAndLocalFactors §AL.3.3.8.
 
 ## Layer 4: Automorphic patching data at a reducible determinant
@@ -232,10 +244,10 @@ which the common kernel of the `χ̄_i` and of `ε mod l` is pro-`l`, and genera
   not necessarily that ring;
 - an `R_N`-module `M_N`, free of finite rank (the rank may depend on `N`) over `Λ[[x_{j,i}]]/((1 + x_{j,i})^{l^{a_{N,j}}} − 1)` for some
   `a_{N,j} ≥ N`;
-- a homomorphism `R_N → Sp` carrying `(D_N, ψ_N)` to the pullback of the universal ordinary determinant of `B` along
+- a homomorphism `R_N → Sp_N` carrying `(D_N, ψ_N)` to the pullback of the universal ordinary determinant of `B` along
   `G_{L,S_N} → G_{L,S}` and the `x_{j,i}` to `0`, where
-  `Sp = B[[X_{j,i}]]/(∏_i(X − u_{j,i} − X_{j,i}) = charpoly D(φ_{N,j}))` is `B` with ordered roots of
-  the characteristic polynomials of `D(φ_{N,j})` adjoined, sending `U_{j,i}` to `u_{j,i} + X_{j,i}`, and maps `Sp ⊗_B M ⇄ M_N/(x)M_N`
+  `Sp_N = B[[X_{j,i}]]/(∏_i(X − u_{j,i} − X_{j,i}) = charpoly D(φ_{N,j}))` is `B` with ordered roots of
+  the characteristic polynomials of `D(φ_{N,j})` adjoined, sending `U_{j,i}` to `u_{j,i} + X_{j,i}`, and maps `Sp_N ⊗_B M ⇄ M_N/(x)M_N`
   whose two composites are multiplication by `f = ∏_j ∏_{i≠i′}(U_{j,i} − U_{j,i′})(U_{j,i} − Nw_{N,j}·U_{j,i′})`;
 - with the exponent `e` above, independent of `N` (one may take `e = n!`): `(f·tr_{D_N}(h·r))^e` kills `M_N` for every `h ∈ G_{L,S_N}` and
   each of the two kinds of elements `r = ∏_i(φ_{N,j} − U_{j,i})` and `r = ∏_{k≠i}(φ_{N,j} − U_{j,k})(τ_{N,j} − 1 − x_{j,i})`.
@@ -258,7 +270,11 @@ at the Taylor–Wiles places: PotentialAutomorphyInfrastructurePartII §3.6 (i) 
 determines `ρ|_{G_{L_w}}` here, the constituents having no nonsplit extensions since the `α_i` are pairwise distinct with no
 ratio `Nw`; SmoothRepresentationsOfLocalGroups §SR.2.3, *borel-casselman-invariants* for the kernel `Iw₁` of the reduction of
 the Iwahori subgroup to the diagonal, identifies the generalized eigencharacter with a character of the Jacquet module of `π`;
-that these characters are those of the semisimplified Langlands parameter of `π` is not given here).
+`π` is a constituent of a principal series `i_Bχ` (SmoothRepresentationsOfLocalGroups §SR.3a.1, *jacquet-subrepresentation*),
+the characters of its normalized Jacquet module are Weyl conjugates of `χ` (SmoothRepresentationsOfLocalGroups §SR.2.2,
+*principal-series-jacquet*), and the semisimplified Langlands parameter of `π` is the sum of the reciprocity images of the
+`χ_i` (EndoscopicTransferAndUnitaryTraceComparison §10.18 and §10.20, the normalized-induction constituent sum and rank-one
+geometric reciprocity, with §10.30, the identification with the classical correspondence)).
 Hence `f·tr_{D_N}(h·r)` vanishes at every generalized eigencharacter of
 every classical point (where `f ≠ 0` the eigenvalues are generic); already the factor of `f` at the place of `r` suffices. An
 element of the polynomial ring in the `U`-operators and diamond operators at one place, with coefficients in `R_N`, that vanishes
@@ -274,7 +290,8 @@ vanishing at all joint eigencharacters has `d`-th power zero (if not, the image 
 contains a joint eigenvector, on which the polynomial acts by its value `0`, so a further power kills it, a contradiction), and
 the level module is separated by its classical points. The exponent does not depend on the number of Taylor–Wiles places.
 The remaining steps of the route are not given here. *Needs:* 3.13a; PotentialAutomorphyInfrastructurePartII §§3.4, 3.6, 4.1, 4.2;
-SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.2.3, SR.3a.1; IntegralHeckeAndGaloisDeterminants §1.3; Chebotarev Layer 10.
+SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.2.3, SR.3a.1; EndoscopicTransferAndUnitaryTraceComparison §§10.18, 10.20, 10.30;
+IntegralHeckeAndGaloisDeterminants §1.3; Chebotarev Layer 10.
 
 **Checks.**
 
@@ -283,37 +300,38 @@ SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.2.3, SR.3a.1; IntegralHeckeAnd
   level recorded at the end of PotentialAutomorphyInfrastructurePartII §4.2; Thorne's datum of
   PotentialAutomorphyInfrastructurePartII §§4.1–4.2 (one residual eigenspace, one diamond factor per place) is a different datum. The
   factor `f` is what allows coinciding residual eigenvalues, the points used being those at which the eigenvalues differ.
-- The `U_{j,i}` lift elements `u_{j,i}` of `O` given once for each datum, independent of `N`; `Sp` is finite over `B`, not étale, when the
+- The `U_{j,i}` lift elements `u_{j,i}` of `O` given once for each datum, independent of `N`; `Sp_N` is finite over `B`, not étale, when the
   `χ̄_i(σ_j)` coincide.
 
 ### Examples
 
 - When the `χ̄_i(σ_j)` are pairwise distinct, `f` is a unit and the data of 4.2a at the `w_{N,j}` are the determinant form of the
-  Taylor–Wiles places of GlobalGaloisDeformations §8.5; when they coincide, `Sp` is finite over `B` and not étale (4.2a, Checks).
+  Taylor–Wiles places of GlobalGaloisDeformations §8.5; when they coincide, `Sp_N` is finite over `B` and not étale (4.2a, Checks).
 
 ### Dependencies
 
 Layer 3 (3.13a); PotentialAutomorphyInfrastructurePartII §§3.4, 3.6, 4.1, 4.2;
-SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.2.3, SR.3a.1; IntegralHeckeAndGaloisDeterminants §1.3; Chebotarev Layer 10.
+SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.2.3, SR.3a.1; EndoscopicTransferAndUnitaryTraceComparison §§10.18, 10.20, 10.30;
+IntegralHeckeAndGaloisDeterminants §1.3; Chebotarev Layer 10.
 
 ## Layer 9: Adjoint vanishing at irreducible points
 
-This layer proves the vanishing of adjoint Bloch–Kato Selmer groups at automorphic points irreducible on every open subgroup, in
+This layer proves the vanishing of adjoint Bloch–Kato Selmer groups at automorphic points absolutely irreducible on every open subgroup, in
 rank at most three and for `GSp₄`, and at irreducible ordinary points with regular elements in ranks two to four.
 
 ### 9.9 Adjoint vanishing at strongly irreducible points, and at irreducible points with regular elements
 
 (a) Let `F` be an imaginary CM field, `n ∈ {2, 3}`, and `r : G_{F⁺} → 𝒢_n(O)` with `ρ = r|_{G_F}` attached to a regular algebraic
-conjugate self-dual cuspidal representation `Π` of `GL_n(𝔸_F)`, with `ρ` irreducible on every open subgroup of `G_F`. Prove
+conjugate self-dual cuspidal representation `Π` of `GL_n(𝔸_F)`, with `ρ` absolutely irreducible on every open subgroup of `G_F`. Prove
 `H¹_f(F⁺, ad r) = 0`, `ad r` the adjoint representation of `G_{F⁺}` on `𝔤𝔩_n` through `r` (conjugation on `G_F`, and complex conjugation
 acting through the polarization, PotentialAutomorphyInfrastructurePartII §9.3).
 
-(b) Let `ρ : G_ℚ → GSp₄(E)` be irreducible on every open subgroup of `G_ℚ`, and automorphic over an imaginary quadratic field `F`:
+(b) Let `ρ : G_ℚ → GSp₄(E)` be absolutely irreducible on every open subgroup of `G_ℚ`, and automorphic over an imaginary quadratic field `F`:
 `ρ|_{G_F}` attached to a regular algebraic cuspidal representation of `GL₄(𝔸_F)`. Prove `H¹_f(ℚ, 𝔰𝔭₄(ρ)) = 0`, `𝔰𝔭₄(ρ)` the adjoint
 representation of `Sp₄` composed with `ρ`.
 
-(c) Let `F` be imaginary quadratic with character `η_F` and `W : G_ℚ → GL₂(E)` with `det W = η_F` (times a power of the cyclotomic
-character), such that `W|_{G_F}` satisfies the hypotheses of (a) for `n = 2`. Prove `H¹_f(ℚ, ad W) = 0`.
+(c) Let `F` be imaginary quadratic with character `η_F` and `W : G_ℚ → GL₂(E)` such that `W|_{G_F}` satisfies the hypotheses
+of (a) for `n = 2`. Prove `H¹_f(ℚ, ad W) = 0`.
 
 (a), (b) and (c) are statements of this roadmap, consequences of the theorem of Newton and Thorne [NT23]
 (ModularityAndLanglandsExtensions §4.1); they are not statements of [FormalProof].
@@ -341,20 +359,23 @@ determinant ring, of the injectivity in the second statement of PotentialAutomor
 gap in place of genericity; compare PotentialAutomorphyInfrastructurePartII §9.7), and the second has the shape of the conclusion
 of PotentialAutomorphyInfrastructurePartII §7.19, at a characteristic-zero point.
 
-*Route.* (a) If `ρ` is irreducible on every open subgroup of `G_F`, the identity component of the Zariski closure of its image
-acts irreducibly, hence so does its derived group, which lies in the Zariski closure of the image of every open subgroup
+*Route.* (a) If `ρ` is absolutely irreducible on every open subgroup of `G_F`, the identity component of the Zariski closure of
+its image acts absolutely irreducibly, hence so does its derived group (the identity component is reductive, with centre acting by
+scalars), which lies in the Zariski closure of the image of every open subgroup
 of `G_{F(μ_{p^∞})}` (the quotient by that group is abelian). In rank at most three that derived group is `SL_n` or, for `n = 3`,
 the image of `SL₂` under the symmetric square; in both cases the image of `G_{F(μ_{p^∞})}` is enormous (ArithmeticGaloisRepresentations
 §7.10), and ModularityAndLanglandsExtensions §4.1 (Newton–Thorne [NT23], Theorem A, p. 2 of arXiv v3) applies after the twist into unitary type
 (AutomorphicGaloisRepresentationsPartII §AG2.2) and gives `H¹_f(F⁺, ad r) = 0`. (b) `ρ|_{G_F}` is conjugate self-dual up to twist, with
 `𝒢₄`-valued extension `r`. The derived group of the identity component of the Zariski closure of the image of an open
-subgroup acts irreducibly inside `GSp₄`, so it is `Sp₄` or the image of `SL₂` under the symmetric cube (`SL₂ × SL₂` acting by the
+subgroup acts absolutely irreducibly inside `GSp₄`, so it is `Sp₄` or the image of `SL₂` under the symmetric cube (`SL₂ × SL₂` acting by the
 tensor product preserves a symmetric form, not an alternating one, and does not occur). Both are enormous: for `Sp₄`, with
 `h = diag(a, b, b⁻¹, a⁻¹)` regular, the eigenprojection on the eigenvalue `a` has a nonzero component in each of the three simple
 summands `1`, `𝔰𝔭₄`, `∧²₀` of `𝔤𝔩₄`; for the symmetric cube this is Newton–Thorne's symmetric power example (ArithmeticGaloisRepresentations
 §7.10). ModularityAndLanglandsExtensions §4.1 gives `H¹_f(ℚ, ad r) = 0`, and `𝔰𝔭₄(ρ)` is the summand of `ad r` on which complex conjugation
 acts through `ρ` (the complementary summand `∧²₀ ⊕ 1` is twisted by `η_F`); with `H¹_f(ℚ, ℚ_p) = 0` this gives (b). (c) For the
-`𝒢₂`-valued extension `r` of `W|_{G_F}` with `r(c)` built from `W(c)` and the alternating form, `ad r ≅ ad⁰W ⊕ η_F` as `G_ℚ`-modules;
+`𝒢₂`-valued extension `r` of `W|_{G_F}` with `r(c)` built from `W(c)` and the alternating form, `ad r ≅ ad⁰W ⊕ η_F` as `G_ℚ`-modules
+for every such `W`, whatever its determinant (the symplectic adjoint of a trace-zero `2 × 2` matrix is its negative, so `c` acts
+on trace-zero matrices by conjugation by `W(c)`, and by `−1` on scalars);
 `H¹_f(ℚ, η_F) = 0` (finiteness of the class group of `F`) and `H¹_f(ℚ, ℚ_p) = 0`, so `H¹_f(ℚ, ad W) = H¹_f(ℚ, ad⁰W) = H¹_f(ℚ, ad r) = 0` by
 (a). (d) *Outline of the mechanism.* The hypotheses do not give an enormous image in general (an irreducible group need not
 contain regular elements: ArithmeticGaloisRepresentations §7.10, Check), so ModularityAndLanglandsExtensions §4.1 is not applied; the mechanism is a count at
@@ -389,9 +410,14 @@ Chebotarev Layer 10.
 
 **Checks.**
 
-- For `ρ = Sym²` of a non-CM newform restricted to `G_F`, (a) applies: the image is irreducible on every open subgroup, of rank
-  three; for `ρ` induced from a character of a cubic extension it is irreducible on `G_F` but not on an open subgroup, and (a)
-  says nothing.
+- For `ρ = Sym²` of a non-CM newform restricted to `G_F`, (a) applies: the image is absolutely irreducible on every open
+  subgroup, of rank three; for `ρ` induced from a character of a cubic extension it is irreducible on `G_F` but not on an open
+  subgroup, and (a) says nothing.
+- Irreducibility over `E` is not enough. For an elliptic curve `A` over `ℚ` with complex multiplication by an imaginary
+  quadratic field `K₁ ≠ F`, `p` inert in `K₁` and `E = ℚ_p`, the image of every open subgroup of `G_{FK₁}` in `Aut V_p(A)`
+  spans the field `K₁ ⊗ ℚ_p`, over which `V_p(A)` has rank one; so `V_p(A)|_{G_F}` is irreducible over `ℚ_p` on every open
+  subgroup, while over `K₁ ⊗ ℚ_p` it is a sum of two characters there, and (a) does not apply. The identity component of the
+  Zariski closure of its image is a torus with trivial derived group, where the route of (a) needs one acting irreducibly.
 - `n = 1` is excluded: `H¹_f(F⁺, ad ρ) = 0` there is the class-group statement of PotentialAutomorphyInfrastructurePartII §9.3's first Check.
 - In (b) the adjoint module matters: `𝔤𝔩₄(ρ) = 𝔰𝔭₄ ⊕ ∧²₀ ⊕ 1` over `G_ℚ` contains `∧²₀(ρ)`, which is not a summand of `ad r` without
   the twist by `η_F`.
@@ -435,8 +461,10 @@ discrete `G_{F,S}`-module `M` killed by a power of `p`, and for `M = W`, define
 ```
 
 with the continuous cohomology of ArithmeticGaloisDuality §D7.6 and the modified groups at real places of ArithmeticGaloisDuality §R02.4.2; for finite `M`, `Ш¹_S(F, M)` is the
-group of ArithmeticGaloisDuality §R02.4.2, and `Ш¹_{S;Σ}` imposes vanishing only at the places of `Σ`. Their lengths `length_{ℤ_p}` (or
-`length_O / e_O`) take values in `ℕ∞`.
+group of ArithmeticGaloisDuality §R02.4.2, and `Ш¹_{S;Σ}` imposes vanishing only at the places of `Σ`. Their lengths are
+`length_{ℤ_p}`, with values in `ℕ∞`, or, for `O`-modules, the `O`-length divided by the ramification index `e_O` of `O`, with
+values in `(1/e_O)ℕ ∪ {∞}`; the two differ by the factor `[E : ℚ_p]` (`E = O[1/p]`; for `O/ϖ` they are the residue degree `f_O`
+and `1/e_O`), and (b) holds for either.
 
 Prove:
 
@@ -486,8 +514,11 @@ cofinitely generated; the finiteness statement is (b). (d)–(f) Inflation–res
   place in `S` the two differ: for `F = ℚ`, `p = 3` and `S = {3, 61, ∞}`, a cubic character of conductor `61`, as a class in
   `H¹(G_{ℚ,S}, ℚ₃/ℤ₃)`, is trivial on the decomposition group at `3`, since `3²⁰ ≡ 1 mod 61` makes `3` a cube modulo `61`, so it
   lies in `Ш¹_{S;S_3}(ℚ, ℚ₃/ℤ₃)`; it is ramified at `61`, whereas `Ш¹_S(ℚ, ℚ₃/ℤ₃) = 0`, its classes being unramified everywhere.
-- (e) fails at `e = 0`: `H¹_ur(F_v, ℚ_p/ℤ_p) = ℚ_p/ℤ_p ≠ 0`, and enlarging `S` can add unramified-at-`v` classes that are
-  nontrivial at `v`.
+- (e) fails at `e = 0`: `H¹_ur(F_v, ℚ_p/ℤ_p) = ℚ_p/ℤ_p ≠ 0`, so a class of `Ш¹_{S;Σ}` need not vanish at `v`, and inflation does
+  not land in `Ш¹_{S′;Σ∪(S′∖S)}`, which can be strictly smaller. For `F = ℚ`, `p = 3`, `S = {3, ∞}`, `Σ = ∅` and
+  `S′ = S ∪ {7}`, `Ш¹_{S;∅}(ℚ, ℚ₃/ℤ₃) = ℚ₃/ℤ₃` (the characters of the cyclotomic `ℤ₃`-extension), while
+  `Ш¹_{S′;{7}}(ℚ, ℚ₃/ℤ₃) = 0`: its classes are unramified at `7`, hence characters of that extension trivial at the Frobenius
+  at `7`, which is a topological generator of its Galois group because `7 ≢ 1 mod 9`.
 - `F = ℚ`, `S = {p, ∞}`: `Ш¹_S(ℚ, ℚ_p/ℤ_p) = 0`, since a character of `G_{ℚ,S}` of `p`-power order factors through
   `Gal(ℚ(μ_{p^∞})/ℚ)` (Kronecker–Weber: the maximal abelian extension of `ℚ` unramified outside `p∞` is `ℚ(μ_{p^∞})`) and the
   decomposition group at `p` is all of that group; by (b), with `T = ℤ_p(1)`,
@@ -520,7 +551,7 @@ ArithmeticGaloisDuality §§R02.1.2, R02.4.2, R02.4.3, R02.4.4, D7.6; ProfiniteC
 - UniformWildKernelBounds §4.2 uses 3.13a (finiteness, automorphy, seeds) and 4.2a; UniformWildKernelBounds §4.4 uses 3.13a through
   UniformWildKernelBounds §3.20 (e); UniformWildKernelBounds §4.5 uses 3.13a, 4.2a, and 9.9 (a) over `ℚ(i)`.
 - UniformWildKernelBounds §4.3 uses 9.9 (a) at type I points and 9.9 (c) at the rank-two block of type II points;
-  UniformWildKernelBounds §4.7 uses 9.9 (b) at points irreducible on every open subgroup and 9.9 (d) over the tower field at the
+  UniformWildKernelBounds §4.7 uses 9.9 (b) at points absolutely irreducible on every open subgroup and 9.9 (d) over the tower field at the
   other irreducible points. These consumers use 3.13a (f) in the range `2 ≤ n ≤ 4`.
 - BernoulliBoundsForClassGroupEigenspaces §6.17 uses 10.1 for the groups `Ш¹(F, ℓ, e) = Ш¹_{S;S_ℓ}(F, ℚ_ℓ/ℤ_ℓ(−e))`,
   `S = S_ℓ ∪ S_∞`, and their duality with étale wild kernels.
@@ -536,7 +567,7 @@ It owns 3.13a, 4.2a, 9.9 and 10.1. The theory they extend is owned by PotentialA
 - 10.1 is not in ArithmeticGaloisDuality. ArithmeticGaloisDuality §R02.3.0d defines `Ш^i_S(K, A)` for finite `A` with vanishing imposed outside `S`; ArithmeticGaloisDuality §R02.4.2 defines `Ш^r_S(K, M) = ker(H^r(G_S, M) → P^r_S(K, M))` for finite `M`, with vanishing imposed at every place of the ramification set `S`, archimedean places included; ArithmeticGaloisDuality §D7.6 has the Poitou–Tate sequences for a lattice `T` and for `V/T`, but no kernel for divisible coefficients, no length, and no kernel in which the ramification set and the set of places where vanishing is imposed differ. 10.1 gives these, for instance for classes unramified outside `p` (ramification set `S_p ∪ S_∞`) that vanish at the places above `p` only.
 - The automorphy statements for residually reducible deformation rings whose routes pass through 3.13a, 4.2a and 9.9, and the machinery of those routes, are not stated here: their residual representations have constituents exchanged by the polarization, there is no Steinberg place, and the functors are representable only after framing. They belong to UniformWildKernelBounds, which uses these targets. PotentialAutomorphyInfrastructurePartII §§7.6–7.19 and 8.1–8.16 state the published analogues under Schur, primitivity and Steinberg hypotheses.
 
-The existence of the level modules and of the comparison maps in 4.2a, and 9.9 (d), are theorems of [FormalProof]; their routes are outlined at the targets, and the steps not written out are said there to be not given here. Inside the route of 4.2a, one step of local–global compatibility at the Taylor–Wiles places, a theorem of the literature, is not given here.
+[FormalProof] states 4.2a, 9.9 (d), 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 9.9 (d′) in rank four at the seeds, and an instance of 10.1, each in the form recorded at its target. Of these, the existence of the level modules and comparison maps of 4.2a, and 9.9 (d), rest here on [FormalProof] alone: their routes are outlined at the targets, and the steps not written out are said there to be not given here.
 
 The users of these targets in this family are UniformWildKernelBounds, BernoulliBoundsForClassGroupEigenspaces and CongruenceModulesOfThetaLifts (Downstream consumers, above).
 
@@ -584,10 +615,13 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 - §6.29: the weak base change of an automorphic representation of `G` to `GL_n` is an isobaric sum of Speh blocks, used for the Speh shape in 3.13a (d).
+- §§10.18, 10.20: the semisimple Weil parameter of an irreducible smooth representation of `GL_n` over a `p`-adic field, additive on supercuspidal support and given in rank one by geometric reciprocity; §10.30: its identification with the classical correspondence; used in the relations of 4.2a.
 
 ### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
 
 - §AG2.2: the twist of a polarized representation into unitary type, used in the route of 9.9 (a).
+- §AG2.3: the Galois representation attached to a regular algebraic conjugate self-dual cuspidal representation is continuous and semisimple, used in the route of 3.13a (f).
+- §AG2.5: Caraiani's full away-prime compatibility, the Weil–Deligne representation at every place prime to `ℓ` with its monodromy operator, used in the route of 3.13a (f).
 - §AG2.6: full polarized local–global compatibility at `ℓ`, used in the route of 3.13a (c), (d) and (f).
 
 ### From TauCetiRoadmap.ModularityAndLanglandsExtensions
@@ -601,6 +635,7 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 
 ### From TauCetiRoadmap.PadicHodgeTheory
 
+- §3.5: a rank-one filtered `φ`-module is admissible exactly when `t_H = t_N`, used in the route of 3.13a (f).
 - §3.6: labelled ordinary flags and their characters, used in the route of 3.13a (c) to obtain a full flag when the valuations of Frobenius lie on the Hodge polygon.
 
 ### From TauCetiRoadmap.NoncommutativeAndEquivariantIwasawa
@@ -623,9 +658,9 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
-- §SR.2.2: *jacquet-lemma* (exactness of the Jacquet functor) and *principal-series-jacquet* (the Jacquet module of a principal series), used for the bound `n!` in the route of 4.2a.
+- §SR.2.2: *jacquet-lemma* (exactness of the Jacquet functor) and *principal-series-jacquet* (the Jacquet module of a principal series), used in the relations and for the bound `n!` in the route of 4.2a.
 - §SR.2.3: *borel-casselman-invariants* for the kernel `Iw₁` of the reduction of the Iwahori subgroup to the diagonal, used in the relations and for the bound `n!` in the route of 4.2a.
-- §SR.3a.1: *jacquet-subrepresentation*, used for the bound `n!` in the route of 4.2a.
+- §SR.3a.1: *jacquet-subrepresentation*, used in the relations and for the bound `n!` in the route of 4.2a.
 
 ### From TauCetiRoadmap.GlobalGaloisDeformations
 
@@ -637,7 +672,7 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The existence of the level modules and comparison maps in 4.2a, and 9.9 (d), are theorems of it.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It states 4.2a, 9.9 (d), 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 9.9 (d′) in rank four, and an instance of 10.1, each recorded at its target.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - [BZ77] I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Annales scientifiques de l'École Normale Supérieure 10 (1977), 441–472, [Numdam](http://archive.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf). The bound `n!` in the route of 4.2a.
 - [Che14] G. Chenevier, *The p-adic analytic space of pseudocharacters of a profinite group and pseudorepresentations over arbitrary rings*, in Automorphic Forms and Galois Representations, vol. 1, LMS Lecture Note Series 414 (2014), 221–285; arXiv:0809.0415v2. [Open preprint](https://arxiv.org/abs/0809.0415v2). Noetherianity of the universal ring of determinants under Mazur's finiteness condition, in the route of 3.13a.

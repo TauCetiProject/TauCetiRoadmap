@@ -38,7 +38,7 @@ the absolute Galois group together with its maps from the local Galois groups. M
   `G_{L(μ_{l^∞})}`) and the modules of automorphic forms at Iwahori-type level at those places.
 * Adjoint vanishing (9.9): for `n ∈ {2, 3}` and `ρ = r|_{G_F}` attached to a regular algebraic
   conjugate self-dual cuspidal representation of `GL_n(𝔸_F)`, `F` imaginary CM, with `ρ`
-  irreducible on every open subgroup, `H¹_f(F⁺, ad r) = 0`; the `GSp₄` and `GL₂` forms over `ℚ`;
+  absolutely irreducible on every open subgroup, `H¹_f(F⁺, ad r) = 0`; the `GSp₄` and `GL₂` forms over `ℚ`;
   and, for `2 ≤ n ≤ 4`, the vanishing at ordinary points with residual representation a sum of
   pairwise distinct characters under the hypotheses of 9.9 (d). It lacks cuspidal automorphic
   representations of `GL_n` over a number field and their Galois representations, the group
