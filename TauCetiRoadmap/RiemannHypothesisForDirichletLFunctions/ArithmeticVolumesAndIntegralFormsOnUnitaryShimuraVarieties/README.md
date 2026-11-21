@@ -109,7 +109,7 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 
 This layer bounds the slopes of the lattices of integral cusp forms on the unitary Shimura varieties of the spaces `W_j` and supplies the CM values that enter the slope test of the chain. The CM period `Ω` of the Conventions is the class mean of the Chowla–Selberg periods (8.5) and the arithmetic degree of the flat line (8.11), whose twists move slopes by an explicit amount (8.12); the definite step is computed at CM points (8.13), and a change of weight by a short section of a power of the Hodge line passes between weights at a controlled loss (8.14). The flag bundles of the Shimura varieties carry models with mixed integral structure (8.14a–8.15), on which arithmetic proportionality holds up to two constants (8.15b–8.16); this gives the average arithmetic volume theorem (8.17). On deep covers the cusp forms are spanned by short theta series (8.17a), the heights of the images of the flag bundles bound the volumes (8.18), and an explicit arithmetic Hilbert–Samuel inequality over the coordinate bundle gives a uniform lower bound for slopes (8.18a–8.18f); descent to the base level gives the slope of the step lattices (8.19). Theta series generate the integral forms uniformly on subspaces (8.19a–8.19a‴). Finally 8.19b–8.19d bound the denominators of CM values at every prime and give the Galois equivariance of toric ratios and Hecke's formula for toric sums with its Euler-factor relation.
 
-Some clauses of this layer are statements whose routes are not given, or not fully given, here: the flag facts (L3), (L4) of the `𝔩`-torsion (8.14b); on the deep covers of the steps, the carrying sections, the sizes other than the two inequalities of `SizeSG` in `err` and `htc`, and the sup norms of integral forms (8.18c (f)); and the two height inequalities of 8.19a (I8). Single steps of the routes of 8.11, 8.15, 8.15c, 8.16, 8.17, 8.18f, 8.19b and 8.19c are not given; each route says which. All numbers attached to the flag bundles in 8.15–8.19 (limit numbers, volumes, volume slopes) are computed on the models of 8.15 (a), built over the modified base models `Y_B(c)`.
+Some clauses of this layer are statements whose routes are not given, or not fully given, here: the flag facts (L3), (L4) of the `𝔩`-torsion (8.14b); on the deep covers of the steps, the carrying sections, the sizes other than the two inequalities of `SizeSG` in `err` and `htc`, and the sup norms of integral forms (8.18c (f)); and the two height inequalities of 8.19a (I8). Single steps of the routes of 8.11, 8.15, 8.15c, 8.16, 8.17, 8.18f, 8.19a′, 8.19b and 8.19c are not given; each route says which. All numbers attached to the flag bundles in 8.15–8.19 (limit numbers, volumes, volume slopes) are computed on the models of 8.15 (a), built over the modified base models `Y_B(c)`.
 
 ### 8.5 The CM period: the Chowla–Selberg formula in class-mean form
 
@@ -604,7 +604,11 @@ arithmetic intersection number of a theory for log-singular metrics; nothing bel
 
 *Route.* (a) Pass from the global model to `Y⁰_B(c)` by normalisation (the finite covers `Y_L` of
 ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b), which (b′) does not state: this step rests on the clause (b), not
-on the form of [FormalProof]; homomorphisms of
+on the form of [FormalProof]; the covers of [FormalProof], as ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b)
+records them, are integral normal projective schemes with a morphism to the component, dominant and of finite degree,
+carrying the pull-back of `G` with its action, with all `ℓ⁴`-torsion points of the generic fibre rational for `ℓ` in a
+finite set containing the primes dividing `disc(E)`, and with normal-crossings boundary; such a cover maps to `Y_L` for
+its function field and need not be finite over the component; homomorphisms of
 abelian generic fibres extend over a normal base, ShimuraCompactifications §6.8, and the normalisation in a finite extension of the function field
 is again a normal projective flat model carrying the pulled-back semi-abelian scheme), then to `Y_B(c)`
 (HodgeTateLatticesAndLubinTateLogarithms §0.5c (b): the normalisation of the Nash modification of the sheaves `ω^{HT}_ℓ` and of their images in the eigen-quotients, NashBlowups §§1.2–1.4); the patched lattices are vector bundles because the images
@@ -1230,8 +1234,9 @@ oscillation, over the integral points above a place, of the sum of the factor de
 TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18 (c) of the powers of leading minors that make up the highest weight vector
 of `u₁` (no polarisation factor, no multiplier; through the unramified colength bound TaylorBoundsAndDepthsOnHeightTwoFormalGroups
 §4.8c at the odd unramified primes), at every prime other than the type primes; the passage to the depth with the
-polarisation factor is the statement on powers of leading minors of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f,
-which holds at every place and for every multiplier, and the level `M` enters only through the theta rules (8.19a′ (b)).
+polarisation factor is the statement on powers of leading minors of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f (o),
+stated for a unitary moduli problem whose polarisation is principal, as that of the setting is (8.11–8.19); it holds at
+every place and for every multiplier, and the level `M` enters only through the theta rules (8.19a′ (b)).
 The valuative carrying section rests on three statements about the boundary.
 
 *Route.* (a) Finite generation: every nonzero form has a nonzero value, with bounded denominator on the lattice, at a CM
@@ -1757,7 +1762,7 @@ monomial of which is a product of exactly `n` null values, at torsion points tha
 of the lattice over `𝒪_E`. Then `η` is a form of scalar weight `n·|LevGrp(R⁴)|` (all entries of its dominant weight zero),
 and at every point `y` with a uniformisation `v(η)(y) ≥ 2i_η·φ′_C(y)`, `2i_η := |LevGrp(R⁴)|/R⁴`. Consequently, with (b),
 `dep_𝔩(y) ≤ ν_dep(𝔩) + (c/2i_η)·v(η)(y)`. The boundary form of 8.19a (I8) is the case `R = 5`, `n = r`: its scalar weight is
-`2·5⁴·r·i_η = γ₀·i_η`.
+`2·5⁴·r·i_η = γ₀·i_η`. (In (c), `n` is the number of null values in each monomial, not the dimension `n` of 8.19a.)
 
 *Route.* (The comparisons of `φ_C` and `φ′_C`: for a family `(x_b)` spanning a finite-index submodule, `β ↦ Σ_b β(x_b, x_b)` is an
 admissible functional (positive on a nonzero positive semidefinite `β`, whose radical is an `𝒪_E`-submodule), with value
@@ -1794,7 +1799,8 @@ coefficients of valuation `≥ 0`; each torsion point has a lift whose component
 on its class, and the lifts of a spanning family span `X` modulo `R⁴X` over `𝒪_E`; a theta null value at a torsion point
 with component `y_a` has valuation `≥ min_{χ∈X} Q_y(R²χ + y_a)/R⁴`; and `Σ_b min_χ Q_y(R²χ + y_b) ≥ φ_C(y)` by the definition of
 `φ_C` (for representatives `z_b = R²χ_b + y_b` the `z_b` span `X ⊗ ℚ` over `E`). So every term of the polynomial, hence every
-factor of the norm, has valuation `≥ φ_C(y)/R⁴`, which is `≥ φ′_C(y)/R⁴` by (b), `w₀` being that of the setting.
+factor of the norm, has valuation `≥ φ_C(y)/R⁴`, which is `≥ φ′_C(y)/R⁴` by (b), `w₀` being that of the setting. That `η`
+has scalar weight `n·|LevGrp(R⁴)|` is not derived here.
 
 *Check.* With the route of (c) one has also `v(η)(y) ≥ 2i_η·φ_C(y)` when the classes of the torsion points of every
 monomial span the character lattice modulo `R⁴`; this form is this roadmap's own and is not used.
@@ -2247,7 +2253,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TaylorBoundsAndDepthsOnHeightTwoFormalGroups, a sub-roadmap of this family
 
-- §4.8b (the depth of a weight at a framed point and at a place, with a multiplier, `M = g₀g₁` at the chain; at a place it is cut off below at `0`), §4.8b′ (integral charts and saturated frames), §4.8c (the unramified colength bound), §4.18 ((a), (b) the pivot lemma; (c) the factor depth), §4.19f (the depth of powers of leading minors). Used in 8.18c, 8.19a, 8.19a′.
+- §4.8b (the depth of a weight at a framed point and at a place, with a multiplier, `M = g₀g₁` at the chain; at a place it is cut off below at `0`), §4.8b′ (integral charts and saturated frames), §4.8c (the unramified colength bound), §4.18 ((a), (b) the pivot lemma; (c) the factor depth), §4.19f (o) (the depth of powers of leading minors, for a unitary moduli problem with principal polarisation). Used in 8.18c, 8.19a, 8.19a′.
 
 ### From LocalGainOfThetaChains, a sub-roadmap of this family
 
@@ -2293,7 +2299,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From ProjectiveModelsAndPeriodBoundsOnShimuraVarieties, a sub-roadmap of this family
 
-- §6.2a (growth bounds for the Hodge metric: (a) the Gram matrix; (b) seminegativity of the Lie algebra of every semi-abelian scheme over a smooth projective geometrically connected curve over a field of characteristic zero), §6.7a (logarithmic periods of a chart of the model with a holomorphic family of points; the monodromy is not asserted unipotent), §6.9a (conjugate data on a curve in characteristic `p`), §7.12a (the hypotheses of §6.9a on a global model of §7.31a (b′) (ii) that can be chosen, and on every reduced locally noetherian scheme over it whose generic points map to `Sh_F`), §7.17a (a) (ampleness of twisted Hodge lines on the smooth integral toroidal model at a good prime), §7.31a (b) (the global normal projective model, with the endomorphisms, its finite covers `Y_L` and, for a self-dual lattice and `w_0`, the cubical line bundle of the principal polarisation in that roadmap's own form), (b′) (ii) (the global model with its cubical line bundle, the form of [FormalProof]), §9.1 (Kempf's descent of a linearised line bundle to a quotient by a finite group). Used in the setting of 8.11–8.19, 8.11, 8.14, 8.14a, 8.15, 8.18c.
+- §6.2a (growth bounds for the Hodge metric: (a) the Gram matrix; (b) seminegativity of the Lie algebra of every semi-abelian scheme over a smooth projective geometrically connected curve over a field of characteristic zero), §6.7a (logarithmic periods of a chart of the model with a holomorphic family of points; the monodromy is not asserted unipotent), §6.9a (conjugate data on a curve in characteristic `p`), §7.12a (the hypotheses of §6.9a on a global model of §7.31a (b′) (ii) that can be chosen, and on every reduced locally noetherian scheme over it whose generic points map to `Sh_F`), §7.17a (a) (ampleness of twisted Hodge lines on the smooth integral toroidal model at a good prime), §7.31a (b) (the global normal projective model, with the endomorphisms, its finite covers `Y_L` (that roadmap's own clause; the covers of [FormalProof] that it records are normal projective, dominant of finite degree over a component, with all `ℓ⁴`-torsion rational at a finite set of primes and normal-crossings boundary) and, for a self-dual lattice and `w_0`, the cubical line bundle of the principal polarisation in that roadmap's own form), (b′) (ii) (the global model with its cubical line bundle, the form of [FormalProof]), §9.1 (Kempf's descent of a linearised line bundle to a quotient by a finite group). Used in the setting of 8.11–8.19, 8.11, 8.14, 8.14a, 8.15, 8.18c.
 
 ### From HeightsForLogSingularMetrics, a sub-roadmap of this family
 
