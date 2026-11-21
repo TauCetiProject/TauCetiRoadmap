@@ -54,7 +54,7 @@ place.
 
 * The windowed Landau theorem for weighted families (2.1): for a finitely supported nonnegative
   weight `w` on the primitive finite-order ray-class characters of a number field `K`,
-  `0 ≤ θ < 1`, real `C` and `λ > 1`, if the remainder `G_w(y) = Σ_ψ w(ψ) Re G_ψ(y)` satisfies
+  `0 < θ < 1`, real `C` and `λ > 1`, if the remainder `G_w(y) = Σ_ψ w(ψ) Re G_ψ(y)` satisfies
   `G_w(y) ≤ C y^θ` on windows `[Y, Y^λ]` with `Y` arbitrarily large, then every `L(s, ψ)` with
   `w(ψ) > 0` is zero-free right of `θ`. It lacks the Riesz remainder `G_ψ` of a primitive
   ray-class character (RiemannHypothesisStatementsAndConsequences §8.4a (b)), whose main term for

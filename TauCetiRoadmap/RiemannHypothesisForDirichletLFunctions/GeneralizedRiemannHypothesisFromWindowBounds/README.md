@@ -30,7 +30,7 @@ conjugates, every pole is simple, and the residue at a real pole is positive.
 
 The headline theorems, besides the Riemann hypothesis itself, are these.
 
-- *The windowed Landau theorem for families.* Let `0 ≤ θ < 1` and `λ > 1`. If there are
+- *The windowed Landau theorem for families.* Let `0 < θ < 1` and `λ > 1`. If there are
   arbitrarily large `Y` such that `G_w(y) ≤ y^θ` for every `y ∈ [Y, Y^λ]`, then no `L(s, ψ)` with
   `w(ψ) > 0` vanishes in `Re s > θ`. The bound is one-sided and is required only on windows of
   scales arbitrarily far out, never for all large `y`.
@@ -254,17 +254,19 @@ Mathlib `Finsupp.sum`, `Finsupp.sum_add_index'`, `Finsupp.sum_smul_index'`.
 ### 0.4 Size of the remainder of a family
 
 For a weighted family `w`, `G_w : ℝ → ℝ` is continuous on `ℝ`, hence measurable, and there is
-`C_w` with `|G_w(y)| ≤ C_w y` for every `y ≥ 1`. Hence `∫_1^∞ |G_w(y)| y^{−σ−1} dy < ∞` for every
-real `σ > 1`: with measurability, the hypotheses of PositivityOfDirichletSeriesWithKernels §6.9(b) on `G`
-at `A = 1`.
+`C_w` with `|G_w(y)| ≤ C_w y²` for every `y ≥ 1`: with measurability, the hypotheses on `G` of
+PositivityOfDirichletSeriesWithKernels §6.9(b) in the form of the formal proof, under which the Mellin integral of `G_w`
+converges absolutely on `Re s > 2`. Sharper, there is `C′_w` with `|G_w(y)| ≤ C′_w y` for every `y ≥ 1`. Hence
+`∫_1^∞ |G_w(y)| y^{−σ−1} dy < ∞` for every real `σ > 1`: with measurability, the hypotheses on `G` of the extension of
+PositivityOfDirichletSeriesWithKernels §6.9(b) at `A = 1`.
 
 Route: `rieszSum` is continuous on `ℝ` (RiemannHypothesisStatementsAndConsequences §8.4a(a)), and so
 are `y ↦ y log y`
 (Mathlib `Real.continuous_mul_log`) and `y ↦ y`; so each `G_ψ`, its real part and the finite
 sum `G_w` are continuous, and measurable (`Continuous.measurable`). The size clause of
 RiemannHypothesisStatementsAndConsequences §8.4a(b),
-`‖G_ψ(y)‖ ≤ C_ψ y`, the triangle inequality with `C_w = Σ_ψ w(ψ) C_ψ`, and
-`∫_1^∞ y^{−σ} dy = 1/(σ − 1)`.
+`‖G_ψ(y)‖ ≤ C_ψ y²`, termwise, and its sharper form `‖G_ψ(y)‖ ≤ C′_ψ y`, by the explicit formula; the triangle
+inequality with `C_w = Σ_ψ w(ψ) C_ψ` and `C′_w = Σ_ψ w(ψ) C′_ψ`; and `∫_1^∞ y^{−σ} dy = 1/(σ − 1)`.
 
 *Needs:* 0.3; RiemannHypothesisStatementsAndConsequences §8.4a(a)–(b); Mathlib `Real.continuous_mul_log`,
 `Continuous.measurable`.
@@ -353,7 +355,7 @@ function on `Re s > 1` and the conjugation of meromorphic orders; Mathlib's fini
 
 ## Layer 1: Landau's theorem for weighted families
 
-These statements take a one-sided bound for all large `y`. Their zero-free conclusions are also
+These statements take a one-sided bound for all large `y`. Their zero-free conclusions at `θ > 0` are also
 special cases of Layer 2, where the bound is needed only on windows; their convergence conclusions
 are not.
 
@@ -477,26 +479,29 @@ and 8; Tau Ceti's prime ideal theorem.
 ## Layer 2: the windowed Landau theorem for weighted families
 
 PositivityOfDirichletSeriesWithKernels §6.8, read through its Mellin form §6.9(b), is the theorem this
-layer applies. In that form: let `G : ℝ → ℝ` be measurable with `∫_1^∞ |G(y)| y^{−σ−1} dy < ∞`
-for every real `σ > A`, let `θ < A`, and let `Ψ(s) = ∫_1^∞ G(y) y^{−s−1} dy`, `Re s > A`, continue
-to a function meromorphic on `Re s > θ`. If for some `λ > 1` and every `η > 0` there are
-arbitrarily large `Y` with `∫_Y^{Y^λ} G⁺(y) y^{−θ−1} dy ≤ Y^η`, which holds in particular when
-`HasWindows {y ≥ 1 | G(y) ≤ C y^θ} λ` for some real `C`, then either `Ψ` has no pole in `Re s > θ`,
-or `Ψ` has a real pole `β > θ` such that every pole in `Re s > θ` has real part at most `β` and the
-leading coefficient at `β` is negative. At a simple pole the leading coefficient is the residue
-(PositivityOfDirichletSeriesWithKernels §6.8, simple-pole corollary). Every application below takes `A = 1`.
+layer applies. In the form of the formal proof: let `G : ℝ → ℝ` be measurable with `|G(y)| ≤ C₀ y²` for `y ≥ 1`, let
+`Ψ` be meromorphic on `Re s > 0` with `Ψ(s) = ∫_1^∞ G(y) y^{−s−1} dy` for `Re s > 2`, with simple poles only in
+`Re s > 0` and a positive real residue at every real pole there, and let `0 < θ < 1`. If for some `λ > 1` and every
+`η > 0` there are arbitrarily large `Y` with `∫_Y^{Y^λ} G⁺(y) y^{−θ−1} dy ≤ Y^η`, which holds in particular when
+`HasWindows {y ≥ 1 | G(y) ≤ C y^θ} λ` for some real `C`, then `Ψ` has no pole in `Re s > θ`. 2.1–2.3 and the first
+statement of 2.5 rest on this form. Its extension takes, in place of the size bound, `∫_1^∞ |G(y)| y^{−σ−1} dy < ∞`
+for every real `σ > A`, any `θ < A`, and `Ψ`, the integral on `Re s > A`, meromorphic on `Re s > θ` only, with no
+condition on its poles; under the same windows, either `Ψ` has no pole in `Re s > θ`, or `Ψ` has a real pole `β > θ`
+such that every pole in `Re s > θ` has real part at most `β` and the leading coefficient at `β` is negative. At a
+simple pole the leading coefficient is the residue (PositivityOfDirichletSeriesWithKernels §6.8, simple-pole
+corollary). 2.4 and the second statement of 2.5 rest on the extension, at `A = 1`: they are this roadmap's own
+consequences, not statements of [FormalProof].
 
 ### 2.1 Pointwise windows
 
-Let `w` be a weighted family of characters of `K`, `0 ≤ θ < 1`,
+Let `w` be a weighted family of characters of `K`, `0 < θ < 1`,
 `C` real and `λ > 1`. If `HasWindows {y | G_w(y) ≤ C y^θ} λ`, then every member `ψ` satisfies
 `ZeroFreeRightOf θ (heckeLFunctionC ψ.character)`. The ratio `λ` may be any number above `1`.
 
-Route: PositivityOfDirichletSeriesWithKernels §6.9(b) with `G = G_w` and `A = 1`, measurable and
-integrable by 0.4, and `Ψ = Φ_w`,
-meromorphic on `ℂ` (0.5). Its real poles in `(θ, 1]` lie in `(0, 1)`, are simple and have positive
-residue (0.6), so the second alternative is excluded and `Φ_w` has no pole in `Re s > θ`; a zero of
-a member with `Re ρ > θ` would be a pole (0.6).
+Route: PositivityOfDirichletSeriesWithKernels §6.9(b) in the form of the formal proof, with `G = G_w`, measurable
+with `|G_w(y)| ≤ C_w y²` for `y ≥ 1` by 0.4, and `Ψ = Φ_w`, meromorphic on `ℂ`, hence on `Re s > 0`, and the
+integral on `Re s > 1`, hence on `Re s > 2` (0.5). Its poles in `Re s > 0` are simple, and its residue at a real pole is
+positive (0.6), so `Φ_w` has no pole in `Re s > θ`; a zero of a member with `Re ρ > θ` would be a pole (0.6).
 
 *Needs:* 0.4, 0.5, 0.6; PositivityOfDirichletSeriesWithKernels §§6.8, 6.9;
 RiemannHypothesisStatementsAndConsequences §9.2.
@@ -512,18 +517,18 @@ RiemannHypothesisStatementsAndConsequences §9.2.
 
 ### 2.2 Windows in mean
 
-Let `w` be a weighted family, `0 ≤ θ < 1` and `λ > 1`. If for
+Let `w` be a weighted family, `0 < θ < 1` and `λ > 1`. If for
 every `η > 0` there are arbitrarily large `Y` with `∫_Y^{Y^λ} G_w(y)⁺ y^{−θ−1} dy ≤ Y^η`, the
 conclusion of 2.1 holds.
 
-Route: this is the mean hypothesis of PositivityOfDirichletSeriesWithKernels §6.9(b) for `G = G_w`;
-the rest is 2.1's.
+Route: this is the mean hypothesis of PositivityOfDirichletSeriesWithKernels §6.9(b), in the form of the formal proof,
+for `G = G_w`; the rest is 2.1's.
 
 *Needs:* as 2.1.
 
 ### 2.3 Large values in every window
 
-Let `w` be a weighted family and `0 ≤ θ < 1`. If some
+Let `w` be a weighted family and `0 < θ < 1`. If some
 member `ψ` has a zero `ρ` of `L(·, ψ)` with `Re ρ > θ`, then for every `λ > 1` and every `C` there
 is `Y₀` such that every window `[Y, Y^λ]` with `Y ≥ Y₀` contains a `y` with `G_w(y) > C y^θ`.
 
@@ -538,8 +543,11 @@ family, `0 ≤ θ < 1`, `C` real and `λ > 1`. If `HasWindows {y | G_w(y) ≥ �
 every member is zero-free
 right of `θ`, or some member has a real zero `β ∈ (θ, 1)` and every zero of every member in
 `Re s > 0` has real part at most `β`. For `K = ℚ` and `w = single 1 1` the first alternative holds.
+This statement is this roadmap's own, drawn from the extension of PositivityOfDirichletSeriesWithKernels §6.9(b); it is
+not a statement of [FormalProof].
 
-Route: PositivityOfDirichletSeriesWithKernels §6.9(b) for `G = −G_w`: the rightmost pole of `−Φ_w`,
+Route: the extension of PositivityOfDirichletSeriesWithKernels §6.9(b) at `A = 1` for `G = −G_w`, measurable and
+integrable by 0.4, with `Ψ = −Φ_w`, meromorphic on `ℂ` (0.5): the rightmost pole of `−Φ_w`,
 if there is one right of `θ`, is real
 with negative leading coefficient, that is a real pole of `Φ_w` with positive residue, which 0.6
 allows; it bounds the real parts of all poles. For `ζ` there is no real zero in `(0, 1)`
@@ -552,18 +560,21 @@ allows; it bounds the real parts of all poles. For `ζ` there is no real zero in
 
 Let `0 ≤ θ < 1`, `C` real and `λ > 1`.
 
-- If `HasWindows {x | ψ_K(x) − x ≥ −C x^θ} λ`,
+- If `0 < θ` and `HasWindows {x | ψ_K(x) − x ≥ −C x^θ} λ`,
   then `ZeroFreeRightOf θ ζ_K`.
 - If
   `HasWindows {x | ψ_K(x) − x ≤ C x^θ} λ`, then
   either `ZeroFreeRightOf θ ζ_K`, or `ζ_K` has a real zero `β ∈ (θ, 1)` and every zero of `ζ_K` in
-  `Re s > 0` has real part at most `β`. For `K = ℚ` the first alternative holds.
+  `Re s > 0` has real part at most `β`. For `K = ℚ` the first alternative holds. This statement is this
+  roadmap's own, drawn from the extension of PositivityOfDirichletSeriesWithKernels §6.9(b); it is not a statement
+  of [FormalProof].
 
-Route: PositivityOfDirichletSeriesWithKernels §6.9(b) with `A = 1` for `G(y) = −(ψ_K(y) − y)` in the
-first statement and
-`G(y) = ψ_K(y) − y` in the second, with the integrability and the transform of 1.3, whose poles in
-`Re s > 0` are simple with residue `−m/ρ`. For `K = ℚ`, `ζ` has no real zero in `(0, 1)`
-(ExplicitZetaBounds §0.3, its case `q = 1`).
+Route: the transform of `ψ_K(y) − y` is that of 1.3, meromorphic on `ℂ`, with poles in `Re s > 0` simple with residue
+`−m/ρ` at the zeros `ρ` of `ζ_K`, `m` the order. The first statement: PositivityOfDirichletSeriesWithKernels §6.9(b),
+in the form of the formal proof, for `G(y) = −(ψ_K(y) − y)`, with `|G(y)| ≤ (C_K + 1) y ≤ (C_K + 1) y²` for `y ≥ 1` by
+the Chebyshev bound of 1.3; the residues of its transform, `m/ρ`, are positive at the real poles. The second: the
+extension of that §6.9(b) at `A = 1` for `G(y) = ψ_K(y) − y`, with the integrability of 1.3. For `K = ℚ`, `ζ` has no
+real zero in `(0, 1)` (ExplicitZetaBounds §0.3, its case `q = 1`).
 
 *Needs:* 1.3; PositivityOfDirichletSeriesWithKernels §§6.8, 6.9; ExplicitZetaBounds §0.3
 (the negativity of `ζ` on `(0, 1)`).
@@ -645,7 +656,7 @@ right of `σ` exactly when zero-free right of every `σ′ > σ`) gives it right
   many zeros in the critical strip (ZerosOfLFunctions Layer 7), and its zero set is invariant under
   `ρ ↦ 1 − ρ̄` (RiemannHypothesisStatementsAndConsequences §9.3), so it has zeros with real part at
   least `1/2`, which 2.1
-  would exclude.
+  would exclude (at `θ = 0` after 3.1 moves the bound to `θ′ = 1/4`).
 
 ### 3.4 Reduction to cyclic families
 
@@ -743,13 +754,13 @@ Route: by 0.3 the sum in (i) is `G_{w_ℚ}`, and `w_ℚ` is a weighted family wh
 RiemannHypothesisStatementsAndConsequences §11.1, by the definition of the equivalence, writes the
 image as the primitive character of
 `(ratDirichletEquiv q _).symm κ.character`, `q` the level of `κ`,
-RiemannHypothesisStatementsAndConsequences §9.2's
-ray-class clause passes to that presentation, and the rational bullet of its §9.5 to `κ.character.LFunction`.
+the ray-class clause of QuasiRiemannHypothesis §1.1 passes to that presentation, and the rational bullet of
+RiemannHypothesisStatementsAndConsequences §9.5 to `κ.character.LFunction`.
 (i) ⇒ (ii): 4.1 at each member of `𝒦_ℚ(ψ)`. (ii) ⇒ (i): 3.2 at `σ = 1/2` with all weights `1`
 gives the bound at every `1/2 + ε`, with every `λ`. The last sentence: 3.4.
 
-*Needs:* 0.2, 0.3, 3.2, 3.4, 4.1; RiemannHypothesisStatementsAndConsequences §§9.2, 9.5, 11.1; for
-the sentence
+*Needs:* 0.2, 0.3, 3.2, 3.4, 4.1; RiemannHypothesisStatementsAndConsequences §§9.5, 11.1;
+QuasiRiemannHypothesis §1.1 (the ray-class clause); for the sentence
 on the supplier, ThetaChainsAndFrobeniusPrimeSums §10.11.
 
 **Checks.**
@@ -766,7 +777,7 @@ information on `L(·, ψ)` (4.1).
 
 ### Dependencies
 
-Layers 0, 2 and 3; RiemannHypothesisStatementsAndConsequences §§9.2, 9.5, 11.1;
+Layers 0, 2 and 3; RiemannHypothesisStatementsAndConsequences §§9.2, 9.5, 11.1; QuasiRiemannHypothesis §1.1;
 ThetaChainsAndFrobeniusPrimeSums §10.11, for the sentence of 4.2 on statement (i).
 
 ## Layer 5: the headline theorems
@@ -904,8 +915,7 @@ attached to `φ` by reciprocity, whose Euler factor at a prime `𝔭 ∤ 𝔣` i
 Euler products therefore differ by finitely many factors `(1 − a N𝔭^{−s})^{±1}`, `|a| ≤ 1`, at the
 primes dividing `𝔣`, a function analytic and nonzero on `Re s > 0`; the identity extends to the
 continuations (`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`), and
-RiemannHypothesisStatementsAndConsequences
-§9.2 (germs, products) gives `ZeroFreeRightOf (1/2) (heckeLFunctionC φ̃.character)`.
+QuasiRiemannHypothesis §1.1 (germs, products) gives `ZeroFreeRightOf (1/2) (heckeLFunctionC φ̃.character)`.
 
 The identification of the bullet: by Kronecker–Weber (ClassFieldTheory Layer 13) `L ⊆ ℚ(ζ_m)` for
 some `m`; inflate `φ` to `Gal(ℚ(ζ_m)/K)`, a subgroup of `Gal(ℚ(ζ_m)/ℚ) ≅ (ℤ/m)ˣ`, and extend it to
@@ -922,8 +932,8 @@ Conversely, the class field of `χ ∘ N_{K/ℚ}` lies in `K(ζ_m)`, which is ab
 primitive character is the `φ̃` of a character `φ` of `Gal(K(ζ_m)/K)`.
 
 *Needs:* 5.5; AnalyticNumberTheoryPartI §§2.18a, 2.41 and RieszSumsOverPrimesAndExceptionalZeros
-§2.41a; ZerosOfLFunctions §8.8; QuasiRiemannHypothesis §5.4;
-RiemannHypothesisStatementsAndConsequences §§8.8, 9.2, 9.5;
+§2.41a; ZerosOfLFunctions §8.8; QuasiRiemannHypothesis §§1.1, 5.4;
+RiemannHypothesisStatementsAndConsequences §§8.8, 9.5;
 ClassFieldTheory C.6, Layers 12, 13; LFunctions Layer 5 (`PrimitiveRayClassCharacter.of_induced`);
 Tau Ceti `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`,
 `TauCeti.GlobalNumberFields.RayClassCharacter.induced`,
@@ -964,7 +974,7 @@ and the nontrivial character `φ` of `Gal(L/K)`, `φ̃` is `(·/3) ∘ N`, of mo
 Layer 4; FrobeniusRestrictedRieszSums §0.5; ThetaChainsAndFrobeniusPrimeSums §10.11;
 RiemannHypothesisStatementsAndConsequences §§8.8, 9.2–9.5, 10.3, 11.1;
 RieszSumsOverPrimesAndExceptionalZeros §2.41a; AnalyticNumberTheoryPartI §§1.6, 2.18a, 2.41, 2.42;
-ZerosOfLFunctions §8.8; QuasiRiemannHypothesis §5.4; ClassFieldTheory C.6, Layers 12 and 13;
+ZerosOfLFunctions §8.8; QuasiRiemannHypothesis §§1.1, 5.4; ClassFieldTheory C.6, Layers 12 and 13;
 LFunctions Layers 4 and 5; Tau Ceti's ray-class characters, their induction and the meromorphic
 identity theorem on half-planes.
 
@@ -2465,11 +2475,12 @@ nothing here uses them.
   conjugation
   `rieszRemainder ψ⁻¹ = conj (rieszRemainder ψ)`; the Mellin transform `Φ_ψ` on `Re s > 1`; `Φ_ψ`
   meromorphic on `ℂ`, analytic at `1`, with poles in `Re s > 0` exactly at the zeros of `L(·, ψ)`,
-  simple with residue `m_ρ/(ρ(1 − ρ))`; the size bound `‖rieszRemainder ψ y‖ ≤ C_ψ y` for `y ≥ 1`.
+  simple with residue `m_ρ/(ρ(1 − ρ))`; the size bound `‖rieszRemainder ψ y‖ ≤ C_ψ y²` for `y ≥ 1`, and its sharper
+  form `‖rieszRemainder ψ y‖ ≤ C_ψ y`.
 - §8.8: *PrimitiveRayClassCharacter.of_comp_dictionary_eq*, the independence of the primitive
   characters `PrimitiveRayClassCharacter.of (ψ ∘ Φ)` from the dictionary (Conventions, for 5.6 and 6.4).
-- §9.2: `ZeroFreeRightOf`, monotonicity (with zero-freeness right of `σ` equivalent to zero-freeness
-  right of every `σ′ > σ`), germs, products and the converse product clause, values.
+- §9.2: `ZeroFreeRightOf`, the limit form of monotonicity (zero-freeness right of `σ` equivalent to zero-freeness
+  right of every `σ′ > σ`), the converse product clause.
 - §9.3: `AnalyticLFunctionData.GeneralizedRiemannHypothesis`, its half-plane form, the `ζ` bridge
   (`riemannHypothesis_iff_zeroFreeRightOf`, `riemannHypothesis_iff_riemannZeta_ne_zero`,
   `riemannZetaData.GeneralizedRiemannHypothesis ↔ RiemannHypothesis`), the invariance of the zero
@@ -2526,12 +2537,16 @@ nothing here uses them.
   `∫_0^∞ |C e^{θu} − g| e^{−σu} du < ∞` for real `σ > θ`; (c) without the sign condition, either no
   pole, or the rightmost pole is real with negative leading coefficient and `HasLaplace g s` holds
   right of it; (d) the same for lower bounds with the signs reversed.
-- §6.8: the windowed theorem for poles of finite order under the integrability hypothesis, with its
-  simple-pole corollary, in the form stated at the head of Layer 2.
+- §6.8: the windowed theorem in the form of the formal proof (`windowedLandau_simplePole`: `|g(u)| ≤ C₀ e^{2u}`,
+  continuation to `Re s > 0` with simple poles and a positive residue at every real pole, `0 < θ < 1`; for 2.1–2.3 and
+  the first statement of 2.5), and its extension (`windowedLandau`: poles of finite order under the integrability
+  hypothesis, with the dichotomy) with its simple-pole corollary (for 2.4 and the second statement of 2.5), in the
+  forms stated at the head of Layer 2.
 - §6.9: (a) `HasWindows S λ` with its monotonicity in `S` and `λ`, windows of `[x₀, ∞)` and of sets
-  containing `S ∩ [x₀, ∞)`; (b) the Mellin form of §6.8 under `∫_1^∞ |G(y)| y^{−σ−1} dy < ∞` for
-  `σ > A`, including the conversion of pointwise windows of `{y ≥ 1 | G(y) ≤ C y^θ}` into the mean
-  hypothesis.
+  containing `S ∩ [x₀, ∞)`; (b) the Mellin form of §6.8, in the form of the formal proof under `|G(y)| ≤ C₀ y²` for
+  `y ≥ 1` (`windowedLandau_mellin_simplePole`) and in its extension under `∫_1^∞ |G(y)| y^{−σ−1} dy < ∞` for
+  `σ > A` (`windowedLandau_mellin`), each including the conversion of pointwise windows of `{y ≥ 1 | G(y) ≤ C y^θ}`
+  into the mean hypothesis.
 
 ### From FrobeniusRestrictedRieszSums, a sub-roadmap of this family
 
@@ -2640,6 +2655,8 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.QuasiRiemannHypothesis
 
+- §1.1: the clauses of `ZeroFreeRightOf` on germs, products, values and a ray-class character with its primitive
+  source (4.2, 5.6).
 - §5.4: the norm-composed character `χ ∘ N_{K/ℚ}` (5.6, 6.25); §§11.2, 11.3: discharged in 6.26.
 
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
@@ -2677,8 +2694,9 @@ nothing here uses them.
   <https://github.com/leanprover-community/riemann-hypothesis>. The formalization is the source of
   the route of this roadmap: of the transform of a family with its positive residues
   (0.5, 0.6), of the windowed Landau theorem for families in its upper-bound forms (2.1–2.3, through
-  PositivityOfDirichletSeriesWithKernels §6.8; the lower-bound form 2.4 and the form 2.5 for
-  `ψ_K(x) − x` are drawn here from the dichotomy of that §6.8), and of the passage from the window
+  PositivityOfDirichletSeriesWithKernels §6.8 in the form of the formal proof; the form 2.5 for `ψ_K(x) − x` is drawn
+  here, its first statement from that form, and its second, like the lower-bound form 2.4, from the extension of
+  that §6.8, as this roadmap's own), and of the passage from the window
   bounds for cyclic families to the hypothesis (Layer 4, 5.1).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026:
   <https://alpo.ge/remark.pdf>, p. 1: the announcement of proofs of the Riemann hypothesis and of
