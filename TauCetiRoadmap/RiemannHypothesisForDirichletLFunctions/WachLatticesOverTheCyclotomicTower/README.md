@@ -445,7 +445,7 @@ a coboundary by 6.7 (1b), and `t = 0`. Hence `a ↦ (c_{a,i} mod N_i)_i` is inje
 
 - If every `i` is low and `d = 0`, the theorem says every polar Herr pair is a coboundary.
 - Rank zero: the only Herr pair is `0`, so the bound holds for every `d`.
-- (*`v_i ≥ 1` in the high type*) For `v_i = 0` the element `φ(y)` of the route of 6.7 (4) need not lie in `Xφ^*N₀`, and the
+- (*`v_i ≥ 1` in the high type*) For `v_i = 0` the element `φ(ψ(Xx))` of the route of 6.7 (4) need not lie in `Xφ^*N₀`, and the
   bound is not asserted.
 
 ### 6.9 Position data, models, and the residual bound for admissible classes
