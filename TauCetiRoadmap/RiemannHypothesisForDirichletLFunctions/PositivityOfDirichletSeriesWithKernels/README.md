@@ -14,13 +14,13 @@ Notation and conventions not restated here are those of ArithmeticDirichletSerie
 
 | Subject | Convention |
 | --- | --- |
-| Taylor coefficients (Layer 6) | For `Φ` analytic near `z`, `a_k(z) = (−1)^k Φ^(k)(z)/k!`, so that `Φ(z − t) = Σ_k a_k(z) t^k`. For a Laplace transform this makes `a_k(z) = ∫₀^∞ g(u) u^k e^(−zu)/k! du`, with no sign `(−1)^k`. |
+| Taylor coefficients (Layer 6) | For `Φ` analytic near `z`, `a_k(z) = (−1)^k Φ^(k)(z)/k!`, so that `Φ(z − t) = Σ_k a_k(z) t^k`. For a Laplace transform this makes `a_k(z) = ∫₀^∞ g(u) u^k e^(−zu)/k! du`, with no sign `(−1)^k`. The normalisation of `a_k` is that of [FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCoeff.lean` (`Deduction.landau_coeff`). |
 | Gamma kernel (Layer 6) | `w_k^a(u) = u^k e^(−au)/k!` for `u > 0`, every real rate `a` and `k ∈ ℕ`; 6.1 (b) and 6.5 (a) use it at every rate `σ > A`, which may be `≤ 0`. This is notation, not a new definition. For `a > 0`, `w_k^a = a^(−k−1) · ProbabilityTheory.gammaPDFReal (k + 1) a` on `(0, ∞)`, and the lemmas of 6.2, all at positive rate, are stated for that expression; for `a ≤ 0` the kernel has infinite mass and no such form (at `a = 0`, `k = 0` it is the constant `1`, while the displayed expression vanishes, `gammaPDFReal 1 0` carrying the factor `0^1`). |
 | meromorphic continuation (Layer 6) | One function `Φ : ℂ → ℂ` with `MeromorphicOn Φ {s | θ < s.re}` and `HasLaplace g s (Φ s)` for `Re s > A` (in the forms of the formal proof of 6.8 and 6.9 (b), `MeromorphicOn Φ {s | 0 < s.re}` with `A = 2`). A pole is a point `ρ` with `meromorphicOrderAt Φ ρ < 0`; its order is `m = −meromorphicOrderAt Φ ρ`. Mathlib's meromorphic functions have poles of finite order only. A meromorphic function may take arbitrary values at its poles and at its removable singularities, so Layer 6 says "`Φ` has no pole in" a region, never "`Φ` is holomorphic on" it, and it uses values of `Φ` near a pole or on a circle only after passing to the normal form `toMeromorphicNFOn Φ {s | θ < s.re}` (6.1 (c)). |
 | leading coefficient (Layer 6) | At a pole `ρ` of order `m`, `meromorphicTrailingCoeffAt Φ ρ`: the value `h(ρ)` in `Φ(s) = (s − ρ)^(−m) h(s)` near `ρ`, `h` analytic, `h(ρ) ≠ 0`. It depends only on `Φ` on a punctured neighbourhood of `ρ` (`meromorphicTrailingCoeffAt_congr_nhdsNE`), so `Φ` and its normal form have the same leading coefficients. This is the normalisation of the leading coefficient `A` of `PoleBoundary` (ArithmeticDirichletSeriesPartII §0.2); at a simple pole it is the residue. For real `g` the Laurent coefficients at a real pole are real (6.1 (c)); "negative leading coefficient" means a negative real number. |
-| windows (Layer 6) | In the Laplace variable, `[U, λU]` with a fixed `λ > 1` (written `λ = 1 + δ`) and `U → ∞`; in the Mellin variable `y = e^u`, `[Y, Y^λ]` with `Y^λ = Real.rpow`. `g⁺ = max(g, 0)`. |
+| windows (Layer 6) | In the Laplace variable, `[U, λU]` with a fixed `λ > 1` (written `λ = 1 + δ`) and `U → ∞`; in the Mellin variable `y = e^u`, `[Y, Y^λ]` with `Y^λ = Real.rpow`. `g⁺ = max(g, 0)`. The windows are those of [FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean` (`Deduction.WindowHypU`), `Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.WindowHyp`). |
 | several variables (Layer 7) | `E` is a finite-dimensional real normed space with a Haar measure `μ`, `n = dim E`; the parameter `t` runs over the positive integers, and `t → ∞` means `t → +∞`. |
-| characters and measures on `ℂ` (8.1) | For `β ∈ ℂ^×`, `ψ_β(w) = exp(i Re(βw))`; these are the nontrivial continuous characters of `ℂ`. `μ_β = (|β|/2π) ·` Lebesgue measure on `ℂ = ℝ²` is the Haar measure self-dual for `ψ_β`; `ℂ^n` carries the product measure `μ_β^n` and the sup norm `‖x‖ = max_k |x_k|`, and `B(x₀, r)`, `B̄(x₀, r)` are the open and closed polydiscs. For a function on `ℂ^n = ℝ^(2n)`, `D^j` is its `j`-th real Fréchet derivative with the operator norm; for a holomorphic `g`, `∇g = (∂g/∂x_k)_k` (with the sup norm) and `D_ℂ^j g` is its `j`-th complex derivative. |
+| characters and measures on `ℂ` (8.1) | For `β ∈ ℂ^×`, `ψ_β(w) = exp(i Re(βw))`; these are the nontrivial continuous characters of `ℂ`. `μ_β = (|β|/2π) ·` Lebesgue measure on `ℂ = ℝ²` is the Haar measure self-dual for `ψ_β`; `ℂ^n` carries the product measure `μ_β^n` and the sup norm `‖x‖ = max_k |x_k|`, and `B(x₀, r)`, `B̄(x₀, r)` are the open and closed polydiscs. For a function on `ℂ^n = ℝ^(2n)`, `D^j` is its `j`-th real Fréchet derivative with the operator norm; for a holomorphic `g`, `∇g = (∂g/∂x_k)_k` (with the sup norm) and `D_ℂ^j g` is its `j`-th complex derivative. The characters `ψ_β` and the measures `μ_β`, `μ_β^n` are those of [FormalProof], `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.psi`), `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.mu`), `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.muPi`). |
 | the non-archimedean ring (8.2) | `K` is a finite product of finite extensions of fields `ℚ_p`, `𝔒 ⊂ K` a compact open subring, and `ψ : K → S¹` an additive character with `{a ∈ K : ψ(a𝔒) = 1} = 𝔒`. A *lattice* is a compact open subgroup of `(K, +)`; `L^⊥ = {a ∈ K : ψ(aL) = 1}`; `dx` is the Haar measure on `K` with `vol(𝔒) = 1`; `|a|` is the module of `a ∈ K^×`, `d(ax) = |a| dx`. Integrals over `K^m` are of locally constant functions with compact support. `𝟙` is the all-ones vector and `H_m(a) = a^(−1)(1 + 𝟙𝟙ᵀ) ∈ M_m(K)` for `a ∈ K^×`. |
 
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
@@ -99,10 +99,12 @@ identity theorem.
 The kernel `w_k^a(u) = u^k e^(−au)/k!` of the Conventions, at a positive rate. Let `a > 0` and `k ∈ ℕ`; then
 `w_k^a(u) = a^(−k−1) gammaPDFReal (k + 1) a u` for `u > 0`.
 
-- (a) *Mass.* `∫₀^∞ w_k^a(u) du = a^(−k−1)`.
+- (a) *Mass.* `∫₀^∞ w_k^a(u) du = a^(−k−1)`. This is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/kernelIntegral.lean` (`Deduction.kernel_integral`).
 - (b) *Supremum and shift.* `0 ≤ w_k^a(u) ≤ a^(−k)` for `u ≥ 0`; and `w_k^(a′)(u) = e^(−bu) w_k^(a′−b)(u)` for all
   real `a′` and `b` (the kernel at every rate of the Conventions), so that a kernel at any rate is an exponential
-  times one at a positive rate.
+  times one at a positive rate. This is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauKernelMax.lean` (`Deduction.landau_kernel_max`).
 - (c) *Profile.* Put `φ(t) = t e^(1−t)` for `t > 0`. For `k ≥ 1` and `t > 0`,
   `w_k^a(tk/a) ≤ a^(−k) φ(t)^k`.
 - (d) *Supremum off a window.* For `λ > 1` put
@@ -114,9 +116,11 @@ The kernel `w_k^a(u) = u^k e^(−au)/k!` of the Conventions, at a positive rate.
   w_k^τ(u) ≤ τ^(−k) q_λ^k      for every u > 0 with u ∉ [U, λU] .
   ```
 - (e) *Mass off an interval.* For `k ∈ ℕ`, reals `U, V` and `0 ≤ l < a`:
-  `∫_((0,∞)∖[U,V]) w_k^a(u) du ≤ e^(−lV) (a − l)^(−k−1) + e^(lU) (a + l)^(−k−1)`.
+  `∫_((0,∞)∖[U,V]) w_k^a(u) du ≤ e^(−lV) (a − l)^(−k−1) + e^(lU) (a + l)^(−k−1)`. This is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauTails.lean` (`Deduction.landau_tails_chernoff`).
 - (f) *Mass off a window.* For every `δ > 0` there are `σ > 2` and `C_δ` such that for every `U ≥ 1` there is an integer
-  `k ≥ U` with `∫_((0,∞)∖[U,(1+δ)U]) w_k^(σ−2)(u) du ≤ C_δ σ^(−k)`.
+  `k ≥ U` with `∫_((0,∞)∖[U,(1+δ)U]) w_k^(σ−2)(u) du ≤ C_δ σ^(−k)`. This is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauTails.lean` (`Deduction.landau_tails`).
 
 *Proof sketch.* (a) is `Γ(k + 1) = k!` (`Real.integral_rpow_mul_exp_neg_mul_Ioi`), equivalently the
 total mass `1` of the Gamma density (`lintegral_gammaPDF_eq_one`). (b) is `(au)^k/k! ≤ e^(au)`
@@ -247,6 +251,10 @@ transform `Φ` on `Re s > A`, `σ > A` real, `γ` real and `k ∈ ℕ`.
   ```
   Consequently, for `δ > 0` and `0 ≤ θ′ < σ` with `σ`, `C_δ` as in 6.2 (f): for every `U ≥ 1` there is an integer `k ≥ U`
   with `|a_k(σ + iγ)| + a_k(σ) ≤ 2 (σ − θ′)^(−k) ( ∫_U^((1+δ)U) g⁺(u) e^(−θ′u) du + C₀ C_δ )` for every real `γ`.
+  The display follows from [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindowIneq.lean` (`Deduction.landau_window_ineq`),
+  and the consequence from [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean` (`Deduction.landau_window_key`).
 
 *Proof sketch.* (a): `|a_k(σ + iγ)| ≤ ∫ |g| w_k^σ` (6.1 (b), `|e^(−iγu)| = 1`) and
 `a_k(σ) = ∫ g w_k^σ`, and `|g| + g = 2g⁺`. This is the positivity of `1 + cos`, applied to one Taylor
@@ -278,7 +286,8 @@ needs `θ′ ≥ 0`.
 Let `z ∈ ℂ` and `r > 0`.
 
 - (a) *Cauchy.* If `Φ` is analytic on `B(z, r)` and `0 < r′ < r`, there is `M` with
-  `|a_k(z)| ≤ M r′^(−k)` for all `k`.
+  `|a_k(z)| ≤ M r′^(−k)` for all `k`. This is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauCauchy.lean` (`Deduction.landau_cauchy`).
 - (b) *Pole of finite order.* Let `ρ ∈ B(z, r)`, `ρ ≠ z`, let `Φ` be analytic on `B(z, r) ∖ {ρ}`,
   and let `ρ` be a pole of order `m ≥ 1` with principal part `Σ_{j=1}^m c_j (s − ρ)^(−j)`, `c_m ≠ 0`.
   Then for `0 < r′ < r` there is `M` with
@@ -291,7 +300,8 @@ Let `z ∈ ℂ` and `r > 0`.
 analytic on `B(z, r) ∖ {ρ}`, and let `Φ(s) = c/(s − ρ) + h(s)` near `ρ` with `h` analytic at `ρ`. Then for `0 < r′ < r`
 there is `M` with `|a_k(z) − c (z − ρ)^(−k−1)| ≤ M r′^(−k)` for all `k`. If `c ≠ 0` and `d = |z − ρ| < r′`, there is `k₀`
 with `|a_k(z)| ≥ ½ |c| d^(−k−1)` for `k ≥ k₀`; if moreover `z`, `ρ` are real, `z > ρ` and `Re c > 0`, then
-`Re a_k(z) ≥ ½ (Re c) d^(−k−1)` for `k ≥ k₀`.
+`Re a_k(z) ≥ ½ (Re c) d^(−k−1)` for `k ≥ k₀`. This follows from [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleAsym.lean` (`Deduction.landau_pole_asym`).
 
 (b) is the meromorphic case of Darboux's method, AsymptoticExpansions §13.6 (2.10.29), with the principal part as
 comparison function and the pole strictly inside the disc of analyticity, so that the error is `O(r′^(−k))` for every
@@ -329,6 +339,11 @@ finitely many points) with `Re ρ < σ` for every `ρ ∈ Z` and `Z ∩ {Re s > 
   - (B) there are a real `β ∈ Z` with `β > θ` and `r` with `σ − β < r ≤ σ − θ`, `Z ∩ B(σ, r) = {β}`,
     and `Re ρ ≤ β` for every `ρ ∈ Z`.
 
+This follows from [FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauFinite.lean`
+(`Deduction.landau_finite`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauDichotomy.lean`
+(`Deduction.landau_dichotomy`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauNearest.lean`
+(`Deduction.landau_nearest`).
+
 *Proof sketch.* Local finiteness: a closed disc in the half-plane is compact. Let
 `F = Z ∩ B̄(σ, σ − θ)`, finite. If `F = ∅`, take `D = σ − θ` and any `ρ₁ ∈ Z` with `Re ρ₁ > θ`.
 Otherwise let `D = dist(σ, Z) ≤ σ − θ`, so `Z ∩ B(σ, D) = ∅`. If some `ρ₁ ∈ Z` has `σ − Re ρ₁ < D`,
@@ -359,6 +374,10 @@ for all `u ≥ 0`, for some real `C₀`, and let `Φ` be meromorphic on `{Re s >
 ∫_U^((1+δ)U) g⁺(u) e^(−θu) du ≤ e^(ηU) .
 ```
 Then `Φ` has no pole in `Re s > θ`. Stated as `windowedLandau_simplePole` in `Suggested.lean`.
+It follows from [FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean`
+(`Deduction.landau_window`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean`
+(`Deduction.PoleData`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean`
+(`Deduction.WindowHypU`).
 
 The exponent `2` and the half-plane `Re s > 0` are a normalisation: for `g` with `|g(u)| ≤ C₀ e^(Au)`, transform
 meromorphic on `Re s > θ₀` with simple poles and positive residues at the real ones, and `θ₀ < θ < A`, apply the
@@ -467,9 +486,11 @@ every `Y₀` there is `Y ≥ max(Y₀, 1)` with `Set.Icc Y (Y ^ λ) ⊆ S`. API:
 
 - monotone in `S`; for `1 < λ′ ≤ λ`, `HasWindows S λ` gives `HasWindows S λ′`;
 - `HasWindows (Set.Ici x₀) λ` for every `x₀` and `λ > 1`;
-- if `HasWindows S λ` and `S ∩ Set.Ici x₀ ⊆ S′`, then `HasWindows S′ λ`.
+- if `HasWindows S λ` and `S ∩ Set.Ici x₀ ⊆ S′`, then `HasWindows S′ λ`. This follows from [FormalProof],
+  `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows.mono`).
 
-The predicate is `HasWindows` of `Suggested.lean`.
+The predicate is `HasWindows` of `Suggested.lean`. This is [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean` (`Formalism.HC.HasWindows`).
 
 (b) *Mellin form.* *The form of the formal proof.* Let `G : ℝ → ℝ` be measurable with `|G(y)| ≤ C₀ y²` for `y ≥ 1`, and
 let `Ψ` be meromorphic on `{Re s > 0}` with `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for `Re s > 2`, with simple poles only in
@@ -480,8 +501,10 @@ Consequently, if `0 < θ < 1` and, for some `λ > 1` and every `η > 0`, there a
 `HasWindows {y ≥ 1 | G(y) ≤ C y^θ} λ` for some real `C`. Stated, with this hypothesis, as
 `windowedLandau_mellin_simplePole` in `Suggested.lean`. For `θ < 2` it is the case `A = 2` of the extension below, the
 bound giving `∫₁^∞ |G(y)| y^(−σ−1) dy ≤ C₀/(σ − 2)` for `σ > 2`; as in 6.8, `θ < 1` is not needed for its conclusion, nor
-is the simplicity of the poles once positivity is asked of the leading coefficients at the real poles.
-
+is the simplicity of the poles once positivity is asked of the leading coefficients at the real poles. See [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean` (`Deduction.landau_window`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean` (`Deduction.poleData_change`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean` (`Deduction.lemmaL`). 
 *Extension.* Let `G : ℝ → ℝ` be measurable with
 `∫₁^∞ |G(y)| y^(−σ−1) dy < ∞` for every real `σ > A`, and `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for
 `Re s > A`. Then `g(u) = G(e^u)` satisfies `∫₀^∞ |g(u)| e^(−σu) du = ∫₁^∞ |G(y)| y^(−σ−1) dy`,
@@ -492,7 +515,11 @@ arbitrarily large `Y` with `∫_Y^(Y^λ) G⁺(y) y^(−θ−1) dy ≤ Y^η`, the
 `Ψ`. This mean hypothesis holds in particular when `HasWindows {y ≥ 1 | G(y) ≤ C y^θ} λ` for some
 real `C`. Stated, with this hypothesis, as `windowedLandau_mellin` in `Suggested.lean`. This general form is this
 roadmap's extension; [FormalProof] proves this passage only for the remainder of a weighted family of Dirichlet
-characters, with the conclusion that the family has no zero in `Re s > θ`.
+characters, with the conclusion that the family has no zero in `Re s > θ`: [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean`
+(`Deduction.zeroFree_of_rpow_window`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.Gm`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.ZeroFree`).
 
 (c) *Dirichlet-series form.* Let `A ≥ 0` and
 `c : ℕ → ℝ` with `Σ_n |c(n)| n^(−σ) < ∞` for every `σ > A`, sum `F(s)` on `Re s > A`, and
@@ -591,6 +618,11 @@ Let `(f_t)_{t≥1}` be complex functions on `E`, indexed by the positive integer
 - (d) *Non-vanishing.* `∫_E f_t dμ ≠ 0` for all large `t`.
 
 No symmetry or positivity of `B` is assumed; convergence is pointwise, with no uniformity. Clauses (a), (c) and (d) are stated as `tendsto_integral_of_laplaceMethod` in `Suggested.lean`.
+They follow from [FormalProof],
+`ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/LaplaceFoundations/RaisingLoweringNormIdentities.lean`
+(`ReciprocityTheory.ChartRestriction.DS.Lap.Base.GaussianLimitHaar`), and (b) from [FormalProof],
+`ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/Laplace.lean`
+(`ReciprocityTheory.ChartRestriction.DS.Lap.Laplace.gauss_ne_zero`).
 
 *Route.* Fix an integer `N ≥ 1` beyond which the hypotheses hold and with `n < 2γN`. For `x ≥ 0` and `0 < s ≤ t`,
 `(1 + x/s)^s ≤ (1 + x/t)^t` (weighted arithmetic–geometric mean inequality), so for `t ≥ N`,
@@ -637,12 +669,16 @@ Let `n ∈ ℕ` and `β ∈ ℂ^×`. Prove that:
 - (a) *Complex Gaussian integrals.* For `a ∈ ℂ` and `δ > 0`,
   `∫_ℂ e^(−δ|w|²) ψ_β(a w²/2) dμ_β(w) = |β| / √(4δ² + |β|²|a|²)`. For a symmetric matrix `H ∈ M_n(ℂ)` (`Hᵀ = H`) with
   `det H ≠ 0` and `t ∈ ℂ^×`,
-  `lim_{δ→0+} ∫_{ℂ^n} e^(−δ Σ_k |x_k|²) ψ_β(xᵀHx/(2t)) dμ_β^n(x) = |t|^n / |det H|`.
+  `lim_{δ→0+} ∫_{ℂ^n} e^(−δ Σ_k |x_k|²) ψ_β(xᵀHx/(2t)) dμ_β^n(x) = |t|^n / |det H|`. This is [FormalProof],
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.GaussOneDamped`),
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.GaussMulti`),
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.gaussInt`).
 - (b) *Non-stationary phase.* For every `q ∈ ℕ` there is a constant `C = C(n, q, β)` such that: for every open `Ω ⊂ ℂ^n`,
   every holomorphic `g : Ω → ℂ`, all `η, P > 0` with `‖D_ℂ g(x)‖ ≥ η` and `‖D_ℂ^(j+1) g(x)‖ ≤ ‖D_ℂ g(x)‖ P^j` for `1 ≤ j ≤ q` and
   `x ∈ Ω`, every complex Banach space `V`, every `a : ℂ^n → V` of class `C^q` with compact support contained in `Ω` and
   `‖D^j a(x)‖ ≤ S P^j` for `j ≤ q` and all `x`, and every `t ∈ ℂ^×`,
-  `‖∫_{ℂ^n} ψ_β(g(x)/t) a(x) dμ_β^n(x)‖ ≤ C · S · (|t| P/η)^q · μ_β^n(supp a)`.
+  `‖∫_{ℂ^n} ψ_β(g(x)/t) a(x) dμ_β^n(x)‖ ≤ C · S · (|t| P/η)^q · μ_β^n(supp a)`. This is [FormalProof],
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.NonStatPhase`).
 - (c) *Stationary phase at a nondegenerate critical point.* For all `r, Λ > 0` there is a constant `C = C(n, β, r, Λ)` such
   that the following holds. Let `x₀ ∈ ℂ^n`, let `g` be holomorphic on `B(x₀, 2r)` with `|g| ≤ Λ` there and `∇g(x₀) = 0`, let
   `H = (∂²g/∂x_i∂x_j (x₀))` be its Hessian at `x₀`, and suppose `‖x − x₀‖ ≤ Λ ‖∇g(x)‖` for all `x ∈ B̄(x₀, r)`. Let `V` be a
@@ -652,17 +688,28 @@ Let `n ∈ ℕ` and `β ∈ ℂ^×`. Prove that:
   The constant does not depend on `x₀`, `g`, `V`, `a`, `S` or `t`. The leading term carries no root of unity. This is the
   case `k = n + 1` of Hörmander's stationary-phase theorem with remainder (Hörmander, Theorem 7.7.5) in the `2n` real
   coordinates of `ℂ^n`, with its uniformity in the phase. The route of (c) below, through [Hörmander], is this roadmap's,
-  not that of [FormalProof]. Stated as `stationaryPhase_leadingTerm` in `Suggested.lean`.
+  not that of [FormalProof]. Stated as `stationaryPhase_leadingTerm` in `Suggested.lean`. The statement follows from
+  [FormalProof], `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.StationaryPhase`),
+  `Formalism/HermitianCurvature/HermitianCurvatureProofs/StationaryPhaseModel.lean`
+  (`Formalism.FourierDecayAlt.P.stationary_phase_holomorphic`).
 - (d) *The phase `g_D(x) = Σ_{k=1}^n x_k + D/∏_{k=1}^n x_k` on `(ℂ^×)^n`, `D ∈ ℂ^×`.*
   (i) `∂g_D/∂x_k = 1 − D/(x_k ∏_i x_i)`; the critical points are the points `(z, …, z)` with `z^(n+1) = D`; there
-  `g_D = (n + 1)z`, the Hessian is `z^(−1)(1 + 𝟙𝟙ᵀ)` and its determinant is `(n + 1) z^(−n)`.
+  `g_D = (n + 1)z`, the Hessian is `z^(−1)(1 + 𝟙𝟙ᵀ)` and its determinant is `(n + 1) z^(−n)`. This is [FormalProof],
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.PhaseFunctionCritical`),
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.HessCrit`),
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.HessDet`).
   (ii) If `0 < η ≤ 1/(4(n + 1))` and `|∂g_D/∂x_k (x)| < η` for all `k`, there is `z` with `z^(n+1) = D` and `|x_k − z| ≤ 6η|z|` for
   all `k`. Consequently, for every compact `K_c ⊂ ℂ^×` and `δ > 0` there is `c_δ > 0` with `‖∇g_D(x)‖ ≥ c_δ` for all `D ∈ K_c`
-  and all `x ∈ (ℂ^×)^n` with `‖x − (z, …, z)‖ ≥ δ` for every root `z`.
+  and all `x ∈ (ℂ^×)^n` with `‖x − (z, …, z)‖ ≥ δ` for every root `z`. This is [FormalProof],
+  `Formalism/HermitianCurvature/HermitianCurvatureProofs/PhaseFunctionCriticalPoints.lean`
+  (`Formalism.FourierDecayAlt.P.G1.gradSmall6`),
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.GradLower`).
   (iii) For `δ, R > 0` there is `Λ` such that for every `z` with `100(n + 1)δ ≤ |z| ≤ R`, `x₀ = (z, …, z)` and `D = z^(n+1)`:
-  `B(x₀, 4δ) ⊂ (ℂ^×)^n`, `|g_D| ≤ Λ` on `B(x₀, 4δ)`, and `‖x − x₀‖ ≤ Λ‖∇g_D(x)‖` on `B̄(x₀, 2δ)`.
+  `B(x₀, 4δ) ⊂ (ℂ^×)^n`, `|g_D| ≤ Λ` on `B(x₀, 4δ)`, and `‖x − x₀‖ ≤ Λ‖∇g_D(x)‖` on `B̄(x₀, 2δ)`. This is [FormalProof],
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.PhaseFunctionNearCritical`).
   (iv) `‖∇g_D(x)‖ ≤ ‖D_ℂ g_D(x)‖ ≤ n‖∇g_D(x)‖`, and for every `j ≥ 1` there is `C_j`, independent of `D`, with
-  `‖D_ℂ^(j+1) g_D(x)‖ ≤ C_j (1 + ‖∇g_D(x)‖) ρ^(−j)` whenever `|x_k| ≥ ρ > 0` for all `k`.
+  `‖D_ℂ^(j+1) g_D(x)‖ ≤ C_j (1 + ‖∇g_D(x)‖) ρ^(−j)` whenever `|x_k| ≥ ρ > 0` for all `k`. This is [FormalProof],
+  `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.PhaseFunctionRelativeDeriv`).
 
 (b) and (c) are stated for arbitrary holomorphic phases, with constants that depend on the phase only through `(η, P)`
 and `(r, Λ)`: they are applied to amplitudes whose supports and derivative bounds vary with `t`.
@@ -712,7 +759,9 @@ Let `(K, 𝔒, ψ)` be as in the Conventions; every nonzero integer is invertibl
 residue characteristics or about `𝔒` being a maximal order. For every lattice `L`, `L^⊥` is a lattice,
 `L^(⊥⊥) = L` and `vol(L) vol(L^⊥) = 1` (AnalyticNumberTheoryPartII §5.3g at `F = ℚ`, `v = p`, `V = K_(p)` the product of the
 factors of `K` over `p`, `B(x, y) = λ(xy)` with `ψ = ψ_(ℚ_p)∘λ` on `K_(p)`; a lattice is the product of its parts in the
-`K_(p)`), so `dx` is the Haar measure self-dual for `ψ`. For `m ≥ 1` and `D ∈ K^×` let
+`K_(p)`; [FormalProof], `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean`
+(`Formalism.FourierDecayAlt.A6.PerpLat`), `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean`
+(`Formalism.FourierDecayAlt.A6.volL`)), so `dx` is the Haar measure self-dual for `ψ`. For `m ≥ 1` and `D ∈ K^×` let
 `g_D(x) = Σ_{k=1}^m x_k + D/∏_{k=1}^m x_k` on `(K^×)^m`; its critical points are the points `(z, …, z)` with `z^(m+1) = D`, finitely
 many, with `g_D(z, …, z) = (m + 1)z`. An *amplitude of type `(L₀, Λ₁)`*, for lattices `L₀`, `Λ₁`, is a function `A : K^m → ℂ` that
 vanishes unless every `x_k` is a unit with `x_k ∈ L₀` and `x_k^(−1) ∈ L₀`, and that is invariant under translation by `Λ₁^m`.
@@ -725,7 +774,12 @@ Prove that:
   modulus `1`, is the *Gauss factor* of `M`. For `γ(a) := γ_ψ(H_m(a))`:
   `∫_{L^m} ψ(½ ξᵀH_m(a)ξ) dξ = γ(a) |m + 1|^(−1/2) |a|^(m/2)` for `L` admissible for `H_m(a)`, and `γ(ab²) = γ(a)` for all
   `a, b ∈ K^×`. For every lattice `L` and compact `Q ⊂ K^×` there is a neighbourhood `V` of `0` such that `L` is admissible
-  for `H_m(zt)` whenever `t ∈ V ∩ K^×` and `z^(m+1) ∈ Q`. *The Gauss factor is a Weil index.* Write `K = ∏_i K_i` with
+  for `H_m(zt)` whenever `t ∈ V ∩ K^×` and `z^(m+1) ∈ Q`. The modulus, the independence of `L` and the properties of
+  `γ(a)` are [FormalProof],
+  `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean` (`Formalism.FourierDecayAlt.A6.GaussModulus`),
+  `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean` (`Formalism.FourierDecayAlt.A6.GaussIndep`),
+  `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean` (`Formalism.FourierDecayAlt.A6.GaussHess`).
+  *The Gauss factor is a Weil index.* Write `K = ∏_i K_i` with
   `K_i` finite extensions of fields `ℚ_p`, `M = (M_i)_i`, and `ψ_i` for the restriction of `ψ` to `K_i`, which is nontrivial
   because `𝔒` is compact. Then `γ_ψ(M) = ∏_i γ_(ψ_i)(q_i)`, the product of the Weil indices (MetaplecticAutomorphicForms
   §2.1) of the nondegenerate quadratic forms `q_i(ξ) = ½ ξᵀM_iξ` on `K_i^m`, whose polar forms are the `M_i`. For
@@ -736,17 +790,20 @@ Prove that:
   `𝔒`-submodule `B ⊂ V` of `K` that is a lattice and every `z ∈ K^×` with `z^(m+1) ∈ Q` there is a bijection `φ : B^m → B^m` with:
   for every `𝔒`-submodule `Λ ⊂ B` and `ξ, η ∈ B^m`, `φ(ξ) − φ(η) ∈ Λ^m` if and only if `ξ − η ∈ Λ^m`; and for every `ξ ∈ B^m` the
   elements `z + φ(ξ)_k` are units and
-  `g_{z^(m+1)}(z + φ(ξ)_1, …, z + φ(ξ)_m) = (m + 1)z + ½ ξᵀ H_m(z) ξ`.
+  `g_{z^(m+1)}(z + φ(ξ)_1, …, z + φ(ξ)_m) = (m + 1)z + ½ ξᵀ H_m(z) ξ`. This is [FormalProof],
+  `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean` (`Formalism.FourierDecayAlt.A6.MorseLemma`).
 - (c) *Vanishing away from the critical points.* For lattices `L₀, Λ₁, B` and compact `Q ⊂ K^×` there is a neighbourhood `V`
   of `0` such that for all `t ∈ V ∩ K^×`, `D ∈ Q` and every amplitude `A` of type `(L₀, Λ₁)`, the integral of
-  `A(x) ψ(g_D(x)/t)` over the set of `x` lying in no `(z, …, z) + B^m`, `z^(m+1) = D`, is `0`.
+  `A(x) ψ(g_D(x)/t)` over the set of `x` lying in no `(z, …, z) + B^m`, `z^(m+1) = D`, is `0`. This is [FormalProof],
+  `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean` (`Formalism.FourierDecayAlt.A6.NonStationary`),
+  `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean` (`Formalism.FourierDecayAlt.A6.AmpHyp`).
 - (d) *Stationary phase.* For lattices `L₀, Λ₁` and compact `Q ⊂ K^×` there is a neighbourhood `V` of `0` such that for all
   `t ∈ V ∩ K^×`, `D ∈ Q` and every amplitude `A` of type `(L₀, Λ₁)`,
   `∫_{K^m} A(x) ψ(g_D(x)/t) dx = |t|^(m/2) Σ_{z ∈ K^×, z^(m+1) = D} γ(zt) |m + 1|^(−1/2) |z|^(m/2) ψ((m + 1)z/t) A(z, …, z)`.
   By (a) with `L = 𝔒`, which is admissible for `H_m(zt)` once `t` is small, the term of `z` is
   `ψ((m + 1)z/t) A(z, …, z) ∫_{𝔒^m} ψ(½ ξᵀH_m(zt)ξ) dξ`. In this form, with `K = ∏_i F_i` for nonarchimedean local fields
-  `F_i` of characteristic zero, (d) is stated as `stationaryPhase_nonarchimedean` in `Suggested.lean`.
-
+  `F_i` of characteristic zero, (d) is stated as `stationaryPhase_nonarchimedean` in `Suggested.lean`. This is [FormalProof], `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean`
+  (`Formalism.FourierDecayAlt.A6.StationaryPhase`). 
 The identities (b), (c), (d) are exact, and special to the phase `g_D`; (a) holds for every nondegenerate symmetric `M`.
 The Gauss factor is defined by (a); its identification with the Weil index of MetaplecticAutomorphicForms §2.1, factor by
 factor, is the last clause of (a). With the self-dual measure no index of lattices appears.
@@ -838,7 +895,7 @@ This roadmap owns:
 
 The theory these statements extend is owned by their homes. [ArithmeticDirichletSeriesPartII](../../ArithmeticDirichletSeriesPartII/README.md) owns the one-sided Laplace transform and the predicate `HasLaplace` (ArithmeticDirichletSeriesPartII §0.1), the boundary data `PoleBoundary` with its normalisation of the leading coefficient (ArithmeticDirichletSeriesPartII §0.2), the counting function of a Dirichlet series (its Conventions) and its transform (ArithmeticDirichletSeriesPartII §4.1), and Delange's theorem. [AsymptoticExpansions](../../AsymptoticExpansions/README.md) owns Laplace's method and stationary phase in one variable (Layers 5 and 6); Layers 7 and 8 above are their analogues in several variables and over non-archimedean rings and use no statement of them.
 
-Three statements here have relatives in other roadmaps and are kept, each in the form this roadmap needs. SpecialFunctionsGamma §10.1 states Landau's theorem for integrals `∫ w h^s` of a nonnegative weight `w` against real powers of a positive function `h` on a measure space, for real `s` in an interval; 6.3 is its case of `(0, ∞)` with Lebesgue measure and `h(u) = e^(−u)`, kept here for eventually nonnegative functions, with complex `s` and the value of `HasLaplace`, the form 6.4 and 6.10 use, and proved from 6.1 without that statement. 6.1 (a) proves the analyticity of the transform from integrability alone, where AsymptoticExpansions §4.4 (2.4.2–2.4.3) also assumes the function differentiable. 8.1 (b) is non-stationary phase for holomorphic phases, with derivative bounds relative to the gradient at a scale `P`, Banach-valued amplitudes and a constant independent of the domain, where QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §1.3 (i) treats real phases on a fixed open set with constants depending on absolute derivative bounds.
+Two statements here have relatives in other roadmaps and are kept, each in the form this roadmap needs. 6.1 (a) proves the analyticity of the transform from integrability alone, where AsymptoticExpansions §4.4 (2.4.2–2.4.3) also assumes the function differentiable. 8.1 (b) is non-stationary phase for holomorphic phases, with derivative bounds relative to the gradient at a scale `P`, Banach-valued amplitudes and a constant independent of the domain, where QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §1.3 (i) treats real phases on a fixed open set with constants depending on absolute derivative bounds.
 
 Not owned here:
 

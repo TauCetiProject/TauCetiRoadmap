@@ -82,7 +82,15 @@ This is the statement of the formal proof. For `θ < 2` it is the case `A = 2` o
 (restrict `Φ` to `Re s > θ`; a real pole `β > θ` with negative leading coefficient contradicts the
 positivity at `β`); for `θ ≥ 2` no pole lies in `Re s > θ`, where `Φ` is the transform. So
 `θ < 1`, the bound `|g(u)| ≤ C₀ e^(2u)` (the integrability being part of the transform hypothesis)
-and the simplicity of the poles are not needed for the conclusion. -/
+and the simplicity of the poles are not needed for the conclusion.
+See [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean`
+(`Deduction.landau_window`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean`
+(`Deduction.PoleData`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean`
+(`Deduction.WindowHypU`).
+ -/
 theorem windowedLandau_simplePole {θ δ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ) {g : ℝ → ℝ}
     (hg : Measurable g) (hgrowth : ∃ C₀ : ℝ, ∀ u : ℝ, 0 ≤ u → |g u| ≤ C₀ * Real.exp (2 * u))
     {Φ : ℂ → ℂ} (hΦ : MeromorphicOn Φ {s : ℂ | 0 < s.re})
@@ -121,7 +129,9 @@ theorem windowedLandau {θ A δ : ℝ} (hθA : θ < A) (hδ : 0 < δ) {g : ℝ �
 
 /-- **Windows of scales** (6.9 (a)). For `S ⊆ ℝ` and an exponent `κ > 1` (written `λ` in the
 README), `HasWindows S κ` says that for every `Y₀` there is `Y ≥ max(Y₀, 1)` with
-`[Y, Y^κ] ⊆ S`. -/
+`[Y, Y^κ] ⊆ S`. This is [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean`
+(`Formalism.HC.HasWindows`). -/
 def HasWindows (S : Set ℝ) (κ : ℝ) : Prop :=
   ∀ Y₀ : ℝ, ∃ Y ≥ max Y₀ 1, Set.Icc Y (Y ^ κ) ⊆ S
 
@@ -133,7 +143,15 @@ poles only in `Re s > 0` and a positive real residue at every real pole there. I
 This is the statement of the formal proof. For `θ < 2` it is the case `A = 2` of
 `windowedLandau_mellin`, whose integrability hypothesis the bound `|G(y)| ≤ C₀ y²` gives; for
 `θ ≥ 2` no pole lies in `Re s > θ`, where `Ψ` is the absolutely convergent transform. So `θ < 1`
-and the simplicity of the poles are not needed for the conclusion. -/
+and the simplicity of the poles are not needed for the conclusion.
+See [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean`
+(`Deduction.landau_window`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean`
+(`Deduction.poleData_change`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean`
+(`Deduction.lemmaL`).
+ -/
 theorem windowedLandau_mellin_simplePole {θ C κ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hκ : 1 < κ)
     {G : ℝ → ℝ} (hG : Measurable G) (hgrowth : ∃ C₀ : ℝ, ∀ y : ℝ, 1 ≤ y → |G y| ≤ C₀ * y ^ 2)
     {Ψ : ℂ → ℂ} (hΨ : MeromorphicOn Ψ {s : ℂ | 0 < s.re})
@@ -176,7 +194,11 @@ theorem windowedLandau_mellin {θ A C κ : ℝ} (hθA : θ < A) (hκ : 1 < κ) {
 `E`, almost everywhere strongly measurable for all large `t`. If `f_t(v/√t) → e^(−B(v,v))` as
 `t → ∞` for every `v`, and `|f_t(v)| ≤ (1 + c‖v‖²)^(−γt)` for all large `t`, uniformly in `v`, then
 `Re B(v, v) > 0` for every `v ≠ 0`; `f_t` is integrable for all large `t` and
-`t^(n/2) ∫ f_t dμ → ∫ e^(−B(v,v)) dμ(v)`; and `∫ f_t dμ ≠ 0` for all large `t`. -/
+`t^(n/2) ∫ f_t dμ → ∫ e^(−B(v,v)) dμ(v)`; and `∫ f_t dμ ≠ 0` for all large `t`.
+It follows from [FormalProof],
+`ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/
+LaplaceFoundations/RaisingLoweringNormIdentities.lean`
+(`ReciprocityTheory.ChartRestriction.DS.Lap.Base.GaussianLimitHaar`). -/
 theorem tendsto_integral_of_laplaceMethod {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E] (μ : Measure E)
     [μ.IsAddHaarMeasure] (B : E →ₗ[ℝ] E →ₗ[ℝ] ℂ) {c γ : ℝ} (hc : 0 < c) (hγ : 0 < γ)
@@ -202,7 +224,11 @@ following holds for every `x₀ ∈ ℂ^n` and every `g` holomorphic on the poly
 of class `C^(2n+2)`, zero outside `B̄(x₀, r)`, with `‖D^j a(x)‖ ≤ S` for `j ≤ 2n + 2` and all
 `x`. The Hessian `H = (∂²g/∂x_i∂x_j (x₀))` has `det H ≠ 0` and, for every `t ≠ 0`,
 `‖∫ ψ_β(g(x)/t) a(x) dμ_β^n(x) − ψ_β(g(x₀)/t) (|t|^n/|det H|) a(x₀)‖ ≤ C S |t|^(n+1)`, where
-`ψ_β(w) = exp(i Re(βw))` and `μ_β^n` is `(|β|/2π)^n` times Lebesgue measure on `ℂ^n = ℝ^(2n)`. -/
+`ψ_β(w) = exp(i Re(βw))` and `μ_β^n` is `(|β|/2π)^n` times Lebesgue measure on `ℂ^n = ℝ^(2n)`.
+It follows from [FormalProof], `Formalism/HermitianCurvature/StatementG.lean`
+(`Formalism.FourierDecayAlt.G.StationaryPhase`),
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/StationaryPhaseModel.lean`
+(`Formalism.FourierDecayAlt.P.stationary_phase_holomorphic`). -/
 theorem stationaryPhase_leadingTerm (n : ℕ) {β : ℂ} (hβ : β ≠ 0) {r Λ : ℝ} (hr : 0 < r)
     (hΛ : 0 < Λ) :
     ∃ C : ℝ, ∀ (x₀ : Fin n → ℂ) (g : (Fin n → ℂ) → ℂ),
