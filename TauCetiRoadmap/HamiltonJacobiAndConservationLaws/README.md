@@ -28,19 +28,22 @@ Hamilton–Jacobi–Bellman equation, and the distance to the boundary is the vi
 the eikonal equation. For a uniformly convex flux in one space dimension and bounded data, the
 Lax–Oleinik formula gives an integral solution satisfying Oleinik's one-sided inequality, and
 it is the only one (Oleinik); the Riemann problem is solved by a shock or a rarefaction wave,
-and solutions with compactly supported data converge in `L¹` to an N-wave at rate `t^{−1/2}`.
+and for a `C³` flux solutions with compactly supported data converge in `L¹` to an N-wave at
+rate `t^{−1/2}`.
 For a locally Lipschitz flux in any dimension and bounded data, entropy solutions exist, are
 unique, propagate at finite speed and contract in `L¹` (Kružkov), and for a `C²` flux they are
 the limits of the solutions of `∂ₜu + div f(u) = εΔu` as `ε → 0`.
 
-The roadmap builds on four areas of Tau Ceti and Mathlib. From **OptimalTransport** it takes
+The roadmap builds on five areas of Tau Ceti and Mathlib. From **OptimalTransport** it takes
 convex duality: the Legendre–Fenchel conjugate, the convex subdifferential, the conjugate of a
 superlinear function and Alexandrov's theorem; Tau Ceti's Hopf–Lax value, written for the
 Benamou–Brenier formula, is the starting point of Layer 3. From **PDE** it takes the heat
 semigroup, its smoothing estimates and the linear parabolic Schauder theory, used only for the
-viscous approximation of Layer 6; PDE states that viscosity solutions are outside it, and has
-no first-order nonlinear equation. From **GeometricMeasureTheory** it takes functions of
-bounded variation and their `L¹_loc` compactness. From Mathlib it takes Rademacher's theorem,
+viscous approximation of Layer 6; PDE states that viscosity solutions are outside it, and has no
+first-order nonlinear equation. From **GeometricMeasureTheory** it takes functions of bounded
+variation and their `L¹_loc` compactness. From **OptimalControlAndHamiltonJacobi** it takes the
+finite-horizon control problem: trajectories, the value function, the dynamic programming
+principle and the Hamilton–Jacobi–Bellman theorem. From Mathlib it takes Rademacher's theorem,
 the Picard–Lindelöf and implicit function theorems, and one-dimensional bounded variation.
 
 ## How to read the build
@@ -137,8 +140,8 @@ Build the real-valued API of the Legendre transform `L = H*` of a continuous sup
 - `H(p) = ‖p‖²/2` gives `L(q) = ‖q‖²/2`.
 - `H(p) = ‖p‖^r/r` for `1 < r < ∞` gives `L(q) = ‖q‖^s/s` with `1/r + 1/s = 1`.
 - `H(p) = ½⟪Ap, p⟫` for a symmetric positive definite `A` gives `L(q) = ½⟪A⁻¹q, q⟫`.
-- `H(p) = ‖p‖` is convex and not superlinear, and its conjugate is `0` on the closed unit ball
-  and `+∞` outside: superlinearity is what makes `L` real-valued.
+- For `d ≥ 1`, `H(p) = ‖p‖` is convex and not superlinear, and its conjugate is `0` on the
+  closed unit ball and `+∞` outside: superlinearity is what makes `L` real-valued.
 - `d = 1`, `H(p) = p⁴/4`: `L(q) = (3/4)|q|^{4/3}` is `C¹` and not `C²` at `0`, so strict
   convexity of `H` does not give `L ∈ C²`.
 
@@ -171,8 +174,8 @@ nothing about `u`.
 
 **Checks.**
 
-- `u(x) = ‖x‖` on `E`: `D⁻u(0)` is the closed unit ball and `D⁺u(0) = ∅`; for `−‖x‖` the roles
-  are exchanged.
+- `u(x) = ‖x‖` on `E` with `d ≥ 1`: `D⁻u(0)` is the closed unit ball and `D⁺u(0) = ∅`; for
+  `−‖x‖` the roles are exchanged.
 - `d = 1`, `u(x) = x sin(1/x)`, `u(0) = 0`: `D⁺u(0) = D⁻u(0) = ∅`.
 - `d = 1`, `u(x) = √|x|`: `D⁻u(0) = ℝ` and `D⁺u(0) = ∅`.
 
@@ -200,7 +203,8 @@ semiconcave.
 
 **Checks.**
 
-- `−‖x‖` is semiconcave with constant `0`; `‖x‖` is semiconcave on no neighbourhood of `0`.
+- `−‖x‖` is semiconcave with constant `0`; for `d ≥ 1`, `‖x‖` is semiconcave on no
+  neighbourhood of `0`.
 - `‖x‖²` is semiconcave with constant `2` and no smaller constant.
 - `d = 1`: `min(x, −x) + x²` is semiconcave with constant `2` and not differentiable at `0`.
 
@@ -346,13 +350,16 @@ with constant `K`. The object is the pinned `TauCeti.hopfLax L g t x` for `t > 0
 
 `u(t,x) = inf_y {g(y) + t L((x − y)/t)}`,
 
-extended by `u(0, ·) = g`. The pinned lemmas assume `g` bounded below; for Lipschitz `g` the
-function `y ↦ g(y) + t L((x − y)/t)` is bounded below and tends to `+∞` at infinity by
-superlinearity of `L`, and this layer works under that hypothesis.
+extended by `u(0, ·) = g`. The pinned lemmas assume `g` bounded below. This layer assumes `g`
+Lipschitz and not bounded below: then `y ↦ g(y) + t L((x − y)/t)` is still bounded below and
+tends to `+∞` at infinity, by superlinearity of `L`, and the pinned lemmas apply as stated only
+when `g` is also bounded below.
 
 ### 3.1 The formula as a semigroup
 
 - The infimum is attained for every `t > 0` and `x`.
+- The inequality of the pinned `TauCeti.hopfLax_add_add_smul_le`, proved there for `g` and `L`
+  bounded below, holds for Lipschitz `g`.
 - `g(x) − t max_{‖p‖ ≤ K} H(p) ≤ u(t,x) ≤ g(x) + t L(0)`.
 - `u(t, ·)` is Lipschitz with constant `K`, and
   `|u(t,x) − u(s,x)| ≤ max(|L(0)|, max_{‖p‖ ≤ K} |H(p)|) |t − s|` for `s, t ≥ 0`; so `u` is
@@ -386,7 +393,8 @@ superlinearity of `L`, and this layer works under that hypothesis.
 
 - At every point `(t,x)` with `t > 0` where `u` is differentiable,
   `∂ₜu + H(∇u) = 0` (Evans, §3.3.2, Theorem 5); the inequality `≤` is the pinned
-  `TauCeti.hopfLax_add_add_smul_le`.
+  `TauCeti.hopfLax_add_add_smul_le` for `g` bounded below and its Lipschitz form of §3.1 in
+  general.
 - `u` is differentiable almost everywhere on `(0,∞) × E`, so it satisfies the equation almost
   everywhere (Evans, §3.3.2, Theorem 6).
 - If `H` is `C¹` and `u(t, ·)` is differentiable at `x`, the minimizer is unique and equals
@@ -443,9 +451,10 @@ Define `IsViscositySubsolution F Ω u`, `IsViscositySupersolution F Ω u` and
 - Differential form: `u` is a subsolution exactly when `F(x, u(x), p) ≤ 0` for every `x ∈ Ω`
   and `p ∈ D⁺u(x)`, and a supersolution exactly when `F(x, u(x), p) ≥ 0` for every
   `p ∈ D⁻u(x)` (Crandall–Evans–Lions, Theorem 1.1).
-- Equivalent test classes: the same predicate results from test functions that are `C¹` on
-  `V`, `C^∞` on `V`, or merely differentiable at `x₀`; from strict local maxima; and from
-  requiring `u(x₀) = φ(x₀)`.
+- Equivalent test classes: for every `u`, the same predicate results from test functions that
+  are `C¹` on `V` or merely differentiable at `x₀`; from strict local maxima; and from
+  requiring `u(x₀) = φ(x₀)`. Test functions that are `C^∞` on `V` give the same subsolutions
+  among upper semicontinuous `u` and the same supersolutions among lower semicontinuous `u`.
 - Locality and monotonicity in `Ω`; `u` is a subsolution of `F = 0` exactly when `−u` is a
   supersolution of `−F(x, −r, −P) = 0`.
 - Consistency (Evans, §10.1.2, Theorem 1 and Lemma): a `C¹` function is a viscosity solution
@@ -455,8 +464,8 @@ Define `IsViscositySubsolution F Ω u`, `IsViscositySupersolution F Ω u` and
 - Change of unknown: for `Φ : ℝ → ℝ` of class `C¹` with `Φ' > 0`, `u` is a viscosity solution
   of `F = 0` exactly when `v = Φ ∘ u` is one of `F(x, Φ⁻¹(v), (Φ⁻¹)'(v) Dv) = 0`.
 - Evolution equations: for `∂ₜu + H(x, ∇u) = 0` on `(0,T) × E`, a subsolution or supersolution
-  that is upper or lower semicontinuous on `(0,T] × E` satisfies the same inequality at local
-  extrema of `u − φ` relative to `(0,T] × E` at time `T` (Evans, §10.2, Lemma).
+  that is continuous on `(0,T] × E` satisfies the same inequality at local extrema of `u − φ`
+  relative to `(0,T] × E` at time `T` (Evans, §10.2, Lemma).
 
 **Checks.**
 
@@ -469,6 +478,16 @@ Define `IsViscositySubsolution F Ω u`, `IsViscositySupersolution F Ω u` and
   near `0`; one with a convex kink is not.
 - The function `ũ` of the first Check of §3.3 is not a viscosity solution of
   `∂ₜu + (∂ₓu)² = 0`.
+- Smooth tests need semicontinuity. On `ℝ` with `F = 1`, let `u(0) = 0`, `u(y) = |y|^{3/2}` for
+  irrational `y` and `u(p/q) = (2 − 1/q)|y|^{3/2}` for `y = p/q ≠ 0` in lowest terms. The `C¹`
+  function `2|y|^{3/2}` touches `u` from above at `0`, so `u` is not a subsolution of `1 = 0`;
+  no `C^∞` function touches it from above at any point, since at `y ≠ 0` the upper limit of
+  `u` exceeds `u(y)` and at `0` a `C²` function with a local maximum of `u − φ` would have
+  `φ(y) − φ(0) ≥ |y|^{3/2}`.
+- Continuity at the final time is needed in the last bullet. For `H = 0`, the function `u = 0`
+  for `t < T`, `u(T, ·) = 1` is upper semicontinuous on `(0,T] × E` and a subsolution of
+  `∂ₜu = 0` in `(0,T) × E`, and `u − t` has a maximum relative to `(0,T] × E` at every point
+  of `{T} × E`, where `∂ₜφ = 1 > 0`.
 
 *Needs:* §1.2.
 
@@ -527,8 +546,11 @@ for all `x, y, p, q`. Prove, by doubling the variables:
   lower semicontinuous supersolution of `λu + H(x, ∇u) = 0` in `E`, then `u ≤ v`.
 - **The Cauchy problem** (Evans, §10.2, Theorem 1; Crandall–Lions). Let `H` satisfy `(S1)` and
   be Lipschitz in `p` uniformly in `x`. If `u` is bounded and upper semicontinuous on
-  `[0,T] × E` and a subsolution of `∂ₜu + H(x, ∇u) = 0` in `(0,T) × E`, `v` is bounded and
-  lower semicontinuous and a supersolution, and `u(0, ·) ≤ v(0, ·)`, then `u ≤ v`.
+  `[0,T) × E` and a subsolution of `∂ₜu + H(x, ∇u) = 0` in `(0,T) × E`, `v` is bounded and
+  lower semicontinuous on `[0,T) × E` and a supersolution, and `u(0, ·) ≤ v(0, ·)`, then
+  `u ≤ v` on `[0,T) × E`. For `u`, `v` bounded and continuous on `[0,T] × E` and `H` satisfying
+  `(S1)` and `(S2)`, this is OptimalControlAndHamiltonJacobi 4.1 after the time reversal of
+  §4.6, and that case is consumed from there; the target here is the semicontinuous form.
 - **Hamiltonians of the gradient alone.** Let `H : E → ℝ` be continuous. If `u, v` are `BUC` on
   `[0,T] × E`, `u` a subsolution and `v` a supersolution of `∂ₜu + H(∇u) = 0` in `(0,T) × E`
   with `u(0, ·) ≤ v(0, ·)`, then `u ≤ v`.
@@ -542,6 +564,9 @@ for all `x, y, p, q`. Prove, by doubling the variables:
 - `d = 1`, `∂ₜu + (∂ₓu)² = 0`, `u(0) = 0`: the function `ũ` of §3.3 is bounded and Lipschitz
   on `[0,T] × ℝ`, satisfies the equation almost everywhere and has the same datum as `0`; the
   comparison principle applies to `0` and excludes `ũ`, which is not a supersolution.
+- The Cauchy comparison stops before the final time: for `H = 0`, `u = 0` for `t < T` and
+  `u(T, ·) = 1` is bounded, upper semicontinuous on `[0,T] × E` and a subsolution in
+  `(0,T) × E` with `u(0, ·) = 0`, and it exceeds the solution `0` at `t = T`.
 - `λ > 0` matters on bounded domains: for `H = 0`, `λ = 0` every function is a solution of
   `0 = 0`.
 - For `u + |u'| − 1 = 0` on `(−1,1)` with zero boundary values, the unique solution is
@@ -613,23 +638,32 @@ Let `H` satisfy `(S1)`, be Lipschitz in `p` uniformly in `x` with constant `N`, 
 
 ### 4.6 Optimal control and the Hamilton–Jacobi–Bellman equation
 
-Let `A` be a nonempty compact metric space of control values, and let `b : E → A → E` and
-`ℓ : E → A → ℝ` be bounded, continuous, and Lipschitz in `x` uniformly in `a`; let `g` be
-bounded and Lipschitz. A *control* is a measurable `α : ℝ → A`. For `x : E` the *trajectory*
-`y_{x,α}` is the unique continuous solution of `y(s) = x + ∫₀ˢ b(y(r), α(r)) dr`, and the
-*value function* is
+In this section `E = EuclideanSpace ℝ (Fin n)`, the control set `A` is a nonempty compact
+subset of `EuclideanSpace ℝ (Fin m)`, and the dynamics `b`, the running cost `ℓ` and the cost
+`g` satisfy the standing assumptions of OptimalControlAndHamiltonJacobi 2.1: `b` and `ℓ` are
+bounded and continuous on `E × A` and Lipschitz in `x` uniformly in `a ∈ A`, and `g` is
+bounded and Lipschitz. Controls and trajectories are those of that roadmap (its Conventions
+and 1.2); for `x : E`, `y_{x,α}` is the trajectory from `x` at time `0`. The finite-horizon
+theory with a terminal cost is consumed from it: the value function
+`V(t,x) = inf_α {∫ₜᵀ ℓ(y(s), α(s)) ds + g(y(T))}` over trajectories from `(t,x)`, the dynamic
+programming principle (2.2), the Lipschitz bound (2.3), the theorem that `V` is a viscosity
+solution of `−∂ₜV + H(x, DₓV) = 0` on `(0,T) × E` with
+`H(x,p) = max_{a ∈ A} {−⟪b(x,a), p⟫ − ℓ(x,a)}` (3.4), and its uniqueness (4.2). The targets
+here are:
 
-`v(t,x) = inf_α {∫₀ᵗ ℓ(y_{x,α}(s), α(s)) ds + g(y_{x,α}(t))}`.
-
-- Existence, uniqueness and Lipschitz dependence on `x` of trajectories for measurable
-  controls, by the contraction principle on the integral equation.
-- The dynamic programming principle (Evans, §10.3.2, Theorem 1, there for a problem run to a
-  terminal time with a terminal cost, the time reversal of this one): for `t, h ≥ 0`,
-  `v(t + h, x) = inf_α {∫₀ʰ ℓ(y(s), α(s)) ds + v(t, y(h))}`.
-- `v` is bounded and Lipschitz on `[0,T] × E` (Evans, §10.3.2, Lemma 1).
-- The Hamilton–Jacobi–Bellman equation (Evans, §10.3.3, Theorem 2): with
-  `H(x,p) = max_{a ∈ A} {−⟪b(x,a), p⟫ − ℓ(x,a)}`, which satisfies the hypotheses of §4.5, `v`
-  is the unique bounded continuous viscosity solution of `∂ₜv + H(x, ∇v) = 0`, `v(0) = g`.
+- Agreement of the predicates: for an open `Ω ⊆ ℝ × E`, the sub- and supersolutions of
+  `−∂ₜu + H(x, Dₓu) = 0` in the sense of OptimalControlAndHamiltonJacobi 3.1 are
+  `IsViscositySubsolution F Ω` and `IsViscositySupersolution F Ω` for
+  `F((t,x), r, P) = −P(1,0) + H(x, p)`, by the equivalent test classes of §4.1.
+- Time reversal: `u` is a subsolution, or a supersolution, of `∂ₜu + H(x, ∇u) = 0` in
+  `(0,T) × E` exactly when `(t,x) ↦ u(T − t, x)` is one of `−∂ₜu + H(x, ∇u) = 0` there.
+- The initial-value form (Evans, §10.3.2, Theorem 1 and §10.3.3, Theorem 2, both in the
+  terminal-time form): the function
+  `v(t,x) = inf_α {∫₀ᵗ ℓ(y_{x,α}(s), α(s)) ds + g(y_{x,α}(t))}` satisfies
+  `v(t,x) = V(T − t, x)` for `0 ≤ t ≤ T`, for every `T > 0`. Consequently `v` is bounded and
+  Lipschitz on `[0,T] × E`, satisfies `v(t + h, x) = inf_α {∫₀ʰ ℓ(y(s), α(s)) ds + v(t, y(h))}`
+  for `t, h ≥ 0`, and is the unique bounded continuous viscosity solution of
+  `∂ₜv + H(x, ∇v) = 0`, `v(0) = g`; the Hamiltonian `H` satisfies the hypotheses of §4.5.
 - The infimum over piecewise constant controls is the same.
 - The discounted infinite-horizon problem: for `λ > 0`,
   `w(x) = inf_α ∫₀^∞ e^{−λs} ℓ(y_{x,α}(s), α(s)) ds` is bounded and uniformly continuous,
@@ -648,7 +682,7 @@ bounded and Lipschitz. A *control* is a measurable `α : ℝ → A`. For `x : E`
 - `d = 1`, `A = {−1, 1}`, `b(x,a) = a`, `ℓ = 1`, `λ = 1` gives `w = 1` constant; with
   `ℓ(x) = min(|x|, 1)`, `w(x) = |x| − 1 + e^{−|x|}` for `|x| ≤ 1`.
 
-*Needs:* §4.3–§4.5; Mathlib's Bochner integral and `ContractingWith`.
+*Needs:* §4.1, §4.3–§4.5; OptimalControlAndHamiltonJacobi 1.2, 2.1–2.3, 3.1, 3.4 and 4.2.
 
 ### 4.7 The eikonal equation
 
@@ -759,8 +793,8 @@ An *entropy solution in the sense of Oleinik* is an integral solution for which 
   with the same `u₀ ∈ L^∞` agree almost everywhere.
 - For `f ∈ C²` uniformly convex, the Lax–Oleinik solution is the entropy solution.
 - For piecewise `C¹` solutions as in the Rankine–Hugoniot bullet of §5.1 with `f` uniformly
-  convex, the entropy condition holds across the curve exactly when `u_l ≥ u_r`, equivalently
-  `f'(u_l) ≥ ṡ ≥ f'(u_r)` (the Lax condition).
+  convex, the entropy condition holds across the curve exactly when `u_l ≥ u_r`; at a point
+  where `u_l ≠ u_r` this is `f'(u_l) > ṡ > f'(u_r)` (the Lax condition).
 
 *Needs:* §5.1–§5.2.
 
@@ -787,7 +821,7 @@ Let `f ∈ C²` be uniformly convex with constant `θ`, and `u` the Lax–Oleini
 
 - Decay (Evans, §3.4.5, Theorem 5): if `u₀ ∈ L¹ ∩ L^∞` then
   `|u(t,x)| ≤ C t^{−1/2}` for `t > 0`, with `C` depending only on `f` and `‖u₀‖₁`.
-- N-waves (Evans, §3.4.5, Theorem 6): if `u₀` is bounded with compact support, put
+- N-waves (Evans, §3.4.5, Theorem 6): if `f ∈ C³` and `u₀` is bounded with compact support, put
   `σ = f'(0)`, `κ = f''(0)`, `p = −2 min_y ∫_{−∞}^y u₀` and `q = 2 max_y ∫_y^∞ u₀`, and
   `N(t,x) = (x/t − σ)/κ` for `−√(pκt) < x − σt < √(qκt)`, `0` otherwise. Then
   `∫ |u(t,x) − N(t,x)| dx ≤ C t^{−1/2}` for `t > 0`.
@@ -800,6 +834,11 @@ Let `f ∈ C²` be uniformly convex with constant `θ`, and `u` the Lax–Oleini
   `∫ N(t,x) dx = (q − p)/2 = ∫ u₀`.
 - Burgers' equation with `u₀` the indicator of `[0,1]`: `p = 0`, `q = 2`, and for `t ≥ 2` the
   solution is exactly `x/t` on `(0, √(2t))` and `0` elsewhere, equal to `N`.
+- The rate needs more than `f ∈ C²`. For `0 < a < 1` the flux
+  `f(u) = u²/2 + |u|^{2+a}/((1+a)(2+a))` is `C²` and uniformly convex, with
+  `f''(u) = 1 + |u|^a`, `σ = 0` and `κ = 1`; for `u₀` the indicator of `[0,1]` the solution is
+  `G(x/t)` on an interval containing `(0, √(2t))` for large `t`, with
+  `G(v) = v − v^{1+a}/(1+a) + O(v^{1+2a})`, so `∫ |u − N| dx ≥ c t^{−a/2}` for some `c > 0`.
 
 *Needs:* §5.2–§5.3.
 
@@ -844,8 +883,8 @@ A function `u` as in the Conventions is an *entropy solution* on `(0,T)` when fo
 - Burgers' equation: the stationary function `1` for `x < 0`, `−1` for `x > 0` is an entropy
   solution; `−1` for `x < 0`, `1` for `x > 0` is a weak solution and fails the entropy
   inequality for `k = 0`, where the left side equals `−∫₀ᵀ φ(t,0) dt`.
-- A flux that is not convex: `f(u) = u³` and a stationary-frame jump between `−1` and `1`,
-  with Rankine–Hugoniot speed `1`. For `u_l = −1`, `u_r = 1` the slope in condition E is
+- A flux that is not convex: `f(u) = u³` and a jump between `−1` and `1` along `x = t`, the
+  Rankine–Hugoniot speed being `1`. For `u_l = −1`, `u_r = 1` the slope in condition E is
   `k² − k + 1`, which is `3/4 < 1` at `k = 1/2`; for `u_l = 1`, `u_r = −1` it is `k² + k + 1`,
   which is `3/4` at `k = −1/2`. Neither jump is admissible.
 
@@ -855,7 +894,8 @@ A function `u` as in the Conventions is an *entropy solution* on `(0,T)` when fo
 
 Let `u, v` be entropy solutions on `(0,T)` with data `u₀, v₀ ∈ L^∞`, let
 `M ≥ max(‖u‖_∞, ‖v‖_∞)`, and let `N` be the speed bound of `f` on `[−M, M]`. Prove
-(Kružkov 1970, Theorem 1), by doubling the variables: for every `x₀`, `R > 0` and almost every
+(Kružkov 1970, Theorem 1, there for a continuously differentiable flux), by doubling the
+variables: for every `x₀`, `R > 0` and almost every
 `t ∈ (0,T)` with `Nt < R`,
 
 `∫_{‖x − x₀‖ ≤ R − Nt} |u(t,x) − v(t,x)| dx ≤ ∫_{‖x − x₀‖ ≤ R} |u₀(x) − v₀(x)| dx`.
@@ -965,17 +1005,17 @@ two-dimensional Burgers flux; and the agreement of the Kružkov and Lax–Oleini
 
 This roadmap owns, on a finite-dimensional real inner product space: the real-valued Legendre
 transform of a superlinear function with its regularity theory; Fréchet sub- and
-superdifferentials; semiconcave functions; the characteristic system of a first-order
-equation, the local existence theorem for noncharacteristic data, classical transport
-equations and the breaking time of classical solutions; the analytic theory of the Hopf–Lax
-formula; viscosity sub- and supersolutions of first-order equations with their stability,
-comparison and Perron existence theory, the Cauchy problem, the Hopf formula, finite- and
-infinite-horizon deterministic optimal control with the Hamilton–Jacobi–Bellman equation, and
-the eikonal equation for the distance to the boundary; and scalar conservation laws: integral
-solutions, the Rankine–Hugoniot condition, the Lax–Oleinik formula, Oleinik's entropy
-condition and uniqueness theorem, the Riemann problem for convex fluxes, decay and N-waves,
-Kružkov entropy solutions with their `L¹` theory, and the viscous approximation
-`∂ₜu + div f(u) = εΔu` of a scalar conservation law.
+superdifferentials; semiconcave functions; the characteristic system of a first-order equation,
+the local existence theorem for noncharacteristic data, classical transport equations and the
+breaking time of classical solutions; the analytic theory of the Hopf–Lax formula; viscosity
+sub- and supersolutions of first-order equations with their stability, comparison and Perron
+existence theory, the Cauchy problem, the Hopf formula, the initial-value form of the
+finite-horizon control problem, the discounted infinite-horizon control problem with its
+Hamilton–Jacobi–Bellman equation, and the eikonal equation for the distance to the boundary; and
+scalar conservation laws: integral solutions, the Rankine–Hugoniot condition, the Lax–Oleinik
+formula, Oleinik's entropy condition and uniqueness theorem, the Riemann problem for convex
+fluxes, decay and N-waves, Kružkov entropy solutions with their `L¹` theory, and the viscous
+approximation `∂ₜu + div f(u) = εΔu` of a scalar conservation law.
 
 - **OptimalTransport** owns convex duality on dual pairs (its §5.1), finite-dimensional convex
   analysis with Alexandrov's theorem for convex functions (§5.2), the `c`-transform (§2.2),
@@ -985,13 +1025,13 @@ Kružkov entropy solutions with their `L¹` theory, and the viscous approximatio
   the subdifferential and the Hopf–Lax value with its subsolution inequality. Section 1.1 here
   adds only the real-valued theory for superlinear functions, and Layer 3 the analysis of the
   Hopf–Lax value as a solution.
-- **ConvexAnalysisAndDuality** plans, for extended-real functions on dual pairs, Hilbert
-  spaces and finite-dimensional spaces, strong convexity with its dual smoothness and
-  functions of Legendre type (its Layer 4), and the subdifferential calculus (its Layer 3). The bullets of §1.1 on the gradient
-  of `L` for strictly and uniformly convex `H` are the finite-dimensional, real-valued,
-  superlinear case of that theory, stated here in the form Layers 3 and 5 consume; the
-  Fréchet differentials of §1.2 are for functions that need not be convex and are not planned
-  there.
+- **ConvexAnalysisAndDuality** plans, for extended-real functions on dual pairs, Hilbert spaces
+  and finite-dimensional spaces, strong convexity with its dual smoothness and functions of
+  Legendre type (its Layer 4), and the subdifferential calculus (its Layer 3). The bullets of
+  §1.1 on the gradient of `L` for strictly and uniformly convex `H` are the finite-dimensional,
+  real-valued, superlinear case of that theory, stated here in the form Layers 3 and 5 consume;
+  the Fréchet differentials of §1.2 are for functions that need not be convex and are not
+  planned there.
 - **SymmetricHyperbolicSystems** treats linear symmetric hyperbolic systems, and
   **CompressibleEulerEquations** classical solutions of a quasilinear system, with Burgers'
   equation as an example of blow-up; the second states that weak and entropy solutions are
@@ -1007,9 +1047,21 @@ Kružkov entropy solutions with their `L¹` theory, and the viscous approximatio
 - **GeometricMeasureTheory** owns functions of bounded variation on open subsets of Euclidean
   space, the variation measure and compactness in `L¹_loc` (its G3–G4). The total-variation
   statements of §6.2 and §6.4 use its carrier.
+- **OptimalControlAndHamiltonJacobi** owns measurable controls and their trajectories, the
+  value function of the finite-horizon problem with a terminal cost, the dynamic programming
+  principle, the Lipschitz bound, the theorem that the value function is a viscosity solution
+  of `−∂ₜv + H(x, Dₓv) = 0`, the comparison principle for bounded continuous sub- and
+  supersolutions of that equation, and uniqueness of the value function (its Layers 1–4),
+  together with the verification theorem and Pontryagin's maximum principle. Section 4.6
+  consumes Layers 1–4 and owns only the passage to the initial-value form, the discounted
+  problem and the approximation by piecewise constant controls; §4.3 consumes its comparison
+  principle for continuous functions and owns the semicontinuous form. Its viscosity
+  predicates are for the one equation `−∂ₜu + H(x, Dₓu) = 0`; those of §4.1 are for a general
+  `F(x, u, Du)`, and §4.6 states that they agree. It places outside itself discounted
+  problems, discontinuous solutions and Perron's method, semiconcavity, characteristics and
+  the Hopf–Lax formula, which are here.
 - **MarkovDecisionProcesses** owns discrete-time dynamic programming and states that
-  continuous-time control and the Hamilton–Jacobi–Bellman equation are outside it. Section 4.6
-  is the deterministic continuous-time theory.
+  continuous-time control and the Hamilton–Jacobi–Bellman equation are outside it.
 - **SymplecticGeometry/IntegrableSystems** owns Lagrangian and Hamiltonian mechanics on
   manifolds, including the Legendre map as a fibre derivative and Hamilton's equations (its
   I3). Section 2.1 states Hamilton's equations on `E` only as the characteristic system of a
@@ -1145,6 +1197,13 @@ supplier.
 and the linear Schauder theory on `ℝⁿ × [0,T]`), consumed by §6.3 only; §1.4 (the Lipschitz
 representative of a `W^{1,∞}` class), cited for the identification of Lipschitz solutions with
 `W^{1,∞}` functions and not otherwise used.
+
+### From TauCetiRoadmap.OptimalControlAndHamiltonJacobi
+
+1.2 (trajectories of measurable controls), 2.1–2.3 (the standing assumptions, the value
+function, the dynamic programming principle and the Lipschitz bound), 3.1 (the viscosity
+predicates for `−∂ₜu + H(x, Dₓu) = 0`), 3.4 (the value function is a viscosity solution), 4.1
+(comparison for bounded continuous functions) and 4.2 (uniqueness), consumed by §4.3 and §4.6.
 
 ### From TauCetiRoadmap.GeometricMeasureTheory
 
