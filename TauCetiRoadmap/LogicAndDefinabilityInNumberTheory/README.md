@@ -736,13 +736,11 @@ The residue affine line specializes to q points. A one-cell of order a and one a
 
 ## Layer 4: Diophantine normal forms and arithmetic definability
 
-First compare native polynomial functions with integer polynomial syntax and compress only the existential witnesses. Effective coding and Diophantine exponentiation then give MRDP and integer undecidability. The rational branch uses quaternion trace images and semilocal rings to obtain universal integer predicates, with existential integer definability kept conditional.
+First compare native polynomial functions with integer polynomial syntax and compress only the existential witnesses. In §§4.1–4.9 the input type α and the witness type β are arbitrary types, possibly empty or infinite, natural-number assignments are cast coordinatewise to integers, and every further hypothesis is stated in its item. Effective coding and Diophantine exponentiation then give MRDP and integer undecidability. The rational branch uses quaternion trace images and semilocal rings to obtain universal integer predicates, with existential integer definability kept conditional.
 
 ### 4.1 Integer polynomials as native polynomial functions
 
 For every type α, construct the ring homomorphism Tα from MvPolynomial α ℤ to Poly α which sends each integer constant c to Poly.const(c) and each variable Xᵢ to Poly.proj(i). Its underlying function evaluates the polynomial on natural assignments after casting them to integers.
-
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
 
 Use the existing commutative ring on Poly α; the integer cast there is its constant constructor. Apply MvPolynomial.eval₂Hom to Int.castRingHom and Poly.proj. This supplies the ring-map laws without a second ring structure. The constant and variable API laws follow directly from eval₂Hom_C and eval₂Hom_X'. Evaluate pointwise using Poly.ext, const_apply and proj_apply; the key evaluation theorem identifies the map with the intended polynomial function. No second polynomial carrier is introduced.
 
@@ -771,8 +769,6 @@ The basic interface must include:
 
 For p in MvPolynomial α ℤ and x:α→ℕ, Tα(p)(x) = eval(cast∘x,p), where cast is the natural embedding into ℤ.
 
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
-
 Induct on p by MvPolynomial.induction_on. The constant case uses the parent constant API law and Poly.const_apply. For addition use the ring-map law and Poly.add_apply. For multiplication by Xᵢ use the ring-map law, the parent variable API law, Poly.mul_apply and Poly.proj_apply. Each step matches native polynomial evaluation.
 
 Negative coefficients and products give their integer values.
@@ -784,8 +780,6 @@ Negative coefficients and products give their integer values.
 ### 4.3 Every native polynomial has integer polynomial syntax
 
 The map Tα is surjective for every type α.
-
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
 
 Apply Poly.induction with the proposition that a preimage under Tα exists. Projection and constant cases use Xᵢ and C c and the separate comparison nodes. For subtraction and multiplication, take the corresponding operation on the two existing preimages. The ring-map laws prove the required equality. The induction is into a proposition, so it is permitted by native Poly.induction. This does not construct a computable extraction procedure from an extensional function.
 
@@ -799,8 +793,6 @@ No finite input-type hypothesis. No executable syntax recovery is claimed.
 
 The map Tα is injective for every type α.
 
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
-
 Let Tα(p)=Tα(q). By the evaluation theorem of §4.2 their evaluations agree on all tuples of natural numbers. For every variable use the subset of ℤ which is the image of the natural embedding. Nat.cast_injective and Set.infinite_range_of_injective prove each side of this Cartesian box is infinite. For a tuple in this box, choose a natural preimage in every coordinate and apply the assumed equality. MvPolynomial.funext_set over the integral domain ℤ now gives p=q. The empty index type is covered by the same statement.
 
 X(X−1) is distinguished from zero by assignment 2, even though both vanish at 0 and 1.
@@ -812,8 +804,6 @@ X(X−1) is distinguished from zero by assignment 2, even though both vanish at 
 ### 4.5 Polynomial ring equivalence
 
 For every α, bundle Tα as a ring equivalence Eα: MvPolynomial α ℤ ≃ Poly α. Its inverse sends a native polynomial function to the unique multivariate integer polynomial with the same values on every natural assignment. The inverse is classical and carries no computability assertion.
-
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
 
 Combine the separately proved injectivity and surjectivity into bijectivity. Apply RingEquiv.ofBijective. Record that the resulting forward ring map is exactly Tα. Its inverse laws and algebraic compatibility are inherited from the ring equivalence. Evaluate Eα(Eα⁻¹(f))=f and apply the evaluation theorem of §4.2 to obtain the inverse evaluation law. Uniqueness follows from injectivity, not from a chosen syntactic representative.
 
@@ -845,8 +835,6 @@ The basic interface must include:
 
 For a commutative semiring R and p in MvPolynomial (α⊕β) R, there exist a finite subset t of β and q in MvPolynomial (α⊕t) R such that p=rename(idα⊕inclusion,q). Every input variable is left unchanged.
 
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
-
 Apply MvPolynomial.exists_finset_rename to p, obtaining a finite set s of sum variables and a polynomial r on s. Put t=Finset.toRight(s). Map each element of s to α⊕t: an input inl(a) goes to inl(a); a witness inr(b) goes to inr(b), with its membership in t supplied by Finset.mem_toRight. Rename r by this map to form q. The composite with idα⊕inclusion is the original inclusion of s, so MvPolynomial.rename_rename gives p=rename(idα⊕inclusion,q).
 
 No domain or characteristic assumption on R. No finite input-type assumption. A polynomial involving only inputs admits t empty.
@@ -858,8 +846,6 @@ No domain or characteristic assumption on R. No finite input-type assumption. A 
 ### 4.7 Finite witness enumeration
 
 For a commutative semiring R and p in MvPolynomial (α⊕β) R, there exist m∈ℕ, an injective map h:Fin m→β, and q in MvPolynomial (α⊕Fin m) R with p=rename(idα⊕h,q).
-
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
 
 Apply §4.6 to obtain t and its polynomial q₀. Choose e:t≃Fin(card t) using Fintype.equivFin. Set h=inclusion∘e⁻¹ and rename q₀ by idα⊕e. The chosen h is injective because e⁻¹ and subtype inclusion are injective. Use MvPolynomial.rename_rename and the inverse laws of e to verify the displayed identity.
 
@@ -873,8 +859,6 @@ If β is empty the witness block has size zero. Inputs are not silently permuted
 
 Let h:Fin m→β be injective, q∈ℤ[α⊕Fin m], and x:α→ℕ. There exists y:β→ℕ with rename(idα⊕h,q)(x,y)=0 if and only if there exists z:Fin m→ℕ with q(x,z)=0. All evaluations cast naturals into integers.
 
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
-
 Given y, restrict it to z=y∘h. MvPolynomial.eval_rename proves the evaluations agree. Given z, use Function.extend(h,z,0) as a β-assignment. Function.Injective.extend_apply gives y(h(j))=z(j), so the same evaluation identity gives a root of the renamed polynomial. The default zero supplies all unused witnesses, including when m=0. No surjectivity of h is needed.
 
 For q(u,v)=u−v−1, collapsing both witnesses makes the equation unsatisfiable although q has natural roots; the injectivity hypothesis cannot be dropped.
@@ -886,8 +870,6 @@ For q(u,v)=u−v−1, collapsing both witnesses makes the equation unsatisfiable
 ### 4.9 Finite Diophantine normal form
 
 For every type α and S⊆(α→ℕ), native Dioph(S) holds exactly when there are m∈ℕ and p∈MvPolynomial (α⊕Fin m) ℤ such that, for every input x, x∈S if and only if there exists y:Fin m→ℕ with eval(cast∘Sum.elim(x,y),p)=0. This holds without assuming α finite.
-
-α and β are arbitrary types, possibly empty or infinite. Natural-number assignments are cast coordinatewise to integers. Additional hypotheses are stated explicitly.
 
 Unpack native Dioph(S) as a polynomial function f on α⊕β and its existential-root characterization. Apply the inverse of the ring equivalence of §4.5 to obtain integer polynomial syntax with exactly the same values. Apply §4.7 to that polynomial. Then §4.8 replaces the arbitrary β-witness block by Fin m while fixing x; this proves the forward implication. For the reverse implication in universe zero use witness type Fin m and native polynomial T(p). Apply the evaluation theorem of §4.2. For an arbitrary input universe use the witness type ULift(Fin m) at that universe and rename p along idα⊕ULift.up before applying T. Lifting or lowering assignments gives the same existential condition by MvPolynomial.eval_rename. This is a mathematical existential normal form, not a computable procedure for recovering p or m from a proof of native Dioph. Computable encodings and the MRDP simulation are §§4.10–4.15.
 
@@ -974,9 +956,7 @@ For every n and S⊆(Fin n→ℕ), native REPred membership is equivalent to nat
 
 Represent semidecision by the projected halting computation graph. Compress all finite witnesses into the native polynomial normal form. Use the witness search theorem for the converse. Track code transformations so that the undecidability reduction below is many-one computable.
 
-The code-level comparison with native Partrec (§4.14) and the uniform bounded-universal translation (§4.13) are part of the proof. Existing Diophantine exponentiation and a classical polynomial inverse do not supply them. The Lean milestone `Diophantine.mrdp` uses native REPred on finite tuples, exactly as this statement requires.
-
-The acceptance signature is `Diophantine.mrdp` in Suggested.lean.
+The code-level comparison with native Partrec (§4.14) and the uniform bounded-universal translation (§4.13) are part of the proof. Existing Diophantine exponentiation and a classical polynomial inverse do not supply them. The acceptance signature `Diophantine.mrdp` in Suggested.lean uses native REPred on finite tuples, exactly as this statement requires.
 
 ([Martin Davis, *Hilbert’s tenth problem is unsolvable*](https://doi.org/10.2307/2318447), §8, Definition 8.1, Theorem 8.1 and proof, p.264, using Theorems 1.3, 5.1 and 6.1.)
 
@@ -1263,15 +1243,15 @@ The effective zero-cycle theorem and the Brauer computations are §4.29; a gener
 
 ### 4.31 Existential closure and model completeness
 
-For a ring embedding M↪N, M is existentially closed in N if every existential ring formula with parameters from M true in N is true in M. A theory T is model complete when every embedding between models of T is elementary. Keep these distinct predicates and the native semantic notions of embedding and elementary embedding; Robinson’s test relates them for models of a theory.
+For a first-order language L and an embedding M↪N of L-structures, M is existentially closed in N if every existential L-formula with parameters from M true in N is true in M; for rings L is the ring language. Define it using native BoundedFormula.IsExistential and parameters from the smaller structure; reuse that existing syntax fragment instead of defining another one. A theory T is model complete when every embedding between models of T is elementary; by Robinson’s test (TauCetiRoadmap.SaturationAndQuantifierElimination §2.5), T is model complete iff every embedding between models of T is existentially closed, iff every formula is equivalent modulo T to an existential formula. Keep existential closure, embedding and elementary embedding as distinct native notions.
 
-Define relative existential closure using native BoundedFormula.IsExistential and parameters from the smaller structure; reuse that existing syntax fragment instead of defining another one. Define model completeness by all embeddings of models being elementary, then prove the existential test by the standard diagram/compactness argument.
+This section proves the existential preservation criterion for one formula: for a theory T in L and an L-formula φ(x) in finitely many free variables, φ is equivalent modulo T to an existential formula iff, for every embedding f:M↪N of models of T and every tuple a from M, M⊨φ(a) implies N⊨φ(f(a)). The forward direction of the criterion is Mathlib `FirstOrder.Language.BoundedFormula.IsExistential.realize_embedding`.
 
 The basic interface must include:
 
 - Existential closure allows arbitrary parameters from the smaller model.
 - An elementary embedding is existentially closed.
-- T is model complete iff embeddings between its models are existentially closed.
+- The existential preservation criterion above, in both directions.
 
 **Checks.**
 
@@ -1281,11 +1261,11 @@ The basic interface must include:
 - The theory of fields is not model complete: ℚ⊂ℚ(√2) is an embedding of fields and ∃x, x²=2 is false in ℚ and true in ℚ(√2), so the embedding is not existentially closed, hence not elementary.
 - The theory of algebraically closed fields is model complete (every embedding of algebraically closed fields is elementary, by quantifier elimination) but not complete: 1+1=0 holds in an algebraic closure of 𝔽₂ and fails in ℂ. Reading model completeness as completeness would reverse this verdict.
 
-Prove the existential-preservation theorem by the native compactness/diagram argument, retaining all parameters from the smaller model. A new syntax for existential formulas is unnecessary.
+Prove the converse direction of the criterion by the native compactness/diagram argument, retaining all parameters from the smaller model. A new syntax for existential formulas is unnecessary.
 
 ([Jochen Koenigsmann, *Defining Z in Q*](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p02-p.pdf), §4, preservation criterion before Proposition 23, p.91; Remark 24, p.92.)
 
-*Needs:* [0.2 Semantics and composition of interpretations](#02-semantics-and-composition-of-interpretations); Mathlib `FirstOrder.Language.BoundedFormula.IsExistential`.
+*Needs:* [0.2 Semantics and composition of interpretations](#02-semantics-and-composition-of-interpretations); Mathlib `FirstOrder.Language.BoundedFormula.IsExistential`; Mathlib `FirstOrder.Language.BoundedFormula.IsExistential.realize_embedding`; TauCetiRoadmap.SaturationAndQuantifierElimination §2.5 for model completeness in the Checks.
 
 ### 4.32 Rational-model preservation criteria
 
@@ -1297,7 +1277,7 @@ For the conditional relative-algebraic-closure conclusion, formalize the monic-r
 
 ([Jochen Koenigsmann, *Defining Z in Q*](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p02-p.pdf), §4, Proposition 23(a)–(d), pp.91–92; Remark 24, p.92.)
 
-*Needs:* [4.31 Existential closure and model completeness](#431-existential-closure-and-model-completeness); [4.24 Universal definition of integers in rationals](#424-universal-definition-of-integers-in-rationals); [4.30 Nonpowers over a number field](#430-nonpowers-over-a-number-field); [4.15 Matiyasevich–Robinson–Davis–Putnam theorem](#415-matiyasevichrobinsondavisputnam-theorem).
+*Needs:* [4.31 Existential closure and model completeness](#431-existential-closure-and-model-completeness); [4.24 Universal definition of integers in rationals](#424-universal-definition-of-integers-in-rationals); [4.30 Nonpowers over a number field](#430-nonpowers-over-a-number-field); [4.15 Matiyasevich–Robinson–Davis–Putnam theorem](#415-matiyasevichrobinsondavisputnam-theorem); TauCetiRoadmap.SaturationAndQuantifierElimination §2.5.
 
 ### 4.33 Two-universal-variable integer formula
 
@@ -1330,7 +1310,7 @@ The syntax X₀−2X₁ evaluates at (1,3) to −5. X(X−1) vanishes on {0,1} y
 
 ### Dependencies
 
-Mathlib `Poly`; Mathlib `Poly.proj`; Mathlib `Poly.const`; Mathlib `MvPolynomial.eval₂Hom`; Mathlib `Int.castRingHom`; Mathlib `MvPolynomial.eval₂Hom_C`; Mathlib `MvPolynomial.eval₂Hom_X'`; Mathlib `Poly.ext`; Mathlib `Poly.const_apply`; Mathlib `Poly.proj_apply`; Mathlib `MvPolynomial.induction_on`; Mathlib `Poly.add_apply`; Mathlib `Poly.mul_apply`; Mathlib `Poly.induction`; Mathlib `MvPolynomial.funext_set`; Mathlib `Nat.cast_injective`; Mathlib `Set.infinite_range_of_injective`; Mathlib `RingEquiv.ofBijective`; Mathlib `Poly.map_apply`; Mathlib `MvPolynomial.eval_rename`; Mathlib `MvPolynomial.exists_finset_rename`; Mathlib `Finset.toRight`; Mathlib `Finset.mem_toRight`; Mathlib `MvPolynomial.rename`; Mathlib `MvPolynomial.rename_rename`; Mathlib `Fintype.equivFin`; Mathlib `Function.extend`; Mathlib `Function.Injective.extend_apply`; Mathlib `Dioph`; Mathlib `REPred`; Mathlib `Nat.chineseRemainder`; Mathlib `Dioph.pow_dioph`; Mathlib `ComputablePred.halting_problem`; Mathlib `Nat.sum_four_squares`; [0.4 Explicit arithmetic semantics bridges](#04-explicit-arithmetic-semantics-bridges); [0.2 Semantics and composition of interpretations](#02-semantics-and-composition-of-interpretations); [TauCetiRoadmap.QuadraticFormInvariants, layer 2 quaternion algebras and the four fold splitting criterion](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/QuadraticFormInvariants/README.md#layer-2-quaternion-algebras-and-the-four-fold-splitting-criterion); [TauCetiRoadmap.QuadraticFormInvariants, 6c the hilbert symbol and the local hasse invariant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/QuadraticFormInvariants/README.md#6c-the-hilbert-symbol-and-the-local-hasse-invariant); [TauCetiRoadmap.GlobalQuadraticForms, layer 4 global square norm and approximation lemmas](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalQuadraticForms/README.md#layer-4-global-square-norm-and-approximation-lemmas); [TauCetiRoadmap.GlobalQuadraticForms, layer 6 representation and isometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalQuadraticForms/README.md#layer-6-representation-and-isometry); Mathlib `Nat.forall_exists_prime_gt_and_modEq`; [TauCetiRoadmap.HeightsRationalPointsAndObstructions, §§2.16b–2.21](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsRationalPointsAndObstructions/README.md#layer-2-adelic-spaces-and-brauer-evaluation); [TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero, §6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ResolutionOfSingularitiesCharacteristicZero/README.md#62-snc-compactification); [TauCetiRoadmap.WeilConjectures, §5.29, Curve RH from the surface bound](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/WeilConjectures/README.md#529-curve-rh-from-the-surface-bound); [TauCetiRoadmap.Chebotarev](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/Chebotarev/README.md); [TauCetiRoadmap.ClassFieldTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md); Mathlib `FirstOrder.Language.BoundedFormula.IsExistential`.
+Mathlib `Poly`; Mathlib `Poly.proj`; Mathlib `Poly.const`; Mathlib `MvPolynomial.eval₂Hom`; Mathlib `Int.castRingHom`; Mathlib `MvPolynomial.eval₂Hom_C`; Mathlib `MvPolynomial.eval₂Hom_X'`; Mathlib `Poly.ext`; Mathlib `Poly.const_apply`; Mathlib `Poly.proj_apply`; Mathlib `MvPolynomial.induction_on`; Mathlib `Poly.add_apply`; Mathlib `Poly.mul_apply`; Mathlib `Poly.induction`; Mathlib `MvPolynomial.funext_set`; Mathlib `Nat.cast_injective`; Mathlib `Set.infinite_range_of_injective`; Mathlib `RingEquiv.ofBijective`; Mathlib `Poly.map_apply`; Mathlib `MvPolynomial.eval_rename`; Mathlib `MvPolynomial.exists_finset_rename`; Mathlib `Finset.toRight`; Mathlib `Finset.mem_toRight`; Mathlib `MvPolynomial.rename`; Mathlib `MvPolynomial.rename_rename`; Mathlib `Fintype.equivFin`; Mathlib `Function.extend`; Mathlib `Function.Injective.extend_apply`; Mathlib `Dioph`; Mathlib `REPred`; Mathlib `Nat.chineseRemainder`; Mathlib `Dioph.pow_dioph`; Mathlib `ComputablePred.halting_problem`; Mathlib `Nat.sum_four_squares`; [0.4 Explicit arithmetic semantics bridges](#04-explicit-arithmetic-semantics-bridges); [0.2 Semantics and composition of interpretations](#02-semantics-and-composition-of-interpretations); [TauCetiRoadmap.QuadraticFormInvariants, layer 2 quaternion algebras and the four fold splitting criterion](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/QuadraticFormInvariants/README.md#layer-2-quaternion-algebras-and-the-four-fold-splitting-criterion); [TauCetiRoadmap.QuadraticFormInvariants, 6c the hilbert symbol and the local hasse invariant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/QuadraticFormInvariants/README.md#6c-the-hilbert-symbol-and-the-local-hasse-invariant); [TauCetiRoadmap.GlobalQuadraticForms, layer 4 global square norm and approximation lemmas](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalQuadraticForms/README.md#layer-4-global-square-norm-and-approximation-lemmas); [TauCetiRoadmap.GlobalQuadraticForms, layer 6 representation and isometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GlobalQuadraticForms/README.md#layer-6-representation-and-isometry); Mathlib `Nat.forall_exists_prime_gt_and_modEq`; [TauCetiRoadmap.HeightsRationalPointsAndObstructions, §§2.16b–2.21](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsRationalPointsAndObstructions/README.md#layer-2-adelic-spaces-and-brauer-evaluation); [TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero, §6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ResolutionOfSingularitiesCharacteristicZero/README.md#62-snc-compactification); [TauCetiRoadmap.WeilConjectures, §5.29, Curve RH from the surface bound](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/WeilConjectures/README.md#529-curve-rh-from-the-surface-bound); [TauCetiRoadmap.Chebotarev](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/Chebotarev/README.md); [TauCetiRoadmap.ClassFieldTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md); Mathlib `FirstOrder.Language.BoundedFormula.IsExistential`; Mathlib `FirstOrder.Language.BoundedFormula.IsExistential.realize_embedding`; TauCetiRoadmap.SaturationAndQuantifierElimination §2.5.
 
 ## Layer 5: normalized local densities and arithmetic consumers
 
@@ -1856,9 +1836,10 @@ This roadmap owns definable quotient presentations and their semantic translatio
 The following are prerequisites and boundaries. The general theory of o-minimal structures (definable sets and maps, monotonicity, continuous cell decomposition, uniform finiteness, definable dimension with its union, image, product, fibre and frontier laws, definable choice and curve selection, for every o-minimal structure) belongs to ShimuraVarieties §§3.4b–3.4e, earlier than both this roadmap and the block theorem it consumes; §§6.4–6.5 here add connected components with their uniform family bound and definable path-connectedness. The general Pila–Wilkie parametrization and determinant machinery belongs to the parameter-uniform block decomposition of AbelianSchemesAndArithmeticModuliPartII B2.6, whose covering statement is the contract gap:block-family-covering; this roadmap proves its rational and bounded-degree counting corollaries.
 
 - **TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero** §6.2, **TauCetiRoadmap.WeilConjectures** §5.29, “Curve RH from the surface bound”, **TauCetiRoadmap.Chebotarev** Layer 14 and **TauCetiRoadmap.ClassFieldTheory** Layers 5, 10–13 own the compactification, curve estimate, auxiliary-prime existence and reciprocity inputs used by §4.29.
-- **TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII** B2.6, B2.7, B2.14, B2.15 and B2.18 own semirational block counting with its parameter-uniform decomposition, free matrix word growth, the invariant Ax-type torus theorem, abelian Ax–Lindemann and invariant algebraic subvarieties. Sections 6.14 and 6.15–6.16 here add rational, integral, image-block and bounded-degree corollaries; the abelian group-action results are consumed from that roadmap.
+- **TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII** B2.6, B2.7, B2.14, B2.15 and B2.18 own semirational block counting with its parameter-uniform decomposition, free matrix word growth, the invariant Ax-type torus theorem, abelian Ax–Lindemann and invariant algebraic subvarieties. Sections 6.14 and 6.15–6.16 here add rational, integral, image-block and bounded-degree corollaries of B2.6; B2.7, B2.14, B2.15 and B2.18 are not used here.
 - **TauCetiRoadmap.AdelicAlgebraicGroups** §2.4 owns gauge Haar measures and Weil volumes for characteristic-zero smooth affine groups. Sections 2.7 and 2.9 here extend the constructions to arbitrary analytic manifolds with tensor forms and arbitrary smooth finite-type models.
 - Mathlib owns first-order languages, formulas, structures, realization, definability, compactness and ultraproducts. Use its native syntax throughout. A finite tagged encoding of several sorts is an adapter to that syntax.
+- **TauCetiRoadmap.SaturationAndQuantifierElimination** §2.5 owns model completeness and Robinson’s test for an arbitrary first-order language. Section 4.31 here adds existential closure of one embedding and the existential preservation criterion for one formula, which §4.32 applies to Th(ℚ).
 - Mathlib owns `Poly`, `Dioph`, `Dioph.DiophFn`, Pell-based Diophantine exponentiation, `REPred` and the halting obstruction. This roadmap builds the comparison of `Poly` with integer polynomial syntax and the full computation-to-polynomial argument (§§4.1–4.15).
 - Tau Ceti's `TauCeti/RingTheory/GrothendieckRing.lean` owns general ring completion of a semiring, including `Algebra.GrothendieckAddGroup.instCommRing`, `Algebra.GrothendieckAddGroup.ofRingHom` and `Algebra.GrothendieckAddGroup.liftRingHom`. The additional target is the residue-definable scissor semiring and its particular functorial maps.
 - **TauCetiRoadmap.RealAlgebraicGeometry**, from [Layer 3: sign determination and semialgebraic descriptions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/RealAlgebraicGeometry/README.md#layer-3-sign-determination-and-semialgebraic-descriptions) through [Layer 6: CAD and quantifier elimination](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/RealAlgebraicGeometry/README.md#layer-6-cad-and-quantifier-elimination), owns semialgebraic syntax, CAD, projection closure and the semialgebraic/ordered-field-definability dictionary over ℝ. Its elimination theorem is over ℝ; it does not supply elimination over every real closed field. This supplies the semialgebraic o-minimal reduct used here. Its exports in Tau Ceti include projection closure over ℝ, the instance of `TauCeti.HasSemialgebraicProjections` on ℝ (Tarski–Seidenberg, TauCeti/Geometry/RealAlgebraic/CAD/Existence.lean), and the dictionary `TauCeti.isSemialgebraic_iff_definable_real`. General o-minimal structures and their dimension theory are ShimuraVarieties §§3.4b–3.4e; the analytic/exponential theorems, connected components and definable paths belong here.
@@ -1870,7 +1851,6 @@ The following are prerequisites and boundaries. The general theory of o-minimal 
 - **TauCetiRoadmap.DiophantineApproximationAndTranscendence** §§0.2–0.3 owns the Mahler and absolute-height comparisons and bounded-degree Northcott; Mathlib supplies rational height. Its Layer 5 functional-transcendence results (differential-exponential Ax–Schanuel, §5.6) are different statements from the abelian, Shimura and Hodge theorems that appear as Layer 7 hypotheses. **TauCetiRoadmap.HeightsRationalPointsAndObstructions** §2.20 supplies the Brauer pairing on zero-cycles of arbitrary degree; the effective zero-cycle theorem for normic bundles of Colliot-Thélène–Van Geel is §4.29 here. Its §§5.1, 5.6 and 5.8 own Manin–Mumford and its uniform family version, including torsion cosets of positive dimension.
 - **TauCetiRoadmap.ShimuraVarieties** §§3.4b–3.4e own, for every o-minimal structure, o-minimal structures and definable maps with the `Set.Definable` bridge, monotonicity, continuous cell decomposition, uniform finiteness, definable dimension with its union, image, product, fibre and frontier laws and its agreement with `TauCeti.semialgebraicDim`, definable choice and curve selection; §3.5a owns the structure R_an,exp itself (its language of polynomial maps, restricted analytic functions and the exponential, with its structure on ℝ), its o-minimality with finite cell decomposition, its analytic cell decomposition (contract gap:ran-exp-analytic-cells), definable dimension and the finite-atlas calculus in that structure; §3.5d owns the definable Chow theorem on smooth complex algebraic varieties and the definable Remmert–Stein closure in smooth complex algebraic varieties that its proof constructs (contract gap:definable-remmert-stein); §3.6 owns the R_an,exp comparison between the arithmetic and the algebraic definable structures of a torsion-free arithmetic Hermitian quotient with fixed maximal compact, including the fact that R_an does not suffice at a cusp. This roadmap consumes §§3.4b–3.4e in §§6.1, 6.4–6.5, 6.11 and 6.13, §3.5a in §§6.2, 6.3, 6.6 and 6.10 and §3.5d in §§6.8–6.9, and keeps: the acceptance predicate `IsOMinimalExpansion`, connected components with their uniform family bound, definable path-connectedness, the reducts R_an and R_exp with the globally subanalytic description of R_an, definable atlases with corners over an arbitrary o-minimal expansion, singular ambient varieties and Boolean combinations.
 - **TauCetiRoadmap.ComplexComparisonPartII** Layer C4 owns the classical Remmert–Stein extension theorem and Chow's theorem for complex analytic spaces; §§6.8–6.9 here are the definable forms, with no dimension hypothesis on the exceptional analytic set and no properness of the ambient variety.
-- **TauCetiRoadmap.StratifiedSpacesAndTameTopology** §4.1 owns the triangulation theorem for o-minimal expansions of ordered fields and §7.1 the C^p cell decomposition of definable sets over ℝ; neither is used or restated here.
 - Shimura-variety and Hodge-theoretic functional transcendence (special and weakly special subvarieties, definability of uniformizations on fundamental sets, hyperbolic and mixed Ax–Lindemann, Ax–Schanuel for variations of Hodge structure), the Galois-orbit and lift-height bounds for CM points are not proved here. Layer 7 states each of them, with its source, as a hypothesis of the theorems that use it.
 
 ## Exact supplier contracts
@@ -1909,7 +1889,7 @@ What NeronModelsAndSemistableAbelianVarieties must provide (gap:neron-pairing-pe
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
-Use RG2.3.7, Lang’s theorem: for every smooth geometrically connected group of finite type over a finite field k, H¹(k,G) is trivial, and exact sequences with such a kernel are surjective on k-points. Section 2.11 applies this to the connected Néron special fibres.
+Use RG2.3.7, Lang’s theorem: for every smooth geometrically connected group of finite type over a finite field k, H¹(k,G) is trivial, and exact sequences with such a kernel are surjective on k-points. Section 2.10(b) applies this to the connected Néron special fibres.
 
 ### From TauCetiRoadmap.MotivesAndAlgebraicCycles
 
@@ -1945,7 +1925,7 @@ Use §2.4, “The Haar measure of a gauge form over a local field” and “Weil
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuliPartII
 
-Use B2.6 for parameter-uniform semirational block counting, including its block decomposition; B2.7 for free matrix word growth; B2.14 for invariant Ax-type subsets of real tori; B2.15 for the abelian Ax input and real-period adapter; and B2.18 for monodromy-invariant subvarieties. Sections 6.14 and 6.15–6.16 here give rational, integral-height, image-block and bounded-degree corollaries of B2.6. These supplied abelian results are not targets of this roadmap. The cell decomposition, definable dimension and definable choice that B2.6 uses for an arbitrary o-minimal expansion of the real field are ShimuraVarieties §§3.4c–3.4e, earlier than B2.6; nothing of this roadmap enters B2.6.
+Use B2.6 for parameter-uniform semirational block counting, including its block decomposition. Sections 6.14 and 6.15–6.16 here give rational, integral-height, image-block and bounded-degree corollaries of B2.6. The cell decomposition, definable dimension and definable choice that B2.6 uses for an arbitrary o-minimal expansion of the real field are ShimuraVarieties §§3.4c–3.4e, earlier than B2.6; nothing of this roadmap enters B2.6.
 
 What AbelianSchemesAndArithmeticModuliPartII must provide (gap:block-family-covering): B2.6 must state the decomposition it constructs: for a definable family Z⊆ℝⁿ×ℝᵐ in an o-minimal expansion of the real field and ε>0 there are finitely many definable families W_j⊆ℝⁿ×(ℝᵐ×ℝ^(μ_j)) each of whose fibres W_(j,(t,η)) is a basic block contained in Z_t (a basic block of dimension κ being a connected definable set of dimension κ contained in a semialgebraic set of dimension κ, every point of which is regular of dimension κ in both and in their intersection; Pila 2009, Definition 3.2, p.5), and c>0, such that for every parameter t∈ℝᵐ and every T≥1 the rational points of height at most T of Z_t lie in at most c·T^ε of the fibres W_(j,(t,η)) (Pila 2009, Theorem 3.5, p.6).
 
@@ -1972,6 +1952,10 @@ Use Layer 14, natural-density Chebotarev and its finite-exception invariance: a 
 ### From TauCetiRoadmap.ClassFieldTheory
 
 Use Layers 5 and 10 for cyclic algebras, local Brauer invariants and their global sum, and Layers 11–13 for global reciprocity, class fields and norm conditions on the auxiliary primes in §4.29.
+
+### From TauCetiRoadmap.SaturationAndQuantifierElimination
+
+Use §2.5: a theory T in a first-order language is model complete when every embedding between models of T is elementary, and Robinson’s test: T is model complete iff, for every embedding M↪N of models of T, every existential formula with parameters from M that holds in N holds in M, iff every formula is equivalent modulo T to an existential formula. Section 4.32 applies the last form to show that Th(ℚ) is not model complete.
 
 ### Input hypotheses of Layer 7
 
