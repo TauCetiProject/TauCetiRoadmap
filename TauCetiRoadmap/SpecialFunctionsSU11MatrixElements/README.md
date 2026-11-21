@@ -49,13 +49,15 @@ the integral: the binomial series gives the hypergeometric forms, the halving of
 Laplace's integral, and the substitutions `θ ↦ −θ`, `θ ↦ θ + π` give the index symmetries and
 parity. The symmetries that change `τ` or transpose the indices come from the hypergeometric form,
 or from the Hermitian adjoint and the intertwiners of SpecialFunctionsGroupModels §2.1, extended by
-holomorphy in `τ`. Layer 2 uses unitarity: the sums of squares are Parseval for unit vectors. Layer
-3 uses the addition theorem of SpecialFunctionsGroupModels §3.2 on the Euler angles of a product,
-and the Fourier series of the integrand of 1.1. Layer 4 differentiates the addition theorem at the
-identity. Layer 5 is the hardest: the Mehler–Fock transform restricts the Plancherel theorem of
-NoncompactQuantumSymmetry M4.P to one `K`-type. Within the layers: 1.2–1.5 use 1.1; 1.4 uses 1.2;
-2.1 uses 1.3–1.4; 2.2 uses 1.2 and 1.4; Layer 3 uses 1.1 and 1.3; 4.1 uses 1.2 and 1.5 and 4.2
-uses 1.4 and 4.1; 5.1 uses 1.1; 5.2 uses 1.3, 1.4 and 2.1, and 5.3 uses 5.2.
+holomorphy in `τ`. Layer 2 uses unitarity: the sums of squares are Parseval, on the circle for the
+principal series and for unit vectors of the complementary and discrete series. Layer 3 uses the
+addition theorem of SpecialFunctionsGroupModels §3.2 on the Euler angles of a product, and the
+Fourier series of the integrand of 1.1. Layer 4 differentiates the addition theorem at the identity.
+Layer 5 is the hardest: the Mehler–Fock transform restricts the Plancherel theorem of
+NoncompactQuantumSymmetry M4.P to one `K`-type. Within the layers: 1.2 uses 1.1; 1.3 and 1.4 use
+1.1–1.2; 1.5 uses 1.1–1.2 and 1.4; 2.1 uses 1.1, 1.3 and 1.4; 2.2 uses 1.1–1.2 and 1.4; 3.1 uses
+1.1, 3.2 uses 1.3 and 3.1, and 3.3 uses 1.1 and 1.5; 4.1 uses 1.1–1.2 and 1.5, and 4.2 uses 1.4 and
+4.1; 5.1 uses 1.1; 5.2 uses 1.1, 1.3, 1.4, 2.1 and 4.2, and 5.3 uses 1.1, 1.3, 4.2 and 5.2.
 
 ## Conventions
 
@@ -68,7 +70,9 @@ uses 1.4 and 4.1; 5.1 uses 1.1; 5.2 uses 1.3, 1.4 and 2.1, and 5.3 uses 5.2.
   the circle `𝕋 = ℝ/2πℤ`; its weight vectors are the functions `e^{inθ}` of `fourierBasis`, of
   weight `m = n − e/2`, so that `T(k_α) e_m = e^{imα} e_m`. The indices `m`, `n` of `𝔓^τ_{mn}` are
   weights: real numbers with `m − n ∈ ℤ`, integers for `e = 0` and half-odd-integers for `e = 1`.
-  Identities that hold for every real `n` with `m = n + k`, `k ∈ ℤ`, are stated so.
+  Identities that hold for every real `n` with `m = n + k`, `k ∈ ℤ`, are stated so. A row sum is a
+  sum over the first index with the second fixed, `Σ_k 𝔓^τ_{n+k,n}`, and a column sum a sum over
+  the second index, `Σ_k 𝔓^τ_{n,n+k}`.
 - **The function `𝔓^τ_{mn}(cosh t)`** is `SU11.boostMatrixElement τ m n t`, a function of `t ∈ ℝ`
   rather than of `cosh t`, defined for every `τ ∈ ℂ` and real `m`, `n` by
   `(2π)⁻¹ ∫₀^{2π} A(θ)^{τ+n} A(−θ)^{τ−n} e^{i(m−n)θ} dθ`, where
@@ -297,10 +301,10 @@ p. 44; §14 (175), p. 50].
 Prove:
 - **Unitarity relations of the principal series**
   (`SU11.hasSum_norm_sq_boostMatrixElement_row`, `SU11.hasSum_norm_sq_boostMatrixElement_column`):
-  for `Re τ = −1/2`, `e` and integer `n`, with `m = n − e/2`,
-  `Σ_{k∈ℤ} |𝔓^τ_{m+k,m}(cosh t)|² = 1` and `Σ_{k∈ℤ} |𝔓^τ_{m,m+k}(cosh t)|² = 1`;
-- **Bound** (`SU11.norm_boostMatrixElement_le_one`): `|𝔓^τ_{m'm}(cosh t)| ≤ 1` for `Re τ = −1/2`
-  and weights `m'`, `m` in `−e/2 + ℤ`; in particular `|P_{−1/2+iρ}(cosh t)| ≤ 1`;
+  for `Re τ = −1/2` and real `n`, the row sum `Σ_{k∈ℤ} |𝔓^τ_{n+k,n}(cosh t)|² = 1` and the column
+  sum `Σ_{k∈ℤ} |𝔓^τ_{n,n+k}(cosh t)|² = 1`;
+- **Bound** (`SU11.norm_boostMatrixElement_le_one`): `|𝔓^τ_{n+k,n}(cosh t)| ≤ 1` for
+  `Re τ = −1/2`, real `n` and `k ∈ ℤ`; in particular `|P_{−1/2+iρ}(cosh t)| ≤ 1`;
 - **Complementary series** (`SU11.hasSum_complementarySeries_weighted_norm_sq`): for real
   `−1 < τ < 0` and integer `n`, with `w = complementaryWeight τ`,
   `Σ_{k∈ℤ} w(k)/w(n) · |𝔓^τ_{kn}(cosh t)|² = 1`;
@@ -309,17 +313,27 @@ Prove:
 - **Boundedness range** (`SU11.isBounded_boostMatrixElement_zero_zero_iff`):
   `t ↦ 𝔓^τ_{00}(cosh t)` is bounded on `[0, ∞)` exactly when `−1 ≤ Re τ ≤ 0`.
 
-The principal series is unitary on `Re τ = −1/2` (SpecialFunctionsGroupModels §2.1), so the sums
-are Parseval for the unit vectors `T(b_t) e_m` and `T(b_t)* e_m`, and the bound is Cauchy–Schwarz.
-The complementary relations are the same argument for the complementary series of
-NoncompactQuantumSymmetry M4, whose orthonormal basis is `e_n / w(n)^{1/2}`
-(SpecialFunctionsGroupModels §2.2); `w(n) > 0` for `−1 < τ < 0`. The boundedness range uses the
-behaviour of `P_τ` at infinity (SpecialFunctionsLegendre 4.5) and the reflection of 1.4.
+On `Re τ = −1/2` the integrand of 1.1 has modulus `|A(θ)|^{2 Re τ} = |A(θ)|⁻¹`, and the mean of
+`|A(θ)|⁻²` over the circle is `(cosh²(t/2) − sinh²(t/2))⁻¹ = 1`; since the `𝔓^τ_{n+k,n}` are the
+Fourier coefficients of that integrand (1.1), the row sum is Parseval on the circle, and the bound
+follows from it. For the column sum, the two Gamma products of the transposition (1.4) at
+`m = n + k` have the same modulus `π/|cos π(n + iρ)|`, `τ = −1/2 + iρ`, so
+`|𝔓^τ_{n,n+k}| = |𝔓^τ_{n+k,n}|` off the poles, and at the poles (`ρ = 0`, `n ∈ 1/2 + ℤ`) by
+continuity in `τ` (1.1); the column sum is then the row sum. On the weights `n ∈ −e/2 + ℤ` these
+are Parseval for the unit vectors `T(b_t) e_m` and `T(b_t)* e_m` of the principal series, which is
+unitary on `Re τ = −1/2` (SpecialFunctionsGroupModels §2.1). The complementary relations are the
+same argument for the complementary series of NoncompactQuantumSymmetry M4, whose orthonormal basis
+is `e_n / w(n)^{1/2}` (SpecialFunctionsGroupModels §2.2); `w(n) > 0` for `−1 < τ < 0`. The
+boundedness range uses the behaviour of `P_τ` at infinity (SpecialFunctionsLegendre 4.5) and the
+reflection of 1.4.
 
 **Checks.**
-- At `τ = −1/2 + 0.8i`, `t = 0.9`, both sums are `1` to `10⁻²⁵` for `m = 0, 2` (`e = 0`) and
-  `m = −1/2, 3/2` (`e = 1`), and the maximum of `|𝔓^τ_{m'm}|` over `|m'|, |m| ≤ 3` is
-  `0.83317`, at `m' = m = 0`.
+- At `τ = −1/2 + 0.8i`, `t = 0.9`, both sums are `1` to `10⁻²⁵` for `n = 0, 2`, for
+  `n = −1/2, 3/2` and for the non-weights `n = 0.3, 0.25, −1.7`, and the maximum of `|𝔓^τ_{m'm}|`
+  over integers `|m'|, |m| ≤ 3` is `0.83317`, at `m' = m = 0`.
+- At `n = 0.3`, with `τ = −1/2`, `t = 0.9` and with `τ = −1/2 + 0.1i`, `t = 1.7`, both sums are
+  `1` to `10⁻²⁰`.
+- Negative control: at `τ = −0.4 + 0.8i`, `t = 0.9`, `n = 0.3`, the row sum is `0.96888 82095`.
 - Negative control: at `τ = 0.1`, `t = 1`, `Σ_k |𝔓^τ_{k0}|² = 1.05851 38265`.
 - Complementary series at `τ = −0.3`, `t = 0.9`: the weighted sum is `1` to `10⁻²⁵` for
   `n = 0, 1, −2`, and the weighted bound is at most `0.95927` over `|m|, |n| ≤ 3`; negative control:
@@ -327,7 +341,7 @@ behaviour of `P_τ` at infinity (SpecialFunctionsLegendre 4.5) and the reflectio
 - At `t = 5`: `𝔓^1_{00} = cosh 5 = 74.2099`, while `𝔓^0_{00} = 𝔓^{−1}_{00} = 1`, and `𝔓^{−0.3}_{00}`
   and `𝔓^{−1/2}_{00}` decrease; `Re τ = 0.2` and `τ = −1.2` grow.
 
-*Needs:* 1.3–1.4; SpecialFunctionsGroupModels §§2.1–2.2; NoncompactQuantumSymmetry M4;
+*Needs:* 1.1, 1.3–1.4; SpecialFunctionsGroupModels §§2.1–2.2; NoncompactQuantumSymmetry M4;
 SpecialFunctionsLegendre 4.5.
 
 ### 2.2 The discrete series in the Bergman model
@@ -458,9 +472,10 @@ Prove, for real `n` and `t`:
 - **Shift of the degree by `1/2`** (`SU11.boostMatrixElement_degree_shift`): for
   `m = n + 1/2 + k`, `k ∈ ℤ`,
   `𝔓^{τ+1/2}_{m, n+1/2} = cosh(t/2) 𝔓^τ_{m−1/2, n} + sinh(t/2) 𝔓^τ_{m+1/2, n}`;
-- at `n = 0`, `θ = ±π/2`: `Σ_k (∓i)^k 𝔓^τ_{k0}(cosh t) = cosh^τ t`, since
-  `A(π/2) A(−π/2) = cosh t`; the sign `+` is [VK, §6.7.1 (10), p. 333], whose `𝔓^k_τ` is the
-  associated Legendre function of 1.3.
+- at `n = 0`: `Σ_k i^k 𝔓^τ_{k0}(cosh t) = cosh^τ t` (the case `θ = −π/2`) and
+  `Σ_k (−i)^k 𝔓^τ_{k0}(cosh t) = cosh^τ t` (the case `θ = π/2`), since `A(π/2) A(−π/2) = cosh t`;
+  the first, with the factor `i^k`, is [VK, §6.7.1 (10), p. 333], whose `𝔓^k_τ` is the associated
+  Legendre function of 1.3.
 
 The integrand of 1.1 is smooth and `2π`-periodic in `θ`, so its Fourier series converges
 absolutely, and 1.1 says its coefficients are the `𝔓^τ_{n+k,n}`; the row sums are `θ = 0, π`. The
@@ -477,7 +492,7 @@ coefficients are `𝔓^{1/2}_{1/2,1/2} = cosh(t/2)` and `𝔓^{1/2}_{−1/2,1/2}
 - The convolution holds to `10⁻²⁵` at `τ₁ = 0.23 + 0.4i`, `τ₂ = −0.6 + 0.1i` for
   `(m, n₁, n₂) = (1, 0, 0), (2, 1/2, −3/2), (0, 1, 2)`.
 - The shift holds to `10⁻³⁰` for `(m, n) = (3/2, 0), (1, 1/2), (−1/2, 1), (2.8, 0.3)`.
-- At `θ = π/2`, `n = 0`: both sides are `1.12610 47073 + 0.31335 53931 i`.
+- At `n = 0`, `θ = π/2` and `θ = −π/2`: both sides are `1.12610 47073 + 0.31335 53931 i`.
 
 *Needs:* 1.1, 1.5; Mathlib Fourier series on `AddCircle`.
 
@@ -600,9 +615,13 @@ The proof restricts NoncompactQuantumSymmetry M4.P's Plancherel theorem for `SL(
 bi-`K`-invariant functions, where only the spherical principal series contributes, and identifies
 the spherical functions with `𝔓^{−1/2+iρ}_{00}` (1.3) and the Plancherel density with
 `ρ tanh(πρ)` through the dictionary `ν = −(2τ + 1) = −2iρ` of SpecialFunctionsGroupModels §2.1 and
-the radial equation of its §5.4. Inversion on smooth compactly supported functions follows from
-Parseval by polarization and the continuity and bound of `ρ ↦ 𝔓^{−1/2+iρ}_{00}(cosh t)` (1.1,
-2.1).
+the radial equation of its §5.4. For smooth `f` with compact support in `(0, ∞)` the transform
+decays faster than every power of `ρ`: the equation of 4.2 at `m = n = 0`, which in `t` reads
+`w″ + coth t · w′ = τ(τ + 1) w` with `τ(τ + 1) = −(1/4 + ρ²)`, and two integrations by parts give
+`mehlerFock (f″ + coth t · f′) ρ = −(1/4 + ρ²) · mehlerFock f ρ`, and `f″ + coth t · f′` is again
+smooth with compact support in `(0, ∞)`. With that decay, the continuity and the bound of
+`ρ ↦ 𝔓^{−1/2+iρ}_{00}(cosh t)` (1.1, 2.1) make the inversion integral absolutely convergent and
+continuous in `t`, and inversion follows from Parseval by polarization.
 
 **Checks.**
 - For `f(t) = e^{−cosh t}`: `mehlerFock f ρ = (2/π)^{1/2} K_{iρ}(1)`, `0.30642 19939` at
@@ -610,12 +629,15 @@ Parseval by polarization and the continuity and bound of `ρ ↦ 𝔓^{−1/2+i�
 - Parseval for `F(x) = (x − 1) e^{−x}`: `∫₁^∞ |F|² dx = e^{−2}/4 = 0.03383 38208`, and
   `∫₀^∞ |c(ρ)|² ρ tanh(πρ) dρ` agrees to `10⁻¹²`; negative control: the density `ρ dρ` without
   `tanh(πρ)` gives `0.03713`.
+- For `f(t) = exp(−1/(t − 1/2) − 1/(5/2 − t))` on `(1/2, 5/2)`, `0` elsewhere:
+  `mehlerFock f ρ = 0.18136 10422` at `ρ = 0.7` and `−0.06383 18678` at `ρ = 2.1`, and
+  `mehlerFock (f″ + coth t · f′) ρ / (−(1/4 + ρ²))` agrees to `10⁻¹⁰`.
 - Inversion for `f(t) = e^{−cosh t}` at `t = 0.7` returns `e^{−cosh 0.7} = 0.28502 76729` to
   `10⁻¹²`; negative control: the inversion constant `1/(2π²)` printed in [W, (10.5.12)] gives
   `0.01444`.
 
-*Needs:* 1.1, 1.3, 1.4, 2.1; NoncompactQuantumSymmetry M4.P; SpecialFunctionsGroupModels §§2.1,
-5.2, 5.4.
+*Needs:* 1.1, 1.3, 1.4, 2.1, 4.2; NoncompactQuantumSymmetry M4.P; SpecialFunctionsGroupModels
+§§2.1, 5.2, 5.4.
 
 ### 5.3 The Mehler–Fock transform of order `m`
 
@@ -637,7 +659,10 @@ NoncompactQuantumSymmetry M4.P the decomposition of `L²(SU(1,1)/K)` has only th
 principal series, since `Ind_K^G` of the trivial character contains no discrete series; the matrix
 elements of that series on the `K`-type are `e^{imα} 𝔓^{−1/2+iρ}_{m0}(cosh t)` by 1.1, so the
 transform is unitary with the density of 5.2. In [VK, §7.8.4 (8)–(11), p. 484] this is the case
-of the `K`-types `(m, 0)`, where no discrete terms occur.
+of the `K`-types `(m, 0)`, where no discrete terms occur. Inversion follows as in 5.2, with the
+decay from the equation of 4.2 at `n = 0`, which in `t` reads
+`w″ + coth t · w′ − m² w / sinh² t = τ(τ + 1) w`:
+`mehlerFockOrder m (f″ + coth t · f′ − m² f / sinh² t) ρ = −(1/4 + ρ²) · mehlerFockOrder m f ρ`.
 
 **Checks.**
 - At `m = 0` the transform is `mehlerFock`, since the kernel is real (1.4).
@@ -647,7 +672,7 @@ of the `K`-types `(m, 0)`, where no discrete terms occur.
 - Negative control: the kernel `P^{−1}_{−1/2+iρ}` with the density `ρ tanh(πρ)`, without the factor
   `|Γ(1/2 + iρ)/Γ(1/2 + iρ − m)|²`, gives `0.02467` at `m = 1`.
 
-*Needs:* 1.1, 1.3, 5.2; NoncompactQuantumSymmetry M4.P.
+*Needs:* 1.1, 1.3, 4.2, 5.2; NoncompactQuantumSymmetry M4.P.
 
 ## Worked examples
 
@@ -727,17 +752,14 @@ functions of one variable as such are the suppliers'.
 
 ### From Mathlib
 
+- `ContRepresentation` (`Mathlib/RepresentationTheory/Continuous/Basic.lean`), the carrier of
+  `principalSeries`.
 - Complex powers with the principal branch and `Complex.cpow_add`; `intervalIntegral`, Bochner and
   lower Lebesgue integrals, `withDensity`, `Lp` and `LinearIsometryEquiv`.
 - `ordinaryHypergeometric` (`Mathlib/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`),
   `ascPochhammer`, `Complex.Gamma`, `Real.Gamma`, `Real.arcosh`, `Real.arsinh`, `Real.arctan`.
 - `fourierBasis`, `fourierLp`, `haarAddCircle`, `HilbertBasis`, `HasSum`, `HasDerivAt`,
   `ContDiff`, `Differentiable`, `Bornology.IsBounded` and `iteratedDeriv`.
-
-### From Tau Ceti
-
-- `ContRepresentation` (`TauCeti/RepresentationTheory/Continuous/MatrixCoefficient.lean`), the
-  carrier of `principalSeries`.
 
 ### From SpecialFunctionsGroupModels
 
@@ -830,9 +852,10 @@ here. Its modules are a cited source, not the specification.
 - 1.4–1.5: `boostMatrixElement_neg_neg`, `boostMatrixElement_swap`, `boostMatrixElement_reflect`,
   `conj_boostMatrixElement`, `boostMatrixElement_eq_zero_of_lt`
   (`SFVK/SU11/MatrixElementSpecialFunctions.lean`).
-- 2.1: `hasSum_norm_sq_boostMatrixElement_row`, `hasSum_norm_sq_boostMatrixElement_column`,
-  `norm_boostMatrixElement_le_one`, `hasSum_complementarySeries_weighted_norm_sq`
-  (`SFVK/SU11/MatrixElements.lean`).
+- 2.1: `hasSum_complementarySeries_weighted_norm_sq`, and `hasSum_norm_sq_boostMatrixElement_row`,
+  `hasSum_norm_sq_boostMatrixElement_column` and `norm_boostMatrixElement_le_one` on the weights
+  `n ∈ −e/2 + ℤ` of the series, the case of the statements here that passes through the
+  representation (`SFVK/SU11/MatrixElements.lean`).
 - 3.1–3.3: `cosh_of_boost_mul_euler`, `hasSum_boostMatrixElement_addition`,
   `boostMatrixElement_mul_boostMatrixElement`, `boostMatrixElement_product_kernel`,
   `hasSum_boostMatrixElement_fourier`, `hasSum_boostMatrixElement_row`,

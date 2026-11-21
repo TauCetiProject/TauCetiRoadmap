@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.RepresentationTheory.Continuous.MatrixCoefficient
 
 /-!
 # Matrix elements of `SU(1,1)` and the Mehler–Fock transform: suggested target signatures
@@ -290,26 +289,22 @@ theorem boostMatrixElement_eq_zero_of_lt (N : ℕ) (a b : ℤ) (t : ℝ)
 
 /-! ## Layer 2: the unitary series -/
 
-/-- README 2.1. **Unitarity relations of the principal series**, the column through
-`n - e/2`: `Σ_k |𝔓^τ_{n+k,n}(cosh t)|² = 1` for `Re τ = -1/2`. -/
-theorem hasSum_norm_sq_boostMatrixElement_row (τ : ℂ) (hτ : τ.re = -1 / 2) (e : Fin 2) (n : ℤ)
-    (t : ℝ) :
-    HasSum (fun k : ℤ =>
-      ‖boostMatrixElement τ (n - (e : ℕ) / 2 + k) (n - (e : ℕ) / 2) t‖ ^ 2) 1 := by
+/-- README 2.1. **Unitarity relations of the principal series**, the row sum (over the first
+index): `Σ_k |𝔓^τ_{n+k,n}(cosh t)|² = 1` for `Re τ = -1/2` and real `n`. -/
+theorem hasSum_norm_sq_boostMatrixElement_row (τ : ℂ) (hτ : τ.re = -1 / 2) (n t : ℝ) :
+    HasSum (fun k : ℤ => ‖boostMatrixElement τ (n + k) n t‖ ^ 2) 1 := by
   sorry
 
-/-- README 2.1. **Unitarity relations of the principal series**, the row through `n - e/2`:
-`Σ_k |𝔓^τ_{n,n+k}(cosh t)|² = 1` for `Re τ = -1/2`. -/
-theorem hasSum_norm_sq_boostMatrixElement_column (τ : ℂ) (hτ : τ.re = -1 / 2) (e : Fin 2)
-    (n : ℤ) (t : ℝ) :
-    HasSum (fun k : ℤ =>
-      ‖boostMatrixElement τ (n - (e : ℕ) / 2) (n - (e : ℕ) / 2 + k) t‖ ^ 2) 1 := by
+/-- README 2.1. **Unitarity relations of the principal series**, the column sum (over the second
+index): `Σ_k |𝔓^τ_{n,n+k}(cosh t)|² = 1` for `Re τ = -1/2` and real `n`. -/
+theorem hasSum_norm_sq_boostMatrixElement_column (τ : ℂ) (hτ : τ.re = -1 / 2) (n t : ℝ) :
+    HasSum (fun k : ℤ => ‖boostMatrixElement τ n (n + k) t‖ ^ 2) 1 := by
   sorry
 
-/-- README 2.1. **Bound.** `|𝔓^τ_{mn}(cosh t)| ≤ 1` for `Re τ = -1/2`. -/
-theorem norm_boostMatrixElement_le_one (τ : ℂ) (hτ : τ.re = -1 / 2) (e : Fin 2) (n' n : ℤ)
-    (t : ℝ) :
-    ‖boostMatrixElement τ (n' - (e : ℕ) / 2) (n - (e : ℕ) / 2) t‖ ≤ 1 := by
+/-- README 2.1. **Bound.** `|𝔓^τ_{n+k,n}(cosh t)| ≤ 1` for `Re τ = -1/2`, real `n` and
+`k ∈ ℤ`. -/
+theorem norm_boostMatrixElement_le_one (τ : ℂ) (hτ : τ.re = -1 / 2) (n : ℝ) (k : ℤ) (t : ℝ) :
+    ‖boostMatrixElement τ (n + k) n t‖ ≤ 1 := by
   sorry
 
 /-- README 2.1. **Complementary series.** For real `-1 < τ < 0`, with `w = complementaryWeight τ`,
@@ -581,7 +576,7 @@ theorem mehlerFockOrder_inversion (m : ℤ) (f : ℝ → ℂ) (hf : ContDiff ℝ
 
 end SU11
 
-/-! ## Mathlib and Tau Ceti names used in the README -/
+/-! ## Mathlib names used in the README -/
 
 #check @ordinaryHypergeometric
 #check @ascPochhammer
