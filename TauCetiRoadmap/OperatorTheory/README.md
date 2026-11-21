@@ -17,8 +17,9 @@ scope and dependencies.
 - majorization and unitarily invariant norms, square and rectangular;
 - principal angles and eigenvalue perturbation;
 - approximation numbers and the symmetric operator ideals their gauges define;
-- the bounded Borel functional calculus, projection-valued measures, and the spectral
-  theory of unbounded self-adjoint operators, with Stone's theorem;
+- spectral measures of representations of `C(K)`, the spectral theorem for compact normal
+  operators, and the spectral theory of unbounded self-adjoint operators with the unitary
+  groups they generate;
 - Hardy-space Toeplitz operators, scalar and matrix symbols, Fredholm index
   and stable finite sections;
 - spectral-subspace perturbation: Sylvester equations, Rosenblum, and the Davis–Kahan
@@ -44,10 +45,11 @@ scope and dependencies.
 - [**Principal angles**](PrincipalAngles/README.md) — principal angles as singular values
   of an overlap operator, the projection gap, finite-dimensional point-spectral subspaces and
   projectors, the separation predicates, Hoffman–Wielandt and Davis's eigenvalue-change bound.
-- [**Self-adjoint spectral theory**](SelfAdjointSpectralTheory/README.md) — one-parameter
-  unitary groups and Stone's theorem, the bounded Borel functional calculus and
-  projection-valued measures, closed operators and resolvents on `LinearPMap`, and the
-  spectral measure of an unbounded self-adjoint operator.
+- [**Self-adjoint spectral theory**](SelfAdjointSpectralTheory/README.md) — the regular
+  spectral measure of a representation of `C(K)` with its uniqueness and naturality, the
+  eigenbasis of a compact normal operator, the resolvent characterisation, spectral subspaces
+  and truncations of the spectral measure of an unbounded self-adjoint operator, and the
+  spectral representation and Yosida approximation of the unitary group it generates.
 - [**Operator ideals**](OperatorIdeals/README.md) — approximation numbers as the
   infinite-dimensional continuation of singular values, symmetric norming functions and
   the ideals they induce, Schatten classes, and Hilbert–Schmidt operators realised as `ℓ²`
@@ -77,7 +79,7 @@ compact-perturbation index foundation.
 | `OrthogonalGeometry`           | Mathlib                                                                                                    |
 | `Majorization`                 | `PolarDecomposition`, `OrthogonalGeometry`                                                                 |
 | `PrincipalAngles`              | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`                                                 |
-| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups`, `BanachSpaceTheory` B1/B5 (SA-B63/65 only) |
+| `SelfAdjointSpectralTheory`    | `VonNeumannAlgebras` V2.BorelCalculus and V10.ClosedOperators, `BanachSpaceTheory` §5.4 (§1.6 only), `BanachAlgebras` §8.1 (§2.1 only), `OneParameterSemigroups` |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`                                                                                       |
 | `ToeplitzOperators`            | Mathlib Fourier/projection APIs, Tau Ceti circle degree, `BanachSpaceTheory` B5, `CStarAlgebras` C1/C5/C8, `OperatorKTheory` K4 |
@@ -91,13 +93,14 @@ stated against.
 
 ### Dependency-minimal material
 
-The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group
-and bounded-Borel-calculus layers in `SelfAdjointSpectralTheory` Parts A and B depend only
-on Mathlib within this family. SelfAdjointSpectralTheory's bidual comparison
-`SA-B63` and `SA-B65` additionally consume `BanachSpaceTheory` B1/B5.
-Part D consumes Tau Ceti’s supplied scalar-generic `LinearPMap`
-resolvent core. The unitary-group restriction and generator
-relation `SA-A15`–`SA-A16` also consume `OneParameterSemigroups`.
+The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A depends only on Mathlib
+within this family. `SelfAdjointSpectralTheory` takes nothing from the other roadmaps of this
+family: its Layers 1 and 2 are independent of each other and of Layers 3 and 4. Layer 1
+consumes `VonNeumannAlgebras` V2.BorelCalculus and Tau Ceti’s projection-valued measures, and
+its Borel bidual embedding additionally consumes `BanachSpaceTheory` §5.4. Layer 2 consumes
+`BanachAlgebras` §8.1. Layer 3 consumes `VonNeumannAlgebras` V10.ClosedOperators and Tau
+Ceti’s supplied scalar-generic `LinearPMap` resolvent core. Layer 4 consumes Tau Ceti’s
+unitary groups with Stone's theorem, built on `OneParameterSemigroups`.
 
 ## Ownership boundaries
 
@@ -117,22 +120,24 @@ Between roadmaps in this family:
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.
 - **The domain-aware Sylvester equation** — the transport statement `A X − X B = C` with
-  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, together with its use of
-  Tau Ceti’s supplied scalar-generic `LinearPMap` resolvent core, the self-adjoint resolvent
-  estimates, and the imaginary-shift Yosida approximants. Its solvability and its a-priori
-  estimates belong to `SpectralSubspacePerturbation`.
+  its domain bookkeeping — is supplied by Tau Ceti, together with the scalar-generic
+  `LinearPMap` resolvent core and the self-adjoint resolvent estimates. The imaginary-shift
+  Yosida approximants belong to `SelfAdjointSpectralTheory`. The solvability of the Sylvester
+  equation and its a-priori estimates belong to `SpectralSubspacePerturbation`.
 - **Matrix-level statements with entrywise hypotheses** belong to
   `MatrixSpectralStatistics`.
 
 With roadmaps outside this family:
 
-- [**One-parameter semigroups**](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
+- [**One-parameter semigroups**](../../Completed/OneParameterSemigroups/README.md)
   owns strongly continuous semigroups and groups in general, generators as general
   unbounded operators, Hille–Yosida, Lumer–Phillips, and the general theory of a
-  generator's resolvent. `SelfAdjointSpectralTheory` owns the bounded Borel functional
-  calculus, projection-valued measures, spectral measures, the self-adjoint `LinearPMap`
-  theory, the self-adjoint and unitary specialization, and Stone's theorem as the bridge
-  between the two developments. Both developments use Mathlib `LinearPMap` for unbounded
+  generator's resolvent. `SelfAdjointSpectralTheory` owns the resolvent characterisation of
+  the spectral measure of a self-adjoint operator, its spectral subspaces, and the spectral
+  representation of the unitary group a self-adjoint operator generates; Stone's theorem,
+  the bridge between the two developments, is supplied by Tau Ceti. `VonNeumannAlgebras`
+  owns the bounded Borel functional calculus and the construction of that spectral measure
+  from the Cayley transform. Both developments use Mathlib `LinearPMap` for unbounded
   operators and share the `TauCeti.LinearPMap` resolvent vocabulary and the `zI-A` convention.
   The shared namespace also contains the partial-operator spectrum. The self-adjoint specialization
   adds resolvent estimates, the Cayley transform, and spectral theory.
