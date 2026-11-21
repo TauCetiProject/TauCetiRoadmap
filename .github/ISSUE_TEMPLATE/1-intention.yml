@@ -90,6 +90,7 @@ body:
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
+        - ClassicalSerreModularity
         - ClassifyingSpaces
         - ClusterAlgebras
         - CoboundaryExpansion
@@ -159,6 +160,7 @@ body:
         - EulerSystemsAndKolyvaginSystems
         - EulerSystemsCyclotomicMainConjecture
         - ExplicitCharacterSumsAndSieves
+        - ExplicitMultiplicativeFunctions
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
@@ -194,6 +196,7 @@ body:
         - GeometricQuantization
         - GeometricRepresentationCategories
         - GeometricSatakeAndFusion
+        - GeometricSatakeAndFusionPartII
         - GeometricTopology
         - GeometryOfNumbersAndQuadraticArithmetic
         - GeometryOfNumbersAndQuadraticArithmeticPartII
@@ -388,6 +391,7 @@ body:
         - SobolevDifferentialForms
         - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
+        - SolidAnalyticRings
         - SpecialFunctionsAiry
         - SpecialFunctionsAppell
         - SpecialFunctionsBessel
@@ -415,6 +419,7 @@ body:
         - SuccessiveMinima
         - SymplecticFieldTheory
         - SymplecticGeometry
+        - SymplecticReidemeisterTorsionModSquares
         - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
