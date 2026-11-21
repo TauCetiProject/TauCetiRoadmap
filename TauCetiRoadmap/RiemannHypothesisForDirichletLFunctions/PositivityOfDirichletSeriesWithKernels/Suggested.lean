@@ -19,7 +19,8 @@ pole of `Φ` is a point `ρ` with `meromorphicOrderAt Φ ρ < 0`.
 * The windowed Landau theorem (6.8): `windowedLandau_simplePole` (the form of the formal proof)
   and `windowedLandau` (the extension).
 * Its Mellin form with windows of scales (6.9 (a), (b)): the predicate `HasWindows`,
-  `windowedLandau_mellin_simplePole` (the form of the formal proof) and `windowedLandau_mellin`
+  `windowedLandau_mellin_simplePole` (the Mellin form of `windowedLandau_simplePole`; the formal
+  proof has the Mellin form for a family of Dirichlet characters only) and `windowedLandau_mellin`
   (the extension).
 * Laplace's method in several variables with a uniform majorant (7.1 (a), (c), (d)):
   `tendsto_integral_of_laplaceMethod`.
@@ -78,7 +79,14 @@ meromorphic on `Re s > 0` with `Φ s = ∫₀^∞ g(u) e^(−su) du` for `Re s >
 in `Re s > 0` and a positive real residue at every real pole there. Suppose that for every
 `η > 0` there are arbitrarily large `U` with `∫_U^((1+δ)U) max(g, 0)(u) e^(−θu) du ≤ e^(ηU)`.
 Then `Φ` has no pole in `Re s > θ`.
-This is the statement of the formal proof. For `θ < 2` it is the case `A = 2` of `windowedLandau`
+This follows from the statement of the formal proof and is equivalent to it. There the poles in
+`Re s > 0` are given as a set `Z` without accumulation point in that half-plane, `Φ` is
+holomorphic on `Re s > 0` off `Z`, near each `ρ ∈ Z` it is `c/(s − ρ)` plus a function analytic
+at `ρ`, with `c ≠ 0`, and `c` real and positive when `ρ` is real, and the window hypothesis asks
+for a function `R ≥ max(g, 0)` on `[U, (1 + δ)U]` with `∫_U^((1+δ)U) R(u) e^(−θu) du ≤ e^(ηU)`.
+Take `Z` the set of poles of `Φ`, replace `Φ` by its normal form on `Re s > 0` (the same poles,
+and the same values on `Re s > 2`), and take `R = max(g, 0)`.
+For `θ < 2` the statement is the case `A = 2` of `windowedLandau`
 (restrict `Φ` to `Re s > θ`; a real pole `β > θ` with negative leading coefficient contradicts the
 positivity at `β`); for `θ ≥ 2` no pole lies in `Re s > θ`, where `Φ` is the transform. So
 `θ < 1`, the bound `|g(u)| ≤ C₀ e^(2u)` (the integrability being part of the transform hypothesis)
@@ -135,12 +143,18 @@ README), `HasWindows S κ` says that for every `Y₀` there is `Y ≥ max(Y₀, 
 def HasWindows (S : Set ℝ) (κ : ℝ) : Prop :=
   ∀ Y₀ : ℝ, ∃ Y ≥ max Y₀ 1, Set.Icc Y (Y ^ κ) ⊆ S
 
-/-- **The windowed Landau theorem, Mellin form, form of the formal proof** (6.9 (b)). Let
+/-- **The windowed Landau theorem, Mellin form with the formal proof's hypotheses** (6.9 (b)). Let
 `0 < θ < 1` and `κ > 1`, let `G : ℝ → ℝ` be measurable with `|G(y)| ≤ C₀ y²` for `y ≥ 1`, and let
 `Ψ` be meromorphic on `Re s > 0` with `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for `Re s > 2`, with simple
 poles only in `Re s > 0` and a positive real residue at every real pole there. If the set
 `{y ≥ 1 | G(y) ≤ C y^θ}` has windows of exponent `κ`, then `Ψ` has no pole in `Re s > θ`.
-This is the statement of the formal proof. For `θ < 2` it is the case `A = 2` of
+This follows from the statement of the formal proof, through its equivalent
+`windowedLandau_simplePole`, by the substitution `y = e^u`: `g(u) = G(e^u)` has the transform
+`Ψ`, and a window `[Y, Y^κ]` of the set gives the window `[log Y, κ log Y]` with the majorant
+`|C| e^(θu)`, of integral `|C|(κ − 1) log Y ≤ Y^η` for large `Y`. The formal proof states the
+Mellin form only for one function, the weighted sum of the remainders of a finite family of
+Dirichlet characters, with the conclusion that their `L`-functions have no zero in `Re s > θ`.
+For `θ < 2` the statement is the case `A = 2` of
 `windowedLandau_mellin`, whose integrability hypothesis the bound `|G(y)| ≤ C₀ y²` gives; for
 `θ ≥ 2` no pole lies in `Re s > θ`, where `Ψ` is the absolutely convergent transform. So `θ < 1`
 and the simplicity of the poles are not needed for the conclusion.
