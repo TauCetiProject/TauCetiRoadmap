@@ -48,10 +48,11 @@ coefficient `≤ −1`, a closed subset; (c) a smooth `X` with `Δ = 0` is klt; 
 morphisms and under extension of the base field.
 The form of the definitions that the family uses is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
-(`GlobalTheory.Discrepancy.discrep`, `GlobalTheory.Discrepancy.KltAt`, `GlobalTheory.Discrepancy.LcAt`). The clauses of (a)
-on `a(E; X, Δ)` follow from [FormalProof],
-`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
-(`GlobalTheory.Discrepancy.IsLogEqn.discrep_eq_neg`). For projective `X`, the form of (b) that the family uses is
+(`GlobalTheory.Discrepancy.discrep`, `GlobalTheory.Discrepancy.KltAt`, `GlobalTheory.Discrepancy.LcAt`). There
+`discrep` is defined on the discrete valuation rings of `k(X)` (`GlobalTheory.Discrepancy.DivOver`), so that
+independence of `f` holds by definition; in the same file, independence of the top form and of the Cartier index is
+`GlobalTheory.Discrepancy.discrep_eq`, and `a(E; X, Δ) = −coeff_E Δ` for a non-exceptional `E` is
+`GlobalTheory.Discrepancy.IsLogEqn.discrep_eq_neg`. For projective `X`, the form of (b) that the family uses is
 [FormalProof],
 `Development/WeilBound/CoreStatements/PublishedTheorems/NadelVanishingPairs/NadelVanishingLemmas/LogResolutionMultiplierLocal.lean`
 (`GlobalTheory.Discrepancy.kltAt_lcAt_iff_of_isLogRes`), with
@@ -154,7 +155,9 @@ Kollár–Mori 2.70).
 
 Let `k` be a field and `Z` an integral projective `k`-scheme of dimension `d ≥ 1`. Prove:
 (a) (asymptotic Riemann–Roch) for an ample invertible sheaf `A` on `Z`, `(A^d · Z) > 0` and
-`h⁰(Z, A^m) = ((A^d · Z)/d!)·m^d + O(m^{d−1})` as `m → ∞` (Stacks, Proposition 33.45.13 (0BJ8));
+`h⁰(Z, A^m) = ((A^d · Z)/d!)·m^d + O(m^{d−1})` as `m → ∞` (Stacks, Proposition 33.45.13 (0BJ8)); its leading term,
+`vol(A) = (A^d · Z)`, is the ample case of ArakelovGeometryAndAbelianHeightsPartII §0.3 (1′), and (a) adds the
+error term `O(m^{d−1})`;
 (b) (Kodaira's lemma) for a big invertible sheaf `L` on `Z` (AlgebraicModuliForArithmeticGeometryPartII §1.6) there are
 `ν ≥ 1` and an effective Cartier divisor `C` on `Z` such that `L^ν(−C)` is ample (Esnault–Viehweg 1992, Properties 5.4 d)).
 In particular, if `N` is a nef `ℚ`-Cartier divisor on a normal projective variety `X` of dimension `n` with `(N^n · X) > 0`,
@@ -191,7 +194,12 @@ dimension `d`. Then there is an effective `ℚ`-Cartier divisor `D` numerically 
 `(X, Δ + D)` is lc in a neighbourhood of `x`, klt on a punctured neighbourhood of `x`, and not klt at `x`. By 9.10b the last two conditions say that `x` is an isolated point of the cosupport of `J(X, Δ + D)`;
 the first (lc near `x`) is a separate conclusion, not expressed by the multiplier ideal. Moreover `D` may be taken
 numerically equivalent to `N` itself (Kollár 1997, Theorem 6.4, p. 35; the form with `λ < 1` is that theorem for `(1 − ε)N`,
-as in the proof of Kollár 1997, Theorem 5.8).
+as in the proof of Kollár 1997, Theorem 5.8). The form of this last statement that the family uses, with real `c_d`, `N`
+nef and big and `n ≥ 1`, is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/IsLogCanonicalMultipleCanonical.lean`
+(`GlobalTheory.Published.IsolatedNonKltDivisor`), proved in
+`Development/WeilBound/CoreStatements/AutomorphicKernels/NadelVanishing/TopIsolated.lean`
+(`NadelVanishingSeparation.NSI.isolatedNonKltDivisor`).
 
 *Route.* Kollár's form of the Angehrn–Siu argument. First reduce to ample `N` (Kollár 1997, 6.6.1): with `rN` Cartier the
 numbers `(N^d · Z)` lie in `r^{−d}ℤ`, so the strict inequalities hold with a margin independent of `Z`; `N` is big because
@@ -313,7 +321,18 @@ AlgebraicModuliForArithmeticGeometry §9.10 `uniformAdjointVeryAmpleness` is a n
 multiplier-ideal vanishing: on a smooth projective `X` with `L` ample, `m(K_X + (n + 2)L) + G` is very ample for `m ≥ λ_n` and
 `G` nef, with no numerical hypothesis on `L`; neither statement contains the other.
 
-*Route.* Angehrn–Siu, by induction on `ℓ`. The concentration of multiplicity of 9.12, carried out
+*Route.* *Reduction to `ℂ`.* Let `k₀ ⊆ k` be a subfield finitely generated over `ℚ` over which `X`, a closed embedding
+of `X` into projective space by a power of `L`, and the points `x_i` are defined, let `k₁ ⊆ k` be the algebraic closure of
+`k₀` in `k`, and fix an embedding `k₁ ⊆ ℂ`. Global sections, fibres at the `x_i` and `Ω_X` commute with the field extensions
+`k₁ ⊆ k` and `k₁ ⊆ ℂ`, so the restriction map over `k` (resp. `ℂ`) is the one over `k₁` with scalars extended, and
+surjectivity over `ℂ` gives it over `k₁` and then over `k`. The hypothesis passes from `X` to `X_{k₁}`: for a subvariety `Z` of
+`X_{k₁}`, `Z_k` is a subvariety of `X` (`k₁` is algebraically closed) of the same dimension and with the same `(L^d · −)`. It
+passes from `X_{k₁}` to `X_ℂ`: a subvariety `Z′ ⊆ X_ℂ` of dimension `d` is the base change of a closed subscheme
+`𝒵 ⊆ X_{k₁} × Spec A` for a finitely generated `k₁`-algebra `A ⊆ ℂ`, flat over `Spec A` after inverting an element of `A`;
+the fibre `𝒵_t` at a `k₁`-point `t` has the Hilbert polynomial of `Z′`, so it has dimension `d` and
+`(L^d · 𝒵_t) = (L^d · Z′)`, and `(L^d · 𝒵_t) = Σ_i m_i (L^d · Z_i)` with `m_i ≥ 1` over the components `Z_i` of
+dimension `d` (Stacks, Lemma 33.45.6 (0BES)), each term `> (½n(n + 2ℓ − 1))^d`. *Over `ℂ`*, Angehrn–Siu, by induction
+on `ℓ`. The concentration of multiplicity of 9.12, carried out
 at the `ℓ` points simultaneously (the constant `½n(n + 2ℓ − 1)` pays for the `ℓ` points in the first step), gives a
 `ℚ`-divisor `D ≡ λL`, `λ < 1`, whose non-klt locus contains all the `x_i` and has at least one of them, say `x_1`, as an
 isolated point. 9.10c for the Cartier divisor `K_X + L` and `Δ = D`, with
@@ -324,7 +343,12 @@ surjective, and `O/J(X, D)` has a direct summand supported at `x_1`; lifting the
 value at `x_1` (a triangular system). The constant grows with `ℓ` because the first divisor must pass through all the
 points.
 
-*Needs:* 9.12, 9.10c; AlgebraicModuliForArithmeticGeometryPartII §1.7 (v) (ampleness of `ℚ`-Cartier divisors is numerical).
+*Needs:* 9.12, 9.10c; AlgebraicModuliForArithmeticGeometryPartII §1.7 (v) (ampleness of `ℚ`-Cartier divisors is numerical);
+for the reduction to `ℂ`: SchemeAndStackFoundations §0.9 (`finite_presentation_limits`) and §4.12 (`generic_flatness`),
+AlgebraicModuliForArithmeticGeometry §1.5 (`familyHilbertPolynomials`), and Tau Ceti
+`TauCeti.AlgebraicGeometry.bijective_cohomologyBaseChange` and
+`TauCeti.AlgebraicGeometry.finrank_cohomology_pullback_eq_of_isPullback` (flat base change of cohomology along a field
+extension).
 
 **Checks.**
 
@@ -349,6 +373,10 @@ a nonzero polynomial `Q` on `V^D`, with coefficients in `k`, depending on `(R, V
 a trivialisation of `L` at `y`, and `c ≠ 0`.
 When `φ_V` is an immersion, SchemeAndStackFoundations §4.13 `bertini_smoothness`, applied to one section at a time, gives
 the étaleness in (i); the form here adds birational systems, the open set `U`, the degree, (ii) and (iii).
+The form that the family uses, for `k` a number field, is [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean` (`GlobalTheory.HSShort.Bertini`),
+proved in `Development/AbelianVarietyTheory/Proofs/DivisorProofs/BertiniSimpleZerosGenericSections.lean`
+(`GlobalTheory.BertiniTop.bertini`) from the published inputs collected in `GlobalTheory.HSCore.Quoted`.
 
 *Route.* `δ = (L^D)`: the Hilbert polynomial of the image of a birational base-point-free system has leading coefficient
 `(L^D)/D!`, and the degree of the Chow form is the degree of the image. Choose a form `g₁` not vanishing identically on `X`
@@ -357,12 +385,19 @@ and vanishing on `φ_V(R ∖ U)`, and a form `g₂` not vanishing identically on
 linear space `s = 0` misses it. Because `f_X` is irreducible and the characteristic is zero, there is `Q₂ ≠ 0` such that for
 `Q₂(s) ≠ 0` the form `ξ ↦ f_X(s, ξ)` is nonzero and has no square linear factor. Put `Q = Q₁Q₂`. Then `Z(s)` is finite and
 inside `U`; `f_X(s, ξ)` vanishes exactly when `ξ` vanishes at the image of a point of `Z(s)`, so it is `c` times the product
-of `δ` distinct linear forms; `Z(s)` has length `(L^D) = δ` and at least `δ` geometric points, hence is étale with exactly
-`δ` points, in bijection with the linear factors.
+of `δ` distinct linear forms. `Z(s)` has length `(L^D) = δ`: the Koszul complex of `s_1, …, s_D`, with terms
+`(L^{−i})^{⊕binom(D, i)}` for `0 ≤ i ≤ D`, resolves `O_{Z(s)}` on `R_E`: it is exact off `Z(s)` because some `s_i` is a unit there
+and multiplication by `s_i` is null-homotopic on the complex, and at a point of `Z(s)` because the local ring there is regular
+of dimension `D`, hence Cohen–Macaulay, and `s_1, …, s_D` generate an ideal primary to its maximal ideal, hence form a
+regular sequence; so `dim_E Γ(Z(s), O) = Σ_{i=0}^{D} (−1)^i binom(D, i) χ(R_E, L^{−i})`, the `D`-th difference of
+`m ↦ χ(R, L^m)`, which is `(L^D)` by the Conventions (Euler characteristics do not change from `k` to `E`). With at least `δ`
+geometric points, `Z(s)` is étale with exactly `δ` points, in bijection with the linear factors.
 
-*Needs:* SchemeAndStackFoundations §5.3 (`proper_pushforward`, `eq_cartier_divisor`) and §5.6 (`proper_intersection`; that the
-multiplicity of a proper intersection of Cartier divisors on the smooth `R` is a length is used without a supplier);
-AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`) and §1.6 (`chowParameters`, the Chow form).
+*Needs:* SchemeAndStackFoundations §5.3 (`proper_pushforward`, `eq_cartier_divisor`);
+AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`) and §1.6 (`chowParameters`, the Chow form); for the length of
+`Z(s)`: Tau Ceti `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`, `TauCeti.koszulComplex.smulHomotopy`,
+`TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth`, `TauCeti.IsRegularLocalRing.isCohenMacaulay`,
+`Module.IsCohenMacaulay.isRegular_of_le_radical` and `TauCeti.AlgebraicGeometry.finrank_cohomology_pullback_eq_of_isPullback`.
 
 **Check.** `R = ℙ¹`, `L = O(d)`, `V` all binary forms of degree `d`, `U` the complement of the point `[1 : 0]`: `X` is the
 rational normal curve, `δ = d = deg L`, `f_X(s, ξ)` is the resultant of `s` and `ξ`, and `Q(s)` = (discriminant of `s`)·(the
@@ -374,13 +409,12 @@ Let `k` be a field of characteristic zero, `R` a smooth projective geometrically
 `D ≥ 1` with canonical bundle `K_R`, `L` a line bundle on `R` generated by its global sections, and `s_1, …, s_D ∈ H⁰(R, L)`
 sections whose common zero scheme `Z` is finite and étale over `k`. A section of a line bundle `B` *vanishes to order `≥ a`
 along `Z`* if its germ at every point of `Z` lies in `I_Z^a·B`. Prove:
-(i) for a nef and big line bundle `L_A` and integers `a ≥ 0`, `j ≥ D`, every `f ∈ H⁰(R, K_R ⊗ L_A ⊗ L^{j+a})` vanishing to
-order `≥ a` along `Z` is `Σ_{|α|=a} s^α·m_α` with `m_α ∈ H⁰(R, K_R ⊗ L_A ⊗ L^j)`, the sum over the multi-indices `α ∈ ℕ^D` of
-length `a`, `s^α = s_1^{α_1} ⋯ s_D^{α_D}`; for `a = 1` this holds already for `j ≥ D − 1`;
+(i) for a nef and big line bundle `L_A` and integers `a ≥ 0`, `j ≥ D − 1`, every `f ∈ H⁰(R, K_R ⊗ L_A ⊗ L^{j+a})` vanishing
+to order `≥ a` along `Z` is `Σ_{|α|=a} s^α·m_α` with `m_α ∈ H⁰(R, K_R ⊗ L_A ⊗ L^j)`, the sum over the multi-indices `α ∈ ℕ^D`
+of length `a`, `s^α = s_1^{α_1} ⋯ s_D^{α_D}`;
 (ii) for a nef and big line bundle `L₂`, the restriction `H⁰(R, K_R ⊗ L₂ ⊗ L^D) → H⁰(Z, K_R ⊗ L₂ ⊗ L^D|_Z)` is surjective.
 The family uses (i) only for `L_A ≅ L₂ ⊗ L^D ⊗ O(E)` with `E` an effective divisor disjoint from `Z`, and (i), (ii) only
-for `L₂` generated by its global sections; in that setting the statement is the one [FormalProof] states, and for
-arbitrary nef and big `L_A`, `L₂` it is what the route below proves.
+for `L₂` generated by its global sections.
 
 *Route.* `L` is nef, so `L_A ⊗ L^i` is nef and big for `i ≥ 0` and Kawamata–Viehweg vanishing (AlgebraicModuliForArithmeticGeometry
 §9.10, after base change to an algebraic closure) gives `H^q(R, K_R ⊗ L_A ⊗ L^i) = 0` for `q > 0`, `i ≥ 0`. After an invertible
@@ -390,7 +424,8 @@ sections `t_1, …, t_d` of `L` forming an `F`-regular sequence and `j₀` with 
 `m_i ∈ H⁰(F ⊗ L^l)`; by induction on `d` through `0 → F ⊗ L^l → F ⊗ L^{l+1} → (F/t_1F) ⊗ L^{l+1} → 0` (the Koszul complex, one
 section at a time: the quotient has the vanishing from `j₀ + 1`, the coefficients found on it lift because
 `H¹(F ⊗ L^{l−1}) = 0`, and the remainder is divisible by `t_1`). With `F = K_R ⊗ L_A`, `j₀ = 0`, `d = D` this is (i) for `a = 1`.
-For `a + 1`: write `f = Σ_{|α|=a} s^α m_α` by the case `a`; the classes of the `s^α` are a basis of `I_Z^a/I_Z^{a+1}` over `O_Z`,
+For `a + 1`: write `f = Σ_{|α|=a} s^α m_α` by the case `a` with `j + 1` in place of `j`; the classes of the `s^α` are a
+basis of `I_Z^a/I_Z^{a+1}` over `O_Z`,
 so `f ∈ I_Z^{a+1}` forces every `m_α` to vanish on `Z`; divide each `m_α` by the case `a = 1`. (ii): the same exact
 sequences with `F = K_R ⊗ L₂`: `H⁰(F ⊗ L^D)` maps onto `H⁰` of each successive quotient because the `H¹` that obstructs it
 vanishes in the degrees `≥` the number of sections already used.
@@ -444,7 +479,7 @@ On `X = 𝔸²` with `Δ = c·L` for a line `L`, the pair is klt iff `c < 1` and
 
 ### Dependencies
 
-AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`), §1.6 (`bigLineBundle`, `chowParameters`) and §9.10 (`algebraicAdjointVanishing`, `algebraicMultiplierIdeal`); AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors), §1.5 (nefness), §1.6 (bigness), §1.7 (intersection numbers, Kleiman's nonnegativity, ample `ℚ`-Cartier divisors) and §3.3 (the pointwise criterion for global generation); CyclotomicClassGroupsAndStickelberger §4.3 (numerical intersections); DynamicalDegreesOfRationalMaps §2.2 (their agreement with Chow degrees); ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7 (log resolutions); SchemeAndStackFoundations §2.2 (`leray_spectral_sequence`), §2.6 (`ample_serre_vanishing`), §3.4 (`picardToClassGroup`), Layer 5 (intersection theory; `proper_pushforward` and `eq_cartier_divisor` of §5.3, `proper_intersection` of §5.6) and §4.17 (simple normal crossings divisors); Tau Ceti's Weil and Cartier divisors of schemes (`SchemeWeilDivisor`, `Scheme.CartierDivisor`).
+AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`, `familyHilbertPolynomials`), §1.6 (`bigLineBundle`, `chowParameters`) and §9.10 (`algebraicAdjointVanishing`, `algebraicMultiplierIdeal`); AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors), §1.5 (nefness), §1.6 (bigness), §1.7 (intersection numbers, Kleiman's nonnegativity, ample `ℚ`-Cartier divisors) and §3.3 (the pointwise criterion for global generation); ArakelovGeometryAndAbelianHeightsPartII §0.3 (1′) (the geometric Hilbert–Samuel formula for nef line bundles); CyclotomicClassGroupsAndStickelberger §4.3 (numerical intersections); DynamicalDegreesOfRationalMaps §2.2 (their agreement with Chow degrees); ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6, 7.7 (log resolutions); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §2.2 (`leray_spectral_sequence`), §2.6 (`ample_serre_vanishing`), §3.4 (`picardToClassGroup`), §4.12 (`generic_flatness`), Layer 5 (intersection theory; `proper_pushforward` and `eq_cartier_divisor` of §5.3) and §4.17 (simple normal crossings divisors); Tau Ceti's Weil and Cartier divisors of schemes (`SchemeWeilDivisor`, `Scheme.CartierDivisor`), its flat base change of cohomology, and its Koszul complexes and regular local rings.
 
 ## Downstream consumers
 
@@ -456,19 +491,23 @@ ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties consumes this roadmap
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns: discrepancies of pairs, klt and lc pairs and the non-klt locus, with the pullback of `ℚ`-Cartier Weil divisors along proper birational morphisms of normal varieties, the computation on a log resolution and the invariance under étale morphisms and base field extension (9.10a); the multiplier ideal of a pair, with its independence of the log resolution, local vanishing, the klt criterion, its cosupport, monotonicity and its comparison with the multiplier ideal of an ideal on a smooth variety (9.10b); Nadel vanishing for pairs (9.10c); Kodaira's lemma and asymptotic Riemann–Roch for ample sheaves on integral projective schemes (9.10d); the isolated non-klt centre theorem (9.12); Kollár's two-point separation for klt pairs over `ℂ` (9.12a); global generation and separation of points for adjoint bundles (9.12b, 9.12c); the Bertini theorem for the common zeros of general members of a birational base-point-free linear system over a field of characteristic zero, with the degree of the image and the factorisation of its Chow form (9.13); division by `D` sections with finite étale common zeros over a field of characteristic zero (9.13a); and the bound for sections by intersection numbers with a generated line bundle (9.13b). Its ids continue the numbering of Layer 9 of AlgebraicModuliForArithmeticGeometry, which has §§9.10 and 9.11 and none of these ids.
+This roadmap owns: discrepancies of pairs, klt and lc pairs and the non-klt locus, with the pullback of `ℚ`-Cartier Weil divisors along proper birational morphisms of normal varieties, the computation on a log resolution and the invariance under étale morphisms and base field extension (9.10a); the multiplier ideal of a pair, with its independence of the log resolution, local vanishing, the klt criterion, its cosupport, monotonicity and its comparison with the multiplier ideal of an ideal on a smooth variety (9.10b); Nadel vanishing for pairs (9.10c); Kodaira's lemma and asymptotic Riemann–Roch for ample sheaves on integral projective schemes, which adds the error term `O(m^{d−1})` to the leading term of ArakelovGeometryAndAbelianHeightsPartII §0.3 (1′) (9.10d); the isolated non-klt centre theorem (9.12); Kollár's two-point separation for klt pairs over `ℂ` (9.12a); global generation and separation of points for adjoint bundles (9.12b, 9.12c); the Bertini theorem for the common zeros of general members of a birational base-point-free linear system over a field of characteristic zero, with the degree of the image and the factorisation of its Chow form (9.13); division by `D` sections with finite étale common zeros over a field of characteristic zero (9.13a); and the bound for sections by intersection numbers with a generated line bundle (9.13b). Its ids continue the numbering of Layer 9 of AlgebraicModuliForArithmeticGeometry, which has §§9.10 and 9.11 and none of these ids.
 
-Not owned here. [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md) owns the theory these statements extend: Kawamata–Viehweg vanishing on smooth projective varieties (`algebraicAdjointVanishing`), the multiplier ideal of a nonzero coherent ideal on a smooth variety with its vanishing theorem (`algebraicMultiplierIdeal`), uniform adjoint very ampleness (all §9.10), Hilbert polynomials (§1.5, `hilbertPolynomial`), big line bundles and Chow forms (§1.6, `bigLineBundle`, `chowParameters`). [AlgebraicModuliForArithmeticGeometryPartII](../../AlgebraicModuliForArithmeticGeometryPartII/README.md) owns `ℚ`-Cartier Weil divisors and numerical equivalence (§0.7), nefness (§1.5), bigness on integral proper schemes (§1.6), and intersection numbers of invertible sheaves with Kleiman's nonnegativity (§1.7). Numerical intersections, the coefficients of Euler characteristics, are [CyclotomicClassGroupsAndStickelberger](../../CyclotomicClassGroupsAndStickelberger/README.md) §4.3, and their agreement with the degrees of Chern-class intersections is [DynamicalDegreesOfRationalMaps](../../DynamicalDegreesOfRationalMaps/README.md) §2.2. Resolution of singularities, principalisation and log resolutions are [ResolutionOfSingularitiesCharacteristicZero](../../ResolutionOfSingularitiesCharacteristicZero/README.md) §§5.1, 5.5–5.6 and 7.7. Intersection theory, the Leray spectral sequence, Serre vanishing and simple normal crossings divisors are [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md) Layers 2 and 5 and §4.17. Weil and Cartier divisors of schemes are in the Tau Ceti library. Analytic multiplier ideals of singular Hermitian metrics, their comparison with the multiplier ideals of pairs, Nadel vanishing for singular metrics and the separation of points and jets by analytic multiplier ideals belong to SingularHermitianMetricsAndL2Methods.
+Not owned here. [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md) owns the theory these statements extend: Kawamata–Viehweg vanishing on smooth projective varieties (`algebraicAdjointVanishing`), the multiplier ideal of a nonzero coherent ideal on a smooth variety with its vanishing theorem (`algebraicMultiplierIdeal`), uniform adjoint very ampleness (all §9.10), Hilbert polynomials (§1.5, `hilbertPolynomial`), big line bundles and Chow forms (§1.6, `bigLineBundle`, `chowParameters`). [AlgebraicModuliForArithmeticGeometryPartII](../../AlgebraicModuliForArithmeticGeometryPartII/README.md) owns `ℚ`-Cartier Weil divisors and numerical equivalence (§0.7), nefness (§1.5), bigness on integral proper schemes (§1.6), and intersection numbers of invertible sheaves with Kleiman's nonnegativity (§1.7). The geometric Hilbert–Samuel formula `vol(L) = (L^d)` for a nef line bundle on a projective variety over a field is [ArakelovGeometryAndAbelianHeightsPartII](../../ArakelovGeometryAndAbelianHeightsPartII/README.md) §0.3 (1′). Numerical intersections, the coefficients of Euler characteristics, are [CyclotomicClassGroupsAndStickelberger](../../CyclotomicClassGroupsAndStickelberger/README.md) §4.3, and their agreement with the degrees of Chern-class intersections is [DynamicalDegreesOfRationalMaps](../../DynamicalDegreesOfRationalMaps/README.md) §2.2. Resolution of singularities, principalisation and log resolutions are [ResolutionOfSingularitiesCharacteristicZero](../../ResolutionOfSingularitiesCharacteristicZero/README.md) §§5.1, 5.5–5.6 and 7.7. Intersection theory, the Leray spectral sequence, Serre vanishing and simple normal crossings divisors are [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md) Layers 2 and 5 and §4.17. Weil and Cartier divisors of schemes are in the Tau Ceti library. Analytic multiplier ideals of singular Hermitian metrics, their comparison with the multiplier ideals of pairs, Nadel vanishing for singular metrics and the separation of points and jets by analytic multiplier ideals belong to SingularHermitianMetricsAndL2Methods.
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
-§9.10: `algebraicAdjointVanishing`, Kawamata–Viehweg vanishing: for a nef and big `ℚ`-divisor `A` with simple normal crossings fractional part on a smooth projective variety `X` over a field of characteristic zero, `H^q(X, ω_X ⊗ O(⌈A⌉)) = 0` for `q > 0` (used in 9.10b, through the relative form of local vanishing, in 9.10c, through it in 9.12a, and in 9.13a after base change to an algebraic closure). §9.10: `algebraicMultiplierIdeal`, the multiplier ideal `J(a^c) = π_*O_Y(K_{Y/X} − ⌊cF⌋)` of a nonzero coherent ideal `a` on a smooth variety over a field of characteristic zero, computed on a principalisation `π` with `aO_Y = O_Y(−F)`, with its independence of `π` and the vanishing of its higher direct images (9.10b compares the multiplier ideal of a pair `(X, c·D)` with it). §1.5: `hilbertPolynomial`, the polynomial `m ↦ χ(X, F ⊗ L^m)` for an ample `L` on a projective `k`-scheme, equal to `h⁰` for large `m`, whose leading coefficient times `r!` is the degree for a very ample `L` (9.10d, 9.13). §1.6: `bigLineBundle`, big invertible sheaves on projective geometrically integral varieties, with the section-growth and birational characterisations (9.10d); `chowParameters`, whose Chow form of an integral subvariety of `ℙ^N` over an algebraically closed field of characteristic zero is unique up to a scalar (9.13).
+§9.10: `algebraicAdjointVanishing`, Kawamata–Viehweg vanishing: for a nef and big `ℚ`-divisor `A` with simple normal crossings fractional part on a smooth projective variety `X` over a field of characteristic zero, `H^q(X, ω_X ⊗ O(⌈A⌉)) = 0` for `q > 0` (used in 9.10b, through the relative form of local vanishing, in 9.10c, through it in 9.12a, and in 9.13a after base change to an algebraic closure). §9.10: `algebraicMultiplierIdeal`, the multiplier ideal `J(a^c) = π_*O_Y(K_{Y/X} − ⌊cF⌋)` of a nonzero coherent ideal `a` on a smooth variety over a field of characteristic zero, computed on a principalisation `π` with `aO_Y = O_Y(−F)`, with its independence of `π` and the vanishing of its higher direct images (9.10b compares the multiplier ideal of a pair `(X, c·D)` with it). §1.5: `hilbertPolynomial`, the polynomial `m ↦ χ(X, F ⊗ L^m)` for an ample `L` on a projective `k`-scheme, equal to `h⁰` for large `m`, whose leading coefficient times `r!` is the degree for a very ample `L` (9.10d, 9.13); `familyHilbertPolynomials`, the local constancy of the Hilbert polynomials of the fibres of an `S`-flat coherent sheaf on a projective `X → S` over a Noetherian base (9.12c, the reduction to `ℂ`). §1.6: `bigLineBundle`, big invertible sheaves on projective geometrically integral varieties, with the section-growth and birational characterisations (9.10d); `chowParameters`, whose Chow form of an integral subvariety of `ℙ^N` over an algebraically closed field of characteristic zero is unique up to a scalar (9.13).
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometryPartII
 
 §0.7: `ℚ`-Cartier Weil divisors on a normal Noetherian integral scheme, the injectivity of the Cartier-to-Weil map there, and numerical equivalence (9.10a, 9.12b). §1.5: nef `ℚ`-Cartier divisors, nefness being invariant under numerical equivalence (9.12–9.12b, 9.13b). §1.6: bigness on integral proper schemes, and for a nef sheaf on an integral proper scheme of dimension `n`, bigness iff `(L^n) > 0` (9.10d, 9.12, 9.12b). §1.7: the intersection numbers `(L_1 ⋯ L_d · V)` and Kleiman's nonnegativity (ii) for nef `L_i` (9.12, 9.12a, 9.13b), and (v): a nef `ℚ`-Cartier Weil divisor plus an ample one is ample, and ampleness of `ℚ`-Cartier divisors depends only on the numerical class (9.12, 9.12a, 9.12c). §3.3: the pointwise criterion for global generation: a global section of an invertible sheaf generates it at `x` iff its value in the fibre at `x` is nonzero (9.12b).
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeightsPartII
+
+§0.3 (1′): for a projective variety `X` of dimension `d` over a field and a nef line bundle `L`, the volume `vol(L) = lim d!·h⁰(X, L^m)/m^d` equals `(L^d)` (9.10d (a), whose leading term is its ample case).
 
 ### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
 
@@ -484,11 +523,11 @@ Not owned here. [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForA
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-Layer 5: Chow groups, proper pushforward and degrees of zero-cycles (§5.2), the first Chern class on schemes algebraic over `k` with the projection formula `proper_pushforward` and `c_1(O(D)) ∩ [V] = [D ∩ V]` (`eq_cartier_divisor`) (§5.3), hence the intersection numbers of the Conventions, and the intersection multiplicities of proper intersections on smooth varieties, `proper_intersection` (§5.6) (9.13, 9.13b). Layer 2: the Leray spectral sequence `leray_spectral_sequence` (§2.2) and Serre vanishing `ample_serre_vanishing` (§2.6) (9.10b, 9.10d, 9.12, 9.12a). §3.4: `picardToClassGroup`, through the Weil divisor of a rational section of an invertible sheaf on a normal integral locally Noetherian scheme (9.10a). §4.17: strict normal crossings divisors (9.10a).
+Layer 5: Chow groups, proper pushforward and degrees of zero-cycles (§5.2), the first Chern class on schemes algebraic over `k` with the projection formula `proper_pushforward` and `c_1(O(D)) ∩ [V] = [D ∩ V]` (`eq_cartier_divisor`) (§5.3), hence the intersection numbers of the Conventions (9.13, 9.13b). Layer 2: the Leray spectral sequence `leray_spectral_sequence` (§2.2) and Serre vanishing `ample_serre_vanishing` (§2.6) (9.10b, 9.10d, 9.12, 9.12a). §3.4: `picardToClassGroup`, through the Weil divisor of a rational section of an invertible sheaf on a normal integral locally Noetherian scheme (9.10a). §4.17: strict normal crossings divisors (9.10a). §0.9: `finite_presentation_limits`, the descent of schemes of finite presentation over a limit, of their morphisms and of the properties smooth and closed immersion to a finite stage, and §4.12: `generic_flatness`, flatness of a finite type morphism over a dense open of an integral base (9.12c, the reduction to `ℂ`).
 
 ### From Tau Ceti
 
-`TauCeti.AlgebraicGeometry.SchemeWeilDivisor` (Weil divisors of a scheme, finite integer sums of its codimension-one points) and `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor` (Cartier divisors of an integral scheme) (9.10a). For the statement of 9.12c: `TauCeti.AlgebraicGeometry.LineBundleClass` with `LineBundleClass.lift`, `LineBundleClass.pullback` and `LineBundleClass.IsAmple`; `AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, the truncated alternating sum of the dimensions of `Hⁱ`, which is `χ` on a projective scheme of dimension `< n` truncated at `n`; `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.relativeDifferentials` and `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.determinant`; `TauCeti.AlgebraicGeometry.InvertibleSheaf.tensorProduct` and the nonvanishing locus of a section.
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor` (Weil divisors of a scheme, finite integer sums of its codimension-one points) and `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor` (Cartier divisors of an integral scheme) (9.10a). For the statement of 9.12c: `TauCeti.AlgebraicGeometry.LineBundleClass` with `LineBundleClass.lift`, `LineBundleClass.pullback` and `LineBundleClass.IsAmple`; `AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, the truncated alternating sum of the dimensions of `Hⁱ`, which is `χ` on a projective scheme of dimension `< n` truncated at `n`; `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.relativeDifferentials` and `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.determinant`; `TauCeti.AlgebraicGeometry.InvertibleSheaf.tensorProduct` and the nonvanishing locus of a section. Flat base change of cohomology: `TauCeti.AlgebraicGeometry.bijective_cohomologyBaseChange` (for a flat `R → R'`, a quasi-coherent sheaf on a quasi-compact `R`-scheme with affine diagonal, `R' ⊗_R Hⁿ(X, M) → Hⁿ(X_{R'}, M_{R'})` is bijective) and `TauCeti.AlgebraicGeometry.finrank_cohomology_pullback_eq_of_isPullback` (so the dimensions of cohomology do not change under extension of the base field) (9.12c, 9.13). The Koszul resolution of `O_{Z(s)}` in 9.13: `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular` (the Koszul complex of a weakly regular sequence is acyclic in positive degrees), `TauCeti.koszulComplex.smulHomotopy` (multiplication by an element of the ideal of the sequence is null-homotopic on it), `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (a scheme smooth over a field has regular local rings), `TauCeti.IsRegularLocalRing.isCohenMacaulay` (a regular local ring is Cohen–Macaulay) and `Module.IsCohenMacaulay.isRegular_of_le_radical` (a system of parameters of a Cohen–Macaulay module is a regular sequence).
 
 ## References
 
@@ -497,6 +536,6 @@ Layer 5: Chow groups, proper pushforward and degrees of zero-cycles (§5.2), the
 - U. Angehrn and Y.-T. Siu, *Effective freeness and point separation for adjoint bundles*, Invent. Math. 122 (1995), 291–308: 9.12–9.12c.
 - J. Kollár, *Singularities of pairs*, Proc. Sympos. Pure Math. 62 (1997), arXiv:alg-geom/9601026 (numbers and pages as in the arXiv version), §§5–6 (Theorems 5.8, 5.9, 6.4, 6.5 and Steps 6.6–6.10): 9.12–9.12c.
 - H. Esnault and E. Viehweg, *Lectures on Vanishing Theorems*, DMV Seminar, Birkhäuser, 1992 (the authors' web edition, p. 44), Properties 5.4 d): Kodaira's lemma (9.10d).
-- The Stacks Project, Divisors, Definition 31.14.12 (01WV) and Lemma 31.14.13 (02OO): pullback of effective Cartier divisors (9.10a); Varieties, Definition 33.45.3 (0BEP) and Proposition 33.45.13 (0BJ8): numerical intersections and asymptotic Riemann–Roch (Conventions, 9.10d).
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 9.10a–9.10c (for projective `X`), 9.12, 9.12a, 9.12b, 9.13, 9.13a (in the case stated there) and 9.13b that the family uses.
+- The Stacks Project, Divisors, Definition 31.14.12 (01WV) and Lemma 31.14.13 (02OO): pullback of effective Cartier divisors (9.10a); Varieties, Definition 33.45.3 (0BEP), Lemma 33.45.6 (0BES) and Proposition 33.45.13 (0BJ8): numerical intersections, their additivity over the components of top dimension, and asymptotic Riemann–Roch (Conventions, 9.10d, 9.12c).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 9.10a–9.10c (for projective `X`), 9.12, 9.12a, 9.13 (over number fields) and 9.13b that the family uses, each recorded at its target.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
