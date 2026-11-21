@@ -6,7 +6,7 @@ import Mathlib
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. The five listed
 below are statable with Mathlib alone, and are stated; the sixth, the non-archimedean
-stationary-phase formula 8.2 (d), is not statable at the pins (see the end of this docstring).
+stationary-phase formula 8.2 (d), is not stated (see the end of this docstring).
 
 The one-sided Laplace transform of ArithmeticDirichletSeriesPartII §0.1 (the predicate
 `HasLaplace`) is not in Mathlib or Tau Ceti at the pins. The statements below write it out: for a
@@ -34,9 +34,11 @@ Layer 8 the complex Gaussian integrals 8.1 (a), the non-stationary bound 8.1 (b)
 of the phase `Σ x_k + D/∏ x_k` 8.1 (d), and the lattice Gaussian integrals, the Morse lemma and the
 vanishing away from the critical points 8.2 (a)–(c) are the steps and computations around the two
 stationary-phase formulas and are not stated here. The stationary-phase formula 8.2 (d) over a
-finite product of finite extensions of the fields `ℚ_p` is not statable at the pins: its
-coefficients are Weil indices of quadratic forms over local fields (MetaplecticAutomorphicForms
-§2.1), which neither Mathlib nor Tau Ceti has.
+finite product of finite extensions of the fields `ℚ_p` is not stated here: its statement needs
+the lattices, their orthogonals, the self-dual measure and the module of 8.2 and the Gauss factor
+of 8.2 (a), which are targets of the README and not definitions of this file. Its coefficients are
+normalised Gaussian integrals over admissible lattices; their identification with Weil indices
+(MetaplecticAutomorphicForms §2.1) is not needed to state it.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.PositivityOfDirichletSeriesWithKernels
