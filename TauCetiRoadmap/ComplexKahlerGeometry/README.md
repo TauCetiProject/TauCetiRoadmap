@@ -496,17 +496,31 @@ projections and `kerDelBarZeroEquiv`; Mathlib's `ModuleCat`.
 ### 2.5 Holomorphic-form sheaves and the Dolbeault theorem
 
 Construct the sheaves
-Ω^p and smooth type forms, prove the latter fine/acyclic using partitions of unity, and
-prove the Dolbeault theorem `H^q(M;Ω^p)≃H^(p,q)_∂̄(M)` with naturality and products
+Ω^p and smooth type forms; the latter are sheaves of modules over the smooth real functions,
+hence soft and acyclic by SmoothBundlesConnections B6.1 (soft sheaves on paracompact Hausdorff
+spaces are acyclic, and its module form). Prove the Dolbeault theorem
+`H^q(M;Ω^p)≃H^(p,q)_∂̄(M)` with naturality and products
 (Demailly, Chapter IV, (6.13)–(6.15), p. 216, for the isomorphism). Build
 the needed analytic-sheaf/Čech/derived comparison using Mathlib's Ext-based sheaf
-cohomology carrier. Prove fine-implies-acyclic on the paracompact Hausdorff manifolds here
-and the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209). Also prove
+cohomology carrier. Prove the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209),
+which extends Tau Ceti's Leray theorem for finite covers, `TauCeti.Topology.homologyCechComplexIsoH`,
+to arbitrary open covers. Also prove
 that for every abelian sheaf on a paracompact Hausdorff manifold, the colimit of Čech
 cohomology over locally finite open refinements agrees with native derived
-sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Construct refinement maps, prove independence up to cochain
-homotopy, use paracompact shrinking for exactness after refinement, and compare
-with an injective/flabby resolution. No coherent Cartan B is an input.
+sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Consume Tau Ceti's refinement maps of
+Čech complexes and their independence up to cochain homotopy
+(`TauCeti.CategoryTheory.cechComplexMap`, `TauCeti.CategoryTheory.cechComplexMapHomotopy`,
+`TauCeti.CategoryTheory.cechComplexHomologyMap_eq`) and its Čech cohomology over a system of
+covers (`TauCeti.CategoryTheory.cechCohomologyDiagram` and its colimit
+`TauCeti.CategoryTheory.cechCohomology`), with the long exact coefficient sequence of that colimit
+(`TauCeti.CategoryTheory.cechCohomologyδ`, `TauCeti.CategoryTheory.cechCohomology_exact₁`,
+`TauCeti.CategoryTheory.cechCohomology_exact₂`, `TauCeti.CategoryTheory.cechCohomology_exact₃`)
+and its vanishing once every class dies on a finer cover
+(`TauCeti.CategoryTheory.isZero_cechCohomology_obj_of_forall_exists_homologyMap_eq_zero`), for
+the locally finite open covers ordered by refinement; prove here the paracompact shrinking for
+exactness after refinement, which extends Tau Ceti's compact-normal case
+`TauCeti.Topology.exists_cechComplexMap_f_eq_zero_of_locally_eq_zero` to paracompact Hausdorff
+manifolds, and the comparison with an injective/flabby resolution. No coherent Cartan B is an input.
 RealAnalyticGeometry R3.2 consumes this colimit theorem after proving vanishing
 on an arbitrarily fine cofinal family of finite-order Stein covers; it does
 not assume F is already acyclic on their intersections.
@@ -525,8 +539,10 @@ connectedness hypothesis. Do not assert global constancy for disconnected manifo
 
 *Needs:* 2.4; Mathlib's Ext-based sheaf cohomology,
 `MDifferentiable.exists_eq_const_of_compactSpace` and `MDifferentiable.isLocallyConstant`;
-SmoothBundlesConnections B6's scalar good-cover comparison; 4.1's `𝒪(E)` and ∂̄_E for the
-bundle-valued comparison; K7.1's `Projectivization ℂ (Fin 2 → ℂ)` for the acceptance check.
+Tau Ceti's Čech refinement maps, their homotopies, the cover colimit, its long exact coefficient
+sequence and its vanishing by refinement named above;
+SmoothBundlesConnections B6's scalar good-cover comparison and B6.1's acyclicity of soft sheaves
+with its module form; 4.1's `𝒪(E)` and ∂̄_E for the bundle-valued comparison; K7.1's `Projectivization ℂ (Fin 2 → ℂ)` for the acceptance check.
 
 ### Examples
 
@@ -537,7 +553,8 @@ nonpositive radius; no nonzero holomorphic one-form on ℂP¹.
 ### Dependencies
 
 Layer 1; 3.1 (K3.0); the pinned Dolbeault calculus and Cauchy transform; GlobalHolomorphicFunctions
-Layer 2.5's finite-rank Runge operator; Mathlib's sheaf cohomology; SmoothBundlesConnections B6.
+Layer 2.5's finite-rank Runge operator; Mathlib's sheaf cohomology; Tau Ceti's Čech refinement
+maps, cover colimit and its long exact coefficient sequence; SmoothBundlesConnections B6.
 Layer 2 precedes Layer 4's holomorphic bundles and connections; 2.5's
 bundle-valued comparison follows 4.1, and its Čech-colimit comparison is consumed by
 RealAnalyticGeometry R3.2.
@@ -1061,7 +1078,8 @@ tensor product, with the trivial line as unit and the dual as inverse, and with
 pullback homomorphisms f*:Pic_hol(M)→Pic_hol(N) for holomorphic f:N→M,
 functorial in f and compatible with restriction to open subsets. Construct the
 frame 𝒪×-torsor and its inverse by gluing trivial lines, including the actual
-overlap cocycles, coboundary changes of frames and refinement maps, in the frame
+overlap cocycles and coboundary changes of frames, with a refinement of frame covers acting on
+cocycles by Tau Ceti's `TauCeti.CategoryTheory.cechComplexMap` (𝒪× written additively), in the frame
 convention e_j=e_i g_ij, so that g_ij carries j-coordinates to i-coordinates.
 Prove the group isomorphism Pic_hol(M)≃H¹(M,𝒪×), with tensor, dual, trivial-line
 and pullback laws (Demailly, Chapter V, (8.2), p. 264, is the smooth statement;
@@ -1102,9 +1120,10 @@ of `0→ℤ→C⁰_ℂ→C⁰_ℂ×→1` and `0→ℤ→C^∞_ℂ→C^∞_ℂ×�
 nonvanishing continuous function on a chart ball has a continuous logarithm by
 Mathlib's `IsCoveringMap.existsUnique_continuousMap_lifts` for
 `Complex.isCoveringMap_exp`, and that logarithm is smooth when the function is,
-since exp is a local diffeomorphism. Both function sheaves are fine, by continuous
-partitions of unity (`PartitionOfUnity.exists_isSubordinate`) and by smooth ones, so
-K2's fine-implies-acyclic theorem gives `H^q(M;C⁰_ℂ)=H^q(M;C^∞_ℂ)=0` for q≥1
+since exp is a local diffeomorphism. Both function sheaves are soft: `C⁰_ℂ` by continuous
+partitions of unity (`PartitionOfUnity.exists_isSubordinate`), and `C^∞_ℂ` as a module over the
+smooth real functions; so SmoothBundlesConnections B6.1's acyclicity of soft sheaves gives
+`H^q(M;C⁰_ℂ)=H^q(M;C^∞_ℂ)=0` for q≥1
 (Demailly, Chapter IV, (4.11)–(4.12), p. 204, and (4.15), p. 205). Hence both
 connecting maps `H¹(M;C^∞_ℂ×)→H²(M;ℤ)` and `H¹(M;C⁰_ℂ×)→H²(M;ℤ)` are isomorphisms.
 The inclusion `C^∞_ℂ⊂C⁰_ℂ` is a morphism of the two sequences that is the identity
@@ -1147,7 +1166,8 @@ SmoothBundlesConnections B6.1 owns the manifold good-cover/sheaf/singular compar
 SmoothBundlesConnections B6's smooth line classification and curvature comparisons through it.
 AlgebraicTopology supplies singular cochains and their coefficient exact
 sequences, not a second manifold sheaf/singular bridge. The continuous-line
-corollary additionally uses K2's fine-implies-acyclic theorem, continuous partitions of
+corollary additionally uses SmoothBundlesConnections B6.1's acyclicity of soft sheaves and its
+module form, continuous partitions of
 unity and the covering-space logarithm specified above. These are its explicit lower
 inputs. Its conditional Picard isomorphism uses supplied vanishing and does
 not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
@@ -1164,11 +1184,12 @@ root-degree basis. SchubertGeometry S5's vanishing on Schubert
 varieties is algebraic coherent cohomology; it uses no holomorphic Picard group
 and is neither an input nor a consumer of K4.P.
 
-*Needs:* K2's local ∂̄/Dolbeault resolution, Čech/derived comparison and
-fine-implies-acyclic theorem; K3's function sheaf; K4's line bundles;
-SmoothBundlesConnections B6.1–B6.3; AlgebraicTopology's singular cochains;
+*Needs:* K2's local ∂̄/Dolbeault resolution and Čech/derived comparison; K3's function sheaf;
+K4's line bundles; SmoothBundlesConnections B6.1–B6.3, with B6.1's acyclicity of soft sheaves and
+its module form; AlgebraicTopology's singular cochains;
 Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
-`Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`.
+`Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`; Tau Ceti
+`TauCeti.CategoryTheory.cechComplexMap`.
 
 **Checks.**
 
@@ -1193,7 +1214,7 @@ Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
   `H¹(ℝP²;ℤ/2)→H²(ℝP²;ℤ)` is injective (`H¹(ℝP²;ℤ)=0`); it is smoothly and continuously
   nontrivial although its real curvature class vanishes, and a de Rham-valued `c₁` would
   call it trivial.
-- The connecting maps need the fine function sheaves: on `S¹` the locally constant sheaf ℂ
+- The connecting maps need the soft function sheaves: on `S¹` the locally constant sheaf ℂ
   has `H¹=ℂ≠0`, while `C⁰_ℂ` and `C^∞_ℂ` are acyclic; and classifying complex lines on `S²`
   by `H¹(S²;ℤ/2)=0` (the real-line classification) would miss the lines `O(k)`, `k≠0`.
 
@@ -1206,8 +1227,9 @@ sequences and `F_M`.
 
 ### Dependencies
 
-ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B6; Layers 1–3; 2.5's Čech/derived
-comparison and fine-implies-acyclic theorem for 4.5; AlgebraicTopology's singular cochains. None of
+ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B6, with B6.1's acyclicity of soft
+sheaves for 4.5; Layers 1–3; 2.5's Čech/derived comparison for 4.5; AlgebraicTopology's singular
+cochains. None of
 these uses 4.5; 4.5's ℂP¹ normalization check uses K7.1's charts, and K7.FlatDegreeZero consumes
 4.5.
 
@@ -3441,7 +3463,9 @@ It leaves to named roadmaps and to the pins:
 - SmoothBundlesConnections: real smooth bundles with complex structure, tensor, dual, Hom and
   complexification, Hermitian fibre metrics and square-integrable sections, connections,
   curvature, parallel transport and their principal-bundle comparisons; its B6.1 owns the manifold
-  good-cover/sheaf/singular comparison, B6.2 the circle-bundle classification by `H²(M;ℤ)`,
+  good-cover/sheaf/singular comparison and the acyclicity of soft sheaves on paracompact Hausdorff
+  spaces with the softness of sheaves of modules over the smooth functions (consumed in 2.5 and
+  K4.P), B6.2 the circle-bundle classification by `H²(M;ℤ)`,
   which B2's associated-bundle comparison turns into the smooth complex-line classification
   consumed in K4.P, and B6.3 the rank-one Chern–Weil comparison of the real first Chern class
   with the curvature class, consumed in K4.P and in 7.3's comparison of the hyperplane class with
@@ -3551,6 +3575,32 @@ them.
   sequence of a filtered cochain complex `CochainComplex.spectralSequence` with its first page,
   finite-filtration convergence, naturality and comparison theorem; K8 owns only its Frölicher and
   base-degree filtration adapters (Layers 6–8).
+- Čech complexes (`TauCeti/CategoryTheory/Sites/SheafCohomology/Cech/Basic.lean` and
+  `Cech/Colimit.lean`): the map of Čech complexes induced by a morphism of families
+  `TauCeti.CategoryTheory.cechComplexMap`, the homotopy between the maps of two such morphisms
+  `TauCeti.CategoryTheory.cechComplexMapHomotopy` with their equality on cohomology
+  `TauCeti.CategoryTheory.cechComplexHomologyMap_eq`, and the Čech cohomology over a system of
+  families indexed by a preorder, `TauCeti.CategoryTheory.cechCohomologyDiagram` with its colimit
+  `TauCeti.CategoryTheory.cechCohomology`; they hold for every presheaf with values in a
+  preadditive category with products (with homology for the last three, and with colimits
+  indexed by the preorder for the colimit), with no sheaf condition and no hypothesis on the
+  space, and are consumed in 2.5 and K4.P.
+- Čech cohomology results (`Cech/LongExactSequence.lean` and `Cech/ModuleCat.lean` in the same
+  directory, `TauCeti/Topology/Sheaves/Leray.lean` and `TauCeti/Topology/Sheaves/Cech/LocallyZero.lean`):
+  the connecting map `TauCeti.CategoryTheory.cechCohomologyδ` of the cover colimit with
+  `TauCeti.CategoryTheory.cechCohomology_exact₁`, `TauCeti.CategoryTheory.cechCohomology_exact₂`
+  and `TauCeti.CategoryTheory.cechCohomology_exact₃`, the long exact sequence for an abelian target
+  with products, a coefficient sequence whose Čech complexes are short exact on every family of the system and
+  exact colimits of the preorder's shape; the vanishing of the colimit of a presheaf of modules once
+  every class of every family dies on a finer family,
+  `TauCeti.CategoryTheory.isZero_cechCohomology_obj_of_forall_exists_homologyMap_eq_zero`; Leray's
+  theorem `TauCeti.Topology.homologyCechComplexIsoH` for a finite open cover on whose nonempty
+  finite intersections the abelian sheaf has no cohomology in positive degrees; and
+  `TauCeti.Topology.exists_cechComplexMap_f_eq_zero_of_locally_eq_zero`, which kills every Čech
+  cochain of a locally zero presheaf of modules with zero sections on the empty set by a refinement,
+  on a compact normal space. The first two are consumed in 2.5, whose Leray comparison and
+  paracompact shrinking extend the last two to arbitrary open covers and to paracompact Hausdorff
+  manifolds.
 - Examples: the affine atlas and the Riemann-sphere diffeomorphism
   `OnePoint.diffeomorphProjectivization`
   (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
@@ -3610,7 +3660,9 @@ B1 (principal bundles, for K8's torus bundles), B2 (associated bundles, complexi
 RCLike square-integrable sections and B2.2's continuous fibre metrics h with
 `h.inner x : E x →L⋆[𝕜] E x →L[𝕜] 𝕜`), B3–B4 (connections, curvature, gauge), B5 (parallel
 transport and holonomy) and B6.1–B6.3 (the manifold sheaf/singular comparison, the circle-bundle
-classification and the rank-one Chern–Weil comparison).
+classification and the rank-one Chern–Weil comparison), including B6.1's acyclicity of soft
+sheaves on paracompact Hausdorff spaces and softness of every sheaf of modules over the smooth
+real functions.
 
 ### From TauCetiRoadmap.PDE
 
