@@ -406,8 +406,8 @@ Mathlib `Primcodable`, `Computable`, `REPred`, `ComputablePred`,
   decidability of `Th(ℚ_p)`.
 - **PadicallyClosedFields.** Layer 2 (the saturated extension test for Macintyre's elimination,
   model completeness and Robinson's test) and Layer 4.
-- **LogicAndDefinabilityInNumberTheory**, if it adopts them: Layer 0.4 for the ultraproduct
-  arguments of its transfer theorems.
+- **LogicAndDefinabilityInNumberTheory.** Its §4.31 takes `IsModelComplete` and Robinson's test
+  from 2.5. Layer 0.4 serves the ultraproduct arguments of its transfer theorems, if it adopts it.
 
 ## Scope and ownership
 
@@ -434,7 +434,8 @@ Boundaries:
 - **RealAlgebraicGeometry** owns real semialgebraic geometry and its quantifier elimination over
   `ℝ`. No field theory is treated here.
 - **LogicAndDefinabilityInNumberTheory** owns interpretations, the Denef–Pas language and its
-  relative elimination.
+  relative elimination, and existential closure of an embedding as a named predicate (its §4.31).
+  Robinson's test in 2.5 states that condition inline.
 
 ## Exact supplier contracts
 
