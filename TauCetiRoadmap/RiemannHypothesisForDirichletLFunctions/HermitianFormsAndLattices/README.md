@@ -228,15 +228,18 @@ Hermitian form `δ^{−1}w` (`δ ∈ E^×` of trace zero) have the same unitary 
 `Matrix.specialUnitaryGroup (Fin n) E`. For `E = F × F` with idempotents `e_1, e_2`,
 `V = V_1 ⊕ V_2` with `V_i = e_i V`, each `V_i` is totally isotropic, `h` restricts to a perfect
 `F`-bilinear pairing `V_1 × V_2 → F`, and `g ↦ g|_{V_1}` is an isomorphism
-`U(V) ≅ GL(V_1)`.
+`U(V) ≅ GL(V_1)` of group schemes over `F`. In characteristic `≠ 2` the decomposition `V ≅ A ⊕ A^∨`
+and the group of isometries `GL(A)`, acting by `(g, (g^{−1})^∨)`, are MetaplecticAutomorphicForms
+§3.2a; 0.1 adds characteristic two and the isomorphism of group schemes.
 
 Route: Weil restriction of `GL_E(V)` (ReductiveGroupsPartII RG2.0a *weil-restriction-group-scheme*)
 and the closed condition `g^* h g = h`; the norm-one torus is RG2.0a *norm-torus*. In the split
 case `h(e_1x, e_1y) = σ(e_1)e_1 h(x, y) = e_2e_1 h(x, y) = 0`, and an `E`-linear `g` preserves both
 `V_i`, its action on `V_2` being the inverse transpose of its action on `V_1` for the pairing.
 
-*Needs:* ReductiveGroupsPartII RG2.0a; Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`,
-`LinearMap.IsSymm`, `LinearMap.Nondegenerate`.
+*Needs:* ReductiveGroupsPartII RG2.0a; MetaplecticAutomorphicForms §3.2a (the split case in
+characteristic `≠ 2`); Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`, `LinearMap.IsSymm`,
+`LinearMap.Nondegenerate`.
 
 **Checks.**
 
@@ -301,7 +304,7 @@ For `E = ℚ(i)`, `n = 1` and the standard form, `U(V)(ℚ) = {a ∈ ℚ(i) : a�
 
 ### Dependencies
 
-ReductiveGroupsPartII RG2.0a (0.1); ReductiveGroups Layer 6 (0.2); Mathlib's unitary matrix groups and sesquilinear forms.
+ReductiveGroupsPartII RG2.0a and MetaplecticAutomorphicForms §3.2a (0.1); ReductiveGroups Layer 6 (0.2); Mathlib's unitary matrix groups and sesquilinear forms.
 
 ## Layer 1: Hermitian forms over a quadratic étale algebra
 
@@ -453,8 +456,8 @@ embedding count of GeometryOfNumbersAndQuadraticArithmetic 3.1.3 with `m = n` an
 **Checks.**
 
 - `|U_1(𝔽_q)| = q + 1` and `|U_2(𝔽_2)| = 18`, against `|GL_1(𝔽_q)| = q − 1` and `|GL_2(𝔽_2)| = 6`.
-- Ennola's sign rule [Ennola]: `|U_n(𝔽_q)| = (−1)^n·P_n(−q)` where `P_n(q) = |GL_n(𝔽_q)|` as a
-  polynomial; `n = 2`: `P_2(−q) = (q² − 1)(q² + q) = |U_2(𝔽_q)|`.
+- Substituting `−q` in the polynomial `P_n(q) = |GL_n(𝔽_q)| = q^{n(n−1)/2}∏_{j=1}^{n}(q^j − 1)` gives
+  `|U_n(𝔽_q)| = (−1)^n·P_n(−q)`; `n = 2`: `P_2(−q) = (q² − 1)(q² + q) = |U_2(𝔽_q)|`.
 
 ### 1.6 Skew-Hermitian forms and trace forms
 
@@ -540,15 +543,17 @@ a separable quadratic field extension. Prove:
 (a) two Hermitian spaces are isometric if and only if they have the same dimension and the same
 determinant class; (b) for every `n ≥ 1` both classes of `F^×/N(E^×) ≅ {±1}` occur as determinants;
 (c) every Hermitian space of dimension `≥ 3` is isotropic, and one of dimension `2` is isotropic if
-and only if `η(−det V) = 1`; every binary space represents every `c ∈ F^×`.
+and only if `η(−det V) = 1`; every binary space represents every `c ∈ F^×`. In characteristic zero
+these are [Kirschmer], Theorem 3.2.3 and Corollary 3.2.4, pp. 29–30.
 
 Route: `[F^× : N(E^×)] = 2` by local reciprocity (ClassFieldTheory Layer 6, for every nonarchimedean
-local field). The set `N(E^×) ∪ {0}` is not closed under addition: it is closed in `F`, stable under
-multiplication and contains `1`, hence every `m·1` with `m ∈ ℕ` and, by closedness, `−1`; closure
-under addition would make it a subfield, open because `N(E^×)` is open, hence equal to `F`,
-contradicting the index two. So there are norms `a, b` with `a + b ∉ N(E^×)`, and `⟨1, 1⟩`
-represents both classes; every binary `⟨a, b⟩` does (directly if `a/b ∉ N(E^×)`, and as
-`a⟨1, 1⟩` otherwise), hence represents every `c ∈ F^×`. (c): `⟨a, b, c, …⟩` is isotropic because
+local field). The set `N(E^×) ∪ {0}` is not closed under addition. Suppose it were. Being closed in
+`F`, stable under multiplication and containing `1`, it would contain every `m·1` with `m ∈ ℕ` and
+hence, being closed, `−1 = lim_k (p^k − 1)·1` (`p` the residue characteristic); it would then be a
+subfield, open because `N(E^×)` is open, hence equal to `F`, contradicting the index two. So there are
+norms `a, b` with `a + b ∉ N(E^×) ∪ {0}`, and `⟨1, 1⟩` represents both classes; every binary
+`⟨a, b⟩` does (directly if `a/b ∉ N(E^×)`, and as `a⟨1, 1⟩` otherwise), hence represents every
+`c ∈ F^×`. (c): `⟨a, b, c, …⟩` is isotropic because
 `⟨a, b⟩` represents `−c`, and `⟨a, b⟩` is isotropic iff `−b/a ∈ N(E^×)`. (a): split off hyperbolic
 planes (1.2) until the dimension is at most two; a binary space represents `1` and is therefore
 `⟨1, det⟩`, and a line is `⟨det⟩`; so `V ≅ H^r ⊥ ⟨(−1)^r det V⟩` for `n = 2r + 1`, and `V ≅ H^r` or
@@ -676,7 +681,9 @@ they have the same dimension and determinant class, and the same signature at ev
 inert in `E`. In Gram matrices (by 1.7, `V_v` has the Gram matrices of `V`) this is
 `hermitian_congr_iff_forall_place`: for `H, H′ ∈ GL_n(E)` with `σ(H)^T = H` and `σ(H′)^T = H′`, there
 is `P ∈ GL_n(E)` with `σ(P)^T H P = H′` if and only if, at every place `v` of `F`, there is such a `P`
-in `GL_n(E ⊗_F F_v)` for the involution `σ ⊗ 1`.
+in `GL_n(E ⊗_F F_v)` for the involution `σ ⊗ 1`. The first statement is Landherr's theorem
+[Landherr]; [Kirschmer], Theorem 2.4.1, p. 20, states it and refers to [Scharlau], Chapter 10, for a
+proof.
 
 Route: an isometry `V_v ≅ V'_v` of Hermitian spaces over `E_v` is in particular an `F_v`-linear isometry
 of the quadratic forms `q_{h,v}(x) = h(x, x)` and `q_{h',v}`, at every place, split places included
@@ -709,7 +716,10 @@ localizations of a global space exactly when the product formula holds. In Gram 
 `exists_hermitian_localizations_iff`: matrices `H_v ∈ GL_n(E ⊗_F F_v)` with `(σ ⊗ 1)(H_v)^T = H_v`, one
 at every place `v` of `F`, with `det H_v ∈ N((E ⊗_F F_v)^×)` for almost all finite `v`, are the
 localizations of some `H ∈ GL_n(E)` with `σ(H)^T = H` (up to `H_v ↦ (σ ⊗ 1)(P)^T H_v P`) if and only
-if the number of places `v` with `det H_v ∉ N((E ⊗_F F_v)^×)` is even.
+if the number of places `v` with `det H_v ∉ N((E ⊗_F F_v)^×)` is even. This is the existence half of
+Landherr's theorem [Landherr]; [Kirschmer], Remark 3.4.2 (3), p. 40, describes the determinant class by
+the even set of nonsplit places at which it is not a local norm and constructs the space from that set
+and the signatures.
 
 Route: necessity is 2.4's product formula. Sufficiency: with `E = F(√d)`, the sign prescription
 with a prescribed second argument (GlobalQuadraticForms 4.1,
@@ -1049,7 +1059,8 @@ orthogonal sum `L_1 ⊥ ⋯ ⊥ L_m` of `𝔓^{a_i}`-modular lattices with `a_1 
 `(rank L_i, a_i)` (the Jordan type) is an invariant of `L_v`; (c) if `E_v/F_v` is ramified and `v`
 nondyadic, a `𝔓^a`-modular lattice with `a` odd is an orthogonal sum of planes `Oe ⊕ Of` with
 `h(e, e) = h(f, f) = 0`, `h(e, f) = Π^a`, hence of even rank, and one with `a` even is `Π^{a/2}L_0`
-with `L_0` unimodular.
+with `L_0` unimodular. In characteristic zero, (a) and (b) are [Kirschmer], Theorem 3.3.3, p. 32, and
+(c) is Proposition 3.3.5 (3), (5) there, pp. 32–33.
 
 Route: choose `x, y` with `h(x, y)` generating `s(L)`; if some `h(x, x)` generates it, split off
 `O_E x`, otherwise split off the plane spanned by `x, y`; induct. Invariance of the type from the
@@ -1141,7 +1152,9 @@ Let `E_v/F_v` be ramified with `v` dyadic. Prove that every
 lattice is an orthogonal sum of modular lattices of rank one or two.
 
 Route: as in 4.1, splitting off a plane when no vector of minimal valuation has `h(x, x)` generating
-`s(L)` ([Jacobowitz]).
+`s(L)` ([Kirschmer], Algorithm 3.3.2 and Theorem 3.3.3, pp. 31–32, in characteristic zero; the
+classification of these lattices is [Jacobowitz], Theorem 11.4, quoted in [Kirschmer], Theorem 3.3.18,
+p. 38).
 
 *Needs:* 4.0.
 
@@ -1156,7 +1169,9 @@ Route: as in 4.1, splitting off a plane when no vector of minimal valuation has 
 Define: `L` is scale-maximal if `s(L) ⊆ O_E` and no strictly larger
 lattice has this property; and `L` is norm-maximal if `n(L) ⊆ O_F`
 (`h(x, x) ∈ O_F` for all `x ∈ L`) and no strictly larger lattice has this property. Norm-maximal
-lattices are the maximal lattices of [Shimura64] and [GHY]. Prove:
+lattices are the maximal lattices of [Shimura64] and [GHY] (the `O_F`-maximal lattices of [Kirschmer],
+Definition 2.3.3 (7), p. 18; that they form one genus is [Kirschmer], Lemma 3.5.2, p. 43, which refers to
+[Shimura64], Proposition 4.13). Prove:
 (a) every lattice with `s(L) ⊆ O_E` (resp. `n(L) ⊆ O_F`) lies in a scale-maximal (resp. norm-maximal)
 lattice; `s(L) ⊆ O_E` implies `n(L) ⊆ O_F`, and `n(L) ⊆ O_F` implies `s(L) ⊆ 𝔇_{E/F}^{−1}`; globally,
 `L` is scale-maximal (norm-maximal) iff every `L_v` is;
@@ -1768,6 +1783,8 @@ the set of special genera in the genus of `L` to `U(1)(F)\U(1)(𝔸_f)/det(K_L)`
 `SU(V)(F_v)` is noncompact for some archimedean `v`, every special genus is a single class. (c) If
 `V` is totally definite, `n ≥ 2`, and `w` is a finite place at which `SU(V)(F_w)` is noncompact, every
 class in the special genus of `L` contains a lattice `M` with `M_v = L_v` for all finite `v ≠ w`.
+The number of special genera in a genus is computed in [Kirschmer], Theorem 5.4.14, p. 89, which refers
+to [Shimura64], Theorems 5.24 and 5.27.
 
 Route: (a) for `n ≥ 1`, `det : U(V)(𝔸_f) → U(1)(𝔸_f)` is onto with kernel `SU(V)(𝔸_f)` and
 `det U(V)(F) = U(1)(F)` (0.2, with 1.1(a) for a vector of nonzero length; at almost all `v`,
@@ -1791,7 +1808,9 @@ is a `w`-neighbour of `L` if `M_v = L_v` for finite `v ≠ w`, `M_w` is in the `
 `L_w`, and `L_w/(L_w ∩ M_w)` is a simple `O_{E_w}`-module. Prove:
 (a) any two lattices in the orbit of `L_w` are joined by a finite chain in which each lattice is a
 neighbour of the next; (b) if `V` is totally definite and `n ≥ 2`, every class of the special genus
-of `L` contains a lattice reached from `L` by a finite chain of `w`-neighbours.
+of `L` contains a lattice reached from `L` by a finite chain of `w`-neighbours. Kneser's neighbours
+of a modular lattice and the chains of (a) are [Kirschmer], Definition 5.2.1 and Propositions 5.2.4,
+5.2.5, pp. 75–76.
 
 Route: (a) the orbit of `L_w` is the set of unimodular lattices of `V_w` (4.2(a)). At an inert `w`,
 by 4.7(a) two of them are `⊕(Oe_i ⊕ Of_i) ⊥ L_0` and `⊕(ϖ^{−a_i}Oe_i ⊕ ϖ^{a_i}Of_i) ⊥ L_0`; lowering one
@@ -1863,7 +1882,7 @@ algebraic modular forms of weight `W` and level `K` for `G` (AutomorphicFormsOnR
 (a) `M_W(K) ≃ ⊕_{[g]} W^{Γ_g}` with `Γ_g = U(V)(F) ∩ gKg^{−1}`, which for `K = K_L` is `U(g·L)` (5.1),
 so `dim M_W(K_L) = Σ_{[M] ∈ cls(L)} dim W^{U(M)}` (AutomorphicFormsOnReductiveGroups 7.5,
 `equivSum`);
-(b) `dim M_W(K) = Σ_{[g]} |Γ_g|^{−1} Σ_{γ ∈ Γ_g} tr ρ(γ)` (7.5c, `levelAlgebraicModularForm_finrank`);
+(b) `dim M_W(K) = Σ_{[g]} |Γ_g|^{−1} Σ_{γ ∈ Γ_g} tr ρ(γ)` (DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5c);
 (c) for a sufficiently small `K ⊂ K_L` (5.2(d)), `dim M_W(K) = [K_L : K]·mass(L)·dim W` (7.5c with
 5.5, 5.6(a));
 (d) for `W` absolutely irreducible (for instance irreducible, with `C` containing a Galois closure of
@@ -2183,7 +2202,8 @@ the stabilizer `U(V')_x` of `x` satisfies `τ(U(V')_x) = τ(U(V'))`, where `U(V'
 `N` the Heisenberg group `1 → {z ∈ E : z + z̄ = 0} → N → W_0 → 1` if `x` is isotropic, its Tamagawa
 number being that of OrbitMeasuresOnAdelicGroups §3.4a *tamagawa-number-unipotent-radical*; (b) `τ(U(V)) = 2`
 for every Hermitian space `V` of dimension `n ≥ 1`, for the Tamagawa measure of AdelicAlgebraicGroups
-§2.4 with convergence factors `L_v(1, η_v)` and leading coefficient `L(1, η)`; (c) for isotropic `x`: at
+§2.4 with convergence factors `L_v(1, η_v)` and leading coefficient `L(1, η)` (Weil [Weil65]; the value
+is recorded in [Kirschmer], Theorem 4.2.3, p. 51); (c) for isotropic `x`: at
 every place `v` split in `E` (finite, real or complex) the nonzero vectors of `{q_h = 0}(F_v)` form
 three `U(V')(F_v)`-orbits (`x_1 ≠ 0 ≠ x_2`, `x_2 = 0`, `x_1 = 0` in the notation of 0.1), and at every
 other place at most one; and, for a lattice `L ⊂ V'`, the adelic orbit `U(V')(𝔸)·x` has full measure in
@@ -2292,6 +2312,8 @@ on `X_T(F_∞) = {X : T_X = T}`; (g) in every characteristic `≠ 2`: for a latt
 `End(L_v)` of volume one) is constant for large `N`, and its value `μ_L(A)` depends only on `A`; `μ_L`
 extends to a left Haar measure of `U(V)(F_v)` with `β_v(L) = μ_L(U(L_v))`, and for two lattices
 `μ_L = N(𝔳(L_v)𝔳(L′_v)^{−1})^n·μ_{L′}`. In characteristic zero `μ_L` is the residue measure of (f).
+For integral `L_v` in characteristic zero, `β_v(L)` of (a) is the density of [Kirschmer], Definition
+4.2.2, pp. 50–51, there written as a point count of the stabilizer scheme of `L_v`.
 
 Route: (a) In a basis with Gram matrix `H`, `(X + ϖ^NY)^*H(X + ϖ^NY) − X^*HX` lies in
 `ϖ^N Herm_n(O_{E_v})` when `H` is integral, so the congruences are conditions on the classes of `X`;
@@ -2400,7 +2422,8 @@ differential `(Y_1, Y_2) ↦ X_2^tY_1 + Y_2^tX_1` is onto `M_k(O_v)`, so each so
 stated value, as `L_v(i, η_v^i) = (1 − q_v^{−i})^{−1}` at a split place for every `i`. (b) the
 differential `Z ↦ Z + Z^*` of `X ↦ X^*HX` is onto `Herm_n(O_{E_v})` because `2` is a unit; the stabilizer scheme `X^*HX = H` is smooth, with
 special fibre an extension of the orthogonal group of the residue form by a vector group of dimension
-`n(n+1)/2` (`n² = n(n−1)/2 + n(n+1)/2`), as in [GanYu]; count its points modulo `ϖ_v^N`. (c) in block
+`n(n+1)/2` (`n² = n(n−1)/2 + n(n+1)/2`), as in [GanYu], Theorem 7.3 (quoted in [Kirschmer],
+Theorem 4.2.4 and Lemma 4.2.5, pp. 52–53); count its points modulo `ϖ_v^N`. (c) in block
 form `X = [[A, b], [c, d]]` for `L_v = M ⊥ O e`, `h(e, e) = ϖ_v`, the equations force
 `b = −ϖ_v(A^*)^{−1}c^* d`, `A^*A = 1 − ϖ_v c^*c` (a unimodular form of rank `n − 1`) and `dd̄` determined
 modulo `ϖ_v^{N−1}`; for `N ≥ 2`, modulo `ϖ_v^N`, `c` is free (`q_v^{2N(n−1)}` choices), `A` has
@@ -2530,7 +2553,8 @@ form `ϖ_v^{−1}x̄y`, `#O = q_v + 1`). Explicitly, for the Jordan type `(a_i, 
 `0 = a_0 < a_1 < ⋯ < a_m` (`n_0 = 0` allowed), and `w(L) = Σ_{i,j} min(a_i, a_j)n_in_j`,
 `#O(A_{L_v}) = q_v^{w(L)}∏_{i ≥ 1}β_v^⋆(n_i)` and `β_v(L) = q_v^{w(L)}∏_{i ≥ 0}β_v^⋆(n_i)`;
 at a split place `#O(A_{L_v})` is the number of automorphisms of the finite `O_v`-module
-`⊕_{i ≥ 1}(O_v/ϖ_v^{a_i})^{n_i}` (4.8(c)).
+`⊕_{i ≥ 1}(O_v/ϖ_v^{a_i})^{n_i}` (4.8(c)). In characteristic zero the formula for `β_v(L)` is
+[GanYu], Theorem 7.3, quoted in [Kirschmer], Theorem 4.2.4 and Lemma 4.2.5, pp. 52–53.
 (e) If `v` is ramified and nondyadic, `β_v(L) = #O(A_{L_v})·q_v^{−n_0(n_0−1)/2}·|O(L_0/𝔓L_0)(k_v)|`, the
 last factors being `β_v(L_0)` of 6.1a(b). The factor depends on the residue form of `L_0`, not only on
 `n_0`, and the formula of (d) is false at these places.
@@ -2609,6 +2633,9 @@ Hermitian space `V` of dimension `n ≥ 1` (no condition on signatures) and ever
 `Σ_{[M] ∈ cls(L)} vol(U(M)\U(V)(F_∞)) = 2·L(1, η)·∏_{v<∞} (L_v(1, η_v)β_v(L))^{−1}`,
 for the archimedean fibre measure on `U(V)(F_∞)` (6.1(f)), `U(M)` acting on `U(V)(F_∞)` through
 `U(V)(F) ⊂ U(V)(F_∞)`; for totally definite `V`, `vol(U(M)\U(V)(F_∞)) = β_∞(L)/|U(M)|` and (b) is (a).
+For integral `L`, (a) is the mass formula of [Kirschmer], Theorem 4.2.3, p. 51, written there without
+the convergence factors `L_v(1, η_v)` and with `β_∞(L)` evaluated as in 6.3; its proof there refers to
+[GanYu], §10.
 
 Route: (a) by 5.5, `τ(U(V)) = mass(L)·vol(U(V)(F_∞) × K_L)` for the Tamagawa measure. The lattice
 normalized measures on `End(V)_𝔸` and `Herm(V)_𝔸` are the Tamagawa measures of these vector groups
@@ -2660,7 +2687,9 @@ is `1/2` for odd `n`, `q_v^{−n/2}` for even `n` with `ε(V_v) = 1`, and
 `q_v^{−n/2}(q_v^n − 1)/(2(q_v + 1))` for even `n` with `ε(V_v) = −1`. (c) If `E/F` is unramified at
 every finite place, every unimodular lattice of rank `n ≥ 1` in a totally definite space over `E` has the
 mass `2·|d_F|^{n²/2}∏_{k=1}^{n}((k − 1)!/(2π)^k)^d∏_{k=1}^{n}L(k, η^k)` of `O_E^n`; in the totally
-positive definite case these lattices moreover form one genus (5.8(b)).
+positive definite case these lattices moreover form one genus (5.8(b)). The first formula is
+[Kirschmer], Proposition 4.2.7 (3), pp. 54–55, with the local factors arranged differently there
+(its `λ(L_v)`).
 
 Route: substitute 6.1b into 6.2: `|d_F|^{−n/2}|d_E|^{n(n+1)/4} = |d_F|^{n²/2}N(𝔡_{E/F})^{n(n+1)/4}`;
 off `S(L)`, `(L_v(1, η_v)β_v)^{−1} = ∏_{k=2}^{n} L_v(k, η_v^k)`, so the Euler products assemble into
@@ -3157,7 +3186,8 @@ Layers 4–6; ThetaSeries Layers 1, 3.
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
 **Owned here.** Hermitian and skew-Hermitian forms over a quadratic étale algebra, the split algebra
-included, and their base change (Layer 1); the group schemes `U(V)`, `SU(V)` of an arbitrary Hermitian
+included (its decomposition and isometry group in characteristic `≠ 2` are consumed from
+MetaplecticAutomorphicForms §3.2a), and their base change (Layer 1); the group schemes `U(V)`, `SU(V)` of an arbitrary Hermitian
 space (Layer 0) and the integral models of lattice stabilizers (4.6); the classification of Hermitian
 spaces over nonarchimedean local fields and over number fields, compactness of local unitary groups,
 Landherr's theorem in both directions, coherent collections and the Hasse principle for representations
@@ -3204,6 +3234,10 @@ sufficiently small levels (7.4, 7.5); [DiscreteSeriesCoefficientsAndAutomorphicM
 dimension formula and the duality of lattices of class-sum forms (§§7.5a, 7.5c); 5.5–5.7 are their
 instances for `U(V)`.
 [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) owns adelic Schwartz–Bruhat functions and Poisson summation.
+[MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) owns the split
+ε-Hermitian spaces over `F × F` in characteristic `≠ 2`, their decomposition `A ⊕ A^∨` and their
+isometry group `GL(A)` (§3.2a); 0.1 consumes them and adds characteristic two and the isomorphism of
+group schemes.
 
 **Outside this roadmap.** The quadratic analogues (GeometryOfNumbersAndQuadraticArithmetic §§2.4, 3.3,
 IntegralLattices, OrthogonalTamagawaAndLatticeMass), among them the quadratic discriminant form `q_L` of
@@ -3225,7 +3259,11 @@ the identification of genus averages of theta series with Siegel Eisenstein seri
 formula) belong to MetaplecticAutomorphicForms and ThetaLiftsForDefiniteUnitaryGroups. The comparison
 of the Hermitian spaces of PELModuli (linear in the first variable, over CM orders) with those here is
 the flip of 1.0, stated by the roadmaps that use both. Hermitian K-theory and Witt groups of rings
-(GeometryOfNumbersAndQuadraticArithmetic Layer 6, HermitianKTheoryOfPoincareCategories).
+(GeometryOfNumbersAndQuadraticArithmetic Layer 6, HermitianKTheoryOfPoincareCategories). The mass of
+the unimodular positive-definite Hermitian lattices over an imaginary quadratic field of class number
+one, the unitary mass formula for them and the growth of their total mass in the rank are
+AbelianSchemesAndArithmeticModuliPartII F5.7's; 5.5 and 6.2–6.3 are kept as the general forms, for
+every CM extension, every lattice and, in 6.2(b), every signature.
 
 ## Exact supplier contracts
 
@@ -3365,6 +3403,13 @@ Layer 6: reductive, semisimple and simply connected groups.
 RG2.0a *weil-restriction-group-scheme* and *norm-torus*; RG2.3.1 *schematic-closure* over a discrete
 valuation ring.
 
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+§3.2a: for a field `F` of characteristic `≠ 2` and `E = F × F` with the exchange involution, every
+ε-Hermitian space (`ε = ±1`) is `A ⊕ A^∨` with the pairing `h((x, ℓ), (y, k)) = (ℓ(y), εk(x))`, in the
+convention conjugate-linear in the first variable, and its isometry group is `GL(A)`, acting by
+`(g, (g^{−1})^∨)`; used in 0.1 and, through 0.1, in 1.4 and 2.3.
+
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
 7.4 `IsAlgebraicModularForm` (Gross's rational model); 7.5 `equivSum`, `stabilizer_finite`,
@@ -3375,7 +3420,7 @@ whose projection to one finite place is torsion-free). This roadmap states their
 ### From DiscreteSeriesCoefficientsAndAutomorphicMetrics, a sub-roadmap of this family
 
 §7.5a, the class-set integration formula, `mass J = Σ_i |Γ_i|^{−1}`, `vol(G(F)\G(𝔸)) = vol(G_∞ J)·mass J`
-and `mass J' = [J : J']·mass J`; §7.5c `levelAlgebraicModularForm_finrank`,
+and `mass J' = [J : J']·mass J`; §7.5c, the dimension formula
 `dim S(J, M) = Σ_i |Γ_i|^{−1}Σ_{γ ∈ Γ_i} tr ρ_i(γ)` and `dim S(J', M) = [J : J']·mass J·dim M` at a level
 with trivial stabilizers, for a group compact at infinity. This roadmap states their instances for
 `U(V)` (5.5, 5.6, 5.7).
@@ -3411,22 +3456,24 @@ and 6.5.
 ## References
 
 - [Landherr] W. Landherr, *Äquivalenz Hermitescher Formen über einem beliebigen algebraischen
-  Zahlkörper*, Abh. Math. Sem. Univ. Hamburg 11 (1936). Layer 3.
+  Zahlkörper*, Abh. Math. Sem. Univ. Hamburg 11 (1936). 3.1, 3.2, located through [Kirschmer],
+  Theorem 2.4.1 and Remark 3.4.2 (3).
 - [Jacobson] N. Jacobson, *A note on hermitian forms*, Bull. Amer. Math. Soc. 46 (1940). 1.3.
-- [Jacobowitz] R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962). 2.1,
-  4.1–4.4.
-- [Scharlau] W. Scharlau, *Quadratic and Hermitian Forms*, Grundlehren 270, Springer (1985),
-  Chapters 7 and 10. Layers 1–3; Witt's theorem in 1.1.
+- [Jacobowitz] R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962).
+  Theorem 11.4, the classification of lattices at dyadic ramified places (4.3), as quoted in
+  [Kirschmer], Theorem 3.3.18, p. 38.
+- [Scharlau] W. Scharlau, *Quadratic and Hermitian Forms*, Grundlehren 270, Springer (1985).
+  Chapter 7, Witt's theorem in 1.1; Chapter 10, Landherr's theorem (3.1), as cited in [Kirschmer],
+  Theorem 2.4.1.
 - [Knus] M.-A. Knus, *Quadratic and Hermitian Forms over Rings*, Grundlehren 294, Springer (1991).
   1.1, 1.2 over rings and in every characteristic.
-- [Ennola] V. Ennola, *On the characters of the finite unitary groups*, Ann. Acad. Sci. Fenn. Ser. A I
-  323 (1963). 1.5.
-- [Shimura64] G. Shimura, *Arithmetic of unitary groups*, Ann. of Math. 79 (1964). Layers 2–5; the
-  norm-maximal lattices of 4.4.
+- [Shimura64] G. Shimura, *Arithmetic of unitary groups*, Ann. of Math. 79 (1964). Proposition 4.13,
+  the norm-maximal lattices form one genus (4.4), and Theorems 5.24 and 5.27, the special genera in a
+  genus (5.3), as quoted in [Kirschmer], Lemma 3.5.2, p. 43, and Theorem 5.4.14, p. 89.
 - [Shimura97] G. Shimura, *Euler Products and Eisenstein Series*, CBMS Regional Conference Series 93,
   AMS (1997). 6.2, 6.3.
 - [Minkowski] H. Minkowski, *Zur Theorie der positiven quadratischen Formen*, J. reine angew. Math.
-  101 (1887). 5.2(c).
+  101 (1887). 5.2(c), through FiniteGroupInvariants 10.2, which locates the bound in its source.
 - [Tate] J. Tate, *Fourier analysis in number fields and Hecke's zeta-functions*, thesis (1950), in
   J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press (1967). 6.0
   (through `τ(G_m) = 1`, OrbitMeasuresOnAdelicGroups §3.4a).
@@ -3441,8 +3488,9 @@ and 6.5.
   36–38 (1935–1937). 6.5, the quadratic original of Siegel's main theorem.
 - [Braun] H. Braun, *Zur Theorie der hermitischen Formen*, Abh. Math. Sem. Hansischen Univ. 14
   (1941). 6.5, 7.1.
-- [GanYu] W. T. Gan and J.-K. Yu, *Group schemes and local densities*, Duke Math. J. 105 (2000). 6.1,
-  6.1a, 6.1d (the smooth model behind the closed formula of 6.1d(d)).
+- [GanYu] W. T. Gan and J.-K. Yu, *Group schemes and local densities*, Duke Math. J. 105 (2000).
+  Theorem 7.3, the local densities at the places of 6.1a(a), (b) and 6.1d(d) through smooth models,
+  and §10, the mass formula (6.2), as quoted in [Kirschmer], Theorems 4.2.4 and 4.2.3, pp. 51–52.
 - [Hironaka] Y. Hironaka, *Local zeta functions on Hermitian forms and its application to local
   densities*, J. Number Theory 71 (1998). Local densities of Hermitian lattices at unramified places,
   6.1d.
@@ -3457,11 +3505,17 @@ and 6.5.
   over the rings of imaginary quadratic fields*, Tôhoku Math. J. 41 (1989). Checks of 6.3.
 - [Feit] W. Feit, *Some lattices over Q(√−3)*, J. Algebra 52 (1978). The second and fourth Checks of
   6.3.
-- [Kneser] M. Kneser, *Klassenzahlen definiter quadratischer Formen*, Arch. Math. 8 (1957). 5.4.
+- [Kneser] M. Kneser, *Klassenzahlen definiter quadratischer Formen*, Arch. Math. 8 (1957). 5.4, the
+  neighbour method, in the Hermitian form of [Kirschmer], Proposition 5.2.5, p. 76.
 - [Schiemann] A. Schiemann, *Classification of Hermitian forms with the neighbour method*, J.
   Symbolic Comput. 26 (1998). 5.4.
 - [Kirschmer] M. Kirschmer, *Definite quadratic and hermitian forms with small class number*,
-  Habilitationsschrift, RWTH Aachen (2016). 5.3, 5.4, 6.3.
+  Habilitationsschrift, RWTH Aachen (2016). Theorem 2.4.1, p. 20 (3.1); Theorem 3.2.3 and
+  Corollary 3.2.4, pp. 29–30 (2.1); Algorithm 3.3.2, Theorem 3.3.3 and Proposition 3.3.5, pp. 31–33
+  (4.1, 4.3); Theorem 3.3.18, p. 38 (4.3); Remark 3.4.2 (3), p. 40 (3.2); Definition 2.3.3 (7), p. 18,
+  and Lemma 3.5.2, p. 43 (4.4); Definition 5.2.1 and Propositions 5.2.4, 5.2.5, pp. 75–76 (5.4);
+  Theorem 5.4.14, p. 89 (5.3); Definition 4.2.2, pp. 50–51 (6.1); Theorem 4.2.3, p. 51 (6.0b, 6.2);
+  Theorem 4.2.4 and Lemma 4.2.5, pp. 52–53 (6.1a, 6.1d); Proposition 4.2.7 (3), pp. 54–55 (6.3).
 - [Gross] B. H. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999). 5.7.
 - [CohenResnikoff] D. M. Cohen and H. L. Resnikoff, *Hermitian quadratic forms and Hermitian modular
   forms*, Pacific J. Math. 76 (1978). 7.1.
