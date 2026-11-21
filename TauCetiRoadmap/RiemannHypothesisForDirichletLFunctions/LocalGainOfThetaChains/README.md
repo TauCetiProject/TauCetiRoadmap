@@ -6,7 +6,7 @@ The headline theorems are these. (1) *The gain of a step and of the chain lift* 
 
 The roadmap builds on [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md), which supplies the chain, its integral forms, step operators and periods; on [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md), the first part of the same layer, which supplies the Taylor bounds on height-two formal groups and the depth of a weight; on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) for the hosts, their Frobenius data and the tops; on [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) for the sandwich exponent between Weyl and dual Weyl lattices and the integral invariant projectors; and on [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) and [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) for Gross's models of algebraic modular forms and the Satake transform. Within the family [RiemannHypothesisForDirichletLFunctions](../README.md), the gain sublattice and the gain inequality feed the division inequality and the Frobenius-restricted inequality of the later theta-chain roadmaps.
 
-Layer 4 here is the second part of the layer of that number (its first part is TaylorBoundsAndDepthsOnHeightTwoFormalGroups). It defines the positions, types and sides of the places above an inert prime (4.9), proves four statements on the normalised CM theta functions (4.9a–4.9d), and defines the ledger of gains, bulks and costs (4.9e, 4.9f); it then bounds a step at the inert primes, at `d` and elsewhere (4.10), at the type primes (4.10a), and the chain lift (4.11). At a prime of split type it builds the local model of the Hecke operators (4.12), the commutation of Hecke operators with the chain (4.13) and the refined gain on the Hecke image (4.14), and controls the colength of that image by depth theorems: elementary divisors along a progression (4.14a), the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares (4.14b–4.14h), the depth property (4.15), the walk lemma (4.15b), the colength of the Hecke image (4.15c), good orbits (4.15d), Theorems II and I for small and medium primes (4.15e, 4.15f), and an exchange lemma for colengths (4.15a). It ends with the gain sublattice (4.16), the kernels, the column bound and the colength at the level prime (4.16a–4.16c), and the data of the gain inequality, the inequality, the size of the loss, the choice of the top weights and the selection of the tops (4.17–4.17d).
+Layer 4 here is the second part of the layer of that number (its first part is TaylorBoundsAndDepthsOnHeightTwoFormalGroups). It defines the positions, types and sides of the places above an inert prime (4.9), proves four statements on the normalised CM theta functions (4.9a–4.9d), and defines the ledger of gains, bulks and costs (4.9e, 4.9f); it then bounds a step at the inert primes, at `d` and elsewhere (4.10), at the type primes (4.10a), and the chain lift (4.11). At a prime of split type it builds the local model of the Hecke operators (4.12), the commutation of Hecke operators with the chain (4.13) and the refined gain on the Hecke image (4.14), and controls the colength of that image by depth theorems: elementary divisors along a progression (4.14a), the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares (4.14b–4.14h), the depth property (4.15), the walk lemma (4.15b), the colength of the Hecke image (4.15c), good orbits (4.15d), Theorems II and I for small and medium primes (4.15e, 4.15f), and an exchange lemma for colengths (4.15a). It ends with the gain sublattice (4.16), the kernels, the column bound and the colength at the level prime (4.16a–4.16c), and the data of the gain inequality, the inequality, the size of the loss, the selection of the tops and the choice of the top weights (4.17–4.17d).
 
 ## Conventions
 
@@ -1015,13 +1015,38 @@ which lie in the dual space) contain an identity block `p^D·1` of size `≥ (1 
 `⟨F_i, G_l⟩_h = p^D·δ_{il}` for at least `(1 − sh)·dim V_λ` indices; `B_L^∨`, in the space of the `F_i`, is the target lattice of the
 image argument below. In words: the image of `y_v` on the `∇`-valued forms of level `0` (`ℳ^∨_0`; `H(L)` is
 the dual Weyl lattice) contains `p^{dep+D+1}` (here an exponent of `p`) times a part of corank `≤ sh·rank`. `DepthBound` at `v` does
-not depend on the coefficient rings.
+not depend on the coefficient rings. `DepthBound(dep, D, sh, c*)` includes the inequality `4(D + 1) ≤ c*` (in the units of the
+definition: `c*` an exponent of `√p`, `D` an exponent of `p`).
+
+*Edge families.* Let `e = (L′ ⊂ L)` be an edge of type `r_H`. An *edge family* at `e` of size `n`, source depth `t_S`, target
+depth `t_T`, Gram exponent `D` and separation `c*` consists of vectors `F_1, …, F_n ∈ p^{−t_S/2}H(L′) ∩ H^{½}(e)`, each lying in
+`p^{c*/2}H^{½}(e′)` for every edge `e′ ≠ e` of type `r_H` out of `L′`, such that for every combination `F = Σ_ic_iF_i` with
+integral coefficients, one of them a unit, there is a functional `G ∈ p^{−t_T/2}H(L)^∨ ∩ H^{½}(e)^∨`, lying in
+`p^{c*/2}H^{½}(e′)^∨` for every edge `e′ ≠ e` of type `r_H` into `L`, with `⟨F, G⟩_h` integral and dividing `p^D`.
+
+*Lemma (from edge families to the depth property at a lattice).* Let `L` be a lattice, `E` a finite set of edges of type `r_H`
+into `L`, each carrying an edge family of size `n_e` with source and target depths at most `dep`, Gram exponent at most `D` and
+separation `c*`, with `2(D + 1) ≤ c*` and `Σ_{e∈E}n_e ≥ (1 − sh)·dim V_λ`. Then the clause of `DepthBound(dep, D, sh, c*)` holds
+at `L`, with the identity block `p^D·1` on all the `Σ_en_e` vectors of the families. Moreover the clause at one lattice implies
+it at every lattice, and a lattice has at least `Q^{r_H(k−r_H)}` edges of type `r_H` into it (`Q = N𝔓_v`).
 
 *Route.* The three lattices at a vertex satisfy `dual ⊂ base ⊂ ball`, `p^{dep/2}ball ⊂ base`, `p^{dep/2}base ⊂ dual`,
 and `y_v` maps forms with values in `ball` to forms with values in `dual`; `H^{½}(e)` and `H^{½}(e)^∨` are dual for `⟨·, ·⟩_h`
 (adapted bases).
+*Lemma.* The vectors satisfy the membership conditions of `DepthBound`: depths are monotone, and
+`p^{c*/2}H^{½}(e′) ⊂ H^{½}(e′)`; the same for the functionals, which lie in `B_L`. (1) *Integrality:* `⟨F, G⟩_h` is integral
+for `F ∈ H^{½}(e)` and `G ∈ H^{½}(e)^∨` (duality of the two lattices, 4.14b), so the values `(⟨F_i, G⟩_h)_i`, `G ∈ B_L`, form a
+lattice `S` of integral vectors indexed by all the vectors of the families. (2) *Cross terms:* let `c` be a coefficient vector
+with a unit coordinate in the block of an edge `e₀`, and `G` the functional of the family of `e₀` for the combination of its own
+vectors; for `e ≠ e₀` the vectors of `e` lie in `H^{½}(e)` and `G ∈ p^{c*/2}H^{½}(e)^∨`, so their pairings with `G` are divisible
+by `p^{c*/2}`, hence by `p^{D+1}`. (3) An integer of the local ring dividing `p^D` plus a multiple of `p^{D+1}` still divides
+`p^D`; so every such `c` pairs with a vector of `S` to a divisor of `p^D`. (4) A lattice `S` of integral vectors with this
+property for every `c` having a unit coordinate contains `p^D` times the standard lattice (elementary divisors over the discrete
+valuation ring): these are the functionals `G_l ∈ B_L` with `⟨F_i, G_l⟩_h = p^D·δ_{il}`. From one lattice to all: the general
+linear group of the local field permutes the lattices transitively and the clause is equivariant; its proof is not given here,
+nor is the count of the edges.
 
-*NEW* (definition). *Needs:* 4.12, 4.14b; ArithmeticLocallySymmetricSpaces ALS.F.7.
+*NEW* (definitions). *Needs:* 4.12, 4.14b; ArithmeticLocallySymmetricSpaces ALS.F.7; Mathlib `Module.Basis.SmithNormalForm`.
 
 ### 4.15b Walk lemma
 
@@ -1117,12 +1142,13 @@ described here, and no proof below them is given. (L1) *Cleaning:* the symbols o
 of the Hecke image, with source and target orders as `DepthBound` requires. (L2) *Plane Gram:* a Gram statement for the plane
 coefficients, non-degenerate on a class of plane coefficients. (L1) and (L2) are not outside inputs: both are proved from the
 statements of (L5) and consumed in (L4). (L3) *Edges:* the *edge step*: for every edge `e` of type `r` into the standard lattice
-there are `n ≥ (1 − C|𝔗_v|r²k/Y)(1 − kc₀/a)^{|𝔗_v|}·dim V_λ/Q^{r(k−r)}` vectors (`Q = N𝔓_v`) forming an *edge family* with *source depth*
-`≤ t₀ + om`, *target depth* `≤ t₀ + |𝔗_v|c₀ + om` and *Gram exponent* `≤ C|𝔗_v|k²·log_p a` (as in 4.14h: `n` vectors of
-`C(e)` whose depth, the exponent `dep` of 4.14b, is the source depth, `n` vectors of `C′(e)` with the target depth as `dep`, and a Gram
-matrix `B_e` for `⟨·, ·⟩_h` with `B_eM_e = z_e·1`, `M_e` integral, `v_p(z_e)` at most the Gram exponent), where `t₀ := C|𝔗_v|(Λ_log·a/(pk) + a·p^{−L₁} + k·p^{G′})`
-and `om := r|𝔗_v|c₀ + 2rn′c″`; since a lattice has at least `Q^{r(k−r)}` edges of type `r` into it, `DepthBound` follows by the per-edge
-argument of 4.15f (the exact analogue of 4.14h); the passage from the edge step to `DepthBound` is not given here. (L4) The edge step from *realisable sources* (which needs (L1)) and a *cloud bound*
+there is an edge family (4.15) of size `n ≥ (1 − C|𝔗_v|r²k/Y)(1 − kc₀/a)^{|𝔗_v|}·dim V_λ/Q^{r(k−r)}` (`Q = N𝔓_v`), source depth
+`≤ t₀ + om`, target depth `≤ t₀ + |𝔗_v|c₀ + om`, Gram exponent `≤ C|𝔗_v|k²·log_p a` and separation `c*`, where
+`t₀ := C|𝔗_v|(Λ_log·a/(pk) + a·p^{−L₁} + k·p^{G′})`
+and `om := r|𝔗_v|c₀ + 2rn′c″`; the standard lattice has at least `Q^{r(k−r)}` edges of type `r` into it, so the families have at
+least `(1 − C|𝔗_v|r²k/Y)·dim V_λ` vectors in all (the factor `(1 − kc₀/a)^{|𝔗_v|}` is absorbed in the constant under the size
+hypotheses of the statement), and `DepthBound` follows from the lemma of 4.15, whose hypotheses `2(D + 1) ≤ c*` and
+`4(D + 1) ≤ c*` hold because `c* ≥ 8(D + 1)`. (L4) The edge step from *realisable sources* (which needs (L1)) and a *cloud bound*
 (primitive integrality of the sources and the remaining inputs). (L5) The remaining inputs from four statements. *(T) Tensor
 operators:* for dominant `ν_t` with first row `≤ c` at the tops and `s, β ∈ ⊗_t∇(ν_t)` there are finitely many words of polarisation
 operators, at most `c` at each top, and scalars `a_l` with `Fock(Θ(G)·s, Θ(H)·β) = Fock(Θ(Σ_la_l·word_l(G)), Θ(H))` for all flat `G, H`;
@@ -1146,7 +1172,8 @@ realisable vector to a value of valuation `≤ D`.
 
 ### 4.15f Theorem I (medium primes)
 
-In the setting of 4.15 let `r_H = 1` and assume (H_I) of 4.14b. Then there is `sh_v(a, a⁻) ≥ 0`, a function of
+In the setting of 4.15 let `r_H = 1`, assume (H_I) of 4.14b, `8D_p < c*` and `4(D_p + 1) ≤ c*` (both hold for
+`c* ≥ 8(D_p + 1)`, the condition of (H_I)). Then there is `sh_v(a, a⁻) ≥ 0`, a function of
 the top weights of `v` only, with mean `≤ C|𝔗_v|s_max/Y` over the boxes, such that `DepthBound(⌈dep⌉, D_p, sh_v(a, a⁻), c*)` holds
 for every real `dep ≥ dep°_v + R°_v` (`dep°_v`, `R°_v` of 4.14b) and for every weight with these top weights satisfying (H_I) (the same
 function for all of them: the non-top entries enter only through `c″`, 4.14h). So the least share admissible simultaneously for
@@ -1156,7 +1183,8 @@ all these weights is `≤ sh_v(a, a⁻)` pointwise, and has mean `≤ C|𝔗_v|s
 *Route.* From 4.14h by the per-edge argument: fix `L`; the edges into `L` are the `#ℙ^{k−1}(𝔽_{N𝔓})` hyperplanes of `L/pL`; for
 `e ≠ e′` into `L`, `⟨C(e), C′(e′)⟩_h ⊂ ⟨H^{½}(e), w^cH^{½}(e)^∨⟩_h ⊂ w^c𝒪` because `H^{½}(e)` and `H^{½}(e)^∨` are dual for `⟨·, ·⟩_h`; so the Gram
 matrix of all the vectors of 4.14h is `diag(B_e) + w^cR`, `R` integral, and multiplying by `diag(M_e·p^{D_p}/z_e)` gives
-`p^{D_p}(1 + w^{c−2D_p}R′)`, invertible since `8D_p < c*`: this is `DepthBound` at `L`.
+`p^{D_p}(1 + w^{c−2D_p}R′)`, invertible since `8D_p < c*`: this is `DepthBound` at `L` (its inequality `4(D_p + 1) ≤ c*` is a
+hypothesis).
 That the good orbit of 4.15d satisfies the orbit hypothesis of (H_I): a marked tile has even tops at distance `> u` from
 every other top; consecutive even tops are at distance `≤ G′` with at most `N₁` tops between them, and there are at least
 `3r` even tops (consequences of the good-orbit predicate, whose proofs are not given here).
@@ -1349,7 +1377,9 @@ data satisfy the hypotheses of 4.16; at every prime of `Drop`, `𝒱_p = ∅`, s
 `V_{j,τ}(p) := Σ_{i odd}(a_τ/p^i − w_j(par_τ(Frob_p^i)))₊`, `ℒ_f(p) := C·fN_m²·lg_p(2a) + C·f·lg_p(2a)²`, and the loss per
 top and step
 `ℒ(p) := C(Sc + k + ϑ)·lg_p(2a) + [p < p₀]·C·r_G·b′·log x + [p₀ ≤ p < X′]·(C(b′/x + ϑ + Sc + (w″ + t)·log x/δ_top) + b^{1/2}) + [p < X′]·C·log x·(Λ_log·a/(pk) + a·p^{−ℓ(p)}[p < p₀] + (a/p²)[p ≥ p₀])`, the bracketed terms only at primes inert in `K` and
-in `ℚ(√−q)`.
+in `ℚ(√−q)`. Let `I` be the set of the primes `p < X′` of split type, inert in `K` and in `ℚ(√−q)`, with orbits of length
+`n′_p ≥ x^{ε/4}`: a set that depends neither on the selection of the tops nor on the weights and contains every candidate. Put
+`Z_bad := Σ_{p∈I}(log p/p)·#{τ ∈ Φ_top : the orbit of τ at p is not good}`; it depends on the selection of the tops only.
 
 *Checks.* With `A_w = 26` (`Y_I = x^{13}`, `Y_II = x^{26}`, `p₀ = k²x^{26}`, `ℓ(p) = ⌈log_p(k²x^{78})⌉ + 1`) and `ω₀ = 3/4` (so `h_II = h_A`)
 the data are those of the construction. At a prime `p` of odd conjugate type with `(1 + ρ_B)X′ ≤ p ≤ X″`, `par_τ(Frob_p) = hτ ≠ τ`
@@ -1411,41 +1441,15 @@ sum fails: for `ϑ = b′/4` the term `C·ϑ` summed over `p₀ ≤ p < X′` wi
 
 *NEW* (orders of magnitude). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib Chebyshev bounds.
 
-### 4.17c The choice of the top weights
-
-Data of 4.17. Assume `Y_I ≥ C·m|Φ_top|·s_max·x^{c_io+2ε}·log X′` and
-`Y_II ≥ C·m|Φ_top|·r_G²k·x^{c_io+2ε}·log X′`. Let the top weights range over the boxes `a_τ ∈ [a, a + a/(kY_I)]` (the top
-window of ThetaChainsOnDefiniteUnitaryGroups §2.3: `1/(kY_I) = θ_a`), `a⁻_τ ∈ [b′, b′ + Δ_b]` (`τ ∈ Φ_top`), all other entries of the weights being fixed as
-in ThetaChainsOnDefiniteUnitaryGroups §2.3, and put `W(a, a⁻) := Σ_{p candidate}(log p/p)(2·[𝔖(p) > x^{−ε}] + 4·𝔖(p))`. There is a point of the boxes with
-`W ≤ x^{−c_io}`; the top weights of the construction are such a point. For them, `Σ_p log p·𝔦(p) ≤ m|Φ_top|a·x^{−c_io}` and, for
-every set `S` of candidates, the ask of the tops excluded in 4.17a (ii) is
-`Σ_{p∈S}log p·Σ_jΣ_{τ∈Φ_top∖Φ_top(p)}V_{j,τ}(p) ≤ 2m·a·|Φ_top|·x^{−c_io} + 4m·a·Z_bad`, with `Z_bad` of 4.17d.
-
-*Route.* Markov's inequality over the boxes with the mean bound of 4.15f at `p ≥ p₀` (the common share of 4.17, admissible for the
-weights of all the words, is at most the function `sh_v(a, a⁻)` of 4.15f, which depends only on the top weights of `v` and serves all
-these weights; a mean bound for each word separately would not bound the mean of the share common to all words) and the pointwise
-bound of 4.15e at `p < p₀` (at the scale `a − c″` of 4.17, for every point of the boxes and every word): the mean of `W` is at most
-`Σ_{p<X′}(log p/p)(2x^ε + 4)·E𝔖(p) ≤ C·x^ε·log X′·m|Φ_top|·max(s_max/Y_I, r_G²k/Y_II) ≤ x^{−c_io}` by the hypotheses on
-`Y_I`, `Y_II`. A top excluded in 4.17a (ii) at a candidate `p` is either at a candidate with `𝔖(p) > x^{−ε}` (all its linked tops;
-`Σ_{such p}log p/p ≤ W/2`) or on a linked orbit that is not good (counted in `Z_bad`); it asks at most
-`Σ_jV_{j,τ}(p) ≤ m·γ_LT(p)·2a ≤ 4ma/p`. The bound on `Σ log p·𝔦(p)`: by 4.14 (a), `𝔵_v ≤ mγ_LT(p)Σ_{s∈𝔗_v}α_s` with `γ_LT(p) ≤ (1 + 1/168)/p` (`p ≥ 13`) and `α_s ≤ (1 + θ_a)a`, so
-`𝔦(p) ≤ 2𝔖(p)·m·(1 + 1/168)(1 + θ_a)a|Φ_top|/p ≤ 2.02·𝔖(p)·m·a|Φ_top|/p` for `x ≥ x₀`, and `Σ_p log p·𝔦(p) ≤ 2.02·m·a|Φ_top|·W/4`.
-
-*NEW*. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.14, 4.15e, 4.15f, 4.17.
-
 ### 4.17d Selection of the tops
 
 Data of 4.17. Let the tops be selected as in FrobeniusRestrictedRieszSums §0.7 with a coset profile `ω ≥ ω₀` (every position is a top with a
-probability in `[ω₀δ_top, δ_top]`), and put
-`Z_bad := Σ_{p candidate}(log p/p)·#{τ ∈ Φ_top : the orbit of τ at p is linked and not good}`. Let `I` be the set of the primes
-`p < X′` that pass the tests of a candidate other than linkage (split type, inert in `K` and in `ℚ(√−q)`, orbits of length
-`n′_p ≥ x^{ε/4}`, and for `p ≥ p₀` no power in the band): a set fixed before the selection and containing every candidate, while
-linkage depends on the selected tops. For every `p ∈ I` and every
+probability in `[ω₀δ_top, δ_top]`). For every `p ∈ I` and every
 position `α`, `P(α ∈ Φ_top and the orbit of α at p is not good) ≤ p_orb(p)·P(α ∈ Φ_top)`, with `p_orb(p)` the bound of 4.15d
 (probabilities in `[ω₀δ_top, δ_top]`) for `(δ_top, h_II, x, r_G, L₂, M₀)` and `n′ = n′_p`; for `x ≥ x₀(ε, ω₀, c_s, L_b)`,
 `p_orb(p) ≤ C_b·x^{−2}` with `C_b` depending only on `ε`, `c_s`, `ω₀` and `L_b`. Consequently (FrobeniusRestrictedRieszSums §0.7 (iii′) for these events with the
-weights `log p/p` and the index set `I`) there is a selection with (i), (ii) of FrobeniusRestrictedRieszSums §0.7 and `Z_bad ≤ 8C_bx^{−2}·(log X′ + C)·|Φ_top| ≤ 2|Φ_top|/x`;
-for it the ask of 4.17c is `≤ C·m·a·|Φ_top|·(x^{−c_io} + x^{−1})`.
+weights `log p/p` and the index set `I`) there is a selection with (i), (ii) of FrobeniusRestrictedRieszSums §0.7 and `Z_bad ≤ 8C_bx^{−2}·(log X′ + C)·|Φ_top| ≤ |Φ_top|·x^{−2+ε}`
+for `x ≥ x₀`.
 
 *Checks.* A per-top form of this target ("at most `8p_bad|Φ_top|` tops are bad" with `p_bad = x(log X′ + C)·C_bx^{−2}`) would not give
 4.17c: its
@@ -1459,13 +1463,36 @@ on one position being a top. Its three terms at the data: (A) `≤ 2x^{h_A}·L�
 `≥ e^{−1}(0.067ω₀)^{3r_G}` for `x ≥ x₀`, and `M₀ ≥ 10^{6r_G+1}max(1, (5ω₀)^{−3r_G})(h_A + 3)log x`, so the term is `≤ 2x^{h_A}·x^{−(h_A+3)}`;
 (C) `N₁ − 1 ≥ 6·E Bin(G′, δ_top)` and `N₁ − 1 ≥ (h_II + 3)log₂x`, so by Chernoff's bound `P(Bin(G′, δ_top) ≥ N₁ − 1) ≤ 2^{−(N₁−1)} ≤ x^{−(h_A+3)}`;
 and `(M₀ + 1)(6r_G + 1)u ≤ x^{ε/4} ≤ n′_p` for `x ≥ x₀`. Then FrobeniusRestrictedRieszSums §0.7 (iii′), with the fixed index set `I`, the weights
-`λ_p = log p/p` and the events `B_{α,p}` "`α` is a top and the orbit of `α` at `p` is not good" (`p_bad = C_bx^{−2}`): a top counted in
-`Z_bad` (at a candidate, on a linked orbit that is not good) is counted by these events, so `Z_bad` is at most their weighted count; with
+`λ_p = log p/p` and the events `B_{α,p}` "`α` is a top and the orbit of `α` at `p` is not good" (`p_bad = C_bx^{−2}`), whose weighted
+count is `Z_bad` (4.17); with
 probability at least `1/2`, (i),
 (ii) of FrobeniusRestrictedRieszSums §0.7 hold and `Z_bad ≤ 4C_bx^{−2}·n_top·Σ_{p∈I}log p/p ≤ 8C_bx^{−2}·|Φ_top|·Σ_{p∈I}log p/p` (`n_top` the expected number of tops,
-`n_top ≤ 2|Φ_top|` on the event of (i)); `Σ_{p<X′}log p/p ≤ log X′ + C` (Mertens), and `x^{−2}·x^{ε/3} = o(1/x)`.
+`n_top ≤ 2|Φ_top|` on the event of (i)); `Σ_{p<X′}log p/p ≤ log X′ + C` (Mertens), and `x^{−2}·x^{ε/3} = o(x^{−2+ε})`.
 
-*NEW*. *Needs:* FrobeniusRestrictedRieszSums §0.7, 4.15d, 4.17, 4.17c; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib probability (independent Bernoulli variables, binomial tails).
+*NEW*. *Needs:* FrobeniusRestrictedRieszSums §0.7, 4.15d, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib probability (independent Bernoulli variables, binomial tails).
+
+### 4.17c The choice of the top weights
+
+Data of 4.17. Assume `Y_I ≥ C·m|Φ_top|·s_max·x^{c_io+2ε}·log X′` and
+`Y_II ≥ C·m|Φ_top|·r_G²k·x^{c_io+2ε}·log X′`. Let the top weights range over the boxes `a_τ ∈ [a, a + a/(kY_I)]` (the top
+window of ThetaChainsOnDefiniteUnitaryGroups §2.3: `1/(kY_I) = θ_a`), `a⁻_τ ∈ [b′, b′ + Δ_b]` (`τ ∈ Φ_top`), all other entries of the weights being fixed as
+in ThetaChainsOnDefiniteUnitaryGroups §2.3, and put `W(a, a⁻) := Σ_{p candidate}(log p/p)(2·[𝔖(p) > x^{−ε}] + 4·𝔖(p))`. There is a point of the boxes with
+`W ≤ x^{−c_io}`; the top weights of the construction are such a point. For them, `Σ_p log p·𝔦(p) ≤ m|Φ_top|a·x^{−c_io}` and, for
+every set `S` of candidates, the ask of the tops excluded in 4.17a (ii) is
+`Σ_{p∈S}log p·Σ_jΣ_{τ∈Φ_top∖Φ_top(p)}V_{j,τ}(p) ≤ 2m·a·|Φ_top|·x^{−c_io} + 4m·a·Z_bad`, `Z_bad` of 4.17; for the selection of
+4.17d this is `≤ C·m·a·|Φ_top|·(x^{−c_io} + x^{−2+ε})`.
+
+*Route.* Markov's inequality over the boxes with the mean bound of 4.15f at `p ≥ p₀` (the common share of 4.17, admissible for the
+weights of all the words, is at most the function `sh_v(a, a⁻)` of 4.15f, which depends only on the top weights of `v` and serves all
+these weights; a mean bound for each word separately would not bound the mean of the share common to all words) and the pointwise
+bound of 4.15e at `p < p₀` (at the scale `a − c″` of 4.17, for every point of the boxes and every word): the mean of `W` is at most
+`Σ_{p<X′}(log p/p)(2x^ε + 4)·E𝔖(p) ≤ C·x^ε·log X′·m|Φ_top|·max(s_max/Y_I, r_G²k/Y_II) ≤ x^{−c_io}` by the hypotheses on
+`Y_I`, `Y_II`. A top excluded in 4.17a (ii) at a candidate `p` is either at a candidate with `𝔖(p) > x^{−ε}` (all its linked tops;
+`Σ_{such p}log p/p ≤ W/2`) or on a linked orbit that is not good (counted in `Z_bad`); it asks at most
+`Σ_jV_{j,τ}(p) ≤ m·γ_LT(p)·2a ≤ 4ma/p`. The bound on `Σ log p·𝔦(p)`: by 4.14 (a), `𝔵_v ≤ mγ_LT(p)Σ_{s∈𝔗_v}α_s` with `γ_LT(p) ≤ (1 + 1/168)/p` (`p ≥ 13`) and `α_s ≤ (1 + θ_a)a`, so
+`𝔦(p) ≤ 2𝔖(p)·m·(1 + 1/168)(1 + θ_a)a|Φ_top|/p ≤ 2.02·𝔖(p)·m·a|Φ_top|/p` for `x ≥ x₀`, and `Σ_p log p·𝔦(p) ≤ 2.02·m·a|Φ_top|·W/4`.
+
+*NEW*. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.14, 4.15e, 4.15f, 4.17, 4.17d.
 
 ### Examples
 
@@ -1495,7 +1522,7 @@ ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9b and §§3.1–3.10 (the data o
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the second part of Layer 4 of the theta-chain roadmaps, the targets 4.9–4.17d above: the positions, types and sides of the places above a prime inert in `K` (4.9); the host property, the hyperbolic shape, the kernel at `d` and the folded shape of the normalised CM theta functions (4.9a–4.9d); the ledger of local exponents, gains, bulks, costs and colength data (4.9e, 4.9f); the gain of a step at the inert primes, at `d`, at the type primes and elsewhere, and of the chain lift (4.10, 4.10a, 4.11); the local model of the Hecke operators at a prime of split type with Hida's normalisation and the frame lemma, Hecke commutation along the chain and the refined gain on the Hecke image (4.12–4.14); the elementary divisors along a progression, the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares, and Theorem I at one edge (4.14a–4.14h); the depth property, the walk lemma, the colength of the Hecke image, good orbits, Theorems II and I and the exchange lemma for colengths (4.15–4.15f, 4.15a); the gain sublattice and the kernels, column bound and colength at the level prime (4.16–4.16c); and the data of the gain inequality, the inequality, the size of the loss, the choice of the top weights and the selection of the tops (4.17–4.17d).
+This roadmap owns the second part of Layer 4 of the theta-chain roadmaps, the targets 4.9–4.17d above: the positions, types and sides of the places above a prime inert in `K` (4.9); the host property, the hyperbolic shape, the kernel at `d` and the folded shape of the normalised CM theta functions (4.9a–4.9d); the ledger of local exponents, gains, bulks, costs and colength data (4.9e, 4.9f); the gain of a step at the inert primes, at `d`, at the type primes and elsewhere, and of the chain lift (4.10, 4.10a, 4.11); the local model of the Hecke operators at a prime of split type with Hida's normalisation and the frame lemma, Hecke commutation along the chain and the refined gain on the Hecke image (4.12–4.14); the elementary divisors along a progression, the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares, and Theorem I at one edge (4.14a–4.14h); the depth property, the walk lemma, the colength of the Hecke image, good orbits, Theorems II and I and the exchange lemma for colengths (4.15–4.15f, 4.15a); the gain sublattice and the kernels, column bound and colength at the level prime (4.16–4.16c); and the data of the gain inequality, the inequality, the size of the loss, the selection of the tops and the choice of the top weights (4.17–4.17d).
 
 Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c and 4.18–4.19f (formal groups of height two, the Taylor bounds and their engines, the jets of a Gaussian, the depth of a weight at a framed point and the row datum), is owned by [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md). The hosts, their predicates, the places, the tops and their selection are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0; the data of the chain, its integral forms, CM theta functions, step operators, chain lift, operators at the level prime, source lattices and periods are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3. The bideterminant basis, the agreement of the Weyl and dual Weyl lattices below the upper wall of the lowest alcove, the sandwich exponent and the integral invariant projection are [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) Layer 0; the Hecke equivariance of a theta lift at split places and the dictionary of the homomorphism pair are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) §§0.1, 2.2, 2.5; the quasi-logarithms, the letter group and the sums of quasi-quadratic series under unitary substitutions are [HodgeTateLatticesAndLubinTateLogarithms](../HodgeTateLatticesAndLubinTateLogarithms/README.md) §§3.4–3.6. On roadmaps outside this family: the Lubin–Tate laws `ℓ_s` and the supersingular elliptic comparison are LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4; Mertens' theorem is [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §0.11; Gross's models of algebraic modular forms are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §7.4, with the class-set integration and the kernel operators between class sets of DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; the Satake transform is [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) SR.4.3; induced and Weyl modules are [ReductiveGroups](../../ReductiveGroups/README.md) §10B; the branching `GL_n ↓ GL_{n−1}` is [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §6.1; integral dual Weyl modules as coefficient lattices are [ArithmeticLocallySymmetricSpaces](../../ArithmeticLocallySymmetricSpaces/README.md) ALS.F.7; and the count of subspaces over `𝔽_q` is [ArithmeticStatisticsPartIV](../../ArithmeticStatisticsPartIV/README.md) §3.2. The consumers of this roadmap in the family are listed under Downstream consumers above.
 
@@ -1583,7 +1610,7 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 
 ### From Mathlib
 
-- `Module.Basis.SmithNormalForm` and Smith normal form over a discrete valuation ring (4.12, 4.14a, 4.15a, 4.15c); `Module.length` (4.15a); Gauss norms of polynomials and their multiplicativity, `Polynomial.roots`, binomial polynomials (4.14a); exterior powers and Witt vectors (4.14c); modules over a discrete valuation ring (4.15b); Chebyshev bounds (`Chebyshev.theta_le_log4_mul_x`, 4.17b); probability: independent Bernoulli variables, `PMF.bernoulli`, binomial tails (4.15d, 4.17d).
+- `Module.Basis.SmithNormalForm` and Smith normal form over a discrete valuation ring (4.12, 4.14a, 4.15, 4.15a, 4.15c); `Module.length` (4.15a); Gauss norms of polynomials and their multiplicativity, `Polynomial.roots`, binomial polynomials (4.14a); exterior powers and Witt vectors (4.14c); modules over a discrete valuation ring (4.15b); Chebyshev bounds (`Chebyshev.theta_le_log4_mul_x`, 4.17b); probability: independent Bernoulli variables, `PMF.bernoulli`, binomial tails (4.15d, 4.17d).
 
 ## References
 
