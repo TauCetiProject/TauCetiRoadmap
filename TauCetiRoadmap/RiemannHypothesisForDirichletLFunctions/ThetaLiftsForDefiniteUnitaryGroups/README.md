@@ -208,6 +208,11 @@ along hyperbolic planes, the complementary-space identity for theta integrals an
   irreducible constituent of the lift of `π` is locally a quotient of the big theta lift `Θ(π_v^∨)`
   of §3.4, and every formula below for the conjugate-linear lift of §5.6 holds with `π^∨` in place of `π`.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: definite dual pairs and their Weil representations
 
 ### 0.1 Definite dual pairs
