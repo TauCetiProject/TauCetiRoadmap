@@ -382,6 +382,13 @@ there is no real pole there), `Φ` has no pole in `Re s > θ`. Stated as `window
 is the residue: either `Φ` has no pole in `Re s > θ`, or its poles there have a largest real part,
 attained at a real pole with negative residue.
 
+The form of the formal proof is, for `θ < 2`, the case `A = 2` of the extension: the pointwise bound gives
+`HasLaplace g s (Φ s)` for `Re s > 2`, `Φ` is meromorphic on `Re s > θ` since `θ > 0`, and a real pole `β > θ` with
+negative leading coefficient would contradict the positive residue there, the leading coefficient at a simple pole being
+the residue. For `θ ≥ 2` its conclusion holds because `Φ` is the transform, which is analytic, on `Re s > 2`. So `θ < 1`
+is not needed for its conclusion, nor is the simplicity of the poles once positivity is asked of the leading coefficients
+at the real poles; they are hypotheses of the statement the formal proof makes, and are kept as such.
+
 The windows are needed only along some sequence `U → ∞`, which may depend on `η`; the ratio
 `1 + δ` is fixed but arbitrary. Every pole has finite order, since `Φ` is meromorphic.
 
@@ -471,7 +478,9 @@ let `Ψ` be meromorphic on `{Re s > 0}` with `Ψ(s) = ∫₁^∞ G(y) y^(−s−
 Consequently, if `0 < θ < 1` and, for some `λ > 1` and every `η > 0`, there are arbitrarily large `Y` with
 `∫_Y^(Y^λ) G⁺(y) y^(−θ−1) dy ≤ Y^η`, then `Ψ` has no pole in `Re s > θ`. This mean hypothesis holds in particular when
 `HasWindows {y ≥ 1 | G(y) ≤ C y^θ} λ` for some real `C`. Stated, with this hypothesis, as
-`windowedLandau_mellin_simplePole` in `Suggested.lean`.
+`windowedLandau_mellin_simplePole` in `Suggested.lean`. For `θ < 2` it is the case `A = 2` of the extension below, the
+bound giving `∫₁^∞ |G(y)| y^(−σ−1) dy ≤ C₀/(σ − 2)` for `σ > 2`; as in 6.8, `θ < 1` is not needed for its conclusion, nor
+is the simplicity of the poles once positivity is asked of the leading coefficients at the real poles.
 
 *Extension.* Let `G : ℝ → ℝ` be measurable with
 `∫₁^∞ |G(y)| y^(−σ−1) dy < ∞` for every real `σ > A`, and `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for
@@ -734,6 +743,9 @@ Prove that:
 - (d) *Stationary phase.* For lattices `L₀, Λ₁` and compact `Q ⊂ K^×` there is a neighbourhood `V` of `0` such that for all
   `t ∈ V ∩ K^×`, `D ∈ Q` and every amplitude `A` of type `(L₀, Λ₁)`,
   `∫_{K^m} A(x) ψ(g_D(x)/t) dx = |t|^(m/2) Σ_{z ∈ K^×, z^(m+1) = D} γ(zt) |m + 1|^(−1/2) |z|^(m/2) ψ((m + 1)z/t) A(z, …, z)`.
+  By (a) with `L = 𝔒`, which is admissible for `H_m(zt)` once `t` is small, the term of `z` is
+  `ψ((m + 1)z/t) A(z, …, z) ∫_{𝔒^m} ψ(½ ξᵀH_m(zt)ξ) dξ`. In this form, with `K = ∏_i F_i` for nonarchimedean local fields
+  `F_i` of characteristic zero, (d) is stated as `stationaryPhase_nonarchimedean` in `Suggested.lean`.
 
 The identities (b), (c), (d) are exact, and special to the phase `g_D`; (a) holds for every nondegenerate symmetric `M`.
 The Gauss factor is defined by (a); its identification with the Weil index of MetaplecticAutomorphicForms §2.1, factor by
@@ -776,8 +788,8 @@ the rest; on a ball `A` is constant, (b) turns the phase into `(m + 1)z/t + ½ �
 bijection, and (a) evaluates the Gaussian integral over `B^m`, `B` being admissible for `H_m(zt)` when `t` is small.
 The duality of lattices (`L^⊥` a lattice, `L^(⊥⊥) = L`, `vol(L) vol(L^⊥) = 1`) is AnalyticNumberTheoryPartII §5.3g, as
 cited above.
-*Needs:* AnalyticNumberTheoryPartII §5.3g (the duality of lattices); MetaplecticAutomorphicForms §2.1 (the Weil index, with `weilIndex_norm`, `weilIndex_isometry` and
-`weilIndex_gaussSum`); Mathlib additive characters (`AddChar`), Haar measure on locally compact groups, indices of
+*Needs:* AnalyticNumberTheoryPartII §5.3g (the duality of lattices); for the identification with the Weil index in the last clause of
+(a) only, MetaplecticAutomorphicForms §2.1 (`weilIndex` with `weilIndex_gaussSum`); Mathlib additive characters (`AddChar`), Haar measure on locally compact groups, indices of
 subgroups, orthogonality of characters of finite abelian groups.
 
 **Checks.**
@@ -806,7 +818,7 @@ subgroups, orthogonality of characters of finite abelian groups.
 
 ### Dependencies
 
-No earlier layer. AnalyticNumberTheoryPartII §5.3g, the duality of lattices, and MetaplecticAutomorphicForms §2.1, the Weil index (8.2). Mathlib Bochner integration, Cauchy estimates for holomorphic functions of several variables, smooth bump functions, the Gaussian integral with complex parameter and the spectral theorem (8.1); additive characters, Haar measure on locally compact groups, indices of subgroups and orthogonality of characters of finite abelian groups (8.2).
+No earlier layer. AnalyticNumberTheoryPartII §5.3g, the duality of lattices, and MetaplecticAutomorphicForms §2.1, the Weil index (the last clause of 8.2 (a)). Mathlib Bochner integration, Cauchy estimates for holomorphic functions of several variables, smooth bump functions, the Gaussian integral with complex parameter and the spectral theorem (8.1); additive characters, Haar measure on locally compact groups, indices of subgroups and orthogonality of characters of finite abelian groups (8.2).
 
 ## Downstream consumers
 
@@ -826,7 +838,7 @@ This roadmap owns:
 
 The theory these statements extend is owned by their homes. [ArithmeticDirichletSeriesPartII](../../ArithmeticDirichletSeriesPartII/README.md) owns the one-sided Laplace transform and the predicate `HasLaplace` (ArithmeticDirichletSeriesPartII §0.1), the boundary data `PoleBoundary` with its normalisation of the leading coefficient (ArithmeticDirichletSeriesPartII §0.2), the counting function of a Dirichlet series (its Conventions) and its transform (ArithmeticDirichletSeriesPartII §4.1), and Delange's theorem. [AsymptoticExpansions](../../AsymptoticExpansions/README.md) owns Laplace's method and stationary phase in one variable (Layers 5 and 6); Layers 7 and 8 above are their analogues in several variables and over non-archimedean rings and use no statement of them.
 
-This roadmap owns Landau's theorem 6.3, for eventually nonnegative functions and the complex half-plane of `HasLaplace`. Two statements here have relatives in other roadmaps and are kept, each in the form this roadmap needs. 6.1 (a) proves the analyticity of the transform from integrability alone, where AsymptoticExpansions §4.4 (2.4.2–2.4.3) also assumes the function differentiable. 8.1 (b) is non-stationary phase for holomorphic phases, with derivative bounds relative to the gradient at a scale `P`, Banach-valued amplitudes and a constant independent of the domain, where QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §1.3 (i) treats real phases on a fixed open set with constants depending on absolute derivative bounds.
+Three statements here have relatives in other roadmaps and are kept, each in the form this roadmap needs. SpecialFunctionsGamma §10.1 states Landau's theorem for integrals `∫ w h^s` of a nonnegative weight `w` against real powers of a positive function `h` on a measure space, for real `s` in an interval; 6.3 is its case of `(0, ∞)` with Lebesgue measure and `h(u) = e^(−u)`, kept here for eventually nonnegative functions, with complex `s` and the value of `HasLaplace`, the form 6.4 and 6.10 use, and proved from 6.1 without that statement. 6.1 (a) proves the analyticity of the transform from integrability alone, where AsymptoticExpansions §4.4 (2.4.2–2.4.3) also assumes the function differentiable. 8.1 (b) is non-stationary phase for holomorphic phases, with derivative bounds relative to the gradient at a scale `P`, Banach-valued amplitudes and a constant independent of the domain, where QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §1.3 (i) treats real phases on a fixed open set with constants depending on absolute derivative bounds.
 
 Not owned here:
 
@@ -834,7 +846,7 @@ Not owned here:
 - Weighted families of Dirichlet or ray-class characters, their Riesz-smoothed prime sums, the residues of the associated transforms and every zero-free conclusion drawn from Layer 6: GeneralizedRiemannHypothesisFromWindowBounds.
 - Windows shorter than a fixed ratio, `[U, U + ψ(U)]` with `ψ(U) = o(U)`: Layer 6 does not treat them, and for bounded `ψ` the statement is false (Checks of 6.8).
 - The Bessel periods, orbital integrals and local integrals to which Layers 7 and 8 are applied: BesselPoincareSeriesAndGramBounds.
-- The Weil index of a nondegenerate quadratic form over a local field, with its modulus, its invariance under isometries and its Gauss-sum formula: MetaplecticAutomorphicForms §2.1. 8.2 (a) takes it factor by factor over `K` and evaluates the Gaussian integrals over admissible lattices through it.
+- The Weil index of a nondegenerate quadratic form over a local field, with its modulus, its invariance under isometries and its Gauss-sum formula: MetaplecticAutomorphicForms §2.1. 8.2 (a) defines the Gauss factor by the Gaussian integral over an admissible lattice and, in its last clause, identifies it with the product of the Weil indices over the factors of `K`.
 
 ## Exact supplier contracts
 
@@ -851,7 +863,7 @@ Not owned here:
 
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
-- §2.1, `weilIndex` with `weilIndex_norm`, `weilIndex_isometry` and `weilIndex_gaussSum`: the Weil index `γ_ψ(q)` of a nondegenerate quadratic form `q` over a nondiscrete local field of characteristic different from `2` and a nontrivial character `ψ`, of modulus `1`, equal for isometric forms, and equal to the unit normalisation of the Gauss sum over the dual, for the polar form, of a lattice on which `ψ ∘ q` is trivial. Used over each factor `K_i` of `K` in 8.2 (a), with the forms `½ ξᵀM_iξ`.
+- §2.1, `weilIndex` with `weilIndex_gaussSum`: the Weil index `γ_ψ(q)` of a nondegenerate quadratic form `q` over a nondiscrete local field of characteristic different from `2` and a nontrivial character `ψ`, equal to the unit normalisation of the Gauss sum over the dual, for the polar form, of a lattice on which `ψ ∘ q` is trivial. Used over each factor `K_i` of `K` in the last clause of 8.2 (a), the identification of the Gauss factor with the Weil index, with the forms `½ ξᵀM_iξ`.
 
 ### From [ArithmeticDirichletSeries](../../../Completed/ArithmeticDirichletSeries/README.md) (completed)
 
@@ -883,4 +895,4 @@ Not owned here:
 - [Hörmander] L. Hörmander, *The Analysis of Linear Partial Differential Operators I. Distribution Theory and Fourier Analysis*, 2nd ed., Springer (1990; reprinted 2003): Theorem 7.7.1, the non-stationary estimate (8.1 (b)), and Theorem 7.7.5, stationary phase with remainder, with a constant bounded when the phase stays in a bounded set and `|x − x₀|/|f′(x)|` is bounded (8.1 (c)).
 - [Dąbrowski–Fisher] R. Dąbrowski and B. Fisher, *A stationary phase formula for exponential sums over ℤ/p^mℤ and applications to GL(3)-Kloosterman sums*, Acta Arith. 80 (1997), 1–48: Proposition 1.3 (a) and (1.3), normalised Gauss sums as Weil indices (8.2 (a)); Theorem 1.8, Corollary 1.10 and Lemma 1.20, the `p`-adic stationary-phase formula over `ℤ_p` (8.2 (c), (d)); Examples 1.16 and 1.17, the hyper-Kloosterman phase.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem for simple poles with positive residues at the real poles (the form of the formal proof of 6.8), and of its route: the mass and supremum of the kernel and its mass off an interval and off a window (6.2 (a), (b), (e), (f)), the positivity of one Taylor coefficient per window (6.5 (a), (c)), Cauchy's estimate and the coefficients near a simple pole (6.6 (a); 6.6 (b) for simple poles), the choice of the expansion point (6.7) and the two cases of 6.8; of the window predicate (6.9 (a)); and of the statements of Layers 7 and 8, the Gauss factor of 8.2 (a) being defined there by the Gaussian integral. The tail estimate 6.2 (c), (d) with 6.5 (b), the positivity 6.5 (a) outside the range `σ > 2` with the pointwise bound, poles of higher order and the dichotomy of 6.8 and 6.9 (b), the route of 8.1 (c) through [Hörmander] and the identification of the Gauss factor with the Weil index in 8.2 (a) are this roadmap's.
-- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
+- [Announcement] Levent Alpöge, the announcement of that proof (2026): <https://alpo.ge/remark.pdf>.

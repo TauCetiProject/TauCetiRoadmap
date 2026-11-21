@@ -4,9 +4,8 @@ import Mathlib
 # Positivity of Dirichlet series with kernels: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. The five listed
-below are statable with Mathlib alone, and are stated; the sixth, the non-archimedean
-stationary-phase formula 8.2 (d), is not stated (see the end of this docstring).
+states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. The six listed
+below are statable with Mathlib alone, and are stated.
 
 The one-sided Laplace transform of ArithmeticDirichletSeriesPartII §0.1 (the predicate
 `HasLaplace`) is not in Mathlib or Tau Ceti at the pins. The statements below write it out: for a
@@ -26,6 +25,12 @@ pole of `Φ` is a point `ρ` with `meromorphicOrderAt Φ ρ < 0`.
   `tendsto_integral_of_laplaceMethod`.
 * Stationary phase at a nondegenerate critical point on `ℂ^n` (8.1 (c)):
   `stationaryPhase_leadingTerm`.
+* Stationary phase for `Σ x_k + D/∏ x_k` over a finite product of finite extensions of the fields
+  `ℚ_p` (8.2 (d)): `stationaryPhase_nonarchimedean`. The product is `∀ i, F i` with each `F i` a
+  nonarchimedean local field (Mathlib's `IsNonarchimedeanLocalField`) of characteristic zero, and
+  the Haar measure is Mathlib's, normalised by `μ(𝔒) = 1`. The Gauss factor of 8.2 (a) and the
+  module do not appear: by 8.2 (a), for small `t` the term of a critical point `z` is the Gaussian
+  integral over `𝔒^m` of the phase `½ ξᵀH_m(zt)ξ`, which is how the statement writes it.
 
 The classical theorem 6.3, the positive-coefficient form 6.4 (b), the Dirichlet-series form
 6.9 (c) and the agreement 6.10 are statable too; they are steps to the headlines or special cases
@@ -33,12 +38,7 @@ of them and are not stated here. Neither is the Gaussian integral 7.1 (b), a ste
 Layer 8 the complex Gaussian integrals 8.1 (a), the non-stationary bound 8.1 (b), the critical data
 of the phase `Σ x_k + D/∏ x_k` 8.1 (d), and the lattice Gaussian integrals, the Morse lemma and the
 vanishing away from the critical points 8.2 (a)–(c) are the steps and computations around the two
-stationary-phase formulas and are not stated here. The stationary-phase formula 8.2 (d) over a
-finite product of finite extensions of the fields `ℚ_p` is not stated here: its statement needs
-the lattices, their orthogonals, the self-dual measure and the module of 8.2 and the Gauss factor
-of 8.2 (a), which are targets of the README and not definitions of this file. Its coefficients are
-normalised Gaussian integrals over admissible lattices; their identification with Weil indices
-(MetaplecticAutomorphicForms §2.1) is not needed to state it.
+stationary-phase formulas and are not stated here.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.PositivityOfDirichletSeriesWithKernels
@@ -77,7 +77,12 @@ theorem rightmost_pole_real_of_le {θ A C u₀ : ℝ} (hθA : θ < A) {g : ℝ �
 meromorphic on `Re s > 0` with `Φ s = ∫₀^∞ g(u) e^(−su) du` for `Re s > 2`, with simple poles only
 in `Re s > 0` and a positive real residue at every real pole there. Suppose that for every
 `η > 0` there are arbitrarily large `U` with `∫_U^((1+δ)U) max(g, 0)(u) e^(−θu) du ≤ e^(ηU)`.
-Then `Φ` has no pole in `Re s > θ`. -/
+Then `Φ` has no pole in `Re s > θ`.
+This is the statement of the formal proof. For `θ < 2` it is the case `A = 2` of `windowedLandau`
+(restrict `Φ` to `Re s > θ`; a real pole `β > θ` with negative leading coefficient contradicts the
+positivity at `β`); for `θ ≥ 2` no pole lies in `Re s > θ`, where `Φ` is the transform. So
+`θ < 1`, the bound `|g(u)| ≤ C₀ e^(2u)` (the integrability being part of the transform hypothesis)
+and the simplicity of the poles are not needed for the conclusion. -/
 theorem windowedLandau_simplePole {θ δ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ) {g : ℝ → ℝ}
     (hg : Measurable g) (hgrowth : ∃ C₀ : ℝ, ∀ u : ℝ, 0 ≤ u → |g u| ≤ C₀ * Real.exp (2 * u))
     {Φ : ℂ → ℂ} (hΦ : MeromorphicOn Φ {s : ℂ | 0 < s.re})
@@ -124,7 +129,11 @@ def HasWindows (S : Set ℝ) (κ : ℝ) : Prop :=
 `0 < θ < 1` and `κ > 1`, let `G : ℝ → ℝ` be measurable with `|G(y)| ≤ C₀ y²` for `y ≥ 1`, and let
 `Ψ` be meromorphic on `Re s > 0` with `Ψ(s) = ∫₁^∞ G(y) y^(−s−1) dy` for `Re s > 2`, with simple
 poles only in `Re s > 0` and a positive real residue at every real pole there. If the set
-`{y ≥ 1 | G(y) ≤ C y^θ}` has windows of exponent `κ`, then `Ψ` has no pole in `Re s > θ`. -/
+`{y ≥ 1 | G(y) ≤ C y^θ}` has windows of exponent `κ`, then `Ψ` has no pole in `Re s > θ`.
+This is the statement of the formal proof. For `θ < 2` it is the case `A = 2` of
+`windowedLandau_mellin`, whose integrability hypothesis the bound `|G(y)| ≤ C₀ y²` gives; for
+`θ ≥ 2` no pole lies in `Re s > θ`, where `Ψ` is the absolutely convergent transform. So `θ < 1`
+and the simplicity of the poles are not needed for the conclusion. -/
 theorem windowedLandau_mellin_simplePole {θ C κ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hκ : 1 < κ)
     {G : ℝ → ℝ} (hG : Measurable G) (hgrowth : ∃ C₀ : ℝ, ∀ y : ℝ, 1 ≤ y → |G y| ≤ C₀ * y ^ 2)
     {Ψ : ℂ → ℂ} (hΨ : MeromorphicOn Ψ {s : ℂ | 0 < s.re})
@@ -216,6 +225,42 @@ theorem stationaryPhase_leadingTerm (n : ℕ) {β : ℂ} (hβ : β ≠ 0) {r Λ 
                 ((‖t‖ ^ n / ‖(Matrix.of fun i j : Fin n ↦
                     iteratedFDeriv ℂ 2 g x₀ ![Pi.single i 1, Pi.single j 1]).det‖ : ℝ) : ℂ)) •
                 a x₀‖ ≤ C * S * ‖t‖ ^ (n + 1) := by
+  sorry
+
+/-- **Stationary phase for `Σ x_k + D/∏ x_k` over a non-archimedean ring** (8.2 (d)). Let
+`K = ∏_i F_i` be a finite product of nonarchimedean local fields of characteristic zero (finite
+extensions of fields `ℚ_p`), `𝔒 ⊂ K` a compact open subring, `ψ : K → S¹` an additive character
+with `{a ∈ K | ψ(a𝔒) = 1} = 𝔒`, and `μ` the Haar measure on `K` with `μ(𝔒) = 1`. Let `m ≥ 1`, let
+`L₀`, `Λ₁` be lattices (compact open subgroups of `K`) and `Q ⊂ K^×` compact. There is a
+neighbourhood `V` of `0` such that for every unit `t ∈ V`, every `D ∈ Q` and every `A : K^m → ℂ`
+that vanishes unless every `x_k` is a unit with `x_k, x_k⁻¹ ∈ L₀` and is invariant under
+translation by `Λ₁^m`,
+`∫_{K^m} A(x) ψ((Σ_k x_k + D/∏_k x_k)/t) dx = Σ_{z^(m+1) = D} ψ((m + 1)z/t) A(z, …, z) I(zt)`,
+where `I(a) = ∫_{𝔒^m} ψ(½ ξᵀH_m(a)ξ) dξ` and `½ ξᵀH_m(a)ξ = a⁻¹(Σ_k ξ_k² + (Σ_k ξ_k)²)/2`. By
+8.2 (a), `𝔒` being admissible for `H_m(zt)` once `t` is small, `I(zt)` is
+`γ(zt) |m + 1|^(−1/2) |z|^(m/2) |t|^(m/2)`, the Gauss-factor term of the README. -/
+theorem stationaryPhase_nonarchimedean {ι : Type*} [Fintype ι] {F : ι → Type*}
+    [∀ i, Field (F i)] [∀ i, ValuativeRel (F i)] [∀ i, TopologicalSpace (F i)]
+    [∀ i, IsNonarchimedeanLocalField (F i)] [∀ i, CharZero (F i)]
+    [MeasurableSpace (∀ i, F i)] [BorelSpace (∀ i, F i)]
+    (𝔒 : Subring (∀ i, F i)) (h𝔒c : IsCompact (𝔒 : Set (∀ i, F i)))
+    (h𝔒o : IsOpen (𝔒 : Set (∀ i, F i)))
+    (ψ : AddChar (∀ i, F i) Circle) (hψ : ∀ a, (∀ x ∈ 𝔒, ψ (a * x) = 1) ↔ a ∈ 𝔒)
+    (μ : Measure (∀ i, F i)) [μ.IsAddHaarMeasure] (hμ : μ (𝔒 : Set (∀ i, F i)) = 1)
+    {m : ℕ} (hm : 1 ≤ m) (L₀ Λ₁ : AddSubgroup (∀ i, F i))
+    (hL₀c : IsCompact (L₀ : Set (∀ i, F i))) (hL₀o : IsOpen (L₀ : Set (∀ i, F i)))
+    (hΛ₁c : IsCompact (Λ₁ : Set (∀ i, F i))) (hΛ₁o : IsOpen (Λ₁ : Set (∀ i, F i)))
+    {Q : Set (∀ i, F i)} (hQ : IsCompact Q) (hQu : ∀ D ∈ Q, IsUnit D) :
+    ∃ V ∈ 𝓝 (0 : ∀ i, F i), ∀ t ∈ V, IsUnit t → ∀ D ∈ Q,
+      ∀ A : (Fin m → ∀ i, F i) → ℂ,
+        (∀ x, A x ≠ 0 → ∀ k, IsUnit (x k) ∧ x k ∈ L₀ ∧ (x k)⁻¹ ∈ L₀) →
+        (∀ x y, (∀ k, y k ∈ Λ₁) → A (x + y) = A x) →
+        ∫ x, A x * (ψ ((∑ k, x k + D * (∏ k, x k)⁻¹) * t⁻¹) : ℂ) ∂(Measure.pi fun _ ↦ μ) =
+          ∑ᶠ z ∈ {z : ∀ i, F i | z ^ (m + 1) = D},
+            (ψ (((m : ∀ i, F i) + 1) * z * t⁻¹) : ℂ) * A (fun _ ↦ z) *
+              ∫ ξ in Set.univ.pi fun _ : Fin m ↦ (𝔒 : Set (∀ i, F i)),
+                (ψ (2⁻¹ * (z * t)⁻¹ * (∑ k, ξ k ^ 2 + (∑ k, ξ k) ^ 2)) : ℂ)
+                  ∂(Measure.pi fun _ ↦ μ) := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.PositivityOfDirichletSeriesWithKernels
