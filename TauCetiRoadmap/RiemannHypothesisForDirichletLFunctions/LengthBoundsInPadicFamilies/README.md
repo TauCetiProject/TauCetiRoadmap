@@ -22,6 +22,11 @@ For a profinite group `G` and a discrete `O`-module with a continuous action, `H
 
 Notation and conventions not restated here are those of PadicFamilies, its Conventions and §§1.7–1.8 (the raw congruence module `Ψ_λ(M)` and the congruence ideal `η_λ` of an augmentation `λ : A → O`).
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 1: Congruence modules and Ribet-type length bounds
 
 PadicFamilies §1.7 defines the raw congruence module `Ψ_λ(M) = M/(M[𝔭_λ] + M[I_λ])` of one augmentation `λ : A → O`, with its functoriality, its annihilation by `𝔭_λ + I_λ` and the identification `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))`, and PadicFamilies §1.8 the congruence ideal `η_λ = λ(Ann_A(ker λ))` with `Ψ_λ(A) ≅ O/η_λ` under the double-annihilator identity. This layer adds the congruence module along a central idempotent of `A ⊗ K` and its symmetry, its form relative to a set of points of a split algebra, the relative congruence ideal at a point of a set and the length bound by multiplicities (1.7a, which reduces to PadicFamilies §1.7 for a single point, as its first Check says); and the Ribet-type bound of a congruence ideal with lengths (1.8b–1.8e).
