@@ -39,19 +39,22 @@ The main theorems are the following.
    `BC(π)^∨ ⊗ (χ_V/χ_W) ⊞ (segment)`. For the homomorphism model of a pair, on `Hom_E(X₁, X₂)`, where the first
    group enters through the dual space, the inversion and the contragredient disappear: `(c α, segment)` and
    `BC(π) ⊗ (χ_V/χ_W) ⊞ (segment)`.
-3. *The Rallis inner product formula and nonvanishing.* For `f₁, f₂` in an irreducible automorphic
-   representation `π` of `U(V)`, `⟨θ_φ f₁, θ_φ f₂⟩` is the value at `s₀ = (d − n)/2` of
+3. *Nonvanishing through the Rallis inner product formula.* By the Rallis inner product formula for an anisotropic
+   target, which this roadmap imports, for `f₁, f₂` in an irreducible automorphic representation `π` of `U(V)`,
+   `⟨θ_φ f₁, θ_φ f₂⟩` is the value at `s₀ = (d − n)/2` of
    `C · L^S(s + ½, π × χ_W)/d^S(s) · ∏_{v ∈ S} Z_v(s)`, where `L^S(s, π × χ_W) = L^S_E(s, BC(π) ⊗ χ_W)`,
    the `Z_v` are local doubling integrals (for factorizable data, with local measures giving the stabilisers of the
    lattices volume one outside `S` and the Tamagawa measure as their product), and `C = 2` if `d > n`, `C = 1` if
-   `d ≤ n`; this holds for every `d`, and for `d ≥ 2n + 1` the `L`-value is an absolutely convergent Euler product,
+   `d ≤ n`, for every `d`. For `d ≥ 2n + 1` the `L`-value is an absolutely convergent Euler product,
    hence nonzero (the Satake parameters of the unitary local components satisfy `|α_i| ≤ q_w^{(n−1)/2}`, at the inert
-   places through a doubling series of the unramified unitary group). Consequently, if `d ≥ 2n + 1`, the lift of `π` to
+   places through a doubling series of the unramified unitary group), and the formula becomes an operator identity:
+   on the `π`-isotypic forms whose level is the stabiliser of the lattices outside `S`, `θ_φ^* θ_φ` is the nonzero
+   number `C · L^S(s₀ + ½, π × χ_W)/d^S(s₀)` times local operators at the places of `S`. Consequently, if `d ≥ 2n + 1`, the lift of `π` to
    `U(W)` is nonzero exactly when the weight of `π` occurs at every real place, and every constituent of the lift has
    the predicted weights and local components at every place.
 4. *The trivial representation and complementary spaces.* The squared norm of the lift of the
    constant functions is `∏_{i=0}^{n−1} L_E(d/2 − i, χ_W)` times normalised local factors, and the genus
-   average of the Hermitian theta series of a definite lattice of positive rank is the mean over the definite group of the
+   average of the Hermitian theta series of a totally positive definite lattice of positive rank is the mean over the definite group of the
    theta kernel of its lattice vector on `U(k, k)`, equal to a Siegel Eisenstein series divided by `1` or `2`. Fix
    `δ ∈ E^×` with `δ̄ = −δ`. Let `V`, `V′` be Hermitian of
    dimensions `a > a′` with `a ≡ a′ (mod 2)` and `W` skew-Hermitian with `δ⁻¹W ≅ V ⊕ V′(−1)`, with the same
@@ -78,8 +81,9 @@ The main theorems are the following.
 The roadmap builds on [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) (Weil
 representations of unitary pairs, the global theta kernel and lift, the anisotropic Siegel–Weil formula and doubling
 integrals), [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) (the Fock model, the
-global Weil representation of a unitary pair, and the local theta correspondence for complementary pairs with its
-descent along isotropic lines), [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) (Hermitian spaces,
+global Weil representation of a unitary pair, the local theta correspondence for complementary pairs with its
+descent along isotropic lines, and the Rallis inner product formula for an anisotropic target),
+[HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) (Hermitian spaces,
 lattices, genera, class sets, masses), [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md)
 and [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md)
 (algebraic modular forms with their class-set evaluation, kernel operators and Hecke operators),
@@ -96,10 +100,10 @@ Weil representation with its test vectors and lattice vectors, and the theta ker
 lift and its adjoint as class-set operators, proves the integrality statement and identifies the kernel
 with theta functions of CM abelian varieties. Layer 2 computes the weights at real places and the Hecke
 and Satake dictionaries at finite places, identifies the local components of a lift, and translates the
-dictionary to the homomorphism model. Layer 3 proves
-the Rallis inner product formula for a definite pair. Layer 4 proves nonvanishing and existence of lifts
-in large dimension. Layer 5 treats the lift of the trivial representation and its norm, and the genus
-theta series of a definite lattice as a theta integral on `U(k, k)` with its Siegel–Weil comparison. Layer 6
+dictionary to the homomorphism model. Layer 3 specialises
+the Rallis inner product formula to a definite pair and reads it as an operator identity. Layer 4 proves nonvanishing
+and existence of lifts in large dimension. Layer 5 treats the lift of the trivial representation and its norm, and the
+genus theta series of a totally positive definite lattice as a theta integral on `U(k, k)` with its Siegel–Weil comparison. Layer 6
 proves square-integrability and factorisation of the theta integrals of complementary spaces, the descent of matching
 along hyperbolic planes, the complementary-space identity for theta integrals and the recursion of its constant.
 
@@ -533,7 +537,7 @@ compatible with `f(γ t u) = ρ(γ) f(t)`, since `M_{γtu} = ρ(γ)M_t`.
 
 The stabilisers are bounded by HermitianFormsAndLattices §5.2(c): `Γ_c` is a subgroup of `U(L_c)` for
 the lattice `L_c = t_c L` of a lattice `L` with `K ⊂ K_L` (HermitianFormsAndLattices §4.5(c)), so `|Γ_c|`
-and `D_K = lcm_c |Γ_c|` divide `minkowskiBound(2n[F : ℚ])`.
+and `D_K = lcm_c |Γ_c|` divide `minkowskiBound(2n[F : ℚ])`, Minkowski's number of FiniteGroupInvariants 10.2.
 
 Prove: suppose there is `Ω ∈ ℂ^×` with
 `Ω⁻¹ k_φ(t, t′) M_t ⊂ M′_{t′}` for all `t ∈ U(V)(𝔸_f)`, `t′ ∈ U(W)(𝔸_f)`. Then `D_K · Ω⁻¹ · Θ^φ` maps
@@ -553,7 +557,7 @@ Route: the integrality statement for class-set kernel operators, DiscreteSeriesC
 stabilisers just stated; the conditions at different representatives agree by the transformation law of `k_φ`.
 
 *Needs:* 1.2, 1.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5b; HermitianFormsAndLattices §§4.5(c), 5.2;
-ThetaKernelsForUnitaryDualPairs §3.46.
+FiniteGroupInvariants 10.2; ThetaKernelsForUnitaryDualPairs §3.46.
 
 **Checks.**
 
@@ -721,7 +725,7 @@ For one class with stabiliser `{±1}` (the unimodular lattice of rank one over `
 
 ### Dependencies
 
-Layer 0; MetaplecticAutomorphicForms §§0.1, 1.1, 2.7, 3.3, 5.6; ThetaKernelsForUnitaryDualPairs §§3.45, 3.46, 4.4a; AutomorphicFormsOnReductiveGroups §§7.4, 7.5; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; HermitianFormsAndLattices §§4.5, 5.1, 5.2, 5.5; AbelianSchemesAndArithmeticModuli A5.1–A5.4; AnalyticNumberTheoryPartII §5.3h; NonordinaryCMSpecialValues §4.2; CompactGroups Layer 4.
+Layer 0; MetaplecticAutomorphicForms §§0.1, 1.1, 2.7, 3.3, 5.6; ThetaKernelsForUnitaryDualPairs §§3.45, 3.46, 4.4a; AutomorphicFormsOnReductiveGroups §§7.4, 7.5; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; HermitianFormsAndLattices §§4.5, 5.1, 5.2, 5.5; FiniteGroupInvariants 10.2; AbelianSchemesAndArithmeticModuli A5.1–A5.4; AnalyticNumberTheoryPartII §5.3h; NonordinaryCMSpecialValues §4.2; CompactGroups Layer 4.
 
 ## Layer 2: weights, Hecke equivariance and Satake parameters
 
@@ -1009,42 +1013,46 @@ Let `π` be an irreducible automorphic representation of `U(V)`, `S` a finite se
 the archimedean places and the places where `E/F`, `ψ`, `χ_V`, `χ_W`, `π` or `φ` is ramified (for `φ`: where
 `φ_v` is not the lattice vector of the trivial lift of `L_v ⊗ M_v` for self-dual `L_v`, `M_v`), and
 `F_i = ⊗_v F_{i,v} ∈ π` (`i = 1, 2`) factorizable with `F_{i,v}` the normalised spherical vector for
-`v ∉ S`, and `φ = ⊗_v φ_v` a factorizable test vector. Prove: for every `d ≥ 1`,
+`v ∉ S`, and `φ = ⊗_v φ_v` a factorizable test vector. For every `d ≥ 1`,
 
 `⟨θ_φ F₁, θ_φ F₂⟩ = C · [ L^S(s + ½, π × χ_W) / d^S(s) · ∏_{v ∈ S} Z_v(s, Φ_v, F_{1,v}, F_{2,v}) ]_{s = s₀}`,
 
 where the bracket is a meromorphic function holomorphic at `s₀ = (d − n)/2`, evaluated there, that is at
 the point `(d − n + 1)/2` of `L^S`; `Z_v` are the local doubling zeta integrals of MetaplecticAutomorphicForms
 §6.11 for the local sections `Φ_v` of `δ(φ_v ⊗ φ̄_v)`, computed with `⟨π_v(g)F_{1,v}, F_{2,v}⟩` (no complex
-conjugation), the local inner products normalised so that `⟨F₁, F₂⟩ = ∏_v ⟨F_{1,v}, F_{2,v}⟩`; and
-`C = [E : F]/c` (`2` for `d > n`, `1` for `d ≤ n`) for the Tamagawa Petersson products on both groups and Haar measures
-`dg_v` on the `U(V)(F_v)` with `vol(K_v, dg_v) = 1` at every finite `v ∉ S` (`K_v` the stabiliser of `L_v`) whose product is
-the Tamagawa measure (they exist: fix them at all places but one place of `S` and rescale there). For a sum of pure
-tensors `φ` the left side is the corresponding sum over pairs of pure tensors, with the cross terms. Moreover:
+conjugation); and `C = [E : F]/c` (`2` for `d > n`, `1` for `d ≤ n`) for the Tamagawa Petersson products on both groups.
+This identity is ThetaKernelsForUnitaryDualPairs §6.13a (i) in the linear-lift form of its last bullet, for the
+anisotropic target `W` (`r = 0`, `m = d`), the splitting character `χ = χ_W` and `φ₁ = φ₂ = φ`: every automorphic form on
+the anisotropic `U(V)` is cuspidal (0.1), and that bullet's `L^S(s + ½, BC(π) ⊗ χ)` is `L^S(s + ½, π × χ_W)` by the
+Conventions. For the conjugate-linear lift of MetaplecticAutomorphicForms §5.6, §6.13a (i) has `π^∨` in place of `π`,
+`L^S(s + ½, π^∨ × χ_W) = L^S_E(s + ½, BC(π) ⊗ χ_W⁻¹)`, and the conjugate matrix coefficient.
 
-- the left side vanishes when `F₁`, `F₂` lie in non-isomorphic irreducible summands;
-- at `s₀`, whenever the local integral converges absolutely,
+Prove, for a definite pair:
+
+- *Local measures.* There are Haar measures `dg_v` on the `U(V)(F_v)` with `vol(K_v, dg_v) = 1` at every finite `v ∉ S`
+  (`K_v` the stabiliser of `L_v`) whose product is the Tamagawa measure, and the identity holds with the `Z_v` computed
+  for these `dg_v` and the local inner products normalised so that `⟨F₁, F₂⟩ = ∏_v ⟨F_{1,v}, F_{2,v}⟩`.
+- *Cross terms.* For a sum of pure tensors `φ` the left side is the corresponding sum over pairs `(φ₁, φ₂)` of pure
+  tensors, each term given by the same formula with the sections of `δ(φ_{1,v} ⊗ φ̄_{2,v})`.
+- *Orthogonality.* `⟨θ_φ F₁, θ_φ F₂⟩ = 0` when `F₁`, `F₂` lie in non-isomorphic irreducible summands of the space of
+  automorphic forms on `U(V)`.
+- *The local factor at `s₀`.* Whenever the local integral converges absolutely at `s₀`,
   `Z_v(s₀, Φ_v, F₁, F₂) = ∫_{U(V)(F_v)} ⟨ω_v(g)φ_v, φ_v⟩ ⟨π_v(g)F_{1,v}, F_{2,v}⟩ dg` up to the
   determinant twist of 3.1; at a real place the integral is over the compact group `U(n)`.
 
-This is the definite instance of the anisotropic case of ThetaKernelsForUnitaryDualPairs §6.13a, translated
-to the linear lift: for the conjugate-linear lift of MetaplecticAutomorphicForms §5.6 the same formula holds with `π^∨` in place of
-`π`, `L^S(s + ½, π^∨ × χ_W) = L^S_E(s + ½, BC(π) ⊗ χ_W⁻¹)`, and the conjugate matrix coefficient.
+Route: the identity is ThetaKernelsForUnitaryDualPairs §6.13a (i), specialised as above. Local measures: fix Haar
+measures at all places but one place of `S`, giving `K_v` volume one outside `S`, and rescale at the remaining place so
+that the product is the Tamagawa measure; with these, the unramified local integrals outside `S` are `L_v/d_v`
+(MetaplecticAutomorphicForms §6.11, `localDoublingZeta_unramified`), which is the normalisation under which §6.13a (i)
+collects them into `L^S/d^S`. Cross terms: `θ_φ` is linear in `φ`, and §6.13a (i) allows `φ₁ ≠ φ₂`. Orthogonality: by
+Fubini and 3.1 the left side is `[E : F]/c` times the value at `s₀` of the integral of `E(ι(g₁, g₂), s, Φ)` against
+`F₁ ⊗ F̄₂` (with the twist), a meromorphic function of `s` (the integral over the compact `[U(V)]²` of a meromorphic
+family of continuous functions) holomorphic at `s₀`; for `Re s` large it unfolds (MetaplecticAutomorphicForms §6.12,
+basic identity) into the integral over `U(V)(𝔸)` of the section against `g ↦ ⟨R(g)F₁, F₂⟩`, which vanishes identically
+when `F₁`, `F₂` lie in non-isomorphic summands, and uniqueness of continuation gives the vanishing at `s₀`. The local
+factor at `s₀`: the last item of 3.1.
 
-Route (the doubling method): by Fubini the left side is
-`∫∫_{[U(V)]²} F₁(g₁) conj F₂(g₂) ∫_{[U(W)]} θ(g₁, h) conj θ(g₂, h) dh`, which 3.1 turns into
-`([E : F]/c)` times the integral of `E(ι(g₁, g₂), s, Φ)` against `F₁ ⊗ F̄₂` (with the twist) at `s = s₀`. For
-`Re s` large this doubling integral unfolds (MetaplecticAutomorphicForms §6.12, basic identity) into the
-standard doubling function of `π` and `χ_W` divided by `d^S(s)` times the product of local integrals over
-`S`, using the unramified computation of MetaplecticAutomorphicForms §6.11 (`localDoublingZeta_unramified`, with its region
-of absolute convergence at the inert and split places, ThetaKernelsForUnitaryDualPairs §6.11,
-which for the unitary local components of `π` contains `Re s > (n − 2)/2` at every place outside `S`); by the
-Conventions that function is `L^S(s + ½, π × χ_W)`. Both sides are meromorphic in `s`: the left side because the
-integral over the compact `[U(V)]²` of a meromorphic family of continuous functions is meromorphic, and
-holomorphic at `s₀` by 3.1. Uniqueness of continuation gives the identity at `s₀`. Orthogonality of
-different summands follows from the factorisation through `⟨π(g)F₁, F₂⟩`.
-
-*Needs:* 1.1, 3.1; MetaplecticAutomorphicForms §§6.1, 6.10, 6.10a, 6.11, 6.12; ThetaKernelsForUnitaryDualPairs §§6.11, 6.13a;
+*Needs:* 1.1, 3.1; MetaplecticAutomorphicForms §§6.1, 6.10, 6.10a, 6.11, 6.12; ThetaKernelsForUnitaryDualPairs §6.13a;
 AutomorphicLFunctionsAndLocalFactorsPartII §3.4.
 
 **Checks.**
@@ -1137,7 +1145,7 @@ For `n = 0` both sides of the Rallis inner product formula equal `|φ(0)|² vol(
 
 ### Dependencies
 
-Layers 0 and 1; MetaplecticAutomorphicForms §§5.6, 6.1, 6.2, 6.4, 6.10, 6.10a, 6.11, 6.12, 6.15; ThetaKernelsForUnitaryDualPairs §§6.11, 6.13a; AutomorphicLFunctionsAndLocalFactorsPartII §3.4; LocalFactorsOfTwistsAndTypes §§3.4, 7.2; AutomorphicLFunctionsAndLocalFactors AL.4.1.2.
+Layers 0 and 1; MetaplecticAutomorphicForms §§5.6, 6.1, 6.2, 6.4, 6.10, 6.10a, 6.11, 6.12, 6.15; ThetaKernelsForUnitaryDualPairs §6.13a; AutomorphicLFunctionsAndLocalFactorsPartII §3.4; LocalFactorsOfTwistsAndTypes §§3.4, 7.2; AutomorphicLFunctionsAndLocalFactors AL.4.1.2.
 
 ## Layer 4: nonvanishing and existence of lifts in large dimension
 
@@ -1562,7 +1570,8 @@ for `w₁ | v₁`. Prove:
   ones are rapidly decreasing.
 
 Route: ThetaKernelsForUnitaryDualPairs §§5.7a, 5.7b; rapid decay of cuspidal functions of uniform moderate growth is
-AutomorphicFormsOnReductiveGroups §4.2. *Square-integrability: the square of the kernel.* For Schwartz functions `Φ₁`,
+AutomorphicSpectralTheory §3.4 (the truncation of a smooth function of uniform moderate growth is rapidly decreasing on
+every Siegel set) with §3.2 (a function whose proper constant terms vanish is its own truncation). *Square-integrability: the square of the kernel.* For Schwartz functions `Φ₁`,
 `Φ₂` in a Schrödinger model let `M_{Φ₁,Φ₂}(w) = ⟨ρ(w)Φ₁, Φ₂⟩`, `w ∈ 𝕎(𝔸)`, be the matrix coefficient of the Heisenberg
 operators (ThetaKernelsForUnitaryDualPairs §5.7a, matrix-coefficient majorant). By Poisson summation in one of the two
 variables, `|θ(Φ₁)|·|θ(Φ₂)| ≤ c·Σ_{ξ ∈ 𝕎(F)} |M_{Φ₁,Φ₂}(ξ)|`; and `M_{ω(g,h)Φ₁, ω(g,h)Φ₂}(w) = M_{Φ₁,Φ₂}((g, h)⁻¹w)`,
@@ -1608,7 +1617,7 @@ one built at `v₂`. Continuity: the constants of
 §5.7a and §5.7b(i) are continuous seminorms of the archimedean component.
 
 *Needs:* 6.1; ThetaKernelsForUnitaryDualPairs §§3.47, 5.7a, 5.7b, 5.7c; AdelicAlgebraicGroups §§3.4, 3.5;
-AutomorphicFormsOnReductiveGroups §4.2.
+AutomorphicSpectralTheory §§3.2, 3.4.
 
 ### 6.3a Factorisation through the matched quotients, and injectivity
 
@@ -1913,7 +1922,7 @@ Route: `f` is cuspidal of uniform moderate growth, hence rapidly decreasing (6.3
 moderate growth, so the Petersson pairings converge absolutely. Writing `f = Σ_i (I_V(Φ_i) − I_{V′}(Φ′_i))`,
 `⟨f, f⟩ = Σ_i (⟨f, I_V(Φ_i)⟩ − ⟨f, I_{V′}(Φ′_i)⟩) = 0`.
 
-*Needs:* 6.3; AutomorphicFormsOnReductiveGroups §4.2.
+*Needs:* 6.3; AutomorphicSpectralTheory §§3.2, 3.4.
 
 **Checks.**
 
@@ -1977,7 +1986,7 @@ which on `GL_a × 1` cancels the factor `χ_W(det u)|det u|^{N/2}` of the Weil a
 AdelicAlgebraicGroups §4.2 through HermitianFormsAndLattices §2.5(d). The anisotropic case (doubling):
 suppose `X` definite, `f` cuspidal and rapidly decreasing with constant back-lift `c ≠ 0` for some `Ψ₂`. For
 any `Ψ₁` put `K(h, h′) = ∫_{[U(X)]} θ(g, h; Ψ₁) conj θ(g, h′; Ψ₂) dg`; integrating against `f` in `h′` gives
-`c̄ · I_X(Ψ₁)(h)`. By the doubling seesaw and the anisotropic Siegel–Weil formula
+`c · I_X(Ψ₁)(h)`. By the doubling seesaw and the anisotropic Siegel–Weil formula
 (MetaplecticAutomorphicForms §§6.4, 6.10), `K` is the value at `s₀` of a Siegel Eisenstein series on
 `U(W ⊕ W(−1))` restricted to `U(W) × U(W)`; for `Re s` large its integral against a cusp form in the
 second variable unfolds to a right convolution of that cusp form, hence is cuspidal in `h`, and
@@ -1988,7 +1997,7 @@ contradiction. Hence the back-lift is `0` and the pairing vanishes.
 
 *Needs:* 6.2–6.6; ThetaKernelsForUnitaryDualPairs §§3.47, 3.47c and MetaplecticAutomorphicForms §§6.4, 6.10, 6.15; AdelicAlgebraicGroups §4.2;
 HermitianFormsAndLattices §§0.2, 2.5; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7;
-AutomorphicFormsOnReductiveGroups §4.2.
+AutomorphicSpectralTheory §§3.2, 3.4.
 
 ### 6.9 Cuspidality and purity
 
@@ -2103,9 +2112,6 @@ the existence and normalisation of matching data at the finite places (6.2), by 
 hypotheses of 5.3 (6.1), by the descent at the finite places (6.5: lattice vectors, the multiplicity bounds of §5.7d and
 the zeta integrals at `T`), by 6.6 and by 6.12; the place `v₁` by 6.3 and 6.8. Under 4 every finite place of `F` is either
 split in `E` or inert and unramified, of odd residue characteristic, with `ψ_v`, `α`, `β` and the lattices unramified there.
-
-*Remark.* The stages of the route have been examined in the wider range `ε₀ ≥ p + 2`, `a′ ≥ 2q + max(p, 2)`, which is
-not claimed here.
 
 Route: strong induction on `p + q`, the base case being 6.10; the order is that of the constant-term
 induction, with the constant defined through one part of the constant term only.
@@ -2232,7 +2238,7 @@ For `p = q = 0` at every real place, `V` is positive definite, `V′` negative d
 
 ### Dependencies
 
-Layers 0–5; ThetaKernelsForUnitaryDualPairs §§3.45, 3.47–3.47c, 4.4a, 5.7a–5.7e; MetaplecticAutomorphicForms §§0.15, 3.2a, 5.5, 6.4, 6.10, 6.15; HermitianFormsAndLattices §§0.2, 1.1, 1.2, 2.5, 3.1, 3.5, 4.2, 4.7; AutomorphicFormsOnReductiveGroups §§4.1, 4.2, 4.3; AdelicAlgebraicGroups §§3.1, 3.4, 3.5, 4.2; AutomorphicLFunctionsAndLocalFactors AL.1; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7.
+Layers 0–5; ThetaKernelsForUnitaryDualPairs §§3.45, 3.47–3.47c, 4.4a, 5.7a–5.7e; MetaplecticAutomorphicForms §§0.15, 3.2a, 5.5, 6.4, 6.10, 6.15; HermitianFormsAndLattices §§0.2, 1.1, 1.2, 2.5, 3.1, 3.5, 4.2, 4.7; AutomorphicFormsOnReductiveGroups §§4.1, 4.3; AutomorphicSpectralTheory §§3.2, 3.4; AdelicAlgebraicGroups §§3.1, 3.4, 3.5, 4.2; AutomorphicLFunctionsAndLocalFactors AL.1; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7.
 
 ## Downstream consumers
 
@@ -2261,9 +2267,11 @@ This roadmap owns statements about one theta lift between unitary groups that ar
 archimedean place: the lift and its adjoint as class-set operators and their integrality with an
 explicit denominator; the identification of the kernel with theta functions of CM abelian varieties; the
 archimedean weights and the Hecke and Satake dictionaries of such a lift; the identification of the
-constituents of a lift; the Rallis inner product formula for such a pair in every range, its operator form
-and its consequences for injectivity, nonvanishing and existence in large dimension; the lift of the
-trivial representation and its norm, and the genus theta series of a definite lattice as the theta integral
+constituents of a lift; for such a pair, the local measures, cross terms, orthogonality and local factors at `s₀` of
+the Rallis inner product formula, its operator form and its consequences for injectivity, nonvanishing and existence in
+large dimension (the formula itself, in every range, is ThetaKernelsForUnitaryDualPairs §6.13a (i), of which 3.2 above
+states the definite instance); the lift of the
+trivial representation and its norm, and the genus theta series of a totally positive definite lattice as the theta integral
 of its lattice vector on the quasi-split `U(k, k)`, with its Siegel–Weil comparison. Its last layer
 concerns a pair of complementary Hermitian spaces in a skew-Hermitian space that is not split and has small
 signature defect: the convergence, invariant extension, square-integrability and factorisation of their theta
@@ -2276,7 +2284,9 @@ constant-term ingredients are general theta theory and are targets of ThetaKerne
 Boundaries:
 
 - [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md) and, for the statements that this family adds
-  to it, [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) own all theta theory that does not use compactness at infinity: Weil
+  to it, [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) own all theta theory that does not use compactness at infinity,
+  except the two square-integrability criteria of 6.3 above for the theta integrals of an arbitrary unitary pair, which
+  are stated here: Weil
   representations of unitary pairs locally and globally, the Fock model and the correspondence for
   compact dual pairs `(U(n), U(p, q))`, the unramified correspondence, local persistence and bump
   vectors, the local theta correspondence for complementary data (local matching, irreducibility at the good split
@@ -2439,9 +2449,9 @@ Boundaries:
 - §6.4a and its corollary: the formula in Weil's convergent range and the Fourier coefficients of theta integrals of indefinite
   Hermitian spaces on `U(k, k)` (cited in 5.4).
 - §6.11, the clauses added to MetaplecticAutomorphicForms §6.11: the unramified doubling integral at inert and split
-  places with its region of absolute convergence, `Re s > (n − 2)/2` for unitary local components (3.2, 5.3).
+  places with its region of absolute convergence, `Re s > (n − 2)/2` for unitary local components (5.3).
 - §6.13a: the Rallis inner product formula in Weil's convergent range and, for an anisotropic target, in every
-  range (3.2).
+  range; (i) in the linear-lift form of its last bullet is the identity of 3.2.
 
 ### From HermitianFormsAndLattices, a sub-roadmap of this family
 
@@ -2475,9 +2485,15 @@ Boundaries:
   evaluation and reconstruction on class representatives, restriction, trace and Hecke operators.
 - §7.5: finite stabilisers, `S(J, M) ≃ ⊕_i M^{Γ_i}`, and the automorphic realisation
   `automorphicEquiv`.
-- §4.2: rapid decay of cuspidal functions; §4.1: constant terms; §4.3: the Fourier expansion of
+- §4.1: constant terms; §4.3: the Fourier expansion of
   cuspidal functions on `GL_n` along the maximal unipotent subgroup (Piatetski-Shapiro, Shalika) and
   Whittaker coefficients.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+- §3.2 (`cusp_fixed`): a function on `G(F)\G(𝔸)` whose proper constant terms all vanish is its own Arthur truncation;
+  §3.4 (`truncation_rapid_decay`): the truncation of a smooth function of uniform moderate growth is rapidly decreasing on
+  every Siegel set. Together: cuspidal functions of uniform moderate growth are rapidly decreasing (6.3, 6.7, 6.8).
 
 ### From DiscreteSeriesCoefficientsAndAutomorphicMetrics, a sub-roadmap of this family
 
@@ -2530,6 +2546,11 @@ Boundaries:
 
 - §4.2: Finis's spaces `T_{r,𝔞}` of scalar theta functions on CM lattices of an imaginary quadratic field,
   the operators `A_l`, the normalised scalar product and the arithmetic and integral structures (1.9).
+
+### From TauCetiRoadmap.FiniteGroupInvariants
+
+- 10.2: Minkowski's number `minkowskiBound`, of which the order of every finite subgroup of `GL_N(ℚ)` is a divisor; it
+  enters 1.6 through HermitianFormsAndLattices §5.2(c).
 
 ### From TensorInductionAndFiniteGroupInputs, a sub-roadmap of this family
 
@@ -2594,38 +2615,49 @@ Boundaries:
 - S. Kudla, *Splitting metaplectic covers of dual reductive pairs*, Israel J. Math. 87 (1994): 0.2,
   0.3.
 - M. Harris, S. Kudla, W. J. Sweet, *Theta dichotomy for unitary groups*, J. Amer. Math. Soc. 9
-  (1996): 0.2, 3.2 (the rank-one check), Layer 5.
+  (1996): §1, pp. 950–957 (the splittings of the metaplectic cover over a unitary dual pair, and over the exchanged
+  pair): 0.2; Proposition 2.2, p. 958 (the Weil representation of the doubled pair restricted to the two copies, with
+  its determinant twist): 3.1, and through it 5.2; Proposition 8.4 (iii), p. 994 (the doubling `L`-factor of a
+  character of `U(1)`): 3.2 (the rank-one check).
 - J. Rogawski, *The multiplicity formula for A-packets*, in *The zeta functions of Picard modular
   surfaces*, CRM (1992): 3.2 (the rank-one check).
 - M. Kashiwara, M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*,
   Invent. Math. 44 (1978): 2.1, 6.2 (through ThetaKernelsForUnitaryDualPairs §3.47b).
-- R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989): 2.1, 2.3.
+- R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989): Theorem 1 with Remark (b),
+  pp. 535–536 (Howe duality for a real dual pair; for a compact member, classical invariant theory): 2.1.
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999): Layer 1.
 - H. Minkowski, *Zur Theorie der positiven quadratischen Formen*, J. reine angew. Math. 101 (1887),
   and J.-P. Serre, *Bounds for the orders of the finite subgroups of G(k)*, in *Group
-  representation theory*, EPFL Press (2007): 1.6.
-- S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984): 2.2, 2.3.
+  representation theory*, EPFL Press (2007), cited in the numbering of arXiv:1011.0346v1: Theorem 1, §1.1, p. 3
+  (Minkowski's theorem): 1.6.
 - S. Rallis, *Injectivity properties of liftings associated to Weil representations*, Compositio
-  Math. 52 (1984): 3.2, 3.4.
+  Math. 52 (1984), for orthogonal–symplectic pairs: Proposition 1.1, pp. 149–150 (the inner product formula in the
+  convergent range): 3.2; Theorem 1.6, p. 156 (injectivity of the lift): 3.4.
 - I. Piatetski-Shapiro, S. Rallis, *L-functions for the classical groups*, Lecture Notes in Math.
   1254 (1987): 3.2.
 - J.-S. Li, *Nonvanishing theorems for the cohomology of certain arithmetic quotients*, J. reine
   angew. Math. 428 (1992): 3.3, 4.1, 4.2.
 - A. Mínguez, *Correspondance de Howe explicite : paires duales de type II*, Ann. Sci. ÉNS 41 (2008):
-  2.2.
+  Corollaire 6.3, p. 734 (Théorème 1 of the introduction, p. 718; the explicit correspondence for `(GL_n, GL_m)`,
+  `n ≤ m`, in Langlands parameters): 2.2.
 - J.-P. Labesse, *Changement de base CM et séries discrètes*, in *On the stabilization of the trace
   formula*, International Press (2011): 2.4, 4.3.
 - S. Kudla, S. Rallis, *A regularized Siegel–Weil formula: the first term identity*, Ann. of Math.
   140 (1994): 6.4 (constant terms of theta integrals along a Witt tower).
-- W. T. Gan, Y. Qiu, S. Takeda, *The regularized Siegel–Weil formula (the second term identity) and
-  the Rallis inner product formula*, Invent. Math. 198 (2014): 3.1, 3.2, Layer 6 boundary.
-- A. Ichino, *A regularized Siegel–Weil formula for unitary groups*, Math. Z. 247 (2004): 3.1.
+- [GQT] W. T. Gan, Y. Qiu, S. Takeda, *The regularized Siegel–Weil formula (the second term identity) and
+  the Rallis inner product formula*, Invent. Math. 198 (2014), cited in the numbering of arXiv:1207.4709v3:
+  Theorem 7.1, §7.1 (the Siegel–Weil formula for an anisotropic target, with the constant `c`): 3.1; Theorem 1.3 (the
+  Rallis inner product formula for `n < m ≤ 2n`): 3.2; Theorem 1.2 (ii) (the second term identity): the boundary of
+  Layer 6.
+- A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007): 3.1 (the anisotropic case for
+  `n < d ≤ 2n`, as GQT §7.1 attributes it).
 - S. Yamana, *L-functions and theta correspondence for classical groups*, Invent. Math. 196 (2014):
   3.2.
 - S. Rallis, *L-functions and the oscillator representation*, Lecture Notes in Math. 1245 (1987):
   6.4 (constant terms of theta integrals).
-- A. Zelevinsky, *Induced representations of reductive p-adic groups II*, Ann. Sci. ÉNS 13 (1980): 6.5, 6.8 (through
-  ThetaKernelsForUnitaryDualPairs §§3.47, 5.7d: irreducibility of products of segments).
+- A. Zelevinsky, *Induced representations of reductive p-adic groups II*, Ann. Sci. ÉNS 13 (1980): Theorem 4.2,
+  p. 184 (a product of the representations of segments is irreducible exactly when no two segments are linked): 6.5,
+  6.8 (through ThetaKernelsForUnitaryDualPairs §§3.47, 5.7d).
 - J. Shalika, *The multiplicity one theorem for GL_n*, Ann. of Math. 100 (1974), and
   I. Piatetski-Shapiro, *Euler subgroups*, in *Lie groups and their representations* (1975): 6.9
   (Fourier expansion of cuspidal functions on `GL_j`).

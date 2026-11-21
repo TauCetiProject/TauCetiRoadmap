@@ -49,13 +49,17 @@ adelic unitary groups.
   `BC(π)^∨ ⊗ (χ_V/χ_W) ⊞ (segment)`. It lacks, besides these carriers, the `K_∞`-types of
   automorphic forms, the spherical Hecke algebras of `GL_n(E_w)` with their Satake parameters, and
   weak base change from `U(V)` to `GL_n(𝔸_E)`.
-* The Rallis inner product formula and nonvanishing (3.2, 3.3, 4.2, 4.3): for factorizable `f₁`,
-  `f₂` in an irreducible automorphic representation `π` of `U(V)` and a factorizable test vector
-  `φ`, `⟨θ_φ f₁, θ_φ f₂⟩` is the value at `s₀ = (d − n)/2` of
+* Nonvanishing through the Rallis inner product formula (3.3, 4.2, 4.3). The formula itself is
+  imported from ThetaKernelsForUnitaryDualPairs §6.13a (i), of which 3.2 states the definite
+  instance: for factorizable `f₁`, `f₂` in an irreducible automorphic representation `π` of `U(V)`
+  and a factorizable test vector `φ`, `⟨θ_φ f₁, θ_φ f₂⟩` is the value at `s₀ = (d − n)/2` of
   `C · L^S(s + ½, π × χ_W)/d^S(s) · ∏_{v ∈ S} Z_v(s)`, with `C = 2` for `d > n` and `C = 1` for
-  `d ≤ n`, for every `d ≥ 1`; for `d ≥ 2n + 1` the `L`-value is an absolutely convergent nonzero
-  Euler product, and the lift of `π` is nonzero exactly when the weight of `π` occurs at every real
-  place. It lacks, besides these carriers, the standard `L`-function `L^S(s, π × χ_W)` of an
+  `d ≤ n`, for every `d ≥ 1`. The headlines are its consequences: for `d ≥ 2n + 1` the `L`-value
+  is an absolutely convergent nonzero Euler product, `θ_φ^* θ_φ` acts on the `π`-isotypic forms of
+  level `K = ∏_v K_v` (`K_v` the stabiliser of the lattice at the finite `v ∉ S`) as
+  `C · L^S(s₀ + ½, π × χ_W)/d^S(s₀)` times `⊗_{v ∈ S} π_v(Z_v)`, and the lift of `π` is nonzero
+  exactly when the weight of `π` occurs at every real place. It lacks, besides these
+  carriers, the standard `L`-function `L^S(s, π × χ_W)` of an
   automorphic representation of `U(V)`, the local doubling zeta integrals `Z_v` with their
   normalising factors `d_v`, and the Petersson inner product on `U(W)(F)\U(W)(𝔸_F)`.
 * The trivial representation and complementary spaces (5.2, 5.4, 6.11, 6.12): the squared norm
