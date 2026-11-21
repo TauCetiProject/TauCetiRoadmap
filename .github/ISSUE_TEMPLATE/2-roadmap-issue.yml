@@ -241,6 +241,7 @@ body:
         - KTheoryLowDegrees
         - KacMoody
         - KhovanovHomology
+        - KleinianGroups
         - LFunctions
         - LaguerreJacobi
         - LanglandsParameterStacks
@@ -257,6 +258,7 @@ body:
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
         - LocallyAnalyticDistributionsPartII
+        - MaassForms
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
         - MassFormula
