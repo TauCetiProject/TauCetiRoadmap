@@ -1177,16 +1177,17 @@ lattice; `s(L) ⊆ O_E` implies `n(L) ⊆ O_F`, and `n(L) ⊆ O_F` implies `s(L)
 `L` is scale-maximal (norm-maximal) iff every `L_v` is;
 (b) at split places and at places unramified in `E` the two notions coincide;
 (c) at a finite place nondyadic or unramified in `E`, any two scale-maximal lattices in `V_v` are
-conjugate under `U(V_v)`, and so are any two norm-maximal ones;
+conjugate under `U(V_v)`; at every finite place, so are any two norm-maximal ones;
 (d) normal forms at such places: if `v` splits, or `E_v/F_v` is unramified and `val(det V_v)` is
 even, a maximal lattice (in either sense) is unimodular; if `E_v/F_v` is unramified and
 `val(det V_v)` is odd, it is `M ⊥ N` with `M` unimodular of rank `n − 1` and `N` a `ϖ_v`-modular
 line; if `E_v/F_v` is ramified and `v` nondyadic, a scale-maximal lattice is unimodular, and a
 norm-maximal lattice is `L_{−1} ⊥ L_0` with `L_{−1}` `𝔓^{−1}`-modular and `L_0` unimodular with
 anisotropic residue form, of rank `1` for odd `n`, `0` for even `n` with `ε(V_v) = 1`, and `2` for
-even `n` with `ε(V_v) = −1`;
-(e) if no dyadic place of `F` ramifies in `E`, the scale-maximal lattices of a global `V` form one
-genus, and so do the norm-maximal ones.
+even `n` with `ε(V_v) = −1` (the volumes `𝔳(L_v)` of the norm-maximal forms are [Kirschmer], Lemma
+3.5.3 (2), (3), p. 43);
+(e) the norm-maximal lattices of a global `V` form one genus, and, if no dyadic place of `F` ramifies
+in `E`, so do the scale-maximal ones.
 
 Route: (a) integral overlattices of `L` lie in `L^∨`, and norm-integral ones in `𝔇^{−1}L^∨`, because
 `Tr(λh(x, y)) = h(λ̄x + y, λ̄x + y) − h(λ̄x, λ̄x) − h(y, y) ∈ O_F` for `λ ∈ O_E`; Noetherianity; the
@@ -1209,9 +1210,22 @@ norm, a unimodular lattice whose residue form is isotropic contains a primitive 
 off (4.2(d)), and this plane lies in the norm-integral `𝔓^{−1}`-modular `Π^{−1}O e ⊕ O f`;
 so `L_0` has anisotropic residue form, of rank at most two, and its rank is fixed by `n` and `ε(V_v)`;
 the `𝔓^{−1}`-modular part is determined by its rank (4.1(c)) and `L_0` by its rank and determinant
-class (4.2(b)). (e) from (c) and 4.0(g).
+class (4.2(b)). Norm-maximal lattices at a dyadic ramified place: if `V_v` is anisotropic,
+`M = {x ∈ V_v : h(x, x) ∈ O_v}` contains every norm-integral lattice and is a lattice, hence the only
+norm-maximal one (bounded as `h(x, x)` is anisotropic, an `O_{E_v}`-module as
+`h(λx, λx) = N(λ)h(x, x)`, and closed under addition because on the `F_v`-span of two of its vectors
+`h(x, x)` is `a·t²` or `a·N_{K/F_v}` for a quadratic field `K`, integral exactly on a fractional ideal of
+`O_v` or `O_K`). Otherwise take `x` primitive and isotropic in a norm-maximal `L`. Since
+`h(y + μx, y + μx) = h(y, y) + Tr(μh(y, x))`, `L + O_{E_v}cx` is norm-integral whenever
+`c·h(L, x) ⊆ 𝔇_{E/F}^{−1}`, so maximality and (a) give `h(L, x) = 𝔇_{E/F}^{−1}`; for `y ∈ L` with
+`h(y, x)` generating it and `μ ∈ O_{E_v}` with `Tr(μh(y, x)) = −h(y, y)` (`Tr(𝔇_{E/F}^{−1}) = O_v`),
+`x` and `f = y + μx` span a `𝔇_{E/F}^{−1}`-modular hyperbolic plane, an orthogonal summand of `L` (the
+projection of `z ∈ L` has coefficients in `O_{E_v}`, as `h(z, x), h(z, f) ∈ 𝔇_{E/F}^{−1}`) with
+norm-maximal complement. By induction `L` is `r` such planes (`r` the Witt index) plus the
+norm-maximal lattice of the anisotropic kernel (1.2), so two norm-maximal lattices are isometric, and
+an isometry between lattices spanning `V_v` is an element of `U(V_v)`. (e) from (c) and 4.0(g).
 
-*Needs:* 1.5, 4.0, 4.1, 4.2.
+*Needs:* 1.2, 1.5, 4.0, 4.1, 4.2.
 
 **Checks.**
 
@@ -2405,7 +2419,10 @@ rank `n − 1` and `N` a `ϖ_v`-modular line, `β_v(L) = (q_v + 1)∏_{k=1}^{n�
 `λ_v(L) := N(𝔳(L_v))^n·β_v^⋆/β_v(L) = c_v(V)·vol(U(L′_v))/vol(U(L_v))` for any Haar measure on
 `U(V)(F_v)`; the volume ratio is `1`, `2/(q_v^{n/2} + 1)` or `(q_v^{n/2} + 1)/(q_v + 1)`, so that
 `λ_v(L)` is `1/2` for odd `n`, `q_v^{−n/2}` for even `n` with `ε(V_v) = 1`, and
-`q_v^{−n/2}(q_v^n − 1)/(2(q_v + 1))` for even `n` with `ε(V_v) = −1`.
+`q_v^{−n/2}(q_v^n − 1)/(2(q_v + 1))` for even `n` with `ε(V_v) = −1`. In the normalization of
+[Kirschmer], Definition 4.2.6, p. 53, larger by `q_v^{n/2}` for even `n` (its `a_p`), these are the
+values of its Lemma 4.2.9, pp. 55–56, at the dual `L_v^∨ = ΠL_{−1} ⊥ L_0` of `L_v = L_{−1} ⊥ L_0` (4.4(d)),
+which has the stabilizer of `L_v`.
 
 Route: (a) at an unramified place, smoothness of the Gram map at unimodular points, including dyadic
 places (GeometryOfNumbersAndQuadraticArithmetic `primitive_hermitian_smooth_count`), reduces the count
@@ -3213,7 +3230,11 @@ a given lattice (6.4a), the mass formula for every signature and its closed form
 total mass of the integral lattices of given discriminant and the weighted count of subspaces (6.4b,
 6.4c), Siegel's main theorem in Weil's form for every space, in the lattice form for definite spaces and
 for primitive representations, and the volumes of stabilisers (Layer 6); Hermitian theta series of definite lattices, their
-transformation laws and their genus averages (Layer 7).
+transformation laws and their genus averages (Layer 7). 2.1(a) is the local classification that
+EndoscopicTransferAndUnitaryTraceComparisonPartII asks of GeometryOfNumbersAndQuadraticArithmetic, and
+3.1–3.2 are the Hasse classification and existence of global Hermitian spaces that
+SelmerIwasawaCohomologyPartII and PELModuliPartII ask of AdelicAlgebraicGroups: those requests are met
+here.
 
 **Consumed, not restated.**
 [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) owns the carrier
@@ -3251,7 +3272,8 @@ an involution of the second kind. Global function fields: Layer 3 follows Global
 Layer 6 follows AdelicAlgebraicGroups, AnalyticNumberTheoryPartII and
 GeometryOfNumbersAndQuadraticArithmetic §3.3, all of which are over number fields. Local fields of
 characteristic two beyond Layer 1, 2.1 and 2.4. The classification of lattices at dyadic ramified
-places beyond 4.3, and local densities there beyond the general statement 6.1 (6.1d excludes them).
+places beyond 4.3 and the conjugacy of norm-maximal lattices (4.4(c)), and local densities there
+beyond the general statement 6.1 (6.1d excludes them).
 Hermitian modular forms
 as a theory on the Hermitian half-space: Layer 7 states theta series, their transformation laws and
 their genus averages only. The theta correspondence: Weil representations, adelic theta kernels and
@@ -3513,9 +3535,10 @@ and 6.5.
   Habilitationsschrift, RWTH Aachen (2016). Theorem 2.4.1, p. 20 (3.1); Theorem 3.2.3 and
   Corollary 3.2.4, pp. 29–30 (2.1); Algorithm 3.3.2, Theorem 3.3.3 and Proposition 3.3.5, pp. 31–33
   (4.1, 4.3); Theorem 3.3.18, p. 38 (4.3); Remark 3.4.2 (3), p. 40 (3.2); Definition 2.3.3 (7), p. 18,
-  and Lemma 3.5.2, p. 43 (4.4); Definition 5.2.1 and Propositions 5.2.4, 5.2.5, pp. 75–76 (5.4);
+  and Lemmas 3.5.2, 3.5.3, p. 43 (4.4); Definition 5.2.1 and Propositions 5.2.4, 5.2.5, pp. 75–76 (5.4);
   Theorem 5.4.14, p. 89 (5.3); Definition 4.2.2, pp. 50–51 (6.1); Theorem 4.2.3, p. 51 (6.0b, 6.2);
-  Theorem 4.2.4 and Lemma 4.2.5, pp. 52–53 (6.1a, 6.1d); Proposition 4.2.7 (3), pp. 54–55 (6.3).
+  Theorem 4.2.4 and Lemma 4.2.5, pp. 52–53 (6.1a, 6.1d); Definition 4.2.6 and Lemma 4.2.9, pp. 53–56
+  (6.1a); Proposition 4.2.7 (3), pp. 54–55 (6.3).
 - [Gross] B. H. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999). 5.7.
 - [CohenResnikoff] D. M. Cohen and H. L. Resnikoff, *Hermitian quadratic forms and Hermitian modular
   forms*, Pacific J. Math. 76 (1978). 7.1.
