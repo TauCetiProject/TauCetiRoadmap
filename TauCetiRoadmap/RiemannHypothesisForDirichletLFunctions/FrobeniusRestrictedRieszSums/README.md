@@ -58,9 +58,11 @@ the index `j` runs over the steps `1, …, m` of an averaged sum (1.7), and `k` 
 
 **Fields.** `E` is the host (0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its
 maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G` complex conjugation; `χ_K` the quadratic character of `K`; `f_E` the
-conductor of `E` (the conductor of a primitive character `χ` is `f_χ`). Under `SplitRamification d` (0.3) `K` is
-ramified only at the prime `d`; on the cyclic hosts (0.4) `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, `K = ℚ(√−d)`, and a second imaginary
-quadratic field `ℚ(√−q) ⊂ E` is used; `(q, d)` is the *auxiliary pair*.
+conductor of `E` (ClassFieldTheory Layer 13 `abelianConductor`; its finite part is the least `N` with `E ⊂ ℚ(ζ_N)`,
+`isLeast_absNorm_abelianConductor_finitePart`; the conductor of a primitive character `χ` is `f_χ`). Under
+`SplitRamification d` (0.3) `K` is ramified only at the prime `d`; on the cyclic hosts (0.4) `q ≡ 3 (mod 8)`,
+`d ≡ 7 (mod 16)`, `K = ℚ(√−d)`, and a second imaginary quadratic field `ℚ(√−q) ⊂ E` is used; `(q, d)` is the
+*auxiliary pair*.
 
 **CM type, places and Frobenius elements.** An embedding `ι₀ : E ↪ ℂ` is fixed; `Φ = Gal(E/K)` is identified with the CM
 type `{ι₀∘g : g ∈ Φ}` induced from `K` (`|Φ| = f`). Elements of `Φ` are called places. In the Galois groups of abelian
@@ -152,6 +154,8 @@ Hilbert reciprocity gives `(−1)^f = 1`.
 - `E = ℚ(√−3, √−7)`: `F = ℚ(√21)`, `f = 2`, and `E/F` is unramified at every finite place (`2` is unramified in
   `E`, and the inertia groups at `3` and `7` have order `2` and do not contain `c`), as (iv) requires. For
   `E = K = ℚ(i)`, `f = 1` is odd and `E/F` is ramified at `2`.
+- (iii) is the case `E₀ = K`, `Φ₀ = {ι₀|_K}` of the CM type induced from a CM subalgebra in ShimuraVarieties §5.1
+  (`CMType`): `φ` lies in the induced type iff `φ|_K = ι₀|_K`.
 
 *KNOWN* (elementary; Hilbert reciprocity; (iv) is this roadmap's own, not a statement of [FormalProof]).
 *Needs:* Mathlib `NumberField.IsCMField`,
@@ -163,7 +167,10 @@ Hilbert reciprocity gives `(−1)^f = 1`.
 
 *Definitions.* Let `E/ℚ` be a finite abelian extension with group `G` (for
 instance the field of an abelian CM host), `f_E` its conductor, and `N ≥ 1` with `E ⊂ ℚ(ζ_N)`. The *Artin map* is
-`art_N : (ℤ/N)^× → G`, `a ↦ σ_a|_E`, where `σ_a(ζ_N) = ζ_N^a`. For a prime `p` write `N = p^v N′` with `p ∤ N′`, and
+`art_N : (ℤ/N)^× → G`, `a ↦ σ_a|_E`, where `σ_a(ζ_N) = ζ_N^a`; it is the ray-class Artin map `rayClassArtinMap` of
+ClassFieldTheory Layer 12 for `E/ℚ` at the admissible modulus `N·∞`, read on `(ℤ/N)^×` through
+AnalyticNumberTheoryPartI §0.30, since both send a prime `ℓ ∤ N` to `σ_ℓ|_E` (ClassFieldTheory W.5,
+`globalArtinMap_cyclotomic_prime`). For a prime `p` write `N = p^v N′` with `p ∤ N′`, and
 put `I_p = art_N{a : a ≡ 1 (mod N′)}` and, for `i ≥ 1`, the *Frobenius coset* `Fr(p^i) = art_N{a : a ≡ p^i (mod N′)}`.
 For a character `χ` of `G`, `χ*` is the primitive Dirichlet character inducing `χ ∘ art_N`.
 
@@ -178,10 +185,14 @@ in particular `p` divides the conductor of `χ*` exactly when `χ` is nontrivial
 abelian CM host, `χ_K*` is the quadratic character of `K`, `n ↦ (d_K/n)` (Kronecker symbol, `d_K` the discriminant
 of `K`); below `χ_K` denotes both. (v) *Image.* `χ*` runs over exactly the primitive Dirichlet characters `κ` whose
 field `ℚ(κ)` (the subfield of `ℚ(ζ_{f_κ})` fixed by the kernel of `κ`, read on `Gal(ℚ(ζ_{f_κ})/ℚ) ≅ (ℤ/f_κ)^×`)
-lies in `E`: the image is the group of primitive characters of `E` (the group written `X(E)` in
-CyclotomicClassGroupsAndStickelberger §3.4). For such `κ` write `χ_κ` for the character of `G` with `χ_κ* = κ`, so
+lies in `E`: the image is the group of primitive characters of `E` (the group `X(E)` of
+QuasiRiemannHypothesis §5.4). For such `κ` write `χ_κ` for the character of `G` with `χ_κ* = κ`, so
 that `κ(a) = χ_κ(art_N(a))` for `a` prime to `N`; a primitive Dirichlet character with `ℚ(κ) ⊂ E` is *regarded as a
 character of `G`* through `κ ↦ χ_κ`.
+The injectivity and multiplicativity of `χ ↦ χ*` in (iv), the image in (v) and the independence of that image from `N`
+(part of (i)) are statements of QuasiRiemannHypothesis §5.4 for the abelian field `E`. (iii) is the case `F = ℚ` of the
+one-dimensional comparison of AnalyticNumberTheoryPartI §2.18a, read through AnalyticNumberTheoryPartI §0.30: the
+Hecke character of `χ` there is `χ*`, both being primitive and equal to `χ(art_N(p))` at the primes `p ∤ N` by (ii).
 
 For a subfield `E` of a cyclotomic field `ℚ(ζ_N)`, `Suggested.lean` defines `art_N`, the Frobenius cosets, the inertia groups and `χ*` as `artinMap`, `frobCoset`, `inertia` and `primitiveChar`.
 
@@ -198,9 +209,13 @@ attached to a character of `G_ℚ` with open kernel (ArithmeticGaloisRepresentat
 `χ_K(Frob_p) = ±1` at the primes `p` split or inert in `K`. (v) The characters of `G` are the characters of
 `(ℤ/N)^×` trivial on `ker art_N = Gal(ℚ(ζ_N)/E)`; the character modulo `N` induced by a primitive `κ` with `f_κ | N`
 is trivial on that subgroup exactly when `ℚ(κ) ⊂ E` (Galois correspondence in `ℚ(ζ_N)`,
-`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar`); a `κ` with `ℚ(κ) ⊂ E` has `f_κ | f_E`.
+`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar`); a `κ` with `ℚ(κ) ⊂ E` has `f_κ | f_E`, and so has the
+conductor of every `χ*` in (iv) (ClassFieldTheory Layer 13, `abelianConductor_eq_lcm`).
 
 *Checks.*
+- The clause `p ∤ N` of (ii) is the case `K = ℚ` of Chebotarev Layer 4 (the arithmetic Frobenius of `ℚ(ζ_N)` at `p`
+  sends `ζ_N` to `ζ_N^p`), restricted to `E` by Chebotarev Layer 8.1 (`artinSymbol_map_restrictNormalHom`); the
+  clauses at the ramified primes go beyond it.
 - `E = ℚ(i)`, `p = 2`: `I_2 = G = {1, c}` and `Fr(2^i) = G`, so the mean of `χ_K` over `Fr(2^i)` is `0 = χ₋₄(2)`.
   Choosing one element of `G` as "the Frobenius" at the ramified prime `2` would give `χ₋₄(2) = ±1`.
 - `E = ℚ(ζ₅)`, `p = 5`: `I_5 = G` and `Fr(5^i) = G`, so `χ*(5) = 0` for every `χ ≠ 1` and `1*(5) = 1`; for `p ≠ 5`,
@@ -208,8 +223,9 @@ is trivial on that subgroup exactly when `ℚ(κ) ⊂ E` (Galois correspondence 
   conductor dividing `5`; `χ₋₄` is not one of them, as `ℚ(i) ⊄ ℚ(ζ₅)`.
 
 *KNOWN* (Kronecker–Weber with conductor: Washington, *Introduction to Cyclotomic Fields*, ch. 14; characters of
-abelian fields: ibid., ch. 3). *Needs:* 0.1; ClassFieldTheory Layer 13 (`kroneckerWeber`); ArithmeticGaloisRepresentations
-§2.3 (`dirichletCharacterToGalois`); Mathlib `IsCyclotomicExtension.Rat.galEquivZMod`,
+abelian fields: ibid., ch. 3). *Needs:* 0.1; ClassFieldTheory Layer 13 (`kroneckerWeber`, `abelianConductor_eq_lcm`);
+ArithmeticGaloisRepresentations §2.3 (`dirichletCharacterToGalois`); QuasiRiemannHypothesis §5.4;
+AnalyticNumberTheoryPartI §§0.30, 2.18a; Mathlib `IsCyclotomicExtension.Rat.galEquivZMod`,
 `IsCyclotomicExtension.Rat.galEquivZMod_stabilizer`, `IsCyclotomicExtension.Rat.inertiaDegIn_eq`,
 `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar`, `DirichletCharacter.primitiveCharacter`.
 
@@ -239,7 +255,8 @@ and `χ_K(Frob_p^i) = (−1)^i` for `p` inert. (b) For a ramified `p ≠ d`, `Fr
 `D_p = I_p⟨Fr(p)⟩`, which fixes `K`; `Fr(d^i) = g{1, σ_d}` meets each coset of the index-two subgroup `Φ` once,
 since `σ_d ∉ Φ`; a prime ramified in `K` is ramified in `E` and does not split in `K`, so it is `d`; an imaginary
 quadratic field ramified at one odd prime `d` only has discriminant `−d`, and one ramified at `2` only has
-discriminant `−4` or `−8`. (c) The inertia group of `E/F` at a place above `p` is `I_p ∩ {1, c}`; for `p ≠ d`,
+discriminant `−4` or `−8` (AnalyticNumberTheoryPartI §0.34a, for the odd real primitive character `χ_K`). (c) The
+inertia group of `E/F` at a place above `p` is `I_p ∩ {1, c}`; for `p ≠ d`,
 `I_p ⊂ Φ` does not contain `c`. (d) From (a) and the definition of `SplitRamification`. (e) `K ⊄ F`, so `E = FK` and
 `E ⊗_F F_v ≅ F_v ⊗_{ℚ_p} (K ⊗ ℚ_p)` for a place `v | p` of `F`, which is `F_v × F_v` when `p` splits in `K`. The
 decomposition group of `E/F` at a place above `p` is `D_p ∩ {1, c}`. Under `SplitRamification d` the primes dividing
@@ -257,7 +274,7 @@ decomposition group of `E/F` at a place above `p` is `D_p ∩ {1, c}`. Under `Sp
 - `E = K = ℚ(i)` satisfies `SplitRamification 2` (`I_2 = G = {1, c}`, `c ∉ Φ = {1}`), and `σ_2 = c`: `E/F` is
   ramified at `2`, as (c) says. It is inert-free up to `2` but not up to `3` (`3` is inert in `ℚ(i)`).
 
-*KNOWN* (elementary). *Needs:* 0.1, 0.2.
+*KNOWN* (elementary). *Needs:* 0.1, 0.2; AnalyticNumberTheoryPartI §0.34a.
 
 ### 0.4 Dyadic host fields and cyclic hosts
 
@@ -313,8 +330,9 @@ In `Suggested.lean`, `hostLevel` is `N_n(ψ, {q, d})`, `cyclicHostSubgroup` is `
 `ℚ_n` (IntegralIwasawaTheory §0.2: `ℚ_n ⊂ ℚ(μ_{2^{n+2}})`), `σ_a|_M = id` the field `M`, and `(a/q) = 1` the quadratic
 subfield of `ℚ(ζ_q)`, which is `ℚ(√−q)` as `q ≡ 3 (mod 4)`; the fixed field of an intersection of subgroups is the
 compositum. (b) Galois correspondence in `ℚ(ζ_N)` and 0.2 (ii). (c) Conductors of composita are least common multiples
-(Kronecker–Weber with conductor); `ℚ_n` has conductor `2^{n+2}` for `n ≥ 1`; the quotient by `H_n(M, Q)` embeds in the
-product of the images of the three kinds of conditions. (d) From (a). (e) `σ_{−1}` is central, induces complex
+(ClassFieldTheory Layer 13, `abelianConductor_eq_lcm`); `ℚ_n` has conductor `2^{n+2}` for `n ≥ 1`; the quotient by
+`H_n(M, Q)` embeds in the product of the images of the three kinds of conditions. (d) From (a). (e) `σ_{−1}` is
+central, induces complex
 conjugation, and is nontrivial on `ℚ(√−q)` and on an imaginary `M`. (f) From (b). (Cyclic hosts.) (ii) By (f) the
 characters of `G` are the Dirichlet characters modulo `N = lcm(2^{n+2}, f_ψ)qd` trivial on `H_n(ψ, {q, d})`; that
 subgroup is the intersection of the kernels of `𝔛_n`, `ψ`, `χ_{−q}` and `χ_{−d}`, so its annihilator is the group they
@@ -333,7 +351,8 @@ restriction to `Gal(ℚ_n/ℚ)` trivially. `𝔛_n` restricts injectively to `A`
 (c), and `|A| ≤ |𝔛_n|·o = 2^n·o`. (iv) From (ii): `c` and `σ_d` have order `2` and commute, `c`, `σ_d` and `cσ_d` lie
 outside `A`, so `⟨c, σ_d⟩ ≅ (ℤ/2)²` meets `A` trivially and `|A|·4 = |G|`; `Φ = A ⊔ cσ_dA`. (v) `2` splits since
 `−d ≡ 1 (mod 8)`; `q` and the odd `ℓ | f_ψ` by the hypotheses; the places of `F` above them split by 0.3(e); an odd
-prime `p ≠ d` unramified in `E` is inert in `K` iff `(−d/p) = −1`, and the odd ramified primes other than `d` split.
+prime `p ≠ d` unramified in `E` is inert in `K` iff `(−d/p) = −1` (Multiquadratic Layer 1), and the odd ramified primes
+other than `d` split.
 (vi) By 0.3(e) it suffices that `c ∉ D_d`. Let `φ ∈ Fr(d)`, so `D_d = {σ_d^iφ^k}`. On `ℚ(√−q)`, `σ_d` acts trivially and
 `φ` by `χ_{−q}(d) = (d/q) = −(−d/q) = −1`, as `c` does; so `σ_d^iφ^k = c` forces `k` odd. On the real field `ℚ_n`, `c` and
 `σ_d` act trivially and `φ` as the class of `d` in `(ℤ/2^{n+2})^×/{±1}`, cyclic of order `2^n` and generated by `5`;
@@ -376,7 +395,8 @@ so `φ^k` is nontrivial on `ℚ_n` for odd `k`. The other primes dividing `f_E` 
 *KNOWN* (Galois theory of cyclotomic fields; quadratic reciprocity; the dyadic host fields `E_n(M, Q)` for a general
 `(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof]).
 *Needs:* 0.1–0.3; IntegralIwasawaTheory §0.2;
-ClassFieldTheory Layer 13 (`kroneckerWeber`, with conductor); Mathlib `IsCyclotomicExtension`,
+ClassFieldTheory Layer 13 (`kroneckerWeber`, `isLeast_absNorm_abelianConductor_finitePart`, `abelianConductor_eq_lcm`);
+Multiquadratic Layer 1; Mathlib `IsCyclotomicExtension`,
 `IntermediateField.fixedField`, `DirichletCharacter`, `NumberField.IsCMField`, `jacobiSym.quadratic_reciprocity`,
 `jacobiSym.at_two`, `jacobiSym.at_neg_one`, `IsCyclotomicExtension.Rat.mem_intermediateFieldEquivSubgroupChar_iff_conductor_dvd`.
 
@@ -445,7 +465,8 @@ In `Suggested.lean` the thick places of `u₀` are `thickPlaces`, with `σ_d` re
 
 *Route.* From 0.1(ii) (`c ∉ Φ`, `[G : Φ] = 2`) and 0.4(ii), (iv): under `(χ_{−q}, χ_{−d}) : G/A ≅ {±1}²` the classes of
 `c`, `σ_d` and `cσ_d` are `(−1, −1)`, `(1, −1)` and `(−1, 1)`, and for a prime `p` inert in `K`,
-`χ_{−d}(Frob_p) = −1` and `χ_{−q}(Frob_p) = 1` iff `p` splits in `ℚ(√−q)` (for odd `p ≠ q`, `χ_{−q}(p) = (p/q)`);
+`χ_{−d}(Frob_p) = −1` and `χ_{−q}(Frob_p) = 1` iff `p` splits in `ℚ(√−q)` (for odd `p ≠ q`, `χ_{−q}(p) = (p/q)`; the
+Frobenius of an odd `p ∤ qd` in `ℚ(√−q, √−d)` is `((−q/p), (−d/p))`, Multiquadratic Layer 1);
 odd powers stay in the same class modulo `A`. (v) In the decomposition `G = A × ⟨c⟩ × ⟨σ_d⟩` of 0.4 (iv), `Φ` is the set
 of `g` with `ε(g) ∈ {1, cσ_d}`, so `pl(g)_A = g_A` and `ε(pl(g))` is the element of `ε(g)⟨c⟩` lying in `{1, cσ_d}`; the
 thick places are the `g` with `ε(g) = cσ_d` and `g_A ∈ u₀𝒯`, so the thick letters are those with `ε(g) ∈ {cσ_d, σ_d}`
@@ -461,7 +482,7 @@ and `g_A ∈ u₀𝒯`. `φ ∉ Φ` means `ε(φ) ∈ {c, σ_d}`, and `(yφ^i)_A
   For `ε(φ) = c` and `h = s′s^{−1}` with `s ≠ s′` in `𝒯`, the letters `y = cσ_du₀s` and `yφ` are both thick
   (`pl(yφ) = cσ_du₀s′`), so consecutive thick letters occur at primes inert in `K` and in `ℚ(√−q)`.
 
-*KNOWN* (definitions). *Needs:* 0.1, 0.3, 0.4.
+*KNOWN* (definitions). *Needs:* 0.1, 0.3, 0.4; Multiquadratic Layer 1.
 
 ### 0.7 Tops with a prescribed coset law
 
@@ -632,7 +653,8 @@ Each condition has a use in Layer 0: `q ≡ d ≡ 3 (mod 4)` makes `χ_{−q}`, 
 the ramified prime `q` in `K` (0.4); the odd primes `p ≤ B` dividing `d + 1` split the odd primes of `f_ψ` in `K` (iv) and
 leave no prime `≤ B` inert in `K` (iii).
 
-*Route.* `q | d + 1` gives `−d ≡ 1 (mod q)`, and likewise modulo each odd `p ≤ B`; `d ≡ 7 (mod 8)` gives
+*Route.* `q | d + 1` gives `−d ≡ 1 (mod q)`, and likewise modulo each odd `p ≤ B`, so these primes split in `ℚ(√−d)`
+(Multiquadratic Layer 1); `d ≡ 7 (mod 8)` gives
 `−d ≡ 1 (mod 8)`, so `2` splits. (ii) By Bertrand's postulate there is an odd prime `p ∈ (B/2, B]`, and `8p | d + 1`
 since `8 | d + 1`; so `d + 1 ≥ 8p > 4B`. Also `3 | d + 1` (as `3 ≤ B`), so `24 | d + 1` and `d ≥ 23`.
 (iii) By (ii) every prime `p ≤ B` is `2` or odd and different from `d`, and (i) splits it. (iv) `q ≡ d ≡ 3 (mod 4)`;
@@ -665,7 +687,7 @@ a `B`-admissible pair has `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` by definition
   `(3, 71)` is admissible only for `B < 5`. The pair `(11, 7)` of 0.4's Checks is admissible for no `B` (`11 ∤ 8`),
   and its host is not inert-free up to `3`.
 
-*KNOWN* (Legendre symbols; Bertrand's postulate). *Needs:* 0.3, 0.4; Mathlib `legendreSym`,
+*KNOWN* (Legendre symbols; Bertrand's postulate). *Needs:* 0.3, 0.4; Multiquadratic Layer 1; Mathlib `legendreSym`,
 `Nat.exists_prime_lt_and_le_two_mul`.
 
 ### Examples
@@ -682,7 +704,8 @@ a `B`-admissible pair has `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` by definition
 ### Dependencies
 
 ClassFieldTheory Layers 7, 13 and 14 (0.1, 0.2, 0.4); ArithmeticGaloisRepresentations §2.3 (0.2);
-CyclotomicClassGroupsAndStickelberger §3.4 (0.2); IntegralIwasawaTheory §0.2 (0.4);
+QuasiRiemannHypothesis §5.4 (0.2); AnalyticNumberTheoryPartI §§0.30, 2.18a (0.2); AnalyticNumberTheoryPartI §0.34a (0.3);
+IntegralIwasawaTheory §0.2 (0.4); Multiquadratic Layer 1 (0.4, 0.6, 0.9);
 RiemannHypothesisStatementsAndConsequences §10.3 (0.5); Mathlib's Galois theory of cyclotomic fields, Dirichlet
 characters, Jacobi symbols, Bertrand's postulate, probability and Behrend's construction.
 
@@ -741,6 +764,8 @@ then `(a/n − w₀)₊ = w₀(y/n − 1)₊` and the definitions of `G_1`, `G_�
   theorem for `ζ` and for `L(s, χ_K)`; changing the constant `1 + γ` in `𝔐` would leave a difference of exact order `a`,
   and changing the sign of `(L′/L)(1, χ_K)` a difference `2a·|(L′/L)(1, χ_K)|`, of exact order `a` whenever
   `L′(1, χ_K) ≠ 0`, for instance for `K = ℚ(i)`, where `(L′/L)(1, χ₋₄) = γ + 2 log 2 + 3 log π − 4 log Γ(1/4) ≈ 0.2456`.
+- At an unramified prime power `n`, `Λ(n)·𝟙[Fr(n) = {h}]` is the coefficient `Λ_{{h}}(n)` of Chebotarev Layer 11.1 for
+  `E/ℚ`; Chebotarev has no term at the ramified prime powers, which `ℛ` keeps through the inertia means of 0.2 (iii).
 
 *NEW* (definition; [FormalProof]). *Needs:* 0.2, 0.3, 0.6; RiemannHypothesisStatementsAndConsequences §8.4a.
 
@@ -806,7 +831,8 @@ satisfies the prime number theorem with saving `exp(−c₁(log X)^{1−α})` be
 `log f_E ≤ (log X)^α`.
 
 *Route.* (a) By 0.4(ii) `Ĝ = ⟨χ_{−q}, χ_{−d}⟩ × 𝔛_n⟨ψ⟩`, so `χ` is real iff its component in `𝔛_n⟨ψ⟩` is; the `2`-part
-of the conductor of a real character divides `8`, and the odd part of the conductor of an element of `𝔛_n⟨ψ⟩` divides
+of the conductor of a real character divides `8` (AnalyticNumberTheoryPartI §0.34a), and the odd part of the conductor
+of an element of `𝔛_n⟨ψ⟩` divides
 `f_ψ`; a product of primitive characters of coprime conductors is primitive (`q, d ∤ 2f_ψ`). For `(i, j) = (0, 0)`,
 `c_ex(ψ)` applies; for the others, the box hypothesis. (b) RieszSumsOverPrimesAndExceptionalZeros §1.4i (b) for the field `E` with
 the gap `c_ex` of (a); the bound `exp(−c₁(log y)^{1−α})` decreases in `y`.
@@ -817,9 +843,13 @@ the gap `c_ex` of (a); the bound `exp(−c₁(log y)^{1−α})` decreases in `y`
 - On the host of 0.4 for `ψ = 1`, `n = 2`, `(q, d) = (3, 71)`, the real characters of `G` are the eight
   `ρ·(·/3)^i(·/71)^j` with `ρ ∈ {1, (2/·)}`. The twists of `ρ = 1` alone would leave out `(2/·)(·/3)`, `(2/·)(·/71)`
   and `(2/·)(·/3)(·/71)`.
+- AnalyticNumberTheoryPartI §0.34 (`(1 − β) log q ≥ c_LS` for every real zero `β` of every primitive real `L(s, χ)` of
+  conductor `q ≥ 3`) gives the conclusion of (b) for every finite abelian `E/ℚ` without the box hypothesis, with another
+  absolute constant in place of `c₁` and `y₀` depending on `α` alone; the form with the box hypothesis is the one
+  [FormalProof] uses.
 
 *KNOWN* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20). *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
-§1.4i; ZerosOfLFunctions §6.3 and RiemannHypothesisStatementsAndConsequences §8.4a.
+§1.4i; ZerosOfLFunctions §6.3 and RiemannHypothesisStatementsAndConsequences §8.4a; AnalyticNumberTheoryPartI §0.34a.
 
 ### 1.5 Averaging characters over a subgroup
 
@@ -992,6 +1022,7 @@ inequality holds once `x^ε ≥ 1 + 4o`. The threshold of 1.7, `x^{3ε/8} ≥ 26
 ### Dependencies
 
 Layer 0; RiemannHypothesisStatementsAndConsequences §§8.4a, 8.8a (1.1, 1.2, 1.4); ZerosOfLFunctions §6.3 (1.4);
+AnalyticNumberTheoryPartI §0.34a (1.4);
 RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i (1.4, 1.7, 1.9); QuadraticTwistSelectionOverPrimes §§2.7c–2.7d
 (the remark of 1.9); Mathlib's `sum_hom_units` (1.5).
 
@@ -1030,10 +1061,14 @@ family from the Frobenius-restricted inequality (1.9).
 
 Not owned here. The theorem of Kronecker and Weber with conductor, the inertia statements of local class field theory
 and Hilbert reciprocity are ClassFieldTheory Layers 7, 13 and 14; the primitive character attached to a character of
-`G_ℚ` with open kernel is ArithmeticGaloisRepresentations §2.3; the group of primitive characters of an abelian field is
-the group `X(E)` of CyclotomicClassGroupsAndStickelberger §3.4; the cyclotomic `ℤ₂`-extension is IntegralIwasawaTheory
-§0.2. The bundled primitive Dirichlet character, the Riesz remainder of a primitive character and the Riesz-sum identity
-for a surjection of a ray class group are RiemannHypothesisStatementsAndConsequences §§10.3, 8.4a and 8.8a; exceptional
+`G_ℚ` with open kernel is ArithmeticGaloisRepresentations §2.3; the group `X(E)` of primitive characters of an abelian
+field, with the injectivity and multiplicativity of `χ ↦ χ*` and the independence of its image from the level, is
+QuasiRiemannHypothesis §5.4; the one-dimensional comparison of Artin and Hecke characters is
+AnalyticNumberTheoryPartI §2.18a, with the dictionary AnalyticNumberTheoryPartI §0.30, and the classification of real
+primitive characters is AnalyticNumberTheoryPartI §0.34a; the splitting law in multiquadratic fields is Multiquadratic Layer 1; the cyclotomic
+`ℤ₂`-extension is IntegralIwasawaTheory §0.2. The bundled primitive Dirichlet character, the Riesz remainder of a
+primitive character and the Riesz-sum identity for a surjection of a ray class group are
+RiemannHypothesisStatementsAndConsequences §§10.3, 8.4a and 8.8a; exceptional
 zeros are ZerosOfLFunctions §6.3; the Lipschitz and size bounds of Riesz remainders and the prime number theorem with
 the exceptional term are RieszSumsOverPrimesAndExceptionalZeros §§1.4h and 1.4i; the twist selection that produces
 auxiliary pairs with zero-free boxes is QuadraticTwistSelectionOverPrimes §§2.7c–2.7d. The Galois theory of
@@ -1047,16 +1082,38 @@ roadmaps named under Downstream consumers.
 
 - Layer 7 (`mem_inertiaSubgroup_of_mk_eq_artinMap`, `ker_artinMap_eq_iInf`: units are norms from unramified
   extensions) and Layer 14 (`hilbertProductFormula`, `TauCeti.hilbertSymbol_productFormula`). Used in 0.1.
-- Layer 13 (`kroneckerWeber`, with conductor). Used in 0.2 and 0.4.
+- Layer 13 (`kroneckerWeber`; the conductor `abelianConductor`, whose finite part is the least cyclotomic level,
+  `isLeast_absNorm_abelianConductor_finitePart`; `abelianConductor_eq_lcm`: the conductor of an abelian extension is the
+  lcm of the conductors of its characters, so the conductor of a compositum is the lcm of the conductors). Used in the
+  Conventions, 0.2 and 0.4.
 
 ### From TauCetiRoadmap.ArithmeticGaloisRepresentations
 
 - §2.3 (`dirichletCharacterToGalois`): the primitive character attached to a character of `G_ℚ` with open kernel.
   Used in 0.2.
 
-### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
+### From TauCetiRoadmap.QuasiRiemannHypothesis
 
-- §3.4: the group `X(E)` of primitive characters of an abelian field. Used in 0.2 (v), as notation.
+- §5.4: for an abelian field `K`, the character group `X(K)` of the primitive characters inducing the characters modulo
+  `f_K` trivial on the subgroup fixing `K`; `χ′ ↦ χ′*` is injective, identifies `X(K)` with the character group of
+  `Gal(K/ℚ)` and is multiplicative for the product "primitive character inducing `ψψ′`"; the characters modulo any level
+  `f` with `K ⊆ ℚ(ζ_f)` trivial on the subgroup fixing `K` have the same primitive characters. Used in 0.2 (i), (iv), (v).
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §0.30: the narrow ray class group of `ℚ` of modulus `(N)·∞` is `(ℤ/N)^×` through positive generators. Used in 0.2.
+- §2.18a, one-dimensional comparison: for a finite-order Galois character `ψ` with primitive Hecke character `ψ̃`, the
+  local factors agree at every place, both being `1` where `ψ` is ramified, and the conductor of `ψ̃` is the Artin
+  conductor of `ψ`. Used in 0.2 (iii).
+- §0.34a (`quadratic_character_eq_fundamentalDiscriminantChar`): a primitive nonprincipal real Dirichlet character of
+  conductor `q` is the Kronecker character of `χ(−1)q`; the only primitive real character of an odd prime-power conductor
+  is the Legendre character of conductor `p`, and those of `2`-power conductor are `χ₋₄`, `χ₈` and `χ₋₈`. Used in 0.3 and
+  1.4.
+
+### From TauCetiRoadmap.Multiquadratic
+
+- Layer 1, the prime-splitting law: for squarefree `d₁, …, d_n` and an odd prime `p ∤ d₁⋯d_n`, the Frobenius at `p` in
+  `ℚ(√d₁, …, √d_n)` is `((d₁/p), …, (d_n/p))` under `Gal ≅ 𝔽₂^n`. Used in 0.4 (v), 0.6 and 0.9 (i).
 
 ### From TauCetiRoadmap.IntegralIwasawaTheory
 
