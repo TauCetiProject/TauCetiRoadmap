@@ -17,10 +17,12 @@ Stated here, against the pinned Mathlib and Tau Ceti:
 * the truncated Magnus algebra `R⟨X⟩ / 𝒥ⁿ`, the finite level of the profinite Magnus algebra
   of README 0.1;
 * the class-two Campbell–Hausdorff law `x ∘ y = x + y + ½⁅x, y⁆` and its associativity on a
-  Lie algebra of nilpotency class two (README 0.3);
+  Lie algebra of nilpotency class two (README 0.3); the identification `F/C₃(F) ≅ G(L₂)` there
+  goes through `x_i ↦ exp(X_i)`, not `1 + X_i`;
 * `cd_p Γ_K(p) ≤ 1` for a field of characteristic `p` (README 1.1), from which Tau Ceti's pointed
   Serre theorem gives that `Γ_K(p)` is free pro-`p` on a basis converging to `1`;
-* the ring and module of Deligne's truncated triple `Tr_e(F)` (README 10.1).
+* the ring and module of Deligne's truncated triple `Tr_e(F)` (README 10.1), for the valuation
+  ring of any discretely valued field, Deligne's generality.
 
 Not stated here:
 
@@ -110,20 +112,24 @@ end Witt
 
 section Deligne
 
-open ValuativeRel IsLocalRing
+open IsLocalRing
 
-variable (F : Type*) [Field F] [ValuativeRel F] [TopologicalSpace F]
-  [IsNonarchimedeanLocalField F]
+/-! Deligne's generality: `𝒪` is the valuation ring of a complete discretely valued field with
+perfect residue field [Deligne 1984, 1.2]; completeness and perfectness are not needed to define
+the triple. -/
+
+variable (𝒪 : Type*) [CommRing 𝒪] [IsDomain 𝒪] [IsDiscreteValuationRing 𝒪]
 
 /-- The ring of **Deligne's triple** `Tr_e(F) = (𝒪_F/𝔪^e, 𝔪/𝔪^{e+1}, ε)`: the truncated
-valuation ring `𝒪_F/𝔪^e`, of length `e` [Deligne 1984, 1.2]. -/
-abbrev deligneRing (e : ℕ) : Type _ := 𝒪[F] ⧸ 𝓂[F] ^ e
+valuation ring `𝒪/𝔪^e`, of length `e` [Deligne 1984, 1.2]. -/
+abbrev deligneRing (e : ℕ) : Type _ := 𝒪 ⧸ maximalIdeal 𝒪 ^ e
 
 /-- The module of **Deligne's triple** `Tr_e(F)`: `𝔪/𝔪^{e+1}`, free of rank one over
-`deligneRing F e`, with `ε : 𝔪/𝔪^{e+1} → 𝔪/𝔪^e` the projection onto the maximal ideal of
-`deligneRing F e` [Deligne 1984, 1.2]. -/
+`deligneRing 𝒪 e`, with `ε : 𝔪/𝔪^{e+1} → 𝔪/𝔪^e` the projection onto the maximal ideal of
+`deligneRing 𝒪 e` [Deligne 1984, 1.2]. -/
 abbrev deligneModule (e : ℕ) : Type _ :=
-  ↥𝓂[F] ⧸ Submodule.comap (Submodule.subtype 𝓂[F]) (𝓂[F] ^ (e + 1) : Ideal 𝒪[F])
+  ↥(maximalIdeal 𝒪) ⧸
+    Submodule.comap (Submodule.subtype (maximalIdeal 𝒪)) (maximalIdeal 𝒪 ^ (e + 1) : Ideal 𝒪)
 
 end Deligne
 
