@@ -536,7 +536,9 @@ bounded in terms of the previous levels (the ramification index grows to at most
 levels beyond a bound depending only on the data makes `Σ_q D/φ(p^{M_q}) ≤ ε` and every `v(u_q − 1) ≤ ε`; `M₁` is the
 largest level used. The polynomials at a given `M` may have degree up to `p^M`: only the low coefficient and the count of
 slopes enter. The powers: `ζ^{p^{e_q}}` has exact order `p^{k−e_q} = p^{M_q}`, and `v(ζ^{p^{e_q}} − 1) = 1/φ(p^{M_q}) = p^{e_q}/φ(p^k)`.
-(2) is a statement of [FormalProof]; for the polynomials of the first kind alone it follows from (1) in this form. The
+(2) is a statement of [FormalProof] (`GlobalTheory.T.exists_level_order_exponents_small_valuation_determinants`, stated
+with as many first-half as second-half variables, to which the general case reduces by adding variables that occur in no
+polynomial); for the polynomials of the first kind alone it follows from (1) in this form. The
 remaining steps of the route, for the second kind, are not given here. *Needs:* NewtonPolygons §§2.1–2.3 (coefficient polygons, supporting values, active indices); Mathlib
 `Polynomial`, `IsPrimitiveRoot`.
 
@@ -733,7 +735,8 @@ proofs are not given here):
 de Rham over `K_s`, the class of `f ⊗ 1` in `H¹(G_{K_s}, Y ⊗_{ℤ_p} A_inf/ξ^{e+1}A_inf)` is torsion: `(A_inf/ξ^{e+1})[1/p] = B_dR^+/Fil^{e+1}`, and `1` lifts to `(Ỹ ⊗ B_dR^+)^{G_{K_s}}` because `D_dR` is exact on de Rham representations and strict for the
 filtrations. (b) *The torsion is killed by `p^{c′}`.* Filter by the pieces `ξ^iA_inf/ξ^{i+1}A_inf ≅ 𝒪_{ℂ_p}(i)`, `0 ≤ i ≤ e`. The
 sub-statement for one piece is
-   (G) for `0 ≤ i ≤ e`, the torsion of `H¹(G_{K_m}, Y ⊗_{ℤ_p} ξ^iA_inf/ξ^{i+1}A_inf)` is killed by `p^{2 + max(1, r_i)}`.
+   (G) for `0 ≤ i ≤ e`, the torsion of `H¹(G_{K_m}, Y ⊗_{ℤ_p} ξ^iA_inf/ξ^{i+1}A_inf)` is killed by `p^{2 + max(1, r_i)}`
+   ([FormalProof] `GlobalTheory.Cyc.GradedTorsion.torsion_killed`).
 Its route is the frame argument written out in 4.9d, with `χ^i` in place of `χ^0`: after decompletion along the cyclotomic tower (with the lattice of
 `Y` at level `s` of 4.10e(0)), the piece becomes a free module `Ô_{K_∞}^{r′}` on which a generator `g` of `Gal(K₀(μ_{p^∞})/K_m)` acts by
 `χ^i(g)ϱ(g)·g`, `ϱ` a matrix representation over `𝒪_{K_m}` with a Hodge–Tate basis (the representation is de Rham) whose weights
@@ -751,10 +754,10 @@ obstruction lies in `H²(K_s, ℤ_p(−e))`, dual to `H⁰(K_s, ℚ_p/ℤ_p(e + 
 `χ_cyc(G_{K_s}) = 1 + p^sℤ_p`). (e) *The dual exponential.* Let `exp^* : H¹(K_s, ℚ_p(−e)) → K_s` be the dual exponential (the image
 of a class in `H¹(G_{K_s}, (B_dR^+/Fil^{e+1})(−e)) = K_s·t^e·log χ_cyc`). The two remaining sub-statements are:
    (D1) a class of `H¹(K_s, ℚ_p(−e))` represented, modulo `A_inf + Fil^{e+1}B_dR`, by a twisted coboundary of `B_dR^+` as in (c) has
-   `v_p(exp^*) ≥ −(e(s + 1) + v_p(e!) + 1 + s + e/(p − 1))`;
+   `v_p(exp^*) ≥ −(e(s + 1) + v_p(e!) + 1 + s + e/(p − 1))` ([FormalProof] `GlobalTheory.T.norm_dualExponential_le_of_ainf_valued`);
    (D2) the dual exponentials of the classes with values in `ℤ_p(−e)` contain `p^β𝒪_{K_s}`, `β := s − 1 − e − v_p((e − 1)!)` for `e > 0`
    and `β := −1` for `e = 0`: an inclusion of lattices, with `β` of either sign (for `e = s = 1` it is `−1`), not a loss of
-   annihilation.
+   annihilation ([FormalProof] `GlobalTheory.T.dualExponential_image_contains_lattice`).
 Put `a := (e + 2)s + v_p(e) + ⌊e/(p − 1)⌋ + 1`. Then `a ≥ β + (e(s + 1) + v_p(e!) + 1 + s + e/(p − 1))`: for `e > 0` the right side is
 `(e + 2)s + v_p(e) + e/(p − 1)`, for `e = 0` it is `s ≤ 2s + 1 = a`. So by (D1) applied to `p^{c′}z` and (D2) there is a cocycle `z₁`
 with values in `ℤ_p(−e)` and `exp^*(p^{a+c′}z − z₁) = 0`. (f) *Finiteness.* A class of `H¹(K_s, ℚ_p(−e))` with `exp^* = 0` lies in
@@ -762,7 +765,8 @@ with values in `ℤ_p(−e)` and `exp^*(p^{a+c′}z − z₁) = 0`. (f) *Finiten
 the restriction of `[ϕ∘f]` to `G_{K_s}` is finite. (g) *Descent* to `K`: corestriction preserves the finite classes and
 `cor∘res = [K_s : K]`, the cost `g_K`. The exponents add up to `c`. The torsion clause: the divisible part of `H¹(K, V_e/L_e)` has
 corank at most `[K:ℚ_p] + 1` (local Euler characteristic); the description of the finite classes is SelmerIwasawaCohomology §4.9. Not given here:
-(G), (D1), (D2), and in (b) the rational lifting of the invariants of the quotients.
+(G), (D1), (D2), and in (b) the rational lifting of the invariants of the quotients ([FormalProof]
+`GlobalTheory.T.xiQuotient_invariants_lift_rationally`).
 
 *Route of (2).* Restrict to `G_{K′}`: `Ỹ[1/p]` is crystalline over `K′`, `K′₀ ⊆ K′ ⊆ K′₀(μ_{p^{s_N}}) = K′` (`s_N ≥ 2` if `p = 2`, as
 `4 | N`), `E` contains the images of `K′`, and the set of weights of `Y` at the embeddings of `K′` is `U` (the weights at an
@@ -833,7 +837,9 @@ generator is linear, annihilated by `∏_u(ϱ(g) − χ(g)^{−u})` over the dis
 `y` (pure algebra). (4) For `v ∈ V` with `(σ − 1)v ∈ T` for all `σ ∈ G_{K₀(μ_{p^m})}`: `σ ↦ p(σ − 1)v` is such a torsion class for
 `i = 0`; so `p^{2+N₀}v` differs from an integral vector by an invariant of `ℂ_p^{r′}` for weights `≠ 0`, which is zero (Tate:
 `H⁰(G_{K₀(μ_{p^m})}, ℂ_p(j)) = 0` for `j ≠ 0`); and `2 + N₀ ≤ c`. Not given here: the frame of (1) and (2) (the position of `N_s(T)` in
-`A_inf`, the decompletion, the Hodge–Tate basis) and Tate's theorems, which are PadicPeriodRings §§1.3–1.4. *Needs:* SelmerIwasawaCohomology §4.9;
+`A_inf`, the decompletion, the Hodge–Tate basis; in [FormalProof] `GlobalTheory.T.local_comparison_of_cmpOf`,
+`GlobalTheory.T.exists_decompletion_frame_of_lattice` and `GlobalTheory.T.exists_hodgeTateBasis_of_crystalline_over_Ks`) and
+Tate's theorems, which are PadicPeriodRings §§1.3–1.4. *Needs:* SelmerIwasawaCohomology §4.9;
 4.10e(0); PadicPeriodRings §§1.3–1.5.
 
 **Checks.**
@@ -961,12 +967,15 @@ fixing `e′` is finite free and spans `D(T′_ξ)`; its pole order is at most `
 If the class is zero, `(y, z) = d⁰m` with `m ∈ D(T)^{Γ_K^{tor}}`, and `N(T) ⊕ O_E[[π]](e′ − m)` is a second module with these
 properties in the same `D(T′_ξ)`; by the uniqueness in WachLatticesOverTheCyclotomicTower §6.4(8) the two coincide, so `m ∈ N(T)`. *Poles at several levels.* Let
 `b ∈ W(C^♭) ⊗ T` with `(φ − 1)b = y` (`φ − 1` is onto there); the class of `(y, z)` is the cocycle `g ↦ z_g − (g − 1)b`, `z_g` the
-element given by Herr's formula `z_g = ((g − 1)/(γ − 1))·z`, so that `(γ − 1)z_g = (g − 1)z`. Because `Λy ∈ N(T)`, the denominators
-of `b` against `T ⊗ A_inf` are products of the images of the `φ^j(π₀ + p)`, which become units in `B_cris`. The equation
+element given by Herr's formula `z_g = ((g − 1)/(γ − 1))·z`, so that `(γ − 1)z_g = (g − 1)z`. Because `Λy ∈ N(T)`, for every `m`
+at least every `j` with `φ^j(π₀ + p)` dividing `Λ`, a power of the image of `∏_{j≤m}φ^j(π)` carries `b` into `T ⊗ A_inf`, and
+that image is a unit in `B_cris`. The equation
 `(γ − 1)w = z` has a solution `w` whose coordinates in a basis of `N(T)` are series convergent on the open unit disc with `t`
 inverted, with poles only at zeros of `t`; evaluated in `V ⊗ B_cris` it gives `z_g = (g − 1)w`. So the cocycle is
 `g ↦ (g − 1)(w − b)`, a coboundary in `V ⊗ B_cris`, and the class is finite (SelmerIwasawaCohomology §4.9). The bound on the denominators of `b` and
-the existence and convergence of `w` are statements of [FormalProof] whose proofs are not given here; the case `Λ = Q^M` is
+the existence and convergence of `w` are statements of [FormalProof] (`GlobalTheory.NL.FrobDenom.main` and
+`GlobalTheory.NL.exists_cocycle_solution_conv`, applied in its proof of the clause on poles,
+`GlobalTheory.T.herrCocycle_poles_frobeniusQ_crystalline`) whose proofs are not given here; the case `Λ = Q^M` is
 the converse above. (3) Let `ξ ∈ H¹_f(K, T₂)`. (i)
 `T_ξ` is crystalline with the weights of `T₂` and `0`, inside the intervals of `T₁` (this is where `0 ∈ [−M_i, h_i]` is used).
 WachLatticesOverTheCyclotomicTower §6.10(2) for `T_ξ ↠ O` gives `x ∈ N(T_ξ)^{Γ_K^{tor}}` over `p^{cost(0,H)}e`, and by (2) its Herr cocycle `(y, z)` represents
@@ -1172,7 +1181,7 @@ element of `W_c(T₁)` is a finite class (the clause on poles at several levels 
 `γ`-part lies in `X^{M′}N ⊆ π₀N` and whose first component lies in `Λ_c^{−1}N`, `Λ_c` a product of powers of the `p_s = φ^s(π₀ + p)`;
 `Λ_c` contains `p_1 = φ(q)` as soon as an arc has two letters, and `p_1^{−1}` lies in no `q^{−M}O[[X]]`, so the form with `Q^{−M}N`
 alone does not suffice). Total `e = (rr + 2σ) + (2σ + 2a₀ + rr + 2κ)`; the bound `800` is the estimate of [FormalProof]
-for these quantities under the size hypotheses on the windows. "At most two thick letters per arc" is where the case
+for these quantities under the size hypotheses on the windows (`Formalism.MainNotions.WachCoordinates.thmEBound_holds`). "At most two thick letters per arc" is where the case
 analysis of (f) stops (a word with one down level and several up levels goes through by the first half of (g)); it is used
 again only to bound the number of windows in `κ`. Every step has its proof here except the bookkeeping of (d3), which is
 described and not written out. The argument uses `p ≥ 3` only ((a) needs `p` odd, (b) uses `(p − 1)² ≥ p`); see the Checks.
@@ -1193,22 +1202,27 @@ the role of thin ones with `G = w + S`; every arc is a non-thick letter followed
 the route of (1) does not apply; and for a non-thick down letter of size `b′` before a thick up letter of size `b₀ ≥ pb′` the
 single-constant splitting of (f) fails (its inequality is necessary there). A finite class decomposes over the cuts as in
 step (c) of the route of (1), with `σ, rr ≤ 3Sg` (the regularised cocycles and the decomposition in this setting are
-statements of [FormalProof], of the same content as steps (b), (c) of the route of (1)). (c) *Exceptional classes* (the
+statements of [FormalProof], `RelayCore` and `SplitCore` of `Formalism.MainNotions.ArcLiftingSetup`, of the same content as
+steps (b), (c) of the route of (1)). (c) *Exceptional classes* (the
 assembly is proved; its two inputs are statements): at each cut there is a basis of the lattice of the previous cut and a
 set of at most `m·ro(c)` basis vectors (`ro(c)` the number of thick letters of the arc; this uses that `T₂` has at most `m`
 weights in `[−η, η]` at each letter) outside which the constants lie in `Fil^{b_s}` at every up level, and which span
-`Fil^{−η}` at every down level (*universal part*, a statement); after a killing polynomial the coordinates outside this set are
+`Fil^{−η}` at every down level (*universal part*, a statement: `Formalism.MainNotions.ArcLiftingSetup.UnivCore`, which
+also bounds the number of exceptional classes below); after a killing polynomial the coordinates outside this set are
 lifted by the one-coordinate lifting (d), and the invariants supported on it give at most `m·ro(c)(ℓ(c) + 1)` finite classes,
 the *exceptional classes*. So `p^{e₂}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁)) + 𝒵` with `e₂` a constant times `Sg` (plus `η[res]` in (i)) and
 `𝒵` spanned by at most `4nm` (resp. `(R + 1)nm`) classes, each lifted by 4.10c(3) at the cost `e°` (or `e`); the colength is at
-most `((n + 1)·rk T₂·e₂ + #𝒵·e°)·length_O(O/p)`. (d) *One-coordinate lifting* (a statement of [FormalProof]): for a basis vector
+most `((n + 1)·rk T₂·e₂ + #𝒵·e°)·length_O(O/p)`. (d) *One-coordinate lifting* (a statement of [FormalProof]:
+`Formalism.MainNotions.N.FrobeniusPowerSeries.arc_proposition_alternative` in (i), `arc_single_type_bound` of the same
+namespace in (ii)): for a basis vector
 outside the exceptional set and a coefficient constant modulo `p_s^{b_s+S}` at the down levels, the invariant of `T₂` it defines
 is, after `p^{e₁}` and modulo `XN_c(T₂)`, the image of an invariant of `T₁`, with `e₁ ≤ 40·Sg + η·[res]` in (i) and
 `e₁ ≤ 6·Sg + 1` in (ii). Its proof splits into seven cases by the length and the directions of the arc. One is written out
 here, the one producing the resonance term: with the letter `c` up of size `b₀` and `c − 1` down of size `b′`, the coefficient
 has denominator `q^{b₀}` and is constant modulo `p_1^{b′+S}`, and making it integral there costs `p^d`,
 `d ≤ max(0, b₀/p − (b′ + S)) + 2 + log_pb₀`; so `η·[res]` is the cost of a near-coincidence of the degrees `b₀` and `p(b′ + S)`.
-A second case is known by its steps (their proofs are statements of [FormalProof]): the arc of length two with `c` up and
+A second case is known by its steps (their proofs are statements of [FormalProof]; the case is
+`arc_length_one_or_two_case_b` of the same namespace): the arc of length two with `c` up and
 thick, of size `b₀`, at level `0` and `c − 1` down and not thick, of size `b′`, at level `1`, when `p(b′ + S + η) + η < b₀`. There
 `p_1^{b′+S}/p_0^{b₀}` times the frame vector of the constant in `Fil^{b₀}` at level `0` is an invariant of `T₂`; after `p^{rr}` it lifts
 to `T₁`; in a horizontal frame of `T₁`, multiplied by `p_1^ηp_0^{b₀+S}`, its coefficient of `p_0^{S+p(b′+S+η)}` (in the coordinate
@@ -1216,10 +1230,14 @@ in which `p_0` is the variable) is a constant vector of `T₁`; only terms with 
 `T₁` has no weight in `(η, b₀)` there, so the vector lies in `Fil^{b₀}`, and its image in `T₂` is `p^{2σ+rr}` times a unit times
 the frame vector. So the frame direction lifts inside `Fil^{b₀}(T₁)` at the cost `p^{3σ+rr}`, by extracting a Taylor coefficient
 instead of using the Gauss valuation of (g) of the route of (1). Not proved here: the regularisation and decomposition in
-this setting, the coordinates along an arc, the universal part, and the other five cases of (d). Sources: [FormalProof].
+this setting, the coordinates along an arc (`Formalism.MainNotions.ArcLiftingSetup.ArcCore`), the universal part, and the
+other five cases of (d) (the cases into which the proof of `arc_proposition_alternative` splits). Sources:
+[FormalProof].
 
 *Route of (4)* (a separate development, not a corollary of (1) or of (3); the assembly, the count and the arithmetic of the
-exponent are proved here, the three inputs (a)–(c) are statements of [FormalProof] whose proofs are not given). Notation
+exponent are proved here, the three inputs (a)–(c) are statements of [FormalProof] whose proofs are not given:
+`CocyclesToWachVectorsBound`, `WachVectorSubmoduleChainBound`, obtained from `WachVectorLiftingBound` and `LatticeBoundSix`,
+and `RhoLift`, all of `Formalism.MainNotions.RamifiedCoefficientChains.S9`). Notation
 of the route of (1): `X = π₀`, `q = X + p`, `N_i`, `Γ_K^{tor}`. Put `δ := 1 + log_p(2H)`, `a := ⌈a(p, H)⌉`,
 `M″ := ⌊H₀/(p − 1)⌋ + 1`, `σ₁ := (M″ + η)/(p − 1) + 1`, `σ₂ := 2H/(p − 1)² + 1` and
 `𝔠 := rk T₂·S + 2m·((H + 1)/(p − 1) + 1)`. *Steps.* By 4.10c(1) `H¹_f(K, T₂)` is generated by at most `(n + 1)·rk T₂`
@@ -1367,8 +1385,12 @@ Prove:
 
    The prism, the map, (a), `p`-saturation in (S)_s, (Sen)_s given (H)_s, the first half of (Herr)_s, (R) and the identification
    at `s = 1` have their proofs in the route; the clause on poles of (Herr)_s has the route of 4.10c(2), with the same two
-   steps not given. (U)_s, (H)_s, the exactness clauses of (S)_s and the converse half of (Herr)_s are statements of
-   [FormalProof], with proofs not given here; [FormalProof] states and proves them for every prime and every
+   steps not given ([FormalProof] `GlobalTheory.T.herrCocycle_poles_frobeniusQ_crystalline`). (U)_s, (H)_s, the exactness
+   clauses of (S)_s and the converse half of (Herr)_s are statements of [FormalProof], with proofs not given here:
+   `GlobalTheory.T.wachModule_uniqueness_characterisation`; `GlobalTheory.T.wachLattice_heights_from_hodgeJumps` with
+   `GlobalTheory.T.wach_lattice_expansion_at_low_level_points`; `GlobalTheory.T.wachModule_saturated_exactness_crystalline`;
+   `GlobalTheory.T.wachIntegralComplex_cocycle_class_finite` (the clauses `p10`, `p5` with `p4`, `wachShortExact` and `p2c`
+   of `Formalism.MainNotions.DeltaInvariantLattices`); [FormalProof] states and proves them for every prime and every
    `(K, s)`, for every assignment `T ↦ N′(T)` with the properties (a) and the comparison of (H)_s;
 1. (*cyclotomic bases*) if `K = K₀(μ_{p^s})` (`s ≥ 1`, and `s ≥ 2` if `p = 2`), then `p^{e_s}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with
    `e_s := 2(2Hs + v_p((2H)!)) + Σ_{j∈J}(s + v_p(j)) + Ms + v_p(M!)`, `J` the set of WachLatticesOverTheCyclotomicTower §6.10(4) for
@@ -1412,8 +1434,8 @@ inverting `p` it is, by the comparison of (H)_s, `t^{−y}Fil⁰_s(V)/Fil⁰_s(V
 `Gal(K₀(μ_{p^∞})/K₀(μ_{p^s}))`, is procyclic, which is `s ≥ 2` at `p = 2`) for `0 → D_s(T) → D_s(T_ξ) → D_s(O) → 0`, applied to a lift in
 `N_s(T_ξ)` of `p^ke`, with the components placed by (H)_s, (a) and (S)_s as in 4.10c(2). The converse half needs a
 crystallinity criterion at level `s` (the analogue of WachLatticesOverTheCyclotomicTower §6.4(8)) and (U)_s; neither is given
-here. *(Herr)_s, poles.* As in 4.10c(2): `b ∈ W(C^♭) ⊗ T` with `(φ − 1)b = y` has denominators against `T ⊗ A_inf` that are products
-of the images of the `φ^{j_ν}(Q)`, units in `B_cris`; a solution `w` of `(γ − 1)w = z` convergent on the open disc with `t` inverted
+here. *(Herr)_s, poles.* As in 4.10c(2): `b ∈ W(C^♭) ⊗ T` with `(φ − 1)b = y` is carried into `T ⊗ A_inf` by a power of the
+image of `∏_{j≤m}φ^j(X)`, for every `m` at least every `j_ν`, a unit in `B_cris`; a solution `w` of `(γ − 1)w = z` convergent on the open disc with `t` inverted
 gives the class as the coboundary `g ↦ (g − 1)(w − b)` in `V ⊗ B_cris`. *(R).* `Γ_K^{tor}`, cyclic of order `(p − 1)/e_K`, prime to `p`, acts by `π ↦ (1 + π)^ω − 1`, `ω` a root of unity; its invariants
 are `O[[π′]]`, `π′ := Σ_{δ∈Γ_K^{tor}}δ(π)`, since an invariant series vanishing at `0` starts in a degree divisible by `(p − 1)/e_K`;
 `E_K` is the minimal polynomial over `K₀` of the value of `π′` at `π = ζ_p − 1`, a uniformizer of `K`, and `q`, `E_K(π′)` have the same
@@ -1452,12 +1474,14 @@ one direction above each embedding of `K₀`" is the set of words covered. Three
 because every factor costs at least `1` (enlarging `E` to contain the images of `K₀(μ_p)` changes neither side: `H¹_f` commutes
 with the flat base change `O → O′`); and a statement of [FormalProof]: a finite class decomposes over the embeddings of `K₀` as in
 steps (a)–(c) of the route of 4.10d(1), over `O[[π′]]` (with WachLatticesOverTheCyclotomicTower §6.10(1) for `π′` at the cuts), and each piece lifts modulo at most
-`e_K(e_K + 1)m` exceptional classes per embedding of `K₀` (a universal part as in 4.10d(3)), which gives `Y`. Then the length of
+`e_K(e_K + 1)m` exceptional classes per embedding of `K₀` (a universal part as in 4.10d(3)), which gives `Y` (its conclusion
+is `Formalism.MainNotions.N.Ln34.killA` of [FormalProof]). Then the length of
 the cokernel is at most ((generators)`·Y + n·e_K(e_K + 1)m·E′`)`·length_O(O/p)` (each generator of the quotient by the span of the
 exceptional classes is killed by `p^Y`, and each exceptional class by `p^{E′}`); the term `ne_K(e_K + 1)m·C(h + 1)` is the number
 of exceptional classes times the exponent, linear in `h`, of the basic theorem over the tame base. *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; 4.9a,
 4.10c, 4.10d; PhiGammaModulesAndIwasawaCohomology §§1.0, 6.0 and WachLatticesOverTheCyclotomicTower §§6.4(8), 6.10; PrismaticCohomology §§0.61, 0.77;
-PrismaticCohomologyPartIII §§7.12, 7.13, 7.22; ArithmeticGaloisDuality §R02.2.3; ClassFieldTheory Layer 5.
+PrismaticCohomologyPartIII §§7.12, 7.13, 7.22; PadicPeriodRings §§4.1–4.3 (`B_cris`); ArithmeticGaloisDuality §R02.2.3;
+ClassFieldTheory Layer 5.
 
 **Checks.**
 
@@ -1496,10 +1520,11 @@ Let `f : T₁ ↠ T₂` be a surjection of `G_{ℚ_p}`-stable `O`-lattices in po
 inertial types (the actions of `I_{ℚ_p}` on `D_pst`) are sums of characters of `I_{ℚ_p}` of order prime to `p` taken from a set
 `Σ ∋ 1` of at most `N ≥ 2` such characters, stable under `χ ↦ χ^p`; suppose the Hodge–Tate weights of `T₁` lie in a set `U ∋ 0` of
 at most `N + 1` integers, `U ⊂ [−η, η′]`, `1 ≤ η < η′`, and `40(η′N² + N³) < p`. Let `r′` be the largest length of an orbit of
-`χ ↦ χ^p` on the ratios of two characters of `Σ`. Prove: `4r′ ≤ N²`, and (the statement of [FormalProof], whose proof is given here
-as the reduction and the assembly of the route)
+`χ ↦ χ^p` on the ratios of two characters of `Σ`. Prove: `4r′ ≤ N²`, and (the statement of [FormalProof],
+`Formalism.MainNotions.ElementDenominator.thmT` with the constant `40`, which `GlobalTheory.TheoremTClosing.main` proves for
+every constant at least `40`; its proof is given here as the reduction and the assembly of the route)
 
-`p^k·H¹_f(ℚ_p, T₂) ⊆ f(H¹_f(ℚ_p, T₁))`, `k = 4(N − 1)r′ + η(r′ + N + 3)`,
+`p^k·H¹_f(ℚ_p, T₂) ⊆ f(H¹_f(ℚ_p, T₁))`, `k = 40(N·r′ + η(N + r′))`,
 
 with `H¹_f(ℚ_p, T)` the preimage of `H¹_f(ℚ_p, T[1/p])` (SelmerIwasawaCohomology §4.9). The exponent does not depend on `η′`. The proof passes through
 Breuil–Kisin modules with tame descent data (the values of the prismatic `F`-crystals of the lattices on the Breuil–Kisin prism of
@@ -1519,18 +1544,22 @@ lattice (PrismaticCohomologyPartIII §7.22, Bhatt–Scholze) on the Breuil–Kis
 datum; a connection on the module over the ring of rigid functions on the open unit disc, and the criterion that a class is
 finite exactly when an associated monodromy operator vanishes, are derived from the crystal and from the basic properties of
 `B_cris` (the fundamental exact sequence, surjectivity of `φ − 1` on `Fil⁰`; PadicPeriodRings §§4.1–4.3). (c) *Lifting along the
-triple* (the assembly is proved; its eleven component statements are statements of [FormalProof]): a power `p^{2(N−1)r′}`, which
+triple* (the assembly is proved; its eleven component statements are statements of [FormalProof], the `GlobalTheory.T`
+statements that its proof `GlobalTheory.TheoremT.liftF_of_isGood` applies): a power `p^{2(N−1)r′}`, which
 depends on the type only and not on `η′`, kills the cokernels along the triple of the Breuil–Kisin modules, of their submodules
 fixed by the descent datum, and of the lattices of vectors that carry the finite classes; the monodromy obstruction of a lift
 is integral after `p^{η(r′+1)}` and vanishes in the quotient, so after `p^{η(r′+1)+2(N−1)r′}` it comes from the kernel, where it is
 integral after a further `p^{η+(N+1)η}` and is then the obstruction of an integral vector of the kernel, which is subtracted. The
-exponents add up to `2(N − 1)r′ + η(r′ + 1) + 2(N − 1)r′ + η + (N + 1)η = k`; the hypothesis `40(η′N² + N³) < p` supplies the
-inequalities the component statements need. *Needs:* SelmerIwasawaCohomology §4.9; 4.9a; PrismaticCohomology §0.76; PrismaticCohomologyPartIII §§7.12,
+exponents add up to `2(N − 1)r′ + η(r′ + 1) + 2(N − 1)r′ + η + (N + 1)η = 4(N − 1)r′ + η(r′ + N + 3)` along the triple of
+Breuil–Kisin modules; in [FormalProof] the passage between these modules and the finite classes adds `η(r′ + 1) + η + 2(N − 1)r′`,
+and the total `6(N − 1)r′ + η(2r′ + N + 5)` is at most `7(N·r′ + η(N + r′)) ≤ k` as `N ≥ 2`; the hypothesis `40(η′N² + N³) < p`
+supplies the inequalities the component statements need. *Needs:* SelmerIwasawaCohomology §4.9; 4.9a; PrismaticCohomology §0.76; PrismaticCohomologyPartIII §§7.12,
 7.22; PadicPeriodRings §§4.1–4.3.
 
 **Checks.**
 
-- `N = 2`, `η = r′ = 1`: `k = 10`.
+- `N = 2`, `η = r′ = 1`: the exponents along the triple add up to `4 + 6 = 10`, the total of (c) is `6 + 9 = 15`, at most
+  `7(N·r′ + η(N + r′)) = 35`, and `k = 200`.
 - The hypothesis `40(η′N² + N³) < p` puts all weights far below `p`; for `Σ = {1}` the lattices are crystalline over `ℚ_p` with
   `η + η′ ≤ p − 2`, where 4.10c(3) gives exponent `0`, and this statement only a bounded one.
 
@@ -1579,11 +1608,11 @@ Layer 5 (local duality).
 
 ### Examples
 
-Over `ℚ_p`, a crystalline extension of `E(χ_cyc)` by `E` splits: its class lies in `H¹(ℚ_p, E(−1))`, whose finite part is `0` (4.9a). For `F` imaginary quadratic and `V = E(1)`, the left side of (H3) is `2` against `r[F:ℚ]/2 = 1`, so the Bloch–Kato condition is not balanced (4.9b). For `V = ℚ_p(u)`, `u ≠ 0`, over `ℚ_p` with `p` odd, `H⁰(ℚ_p(μ_{p^m}), ℚ_p/ℤ_p(u))` has exponent exactly `m + v_p(u)`, against the bound `m + v_p(u) + 2` of 4.9d. For the lattice `T₁ = {(a, b) ∈ p^{−1}ℤ_p ⊕ ℤ_p(p − 1) : pa ≡ b (mod p)}` and `f(a, b) = b`, the cokernel on finite classes is `Hom(G_K, 𝔽_p)/Hom^{ur}(G_K, 𝔽_p)`, of exponent `1`, where 4.10c (3) gives `e° = 3`. At `s = 1`, `H = 2h`, `M = h`, `p = 3` and `h = 1` the exponent of 4.10e (1) is at most `13 ≤ 18h`. In 4.10f, `N = 2` and `η = r′ = 1` give `k = 10`. For `U = E` trivial and `K = ℚ_p` the bound of 4.10g (2) is `2e·length_O(O/p)`.
+Over `ℚ_p`, a crystalline extension of `E(χ_cyc)` by `E` splits: its class lies in `H¹(ℚ_p, E(−1))`, whose finite part is `0` (4.9a). For `F` imaginary quadratic and `V = E(1)`, the left side of (H3) is `2` against `r[F:ℚ]/2 = 1`, so the Bloch–Kato condition is not balanced (4.9b). For `V = ℚ_p(u)`, `u ≠ 0`, over `ℚ_p` with `p` odd, `H⁰(ℚ_p(μ_{p^m}), ℚ_p/ℤ_p(u))` has exponent exactly `m + v_p(u)`, against the bound `m + v_p(u) + 2` of 4.9d. For the lattice `T₁ = {(a, b) ∈ p^{−1}ℤ_p ⊕ ℤ_p(p − 1) : pa ≡ b (mod p)}` and `f(a, b) = b`, the cokernel on finite classes is `Hom(G_K, 𝔽_p)/Hom^{ur}(G_K, 𝔽_p)`, of exponent `1`, where 4.10c (3) gives `e° = 3`. At `s = 1`, `H = 2h`, `M = h`, `p = 3` and `h = 1` the exponent of 4.10e (1) is at most `13 ≤ 18h`. In 4.10f, `N = 2` and `η = r′ = 1` give `k = 200`. For `U = E` trivial and `K = ℚ_p` the bound of 4.10g (2) is `2e·length_O(O/p)`.
 
 ### Dependencies
 
-Layer 3 (the Selmer data of 3.22, in 4.9b); AnabelianGeometryAndNonabelianChabauty §4.6 and PadicHodgeTheory §3.1 (4.9a); PadicHodgeRegulators §1.5 (4.9b, 4.10g); SelmerIwasawaCohomology §§2.6, 2.17, 4.8 (in a Check of 4.10a), 4.9 and 4.10; PhiGammaModulesAndIwasawaCohomology §§1.0, 3.4, 3.6 and 6.0; WachLatticesOverTheCyclotomicTower §§6.4–6.10; PadicPeriodRings §§1.3–1.5 (4.9c, 4.9d) and PadicPeriodRings §§4.1–4.3 (4.10c, 4.10f); PrismaticCohomologyPartIII §§7.12, 7.13 and 7.22 and PrismaticCohomology §§0.61, 0.76 and 0.77 (4.10e (0), 4.10f); ArithmeticGaloisDuality §§R02.2.3 and R02.4.2; ClassFieldTheory Layer 5; ProfiniteCohomology §5.4. Construction order: 4.9c and 4.9d use, in their routes, the lattices at level `s` of 4.10e (0), a later section of this layer; 4.10e (0) and what it rests on (4.9a and 4.10c (2)) use neither 4.9c nor 4.9d, so 4.10e (0) is built before them and there is no cycle.
+Layer 3 (the Selmer data of 3.22, in 4.9b); AnabelianGeometryAndNonabelianChabauty §4.6 and PadicHodgeTheory §3.1 (4.9a); PadicHodgeRegulators §1.5 (4.9b, 4.10g); SelmerIwasawaCohomology §§2.6, 2.17, 4.8 (in a Check of 4.10a), 4.9 and 4.10; PhiGammaModulesAndIwasawaCohomology §§1.0, 3.4, 3.6 and 6.0; WachLatticesOverTheCyclotomicTower §§6.4–6.10; PadicPeriodRings §§1.3–1.5 (4.9c, 4.9d) and PadicPeriodRings §§4.1–4.3 (4.10c, 4.10e, 4.10f); PrismaticCohomologyPartIII §§7.12, 7.13 and 7.22 and PrismaticCohomology §§0.61, 0.76 and 0.77 (4.10e (0), 4.10f); ArithmeticGaloisDuality §§R02.2.3 and R02.4.2; ClassFieldTheory Layer 5; ProfiniteCohomology §5.4. Construction order: 4.9c and 4.9d use, in their routes, the lattices at level `s` of 4.10e (0), a later section of this layer; 4.10e (0) and what it rests on (4.9a and 4.10c (2)) use neither 4.9c nor 4.9d, so 4.10e (0) is built before them and there is no cycle.
 
 ## Downstream consumers
 
@@ -1695,5 +1724,5 @@ Layers 10 and 14: every conjugacy class of a finite Galois quotient of `G_F` is 
 - **Berger 2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Wach lattices (4.10c).
 - **Herr 1998** — Laurent Herr, *Sur la cohomologie galoisienne des corps p-adiques*, Bulletin de la Société Mathématique de France 126 (1998), 563–600: the Herr complex (4.10c).
 - **BS23-FCRYS** — Bhargav Bhatt and Peter Scholze, [Prismatic F-crystals and crystalline Galois representations](https://arxiv.org/abs/2106.14735v2), arXiv:2106.14735v2: Theorem 1.2 (Theorem 5.6 in the body; the equivalence, for every prime `p`), through PrismaticCohomologyPartIII §7.22, in 4.10e (0) (evaluation on the cyclotomic prism; no statement on Breuil–Kisin prisms is used there) and 4.10f (evaluation on a Breuil–Kisin prism).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the presentation of Selmer functors over group rings with a universal cocycle, the residual determinant bounds, the determinant bound under a congruence `T ≡ T ⊗ χ_cyc^t` (a dual class by counting and the determinant after adding a place), and twist selection (3.22–3.26); of the bound for the classes cut out by a character and the killing exponent for invariants modulo a lattice, with their forms over abelian bases (4.9c, 4.9d); of the local theorem beyond the Fontaine–Laffaille range (4.10a); of the lifting theorems with loss along surjections of crystalline lattices and the lattices at a finite level of the cyclotomic tower (4.10c–4.10f); and of the pushouts of finite classes under a lifting exponent (4.10g).
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, which carries the submitted Lean source unmodified, with a Comparator setup (the code is also distributed as an archive in fourteen parts, footnote 1 of [Announcement]). The declarations of [FormalProof] named in this README are those of the `src/` tree of that repository at commit `8c90877ceaa694974526e0aab9aaaf6ea0f5099e`. It is the source of the presentation of Selmer functors over group rings with a universal cocycle, the residual determinant bounds, the determinant bound under a congruence `T ≡ T ⊗ χ_cyc^t` (a dual class by counting and the determinant after adding a place), and twist selection (3.22–3.26); of the bound for the classes cut out by a character and the killing exponent for invariants modulo a lattice, with their forms over abelian bases (4.9c, 4.9d); of the local theorem beyond the Fontaine–Laffaille range (4.10a); of the lifting theorems with loss along surjections of crystalline lattices and the lattices at a finite level of the cyclotomic tower (4.10c–4.10f); and of the pushouts of finite classes under a lifting exponent (4.10g).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
