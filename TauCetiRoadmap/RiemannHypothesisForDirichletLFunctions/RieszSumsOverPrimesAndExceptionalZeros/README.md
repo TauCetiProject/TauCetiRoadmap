@@ -22,6 +22,11 @@ Notation and conventions not restated here are those of the Conventions of Analy
 - The section numbers 0.30b, 1.4e–1.4i, 1.7a–1.7b, 2.9b and 2.41a are this roadmap's own; a section of AnalyticNumberTheoryPartI or of any other roadmap is cited with that roadmap's name, or under its heading in the supplier contracts.
 - A statement headed *The form of the formal proof.* is the form, with its hypotheses, parameters and constants, that [FormalProof] provides; its label is that of the general statement beside it, primed. The general statement is published or this roadmap's, as said there, and implies it. A line *Status.* marks a statement that is this roadmap's own and not a statement of [FormalProof].
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: Logarithmic derivatives of L-functions near the line one
 
 Near the line one the logarithmic derivative of every Dirichlet `L`-function is its pole term minus the contribution of the zeros in a disc of fixed radius, up to an error `C log(q(|t| + 2)) 2^(−k)` in its `k`-th Taylor coefficient at `2 + it`. This is the local input of the repulsion 1.7b (i).
