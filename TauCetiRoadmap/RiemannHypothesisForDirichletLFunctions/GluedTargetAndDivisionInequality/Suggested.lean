@@ -23,20 +23,20 @@ points, its algebraic automorphic forms, theta lifts or Weil representations. Ta
 of points and the height `Submodule.subspaceHeight` of a subspace of `K^n` for the standard
 metrics, which do not give these lattices either.
 
-* Integrality after division for the chain (7.13, 7.14): for every word `u`, under the hypotheses
-  of the gain bounds, of the rational structure of the rows and of the seesaw identity of
-  SeesawForThetaChains §6.14 (among them that the Bessel–Poincaré series of `u` is nonzero on its
-  new forms), the period pairing `B_u` maps the source lattice divided by the ideal of the gain
+* Integrality after division for the chain (7.13, 7.14): for every word `u`, under the hypotheses of
+  the gain bounds, of the rational structure of the rows and of the seesaw identity of
+  SeesawForThetaChains §6.14 (among them that the Bessel–Poincaré series of every word is nonzero on
+  its new forms), the period pairing `B_u` maps the source lattice divided by the ideal of the gain
   exponents into the lattice of `c_𝕃`-semilinear functionals integral on the glued target. It lacks
   the source lattices of algebraic automorphic forms of the chain, the gain exponents, the target
   rows with their rational structure, the forms of the tuples of twists and the period pairing.
 * The height of the period pairing (8.9): under the size conditions of the chain (among them those
   on the level prime and of the grid at large scales, and `|(L′/L)(1, χ_K)| ≤ x^ε`) and the
-  hypotheses of the seesaw identity (among them that the Bessel–Poincaré series of `u` is nonzero
-  on its new forms), if `B_u ≠ 0` then `ht(B_u) ≤ h_u` for the explicit height `h_u`. It lacks,
-  besides these, the Petersson metrics on the source and target lattices, operator norms at every
-  embedding of the field of places, the step operators of the chain, its top period, the Rallis
-  eigenvalues and the CM period of the host.
+  hypotheses of the seesaw identity (among them that the Bessel–Poincaré series of every word is
+  nonzero on its new forms), if `B_u ≠ 0` then `ht(B_u) ≤ h_u` for the explicit height `h_u`. It
+  lacks, besides these, the Petersson metrics on the source and target lattices, operator norms at
+  every embedding of the field of places, the step operators of the chain, its top period, the
+  Rallis eigenvalues and the CM period of the host.
 * The division inequality (8.22), with the slope of the target (8.21) and its maximal slope (8.24):
   for a good twisting datum with the support condition, a host with wild-kernel budget `1`,
   `[F:ℚ] ≥ 3`, the hypotheses of the step lattices and the size conditions of the chain,
@@ -68,7 +68,9 @@ Suppose that for every finite place `𝔭` of `L` there are an `L`-space `U 𝔭
 `P 𝔭 : V × U 𝔭 → L` and a `𝔭`-unit
 `ζ 𝔭` with `P 𝔭 φ Υ = ζ 𝔭 * B φ (j 𝔭 Υ)`, and a real `σ 𝔭` such that for `φ ∈ N`, `Υ ∈ M 𝔭` either
 `P 𝔭 φ Υ = 0` or `v_𝔭(P 𝔭 φ Υ) ≥ σ 𝔭`. Let `τ 𝔭 ∈ ℤ`, zero for almost all `𝔭`, with
-`τ 𝔭 ≤ ⌈σ 𝔭⌉`, and `N′ := (∏_𝔭 𝔭^(-τ 𝔭))·N`. Then `B(N′, R) ⊂ 𝓞 L`. -/
+`τ 𝔭 ≤ ⌈σ 𝔭⌉`, and `N′ := (∏_𝔭 𝔭^(-τ 𝔭))·N`. Then `B(N′, R) ⊂ 𝓞 L`.
+It follows from [FormalProof], `Formalism/QuotientMetricDivisors/DivIntoDualShift.lean`
+(`Formalism.DivisionValues.DivIntoDualShift`). -/
 theorem pairing_integral_of_localDivision
     {L : Type*} [Field L] [NumberField L] (c : L ≃+* L)
     {V W : Type*} [AddCommGroup V] [Module L V]
