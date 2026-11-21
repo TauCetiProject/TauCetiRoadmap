@@ -1930,6 +1930,15 @@ The formal proof states (i), in the cases used, in
 `Development/WeilBound/ThetaLifts/LatticeBasics/HodgeTateFromSandwich.lean` (`GlobalTheory.ThK.Dbl.NormZeta`),
 `Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/ThetaParseval/ThetaKernels/GalTPDefs.lean`
 (`UpperTheory.TP.Rallis_k`).
+It states (ii) for the linear lift, in the form of 6.13b (iii), with hypotheses that (ii) does not state: `E/F` is a CM
+extension; `m = n + t` with `n ≥ 1` and `t ≥ 1`; self-dual lattices of `V` and of `W′` are fixed, and "integral outside
+`S`", "spherical outside `S`" and "lattice vectors" refer to them; `S` contains the real places, every place outside `S`
+above `2` splits in `E`, and `χ` is unramified outside `S`; `φ₁`, `φ₂` are polynomial Fock vectors at the real places;
+`F₁`, `F₂` are cusp forms finite under the maximal compact subgroup at the real places, not assumed to lie in one `π`,
+`F₁` a Hecke eigenform outside `S` and `F₂` fixed by the stabilisers of the lattice of `V` outside `S`; and `s₁` is real.
+Its conclusion is that both theta integrals converge absolutely, that the two lifts are square-integrable, that
+`g ↦ ⟨ω(g)φ₁, φ₂⟩⟨π(g)F₁, F₂⟩` is integrable on the elements integral outside `S`, and the formula, with `C` the volume
+of `[U(W′)]`, for arbitrary Haar measures. In the generality stated here (ii) is this roadmap's own, proved by the route below.
 *Needs:* 5.7a, 6.4a, 6.11; MetaplecticAutomorphicForms §§5.6,
 6.4, 6.10, 6.10a, 6.11, 6.12.
 
@@ -2055,6 +2064,13 @@ zonal spherical function of `GL_N(k)` with Satake parameters `α`, has the follo
   `ℓ` of the cotype; and `ζ = 1` on `𝒫`;
 - (ii) if `q^{−ρ} ≤ |α_j| ≤ q^{ρ}` for all `j`, then `ζ·H^{s − t/2} ∈ L¹(G)` for `Re s > ρ − ½` and
   `∫_G ζ·H^{s − t/2} dg = ∏_{j}(1 − α_jq^{−(s+½)})⁻¹·∏_{j}(1 − α_j⁻¹q^{−(s+½)})⁻¹·∏_{i=1}^{N}(1 − q^{−(2s+i)})`.
+
+*The form of the formal proof.* The formal proof states this target for `N = l·t` with `l ≥ 0` an integer (FormalProof,
+`Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/UnramifiedDoublingIntegralTwistedPlaceEigenvecto.lean`
+(`GlobalTheory.TwistedZeta.local_zeta_twisted`)), so that `a = r + l·t` and `b = r + (l + 1)·t` (for `t = 1`, every `N`);
+it asserts that a function `ζ` with (i) and (ii) exists, without naming it, and takes the value of the unramified doubling
+integral of `GL_N(k)` (6.11 (c)) as an input. For `N` not of this form the statement is this roadmap's own, proved by the
+route below, which uses no relation between `N` and `t`.
 
 *Route.* (1) `c(jgj′) = ξ(det j₂₂)ξ(det j′₂₂)c(g)` for `j, j′ ∈ 𝒫`, from the transformation of `φ_ξ`; `c(1) = ‖φ_ξ‖² > 0`. (2) `c`
 vanishes outside the double cosets `𝒫·diag(1_r, ϖ^e)·𝒫`: on the support the upper block of `g` is a unit matrix up to
@@ -2207,5 +2223,5 @@ Layers 4–5: Schur orthogonality and the Peter–Weyl theorem.
 - Atsushi Ichino, A regularized Siegel–Weil formula for unitary groups, Math. Z. 247 (2004): the inner product formula (6.13b).
 - Ilya Piatetski-Shapiro and Stephen Rallis, L-functions for the classical groups, Lecture Notes in Math. 1254 (1987): the doubling method (6.13a, 6.13b).
 - Shunsuke Yamana, L-functions and theta correspondence for classical groups, Invent. Math. 196 (2014): doubling integrability (6.13b).
-- FormalProof: Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced on 20 November 2026 (Announcement); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, directory `src/` at commit `e50d09817ad8`. A locator `Dir/…/File.lean` (`Name`) names a file under `src/` and a declaration in it: the forms of the paragraphs *The form of the formal proof* and *Status* (3.9a, 3.21a, 3.45, 3.46, 3.46a, 3.47, 3.47b, 4.4a, 5.6a, 5.7a, 5.7b, 5.7c, 5.7e, 6.13b), and the statements that a target attributes to the formal proof (3.3b, 3.47a, 3.47c, 5.7d, 6.4a, 6.11, 6.13a).
+- FormalProof: Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced on 20 November 2026 (Announcement); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, directory `src/` at commit `e50d09817ad8`. A locator `Dir/…/File.lean` (`Name`) names a file under `src/` and a declaration in it: the forms of the paragraphs *The form of the formal proof* and *Status* (3.9a, 3.21a, 3.45, 3.46, 3.46a, 3.47, 3.47b, 4.4a, 5.6a, 5.7a, 5.7b, 5.7c, 5.7e, 6.13b, 6.13c), and the statements that a target attributes to the formal proof (3.3b, 3.47a, 3.47c, 5.7d, 6.4a, 6.11, 6.13a).
 - Announcement: Levent Alpöge, the announcement of that proof, 20 November 2026, <https://alpo.ge/remark.pdf>, p. 1 and footnote 1 (the Lean source).
