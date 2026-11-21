@@ -173,8 +173,9 @@ Condition 3 is the definition of a Euclidean Jordan algebra in Faraut–Korányi
 form `b`, that the eigenvalues of `x` are bounded in absolute value by the operator norm of `L_x`
 for `b`, and that the nonzero idempotents form a compact set.
 
-*Needs:* §1.2; Tau Ceti `traceForm` with its symmetry and associativity. Faraut–Korányi,
-Chapter III.
+*Needs:* §1.2; Tau Ceti's Peirce decomposition at one idempotent (`TauCeti.Algebra.Jordan.Peirce`),
+for the eigenvalues of `L_p`; Tau Ceti `traceForm` with its symmetry and associativity.
+Faraut–Korányi, Chapter III.
 
 **Checks.**
 
@@ -247,7 +248,9 @@ decreasing order, form a continuous map `J → ℝ^(rank J)`.
 Define `χ_x(T) = ∏_i (T − λ_i)`, `tr x = Σ λ_i` and `det x = ∏ λ_i` from the eigenvalues with
 multiplicity. Prove that the coefficients of `χ_x` are polynomial functions of `x`, homogeneous of
 degree equal to their index; in particular `tr` is linear and `det` is a homogeneous polynomial of
-degree `rank J`. Route, with `ξ` the coordinates of a basis and `K = ℝ(ξ)`:
+degree `rank J`: the coefficient of `T^(r−k)`, `r = rank J`, is homogeneous of degree `k`. Route,
+with `ξ` the coordinates of a basis and
+`K = FractionRing (MvPolynomial (Fin (Module.finrank ℝ J)) ℝ)`:
 
 1. the generic element `x_ξ ∈ K ⊗ J` has a minimal polynomial over `K`, by §1.1, and it divides
    the characteristic polynomial of `L_(x_ξ)`, because `f(L_x) e = f(x)`;
@@ -262,8 +265,8 @@ Prove `χ_x(x) = 0`, `m_x ∣ χ_x`, `tr e = rank J`, `tr c = 1` for a primitive
 invariance of `χ`, `tr` and `det` under Jordan isomorphisms. On a product, `χ` and `det` multiply
 and `tr` adds. On `Spin_n` with `n ≥ 1` prove `tr(t,u) = 2t` and `det(t,u) = t² − ‖u‖²`.
 
-*Needs:* §1.1, §2.3; Mathlib `MvPolynomial`, `RatFunc`, `LinearMap.charpoly`, Gauss's lemma for
-monic polynomials. Faraut–Korányi, Chapter II.
+*Needs:* §1.1, §2.3; Mathlib `MvPolynomial`, `FractionRing`, `LinearMap.charpoly`, Gauss's lemma
+for monic polynomials. Faraut–Korányi, Chapter II.
 
 ### 2.5 Functional calculus, inverses and square roots
 
@@ -328,9 +331,10 @@ equations. Faraut–Korányi, Chapter II.
 ### 3.2 The trace inner product
 
 Prove that `B(x,y) = tr(x ∘ y)` is symmetric, positive definite, with `B(x,x) = Σ λ_i²`, and
-associative. Route to associativity: a derivation `D` satisfies `tr(D x) = 0`, because `exp(tD)`
-is a Jordan automorphism and `tr` is invariant; apply this to the inner derivation
-`[L_x, L_z]`. Prove that every derivation is skew-adjoint for `B`, and that a Jordan frame is
+associative. Route to associativity: for a derivation `D`, `exp(tD)` is a Jordan automorphism,
+because `exp(−tD)(exp(tD) x ∘ exp(tD) y)` has derivative zero in `t` by the Leibniz rule and
+Mathlib's `hasDerivAt_exp_smul_const`; `tr` is invariant, so `tr(D x) = 0`; apply this to the
+inner derivation `[L_x, L_z]`. Prove that every derivation is skew-adjoint for `B`, and that a Jordan frame is
 orthonormal for `B`.
 
 *Needs:* §2.4; Tau Ceti `TauCeti.jordanInnerDerivation`; Mathlib `NormedSpace.exp`.
@@ -349,8 +353,8 @@ Prove, for the cone of squares `C` of an EJA:
   `x ∈ C ↔ ∀ y ∈ C, b(x,y) ≥ 0`; in particular `ProperCone.innerDual C = C` for `B`;
 - `Ω = int C` is the set of elements with positive eigenvalues, equivalently of `x ≥ εe` for some
   `ε > 0`, equivalently of squares of invertible elements; `e ∈ Ω` and `C` is the closure of `Ω`;
-- a continuous path of invertible elements that starts in `Ω` stays in `Ω`, by continuity of the
-  least eigenvalue (§2.3).
+- a continuous path of invertible elements that starts in `Ω` stays in `Ω`: by §2.3 the sorted
+  eigenvalues are continuous along the path and none of them vanishes, so each keeps its sign.
 
 *Needs:* §2.2, §2.3, §2.5, §3.2; Mathlib `ProperCone.innerDual`. Faraut–Korányi, Chapter III.
 
@@ -385,7 +389,8 @@ Proposition 31.
 **Checks.**
 
 - In `Herm₂(ℂ)`, `x = diag(2,−3)` gives `P(x)` with eigenvalues `4`, `−6`, `9` on `J_11`, `J_12`,
-  `J_22`: `P(x)` is invertible and self-adjoint but not positive, as `x ∉ C`.
+  `J_22`: `P(x)` has a negative eigenvalue, so it is not positive semidefinite as an operator,
+  and it still maps `C` into `C`.
 - For `c = diag(1,0)` and off-diagonal `X`: `P(c) X = 0` while `L_c X = X/2`.
 - In `Herm₂(ℝ)`, `C = {[[a,b],[b,d]] | a ≥ 0, d ≥ 0, ad ≥ b²}`. The matrix `[[1,1],[1,1]]` is on
   the boundary, with support `½[[1,1],[1,1]]`.
@@ -473,19 +478,26 @@ that the stabilizer of `e₀` in `G` is exactly `G ∩ O(V)`:
 
 ### 5.2 The Lie algebra of the automorphism group
 
-Let `𝔤 = {X ∈ End V | ∀ t, exp(tX) ∈ G}`. By the closed-subgroup theorem `G` is an embedded Lie
-subgroup of `GL(V)` whose tangent space at the identity is `𝔤`, through
-`TauCeti.Lie.lieEquivLieSubalgebraOfSubgroup` and the identification of the Lie algebra of the
-units of `End V` with `End V`. Prove:
+Let `𝔤 = {X ∈ End V | ∀ t, exp(tX) ∈ G}`. Regard `G` as a closed subgroup of the Lie group
+`(End V)ˣ`. The closed-subgroup theorem
+`TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed` makes `G` an
+embedded Lie subgroup; `TauCeti.Lie.EmbeddedLieSubgroupData.lieEquivLieSubalgebraOfSubgroup`
+identifies its left-invariant derivations with `TauCeti.Lie.lieSubalgebraOfSubgroup G`;
+`leftInvariantDerivationLieEquivGroupLieAlgebra` identifies those with the tangent space at the
+identity; and `TauCeti.Lie.unitsLieAlgebraLieEquiv` identifies the left-invariant derivations of
+`(End V)ˣ` with `End V`. Prove that under these identifications the tangent space of `G` at the
+identity is `𝔤 ⊆ End V`, and that the curve `t ↦ exp(tX)` has tangent `X`. Prove:
 
 - `𝔤` is stable under adjoints, so `𝔤 = 𝔨 ⊕ 𝔭` with `𝔨` its skew-adjoint and `𝔭` its self-adjoint
   elements, and `[𝔭,𝔭] ⊆ 𝔨`, `[𝔨,𝔭] ⊆ 𝔭`;
 - `𝔨 = {X ∈ 𝔤 | X e₀ = 0}`: if `X e₀ = 0` then every `exp(tX)` lies in the stabilizer, which is
   `G ∩ O(V)` by §5.1, so `X` is skew-adjoint; and if `X ∈ 𝔨` then every `exp(tX)` is orthogonal,
   so it fixes `e₀`;
-- `X ↦ X e₀` maps `𝔤` onto `V`: the orbit map `g ↦ g e₀` is smooth of constant rank, by
-  equivariance, and its range `Ω` is open, so its rank is `dim V` by Tau Ceti's
-  `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`;
+- `X ↦ X e₀` maps `𝔤` onto `V`. The orbit map `g ↦ g e₀` is the inclusion `G → End V` followed
+  by evaluation at `e₀`, so it is smooth and its differential at the identity is `X ↦ X e₀`; by
+  equivariance it has constant rank. `G` is second countable, hence Lindelöf, and `V` is a Baire
+  space in which the range `Ω` is open and nonempty, hence not meagre; so the rank is `dim V` by
+  Tau Ceti's `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`;
 - hence `X ↦ X e₀` is a linear isomorphism `𝔭 → V`.
 
 *Needs:* §5.1; LieGroups Layer 2 in `TauCeti.Geometry.Lie.Subgroup`; Mathlib `NormedSpace.exp`.
@@ -505,7 +517,7 @@ For `x ∈ V` let `L_x` be the element of `𝔭` with `L_x e₀ = x`, and put `x
 4. every `L_x` is self-adjoint, so `V` is an EJA by §1.3, and the inner product of `V` is an
    associative form for it;
 5. its cone of squares `C′` equals `C`: an element `x` with positive eigenvalues is
-   `exp(L_(log x)) e₀ ∈ Ω`, so `C′ ⊆ C` by closure; both cones are self-dual for the inner product
+   `exp(L_(log x)) e₀`, by item 4 of §3.1, and so lies in `Ω`; hence `C′ ⊆ C` by closure; both cones are self-dual for the inner product
    of `V`, by hypothesis and by §3.3, so `C = C* ⊆ C′* = C′`.
 
 Then prove the theorem for an arbitrary base point `e ∈ Ω`: there is exactly one bilinear product
@@ -549,7 +561,7 @@ Let `(c_i)` be a Jordan frame of a nontrivial EJA `J`, and join `i ≠ j` by an 
 1. for a connected component `S` of this graph, the sum of the `J_ij` with `i, j ∈ S` is an ideal,
    by the multiplication rules of §2.2; conversely each `c_i` lies in an ideal or in its
    orthogonal complement, and `J_ij = 0` when `c_i` and `c_j` lie on different sides; so `J` is
-   simple exactly when the graph is connected;
+   simple exactly when the graph is connected, as a graph with at least one vertex;
 2. for `u ∈ J_ij`, `u² = ½ B(u,u)(c_i + c_j)`;
 3. for an edge `i, j` and `u ∈ J_ij` with `u² = c_i + c_j`, the element `w = e − c_i − c_j + u`
    satisfies `w² = e`, and `P(w)` is a Jordan automorphism, by the fundamental formula, that
@@ -586,21 +598,27 @@ definite associative form `t(A ∘ B)`, which is a multiple of `B` by §6.1, and
 at `e`. On `Herm_n(ℝ)` and `Herm_n(ℂ)` prove further that the eigenvalues with multiplicity are
 those of Mathlib's `Matrix.IsHermitian.eigenvalues`, that `det` is the matrix determinant, that
 `C` is the set of `Matrix.PosSemidef` matrices, that `≤` is the Loewner order and `‖·‖_e` the
-operator norm. For `Herm_n(ℂ)`, the self-adjoint part of `M_n(ℂ)`, prove that the idempotents are
-the `IsStarProjection` elements, that restriction to `Herm_n(ℂ)` is an affine bijection from the
-states of the C*-algebra `M_n(ℂ)` onto the states of §4.2, with inverse the complex-linear
-extension, carrying pure states to pure states, and that the pure state of `vv*`, `‖v‖ = 1`, is
-`A ↦ v* A v`.
+operator norm, in Mathlib's `MatrixOrder` and `Matrix.Norms.L2Operator` scopes. For `Herm_n(ℂ)`,
+identified with the self-adjoint part of the C*-algebra `M_n(ℂ)`, prove that the idempotents are
+the `IsStarProjection` elements. Do not re-prove the correspondence of states: consume the
+restriction and extension maps of CompactQuantumMetricSpaces §0.2 on this carrier, and prove only
+that they carry the state `B(ρ, ·)` of §4.2 to `A ↦ Tr(ρA)`. Being affine bijections, they carry
+pure states to pure states; the pure state of `vv*`, `‖v‖ = 1`, is `A ↦ v* A v`. Prove that a
+Jordan homomorphism `Herm_n(ℂ) → Herm_m(ℂ)` has a unique complex-linear extension
+`M_n(ℂ) → M_m(ℂ)`, which preserves the adjoint and the symmetrized product, and that restriction
+is its inverse.
 
-The compact Albert algebra is `TauCeti.CompactAlbertAlgebra ℝ` of LieHighestWeight Layer 8. That
-layer supplies the carrier, its coordinate product, the Jordan identity, formal reality, the three
-diagonal idempotents with their Peirce spaces, and the coordinate trace and cubic determinant with
-the associativity of the trace form and the cubic characteristic identity. Here it is one more
-EJA: its spectral decomposition, the characterization of primitive idempotents by trace one and
-the cardinality of its frames are the statements of §1.2, §2.3 and §2.4. The only targets specific
-to it are the table row above and the equalities of `tr` and `det` with Layer 8's coordinate trace
-and determinant; for `det`, `χ_x` and Layer 8's cubic are monic of degree three and vanish at `x`,
-so they agree at regular `x`, hence everywhere.
+The compact Albert algebra is `TauCeti.CompactAlbertAlgebra ℝ` of LieHighestWeight Layer 8. This
+roadmap takes from that layer the carrier, its coordinate product, formal reality, the Peirce
+calculations at the three diagonal idempotents, the coordinate trace and cubic determinant with
+the associativity of the trace form and the cubic characteristic identity, and the Jordan
+identity, which is a target of that layer. Given these it is one more EJA, and the only targets
+here that are specific to it are the table row above and the equalities of `tr` and `det` with
+the coordinate trace and determinant; for `det`, `χ_x` and the coordinate cubic are monic of
+degree three and vanish at `x`, so they agree at regular `x`, hence everywhere. The general
+statements of Layers 1 and 2 then hold for it: power-associativity, the spectral decomposition,
+primitive idempotents as the idempotents of trace one, and the cardinality of its frames. They
+are available to Layer 8 as instances.
 
 *Needs:* §0.2, §2.4, §4.1, §4.2, §6.1, §6.2; Mathlib `Matrix.IsHermitian` spectral theory;
 LieHighestWeight Layer 8; CompactQuantumMetricSpaces §0.2.
@@ -611,8 +629,8 @@ LieHighestWeight Layer 8; CompactQuantumMetricSpaces §0.2.
 - `Herm₂(ℂ) ≅ Spin_3` by `[[t+s, z],[z̄, t−s]] ↦ (t,(s, Re z, Im z))`, consistent with
   `d = 2 = n − 1`.
 - `ℝ ⊕ ℝ` has rank `2` and is not simple: for its frame `J_12 = 0`.
-- The zero algebra has the empty frame, whose graph is vacuously connected, and is not simple;
-  §6.2 needs `J` nontrivial.
+- The zero algebra has the empty frame and is not simple: its graph has no vertex, so it is
+  preconnected and not connected in the sense of Mathlib's `SimpleGraph.Connected`.
 - The compact Albert algebra has `d = (27 − 3)/3 = 8`. The split Albert algebra
   `TauCeti.AlbertAlgebra ℝ` is a Jordan algebra that is not formally real.
 
@@ -660,24 +678,26 @@ Two elements of an EJA *operator commute* when `L_a L_b = L_b L_a`. Prove:
    `b` at `p`, this component vanishes. Repeat in `J_0(p)` with `a − λ_max p`.
 5. For `a, b ∈ C` the following are equivalent: `a` and `b` operator commute;
    `P(a) P(b) = P(b) P(a)`; `P(√a) b = P(√b) a`. Route for the last: by the fundamental formula
-   `P(√a) P(√b)` is then a normal operator for `B`; a normal product of two positive semidefinite
-   operators has real spectrum, so it is self-adjoint and the factors commute; apply 4 to `√a`
-   and `√b`.
+   `T = P(√a) P(√b)` then satisfies `T T* = T* T` for `B`. For positive semidefinite `A` and `D`,
+   `AD` has the characteristic polynomial of `D^(1/2) A D^(1/2)`, by `Matrix.charpoly_mul_comm`,
+   so it splits over `ℝ`; and a normal real operator whose characteristic polynomial splits over
+   `ℝ` is self-adjoint, by induction on the orthogonal complement of an eigenspace. So `T` is
+   self-adjoint and its factors commute; apply 4 to `√a` and `√b`.
 
 *Needs:* §2.2, §2.5, §3.1, §3.3. Van de Wetering, Proposition 3.9, for the statement of 5.
 
 ### 7.3 The sequential product of an EJA
 
-For effects `a, b` of an EJA put `a & b = P(√a) b`. Prove that `a & b` is an effect below `a`,
-that `(a, b) ↦ a & b` is continuous on `C × J`, and that `[0,e]` with `&` is a sequential effect
-algebra: axioms 1 and 2 are linearity and `P(e) = 1`; axiom 3 is `B(e, a & b) = B(a,b)` with
+For `a ∈ C` and `b ∈ J` put `a & b = P(√a) b`. Prove that `(a, b) ↦ a & b` is continuous on
+`C × J`, that `a & b` is an effect below `a` when `a` and `b` are effects, and that `[0,e]` with
+`&` is a sequential effect algebra: axioms 1 and 2 are linearity and `P(e) = 1`; axiom 3 is `B(e, a & b) = B(a,b)` with
 §3.5; axiom 4 is items 3 and 5 of §7.2; axiom 5 is items 2 and 5 of §7.2. Prove that `a | b`
 exactly when `a` and `b` operator commute, in which case `a & b = a ∘ b`, that `p & b = P(p) b` is
 the Peirce projection of `b` for an idempotent `p`, that an effect `p` is an idempotent exactly
 when `p & p = p`, and that `a & b = √a b √a` in `Herm_n(K)`.
 
-*Needs:* §2.5, §3.3–3.5, §4.3, §7.1, §7.2. Van de Wetering, Theorem 4.2 and Proposition 4.3, for
-the statements.
+*Needs:* §2.5, §3.3–3.5, §4.3, §7.1, §7.2. Van de Wetering, Theorem 4.2 for the axioms and
+Proposition 4.3 for continuity in `a` with `b` fixed.
 
 **Checks.**
 
@@ -704,11 +724,13 @@ the statements.
 
 ## Downstream consumers
 
-- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) §12.J. The comparison of §6.4 identifies
-  the idempotents of `Herm_n(ℂ)` with the projections of `M_n(ℂ)` and Jordan frames with the
-  families of rank-one projections of orthonormal bases, and a Jordan `*`-map of V12.J.Maps
-  between matrix algebras restricts to a Jordan homomorphism of their self-adjoint parts.
-  Gleason's theorem and the reconstruction of normal Jordan maps stay with V12.J.
+- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) §12.J. For V12.J.Maps, §6.4 identifies
+  the idempotents of `Herm_n(ℂ)` with the projections of `M_n(ℂ)`, and the Jordan `*`-maps
+  between matrix algebras with the Jordan homomorphisms of their self-adjoint parts, by
+  restriction and unique complexification; normality is automatic in finite dimension. For
+  V12.J.Enriched, the state comparison of §6.4 preserves the evaluation of states on
+  projections. Gleason's theorem, the enriched comparison theorem and the reconstruction of
+  normal Jordan maps are V12.J's.
 - [CStarAlgebras](../CStarAlgebras/README.md) C2.4. Under the state comparison of §6.4 the pure
   states of `Herm_n(ℂ)` are the pure states `T ↦ ⟪ξ, Tξ⟫` of `M_n(ℂ) = K(ℂⁿ)`.
 
@@ -722,8 +744,9 @@ of rank at most two, and effect algebras with the sequential product of an EJA.
 
 - **JB-algebras and Hilbert-space quantum theory.** Segal systems; JB- and JBW-algebras with
   their quadratic representation, fundamental formula, inverses, square cone and projection order;
-  and effects, POVMs, instruments, Gleason's theorem and density operators on Hilbert spaces, are
-  the subject of the roadmap on the mathematical foundations of quantum systems and of
+  the bounded Hilbert comparison with its state adapter; and effects, POVMs, instruments,
+  Gleason's theorem and density operators on Hilbert spaces, are the subject of the roadmap on the
+  mathematical foundations of quantum systems (its §1.6, §1.8, §2.1 and §2.3) and of
   VonNeumannAlgebras. None of them is built or used here. The interface has two parts. The norm
   laws of §4.1 say that an EJA with `‖·‖_e` satisfies the JB-algebra axioms, so general JB
   statements apply to it, while the proofs here are the finite-dimensional ones and do not pass
@@ -734,9 +757,10 @@ of rank at most two, and effect algebras with the sequential product of an EJA.
   [CompactQuantumMetricSpaces](../CompactQuantumMetricSpaces/README.md) Layer 0. Layers 4 and 5
   specialize them.
 - **The octonions and the Albert algebra** belong to
-  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 8, with the division
-  of work stated in §6.4: that layer owns the carrier and its coordinate facts, this roadmap the
-  general spectral and frame theory of which the Albert statements are instances.
+  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 8. This roadmap
+  consumes the carrier and its coordinate facts as listed in §6.4, proves nothing about the
+  octonions, and offers the general spectral and frame theory, of which the corresponding
+  statements for the compact Albert algebra are instances.
 - **Lie subgroups** belong to [LieGroups](../RepresentationTheory/LieGroups/README.md). §5.2
   consumes the closed-subgroup theorem.
 - **The classification of the simple algebras of rank at least three**, by Jacobson's
@@ -764,8 +788,9 @@ of rank at most two, and effect algebras with the sequential product of an EJA.
 
 ### From Tau Ceti
 
-The three Jordan modules `Basic`, `Peirce` and `TraceForm` are in Tau Ceti's main branch (TauCeti
-pull requests 39963 and 41648).
+The Jordan modules `Basic`, `Peirce` and `TraceForm` are on Tau Ceti's main branch (TauCeti pull
+requests 39963 and 41648) and postdate the Tau Ceti revision this repository pins, so
+`Suggested.lean` does not import them; `Derivation` is at the pin.
 
 - `TauCeti.Algebra.Jordan.Basic`: `TauCeti.Jordan.mul_mul_mul_sub_add_add_eq_zero`, the linearized
   Jordan identity in product form.
@@ -789,18 +814,22 @@ pull requests 39963 and 41648).
 ### From LieHighestWeight Layer 8
 
 - `TauCeti.CompactAlbertAlgebra ℝ` (`TauCeti.Algebra.AlbertAlgebra.Compact`) with its
-  `NonAssocCommRing` and `Module ℝ` structure, its coordinate product, `IsCommJordan`,
-  `IsFormallyReal`, dimension `27`, the three diagonal idempotents with their Peirce spaces, and
-  the coordinate trace and cubic determinant with the associativity of the trace form and the
-  cubic characteristic identity. The Jordan identity `IsCommJordan` is a target of that layer.
+  `NonAssocCommRing` and `Module ℝ` structure, its coordinate product, `IsFormallyReal`, dimension
+  `27`, the Peirce calculations at the three diagonal idempotents, and the coordinate trace and
+  cubic determinant with the associativity of the trace form and the cubic characteristic
+  identity.
+- The Jordan identity `IsCommJordan (TauCeti.CompactAlbertAlgebra ℝ)`, a target of that layer.
 
 ### From LieGroups Layer 2
 
-- The closed-subgroup theorem `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`, the Lie algebra
-  `TauCeti.Lie.lieSubalgebraOfSubgroup` of a closed subgroup with its description by one-parameter
-  subgroups `TauCeti.Lie.mem_lieSubalgebraOfSubgroup`, its identification with the tangent space
-  `TauCeti.Lie.lieEquivLieSubalgebraOfSubgroup`, and the case of the units of a normed algebra in
-  `TauCeti.Geometry.Lie.Subgroup.Units`, applied to `G ⊆ GL(V)`.
+- The closed-subgroup theorem with its model space,
+  `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`; the Lie
+  algebra `TauCeti.Lie.lieSubalgebraOfSubgroup` of a closed subgroup with its description by
+  one-parameter subgroups, `TauCeti.Lie.mem_lieSubalgebraOfSubgroup`; the comparison
+  `TauCeti.Lie.EmbeddedLieSubgroupData.lieEquivLieSubalgebraOfSubgroup`
+  (`TauCeti.Geometry.Lie.Subgroup.Differential`); the tangent comparison
+  `leftInvariantDerivationLieEquivGroupLieAlgebra` (`TauCeti.Geometry.Lie.Tangent.LieEquiv`); and
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv` for the units of a finite-dimensional normed algebra.
 
 ## Provenance
 
