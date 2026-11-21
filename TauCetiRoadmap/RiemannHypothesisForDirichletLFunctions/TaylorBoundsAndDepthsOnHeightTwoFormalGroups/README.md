@@ -85,10 +85,11 @@ coefficients of `exp(B)` up to `κ` depend only on those of `B` up to `κ`).
 
 *Route.* (a), (b): the coefficient formulas and the ultrametric inequality, coefficient by coefficient (which is what
 makes the truncated forms hold); the Gauss-norm form of (b) from the weight form and the bound of each term by the supremum
-(`MvPowerSeries.le_gaussNorm`). (c): `v_p(B^k/k!) ≥ k/(p−1) − v_p(k!) − Σ n_i r_i` and `v_p(k!) ≤ (k−1)/(p−1)`.
-(d): `log(1 + y) = Σ_k (−1)^{k+1}y^k/k` and (f). (e): Legendre's formula `v_p(n!) = (n − s_p(n))/(p−1)` with
-`s_p(n) ≤ (p−1)(⌊log_p max(n, 1)⌋ + 1)` (the number of digits), summed over the coordinates (`κ_i ≤ |κ|`); `⌊x⌋ ≤ x` gives the
-form with `lg_p`. (f): geometric series.
+(`MvPowerSeries.le_gaussNorm`). (c): `v_p(B^k/k!) ≥ k/(p−1) − v_p(k!) − Σ n_i r_i` and `v_p(k!) ≤ (k−1)/(p−1)`
+(IntegralIwasawaTheory §4.1a, the factorial bound). (d): `log(1 + y) = Σ_k (−1)^{k+1}y^k/k` and (f). (e): the sharper form is
+PadicDifferentialEquationsAndRigidCohomology §RD.6.35 (`v_p(n!) ≥ n/(p−1) − ⌈log_p(n + 1)⌉` for `n ≥ 1`, Legendre's formula
+with the number of digits), where `⌈log_p(n + 1)⌉ = ⌊log_p n⌋ + 1`, summed over the coordinates with `κ_i ≥ 1` (`κ_i ≤ |κ|`; a
+coordinate `κ_i = 0` contributes `0`); `⌊x⌋ ≤ x` gives the form with `lg_p`. (f): geometric series.
 
 *Checks.* (Agreement) A weight is not a bound on Mathlib's Gauss norm alone. At `r = 0` the terms of `exp(T)`
 have `|1/n!| = p^{v_p(n!)}`, unbounded, so `‖exp T‖_0 = 0` although `exp(T)` has no weight at all at radius `0`. Reading
@@ -98,9 +99,13 @@ have `|1/n!| = p^{v_p(n!)}`, unbounded, so `‖exp T‖_0 = 0` although `exp(T)`
 `ρ_LT` by (f), with equality exactly at the monomials `T` and `T^{p²}`. (Truncation) For `p` odd, `κ = (1, 1)`, radii `0` and
 `f = p^{−1}X_1²`, every coefficient of `f` up to `κ` is `0`, but the substitution `X_1 = Y_1 + Y_2`, `X_2 = 0` gives the coefficient
 `2/p` at `Y_1Y_2`: the truncated form of (a) needs the hypothesis on the `a_i`. (Monotonicity) `‖T‖_0 = 1 > ‖T‖_1 = p^{−1}`.
+(Restricted series) On restricted series (`|coeff_n f|·∏_ip^{−n_ir_i} → 0`) the untruncated (a) is a case of RestrictedPowerSeries
+§2.2 (contractive substitution, constant terms allowed), and the Gauss-norm form of (b) is RestrictedPowerSeries §§1.2, 1.1 (change
+of radii, submultiplicativity); (a) and (b) extend them to bounded families of coefficients and to the truncations up to `K` and `κ`.
 
 *KNOWN* (Legendre). *Needs:* Mathlib `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm`, `MvPowerSeries.le_gaussNorm`,
-`MvPowerSeries.gaussNorm_mul_le` (coefficients and substitution), Legendre's formula for `padicValNat p n!`.
+`MvPowerSeries.gaussNorm_mul_le` (coefficients and substitution); IntegralIwasawaTheory §4.1a;
+PadicDifferentialEquationsAndRigidCohomology §RD.6.35.
 
 ### 4.2 A valuation gap at degrees divisible by `p + 1`
 
@@ -242,7 +247,9 @@ proofs of the biadditivity, of the torus action and of the substitution are not 
 
 *Check.* The sign matters in (c): for the law of `ℓ_{−1}`, `n′ = 2`, trivial trace bases, `β₀ = Φ = 0` and `U₀ = X`, the factor `U`
 restricted to the even letter would be `ℓ_{−1}^{−1}(ℓ_{+1}(T)) = T + (2/p)T^{p²} + ⋯`, not integral; the sign `−1` is brought to
-`+1` before passing to letters (by the homothety `Y ↦ 𝔲Y`, `𝔲^{p²−1} = −1`, of 4.4, route).
+`+1` before passing to letters (by the homothety `Y ↦ 𝔲Y`, `𝔲^{p²−1} = −1`, of 4.4, route). The sign `−1` is that of a CM
+elliptic curve with good reduction at a prime `p` inert in its CM field: over `W(𝔽_{p²})` its formal group is the Lubin–Tate
+module of `−p` (LubinTateFormalModulesAndQuasiCanonicalLifts §4.4; NonordinaryCMSpecialValues §§3.4–3.5).
 
 *NEW*. *Needs:* 4.2, 4.3, 4.4; HodgeTateLatticesAndLubinTateLogarithms §§3.2, 3.3, 3.4, 3.5.
 
@@ -278,8 +285,8 @@ radius of the formal exponential. One letter: `γ_LT − 1/(p+1) = ρ_LT` and `(
 
 *Check.* The one-letter exponent `ρ_LT` is the true order for one CM elliptic curve: for `y² = 4x³ − 4x` at `p = 7`
 (inert in `ℚ(i)`), `g₂ = 4 = 60G₄` gives `G₄ = 1/15` and `G₈ = (3/7)G₄²` has `v_7 = −1`, so the coefficient `−G₈/8`
-of `z⁸` in `log σ(z)` is the exceptional term of 4.2; the derivatives of `σ` at `0` are divisible only by
-`p^{ρ_LT·m − O(log m)}`, not `p^{γ_LT·m − O(log m)}`.
+of `z⁸` in `log σ(z)` (`σ` the sigma function of the lattice, ModularCurvesPartII §1.4a) is the exceptional term of 4.2; the
+derivatives of `σ` at `0` are divisible only by `p^{ρ_LT·m − O(log m)}`, not `p^{γ_LT·m − O(log m)}`.
 
 *NEW*. *Needs:* 4.1, 4.3; HodgeTateLatticesAndLubinTateLogarithms §3.1.
 
@@ -511,11 +518,11 @@ embedding.
 - *Frames.* For an embedding `τ` let `Lie_τ := {u ∈ Lie(𝒜/R) : i(a)u = τ(a)u for all a ∈ 𝒪_E}` be the `τ`-eigenspace of the
   tangent module of the model, and `n_τ` the dimension of the `τ`-part of `Lie(A)` (the signature, PELModuli M1.3). `Lie_τ` is
   saturated in `Lie(𝒜/R)` (a kernel of `R`-linear maps into a torsion-free module) and `Lie_τ ⊗ K_R` is the `τ`-part of `Lie(A)`,
-  so `Lie_τ` is free of rank `n_τ`. A *frame* of `y` is a family of vectors `u_{τ,s}` (`τ` an embedding, `s < n_τ`) such that, for
-  every `τ`, the `u_{τ,s}` (`s < n_τ`) form an `R`-basis of `Lie_τ`; a *framed point* is an integral point with a frame. Every
-  integral point has frames, and two frames differ by an element of `∏_τGL_{n_τ}(R)`. At a prime `p` unramified in `E`,
-  `Lie(𝒜/R)` is the direct sum of the `Lie_τ` (the idempotents of `𝒪_E ⊗ R` are integral), so the frame vectors of all the
-  embeddings together form an `R`-basis of `Lie(𝒜/R)`; at a prime ramified in `E` they need not (Check).
+  so `Lie_τ` is free of rank `n_τ` (AInfCohomology §AI.1.3). A *frame* of `y` is a family of vectors `u_{τ,s}` (`τ` an embedding,
+  `s < n_τ`) such that, for every `τ`, the `u_{τ,s}` (`s < n_τ`) form an `R`-basis of `Lie_τ`; a *framed point* is an integral point
+  with a frame. Every integral point has frames, and two frames differ by an element of `∏_τGL_{n_τ}(R)`. At a prime `p` unramified
+  in `E`, `Lie(𝒜/R)` is the direct sum of the `Lie_τ` (the idempotents of `𝒪_E ⊗ R` are integral; PELModuli §M0.27), so the frame
+  vectors of all the embeddings together form an `R`-basis of `Lie(𝒜/R)`; at a prime ramified in `E` they need not (Check).
 - *Integral charts.* An *integral chart* `𝔠` of a framed point `y` consists of coordinates `x = (x_1, …, x_g)` on the formal
   completion `𝒜̂` of `𝒜` along the zero section in which the group law `x +_F x′` and the action `[a](x)` (`a ∈ 𝒪_E`) are power
   series with coefficients in `R`; the frame, read as tangent vectors of `𝒜̂`; an element `w₀ ∈ 𝒪_E` with `w₀ + w̄₀ = 1` (it exists
@@ -555,8 +562,8 @@ exist while no family of eigenvectors of the two embeddings is part of a basis. 
 increase with `n`: a polynomial on `n` copies is one on `n + 1` copies. (Harmonicity) For `n_τ = n_{τ̄} = 1`, `κ = (1)` at `τ` and
 `(1)` at `τ̄`: `x_{τ,0,0}x_{τ̄,0,0}` is of weight `κ` and not harmonic (its Laplacian is `1`), while `x_{τ,0,0}x_{τ̄,0,1}` is harmonic.
 
-*NEW* (definitions). *Needs:* PELModuli M1.3, M1.7; ShimuraCompactifications 6.1; AbelianSchemesAndArithmeticModuli A2.3;
-Mathlib `PowerSeries`, `MvPolynomial`, `Matrix.det`.
+*NEW* (definitions). *Needs:* PELModuli §§M0.27, M1.3, M1.7; ShimuraCompactifications 6.1; AbelianSchemesAndArithmeticModuli
+A2.3; AInfCohomology §AI.1.3; Mathlib `PowerSeries`, `MvPolynomial`, `Matrix.det`.
 
 *In [FormalProof]:* framed and integral points FrPt (`Formalism/LocalToGlobal/ProjectiveLattices/IsCombAt.lean`) and IntFr (`Formalism/LocalToGlobal/ProjectiveLattices/VAtVNeBot.lean`), integral charts IntegralChartA3 (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), the depths nuLocC, nuLoc and nuSup (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`), where the depth at a place is also cut off below at `0`. There `w₀ = (1 + √−d)/2` is fixed, for fields `E ⊃ ℚ(√−d)` with `d` a prime `≡ 7 (mod 16)` and `E/E⁺` unramified at every finite place (Host, `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/TwoWeightEqOneAddRoot.lean`), and an algebraic point is one with a finite residue field (IntFr.IsAlg).
 
@@ -572,7 +579,8 @@ module of coordinate tangent vectors and span a saturated submodule.
 
 *Route.* (3) The coordinate tangent vectors `∂/∂x_i` at `0` form a basis of `Lie(𝒜/R)`; the frame at `τ` is a basis of `Lie_τ`
 (4.8b); the eigenvector condition is stable under division by a nonzero scalar, so `Lie_τ` is saturated; a linearly independent
-family with saturated span in a free module over a discrete valuation ring extends to a basis. (2) Two integral charts of `y`
+family with saturated span in a free module over a discrete valuation ring extends to a basis (the saturated span is a direct
+summand, PadicDifferentialEquationsAndRigidCohomology §RD.0.30 (b)). (2) Two integral charts of `y`
 are coordinates on the formal completion of the same model, related by an invertible change of coordinates with coefficients
 in `R` whose linear part carries the frame to itself (the frame is part of `y`) and which carries the group law and the action of
 one chart to those of the other; the invariant derivations along the frame and the power series with coefficients in `R` are
@@ -585,7 +593,7 @@ not given here.
 *Check.* At a prime unramified in `E`, (3) holds for the whole frame at once (4.8b); at a ramified prime it holds embedding by
 embedding only (4.8b, Check).
 
-*NEW* (as stated; (3) elementary). *Needs:* 4.8b; Mathlib (modules over a discrete valuation ring: saturated submodules, bases).
+*NEW* (as stated; (3) elementary). *Needs:* 4.8b; PadicDifferentialEquationsAndRigidCohomology §RD.0.30.
 
 *In [FormalProof]:* (1) is intChart_exists (`Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/ExistsIntegralChartIntegralFramedPoint.lean`), for the fields of Host (4.8b), a narrower class than the one of (1); (2) is ChartIndep (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`), proved as chartIndep_holds (`Development/AbelianVarietyTheory/Proofs/FormalGroupCharts/NuAlgLeOfCharts.lean`); (3) is ChartSaturated (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), proved as chart_saturated (`Formalism/LocalToGlobal/ProjectiveLattices/SatLeaves.lean`).
 
@@ -605,18 +613,23 @@ of `Hom(Lie_{τ_s} ⊗ O, O)` with `Hom(Lie_{τ_s} ⊗ O, O)/L_s ≅ ⊕_iO/(c_i
 *Route.* The instance of HodgeTateLatticesAndLubinTateLogarithms §0.5d (a) for the model `𝒜` of `y`, the order `𝒪_E` with complex
 conjugation and `r(τ) = n_τ`: the embeddings `𝒪_E → R` of 4.8b, composed with `R → O`, are the embeddings `𝒪_E → O`, compatibly
 with conjugation; a Frobenius-ordered cycle of pairwise distinct embeddings is the set of embeddings at one place above `p` (`p`
-is unramified); the Rosati involution of the polarisation `λ = φ_{L_{K_R}}` is the conjugation (4.8b:
-`(i(a) × 1)^*Λ(L) ≅ (1 × i(ā))^*Λ(L)`); and the frame vectors at `τ` form a basis of `Lie_τ ⊗ O` (4.8b). HodgeTateLatticesAndLubinTateLogarithms §0.5d (a) asks for a
-uniformisation of the semi-abelian scheme; for an algebraic point the model has one after a finite extension of `R` inside `O`,
+is unramified); the Rosati involution of the polarisation `λ = φ_{L_{K_R}}` is the conjugation (AbelianSchemesAndArithmeticModuli
+§A3.9 with `i(ā)^∨λ = λi(a)`; 4.8b: `(i(a) × 1)^*Λ(L) ≅ (1 × i(ā))^*Λ(L)`); and the frame vectors at `τ` form a basis of
+`Lie_τ ⊗ O` (4.8b). HodgeTateLatticesAndLubinTateLogarithms §0.5d (a) asks for a uniformisation of the semi-abelian scheme
+(degeneration data over `R` exist by NeronModelsAndSemistableAbelianVarieties §§3.13, 3.14 and ShimuraCompactifications §6.6,
+whose setting (6-a) specialises to a complete discrete valuation ring; their compatibility with the action of `𝒪_E` is not given
+here); for an algebraic point the model has one after a finite extension of `R` inside `O`,
 which changes neither the eigenspaces nor the colengths (computed in `O`); this passage is not given here. When `𝒜` is an
 abelian scheme no uniformisation is needed (the abelian case of HodgeTateLatticesAndLubinTateLogarithms §0.5d (a)), and "algebraic" is not used.
 
 *Checks.* For `E_w = ℚ_{p²}` and a one-dimensional formal group of height two (ranks `1` and `0` at the two embeddings of `w`, `0`
 and `1` at their conjugates), `S = 1/p + 1/p³ + ⋯ = γ_LT(p)`, the valuation of the period of the Lubin–Tate character. For an
 ordinary point (`r(τ̄) = 0` at the embeddings that follow `τ_s`), `S(τ_s) = 0`: the characters of the multiplicative part span.
-`S(τ_s) ≤ max_τr(τ̄)/(p − 1)`, the bound that the Hodge–Tate cokernel gives.
+`S(τ_s) ≤ max_τr(τ̄)/(p − 1)`, the bound that the Hodge–Tate cokernel gives (HodgeTateAndCanonicalSubgroups §0.5: the cokernel
+is killed by `p^{1/(p−1)}`).
 
-*NEW* (as stated). *Needs:* 4.8b; HodgeTateLatticesAndLubinTateLogarithms §0.5d.
+*NEW* (as stated). *Needs:* 4.8b; HodgeTateLatticesAndLubinTateLogarithms §0.5d; AbelianSchemesAndArithmeticModuli §A3.9;
+NeronModelsAndSemistableAbelianVarieties §§3.13, 3.14; ShimuraCompactifications §6.6.
 
 *In [FormalProof]:* GlobalTheory.CharMinor.colength_bound (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ExistsCharactersBoundedMinorEigenspace.lean`), with the cycle given as an injective Frobenius-ordered family of embeddings and `p ∤ disc(E)` for the unramified prime.
 
@@ -668,7 +681,8 @@ biextension in canonical gauge, and the existence of the integral germ from (U1)
 to `i + 1` rows of each column as a combination of the `i` selected columns plus a multiple `μ_b` of the last basis vector, and
 select a column with `|μ_b|` largest; in a valuation ring the other `μ_b` are multiples of it, and it is a new column because `i`
 columns cannot span a module containing `c·O^{i+1}`. Equal spans give the divisibility of the minors, and the last minor
-generates the determinant ideal of the span. Then (a) with the flag. (c) The cokernel of `Sα` is a quotient of the cokernel of
+generates the determinant ideal of the span, the zeroth Fitting ideal of its cokernel, which for a cokernel `⊕_iO/(c_i)` is
+`(∏_ic_i)` (AInfCohomology §AI.1.3). Then (a) with the flag. (c) The cokernel of `Sα` is a quotient of the cokernel of
 `α`, so the ideal generated by the `n × n` minors of `Sα` contains an element of absolute value at least the colength of `α`; a
 finitely generated ideal of a valuation ring is generated by one of its generators; the colength is that of 4.8c. *One minor:*
 4.8c gives the characters, (b) a flag with every leading minor of absolute value `≥ |p|^{S(τ_s)}`, and for a product of characters,
@@ -687,7 +701,7 @@ of a single capacity is `γ_LT·D`, 4.6), so the rate `S(τ)` of the one-minor c
 no polarisation factor; the same bound for the depth of 4.8b, for powers of minors on isotropic combinations of the copies, is
 4.19f (o).
 
-*NEW* ((a) as a statement; (b), (c) elementary). *Needs:* 4.8b, 4.8c; PELModuli M1.7.
+*NEW* ((a) as a statement; (b), (c) elementary). *Needs:* 4.8b, 4.8c; PELModuli M1.7; AInfCohomology §AI.1.3.
 
 *In [FormalProof]:* (a) is GlobalTheory.T.chartDepth_le_of_characterFlags (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ChartDepthLeOfCharacterFlagsStatement.lean`); (b) is CharStatement, proved as charThm (`ReciprocityTheory/DualLattices/UpBrChar.lean`), and for characters GlobalTheory.T.exists_flag_characters_leading_minors_colength (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/ExistsFlagCharactersLeadingMinorsColengthStatement.lean`); (c) is ch_minor and frobSum (`Formalism/LocalToGlobal/CharacterGerms/ExistsStrictMonoMinor.lean`), the one-minor clause GlobalTheory.T.flagStep_characters_of_colength (`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlagStepCharactersOfColengthStatement.lean`). The products clause of (b) is not stated there.
 
@@ -963,15 +977,18 @@ the `N` given curves are independent modulo `𝔪`; they pair into `𝔪` with t
 `t^{ℓ²}` is used); in the space of type `a + 1` of the other side, of dimension `n + j`, `N + M ≤ n + j`, so `N ≤ j′`. The existence of the
 `M` good curves and the pairing into `𝔪` are not proved here. (b) The passage from non-degeneracy to the first clause of (RD5) is
 not proved here. (c) The chart contains the formal group law, the action and the polarisation series in canonical gauge, all
-integral; base change to `C` is coefficientwise (the existence of logarithm and exponential over `C` is not proved here). The
+integral; base change to `C` is coefficientwise (the existence of logarithm and exponential over `C` is not proved here;
+BordismFormalGroups §1.3 gives it for a one-dimensional law). The
 projectors and the endomorphisms `ζ` are limits of elements of `𝒪_E` (idempotents and Teichmüller representatives of `𝒪_E ⊗ ℤ_ℓ`,
 `ℓ` unramified), with adjoints their conjugates: a coefficientwise limit of endomorphisms coming from `𝒪_E` is an integral
 endomorphism whose adjoint is the limit of the conjugates. That the chart with the eigen-frame is an integral gauged formal group
 law with these projectors and endomorphisms (three statements), and the labelling of the frame by the orbit at an orbit that alternates between `Φ` and `cΦ`, are not proved
 here. Non-degeneracy: a degenerate direction would give, at a point of the special
-fibre over an algebraically closed field, an infinitesimal subgroup on which the pairing of the polarisation is trivial, while the
-Weil pairing on the `ℓ`-torsion of the polarised generic fibre is perfect (`ℓ` prime to the level) and extends through the torus
-extension; this is not proved here beyond this outline. (RD7): 4.8c with 4.18 (b), (c) for the `n` frame vectors of a big type:
+fibre over an algebraically closed field, an infinitesimal subgroup on which the pairing of the polarisation is trivial, while,
+for `ℓ ∤ deg λ` (`λ` the polarisation of `y`, 4.8b), the Weil pairing on the `ℓ`-torsion of the polarised generic fibre is perfect
+(AbelianSchemesAndArithmeticModuli §A3.7) and the duality of its finite parts extends over `R` through the torus extension
+(NeronModelsAndSemistableAbelianVarieties §3.6); for `ℓ | deg λ` this step is not given here, and the rest is not proved here
+beyond this outline. (RD7): 4.8c with 4.18 (b), (c) for the `n` frame vectors of a big type:
 for alternating ranks `S = (n + j)γ + j′ρ_LT ≤ nγ + j_t/(ℓ − 1)`, for constant ranks `S = j′/(ℓ − 1) ≤ j_t/(ℓ − 1)` (geometric series).
 Blocks: jets multiply over disjoint copies, and in a copy only one side, or one component, of `h` occurs; that the product of the
 blocks of a plan is an integral harmonic polynomial of the weight, and the comparison of the depth of 4.8b (polarisation factor
@@ -991,7 +1008,7 @@ position.
 
 *NEW* (as a statement); ingredients classical in kind (Cartier's typical curves; quasi-logarithms and the universal vector extension,
 Katz, Mazur–Messing; biextensions of formal groups, Mumford; the Weil pairing). *Needs:* 4.8b, 4.8c, 4.18, 4.19, 4.19c; PELModuli
-M1.3, M1.7.
+M1.3, M1.7; AbelianSchemesAndArithmeticModuli §A3.7; NeronModelsAndSemistableAbelianVarieties §3.6.
 
 *In [FormalProof]:* integral gauged formal group laws are RLaw with HasProj and HasTeich (`Development/AbelianVarietyTheory/Definitions/TeichmullerDepth/HasTeich.lean`) on RawChart (`Formalism/LocalToGlobal/CharacterGerms/RowTieDefs.lean`), with row datum rowData (`Formalism/LocalToGlobal/CharacterGerms/RowTie.lean`); (a1), (a3), (a4), (a5) are GlobalTheory.T.cartHyp_of_integralGaugedFormalGroupLaw, GlobalTheory.T.integralGerms_independent_of_curveSystem, GlobalTheory.T.gaugeDeriv_eq_pairing_of_integralGaugedLaw and GlobalTheory.T.gaugedFormalGroup_kernel_small_of_second (`Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/`); (c) is PkgInertSt (`Development/AbelianVarietyTheory/Definitions/Jets/DepthNumbersThresholdEq.lean`), proved as pkgInert (`Development/AbelianVarietyTheory/Proofs/JetHarmonics/InertPrimeDepthDataExistsAtPointsProof.lean`). There the level is a natural number `N` with `v(N) = 0`.
 
@@ -1086,7 +1103,7 @@ which does not alternate.
 
 ### Dependencies
 
-The layer uses HodgeTateLatticesAndLubinTateLogarithms §§3.1–3.5 (in 4.3–4.5a) and HodgeTateLatticesAndLubinTateLogarithms §0.5d (in 4.8c); LubinTateFormalModulesAndQuasiCanonicalLifts §4.3 (4.4, 4.4a); IntegralWeylModulesOfGeneralLinearGroups §0.1 (4.7); PELModuli §§M1.3, M1.7, ShimuraCompactifications §6.1 and AbelianSchemesAndArithmeticModuli §A2.3 (4.8b–4.8c, 4.18, 4.19e); and Mathlib's Gauss norm of multivariate power series, Legendre's formula, the trace form, determinants and finite-dimensional linear programming.
+The layer uses IntegralIwasawaTheory §4.1a and PadicDifferentialEquationsAndRigidCohomology §RD.6.35 (in 4.1); HodgeTateLatticesAndLubinTateLogarithms §§3.1–3.5 (in 4.3–4.5a) and HodgeTateLatticesAndLubinTateLogarithms §0.5d (in 4.8c); LubinTateFormalModulesAndQuasiCanonicalLifts §4.3 (4.4, 4.4a); IntegralWeylModulesOfGeneralLinearGroups §0.1 (4.7); PELModuli §§M1.3, M1.7, ShimuraCompactifications §6.1 and AbelianSchemesAndArithmeticModuli §A2.3 (4.8b–4.8c, 4.18, 4.19e); PELModuli §M0.27, AInfCohomology §AI.1.3 and PadicDifferentialEquationsAndRigidCohomology §RD.0.30 (4.8b, 4.8b′, 4.18); AbelianSchemesAndArithmeticModuli §A3.9, NeronModelsAndSemistableAbelianVarieties §§3.13, 3.14 and ShimuraCompactifications §6.6 (4.8c); AbelianSchemesAndArithmeticModuli §A3.7 and NeronModelsAndSemistableAbelianVarieties §3.6 (4.19e); and Mathlib's Gauss norm of multivariate power series, Legendre's formula, the trace form, determinants and finite-dimensional linear programming.
 
 ## Downstream consumers
 
@@ -1120,20 +1137,42 @@ Not owned here: the Lubin–Tate logarithms `ℓ_𝔰` of height two are LubinTa
 
 ### From TauCetiRoadmap.PELModuli
 
+- §M0.27 (`τ`-parts at an unramified prime: over a base containing the images of all the embeddings, a module with an action of the ring of integers is the direct sum of its `τ`-parts). Used in 4.8b.
 - §M1.3 (signature type; the eigenspaces of `Lie`). Used in 4.8b, 4.19e.
 - §M1.7 (the PEL moduli problem). Used in 4.8b, 4.18, 4.19e.
 
 ### From TauCetiRoadmap.ShimuraCompactifications
 
 - §6.1 (semi-abelian schemes). Used in 4.8b.
+- §6.6 (the degeneration equivalence: a semi-abelian degeneration with polarised abelian generic fibre has polarised degeneration data, under (6-a)). Used in 4.8c.
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
 - §A2.3 (the Mumford map; `m^*L ⊗ p₁^*L^{−1} ⊗ p₂^*L^{−1}` is the pull-back of the Poincaré biextension by `1 × φ_L`). Used in 4.8b.
+- §A3.7 (the polarised Weil pairing `e_{λ,n}`, perfect when `gcd(n, deg λ) = 1`). Used in 4.19e.
+- §A3.9 (the Rosati involution `α ↦ λ^{−1}α^∨λ`). Used in 4.8c.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+- §§3.13, 3.14 (the Raynaud extension and the polarised uniformisation over a complete discrete valuation ring). Used in 4.8c.
+- §3.6 (Weil orthogonality: the duality of the finite parts of the torsion of the generic fibre extends over the valuation ring). Used in 4.19e.
+
+### From TauCetiRoadmap.AInfCohomology
+
+- §AI.1.3 (finitely generated torsion-free modules over a valuation ring are free; finitely presented modules over a valuation ring are sums of cyclic modules, with zeroth Fitting ideal the product of the elementary divisors). Used in 4.8b, 4.18.
+
+### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
+
+- §RD.6.35 (`n/(p − 1) ≥ v_p(n!) ≥ n/(p − 1) − ⌈log_p(n + 1)⌉` for `n ≥ 1`). Used in 4.1.
+- §RD.0.30 (b) (over a Bézout domain the saturated span of a subset of a finite free module is free and a direct summand). Used in 4.8b′.
+
+### From TauCetiRoadmap.IntegralIwasawaTheory
+
+- §4.1a (the factorial bound `‖n!‖ ≥ p^{−(n−1)/(p−1)}`, that is `v_p(n!) ≤ (n − 1)/(p − 1)` for `n ≥ 1`). Used in 4.1.
 
 ### From Mathlib
 
-- `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm` (coefficients and substitution), `MvPowerSeries.le_gaussNorm` and `MvPowerSeries.gaussNorm_mul_le` (`Mathlib/RingTheory/MvPowerSeries/GaussNorm.lean`: the product bound for two series that have a Gauss norm; a weight of 4.1 is a bound on the Gauss norm together with `HasGaussNorm`), Legendre's formula for `padicValNat p n!`, `Algebra.traceForm`, `PowerSeries`, `MvPolynomial`, `Matrix.det`, multinomial coefficients, finite-dimensional linear programming (convexity), and modules over a discrete valuation ring (saturated submodules, bases), as named in the targets.
+- `MvPowerSeries.gaussNorm`, `MvPowerSeries.HasGaussNorm` (coefficients and substitution), `MvPowerSeries.le_gaussNorm` and `MvPowerSeries.gaussNorm_mul_le` (`Mathlib/RingTheory/MvPowerSeries/GaussNorm.lean`: the product bound for two series that have a Gauss norm; a weight of 4.1 is a bound on the Gauss norm together with `HasGaussNorm`), Legendre's formula for `padicValNat p n!`, `Algebra.traceForm`, `PowerSeries`, `MvPolynomial`, `Matrix.det`, multinomial coefficients and finite-dimensional linear programming (convexity), as named in the targets.
 
 ## References
 
