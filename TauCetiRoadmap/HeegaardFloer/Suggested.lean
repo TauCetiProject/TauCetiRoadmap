@@ -1,9 +1,11 @@
+module
+
 import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.StandardCompatible
 import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
 import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
 # Heegaard Floer homology, analytically: target signatures
@@ -117,7 +119,7 @@ theorem exists_darbouxChart [FiniteDimensional ℝ E] [BoundarylessManifold I M]
       (form₀ : TauCeti.SymplecticForm E),
       x₀ ∈ chart.source ∧ chart x₀ = 0 ∧
       (∀ x ∈ chart.source, ∀ v w : TangentSpace I x,
-        form x v w =
+        TauCeti.SmoothBundleForm.eval₂ form x v w =
           form₀ (mfderiv I 𝓘(ℝ, E) chart x v) (mfderiv I 𝓘(ℝ, E) chart x w)) := by
   sorry
 
@@ -129,7 +131,7 @@ theorem exists_standardDarbouxChart [FiniteDimensional ℝ E] [BoundarylessManif
       (EuclideanSpace ℝ (Fin m) × EuclideanSpace ℝ (Fin m)) ∞),
       x₀ ∈ chart.source ∧ chart x₀ = 0 ∧
       (∀ x ∈ chart.source, ∀ v w : TangentSpace I x,
-        form x v w =
+        TauCeti.SmoothBundleForm.eval₂ form x v w =
           TauCeti.stdSymplecticForm (V := EuclideanSpace ℝ (Fin m))
             (mfderiv I 𝓘(ℝ, EuclideanSpace ℝ (Fin m) × EuclideanSpace ℝ (Fin m))
               chart x v)

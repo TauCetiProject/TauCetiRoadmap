@@ -36,7 +36,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Code.OrthogonalQuotie
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Code.Quadratic
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Discriminant
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Even
-import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Golay
+import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Golay.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Monomial
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Naturality
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Real
@@ -1362,7 +1362,7 @@ theorem integralLattice_discriminant [Fintype ι] (C : AdditiveCode (ZMod m) ι)
 
 theorem integralLattice_discriminant_of_prime [Fintype ι] {p : ℕ} [hp : Fact p.Prime]
     (C : Submodule (ZMod p) (ι → ZMod p)) (hC : C ≤ C.euclideanDual) :
-    (integralLattice ⟨p, hp.out.pos⟩ C.toAddSubgroup hC).discriminant =
+    (integralLattice p C.toAddSubgroup hC).discriminant =
       p ^ (Fintype.card ι - 2 * Module.finrank (ZMod p) C) :=
   ConstructionA.integralLattice_discriminant_of_prime C hC
 
@@ -1815,9 +1815,9 @@ theorem coordinatePowerDiscriminant_apply {hL : L.IsEven} {ι : Type*} [Fintype 
 omit [L.IsNondegenerate] in
 theorem discriminantGroupCoordinatePowerEquiv_mk (ι : Type*) [Fintype ι]
     (x : (L.coordinatePower ι).dualCarrier) :
-    L.discriminantGroupCoordinatePowerEquiv ι (Submodule.Quotient.mk x) =
-      fun i ↦ Submodule.Quotient.mk (L.coordinatePowerDualCarrierEquiv ι x i) :=
-  IntegralLattice.discriminantGroupCoordinatePowerEquiv_mk L ι x
+    IntegralLattice.discriminantGroupPiEquiv (fun _ : ι ↦ L) (Submodule.Quotient.mk x) =
+      fun i ↦ Submodule.Quotient.mk (IntegralLattice.piDualCarrierEquiv (fun _ : ι ↦ L) x i) :=
+  IntegralLattice.discriminantGroupPiEquiv_mk (fun _ : ι ↦ L) x
 
 end CoordinatePowerInterface
 

@@ -66,8 +66,9 @@ end CantorSpace
 
 section GDelta
 
-/-- Follows Mathlib PR #42693. -/
-theorem _root_.IsGδ.polishSpace {X : Type u} [TopologicalSpace X] [PolishSpace X] {s : Set X}
+/-- Follows Mathlib PR #42693 (now `IsGδ.polishSpace` in Mathlib; stated here in the roadmap
+namespace to avoid the name clash). -/
+theorem IsGδ.polishSpace {X : Type u} [TopologicalSpace X] [PolishSpace X] {s : Set X}
     (hs : IsGδ s) : PolishSpace s := by
   sorry
 

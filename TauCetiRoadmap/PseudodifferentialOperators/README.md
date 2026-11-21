@@ -1,43 +1,74 @@
 # Roadmap: pseudodifferential operators and elliptic analysis on bundles
 
-**Summary.** Build differential operators, the classical pseudodifferential calculus and its
-Sobolev, elliptic and microlocal consequences on smooth finite-rank bundles.
-The result includes usable symbols and kernels, quantization, composition and
-adjoints, parametrices, distributional regularity and Fredholm operators. It
-supplies the analytical symbol theory used in index theory and the arbitrary-order
-bundle operators used in Riemannian geometry.
+**Summary.** On ℝⁿ, a differential operator acts on the Fourier transform of a function
+through its symbol a(x,ξ), a polynomial in the frequency ξ; thus D_j=−i∂_j has symbol ξ_j.
+A pseudodifferential operator allows any smooth symbol whose derivatives grow in ξ like a
+polynomial of real degree m. This roadmap builds both kinds of operator on smooth vector
+bundles, and derives Sobolev estimates, the elliptic theory and microlocal
+regularity. Manifolds are finite-dimensional, smooth, Hausdorff, second countable and
+boundaryless; bundles are finite-rank real or complex smooth vector bundles.
 
-## Scope and ownership
+The first part starts from the algebra C∞(M,ℝ). Let Iₓ be the ideal of functions vanishing
+at x. A function lies in Iₓ², the finite sums of products of two elements of Iₓ, exactly when
+it and its differential vanish at x, even for noncompact M; so Iₓ/Iₓ² is the cotangent space
+T*ₓM, via f ↦ dfₓ. Every derivation D of C∞(M,ℝ), with no continuity assumed, comes from a
+unique smooth vector field, whose value at x is the tangent vector f ↦ (Df)(x).
+Complex-linear derivations of complex-valued functions are likewise the complexified
+fields X+iY.
 
-This roadmap owns the smooth differential-operator core (P1.0), classical symbol
-calculus (P2–P4), bundle mapping estimates (P5), general elliptic regularity and
-Fredholm theory (P6), elliptic powers and product indices (P7), finite-deck
-isospectrality (P7a), and microlocal distribution operations (P8).
-DifferentialGeometry Layers 0–1 and 5 supplies smooth forms and integration;
-SmoothBundlesConnections B2–B4 supplies smooth bundles, metrics and connections;
-ComplexKahlerGeometry K5a supplies manifold distributions and the compact p=2
-Sobolev scale; PDE Lane A and Lane B items 8–10 supply scalar weak-derivative
-and harmonic-analysis estimates. P5 owns the general-p bundle comparisons.
+A symbol of order m on ℝⁿ is a smooth matrix-valued function a(x,ξ) with
+`‖∂_x^α ∂_ξ^β a‖ ≤ C 〈ξ〉^(m−|β|)`, where `〈ξ〉=(1+|ξ|²)^(1/2)` and C depends on α, β and a
+compact set containing x. A classical symbol expands into terms homogeneous in ξ of degrees
+m, m−1, …, the remainder after N terms having order m−N; its first term is the principal
+symbol. Borel summation says that symbols a₀, a₁, … of orders m₀≥m₁≥… tending to −∞
+have an asymptotic sum: a symbol b of order m₀ such that, for every k,
+b−(a₀+⋯+aₖ₋₁) has order mₖ.
 
-P5's compatible couples, strip quotient and K-method are generic constructions,
-with arbitrary common Hausdorff topological vector spaces; the distribution-space
-realization is an application. They are the common interpolation objects for
-this roadmap and [NoncommutativeIntegration §§2.2–2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bb121b30160c5188355fdc94c036e2ab0c552aca/TauCetiRoadmap/NoncommutativeIntegration/README.md#22-compatible-couples), whose noncommutative
-Lp and Lorentz identifications use that generic theory. No reverse supply from
-noncommutative integration is needed for the Bessel/Besov comparisons here.
+Quantization turns a symbol a into an operator Op(a) on Schwartz functions; symbols
+polynomial in ξ give the differential operators. If a has order m and vanishes for x outside
+a compact set, Op(a) extends to a bounded map from the Sobolev space H^s to H^(s−m), for
+every real s. If a has order 0 and its bounds hold uniformly in x on all of ℝⁿ, Op(a) is
+bounded on L² (the Calderón–Vaillancourt theorem). The uniformity matters: multiplication by
+x has order 0 on compact sets but is not bounded on L²(ℝ).
 
-Elliptic regularity is shared with two other roadmaps along a fixed boundary. P6 owns the
-smooth-coefficient parametrix route for operators of arbitrary order on bundles: interior
-`H^(s,p)` and Zygmund/Schauder regularity, and Fredholm theory on compact boundaryless bases.
-[PDE](../PDE/README.md) Lane E owns scalar Euclidean regularity with non-smooth coefficients
-(difference quotients, Calderón–Zygmund and VMO estimates, Schauder estimates with Hölder
-coefficients, De Giorgi–Nash–Moser) and is not consumed here.
-[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94066d35c0a90cfd36b4fdbe9e6c8c5d14e4ab51/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) owns the two-dimensional
-first-order Cauchy–Riemann theory with Sobolev coefficients and totally real boundary
-conditions (Cauchy and Beurling operators, similarity principle, real Cauchy–Riemann
-Riemann–Roch), which P6 does not reproduce; its PH6.4 compares the two on closed surfaces
-with smooth coefficients. Where these specializations meet P6, the comparison is a target of
-the more specialized roadmap.
+A classical symbol of order m is elliptic if its principal symbol is invertible at every
+nonzero ξ; the inverse is then a smooth symbol homogeneous of degree −m. From it the roadmap
+builds a parametrix for an elliptic classical operator P of order m: an inverse up to
+smoothing operators on both sides. If P is properly supported, so that it acts on
+distributions, then Pu in `H^s_loc` forces u into `H^(s+m)_loc`. On a compact manifold,
+P:H^(s+m)(E)→H^s(F) is Fredholm for every real s, with kernel, cokernel and index
+independent of s, and Pu=f is solvable exactly when f meets finitely many conditions from
+the kernel of the formal adjoint. On the circle, Δu=1 has no solution, since 1 has nonzero
+mean.
+
+Layer 1 builds differential operators on bundles, and Layers 2 to 4 the symbol calculus,
+local and global. Layer 5 proves the mapping theorems, also in L^p Sobolev spaces for 1<p<∞
+and in Zygmund spaces, and Layer 6 the elliptic theory. Layer 7 shows that each real power
+A^z of a formally self-adjoint, strictly positive classical elliptic operator A of even order
+d on a compact manifold is classical of order dz. It also proves that the index of the external
+product of two equivariant elliptic operators on compact manifolds is the product of their
+indices. Layer 8 lets a finite group act freely by
+isometries on a closed connected Riemannian manifold X; for almost-conjugate subgroups H₁,
+H₂, the scalar Laplacians of X/H₁ and X/H₂ are isospectral with multiplicities. Layer 9
+defines wave front sets, which properly supported pseudodifferential operators do not
+enlarge, and uses them to decide when distributions can be pulled back and multiplied.
+
+Within Tau Ceti, SmoothBundlesConnections provides bundles, metrics and connections.
+ComplexKahlerGeometry provides distributions on manifolds and the Sobolev scale of compact
+bundles, and its Laplace-type analysis uses the differential operators built here. The PDE
+roadmap provides scalar weak-derivative and harmonic-analysis estimates. IndexTheory uses the
+elliptic symbols, parametrices and equivariant product results.
+
+## How to read the build
+
+P1 develops differential operators and their symbols. P2–P4 construct and
+quantize the local and global symbol calculus; P5 proves mapping estimates on
+the stated analytic carriers; P6 constructs parametrices and their Fredholm
+consequences. P7 builds powers, product indices and elliptic-complex Hodge theory,
+P7a transports the scalar spectrum across finite coverings, and P8 establishes
+the wavefront criteria. The labels P1–P8 also identify the corresponding
+contracts in consuming roadmaps. The acceptance file states only the headline
+theorems that its native carriers can express.
 
 ## Conventions
 
@@ -70,94 +101,6 @@ notes: an order-m differential symbol gains i^m when converted to the Fourier
 convention. Adjoints have geometric symbol `(−1)^m σ_geom(P)*` and Fourier
 symbol `σ_F(P)*`. A matrix commutator can retain the sum of the orders;
 order reduction by one requires vanishing of its leading symbol commutator.
-
-## Exact supplier contracts
-
-**From Mathlib.** Use the native manifold, smooth-section, distribution, Fourier,
-Bessel-potential, compact-operator and Fredholm carriers with their own topologies.
-The declarations and geometric supplier contracts are specified below.
-
-Use Mathlib's `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`,
-`SchwartzMap`, `TemperedDistribution`, `TestFunction`, `Distribution`,
-`ContinuousLinearMap`, `ContinuousLinearEquiv`
-and `ContinuousLinearMap.IsFredholm`.
-
-**From TauCetiRoadmap.DifferentialGeometry.** Layers 0–1 and 5 supply forms,
-differentiation and integration/densities, using native smooth partitions of unity.
-
-**From TauCetiRoadmap.SmoothBundlesConnections.** [B2–B4](../SmoothBundlesConnections/README.md)
-supplies bundle sections, metrics, connections, L² and tensor/dual/Hom operations.
-
-**From TauCetiRoadmap.ComplexKahlerGeometry.** [K5a](../ComplexKahlerGeometry/README.md) supplies bundle
-distributions, the shared compact-bundle H^s Hilbert scale for every real s,
-localization/duality/interpolation and Laplace-type Hodge theory. Consume that
-scale and compare the constructions from P1.1 onward with it. P1.0's early smooth-section
-module and first-jet constructions use only SBC B2's bundle floor. K5a's initial
-density bundle precedes the density-valued transpose/formal-adjoint part of P1.0.
-K5a's distributional action and Laplace analysis consume the differential-operator core;
-P1.1 and P2–P7 consume K5a's analytic scale.
-
-**From Mathlib's Bessel-potential theory.** Consume
-`Analysis/FunctionalSpaces/BesselPotentialSpace` and its
-`BesselPotentialSpace E F s p`, its distribution map and `toLpₗᵢ`, completeness,
-and the p=2 Hilbert structure. Its unbundled comparison is
-`TemperedDistribution.MemSobolev`, with
-`memSobolev_iff_exists_smulLeftCLM_fourier`. Consume these actual Euclidean
-carriers. Consume Tau Ceti's scalar weak-Sobolev and Bessel APIs in
-`Analysis/Sobolev/{Wkp,W1p,BesselPotential,RellichKondrachov}`;
-its existing Rellich theorem concerns W₀^(1,p), and W1p/Extension gives
-extension by zero.
-
-**From TauCetiRoadmap.PDE.** [Lane A.6](../PDE/README.md) supplies the required
-general extension and Rellich theorems; Lane A.3 owns the W^(k,p)/H^(k,p) comparison.
-PDE Lane B items 8–10 own maximal-function, operator interpolation,
-Calderón–Zygmund and Mihlin multiplier estimates; consume those precise
-harmonic-analysis targets, rather than attribute them to existing Sobolev code. This roadmap
-owns their finite-rank bundle/all-order operator comparisons, not another scalar
-PDE theory. Mathlib's and Tau Ceti's existing Fredholm composition, compact
-perturbation, closed-range and adjoint APIs supply the operator-theoretic output.
-In particular consume Mathlib's
-`ContinuousLinearMap.IsFredholm.eventually_nhds_index_eq` from
-`Analysis/Normed/Operator/Fredholm/Open` and Tau Ceti's
-`ContinuousLinearMap.IsFredholm.exists_pos_isFredholm_and_index_eq_of_norm_sub_lt`
-from `Analysis/Fredholm/SmallPerturbation` for the norm-approximation step.
-For compact self-adjoint spectral decompositions consume
-`ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector` and its
-injective/nonzero-eigenvalue version from Tau Ceti's
-`Analysis/InnerProductSpace/Spectrum`, built on Mathlib's compact spectral
-theorem. P7 owns the unbounded-domain and Sobolev comparisons.
-
-**From TauCetiRoadmap.RepresentationTheory.** For compact equivariance consume
-[CompactGroups Layers 0–3](../RepresentationTheory/CompactGroups/README.md)
-for normalized Haar averaging, complete reducibility and Schur's lemma.
-
-**From TauCetiRoadmap.TopologicalKTheory.** Consume [T6.2](../TopologicalKTheory/README.md#t6-equivariant-k-theory-and-associated-bundle-products)'s
-independent algebraic representation-ring construction for the SplitK0 ring of genuine continuous finite-dimensional
-representations and its external tensor product. These precede equivariant
-Bott and index theory.
-
-**From Tau Ceti.** In addition to the Sobolev, Fredholm and spectral declarations
-above, consume the point-derivation equivalence and its inverse equation in
-`TauCeti/Geometry/Manifold/DerivationBundle.lean`, under finite dimension,
-Hausdorffness and the interior-point hypothesis. The global smooth-field
-identification in P1.0 extends this pointwise result.
-For §5.3 consume `TauCeti.lintegral_rpow_lintegral_mul_le` from
-`TauCeti/MeasureTheory/Integral/SchurTest.lean`: on SFinite measures, a jointly
-measurable nonnegative kernel and an a.e. measurable nonnegative input satisfy
-the finite-p integral bound with factor A^(p−1)B for real p≥1, given a.e. row
-and column integral bounds A and B. The finite-rank Bochner-kernel adapter
-and the p=∞ endpoint are the additional targets in §5.3.
-
-## How to read the build
-
-P1 develops differential operators and their symbols. P2–P4 construct and
-quantize the local and global symbol calculus; P5 proves mapping estimates on
-the stated analytic carriers; P6 constructs parametrices and their Fredholm
-consequences. P7 builds powers, product indices and elliptic-complex Hodge theory,
-P7a transports the scalar spectrum across finite coverings, and P8 establishes
-the wavefront criteria. The labels P1–P8 also identify the corresponding
-contracts in consuming roadmaps. The acceptance file states only the headline
-theorems that its native carriers can express.
 
 ## Layer 1: Differential operators, jets and symbols (P1)
 
@@ -2169,6 +2112,115 @@ results. RiemannianGeometry R7 consumes the differential and Bochner comparisons
 consumes first jets of real line bundles. Fuchsian covering-surface applications consume
 finite-deck scalar isospectrality. These applications
 add their own geometric or algebraic constructions.
+
+## Scope and ownership
+
+This roadmap owns the smooth differential-operator core (P1.0), classical symbol
+calculus (P2–P4), bundle mapping estimates (P5), general elliptic regularity and
+Fredholm theory (P6), elliptic powers and product indices (P7), finite-deck
+isospectrality (P7a), and microlocal distribution operations (P8).
+DifferentialGeometry Layers 0–1 and 5 supplies smooth forms and integration;
+SmoothBundlesConnections B2–B4 supplies smooth bundles, metrics and connections;
+ComplexKahlerGeometry K5a supplies manifold distributions and the compact p=2
+Sobolev scale; PDE Lane A and Lane B items 8–10 supply scalar weak-derivative
+and harmonic-analysis estimates. P5 owns the general-p bundle comparisons.
+
+P5's compatible couples, strip quotient and K-method are generic constructions,
+with arbitrary common Hausdorff topological vector spaces; the distribution-space
+realization is an application. They are the common interpolation objects for
+this roadmap and [NoncommutativeIntegration §§2.2–2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bb121b30160c5188355fdc94c036e2ab0c552aca/TauCetiRoadmap/NoncommutativeIntegration/README.md#22-compatible-couples), whose noncommutative
+Lp and Lorentz identifications use that generic theory. No reverse supply from
+noncommutative integration is needed for the Bessel/Besov comparisons here.
+
+Elliptic regularity is shared with two other roadmaps along a fixed boundary. P6 owns the
+smooth-coefficient parametrix route for operators of arbitrary order on bundles: interior
+`H^(s,p)` and Zygmund/Schauder regularity, and Fredholm theory on compact boundaryless bases.
+[PDE](../PDE/README.md) Lane E owns scalar Euclidean regularity with non-smooth coefficients
+(difference quotients, Calderón–Zygmund and VMO estimates, Schauder estimates with Hölder
+coefficients, De Giorgi–Nash–Moser) and is not consumed here.
+[PseudoholomorphicCurveAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94066d35c0a90cfd36b4fdbe9e6c8c5d14e4ab51/TauCetiRoadmap/PseudoholomorphicCurveAnalysis/README.md) owns the two-dimensional
+first-order Cauchy–Riemann theory with Sobolev coefficients and totally real boundary
+conditions (Cauchy and Beurling operators, similarity principle, real Cauchy–Riemann
+Riemann–Roch), which P6 does not reproduce; its PH6.4 compares the two on closed surfaces
+with smooth coefficients. Where these specializations meet P6, the comparison is a target of
+the more specialized roadmap.
+
+## Exact supplier contracts
+
+**From Mathlib.** Use the native manifold, smooth-section, distribution, Fourier,
+Bessel-potential, compact-operator and Fredholm carriers with their own topologies.
+The declarations and geometric supplier contracts are specified below.
+
+Use Mathlib's `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`,
+`SchwartzMap`, `TemperedDistribution`, `TestFunction`, `Distribution`,
+`ContinuousLinearMap`, `ContinuousLinearEquiv`
+and `ContinuousLinearMap.IsFredholm`.
+
+**From TauCetiRoadmap.DifferentialGeometry.** Layers 0–1 and 5 supply forms,
+differentiation and integration/densities, using native smooth partitions of unity.
+
+**From TauCetiRoadmap.SmoothBundlesConnections.** [B2–B4](../SmoothBundlesConnections/README.md)
+supplies bundle sections, metrics, connections, L² and tensor/dual/Hom operations.
+
+**From TauCetiRoadmap.ComplexKahlerGeometry.** [K5a](../ComplexKahlerGeometry/README.md) supplies bundle
+distributions, the shared compact-bundle H^s Hilbert scale for every real s,
+localization/duality/interpolation and Laplace-type Hodge theory. Consume that
+scale and compare the constructions from P1.1 onward with it. P1.0's early smooth-section
+module and first-jet constructions use only SBC B2's bundle floor. K5a's initial
+density bundle precedes the density-valued transpose/formal-adjoint part of P1.0.
+K5a's distributional action and Laplace analysis consume the differential-operator core;
+P1.1 and P2–P7 consume K5a's analytic scale.
+
+**From Mathlib's Bessel-potential theory.** Consume
+`Analysis/FunctionalSpaces/BesselPotentialSpace` and its
+`BesselPotentialSpace E F s p`, its distribution map and `toLpₗᵢ`, completeness,
+and the p=2 Hilbert structure. Its unbundled comparison is
+`TemperedDistribution.MemSobolev`, with
+`memSobolev_iff_exists_smulLeftCLM_fourier`. Consume these actual Euclidean
+carriers. Consume Tau Ceti's scalar weak-Sobolev and Bessel APIs in
+`Analysis/Sobolev/{Wkp,W1p,BesselPotential,RellichKondrachov}`;
+its existing Rellich theorem concerns W₀^(1,p), and W1p/Extension gives
+extension by zero.
+
+**From TauCetiRoadmap.PDE.** [Lane A.6](../PDE/README.md) supplies the required
+general extension and Rellich theorems; Lane A.3 owns the W^(k,p)/H^(k,p) comparison.
+PDE Lane B items 8–10 own maximal-function, operator interpolation,
+Calderón–Zygmund and Mihlin multiplier estimates; consume those precise
+harmonic-analysis targets, rather than attribute them to existing Sobolev code. This roadmap
+owns their finite-rank bundle/all-order operator comparisons, not another scalar
+PDE theory. Mathlib's and Tau Ceti's existing Fredholm composition, compact
+perturbation, closed-range and adjoint APIs supply the operator-theoretic output.
+In particular consume Mathlib's
+`ContinuousLinearMap.IsFredholm.eventually_nhds_index_eq` from
+`Analysis/Normed/Operator/Fredholm/Open` and Tau Ceti's
+`ContinuousLinearMap.IsFredholm.exists_pos_isFredholm_and_index_eq_of_norm_sub_lt`
+from `Analysis/Fredholm/SmallPerturbation` for the norm-approximation step.
+For compact self-adjoint spectral decompositions consume
+`ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector` and its
+injective/nonzero-eigenvalue version from Tau Ceti's
+`Analysis/InnerProductSpace/Spectrum`, built on Mathlib's compact spectral
+theorem. P7 owns the unbounded-domain and Sobolev comparisons.
+
+**From TauCetiRoadmap.RepresentationTheory.** For compact equivariance consume
+[CompactGroups Layers 0–3](../RepresentationTheory/CompactGroups/README.md)
+for normalized Haar averaging, complete reducibility and Schur's lemma.
+
+**From TauCetiRoadmap.TopologicalKTheory.** Consume [T6.2](../TopologicalKTheory/README.md#t6-equivariant-k-theory-and-associated-bundle-products)'s
+independent algebraic representation-ring construction for the SplitK0 ring of genuine continuous finite-dimensional
+representations and its external tensor product. These precede equivariant
+Bott and index theory.
+
+**From Tau Ceti.** In addition to the Sobolev, Fredholm and spectral declarations
+above, consume the point-derivation equivalence and its inverse equation in
+`TauCeti/Geometry/Manifold/DerivationBundle.lean`, under finite dimension,
+Hausdorffness and the interior-point hypothesis. The global smooth-field
+identification in P1.0 extends this pointwise result.
+For §5.3 consume `TauCeti.lintegral_rpow_lintegral_mul_le` from
+`TauCeti/MeasureTheory/Integral/SchurTest.lean`: on SFinite measures, a jointly
+measurable nonnegative kernel and an a.e. measurable nonnegative input satisfy
+the finite-p integral bound with factor A^(p−1)B for real p≥1, given a.e. row
+and column integral bounds A and B. The finite-rank Bochner-kernel adapter
+and the p=∞ endpoint are the additional targets in §5.3.
 
 ## References
 
