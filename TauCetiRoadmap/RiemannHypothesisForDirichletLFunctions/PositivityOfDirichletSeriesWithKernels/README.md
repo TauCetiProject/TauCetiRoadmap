@@ -764,5 +764,5 @@ Not owned here:
 - D. V. Widder, *The Laplace Transform*, Princeton (1941), Chapter II: differentiation under the integral and the singularity at the real abscissa (6.1, 6.3).
 - H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory*, Cambridge (2007), §15.1: Landau's theorem and one-sided oscillation (6.4).
 - J. Kaczorowski and J. Pintz, *Oscillatory properties of arithmetical functions I, II*, Acta Math. Hungar. 48 (1986) and 49 (1987): localized oscillation theorems, context for 6.8.
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem and its route (6.5–6.8).
-- [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem and its route (6.5–6.8).
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
