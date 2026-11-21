@@ -19,10 +19,8 @@ definitions those statements need.
 * The Frobenius-restricted inequality for one translate (10.4, with the budget 10.5): for chain
   data at a scale `(x, ε)` satisfying the standing hypotheses of 10.0, the sum over the tops and
   the steps of the Frobenius-restricted Riesz sums `ℛ(a_τ, τ, w_{u₀,j})` is at most their main
-  terms plus `x^{3ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`. It lacks the abelian CM host with its
-  Frobenius classes, places and partner bijection and the Frobenius-restricted Riesz sum with its
-  main term (FrobeniusRestrictedRieszSums Layers 0–1), and chain data (10.0): Hermitian lattices
-  over the ring of integers of a number field with their slopes and the heights of maps between
+  terms plus `x^{3ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`. It lacks chain data (10.0): Hermitian
+  lattices over the ring of integers of a number field with their slopes and the heights of maps between
   them (SlopesOfHermitianVectorBundles Layers 1–2), algebraic modular forms on definite unitary
   groups with their integral structures (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3), the
   lattices of forms divided by the local gains, the glued target and the period pairing
