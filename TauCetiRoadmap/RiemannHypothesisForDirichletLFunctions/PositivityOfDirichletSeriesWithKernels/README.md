@@ -253,7 +253,7 @@ transform `Φ` on `Re s > A`, `σ > A` real, `γ` real and `k ∈ ℕ`.
   with `|a_k(σ + iγ)| + a_k(σ) ≤ 2 (σ − θ′)^(−k) ( ∫_U^((1+δ)U) g⁺(u) e^(−θ′u) du + C₀ C_δ )` for every real `γ`.
   The display follows from [FormalProof],
   `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindowIneq.lean` (`Deduction.landau_window_ineq`),
-  and the consequence from [FormalProof],
+  and the consequence is a step of the proof of [FormalProof],
   `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean` (`Deduction.landau_window_key`).
 
 *Proof sketch.* (a): `|a_k(σ + iγ)| ≤ ∫ |g| w_k^σ` (6.1 (b), `|e^(−iγu)| = 1`) and
@@ -620,9 +620,10 @@ Let `(f_t)_{t≥1}` be complex functions on `E`, indexed by the positive integer
 - (d) *Non-vanishing.* `∫_E f_t dμ ≠ 0` for all large `t`.
 
 No symmetry or positivity of `B` is assumed; convergence is pointwise, with no uniformity. Clauses (a), (c) and (d) are stated as `tendsto_integral_of_laplaceMethod` in `Suggested.lean`.
-They follow from [FormalProof],
+Clause (d), with the integrability of `f_t` for all large `t`, is [FormalProof],
 `ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/LaplaceFoundations/RaisingLoweringNormIdentities.lean`
-(`ReciprocityTheory.ChartRestriction.DS.Lap.Base.GaussianLimitHaar`), and (b) from [FormalProof],
+(`ReciprocityTheory.ChartRestriction.DS.Lap.Base.GaussianLimitHaar`); (a) and the limit of (c) are steps of its proof,
+not statements of it; (b) follows from [FormalProof],
 `ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/Laplace.lean`
 (`ReciprocityTheory.ChartRestriction.DS.Lap.Laplace.gauss_ne_zero`).
 
@@ -690,10 +691,11 @@ Let `n ∈ ℕ` and `β ∈ ℂ^×`. Prove that:
   The constant does not depend on `x₀`, `g`, `V`, `a`, `S` or `t`. The leading term carries no root of unity. This is the
   case `k = n + 1` of Hörmander's stationary-phase theorem with remainder (Hörmander, Theorem 7.7.5) in the `2n` real
   coordinates of `ℂ^n`, with its uniformity in the phase. The route of (c) below, through [Hörmander], is this roadmap's,
-  not that of [FormalProof]. Stated as `stationaryPhase_leadingTerm` in `Suggested.lean`. The statement follows from
+  not that of [FormalProof]. Stated as `stationaryPhase_leadingTerm` in `Suggested.lean`. The estimate follows from
   [FormalProof], `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.StationaryPhase`),
   `Formalism/HermitianCurvature/HermitianCurvatureProofs/StationaryPhaseModel.lean`
-  (`Formalism.FourierDecayAlt.P.stationary_phase_holomorphic`).
+  (`Formalism.FourierDecayAlt.P.stationary_phase_holomorphic`); `det H ≠ 0` is not part of that statement and is this
+  roadmap's addition.
 - (d) *The phase `g_D(x) = Σ_{k=1}^n x_k + D/∏_{k=1}^n x_k` on `(ℂ^×)^n`, `D ∈ ℂ^×`.*
   (i) `∂g_D/∂x_k = 1 − D/(x_k ∏_i x_i)`; the critical points are the points `(z, …, z)` with `z^(n+1) = D`; there
   `g_D = (n + 1)z`, the Hessian is `z^(−1)(1 + 𝟙𝟙ᵀ)` and its determinant is `(n + 1) z^(−n)`. This is [FormalProof],
@@ -953,5 +955,5 @@ Not owned here:
 - J. Kaczorowski and J. Pintz, *Oscillatory properties of arithmetical functions I, II*, Acta Math. Hungar. 48 (1986) and 49 (1987): localized oscillation theorems, context for 6.8.
 - [Hörmander] L. Hörmander, *The Analysis of Linear Partial Differential Operators I. Distribution Theory and Fourier Analysis*, 2nd ed., Springer (1990; reprinted 2003): Theorem 7.7.1, the non-stationary estimate (8.1 (b)), and Theorem 7.7.5, stationary phase with remainder, with a constant bounded when the phase stays in a bounded set and `|x − x₀|/|f′(x)|` is bounded (8.1 (c)).
 - [Dąbrowski–Fisher] R. Dąbrowski and B. Fisher, *A stationary phase formula for exponential sums over ℤ/p^mℤ and applications to GL(3)-Kloosterman sums*, Acta Arith. 80 (1997), 1–48: Proposition 1.3 (a) and (1.3), normalised Gauss sums as Weil indices (8.2 (a)); Theorem 1.8, Corollary 1.10 and Lemma 1.20, the `p`-adic stationary-phase formula over `ℤ_p` (8.2 (c), (d)); Examples 1.16 and 1.17, the hyper-Kloosterman phase.
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem for simple poles with positive residues at the real poles (the form of the formal proof of 6.8), and of its route: the mass and supremum of the kernel and its mass off an interval and off a window (6.2 (a), (b), (e), (f)), the positivity of one Taylor coefficient per window (6.5 (a), (c)), Cauchy's estimate and the coefficients near a simple pole (6.6 (a); 6.6 (b) for simple poles), the choice of the expansion point (6.7) and the two cases of 6.8; of the window predicate (6.9 (a)); and of the statements of Layers 7 and 8, the Gauss factor of 8.2 (a) being defined there by the Gaussian integral. The tail estimate 6.2 (c), (d) with 6.5 (b), the positivity 6.5 (a) outside the range `σ > 2` with the pointwise bound, poles of higher order and the dichotomy of 6.8 and 6.9 (b), the route of 8.1 (c) through [Hörmander] and the identification of the Gauss factor with the Weil index in 8.2 (a) are this roadmap's.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem for simple poles with positive residues at the real poles (the form of the formal proof of 6.8), and of its route: the mass and supremum of the kernel and its mass off an interval and off a window (6.2 (a), (b), (e), (f)), the positivity of one Taylor coefficient per window (6.5 (a), (c)), Cauchy's estimate and the coefficients near a simple pole (6.6 (a); 6.6 (b) for simple poles), the choice of the expansion point (6.7) and the two cases of 6.8; of the window predicate (6.9 (a)); and of the statements of Layers 7 and 8 other than 7.1 (a), the limit of 7.1 (c) and `det H ≠ 0` in 8.1 (c), which it does not state, the Gauss factor of 8.2 (a) being defined there by the Gaussian integral. The tail estimate 6.2 (c), (d) with 6.5 (b), the positivity 6.5 (a) outside the range `σ > 2` with the pointwise bound, poles of higher order and the dichotomy of 6.8 and 6.9 (b), the route of 8.1 (c) through [Hörmander] and the identification of the Gauss factor with the Weil index in 8.2 (a) are this roadmap's.
 - [Announcement] Levent Alpöge, the announcement of that proof (2026): <https://alpo.ge/remark.pdf>.
