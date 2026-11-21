@@ -27,7 +27,7 @@ The first of four layers develops p-adic analysis on discs and annuli. The secon
 
 ## How to read the build
 
-The layers are built in the order L0 `→` L1 `→` L2 `→` L3, and within a layer the *Needs* clauses give the dependency order. In the regulator foundations first construct K-theory (L3.Fa.1), the syntomic complexes and regulator (L3.Fb.1–L3.Fb.2) and the complex regulator and Borel theorem (L3.Fc.1). The number-field vanishing consequence of Borel supplies L3.Fa.1 before constructing the symbol complexes (L3.Fa.2–L3.Fa.4), then the cyclotomic classes of L3.Fa.5. Construct the regulator maps and rank criterion (L3.Fb, L3.Fc.1–L3.Fc.2) before using the complex cyclotomic calculation of L3.Fc.3 to prove the basis and spanning claims of L3.Fa.5. Separately, the construction and distribution of these classes feed L3.15, which supplies the general cyclotomic regulator formula for the p-adic calculation of L3.Fc.3, including pure p-power conductors; L3.15 does not use the basis or spanning theorem. L0 uses the normalized logarithm contract of DirichletPadicLFunctions §0.6 and the `ℚ_p` logarithm-series theory of PadicFunctionalAnalysis §4.5, together with Mathlib, the logarithm series of Tau Ceti, and the one-sided series theory of TauCetiRoadmap RestrictedPowerSeries and NewtonPolygons; its Laurent and Robba carriers, Gauss norms, completeness, restrictions and derivation are imported from PadicDifferentialEquationsAndRigidCohomology RD.0.1–RD.0.2 and RD.0.36, with the analytic extensions of L0.A1–L0.A2. L1 needs L0 and the rigid-geometric suppliers, and delivers Coleman integration in general and explicitly on punctured lines. L2 uses PolylogarithmFunctions §§1.1–1.7, 3.1 and 5.8 for its complex and projective adapters and K3BlochGroups §3.1 and §§3.3–3.5 for the integral pre-Bloch and Bloch groups, needs L1 only through the punctured lines and the uniqueness principle, and delivers the polylogarithms and the five-term relation. L3 has two halves: the scalar half (L3.1–L3.13, L3.17–L3.35) needs L2, the measure suppliers and DirichletPadicLFunctions, and delivers Coleman's formula; the regulator half (L3.14–L3.16, L3.36–L3.37) also needs the motivic and regulator foundations L3.Fa.1–L3.Fd.2, which use the supplier contracts below together with Coleman integration (L1) and the polylogarithms (L2). Proof sketches cite targets by number; locators refer to the editions listed under References, with published page numbers marked as such.
+The layers are built in the order L0 `→` L1 `→` L2 `→` L3, and within a layer the *Needs* clauses give the dependency order. In the regulator foundations first construct K-theory (L3.Fa.1), the syntomic complexes and regulator (L3.Fb.1–L3.Fb.2) and the complex regulator and Borel theorem (L3.Fc.1). The number-field vanishing consequence of Borel supplies L3.Fa.1 before constructing the symbol complexes (L3.Fa.2–L3.Fa.4), then the cyclotomic classes of L3.Fa.5. Construct the regulator maps and rank criterion (L3.Fb, L3.Fc.1–L3.Fc.2) before using the complex cyclotomic calculation of L3.Fc.3 to prove the basis and spanning claims of L3.Fa.5. Separately, the construction and distribution of these classes feed L3.15, which supplies the general cyclotomic regulator formula for the p-adic calculation of L3.Fc.3, including pure p-power conductors; L3.15 does not use the basis or spanning theorem. L0 uses the normalized logarithm contract of DirichletPadicLFunctions §0.6 and the `ℚ_p` logarithm-series theory of PadicFunctionalAnalysis §4.5, together with Mathlib (including its logarithm series) and the one-sided series theory of TauCetiRoadmap RestrictedPowerSeries and NewtonPolygons; its Laurent and Robba carriers, Gauss norms, completeness, restrictions and derivation are imported from PadicDifferentialEquationsAndRigidCohomology RD.0.1–RD.0.2 and RD.0.36, with the analytic extensions of L0.A1–L0.A2. L1 needs L0 and the rigid-geometric suppliers, and delivers Coleman integration in general and explicitly on punctured lines. L2 uses PolylogarithmFunctions §§1.1–1.7, 3.1 and 5.8 for its complex and projective adapters and K3BlochGroups §3.1 and §§3.3–3.5 for the integral pre-Bloch and Bloch groups, needs L1 only through the punctured lines and the uniqueness principle, and delivers the polylogarithms and the five-term relation. L3 has two halves: the scalar half (L3.1–L3.13, L3.17–L3.35) needs L2, the measure suppliers and DirichletPadicLFunctions, and delivers Coleman's formula; the regulator half (L3.14–L3.16, L3.36–L3.37) also needs the motivic and regulator foundations L3.Fa.1–L3.Fd.2, which use the supplier contracts below together with Coleman integration (L1) and the polylogarithms (L2). Proof sketches cite targets by number; locators refer to the editions listed under References, with published page numbers marked as such.
 
 ## Conventions
 
@@ -52,6 +52,7 @@ The layers are built in the order L0 `→` L1 `→` L2 `→` L3, and within a la
   - (C10) `K` is a finite extension of `ℚ_p` with its extended absolute value, `b > 1` is an integer prime to `p`, and `|w − 1| < 1`, unless a more general algebraic statement is given.
   - (C11) `K` is a complete nontrivially normed ultrametric field, `b` is a natural number with `|b| = 1`, and `|w − 1| < 1`; in the arithmetic application `K/ℚ_p` is finite and `p ∤ b`.
 - Cones follow `d(a, b) = (da, f(a) − db)` on `A^i ⊕ B^{i−1}`, and the relativity isomorphisms of K-theory and of rigid cohomology are normalized at `t = 0` (L3.Fa.2, L3.Fb.3). With these choices the sign in both regulators of the raw de Jeu symbol `[z]_n` is `(−1)^n`. We retain that raw-symbol convention throughout, including the cyclotomic classes. BBdJR Remark 4.16, p. 21, instead replaces its map `Ψ_n` by `(−1)^n Ψ_n` to remove this sign; formulas imported from that convention acquire `(−1)^n` here. In weight `3, Φ_∞([−1]_3) = −2P_3(−1) = (3/2)ζ(3)`, and `reg_p([−1]_3) = −2Li_3(−1)`.
+- A backticked name that `Suggested.lean` does not declare and that is not a declaration of Mathlib, of Tau Ceti or of a supplier named in the contracts below is a proposed name for the object or statement it labels, not an existing declaration. In particular `PowerSeries.primitive` and the seven names listed under it in L0.2 are proposals in Mathlib's namespace: neither pinned library has a formal primitive of a power series.
 
 ## Layer L0: Power series, residues and logarithm branches
 
@@ -181,7 +182,7 @@ Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametr
 
 **Checks.**
 
-- For `K = ℂ_p`, the function `z↦``NormedSpace.logOneAdd` `K K z` restricted to `D^-(0, 1)` lies in `discAnalytic K 0 1`, with coefficients `(-1)^(n+1)/n`.
+- For `K = ℂ_p`, the function `z ↦ NormedSpace.log (1 + z)` restricted to `D^-(0, 1)` lies in `discAnalytic K 0 1`, with coefficients `(-1)^(n+1)/n`.
 - The indicator function of `D^-(0, 1/p)` on `D^-(0, 1)` in `ℂ_p` is `AnalyticOnNhd` (locally constant) but is not in `discAnalytic ℂ_p 0 1`.
 - Over `ℚ₂`, the point balls `D⁻(0,2/3)` and `D⁻(0,1)` both equal `2ℤ₂`. The series for `1/(1 − t²/2)` has coefficients `2⁻ⁿ` at degree `2n` and radius `2^(−1/2)`, with `2/3 < 2^(−1/2) < 3/4 < 1`, so it defines a member at radius `2/3` but none at radius 1. At `ρ = 3/4` the weighted coefficients are `(9/8)ⁿ`; uniqueness of the expansion at 0 excludes a replacement series. Thus restriction must retain the numerical radius bound.
 - Constant functions lie in `discAnalytic K a r` for every positive `r`, including `r = ∞`.
@@ -210,13 +211,13 @@ Standing hypotheses of this target: (C1); `b` lies in the open disc `D^-(a, r)`.
 
 ### L0.10 Convergence of the logarithm series on the open unit disc
 
-**Lemma.** Let `K` be a complete nontrivially normed ultrametric field of characteristic zero (for example `ℂ_p` or a finite extension of `ℚ_p`). The Tau Ceti series `NormedSpace.logOneAddSeries` `K K` has radius at least 1, the Tau Ceti function `log(1 + u) :=` `NormedSpace.logOneAdd` `K K u` equals `sum_{n≥1} (-1)^(n+1) u^n/n` for `||u|| < 1`, satisfies `HasFPowerSeriesOnBall` `(logOneAdd K K) (logOneAddSeries K K) 0 1`, and its derivative is `1/(1 + u)` on the open unit disc. (Tau Ceti proves the radius bound only under `ContinuousSMul` `Q≥0 K`, which fails for p-adic fields; this lemma supplies the ultrametric case.) (BBK §2, opening paragraph, p. 3; F §2.1, p. 7.)
+**Lemma.** Let `K` be a complete nontrivially normed ultrametric field of characteristic zero (for example `ℂ_p` or a finite extension of `ℚ_p`). Mathlib's series `NormedSpace.logSeries K K` has radius at least 1, Mathlib's logarithm `log(1 + u) := NormedSpace.log (1 + u)` equals `sum_{n≥1} (-1)^(n+1) u^n/n` for `||u|| < 1`, `HasFPowerSeriesOnBall NormedSpace.log (NormedSpace.logSeries K K) 1 1` holds, and the derivative of `u ↦ log(1 + u)` is `1/(1 + u)` on the open unit disc. (Tau Ceti proves the radius bound `NormedSpace.one_le_logSeries_radius` and the expansion `NormedSpace.log_hasFPowerSeriesOnBall` only under `ContinuousSMul ℚ≥0 K`, which fails for p-adic fields; this lemma supplies the ultrametric case.) (BBK §2, opening paragraph, p. 3; F §2.1, p. 7.)
 
 Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametric, `CharZero`.
 
-*Proof sketch.* By L0.1, `||(-1)^(n+1)/n|| ≤ n^s`, so `||c_n|| r^n` is bounded for every `r < 1`; hence radius `≥ 1` by the bound criterion for Mathlib `FormalMultilinearSeries.radius`. `HasFPowerSeriesOnBall` on the ball of radius 1 follows from the radius bound as in the proof of Tau Ceti `NormedSpace.hasFPowerSeriesOnBall_logOneAdd`, which uses the radius only. The derivative: the termwise derivative is `sum (-1)^n u^n = 1/(1 + u)`; formally this is Mathlib `PowerSeries.derivative_log_mul_one_add_X`.
+*Proof sketch.* By L0.1, `||(-1)^(n+1)/n|| ≤ n^s`, so `||c_n|| r^n` is bounded for every `r < 1`; hence radius `≥ 1` by the bound criterion for Mathlib `FormalMultilinearSeries.radius`. `HasFPowerSeriesOnBall` on the ball of radius 1 about 1 follows from the radius bound and Mathlib's `NormedSpace.log_eq_logSeries_sum` (`log x` is the sum of `NormedSpace.logSeries K K` at `x − 1`) as in the proof of Tau Ceti `NormedSpace.log_hasFPowerSeriesOnBall`, which uses the radius only. The derivative: the termwise derivative is `sum (-1)^n u^n = 1/(1 + u)`; formally this is Mathlib `PowerSeries.derivative_log_mul_one_add_X`.
 
-*Needs:* L0.1, `NormedSpace.logOneAdd`, `NormedSpace.logOneAddSeries`, `NormedSpace.hasFPowerSeriesOnBall_logOneAdd`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall`, `PowerSeries.derivative_log_mul_one_add_X`.
+*Needs:* L0.1, `NormedSpace.log`, `NormedSpace.logSeries`, `NormedSpace.log_eq_logSeries_sum`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall`, `PowerSeries.derivative_log_mul_one_add_X`.
 
 **Checks.**
 
@@ -336,7 +337,7 @@ Standing hypotheses of this target: `K` complete subfield of `ℂ_p` (or any com
 **Checks.**
 
 - On `A(0; r, s), annulusResidue (dz/z) = 1` and `annulusResidue (z^2 dz) = 0`.
-- Pulling `dz/z` back along `z = 1/w` gives `-`dw`/w`, whose residue in `w` is `-1`.
+- Pulling `dz/z` back along `z = 1/w` gives `-dw/w`, whose residue in `w` is `-1`.
 - `annulusResidue` A `0 = 0`, and on a full disc (no negative powers) every residue is 0.
 - For `|c - e|≥s` the form `dz/(z - c)` is analytic on A with residue 0, although as a rational form it has a pole with residue 1: the residue on `A` is not the algebraic residue at a chosen point.
 
@@ -360,11 +361,11 @@ Standing hypotheses of this target: (C1); A an open annulus or the end germ of a
 
 ### L0.13 The logarithm series is a homomorphism on principal units
 
-**Lemma.** Let `K` be as in L0.10. For `||u|| < 1` and `||v|| < 1, log(1 + u) + log(1 + v) = log((1 + u)(1 + v))` (note `||u + v +` uv`|| < 1`). Hence `u↦log(1 + u)` is a continuous group homomorphism from the principal units `1 + m_K` to `(K, +)`, and it vanishes at every root of unity lying in `1 + m_K`. (BBK §2, opening paragraph, p. 3.)
+**Lemma.** Let `K` be as in L0.10. For `||u|| < 1` and `||v|| < 1, log(1 + u) + log(1 + v) = log((1 + u)(1 + v))` (note `||u + v + uv|| < 1`). Hence `u↦log(1 + u)` is a continuous group homomorphism from the principal units `1 + m_K` to `(K, +)`, and it vanishes at every root of unity lying in `1 + m_K`. (BBK §2, opening paragraph, p. 3.)
 
 Standing hypotheses of this target: (C1).
 
-*Proof sketch.* Fix `v`. On `D^-(0, 1)` the function `G(u) = log((1+u)(1+v)) - log(1+u) - log(1+v)` is analytic (composition of the series with the affine map `u |→ u + v +` uv, which maps the disc into itself). Its derivative is `(1+v)/((1+u)(1+v)) - 1/(1+u) = 0` by L0.10, so `G` is constant by the uniqueness part of L0.8, and `G(0) = 0`. Roots of unity: if `ζ^m = 1` then `m log(ζ) = log(ζ^m) = 0`, so `log(ζ) = 0` in characteristic zero.
+*Proof sketch.* Fix `v`. On `D^-(0, 1)` the function `G(u) = log((1+u)(1+v)) - log(1+u) - log(1+v)` is analytic (composition of the series with the affine map `u ↦ u + v + uv`, which maps the disc into itself). Its derivative is `(1+v)/((1+u)(1+v)) - 1/(1+u) = 0` by L0.10, so `G` is constant by the uniqueness part of L0.8, and `G(0) = 0`. Roots of unity: if `ζ^m = 1` then `m log(ζ) = log(ζ^m) = 0`, so `log(ζ) = 0` in characteristic zero.
 
 *Needs:* L0.10, L0.8.
 
@@ -394,7 +395,7 @@ Standing hypotheses of this target: `p` prime; a in `ℂ_p`. As a Lean function 
 - `IsLogBranch`: the predicate on `L` : `ℂ_p → ℂ_p` of being multiplicative on `ℂ_p^×`, equal to the logarithm series on `1 + m_(ℂ_p)` and with `L(p) = a`; `padicLogBranch p a` satisfies it, and two functions satisfying it agree on `ℂ_p^×` (`padicLogBranch_unique`).
 - `padicLogBranch_mul`: For `x, y≠0, log_a(x y) = log_a(x) + log_a(y)`.
 - `padicLogBranch_p`: `log_a(p) = a`.
-- `padicLogBranch_one_add`: For `||u|| < 1, log_a(1 + u) =` `NormedSpace.logOneAdd` `ℂ_p ℂ_p u` (Tau Ceti's series).
+- `padicLogBranch_one_add`: For `||u|| < 1, log_a(1 + u) = NormedSpace.log (1 + u)` (Mathlib's logarithm, the sum of the series by L0.10).
 - `padicLogBranch_pow`: `log_a(x^n) = n log_a(x)` and `log_a(x^(-1)) = -log_a(x)`.
 - `padicLogBranch_rootOfUnity`: If `ζ^m = 1` with `m≥1` then `log_a(ζ) = 0`; in particular `log_a(-x) = log_a(x)`.
 - `padicLogBranch_unique`: A group homomorphism `ℂ_p^x→ℂ_p` that agrees with the series on `1 + m` and sends `p` to a equals `log_a`.
@@ -406,15 +407,15 @@ Standing hypotheses of this target: `p` prime; a in `ℂ_p`. As a Lean function 
 
 *In `Suggested.lean`:* `IsLogBranch` records the logarithm laws used by L0.21.
 
-*Needs:* DirichletPadicLFunctions §0.6 (`iwasawaLog`, `existsUnique_isIwasawaLog_padicComplex`, `natCast_mul_eq_of_map_mul`), L0.14, `NormedSpace.logOneAdd`, `PadicComplex`.
+*Needs:* DirichletPadicLFunctions §0.6 (`iwasawaLog`, `existsUnique_isIwasawaLog_padicComplex`, `natCast_mul_eq_of_map_mul`), L0.14, L0.10, `NormedSpace.log`, `PadicComplex`.
 
 **Checks.**
 
 - `padicLogBranch p a p = a` and `padicLogBranch p` a `1 = 0`.
 - Every branch kills `−1`, including at `p = 2`; this is a torsion identity, not an injectivity assertion on all principal units.
-- For `p = 3` and every `a`: `log_a(4) = 3 + 2*3^2 + 3^3 + 2*3^5 + 2*3^6 + 3^8 + 2*3^10 + 3^11` modulo `3^12` (PARI`/`GP).
+- For `p = 3` and every `a`: `log_a(4) = 3 + 2*3^2 + 3^3 + 2*3^5 + 2*3^6 + 3^8 + 2*3^10 + 3^11` modulo `3^12` (PARI/GP).
 - For `p = 5` and `ζ` in `Q_5` with `ζ^4 = 1` and `ζ = 2` mod 5: `log_a(ζ) = 0`; and `log_a(-2) = log_a(16)/4`.
-- On the open ball of radius 1 around 1 the branch equals Tau Ceti's `NormedSpace.logOneAdd` composed with `u↦1 + u`.
+- On the open ball of radius 1 around 1 the branch equals Mathlib's `NormedSpace.log`, for every `a`.
 - The series `sum (-1)^(n+1) (x - 1)^n/n` diverges at `x = p`, so no branch is given by one power series on `ℂ_p^x`.
 - The zero function fails `IsLogBranch` for every `a`: even at `a = 0` it fails the nonzero logarithm at a sufficiently small nontrivial principal unit. Two branches satisfying the same series and normalization agree at every nonzero point; their unrestricted values at 0 need not agree.
 
@@ -562,7 +563,7 @@ Standing hypotheses of this target: `K` complete subfield of `ℂ_p`; A an open 
 
 ### L0.23 How a change of branch changes logarithmic primitives
 
-**Lemma.** For `F=sum f_k l^k` in `O_K(A)[l], ρ_b(F)(z)=sum f_k(z)(log_a(z-e)+(b-a)v_p(z-e))^k`. Choose for `f dt` the coefficient primitive with constant coefficient0 and logarithmic coefficient `res_A(f dt)`, using the same additive normalization in both branches. Its branch difference is `res_A(f dt)(b-a)v_p(z-e)`, constant on each circle. It is nonconstant when `res_A(f dt)(b-a)≠0` and the annulus contains two different radii in `p^Q`. A zero-residue differential has branch-independent primitives under this common normalization; arbitrary primitives can also differ by constants. (BBK §2, p. 3; F §2.1, p. 8.)
+**Lemma.** For `F=sum f_k l^k` in `O_K(A)[l], ρ_b(F)(z)=sum f_k(z)(log_a(z-e)+(b-a)v_p(z-e))^k`. Choose for `f dt` the coefficient primitive with constant coefficient 0 and logarithmic coefficient `res_A(f dt)`, using the same additive normalization in both branches. Its branch difference is `res_A(f dt)(b-a)v_p(z-e)`, constant on each circle. It is nonconstant when `res_A(f dt)(b-a)≠0` and the annulus contains two different radii in `p^Q`. A zero-residue differential has branch-independent primitives under this common normalization; arbitrary primitives can also differ by constants. (BBK §2, p. 3; F §2.1, p. 8.)
 
 Standing hypotheses of this target: `a, b` in `ℂ_p`.
 
@@ -572,7 +573,7 @@ Standing hypotheses of this target: `a, b` in `ℂ_p`.
 
 ### L0.24 A logarithm bound on a geometric sequence
 
-**Lemma.** For `c≠0` and every natural `m, |L(c p^m)|≤max(|L(c)|,|a|)`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `c≠0` and every natural `m, |L(c p^m)|≤max(|L(c)|,|a|)`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero.
 
@@ -586,11 +587,11 @@ Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero.
 
 ### L0.25 Logarithm of a geometric quotient
 
-**Lemma.** For `c≠0` and every `n, L(c q_n/(1+q_n))=L(c)+(n+1)a−L(1+q_n)`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `c≠0` and every `n, L(c q_n/(1+q_n))=L(c)+(n+1)a−L(1+q_n)`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero.
 
-*Proof sketch.* Since `|p|<1, |q_n|<1`; hence `q_n` and `1+q_n` are nonzero. The logarithm homomorphism gives the product and inverse laws, and `L(q_n)=(n+1)`a. Combine them in the displayed order.
+*Proof sketch.* Since `|p|<1, |q_n|<1`; hence `q_n` and `1+q_n` are nonzero. The logarithm homomorphism gives the product and inverse laws, and `L(q_n)=(n+1)a`. Combine them in the displayed order.
 
 *Needs:* L0.15, `Padic.norm_p_lt_one`, `PadicComplex.norm_extends'`.
 
@@ -605,7 +606,7 @@ Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero.
 
 ### Dependencies
 
-Mathlib (power series, analytic functions, `PadicComplex`); Tau Ceti `NormedSpace.logOneAdd`; TauCetiRoadmap RestrictedPowerSeries §§1.1, 2.4, 3.2, 7.1–7.2 and NewtonPolygons §§0.3, 0.5 (one-sided Gauss norms, open-disc and entire series and supporting values, which L0.A1–L0.A2 extend to Laurent carriers of annuli); LocallyAnalyticDistributions Layer 1 (the Amice target `R⁺`).
+Mathlib (power series, analytic functions, `PadicComplex`, `NormedSpace.log` and `NormedSpace.logSeries`); TauCetiRoadmap RestrictedPowerSeries §§1.1, 2.4, 3.2, 7.1–7.2 and NewtonPolygons §§0.3, 0.5 (one-sided Gauss norms, open-disc and entire series and supporting values, which L0.A1–L0.A2 extend to Laurent carriers of annuli); LocallyAnalyticDistributions Layer 1 (the Amice target `R⁺`).
 
 ## Layer L1: Frobenius continuation and Coleman functions
 
@@ -666,7 +667,7 @@ Standing hypotheses of this target: `(X, D)` a good-reduction pair; `r` ranges o
 
 ### L1.3 Residue discs are open discs and ends are annuli
 
-**Lemma.** An integral parameter at a lift of `x` identifies `]x[` with `D⁻(0,1)`; at `e∈D` it identifies `]e[∩W_r` with `A(0;r,1)`. Changes of parameter have `t′=v+`ut`+Σ_(j≥2)a_jt^j, |v|<1, |u|=1, |a_j|≤1`. If both vanish at the same section, `v=0` and `t′=ut(1+h), |h|<1`. Construct differential-compatible restrictions `res_x`:`A⁺→O(D⁻(0,1))` and `res_e`:`A⁺→R_e`. Parameter changes preserve these rings, residues and logarithmic end rings. (BBK §2, Def. 3, p. 3; BT §5, p. 18; MP §5.2, item (1), p. 6; BH §1.3.3, Def. 2, p. 6.)
+**Lemma.** An integral parameter at a lift of `x` identifies `]x[` with `D⁻(0,1)`; at `e∈D` it identifies `]e[∩W_r` with `A(0;r,1)`. Changes of parameter have `t′=v+ut+Σ_(j≥2)a_jt^j, |v|<1, |u|=1, |a_j|≤1`. If both vanish at the same section, `v=0` and `t′=ut(1+h), |h|<1`. Construct differential-compatible restrictions `res_x`:`A⁺→O(D⁻(0,1))` and `res_e`:`A⁺→R_e`. Parameter changes preserve these rings, residues and logarithmic end rings. (BBK §2, Def. 3, p. 3; BT §5, p. 18; MP §5.2, item (1), p. 6; BH §1.3.3, Def. 2, p. 6.)
 
 Standing hypotheses of this target: `(X, D)` a good-reduction pair; `x` a point of `X_k(F_p-bar)`.
 
@@ -739,7 +740,7 @@ Standing hypotheses of this target: `x` has coordinates in `F_(q^m)`.
 
 ### L1.7 Frobenius-structured unipotent datum
 
-**Definition.** A Frobenius datum is (`φ,ω_1`,…,`ω_r,M,g`), with `φ*ω_i=Σ_j M_ijω_j+dg_i, M∈M_r(K), g∈(A⁺)^r`. Require H0:`ker(d:A⁺→Ω⁺)=K`; H1:`η=`dh`+Σ_i c_iω_i` with `c` unique and `h` unique modulo `K`; Hi:restriction of functions and differentials to every ordinary disc is injective; Hw:for `n,m≥1, (M^(⊗n))^m` has no eigenvalue 1, equivalently no nonempty eigenvalue product is a root of unity. L1.9 supplies general existence; L1.29 gives the punctured-line datum. (BH Proof of Thm. 2, p. 8; BT §5, p. 18.)
+**Definition.** A Frobenius datum is (`φ,ω_1`,…,`ω_r,M,g`), with `φ*ω_i=Σ_j M_ijω_j+dg_i, M∈M_r(K), g∈(A⁺)^r`. Require H0:`ker(d:A⁺→Ω⁺)=K`; H1: `η=dh+Σ_i c_iω_i` with `c` unique and `h` unique modulo `K`; Hi:restriction of functions and differentials to every ordinary disc is injective; Hw:for `n,m≥1, (M^(⊗n))^m` has no eigenvalue 1, equivalently no nonempty eigenvalue product is a root of unity. L1.9 supplies general existence; L1.29 gives the punctured-line datum. (BH Proof of Thm. 2, p. 8; BT §5, p. 18.)
 
 Standing hypotheses of this target: `(X,D)` good-reduction over `O_K`; `φ K`-linear. For the `ℂ_p`-valued realization use the algebraic tensor convention above. Flatness transports `(H0)` and `(H1)` to `B`; injective restriction `(Hi)` for `B` and `Ω_B` is supplied by L1.17a. These assertions do not identify `B` with the full `ℂ_p` dagger algebra.
 
@@ -784,7 +785,7 @@ The algebraic comparison is the restriction-induced `K`-linear equivalence `good
 
 First construct `goodReduction_differentialsEquivDualizing`: for the smooth proper curve `X_K`, a canonical `O_(X_K)-`linear isomorphism `Ω¹_(X_K/K) ≃ ω_(X_K/K)`, compatible with finite extension of `K` and with tensoring by `O(D)`. Here `ω` is the dualizing sheaf already supplied by JacobianChallenge, not a second construction of that sheaf. Use AlgebraicCurves Layer 9’s closed-point residues and trace-valued global residue theorem over the perfect field `K`, with its Kähler/Weil differential comparison. The imported trace `Σ_x Tr_(κ(x)/K) res_x` on differential principal parts annihilates global meromorphic differentials, so its Čech pairing identifies `Hom(F, Ω¹)` with `H¹(F)^∨` for coherent `F`. The representing property of `ω` then gives the isomorphism, and uniqueness with this trace normalization gives finite-base-change compatibility. Prove that `goodReduction_differentialsEquivDualizing` carries this imported trace pairing to the dualizing trace; the algebraic residues themselves are supplied by AlgebraicCurves. This specializes smooth duality in Stacks Lemma 53.4.1(6), with base change in Lemma 53.4.4(2), [§53.4, tag 0E31](https://stacks.math.columbia.edu/tag/0E31). It does not require a rational point; the subsequent use of the existing divisor-cohomology API may pass to a finite extension that supplies one.
 
-For `r=dim_K Γ(D_K,O)=#D(K-bar)`, the log-complex spectral sequence gives `0→H⁰(X_K,Ω¹(log D))→H¹_dR(Y_K)→H¹(X_K,O)→0`: global functions are constants, and `H¹(Ω¹(log D))=0` by Serre duality and `H⁰(O(−D))=0`. Riemann–Roch gives `dim H⁰(Ω¹(log D))=g+r−1`, hence `goodReduction_deRham_finrank`: `dim H¹=`2g`+r−1`. Since `Y_K` is affine, classes have global algebraic differential representatives. This does not make those representatives logarithmic when `g>0`. Import curve duality from JacobianChallenge Layer `B` and apply the differential/canonical-sheaf comparison below; Weil-differential duality alone does not supply that comparison. Reuse Tau Ceti's `SchemeWeilDivisor.eulerCharBelow_sheaf_eq_relativeDegree_add_one_sub_genus` and `cohomologyOneDualEquivCohomologyZero`, after a finite extension supplying a rational point.
+For `r=dim_K Γ(D_K,O)=#D(K-bar)`, the log-complex spectral sequence gives `0→H⁰(X_K,Ω¹(log D))→H¹_dR(Y_K)→H¹(X_K,O)→0`: global functions are constants, and `H¹(Ω¹(log D))=0` by Serre duality and `H⁰(O(−D))=0`. Riemann–Roch gives `dim H⁰(Ω¹(log D))=g+r−1`, hence `goodReduction_deRham_finrank`: `dim H¹=2g+r−1`. Since `Y_K` is affine, classes have global algebraic differential representatives. This does not make those representatives logarithmic when `g>0`. Import curve duality from JacobianChallenge Layer `B` and apply the differential/canonical-sheaf comparison below; Weil-differential duality alone does not supply that comparison. Reuse Tau Ceti's `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.eulerCharBelow_sheaf_eq_relativeDegree_add_one_sub_genus` and `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`, after a finite extension supplying a rational point.
 
 The comparison commutes with finite scalar extension, with restriction and pullback of pairs, and with the local residue maps (`goodReduction_algebraicDeRhamEquiv_baseChange`, `goodReduction_algebraicDeRhamEquiv_restrict`, `goodReduction_algebraicDeRhamEquiv_residue`). BC works over an algebraically closed complete field; apply its local argument over a finite splitting extension using the finite base change of AdicSpacesPartIV §F1.11 (*dagger-de-rham-finite-field-extension*). Its non-Liouville and overconvergence conditions hold for the trivial connection (BC Theorem 2.4 and Corollary 2.6, §§2–3, pp. 8–14 and 17–18; the constant-coefficient curve argument uses its Theorem 3.1 with exponent zero and the Čech proof of Corollary 3.7).
 
@@ -799,7 +800,7 @@ The comparison commutes with finite scalar extension, with restriction and pullb
 
 - On `ℙ¹` the comparison identifies `Ω¹` with `O(−2)`; it cannot identify either sheaf with `O`.
 - On a genus-one curve a nonzero invariant differential maps to a generator of `ω`, and that generator remains nonzero after a finite coefficient extension.
-- Smoothness is necessary: at a node xy`=0` the differential `x` dy`=−y` dx is a nonzero torsion element of `Ω¹`, whereas the nodal dualizing sheaf is invertible. No isomorphism between those two sheaves is asserted there.
+- Smoothness is necessary: at a node `xy=0` the differential `x dy = −y dx` is a nonzero torsion element of `Ω¹`, whereas the nodal dualizing sheaf is invertible. No isomorphism between those two sheaves is asserted there.
 - `𝔸¹ = ℙ¹ ∖ {∞}`: `g = 0, r = 1`, dimension 0.
 - `𝔾_m = ℙ¹ ∖ {0, ∞}`: `g = 0, r = 2`, dimension 1, spanned by the class of `dt/t`.
 - A genus-one curve minus one rational point: dimension 2, although the global logarithmic forms have dimension `g + r − 1 = 1`, so a basis of logarithmic forms does not `span H¹` when `g > 0`.
@@ -873,14 +874,14 @@ Standing hypotheses of this target: A commutative `K`-algebra with a derivation 
 Standing hypotheses of this target: A datum over `ℂ_p`; `b∈]x[` in (i), `e∈D_k` in (ii). For (ii) and tangential (iii), each `ω_i` has at most a simple pole and convergent regular part. Word germs lie in `ℂ_p{t}[l]`, where `CT` is multiplicative. Normalize the word generators there; negative Laurent powers in `A⁺` do not have this property. Higher-pole normalization requires its separate development.
 
 - `localExpansion`: `localExpansion x b` : `U →ₐ O(]x[)`, the tiny iterated integrals based at `b`.
-- `localExpansionEnd`: For an end where all `ω_i` have at most simple poles with regular parts: `U→R_e[l_e]`, with word images in `ℂ_p{t_e}[l_e]` and their `CT` equal to0 for nonempty words.
+- `localExpansionEnd`: For an end where all `ω_i` have at most simple poles with regular parts: `U→R_e[l_e]`, with word images in `ℂ_p{t_e}[l_e]` and their `CT` equal to 0 for nonempty words.
 - `localExpansion_D`: `d (localExpansion x b y) = localExpansion x b (D y)`.
 - `localExpansion_apply_base`: `localExpansion x b (L w) b = 0` for `w` nonempty.
 - `constantTerm`: `CT` : `R_e[l_e]→ℂ_p` is the constant Laurent coefficient of the `l`-free part. It is linear, and is multiplicative on `ℂ_p{t_e}[l_e]`, but not on general Laurent-log germs.
 - `localExpansion_classify`: Every `D`-compatible `A+-`algebra map `U→A_log(x)` is `localExpansion x b` twisted by a shuffle character `c` (deconcatenation formula).
 - `localExpansion_changeBase`: Chen's formula: for `b'` in `]x[, localExpansion x b' (L w) =` sum over `w = u v` of `localExpansion x b (L u) * (localExpansion x b' (L v))`(b).
 
-*Construction.* (i) Define `λ(L_(e_i w))` as the primitive of `ω_i λ(L_w)` on the disc with value 0 at `b` (L0.8); multiplicativity and uniqueness by induction on length, both sides of the shuffle identity having the same derivative and value 0 at `b`. For an end with `ω_i=(a_i/t+h_i(t))dt, h_i` regular, induction integrates a nonnegative-power polynomial in `l`: integration of `t^m l^j` for `m≥0` remains regular-log, and the residue term integrates `l^j dt/t` to `l^(j+1)/(j+1)`. Set its `l`-free constant coefficient to0. `CT` on the resulting word subalgebra `ℂ_p{t}[l]` is evaluation `t=l=0`, so the derivative-and-normalization proof of shuffle multiplicativity applies. Extend `A+-`linearly into `R_e[l]`; do not apply multiplicativity of `CT` to arbitrary Laurent coefficients. (iii) Given `λ`, set `c_v := λ(L_v)(b)`; the difference between `λ(L_w)` and `sum_(w = u v) λ_(x,b)(L_u) c_v` has derivative expressed through shorter words, which vanishes by induction, and value `c_w - c_w = 0` at `b`; the shuffle relations for `c` follow from multiplicativity of `λ` evaluated at `b`. At an end use the regular-log word subalgebra for `CT` and the same induction, so the constants satisfy shuffle relations there. The ordinary-disc classification and base-change formula do not need the simple-pole hypothesis.
+*Construction.* (i) Define `λ(L_(e_i w))` as the primitive of `ω_i λ(L_w)` on the disc with value 0 at `b` (L0.8); multiplicativity and uniqueness by induction on length, both sides of the shuffle identity having the same derivative and value 0 at `b`. For an end with `ω_i=(a_i/t+h_i(t))dt, h_i` regular, induction integrates a nonnegative-power polynomial in `l`: integration of `t^m l^j` for `m≥0` remains regular-log, and the residue term integrates `l^j dt/t` to `l^(j+1)/(j+1)`. Set its `l`-free constant coefficient to 0. `CT` on the resulting word subalgebra `ℂ_p{t}[l]` is evaluation `t=l=0`, so the derivative-and-normalization proof of shuffle multiplicativity applies. Extend `A+-`linearly into `R_e[l]`; do not apply multiplicativity of `CT` to arbitrary Laurent coefficients. (iii) Given `λ`, set `c_v := λ(L_v)(b)`; the difference between `λ(L_w)` and `sum_(w = u v) λ_(x,b)(L_u) c_v` has derivative expressed through shorter words, which vanishes by induction, and value `c_w - c_w = 0` at `b`; the shuffle relations for `c` follow from multiplicativity of `λ` evaluated at `b`. At an end use the regular-log word subalgebra for `CT` and the same induction, so the constants satisfy shuffle relations there. The ordinary-disc classification and base-change formula do not need the simple-pole hypothesis.
 
 *Needs:* L1.7, L1.12, L1.3, L1.4, L0.8, L0.22.
 
@@ -982,7 +983,7 @@ Every nonzero `δ`-stable ideal of `R` contains 1: take an element with the leas
 
 Standing hypotheses of this target: A datum satisfying `(H0), (H1)`, (Hi); coefficients extended to `ℂ_p`.
 
-*Proof sketch.* Write `F = ρ(y), y = sum_w f_w L_w`. By L1.14 (iii), on `]x[` one has `ρ(L_w) =` sum over `w = u v` of `λ_(x,b)(L_u) c_v` with constants `c_v` and `c_empty = 1`; hence `F` restricted to `]x[` is `sum_u g_u λ_(x,b)(L_u)` with `g_u := sum_v c_v f_(u v)`, elements of `B = A_K⁺(Y) ⊗_K ℂ_p`. `F` vanishes on all of `]x[` by the identity principle on discs (API `eq_zero_of_eqOn` of L0.7). Local independence is proved by a minimal relation, not by comparing coefficients in the relation being proved independent. Work over the fraction field of the algebraic coefficient ring `B`, whose domain and restriction properties are L1.17a. Among nonzero finite formal relations whose local realization vanishes, choose minimal maximal word length and then minimal number of nonzero coefficients at that length; divide by one top coefficient to make it 1. Differentiation removes that coefficient. If the resulting formal differential is nonzero, expand it in a basis of the one-dimensional meromorphic differential module: a nonzero component gives a vanishing relation with fewer top coefficients (or lower length), contradicting minimality. Therefore its formal `D`-image is 0. In `Ω_B ⊗_B Frac(B)`, L1.17a gives the required meromorphic independence: `df ∈ Ω_B` implies `f ∈ B`, and flatness preserves independence of the classes `[ω_i]`. Its constant-field assertion gives only `ℂ_p` constants. Analyticity in the full `ℂ_p` dagger algebra alone does not imply membership in `B`. The kernel-of`-D` argument of L1.13 therefore applies over the fraction field and forces the formal relation to be a constant. A nonzero constant cannot realize to 0, which establishes local independence. The system `g_u = sum_v c_v f_(u v)` is unitriangular (`c_empty = 1`, and `g_u - f_u` involves only words longer than `u`), so descending in length all `f_w = 0` and `F = 0`. At an end use `λ_e` and the identity principle for Laurent germs (L0.A2 (e)). Consequences: if `dF = 0` then `F` is constant on the residue class of `x`, and `F` minus that constant vanishes there.
+*Proof sketch.* Write `F = ρ(y), y = sum_w f_w L_w`. By L1.14 (iii), on `]x[` one has `ρ(L_w) =` sum over `w = u v` of `λ_(x,b)(L_u) c_v` with constants `c_v` and `c_empty = 1`; hence `F` restricted to `]x[` is `sum_u g_u λ_(x,b)(L_u)` with `g_u := sum_v c_v f_(u v)`, elements of `B = A_K⁺(Y) ⊗_K ℂ_p`. `F` vanishes on all of `]x[` by the identity principle on discs (API `eq_zero_of_eqOn` of L0.7). Local independence is proved by a minimal relation, not by comparing coefficients in the relation being proved independent. Work over the fraction field of the algebraic coefficient ring `B`, whose domain and restriction properties are L1.17a. Among nonzero finite formal relations whose local realization vanishes, choose minimal maximal word length and then minimal number of nonzero coefficients at that length; divide by one top coefficient to make it 1. Differentiation removes that coefficient. If the resulting formal differential is nonzero, expand it in a basis of the one-dimensional meromorphic differential module: a nonzero component gives a vanishing relation with fewer top coefficients (or lower length), contradicting minimality. Therefore its formal `D`-image is 0. In `Ω_B ⊗_B Frac(B)`, L1.17a gives the required meromorphic independence: `df ∈ Ω_B` implies `f ∈ B`, and flatness preserves independence of the classes `[ω_i]`. Its constant-field assertion gives only `ℂ_p` constants. Analyticity in the full `ℂ_p` dagger algebra alone does not imply membership in `B`. The kernel-of-`D` argument of L1.13 therefore applies over the fraction field and forces the formal relation to be a constant. A nonzero constant cannot realize to 0, which establishes local independence. The system `g_u = sum_v c_v f_(u v)` is unitriangular (`c_empty = 1`, and `g_u - f_u` involves only words longer than `u`), so descending in length all `f_w = 0` and `F = 0`. At an end use `λ_e` and the identity principle for Laurent germs (L0.A2 (e)). Consequences: if `dF = 0` then `F` is constant on the residue class of `x`, and `F` minus that constant vanishes there.
 
 *Needs:* L1.7, L1.14, L1.16, L1.17, L1.17a, L0.7, L0.A2, L1.13.
 
@@ -994,11 +995,11 @@ Standing hypotheses of this target: A datum satisfying `(H0), (H1)`, (Hi); coeff
 
 ### L1.19 The Coleman integral
 
-**Construction.** For `F∈A_Col,≤n` and `η∈Ω⁺`, define `∫Fη=ρ(D⁻¹(ρ⁻¹(F)η))` in `A_Col,≤n+1/ℂ_p`, using injectivity of `ρ` and surjectivity of `D` with constant kernel. A `primitive G` gives `∫_x^yFη=G(y)−G(x)`; a based primitive satisfies `G(x)=0`. Tangential endpoints require convergent nonnegative-power logarithmic expansions. Prove `d∫=`id, `∫dG=G` mod `ℂ_p, φ*∫=∫φ*` mod `ℂ_p`, linearity, endpoint concatenation, tiny-disc agreement, change of variables and `∫_x^ydg=g(y)−g(x)` for `g∈A⁺`. For `F=1` this is BBK Theorem 5's integration map. (BBK §2, Thm. 5 (Coleman), p. 4; BBK §2, Thm. 5 (d), p. 4; F Notation 2.6, p. 9; BT §5, p. 18.)
+**Construction.** For `F∈A_Col,≤n` and `η∈Ω⁺`, define `∫Fη=ρ(D⁻¹(ρ⁻¹(F)η))` in `A_Col,≤n+1/ℂ_p`, using injectivity of `ρ` and surjectivity of `D` with constant kernel. A `primitive G` gives `∫_x^yFη=G(y)−G(x)`; a based primitive satisfies `G(x)=0`. Tangential endpoints require convergent nonnegative-power logarithmic expansions. Prove `d∫=id`, `∫dG=G` mod `ℂ_p, φ*∫=∫φ*` mod `ℂ_p`, linearity, endpoint concatenation, tiny-disc agreement, change of variables and `∫_x^ydg=g(y)−g(x)` for `g∈A⁺`. For `F=1` this is BBK Theorem 5's integration map. (BBK §2, Thm. 5 (Coleman), p. 4; BBK §2, Thm. 5 (d), p. 4; F Notation 2.6, p. 9; BT §5, p. 18.)
 
 Standing hypotheses of this target: A datum on `(X, D)`; a in `ℂ_p`.
 
-- `colemanIntegral`: `colemanIntegral` : ColemanForms`→`ColemanFunctions `/ ℂ_p`.
+- `colemanIntegral`: `colemanIntegral` : `ColemanForms → ColemanFunctions / ℂ_p`.
 - `d_colemanIntegral`: `d (colemanIntegral η) = η`.
 - `colemanIntegral_d`: `colemanIntegral (d G) = G` mod `ℂ_p` for `G` a Coleman function.
 - `colemanIntegral_frobenius`: `colemanIntegral (φ^* η) = φ^* (colemanIntegral η)` mod `ℂ_p`.
@@ -1017,16 +1018,16 @@ Standing hypotheses of this target: A datum on `(X, D)`; a in `ℂ_p`.
 
 - On `(P^1, {0, 1, ∞})`: `int_x^y dz/z = log_a(y) - log_a(x)`; for `x, y` roots of unity of order prime to `p` it is 0.
 - `int_x^y d g = g(y) - g(x)` for `g` in `A+(Y)`, and `int_x^x η = 0`.
-- For `p` odd, `int_2^(2+p) dz/z = logOneAdd (p/2)`, the disc integral.
+- For `p` odd, `int_2^(2+p) dz/z = NormedSpace.log (1 + p/2)`, the disc integral.
 - For `p≥5` the locally analytic `primitive log_a z +` (indicator of the residue disc of 2) of `dz/z` gives `log_a 2 - log_a 3 + 1` between 3 and 2, whereas `int_3^2 dz/z = log_a(2/3)`: an arbitrary locally analytic primitive does not compute the Coleman integral.
 
 ### L1.20 Coleman integration is characterised by Frobenius equivariance
 
-**Theorem.** For a Frobenius datum satisfying `(H0)`, `(H1)`, `(Hi)` and `(Hw)`, extended algebraically as in L1.17a, there is a unique `ℂ_p`-linear integration map int : `Ω_K⁺(Y) ⊗_K ℂ_p → A_loc^a(Y)/ℂ_p` with `d` int the inclusion, int `d` the canonical map on `B = A_K⁺(Y) ⊗_K ℂ_p`, and Frobenius equivariance. Its image is the depth-one Coleman primitives. At depth `n`, integration is the unique `ℂ_p`-linear inverse to `d` into `A_Col,≤n+1/ℂ_p` for Coleman forms of depth`≤n`. The original `K`-linear`/K`-quotient formulation in Besser concerns `K`-valued local functions and a branch valued in `K`; it must not be applied to all `ℂ_p`-valued Coleman functions. Independence of `φ` is subject to L1.22. (BH Thm. 2, p. 7; BT §5, p. 18; BH §1.2, pp. 2-3.)
+**Theorem.** For a Frobenius datum satisfying `(H0)`, `(H1)`, `(Hi)` and `(Hw)`, extended algebraically as in L1.17a, there is a unique `ℂ_p`-linear integration map int : `Ω_K⁺(Y) ⊗_K ℂ_p → A_loc^a(Y)/ℂ_p` with `d` int the inclusion, int `d` the canonical map on `B = A_K⁺(Y) ⊗_K ℂ_p`, and Frobenius equivariance. Its image is the depth-one Coleman primitives. At depth `n`, integration is the unique `ℂ_p`-linear inverse to `d` into `A_Col,≤n+1/ℂ_p` for Coleman forms of depth `≤n`. The original `K`-linear `/K`-quotient formulation in Besser concerns `K`-valued local functions and a branch valued in `K`; it must not be applied to all `ℂ_p`-valued Coleman functions. Independence of `φ` is subject to L1.22. (BH Thm. 2, p. 7; BT §5, p. 18; BH §1.2, pp. 2-3.)
 
 Standing hypotheses of this target: A datum satisfying `(H0)`, `(H1)`, `(Hi)` and `(Hw)`; `a ∈ ℂ_p`.
 
-*Proof sketch.* Existence: L1.19. Uniqueness: two such maps differ by `δ` : `Ω+ →` LC`/ℂ_p` with `δ(dg) = 0` and `φ^* δ = δ φ^*`; so `δ` factors through `H^1_dR+` with `δ(ω)` a vector of locally constant functions modulo constants satisfying `φ^* δ(ω) = M δ(ω)` modulo constants. By L1.11 (a) (`T = M`, hypothesis `(Hw)`) `δ(ω)` is constant, `i.e`. zero in LC`/ℂ_p`. Higher depth inside the Coleman algebra: surjectivity of `D` and injectivity of `ρ` give existence, and `ker d=ℂ_p` gives uniqueness modulo `ℂ_p`. Frobenius equivariance follows from `D`-compatibility. There is no need to infer uniqueness in a larger locally analytic carrier from this statement.
+*Proof sketch.* Existence: L1.19. Uniqueness: two such maps differ by `δ : Ω+ → LC/ℂ_p` with `δ(dg) = 0` and `φ^* δ = δ φ^*`; so `δ` factors through `H^1_dR+` with `δ(ω)` a vector of locally constant functions modulo constants satisfying `φ^* δ(ω) = M δ(ω)` modulo constants. By L1.11 (a) (`T = M`, hypothesis `(Hw)`) `δ(ω)` is constant, i.e. zero in `LC/ℂ_p`. Higher depth inside the Coleman algebra: surjectivity of `D` and injectivity of `ρ` give existence, and `ker d=ℂ_p` gives uniqueness modulo `ℂ_p`. Frobenius equivariance follows from `D`-compatibility. There is no need to infer uniqueness in a larger locally analytic carrier from this statement.
 
 *Needs:* L1.7, L1.11, L1.19, L1.18, L1.17a.
 
@@ -1044,7 +1045,7 @@ Standing hypotheses of this target: A datum satisfying `(H0)`, `(H1)`, `(Hi)` an
 T_(u,v)(y) = Σ_(j≥0) (v*t − u*t)^j u*(∂^j y) / j!.
 ```
 
-Its coefficients converge in the source dagger algebra on a common strict neighbourhood. The transports are independent of coordinates, restrict compatibly to smaller neighbourhoods and satisfy `T_(u,u)=1` and the three-map cocycle identity. Their local realizations are composition with `v` expressed in the `u`-pulled-back word family: `ρ(y)(v(z))=ρ(T_(u,v)(y))(z)`. In particular two equal`-q` Frobenius lifts satisfy the required comparison, without a global trivialization of `Ω⁺`. This is the finite-unipotent Taylor argument underlying BH's proof of Theorem 2, p. 9; the bounds and finite-chart reduction below are deductions, rather than an estimate attributed to that lecture. The generic coordinate criterion and coordinate-independent stratification are imported from PadicDifferentialEquationsAndRigidCohomology RD.3.17–RD.3.18.
+Its coefficients converge in the source dagger algebra on a common strict neighbourhood. The transports are independent of coordinates, restrict compatibly to smaller neighbourhoods and satisfy `T_(u,u)=1` and the three-map cocycle identity. Their local realizations are composition with `v` expressed in the `u`-pulled-back word family: `ρ(y)(v(z))=ρ(T_(u,v)(y))(z)`. In particular two equal-`q` Frobenius lifts satisfy the required comparison, without a global trivialization of `Ω⁺`. This is the finite-unipotent Taylor argument underlying BH's proof of Theorem 2, p. 9; the bounds and finite-chart reduction below are deductions, rather than an estimate attributed to that lecture. The generic coordinate criterion and coordinate-independent stratification are imported from PadicDifferentialEquationsAndRigidCohomology RD.3.17–RD.3.18.
 
 Standing hypotheses of this target: both pairs descend to finite extensions of `ℚ_p` in a common coefficient field; `u` and `v` extend to the integral smooth models near the ordinary locus, have equal reduction and induce the indicated dagger pullbacks. At end components use logarithmic parameter substitutions when the image is an end; an ordinary image uses its whole-disc analytic component as in L1.42. The maps need not be endomorphisms. No global basis of `Ω⁺` and no previously supplied uniform connection estimate are assumed.
 
@@ -1075,7 +1076,7 @@ RD.3.17 now applies to this particular finite unipotent connection. RD.3.18 supp
 
 Standing hypotheses of this target: a good-reduction pair and lifts with the same `q`; apply the finite-word convergence and gluing of L1.21 at each depth. Equality of normalized realizations requires a common fixed ordinary base or a tangential base satisfying regular-`log/CT`-pullback hypotheses. Equality of images and integrals does not.
 
-*Proof sketch.* (a) The rigid comparison gives lift independence. In an étale chart, for `η = f dt`: `φ'^* η - φ^* η = d(sum_{k ≥ 1} ((φ'^* t - φ^* t)^k/k!) φ^*(partial^(k-1) f))`, the series converging in `A+` by the estimate of L1.21; so the local classes agree; the global cohomological equality is the imported rigid statement, and `M' = M`. Choose an ordinary point `b` fixed by a power of `φ'` using L1.6. Taking a power does not change its Coleman image by (c), which follows independently from realization uniqueness. Restrict `ρ_φ` to the disc of `b`; L1.14 classifies it as the `b`-normalized local solution twisted by a constant shuffle character. Rebase the entire realization by the inverse unitriangular constant shuffle twist. Its image is unchanged and its restriction at `b` is now normalized. The cross-map Taylor identity shows `φ'-`pullback preserves this unchanged image. Compare `φ'*ρ_rebased(L_w)` with `ρ_rebased(φ'#L_w)`, where `φ'#` is normalized at `b`. By induction their differential defect is zero; the Coleman uniqueness principle makes it a global constant. Evaluate at `b`: `φ'(b)=b` and the two word families have the same normalization, so the defect is0. Realization uniqueness identifies the rebased family with `ρ_φ'`. Thus images and integration modulo constants agree. If both lifts already have the same compatible fixed base and normalization, no rebase is needed and the realizations themselves agree. (c) `φ^m`-equivariance follows from `φ`-equivariance, and uniqueness for `φ^m` gives equality.
+*Proof sketch.* (a) The rigid comparison gives lift independence. In an étale chart, for `η = f dt`: `φ'^* η - φ^* η = d(sum_{k ≥ 1} ((φ'^* t - φ^* t)^k/k!) φ^*(partial^(k-1) f))`, the series converging in `A+` by the estimate of L1.21; so the local classes agree; the global cohomological equality is the imported rigid statement, and `M' = M`. Choose an ordinary point `b` fixed by a power of `φ'` using L1.6. Taking a power does not change its Coleman image by (c), which follows independently from realization uniqueness. Restrict `ρ_φ` to the disc of `b`; L1.14 classifies it as the `b`-normalized local solution twisted by a constant shuffle character. Rebase the entire realization by the inverse unitriangular constant shuffle twist. Its image is unchanged and its restriction at `b` is now normalized. The cross-map Taylor identity shows `φ'-`pullback preserves this unchanged image. Compare `φ'*ρ_rebased(L_w)` with `ρ_rebased(φ'#L_w)`, where `φ'#` is normalized at `b`. By induction their differential defect is zero; the Coleman uniqueness principle makes it a global constant. Evaluate at `b`: `φ'(b)=b` and the two word families have the same normalization, so the defect is 0. Realization uniqueness identifies the rebased family with `ρ_φ'`. Thus images and integration modulo constants agree. If both lifts already have the same compatible fixed base and normalization, no rebase is needed and the realizations themselves agree. (c) `φ^m`-equivariance follows from `φ`-equivariance, and uniqueness for `φ^m` gives equality.
 
 *Needs:* L1.16, L1.17, L1.18, L1.21, L1.7, PadicDifferentialEquationsAndRigidCohomology RD.4, L1.6, L1.14.
 
@@ -1149,17 +1150,17 @@ Standing hypotheses of this target: (C4).
 
 Standing hypotheses of this target: `p` does not divide `N`; `q` is the cardinality of the residue field of `K_N`, so `q=p^f` and `ζ^q=ζ` for all `ζ` in `μ_N`.
 
-*Proof sketch.* Every intermediate binomial coefficient of `(z-ζ)^q` is divisible by `p`, and `ζ^q=ζ`. The difference `z^q-ζ-(z-ζ)^q` is therefore in `p O_N[z]`. The same calculation for `z^(qN)-1` permits inversion in the dagger algebra by a geometric series. Factor `z^q-ζ` as `product_(ξ in μ_q)(z-ξ ζ)`. All `ξ` have `p`-power order, so lie in the residue disc of1; take logarithmic derivatives to obtain the displayed correction. The binomial coefficient estimate gives the two uniform bounds stated, and the logarithm series converges on a strict neighbourhood. The standard integral coordinate `z` is the one-chart specialization of the Taylor bounds proved in L1.21. At `z=0` the unit `u_ζ` is `(-1)^(1-q)`, a root of unity with logarithm0. For `N=1, q=p` and this is the historical `p`-power formula. The auxiliary `p`-map calculation is identical with `η_0^p=ζ`; its `f`-fold iterate is `z^q`.
+*Proof sketch.* Every intermediate binomial coefficient of `(z-ζ)^q` is divisible by `p`, and `ζ^q=ζ`. The difference `z^q-ζ-(z-ζ)^q` is therefore in `p O_N[z]`. The same calculation for `z^(qN)-1` permits inversion in the dagger algebra by a geometric series. Factor `z^q-ζ` as `product_(ξ in μ_q)(z-ξ ζ)`. All `ξ` have `p`-power order, so lie in the residue disc of 1; take logarithmic derivatives to obtain the displayed correction. The binomial coefficient estimate gives the two uniform bounds stated, and the logarithm series converges on a strict neighbourhood. The standard integral coordinate `z` is the one-chart specialization of the Taylor bounds proved in L1.21. At `z=0` the unit `u_ζ` is `(-1)^(1-q)`, a root of unity with logarithm 0. For `N=1, q=p` and this is the historical `p`-power formula. The auxiliary `p`-map calculation is identical with `η_0^p=ζ`; its `f`-fold iterate is `z^q`.
 
 *Needs:* L1.25, L1.26, L1.27, L1.5, L0.10, L0.13.
 
 ### L1.29 The Frobenius datum of the punctured line
 
-**Theorem.** For `q=#k_N=p^f, (A+(U_N),ω=(dz/z,(dz/(z-ζ))_ζ),φ(z)=z^q,M=qI,g=(0,(log u_ζ)_ζ))` is the `K_N`-linear arithmetic Frobenius datum. H0,H1,Hi hold by the punctured-line de Rham and Mittag-Leffler targets, also after the stated coefficient extension. Hw holds because `M^(tensor n)=q^n I` and `||q^(nm)||_p=q^(-nm)<1`. The fixed ends0,`∞` have `φ*t=t^q`; the periodic Teichmueller points are the tame roots outside `μ_N`. Thus the realization, Coleman image, uniqueness and the coordinate-qualified lift independence/pullback apply. The auxiliary analytic `p`-map instead has matrix `p(1 direct_sum P), P`:`ζ→ζ^(1/p)`; its `f`-th iterate gives the `q`-datum, but the `p`-map is not arithmetic Frobenius over `K_N` when `f>1`. (BH §1.2, p. 3; F §2.2, p. 9.)
+**Theorem.** For `q=#k_N=p^f, (A+(U_N),ω=(dz/z,(dz/(z-ζ))_ζ),φ(z)=z^q,M=qI,g=(0,(log u_ζ)_ζ))` is the `K_N`-linear arithmetic Frobenius datum. H0,H1,Hi hold by the punctured-line de Rham and Mittag-Leffler targets, also after the stated coefficient extension. Hw holds because `M^(tensor n)=q^n I` and `||q^(nm)||_p=q^(-nm)<1`. The fixed ends `0, ∞` have `φ*t=t^q`; the periodic Teichmueller points are the tame roots outside `μ_N`. Thus the realization, Coleman image, uniqueness and the coordinate-qualified lift independence/pullback apply. The auxiliary analytic `p`-map instead has matrix `p(1 direct_sum P), P`:`ζ→ζ^(1/p)`; its `f`-th iterate gives the `q`-datum, but the `p`-map is not arithmetic Frobenius over `K_N` when `f>1`. (BH §1.2, p. 3; F §2.2, p. 9.)
 
 Standing hypotheses of this target: (C4).
 
-*Proof sketch.* Assemble L1.25 de Rham, Mittag-Leffler and `q`-Frobenius statements. The logarithmic basis has at most simple poles at every end, and at0 the `q`-map preserves regular-`log CT` normalization. Hw: the complex norm of `q^(nm)` is `q^(nm)>1`, while its p-adic norm is `q^(-nm)<1`. Both exclude1; neither argument identifies the two norms. The standard integral coordinate `z` specializes L1.21 to the listed genus-zero maps. For the auxiliary `p`-map the permutation has order dividing `f` because `ζ^q=ζ`. Iterating its correction terms yields `M^f=qI` and the same `q`-Frobenius realization.
+*Proof sketch.* Assemble L1.25 de Rham, Mittag-Leffler and `q`-Frobenius statements. The logarithmic basis has at most simple poles at every end, and at 0 the `q`-map preserves regular-`log CT` normalization. Hw: the complex norm of `q^(nm)` is `q^(nm)>1`, while its p-adic norm is `q^(-nm)<1`. Both exclude 1; neither argument identifies the two norms. The standard integral coordinate `z` specializes L1.21 to the listed genus-zero maps. For the auxiliary `p`-map the permutation has order dividing `f` because `ζ^q=ζ`. Iterating its correction terms yields `M^f=qI` and the same `q`-Frobenius realization.
 
 *Needs:* L1.7, L1.25, L1.26, L1.27, L1.28.
 
@@ -1225,7 +1226,7 @@ Standing hypotheses of this target: `p` does not divide `N`; a in `ℂ_p`.
 
 ### L1.33 Tube of the four-punctured line
 
-**Construction.** For `v` in `ℂ_p` define `specialUnitTube(v)={z: |z|=|z−1|=|z−v|=1}`. For `|v|=|1−v|=1` this is the tube of `P¹_k` minus {`0,1,∞,v`-bar}; the definition is a set of `ℂ_p`-points, not a new analytic-space carrier. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Construction.** For `v` in `ℂ_p` define `specialUnitTube(v)={z: |z|=|z−1|=|z−v|=1}`. For `|v|=|1−v|=1` this is the tube of `P¹_k` minus {`0,1,∞,v`-bar}; the definition is a set of `ℂ_p`-points, not a new analytic-space carrier. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: `p` is prime; the set is defined for `v` in `ℂ_p`. The geometric assertion additionally assumes `v` lies in finite `K/ℚ_p` and `|v|=|1−v|=1`.
 
@@ -1240,24 +1241,24 @@ Standing hypotheses of this target: `p` is prime; the set is defined for `v` in 
 
 **Checks.**
 
-- For `p=5,v=2`, the point3 belongs to `specialUnitTube(2)`.
+- For `p=5,v=2`, the point 3 belongs to `specialUnitTube(2)`.
 - `v` never belongs to `specialUnitTube(v)`.
 - `specialUnitTube(1)` is the tube `{|z| = |z − 1| = 1}` of `U_1` from L1.25: for `p = 5` the point `3` lies in both and `6` in neither.
-- For `p=2,v=2, |v|` is not1, so the geometric separated-section hypothesis fails even though `specialUnitTube(2)` remains a defined set.
+- For `p=2,v=2, |v|` is not 1, so the geometric separated-section hypothesis fails even though `specialUnitTube(2)` remains a defined set.
 
 ### L1.34 Separated four-point good-reduction model
 
-**Lemma.** The pair `(P¹_(O_K), D_v)` with `D_v` the disjoint union of the sections `0,1,v,∞` is a good-reduction pair. Its affine complement is `Spec O_K[z,1/(z(z−1)(z−v))]`; its differentials are free on `dz`. Its wide opens are `W_r(v)={r<|z|<r⁻¹, |z−1|>r, |z−v|>r}, 0<r<1`. Its tube is `specialUnitTube(v)`. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** The pair `(P¹_(O_K), D_v)` with `D_v` the disjoint union of the sections `0,1,v,∞` is a good-reduction pair. Its affine complement is `Spec O_K[z,1/(z(z−1)(z−v))]`; its differentials are free on `dz`. Its wide opens are `W_r(v)={r<|z|<r⁻¹, |z−1|>r, |z−v|>r}, 0<r<1`. Its tube is `specialUnitTube(v)`. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
-*Proof sketch.* The differences `v,1−v` and1 are units, so the three affine sections and the section at `∞` are pairwise disjoint over `O_K`. Each section is a copy of `Spec O_K`; their union is finite etale. Apply L1.1 construction to the smooth proper relative projective line, whose geometric fibres are connected. Compute the complement by localizing the affine `z`-chart at `z(z−1)(z−v)`. Localize the polynomial differential module: `dz` is a basis. Use parameters `z,z−1,z−v,1/z` in the existing wide-open construction to obtain `W_r` and the tube. This specializes existing geometry; it does not construct a generic projective-line library.
+*Proof sketch.* The differences `v,1−v` and 1 are units, so the three affine sections and the section at `∞` are pairwise disjoint over `O_K`. Each section is a copy of `Spec O_K`; their union is finite etale. Apply L1.1 construction to the smooth proper relative projective line, whose geometric fibres are connected. Compute the complement by localizing the affine `z`-chart at `z(z−1)(z−v)`. Localize the polynomial differential module: `dz` is a basis. Use parameters `z,z−1,z−v,1/z` in the existing wide-open construction to obtain `W_r` and the tube. This specializes existing geometry; it does not construct a generic projective-line library.
 
 *Needs:* L1.1, L1.2, L1.33.
 
 ### L1.35 Principal parts at four separated punctures
 
-**Lemma.** Write `A_v=A†(P¹ minus {0,1,v,∞})`. Every `f` in `A_v` has a unique decomposition `f=f_infinity(z)+f_0(1/z)+f_1(1/(z−1))+f_v(1/(z−v))`, where `f_infinity` is a power series and each finite-puncture series has zero constant coefficient; all four are restricted at some common radius `ρ>1`. Conversely each such expression lies in `A_v`. Restriction of `A_v` and `A_v dz` to any nonempty residue disc is injective. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** Write `A_v=A†(P¹ minus {0,1,v,∞})`. Every `f` in `A_v` has a unique decomposition `f=f_infinity(z)+f_0(1/z)+f_1(1/(z−1))+f_v(1/(z−v))`, where `f_infinity` is a power series and each finite-puncture series has zero constant coefficient; all four are restricted at some common radius `ρ>1`. Conversely each such expression lies in `A_v`. Restriction of `A_v` and `A_v dz` to any nonempty residue disc is injective. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
@@ -1267,67 +1268,67 @@ Standing hypotheses of this target: (C5).
 
 ### L1.36 Residue coordinates on the four-punctured line
 
-**Theorem.** For `A_v, ker(d)=K` and every differential `η` in `A_v dz` has a unique residue vector `(c_0,c_1,c_v)` in `K³` with `η=`dh`+c_0 dz/z+c_1 dz/(z−1)+c_v dz/(z−v), h` in `A_v` unique modulo `K`. The three displayed logarithmic forms give a basis of `H¹` of the dagger de Rham complex; the residue at `∞` is `−c_0−c_1−c_v`. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Theorem.** For `A_v, ker(d)=K` and every differential `η` in `A_v dz` has a unique residue vector `(c_0,c_1,c_v)` in `K³` with `η=dh+c_0 dz/z+c_1 dz/(z−1)+c_v dz/(z−v)`, `h` in `A_v` unique modulo `K`. The three displayed logarithmic forms give a basis of `H¹` of the dagger de Rham complex; the residue at `∞` is `−c_0−c_1−c_v`. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
-*Proof sketch.* Use L1.35 on the coefficient of `η`. Integrate the polynomial-side series and the negative Laurent terms with exponents different from`−1` termwise. Division by a nonzero integer preserves overconvergence after shrinking `ρ>1`: the existing ultrametric integer bound is polynomial in the index, while the radius margin supplies exponential decay. Apply L0.5 to each piece. The three remaining simple-pole coefficients are the corresponding residues. Exact forms have zero residue, so they determine the unique vector. If dh`=0`, characteristic-zero coefficient differentiation forces the polynomial part constant and all principal parts zero. Expand the three logarithmic forms in `t=1/z` to read residue`−1` at `∞` for each; exact forms contribute zero.
+*Proof sketch.* Use L1.35 on the coefficient of `η`. Integrate the polynomial-side series and the negative Laurent terms with exponents different from `−1` termwise. Division by a nonzero integer preserves overconvergence after shrinking `ρ>1`: the existing ultrametric integer bound is polynomial in the index, while the radius margin supplies exponential decay. Apply L0.5 to each piece. The three remaining simple-pole coefficients are the corresponding residues. Exact forms have zero residue, so they determine the unique vector. If `dh=0`, characteristic-zero coefficient differentiation forces the polynomial part constant and all principal parts zero. Expand the three logarithmic forms in `t=1/z` to read residue `−1` at `∞` for each; exact forms contribute zero.
 
 *Needs:* L1.35, L0.5, L0.1, L0.12, AdicSpacesPartIV §F1.9.
 
 ### L1.37 Small error in the `q`-power Frobenius polynomial
 
-**Lemma.** For each `c` in `{0,1,v}, E_c(Z)=Z^q−c−(Z−c)^q` has every coefficient in the maximal ideal of `O_K` and degree less than `q`. Thus there is a real `δ<1` bounding the norms of all coefficients of the three `E_c`. On `W_s(v), |E_c(z)/(z−c)^q|≤δ/s^q` whenever0`<s<1`. For `c=0` the error is zero. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** For each `c` in `{0,1,v}, E_c(Z)=Z^q−c−(Z−c)^q` has every coefficient in the maximal ideal of `O_K` and degree less than `q`. Thus there is a real `δ<1` bounding the norms of all coefficients of the three `E_c`. On `W_s(v), |E_c(z)/(z−c)^q|≤δ/s^q` whenever `0<s<1`. For `c=0` the error is zero. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
-*Proof sketch.* Reduce the polynomial modulo the maximal ideal. `FiniteField.pow_card` gives `c`-`bar^q=c`-bar, and `sub_pow_char_pow` gives (`Z−c`-bar)`^q=Z^q−c`-`bar^q`. The reduction is zero. The leading coefficients cancel, leaving degree at most `q−1`. Choose `δ` as the maximum of the finitely many coefficient norms and0; it is strictly less than1. For `|z|≤1`, the ultrametric bound gives `|E_c(z)|≤δ` and `|z−c|>s`. For `|z|>1, |z−c|=|z|` and the degree bound gives quotient norm`≤δ/|z|≤δ`.
+*Proof sketch.* Reduce the polynomial modulo the maximal ideal. `FiniteField.pow_card` gives `c`-`bar^q=c`-bar, and `sub_pow_char_pow` gives (`Z−c`-bar)`^q=Z^q−c`-`bar^q`. The reduction is zero. The leading coefficients cancel, leaving degree at most `q−1`. Choose `δ` as the maximum of the finitely many coefficient norms and 0; it is strictly less than 1. For `|z|≤1`, the ultrametric bound gives `|E_c(z)|≤δ` and `|z−c|>s`. For `|z|>1, |z−c|=|z|` and the degree bound gives quotient norm `≤δ/|z|≤δ`.
 
 *Needs:* L1.34, `FiniteField.pow_card`, `sub_pow_char_pow`, `PadicComplex.isNonarchimedean`.
 
 ### L1.38 Overconvergent Frobenius logarithmic corrections
 
-**Lemma.** The `K`-linear `q`-power map `φ(z)=z^q` induces an endomorphism of `A_v`. For `c` in `{0,1,v}, u_c=(z^q−c)/(z−c)^q` is an overconvergent unit with a canonical convergent `log(u_c)` in `A_v`; `log(u_0)=0`. One has `φ*(dz/(z−c))=q dz/(z−c)+d log(u_c)`. This asserts convergence near the tube, not on all of the punctured residue disc. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** The `K`-linear `q`-power map `φ(z)=z^q` induces an endomorphism of `A_v`. For `c` in `{0,1,v}, u_c=(z^q−c)/(z−c)^q` is an overconvergent unit with a canonical convergent `log(u_c)` in `A_v`; `log(u_0)=0`. One has `φ*(dz/(z−c))=q dz/(z−c)+d log(u_c)`. This asserts convergence near the tube, not on all of the punctured residue disc. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
-*Proof sketch.* Choose `s<1` sufficiently close to1 that `δ<s^q`. Then L1.37 gives `|u_c−1|<1` uniformly on `W_s`, so the geometric inverse and the inherited logarithm series converge after a strict radius margin. Their sums belong to `A_v`. For each target `W_r` choose `s` with `s^q>r` and `δ<s^q`. If `|z|≤1`, ultrametric strict domination gives `|z^q−c|=|z−c|^q`; if `|z|>1`, both norms equal `|z|^q`. The inequalities for0 and `∞` also hold. Hence `φ(W_s)` is contained in `W_r`, producing the dagger endomorphism. Differentiate `u_c` algebraically and use `d log u_c=du_c/u_c` on the convergence domain. The result is `q z^(q−1) dz/(z^q−c)−q dz/(z−c)`. For `c=0, u_0=1`.
+*Proof sketch.* Choose `s<1` sufficiently close to 1 that `δ<s^q`. Then L1.37 gives `|u_c−1|<1` uniformly on `W_s`, so the geometric inverse and the inherited logarithm series converge after a strict radius margin. Their sums belong to `A_v`. For each target `W_r` choose `s` with `s^q>r` and `δ<s^q`. If `|z|≤1`, ultrametric strict domination gives `|z^q−c|=|z−c|^q`; if `|z|>1`, both norms equal `|z|^q`. The inequalities for 0 and `∞` also hold. Hence `φ(W_s)` is contained in `W_r`, producing the dagger endomorphism. Differentiate `u_c` algebraically and use `d log u_c=du_c/u_c` on the convergence domain. The result is `q z^(q−1) dz/(z^q−c)−q dz/(z−c)`. For `c=0, u_0=1`.
 
 *Needs:* L1.37, L0.10, L0.13, AdicSpacesPartIV §F1.2.
 
 ### L1.39 Frobenius datum for an arbitrary separated fourth point
 
-**Theorem.** For the four-punctured line over finite `K`, the forms `dz/z,dz/(z−1),dz/(z−v)`, the `K`-linear lift `z↦z^q`, matrix `q I_3` and `corrections(0,log u_1,log u_v)` form the existing FrobeniusDatum, `satisfying(H0),(H1)`,(Hi),`(Hw)`. Therefore the inherited word-algebra construction and Coleman uniqueness apply to this concrete line. No general-curve de Rham comparison is required for this instance. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Theorem.** For the four-punctured line over finite `K`, the forms `dz/z,dz/(z−1),dz/(z−v)`, the `K`-linear lift `z↦z^q`, matrix `q I_3` and `corrections(0,log u_1,log u_v)` form the existing FrobeniusDatum, `satisfying(H0),(H1)`,(Hi),`(Hw)`. Therefore the inherited word-algebra construction and Coleman uniqueness apply to this concrete line. No general-curve de Rham comparison is required for this instance. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
-*Proof sketch.* Supply H0 and H1 from L1.36 and Hi from L1.35. Supply the differential Frobenius equation from L1.38. All eigenvalues are `q`. Every nonempty product of them raised to a positive power is `q^(nm)`, which is not1 in characteristic zero. This is Hw; no Weil-weight theorem is used. Insert this datum into L1.12, realization and uniqueness constructions. The finite-extension and residue-cardinality hypotheses remain in force; this does not build a model for arbitrary transcendental `v` in `ℂ_p`.
+*Proof sketch.* Supply H0 and H1 from L1.36 and Hi from L1.35. Supply the differential Frobenius equation from L1.38. All eigenvalues are `q`. Every nonempty product of them raised to a positive power is `q^(nm)`, which is not 1 in characteristic zero. This is Hw; no Weil-weight theorem is used. Insert this datum into L1.12, realization and uniqueness constructions. The finite-extension and residue-cardinality hypotheses remain in force; this does not build a model for arbitrary transcendental `v` in `ℂ_p`.
 
 *Needs:* L1.7, L1.36, L1.35, L1.38, L1.16, L1.18.
 
 ### L1.40 Integral argument maps on the four-punctured line
 
-**Lemma.** The four nonconstant maps `z, v/z, v(z−1)/(z(v−1)), (1−z)/(1−v)` extend to `O_K`-automorphisms of `P¹` whose restriction sends `Y_v=P¹` minus `{0,1,v,∞}` into `U_1=P¹` minus `{0,1,∞}`. The constant map `v` also maps `Y_v` into `U_1`. Preimages of the ordered target `punctures(0,1,∞)` are `respectively(0,1,∞), (∞,v,0), (1,v,0), (1,v,∞)`. Each nonconstant map sends `specialUnitTube(v)` into the tube `puncturedLine.tube p 1` of `U_1` (L1.25). (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** The four nonconstant maps `z, v/z, v(z−1)/(z(v−1)), (1−z)/(1−v)` extend to `O_K`-automorphisms of `P¹` whose restriction sends `Y_v=P¹` minus `{0,1,v,∞}` into `U_1=P¹` minus `{0,1,∞}`. The constant map `v` also maps `Y_v` into `U_1`. Preimages of the ordered target `punctures(0,1,∞)` are `respectively(0,1,∞), (∞,v,0), (1,v,0), (1,v,∞)`. Each nonconstant map sends `specialUnitTube(v)` into the tube `puncturedLine.tube p 1` of `U_1` (L1.25). (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
 Standing hypotheses of this target: (C5).
 
-*Proof sketch.* Represent the four maps by matrices `[[1,0],[0,1]], [[0,v],[1,0]], [[v,−v],[v−1,0]], [[−1,1],[0,1−v]]`. Their determinants1,`−v,v(v−1),v−1` are units, so the rational maps extend over `O_K` with invertible reduction. Solve their numerator, numerator-minus-denominator and denominator equations to obtain the preimage table, including `∞`. Their inverse images of the removed target sections are subsets of `D_v`. For the constant `v` both `v` and1`−v` are units, so it defines an integral section of `U_1`. On the tube, direct norm division proves the target and its complement have norm1. An additional removed source point may map to an ordinary target point: the identity sendsv tov. The scheme-morphism hypotheses of Furusho Proposition2.5 suffice. The analytic comparison is now supplied by L1.42 and L1.44, rather than an ends-to-ends assumption.
+*Proof sketch.* Represent the four maps by matrices `[[1,0],[0,1]], [[0,v],[1,0]], [[v,−v],[v−1,0]], [[−1,1],[0,1−v]]`. Their determinants `1, −v, v(v−1), v−1` are units, so the rational maps extend over `O_K` with invertible reduction. Solve their numerator, numerator-minus-denominator and denominator equations to obtain the preimage table, including `∞`. Their inverse images of the removed target sections are subsets of `D_v`. For the constant `v` both `v` and `1−v` are units, so it defines an integral section of `U_1`. On the tube, direct norm division proves the target and its complement have norm 1. An additional removed source point may map to an ordinary target point: the identity sendsv tov. The scheme-morphism hypotheses of Furusho Proposition 2.5 suffice. The analytic comparison is now supplied by L1.42 and L1.44, rather than an ends-to-ends assumption.
 
 *Needs:* L1.34, L1.33, L1.25, `norm_div`.
 
 ### L1.41 Whole-disc composition in a fractional local coordinate
 
-**Lemma.** Let `F(c+s)=Σ a_m s^m` be one power series converging on `|s|<1` in `ℂ_p`. For `|u|≤1` and `|b|≤1, F(c+u t/(1+b t))` is one power series on `|t|<1`. Its constant coefficient is `a_0` and, for `n≥1`, its coefficient is `Σ_(1≤m≤n) a_m u^m (−b)^(n−m) binom(n−1,m−1)`. For each `0<r<R<1` choose `C_R` with `|a_m|R^m≤C_R`; the composed coefficients `c_n` satisfy `|c_n|r^n≤C_R(r/R)^n`. In particular the ordinary target-disc function pulls back on the whole source disc, including its centre. (F arXiv math/0304085v2, §2.1, p. 7: the ordinary components are A(]x[); Proposition2.5, pp. 8–9.)
+**Lemma.** Let `F(c+s)=Σ a_m s^m` be one power series converging on `|s|<1` in `ℂ_p`. For `|u|≤1` and `|b|≤1, F(c+u t/(1+b t))` is one power series on `|t|<1`. Its constant coefficient is `a_0` and, for `n≥1`, its coefficient is `Σ_(1≤m≤n) a_m u^m (−b)^(n−m) binom(n−1,m−1)`. For each `0<r<R<1` choose `C_R` with `|a_m|R^m≤C_R`; the composed coefficients `c_n` satisfy `|c_n|r^n≤C_R(r/R)^n`. In particular the ordinary target-disc function pulls back on the whole source disc, including its centre. (F arXiv math/0304085v2, §2.1, p. 7: the ordinary components are A(]x[); Proposition 2.5, pp. 8–9.)
 
 Standing hypotheses of this target: `p` is any prime; `c,u,b∈ℂ_p`; `|u|≤1` and `|b|≤1`. `F` has one expansion on the whole target disc, not merely local analyticity.
 
-*Proof sketch.* Expand `u t/(1+b t)=Σ_(n≥1) u(−b)^(n−1)t^n`, using the existing geometric series. The denominator has norm1 for `|t|<1`. For `m≥1` the `m`-th power has coefficient `u^m(−b)^(n−m)binom(n−1,m−1)` for `n≥m`. Obtain this by the finite binomial expansion of `(1+b t)^(−m)`; the substitution has zero constant coefficient. The native ultrametric bound on natural-number casts bounds every binomial coefficient by1. Since `R<1` and `m≤n`, each coefficient term has norm at most `C_R R^(−n)`, giving the displayed all-radius bound. The `m=0` term is handled separately. For a fixed `|t|<r<R<1` the double sum is absolutely summable after taking real norms: the binomial majorants and `(|t|/R)^m` form convergent geometric tails. Exchange the sums and recover the actual composite. This estimate, rather than local analytic composition alone, supplies radius1.
+*Proof sketch.* Expand `u t/(1+b t)=Σ_(n≥1) u(−b)^(n−1)t^n`, using the existing geometric series. The denominator has norm 1 for `|t|<1`. For `m≥1` the `m`-th power has coefficient `u^m(−b)^(n−m)binom(n−1,m−1)` for `n≥m`. Obtain this by the finite binomial expansion of `(1+b t)^(−m)`; the substitution has zero constant coefficient. The native ultrametric bound on natural-number casts bounds every binomial coefficient by 1. Since `R<1` and `m≤n`, each coefficient term has norm at most `C_R R^(−n)`, giving the displayed all-radius bound. The `m=0` term is handled separately. For a fixed `|t|<r<R<1` the double sum is absolutely summable after taking real norms: the binomial majorants and `(|t|/R)^m` form convergent geometric tails. Exchange the sums and recover the actual composite. This estimate, rather than local analytic composition alone, supplies radius 1.
 
 *Needs:* L0.7, `FormalMultilinearSeries.ofScalars`, `HasFPowerSeriesOnBall`, `HasFPowerSeriesAt.comp`, `hasFPowerSeriesOnBall_inv_one_add`, `IsUltrametricDist.norm_natCast_le_one`.
 
 ### L1.42 Pullback at an additional source end
 
-**Lemma.** For genus-zero good-reduction pairs `(P¹,D′)` and `(P¹,D)` over `O_K`, let `f` be an integral fractional-linear automorphism with `f^−1(D)⊆D′`. At a source end `e′` whose reduction maps into the ordinary target locus `Y_k`, an ordinary target component `H∈O(]f(e′)[)` pulls back to `H`∘`f∈O(]e′[)`, and hence to its Laurent end germ in `A_loc^a(Y′)`. At ends mapping to target ends use the existing logarithmic parameter substitution. These component maps define the usual `f#` on `A_loc` and commute with differentiation. Together with the inherited Taylor/Frobenius argument they permit L1.43 for these maps, even when an additional source end maps to an ordinary target point. (F arXiv math/0304085v2, Proposition2.5, pp. 8–9 (no ends-to-ends hypothesis), with the component rings on, p. 7.)
+**Lemma.** For genus-zero good-reduction pairs `(P¹,D′)` and `(P¹,D)` over `O_K`, let `f` be an integral fractional-linear automorphism with `f^−1(D)⊆D′`. At a source end `e′` whose reduction maps into the ordinary target locus `Y_k`, an ordinary target component `H∈O(]f(e′)[)` pulls back to `H`∘`f∈O(]e′[)`, and hence to its Laurent end germ in `A_loc^a(Y′)`. At ends mapping to target ends use the existing logarithmic parameter substitution. These component maps define the usual `f#` on `A_loc` and commute with differentiation. Together with the inherited Taylor/Frobenius argument they permit L1.43 for these maps, even when an additional source end maps to an ordinary target point. (F arXiv math/0304085v2, Proposition 2.5, pp. 8–9 (no ends-to-ends hypothesis), with the component rings on p. 7.)
 
 Standing hypotheses of this target: `K/ℚ_p` finite; disjoint reduction for both divisors and Frobenius data on both pairs. The `O_K` matrix of `f` has unit determinant and `f⁻¹(D)⊆D′`; extend coefficients and branch to `ℂ_p`. This genus-zero free-differential case requires L1.21's cross-map bounds. Local germ composition supplies only the component check; general gluing is separate.
 
@@ -1347,11 +1348,11 @@ Standing hypotheses of this target: Data on both pairs, `f` as stated, and L1.21
 
 ### L1.44 Local coordinates of the four argument maps
 
-**Lemma.** Fix `|v|=|1−v|=1` and write `f_0(z)=z, f_1(z)=v/z, f_2(z)=v(z−1)/(z(v−1)), f_3(z)=(1−z)/(1−v)`. At the source points `(0,1,v,∞)`, with parameters `(z,z−1,z−v,1/z)`, the target values are respectively `(0,1,v,∞), (∞,v,1,0), (∞,0,1,v/(v−1)), (1/(1−v),0,1,∞)`. For each entry use target parameter `w` at0, `w−1` at1, `1/w` at`∞`, and `w−c` at a regular value `c`. Every resulting coordinate is `u t/(1+b t)`. The rows `(u;b)` are `(1,1,1,1;0,0,0,0), (1/v,−v,−1/v,v;0,1,1/v,0), ((1−v)/v,v/(v−1),1/(v(v−1)),−v/(v−1);−1,1,1/v,0), (−1/(1−v),1/(v−1),1/(v−1),v−1;0,0,0,−1)`. All `|u|=1` and `|b|≤1`; every regular target value is a special unit. Thus the parameter map preserves `|t|` and gives an automorphism of the open unit disc. (F arXiv math/0304085v2, §2.1, pp. 7–9 and Proposition2.11, p. 10.)
+**Lemma.** Fix `|v|=|1−v|=1` and write `f_0(z)=z, f_1(z)=v/z, f_2(z)=v(z−1)/(z(v−1)), f_3(z)=(1−z)/(1−v)`. At the source points `(0,1,v,∞)`, with parameters `(z,z−1,z−v,1/z)`, the target values are respectively `(0,1,v,∞), (∞,v,1,0), (∞,0,1,v/(v−1)), (1/(1−v),0,1,∞)`. For each entry use target parameter `w` at 0, `w−1` at 1, `1/w` at `∞`, and `w−c` at a regular value `c`. Every resulting coordinate is `u t/(1+b t)`. The rows `(u;b)` are `(1,1,1,1;0,0,0,0), (1/v,−v,−1/v,v;0,1,1/v,0), ((1−v)/v,v/(v−1),1/(v(v−1)),−v/(v−1);−1,1,1/v,0), (−1/(1−v),1/(v−1),1/(v−1),v−1;0,0,0,−1)`. All `|u|=1` and `|b|≤1`; every regular target value is a special unit. Thus the parameter map preserves `|t|` and gives an automorphism of the open unit disc. (F arXiv math/0304085v2, §2.1, pp. 7–9 and Proposition 2.11, p. 10.)
 
-Standing hypotheses of this target: `p` is any prime, including2; `v∈ℂ_p` is a special unit; `0<|t|<1` for formulas using `t^−1`. These local algebra/norm identities do not require `v` algebraic. The scheme/Frobenius use still takes `v` in a finite extension.
+Standing hypotheses of this target: `p` is any prime, including 2; `v∈ℂ_p` is a special unit; `0<|t|<1` for formulas using `t^−1`. These local algebra/norm identities do not require `v` algebraic. The scheme/Frobenius use still takes `v` in a finite extension.
 
-*Proof sketch.* Insert `z=t,1+t,v+t,t^−1` in the four rational maps from L1.40. Subtract the target value at regular images or1, and invert at`∞`. Direct field manipulation gives all sixteen displayed `(u,b)` pairs. Since `v,1−v` and1 have norm1, each `u` has norm1 and each `b` has norm at most1. For `|t|<1` the denominator1`+b t` has norm1. The inverse parameter substitution is `t=s/(u−b s)`, which converges on `|s|<1` and has the same norm. For the four extra-end cases the target centres are `v,v,v/(v−1),1/(1−v)`; their complements have norm1. The constant argument `v` is ordinary on every source disc. At an end image, the identity for `log_a(u t/(1+b t))` supplies the exact source logarithm and an analytic correction. At a regular image, L1.41 supplies one analytic pullback.
+*Proof sketch.* Insert `z=t,1+t,v+t,t^−1` in the four rational maps from L1.40. Subtract the target value at regular images or 1, and invert at `∞`. Direct field manipulation gives all sixteen displayed `(u,b)` pairs. Since `v,1−v` and 1 have norm 1, each `u` has norm 1 and each `b` has norm at most 1. For `|t|<1` the denominator `1+b t` has norm 1. The inverse parameter substitution is `t=s/(u−b s)`, which converges on `|s|<1` and has the same norm. For the four extra-end cases the target centres are `v,v,v/(v−1),1/(1−v)`; their complements have norm 1. The constant argument `v` is ordinary on every source disc. At an end image, the identity for `log_a(u t/(1+b t))` supplies the exact source logarithm and an analytic correction. At a regular image, L1.41 supplies one analytic pullback.
 
 *Needs:* L1.40, L1.41, L0.15, L0.10, `norm_div`.
 
@@ -1392,7 +1393,7 @@ Normalize the iterated integrals tangentially at zero, continue them onto the re
 **Checks.**
 
 - `Li_2^ℂ(1) = π²/6` and `Li_2^ℂ(−1) = −π²/12`.
-- `Li_1^ℂ(−1) = −`Log 2: the boundary series `Σ (−1)^m/m` converges to `−log 2`, while `Σ |(−1)^m/m|` diverges. Mathlib's unordered `tsum` of this series is therefore 0 and cannot define the weight-one boundary value; the explicit principal-logarithm definition gives the required value.
+- `Li_1^ℂ(−1) = −Log 2`: the boundary series `Σ (−1)^m/m` converges to `−log 2`, while `Σ |(−1)^m/m|` diverges. Mathlib's unordered `tsum` of this series is therefore 0 and cannot define the weight-one boundary value; the explicit principal-logarithm definition gives the required value.
 - `Li_k^ℂ(0) = 0` for every `k ≥ 1`.
 - Inversion at `k = 1, x = 1/3` gives `Li_1^ℂ(e^(2πi/3)) − Li_1^ℂ(e^(−2πi/3)) = πi/3`, using `B_1(x) = x − 1/2`.
 - Inversion at `k = 1, x = 1/4`: `Li_1^ℂ(i) − Li_1^ℂ(−i) = 2πi(1/2 − 1/4) = πi/2`, whereas p-adically `Li_1(ζ) − Li_1(ζ⁻¹) = 0` at roots of unity (L2.9).
@@ -1429,9 +1430,9 @@ For these adapters, `Point K = Projectivization K (Fin 2 → K)`, with `finitePo
 
 ### L2.1 The polylogarithm power series on the open unit disc of `ℂ_p`
 
-**Definition.** For `k∈ℤ` use the rational series `polylogSeries k=Σ_(n≥1)X^n/n^k` in `ℂ_p`. Its radius is exactly 1, with no convergence at `|z|=1`. On `D⁻(0,1), Li_k^ser(0)=0, (Li_k^ser)′(0)=1` and `z(Li_k^ser)′=Li_(k−1)^ser`. `Li_0^ser=z/(1−z), Li_1^ser=−log_a(1−z)` for a; for `k≤0` use `(z d/dz)^(−k)(z/(1−z))`. Values lie in every complete coefficient subfield containing `z`, and commute with continuous automorphisms of `ℂ_p`. (F §2.2, (2.1), Lem. 2.7 and Lem. 2.8, p. 9; BDJ §1, p. 869 (Ann. Sci. ENS 36 (2003));, p. 3 of v2; BHYY §1, (1.1), p. 1.)
+**Definition.** For `k∈ℤ` use the rational series `polylogSeries k=Σ_(n≥1)X^n/n^k` in `ℂ_p`. Its radius is exactly 1, with no convergence at `|z|=1`. On `D⁻(0,1), Li_k^ser(0)=0, (Li_k^ser)′(0)=1` and `z(Li_k^ser)′=Li_(k−1)^ser`. `Li_0^ser=z/(1−z), Li_1^ser=−log_a(1−z)` for a; for `k≤0` use `(z d/dz)^(−k)(z/(1−z))`. Values lie in every complete coefficient subfield containing `z`, and commute with continuous automorphisms of `ℂ_p`. (F §2.2, (2.1), Lem. 2.7 and Lem. 2.8, p. 9; BDJ §1, p. 869 (Ann. Sci. ENS 36 (2003)); p. 3 of v2; BHYY §1, (1.1), p. 1.)
 
-Standing hypotheses of this target: `k ∈ Z`; `p` prime; `ℂ_p` with `|p| = 1/`p. The analytic function is defined on the open disc `|z| < 1` only; no continuation is part of this definition.
+Standing hypotheses of this target: `k ∈ Z`; `p` prime; `ℂ_p` with `|p| = 1/p`. The analytic function is defined on the open disc `|z| < 1` only; no continuation is part of this definition.
 
 - `polylogSer`: `polylogSer p k` : `ℂ_[p] → ℂ_[p], z ↦ Σ'_{n≥1} z^n/n^k`; this is `Li_k^ser(z)` for `|z| < 1` (and the junk value 0 of the unconditional sum elsewhere).
 - `polylogSer_hasFPowerSeriesOnBall`: `polylogSer p k` has the power series `Σ_{n≥1} n^{−k}X^n` at 0 on the ball of radius 1.
@@ -1439,14 +1440,14 @@ Standing hypotheses of this target: `k ∈ Z`; `p` prime; `ℂ_p` with `|p| = 1/
 - `polylogSer_zero`: `polylogSer p k 0 = 0`.
 - `polylogSer_zero_index`: For `|z| < 1, polylogSer p 0 z = z/(1 − z)`.
 - `polylogSer_hasDerivAt`: For `|z| < 1`: `HasDerivAt` `(polylogSer p (k+1)) (polylogSer p k z / z) z` when `z ≠ 0`, and `HasDerivAt` `(polylogSer p (k+1)) 1 0`.
-- `polylogSer_one_eq_neg_logOneAdd`: For `|z| < 1, polylogSer p 1 z = −``NormedSpace.logOneAdd` `ℂ_[p] ℂ_[p] (−z)` (Tau Ceti's series logarithm).
+- `polylogSer_one_eq_neg_log`: For `|z| < 1, polylogSer p 1 z = −NormedSpace.log (1 − z)` (Mathlib's logarithm, the sum of its series by L0.10).
 - `polylogSer_eq_eval_polylogSeries`: The coefficients of `polylogSer` are the images in `ℂ_[p]` of the rational coefficients of L0.F’s rational series `q_k`.
 - `polylogSer_mem_of_mem`: If `K ⊂ ℂ_[p]` is a closed subfield, `z ∈ K` and `|z| < 1`, then `polylogSer p k z ∈ K`.
 - `polylogSer_map`: For a continuous ring automorphism `σ` of `ℂ_[p]` and `|z| < 1, σ(polylogSer p k z) = polylogSer p k (σ z)`.
 
 *Construction.* Radius: for `k ≥ 0, |1/n^k|_p = p^{k·v_p(n)} ≤ n^k`, and for `k < 0, |n^{−k}|_p ≤ 1`, so `Σ |z|^n |n^{−k}|_p` converges for `|z| < 1` and the radius is at least 1 (Mathlib `FormalMultilinearSeries.radius`). At `|z| = 1` the terms have `|z^n/n^k|_p ≥ 1` for all `n` prime to `p`, so they do not tend to 0 and the radius is exactly 1. A power series with positive radius `r` is the power series expansion of its sum on the ball of radius `r` (Mathlib `HasFPowerSeriesOnBall`), so `Li_k^ser` is analytic on `D⁻(0,1)`. Termwise differentiation does not change the radius: `z·(d/dz)Σ z^n/n^k = Σ z^n/n^{k−1}`. `Li_0^ser = Σ_{n≥1} z^n = z/(1−z)` on `D⁻(0,1)`; `Li_1^ser = Σ z^n/n = −log(1−z)` by the definition of the logarithm series, and `log_a` restricted to `1 + m_{ℂ_p}` is that series (L0.15). The coefficients lie in `Q ⊂ K` and a closed subfield is closed under convergent sums; a continuous automorphism `σ` fixes `Q` and commutes with limits.
 
-*Needs:* L0.F, L0.15, `PadicComplex`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall`, `PowerSeries`, `NormedSpace.logOneAdd`, `NormedSpace.logOneAdd_eq_tsum`.
+*Needs:* L0.F, L0.15, `PadicComplex`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall`, `PowerSeries`, `NormedSpace.log`, `NormedSpace.log_eq_tsum`.
 
 **Checks.**
 
@@ -1454,11 +1455,11 @@ Standing hypotheses of this target: `k ∈ Z`; `p` prime; `ℂ_p` with `|p| = 1/
 - For `p ≥ 5`: `‖polylogSer p 2 (p : ℂ_[p]) − p‖ = p^{−2}`.
 - `polylogSer p k 0 = 0` for `k ∈ Z`.
 - For `k ≥ 0` the family `n ↦ (1 + p)^n / n^k` is not summable in `ℂ_[p]`: the series gives no value on the residue disc of 1.
-- For `|z| < 1`: `polylogSer p 1 z = −``NormedSpace.logOneAdd` `ℂ_[p] ℂ_[p] (−z)`.
+- For `|z| < 1`: `polylogSer p 1 z = −NormedSpace.log (1 − z)`.
 
 ### L2.2 In which residue disc a root of unity lies
 
-**Lemma.** Let `ζ ∈ ℂ_p` be a root of unity of exact order `N ≥ 2`. If `N = p^r` with `r ≥ 1`, then `|ζ − 1| = p^{−1/(p^{r−1}(p−1))} < 1`: `ζ` lies in the residue disc of 1, with `|ζ − 1| > p^{−1/(p−1)}` if and only if `r ≥ 2` and `|ζ − 1| = p^{−1/(p−1)}` for `r = 1`. If `N` is not a power of `p`, then `|ζ| = |ζ − 1| = 1`: `ζ` and `1 − ζ` are units, `ζ` lies in a residue disc of `U = P¹ ∖ {0,1,∞}`, and `v(1 − ζ) = 0`. For `c ∈` (`Z/`NZ)`^×` the same holds for `ζ^c`, with `|1 − ζ^c| = |1 − ζ|`. When `p ∤ N` and `K ⊂ ℂ_p` is a finite extension of `ℚ_p` containing `ζ, ζ` is the Teichmüller representative of its reduction (the roots of unity of order prime to `p` in `K` are the image of the Teichmüller lift of the residue field of `K`). (BHYY §3.1, p. 14; RJW Proof of Lem. 6.4, p. 38; BF Proof of Corollary 2.2, p. 2.)
+**Lemma.** Let `ζ ∈ ℂ_p` be a root of unity of exact order `N ≥ 2`. If `N = p^r` with `r ≥ 1`, then `|ζ − 1| = p^{−1/(p^{r−1}(p−1))} < 1`: `ζ` lies in the residue disc of 1, with `|ζ − 1| > p^{−1/(p−1)}` if and only if `r ≥ 2` and `|ζ − 1| = p^{−1/(p−1)}` for `r = 1`. If `N` is not a power of `p`, then `|ζ| = |ζ − 1| = 1`: `ζ` and `1 − ζ` are units, `ζ` lies in a residue disc of `U = P¹ ∖ {0,1,∞}`, and `v(1 − ζ) = 0`. For `c ∈ (Z/NZ)^×` the same holds for `ζ^c`, with `|1 − ζ^c| = |1 − ζ|`. When `p ∤ N` and `K ⊂ ℂ_p` is a finite extension of `ℚ_p` containing `ζ, ζ` is the Teichmüller representative of its reduction (the roots of unity of order prime to `p` in `K` are the image of the Teichmüller lift of the residue field of `K`). (BHYY §3.1, p. 14; RJW Proof of Lem. 6.4, p. 38; BF Proof of Corollary 2.2, p. 2.)
 
 Standing hypotheses of this target: `N ≥ 2` the exact order of `ζ`; `p` prime.
 
@@ -1474,7 +1475,7 @@ Standing hypotheses of this target: `N ≥ 2` the exact order of `ζ`; `p` prime
 
 ### L2.3 Existence and uniqueness of Coleman's polylogarithms
 
-**Theorem.** On `U=P¹∖{0,1,∞}`, for branch a and `k≥1` construct the unique Coleman sequence `Li_1^a`,…,`Li_k^a` with `Li_1^a=−log_a(1−z), dLi_j^a=Li_(j−1)^a dz/z` for `j≥2`, and end germ at 0 equal to `Li_j^ser`, without logarithmic terms. Thus it extends over `D⁻(0,1)` with value 0. All Coleman primitives of `Li_(j−1)^a dz/z` differ from `Li_j^a` by `a ℂ_p` constant; this normalization removes it. Prove independence of the auxiliary Frobenius lift. (BDJ §1, p. 869 (Ann. Sci. ENS 36 (2003));, p. 3 of v2; BDJ §2, p. 875 (published); F Rem. 2.10(2), p. 10; BT Corollary 4.14 and Thm. 4.15, p. 14; W §0, Thm. A', p. 345.)
+**Theorem.** On `U=P¹∖{0,1,∞}`, for branch a and `k≥1` construct the unique Coleman sequence `Li_1^a`,…,`Li_k^a` with `Li_1^a=−log_a(1−z), dLi_j^a=Li_(j−1)^a dz/z` for `j≥2`, and end germ at 0 equal to `Li_j^ser`, without logarithmic terms. Thus it extends over `D⁻(0,1)` with value 0. All Coleman primitives of `Li_(j−1)^a dz/z` differ from `Li_j^a` by `a ℂ_p` constant; this normalization removes it. Prove independence of the auxiliary Frobenius lift. (BDJ §1, p. 869 (Ann. Sci. ENS 36 (2003)); p. 3 of v2; BDJ §2, p. 875 (published); F Rem. 2.10(2), p. 10; BT Corollary 4.14 and Thm. 4.15, p. 14; W §0, Thm. A', p. 345.)
 
 Standing hypotheses of this target: `a∈ℂ_p, p` prime, `k≥1`; L1 integration on `(P¹,{0,1,∞})` over `ℤ_p` with `dz/z, dz/(1−z)`. In (iii), the base 0 is outside `U`, but `Li_(j−1)dz/z` is regular there since `Li_(j−1)(0)=0`; this agrees with L2.6's tangential normalization.
 
@@ -1495,13 +1496,13 @@ Standing hypotheses of this target: `a∈ℂ_p, p` prime, `k≥1`; L1 integratio
 
 Standing hypotheses of this target: `a ∈ ℂ_p, k ≥ 1`. `log_a(1 − z) = log_a(z − 1)` since `log_a(−1) = 0` for branch. `A(D)` is the ring of analytic functions on the open disc `D` (convergent power series), `A(annulus)` the ring of convergent Laurent series on the annulus.
 
-*Proof sketch.* For `k≥2`, differentiate the definition using the differential recursion: `d λ_k=λ_(k-1) dz/z+log(z)^(k-1) dz/((k-1)!(z-1))`. For `k=1` the separately computed `λ_1` is0; the recurrence is not applied to an undefined `λ_0`. Induction on `k`: `λ_1 = −log_a(1 − z) + log_a(1 − z) = 0`. If `λ_{k−1} ∈ A(D⁻(1,1))`, the right-hand side is an analytic 1-form on `D⁻(1,1)` (`0 ∉ D⁻(1,1)` and `log(z)/(z − 1) = Σ_{n≥1}(−1)^{n−1}(z − 1)^{n−1}/n`); it has an analytic `primitive μ` on `D⁻(1,1)` (L0.8), and `λ_k − μ ∈ A(annulus)[log_a(z − 1)]` has zero differential, hence is constant (L0.22). So `λ_k ∈ A(D⁻(1,1))`. Branch independence: the transport `ι_{a,b}` of ColemanIntegration L1 (replace `log_a` of local parameters at `0, 1, ∞` by `log_b`) maps `Li^a_k` to `Li^b_k`, since both satisfy the characterisation of the existence theorem; `λ_k` has no logarithmic term, so `ι_{a,b}(λ_k) = λ_k, i.e`. `λ_k` computed with a equals `λ_k` computed with `b`. `k = 2`: `dλ_2 = log(z)dz/(z − 1) = Σ_{n≥1}(−1)^{n−1}(z − 1)^{n−1}/n dz = −d(Li_2^ser(1 − z))` termwise, so `λ_2(z) = λ_2(1) − Li_2^ser(1 − z)`. (b) Induction on `k` with `u = 1/z, dz/z = −du/u`. For `k = 1, −log_a(1 − z) = log_a u − log(1 − u)` (as `1 − z = −z(1 − u)`), which lies in `A(D⁻(0,1)_u)[log_a u]`. If `Li^a_{k−1} = Σ_j f_j(u)log_a(u)^j` with `f_j ∈ A(D⁻(0,1))`, then `−f_j(u)log_a(u)^j du/u` has a primitive in `A(D⁻(0,1))[log_a u]`: write `f_j = f_j(0) + u g_j(u)`; `f_j(0)log_a(u)^j du/u` integrates to `f_j(0)log_a(u)^{j+1}/(j+1)`, and `g_j(u)log_a(u)^j du` integrates by parts, with `G_j := ∫_0^u g_j` analytic on the disc and `G_j/u` analytic (L0.8). `Li^a_k` minus this primitive has zero differential on the annulus, hence is constant (L0.22). (c) The expansions in (a) and (b) converge on the whole punctured discs; on the residue discs of `U` the Coleman function is analytic on the whole disc (L1), and on `D⁻(0,1)` it is `Li_k^ser` (existence theorem). The differential relation holds on each piece by construction.
+*Proof sketch.* For `k≥2`, differentiate the definition using the differential recursion: `d λ_k=λ_(k-1) dz/z+log(z)^(k-1) dz/((k-1)!(z-1))`. For `k=1` the separately computed `λ_1` is 0; the recurrence is not applied to an undefined `λ_0`. Induction on `k`: `λ_1 = −log_a(1 − z) + log_a(1 − z) = 0`. If `λ_{k−1} ∈ A(D⁻(1,1))`, the right-hand side is an analytic 1-form on `D⁻(1,1)` (`0 ∉ D⁻(1,1)` and `log(z)/(z − 1) = Σ_{n≥1}(−1)^{n−1}(z − 1)^{n−1}/n`); it has an analytic `primitive μ` on `D⁻(1,1)` (L0.8), and `λ_k − μ ∈ A(annulus)[log_a(z − 1)]` has zero differential, hence is constant (L0.22). So `λ_k ∈ A(D⁻(1,1))`. Branch independence: the transport `ι_{a,b}` of ColemanIntegration L1 (replace `log_a` of local parameters at `0, 1, ∞` by `log_b`) maps `Li^a_k` to `Li^b_k`, since both satisfy the characterisation of the existence theorem; `λ_k` has no logarithmic term, so `ι_{a,b}(λ_k) = λ_k, i.e`. `λ_k` computed with a equals `λ_k` computed with `b`. `k = 2`: `dλ_2 = log(z)dz/(z − 1) = Σ_{n≥1}(−1)^{n−1}(z − 1)^{n−1}/n dz = −d(Li_2^ser(1 − z))` termwise, so `λ_2(z) = λ_2(1) − Li_2^ser(1 − z)`. (b) Induction on `k` with `u = 1/z, dz/z = −du/u`. For `k = 1, −log_a(1 − z) = log_a u − log(1 − u)` (as `1 − z = −z(1 − u)`), which lies in `A(D⁻(0,1)_u)[log_a u]`. If `Li^a_{k−1} = Σ_j f_j(u)log_a(u)^j` with `f_j ∈ A(D⁻(0,1))`, then `−f_j(u)log_a(u)^j du/u` has a primitive in `A(D⁻(0,1))[log_a u]`: write `f_j = f_j(0) + u g_j(u)`; `f_j(0)log_a(u)^j du/u` integrates to `f_j(0)log_a(u)^{j+1}/(j+1)`, and `g_j(u)log_a(u)^j du` integrates by parts, with `G_j := ∫_0^u g_j` analytic on the disc and `G_j/u` analytic (L0.8). `Li^a_k` minus this primitive has zero differential on the annulus, hence is constant (L0.22). (c) The expansions in (a) and (b) converge on the whole punctured discs; on the residue discs of `U` the Coleman function is analytic on the whole disc (L1), and on `D⁻(0,1)` it is `Li_k^ser` (existence theorem). The differential relation holds on each piece by construction.
 
 *Needs:* L2.3, L2.1, L0.15, L1.30, L0.8, L0.21, L0.22, L1.32.
 
 ### L2.5 Coleman's p-adic polylogarithm `Li_k^a`
 
-**Definition.** Define `Li_0^a=z/(1−z)`. For `k≥1` use the normalized Coleman function on `ℂ_p∖{0,1}`, with its end continuation (L2.4), and `Li_k^ser` near 0, giving `Li_k^a(0)=0`. For `k≥2` set `Li_k^a(1)=λ_k(1)=ζ_p(k)`, the branch-independent limit through finitely ramified extensions. Write `Li_k=Li_k^0` for the Iwasawa branch. Define `Li_k^(p),a(z)=Li_k^a(z)−p^(−k)Li_k^a(z^p)` when `z^p≠1`, or for `z≠1` if `k≥2`; L2.15 gives branch independence where `|z−1|>p^(−1/(p−1))`. (BDJ §1, p. 869 (Ann. Sci. ENS 36 (2003));, p. 3 of v2; BDJ §2, p. 876 (published);, p. 10 of v2; RJW Rem. 6.6, p. 39; F Def. 2.9 and Rem. 2.10(3), pp. 9-10; BF Prop. 2.1, p. 2.)
+**Definition.** Define `Li_0^a=z/(1−z)`. For `k≥1` use the normalized Coleman function on `ℂ_p∖{0,1}`, with its end continuation (L2.4), and `Li_k^ser` near 0, giving `Li_k^a(0)=0`. For `k≥2` set `Li_k^a(1)=λ_k(1)=ζ_p(k)`, the branch-independent limit through finitely ramified extensions. Write `Li_k=Li_k^0` for the Iwasawa branch. Define `Li_k^(p),a(z)=Li_k^a(z)−p^(−k)Li_k^a(z^p)` when `z^p≠1`, or for `z≠1` if `k≥2`; L2.15 gives branch independence where `|z−1|>p^(−1/(p−1))`. (BDJ §1, p. 869 (Ann. Sci. ENS 36 (2003)); p. 3 of v2; BDJ §2, p. 876 (published); p. 10 of v2; RJW Rem. 6.6, p. 39; F Def. 2.9 and Rem. 2.10(3), pp. 9-10; BF Prop. 2.1, p. 2.)
 
 Standing hypotheses of this target: `p` prime; `a∈ℂ_p`; `k≥0`. At `1, Li_0` has a pole and `Li_1` a logarithmic singularity, so values exist only for `k≥2`. Continuation is that of L2.3–L2.4.
 
@@ -1533,7 +1534,7 @@ Standing hypotheses of this target: `p` prime; `a∈ℂ_p`; `k≥0`. At `1, Li_0
 - For `p` odd and every `a`: `padicPolylog p` a `2 (1/2) = −log(2)^2/2`, with log the branch-free logarithm of the unit 2.
 - `padicPolylog p` a `2 (1/p) = −polylogSer p 2 p − a^2/2`; so a definition of `Li_2` that ignores the branch fails on the residue disc of `∞`.
 - `padicPolylog p a k 0 = 0` for all `k`, and `padicPolylog p` a `0 z = z/(1 − z)`.
-- For `|z| < 1`: `padicPolylog p` a `1 z = −``NormedSpace.logOneAdd` `ℂ_[p] ℂ_[p] (−z)`.
+- For `|z| < 1`: `padicPolylog p a 1 z = −NormedSpace.log (1 − z)`.
 
 ### L2.6 The base-point normalisation at zero is the tangential one
 
@@ -1541,7 +1542,7 @@ Standing hypotheses of this target: `p` prime; `a∈ℂ_p`; `k≥0`. At `1, Li_0
 
 Standing hypotheses of this target: `a ∈ ℂ_p`; `k ≥ 1`; `λ ∈ ℂ_p^×`. The regularisation uses the local parameter `z` at 0; changing the parameter to `z·h(z)` with `h(0) = λ^{−1}` is the same as changing the tangent vector.
 
-*Proof sketch.* `(1)` By the existence theorem `Li^a_k` has no log term at 0 and value 0 there, so `Reg_{∂z}(Li^a_k) = 0`; conversely a Coleman function `F` with the same differential equation is `Li^a_k + c` (existence theorem, uniqueness part), and `Reg_{∂z}(F) = c`. `(2)` With no logarithmic terms, `Reg_{λ∂z}` only reads `f_0(0) = Li^a_k(0) = 0`. `(3) log_a z = 0 + 1·log_a z`, so `Reg_{λ∂z}(log_a z) = log_a λ`. `(4)` Furusho's Theorem 3.3 characterises `G^a_0` by `G^a_0(u)·u^{−A} ∈ 1 +` (terms vanishing at `u = 0`), and his Examples 3.25 exhibit `−Li^a_2` and `−Li^a_3` as the coefficients of AB and `A²B`; the uniqueness is L1.18. Expanding `G_0(z)G_0(x)^(-1)` at AB gives the displayed lower-weight correction; differentiating it yields `(Li_1(z)-Li_1(x)) dz/z` and its value at `x` is0.
+*Proof sketch.* `(1)` By the existence theorem `Li^a_k` has no log term at 0 and value 0 there, so `Reg_{∂z}(Li^a_k) = 0`; conversely a Coleman function `F` with the same differential equation is `Li^a_k + c` (existence theorem, uniqueness part), and `Reg_{∂z}(F) = c`. `(2)` With no logarithmic terms, `Reg_{λ∂z}` only reads `f_0(0) = Li^a_k(0) = 0`. `(3) log_a z = 0 + 1·log_a z`, so `Reg_{λ∂z}(log_a z) = log_a λ`. `(4)` Furusho's Theorem 3.3 characterises `G^a_0` by `G^a_0(u)·u^{−A} ∈ 1 +` (terms vanishing at `u = 0`), and his Examples 3.25 exhibit `−Li^a_2` and `−Li^a_3` as the coefficients of AB and `A²B`; the uniqueness is L1.18. Expanding `G_0(z)G_0(x)^(-1)` at AB gives the displayed lower-weight correction; differentiating it yields `(Li_1(z)-Li_1(x)) dz/z` and its value at `x` is 0.
 
 *Needs:* L2.3, L2.4, L2.5, L1.30, L1.18, L0.15.
 
@@ -1555,18 +1556,18 @@ Standing hypotheses of this target: `a ∈ ℂ_p`; `k ≥ 1`; `λ ∈ ℂ_p^×`.
 
 ### L2.8 The distribution relation
 
-**Theorem.** For branch parameter `a ∈ ℂ_p`, every `k ≥ 0`, every `m ≥ 1` and every `z ∈ ℂ_p` with `z^m ≠ 1`: `Σ_{ζ∈μ_m} Li^a_k(ζz) = m^{1−k}·Li^a_k(z^m)`, where `μ_m ⊂ ℂ_p` is the group of `m`-th roots of unity (all `ζz ≠ 1` because `z^m ≠ 1`). Equivalently `Li^a_k(z^m) = m^{k−1}Σ_{ζ^m=1}Li^a_k(ζz)`. For `p ∤ m` the same identity holds for the modified polylogarithm `Li^{(p),a}_k` wherever `z^{pm} ≠ 1`. (The extension to `z^m = 1` for `k ≥ 2`, with `Li_k(1) = ζ_p(k)`, is part of L2.11.) (BDJ §2, (2.4), p. 876 (published);, p. 10 of v2; BBdJR §4, (4.11), p. 20; BF §3, p. 6.)
+**Theorem.** For branch parameter `a ∈ ℂ_p`, every `k ≥ 0`, every `m ≥ 1` and every `z ∈ ℂ_p` with `z^m ≠ 1`: `Σ_{ζ∈μ_m} Li^a_k(ζz) = m^{1−k}·Li^a_k(z^m)`, where `μ_m ⊂ ℂ_p` is the group of `m`-th roots of unity (all `ζz ≠ 1` because `z^m ≠ 1`). Equivalently `Li^a_k(z^m) = m^{k−1}Σ_{ζ^m=1}Li^a_k(ζz)`. For `p ∤ m` the same identity holds for the modified polylogarithm `Li^{(p),a}_k` wherever `z^{pm} ≠ 1`. (The extension to `z^m = 1` for `k ≥ 2`, with `Li_k(1) = ζ_p(k)`, is part of L2.11.) (BDJ §2, (2.4), p. 876 (published); p. 10 of v2; BBdJR §4, (4.11), p. 20; BF §3, p. 6.)
 
 Standing hypotheses of this target: `a ∈ ℂ_p`; `k ≥ 0`; `m ≥ 1`; `z ∈ ℂ_p` with `z^m ≠ 1` (`z = 0` allowed). The same branch a on both sides; `log_a(ζ) = 0` for roots of unity, so no branch term appears.
 
-*Proof sketch.* `k = 0`: `Σ_{ζ∈μ_m} ζz/(1 − ζz) = m·z^m/(1 − z^m)`, an identity of rational functions (both sides equal `Σ_{n: m|n} m z^n` on `|z| < 1`, since `Σ_{ζ∈μ_m} ζ^n = m·[m | n]`; Mathlib `IsPrimitiveRoot`). `k = 1`: `Π_{ζ∈μ_m}(1 − ζz) = 1 − z^m` and `log_a` is a homomorphism (L0.15), so `Σ_ζ −log_a(1 − ζz) = −log_a(1 − z^m)`. On `D⁻(0,1)` for all `k`: the power series identity `Σ_ζ Σ_n (ζz)^n/n^k = m Σ_j z^{mj}/`(mj)`^k = m^{1−k}Li_k^ser(z^m)`. Reduction of `m`: if the relation holds for `m_1` and `m_2` then it holds for `m_1m_2` (write `μ_{m_1m_2}` as a union of cosets `ημ_{m_2}`, apply the relation for `m_2` at `ηz`, then for `m_1` at `z^{m_2}`, using that `η ↦ η^{m_2}` maps `μ_{m_1m_2}` onto `μ_{m_1}` with fibres of size `m_2`); so it suffices to treat `m` prime to `p` and `m =` p. `m` prime to `p`: `G_k(z) := Σ_ζ Li^a_k(ζz) − m^{1−k}Li^a_k(z^m)` is a Coleman function on `P¹ ∖ ({0, ∞} ∪ μ_m)`, a curve with good reduction because `μ_m` has distinct reductions, obtained by pullback of `Li^a_k` along `z ↦ ζz` and `z ↦ z^m` (L1.43). `m = p`: the maps `z ↦ ζz (ζ ∈ μ_p ⊂ D⁻(1,1))` are rigid automorphisms of the wide open neighbourhoods `U_λ` of `U` for `λ > |ζ − 1|`, and `z ↦ z^p` is the Frobenius lift, so `G_k` is a Coleman function on `U_λ` (L1.43, change of variables). `dG_k = G_{k−1}dz/z`, because `d(z^m)/z^m = m·dz/z` and `m·m^{1−k} = m^{1−(k−1)}` (L2.7); `G_0 = 0` by the first step, and `G_k = 0` on `D⁻(0,1)`. By induction and the uniqueness principle (L1.18) `G_k ≡ 0` on the wide open. Extension to the punctured discs of 1 and `∞` (L2.4). On `D⁻(1,1) ∖ μ_m` write `m = p^r m'` with `p ∤ m'`: the terms with `ζ ∉ μ_{p^r}` are analytic on `D⁻(1,1)`; for `ξ ∈ μ_{p^r}, Li^a_k(ξz) = λ_k(ξz) − log(z)^{k−1}log_a(1 − ξz)/(k−1)!`, and since `Π_{ξ∈μ_{p^r}}(1 − ξz) = 1 − z^{p^r}` and `1 − z^m = (1 − z^{p^r})·Π_{η∈μ_{m'}∖{1}}(1 − ηz^{p^r})` with the last product a unit analytic on `D⁻(1,1)`, the logarithmic terms of `G_k` cancel, so `G_k` is analytic on `D⁻(1,1)` off `μ_m` and extends analytically across it; it vanishes on the outer annulus, hence on the disc (uniqueness of power series expansions: Mathlib `HasFPowerSeriesAt.eq_zero_of_eventually` with Mathlib `HasFPowerSeriesOnBall.changeOrigin`). On `{|z| > 1}, G_k` is a polynomial in `log_a(1/z)` with coefficients analytic in `1/z` on the whole disc; it vanishes on the outer annulus, so all coefficients vanish. For a general tame-root residue disc `D(α,1), α` in `μ_(m')`, first rotate `z=α u`: the relevant `p`-power roots and the same logarithmic cancellation are transported from the disc of1. Ordinary discs are covered by the Coleman identity, and these rotated end discs together with0 and `∞` exhaust the omitted components. Logarithmic-polynomial vanishing at `∞` uses L0.21, not an analytic identity principle for a formal log variable. The modified version for `p ∤ m`: `ζ ↦ ζ^p` permutes `μ_m`, so `Σ_ζ Li^a_k(ζ^pz^p) = m^{1−k}Li^a_k(z^{pm})`; subtract `p^{−k}` times this from the relation at `z`.
+*Proof sketch.* `k = 0`: `Σ_{ζ∈μ_m} ζz/(1 − ζz) = m·z^m/(1 − z^m)`, an identity of rational functions (both sides equal `Σ_{n: m|n} m z^n` on `|z| < 1`, since `Σ_{ζ∈μ_m} ζ^n = m·[m | n]`; Mathlib `IsPrimitiveRoot`). `k = 1`: `Π_{ζ∈μ_m}(1 − ζz) = 1 − z^m` and `log_a` is a homomorphism (L0.15), so `Σ_ζ −log_a(1 − ζz) = −log_a(1 − z^m)`. On `D⁻(0,1)` for all `k`: the power series identity `Σ_ζ Σ_n (ζz)^n/n^k = m Σ_j z^{mj}/(mj)^k = m^{1−k}Li_k^ser(z^m)`. Reduction of `m`: if the relation holds for `m_1` and `m_2` then it holds for `m_1m_2` (write `μ_{m_1m_2}` as a union of cosets `ημ_{m_2}`, apply the relation for `m_2` at `ηz`, then for `m_1` at `z^{m_2}`, using that `η ↦ η^{m_2}` maps `μ_{m_1m_2}` onto `μ_{m_1}` with fibres of size `m_2`); so it suffices to treat `m` prime to `p` and `m =` p. `m` prime to `p`: `G_k(z) := Σ_ζ Li^a_k(ζz) − m^{1−k}Li^a_k(z^m)` is a Coleman function on `P¹ ∖ ({0, ∞} ∪ μ_m)`, a curve with good reduction because `μ_m` has distinct reductions, obtained by pullback of `Li^a_k` along `z ↦ ζz` and `z ↦ z^m` (L1.43). `m = p`: the maps `z ↦ ζz (ζ ∈ μ_p ⊂ D⁻(1,1))` are rigid automorphisms of the wide open neighbourhoods `U_λ` of `U` for `λ > |ζ − 1|`, and `z ↦ z^p` is the Frobenius lift, so `G_k` is a Coleman function on `U_λ` (L1.43, change of variables). `dG_k = G_{k−1}dz/z`, because `d(z^m)/z^m = m·dz/z` and `m·m^{1−k} = m^{1−(k−1)}` (L2.7); `G_0 = 0` by the first step, and `G_k = 0` on `D⁻(0,1)`. By induction and the uniqueness principle (L1.18) `G_k ≡ 0` on the wide open. Extension to the punctured discs of 1 and `∞` (L2.4). On `D⁻(1,1) ∖ μ_m` write `m = p^r m'` with `p ∤ m'`: the terms with `ζ ∉ μ_{p^r}` are analytic on `D⁻(1,1)`; for `ξ ∈ μ_{p^r}, Li^a_k(ξz) = λ_k(ξz) − log(z)^{k−1}log_a(1 − ξz)/(k−1)!`, and since `Π_{ξ∈μ_{p^r}}(1 − ξz) = 1 − z^{p^r}` and `1 − z^m = (1 − z^{p^r})·Π_{η∈μ_{m'}∖{1}}(1 − ηz^{p^r})` with the last product a unit analytic on `D⁻(1,1)`, the logarithmic terms of `G_k` cancel, so `G_k` is analytic on `D⁻(1,1)` off `μ_m` and extends analytically across it; it vanishes on the outer annulus, hence on the disc (uniqueness of power series expansions: Mathlib `HasFPowerSeriesAt.eq_zero_of_eventually` with Mathlib `HasFPowerSeriesOnBall.changeOrigin`). On `{|z| > 1}, G_k` is a polynomial in `log_a(1/z)` with coefficients analytic in `1/z` on the whole disc; it vanishes on the outer annulus, so all coefficients vanish. For a general tame-root residue disc `D(α,1), α` in `μ_(m')`, first rotate `z=α u`: the relevant `p`-power roots and the same logarithmic cancellation are transported from the disc of 1. Ordinary discs are covered by the Coleman identity, and these rotated end discs together with 0 and `∞` exhaust the omitted components. Logarithmic-polynomial vanishing at `∞` uses L0.21, not an analytic identity principle for a formal log variable. The modified version for `p ∤ m`: `ζ ↦ ζ^p` permutes `μ_m`, so `Σ_ζ Li^a_k(ζ^pz^p) = m^{1−k}Li^a_k(z^{pm})`; subtract `p^{−k}` times this from the relation at `z`.
 
 
 *Needs:* L2.5, L2.7, L2.4, L2.3, L2.1, L0.15, L1.30, L1.17, L1.43, L1.18, `IsPrimitiveRoot`, `HasFPowerSeriesAt.eq_zero_of_eventually`, `HasFPowerSeriesOnBall.changeOrigin`, L0.21.
 
 ### L2.9 The inversion relation
 
-**Theorem.** For branch parameter `a ∈ ℂ_p`, every `k ≥ 0` and every `z ∈ ℂ_p ∖ {0, 1}`: `Li^a_k(z) + (−1)^k·Li^a_k(1/z) = −log_a(z)^k/k!`. Consequences: (i) for `|z| > 1, Li^a_k(z) = (−1)^{k+1}Li_k^ser(1/z) − log_a(z)^k/k!`, the explicit form of `Li^a_k` on the residue disc of `∞`; (ii) for `k≥1` and every root of unity `ζ ≠ 1, Li^a_k(ζ^{−1}) = (−1)^{k+1}Li^a_k(ζ) (log_a ζ = 0)`; (iii) `Li^{(p),a}_k(1/z) = (−1)^{k+1}Li^{(p),a}_k(z)` whenever `z^p ≠ 1`. The right side has no Bernoulli-polynomial term, unlike the complex inversion formula of L2.Fa, because there is no `2πi` in `ℂ_p`. (BDJ §1, (1.2), p. 869 (published);, p. 3 of v2; BBdJR §4, p. 20; W §4, (*) before Lem. 4.2, p. 362.)
+**Theorem.** For branch parameter `a ∈ ℂ_p`, every `k ≥ 0` and every `z ∈ ℂ_p ∖ {0, 1}`: `Li^a_k(z) + (−1)^k·Li^a_k(1/z) = −log_a(z)^k/k!`. Consequences: (i) for `|z| > 1, Li^a_k(z) = (−1)^{k+1}Li_k^ser(1/z) − log_a(z)^k/k!`, the explicit form of `Li^a_k` on the residue disc of `∞`; (ii) for `k≥1` and every root of unity `ζ ≠ 1, Li^a_k(ζ^{−1}) = (−1)^{k+1}Li^a_k(ζ) (log_a ζ = 0)`; (iii) `Li^{(p),a}_k(1/z) = (−1)^{k+1}Li^{(p),a}_k(z)` whenever `z^p ≠ 1`. The right side has no Bernoulli-polynomial term, unlike the complex inversion formula of L2.Fa, because there is no `2πi` in `ℂ_p`. (BDJ §1, (1.2), p. 869 (published); p. 3 of v2; BBdJR §4, p. 20; W §4, (*) before Lem. 4.2, p. 362.)
 
 *Proof sketch.* `F_k(z) := Li^a_k(z) + (−1)^k Li^a_k(1/z) + log_a(z)^k/k!` is a Coleman function on `U`: `z ↦ 1/z` is an automorphism of `(P¹, {0,1,∞})` over `ℤ_p` commuting with the Frobenius lift `z ↦ z^p`, so pullback preserves Coleman functions (L1.43). `F_0 = z/(1 − z) + 1/(z − 1) + 1 = 0`, and `dF_k = F_{k−1}dz/z` because `d(1/z)/(1/z) = −dz/z` (L2.7); by induction `F_k` has zero differential, so it is a constant `C_k` (L1.18). `C_k = 0` for `k ≥ 1`: `F_k` satisfies the distribution relation `Σ_{ζ∈μ_m}F_k(ζz) = m^{1−k}F_k(z^m)` (L2.8 for both Li-terms; for the logarithm, `Σ_ζ log_a(ζz)^k = m·log_a(z)^k = m^{1−k}log_a(z^m)^k`); for the constant this reads `m·C_k = m^{1−k}C_k` with `m = 2`, so `C_k = 0`. Extension to the punctured discs: on `D⁻(0,1) ∖ {0}` and on `{|z| > 1}, F_k` is a polynomial in `log_a z` with coefficients analytic on the whole punctured disc and extending across its centre (L2.4); it vanishes on the outer annulus, hence identically; on `D⁻(1,1) ∖ {1}` both `z` and `1/z` lie in `D⁻(1,1)`, the logarithmic terms cancel (`log_a(1 − 1/z) = log_a(1 − z) − log(z)` because `1 − 1/z = (z − 1)/z` and `log_a(−1) = 0`, and `log(1/z) = −log z`), leaving `λ_k(z) + (−1)^kλ_k(1/z) − log(z)^k/(k−1)! + log(z)^k/k!`, analytic on `D⁻(1,1)`; it vanishes on the outer annulus, hence on the disc. (i) is the case `z ↦ 1/z` with `|1/z| < 1`, using `Li^a_k = Li_k^ser` on `D⁻(0,1)`; (ii) uses `log_a ζ = 0`; (iii) subtract `p^{−k}` times the relation at `z^p`, using `log_a(z^p)^k = p^k log_a(z)^k`.
 
@@ -1575,7 +1576,7 @@ Standing hypotheses of this target: `a ∈ ℂ_p`; `k ≥ 0`; `m ≥ 1`; `z ∈ 
 
 ### L2.10 Dependence of the polylogarithms on the branch of the logarithm
 
-**Theorem.** Let `a, b ∈ ℂ_p, β := a − b = log_a(p) − log_b(p)`, and `v = v_p (v(p) = 1)`, so that `log_a(z) − log_b(z) = v(z)·β` for `z ∈ ℂ_p^×`. For `k ≥ 1` and `z ∈ ℂ_p ∖ {1}`: `Li^a_k(z) − Li^b_k(z) = −(β/k!)·v(1 − z)·Σ_{j=0}^{k−1} log_a(z)^{k−1−j}·log_b(z)^j`. Consequently: (i) `Li^a_k = Li^b_k` on `{|z − 1| = 1, |z| ≤ 1}, i.e`. on the residue disc of 0 and on every residue disc of `U`; (ii) on `D⁻(1,1) ∖ {1}, Li^a_k(z) − Li^b_k(z) = −β·v(1 − z)·log(z)^{k−1}/(k−1)!`, so `λ_k` and `ζ_p(k) (k ≥ 2)` do not depend on the branch; (iii) on `{|z| > 1}, Li^a_k(z) − Li^b_k(z) = −(log_a(z)^k − log_b(z)^k)/k!`; (iv) for `k ≥ 2, Li^a_k(ζ)` is independent of a at every root of unity `ζ ≠ 1`, while `Li^a_1(ζ) − Li^b_1(ζ) = −β/(p^{r−1}(p−1))` for `ζ` of exact order `p^r (r ≥ 1)` and 0 for `ζ` of order not a power of `p`; (v) the modified `Li^{(p),a}_k` is independent of a on `{|z − 1| > p^{−1/(p−1)}}`. (BDJ §2, (2.5) and Prop. 2.6, p. 876 (published);, p. 10 of v2; BDJ Proof of Prop. 2.6, p. 876 (published); GSWZ §3.1, before (174), p. 37; F Prop. 2.3, p. 8.)
+**Theorem.** Let `a, b ∈ ℂ_p, β := a − b = log_a(p) − log_b(p)`, and `v = v_p (v(p) = 1)`, so that `log_a(z) − log_b(z) = v(z)·β` for `z ∈ ℂ_p^×`. For `k ≥ 1` and `z ∈ ℂ_p ∖ {1}`: `Li^a_k(z) − Li^b_k(z) = −(β/k!)·v(1 − z)·Σ_{j=0}^{k−1} log_a(z)^{k−1−j}·log_b(z)^j`. Consequently: (i) `Li^a_k = Li^b_k` on `{|z − 1| = 1, |z| ≤ 1}, i.e`. on the residue disc of 0 and on every residue disc of `U`; (ii) on `D⁻(1,1) ∖ {1}, Li^a_k(z) − Li^b_k(z) = −β·v(1 − z)·log(z)^{k−1}/(k−1)!`, so `λ_k` and `ζ_p(k) (k ≥ 2)` do not depend on the branch; (iii) on `{|z| > 1}, Li^a_k(z) − Li^b_k(z) = −(log_a(z)^k − log_b(z)^k)/k!`; (iv) for `k ≥ 2, Li^a_k(ζ)` is independent of a at every root of unity `ζ ≠ 1`, while `Li^a_1(ζ) − Li^b_1(ζ) = −β/(p^{r−1}(p−1))` for `ζ` of exact order `p^r (r ≥ 1)` and 0 for `ζ` of order not a power of `p`; (v) the modified `Li^{(p),a}_k` is independent of a on `{|z − 1| > p^{−1/(p−1)}}`. (BDJ §2, (2.5) and Prop. 2.6, p. 876 (published); p. 10 of v2; BDJ Proof of Prop. 2.6, p. 876 (published); GSWZ §3.1, before (174), p. 37; F Prop. 2.3, p. 8.)
 
 Standing hypotheses of this target: `a, b ∈ ℂ_p` arbitrary; `k ≥ 1`; `z ≠ 1` (for `k ≥ 2` also `z = 1`, where both sides vanish).
 
@@ -1586,18 +1587,18 @@ Standing hypotheses of this target: `a, b ∈ ℂ_p` arbitrary; `k ≥ 1`; `z �
 
 ### L2.11 The limit at `z = 1` and the p-adic `ζ` values
 
-**Lemma.** (a) For `k ≥ 2`, every branch a and every subfield `L ⊂ ℂ_p` of finite ramification index over `ℚ_p` (`L` need not be complete or of finite degree), `Li^a_k(z) → λ_k(1)` as `z → 1` with `z ∈ L ∖ {1}`; the limit `ζ_p(k) := λ_k(1)` is independent of a and `L`, and `Li^a_k(1) := ζ_p(k)` makes `Li^a_k` continuous on every such `L`. For `k = 1` there is no such limit: `Li^a_1(1 − p^n) = −`na and `Li^a_1(1 − p^n(1 + p)) = −`na `− log(1 + p)`, so for `a = 0` the two sequences have the different limits 0 and `−log(1 + p) ≠ 0`. (b) `ζ_p(k) = 0` for even `k ≥ 2`. (c) For `k ≥ 2` the distribution relation holds for all `z ∈ ℂ_p`: `Σ_{ζ∈μ_m}Li^a_k(ζz) = m^{1−k}Li^a_k(z^m)`; in particular `Σ_{ζ∈μ_m}Li^a_k(ζ) = m^{1−k}ζ_p(k), Σ_{ζ∈μ_m, ζ≠1}Li^a_k(ζ) = (m^{1−k} − 1)ζ_p(k)`, and for `p` odd `ζ_p(k) = Li_k(−1)/(2^{1−k} − 1)`. (d) `λ_2(z) = −Li_2^ser(1 − z)` on `D⁻(1,1)`. (`F` Notation 2.12 and Thm. 2.13, p. 10; `F` Lem. 2.14, p. 11; `F` Thm. 2.18 and Examples 2.19(a), pp. `11-12`; BDJ §2, p. 876 (published);, p. 10 of v2; BBdJR Proof of Prop. 4.17 (case `N = 2`), p. 23.)
+**Lemma.** (a) For `k ≥ 2`, every branch a and every subfield `L ⊂ ℂ_p` of finite ramification index over `ℚ_p` (`L` need not be complete or of finite degree), `Li^a_k(z) → λ_k(1)` as `z → 1` with `z ∈ L ∖ {1}`; the limit `ζ_p(k) := λ_k(1)` is independent of a and `L`, and `Li^a_k(1) := ζ_p(k)` makes `Li^a_k` continuous on every such `L`. For `k = 1` there is no such limit: `Li^a_1(1 − p^n) = −na` and `Li^a_1(1 − p^n(1 + p)) = −na − log(1 + p)`, so for `a = 0` the two sequences have the different limits 0 and `−log(1 + p) ≠ 0`. (b) `ζ_p(k) = 0` for even `k ≥ 2`. (c) For `k ≥ 2` the distribution relation holds for all `z ∈ ℂ_p`: `Σ_{ζ∈μ_m}Li^a_k(ζz) = m^{1−k}Li^a_k(z^m)`; in particular `Σ_{ζ∈μ_m}Li^a_k(ζ) = m^{1−k}ζ_p(k), Σ_{ζ∈μ_m, ζ≠1}Li^a_k(ζ) = (m^{1−k} − 1)ζ_p(k)`, and for `p` odd `ζ_p(k) = Li_k(−1)/(2^{1−k} − 1)`. (d) `λ_2(z) = −Li_2^ser(1 − z)` on `D⁻(1,1)`. (`F` Notation 2.12 and Thm. 2.13, p. 10; `F` Lem. 2.14, p. 11; `F` Thm. 2.18 and Examples 2.19(a), pp. 11–12; BDJ §2, p. 876 (published); p. 10 of v2; BBdJR Proof of Prop. 4.17 (case `N = 2`), p. 23.)
 
 Standing hypotheses of this target: `k ≥ 2` in (a)`-`(d); `L ⊂ ℂ_p` with `e(L/ℚ_p) < ∞`; `p` prime (for the formula with `Li_k(−1), p` odd so that `−1` is not in the residue disc of 1).
 
-*Proof sketch.* (a) On `D⁻(1,1) ∖ {1}, Li^a_k(z) − λ_k(z) = −log(z)^{k−1}log_a(1 − z)/(k−1)!` (L2.4). For `z ∈ L` near `1, |log z| = |z − 1|`, and writing `1 − z = u·π_L^n` with `u ∈ O_L^×, log_a(1 − z) = n·log_a(π_L) + log(u)` where `|log(u)|` is bounded on `O_L^×` because `L` is finitely ramified (a power `u^{s p^c}` with `p ∤ s, p^c > e_L`, is `≡ 1` mod `p`). Hence `|log(z)^{k−1}log_a(1 − z)| ≤ C_L·|z − 1|·(1 + |n|) → 0 (k − 1 ≥ 1)`, and `λ_k` is continuous at 1. Independence of `a`: L2.10. `k = 1`: `−log_a(p^n) = −`na and `log_a(−1) = 0`; `log(1 + p) ≠ 0` because `1 + p` is not a root of unity (for `p = 2` use `1 + 4`). (b) Let `z → 1` in `ℚ_p` in the inversion relation `Li^a_k(z) + (−1)^k Li^a_k(1/z) = −log_a(z)^k/k!` (L2.9): both Li-terms tend to `ζ_p(k)` and the right side to 0, so `(1 + (−1)^k)ζ_p(k) = 0`. (c) Given `z_0` with `z_0^m = 1`, approach `z_0` by `z ∈ ℚ_p(z_0)` with `z^m ≠ 1` and apply L2.8; every term is continuous at `z_0` along `ℚ_p(z_0)` (terms with `ζz_0 ≠ 1` are locally analytic there, the others by (a)). Put `z_0 = 1`; for `p` odd take `m = 2` and use that `−1` is not in the residue disc of 1. (d) `λ_2(z) = λ_2(1) − Li_2^ser(1 − z)` (continuation lemma) and `λ_2(1) = ζ_p(2) = 0` by (b).
+*Proof sketch.* (a) On `D⁻(1,1) ∖ {1}, Li^a_k(z) − λ_k(z) = −log(z)^{k−1}log_a(1 − z)/(k−1)!` (L2.4). For `z ∈ L` near `1, |log z| = |z − 1|`, and writing `1 − z = u·π_L^n` with `u ∈ O_L^×, log_a(1 − z) = n·log_a(π_L) + log(u)` where `|log(u)|` is bounded on `O_L^×` because `L` is finitely ramified (a power `u^{s p^c}` with `p ∤ s, p^c > e_L`, is `≡ 1` mod `p`). Hence `|log(z)^{k−1}log_a(1 − z)| ≤ C_L·|z − 1|·(1 + |n|) → 0 (k − 1 ≥ 1)`, and `λ_k` is continuous at 1. Independence of `a`: L2.10. `k = 1`: `−log_a(p^n) = −na` and `log_a(−1) = 0`; `log(1 + p) ≠ 0` because `1 + p` is not a root of unity (for `p = 2` use `1 + 4`). (b) Let `z → 1` in `ℚ_p` in the inversion relation `Li^a_k(z) + (−1)^k Li^a_k(1/z) = −log_a(z)^k/k!` (L2.9): both Li-terms tend to `ζ_p(k)` and the right side to 0, so `(1 + (−1)^k)ζ_p(k) = 0`. (c) Given `z_0` with `z_0^m = 1`, approach `z_0` by `z ∈ ℚ_p(z_0)` with `z^m ≠ 1` and apply L2.8; every term is continuous at `z_0` along `ℚ_p(z_0)` (terms with `ζz_0 ≠ 1` are locally analytic there, the others by (a)). Put `z_0 = 1`; for `p` odd take `m = 2` and use that `−1` is not in the residue disc of 1. (d) `λ_2(z) = λ_2(1) − Li_2^ser(1 − z)` (continuation lemma) and `λ_2(1) = ζ_p(2) = 0` by (b).
 
 
 *Needs:* L2.4, L2.5, L2.8, L2.9, L2.10, L0.15.
 
 ### L2.12 Local antiderivatives do not determine `Li_k`: the ambiguity and a non-example
 
-**Comparison.** For `k≥2`, consider primitives `F` of `Li_(k−1)^a dz/z` with `F(0)=0`, whole-disc analytic expansions at 0 and ordinary unit discs, and polynomial logarithmic expansions at 1 and `∞` whose coefficients are analytic on the punctured discs. Exactly these functions are `Li_k^a+c(z̄)`, for arbitrary functions `c` on `P¹(F̄_p)∖{0}`; the ambiguity is infinite dimensional. The Coleman condition removes it; so does `Σ_(ζ∈μ_p)F(ζz)=p^(1−k)F(z^p)`. For `p=5,k=2`, adding 1 on the residue disc of 2 gives a normalized local primitive with `G(2)+G(−2)−G(4)/2=1`, violating distribution. The ODE and normalization alone therefore do not determine global values. (BDJ §2, p. 875 (published);, p. 8 of v2; BF §3, p. 6; F §3.1, before Thm. 3.3, p. 15.)
+**Comparison.** For `k≥2`, consider primitives `F` of `Li_(k−1)^a dz/z` with `F(0)=0`, whole-disc analytic expansions at 0 and ordinary unit discs, and polynomial logarithmic expansions at 1 and `∞` whose coefficients are analytic on the punctured discs. Exactly these functions are `Li_k^a+c(z̄)`, for arbitrary functions `c` on `P¹(F̄_p)∖{0}`; the ambiguity is infinite dimensional. The Coleman condition removes it; so does `Σ_(ζ∈μ_p)F(ζz)=p^(1−k)F(z^p)`. For `p=5,k=2`, adding 1 on the residue disc of 2 gives a normalized local primitive with `G(2)+G(−2)−G(4)/2=1`, violating distribution. The ODE and normalization alone therefore do not determine global values. (BDJ §2, p. 875 (published); p. 8 of v2; BF §3, p. 6; F §3.1, before Thm. 3.3, p. 15.)
 
 Standing hypotheses of this target: `k ≥ 2` (weight one is fixed separately by the normalization `Li^a_1 = −log_a(1 − z)`); `a ∈ ℂ_p`.
 
@@ -1637,7 +1638,7 @@ Standing hypotheses of this target: `k ∈ Z` (all integers; `k ≥ 0` is what L
 
 ### L2.14 Overconvergence of the modified polylogarithm: the series `g_k(v)`
 
-**Lemma.** Put `v := 1/(1 − z)`; it identifies `P¹ ∖ D⁻(1,1)` with the closed disc `|v| ≤ 1` (`z = 0 ↦ v = 1, z = ∞ ↦ v = 0`, the residue disc of `1 ↦ |v| > 1`). Define `g_0(v) := v − 1 − (v − 1)^p/(v^p − (v − 1)^p)` and, for `k ≥ 1, g_k(v) := ∫_1^v g_{k−1}(w)·`dw`/(w(w − 1))`. Then for `k ≥ 0`: `g_k` is a power series in `v` with coefficients in `ℚ_p` converging on the open disc `D⁻(0, p^{1/(p−1)})` (radius at least `p^{1/(p−1)}`; for `k = 0` exactly, the poles being `v = (1 − ζ)^{−1}, ζ ∈ μ_p ∖ {1}`); `g_k(0) = g_k(1) = 0`; `g_k(1 − v) = (−1)^{k+1}g_k(v)`; `g_1(v) = p^{−1}·log(±(v^p − (v − 1)^p))` with the sign making the argument a principal unit; and `ℓ_k(z) = g_k(1/(1 − z))` for all `z ∈ P¹ ∖ D⁻(1,1)`, where `ℓ_k` is L2.13. (BBdJR §4, property (4), p. 20; GSWZ §2.1, p. 18; BHYY §1, p. 2.)
+**Lemma.** Put `v := 1/(1 − z)`; it identifies `P¹ ∖ D⁻(1,1)` with the closed disc `|v| ≤ 1` (`z = 0 ↦ v = 1, z = ∞ ↦ v = 0`, the residue disc of `1 ↦ |v| > 1`). Define `g_0(v) := v − 1 − (v − 1)^p/(v^p − (v − 1)^p)` and, for `k ≥ 1, g_k(v) := ∫_1^v g_{k−1}(w)·dw/(w(w − 1))`. Then for `k ≥ 0`: `g_k` is a power series in `v` with coefficients in `ℚ_p` converging on the open disc `D⁻(0, p^{1/(p−1)})` (radius at least `p^{1/(p−1)}`; for `k = 0` exactly, the poles being `v = (1 − ζ)^{−1}, ζ ∈ μ_p ∖ {1}`); `g_k(0) = g_k(1) = 0`; `g_k(1 − v) = (−1)^{k+1}g_k(v)`; `g_1(v) = p^{−1}·log(±(v^p − (v − 1)^p))` with the sign making the argument a principal unit; and `ℓ_k(z) = g_k(1/(1 − z))` for all `z ∈ P¹ ∖ D⁻(1,1)`, where `ℓ_k` is L2.13. (BBdJR §4, property (4), p. 20; GSWZ §2.1, p. 18; BHYY §1, p. 2.)
 
 Standing hypotheses of this target: `k ≥ 0`; `p` prime; `D⁻(0, p^{1/(p−1)}) = {v ∈ ℂ_p : |v| < p^{1/(p−1)}}`.
 
@@ -1675,7 +1676,7 @@ Standing hypotheses of this target: `a ∈ ℂ_p`; `k ≥ 0`; the class `𝒞^a`
 
 ### L2.17 Compatibility with automorphisms and embeddings of the coefficients
 
-**Theorem.** For continuous automorphism `σ` of `ℂ_p, σ(Li_k^a(z))=Li_k^(σa)(σz), σ(ζ_p(k))=ζ_p(k)` for `k≥2`, and the analogous identity holds for `Li_k^(p)`,a. Such `σ` fixes `ℚ_p` and preserves the norm. If `a∈ℚ_p`, values on finite Galois `L/ℚ_p` commute with `Gal(L/ℚ_p)`. Consequently, for coefficient embeddings `ι′=σ`∘`ι` of a number field, `Li_k(ι′z)=σ(Li_k(ιz))`. At nontrivial roots of unity and `k≥2` the result holds for branch by branch independence. (BDJ Rem. 2.3, pp. 875-876 (published);, p. 9 of v2; BDJ Rem. 2.3, p. 876 (published); BBK §2, Thm. 5 (Coleman), (c), p. 4; F Proof of Thm. 2.25, p. 13.)
+**Theorem.** For continuous automorphism `σ` of `ℂ_p, σ(Li_k^a(z))=Li_k^(σa)(σz), σ(ζ_p(k))=ζ_p(k)` for `k≥2`, and the analogous identity holds for `Li_k^(p)`,a. Such `σ` fixes `ℚ_p` and preserves the norm. If `a∈ℚ_p`, values on finite Galois `L/ℚ_p` commute with `Gal(L/ℚ_p)`. Consequently, for coefficient embeddings `ι′=σ`∘`ι` of a number field, `Li_k(ι′z)=σ(Li_k(ιz))`. At nontrivial roots of unity and `k≥2` the result holds for branch by branch independence. (BDJ Rem. 2.3, pp. 875-876 (published); p. 9 of v2; BDJ Rem. 2.3, p. 876 (published); BBK §2, Thm. 5 (Coleman), (c), p. 4; F Proof of Thm. 2.25, p. 13.)
 
 Standing hypotheses of this target: `σ` a continuous ring automorphism of `ℂ_p`; `a ∈ ℂ_p`; `k ≥ 0`; `z ≠ 1`.
 
@@ -1686,7 +1687,7 @@ Standing hypotheses of this target: `σ` a continuous ring automorphism of `ℂ_
 
 ### L2.18 The p-adic dilogarithm `D` and its two-term, branch and Frobenius identities
 
-**Lemma.** Define `D^a(z)=Li_2^a(z)+log_a z·log_a(1−z)/2` for `z≠0,1`. Prove `Li_2^a(z)+Li_2^a(1−z)=−log_a z·log_a(1−z), D^a(1−z)=D^a(1/z)=−D^a(z)`, and `dD^a=`(`log_a z dlog(1−z)−log_a(1−z)`dlog `z`)`/2`. Branch change is `D^a−D^b=(a−b)(v(z)log_b(1−z)−v(1−z)log_b z)/2`. Thus `D` is branch independent on special units and nontrivial roots, where `D(ζ)=Li_2(ζ)`. On `|z−1|>p^(−1/(p−1)), D^a(z)−p⁻²D^a(z^p)=Li_2^(p),a(z)−log_a z·Li_1^(p),a(z)/2`, branch-free rigid analytic on U's residue discs; for tame `ζ` this equals `ℓ_2(ζ)`. Prove `σD^a(z)=D^(σa)(σz)` for continuous `σ`. (GSWZ §3.1, (174), p. 37; BDJ §1, p. 870 (published);, p. 3 of v2; W §4, Example 3, p. 363.)
+**Lemma.** Define `D^a(z)=Li_2^a(z)+log_a z·log_a(1−z)/2` for `z≠0,1`. Prove `Li_2^a(z)+Li_2^a(1−z)=−log_a z·log_a(1−z), D^a(1−z)=D^a(1/z)=−D^a(z)`, and `dD^a=(log_a z dlog(1−z)−log_a(1−z) dlog z)/2`. Branch change is `D^a−D^b=(a−b)(v(z)log_b(1−z)−v(1−z)log_b z)/2`. Thus `D` is branch independent on special units and nontrivial roots, where `D(ζ)=Li_2(ζ)`. On `|z−1|>p^(−1/(p−1)), D^a(z)−p⁻²D^a(z^p)=Li_2^(p),a(z)−log_a z·Li_1^(p),a(z)/2`, branch-free rigid analytic on U's residue discs; for tame `ζ` this equals `ℓ_2(ζ)`. Prove `σD^a(z)=D^(σa)(σz)` for continuous `σ`. (GSWZ §3.1, (174), p. 37; BDJ §1, p. 870 (published); p. 3 of v2; W §4, Example 3, p. 363.)
 
 Standing hypotheses of this target: `a, b ∈ ℂ_p`; `z ∉ {0, 1}`; `v = v_p`.
 
@@ -1697,15 +1698,15 @@ Standing hypotheses of this target: `a, b ∈ ℂ_p`; `z ∉ {0, 1}`; `v = v_p`.
 
 ### L2.19 The two rational substitutions in Abel's identity
 
-**Lemma.** For `x,u` in `ℂ_p` with `|x|<1` and `|u|<1`, put `v=u(1-x)/`(1-xu), `w=x(1-u)/`(1-xu). Then `|1-x|=|1-u|=|1`-xu`|=1, 1-v=(1-u)/`(1-xu), `1-w=(1-x)/`(1-xu), `|v|=|u|` and `|w|=|x|`. Thus every displayed denominator is nonzero, and `v,w` are in the open unit disc. If `x,u` are nonzero, then `x,u`,xu,`v,w` are all different from 0 and 1. Zero `x` or `u` is permitted in the norm and rational identities. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Lemma.** For `x,u` in `ℂ_p` with `|x|<1` and `|u|<1`, put `v=u(1-x)/(1-xu)`, `w=x(1-u)/(1-xu)`. Then `|1-x|=|1-u|=|1-xu|=1, 1-v=(1-u)/(1-xu)`, `1-w=(1-x)/(1-xu)`, `|v|=|u|` and `|w|=|x|`. Thus every displayed denominator is nonzero, and `v,w` are in the open unit disc. If `x,u` are nonzero, then `x,u`,xu,`v,w` are all different from 0 and 1. Zero `x` or `u` is permitted in the norm and rational identities. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
-*Proof sketch.* Multiplicativity gives `|`xu`|<1`. In an ultrametric field, `|t|<1` implies `|1-t|=1`: the upper bound is the strong triangle inequality; a strict lower value would contradict `|1|=|(1-t)+t|=1`. Clear the nonzero denominator 1-xu to prove the two complement identities by ring arithmetic. Take norms to obtain `|v|=|u|` and `|w|=|x|`. When `x,u` are nonzero, multiplication and division by the units `1-x,1-u,1`-xu preserve nonvanishing. A point of norm below 1 cannot equal 1.
+*Proof sketch.* Multiplicativity gives `|xu|<1`. In an ultrametric field, `|t|<1` implies `|1-t|=1`: the upper bound is the strong triangle inequality; a strict lower value would contradict `|1|=|(1-t)+t|=1`. Clear the nonzero denominator 1-xu to prove the two complement identities by ring arithmetic. Take norms to obtain `|v|=|u|` and `|w|=|x|`. When `x,u` are nonzero, multiplication and division by the units `1-x,1-u,1`-xu preserve nonvanishing. A point of norm below 1 cannot equal 1.
 
 *Needs:* L2.1.
 
 ### L2.20 Coefficient bounds for the Abel substitutions
 
-**Lemma.** For fixed `u` in `ℂ_p` with `|u|<1`, there exist coefficients `c_n,d_n` such that `Li_2^ser(u(1-x)/(1-ux))=sum_n c_n x^n` and `Li_2^ser(x(1-u)/(1-ux))=sum_n d_n x^n` for `|x|<1`. The sums converge absolutely in norm. One has `|c_n|≤C_u := sum_{m≥1} m^2 |u|^m < ∞, d_0=0`, and `|d_n|≤n^2` for all `n`. In particular both functions admit a single scalar power series on the entire open unit disc, not just separate local series. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Lemma.** For fixed `u` in `ℂ_p` with `|u|<1`, there exist coefficients `c_n,d_n` such that `Li_2^ser(u(1-x)/(1-ux))=sum_n c_n x^n` and `Li_2^ser(x(1-u)/(1-ux))=sum_n d_n x^n` for `|x|<1`. The sums converge absolutely in norm. One has `|c_n|≤C_u := sum_{m≥1} m^2 |u|^m < ∞, d_0=0`, and `|d_n|≤n^2` for all `n`. In particular both functions admit a single scalar power series on the entire open unit disc, not just separate local series. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
 *Proof sketch.* For `m≥1` expand (1-`uX`)`^(-m)=sum_{k≥0} binom(m+k-1,k)u^k X^k`. This is the `m`-fold Cauchy product of the geometric series, proved by the finite binomial convolution; its coefficients are integral, hence have p-adic norm at most 1. Set `b_(m,n)=sum_{j=0}^{min(m,n)} (-1)^j binom(m,j) binom(m+n-j-1,n-j) u^(n-j)`. This is the coefficient of `X^n` in `(1-X)^m`(1-`uX`)`^(-m)`, and `|b_(m,n)|≤1` by the ultrametric triangle inequality. Define `c_n=sum_{m≥1} u^m b_(m,n)/m^2`. Since `|1/m|_p≤m`, the norm of each summand is at most `m^2 |u|^m`; this real series is summable, so each `c_n` exists and `|c_n|≤C_u`. For `|x|≤r<1` the double family is bounded by `m^2 |u|^m r^n`, whose real sum is finite. Interchanging its two sums therefore identifies `sum_n c_n x^n` with `Li_2^ser(v)`. No complete Tate-algebra instance is assumed. Set `d_0=0` and, for `n≥1, d_n=sum_{m=1}^n (1-u)^m binom(n-1,m-1)u^(n-m)/m^2`. Each term has norm `≤m^2 |u|^(n-m)≤n^2`, so `|d_n|≤n^2` by the ultrametric inequality. The double series at `|x|≤r<1` is norm-summable, bounded after grouping by `n` by `n^3 r^n`; regrouping gives `Li_2^ser(w)`. For every real `0≤r<1`, the bounds `C_u r^n` and `n^2 r^n` are norm-summable. Apply `FormalMultilinearSeries.ofScalars_norm` and `le_radius_of_bound` for every `r<1` to obtain radius at least 1, then construct `HasFPowerSeriesOnBall` from the sums.
 
@@ -1717,7 +1718,7 @@ Standing hypotheses of this target: `a, b ∈ ℂ_p`; `z ∉ {0, 1}`; `v = v_p`.
 
 ### L2.21 One-disc analyticity of the Abel difference
 
-**Lemma.** For fixed `|u|<1` define `v(x)=u(1-x)/`(1-xu), `w(x)=x(1-u)/`(1-xu), `A(x)=-Li_1^ser(x), B=-Li_1^ser(u), C(x)=-Li_1^ser(xu), P=A-C, Q=B-C`. The function `F(x)=Li_2^ser(x)+Li_2^ser(u)-Li_2^ser(xu)-Li_2^ser(v(x))-Li_2^ser(w(x))-P(x)Q(x)` has a `FormalMultilinearSeries` `S` with `HasFPowerSeriesOnBall` `F S 0 1`. All functions here are understood only on `|x|<1`; their total-function values outside that disc are irrelevant. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Lemma.** For fixed `|u|<1` define `v(x)=u(1-x)/(1-xu)`, `w(x)=x(1-u)/(1-xu)`, `A(x)=-Li_1^ser(x), B=-Li_1^ser(u), C(x)=-Li_1^ser(xu), P=A-C, Q=B-C`. The function `F(x)=Li_2^ser(x)+Li_2^ser(u)-Li_2^ser(xu)-Li_2^ser(v(x))-Li_2^ser(w(x))-P(x)Q(x)` has a `FormalMultilinearSeries` `S` with `HasFPowerSeriesOnBall` `F S 0 1`. All functions here are understood only on `|x|<1`; their total-function values outside that disc are irrelevant. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
 *Proof sketch.* Use L2.20 for the two rational compositions. The ordinary series for `Li_2(x), Li_2(xu)`, A and `C` have coefficients bounded by `n^2` or `n`; `Li_2(u)` and `B` are constants. Expand `P Q` by the Cauchy product of its norm-absolutely convergent series. Its nth coefficient is bounded by `max(|B| n,n^2)`, since the nonconstant coefficients of `A,C,Q` are bounded by `n` and the finite sum obeys the ultrametric bound. Finite sums and this product yield one coefficient sequence for `F` with growth at most a constant times `(n+1)^2`. For every `r<1` exponential decay makes the associated norm series summable; construct its scalar formal multilinear series and `HasFPowerSeriesOnBall` at radius 1. This is stronger than `AnalyticOnNhd` on the unit disc. No implication from pointwise local analyticity to a global expansion, and no unproved radius-preserving generic composition rule, is used.
 
@@ -1725,9 +1726,9 @@ Standing hypotheses of this target: `a, b ∈ ℂ_p`; `z ∉ {0, 1}`; `v = v_p`.
 
 ### L2.22 Abel's dilogarithm identity on the open unit bidisc
 
-**Lemma.** For `|x|<1` and `|u|<1` in `ℂ_p`, including zero values, set `v=u(1-x)/`(1-xu), `w=x(1-u)/`(1-xu). Then `Li_2^ser(x)+Li_2^ser(u)-Li_2^ser(xu)-Li_2^ser(v)-Li_2^ser(w)=(Li_1^ser(x)-Li_1^ser(xu))(Li_1^ser(u)-Li_1^ser(xu))`. Equivalently the right side is `P Q` with `P=log(1-x)-log(1-xu), Q=log(1-u)-log(1-xu)`, using the ordinary principal-unit series. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Lemma.** For `|x|<1` and `|u|<1` in `ℂ_p`, including zero values, set `v=u(1-x)/(1-xu)`, `w=x(1-u)/(1-xu)`. Then `Li_2^ser(x)+Li_2^ser(u)-Li_2^ser(xu)-Li_2^ser(v)-Li_2^ser(w)=(Li_1^ser(x)-Li_1^ser(xu))(Li_1^ser(u)-Li_1^ser(xu))`. Equivalently the right side is `P Q` with `P=log(1-x)-log(1-xu), Q=log(1-u)-log(1-xu)`, using the ordinary principal-unit series. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
-*Proof sketch.* If `u=0`, each side is zero by the ordinary series normalization. Otherwise keep `u` fixed, and take the whole-disc series for `F` from L2.21. Choose the existing logarithm branch with `a=0` solely to justify multiplicativity on principal units. The series `A,B,C` equal its values at `1-x,1-u,1`-xu. The complement identities give `log(1-v)=Q` and `log(1-w)=P`. This uses only the L0 branch, not the continued dilogarithm or five-term theorem. For `x≠0`, the power-series derivative `Li_2'(z)=-log(1-z)/z`, the chain rule and the rational identities yield `P'=-1/(1-x)+u/`(1-xu), `Q'=u/`(1-xu), `v'/v=P', w'/w=1/x+u/`(1-xu). Therefore `F'=-P/x+Q P'+P(1/x+u/(1-xu))-`P'Q`-P Q'=0`. The single-disc derivative series is continuous at 0; nonzero points in the open disc accumulate at 0, so its derivative also vanishes there. Equivalently multiply the derivative-series identity by `X` and cancel `X`. The coefficient argument in L0.8 then gives `(n+1)F_(n+1)=0`, hence every positive coefficient vanishes in characteristic zero. `F(0)=0` by `v(0)=u,w(0)=0,P(0)=0`, so `F=0` throughout the disc. This applies a one-variable ordinary-series uniqueness argument, not constancy of a locally analytic function or a polynomial in two branch logarithms.
+*Proof sketch.* If `u=0`, each side is zero by the ordinary series normalization. Otherwise keep `u` fixed, and take the whole-disc series for `F` from L2.21. Choose the existing logarithm branch with `a=0` solely to justify multiplicativity on principal units. The series `A,B,C` equal its values at `1-x,1-u,1-xu`. The complement identities give `log(1-v)=Q` and `log(1-w)=P`. This uses only the L0 branch, not the continued dilogarithm or five-term theorem. For `x≠0`, the power-series derivative `Li_2'(z)=-log(1-z)/z`, the chain rule and the rational identities yield `P'=-1/(1-x)+u/(1-xu)`, `Q'=u/(1-xu)`, `v'/v=P', w'/w=1/x+u/(1-xu)`. Therefore `F'=-P/x+Q P'+P(1/x+u/(1-xu))-`P'Q`-P Q'=0`. The single-disc derivative series is continuous at 0; nonzero points in the open disc accumulate at 0, so its derivative also vanishes there. Equivalently multiply the derivative-series identity by `X` and cancel `X`. The coefficient argument in L0.8 then gives `(n+1)F_(n+1)=0`, hence every positive coefficient vanishes in characteristic zero. `F(0)=0` by `v(0)=u,w(0)=0,P(0)=0`, so `F=0` throughout the disc. This applies a one-variable ordinary-series uniqueness argument, not constancy of a locally analytic function or a polynomial in two branch logarithms.
 
 *Needs:* L2.21, L2.19, L2.1, L0.15, L0.8, `HasFPowerSeriesOnBall.fderiv`, `HasFPowerSeriesAt.eq_formalMultilinearSeries`.
 
@@ -1738,7 +1739,7 @@ Standing hypotheses of this target: `a, b ∈ ℂ_p`; `z ∉ {0, 1}`; `v = v_p`.
 
 ### L2.23 Cancellation of the two branch logarithms
 
-**Lemma.** For nonzero `|x|,|u|<1` and any branch `log_a` on `ℂ_p`, write `v=u(1-x)/`(1-xu), `w=x(1-u)/`(1-xu), `L=log_a x, M=log_a u, A=log_a(1-x), B=log_a(1-u), C=log_a(1-xu), P=A-C, Q=B-C`. Then `log_a(xu)=L+M, log_a v=M+P, log_a(1-v)=Q, log_a w=L+Q, log_a(1-w)=P`, and [LA`+`MB`-(L+M)C-(M+P)Q-(L+Q)P`]`/2=-P Q`. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Lemma.** For nonzero `|x|,|u|<1` and any branch `log_a` on `ℂ_p`, write `v=u(1-x)/(1-xu)`, `w=x(1-u)/(1-xu)`, `L=log_a x, M=log_a u, A=log_a(1-x), B=log_a(1-u), C=log_a(1-xu), P=A-C, Q=B-C`. Then `log_a(xu)=L+M, log_a v=M+P, log_a(1-v)=Q, log_a w=L+Q, log_a(1-w)=P`, and `[LA+MB-(L+M)C-(M+P)Q-(L+Q)P]/2=-P Q`. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
 Standing hypotheses of this target: `p` prime; `x,u` nonzero with norms below 1; `log_a` is the existing normalized branch; 2 is invertible in `ℂ_p`, also when `p=2`.
 
@@ -1748,9 +1749,9 @@ Standing hypotheses of this target: `p` prime; `x,u` nonzero with norms below 1;
 
 ### L2.24 The five-term dilogarithm relation on nested discs
 
-**Lemma.** For branch `a`, any prime `p` and `x,y` in `ℂ_p` with `0<|y|<|x|<1, D^a(x)-D^a(y)+D^a(y/x)-D^a((1-x^(-1))/(1-y^(-1)))+D^a((1-x)/(1-y))=0`. Here `D^a` is the existing L2 dilogarithm; all five arguments are different from 0 and 1. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Lemma.** For branch `a`, any prime `p` and `x,y` in `ℂ_p` with `0<|y|<|x|<1, D^a(x)-D^a(y)+D^a(y/x)-D^a((1-x^(-1))/(1-y^(-1)))+D^a((1-x)/(1-y))=0`. Here `D^a` is the existing L2 dilogarithm; all five arguments are different from 0 and 1. (DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
-*Proof sketch.* Set `u=y/x`. Then `x,u` are nonzero with norms below `1, y=`xu, and the fourth and fifth arguments become `v=u(1-x)/`(1-xu) and `1-w`, where `w=x(1-u)/`(1-xu). Clear denominators using the rational-pair lemma. Reflection `D^a(1-w)=-D^a(w)` turns the signed sum into `D^a(x)+D^a(u)-D^a(xu)-D^a(v)-D^a(w)`. All five arguments now lie in the punctured unit disc. Replace each `Li_2^a` by its ordinary series via the existing power-series normalization. Their contribution is `+P Q` by L2.22. The logarithmic correction is `-P Q` by L2.23. They cancel for every branch. This closes the nested-disc subcase only. The global parent still needs field-correct permutation/Mobius transport, exhaustive five-point normalization, and a separately checked four-distinct-reductions argument; none is inferred from this lemma.
+*Proof sketch.* Set `u=y/x`. Then `x,u` are nonzero with norms below 1, `y=xu`, and the fourth and fifth arguments become `v=u(1-x)/(1-xu)` and `1-w`, where `w=x(1-u)/(1-xu)`. Clear denominators using the rational-pair lemma. Reflection `D^a(1-w)=-D^a(w)` turns the signed sum into `D^a(x)+D^a(u)-D^a(xu)-D^a(v)-D^a(w)`. All five arguments now lie in the punctured unit disc. Replace each `Li_2^a` by its ordinary series via the existing power-series normalization. Their contribution is `+P Q` by L2.22. The logarithmic correction is `-P Q` by L2.23. They cancel for every branch. This closes the nested-disc subcase only. The global parent still needs field-correct permutation/Mobius transport, exhaustive five-point normalization, and a separately checked four-distinct-reductions argument; none is inferred from this lemma.
 
 *Needs:* L2.22, L2.23, L2.19, L2.18, L2.5.
 
@@ -1761,7 +1762,7 @@ Standing hypotheses of this target: `p` prime; `x,u` nonzero with norms below 1;
 
 ### L2.25 Polylogarithm values at roots of unity of order prime to `p`
 
-**Theorem.** Let `ζ ∈ ℂ_p` be a root of unity of order `N ≥ 2` with `p ∤ N`, let `f` be the order of `p` in (`Z/`NZ)`^×` (so `ζ^{p^f} = ζ` and `ℚ_p(ζ)` is unramified of degree `f`), and `k ≥ 1`. For branch `a`: (a) `Li^a_k(ζ) − p^{−k}Li^a_k(ζ^p) = ℓ_k(ζ)` (the Frobenius relation at a point with `φ(ζ) = ζ^p`), hence `Li^a_k(ζ) = (1 − p^{−kf})^{−1}·Σ_{i=0}^{f−1} p^{−ik}ℓ_k(ζ^{p^i}) = p^k(p^{kf} − 1)^{−1}Σ_{i=0}^{f−1}p^{(f−1−i)k}ℓ_k(ζ^{p^i})`; in particular `Li^a_k(ζ)` does not depend on a and lies in `ℚ_p(ζ)`; (b) `Li_k(ζ) ∈ p^k·ℤ_p[ζ]` (for `k = 1`: `Li_1(ζ) = −log(1 − ζ) ∈ pZ_p[ζ]`); (c) `p^{−k}Li_k(ζ) ≡ −li_k(σ(ζ))/(1 − ζ)` mod `p`, where `σ(ζ) := ζ^{p^{f−1}}` is the root of unity with `σ(ζ)^p = ζ` and `li_k(x) := Σ_{b=1}^{p−1}x^b/b^k` (Besser's finite polylogarithm); equivalently `p^{−k}Li_k(ζ^p) ≡ −li_k(ζ)/(1 − ζ)^p` mod `p`; (d) `Li_k(ζ^{−1}) = (−1)^{k+1}Li_k(ζ)`. (BF Corollary 2.2, p. 2; BF Proof of Corollary 2.2, pp. `2-3`; GSWZ Proof of Lem. 3.1, `(175)`, p. 37; GSWZ Prop. 3.2, `(178)`, p. 38.)
+**Theorem.** Let `ζ ∈ ℂ_p` be a root of unity of order `N ≥ 2` with `p ∤ N`, let `f` be the order of `p` in `(Z/NZ)^×` (so `ζ^{p^f} = ζ` and `ℚ_p(ζ)` is unramified of degree `f`), and `k ≥ 1`. For branch `a`: (a) `Li^a_k(ζ) − p^{−k}Li^a_k(ζ^p) = ℓ_k(ζ)` (the Frobenius relation at a point with `φ(ζ) = ζ^p`), hence `Li^a_k(ζ) = (1 − p^{−kf})^{−1}·Σ_{i=0}^{f−1} p^{−ik}ℓ_k(ζ^{p^i}) = p^k(p^{kf} − 1)^{−1}Σ_{i=0}^{f−1}p^{(f−1−i)k}ℓ_k(ζ^{p^i})`; in particular `Li^a_k(ζ)` does not depend on a and lies in `ℚ_p(ζ)`; (b) `Li_k(ζ) ∈ p^k·ℤ_p[ζ]` (for `k = 1`: `Li_1(ζ) = −log(1 − ζ) ∈ pZ_p[ζ]`); (c) `p^{−k}Li_k(ζ) ≡ −li_k(σ(ζ))/(1 − ζ)` mod `p`, where `σ(ζ) := ζ^{p^{f−1}}` is the root of unity with `σ(ζ)^p = ζ` and `li_k(x) := Σ_{b=1}^{p−1}x^b/b^k` (Besser's finite polylogarithm); equivalently `p^{−k}Li_k(ζ^p) ≡ −li_k(ζ)/(1 − ζ)^p` mod `p`; (d) `Li_k(ζ^{−1}) = (−1)^{k+1}Li_k(ζ)`. (BF Corollary 2.2, p. 2; BF Proof of Corollary 2.2, pp. `2-3`; GSWZ Proof of Lem. 3.1, `(175)`, p. 37; GSWZ Prop. 3.2, `(178)`, p. 38.)
 
 *Proof sketch.* `ζ` and all `ζ^{p^i}` are special units (L2.2), so `|ζ^{p^i} − 1| = 1 > p^{−1/(p−1)}` and L2.15 gives `Li^a_k(ζ^{p^i}) − p^{−k}Li^a_k(ζ^{p^{i+1}}) = ℓ_k(ζ^{p^i})` for every `i`. Telescoping `f` times and using `ζ^{p^f} = ζ`: `(1 − p^{−kf})Li^a_k(ζ) = Σ_{i<f} p^{−ik}ℓ_k(ζ^{p^i})`. The right side involves only `ℓ_k`, which does not depend on a. (b) `ℓ_k(ζ^{p^i}) ∈ ℤ_p[ζ]` by L2.13 (i) (`ζ^{p^i} ∈ ℤ_p[ζ]` with `|ζ^{p^i} − 1| = 1`), and `p^k(p^{kf} − 1)^{−1} ∈ p^k ℤ_p^×`. (c) Modulo `p` only the term `i = f − 1` survives in `p^{−k}Li_k(ζ) = (p^{kf} − 1)^{−1}Σ_i p^{(f−1−i)k}ℓ_k(ζ^{p^i})`, and `p^{kf} − 1 ≡ −1`; by L2.13 (ii), `ℓ_k(σ(ζ)) ≡ li_k(σ(ζ))/(1 − σ(ζ)^p) = li_k(σ(ζ))/(1 − ζ)`. The second form: apply the first to `ζ^p`, with `σ(ζ^p) = ζ` and `1 − ζ^p ≡ (1 − ζ)^p` mod p. (d) L2.9 (ii). Values in `ℚ_p(ζ)`: `ℓ_k` has an expansion with `ℤ_p`-coefficients in `t` and `(1 − t)^{−1}`.
 
@@ -1770,7 +1771,7 @@ Standing hypotheses of this target: `p` prime; `x,u` nonzero with norms below 1;
 
 ### L2.26 Values at points of finite extensions of `ℚ_p`
 
-**Lemma.** Let `K ⊂ ℂ_p` be a finite extension of `ℚ_p` and `a ∈ K`. Then `Li^a_k(K ∖ {1}) ⊂ K` for `k ≥ 0, Li^{(p),a}_k` maps `{z ∈ K : z^p ≠ 1}` into `K`, and `ζ_p(k) ∈ ℚ_p` for `k ≥ 2`. For `a ∈ ℚ_p` (in particular the Iwasawa branch) and `K` Galois over `ℚ_p, τ(Li^a_k(z)) = Li^a_k(τ z)` for `z ∈ K ∖ {1}` and `τ ∈ Gal(K/ℚ_p)`. (BDJ §1, p. 870 (published);, p. 3 of v2; F Thm. 2.25, p. 13.)
+**Lemma.** Let `K ⊂ ℂ_p` be a finite extension of `ℚ_p` and `a ∈ K`. Then `Li^a_k(K ∖ {1}) ⊂ K` for `k ≥ 0, Li^{(p),a}_k` maps `{z ∈ K : z^p ≠ 1}` into `K`, and `ζ_p(k) ∈ ℚ_p` for `k ≥ 2`. For `a ∈ ℚ_p` (in particular the Iwasawa branch) and `K` Galois over `ℚ_p, τ(Li^a_k(z)) = Li^a_k(τ z)` for `z ∈ K ∖ {1}` and `τ ∈ Gal(K/ℚ_p)`. (BDJ §1, p. 870 (published); p. 3 of v2; F Thm. 2.25, p. 13.)
 
 *Proof sketch.* `log_a(K^×) ⊂ K`: `K^× = π_K^Z × μ_{q−1} × U^1_K, log_a(π_K) = (a + log(π_K^{e_K}/p))/e_K ∈ K` for a uniformiser `π_K`, roots of unity have logarithm 0, and the series logarithm maps `U^1_K` into `K` (L0.15). `z ∈ D⁻(0,1) ∩ K`: `Li_k^ser` has rational coefficients. `z ∈ K` with `|z| > 1`: L2.9 (i) and the previous step. `z ∈ O_K` with `z̄ ∉ {0, 1}`: the Teichmüller representative `ω` of `z̄` lies in `K` and is a root of unity of order prime to `p` (Tau Ceti `TauCeti.teichmuller`); `Li_j(ω) ∈ ℚ_p(ω) ⊂ K` for `j ≤ k` (L2.25 (a)); the expansion of `Li_k` on `D⁻(ω,1)` is determined by the recursion `(d/du)Li_j(ω + u) = Li_{j−1}(ω + u)/(ω + u)` (L2.7) with initial values `Li_j(ω) ∈ K` and `Li_0(ω + u) ∈ K[[u]]`, so its coefficients lie in `K` and `Li_k(z) ∈ K`. `z ∈ K ∩ D⁻(1,1), z ≠ 1`: `Li^a_k(z) = λ_k(z) − log(z)^{k−1}log_a(1 − z)/(k−1)!`; the Taylor coefficients of `λ_k` at 1 come from the recursion `dλ_k = λ_{k−1}dz/z + log(z)^{k−1}dz/((k−1)!(z − 1))` with rational data and constant term `ζ_p(k)` (L2.4). `ζ_p(k) ∈ ℚ_p`: for `p` odd, `ζ_p(k) = Li_k(−1)/(2^{1−k} − 1)` (L2.11 (c)) with `Li_k(−1) ∈ ℚ_p` (tame root, `f = 1`); for `p = 2, (3^{1−k} − 1)ζ_2(k) = Li_k(ω) + Li_k(ω²)` for `ω` a primitive cube root of unity, and by the explicit formula of L2.25 (a) (`ℓ_k` has `Z_2`-coefficients) the two values are exchanged by `Gal(Q_2(ω)/Q_2)`, so their sum lies in `Q_2`. Galois: L2.17, with `τ` extended to a continuous automorphism of `ℂ_p`.
 
@@ -1803,7 +1804,7 @@ Standing hypotheses of this target: `ε` of order `N≥2`; `a∈ℂ_p`; `k≥0`;
 
 ### L2.29 Norm and trace compatibilities: sums over conjugate roots of unity
 
-**Lemma.** For `primitive ε` of order `N≥2, k≥1` (`a∈ℚ_p` if `k=1`), prove `σLi_k(ε)=Li_k(ε^(c_σ))` and trace equal to the Galois-orbit sum. For tame `N`, Frobenius `c=p` generates the group; `Tr Li_1^a(ε)=−log_a Norm(1−ε)`. For `k≥2` the sum over all primitive roots is `ζ_p(k)Σ_(d|N)μ(N/d)d^(1−k)=ζ_p(k)N^(1−k)∏_(ℓ|N)(1−ℓ^(k−1))`. For `k=1` it is `−log_a Φ_N(1)`, giving `−a` for `N=p^r, −log ℓ` for `N=ℓ^s` with `ℓ≠p`, and 0 otherwise. If `M|N` have the same prime divisors and `c_0 ∈ (ℤ/Mℤ)^×`, the sum over `c ∈ (ℤ/Nℤ)^×` with `c ≡ c_0` mod `M` is `(N/M)^(1−k)Li_k^a(ε^(c_0N/M))`. Include adjacent `p`-power levels. (BDJ §2, p. 876 (published);, p. 10 of v2; BBdJR Proof of Prop. 4.17, p. 22.)
+**Lemma.** For `primitive ε` of order `N≥2, k≥1` (`a∈ℚ_p` if `k=1`), prove `σLi_k(ε)=Li_k(ε^(c_σ))` and trace equal to the Galois-orbit sum. For tame `N`, Frobenius `c=p` generates the group; `Tr Li_1^a(ε)=−log_a Norm(1−ε)`. For `k≥2` the sum over all primitive roots is `ζ_p(k)Σ_(d|N)μ(N/d)d^(1−k)=ζ_p(k)N^(1−k)∏_(ℓ|N)(1−ℓ^(k−1))`. For `k=1` it is `−log_a Φ_N(1)`, giving `−a` for `N=p^r, −log ℓ` for `N=ℓ^s` with `ℓ≠p`, and 0 otherwise. If `M|N` have the same prime divisors and `c_0 ∈ (ℤ/Mℤ)^×`, the sum over `c ∈ (ℤ/Nℤ)^×` with `c ≡ c_0` mod `M` is `(N/M)^(1−k)Li_k^a(ε^(c_0N/M))`. Include adjacent `p`-power levels. (BDJ §2, p. 876 (published); p. 10 of v2; BBdJR Proof of Prop. 4.17, p. 22.)
 
 Standing hypotheses of this target: `ε` primitive of order `N ≥ 2`; `k ≥ 1`; `a ∈ ℚ_p` when `k = 1` in (a); in (b) for `k ≥ 2` the value `Li_k(1) = ζ_p(k)`; in (c), `M|N` have the same prime divisors and `c_0 ∈ (ℤ/Mℤ)^×`.
 
@@ -1823,13 +1824,13 @@ Standing hypotheses of this target: `ε` primitive of order `N ≥ 2`; `k ≥ 1`
 
 Standing hypotheses of this target: `k ≥ 2` in (a) except for the last sentence; `x` real; `N ≥ 1`.
 
-*Proof sketch.* (a) The complex polylogarithm `Li_k^ℂ` of L2.Fa is continuous on the closed unit disc for `k ≥ 2` and equals `Σ z^n/n^k` there (absolute convergence on `|z| = 1`); Mathlib's `hasSum_expZeta_of_one_lt_re` identifies the sum with `expZeta(x, k)`, and `ZMod.LFunction_stdAddChar_eq_expZeta` with the definition of `ZMod.LFunction` gives the Hurwitz form. At `k = 1` and a nontrivial root `ζ` the boundary series `Σ ζ^n/n` converges by Dirichlet's test (bounded partial sums of the geometric progression), and Abel's boundary theorem identifies its limit with the radial limit of `−Log(1 − rζ)`, hence `−Log(1 − ζ)`; the open-disc Taylor identity alone does not give boundary convergence, which is why L2.Fa states it. (b) For `0 < x < 1` the complex inversion relation at `e^(2πix)` is the inversion statement of L2.Fa, which comes from the Bernoulli Fourier series (`B_k(x)` for `k ≥ 2` through Mathlib's `HurwitzZeta.cosZeta_two_mul_nat` and `HurwitzZeta.sinZeta_two_mul_nat_add_one`, and `Σ sin(2πnx)/n = π(1/2 − x)` for `k = 1`); the p-adic statement is L2.9(ii). (c) Complex values: `Li_2^ℂ(−1) = −π²/12` and `Li_2^ℂ(1/2) = π²/12 − log(2)²/2` (Euler); p-adic values: L2.25 `(Li_2(−1) = 0)` and L2.18 with L2.9 `(Li_2(2) = 0, Li_2(1/2) = −log(2)²/2)`.
+*Proof sketch.* (a) The complex polylogarithm `Li_k^ℂ` of L2.Fa is continuous on the closed unit disc for `k ≥ 2` and equals `Σ z^n/n^k` there (absolute convergence on `|z| = 1`); Mathlib's `HurwitzZeta.hasSum_expZeta_of_one_lt_re` identifies the sum with `HurwitzZeta.expZeta x k`, and `ZMod.LFunction_stdAddChar_eq_expZeta` with the definition of `ZMod.LFunction` gives the Hurwitz form. At `k = 1` and a nontrivial root `ζ` the boundary series `Σ ζ^n/n` converges by Dirichlet's test (bounded partial sums of the geometric progression), and Abel's boundary theorem identifies its limit with the radial limit of `−Log(1 − rζ)`, hence `−Log(1 − ζ)`; the open-disc Taylor identity alone does not give boundary convergence, which is why L2.Fa states it. (b) For `0 < x < 1` the complex inversion relation at `e^(2πix)` is the inversion statement of L2.Fa, which comes from the Bernoulli Fourier series (`B_k(x)` for `k ≥ 2` through Mathlib's `HurwitzZeta.cosZeta_two_mul_nat` and `HurwitzZeta.sinZeta_two_mul_nat_add_one`, and `Σ sin(2πnx)/n = π(1/2 − x)` for `k = 1`); the p-adic statement is L2.9(ii). (c) Complex values: `Li_2^ℂ(−1) = −π²/12` and `Li_2^ℂ(1/2) = π²/12 − log(2)²/2` (Euler); p-adic values: L2.25 `(Li_2(−1) = 0)` and L2.18 with L2.9 `(Li_2(2) = 0, Li_2(1/2) = −log(2)²/2)`.
 
 *Needs:* L2.Fa, L2.9, L2.25, L2.18, `HurwitzZeta.expZeta`, `HurwitzZeta.hasSum_expZeta_of_one_lt_re`, `ZMod.LFunction`, `ZMod.LFunction_stdAddChar_eq_expZeta`, `HurwitzZeta.cosZeta_two_mul_nat`, `HurwitzZeta.sinZeta_two_mul_nat_add_one`, `Complex.hasSum_taylorSeries_neg_log`.
 
 ### L2.31 Scalar five-term dilogarithm expression
 
-**Definition.** For the fixed branch a define `R_a(x,y)=D^a(x)−D^a(y)+D^a(y/x)−D^a((1−x⁻¹)/(1−y⁻¹))+D^a((1−x)/(1−y))`. The mathematical domain is the admissible pairs; this is a scalar expression in `ℂ_p`, not a new pre-Bloch group or projective cross-ratio. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Definition.** For the fixed branch a define `R_a(x,y)=D^a(x)−D^a(y)+D^a(y/x)−D^a((1−x⁻¹)/(1−y⁻¹))+D^a((1−x)/(1−y))`. The mathematical domain is the admissible pairs; this is a scalar expression in `ℂ_p`, not a new pre-Bloch group or projective cross-ratio. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1857,31 +1858,31 @@ Standing hypotheses of this target: (C6), (C7).
 - At `p=5, R_a(5,25)=0`, by the exact inherited nested-disc theorem.
 - At `p=2, R_a(2,8)=0`; no odd-prime assumption is present.
 - At `p=5, R_a(5,30)=0`: `|5|=|30|=1/5` but `|5−30|=1/25`.
-- At `p=5, R_a(5,6)=0`: 5 is close to0 and6 is close to1.
+- At `p=5, R_a(5,6)=0`: 5 is close to 0 and 6 is close to 1.
 
 ### L2.32 Admissibility of the five dilogarithm arguments
 
-**Lemma.** For an admissible pair `x,y`, all three additional arguments `A=y/x, B=(1−x)/(1−y), C=(1−x⁻¹)/(1−y⁻¹)=`AB are different from0 and1. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For an admissible pair `x,y`, all three additional arguments `A=y/x, B=(1−x)/(1−y), C=(1−x⁻¹)/(1−y⁻¹)=AB` are different from 0 and 1. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
-*Proof sketch.* All numerator and denominator factors `x,y,1−x,1−y` are nonzero. Clear denominators to identify `C=`AB. `A=1` or `B=1` would give `y=x`. For `C=1`, multiply by `x(1−y)` to obtain `y(1−x)=x(1−y)`, again `y=x`. These elementary field manipulations apply in `ℂ_p` without constructing any general cross-ratio object.
+*Proof sketch.* All numerator and denominator factors `x,y,1−x,1−y` are nonzero. Clear denominators to identify `C=AB`. `A=1` or `B=1` would give `y=x`. For `C=1`, multiply by `x(1−y)` to obtain `y(1−x)=x(1−y)`, again `y=x`. These elementary field manipulations apply in `ℂ_p` without constructing any general cross-ratio object.
 
 *Needs:* Field arithmetic.
 
 ### L2.33 Exchange of the two scalar inputs
 
-**Lemma.** For admissible `x,y, R_a(y,x)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For admissible `x,y, R_a(y,x)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
-*Proof sketch.* Write `A=y/x, B=(1−x)/(1−y), C=`AB. Exchanging `x` and `y` exchanges the first two values and replaces `A,B,C` by their inverses. Use `D(z⁻¹)=−D(z)` on each of `A,B,C`, whose domains are certified by L2.32. Collect the five signed terms. The transformed pair remains admissible.
+*Proof sketch.* Write `A=y/x, B=(1−x)/(1−y), C=AB`. Exchanging `x` and `y` exchanges the first two values and replaces `A,B,C` by their inverses. Use `D(z⁻¹)=−D(z)` on each of `A,B,C`, whose domains are certified by L2.32. Collect the five signed terms. The transformed pair remains admissible.
 
 *Needs:* L2.31, L2.32, L2.18.
 
 ### L2.34 Simultaneous complementation of the inputs
 
-**Lemma.** For admissible `x,y, R_a(1−x,1−y)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For admissible `x,y, R_a(1−x,1−y)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1891,7 +1892,7 @@ Standing hypotheses of this target: (C6), (C7).
 
 ### L2.35 Simultaneous inversion of the inputs
 
-**Lemma.** For admissible `x,y, R_a(x⁻¹,y⁻¹)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For admissible `x,y, R_a(x⁻¹,y⁻¹)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1901,7 +1902,7 @@ Standing hypotheses of this target: (C6), (C7).
 
 ### L2.36 Dilation by the first input
 
-**Lemma.** For admissible `x,y, R_a(x⁻¹,y/x)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For admissible `x,y, R_a(x⁻¹,y/x)=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1911,7 +1912,7 @@ Standing hypotheses of this target: (C6), (C7).
 
 ### L2.37 Moving the first input to the origin
 
-**Lemma.** For admissible `x,y, R_a(x/(x−1),(y−x)/(1−x))=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For admissible `x,y, R_a(x/(x−1),(y−x)/(1−x))=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1921,7 +1922,7 @@ Standing hypotheses of this target: (C6), (C7).
 
 ### L2.38 Fractional transformation of both inputs
 
-**Lemma.** For admissible `x,y, R_a(x/(x−1),y/(y−1))=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For admissible `x,y, R_a(x/(x−1),y/(y−1))=−R_a(x,y)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1931,9 +1932,9 @@ Standing hypotheses of this target: (C6), (C7).
 
 ### L2.39 Five-term relation across small and large norms
 
-**Lemma.** If `0<|x|<1<|y|`, then `R_a(x,y)=0`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** If `0<|x|<1<|y|`, then `R_a(x,y)=0`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
-Standing hypotheses of this target: (C6), (C7); `x≠0, |x|<1` and1`<|y|`; the other admissibility conditions follow.
+Standing hypotheses of this target: (C6), (C7); `x≠0, |x|<1` and `1<|y|`; the other admissibility conditions follow.
 
 *Proof sketch.* The norm inequalities imply admissibility. Exchange `x,y` and dilate: `(u,v)=(1/y,x/y)`. The two covariance signs cancel, so `R_a(u,v)=R_a(x,y)`. By `norm_div` and `norm_inv, 0<|v|=|x|/|y|<1/|y|=|u|<1`. Apply L2.24 at `u,v` and unfold L2.31.
 
@@ -1941,7 +1942,7 @@ Standing hypotheses of this target: (C6), (C7); `x≠0, |x|<1` and1`<|y|`; the o
 
 ### L2.40 Five-term relation on two separated residue discs
 
-**Lemma.** If `0<|x|<1` and0`<|1−y|<1`, then `R_a(x,y)=0`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** If `0<|x|<1` and `0<|1−y|<1`, then `R_a(x,y)=0`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7); `x≠0, |x|<1, y≠1` and `|1−y|<1`.
 
@@ -1951,17 +1952,17 @@ Standing hypotheses of this target: (C6), (C7); `x≠0, |x|<1, y≠1` and `|1−
 
 ### L2.41 Five-term relation for an equal-norm collision
 
-**Lemma.** If0`<|x|=|y|<1` and0`<|x−y|<|x|`, then `R_a(x,y)=0`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** If `0<|x|=|y|<1` and `0<|x−y|<|x|`, then `R_a(x,y)=0`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7); `x≠0, |x|<1, |y|=|x|, x≠y` and `|x−y|<|x|`.
 
-*Proof sketch.* Ultrametricity gives `|1−x|=1`. The move-origin transformation has `u=x/(x−1),v=(y−x)/(1−x)`, with `|u|=|x|` and `|v|=|x−y|`. Both are nonzero and0`<|v|<|u|<1`. Apply L2.24 and L2.37. Equal outer norms alone are insufficient: the equal-spread case is handled separately by reduction to a special unit.
+*Proof sketch.* Ultrametricity gives `|1−x|=1`. The move-origin transformation has `u=x/(x−1),v=(y−x)/(1−x)`, with `|u|=|x|` and `|v|=|x−y|`. Both are nonzero and `0<|v|<|u|<1`. Apply L2.24 and L2.37. Equal outer norms alone are insufficient: the equal-spread case is handled separately by reduction to a special unit.
 
 *Needs:* L2.37, L2.24, `PadicComplex.isNonarchimedean`, `norm_div`, `norm_inv`.
 
 ### L2.42 Norm reduction when the first input is small
 
-**Lemma.** For an admissible pair with `|x|<1`, either `R_a(x,y)=0`, or there exist admissible `u,v` with `|v|=|1−v|=1` such that `R_a(x,y)=R_a(u,v)` or `R_a(x,y)=−R_a(u,v)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Lemma.** For an admissible pair with `|x|<1`, either `R_a(x,y)=0`, or there exist admissible `u,v` with `|v|=|1−v|=1` such that `R_a(x,y)=R_a(u,v)` or `R_a(x,y)=−R_a(u,v)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7); `|x|<1`.
 
@@ -1971,7 +1972,7 @@ Standing hypotheses of this target: (C6), (C7); `|x|<1`.
 
 ### L2.43 Exhaustive scalar reduction to special units
 
-**Theorem.** For admissible pair `x,y`, either `R_a(x,y)=0`, or there exist admissible `u,v` with `|v|=|1−v|=1` such that `R_a(x,y)=R_a(u,v)` or `R_a(x,y)=−R_a(u,v)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Theorem.** For admissible pair `x,y`, either `R_a(x,y)=0`, or there exist admissible `u,v` with `|v|=|1−v|=1` such that `R_a(x,y)=R_a(u,v)` or `R_a(x,y)=−R_a(u,v)`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7).
 
@@ -1981,7 +1982,7 @@ Standing hypotheses of this target: (C6), (C7).
 
 ### L2.44 Special-unit sufficiency for the scalar five-term theorem
 
-**Theorem.** For a fixed branch `a`, assume the special-unit subcase: `R_a(u,v)=0` for admissible `u,v` with `|v|=|1−v|=1`. Then `R_a(x,y)=0` for admissible `x,y`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition2.10 and, p. 14 discussion immediately before its proof.)
+**Theorem.** For a fixed branch `a`, assume the special-unit subcase: `R_a(u,v)=0` for admissible `u,v` with `|v|=|1−v|=1`. Then `R_a(x,y)=0` for admissible `x,y`. (DJ arXiv:2007.11014v1, p. 6 discussion before Proposition 2.10 and p. 14 discussion immediately before its proof.)
 
 Standing hypotheses of this target: (C6), (C7); For admissible `u,v` with `|v|=|1−v|=1`, the special-unit scalar identity `R_a(u,v)=0` is supplied as an explicit hypothesis.
 
@@ -1991,23 +1992,23 @@ Standing hypotheses of this target: (C6), (C7); For admissible `u,v` with `|v|=|
 
 ### L2.45 Logarithmic coordinates of the five argument maps
 
-**Lemma.** For admissible `x,v` in `ℂ_p`, write `X=log_a x, U=log_a(1−x), V=log_a v, W=log_a(1−v), H=log_a(x−v)`, and `α=`dx`/x, β=`dx`/(x−1), γ=`dx`/(x−v)`. For the ordered arguments `x,v,v/x,v(x−1)/(x(v−1)),(1−x)/(1−v)`, the `pairs(log f,log(1−f))` are `(X,U),(V,W),(V−X,H−X),(V+U−X−W,H−X−W),(U−W,H−W)`. Their differential pairs `are(α,β),(0,0),(−α,γ−α),(β−α,γ−α),(β,γ)`. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** For admissible `x,v` in `ℂ_p`, write `X=log_a x, U=log_a(1−x), V=log_a v, W=log_a(1−v), H=log_a(x−v)`, and `α=dx/x, β=dx/(x−1), γ=dx/(x−v)`. For the ordered arguments `x,v,v/x,v(x−1)/(x(v−1)),(1−x)/(1−v)`, the `pairs(log f,log(1−f))` are `(X,U),(V,W),(V−X,H−X),(V+U−X−W,H−X−W),(U−W,H−W)`. Their differential pairs `are(α,β),(0,0),(−α,γ−α),(β−α,γ−α),(β,γ)`. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
-*Proof sketch.* Apply the existing admissibility lemma to rule out zero and one at all five arguments. Factor1`−v/x=(x−v)/x, 1−v(x−1)/(x(v−1))=(x−v)/(x(1−v))`, and1`−(1−x)/(1−v)=(x−v)/(1−v)`. Use the existing logarithm-branch homomorphism, including `log(−1)=0`, to obtain the five logarithm pairs. Differentiate the nonvanishing factors, keeping `v` fixed, to obtain the five differential pairs. No scalar five-term identity is used.
+*Proof sketch.* Apply the existing admissibility lemma to rule out zero and one at all five arguments. Factor `1−v/x=(x−v)/x, 1−v(x−1)/(x(v−1))=(x−v)/(x(1−v))`, and `1−(1−x)/(1−v)=(x−v)/(1−v)`. Use the existing logarithm-branch homomorphism, including `log(−1)=0`, to obtain the five logarithm pairs. Differentiate the nonvanishing factors, keeping `v` fixed, to obtain the five differential pairs. No scalar five-term identity is used.
 
 *Needs:* L2.32, L0.15, L0.19, `HasDerivAt`.
 
 ### L2.46 Vanishing differential of the scalar five-term defect
 
-**Lemma.** For branch a and every admissible pair `x,v` in `ℂ_p`, `HasDerivAt` `(x↦R_a(x,v)) 0` holds at `x`, where `R_a` is the existing scalar `fiveTermDefect`. This is a differential statement on the admissible open locus; global vanishing is not asserted. (F v2, §2.1, pp. 7–9, Assumption2.1 and Proposition2.5.)
+**Lemma.** For branch a and every admissible pair `x,v` in `ℂ_p`, `HasDerivAt` `(x↦R_a(x,v)) 0` holds at `x`, where `R_a` is the existing scalar `fiveTermDefect`. This is a differential statement on the admissible open locus; global vanishing is not asserted. (F v2, §2.1, pp. 7–9, Assumption 2.1 and Proposition 2.5.)
 
-*Proof sketch.* For each argument use `dD_a(f)=`one-`half(log_a(f)dlog_a(1−f)−log_a(1−f)dlog_a(f))` from L2.18 and the chain rule. Insert the logarithm and differential pairs from L2.45 with signs`+,-,+,-,+`. Twice the result is `X β−U α+(V−X)(γ−α)+(H−X)α−(V+U−X−W)(γ−α)+(H−X−W)(β−α)+(U−W)γ−(H−W)β`. Collect the coefficients of `α,β,γ`; each is identically zero by commutative ring algebra. This works for `p=2` because the coefficient field has characteristic zero, so2 is invertible. Keep the subsequent Coleman membership, global constancy and boundary normalization separate. A function with derivative zero on a totally disconnected locus need not be globally constant.
+*Proof sketch.* For each argument use `dD_a(f)=½(log_a(f)dlog_a(1−f)−log_a(1−f)dlog_a(f))` from L2.18 and the chain rule. Insert the logarithm and differential pairs from L2.45 with signs `+,-,+,-,+`. Twice the result is `X β−U α+(V−X)(γ−α)+(H−X)α−(V+U−X−W)(γ−α)+(H−X−W)(β−α)+(U−W)γ−(H−W)β`. Collect the coefficients of `α,β,γ`; each is identically zero by commutative ring algebra. This works for `p=2` because the coefficient field has characteristic zero, so 2 is invertible. Keep the subsequent Coleman membership, global constancy and boundary normalization separate. A function with derivative zero on a totally disconnected locus need not be globally constant.
 
 *Needs:* L2.31, L2.45, L2.18, `HasDerivAt`.
 
 ### L2.47 Local analyticity of the actual polylogarithm
 
-**Lemma.** For natural `k` and `z≠1`, the function `Li_k^a` is analytic at `z` over `ℂ_p`. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Lemma.** For natural `k` and `z≠1`, the function `Li_k^a` is analytic at `z` over `ℂ_p`. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
@@ -2017,7 +2018,7 @@ Standing hypotheses of this target: (C8), (C9).
 
 ### L2.48 Weight one and the fixed logarithm branch
 
-**Lemma.** For `z≠1`, the actual weight-one polylogarithm satisfies `Li_1^a(z)=−L(1−z)`. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Lemma.** For `z≠1`, the actual weight-one polylogarithm satisfies `Li_1^a(z)=−L(1−z)`. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
@@ -2027,7 +2028,7 @@ Standing hypotheses of this target: (C8), (C9).
 
 ### L2.49 Continuity of the Coleman dilogarithm
 
-**Lemma.** For `z≠0,1`, the existing Coleman dilogarithm `D^a` is continuous at `z` as an `ℂ_p`-valued function. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Lemma.** For `z≠0,1`, the existing Coleman dilogarithm `D^a` is continuous at `z` as an `ℂ_p`-valued function. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
@@ -2041,7 +2042,7 @@ Standing hypotheses of this target: (C8), (C9).
 
 ### L2.50 Continuity of the five-term expression
 
-**Lemma.** The actual scalar function `(x,y)↦R_a(x,y)` is continuous on the admissible open set `A⊂ℂ_p²`. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Lemma.** The actual scalar function `(x,y)↦R_a(x,y)` is continuous on the admissible open set `A⊂ℂ_p²`. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
@@ -2055,7 +2056,7 @@ Standing hypotheses of this target: (C8), (C9).
 
 ### L2.51 The special-unit admissible locus is open
 
-**Lemma.** The set `S={(x,y)∈A: |y|=|1−y|=1}` is open in `ℂ_p²`. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Lemma.** The set `S={(x,y)∈A: |y|=|1−y|=1}` is open in `ℂ_p²`. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
@@ -2071,27 +2072,27 @@ Standing hypotheses of this target: (C8), (C9).
 
 ### L2.52 Algebraic pairs are dense in the special-unit locus
 
-**Lemma.** Let `e`:`PadicAlgCl``(p)²→ℂ_p²` be the pair of canonical completion embeddings. Then `S⊆closure(S∩range(e))`. Thus admissible algebraic pairs with special-unit second coordinate approximate every pair in `S` while retaining those conditions. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Lemma.** Let `e`:`PadicAlgCl``(p)²→ℂ_p²` be the pair of canonical completion embeddings. Then `S⊆closure(S∩range(e))`. Thus admissible algebraic pairs with special-unit second coordinate approximate every pair in `S` while retaining those conditions. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
-*Proof sketch.* At the pin, `ℂ_p` is the completion of the existing algebraic closure `PadicAlgCl``(p)`. `UniformSpace.Completion`.`denseRange_coe₂` supplies density of the pair embedding into the product. Apply `Dense.open_subset_closure_inter` to that dense range and the open set `S` from L2.51. The approximating algebraic coordinates may generate different finite extensions as the approximation improves. No one fixed finite extension is asserted dense in `ℂ_p`; in particular `ℚ_p`-rational pairs are not substituted for algebraic-closure pairs.
+*Proof sketch.* At the pin, `ℂ_p` is the completion of the existing algebraic closure `PadicAlgCl p`. `UniformSpace.Completion.denseRange_coe₂` supplies density of the pair embedding into the product. Apply `Dense.open_subset_closure_inter` to that dense range and the open set `S` from L2.51. The approximating algebraic coordinates may generate different finite extensions as the approximation improves. No one fixed finite extension is asserted dense in `ℂ_p`; in particular `ℚ_p`-rational pairs are not substituted for algebraic-closure pairs.
 
-*Needs:* L2.51, `PadicComplex`, `UniformSpace.Completion`.`denseRange_coe₂`, `Dense.open_subset_closure_inter`.
+*Needs:* L2.51, `PadicComplex`, `UniformSpace.Completion.denseRange_coe₂`, `Dense.open_subset_closure_inter`.
 
 ### L2.53 Reduction to algebraic special-unit inputs
 
-**Theorem.** Fix a branch. Assume `R_a(e(u),e(v))=0` for `u,v` in the existing `PadicAlgCl``(p)` whose image pair is in `S`. Then `R_a(x,y)=0` for admissible `x,y∈ℂ_p`. This is a conditional density-and-norm reduction. Its hypothesis is supplied by five-term-algebraic-special-unit-constancy and the geometric boundary normalization. (F §2.2, Definition2.9 and Proposition2.11, v2, pp. 9–10.)
+**Theorem.** Fix a branch. Assume `R_a(e(u),e(v))=0` for `u,v` in the existing `PadicAlgCl p` whose image pair is in `S`. Then `R_a(x,y)=0` for admissible `x,y∈ℂ_p`. This is a conditional density-and-norm reduction. Its hypothesis is supplied by five-term-algebraic-special-unit-constancy and the geometric boundary normalization. (F §2.2, Definition 2.9 and Proposition 2.11, v2, pp. 9–10.)
 
 Standing hypotheses of this target: (C8), (C9).
 
-*Proof sketch.* Restrict L2.50 to `S`. The hypothesis gives equality with the constant-zero function on `S∩range(e)`. Use `Set.EqOn.of_subset_closure` with L2.52 to extend equality to every point of `S`. This is extension of a continuous identity, not a conclusion from a vanishing local derivative. Apply L2.44 theorem to obtain vanishing at every admissible pair. The existing signed covariance and norm reduction supply this last step. The reduction itself is conditional. Its algebraic hypothesis is supplied by L2.68 and L2.60 in the final scalar proof. Any two input elements of `PadicAlgCl``(p)` lie in a common finite extension, but that field can vary. Branch parameters remain arbitrary in `ℂ_p`.
+*Proof sketch.* Restrict L2.50 to `S`. The hypothesis gives equality with the constant-zero function on `S∩range(e)`. Use `Set.EqOn.of_subset_closure` with L2.52 to extend equality to every point of `S`. This is extension of a continuous identity, not a conclusion from a vanishing local derivative. Apply L2.44 theorem to obtain vanishing at every admissible pair. The existing signed covariance and norm reduction supply this last step. The reduction itself is conditional. Its algebraic hypothesis is supplied by L2.68 and L2.60 in the final scalar proof. Any two input elements of `PadicAlgCl p` lie in a common finite extension, but that field can vary. Branch parameters remain arbitrary in `ℂ_p`.
 
 *Needs:* L2.50, L2.52, L2.44, `Set.EqOn.of_subset_closure`.
 
 ### L2.54 The normalized polylogarithm at zero
 
-**Lemma.** For natural `k, Li_k^a(0)=0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For natural `k, Li_k^a(0)=0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3).
 
@@ -2101,7 +2102,7 @@ Standing hypotheses of this target: (C2), (C3).
 
 ### L2.55 Dilogarithm limit under a bounded-log hypothesis
 
-**Lemma.** Let `u_n→0` in `ℂ_p`, with `u_n≠0` eventually, and suppose there is a real `M` with `|L(u_n)|≤M` eventually. Then `D^a(u_n)→0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** Let `u_n→0` in `ℂ_p`, with `u_n≠0` eventually, and suppose there is a real `M` with `|L(u_n)|≤M` eventually. Then `D^a(u_n)→0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `u` is a sequence; convergence, eventual nonvanishing and the eventual real norm bound on `L(u_n)` are explicit hypotheses.
 
@@ -2111,7 +2112,7 @@ Standing hypotheses of this target: (C2), (C3); `u` is a sequence; convergence, 
 
 ### L2.56 Dilogarithm along a scaled geometric sequence
 
-**Lemma.** For `c≠0` in `ℂ_p, D^a(c q_n)→0` as `n→∞`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `c≠0` in `ℂ_p, D^a(c q_n)→0` as `n→∞`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero; `c` and a need not be algebraic.
 
@@ -2121,7 +2122,7 @@ Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero; `c` and 
 
 ### L2.57 Dilogarithm along a geometric quotient
 
-**Lemma.** For `c≠0` in `ℂ_p, D^a(c q_n/(1+q_n))→0` as `n→∞`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `c≠0` in `ℂ_p, D^a(c q_n/(1+q_n))→0` as `n→∞`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero; no finite-extension hypothesis.
 
@@ -2135,7 +2136,7 @@ Standing hypotheses of this target: (C2), (C3); `c∈ℂ_p` is nonzero; no finit
 
 ### L2.58 Admissibility near the boundary point one
 
-**Lemma.** For `v≠0,1`, the pairs `(1+q_n,v)` are admissible for all sufficiently large `n`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `v≠0,1`, the pairs `(1+q_n,v)` are admissible for all sufficiently large `n`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `v∈ℂ_p` differs from 0 and 1.
 
@@ -2149,7 +2150,7 @@ Standing hypotheses of this target: (C2), (C3); `v∈ℂ_p` differs from 0 and 1
 
 ### L2.59 The five-term expression on the boundary sequence
 
-**Lemma.** For `v≠0,1` and every `n, R_a(1+q_n,v)=−D^a(−q_n)−D^a(v)+D^a(v/(1+q_n))−D^a((v/(v−1))q_n/(1+q_n))+D^a(q_n/(v−1))`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `v≠0,1` and every `n, R_a(1+q_n,v)=−D^a(−q_n)−D^a(v)+D^a(v/(1+q_n))−D^a((v/(v−1))q_n/(1+q_n))+D^a(q_n/(v−1))`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `v∈ℂ_p` differs from 0 and 1.
 
@@ -2163,7 +2164,7 @@ Standing hypotheses of this target: (C2), (C3); `v∈ℂ_p` differs from 0 and 1
 
 ### L2.60 Vanishing limit of the five-term expression
 
-**Theorem.** For `v∈ℂ_p` with `v≠0,1, R_a(1+q_n,v)→0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Theorem.** For `v∈ℂ_p` with `v≠0,1, R_a(1+q_n,v)→0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `v∈ℂ_p` differs from 0 and 1; both `v` and a can be transcendental.
 
@@ -2177,7 +2178,7 @@ Standing hypotheses of this target: (C2), (C3); `v∈ℂ_p` differs from 0 and 1
 
 ### L2.61 Determination of a constant by the boundary limit
 
-**Lemma.** For `v≠0,1` and `C∈ℂ_p`, if `R_a(1+q_n,v)=C` for all sufficiently large `n`, then `C=0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Lemma.** For `v≠0,1` and `C∈ℂ_p`, if `R_a(1+q_n,v)=C` for all sufficiently large `n`, then `C=0`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); `v≠0,1` and an actual eventual equality `R_a(1+q_n,v)=C` are supplied.
 
@@ -2187,7 +2188,7 @@ Standing hypotheses of this target: (C2), (C3); `v≠0,1` and an actual eventual
 
 ### L2.62 Reduction to algebraic constancy on a punctured line
 
-**Theorem.** Fix a branch and let `e`:`PadicAlgCl``(p)→ℂ_p` be the canonical completion embedding. Suppose that for `v` in `PadicAlgCl``(p)` with `|e(v)|=|1−e(v)|=1` there exists `C_v` such that `R_a(e(u),e(v))=C_v` for `u` in `PadicAlgCl``(p)` with `e(u)≠0,1,e(v)`. Then `R_a(x,y)=0` for admissible `x,y∈ℂ_p`. (F arXiv math/0304085v2, §2.1, p. 7; Definition2.9 and Remark2.10, pp. 9–10; Proposition2.11 and Notation2.12, p. 10; Lemma2.14, p. 11.)
+**Theorem.** Fix a branch and let `e`:`PadicAlgCl``(p)→ℂ_p` be the canonical completion embedding. Suppose that for `v` in `PadicAlgCl p` with `|e(v)|=|1−e(v)|=1` there exists `C_v` such that `R_a(e(u),e(v))=C_v` for `u` in `PadicAlgCl p` with `e(u)≠0,1,e(v)`. Then `R_a(x,y)=0` for admissible `x,y∈ℂ_p`. (F arXiv math/0304085v2, §2.1, p. 7; Definition 2.9 and Remark 2.10, pp. 9–10; Proposition 2.11 and Notation 2.12, p. 10; Lemma 2.14, p. 11.)
 
 Standing hypotheses of this target: (C2), (C3); The stated constancy on all admissible algebraic first coordinates is an explicit hypothesis; constancy only on the special-unit tube is insufficient.
 
@@ -2197,7 +2198,7 @@ Standing hypotheses of this target: (C2), (C3); The stated constancy on all admi
 
 ### L2.63 A logarithmic Laurent end determines its punctured disc
 
-**Lemma.** Let `L` be the actual logarithm branch. Suppose `f` and `g` each have a finite polynomial expansion in `L(z−c)`, with Laurent coefficients in the punctured-disc carrier `O_{ℂ_p}(A(c; 0, 1))` of L0.A1, as in `IsLogLaurentNear` (L0.20). If for some `0≤r<1` one has `f(z)=g(z)` whenever `r<|z−c|<1`, then `f(z)=g(z)` for `0<|z−c|<1`. A germ equality means such equality on an outer annulus; it is not merely agreement on a finite collection of points. (F arXiv math/0304085v2, §2.1, p. 7 (Laurent germ ring and logarithm transcendence); Proposition2.11 and proof of Theorem2.13, p. 10 (whole-disc logarithmic coefficients).)
+**Lemma.** Let `L` be the actual logarithm branch. Suppose `f` and `g` each have a finite polynomial expansion in `L(z−c)`, with Laurent coefficients in the punctured-disc carrier `O_{ℂ_p}(A(c; 0, 1))` of L0.A1, as in `IsLogLaurentNear` (L0.20). If for some `0≤r<1` one has `f(z)=g(z)` whenever `r<|z−c|<1`, then `f(z)=g(z)` for `0<|z−c|<1`. A germ equality means such equality on an outer annulus; it is not merely agreement on a finite collection of points. (F arXiv math/0304085v2, §2.1, p. 7 (Laurent germ ring and logarithm transcendence); Proposition 2.11 and proof of Theorem 2.13, p. 10 (whole-disc logarithmic coefficients).)
 
 Standing hypotheses of this target: `p` is any prime; `a,c∈ℂ_p`; `L=log_a`; `0≤r<1`. Both functions have the existing whole-punctured-disc logarithmic Laurent expansions, with a finite logarithmic degree and all-radius convergence.
 
@@ -2207,41 +2208,41 @@ Standing hypotheses of this target: `p` is any prime; `a,c∈ℂ_p`; `L=log_a`; 
 
 **Checks.**
 
-- The indicator of `|z|<|p|` has no IsLogLaurentNear expansion at0, although it is locally constant and vanishes on its outer end.
+- The indicator of `|z|<|p|` has no IsLogLaurentNear expansion at 0, although it is locally constant and vanishes on its outer end.
 
 ### L2.64 A logarithmic Laurent end determines the disc at `∞`
 
-**Lemma.** Let `f,g` satisfy `IsLogLaurentAtInfty` (L0.20) for the same branch. If for some `0≤r<1` they agree whenever `r<|1/z|<1`, then they agree for `|z|>1`. This compares the functions on the entire punctured residue disc of`∞`. (F arXiv math/0304085v2, Proposition2.11, p. 10, the parameter1/t at∞.)
+**Lemma.** Let `f,g` satisfy `IsLogLaurentAtInfty` (L0.20) for the same branch. If for some `0≤r<1` they agree whenever `r<|1/z|<1`, then they agree for `|z|>1`. This compares the functions on the entire punctured residue disc of `∞`. (F arXiv math/0304085v2, Proposition 2.11, p. 10, the parameter `1/t` at `∞`.)
 
-Standing hypotheses of this target: `p` is any prime; `a∈ℂ_p`; `L=log_a`; `0≤r<1`; both expansions converge at every parameter radius0`<ρ<1`.
+Standing hypotheses of this target: `p` is any prime; `a∈ℂ_p`; `L=log_a`; `0≤r<1`; both expansions converge at every parameter radius `0<ρ<1`.
 
-*Proof sketch.* Pull both functions back along `z=t^−1`. The definitions become IsLogLaurentNear at0, with the identical Laurent coefficient sequences and logarithm `L(t)`. Apply L2.63 at0 and then set `t=z^−1`; for `|z|>1, 0<|t|<1`.
+*Proof sketch.* Pull both functions back along `z=t^−1`. The definitions become IsLogLaurentNear at 0, with the identical Laurent coefficient sequences and logarithm `L(t)`. Apply L2.63 at 0 and then set `t=z^−1`; for `|z|>1, 0<|t|<1`.
 
 *Needs:* L2.63, L2.16, `norm_inv`.
 
 ### L2.65 Whole-disc expansions of the scalar defect
 
-**Lemma.** For any special unit `v∈ℂ_p` and branch `L`, the function `z↦R_a(z,v)` has an IsLogLaurentNear expansion at each of0,`1,v` and an IsLogLaurentAtInfty expansion at`∞`. The logarithmic degree is finite; each Laurent coefficient converges on the whole punctured parameter disc. These statements concern the actual `dilogD` and `fiveTermDefect` defined here, not an abstract replacement. (F arXiv math/0304085v2, §2.1, pp. 7–9 and Proposition2.11, p. 10.)
+**Lemma.** For any special unit `v∈ℂ_p` and branch `L`, the function `z↦R_a(z,v)` has an IsLogLaurentNear expansion at each of `0, 1, v` and an IsLogLaurentAtInfty expansion at `∞`. The logarithmic degree is finite; each Laurent coefficient converges on the whole punctured parameter disc. These statements concern the actual `dilogD` and `fiveTermDefect` defined here, not an abstract replacement. (F arXiv math/0304085v2, §2.1, pp. 7–9 and Proposition 2.11, p. 10.)
 
 Standing hypotheses of this target: `p` is any prime; `a∈ℂ_p`; `L=log_a`; `|v|=|1−v|=1`. No algebraicity restriction is needed for these local expansions.
 
-*Proof sketch.* `Li_2` has the supplied whole-disc expansions at0,`1,∞` and one analytic series on each ordinary residue disc. The existing logarithm branch has analytic expansions away from0 and a single logarithm at0 or`∞`. Thus `D=Li_2+`½`L(w)L(1−w)` has a finite logarithmic polynomial expansion on each target punctured disc and is analytic on every ordinary target disc. For an ordinary target image use the exact local-chart table and L1.41 on its one analytic series. The pullback is one analytic series on the entire source disc. For a target end, its parameter is `u t/(1+b t)` with `|u|=1` and `|b|≤1`. Replace its logarithm by `L(t)+L(u)−log(1+b t)`. Its analytic coefficients compose by L1.41. Any finite negative powers come from the rational log factors; after factoring `t^−j` their remaining coefficients are analytic on the whole disc. Here the supplied `Li_2` coefficients themselves are analytic on the whole disc. The constant term `D(v)` and all four pulled-back functions lie in this one source logarithmic Laurent class on each source disc. Take their signed sum. Disjoint reduction ensures that no other source puncture lies inside the disc.
+*Proof sketch.* `Li_2` has the supplied whole-disc expansions at `0, 1, ∞` and one analytic series on each ordinary residue disc. The existing logarithm branch has analytic expansions away from 0 and a single logarithm at 0 or `∞`. Thus `D=Li_2+½L(w)L(1−w)` has a finite logarithmic polynomial expansion on each target punctured disc and is analytic on every ordinary target disc. For an ordinary target image use the exact local-chart table and L1.41 on its one analytic series. The pullback is one analytic series on the entire source disc. For a target end, its parameter is `u t/(1+b t)` with `|u|=1` and `|b|≤1`. Replace its logarithm by `L(t)+L(u)−log(1+b t)`. Its analytic coefficients compose by L1.41. Any finite negative powers come from the rational log factors; after factoring `t^−j` their remaining coefficients are analytic on the whole disc. Here the supplied `Li_2` coefficients themselves are analytic on the whole disc. The constant term `D(v)` and all four pulled-back functions lie in this one source logarithmic Laurent class on each source disc. Take their signed sum. Disjoint reduction ensures that no other source puncture lies inside the disc.
 
 *Needs:* L1.44, L1.41, L2.4, L2.5, L2.18, L2.31, L0.19, L0.15, L0.10.
 
 ### L2.66 Coleman membership of the scalar defect
 
-**Lemma.** Let `v` lie in a finite extension `K/ℚ_p` and satisfy `|v|=|1−v|=1`. In the existing Coleman algebra for the four-punctured pair `Y_v`, the element `H_v=f_0^*D−D(v)+f_1^*D−f_2^*D+f_3^*D` has, on every ordinary source disc, the actual values `R_a(z,v)`, and at every source end the germ of the function `R_a(·,v)`. It is a Coleman function of depth at most2. The equality at regular-image additional ends uses the ordinary-series restriction of L1.42. (F arXiv math/0304085v2, Proposition2.5, pp. 8–9 and Definition2.9, pp. 9–10.)
+**Lemma.** Let `v` lie in a finite extension `K/ℚ_p` and satisfy `|v|=|1−v|=1`. In the existing Coleman algebra for the four-punctured pair `Y_v`, the element `H_v=f_0^*D−D(v)+f_1^*D−f_2^*D+f_3^*D` has, on every ordinary source disc, the actual values `R_a(z,v)`, and at every source end the germ of the function `R_a(·,v)`. It is a Coleman function of depth at most 2. The equality at regular-image additional ends uses the ordinary-series restriction of L1.42. (F arXiv math/0304085v2, Proposition 2.5, pp. 8–9 and Definition 2.9, pp. 9–10.)
 
 Standing hypotheses of this target: `K` is finite over `ℚ_p`; `v∈K` is a special unit; `a∈ℂ_p` is arbitrary. Use the four-puncture datum of L1.39 and the functions of L2.5 and L0.15.
 
-*Proof sketch.* On the target three-punctured line, `Li_2` and both logarithms are Coleman; their product and linear combination `D` are Coleman by the existing subalgebra structure. Instantiate L1.43 for each of the four integral maps of L1.40, using L1.42 for its extra source end. The free coordinate `dz` and the supplied four-puncture Frobenius datum discharge the genus-zero hypotheses. Take the indicated linear combination in the source Coleman subalgebra; the scalar `D(v)` is its constant element. Products of depth-one logarithms and `Li_2` have depth at most2. The `LocAn` pullback is literal composition on ordinary discs and literal restriction of the same analytic or logarithmic series at source ends. Therefore its componentwise realization is the actual defect, including the extra-end germs. This comparison is part of membership, not an independent arbitrary normalization assumption.
+*Proof sketch.* On the target three-punctured line, `Li_2` and both logarithms are Coleman; their product and linear combination `D` are Coleman by the existing subalgebra structure. Instantiate L1.43 for each of the four integral maps of L1.40, using L1.42 for its extra source end. The free coordinate `dz` and the supplied four-puncture Frobenius datum discharge the genus-zero hypotheses. Take the indicated linear combination in the source Coleman subalgebra; the scalar `D(v)` is its constant element. Products of depth-one logarithms and `Li_2` have depth at most 2. The `LocAn` pullback is literal composition on ordinary discs and literal restriction of the same analytic or logarithmic series at source ends. Therefore its componentwise realization is the actual defect, including the extra-end germs. This comparison is part of membership, not an independent arbitrary normalization assumption.
 
 *Needs:* L1.42, L1.43, L1.17, L1.39, L1.40, L2.3, L2.18, L2.31, L2.65.
 
 ### L2.67 One Coleman constant for the scalar defect
 
-**Lemma.** For the Coleman element `H_v` of five-term-defect-coleman there exists one `C_v∈ℂ_p` with `H_v=C_v` in `A_Col^a(Y_v)`, hence in every component of `A_loc`. Thus the actual scalar defect is `C_v` on every ordinary residue disc and its germ at each of0,`1,v,∞` is the constant `C_v`. The same constant is used in all components. (F arXiv math/0304085v2, Proposition2.4, p. 8; corroborated by Besser arXiv math/0011269v1, Corollary4.14, p. 14.)
+**Lemma.** For the Coleman element `H_v` of five-term-defect-coleman there exists one `C_v∈ℂ_p` with `H_v=C_v` in `A_Col^a(Y_v)`, hence in every component of `A_loc`. Thus the actual scalar defect is `C_v` on every ordinary residue disc and its germ at each of `0, 1, v, ∞` is the constant `C_v`. The same constant is used in all components. (F arXiv math/0304085v2, Proposition 2.4, p. 8; corroborated by Besser arXiv math/0011269v1, Corollary 4.14, p. 14.)
 
 Standing hypotheses of this target: `K/ℚ_p` finite; `v∈K` special unit; arbitrary branch `a∈ℂ_p`. `H_v` is the actual pullback realization supplied by five-term-defect-coleman.
 
@@ -2251,33 +2252,33 @@ Standing hypotheses of this target: `K/ℚ_p` finite; `v∈K` special unit; arbi
 
 ### L2.68 Constancy of the actual defect for an algebraic special unit
 
-**Theorem.** Let `v` be in `PadicAlgCl``(p)`, embedded into `ℂ_p`, and `|v|=|1−v|=1`. For branch there exists `C_v∈ℂ_p` such that `R_a(x,v)=C_v` for `x∈ℂ_p` minus `{0,1,v}`. This includes all points in the four punctured residue discs, not only the special-unit tube. (F arXiv math/0304085v2, §2.1, pp. 7–9 and Proposition2.11, p. 10.)
+**Theorem.** Let `v` be in `PadicAlgCl p`, embedded into `ℂ_p`, and `|v|=|1−v|=1`. For branch there exists `C_v∈ℂ_p` such that `R_a(x,v)=C_v` for `x∈ℂ_p` minus `{0,1,v}`. This includes all points in the four punctured residue discs, not only the special-unit tube. (F arXiv math/0304085v2, §2.1, pp. 7–9 and Proposition 2.11, p. 10.)
 
-Standing hypotheses of this target: `p` is any prime, including2; `v` is algebraic over `ℚ_p`; `a∈ℂ_p` is arbitrary. The actual `dilogD` and `fiveTermDefect` are used throughout.
+Standing hypotheses of this target: `p` is any prime, including 2; `v` is algebraic over `ℚ_p`; `a∈ℂ_p` is arbitrary. The actual `dilogD` and `fiveTermDefect` are used throughout.
 
-*Proof sketch.* Place `v` in a finite `extensionK ofQ_p` and instantiate L2.67 there, extending coefficients `toC_p`. The equality on ordinary residue discs and at all four end germs uses `oneC_v`. At0,`1,v` compare the actual defect with the constant function using L2.65 and L2.63. The germ equality gives an outer annulus on which the expansions agree, and hence equality on the entire punctured disc. At`∞` use L2.64. Every admissible point `ofP¹(ℂ_p)` lies either in an ordinary residue disc or in one of these four punctured discs, since the removed sections have distinct reduction. This supplies the exact hypothesis of L2.62. It does not require the first coordinate to be algebraic or to lie `inK`.
+*Proof sketch.* Place `v` in a finite extension `K` of `ℚ_p` and instantiate L2.67 there, extending coefficients to `ℂ_p`. The equality on ordinary residue discs and at all four end germs uses one `C_v`. At `0, 1, v` compare the actual defect with the constant function using L2.65 and L2.63. The germ equality gives an outer annulus on which the expansions agree, and hence equality on the entire punctured disc. At `∞` use L2.64. Every admissible point of `P¹(ℂ_p)` lies either in an ordinary residue disc or in one of these four punctured discs, since the removed sections have distinct reduction. This supplies the exact hypothesis of L2.62. It does not require the first coordinate to be algebraic or to lie in `K`.
 
 *Needs:* L2.67, L2.65, L2.63, L2.64, L1.34, L2.26.
 
 ### L2.69 The scalar five-term dilogarithm identity
 
-**Theorem.** For primep, every brancha`∈ℂ_p` and every `x,y∈ℂ_p` with `x,y≠0,1` and `x≠y`, the actual `fiveTermDefect R_a(x,y)` is zero. This is the scalar part of L2.70. L2.Fb supplies pre-Bloch evaluation and Bloch branch descent; the projective reformulation is separate. (DJ `arXiv2007`.11014v1, Proposition2.10, p. 6 and its normalization on, p. 14.)
+**Theorem.** For every prime `p`, every branch `a ∈ ℂ_p` and every `x,y∈ℂ_p` with `x,y≠0,1` and `x≠y`, the actual `fiveTermDefect R_a(x,y)` is zero. This is the scalar part of L2.70. L2.Fb supplies pre-Bloch evaluation and Bloch branch descent; the projective reformulation is separate. (DJ arXiv:2007.11014v1, Proposition 2.10, p. 6, and its normalization on p. 14.)
 
-Standing hypotheses of this target: `p` is any prime, including2; `a∈ℂ_p`; `x,y≠0,1`; `x≠y`.
+Standing hypotheses of this target: `p` is any prime, including 2; `a∈ℂ_p`; `x,y≠0,1`; `x≠y`.
 
-*Proof sketch.* For each algebraic special unitv use L2.68 to obtain one constant for all admissible first coordinates. In particular restrict it to algebraic first coordinates. Apply L2.62: its geometric boundary limit forces the constant to0; the open-locus algebraic density and continuity extend this to `everyC_p` special-unit pair; the signed scalar norm reduction gives every admissible pair. This dependency chain uses no field-general projective five-point identity; the projective and Bloch forms are L2.Fb and L2.70.
+*Proof sketch.* For each algebraic special unit `v` use L2.68 to obtain one constant for all admissible first coordinates. In particular restrict it to algebraic first coordinates. Apply L2.62: its geometric boundary limit forces the constant to 0; the open-locus algebraic density and continuity extend this to every `ℂ_p` special-unit pair; the signed scalar norm reduction gives every admissible pair. This dependency chain uses no field-general projective five-point identity; the projective and Bloch forms are L2.Fb and L2.70.
 
 
 *Needs:* L2.68, L2.62.
 
 **Checks.**
 
-- For any branch `onC_3` the scalar `defectR_a(4,2)` is0.
-- For a special `unitζ∈C_2 withζ²+ζ+1=0`, the scalar `defectR_a(2,ζ)` is0 for branch.
+- For any branch on `ℂ_3` the scalar defect `R_a(4,2)` is 0.
+- For a special unit `ζ∈ℂ_2` with `ζ²+ζ+1=0`, the scalar defect `R_a(2,ζ)` is 0 for every branch.
 
 ### L2.70 The five-term relation for the p-adic dilogarithm
 
-**Theorem.** For `x,y∈ℂ_p∖{0,1}, x≠y`, the scalar relation is `D^a(x)−D^a(y)+D^a(y/x)−D^a((1−x⁻¹)/(1−y⁻¹))+D^a((1−x)/(1−y))=0`. The further projective target is `Σ_(i mod 5)D^a([s_i,s_(i+1),s_(i+2),s_(i+3)])=0` for five distinct `P¹` points, with `[a,b,c,d]=(a−b)(c−d)/((a−d)(c−b))` and all `∞` cases. Over every `K⊆ℂ_p` this must induce pre-Bloch group`→ℂ_p`, branch independent on the Bloch kernel. L2.69 supplies the scalar identity and L2.Fb the Bloch boundary and branch descent. Normalize the first three points to `∞,0,1` using L2.Fb. Its cyclic-ratio calculation identifies the sum with the negative scalar defect, so L2.69 proves it; field transport and pre-Bloch evaluation use L2.Fb. (GSWZ §3.1, after (174), p. 38; W Prop. 4.4 and proof (case n = 1), pp. 364-365; W Lem. 4.3, p. 362; DJ arXiv:2007.11014v1, p. 6 Prop. 2.10;, p. 14 paragraph before its proof.)
+**Theorem.** For `x,y∈ℂ_p∖{0,1}, x≠y`, the scalar relation is `D^a(x)−D^a(y)+D^a(y/x)−D^a((1−x⁻¹)/(1−y⁻¹))+D^a((1−x)/(1−y))=0`. The further projective target is `Σ_(i mod 5)D^a([s_i,s_(i+1),s_(i+2),s_(i+3)])=0` for five distinct `P¹` points, with `[a,b,c,d]=(a−b)(c−d)/((a−d)(c−b))` and all `∞` cases. Over every `K⊆ℂ_p` this must induce pre-Bloch group `→ ℂ_p`, branch independent on the Bloch kernel. L2.69 supplies the scalar identity and L2.Fb the Bloch boundary and branch descent. Normalize the first three points to `∞,0,1` using L2.Fb. Its cyclic-ratio calculation identifies the sum with the negative scalar defect, so L2.69 proves it; field transport and pre-Bloch evaluation use L2.Fb. (GSWZ §3.1, after (174), p. 38; W Prop. 4.4 and proof (case n = 1), pp. 364-365; W Lem. 4.3, p. 362; DJ arXiv:2007.11014v1, p. 6 Prop. 2.10; p. 14 paragraph before its proof.)
 
 Standing hypotheses of this target: `a ∈ ℂ_p`; `x, y ∉ {0, 1}, x ≠ y`; `p` prime.
 
@@ -2519,7 +2520,7 @@ The general complex `RΓ̃_ms(X,n)` is the filtered direct limit over finite-fie
 
 - `n = 1, Y = X_1`: the complex is `O(U) → Ω¹(U) ⊕ K_0 ⊕ K_∞` (BDJ Remark 5.3, p. 895), `H¹` is one-dimensional, and `Π` sends the class of (`ω`, id) to `∫_0^∞ ω`; for `ω = dt/(t − 1)² = d(−1/(t − 1))` the value is `0 − 1 = −1` (the `primitive −1/(t − 1)` is 1 at `t = 0` and 0 at `t = ∞`).
 - Non-example: for `n = 1` and `Y = ℙ¹ ∖ {1, ∞}`, restriction from the trivial Frobenius line `H¹_rig(X_1; {0, ∞})` to `H¹_rig(Y; {0}) ≅ H¹_rig(𝔾_m)` is zero: the target has Frobenius `q`. Removing the boundary divisor `∞` is outside the weight-sequence hypotheses.
-- The two embeddings `t_n = 0` and `t_n = ∞` give relativity isomorphisms differing by `−1` (BDJ p. 897), so `Π` ∘ (5.6) is `−`id for a single switch: a check that fixes the sign convention used in L3.15.
+- The two embeddings `t_n = 0` and `t_n = ∞` give relativity isomorphisms differing by `−1` (BDJ p. 897), so `Π ∘ (5.6)` is `−id` for a single switch: a check that fixes the sign convention used in L3.15.
 - For `n = 2` the sign `χ(f, g)` for `f = id_[1,2]` and `g` : `[1] → [2], 1 ↦ 2`, is `(−1)^(f(1)+1) = 1` (removing `f(1) = 1` at `r = 1`), and for `g` : `1 ↦ 1` it is `(−1)^(2+2) = 1`; without the factor `(−1)^(deg ω)` the differential fails `d² = 0` already on functions when `n = 2`, since the two restriction terms of `dF` then add instead of cancelling.
 
 ### L3.Fb.4 Coleman integration extends the functional to localized cubes
@@ -2639,7 +2640,7 @@ and commutes up to `ε_n`; the upper right group is the generalized weight-`n` p
 - `n = 2`: the conversion gives `P_2(2) = i · L_2(2) = −P_2(1/2) = 0`. Substituting the unconditional series value `Σ'_(m≥1) 2^m/m² = 0` for the principal `Li_2(2)` in the Bernoulli expression would give the incorrect value `πi log 2`; the closed-disc adapter has no analytic contract at 2.
 - `n = 2, |z| = 1`: `P_2(z)` is `i` times the imaginary part of `Li_2(z)` (the term with `2 log|z|` vanishes), the Bloch–Wigner function on the unit circle; at `z = −1` it vanishes because `Li_2(−1) = −π²/12` is real, consistent with `K_3(ℚ)_ℚ = 0`.
 - `n = 1`: `P_1(z) = −log|1 − z|`, so `P_1(2) = 0` while `P_1(1/2) = log 2`. The inversion relation is restricted to `n ≥ 2`; the weight-one definition and its conjugation and distribution laws still apply.
-- `n = 2, z = i`: `P_2(i) = i Σ_(r≥0)(−1)^r/`(2r`+1`)² is nonzero, while `P_2(−i) = −P_2(i)`. Thus conjugation negates the value in the imaginary line `ℝ(1)`; the equality `P_2(z̄) = P_2(z)` fails. For `n = 3` the values lie in `ℝ(2) = ℝ` and conjugation preserves them.
+- `n = 2, z = i`: `P_2(i) = i Σ_(r≥0)(−1)^r/(2r+1)²` is nonzero, while `P_2(−i) = −P_2(i)`. Thus conjugation negates the value in the imaginary line `ℝ(1)`; the equality `P_2(z̄) = P_2(z)` fails. For `n = 3` the values lie in `ℝ(2) = ℝ` and conjugation preserves them.
 - `n = 3, N = 2`: `Φ_∞([−1]_3) = −2P_3(−1) = (3/2)ζ(3)`, so the complex comparison coefficient for the basis `[−1]_3` is `2/3`. Omitting the raw-symbol sign would give `−2/3`; the p-adic regulator must use the same choice.
 - `N = 2`, odd `n ≥ 3`: `P_n(−1) = (2^(1−n) − 1)ζ(n) ≠ 0`, and `L(n, 1, ℚ) = ζ(n) = 2^(n−1)(1 − 2^(n−1))⁻¹ P_n(−1)` (BBdJR proof of Proposition 4.17, p. 22).
 - The Gauss-sum identity behind the two forms of `D^(1/2)_(∞,σ)`: for `χ` primitive of conductor `N, Σ'_a χ⁻¹(a) η^a · Σ'_b χ(b) η^(−b) = N`; a normalization with `|G|` in place of `N` in the second form fails it.
@@ -2731,7 +2732,7 @@ Prove independence of the smoothing and of the representative, analytic continua
 
 #### (d) One-dimensional functions and Brauer assembly
 
-**Construction.** Let `k` be totally real, `p` a prime, `q = p` for `p` odd and `q = 4` for `p = 2, B ⊂ ℂ_p` the open ball of radius `q p^(−1/(p−1))` about 0, and `ω_p` the Teichmüller character `Gal(k̄/k) → Gal(ℚ(μ_q)/ℚ) ≅ (ℤ/q)^× → W_p`, with `W_p` the `(p − 1)-`th roots of unity for `p` odd and `W_2 = {±1}` (BBdJR (2.14), p. 7). For a one-dimensional Artin character `χ` : `Gal(k̄/k) → ℚ̄_p` targets (a)–(c) construct the unique function `L_p(s, χ, k)` on `B`, analytic for `χ ≠ 1` and with at most a simple pole at `s = 1` for `χ = 1`, such that `L_p(m, χ, k) = Eul*_p(m, χ, k) L*(m, χ, k)` for negative integers `m ≡ 1` modulo `φ(q)`, where the starred values are the complex ones transported by any isomorphism `σ` : `ℚ̄_p → ℂ` (BBdJR Theorem 2.9, p. 6, due to Deligne–Ribet, Barsky and Cassou-Noguès). For a general Artin character `χ` with totally real kernel field, choose a finite totally real Galois extension `L/k` through which it factors, for example its kernel field. Apply Brauer induction in the finite group `G = Gal(L/k)`, with coefficients in `ℚ̄_p`, in its one-dimensional form `brauer_induction_linear`: Tau Ceti's `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` writes `χ = Σ_j b_j Ind_(E_j)^G(ψ_j)` with `E_j ⊆ G` elementary, `ψ_j` an irreducible character of `E_j` and `b_j ∈ ℤ`; each `E_j` is nilpotent (`TauCeti.IsElementary.isNilpotent`), so `ψ_j = Ind_(H_j)^(E_j)(λ_j)` for a subgroup `H_j ⊆ E_j` and a one-dimensional `λ_j` (`FDRep.exists_character_eq_indClassFun_of_isNilpotent`), and transitivity of induction (`TauCeti.indClassFun_indClassFun_subgroupOf`) gives `Ind_(E_j)^G Ind_(H_j)^(E_j)(λ_j) = Ind_(H_j)^G(λ_j)`. Hence `χ = Σ_i a_i Ind_(H_i)^G(χ_i)` with `H_i ⊆ G`, each `χ_i` one-dimensional and each `a_i ∈ ℤ`. Put `k_i = L^(H_i)`; the kernel field `L^(ker χ_i)` of each inflated inducing character is also a subfield of `L`, hence totally real. At every negative interpolation integer `m ≡ 1` modulo `φ(q)`, the functional equation and the nonvanishing of the one-dimensional complex Euler product at `1 − m > 1` give a nonzero complex value; its Euler factors at `p` are nonzero as well. Thus each `L_p(s, χ_i, k_i)` is a nonzero meromorphic function on `B`. Define `L_p(s, χ, k) = ∏_i L_p(s, χ_i, k_i)^(a_i)` in the field of meromorphic functions, so negative powers have nonzero denominators. Artin induction identifies its values at the interpolation points with those of `χ`; the meromorphic identity principle gives independence of the decomposition and of the chosen finite totally real quotient (BBdJR Theorem 2.9 and (2.10)–(2.11), pp. 6–7). With coefficients, for `E` a number field and `ψ` as in L3.Fd.1 such that every `τ(ψ)ω_p^a` is totally real, the functions `L_p(s, τ(ψ)ω_p^a, k)` for `τ` : `E → ℚ̄_p` assemble on `B` to an `E ⊗ ℂ_p`-valued meromorphic function `L_p(s, ψ ⊗ ω_p^a, k)`. At `s ∈ ℤ_p` where it is defined, its value descends to `E ⊗ ℚ_p` (BBdJR §3, p. 13, and Lemma 3.15, p. 13). For a nonabelian character, existence of the value at `s = n ≥ 2` is an explicit hypothesis in every statement using that value, for every prime `p`. One-dimensional values are supplied by the analytic construction above. BBdJR Remark 2.12, p. 7, obtains unconditional odd-prime existence through the Iwasawa main conjecture; that theorem is not consumed here.
+**Construction.** Let `k` be totally real, `p` a prime, `q = p` for `p` odd and `q = 4` for `p = 2, B ⊂ ℂ_p` the open ball of radius `q p^(−1/(p−1))` about 0, and `ω_p` the Teichmüller character `Gal(k̄/k) → Gal(ℚ(μ_q)/ℚ) ≅ (ℤ/q)^× → W_p`, with `W_p` the `(p − 1)-`th roots of unity for `p` odd and `W_2 = {±1}` (BBdJR (2.14), p. 7). For a one-dimensional Artin character `χ` : `Gal(k̄/k) → ℚ̄_p` targets (a)–(c) construct the unique function `L_p(s, χ, k)` on `B`, analytic for `χ ≠ 1` and with at most a simple pole at `s = 1` for `χ = 1`, such that `L_p(m, χ, k) = Eul*_p(m, χ, k) L*(m, χ, k)` for negative integers `m ≡ 1` modulo `φ(q)`, where the starred values are the complex ones transported by any isomorphism `σ` : `ℚ̄_p → ℂ` (BBdJR Theorem 2.9, p. 6, due to Deligne–Ribet, Barsky and Cassou-Noguès). For a general Artin character `χ` with totally real kernel field, choose a finite totally real Galois extension `L/k` through which it factors, for example its kernel field. Apply Brauer induction in the finite group `G = Gal(L/k)`, with coefficients in `ℚ̄_p`, in its one-dimensional form `brauer_induction_linear`: Tau Ceti's `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` writes `χ = Σ_j b_j Ind_(E_j)^G(ψ_j)` with `E_j ⊆ G` elementary, `ψ_j` an irreducible character of `E_j` and `b_j ∈ ℤ`; each `E_j` is nilpotent (`TauCeti.IsElementary.isNilpotent`), so `ψ_j = Ind_(H_j)^(E_j)(λ_j)` for a subgroup `H_j ⊆ E_j` and a one-dimensional `λ_j` (`FDRep.exists_character_eq_indClassFun_of_isNilpotent`), and transitivity of induction (`Subgroup.indClassFun_indClassFun_subgroupOf`) gives `Ind_(E_j)^G Ind_(H_j)^(E_j)(λ_j) = Ind_(H_j)^G(λ_j)`. Hence `χ = Σ_i a_i Ind_(H_i)^G(χ_i)` with `H_i ⊆ G`, each `χ_i` one-dimensional and each `a_i ∈ ℤ`. Put `k_i = L^(H_i)`; the kernel field `L^(ker χ_i)` of each inflated inducing character is also a subfield of `L`, hence totally real. At every negative interpolation integer `m ≡ 1` modulo `φ(q)`, the functional equation and the nonvanishing of the one-dimensional complex Euler product at `1 − m > 1` give a nonzero complex value; its Euler factors at `p` are nonzero as well. Thus each `L_p(s, χ_i, k_i)` is a nonzero meromorphic function on `B`. Define `L_p(s, χ, k) = ∏_i L_p(s, χ_i, k_i)^(a_i)` in the field of meromorphic functions, so negative powers have nonzero denominators. Artin induction identifies its values at the interpolation points with those of `χ`; the meromorphic identity principle gives independence of the decomposition and of the chosen finite totally real quotient (BBdJR Theorem 2.9 and (2.10)–(2.11), pp. 6–7). With coefficients, for `E` a number field and `ψ` as in L3.Fd.1 such that every `τ(ψ)ω_p^a` is totally real, the functions `L_p(s, τ(ψ)ω_p^a, k)` for `τ` : `E → ℚ̄_p` assemble on `B` to an `E ⊗ ℂ_p`-valued meromorphic function `L_p(s, ψ ⊗ ω_p^a, k)`. At `s ∈ ℤ_p` where it is defined, its value descends to `E ⊗ ℚ_p` (BBdJR §3, p. 13, and Lemma 3.15, p. 13). For a nonabelian character, existence of the value at `s = n ≥ 2` is an explicit hypothesis in every statement using that value, for every prime `p`. One-dimensional values are supplied by the analytic construction above. BBdJR Remark 2.12, p. 7, obtains unconditional odd-prime existence through the Iwasawa main conjecture; that theorem is not consumed here.
 
 - `padicArtinL`: `L_p(s, χ, k)` on `B` for `k` totally real.
 - `padicArtinL_interpolation`: `L_p(m, χω_p^l, k) = Eul*_p(m, χ, k) L*(m, χ, k)` for `m ≤ 0, l + m ≡ 1` mod `φ(q)` (BBdJR Remark 2.13, p. 7).
@@ -2741,7 +2742,7 @@ Prove independence of the smoothing and of the representative, analytic continua
 - `padicArtinLWithCoeff`: the `E ⊗ ℂ_p`-valued meromorphic function on `B`; for `s ∈ ℤ_p` where it is defined, its value lies in `E ⊗ ℚ_p` (BBdJR §3 and Lemma 3.15, p. 13). Positive-integer specializations use this descended value.
 - `teichmullerCharacter_two`: for `p = 2, ω_2` factors through `(ℤ/4)^×` and takes the values `±1`.
 
-*Needs:* L3.Fd.2(a)–(c) (general-field one-dimensional arithmetic construction), L3.Fd.1, Tau Ceti `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (Brauer's induction theorem, with irreducible inducing characters of elementary subgroups), `TauCeti.IsElementary.isNilpotent`, `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (finite nilpotent groups are monomial) and `TauCeti.indClassFun_indClassFun_subgroupOf` (transitivity of induction), which together give `brauer_induction_linear`; TauCetiRoadmap RepresentationTheory (the induction–restriction roadmap, Layer 6: the virtual character ring and induction), DirichletPadicLFunctions Layer 3 (the comparison over `ℚ`), PadicMeasuresIwasawaAlgebras Layer 3 (generic admissible evaluation), Mathlib `DirichletCharacter`.
+*Needs:* L3.Fd.2(a)–(c) (general-field one-dimensional arithmetic construction), L3.Fd.1, Tau Ceti `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (Brauer's induction theorem, with irreducible inducing characters of elementary subgroups), `TauCeti.IsElementary.isNilpotent`, `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (finite nilpotent groups are monomial) and `Subgroup.indClassFun_indClassFun_subgroupOf` (transitivity of induction), which together give `brauer_induction_linear`; TauCetiRoadmap RepresentationTheory (the induction–restriction roadmap, Layer 6: the virtual character ring and induction), DirichletPadicLFunctions Layer 3 (the comparison over `ℚ`), PadicMeasuresIwasawaAlgebras Layer 3 (generic admissible evaluation), Mathlib `DirichletCharacter`.
 
 **Checks.**
 
@@ -2802,11 +2803,11 @@ Standing hypotheses of this target: `K` is a finite extension of `ℚ_p` (so tha
 
 ### L3.4 `μ_θ` as a Gauss-sum combination of geometric measures
 
-**Lemma.** Let `θ = χ*η` be primitive of conductor `N = D p^n` with `D > 1` and `p` not dividing `D, L` as in L3.1, `ε_N` in `L` a primitive `N`-th root of unity and `G(θ^{-1}) = sum_{c in (Z/NZ)^x} θ^{-1}(c) ε_N^c`. For `c` in (`Z/`NZ)`^x, |ε_N^c| = |ε_N^c - 1| = 1`, and `μ_θ = G(θ^{-1})^{-1} sum_c θ^{-1}(c) μ_{ε_N^c}`; equivalently `F_θ(T) = G(θ^{-1})^{-1} sum_c θ^{-1}(c) Li_0((1+T) ε_N^c)`. (RJW Lem. 5.12, p. 33;, p. 145 published; RJW proof of Lem. 6.5, p. 38.)
+**Lemma.** Let `θ = χ*η` be primitive of conductor `N = D p^n` with `D > 1` and `p` not dividing `D, L` as in L3.1, `ε_N` in `L` a primitive `N`-th root of unity and `G(θ^{-1}) = sum_{c in (Z/NZ)^x} θ^{-1}(c) ε_N^c`. For `c` in `(Z/NZ)^x`, `|ε_N^c| = |ε_N^c - 1| = 1`, and `μ_θ = G(θ^{-1})^{-1} sum_c θ^{-1}(c) μ_{ε_N^c}`; equivalently `F_θ(T) = G(θ^{-1})^{-1} sum_c θ^{-1}(c) Li_0((1+T) ε_N^c)`. (RJW Lem. 5.12, p. 33; p. 145 published; RJW proof of Lem. 6.5, p. 38.)
 
 Standing hypotheses of this target: `D > 1`: every `ε_N^c` reduces to a nontrivial root of unity of order `D`, so it lies outside the residue disc of 1. The Gauss sum and `F_θ` are formed with the same root `ε_N`.
 
-*Proof sketch.* Since `gcd(c, N) = 1, ε_N^c` has order `N` with prime-to`-p` part `D > 1`; its reduction has order `D ≠ 1` in the residue field, so `|ε_N^c - 1| = 1`. `Li_0(z) = z/(1-z) = -1 - 1/(z - 1)`, so `-1/((1+T) ε^c - 1) = Li_0((1+T) ε^c) + 1`. RJW Lemma 5.12 (DirichletPadicLFunctions Layer 2): `F_θ(T) = -G(θ^{-1})^{-1} sum_c θ^{-1}(c)/((1+T) ε_N^c - 1) = G(θ^{-1})^{-1} sum_c θ^{-1}(c)(Li_0((1+T) ε_N^c) + 1)`; the constants cancel because `sum_c θ^{-1}(c) = 0` (Mathlib `MulChar.sum_eq_zero_of_ne_one`). Compare Amice transforms with L3.3; the measures agree by Mathlib `AbstractMeasure.injective_amiceTransform`. `G(θ^{-1}) ≠ 0` by DirichletPadicLFunctions Layer 0.
+*Proof sketch.* Since `gcd(c, N) = 1, ε_N^c` has order `N` with prime-to-`p` part `D > 1`; its reduction has order `D ≠ 1` in the residue field, so `|ε_N^c - 1| = 1`. `Li_0(z) = z/(1-z) = -1 - 1/(z - 1)`, so `-1/((1+T) ε^c - 1) = Li_0((1+T) ε^c) + 1`. RJW Lemma 5.12 (DirichletPadicLFunctions Layer 2): `F_θ(T) = -G(θ^{-1})^{-1} sum_c θ^{-1}(c)/((1+T) ε_N^c - 1) = G(θ^{-1})^{-1} sum_c θ^{-1}(c)(Li_0((1+T) ε_N^c) + 1)`; the constants cancel because `sum_c θ^{-1}(c) = 0` (Mathlib `MulChar.sum_eq_zero_of_ne_one`). Compare Amice transforms with L3.3; the measures agree by Mathlib `AbstractMeasure.injective_amiceTransform`. `G(θ^{-1}) ≠ 0` by DirichletPadicLFunctions Layer 0.
 
 *Needs:* DirichletPadicLFunctions Layer 0, DirichletPadicLFunctions Layer 2, L3.3, `MulChar.sum_eq_zero_of_ne_one`, `AbstractMeasure.injective_amiceTransform`.
 
@@ -2878,25 +2879,25 @@ Here `dop F = (1 + T)F′` is the light specialization of the formal derivative 
 
 ### L3.9 Sums of a primitive character along the fibres of reduction vanish
 
-**Lemma.** Let `θ` be a primitive Dirichlet character modulo `N` with values in an integral domain, `M` a proper divisor of `N`, and `f` any function on (`Z/`MZ)`^x`. Then `sum_{c in (Z/NZ)^x} θ(c) f(c mod M) = 0`. In particular, if `p | N` and `ε_N` is a primitive `N`-th root of unity, then `sum_{c in (Z/NZ)^x} θ^{-1}(c) g(ε_N^{pc}) = 0` for function `g` on `μ_{N/p}`. (RJW proof of Thm. 6.1(ii), case (1), p. 38; RJW Rem. 5.3(ii), p. 30.)
+**Lemma.** Let `θ` be a primitive Dirichlet character modulo `N` with values in an integral domain, `M` a proper divisor of `N`, and `f` any function on `(Z/MZ)^x`. Then `sum_{c in (Z/NZ)^x} θ(c) f(c mod M) = 0`. In particular, if `p | N` and `ε_N` is a primitive `N`-th root of unity, then `sum_{c in (Z/NZ)^x} θ^{-1}(c) g(ε_N^{pc}) = 0` for function `g` on `μ_{N/p}`. (RJW proof of Thm. 6.1(ii), case (1), p. 38; RJW Rem. 5.3(ii), p. 30.)
 
-*Proof sketch.* The reduction map (`Z/`NZ)`^x →` (`Z/`MZ)`^x` is surjective (Mathlib `ZMod.unitsMap_surjective`); its fibres are the cosets `u H` of `H =` ker(Mathlib `ZMod.unitsMap`). `θ` does not factor through `M` because its conductor is `N > M` (Mathlib `DirichletCharacter.IsPrimitive`), so by Mathlib `DirichletCharacter.factorsThrough_iff_ker_unitsMap` its restriction to `H` is a nontrivial homomorphism, and `sum_{h in H} θ(u h) = θ(u) sum_{h in H} θ(h) = 0` (Mathlib `sum_hom_units_eq_zero`). For the corollary, `ε_N^{pc}` depends only on `c` mod `N/p`, and `θ^{-1}` is primitive of conductor `N`.
+*Proof sketch.* The reduction map `(Z/NZ)^x → (Z/MZ)^x` is surjective (Mathlib `ZMod.unitsMap_surjective`); its fibres are the cosets `u H` of `H =` ker(Mathlib `ZMod.unitsMap`). `θ` does not factor through `M` because its conductor is `N > M` (Mathlib `DirichletCharacter.IsPrimitive`), so by Mathlib `DirichletCharacter.factorsThrough_iff_ker_unitsMap` its restriction to `H` is a nontrivial homomorphism, and `sum_{h in H} θ(u h) = θ(u) sum_{h in H} θ(h) = 0` (Mathlib `sum_hom_units_eq_zero`). For the corollary, `ε_N^{pc}` depends only on `c` mod `N/p`, and `θ^{-1}` is primitive of conductor `N`.
 
 *Needs:* `DirichletCharacter.IsPrimitive`, `DirichletCharacter.factorsThrough_iff_ker_unitsMap`, `ZMod.unitsMap`, `ZMod.unitsMap_surjective`, `sum_hom_units_eq_zero`.
 
 ### L3.10 The Euler factor from the `p`-th power map on roots of unity
 
-**Lemma.** Let `θ` be a nontrivial primitive Dirichlet character of conductor `N` with values in a field of characteristic `0, ε_N` a primitive `N`-th root of unity, `k` an integer and `f` a function on the roots of unity. Then `sum_{c in (Z/NZ)^x} θ^{-1}(c) f(ε_N^{pc}) = θ(p) sum_{c} θ^{-1}(c) f(ε_N^c)`, with `θ(p) = 0` when `p | N`; hence `sum_c θ^{-1}(c) (f(ε_N^c) - p^{-k} f(ε_N^{pc})) = (1 - θ(p) p^{-k}) sum_c θ^{-1}(c) f(ε_N^c)`. (RJW proof of Thm. 6.1(ii), case (2), p. 39;, p. 153 published.)
+**Lemma.** Let `θ` be a nontrivial primitive Dirichlet character of conductor `N` with values in a field of characteristic `0, ε_N` a primitive `N`-th root of unity, `k` an integer and `f` a function on the roots of unity. Then `sum_{c in (Z/NZ)^x} θ^{-1}(c) f(ε_N^{pc}) = θ(p) sum_{c} θ^{-1}(c) f(ε_N^c)`, with `θ(p) = 0` when `p | N`; hence `sum_c θ^{-1}(c) (f(ε_N^c) - p^{-k} f(ε_N^{pc})) = (1 - θ(p) p^{-k}) sum_c θ^{-1}(c) f(ε_N^c)`. (RJW proof of Thm. 6.1(ii), case (2), p. 39; p. 153 published.)
 
 Standing hypotheses of this target: `θ` primitive of conductor `N`; `f` arbitrary (in the application `f = Li_k`, and `ε_N^{pc}≠1` whenever the tame part `D > 1`).
 
-*Proof sketch.* If `p` does not divide `N, c →` pc is a bijection of (`Z/`NZ)`^x` and `θ^{-1}(p^{-1} c') = θ(p) θ^{-1}(c')`. If `p | N`, the left side vanishes by L3.9 and `θ(p) = 0`.
+*Proof sketch.* If `p` does not divide `N`, `c → pc` is a bijection of `(Z/NZ)^x` and `θ^{-1}(p^{-1} c') = θ(p) θ^{-1}(c')`. If `p | N`, the left side vanishes by L3.9 and `θ(p) = 0`.
 
 *Needs:* L3.9, `DirichletCharacter.IsPrimitive`.
 
 ### L3.11 Independence of the choice of primitive root of unity
 
-**Lemma.** Let `θ` be a nontrivial primitive character of conductor `N` with values in a field `F` of characteristic 0 containing `μ_N, f` any function from `μ_N` to `F, ε` a primitive `N`-th root of unity and `ε' = ε^a` with a in (`Z/`NZ)`^x`. Write `G_ε(θ^{-1}) = sum_c θ^{-1}(c) ε^c`. Then `G_ε(θ^{-1})≠0` and `G_{ε'}(θ^{-1})^{-1} sum_c θ^{-1}(c) f(ε'^c) = G_ε(θ^{-1})^{-1} sum_c θ^{-1}(c) f(ε^c)`. (RJW Rem. 5.3, p. 30.)
+**Lemma.** Let `θ` be a nontrivial primitive character of conductor `N` with values in a field `F` of characteristic 0 containing `μ_N, f` any function from `μ_N` to `F, ε` a primitive `N`-th root of unity and `ε' = ε^a` with `a` in `(Z/NZ)^x`. Write `G_ε(θ^{-1}) = sum_c θ^{-1}(c) ε^c`. Then `G_ε(θ^{-1})≠0` and `G_{ε'}(θ^{-1})^{-1} sum_c θ^{-1}(c) f(ε'^c) = G_ε(θ^{-1})^{-1} sum_c θ^{-1}(c) f(ε^c)`. (RJW Rem. 5.3, p. 30.)
 
 *Proof sketch.* Substituting `c → a^{-1} c` multiplies both the numerator and the Gauss sum by `θ(a)` (Mathlib `gaussSum_mulShift_eq`). `G_ε(θ^{-1}) ≠ 0` because `G(θ) G(θ^{-1}) = θ(-1) N` (DirichletPadicLFunctions Layer 0).
 
@@ -2953,7 +2954,7 @@ Standing hypotheses of this target: `k≥2` (for `k = 1` the series converges on
 
 Standing hypotheses of this target: `n≥2`; `ζ` a root of unity different from 1. The target `H^1_syn(Spec R, n)` is identified with `K` by the normalisation of Besser-de Jeu (Definition 4.6 and the following discussion).
 
-*Proof sketch.* If the order of `ζ` is not a power of `p`, then `ζ` and `1 − ζ` are units at every prime above `p` (the reduction of `ζ` is that of its prime-to`-p` part, which is not 1), so `ζ` is a special unit and `[ζ]_n` comes from `H¹(M̃•(n)(O))`; Besser–de Jeu Theorem 1.10(2), that is L3.Fb.5(c), gives `reg_σ([x]_n) = (−1)^n (n − 1)! L^mod_n(σx)` for `x ∈ O^♭`. If `ζ` has order `p^s` with `s ≥ 1`, choose `r > 1` with `r ≡ 1` modulo `p^s`, so that `ζ^r = ζ`. The distribution relation of L3.Fa.4 (BDJ Proposition 2.11, p. 879) gives `[ζ]_n = r^(n−1) Σ_(α^r=1) [ζα]_n` in `M̃_n(F(μ_r))`; for `α ≠ 1` the root `ζα` has order divisible by a prime other than `p`, hence is a special unit. The regulator commutes with the finite extension `K ⊂ K(μ_r)` (L3.Fb.1), `L^mod_n` satisfies the same distribution relation (L3.14), and `r^(n−1) ≠ 1`, so `reg_σ([ζ]_n)` can be solved for (BDJ proof of Theorem 1.12, p. 910). At roots of unity `L^mod_n = Li_n` (L3.14). Gros's normalisation: `Frob(Li_n(ζ)) = Li_n(ζ^p)` by Galois equivariance (L2.17). Besser–de Jeu Theorem 1.10(2) is proved in their §§3–7; its steps are the targets L3.Fa.1–L3.Fa.4 (multi-relative K-theory, localization and de Jeu symbols), L3.Fb.1–L3.Fb.2 (the syntomic regulator through rigid syntomic cohomology) and L3.Fb.3–L3.Fb.5 (integration down by Coleman integration and the regulator of special symbols).
+*Proof sketch.* If the order of `ζ` is not a power of `p`, then `ζ` and `1 − ζ` are units at every prime above `p` (the reduction of `ζ` is that of its prime-to-`p` part, which is not 1), so `ζ` is a special unit and `[ζ]_n` comes from `H¹(M̃•(n)(O))`; Besser–de Jeu Theorem 1.10(2), that is L3.Fb.5(c), gives `reg_σ([x]_n) = (−1)^n (n − 1)! L^mod_n(σx)` for `x ∈ O^♭`. If `ζ` has order `p^s` with `s ≥ 1`, choose `r > 1` with `r ≡ 1` modulo `p^s`, so that `ζ^r = ζ`. The distribution relation of L3.Fa.4 (BDJ Proposition 2.11, p. 879) gives `[ζ]_n = r^(n−1) Σ_(α^r=1) [ζα]_n` in `M̃_n(F(μ_r))`; for `α ≠ 1` the root `ζα` has order divisible by a prime other than `p`, hence is a special unit. The regulator commutes with the finite extension `K ⊂ K(μ_r)` (L3.Fb.1), `L^mod_n` satisfies the same distribution relation (L3.14), and `r^(n−1) ≠ 1`, so `reg_σ([ζ]_n)` can be solved for (BDJ proof of Theorem 1.12, p. 910). At roots of unity `L^mod_n = Li_n` (L3.14). Gros's normalisation: `Frob(Li_n(ζ)) = Li_n(ζ^p)` by Galois equivariance (L2.17). Besser–de Jeu Theorem 1.10(2) is proved in their §§3–7; its steps are the targets L3.Fa.1–L3.Fa.4 (multi-relative K-theory, localization and de Jeu symbols), L3.Fb.1–L3.Fb.2 (the syntomic regulator through rigid syntomic cohomology) and L3.Fb.3–L3.Fb.5 (integration down by Coleman integration and the regulator of special symbols).
 
 *Needs:* L3.14, L3.Fa.4, only the construction and distribution of L3.Fa.5 (no spanning or basis theorem), L3.Fb.1, L3.Fb.2, L3.Fb.5, L3.Fb.6, L2.8, L2.17, L2.25.
 
@@ -2983,7 +2984,7 @@ Standing hypotheses of this target: `n≥2`; `dim_E E[G]π=dim_E πK_(2n−1)(k)
 **Checks.**
 
 - `k = Q(μ_N), χ` primitive with `χ(-1) = (-1)^{n-1}, π` its idempotent: both dimensions are 1, with bases `π, π(1 (x) ζ_N)` and `π(1 (x) [ζ_N]_n)`.
-- `k = Q, π = 1, n` odd`≥3`: part `(2)` relates `L_p(n, ω^{1-n})` to `(1 - p^{-n})` and the syntomic regulator of `[-1]_n` (BBdJR, `N = 2` case of the proof of Proposition 4.17).
+- `k = Q, π = 1, n` odd `≥3`: part `(2)` relates `L_p(n, ω^{1-n})` to `(1 - p^{-n})` and the syntomic regulator of `[-1]_n` (BBdJR, `N = 2` case of the proof of Proposition 4.17).
 - `k = Q(i), π = (1 + c)/2, n = 2`: `dim E[G]π = 1` but `π K_3(Q(i))_E = K_3(Q)_E = 0`, so the proposition is not formed.
 - `k` totally real, `n` even and `π≠0`: `π K_{2n-1}(k)_E = 0` (L3.Fc.2), while `E[G]π≠0`, so no instance exists.
 
@@ -2999,7 +3000,7 @@ Standing hypotheses of this target: (C10).
 
 ### L3.18 The pole-cancelled rotated smoothing transform
 
-**Construction.** With the finite sums `Q_b` and `R_b` of rotated-smoothing-denominator, define `G_(b,w)(T)=R_b(w(1+T))*Q_b(w(1+T))^(-1)` in `K[[T]]`. The inverse is the existing formal power-series inverse of a unit. Every coefficient lies in `O_K`, so `G` is in `R^+` and, for `|t|<1, G(t)=R_b(w(1+t))/Q_b(w(1+t))`. At `w=1` it is exactly the coefficient image of the integral DirichletPadicLFunctions §1.1 (integral smoothing series) `F_b`; for `z=w(1+t) ≠1` it equals `1/(z-1)-b/(z^b-1)`. At `z=1` the value is `(b-1)/2`. All substitutions defining `G` are finite polynomial evaluations. No infinite formal substitution at nonzero constant coefficient is used. (RJW Prop. 4.4 and Def. 4.5, v2, pp. 26–27; (7.5)–(7.8), p. 42; published (7-7)–(7-8), printed, p. 157.)
+**Construction.** With the finite sums `Q_b` and `R_b` of rotated-smoothing-denominator, define `G_(b,w)(T)=R_b(w(1+T))*Q_b(w(1+T))^(-1)` in `K[[T]]`. The inverse is the existing formal power-series inverse of a unit. Every coefficient lies in `O_K`, so `G` is in `R^+` and, for `|t|<1, G(t)=R_b(w(1+t))/Q_b(w(1+t))`. At `w=1` it is exactly the coefficient image of the integral DirichletPadicLFunctions §1.1 (integral smoothing series) `F_b`; for `z=w(1+t) ≠1` it equals `1/(z-1)-b/(z^b-1)`. At `z=1` the value is `(b-1)/2`. All substitutions defining `G` are finite polynomial evaluations. No infinite formal substitution at nonzero constant coefficient is used. (RJW Prop. 4.4 and Def. 4.5, v2, pp. 26–27; (7.5)–(7.8), p. 42; published (7-7)–(7-8), printed p. 157.)
 
 Standing hypotheses of this target: (C10).
 
@@ -3027,7 +3028,7 @@ Standing hypotheses of this target: (C10).
 - At `p=3,b=2,w=4` the constant coefficient is `1/5`; `|4-1|_3<1`.
 - `G_(1,4)=0` over `Q_3`.
 - Over `Q_3, G_(2,1)` differs from `(W-1)^(-1)-2(W^2-1)^(-1)` formed inside `Q_3[[T]]` at `W=1+T`: the latter is zero.
-- At `p=3,b=3,w=1, coeff_1 G=-2/3` has norm `3>1`. The prime-to`-p` condition is necessary for the integral coefficient bound.
+- At `p=3,b=3,w=1, coeff_1 G=-2/3` has norm `3>1`. The prime-to-`p` condition is necessary for the integral coefficient bound.
 - At `p=3,b=2,w=4`, the regularized transform agrees with the separate reciprocal formula, whose constant denominators are 3 and 15.
 
 ### L3.19 Integral coefficients of the rotated transform
@@ -3052,7 +3053,7 @@ Standing hypotheses of this target: (C11).
 
 ### L3.21 Evaluation of the rotated transform including its removable point
 
-**Lemma.** Under the same norm hypotheses, for `|t|<1, G_(b,w)(t)=R_b(w(1+t))/Q_b(w(1+t))`. In characteristic zero, when `w(1+t)=1` this value is `(b-1)/2`; the two separate reciprocal terms must not be evaluated there. (RJW (7.7)–(7.8), v2, p. 42; published printed, p. 157.)
+**Lemma.** Under the same norm hypotheses, for `|t|<1, G_(b,w)(t)=R_b(w(1+t))/Q_b(w(1+t))`. In characteristic zero, when `w(1+t)=1` this value is `(b-1)/2`; the two separate reciprocal terms must not be evaluated there. (RJW (7.7)–(7.8), v2, p. 42; published printed p. 157.)
 
 Standing hypotheses of this target: (C11).
 
@@ -3126,7 +3127,7 @@ Standing hypotheses of this target: `b > 1` an integer prime to `p` (for `b = 1`
 
 **Lemma.** Let `b > 1` be an integer prime to `p, w` in `D^-(1,1)` lying in a finite extension `K` of `ℚ_p`, and `k≥1`. Then `∫_(ℤ_p^×) x^{-k}` . `(w^x μ_b) = Φ^{(k)}_b(w) - p^{-k} Φ^{(k)}_b(w^p)`. In particular, at `w = 1, ∫_(ℤ_p^×) x^{-k}` . `μ_b = (1 - p^{-k}) Φ^{(k)}_b(1)`. (RJW Lem. 7.5, p. 42.)
 
-*Proof sketch.* L3.25 gives Ftilde`=Φ_b^(k)(w(1+T))` in `R^+`. Its `k`-fold derivative is the pole-cancelled `G_(b,w)`, including `w=1`. L3.23 identifies this with `A_(w^x μ_b)`, retaining the exact bounded coefficient-extension/rotation supplier obligation. L3.6: `∫_(ℤ_p^×) x^{-k}` . `(w^x μ_b) = Φ^{(k)}_b(w) - p^{-1} sum_{ξ in μ_p} Φ^{(k)}_b(ξ w)`. L3.26: `p^{-1} sum_ξ Φ^{(k)}_b(ξ w) = p^{-k} Φ^{(k)}_b(w^p)`.
+*Proof sketch.* L3.25 gives `Ftilde_(b,w)^(k)=Φ_b^(k)(w(1+T))` in `R^+`. Its `k`-fold derivative is the pole-cancelled `G_(b,w)`, including `w=1`. L3.23 identifies this with `A_(w^x μ_b)`, retaining the exact bounded coefficient-extension/rotation supplier obligation. L3.6: `∫_(ℤ_p^×) x^{-k}` . `(w^x μ_b) = Φ^{(k)}_b(w) - p^{-1} sum_{ξ in μ_p} Φ^{(k)}_b(ξ w)`. L3.26: `p^{-1} sum_ξ Φ^{(k)}_b(ξ w) = p^{-k} Φ^{(k)}_b(w^p)`.
 
 *Needs:* L3.25, L3.6, L3.26, DirichletPadicLFunctions Layer 1, L3.23.
 
@@ -3163,11 +3164,11 @@ Standing hypotheses of this target: `p` odd (RJW's `L_p` is defined for odd `p`)
 
 ### L3.30 Coleman's formula for `L_p(θ, k)` itself, in the normalisation of RJW
 
-**Theorem.** Let `p` be odd, `θ = χ*η` a Dirichlet character as in RJW Definition 5.18, `k≥1`, and `ψ` the primitive character attached to `θ ω^{k-1}`, of conductor `N_ψ`. If `ψ` is nontrivial, `L_p(θ, k) = (1 - ψ(p) p^{-k}) G(ψ^{-1})^{-1} sum_{c in (Z/N_ψ Z)^x} ψ^{-1}(c) Li_k(ε_{N_ψ}^c)`. If `ψ` is trivial `(θ = ω^{1-k})` and `k≥2, L_p(θ, k) = (1 - p^{-k}) Li_k(1)`. In particular the character normalization in RJW Theorem6.`7(ii)` agrees with the corrected normalization when `ψ=θ`, equivalently `(p-1)` divides `k-1`. Outside this congruence the characters differ; numerical values may nevertheless coincide, for example when both vanish, so no iff about equality of values is claimed. (RJW Rem. 5.19 and Thm. 5.20, p. 35; BBdJR §1, p. 3.)
+**Theorem.** Let `p` be odd, `θ = χ*η` a Dirichlet character as in RJW Definition 5.18, `k≥1`, and `ψ` the primitive character attached to `θ ω^{k-1}`, of conductor `N_ψ`. If `ψ` is nontrivial, `L_p(θ, k) = (1 - ψ(p) p^{-k}) G(ψ^{-1})^{-1} sum_{c in (Z/N_ψ Z)^x} ψ^{-1}(c) Li_k(ε_{N_ψ}^c)`. If `ψ` is trivial `(θ = ω^{1-k})` and `k≥2, L_p(θ, k) = (1 - p^{-k}) Li_k(1)`. In particular the character normalization in RJW Theorem 6.7(ii) agrees with the corrected normalization when `ψ=θ`, equivalently `(p-1)` divides `k-1`. Outside this congruence the characters differ; numerical values may nevertheless coincide, for example when both vanish, so no iff about equality of values is claimed. (RJW Rem. 5.19 and Thm. 5.20, p. 35; BBdJR §1, p. 3.)
 
 Standing hypotheses of this target: `p` odd; `k≥1`; for trivial `ψ, k≥2` (at `k = 1` the trivial component has the pole of RJW Theorem 7.1).
 
-*Proof sketch.* `L_p(θ, s)` depends only on the restriction of `θ` to `ℤ_p^× x` (`Z/`DZ)`^x`, so `L_p(θ, k) = L_p(ψ ω^{1-k}, k)` (DirichletPadicLFunctions Layer 3). For nontrivial `ψ` apply L3.28 to `ψ`; for trivial `ψ` apply L3.29. `ω^{k-1} = 1` if and only if `(p - 1) | (k - 1)`, since `ω` has order `p - 1`.
+*Proof sketch.* `L_p(θ, s)` depends only on the restriction of `θ` to `ℤ_p^× x (Z/DZ)^x`, so `L_p(θ, k) = L_p(ψ ω^{1-k}, k)` (DirichletPadicLFunctions Layer 3). For nontrivial `ψ` apply L3.28 to `ψ`; for trivial `ψ` apply L3.29. `ω^{k-1} = 1` if and only if `(p - 1) | (k - 1)`, since `ω` has order `p - 1`.
 
 *Needs:* L3.28, L3.29, DirichletPadicLFunctions Layer 3.
 
@@ -3191,7 +3192,7 @@ Standing hypotheses of this target: `θ` nontrivial primitive of conductor `N`; 
 
 ### L3.32 Comparison with the locally analytic distribution argument of RJW §6.2
 
-**Comparison.** At `k=1` and tame part `D>1`, RJW's `F̃_θ=−G⁻¹Σ_cθ⁻¹(c)log((1+T)ε_N^c−1)` is `G⁻¹Σ_cθ⁻¹(c)F̃_(ε_N^c)^(1)`, since `log_p(−1)=0`. Identify his Lemmas 6.4–6.5 and (6.5) with the primitive, `x·μ̃=μ` and unit-moment targets; the root-log identity is weight-one distribution. For `D=1, F_θ` is not an Amice transform: use the smoothed `μ_a` and §7's `F̃_a=Φ_a^(1)(1+T)`. For all `k≥1` replace `Li_1` by `Li_k`, using `∂=z d/dz, Li_0=z/(1−z), Σ_cθ⁻¹(c)=0` and `Σ_(ξ∈μ_p)Li_k(ξz)=p^(1−k)Li_k(z^p)` to obtain the primitive and Euler factor. (RJW proof of Lem. 6.4, p. 37; RJW proof of Lem. 6.4, p. 38;, p. 152 published; RJW §7, (7.5), p. 42.)
+**Comparison.** At `k=1` and tame part `D>1`, RJW's `F̃_θ=−G⁻¹Σ_cθ⁻¹(c)log((1+T)ε_N^c−1)` is `G⁻¹Σ_cθ⁻¹(c)F̃_(ε_N^c)^(1)`, since `log_p(−1)=0`. Identify his Lemmas 6.4–6.5 and (6.5) with the primitive, `x·μ̃=μ` and unit-moment targets; the root-log identity is weight-one distribution. For `D=1, F_θ` is not an Amice transform: use the smoothed `μ_a` and §7's `F̃_a=Φ_a^(1)(1+T)`. For all `k≥1` replace `Li_1` by `Li_k`, using `∂=z d/dz, Li_0=z/(1−z), Σ_cθ⁻¹(c)=0` and `Σ_(ξ∈μ_p)Li_k(ξz)=p^(1−k)Li_k(z^p)` to obtain the primitive and Euler factor. (RJW proof of Lem. 6.4, p. 37; RJW proof of Lem. 6.4, p. 38; p. 152 published; RJW §7, (7.5), p. 42.)
 
 Standing hypotheses of this target: `k≥1`; `θ` nontrivial primitive.
 
@@ -3211,7 +3212,7 @@ Standing hypotheses of this target: `w` in a finite extension of `ℚ_p, |w|≤1
 
 ### L3.34 Coleman's polylogarithms versus arbitrary locally analytic solutions
 
-**Comparison.** Perturbing `Li_k` by `δ1_U, δ≠0`, on a disc containing one `ε_N^(c_0)` and no other `N`-th root preserves the local ODE and lower weights but changes the formula by `(1−θ(p)p^(−k))δθ⁻¹(c_0)/G≠0`. Coleman uniqueness or distribution excludes the perturbation. For tame/mixed roots, choose `U` a proper clopen subdisc of the whole residue disc: its indicator cannot be one power series on that whole disc by the identity principle, so its multiplicative pullback has no open-unit-disc Amice transform. Pure `p`-power roots have their original singularity inside that parameter disc and require smoothing. (BF Section3, remark after Proposition3.1, preprint p6; BDJ-preprint §2, p. 9.)
+**Comparison.** Perturbing `Li_k` by `δ1_U, δ≠0`, on a disc containing one `ε_N^(c_0)` and no other `N`-th root preserves the local ODE and lower weights but changes the formula by `(1−θ(p)p^(−k))δθ⁻¹(c_0)/G≠0`. Coleman uniqueness or distribution excludes the perturbation. For tame/mixed roots, choose `U` a proper clopen subdisc of the whole residue disc: its indicator cannot be one power series on that whole disc by the identity principle, so its multiplicative pullback has no open-unit-disc Amice transform. Pure `p`-power roots have their original singularity inside that parameter disc and require smoothing. (BF Section 3, remark after Proposition 3.1, preprint p. 6; BDJ-preprint §2, p. 9.)
 
 Standing hypotheses of this target: `p` odd, `θ` nontrivial primitive, `k≥1`.
 
@@ -3234,7 +3235,7 @@ Standing hypotheses of this target: `θ` nontrivial primitive, `k≥1`.
 **Theorem.** (BBdJR Proposition 4.17.) Let `N ≥ 2, k = ℚ(μ_N), G = (ℤ/Nℤ)^×, E` a number field containing a root of unity of order the exponent of `G, χ` an irreducible character of `G` with idempotent `π`, and `n ≥ 2` with `χ(−1) = (−1)^(n−1)`. Then `dim_E E[G]π = dim_E πK_(2n−1)(k)_E = 1`, and parts `(1), (2)` and `(3)` of `PBC(k, E, π, n, p)` hold with `e(n, M^E_π) = e_p(n, M^E_π) ∈ ℚ^×`.
 For nontrivial `χ`, reduce first to its primitive character of conductor `f` and the field `ℚ(μ_f)`, using the fixed-field and idempotent transport of BBdJR Remark 3.23(1), p. 15. The explicit bases `π, π(1 ⊗ ζ_f)` and `π(1 ⊗ [ζ_f]_n)` and the Gauss-sum determinant calculation of L3.Fc.3 are used in this conductor field; their compatible images give bases after transport. For trivial `χ` use `ℚ` and the bases `1, 1 ⊗ 1` and `1 ⊗ [−1]_n`, with `n` odd. The algebraic vector `π(1 ⊗ ζ_N)` need not be nonzero for an imprimitive character.
 (a) For `p` odd this follows from L3.28, L3.13 and the regulator computations, in the normalization of L3.Fd.2.
-(b) For `p = 2` the same statement holds with the dyadic normalization: `ω_2` is the character of conductor 4 with values `±1` (L3.Fd.2), the p-adic `L`-function lives on the ball of radius `4·2^(−1) = 2`, and the required input for the primitive character of conductor `f` is Coleman's formula `L_2(χω_2^(1−n), n) = (1 − χ(2)2^(−n)) G(χ⁻¹)⁻¹ Σ_(c∈(ℤ/fℤ)^×) χ⁻¹(c) Li_n(ε_f^c)` at `p = 2`, together with the trivial-character case `L_2(ω_2^(1−n), n) = (1 − 2^(−n)) Li_n(1)` for `n` odd. BBdJR quote this formula from Coleman for all primes (proof of Proposition 4.17, p. 22, and p. 23 for `N = 2`). The measure-theoretic proof of L3.28 is written for odd `p`; at `p = 2` its steps must be redone with principal units `1 + 4ℤ_2`, the conductor`-4` Teichmüller character and the smoothing of L3.2 with `b` odd, and the trivial-character case uses the limit `Li_n(1)` of L2.11 (BBdJR Prop. 4.17, p. 22; BBdJR Rem. 4.19, p. 23).
+(b) For `p = 2` the same statement holds with the dyadic normalization: `ω_2` is the character of conductor 4 with values `±1` (L3.Fd.2), the p-adic `L`-function lives on the ball of radius `4·2^(−1) = 2`, and the required input for the primitive character of conductor `f` is Coleman's formula `L_2(χω_2^(1−n), n) = (1 − χ(2)2^(−n)) G(χ⁻¹)⁻¹ Σ_(c∈(ℤ/fℤ)^×) χ⁻¹(c) Li_n(ε_f^c)` at `p = 2`, together with the trivial-character case `L_2(ω_2^(1−n), n) = (1 − 2^(−n)) Li_n(1)` for `n` odd. BBdJR quote this formula from Coleman for all primes (proof of Proposition 4.17, p. 22, and p. 23 for `N = 2`). The measure-theoretic proof of L3.28 is written for odd `p`; at `p = 2` its steps must be redone with principal units `1 + 4ℤ_2`, the conductor-`4` Teichmüller character and the smoothing of L3.2 with `b` odd, and the trivial-character case uses the limit `Li_n(1)` of L2.11 (BBdJR Prop. 4.17, p. 22; BBdJR Rem. 4.19, p. 23).
 
 Standing hypotheses of this target: `N ≥ 2`; `χ(−1) = (−1)^(n−1)`; `E` contains the values of `χ`; `p` odd in (a) and `p = 2` in (b). The unit assertions are part `(4)` of L3.16 and remain separate conjectural conditions; BBdJR Remark 4.19, p. 23, reports numerical verifications of them.
 
@@ -3300,7 +3301,7 @@ It leaves to other roadmaps, and imports:
 - **LocallyAnalyticDistributions** Layer 1: locally analytic distributions on `ℤ_p`, their Amice transforms onto `R⁺` and restriction to `ℤ_p^×`.
 - **DirichletPadicLFunctions** §0.6 and Layers 0–3: the Iwasawa decomposition and normalized logarithm `iwasawaLog p` on `ℂ_p`, including uniqueness, finite-extension restriction and equivariance; Gauss-sum conventions, smoothing measures, character measures and the Kubota–Leopoldt normalization (RJW Definition 5.18 and Remark 5.19, p. 35). L0.14–L0.18 import this logarithm contract and form the general branches by adding `a·v_p`; L3 uses the same supplied zero branch. The generic `ℚ_p` logarithm-series theory comes from **PadicFunctionalAnalysis** §4.5; the general ultrametric-field extension and the local analytic expansions remain here.
 - **TauCetiRoadmap AdelicAlgebraicGroups** §2.4 (convergence factors): finite-image complex Artin factors on inertia invariants, their induction formula and the Euler product, consumed by L3.Fd.1.
-- **TauCetiRoadmap RepresentationTheory**, the induction–restriction roadmap, Layer 6: the virtual character ring and the induction formalism, consumed by L3.Fd.2; Brauer's induction theorem itself is Tau Ceti's `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (induction from irreducible characters of elementary subgroups), and its sharpening to one-dimensional inducing characters is assembled in L3.Fd.2(d) from the pinned `TauCeti.IsElementary.isNilpotent`, `FDRep.exists_character_eq_indClassFun_of_isNilpotent` and `TauCeti.indClassFun_indClassFun_subgroupOf`.
+- **TauCetiRoadmap RepresentationTheory**, the induction–restriction roadmap, Layer 6: the virtual character ring and the induction formalism, consumed by L3.Fd.2; Brauer's induction theorem itself is Tau Ceti's `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (induction from irreducible characters of elementary subgroups), and its sharpening to one-dimensional inducing characters is assembled in L3.Fd.2(d) from the pinned `TauCeti.IsElementary.isNilpotent`, `FDRep.exists_character_eq_indClassFun_of_isNilpotent` and `Subgroup.indClassFun_indClassFun_subgroupOf`.
 - **GeometryOfNumbersAndQuadraticArithmetic** §§6.1.1–6.1.3: the Quillen construction, exact-category K-groups, their `K₀` comparison and functoriality, nerve realization and Quillen A/B; §6.10: finite-field K-groups. L3.Fa.1 specializes these to schemes and constructs products, localization, homotopy invariance, exact-cube comparisons and Adams operations, together with the filtered-union comparison for algebraic extensions of finite fields.
 - **TauCetiRoadmap GrothendieckEulerForms** Layers 0–2 and **AlgebraicVectorBundles** L0A–L0C: exact structures and `K₀`, finite locally free sheaves and their polynomial operations, consumed by L3.Fa.1.
 - **TauCetiRoadmap DerivedModuleAlgebra** §0.K.1: the linear-functional Koszul complex, its functorial maps and regular-sequence exactness, used for the homogeneous Koszul pieces in L3.Fa.1.
@@ -3312,26 +3313,26 @@ Tau Ceti supplies the principal-unit logarithm and exponential on local fields (
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
 
 - Power series: `PowerSeries`, `PowerSeries.coeff`, `PowerSeries.derivative` with `PowerSeries.coeff_derivative` and `PowerSeries.derivative.ext`, `PowerSeries.log` (the formal `log(1 + X)`) with `PowerSeries.derivative_log_mul_one_add_X`, `PowerSeries.IsRestricted`, `PowerSeries.gaussNorm`, the inverse of a unit power series (`PowerSeries.isUnit_iff_constantCoeff`, `PowerSeries.coeff_inv`), `LaurentSeries`.
-- Analysis: `FormalMultilinearSeries.ofScalars`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall` (with `HasFPowerSeriesOnBall.fderiv` and `HasFPowerSeriesOnBall.changeOrigin`), `HasFPowerSeriesAt.eq_formalMultilinearSeries`, `AnalyticOnNhd`, `Metric.eball`, `IsUltrametricDist`, `IsLocallyConstant`.
+- Analysis: `FormalMultilinearSeries.ofScalars`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall` (with `HasFPowerSeriesOnBall.fderiv` and `HasFPowerSeriesOnBall.changeOrigin`), `HasFPowerSeriesAt.eq_formalMultilinearSeries`, `AnalyticOnNhd`, `Metric.eball`, `IsUltrametricDist`, `IsLocallyConstant`, and the logarithm `NormedSpace.log` with its series `NormedSpace.logSeries` (`NormedSpace.log_eq_tsum`, `NormedSpace.log_eq_logSeries_sum`; its value is the junk value 0 where the series is not summable).
 - p-adic numbers: `PadicComplex`, `PadicAlgCl`, `PadicComplexInt`, `Padic.norm_p_lt_one`, `padicValNat`, `PadicInt`, `spectralNorm`.
 - Measures: `AbstractMeasure` (written `D(ℤ_p, R)`), `AbstractMeasure.amiceTransform`, `AbstractMeasure.injective_amiceTransform` and the `ℤ_p`-valued `AbstractMeasure.amiceTransformEquiv`. Arbitrary `O_K` coefficients are not provided by this equivalence and come from PadicMeasuresIwasawaAlgebras Layer 2.
 - Characters and L-functions: `DirichletCharacter` with `DirichletCharacter.IsPrimitive`, `gaussSum`, `gaussSum_mulShift_eq`, `AddChar.zmodChar`, `ZMod.stdAddChar`, `ZMod.dft`, `DirichletCharacter.LFunction` and `DirichletCharacter.LFunction_eq_LSeries`, `ZMod.LFunction`, `HurwitzZeta.expZeta` and `HurwitzZeta.hasSum_expZeta_of_one_lt_re`, `bernoulli`, `Polynomial.cyclotomic`, `IsPrimitiveRoot`.
 - Algebra: `Derivation`, `Finsupp`, `FreeMonoid`, `FreeAbelianGroup`, `TensorProduct`, `ExteriorAlgebra`, `Projectivization`, `Module.Free`, `LinearMap.charpoly`, `Module.End.HasEigenvalue`, and the morphism properties `AlgebraicGeometry.Smooth`, `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsFinite`.
 
-Each is used with its stated hypotheses only. In particular Mathlib has no polylogarithm at the pin (PolylogarithmFunctions supplies the complex family, with its closed-disc adapter in L2.Fa), no p-adic logarithm on `ℂ_p`, no Coleman integration and no algebraic K-theory of schemes.
+Each is used with its stated hypotheses only. In particular Mathlib has no polylogarithm at the pin (PolylogarithmFunctions supplies the complex family, with its closed-disc adapter in L2.Fa), no branch of the p-adic logarithm on `ℂ_p^×` (`NormedSpace.log` is the series, with the junk value 0 off the disc `‖x − 1‖ < 1`), no Coleman integration and no algebraic K-theory of schemes.
 
-### From Tau Ceti (pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`)
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
 
-- `NormedSpace.logOneAdd`, `NormedSpace.logOneAddSeries`, `NormedSpace.hasFPowerSeriesOnBall_logOneAdd` and `NormedSpace.logOneAdd_eq_tsum`: the logarithm series `log(1 + u)` and its defining power series. The radius theorem proved there assumes a continuous action of `ℚ≥0`, which p-adic fields lack; L0.10 proves the ultrametric radius bound on the same series.
+- `NormedSpace.one_le_logSeries_radius` and `NormedSpace.log_hasFPowerSeriesOnBall` (module `TauCeti.Analysis.Normed.Algebra.Logarithm.Basic`): the radius of Mathlib's `NormedSpace.logSeries` is at least 1, and the series represents Mathlib's `NormedSpace.log` on the ball of radius 1 about 1. Both assume a continuous action of `ℚ≥0` on the scalar field, which p-adic fields lack; L0.10 proves the ultrametric radius bound and the expansion for the same series and function.
 - `TauCeti.teichmuller` and `TauCeti.range_teichmuller`: the Teichmüller lift of a local field, used for the Teichmüller points of L1.6.
 - `TauCeti.hasSum_log_of_mem_unitFiltration_one` and `TauCeti.valuation_log` (`TauCeti.NumberTheory.LocalField.Logarithm`): convergence of Mathlib's `NormedSpace.log` on principal units of a finite extension of `ℚ_p`, and its valuation on units at depths `e < (p − 1)i`. DirichletPadicLFunctions §0.6 supplies the comparison with its Iwasawa logarithm, including the separate dyadic depth bound; L0.17 consumes that comparison.
 - `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary` (module `TauCeti.RepresentationTheory.Induction.Brauer.Induction`): Brauer's induction theorem in character form, for a finite group `G` over an algebraically closed field `k` of characteristic zero: the character of every finite-dimensional representation lies in `TauCeti.ClassFunction.indCharacterSpanInt k G (fun E ↦ IsElementary E)`, the additive subgroup of `G → k` generated by the characters induced from irreducible characters of elementary subgroups. The inducing characters are irreducible, not one-dimensional: for `G = Q₈`, itself `2`-elementary, the theorem returns the two-dimensional irreducible character as induced from `Q₈` to `Q₈`. L3.Fd.2(d) applies it to `Gal(L/k)` with coefficients in `ℚ̄_p`.
 - `TauCeti.IsElementary.isNilpotent` (module `TauCeti.GroupTheory.Elementary`): a finite elementary group (`TauCeti.IsElementary`, the internal direct product of a cyclic group of order prime to some prime `q` and a `q`-group) is nilpotent.
-- `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (module `TauCeti.RepresentationTheory.Induction.Monomial`): over an algebraically closed field `k` of characteristic zero, the character of a simple finite-dimensional representation of a finite nilpotent group `E` equals `TauCeti.indClassFun H (λ ·)` for some subgroup `H ≤ E` and some linear character `λ : H →* kˣ`: finite nilpotent groups are monomial (Serre, *Linear Representations of Finite Groups*, §8.5, Theorem 16, for the supersolvable groups, which include the nilpotent ones).
-- `TauCeti.indClassFun_indClassFun_subgroupOf` (module `TauCeti.RepresentationTheory.Induction.ClassFunction`): transitivity of induction of class functions, `Ind_T^G Ind_(L)^(T) f = Ind_L^G f` for subgroups `L ≤ T` of `G` with `L` of finite index and `f` a class function on `L`. L3.Fd.2(d) combines the three preceding declarations with it into the one-dimensional form of Brauer induction, `brauer_induction_linear`.
+- `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (module `TauCeti.RepresentationTheory.Induction.Monomial`): over an algebraically closed field `k` of characteristic zero, the character of a simple finite-dimensional representation of a finite nilpotent group `E` equals `Subgroup.indClassFun H (λ ·)` for some subgroup `H ≤ E` and some linear character `λ : H →* kˣ`: finite nilpotent groups are monomial (Serre, *Linear Representations of Finite Groups*, §8.5, Theorem 16, for the supersolvable groups, which include the nilpotent ones).
+- `Subgroup.indClassFun_indClassFun_subgroupOf` (module `TauCeti.RepresentationTheory.Induction.ClassFunction`, where induction of class functions is `Subgroup.indClassFun`): transitivity of induction of class functions, `Ind_T^G Ind_(L)^(T) f = Ind_L^G f` for subgroups `L ≤ T` of `G` with `L` of finite index and `f` a class function on `L`. L3.Fd.2(d) combines the three preceding declarations with it into the one-dimensional form of Brauer induction, `brauer_induction_linear`.
 - `TauCeti.laurentEval` (module `TauCeti.Algebra.Polynomial.Laurent.Basic`): evaluation of a Laurent polynomial at a unit of an algebra. On Laurent polynomials it is the evaluation of L0.A2.
 
 ### From TauCetiRoadmap
@@ -3341,14 +3342,14 @@ Each is used with its stated hypotheses only. In particular Mathlib has no polyl
 - **RestrictedPowerSeries**, §7.1 and §2.1: Tau Ceti's `PowerSeries.OnOpenDisc 1 F` is the condition that `F` is restricted at every `0 < r < 1`; Tau Ceti's `PowerSeries.evalAt F t` is `Σ' n, F.coeff n • t^n`, which for `t ∈ K` is `Σ' n, F.coeff n * t^n`, and at `‖t‖ < 1` it is the ring homomorphism `PowerSeries.OnOpenDisc.evalAtHom` on the open unit-disc algebra. L3.6 uses these directly for `R⁺` and its evaluation.
 - **NewtonPolygons**, §0.3 (supporting values and their concavity) and §0.5 (the same theory for integer-indexed sequences): `ρ ↦ −log|f|_ρ` is the supporting function of `n ↦ −log‖a_n‖` at slope `log ρ` (L0.A1, `laurentGaussNorm_logConvex`).
 - **AdelicAlgebraicGroups**, §2.4 (convergence factors): for a finite-image complex Galois representation, the local factor on inertia invariants, its induction formula and the Euler product of the global `L`-function on `Re s > 1` with its continuation. L3.Fd.1 assembles these over the embeddings of a coefficient field.
-- **RepresentationTheory**, induction and restriction, Layer 6: the ring of virtual characters and the induction formalism. Brauer's induction theorem (every character of a finite group over an algebraically closed field of characteristic zero is a `ℤ`-combination of characters induced from irreducible characters of elementary subgroups) is Tau Ceti's `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`, listed above. The passage to one-dimensional inducing characters is not part of that statement: it is L3.Fd.2(d)'s `brauer_induction_linear`, proved from the pinned `TauCeti.IsElementary.isNilpotent` (elementary groups are nilpotent), `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (irreducible characters of finite nilpotent groups are induced from linear characters of subgroups) and `TauCeti.indClassFun_indClassFun_subgroupOf` (transitivity of induction), all listed above. L3.Fd.2 applies the result to `Gal(L/k)` with `L` totally real, so that every fixed field of an inducing subgroup is a subfield of `L` and is totally real.
+- **RepresentationTheory**, induction and restriction, Layer 6: the ring of virtual characters and the induction formalism. Brauer's induction theorem (every character of a finite group over an algebraically closed field of characteristic zero is a `ℤ`-combination of characters induced from irreducible characters of elementary subgroups) is Tau Ceti's `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`, listed above. The passage to one-dimensional inducing characters is not part of that statement: it is L3.Fd.2(d)'s `brauer_induction_linear`, proved from the pinned `TauCeti.IsElementary.isNilpotent` (elementary groups are nilpotent), `FDRep.exists_character_eq_indClassFun_of_isNilpotent` (irreducible characters of finite nilpotent groups are induced from linear characters of subgroups) and `Subgroup.indClassFun_indClassFun_subgroupOf` (transitivity of induction), all listed above. L3.Fd.2 applies the result to `Gal(L/k)` with `L` totally real, so that every fixed field of an inducing subgroup is a subfield of `L` and is totally real.
 - **GrothendieckEulerForms**, Layers 0–2: the essentially small exact-category infrastructure and exact Grothendieck group, with universal properties and equivalence invariance. **AlgebraicVectorBundles**, L0A–L0C: finite locally free sheaves and their exact pullback, tensor, symmetric and exterior powers. L3.Fa.1 imports these objects to specialize the exact-category K-groups supplied by GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.3.
 - **DerivedModuleAlgebra**, §0.K.1: the Koszul complex of a linear functional and its maps; exactness locally for a regular sequence. L3.Fa.1 uses the tautological functional over `Sym(E)`, takes homogeneous components and glues them for a vector bundle `E`.
-- **JacobianChallenge**, Layer `B`: genus, Riemann–Roch and Serre duality for a smooth proper geometrically integral curve over a field with a rational point (the pinned library has `SchemeWeilDivisor.eulerCharBelow_sheaf_eq_relativeDegree_add_one_sub_genus` and `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`). L1.9 supplies the additional differential/canonical-sheaf comparison, extends scalars to supply a rational point and uses geometric integrality for the constant field.
+- **JacobianChallenge**, Layer `B`: genus, Riemann–Roch and Serre duality for a smooth proper geometrically integral curve over a field with a rational point (the pinned library has `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.eulerCharBelow_sheaf_eq_relativeDegree_add_one_sub_genus` and `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`). L1.9 supplies the additional differential/canonical-sheaf comparison, extends scalars to supply a rational point and uses geometric integrality for the constant field.
 
 ### From other roadmaps
 
-- **PadicFunctionalAnalysis §4.5** — logarithm-series convergence, continuity and the product law for commutative Banach `ℚ_p`-algebras with bounded scalar action, on the native `NormedSpace.logOneAdd` carrier. For a complete normed `ℚ_p`-field `E`, the series converges on `‖u‖ < 1`, uniformly on each closed disc of radius less than 1, and `logOneAdd E E (u + v + uv) = logOneAdd E E u + logOneAdd E E v` for `‖u‖, ‖v‖ < 1`. These are the local inputs to DirichletPadicLFunctions §0.6; L0.10 and L0.13 retain their generality over complete ultrametric fields of characteristic zero.
+- **PadicFunctionalAnalysis §4.5** — logarithm-series convergence and the product law for complete ultrametric commutative normed `ℚ_p`-algebras with `‖c • a‖ ≤ ‖c‖‖a‖`, on Mathlib's `NormedSpace.log`. For a complete normed `ℚ_p`-field `E`, the series of `NormedSpace.log (1 + u)` converges for `‖u‖ < 1`, and `NormedSpace.log ((1 + u)(1 + v)) = NormedSpace.log (1 + u) + NormedSpace.log (1 + v)` for `‖u‖, ‖v‖ < 1`. These are the local inputs to DirichletPadicLFunctions §0.6; L0.10 and L0.13 retain their generality over complete ultrametric fields of characteristic zero.
 
 - **GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.3, §6.10** — `quillenQ`, `exactKGroup`, `KGroup.zero_eq_exactK0`, `KGroup.map`, `nerveRealization_homotopy`, `quillenTheoremA` and `quillenTheoremB` supply ordinary K-theory of exact categories (the degree-zero comparison and the functoriality are §6.1.2's aliases of GeneralAlgebraicKTheory §2.5); `finiteFieldKGroups` supplies the positive-degree finite-field calculation. L3.Fa.1 constructs the scheme specializations, exact-cube comparison and higher Adams theory, with the multi-relative groups taken from MotivicEtaleKTheory §2.0a, and proves the filtered-union comparison used for algebraic residue fields.
 - **ArithmeticKTheory §3.4** — `borel_rank_order`: for an order `R` in a finite-dimensional semisimple `ℚ`-algebra `A` and `n ≥ 2`, the inclusion induces `K_n(R)_ℚ ≅ K_n(A)_ℚ`; `borel_rank_centralSimple`: for a number field `k` with `r₁` real and `r₂` complex places, `dim_ℚ K_n(k)_ℚ` is `r₁ + r₂` for `n ≡ 1` modulo 4, `r₂` for `n ≡ 3` modulo 4, and 0 for positive even `n`. L3.Fa.1 uses the dimensions in `noLowWeightKTheory_numberField`; L3.Fc.1 uses them for the rank of its lattice; L3.Fc.2 uses them through L3.Fc.1.
