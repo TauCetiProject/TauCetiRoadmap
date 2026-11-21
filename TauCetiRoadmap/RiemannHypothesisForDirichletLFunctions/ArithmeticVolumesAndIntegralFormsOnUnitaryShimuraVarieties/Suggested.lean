@@ -54,7 +54,8 @@ open scoped nonZeroDivisors
 
 /-- The logarithmic period of the lattice `ℤ + ℤτ`, `τ` in the upper half-plane:
 `log(4π·Im τ·|η(τ)|⁴)`, which equals `log(area(ℂ/Λ)/π) + (1/6)·log|Δ(Λ)|` for `Λ = ℤ + ℤτ` and
-depends only on the homothety class of the lattice (README 8.5). -/
+depends only on the homothety class of the lattice (README 8.5).
+[FormalProof], `Development/AbelianVarietyTheory/Proofs/HomogeneousIdeals/DedekindZetaEqSumRealEisenstein.lean` (`GlobalTheory.chowla_selberg_eta`, `GlobalTheory.latticeLogPeriod`). -/
 noncomputable def logPeriod (τ : UpperHalfPlane) : ℝ :=
   Real.log (4 * Real.pi * τ.im * ‖ModularForm.eta (τ : ℂ)‖ ^ 4)
 

@@ -20,7 +20,8 @@ Notation and conventions not restated here are those of the roadmaps named at ea
 
 **Slopes and heights.** Hermitian lattices are finitely generated submodules of full rank, over the ring of integers of a number field (`𝒪_𝕃`, `𝒪_𝕂` or the field named in a target), of Hermitian spaces with a metric at every complex embedding. This roadmap writes `μ(L̄) := 2μ̂(L̄)`, twice Bost's normalised slope (`μ̂ = deĝ/([𝕃:ℚ]·rk)` over `𝒪_𝕃`), so `μ(𝒪_𝕃^n, standard) = 0`; `μ_max`, `μ_min` likewise. For a linear map `φ`, `ht(φ) := (2/[𝕃:ℚ]) Σ_σ log ‖φ‖_σ`, twice Bost's archimedean height, that is the mean over the embeddings of `log ‖φ‖²_σ` (equivalently over the infinite places, the metrics being compatible with conjugation); integrality at finite places is stated separately, and operator norms are taken for the metrics named in each statement. For a lattice `L` and a basis `e` of `L ⊗ 𝕃`, `−rk L·μ(L) = mean_σ log det Gram_σ(e) − 2Σ_𝔭 ϱ(𝔭)·idx_𝔭(L : ⟨e⟩)`, `idx_𝔭` the signed length at `𝔭` (no factor `2` on the mean). With these, `μ(N̄) ≤ μ_max(M̄) + ht(φ)` for `φ` injective and integral. SlopesOfHermitianVectorBundles uses `μ̂` and `h`; this paragraph is the dictionary, and its statements are homogeneous in it.
 
-**The CM period.** `log Ω := γ + log(2π/rd_E) − (L′/L)(1, χ_K)`, `rd_E` the root discriminant of `E` and `γ` Euler's constant. Equivalently `log Ω = log Ω_K − log(rd_E/√d_K)`, where `log Ω_K = γ + log(2π/√d_K) − (L′/L)(1, χ_K)` is the mean over the ideal classes of `K` of `log(area(Λ)/π) + (1/6) log|Δ(Λ)|` (Chowla–Selberg, 8.5). The same `Ω` is the arithmetic degree of the flat line bundle (8.11).
+**The CM period.** `log Ω := γ + log(2π/rd_E) − (L′/L)(1, χ_K)`, `rd_E` the root discriminant of `E` and `γ` Euler's constant
+([FormalProof], `Development/AbelianVarietyTheory/Definitions/CMLattices/ExistsIsThetaDegOfIsLocalModel.lean` (`GlobalTheory.CM.logOm`)). Equivalently `log Ω = log Ω_K − log(rd_E/√d_K)`, where `log Ω_K = γ + log(2π/√d_K) − (L′/L)(1, χ_K)` is the mean over the ideal classes of `K` of `log(area(Λ)/π) + (1/6) log|Δ(Λ)|` (Chowla–Selberg, 8.5). The same `Ω` is the arithmetic degree of the flat line bundle (8.11).
 
 **The chain.** Step `j` (`1 ≤ j ≤ m`) has the step weight `w_j = e_{j−1}` (ThetaChainsOnDefiniteUnitaryGroups §2.3) and the model lift between `U(V_j)` and `U(W_j)` (RowTowerAndRallisIdentities §5.7). For a type prime `g ∈ {g₀, g₁}` (ThetaChainsOnDefiniteUnitaryGroups §2.7) the prime `π_g𝒪_K` of `K` above `g` is fixed. A *level* at the type primes is a pair `(P, χ_P)` of a subgroup `P` of the finite group `G₀` of ThetaChainsOnDefiniteUnitaryGroups §2.9a and a character `χ_P` of `P`; the forms are formed at principal level and the levels cut out their parts; `(P_0, χ_{P_0})` is the base level (ThetaChainsOnDefiniteUnitaryGroups §2.9a), and `𝔼_0` the part of the good rows at the base level (RowTowerAndRallisIdentities §5.3).
 
@@ -77,7 +78,7 @@ fields as well; 8.19b–8.19d state their own fields. On fields other than those
 `(p, q)`, `p ≠ q`, at every `τ ∈ Φ`, containing a self-dual lattice `L_W` over the maximal order `𝒪_E`, and `w_0 ∈ 𝒪_E` is an element with `w_0 + w̄_0 = 1` (for the chain, `w_0 = (1 + √−d)/2`). *The level.* `K_W` is the principal congruence subgroup of level `M` of the stabiliser of `L_W ⊗ Ẑ`, for an odd integer `M ≥ 3` with `M𝒪_K = 𝔐·𝔐̄`, `𝔐 + 𝔐̄ = 1` (for the chain `M = g₀g₁` and `𝔐 = 𝔓₀𝔓₁`, `𝔓_i` a prime of `K` above `g_i`), and `Sh = Sh(W, K_W)` is the moduli scheme, over a number field `F′ ⊂ ℂ` containing the conjugates of `E` and `ζ_M`, of principally polarised abelian schemes with `𝒪_E`-action of signature `(p, q)` and a marking of the `𝔐`-torsion (similitude level one). *The level is good:* for every prime `p` the part of `M` prime to `p` is at least `3` (for `M = g₀g₁`: two distinct odd primes). The levels of ThetaChainsOnDefiniteUnitaryGroups §§2.9, 2.9a contain `K_W`, and the forms of those levels with their characters are the vectors of the corresponding type, under the finite group `G₀`, among the forms of level `K_W`. The deeper levels `M·15^e` of 8.18 (o), and `M·p` for a prime `p` split in `K` and prime to `M`, are of the same kind and good for the same reason. `A → Sh` is the universal principally polarised abelian scheme with `𝒪_E`-action, and for an
 embedding `σ` of `E`, `Lie_σ` the `σ`-eigen-submodule of `Lie(A)` (over `Y`, of the Lie algebra of the semi-abelian
 extension): of rank `p` for `σ = ι₀∘τ` and `q` for `σ = ι₀∘cτ`, `τ ∈ Φ`; `ω_σ = Lie_σ^∨`. `Y` is the union of the corresponding
-components of the normal projective flat model over `𝒪_{F′}`, with a semi-abelian extension of `A`, of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b) for the datum and the level (the global model), with the cubical line bundle that ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b) attaches to the principal polarisation and to `w_0`. `Y` agrees with the integral toroidal model of ShimuraCompactifications §7.3 over a dense open subset of `Spec 𝒪_{F′}` only; toroidal charts at a given prime are taken from ShimuraCompactifications §7.3 at a prime good for the datum and the level, and from ShimuraCompactifications §7.31 (the singleton collection) at a bad one. `Fl → Sh` is the bundle of full flags of every `Lie_τ` and
+components of the normal projective flat model over `𝒪_{F′}`, with a semi-abelian extension of `A`, of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b) for the datum and the level (the global model), with the cubical line bundle that ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b) attaches to the principal polarisation and to `w_0`. In the form of [FormalProof] the model, its semi-abelian scheme and this bundle are those of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b′) (ii), chosen so that ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.12a holds; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b′) relates them to those of (b) through an identification of the two moduli problems that it does not give. `Y` agrees with the integral toroidal model of ShimuraCompactifications §7.3 over a dense open subset of `Spec 𝒪_{F′}` only; toroidal charts at a given prime are taken from ShimuraCompactifications §7.3 at a prime good for the datum and the level, and from ShimuraCompactifications §7.31 (the singleton collection) at a bad one. `Fl → Sh` is the bundle of full flags of every `Lie_τ` and
 every `Lie_{cτ}`, of relative dimension `D − dim Sh`, `D = |Φ|·N(N − 1)/2`, with tautological lines `x_{τ,i}` (`0 ≤ i < N`):
 for `i < p` the `i`-th graded piece of the flag of `Lie_τ`, for `i ≥ p` the dual of the `(N − 1 − i)`-th graded piece of the
 flag of `Lie_{cτ}`. For a dominant weight `λ = (λ_τ)_{τ∈Φ}`,
@@ -152,6 +153,8 @@ and gets `−1.310533`, the classical value of the Faltings height of that curve
 
 *KNOWN* ((a): Chowla–Selberg 1967, §12, p. 109, the constant terms at `s = 1` of their identity (1) between the sum over the classes of the Epstein zeta functions and `w·ζ(s)·L(s, χ_K)`, through Kronecker's limit formula in their form §6, (39), p. 97; their (2), p. 110, is the same identity as a product over the classes, with values of `Γ`). The identity holds for `D = 3, 4` as well (Lerch;
 Chowla–Selberg); [FormalProof] treats `D > 4`, which contains every host of the family.
+(b): [FormalProof], `Development/AbelianVarietyTheory/Proofs/CubicalLineBundles/OneMulConjFracOneEqInvDifferent.lean`
+(`GlobalTheory.chowla_selberg_of_mean_log`, `GlobalTheory.chowla_selberg_lie_lines`).
 *Needs:* ComplexMultiplicationAndExplicitReciprocityPartII
 §4.6 (the Faltings height of a CM elliptic curve); ArakelovGeometryAndAbelianHeights §2.9 (the Faltings height of an
 elliptic curve from its minimal discriminant and its periods); ImaginaryQuadraticClassNumber H3.1 (the CM dictionary and the
@@ -225,7 +228,15 @@ chosen vectors form a local basis); summed with `log‖t‖ + log‖t̄‖ + log
 the product formula turns this shape into (b).
 
 *KNOWN* in content (the arithmetic degree of the determinant line on unitary Shimura varieties is a Chowla–Selberg
-period), *NEW* in this normalisation. *Needs:* 8.5; PELModuli M1.7, M2.8, M3.4, M3.5, M3.8, M4.7;
+period), *NEW* in this normalisation. (a): [FormalProof],
+`Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/ExistsConstSectionKroneckerCharStatement.lean`
+(`GlobalTheory.T.exists_const_section_kronecker_char`),
+`Development/AbelianVarietyTheory/Definitions/Foundations/ExistsFlatSecRankZero.lean` (`GlobalTheory.FlatLine.ConstSec`),
+`Development/AbelianVarietyTheory/Definitions/Divisors/HtValOnSubset.lean` (`GlobalTheory.FlatCore.Laws`). (c): [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Foundations/ExistsFlatSecRankZero.lean` (`GlobalTheory.FlatLine.flDefect_vw`,
+`GlobalTheory.FlatLine.FlatSec.deg_eq_toFrame`),
+`Development/AutomorphicSpectrum/Proofs/GeometryProofs/FlatDegreeHoldsStatement.lean` (`GlobalTheory.T.FlatDegree_holds`).
+*Needs:* 8.5; PELModuli M1.7, M2.8, M3.4, M3.5, M3.8, M4.7;
 ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a (a), 6.7a, 7.31a (b) and ShimuraCompactifications §§7.3, 7.31; AutomorphicBundles §5.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1;
 ResolutionOfSingularitiesCharacteristicZero §5.2; ComplexComparisonPartII C1.9, C2.2;
 ComplexMultiplicationAndExplicitReciprocityPartII §§1.4, 4.6.
@@ -257,7 +268,12 @@ valuation may be fractional and rounding costs at most `log ℓ` per prime and u
 8.11 (c) on one side and the Lie lattices on the other would introduce `2q·(log d_K − log rd_E)·Σ_τ w_τ`, whose absolute
 value is at most `2q·log rd_E·Σ_τ|w_τ|`.
 
-*NEW* (elementary). *Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7; RowTowerAndRallisIdentities §5.1.
+*NEW* (elementary). (a): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsTwSecOfConst.lean` (`GlobalTheory.FlatTwisting.twSec_of_flat`),
+`Development/AbelianVarietyTheory/Definitions/Divisors/MulSmulIdemMem.lean` (`GlobalTheory.FlatTw.TwSec`). (b) follows from
+[FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlatLineThetaRootTwistTwistingSection.lean`
+(`GlobalTheory.FlatRootTwist.flat_root_twist`).
+*Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7; RowTowerAndRallisIdentities §5.1.
 
 ### 8.13 The definite step
 
@@ -266,24 +282,37 @@ finite set of points, each an abelian variety with complex multiplication of sig
 `w = (a, n)` as in 8.17a: for every `τ ∈ Φ` a partition `a_τ` (non-increasing, entries `≥ 0`, at most `p` parts) and an
 even integer `n ≥ 0`, the scalar weight. A form of weight `w` is a function of the points of this set together with a frame
 of every `Lie_{x,τ}` and a nonzero section `s` of the line of the principal polarisation, transforming by the Schur functors
-of the `a_τ` in the frames and by the `n`-th power in `s`. Its norm at a point is its value at frames orthonormal for the
-metric of 8.11 divided by `‖s‖^n`, where `‖s‖²` is the mean over a period parallelogram of `|θ_s(z)|²·e^{−π·H(z, z)}`, `θ_s`
-the theta function of `s` and `H` the Riemann form. Prove: (a) at every point `x` the lattice of the integral forms of
+of the `a_τ` in the frames and by the `n`-th power in `s`. Its *norm at a point* `x` is the norm of its value, in frames
+orthonormal for the Hodge inner product `π·H_A` of 8.11, for the invariant Hermitian form `⟨,⟩_λ` of the Conventions (the
+highest-weight vector has norm one), divided by `‖s‖^n`, where `‖s‖²` is the mean over a period parallelogram of
+`|θ_s(z)|²·e^{−π·H(z, z)}`, `θ_s` the theta function of `s` and `H` the Riemann form. In the highest-weight model, where a form
+is a scalar function of the frames, its *norm at a frame* is the absolute value of its value at the Gram–Schmidt
+orthonormalisation of the frame for `π·H_A`, divided by `‖s‖^n`; the norm at the point dominates the norm at every frame over
+it, and its square is `∏_τ dim V_{a_τ}` times the mean of the squares of the norms at the orthonormal frames over the point.
+Prove: (a) at every point `x` the lattice of the integral forms of
 weight `w` supported at `x`, with the norm at `x`, has slope
 
 `μ ≥ −Σ_τ (|a_τ| + n·p/2)·log Ω − Σ_τ log dim V_{a_τ} − n·|Φ|·p·(log rd_E − ½·log 2π)`,
 
-where `log Ω = μ(Lie_{x,τ}) = 2deg(det Lie_{x,τ})/p` (8.11 (b) with `q = 0`); (it contains a lattice of full rank whose
-slope, for a Hermitian norm that dominates the norm at `x`, is at least this bound); (b) if a finite group `S` acts through
+where `log Ω = μ(Lie_{x,τ}) = 2deg(det Lie_{x,τ})/p` (8.11 (b) with `q = 0`); (the lattice obtained from the Lie lattices by
+the Schur functors of the `a_τ` and from the `n`-th power of the theta line maps into it with full rank and has slope at least
+this bound for the norm at `x`); (b) if a finite group `S` acts through
 the level, freely on the points, and `ψ` is a character of `S` with values in the coefficient field, the `ψ`-eigen-lattice
 of the lattice of integral forms of weight `w` is nonzero and has slope at least the right-hand side of (a) for the
 Petersson norm normalised as the `L²` norm for the invariant probability measure
-(`‖f‖² = Σ_x|Γ_x|^{−1}‖f(x)‖²/Σ_x|Γ_x|^{−1}`); (b′) the lattice of all integral forms of weight `w` is the orthogonal direct
+(`‖f‖² = Σ_x|Γ_x|^{−1}‖f(x)‖²/Σ_x|Γ_x|^{−1}`), and also for the smaller norm in which `‖f(x)‖²` is replaced by the mean of the
+squares of the norms at the orthonormal frames over `x`, that is by `‖f(x)‖²/∏_τ dim V_{a_τ}` (the `L²` norm of the scalar frame
+function for the invariant probability measure on the adelic quotient: the norm in which [FormalProof] states (b) and (c));
+(b′) the lattice of all integral forms of weight `w` is the orthogonal direct
 sum over the points of the lattices of (a), for the product of the Conventions (the metric at `x` weighted by
 `|Γ_x|^{−1}`), so its slope for that product is at least the right-hand side of (a). The slope for the product of the
-Conventions is the slope for the probability measure minus `log Σ_x|Γ_x|^{−1}`. (c) For the definite step of
-the chain (`W = W_m` of ThetaChainsOnDefiniteUnitaryGroups §2.2, `p = r`, the weight of step `m` of ThetaChainsOnDefiniteUnitaryGroups §2.3, the level of ThetaChainsOnDefiniteUnitaryGroups §2.9) under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1:
-`μ(M_{λ^W_m}) ≥ −p·Σ_τ w_m(τ)·log Ω − C·B₀·log log x` (`λ^W_m` the weight of step `m` of ThetaChainsOnDefiniteUnitaryGroups §2.3 and RowTowerAndRallisIdentities §5.7).
+Conventions is the slope for the first of these two norms minus `log Σ_x|Γ_x|^{−1}`, and the slope for the second minus
+`log Σ_x|Γ_x|^{−1} + Σ_τ log dim V_{a_τ}`. (c) For the definite step of the chain (`W = W_m` of ThetaChainsOnDefiniteUnitaryGroups
+§2.2, `p = r`, the weight of step `m` of ThetaChainsOnDefiniteUnitaryGroups §2.3) under the size conditions of
+ThetaChainsOnDefiniteUnitaryGroups §2.1: the part `M^W_m` of the lattice of integral cusp forms of weight `λ^W_m` cut out by its
+type at the type primes (8.19), with the second norm of (b), satisfies `μ(M^W_m) ≥ −p·Σ_τ w_m(τ)·log Ω − C·B₀·log log x`, `C`
+not depending on `x`. For the product of the Conventions the left side is smaller by `log Σ_x|Γ_x|^{−1} + Σ_τ log dim V_{a_τ}`;
+the second term is at most `C·B₀·log log x`, and a bound for the first is this roadmap's own (it is not part of [FormalProof]).
 
 *Route.* (a) At a CM point the Schur part of weight `a` is the representation of `∏_τ GL(Lie_{x,τ})` of highest
 weight `a` evaluated on the Lie lattices; its degree is linear in `a` with coefficient the Lie degree, which 8.11
@@ -297,8 +326,9 @@ isomorphic by the value at one point `x` of the orbit (`S` acts freely and isome
 lattice of (a) at `x` with its norm squared multiplied by `|S|·|Γ_x|^{−1}/Σ_y|Γ_y|^{−1} ≤ 1`. (b′) The class-sum description
 of the Petersson product (Conventions). (c) Write `λ^W_m` as `w_m·(1, …, 1)` plus a
 remainder: the main term is `−p·Σ_τ w_m(τ)·log Ω`; the remainder (at most `|log Ω|·Σ_τ|λ^W_m(τ) − w_m(τ)(1, …, 1)|`), the
-logarithms of the dimensions, the term `n·|Φ|·p·log rd_E` of (a) (`n = r + t`), the normalising factors and the stabiliser
-orders are at most `C·B₀·log log x` under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1.
+logarithms of the dimensions and the term `n·|Φ|·p·log rd_E` of (a) (`n = r + t`) are at most `C·B₀·log log x` under the size
+conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1; the logarithm of the mass `Σ_x|Γ_x|^{−1}`, needed only for the product
+of the Conventions, is to be bounded by `C·B₀·log log x` (this roadmap's own step).
 
 *NEW* (form of the bound), *KNOWN* ingredients (algebraic modular forms; CM abelian varieties). *Needs:* 8.11, ThetaChainsOnDefiniteUnitaryGroups §3.1;
 ClassicalGroups §5.1 (Weyl dimension); ThetaLiftsForDefiniteUnitaryGroups §1.6 (integral structures);
@@ -318,7 +348,8 @@ Hermitian Petersson norms, the pull-backs `γ^*` preserving the lattices and iso
 generic point of every component (equivalently, is not a zero divisor of the ring of sections);
 
 (ii) `Σ_{h∈S} ‖tr_ψ(f·γ_h^*ς)‖² ≤ e^{2P}·‖f‖²` for every form `f` of weight `λ`, at every complex embedding; this holds with
-`e^{2P} = |S|³·e^{2P₁}` if `‖f·γ^*ς‖ ≤ e^{P₁}·‖f‖` for all `γ ∈ S`, all `f` and every embedding;
+`e^{2P} = |S|³·e^{2P₁}` if, for every automorphism `γ` of the level structure of `K′` (in particular for every `γ ∈ S`), `γ^*` is
+isometric and `‖f·γ^*ς‖ ≤ e^{P₁}·‖f‖` for all `f` and every embedding;
 
 (iii) `B_ψ ⊗ 𝕃′` is spanned by elements of `B_ψ` of norm at most `e^Λ` at every embedding, `Λ ≥ 0`;
 
@@ -356,7 +387,8 @@ descend `ω_q` to the quotient `W` of an equivariant normal projective compactif
 `det ω = ω_q² ⊗ ⊗_τ𝓕_τ^{−1}`, and on the compactification every `𝓕_τ` is trivial (8.11 (a)), so `ω_q² ≅ det ω` there; a positive
 power of the Hodge line `det ω` of the semi-abelian extension is the pull-back of an ample line bundle on the minimal
 compactification (ShimuraCompactifications §§7.13, 7.17, on the generic fibre of the integral toroidal model of ShimuraCompactifications §7.3 for a smooth projective cone system), so its degree on every complete curve, curves in the boundary included, is `≥ 0`, and
-`ω_q` is nef (the seminegativity of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (b) covers only the curves meeting the interior); `det ω`
+`ω_q` is nef (the seminegativity of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (b), which holds for every
+semi-abelian scheme over a curve in characteristic zero, curves in the boundary included, gives this as well); `det ω`
 is big because `ω^{⊗a} ⊗ O(−Σ_ρ d·pol(ρ)D_ρ)` is ample for large `a` (ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.17a (a), for the smooth integral toroidal model of ShimuraCompactifications §7.3 at a good prime and on the generic fibre) and the boundary twist is effective; bigness and
 nefness pass to the quotient `W` and back (finite surjective maps); `ω_q` is ample at the generic point.
 Separate the points of the fibre over the image `x` of a generic point by sections of `K + m·ω_q + (`nef`)`,
@@ -391,7 +423,9 @@ at `γy` is killed by every `tr_ψ(·γ_h^*ς)`.
 
 *NEW* (this form; Bost's slope method in the descent; the group determinant of Dedekind and Frobenius as a criterion
 for injectivity of twisted traces; for abelian `S` it factors, up to sign, into the twisted traces `Σ_g ψ(g)γ_g^*ς`
-over the characters `ψ` of `S`, ClassicalArithmeticCompletion §7.5). *Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.4 (e), 3.4 (v);
+over the characters `ψ` of `S`, ClassicalArithmeticCompletion §7.5). The inequality: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/HtMapLeOfPoints.lean` (`GlobalTheory.DescentFamily.descent`).
+*Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.4 (e), 3.4 (v);
 AlgebraicModuliForArithmeticGeometry §1.6 (big line bundles); AlgebraicModuliForArithmeticGeometryPartII §§1.5, 1.6, 1.7 (ii);
 ArakelovGeometryAndAbelianHeightsPartII §0.3 (1′); MultiplierIdealsOfPairsAndPointSeparation §§9.10c, 9.12;
 ResolutionOfSingularitiesCharacteristicZero §5.1; ShimuraCompactifications §§7.3, 7.12, 7.13, 7.17, 7.22 and Layer 2; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.17a (a);
@@ -433,7 +467,9 @@ entries, where single eigen-pieces of positive degree must be paid for by the ga
 positive degree do occur in characteristic `ℓ`, so the route cannot go through seminegativity of sub-bundles, which holds
 in characteristic zero only.
 
-*NEW* (statement; [FormalProof]). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 (relative Frobenius and
+*NEW* (statement; follows from [FormalProof],
+`Development/AutomorphicSpectrum/Statements/GeometryStatements/CurveSemiAbelianConjecture.lean`
+(`GlobalTheory.CompanionTheory.Ar.Conj.CurveSemiAbelianConjecture`)). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 (relative Frobenius and
 Verschiebung); ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.9a (conjugate data), assumed in the statement.
 
 ### 8.14b Local facts for the `𝔩`-torsion at a good prime
@@ -473,7 +509,9 @@ R07.1.27–R07.1.28), and the invariant differentials are additive along the fla
 to the flag statement is the step that is not given here.
 
 *NEW* (statement; (L1) KNOWN in kind: the Hopf order of a finite flat group of order `ℓ` is generated by `w`-multiples of
-characters; (L5) [FormalProof], the period relation known in kind, Fontaine). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory
+characters; (L5) [FormalProof], the period relation known in kind, Fontaine). (L1)–(L4): [FormalProof],
+`Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/LieLatticeData.lean`
+(`GlobalTheory.CompanionTheory.Ar.Num.LieLatticeData.Facts`). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.1.17, R07.1.27, R07.1.28; HodgeTateAndCanonicalSubgroups §0.4 and HodgeTateLatticesAndLubinTateLogarithms §§0.5g, 0.5h, 0.18a.
 
 ### 8.14c Antisymmetric polynomials vanishing on the walls
@@ -558,7 +596,9 @@ these normalised numbers are bounded uniformly in `B` below); `vol(c)` by `∫_{
 `M_B(c)` over the modified base `Y_B(c)`. The limit number is not identified with an
 arithmetic intersection number of a theory for log-singular metrics; nothing below uses such an identification.
 
-*Route.* (a) Pass from the global model to `Y⁰_B(c)` by normalisation (ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b): homomorphisms of
+*Route.* (a) Pass from the global model to `Y⁰_B(c)` by normalisation (the finite covers `Y_L` of
+ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b), which (b′) does not state: this step rests on the clause (b), not
+on the form of [FormalProof]; homomorphisms of
 abelian generic fibres extend over a normal base, ShimuraCompactifications §6.8, and the normalisation in a finite extension of the function field
 is again a normal projective flat model carrying the pulled-back semi-abelian scheme), then to `Y_B(c)`
 (HodgeTateLatticesAndLubinTateLogarithms §0.5c (b): the normalisation of the Nash modification of the sheaves `ω^{HT}_ℓ` and of their images in the eigen-quotients, NashBlowups §§1.2–1.4); the patched lattices are vector bundles because the images
@@ -584,7 +624,7 @@ weights dominant for `GL_N` at each `τ` are nef; the power sums vanish by Whitn
 the three inclusions. (a2) Nefness on the fibre is tested on integral curves; their normalisations are smooth projective
 curves. A curve contracted to a point of `Y_B(c)` lies in a flag variety, on which dominant weights are nef. Otherwise apply
 8.14a to the pulled-back semi-abelian scheme (its Lie eigen-bundles have ranks `p`, `q`), with the conjugate data of
-ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.9a, 7.12a (every geometric fibre of the semi-abelian scheme over a point of positive characteristic of the model is an extension of an abelian variety `B` by a torus on which the cubical line bundle of the setting is pulled back from a line bundle `M` on `B` with `K(M)` trivial, by the uniformisation of degenerations, ShimuraCompactifications §§6.4–6.6; this is the hypothesis of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.9a, and ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.12a gives it on the global model and on every reduced scheme over it, in particular on every normal model dominating the global one) and the sub-bundles of the flag: the modification of (a) is an isomorphism over the primes outside `S(B)`, so the fibres at
+ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.9a, 7.12a (every geometric fibre of the semi-abelian scheme over a point of positive characteristic of the model is an extension of an abelian variety `B` by a torus on which the cubical line bundle of the setting is pulled back from a line bundle `M` on `B` with `K(M)` trivial, by the uniformisation of degenerations, ShimuraCompactifications §§6.4–6.6; this is the hypothesis of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.9a, and ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.12a gives it on a global model of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.31a (b′) (ii) chosen there (the global model of the setting) and on every reduced locally noetherian scheme over it whose generic points map to `Sh_F`, in particular on every normal model dominating the global one) and the sub-bundles of the flag: the modification of (a) is an isomorphism over the primes outside `S(B)`, so the fibres at
 these primes are those of the level normalisation, where the eigen-sublattices are vector bundles because these primes
 do not divide the discriminant. (a3) A flag bundle of vector bundles is smooth and projective over its base and commutes
 with base change, and forgetting one step is the bundle of lines of the rank-two graded piece
@@ -595,7 +635,7 @@ semi-abelian scheme, whose Hodge form has Gram matrix between `c/r^C` and `C·r^
 (DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1), so the induced metrics of graded pieces of flags are log-log singular along the pulled-back
 boundary and involve the flag only up to the step in question.
 
-*NEW*. *Needs:* 8.14a; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a (a), 6.7a, 6.9a, 7.12a, 7.31a (b) and ShimuraCompactifications §§6.4–6.6, 6.8; HodgeTateAndCanonicalSubgroups §§0.2, 0.3, 0.5, 0.17; HodgeTateLatticesAndLubinTateLogarithms §§0.5a, 0.5b, 0.5c, 0.17b, 0.18a, 2.4 (the last through HodgeTateLatticesAndLubinTateLogarithms §§0.18a (d), 0.17b); NashBlowups §§1.2–1.4; AlgebraicModuliForArithmeticGeometry
+*NEW*. *Needs:* 8.14a; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a (a), 6.7a, 6.9a, 7.12a, 7.31a (b), (b′) and ShimuraCompactifications §§6.4–6.6, 6.8; HodgeTateAndCanonicalSubgroups §§0.2, 0.3, 0.5, 0.17; HodgeTateLatticesAndLubinTateLogarithms §§0.5a, 0.5b, 0.5c, 0.17b, 0.18a, 2.4 (the last through HodgeTateLatticesAndLubinTateLogarithms §§0.18a (d), 0.17b); NashBlowups §§1.2–1.4; AlgebraicModuliForArithmeticGeometry
 §1.3; NeronModelsAndSemistableAbelianVarieties §§3.5, 3.6 (through HodgeTateLatticesAndLubinTateLogarithms §0.18a); SchemeAndStackFoundations §0.14;
 ArakelovGeometryAndAbelianHeightsPartII §0.3 and HeightsForLogSingularMetrics §§0.4 (b), (o), 14.1 (Objects); ResolutionOfSingularitiesCharacteristicZero
 §5.2; AutomorphicBundles §§0.5, 5.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1; PELModuli M1.7, M2.8, M6.1.
@@ -657,7 +697,12 @@ Returning to `λ` costs `O(θ log B)` (the coefficients of the normalised number
 
 *Check.* `c_θ = 5` is the value of one construction.
 
-*NEW*. *Needs:* 8.15; HeightsForLogSingularMetrics §§0.4 (c)(i)–(iii), 4.3a and ArakelovGeometryAndAbelianHeightsPartII §§3.1, 4.8;
+*NEW*; [FormalProof],
+`Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/HeckeSectionsIsotropicCommutatorPairingPower.lean`
+(`GlobalTheory.CompanionTheory.Ar.Top.RootTower.ThmW`),
+`Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/Proportional.lean` (`GlobalTheory.CompanionTheory.Ar.Top.RootTower.PB`),
+`Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/TowerWeilTheoremStatement.lean` (`GlobalTheory.T.tower_weil_theorem`).
+*Needs:* 8.15; HeightsForLogSingularMetrics §§0.4 (c)(i)–(iii), 4.3a and ArakelovGeometryAndAbelianHeightsPartII §§3.1, 4.8;
 SingularHermitianMetricsAndL2Methods §§7.7 (c), 7.8; HeightsRationalPointsAndObstructions §§5.17a, 5.17f;
 HeightsForLogSingularMetrics §16.1; ArakelovGeometryAndAbelianHeights §§4.6–4.8.
 
@@ -729,10 +774,12 @@ semipositive, nef on the fibres and ample on the generic fibre, and every point 
 isotropic and mutually orthogonal), and for `0 < r_* ≤ r₀` let `m(r_*)` be the mass over `Γ∖U(h)(F_∞)` of the isotropic vectors
 of `L` of bounded line index and length `< r_*`. If `a_q < k_q`, the mean of `log⁺(r_*/λ₁)` over `Γ∖U(h)(F_∞)` is at most
 `(1 + log⁺ m(r_*))/k_q`, with `m(r_*)^{1−a_q/k_q} ≤ 3^{a_q}·k_q/(k_q − a_q)`; in particular it is bounded by an absolute constant (at
-most `3`) when `3j′ + 1 ≤ N`. Consequently, if `3j′ + 1 ≤ N` and `B ≥ 4|Φ|N²`, the mean of `U` against `c₁(ω_{j′})^{dim Sh}` is at most
+most `3`) when `3j′ + 1 ≤ N`. Consequently, if `3j′ + 1 ≤ N`, `B ≥ 4|Φ|N²` and at most `4|Φ|N²` primes divide `2·disc(E)` and the
+level, the mean of `U` against `c₁(ω_{j′})^{dim Sh}` is at most
 `C|Φ|j′·Λ_E(B)·vol`.
 
-(c) *Height of the variety.* If `3j′ + 1 ≤ N` and at most `4|Φ|N²` primes divide `2·disc(E)` and the level:
+(c) *Height of the variety.* If `3q + 1 ≤ N` (so `j′ = q`), `B ≥ max(128, 4|Φ|N²)` and at most `B` primes divide `2·disc(E)` and the
+level (in particular if at most `4|Φ|N²` do):
 `I_tot(c₁(ω_{j′})^{dim Sh+1}·fib) ≥ −C|Φ|j′·Λ_E(B)·(dim Sh + 1)·deg(c₁(ω_{j′})^{dim Sh}·fib)`,
 `fib := ∏_τ∏_{a<b, same block}(x_{τ,b} − x_{τ,a})` the product over the pairs of indices in the same block (of degree
 `|Φ|·(p(p − 1) + q(q − 1))/2 = D − dim Sh`, the relative dimension, so that the class has degree `D + 1`), and `deg` the geometric
@@ -745,7 +792,7 @@ degree, summed over the components.
 with `rest(B′)` the summed remainders of 8.15e over the good primes `ℓ > B′`; and `|p·α_∞ + N·β_∞| ≤ C·N·Λ_E(B′)`,
 and, if at most `4|Φ|N²` primes divide `2·disc(E)` and the level, `α_∞ ≥ −C·Λ_E(B′)`, `C` absolute.
 
-(e) *Equal volumes.* All components have the same volume.
+(e) *Equal volumes.* If `q ≥ 1` and `3q + 1 ≤ N`, all components have the same volume.
 
 *Route.* (a) A point of the model over `𝒪_L` has an abelian and a toric part; choose vectors of the toric lattice and an
 adapted family of vectors of the eigenspaces; the height of the point for `ω_{j′}` is bounded below by minus a degree of
@@ -778,7 +825,9 @@ of the test.
 *Check.* `B₂ = 4|Φ| + 2` is the value of one construction, and `r₀` is the threshold of one argument: any `r_*` below the
 length at which short vectors become isotropic and orthogonal works.
 
-*NEW*. *Needs:* 8.11, 8.15, 8.15d, 8.15e; HeightsRationalPointsAndObstructions §5.17f; ArakelovGeometryAndAbelianHeightsPartII §4.8 and HeightsForLogSingularMetrics §14.2; HeightsForLogSingularMetrics §16.1 (through its reduction step, the absolute Siegel lemma
+*NEW*. (d), the lower bound for `α_∞`: [FormalProof],
+`Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/TestHeightBoundStatement.lean` (`GlobalTheory.T.test_height_bound`).
+*Needs:* 8.11, 8.15, 8.15d, 8.15e; HeightsRationalPointsAndObstructions §5.17f; ArakelovGeometryAndAbelianHeightsPartII §4.8 and HeightsForLogSingularMetrics §14.2; HeightsForLogSingularMetrics §16.1 (through its reduction step, the absolute Siegel lemma
 HeightsForLogSingularMetrics §4.3b (b)); AdelicAlgebraicGroups §4.2 (finite covolume, strong approximation).
 
 ### 8.17 The average arithmetic volume theorem
@@ -791,7 +840,8 @@ the smaller block (of size `min(p, q)`), and every `B ≥ B₁` with `B + 1 > c_
 
 `I(B, u) ≥ −C·(D + 1)·vol_tot·δ_Fl(u)·(Λ_E(B)·|u|₁ + min(p, q)·spread(u))`,  `spread(u) = Σ_τ(max_i u_{τ,i} − min_i u_{τ,i})`;
 
-equivalently the mean over the components of `I_c(B, ℓ_{u}^{D+1})/((D + 1)·vol(c)·δ_Fl(u))` is at least
+hence, the components having the same volume (8.16 (e)), the mean over the components of
+`I_c(B, ℓ_{u}^{D+1})/((D + 1)·vol(c)·δ_Fl(u))` is at least
 `−C·(Λ_E(B)·|u|₁ + min(p, q)·spread(u))`. This first form is a step of the route; the theorem used below is the mean of
 the volume slopes.
 
@@ -830,7 +880,10 @@ place of `log B(u, g)` would be wrong: it can be negative, and `log(|Φ|N²)` is
 `c_B = 4` is the value of one construction, and `128` is the absolute part of the lower bound for `B₁` (`B(u, g) ≥ 128` holds when `|Φ| ≥ 2` and `N ≥ 4`).
 
 *NEW*; the mean of the volume slopes in the form stated (no lower bound for `B(u, g)`, `C` independent of `E` and of the
-datum) is the form of [FormalProof], and the route written here covers `B(u, g) ≥ B₁` only. *Needs:* 8.15, 8.15e, 8.16; ArakelovGeometryAndAbelianHeightsPartII §0.3 (with (1′)) and HeightsForLogSingularMetrics §§4.3a, 14.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
+datum) is the form of [FormalProof], and the route written here covers `B(u, g) ≥ B₁` only. The first form follows from [FormalProof],
+`Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/TowerT2Statement.lean` (`GlobalTheory.T.tower_T2`),
+`Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/MeanSlopeProportionalVolumeStatement.lean`
+(`GlobalTheory.T.mean_slope_proportional_volume`). *Needs:* 8.15, 8.15e, 8.16; ArakelovGeometryAndAbelianHeightsPartII §0.3 (with (1′)) and HeightsForLogSingularMetrics §§4.3a, 14.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.17a The basis problem in the stable range
 
@@ -843,8 +896,8 @@ coefficients and with the characteristic functions of cosets at the level, read 
 `K`-type. If `n(w) ≥ 4[E:ℚ]·N + 4` and the last entry of `a⁺_τ` is positive for every `τ ∈ Φ`, the cusp forms of weight `w`
 on `Sh(W, K′)` are spanned over `𝕂` by the theta series of weight `w`. *Sup norms.* Put `DF(w) := Σ a(w)` and
 `|w| := Σ a(w) + f·max(q, 1)·N·n(w) + 1`, and let `L ≥ 2` be a real number with `log g_i ≤ 9L + 1`, `log rd_E ≤ 2L`,
-`log d ≤ 2L`, `log f ≤ 2L`, `log N𝔠 ≤ 2L` for the auxiliary ideal `𝔠` of `𝒪_K` of the host (which ideal this is, is not given
-here), `log p_δ ≤ L`, `log p′_δ ≤ L` (the auxiliary primes `p_δ, p′_δ` of ThetaChainsOnDefiniteUnitaryGroups §2.4 (b)),
+`log d ≤ 2L`, `log f ≤ 2L`, `log p_δ ≤ L`, `log p′_δ ≤ L` (the auxiliary primes `p_δ, p′_δ` of
+ThetaChainsOnDefiniteUnitaryGroups §2.4 (b)),
 `log(1 + DF(w)) ≤ 2L` and `log n(w) ≤ L` (at the scale `x` of the chain, `L = x^ε`). If `n(w) ≥ N` and the last entries are
 positive, a theta series `g` of weight `w` whose pluriharmonic polynomial `P` has integral coefficients satisfies, at every
 embedding `σ`, `log sup_σ|g| ≤ ℓ + 10·L·DF(w) + 200·f·N·n(w)·L` for every `ℓ ≥ 0` with `Σ|σ(c)| ≤ e^ℓ` over the coefficients
@@ -858,8 +911,13 @@ the weight.
 frame domain, a doubling identity that uses the Siegel–Weil formula for definite Hermitian lattices of rank `> 4N`
 (MetaplecticAutomorphicForms §6.4 and ThetaKernelsForUnitaryDualPairs §6.4a), a Neumann series for the diagonally dominant matrix of the test functions, and
 unfolding; the larger bound `4[E:ℚ]N + 4` is used for the test functions at the level. The theta series are rational, so a
-finite spanning set over `ℂ` of them spans over `𝕂`. The argument does not use the level beyond its neatness, so it holds at
-every level of the setting, deeper levels at auxiliary primes included.
+finite spanning set over `ℂ` of them spans over `𝕂`. The spanning statement is uniform in the level: it holds at every level
+of the kind of the setting (an odd `M ≥ 3` with `M𝒪_K = 𝔐·𝔐̄`, `𝔐 + 𝔐̄ = 1`, similitude level one) at which the arithmetic
+groups of the components contain the principal congruence subgroups of level `M`, their automorphy characters are trivial
+and the components have the same model form. The theta series may be formed at a deeper level `M·p_d`, `p_d` an integer
+prime to `3M`, and brought down to level `M` by a section without zeros. It is used at the levels of the steps, with theta
+series formed at the auxiliary primes `p_δ, p′_δ`, and at the deep covers of 8.18 (o), with theta series formed at the level
+of the cover.
 
 *NEW* (this form); *KNOWN* in kind (the basis problem through the doubling method). *Needs:* RowTowerAndRallisIdentities §5.11; ThetaLiftsForDefiniteUnitaryGroups
 §§3.2–3.3; MetaplecticAutomorphicForms §6.4 and ThetaKernelsForUnitaryDualPairs §6.4a; ThetaChainsOnDefiniteUnitaryGroups §2.4 (b).
@@ -953,7 +1011,17 @@ Without birationality the degree of the
 linear system and the degree of the image differ: `u², v²` on `ℙ¹` has degree `2` and image `ℙ¹` of degree `1`. The cost may be
 negative (the `t_σ` have either sign); the inequality of (b) is asserted only for an upper bound `c_c ≥ 0` of it.
 
-*NEW* (the combination), *KNOWN* ingredients (Zhang; Bost–Gillet–Soulé; Gillet–Soulé). *Needs:* 8.11, 8.12, 8.14, 8.15, 8.17;
+*NEW* (the combination), *KNOWN* ingredients (Zhang; Bost–Gillet–Soulé; Gillet–Soulé). The preamble (`u′`, `ρ`,
+proportionality): [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/IsHomogeneousCompIdeal.lean`
+(`GlobalTheory.CompHt.uPrime`). (a): [FormalProof],
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/HodgeBundleWeights/HeightAddLogNonneg.lean`
+(`GlobalTheory.CovHt.HtTopG.height_add_log_nonneg`). (c) follows from [FormalProof],
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/HeightOfSteps.lean`
+(`GlobalTheory.CovHt.HtTopG.height_of_meanAll_bound`),
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LiftLambdaBound.lean`
+(`GlobalTheory.CovTop.HeightCondition`),
+`Development/AutomorphicSpectrum/Definitions/GlobalGeometry/ModelSmall.lean` (`GlobalTheory.CompanionTheory.Ar.Plug.DeepStR`).
+*Needs:* 8.11, 8.12, 8.14, 8.15, 8.17;
 HeightsRationalPointsAndObstructions §§5.9b, 5.17f and ChowFormsAndHeightsOfSubvarieties §§6.1, 6.2 (a); ArakelovGeometryAndAbelianHeightsPartII §0.3;
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2; PELModuli M1.7, M2.8; ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.3, 2.6; RowTowerAndRallisIdentities §5.7;
 ComplexMultiplicationAndExplicitReciprocity §3.2; ClassFieldTheory §13.1.
@@ -1119,26 +1187,31 @@ estimate with a singular cut-off weight produces peak sections and a lower bound
 bound it from below, and a theta constant with an explicit sup norm (SpecialFunctionsTheta Layer 7) is compared with these
 bounds. At the finite places the clause is to come from `v(θ(y)) ≥ (k_c/2500)·φ(y) − k_c·e_𝔭` and `dep(y) ≤ φ(y)/2500 + e′_ℓ` with
 `Σ_ℓ e′_ℓ·log ℓ` within the budget, `φ(y)` a degeneration invariant of the point; the exponents are bounded through the
-oscillation of the depth of the lattice of integral forms of weight `u₁` over the integral points above a prime, at every
-prime, which points to the factor depth of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18 (c) (without the polarisation factor; through the unramified colength bound
-TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8c) rather than to the depth of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f (o), whose clauses hold at the places of `E⁺` split in `E` only; which of the two the
-carrying section needs is not decided here. The valuative carrying section rests on three statements about the boundary.
+oscillation, over the integral points above a place, of the sum of the factor depths of
+TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18 (c) of the powers of leading minors that make up the highest weight vector
+of `u₁` (no polarisation factor, no multiplier; through the unramified colength bound TaylorBoundsAndDepthsOnHeightTwoFormalGroups
+§4.8c at the odd unramified primes), at every prime other than the type primes; the passage to the depth with the
+polarisation factor is the statement on powers of leading minors of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f,
+which holds at every place and for every multiplier, and the level `M` enters only through the theta rules (8.19a′ (b)).
+The valuative carrying section rests on three statements about the boundary.
 
 *Route.* (a) Finite generation: every nonzero form has a nonzero value, with bounded denominator on the lattice, at a CM
 point; spanning: a power of every form times a fixed form is integral up to a scalar, and the lattice is defined by
 valuations. (b) If the ratios generated a proper subfield, two distinct complex points `z₁`, `z₂` over the generic point of the flag bundle, lying over the same embedding of the field of definition, would have equal ratios (two embeddings of a countable
 field of characteristic zero agreeing on a proper subfield). Sections of `K ⊗ L(u − κ_can)` on a toroidal compactification of the
 flag bundle are cusp forms of weight `u` (the logarithmic Kodaira–Spencer isomorphism, ShimuraCompactifications §7.12;
-Koecher's principle, ShimuraCompactifications §7.22, `[F:ℚ] ≥ 2`). The line of a weight with non-negative gaps is nef (on the curves meeting the interior
-by the seminegativity of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (b); on a curve in a boundary stratum the Lie algebra of the
-semi-abelian scheme is an extension of that of its abelian part, abelian at the generic point of the curve, by that of a
-torus with finite monodromy, whose sub-bundles have degree `≤ 0`), the line of the standard weight `(N − 1, …, 0)` is ample at
+Koecher's principle, ShimuraCompactifications §7.22, `[F:ℚ] ≥ 2`). The line of a weight with non-negative gaps is nef (on every complete curve, curves in a
+boundary stratum included, by the seminegativity of ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (b), which asks
+no abelian fibre), the line of the standard weight `(N − 1, …, 0)` is ample at
 the points of the open part, and `u − κ_can − binom(D + 2, 2)·std` has non-negative gaps; Kollár's effective two-point separation for klt pairs, the form of the Angehrn–Siu theorem for a nef and big twist (MultiplierIdealsOfPairsAndPointSeparation §9.12a, applied over `ℂ` at two complex points over one embedding of the field of definition, on the smooth compactified flag space with `Δ = 0`), with `c(e) := binom(D + 2, 2) − ½` (the twist has self-intersection `≥ binom(D + 2, 2)^e > c(e)^e` on every `e`-dimensional subvariety
 through one of the two points, and `Σ_{e≤D} 2^{1/e}·e/c(e) ≤ Σ_{e≤D}(e + 1)/c(e) = (binom(D + 2, 2) − 1)/c(e) < 1`), gives a section of `K ⊗ L(u − κ_can)` vanishing at exactly one of the two points, hence, for any nonzero `a₁`, `a₂`, a section `g` with `a₁g(z₁) + a₂g(z₂) ≠ 0`, against the equality of ratios. (c) (1) For the weight
-`(a, n)` of a classical lift from a definite group of even rank `n ≥ 8f·r + 4`, the theta series of self-dual Hermitian lattices of
-rank `n` with pluriharmonic coefficients span the cusp forms (8.17a), harmonic polynomials have a spanning family of
-bounded coefficients, raw theta series have bounded sup norms, and a bounded integer multiple of each is integral. (2)
-Write `λ` as such a weight plus a scalar weight plus a parallel weight and multiply by a unit section of scalar weight and by
+`(a, n)` of a classical lift from a definite group of even rank `n ≥ 8f·r + 4` in which the last entry of `a⁺_τ` is positive for
+every `τ`, the theta series of self-dual Hermitian lattices of rank `n` with pluriharmonic coefficients span the cusp forms
+(8.17a, at the level of the cover), harmonic polynomials have a spanning family of bounded coefficients, raw theta series
+have bounded sup norms, and a bounded integer multiple of each is integral. (2)
+Write `λ` as such a weight with `n = 8(f·r + 1)`, plus a scalar weight, plus a parallel weight chosen at every `τ` so that the
+last entry of `a⁺_τ` is `1` (the gap `≥ 8f·r + 10 = n + 2` at the block boundary is what makes `a` a dominant weight with
+entries `≥ 0`), and multiply by a unit section of scalar weight and by
 the short integral flat section (8.11–8.12). (3) A lattice with a spanning family of vectors of norm `≤ B` is generated over `ℤ`
 by at most `2[𝕃_Y:ℚ]·rk` vectors of norm `≤ max(1, [𝕃_Y:ℚ]⁴·rk·rd(𝕃_Y)·B)` (HermitianFormsAndLattices §4.13 for the field `𝕃_Y` over which the components are defined (8.18 (o)) and the lattice of forms on a component is a module, with the norms at its embeddings, which are seminorms for `|σ(·)|`); the rank is bounded by
 (d). (d) A sup-against-`L²` inequality for holomorphic sections on the uniformised component, with an explicit constant
@@ -1234,7 +1307,14 @@ remark on fixed divisors). (*Values.*) `T₀(D) = 3D + 5` is the value of
 one construction; with `q_z = 7(D²/T + Dρ)`, `1 − q_z` is negative for `D = 2`, `T = 11`, `ρ = 0` (`q_z = 28/11`), which is why
 8.18c (e) and (e2) keep the undivided inequality.
 
-*NEW* (the combination), *KNOWN* ingredients (Bost–Gillet–Soulé; Gillet–Soulé; Kawamata–Viehweg). *Needs:* 8.12, 8.18,
+*NEW* (the combination), *KNOWN* ingredients (Bost–Gillet–Soulé; Gillet–Soulé; Kawamata–Viehweg). (e1): [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean` (`GlobalTheory.HSShort.Sys.Flat`).
+(e3), the lattice of weight `u_{M,j}`, follows from [FormalProof],
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LiftLambdaBound.lean`
+(`GlobalTheory.CovTop.UniformLowerBound`),
+`Development/AbelianVarietyTheory/Definitions/Divisors/NormNegCmConstantEqAtAllEmbeddings.lean` (`GlobalTheory.CovTop.Deep.mu`),
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ULowOfStatement.lean`
+(`GlobalTheory.T.uniform_lower_bound_of_sums'`). *Needs:* 8.12, 8.18,
 8.18c; ChowFormsAndHeightsOfSubvarieties §6.2 (b); SlopesOfHermitianVectorBundles §§6.6, 6.7 (the remark on fixed divisors),
 6.7a (i)–(iii), 6.7b (d′)–(f′);
 ShimuraCompactifications §7.12; AlgebraicModuliForArithmeticGeometry §9.10 and MultiplierIdealsOfPairsAndPointSeparation §§9.13, 9.13a; ThetaChainsOnDefiniteUnitaryGroups §2.1.
@@ -1342,7 +1422,8 @@ so the bound of (b) holds, with `2C` in place of `C`, for the norms of RowTowerA
 *Route.* (a) The cover is Galois over the base with group `G_{Y_j}` (8.18 (o)); the invariant measures are probability
 measures, so pull-back is isometric; integrality at an integral point of the base is tested on a point of the cover over
 a finite extension, whose different bounds the denominators; the index of `L ⊗ 𝒪_{𝕃_Y}` in `L′` is at most that of the
-different in each coordinate, which costs `2·log rd(𝕃_Y)` in `μ = 2μ̂`. (b) For `j = m`, 8.13 (c) and step (v) below. For `j < m`:
+different in each coordinate, which costs `2·log rd(𝕃_Y)` in `μ = 2μ̂`. (b) For `j = m`, 8.13 (c) (for the product of the
+Conventions, with its bound for the mass, this roadmap's own) and step (v) below. For `j < m`:
 (i) by (a) the cover `Y_j` of 8.18 (o) descends to the base at the cost `2·log rd(𝕃_Y) ≤ 2b` (8.18 (o), 8.18c (g)); the level `g₀g₁` is good (setting). (ii) On `Y_j` the uniform bound
 8.18e (e3) holds at the weight `u_{M,j}`, for the choices of 8.18c (f). (iii) The weight `λ^W_j − c·w_q` is `u_{M,j} + par(â_j)`; the flat twist
 8.12 (b) with `w = â_j` costs `(p_j − q_j)·log Ω·Σ_τ â_j(τ) + 2·Σ_{ℓ∈S_bad} log ℓ`, with no term in `q_j`, and
@@ -1389,7 +1470,12 @@ of `M^W_j` with the model norm differs from that with the Petersson norm by `2·
 *Check.* `δ_bad ≤ 3e^{−x^{ε/(7J)}}` is the value that BesselPoincareSeriesAndGramBounds §5.23 (iii) gives at the parameters of one construction; the loss of (v) is
 then `o(b)`, not `O(1)`, which is all that 8.19 needs.
 
-*NEW*. *Needs:* LocalGainOfThetaChains §4.9f, 8.12, 8.13, 8.14, 8.18, 8.18c, 8.18e, 8.18f, RowTowerAndRallisIdentities §5.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.9, RowTowerAndRallisIdentities §5.11, BesselPoincareSeriesAndGramBounds §5.23, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9; SlopesOfHermitianVectorBundles
+*NEW*. (a): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspFormLatticeSlopeSqGoodCoverLeCoreStatement.lean`
+(`GlobalTheory.T.cuspFormLattice_slope_sq_goodCover_le_core`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SlopeSqSubLeOfDifferentSmul.lean`
+(`GlobalTheory.SlopeDifferent.slope_sq_sub_le_of_different_smul`).
+*Needs:* LocalGainOfThetaChains §4.9f, 8.12, 8.13, 8.14, 8.18, 8.18c, 8.18e, 8.18f, RowTowerAndRallisIdentities §5.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.9, RowTowerAndRallisIdentities §5.11, BesselPoincareSeriesAndGramBounds §5.23, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9; SlopesOfHermitianVectorBundles
 §§1.2, 2.1, 2.2, 2.6; ShimuraCompactifications §7.22; AutomorphicBundles §5.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.19a Theta series generate the integral forms, uniformly on subspaces
@@ -1422,8 +1508,11 @@ otherwise. Let `π ∈ 𝒪_K` with `π·π̄ = g₀g₁`, `(π, π̄) = 1` and 
 `Th^{all}(w)` the lattice spanned by all theta rules of weight `w` (jets along the frame of theta sections at torsion
 points, with harmonic polynomials with integral coefficients), `Th^{short}(w)` that of the short theta series (the
 class-sum lifts of RowTowerAndRallisIdentities §5.11). `dep_𝔩(y)` is the least valuation at an integral framed point `y` over `𝔩` of the elements of `𝒲`.
-(N4′) *The depth function.* `ν_W(𝔩) := ν_𝔩(w_L; n(w_L)) ≥ 0` is the depth of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b: the supremum, over the algebraic integral framed points above `𝔩`, of
-the least over the integral charts of the point of the depth of `w_L` on `n(w_L)` copies of the variables, in units `v(ℓ) = 1`; `ν*(𝔩) := DF(w_L)/(g_i − 1)` if `ℓ = g_i` (`i = 0, 1`), `ν*(𝔩) := ν_W(𝔩) + c_ℓ(w_L)` otherwise; and
+(N4′) *The depth function.* `ν_W(𝔩) := ν_𝔩(w_L; n(w_L), M)` is the depth of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b
+with multiplier the integer `M = g₀g₁` of the level: the larger of `0` and the supremum, over the algebraic integral framed
+points above `𝔩` that have an integral chart, of the least over the integral charts of the point of the depth of `w_L` on
+`n(w_L)` copies of the variables, taken with the factor `exp(M·Σ_bh_L(x_b))`, in units `v(ℓ) = 1`;
+`ν*(𝔩) := DF(w_L)/(g_i − 1)` if `ℓ = g_i` (`i = 0, 1`), `ν*(𝔩) := ν_W(𝔩) + c_ℓ(w_L)` otherwise; and
 `ν_dep(𝔩) := e_𝔩·ν*(𝔩)`. Assume that `ν_dep` has finite support (it is `0` at the places above neither `g₀` nor `g₁` at
 which `ν_W` and `c_ℓ` vanish). The statement below holds, with the same proof, for every function `ν ≥ 0` of finite support
 on the finite places of `𝕂` in place of `ν_dep` that satisfies the sum bound of (N4) and the depth inequalities of (I8).
@@ -1448,7 +1537,7 @@ generators of `𝒲` (`log N_𝒲 ≤ P_rw·(|w_L| − 1)`), `P_d` a bound for `
 `r + 2γ₀(f·p·q + 1) ≤ C_P·Z³`, `max(90(f·r + 1), 360·f·m³, 2(3r + 3 + r·log r), n_W, γ₀, f·r² + 6, 11) ≤ C_P·Z⁴` and
 `72·5⁴·n²·f²·r²·m⁴ ≤ C_P·Z^{10}`. The polynomials named in the inputs are `P_G = C_G·Z^{A_G}` in (I2) with `A_G ≤ 2`,
 `P₀ = C_L·(f·r + x^ε + log|disc E| + |log Ω|)^{A_L}` in (I3) with `A_L ≤ 4`, `P_q = C_q·Z^{A_q}` in (I5) with `A_q ≤ 11`, the
-bound `C_f·Z^{A_f}` for `log sup|η|/i_η` in (I8) with `A_f ≤ 2`, and `log[𝕂:ℚ], log rd(𝕂) ≤ C_h·Z^{A_h}` with `C_h ≥ 1`,
+bound `log sup_σ|η| ≤ C_f·Z^{A_f}·i_η` of (I8) with `A_f ≤ 2`, and `log[𝕂:ℚ], log rd(𝕂) ≤ C_h·Z^{A_h}` with `C_h ≥ 1`,
 `A_h ≥ 4`; `P_G·(1 + log|κ|) ≤ P_d` and `log dim S_κ ≤ P_d`; `P² ≥ 2` and `P_rw ≤ P`;
 
 (N1) *weights.* All scalar weights are even (the theta series are those of Hermitian lattices of even rank equal to the
@@ -1505,10 +1594,21 @@ image, `r_z`, `r_q` the ranks of the regularity part and of the quotient by the 
 `11n² ≤ T`; (I7) is a consequence of (I1) and (I6), see below); (I8) for all `j`: local point data on the generic zero-cycle
 (its ring finite and reduced with a generator; the valuations at its points are those at integral points `y(ζ)` minus a
 multiple of the depth; integral restrictions lift) and the arithmetic Bézout bound for the local heights of the zero-cycle;
-for `j < m` moreover: an auxiliary boundary form `η` with a number `i_η > 0`, with `v(η)(y(ζ)) ≥ 0` and
+for `j < m` moreover: an auxiliary boundary form `η`, that is an integer `i_η ≥ 1` and a nonzero cusp form `η` of scalar
+weight `γ₀·i_η` (all entries of its dominant weight zero) which is not a zero divisor on the cusp forms (it vanishes
+identically on no component), with `log sup_σ|η| ≤ C_f·Z^{A_f}·i_η` at every embedding `σ`, with `v(η)(y(ζ)) ≥ 0` and
 `dep(y(ζ)) ≤ ν_dep(𝔩) + (c/2i_η)·v(η)(y(ζ))` wherever `v(η)(y(ζ))` is finite, at the specialisations `y(ζ)` of the points of
-the zero-cycle, and the bound for the Gauss contents; for `j = m`: `dep(y) ≤ ν_dep(𝔩)` at every integral framed point `y`
+the zero-cycle, and the bound for the valuations of `η` along the zero-cycle (the second height inequality below); for
+`j = m`: `dep(y) ≤ ν_dep(𝔩)` at every integral framed point `y`
 above every `𝔩` (no boundary form, and (I5) is not asked).
+
+*The two height inequalities of (I8).* Let `δ` be the number of the chosen short theta series `θ′_1, …, θ′_δ` of weight
+`w_F` (the degree of the zero-cycle), and for a finite place `𝔩` let `I_𝔩` be the length at `𝔩` of the lattice of the
+integral functions on the zero-cycle modulo the span of the restrictions of the `θ′_i`. For all `j`: every `I_𝔩` is finite
+and
+`2·Σ_𝔩 I_𝔩·ϱ(𝔩) ≤ δ·log δ + 2·Σ_{i≤δ} mean_σ log sup_σ|θ′_i| + (8/3)·n(n + 4)·δ·P_rw·|w_L| + 2(n + 4)(n + 1)·δ·(2G + 6P_H)·|w_L|`.
+For `j < m`, with `e_ζ`, `f_ζ` the ramification index and the residue degree of the point `ζ` of the zero-cycle above `𝔩`:
+`(1/i_η)·Σ_𝔩 ϱ(𝔩)·Σ_{ζ|𝔩} e_ζ·f_ζ·v(η)(y(ζ)) ≤ γ₀·((n + 1)·δ·(2G + 6P_H)·|w_L| + (4/3)·n·δ·P_rw·|w_L|) + δ·P_et`.
 
 Then there are `r(𝔩) ≥ 0` with `Σ_𝔩 r(𝔩)ϱ(𝔩) ≤ rk(M_κ)·f·m·b·δ₂` such that for every `𝔩`, every integer `e ≥ T·ν_dep(𝔩)` and
 every subspace `V′` of the forms of weight `κ` over the completion at `𝔩`:
@@ -1540,8 +1640,8 @@ valuation of the generic section `s_0` at every point equals the depth of the ba
 and (I7) say that the forms of weight `κ` are, up to a fraction `O(n²/T)` of the rank, such jets of forms of weight `w_F`. The
 sums over the places are bounded by the height inequalities of (I8), by the Gauss content of a determinant against the
 successive minima of the dual lattice (I2)–(I4), SlopesOfHermitianVectorBundles §§4.1–4.2 and the transference theorem
-GeometryOfNumbersAndQuadraticArithmetic §4.4, and by (I5). The norm of (I2) is auxiliary. The two height inequalities of
-(I8) are named in the route of (I8) and not stated; their routes are not given here.
+GeometryOfNumbersAndQuadraticArithmetic §4.4, and by (I5). The norm of (I2) is auxiliary. The routes of the two height
+inequalities of (I8) are not given here.
 
 *Check.* Values of one construction: `n_P⁰ = 8fr + 4`, `n_W⁰ = max(40, f·r·(r + 1))`,
 `T₀ = max(40(n + 2), (n + 2)n_W + 2r, 11n², r + 2γ₀(fpq + 1))`, `γ₀ = 2·5⁴·r`, `C_s = 22`, `C_R = 7` (with `f² ≤ rd_E`, `r ≥ 8`,
@@ -1552,9 +1652,27 @@ span of the regularity terms at every place. For `j = m` the two conditions of (
 `T·γ₀·R_E·P·DF(w_L)² ≤ q_*` and `R_E⁴·P³·DF(w_L)² ≤ q_*`; `c₁ = 0` there because `q = 0`; and the second share inequality of
 (I7) reads `r_z ≤ C_s·n²·rk M_κ/T` (`r_q = 0`). Without rational spanning in (N3) the
 quotient `M_κ/(Θ_κ ∩ M_κ)` has infinite length. A theta lattice spanned by the class-sum lifts only (in place of all theta
-rules for `𝒲`) need not be base-point free.
+rules for `𝒲`) need not be base-point free. The numbers `C_G`, `C_f`, `C_L`, `C_q`, `C_h` are real numbers that need not be
+independent of `x`; they are constrained only through the domination conditions of (N0). `C_f` enters none of them, so the
+bound for `sup|η|` holds for a suitable `C_f` and restricts nothing: the boundary form enters the reduction through the
+second height inequality, with its constant `P_et ≤ P`. For the chain, `C_G = 1041·Z`, `A_G = 2`, `C_f = 200000`, `A_f = 2`,
+`A_L = 2`.
 
-*NEW*. *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18, RowTowerAndRallisIdentities §5.11, 8.19, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.4 (b), ThetaChainsOnDefiniteUnitaryGroups §2.9a; HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a), (b) the colength
+*NEW*. The frame and the conclusion: [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/HeightFunctions/ConclOfInputs4.lean` (`GlobalTheory.FinalJoin.concl_of_inputs4`),
+`Formalism/SharpRestriction/Divisibility/WeightFamilies.lean` (`Formalism.MainNotions.WeightFamilies.Wt.size`). (N0), the
+number `f_E`: [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean` (`Formalism.HC.HostRaw.condN`),
+`Development/AutomorphicArithmetic/CyclotomicBounds/RamifiedDiscriminants/IsCond.lean` (`UpperTheory.Ram.isCond_condN`),
+`Formalism/LocalToGlobal/UnitaryNorms/RealCyclotomicTwoPower.lean` (`Formalism.L2.Host.IsCond`). (N4′), the function
+`ν_dep`, follows from [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/HeightFunctions/GrowthConstantBoundGcR.lean` (`GlobalTheory.RunJoin.nusR`),
+`Formalism/SharpRestriction/Divisibility/AbelianOpenPart/OEOsInjective.lean` (`Formalism.MainNotions.DIV.Cons.nusOf`),
+`Development/AbelianVarietyTheory/Definitions/Jets/ExistsSecTieFOfTies.lean` (`GlobalTheory.PtTie.nuWt`). (I2): [FormalProof],
+`Formalism/SharpRestriction/GenusPolyhedralBounds/RelativeIndexClassSets/WeightedPrimeSumBound.lean`
+(`Formalism.MainNotions.Gaps.EtaleWeightGaps.SupBoundByL2AtWeight`),
+`Formalism/SharpRestriction/Divisibility/WeightFamilies.lean` (`Formalism.MainNotions.WeightFamilies.Wt.size`).
+*Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18, RowTowerAndRallisIdentities §5.11, 8.19, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.4 (b), ThetaChainsOnDefiniteUnitaryGroups §2.9a; HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a), (b) the colength
 identity and the colength inequality with their corollary the descent lemma, (c)); PELModuli M1.7, M2.8;
 AbelianSchemesAndArithmeticModuli A5.3–A5.4; ShimuraCompactifications §7.22 and Layer 7 (Fourier–Jacobi expansions);
 SlopesOfHermitianVectorBundles §§1.2, 1.7, 4.1–4.2; GeometryOfNumbersAndQuadraticArithmetic §4.4 (transference).
@@ -1563,7 +1681,8 @@ SlopesOfHermitianVectorBundles §§1.2, 1.7, 4.1–4.2; GeometryOfNumbersAndQuad
 
 In the setting of 8.19a:
 
-(a) *The depth function.* `0 ≤ ν_W(𝔩) ≤ DF(w_L)/(ℓ − 1)` and `ν_W(𝔩) = 0` for `ℓ > DF(w_L)`; hence
+(a) *The depth function.* For every multiplier, in particular for `M`: `0 ≤ ν_W(𝔩) ≤ DF(w_L)/(ℓ − 1)` and `ν_W(𝔩) = 0` for
+`ℓ > DF(w_L)`; hence
 `Σ_𝔩 ν_dep(𝔩)·ϱ(𝔩) ≤ DF(w_L)·(Σ_{ℓ≤DF(w_L)} log ℓ/(ℓ − 1) + log(Q·q·d) + 1)`.
 
 (b) *Theta functions with characteristics attain the chart depth.* Let `w` be a weight with positive last entries,
@@ -1578,7 +1697,9 @@ for every finite place `𝔩`
 of `𝕂` and every algebraic integral framed point `y` above `𝔩` with an integral chart (with a saturated frame) and a
 uniformised model, `dep_𝔩(y) ≤ ν_dep(𝔩) + c·φ′_C(y)`, hence `≤ ν_dep(𝔩) + c·φ_C(y)` when `w₀` exists. More precisely, if the character lattice `X` has a basis `(b_i)` with
 `Q_y(b_i) ≤ Φ_y` and `|Q_y(b_i + z) − Q_y(b_i) − Q_y(z)| ≤ M₀·Q_y(z)`: (i) if `M = g₀g₁` is a unit at the point, `4·DF + 4 ≤ M` and
-`DF·M₀ < M`, then `inf_f v(f(y)) ≤ (chart depth) + DF²·Φ_y/M`, the infimum over the theta rules `f` of weight `w`; (ii) if the
+`DF·M₀ < M`, then `inf_f v(f(y)) ≤ (chart depth with multiplier M) + DF²·Φ_y/M`, the infimum over the theta rules `f` of
+weight `w` (a theta rule of level `M` is a jet of a section of the `M`-th power of the polarisation: this is why the depth
+carries the multiplier `M`); (ii) if the
 residue characteristic is `g ∈ {g₀, g₁}` (`g′` the other), `DF < g − 1`, `4·DF + 4 ≤ g′` and `DF·M₀ < g′`, then
 `inf_f v(f(y)) + v(N(w)) ≤ v(g)·DF/(g − 1) + r·rk(X)·Φ_y/(4g′) + 2·DF²·Φ_y/g′`; and there is such a basis with `rk X ≤ 2fm`,
 `M₀ ≤ 2√(2fm)` and `Φ_y ≤ r₀·rk_ℤ(X)³·φ′_C(y)`.
@@ -1593,7 +1714,9 @@ modulo `R⁴`: at every point `y` with a uniformisation,
 admissible functional (positive on a nonzero positive semidefinite `β`, whose radical is an `𝒪_E`-submodule), with value
 `2·Σ_b Q_y(x_b)`; with `w₀`, `β ↦ Σ_b β(w₀x_b, x_b)` is admissible with value `Σ_b Q_y(x_b)`, since `β(w₀x, x) = β(x, w̄₀x)` and
 `w₀ + w̄₀ = 1`; the third comparison comes from `rk_ℤ(X)` independent vectors with `Q_y ≤ r₀·rk_ℤ(X)²·φ′_C(y)`.) (a) In a saturated chart a jet of order `D` along the frame has valuation at most that of `D!`, which is
-`≤ D/(ℓ − 1)` and `0` for `ℓ > D`; `Σ_{𝔩|ℓ} ϱ(𝔩)e_𝔩 = log ℓ`; above the type primes `Σ_i log g_i/(g_i − 1) ≤ 1`; and
+`≤ D/(ℓ − 1)` and `0` for `ℓ > D` (the bound for a jet in a saturated chart does not depend on the multiplier; `0 ≤ ν_W` is the
+cut-off in the definition of the depth at a place); `Σ_{𝔩|ℓ} ϱ(𝔩)e_𝔩 = log ℓ`; above the type primes
+`Σ_i log g_i/(g_i − 1) ≤ 1`; and
 `Σ_ℓ c_ℓ(w_L)·log ℓ ≤ DF(w_L)·log Q + ⌈DF(w_L)/2⌉·log(qd)`. (b) (i): jets by integral sections of the `M`-th power on the product
 of the copies, the theta basis by translates at a level prime to the residue characteristic, and an ultrametric
 pigeonhole. (ii): write `π = a·a′` with `a·ā = g`, `a′·ā′ = g′` in `𝒪_K`, `(a, ā) = 1` (so `ā·ā′` generates the half-level ideal). The
@@ -1905,6 +2028,8 @@ with `n − 1 ≡ −1`). These are the data of the second kind of SelmerLengthB
 *KNOWN* (i), (ii) in kind (Hecke: the `L`-function of a ring class character as a sum of Epstein zeta functions; for an order
 of an imaginary quadratic field, the Hecke zeta function as a sum, over the proper ideal classes of the order, of lattice
 sums is Damerell 1970, §6, p. 300), *NEW* (iii).
+(i): [FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricSumEqHeckeLValueMulAuxiliaryFactorsStatement.lean`
+(`GlobalTheory.T.toric_sum_eq_hecke_L_value_mul_auxiliary_factors`).
 *Needs:* 8.19b, 8.19c, CongruenceModulesOfThetaLifts §7.8; LFunctions Layer 6 (Grössencharacters); ClassFieldTheory §11.1 (global Artin
 reciprocity, composed with inversion for the geometric convention); SelmerLengthBoundsAndLocalLifting §§3.22, 3.25b, 3.26.
 
@@ -2070,7 +2195,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TaylorBoundsAndDepthsOnHeightTwoFormalGroups, a sub-roadmap of this family
 
-- §4.8b (the depth of a weight at a framed point and at a place), §4.8b′ (integral charts and saturated frames), §4.8c (the unramified colength bound), §4.18 ((a), (b) the pivot lemma; (c) the factor depth), §4.19f (o). Used in 8.18c, 8.19a, 8.19a′.
+- §4.8b (the depth of a weight at a framed point and at a place, with a multiplier, `M = g₀g₁` at the chain; at a place it is cut off below at `0`), §4.8b′ (integral charts and saturated frames), §4.8c (the unramified colength bound), §4.18 ((a), (b) the pivot lemma; (c) the factor depth), §4.19f (the depth of powers of leading minors). Used in 8.18c, 8.19a, 8.19a′.
 
 ### From LocalGainOfThetaChains, a sub-roadmap of this family
 
@@ -2116,7 +2241,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From ProjectiveModelsAndPeriodBoundsOnShimuraVarieties, a sub-roadmap of this family
 
-- §6.2a (growth bounds for the Hodge metric: (a) the Gram matrix; (b) seminegativity over curves meeting the interior), §6.7a (logarithmic periods of a chart of the model with a holomorphic family of points; the monodromy is not asserted unipotent), §6.9a (conjugate data on a curve in characteristic `p`), §7.12a (the hypotheses of §6.9a on the global model and on every reduced scheme over it), §7.17a (a) (ampleness of twisted Hodge lines on the smooth integral toroidal model at a good prime), §7.31a (b) (the global normal projective model, with the endomorphisms and, for a self-dual lattice and `w_0`, the cubical line bundle of the principal polarisation), §9.1 (Kempf's descent of a linearised line bundle to a quotient by a finite group). Used in the setting of 8.11–8.19, 8.11, 8.14, 8.14a, 8.15, 8.18c.
+- §6.2a (growth bounds for the Hodge metric: (a) the Gram matrix; (b) seminegativity of the Lie algebra of every semi-abelian scheme over a smooth projective geometrically connected curve over a field of characteristic zero), §6.7a (logarithmic periods of a chart of the model with a holomorphic family of points; the monodromy is not asserted unipotent), §6.9a (conjugate data on a curve in characteristic `p`), §7.12a (the hypotheses of §6.9a on a global model of §7.31a (b′) (ii) that can be chosen, and on every reduced locally noetherian scheme over it whose generic points map to `Sh_F`), §7.17a (a) (ampleness of twisted Hodge lines on the smooth integral toroidal model at a good prime), §7.31a (b) (the global normal projective model, with the endomorphisms, its finite covers `Y_L` and, for a self-dual lattice and `w_0`, the cubical line bundle of the principal polarisation in that roadmap's own form), (b′) (ii) (the global model with its cubical line bundle, the form of [FormalProof]), §9.1 (Kempf's descent of a linearised line bundle to a quotient by a finite group). Used in the setting of 8.11–8.19, 8.11, 8.14, 8.14a, 8.15, 8.18c.
 
 ### From HeightsForLogSingularMetrics, a sub-roadmap of this family
 
