@@ -183,8 +183,12 @@ being the partitions that strictly dominate λ; its index set at λ is the set o
 λ-tableaux; its anti-involution * fixes every Tᵢ, so that `T_w* = T_(w⁻¹)`; and its basis element
 for standard λ-tableaux s, t is `T_(d(s))* x_λ T_(d(t))`, where x_λ is the row symmetrizer of the
 Young parabolic subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the
-eigenvalue q, and d(t) is the permutation carrying the row-reading λ-tableau to t, the
-minimal-length element of its coset of that subgroup. This is Murphy's basis, cellular over every
+eigenvalue q. Here d(t) is the permutation of the labels carrying t to the row-reading λ-tableau
+t^λ (Tau Ceti's `TauCeti.StandardYoungTableau.rowSuperstandard`) under Tau Ceti's left relabelling
+action, `d(t) = TauCeti.YoungTableau.relabelPerm t t^λ`, the inverse of the permutation
+`relabelPerm t^λ t` carrying t^λ to t; it is the minimal-length element of its right coset
+`S_λ d(t)` of that subgroup. With permutations acting on the entries from the right, it is the d(t)
+with `t = t^λ d(t)`. This is Murphy's basis, cellular over every
 commutative ring and unit parameter (Mathas, Example 2.15, p. 6, quoting Murphy, in the
 normalization `(gᵢ − Q)(gᵢ + 1) = 0`, gᵢ = qTᵢ). The product of the gᵢ along a reduced word
 of w is `g_w = q^(ℓ(w)) T_w`, so Murphy's m_λ, the sum of the `g_w` over the Young parabolic
@@ -213,7 +217,8 @@ non-isomorphism of the tableau representations and the faithfulness of their sum
 *Needs:* §1.1; Tau Ceti `TauCeti.TypeAHeckeAlgebra.basisTw`,
 `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum`, `TauCeti.CellularBasis`,
 `TauCeti.CellularBasis.cellRep`, `TauCeti.CellularBasis.gramMatrix`, `TauCeti.standardCount`,
-`TauCeti.StandardYoungTableau`, `TauCeti.permCoxeterSystem`; Mathlib `IsSemisimpleRing`,
+`TauCeti.StandardYoungTableau`, `TauCeti.StandardYoungTableau.rowSuperstandard`,
+`TauCeti.YoungTableau.relabelPerm`, `TauCeti.permCoxeterSystem`; Mathlib `IsSemisimpleRing`,
 `Nat.Partition`, `YoungDiagram.ofPartition`; TemperleyLieb Layer 5; SchurWeyl Layers 3–5.
 
 **Checks.**
@@ -228,6 +233,11 @@ non-isomorphism of the tableau representations and the faithfulness of their sum
   modulo the cell (2), so (2) lies below (1,1); with the cells ordered by dominance itself the
   cellular axiom fails at (1,1). The cell forms are given by `x_(2)² = (1 + Q) x_(2)` and `1 · 1 = 1`,
   with Gram determinants `[2]_Q` and 1, both nonzero exactly when the criterion holds.
+- The side of d(t) matters. At q = 1 in `ℚ[S₄]`, with λ = (3,1) and t^λ = 123/4 (labels 1, …, 4,
+  rows separated by a slash), `relabelPerm t^λ t` is `(34)` for t = 124/3 and `(234) = (23)(34)`
+  for t = 134/2, and `x_λ (23) = x_λ` gives `x_λ (234) = x_λ (34)`, a repeated element. With
+  `d(t) = relabelPerm t t^λ`, which is `(34)` and `(243)` there, the elements `d(s)⁻¹ x_λ d(t)` are
+  24 linearly independent elements of `ℚ[S₄]` over the five shapes, and 6 of `ℚ[S₃]` for n = 3.
 
 ### 1.3 Branching and induction
 
@@ -247,8 +257,8 @@ the left and right bases of rank n + 1, are the induction and recursive-trace su
 `TauCeti.TypeAHeckeAlgebra.strandIncl`; SchurWeyl Layer 4.
 
 **Checks.**
-- S^(2,1) restricts to `S^(2) ⊕ S^(1,1)`, of dimensions 1 + 1 = 2; S^(2) induces to
-  `S^(3) ⊕ S^(2,1)`, of dimension 3, the rank of H₃(q) over H₂(q).
+- When `(1 + Q)(1 + Q + Q²) ≠ 0`, S^(2,1) restricts to `S^(2) ⊕ S^(1,1)`, of dimensions
+  1 + 1 = 2; S^(2) induces to `S^(3) ⊕ S^(2,1)`, of dimension 3, the rank of H₃(q) over H₂(q).
 
 ### 1.4 Roots of unity: cellular forms and the semisimple quotient
 
@@ -483,7 +493,9 @@ the Hecke parameter belongs here.
 
 - For H₃(q) over a field, the basis has six elements T_w, the Specht modules S^(3), S^(2,1),
   S^(1,1,1) have dimensions 1, 2, 1, and the algebra is semisimple exactly when
-  `(1 + Q)(1 + Q + Q²) ≠ 0`; restriction of S^(2,1) to H₂(q) is `S^(2) ⊕ S^(1,1)`.
+  `(1 + Q)(1 + Q + Q²) ≠ 0`; when this product is nonzero, restriction of S^(2,1) to H₂(q) is
+  `S^(2) ⊕ S^(1,1)`. Over 𝔽₂ at q = 1 the product is 0 and this fails: T₁ acts as the identity
+  on `S^(2) ⊕ S^(1,1)`, where index and sign coincide, but not on S^(2,1).
 - For k = 1 the shuffle module `Sh_1(S^ν)` is the induced module of S^ν from `H_l(q)` to
   `H_(l+1)(q)`, and §1.10 is the one-box induction rule of §1.3 with its orthogonal form.
 
@@ -551,8 +563,11 @@ Hₙ(q), `τ(x(a + bTₙc)) = τ(xa) + zτ(xbc) = 0`.
 
 **Checks.**
 - On H₂(q), in the basis (1, T₁), the Gram matrix of the trace pairing is
-  `[[1, z], [z, (q − q⁻¹)z + 1]]`, with determinant `−(z − q)(z + q⁻¹)`: the radical of H₂(q) is
-  nonzero exactly at the two character parameters, where it is the kernel of the character.
+  `[[1, z], [z, (q − q⁻¹)z + 1]]`, with determinant `−(z − q)(z + q⁻¹)`: over an integral domain R
+  the radical of H₂(q) is nonzero exactly at the two character parameters, where it is the kernel
+  of the character. Over other rings it can be nonzero elsewhere: for R = ℤ/8ℤ, q = 1 and z = 3 the
+  determinant is −8 = 0, and the nonzero element T₁ − 3 lies in the radical, since `τ(T₁ − 3) = 0`
+  and `τ((T₁ − 3)T₁) = 1 − 9 = 0`, although 3 is neither 1 nor −1.
 
 ### 2.3 The normalized braid-closure invariant
 
@@ -1406,10 +1421,14 @@ generator-labelled representation of §3.12.
   corresponding colour projection at every site.
 - With all site projections in B, sandwich each `Rᵢ` between two-site colour projections; for
   distinct adjacent colours the nonzero swap coefficient yields the corresponding matrix unit.
-  Adjacent swaps connect any two finite words with the same colour multiplicity vector, so these
-  balanced matrix units span each finite-site `T^J`-fixed algebra. Kaplansky density followed by
-  normal Haar averaging gives F ⊆ B, hence B = F; the shifted argument gives A as the full phase
-  fixed algebra of the tail.
+  Adjacent swaps connect any two finite words with the same colour multiplicity vector, so B
+  contains every balanced matrix unit. For finite J these units span each finite-site `T^J`-fixed
+  algebra. For countably infinite J their span is only strongly dense in it: for a finite I ⊆ J
+  let `p_I` project onto the words with all colours in I; for x in the n-site fixed algebra,
+  `p_I x p_I` is a finite combination of balanced matrix units, `‖p_I x p_I‖ ≤ ‖x‖`, and
+  `p_I x p_I → x` strongly as I increases to J. Since B is strongly closed, it contains each
+  finite-site fixed algebra. Kaplansky density followed by normal Haar averaging gives F ⊆ B, hence
+  B = F; the shifted argument gives A as the full phase fixed algebra of the tail.
 - Tail irreducibility: take `x ∈ A′ ∩ E_tail` and approximate x and x* in product-state L² by bounded
   local `xₙ`. For a local test element y choose a finite site permutation σ moving the support of y
   away from that of `xₙ`; it preserves the product state and lies in A, hence fixes x. Product
@@ -1453,6 +1472,9 @@ incomplete tensor product, tracial standard form, modular theory and centralizer
   so H < log[B : A], as for the diagonal corner inclusion of Subfactors §2.6. At equal weights
   (1/2, 1/2) the relative commutant is still ℂ² and the two values are both log 4.
 - Geometric weights `w_j = (1 − t)t^(j−1)`: `Σ_j 1/w_j = ∞` while `Σ_j −w_j log w_j` is finite.
+- For J = ℕ at one site the fixed algebra is the diagonal algebra `ℓ∞(ℕ)`, and the finite
+  combinations of the `E_jj` are the finitely supported diagonals, which do not contain the
+  identity; the projections `p_I = Σ_(j∈I) E_jj` converge strongly to 1.
 
 ### 4.7 Finite positive colours from the fundamental quantum model
 
@@ -2155,8 +2177,11 @@ Let F be the full phase fixed algebra, defined independently of B. On an n-lette
 `Jₙ = (−1)^(inv(word))`. For a local balanced matrix unit |u⟩⟨v| with equal colour multiplicities,
 `inv(u·tail) − inv(v·tail) = inv(u) − inv(v)`, because every inversion between the prefix and the
 tail depends only on those common multiplicities; so conjugation by Jₙ is compatible with
-x ↦ x ⊗ 1 on every local balanced matrix unit. These units span the finite phase fixed algebras,
-and Haar averaging with local approximation gives their weak density in F. Each Jₙ commutes with
+x ↦ x ⊗ 1 on every local balanced matrix unit. These units span the finite phase fixed algebras
+for finite J, and for countably infinite J their span is strongly dense in each of them, by the
+bounded compressions `p_I x p_I` of §4.6; since conjugation by Jₙ and x ↦ x ⊗ 1 are normal, the
+compatibility holds on every finite phase fixed algebra. Haar averaging with local approximation
+gives the weak density of their union in F. Each Jₙ commutes with
 the product density, so the compatible conjugations extend, by the bounded L² and adjoint
 approximation of §4.14, to a state-preserving normal *-automorphism of F that fixes every site
 colour projection. This does not assume F = B, and does not claim that Jₙ converges to a unitary on
@@ -2481,7 +2506,10 @@ Proved at the pin; each is used as stated.
   `TauCeti.KnotTheory.jimboWeightedTrace_strandIncl`, `TauCeti.KnotTheory.jimboWeightedTrace_stabilize`,
   `TauCeti.KnotTheory.jimboWeightedTrace_stabilizeInv`, `TauCeti.MarkovBraid.jimboTrace`.
 - *Combinatorics and probability*: `TauCeti.standardCount`, `TauCeti.StandardYoungTableau`,
-  `YoungDiagram.InterlacedBy`, `TauCeti.hsymm_mul_schurPoly` (the finite-variable Pieri rule),
+  `TauCeti.StandardYoungTableau.rowSuperstandard`, `TauCeti.YoungTableau.relabelPerm` (by
+  `relabel_relabelPerm`, `relabel (relabelPerm t t') t = t'` for the left relabelling action
+  `TauCeti.YoungTableau.relabel`), `YoungDiagram.InterlacedBy`, `TauCeti.hsymm_mul_schurPoly`
+  (the finite-variable Pieri rule),
   `TauCeti.schurPoly`, `TauCeti.hsymmInt`, `TauCeti.frobeniusCharacteristic`, `TauCeti.rowInsert`,
   `TauCeti.rowInsertEquiv`; `TauCeti.Probability.ConditionallyIIDWith.tendsto_empiricalMeasure_apply_ae_forall`
   (simultaneous almost-sure convergence of the empirical frequencies of a countable family of
