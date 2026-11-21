@@ -117,8 +117,8 @@ Let `L/K` be separable algebraic, `H = G_L`.
   finiteness hypothesis) for the inclusion `σ` of `L` into
   `SeparableClosure K = separableClosure K (AlgebraicClosure K)`, and
   `absoluteGaloisGroupRestrictEquiv K`, which carries `L.fixingSubgroup` onto
-  `σ.fieldRange.fixingSubgroup`. For finite `L` it is FilteredLocalGaloisGroups 2.0,
-  `absoluteGaloisGroupEquivFixingSubgroup'`, and its composite with the inclusion into `G_K` is
+  `σ.fieldRange.fixingSubgroup`. For finite `L` it is the isomorphism of FilteredLocalGaloisGroups 2.0
+  (`exists_continuousMulEquiv_fixingSubgroup`), and its composite with the inclusion into `G_K` is
   `absoluteGaloisGroupExtend K L σ`.
 - **0.1 Definition.** `L/K` is **APF** if `G_K(u)·H` is open in `G_K` for every `u ≥ −1`
   [Wintenberger 1983, 1.2.1]. `G_K(u)·H` is a subgroup because `G_K(u)` is normal. It is open
