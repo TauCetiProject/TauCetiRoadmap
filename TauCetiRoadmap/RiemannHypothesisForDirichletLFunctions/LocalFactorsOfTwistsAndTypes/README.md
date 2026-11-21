@@ -14,6 +14,11 @@ Layer 1 characterises the tempered representations of `GL_n` as the irreducible 
 
 Italic labels such as *satake-transform* name targets of SmoothRepresentationsOfLocalGroups and are cited with their section. Notation and conventions not restated here are those of the home roadmaps: SmoothRepresentationsOfLocalGroups (its Conventions and Layers SR.0–SR.5), AutomorphicLFunctionsAndLocalFactors (its Conventions and Layers AL.2–AL.4) and AutomorphicLFunctionsAndLocalFactorsPartII (its Conventions and §§2.3, 3.4).
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 1: Tempered representations of general linear groups
 
 This layer extends SmoothRepresentationsOfLocalGroups §SR.3.3: for `GL_n` the tempered representations are the irreducible products of unitary square-integrable representations, which makes the Langlands classification of that section unconditional for `GL_n`.
