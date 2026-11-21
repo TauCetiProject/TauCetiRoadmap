@@ -79,14 +79,18 @@ open ValuativeRel
 /-! ## Layer 3: Spherical functions, Satake parameters and Hecke bounds -/
 
 /-- The maximal compact subgroup `GL_n(𝒪_K)` of `GL_n(K)`: the image of the invertible matrices
-over the valuation ring `𝒪_K` of `K`. -/
+over the valuation ring `𝒪_K` of `K`. The same subgroup is [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Foundations/MatrixMeasurableSpace.lean`
+(`GlobalTheory.SplitWeil.KO`). -/
 noncomputable def integralGL (K : Type*) [Field K] [ValuativeRel K] (n : ℕ) :
     Subgroup (GL (Fin n) K) :=
   (Matrix.GeneralLinearGroup.map (algebraMap 𝒪[K] K)).range
 
 /-- The Hecke operator `T_r = [K₀ diag(ϖ, …, ϖ, 1, …, 1) K₀]` of the spherical Hecke ring of
 `GL_n(K)`, `K₀ = GL_n(𝒪_K)`, with `r` entries `ϖ` (for `r ≥ n` all entries are `ϖ`); its double
-coset does not depend on the uniformiser `ϖ`. -/
+coset does not depend on the uniformiser `ϖ`. The same double coset is
+[FormalProof], `Formalism/SatakeDualWeyl/Statement.lean`
+(`Formalism.UG.Tj`, `Formalism.UG.diagJ`). -/
 noncomputable def heckeT {K : Type*} [Field K] [ValuativeRel K] (n : ℕ) (ϖ : K) (hϖ : ϖ ≠ 0)
     (r : ℕ) : HeckeRing (⊤ : Submonoid (GL (Fin n) K)) (integralGL K n) ℤ :=
   HeckeCosetModule.single ℤ
