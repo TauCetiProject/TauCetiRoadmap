@@ -32,43 +32,46 @@ Its headline theorems are four.
   weight and of finite weighted inverse-curvature norm, with `u` bounded by that norm. On a Stein manifold, Cartan's theorems hold for coherent analytic
   sheaves: global sections generate every stalk, and `Hᵏ(X, F) = 0` for `k > 0`.
 
-The roadmap sits between real algebraic and complex geometry. The completed
+The roadmap sits between real algebraic and complex geometry. The
 RealAlgebraicGeometry roadmap supplies the Thom encodings, subresultants and root continuity from
 which the local decomposition of semianalytic sets is built. AffineMorseLefschetz supplies the
 finite semialgebraic lifting construction whose analytic refinement gives the bounded theorem.
 ComplexKahlerGeometry supplies the local algebra of holomorphic germs, the holomorphic structure
-sheaf and the local Kähler identities, and uses Layers 1 and 5 in return. ComplexComparisonPartII
-and SchubertGeometry build on the Stein and coherent theory of Layer 3.
+sheaf and the local Kähler identities, and uses R1 and R5 in return. ComplexComparisonPartII
+and SchubertGeometry build on the Stein and coherent theory of R3.
 
-Layer 0 fixes analytic germs and analytic submanifolds on a manifold. Layer 1 proves the local
-normal decomposition of semianalytic sets, their dimension theory and the Nash refinement.
-Layer 2 proves Łojasiewicz's theorem in affine space and the semialgebraic theorems. Layer 3
-builds the complexification, the weighted `∂̄` theory, the Stein criteria and Cartan's theorems.
-Layer 4 proves Grauert's embedding theorem, and Layer 5 transports the affine triangulation to
-manifolds.
+R0 fixes analytic charts, analytic germs and analytic submanifolds on a manifold. R1 sets up
+semianalytic sets and proves their local normal decomposition and dimension theory; R1.1 adds Nash
+germs, locally semialgebraic sets and the Nash refinement. R2 proves Łojasiewicz's theorem in
+affine space, and R2.1 the semialgebraic theorems. R3 builds the complexification, the weighted
+`∂̄` theory, the Stein criteria and Cartan's theorems. R4 proves Grauert's embedding theorem, and
+R5 transports the affine triangulation to manifolds.
 
 ## How to read the build
 
-The labels R0–R5, R1.1, R2.1 and R3.0–R3.2, by which other roadmaps cite this one, appear in the
-headings: Rk is Layer k and Rk.n is §k.n. In Layers 1 and 2 the sections numbered `k.0` and
-`k.0a`, `k.0b`, … come before §k.1, which uses them; §§2.1a–2.1b continue §2.1.
+The layers are R0–R5, the labels by which other roadmaps cite this one. The sections of layer Rk
+are numbered §k.n, and the sections cited under labels of their own carry them in their headings:
+R1.1 is §1.1, R2.1 is §2.1 with its continuation §§2.1a–2.1b, and R3.0, R3.1 and R3.2 are §§3.0,
+3.1 and 3.2. In R1 and R2 the sections numbered `k.0` and `k.0a`, `k.0b`, … come before §k.1,
+which uses them. A statement that Tau Ceti proves ends with a line *In Tau Ceti:* naming the
+declarations that realise it.
 
-Layers 0–2 form the real part. §§0.1–0.2 are used by the complexification of §3.0 and by
-Layer 5. §1.0 proves the local normal decomposition by induction on the dimension and §1.0a draws
-its dimension and frontier consequences; §1.1 refines both to the Nash category for the semialgebraic theorems. Layer 2 is
-one induction on the dimension of the affine space, in the order its *Needs:* lines force: normal
-boxes (§2.0), nonsingular directions (§2.0a), partially semialgebraic sets (§2.0b), adapted
-decompositions (§2.0c), the straightening of graph families (§2.0d), and the three steps of the
-construction (§§2.0e–2.0g), ending with Theorem 1 in §2.0h. §2.1 proves the bounded semialgebraic
-theorem on the semialgebraic lift of AffineMorseLefschetz, and §§2.1a–2.1b the multiprojective
-theorem.
+R0–R2 form the real part. §§0.1–0.2 are used by the complexification of §3.0 and by R5. §1.0
+sets up semianalytic presentations and proves the local normal decomposition by induction on the
+dimension, and §1.0a draws its dimension and frontier consequences; §1.1 develops Nash germs and
+locally semialgebraic sets and refines both to the Nash category for the semialgebraic theorems.
+R2 is one induction on the dimension of the affine space, in the order its *Needs:* lines force:
+normal boxes (§2.0), nonsingular directions (§2.0a), partially semialgebraic sets (§2.0b), adapted
+decompositions (§2.0c), the straightening of graph families and the band calculus (§2.0d), and the
+three steps of the construction (§§2.0e–2.0g), ending with the relative subdivision lemma, the
+rectilinear cells and Theorem 1 in §2.0h. §2.1 proves the bounded semialgebraic theorem on the
+semialgebraic lift of AffineMorseLefschetz, and §§2.1a–2.1b the multiprojective theorem.
 
-Layers 3–5 form the global part. §3.0 builds the complexification and its strictly
-plurisubharmonic tube; §3.1 proves the weighted `∂̄` theorem and, from it, the Stein criterion,
-interpolation and approximation; §3.2 proves Cartan's theorems. Layer 4 uses only §3.1's
-consequences for the tube, and Layer 5 combines Layers 1, 2 and 4. Each subsection's *Needs:*
-line lists what its statement and its route use, so that a target proved another way is not
-blocked behind an unrelated section.
+R3–R5 form the global part. §3.0 builds the complexification and its strictly plurisubharmonic
+tube; §3.1 proves the weighted `∂̄` theorem and, from it, the Stein criterion, interpolation and
+approximation; §3.2 proves Cartan's theorems. R4 uses only §3.1's consequences for the tube, and
+R5 combines R1, R2 and R4. Each subsection's *Needs:* line lists what its statement and its route
+use, so that a target proved another way is not blocked behind an unrelated section.
 
 ## Conventions
 
@@ -91,7 +94,7 @@ blocked behind an unrelated section.
    (`TauCeti.IsSemianalytic s`) when it is semianalytic at every point of the ambient space,
    including points outside `s`. On a real-analytic manifold the notion is read in charts
    (`TauCeti.IsMSemianalytic I s`). Images of semianalytic sets under proper analytic maps are not
-   asserted to be semianalytic.
+   asserted to be semianalytic. Their calculus opens §1.0.
 4. **Semialgebraic and Nash.** Semialgebraic subsets of `σ → ℝ`, `σ` finite, are
    `TauCeti.IsSemialgebraic`; a function is semialgebraic on `s` (`TauCeti.IsSemialgebraicOn f s`)
    when `s` and its graph, a subset of the coordinate space indexed by `σ ⊕ τ`, are semialgebraic.
@@ -100,7 +103,7 @@ blocked behind an unrelated section.
    `P(y, t)` satisfies `P(y, f(y)) = 0` near `x`; a map is Nash when its coordinates are, and a
    Nash function on an open set is one that is a Nash germ at each of its points. A set is
    locally semialgebraic (`TauCeti.IsLocallySemialgebraic`) when every ambient point has an open
-   semialgebraic neighbourhood meeting it in a semialgebraic set.
+   semialgebraic neighbourhood meeting it in a semialgebraic set. §1.1 states their calculus.
 5. **Analytic submanifolds of `ℝⁿ`.** `TauCeti.IsAnalyticSubmanifold d S` says that `S ⊆ ℝⁿ` is a
    nonempty `d`-dimensional analytic submanifold, straightened near each point by an analytic
    chart of `ℝⁿ`; `TauCeti.AnalyticOnSubmanifold d f S` says that `f` is analytic on it, in those
@@ -139,18 +142,72 @@ blocked behind an unrelated section.
    `E`-valued `(n, k)`-forms, `B = [iΘ(E) + i∂∂̄φ, Λ]`. Coherent analytic sheaves are the module
    sheaves of §3.2, item 0.
 
-## Layer 0: real-analytic germs and chartwise submanifolds (R0)
+## R0: Real analytic charts and germs
 
-This layer puts the coordinate theory of analytic germs and analytic submanifolds on a
-real-analytic manifold. Convergent local complexification, its uniqueness, its compatibility
-with pullback and the complexification of analytic charts are taken in coordinates from the
-supplier contracts; this layer reads them on `M` and checks that nothing depends on the chart.
+This layer puts the coordinate theory of analytic functions, analytic germs and analytic
+submanifolds on a real-analytic manifold. Convergent complexification at a point, with its radius
+bounds, and the complexification of analytic charts are RealAlgebraicGeometry Layer 7's and are
+taken in coordinates from the supplier contracts. This layer proves the chart dictionary, the
+neighbourhood form of complexification, the germ calculus and its compatibility with
+complexification, and reads them on `M`, checking that nothing depends on the chart. No second
+complexification theorem is proved here, and formal power series are not identified with
+convergent germs.
 
 ### 0.1 Analytic germs on a manifold and their complexification
 
-Let `M` be a real-analytic manifold of dimension `n`. Define the ring of analytic germs of `M` at
-`x`: germs at `x` of real functions on `M` that are analytic near `x` (Convention 2). Prove that the
-chart representative identifies it, for every chart `φ` of the maximal atlas at `x`, with the ring
+**Analytic charts.** Let `M` be a real-analytic manifold over a boundaryless model `I` (Convention
+1). For any two charts `e, e′` of the maximal `ω` atlas, the change of coordinates
+`I ∘ e′ ∘ e⁻¹ ∘ I⁻¹` is analytic on its domain, in particular at the coordinate of every point of
+`e.source ∩ e′.source`. A function `f : M → F` into a complete normed space is `C^ω` at `x` if and
+only if its coordinate expression `f ∘ (e.extend I)⁻¹` in a chart `e` of the maximal atlas at `x`
+is analytic at the coordinate of `x`; the preferred chart `extChartAt I x` is one such chart. On a
+preconnected `M` modelled on a locally connected space, two `C^ω` functions agreeing on a
+neighbourhood of one point are equal (the identity theorem).
+*In Tau Ceti:* `ModelWithCorners.analyticOnNhd_extendCoordChange`,
+`ModelWithCorners.analyticAt_extendCoordChange`, `TauCeti.analyticOnNhd_ext_coord_change`,
+`TauCeti.contMDiffAt_omega_iff_analyticAt_of_mem_maximalAtlas`,
+`TauCeti.contMDiffAt_omega_iff_analyticAt`, `ContMDiff.eq_of_eventuallyEq`.
+
+**The neighbourhood adapter.** Let `U ⊆ ℝⁿ` be open and `f : U → ℝ` analytic (the same holds for
+maps to `ℝᵐ`, coordinatewise). There are an open set `W ⊆ ℂⁿ`, invariant under complex conjugation,
+whose real points are exactly the points of `U`, and a holomorphic `F : W → ℂ` with `F = f` on `U`
+and `F(z̄) = conj F(z)`. The extension is unique near `U`: two holomorphic functions on an open
+neighbourhood `W` of the real points of `U` that agree on `U` agree on a smaller open
+conjugation-invariant `V ⊆ W` whose real points are exactly those of `U`. Route:
+RealAlgebraicGeometry Layer 7's extension on a real-centred polydisc at each point of `U`, shrunk so
+that its real points lie in `U`; two such extensions agree on the intersection of their polydiscs,
+which is convex and contains the real part of each of its points, by the identity theorem on the
+real points; they glue to the union.
+*In Tau Ceti:* `AnalyticOnNhd.exists_complexification`, `AnalyticOnNhd.exists_complexification_pi`,
+`AnalyticOnNhd.exists_eqOn_of_forall_real`.
+
+**Chart-local germs and their complexification.** For a point `a` of a normed space, the germs at
+`a` of functions analytic at `a` form a subring `TauCeti.analyticGerms 𝕜 a` of all germs, and two
+analytic functions have the same germ exactly when they agree near `a`. An analytic map `g` with
+`g(a) = b` induces a ring homomorphism, pullback, from the germs at `b` to the germs at `a`;
+pullback along the identity is the identity, pullback is contravariantly functorial under
+composition, and locally inverse analytic maps induce mutually inverse ring isomorphisms. For two
+charts `e, e′` of the maximal `ω` atlas of `M` at `x`, pullback by the change of coordinates is a
+ring isomorphism between the germ rings at the two coordinates of `x`; it satisfies the identity
+and cocycle laws, and it carries the representative of a `C^ω` function `M → 𝕜` in one chart to its
+representative in the other. For `a ∈ ℝⁿ`, complexification is an injective ring homomorphism from
+real analytic germs at `a` to holomorphic germs at `a`, characterized by restricting back to the
+given germ on the real points; it commutes with pullback along any holomorphic extension of an
+analytic map, and its image consists exactly of the holomorphic germs commuting with complex
+conjugation near `a`.
+*In Tau Ceti:* `TauCeti.analyticGerms`, `TauCeti.analyticGerms.ofAnalyticAt_eq_ofAnalyticAt_iff`,
+`TauCeti.analyticGerms.pullback`, `TauCeti.analyticGerms.pullback_id`,
+`TauCeti.analyticGerms.pullback_pullback`, `TauCeti.analyticGerms.equivOfInverse`,
+`ModelWithCorners.analyticGermsEquiv`, `ModelWithCorners.analyticGermsEquiv_trans`,
+`ModelWithCorners.analyticGermsEquiv_ofAnalyticAt_comp_extend_symm_of_contMDiffAt`,
+`TauCeti.analyticGerms.complexify`, `TauCeti.analyticGerms.realRestriction_complexify`,
+`TauCeti.analyticGerms.complexify_injective`, `TauCeti.analyticGerms.complexify_pullback`,
+`TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star`.
+
+**Germs on a manifold.** Let `M` be a real-analytic manifold of dimension `n`. Define the ring of
+analytic germs of `M` at `x`: germs at `x` of real functions on `M` that are analytic near `x`
+(Convention 2). Prove that the chart representative identifies it, for every chart `φ` of the
+maximal atlas at `x`, with the ring
 `TauCeti.analyticGerms ℝ (φ x)` of germs at `φ(x)` in the model, compatibly with the canonical
 isomorphisms `ModelWithCorners.analyticGermsEquiv` between the germ rings of two charts; and that
 an analytic map of manifolds `g : M → M′` induces a ring homomorphism from the germs of `M′` at
@@ -161,10 +218,8 @@ chart by `TauCeti.analyticGerms.complexify`, and prove that the complexification
 charts correspond under the holomorphic germ of the complexified transition map
 (`OpenPartialHomeomorph.exists_complexification`, `TauCeti.analyticGerms.complexify_pullback`).
 This is the local input to the gluing of §3.0 (Whitney–Bruhat, §1).
-*Needs:* Tau Ceti `TauCeti.contMDiffAt_omega_iff_analyticAt`, `TauCeti.analyticGerms`,
-`ModelWithCorners.analyticGermsEquiv`, `TauCeti.analyticGerms.pullback`,
-`TauCeti.analyticGerms.complexify`, `TauCeti.analyticGerms.complexify_pullback`,
-`OpenPartialHomeomorph.exists_complexification`.
+*Needs:* the analytic charts and the chart-local germs above; RealAlgebraicGeometry Layer 7's
+chart complexification, Tau Ceti `OpenPartialHomeomorph.exists_complexification`.
 
 - Two functions analytic near `x` have the same germ exactly when their representatives in one,
   equivalently every, chart at `x` agree near the image of `x`
@@ -191,8 +246,9 @@ analytic submanifold in the sense of `TauCeti.IsAnalyticSubmanifold`. Define a m
 when near each point it maps the submanifold into the source of the chart at the image point and its
 expression in that chart, followed by `e`, is analytic on the submanifold
 (`TauCeti.AnalyticOnSubmanifold`), and a map from an analytic submanifold of `M` to `ℝᴺ` to be
-analytic (`ChartwiseAnalyticOn`) when its expression through the inverse of those charts is. Prove that both notions are independent of the chart of the maximal atlas and of
-`e`, that they are transported by analytic isomorphisms of manifolds, that for `M = ℝⁿ` with its
+analytic (`ChartwiseAnalyticOn`) when its expression through the inverse of those charts is.
+Prove that both notions are independent of the chart of the maximal atlas and of `e`, that they are
+transported by analytic isomorphisms of manifolds, that for `M = ℝⁿ` with its
 identity chart they are `TauCeti.IsAnalyticSubmanifold` and `TauCeti.AnalyticOnSubmanifold`, and
 that a relatively open nonempty subset of an analytic submanifold is one. On a complex manifold of
 complex dimension `n` the notions are read in the realified atlas, of real dimension `2n`.
@@ -217,24 +273,68 @@ atlas.
 
 ### Dependencies
 
-Mathlib: analytic functions and the maximal analytic atlas. Tau Ceti: the chart dictionary for
-analytic maps, analytic submanifolds of `ℝⁿ`, and the convergent complexification of germs and
-charts. ComplexKahlerGeometry K3.0 (§3.1) for the realified atlas of a complex manifold.
+Mathlib: analytic functions and the maximal analytic atlas. RealAlgebraicGeometry Layer 7, as
+implemented in Tau Ceti: analytic submanifolds of `ℝⁿ` and convergent complexification at a point
+and of analytic charts. ComplexKahlerGeometry K3.0 (§3.1) for the realified atlas of a complex
+manifold.
 
-## Layer 1: local normal decomposition, dimension and the Nash category (R1)
+## R1: Semianalytic sets and local normal decomposition
 
-Semianalytic sets and their closure under finite Boolean operations, locally finite unions and
-analytic preimages are those of Convention 3. This layer proves their local structure: a normal
-decomposition into analytic submanifolds near each point, the resulting dimension theory and the
-frontier condition, and their refinements in the Nash category. The decompositions are local; no
+This layer sets up semianalytic sets (Convention 3) and their calculus, and proves their local
+structure: a normal decomposition into analytic submanifolds near each point, the resulting
+dimension theory and the frontier condition, and, in §1.1, Nash germs, locally semialgebraic sets
+and the refinements of the decomposition in the Nash category. The decompositions are local; no
 chartwise decompositions are glued into a global stratification here (§5.3 does that on a
 triangulated manifold).
 
-### 1.0 Local normal decomposition
+### 1.0 Semianalytic presentations and the local normal decomposition
 
-Prove the local normal decomposition, part of the local theory of semianalytic sets that
-Łojasiewicz states without proof in §1: let
-`U ⊆ ℝⁿ` be open, `x ∈ U` and `f_1, …, f_k` analytic on `U`. There is an open neighbourhood
+**Semianalytic presentations.** For an open set `U` of a real normed space, call `t` an analytic
+Boolean combination over `U` when it is a finite Boolean combination of sets `{f = 0}` and
+`{f > 0}` with `f` analytic on `U`; every such combination is described by a condition on the signs
+of finitely many functions analytic on `U` (the sign-condition normal form). A set `s` is
+semianalytic at `x` when `s ∩ U = t ∩ U` for some neighbourhood `U` of `x` and some analytic Boolean
+combination `t` over `U`, and semianalytic when it is semianalytic at every point of the ambient
+space, including points outside `s`. Then:
+
+- *Shrinking.* A presentation of `s` at `x` exists on every sufficiently small neighbourhood of
+  `x`, and being semianalytic at `x` depends only on the germ of `s` at `x`.
+- *Equivalence of presentations.* `s` is semianalytic at `x` exactly when, on some neighbourhood
+  `U` of `x`, it agrees with a finite union of sets `{f = 0, g₁ > 0, …, gₖ > 0}` with
+  `f, g₁, …, gₖ` analytic on `U`.
+- *Boolean operations.* The sets semianalytic at `x`, and the semianalytic sets, form algebras of
+  sets: they contain `∅` and the whole space and are closed under complements and finite unions,
+  intersections and differences. The union of a locally finite family of semianalytic sets is
+  semianalytic.
+- *Analytic preimages and isomorphisms.* If `s` is semianalytic at `g(x)` and `g` is analytic at
+  `x`, then `g⁻¹(s)` is semianalytic at `x`; preimages of semianalytic sets under analytic maps are
+  semianalytic; for a bijection `e` analytic with analytic inverse, `e(s)` is semianalytic exactly
+  when `s` is.
+- *The line.* A subset of `ℝ` is semianalytic at `x` exactly when, near `x`, membership of `y`
+  depends only on the sign of `y − x`; inside any prescribed neighbourhood of `x` there is then an
+  interval `(a, b) ∋ x` meeting the set in a union of some of `(a, x)`, `{x}` and `(x, b)`.
+- *On a manifold.* On a real-analytic manifold `M` over a boundaryless model, a set is semianalytic
+  at `x` when its preimage under the inverse of the preferred extended chart is semianalytic at the
+  coordinate of `x`, equivalently under any chart of the maximal analytic atlas at `x`; the same
+  Boolean operations hold, preimages under `C^ω` maps of manifolds are semianalytic, and
+  homeomorphisms analytic in both directions preserve and reflect semianalyticity. No second
+  submanifold structure is introduced: the notion is tested in the charts.
+
+*In Tau Ceti:* `TauCeti.IsAnalyticBooleanCombination`,
+`TauCeti.IsAnalyticBooleanCombination.exists_eq_setOf_sign`, `TauCeti.SemianalyticAt`,
+`TauCeti.IsSemianalytic`, `TauCeti.SemianalyticAt.exists_subset`, `TauCeti.semianalyticAt_congr`,
+`TauCeti.semianalyticAt_iff_exists_iUnion`, `TauCeti.isSetAlgebra_setOf_semianalyticAt`,
+`TauCeti.isSetAlgebra_setOf_isSemianalytic`, `LocallyFinite.isSemianalytic_iUnion`,
+`TauCeti.SemianalyticAt.preimage`, `TauCeti.IsSemianalytic.preimage`,
+`Equiv.isSemianalytic_image_iff`, `TauCeti.semianalyticAt_real_iff`,
+`TauCeti.SemianalyticAt.exists_Ioo_mem_iff_sign_mem`, `TauCeti.MSemianalyticAt`,
+`TauCeti.IsMSemianalytic`, `TauCeti.mSemianalyticAt_iff_of_mem_maximalAtlas`,
+`TauCeti.isSetAlgebra_setOf_isMSemianalytic`, `TauCeti.IsMSemianalytic.preimage`,
+`Homeomorph.isMSemianalytic_image_iff`.
+
+**The local normal decomposition.** Prove the local normal decomposition, part of the local
+theory of semianalytic sets that Łojasiewicz states without proof in §1: let `U ⊆ ℝⁿ` be open,
+`x ∈ U` and `f_1, …, f_k` analytic on `U`. There is an open neighbourhood
 `V ⊆ U` of `x` and a finite partition of `V` into connected, locally closed analytic submanifolds
 of `ℝⁿ` (the pieces) such that `x` lies in the closure of every piece (Łojasiewicz, §1.II.4,
 p. 452); every `f_j` has constant sign (negative, zero or positive) on every piece; every piece is
@@ -268,8 +368,8 @@ induction invariant, and prove from it and the root-matching neighbourhoods that
 section or sector is a union of lower sections and sectors. The induction terminates because each
 step lowers the dimension. A global refinement of an analytic atlas is not a substitute for this
 bad-set induction.
-*Needs:* Tau Ceti `TauCeti.SemianalyticAt`, `TauCeti.semianalyticAt_real_iff`,
-`AnalyticAt.exists_complexification`, `TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star`,
+*Needs:* the semianalytic presentations above, with their normal form on the line; R0 (§0.1, the
+germ complexification); Tau Ceti `AnalyticAt.exists_complexification`,
 `TauCeti.nonempty_delineation`, `TauCeti.Delineation.analyticOnSubmanifold_root`,
 `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff`; ComplexKahlerGeometry K3 (§3.2, Weierstrass
 preparation and division); RealAlgebraicGeometry Layers 1, 2 and 4.
@@ -324,11 +424,108 @@ lower-dimensional closed set is not asserted to have smaller dimension.
 
 ### 1.1 Analytic-algebraic germs and locally semialgebraic sets (R1.1)
 
-Nash germs, the local graph criterion and locally semialgebraic sets are those of Convention 4,
-with their supplier contracts. This section owns the Nash comparisons for the analytic inverse
-and implicit function theorems, the Nash refinement of §§1.0–1.0a, the Nashness of the
-Weierstrass coefficients that refinement uses, and Nash maps on semialgebraic analytic
-submanifolds (Łojasiewicz, §1.VI, p. 454).
+This section develops the analytic-algebraic side of R1 (Łojasiewicz, §1.VI, p. 454): the
+topology of semialgebraic sets in finite coordinates, Nash germs and Nash functions, the graph
+criterion, locally semialgebraic sets, the Nash comparisons for the analytic inverse and implicit
+function theorems, the Nash refinement of §§1.0–1.0a with the Nashness of the Weierstrass
+coefficients it uses, and Nash maps on semialgebraic analytic submanifolds. Semialgebraic sets and
+functions themselves, CAD and quantifier elimination are RealAlgebraicGeometry's (Convention 4).
+
+**Semialgebraic topology in finite coordinates.** Semialgebraic subsets of `σ → ℝ`, `σ` finite,
+and functions semialgebraic on a set are `TauCeti.IsSemialgebraic` and `TauCeti.IsSemialgebraicOn`,
+the graph of `f` on `s` being read in the coordinate space indexed by `σ ⊕ τ` through
+`Equiv.sumArrowEquivProdArrow`. Their image and quantifier-elimination results assume projection
+closure; over `ℝ` this is the Tarski–Seidenberg instance `TauCeti.HasSemialgebraicProjections ℝ`
+of RealAlgebraicGeometry Layer 6, and no conditional statement is used as Tarski–Seidenberg
+itself. The closure, the interior and the frontier of a semialgebraic subset of `σ → ℝ` are
+semialgebraic, by the ordered-ring formulas saying that arbitrarily small balls around a point meet
+the set or its complement. Open balls of `σ → ℝ` for the sup norm, and open Euclidean balls read
+in the coordinates `σ → ℝ`, are semialgebraic, so either kind gives semialgebraic neighbourhood
+bases.
+*In Tau Ceti:* `TauCeti.isSemialgebraic_ball`, `TauCeti.isSemialgebraic_preimage_toLp_ball`,
+`TauCeti.IsSemialgebraic.closure`, `TauCeti.IsSemialgebraic.interior`,
+`TauCeti.IsSemialgebraic.frontier`.
+
+**Nash germs.** Let `f` be a real function on `ℝⁿ = σ → ℝ`. An *analytic-algebraic relation* for
+`f` on a set `Ω` is a nonzero polynomial `P ∈ ℝ[y₁, …, yₙ][t]` with `P(y, f(y)) = 0` for every
+`y ∈ Ω`. A *Nash germ* at `x` is a function analytic at `x` with such a relation on some
+neighbourhood of `x`; the polynomial and the neighbourhood may depend on `x`. A map is a Nash germ
+when its coordinates are, and a Nash function on an open set is a function that is a Nash germ at
+each of its points. Being a Nash germ at `x` depends only on the germ of `f` at `x`, and a Nash
+germ at `x` is a Nash germ at every nearby point. Polynomial functions are Nash germs everywhere;
+sums, negatives, differences, products, powers, finite sums and finite products of Nash germs at
+`x` are Nash germs at `x`, and so are `1/f` and `g/f` when `f(x) ≠ 0`. If `f` is a Nash germ at
+`g(x)` and the coordinates of `g` are Nash germs at `x`, then `f ∘ g` is a Nash germ at `x`.
+*In Tau Ceti:* `TauCeti.IsNashAt`, `TauCeti.isNashAt_iff_exists_mem_nhds`, `TauCeti.IsNashAt.congr`,
+`TauCeti.IsNashAt.eventually_isNashAt`, `MvPolynomial.isNashAt_eval`, `TauCeti.IsNashAt.add`,
+`TauCeti.IsNashAt.mul`, `TauCeti.IsNashAt.inv`, `TauCeti.IsNashAt.div`, `TauCeti.IsNashAt.comp`.
+
+**One relation on a semialgebraic set.** A function that is a Nash germ at every point of a
+preconnected set satisfies one nonzero relation on the whole set, by analytic continuation. A
+semialgebraic set has finitely many connected components, each semialgebraic. Hence a function
+that is a Nash germ at every point of a semialgebraic set `s`, for instance a Nash function on an
+open semialgebraic `Ω`, satisfies a single nonzero relation `P(y, f(y)) = 0` for all `y ∈ s`: the
+product of the relations of the components. The set need not be open, since being a Nash germ at a
+point already involves a neighbourhood of it.
+*In Tau Ceti:* `TauCeti.IsSemialgebraic.connectedComponentIn`,
+`TauCeti.IsSemialgebraic.finite_image_connectedComponentIn`,
+`IsPreconnected.exists_ne_zero_polynomial_relation_of_isNashAt`,
+`TauCeti.IsSemialgebraic.exists_ne_zero_polynomial_relation_of_isNashAt`.
+
+**The graph criterion.** A function continuous on an open semialgebraic `U` and satisfying a single
+nonzero relation on `U` has semialgebraic graph on `U`, the fibres over which the relation
+vanishes identically included; so a Nash function on an open semialgebraic set has semialgebraic
+graph there. Conversely, a function with semialgebraic graph on any set satisfies a single nonzero
+relation on that set; so a function analytic at `x` whose graph is semialgebraic on a neighbourhood
+of `x` is a Nash germ at `x`, and a function analytic on an open set on which its graph is
+semialgebraic is Nash there. In local form: `f` is a Nash germ at `x` if and only if it is analytic
+at `x` and its graph is semialgebraic on some open semialgebraic neighbourhood `U` of `x`;
+finitely many Nash germs at `x` have semialgebraic graphs on one common such `U`, the empty family
+included; and a map between coordinate spaces has Nash coordinates at `x` if and only if it is
+analytic at `x` and its graph is semialgebraic on some open semialgebraic neighbourhood of `x`.
+Global semialgebraicity of the graph keeps the hypothesis that the domain is semialgebraic, since
+the graph projects onto the domain. Route, from
+relation to graph: off the zero set of a nonzero coefficient of the relation, a CAD adapted to the
+relation and to `U` has connected cells over which a continuous root selects one section,
+described by Thom signs; that zero set has dense complement, and continuity recovers the graph
+over it from the closure, so no values there can be chosen freely. From graph to relation: the
+graph has empty interior, so every nonempty piece of a sign description of it contains a nonzero
+polynomial equation, and the product of these vanishes on the graph.
+*In Tau Ceti:* `TauCeti.isSemialgebraicOn_of_polynomial_relation`,
+`TauCeti.IsSemialgebraicOn.exists_ne_zero_polynomial_relation`, `TauCeti.IsSemialgebraicOn.isNashAt`,
+`TauCeti.IsSemialgebraicOn.isNashAt_of_isOpen`, `TauCeti.isNashAt_iff_exists_isSemialgebraicOn`,
+`TauCeti.exists_isSemialgebraicOn_of_forall_isNashAt`,
+`TauCeti.forall_isNashAt_apply_iff_exists_isSemialgebraicOn`.
+
+**Derivatives of Nash germs.** If `f` is a Nash germ at `x`, then for every vector `v` the
+directional derivative `y ↦ Df(y)v` is a Nash germ at `x`, at every point, including the singular
+locus of any relation chosen for `f`. Route: the derivative is analytic, and its graph is
+semialgebraic by the difference-quotient formula, so the graph criterion applies.
+*In Tau Ceti:* `TauCeti.IsNashAt.fderiv_apply`.
+
+**Locally semialgebraic sets.** A set `s ⊆ σ → ℝ` is semialgebraic at `x` when some open
+semialgebraic neighbourhood `U` of `x` (equivalently, some sup-norm ball around `x`) meets `s` in a
+semialgebraic set, and locally semialgebraic when it is semialgebraic at every ambient point,
+frontier points outside `s` included. Then `s` is semialgebraic at `x` if and only if, on some
+neighbourhood `U` of `x`, it agrees with a finite Boolean combination of zero sets and positivity
+sets of functions that are Nash germs at every point of `U`: one direction because polynomials are
+Nash germs, the other by the graph criterion. The sets semialgebraic at `x`, and the locally
+semialgebraic sets, form algebras of sets, and a locally finite union of locally semialgebraic sets
+is locally semialgebraic. Closures, interiors and frontiers of sets semialgebraic at `x` are
+semialgebraic at `x`. Preimages of locally semialgebraic sets under maps with Nash coordinates are
+locally semialgebraic, and bijections that are Nash with Nash inverse transport them. The distinct
+nonempty connected components of a locally semialgebraic set form a locally finite family of
+locally semialgebraic sets. A bounded locally semialgebraic set is semialgebraic: its closure is
+compact, finitely many of the neighbourhoods cover it, and the finitely many pieces have a
+semialgebraic union. The empty set and the zero-dimensional coordinate space are included.
+*In Tau Ceti:* `TauCeti.SemialgebraicAt`, `TauCeti.IsLocallySemialgebraic`,
+`TauCeti.IsNashBooleanCombination`, `TauCeti.semialgebraicAt_iff_exists_isNashBooleanCombination`,
+`TauCeti.isSetAlgebra_setOf_isLocallySemialgebraic`, `LocallyFinite.isLocallySemialgebraic_iUnion`,
+`TauCeti.SemialgebraicAt.closure`, `TauCeti.SemialgebraicAt.frontier`,
+`TauCeti.SemialgebraicAt.preimage`, `TauCeti.IsLocallySemialgebraic.preimage`,
+`Equiv.isLocallySemialgebraic_image_iff`, `TauCeti.IsLocallySemialgebraic.connectedComponentIn`,
+`TauCeti.IsLocallySemialgebraic.locallyFinite_connectedComponentIn`,
+`TauCeti.IsLocallySemialgebraic.isSemialgebraic_of_isBounded`.
 
 **Nash inverse and implicit functions.** Prove that if a map `g : ℝⁿ → ℝⁿ` has Nash coordinates at
 `x` and invertible derivative there, the analytic local inverse of `AnalyticAt.exists_openPartialHomeomorph`
@@ -338,9 +535,9 @@ inverse is the transposed graph, semialgebraic on an open semialgebraic neighbou
 form of the graph criterion (`TauCeti.forall_isNashAt_apply_iff_exists_isSemialgebraicOn`), and an
 analytic function with semialgebraic graph near a point is a Nash germ there
 (`TauCeti.IsSemialgebraicOn.isNashAt`).
-*Needs:* Tau Ceti `TauCeti.IsNashAt`, `TauCeti.forall_isNashAt_apply_iff_exists_isSemialgebraicOn`,
-`TauCeti.IsSemialgebraicOn.isNashAt`, `AnalyticAt.exists_openPartialHomeomorph`,
-`ImplicitFunctionData.analyticAt_implicitFunction`, `TauCeti.HasSemialgebraicProjections`.
+*Needs:* the Nash germs and the graph criterion above; RealAlgebraicGeometry Layer 7's analytic
+inverse and implicit functions, Tau Ceti `AnalyticAt.exists_openPartialHomeomorph`,
+`ImplicitFunctionData.analyticAt_implicitFunction`; `TauCeti.HasSemialgebraicProjections`.
 
 **Nash Weierstrass coefficients.** Let `f` be a Nash germ at a real point. Prove the algebraic
 realification lemma: if `w` is the local holomorphic extension of `f` and `w̄` its conjugate, they
@@ -357,8 +554,8 @@ conditions, bounded by the Weierstrass degree), and use real and imaginary polyn
 and Tarski–Seidenberg for the graph. Prove that the root cluster and the coefficients are unique on
 a smaller neighbourhood and that conjugation makes them real. Hence the coefficients of the real
 Weierstrass factor of a Nash germ are Nash germs.
-*Needs:* the inverse and implicit functions above; Tau Ceti `AnalyticAt.exists_complexification`,
-`TauCeti.IsNashAt.fderiv_apply`, `TauCeti.isNashAt_iff_exists_isSemialgebraicOn`,
+*Needs:* the inverse and implicit functions, the derivatives of Nash germs and the graph
+criterion above; Tau Ceti `AnalyticAt.exists_complexification`,
 `TauCeti.HasSemialgebraicProjections`; ComplexKahlerGeometry K3 (§3.2).
 
 **The Nash normal decomposition.** Prove §1.0 in the Nash category: for finitely many Nash germs
@@ -370,9 +567,8 @@ a nonempty semialgebraic `k`-dimensional piece equals its semialgebraic dimensio
 `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace` (a nonempty subset of `ℝⁿ` that is a
 topological manifold modelled on `ℝᵏ` has semialgebraic dimension `k`). Prove only the assembly:
 the charts on `ℝᵏ` that the analytic submanifold structure gives the piece.
-*Needs:* §§1.0–1.0a, the Nash Weierstrass coefficients; Tau Ceti `TauCeti.semialgebraicDim`,
-`TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace`,
-`TauCeti.semialgebraicAt_iff_exists_isNashBooleanCombination`,
+*Needs:* §§1.0–1.0a, the Nash Weierstrass coefficients and the locally semialgebraic sets above;
+Tau Ceti `TauCeti.semialgebraicDim`, `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace`,
 `TauCeti.IsSemialgebraic.semialgebraicDim_closure`.
 
 **Nash maps on semialgebraic analytic submanifolds.** On a semialgebraic analytic submanifold of
@@ -405,18 +601,21 @@ above preserve Nash maps.
 
 ### Dependencies
 
-§§1.0–1.0a: Tau Ceti semianalytic sets, convergent complexification, delineations and the analytic
-implicit root theorem; ComplexKahlerGeometry K3 (§3.2); RealAlgebraicGeometry Layers 1, 2 and 4.
-§1.1 adds Tau Ceti's Nash germs, graph criterion, locally semialgebraic sets, Tarski–Seidenberg and
-semialgebraic dimension, and the analytic inverse and implicit function theorems.
+§§1.0–1.0a: R0 (§0.1); RealAlgebraicGeometry Layer 7's convergent complexification and analytic
+implicit root theorem, and Tau Ceti's delineations; ComplexKahlerGeometry K3 (§3.2);
+RealAlgebraicGeometry Layers 1, 2 and 4. §1.1 adds RealAlgebraicGeometry's semialgebraic sets and
+Tarski–Seidenberg, the analytic inverse and implicit function theorems of its Layer 7, and the
+semialgebraic dimension of AffineMorseLefschetz §5.1.
 
-## Layer 2: Łojasiewicz's theorem in affine space and the semialgebraic theorems (R2)
+## R2: Łojasiewicz's affine triangulation theorem
 
 Theorem 1 (§2.0h) is Łojasiewicz's triangulation theorem in affine space, proved by induction on
 the dimension `n`; dimensions `0` and `1` are handled directly, and §§2.0–2.0g are the steps of
 the induction, in the order their *Needs:* lines force; with §2.0h they treat Łojasiewicz's
 Lemmas 1–15 (§2) and the five steps of his §4, step V (the triangulation, printed p. 473) in
-§2.0h. In these
+§2.0h. The relative convex-polyhedral subdivision lemma of §2.0h and the elementary clauses of the
+band calculus of §2.0d (Lemmas 11 and 12, and the continuity clause of Lemma 14) use only affine
+geometry and elementary topology, and depend on nothing else in this roadmap. In these
 sections `ℝⁿ = M × ℝ` with base `M = ℝ^(n−1)`, carrying its Euclidean norm, and vertical
 coordinate `t`; `π : M × ℝ → M` is the projection. A set `Γ ⊆ M × ℝ` is *topographic* when it is
 the graph of an analytic function on an analytic submanifold of `M`. A set `Z ⊆ M × ℝ` has
@@ -469,12 +668,28 @@ directions of `ℝⁿ`) is *singular* for `f` at `u ∈ G` when `ξ ↦ f(u + ξ
 `ξ = 0`, and singular for `f` when it is singular at some point of `G`. For a family of analytic
 functions, a direction is nonsingular when it is nonsingular for each member.
 
-Lemma 1 is the meagreness of the image of an everywhere rank-deficient analytic map between
-second-countable analytic manifolds, `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`, and Lemma 2
-the Lefschetz–Whitehead rank estimate, `HasFDerivAt.finrank_range_lt_of_infinite` (Łojasiewicz,
-§2, Lemmas 1–2). Lemma 2 is stated there for `h` with values in an `(m − 1)`-dimensional
-submanifold `S` with `u ∉ T_u S`; that form follows, because the range of the derivative of `h`
-lies in the tangent space of `S`.
+**Lemma 1** (Łojasiewicz, §2, Lemma 1; analytic Sard meagreness). Let `X` and `Y` be analytic
+manifolds without boundary, `X` with a countable basis (Lindelöf suffices), and `g : X → Y` an
+analytic map (smooth suffices) whose differential has rank `< dim Y` at every point. Then `g(X)` is
+meagre in `Y`. Route: every point is critical, and the critical values of a smooth map from a
+Lindelöf manifold form a meagre set (Morse–Sard). Łojasiewicz's route, by induction on `dim X`
+through a local decomposition of the rank-drop locus and the constant-rank theorem on its
+maximal-rank pieces, is not needed.
+*In Tau Ceti:* `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`.
+
+**Lemma 2** (Łojasiewicz, §2, Lemma 2; the Lefschetz–Whitehead rank estimate). Let `g` and `h` be
+maps from a normed space to a finite-dimensional space `V`, differentiable at `x`, with `h(x)`
+outside the range of the derivative of `h` at `x`. If the swept map `(y, λ) ↦ g(y) + λ h(y)` has
+rank at most `p` at `(x, λ)` for infinitely many `λ`, in particular for every `λ` near `0`, then the
+derivative of `h` at `x` has rank `< p`. In Łojasiewicz's form, `g` and `h` are `C¹` maps on a
+manifold `X`, `h` takes values in an `(m − 1)`-dimensional submanifold `S` of an `m`-dimensional
+`V` with `u ∉ T_u S` at the points `u` of `S`, the swept map has rank at most `m − 1` on a
+neighbourhood of `X × {0}`, and the conclusion is `rank h ≤ m − 2`; it follows, because the range of the derivative of `h` lies in the tangent
+space of `S`, which does not contain `h(x)`. Route: the minors of `g′ + λh′` are polynomials in
+`λ`, so a rank bound at infinitely many `λ` holds for all `λ`; dividing by `λ` and letting
+`λ → ∞` bounds the rank of `h′` together with the line spanned by `h(x)`, which is transverse to
+its range.
+*In Tau Ceti:* `HasFDerivAt.finrank_range_lt_of_infinite`.
 
 Prove Lemma 3 (Łojasiewicz, §2, Lemma 3): if `f` is analytic on a connected open `G ⊆ ℝⁿ` and not
 identically zero, the singular directions of `f` form a meagre subset of the space of directions.
@@ -492,9 +707,8 @@ neighbourhood for the common zero *set*, beyond the stabilization of germs. Own 
 common-neighbourhood reduction and the component and identity adapters here, then apply the
 normal boxes of §2.0 and Lemmas 1–2 to the incidence set. No simultaneous complexification of an
 arbitrary countable family of unrelated analytic functions is assumed.
-*Needs:* §2.0; Tau Ceti `AnalyticOnNhd.exists_complexification`,
-`ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`, `HasFDerivAt.finrank_range_lt_of_infinite`;
-ComplexKahlerGeometry K3 (§3.4, Noetherian germs and analytic components).
+*Needs:* §2.0; Lemmas 1–2; R0 (§0.1, the neighbourhood adapter); ComplexKahlerGeometry K3
+(§3.4, Noetherian germs and analytic components).
 
 Prove Lemma 4 (Łojasiewicz, §2, Lemma 4): for a countable family of analytic functions, each not
 identically zero on its connected open domain (for instance the local defining functions of a
@@ -515,33 +729,51 @@ the countable cover by normal boxes used in §2.0e.
 
 ### 2.0b Partially semialgebraic sets, topographic graphs and property (P) (Lemmas 5–7)
 
+**The closure rules of Łojasiewicz's §1.V.** For a set `s ⊆ E × ℝ^ι`, base `E` a real normed
+space and `ι` finite (Convention 6): the sets partially semialgebraic over a base point `u`, and
+the partially semialgebraic sets, form algebras of sets; the union of a family of partially
+semialgebraic sets whose projections to the base form a locally finite family is partially
+semialgebraic; preimages under analytic changes of the base, `(u, x) ↦ (φ(u), x)` with `φ`
+analytic, are partially semialgebraic; the cylinder `E × T` over a semialgebraic `T ⊆ ℝ^ι` is
+partially semialgebraic; the projection along finitely many fibre coordinates of a partially
+semialgebraic set is partially semialgebraic; and the projection to the base of a set partially
+semialgebraic over `u` is semianalytic at `u`, so that of a partially semialgebraic set is
+semianalytic. In the projection rules one semialgebraic formula, with the analytic coefficients
+substituted, serves a whole neighbourhood of each base point; no choice is made base point by base
+point and no global semialgebraic graph is asserted. Route for the projections: replace the
+coefficients by new variables, project the resulting semialgebraic set by Tarski–Seidenberg, and
+substitute the same analytic coefficients back.
+*In Tau Ceti:* `TauCeti.PartiallySemialgebraicAt`, `TauCeti.IsPartiallySemialgebraic`,
+`TauCeti.isSetAlgebra_setOf_isPartiallySemialgebraic`, `TauCeti.PartiallySemialgebraicAt.inter`,
+`LocallyFinite.isPartiallySemialgebraic_iUnion`, `TauCeti.IsPartiallySemialgebraic.preimage_prodMap`,
+`TauCeti.IsSemialgebraic.partiallySemialgebraicAt_preimage_snd`,
+`TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`,
+`TauCeti.PartiallySemialgebraicAt.semianalyticAt_image_fst`,
+`TauCeti.IsPartiallySemialgebraic.isSemianalytic_image_fst`.
+
+Prove the remaining rule of §1.V: the connected components of a partially semialgebraic set are
+partially semialgebraic, through the normal decomposition of §1.0.
+*Needs:* §1.0; the closure rules above.
+
 Prove Lemma 5 (Łojasiewicz, §2, Lemma 5): a bounded semianalytic subset of `M × ℝ` whose vertical
 direction is nonsingular for its local defining functions is partially semialgebraic with respect
 to `t` (Convention 6). Route: the local Weierstrass polynomial description in the vertical
-variable, patched over a locally finite cover of the base. For this projection convention the
-closure rules of Łojasiewicz's §1.V are finite Boolean operations
-(`TauCeti.isSetAlgebra_setOf_isPartiallySemialgebraic`), locally finite unions, those whose
-projections to the base are locally finite (`LocallyFinite.isPartiallySemialgebraic_iUnion`), and
-projection along fibre coordinates (`TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`) and
-onto the base (`TauCeti.IsPartiallySemialgebraic.isSemianalytic_image_fst`), where one
-semialgebraic formula with the analytic coefficients substituted serves a whole neighbourhood of
-each base point and no global semialgebraic graph is asserted. Prove the remaining rule: the
-connected components of a partially semialgebraic set are partially semialgebraic, through the
-normal decomposition of §1.0.
-*Needs:* §§1.0, 2.0a; Tau Ceti `TauCeti.IsPartiallySemialgebraic`,
-`TauCeti.isSetAlgebra_setOf_isPartiallySemialgebraic`, `LocallyFinite.isPartiallySemialgebraic_iUnion`,
-`TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`,
-`TauCeti.IsPartiallySemialgebraic.isSemianalytic_image_fst`; ComplexKahlerGeometry K3 (§3.2).
+variable, patched over a locally finite cover of the base by the locally finite union rule above.
+*Needs:* §§1.0, 2.0a; the closure rules above; ComplexKahlerGeometry K3 (§3.2).
 
-Lemma 6 (Łojasiewicz, §2, Lemma 6) is used in the following form: an analytic submanifold of
-`ℝ^(n−1) × ℝ` whose points satisfy `|t − t′| ≤ A |u − u′|` is topographic, the graph of an `A`-Lipschitz analytic
-function on its projection (`TauCeti.IsAnalyticSubmanifold.exists_topographic`), and the shear
-`(u, t) ↦ (u + tz, t)` (`TauCeti.horizontalShear`) keeps it so with constant `A/(1 − A|z|)` when
-`A|z| < 1` (`TauCeti.dist_le_mul_dist_tail_of_mem_image_horizontalShear`,
-`TauCeti.IsAnalyticSubmanifold.image_horizontalShear`), from
-`|Δu + zΔt| ≥ (1 − A|z|)|Δu|`. There the base carries the sup norm of `Fin (n − 1) → ℝ` and the
+**Lemma 6** (Łojasiewicz, §2, Lemma 6). Write points of `ℝ^(n−1) × ℝ` as `(u, t)`. If a
+`d`-dimensional analytic submanifold `ψ` of `ℝ^(n−1) × ℝ` satisfies `|t − t′| ≤ A |u − u′|` for all
+its points `(u, t), (u′, t′)`, then its projection `π(ψ)` is a `d`-dimensional analytic submanifold
+of `ℝ^(n−1)` and `ψ` is the graph of an `A`-Lipschitz function analytic on `π(ψ)`: `ψ` is
+topographic. The shear `(u, t) ↦ (u + tz, t)` maps `ψ` to an analytic submanifold of the same
+dimension satisfying the same inequality with constant `A/(1 − A|z|)` whenever `A|z| < 1`, from
+`|Δu + zΔt| ≥ (1 − A|z|)|Δu|`; so the sheared set is again topographic, and `|z| < 1/A` is the
+threshold Step I uses. In Tau Ceti the base carries the sup norm of `Fin (n − 1) → ℝ` and the
 height is the first coordinate; constants measured with the Euclidean norm of §2.0d convert by
 `‖u‖_∞ ≤ ‖u‖₂ ≤ √(n − 1) ‖u‖_∞`.
+*In Tau Ceti:* `TauCeti.IsAnalyticSubmanifold.exists_topographic`, `TauCeti.horizontalShear`,
+`TauCeti.dist_le_mul_dist_tail_of_mem_image_horizontalShear`,
+`TauCeti.IsAnalyticSubmanifold.image_horizontalShear`.
 
 Prove Lemma 7 (Łojasiewicz, §2, Lemma 7): if `f` is analytic at `(c, 0) ∈ M × ℝ` with `f(c, ·)` not
 identically zero, there is `g` analytic at `(c, 0)` with `g(c, ·)` not identically zero such that
@@ -551,8 +783,7 @@ open, and `π` is a homeomorphism from it onto that projection. Route for the fi
 on `dim(M × ℝ)`, with a distinguished Weierstrass polynomial for `f`, its discriminant, a line
 nonsingular for the discriminant (§2.0a), the roots of a second Weierstrass polynomial and the
 product construction; the case of Weierstrass degree zero is handled separately.
-*Needs:* §§2.0–2.0a; ComplexKahlerGeometry K3 (§3.2); Tau Ceti
-`TauCeti.IsAnalyticSubmanifold.exists_topographic`.
+*Needs:* §§2.0–2.0a; Lemma 6; ComplexKahlerGeometry K3 (§3.2).
 
 **Checks.**
 - The set `{(u, t) ∈ ℝ × ℝ : sin t = 0}` is semianalytic, its vertical direction is nonsingular
@@ -582,7 +813,7 @@ supply the remaining normal data. These normal-system and projection facts are n
 article and are targets here.
 *Needs:* §§2.0–2.0b.
 
-### 2.0d Straightening graph families (Lemma 10)
+### 2.0d Straightening graph families and the band calculus (Lemmas 10–14)
 
 Prove Lemma 10 (Łojasiewicz, §2, Lemma 10). Let `c ∈ M`, and let `φ_ν`, `ν = ±1, ±2, …`, be analytic
 functions on neighbourhoods of `c` whose graphs form a locally finite family, with `φ_ν(c)`
@@ -617,7 +848,7 @@ in coordinates centred at `c`. Condition 1 follows from
 condition 3 from the fact that `Ω_ν` contains the ball of radius `½ √(b_ν² − 1)`, `b_ν = inf{|t| :
 t ∈ Δ_ν}` (`TauCeti.closedBall_subset_fst_image_baseScaling_image_graphOn`). Prove conditions 2,
 4 and 6 and assemble the six conditions. This lemma uses no manifold-level approximation theorem
-and nothing from Layers 3–4.
+and nothing from R3–R4.
 *Needs:* §2.0b (topographic graphs); Tau Ceti `TauCeti.normalizedArsinh`,
 `TauCeti.abs_mul_deriv_normalizedArsinh_le_one`, `TauCeti.deriv_normalizedArsinh_le_two`,
 `TauCeti.baseScaling`, `TauCeti.heightCompression`, `TauCeti.exists_analyticOnNhd_sqrt_sq_sub_one_lt_mul`,
@@ -625,29 +856,59 @@ and nothing from Layers 3–4.
 `TauCeti.dist_snd_le_three_mul_dist_fst_of_mem_image_heightCompression_comp_baseScaling`,
 `TauCeti.closedBall_subset_fst_image_baseScaling_image_graphOn`.
 
-The band calculus of Łojasiewicz's Lemmas 11–14 is used below in the following form. For endpoint
-functions `φ < φ′` on `E` whose graph closures are bounded single-valued functions on `closure(E)`,
-the closure of the open band is the closed band between the extended endpoints (Lemma 11,
-`TauCeti.closure_regionBetween_of_closure_graphOn_eq`). Over a base map `g` and endpoints `ψ, ψ′`,
-the interpolation `TauCeti.regionBetweenMap` sends `(u, t)` to
-`(g(u), ψ(g(u)) + (t − φ(u))(ψ′(g(u)) − ψ(g(u)))/(φ′(u) − φ(u)))` when `φ(u) < φ′(u)`, and to
-`(g(u), ψ(g(u)))` on a collapsed fibre. It restricts to the graph maps of the endpoints and depends
-only on the data over the points where it is evaluated (Lemma 12,
-`TauCeti.image_regionBetweenMap_graphOn_lower`, `TauCeti.image_regionBetweenMap_graphOn_upper`,
-`TauCeti.eqOn_regionBetweenMap`); for analytic data with strict source and target inequalities it
-is an analytic isomorphism of the open bands (Lemma 13, `OpenPartialHomeomorph.regionBetween`,
-`OpenPartialHomeomorph.analyticOnNhd_regionBetween`, `OpenPartialHomeomorph.analyticOnNhd_regionBetween_symm`);
-under the collapsed-endpoint condition `φ(u) = φ′(u) ⇒ ψ(g(u)) = ψ′(g(u))` and continuous data it is
-continuous on the closed band, and it has property (A⁻¹) when `g` has (A⁻¹), the source endpoints
-have partially semialgebraic graphs and the target endpoints semialgebraic graphs (Lemma 14,
-`TauCeti.continuousOn_regionBetweenMap`, `TauCeti.isPartiallySemialgebraic_graphOn_regionBetweenMap`).
-
 **Checks.**
 - Take `n = 2`, `c = 0`, `γ ≡ 1` and `G = {|u| < 2}`, which contains the tube `{|u| ≤ 1}`; the point
   `(u, t) = (2, 3)` lies outside `G`. With `h(t) = 2 + t²`, which satisfies `h(t) > √(t² − 1)`,
   `g₁(2, 3) = (22, 3)` and `3/√(1 + 22²) = 3/√485 < 1`, so `g` sends the point into the strip
   `|t| < 1`, as condition 1 asks. With `h ≡ 1`, which violates `h(3) > √8`, the height becomes
   `β(3/√5)` with `3/√5 > 1`, outside the strip: condition 1 needs the growth of `h`.
+
+**The band calculus (Łojasiewicz, §2, Lemmas 11–14).** A *band* over a set `E` is the region
+between two real functions on `E`: the open band `{(u, t) : u ∈ E, φ(u) < t < φ′(u)}` and the
+closed band `{(u, t) : u ∈ E, φ(u) ≤ t ≤ φ′(u)}`. Over a base map `g` and target endpoints
+`ψ ≤ ψ′`, the *band map* sends `(u, t)` to
+`(g(u), ψ(g(u)) + (t − φ(u))(ψ′(g(u)) − ψ(g(u)))/(φ′(u) − φ(u)))` when `φ(u) < φ′(u)`, and to
+`(g(u), ψ(g(u)))` on a collapsed fibre `φ(u) = φ′(u)`; it sends lower endpoint to lower endpoint.
+The *collapsed-endpoint condition* is `φ(u) = φ′(u) ⇒ ψ(g(u)) = ψ′(g(u))`. Lemmas 11, 12 and the
+continuity clause of Lemma 14 use only continuity of the base and endpoint maps, bounded graph
+closures, the collapsed-endpoint condition and elementary topology, and are independent of the
+analytic induction.
+
+- **Lemma 11** (band closure). If `φ < φ′` on `E` and the closures of the graphs of `φ` and `φ′`
+  over `E` are the graphs over `closure(E)` of bounded functions `Φ` and `Φ′`, then the closure of
+  the open band between `φ` and `φ′` over `E` is the closed band between `Φ` and `Φ′` over
+  `closure(E)`.
+  *In Tau Ceti:* `TauCeti.closure_regionBetween_of_closure_graphOn_eq`.
+- **Lemma 12** (graph and restriction compatibility). The band map sends the graph of `φ` over a
+  set `s` onto the graph of `ψ` over `g(s)`, and, under the collapsed-endpoint condition on `s`, the
+  graph of `φ′` over `s` onto the graph of `ψ′` over `g(s)`; two systems of base and endpoint data
+  that agree over `s` have band maps that agree over `s`. If `g` is a bijection from `s` to `t` with
+  inverse `g′`, the endpoints are ordered and a source fibre collapses exactly when the target fibre
+  over it does, the band map is a bijection between the closed bands.
+  *In Tau Ceti:* `TauCeti.regionBetweenMap`, `TauCeti.image_regionBetweenMap_graphOn_lower`,
+  `TauCeti.image_regionBetweenMap_graphOn_upper`, `TauCeti.eqOn_regionBetweenMap`,
+  `TauCeti.bijOn_regionBetweenMap`.
+- **Lemma 13** (analytic band maps). If the base map is an analytic isomorphism (an open partial
+  homeomorphism, analytic with analytic inverse) and the source and target endpoints are analytic
+  with `φ < φ′` and `ψ < ψ′`, the band map is an analytic isomorphism between the open bands, with
+  inverse the band map of the inverse base map with the endpoint pairs exchanged.
+  *In Tau Ceti:* `OpenPartialHomeomorph.regionBetween`,
+  `OpenPartialHomeomorph.analyticOnNhd_regionBetween`,
+  `OpenPartialHomeomorph.analyticOnNhd_regionBetween_symm`.
+- **Lemma 14** (closed bands). If the base map and the endpoints are continuous and the
+  collapsed-endpoint condition holds, the band map is continuous on the closed band. Its graph is
+  partially semialgebraic with base the source point `(u, t)` and fibre the target, that is, the band
+  map has property (A⁻¹), when the graph of `g` is partially semialgebraic in that sense (`g` has
+  (A⁻¹)), the source endpoints have partially semialgebraic graphs and the target endpoints have
+  semialgebraic graphs. Route for the last clause: write the graph as a finite partially
+  semialgebraic system with the four endpoint values as auxiliary variables, and eliminate them by
+  the projection rule of §2.0b; the graph clause needs neither continuity nor the collapsed-endpoint
+  condition.
+  *In Tau Ceti:* `TauCeti.continuousOn_regionBetweenMap`,
+  `TauCeti.isPartiallySemialgebraic_graphOn_regionBetweenMap`.
+
+These lemmas are the extension and gluing statements used by §§2.0f–2.0h and §2.1, not just a name
+for band interpolation.
 
 ### 2.0e The topographic family (§4, step I)
 
@@ -719,8 +980,8 @@ between consecutive sections. The graph pieces and the open bands form a locally
 cover; over each connected base simplex the consecutive bands are open and closed in the
 complement of the sections, so they cover the whole fibre. Lemma 11 gives the closure of each band,
 and with the face and order results every closure is a union of pieces.
-*Needs:* §2.0e; Theorem 1 in dimension `n − 1` (§2.0h, induction hypothesis); Tau Ceti
-`LocallyFinite.image_fst_of_subset`, `TauCeti.closure_regionBetween_of_closure_graphOn_eq`.
+*Needs:* §2.0e; Theorem 1 in dimension `n − 1` (§2.0h, induction hypothesis); Lemma 11 (§2.0d);
+the projection rule of §2.0b; Tau Ceti `LocallyFinite.image_fst_of_subset`.
 
 ### 2.0g The transfer map (§4, step IV)
 
@@ -749,30 +1010,53 @@ polynomial in the affine source coordinate, and postcomposition substitutes `y =
 analytic coefficient functions of the target variable, leaving the polynomial dependence on the
 source coordinate unchanged. General closure of property (A) under composition, where a quantified
 intermediate variable would enter the analytic coefficients, is not assumed.
-*Needs:* §2.0f; Tau Ceti `TauCeti.regionBetweenMap`, `TauCeti.image_regionBetweenMap_graphOn_lower`,
-`TauCeti.image_regionBetweenMap_graphOn_upper`, `TauCeti.eqOn_regionBetweenMap`,
-`TauCeti.continuousOn_regionBetweenMap`, `OpenPartialHomeomorph.regionBetween`,
-`OpenPartialHomeomorph.analyticOnNhd_regionBetween`,
-`OpenPartialHomeomorph.analyticOnNhd_regionBetween_symm`,
-`TauCeti.isPartiallySemialgebraic_graphOn_regionBetweenMap`,
-`TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`, `LocallyFinite.isPartiallySemialgebraic_iUnion`.
+*Needs:* §2.0f; Lemmas 12–14 (§2.0d); the projection and locally finite union rules of §2.0b.
 
-### 2.0h Rectilinear cells and Theorem 1 (Lemma 15)
+### 2.0h Polyhedral subdivision, rectilinear cells and Theorem 1 (Lemma 15)
 
-Prove Lemma 15 (Łojasiewicz, §2, Lemma 15) for the rectilinear affine cells of §2.0g: a cell is
-the graph of an affine function over a closed simplex, an affine simplex
-(`AffineMap.graphOn_convexHull`), or a closed band `{(u, t) : u ∈ closure β, a(u) ≤ t ≤ b(u)}`
-between ordered affine functions `a ≤ b`, the convex hull of the lower and upper endpoint vertices
-(`TauCeti.closedRegionBetween_convexHull`), a convex polytope whose intrinsic interior is the open
-band over the open simplex where `a < b` somewhere (`TauCeti.intrinsicInterior_closedRegionBetween`);
-a face on which the width vanishes is an ordinary lower-dimensional face. These statements concern
-the rectilinear cells; their images under `τ` need not be convex. Prove that every face of a cell
-is a finite union of lower-dimensional cells of the family, using the order and equality
-compatibility of §2.0f, and verify the hypotheses of the relative subdivision theorem
-`Geometry.SimplicialComplex.exists_subdivision_extending`: it gives a simplicial complex
-triangulating each cell by finitely many simplices, retaining chosen boundary triangulations, with
-common faces and coverage, and the local finiteness of the cell family makes the complex locally
-finite. Its support is all of `ℝⁿ`. Composing the affine simplex charts with `τ` gives compatibility,
+**The relative convex-polyhedral subdivision lemma.** Let `(P_i)` be a locally finite family of
+nonempty compact convex sets (cells) in a finite-dimensional real normed space, with pairwise
+disjoint intrinsic interiors, for instance compact convex polytopes each proper face of which is a
+finite union of lower-dimensional polytopes of the family. Let `L` be a simplicial complex that
+meets every cell in a finite subcomplex and avoids the intrinsic interiors of all cells, and
+suppose that the intrinsic frontier of each cell is covered by `|L|` and the other cells contained
+in it. Then there is a simplicial complex `K` with `|K| = |L| ∪ ⋃_i P_i` that contains `L`, has no
+other simplex with all its vertices in `|L|`, triangulates every cell by finitely many of its
+simplices, and all of whose simplices outside `L` lie in a single cell; with `L` empty, every
+locally finite such family of cells has a locally finite simplicial subdivision. Common faces of
+two cells are then triangulated compatibly, and the prescribed boundary triangulation `L` is
+retained. Route: induction on the dimension of the cells, keeping the triangulations of the lower
+faces and coning the frontier of each top-dimensional cell to a point of its intrinsic interior,
+which lies in no affine span of a boundary simplex; a cell contained in the frontier of another has
+strictly smaller dimension. The lemma uses only affine independence, convex hulls, finite
+polytopes and simplices; it depends neither on the analytic induction nor on §1.1, and §2.1 uses it
+as well.
+*In Tau Ceti:* `Geometry.SimplicialComplex.exists_subdivision_extending`,
+`Geometry.SimplicialComplex.exists_subdivision`.
+
+**Lemma 15** (Łojasiewicz, §2, Lemma 15, for the rectilinear cells of §2.0g). Over a simplex
+`convexHull(s)` of a real vector space, the graph of an affine function is the convex hull of its
+graph points over the vertices, an affine simplex; and for affine `a ≤ b` on `s`, the closed band
+`{(u, t) : u ∈ convexHull(s), a(u) ≤ t ≤ b(u)}` is the convex hull of the lower vertices `(v, a(v))`
+and the upper vertices `(v, b(v))`, `v ∈ s`, a finite-vertex convex polytope that collapses to the
+graph where `a = b`. If moreover `a < b` somewhere on `s`, the intrinsic interior of the closed
+band is the open band over the intrinsic interior of `convexHull(s)`, and for closed domains its
+intrinsic frontier consists of the lower graph, the upper graph and the closed band over the
+intrinsic frontier of the domain; so a face on which the width vanishes is an ordinary
+lower-dimensional face. These statements concern the rectilinear cells; their images under `τ` need
+not be convex.
+*In Tau Ceti:* `AffineMap.graphOn_convexHull`, `TauCeti.closedRegionBetween_convexHull`,
+`TauCeti.closedRegionBetween_self`, `TauCeti.intrinsicInterior_closedRegionBetween`,
+`TauCeti.intrinsicFrontier_closedRegionBetween`.
+
+**Step V: the triangulation** (Łojasiewicz, §4, step V). Prove that every face of a rectilinear
+cell of §2.0g is a finite union of lower-dimensional cells of the family, using the order and
+equality compatibility of §2.0f, and verify the hypotheses of the subdivision lemma above: it
+gives a simplicial complex triangulating each cell by finitely many simplices, retaining chosen
+boundary triangulations, with common faces and coverage, and the local finiteness of the cell
+family makes the complex locally finite. Its support is all of `ℝⁿ`. This is a finite polyhedral
+subdivision of each cell, not a triangulation statement for arbitrary CW complexes. Composing the
+affine simplex charts with `τ` gives compatibility,
 property (A) and the analytic-isomorphism condition on every open simplex; for an open simplex `δ`
 inside an open cell on which `τ` is an analytic isomorphism onto an analytic submanifold, `τ(δ)` is
 an analytic submanifold of dimension `dim δ` and `τ|δ` an analytic isomorphism onto it
@@ -788,10 +1072,9 @@ finite-dimensional real affine space. Since `ℝⁿ` is second countable, the no
 locally finite family are countable; empty members impose nothing. The theorem concerns the whole
 space and the whole locally finite family: the bounded Theorem 3 and the projective Theorem 4 are
 distinct results.
-*Needs:* §§2.0–2.0g; Tau Ceti `AffineMap.graphOn_convexHull`, `TauCeti.closedRegionBetween_convexHull`,
-`TauCeti.intrinsicInterior_closedRegionBetween`, `TauCeti.intrinsicFrontier_closedRegionBetween`,
-`Geometry.SimplicialComplex.exists_subdivision_extending`, `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`,
-`TauCeti.IsSemianalytic`, `TauCeti.IsPartiallySemialgebraic`.
+*Needs:* §§2.0–2.0g; the subdivision lemma, Lemma 15 and step V above; the analytic image adapter
+(stated in §2.1; Tau Ceti `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`); §1.0 (semianalytic
+sets) and §2.0b (partially semialgebraic sets).
 
 **Checks.**
 - The map `x ↦ sin x` of `ℝ` has property (A⁻¹), its graph being `y − sin x = 0` with `y` the
@@ -803,7 +1086,10 @@ distinct results.
   infinitely many simplices; local finiteness, not finiteness, is the right condition when
   `|K| = ℝⁿ`.
 
-### 2.1 Bounded affine semialgebraic triangulation (R2.1)
+### 2.1 Bounded affine and real multiprojective semialgebraic triangulation (R2.1)
+
+This section and its continuation §§2.1a–2.1b prove Łojasiewicz's bounded affine Theorem 3 and real
+multiprojective Theorem 4, with the Nash and semialgebraic API of §1.1.
 
 Use Mathlib's `Geometry.SimplicialComplex`, its faces and support, and `Affine.Simplex` for the
 simplex charts, with open simplices the intrinsic interiors (Convention 7). Prove that a finite
@@ -817,6 +1103,21 @@ equivalence with `ℝⁿ`, use §2.0 for independence of the choice, and transpo
 simplices back; all coordinates below refer to the original affine space.
 *Needs:* Mathlib `Geometry.SimplicialComplex`, `Affine.Simplex`, `intrinsicInterior`; Tau Ceti
 `AbstractSimplicialComplex.Realization`, `Geometry.SimplicialComplex.IsSubdivision`.
+
+**The analytic image adapter.** Let `S ⊆ ℝⁿ` be a `k`-dimensional analytic submanifold
+(Convention 5) and `f` a map analytic on `S` that maps `S` into a `d`-dimensional analytic
+submanifold `T ⊆ ℝᵐ` and has a left inverse `g` on `S` that is analytic on `T`. Then `f(S)` is a
+`k`-dimensional analytic submanifold of `ℝᵐ`.
+*In Tau Ceti:* `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`.
+
+Prove the restriction form used by the subdivisions: if an open affine `k`-simplex `δ`, which is a
+`k`-dimensional analytic submanifold, lies inside an open `d`-simplex `σ` and `Φ|σ` is an analytic
+isomorphism onto an analytic submanifold `T`, then `Φ(δ)` is a `k`-dimensional analytic
+submanifold, by the adapter, and `Φ|δ` and its inverse are analytic in its submanifold charts. The
+statement is for nonempty `δ`, as the carrier requires, and an analytic immersion alone does not
+give it. It serves the lower-dimensional simplices introduced by the barycentric subdivisions
+below, by the polyhedral subdivision, and by step V of §2.0h.
+*Needs:* the adapter above; Convention 5.
 
 **Theorem 3** (Łojasiewicz, §3, Theorem 3, printed p. 464), `bounded_semialgebraic_analytic_triangulation`.
 Let `B_1, …, B_k` be bounded semialgebraic subsets of `ℝⁿ` and `X = ⋃_i closure(B_i)`. There are a
@@ -892,20 +1193,18 @@ already chosen. The rectilinear bands are finite polytopes, so subdivide them by
 `Geometry.SimplicialComplex.exists_subdivision_extending` after verifying its hypotheses, as in
 §2.0h. Compose the affine simplex charts with the lift and prove that every image lies in one
 original sign cell, lower-dimensional pieces included. For the lower-dimensional simplices that
-both subdivisions introduce, prove that an open affine `k`-simplex `δ` inside an open `d`-simplex `σ`
-is a `k`-dimensional analytic submanifold and that, if `Φ|σ` is an analytic isomorphism onto an
-analytic submanifold `T`, then `Φ(δ)` is a `k`-dimensional analytic submanifold and `Φ|δ` an analytic
-isomorphism onto it (`TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`); this is stated for
-nonempty `δ`, and an analytic immersion alone does not give it. Transport the final complex and map
+both subdivisions introduce, prove that an open affine `k`-simplex inside an open `d`-simplex is a
+`k`-dimensional analytic submanifold, with its flattening charts, and apply the analytic image
+adapter above. Transport the final complex and map
 back by the inverse of the initial linear change; the transported vertices and faces form an affine
 complex in the original `ℝⁿ` and all analytic and semialgebraic properties are preserved. The finite
 union of semialgebraic graphs and compactness of `|K|` with Hausdorff `X` give the global map and its
 inverse. The noncompact Lemma 10 of §2.0d uses analytic approximation and a transcendental change of
 coordinates and proves nothing about semialgebraicity of this finite map.
-*Needs:* §1.1; §2.0d (band maps); AffineMorseLefschetz Layer 5 (§§5.2–5.7); Tau Ceti
-`Geometry.SimplicialComplex.exists_subdivision_extending`, `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`,
-`TauCeti.isNashAt_iff_exists_isSemialgebraicOn`, `ImplicitFunctionData.analyticAt_implicitFunction`,
-`TauCeti.HasSemialgebraicProjections`, `TauCeti.IsSemialgebraicOn`.
+*Needs:* §1.1 (with its graph criterion); §2.0d (band maps); §2.0h (the subdivision lemma); the
+analytic image adapter above; AffineMorseLefschetz Layer 5 (§§5.2–5.7); Tau Ceti
+`ImplicitFunctionData.analyticAt_implicitFunction`, `TauCeti.HasSemialgebraicProjections`,
+`TauCeti.IsSemialgebraicOn`.
 
 **Checks.**
 - For `X = {(x, |x|) : |x| ≤ 1} ⊂ ℝ²` with `B_1 = X`, the map `t ↦ (t, |t|)` from the edge `[−1, 1]`
@@ -920,11 +1219,19 @@ coordinates and proves nothing about semialgebraicity of this finite map.
 
 Real projective `n`-space is `Projectivization ℝ (Fin (n+1) → ℝ)` with Mathlib's quotient
 topology, which is Hausdorff by AlgebraicTopology §4.6 and homeomorphic there to the sphere
-quotient `TauCeti.RealProjectiveSpace n`. Its standard affine charts `Projectivization.affineChart i`,
-partial equivalences defined on the affine opens `Projectivization.affineOpen i` without reference to
-a topology, send `[v]` to the ratios `v (Fin.succAbove i j) / v i`, with inverse
-`z ↦ [Fin.insertNth i 1 z]`; their transition maps are rational with nonvanishing denominators on the
-overlaps, hence analytic there. Analyticity on real projective space is read through these chart
+quotient `TauCeti.RealProjectiveSpace n`.
+
+**The standard affine charts.** For `i ∈ Fin (n + 1)`, the `i`-th affine chart is the partial
+equivalence, defined on the affine open `U_i = {[v] : v_i ≠ 0}` without reference to a topology,
+that sends `[v]` to the ratios `(v (Fin.succAbove i j) / v i)_j ∈ ℝⁿ`, with inverse
+`z ↦ [Fin.insertNth i 1 z]`; the affine opens cover the space, and on the overlap of `U_i` and
+`U_j` the transition from the chart of `i` to the chart of `j` divides the homogeneous coordinates
+`Fin.insertNth i 1 z` by their `j`-th entry.
+*In Tau Ceti:* `Projectivization.affineChart`, `Projectivization.affineOpen`,
+`Projectivization.iUnion_affineOpen`, `Projectivization.affineChart_symm_trans_apply`.
+
+The transition maps are therefore rational with nonvanishing denominators on the overlaps, hence
+analytic there. Analyticity on real projective space is read through these chart
 maps. Prove that, for Mathlib's topology, the affine opens are open and the charts are
 homeomorphisms onto `ℝⁿ`, and that the space is compact and second countable; reduce arbitrary
 finite-dimensional real vector spaces and complements of arbitrary hyperplanes to these charts by
@@ -950,25 +1257,29 @@ chart comparison and Tarski–Seidenberg. In particular this defines semialgebra
 support of an affine complex to `M`. Semialgebraicity of a graph does not assert continuity, and
 Nash maps carry both the graph and the analytic condition. The empty product is included.
 
-The projector embedding sends the line of `x ≠ 0` to the matrix `x xᵀ/(xᵀ x)`, using all `n + 1`
-coordinates (`TauCeti.rankOneProjector`, `Projectivization.projector`); the formula printed on
-p. 464 uses only the indices `1, …, n` and a target of dimension `n²`, which does not match
-representatives with `n + 1` coordinates. It is a bijection onto the compact semialgebraic locus of
-symmetric idempotent matrices of trace one (`Projectivization.range_projector`,
-`Projectivization.projector_injective`, `TauCeti.projectorLocus`, `TauCeti.isSemialgebraic_projectorLocus`,
-`TauCeti.isCompact_projectorLocus`), and a matrix of the locus is the projector of each of its rows
-with nonzero diagonal entry (`TauCeti.rankOneProjector_row_eq_self`). Prove that it is a
+**The projector map.** The projector map sends the line of `x ≠ 0` to the matrix
+`P(x) = x xᵀ/(xᵀ x)`, with entries `x_i x_j / Σ_k x_k²` over all `n + 1` coordinates; it is
+unchanged when `x` is rescaled, and the denominator is positive. The formula printed on p. 464 uses
+only the indices `1, …, n` and a target of dimension `n²`, which does not match representatives with
+`n + 1` coordinates. The projector map is a bijection from real projective space onto the
+projector locus of symmetric idempotent matrices of trace one, which is compact and
+semialgebraic. A matrix `A` of the locus is the projector of each of its rows with nonzero diagonal
+entry (a symmetric idempotent fixes its rows, and an idempotent of trace zero vanishes), so these
+rows recover the line.
+*In Tau Ceti:* `TauCeti.rankOneProjector`, `Projectivization.projector`,
+`Projectivization.range_projector`, `Projectivization.projector_injective`,
+`TauCeti.projectorLocus`, `TauCeti.isSemialgebraic_projectorLocus`, `TauCeti.isCompact_projectorLocus`,
+`TauCeti.rankOneProjector_row_eq_self`.
+
+Prove that it is a
 homeomorphism onto the locus for Mathlib's topology, analytic with injective differential in the
 projective charts, and that in the `i`-th chart its inverse is given by the ratios `A_ji/A_ii` on
 `A_ii > 0`, hence analytic and semialgebraic: a Nash embedding with Nash inverse, beyond a continuous
 compact embedding. For finite products use the product projector locus in the flattened matrix
 coordinates. Prove that semialgebraicity of `S ⊆ M` in the sense above is equivalent to
 semialgebraicity of its image, and transport relative complements inside the locus.
-*Needs:* §1.1; AlgebraicTopology §4.6; Tau Ceti `Projectivization.affineChart`,
-`Projectivization.affineOpen`, `TauCeti.rankOneProjector`,
-`Projectivization.projector`, `Projectivization.range_projector`, `Projectivization.projector_injective`,
-`TauCeti.projectorLocus`, `TauCeti.isSemialgebraic_projectorLocus`, `TauCeti.isCompact_projectorLocus`,
-`TauCeti.rankOneProjector_row_eq_self`, `TauCeti.HasSemialgebraicProjections`; Mathlib
+*Needs:* §1.1; the affine charts and the projector map above; AlgebraicTopology §4.6; Tau Ceti
+`TauCeti.HasSemialgebraicProjections`; Mathlib
 `Projectivization.instTopologicalSpace`, `EuclideanSpace.equiv`, `Fin.succAbove`, `Fin.insertNth`,
 `finSigmaFinEquiv`.
 
@@ -1000,7 +1311,7 @@ whole locus as a member forces the support to cover it. Compose with the Nash in
 projector map, and prove the analytic and semialgebraic chart transport for every simplex and every
 member. This theorem is about real projective spaces and arbitrary semialgebraic marked sets,
 separately from the complex projective algebraic pairs of AffineMorseLefschetz §5.8, and uses
-nothing from Layers 3–4.
+nothing from R3–R4.
 *Needs:* §§2.1–2.1a; Tau Ceti `TauCeti.IsAnalyticSubmanifold`, `TauCeti.AnalyticOnSubmanifold`,
 `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`, `Projectivization.affineChart`.
 
@@ -1020,25 +1331,21 @@ nothing from Layers 3–4.
 
 ### Dependencies
 
-§§2.0–2.0h: Layer 1 (§§1.0–1.0a); ComplexKahlerGeometry K3 (§§3.2, 3.4); Tau Ceti semianalytic
-and partially semialgebraic sets with their projection rules, Lemmas 1, 2 and 6, the analytic
-pieces of Lemma 10, the band calculus of Lemmas 11–14, the rectilinear-cell lemmas and the relative
-simplicial subdivision theorem. §§2.1–2.1b: §1.1, the band maps of §2.0d and the subdivision theorem
-of §2.0h; AffineMorseLefschetz Layer 5; AlgebraicTopology §4.6; Tau Ceti's projective chart maps
-and projector embedding.
+§§2.0–2.0h: R0 (§0.1, the neighbourhood adapter); R1 (§§1.0–1.0a); ComplexKahlerGeometry K3
+(§§3.2, 3.4); Tau Ceti's Morse–Sard theorem, the analytic ingredients of Lemma 10 and local
+finiteness of projected families. §§2.1–2.1b: §1.1, the band maps of §2.0d and the subdivision
+lemma of §2.0h; AffineMorseLefschetz Layer 5; AlgebraicTopology §4.6.
 
-## Layer 3: complexification, Stein theory and coherent sheaves (R3)
+## R3: Complexification, strict psh exhaustion, Stein theory and coherent sheaves
 
 This layer builds a complexification of a real-analytic manifold with a strictly
 plurisubharmonic tube around it (§3.0), the weighted `∂̄` theorem on complete Kähler manifolds
 and, from it, the Stein criterion, interpolation and approximation (§3.1), and Cartan's theorems
 for coherent sheaves (§3.2). The order is: scalar weighted theory, then compact coherent generation
-and approximation, then theorem A and coefficient lifting, then theorem B. Layer 4 is not an input.
+and approximation, then theorem A and coefficient lifting, then theorem B. R4 is not an input.
 No proof here uses compact global Hodge theory (ComplexKahlerGeometry K5's compact parts or K6.1)
 or the cycle theory of ComplexKahlerGeometry K6; of K6 only the local identities of K6.0 (§6.1) are
 used.
-
-<a id="r30-global-complexification-and-tubes"></a>
 
 ### 3.0 Global complexification and tubes (R3.0)
 
@@ -1246,7 +1553,7 @@ global holomorphic coordinate functions whose differentials span at every point.
 convergence with all derivatives by Cauchy estimates; the sum of squared moduli is smooth, strictly
 plurisubharmonic and proper, its nonnegative terms preventing cancellation in the lower bound on
 the shells. This gives the exhaustion that the weighted, approximation and coherent results need on
-a general Stein `X`, independently of Layer 4 and of Cartan's theorems.
+a general Stein `X`, independently of R4 and of Cartan's theorems.
 *Needs:* (for the paragraphs from jet interpolation on) the weighted theorem, the complete metrics
 and twisting; ComplexKahlerGeometry K4 (§4.1, holomorphic bundles); SmoothBundlesConnections B2.
 
@@ -1404,7 +1711,7 @@ Chapter VII of Hörmander's *An Introduction to Complex Analysis in Several Vari
    from each centre is strictly plurisubharmonic, giving a proper plurisubharmonic barrier on each
    ball; on a finite intersection add the nonnegative ball barriers and the sublevel barrier, prove
    properness and strict plurisubharmonicity, and apply §3.1. A merely contractible intersection of a
-   good cover is not a Stein domain, and the analytic triangulation of Layer 5 is not used.
+   good cover is not a Stein domain, and the analytic triangulation of R5 is not used.
 6. **Theorem B.** Prove theorem B (7.4.3), first on a relatively compact Stein stage `X′ ⊆ X`. By A on
    `X` and compactness of `closure X′`, choose finitely many sections of `Γ(X, F)` generating `F` on a
    neighbourhood of `closure X′`; the relation sheaf `R` in `0 → R → O^q → F → 0` is coherent. On the
@@ -1456,13 +1763,13 @@ finite-presentation API, `TopologicalSpace.Opens.sheafOfModulesEquivOver`,
 
 ### Dependencies
 
-§3.0: Layer 0; ComplexManifolds Milestone 5; GeometricTopology §1.5; ComplexKahlerGeometry K3.0
+§3.0: R0; ComplexManifolds Milestone 5; GeometricTopology §1.5; ComplexKahlerGeometry K3.0
 (§3.1); Tau Ceti's convergent complexification, tubular neighbourhoods, Levi forms and Morse–Sard.
 §3.1: §3.0; ComplexKahlerGeometry K4 (§§4.1–4.2), K5a (§§5.1, 5.7), K5b.0 (§5.9), K6.0 (§6.1);
 ComplexManifolds Milestone 7; SmoothBundlesConnections B2. §3.2: §3.1; ComplexKahlerGeometry K2
 (§2.5), K3 (§3.4), K4 (§4.1); ComplexManifolds Milestone 7; Mathlib's sheaves of modules.
 
-## Layer 4: Grauert's proper real-analytic embedding (R4)
+## R4: Grauert's proper real-analytic embedding
 
 ### 4.1 Proper holomorphic embedding of the tube
 
@@ -1558,9 +1865,9 @@ its full noncompact scope.
 
 ### Dependencies
 
-Layer 3 (§§3.0–3.1); Tau Ceti's Morse–Sard theorem; Mathlib's closed embeddings and analytic maps.
+R3 (§§3.0–3.1); Tau Ceti's Morse–Sard theorem; Mathlib's closed embeddings and analytic maps.
 
-## Layer 5: manifold triangulation and transport (R5)
+## R5: Manifold triangulation and transport
 
 ### 5.1 Realization of locally finite complexes
 
@@ -1637,7 +1944,7 @@ frontier property from that of the locally finite subcomplex.
 
 ### Dependencies
 
-Layer 1 (§1.0a), Layer 2 (§2.0h), Layer 4 (§4.2), §0.2 and §2.1; Tau Ceti's semianalytic sets on
+R1 (§1.0a), R2 (§2.0h), R4 (§4.2), §0.2 and §2.1; Tau Ceti's semianalytic sets on
 manifolds, partial semialgebraicity and realizations of abstract simplicial complexes.
 
 ## Downstream consumers
@@ -1653,69 +1960,56 @@ manifolds, partial semialgebraicity and realizations of abstract simplicial comp
   and Cartan's theorems (§3.2). SchubertGeometry uses the coherence predicate and Cartan's theorems
   (§3.2). GlobalHolomorphicFunctions proves the one-variable case of §3.2, item 1, on open subsets
   of `ℂ` itself and takes nothing from §3.2.
-- Hyperfunctions uses the complexification of Layer 0 and §3.0 and the results of §§3.1–3.2, and
+- Hyperfunctions uses the complexification of R0 and §3.0 and the results of §§3.1–3.2, and
   AlgebraicTopologyPartII the bounded affine theorem with analytic simplex maps (§2.1).
 
 ## Scope and ownership
 
-**This roadmap owns** the real-analytic and semianalytic theory of Layers 0–2 and the global theory
-of Layers 3–5: analytic germs and chartwise analytic submanifolds on manifolds (§§0.1–0.2); the
-local normal decomposition, semianalytic dimension, components and the frontier condition
-(§§1.0–1.0a); the Nash inverse and implicit function theorems, the Nashness of real Weierstrass
-coefficients, the Nash normal decomposition and its comparison with semialgebraic dimension, and
-Nash maps on semialgebraic analytic submanifolds (§1.1); normal boxes and their prescribed-zero-set
-and projection forms, Łojasiewicz's Lemmas 3, 4, 5, 7, 8, 9 and 10, the five steps of his §4, the face
-statement of Lemma 15 and Theorem 1 (§§2.0–2.0h); the bounded semialgebraic Theorem 3 with the
-analytic invariant of the semialgebraic lift (§2.1); semialgebraic structure and Nash projector
-comparison for real multiprojective spaces and Theorem 4 (§§2.1a–2.1b); the Whitney–Bruhat
+**This roadmap owns** the real-analytic and semianalytic theory of R0–R2 and the global theory of
+R3–R5: the chart dictionary for analytic maps, the neighbourhood form of convergent
+complexification with its uniqueness, the calculus of analytic germs and its compatibility with
+complexification, germs and chartwise analytic submanifolds on manifolds (R0, §§0.1–0.2);
+semianalytic sets and their presentation calculus on normed spaces and on manifolds, the local
+normal decomposition, semianalytic dimension, components and the frontier condition (R1,
+§§1.0–1.0a); the topology of semialgebraic sets in finite coordinates, Nash germs and their closure
+properties, a single relation on a semialgebraic set, the graph criterion, derivatives of Nash
+germs, locally semialgebraic sets, the Nash inverse and implicit function theorems, the Nashness of
+real Weierstrass coefficients, the Nash normal decomposition and its comparison with semialgebraic
+dimension, and Nash maps on semialgebraic analytic submanifolds (R1.1, §1.1); normal boxes and
+their prescribed-zero-set and projection forms, Łojasiewicz's Lemmas 1–15 with the closure rules
+of his §1.V for partially semialgebraic sets, the five steps of his §4, the relative
+convex-polyhedral subdivision lemma and Theorem 1 (R2, §§2.0–2.0h); the analytic image adapter,
+the bounded semialgebraic Theorem 3 with the analytic invariant of the semialgebraic lift, the
+standard affine charts of projective space, semialgebraic structure and the Nash projector
+embedding for real multiprojective spaces, and Theorem 4 (R2.1, §§2.1–2.1b); the Whitney–Bruhat
 complexification, the Stein predicate, Grauert's p-function and the strictly plurisubharmonic tube
-(§3.0); the noncompact weighted `∂̄` theorem with its precise curvature and domain hypotheses, the
-complete metrics, jet interpolation, Oka–Weil approximation, the Stein criterion, Stein
-neighbourhoods and the converse exhaustion theorem (§3.1); the coherent module predicate and its
-calculus over the holomorphic structure sheaf, the scalar Cousin I splitting, compact generation,
-coherent approximation, Cartan's theorems A and B, coefficient lifting, fine Stein covers and the
-conditional Runge lemma (§3.2); the proper holomorphic embedding of the tube and Grauert's theorem
-(Layer 4); and the realization homeomorphism for locally finite complexes, Theorem 2 and the global
-frontier stratification (Layer 5). Subanalytic sets are outside it.
+(R3.0, §3.0); the noncompact weighted `∂̄` theorem with its precise curvature and domain
+hypotheses, the complete metrics, jet interpolation, Oka–Weil approximation, the Stein criterion,
+Stein neighbourhoods and the converse exhaustion theorem (R3.1, §3.1); the coherent module
+predicate and its calculus over the holomorphic structure sheaf, the scalar Cousin I splitting,
+compact generation, coherent approximation, Cartan's theorems A and B, coefficient lifting, fine
+Stein covers and the conditional Runge lemma (R3.2, §3.2); the proper holomorphic embedding of the
+tube and Grauert's theorem (R4); and the realization homeomorphism for locally finite complexes,
+Theorem 2 and the global frontier stratification (R5). The statements of this roadmap that Tau Ceti
+proves stay in their layers, with the declarations that realise them. Subanalytic sets are outside
+it.
 
-**Already in the library, used and not planned again.** The supplier contracts list the exact
-declarations.
+**Already in the library, owned elsewhere, used and not planned again.** The supplier contracts
+list the exact declarations.
 
-- *Semianalytic sets* (Tau Ceti): the definition at a point and globally, on normed spaces and on
-  analytic manifolds, finite Boolean closure, shrinking and equivalence of presentations, analytic
-  preimages, invariance under analytic isomorphisms and locally finite unions, and the normal form on
-  the line.
-- *Convergent complexification* (Tau Ceti, the implemented part of RealAlgebraicGeometry Layer 7): the
-  extension of an analytic function on an open subset of `ℝⁿ` to a conjugation-invariant complex
-  neighbourhood with the same real points, its uniqueness, the norm estimate `‖p_ℂ‖ ≤ 2ᵏ‖p‖` with the
-  extension radius at least half the real one, the complexification of germs as a ring homomorphism
-  compatible with pullback and characterized by commuting with conjugation, the complexification of
-  analytic charts, the chart dictionary for analytic maps on manifolds and its germ isomorphisms, and
-  the analytic inverse, implicit function and implicit root theorems.
-- *Semialgebraic and Nash geometry* (Tau Ceti): semialgebraic sets and functions, Tarski–Seidenberg
-  and quantifier elimination with parameters, closures, interiors and balls, connected components,
-  semialgebraic dimension and its value on subsets that are topological manifolds; Nash germs and
-  their closure under the ring operations, inverses,
-  composition and directional derivatives; the local graph criterion in both directions, including
-  nullified fibres and maps; one relation for a function Nash on a semialgebraic set; locally
-  semialgebraic sets, their Nash Boolean presentations, Nash preimages and the theorem that a bounded
-  locally semialgebraic set is semialgebraic. §1.1 states only what these do not cover.
-- *Łojasiewicz's auxiliary lemmas* (Tau Ceti): partially semialgebraic sets with Boolean operations,
-  locally finite unions and projections; Lemma 1, Lemma 2 and Lemma 6; the analytic ingredients of
-  Lemma 10; the band calculus of Lemmas 11–14, including the analytic band isomorphisms and property
-  (A⁻¹) of band maps; the rectilinear-cell statements of Lemma 15; the relative simplicial subdivision
-  of a locally finite family of compact convex cells retaining a boundary triangulation, which is the
-  relative convex-polyhedral subdivision lemma used in §§2.0h and 2.1; local finiteness of projected
-  families; delineations with analytic roots; and the image of an analytic submanifold under an
-  analytic map with analytic left inverse, the adapter used for the lower-dimensional simplices of
-  §2.1.
-- *Projective spaces* (Tau Ceti): the standard affine charts and their domains, and the projector
-  embedding of real projective space with all homogeneous coordinates, its image,
-  injectivity, the compactness and semialgebraicity of the projector locus and the row formula for its
-  inverse.
+- *Convergent complexification and analytic submanifolds* (Tau Ceti, the implemented part of
+  RealAlgebraicGeometry Layer 7): the extension of an analytic function at a point of `ℝⁿ` to a
+  holomorphic function on a real-centred polydisc commuting with conjugation, the norm estimate
+  `‖p_ℂ‖ ≤ 2ᵏ‖p‖` with the extension radius at least half the real one, the complexification of
+  analytic charts, the analytic inverse, implicit function and implicit root theorems, and analytic
+  submanifolds of `ℝⁿ` with analytic maps on them.
+- *Semialgebraic geometry* (Tau Ceti, from RealAlgebraicGeometry and AffineMorseLefschetz):
+  semialgebraic sets and functions, Tarski–Seidenberg and quantifier elimination with parameters,
+  delineations with analytic roots, semialgebraic dimension and its value on subsets that are
+  topological manifolds.
 - *Analysis on manifolds* (Tau Ceti): the tubular neighbourhood theorem, Levi forms and strict
-  plurisubharmonicity on complex manifolds, the Morse–Sard theorem, and the realization of abstract
-  simplicial complexes with its weak topology.
+  plurisubharmonicity on complex manifolds, the Morse–Sard theorem, the realization of abstract
+  simplicial complexes with its weak topology, and local finiteness of projected families.
 - *Sheaves of modules* (Mathlib): the finite-type, generating-sections, locally free, quasicoherent
   and finite-presentation API, pushforward equivalences, and the equivalence between modules over
   `R.over U` and over the restricted ring sheaf with its unit comparisons.
@@ -1734,7 +2028,8 @@ declarations.
   (§5.5), the continuous band transfer and endpoint pulling triangulation of its lift (§5.6), the
   projection-compatible lift (§5.7) and the complex projective algebraic pairs (§5.8). §2.1 proves the
   Nash invariant of that construction and does not build a second compact triangulation. That
-  roadmap's lift uses its own pulling triangulation and takes no input from this one.
+  roadmap's lift uses its own band transfer and pulling triangulation and takes no input from this
+  one; the band calculus of §2.0d serves this roadmap's analytic construction.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) owns the realified atlas (K3.0, §3.1),
   convergent Weierstrass preparation and division (K3, §3.2), Noetherian germs, local
   parametrization, primitive Oka coherence and ideal generators (K3, §3.4), the Čech and Dolbeault
@@ -1742,7 +2037,7 @@ declarations.
   (K4, §§4.1–4.2), local elliptic regularity and distributions (K5a, §§5.1, 5.7), the Hermitian
   Dolbeault adjoint and its symbol (K5b.0, §5.9), the local Kähler and Bochner–Kodaira–Nakano
   identities (K6.0, §6.1), and complex projective charts (K7.1, §7.1). Its analytic-cycle theory
-  (K6.1) consumes Layer 5; no proof here uses K6.1 or its compact Hodge theory.
+  (K6.1) consumes R5; no proof here uses K6.1 or its compact Hodge theory.
 - [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) B2 (§§B2.1–B2.2) owns Hermitian
   bundle metrics and square-integrable sections.
 - [ComplexManifolds](../ComplexManifolds/README.md) owns compatible open gluing (Milestone 5) and
@@ -1799,119 +2094,57 @@ declarations.
 
 ### From Tau Ceti
 
-Paths are under `TauCeti/`. Each declaration is assumed as stated there.
+Paths are under `TauCeti/`. Each declaration is assumed as stated there. The declarations that
+realise this roadmap's own statements are named in the layers above, on the *In Tau Ceti:* lines,
+and are not repeated here.
 
-- Analytic submanifolds (`Analysis/Analytic/Submanifold/`): `TauCeti.IsAnalyticSubmanifold`,
-  `TauCeti.AnalyticOnSubmanifold` (`Basic.lean`); `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`
-  (`Image.lean`: an analytic map on a `k`-dimensional analytic submanifold with an analytic left inverse
-  on a submanifold containing its image has a `k`-dimensional analytic image); Lemma 6:
-  `TauCeti.IsAnalyticSubmanifold.exists_topographic`, `TauCeti.horizontalShear`,
-  `TauCeti.dist_le_mul_dist_tail_of_mem_image_horizontalShear` and
-  `TauCeti.IsAnalyticSubmanifold.image_horizontalShear` (`Topographic.lean`, height first, sup norm).
-- Analytic maps on manifolds and germs: `TauCeti.contMDiffAt_omega_iff_analyticAt`,
-  `TauCeti.analyticOnNhd_ext_coord_change`, `ContMDiff.eq_of_eventuallyEq`
-  (`Geometry/Manifold/ContMDiff/Analytic.lean`); `TauCeti.analyticGerms`,
-  `TauCeti.analyticGerms.pullback` (`Analysis/Analytic/Germ.lean`); `ModelWithCorners.analyticGermsEquiv`
-  and `ModelWithCorners.analyticGermsEquiv_ofAnalyticAt_comp_extend_symm_of_contMDiffAt`
-  (`Geometry/Manifold/ContMDiff/Germ.lean`); `IsManifold.restrictScalars_of_ne_zero`
+- Analytic submanifolds (`Analysis/Analytic/Submanifold/Basic.lean`, RealAlgebraicGeometry Layer 7):
+  `TauCeti.IsAnalyticSubmanifold`, `TauCeti.AnalyticOnSubmanifold`.
+- The realified atlas of a complex manifold: `IsManifold.restrictScalars_of_ne_zero`
   (`Geometry/Manifold/Complex/Analytic.lean`).
-- Complexification (`Analysis/Analytic/Complexification/`): `AnalyticAt.exists_complexification`,
-  `AnalyticAt.exists_complexification_pi`, `ContinuousMultilinearMap.norm_complexifyPi_le_two_pow`,
+- Complexification at a point and of charts (`Analysis/Analytic/Complexification/`, RealAlgebraicGeometry
+  Layer 7): `AnalyticAt.exists_complexification`, `AnalyticAt.exists_complexification_pi`,
+  `ContinuousMultilinearMap.norm_complexifyPi_le_two_pow`,
   `FormalMultilinearSeries.le_radius_complexifyPi_two_mul`, `AnalyticAt.eventually_apply_star`
-  (`Basic.lean`); `AnalyticOnNhd.exists_complexification`, `AnalyticOnNhd.exists_complexification_pi`,
-  `AnalyticOnNhd.exists_eqOn_of_forall_real` (`Neighborhood.lean`: extension to a conjugation-invariant
-  open set with the same real points, and uniqueness on a smaller such set);
-  `TauCeti.analyticGerms.complexify`, `TauCeti.analyticGerms.complexify_pullback`,
-  `TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star` (`Germ.lean`);
-  `OpenPartialHomeomorph.exists_complexification` (`Chart.lean`).
-- Analytic inverse and implicit functions (`Analysis/Analytic/Inverse.lean`):
-  `AnalyticAt.exists_openPartialHomeomorph`, `ImplicitFunctionData.analyticAt_implicitFunction`,
+  (`Basic.lean`); `OpenPartialHomeomorph.exists_complexification` (`Chart.lean`).
+- Analytic inverse and implicit functions (`Analysis/Analytic/Inverse.lean`, RealAlgebraicGeometry
+  Layer 7): `AnalyticAt.exists_openPartialHomeomorph`, `ImplicitFunctionData.analyticAt_implicitFunction`,
   `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff`. The polydisc Cauchy formula, Osgood's lemma
   and analytic parameter integrals of `Analysis/Complex/CauchyIntegralPolydisc.lean`
   (`ContinuousOn.torusIntegral_prod_sub_inv_smul`, `ContinuousOn.analyticAt_of_differentiableAt_update`,
   `DifferentiableOn.analyticAt_of_finiteDimensional`, `TauCeti.analyticAt_circleIntegral`) underlie
   these and the complexification.
-- Semianalytic sets (`Geometry/RealAnalytic/Semianalytic/`): `TauCeti.IsAnalyticBooleanCombination`,
-  `TauCeti.SemianalyticAt`, `TauCeti.IsSemianalytic`, `TauCeti.SemianalyticAt.preimage`,
-  `TauCeti.semianalyticAt_iff_exists_iUnion`, `LocallyFinite.isSemianalytic_iUnion`,
-  `Equiv.isSemianalytic_image_iff` (`Basic.lean`); `TauCeti.MSemianalyticAt`, `TauCeti.IsMSemianalytic`
-  (`Manifold.lean`, read in any chart of the maximal analytic atlas); `TauCeti.semianalyticAt_real_iff`,
-  `TauCeti.SemianalyticAt.exists_Ioo_mem_iff_sign_mem` (`Real.lean`).
-- Partially semialgebraic sets: `TauCeti.PartiallySemialgebraicAt`, `TauCeti.IsPartiallySemialgebraic`,
-  `TauCeti.isSetAlgebra_setOf_isPartiallySemialgebraic`, `LocallyFinite.isPartiallySemialgebraic_iUnion`
-  (for families with locally finite projections), `TauCeti.IsPartiallySemialgebraic.preimage_prodMap`
-  (analytic changes of the base) (`PartiallySemialgebraic.lean`);
-  `TauCeti.PartiallySemialgebraicAt.inter`, `TauCeti.IsSemialgebraic.partiallySemialgebraicAt_preimage_snd`
-  (`PartiallySemialgebraic.lean`); `TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`,
-  `TauCeti.PartiallySemialgebraicAt.semianalyticAt_image_fst`,
-  `TauCeti.IsPartiallySemialgebraic.isSemianalytic_image_fst` (`PartiallySemialgebraic/Projection.lean`);
-  `TauCeti.isPartiallySemialgebraic_graphOn_regionBetweenMap` (`PartiallySemialgebraic/RegionBetween.lean`,
-  Lemma 14's property (A⁻¹)).
 - Semialgebraic geometry (`Geometry/RealAlgebraic/`): `TauCeti.IsSemialgebraic`,
   `TauCeti.IsSemialgebraicOn` (`Semialgebraic/Basic.lean`, `Semialgebraic/Function.lean`); the instance
   `TauCeti.HasSemialgebraicProjections ℝ` (`CAD/Existence.lean`, Tarski–Seidenberg) and quantifier
   elimination with parameters `TauCeti.exists_isQF_realize_iff` (`Semialgebraic/QuantifierElimination.lean`);
-  `TauCeti.isSemialgebraic_ball`, `TauCeti.IsSemialgebraic.closure`, `TauCeti.IsSemialgebraic.interior`
-  (`Semialgebraic/Topology.lean`); `TauCeti.semialgebraicDim`,
-  `TauCeti.IsSemialgebraic.semialgebraicDim_closure` (`Semialgebraic/Dimension/`) and
-  `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace` (`Semialgebraic/Dimension/Manifold.lean`: a
-  nonempty subset of `Fin n → ℝ` with charts on a finite-dimensional real space `E`, for the subspace
-  topology, has semialgebraic dimension `finrank ℝ E`);
-  `TauCeti.IsSemialgebraic.finite_image_connectedComponentIn` and
-  `TauCeti.IsLocallySemialgebraic.locallyFinite_connectedComponentIn` (`Semialgebraic/Components.lean`);
-  `TauCeti.SemialgebraicAt`, `TauCeti.IsLocallySemialgebraic` and
-  `TauCeti.IsLocallySemialgebraic.isSemialgebraic_of_isBounded` (`Semialgebraic/Local.lean`).
-- Nash germs (`Geometry/RealAlgebraic/Nash/`): `TauCeti.IsNashAt` with `TauCeti.IsNashAt.add`,
-  `TauCeti.IsNashAt.mul`, `TauCeti.IsNashAt.inv` (`Basic.lean`), `TauCeti.IsNashAt.comp` (`Comp.lean`),
-  `TauCeti.IsNashAt.fderiv_apply` (`Derivative.lean`), `TauCeti.isNashAt_iff_exists_isSemialgebraicOn`,
-  `TauCeti.forall_isNashAt_apply_iff_exists_isSemialgebraicOn` and
-  `TauCeti.exists_isSemialgebraicOn_of_forall_isNashAt` (`Graph.lean`: the local graph criterion for
-  functions and maps, and a common neighbourhood for finitely many germs),
-  `TauCeti.IsSemialgebraicOn.exists_ne_zero_polynomial_relation` and
-  `TauCeti.IsSemialgebraicOn.isNashAt` (`OfSemialgebraic.lean`),
-  `TauCeti.semialgebraicAt_iff_exists_isNashBooleanCombination` and
-  `TauCeti.IsLocallySemialgebraic.preimage` (`LocallySemialgebraic.lean`). With
-  `TauCeti.IsSemialgebraic.exists_ne_zero_polynomial_relation_of_isNashAt` (`Relation.lean`) and
-  `TauCeti.isSemialgebraicOn_of_polynomial_relation` (`Graph.lean`), a Nash function on an open
-  semialgebraic set has semialgebraic graph there.
+  `TauCeti.semialgebraicDim`, `TauCeti.IsSemialgebraic.semialgebraicDim_closure`
+  (`Semialgebraic/Dimension/`) and `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace`
+  (`Semialgebraic/Dimension/Manifold.lean`: a nonempty subset of `Fin n → ℝ` with charts on a
+  finite-dimensional real space `E`, for the subspace topology, has semialgebraic dimension
+  `finrank ℝ E`).
 - Delineations (`Geometry/RealAlgebraic/Stack/`): `TauCeti.nonempty_delineation`
   (`Delineation.lean`: a finite family of polynomials with continuous coefficients over a preconnected
   base, each zero everywhere or nowhere, with constant degree, number of distinct complex roots and
   pairwise gcd degree, has a delineation) and `TauCeti.Delineation.analyticOnSubmanifold_root`
   (`Analytic.lean`: over an analytic submanifold, with analytic coefficients, the root functions are
   analytic).
-- Łojasiewicz's lemmas: `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`
-  (`Geometry/Manifold/Sard/Meagre.lean`, Lemma 1: a smooth or analytic map from a Lindelöf manifold
-  whose differential has rank below the target dimension everywhere has meagre range);
-  `HasFDerivAt.finrank_range_lt_of_infinite` (`Analysis/Calculus/FDeriv/RankDrop.lean`, Lemma 2);
-  `TauCeti.normalizedArsinh`, `TauCeti.deriv_normalizedArsinh_le_two`,
-  `TauCeti.abs_mul_deriv_normalizedArsinh_le_one` (`Analysis/SpecialFunctions/Arsinh.lean`);
-  `TauCeti.baseScaling`, `TauCeti.heightCompression`, `TauCeti.analyticAt_baseScaling`,
-  `TauCeti.analyticAt_heightCompression`, `TauCeti.mapsTo_heightCompression_comp_baseScaling`,
+- Ingredients of Lemma 10, used by its route in §2.0d: `TauCeti.normalizedArsinh`,
+  `TauCeti.deriv_normalizedArsinh_le_two`, `TauCeti.abs_mul_deriv_normalizedArsinh_le_one`
+  (`Analysis/SpecialFunctions/Arsinh.lean`); `TauCeti.baseScaling`, `TauCeti.heightCompression`,
+  `TauCeti.analyticAt_baseScaling`, `TauCeti.analyticAt_heightCompression`,
+  `TauCeti.mapsTo_heightCompression_comp_baseScaling`,
   `TauCeti.dist_snd_le_three_mul_dist_fst_of_mem_image_heightCompression_comp_baseScaling`,
   `TauCeti.closedBall_subset_fst_image_baseScaling_image_graphOn`,
   `TauCeti.exists_analyticOnNhd_sqrt_sq_sub_one_lt_mul` (`Analysis/Analytic/HeightCompression.lean`);
   `ContDiff.exists_analyticOnNhd_abs_sub_lt` (`Analysis/Analytic/Approximation.lean`: analytic
-  approximation of a `C¹` function on `ℝ` with its derivative within a positive continuous tolerance);
-  `TauCeti.regionBetweenMap`, `TauCeti.closure_regionBetween_of_closure_graphOn_eq`,
-  `TauCeti.image_regionBetweenMap_graphOn_lower`, `TauCeti.image_regionBetweenMap_graphOn_upper`,
-  `TauCeti.eqOn_regionBetweenMap`, `TauCeti.continuousOn_regionBetweenMap`,
-  `OpenPartialHomeomorph.regionBetween` (`Topology/Order/RegionBetween.lean`, Lemmas 11, 12 and 14);
-  `OpenPartialHomeomorph.analyticOnNhd_regionBetween`,
-  `OpenPartialHomeomorph.analyticOnNhd_regionBetween_symm` (`Analysis/Analytic/RegionBetween.lean`,
-  Lemma 13); `AffineMap.graphOn_convexHull`, `TauCeti.closedRegionBetween_convexHull`,
-  `TauCeti.intrinsicInterior_closedRegionBetween`, `TauCeti.intrinsicFrontier_closedRegionBetween`
-  (`Analysis/Convex/RegionBetween.lean`, Lemma 15); `Geometry.SimplicialComplex.exists_subdivision_extending`,
-  `Geometry.SimplicialComplex.IsSubdivision` (`Analysis/Convex/SimplicialComplex/Subdivision.lean`);
-  `LocallyFinite.image_fst_of_subset` (`Topology/LocallyFinite/Projection.lean`).
-- Projective spaces: `Projectivization.affineChart` and `Projectivization.affineOpen`
-  (`LinearAlgebra/Projectivization/AffineChart.lean`, which imports no topology: ratios enumerated by
-  `Fin.succAbove i`, inverse through `Fin.insertNth i 1`); `TauCeti.rankOneProjector`,
-  `TauCeti.projectorLocus`, `TauCeti.rankOneProjector_row_eq_self`, `Projectivization.projector`,
-  `Projectivization.projector_injective`, `Projectivization.range_projector`
-  (`LinearAlgebra/Projectivization/Projector.lean`); `TauCeti.isCompact_projectorLocus` and
-  `TauCeti.isSemialgebraic_projectorLocus` (`Geometry/RealAlgebraic/ProjectorEmbedding.lean`). Tau
-  Ceti's analytic atlas of projective space (`Projectivization.instChartedSpace`,
+  approximation of a `C¹` function on `ℝ` with its derivative within a positive continuous tolerance).
+- Simplicial complexes and local finiteness: `Geometry.SimplicialComplex.IsSubdivision`
+  (`Analysis/Convex/SimplicialComplex/Subdivision.lean`); `LocallyFinite.image_fst_of_subset`
+  (`Topology/LocallyFinite/Projection.lean`); `AbstractSimplicialComplex.Realization` and
+  `AbstractSimplicialComplex.isEmbedding_realization_coe_of_finite_vertex_stars`
+  (`AlgebraicTopology/SimplicialComplex/Realization/`).
+- Projective spaces: Tau Ceti's analytic atlas of projective space (`Projectivization.instChartedSpace`,
   `Projectivization.instIsManifold`, `Geometry/Manifold/Instances/Projectivization.lean`) and its
   projector continuity are stated on Tau Ceti's own copy of the quotient topology
   (`Topology/Algebra/Projectivization.lean`), declared under the same instance name as Mathlib's, so
@@ -1923,10 +2156,7 @@ Paths are under `TauCeti/`. Each declaration is assumed as stated there.
   image inside any given open set, the zero section going to the embedding);
   `TauCeti.manifoldLeviForm`, `TauCeti.IsManifoldStrictlyPlurisubharmonicAt`
   (`Geometry/Manifold/Complex/LeviForm.lean`); `ContDiff.addHaar_image_criticalPoints_eq_zero`
-  (`Analysis/Calculus/Sard/OutermostStratum.lean`, the Morse–Sard theorem);
-  `AbstractSimplicialComplex.Realization` and
-  `AbstractSimplicialComplex.isEmbedding_realization_coe_of_finite_vertex_stars`
-  (`AlgebraicTopology/SimplicialComplex/Realization/`).
+  (`Analysis/Calculus/Sard/OutermostStratum.lean`, the Morse–Sard theorem).
 - Sheaves of modules: `TauCeti.SheafOfModules.ringCatSheaf`
   (`Algebra/Category/ModuleCat/Sheaf/Defs.lean`: a sheaf of commutative rings with commutativity
   forgotten, the coefficient ring sheaf of `SheafOfModules`).
@@ -1990,13 +2220,13 @@ sections).
   proofs to appear separately.
 - H. Grauert, [“On Levi's problem and the imbedding of real-analytic manifolds”](https://doi.org/10.2307/1970257),
   *Annals of Mathematics* (2) 68 (1958), 460–472: the real-analytic embedding theorem (Theorem 3,
-  p. 470), the Stein criterion of Layer 3 (§2, Theorem 2, for relatively compact domains, and §3
+  p. 470), the Stein criterion of R3 (§2, Theorem 2, for relatively compact domains, and §3
   for the passage to an exhaustion) and its p-functions (§3, Propositions 6 and 7).
 - H. Whitney and F. Bruhat, [doi:10.1007/BF02565913](https://doi.org/10.1007/BF02565913), §1,
   Proposition 1: the complexification of a real-analytic manifold, with its separation buffers.
 - F. Forstnerič, [“Holomorphic embeddings and immersions of Stein manifolds: a survey”](https://arxiv.org/abs/1709.05630),
   §2.1, Theorem 2.1 and Proposition 2.2: almost proper maps, Bishop's polyhedral shells and the fixed
-  target dimension of Layer 4. The constrained transversality and shell approximation are proved in
+  target dimension of R4. The constrained transversality and shell approximation are proved in
   §4.1 above.
 - J.-P. Demailly, [*Complex Analytic and Differential Geometry*](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf),
   Chapter VIII, §§3–5, especially Theorems 3.2 and 4.5: complete metrics, the graph-domain density and
