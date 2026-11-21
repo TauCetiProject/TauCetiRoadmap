@@ -109,8 +109,11 @@ of `T ⊗ ψ` have valuations bounded below, while `φ` multiplies negative valu
 because `p·a ∈ A^+` implies `a ∈ A^+`. So `V ⊗ ψ` is of finite height, and a free `φ`- and `Γ_F`-stable lattice of finite
 `q`-height in `D^+` on which `Γ_F` acts trivially modulo `π` makes it crystalline (Wach's criterion); its weights are the jumps
 of the filtration of PhiGammaModulesAndIwasawaCohomology §6.0, in `[0, a_i + b_i]` at `i`. Uniqueness (PhiGammaModulesAndIwasawaCohomology §6.0) gives `N ⊗ N(ψ) = N(T ⊗ ψ)`; untwist. Sources:
-Berger-Wach-2004, §§II–III (Proposition II.1.1, Theorem III.4.4 and the description of `N(V)` through its localisations);
-Wach 1996 (the criterion of (8)). *Needs:* PhiGammaModulesAndIwasawaCohomology §§6.0–6.1; PhiGammaModulesAndIwasawaCohomology §1.0 (integral étale realization and its reduction); PhiGammaModulesAndIwasawaCohomology §3.4 (the
+Berger-Wach-2004, Proposition II.1.1, and, as the inputs of (6)–(7), Proposition II.2.1 (the inclusion of `D_cris(V)` in
+`B^+_{rig,F} ⊗ N(V)`), Propositions II.3.1 and III.2.1 (the elementary divisors of that inclusion, products over `s ≥ 1`
+of powers of `φ^{s−1}(q)/p` with the weights as exponents), Proposition III.2.2 (the action of the subgroup of `Γ_F` fixing
+`F_s` on `N(V)/φ^{s−1}(q)N(V)`) and Theorem III.4.4 (the filtration); Berger-2008, Proposition II.2.5 with Théorème V.2.3 (2) (the
+`Fil⁰` form of the localisations); Wach 1996 (the criterion of (8)). *Needs:* PhiGammaModulesAndIwasawaCohomology §§6.0–6.1; PhiGammaModulesAndIwasawaCohomology §1.0 (integral étale realization and its reduction); PhiGammaModulesAndIwasawaCohomology §3.4 (the
 prime-to-`p` torsion adapter); PhiGammaModulesAndIwasawaCohomology §5.6a (cyclotomic localisations); PadicPeriodRings §§4.1–4.3.
 
 **API.**
@@ -141,7 +144,8 @@ prime-to-`p` torsion adapter); PhiGammaModulesAndIwasawaCohomology §5.6a (cyclo
   generally the factor for a character of weight `a` is `(π/t)^a`. The comparison holds after `t` is inverted, and the expansions
   are Laurent series.
 - (*the localisation is `σ^{−1}`-semilinear*) `n = 2`, rank one, `φ(e_{i−1}e) = u_iq^{k_i}e_ie` as in the labelling Check, with
-  `γ(e_ie) = g_ie_ie`. From `φγ = γφ`, `g_i = φ(g_{i−1})·(q/γ(q))^{k_i}`; at `π = ζ_p − 1`, `φ(g_{i−1}) = g_{i−1}(0) = 1` and
+  `γ(e_ie) = g_ie_ie`. From `φγ = γφ`, `g_i = φ(g_{i−1})·(u_i/γ(u_i))·(q/γ(q))^{k_i}`; at `π = ζ_p − 1`, `φ(g_{i−1}) = g_{i−1}(0) = 1`,
+  `u_i/γ(u_i) = 1` (`γ(π)` takes the value `ζ_p^{1+p} − 1 = ζ_p − 1` there) and
   `q/γ(q) = φ(π/γ(π))·γ(π)/π = χ(γ)^{−1}` (as `χ(γ) = 1 + p`), so `g_i(ζ_p − 1) = χ(γ)^{−k_i}`: the line `ι_1(e_iN)` carries the
   `γ`-eigenvalue of `t^{−k_i} ⊗ D_cris`, and lies in the factor of `emb_{i−1}`, where the Hodge–Tate weight is `k_i`. The
   `F`-linear evaluation would put `e_iN` in the factor of `emb_i`, whose `Fil⁰` is `t^{−k_{i+1}} ⊗ e_iD_cris`: for
@@ -187,8 +191,9 @@ into `X^sN̄_i`, `ν − c(m)` reduces to `∇ + m̄`, and under the hypothesis 
 `f(0) = ∏_{m≠0} m̄ ≠ 0`. *Route of (4).* As for (1): `(π₀ + p)^{−y}N(T)^{Γ_F^{tor}}/N(T)^{Γ_F^{tor}}` is `O_E`-free, and after
 inverting `p` it is, by 6.4 (6), the `Γ_F^{tor}`-invariant part of `t^{−y}Fil⁰/Fil⁰`, on which `γ` acts semisimply with
 eigenvalue `χ(γ)^m` on the part `t^{−k−u} ⊗ (line of weight u)`, `1 ≤ k ≤ y`, `m = −(u + k)`; `ν` is triangular for the same
-filtration and acts on the graded piece of `m` by `c(m)`. Sources: Berger-Wach-2004, §§II–III (the localisation of
-6.4 (6)). *Needs:* 6.4; PhiGammaModulesAndIwasawaCohomology §6.0
+filtration and acts on the graded piece of `m` by `c(m)`. Sources: Berger-Wach-2004, Propositions III.2.1 and III.2.2 at the
+zeros of `q` (`γ` acts on `N(V)/qN(V)` semisimply with eigenvalues `χ(γ)^{−u}`, `u` running over the Hodge–Tate weights: the
+case `s = 1` of (1) after inverting `p`). *Needs:* 6.4; PhiGammaModulesAndIwasawaCohomology §6.0
 (filtered reduction); PhiGammaModulesAndIwasawaCohomology §5.6a (de Rham differential-equation realization).
 
 **API.**
@@ -365,7 +370,7 @@ a coboundary by 6.7 (1b), and `t = 0`. Hence `a ↦ (c_{a,i} mod N_i)_i` is inje
 **Checks.**
 
 - If every `i` is low and `d = 0`, the theorem says every polar Herr pair is a coboundary.
-- Rank zero: `d = 0` and there is nothing to count.
+- Rank zero: the only Herr pair is `0`, so the bound holds for every `d`.
 - (*`v_i ≥ 1` in the high type*) For `v_i = 0` the element `φ(y)` of the route of 6.7 (4) need not lie in `Xφ^*N₀`, and the
   bound is not asserted.
 
@@ -489,8 +494,8 @@ finite `p`-primary modules); PadicPeriodRings §§4.1–4.3 (crystalline represe
   space of dimension `1` if `u < w` and `0` if `u > w`, which is `d`; (3) is sharp there.
 - `n = 2`, `h_0 = h_1 = 60`, `p = 41`: `σ_0 = σ_1 = 1` and (P3) allows windows with `η_i ≤ 30`, although `h_i` exceeds
   `p − 2 = 39`.
-- (*a failure outside the hypothesis*) `F = ℚ_p`, `p ≥ 13`, `r = t = 1`, `w = η = 1`, low type, `U = {w + p − 1} = {p}`,
-  `h = p + 1` (so `σ = 1`): (P1)–(P4) hold and (P5) fails (`u ≡ 0 = w − 1`). Then `T̄` is trivial, the
+- (*a failure outside the hypothesis*) `F = ℚ_p`, `p ≥ 13`, `r = t = 1`, `w = η = 1`, low type, `ρ = χ_1χ_cyc^{−(p−1)}`
+  (so `U = {w + p − 1} = {p}` and `ρ̄ = χ̄_1`), `h = p + 1` (so `σ = 1`): (P1)–(P4) hold and (P5) fails (`u ≡ 0 = w − 1`). Then `T̄` is trivial, the
   lattices `{(a, b) : a ≡ b (mod p)}` in `χ_1 ⊕ χ_1χ_cyc^{−(p−1)}μ` (`μ` unramified, `μ ≡ 1 mod p`) make every class of
   `H¹(G_{ℚ_p}, 𝔽_p)` admissible (dimension `2`), while `d = 0` and `H⁰(G_{ℚ_p}, T̄) ≠ 0`: the conclusions of (1c) and (3)
   fail.
@@ -585,7 +590,9 @@ into `N`, by 6.5 (4) (the factor for `u + k = 0` is `δ` itself; further factors
 `c_Γp^kω′ = δY′ + π₀^a(z′ − m′)`. Applying `R(δ)` and (iii), `p^kc_ΓR(δ)ω′ ∈ N`, hence `R(δ)ω′ ∈ N` (`Q^{−M}N/N` is `O_E`-free). Finally `R(0)ω′ = R(δ)ω′ − δR₁(δ)ω′`, and (ii), (i) put
 `c_Γπ₀R(δ)ω′` and `c_Γ(γ − 1)R₁(δ)ω′` in `im d¹`, so `R(0)c_Γω ∈ im d¹`, with `v_p(R(0)c_Γ) = Σ_{j∈J}v_p(j) + a + v_p(a!)`
 (`v_p(c(−j)) = v_p(j)`, `v_p(1 − u₁^i) = 1 + v_p(i)`); this is `e°_U`, and `e_U ≥ e°_U`. For `M = 0`, (i) with `a = 0` makes `d¹`
-onto (`1 − φ` is bijective on `π₀N`). *Needs:* PhiGammaModulesAndIwasawaCohomology §6.0; 6.4, 6.5; 6.6 (2) (the modulo-`λ` comparison); PhiGammaModulesAndIwasawaCohomology §3.1 (Herr complexes);
+onto (`1 − φ` is bijective on `π₀N`). Sources: Berger-Wach-2004, Proposition IV.1.3 (the induction of (2), for `X = π`) and
+the constant `α(r)` defined before Theorem IV.1.1 (equal to `cost(0, r)`, with the bound `rp/(p − 1)²`); [FormalProof].
+*Needs:* PhiGammaModulesAndIwasawaCohomology §6.0; 6.4, 6.5; 6.6 (2) (the modulo-`λ` comparison); PhiGammaModulesAndIwasawaCohomology §3.1 (Herr complexes);
 Mathlib `PowerSeries`, `Polynomial`.
 
 **API.**
@@ -649,7 +656,7 @@ over the graded pieces of a filtration by saturated sub-families (6.6, API); the
 (6.5 (2)) and that of `X^cN̄(χ_s)_i` is `w̄_{i,s} − c` (6.6 (1)). (5) In bases adapted to the filtration (possible since the
 induced lattices are free) the matrix of `φ_i` is block upper triangular with the matrices of the induced maps on the
 diagonal; its principal minor at the `t` positions of `S` is triangular with diagonal entries `unit·X^{w_{i,s}+pc_s(i−1)−c_s(i)}`
-by (2), and (0) with `m′ = t` gives the inequality. *Needs:* PhiGammaModulesAndIwasawaCohomology §6.0 (uniqueness, tensor and twist laws); 6.4 (1), (2), (4),
+by (2), and (0) with `m′ = t` gives the inequality. Sources: [FormalProof]. *Needs:* PhiGammaModulesAndIwasawaCohomology §6.0 (uniqueness, tensor and twist laws); 6.4 (1), (2), (4),
 6.5 (2), 6.6 (1) and the API of 6.4, 6.6; Mathlib `Matrix.det`, `ExteriorAlgebra.exteriorPower`.
 
 **Checks.**
@@ -699,7 +706,8 @@ Not owned here. The theory these statements extend is owned by [PhiGammaModulesA
 
 ## References
 
-- **Berger-Wach-2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Proposition II.1.1, Theorem III.4.4 and the description of `N(V)` through its localisations (6.4, 6.5).
+- **Berger-Wach-2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Propositions II.1.1, II.2.1, II.3.1, III.2.1 and III.2.2 and Theorem III.4.4 (6.4, 6.5); Proposition IV.1.3 and the constant `α(r)` of §IV.1 (6.10).
+- **Berger-2008** — Laurent Berger, *Équations différentielles p-adiques et (φ,N)-modules filtrés*, Astérisque 319 (2008), 13–38: Proposition II.2.5 and Théorème V.2.3 (the `Fil⁰` form of the localisations in 6.4 (6)–(7)).
 - Nathalie Wach, *Représentations p-adiques potentiellement cristallines*, Bulletin de la Société Mathématique de France 124 (1996), 375–400: Wach modules and the crystallinity criterion (6.4, 6.5).
 - Laurent Herr, *Sur la cohomologie galoisienne des corps p-adiques*, Bulletin de la Société Mathématique de France 126 (1998), 563–600: Herr complexes with torsion coefficients, and `γ − 1` on `ψ`-zero parts modulo `p` (6.7, 6.9, 6.10).
 - Frédéric Cherbonnier and Pierre Colmez, *Théorie d'Iwasawa des représentations p-adiques d'un corps local*, Journal of the American Mathematical Society 12 (1999), 241–268: `ψ` and `γ − 1` on `ψ`-zero parts (6.7).
