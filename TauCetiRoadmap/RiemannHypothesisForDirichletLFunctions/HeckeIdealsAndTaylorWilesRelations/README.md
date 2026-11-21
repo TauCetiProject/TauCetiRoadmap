@@ -17,9 +17,16 @@ Notation and conventions not restated here are those of PotentialAutomorphyInfra
 
 - `L` (in 9.9 (a)–(c), `F`) is a CM field with maximal totally real subfield `L⁺` and complex conjugation `c`. For a place `v` of `L⁺` split in `L`, `ṽ` is the chosen place of `L` above it; `G_{L,S}`, the decomposition groups `G_{L_ṽ}` and the inertia groups `I_ṽ` are those of PotentialAutomorphyInfrastructurePartII.
 - `O` is the ring of integers of a finite extension `E` of `ℚ_l`, with uniformizer `ϖ`, maximal ideal `𝔪_O` and residue field `k`. In 9.9 (d) and (d′) the coefficient prime is written `p`; it plays the role of `l` in 3.13a and 4.2a.
-- `ε` is the cyclotomic character, of Hodge–Tate weight `−1`, and `ε̄` its reduction; local class field theory `Art` sends uniformizers to geometric Frobenius elements; `Teich` is the Teichmüller lift.
+- `ε` is the cyclotomic character, of Hodge–Tate weight `−1`, and `ε̄` its reduction; local class field theory `Art` sends uniformizers to geometric Frobenius elements (as in [FormalProof],
+  `Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/HasExponentZeroIff.lean` (`GlobalTheory.LocLanglands.IsLocalArtin`),
+  `Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/IsSubquotientDetRepParInd.lean` (`GlobalTheory.SmGL.ord`),
+  `Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ExistsNotCongPow.lean` (`GlobalTheory.WeilDeligne.deg_eq_one_iff`));
+  `Teich` is the Teichmüller lift.
 - `Frob_w` is a geometric Frobenius element at `w`, as in PotentialAutomorphyInfrastructurePartII §3.7, so `ε(Frob_w) = (Nw)⁻¹`; the Frobenius elements `φ_{N,j}` of 4.2a are geometric as well.
-- `𝒢_n = (GL_n × GL_1) ⋊ {1, j}` is the group of ArithmeticGaloisRepresentations §7.4 (as in the Conventions of PotentialAutomorphyInfrastructurePartII). For a `𝒢_n`-valued `r`, `ad r` is the adjoint representation and `H¹_f` the Bloch–Kato Selmer group of PotentialAutomorphyInfrastructurePartII §9.3.
+- `𝒢_n = (GL_n × GL_1) ⋊ {1, j}` is the group of ArithmeticGaloisRepresentations §7.4 (as in the Conventions of PotentialAutomorphyInfrastructurePartII). For a `𝒢_n`-valued `r`, `ad r` is the adjoint representation and `H¹_f` the Bloch–Kato Selmer group of PotentialAutomorphyInfrastructurePartII §9.3 (as in [FormalProof],
+  `Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/BlochKatoSelmerVanishes.lean` (`UpperTheory.V.Af.IsBK`),
+  `Development/AutomorphicArithmetic/AutomorphicVarieties/PadicHodgeTheory/FiniteCohomology.lean` (`UpperTheory.V.Loc.finiteCocycles`),
+  `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/EigenbasisLifts/IsTanZero.lean` (`UpperTheory.V.Ws.Eb.IsAdExt`)).
 - Determinants `D`, their traces `tr_D`, characteristic polynomials `charpoly D(g)` and Cayley–Hamilton quotients are those of IntegralHeckeAndGaloisDeterminants Layers 0–1. For an ideal `J` of a ring `B`, `V(J)` is the closed subset of `Spec B` it defines.
 - In Layer 10 the prime is `p`, `T^D = Hom(T, ℚ_p/ℤ_p)(1)` for a lattice `T`, `A^∨` is the Pontryagin dual of `A`, and cohomology is the continuous cohomology of ArithmeticGaloisDuality §D7.6.
 
@@ -83,7 +90,9 @@ route below, those of the cuspidal constituents of the base change); if all `m_i
 `ρ(Frob_w)` satisfy `|z| < Nw·|z′|` (under the fixed isomorphism `ι : ℚ̄_l ≅ ℂ`) for almost all `w`.
 
 (e) (*classicality*) if `ρ` in (d) is irreducible, it is attached to a regular algebraic conjugate self-dual cuspidal
-representation of `GL_n(𝔸_L)`. [FormalProof] gives moreover clauses (w1) and (w2) of (f) for this representation,
+representation of `GL_n(𝔸_L)`. This follows from [FormalProof],
+`Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/PlainTorsionPairs/IrrArithPointsAutomorphicAway.lean`
+(`UpperTheory.Gal.projectedFormsSystemPart.WitOff`), which gives moreover clauses (w1) and (w2) of (f) for this representation,
 (w2) at the places not above `v₀`.
 
 (f) (*points*) an arithmetic point of `B` whose determinant is that of a continuous `ρ` attached to a regular algebraic
@@ -94,7 +103,11 @@ characters `ψ_{v,i}`, no two of which are in ratio `ε`, lies in `V(J)`. [Forma
 flag with no two characters in ratio `ε` up to a character of finite order; (w2) for every regular algebraic cuspidal `Π′` to
 which `ρ` is attached there is a real `t` such that, at every finite place `w` of `L` which is prime to `l` or at which the
 conclusion of (w1) holds, `Π′_w` has cuspidal support made of characters `ξ` of `L_w^×`, each with
-`(Nw)^{t−1/2} < |ξ(ϖ_w)| < (Nw)^{t+1/2}`. The statement for every `n ≥ 1` and without (w1) and (w2) is this roadmap's, by
+`(Nw)^{t−1/2} < |ξ(ϖ_w)| < (Nw)^{t+1/2}` ((w2): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/GammaLaurentFactors/MatchIndOf.lean` (`UpperTheory.V.Z.Gam.TorAt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/GammaLaurentFactors/MatchIndOf.lean` (`UpperTheory.V.Z.Gam.SuppAt`),
+`Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean` (`UpperTheory.Zero.LLC.Toral`)).
+The statement for every `n ≥ 1` and without (w1) and (w2) is this roadmap's, by
 the route below.
 
 (g) (*twists*) Let `γ : G_{L,S} → B^×` be a continuous character, `γ ≡ 1` modulo the maximal ideal, with `γ(cgc⁻¹)γ(g) = 1`, trivial on
@@ -104,7 +117,37 @@ with `γγ^c = 1`). Then `(D ⊗ γ, (ψ_{v,i}γ))` is an ordinary determinant, 
 one twisting `D` and the `ψ_{v,i}` by `γ`, and `τ_γ(J) ⊆ J`; for `γ` with values in `1 + 𝔪_O`, `τ_γ` is an automorphism and
 `τ_γ(J) = J`.
 
-(1) and (a)–(e), (g) are statements of [FormalProof] or follow from its statements, in the form given here.
+(1) and (a)–(e), (g) are statements of [FormalProof] or follow from its statements, in the form given here. (1): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/WeilCharactersModular/ProModularRingExists.lean`
+(`UpperTheory.V.W.b0Ex`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/WeilCharactersModular/LamEx.lean` (`UpperTheory.V.W.lamEx`);
+the module `M`, the algebra `𝕋` and its maximal ideal: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/IsTheta.lean` (`UpperTheory.V.Hi.CaseU.hset`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/CoefficientRepTrivialOnUnramified.lean` (`UpperTheory.V.Hi.HSet.MK`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/CoefficientRepTrivialOnUnramified.lean` (`UpperTheory.V.Hi.HSet.TK`);
+(a): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/CoefficientRepTrivialOnUnramified.lean` (`UpperTheory.V.Hi.HSet.IsUniv`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/IsTheta.lean` (`UpperTheory.V.Hi.HSet.IsJ`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/RepAlg.lean` (`UpperTheory.V.W.GDet.chi`);
+(b) follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/CoefficientRepTrivialOnUnramified.lean` (`UpperTheory.V.Hi.HSet.IsWt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TThetaEx.lean`
+(`UpperTheory.V.Hi.exists_theta_is_weight_of_lam_obj`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebraHeight/PairKills.lean` (`UpperTheory.V.CA.pair_kills`);
+(c): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/ArithmeticPointClassicality.lean`
+(`UpperTheory.V.W.UniversalOrdinaryDeterminantRing.Pt.Good`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/CoefficientRepTrivialOnUnramified.lean` (`UpperTheory.V.Hi.HSet.Out`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/OrdCoreH.lean`
+(`UpperTheory.V.Z.Ord.core_hecke_of_automorphic_hecke_dense_weight`);
+(d), for the fixed `ι`: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/UnitaryHeckeData.lean`
+(`UpperTheory.V.Hi.CaseU.UnitaryHeckeData`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/UnitaryHeckeData.lean`
+(`UpperTheory.V.Hi.CaseU.TypeForAlt`);
+(e): see that clause; (g) follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/TwistedFourierKernels/TwMapEx.lean` (`UpperTheory.V.Ws.H5.twMapEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/TwistedFourierKernels/IsTwistTwD.lean` (`UpperTheory.V.Ws.H5.TwCh`).
 
 For `D = det ρ` with `ρ` absolutely irreducible over a field, the relations of (1), with the characteristic-polynomial identity of
 (b), are the determinant-ordinary equations of LocalGaloisDeformationRings §7.1 on each `G_{L_ṽ}`. For Schur residual data,
@@ -243,10 +286,19 @@ for each `N ≥ 1` places `w_{N,1}, …, w_{N,q}` of `L`, above pairwise distinc
 and lie outside `S`, of norm `≡ 1 mod l^N`, with Frobenius elements `φ_{N,j}` whose images in `G_{L,S}` satisfy
 `χ̄_i(φ_{N,j}) = χ̄_i(σ_j)` for all `i` and all `N` and converge to `σ_j`, as `N` grows, in the largest quotient of `G_{L⁺,S}` in
 which the common kernel of the `χ̄_i` and of `ε mod l` is pro-`l`, and generators `τ_{N,j}` of the `l`-part of tame inertia at
-`w_{N,j}`; such data exist for every choice of the `σ_j` (Chebotarev). Put `S_N = S ∪ {v_{N,1}, …, v_{N,q}}`. Say that an ideal
+`w_{N,j}`; such data exist for every choice of the `σ_j` (Chebotarev; [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean` (`UpperTheory.V.Pa.ArPl`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/AutomorphicDetection/ArPl.lean` (`UpperTheory.V.Pa.arPl`),
+with `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/ContinuousCycMod.lean` (`GlobalTheory.TameQuot.IsProGen`) for
+the `τ_{N,j}`). Put `S_N = S ∪ {v_{N,1}, …, v_{N,q}}`. Say that an ideal
 `J ⊂ B` has *automorphic patching data* if for every Taylor–Wiles datum there are a `B`-module `M`, finite free over `Λ` (in
-the statement of [FormalProof], finite free over a power series ring over `O` in `n[L⁺:ℚ]` variables acting through the values
-of the `ψ_{v,i}` at chosen elements; in its construction these elements are inertial and the ring is `Λ`), with
+the statement of [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/ThetaCoefficientMapEq.lean` (`UpperTheory.V.Pa.TWBase`),
+finite free over a power series ring over `O` in `n[L⁺:ℚ]` variables acting through the values
+of the `ψ_{v,i}` at chosen elements; in its construction,
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeckeAlgebras/OrdinaryHeckeCharacters/WeightVariablesExist.lean`
+(`UpperTheory.V.Hi.levelUR2WtVars`),
+these elements are inertial and the ring is `Λ`), with
 `Supp_B M = V(J)`, lifts `u_{j,i} ∈ O` of the `χ̄_i(σ_j)`, an exponent `e`, and for every `N`:
 
 - a complete local noetherian `O`-algebra `R_N` with residue field `k` carrying an ordinary determinant `(D_N, ψ_N)` in the
@@ -264,7 +316,16 @@ of the `ψ_{v,i}` at chosen elements; in its construction these elements are ine
 - with the exponent `e` above, independent of `N` (one may take `e = n!`): `(f·tr_{D_N}(h·r))^e` kills `M_N` for every `h ∈ G_{L,S_N}` and
   each of the two kinds of elements `r = ∏_i(φ_{N,j} − U_{j,i})` and `r = ∏_{k≠i}(φ_{N,j} − U_{j,k})(τ_{N,j} − 1 − x_{j,i})`.
 
-Prove that the ideal `J` of 3.13a has automorphic patching data. This is a theorem of [FormalProof]. The route of the
+Prove that the ideal `J` of 3.13a has automorphic patching data. This is a theorem of [FormalProof], with the residual data
+and the map of Galois groups of
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/PairedDualFirstOrderDualMatrixSpace.lean`
+(`UpperTheory.V.Pa.Glob.Compat`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/PairedDualFirstOrderDualMatrixSpace.lean`
+(`UpperTheory.V.Pa.Glob.Hom`);
+there `μ_l ⊄ L` is a hypothesis of the bundle
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/HidaU.lean`
+(`UpperTheory.V.W.HidaUAlt`),
+not of the statement that `J` has patching data. The route of the
 existence of the level modules `M_N` and of the two comparison maps is not given here; the relations have the route below.
 
 *Outline of the mechanism.* For the finite set `Q_N = {w_{N,j}}`, the module `P_{Q_N}` of ordinary forms at Iwahori-type level at the
@@ -290,7 +351,13 @@ geometric reciprocity, with §10.30, the identification with the classical corre
 Hence `f·tr_{D_N}(h·r)` vanishes at every generalized eigencharacter of
 every classical point (where `f ≠ 0` the eigenvalues are generic); already the factor of `f` at the place of `r` suffices. An
 element of the polynomial ring in the `U`-operators and diamond operators at one place, with coefficients in `R_N`, that vanishes
-at every generalised eigencharacter of every classical point has `n!`-th power zero on the level module: the invariants of an
+at every generalised eigencharacter of every classical point has `n!`-th power zero on the level module ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/LevOpOf.lean`
+(`UpperTheory.V.Pa.Lev.opOf_alt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/NilpotentLevelLowering/OpTransport.lean`
+(`UpperTheory.V.Pa.Lev.opTransport`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/LevRelOf.lean`
+(`UpperTheory.V.Pa.Lev.relOf_alt`)): the invariants of an
 irreducible smooth representation of `GL_n(L_w)` under the subgroup of the Iwahori subgroup defined by a subgroup of the diagonal
 residues have dimension at most `n!` (for such a representation `V` the subgroup contains `Iw₁`; if `V^{Iw₁} ≠ 0`, then
 `V^{Iw₁} ≅ (V_N)^{T(O)₁}` by SmoothRepresentationsOfLocalGroups §SR.2.3, *borel-casselman-invariants*, so `V_N ≠ 0` and `V`
@@ -359,7 +426,12 @@ and unramified at an auxiliary place `v₀` as in 3.13a, of prime norm, at which
 and `Nv₀ ≢ 1 mod p`. Assume moreover: (i) at each place above `p` some element of the decomposition group in the kernel of `ε` has
 ordinary characters whose ratios have infinite order; (ii) `ρ|_{G_{L(μ_{p^∞})}}` is absolutely irreducible; (iii) every nonempty open
 subset of `G_{L(μ_{p^∞})}` contains an element at which `ρ` has separable characteristic polynomial. Prove `H¹_f(L⁺, ad r) = 0`. The
-hypothesis `μ_p ⊄ L` is a hypothesis of the statement of [FormalProof].
+hypothesis `μ_p ⊄ L` is a hypothesis of the statement of [FormalProof]. Its conclusion: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/OrdZero.lean` (`UpperTheory.V.Th.AdZero`), with
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/BlochKatoSelmerVanishes.lean` (`UpperTheory.V.Af.IsBK`);
+its hypothesis on the exponents,
+`Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/OrdZero.lean` (`UpperTheory.V.Th.Par`), is on the ratios
+of the ordinary characters only (`ε^{m_{w,i} − m_{w,j}}` up to finite order on inertia), which the hypothesis here implies.
 
 (d′) Under the hypotheses of (d), let `Λ → B_det` be the weight algebra of the universal ordinary determinant ring of 3.13a(1)
 (a power series ring over `O`) and `J₀` the Hecke ideal, with `B_det/J₀` finite and torsion-free over `Λ`. If moreover the cyclotomic
