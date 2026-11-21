@@ -424,8 +424,9 @@ vacuum transforms by `det(g)^{−a}det(h)^{b}`. A form on `U(S)` of `K_∞`-type
 `V_ρ ≅ V_{μ+a}` for some `μ`, and its lift then has type `V_{(μ,0^t)+b}`. A form on `U(T)` of type `V_σ` can pair with `θ_{S,T}`
 only if `V_σ ≅ (V_{(μ,0^t)+b})^∨` for some `μ`, and with `θ̄_{S,T}` only if `V_σ ≅ V_{(μ,0^t)+b}`; in the second case the descent
 has type `V_{μ+a}` at `τ`, whose Harish-Chandra parameter is that of `σ` with its last `t` entries, the segment
-`S(m_S/2, t)`, removed, and shifted by `(m_T − m_S)/2`. (This covers `dim S ≤ dim T`; for the model steps `(V_j, W_j)`, where the
-source is the larger space, it is not asserted here.)
+`S(m_S/2, t)`, removed, and shifted by `(m_T − m_S)/2`. (This covers `dim S ≤ dim T`. For the model steps `(V_j, W_j)`, where the
+source is the larger space and `W_j` is indefinite for `j < m`, no dictionary of types is asserted: the later roadmaps of the
+chain work with one explicit joint vector and the representation it generates.)
 (e) *Real places.* At the real place below `τ ∈ Φ` the pair is read as the pair `(V, W) = (S^∨, δT)` of the paragraph
 *Other normalisations* of ThetaKernelsForUnitaryDualPairs §3.46a, with `χ_V = χ_S` and `χ_W = χ_T`: `V` has the signature of
 `S`, `W^♭` that of `T`, `m_V = m_S` and `m_W = m_T`. Its polynomial Fock space is the module `𝒫̄` of that target twisted
@@ -527,7 +528,10 @@ every step. (d) Every row of `ν_j(τ)` differs from the corresponding row of `�
 (g) If `d ≥ 5`, then `N_{E/K}(ζ) = 1` for every root of unity
 `ζ ∈ E`; hence `∏_{τ∈Φ} τ(ζ) = 1`, and `(U_j)` is unchanged when an integer constant is added to `w_j(τ)` at every `τ`. So for
 parallel step weights (`w_j(τ) − w_1(τ)` independent of `τ` for every `j`) the conditions `(U_j)` for all `j` are equivalent
-to `(U_1)`; for weights that are not parallel `(U_j)` is a condition for each `j`. (Lemma (f) is in 2.3b.)
+to `(U_1)`; for weights that are not parallel `(U_j)` is a condition for each `j`.
+(h) *Entries of different signs.* Under (W1)–(W3), for `0 ≤ j ≤ m` and every `τ`, any two entries of the row parameter
+of `Y_j` with different signs (the sign is `−` exactly for the nodes `−e′_i` with `i > j`, `i − j` odd) differ by at least
+`t + 2N_m³ + 1`. (Lemma (f) is in 2.3b.)
 
 Route: (a) `u_{k−1} > −e′_0 ≥ −w_1 + (t+3)/2` by (W1)–(W2), while the top of `S(−w_1, t+1)` is `−w_1 + t/2`; consecutive
 segments are `≥ t + 3` apart by (W1). (b) `ρ_{N_j, i} = ρ_{N_{j−1}, i} + (t+1)/2` for `i < N_{j−1}`, and the new entries
@@ -541,6 +545,9 @@ for `GL_N ↓ GL_{N−1}` (ClassicalGroups §6.1). (g) Let `ζ` have order `n`. 
 because `f` is even. For `n ≥ 3`, `K ⊄ ℚ(ζ)`: otherwise `d | n` (`K` has conductor `d`) and `ζ_d ∈ E`, so the inertia
 group at `d` would have order at least `d − 1 > 2`; hence `Gal(ℚ(ζ)K/K) ≅ Gal(ℚ(ζ)/ℚ)` and
 `N_{E/K}(ζ) = N_{ℚ(ζ)/ℚ}(ζ)^{[E : ℚ(ζ)K]} = 1`, the primitive `n`-th roots of unity pairing off with their inverses.
+(h) An entry of sign `−` is `−e′_i` with `i > j`. Another node is at distance `≥ t + 2N_m³ + 1` by (W3). An entry of a
+string `S(−w_a, t)`, `a ≤ j`, is at distance `≥ (e′_i − e′_a) + (e′_a − e_{a−1}) − (t−1)/2 ≥ (t + 2N_m³ + 1) + 2` by (W3) and
+(W1), since `i > a`. An entry `v_l` exceeds `−e′_0` by (W2) and the interlacing, and `i ≥ 1`.
 
 *Checks.* (i) The highest weights move and the Harish-Chandra parameters do not: a definition that kept `λ` as the
 first block of `Λ_j` (as `Λ^♭_j` does) has the right Harish-Chandra parameters only after the shift `ρ_{N_j} − ρ_{N_{j−1}}`,
