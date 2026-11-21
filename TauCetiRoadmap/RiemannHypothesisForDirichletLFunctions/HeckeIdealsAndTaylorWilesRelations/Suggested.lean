@@ -30,15 +30,17 @@ the absolute Galois group together with its maps from the local Galois groups. M
   ordinary algebraic automorphic forms and their Hecke and `U`-operators (Mathlib has the unitary
   group `Matrix.unitaryGroup` of a star ring, not a reductive group over `L⁺` with its adelic
   points), and continuous determinants of a profinite group over a ring with their universal
-  deformation ring (Mathlib has polynomial laws, `PolynomialLaw`, but no determinants of group
-  algebras).
+  deformation ring (Mathlib has polynomial laws, `PolynomialLaw`, and Tau Ceti has multiplicative
+  and homogeneous ones, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.IsHomogeneousOfDegree`,
+  of which an `n`-dimensional determinant of a group algebra is a case; neither has continuity of
+  such a law on a profinite group or the universal ring of these determinants).
 * The patching data (4.2a): if moreover `μ_l ⊄ L`, the ideal `J` has automorphic patching data at
   every Taylor–Wiles level, with the exponent `n!`. It lacks, besides these, Taylor–Wiles data
   (places of norm `≡ 1 mod l^N` whose Frobenius elements converge to given elements of
   `G_{L(μ_{l^∞})}`) and the modules of automorphic forms at Iwahori-type level at those places.
 * Adjoint vanishing (9.9): for `n ∈ {2, 3}` and `ρ = r|_{G_F}` attached to a regular algebraic
-  conjugate self-dual cuspidal representation of `GL_n(𝔸_F)`, `F` imaginary CM, with `ρ`
-  absolutely irreducible on every open subgroup, `H¹_f(F⁺, ad r) = 0`; the `GSp₄` and `GL₂` forms over `ℚ`;
+  cuspidal polarized pair `(Π, χ)` of `GL_n(𝔸_F)` (conjugate self-dual up to twist), `F` imaginary
+  CM, with `ρ` absolutely irreducible on every open subgroup, `H¹_f(F⁺, ad r) = 0`; the `GSp₄` and `GL₂` forms over `ℚ`;
   and, for `2 ≤ n ≤ 4`, the vanishing at ordinary points with residual representation a sum of
   pairwise distinct characters under the hypotheses of 9.9 (d). It lacks cuspidal automorphic
   representations of `GL_n` over a number field and their Galois representations, the group
