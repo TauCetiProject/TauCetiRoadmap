@@ -17,34 +17,34 @@ builds the structure theory of these algebras and five results.
   finite-dimensional real inner-product space whose automorphisms act transitively on its interior,
   and let `e` be an interior point. Then the space has exactly one Euclidean Jordan product with
   unit `e` whose cone of squares is `C`.
-- **The Jordan–von Neumann–Wigner classification.** A Euclidean Jordan algebra is a direct product
-  of simple ones, uniquely. The simple ones are `ℝ`, the spin factors `ℝ ⊕ ℝⁿ` with `n ≥ 2`, the
-  Hermitian matrices `Herm_r(ℝ)`, `Herm_r(ℂ)`, `Herm_r(ℍ)` with `r ≥ 3`, and the 27-dimensional
-  algebra `Herm₃(𝕆)` over the octonions.
+- **Simple algebras.** A Euclidean Jordan algebra is a direct product of simple ones, uniquely up
+  to the order of the factors. A simple algebra of rank `r ≥ 2` has a Peirce constant `d`, with
+  dimension `r + d·r(r−1)/2`. The simple algebras of rank one and two are `ℝ` and the spin factors
+  `ℝ ⊕ ℝⁿ`, `n ≥ 2`.
 - **The sequential product.** On the effects, the elements between `0` and `1`, the product
   `a & b = P(√a) b` satisfies the axioms of a sequential effect algebra and is continuous. Two
   effects satisfy `a & b = b & a` exactly when their multiplication operators commute, and exactly
   when they are diagonal in one Jordan frame.
 
-Tau Ceti already has the Peirce decomposition at one idempotent, the trace form `Tr L_(x∘y)` and
-the inner derivations of a Jordan algebra; this roadmap builds on them.
+Tau Ceti has the Peirce decomposition at one idempotent, the trace form `Tr L_(x∘y)` and the inner
+derivations of a Jordan algebra; this roadmap builds on them.
 [CompactQuantumMetricSpaces](../CompactQuantumMetricSpaces/README.md) Layer 0 supplies order-unit
-spaces and their states, and Euclidean Jordan algebras become its finite-dimensional examples with
-an explicit norm and state space.
-[LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 8 supplies the
-octonions and the compact Albert algebra, which the classification here identifies as the only
-exceptional case. [LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2 supplies the
-closed-subgroup theorem, used once, for the automorphism group of a cone. In the model `Herm_n(ℂ)`
-every statement here is a statement about the self-adjoint part of `M_n(ℂ)`, the finite-dimensional
-case of [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) and
-[CStarAlgebras](../CStarAlgebras/README.md).
+spaces and their states, and Euclidean Jordan algebras become finite-dimensional examples of them
+with an explicit norm and state space.
+[LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 8 supplies the compact
+Albert algebra, whose spectral and frame statements are instances of the general theory here.
+[LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2 supplies the closed-subgroup
+theorem, used once, for the automorphism group of a cone. For `Herm_n(ℂ)`, §6.4 gives the
+comparison with the self-adjoint part of the C*-algebra `M_n(ℂ)` that
+[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) and
+[CStarAlgebras](../CStarAlgebras/README.md) can consume.
 
 Layer 0 fixes the carriers and builds the models. Layer 1 proves power-associativity and the
 spectral theorem for one element. Layer 2 builds Jordan frames, the Peirce decomposition of a
 frame, the rank and the spectral invariants. Layer 3 builds the quadratic representation and the
 cone of squares. Layer 4 gives the order-unit norm, the states, the effects and Koecher's theorem.
-Layer 5 proves the Koecher–Vinberg theorem. Layer 6 proves the classification. Layer 7 builds
-effect algebras and the sequential product.
+Layer 5 proves the Koecher–Vinberg theorem. Layer 6 treats ideals, simple algebras and the models.
+Layer 7 builds effect algebras and the sequential product.
 
 ## Conventions
 
@@ -64,7 +64,7 @@ effect algebras and the sequential product.
   with sum `e`. An idempotent is primitive when it is nonzero and is not a sum of two nonzero
   orthogonal idempotents. A Jordan frame is a complete system of primitive idempotents, indexed by
   `Fin n`. The Peirce spaces of an idempotent `c` are the eigenspaces `J_1(c)`, `J_½(c)`, `J_0(c)`
-  of `L_c`, in Tau Ceti's `TauCeti.Jordan.peirceSpace`.
+  of `L_c`, Tau Ceti's `TauCeti.Jordan.peirceSpace`.
 - **Two traces.** `τ(x,y) = Tr L_(x∘y)` is Tau Ceti's `TauCeti.Jordan.traceForm`. The spectral
   trace `tr x` is the sum of the eigenvalues of `x` (Layer 2), so `tr c = 1` for a primitive
   idempotent and `tr e = rank J`. The canonical inner product is `B(x,y) = tr(x ∘ y)`: cone
@@ -76,14 +76,13 @@ effect algebras and the sequential product.
   `g(Ω) = Ω` act transitively on `Ω = int C`. Sources that work with the open cone `Ω` are
   translated by taking closures.
 - **Topology.** Every finite-dimensional real vector space carries its unique Hausdorff vector
-  space topology. The order-unit norm of Layer 4 and the norm of `B` induce it and have different
-  values.
+  space topology; the order-unit norm of Layer 4 and the norm of `B` both induce it.
 - **Effects and states.** An effect is an element of `[0, e]`. A state is a positive linear
   functional with value `1` at `e`. A density is an element of `C` of spectral trace `1`. The
   sequential product `a & b` has `a` first.
 - **The zero algebra.** The zero ring is an EJA, with `e = 0`, the empty Jordan frame, rank `0`
   and determinant `1`. Statements about states, the order-unit norm or a simple algebra assume `J`
-  nontrivial; a simple algebra is nonzero by definition.
+  nontrivial; a simple algebra is nontrivial by definition.
 
 ## Layer 0: Carriers and models
 
@@ -104,22 +103,26 @@ EJAs.
 
 - **`ℝⁿ`** with the coordinatewise product.
 - **`Herm_n(K)`** for `K = ℝ, ℂ, ℍ`: the real subspace of `Matrix (Fin n) (Fin n) K` cut out by
-  `Matrix.IsHermitian`, with `A ∘ B = (AB + BA)/2`. Obtain the Jordan identity from Mathlib's
-  `SymAlg`. Prove that the diagonal entries are real, that the real part of `Tr(A²)` is the sum of
-  the squared norms of the entries, hence formal reality, and
+  `Matrix.IsHermitian`, with `A ∘ B = (AB + BA)/2`. `SymAlg` needs `Invertible (2 : Matrix _ _ K)`:
+  supply the inverse `(1/2 : ℝ) • 1`. Prove that the Hermitian matrices are closed under the
+  product of `SymAlg`, give the subspace its `NonAssocCommRing` structure with unit `1`, transport
+  the Jordan identity through `SymAlg.sym_mul_sym`, and prove the two compatibility classes for the
+  real scalar action. Prove that the diagonal entries are real, that the real part of `Tr(A²)` is
+  the sum of the squared norms of the entries, hence formal reality, and
   `dim Herm_n(K) = n + (dim K) · n(n−1)/2`.
-- **Spin factors.** For a finite-dimensional real inner-product space `W`, the space `ℝ × W` with
-  `(t,u) ∘ (s,v) = (ts + ⟪u,v⟫, t v + s u)` and unit `(1,0)`. Prove the Jordan identity for an
-  arbitrary symmetric bilinear form in place of the inner product, and formal reality for an inner
-  product. `Spin_n` is the case `W = ℝⁿ`.
+- **Spin factors.** For a finite-dimensional real vector space `W` with a symmetric bilinear form
+  `b`, the space `ℝ × W` with `(t,u) ∘ (s,v) = (ts + b(u,v), t v + s u)` and unit `(1,0)`. Prove
+  the Jordan identity for every `b`, and formal reality when `b` is positive definite. `Spin_n` is
+  the case `W = ℝⁿ` with its inner product.
 
-*Needs:* §0.1; Mathlib `Matrix.IsHermitian`, `SymAlg`, `Quaternion`, real inner-product spaces.
+*Needs:* §0.1; Mathlib `Matrix.IsHermitian`, `SymAlg`, `Quaternion`, bilinear forms.
 
 **Checks.**
 
 - In `Herm₂(ℝ)` with `E = diag(1,0)` and `X = [[0,1],[1,0]]`: `E ∘ X = X/2` and `X ∘ X = 1`.
-- A spin factor on an indefinite form is Jordan and not formally real: on `ℝ × ℝ` with the form
-  `−uv`, `(0,1)² = (−1,0)` and `(1,0)² = (1,0)` are nonzero with sum zero.
+- A spin factor on an indefinite form is Jordan and not formally real: on `ℝ × ℝ²` with
+  `b(u,v) = u_1 v_1 − u_2 v_2`, the squares `(0,(0,1))² = (−1,0)` and `(1,0)² = (1,0)` are nonzero
+  with sum zero.
 - `Spin_0 = ℝ`, and `(t,u) ↦ (t+u, t−u)` is a Jordan isomorphism `Spin_1 → ℝ²`.
 - The inclusion `t ↦ (t,0)` of `ℝ` in `ℝ²` is a Jordan homomorphism that is not unital.
 
@@ -128,22 +131,26 @@ EJAs.
 ### 1.1 Power-associativity
 
 Define `x⁰ = e` and `xⁿ⁺¹ = x ∘ xⁿ`. Prove `xᵐ ∘ xⁿ = xᵐ⁺ⁿ` and that `L_(xᵐ)` and `L_(xⁿ)`
-commute, in every commutative real Jordan algebra, from the linearized Jordan identity (Tau
-Ceti's `TauCeti.Jordan.mul_mul_mul_sub_add_add_eq_zero`); formal reality is not used. Deduce that the span `ℝ[x]` of the powers of `x` is an associative
-commutative unital subalgebra, the smallest subalgebra containing `x` and `e`, and that polynomial
-evaluation `ℝ[X] → ℝ[x]` is a surjective algebra homomorphism commuting with unital Jordan
-homomorphisms.
+commute, for a commutative unital Jordan algebra over a field of characteristic zero, from
+Mathlib's linearized Jordan identity `two_nsmul_lie_lmul_lmul_add_add_eq_zero`; formal reality is
+not used. Deduce that the span `ℝ[x]` of the powers of `x` is an associative commutative unital
+subalgebra, the smallest subalgebra containing `x` and `e`, and that polynomial evaluation
+`ℝ[X] → ℝ[x]` is a surjective algebra homomorphism commuting with unital Jordan homomorphisms.
+Prove that the scalar extension `K ⊗ J` of a commutative real Jordan algebra to a field `K ⊇ ℝ` is
+a commutative Jordan algebra over `K`, because the linearized identity is multilinear; §2.4 uses
+it for a field of rational functions.
 
-*Needs:* §0.1; Mathlib `Polynomial`. Faraut–Korányi, Chapter II.
+*Needs:* §0.1; Mathlib `Polynomial`, `TensorProduct`. Faraut–Korányi, Chapter II.
 
 ### 1.2 The spectral theorem for one element
 
 Let `J` be an EJA and `x ∈ J`. The minimal polynomial `m_x` is the monic generator of the kernel of
 evaluation at `x`. Prove that `ℝ[x]` has no nonzero nilpotents and that `m_x` is a product of
-distinct real linear factors: a repeated factor gives a nilpotent, and an irreducible quadratic
-factor gives a copy of `ℂ` in `ℝ[x]`, in which `1² + i² = 0`. Deduce the spectral theorem: there
-are a unique finite set of real numbers `λ`, the eigenvalues of `x`, and a unique complete system
-`(p_λ)` with `x = Σ_λ λ p_λ`; moreover each `p_λ` lies in `ℝ[x]`, with
+distinct real linear factors. Route: decompose `ℝ[x] ≅ ℝ[X]/(m_x)` by the Chinese remainder
+theorem; a repeated factor gives a nilpotent, and an irreducible quadratic factor gives a summand
+isomorphic to `ℂ`, with its own unit `p` and an element `i_p`, in which `p² + i_p² = 0`. Deduce the
+spectral theorem: there are a unique finite set of real numbers `λ`, the eigenvalues of `x`, and a
+unique complete system `(p_λ)` with `x = Σ_λ λ p_λ`; moreover each `p_λ` lies in `ℝ[x]`, with
 `p_λ = ∏_(μ≠λ) (x − μ e)/(λ − μ)`. Prove `f(x) = Σ_λ f(λ) p_λ` for polynomials `f`, and that a
 unital Jordan homomorphism sends the spectral system of `x` to that of its image, dropping zeros.
 
@@ -163,7 +170,8 @@ unital real Jordan algebra, the equivalence of:
 
 Condition 3 is the definition of a Euclidean Jordan algebra in Faraut–Korányi. For 3 ⇒ 1 apply
 `b(e, ·)` to a sum of squares. Prove that every `L_x` and `P(x)` is self-adjoint for an associative
-form, and that the nonzero idempotents form a compact set.
+form `b`, that the eigenvalues of `x` are bounded in absolute value by the operator norm of `L_x`
+for `b`, and that the nonzero idempotents form a compact set.
 
 *Needs:* §1.2; Tau Ceti `traceForm` with its symmetry and associativity. Faraut–Korányi,
 Chapter III.
@@ -212,14 +220,25 @@ Faraut–Korányi, Chapter IV.
 ### 2.3 Rank and the spectral theorem for frames
 
 Define `rank J` as the maximum of `dim ℝ[x]` over `x ∈ J`, and call `x` regular when it attains
-it. Prove that the regular elements are open and dense. Prove that every Jordan frame has exactly
-`rank J` elements. Route: a frame with `n` members and distinct coefficients gives `n ≤ rank J`;
-the spectral idempotents of a regular element are primitive; approximate a frame element with
-distinct coefficients by regular elements and pass to a limit of their spectral systems, using the
-compactness of §1.3 and the uniqueness of §1.2. Deduce the second form of the spectral theorem:
-for every `x` there are a Jordan frame `(c_i)` and reals `λ_i` with `x = Σ λ_i c_i`; the
-multiset of the `λ_i`, the *eigenvalues of `x` with multiplicity*, does not depend on the frame,
-and the multiplicity of `λ` is `rank J_1(p_λ)`.
+it. Prove, in this order:
+
+1. The regular elements are open and dense: with `r = rank J`, `x` is regular exactly when some
+   `r × r` minor of the coordinates of `e, x, …, x^(r−1)` is nonzero, and these minors are
+   polynomial functions that do not all vanish.
+2. A complete system has at most `rank J` members, and the spectral system of a regular element is
+   a Jordan frame with `rank J` members.
+3. Every Jordan frame `(c_i)_(i<n)` has `n = rank J`. Route: let `x = Σ i·c_i` and choose regular
+   `x_k → x`, with spectral frames `(q_(k,j))_(j<r)` and coefficients `μ_(k,j)`. The coefficients
+   are bounded by §1.3 and the idempotents lie in a compact set, so along a subsequence
+   `q_(k,j) → q_j` and `μ_(k,j) → μ_j`, with `(q_j)` a complete system and `x = Σ μ_j q_j`. Group
+   the `q_j` by equal `μ_j`; by the uniqueness of §1.2 the grouped sums are the `c_i`. Each `c_i`
+   is primitive, so each group has one member and `n = r`.
+
+Deduce the second form of the spectral theorem: for every `x` there are a Jordan frame `(c_i)` and
+reals `λ_i` with `x = Σ λ_i c_i`; the multiset of the `λ_i`, the *eigenvalues of `x` with
+multiplicity*, does not depend on the frame, and the multiplicity of `λ` is `rank J_1(p_λ)`. Prove
+by the same compactness and grouping argument that the eigenvalues with multiplicity, sorted in
+decreasing order, form a continuous map `J → ℝ^(rank J)`.
 
 *Needs:* §1.2, §1.3, §2.1, §2.2. Faraut–Korányi, Chapters II and III.
 
@@ -228,30 +247,40 @@ and the multiplicity of `λ` is `rank J_1(p_λ)`.
 Define `χ_x(T) = ∏_i (T − λ_i)`, `tr x = Σ λ_i` and `det x = ∏ λ_i` from the eigenvalues with
 multiplicity. Prove that the coefficients of `χ_x` are polynomial functions of `x`, homogeneous of
 degree equal to their index; in particular `tr` is linear and `det` is a homogeneous polynomial of
-degree `rank J`. Route: `χ_x = m_x` on regular elements, and the coefficients of the minimal
-polynomial of the generic element are polynomials (Faraut–Korányi, Chapter II). Prove `χ_x(x) = 0`,
-`m_x ∣ χ_x`, `tr e = rank J`, `tr c = 1` for a primitive idempotent, and invariance of `χ`, `tr`
-and `det` under Jordan isomorphisms. On a product, `χ` and `det` multiply and `tr` adds. Identify
-`tr` and `det` on `Herm_n(ℝ)` and `Herm_n(ℂ)` with the matrix trace and determinant, `tr` on
-`Herm_n(ℍ)` with the sum of the diagonal entries, and on `Spin_n` with `n ≥ 1` prove
-`tr(t,u) = 2t` and `det(t,u) = t² − ‖u‖²`.
+degree `rank J`. Route, with `ξ` the coordinates of a basis and `K = ℝ(ξ)`:
 
-*Needs:* §2.3; Mathlib `MvPolynomial`, `Matrix.IsHermitian` spectral theory.
+1. the generic element `x_ξ ∈ K ⊗ J` has a minimal polynomial over `K`, by §1.1, and it divides
+   the characteristic polynomial of `L_(x_ξ)`, because `f(L_x) e = f(x)`;
+2. that characteristic polynomial is monic with coefficients in `ℝ[ξ]`, so the coefficients of the
+   generic minimal polynomial lie in `ℝ[ξ]`, by Gauss's lemma;
+3. its degree is `rank J`, by the minors of §2.3;
+4. specializing `ξ` to the coordinates of `x ∈ J` gives a monic polynomial of degree `rank J`
+   vanishing at `x`, which is `m_x = χ_x` when `x` is regular;
+5. both sides are continuous in `x`, by §2.3, and the regular elements are dense.
+
+Prove `χ_x(x) = 0`, `m_x ∣ χ_x`, `tr e = rank J`, `tr c = 1` for a primitive idempotent, and
+invariance of `χ`, `tr` and `det` under Jordan isomorphisms. On a product, `χ` and `det` multiply
+and `tr` adds. On `Spin_n` with `n ≥ 1` prove `tr(t,u) = 2t` and `det(t,u) = t² − ‖u‖²`.
+
+*Needs:* §1.1, §2.3; Mathlib `MvPolynomial`, `RatFunc`, `LinearMap.charpoly`, Gauss's lemma for
+monic polynomials. Faraut–Korányi, Chapter II.
 
 ### 2.5 Functional calculus, inverses and square roots
 
 For a real function `f` defined on the eigenvalues of `x`, define `f(x) = Σ_λ f(λ) p_λ`. Prove
 that it agrees with polynomial evaluation, that `f ↦ f(x)` is a unital algebra homomorphism onto
-`ℝ[x]`, that `(g ∘ f)(x) = g(f(x))`, that it commutes with unital Jordan homomorphisms, and that
-`x ↦ f(x)` is continuous on the set of elements with eigenvalues in an interval on which `f` is
-continuous. Call `x` invertible when `det x ≠ 0`, with inverse `x⁻¹ = Σ λ⁻¹ p_λ`. Prove that
-`x` is invertible exactly when some `y` satisfies `x ∘ y = e` and `x² ∘ y = x`, that `y` is then
-unique and equals `x⁻¹`, and that inversion is smooth on the open set of invertible elements. For
-`x` with nonnegative eigenvalues define the square root `√x`; prove it is the unique element with
-nonnegative eigenvalues and square `x`, and that `x ↦ √x` is continuous on its whole domain,
-boundary included.
+`ℝ[x]`, that `(g ∘ f)(x) = g(f(x))`, and that it commutes with unital Jordan homomorphisms. For
+`f` continuous on an interval `I`, prove that `x ↦ f(x)` is continuous on the set of elements with
+eigenvalues in `I`: near a given element the eigenvalues stay in a compact subinterval by §2.3, on
+which `f` is a uniform limit of polynomials `g`, and `f(x) − g(x)` has eigenvalues
+`f(λ_i) − g(λ_i)`. Call `x` invertible when `det x ≠ 0`, with inverse `x⁻¹ = Σ λ⁻¹ p_λ`. Prove
+that `x` is invertible exactly when some `y` satisfies `x ∘ y = e` and `x² ∘ y = x`, that `y` is
+then unique and equals `x⁻¹`, and that inversion is smooth on the open set of invertible elements.
+For `x` with nonnegative eigenvalues define the square root `√x`; prove it is the unique element
+with nonnegative eigenvalues and square `x`, and that `x ↦ √x` is continuous. Define `exp x` and,
+for positive eigenvalues, `log x`, and prove that they are mutually inverse.
 
-*Needs:* §1.2, §2.2, §2.4; Mathlib Weierstrass approximation. Faraut–Korányi, Chapter II.
+*Needs:* §1.2, §2.2–2.4; Mathlib Weierstrass approximation. Faraut–Korányi, Chapter II.
 
 **Checks.**
 
@@ -261,36 +290,51 @@ boundary included.
 - In a spin factor, `(t,u)` with `u ≠ 0` has eigenvalues `t ± ‖u‖` with idempotents
   `½(1, ±u/‖u‖)`; so `Spin_n` has rank `2` for `n ≥ 1`, and `(3,(0,2))⁻¹ = (3/5,(0,−2/5))`.
 - In `ℝ²`, `√(4,0) = (2,0)`; `(−2,0)` has the same square and a negative eigenvalue.
-- `e` and `Σ i · c_i` for a frame show the two extremes: one eigenvalue of multiplicity `rank J`,
-  and `rank J` simple eigenvalues.
+- In a nontrivial EJA, `e` has the single eigenvalue `1` with multiplicity `rank J`, and
+  `Σ i · c_i` for a frame has `rank J` simple eigenvalues.
 
 ## Layer 3: The quadratic representation and the cone of squares
 
-### 3.1 The quadratic representation
+### 3.1 The quadratic representation and the fundamental formula
 
 Prove `P(x) e = x²`, `P(e) = 1`, `P(tx) = t² P(x)`, `P(xⁿ) = P(x)ⁿ`, that `P(x)` is invertible
-exactly when `x` is, with `P(x)⁻¹ = P(x⁻¹)` and `P(x) x⁻¹ = x`, that `P(c)` is the Peirce
-projection onto `J_1(c)` for an idempotent `c`, and that `P(x) y = xyx` in `Herm_n(K)`. Prove the
+exactly when `x` is, with `P(x)⁻¹ = P(x⁻¹)` and `P(x) x⁻¹ = x`, and that `P(c)` is the Peirce
+projection onto `J_1(c)` for an idempotent `c`; all by §2.2 in a frame of `x`. Then prove the
 fundamental formula
 
-`P(P(x) y) = P(x) P(y) P(x)`,
+`P(P(x) y) = P(x) P(y) P(x)`
 
-and its consequences `(P(x) y)⁻¹ = P(x⁻¹) y⁻¹` for invertible `x, y` and `P(f x) = f P(x) f⁻¹` for
-a Jordan isomorphism `f`. Route: Faraut–Korányi, Chapter II, by differentiating the inverse; the
-derivative of `x ↦ x⁻¹` at `x` is `−P(x)⁻¹`, also a target.
+through the following targets, each proved on the Peirce blocks of a frame of the element named.
 
-*Needs:* §2.2, §2.5. Faraut–Korányi, Chapter II; McCrimmon, Part II, 5.2.3.
+1. `P(w)⁻¹ L_w = L_(w⁻¹)` for invertible `w`.
+2. The derivative of inversion at an invertible `z` is `−P(z)⁻¹`: differentiate
+   `z² ∘ z⁻¹ = z` and solve in a frame of `z`.
+3. `(exp(tL_u) z)⁻¹ = exp(−tL_u) z⁻¹` for `u ∈ J`, invertible `z`, and `t` in an interval around
+   `0` on which `exp(tL_u) z` is invertible: by 1 and 2 both sides solve `y′ = −L_u y`.
+4. `P(exp(u/2)) = exp(L_u)`, in a frame of `u`; and `exp(tL_u) e = exp(tu)` is invertible for
+   every `t`, so 3 holds on `[0,1]` for `z` near `e`.
+5. Differentiating 3 in `z` at `t = 1` gives `P(g z) = g P(z) g` for `g = exp(L_u) = P(exp(u/2))`
+   and `z` near `e`. Every element with positive eigenvalues is `exp(u/2)` for some `u`, these
+   elements form an open set, and both sides are polynomial in `(x, z)`; so the formula holds for
+   all `x` and `z`.
+
+Deduce `(P(x) y)⁻¹ = P(x⁻¹) y⁻¹` for invertible `x, y`, that `P(x) y` is invertible exactly when
+`x` and `y` are, and `P(f x) = f P(x) f⁻¹` for a Jordan isomorphism `f`. Prove `P(x) y = xyx` in
+`Herm_n(K)`.
+
+*Needs:* §2.2, §2.5; Mathlib `NormedSpace.exp` and uniqueness for linear ordinary differential
+equations. Faraut–Korányi, Chapter II.
 
 ### 3.2 The trace inner product
 
 Prove that `B(x,y) = tr(x ∘ y)` is symmetric, positive definite, with `B(x,x) = Σ λ_i²`, and
 associative. Route to associativity: a derivation `D` satisfies `tr(D x) = 0`, because `exp(tD)`
-is a Jordan automorphism and `tr` is invariant; apply this to Tau Ceti's inner derivation
+is a Jordan automorphism and `tr` is invariant; apply this to the inner derivation
 `[L_x, L_z]`. Prove that every derivation is skew-adjoint for `B`, and that a Jordan frame is
 orthonormal for `B`.
 
-*Needs:* §2.4; Tau Ceti `jordanInnerDerivation`; Mathlib `NormedSpace.exp`. Faraut–Korányi,
-Chapters II and III.
+*Needs:* §2.4; Tau Ceti `TauCeti.jordanInnerDerivation`; Mathlib `NormedSpace.exp`.
+Faraut–Korányi, Chapters II and III.
 
 ### 3.3 The cone of squares
 
@@ -298,38 +342,45 @@ Prove, for the cone of squares `C` of an EJA:
 
 - `x ∈ C` exactly when all eigenvalues of `x` are nonnegative, exactly when `L_x` is positive
   semidefinite for `B`;
+- for an idempotent `c` and an associative positive definite form `b`,
+  `b(c, y²) = b(y_1, y_1) + ½ b(y_½, y_½) ≥ 0` in the Peirce decomposition of `y` at `c`;
 - `C` is a closed convex cone with `C ∩ −C = 0`, and every sum of squares is a square;
 - `C` is self-dual for every associative positive definite form `b`:
   `x ∈ C ↔ ∀ y ∈ C, b(x,y) ≥ 0`; in particular `ProperCone.innerDual C = C` for `B`;
 - `Ω = int C` is the set of elements with positive eigenvalues, equivalently of `x ≥ εe` for some
   `ε > 0`, equivalently of squares of invertible elements; `e ∈ Ω` and `C` is the closure of `Ω`;
-- if `x, y ∈ C` and `B(x,y) = 0` then `x ∘ y = 0`;
-- on `Herm_n(ℝ)` and `Herm_n(ℂ)`, `C` is the set of `Matrix.PosSemidef` matrices.
+- a continuous path of invertible elements that starts in `Ω` stays in `Ω`, by continuity of the
+  least eigenvalue (§2.3).
 
-*Needs:* §2.2, §2.5, §3.2; Mathlib `ProperCone.innerDual`. Faraut–Korányi, Chapter III.
+*Needs:* §2.2, §2.3, §2.5, §3.2; Mathlib `ProperCone.innerDual`. Faraut–Korányi, Chapter III.
 
 ### 3.4 Homogeneity
 
-Prove that `P(x) C ⊆ C` for every `x`, and that `P(x)` maps `Ω` onto `Ω` when `x` is invertible.
-Route: for invertible `x` the image under `P(x)` of the segment from `e` to `y ∈ Ω` consists of
-invertible elements and starts at `x² ∈ Ω`, so it stays in `Ω`; then use closure. Prove that for
-`x, y ∈ Ω` the map `P(√y) P(√x)⁻¹` is an automorphism of `Ω` taking `x` to `y`, so `C` is a
-symmetric cone. Let `G(Ω)` be the group of linear maps `g` with `g(Ω) = Ω`. Prove that the adjoint
-of an element of `G(Ω)` for `B` lies in `G(Ω)`, and that every `g ∈ G(Ω)` factors as `P(x) k` with
-`x ∈ Ω` and `k e = e`.
+Prove that `P(x)` maps `Ω` onto `Ω` when `x` is invertible: for `y ∈ Ω` the image under `P(x)` of
+the segment from `e` to `y` consists of invertible elements by §3.1 and starts at `x² ∈ Ω`, so it
+stays in `Ω` by §3.3; apply the same to `x⁻¹`. Deduce `P(x) C ⊆ C` for invertible `x` by taking
+closures, and then for every `x`, because `x + te` is invertible for all but finitely many `t` and
+`C` is closed. Prove that for `x, y ∈ Ω` the map `P(√y) P(√x)⁻¹` is an automorphism of `Ω` taking
+`x` to `y`, so `C` is a symmetric cone. Let `G(Ω)` be the group of linear maps `g` with
+`g(Ω) = Ω`. Prove that the adjoint of an element of `G(Ω)` for `B` lies in `G(Ω)`, and that every
+`g ∈ G(Ω)` factors as `P(x) k` with `x ∈ Ω` and `k e = e`.
 
 *Needs:* §3.1, §3.3. Faraut–Korányi, Chapter III.
 
 ### 3.5 Supports and faces
 
-For `x ∈ C` the support `s(x)` is the sum of the spectral idempotents `p_λ` with `λ > 0`. Prove
-that it is the least idempotent `c` with `c ∘ x = x`. For an idempotent `c` put `F_c = C ∩ J_1(c)`.
-Prove `F_c = P(c) C = {y ∈ C | B(e − c, y) = 0}`, that `F_c` is the cone of squares of `J_1(c)`
-and an exposed face of `C` whose relative interior is `{y ∈ C | s(y) = c}`, that every nonempty
-face of `C` is `F_c` for exactly one idempotent `c`, that `F_c ⊆ F_d ↔ c ∘ d = c`, and that the
-extreme rays of `C` are the rays through primitive idempotents.
+Prove first, from the second item of §3.3: for an idempotent `c` and `y ∈ C`, `B(e − c, y) = 0`
+exactly when `y ∈ J_1(c)`, and `B(c, y) = 0` exactly when `y ∈ J_0(c)`. Deduce that idempotents
+satisfy `q ≤ c ↔ c ∘ q = q`, and that `x, y ∈ C` with `B(x,y) = 0` satisfy `x ∘ y = 0` and
+`P(√x) y = 0`. For `x ∈ C` the support `s(x)` is the sum of the spectral idempotents `p_λ` with
+`λ > 0`; prove that it is the least idempotent `c` with `c ∘ x = x`. For an idempotent `c` put
+`F_c = C ∩ J_1(c)`. Prove `F_c = P(c) C`, that `F_c` is the cone of squares of `J_1(c)` and an
+exposed face of `C` whose relative interior is `{y ∈ C | s(y) = c}`, that every nonempty face of
+`C` is `F_c` for exactly one idempotent `c`, that `F_c ⊆ F_d ↔ c ∘ d = c`, and that the extreme
+rays of `C` are the rays through primitive idempotents.
 
-*Needs:* §2.1, §2.2, §3.3; Mathlib `IsExposed`, `intrinsicInterior`. Lourenço, Proposition 31.
+*Needs:* §2.1, §2.2, §3.3, §3.4; Mathlib `IsExposed`, `intrinsicInterior`. Lourenço,
+Proposition 31.
 
 **Checks.**
 
@@ -349,23 +400,25 @@ For a nontrivial EJA prove that `≤` is an Archimedean partial order compatible
 space structure, that `e` is an order unit, and that `−r e ≤ x ≤ r e` exactly when every eigenvalue
 of `x` has absolute value at most `r`. Hence the order-unit norm of CompactQuantumMetricSpaces
 §0.1 is `‖x‖_e = max |λ_i|` and satisfies its `IsOrderUnitNorm e`. Prove
-`‖x‖_e ≤ ‖x‖_B ≤ √(rank J) ‖x‖_e`, `‖x ∘ y‖_e ≤ ‖x‖_e ‖y‖_e`, and the two norm laws
+`‖x‖_e ≤ ‖x‖_B ≤ √(rank J) ‖x‖_e` and the two norm laws
 
 `‖x²‖_e = ‖x‖_e²` and `‖x²‖_e ≤ ‖x² + y²‖_e`.
 
-On `Herm_n(ℝ)` and `Herm_n(ℂ)` identify `≤` with the Loewner order and `‖·‖_e` with the operator
-norm.
+Prove `‖x ∘ y‖_e ≤ ‖x‖_e ‖y‖_e`. Route: the unit ball is the convex hull of the elements
+`u = 2p − e` with `p` an idempotent; for these `L_u = P(p) − P(e − p)`; and `P(p)`, `P(e − p)` are
+positive by §3.4 with `P(p) e = p`, so `−e ≤ L_u y ≤ e` when `−e ≤ y ≤ e`.
 
-*Needs:* §2.5, §3.3; CompactQuantumMetricSpaces §0.1.
+*Needs:* §2.5, §3.3, §3.4; CompactQuantumMetricSpaces §0.1.
 
 ### 4.2 States and densities
 
-Prove that `ρ ↦ B(ρ, ·)` is an affine homeomorphism from the densities onto the state space of
-CompactQuantumMetricSpaces §0.2, by self-duality of `C`. Prove that the extreme points of the
-state space, the pure states, correspond to the primitive idempotents, and that every state is a
-convex combination of at most `rank J` pure states with pairwise orthogonal idempotents. Prove
-`λ_min(x) ≤ φ(x) ≤ λ_max(x)` for every state `φ`, with both bounds attained at pure states. On
-`Herm_n(ℂ)` the pure state of the primitive idempotent `vv*`, `‖v‖ = 1`, is `A ↦ v* A v`.
+The state space is `stateSpace e ⊆ WeakDual ℝ J` of CompactQuantumMetricSpaces §0.2, for `J`
+normed by `‖·‖_e`; in finite dimension its weak-star topology is the subspace topology of the
+dual. Prove that `ρ ↦ B(ρ, ·)` is an affine homeomorphism from the densities onto the state space,
+by self-duality of `C`. Prove that the extreme points of the state space, the pure states,
+correspond to the primitive idempotents, and that every state is a convex combination of at most
+`rank J` pure states with pairwise orthogonal idempotents. Prove
+`λ_min(x) ≤ φ(x) ≤ λ_max(x)` for every state `φ`, with both bounds attained at pure states.
 
 *Needs:* §3.3, §3.5, §4.1; CompactQuantumMetricSpaces §0.2–0.3.
 
@@ -384,7 +437,7 @@ elements of `G(Ω)` fixing `e`, and they are isometries for `‖·‖_e` and for
 **Checks.**
 
 - In `Herm₂(ℂ)`, `diag(1,0)` gives the pure state `A ↦ A_11` and the density `e/2` gives the
-  normalized trace. `‖e/2‖_e = 1/2` and `‖e/2‖_B = 1/√2`.
+  normalized trace. `‖e/2‖_e = 1/2` and `‖e/2‖_B = 1/√2`; on `ℝ` the two norms agree.
 - In `Herm₂(ℂ)`, `B(c,c) = 1` and `τ(c,c) = 2` for `c = diag(1,0)`: a `τ`-normalized density
   would not have trace one.
 - In `ℝ²`, `x ↦ (2x_1, x_2)` is a linear order automorphism that is not unital and not a Jordan
@@ -396,43 +449,69 @@ elements of `G(Ω)` fixing `e`, and they are isometries for `‖·‖_e` and for
 Throughout, `V` is a finite-dimensional real inner-product space, `C ⊆ V` a symmetric cone with
 interior `Ω`, and `G` the group of linear automorphisms `g` of `V` with `g(C) = C`.
 
-### 5.1 The characteristic function
+### 5.1 The characteristic function and the base point
 
-Define `φ(x) = ∫_C exp(−⟪x,y⟫) dy` for `x ∈ Ω`. Prove that `φ` is finite, positive and smooth,
-that `φ(g x) = |det g|⁻¹ φ(x)` for `g ∈ G`, in particular `φ(tx) = t^(−dim V) φ(x)` for `t > 0`,
-that `log φ` is strictly convex, and that `φ(x) → ∞` as `x` tends to a boundary point of `Ω`. Deduce that `log φ(x) + ‖x‖²/2` has a unique minimizer
-`e₀ ∈ Ω`, and that every `g ∈ G` that is orthogonal fixes `e₀`.
+Prove that `G` is a closed subgroup of `GL(V)` and that `g* ∈ G` for `g ∈ G`, by self-duality.
+Define `φ(x) = ∫_C exp(−⟪x,y⟫) dy` for `x ∈ Ω`. Prove:
 
-*Needs:* Mathlib Lebesgue integration, differentiation under the integral, `ProperCone`.
-Faraut–Korányi, Chapter I.
+- `φ` is finite, positive and smooth, and `log φ` is strictly convex;
+- `φ(g x) = |det g|⁻¹ φ(x)` for `g ∈ G`, by the change of variables `y ↦ g* y`;
+- `φ(x) → ∞` as `x` tends to a boundary point of `Ω`;
+- `φ(x) ≥ c (1 + ‖x‖)^(−dim V)` for a constant `c > 0`, by integrating over
+  `C ∩ B(0, (1 + ‖x‖)⁻¹)`.
 
-### 5.2 The automorphism group and its Lie algebra
+Deduce that `log φ(x) + ‖x‖²/2` has a unique minimizer `e₀ ∈ Ω`, with `∇ log φ(e₀) = −e₀`. Prove
+that the stabilizer of `e₀` in `G` is exactly `G ∩ O(V)`:
 
-Prove that `G` is a closed subgroup of `GL(V)` and is stable under adjoints. Let
-`𝔤 = {X ∈ End V | ∀ t, exp(tX) ∈ G}`; by the closed-subgroup theorem it is the Lie algebra of the
-Lie group `G`. Prove:
+- an orthogonal `g ∈ G` preserves `φ` and the norm, so it fixes the minimizer;
+- the stabilizer preserves the order-unit norm of `(V, C, e₀)`, so it is compact;
+- if `g e₀ = e₀`, differentiating the transformation law at `e₀` gives `g* e₀ = e₀`; then `g* g`
+  is a positive definite element of the stabilizer with bounded powers, so `g* g = 1`.
 
-- `X ↦ X e₀` maps `𝔤` onto `V`, because `G` acts transitively on the open set `Ω`;
-- `𝔤 = 𝔨 ⊕ 𝔭` with `𝔨` the skew-adjoint and `𝔭` the self-adjoint elements, `[𝔭,𝔭] ⊆ 𝔨` and
-  `[𝔨,𝔭] ⊆ 𝔭`;
-- the stabilizer of `e₀` in `G` is compact, since it preserves the order-unit norm of `(V, C, e₀)`;
-- `𝔨 = {X ∈ 𝔤 | X e₀ = 0}`, and `X ↦ X e₀` is a linear isomorphism `𝔭 → V`.
+*Needs:* Mathlib Lebesgue integration, differentiation under the integral, `ProperCone`,
+`LinearMap.adjoint`; CompactQuantumMetricSpaces §0.1. Faraut–Korányi, Chapter I.
 
-*Needs:* §5.1; CompactQuantumMetricSpaces §0.1; LieGroups Layer 2 in Tau Ceti's
-`TauCeti.Geometry.Lie.Subgroup`; Mathlib `NormedSpace.exp`, `LinearMap.adjoint`.
+### 5.2 The Lie algebra of the automorphism group
+
+Let `𝔤 = {X ∈ End V | ∀ t, exp(tX) ∈ G}`. By the closed-subgroup theorem `G` is an embedded Lie
+subgroup of `GL(V)` whose tangent space at the identity is `𝔤`, through
+`TauCeti.Lie.lieEquivLieSubalgebraOfSubgroup` and the identification of the Lie algebra of the
+units of `End V` with `End V`. Prove:
+
+- `𝔤` is stable under adjoints, so `𝔤 = 𝔨 ⊕ 𝔭` with `𝔨` its skew-adjoint and `𝔭` its self-adjoint
+  elements, and `[𝔭,𝔭] ⊆ 𝔨`, `[𝔨,𝔭] ⊆ 𝔭`;
+- `𝔨 = {X ∈ 𝔤 | X e₀ = 0}`: if `X e₀ = 0` then every `exp(tX)` lies in the stabilizer, which is
+  `G ∩ O(V)` by §5.1, so `X` is skew-adjoint; and if `X ∈ 𝔨` then every `exp(tX)` is orthogonal,
+  so it fixes `e₀`;
+- `X ↦ X e₀` maps `𝔤` onto `V`: the orbit map `g ↦ g e₀` is smooth of constant rank, by
+  equivariance, and its range `Ω` is open, so its rank is `dim V` by Tau Ceti's
+  `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`;
+- hence `X ↦ X e₀` is a linear isomorphism `𝔭 → V`.
+
+*Needs:* §5.1; LieGroups Layer 2 in `TauCeti.Geometry.Lie.Subgroup`; Mathlib `NormedSpace.exp`.
 Faraut–Korányi, Chapters I and III.
 
 ### 5.3 The product
 
-For `x ∈ V` let `L_x` be the element of `𝔭` with `L_x e₀ = x`, and put `x ∘ y = L_x y`. Prove that
-this product is commutative with unit `e₀`, that `[A, L_x] = L_(Ax)` for `A ∈ 𝔨`, that it
-satisfies the Jordan identity, and that every `L_x` is self-adjoint; so `V` is an EJA by §1.3, and
-its cone of squares is `C`. Then prove the theorem for an arbitrary base point `e ∈ Ω`: there is
-exactly one bilinear product on `V` that makes it an EJA with unit `e` and cone of squares `C`.
-Existence is transport of the product at `e₀` by some `g ∈ G` with `g e₀ = e`; uniqueness is
-Koecher's theorem applied to the identity map. Deduce that EJAs up to Jordan isomorphism
-correspond to symmetric cones with a base point up to linear isomorphism, and that
-`G = G(Ω)` of §3.4 for the cone of an EJA.
+For `x ∈ V` let `L_x` be the element of `𝔭` with `L_x e₀ = x`, and put `x ∘ y = L_x y`. Prove:
+
+1. the product is bilinear and commutative with unit `e₀`: `[L_x, L_y] ∈ 𝔨` kills `e₀`, and the
+   identity map lies in `𝔭`;
+2. `[A, L_x] = L_(Ax)` for `A ∈ 𝔨`, since both sides lie in `𝔭` and agree at `e₀`; so every
+   element of `𝔨`, in particular `[L_x, L_y]`, is a derivation of the product;
+3. applying the derivation `[L_x, L_y]` to `x ∘ x`, and reading both sides as operators on `y`,
+   gives `L_(x ∘ x²) = 3 L_x L_(x²) − 2 L_x³`; the left side is self-adjoint, so `L_x` and
+   `L_(x²)` commute, which is the Jordan identity;
+4. every `L_x` is self-adjoint, so `V` is an EJA by §1.3, and the inner product of `V` is an
+   associative form for it;
+5. its cone of squares `C′` equals `C`: an element `x` with positive eigenvalues is
+   `exp(L_(log x)) e₀ ∈ Ω`, so `C′ ⊆ C` by closure; both cones are self-dual for the inner product
+   of `V`, by hypothesis and by §3.3, so `C = C* ⊆ C′* = C′`.
+
+Then prove the theorem for an arbitrary base point `e ∈ Ω`: there is exactly one bilinear product
+on `V` that makes it an EJA with unit `e` and cone of squares `C`. Existence is transport of the
+product at `e₀` by some `g ∈ G` with `g e₀ = e`; uniqueness is Koecher's theorem applied to the
+identity map. Deduce that for the cone of an EJA the group `G` is `G(Ω)` of §3.4.
 
 *Needs:* §5.2, §1.3, §2.5, §3.3, §4.3. Faraut–Korányi, Chapter III.
 
@@ -443,112 +522,99 @@ correspond to symmetric cones with a base point up to linear isomorphism, and th
 - For the positive semidefinite cone of `Herm_n(ℝ)` and a positive definite base point `e`, the
   product is `(x e⁻¹ y + y e⁻¹ x)/2`. At `e = diag(2,1)` the square of `diag(1,0)` is
   `diag(1/2,0)`.
+- For the orthant of `ℝ²`, `g = diag(2, 1/2)` lies in `G` and has `φ(g e₀) = φ(e₀)`, but it moves
+  `e₀` and is not orthogonal: the stabilizer is cut out by the minimizer, not by `φ` alone.
 - In dimension zero the cone, its interior and the algebra are a point.
 
-## Layer 6: The classification
+## Layer 6: Ideals, simple algebras and the models
 
 ### 6.1 Ideals and the simple decomposition
 
 An ideal is a `Submodule ℝ J` stable under every `L_x`. An EJA is simple when it is nontrivial and
 has no ideals other than `0` and `J`. Prove that the orthogonal complement of an ideal for an
 associative positive definite form is an ideal, that `J` is the internal direct sum of its minimal
-nonzero ideals, that each is a simple EJA with its own unit, and that this is the only
-decomposition of `J` as a product of simple EJAs. Prove that `C`, the order, `tr`, `det` and the
-rank decompose accordingly, and that every positive definite associative form is a positive
-multiple of `B` on each simple ideal; in particular `τ = (dim J / rank J) B` for simple `J`.
+nonzero ideals, that each is a simple EJA with its own unit, and that every isomorphism of `J`
+with a finite product of simple EJAs is this decomposition up to a permutation of the factors and
+isomorphisms of the factors. Prove that `C`, the order, `tr`, `det` and the rank decompose
+accordingly, and that every positive definite associative form is a positive multiple of `B` on
+each simple ideal; in particular `τ = (dim J / rank J) B` for simple `J`.
 
 *Needs:* §1.3, §2.4, §3.2. Faraut–Korányi, Chapter III.
 
-### 6.2 Simple algebras: connected frames and the Peirce constant
+### 6.2 Simple algebras and the Peirce constant
 
-Let `(c_i)` be a Jordan frame of a simple EJA of rank `r`. Prove that `J_ij ≠ 0` for all
-`i ≠ j`, that for `u ∈ J_ij` one has `u² = ½ B(u,u)(c_i + c_j)`, and that for `u ∈ J_ij`,
-`v ∈ J_jk` with `i, j, k` distinct, `B(u ∘ v, u ∘ v) = ⅛ B(u,u) B(v,v)`. Prove that all `J_ij`
-with `i ≠ j` have the same dimension `d`, the same for every frame, so that
-`dim J = r + d · r(r−1)/2`. Route: for `u ∈ J_ij` with `u² = c_i + c_j` the element
-`w = e − c_i − c_j + u` satisfies `w² = e`, and `P(w)` is a Jordan automorphism exchanging `c_i`
-and `c_j` and fixing the other `c_k`. Conversely, prove that an EJA with a Jordan frame for which
-every `J_ij` with `i ≠ j` is nonzero is simple.
+Let `(c_i)` be a Jordan frame of a nontrivial EJA `J`, and join `i ≠ j` by an edge when
+`J_ij ≠ 0`. Prove, in this order:
+
+1. for a connected component `S` of this graph, the sum of the `J_ij` with `i, j ∈ S` is an ideal,
+   by the multiplication rules of §2.2; conversely each `c_i` lies in an ideal or in its
+   orthogonal complement, and `J_ij = 0` when `c_i` and `c_j` lie on different sides; so `J` is
+   simple exactly when the graph is connected;
+2. for `u ∈ J_ij`, `u² = ½ B(u,u)(c_i + c_j)`;
+3. for an edge `i, j` and `u ∈ J_ij` with `u² = c_i + c_j`, the element `w = e − c_i − c_j + u`
+   satisfies `w² = e`, and `P(w)` is a Jordan automorphism, by the fundamental formula, that
+   exchanges `c_i` and `c_j`, fixes the other `c_k`, and maps `J_jk` onto `J_ik`;
+4. hence, for simple `J` of rank `r ≥ 2`, every `J_ij` with `i ≠ j` is nonzero and all have the
+   same dimension `d`, the Peirce constant, with `dim J = r + d·r(r−1)/2`; so `d` does not depend
+   on the frame, and `Tr L_c = dim J / rank J` for every primitive idempotent `c`.
 
 *Needs:* §2.2, §3.1, §3.2, §6.1. Faraut–Korányi, Chapter IV.
 
 ### 6.3 Ranks one and two
 
-Prove that a simple EJA of rank `1` is `ℝ`, and that a simple EJA of rank `2` is isomorphic to
-`Spin_n` with `n = d + 1 ≥ 2`: the vector part is `ℝ(c_1 − c_2) ⊕ J_12` with inner product `B/2`.
-Conversely prove that `Spin_n` is simple of rank `2` for `n ≥ 2`, and that `Herm₂(K)` is
-isomorphic to `Spin_n` with `n = 1 + dim K` for `K = ℝ, ℂ, ℍ`.
+Prove that a simple EJA of rank `1` is isomorphic to `ℝ`, and that a simple EJA of rank `2` is
+isomorphic to `Spin_n` with `n = d + 1 ≥ 2`: on `W = ℝ(c_1 − c_2) ⊕ J_12` with the inner product
+`B/2`, item 2 of §6.2 polarizes to `u ∘ v = ½ B(u,v) e`. Conversely prove that `Spin_n` is simple
+of rank `2` with `d = n − 1` for `n ≥ 2`.
 
 *Needs:* §0.2, §2.4, §6.2. Faraut–Korányi, Chapter V.
 
-### 6.4 Coordinates in rank at least three
+### 6.4 The models
 
-Let `J` be a simple EJA of rank `r ≥ 3` with Jordan frame `(c_i)`. Choose `u_12 ∈ J_12` and
-`u_13 ∈ J_13` with `u_1j² = c_1 + c_j` and put `u_23 = 2 u_12 ∘ u_13`. On the real vector space
-`D = J_12` define
-
-`a · b = 4 (a ∘ b′) ∘ u_23`, where `b′ = 4 u_12 ∘ (b ∘ u_23) ∈ J_23`,
-
-`ā = B(a, u_12) u_12 − a` and `N(a) = ½ B(a,a)`. Prove that `(D, ·)` is a real algebra with unit
-`u_12`, that `a ↦ ā` is an involution with `a · ā = ā · a = N(a) u_12` and fixed space `ℝ u_12`,
-that `N` is positive definite with `N(a · b) = N(a) N(b)`, and that `D` is alternative, and
-associative when `r ≥ 4`. Let `Herm_r(D)` be the real vector space of `r × r` matrices over `D`
-with `A_ji` the conjugate of `A_ij`, with the product `(AB + BA)/2` computed from the product of
-`D`. Prove that there is a linear isomorphism `Herm_r(D) → J` preserving this product, taking the
-diagonal matrix units to the `c_i` and the matrix with entries `a` at `(1,2)` and `ā` at `(2,1)`
-to `a`. The route is the Peirce calculus of §2.2 and §6.2 together with the associativity of `B`.
-
-*Needs:* §2.2, §3.1, §6.2. Jordan–von Neumann–Wigner; Faraut–Korányi, Chapter V; McCrimmon, Part
-II, Chapters 14–17.
-
-### 6.5 Hurwitz's theorem
-
-Prove: a finite-dimensional real algebra `D` with unit, not assumed associative, carrying a
-positive definite quadratic form `N` with `N(ab) = N(a) N(b)`, is isomorphic to `ℝ`, `ℂ`, `ℍ` or
-the octonions `TauCeti.DivisionOctonionReal`, by an isomorphism that takes `N` to the standard
-norm and `a ↦ 2⟪a,1⟫ 1 − a`, with `⟪·,·⟫` the polarization of `N`, to the standard conjugation. Route: a proper subalgebra `A` closed
-under conjugation and a unit vector orthogonal to it generate the Cayley–Dickson double of `A`;
-the double is a composition algebra only if `A` is associative, which stops the process at
-dimension `8`.
-
-*Needs:* Mathlib `Quaternion`; Tau Ceti `TauCeti.CayleyDickson` and `TauCeti.DivisionOctonionReal`.
-Baez, Theorem 1 and §§2.2–2.3.
-
-### 6.6 The classification theorem
-
-Prove that the following are simple EJAs, pairwise non-isomorphic, and that every simple EJA is
-isomorphic to exactly one of them:
+Prove that the following are simple EJAs with the stated invariants, by exhibiting the diagonal
+frame, its Peirce spaces and §6.2:
 
 | algebra | rank | `d` | dimension |
 | --- | --- | --- | --- |
-| `ℝ` | `1` | – | `1` |
-| `Spin_n`, `n ≥ 2` | `2` | `n − 1` | `n + 1` |
-| `Herm_r(ℝ)`, `r ≥ 3` | `r` | `1` | `r(r+1)/2` |
-| `Herm_r(ℂ)`, `r ≥ 3` | `r` | `2` | `r²` |
-| `Herm_r(ℍ)`, `r ≥ 3` | `r` | `4` | `r(2r−1)` |
-| `Herm₃(𝕆)` | `3` | `8` | `27` |
+| `Herm_r(ℝ)`, `r ≥ 2` | `r` | `1` | `r(r+1)/2` |
+| `Herm_r(ℂ)`, `r ≥ 2` | `r` | `2` | `r²` |
+| `Herm_r(ℍ)`, `r ≥ 2` | `r` | `4` | `r(2r−1)` |
+| the compact Albert algebra | `3` | `8` | `27` |
 
-Here `Herm₃(𝕆)` is the compact Albert algebra `TauCeti.CompactAlbertAlgebra ℝ` of LieHighestWeight
-Layer 8, which supplies its Jordan identity, formal reality, dimension and diagonal frame; no fact
-about the octonions or the Albert algebra is proved here beyond §6.5 and the identification of
-`Herm₃(D)` with it when `D` is the octonions. Simplicity of each model follows from §6.2 applied
-to its diagonal frame. With §6.1 this classifies all EJAs, and with §5.3 all symmetric cones: the
-half-line, the Lorentz cones, the cones of positive semidefinite real, complex and quaternionic
-Hermitian matrices, the 27-dimensional exceptional cone, and their products.
+For each model prove that `tr` is the sum of the diagonal entries: that sum `t` gives a positive
+definite associative form `t(A ∘ B)`, which is a multiple of `B` by §6.1, and the multiple is `1`
+at `e`. On `Herm_n(ℝ)` and `Herm_n(ℂ)` prove further that the eigenvalues with multiplicity are
+those of Mathlib's `Matrix.IsHermitian.eigenvalues`, that `det` is the matrix determinant, that
+`C` is the set of `Matrix.PosSemidef` matrices, that `≤` is the Loewner order and `‖·‖_e` the
+operator norm. For `Herm_n(ℂ)`, the self-adjoint part of `M_n(ℂ)`, prove that the idempotents are
+the `IsStarProjection` elements, that restriction to `Herm_n(ℂ)` is an affine bijection from the
+states of the C*-algebra `M_n(ℂ)` onto the states of §4.2, with inverse the complex-linear
+extension, carrying pure states to pure states, and that the pure state of `vv*`, `‖v‖ = 1`, is
+`A ↦ v* A v`.
 
-*Needs:* §0.2, §6.1–6.5, §5.3; LieHighestWeight Layer 8. Faraut–Korányi, Chapter V.
+The compact Albert algebra is `TauCeti.CompactAlbertAlgebra ℝ` of LieHighestWeight Layer 8. That
+layer supplies the carrier, its coordinate product, the Jordan identity, formal reality, the three
+diagonal idempotents with their Peirce spaces, and the coordinate trace and cubic determinant with
+the associativity of the trace form and the cubic characteristic identity. Here it is one more
+EJA: its spectral decomposition, the characterization of primitive idempotents by trace one and
+the cardinality of its frames are the statements of §1.2, §2.3 and §2.4. The only targets specific
+to it are the table row above and the equalities of `tr` and `det` with Layer 8's coordinate trace
+and determinant; for `det`, `χ_x` and Layer 8's cubic are monic of degree three and vanish at `x`,
+so they agree at regular `x`, hence everywhere.
+
+*Needs:* §0.2, §2.4, §4.1, §4.2, §6.1, §6.2; Mathlib `Matrix.IsHermitian` spectral theory;
+LieHighestWeight Layer 8; CompactQuantumMetricSpaces §0.2.
 
 **Checks.**
 
 - `Herm₃(ℂ)` has rank `3`, `d = 2` and dimension `3 + 2·3 = 9`.
-- In `Herm₃(ℍ)` with `u_12 = E_12 + E_21` and `u_13 = E_13 + E_31`, the product of §6.4 on
-  `J_12 ≅ ℍ` is quaternion multiplication, `ā` is quaternion conjugation and `N` is the squared
-  norm; in particular `·` is not commutative.
-- `Herm₂(ℂ) ≅ Spin_3` by `[[t+s, z],[z̄, t−s]] ↦ (t,(s, Re z, Im z))`. This is why `r ≥ 3` in the
-  table.
+- `Herm₂(ℂ) ≅ Spin_3` by `[[t+s, z],[z̄, t−s]] ↦ (t,(s, Re z, Im z))`, consistent with
+  `d = 2 = n − 1`.
 - `ℝ ⊕ ℝ` has rank `2` and is not simple: for its frame `J_12 = 0`.
+- The zero algebra has the empty frame, whose graph is vacuously connected, and is not simple;
+  §6.2 needs `J` nontrivial.
 - The compact Albert algebra has `d = (27 − 3)/3 = 8`. The split Albert algebra
-  `TauCeti.AlbertAlgebra ℝ` is a Jordan algebra that is not formally real and is not on the list.
+  `TauCeti.AlbertAlgebra ℝ` is a Jordan algebra that is not formally real.
 
 ## Layer 7: Effect algebras and the sequential product
 
@@ -577,31 +643,41 @@ Prove `a & 0 = 0 = 0 & a`, `a & 1 = a`, `a & b ≤ a`, and monotonicity of `b �
 
 ### 7.2 Operator commutation
 
-Two elements of an EJA *operator commute* when `L_a L_b = L_b L_a`. Prove that `a` and `b`
-operator commute exactly when they are real combinations of one Jordan frame, and that then
-`f(a)` and `g(b)` operator commute for all `f`, `g`, and `P(a) b = a² ∘ b`. For `a, b ∈ C` prove
-the equivalence of:
+Two elements of an EJA *operator commute* when `L_a L_b = L_b L_a`. Prove:
 
-1. `a` and `b` operator commute;
-2. `P(a) P(b) = P(b) P(a)`;
-3. `P(√a) b = P(√b) a`.
+1. If `a = Σ λ_i p_i` is the spectral resolution of `a` and `b_ij` are the Peirce components of
+   `b` for `(p_i)`, then `[L_a, L_b] a = −Σ_(i<j) ¼(λ_i − λ_j)² b_ij`. Hence `a` and `b` operator
+   commute exactly when `b ∈ ⊕_i J_1(p_i)`, exactly when `a` and `b` are real combinations of one
+   Jordan frame; for the frame, diagonalize the component of `b` in each `J_1(p_i)`.
+2. The set `A(a) = ⊕_i J_1(p_i)` of elements operator commuting with `a` is a unital subalgebra,
+   closed under the functional calculus, and `P(x) y ∈ A(a)` for `x, y ∈ A(a)`.
+3. If `a` and `b` operator commute then `P(a) b = a² ∘ b`, and for `a, b ∈ C`,
+   `P(√a) P(√b) = P(√(a ∘ b))`.
+4. If `a ∈ C` and `P(a) P(b) = P(b) P(a)`, then `a` and `b` operator commute. Route: let `p` be
+   the spectral idempotent of the largest eigenvalue of `a ≠ 0`. Then `P(p)` is the spectral
+   projection of `P(a)` for its largest eigenvalue, so it commutes with `P(b)`, and
+   `P(b) p ∈ J_1(p)`. Since `B(e − p, P(b) p) = ½ B(b_½, b_½)` for the Peirce component `b_½` of
+   `b` at `p`, this component vanishes. Repeat in `J_0(p)` with `a − λ_max p`.
+5. For `a, b ∈ C` the following are equivalent: `a` and `b` operator commute;
+   `P(a) P(b) = P(b) P(a)`; `P(√a) b = P(√b) a`. Route for the last: by the fundamental formula
+   `P(√a) P(√b)` is then a normal operator for `B`; a normal product of two positive semidefinite
+   operators has real spectrum, so it is self-adjoint and the factors commute; apply 4 to `√a`
+   and `√b`.
 
-Route: 3 makes `P(√a) P(√b)` a normal operator by the fundamental formula, and a normal product
-of two positive semidefinite operators is self-adjoint; on `Ω`, `P(x) = exp(2 L_(log x))`, and the
-boundary case reduces to the supports of §3.5.
-
-*Needs:* §2.2, §2.5, §3.1, §3.5. Van de Wetering, Proposition 3.9.
+*Needs:* §2.2, §2.5, §3.1, §3.3. Van de Wetering, Proposition 3.9, for the statement of 5.
 
 ### 7.3 The sequential product of an EJA
 
 For effects `a, b` of an EJA put `a & b = P(√a) b`. Prove that `a & b` is an effect below `a`,
-that `[0,e]` with `&` is a sequential effect algebra, that `(a, b) ↦ a & b` is continuous, and
-that `a | b` exactly when `a` and `b` operator commute, in which case `a & b = a ∘ b`. Prove
-`B(e, a & b) = B(a,b)`, that `p & b = P(p) b` is the Peirce projection of `b` for an idempotent
-`p`, that an effect `p` is an idempotent exactly when `p & p = p`, and that
-`a & b = √a b √a` in `Herm_n(K)`.
+that `(a, b) ↦ a & b` is continuous on `C × J`, and that `[0,e]` with `&` is a sequential effect
+algebra: axioms 1 and 2 are linearity and `P(e) = 1`; axiom 3 is `B(e, a & b) = B(a,b)` with
+§3.5; axiom 4 is items 3 and 5 of §7.2; axiom 5 is items 2 and 5 of §7.2. Prove that `a | b`
+exactly when `a` and `b` operator commute, in which case `a & b = a ∘ b`, that `p & b = P(p) b` is
+the Peirce projection of `b` for an idempotent `p`, that an effect `p` is an idempotent exactly
+when `p & p = p`, and that `a & b = √a b √a` in `Herm_n(K)`.
 
-*Needs:* §2.5, §3.3–3.5, §4.3, §7.1, §7.2. Van de Wetering, Theorem 4.2 and Proposition 4.3.
+*Needs:* §2.5, §3.3–3.5, §4.3, §7.1, §7.2. Van de Wetering, Theorem 4.2 and Proposition 4.3, for
+the statements.
 
 **Checks.**
 
@@ -610,7 +686,7 @@ that `a | b` exactly when `a` and `b` operator commute, in which case `a & b = a
   `q & p = q/2`: these idempotents do not commute under `&`, although `B(p,q) = B(q,p) = 1/2`.
 - With `a = diag(1,1/4)` and the same `q`: `a & q = [[1/2,1/4],[1/4,1/8]]`, while `a ∘ q` has
   off-diagonal entries `5/16`. The sequential product is not the Jordan product.
-- The positivity hypothesis in §7.2 is needed: in `Herm₂(ℂ)` the Pauli matrices
+- The positivity hypothesis in item 4 of §7.2 is needed: in `Herm₂(ℂ)` the Pauli matrices
   `σ_x = [[0,1],[1,0]]` and `σ_z = diag(1,−1)` satisfy `P(σ_x) P(σ_z) = P(σ_z) P(σ_x)`, but
   `L_(σ_x) L_(σ_z) σ_z = σ_x` and `L_(σ_z) L_(σ_x) σ_z = 0`.
 
@@ -628,38 +704,44 @@ that `a | b` exactly when `a` and `b` operator commute, in which case `a & b = a
 
 ## Downstream consumers
 
-- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) §12.J. For `M_n(ℂ)` the idempotents of
-  `Herm_n(ℂ)` are the projections, Jordan frames are the families of rank-one projections of
-  orthonormal bases, and the Jordan maps of V12.J.Maps restrict to Jordan homomorphisms. This
-  gives V12.J its finite-dimensional test cases.
-- [CStarAlgebras](../CStarAlgebras/README.md) C2.4. The pure states of `Herm_n(ℂ)` in §4.2 are
-  the pure states `T ↦ ⟪ξ, Tξ⟫` of `M_n(ℂ) = K(ℂⁿ)`.
+- [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) §12.J. The comparison of §6.4 identifies
+  the idempotents of `Herm_n(ℂ)` with the projections of `M_n(ℂ)` and Jordan frames with the
+  families of rank-one projections of orthonormal bases, and a Jordan `*`-map of V12.J.Maps
+  between matrix algebras restricts to a Jordan homomorphism of their self-adjoint parts.
+  Gleason's theorem and the reconstruction of normal Jordan maps stay with V12.J.
+- [CStarAlgebras](../CStarAlgebras/README.md) C2.4. Under the state comparison of §6.4 the pure
+  states of `Herm_n(ℂ)` are the pure states `T ↦ ⟪ξ, Tξ⟫` of `M_n(ℂ) = K(ℂⁿ)`.
 
 ## Scope and ownership
 
-This roadmap owns the structure theory of finite-dimensional Euclidean Jordan algebras: their
-spectral theory, quadratic representation, cone of squares, order-unit norm and states, the
-Koecher and Koecher–Vinberg theorems, the classification with Hurwitz's theorem, and effect
-algebras with the sequential product of an EJA. Everything in it is finite-dimensional.
+This roadmap owns the structure theory of finite-dimensional Euclidean Jordan algebras, proved
+intrinsically from the spectral theorem: the spectral theory, the quadratic representation with
+the fundamental formula for EJAs, the cone of squares, the order-unit norm and states, the Koecher
+and Koecher–Vinberg theorems, the simple decomposition with the Peirce constant and the algebras
+of rank at most two, and effect algebras with the sequential product of an EJA.
 
-- **Infinite dimension and Hilbert-space quantum theory.** Segal systems, JB- and JBW-algebras,
-  effects, POVMs, instruments and Lüders operations on Hilbert spaces, Gleason's theorem and
-  density operators are not built or used here; they are the subject of the roadmap on the
-  mathematical foundations of quantum systems and of VonNeumannAlgebras. The two meet in two
-  facts. The norm laws of §4.1 say that every EJA is a JB-algebra in its order-unit norm. And on
-  the shared example `Herm_n(ℂ) = B(ℂⁿ)_sa`, the product `a & b = √a b √a` of §7.3 is the Lüders
-  operation of the effect `a`, and `p & b = pbp` for a projection `p`.
+- **JB-algebras and Hilbert-space quantum theory.** Segal systems; JB- and JBW-algebras with
+  their quadratic representation, fundamental formula, inverses, square cone and projection order;
+  and effects, POVMs, instruments, Gleason's theorem and density operators on Hilbert spaces, are
+  the subject of the roadmap on the mathematical foundations of quantum systems and of
+  VonNeumannAlgebras. None of them is built or used here. The interface has two parts. The norm
+  laws of §4.1 say that an EJA with `‖·‖_e` satisfies the JB-algebra axioms, so general JB
+  statements apply to it, while the proofs here are the finite-dimensional ones and do not pass
+  through them. And on `Herm_n(ℂ) = B(ℂⁿ)_sa` the map `b ↦ a & b = √a b √a` of §7.3 is the
+  operation on observables determined by the effect `a`; for a projection `p` it is the map
+  `b ↦ pbp` of a sharp Lüders measurement.
 - **Order-unit spaces and states** in general belong to
   [CompactQuantumMetricSpaces](../CompactQuantumMetricSpaces/README.md) Layer 0. Layers 4 and 5
   specialize them.
 - **The octonions and the Albert algebra** belong to
-  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 8. Layer 6 consumes
-  them.
+  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 8, with the division
+  of work stated in §6.4: that layer owns the carrier and its coordinate facts, this roadmap the
+  general spectral and frame theory of which the Albert statements are instances.
 - **Lie subgroups** belong to [LieGroups](../RepresentationTheory/LieGroups/README.md). §5.2
   consumes the closed-subgroup theorem.
-- **Macdonald's theorem and the Shirshov–Cohn theorem** are neither built nor used here: the
-  fundamental formula is proved by the route of §3.1, and the identities of Layer 6 by the Peirce
-  calculus.
+- **The classification of the simple algebras of rank at least three**, by Jacobson's
+  coordinatization and Hurwitz's theorem, is not part of this roadmap. Macdonald's theorem and the
+  Shirshov–Cohn theorem are not part of it either, and are not used.
 - **Homogeneous cones that are not self-dual**, their classification by Vinberg, and the
   characterizations of EJAs among order-unit spaces that rest on it, are not part of this
   roadmap.
@@ -668,20 +750,25 @@ algebras with the sequential product of an EJA. Everything in it is finite-dimen
 
 ### From Mathlib
 
-- `Mathlib.Algebra.Jordan.Basic`: `IsCommJordan` and the linearized Jordan identities.
-  `Mathlib.Algebra.Ring.IsFormallyReal`: `IsFormallyReal`, stated for a type with only an addition
-  and a multiplication, so it applies to nonassociative rings.
-  `Mathlib.Algebra.Symmetrized`: `SymAlg`.
+- `Mathlib.Algebra.Jordan.Basic`: `IsCommJordan` and the linearized Jordan identity
+  `two_nsmul_lie_lmul_lmul_add_add_eq_zero`. `Mathlib.Algebra.Ring.IsFormallyReal`:
+  `IsFormallyReal (R : Type u) [AddCommMonoid R] [Mul R] : Prop`, whose field is
+  `¬ IsSumNonzeroSq (0 : R)`; it applies to nonassociative rings.
+  `Mathlib.Algebra.Symmetrized`: `SymAlg` and `SymAlg.sym_mul_sym`.
 - `LinearMap.mulLeft`, `Module.End.eigenspace`, `LinearMap.trace`, `IsIdempotentElem`,
-  `Polynomial`, `MvPolynomial`, `Matrix.IsHermitian`, `Matrix.PosSemidef`, `Quaternion`.
+  `Polynomial`, `MvPolynomial`, `Matrix.IsHermitian` with `Matrix.IsHermitian.eigenvalues` and
+  `Matrix.IsHermitian.spectral_theorem`, `Matrix.PosSemidef`, `Quaternion`, `IsStarProjection`.
 - `ProperCone` and `ProperCone.innerDual`, `IsExposed`, `intrinsicInterior`, extreme points,
   `NormedSpace.exp`, `LinearMap.adjoint`, Lebesgue measure on a finite-dimensional real
   inner-product space.
 
 ### From Tau Ceti
 
+The three Jordan modules `Basic`, `Peirce` and `TraceForm` are in Tau Ceti's main branch (TauCeti
+pull requests 39963 and 41648).
+
 - `TauCeti.Algebra.Jordan.Basic`: `TauCeti.Jordan.mul_mul_mul_sub_add_add_eq_zero`, the linearized
-  Jordan identity.
+  Jordan identity in product form.
 - `TauCeti.Algebra.Jordan.Peirce`: `TauCeti.Jordan.peirceSpace`, the projections `peirceOne`,
   `peirceHalf`, `peirceZero`, the decomposition `peirceLinearEquiv`, and the multiplication rules
   for one idempotent. Layer 2 extends these to complete systems.
@@ -689,29 +776,31 @@ algebras with the sequential product of an EJA. Everything in it is finite-dimen
   `traceForm_comm`, `traceForm_assoc` and `traceForm_derivation`. Its positivity is §1.3.
 - `TauCeti.Algebra.Jordan.Derivation`: `TauCeti.jordanInnerDerivation` in
   `TauCeti.derivationLieAlgebra`.
-- `TauCeti.Algebra.CayleyDickson.Quaternion`: `TauCeti.CayleyDickson` and
-  `TauCeti.DivisionOctonionReal` with their product, conjugation, multiplicative positive definite
-  norm and alternative laws.
+- `TauCeti.Geometry.Manifold.Sard.Meagre`: `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`.
 
 ### From CompactQuantumMetricSpaces Layer 0
 
 - §0.1: the order-unit norm and the predicate `IsOrderUnitNorm e`.
-- §0.2: positive maps are bounded with norm attained at the unit; states and `stateSpace e`.
+- §0.2: positive maps are bounded with norm attained at the unit; `stateSpace e` in
+  `WeakDual ℝ E`; restriction and extension of states between a C*-algebra and its self-adjoint
+  part.
 - §0.3: compactness and convexity of the state space; states determine the order and the norm.
 
 ### From LieHighestWeight Layer 8
 
-- `TauCeti.CompactAlbertAlgebra ℝ` (`TauCeti.Algebra.AlbertAlgebra.Compact`) with its `NonAssocCommRing`, `Module ℝ`, `IsCommJordan` and
-  `IsFormallyReal` structure, its dimension `27`, its trace and its diagonal frame of three
-  primitive idempotents with their Peirce spaces.
+- `TauCeti.CompactAlbertAlgebra ℝ` (`TauCeti.Algebra.AlbertAlgebra.Compact`) with its
+  `NonAssocCommRing` and `Module ℝ` structure, its coordinate product, `IsCommJordan`,
+  `IsFormallyReal`, dimension `27`, the three diagonal idempotents with their Peirce spaces, and
+  the coordinate trace and cubic determinant with the associativity of the trace form and the
+  cubic characteristic identity. The Jordan identity `IsCommJordan` is a target of that layer.
 
 ### From LieGroups Layer 2
 
 - The closed-subgroup theorem `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`, the Lie algebra
   `TauCeti.Lie.lieSubalgebraOfSubgroup` of a closed subgroup with its description by one-parameter
-  subgroups `TauCeti.Lie.mem_lieSubalgebraOfSubgroup`, and its comparison with the tangent space
-  in `TauCeti.Geometry.Lie.Subgroup.Differential`, applied to `G ⊆ GL(V)` through
-  `TauCeti.Geometry.Lie.Subgroup.Units`.
+  subgroups `TauCeti.Lie.mem_lieSubalgebraOfSubgroup`, its identification with the tangent space
+  `TauCeti.Lie.lieEquivLieSubalgebraOfSubgroup`, and the case of the units of a normed algebra in
+  `TauCeti.Geometry.Lie.Subgroup.Units`, applied to `G ⊆ GL(V)`.
 
 ## Provenance
 
@@ -729,14 +818,6 @@ reuse where their licences and authors allow; the specification is the text abov
 
 - J. Faraut and A. Korányi, *Analysis on Symmetric Cones*, Oxford University Press, 1994.
   Chapters I–V, cited by chapter.
-- P. Jordan, J. von Neumann and E. Wigner,
-  [*On an algebraic generalization of the quantum mechanical formalism*](https://doi.org/10.2307/1968117),
-  Annals of Mathematics **35** (1934), 29–64.
-- K. McCrimmon, [*A Taste of Jordan Algebras*](https://doi.org/10.1007/b97489), Springer, 2004.
-  Part II, 5.2.3 (the fundamental formula) and Chapters 14–17 (coordinatization).
-- J. C. Baez, [*The octonions*](https://arxiv.org/abs/math/0105155), Bulletin of the AMS **39**
-  (2002), 145–205. Theorem 1 in §1.1, the Cayley–Dickson construction in §2.2 and the proof of
-  Theorem 1 in §2.3.
 - B. F. Lourenço,
   [*Amenable cones: error bounds without constraint qualifications*](https://arxiv.org/abs/1712.06221),
   Mathematical Programming **186** (2021), 1–48. Proposition 31 of the arXiv version.
