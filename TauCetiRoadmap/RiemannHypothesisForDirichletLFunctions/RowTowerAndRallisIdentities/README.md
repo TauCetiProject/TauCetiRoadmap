@@ -27,7 +27,7 @@ place conditions of 5.8b, under the size predicate `Size_□` of 5.8e, if the fi
 algebraic numbers that 5.8 names and the hypotheses of (1) hold for every tuple considered, then Bessel periods define an
 `𝕃`-structure `𝔼_𝕃` of `𝔼^♮` that contains `ι_ξ(x)` for every tuple `ξ` and every `𝕃`-rational form `x` and is stable under
 `G₀` and the Hecke operators away from `S(1)`; the constants of the squares of the grid satisfy
-`c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. (3) *The descent on rational coordinates.* If moreover `E` is a host of the chain
+`c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. (3) *The descent on rational coordinates.* If moreover `E` is a cyclic host
 (FrobeniusRestrictedRieszSums §0.4), consecutive entries of the row parameter are at least `100r⁴` apart and `𝕃` contains
 the eigenvalues of finitely many Hecke operators separating the
 eigensystems of `𝔼^♮`, then for every tuple `ξ` and every level `(H, χ_H)` at the type primes whose character has values in `𝕃`,
@@ -69,8 +69,9 @@ ThetaChainsOnDefiniteUnitaryGroups §2.6: a number field containing `E`, Galois 
 through the embedding `σ₀` fixed in ThetaChainsOnDefiniteUnitaryGroups §2.6, with the conjugation
 `c_𝕃 = σ₀^{−1}∘(complex conjugation)∘σ₀` of ThetaChainsOnDefiniteUnitaryGroups §2.6. Its finite places are written `𝔭`.
 Embeddings `𝕃 ↪ ℂ` are written `σ`. The comparison of multiplicities 5.9, and what rests on it (the last sentence of 5.10,
-5.12 and headline (3)), is stated for the hosts of the chain (FrobeniusRestrictedRieszSums §0.4), the range of
-BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a and of [FormalProof].
+5.12 and headline (3)), is stated for the cyclic hosts (FrobeniusRestrictedRieszSums §0.4), the range of [FormalProof];
+BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a, which it applies, is stated for every CM extension unramified
+at every finite place, as `E/F` is for a cyclic host (FrobeniusRestrictedRieszSums §0.4 (i)).
 
 **CM type and places.** An embedding `ι₀ : E ↪ ℂ` is fixed; `Φ = Gal(E/K)` is identified with the CM type
 `{ι₀∘g : g ∈ Φ}` induced from `K` (`|Φ| = f`). Elements of `Φ` are called places. When
@@ -1302,8 +1303,19 @@ twenty-three named bounds on the ranks, the scale, the host, the weights, the pr
 the bound `B` of its host record up to which every odd prime splits in `K` (`Formalism.MainNotions.SizesAt`,
 `Formalism/SharpRestriction/ElevenLe.lean`), and the existence of its records of auxiliary constants with the
 constant `CnW = 10` (`Formalism.BasicNotions.ParameterChoice'`, `Formalism/LocalRingCardinality/DataParams.lean`;
-`Formalism.BasicNotions.ParamsT`, `Formalism/LocalRingCardinality/DataParamsT.lean`). ThetaChainsOnDefiniteUnitaryGroups
-§2.1 packages part of these bounds as `Size(x, ε)` and lists further ones, without naming them all; (i) `m⁴ ≤ f` and `m ≥ 44`;
+`Formalism.BasicNotions.ParamsT`, `Formalism/LocalRingCardinality/DataParamsT.lean`). Read in
+ThetaChainsOnDefiniteUnitaryGroups (its `|A|` is the `n` of [FormalProof], `f = 2|A|`, and a shared name need not be the
+same bound), the twenty-three are: `SizeM` and `SizeQD`, the predicates of §2.1 of these names (`SizeQD` with the bound
+`rd_E ≤ (Q_S/2)·√(qd)` that §2.1 derives); `SizeT`, its `SizeT` with exponent `C_t + ε/100`; `SizeK` and `SizeKRel`,
+together its `SizeK` and `SizeW` with `C_W = 16C_Γ`; `SizeEta`, its `SizeTheta`; `SizeN`, `x^{2+8ε−ε/100} ≤ |A| ≤ x^{2+8ε+ε/100}`,
+where §2.1 has `SizeA`; `SizeLstar`, the first two clauses of `SizeSep` (§2.3c, `η_s = ϑ`); `SizeG`, `(kb)⁸ ≤ g_i ≤ 2g_j` and
+`log g_i ≤ x^{ε/100}·x^ε` (§§2.1, 2.7); `SizeBm`, the clause `e′_{m−1}(τ) ≤ 2e′_0(τ)` of an adapted datum (§2.3b);
+`SizeNodes`, seven lower bounds for the node spacing `h₀ = ϑ/m` of §2.3a, four of them listed in §2.1, which give (W7) and
+`SizeGap` (§2.3c); `SizeCond`, `SizeTT`, `SizeDe2`, `SizeLw`, `SizeW`, `SizeXpp`, `SizePde` and `SizeWords`, conditions that
+§2.1 lists without a name (`f_E^{36}t^{150} ≤ √b`, the number of tops, `x^{−ε} ≤ |𝒯|/|A|`, `L_th ≤ log² x`, `√b ≤ w″`,
+`w_j(τ) ≤ X″w_{j′}(τ′)`, `log p_δ, log p′_δ ≤ x^ε`, `|W| ≤ 2^{k−3}`); `SizeDel`, bounds on the letter step `Δ_w` of §2.3 and on
+`Sc = 4kΔ_w` (§2.3b has `SizeSc` instead), with `x^{ε/100}·m·log(rd_E/2) ≤ k`; and `SizeLa`, `SizeRho`, `SizeBot`, bounds on
+the log-size parameter `Λ_log` of the local gains and on the ends `a⁻_τ` of the tops, with no predicate there; (i) `m⁴ ≤ f` and `m ≥ 44`;
 (ii) `x²·m³·L·log rd_E ≤ k`; (iii) `m·f·N_m²·d ≤ b`; (iv) `f·m ≤ (r+1)³`; (v) `log g_i ≤ 9L + 1` (`i = 0, 1`) and
 `log p_□ ≤ L`; (vi) `log rd_E ≤ log N_E ≤ L/100`; (vii) `Sc + (m+1)·h_c + ½ ≤ b`; (viii) `e′_l(τ) > 0` and `e_l(τ) ≤ 4b`
 for all `l`, `τ`. Here `L = x^ε = log b`. [FormalProof] collects (o)–(viii) in its predicate
@@ -1457,7 +1469,11 @@ such that for every `𝕃`-rational form `x ∈ Π_good·𝒰^♮_ξ`:
 
 `ϱ_ξ · ∏_{i,j<m} c(i, j, ξ) · ℬ_a(ι_ξ x) = κ_G · v(ξ, x, a)`,  `v(ξ, x, a) ∈ 𝕃`,
 
-`v` a finite class sum of jets of theta functions on definite groups. Moreover `c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. Hence
+`v` a finite class sum of jets of theta functions on definite groups. Moreover `c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`.
+([FormalProof] states the identity, `v(ξ, x, a) ∈ 𝕃`, the ratios in `𝕃` and `c(i, j, ξ) ≠ 0` as
+`GlobalTheory.RowClaim.Formula2K`, `SumRatK`, `RatioK` and `ConstK`,
+`Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, for an `𝕃` containing (L1)–(L7), its
+`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5).) Hence
 `𝔼_𝕃 := {e ∈ 𝔼^♮ : c_tot(1)κ_G^{−1}ℬ_a(e) ∈ σ₀(𝕃) for all a}` (`c_tot = ∏ c`) is an `𝕃`-structure of `𝔼^♮` containing `ι_ξ(x)` for every
 tuple `ξ` and every rational `x`, stable under the Hecke operators away from `S(1)` and under `G₀`, so that every level part
 `𝔼_{b,𝕃} := e_{P_b,χ_{P_b}}𝔼_𝕃` is an `𝕃`-structure of `𝔼_b`; the kernels of the `ι_ξ` are defined over `𝕃`, hence so is every
@@ -1496,7 +1512,7 @@ AutomorphicPadicLFunctionsPartII §5.8.
 
 ### 5.9 Multiplicities on the row group and on the model groups
 
-Let `E` be a host of the chain (FrobeniusRestrictedRieszSums §0.4), and assume that consecutive entries of the row
+Let `E` be a cyclic host (FrobeniusRestrictedRieszSums §0.4), and assume that consecutive entries of the row
 parameter `(v(τ); −e′(τ))` differ by at least `100r⁴` at every `τ ∈ Φ` (a size condition on the parameters, not an open
 statement: for the words of ThetaChainsOnDefiniteUnitaryGroups §2.3 it means
 `4Δ_w ≥ 100r⁴`, `h_gap ≥ 100r⁴` in (W5) and `v_{k−2}(τ) + e′_0(τ) ≥ 100r⁴`, which `SizeGap` (ThetaChainsOnDefiniteUnitaryGroups §2.3c) and the range of `Δ_w` (ThetaChainsOnDefiniteUnitaryGroups §2.3b) give).
@@ -1512,7 +1528,7 @@ finite place, isomorphic at every finite place through isometries of self-dual l
 and `D_{W_j}` are discrete series with the same Harish-Chandra parameter, members of the same packet; the good types at
 the places above `g₀` are jointly cuspidal (5.3 (iv)). The equality of cuspidal multiplicities for two such inner forms
 (BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a, equality of cuspidal multiplicities for inner forms in an odd
-number of variables over a host of the chain: isometric at every finite place through isometries carrying lattice to
+number of variables over a CM extension unramified at every finite place: isometric at every finite place through isometries carrying lattice to
 lattice, Harish-Chandra
 parameters in `ℤ^r` with consecutive entries at least `100r⁴` apart and any members of the packets at the real places, a
 jointly cuspidal family of types on a NONEMPTY finite set `S` of split places, finite parts unramified outside `S`) gives
@@ -1543,7 +1559,7 @@ and `χ_{v,j}^{−1}`, the others are invariant under `𝔣 ↦` its reciprocal;
 `Formalism/LocalToGlobal/IndefiniteReal/LinksLemmas.lean` (`Formalism.IndefR.Links.HostHyp`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, 5.1, 5.3, 5.4, 5.7, FrobeniusRestrictedRieszSums §0.4;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a (equality of cuspidal multiplicities for inner forms in an odd number of
-variables over a host of the chain, isometric at every finite place), with its inputs
+variables over a CM extension unramified at every finite place, isometric at every finite place), with its inputs
 AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2,
 AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1, SmoothRepresentationsOfLocalGroups §§SR.2.2
 (the geometric lemma), SR.5.2 (segment representations);
@@ -1796,7 +1812,7 @@ Gelfand–Graev and Bessel-type representations and the labels of `GL_n(𝔽_q)`
 discrete series as lowest-weight modules, formal degrees and the trace class on the cuspidal spectrum are
 [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md); the
 splitting characters of a quadratic extension and the equality of cuspidal multiplicities of inner forms in an odd number
-of variables over the hosts of the chain are [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md);
+of variables over a CM extension unramified at every finite place are [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md);
 the Satake bounds for unitary unramified representations are
 [LocalFactorsOfTwistsAndTypes](../LocalFactorsOfTwistsAndTypes/README.md). Automorphic forms on reductive groups and
 algebraic modular forms are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md); the
@@ -1815,7 +1831,7 @@ of the chain belong to the roadmaps named under Downstream consumers above.
 
 §0.1: the abelian CM host `E`, with `K`, `F` and the CM type `Φ` (Conventions). §0.3: the host predicates
 `SplitRamification d` and `HostSplitting E` (Conventions, 5.8a, 5.8b). §0.4: the cyclic hosts, on which `d ≡ 7 (mod 8)`
-(Conventions), the hosts of the chain, for which 5.9 is stated (Conventions, 5.9),
+(Conventions) and `E/F` is unramified at every finite place (its (i)), and for which 5.9 is stated (Conventions, 5.9),
 and the modulus of the host, which the conductor `f_E` divides (5.8a).
 §0.9: the hosts of an admissible pair, on which `2` splits in `K` (5.5, 5.8).
 
@@ -1871,7 +1887,7 @@ theta functions (5.4, 5.8, 5.10a).
   formula in Weil's convergent range and for anisotropic targets; (ii) with the `L`-value by continuation), 6.13b (doubling
   integrability: (i) (c) the bound of the Weil coefficient by the height, (ii) continuation in a flat family, (iii) the
   inner product formula for the linear lift, (v) the support of the Weil coefficient at a split place). Used in 5.5, 5.7.
-- §6.13c: the local doubling integral with a tame twist on a block, stated for `N = l·t`. Used in 5.5.
+- §6.13c: the local doubling integral with a tame twist on a block, stated for all `r, t, N ≥ 0` (5.5 takes `N = it`). Used in 5.5.
 - §§3.47, 3.47a, 3.47b ((o), (ii), (iv)): local complementary data and local matching at split, unramified inert and real
   places. Used in 5.8b.
 
@@ -1903,7 +1919,8 @@ theta functions (5.4, 5.8, 5.10a).
 ### From BaseChangeAndGaloisRepresentationsForUnitaryGroups, a sub-roadmap of this family
 
 - 6.3a: splitting characters for a quadratic extension. Used in 5.2.
-- 13.8a: over a host of the chain (FrobeniusRestrictedRieszSums §0.4), the equality of cuspidal multiplicities
+- 13.8a: over a CM extension unramified at every finite place (as `E/F` is for a cyclic host, FrobeniusRestrictedRieszSums
+  §0.4 (i)), the equality of cuspidal multiplicities
   `m_cusp(π_∞ ⊗ σ) = m_cusp(π′_∞ ⊗ σ∘Φ^{−1})` for two inner forms of a unitary group in an odd number of variables,
   isometric at every finite place by isometries carrying the given
   self-dual lattices to each other, for discrete series with the same integral Harish-Chandra parameter (consecutive
@@ -2045,9 +2062,9 @@ theta functions (5.4, 5.8, 5.10a).
   5.2.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of 5.1, 5.3–5.6, 5.8b–5.8e, 5.9 (over
-  the hosts of the chain), 5.10, the API of 5.10a, 5.11 and 5.12, except for the clauses these targets mark as this
-  roadmap's own; the definition of 5.10a through canonical models and the remark of 5.12 on the algebraicity of the
+  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of 5.1, 5.3–5.6, 5.8b–5.8e, the identity
+  of 5.8 with the rationality of its terms, 5.9 (over the cyclic hosts), 5.10, the API of 5.10a, 5.11 and 5.12, except
+  for the clauses these targets mark as this roadmap's own; the definition of 5.10a through canonical models and the remark of 5.12 on the algebraicity of the
   separating eigenvalues are this roadmap's own. A target whose route is not given in full names the declarations of
   it, with their files, that state the missing steps.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
