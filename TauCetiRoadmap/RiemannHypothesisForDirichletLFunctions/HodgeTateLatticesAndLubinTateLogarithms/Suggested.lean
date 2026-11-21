@@ -62,7 +62,9 @@ prime with `|p| < 1`, and `A` the Hopf algebra of a finite flat commutative grou
 of rank `p^n`. Every `κ ∈ O_C` with `|κ|^(p−1) ≤ |p|` multiplies the cotangent module
 `ω = I/I²` of `A` into the span of the classes of `u − 1` for the group-like elements `u` of `A`,
 which are the values of the Hodge–Tate map of the Cartier dual. For odd `p` this is Fargues'
-bound; at `p = 2` the factor `κ = 2` qualifies. -/
+bound; at `p = 2` the factor `κ = 2` qualifies. It follows from [FormalProof],
+`Development/WeilBound/CoreStatements/HodgeTatePoints/Farsharp.lean`
+(`PositivityTheory.HtPt.Farsharp.smul_dUnit_mem`). -/
 theorem smul_mem_span_cotangentMap_groupLike (C : Type*) [NormedField C] [IsUltrametricDist C]
     [CompleteSpace C] [IsAlgClosed C] [CharZero C]
     (p : ℕ) (hp : p.Prime) (hnormp : ‖(p : C)‖ < 1)
@@ -87,7 +89,8 @@ open scoped Classical in
 `q ≥ 2` and `x ∈ S`, the series `λ_x(T) = Σ_{e ≥ 0} T_{ς^e(x)}^{q^e} / p^e` in the variables
 `T_y`, `y ∈ S`: its coefficient at the monomial `T_{ς^e(x)}^{q^e}` is `p^{−e}`, and every other
 coefficient is `0`. A monomial `T_y^{q^e}` has degree `q^e > e`, so the sum below has at most one
-nonzero term when `q ≥ 2`. -/
+nonzero term when `q ≥ 2`. At `q = p²` this is [FormalProof],
+`Formalism/GaussJetBounds/GenLogInverse.lean` (`Formalism.DworkPowerSeriesWeights.genLog`). -/
 noncomputable def twistedLog (K : Type*) [Field K] (p : ℕ) {S : Type*} (ς : S → S) (q : ℕ)
     (x : S) : MvPowerSeries S K :=
   fun n => ∑ e ∈ Finset.range (Finsupp.degree n + 1),
