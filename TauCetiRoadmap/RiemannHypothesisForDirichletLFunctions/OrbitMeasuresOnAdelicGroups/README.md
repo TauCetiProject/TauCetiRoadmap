@@ -153,8 +153,12 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
   sentence) along which `dΦ` is onto (so `X` is smooth of dimension `dim A − dim B`); suppose that `G` acts linearly
   on `A` with determinant one and that `Φ(gy) = Φ(y)`. For constant gauge forms `dx` on `A` and `dS` on `B`, the
   residue form `ω_X = dx/Φ^*dS` (the relative form of *top-form-measure* for `Φ` on the open set `A°` where `dΦ` is
-  onto, restricted to `X`) is a `G`-invariant gauge form. Over a local field, the fibre measures of `Φ` (the measures
-  `μ_b` on the fibres with `∫_{A°(k)} f dx = ∫_{B(k)} ∫_{Φ^{−1}(b)} f dμ_b dS(b)`) exist and equal `|dx/Φ^*dS|`. Over a
+  onto, restricted to `X`) is a `G`-invariant gauge form. Over a local field, the *fibre measures* of `Φ` are the locally
+  finite measures `μ_b` on `A°(k)`, one for each `b ∈ B(k)`, such that `μ_b` is carried by `Φ^{−1}(b) ∩ A°(k)`, such that
+  `∫_{A°(k)} f dx = ∫_{B(k)} ( ∫ f dμ_b ) dS(b)` for every nonnegative Borel `f`, and such that `b ↦ ∫ f dμ_b` is
+  continuous on `B(k)` for every continuous `f` with compact support in `A°(k)`. The second condition determines `μ_b` for
+  almost every `b` and the third for every `b`, so the family is unique. Prove that it exists and that
+  `μ_b = |dx/Φ^*dS|` on `Φ^{−1}(b) ∩ A°(k)` for every `b`. Over a
   number field `F`, let local Haar measures `dx_v = c_v|dx|_v` on `A(F_v)` and `dS_v = c′_v|dS|_v` on `B(F_v)` have as
   products the Tamagawa measures of the vector groups (`A(F)\A(𝔸)` and `B(F)\B(𝔸)` of volume one, so
   `∏_v c_v = |d_F|^{−dim A/2}` and `∏_v c′_v = |d_F|^{−dim B/2}`, with `c_v = c′_v = 1` for almost all `v`); then the
@@ -198,7 +202,9 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
   gauge form*). (iv) `dx = ω_X ∧ Φ^*dS` (the relative form first, as in *top-form-measure*) has a unique solution
   along `X` because `dΦ` is onto there, and it is `G`-invariant because `G` preserves `dx` (determinant one) and
   `Φ`. The fibre measures are the fibre formula of
-  *top-form-measure* for `Φ : A° → B`, smooth on `A°`. The constants: `dx_v/dS_v = (c_v/c′_v)|dx/Φ^*dS|_v`, and
+  *top-form-measure* for `Φ : A° → B`, smooth on `A°`; the continuity in `b` holds because near each point of `A°(k)` the
+  map `Φ` is a coordinate projection in which `|dx/Φ^*dS|` has a continuous density. The constants:
+  `dx_v/dS_v = (c_v/c′_v)|dx/Φ^*dS|_v`, and
   `∏_v c_v/c′_v` is the ratio of the two discriminant powers. The last sentence is (iii) for the gauge form `ω_X`.
   *Needs:* AdelicAlgebraicGroups §0.3; AdelicAlgebraicGroups §1.1 (integral models, spreading out); AdelicAlgebraicGroups §2.2 (*quotient-measure*); AdelicAlgebraicGroups §2.4 (gauge forms,
   *convergence-factors*, Tamagawa measure, *Independence of the gauge form*); 2.6 *top-form-measure*,
@@ -308,7 +314,10 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
   for nonnegative Borel `f` and a section `s` of `H_H : H(𝔸) → a_H` (the translate is on the left: `A_M(ℝ)^0` is not
   central in `H(𝔸)`, and `τ_H` is only a left Haar measure); equivalently `μ^1 = τ^1_M ⊗ τ_N` under `(m, n) ↦ mn`,
   with `τ^1_M` the measure on `M(𝔸)^1` of AdelicAlgebraicGroups §2.4 *Tamagawa number*. It depends neither on `s` nor on the Levi
-  subgroup. Define `τ(H) = μ^1(H(F)\H(𝔸)^1)`, with counting measure on `H(F)`; for `N = 1` this is the Tamagawa
+  subgroup. When `det Ad|_{Lie N}` has absolute value one on `M(𝔸)` (for instance when `M` has no nontrivial `F`-rational
+  character, as for a unitary group), `H(𝔸)` is unimodular, and `τ_H`, which is `τ_M ⊗ τ_N` under `(m, n) ↦ mn` (2.6), is
+  also `τ_N ⊗ τ_M` under `(n, m) ↦ nm`. Define `τ(H) = μ^1(H(F)\H(𝔸)^1)`, with counting measure on `H(F)`; for `N = 1`
+  this is the Tamagawa
   number of AdelicAlgebraicGroups §2.4, which it extends. It is finite by AdelicAlgebraicGroups §3.4 (*Finite volume of `G(F)\G(𝔸)^1`*). Prove:
   `τ(N) = 1` and `τ(H) = τ(M)`; in particular `τ(G_a) = 1`; and, for a
   finite extension `E/F` of number fields and `H = M ⋉ N` as above over `E`, `τ(Res_{E/F}H) = τ(H)`.
@@ -396,7 +405,7 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
 
   **Checks.**
   - `GL_n → PGL_n`, `T_1 = G_m`: the determinant restricts to `t ↦ t^n`, so `i = n` and `τ(PGL_n) = n·τ(GL_n)/τ(G_m)`,
-    which is `n` with `τ(GL_n) = τ(G_m) = 1`.
+    which is `n` given `τ(GL_n) = 1` (Weil; not a target of this roadmap) and *tamagawa-multiplicative-group*.
   - `τ(PGL_1(D)) = 2τ(GL_1(D))/τ(G_m)` for a quaternion algebra `D`: `G_2 = GL_1(D)`, `T_1 = G_m`, and `i = 2` because
     the reduced norm restricts to `t ↦ t²`.
   - The quotient may have rational characters. `G_m² ⊃ G_m × 1`: the restriction is onto, `i = 1`, and
@@ -559,3 +568,5 @@ RG2.0 (*smooth-group-analytic-charts* and its analytic change of variables): 2.6
 - **Oesterlé**: J. Oesterlé, *Nombres de Tamagawa et groupes unipotents en caractéristique p*. Inventiones Mathematicae 78 (1984).
 - **Steinberg**: Robert Steinberg, *Endomorphisms of linear algebraic groups*. Memoirs of the American Mathematical Society 80 (1968).
 - **Humphreys**: James E. Humphreys, *Conjugacy classes in semisimple algebraic groups*. Mathematical Surveys and Monographs 43, American Mathematical Society (1995).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of `τ(G_m) = 1` over totally complex fields (3.4a *tamagawa-multiplicative-group*), of the covolume-one Haar measure of an adelic vector group (2.6 *homogeneous-gauge-measure* (iv)) and of the normalisation of the additive Haar measures (Conventions) that the family uses.
+- **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
