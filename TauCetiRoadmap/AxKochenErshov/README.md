@@ -114,8 +114,8 @@ residues. For every `orderedGroup`-formula `ψ(x₁, …, xₙ)` there is a `val
 `ψᵛ(y₁, …, yₙ)` such that, for `a₁, …, aₙ ∈ Kˣ`, `K ⊨ ψᵛ(a)` if and only if `Γ ⊨ ψ(|a₁|, …, |aₙ|)`.
 Both translations are uniform in the valued field and computable on the codes of formulas
 (RandomGraphs' `boundedCode`, as in SaturationAndQuantifierElimination's conventions). In
-`Suggested.lean` they are `exists_residueSentence` and `exists_valueGroupSentence`, with the value
-group `valueGroup V`. The construction relativizes quantifiers to `V`
+`Suggested.lean`, `exists_residueSentence` and `exists_valueGroupSentence` state the case of
+sentences, with the value group `valueGroup V`. The construction relativizes quantifiers to `V`
 (respectively to `Kˣ`), and replaces `=` by congruence modulo the maximal ideal (respectively by
 `x ∣ y ∧ y ∣ x`), and `≤` on `Γ` by `∣`.
 
@@ -154,8 +154,9 @@ van den Dries Cor. 3.16, Lemmas 3.21–3.23, Thm. 3.29). This layer uses that th
   complete (van den Dries Cor. 3.34; `elementarilyEquivalent_of_isAlgClosed`). These are all the
   completions of `Theory.acvf`.
 - *Definable sets in one variable.* Every subset of `K` definable with parameters in a model of
-  `Theory.acvf` is a finite Boolean combination of balls (van den Dries Cor. 3.32), and a finite
-  disjoint union of Swiss cheeses: balls with finitely many smaller balls removed (Prop. 3.33).
+  `Theory.acvf` is a finite Boolean combination of balls, among which points and `K` itself are
+  counted (van den Dries Cor. 3.32), and a finite disjoint union of Swiss cheeses: balls with
+  finitely many smaller balls removed (Prop. 3.33).
 
 **Checks.**
 
@@ -193,8 +194,9 @@ a monic such polynomial of least degree.
 ### 2.2 Kaplansky's theorems
 
 - *Transcendental type* (van den Dries Thm. 4.9). A pseudo-Cauchy sequence of transcendental type
-  without pseudolimit in `K` has a pseudolimit `x` in an immediate simple transcendental extension
-  `K(x)`. Any pseudolimit in any extension generates an isomorphic one over `K`.
+  has a pseudolimit `x` in an immediate simple transcendental extension `K(x)`. It has none in `K`:
+  for a pseudolimit `a ∈ K`, `X − a` would make it of algebraic type. Any pseudolimit in any
+  extension generates an isomorphic one over `K`.
 - *Algebraic type* (van den Dries Thm. 4.10). For a pseudo-Cauchy sequence of algebraic type
   without pseudolimit in `K`, with minimal polynomial `f`, a root `x` of `f` gives an immediate
   extension `K(x)` in which `x` is a pseudolimit.
@@ -288,9 +290,12 @@ Under the hypotheses of 3.2:
 
 ### 3.5 Hahn fields as maximal fields
 
-Let `K` be maximal of equicharacteristic `0`. If `k×` and `Γ` are divisible, `K` is isomorphic to
-the Hahn field `HahnSeries Γ k` by an isomorphism inducing the identity on `k` and on `Γ`
-(van den Dries Lem. 4.31, Cor. 4.32). The same holds when `Γ` is a free abelian group.
+Let `K` be maximal of equicharacteristic `0`. If `k×` is divisible, `K` is isomorphic to the Hahn
+field `HahnSeries Γ k` by an isomorphism inducing the identity on `k` and on `Γ` (van den Dries
+Lem. 4.31, Cor. 4.32). No hypothesis on `Γ` is needed: `K` is henselian (3.2), so it has a lifting
+of `k` (Layer 4), and `O× ≅ k× × (1 + 𝔪)` is divisible, `1 + 𝔪` by Hensel's lemma. So
+`1 → O× → K× → Γ → 1` splits and `K` has a cross-section. The source also assumes `Γ` divisible.
+The same holds when `Γ` is a free abelian group, for any `k`.
 
 **Checks.**
 
@@ -349,8 +354,10 @@ are partial elementary maps instead of isomorphisms (van den Dries §5.5).
 
 ### 5.2 The Equivalence Theorem
 
-Let `K`, `K'` be henselian of equicharacteristic `0`. Then every good map is a partial elementary
-map between `K` and `K'` (van den Dries Thm. 5.21). The proof passes to `ℵ₁`-saturated
+Let `K`, `K'` be henselian of equicharacteristic `0`, each with a lifting of its residue field
+(Layer 4, which supplies one) and a cross-section, as in 5.1. Then every good map in the elementary
+form of 5.1 is a partial elementary map between `K` and `K'` in `valLang` (van den Dries
+Thm. 5.21). The proof passes to `ℵ₁`-saturated
 elementary extensions and shows that the good maps with small domain form a back-and-forth family
 (SaturationAndQuantifierElimination Layer 1). The extension step uses Layer 3.4 and the
 transcendental extensions of Layer 2.2.
@@ -550,7 +557,10 @@ Boundaries:
   algebraic closure, and Robinson's quantifier elimination for ACVF.
 - **SaturationAndQuantifierElimination** owns the model-theoretic toolkit.
 - **PadicallyClosedFields** owns `p`-valuations, `p`-adic closures and the quantifier elimination
-  for `p`-adically closed fields of `p`-rank `d`, Macintyre's theorem included.
+  for the theory of `p`-adically closed fields of `p`-rank `d`, in its language `pcLang d` with
+  constants for a basis of `O/pO` and the power predicates (for `d = 1`, Macintyre's theorem in
+  parameter-free form). LogicAndDefinabilityInNumberTheory §2.2 works in one field, with
+  parameters from it; the two are stated independently.
 - Positive residue characteristic beyond the unramified and finitely ramified cases (tame and
   separably tame fields, the existential theory of `𝔽_q((t))`) is outside this roadmap.
 
@@ -570,6 +580,12 @@ enumerable theories (4.3).
 §8.2: the language of rings with `∣` read `x ∣ y ⟺ |y| ≤ |x|`, the axioms of ACVF, the conjugacy of
 prolongations of a valuation to an algebraic closure (its step (iii)), and the theorem that ACVF
 eliminates quantifiers.
+
+### From RandomGraphs
+
+§5.2: the effective coding of first-order formulas, `boundedCode` (with `FormulaAlphabet` and
+`boundedDecode`), for a general language. 0.2 states that its translations are computable on these
+codes.
 
 ### From LocalFieldsRamificationPartII
 
@@ -598,10 +614,10 @@ valuation subring, with the exact sequence of value groups.
 - J. Ax and S. Kochen, Diophantine problems over local fields I, *Amer. J. Math.* 87 (1965),
   605–630; II. A complete set of axioms for p-adic number theory, *ibid.*, 631–648; III. Decidable
   fields, *Ann. of Math.* 83 (1966), 437–456.
-- Yu. L. Ershov, On elementary theories of local fields, *Algebra i Logika* 4:2 (1965), 5–30.
-  Cited: Thms. 1–3.
-- Yu. L. Ershov, On the elementary theory of maximal normed fields, *Dokl. Akad. Nauk SSSR* 165:1
-  (1965), 21–23. Cited: Thms. 2″, 4″.
+- [Ershov 1965] Yu. L. Ershov, On elementary theories of local fields, *Algebra i Logika* 4:2
+  (1965), 5–30. Cited: Thms. 1–3.
+- [Ershov 1965b] Yu. L. Ershov, On the elementary theory of maximal normed fields, *Dokl. Akad.
+  Nauk SSSR* 165:1 (1965), 21–23. Cited: Thms. 2″, 4″.
 - L. van den Dries, Lectures on the model theory of valued fields, in *Model Theory in Algebra,
   Analysis and Arithmetic*, LNM 2111, Springer, 2014, 55–157. Cited: 1.1–1.3, Def. 1.6, Thm. 2.9,
   Cor. 3.16, Prop. 3.19, Cor. 3.20, Lemmas 3.21–3.23, Cor. 3.25, Def. 3.26, Lem. 3.27, Thm. 3.29,

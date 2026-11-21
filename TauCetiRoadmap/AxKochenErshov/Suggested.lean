@@ -24,7 +24,10 @@ shows which valuation it is about. The theorems take `K : Type`; the README puts
 restriction on them.
 
 Henselization of a valued field (LocalFieldsRamificationPartII §1.3), immediate and maximal
-extensions, cross-sections and good maps are stated in `README.md` only.
+extensions, cross-sections and good maps are stated in `README.md` only. So are the two
+elementary-extension theorems `K ≼ K'` (README 5.4 and the second bullet of 5.7): they need the
+induced maps of residue fields and value groups as `Language.ring`- and `orderedGroup`-embeddings,
+which this file does not set up.
 
 Suggested homes: `TauCeti/ModelTheory/Algebra/ValuedField/` and
 `TauCeti/RingTheory/Valuation/PseudoCauchy.lean`.
