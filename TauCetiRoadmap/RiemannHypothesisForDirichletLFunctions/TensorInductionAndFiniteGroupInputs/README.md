@@ -12,7 +12,7 @@ Layer 6 treats tensor induction in prime index (6.1) and the characters of `Ĝ` 
 
 Notation and conventions not restated here are those of the roadmaps this one extends: the Standing conventions of InductionRestriction for Layer 6, the Conventions of SchurWeyl for Layer 7 and those of ClassicalGroups for Layer 9.
 
-In Layer 6, `Ĝ` is a finite group, `H ⊲ Ĝ` a normal subgroup of prime index `l`, and `x ∈ Ĝ ∖ H`, so that `1, x, …, x^{l−1}` is a transversal of `H`; `F(h) = xhx⁻¹` is the automorphism of `H` that `x` induces. A character is the character of a finite-dimensional complex representation; a virtual character is a difference of two characters, an element of the virtual-character lattice of InductionRestriction Layer 6 (Tau Ceti's `TauCeti.virtualCharacters`). `Ind_H^Ĝ` is induction (InductionRestriction Layer 2), `φ|_H` restriction, and `⟨φ, φ′⟩_H = |H|⁻¹ Σ_{h∈H} φ(h)·conj(φ′(h))` the inner product of class functions on `H`; 6.2 defines the inner product `⟨ , ⟩_{Hx}` on the coset `Hx`.
+In Layer 6, `Ĝ` is a finite group, `H ⊲ Ĝ` a normal subgroup of prime index `l`, and `x ∈ Ĝ ∖ H`, so that `1, x, …, x^{l−1}` is a transversal of `H`; `F(h) = xhx⁻¹` is the automorphism of `H` that `x` induces. A character is the character of a finite-dimensional complex representation; a virtual character is a difference of two characters, an element of the virtual-character lattice of InductionRestriction Layer 6 (Tau Ceti's `TauCeti.virtualCharacters`; [FormalProof], `Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean` (`GlobalTheory.BI.Virt`)). `Ind_H^Ĝ` is induction (InductionRestriction Layer 2), `φ|_H` restriction, and `⟨φ, φ′⟩_H = |H|⁻¹ Σ_{h∈H} φ(h)·conj(φ′(h))` the inner product of class functions on `H`; 6.2 defines the inner product `⟨ , ⟩_{Hx}` on the coset `Hx`.
 
 In Layer 7, `ℂ[M_{n×m}]` is the ring of polynomial functions on complex `n × m` matrices and `ℂ[M_{n×m}]_d` its homogeneous part of degree `d`; `λ ⊢ d` is a partition of `d`, `ℓ(λ)` its number of nonzero parts, and `S^λ` the Schur functor.
 
@@ -26,9 +26,18 @@ Both targets add to the virtual-character ring of InductionRestriction Layer 6 f
 complement, `x^l = 1`, and 6.1 as the existence of a character: for a character `ψ` of `H` there is a character of `Ĝ` with
 the values `∏_{i<l} ψ(F^i(h))` at `h ∈ H` and `ψ((hx)^l) = ψ(h·F(h)⋯F^{l−1}(h))` at the elements `hx` of the one coset `Hx`,
 and for a virtual character `ψ` of `H` there is a virtual character of `Ĝ` with the same values on `H` and on `Hx`. Its
-statements give 6.2 (a) apart from the number of extensions and the induced form of the other irreducible characters,
-6.2 (b) with a complex number `b`, and 6.2 (c) in the form `Σ_{h∈H} conj(X(hx))·ρ(h) = 0` for every representation `ρ` of
-`H` with no constituent in common with `Y`, which is (c) by (a) and (b). The family applies both targets to such a
+statements give 6.2 (b) with a complex number `b`; 6.2 (a), apart from the number of extensions and the induced form of
+the other irreducible characters, follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSemidirectCharacterExtOfStableStatement.lean`
+(`GlobalTheory.T.exists_semidirect_character_ext_of_stable`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/CliffordSemidirectPrimeIndexIrreducibleCharacterStatement.lean`
+(`GlobalTheory.T.clifford_semidirect_primeIndex_irreducibleCharacter`),
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinsumSemidirectCosetCharacterOrthZeroStatement.lean`
+(`GlobalTheory.T.finsum_semidirect_coset_character_orth_zero`); and 6.2 (c) follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/TwistedVirtualCharacterNormOneSupport.lean`
+(`GlobalTheory.Shin.kills_of_norm_one_of_pairing_prime`) in the form `Σ_{h∈H} conj(X(hx))·ρ(h) = 0` for every
+representation `ρ` of `H` with no constituent in common with `Y`, which is (c) by (a) and (b).
+The family applies both targets to such a
 semidirect product only (Shintani descent in FiniteReductiveGroups, with `H = GL_m(𝔽_{q^l})` and `x` the Frobenius), and
 6.1 only on `H` and on the coset `Hx`. The rest of Layer 6 is this roadmap's, proved by the Routes below: the statements
 for an extension that does not split, the values of 6.1 on the other cosets, the identification in 6.1 (a) with the
@@ -183,7 +192,13 @@ polynomial in the entries of `g` and `h`, and a polynomial function of `(g, h)` 
 `(g, h) ↦ f((g, h)·w)`), which gives the decomposition, the irreducibility and the non-isomorphism for `U(n) × U(m)`.
 
 (R. Howe, *Remarks on classical invariant theory*, Trans. Amer. Math. Soc. 313 (1989), and
-*Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1.) *Needs:* SchurWeyl §§8.1–8.3,
+*Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1.) The decomposition, the irreducibility and
+the non-isomorphism follow from [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/IrreducibleDistinctUnitary.lean`
+(`GlobalTheory.Published.GLHoweDuality`),
+`Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/IrreducibleDistinctUnitary.lean`
+(`GlobalTheory.GLDuality.IrreducibleDistinct`); the joint highest weight line `Δ_λ` is this roadmap's,
+published in the references above. *Needs:* SchurWeyl §§8.1–8.3,
 Layer 6; ClassicalGroups §§2.2, 2.3, 3.1 and 3.3; Tau Ceti `TauCeti.Matrix.GeneralLinearGroup.eq_of_mem_rationalFunctions_of_forall_unitary`
 (the Zariski density of the unitary group).
 
@@ -271,6 +286,29 @@ are replaced by `E′, Qx, ξP`;
 commuting with every `t_{ab}(Y′)` such that `t(Y+1)^T·𝐉·t(Y) = q(Y)·𝐉 = t(Y)·𝐉·t(Y+1)^T`, `𝐉 = [[0, 1], [−1, 0]]`. For
 `t(u) = [[qdet(u), −C_X(u−1)], [−C_Y(u), −C₂(u−1)]]`, whenever it satisfies this relation, `q(u) = −C_{YY}(u)·C(u)` by (g).
 
+*Source.* [FormalProof], clause by clause. Notation: [FormalProof], `Formalism/RealPlaceAnalysis/StatementA.lean`
+(`Formalism.REAL.GlRel`), `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.skip1`),
+`Formalism/HermitianCurvature/StatementQr.lean` (`Formalism.FourierDecayAlt.Qr.eps`). (a) [FormalProof],
+`Formalism/RealPlaceAnalysis/StatementE.lean` (`Formalism.REAL.QSkewRow`), `Formalism/HermitianCurvature/StatementQ.lean`
+(`Formalism.FourierDecayAlt.Q.RowForm`). (b) [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean`
+(`Formalism.FourierDecayAlt.Q.ExpFirstCol`). (c) [FormalProof], `Formalism/RealPlaceAnalysis/StatementE.lean`
+(`Formalism.REAL.QDetCentral`). (d) [FormalProof], `Formalism/RealPlaceAnalysis/StatementE.lean` (`Formalism.REAL.QComatrix`).
+(e) [FormalProof], `Formalism/HermitianCurvature/StatementQr.lean` (`Formalism.FourierDecayAlt.Qr.QJacobi`). (f) [FormalProof],
+`Formalism/HermitianCurvature/StatementQr.lean` (`Formalism.FourierDecayAlt.Qr.DetVec`), `Formalism/PeriodIntegrals/QmDefs.lean`
+(`PI.MoveVec`), `Formalism/PeriodIntegrals/QmDefs.lean` (`PI.MoveCov`). (g) [FormalProof],
+`Formalism/HermitianCurvature/StatementQr.lean` (`Formalism.FourierDecayAlt.Qr.AlgDet`),
+`Formalism/HermitianCurvature/StatementQr.lean` (`Formalism.FourierDecayAlt.Qr.ch2`),
+`Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.chatA`). (h) [FormalProof],
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/OperatorPreservesFusionForms.lean`
+(`Formalism.FourierDecayAlt.P.border_first_expansion`), `Formalism/HermitianCurvature/StatementQ.lean`
+(`Formalism.FourierDecayAlt.Q.IsBorder`). (i) [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean`
+(`Formalism.FourierDecayAlt.Q.StarMinor`), `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.Econj`),
+`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/HermitianHaarMeasure/SumFourCommVersion.lean` (`PI.QnHermHaar.glConj`). (j)
+[FormalProof], `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.QdetFromRTT`),
+`Formalism/HermitianCurvature/StatementW.lean` (`Formalism.FourierDecayAlt.W.IsRTT`),
+`Formalism/YangianSpanCharacter/StatementT.lean` (`Formalism.YangianSpanCharacter.T.Pf`); its last sentence follows from
+[FormalProof], `Formalism/HermitianCurvature/StatementQr.lean` (`Formalism.FourierDecayAlt.Qr.tV`).
+
 *Route.* (a) Rows: reindexing the sum. Columns and the row form: the relation
 `(u − v)·[T(u)_{ab}, T(v)_{cd}] = T(u)_{cb}T(v)_{ad} − T(v)_{cb}T(u)_{ad}`, applied to adjacent factors. (b) The first two from the
 definition, the last two from the row form. (c) The `E_{ab}` satisfy the defining relations of `U(𝔤𝔩_n)`, so `E_{ab} ↦ E_{ab}`
@@ -338,7 +376,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns: the character of a representation tensor-induced from a normal subgroup of prime index and the tensor induction of virtual characters, with its explicit expression (6.1); the extensions of the stable irreducible characters across a normal subgroup of prime index, their orthonormality on a nontrivial coset, and the virtual characters of norm one on that coset (6.2); the `(GL_n, GL_m)`-duality on polynomial functions on complex `n × m` matrices, for `GL_n(ℂ) × GL_m(ℂ)` and for `U(n) × U(m)` with `n, m ≥ 1`, with its highest weight vectors (7.1); and the identities of the quantum minors of `u + E` for elements satisfying the commutation relations of `𝔤𝔩_n` in any associative algebra, with the quantum determinant of a `2 × 2` matrix that satisfies the exchange relation (9.1).
 
-Not owned here. Induction and restriction, the induced-character formula, Frobenius reciprocity, the Mackey irreducibility criterion, Clifford theory and the virtual-character ring are [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md) Layers 2, 4, 5 and 6; tensor induction along a transversal is in the Tau Ceti library, and its trace formula, for an open subgroup of finite index of a profinite group and any commutative coefficient ring, is [ArithmeticGaloisRepresentations](../../ArithmeticGaloisRepresentations/README.md) §7.1, of which 6.1 (a) is the case of a normal subgroup of prime index. Specht modules, the characters of the symmetric groups, Schur–Weyl duality on tensor powers and the balanced presentation of the Schur functor are [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md) Layers 6 and 8; the Schur functors, weights and highest weights of the general linear groups are [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) Layers 2–3, and ClassicalGroups §6.6 owns the column-ordered determinant and the Capelli generators. AutomorphicLFunctionsAndLocalFactorsPartII §4.4 proves the square case `n = m` of 7.1, with highest minor vectors, for its own use. Jordan's theorem that a primitive permutation group of degree `n` containing a cycle of prime length `p ≤ n − 3` contains the alternating group, which the family uses, is in the Tau Ceti library as `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (its cases of a transposition and a 3-cycle are in Mathlib), and is not stated here.
+Not owned here. Induction and restriction, the induced-character formula, Frobenius reciprocity, the Mackey irreducibility criterion, Clifford theory and the virtual-character ring are [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md) Layers 2, 4, 5 and 6; tensor induction along a transversal is in the Tau Ceti library, and its trace formula, for an open subgroup of finite index of a profinite group and any commutative coefficient ring, is [ArithmeticGaloisRepresentations](../../ArithmeticGaloisRepresentations/README.md) §7.1, of which 6.1 (a) is the case of a normal subgroup of prime index. Specht modules, the characters of the symmetric groups, Schur–Weyl duality on tensor powers and the balanced presentation of the Schur functor are [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md) Layers 6 and 8; the Schur functors, weights and highest weights of the general linear groups are [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) Layers 2–3, and ClassicalGroups §6.6 owns the column-ordered determinant and the Capelli generators. AutomorphicLFunctionsAndLocalFactorsPartII §4.4 proves the square case `n = m` of 7.1, with highest minor vectors, for its own use. Jordan's theorem that a primitive permutation group of degree `n` containing a cycle of prime length `p ≤ n − 3` contains the alternating group, which the family uses, is in the Tau Ceti library as `TauCeti.alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (its cases of a transposition and a 3-cycle are in Mathlib) and in [FormalProof], `Formalism/GaloisIrreducibility/Statement.lean` (`Formalism.GaloisIrreducibility.JordanPrime`), and is not stated here.
 
 ## Exact supplier contracts
 

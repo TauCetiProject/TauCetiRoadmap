@@ -89,7 +89,10 @@ by conjugation by `x`, an irreducible character `τ̃₀` of `G` extending it, a
 `b ∈ ℚ(ζ)` with `X = b·τ̃₀` on `Hx`; moreover `τ₀` is a constituent of every character `Y` of `H`
 fixed by conjugation by `x` for which `l` does not divide `⟨X|_H, Y⟩_H`, that is
 `⟨Y, τ₀⟩_H ≠ 0`, where `⟨φ, φ′⟩_H = |H|⁻¹ Σ_{h∈H} φ(h)·conj(φ′(h))`.
-The formal proof has the split case `x ^ l = 1`, with `b` complex instead of a root of unity. -/
+The formal proof has the split case `x ^ l = 1`, with `b` complex instead of a root of unity.
+In the split case, (c) follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/TwistedVirtualCharacterNormOneSupport.lean`
+(`GlobalTheory.Shin.kills_of_norm_one_of_pairing_prime`). -/
 theorem exists_rootOfUnity_mul_extension_eq_on_coset {G : Type*} [Group G] [Finite G]
     (H : Subgroup G) [H.Normal] [Fintype H] {l : ℕ} (hl : l.Prime) (hH : H.index = l)
     {x : G} (hx : x ∉ H) {ζ : ℂ} (hζ : IsPrimitiveRoot ζ l)
